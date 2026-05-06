@@ -1,78 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB183E9F7D
-	for <linux-usb@vger.kernel.org>; Wed,  6 May 2026 09:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0811530AD0C;
+	Wed,  6 May 2026 09:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778060014; cv=none; b=oXpX7hLN34wTi0lamAWAdHTSc7ZiAWVAV4hXg+sDir3P7typ7wB233eC12JMIuaHIq9ql4Nc8+UYFVQwMN5W4B1MfsFzjN57ngycR+BxYS/Z+LyFGoB1y0bq94amJC56PpB26zAJJJ0iGx0dZ59jwmFby1/9Ur0uC/MJKCQe80g=
+	t=1778060068; cv=none; b=gCzW++2WHKl4trnEe/gj7a9ciJKSmfX+r7KnRoBjoxsI4Vpr7yzUwaAJ2mY0V77bv+lRXaa2k0d/mNGiWVpYZDSnODc0ZXeqfSZlpExM3xV0qv4/k6Y3FyNloDNvghkp2AaO0nohLeF48yE/BikmSB0mDHjlKMk/LYWLHz2BJEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778060014; c=relaxed/simple;
-	bh=Y882FqXpCHe0JBAEKxpZw2Tvr2cU/Kp2OlTGVz5WwNc=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iPBGmXQAGlan2l2J/FgMeZ0j/YbiTz6nR/5juIRdJUxP8QHq9L3Ck6kOLgHwsNZIJ/sIHnBNVDMFUE4z/pAdtn2nqQwOMawyBHLaf5E6IVEcPYb3oBUOIcTPbIdcYtkpFCR+qZls9X14M07tdVzF7+nfCYX0Z0laTzzOdRz6vP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pelRjn+d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778060068; c=relaxed/simple;
+	bh=2SbNXowNHpvWPIiCfe401PTzplou7NoVrJmAVIt+aLw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AShyAuCx7ejrxbGBvxpA8keHW92UrrPGGx6E2aiSNC95Um3LVje+tba2pfR4q8jv6E47uamINJSiYaN6LZLN+vljjGS2PrNU0/h9p9LkxGkGoXqXPK//brybG24+3+ismvLPvFwVOkIsOdU/uE4zPgcjYW9cUjaJiGvHPIiNGsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Iu5v3UIw; arc=none smtp.client-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pelRjn+d"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4ABDBC2BCF6
-	for <linux-usb@vger.kernel.org>; Wed,  6 May 2026 09:33:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778060014;
-	bh=Y882FqXpCHe0JBAEKxpZw2Tvr2cU/Kp2OlTGVz5WwNc=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=pelRjn+dZD0TFvCGi/t7HxYH+HnSKZeTwPBVHu7482Sqb84LDxJN0FGDZ97CjM5Ml
-	 zwERqDiqmjAnuk5j9DULR+rk88D3dikvEdmnoKOe00TrPqAe6JcLhO0ejZ1PHXTYc7
-	 Zyr8KShfcj11FMGtDkWswuRgsqikcKCAi7/a1FB7OGIqQ3TmCeMOHMwB5zAVAmcqTx
-	 IVjhr976z5AnefLP9TnACe5J9+BAwgK5OAmqW8LEbtb+Bb8IP2ttC83J5TVAVADRqU
-	 JgwsaNNXCc1mstvPXMc5LHHB2sszxvGxc6ZV9uw6OYmRWgWyheIB7O5XLi0YegEtnN
-	 X9Wa76KPja6Cw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 33F6BC53BBF; Wed,  6 May 2026 09:33:34 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 205841] Lenovo USB-C dock audio NULL pointer
-Date: Wed, 06 May 2026 09:33:33 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: heikki.krogerus@linux.intel.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-205841-208809-0IeKk36I01@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205841-208809@https.bugzilla.kernel.org/>
-References: <bug-205841-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Iu5v3UIw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1778060028;
+	bh=J6oht+sP+4WEJo5bT3rgLuTOd0k0qN1hF4d444/Uq0M=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=Iu5v3UIwJj2djy39Jo2xusG+OkuEizNvrTJKcm5u4VftHOpQauGifCdtagFPoaGPE
+	 a5Xu2iQsxv876ad3X05Hvw5T8FuEsLorcfvRLk5/zyuiRk4dGlbAc2+bybWlPaiXqS
+	 98Xd1w66Vp0IpWqD5QRfjbAf/BIqU8f8vWjpjaLg=
+X-QQ-mid: zesmtpip4t1778060010t49f08edb
+X-QQ-Originating-IP: axCIc/X3jw/VG1gBCJ6Fy/52PHOb782UTf1Pg4xqLek=
+Received: from localhost.localdomain ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 06 May 2026 17:33:28 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 18334382572935874406
+EX-QQ-RecipientCnt: 7
+From: Wentao Guan <guanwentao@uniontech.com>
+To: oneukum@suse.com
+Cc: carvsdriver@gmail.com,
+	gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wentao Guan <guanwentao@uniontech.com>,
+	stable@vger.kernel.org
+Subject: [PATCH RFC] USB: cdc-acm: Fix bit overlap and move quirk definitions to header
+Date: Wed,  6 May 2026 17:32:13 +0800
+Message-Id: <20260506093213.1473262-1-guanwentao@uniontech.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: OIjQjTDPb0/fr08D/+2dJw6Ttq2NhP3fIi3FNxcW9mi8Xs8kaHrar6ma
+	VtslOPDMYHh7qKzUAeRBP2zYhZoh/jCgUwfDihOh6Xya5nG0wTzTtlML6jxme1y97FOgBNR
+	v5d2ON0MYz15FRb5WaZ3+6Ug8dVCT42t1UZ/7fkGULizEmayll3FduIxk+C5p1tDQuSaRQe
+	kUhWLcwbsO6YwAG38aJhMaayt/j7oQs3RsBS7gieoWCtkggSk8nVni1yUJo+9E3A9dQIkoT
+	wzVEnzf2G+JHoDvMR8FF2ZUvFv56utHXk0puiChb+6BYIDjzJi3fZ1ZO02NFUPMfVvwVGTP
+	MhDxCOphWNBApfaDbQ7Mzzrgtni5u4XndG1YzPERDfq9AHKdMtpSKb/vFKbYj6vHeFzlbO/
+	5r9ik8dhddY8rCJ2AwFGHsa8SNE2FiQ8Q54sTId7rTMxUcT8XDeXBNnUrHeeu25u/isg2Z0
+	G1J5dtcF+I5UeLIXNjQMyE/ZWY2s3TWW1ykb/zOXWhAUd4BgLE2VmwUCgk+TVqkAluhNQRF
+	xo/6CB4v/4ikrS1DRtquGulgXlkc5wwIKn7esvkyT9SDodFYfXA0cqi2+VLvjDDACwjU3up
+	kAuHPdysoCmjfCMLzhUGegWrlCTPSzXx3sEZDTdgELov3IPWSgMx/DdQPlLMNGWnVWqTpH8
+	yITJVP75Tg99gLDEnN7xDyNTPFaDfssNXOjXsi9Dj3u2NXCND2PPifQCxvilt7BZiNvXnjc
+	bHa4FyJgv1h8HqF08W2WC7fpkOUhFwEOELPO6rYT88nsrmvwoQNJngMQQbpPds69G0vPxMo
+	f6gJMfVOBYtInavaTrBDcAmv2Ehb4y+9howxyDyi+OBJhX2ngU8WFulDc0AO1wYSbp6QdkP
+	BluVW81tScp7dJEXOzbAEUtllj9g6zsduUjnaoOX96zaeJhRdyb6wXloXhbb4FfJfjHsn2u
+	wAvjzefcP1c4Y3r5gCO9ZDNusc4shU7T1dqhTRYpK+tFt3XSjywLpQuhHTpTb+VM0Z6Dt5k
+	PaOidmUgkK1E8cNGYiiXnshkKsp9A=
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-RECHKSPAM: 0
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D205841
+The VENDOR_CLASS_DATA_IFACE and ALWAYS_POLL_CTRL quirk flags added in
+commit f58752ebcb35 ("USB: cdc-acm: Add quirks for Yoga Book 9 14IAH10
+INGENIC touchscreen") were placed inside the acm_ctrl_msg() function
+rather than in the header with the other quirk flags.  Then, their
+values (BIT(9) and BIT(10)) collided with NO_UNION_12 which is already
+BIT(9).
 
---- Comment #14 from Heikki Krogerus (heikki.krogerus@linux.intel.com) ---
-The original NULL pointer dereference was fixed a long long time ago with
-commit b0fcdffdd626 ("usb: typec: Prepare alt mode enter/exit reporting for
-UCSI alt mode support"). Unfortunately I can not close this bug.
+Move the definitions to drivers/usb/class/cdc-acm.h where they belong
+and shift them to BIT(10) and BIT(11) to avoid the overlap.
 
-What you are seeing something else, so please create a new report for that.
-This one really should be closed already.
+Fixes: f58752ebcb35 ("USB: cdc-acm: Add quirks for Yoga Book 9 14IAH10 INGENIC touchscreen")
+Cc: stable@vger.kernel.org
+Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
+---
+ drivers/usb/class/cdc-acm.c | 2 --
+ drivers/usb/class/cdc-acm.h | 2 ++
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index c024011dc336a..d64751c42c2bc 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -114,8 +114,6 @@ static int acm_ctrl_msg(struct acm *acm, int request, int value,
+ 	int retval;
+ 
+ 	retval = usb_autopm_get_interface(acm->control);
+-#define VENDOR_CLASS_DATA_IFACE		BIT(9)  /* data interface uses vendor-specific class */
+-#define ALWAYS_POLL_CTRL		BIT(10) /* keep ctrl URB active even without an open TTY */
+ 	if (retval)
+ 		return retval;
+ 
+diff --git a/drivers/usb/class/cdc-acm.h b/drivers/usb/class/cdc-acm.h
+index 25fd5329a8781..01f448a783c03 100644
+--- a/drivers/usb/class/cdc-acm.h
++++ b/drivers/usb/class/cdc-acm.h
+@@ -115,3 +115,5 @@ struct acm {
+ #define DISABLE_ECHO			BIT(7)
+ #define MISSING_CAP_BRK			BIT(8)
+ #define NO_UNION_12			BIT(9)
++#define VENDOR_CLASS_DATA_IFACE		BIT(10)  /* data interface uses vendor-specific class */
++#define ALWAYS_POLL_CTRL		BIT(11) /* keep ctrl URB active even without an open TTY */
+-- 
+2.30.2
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
