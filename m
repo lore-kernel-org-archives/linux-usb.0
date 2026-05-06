@@ -1,105 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481FF3FBEDF;
-	Wed,  6 May 2026 10:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C9B35294E
+	for <linux-usb@vger.kernel.org>; Wed,  6 May 2026 10:32:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778062673; cv=none; b=qRt7XXC2tu1ckBPRc8pTFkBNGt3J5TrsaUZItSfsXQkhwH8dInWzLnVsCXF9dnEDbna/bzFtPbCbK9QDrrQDwK4Rb+HwGChWM+wq0yckL/yPGMfOF3r/lr9CldYb2knisGpa0ANZSRy7UVum+BEsqX36YNyupjzai18AHqqfNp0=
+	t=1778063523; cv=none; b=Y1ahC2XbxoqCehMyc0MVW8i0HOpim0m6PAx3EC6+143NuramG36nXsaxgcU/+FhE9WBJg18NdwQgJwgnvK6uYiSu8/KtlucQYmS1MZaD/Utuk3zzO15x2Aqpzgyf5itgv0/oNIroRtWFe3pHvClw8pQTxCVhRYN0L/KxFrKQZw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778062673; c=relaxed/simple;
-	bh=1nAE+occhN6zEHUQdzuG07xyRL5KxzA1fIyT+VjMnBo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cmMxatLrATp5yLvy6dVSdG4WsQ2hQzYwNoTV3dT1e5a4ybGuDafXipTOAOPntpcQjDQFDs4RnnyHVFnFJmfW1MjkYYaNsF0fHl+51NXr6DVFYK1f25SWzI/gdbtf4YhpkrmJ2Jkrqul+6HxCCypJOMFq/q/oa7TIxnk0h+SC16Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dP5YyP1e; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1778063523; c=relaxed/simple;
+	bh=2u1hbOuO0VpjAHZvvKtwRuB3AqMRY6/qKgrC0iLEtcs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qe8UunyGIq6Tztc2kACZIlsdTsHyVrBAseKcTU1FxWjKt5CF0xBq4Z8EFzMH4XvnoLpw62rJh7uTmEUU1eVkfHg6CHQoCplIaD3GpdXIyvkEiIbvVRsLpUbuntsE4TiXcFQaLr4DyNCurc/hIpD9+Cdz6qxdbKYBAnaNJMJ+ugc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N3qBRRaV; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dP5YyP1e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778062671; x=1809598671;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=1nAE+occhN6zEHUQdzuG07xyRL5KxzA1fIyT+VjMnBo=;
-  b=dP5YyP1eo1V+B66plPTDKsHQIoyOBnlcKO+/wIOEmw0vMK5h+ImGT3Sj
-   6WlPrR2a6Kpjie1mnjrg3rfWv5a529Pb7AGCxLgn8sa1EvdqiGteE9Wgf
-   JxEB5VfTOoRkQwn3+rgnYwFsl3m9kGniDVL7aqxZYktSoY8rMv4ZtCr92
-   qSgTzz7v+u0c8tk5aqmbC6HVhcOLWeBgGtHpqBx33+JMQdWtvWBqvHoB4
-   76R0XlFfysXqZ0WoQZ6pDAk14IZDkfPbjgQN/6NhPzFOon7k2QOBnvQ5v
-   U5X6CD1ps10LpcG7xg9SNBjAR7oDNWuyR2BV0bkw95uol3zxHZ4M2UrVR
-   A==;
-X-CSE-ConnectionGUID: EW9mReddQsOQ06SiDsGBYw==
-X-CSE-MsgGUID: F9+0vJmYS42Y/UBrRI7yeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="78997925"
-X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="78997925"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 03:17:50 -0700
-X-CSE-ConnectionGUID: xmuKQU9bRpq7m5kaonYqGA==
-X-CSE-MsgGUID: jiLdgjgBTnyhyNSY8H8sxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,219,1770624000"; 
-   d="scan'208";a="236345712"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.244.236]) ([10.245.244.236])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2026 03:17:49 -0700
-Message-ID: <a7d9e9f2-4752-469f-b7e4-f0db11852e6f@linux.intel.com>
-Date: Wed, 6 May 2026 13:17:46 +0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N3qBRRaV"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43d7645adbdso3797057f8f.1
+        for <linux-usb@vger.kernel.org>; Wed, 06 May 2026 03:32:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778063520; x=1778668320; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EwUdW68A0CbE204lXa/smh9IH8R3/rozqZP7NaSGf5A=;
+        b=N3qBRRaV0KA/L4odxTf/VNqzwh2+5MWufUqgKAW7xooUZCJN579khgEn+RghYhVub+
+         ffn8G9L+k1jefkZ/zb3mzT3AdJshjFaCjGYCRmF2FmMdBWm3aV1LVpnGwBjY38FLk2bk
+         vfK0bt14MAlkCNIpwVHsjdTd8EMylaTEFTRHlUI9aVlgisuwD5SdNyk29GC1bCiiRCj4
+         fORf+15n3+wLnyBk2CAuSK89RhbMqvJi7pL9YGZ+i5m5vxgxTrh0y1hO1LpSHjIjP8vH
+         +xC0yXywHQ1/iGrttV5hCv/4KywHutDaznAH/WDAkNWJYox9+Ubal9Tj3+a3aHL7L8oG
+         aC4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778063520; x=1778668320;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EwUdW68A0CbE204lXa/smh9IH8R3/rozqZP7NaSGf5A=;
+        b=cMnoi6/HRMDFwpuTY+LstIWqS7g6udt5jRe80VdXVOIHSEjAbYEEKWYgzlUNBLKd5g
+         cvbzvcuBPNhLhc/mWva2U2XXXMLzW++fKZiSvRmJVTCbFQMZcKIP1G2hP5+EvF8yyIh8
+         HzyDddlMfY1u4GSnVwRjniuis638WzlkEkyzpWHfxdtnfOrvH6s3e5B79cjfAp+/VnA4
+         mEZI8F24G1Mc6HyEbMz3OcCVsPCgboAutuLrJRYXxo4J3r6Zzfot5oTbuGT+thC/JCPS
+         ggnMkBdxfvsixuZ7W4536FaePsjGYHUfPxPxTTpPU3/kN2XrefAL7PniIIvAl8ZTCRu5
+         XlkA==
+X-Forwarded-Encrypted: i=1; AFNElJ8VRSp05zRNY1r+zE/hhTPM9EshjwxH5qQw+oqEsB2Ofy3n8wL0t2x7CNsxkMwWV3kgVA4Zt0niE0I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjFXLqxXya6LX92t1bgcoqqSTbj4l9RzA+0mi+eYmgX+5ycx+L
+	+fflQbAb6z9gJ9Ol1Lrvqwm2hm+61McZaf0zL6XkvZx2yBnXt9CH6qbI
+X-Gm-Gg: AeBDievPVec7+VU/A4WpKtDa5R/qLQ3qW0rd9XtgGOj5rHY0lo/osLhCVRJFdzROb1f
+	qb/as6GREF3f2rddeYeGdQsZg2BimYRVr/WmOdVIpiG/JIKg5mhcg5Up8HB+4LHBk04EzUiDr0a
+	T2AE4WiBt5sUGt5xGMUTpGjyGDjPJNqeRHI+J9DY1Dl1eU5QsxHgPJAqgj01xghJAsOvH5R6k8i
+	QpqqLcKNoopWXfnv5/2hLdr8uCf18fWXZAK4WzwipiWb4T/i2Svf+SEca+g8IXD4X6oI5nwWRJR
+	ORQWkOhpQC6NVQnljUP2POHLqCP4Hmf6KvIEwjGjpAD2azTXYbusI3G6FVrnlYgkQ/CdEn+vqqa
+	SSMZLA3njPH2finy0IkK4/LND5G6F09vJikixj/n0C1EDOgr4ogCsN/fmP20+n2e0J1LIaRtUXo
+	PhpGMTDQ2Eb1Y/GKrHLvTL6BW64os79kjzzygWdg8gFSImmQ==
+X-Received: by 2002:a5d:5f90:0:b0:451:ccc:a6e5 with SMTP id ffacd0b85a97d-4515d5c68d1mr4653082f8f.30.1778063519764;
+        Wed, 06 May 2026 03:31:59 -0700 (PDT)
+Received: from foxbook (bgt227.neoplus.adsl.tpnet.pl. [83.28.83.227])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45055960fd6sm12185219f8f.31.2026.05.06.03.31.58
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 06 May 2026 03:31:59 -0700 (PDT)
+Date: Wed, 6 May 2026 12:31:55 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Alan Stern
+ <stern@rowland.harvard.edu>, "Xuetao (kirin)" <xuetao09@huawei.com>,
+ caiyadong@huawei.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] usb: core: Fix root hub descriptor
+ wBytesPerInterval
+Message-ID: <20260506123155.3b041e55.michal.pecio@gmail.com>
+In-Reply-To: <a7d9e9f2-4752-469f-b7e4-f0db11852e6f@linux.intel.com>
+References: <20260504111353.55ba2530.michal.pecio@gmail.com>
+	<a7d9e9f2-4752-469f-b7e4-f0db11852e6f@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] usb: core: Fix root hub descriptor
- wBytesPerInterval
-To: Michal Pecio <michal.pecio@gmail.com>,
- Greg KH <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>
-Cc: "Xuetao (kirin)" <xuetao09@huawei.com>, caiyadong@huawei.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260504111353.55ba2530.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260504111353.55ba2530.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 5/4/26 12:13, Michal Pecio wrote:
-> Per USB3 9.6.7, it's "the total number of bytes this endpoint will
-> transfer every service interval". There seems to be no good reason
-> to have wBytesPerInterval < wMaxPacketSize - either one is too low
-> or the other too high. Here, wBytesPerInterval is too low for hubs
-> with more than 15 ports and xHCI spec allows such root hubs.
+On Wed, 6 May 2026 13:17:46 +0300, Mathias Nyman wrote:
+> On 5/4/26 12:13, Michal Pecio wrote:
+> > Per USB3 9.6.7, it's "the total number of bytes this endpoint will
+> > transfer every service interval". There seems to be no good reason
+> > to have wBytesPerInterval < wMaxPacketSize - either one is too low
+> > or the other too high. Here, wBytesPerInterval is too low for hubs
+> > with more than 15 ports and xHCI spec allows such root hubs.
+> >   
 > 
+> There shouldn't be a USB3 hub with more than 15 ports as
+> USB 3.x specification limits USB3 ports to 15.
+> 
+> See USB 3.2 section 10.15.2.1 Hub Descriptor
+> "bNbrPorts:	Number of downstream facing ports that this hub supports. The
+> 		maximum number of ports of ports a hub can support is 15."
+> 
+> 
+> Hub driver also fails if hub has more than 15 ports.
+> hub.c hub_configure():
+> 
+>     maxchild = USB_MAXCHILDREN;
+>          if (hub_is_superspeed(hdev))
+>                  maxchild = min_t(unsigned, maxchild, USB_SS_MAXPORTS);
+> 
+>          if (hub->descriptor->bNbrPorts > maxchild) {
+>                  message = "hub has too many ports!";
+>                  ret = -ENODEV;
+>                  goto fail;
+> 
+> ch11.h:#define USB_SS_MAXPORTS           15
+> 
+> The USB 3.2 specification 10.15.1 'Standard Descriptors for Hub Class' also
+> shows hardcoded values of '2' for both the wBytesPerInterval and wMaxPacketSize
+> for the hub interrupt endpoint.
 
-There shouldn't be a USB3 hub with more than 15 ports as
-USB 3.x specification limits USB3 ports to 15.
+Thanks, looks like we should be able to get away with reducing
+wMaxPacketSize then. Currently it's calculated to fit USB_MAXCHILDREN
+i.e. 31 ports, supposedly dictated by the needs of (obsolete) WUSB.
 
-See USB 3.2 section 10.15.2.1 Hub Descriptor
-"bNbrPorts:	Number of downstream facing ports that this hub supports. The
-		maximum number of ports of ports a hub can support is 15."
+Any preferences whether to replace USB_MAXCHILDREN with USB_SS_MAXPORTS
+in the existing formula for USB3 hubs or just hardcode 0x02?
 
-
-Hub driver also fails if hub has more than 15 ports.
-hub.c hub_configure():
-
-    maxchild = USB_MAXCHILDREN;
-         if (hub_is_superspeed(hdev))
-                 maxchild = min_t(unsigned, maxchild, USB_SS_MAXPORTS);
-
-         if (hub->descriptor->bNbrPorts > maxchild) {
-                 message = "hub has too many ports!";
-                 ret = -ENODEV;
-                 goto fail;
-
-ch11.h:#define USB_SS_MAXPORTS           15
-
-The USB 3.2 specification 10.15.1 'Standard Descriptors for Hub Class' also
-shows hardcoded values of '2' for both the wBytesPerInterval and wMaxPacketSize
-for the hub interrupt endpoint.
-
-Thanks
-Mathias
-
-
+Regards,
+Michal
