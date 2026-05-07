@@ -1,22 +1,22 @@
 Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED25383C7E;
-	Thu,  7 May 2026 08:18:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95AF347533;
+	Thu,  7 May 2026 08:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778141902; cv=none; b=YePx+6z2kMOcGN2Avie/Zi1OUY41R7E1hg8Dj7VzEqjPwL64f1aB9mwkqbRHryjSIDAsU8UZFH4Fm/hJETOFcUjeUoYdOthebXgwsT7FpfxxXOjZbpQXqwW92KgsnAhtkunAwNNR6bu1SnllzNl1Td96B75F/Cok4Shl0GyQnX4=
+	t=1778141905; cv=none; b=lU8qTb+nj7cyqXdtqepzN5/F+wp+/lGhm8P3p/Sg5C0hDwsUE+icA62Wl/65z03eX6IndKmSkMhCMsg8bWBspZSaiiD4nPlKu9uyV45tGW66B1WwFFZEazWTtsi6Iy+y6DCBC86INkLyZiJU+kT7kLRPoNMHURId9DzvHKldO7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778141902; c=relaxed/simple;
-	bh=Vs9yshwUlXxGJxvy8UbI1uREjydbosYwYvsS4gOUzHY=;
+	s=arc-20240116; t=1778141905; c=relaxed/simple;
+	bh=hx5j7UE3kNi4rhGN4Erfamc90Rdc0PpVnTmIsbGGrZY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SkRy4nrb8HYN/47KPbGFse9fN95egv4KJYpeXrFX/Jfgm+0FuDXAZnC794zpMoa3XwYDOnl5OSETTkb2dXfcNc31hB57Od2w3JCsIyr8qw21bu9ZvDwtmEH1ALUPievZp7GojQWh+WWP3lCsvBo761h0ghpJG9HMPhjyf21Kh78=
+	 MIME-Version; b=GNje/OGEYqS/vfUfUnVo/GO6oJyOYprN+uj1PPSDYxdwHAIa4dXxwjm49jSusMXCEUUwJHSD8zvvVW3ZaFcXX+ZVYwfggG5sB/QhnyCSeHzsifFF2Lol7cRUwE37oZ/704AIL3ikM+1b74nIgqQuxZwX40uuuToiabv+/YbESLI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from edelgard.fodlan.icenowy.me (unknown [112.94.100.82])
-	by APP-03 (Coremail) with SMTP id rQCowAC3m+KLSvxpI_pNEA--.42168S9;
-	Thu, 07 May 2026 16:17:29 +0800 (CST)
+	by APP-03 (Coremail) with SMTP id rQCowAC3m+KLSvxpI_pNEA--.42168S6;
+	Thu, 07 May 2026 16:17:25 +0800 (CST)
 From: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 To: Drew Fustini <fustini@kernel.org>,
 	Guo Ren <guoren@kernel.org>,
@@ -45,14 +45,10 @@ Cc: Philipp Zabel <p.zabel@pengutronix.de>,
 	Icenowy Zheng <uwu@icenowy.me>,
 	Han Gao <rabenda.cn@gmail.com>,
 	Yao Zi <ziyao@disroot.org>,
-	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
-	Hoan Tran <hoan@os.amperecomputing.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Serge Semin <fancer.lancer@gmail.com>
-Subject: [PATCH 07/12] dt-bindings: gpio: dwapb: allow GPIO hogs
-Date: Thu,  7 May 2026 16:17:05 +0800
-Message-ID: <20260507081710.4090814-8-zhengxingda@iscas.ac.cn>
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>
+Subject: [PATCH 04/12] dt-bindings: phy: add binding for T-Head TH1520 USB PHY
+Date: Thu,  7 May 2026 16:17:02 +0800
+Message-ID: <20260507081710.4090814-5-zhengxingda@iscas.ac.cn>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260507081710.4090814-1-zhengxingda@iscas.ac.cn>
 References: <20260507081710.4090814-1-zhengxingda@iscas.ac.cn>
@@ -63,57 +59,117 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowAC3m+KLSvxpI_pNEA--.42168S9
-X-Coremail-Antispam: 1UD129KBjvdXoW7XF13ArWkZry5ZFy8Kw4UArb_yoWDKrX_CF
-	s3Za1DCFWktFyYkws0yF4xAFyYy3y7GF1kCwn8Krn3Cwn2v3Z8GFZ3J345ArW7Wa1fuFyr
-	CF93AryqqFs7GjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb98FF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
-	IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
-	F7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr
-	1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
-	M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
-	v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
-	F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
-	IY04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
-	6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
-	CEb7AF67AKxVWrXVW8Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI
+X-CM-TRANSID:rQCowAC3m+KLSvxpI_pNEA--.42168S6
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1kZrW3uryUJFW5Ww4kWFg_yoW8tF43pa
+	93GFyfJFnagFn3uw4SqF10kF1ftrZ5ZF15tr12gw10gws0g3WSqa9IkFy5uF48Jr48XFW7
+	uF4Y9ry7KF12kw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmS14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+	kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+	z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+	4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
+	3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
+	IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
+	M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
+	kIc2xKxwCY1x0262kKe7AKxVW8ZVWrXwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
+	bVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
+	AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
 	42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
-	4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
+	4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBI
 	daVFxhVjvjDU0xZFpf9x0pRQJ5wUUUUU=
 X-CM-SenderInfo: x2kh0wp0lqwv3d6l2u1dvotugofq/
 
-GPIO hogs are described in the gpio.txt binding as automatic default
-GPIO configuration items.
+The TH1520 SoC features a Synopsys USB 3.0 FemtoPHY with some custom
+glue logic configuring PHY parameters.
 
-Allow them for GPIO ports in DesignWare APB GPIO controller nodes.
+Add a binding for it.
 
-Cc: Hoan Tran <hoan@os.amperecomputing.com>
-Cc: Linus Walleij <linusw@kernel.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Serge Semin <fancer.lancer@gmail.com>
 Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
 ---
- .../devicetree/bindings/gpio/snps,dw-apb-gpio.yaml          | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../bindings/phy/thead,th1520-usb-phy.yaml    | 74 +++++++++++++++++++
+ 1 file changed, 74 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/phy/thead,th1520-usb-phy.yaml
 
-diff --git a/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml b/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
-index bba6f5b6606fd..55069533f6d91 100644
---- a/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
-+++ b/Documentation/devicetree/bindings/gpio/snps,dw-apb-gpio.yaml
-@@ -95,6 +95,12 @@ patternProperties:
-       '#interrupt-cells':
-         const: 2
- 
-+    patternProperties:
-+      "^.+-hog(-[0-9]+)?$":
-+        type: object
-+        required:
-+          - gpio-hog
+diff --git a/Documentation/devicetree/bindings/phy/thead,th1520-usb-phy.yaml b/Documentation/devicetree/bindings/phy/thead,th1520-usb-phy.yaml
+new file mode 100644
+index 0000000000000..37f5cfb95bad0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/thead,th1520-usb-phy.yaml
+@@ -0,0 +1,74 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/thead,th1520-usb-phy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-     required:
-       - compatible
-       - reg
++title: T-Head TH1520 USB PHY
++
++description: |
++  The T-HEAD TH1520 USB PHY is a Synopsys USB 3.0 FemtoPHY glued with some
++  custom logic to configure PHY parameters.
++
++maintainers:
++  - Icenowy Zheng <zhengxingda@iscas.ac.cn>
++  - Wei Fu <wefu@redhat.com>
++  - Drew Fustini <dfustini@tenstorrent.com>
++
++properties:
++  compatible:
++    const: thead,th1520-usb-phy
++
++  reg:
++    maxItems: 1
++
++  "#phy-cells":
++    const: 0
++
++  clocks:
++    items:
++      - description: PHY bus clock
++      - description: PHY reference clock
++
++  clock-names:
++    items:
++      - const: bus
++      - const: ref
++
++  resets:
++    items:
++      - description: PHY bus reset
++      - description: PHY reset
++
++  reset-names:
++    items:
++      - const: bus
++      - const: phy
++
++  avdd33-usb3-supply:
++    description: |
++      3.3V power supply for the PHY, named AVDD33_USB3 in the SoC pin list.
++
++required:
++  - compatible
++  - "#phy-cells"
++  - clocks
++  - clock-names
++  - resets
++  - reset-names
++  - avdd33-usb3-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    phy@ec030000 {
++      compatible = "thead,th1520-usb-phy";
++      reg = <0xec030000 0x10000>;
++      #phy-cells = <0>;
++      clocks = <&clk_misc 1>, <&clk_misc 3>;
++      clock-names = "bus", "ref";
++      resets = <&rst_misc 6>, <&rst_misc 7>;
++      reset-names = "bus", "phy";
++      avdd33-usb3-supply = <&avdd33_usb3>;
++    };
 -- 
 2.52.0
 
