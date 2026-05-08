@@ -1,371 +1,162 @@
-Received: from mail.w13.tutanota.de (mail.w13.tutanota.de [185.205.69.213])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8415F2E7BD3
-	for <linux-usb@vger.kernel.org>; Fri,  8 May 2026 19:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.205.69.213
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DCF1E5B63
+	for <linux-usb@vger.kernel.org>; Fri,  8 May 2026 21:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778267912; cv=none; b=PquOiELzxJfuNjCuvSWWqoZrcfwxhegWpgiJ6urcomCVMt8RYaJ4Mn+6HrmizxW6B+FGm5i/PMkZ2NeeuG6giJx/5Q5OFQW6YbggeT8P/CSBzO/Gfa/TL9oShD0WvBC6v977VykWepCY9o12cUJkbPFK+7iniSEWz62ELmKL6Jw=
+	t=1778275987; cv=none; b=OtFVjup9f4ArQELcMnQ+u8kzuP26by0VESWXCYB6o2vGsg0plC+mZoyvP/bLYPyHaIL2RgOE7UYrvo5kJKCq15qUt6BqvBhVXRtnlD9Qr84z2oHKlyrZyA30kL44LR4BhQM+D5PP/NbtThIrNwa68GXhlAbtG/p3sWgulaHJEZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778267912; c=relaxed/simple;
-	bh=8fqWe1ryF1keueQEJ5PqfHBnau4YVZ3t6D3unao25H8=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=lLZJltaXXdJPOLc7PY1AZ4XFB2UQu7drdALIhw4+DqBm9EtYW0P2K4sCuw/DwyM/mwogwzSipaOJjve9xXuqZkDj/CrMlmA9EHb3CNxsVoIpVindhu7nySX0DtaSw6OUsqsyDac7un6S5YgWlDSZ6HBr5dZw3eT7MTNU/UJekaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuta.io; spf=pass smtp.mailfrom=tuta.io; dkim=pass (2048-bit key) header.d=tuta.io header.i=@tuta.io header.b=KldPkETa; arc=none smtp.client-ip=185.205.69.213
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuta.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuta.io
+	s=arc-20240116; t=1778275987; c=relaxed/simple;
+	bh=X7uEJptvwsV3/AC2xW64pXmoB3N2kAk1Hh22xuC50Dw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=HjsaqrlCWOtQqvyhfuXqU3UOUMDR7MuZ+9/UVbQl9Ul4niNMDTawtml+5MCdLGITCzLgM3mOFz33D4Bo0Q/tP8FYKo240w+0ZMbzdd77duGpm6PiSZqbeKTvtAW7gerawkDBvSl62W/BezFo8EIwe7buP7gjC44szVd8AbEA0fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TnXIFhwv; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ih63e48F; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuta.io header.i=@tuta.io header.b="KldPkETa"
-Received: from tutadb.w10.tutanota.de (w10.api.tuta.com [IPv6:fd:ac::d:10])
-	by mail.w13.tutanota.de (Postfix) with ESMTP id E0D08139D4899
-	for <linux-usb@vger.kernel.org>; Fri,  8 May 2026 21:18:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778267902;
-	s=s1; d=tuta.io;
-	h=From:From:To:To:Subject:Subject:Content-Description:Content-ID:Content-Type:Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:In-Reply-To:MIME-Version:MIME-Version:Message-ID:Message-ID:Reply-To:References:Sender;
-	bh=NDlGD9CxqEMywawWbeYCyMDm7b85g14dPZAQYacbYCk=;
-	b=KldPkETaUaFYgJ1YkhilrISjy4v47Ticnb1XuUypBBgNBLaRFq51Opymo42J/zB5
-	W8PnoJyztrR4m3j+0tste5q8GFc265z5NO9v1BcqezUXsQD89RC7iBUgW67u4taUznV
-	q2f5Mz4zQhNHzRmLt658IyBrcKIZSHuA+jDRr4eHr/MKDCfJ4TV86/v5BGEEFsAj9gc
-	V2ba44Y68LWlTaSzm/yBm6Yig0GNXe5/2UGIrO0yMKLdnpB7upMqpnCXOB2XfKPn0ll
-	Bc9yFMzzuWs/qir/jewBSf3pyaJWShXo1EskmB+Go0079L+aTATiuK3LtEw5dpE3W/P
-	lTevQhOnZQ==
-Date: Fri, 8 May 2026 21:18:22 +0200 (CEST)
-From: c2mismo <c2mismo@tuta.io>
-To: Linux Usb <linux-usb@vger.kernel.org>
-Cc: Gregkh <gregkh@linuxfoundation.org>
-Message-ID: <Os7vNaR--F-9@tuta.io>
-Subject: =?UTF-8?Q?USB:_Lexar_E300_21c4:b083_fails_SuperSpeedPlus_negotiatio?=
- =?UTF-8?Q?n_due_to_missing_BOS_descript?=
- =?UTF-8?Q?or_=E2=80=94_request_for_NO=5FBOS_quirk?=
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TnXIFhwv";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ih63e48F"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 648GWL8j2335585
+	for <linux-usb@vger.kernel.org>; Fri, 8 May 2026 21:33:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=P0+zhgaE3hW
+	Bq02LPyDgy1/Pf5uTZKmDwz1w7Oq2yFM=; b=TnXIFhwvCFXHd3NzBoJOuqmulVI
+	BsFegiBMN6lDhSECurXZLcl62T/xdKmB0p1j8my8jMFlCmEaq7KY2JTDXJK9Z7va
+	TRufFBqVl0VNsRsBcutr5FS3yo2alYwzVItmMhwSMcXFM/2jgLqXDa9MdGg0YAIe
+	jR4uY/UG3ZcfZ/C9Y/45OYG3NLIJKiqqt7ZrgcArvm0AkGtyQCNvinKM8L34ESMX
+	TqsQ9WuohNxpSdtobFVLFEOkNqyjUVywE7K2uTExMfHylpD7ghjYgorgRvGQds36
+	td8SDEGsaFbm0BN3d/TX8qQFgT6GzPPq6oA53P76XY8mJruvGExjt5LOA+w==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e1keh8xpy-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Fri, 08 May 2026 21:33:05 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-2f5943ca81aso4227825eec.0
+        for <linux-usb@vger.kernel.org>; Fri, 08 May 2026 14:33:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778275985; x=1778880785; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P0+zhgaE3hWBq02LPyDgy1/Pf5uTZKmDwz1w7Oq2yFM=;
+        b=Ih63e48FFyaXwOpNZCQbnT+wYJ4D5A/wLcGN86ntSwUKTpiUm6TPv+gF8mvwiDyrZq
+         qo0YRj75FXnsdPwXrb/3sg87ci8bh2Ar/OC0wibOtSsytBSUEFTtxl7MsFHi/UELJvOM
+         Dd6/fyplMWTfM3U0gdXc5q7eZp8CxQuI8rYxfEjWSQ4Mf84RYQqAzAlNS2fEPP7s/Jfa
+         V1zQPmCWbRMtZZNtUEuz4v+F1kKaGeJqA493WAwTWOzh5f9y8XT9SrLHAbJFD6QpvvbX
+         N74KOwgXJ+DHIMIZvt4AsG5BjH0y5pbo6Ceo5F1QWwatwvaAi2dpK9gLwMr+rXyswStR
+         r2ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778275985; x=1778880785;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=P0+zhgaE3hWBq02LPyDgy1/Pf5uTZKmDwz1w7Oq2yFM=;
+        b=LrYDqwsM1HOfL9nm8RzuOjKjJQ3NJgZuN3A1ymLF8FWd/u7TNvRJgFkht7pUEOQFJG
+         i3b5DofhGcEjKtyL5NW4y2RgMRWktIE97TkWPBbSyHTFbrrU/aW1a0qUCc7PXaIpEBJV
+         ZC2DXWZoUdKsHWMny7yIaAjPyxj/hQvNYuSxL9lmFuuTVceGMp/qCNvG/ZiGuDRgZqce
+         2MTf7xOBHxKmwrWV5Y20acFlFlTZEix4xc6LazJagWvkKccDEZyASUpBMqzL4dIQGtZm
+         RAwnlpicAAkJfmCoj9kQoZvRMtYelzgt+cOOgqasjMGYAMtuWhWffX1yZE9rCTYRmIxv
+         uYUQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+SnoDe+su95V2ZH9xmopFMGKrNqLSkBtMQPQLr46Gt6zv69YaB4Dpbd35rXuCI77JjueyvxpX/oPI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqV50GACJO/XvLpAH+01U/NHYXpH6/1AQ0LE4AC2D3kcyaatSP
+	1DLLBUtqB/sZtYVRk32BLje5JFHNZbrLg05uw8Th9PnxnSyXpPthzTsQo6pAU5MizBc0HPiVjT5
+	IRLvz1BxsVtrQA07+z86/gGUPT32fWsdfrUE3Jfn8R+A6DsmtTCD+70R3rNLMHd0=
+X-Gm-Gg: Acq92OGhz57ngXEm+bpI79oz2uyBnA0jFEjeNFubHJKjDhdzzHu0vL4nEHSohvM8fPB
+	IVnPxvsEPMftXGhNFC9wR3HCrAQHA8y5uATbx2bz2cpflN8lRGzeUNaDBHtuiiZgo0H7jS0vQ8c
+	qrhn7J5Nl5PC210s3S60ELdEBa5hI6Q8WQn29Ay6u9cCbKd91vMSyJuKE5xTIuazSfi3OhDGXtb
+	4Xtgh8McF94cy/9XAO40r+j0rPE03bjf6w1mMC4w376oOy+VJMurklS9LZiR6CvJ4+Z7lXmPPIB
+	S2/HAkSQF/SzNm/6gu970ESiLvsm1BEaEQxCnPD3GU/O7PYKc3uiWNZcNIZ6d8YRO8Xi+nVY1T4
+	j3+7icDjqK/oqU8yEzRlIUu4KesKE25EqYrgOmShB6wtqvH4J8YKB1z1DIqgRDV+GXCSXyVksEF
+	E=
+X-Received: by 2002:a05:7301:e101:b0:2f5:5dd3:1fd8 with SMTP id 5a478bee46e88-2f55dd323c8mr5114676eec.8.1778275984616;
+        Fri, 08 May 2026 14:33:04 -0700 (PDT)
+X-Received: by 2002:a05:7301:e101:b0:2f5:5dd3:1fd8 with SMTP id 5a478bee46e88-2f55dd323c8mr5114649eec.8.1778275984035;
+        Fri, 08 May 2026 14:33:04 -0700 (PDT)
+Received: from hu-rraheja-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f888e3e285sm4871285eec.27.2026.05.08.14.33.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 14:33:03 -0700 (PDT)
+From: Ronak Raheja <ronak.raheja@oss.qualcomm.com>
+To: vkoul@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, robh@kernel.org,
+        neil.armstrong@linaro.org, gregkh@linuxfoundation.org,
+        dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com,
+        abel.vesa@oss.qualcomm.com
+Cc: wesley.cheng@oss.qualcomm.com, krzysztof.kozlowski@oss.qualcomm.com,
+        ronak.raheja@oss.qualcomm.com, linux-arm-msm@vger.kernel.org,
+        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/4] dt-bindings: phy: qcom,sc8280xp-qmp-usb43dp-phy: Add Hawi QMP PHY
+Date: Fri,  8 May 2026 14:32:31 -0700
+Message-Id: <20260508213234.4643-2-ronak.raheja@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260508213234.4643-1-ronak.raheja@oss.qualcomm.com>
+References: <20260508213234.4643-1-ronak.raheja@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_143930_745445106.1778267902914"
-Feedback-ID: 018e5b700cb2c8a4221317c29fd969cf4102c3a1344db71daf386d41a6b3176c30b0c69a2452d499883682cadbe0e8114a:TurnOnPrivacy!:tutamail
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=CJIamxrD c=1 sm=1 tr=0 ts=69fe5691 cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=EUspDBNiAAAA:8
+ a=VwQbUJbxAAAA:8 a=8IMiPDtIn6OAJiDpRukA:9 a=bBxd6f-gb0O0v-kibOvt:22
+X-Proofpoint-GUID: 6sfzyym4xWlcw_ucU-W-59SLGXsOwFvp
+X-Proofpoint-ORIG-GUID: 6sfzyym4xWlcw_ucU-W-59SLGXsOwFvp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA4MDIxMyBTYWx0ZWRfXyzGFQRWQAPKh
+ fomRTK1O9yVpEqdOk0TViKW2Nm3eiP29MoNhQS6Lc1maasegpHpWQhPE1uvm/buUDaFjkedhmF9
+ 8YhxN7D56UBZg4Q+XN0Zpr0LLu2WlfqDmx0hvXm+J8nJebM8PlaNbHFK3f7GA/7d+UP56RB/rTX
+ HrdpSvFzmi9JulSdzKt8bRNNwJNIpjiwwx2N3T3KIE+r7yVKf/+G7HMcpsct8U+jnLIet+z6X+e
+ MYs+BPdDbYBAHr7pz/jXtopMZjXbUiLHl+z6sGYH2fqmQ0DuRPNcxAiXKDecHdc2qQxLh9yEI5L
+ MGSHBY0EQvrJPPB8C47UHocqMlQX/HYk9egxy5NNSIz4eIDbap54xyyHrq/fbuXhGkmkTRo+tTc
+ B5luJse8vvjQqA3W7Rse1/+ZKhD4UxIWE75v9+Ndv6/JR/DMQrqlCD1REe0UZ9u2DqwYfDDXy7C
+ JLuEuOKM87X4MEgOJdw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-07_02,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 adultscore=0 spamscore=0 impostorscore=0
+ phishscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
+ definitions=main-2605080213
 
-------=_Part_143930_745445106.1778267902914
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_143931_1019511716.1778267902914"
+Document the Hawi compatible string for the QMP combo PHY.
 
-------=_Part_143931_1019511716.1778267902914
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Hawi uses a new QSERDES V10 register layout with a new COM AON module
+and hardware-specific PHY init sequences compared to previous targets,
+requiring a dedicated compatible string.
 
+Signed-off-by: Ronak Raheja <ronak.raheja@oss.qualcomm.com>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+---
+ .../devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml  | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Dear USB subsystem maintainers,
+diff --git a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+index 3d537b7f9985..7a7059c659be 100644
+--- a/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml
+@@ -22,6 +22,7 @@ properties:
+           - const: qcom,sm8750-qmp-usb3-dp-phy
+       - enum:
+           - qcom,glymur-qmp-usb3-dp-phy
++          - qcom,hawi-qmp-usb3-dp-phy
+           - qcom,sar2130p-qmp-usb3-dp-phy
+           - qcom,sc7180-qmp-usb3-dp-phy
+           - qcom,sc7280-qmp-usb3-dp-phy
+@@ -205,6 +206,7 @@ allOf:
+           contains:
+             enum:
+               - qcom,glymur-qmp-usb3-dp-phy
++              - qcom,hawi-qmp-usb3-dp-phy
+               - qcom,sar2130p-qmp-usb3-dp-phy
+               - qcom,sc8280xp-qmp-usb43dp-phy
+               - qcom,sm6350-qmp-usb3-dp-phy
+-- 
+2.34.1
 
-I have a Lexar E300 M.2 SSD enclosure (idVendor=3D0x21c4, idProduct=3D0xb08=
-3)
-that supports USB 3.2 Gen 2 (10 Gbps). Under Linux it always negotiates
-down to 5 Gbps, while on Windows the same hardware (cable, port) works
-correctly at 10 Gbps (CrystalDiskMark ~1087 MB/s vs ~450 MB/s on Linux).
-
-The kernel log shows that the device initially attempts SuperSpeed Plus
-(Gen 2x1) but fails to provide a valid BOS descriptor, causing an error
--71 and a forced fallback to SuperSpeed (5 Gbps):
-
-[=C2=A0 179.146227] usb 2-1: new SuperSpeed Plus Gen 2x1 USB device number =
-4 using xhci_hcd
-[=C2=A0 182.237405] usb 2-1: USB disconnect, device number 4
-[=C2=A0 182.420843] sd 12:0:0:0: [sda] Synchronize Cache(10) failed: Result=
-: hostbyte=3DDID_ERROR driverbyte=3DDRIVER_OK
-[=C2=A0 182.552343] usb usb2-port1: config error
-[=C2=A0 183.131966] usb 2-1: new SuperSpeed USB device number 5 using xhci_=
-hcd
-
-"lsusb -t" always reports the device at 5000M, even when connected to a
-20 Gbps port.
-
-I have reliable reports that other users on Ubuntu experience the
-identical issue with the same enclosure.
-
-The likely cause is that the enclosure's firmware does not handle the
-BOS descriptor request correctly. The fix is to mark it with the
-USB_QUIRK_NO_BOS flag, already existsting in previous kernels
-(since commit 7b2f6c5b1b1c, "USB: core: Add quirk for devices that
-can't handle BOS"). That quirk would prevent the kernel from trying to
-read the BOS descriptor and thus avoid the downgrade.
-
-i did try to add the following entry to drivers/usb/core/quirks.c
-in the usb_quirk_list[]:
-
-{ USB_DEVICE(0x21c4, 0xb083), .driver_info =3D USB_QUIRK_NO_BOS },
-
-I am running Arch Linux with kernel 7.0.3 (in the recent version does not c=
-ontain
-the NO_BOS definition in its source), so I have been unable to test the
-patch myself. However, I am fully available to test any patch or
-directly apply and verify a fix if a developer can provide one. I can
-also provide additional debug output if needed.
-
-Thank you for your time and for maintaining the USB subsystem.
-
-Best regards,=C2=A0
-
-Miguel Angel Ruiz Gallegoc2mismo@tuta.io
-------=_Part_143931_1019511716.1778267902914
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-  <head>
-    <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DUTF-8=
-">
-  </head>
-  <body>
-<div dir=3D"auto"><br></div><div dir=3D"auto">Dear USB subsystem maintainer=
-s,<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">I have a Lexar E3=
-00 M.2 SSD enclosure (idVendor=3D0x21c4, idProduct=3D0xb083)<br></div><div =
-dir=3D"auto">that supports USB 3.2 Gen 2 (10 Gbps). Under Linux it always n=
-egotiates<br></div><div dir=3D"auto">down to 5 Gbps, while on Windows the s=
-ame hardware (cable, port) works<br></div><div dir=3D"auto">correctly at 10=
- Gbps (CrystalDiskMark ~1087 MB/s vs ~450 MB/s on Linux).<br></div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">The kernel log shows that the device =
-initially attempts SuperSpeed Plus<br></div><div dir=3D"auto">(Gen 2x1) but=
- fails to provide a valid BOS descriptor, causing an error<br></div><div di=
-r=3D"auto">-71 and a forced fallback to SuperSpeed (5 Gbps):<br></div><div =
-dir=3D"auto"><br></div><div dir=3D"auto">[&nbsp; 179.146227] usb 2-1: new S=
-uperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd<br></div><div dir=
-=3D"auto">[&nbsp; 182.237405] usb 2-1: USB disconnect, device number 4<br><=
-/div><div dir=3D"auto">[&nbsp; 182.420843] sd 12:0:0:0: [sda] Synchronize C=
-ache(10) failed: Result: hostbyte=3DDID_ERROR driverbyte=3DDRIVER_OK<br></d=
-iv><div dir=3D"auto">[&nbsp; 182.552343] usb usb2-port1: config error<br></=
-div><div dir=3D"auto">[&nbsp; 183.131966] usb 2-1: new SuperSpeed USB devic=
-e number 5 using xhci_hcd<br></div><div dir=3D"auto"><br></div><div dir=3D"=
-auto">"lsusb -t" always reports the device at 5000M, even when connected to=
- a<br></div><div dir=3D"auto">20 Gbps port.<br></div><div dir=3D"auto"><br>=
-</div><div dir=3D"auto">I have reliable reports that other users on Ubuntu =
-experience the<br></div><div dir=3D"auto">identical issue with the same enc=
-losure.<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">The likely c=
-ause is that the enclosure's firmware does not handle the<br></div><div dir=
-=3D"auto">BOS descriptor request correctly. The fix is to mark it with the<=
-br></div><div dir=3D"auto">USB_QUIRK_NO_BOS flag, already existsting in pre=
-vious kernels<br></div><div dir=3D"auto">(since commit 7b2f6c5b1b1c, "USB: =
-core: Add quirk for devices that<br></div><div dir=3D"auto">can't handle BO=
-S"). That quirk would prevent the kernel from trying to<br></div><div dir=
-=3D"auto">read the BOS descriptor and thus avoid the downgrade.<br></div><d=
-iv dir=3D"auto"><br></div><div dir=3D"auto">i did try to add the following =
-entry to drivers/usb/core/quirks.c<br></div><div dir=3D"auto">in the usb_qu=
-irk_list[]:<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">{ USB_DE=
-VICE(0x21c4, 0xb083), .driver_info =3D USB_QUIRK_NO_BOS },<br></div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">I am running Arch Linux with kernel =
-7.0.3 (in the recent version does not contain<br></div><div dir=3D"auto">th=
-e NO_BOS definition in its source), so I have been unable to test the<br></=
-div><div dir=3D"auto">patch myself. However, I am fully available to test a=
-ny patch or<br></div><div dir=3D"auto">directly apply and verify a fix if a=
- developer can provide one. I can<br></div><div dir=3D"auto">also provide a=
-dditional debug output if needed.<br></div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">Thank you for your time and for maintaining the USB subsystem=
-.<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">Best regards,&nbsp=
-;<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">Miguel Angel Ruiz =
-Gallego</div><div dir=3D"auto">c2mismo@tuta.io</div>  </body>
-</html>
-
-------=_Part_143931_1019511716.1778267902914--
-
-------=_Part_143930_745445106.1778267902914
-Content-Type: text/x-log; charset=us-ascii; name=lexar_e300_dmesg.log
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=lexar_e300_dmesg.log
-
-[    0.384012] xhci_hcd 0000:0e:00.0: Host supports USB 3.2 Enhanced SuperSpeed
-[    0.442317] xhci_hcd 0000:10:00.0: Host supports USB 3.1 Enhanced SuperSpeed
-[    0.445051] xhci_hcd 0000:13:00.3: Host supports USB 3.1 Enhanced SuperSpeed
-[    0.446009] xhci_hcd 0000:13:00.4: Host supports USB 3.1 Enhanced SuperSpeed
-[    0.991140] usb 2-1: new SuperSpeed USB device number 2 using xhci_hcd
-[    1.003817] usb 2-1: New USB device found, idVendor=21c4, idProduct=b083, bcdDevice=31.02
-[    1.003822] usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-[    1.003823] usb 2-1: Product: Lexar M.2 SSD Enclosure
-[    1.003824] usb 2-1: Manufacturer: Lexar
-[    1.003825] usb 2-1: SerialNumber: 000020250916
-[    1.126605] usb 2-4: new SuperSpeed USB device number 3 using xhci_hcd
-[   24.747065] usb 2-1: reset SuperSpeed USB device number 2 using xhci_hcd
-[   24.894818] usb 2-1: reset SuperSpeed USB device number 2 using xhci_hcd
-
-------=_Part_143930_745445106.1778267902914
-Content-Type: text/x-log; charset=us-ascii; name=lexar_e300_lsusb.log
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=lexar_e300_lsusb.log
-
-
-Bus 002 Device 002: ID 21c4:b083 Lexar Lexar M.2 SSD Enclosure
-Negotiated speed: SuperSpeed (5Gbps)
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               3.20
-  bDeviceClass            0 [unknown]
-  bDeviceSubClass         0 [unknown]
-  bDeviceProtocol         0 
-  bMaxPacketSize0         9
-  idVendor           0x21c4 Lexar
-  idProduct          0xb083 Lexar M.2 SSD Enclosure
-  bcdDevice           31.02
-  iManufacturer           1 Lexar
-  iProduct                2 Lexar M.2 SSD Enclosure
-  iSerial                 3 xxxxxxxxxxxx
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength       0x0079
-    bNumInterfaces          1
-    bConfigurationValue     1
-    iConfiguration          0 
-    bmAttributes         0xc0
-      Self Powered
-    MaxPower                0mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           2
-      bInterfaceClass         8 Mass Storage
-      bInterfaceSubClass      6 SCSI
-      bInterfaceProtocol     80 Bulk-Only
-      iInterface              0 
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst              15
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x02  EP 2 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst              15
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       1
-      bNumEndpoints           4
-      bInterfaceClass         8 Mass Storage
-      bInterfaceSubClass      6 SCSI
-      bInterfaceProtocol     98 USB Attached SCSI
-      iInterface             10 MSC USB Attached SCSI
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x01  EP 1 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst               0
-        Command pipe (0x01)
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x82  EP 2 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst               0
-        MaxStreams             32
-        Status pipe (0x02)
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x83  EP 3 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst               3
-        MaxStreams             32
-        Data-in pipe (0x03)
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x04  EP 4 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst              15
-        MaxStreams             32
-        Data-out pipe (0x04)
-Binary Object Store Descriptor:
-  bLength                 5
-  bDescriptorType        15
-  wTotalLength       0x0046
-  bNumDeviceCaps          4
-  USB 2.0 Extension Device Capability:
-    bLength                 7
-    bDescriptorType        16
-    bDevCapabilityType      2
-    bmAttributes   0x00000f0e
-      BESL Link Power Management (LPM) Supported
-      Baseline BESL value  10000 us 
-  SuperSpeed USB Device Capability:
-    bLength                10
-    bDescriptorType        16
-    bDevCapabilityType      3
-    bmAttributes         0x00
-    wSpeedsSupported   0x000e
-      Device can operate at Full Speed (12Mbps)
-      Device can operate at High Speed (480Mbps)
-      Device can operate at SuperSpeed (5Gbps)
-    bFunctionalitySupport   1
-      Lowest fully-functional device speed is Full Speed (12Mbps)
-    bU1DevExitLat          10 micro seconds
-    bU2DevExitLat          32 micro seconds
-  Platform Device Capability:
-    bLength                28
-    bDescriptorType        16
-    bDevCapabilityType      5
-    bReserved               0
-    PlatformCapabilityUUID    {d8dd60df-4589-4cc7-9cd2-659d9e648a9f}
-    CapabilityData[0]    0x00
-    CapabilityData[1]    0x00
-    CapabilityData[2]    0x03
-    CapabilityData[3]    0x06
-    CapabilityData[4]    0x10
-    CapabilityData[5]    0x00
-    CapabilityData[6]    0x0a
-    CapabilityData[7]    0x00
-  SuperSpeedPlus USB Device Capability:
-    bLength                20
-    bDescriptorType        16
-    bDevCapabilityType     10
-    bmAttributes         0x00000001
-      Sublink Speed Attribute count 2
-      Sublink Speed ID count 1
-    wFunctionalitySupport   0x1100
-      Min functional Speed Attribute ID: 0
-      Min functional RX lanes: 1
-      Min functional TX lanes: 1
-    bmSublinkSpeedAttr[0]   0x000a4030
-      Speed Attribute ID: 0 10Gb/s Symmetric RX SuperSpeedPlus
-    bmSublinkSpeedAttr[1]   0x000a40b0
-      Speed Attribute ID: 0 10Gb/s Symmetric TX SuperSpeedPlus
-Device Status:     0x0001
-  Self Powered
-
-------=_Part_143930_745445106.1778267902914--
