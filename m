@@ -1,192 +1,173 @@
-Received: from panther.cherry.relay.mailchannels.net (panther.cherry.relay.mailchannels.net [23.83.223.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0AF13A1E7E;
-	Sat,  9 May 2026 10:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.223.141
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778321896; cv=pass; b=mUH2zplGoa8lJ8XiyzzmdYAzChY2UVEMsfrM8QSAvTDBADxtNAGnDZt9oMk0dQZpWhNvVxLR9oah0Dgx4Z2C3YXDETas5IpoUBCFNpfEkyUorEJEqEr5TKFW1LJNGCQxU+OpYTaZNHG0AB90B1yb6fuB4T1R77QsBvR+Kvu+O2U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778321896; c=relaxed/simple;
-	bh=Ae03Oz6MCSn+3b26vmABckKdtCuD+FQVcr7L3BULr64=;
-	h=From:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:Date; b=YvYz26t19zSGP26jkrMSM65NKBCT4c6qsYqBVgfOaO0cO3Rmr11Q9jmgHBjOmadIAGVT+ppFTOPR92TillD8rFEmFqx+tTqPqhOenDCoCRuTkaaOhEY5WqS9rYZbWMAvspsz1SH2EVtWy8EM71AS2VcXjVwrX6AAmlQfFmkUesk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=smankusors.com; spf=pass smtp.mailfrom=smankusors.com; dkim=pass (2048-bit key) header.d=smankusors.com header.i=@smankusors.com header.b=Ypw0FK6M; arc=pass smtp.client-ip=23.83.223.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=smankusors.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=smankusors.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD7B229B38
+	for <linux-usb@vger.kernel.org>; Sat,  9 May 2026 11:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778325016; cv=none; b=LWb4ozg51gCC1csSogrUDGekUww2goOfHkM1SGS7C3TgNlTZYyzilUJe/rPgaEtpFrd4eb2mbysfDK6cLTzTDWIL/TOcVQIV2T9y+UJBtBpFl2MfFVw3FJ47hvWAf/QVxHYblzjjDDPx5XJpqqRWv1UsGxeF/TvEZQL5Obq+P0g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778325016; c=relaxed/simple;
+	bh=wsF0OspPiJMWbdWCJSFbR3inI9ojHIfmvCt2AGdOZ0U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=V/DFuARMaAhHnQ+aXia7gfqzCk1tMHXNmjNyY2tj5xVBYIWxr5vul7gy4q+rya4k4jW/oMm3FKZozjpDWmyAH4QHtEFRTT73SCrvPVJ6QgLtGvT3VniJKOjFDxs3OihJWpSXLhitGA4qf5Vj4Z5FAb3qf8p5yHdTzB7n4kI8dsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fC9nC6QO; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=smankusors.com header.i=@smankusors.com header.b="Ypw0FK6M"
-X-Sender-Id: hostingeremail|x-authuser|linux@smankusors.com
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id 0959F8C22B9;
-	Sat, 09 May 2026 10:18:06 +0000 (UTC)
-Received: from fr-int-smtpout11.hostinger.io (trex-green-5.trex.outbound.svc.cluster.local [100.98.8.159])
-	(Authenticated sender: hostingeremail)
-	by relay.mailchannels.net (Postfix) with ESMTPA id A07968C2195;
-	Sat, 09 May 2026 10:18:01 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; d=mailchannels.net; s=arc-2022; cv=none;
-	t=1778321883;
-	b=KbP3/J7l3mzpS8jKVJ9zikWYBVbu2SffrKwbAUyl0ub6IsVvmeEr3TtIljuuevJfqpufah
-	cNIsI+ZySVnm4mNQqslES3IxT16NhIz2QSeaEUQx4U6wNLC5paAw5+rUPn0baB50d1uVy4
-	H5ADa89Ffeg+lgSicHI9dDSSaGwDm327GweXR77x4fNHXaI6wedyT8GxkuMXpEqTCKeXyh
-	/eCX2DfhNyUtmpzAxtaQ1s9KVs+/zSGJie5YB6bW23zW/31Ym+OeobDz+WykhjgyFHRXLo
-	r4ZDTUrSdIGYpFfYFa9N9e6VSRy9qydkdiKBADEPByZUCS+2pSp3hli1dn7fzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1778321883;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
-	bh=JRwIbdwwsFBG1zeZHZJUr8fkW1KbEdeQx5xEi+4OZro=;
-	b=1rFMHK88Wg/ULEItMjHeFj1vZjnMokNwCpn6s67JY6zRZrgifOdZoWPEm4da68cQY//G2Z
-	xcHD30KsJ2vCfxPtuxQtH7M01p8UgD93RnX4MeMyKESAJ1yy+wifg53LuQZLCIkP3KcQj1
-	lJmJGmkUfopXmUh49O+NnDDFIgHY/l/8q7QfZGgFPwSiSgECliqm4D76rGNChhjH2+dizK
-	EA4KcRH6Db/x98Xrx+0FTgl674n8Von2bZzN4Svr7fukA/cjL6toLCDbHzryBWuOKi7G3O
-	sL5Okw2avqbGKpt1kJkYeREiICDY6EmCuWpvuGYRmSd4SmITGjnJKVC24Faiww==
-ARC-Authentication-Results: i=1;
-	rspamd-5c5444c55f-rvsz6;
-	auth=pass smtp.auth=hostingeremail smtp.mailfrom=linux@smankusors.com
-X-Sender-Id: hostingeremail|x-authuser|linux@smankusors.com
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: hostingeremail|x-authuser|linux@smankusors.com
-X-MailChannels-Auth-Id: hostingeremail
-X-Callous-Shoe: 78f5c6d677ec9f01_1778321885807_2390101064
-X-MC-Loop-Signature: 1778321885807:3112988065
-X-MC-Ingress-Time: 1778321885807
-Received: from fr-int-smtpout11.hostinger.io ([TEMPUNAVAIL]. [148.222.54.47])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.98.8.159 (trex/7.1.5);
-	Sat, 09 May 2026 10:18:05 +0000
-Received: from [172.17.0.2] (unknown [125.163.203.7])
-	(Authenticated sender: linux@smankusors.com)
-	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4gCMPX2WX5zySS;
-	Sat,  9 May 2026 10:17:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smankusors.com;
-	s=hostingermail-a; t=1778321874;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=JRwIbdwwsFBG1zeZHZJUr8fkW1KbEdeQx5xEi+4OZro=;
-	b=Ypw0FK6MexmHU7DSb/CmoL2gusLmASvb3cKYhegxX6E+F7WYHHcmC5q7OHccUmRLaT6XXt
-	p6KIofeNNC0xC1UQYmtxjXvdodHSH/KREW92QJkJPNYinIvdqsIF48vW9ewj0DzsGCfCyX
-	Rhj2KekGcm80mellpjLuLgPdUbZhmZId6StcBvG06QZMeAm8iz83FnP8+OG4bp3ScYVoeU
-	pBdai4q94FCl1ZgSj8mXot2zzV+Eda14qzq7mQhNMXJEbuLHKMJpJs/kmTqWcH9AmHQHwu
-	BYApnqSn8ZeZT7hPvJ4LZVPCdydtwxm15djjMS5/qoHqKLYClKMyZixiGCbAxw==
-From: Antony Kurniawan Soemardi <linux@smankusors.com>
-Subject: [PATCH] dt-bindings: usb: ci-hdrc-usb2: allow up to 3 clocks for
- qcom,ci-hdrc
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fC9nC6QO"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a8704dc3a8so2854883e87.3
+        for <linux-usb@vger.kernel.org>; Sat, 09 May 2026 04:10:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778325013; x=1778929813; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Pk16o4hJSfjjDxrgsEThR5b0ZSeUh14qacwpphIbVl8=;
+        b=fC9nC6QOX/k1K+bv8BijMfuZS+QL2iUuQAsyeW2HPTx6q09Kf9U8FPMI28Gbb55Rml
+         iF1qt25t4n2sfBi0s6PIxCdB1TnVTHVw4HWUurB1nfth7b6TH4eE6wYE81UQtezsj19d
+         XauV0BGy0sIDenRkEQ1IS3FzrOxdlFmIU4XUW+EDB4XrsfKv1QgLWt4Krpi3Zoy234AU
+         p6qo4yk1qDYKyT+QPBNN0sq5a2787oszSbnPJ3oVXSes5sVJUWD7eapTFXXEZ2anqJyK
+         qzBjIxcmg3bjqqUX/cfi18UMj9+lLMMFiGdBpRtTc1x/8sfkUG2hGDPJ03NP/eIz50aN
+         7OOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778325013; x=1778929813;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Pk16o4hJSfjjDxrgsEThR5b0ZSeUh14qacwpphIbVl8=;
+        b=G/oAGPcFdAVBNSwroK01kzKWajRrYu0BRe5097uSAOQdW/GvMYVR5d/fmBLxdNxmXC
+         xbZG2wF3sah0tyeyqJNnO1qUrBFR9W2q/+RXTn8AnWbjCrnZsXsUzl7194Ok+gwNQpPz
+         tUY7Ak2YX7UWF70A3yKPGvEBZs+OHRt/aZkfUhW+eB1a427rsGz74DYtLyDbLsPoC+OU
+         1gb6ujcr+wOuUepy8UwJ5TXLtH9m1UkJ3fn8bpVvbxKZUVe//y6bE2nHLoTbRa85XZUn
+         44nLyx0MfhSQrq659qo7cDhUzKEA3StC1OnA67d6FMwcxpOchonL4W0KxsrgzV0eubne
+         8kgA==
+X-Forwarded-Encrypted: i=1; AFNElJ/MnuTL80bOQ6RqgMt4j2Mzbp3cZwvY/uEN4UAuALmJHNheF+2dFepqD8E2kiy0IIKxtCWGzUlTnOQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFzzf9hxeRrw5prl9dHHsBr6hkLU1kDhSabyPpB9DR35e8Lakl
+	XlRgTCcTb8qvWapkEaOYjQ+LXv7cn2Olb72OQHIkc3FKyKR5tjcqQiMrv6DNYQ==
+X-Gm-Gg: Acq92OGf6meqkolp82THBvEmP0SM6/QVRWOQQ2Nt9fOXNCXkkXPy7/LbgBPCYLxEHNn
+	t1u+mL6W1ixnWWqpFNFYTI8wqycXSCIKmigO4fphEPlRk4p/9s7V4iKpftlFbr0l6isDfsOyzbN
+	ZGq6KF0TB4FKXO3LZcc1UkqVFKBcNqllw88COCo/y1uppvH66ry7uji0uc2lQvtojTD4DkLGira
+	XoD7Hc+dph+HKw2ivPokYm1e6qmtGkjQMciyBq69DNlBtVdvbfl3tyKvx1vEVvFH0Ah3ii164Eh
+	JA3L+PUNgoXDMQ3Pqu5ZkPU7dcW6rATAmZIT5x7g8dXMV3uDPpwSHGFqZ7TIcSWy0EaUdk+l2VH
+	ucGUcvMQPu6lusQTlySrD7I+8ofxzDmAQeReq/q7hUJrPcojgST49B4s4MhsUuJsXO/u0GKe3eg
+	eVVb9HPu580poDb3IayGOB7B8eQmOt98om2C8=
+X-Received: by 2002:ac2:53b7:0:b0:5a8:87fc:2b34 with SMTP id 2adb3069b0e04-5a887fc2bb8mr4050488e87.32.1778325012490;
+        Sat, 09 May 2026 04:10:12 -0700 (PDT)
+Received: from foxbook (bgt227.neoplus.adsl.tpnet.pl. [83.28.83.227])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a956bd58sm1211896e87.84.2026.05.09.04.10.09
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 09 May 2026 04:10:11 -0700 (PDT)
+Date: Sat, 9 May 2026 13:10:04 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Dylan Robinson <dylan_robinson@motu.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
+ mathias.nyman@intel.com
+Subject: Re: [Bug 220748] usb: xhci_queue_isoc_tx_prepare ignore start_frame
+ and always assumes URB_ISO_ASAP is set
+Message-ID: <20260509131004.61ce52b9.michal.pecio@gmail.com>
+In-Reply-To: <CA+Df+jfkQ1QXyh=oQrX2y2x8N2=ZRFWFai5QHiZ2FC-hQqEsmQ@mail.gmail.com>
+References: <bug-220748-208809@https.bugzilla.kernel.org/>
+	<bug-220748-208809-eL7PrzeMxr@https.bugzilla.kernel.org/>
+	<fe08eabc-4f92-43fd-89d7-5e9d0e35c979@rowland.harvard.edu>
+	<CA+Df+jdtQrYye85d7uZyT3jirsztKhf7qQes3LvOAPa+9qxSOw@mail.gmail.com>
+	<20260507235432.71d28151.michal.pecio@gmail.com>
+	<CA+Df+jfkQ1QXyh=oQrX2y2x8N2=ZRFWFai5QHiZ2FC-hQqEsmQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260509-qcom-ci-hdrc-clock-fix-v1-1-f52386bf85da@smankusors.com>
-X-B4-Tracking: v=1; b=H4sIALwJ/2kC/yXMQQqDMBCF4avIrDsQFdPaq5Qu4mTUadXYREUQ7
- 26sy+/B+zcI7IUDPJMNPC8SxA0R6S0Bas3QMIqNhkxlWhWqxB+5HkmwtZ6QOkdfrGXFh7HFvVS
- GdK4hnkfPcf6HX+/LYa4+TNNZg30/APSfZ8Z6AAAA
-X-Change-ID: 20260509-qcom-ci-hdrc-clock-fix-8ad5790ac636
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Xu Yang <xu.yang_2@nxp.com>, 
- Peng Fan <peng.fan@nxp.com>
-Cc: MINETTE Alexandre <contact@alex-min.fr>, linux-usb@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- phone-devel@vger.kernel.org, 
- Antony Kurniawan Soemardi <linux@smankusors.com>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778321872; l=2659;
- i=linux@smankusors.com; s=20250609; h=from:subject:message-id;
- bh=Ae03Oz6MCSn+3b26vmABckKdtCuD+FQVcr7L3BULr64=;
- b=hXLcOrN1Bk+KuZgrIY2UGG1W1A0EySRQg2AibuAG6Qvqzdo6y5qaG2CGzRp1SfGIJ1joCFXMC
- CV2TTGREUwFBe4kSsfqsp6a56OAoM3SJO9if3hAzf7octY2BDEpS94N
-X-Developer-Key: i=linux@smankusors.com; a=ed25519;
- pk=65wTy06fJl2/h/EJwjr704YG+yjHFhZObJBWzzK+N00=
-Date: Sat,  9 May 2026 10:17:52 +0000 (UTC)
-X-CM-Envelope: MS4xfCJzAKg39dRpVmpPl2fqY2jQxvNw6DTgHNzyl0TN0lkDvLIwr2GZsDyZDV+Wf99IGxN6RT+e8VSv2mp55kpCddn1ffxFtqyvNXqmKsG1+MZ0Obs4yeh3 oBmG1ohgAeE6UMUiZskeiM0eDyPNzkOjBgB/JV1JwFF5zffBbuorYZzH2J41r+ETbX4Y5rT+dy/Z40blw5XqkpZ3C3sikbZXuP+Ef42lhNc/hBR2IzymyPu8 Ktf6O6iI0WZZJflHDEspjKAGItayh6+UJmF7ekriZIAwvm/KdPj4A6C71PF3oCvzoeAFyJ5Ok6kl5esrtMjD0bVLO3sJaAbO7vgusIhaZEtBRj7qgNqvVOsS t3qVlw2mE88whcaTomXwh/ypr6diPQOY7W55VnHo8Wt8AC/JE6VVW+aku8nD7MXQNue1KA9mGSdJawY7xPiHIbWtWZw2HUHpQYZexcv5Z8xIvS4Zn7tWyWoo kExOqghLRgplyhoekcjiXbixe4m+QNgef0AO21xK8p+tQbd1ankNkVrvWYCp+WmP5N8QwyaDOEG+86uC
-X-CM-Analysis: v=2.4 cv=UN2PHzfy c=1 sm=1 tr=0 ts=69ff09d2 a=aYg++IQuMqL9NhcFIsEovw==:117 a=aYg++IQuMqL9NhcFIsEovw==:17 a=IkcTkHD0fZMA:10 a=VwQbUJbxAAAA:8 a=wxLWbCv9AAAA:8 a=Z8CMZ-RkyekkVbdE0TUA:9 a=QEXdDO2ut3YA:10 a=QJY96suAAestDpCc5Gi9:22
-X-AuthUser: linux@smankusors.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Some Qualcomm SoCs such as apq8064 and msm8960 require a third "fs"
-clock in addition to "iface" and "core", needed to propagate resets
-through the controller and wrapper logic. Later SoCs such as msm8974
-dropped this requirement and only use two clocks.
+On Fri, 8 May 2026 17:39:20 -0400, Dylan Robinson wrote:
+> On Thu, May 7, 2026 at 5:54=E2=80=AFPM Michal Pecio wrote:
+> > It would surely need to be optional on per-URB basis, to avoid
+> > updating all drivers and to enable sub-1ms URBs without gaps on HW
+> > like xHCI, where we can't request starting frame with microframe
+> > granularity.
+> >
+> > I suppose Windows/OSX have to be doing it this way too? =20
+>=20
+> Windows isochronous transfers behave similarly to the outdated
+> documentation in Documentation/driver-api/usb.
+>=20
+> Setting USBD_START_ISO_TRANSFER_ASAP in the URB instructs the USB
+> driver stack to schedule the transfer in the next appropriate frame.
+> For the first URB on a pipe, transfers with this flag are scheduled as
+> soon as possible. For subsequent URBs, the stack automatically tracks
+> stream continuity.
+>=20
+> Otherwise, the UrbIsochronousTransfer.StartFrame member specifies the
+> starting USB frame number for the transfer.
+>=20
+> Source:
+> https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/transfe=
+r-data-to-isochronous-endpoints
 
-Signed-off-by: Antony Kurniawan Soemardi <linux@smankusors.com>
----
-This patch updates the ci-hdrc-usb2 binding to allow up to 3 clocks for
-qcom,ci-hdrc, to accommodate Qualcomm SoCs that require an additional
-"fs" clock for reset propagation.
+Looks like Windows ASAP is similar to Linux non-ASAP behavior, except
+that they consider new URBs to continue the stream for 1024 USB frames
+after the last completed URB. In Linux that number is 0 instead, as
+there is no way to indicate a new stream by other means.
 
-This is a prerequisite for the following patch series currently under
-review:
-  - ARM: dts: qcom: apq8064: Fix USB controller clocks [1]
-  - ARM: dts: qcom: msm8960: add RPM clock controller and fix USB
-    clocks [2]
+Windows requires isoc URBs to be frame-aligned. Linux doesn't have this
+limitation. I can run a high-speed UAC dongle with two 0.5ms URBs just
+fine, though ALSA won't let me go shorter for some reason.=20
 
-Without this binding change, those series produce dtbs_check errors
-due to the 3-clock entries in their respective device tree sources.
+> The USBDriverKit API on macOS for submitting isochronous transfers is:
+>=20
+> virtual kern_return_t IsochIO(
+>     IOMemoryDescriptor *dataBuffer,
+>     IOMemoryDescriptor *frameList,
+>     uint64_t firstFrameNumber,
+>     OSAction *completion);
+>=20
+> firstFrameNumber: The starting frame number for the request. You can
+> get the current frame number from the GetFrameNumber method of
+> IOUSBHostDevice or IOUSBHostInterface. Specify 0 to begin the transfer
+> on the next available frame (XHCI only).
+>=20
+> Source:
+> https://developer.apple.com/documentation/usbdriverkit/iousbhostpipe/isoc=
+hio
 
-[1] https://lore.kernel.org/all/20260427-mainline-send-v1-sending-v2-6-dcaa9178007b@alex-min.fr/
-[2] https://lore.kernel.org/all/20260414-msm8960-wifi-v1-5-007fda9d6134@smankusors.com/
----
- .../devicetree/bindings/usb/ci-hdrc-usb2.yaml      | 29 ++++++++++++++++------
- 1 file changed, 21 insertions(+), 8 deletions(-)
+Not sure how Apple and MS deal with the "phase" issue, i.e. does a
+bInterval=3D6 endpoint run in frames 0,4,8,... or 3,7,11,... and how
+are drivers supposed to set firstFrameNumber then.
 
-diff --git a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
-index 691d6cf02c27..5d18d47efaed 100644
---- a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
-+++ b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
-@@ -43,14 +43,6 @@ properties:
-               - nxp,s32g3-usb
-           - const: nxp,s32g2-usb
- 
--  clocks:
--    minItems: 1
--    maxItems: 2
--
--  clock-names:
--    minItems: 1
--    maxItems: 2
--
-   operating-points-v2:
-     description: A phandle to the OPP table containing the performance states.
-     $ref: /schemas/types.yaml#/definitions/phandle
-@@ -91,6 +83,27 @@ allOf:
-   - $ref: chipidea,usb2-common.yaml#
-   - $ref: usb-hcd.yaml#
-   - $ref: usb-drd.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: qcom,ci-hdrc
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 1
-+          maxItems: 3
-+        clock-names:
-+          minItems: 1
-+          maxItems: 3
-+    else:
-+      properties:
-+        clocks:
-+          minItems: 1
-+          maxItems: 2
-+        clock-names:
-+          minItems: 1
-+          maxItems: 2
- 
- unevaluatedProperties: false
- 
+Looking at the MS article, I suspect they want drivers to pretend it's
+always 0,4,8, which is what the xHCI spec requires too.
 
----
-base-commit: 70390501d1944d4e5b8f7352be180fceb3a44132
-change-id: 20260509-qcom-ci-hdrc-clock-fix-8ad5790ac636
+> > It's supposed to be implied that submission from a complete()
+> > callback is a continuation. I believe one of the submitted patches
+> > fixes that. =20
+>=20
+> Because our devices use the implicit feedback synchronization model,
+> our drivers typically submit OUT transfers from the IN pipe's
+> completion callbacks. Would those submissions also be considered
+> continuations of the existing OUT stream, or is continuity only
+> inferred when a URB is submitted from the completion handler
+> associated with the same pipe?
 
-Best regards,
---  
-Antony Kurniawan Soemardi <linux@smankusors.com>
+I meant completion at the same endpoint because it's a common case,
+but submission while any URBs are pending and not completed yet also
+is supposed to continues the stream, regardless of who submits.
 
+Or at least that's the intent stated by Alan and what it was before
+"BH giveback". I think today there is a short window after completion
+by HW and before complete() runs, where even ehci-hcd may fail to
+detect that the last remaining URB is still "in flight". In this case
+it's likely too late to avoid a gap on OUT, but the gap should produce
+EXDEV completions rather than delay the next URB by a few uframes.
+
+Perhaps this should be fixed for all HCDs. The alternative is to ask
+drivers to make the IN completion give the OUT completion any required
+information to resubmit, which increases latency and chance of EXDEV,
+or they risk potential hard to detect gaps due to SW latency. (The gaps
+could be detected by looking at frame_desc->start_frame, at least when
+xhci-hcd is fixed to fill it properly on non-CFC chips).
+
+Regards,
+Michal
