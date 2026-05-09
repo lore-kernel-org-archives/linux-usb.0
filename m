@@ -1,132 +1,132 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B8B2F8E8F
-	for <linux-usb@vger.kernel.org>; Sat,  9 May 2026 16:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79576397682
+	for <linux-usb@vger.kernel.org>; Sat,  9 May 2026 18:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778342770; cv=none; b=JskNZd5XQfnr9cMiHyKPs8PPyD8T9NjwEXfByybhggODqTapaQfL52A2CJzvuaj0PUyBECj5DD+MYQVkcD0lPwZMEubCVgk2FcolnnYNEz2ID/RVWMJAdonp+rBqokhe6MMfhaS4n9hqJtckX4MTe6C2LEb4y+cjpZte4THQc0g=
+	t=1778350928; cv=none; b=sdUvGH93nl0dTByIwpKzVXbk8OVeZwe873JjrR4/MavTpJP5E9B1y/AxczChQVvOAJT0eaAf6pPnYBpAqQcbckTtzHDuVI/+7sOKbtIB4oBErjI+2Aynk3wTge7+WGFZVO49M1qOLMJAZGR5POiL52RoeONgYugaIdK/sS5MejM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778342770; c=relaxed/simple;
-	bh=gZFgF+fQWD6gzwPKNasyXcUZu5WrHL97iY7xC6VpOm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HdzLVBiJioaRDHdVB32PAzsp6h/M2bMCzqN8cqkfJgrsee0QxP5RRNPrjYjpLztW7N/G6xQQDpFc3Pt12f/eXyfdrpeJd2w5ACRjqNVTP2iXRKTYwS7NuLLe8nDwg/5rQw7Vlc4GU9P17yN4JbUaILoDHdVOveCwEKAj88mvzak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P6R4QSa5; arc=none smtp.client-ip=209.85.208.175
+	s=arc-20240116; t=1778350928; c=relaxed/simple;
+	bh=hcd1IK3pGlHUmDWH+Rqd5doqTRuaX0rbsTijnuNPBOw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CwYLNNTXz6E6c6UXIrOyG0OJ2yoJObeKUeMHy9K22At+7o6mdhoHEckExEVjC2TATLR5SB7mKeCEdqGe9viYr0aUjxnZLcJ/MopRwKwZ1eMgZzu4smzHlJnPmvgRFkvw5eOsWdVrLhB7cq7EuPBPRcS+8ROFvOJ1Ab+IhJ/qRKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AJPeNJ63; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P6R4QSa5"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-39394e1e8f3so23501881fa.1
-        for <linux-usb@vger.kernel.org>; Sat, 09 May 2026 09:06:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AJPeNJ63"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4836d9d54f6so3497905e9.1
+        for <linux-usb@vger.kernel.org>; Sat, 09 May 2026 11:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778342767; x=1778947567; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V2E8cmKtJP68D0+P6Na7Y7gPaTdyTWmtLGInxYa6pv8=;
-        b=P6R4QSa5fjMiKuE2MLj7yUWLtYVJnAgpy6X2i1dHxPB6r8wMVjtdZKsyrk5t2Ytfoh
-         g2iYox8SB9ECEzvURERJURJXBBdvqjqbBGu00oNogh7kKOnRCRrj8mMOL1QsVDa02bfX
-         T7iDGt7AerAm6F9sZKWzJKhNNCcpRtmppBxW4xG3TWv0G0QRkH6mBffH0bxgfsNOToo8
-         424rZma5xwjnWsMB2RLDwA15cxJJ2tmzhRtf8P/CMO1KJ9jlRA8StwqsjFMF0VldfPZJ
-         LuhKZbjsrwRCGtIypcXz4XxJVCCtnmrMRO3W8q2x4t2OooZUEymwgyAQz0C5GQfq5brI
-         UtfQ==
+        d=gmail.com; s=20251104; t=1778350924; x=1778955724; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xm4Jqgv9FkjocRmCS06tXViVUiGl5UoWhrVE3LZ463I=;
+        b=AJPeNJ63LglTpU+R+PH2jVjqFJcMkWAgV6vo0mZLL/JcCeUAKTdKv5xGJBCrLZOGE4
+         78AvX7YthGzXfX4DxShQA2TyALnerlpBwdlUJuaJxsTA+tH7wAcHU93Pca3jjF8dKJVZ
+         FHTv8u5NOLJy/KHQTFxhWxu2mKK9RygTqaLKVsr1BgHdU0+DNtkdI5n5+ICWYoIRb/Qw
+         1RsfnOoNcZ9kI9ruq1meaoGlwebuhSi8rEN2lsMxZLtvaSKcKbDNhnjC1SmycwMMeC3Q
+         tZa/48WtDufZy4Ea1IDu6/a0XMPayyyNjmCpq+w90cgWKl6ZYGq88Y/TmvCYP0UV0MnI
+         K9rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778342767; x=1778947567;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=V2E8cmKtJP68D0+P6Na7Y7gPaTdyTWmtLGInxYa6pv8=;
-        b=R+BgwiylSgG1B8FOphkbCxBviotO7XOeBHAVxyCTY9Ent4t5MGzZZOgYNgDKEd97hd
-         z3xu+qUYCTNxOXl52NNJulLiiAfj0LYPNRJ5aaq9Z1ikqv0Dt4jyK7rQEeiFvB6cZsZt
-         kvoV16YVJyX1twXrYC25R3C9VEvVHno+Sy4mgaMdfF5n4xgR3PkZJSmg+1zICL26V3b1
-         /vKuef8QzbiJf6homgTpInCAt2Y3ALJmWvaQqhDe2pNxkWZs8N6OQz4wfuzGImxrEVc7
-         8yTAxZMl9McTXMbNte+QyvGCR5OkcpAG9FW/TQ+tS4U1UNPnHk7HK6vyaSO22Ujy8Wo9
-         VL9g==
-X-Gm-Message-State: AOJu0YyCDuUs9u0ebOued3P9JZq30IW4nIwBX2i1lciXwJ+QIpESyARa
-	72s1L9sVzPkJeR6PbodsIS67FWoUaYnJV7o+QbT9NJ4TWZFmOG7y68k6Ibh4UA==
-X-Gm-Gg: Acq92OGwsru9dRjDKEF0LUuFFdw0a8KhRfngpHkmU1UDUi56IXa/XpZ2p6ycp+IWAZ1
-	gdQ8Et0hb+GE1dPQphwQCL2YTi991EkeEfFAepi9xfd0/XiKAMLWecXnjVMDsjXd+V1unJBxkDf
-	EeDy9iLb1Ha6//+AsOeHnU1d7vrvZEn7DEbhzX3QiTKHUY0734ZFOcVUv3C+CtfHt9wHUPg+fKL
-	uuGWLP5iHDZ7aHpixOKijlPg7Ky/0pxpllACHToN5jU/WKPwS75oy2WGLBYOoZkg4kbFxX4hjYP
-	wOqkObgqUGk0NKp6x3ZdGuPn16kL/3xKHL4bWY8KFCvmywb4hY5R00QuHhbvqq+t4YzEvR+PJsy
-	m3Npbmje40J+XtJ2nuuERq6VXlme2NPa6wviGVL8Z5OFlelZFcFNjNXTvVTvxNqM3s+WxdlSN8A
-	6V2d381cW4cltVsYVQYGfDikkbT5s8Bk45aeg=
-X-Received: by 2002:a2e:ad13:0:b0:393:cdbb:222f with SMTP id 38308e7fff4ca-39408174e04mr8771831fa.26.1778342766996;
-        Sat, 09 May 2026 09:06:06 -0700 (PDT)
-Received: from foxbook (bgt227.neoplus.adsl.tpnet.pl. [83.28.83.227])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393f6292993sm12826021fa.41.2026.05.09.09.06.06
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sat, 09 May 2026 09:06:06 -0700 (PDT)
-Date: Sat, 9 May 2026 18:06:03 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Martin Alderson <martinalderson@gmail.com>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: xhci_hcd: AMD Raphael/Granite Ridge USB 2.0 xHCI [1022:15b8]
- dies on resume from suspend
-Message-ID: <20260509180603.6f67c9d8.michal.pecio@gmail.com>
-In-Reply-To: <CA+_z3hTMfggtv+u_A_SRyb2FRzVjm=Nav5NRCTuhmEthb8x0jw@mail.gmail.com>
-References: <CA+_z3hRjPnQOrEp7uXsNsu6wzqQp9O6FT18i=XcSC7k74Xd2QA@mail.gmail.com>
-	<20260330020749.18fbe433.michal.pecio@gmail.com>
-	<CA+_z3hRTD-QAgv3jZhOZUUPA0sNZ8946jfYwYsZ=RnQJ0LG7cw@mail.gmail.com>
-	<20260404152438.582f0451.michal.pecio@gmail.com>
-	<CA+_z3hTMfggtv+u_A_SRyb2FRzVjm=Nav5NRCTuhmEthb8x0jw@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1778350924; x=1778955724;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xm4Jqgv9FkjocRmCS06tXViVUiGl5UoWhrVE3LZ463I=;
+        b=TJn06Mjwal38eGpzpbhmrCgyxOZ6c5yfgPrrtov2muWGlYrGWbpJN0bnF648xG7JAn
+         i0fuplG89juXBctaiZRpBP3NG0v5lYJChe/xbhU7qYjDwgCX5pskOZm7jgKQfv29vwMA
+         75SZci1Ocv/AX3nKWRu2TDg3zOaKt+h2c/fLr9n9MWAYAk3aX9eQDRHgj261vA9HfH8v
+         BoNdux318yeC5kcATiWG1Ih4ed7UcWfRzSsKIf5S2PjwA24exPoI1R6O2MnJbyaM6eVw
+         CiWbTQPO00OCYLR6QrLxsm5EOuaak9U6tlV9uREbj5rwaX5Q7TffNMIPH6hyZw09n5lb
+         46Dw==
+X-Forwarded-Encrypted: i=1; AFNElJ+XeVeWcYjrwD62qU9L2zFznFZAO2CLvVt2Yh5lzMVLdesIjYa53obNNb43iVIHLQ5UrRvn4hD0z5Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2qlpGk+j3sCyhadllvLb3xyExK5Zkss1wVVSiIRO9lsBEPA9w
+	vxsuiVZIS9su/iD827IMoxvIkFDVP0XMDLdq5t87PJbczW3QGe8Ny8KeNW4ss4otoya0VA==
+X-Gm-Gg: Acq92OEdcybCtJEmARrrDFjqOJs2IsK1Xb6yU+OI/2o41HkpnFtYkh83TwzJleEx0hQ
+	jIaWuS8CVDefJ8BOy88gVeT8PF9WWC/f+/FUIJOpigSpjMbQ3y5NI3muIN9HSlGD0h2gCJZRuGC
+	osyrS5MhcyR2ZSN9ZbzXlaXxx+Yn0XoHhniNDndt5P3CFgeYx9ia8VuHWwG7fiqaY94qrgn5J3E
+	ze48/Ar7tzT8m8UMLwDu7KDXtd0oMgxBCyN8RLhwQA2P5H5+ZmFJRE3ps5R/QgGyTiSTS3J7va/
+	cs7Q5JYq8chqW+YOOQ9Uvei8KOJYwfvPZ4rWhJfMUZrLfT4KKS94LZvoiIQlyMv+9qgXYKFHBCt
+	8pZVcjXVcR7MJeV2E1dN3FE94OuooB24vX6FWfY3DrDm9ly45S/d0L2uDmz9FETwdGjutaMTJry
+	sIaWdVH+PwSlVgL+mjktjOvCyLLTG+zcZnu7vZpcouC/tw6GbS+LtS1yAQ99kVXjnS0w==
+X-Received: by 2002:a05:600c:4ecb:b0:485:3bc7:a224 with SMTP id 5b1f17b1804b1-48e530fc6c6mr118896275e9.6.1778350923677;
+        Sat, 09 May 2026 11:22:03 -0700 (PDT)
+Received: from localhost.localdomain ([82.215.118.79])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6d8946a5sm45598035e9.0.2026.05.09.11.22.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 May 2026 11:22:03 -0700 (PDT)
+From: Stepan Ionichev <sozdayvek@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hcazarim@yahoo.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Stepan Ionichev <sozdayvek@gmail.com>
+Subject: [PATCH] usb: gadget: goku_udc: avoid NULL deref of dev->driver in INT_USBRESET log
+Date: Sat,  9 May 2026 16:06:36 +0500
+Message-Id: <20260509110636.19762-1-sozdayvek@gmail.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 9 May 2026 15:51:03 +0100, Martin Alderson wrote:
-> Hi, still experiencing this on 7.0.2. I tried to pull the logs
-> together to get to the bottom of this (I've tried a few different
-> kernels)
-> 
-> Kernel                          Suspends   xHCI 0f:00.0 deaths   Rate
-> ------------------------------  --------   -------------------   -----
-> 6.17.1-300.fc43 (March)             ~12             0             0%
-> 6.18.16-200.fc43                     10             0             0%
-> 6.19.7/8-200.fc43                     5             0             0%
-> 7.0-rc4   (build 260320)             13             0             0%
-> 7.0-rc5   (build 260328)              7             2            ~28%
-> 7.0-rc6   (build 260401)             10             4             40%
-> 7.0-rc7   (build 260409)              7             2            ~28%
-> 7.0.0-261.vanilla.fc43                7             2            ~28%
-> 6.17.1-300.fc43 (April, retry)       10             2             20%
->  <-- same bug, stable kernel
+goku_irq() handles a number of bus events under a single ep0 path.
+It already guards the gadget driver suspend/resume callbacks against a
+NULL ->driver:
 
-Looks like it's not a regression then, but not sure what else may have
-caused it.
+	if (dev->gadget.speed != USB_SPEED_UNKNOWN
+			&& dev->driver
+			&& dev->driver->resume) {
+		spin_unlock(&dev->lock);
+		dev->driver->resume(&dev->gadget);
+		...
+	}
 
-Any new USB device that wasn't connected before?
-Perhaps a BIOS upgrade?
+but the very next branch unconditionally dereferences dev->driver
+when an INT_USBRESET arrives:
 
-> 7.0.1-262.vanilla.fc43                7             2            ~28%
-> 7.0.2-300.vanilla.fc44                6             4            ~66%
-> 
-> 
-> May 09 15:29:37 fedora kernel: Freezing user space processes completed
-> (elapsed 0.001 seconds)
-> May 09 15:29:37 fedora kernel: OOM killer disabled.
-> May 09 15:29:37 fedora kernel: Freezing remaining freezable tasks
-> May 09 15:29:37 fedora kernel: Freezing remaining freezable tasks
-> completed (elapsed 0.001 seconds)
-> May 09 15:29:37 fedora kernel: printk: Suspending console(s) (use
-> no_console_suspend to debug)
-> May 09 15:29:37 fedora kernel: sd 6:0:0:0: [sdb] Synchronizing SCSI cache
-> May 09 15:29:37 fedora kernel: serial 00:01: disabled
-> May 09 15:29:37 fedora kernel: sd 0:0:0:0: [sda] Synchronizing SCSI cache
-> May 09 15:29:37 fedora kernel: ata1.00: Entering standby power mode
-> May 09 15:29:37 fedora kernel: xhci_hcd 0000:0f:00.0: xHCI host not
-> responding to stop endpoint command
-> May 09 15:29:37 fedora kernel: xhci_hcd 0000:0f:00.0: xHCI host
-> controller not responding, assume dead
-> May 09 15:29:37 fedora kernel: xhci_hcd 0000:0f:00.0: HC died; cleaning up
-> May 09 15:29:37 fedora kernel: PM: suspend devices took 5.758 seconds
+	if (stat & INT_USBRESET) {
+		ACK(INT_USBRESET);
+		INFO(dev, "USB reset done, gadget %s\n",
+			dev->driver->driver.name);
+	}
 
-That's not resume, it's during suspend. Are other logs also like that?
+If the controller raises INT_USBRESET before any gadget driver has
+been bound (or after one has been unbound), dev->driver is NULL and
+the printk dereferences NULL.
 
-Regards,
-Michal
+smatch flags the inconsistency:
+
+  drivers/usb/gadget/udc/goku_udc.c:1618 goku_irq() error:
+  we previously assumed 'dev->driver' could be null (see line 1607)
+
+Fall back to a placeholder when the gadget driver is not bound.
+
+No functional change while a gadget driver is bound.
+
+Signed-off-by: Stepan Ionichev <sozdayvek@gmail.com>
+---
+ drivers/usb/gadget/udc/goku_udc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/udc/goku_udc.c b/drivers/usb/gadget/udc/goku_udc.c
+index db42a5e3e..ac2a984c2 100644
+--- a/drivers/usb/gadget/udc/goku_udc.c
++++ b/drivers/usb/gadget/udc/goku_udc.c
+@@ -1616,7 +1616,8 @@ static irqreturn_t goku_irq(int irq, void *_dev)
+ 		if (stat & INT_USBRESET) {		/* hub reset done */
+ 			ACK(INT_USBRESET);
+ 			INFO(dev, "USB reset done, gadget %s\n",
+-				dev->driver->driver.name);
++				dev->driver ? dev->driver->driver.name :
++					      "<not bound>");
+ 		}
+ 		// and INT_ERR on some endpoint's crc/bitstuff/... problem
+ 	}
+-- 
+2.43.0
+
