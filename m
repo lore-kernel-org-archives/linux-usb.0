@@ -1,23 +1,24 @@
-Received: from mail-m49217.qiye.163.com (mail-m49217.qiye.163.com [45.254.49.217])
+Received: from mail-m127214.xmail.ntesmail.com (mail-m127214.xmail.ntesmail.com [115.236.127.214])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902E439A7EA;
-	Sun, 10 May 2026 14:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC33239B942;
+	Sun, 10 May 2026 14:09:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.214
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778422156; cv=none; b=YuJDWlWUU3B/rTtS3peSWOAP31eaaDFGwy27rlZdlEdsloBusnM/7hlFnabXB2rgqYMHCwigDTMLuJOICIZdipcgDbwvvqS6vQbg59l88puyXLCRLDzQa9WhAGCTxKRdwkVQ0tklSEFttExL/r6dx8KCu5zQeu3lNfx7SR9JOPo=
+	t=1778422160; cv=none; b=bcHe62MtreKequcRgC3cWx2dstBSSSdzrwVED9IM9e8MY5hYAufDeQxbXfvUibUJ4pHHAUP2Aetb4ck3GIylercTT20zRrwHkKoEJGg7Ou7o/PpsAk5FN/JjgPUc/G3u40VzNTu5VA3nD8/NTHwJGuTNxNe2kx0qpx0MoRJVoNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778422156; c=relaxed/simple;
-	bh=qNuRmWjOvodj7BP8pJ2VufzZygVsCAcwy3il7jg+T0w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pCri7aoJSKm8RlwRUpGwrc8tl4gc2moYGLSy4nnJL9R1Pm0Z1kEVLaKR4xFcTLOqiowkfZDDwnje95MGn09RSPoCsRPXVSynIwd6rb5vjAOtEOOjneIE+zZMW2JXcFOW4vcD9gcd8AGDICxlYHO2tnApKb0/9t5haMatWN30YfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=Lpr8NCIq; arc=none smtp.client-ip=45.254.49.217
+	s=arc-20240116; t=1778422160; c=relaxed/simple;
+	bh=raAYF7MixxeMCWJ08DU7j8mwLnHPliRfScS9KLv8L7A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=thUWnqs7N0NjIQ88Cu60RnN5025cds3PHglnhN0eSAK6NQTPJjT/mXK3jsZ3svE884bShCcsjJOcnHXAXkXr2WaIZg+iaA4DFejPfz5k4pJ7PH7MosJ6HVZhKKExsYcNDrN9sZcmnIUrHaz/wN0OTsF/f2IPx5Q5bFa9S3Auq1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=Noh5vLOW; arc=none smtp.client-ip=115.236.127.214
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="Lpr8NCIq"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="Noh5vLOW"
 Received: from server001 (unknown [222.130.22.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 3dd2c6ffb;
-	Sun, 10 May 2026 21:53:44 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 3dd2c7008;
+	Sun, 10 May 2026 21:53:53 +0800 (GMT+08:00)
 From: Kefan Bai <baikefan@leap-io-kernel.com>
 To: linux-usb@vger.kernel.org,
 	si.yanteng@linux.dev
@@ -29,100 +30,296 @@ Cc: gregkh@linuxfoundation.org,
 	skhan@linuxfoundation.org,
 	linux-doc@vger.kernel.org,
 	doubled@leap-io-kernel.com
-Subject: [PATCH v6 0/8] Add Chinese translation for USB subsystem
-Date: Sun, 10 May 2026 21:53:31 +0800
-Message-ID: <cover.1778415392.git.baikefan@leap-io-kernel.com>
+Subject: [PATCH v6 6/8] docs/zh_CN: Add ehci.rst translation
+Date: Sun, 10 May 2026 21:53:37 +0800
+Message-ID: <39d6d446008a91352ef1b27b32f1b08cc9310271.1778415392.git.baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1778415392.git.baikefan@leap-io-kernel.com>
+References: <cover.1778415392.git.baikefan@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e122a52be09d5kunm9f76e21d35e08a
+X-HM-Tid: 0a9e122a76ca09d5kunm9f76e21d35e0a2
 X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaSEpDVklMH0IeSRhJSUpCQ1YVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlLVUtVS1
-	VLWQY+
+X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaGBlIVhhKGh1KGk5PTx1NQ1YVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSU
+	pCTkhIQ1VPVUpPS0JZBg++
 DKIM-Signature: a=rsa-sha256;
-	b=Lpr8NCIq0LwUbv68WDoGjUIdKETwhWG2A++fnBmc1lRFLabDEYf4QKnyChnIQOfOicy7HgF5XXhwyLP6URx1ZD7Dblmn5g+IIBcCnLnE3utAfgTjZkk8eVytU3EFm2iXTd2xRkaI6KvOQRbllbohsITZ3mPZ0j6U1+7Ku1FsRgxlDlcT8wXUtlklFMtFru2Xue9nq5cmtOTKEzAR61FUBrZm9M6zCx7bMhpXRaIsi1PUMzCDWfSSdmvQgqaSSMxI7YYSYQHkrItlrWTLKf+HoakoqDDlDQshGjLjwC5izgDkbkY3bD4BTAFKwAVDH8QUUNS1o+jpjEjd1915VkM44w==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=QrUkLz8puRF2l1LILFAIK2/bc5QOQhGC50RIGswL+7o=;
+	b=Noh5vLOW+AZONyk9imwQSCAC7sswmEbHr+HYd1/HuwKdp/aNRYUeibFU/fWUeg/SVGR3JfUgScXBig/h72QHETeafTB5WY5niJqip3L1O162yka34PdLr1GCgSdHVvwNFZ3nKeipyUIs9GCA9zbABi0PL4GM8qCql0TTRC+N2i7B2N3Qf2Q0YUXC9A6RKFu+KzM5u57+VB/hzGlVNDTCCiWYzxltGy3BH313c8UxQ9XfzYW64BpCKEWBamMCH/pDts2jSQ4E4ezkQbr8Ln0fdc4Pa+xaurUy4Fz+VRYPPii4qpj9QaLSRPJOqHkdCmULdyTo64woEmFhONpkzyq2gQ==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=iET99+5NYL4/2LQcF9HzhvF+jur+ird0CmxFps//bvs=;
 	h=date:mime-version:subject:message-id:from;
 
-This patch set adds Chinese translations for the USB documentation.
+Translate .../usb/ehci.rst into Chinese
 
-Apologies for the long delay in revisiting this series. I have now
-  rebased it onto the latest docs-next tree, rechecked and polished the
-  translations, retested it, and resent it.
+Update the translation through commit 570eb861243c
+("docs: usb: replace some characters")
 
-Changes in v6:
-  - Rebased the series onto the latest docs-next branch in Jon's tree
-    (git://git.lwn.net/linux.git), as suggested by Alex Shi.
-  - Added the USB maintainers to the Cc list.
-  - Rechecked and polished the Chinese translations throughout the series.
-
-Changes in v5:
-  - Moved the index.rst entries for acm, authorization, chipidea, dwc3,
-    ehci, and usbmon into the corresponding patches so the series builds
-    cleanly when applied patch by patch.
-  - Removed extra spaces in chipidea.rst.
-  - Sent the series to linux-usb@vger.kernel.org for review by
-    Chinese-speaking developers, as suggested by Alex Shi and Yanteng Si.
-  - Link to v5: https://lore.kernel.org/linux-usb/cover.1765180570.git.baikefan@leap-io-kernel.com/
-
-Changes in v4:
-  - Shortened overlong title underline and overline markers.
-  - Removed the CREDITS entry from index.rst.
-  - Link to v4: https://lore.kernel.org/all/cover.1764674650.git.baikefan@leap-io-kernel.com/
-
-Changes in v3:
-  - Updated my sign-off to use my full legal name, as requested by
-    Jonathan Corbet.
-  - Reviewed and fixed the RST syntax issues noted by Alex Shi.
-  - Kept the number of translated files to eight to make submission and
-    review more manageable.
-  - Link to v3: https://lore.kernel.org/all/cover.1763984424.git.baikefan@leap-io-kernel.com/
-
-Changes in v2:
-  - Updated [PATCH 01/25] docs/zh_CN: Add index.rst translation to include
-    the corresponding changes to
-    Documentation/translations/zh_CN/subsystem-apis.rst.
-  - Link to v2: https://lore.kernel.org/all/cover.1763897036.git.baikefan@leap-io-kernel.com/
-
-v1:
-  - Link: https://lore.kernel.org/all/20251123074540.34161-1-baikefan@leap-io-kernel.com/
-
-Kefan Bai (8):
-  docs/zh_CN: Add index.rst translation
-  docs/zh_CN: Add acm.rst translation
-  docs/zh_CN: Add authorization.rst translation
-  docs/zh_CN: Add chipidea.rst translation
-  docs/zh_CN: Add dwc3.rst translation
-  docs/zh_CN: Add ehci.rst translation
-  docs/zh_CN: Add usbmon.rst translation
-  docs/zh_CN: Add CREDITS translation
-
- .../translations/zh_CN/subsystem-apis.rst     |   2 +-
- Documentation/translations/zh_CN/usb/CREDITS  | 162 ++++++++
- Documentation/translations/zh_CN/usb/acm.rst  | 136 +++++++
- .../translations/zh_CN/usb/authorization.rst  | 132 ++++++
- .../translations/zh_CN/usb/chipidea.rst       | 142 +++++++
- Documentation/translations/zh_CN/usb/dwc3.rst |  60 +++
- Documentation/translations/zh_CN/usb/ehci.rst | 230 +++++++++++
- .../translations/zh_CN/usb/index.rst          |  54 +++
- .../translations/zh_CN/usb/usbmon.rst         | 384 ++++++++++++++++++
- 9 files changed, 1301 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/usb/CREDITS
- create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
- create mode 100644 Documentation/translations/zh_CN/usb/authorization.rst
- create mode 100644 Documentation/translations/zh_CN/usb/chipidea.rst
- create mode 100644 Documentation/translations/zh_CN/usb/dwc3.rst
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
+Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
+---
+ Documentation/translations/zh_CN/usb/ehci.rst | 230 ++++++++++++++++++
+ .../translations/zh_CN/usb/index.rst          |   2 +-
+ 2 files changed, 231 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/translations/zh_CN/usb/ehci.rst
- create mode 100644 Documentation/translations/zh_CN/usb/index.rst
- create mode 100644 Documentation/translations/zh_CN/usb/usbmon.rst
 
+diff --git a/Documentation/translations/zh_CN/usb/ehci.rst b/Documentation/translations/zh_CN/usb/ehci.rst
+new file mode 100644
+index 000000000000..ea1d72f52efd
+--- /dev/null
++++ b/Documentation/translations/zh_CN/usb/ehci.rst
+@@ -0,0 +1,230 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/usb/ehci.rst
++:翻译:
++
++ 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
++
++:校译:
++
++
++
++=========
++EHCI 驱动
++=========
++
++2002年12月27日
++
++EHCI 驱动用于通过支持 USB 2.0 的主机控制器硬件与高速 USB 2.0 设备通信。
++USB 2.0 兼容 USB 1.1 标准，它定义了三种传输速率：
++
++    - “高速”（High Speed）480 Mbit/sec（60 MByte/sec）
++    - “全速”（Full Speed）12 Mbit/sec（1.5 MByte/sec）
++    - “低速”（Low Speed）1.5 Mbit/sec
++
++USB 1.1 仅支持全速与低速。高速设备可以在 USB 1.1 系统上使用，
++但速度会降到 USB 1.1 的速率。
++
++USB 1.1 设备也可以在 USB 2.0 系统上使用。
++当它们插入 EHCI 控制器时，会被交由 USB 1.1 的伴随（companion）控制器处理，
++该控制器通常是 OHCI 或 UHCI。
++
++当 USB 1.1 设备插入 USB 2.0 集线器时，
++它们通过集线器中的事务转换器（Transaction Translator，TT）与 EHCI 控制器交互，
++该转换器将低速或全速事务转换为高速分割事务，从而避免浪费传输带宽。
++
++截至本文撰写时，该驱动已在以下 EHCI 实现上成功运行（按字母顺序）：
++Intel、NEC、Philips 和 VIA。
++其他供应商的 EHCI 实现正在陆续问世；
++预计该驱动在这些实现上也可正常运行。
++
++自 2001 年年中起，usb-storage 设备就已可用
++（在 2.4 版该驱动上速度相当不错），
++集线器则直到 2001 年底才开始可用，而其他类型的高速设备
++似乎要等到更多系统内置 USB 2.0 后才会出现。
++这类新系统从 2002 年初开始上市，并在 2002 年下半年变得更加常见。
++
++注意，USB 2.0 支持并不只是 EHCI 本身。它还需要对 Linux-USB
++核心 API 作出其他修改，包括 hub 驱动；不过这些修改并不需要真正改变
++暴露给 USB 设备驱动的基本 ``usbcore`` API。
++
++- David Brownell
++  <dbrownell@users.sourceforge.net>
++
++
++功能
++====
++
++该驱动会定期在 x86 硬件上进行测试，也已在 PPC 硬件上使用，
++因此大小端问题应当已经解决。
++因此可以认为，它已经处理好了所有必要的 PCI 细节，
++所以即便在 DMA 映射有些特殊的系统上，I/O 也应能正常运行。
++
++传输类型
++--------
++
++截至本文撰写时，该驱动应当已经能够很好地处理所有控制传输、批量传输
++和中断传输，包括通过 USB 2.0 集线器中的事务转换器与 USB 1.1 设备通信；
++但仍可能存在 bug。
++
++高速等时（ISO）传输支持也已可用，但截至本文撰写时，
++还没有 Linux 驱动使用这项支持。
++
++目前尚不支持通过事务转换器实现全速等时传输。
++需要注意，ISO 传输的 split transaction 支持与高速 ISO 传输
++几乎无法共用代码，因为 EHCI 用不同的数据结构表示它们。
++因此，目前大多数 USB 音频和视频设备还不能通过高速总线连接使用。
++
++驱动行为
++--------
++
++所有类型的传输都可以排队。
++这意味着来自一个接口驱动的控制传输（或通过 usbfs 发出的控制传输）
++不会干扰另一个驱动的控制传输，而且中断传输可以使用 1 帧的周期，
++而不必担心中断处理开销导致的数据丢失。
++
++
++EHCI 根集线器代码会将 USB 1.1 设备移交给其伴随控制器。
++该驱动不需要了解那些驱动的任何细节；
++一个原本就能正常工作的 OHCI 或 UHCI 驱动，并不会因为 EHCI 驱动也存在而需要更改。
++
++电源管理方面还有一些问题；当前挂起/恢复的行为还不完全正确。
++
++此外，在调度周期性事务（中断和等时传输）时还采取了一些简化处理。
++这些简化会限制可调度的周期性事务数量，
++并且无法使用小于一帧的轮询间隔。
++
++使用方式
++=========
++
++假设有一个 EHCI 控制器（位于 PCI 卡或主板上），并且已将此驱动编译为模块，
++可这样加载::
++
++    # modprobe ehci-hcd
++
++卸载方式::
++
++    # rmmod ehci-hcd
++
++还应加载一个伴随控制器驱动，例如 ``ohci-hcd`` 或 ``uhci-hcd``。
++如果 EHCI 驱动出现任何问题，只需卸载它的模块，
++随后该伴随控制器驱动就会接手此前由 EHCI 驱动处理的所有设备
++（但速度会降低）。
++
++模块参数（传给 ``modprobe``）包括：
++
++    log2_irq_thresh（默认值 0）：
++        默认中断延迟的 log2 值，单位是微帧。默认值 0 表示 1 个微帧
++        （125 微秒）。最大值 6 表示 2^6 = 64 个微帧。
++        该值控制 EHCI 控制器发出中断的频率。
++
++如果在 2.5 内核上使用此驱动，并且启用了 USB 调试支持，
++则会在任一 EHCI 控制器的 ``sysfs`` 目录中看到三个文件：
++
++    ``async``
++        转储异步调度，用于控制传输和批量传输。它会显示每个活动的 ``qh``
++        以及待处理的 ``qtd``，通常每个 ``urb`` 对应一个 ``qtd``。
++        （可以在 ``usb-storage`` 做磁盘 I/O 时看它；顺便观察请求队列！）
++
++    ``periodic``
++        转储周期性调度，用于中断传输和等时传输。不显示 ``qtd``。
++
++    ``registers``
++        显示控制器寄存器状态。
++
++这些文件的内容有助于定位驱动问题。
++
++
++设备驱动通常不需要关心自己是否运行在 EHCI 之上，
++但它们可能想检查 ``usb_device->speed == USB_SPEED_HIGH``。
++高速设备能做到全速（或低速）设备做不到的事，
++例如高带宽的周期性传输（中断或 ISO 传输）。
++另外，设备描述符中的某些值
++（例如周期性传输的轮询间隔）在高速模式下使用不同的编码方式。
++
++不过，一定要让设备驱动经过 USB 2.0 集线器的测试。
++当使用事务转换器时，这些集线器报告某些故障（例如断开连接）的方式会不同；
++已经见过一些驱动在遇到与 OHCI 或 UHCI 所报告的不同故障时表现不佳。
++
++性能
++====
++
++USB 2.0 吞吐量主要受两个因素制约：主机控制器处理请求的速度，
++以及设备响应这些请求的速度。480 Mbit/sec 的“原始传输率”
++对所有设备都成立，但总吞吐量还会受到诸如单个高速包之间的延迟、
++驱动是否足够聪明，以及系统整体负载等因素的影响。
++延迟也是性能考量因素。
++
++批量传输最常用于关注吞吐量的场景。
++需要记住的是，批量传输总是以 512 字节包为单位，
++而一个 USB 2.0 微帧中最多只能容纳 13 个这样的包。
++8 个 USB 2.0 微帧构成一个 USB 1.1 帧；
++一个微帧的时长是 1 毫秒 / 8 = 125 微秒。
++
++因此，只要硬件和设备驱动软件都允许，
++批量传输可提供超过 50 MByte/sec 的带宽。
++周期性传输模式（等时和中断）允许使用更大的包大小，
++从而可以逼近所宣称的 480 Mbit/sec 传输率。
++
++硬件性能
++--------
++
++截至本文撰写时，单个 USB 2.0 设备的最大传输速率通常约为 20 MByte/sec。
++这当然会随着时间改变：一些设备现在更快，一些更慢。
++
++第一代 NEC EHCI 实现似乎存在大约 28 MByte/sec 的硬件瓶颈。
++虽然这对单个 20 MByte/sec 的设备显然已经够用，
++但把三个这样的设备挂到同一总线上，并不能得到 60 MByte/sec。
++问题似乎在于控制器硬件无法并发进行 USB 与 PCI 访问，
++因此它每个微帧只会尝试 6 次（也许是 7 次）USB 事务，而不是 13 次。
++（对一个比其他产品早上市一年的芯片来说，这是个合理的妥协！）
++
++
++预计较新的实现会在这方面做得更好，
++通过投入更多芯片面积来解决这个问题，
++使新的主板芯片组更接近 60 MByte/sec 的目标。
++这既包括 NEC 的更新实现，也包括其他厂商的芯片。
++
++
++主机从 EHCI 控制器收到“请求已完成”中断的最小延迟为一个微帧
++（125 微秒）。该延迟可以调节；驱动提供了一个模块选项。
++默认情况下，``ehci-hcd`` 使用最小延迟，
++这意味着当发出一个控制或批量请求时，
++通常可以在不到 250 微秒内得知它已完成
++（具体取决于传输大小）。
++
++软件性能
++--------
++
++即便只是要达到 20 MByte/sec 的传输速率，Linux-USB 设备驱动
++也必须让 EHCI 队列始终保持满载。
++这意味着要发出较大的请求，或者在需要发出一连串小请求时使用批量请求排队。
++如果驱动未做到这一点，那么会直接从性能结果上表现出来。
++
++
++在典型情况下，使用 ``usb_bulk_msg()`` 以 4 KB 块循环写出，
++会浪费超过一半的 USB 2.0 带宽。
++I/O 完成与驱动发出下一次请求之间的延迟，通常会比一次 I/O 本身耗时更长。
++如果同样的循环改用 16 KB 块，会好一些；若使用一连串 128 KB 块，则浪费会少得多。
++
++
++但与其依赖这么大的 I/O 缓冲区来让同步 I/O 高效，
++不如直接向主机控制器排入多个（批量）请求，然后等待它们全部完成
++（或在出错时取消）。
++这种 URB 排队方式对所有 USB 1.1 主机控制器驱动也同样适用。
++
++
++在 Linux 2.5 内核中，定义了新的 ``usb_sg_*()`` API；
++它们会把 scatterlist 中的所有缓冲区都排入队列。
++它们还使用 scatterlist 的 DMA 映射（其中可能应用 IOMMU）并减少中断次数，
++这些都有助于让高速传输尽可能快地运行。
++
++待办：
++   中断传输和等时（ISO）传输的性能问题。
++   这些周期性传输都是完全调度的，因此，主要问题可能在于如何触发高带宽模式。
++
++待办：
++   通过 ``sysfs`` 中的 ``uframe_periodic_max`` 参数，
++   可以分配超过标准 80% 的周期性带宽。
++   后续将对此进行说明。
+diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
+index 6d669c41d1cd..6c8e75d8cfc9 100644
+--- a/Documentation/translations/zh_CN/usb/index.rst
++++ b/Documentation/translations/zh_CN/usb/index.rst
+@@ -21,10 +21,10 @@ USB 支持
+     authorization
+     chipidea
+     dwc3
++    ehci
+
+ Todolist:
+
+-* ehci
+ * usbmon
+ * functionfs
+ * functionfs-desc
 --
 2.54.0
 
