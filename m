@@ -1,231 +1,214 @@
-Received: from mail-m127213.xmail.ntesmail.com (mail-m127213.xmail.ntesmail.com [115.236.127.213])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2F6286881;
-	Sun, 10 May 2026 16:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.213
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778429800; cv=none; b=KE8tzMg8LcFcCftE7PN5PG+etJ+IV/4Yuh7NLkUnt22rCorhQizo8UecFyjGeaOJ8oaa1ZZSNnVnskkHQ7WGXU26japrWSPKD+w+hzBq4lCswtUPCwYnDk30eFt8CPIB+5htSTATcpAzNuIK+aiuBHe2jy7gFKc5Llo2dxJudM0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778429800; c=relaxed/simple;
-	bh=W3MXckDeAjvDbMIgM0BJjQc+IfgrmWuYR/G1XRDq2Gc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C9szqkI71VJ5Y6rXi9lKPFRKrUcaQOedOaYh5ztacJU4Gkc0SKHu0zyGdUud2wNk9NSjCU5Q+nyWzrZUANO99UArFtd5q16p377+mI+BdF+Z7gbyELJCYEOvRSa3RTlYZAteUCOYDwz8pSInaF9yEmmQM8khnNxHlC+aL8x02TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=MZEv/C7C; arc=none smtp.client-ip=115.236.127.213
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB8F3AF66F
+	for <linux-usb@vger.kernel.org>; Sun, 10 May 2026 16:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778430581; cv=pass; b=ht4INN4pf5Q0RwlM7N1ATvvH2bxco8Jov8/N3tPF2ACIadFenyzFV/J6D5k+91Qz0jPyLKAhWHTCs87D9zBCJqzS0ZD8Ob634CZ4f/8n7sDH0ohkijArCB95a26xukTZX/GOpYrUkWgdes3fxHuLTOpb8RcGvX1lmpvSuEbcMOs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778430581; c=relaxed/simple;
+	bh=UGs8aA11lVFqqqhKtPCkS5ejuguCLgaBlqk6xbFQkRc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sRbE+SkI0x+PLi6E4BdAr1JlDS9llte6RVRJhU1KG70PgYBKtiWNdF1anYeNPDR4l1FoUtnY3HZnq4YSs/89efgQ3ZaBPfurit1EgqzLsU32B5zaG8xRGHOdHxop8F0nin+jLo7e6x1q73BVUDterFw99pWSJ3umPxOOhVCTpH8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CCznN+1t; arc=pass smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="MZEv/C7C"
-Received: from server001 (unknown [222.130.22.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 3dd2c7000;
-	Sun, 10 May 2026 21:53:47 +0800 (GMT+08:00)
-From: Kefan Bai <baikefan@leap-io-kernel.com>
-To: linux-usb@vger.kernel.org,
-	si.yanteng@linux.dev
-Cc: gregkh@linuxfoundation.org,
-	seakeel@gmail.com,
-	alexs@kernel.org,
-	dzm91@hust.edu.cn,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	doubled@leap-io-kernel.com
-Subject: [PATCH v6 2/8] docs/zh_CN: Add acm.rst translation
-Date: Sun, 10 May 2026 21:53:33 +0800
-Message-ID: <0ab199e9eafc0f7e312008063059aec4af0c65bc.1778415392.git.baikefan@leap-io-kernel.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1778415392.git.baikefan@leap-io-kernel.com>
-References: <cover.1778415392.git.baikefan@leap-io-kernel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CCznN+1t"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8ee9ec26edaso432847885a.2
+        for <linux-usb@vger.kernel.org>; Sun, 10 May 2026 09:29:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778430578; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gBs4ebLwcD3Q9XuF6HptMo/GnywnIbx+nVau6dvXCzkYT64GLLzbB4Vr6KS7RVBtEy
+         a08gbcJIuQGRvR6sfIVZo0PmS3YCBHlUdRZe6/zznzLxiEG8YpaoGnGtWWga41NSZyes
+         Z7D1gBfYXSSzb2xhT6aITzjAwjzikiwsacafVdYiJpXnQ5GgliGjyxHkPjYgjmA9G5Jr
+         v9XaW2Fqg4mp2T0mrw52K4s9ePxKE7RHqGy/3LtK/+a5XkfUyvbVOtCrg7QXUGXn9UmP
+         dwYSlE6qwQb9EQvCF8Uq+nnf4r8Hndlq7oB0DMg9NIPnBElNviqhf1X7accdwzJgP+g0
+         U4pQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wz5mLHBJa2vwcSiFBsx9uTGWl9tpxHvgDiH4xPrJzvE=;
+        fh=oGZB+fAxv3AmVqbpiw6ECejp+zM9/E6xPnWpMntTYL8=;
+        b=UiXbwJ45YlpBNHge0OAdTEJG+WwXEX68t24w5B+TwGNHh94HAgirGM1BfrSYHKDMFb
+         BWOon9dgoERYtfPpJg1+jgsPvzgOg24Kl8oGUHP+yN0Vq0ldp8l7bwYymxW5sLw7OxzR
+         gItpfIEsdaxdGN0SaEbJrZwrHVhYKppb0U4g8KTgIaEd6xR5ax5DSdpRVTx+hehEIFyA
+         Vjp/Mna1fgYPzfNQ74YEN+Md6KNZTGvghv4j/xAjCmF4I0wtFv9DvwXH2qfkttQ1ojyY
+         v/j73oB0DK4b23zDmteTUv7Ccsg+4PRylIBt7MArxUwU41DO1UBkc3qMTmf0ruPic3Se
+         oVUw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778430578; x=1779035378; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wz5mLHBJa2vwcSiFBsx9uTGWl9tpxHvgDiH4xPrJzvE=;
+        b=CCznN+1tYSS8cTXaA7PU+1RoOIlbnjhin9b6pfy5czOBevFSx6sNowlL4oYkwy+ewR
+         qe+AsBhoueE1wK+1vJtFRugNOR3M0oChyiFWcDmWjxTXww8Kh6zHm/PuGS/m1qV3psmp
+         XaYqTcesbbXTmnR0BDtGQpCbbvhxFFLIruTV3mAb2BCeg+k7s3uW6JKT4xdV69AujXGw
+         c0r41H4pwnsm0QZVXlEBrw6OtEoFrmrrBhrddbWg9081erO5kuG2IFOrvmBjmpJcxxVr
+         RWXunEpOYWOxuNgcrkprsvL+HO8QE9hBZMt/Rv/hrWkdCxMXnNyp2nabHdne2SXz55Zo
+         zmdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778430578; x=1779035378;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wz5mLHBJa2vwcSiFBsx9uTGWl9tpxHvgDiH4xPrJzvE=;
+        b=OrBKGFIVL7mec3fJ4Do3mnlPxZsf1zqm8EezrMcgtBHdOs4PqbaAyR+soSF3+8KImO
+         iCfJRTTV4yJraLDhtlxcLAG0FUWXyzT7qLgxZj2yU5VVRqLddRfPupF5medlwwKh4vW6
+         8nCukud3VcytxmqwyTgd5uTnDhAjlbaQeAqgwnbqn4yfefC4upssPw+AmYDhtHUDjoga
+         mVtec5z4s5Hl26v1LYWPkJkMKkxmvpFllSnQe6xa0SjjoMuoYgJun9FKRj1kKFQf8OEy
+         Oe3mJsa0RiFg8+zhJAA46NCth8LNpzHR4UN0G9EC5GHrt8qNWLz67ha1nkrodhNVonnG
+         nQRA==
+X-Gm-Message-State: AOJu0YzJDslxdLDIU2s2/lwEpR+ZYK7+gpAKtXnZF99Em+43Jk4uLmhp
+	zL42W+xOa+uE/mBCJY/mVqy/y2WkmbW5CL1yhQBF6keP6dexZXCuErO54uHQs5tpqcCkXSVFk4y
+	lgPFA7uGPVLhDB/QGkkb2o9qd1VZOk0AZ1Jmx
+X-Gm-Gg: Acq92OHy6rDX9J8E1E5LUVWM1pnjnNvDsxKUxHkXo3XVuTsEv+N/ZNca848iB0wqc3Q
+	8uAjFRdScUodvLdtwtnQ2qtRfXc1J7Nm1JV+w8rvcEjZPckkA/pz8VLRvSyeUz5zbSw1DuGDeiK
+	E/K/0EnaVHtsBktk432e06NUdLxPv5FV/SdEZvDXWfPa80UPkD27FpvTKqOzP0G4QurCtIhAIBR
+	X92DFtVDHw28gnFr4tE0Yf+Xnw9ZHJTnH7X73iPJ0y2ALRBDNHm4MuzAkNs7bSdvuIvAFbOZiZd
+	z/29Llf+/1Ds6FJyJnRV9ajht6JLoPi4Nj6C0w==
+X-Received: by 2002:a05:620a:2283:b0:905:f3df:7fd2 with SMTP id
+ af79cd13be357-905f3df84a6mr1947069385a.44.1778430577857; Sun, 10 May 2026
+ 09:29:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e122a5e3609d5kunm9f76e21d35e090
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaHR5CVh1LGhgdGkkeTh9DGVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSU
-	pCTkhIQ1VPVUpPS0JZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=MZEv/C7CB4JSH1RgcDVDI/wPt1zRWBzY163EoWXCZ41ZoTUe4fKmUVFI2SIBp8gJOR/onG0O+hqQDqNuMLiOn/ZmGQGInOw46yYcP6h8E5T2+6l/v4oM6/lGlIr1BYznhU/eJOTLlLdaUOKkbe+BffxfhCqh3D8YpnaxfkKSQk6B2x3q/ACVzvxv90jc8ZnDnN3zvCeyzopEF2q6F1Et1trnrZk1r3dJnUSTjc75gxc4VCJVHH4KwFpM8M1wc3qgSm7dLktXWW+FeRIW9eV/zf8PTbHWwDertZOPE8XLChmeczagi8O9SV2BtLFdSJUTNso6ZdcvPWpXNKLzLxUurg==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=z8Kz/UglXQNMseKL9snR729M/8TDJlt/oFofPDtWiQc=;
-	h=date:mime-version:subject:message-id:from;
+References: <CA+_z3hRjPnQOrEp7uXsNsu6wzqQp9O6FT18i=XcSC7k74Xd2QA@mail.gmail.com>
+ <20260330020749.18fbe433.michal.pecio@gmail.com> <CA+_z3hRTD-QAgv3jZhOZUUPA0sNZ8946jfYwYsZ=RnQJ0LG7cw@mail.gmail.com>
+ <20260404152438.582f0451.michal.pecio@gmail.com> <CA+_z3hTMfggtv+u_A_SRyb2FRzVjm=Nav5NRCTuhmEthb8x0jw@mail.gmail.com>
+ <20260509180603.6f67c9d8.michal.pecio@gmail.com>
+In-Reply-To: <20260509180603.6f67c9d8.michal.pecio@gmail.com>
+From: Martin Alderson <martinalderson@gmail.com>
+Date: Sun, 10 May 2026 17:29:26 +0100
+X-Gm-Features: AVHnY4I_MH-n7pTskbqX_BCzWrcG_TXNbkiAD0XSElLO-f_HUacxwvxdC8c9fB0
+Message-ID: <CA+_z3hT_n09fAszT+DkoTHLzracB7fQZwkiiTxGGBJxhFcD8hg@mail.gmail.com>
+Subject: Re: xhci_hcd: AMD Raphael/Granite Ridge USB 2.0 xHCI [1022:15b8] dies
+ on resume from suspend
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Translate .../usb/acm.rst into Chinese
+Hi,
 
-Update the translation through commit ecefae6db042
-("docs: usb: rename files to .rst and add them to drivers-api")
+Two answers, plus a hypothesis:
 
-Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
-Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
----
- Documentation/translations/zh_CN/usb/acm.rst  | 136 ++++++++++++++++++
- .../translations/zh_CN/usb/index.rst          |   2 +-
- 2 files changed, 137 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
+1. The timing is during suspend in every single failure I have logs for.
+I went back through 7 weeks of persistent journals and pulled the
+context around every "HC died" event. All 9 failures show the same
+sequence:
 
-diff --git a/Documentation/translations/zh_CN/usb/acm.rst b/Documentation/translations/zh_CN/usb/acm.rst
-new file mode 100644
-index 000000000000..25ec83afd25f
---- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/acm.rst
-@@ -0,0 +1,136 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/usb/acm.rst
-+
-+:翻译:
-+
-+ 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
-+
-+:校译:
-+
-+
-+=======================
-+Linux ACM 驱动 v0.16
-+=======================
-+
-+版权所有 (c) 1999 Vojtech Pavlik <vojtech@suse.cz>
-+
-+由 SuSE 赞助
-+
-+0. 免责声明
-+~~~~~~~~~~~~~
-+本程序是自由软件；你可以在自由软件基金会发布的 GNU 通用公共许可证第 2 版，
-+或者（按你的选择）任何后续版本的条款下重新发布和/或修改它。
-+
-+发布本程序是希望它能发挥作用，但它不附带任何担保；甚至不包括对适销性
-+或特定用途适用性的默示担保。详情见 GNU 通用公共许可证。
-+
-+你应该已经随本程序收到了 GNU 通用公共许可证的副本；
-+如果没有，请致信：Free Software Foundation, Inc., 59
-+Temple Place, Suite 330, Boston, MA 02111-1307 USA。
-+
-+如需联系作者，可发送电子邮件至 vojtech@suse.cz，
-+或邮寄至：
-+Vojtech Pavlik, Ucitelska 1576, Prague 8, 182 00, Czech Republic。
-+
-+为方便起见，软件包中已附带 GNU 通用公共许可证第 2 版：见 COPYING 文件。
-+
-+1. 使用方法
-+~~~~~~~~~~~~~
-+``drivers/usb/class/cdc-acm.c`` 驱动可用于符合 USB 通信设备类抽象控制模型
-+（USB CDC ACM）规范的 USB 调制解调器和 USB ISDN 终端适配器。
-+
-+许多调制解调器支持此驱动，以下是我所知道的一些型号：
-+
-+	- 3Com OfficeConnect 56k
-+	- 3Com Voice FaxModem Pro
-+	- 3Com Sportster
-+	- MultiTech MultiModem 56k
-+	- Zoom 2986L FaxModem
-+	- Compaq 56k FaxModem
-+	- ELSA Microlink 56k
-+
-+我知道有一款 ISDN 终端适配器可以与 ACM 驱动一起使用：
-+
-+	- 3Com USR ISDN Pro TA
-+
-+一些手机也可以通过 USB 连接。我知道以下机型可以正常工作：
-+
-+	- SonyEricsson K800i
-+
-+遗憾的是，许多调制解调器和大多数 ISDN TA 都使用专有接口，
-+因此无法与此驱动配合工作。购买前请先确认设备是否符合 ACM 规范。
-+
-+要使用这些调制解调器，需要加载以下模块::
-+
-+	usbcore.ko
-+	uhci-hcd.ko ohci-hcd.ko or ehci-hcd.ko
-+	cdc-acm.ko
-+
-+之后就应该可以访问这些调制解调器了。
-+应当可以使用 ``minicom``、``ppp`` 和 ``mgetty`` 与它们通信。
-+
-+2. 验证驱动是否正常工作
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+第一步是检查 ``/sys/kernel/debug/usb/devices``，其内容应该类似如下::
-+
-+  T:  Bus=01 Lev=00 Prnt=00 Port=00 Cnt=00 Dev#=  1 Spd=12  MxCh= 2
-+  B:  Alloc=  0/900 us ( 0%), #Int=  0, #Iso=  0
-+  D:  Ver= 1.00 Cls=09(hub  ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
-+  P:  Vendor=0000 ProdID=0000 Rev= 0.00
-+  S:  Product=USB UHCI Root Hub
-+  S:  SerialNumber=6800
-+  C:* #Ifs= 1 Cfg#= 1 Atr=40 MxPwr=  0mA
-+  I:  If#= 0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
-+  E:  Ad=81(I) Atr=03(Int.) MxPS=   8 Ivl=255ms
-+  T:  Bus=01 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#=  2 Spd=12  MxCh= 0
-+  D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
-+  P:  Vendor=04c1 ProdID=008f Rev= 2.07
-+  S:  Manufacturer=3Com Inc.
-+  S:  Product=3Com U.S. Robotics Pro ISDN TA
-+  S:  SerialNumber=UFT53A49BVT7
-+  C:  #Ifs= 1 Cfg#= 1 Atr=60 MxPwr=  0mA
-+  I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=acm
-+  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-+  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-+  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
-+  C:* #Ifs= 2 Cfg#= 2 Atr=60 MxPwr=  0mA
-+  I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
-+  E:  Ad=81(I) Atr=03(Int.) MxPS=  16 Ivl=128ms
-+  I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
-+  E:  Ad=85(I) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-+  E:  Ad=04(O) Atr=02(Bulk) MxPS=  64 Ivl=  0ms
-+
-+这三行的存在很关键（以及 ``Cls=`` 字段里出现的 ``comm`` 和 ``data`` 类）；
-+它说明这是一个 ACM 设备。``Driver=acm`` 表示该设备正在使用 acm 驱动。
-+如果只看到 ``Cls=ff(vend.)``，那就无能为力了：这说明你手上的设备使用的是
-+厂商专有接口::
-+
-+    D:  Ver= 1.00 Cls=02(comm.) Sub=00 Prot=00 MxPS= 8 #Cfgs=  2
-+    I:  If#= 0 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=02 Prot=01 Driver=acm
-+    I:  If#= 1 Alt= 0 #EPs= 2 Cls=0a(data ) Sub=00 Prot=00 Driver=acm
-+
-+在系统日志中应该可以看到::
-+
-+  usb.c: USB new device connect, assigned device number 2
-+  usb.c: kmalloc IF c7691fa0, numif 1
-+  usb.c: kmalloc IF c7b5f3e0, numif 2
-+  usb.c: skipped 4 class/vendor specific interface descriptors
-+  usb.c: new device strings: Mfr=1, Product=2, SerialNumber=3
-+  usb.c: USB device number 2 default language ID 0x409
-+  Manufacturer: 3Com Inc.
-+  Product: 3Com U.S. Robotics Pro ISDN TA
-+  SerialNumber: UFT53A49BVT7
-+  acm.c: probing config 1
-+  acm.c: probing config 2
-+  ttyACM0: USB ACM device
-+  acm.c: acm_control_msg: rq: 0x22 val: 0x0 len: 0x0 result: 0
-+  acm.c: acm_control_msg: rq: 0x20 val: 0x0 len: 0x7 result: 7
-+  usb.c: acm driver claimed interface c7b5f3e0
-+  usb.c: acm driver claimed interface c7b5f3f8
-+  usb.c: acm driver claimed interface c7691fa0
-+
-+如果以上都正常，请启动 ``minicom``，把它配置为连接 ``ttyACM`` 设备，
-+然后尝试输入 ``at``。如果返回 ``OK``，说明一切工作正常。
-diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
-index 7cfe99a4dc0a..449e8ac2dff0 100644
---- a/Documentation/translations/zh_CN/usb/index.rst
-+++ b/Documentation/translations/zh_CN/usb/index.rst
-@@ -17,10 +17,10 @@ USB 支持
- .. toctree::
-     :maxdepth: 1
+  xhci_hcd 0000:0f:00.0: xHCI host not responding to stop endpoint command
+  xhci_hcd 0000:0f:00.0: xHCI host controller not responding, assume dead
+  xhci_hcd 0000:0f:00.0: HC died; cleaning up
+  PM: suspend devices took 5.5--6.1 seconds      <-- elevated
+  amdgpu 0000:03:00.0: MODE1 reset
+  ACPI: PM: Preparing to enter system sleep state S3
 
-+    acm
+So it's reliably during suspend, before S3 entry, and the elevated
+"suspend devices took" matches the 5s xHCI stop-endpoint timeout. A
+clean suspend on the same boot takes ~0.46s.
 
- Todolist:
+2. No BIOS upgrade. ASUS PRIME B650-PLUS BIOS version 3263 dated
+2025-06-09 across every boot from 2026-03-02 to 2026-05-08 (42 boots).
 
--* acm
- * authorization
- * chipidea
- * dwc3
---
-2.54.0
+3. Re "any new USB device": yes, and it correlates exactly. A 4-port
+USB hub appeared on bus 1 (controller 0c:00.0, AMD 600 Series USB 3.2)
+on 2026-03-16, with a USB mass-storage device behind it on port 4. It's
+the hub built into a new monitor I added around then. Per-boot
+presence:
 
+  2026-03-02 to 2026-03-16: NO hub, NO flash drive, ~12 6.17.1
+                            suspends, 0 failures
+  2026-03-16+:              hub + flash drive present
+  2026-03-22 to 2026-03-28: 7.0-rc4 with hub present, 13 suspends,
+                            0 failures
+  2026-03-28+:              7.0-rc5+, failures begin
+  2026-04-18 to 2026-04-25: 6.17.1 (retry, with hub still present),
+                            10 suspends, 2 failures -- same kernel
+                            that was clean in March
+
+The hub is on a different xHCI from the one that dies (0c:00.0 vs
+0f:00.0), but they're sibling controllers on the same AMD SoC, so
+shared power/ACPI domains seem plausible.
+
+Even with the hub identified as the trigger, I think there are still
+two kernel-side issues worth flagging:
+
+(a) Recovery: when the stop-endpoint timeout hits, 0f:00.0 is marked
+"HC died" and never comes back without a manual PCI remove+rescan.
+The other controller on the same machine recovers itself on resume:
+
+  xhci_hcd 0000:0c:00.0: xHC error in resume, USBSTS 0x401, Reinit
+
+There doesn't seem to be an equivalent recovery path for the
+suspend-time stop-endpoint timeout on 0f:00.0.
+
+Regards,
+Martin
+
+
+On Sat, May 9, 2026 at 5:06=E2=80=AFPM Michal Pecio <michal.pecio@gmail.com=
+> wrote:
+>
+> On Sat, 9 May 2026 15:51:03 +0100, Martin Alderson wrote:
+> > Hi, still experiencing this on 7.0.2. I tried to pull the logs
+> > together to get to the bottom of this (I've tried a few different
+> > kernels)
+> >
+> > Kernel                          Suspends   xHCI 0f:00.0 deaths   Rate
+> > ------------------------------  --------   -------------------   -----
+> > 6.17.1-300.fc43 (March)             ~12             0             0%
+> > 6.18.16-200.fc43                     10             0             0%
+> > 6.19.7/8-200.fc43                     5             0             0%
+> > 7.0-rc4   (build 260320)             13             0             0%
+> > 7.0-rc5   (build 260328)              7             2            ~28%
+> > 7.0-rc6   (build 260401)             10             4             40%
+> > 7.0-rc7   (build 260409)              7             2            ~28%
+> > 7.0.0-261.vanilla.fc43                7             2            ~28%
+> > 6.17.1-300.fc43 (April, retry)       10             2             20%
+> >  <-- same bug, stable kernel
+>
+> Looks like it's not a regression then, but not sure what else may have
+> caused it.
+>
+> Any new USB device that wasn't connected before?
+> Perhaps a BIOS upgrade?
+>
+> > 7.0.1-262.vanilla.fc43                7             2            ~28%
+> > 7.0.2-300.vanilla.fc44                6             4            ~66%
+> >
+> >
+> > May 09 15:29:37 fedora kernel: Freezing user space processes completed
+> > (elapsed 0.001 seconds)
+> > May 09 15:29:37 fedora kernel: OOM killer disabled.
+> > May 09 15:29:37 fedora kernel: Freezing remaining freezable tasks
+> > May 09 15:29:37 fedora kernel: Freezing remaining freezable tasks
+> > completed (elapsed 0.001 seconds)
+> > May 09 15:29:37 fedora kernel: printk: Suspending console(s) (use
+> > no_console_suspend to debug)
+> > May 09 15:29:37 fedora kernel: sd 6:0:0:0: [sdb] Synchronizing SCSI cac=
+he
+> > May 09 15:29:37 fedora kernel: serial 00:01: disabled
+> > May 09 15:29:37 fedora kernel: sd 0:0:0:0: [sda] Synchronizing SCSI cac=
+he
+> > May 09 15:29:37 fedora kernel: ata1.00: Entering standby power mode
+> > May 09 15:29:37 fedora kernel: xhci_hcd 0000:0f:00.0: xHCI host not
+> > responding to stop endpoint command
+> > May 09 15:29:37 fedora kernel: xhci_hcd 0000:0f:00.0: xHCI host
+> > controller not responding, assume dead
+> > May 09 15:29:37 fedora kernel: xhci_hcd 0000:0f:00.0: HC died; cleaning=
+ up
+> > May 09 15:29:37 fedora kernel: PM: suspend devices took 5.758 seconds
+>
+> That's not resume, it's during suspend. Are other logs also like that?
+>
+> Regards,
+> Michal
