@@ -1,24 +1,23 @@
-Received: from mail-m127208.xmail.ntesmail.com (mail-m127208.xmail.ntesmail.com [115.236.127.208])
+Received: from mail-m49217.qiye.163.com (mail-m49217.qiye.163.com [45.254.49.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9361939A7F0;
-	Sun, 10 May 2026 14:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902E439A7EA;
+	Sun, 10 May 2026 14:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778422154; cv=none; b=BwMo13h0SwFKWSiAuPkQ5U3e7FIEVCMyz2TmCoXyya3BVVmTDoCpECnFd4dJBGy8/VcSILbf5pAm8h11CPNHRFeAcPHnsA8SWRT/V8w/EkPbbQyhZqxNqI0Yk6jybT8MNRbAWdCxRMdzevXTLwOp492R81DBGDDMBN7oFqU+61o=
+	t=1778422156; cv=none; b=YuJDWlWUU3B/rTtS3peSWOAP31eaaDFGwy27rlZdlEdsloBusnM/7hlFnabXB2rgqYMHCwigDTMLuJOICIZdipcgDbwvvqS6vQbg59l88puyXLCRLDzQa9WhAGCTxKRdwkVQ0tklSEFttExL/r6dx8KCu5zQeu3lNfx7SR9JOPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778422154; c=relaxed/simple;
-	bh=KAYdSydg8q1bOohkPcqmsg3iukY0+KMGtJ6j2Mk32lM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XL35s4qts/Hu9GlyqPtMWj6HR6nUWqsA5bwPgBXWRztU6p0/kMtA/37fqEUGMVgI4gghK3t/rDsC9Y+iDH7kXE1BPPHhW+tS0p+hdxOsvllFdyMaV3hNZsZ8eyq9iGq/dqN17+CSwv5i6Kc46y4VNs+kAJhTGNnI46vJ3lIdAeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=hkZhr3O0; arc=none smtp.client-ip=115.236.127.208
+	s=arc-20240116; t=1778422156; c=relaxed/simple;
+	bh=qNuRmWjOvodj7BP8pJ2VufzZygVsCAcwy3il7jg+T0w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pCri7aoJSKm8RlwRUpGwrc8tl4gc2moYGLSy4nnJL9R1Pm0Z1kEVLaKR4xFcTLOqiowkfZDDwnje95MGn09RSPoCsRPXVSynIwd6rb5vjAOtEOOjneIE+zZMW2JXcFOW4vcD9gcd8AGDICxlYHO2tnApKb0/9t5haMatWN30YfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=Lpr8NCIq; arc=none smtp.client-ip=45.254.49.217
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="hkZhr3O0"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="Lpr8NCIq"
 Received: from server001 (unknown [222.130.22.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 3dd2c7002;
-	Sun, 10 May 2026 21:53:48 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 3dd2c6ffb;
+	Sun, 10 May 2026 21:53:44 +0800 (GMT+08:00)
 From: Kefan Bai <baikefan@leap-io-kernel.com>
 To: linux-usb@vger.kernel.org,
 	si.yanteng@linux.dev
@@ -30,198 +29,100 @@ Cc: gregkh@linuxfoundation.org,
 	skhan@linuxfoundation.org,
 	linux-doc@vger.kernel.org,
 	doubled@leap-io-kernel.com
-Subject: [PATCH v6 3/8] docs/zh_CN: Add authorization.rst translation
-Date: Sun, 10 May 2026 21:53:34 +0800
-Message-ID: <4a9617225f249a8eb996fabae5e2e447938a374d.1778415392.git.baikefan@leap-io-kernel.com>
+Subject: [PATCH v6 0/8] Add Chinese translation for USB subsystem
+Date: Sun, 10 May 2026 21:53:31 +0800
+Message-ID: <cover.1778415392.git.baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1778415392.git.baikefan@leap-io-kernel.com>
-References: <cover.1778415392.git.baikefan@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e122a645409d5kunm9f76e21d35e095
+X-HM-Tid: 0a9e122a52be09d5kunm9f76e21d35e08a
 X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZSh5MVkIYS00ZGUNJGh9DHVYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSU
-	pCTkhIQ1VPVUpPS0JZBg++
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaSEpDVklMH0IeSRhJSUpCQ1YVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlLVUtVS1
+	VLWQY+
 DKIM-Signature: a=rsa-sha256;
-	b=hkZhr3O0JFYaUuP/CPU4IcFvESdZPwyNNN+IkCODAAy+vRiq8M9j8iieNawhohhDsf1T9quXwkok6sCLL4WBe9xxE4yi67igXspB9xXqgwtN2CK/solHbqtk3LBjnOAnmP7ehiyfSMRYMPHrghYfPgvAOoHhTta4N+tLustCTDjoRhxjXvprKUNvLoqCvYV3qWY2rQ+6ay18YOWgyMjqbLUG3xwL7u3oyIwRic7hoxr/32/F+XtMkVSY2GIWRFrnhlFgzFMGqGcbCNHZx5sk6IiphWxUh4dXGV92NY7G67ZYy0C7B+T3mQ/MK2nDi4X0CjB/9uxyeoLY/RwAOJ5wUw==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=vv0XDIJ8HdnEyR2O74jZ28zJzVMgQ+iOWlVzh2HQthw=;
+	b=Lpr8NCIq0LwUbv68WDoGjUIdKETwhWG2A++fnBmc1lRFLabDEYf4QKnyChnIQOfOicy7HgF5XXhwyLP6URx1ZD7Dblmn5g+IIBcCnLnE3utAfgTjZkk8eVytU3EFm2iXTd2xRkaI6KvOQRbllbohsITZ3mPZ0j6U1+7Ku1FsRgxlDlcT8wXUtlklFMtFru2Xue9nq5cmtOTKEzAR61FUBrZm9M6zCx7bMhpXRaIsi1PUMzCDWfSSdmvQgqaSSMxI7YYSYQHkrItlrWTLKf+HoakoqDDlDQshGjLjwC5izgDkbkY3bD4BTAFKwAVDH8QUUNS1o+jpjEjd1915VkM44w==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=QrUkLz8puRF2l1LILFAIK2/bc5QOQhGC50RIGswL+7o=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../usb/authorization.rst into Chinese
+This patch set adds Chinese translations for the USB documentation.
 
-Update the translation through commit f176638af476
-("USB: Remove Wireless USB and UWB documentation")
+Apologies for the long delay in revisiting this series. I have now
+  rebased it onto the latest docs-next tree, rechecked and polished the
+  translations, retested it, and resent it.
 
-Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
-Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
----
- .../translations/zh_CN/usb/authorization.rst  | 132 ++++++++++++++++++
- .../translations/zh_CN/usb/index.rst          |   2 +-
- 2 files changed, 133 insertions(+), 1 deletion(-)
+Changes in v6:
+  - Rebased the series onto the latest docs-next branch in Jon's tree
+    (git://git.lwn.net/linux.git), as suggested by Alex Shi.
+  - Added the USB maintainers to the Cc list.
+  - Rechecked and polished the Chinese translations throughout the series.
+
+Changes in v5:
+  - Moved the index.rst entries for acm, authorization, chipidea, dwc3,
+    ehci, and usbmon into the corresponding patches so the series builds
+    cleanly when applied patch by patch.
+  - Removed extra spaces in chipidea.rst.
+  - Sent the series to linux-usb@vger.kernel.org for review by
+    Chinese-speaking developers, as suggested by Alex Shi and Yanteng Si.
+  - Link to v5: https://lore.kernel.org/linux-usb/cover.1765180570.git.baikefan@leap-io-kernel.com/
+
+Changes in v4:
+  - Shortened overlong title underline and overline markers.
+  - Removed the CREDITS entry from index.rst.
+  - Link to v4: https://lore.kernel.org/all/cover.1764674650.git.baikefan@leap-io-kernel.com/
+
+Changes in v3:
+  - Updated my sign-off to use my full legal name, as requested by
+    Jonathan Corbet.
+  - Reviewed and fixed the RST syntax issues noted by Alex Shi.
+  - Kept the number of translated files to eight to make submission and
+    review more manageable.
+  - Link to v3: https://lore.kernel.org/all/cover.1763984424.git.baikefan@leap-io-kernel.com/
+
+Changes in v2:
+  - Updated [PATCH 01/25] docs/zh_CN: Add index.rst translation to include
+    the corresponding changes to
+    Documentation/translations/zh_CN/subsystem-apis.rst.
+  - Link to v2: https://lore.kernel.org/all/cover.1763897036.git.baikefan@leap-io-kernel.com/
+
+v1:
+  - Link: https://lore.kernel.org/all/20251123074540.34161-1-baikefan@leap-io-kernel.com/
+
+Kefan Bai (8):
+  docs/zh_CN: Add index.rst translation
+  docs/zh_CN: Add acm.rst translation
+  docs/zh_CN: Add authorization.rst translation
+  docs/zh_CN: Add chipidea.rst translation
+  docs/zh_CN: Add dwc3.rst translation
+  docs/zh_CN: Add ehci.rst translation
+  docs/zh_CN: Add usbmon.rst translation
+  docs/zh_CN: Add CREDITS translation
+
+ .../translations/zh_CN/subsystem-apis.rst     |   2 +-
+ Documentation/translations/zh_CN/usb/CREDITS  | 162 ++++++++
+ Documentation/translations/zh_CN/usb/acm.rst  | 136 +++++++
+ .../translations/zh_CN/usb/authorization.rst  | 132 ++++++
+ .../translations/zh_CN/usb/chipidea.rst       | 142 +++++++
+ Documentation/translations/zh_CN/usb/dwc3.rst |  60 +++
+ Documentation/translations/zh_CN/usb/ehci.rst | 230 +++++++++++
+ .../translations/zh_CN/usb/index.rst          |  54 +++
+ .../translations/zh_CN/usb/usbmon.rst         | 384 ++++++++++++++++++
+ 9 files changed, 1301 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/usb/CREDITS
+ create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
  create mode 100644 Documentation/translations/zh_CN/usb/authorization.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/chipidea.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/dwc3.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/ehci.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/index.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/usbmon.rst
 
-diff --git a/Documentation/translations/zh_CN/usb/authorization.rst b/Documentation/translations/zh_CN/usb/authorization.rst
-new file mode 100644
-index 000000000000..71153cded526
---- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/authorization.rst
-@@ -0,0 +1,132 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/usb/authorization.rst
-+:翻译:
-+
-+ 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
-+
-+:校译:
-+
-+
-+=============================
-+授权或禁止 USB 设备连接到系统
-+=============================
-+
-+版权 (C) 2007 Inaky Perez-Gonzalez <inaky@linux.intel.com> 英特尔公司
-+
-+此功能允许你控制 USB 设备是否可以在系统中使用。
-+借助它，你可以完全通过用户空间实现对 USB 设备的锁定。
-+
-+目前，当插入一个 USB 设备时，系统会对其进行配置，其接口会立即向用户开放。
-+有了这项改动，只有在 root 授权设备完成配置后，设备才可被使用。
-+
-+
-+用法
-+====
-+
-+授权设备接入::
-+
-+	$ echo 1 > /sys/bus/usb/devices/DEVICE/authorized
-+
-+取消对设备的授权::
-+
-+	$ echo 0 > /sys/bus/usb/devices/DEVICE/authorized
-+
-+将新连接到 ``hostX`` 的设备默认设为未授权（即锁定）::
-+
-+	$ echo 0 > /sys/bus/usb/devices/usbX/authorized_default
-+
-+解除锁定::
-+
-+	$ echo 1 > /sys/bus/usb/devices/usbX/authorized_default
-+
-+默认情况下，所有 USB 设备都是授权的。
-+向 ``authorized_default`` 属性写入 ``2`` 会使内核默认只授权连接到内部
-+USB 端口的设备。
-+
-+系统锁定示例（比较粗糙）
-+------------------------
-+
-+假设你想实现一个锁定功能，只允许类型为 XYZ 的设备接入
-+（例如某台带有外露 USB 端口的自助服务终端）::
-+
-+  启动系统
-+  rc.local ->
-+
-+   for host in /sys/bus/usb/devices/usb*
-+   do
-+      echo 0 > $host/authorized_default
-+   done
-+
-+给 udev 挂一个脚本，用于处理新插入的 USB 设备::
-+
-+ if device_is_my_type $DEV
-+ then
-+   echo 1 > $device_path/authorized
-+ done
-+
-+
-+``device_is_my_type()`` 才是锁定方案真正见功夫的地方。
-+仅仅检查 class、type 和 protocol 是否匹配某个值，
-+是你能做出的最糟糕的安全验证之一；对想绕过它的人来说，
-+这反而是最容易利用的方案。如果你需要真正安全的办法，
-+那就该使用加密、证书认证之类的机制。把 USB 存储设备当作
-+“钥匙”的一个简单例子可以是::
-+
-+ function device_is_my_type()
-+ {
-+   echo 1 > authorized		# 暂时授权它
-+                                # FIXME: 确保没人能挂载它
-+   mount DEVICENODE /mntpoint
-+   sum=$(md5sum /mntpoint/.signature)
-+   if [ $sum = $(cat /etc/lockdown/keysum) ]
-+   then
-+        echo "We are good, connected"
-+        umount /mntpoint
-+        # 再做一些额外处理，让其他人也能使用它
-+   else
-+        echo 0 > authorized
-+   fi
-+ }
-+
-+
-+当然，这个例子很粗糙；真正要做的话，你会想用基于 PKI 的证书校验，
-+这样就不必依赖共享密钥之类的东西。不过你应该已经明白意思了。
-+任何拿到设备仿真工具包的人都能伪造描述符和设备信息。
-+别信这个。
-+
-+接口授权
-+--------
-+
-+也有类似的方法用于允许或拒绝特定 USB 接口。
-+这使得你可以只阻止某个 USB 设备中的部分接口。
-+
-+授权接口::
-+
-+	$ echo 1 > /sys/bus/usb/devices/INTERFACE/authorized
-+
-+取消接口授权::
-+
-+	$ echo 0 > /sys/bus/usb/devices/INTERFACE/authorized
-+
-+也可以更改特定 USB 总线上新接口的默认授权值。
-+
-+默认允许接口::
-+
-+	$ echo 1 > /sys/bus/usb/devices/usbX/interface_authorized_default
-+
-+默认拒绝接口::
-+
-+	$ echo 0 > /sys/bus/usb/devices/usbX/interface_authorized_default
-+
-+默认情况下，``interface_authorized_default`` 位为 ``1``，
-+因此所有接口默认都处于已授权状态。
-+
-+注意：
-+  如果把一个先前未授权的接口改为已授权，
-+  则必须通过将 ``INTERFACE`` 写入 ``/sys/bus/usb/drivers_probe``
-+  来手动触发驱动探测。
-+
-+对于需要多个接口的驱动程序，应先授权所有必需接口，
-+然后再触发驱动探测。这样做可以避免副作用。
-diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
-index 449e8ac2dff0..a63ece18302d 100644
---- a/Documentation/translations/zh_CN/usb/index.rst
-+++ b/Documentation/translations/zh_CN/usb/index.rst
-@@ -18,10 +18,10 @@ USB 支持
-     :maxdepth: 1
-
-     acm
-+    authorization
-
- Todolist:
-
--* authorization
- * chipidea
- * dwc3
- * ehci
 --
 2.54.0
 
