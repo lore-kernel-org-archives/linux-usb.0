@@ -1,24 +1,24 @@
-Received: from mail-m127219.xmail.ntesmail.com (mail-m127219.xmail.ntesmail.com [115.236.127.219])
+Received: from mail-m127213.xmail.ntesmail.com (mail-m127213.xmail.ntesmail.com [115.236.127.213])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28AF2FFF89;
-	Sun, 10 May 2026 14:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB6F39A808;
+	Sun, 10 May 2026 14:29:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778423365; cv=none; b=pEHWsqjBzPaQWvAspAhkXUQhHpD+RbxO3Bodd+uP9m81gPhydr8q5WFZOJ7V+v/ie6r6duLYGCBtOBNOvXUHhQPGLSYarXfoqFe3zT+7l41FXxkX7wyI9xt0Mid2dAhUirQuw86VVBnEo/votdYBq2+qQXSF+jUxqpN8pTilDhw=
+	t=1778423379; cv=none; b=D3eUHJVljGUGbNwxLvnawpYW1V+Mh6pm7W6TCewCzuGf4OQlsEa2cXTZMfnO8Bd0v9Vc6rvo28lL+AmTa17/BRKR/1EAxODMnGmxfN8E2Ck23fiY6uvvmoJH96WRdVqneqBDRA1Xata8QoXoVrSNTUeggjnM9635InEA8Pg08Z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778423365; c=relaxed/simple;
-	bh=b+3poDEyBCNOCP9y0I+skgMbIKTLMJ2Tx/ZW2wxa3lA=;
+	s=arc-20240116; t=1778423379; c=relaxed/simple;
+	bh=rAQy8hEHIWy8AlGh81p3m/bBThI9ya9vk0fC0w27gjo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k80iXMZ2s6eG/b2PbwuLipx2zMOsuLLT50L5wp/LPn5OuUlbOhH4Kk0qAS9IQ2EjBf3N9xhVdDjdqKQEdMyURnNbfihjSCk0/LOYYJXDwkfofyetmSmEr7/fpFkDHGKvfIm7chmW6aVrj49XlR9bzq58B6tSDfyY1AatE2V/MuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=RO/mBvY5; arc=none smtp.client-ip=115.236.127.219
+	 MIME-Version:Content-Type; b=qnGL0c7dcTJVGc12fjzALo4qDW71/bv2/h5Mxb7I9E4IqtBoF1YlKMf66m0oSqTirQ6lBtGL4gdtD0iUuDTG+C5qv7+Ace+mVzs0pYTYP2Us4Qu8/9QOGj0xgK+/dA3bnV7M7+kqkn1vR/pZpz+x3qmaQ8goFF1mTgXewcWhCHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=A1TdsSiW; arc=none smtp.client-ip=115.236.127.213
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="RO/mBvY5"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="A1TdsSiW"
 Received: from server001 (unknown [222.130.22.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 3dd2c7003;
-	Sun, 10 May 2026 21:53:50 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 3dd2c700c;
+	Sun, 10 May 2026 21:53:56 +0800 (GMT+08:00)
 From: Kefan Bai <baikefan@leap-io-kernel.com>
 To: linux-usb@vger.kernel.org,
 	si.yanteng@linux.dev
@@ -30,9 +30,9 @@ Cc: gregkh@linuxfoundation.org,
 	skhan@linuxfoundation.org,
 	linux-doc@vger.kernel.org,
 	doubled@leap-io-kernel.com
-Subject: [PATCH v6 4/8] docs/zh_CN: Add chipidea.rst translation
-Date: Sun, 10 May 2026 21:53:35 +0800
-Message-ID: <9f67e0e547f13859d3923fbcbb42a56787d0bc29.1778415392.git.baikefan@leap-io-kernel.com>
+Subject: [PATCH v6 8/8] docs/zh_CN: Add CREDITS translation
+Date: Sun, 10 May 2026 21:53:39 +0800
+Message-ID: <c1f15d06708eaf8d7237024239844511c2391223.1778415392.git.baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1778415392.git.baikefan@leap-io-kernel.com>
 References: <cover.1778415392.git.baikefan@leap-io-kernel.com>
@@ -44,40 +44,39 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e122a6a8009d5kunm9f76e21d35e097
+X-HM-Tid: 0a9e122a81d509d5kunm9f76e21d35e0a8
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUhXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZH01PVhlJSk0eTh1LSBpKQ1YVFA
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZGRoZVh9OHkxNT0kZTktNSlYVFA
 	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSU
 	pCTkhIQ1VPVUpPS0JZBg++
 DKIM-Signature: a=rsa-sha256;
-	b=RO/mBvY5bxy+B4jvdIsJLIQpu44llcVuleDKMthnH7Y4YxYE5VHCIoDsKVURirl+MlC8WgdfVsNpC05FgVnxc8itZbqP8sqDhESRmTu3m35cW8X/bNCeSjOB9m2JBCzl1hn1kdp8v0iHA6EPYiTYgeTPd7OW82SRabfUcXQx2n931T4dYBlFFp5v3WTBepb7rDhmoQwf3UZqRRflnk0JCcP7yP1z0mTe9KQ/BeKMMm5AhUpH63vISd+PWLUlSC01+L84V7oETtv9tWaiQBK1D1QOM78m8PmD3ILT2okl7J+mwnggthUqCCqa8cHojOaKqEfbNM0BddGu8hlWgVuJJw==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
-	bh=OdUqwsFiVU/vFH6+JXKY4ZnYEMsnpOQm+1DOpMs+EVw=;
+	b=A1TdsSiWr9yFvVbyR2NrDvClfKruNY1ZXKoL5+KGQBQdTpIr6SCf6BUUNzYLDilujraK02u1ziecw2ZEA3wJazuT+Rk1LxBcQk3Z4SelBwGINuwJvWnA/RUxnCeehoX2Noq6RmDp2tqF8DGmV7Xp/V/+erVjd9mFXrSfERofoqwgaC60RMiw9v+/jSVHz8EIRgf0PPL/5jOVxCWdfhcSAgp/eoX2o4uCYIXeJV1Bdw+Kx06lC4KGwXBPBVXMh6jIRy9udW1MDmY1MDwTRSNnS8UsffcMUFRhCb1bRHnBB1h9XD/mEWzWeY5UW6++5xRqvXyiUW5BGyz6SzneKzZyMA==; s=default; c=relaxed/relaxed; d=leap-io-kernel.com; v=1;
+	bh=aJmqUMY4Y6qfogtdf5N/6AfRAQ6frcuRNFAHdpKc+eI=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../usb/chipidea.rst into Chinese
+Translate .../usb/CREDITS into Chinese
 
-Update the translation through commit e4157519ad46
-("Documentation: usb: correct spelling")
+Update the translation through commit 7b2328c5a009
+("docs: Fix typo in usb/CREDITS")
 
 Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
 Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
 ---
- .../translations/zh_CN/usb/chipidea.rst       | 142 ++++++++++++++++++
- .../translations/zh_CN/usb/index.rst          |   2 +-
- 2 files changed, 143 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/usb/chipidea.rst
+ Documentation/translations/zh_CN/usb/CREDITS | 162 +++++++++++++++++++
+ 1 file changed, 162 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/usb/CREDITS
 
-diff --git a/Documentation/translations/zh_CN/usb/chipidea.rst b/Documentation/translations/zh_CN/usb/chipidea.rst
+diff --git a/Documentation/translations/zh_CN/usb/CREDITS b/Documentation/translations/zh_CN/usb/CREDITS
 new file mode 100644
-index 000000000000..433b3fc411fc
+index 000000000000..9df5e311d211
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/chipidea.rst
-@@ -0,0 +1,142 @@
++++ b/Documentation/translations/zh_CN/usb/CREDITS
+@@ -0,0 +1,162 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/usb/chipidea.rst
++:Original: Documentation/usb/CREDITS
 +:翻译:
 +
 + 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
@@ -86,152 +85,156 @@ index 000000000000..433b3fc411fc
 +
 +
 +
-+==============================
-+ChipIdea 高速双角色控制器驱动
-+==============================
++简易 Linux USB 驱动的致谢名单：
 +
-+1. 如何测试 OTG FSM（HNP 和 SRP）
-+---------------------------------
++以下人员都为 Linux USB 驱动代码作出了贡献（按姓氏字母顺序排列）。
++我相信这份名单本应更长一些，但确实不容易维护。
++如需将自己加入名单，请提交补丁。
 +
-+下面以两块 Freescale i.MX6Q Sabre SD 开发板为例，说明如何通过
-+sysfs 输入文件演示 OTG 的 HNP 和 SRP 功能。
++  Georg Acher <acher@informatik.tu-muenchen.de>
++  David Brownell <dbrownell@users.sourceforge.net>
++  Alan Cox <alan@lxorguk.ukuu.org.uk>
++  Randy Dunlap <randy.dunlap@intel.com>
++  Johannes Erdfelt <johannes@erdfelt.com>
++  Deti Fliegl <deti@fliegl.de>
++  ham <ham@unsuave.com>
++  Bradley M Keryan <keryan@andrew.cmu.edu>
++  Greg Kroah-Hartman <greg@kroah.com>
++  Pavel Machek <pavel@suse.cz>
++  Paul Mackerras <paulus@cs.anu.edu.au>
++  Petko Manlolov <petkan@dce.bg>
++  David E. Nelson <dnelson@jump.net>
++  Vojtech Pavlik <vojtech@suse.cz>
++  Bill Ryder <bryder@sgi.com>
++  Thomas Sailer <sailer@ife.ee.ethz.ch>
++  Gregory P. Smith <greg@electricrain.com>
++  Linus Torvalds <torvalds@linux-foundation.org>
++  Roman Weissgaerber <weissg@vienna.at>
++  <Kazuki.Yasumatsu@fujixerox.co.jp>
 +
-+1.1 如何使能 OTG FSM
-+---------------------
++特别感谢：
 +
-+1.1.1 在 ``menuconfig`` 中选择 ``CONFIG_USB_OTG_FSM``，并重新编译内核
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++  Inaky Perez Gonzalez <inaky@peloncho.fis.ucm.es>
++  感谢他发起了 Linux USB 驱动开发工作，并编写了体量较大的 uusbd
++  驱动中的大部分代码。我们从那项工作中学到了很多。
 +
-+重新构建内核镜像和模块。如果想查看 OTG FSM 的一些内部变量，可以挂载
-+``debugfs``；其中有两个文件可以显示 OTG FSM 变量以及部分控制器寄存器的值::
++  NetBSD 和 FreeBSD 的 USB 开发者们
++  感谢他们加入 Linux USB 邮件列表，提供建议并分享实现经验。
 +
-+	cat /sys/kernel/debug/ci_hdrc.0/otg
-+	cat /sys/kernel/debug/ci_hdrc.0/registers
++附加感谢：
++  还要感谢以下公司与个人在硬件、支持、时间投入和开发方面提供的捐赠与帮助
++  （摘自 Inaky 驱动原始的 THANKS 文件）：
 +
-+1.1.2 在控制器节点对应的 ``dts`` 文件中添加以下条目
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++    以下公司曾帮助我们开发 Linux USB / UUSBD：
 +
-+::
++        - 3Com GmbH 捐赠了一台 ISDN Pro TA，并在技术问题和测试设备方面为我
++          提供支持。没想到能得到这么大的帮助。
 +
-+	otg-rev = <0x0200>;
-+	adp-disable;
++        - USAR Systems 向我们提供了他们出色的 USB 评估套件，
++          使我们能够测试 Linux USB 驱动对最新 USB 规范的符合性。
++          USAR Systems 认识到保持开放操作系统与时俱进的重要性，
++          并以硬件支持这个项目。感谢！
 +
-+1.2 测试步骤
-+-------------
++        - 感谢英特尔提供的宝贵帮助。
 +
-+1) 给两块 Freescale i.MX6Q Sabre SD 开发板上电，
-+   并加载 gadget 类驱动（例如 ``g_mass_storage``）。
++        - 我们与 Cherry 合作，使 Linux 成为首个内置 USB 支持的操作系统。
++          Cherry 是全球最大的键盘制造商之一。
 +
-+2) 用 USB 线连接两块开发板：一端是 micro A 插头，另一端是 micro B 插头。
++        - CMD Technology, Inc. 慷慨捐赠了一块 CSA-6700 PCI-to-USB
++          控制卡，用于测试 OHCI 实现。
 +
-+   插入 micro A 插头的一端是 A 设备，它应枚举另一端的 B 设备。
++        - 由于他们对我们的支持，Keytronic 可以放心，
++          他们的键盘能卖给至少 300 万 Linux 用户中的一部分。
 +
-+3) 角色切换
++        - ing büro h doran [http://www.ibhdoran.com]!
++          在欧洲，想给主板买一个 PC 背板 USB 连接器几乎是不可能的
++          （我自己做的那个相当糟糕 :)）。现在我知道该去哪里买漂亮的 USB
++          配件了！
 +
-+   在 B 设备上执行::
++        - Genius Germany 捐赠了一只 USB 鼠标，用于测试鼠标启动协议；
++          他们还捐赠了 F-23 数字摇杆和 NetMouse Pro。感谢！
 +
-+	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
++        - AVM GmbH Berlin 支持我们开发 Linux 下的 AVM ISDN Controller B1 USB 驱动。
++          AVM 是领先的 ISDN 控制器制造商，其主动式设计对包括 Linux 在内的
++          所有操作系统平台开放。
 +
-+   B 设备应接管主机角色并枚举 A 设备。
++        - 非常感谢 Y-E Data, Inc 捐赠的 FlashBuster-U USB 软驱，
++          使我们能够测试批量传输代码。
 +
-+4) A 设备切回主机角色
++        - 感谢 Logitech 捐赠了一只三轴 USB 鼠标。
 +
-+   在 B 设备上执行::
++          Logitech 负责设计、制造并销售各种人机接口设备，
++          在键盘、鼠标、轨迹球、摄像头、扬声器，以及面向游戏和专业用途的
++          控制设备方面拥有悠久历史和丰富经验。
 +
-+	echo 0 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
++          作为这些设备广为人知的供应商和销售商，他们捐赠了 USB 鼠标、
++          摇杆和扫描仪，以表明 Linux 的重要性，也让 Logitech 的客户
++          能在自己喜欢的操作系统上获得支持，并让所有 Linux 用户都能使用
++          Logitech 以及其他 USB 硬件。
 +
-+   或者，通过引入 HNP 轮询，B 端主机可以知道 A 端外设希望切换为主机角色，
-+   因而这次角色切换也可以通过 A 端外设响应 B 端主机的轮询，在 A 侧触发。
-+   这可以通过在 A 设备上执行下面的命令来完成::
++          Logitech 也是 1999 年 2 月 11 日维也纳 Linux 大会的官方赞助商，
++          我们将在会上展示 Linux USB 工作的最新进展。
 +
-+	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_req
++        - 感谢 CATC 提供 USB Inspector，帮助我们揭开 UHCI 内部实现中
++          那些不为人知的角落。
 +
-+   A 设备应切回主机角色并枚举 B 设备。
++        - 感谢 Entrega 为开发工作提供 PCI 转 USB 卡、集线器和转换器产品。
 +
-+5) 拔掉 B 设备（拔掉 micro B 插头），并在 10 秒内重新插入；
-+   A 设备应重新枚举 B 设备。
++        - 感谢 ConnectTech 提供 WhiteHEAT USB 转串口转换器以及相关文档，
++          让这个驱动得以写成。
 +
-+6) 拔掉 B 设备（拔掉 micro B 插头），并在 10 秒后重新插入；
-+   A 设备不应重新枚举 B 设备。
++        - 感谢 ADMtek 提供 Pegasus 和 Pegasus II 评估板、规格说明，
++          以及驱动开发过程中的宝贵建议。
 +
-+   如果 A 设备希望使用总线：
++    另外还要感谢以下个人（嘿，顺序不分先后 :)）
 +
-+   在 A 设备上执行::
++        - Oren Tirosh <orenti@hishome.net>,
++          他非常耐心地听我唠叨各种 USB 疑问，还给了很多很酷的想法。
 +
-+	echo 0 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_drop
-+	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_req
++        - Jochen Karrer <karrer@wpfd25.physik.uni-wuerzburg.de>,
++          指出了致命 bug，并给出了宝贵建议。
 +
-+   如果 B 设备希望使用总线：
++        - Edmund Humemberger <ed@atnet.at>，他在公共关系与项目管理方面
++          为 Linux-USB 项目付出了巨大的努力。
 +
-+   在 B 设备上执行::
++        - Alberto Menegazzi <flash@flash.iol.it> 正在着手编写 UUSBD 文档，加油！
 +
-+	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
++        - Ric Klaren <ia_ric@cs.utwente.nl> 编写了很好的入门文档，
++          与 Alberto 的作品形成良性竞争：）。
 +
-+7) A 设备关闭总线供电
++        - Christian Groessler <cpg@aladdin.de>，感谢他在那些棘手细节上的帮助。
 +
-+   在 A 设备上执行::
++        - Paul MacKerras 改进了 OHCI 实现，推动了对 iMac 的支持，
++          并提供了大量的改进意见。
 +
-+	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_drop
++        - Fernando Herrera <fherrera@eurielec.etsit.upm.es>
++          负责撰写、维护并不断补充那份期待已久、独一无二又精彩的
++          UUSBD FAQ！太棒了！
 +
-+   A 设备应断开与 B 设备的连接，并关闭总线供电。
++        - Rasca Gmelch <thron@gmx.de> 重新启用了 raw 驱动，
++          指出了一些错误，并启动了 uusbd-utils 软件包。
 +
-+8) B 设备发出 SRP 数据脉冲
++        - Peter Dettori <dettori@ozy.dec.com>，像疯了一样挖掘 bug，
++          还提出了很多很酷的建议，太棒了！
 +
-+   在 B 设备上执行::
++        - 自由软件与 Linux 社区的所有成员，包括 FSF、GNU 项目、
++          MIT X 联盟、TeX 社区等等，谢谢你们！
 +
-+	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
++        - 特别感谢 Richard Stallman 创造了 Emacs！
 +
-+   A 设备应恢复 USB 总线并枚举 B 设备。
++        - 感谢 linux-usb 邮件列表的所有成员，读了那么多邮件——不开玩笑了，
++          感谢你们提出的所有建议！
 +
-+1.3 参考文档
-+-------------
-+《On-The-Go and Embedded Host Supplement to the USB Revision 2.0 Specification
-+July 27, 2012 Revision 2.0 version 1.1a》
++        - 感谢 USB Implementers Forum 成员们的帮助与支持。
 +
-+2. 如何将 USB 用作系统唤醒源
-+----------------------------
-+下面是在 i.MX6 平台上把 USB 用作系统唤醒源的示例。
++        - Nathan Myers <ncm@cantrip.org>，感谢他的建议！
++          （希望你喜欢 Cibeles 的派对。）
 +
-+2.1 使能核心控制器的唤醒功能::
++        - 感谢 Linus Torvalds 创建、开发并管理 Linux。
 +
-+	echo enabled > /sys/bus/platform/devices/ci_hdrc.0/power/wakeup
-+
-+2.2 使能 glue 层的唤醒功能::
-+
-+	echo enabled > /sys/bus/platform/devices/2184000.usb/power/wakeup
-+
-+2.3 使能 PHY 的唤醒功能（可选）::
-+
-+	echo enabled > /sys/bus/platform/devices/20c9000.usbphy/power/wakeup
-+
-+2.4 使能根集线器的唤醒功能::
-+
-+	echo enabled > /sys/bus/usb/devices/usb1/power/wakeup
-+
-+2.5 使能相关设备的唤醒功能::
-+
-+	echo enabled > /sys/bus/usb/devices/1-1/power/wakeup
-+
-+如果系统只有一个 USB 端口，而你希望在该端口上启用 USB 唤醒功能，
-+可以使用下面的脚本::
-+
-+	for i in $(find /sys -name wakeup | grep usb);do echo enabled > $i;done;
-diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
-index a63ece18302d..70fe33fc37d9 100644
---- a/Documentation/translations/zh_CN/usb/index.rst
-+++ b/Documentation/translations/zh_CN/usb/index.rst
-@@ -19,10 +19,10 @@ USB 支持
-
-     acm
-     authorization
-+    chipidea
-
- Todolist:
-
--* chipidea
- * dwc3
- * ehci
- * usbmon
++        - Mike Smith、Craig Keithley、Thierry Giron 和 Janet Schank
++          感谢他们让我认识到标准 USB 集线器其实也没那么“标准”，
++          这有助于我们在标准集线器驱动中加入厂商特定的特殊处理。
 --
 2.54.0
 
