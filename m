@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFF3334C1D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F072366065;
 	Mon, 11 May 2026 07:15:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778483745; cv=none; b=WouFRL6+ktRUW3A8nvBoukH5M7T0EP8Of6BM5tM8gCFspmNLevOy9morARf13TbDMwH8I5DigAwkGSKoclielX0wwn3CpxFO/Tx/kZhX6FU3/YYpyneOEpUwDuLGivdBDfghy3C8mMCH2SPmzECSBIO99z8yYaYhNkgCMDByFHU=
+	t=1778483745; cv=none; b=Y7tRFA3hDMGMnsUq0hOtgdJ6Cvi5qRGX6tBdTvD36tK58vOE25SgINwbqztuT7ETz/U6xpo84flk598MTQ8MDZczfb6WXpuOjI+7zf2+FahIBho8TNdqTePNxuzxBp7HldQMUdQh2lhbjuFF9L7Tn8gwjQGOfrLhCdGmta71JZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778483745; c=relaxed/simple;
-	bh=g4WiFbW4rFM0ssE0TY4zoMGdOT55hNU6u5+qQRhpHjg=;
+	bh=SzhOhRLcmaGWyKR+iz1WDkmVDQQA6T9FLNslphxROLg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=E+RLyfTZuyLOxVemQcFWLLsiV7SxmVh5HneFjy5tzYRl+fdps/q4Nz8mcHmouprejuzri1gC1AKPQ93clrgZPcg8bohUKOeVvEbT2T1AypkhgennNvOC+1/r7J+chzPZ69b3wYJo4uXBMeD+YpXKXkjg1EuHSNkeNMRzLvPRGQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TP7uthDL; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=dczYBnGkNYTLeB5DnWukwIy1K/1IoTHFXRr1xngpzX5kINvhlpbuG+DZBMzcMxUQOEMUhGpMpvQNjHFrlFC4cp7xBWzFo86RB0Z/Rhhn+RJkvU3LtadhRSsqXcnc9y9hgmriV8KyqNfwLqnZAjVP6lPMuOlRQyFf9gimmCe5DqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FGa/YDUy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TP7uthDL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F04D1C2BCF5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FGa/YDUy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04DF5C2BCFD;
 	Mon, 11 May 2026 07:15:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1778483745;
-	bh=g4WiFbW4rFM0ssE0TY4zoMGdOT55hNU6u5+qQRhpHjg=;
+	bh=SzhOhRLcmaGWyKR+iz1WDkmVDQQA6T9FLNslphxROLg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TP7uthDLNIRLJ0D5NXD3obNeJrSByvEGP6ZwkBXoOH7J3l0ZCskKkgHZ7ioukAMP2
-	 ag7+EamRLv2ujcivwotPiZ+UrOKame8NWG4QNRg2TVS3CZzgoO1WwFGLRHDMOmUfDN
-	 9iOzEJmJX+NBbvGkf6fDPmdX2aFGeTK09v2SOlm6x9hSgLOgSGU4d+01kFmiGZQKfb
-	 qULS6p/D+J5CAY0Zmyf/Fbza/1f7MBlloy/XHvP8+KUmQSeelRslils7SmuTRNg1sj
-	 B4RpAzisanoR5/g6hx0wdEIbsp3epK53aGCk71iYM1UilaapsiWPtUuwOSsRw59WrS
-	 8FpD01l0JawHQ==
+	b=FGa/YDUyQA+b4aTdYyIU0zZtk9mL/AMkgw3S4yiDaL65slU2zu9WnwVzr37ymuaaY
+	 NbbGUSqra6nRLMd4VYv4p2ShdySiERPWZYalPEkcq+ZxfOhvfx3Jp+GOwX71dV5RRS
+	 Maw1JkUSMByjOau+2HhvLOG/nPdzWkehgZko2pklJtO0fBgRx3h3AHQvzgQd2zoMff
+	 IGONWy3EqG6Nt0nUD1yGO1iExe6RnNDqKQ6AsMpgCUIFyowwDGHThWWyh06ixmaV2e
+	 i/dZstm2OkWcrPSxdyNEWdVFAMp9+dam0x/Vp+XPB7LlHp7ZIMqo9R+jR3h+iIolyM
+	 Dp89XpqS2HZAg==
 Received: from johan by xi.lan with local (Exim 4.98.2)
 	(envelope-from <johan@kernel.org>)
-	id 1wMKre-00000002ZCa-33ab;
+	id 1wMKre-00000002ZCT-2wSR;
 	Mon, 11 May 2026 09:15:42 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Johan Hovold <johan@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 8/8] USB: serial: whiteheat: drop termbits include
-Date: Mon, 11 May 2026 09:14:48 +0200
-Message-ID: <20260511071448.611875-9-johan@kernel.org>
+Subject: [PATCH 5/8] USB: serial: drop unused moduleparam includes
+Date: Mon, 11 May 2026 09:14:45 +0200
+Message-ID: <20260511071448.611875-6-johan@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260511071448.611875-1-johan@kernel.org>
 References: <20260511071448.611875-1-johan@kernel.org>
@@ -49,27 +49,91 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The termios definitions are provided by the termios.h header file which
-is included by tty.h so drop the redundant asm/termbits.h include
-directive.
+These drivers (and usb-serial.c) no longer use anything from
+moduleparam.h so drop the unnecessary include directives.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/whiteheat.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/usb/serial/f81232.c     | 1 -
+ drivers/usb/serial/metro-usb.c  | 1 -
+ drivers/usb/serial/oti6858.c    | 1 -
+ drivers/usb/serial/pl2303.c     | 1 -
+ drivers/usb/serial/usb-serial.c | 1 -
+ drivers/usb/serial/visor.c      | 1 -
+ 6 files changed, 6 deletions(-)
 
-diff --git a/drivers/usb/serial/whiteheat.c b/drivers/usb/serial/whiteheat.c
-index 106e9b5443d3..a2d83f69e00e 100644
---- a/drivers/usb/serial/whiteheat.c
-+++ b/drivers/usb/serial/whiteheat.c
-@@ -19,7 +19,6 @@
+diff --git a/drivers/usb/serial/f81232.c b/drivers/usb/serial/f81232.c
+index 3a32f93a9738..dcceb95d7d99 100644
+--- a/drivers/usb/serial/f81232.c
++++ b/drivers/usb/serial/f81232.c
+@@ -14,7 +14,6 @@
+ #include <linux/tty_flip.h>
+ #include <linux/serial.h>
  #include <linux/module.h>
+-#include <linux/moduleparam.h>
+ #include <linux/mutex.h>
+ #include <linux/usb.h>
+ #include <linux/usb/serial.h>
+diff --git a/drivers/usb/serial/metro-usb.c b/drivers/usb/serial/metro-usb.c
+index 5fcd89f57ef3..35473544f1c8 100644
+--- a/drivers/usb/serial/metro-usb.c
++++ b/drivers/usb/serial/metro-usb.c
+@@ -14,7 +14,6 @@
+ #include <linux/errno.h>
+ #include <linux/slab.h>
+ #include <linux/tty_flip.h>
+-#include <linux/moduleparam.h>
+ #include <linux/spinlock.h>
+ #include <linux/usb/serial.h>
+ 
+diff --git a/drivers/usb/serial/oti6858.c b/drivers/usb/serial/oti6858.c
+index 77f34d7651d6..c6364e8ff71f 100644
+--- a/drivers/usb/serial/oti6858.c
++++ b/drivers/usb/serial/oti6858.c
+@@ -41,7 +41,6 @@
+ #include <linux/tty_flip.h>
+ #include <linux/serial.h>
+ #include <linux/module.h>
+-#include <linux/moduleparam.h>
+ #include <linux/spinlock.h>
+ #include <linux/usb.h>
+ #include <linux/usb/serial.h>
+diff --git a/drivers/usb/serial/pl2303.c b/drivers/usb/serial/pl2303.c
+index 128c80f11f49..0bcbdcea52af 100644
+--- a/drivers/usb/serial/pl2303.c
++++ b/drivers/usb/serial/pl2303.c
+@@ -18,7 +18,6 @@
+ #include <linux/tty_flip.h>
+ #include <linux/serial.h>
+ #include <linux/module.h>
+-#include <linux/moduleparam.h>
+ #include <linux/spinlock.h>
+ #include <linux/usb.h>
+ #include <linux/usb/serial.h>
+diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
+index 45e8a0b8d438..17edc057a311 100644
+--- a/drivers/usb/serial/usb-serial.c
++++ b/drivers/usb/serial/usb-serial.c
+@@ -23,7 +23,6 @@
+ #include <linux/tty.h>
+ #include <linux/tty_driver.h>
+ #include <linux/module.h>
+-#include <linux/moduleparam.h>
+ #include <linux/seq_file.h>
  #include <linux/spinlock.h>
  #include <linux/mutex.h>
--#include <asm/termbits.h>
+diff --git a/drivers/usb/serial/visor.c b/drivers/usb/serial/visor.c
+index 75f290a67cb4..5706c46c49c2 100644
+--- a/drivers/usb/serial/visor.c
++++ b/drivers/usb/serial/visor.c
+@@ -16,7 +16,6 @@
+ #include <linux/slab.h>
+ #include <linux/tty.h>
+ #include <linux/module.h>
+-#include <linux/moduleparam.h>
+ #include <linux/spinlock.h>
  #include <linux/usb.h>
- #include <linux/serial_reg.h>
- #include <linux/serial.h>
+ #include <linux/usb/serial.h>
 -- 
 2.53.0
 
