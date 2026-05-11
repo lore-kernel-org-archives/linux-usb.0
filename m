@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1C83D75C7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64E83D75D1
 	for <linux-usb@vger.kernel.org>; Mon, 11 May 2026 10:27:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778495274; cv=none; b=oNei5Dgr5/7n93rym0bvPqhlq8lK6j7dyuVWxDiHTtPVAuFFFVSH2JcgY35Z0bqW/CzKDMyZuOGcoX+StzD00TruPu271JDmE6OVp+iYknbCyMNR51pKIZTuZoMT2VnTQU4jlMKOcjWzHGAOCSxkX9WXVR9jHfd4wNKoWcNQBsU=
+	t=1778495274; cv=none; b=qSIZ4ZPWCLoiYFeTgcpplnyJXW3ZraVM1oJuo6n9Yy/iZ5ybMReI7fxOFg+P3M+QBB3NHsZSfvr+H0Q/dFAeEff48sRzq4y47hTGYKuVImFmtNgeVyDFFp3qgX9mdbxBh/ZMwzpKsxniaM+4Df4gAa3OarUseYbf7WbRLcOq9Ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778495274; c=relaxed/simple;
-	bh=gKY+m2RtVcXm2VZoNIYMq/+KxJ4h9LPXmk9s/YJksto=;
+	bh=ZEbVhd/eY4nIrE0894be0mDfvxPmr8b2jj/blx5JMbk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Cvm/Td/WBMq1cUGewOWa+4KYMq7mx5wxbkg62yiAcIyM4rG7IFtmlsFAgQjvxOx9o4FIOVvCQ9jKtaVc4x+hdiYpzQ0VhAHUIpd5rgIP77b26eUSz+Vci5WpesdpojZSzYN7P6SF6SNl3NGvMiAr0bHFiS6d4GwvRmBgkBTwpnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Md1mDP6l; arc=none smtp.client-ip=192.198.163.15
+	 MIME-Version; b=MA3JV9F8cCwGBKPUr4eb1nBkl2CNmFtJXgLdQb4gsvxu037d2MvH55UiGTsORg1s5Yg4C3UpAVWbH+HPXXvZJIr0TmVrwfs+CHFTKbxxmisUp7O7SA+lEOqoi8PkU3lmmNXupuY+voCQQW7JlgRkobB6o65HE90ef1lgD6+yznw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eggct4mM; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Md1mDP6l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eggct4mM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778495272; x=1810031272;
+  t=1778495273; x=1810031273;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=gKY+m2RtVcXm2VZoNIYMq/+KxJ4h9LPXmk9s/YJksto=;
-  b=Md1mDP6lcrGPmDO7MKnh11FFj6I2xbzBv3oZz5Cf/6emovNFY2CzuG7f
-   RMH5+a51vTu34HdHnRWJf7AFRmvz/krE39kejg5K32b7pPsemi57jnfO+
-   KqPwQGwcu98iaHeyTyvED5oIaTJG9taM8o14XkAforchIiiKrd/Xg/J3E
-   r2QK8D1KyJqrJd2i58zoYExwsXhzwdz+l+Frjca8Wp2PlVK1N1FcOdiEJ
-   ucZa7npheWy4juE/fQSfhqS3MeKDN1y07GIZjh3YP3MyHwCBFbIiT0QyK
-   FgLnqqRB0GppSuu2MaYYYV67sa7M8vh1W3OyvNpPSwb19ES8XxKwNOB8/
-   w==;
-X-CSE-ConnectionGUID: nywk050uQLC5x8fzeYcWGg==
-X-CSE-MsgGUID: aHhKbmCBTLWJSTNHOb/izA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="79479097"
+  bh=ZEbVhd/eY4nIrE0894be0mDfvxPmr8b2jj/blx5JMbk=;
+  b=eggct4mM+wYYM+MPRUoFF9G2PHPQV536FyW9gHfC41qO+zE+fyytpAUi
+   epcpbn01fAmm+aLgmBaxwtDDzU6SapfYuoty2a+xEXxha06OvwSAvVxk/
+   eRWViNxUIhQMNtJM5bLwRfVXnslO2HAH0/nGdIfeJojgXP0wFsfx8F7NO
+   /8ZdQEod9AdDsrvThK8RKhwD9i3WNX6El+g5Q+lEiY2l+e8OHwpUb2oJK
+   eAulz/4Q6Ua2VuHayQxYqsYzzoxGKQJpXHIFTRyqcWH/2LK81NP85FcFY
+   cw6o1sStHVVXiDo59E3Z2Yo30U6AuJsWWnEUE5RQ8dkm4j9LmngN+LwUO
+   g==;
+X-CSE-ConnectionGUID: 9XcKqH6ASS6P1z6mWsSsRQ==
+X-CSE-MsgGUID: 71XczW/nQbKr95CQbYBXvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="79479108"
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="79479097"
+   d="scan'208";a="79479108"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 03:27:48 -0700
-X-CSE-ConnectionGUID: G++d/9crQYqU2dvuxE7/VA==
-X-CSE-MsgGUID: Gdo+ZntuTg2XZZwjUaBo3Q==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 03:27:52 -0700
+X-CSE-ConnectionGUID: BBcX4CqvS36lsW5ud7uDCg==
+X-CSE-MsgGUID: VBl911FeTXiWRECdjKASmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="234358531"
+   d="scan'208";a="234358552"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 11 May 2026 03:27:45 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 11 May 2026 03:27:49 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 8DD4198; Mon, 11 May 2026 12:27:44 +0200 (CEST)
+	id ACA10A6; Mon, 11 May 2026 12:27:44 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -60,9 +60,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Paolo Abeni <pabeni@redhat.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH v2 01/10] thunderbolt: Add tb_property_merge_dir()
-Date: Mon, 11 May 2026 12:27:35 +0200
-Message-ID: <20260511102744.1867485-2-mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 10/10] docs: admin-guide: thunderbolt: Add instructions how to use USB4STREAM
+Date: Mon, 11 May 2026 12:27:44 +0200
+Message-ID: <20260511102744.1867485-11-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260511102744.1867485-1-mika.westerberg@linux.intel.com>
 References: <20260511102744.1867485-1-mika.westerberg@linux.intel.com>
@@ -74,226 +74,85 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This allows merging one XDomain property directory into another. We are
-going to use this in the subsequent patch.
+Add instructions how USB4STREAM can be configured and used.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/property.c | 154 ++++++++++++++++++++++++---------
- include/linux/thunderbolt.h    |   3 +
- 2 files changed, 114 insertions(+), 43 deletions(-)
+ Documentation/admin-guide/thunderbolt.rst | 61 +++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
 
-diff --git a/drivers/thunderbolt/property.c b/drivers/thunderbolt/property.c
-index 50cbfc92fe65..6b9666b61181 100644
---- a/drivers/thunderbolt/property.c
-+++ b/drivers/thunderbolt/property.c
-@@ -38,6 +38,7 @@ struct tb_property_dir_entry {
- static struct tb_property_dir *__tb_property_parse_dir(const u32 *block,
- 	size_t block_len, unsigned int dir_offset, size_t dir_len,
- 	bool is_root);
-+static struct tb_property *tb_property_copy(const struct tb_property *property);
+diff --git a/Documentation/admin-guide/thunderbolt.rst b/Documentation/admin-guide/thunderbolt.rst
+index 89df26553aa0..91a6cb109988 100644
+--- a/Documentation/admin-guide/thunderbolt.rst
++++ b/Documentation/admin-guide/thunderbolt.rst
+@@ -373,6 +373,67 @@ port which are named like ``thunderbolt0`` and so on. From this point
+ you can either use standard userspace tools like ``ip`` to
+ configure the interface or let your GUI handle it automatically.
  
- static inline void parse_dwdata(void *dst, const void *src, size_t dwords)
- {
-@@ -507,17 +508,9 @@ ssize_t tb_property_format_dir(const struct tb_property_dir *dir, u32 *block,
- 	return ret < 0 ? ret : 0;
- }
- 
--/**
-- * tb_property_copy_dir() - Take a deep copy of directory
-- * @dir: Directory to copy
-- *
-- * The resulting directory needs to be released by calling tb_property_free_dir().
-- *
-- * Return: Pointer to &struct tb_property_dir, %NULL in case of failure.
-- */
--struct tb_property_dir *tb_property_copy_dir(const struct tb_property_dir *dir)
-+static struct tb_property_dir *copy_dir(const struct tb_property_dir *dir)
- {
--	struct tb_property *property, *p = NULL;
-+	struct tb_property *property, *p;
- 	struct tb_property_dir *d;
- 
- 	if (!dir)
-@@ -528,56 +521,131 @@ struct tb_property_dir *tb_property_copy_dir(const struct tb_property_dir *dir)
- 		return NULL;
- 
- 	list_for_each_entry(property, &dir->properties, list) {
--		struct tb_property *p;
--
--		p = tb_property_alloc(property->key, property->type);
-+		p = tb_property_copy(property);
- 		if (!p)
- 			goto err_free;
-+		list_add_tail(&p->list, &d->properties);
-+	}
- 
--		p->length = property->length;
-+	return d;
- 
--		switch (property->type) {
--		case TB_PROPERTY_TYPE_DIRECTORY:
--			p->value.dir = tb_property_copy_dir(property->value.dir);
--			if (!p->value.dir)
--				goto err_free;
--			break;
-+err_free:
-+	tb_property_free_dir(d);
-+	return NULL;
-+}
- 
--		case TB_PROPERTY_TYPE_DATA:
--			p->value.data = kmemdup(property->value.data,
--						property->length * 4,
--						GFP_KERNEL);
--			if (!p->value.data)
--				goto err_free;
--			break;
-+static struct tb_property *tb_property_copy(const struct tb_property *property)
-+{
-+	struct tb_property *p;
- 
--		case TB_PROPERTY_TYPE_TEXT:
--			p->value.text = kzalloc(p->length * 4, GFP_KERNEL);
--			if (!p->value.text)
--				goto err_free;
--			strcpy(p->value.text, property->value.text);
--			break;
-+	p = tb_property_alloc(property->key, property->type);
-+	if (!p)
-+		return NULL;
- 
--		case TB_PROPERTY_TYPE_VALUE:
--			p->value.immediate = property->value.immediate;
--			break;
-+	p->length = property->length;
-+	switch (property->type) {
-+	case TB_PROPERTY_TYPE_DIRECTORY:
-+		p->value.dir = copy_dir(property->value.dir);
-+		if (!p->value.dir)
-+			goto err_free;
-+		break;
- 
--		default:
--			break;
--		}
-+	case TB_PROPERTY_TYPE_DATA:
-+		p->value.data = kmemdup(property->value.data,
-+					property->length * 4,
-+					GFP_KERNEL);
-+		if (!p->value.data)
-+			goto err_free;
-+		break;
- 
--		list_add_tail(&p->list, &d->properties);
-+	case TB_PROPERTY_TYPE_TEXT:
-+		p->value.text = kzalloc(p->length * 4, GFP_KERNEL);
-+		if (!p->value.text)
-+			goto err_free;
-+		strcpy(p->value.text, property->value.text);
-+		break;
++Streaming data directly over Thunderbolt cable
++----------------------------------------------
++In addition to Thunderbolt networking (aka. USB4NET) Linux supports
++streaming data directly over a cable as well (aka. USB4STREAM). This is
++possible through ``thunderbolt-stream`` driver.
 +
-+	case TB_PROPERTY_TYPE_VALUE:
-+		p->value.immediate = property->value.immediate;
-+		break;
++Similarly to ``thunderbolt-net`` you load the driver first on one end::
 +
-+	default:
-+		break;
- 	}
- 
--	return d;
-+	return p;
- 
- err_free:
- 	kfree(p);
--	tb_property_free_dir(d);
--
- 	return NULL;
- }
- 
-+/**
-+ * tb_property_copy_dir() - Take a deep copy of directory
-+ * @dir: Directory to copy
-+ *
-+ * The resulting directory needs to be released by calling tb_property_free_dir().
-+ *
-+ * Return: Pointer to &struct tb_property_dir, %NULL in case of failure.
-+ */
-+struct tb_property_dir *tb_property_copy_dir(const struct tb_property_dir *dir)
-+{
-+	return copy_dir(dir);
-+}
-+EXPORT_SYMBOL_GPL(tb_property_copy_dir);
++  host1 # modprobe thunderbolt-stream
 +
-+/**
-+ * tb_property_merge_dir() - Merges directory into parent
-+ * @parent: Directory to merge @dir
-+ * @dir: Directory that is merged
-+ * @replace: Replace existing entries
-+ *
-+ * This will merge @dir into @parent. Both must have same UUID. The
-+ * properties in @dir will overwrite overlapping properties in @parent
-+ * if @replace is %true. Contents of @dir is copied (so if it is not
-+ * needed afterwards it needs to relesed by calling tb_property_free_dir()).
-+ */
-+int tb_property_merge_dir(struct tb_property_dir *parent,
-+			  const struct tb_property_dir *dir,
-+			  bool replace)
-+{
-+	const struct tb_property *property;
++Then you configure it via ``ConfigFS``::
 +
-+	if (WARN_ON(parent == dir))
-+		return -EINVAL;
++  host1 # cd /sys/kernel/config/thunderbolt/stream
++  host1 # mkdir -p 0-1.0/data
++  host1 # cd 0-1.0
++  host1 # echo -1 > data/in_hopid
++  host1 # echo -1 > data/out_hopid
 +
-+	if (!uuid_equal(parent->uuid, dir->uuid))
-+		return -EINVAL;
++This information is automatically announced to the other side via
++XDomain properties so if you have cable connected the other side knows
++that there is a stream named ``data`` available and can configure it for
++you automatically::
 +
-+	list_for_each_entry(property, &dir->properties, list) {
-+		struct tb_property *p, *tmp;
++  host2 # cd /sys/kernel/config/thunderbolt/stream
++  host2 # mkdir -p 0-3.0/data
 +
-+		tmp = tb_property_copy(property);
-+		if (!tmp)
-+			return -ENOMEM;
++Here we used auto-configuration but you can configure it manually too.
++In that case you need to fill ``in_hopid`` and ``out_hopid`` accordingly.
++If you set them to ``-1`` the next available HopID is used which is
++typically what we want.
 +
-+		p = tb_property_find(parent, property->key, property->type);
-+		if (p) {
-+			if (replace) {
-+				/*
-+				 * Found existing property in parent so
-+				 * replace with the new one.
-+				 */
-+				list_replace(&p->list, &tmp->list);
-+				tb_property_free(p);
-+			} else {
-+				tb_property_free(tmp);
-+				continue;
-+			}
-+		} else {
-+			list_add_tail(&tmp->list, &parent->properties);
-+		}
-+	}
++Once they are configured you can use ``/dev/tbstreamX`` on both sides to
++transfer data::
 +
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(tb_property_merge_dir);
++  host2 # cat /dev/tbstream0
++  host1 # dmesg > /dev/tbstream0
 +
- /**
-  * tb_property_add_immediate() - Add immediate property to directory
-  * @parent: Directory to add the property
-diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
-index bbdbbc84c999..e98d569779f9 100644
---- a/include/linux/thunderbolt.h
-+++ b/include/linux/thunderbolt.h
-@@ -153,6 +153,9 @@ struct tb_property_dir *tb_property_parse_dir(const u32 *block,
- ssize_t tb_property_format_dir(const struct tb_property_dir *dir, u32 *block,
- 			       size_t block_len);
- struct tb_property_dir *tb_property_copy_dir(const struct tb_property_dir *dir);
-+int tb_property_merge_dir(struct tb_property_dir *parent,
-+			  const struct tb_property_dir *dir,
-+			  bool replace);
- struct tb_property_dir *tb_property_create_dir(const uuid_t *uuid);
- void tb_property_free_dir(struct tb_property_dir *dir);
- int tb_property_add_immediate(struct tb_property_dir *parent, const char *key,
++Once you are done with the stream you can remove them::
++
++  host2 # cd /sys/kernel/config/thunderbolt/stream
++  host2 # rmdir -p 0-1.0/data
++  host1 # cd /sys/kernel/config/thunderbolt/stream
++  host1 # rmdir -p 0-3.0/data
++
++Since streams are essentially files you can use any existing application
++that supports ``read(2)`` and ``write(2)`` in some form.
++
++It is possible to have more than one stream and you can have both stream
++and ``thunderbolt-net`` in use simultaneously. For example we can create
++two streams with name ``control`` and ``data`` like this::
++
++  host1 # cd /sys/kernel/config/thunderbolt/stream
++  host1 # mkdir 0-1.0
++  host1 # cd 0-1.0
++  host1 # mkdir control
++  host1 # mkdir data
++
++Then you have ``/dev/tbstream0`` for ``control`` and ``/dev/tbstream1``
++for ``data``. Before you can use them you need to configure them as
++shown above for the one stream case.
++
+ Forcing power
+ -------------
+ Many OEMs include a method that can be used to force the power of a
 -- 
 2.50.1
 
