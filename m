@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64E83D75D1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7713D75C6
 	for <linux-usb@vger.kernel.org>; Mon, 11 May 2026 10:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778495274; cv=none; b=qSIZ4ZPWCLoiYFeTgcpplnyJXW3ZraVM1oJuo6n9Yy/iZ5ybMReI7fxOFg+P3M+QBB3NHsZSfvr+H0Q/dFAeEff48sRzq4y47hTGYKuVImFmtNgeVyDFFp3qgX9mdbxBh/ZMwzpKsxniaM+4Df4gAa3OarUseYbf7WbRLcOq9Ec=
+	t=1778495275; cv=none; b=I8FK9W3h1yFzbaZwfsRVzlPH5Dymq/SssHKpysEFfYZ9Fwg8GSWAh3i2efMbHsEs164FM8Jx5PXBvsYGPWEzWcQ9d+RYvzrlF2lhNMTkC4aNBR07Kr4koZ6OA6Qdkd8anGbmSNHBde8L9mOJTwDesFo7BnonGGKaHFBLAXOuheY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778495274; c=relaxed/simple;
-	bh=ZEbVhd/eY4nIrE0894be0mDfvxPmr8b2jj/blx5JMbk=;
+	s=arc-20240116; t=1778495275; c=relaxed/simple;
+	bh=HG5kRVIhba2r5dqXMdQ+wk7kg+sfW7FIvNTX7Er9szc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MA3JV9F8cCwGBKPUr4eb1nBkl2CNmFtJXgLdQb4gsvxu037d2MvH55UiGTsORg1s5Yg4C3UpAVWbH+HPXXvZJIr0TmVrwfs+CHFTKbxxmisUp7O7SA+lEOqoi8PkU3lmmNXupuY+voCQQW7JlgRkobB6o65HE90ef1lgD6+yznw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eggct4mM; arc=none smtp.client-ip=192.198.163.15
+	 MIME-Version; b=S4cRmF8/qM2GqQCmUVq81QtwvqRsbHSajFMezFrEIwAvoG0vgvdXDpK8CECSVDmCOSOse6prukya+u6kubuFhwN6Qgnks6z3pRId0SXRzKqfH+NaXimGBFTtJCmU4dU3mRCMO1O4BXjzOo5ZfwngNGvzKYoKqrfYTeBiX3bXLO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iRhpFuGR; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eggct4mM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRhpFuGR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1778495273; x=1810031273;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=ZEbVhd/eY4nIrE0894be0mDfvxPmr8b2jj/blx5JMbk=;
-  b=eggct4mM+wYYM+MPRUoFF9G2PHPQV536FyW9gHfC41qO+zE+fyytpAUi
-   epcpbn01fAmm+aLgmBaxwtDDzU6SapfYuoty2a+xEXxha06OvwSAvVxk/
-   eRWViNxUIhQMNtJM5bLwRfVXnslO2HAH0/nGdIfeJojgXP0wFsfx8F7NO
-   /8ZdQEod9AdDsrvThK8RKhwD9i3WNX6El+g5Q+lEiY2l+e8OHwpUb2oJK
-   eAulz/4Q6Ua2VuHayQxYqsYzzoxGKQJpXHIFTRyqcWH/2LK81NP85FcFY
-   cw6o1sStHVVXiDo59E3Z2Yo30U6AuJsWWnEUE5RQ8dkm4j9LmngN+LwUO
-   g==;
-X-CSE-ConnectionGUID: 9XcKqH6ASS6P1z6mWsSsRQ==
-X-CSE-MsgGUID: 71XczW/nQbKr95CQbYBXvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="79479108"
+  bh=HG5kRVIhba2r5dqXMdQ+wk7kg+sfW7FIvNTX7Er9szc=;
+  b=iRhpFuGRjx7FXvy5grhQU9ll3eFQDgvCmZY3BblnL8COmFstWe1mO8T4
+   8fEHOM6X8g3GHXICh5/dGM6Vooi7WnzCCK6kCfi/9gi468fd/q8PLol+B
+   woziCqXlDhayiLNVDWF2AubZgIiekCoKV2q0K88iod045NZtxMZ3uqQN5
+   iGDOA6dwOULWA/c/cKFQmbocBkl8xZ2e2Enk8Hnnud8OtTT5RwDIXh0w/
+   wsPXoLty/2NI6evLrTuoN6gvJzHaV0mFHpMz79/CHQzmICFug4IW/bpRp
+   6ZrncNk/6vnRbGlZHbl53OSDTbFoXjoE95GeNifE8ka0hrKPnwG820sS6
+   Q==;
+X-CSE-ConnectionGUID: zZjEre6vRhyaTtOSbhzPkg==
+X-CSE-MsgGUID: MgtS+O6LQWa86095atYxtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="79099659"
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="79479108"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 03:27:52 -0700
-X-CSE-ConnectionGUID: BBcX4CqvS36lsW5ud7uDCg==
-X-CSE-MsgGUID: VBl911FeTXiWRECdjKASmg==
+   d="scan'208";a="79099659"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 03:27:52 -0700
+X-CSE-ConnectionGUID: lgfikciEQBa/+bQuE2sBVg==
+X-CSE-MsgGUID: mrbOFsXzSQWzHYA+r3mUfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
-   d="scan'208";a="234358552"
+   d="scan'208";a="234752253"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 11 May 2026 03:27:49 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 11 May 2026 03:27:49 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id ACA10A6; Mon, 11 May 2026 12:27:44 +0200 (CEST)
+	id 9EA48A1; Mon, 11 May 2026 12:27:44 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -60,9 +60,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Paolo Abeni <pabeni@redhat.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH v2 10/10] docs: admin-guide: thunderbolt: Add instructions how to use USB4STREAM
-Date: Mon, 11 May 2026 12:27:44 +0200
-Message-ID: <20260511102744.1867485-11-mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 06/10] thunderbolt: Add helper to figure size of the ring
+Date: Mon, 11 May 2026 12:27:40 +0200
+Message-ID: <20260511102744.1867485-7-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260511102744.1867485-1-mika.westerberg@linux.intel.com>
 References: <20260511102744.1867485-1-mika.westerberg@linux.intel.com>
@@ -74,85 +74,30 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add instructions how USB4STREAM can be configured and used.
+Add to common header a function that returns size of the ring. This can
+be used in the drivers instead of rolling own version.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- Documentation/admin-guide/thunderbolt.rst | 61 +++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
+ include/linux/thunderbolt.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/admin-guide/thunderbolt.rst b/Documentation/admin-guide/thunderbolt.rst
-index 89df26553aa0..91a6cb109988 100644
---- a/Documentation/admin-guide/thunderbolt.rst
-+++ b/Documentation/admin-guide/thunderbolt.rst
-@@ -373,6 +373,67 @@ port which are named like ``thunderbolt0`` and so on. From this point
- you can either use standard userspace tools like ``ip`` to
- configure the interface or let your GUI handle it automatically.
+diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+index 1160e0bf5c5b..9df8a356396f 100644
+--- a/include/linux/thunderbolt.h
++++ b/include/linux/thunderbolt.h
+@@ -641,6 +641,11 @@ static inline size_t tb_ring_frame_size(const struct ring_frame *frame)
+ 	return TB_MAX_FRAME_SIZE;
+ }
  
-+Streaming data directly over Thunderbolt cable
-+----------------------------------------------
-+In addition to Thunderbolt networking (aka. USB4NET) Linux supports
-+streaming data directly over a cable as well (aka. USB4STREAM). This is
-+possible through ``thunderbolt-stream`` driver.
++static inline size_t tb_ring_size(const struct tb_ring *ring)
++{
++	return ring->size;
++}
 +
-+Similarly to ``thunderbolt-net`` you load the driver first on one end::
-+
-+  host1 # modprobe thunderbolt-stream
-+
-+Then you configure it via ``ConfigFS``::
-+
-+  host1 # cd /sys/kernel/config/thunderbolt/stream
-+  host1 # mkdir -p 0-1.0/data
-+  host1 # cd 0-1.0
-+  host1 # echo -1 > data/in_hopid
-+  host1 # echo -1 > data/out_hopid
-+
-+This information is automatically announced to the other side via
-+XDomain properties so if you have cable connected the other side knows
-+that there is a stream named ``data`` available and can configure it for
-+you automatically::
-+
-+  host2 # cd /sys/kernel/config/thunderbolt/stream
-+  host2 # mkdir -p 0-3.0/data
-+
-+Here we used auto-configuration but you can configure it manually too.
-+In that case you need to fill ``in_hopid`` and ``out_hopid`` accordingly.
-+If you set them to ``-1`` the next available HopID is used which is
-+typically what we want.
-+
-+Once they are configured you can use ``/dev/tbstreamX`` on both sides to
-+transfer data::
-+
-+  host2 # cat /dev/tbstream0
-+  host1 # dmesg > /dev/tbstream0
-+
-+Once you are done with the stream you can remove them::
-+
-+  host2 # cd /sys/kernel/config/thunderbolt/stream
-+  host2 # rmdir -p 0-1.0/data
-+  host1 # cd /sys/kernel/config/thunderbolt/stream
-+  host1 # rmdir -p 0-3.0/data
-+
-+Since streams are essentially files you can use any existing application
-+that supports ``read(2)`` and ``write(2)`` in some form.
-+
-+It is possible to have more than one stream and you can have both stream
-+and ``thunderbolt-net`` in use simultaneously. For example we can create
-+two streams with name ``control`` and ``data`` like this::
-+
-+  host1 # cd /sys/kernel/config/thunderbolt/stream
-+  host1 # mkdir 0-1.0
-+  host1 # cd 0-1.0
-+  host1 # mkdir control
-+  host1 # mkdir data
-+
-+Then you have ``/dev/tbstream0`` for ``control`` and ``/dev/tbstream1``
-+for ``data``. Before you can use them you need to configure them as
-+shown above for the one stream case.
-+
- Forcing power
- -------------
- Many OEMs include a method that can be used to force the power of a
+ struct tb_ring *tb_ring_alloc_tx(struct tb_nhi *nhi, int hop, int size,
+ 				 unsigned int flags);
+ struct tb_ring *tb_ring_alloc_rx(struct tb_nhi *nhi, int hop, int size,
 -- 
 2.50.1
 
