@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0811338E8C7
-	for <linux-usb@vger.kernel.org>; Tue, 12 May 2026 12:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9654837207B
+	for <linux-usb@vger.kernel.org>; Tue, 12 May 2026 12:30:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778589029; cv=none; b=lKKeXp2qORTNdRMDjwnoKrb1KGNa48Jrp6SZcCwgJuqY8/wtpE/Xb7ehW8gNjHSHh29FwSzkMgOFD3l7MtQhc6RrAI31VdvFhzEj13JftZKA3E1UXdVSOIUOH3NGso9J+mlCOHmjCFamFDiMvaztke9y/YH0ZgBqN85tT31LCPk=
+	t=1778589029; cv=none; b=Lx96ftb0DNLM7skRMfG/inxzSzBtTTMisCNYdzdx8WO+x6nvPMAcuxoiMjOn0JWKvCz938NonbjqPZnLRI54Wq0WPNldZireQO6P7YAf5YUFEDdpduzF9QsOi1Ru9f9FFoh0RDZg0XgII58bcoeNAPyFrSJsLUuknYT+xgow3m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778589029; c=relaxed/simple;
-	bh=YhLBCvjEKeez+3jG2KJJ5uyBHgTYoFaAoaqRhnLkQUQ=;
+	bh=VdSyNq/MsXKBg9FQCw4YrHSnyEZFhxZlZ40ngaGOGsI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eyyasq3ohtKvYH6naIa613dSVa9qHH80qDcmuScVwj9k/nJOzr10aePMtXT2TYhmlx+3TxjdsuH+ZGm2fRUagqhNx4K4NUCDhtbH4k4RKg7kyLyvMCVM9hq51qqyFmZJRKQlc50C3fSBYn8q54kZZ0azQcLyzbI/Jc21rpehAWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fgx1D6ee; arc=none smtp.client-ip=192.198.163.7
+	 MIME-Version; b=gCvDVYo3rogBxvZ+yYMy8MbSgamt+kaLs4I2oOl5Ut4QEySQ7iHAF4X2KTZOsavfErRuPiB3S1yt9QqoXfFMwHpvalBMdsQFKW0rCLOUojNJx+BTMUrzQtjZL9sUwMCwe7n146taCtRAA+mpGrRYk48DmF3anx0lro+oCE8u9ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BtT5fnsg; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fgx1D6ee"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BtT5fnsg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778589023; x=1810125023;
+  t=1778589021; x=1810125021;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=YhLBCvjEKeez+3jG2KJJ5uyBHgTYoFaAoaqRhnLkQUQ=;
-  b=fgx1D6eeGk1Sgu9nAu4dumklN/HruIPLltpUseYqLp1F+4rI22Xx1ITi
-   YWv7RSOqD4ftK6EGJYCuPinJro2huujTG+FUH1dhBADmE2pUlWtqtKnGw
-   YSvB4eKmZGvAD/jjtWg9jSsAHN/9FmmGs6Vbvbxx5riIc/4fKD+crCJbR
-   0l5i83X3GtINBkaQQSI/uqTDCQzllYtyegcyMQwt9A0P8GCKO9TA9ifV3
-   NkgBC7KzoIzZuIPSJ+1Z3KBaXk7AngtsfzmpJ9tnRH+h9RlPxfQOtd7hB
-   Ee4XqvNG+wmtLBYmaJYBew7DPPs//htLADKgUc+upXrcvClrJMXehelSQ
-   g==;
-X-CSE-ConnectionGUID: 7SmIvbrxRaK50RgOB1A5LA==
-X-CSE-MsgGUID: lj4BX7kYSIuE/F7WvRc/Vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="104950608"
+  bh=VdSyNq/MsXKBg9FQCw4YrHSnyEZFhxZlZ40ngaGOGsI=;
+  b=BtT5fnsgAzk5zNTFKbAjoE/X7LnyLMRcDpwMUwQmUug8sYDx3IJO8Thp
+   Xp9FT8uYev4AqXM20q1vjXQvvr+TNug0vTZtHFHuSo7dDJwtr41xI9lCH
+   fLgdI7R7/Mt5nmB5bAUafJgIRAldPW66wrunXs69Kag+IhA89YkwmcDle
+   bHSP2t8W6JeH5a+7SXAcA9BiN9cQklbhS5ACtjkD2lUdfNiLrFl40Lm4Q
+   bVWg2znXlhR8gu4Pvf7mDEYAGlk3Ca555xOOdpZvn32+H4rQe7IzkEAYS
+   V176p4co+GlW6p0fAFnW00I9vVmgV+N5bs4KsQHkpEG1o2zvFac49IJfB
+   w==;
+X-CSE-ConnectionGUID: ALqyRvAjSbmXMr7kvYi59A==
+X-CSE-MsgGUID: BUvQZVePSbycM8mE9r5aEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="104950605"
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="104950608"
+   d="scan'208";a="104950605"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 05:30:01 -0700
-X-CSE-ConnectionGUID: Cdv8wAoUSI+hLloREIecjg==
-X-CSE-MsgGUID: b8mMKQ3aRP6qWb80xMd17g==
+X-CSE-ConnectionGUID: Sb4c2L7vQS+xRn4cSysRFw==
+X-CSE-MsgGUID: qCvbpRBrT4u0ewIHqPYEIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="234692697"
+   d="scan'208";a="234692691"
 Received: from black.igk.intel.com ([10.91.253.5])
   by fmviesa007.fm.intel.com with ESMTP; 12 May 2026 05:29:59 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id CD515A5; Tue, 12 May 2026 14:29:55 +0200 (CEST)
+	id C7A24A2; Tue, 12 May 2026 14:29:55 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -55,9 +55,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Rene Sapiens <rene.sapiens@linux.intel.com>,
 	Gil Fine <gil.fine@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 8/8] thunderbolt: Increase Notification Timeout to 255 ms for USB4 routers
-Date: Tue, 12 May 2026 14:29:55 +0200
-Message-ID: <20260512122955.271688-9-mika.westerberg@linux.intel.com>
+Subject: [PATCH 6/8] thunderbolt: Verify Router Ready bit is set after router enumeration
+Date: Tue, 12 May 2026 14:29:53 +0200
+Message-ID: <20260512122955.271688-7-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260512122955.271688-1-mika.westerberg@linux.intel.com>
 References: <20260512122955.271688-1-mika.westerberg@linux.intel.com>
@@ -71,88 +71,50 @@ Content-Transfer-Encoding: 8bit
 
 From: Gil Fine <gil.fine@linux.intel.com>
 
-Currently we set the Notification Timeout field in ROUTER_CS_4 for USB4
-routers to 10 ms, which is unnecessarily short and may cause unnecessary
-retransmissions of Hot Plug packets by the router in case of slow
-software response.
-Increase the timeout to 255 ms, aligning with Thunderbolt 3 routers
-and providing adequate time for software to process Hot Plug Events.
+The USB4 Connection Manager guide specifies that after enumerating a
+router, the Connection Manager shall verify that the Router Ready bit
+(ROUTER_CS_6.RR) has been set to ensure hardware configuration has completed.
+Currently, this step is missing from the enumeration sequence.
 
-While there, fix the comment describing the Notification Timeout
-field to match the USB4 specification.
+Add this check to follow the Connection Manager guide more closely.
 
 Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/switch.c  | 12 +++---------
- drivers/thunderbolt/tb_regs.h |  3 +--
- 2 files changed, 4 insertions(+), 11 deletions(-)
+ drivers/thunderbolt/tb_regs.h | 1 +
+ drivers/thunderbolt/usb4.c    | 7 ++++++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index f421997c298d..d7c53eb3221b 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -1767,8 +1767,6 @@ int tb_switch_wait_for_bit(struct tb_switch *sw, u32 offset, u32 bit,
- /*
-  * tb_plug_events_active() - enable/disable plug events on a switch
-  *
-- * Also configures a sane plug_events_delay of 255ms.
-- *
-  * Return: %0 on success, negative errno otherwise.
-  */
- static int tb_plug_events_active(struct tb_switch *sw, bool active)
-@@ -1779,11 +1777,6 @@ static int tb_plug_events_active(struct tb_switch *sw, bool active)
- 	if (tb_switch_is_icm(sw) || tb_switch_is_usb4(sw))
- 		return 0;
- 
--	sw->config.plug_events_delay = 0xff;
--	res = tb_sw_write(sw, ((u32 *) &sw->config) + 4, TB_CFG_SWITCH, 4, 1);
--	if (res)
--		return res;
--
- 	res = tb_sw_read(sw, &data, TB_CFG_SWITCH, sw->cap_plug_events + 1, 1);
- 	if (res)
- 		return res;
-@@ -2645,6 +2638,8 @@ int tb_switch_configure(struct tb_switch *sw)
- 
- 	sw->config.enabled = 1;
- 
-+	/* Set Notification Timeout to 255 ms for all routers */
-+	sw->config.plug_events_delay = 0xff;
- 	if (tb_switch_is_usb4(sw)) {
- 		/*
- 		 * For USB4 devices, we need to program the CM version
-@@ -2656,7 +2651,6 @@ int tb_switch_configure(struct tb_switch *sw)
- 			sw->config.cmuv = ROUTER_CS_4_CMUV_V1;
- 		else
- 			sw->config.cmuv = ROUTER_CS_4_CMUV_V2;
--		sw->config.plug_events_delay = 0xa;
- 
- 		/* Enumerate the switch */
- 		ret = tb_sw_write(sw, (u32 *)&sw->config + 1, TB_CFG_SWITCH,
-@@ -2677,7 +2671,7 @@ int tb_switch_configure(struct tb_switch *sw)
- 
- 		/* Enumerate the switch */
- 		ret = tb_sw_write(sw, (u32 *)&sw->config + 1, TB_CFG_SWITCH,
--				  ROUTER_CS_1, 3);
-+				  ROUTER_CS_1, 4);
- 	}
- 	if (ret)
- 		return ret;
 diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
-index 69ca4c379cc9..92d893634d2b 100644
+index 75131fcfe044..69ca4c379cc9 100644
 --- a/drivers/thunderbolt/tb_regs.h
 +++ b/drivers/thunderbolt/tb_regs.h
-@@ -182,8 +182,7 @@ struct tb_regs_switch_header {
- 	/* DWORD 4 */
- 	u32 plug_events_delay:8; /*
- 				  * RW, pause between plug events in
--				  * milliseconds. Writing 0x00 is interpreted
--				  * as 255ms.
-+				  * milliseconds.
- 				  */
- 	u32 cmuv:8;
- 	u32 __unknown4:8;
+@@ -216,6 +216,7 @@ struct tb_regs_switch_header {
+ #define ROUTER_CS_6_WOPS			BIT(2)
+ #define ROUTER_CS_6_WOUS			BIT(3)
+ #define ROUTER_CS_6_HCI				BIT(18)
++#define ROUTER_CS_6_RR				BIT(24)
+ #define ROUTER_CS_6_CR				BIT(25)
+ #define ROUTER_CS_7				0x07
+ #define ROUTER_CS_9				0x09
+diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
+index 6f76bcaefa49..54f4f5fa3c5a 100644
+--- a/drivers/thunderbolt/usb4.c
++++ b/drivers/thunderbolt/usb4.c
+@@ -294,7 +294,12 @@ int usb4_switch_setup(struct tb_switch *sw)
+ 	/* TBT3 supported by the CM */
+ 	val &= ~ROUTER_CS_5_CNS;
+ 
+-	return tb_sw_write(sw, &val, TB_CFG_SWITCH, ROUTER_CS_5, 1);
++	ret = tb_sw_write(sw, &val, TB_CFG_SWITCH, ROUTER_CS_5, 1);
++	if (ret)
++		return ret;
++
++	return tb_switch_wait_for_bit(sw, ROUTER_CS_6, ROUTER_CS_6_RR,
++				      ROUTER_CS_6_RR, 500);
+ }
+ 
+ /**
 -- 
 2.50.1
 
