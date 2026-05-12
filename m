@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E66326D4F9
-	for <linux-usb@vger.kernel.org>; Tue, 12 May 2026 12:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE5F360EEA
+	for <linux-usb@vger.kernel.org>; Tue, 12 May 2026 12:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778589008; cv=none; b=QPGf4xNHcLvxBE9M+r+EK7um22hYrEd+9f+z8ukz2KVpeGdjk24+VuKSzv/28Dz0RG3+EBQKMADRlJBJ/+jxl/kDZYhXGl7T95sW+ukeQcvePcv/WKk95a/PPC3sDmjMxcGg6mBMYyc4xEk34SAdfbFbevZYeMKjFQx9CUAWQNY=
+	t=1778589011; cv=none; b=iTm8Fo6GwUZWyOWPF8HuDrJkQ5LDjRwYoOUF4HesT3GOFv5pNuJSkEtP2esopOQ4VXsppo/Tk6W+sRRtq/orD1QEcF+tCQhkX+Nzp+d5OG7I8lDO+p/aDZUGsMzrZ43eAtFQ9FcxT33k87RcPG2aZLkePxGFuWuWXMrYn7jcGMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778589008; c=relaxed/simple;
-	bh=8qj+Uvm0rjXQDyhM00C2bbQMUjHJkivIF3daT3WitqU=;
+	s=arc-20240116; t=1778589011; c=relaxed/simple;
+	bh=a6OCs22o7mAGrwuBXxOtFDJHnMUqfpCJ8roTLDHCm+c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e85xjkRnNFuGIC3BDMl7HvMMsEtUsmcLZ/GKY2OtmVqPGi7aFcm0iYAnrL3/vNKe5oMz+DE/DlmhHfCKtDPYvd3RHUNEfNGK91U5FbLEu6HpBv4CAe12C2ZzzWQQpJn9/H+dt8TwzvaQEyFZDPifz1yyit/gZ44dIwBjuqaCHBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jSUqIv+3; arc=none smtp.client-ip=192.198.163.15
+	 MIME-Version; b=JyK/2PC5BPZ9BNm2LQGVoxWDIG/7H9oMNL6Un6qzZmpGBbDN/do3a1Lfrma960EhxFJhsVeKmvD2dyzhEhHwikjaA/dx8KbF2YtSMlz35k9/QnPS1C0erp+lhvnzAMlSDyLG7lVpL45QvPboQaH41nzWau4pC/7DNI2EijYHmh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bZFKFMQz; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jSUqIv+3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bZFKFMQz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778589004; x=1810125004;
+  t=1778589006; x=1810125006;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=8qj+Uvm0rjXQDyhM00C2bbQMUjHJkivIF3daT3WitqU=;
-  b=jSUqIv+3NGCpVj7Kj7JfY8CxJPukh3Lm1KiF+VOFHhhpVCF0pN1Ov+pt
-   Ktx8MIqeBiYCYVK+zBDTTdfOYQSRu333SYTVM02Ql4B6akbcIKKwj6gGy
-   j4VIWDpPh7lX9gXD3apgPaiQYI6njtRgwjTcMs5+MGaCn3Ba7zFcavGdw
-   OLoiX0VixHPddTZjGbz1LttPjITnYwqHQxy7Hq/4Vz6w6ChStUbAHxbzA
-   Hnmm8t8Ylw1YAKv8DMicmRH1DXZhpdzZUFJRg8594is261CXPB6Euz3vz
-   DlsIv9J+PeGs9AapBHfjR0vQHTEm+NyAi5mqf/PZhUctyzv6xUI2nFgZ7
-   g==;
-X-CSE-ConnectionGUID: KFwk7E24QaadzqnHFwu1WA==
-X-CSE-MsgGUID: 2DW2qSNwRBSGX13Gmmeopw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="79605502"
+  bh=a6OCs22o7mAGrwuBXxOtFDJHnMUqfpCJ8roTLDHCm+c=;
+  b=bZFKFMQzh8I3HHmd7kWoyNX3V/+OQR9wPmveLLgrUEDL283PTs0Y+hVM
+   fQvna/H94WvigL2MBoF0q2lnbzPHbMorprcjBfD4w+0ee0XeT3USOcvln
+   R3Q5u2p7cp4rzvPZEsBne8EltZ8OjMwI64iBiMhBegHJkvP0e/oU52kMr
+   mtOAnRWODEw5wgrIhdm5KGsra9ZdWSMMUd6SI464ZHXR1r23VqufpbJud
+   ccYJWPfv42g562bLWYMi48elSN4b4yUpSmQajcnFWzuPKP8Cf4+bWHuSd
+   q2FJoEOU0c8vCzkVWdOk+nUsq9NrGUYkkAPSIjxsrZG/Mj+uS0nGxC8oG
+   Q==;
+X-CSE-ConnectionGUID: 0fv2CIhtS0KHb2cYcTMsrg==
+X-CSE-MsgGUID: SftBt5FsRjiluhroNvcKoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="104950589"
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="79605502"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 05:30:01 -0700
-X-CSE-ConnectionGUID: 6mokevf8Slilo7mtW0Xx4A==
-X-CSE-MsgGUID: MK2PZK4rQQOf423GeFf5/g==
+   d="scan'208";a="104950589"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 05:29:59 -0700
+X-CSE-ConnectionGUID: wsEg9BQaQtm9RlluOkkEtQ==
+X-CSE-MsgGUID: H+Te4GgVRSq9W9Hjjy8Pxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="261245533"
+   d="scan'208";a="234692666"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 12 May 2026 05:29:59 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 12 May 2026 05:29:56 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id CA886A4; Tue, 12 May 2026 14:29:55 +0200 (CEST)
+	id C152B9E; Tue, 12 May 2026 14:29:55 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -55,9 +55,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Rene Sapiens <rene.sapiens@linux.intel.com>,
 	Gil Fine <gil.fine@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 7/8] thunderbolt: Increase timeout for Configuration Ready bit
-Date: Tue, 12 May 2026 14:29:54 +0200
-Message-ID: <20260512122955.271688-8-mika.westerberg@linux.intel.com>
+Subject: [PATCH 4/8] thunderbolt: Activate path hops from source to destination
+Date: Tue, 12 May 2026 14:29:51 +0200
+Message-ID: <20260512122955.271688-5-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260512122955.271688-1-mika.westerberg@linux.intel.com>
 References: <20260512122955.271688-1-mika.westerberg@linux.intel.com>
@@ -71,41 +71,56 @@ Content-Transfer-Encoding: 8bit
 
 From: Gil Fine <gil.fine@linux.intel.com>
 
-After setting the Configuration Valid bit (ROUTER_CS_5.CV), the USB4
-Connection Manager guide specifies a 500 ms timeout for the router to
-set the Configuration Ready bit (ROUTER_CS_6.CR). The current timeout
-is shorter than specified. While there, fix the kernel-doc typo.
+Currently, path activation starts from the last hop (destination adapter)
+and iterates backwards to the first hop (source adapter). This does not
+follow the order suggested in the USB4 Connection Manager guide and could
+potentially cause issues with tunnelled protocols.
 
-Increase the timeout to match the CM guide recommendation.
+Reverse the activation order to start from the first hop (source adapter)
+and end at the last hop (destination adapter), as suggested in the
+Connection Manager guide.
+Adjust the rollback in the failure path to deactivate from the first
+hop, since hops are now activated starting at the source.
+
+Fix kernel-doc accordingly.
 
 Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/usb4.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/thunderbolt/path.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
-index 54f4f5fa3c5a..5fd4fe070f25 100644
---- a/drivers/thunderbolt/usb4.c
-+++ b/drivers/thunderbolt/usb4.c
-@@ -309,7 +309,7 @@ int usb4_switch_setup(struct tb_switch *sw)
-  * Sets configuration valid bit for the router. Must be called before
-  * any tunnels can be set through the router and after
-  * usb4_switch_setup() has been called. Can be called to host and device
-- * routers (does nothing for the latter).
-+ * routers (does nothing for the former).
+diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
+index 0092b2ec7873..b2c322e76b8a 100644
+--- a/drivers/thunderbolt/path.c
++++ b/drivers/thunderbolt/path.c
+@@ -484,7 +484,7 @@ void tb_path_deactivate(struct tb_path *path)
+  * tb_path_activate() - activate a path
+  * @path: Path to activate
+  *
+- * Activate a path starting with the last hop and iterating backwards. The
++ * Activate a path starting with the first hop and ending on the last hop. The
+  * caller must fill path->hops before calling tb_path_activate().
   *
   * Return: %0 on success, negative errno otherwise.
-  */
-@@ -332,7 +332,7 @@ int usb4_switch_configuration_valid(struct tb_switch *sw)
- 		return ret;
+@@ -526,7 +526,7 @@ int tb_path_activate(struct tb_path *path)
+ 	}
  
- 	return tb_switch_wait_for_bit(sw, ROUTER_CS_6, ROUTER_CS_6_CR,
--				      ROUTER_CS_6_CR, 50);
-+				      ROUTER_CS_6_CR, 500);
- }
+ 	/* Activate hops. */
+-	for (i = path->path_length - 1; i >= 0; i--) {
++	for (i = 0; i < path->path_length; i++) {
+ 		struct tb_regs_hop hop = { 0 };
  
- /**
+ 		/* If it is left active deactivate it first */
+@@ -576,7 +576,7 @@ int tb_path_activate(struct tb_path *path)
+ 		res = tb_port_write(path->hops[i].in_port, &hop, TB_CFG_HOPS,
+ 				    2 * path->hops[i].in_hop_index, 2);
+ 		if (res) {
+-			__tb_path_deactivate_hops(path, i);
++			__tb_path_deactivate_hops(path, 0);
+ 			__tb_path_deallocate_nfc(path, 0);
+ 			goto err;
+ 		}
 -- 
 2.50.1
 
