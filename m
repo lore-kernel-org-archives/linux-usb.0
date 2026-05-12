@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE114C043B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0811338E8C7
 	for <linux-usb@vger.kernel.org>; Tue, 12 May 2026 12:30:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778589027; cv=none; b=S1S61+brBUdyZHLYIKrYWwNl2CCD+JEfRP7K3N4IVqU9wTkUO7imkEwC0LXmKXyHrHhC0xriI0j17y1sqGeYjv3r55ZuFhKaVlmz+sQVWUW1bTcxrp8syiVd6B/DY22XqbOMdAjK4KXskk1rFDEDhxpFu+hAGFWfxNAbeoezDdU=
+	t=1778589029; cv=none; b=lKKeXp2qORTNdRMDjwnoKrb1KGNa48Jrp6SZcCwgJuqY8/wtpE/Xb7ehW8gNjHSHh29FwSzkMgOFD3l7MtQhc6RrAI31VdvFhzEj13JftZKA3E1UXdVSOIUOH3NGso9J+mlCOHmjCFamFDiMvaztke9y/YH0ZgBqN85tT31LCPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778589027; c=relaxed/simple;
-	bh=6kwjQDQYRdy0HpCEPae8ahc8A5cW26SjG/3247DB+vg=;
+	s=arc-20240116; t=1778589029; c=relaxed/simple;
+	bh=YhLBCvjEKeez+3jG2KJJ5uyBHgTYoFaAoaqRhnLkQUQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A6Dd/DtoQPondKvJ3aR/kaWimsMdMX0+GIkTgnTUnL3CRyiEVaeyrc6G9W6UyXxio/gzel7BVTC6ymNusvS2tWorvi5mClhdDXdekG8vcHjCh1fnISR9PR7Z8cANCOch7Rdq3k9JF8K8q5FTQMxVwSfcIqhuuT9Yg9afjF57N60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aDIE15ns; arc=none smtp.client-ip=192.198.163.7
+	 MIME-Version; b=eyyasq3ohtKvYH6naIa613dSVa9qHH80qDcmuScVwj9k/nJOzr10aePMtXT2TYhmlx+3TxjdsuH+ZGm2fRUagqhNx4K4NUCDhtbH4k4RKg7kyLyvMCVM9hq51qqyFmZJRKQlc50C3fSBYn8q54kZZ0azQcLyzbI/Jc21rpehAWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fgx1D6ee; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aDIE15ns"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fgx1D6ee"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778589021; x=1810125021;
+  t=1778589023; x=1810125023;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=6kwjQDQYRdy0HpCEPae8ahc8A5cW26SjG/3247DB+vg=;
-  b=aDIE15nsZ4mhfxX/Aap5mJ3K6nMZVtzoy0k4limu5j/cHVkwJwJSyNF+
-   Ph2ePE3D6OlFIvcVFrYJCmWfx25EzqYrxrqF4SW1pX1Uq6xbjzRVi6knS
-   KaZagNzvJIHkk9hGfhbthyIIbtFohP5nwLdtziVPUxX+k7tleRic9Tz0i
-   0N+9OLLCMYFYn0LfDGcpRORuAcUNWvz3j6SweEmXV6Jwv7gMcxDHYdGkf
-   8bMqrPXJOgVN1qJw1bNVa/pGmqkhD3P6BAh0sZXf7ZE4WADnJ67uLsXFE
-   FnGcfd2WgmZED4i785X135vVY0IXJgfSzs8N1Zjr5xmQWC9RJ4jhM7/WS
+  bh=YhLBCvjEKeez+3jG2KJJ5uyBHgTYoFaAoaqRhnLkQUQ=;
+  b=fgx1D6eeGk1Sgu9nAu4dumklN/HruIPLltpUseYqLp1F+4rI22Xx1ITi
+   YWv7RSOqD4ftK6EGJYCuPinJro2huujTG+FUH1dhBADmE2pUlWtqtKnGw
+   YSvB4eKmZGvAD/jjtWg9jSsAHN/9FmmGs6Vbvbxx5riIc/4fKD+crCJbR
+   0l5i83X3GtINBkaQQSI/uqTDCQzllYtyegcyMQwt9A0P8GCKO9TA9ifV3
+   NkgBC7KzoIzZuIPSJ+1Z3KBaXk7AngtsfzmpJ9tnRH+h9RlPxfQOtd7hB
+   Ee4XqvNG+wmtLBYmaJYBew7DPPs//htLADKgUc+upXrcvClrJMXehelSQ
    g==;
-X-CSE-ConnectionGUID: DgHVGPZFRVCKqVtfRR+gyw==
-X-CSE-MsgGUID: 0JaFofu8SYSJIuyEbEBh+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="104950611"
+X-CSE-ConnectionGUID: 7SmIvbrxRaK50RgOB1A5LA==
+X-CSE-MsgGUID: lj4BX7kYSIuE/F7WvRc/Vg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="104950608"
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="104950611"
+   d="scan'208";a="104950608"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 05:30:01 -0700
-X-CSE-ConnectionGUID: TLM6KiHCSPuBu80dV6EQgQ==
-X-CSE-MsgGUID: FaYryi/7RhOBTfHE7e4qhg==
+X-CSE-ConnectionGUID: Cdv8wAoUSI+hLloREIecjg==
+X-CSE-MsgGUID: b8mMKQ3aRP6qWb80xMd17g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,230,1770624000"; 
-   d="scan'208";a="234692696"
+   d="scan'208";a="234692697"
 Received: from black.igk.intel.com ([10.91.253.5])
   by fmviesa007.fm.intel.com with ESMTP; 12 May 2026 05:29:59 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id C4B03A1; Tue, 12 May 2026 14:29:55 +0200 (CEST)
+	id CD515A5; Tue, 12 May 2026 14:29:55 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -55,9 +55,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Rene Sapiens <rene.sapiens@linux.intel.com>,
 	Gil Fine <gil.fine@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 5/8] thunderbolt: Verify PCIe adapter in detect state before tunnel setup
-Date: Tue, 12 May 2026 14:29:52 +0200
-Message-ID: <20260512122955.271688-6-mika.westerberg@linux.intel.com>
+Subject: [PATCH 8/8] thunderbolt: Increase Notification Timeout to 255 ms for USB4 routers
+Date: Tue, 12 May 2026 14:29:55 +0200
+Message-ID: <20260512122955.271688-9-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260512122955.271688-1-mika.westerberg@linux.intel.com>
 References: <20260512122955.271688-1-mika.westerberg@linux.intel.com>
@@ -71,149 +71,88 @@ Content-Transfer-Encoding: 8bit
 
 From: Gil Fine <gil.fine@linux.intel.com>
 
-The USB4 Connection Manager guide suggests that a PCIe downstream and
-PCIe upstream adapters of the USB4 router is in the Detect state before
-setting up a PCIe tunnel.
+Currently we set the Notification Timeout field in ROUTER_CS_4 for USB4
+routers to 10 ms, which is unnecessarily short and may cause unnecessary
+retransmissions of Hot Plug packets by the router in case of slow
+software response.
+Increase the timeout to 255 ms, aligning with Thunderbolt 3 routers
+and providing adequate time for software to process Hot Plug Events.
 
-Add this check by verifying the LTSSM field in ADP_PCIE_CS_0 before
-tunnel setup.
+While there, fix the comment describing the Notification Timeout
+field to match the USB4 specification.
 
 Signed-off-by: Gil Fine <gil.fine@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/tb.h      |  1 +
- drivers/thunderbolt/tb_regs.h | 15 +++++++++++++++
- drivers/thunderbolt/tunnel.c  | 35 +++++++++++++++++++++++++++++++++++
- drivers/thunderbolt/usb4.c    | 24 ++++++++++++++++++++++++
- 4 files changed, 75 insertions(+)
+ drivers/thunderbolt/switch.c  | 12 +++---------
+ drivers/thunderbolt/tb_regs.h |  3 +--
+ 2 files changed, 4 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 229b9e7961fb..d86919474fdb 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -1481,6 +1481,7 @@ int usb4_dp_port_allocate_bandwidth(struct tb_port *port, int bw);
- int usb4_dp_port_requested_bandwidth(struct tb_port *port);
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index f421997c298d..d7c53eb3221b 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -1767,8 +1767,6 @@ int tb_switch_wait_for_bit(struct tb_switch *sw, u32 offset, u32 bit,
+ /*
+  * tb_plug_events_active() - enable/disable plug events on a switch
+  *
+- * Also configures a sane plug_events_delay of 255ms.
+- *
+  * Return: %0 on success, negative errno otherwise.
+  */
+ static int tb_plug_events_active(struct tb_switch *sw, bool active)
+@@ -1779,11 +1777,6 @@ static int tb_plug_events_active(struct tb_switch *sw, bool active)
+ 	if (tb_switch_is_icm(sw) || tb_switch_is_usb4(sw))
+ 		return 0;
  
- int usb4_pci_port_set_ext_encapsulation(struct tb_port *port, bool enable);
-+int usb4_pci_port_ltssm_state(struct tb_port *port);
+-	sw->config.plug_events_delay = 0xff;
+-	res = tb_sw_write(sw, ((u32 *) &sw->config) + 4, TB_CFG_SWITCH, 4, 1);
+-	if (res)
+-		return res;
+-
+ 	res = tb_sw_read(sw, &data, TB_CFG_SWITCH, sw->cap_plug_events + 1, 1);
+ 	if (res)
+ 		return res;
+@@ -2645,6 +2638,8 @@ int tb_switch_configure(struct tb_switch *sw)
  
- static inline bool tb_is_usb4_port_device(const struct device *dev)
- {
+ 	sw->config.enabled = 1;
+ 
++	/* Set Notification Timeout to 255 ms for all routers */
++	sw->config.plug_events_delay = 0xff;
+ 	if (tb_switch_is_usb4(sw)) {
+ 		/*
+ 		 * For USB4 devices, we need to program the CM version
+@@ -2656,7 +2651,6 @@ int tb_switch_configure(struct tb_switch *sw)
+ 			sw->config.cmuv = ROUTER_CS_4_CMUV_V1;
+ 		else
+ 			sw->config.cmuv = ROUTER_CS_4_CMUV_V2;
+-		sw->config.plug_events_delay = 0xa;
+ 
+ 		/* Enumerate the switch */
+ 		ret = tb_sw_write(sw, (u32 *)&sw->config + 1, TB_CFG_SWITCH,
+@@ -2677,7 +2671,7 @@ int tb_switch_configure(struct tb_switch *sw)
+ 
+ 		/* Enumerate the switch */
+ 		ret = tb_sw_write(sw, (u32 *)&sw->config + 1, TB_CFG_SWITCH,
+-				  ROUTER_CS_1, 3);
++				  ROUTER_CS_1, 4);
+ 	}
+ 	if (ret)
+ 		return ret;
 diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
-index c0bf136236e6..75131fcfe044 100644
+index 69ca4c379cc9..92d893634d2b 100644
 --- a/drivers/thunderbolt/tb_regs.h
 +++ b/drivers/thunderbolt/tb_regs.h
-@@ -473,10 +473,25 @@ struct tb_regs_port_header {
- 
- /* PCIe adapter registers */
- #define ADP_PCIE_CS_0				0x00
-+#define ADP_PCIE_CS_0_LTSSM_MASK		GENMASK(28, 25)
- #define ADP_PCIE_CS_0_PE			BIT(31)
- #define ADP_PCIE_CS_1				0x01
- #define ADP_PCIE_CS_1_EE			BIT(0)
- 
-+enum tb_pcie_ltssm_state {
-+	USB4_PCIE_LTSSM_DETECT,
-+	USB4_PCIE_LTSSM_POLLING,
-+	USB4_PCIE_LTSSM_CONFIG,
-+	USB4_PCIE_LTSSM_CONFIG_IDLE,
-+	USB4_PCIE_LTSSM_RECOVERY,
-+	USB4_PCIE_LTSSM_RECOVERY_IDLE,
-+	USB4_PCIE_LTSSM_L0,
-+	USB4_PCIE_LTSSM_L1,
-+	USB4_PCIE_LTSSM_L2,
-+	USB4_PCIE_LTSSM_DISABLED,
-+	USB4_PCIE_LTSSM_HOT_RESET,
-+};
-+
- /* USB adapter registers */
- #define ADP_USB3_CS_0				0x00
- #define ADP_USB3_CS_0_V				BIT(30)
-diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index f38f7753b6e4..b7f32305f14a 100644
---- a/drivers/thunderbolt/tunnel.c
-+++ b/drivers/thunderbolt/tunnel.c
-@@ -290,6 +290,40 @@ static inline void tb_tunnel_changed(struct tb_tunnel *tunnel)
- 			tunnel->src_port, tunnel->dst_port);
- }
- 
-+static int tb_pci_port_ltssm_state_detect(struct tb_port *port)
-+{
-+	ktime_t timeout = ktime_add_ms(ktime_get(), 500);
-+
-+	do {
-+		int ret;
-+
-+		ret = usb4_pci_port_ltssm_state(port);
-+		if (ret < 0)
-+			return ret;
-+		if (ret == USB4_PCIE_LTSSM_DETECT)
-+			return 0;
-+
-+		fsleep(50);
-+	} while (ktime_before(ktime_get(), timeout));
-+
-+	return -ETIMEDOUT;
-+}
-+
-+static int tb_pci_pre_activate(struct tb_tunnel *tunnel)
-+{
-+	struct tb_port *down = tunnel->src_port;
-+	struct tb_port *up = tunnel->dst_port;
-+	int ret;
-+
-+	ret = tb_switch_is_usb4(down->sw) ?
-+		tb_pci_port_ltssm_state_detect(down) : 0;
-+	if (ret)
-+		return ret;
-+
-+	return tb_switch_is_usb4(up->sw) ?
-+		tb_pci_port_ltssm_state_detect(up) : 0;
-+}
-+
- static int tb_pci_set_ext_encapsulation(struct tb_tunnel *tunnel, bool enable)
- {
- 	struct tb_port *port = tb_upstream_port(tunnel->dst_port->sw);
-@@ -505,6 +539,7 @@ struct tb_tunnel *tb_tunnel_alloc_pci(struct tb *tb, struct tb_port *up,
- 	if (!tunnel)
- 		return NULL;
- 
-+	tunnel->pre_activate = tb_pci_pre_activate;
- 	tunnel->activate = tb_pci_activate;
- 	tunnel->src_port = down;
- 	tunnel->dst_port = up;
-diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
-index 9e810b2ae0b5..6f76bcaefa49 100644
---- a/drivers/thunderbolt/usb4.c
-+++ b/drivers/thunderbolt/usb4.c
-@@ -3145,3 +3145,27 @@ int usb4_pci_port_set_ext_encapsulation(struct tb_port *port, bool enable)
- 	return tb_port_write(port, &val, TB_CFG_PORT,
- 			     port->cap_adap + ADP_PCIE_CS_1, 1);
- }
-+
-+/**
-+ * usb4_pci_port_ltssm_state() - Read PCIe adapter LTSSM state
-+ * @port: PCIe adapter
-+ *
-+ * Return:
-+ * * LTSSM state of @port.
-+ * * Negative errno - On failure.
-+ */
-+int usb4_pci_port_ltssm_state(struct tb_port *port)
-+{
-+	u32 val;
-+	int ret;
-+
-+	if (!tb_port_is_pcie_down(port) && !tb_port_is_pcie_up(port))
-+		return -EINVAL;
-+
-+	ret = tb_port_read(port, &val, TB_CFG_PORT,
-+			   port->cap_adap + ADP_PCIE_CS_0, 1);
-+	if (ret)
-+		return ret;
-+
-+	return FIELD_GET(ADP_PCIE_CS_0_LTSSM_MASK, val);
-+}
+@@ -182,8 +182,7 @@ struct tb_regs_switch_header {
+ 	/* DWORD 4 */
+ 	u32 plug_events_delay:8; /*
+ 				  * RW, pause between plug events in
+-				  * milliseconds. Writing 0x00 is interpreted
+-				  * as 255ms.
++				  * milliseconds.
+ 				  */
+ 	u32 cmuv:8;
+ 	u32 __unknown4:8;
 -- 
 2.50.1
 
