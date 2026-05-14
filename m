@@ -1,219 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44DF5224FA;
-	Thu, 14 May 2026 05:45:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498733C8C68;
+	Thu, 14 May 2026 12:13:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778737512; cv=none; b=NvXSaeO16+08pdwj4TgJDAjiE1brLrLf4JJMDA4K/Joul7KX0p4GXfQ90N4OnQG1fx6wMRISbtovDo7064oSaBynLGTxYV+Cf8V2cji338uzbpekMz1sRtb47PjulvSDeVqUH80fJGnPRicZWuekfT+IBsVNvoHQNRR/UdM8wV0=
+	t=1778760827; cv=none; b=neSPipQwoyBerU8v7WRN1ZWZDQgY2vn4RoMMrr1fR+yhWL6JpTma7AedLzMjRSpsIPcmzxMQ5CG+bUDc0ZUdrSWfLeZlOaUouJUPmY1iRTDXwNr7hvxELR6FqUDx5FOBdiC7DTstXhtd47GMYU8r3a35+q/A/IehyF1OMReF6Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778737512; c=relaxed/simple;
-	bh=LOEZH3XMolxuEp5jOuuEj1zWSprPdQ2jA9sLmCjNJn0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Mu+e/4nB77FSmEg8xF61UKAO2C2/BgcqND1an7Rvj7hUSJvOdOiBUEThqoCuKKeL7WlThwbqg9vGnEtGIKQMHFxb4SDfejdhmwBDOGoGMVbEBmZR5SXG6Js7eM4ix+guQV91G6HQ0ikxV9wRMhIl23Y34g9obeVF8aAwWv8Ek1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ILJD1W31; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778760827; c=relaxed/simple;
+	bh=qOjySuzo217jJkiqCYZDHsfK1Tdo3fmkF19sRxUfY3g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pB+91nWJFD8kzo1yW8wEYnLqbiiaSb2fgOEAc1F3uI1JGkCeWgCPKckYlG1hDAnnW4grRetvYz80D4mpAKF6md4/sCPcxfFWnACKKkEMahFc/T9kw4jEJzxbcWSEbkNL4Ah6vCIVs0P4wyRpulShZjuhrvrqYqOoPoEJbhdmI4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EyEFXfAr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ILJD1W31"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7B540C2BCC7;
-	Thu, 14 May 2026 05:45:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EyEFXfAr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB68C2BCC7;
+	Thu, 14 May 2026 12:13:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778737511;
-	bh=LOEZH3XMolxuEp5jOuuEj1zWSprPdQ2jA9sLmCjNJn0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=ILJD1W312ofJEGVpV0QNIH+3JyjvanQ9l0Da0ECEELc4Mptrm12t9cuuBLlIsMs7x
-	 KZ/w6hyaNteHy7IE0810aw1mB1JVTPJKFGp20WFl6ZCFMRb73KpBNao+j6+IaThXbq
-	 16AvE8rci4K6tQnZ/5HFLmas6UGp/7AEvbcMp7hMvHI82V0pi6AU3UDCy7FFfnyMsb
-	 mHUqQUx1GMX4q6SMBNOOwyWpX1vv3aAiwwAykrq2jeZKER6qhPw70gMst5jcUZURc6
-	 gyBzVsKSzS1R6BuyIB8UqoQYJrCGqX9WjX/Pjcd7jfpoTqN1YhHx2d974ccQ6SqrS2
-	 T6gXzA3w9enJw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BA2BCD4F39;
-	Thu, 14 May 2026 05:45:11 +0000 (UTC)
-From: Pawel Laszczak via B4 Relay <devnull+pawell.cadence.com@kernel.org>
-Date: Thu, 14 May 2026 08:00:51 +0200
-Subject: [PATCH v7 1/2] dt-bindings: usb: cdns3: Add cdns,no-drd property
+	s=k20201202; t=1778760826;
+	bh=qOjySuzo217jJkiqCYZDHsfK1Tdo3fmkF19sRxUfY3g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EyEFXfArX/1/6PYRwL8CcUDsRK6fXx44WpdTLyrXuvHjHTXmRM8kRh6byLMMC7aHp
+	 s2+eJsSTo3fU4sLH68b8UqSrIQ7fuHQXhwLravLU2xJdk5JwhBmbO7qASVwCsEjtsb
+	 CppKVVjfTbLr3PCMUMTjysXmup5zu+pdHwxij6JxkaxwOQ5RQ1eKbIvuknq2At2+8p
+	 g9jIzBLHTtFnLcRAijjqpZMZkQbnPN/6iha0IeBFpCFgBKix6CdXQX4DAGQNvwj45q
+	 76IEFzmKd3R5kodHBgo8jjr4qBQq56TrFDNzKI4Sd5LKSKlw9nRittzM93DYMr+CIu
+	 hl4wEeQFc+Z3A==
+Date: Thu, 14 May 2026 14:13:44 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Alexandre Hamamdjian <azkali.limited@gmail.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, CTCaer <ctcaer@gmail.com>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] usb: typec: add Rohm BM92TXX Type-C / PD
+ controller driver
+Message-ID: <20260514-impressive-lush-partridge-76ed5d@quoll>
+References: <20260511-bm92t-v2-0-2145e4f4386b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260514-b4-no_drd_config-v7-1-18cc40e363fd@cadence.com>
-References: <20260514-b4-no_drd_config-v7-0-18cc40e363fd@cadence.com>
-In-Reply-To: <20260514-b4-no_drd_config-v7-0-18cc40e363fd@cadence.com>
-To: Peter Chen <peter.chen@kernel.org>, Roger Quadros <rogerq@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Pawel Laszczak <pawell@cadence.com>
-X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778738460; l=4746;
- i=pawell@cadence.com; h=from:subject:message-id;
- bh=tbJcxqWliRwq9sOBLnSckORm/H18puu1GemD56Jsc9s=;
- b=yaW2SLS6nFayNCohlvSbaQa7f6LIdZFfX9fzVmiFw8rcN0B2aYBRSnT/3FhsAwAI/urKgSX6u
- SnOfW89s6NxCycqnk2NWaDxGO9SKtaWH+7Jop8NPHcFN+RpkctsqUGD
-X-Developer-Key: i=pawell@cadence.com; a=ed25519;
- pk=EUPBvLO9CDg7j6defeDl2iqi+z5Ivqu4Z46aiqe7dYc=
-X-Endpoint-Received: by B4 Relay for pawell@cadence.com/default with
- auth_id=707
-X-Original-From: Pawel Laszczak <pawell@cadence.com>
-Reply-To: pawell@cadence.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260511-bm92t-v2-0-2145e4f4386b@gmail.com>
 
-From: Pawel Laszczak <pawell@cadence.com>
+On Mon, May 11, 2026 at 01:32:08AM +0700, Alexandre Hamamdjian wrote:
+> This series adds initial support for the Rohm Semiconductor BM92TXX
+> family of USB Type-C and Power Delivery controllers.
+> 
+> This chipset is found on Nintendo Switch hardware, where it handles
+> charger and dock USB-C / PD negotiation, DisplayPort alternate-mode
+> entry through the dock and VBUS / VCONN control.
+> 
+> Further patches will follow to wire the driver up on Nintendo Switch
+> device trees and to address review feedback.
+> 
+> Signed-off-by: Alexandre Hamamdjian <azkali.limited@gmail.com>
+> ---
+> Changes in v2:
 
-Introduce a new boolean property 'cdns,no-drd' for Cadence USBSS/USBSSP
-controllers to support hardware configurations where the Dual-Role
-Device (DRD) register block is missing or inaccessible.
+Please start testing your commits before you send them. Also, read
+submitting patches in DT subdir and writing bindings documents.
 
-When 'cdns,no-drd' is present:
-- The 'otg' register and interrupt resources are not required.
-- The 'reg' and 'interrupts' properties are restricted to 2 items
-  (host and device).
-- 'dr_mode' must be explicitly set to either 'host' or 'peripheral'.
-
-When 'cdns,no-drd' is absent, the binding maintains backward compatibility
-by requiring all 3 resource sets (otg, host, dev).
-
-To achieve this, the schema is updated with an if-then-else logic
-and 'reg-names' use enums to allow flexible
-ordering during validation.
-
-Signed-off-by: Pawel Laszczak <pawell@cadence.com>
----
-v7:
-- Rename 'no_drd' to 'cdns,no-drd'.
-- Update commit message to reflect property renaming and schema changes.
-- Simplify 'reg-names' using a single enum.
-- Revert 'interrupt-names' to a list of constants.
-- Move 'reg' item descriptions to if/else blocks for accuracy.
-- Clean up 'if/then' logic (remove redundant checks).
-- Add explicit 'items' list for 'interrupt-names' in the 'else' block.
-
-v6:
-- Fixed validation error for 'interrupt-names' by correcting
-  the items definition.
-- Adjusted 'minItems'/'maxItems' to properly support the optional
- 'wakeup' interrupt.
-- Fixed 'too long' schema error in examples.
-
-v5:
-- Implemented strict conditional validation using if-then-else logic.
-- Enforced 2 register/interrupt items and required 'dr_mode'
-  (host or peripheral) when 'no_drd' is present.
-- Enforced the standard 3 register/interrupt items (otg, host, dev)
-  when 'no_drd' is absent to ensure backward compatibility.
-- Updated 'reg-names' and 'interrupt-names' to use enums in the main
-  properties section to support flexible resource ordering during
-  validation.
----
----
- .../devicetree/bindings/usb/cdns,usb3.yaml         | 62 ++++++++++++++++++----
- 1 file changed, 53 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-index 2d95fb7321af..068fb55a5414 100644
---- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-+++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-@@ -20,19 +20,17 @@ properties:
-     const: cdns,usb3
- 
-   reg:
--    items:
--      - description: OTG controller registers
--      - description: XHCI Host controller registers
--      - description: DEVICE controller registers
-+    minItems: 2
-+    maxItems: 3
- 
-   reg-names:
-+    minItems: 2
-+    maxItems: 3
-     items:
--      - const: otg
--      - const: xhci
--      - const: dev
-+      enum: [ otg, xhci, dev ]
- 
-   interrupts:
--    minItems: 3
-+    minItems: 2
-     items:
-       - description: XHCI host controller interrupt
-       - description: Device controller interrupt
-@@ -41,7 +39,7 @@ properties:
-                      cleared by xhci core, this interrupt is optional
- 
-   interrupt-names:
--    minItems: 3
-+    minItems: 2
-     items:
-       - const: host
-       - const: peripheral
-@@ -79,6 +77,13 @@ properties:
-     description: Enable resetting of PHY if Rx fail is detected
-     type: boolean
- 
-+  cdns,no-drd:
-+    description:
-+      Indicates that the Dual-Role Device (DRD) register block is not
-+      implemented or is inaccessible. In this case, the controller
-+      must operate in a fixed peripheral or host mode.
-+    type: boolean
-+
- dependencies:
-   port: [ usb-role-switch ]
- 
-@@ -93,6 +98,45 @@ allOf:
-   - $ref: usb-drd.yaml#
-   - $ref: usb-xhci.yaml#
- 
-+  - if:
-+      required:
-+        - cdns,no-drd
-+    then:
-+      properties:
-+        reg:
-+          items:
-+            - description: XHCI Host controller registers
-+            - description: DEVICE controller registers
-+        reg-names:
-+          items:
-+            - const: xhci
-+            - const: dev
-+        interrupts:
-+          maxItems: 2
-+        interrupt-names:
-+          items:
-+            - const: host
-+            - const: peripheral
-+        dr_mode:
-+          enum: [host, peripheral]
-+    else:
-+      properties:
-+        reg:
-+          items:
-+            - description: OTG controller registers
-+            - description: XHCI Host controller registers
-+            - description: DEVICE controller registers
-+        reg-names:
-+          items:
-+            - const: otg
-+            - const: xhci
-+            - const: dev
-+        interrupts:
-+          minItems: 3
-+          maxItems: 4
-+        interrupt-names:
-+          minItems: 3
-+
- unevaluatedProperties: false
- 
- examples:
-
--- 
-2.43.0
-
+Best regards,
+Krzysztof
 
