@@ -1,157 +1,204 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CBCC3C5DC3
-	for <linux-usb@vger.kernel.org>; Fri, 15 May 2026 05:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778822053; cv=pass; b=gKptLcd6BR0hXrULPdvIDzVTu381Xkbo+YPhbgMEoaUh8yDqLETiELgPGz1TJP+rrTYfGHcT8HMxGY6HhXPp11zJeQlacRm1X3bYMyNAkz0MONPAL4MTzRRtF/TQg6wbbJ9O6hVzyRn+2nUDKx9IoVFNHAvDEYpGv0zff7O6ojU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778822053; c=relaxed/simple;
-	bh=0Hr/HWrBph9yrkb3EwjDPV8KtCBWrKjoZzM49F0ygsE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SVvZfZJIlCyjUcvwg69sRdUcyh6IvdpAKG8CCwFgkPl06lzy3tqqV4+zQwQvrDY3gQcqPdkSUrHvaR38w7JUbY3/ndJfjPjoIgtVND77+ev9Q/b6HfM8bFMDy/03e2zX+LMV8+x7l4V6wuGCyD4VKZM743pa8MnNbYxKam2Dzg8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TSod781m; arc=pass smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF00366830;
+	Fri, 15 May 2026 05:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778824257; cv=none; b=CmdVTXdTl8/kvHU8nhRZBQnWTGM6FRW5PqByN3O9ihzV/7I+eMmVNeq3WKX3XjKNTLynQ3Ryl87leCu5vJnHC/M/N04ESInqmjU+abLSisB1swVuZrF3ol5ILf0ZSNmojyNJ9+4LVzVQx6QGU1bz60t2E/H/PyXAhxNTWdmCzOE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778824257; c=relaxed/simple;
+	bh=v0n4iL+ec7ubF7WE3r+09txUZuNOlRfNgY9pxDWbRgY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=TENKpT/1cLKj8x58UvLGzRcpaglWXQWp1qLi1KSn5KOIOskMbFpUjFscJkTehWJIc3uMx6C/6nAxijAUkam7wdW0f3lrw3E8uU1/VmPJpyFZQzDakyJ0C2rPWCbYJmlFHmbzrrfYAM1sXECZDiQ6guGQeGbQkvPxZ0MFy0VBXws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hjC6g/ue; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TSod781m"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7de7c57b52cso7081729a34.3
-        for <linux-usb@vger.kernel.org>; Thu, 14 May 2026 22:14:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778822051; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MzcC+NqI+Iezk/RZQ5BJ7RrVH421g5GzlvaQGOAFjNBiNdIniygh1s4E7LAVdXjOYJ
-         +ogII0LVE3fJAJ4AVRXe1XqF9t/DMxN3/eZ39pbg+d54UraTpPHOnFH/5Q5NRYzhexr+
-         KuJZwdPhodEP9e1B3hp7d71QJrrH7ziOqAtjVyj4T3uc4Vr2KIaACNJo2c+5hgfTlIiF
-         FeOwsSuSr4PNgplFxF8ZBDa8K2v8ctOf+qoLz9iwN2EXevecxGq8/hvi0lET3NcfzhwY
-         ZrLcucrUc82j1RiWu+PYcya3w6Di8iOVphBjV83EHxvVEUhQ42ivsMHyC+cCU2+ZqPA0
-         dieg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=G3dIANZ4aFT6S3zSRBVQ9ShZn8S6WLuxcizHOjCqjwA=;
-        fh=TdA6/7x1xdw4RBSkJtvSpojpIff9RX3pZ/ghIz+ETfA=;
-        b=LDowPFm19/ugE4LzfDDrsqF1S2iOvA0NefFtDhhpyxDFVk3ZBggPWBYioJ+iCKH7gR
-         lLSsnmPcDguu80GNW2SN9PzL5O7Ti2RyjavFYnE0q+nqeoN0IoAJ2Wai4CoiUh8p4iLx
-         8vqP001YhO2YeMkO65981unXjKfI/+SG2mQuprxYR4Ll7tm28x0JjVHYsB688S85jUga
-         AtSAQoZzjFMyFhaoNT6vWMXBZx9Lgy3Mm/Fm8+iK1Yan/77mqxuIbUerW5kpK4/pIg+m
-         /Z2HFnIsbqoT5DgZotBowKNwpAorqfRl8WzoVmAyzqAIw3tNy+wABW5pQqzR5v2wvFX+
-         ZsQA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778822051; x=1779426851; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=G3dIANZ4aFT6S3zSRBVQ9ShZn8S6WLuxcizHOjCqjwA=;
-        b=TSod781m5sPzMMXOaI09ZVcnjdJuCsAynkmk1PhKNqxl7gbb19FnY5w29t0ZpbFyJP
-         uS7h4Hl+henFgy5p6aobzggEC1kgu/YOB8xpnWhMutNxKwqOoV/KkwdIb8Iqc7xxcXtE
-         sXh3yiMIXnNLciEvD1mHZi3iQs6BV3QvqpBE/GqqSO35md28CVwrjPWqhQ+YQBUB6+gH
-         vtlAba3ngtU+MoyUOrR8f91tXUH1eCfjRApZsZBkpzh6aGQrvYr062PZMf6/NxaYLnz3
-         +0u2G7tnv3AWUMnHyGTEQAVkqBLQjJi9wTPhApCu+xDoUXQbDsOvF66Nk2eIm3mNbCDa
-         OfcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778822051; x=1779426851;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=G3dIANZ4aFT6S3zSRBVQ9ShZn8S6WLuxcizHOjCqjwA=;
-        b=XofnfX/vOkexIbxueRypEdqPmB8C0j/kfWLsrYg8n3X0LaDB/sX0tW6JD1/tgNxOvt
-         XvjKizfYncavlJ5Ht4zN7kob0MmhHjIQ2nugSI1ngNNRQG/VWWDQzmvTVA+hlIS1n6YV
-         KSBiQhLoE0fDT/r7YkI8UrRvrFOlnJiZzcouwrEy9L7Fgg4MppS9wxJkdUYyOb8l3+um
-         1cC/6wfic0LXT+/XVtL3OuIW8ANkJX6OQX9T06lewQhlI2I7KmaZ7zu+8uM/kdQJVTIL
-         Ya3a4PRGkIVR2MRZCwSV+IagVyVuJKjQBfwwsjpFRKyLDBlmszzSv7NGdyURN//Ut2RY
-         G/mA==
-X-Gm-Message-State: AOJu0YzJsxjFun6I0zUGl69n7BO9g5cNDuZekaVjq6dlJzGk8SFnIDM5
-	9vyTFZ+OKINmRmIuEzbUrh+mrzvxJ0k9+oESXUWHPzvhaIKTUlHVMN8d2RpxFToNp20pX8oBW2+
-	d3G3GeHrjuZqfQFJsoHa8xYj7LOGGhqGiD8hMgiok
-X-Gm-Gg: Acq92OGL+3Z3AUyYWb0rMCWSXMp5uMazyvurS/tAZQcp3das8CThTjFq63rFnqigWfe
-	VbKSU4RVzo/Bvv/XjDQuXnw4/Bygjz9CpSpawM/B7FPIeed0eIE1IwJyAqpPeVYbQU0EdmqTgj8
-	oONGLFdnC3G5EZXcvxA/YYsHmhmioJ7xc8wnG6mzrMAJMJsTooRQqM576HvfIhseG8wbDfedHtr
-	6MLRHUQUfT4o29vzaedjE/AwjPzWPbPGJYoa3e0Fkey84K4fSfQFSn17M/WMzzYcQgS6Pvj89AY
-	axkNaPxhcUCuF+tJNEJmmqH4c7RFkZpj61ORv1G8SPTkvYJQ7ys=
-X-Received: by 2002:a05:6820:16a6:b0:694:8bfa:7819 with SMTP id
- 006d021491bc7-69c942c4ce5mr1597774eaf.13.1778822050737; Thu, 14 May 2026
- 22:14:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hjC6g/ue"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7C94DC2BCFB;
+	Fri, 15 May 2026 05:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778824257;
+	bh=v0n4iL+ec7ubF7WE3r+09txUZuNOlRfNgY9pxDWbRgY=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=hjC6g/ue5VGk+RAa2i/AZCUGdEKSMNl1UoJc9IAloUNrZ2EPx98qKWurWkR2spxYB
+	 3YBFnZDqrew8K6kX/rfmlds69+6YhcTzNZ2LoiGLomdYOktvc6O0MI3leYuDB8vTUk
+	 kS8cIuu3LhII3J5u/QPu4sWaxINSq6uw+qG1tfmkqK0m7xElyTRqHfXLMb+mgRMZlC
+	 0D/1DWNfRsyDVszpqatmTzminHVzeVe2Y1dhI/Cg6NOQE7txSCVt5bbb+ZUPm7NqBq
+	 qh0tAv/lMOveZuv0QNnv/nEwwgbYMcYkfGL1myfNrX1BUDhonbEB0vbqZZVjeX5tCQ
+	 7XEusK8P1+Gdg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73454CD4851;
+	Fri, 15 May 2026 05:50:57 +0000 (UTC)
+From: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
+Date: Fri, 15 May 2026 05:48:41 +0000
+Subject: [PATCH 3/3] power: supply: max17042: add handler for energy_now
+ property
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <2026051347-clustered-deflected-9543@gregkh> <2026051350-plated-salute-0efe@gregkh>
-In-Reply-To: <2026051350-plated-salute-0efe@gregkh>
-From: Badhri Jagan Sridharan <badhri@google.com>
-Date: Thu, 14 May 2026 22:13:33 -0700
-X-Gm-Features: AVHnY4LgRc3wHEkUPTsm9y9A_dVefQ6vusBPcEsoGl6LSEXYfCnJRnWNec1jsoQ
-Message-ID: <CAPTae5JhhCr+W4xUBWcbrS7j4_BZ9SCxdEbn5quAD5aP7hDx8A@mail.gmail.com>
-Subject: Re: [PATCH 4/8] usb: typec: tcpm: validate VDO count in Discover
- Identity ACK handlers
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, stable <stable@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260515-batt-status-v1-3-fed6b7d8cea7@google.com>
+References: <20260515-batt-status-v1-0-fed6b7d8cea7@google.com>
+In-Reply-To: <20260515-batt-status-v1-0-fed6b7d8cea7@google.com>
+To: Sebastian Reichel <sre@kernel.org>, 
+ Badhri Jagan Sridharan <badhri@google.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Hans de Goede <hansg@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
+ Purism Kernel Team <kernel@puri.sm>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-usb@vger.kernel.org, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Peter Griffin <peter.griffin@linaro.org>, RD Babiera <rdbabiera@google.com>, 
+ Kyle Tso <kyletso@google.com>, Amit Sunil Dhamne <amitsd@google.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778824256; l=3946;
+ i=amitsd@google.com; s=20241031; h=from:subject:message-id;
+ bh=rZ4iAk16d2xmYX+iRg9d3aLsjlCGLdVUfG6+D9Nq6hY=;
+ b=mP5j13ZK2htM+zjnJ8ThHRPxXR/MqZXaXDsFwNM3MXuPFJnxgRn6pYa1b9P0EF0FZFZ5S6+mj
+ ATw1BO4vO+EDPgUyeEPZXs0dSzHVvnkrmOZf/gtkg+HPU+v6ig8qNHs
+X-Developer-Key: i=amitsd@google.com; a=ed25519;
+ pk=wD+XZSST4dmnNZf62/lqJpLm7fiyT8iv462zmQ3H6bI=
+X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
+ auth_id=262
+X-Original-From: Amit Sunil Dhamne <amitsd@google.com>
+Reply-To: amitsd@google.com
 
-On Wed, May 13, 2026 at 8:52=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> Properly validate the count passed from a device when calling
-> svdm_consume_identity() or svdm_consume_identity_sop_prime() as the
-> device-controlled value could index off of the static arrays, which
-> could leak data.
->
-> Assisted-by: gkh_clanker_t1000
-> Cc: Badhri Jagan Sridharan <badhri@google.com>
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Cc: stable <stable@kernel.org>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Amit Sunil Dhamne <amitsd@google.com>
 
-Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
+Add handler to report power_supply_prop_energy_now so that users can get
+current SoC in uWH. Additionally, add helper functions to get avg_vcell
+and repcap values in uv and uah units respectively to avoid code
+duplication.
 
-> ---
->  drivers/usb/typec/tcpm/tcpm.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.=
-c
-> index 55fee96d3342..44dab6c32c33 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -1855,6 +1855,9 @@ static void svdm_consume_identity(struct tcpm_port =
-*port, const u32 *p, int cnt)
->         u32 vdo =3D p[VDO_INDEX_IDH];
->         u32 product =3D p[VDO_INDEX_PRODUCT];
->
-> +       if (cnt <=3D VDO_INDEX_PRODUCT)
-> +               return;
-> +
->         memset(&port->mode_data, 0, sizeof(port->mode_data));
->
->         port->partner_ident.id_header =3D vdo;
-> @@ -1875,6 +1878,9 @@ static void svdm_consume_identity_sop_prime(struct =
-tcpm_port *port, const u32 *p
->         u32 product =3D p[VDO_INDEX_PRODUCT];
->         int svdm_version;
->
-> +       if (cnt <=3D VDO_INDEX_CABLE_1)
-> +               return;
-> +
->         /*
->          * Attempt to consume identity only if cable currently is not set
->          */
-> @@ -1898,7 +1904,7 @@ static void svdm_consume_identity_sop_prime(struct =
-tcpm_port *port, const u32 *p
->         switch (port->negotiated_rev_prime) {
->         case PD_REV30:
->                 port->cable_desc.pd_revision =3D 0x0300;
-> -               if (port->cable_desc.active)
-> +               if (port->cable_desc.active && cnt > VDO_INDEX_CABLE_2)
->                         port->cable_ident.vdo[1] =3D p[VDO_INDEX_CABLE_2]=
-;
->                 break;
->         case PD_REV20:
-> --
-> 2.54.0
->
+Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
+---
+ drivers/power/supply/max17042_battery.c | 60 ++++++++++++++++++++++++++-------
+ 1 file changed, 47 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/power/supply/max17042_battery.c b/drivers/power/supply/max17042_battery.c
+index 167fb3fb3732..e16eb6985b70 100644
+--- a/drivers/power/supply/max17042_battery.c
++++ b/drivers/power/supply/max17042_battery.c
+@@ -81,6 +81,7 @@ static enum power_supply_property max17042_battery_props[] = {
+ 	POWER_SUPPLY_PROP_CHARGE_NOW,
+ 	POWER_SUPPLY_PROP_CHARGE_COUNTER,
+ 	POWER_SUPPLY_PROP_CHARGE_TERM_CURRENT,
++	POWER_SUPPLY_PROP_ENERGY_NOW,
+ 	POWER_SUPPLY_PROP_TEMP,
+ 	POWER_SUPPLY_PROP_TEMP_ALERT_MIN,
+ 	POWER_SUPPLY_PROP_TEMP_ALERT_MAX,
+@@ -95,6 +96,36 @@ static enum power_supply_property max17042_battery_props[] = {
+ 	POWER_SUPPLY_PROP_CURRENT_AVG,
+ };
+ 
++static int max17042_get_repcap_uah(struct max17042_chip *chip, u64 *rep_cap)
++{
++	u32 data;
++	int ret;
++
++	ret = regmap_read(chip->regmap, MAX17042_RepCap, &data);
++	if (ret < 0)
++		return ret;
++
++	*rep_cap = data * 5000000ll;
++	*rep_cap *= chip->task_period;
++	do_div(*rep_cap, MAX17042_DEFAULT_TASK_PERIOD);
++	do_div(*rep_cap, chip->pdata->r_sns);
++
++	return 0;
++}
++
++static int max17042_get_avgvcell_uv(struct max17042_chip *chip, u32 *vcell)
++{
++	int ret;
++
++	ret = regmap_read(chip->regmap, MAX17042_AvgVCELL, vcell);
++	if (ret < 0)
++		return ret;
++
++	*vcell = (*vcell * 625) / 8;
++
++	return 0;
++}
++
+ static int max17042_get_temperature(struct max17042_chip *chip, int *temp)
+ {
+ 	int ret;
+@@ -180,14 +211,12 @@ static int max17042_get_battery_health(struct max17042_chip *chip, int *health)
+ 	int temp, vavg, vbatt, ret;
+ 	u32 val;
+ 
+-	ret = regmap_read(chip->regmap, MAX17042_AvgVCELL, &val);
++	ret = max17042_get_avgvcell_uv(chip, &val);
+ 	if (ret < 0)
+ 		goto health_error;
+ 
+-	/* bits [0-3] unused */
+-	vavg = val * 625 / 8;
+ 	/* Convert to millivolts */
+-	vavg /= 1000;
++	vavg = val / 1000;
+ 
+ 	ret = regmap_read(chip->regmap, MAX17042_VCELL, &val);
+ 	if (ret < 0)
+@@ -304,11 +333,10 @@ static int max17042_get_property(struct power_supply *psy,
+ 		val->intval = data * 625 / 8;
+ 		break;
+ 	case POWER_SUPPLY_PROP_VOLTAGE_AVG:
+-		ret = regmap_read(map, MAX17042_AvgVCELL, &data);
++		ret = max17042_get_avgvcell_uv(chip, &data);
+ 		if (ret < 0)
+ 			return ret;
+-
+-		val->intval = data * 625 / 8;
++		val->intval = data;
+ 		break;
+ 	case POWER_SUPPLY_PROP_VOLTAGE_OCV:
+ 		ret = regmap_read(map, MAX17042_OCVInternal, &data);
+@@ -350,14 +378,9 @@ static int max17042_get_property(struct power_supply *psy,
+ 		val->intval = data64;
+ 		break;
+ 	case POWER_SUPPLY_PROP_CHARGE_NOW:
+-		ret = regmap_read(map, MAX17042_RepCap, &data);
++		ret = max17042_get_repcap_uah(chip, &data64);
+ 		if (ret < 0)
+ 			return ret;
+-
+-		data64 = data * 5000000ll;
+-		data64 *= chip->task_period;
+-		do_div(data64, MAX17042_DEFAULT_TASK_PERIOD);
+-		do_div(data64, chip->pdata->r_sns);
+ 		val->intval = data64;
+ 		break;
+ 	case POWER_SUPPLY_PROP_CHARGE_COUNTER:
+@@ -370,6 +393,17 @@ static int max17042_get_property(struct power_supply *psy,
+ 		data64 = div_s64(data64, MAX17042_DEFAULT_TASK_PERIOD);
+ 		val->intval = div_s64(data64, chip->pdata->r_sns);
+ 		break;
++	case POWER_SUPPLY_PROP_ENERGY_NOW:
++		ret = max17042_get_repcap_uah(chip, &data64);
++		if (ret < 0)
++			return ret;
++
++		ret = max17042_get_avgvcell_uv(chip, &data);
++		if (ret < 0)
++			return ret;
++
++		val->intval = data64 * data / 1000000;
++		break;
+ 	case POWER_SUPPLY_PROP_TEMP:
+ 		ret = max17042_get_temperature(chip, &val->intval);
+ 		if (ret < 0)
+
+-- 
+2.54.0.563.g4f69b47b94-goog
+
+
