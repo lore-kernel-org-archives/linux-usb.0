@@ -1,105 +1,248 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DCB1EA7DB;
-	Fri, 15 May 2026 06:31:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F463E3D94;
+	Fri, 15 May 2026 07:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778826663; cv=none; b=Lwl/9ahJlrPTwm5jMGKRm+2d8YieHJsS+D1KdoEFJEUo9hD5FI2a4sKETlF1FKDRZCNFZIxN1Q/JWrKAxoD/6C4QfX+r5p2gnd/rRPH4D1H8s+i3R6a98T9vz/ESOzv5jq+rJ7ZdMTJCh746T2V2Wcbh2pV849v6QdxtVM1VXTY=
+	t=1778829350; cv=none; b=QEVlnsSHA33Ju49Nwwd8G6qn8TclijsMh82s30apW92GplluUGMn6Jfmwh8YoHjGchhzK11Xw/6W5uwJAyy1f9YZlRFIWJY+qYV8dQV7COcd1FmaBaXgsQafBQ57Ax4IaaR/aWg8oNbMjUjdby9GE9fkbXq5TAcJMPPG+2jGbeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778826663; c=relaxed/simple;
-	bh=JhBblCuEyJdOF6xAqYPPCGYcYyT8qulZRGqNZqFUWx4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=siiWsoPc1twrD3nDGJZEZtTLXy5d2BHpoxzNKuwv4RxW0pv8Te/OouUMYBV8G4PFPtZJISFJbQovJyzsyppEkdbZfSN+dBn2dsaq5PDGvHdUSw2FYCz7+bqs5WV88ZfSwHHwXt3/uR1bz0G50NUwZ7t/BivNuWUypHgC2KnM1SA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VoCb+Dsf; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1778829350; c=relaxed/simple;
+	bh=XhyYTFASD5Q9vCKaLAJxpiG7N1FW7Fv0tBL2WsVBrCc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J9lj1gCyMBgqcfmEK+zU+pWmL2Pqq7N7LfsR3+Xu32EgklGQ3k0AibuTCEbIGi3WyKSf1vbWv7w2DiUtGQv3alVLQ67mKWoQGHiD3G/GvtUYU9hS8cNjRABprtShTLBpG8qVZr4I902GIBF36Jl7Kqubvzwh+3eecNdFRoSzO3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iCg7FA3R; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VoCb+Dsf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778826662; x=1810362662;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JhBblCuEyJdOF6xAqYPPCGYcYyT8qulZRGqNZqFUWx4=;
-  b=VoCb+DsfF9xaiV62ycD5sNEr9vRu5Jr11lHphrAXPaWsQulvdjy6zHz/
-   IPxPPDINuGhZCV9t2KCUCDie9txUSbaXXu4HGp/4yn7oNgTOpYQHe7oiT
-   6PRb8wNrQIGeRh2b6FbmmigU+BFG//vWZAmO/8ef4jnQlV9s271zrqYhO
-   Wtpw0e14z9nnabynWVeFqKXXtZ51gk2fffe8lWHYGpkq9EZFHm9lzkSQP
-   s4Ods/49VQbXyUUUhF7JpsbzKLXr6c06ojab3kV+AqnwXIkZHP8sX8B3F
-   refmTnAnoOJJrxxzib/ZHTrydJb3eYdO8zSH7dT6kCnU260PLNtgF4Qvi
-   g==;
-X-CSE-ConnectionGUID: SQtUtAKdQ7+GEdOUHNdp+w==
-X-CSE-MsgGUID: bUhSVxrDTl+KEYv5zwYyfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="78804289"
-X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="78804289"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 23:31:02 -0700
-X-CSE-ConnectionGUID: n6/yq13oQiyTAFKVeuG5Rg==
-X-CSE-MsgGUID: VsyikhzQR4ynKSyvSkF4Ww==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,236,1770624000"; 
-   d="scan'208";a="243577583"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa005.jf.intel.com with ESMTP; 14 May 2026 23:31:00 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id BED2B95; Fri, 15 May 2026 08:30:58 +0200 (CEST)
-Date: Fri, 15 May 2026 08:30:58 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	usb4-upstream@oss.qualcomm.com,
-	Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v3 3/4] thunderbolt: Require nhi->ops be valid
-Message-ID: <20260515063058.GH84797@black.igk.intel.com>
-References: <20260513-topic-usb4_nonpcie_prepwork-v3-0-b87b5e408ac7@oss.qualcomm.com>
- <20260513-topic-usb4_nonpcie_prepwork-v3-3-b87b5e408ac7@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iCg7FA3R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 475AAC2BCB0;
+	Fri, 15 May 2026 07:15:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778829349;
+	bh=XhyYTFASD5Q9vCKaLAJxpiG7N1FW7Fv0tBL2WsVBrCc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iCg7FA3RcQBt97aZ8oo6Iy144E9/bSFK89c5Mf1JLJ+ASTR3rvJ+5wEhm1TGyCN9w
+	 I4FaBzF+XADL8ekqN1rwI5HFjeHlYyaMwcEScOQlndQKHwF9uRYMBSiZO8Hnq5Vq2F
+	 31OaA4R9esdRGYLURR+mn4Dph6u1n14dGs8y3JTNznfcjUahxxNfi3/ZUqzQ/vCeK6
+	 u+MD3alLPDfORacDO9DYC184QJuJ5tz3rzWNtilQoqN/O6rXx2V1WUj0Hgo7TwNM8G
+	 a6uymm1oLho9mem1oGmCe2pZL2TeonKqsM3Ct5eTPPHMswffeBJU9+Cn4qvn/kIimg
+	 NCRWqKU4GmuxA==
+Message-ID: <f34a38e9-c6bc-4ccb-9c9b-23288e09d734@kernel.org>
+Date: Fri, 15 May 2026 09:15:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260513-topic-usb4_nonpcie_prepwork-v3-3-b87b5e408ac7@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] power: Add power_supply_get_battery_all() to fetch
+ battery psy handles
+To: amitsd@google.com, Sebastian Reichel <sre@kernel.org>,
+ Badhri Jagan Sridharan <badhri@google.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+ Purism Kernel Team <kernel@puri.sm>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, =?UTF-8?Q?Andr=C3=A9_Draszik?=
+ <andre.draszik@linaro.org>, Tudor Ambarus <tudor.ambarus@linaro.org>,
+ Peter Griffin <peter.griffin@linaro.org>, RD Babiera <rdbabiera@google.com>,
+ Kyle Tso <kyletso@google.com>
+References: <20260515-batt-status-v1-0-fed6b7d8cea7@google.com>
+ <20260515-batt-status-v1-1-fed6b7d8cea7@google.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260515-batt-status-v1-1-fed6b7d8cea7@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 13, 2026 at 06:23:34PM +0200, Konrad Dybcio wrote:
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Hi,
+
+On 15-May-26 07:48, Amit Sunil Dhamne via B4 Relay wrote:
+> From: Amit Sunil Dhamne <amitsd@google.com>
 > 
-> Because of how fundamental ops->init_interrupts() is, it no longer
-> makes sense to consider cases where nhi->ops is NULL.
+> Add power_supply_get_battery_all() to allow drivers to obtain a list of
+> registered battery type power supply references in the system.
 > 
-> Drop some boilerplate around it and add a single sanity-check in
-> nhi_probe() instead.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
 > ---
->  drivers/thunderbolt/nhi.c    | 32 ++++++++++++++++++--------------
->  drivers/thunderbolt/switch.c |  6 +++---
->  2 files changed, 21 insertions(+), 17 deletions(-)
+>  drivers/power/supply/power_supply_core.c | 122 +++++++++++++++++++++++++++++++
+>  include/linux/power_supply.h             |   9 +++
+>  2 files changed, 131 insertions(+)
 > 
-> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-> index 740c10ee852b..2a8d1b3716c0 100644
-> --- a/drivers/thunderbolt/nhi.c
-> +++ b/drivers/thunderbolt/nhi.c
-> @@ -559,7 +559,7 @@ static struct tb_ring *tb_ring_alloc(struct tb_nhi *nhi, u32 hop, int size,
->  	if (!ring->descriptors)
->  		goto err_free_ring;
+> diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/supply/power_supply_core.c
+> index a446d3d086fc..697645426fb1 100644
+> --- a/drivers/power/supply/power_supply_core.c
+> +++ b/drivers/power/supply/power_supply_core.c
+> @@ -482,6 +482,128 @@ struct power_supply *power_supply_get_by_name(const char *name)
+>  }
+>  EXPORT_SYMBOL_GPL(power_supply_get_by_name);
 >  
-> -	if (nhi->ops && nhi->ops->request_ring_irq) {
-> +	if (nhi->ops->request_ring_irq) {
+> +static int __power_supply_get_num_battery(struct power_supply *epsy, void *data)
+> +{
+> +	int *count = data;
+> +
+> +	if (epsy->desc->type == POWER_SUPPLY_TYPE_BATTERY)
+> +		(*count)++;
+> +
+> +	return 0;
+> +}
+> +
+> +static int power_supply_get_num_battery(struct device *dev)
+> +{
+> +	int ret, count = 0;
+> +
+> +	ret = power_supply_for_each_psy(&count, __power_supply_get_num_battery);
+> +
+> +	dev_dbg(dev, "%s: count: %d ret %d\n", __func__, count, ret);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	return count;
+> +}
+> +
+> +struct psy_get_supplies_data {
+> +	int cnt;
+> +	int size;
+> +	struct power_supply **psys;
+> +};
+> +
+> +static int __power_supply_populate_battery_array(struct power_supply *epsy,
+> +						 void *_data)
+> +{
+> +	struct psy_get_supplies_data *data = _data;
+> +
+> +	if (epsy->desc->type == POWER_SUPPLY_TYPE_BATTERY) {
+> +		if (data->size <= data->cnt)
+> +			return -EOVERFLOW;
+> +
+> +		get_device(&epsy->dev);
+> +		data->psys[data->cnt] = epsy;
+> +		atomic_inc(&epsy->use_cnt);
+> +		data->cnt++;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int power_supply_populate_battery_array(struct device *dev, int size,
+> +					       struct power_supply **batteries)
+> +{
+> +	int ret, i;
+> +
+> +	struct psy_get_supplies_data data = {
+> +		.cnt = 0,
+> +		.size = size,
+> +		.psys = batteries,
+> +	};
+> +
+> +	ret = power_supply_for_each_psy(&data, __power_supply_populate_battery_array);
+> +
+> +	dev_dbg(dev, "%s Found %d batteries with array size %d ret %d\n",
+> +		__func__, data.cnt, data.size, ret);
+> +
+> +	if (ret < 0) {
+> +		for (i = 0; i < data.cnt; i++)
+> +			power_supply_put(batteries[i]);
+> +		return ret;
+> +	}
+> +
+> +	return data.cnt;
+> +}
+> +
+> +/**
+> + * power_supply_get_battery_all() - Searches for all battery type power supplies
+> + *				    and returns their references.
+> + * @dev: Pointer to device requesting the power supply refs.
+> + * @psys: Pointer to an array of power supply refs that will be filled by this
+> + *	  function.
+> + *
+> + * This function helps drivers get handles to all battery type power supplies.
+> + * If acquiring a ref to a power supply results in error, then the search for
+> + * battery type power supplies will abort and the acquired power supplies will
+> + * be "put".
+> + *
+> + * Return: Indicates the number of battery type power supplies returned on
+> + * success or the negative error code on failure.
+> + *
+> + * It's the responsibility of the caller to invoke power_supply_put() on the
+> + * individual psy refs and free the array returned by this function using kfree().
 
-I wonder if it makes this more readable if we wrap these like:
+Not a full review, just a quick remark: It seems to me that there should
+be some helper function e.g. :
 
-	if (nhi_request_ring_irq(nhi)) {
+void power_supply_put_array(struct power_supply **psys, int count);
+
+Which can be called with the returned array + count to do this for the caller,
+rather then expecting all callers to open code this.
+
+Regards,
+
+Hans
 
 
->  		if (nhi->ops->request_ring_irq(ring, flags & RING_FLAG_NO_SUSPEND))
->  			goto err_free_descs;
->  	}
+> + */
+> +int __must_check power_supply_get_battery_all(struct device *dev,
+> +					      struct power_supply ***psys)
+> +{
+> +	int ret;
+> +
+> +	if (!psys)
+> +		return -EINVAL;
+> +
+> +	ret = power_supply_get_num_battery(dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (!ret) {
+> +		*psys = NULL;
+> +		return 0;
+> +	}
+> +
+> +	*psys = kzalloc_objs(**psys, ret);
+> +	if (!*psys)
+> +		return -ENOMEM;
+> +
+> +	ret = power_supply_populate_battery_array(dev, ret, *psys);
+> +	if (ret <= 0) {
+> +		kfree(*psys);
+> +		*psys = NULL;
+> +	}
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(power_supply_get_battery_all);
+> +
+>  /**
+>   * power_supply_put() - Drop reference obtained with power_supply_get_by_name
+>   * @psy: Reference to put
+> diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
+> index 7a5e4c3242a0..2467530a5740 100644
+> --- a/include/linux/power_supply.h
+> +++ b/include/linux/power_supply.h
+> @@ -806,11 +806,20 @@ extern int power_supply_reg_notifier(struct notifier_block *nb);
+>  extern void power_supply_unreg_notifier(struct notifier_block *nb);
+>  #if IS_ENABLED(CONFIG_POWER_SUPPLY)
+>  extern struct power_supply *power_supply_get_by_name(const char *name);
+> +extern int __must_check power_supply_get_battery_all(struct device *dev,
+> +						     struct power_supply ***psys);
+>  extern void power_supply_put(struct power_supply *psy);
+>  #else
+>  static inline void power_supply_put(struct power_supply *psy) {}
+>  static inline struct power_supply *power_supply_get_by_name(const char *name)
+>  { return NULL; }
+> +static inline int __must_check power_supply_get_battery_all(struct device *dev,
+> +							    struct power_supply ***psys)
+> +{
+> +	if (psys)
+> +		*psys = NULL;
+> +	return 0;
+> +}
+>  #endif
+>  extern struct power_supply *power_supply_get_by_reference(struct fwnode_handle *fwnode,
+>  							  const char *property);
+> 
+
