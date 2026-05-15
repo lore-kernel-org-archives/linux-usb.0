@@ -1,40 +1,41 @@
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE643FADE4;
-	Fri, 15 May 2026 23:54:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD29A3FF1CE;
+	Fri, 15 May 2026 23:54:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778889265; cv=none; b=N4hv3V472oWyAZVTbXSo6L5bfoM3FK41Y3HjD5bcwbz0CtPucBcdontgHnsOabt365YOFx6j4O8Y9zqLK6ldhkchteJCllPnUucePWmSMxDTq2TNm/sr3JIyWIYvktJ90a1lQazhaatoy4C+0MBIF/rmph1cvZG8kdUsS+qPg4g=
+	t=1778889269; cv=none; b=a2u0ipfhcwWjjNx7DsyCbZZTjG94jOx7kEsQif3NIHF297LM7m7g6KZOxn6XmPsEHJxJ++2geHXcvVV08TktAdUMLunpk+Ye6RoNbVFVBgjzWEeDrTAF2hAgJ5+6I9w0jiCMO8FRAk6S/ophJNQwBxwHCCGO/d31mlX5J1sHCKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778889265; c=relaxed/simple;
-	bh=8HpdAnsXIN35hIzRU5qjx5bzWsqCznLIFxP3Zm+d/aA=;
+	s=arc-20240116; t=1778889269; c=relaxed/simple;
+	bh=fwL7PTtx3vxGhjnHCiVHxkZlvP9EF4h5bP89TuKQfko=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=XIOdaL1bo1Gg85H3/uMNWd+i/R6I+jn9b6w7djnNKSHwkCAW5G+NbWEvrAKBj56atP90VkALWW16ykJ1X1e/cRqINj9sZIK92mdajdzaq+QnUu70vI/KGOIbXM2G7cROx4uxyDZFfJW8IGECaBLYs67Ie3+3HiApaBlkFYQ28xQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=e4LQhlax; arc=none smtp.client-ip=213.97.179.56
+	 In-Reply-To:To:Cc; b=guegKA9Lj5D942UAuqvwxD2dNwYZ65U+iYef94NVDa5jgnX1ixCxq5B7kA8DIwS4KFJQH1p0FaitH6GbUw7wmk+GgaxYsfDtxn9JsUsnpnZcbb2zEV4ByAiuYbn4Q4SHBbSX69dzsPWKgbBJ692p2hSnjeXqHqvKnSFRrdQknZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=cZdJPU8E; arc=none smtp.client-ip=213.97.179.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="e4LQhlax"
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="cZdJPU8E"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
 	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
 	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=N5f3lj6C5HIDH3Fzp/GhTglSGpFIUUcwSyDOCWfejiY=; b=e4LQhlaxTDcnibipaOqc8DzCv3
-	CWpNoT2EQQBQe3VkkYnpyDjmG77Rop1e1DSidvihYvF0vj6L2eNlLn6y4oNYPgkJFOgmwt4rfdVGs
-	NTXN3D4jHZePKgp5bK84U/9aZAnyu5KEL2Q0iJenbUXl0HMjMy/a6fGiKjyLvPc+gTKVqIeN2rmCc
-	O+0Bct+0alm/HrRn5WXCt8F+BZGKw8/YjNvzuUEC7gSwYH+YXka6u8QZfKE2/OeVCuqbd83JB8xUX
-	8OvIWDxc9PWc46WQsrOsgnC333KojqINDLDCNDMQCkykyi2s4WLl0qIr9LfduJ1u10ARvpvTQoAzV
-	f+OQ5xBQ==;
+	bh=gEBQIDRdpRPBQruqycF40ehToFlzlQU47j8MfkVaqkA=; b=cZdJPU8EtQY0z2+u9NVeA2y+/R
+	sZIgyJs9ZRmnbHTW+FRQchrfNvQ8LH1/n7iaXJX1AgJSwM8J6hvD+hzmynYtrAEyzYQG9HjWQyeO+
+	af/69hnBTA5ctZ1huzQEoKs6WerYVABGynoJx0j7ftVamBpyop/J4VuPQ/oMwyn3Ve28zHJK2P5p6
+	AM+SFXOf+q+XXaVhcLV5lE6KU3YQMp+05cWIByq69PSohuMuG4ojEiBzqR6fuM+OlRacbneSnXlk9
+	1qjzDQtlp+v6aPvSAHgS+ncHuateJdiWG9VV7rGORC+7rsju+Zjx6hsZe1tf9dxMdwLi9MnyRw5VS
+	INYNv+CQ==;
 Received: from 186-249-149-153.shared.desktop.com.br ([186.249.149.153] helo=[192.168.1.68])
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wO2MI-000keM-7t; Sat, 16 May 2026 01:54:22 +0200
+	id 1wO2ML-000keM-6X; Sat, 16 May 2026 01:54:25 +0200
 From: Mauricio Faria de Oliveira <mfo@igalia.com>
-Date: Fri, 15 May 2026 20:54:12 -0300
-Subject: [PATCH 1/2] usb: atm: ueagle-atm: adjust 'device found' message
+Date: Fri, 15 May 2026 20:54:13 -0300
+Subject: [PATCH 2/2] usb: atm: ueagle-atm: add missing uea_leaves() in
+ uea_probe()
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -43,7 +44,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260515-ueagle-atm_cosmetic-v1-1-9a15e5e45bd7@igalia.com>
+Message-Id: <20260515-ueagle-atm_cosmetic-v1-2-9a15e5e45bd7@igalia.com>
 References: <20260515-ueagle-atm_cosmetic-v1-0-9a15e5e45bd7@igalia.com>
 In-Reply-To: <20260515-ueagle-atm_cosmetic-v1-0-9a15e5e45bd7@igalia.com>
 To: Matthieu CASTET <castet.matthieu@free.fr>, 
@@ -54,26 +55,40 @@ Cc: kernel-dev@igalia.com, linux-atm-general@lists.sourceforge.net,
  Mauricio Faria de Oliveira <mfo@igalia.com>
 X-Mailer: b4 0.14.2
 
-Correct the verb form and add 'with' for clarity.
+Pair the existing uea_enters() (function entry debug message) with
+a missing uea_leaves() (function exit debug message) in uea_probe().
 
 Signed-off-by: Mauricio Faria de Oliveira <mfo@igalia.com>
 ---
- drivers/usb/atm/ueagle-atm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/atm/ueagle-atm.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/atm/ueagle-atm.c b/drivers/usb/atm/ueagle-atm.c
-index f3ae72feb5bfc313ccfa1ab6a9bb40fcd8f5800a..2730e7d41c89a354e115e38d97e314f888c62137 100644
+index 2730e7d41c89a354e115e38d97e314f888c62137..969d3d208680359c0c1a3efd581a8ce2fd8b1004 100644
 --- a/drivers/usb/atm/ueagle-atm.c
 +++ b/drivers/usb/atm/ueagle-atm.c
-@@ -2590,7 +2590,7 @@ static int uea_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	int ret;
+@@ -2598,8 +2598,10 @@ static int uea_probe(struct usb_interface *intf, const struct usb_device_id *id)
  
- 	uea_enters(usb);
--	uea_info(usb, "ADSL device founded vid (%#X) pid (%#X) Rev (%#X): %s\n",
-+	uea_info(usb, "ADSL device found with vid (%#X) pid (%#X) Rev (%#X): %s\n",
- 		le16_to_cpu(usb->descriptor.idVendor),
- 		le16_to_cpu(usb->descriptor.idProduct),
- 		le16_to_cpu(usb->descriptor.bcdDevice),
+ 	usb_reset_device(usb);
+ 
+-	if (UEA_IS_PREFIRM(id))
+-		return uea_load_firmware(usb, UEA_CHIP_VERSION(id));
++	if (UEA_IS_PREFIRM(id)) {
++		ret = uea_load_firmware(usb, UEA_CHIP_VERSION(id));
++		goto out;
++	}
+ 
+ 	ret = usbatm_usb_probe(intf, id, &uea_usbatm_driver);
+ 	if (ret == 0) {
+@@ -2613,6 +2615,8 @@ static int uea_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 		wake_up_process(sc->kthread);
+ 	}
+ 
++out:
++	uea_leaves(usb);
+ 	return ret;
+ }
+ 
 
 -- 
 2.51.0
