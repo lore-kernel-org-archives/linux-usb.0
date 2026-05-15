@@ -1,99 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9A93E9593;
-	Fri, 15 May 2026 07:27:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998573CF977;
+	Fri, 15 May 2026 07:35:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778830050; cv=none; b=UObQE2eZj2TrEVRfQyNJja45/XZHjLC5ls4z02BDFQ3ZvCGfQPNj4xU6xB4SxnpU1Rp0ea7dFJwo9Q8PzyrESoYdUYHK6mmOGiWuMiFPevJtFI7Y5GB2UA8rbtyiyOIZfcRuF1Ug5YvavB7tX9pDpginvw3rPqdP1BtNt1jyttE=
+	t=1778830519; cv=none; b=nGXheuYg+15sW40FVAPJupRuRjKK6VhNTi5+3buYouo3LxiDDieWq8a5st2V3uTRGKBnWN5bEz64dXhGbuKjIZExzv9UxSbmzBRpcPBqZRyABTCW/JuSKnk2WYQ8X0a/MAw2Jfzf0OM80oxWKOaL0tvG06tI7Y6TIcDBjde2llA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778830050; c=relaxed/simple;
-	bh=C2MzLl5tVNoBX7fGXcA3mC1gjoODAPzIe6kg0I7sAUI=;
+	s=arc-20240116; t=1778830519; c=relaxed/simple;
+	bh=scHF2tbVscSWxXlLSa+CK6/V2GGg6wZILgOOgZSjF5A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VrhgR/B7uhy3j0F9j4Nwp2fCSlwMIoewAeJpq0tWQRzjd4ZS/P4lPTxbsQNzytnDarLEo4RxFZlSak/om6zcspb/tX5QGtElkW46/1bgKJBCOBC5ozIzVkfCWwqQRtV3ct/FljBARt4ohPi/sAssc+kAvO3ElhHxzEVCPH8NRxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iLfpUYxt; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=unlR9ZHeGEKxKU/6EoSV5b7hUgLPRzkR7yn5FhzwY/frhLAr1hCRcI8Q1NvaVTKtjISMLiy0r79+alrDdDsxbOsh4zfcOjZIIwkGKP541KHIv4ie6aOJYp6NbDxNt0jCNZ1Cx96aQ4w6LOTcWPOK1+cvFYn0wp7tH7v7bJ/+WUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ov7p74U6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iLfpUYxt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34AECC2BCB0;
-	Fri, 15 May 2026 07:27:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ov7p74U6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF3E7C2BCB0;
+	Fri, 15 May 2026 07:35:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778830050;
-	bh=C2MzLl5tVNoBX7fGXcA3mC1gjoODAPzIe6kg0I7sAUI=;
+	s=k20201202; t=1778830519;
+	bh=scHF2tbVscSWxXlLSa+CK6/V2GGg6wZILgOOgZSjF5A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iLfpUYxtRrvhT3tg0kp1gG2re6deAp4LblHz+M96CRWXpijoTBrJ7bi5ZvbcFiLyA
-	 XWXfbn3y4tmTIZKbZAqKXupoeMGA2tf4iFr8ljIf8NtWamgzchOeypeClsoA9bwV87
-	 eUaGjk9ZtgKiZGa2R9CFFALEhM0cBKqFADisutB6Bv9Ni2qufdN9ywajsV+DICjmaM
-	 Pa8mUjee6f+9mbtDveUbxtYpu9SRU9a9i4FoMSu6wX0wvXC4XW0utpfo3UXdOLmpUx
-	 LZLX13QNgHjTu7Oe4WoT52PF5hGUTzHXHle/x3IqJGPRUxzxpK4apFxzUYhig+JHLD
-	 KaWeBy7dg+Dmw==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1wNmxD-00000000LKM-3IBH;
-	Fri, 15 May 2026 09:27:27 +0200
-Date: Fri, 15 May 2026 09:27:27 +0200
-From: Johan Hovold <johan@kernel.org>
-To: zwq2226404116@163.com
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Wanquan Zhong <wanquan.zhong@fibocom.com>
-Subject: Re: [PATCH v4] USB: serial: option: Add missing RSVD(5) flag for
- Rolling RW135R-GL
-Message-ID: <agbK37fGBbiSCn3I@hovoldconsulting.com>
-References: <20260515033105.7746-1-zwq2226404116@163.com>
+	b=ov7p74U61tSKJnL6h0N0xEum/8Sb5X8UTZ2LnNonwPqxglDRODH3vwlo2Z5e+0/Gn
+	 DfYxRlNLp/uyfwVjl/tMKhp6q9FP4tJUvu+47mCOBWa0DXD5G8ASnRVn5zZMdyMLkp
+	 QR7QXO24yLGYzONZZ/bGUUvWxqQgj6jYzuh+AmVuEMYzP9lqyRHA6VcunHkBa4LV7E
+	 awubAcDOiRHMdTfnBKZQI/tKZyCNB9NR/MTw3C03mCkI04OTjXo8Fa7CoAPjgscQRe
+	 tuxnGK7AK2ebALsZkcaU0i8hbw0YXjftCv8DcRRym3KIFwgDdDQGYrbmwjhQn8Wus/
+	 kZqt3UdYpiaFQ==
+Date: Fri, 15 May 2026 09:35:17 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Antony Kurniawan Soemardi <linux@smankusors.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
+	MINETTE Alexandre <contact@alex-min.fr>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: usb: ci-hdrc-usb2: allow up to 3 clocks for
+ qcom,ci-hdrc
+Message-ID: <20260515-annoying-ultraviolet-dinosaur-d8eff7@quoll>
+References: <20260509-qcom-ci-hdrc-clock-fix-v1-1-f52386bf85da@smankusors.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260515033105.7746-1-zwq2226404116@163.com>
+In-Reply-To: <20260509-qcom-ci-hdrc-clock-fix-v1-1-f52386bf85da@smankusors.com>
 
-On Fri, May 15, 2026 at 11:31:05AM +0800, zwq2226404116@163.com wrote:
-> From: Wanquan Zhong <wanquan.zhong@fibocom.com>
+On Sat, May 09, 2026 at 10:17:52AM +0000, Antony Kurniawan Soemardi wrote:
+> Some Qualcomm SoCs such as apq8064 and msm8960 require a third "fs"
+> clock in addition to "iface" and "core", needed to propagate resets
+> through the controller and wrapper logic. Later SoCs such as msm8974
+> dropped this requirement and only use two clocks.
 > 
-> The RW135R-GL MBIM interface entry was missing the .driver_info = RSVD(5) flag.
-> 
-> Without this flag, the option driver binds to the MBIM interface
-> and conflicts with the cdc_mbim driver, causing AT/MBIM communication
-> failures. This matches the handling of other Rolling Wireless MBIM devices.
-
-Please reply to this mail and explain why you think reserving interface
-number 5 (i.e. the ADB interface) prevents the driver to binding to the
-non-vendor MBIM interfaces number 0 and 1.
-
-Don't send any new versions until you've explained this.
- 
-> This patch adds the missing RSVD(5) quirk for Rolling RW135R-GL (33f8:1003)
-> to prevent the option driver from probing the MBIM control interface,
-> which avoids conflicts with cdc_mbim and fixes communication failures.
-> 
-> This aligns with the configuration used by all other Rolling Wireless MBIM modems.
-> 
-> v4:
-> - Fixes tag corrected
-
-No, it's still using the wrong summary (i.e. the text inside
-parenthesis). I already sent you the right one in an earlier reply, but
-you can also look it up using git log.
-
-> - Device table entry formatting aligned with existing pattern
-
-Move the changelog after the --- line.
-
-You also removed the usb-devices output from the commit message. Please
-add it back.
- 
-> Tested successfully on multiple interface configurations:
-> - mbim + diag + AT + pipe
-> - mbim + diag + AT + ADB + pipe
-> - mbim + pipe
-> 
-> Fixes: 01e8d0f74222 ("usb: serial: add support for Rolling Wireless RW135R-GL (33f8:1003)")
-> Signed-off-by: Wanquan Zhong <wanquan.zhong@fibocom.com>
+> Signed-off-by: Antony Kurniawan Soemardi <linux@smankusors.com>
 > ---
->  drivers/usb/serial/option.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> This patch updates the ci-hdrc-usb2 binding to allow up to 3 clocks for
+> qcom,ci-hdrc, to accommodate Qualcomm SoCs that require an additional
+> "fs" clock for reset propagation.
+> 
+> This is a prerequisite for the following patch series currently under
+> review:
+>   - ARM: dts: qcom: apq8064: Fix USB controller clocks [1]
+>   - ARM: dts: qcom: msm8960: add RPM clock controller and fix USB
+>     clocks [2]
+> 
+> Without this binding change, those series produce dtbs_check errors
+> due to the 3-clock entries in their respective device tree sources.
+> 
+> [1] https://lore.kernel.org/all/20260427-mainline-send-v1-sending-v2-6-dcaa9178007b@alex-min.fr/
+> [2] https://lore.kernel.org/all/20260414-msm8960-wifi-v1-5-007fda9d6134@smankusors.com/
+> ---
+>  .../devicetree/bindings/usb/ci-hdrc-usb2.yaml      | 29 ++++++++++++++++------
+>  1 file changed, 21 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
+> index 691d6cf02c27..5d18d47efaed 100644
+> --- a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
+> +++ b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
+> @@ -43,14 +43,6 @@ properties:
+>                - nxp,s32g3-usb
+>            - const: nxp,s32g2-usb
+>  
+> -  clocks:
+> -    minItems: 1
+> -    maxItems: 2
+> -
+> -  clock-names:
+> -    minItems: 1
+> -    maxItems: 2
+> -
 
-Johan
+You MUST NOT remove properties from top-level. See writing bindings and
+writing schema docs.
+
+>    operating-points-v2:
+>      description: A phandle to the OPP table containing the performance states.
+>      $ref: /schemas/types.yaml#/definitions/phandle
+> @@ -91,6 +83,27 @@ allOf:
+>    - $ref: chipidea,usb2-common.yaml#
+>    - $ref: usb-hcd.yaml#
+>    - $ref: usb-drd.yaml#
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: qcom,ci-hdrc
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 1
+> +          maxItems: 3
+
+List the items instead.
+
+> +        clock-names:
+> +          minItems: 1
+> +          maxItems: 3
+
+No, names cannot be flexible. Neither clocks can, BTW, but that's
+problem of existing binding. You need to list the items.
+
+
+> +    else:
+> +      properties:
+> +        clocks:
+> +          minItems: 1
+> +          maxItems: 2
+> +        clock-names:
+> +          minItems: 1
+> +          maxItems: 2
+
+This part is fine.
+
+Best regards,
+Krzysztof
+
