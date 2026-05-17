@@ -1,369 +1,225 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D3637C110
-	for <linux-usb@vger.kernel.org>; Sun, 17 May 2026 13:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FE5305698;
+	Sun, 17 May 2026 13:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779023097; cv=none; b=H9/UqywbAaMU6VAdPfUJAKAfDL3WewUhrBuIBTdMqqUsdnDKas9DpPiNwhdTZsjfnRvauvlbwmL0k2rebePO31e/j0xmbTptMGi9OPw8NFLcLU8oz/uBlzwkCUMxr97r3rUEOSWzOuiq2wioCLefKp6QE1sZkUOZtU3jAMFw6vg=
+	t=1779024699; cv=none; b=HTH/op72MlzMs/ohjbyKQaL+G7iqWbSj/vWv7JyzzQQlTwo6WY4zIFGwgLAgw2dXzChTwA68LzZnra1+RDi/dMM7sle5Pu5t2iPQkqqijpTiocOoQNe3DKr5FY9E5yfa9fuIUqROvDm/EfI9C2IZEjAEWrAqezSh5jm/308qirI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779023097; c=relaxed/simple;
-	bh=KshHTQQR+6mvIAComUFUue7CrlaSwdDDnxEiUrLUvHQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fWVR+g12d+zQ0KGwtQNJRE8IR3njsJe6V+g66PMRB6b0xRm2iMU0oN4bNWtWEcWWZwyH5NT9B+QGHoHyO5u+BWSXe1MYuWqVt28y6QSzBXSwkMi2Q09LwV8c0x1/I6K8/E+JI/XmSvvLwOf/ZRVunyiPjz13RLTDgDrQtDhY3KU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBFKjqP3; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779024699; c=relaxed/simple;
+	bh=IOITomRVBjW8JyHrXWDU15HH3RUKKw8cqpKEE3tx5+w=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=YC9wOgneNnjMAP39lVA20Xu7nPGbVUGilykDqxX70s86Gr1jiTzGfg0GYTlq64WxjjBw1AGBlwpZbpaZ8cH0Nfv/Tg/qpmNvjKRSpvJ+XclRf6NWejEXqf8FwtVwKWFKeXxOGkspruVHCA+F1+edkVPjRqzof8KWued8VpMro38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vRSDUQlz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBFKjqP3"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c8026aa4d53so996137a12.3
-        for <linux-usb@vger.kernel.org>; Sun, 17 May 2026 06:04:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779023066; x=1779627866; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CbYK6zyjwjcKr/UaCrMnTnE/VprY/vEckd2yJv9TdQ8=;
-        b=cBFKjqP3uvCQp4D4whhPenh+JHSL8UIvtISkpXMfb9SVrW9cCbKojzC5I7cwfTM71E
-         z8h8b2BsXaMeu8jilWX+shwia2uG5epq2xoep/eof+O9XSCbN9QA231oqoc07c8eUadz
-         crZy/cXQkvq2VmEqGdHKDzzrDa6m3GtGgPez0C9xu4PSVzemUjfD2cGncMExnEy/WJdF
-         Lcneg0mulmPj5lKQOPFKTnIgd2pWRNEk+auJAt3IYoqEjIcPaMmQ4QZlPH6MD6NPv37G
-         4w6aqaxKkwrhL2iJoLTtmmUJgIjzaL30Gfv9RHq9MqeqBkcCWZ9CrkccgLiIDCL59DXL
-         4Bbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779023066; x=1779627866;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=CbYK6zyjwjcKr/UaCrMnTnE/VprY/vEckd2yJv9TdQ8=;
-        b=XfSkfO+JENqPOKgkt+GXbuFWt9N2FC+l73bhjx99V9KLrT2+YdOA2SWLEivnR7hLKP
-         LrYFDNsQh6tPnn9Zn9274TrPHZwuY6nMLJjWtmvaIr+WjvlQk+7QMRTkofLHEH97OLVn
-         i8Di9de7aKdomdR4Ar8JL0e+FSABFktoMczrMGRtyFy4vOc4bQca9FGluWVdxqv2XtKT
-         nl/O9ZMFMrf48CHVh+YsIlynJDSRpJ/BDRosnJMxLolq4muMzcuuHoHxt3FNRWqSQekX
-         jEi7WwrGbzlrI9+d/tMf0Mc7MJh0tfU5h+ZArBxz2tsOClBk/AG/ydfDMAUTTiZ1FoVo
-         BPsQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+Cyckw3GSjAv9oRwo8ikBbzttV5XL2YnLEwhRBCbk9I6BnKWt4DHdT5yz4j/THqkbaOTccrfHABu4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzELBbIj8yhYI8+Ebs7bHWFh66vGv5sojYPyLRbq5NxdWFA6QBG
-	LMTzGejLjLnv5hM5O+xfN978zczV4+rqHR2gOpEbyST7itdgpWPVnN9Y
-X-Gm-Gg: Acq92OGSh2oOOBTpRnZUbaXlb3CRDF283vHARKKcfEpldzuUNXHJKob6VJjQ20qatHR
-	bARyQABrHzKGsxHw+RTYy3cqPZjIJO0lM60tWEyJJESrPbnLMUj3kvqaAhC9ygacjMvaZjHRiKt
-	N1D9Q8P5gVHOkfcHsmdkrM+RBYCGl6Gf/01kz0wk4qmICRNvpalKgV/SeOgjg6Nb9mL/erSlq0e
-	+fMsW5X+v3xaaJdOj9XPPya1Faapx8jkYP4LkqceX190MA7cO0iqaGqLKV9tm5idbqu3r1WnVKf
-	acK7SijHe+0nEnvVJGgDRXPpiQAIiTYce5eYEfj+cLIUN1dnt/YcrfbcYE2WdvmY0jcCiX5YcDd
-	lmyFgW+ZB3bThWyUVAJH1OqQiogocvo4AcOI1/AC9R86XJ+A0dn/LfmAzQfAU8ITt0sH2mG6FO3
-	1at2rWoEznE1DMMEgCzwXk7w==
-X-Received: by 2002:a05:6a00:440e:b0:82f:3ecc:c42f with SMTP id d2e1a72fcca58-83f33c9d17amr11704313b3a.40.1779023066365;
-        Sun, 17 May 2026 06:04:26 -0700 (PDT)
-Received: from mincom1 ([119.214.48.64])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19c77822sm11712607b3a.41.2026.05.17.06.04.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 06:04:24 -0700 (PDT)
-From: Jihong Min <hurryman2212@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mathias Nyman <mathias.nyman@intel.com>
-Cc: Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-	linux-usb@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jihong Min <hurryman2212@gmail.com>,
-	"Mario Limonciello (AMD)" <superm1@kernel.org>,
-	Yaroslav Isakov <yaroslav.isakov@gmail.com>
-Subject: [PATCH v6 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
-Date: Sun, 17 May 2026 22:04:06 +0900
-Message-ID: <20260517130407.795157-2-hurryman2212@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260517130407.795157-1-hurryman2212@gmail.com>
-References: <20260517130407.795157-1-hurryman2212@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vRSDUQlz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FCF9C2BCB0;
+	Sun, 17 May 2026 13:31:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779024698;
+	bh=IOITomRVBjW8JyHrXWDU15HH3RUKKw8cqpKEE3tx5+w=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=vRSDUQlzohHA/FWqGFxnoNCKuAfC3laCZBBCLUUoYSTRVmug4W2ThJTrAHf/06xlG
+	 Hs0XSJ18tDV+NOeDUa+YRFkrgoMpr6OCZSNLZNK88ffkfv3aS6wCuZZ3eMfnj0Y/sA
+	 3JD7SOZiPaWO/tBeooFFo7wVSKPbe2RBIVka+XQQgadg3fWU3mzeo1g2GnBC6l4DsG
+	 JIwthJyXuP2eDJb/Mm02Qg/6HCZyyC7QJIO1s6uXWsNfUMb5tM8A1q0eI9FoEbJY7c
+	 nsnm/utsBSxoLICcy8IqlwNmHsovTLE+IIPfgaFlln75kGedz1Ni8CqmxpRmd9ud0C
+	 vZBsFYQpilMXA==
+Message-ID: <a1264253-ee93-4671-ae3b-3a1bd307f65a@kernel.org>
+Date: Sun, 17 May 2026 15:31:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Sven Peter <sven@kernel.org>
+Subject: Re: [PATCH 2/2] usb: dwc3: Notify XHCI core of tunneled status
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Jack Pham <jack.pham@oss.qualcomm.com>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "usb4-upstream@oss.qualcomm.com" <usb4-upstream@oss.qualcomm.com>,
+ Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, asahi@lists.linux.dev
+References: <20260505-topic-dwc3_tunneling_state-v1-0-4aaa6c3c14cb@oss.qualcomm.com>
+ <20260505-topic-dwc3_tunneling_state-v1-2-4aaa6c3c14cb@oss.qualcomm.com>
+ <afpyvhadqZw0xfTB@vbox>
+ <1163a026-03b2-4860-a422-eb276920b4aa@oss.qualcomm.com>
+ <afzP+uoUALSji95Q@hu-jackp-lv.qualcomm.com> <af0SM3C5qHc73DM8@vbox>
+ <670f9a9f-54b9-4109-986e-5071caf1dcaf@oss.qualcomm.com>
+ <af5sfCOfBa7mYqPw@vbox>
+ <0431f8ff-545b-4533-8bb3-d4f3d2e30032@oss.qualcomm.com>
+ <551c246d-7ff6-49e5-bb14-3f49f7649e54@kernel.org>
+ <9d8092f2-d04d-4c53-a0da-6da272d3b447@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <9d8092f2-d04d-4c53-a0da-6da272d3b447@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-AMD Promontory 21 (PROM21) xHCI controllers use generic xHCI
-operation, but the PCI function also exposes optional
-controller-specific sensor functionality. Add a small PROM21 PCI glue
-driver for AMD 1022:43fc and 1022:43fd controllers.
+cc: asahi@lists.linux.dev
 
-The driver delegates USB host operation to the common xhci-pci core,
-collects the parent-provided MMIO resource data, and creates a "hwmon"
-auxiliary device for optional child drivers. Failure to create the
-auxiliary device is logged but does not fail the xHCI probe, since the
-auxiliary device is only needed for sensor support.
+On 12.05.26 13:56, Konrad Dybcio wrote:
+> On 5/11/26 8:44 PM, Sven Peter wrote:
+>> Hi,
+>>
+>> On 11.05.26 11:06, Konrad Dybcio wrote:
+>>> On 5/9/26 1:31 AM, Thinh Nguyen wrote:
+>>>> On Fri, May 08, 2026, Konrad Dybcio wrote:
+>>>>> On 5/8/26 12:46 AM, Thinh Nguyen wrote:
+>>>>>> On Thu, May 07, 2026, Jack Pham wrote:
+>>>>>>> On Thu, May 07, 2026 at 12:34:50PM +0200, Konrad Dybcio wrote:
+>>>>>>>> On 5/7/26 1:40 AM, Thinh Nguyen wrote:
+>>>>>>>>> On Tue, May 05, 2026, Konrad Dybcio wrote:
+>>>>>>>>>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> 
+> [...]
+> 
+>>> 4. drivers/phy/qualcomm/phy-qcom-qmp-combo.c reprograms the PHY based
+>>>      on typec_mux events in native cases, or to USB4/TBT mode if the router
+>>>      driver requests it [that last part is not yet upstream]
+>>> 5. [optionally] retimer drivers in between (most often Parade PS883x
+>>>      series via drivers/usb/typec/mux/ps883x.c), which act as an
+>>>      additional typec_mux/switch in the chain
+>>> 6. [not upstream yet] USB4 router driver consumes some typec_mux
+>>>      parameters (orientation, cable and partner capabilities) and sends a
+>>>      command to another MCU to high-speed link establishment. It also sets
+>>>      the aforementioned magic register.
+>>
+>> I'm not sure if mux is the correct framework here. On Apple Silicon we also need an out-of-band notification from the PD controller to the USB4 NHI here but the NHI isn't a mux in the typec sense. And how do you ensure that 4 happens before 6 if you use the typec mux framework or does that not matter for your platform?
+> 
+> Some mux provider drivers (e.g. the PS883x one) call typec_mux_get/set()
+> explicitly, and combining that with the right of_graph things end up
+> working naturally (perhaps to some degree by luck?).
 
-Make the PROM21 PCI glue a hidden Kconfig tristate that follows
-USB_XHCI_PCI. This keeps the glue built in with a built-in xhci-pci core
-and builds it as a module with a modular xhci-pci core. A built-in
-xhci-pci core must not hand PROM21 controllers to a PROM21 glue driver
-that is only available as a module, otherwise USB behind those controllers
-can be unavailable during initramfs and PROM21 temperature sensor support
-may not appear until the controller is rebound after the module loads.
+It's luck, it was the wrong order for Apple Silicon :-)
+I just don't think it's appropriate to describe the native host 
+interface as a mux (at least on Apple Silicon) since the mux is inside 
+the Type-C PHY even though the mux framework happens to transport almost 
+all the correct information.
+I also don't think it makes sense to describe that thing as a mux inside 
+the device tree.
 
-Assisted-by: Codex:gpt-5.5
-Signed-off-by: Jihong Min <hurryman2212@gmail.com>
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-Tested-by: Yaroslav Isakov <yaroslav.isakov@gmail.com>
----
- drivers/usb/host/Kconfig                      |   7 +
- drivers/usb/host/Makefile                     |   1 +
- drivers/usb/host/xhci-pci-prom21.c            | 136 ++++++++++++++++++
- drivers/usb/host/xhci-pci.c                   |  11 ++
- drivers/usb/host/xhci-pci.h                   |   3 +
- include/linux/platform_data/usb-xhci-prom21.h |  22 +++
- 6 files changed, 180 insertions(+)
- create mode 100644 drivers/usb/host/xhci-pci-prom21.c
- create mode 100644 include/linux/platform_data/usb-xhci-prom21.h
+> 
+> With the QMPPHY specifically, it already exposes a separate struct phy
+> for the USB3 sub-block and another one for DP. I added a third one for
+> USB4, which when activated, programs it into USB4 mode and de facto
+> blocks the driver from acting as a typec_mux (simply via an early return
+> from mux_set) for the duration of the USB4PHY being in use (the router
+> takes care of lane assignment and orientation, when active).
+> 
+> Making this predictable (and controllable from the router driver) was
+> paramount, as the device will crash if the router is attempted to be
+> brought online at the wrong time, since most of its clocks are derived
+> from the on-PHY PLL. Similarly, the suspend flows also require tight
+> control of the PHY's power state.
 
-diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
-index 0a277a07cf70..89bf262235e1 100644
---- a/drivers/usb/host/Kconfig
-+++ b/drivers/usb/host/Kconfig
-@@ -42,6 +42,13 @@ config USB_XHCI_PCI
- 	depends on USB_PCI
- 	default y
- 
-+config USB_XHCI_PCI_PROM21
-+	tristate
-+	depends on X86
-+	depends on USB_XHCI_PCI
-+	default USB_XHCI_PCI
-+	select AUXILIARY_BUS
-+
- config USB_XHCI_PCI_RENESAS
- 	tristate "Support for additional Renesas xHCI controller with firmware"
- 	depends on USB_XHCI_PCI
-diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
-index a07e7ba9cd53..174580c1281a 100644
---- a/drivers/usb/host/Makefile
-+++ b/drivers/usb/host/Makefile
-@@ -71,6 +71,7 @@ obj-$(CONFIG_USB_UHCI_HCD)	+= uhci-hcd.o
- obj-$(CONFIG_USB_FHCI_HCD)	+= fhci.o
- obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
- obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
-+obj-$(CONFIG_USB_XHCI_PCI_PROM21)	+= xhci-pci-prom21.o
- obj-$(CONFIG_USB_XHCI_PCI_RENESAS)	+= xhci-pci-renesas.o
- obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
- obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
-diff --git a/drivers/usb/host/xhci-pci-prom21.c b/drivers/usb/host/xhci-pci-prom21.c
-new file mode 100644
-index 000000000000..be0933ca5c62
---- /dev/null
-+++ b/drivers/usb/host/xhci-pci-prom21.c
-@@ -0,0 +1,136 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * AMD Promontory 21 xHCI host controller PCI Bus Glue.
-+ *
-+ * This does not add any PROM21-specific USB or xHCI operation. It exists only
-+ * to publish an auxiliary device for integrated temperature sensor support.
-+ *
-+ * Copyright (C) 2026 Jihong Min <hurryman2212@gmail.com>
-+ */
-+
-+#include <linux/auxiliary_bus.h>
-+#include <linux/device/devres.h>
-+#include <linux/errno.h>
-+#include <linux/idr.h>
-+#include <linux/module.h>
-+#include <linux/pci.h>
-+#include <linux/platform_data/usb-xhci-prom21.h>
-+#include <linux/usb.h>
-+#include <linux/usb/hcd.h>
-+
-+#include "xhci-pci.h"
-+
-+struct prom21_xhci_auxdev {
-+	struct auxiliary_device *auxdev;
-+	struct prom21_xhci_pdata pdata;
-+	int id;
-+};
-+
-+static DEFINE_IDA(prom21_xhci_auxdev_ida);
-+
-+static void prom21_xhci_auxdev_release(struct device *dev, void *res)
-+{
-+	struct prom21_xhci_auxdev *prom21_auxdev = res;
-+
-+	auxiliary_device_destroy(prom21_auxdev->auxdev);
-+	ida_free(&prom21_xhci_auxdev_ida, prom21_auxdev->id);
-+}
-+
-+static int prom21_xhci_create_auxdev(struct pci_dev *pdev)
-+{
-+	struct prom21_xhci_auxdev *prom21_auxdev;
-+	struct usb_hcd *hcd = pci_get_drvdata(pdev);
-+
-+	if (!hcd)
-+		return -ENODEV;
-+
-+	prom21_auxdev = devres_alloc(prom21_xhci_auxdev_release,
-+				     sizeof(*prom21_auxdev), GFP_KERNEL);
-+	if (!prom21_auxdev)
-+		return -ENOMEM;
-+
-+	prom21_auxdev->pdata.pdev = pdev;
-+	prom21_auxdev->pdata.regs = hcd->regs;
-+	prom21_auxdev->pdata.rsrc_len = hcd->rsrc_len;
-+
-+	prom21_auxdev->id = ida_alloc(&prom21_xhci_auxdev_ida, GFP_KERNEL);
-+	if (prom21_auxdev->id < 0) {
-+		int ret = prom21_auxdev->id;
-+
-+		devres_free(prom21_auxdev);
-+		return ret;
-+	}
-+
-+	prom21_auxdev->auxdev = auxiliary_device_create(&pdev->dev,
-+							KBUILD_MODNAME, "hwmon",
-+							&prom21_auxdev->pdata,
-+							prom21_auxdev->id);
-+	if (!prom21_auxdev->auxdev) {
-+		ida_free(&prom21_xhci_auxdev_ida, prom21_auxdev->id);
-+		devres_free(prom21_auxdev);
-+		return -ENOMEM;
-+	}
-+
-+	devres_add(&pdev->dev, prom21_auxdev);
-+	return 0;
-+}
-+
-+static void prom21_xhci_destroy_auxdev(struct pci_dev *pdev)
-+{
-+	devres_release(&pdev->dev, prom21_xhci_auxdev_release, NULL, NULL);
-+}
-+
-+static int prom21_xhci_probe(struct pci_dev *dev,
-+			     const struct pci_device_id *id)
-+{
-+	int retval;
-+
-+	retval = xhci_pci_common_probe(dev, id);
-+	if (retval)
-+		return retval;
-+
-+	retval = prom21_xhci_create_auxdev(dev);
-+	if (retval) {
-+		/*
-+		 * The auxiliary device only provides optional temperature sensor
-+		 * support. Keep the xHCI controller usable if it fails.
-+		 */
-+		dev_err(&dev->dev,
-+			"failed to create PROM21 hwmon auxiliary device: %d\n",
-+			retval);
-+	}
-+
-+	return 0;
-+}
-+
-+static void prom21_xhci_remove(struct pci_dev *dev)
-+{
-+	prom21_xhci_destroy_auxdev(dev);
-+	xhci_pci_remove(dev);
-+}
-+
-+static const struct pci_device_id pci_ids[] = {
-+	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FC) },
-+	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FD) },
-+	{ /* end: all zeroes */ }
-+};
-+MODULE_DEVICE_TABLE(pci, pci_ids);
-+
-+static struct pci_driver prom21_xhci_driver = {
-+	.name = "xhci-pci-prom21",
-+	.id_table = pci_ids,
-+
-+	.probe = prom21_xhci_probe,
-+	.remove = prom21_xhci_remove,
-+
-+	.shutdown = usb_hcd_pci_shutdown,
-+	.driver = {
-+		.pm = pm_ptr(&usb_hcd_pci_pm_ops),
-+	},
-+};
-+module_pci_driver(prom21_xhci_driver);
-+
-+MODULE_AUTHOR("Jihong Min <hurryman2212@gmail.com>");
-+MODULE_DESCRIPTION("AMD Promontory 21 xHCI PCI Host Controller Driver");
-+MODULE_IMPORT_NS("xhci");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 585b2f3117b0..039c26b241d0 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -696,12 +696,23 @@ static const struct pci_device_id pci_ids_renesas[] = {
- 	{ /* end: all zeroes */ }
- };
- 
-+/* handled by xhci-pci-prom21 if enabled */
-+static const struct pci_device_id pci_ids_prom21[] = {
-+	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FC) },
-+	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FD) },
-+	{ /* end: all zeroes */ }
-+};
-+
- static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
- {
- 	if (IS_ENABLED(CONFIG_USB_XHCI_PCI_RENESAS) &&
- 			pci_match_id(pci_ids_renesas, dev))
- 		return -ENODEV;
- 
-+	if (IS_ENABLED(CONFIG_USB_XHCI_PCI_PROM21) &&
-+	    pci_match_id(pci_ids_prom21, dev))
-+		return -ENODEV;
-+
- 	return xhci_pci_common_probe(dev, id);
- }
- 
-diff --git a/drivers/usb/host/xhci-pci.h b/drivers/usb/host/xhci-pci.h
-index e87c7d9d76b8..11f435f94322 100644
---- a/drivers/usb/host/xhci-pci.h
-+++ b/drivers/usb/host/xhci-pci.h
-@@ -4,6 +4,9 @@
- #ifndef XHCI_PCI_H
- #define XHCI_PCI_H
- 
-+#define PCI_DEVICE_ID_AMD_PROM21_XHCI_43FC	0x43fc
-+#define PCI_DEVICE_ID_AMD_PROM21_XHCI_43FD	0x43fd
-+
- int xhci_pci_common_probe(struct pci_dev *dev, const struct pci_device_id *id);
- void xhci_pci_remove(struct pci_dev *dev);
- 
-diff --git a/include/linux/platform_data/usb-xhci-prom21.h b/include/linux/platform_data/usb-xhci-prom21.h
-new file mode 100644
-index 000000000000..ee672ad452a8
---- /dev/null
-+++ b/include/linux/platform_data/usb-xhci-prom21.h
-@@ -0,0 +1,22 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * AMD Promontory 21 xHCI auxiliary device platform data.
-+ *
-+ * Copyright (C) 2026 Jihong Min <hurryman2212@gmail.com>
-+ */
-+
-+#ifndef _LINUX_PLATFORM_DATA_USB_XHCI_PROM21_H
-+#define _LINUX_PLATFORM_DATA_USB_XHCI_PROM21_H
-+
-+#include <linux/compiler_types.h>
-+#include <linux/types.h>
-+
-+struct pci_dev;
-+
-+struct prom21_xhci_pdata {
-+	struct pci_dev *pdev;
-+	void __iomem *regs;
-+	resource_size_t rsrc_len;
-+};
-+
-+#endif
--- 
-2.53.0
+Yeah, that's similar to Apple Silicon except that we drive all the 
+synchronization from the Type-C PD controller because we have even more 
+components that all have to kept in sync on those platforms.
+
+> 
+> 
+> I ended up modeling the router as a mux&switch, since like I mentioned,
+> it needs a number of parameters that already come via these frameworks
+> (cable type/speed, orientation, etc.) and the drivers needs to talk to
+> the MCU immediately after the PHY and retimer are set up, so that only
+> made sense.
+> 
+>> Currently I use [1] and [2] in my work-in-progress tree though I'm not quite happy with it yet.
+> 
+> I took a look at your branch and predictably we faced some common
+> obstacles.. Although I'm jealous of RTKIT..
+> 
+>>> At a glance, 2. seems like a reasonably fitting place to set it, however:
+>>> * it does not have any sort of a handle to the typec_connector (it
+>>> only acts like a mux that sets another mux), and
+>>> * it may be going away in the future
+>>>
+>>> so I'd much prefer to keep this logic somewhere near where this iteration
+>>> of the patch does - I think it'll be useful for more implementations, as
+>>> I'd imagine it'd be fairly commonplace to hardwire CIOCTRL_CIO_EN and
+>>> another part of the pipeline that must logically be online for USB4 to
+>>> be useful
+>>>
+>>> +Sven, on ASi, is CIOCTRL_CIO_EN (dwc3base + (0xcd20 + ((port) * 0x30))
+>>> written to manually?
+>>
+>> I don't think so, but we need a manual out-of-band notification to both PCIe, tunneled DisplayPort and USB3 once the tunnel has been brought upside the NHI (i.e. long after the typec altmode is entered) and all this has to be represented in the device tree as well.
+> 
+> The DP situation in our impl is.. colorful as well.
+> Generally I think we only need to reset the protocol adapters, which
+> happen to live within the router's address space, making it contained
+> within the TBT driver.
+
+Yeah, for us it's separate and there's the display co-processor which 
+has to get an OOB notification for any established USB4/TBT tunnel.
+It's a big mess essentially.
+
+>> DWC3 on Apple platforms is very cursed and has to be fully offline while the Type-C switches modes and must only be brought up then once the tunnel inside the NHI has already been established.
+> 
+>> My current WIP code uses a tbt_oob_notify for all that that I introduced and something like this in the dt to represent the connections:
+>>
+>> /* USB4 */
+>> &usb4_1_acio {
+>>      ports {
+>>          #address-cells = <1>;
+>>          #size-cells = <0>;
+>>
+>>          /* 1: USB4 port */
+>>          port@1 {
+>>              reg = <1>;
+>>              usb4_1_acio_tbt: endpoint {
+>>                  remote-endpoint = <&typec1_con_tbt>;
+>>              };
+>>          };
+>>
+>>          /* 2: unused(?) USB4 port */
+> 
+> Any chance port2 is used for lane bonding?
+
+None, port 2 isn't connected to anything. That (?) is just a leftover. 
+The host router block can probably support two ports with shared 
+bandwidth but Apple instead decided to create a separate host router for 
+each port.
+
+> 
+>>          /* 3: PCIe, TBD */
+>>          /* 4: USB3, TBD */
+>>          /* 5: DP0, TBD */
+>>          /* 6: DP1, TBD */
+>>      };
+>> };
+>>
+>> Still not completely happy with that as well.
+>> Does PCIe tunneling also need additional OOB notifications for you?
+> 
+> No, simply enabling the path works, after which we get the normal hotplug
+> events
+
+Lucky you! We need to enable the PCIe tunnels inside the pcie driver 
+*after* the tunnel is up inside the NHI because otherwise the 
+co-processor firmware will crash. There's also some weirdness going on 
+with PCIe hotplug events below the root bridge that I have yet to figure 
+out. From what I can tell XNU manually injects these events whenever the 
+TBT tunnel changes. We can see that weirdness with long chains like a 
+USB4 hub -> Another TBT dock -> Apple's TBT display -> TBT-to-ethernet 
+adapter.
+I've added generic out-of-bound notifications for that but not quite 
+happy with it yet.
+
+
+Please also cc me on any thunderbolt submissions. If your work goes in 
+first I can just rebase mine on top of your tree and see if we need 
+anything more.
+
+
+Sven
+
 
