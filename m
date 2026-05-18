@@ -1,148 +1,113 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4CA32E13B
-	for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 14:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9158F3FAE0C
+	for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 14:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779113776; cv=none; b=VRDZB6JA9NTMSAx9exqiExZi7650df3z5Zps3NNYRkA47VeEE481SDsiFyo9+W3/KdJw3aHbOMR0zE9E0Tckx3pPO32y04hKP7DvJXWqDlbysqMqyrQg5C6d5fEILbAkMceOsV8iKtXZoPmO6WbhZhGYvavkiQAIshbLRQToslc=
+	t=1779114544; cv=none; b=tWp4b70E5lIwYFDdJQNt7+1B3xWoAV3FL0/kJDxLg2xeeSN+tBr67M3ounzQkZVYwrArKrXEATrl0435fcYZlEtufqbbz5IRFRdT2Qt3c8ZWjT4WlEQhV/9mqTWQNi4qnPctgEQaOFtMLwNQwqjcF8p0GyJ/qtxF2naLAX7sG+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779113776; c=relaxed/simple;
-	bh=ApCOd65GH1mrpZH/IkjKX1FZRq5Jr2eH38qeIoG0SF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sjd7BROooiviocBiG3Jb+uBVnsVV/D7vRxxx9sfAN1PFQOXSvWI5SO5CGTRuM9jcxOC1l9rFjpPcXHHa12UKhohW+bT4vi92mtKV9m6joxWOAnLY1QMmh5PIaPQQVWFDwEaYA3Q5nUiDqiCTLjKkeoiI57C33C+UhuttZtAHG8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UgFC753r; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1779114544; c=relaxed/simple;
+	bh=89PtTp+CZywNRq5iByxV+8ZZVcp4aTPf8WIgy+hSvKw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MTqhMcW5yKMfDoVnvtqgCBX0E40If0+hIwKMacH3UzETzTfaExkKTBZlOcKNIIPc2IiwQtl1pY5rc5IOIyIQ5rLOFyCvClPEqAVu7ityPz/Kd7Z4FwM/MmvJCGuQM+JrnOIG6ebgtA9NYPcccboML0BFTpXfimV2KQit3+T0aiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EfHf8Pv3; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UgFC753r"
-Date: Mon, 18 May 2026 16:16:09 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1779113772;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YmF/+k7xT27dQ9b/IpYw+UhoMPGbrRM8hC9gifet4s4=;
-	b=UgFC753rTkvXhKZDL0ZNsUTOnR5IsbU/4oZSDMmavl6q9jU9aEx3QUBC1KFeKhwmr7qvxs
-	PhVNbKkpDH74Fgpr6tORfMy2vdiPqQ5ULSlJp06ptoWQih3ozTvHjezWt4mlcSeRw7yeSe
-	v3cdvkAnWEFLoD3dcClzcP++rZUUAik=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Richard Leitner <richard.leitner@linux.dev>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] usb: misc: Use named initializers for struct
- i2c_device_id
-Message-ID: <agse4guy6jN5Vx5s@bombadil>
-References: <20260518135536.781168-2-u.kleine-koenig@baylibre.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EfHf8Pv3"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7c307937816so15927167b3.0
+        for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 07:29:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779114542; x=1779719342; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XcufF3NFTqjHcW83cLrWRQgO+sW13V4Ery+C5imZXPw=;
+        b=EfHf8Pv3S7RjLtF2fTlSGgC2pgh5eAkS3Dm3UqdHnpDunpkJu+iJPYeeN2hywR4mU8
+         MSLYSqRD4moBut0YfJkmXBujNTimlN2sPBpZFrPmNKhzIgMMAP/Gg+o4pNcz3QdBETaO
+         G5sASpHDJa4YXXuoZGiERrMxU4JTtSoNxO5hIpiGW1SX7KPrEVkXd27XMjL6iaciwBbm
+         NIg9kPUfYPf785QMOHZ+gcvz3AjGkkprMskthK8spkK4qQbpIeFTZVOxPWGOOQpG5N6O
+         pcdk3F9WisunNuYwvRiuOWBf2X59uM38zGyRtz1XFZU2Tnd/HWtfbFfCcQv0SGoo3M1V
+         YYQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779114542; x=1779719342;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XcufF3NFTqjHcW83cLrWRQgO+sW13V4Ery+C5imZXPw=;
+        b=TJtDRXxFxdfSe9DhLT81456d6KUT0ksbwwqG/3PBZGGnufolV5F7XHEDyzWiN+fxwv
+         X5wkgU50h8miznx1XSROgvPSoq986RO/w8N+w4actNwm97m2LvZXPg96YjljNmTjzDx9
+         WtV9+BPo8W1xjHNnECNY54eiKIOdNxbIJyueHR1SVYJ6xTNDPCtbijo0tXWXdTme9zBX
+         4eACCialh/gXZmKxuuEQLHXWyPJXXfWzol15XdzoDFoq7Mj/OFx127RNLXf/HKLpdau9
+         ICoAe7k3k8TWiAop9gOVgiECiWO0FYCGfN5m8DpuKywvvF9THxkpisGKUXh31MWhDBzu
+         sieA==
+X-Forwarded-Encrypted: i=1; AFNElJ9veH+y9aj2RqhIxyfeqJy7mCSKfMiPI3OmmczqwrDOLwSGc+oxGqurCxgHypdkwp979LGoI9J9zKg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyt97JeQgdcFFv6AMdK2Q56TiDlWAl/XSEAqEFX1BSE2tDMuk4Z
+	L9noo/RvUbPxNAt9UlNns1V/X/CteZnehI5oFSojf5AA8FuOT0J0JLyV
+X-Gm-Gg: Acq92OFKIWl7CBc0iOB2ZO+geCfaM07mvklnVHKUjOBdNEHgIC03N+4nxvbOvdvciIb
+	3dRhXU1ZK6NdFJ8kRLvEp3Vyjvc1boBqu4joC7zRTct8Aau3a/WyPbxFaC7f9w6F8F98IFlezxK
+	1eyeMZMNohV7mbALNAeIREsdpgxMnTgjxOyGpAvVy5h70SFHr+psQyTu8PXgF1tS5/hATgEURq8
+	YNNECncTVRZYx10bQ/ZvZo9zFqbjVZyZ9jp/77jUUrAT3zeK5HpHT6jO3pRsnBd9xLd5mfuSCUx
+	PqzPp9eIfq8hy53H5E1kd25Pk0zLa1S7OWrwG86VoMe9ZojrHUNfbYlxkygIoPUjCWoQpF2A/hX
+	mPHFNKqhH9V83WWLtA2u5JLXineNZ0+krFYdhXMIb0Qfvhkid60Y9jOKKzhkAMNqPdtJXUCZhN0
+	nPKsns5oNjRdAuzoy5TfOqV7ukYPIqKxMjcwjaVa1VIA==
+X-Received: by 2002:a05:690c:8d0c:b0:7bd:69b8:f2e5 with SMTP id 00721157ae682-7c95a56f98fmr137336677b3.3.1779114542475;
+        Mon, 18 May 2026 07:29:02 -0700 (PDT)
+Received: from fsh.attlocal.net ([2600:1702:56e9:4b40:ed8c:6b8b:1fa3:d14b])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7cc997cb156sm22094067b3.18.2026.05.18.07.29.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 07:29:02 -0700 (PDT)
+From: Akash Sukhavasi <akash.sukhavasi@gmail.com>
+To: krzk+dt@kernel.org
+Cc: robh@kernel.org,
+	conor+dt@kernel.org,
+	gregkh@linuxfoundation.org,
+	gene_chen@richtek.com,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] dt-bindings: usb: richtek,rt1711h: remove .txt binding and fix schema
+Date: Mon, 18 May 2026 09:28:59 -0500
+Message-ID: <20260518142901.1747-1-akash.sukhavasi@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260518135536.781168-2-u.kleine-koenig@baylibre.com>
-X-Migadu-Flow: FLOW_OUT
 
-On Mon, May 18, 2026 at 03:55:36PM +0200, Uwe Kleine-König (The Capable Hub) wrote:
-> While being less compact, using named initializers allows to more easily
-> see which members of the structs are assigned which value without having
-> to lookup the declaration of the struct. And it's also more robust
-> against changes to the struct definition.
-> 
-> While touching all these arrays, unify usage of whitespace in the list
-> terminator.
-> 
-> This patch doesn't modify the compiled arrays, only their representation
-> in source form benefits. The former was confirmed with x86 and arm64
-> builds.
-> 
-> Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
-> ---
-> Hello,
-> 
-> this patch is part of a bigger quest to use named initializers for
-> mainly struct i2c_device_id::driver_data to be able to modify
-> i2c_device_id. See e.g.
-> https://lore.kernel.org/all/20260518111203.639603-2-u.kleine-koenig@baylibre.com/
-> for the details.
-> 
-> This patch here isn't critical for this quest, as no driver makes use of
-> .driver_data, so apart from the better readability this is only about
-> consistency with other subsystems.
-> 
-> Best regards
-> Uwe
-> 
->  drivers/usb/misc/usb251xb.c | 18 +++++++++---------
->  drivers/usb/misc/usb3503.c  |  2 +-
->  drivers/usb/misc/usb4604.c  |  2 +-
->  3 files changed, 11 insertions(+), 11 deletions(-)
+The richtek,rt1711h binding has a legacy plain-text file that was
+superseded by the YAML schema. Remove it.
 
-Reviewed-by: Richard Leitner <richard.leitner@linux.dev>
+The YAML schema also declares 'additionalProperties: false' but
+omits the top-level 'port' property used by hi3660-hikey960.dts
+to describe the role-switch graph endpoint, causing dtbs_check
+to emit:
 
-> 
-> diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
-> index 7c0778631bea..fb0693742f01 100644
-> --- a/drivers/usb/misc/usb251xb.c
-> +++ b/drivers/usb/misc/usb251xb.c
-> @@ -746,15 +746,15 @@ static int usb251xb_i2c_resume(struct device *dev)
->  static DEFINE_SIMPLE_DEV_PM_OPS(usb251xb_i2c_pm_ops, usb251xb_i2c_suspend, usb251xb_i2c_resume);
->  
->  static const struct i2c_device_id usb251xb_id[] = {
-> -	{ "usb2422" },
-> -	{ "usb2512b" },
-> -	{ "usb2512bi" },
-> -	{ "usb2513b" },
-> -	{ "usb2513bi" },
-> -	{ "usb2514b" },
-> -	{ "usb2514bi" },
-> -	{ "usb2517" },
-> -	{ "usb2517i" },
-> +	{ .name = "usb2422" },
-> +	{ .name = "usb2512b" },
-> +	{ .name = "usb2512bi" },
-> +	{ .name = "usb2513b" },
-> +	{ .name = "usb2513bi" },
-> +	{ .name = "usb2514b" },
-> +	{ .name = "usb2514bi" },
-> +	{ .name = "usb2517" },
-> +	{ .name = "usb2517i" },
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(i2c, usb251xb_id);
-> diff --git a/drivers/usb/misc/usb3503.c b/drivers/usb/misc/usb3503.c
-> index 322e59381b78..759770a13260 100644
-> --- a/drivers/usb/misc/usb3503.c
-> +++ b/drivers/usb/misc/usb3503.c
-> @@ -390,7 +390,7 @@ static SIMPLE_DEV_PM_OPS(usb3503_platform_pm_ops, usb3503_platform_suspend,
->  		usb3503_platform_resume);
->  
->  static const struct i2c_device_id usb3503_id[] = {
-> -	{ USB3503_I2C_NAME },
-> +	{ .name = USB3503_I2C_NAME },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(i2c, usb3503_id);
-> diff --git a/drivers/usb/misc/usb4604.c b/drivers/usb/misc/usb4604.c
-> index c9a2fb3518ae..2ae9656715e0 100644
-> --- a/drivers/usb/misc/usb4604.c
-> +++ b/drivers/usb/misc/usb4604.c
-> @@ -135,7 +135,7 @@ static SIMPLE_DEV_PM_OPS(usb4604_i2c_pm_ops, usb4604_i2c_suspend,
->  		usb4604_i2c_resume);
->  
->  static const struct i2c_device_id usb4604_id[] = {
-> -	{ "usb4604" },
-> +	{ .name = "usb4604" },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(i2c, usb4604_id);
-> 
-> base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
-> -- 
-> 2.47.3
-> 
+  hi3660-hikey960.dtb: rt1711h@4e (richtek,rt1711h): 'port' does
+  not match any of the regexes: '^pinctrl-[0-9]+$'
+
+Add the missing property referencing /schemas/graph.yaml.
+
+A separate dtbs_check warning on the same node is out of scope
+for this series:
+
+  hi3660-hikey960.dtb: rt1711h@4e (richtek,rt1711h):
+  connector:ports: 'port@0' is a required property
+
+That one is in the connector subnode and is governed by
+usb-connector.yaml, not this binding.
+
+Akash Sukhavasi (2):
+  dt-bindings: usb: richtek,rt1711h: remove deprecated .txt file
+  dt-bindings: usb: richtek,rt1711h: add missing 'port' property
+
+ .../bindings/usb/richtek,rt1711h.txt          | 44 -------------------
+ .../bindings/usb/richtek,rt1711h.yaml         | 13 ++++++
+ 2 files changed, 13 insertions(+), 44 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/usb/richtek,rt1711h.txt
+
+-- 
+2.54.0
+
