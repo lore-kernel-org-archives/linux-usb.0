@@ -1,136 +1,197 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012032.outbound.protection.outlook.com [52.101.43.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37905404894
-	for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 14:29:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779114547; cv=none; b=ffLjUXm21fxFIzGZKfrSTp9nRcOImm9vIiIVxCDD00ibdQudSAPMQ3yr1efbhitWvUzgBAhijDRtWF76YRTIGWnSaYPwCM/5bLfWdoMmHFtibBbhgQWDrgMFud2O+uF8r7HU2JO1z+hp9mescJluAQ2IuhLCf/QTtoPwRFqrb/M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779114547; c=relaxed/simple;
-	bh=jZS0cfoCx0fWKIraDqZnTPmyRkWvp91bnw4H+4AY/W4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aBFUTDIae953NcJIHTKiehbIzevhs1Om+Rlm8Wlr3Zk5jYYSkloYiA6AmJb8VklcdEgkCLhBMqMLHeBaPOi+7Gw6PUDVNLy53NTur0ypNzaKWa1VkkW0vX1J258Q76uRnKLkJVpOrdBJsxIxgnVfEQtbUazQwmCYDDi7lnvejWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sgzTHPlF; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BEFE3FBB46;
+	Mon, 18 May 2026 14:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779114559; cv=fail; b=En2f9Amz9bK5rzGDmqB+6/oTJgIwZeERKGx/kGXa1PJGuhg340NHYjOdXRRhC0FRmRkRjDCfpC6SPFLU4ghHkVI+R+MmNrwVYVOflFa0gzdmWEoAVcZ86ZgndZLEK5krySQm7+Z9KoHdRBIXfAShsUswCSaeMER20Gp+33SfXwE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779114559; c=relaxed/simple;
+	bh=7vG1HlFEiGE9eU161hDJ03XhO5KUy4oERds4kMCDo0g=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=pTXtEneNlk2x8oLsTzbs1zdkyz1sEcYSdp4PW5QliUy4hThShDUPC/GIGF++nA9BaO+9Hzogr+yOBzsJa9N97kKmXSZbgvY5CPLolVsu9ueqhoFrhlb9U780Dkb3SHHwQ1szpOCD6IYmxKgAHn98OCnUKHRokK66hx5tEQPjnMI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=H49ZKwyX; arc=fail smtp.client-ip=52.101.43.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sgzTHPlF"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7bf1eaba464so17000187b3.1
-        for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 07:29:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779114544; x=1779719344; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=InSESvH6SbYX4PPIUX4JXAvnZujlKzjBMLYv/0HgeqA=;
-        b=sgzTHPlF6xeBrYUZ4oFlgbUDzPsHmVY8wZSfnEjI2L8TBcLBMlCUYvN24+/bnI9YC3
-         dZM62AatoZjZ8nJqqBZ1mB6+8gxR7Fh3DrYcFfpg9ilXk/EBIMS1+Uamvj81nJoxkE7X
-         lEJpbcJmcFXn5bzKXfMkGfwu2DFiLgEJWBuEkl2+R8o/vD9PgtVXdqgVkNwtlUhJSa7p
-         d/UX/7rxE/uqEDD3wyQlEgvSF4w8g52LepAW61pvrcarXI5sIhGBWWppFTb/K3N/3Rwd
-         wS8v015TrosoklOd3r47BBswIKFEM+Oel3cjAqaAlsgFmUPNIOT6RQjL9yFHB6sVbQov
-         ipMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779114544; x=1779719344;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=InSESvH6SbYX4PPIUX4JXAvnZujlKzjBMLYv/0HgeqA=;
-        b=oNLVlQ8rt/Ki7A8wehcpTF8I7z96kOYavo8nwrT4vuuJ8PnSE2rUJoXYYloz3funi7
-         n6kjaUT7NEs17bQRj5p9J/1aDWlZ7axVxiVP4Qnl8L0unUvnNL40OtGDyebDR9b8P/vy
-         L9nLIqc2oF8BKOUVSXKToAbFGgf4bSJ+iCPB6yThKRB0/F7r0BPydSITgBIB3+HSu60b
-         xtNtRcryCQAuvtxWjpgzRCSTzyLpq3rE+yVWOSGTYOprbtiihLHTUdPdRVq6sqMLkjax
-         cbmUqSQpmiwnaQ9swXTKTuPzfnwSGK4wSTabRUWyQXXi0WwvzZksEnpx4nA6+X4qb+eq
-         7beQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9I7TvVpnJM5p5qd2alNgueYKOM6931n08USRSuB90bDq2XqoTjj1PYQSWsV94SHH2lapRa/8y4AXg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywco2r6i2N+gTtXpur49ORv8Y6A7P9okz0cGc178DioIAG3aI7X
-	uzR027uF6ZpFFUxyZM43hp+G9PisJybktzRrfEnyEjtaw77PUMbrOcr1
-X-Gm-Gg: Acq92OG2xji9wd3AXOW/G/QtvhqmcX7B/lSeTSUADfaT2rHuy0ASs6hMAlLCYeMcPRD
-	NieND9fRPw66qy2wVsugzq7gAEs08gDPTc8EPMidQngTUjIFWuBIN/ude+Min1V9hk71jiR0Tjo
-	qk5BKnFDqZLe9eRjIGCpol9uNLe9hsfTVNDcHSCOlOCmhchz0RBUVHVXLOoWBLyOEhQq2jIrzPY
-	ZY9fOiuW6EHhNM5XRTDImP9fmLVwcIA2fc6qi8MBIz5jc9QCQH3jPXTdRo9owGqGA0TKn7B02EO
-	pIgY1zoMDucQj5smIz59/Y8qG6xWlUwd9VMsoDUzoFrVVyHonIsx1aPSJSi5BXhzlg2SLMbXeWk
-	Al1yScM6iAJfxHlVUVIfKATBOzWabsx1Iry8NGA+OJxS9n3GlCHAryCNWWobKDlowjOhkyCBcsI
-	tYlCRoi7Ksamb3RqXhn11taxJw7jJWbymAM3Rd/IptxQ==
-X-Received: by 2002:a05:690c:e566:b0:79f:7972:f89a with SMTP id 00721157ae682-7c95bd1b4b8mr135891887b3.28.1779114544188;
-        Mon, 18 May 2026 07:29:04 -0700 (PDT)
-Received: from fsh.attlocal.net ([2600:1702:56e9:4b40:ed8c:6b8b:1fa3:d14b])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7cc997cb156sm22094067b3.18.2026.05.18.07.29.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 07:29:03 -0700 (PDT)
-From: Akash Sukhavasi <akash.sukhavasi@gmail.com>
-To: krzk+dt@kernel.org
-Cc: robh@kernel.org,
-	conor+dt@kernel.org,
-	gregkh@linuxfoundation.org,
-	gene_chen@richtek.com,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] dt-bindings: usb: richtek,rt1711h: add missing 'port' property
-Date: Mon, 18 May 2026 09:29:01 -0500
-Message-ID: <20260518142901.1747-3-akash.sukhavasi@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260518142901.1747-1-akash.sukhavasi@gmail.com>
-References: <20260518142901.1747-1-akash.sukhavasi@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="H49ZKwyX"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Tkw9/bw5+gjXWyjtP7JH5WSGcwEwxOul3SWYhVGbhwWPbl82nngppV1BUEYhRVynmVcRhbaIy8T5n6iXq4tLeZUiusAsX5aUwEcX8QmUa33pn+BnB63c7RTPoHLHAWhzQB2DtXoqBvCBeiWZBg57nZC7fB79tnYHvTY3zP14nyVxTIAjuFmcMVc6Vx0oqnEPyc7q7lsEEUi/4VrKizo2MU5owGbO31pf0PU+rdBQ0pO33mwZX3xIF5Y79dy3gK9101389IkOWsPes+K3+6oAzl+hRSsTPNcVf1FF9AUD0T3/pBNPCdr/FPMfmFGEAtaip3Z4QXBDmlhO2D2dRipgSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WbKtsr4yUar+j/7pijQkG+UE3fsvh5mQ4DE/1l7I1PQ=;
+ b=ucsiRGHD1O4sloRIOh1GTGpGaOsZMxEXIXuxslHixNRgB0rT7WaGY3wcLPs7E+5XfrkeYRHqCxziYH0yHORWkJEXMgyosJa2CQ1iVp41xGzPAFJe3r63DupREBajMyAkzlghstSp4R15l29HDgweMXb01iCpGgmQc6cqV8/b2FGKlo21lyDbUDcvFt36aWQfj8Uw50fpJM/scy4pOQtupqZFRLLvfUV6bQ5ZUkQV9m9jYg4E3r1k5CgqYfcOPgW1s9OVABLHOegoSyfjdXuX4f0a693vldYXMucBBwTUbbx2MKR0nrW65SdSbMHkagYssvkfpH12xP7M5gKqvJ5J+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WbKtsr4yUar+j/7pijQkG+UE3fsvh5mQ4DE/1l7I1PQ=;
+ b=H49ZKwyX6WyRc9YFAOZHyRrb98PbnSLNJgI8W0vnX4l2EWwTqFxJXVlzvGkOXdSMdxKwIdd9DQLtf8R+ALUpknS48o2N7LFJvPZx9Vu1I/iPGsgzqZHzMVfmiJqsKcR5zBylID7KVIxRZYfRx1V7OzBejJWShWU/qgzG8Y38HYA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY1PR12MB9697.namprd12.prod.outlook.com (2603:10b6:930:107::6)
+ by SJ5PPF6785369A4.namprd12.prod.outlook.com (2603:10b6:a0f:fc02::997) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Mon, 18 May
+ 2026 14:29:06 +0000
+Received: from CY1PR12MB9697.namprd12.prod.outlook.com
+ ([fe80::3a41:55a0:8203:596d]) by CY1PR12MB9697.namprd12.prod.outlook.com
+ ([fe80::3a41:55a0:8203:596d%5]) with mapi id 15.21.0025.022; Mon, 18 May 2026
+ 14:29:06 +0000
+Message-ID: <95361d3a-34b6-4f0f-935e-9e1b45698e81@amd.com>
+Date: Mon, 18 May 2026 19:58:58 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] usb: dwc3: xilinx: use reset_control_reset() in
+ versal init
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "michal.simek@amd.com" <michal.simek@amd.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "git@amd.com" <git@amd.com>
+References: <20260511160814.2904882-1-radhey.shyam.pandey@amd.com>
+ <20260511160814.2904882-3-radhey.shyam.pandey@amd.com>
+ <agUltzvDFgJtPa6j@vbox>
+Content-Language: en-US
+From: "Pandey, Radhey Shyam" <radheys@amd.com>
+In-Reply-To: <agUltzvDFgJtPa6j@vbox>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN3PR01CA0085.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:9a::21) To CY1PR12MB9697.namprd12.prod.outlook.com
+ (2603:10b6:930:107::6)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY1PR12MB9697:EE_|SJ5PPF6785369A4:EE_
+X-MS-Office365-Filtering-Correlation-Id: bbceaf96-70e1-4c6e-a75b-08deb4e9d15b
+X-LD-Processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|366016|4143699003|18002099003|22082099003|56012099003|11063799003;
+X-Microsoft-Antispam-Message-Info:
+	2GF8pq8mQ8BR8Qq01TLSM3X0OKHwQ6RLhd2kIg25jYtuyMxindfxSH1BkvpRoEhm3xy6L8vglXa3wjeYJB7Tn1ET6xq0qyym7TY6d0k+l6wnU775uZrHVn22jWNKeyQZR4RM4jjvw+uWrmTEkM4cFa2nEkYkQ+DsHx8xSl8GLnsAFZYoMjeUEdBalQqQwuubHtTmMHHdG/5G7N+j7vgjlVj9W7Z4ev69FD9/19Sqg+CM21pR4zbADTTBR/ux7T8GRB61wCRu4U1f3YlsWDsTxWF3pmwTAEJus6YpcT4OORKLxBYyzAa6+0qPwn+7GvzGcPT42ZdNNGrwNAYAOOjttUmrz/YAPSVQmPVETg4Mkf8n2ciwTwaLMV3gYoygVO236YDGwhwwVajgIeusjxtGqIeovGYgycisrFjjQoevFpnHxTmbaD1uUf5ycEMpD4iU71U0Ktqiut/5QuQN7oc2RPGKdWVI23pEcVkLVKLDgHJCUgdFqUkQ7DJgONTVyVnYFnQn5UE2KlnO5nCA99+4kiqYpxwGX8X7IAzvpu6mKWIMDGUzAOpIxXuxT0x+kyFX3CQs0IhAuV9Qp1Qr1vO4+Ivx+OpZ7i+LmX4VLgxGWLy7XJoaxGiG1fWUnfO1qNVMxniHHjvoiMiYusNLMKL1hpV3Q4/vU+OkEyXzYDcIZQRKSTyw12KR2/QdDD+vLE+j
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9697.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(4143699003)(18002099003)(22082099003)(56012099003)(11063799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ejF4THFNbmpMR3VMNlQ1YXhQTW5NN0ExaGtCeGxuZ3ZJYWQvL0NaemcxTnB2?=
+ =?utf-8?B?WXBneFNiNjcrSXpldXBuQ0FVZ0IvSVZFcHlxRFZhNkQxVzdQajJ4QjEvNHJT?=
+ =?utf-8?B?c0xMbU9td0lENGcycFp1U0pXcitZemFJb1M3a0ppYWdTT0Y5NFFlVmhsZlpF?=
+ =?utf-8?B?aDZVVjJ6alFBcFlGM1dUNGN1ZTYyUmJ5cGF1dFoyMzc1TDFoMFZqOXRMR0lI?=
+ =?utf-8?B?SmkvNU84NEVBRlBMempQMmNPcUpFMFhRUHAzRHJNUXVLZXdWd3dmdzEyRlVK?=
+ =?utf-8?B?MzJieHlXOEZ5TGd6UEEvU04vZDBaNVd1SWdtK3g0ZURYMENrc3BZZUdiMFp0?=
+ =?utf-8?B?WkxmNncrQnhZbis2V0xqbnJqVUdJblMwME5CN2tOK2NWYytLNVNlU0FxdDlE?=
+ =?utf-8?B?Y0VTd0RFWkZIeW9ETUEvSzlTK2dxaENudDdwNHNWT3pKR21TTEQycVRIZTgz?=
+ =?utf-8?B?VVhaNVY3N1FkS0pYNHI1ZlB5RFd4Y21wa2F3UE9PNk1CYzVTUXNjZzZjb2hK?=
+ =?utf-8?B?Z3g1cEozTzF1YmlML2U2MFFlUUs4ZFJYR1BvcHRINE9jQVhSa05kRW9uRUpz?=
+ =?utf-8?B?U1o4UnQ4WlEvaUhzSktJZS84ZjRiUDV3Y0ZDWUEzTTFUQnNhUEk3dTgzK2xw?=
+ =?utf-8?B?b1VyeEE3c0JvRmVpaXVlN0RTUDkxcXdGekc0c0ZsRmFjN2hwUFlkMHpPdFE2?=
+ =?utf-8?B?b1JxMWpJSnF6NTBRcGg0NWtoZjBCYVBvbENtUDlHeGphZFFmMTRIMDJmZlAz?=
+ =?utf-8?B?bWh2cEZCQ3BWN2tFSkR3K3VoSDNwVi9tT2RMNXk1d29uMHBnbnpQU0hmOUlJ?=
+ =?utf-8?B?VXJqRjE1VDZoQ3NDdzNVdWhRZG1zZVp2Y1ZyL2ZqL3J4c2Rva0xyUjd3QUg4?=
+ =?utf-8?B?ZUQ2ZGxBL3l5SWF1Nk1NaytRTi93ME1adG41cTVkckM5RzNCV2pod0doUHkx?=
+ =?utf-8?B?SWZHSTlVWm9JWHdyMWRud1lKMGxRYThOOG5DQVBPL09acXpFVUhGUHFrbitp?=
+ =?utf-8?B?MjdnSlBNc1gyNHlPODVFUnBWeXE3ejBBQWZpS09rd3ZVWi83L0theCtKdkVn?=
+ =?utf-8?B?NkV5RVVuWVZBeHlIcnZSQTlDano1NU5XSEozTTNMSThXMERxbUFKY0NHTUJI?=
+ =?utf-8?B?UU1oczdmYldhalZjeHI5ZyswYk1odzhOUklMMFJXaFo4UVFoSVRvVHdPbkxL?=
+ =?utf-8?B?UHlwNXBmaFdsQXpkRUUrMnAvc2dCZDlWbThieEN0M09UdjVxSTZTeDY2R1JN?=
+ =?utf-8?B?UzVJZ0g4YVZRUTJFUWhvdi9uTlR2NmZ1YXdQa0RFV0RsZ3kxWlhwRG9HbUtJ?=
+ =?utf-8?B?RlliNTBxa2szNDg5Sko4aVR4YWo3Q3Q0OXBENTRKMVNNMnptU25HREdQcFpj?=
+ =?utf-8?B?K3YwcGtvV2xpakpmQTNobGltd1RxQUIxdVB5c3VsMmdpazFWdng5ODgyT2Q1?=
+ =?utf-8?B?ZVlwVWIrdE40WmFXWlBqdTNHUzRLQ3BKVTVaeTNOSW5GNnRTd0JMTTNtVFJR?=
+ =?utf-8?B?MWdpQy9RODhtRG40OUo4aVhZcGF3a1dDU3hZRFFNYjVEOVIzTERtU1lYMHhD?=
+ =?utf-8?B?YlVtZzlwWVRRQzdXUjY1UVhTTERPZm1xUWtKbmIyeDBqcUl4Mi8wVWNyTHBo?=
+ =?utf-8?B?SjB6ZE14emJFTW1QRnNWZzl2dVJ2VVFvREozaDhvMlBaWllzaEpIT0xML0ky?=
+ =?utf-8?B?NDZMY2IvZmVVcml6ZHlmSUU1bVU4dHhqR0NXd25IRUJkVTR4VFNhMjFSVU9Z?=
+ =?utf-8?B?WjJhMTNJVXNpdUJUZHJiVy9LWW1qQTFHbWRZWXBBN2l2ZUxneGI0M2c0WWR4?=
+ =?utf-8?B?S1JNdTJ2K3dOQU9hdk1VRk9rUmxFTWE2K0FhdVpha0VadlE5ZldZUndPdGkx?=
+ =?utf-8?B?bVdjV0RwUXpHbHMrQXd5Z2Rxc2VXSU9iK0RTbzJBejBFZlhDcWZsWVlwRWcv?=
+ =?utf-8?B?c1M3eXdJS2ZwbEJxVHAyRjJMTXgyeVM0dHM0SVRJUGlvNzExSWRES0Y3ZzZ3?=
+ =?utf-8?B?L2x2R3NicUhWcFp4VUkrTDZSQ0pORU5ES3ZwcGd0Ni9Vcnl0TmJETDZYcDNT?=
+ =?utf-8?B?WDNtRjJwbW9CWHByTDd0RzBHUktXTVVUbWlEWWR4N0FRL04rUjRmZlkvNjBS?=
+ =?utf-8?B?cEpscTJXQ25uWU5HQUhtWmtsMUNPQ2c5ZFRZcnl5dFRzelovaVd4a3VidlJT?=
+ =?utf-8?B?TXRFRUVvV1NGV0JlRVBUZGY0YWFoRlRPbGJWc3hLYUxNZU83YUo4NnFXS3Vn?=
+ =?utf-8?B?L3RlRkpITzFlWjU2OWRBY3FhVXVpZ0lKUmtzNTk0eGtoVFFFZmtjdFd2bWpC?=
+ =?utf-8?B?NzJDK2FEeTI3VEx2QVdQd2JjbkhLblhlMzVUU0pCQUhGcXJmYTY0UT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bbceaf96-70e1-4c6e-a75b-08deb4e9d15b
+X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9697.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2026 14:29:06.6910
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kR2X73VMY9VNvpqeLS/wb7AUwLYb41nJ6gc1BNtQPGX+ac52VYVLQAPWP1M2qc+I
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF6785369A4
 
-The schema declares 'additionalProperties: false' but omits the
-top-level 'port' property, which hi3660-hikey960.dts uses to
-describe the role-switch graph endpoint. This causes dtbs_check
-to emit:
+On 5/14/2026 7:04 AM, Thinh Nguyen wrote:
+> On Mon, May 11, 2026, Radhey Shyam Pandey wrote:
+>> Replace separate reset_control_assert() and reset_control_deassert() calls
+>> with reset_control_reset(), which pulses the reset in one step. Report
+>> failures with dev_err_probe() and a single message. No functional change.
+>>
+> 
+> The behavior of reset_control_reset() is a little different. I wouldn't
+> call this "No functional change". However, I assumed this was tested.
+> Please provide a proper reason for this change in the change log.
 
-  hi3660-hikey960.dtb: rt1711h@4e (richtek,rt1711h): 'port' does
-  not match any of the regexes: '^pinctrl-[0-9]+$'
+In the dwc3-xilinx case, reset_control_reset() routes through the
+zynqmp reset driver and invokes PM_RESET_ACTION_PULSE. This triggers
+the Xilinx firmware reset implementation, which performs both assert
+and deassert. Effectively, reset() issues a single SMC call for a
+reset pulse instead of separate assert and deassert calls and moves
+IP out of reset.
 
-Add the missing property using /schemas/graph.yaml#/properties/port,
-following the pattern used by realtek,rts5411.yaml and other USB
-controller bindings.
+Yes this new reset sequence is validated on HW. I will include
+above description and respin v2..
 
-Update the example accordingly.
-
-Signed-off-by: Akash Sukhavasi <akash.sukhavasi@gmail.com>
----
- .../devicetree/bindings/usb/richtek,rt1711h.yaml    | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml b/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml
-index 7ded36384..fd7f29179 100644
---- a/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml
-+++ b/Documentation/devicetree/bindings/usb/richtek,rt1711h.yaml
-@@ -52,6 +52,13 @@ properties:
-     description:
-       Properties for usb c connector.
- 
-+  port:
-+    $ref: /schemas/graph.yaml#/properties/port
-+    description:
-+      OF graph port describing the connection to the USB role switch
-+      consumer (e.g., a dwc3 controller with usb-role-switch), used to
-+      convey type-C data-role changes signaled by the TCPC.
-+
- additionalProperties: false
- 
- required:
-@@ -107,6 +114,12 @@ examples:
-               };
-             };
-           };
-+
-+          port {
-+            endpoint {
-+              remote-endpoint = <&usb_role_switch>;
-+            };
-+          };
-         };
-       };
-     };
--- 
-2.54.0
+> 
+>> Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+>> ---
+>>   drivers/usb/dwc3/dwc3-xilinx.c | 16 ++++------------
+>>   1 file changed, 4 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/usb/dwc3/dwc3-xilinx.c b/drivers/usb/dwc3/dwc3-xilinx.c
+>> index a3c7dc258c7d..94458b3da1a0 100644
+>> --- a/drivers/usb/dwc3/dwc3-xilinx.c
+>> +++ b/drivers/usb/dwc3/dwc3-xilinx.c
+>> @@ -98,18 +98,10 @@ static int dwc3_xlnx_init_versal(struct dwc3_xlnx *priv_data)
+>>   
+>>   	dwc3_xlnx_mask_phy_rst(priv_data, false);
+>>   
+>> -	/* Assert and De-assert reset */
+>> -	ret = reset_control_assert(crst);
+>> -	if (ret < 0) {
+>> -		dev_err_probe(dev, ret, "failed to assert Reset\n");
+>> -		return ret;
+>> -	}
+>> -
+>> -	ret = reset_control_deassert(crst);
+>> -	if (ret < 0) {
+>> -		dev_err_probe(dev, ret, "failed to De-assert Reset\n");
+>> -		return ret;
+>> -	}
+>> +	/* assert and deassert reset */
+>> +	ret = reset_control_reset(crst);
+>> +	if (ret)
+>> +		return dev_err_probe(dev, ret, "failed to assert and deassert reset\n");
+>>   
+>>   	dwc3_xlnx_mask_phy_rst(priv_data, true);
+>>   	dwc3_xlnx_set_coherency(priv_data, XLNX_USB2_TRAFFIC_ROUTE_CONFIG);
+>> -- 
+>> 2.44.4
 
