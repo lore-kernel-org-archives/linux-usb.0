@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4283EF0B3;
-	Mon, 18 May 2026 13:16:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8A8481650;
+	Mon, 18 May 2026 13:16:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779110193; cv=none; b=VM7e9AgD1p5jQJrgGZytq32iAuPlQNHJBvN+JJ9H5JvcZhRygJ50i4FA6Z3ATocKJ9wt2jl87UBIvKpraozhHmZ9mQxk6/knRoqM5XUaxG3+o9D9FewbnYd+eiIzpvNIY8i1AcI1mz+pO+FTTn9cN2awFNg5g7WwXpKZGncAqfs=
+	t=1779110196; cv=none; b=Bi7vBOewM1PX9yefSmB/8UlB4DoB/jAuNXbL6ZayNXBdvqngu3Tnr/+30m9Ft5jLRldILjZFWQmHueco0vb/XpzIwxNqSntFTp8dKzxC2WfPsod2r+Mji/5AFjz+/B6fohkaG/ziukqB0jOaGm91jiIuHWftNuxGkg0DTsY21go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779110193; c=relaxed/simple;
-	bh=vzWTlP3kV/s0WrkONdqr1IhqEI7kfy1mlq+6vTPh5Ys=;
+	s=arc-20240116; t=1779110196; c=relaxed/simple;
+	bh=XfuwFfgb2Gqx7EPfyuGOTI5wvqO8XsKVRHP54WZD1PU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sUFMqpQaXTKvZKL2KNnRoGCi/fJHzObcL8gf8kAX0m1l/WrQo6q9zHbON/c1f3CeMf/jLHOARCQIBmihfvTB44xk2I9cXjKHUNAlh00E9XPrjJpL3dOzDUiBSMfdr7ZEhYZ8d+euGeVyEm1nHpc7NMkYEsKXWsh94fBnqvxTYhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=e8O1xZ6i; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=eCCxynhspwgHVxuF98iJERCZAPnFLIbVfTUadq9SA/FeblPcU2eiNIxPuaFzj07rfEvZptKZgl6Vted6Qtyw/SaVy/BsqAFbVmh/xydVyctL7rrvHtXnGQzkh+tTi+9oQwZ3DCmxCGqyweqjrseOXA5WtYcuP03lD2jH5xZWZ8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1DGK6j7M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e8O1xZ6i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA314C2BCB7;
-	Mon, 18 May 2026 13:16:32 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1DGK6j7M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FD83C2BCB7;
+	Mon, 18 May 2026 13:16:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1779110193;
-	bh=vzWTlP3kV/s0WrkONdqr1IhqEI7kfy1mlq+6vTPh5Ys=;
+	s=korg; t=1779110195;
+	bh=XfuwFfgb2Gqx7EPfyuGOTI5wvqO8XsKVRHP54WZD1PU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e8O1xZ6i8KOIcvjH6ysB+n2ghGmgJXVbqxmFWLfqwVjeHh1HBCARRV/tIERlBSqAa
-	 DQisiN5lB8+ZdKpTohxVPtPP75WMky7QBVEhB0mGDDBWqfpabjTV+abNsDjwK6l/HM
-	 uuMJcKAJ/yPE1jV5wO0aVJq3aLMCf6PX8QqjAi1k=
-Date: Mon, 18 May 2026 15:10:49 +0200
+	b=1DGK6j7M9lGwRI4VjwY54ArGEDqdUD+4KHGpIKCeKkPLd4R/aVfqUWpLH1bgz8LXq
+	 KOLZbxTKSRX3dFZDgb86oMaGFjA+l/opzI16r8JWHj236om/o0wirZfhodg8BsdWnd
+	 XwON0g2HnXFt5XoKO3gNvYI65QkKfCUam4HXzY4E=
+Date: Mon, 18 May 2026 15:11:12 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: SnailSploit | Kai Aizen <kai.aizen.dev@gmail.com>
 Cc: linux-usb@vger.kernel.org, laurent.pinchart@ideasonboard.com,
@@ -32,8 +32,8 @@ Cc: linux-usb@vger.kernel.org, laurent.pinchart@ideasonboard.com,
 	SnailSploit | Kai Aizen <95986478+SnailSploit@users.noreply.github.com>
 Subject: Re: [PATCH] usb: gadget: uvc: hold opts->lock across XU walks in
  uvc_function_bind
-Message-ID: <2026051836-citable-overripe-4abd@gregkh>
-References: <20260430152702.60771-1-95986478+SnailSploit@users.noreply.github.com>
+Message-ID: <2026051856-unfunded-sandbox-720e@gregkh>
+References: <20260430154104.61633-1-95986478+SnailSploit@users.noreply.github.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,9 +42,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260430152702.60771-1-95986478+SnailSploit@users.noreply.github.com>
+In-Reply-To: <20260430154104.61633-1-95986478+SnailSploit@users.noreply.github.com>
 
-On Thu, Apr 30, 2026 at 06:27:02PM +0300, SnailSploit | Kai Aizen wrote:
+On Thu, Apr 30, 2026 at 06:41:04PM +0300, SnailSploit | Kai Aizen wrote:
 > From: "SnailSploit | Kai Aizen" <95986478+SnailSploit@users.noreply.github.com>
 > 
 > uvc_function_bind() walks &opts->extension_units twice without holding
@@ -77,8 +77,13 @@ On Thu, Apr 30, 2026 at 06:27:02PM +0300, SnailSploit | Kai Aizen wrote:
 > Fixes: 0525210c9840 ("usb: gadget: uvc: Allow definition of XUs in configfs")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: SnailSploit | Kai Aizen <95986478+SnailSploit@users.noreply.github.com>
+> ---
+>  drivers/usb/gadget/function/f_uvc.c | 28 +++++++++++++++++++++-------
+>  1 file changed, 21 insertions(+), 7 deletions(-)
 
-We need a real name and a real email address.
+Did you send this twice?
+
+Still need a real email address.
 
 thanks,
 
