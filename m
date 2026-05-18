@@ -1,407 +1,166 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FEF2EC0A6
-	for <linux-usb@vger.kernel.org>; Sun, 17 May 2026 21:21:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5B0288D0;
+	Mon, 18 May 2026 02:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779052915; cv=none; b=KYO1ZBnIAtX82YYbuNnwbzp2pwrKQ5Tb9l5qdLED112SxCE8ga+U6EjcxiiI0TR+NP4bSeNhykOYxLMXkPSTs+vCuAvsGnNzlakRIEkw2eWt/jMFd5OSS/2f9j8c6RMV6bdvMEX4zfVZNTgeqC87NyM+ERbzkmG0wkNTMu6k1PY=
+	t=1779070099; cv=none; b=nUbPj8EMsaztcLCMsIEAQflHEYaecxmghxyFZXGf7hdk/X4zDuWPT182X/fLMOV2DXLU6v5BAW9sR7YUbstIQUx3cCo/iQIq3wi8MTmKDaRvS7jl7NP8AgBoB85xruG59IG+S7eZGRgOubZWcC2TfCGTRG5i2zIwpFUTDFhRThg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779052915; c=relaxed/simple;
-	bh=b6yLdFKopyjDfx4WQ3C6hq8Xo8sq+E0p6lNCXgLfYbQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D3+H1MnF9y4DL6k45flc7g09L2C0staZKdyVFzk9h0fN5kmE7zLFWlwPXbB2qVfCQRYcfs4Rgz+/DhWq4DhLT2nlkvBGBOz8tcnekxUSU4yNnVQ84XOucFVyVg845Qoeu8CR+3IgXj0hiaJP9ZJn8vGGHiRpd2rPLihnr/wqsm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p5XZ1M2c; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779070099; c=relaxed/simple;
+	bh=x8u7GTxrVk0C2PJrbCem+3xBCd5jbswvYhojVoW4ZD0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=NPrHQJEKsG7YEdLV06l5ghKPzUP5bV5UmQ8x2CXvumy4pOtCv84B/Px1ZAc8lN7xdXK8zsexVo5sImFarbRVhgsxk48pclSwliIj5H6z+97YiqkqT/8a75dp541zpo6fE5UUnNYiLTX6JMTMhFTS85vBBLkyoytAGYGrc63wWCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=WjJ1dXe9; arc=none smtp.client-ip=203.29.241.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p5XZ1M2c"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48d146705b4so16719145e9.3
-        for <linux-usb@vger.kernel.org>; Sun, 17 May 2026 14:21:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="WjJ1dXe9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779052912; x=1779657712; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=47iB118/0PzBRujH61PMBcnpDbponJHAi7Tbqe+j/Zw=;
-        b=p5XZ1M2cULdQiprPiupCg6Lz5TrkXDprEZaPHGSCBum314zmP8JNYrzqfZ6BfTxtSx
-         DGl/gnRMMAFPEbWfUVmdXbh+ZnhDLxN/jW6hMB6d07DAt8efYfqzPyQRPoHuSdqPhQ2k
-         tRH2fpsxPPhynyHJvPAvouXz6KkPuLdHxmfn2IkagG1CStK2u8nF6GXKVFiDUSIeOa+I
-         0741ifzUMb/j6nsRkX0Rqn2tANpvwCGPSxSxHxrvf/2ObZKajf47QZHjguDgpoC+wiaf
-         pJcq80yWCSJ71AcM7UfrQGfFxtxqz/o7Fum9VunE8ZbQBPMTTRimf+unTWnNGOgx2RvI
-         YRdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779052912; x=1779657712;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=47iB118/0PzBRujH61PMBcnpDbponJHAi7Tbqe+j/Zw=;
-        b=gfc94a0mlIiSaXzY3DZKqgbM4d5NC19l9JQO407AwiKxN6LRWVTO9cLmUr4Piivrjz
-         YaOWrZV6+9S9TeSnlZW7z8ROtud2dS8xJD3+FS5lGrh7NHgPau1cSkfub1dsBqhe3Iv+
-         udJxtTBoSp60mTdbsceEc/qM6uglf3TpTLRv8uIXeWNQKpplDxbj1YJrYUWSATuPXped
-         9T9w59WQZ7zQwJztxp2tCtF2ZQ9loFEUHicEiYKRbTJ56VHMR1vResgUDNTnV3o+Bzwv
-         yzwjbMgw7a9JkYijjDRkly+BZoJnLGWHF3PMsEJj35BsuvmynPxWTeWUuurH+f4pYC6K
-         9iJA==
-X-Forwarded-Encrypted: i=1; AFNElJ+CUCCkczRIXaN9nCHs8hl+wR20jx0fkglfSdQCggtv3HdbDtAd3QQiBxY0S+yKSCCAf+PkCg9W9W0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTeiAnt/BZzQJv2dubkHWS6kngFN4O010gExqi5YPsArTea2bL
-	Z0I0QJlGtigulF0RSmxy5WtbkrEp6g202E3e9euBzEbgrsB0X5QJFKOTcnxpqQ==
-X-Gm-Gg: Acq92OH+EdLfAdggMR5QS/xyB/6mxqxqaD4CtO0SzYtcIY1Me2w2O2KzbT7u0ZJP2KT
-	cG9Z64fecXNrYfMxpgcZJKeXivvogwqsh5wIo7lbFe4eYB2N6RHoZJzOXevQEMpHLtUE5a0EKDo
-	Dd6flvNp4IPDBub7zYOBszPfMo3jr3ZCk4QO9Ppr2FONs+uLfnaWh1pFlrvlv+x8wZJoiiAnxV6
-	ok+5PzAy+bDrxEisol+H1RHRRzESNNlxlFRcXBbhASXgU5ONiGALhKU2+ozrwSkeFbYqZRHj59p
-	TNYPy9bXNOWb7SRFmwA9Lyaet2WJsoIIEZEE85L2JLvQ14ZZu0UnVN8i/a1f3y9C8nVvqWunI5+
-	tHHpkk+sxJz5DRZhEv1zxsWjKTRSEnhRWXiUf8y8xcATbMAcYyAbSP9MO9RpmuqJqc2gesrxxn6
-	sIvY+O3X/rKXA7ZLI7k5mNyAZ2WWJariViNTAOSQHII2c=
-X-Received: by 2002:a05:600c:4fc9:b0:48e:706b:53e3 with SMTP id 5b1f17b1804b1-48fe60e51eamr169141375e9.1.1779052912227;
-        Sun, 17 May 2026 14:21:52 -0700 (PDT)
-Received: from foxbook (bfk48.neoplus.adsl.tpnet.pl. [83.28.48.48])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febf80d04sm66981515e9.36.2026.05.17.14.21.50
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 17 May 2026 14:21:51 -0700 (PDT)
-Date: Sun, 17 May 2026 23:21:47 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Jihong Min <hurryman2212@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mathias Nyman
- <mathias.nyman@intel.com>, Guenter Roeck <linux@roeck-us.net>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Mario
- Limonciello <mario.limonciello@amd.com>, Basavaraj Natikar
- <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, "Mario Limonciello
- (AMD)" <superm1@kernel.org>, Yaroslav Isakov <yaroslav.isakov@gmail.com>
-Subject: Re: [PATCH v6 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
-Message-ID: <20260517232147.34931718.michal.pecio@gmail.com>
-In-Reply-To: <20260517130407.795157-2-hurryman2212@gmail.com>
-References: <20260517130407.795157-1-hurryman2212@gmail.com>
-	<20260517130407.795157-2-hurryman2212@gmail.com>
+	d=codeconstruct.com.au; s=2022a; t=1779070089;
+	bh=x8u7GTxrVk0C2PJrbCem+3xBCd5jbswvYhojVoW4ZD0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=WjJ1dXe9pkIadrwUEsZ3nLCVl/sBeoO0RlerFs/2F7dsR1vqQ6h9eDUgMn+2BkJTx
+	 sU+ufPnAAQlTC2n1ZqiIJ57FPvyX6d2rHwaqtdVQA2eHw9vQaKS71sYWwy+v42CegN
+	 J/IlaMjSZiSqQ8sIqirJmsH1FPCrhnyLjeoSEK5x0PyTXTU4nWKrgUf0odHukYNQFB
+	 OHEFn5a34TwZfn+n3rTOyQ72FOxTIW6NCsSFIYu/6tKwi/8j+t2+PmB3GBPebZHusL
+	 QRsB5qRB4R0G8390g019AOKULWeZ0eKglLCCxJPRG+SUCKjYcAHVgaMAaFMht7F8gx
+	 c7PaiHl78VcVw==
+Received: from [192.168.68.117] (unknown [180.150.112.11])
+	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 2BFAC6037B;
+	Mon, 18 May 2026 10:08:06 +0800 (AWST)
+Message-ID: <7927e6edf6cbe915a66b76746436c8d19f317bd6.camel@codeconstruct.com.au>
+Subject: Re: usb: gadget: aspeed_udc: list iterator used after loop in
+ ast_udc_ep_dequeue
+From: Andrew Jeffery <andrew@codeconstruct.com.au>
+To: Maoyi Xie <maoyixie.tju@gmail.com>, neal_liu@aspeedtech.com, 
+	gregkh@linuxfoundation.org
+Cc: joel@jms.id.au, linux-aspeed@lists.ozlabs.org,
+ linux-usb@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Date: Mon, 18 May 2026 11:38:05 +0930
+In-Reply-To: <CAHPEe=Fs223obDewRunPdTtqhVOM11AXVsLRNHx+=NP0KiFwMQ@mail.gmail.com>
+References: 
+	<CAHPEe=Fs223obDewRunPdTtqhVOM11AXVsLRNHx+=NP0KiFwMQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Sun, 17 May 2026 22:04:06 +0900, Jihong Min wrote:
-> AMD Promontory 21 (PROM21) xHCI controllers use generic xHCI
-> operation, but the PCI function also exposes optional
-> controller-specific sensor functionality. Add a small PROM21 PCI glue
-> driver for AMD 1022:43fc and 1022:43fd controllers.
-> 
-> The driver delegates USB host operation to the common xhci-pci core,
-> collects the parent-provided MMIO resource data, and creates a "hwmon"
-> auxiliary device for optional child drivers. Failure to create the
-> auxiliary device is logged but does not fail the xHCI probe, since the
-> auxiliary device is only needed for sensor support.
-> 
-> Make the PROM21 PCI glue a hidden Kconfig tristate that follows
-> USB_XHCI_PCI. This keeps the glue built in with a built-in xhci-pci core
-> and builds it as a module with a modular xhci-pci core. A built-in
-> xhci-pci core must not hand PROM21 controllers to a PROM21 glue driver
-> that is only available as a module, otherwise USB behind those controllers
-> can be unavailable during initramfs and PROM21 temperature sensor support
-> may not appear until the controller is rebound after the module loads.
-> 
-> Assisted-by: Codex:gpt-5.5
-> Signed-off-by: Jihong Min <hurryman2212@gmail.com>
-> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> Tested-by: Yaroslav Isakov <yaroslav.isakov@gmail.com>
-> ---
->  drivers/usb/host/Kconfig                      |   7 +
->  drivers/usb/host/Makefile                     |   1 +
->  drivers/usb/host/xhci-pci-prom21.c            | 136 ++++++++++++++++++
->  drivers/usb/host/xhci-pci.c                   |  11 ++
->  drivers/usb/host/xhci-pci.h                   |   3 +
->  include/linux/platform_data/usb-xhci-prom21.h |  22 +++
->  6 files changed, 180 insertions(+)
->  create mode 100644 drivers/usb/host/xhci-pci-prom21.c
->  create mode 100644 include/linux/platform_data/usb-xhci-prom21.h
-> 
-> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
-> index 0a277a07cf70..89bf262235e1 100644
-> --- a/drivers/usb/host/Kconfig
-> +++ b/drivers/usb/host/Kconfig
-> @@ -42,6 +42,13 @@ config USB_XHCI_PCI
->  	depends on USB_PCI
->  	default y
->  
-> +config USB_XHCI_PCI_PROM21
-> +	tristate
-> +	depends on X86
-> +	depends on USB_XHCI_PCI
-> +	default USB_XHCI_PCI
-> +	select AUXILIARY_BUS
-> +
+Hi,
 
-Instead of the X86 heuristic, would it be possible to build glue
-code if and only if SENSORS_PROM21_XHCI is enabled?
+On Sun, 2026-05-17 at 23:46 +0800, Maoyi Xie wrote:
+> Hi all,
+>=20
+> (Resending from a personal address =E2=80=94 my previous attempt from
+> my NTU corporate account carried an auto-appended confidentiality
+> disclaimer that you've declined to accept. The content below is
+> unchanged.)
+>=20
+> I have been running a small static check for list_for_each_entry
+> past-the-end patterns, similar to Jakob Koschel's 2022 cleanup
+> (commit 2966a9918df and related). The check flagged
+> ast_udc_ep_dequeue() in drivers/usb/gadget/udc/aspeed_udc.c, and I
+> would like to ask whether you consider this a real defect before I
+> send anything formal. The same code is present in v7.0 and in
+> v7.1-rc1 (the two files are byte-identical).
+>=20
+> The code in question is around line 691:
+>=20
+> =C2=A0=C2=A0=C2=A0 struct ast_udc_request *req;
+> =C2=A0=C2=A0=C2=A0 ...
+> =C2=A0=C2=A0=C2=A0 list_for_each_entry(req, &ep->queue, queue) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (&req->req =3D=3D _req) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 list_d=
+el_init(&req->queue);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ast_ud=
+c_done(ep, req, -ESHUTDOWN);
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 _req->=
+status =3D -ECONNRESET;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> =C2=A0=C2=A0=C2=A0 }
+> =C2=A0=C2=A0=C2=A0 if (&req->req !=3D _req)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rc =3D -EINVAL;
+>=20
+> If nothing matches, the loop exits past-the-end and req becomes the
+> synthetic container_of(&ep->queue, struct ast_udc_request, queue).
+> Reading &req->req after the loop is undefined per C11. The post-loop
+> check works in practice only because real _req values do not collide
+> with that synthetic address.
+>=20
+> What made me suspect this was not intentional is that 14 other UDC
+> drivers in the same directory (at91_udc, atmel_usba_udc, dummy_hcd,
+> fsl_qe_udc, fsl_udc_core, goku_udc, gr_udc, lpc32xx_udc, max3420_udc,
+> net2280, omap_udc, pxa25x_udc, pxa27x_udc, udc-xilinx) use a
+> different pattern, with a separate iter cursor and a result variable.
+> For example dummy_hcd.c:
+>=20
+> =C2=A0=C2=A0=C2=A0 struct dummy_request *req =3D NULL, *iter;
+> =C2=A0=C2=A0=C2=A0 list_for_each_entry(iter, &ep->queue, queue) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (&iter->req !=3D _req) cont=
+inue;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 req =3D iter;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retval =3D 0;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
+> =C2=A0=C2=A0=C2=A0 }
+> =C2=A0=C2=A0=C2=A0 if (retval =3D=3D 0) { ... }
+>=20
+> aspeed_udc seems to be the only outlier in drivers/usb/gadget/udc/,
+> which is what made me think this was probably an oversight rather
+> than a deliberate idiom.
+>=20
+> I also tried to confirm whether it observably misbehaves. If _req
+> happens to coincide with the synthetic past-the-end address, the
+> function returns 0 (success) on an empty queue without removing
+> anything. I attached a small userspace reproducer (poc_aspeed_udc.c
+> and its output log) that arranges this collision. In normal use _req
+> comes from the kernel slab and the collision is unlikely to happen
+> naturally, so I am not sure whether this rises to the level of a
+> real bug or just a code-quality issue.
+>=20
+> Two questions:
+>=20
+> =C2=A0 1. Do you consider the past-the-end use here a defect worth fixing=
+,
+> =C2=A0=C2=A0=C2=A0=C2=A0 or is it an accepted idiom in this driver that I=
+ am misreading?
 
-This seems to work:
+I don't know that it's an accepted idiom - there are only two
+invocations in the driver and the other doesn't suffer the problem
+you've highlighted.
 
- config SENSORS_PROM21_XHCI
-        tristate "AMD Promontory 21 xHCI temperature sensor"
--       depends on USB_XHCI_PCI_PROM21
-+       depends on USB_XHCI_PCI
+list_first_entry() does note that the caller be sure that the list
+isn't empty. As you note this isn't tested, so it's now a pre-condition
+of ast_udc_ep_dequeue() that it's not. A bunch of gadgets test if they
+have requests in-flight before invoking dequeue, so that may not be
+unreasonable. However, given ast_udc_nuke(), and the implementation
+admitting that the provided req might be invalid by the existence of
+the test, I'm not convinced that the invariant is upheld.
 
- config USB_XHCI_PCI_PROM21
-        tristate
--       depends on X86
-        depends on USB_XHCI_PCI
--       default USB_XHCI_PCI
-+       default USB_XHCI_PCI if SENSORS_PROM21_XHCI != 'n'
-        select AUXILIARY_BUS
+Note that the (other, separate) Aspeed vhub driver avoids your concern
+in its dequeue implementations, so I'd rather it's avoided in the udc
+implementation as well:
 
-I don't know if it's the best way, perhaps it would be preferable for
-the hwmon driver to select the glue, but then I'm not sure how to force
-glue to become 'y' when xhci-pci is 'y'.
+ * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+drivers/usb/gadget/udc/aspeed-vhub/ep0.c?h=3Dv7.1-rc4#n438
+ * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+drivers/usb/gadget/udc/aspeed-vhub/epn.c?h=3Dv7.1-rc4#n472
 
->  config USB_XHCI_PCI_RENESAS
->  	tristate "Support for additional Renesas xHCI controller with firmware"
->  	depends on USB_XHCI_PCI
-> diff --git a/drivers/usb/host/Makefile b/drivers/usb/host/Makefile
-> index a07e7ba9cd53..174580c1281a 100644
-> --- a/drivers/usb/host/Makefile
-> +++ b/drivers/usb/host/Makefile
-> @@ -71,6 +71,7 @@ obj-$(CONFIG_USB_UHCI_HCD)	+= uhci-hcd.o
->  obj-$(CONFIG_USB_FHCI_HCD)	+= fhci.o
->  obj-$(CONFIG_USB_XHCI_HCD)	+= xhci-hcd.o
->  obj-$(CONFIG_USB_XHCI_PCI)	+= xhci-pci.o
-> +obj-$(CONFIG_USB_XHCI_PCI_PROM21)	+= xhci-pci-prom21.o
->  obj-$(CONFIG_USB_XHCI_PCI_RENESAS)	+= xhci-pci-renesas.o
->  obj-$(CONFIG_USB_XHCI_PLATFORM) += xhci-plat-hcd.o
->  obj-$(CONFIG_USB_XHCI_HISTB)	+= xhci-histb.o
-> diff --git a/drivers/usb/host/xhci-pci-prom21.c b/drivers/usb/host/xhci-pci-prom21.c
-> new file mode 100644
-> index 000000000000..be0933ca5c62
-> --- /dev/null
-> +++ b/drivers/usb/host/xhci-pci-prom21.c
-> @@ -0,0 +1,136 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * AMD Promontory 21 xHCI host controller PCI Bus Glue.
-> + *
-> + * This does not add any PROM21-specific USB or xHCI operation. It exists only
-> + * to publish an auxiliary device for integrated temperature sensor support.
-> + *
-> + * Copyright (C) 2026 Jihong Min <hurryman2212@gmail.com>
-> + */
-> +
-> +#include <linux/auxiliary_bus.h>
-> +#include <linux/device/devres.h>
-> +#include <linux/errno.h>
-> +#include <linux/idr.h>
-> +#include <linux/module.h>
-> +#include <linux/pci.h>
-> +#include <linux/platform_data/usb-xhci-prom21.h>
-> +#include <linux/usb.h>
-> +#include <linux/usb/hcd.h>
-> +
-> +#include "xhci-pci.h"
-> +
-> +struct prom21_xhci_auxdev {
-> +	struct auxiliary_device *auxdev;
-> +	struct prom21_xhci_pdata pdata;
-> +	int id;
-> +};
-> +
-> +static DEFINE_IDA(prom21_xhci_auxdev_ida);
-> +
-> +static void prom21_xhci_auxdev_release(struct device *dev, void *res)
-> +{
-> +	struct prom21_xhci_auxdev *prom21_auxdev = res;
-> +
-> +	auxiliary_device_destroy(prom21_auxdev->auxdev);
-> +	ida_free(&prom21_xhci_auxdev_ida, prom21_auxdev->id);
-> +}
-> +
-> +static int prom21_xhci_create_auxdev(struct pci_dev *pdev)
-> +{
-> +	struct prom21_xhci_auxdev *prom21_auxdev;
-> +	struct usb_hcd *hcd = pci_get_drvdata(pdev);
-> +
-> +	if (!hcd)
-> +		return -ENODEV;
+>=20
+> =C2=A0 2. If it is worth fixing, I already have a small patch that brings
+> =C2=A0=C2=A0=C2=A0=C2=A0 the function in line with the 14 sibling drivers=
+. Would you like
+> =C2=A0=C2=A0=C2=A0=C2=A0 me to send it, or would you rather address it lo=
+cally?
 
-Shouldn't be necessary after successful xhci_pci_common_probe().
+IMO send the patch. It's almost always better to be reviewing a
+concrete change proposal.
 
-> +
-> +	prom21_auxdev = devres_alloc(prom21_xhci_auxdev_release,
-> +				     sizeof(*prom21_auxdev), GFP_KERNEL);
-> +	if (!prom21_auxdev)
-> +		return -ENOMEM;
-> +
-> +	prom21_auxdev->pdata.pdev = pdev;
-> +	prom21_auxdev->pdata.regs = hcd->regs;
-> +	prom21_auxdev->pdata.rsrc_len = hcd->rsrc_len;
-> +
-> +	prom21_auxdev->id = ida_alloc(&prom21_xhci_auxdev_ida, GFP_KERNEL);
-> +	if (prom21_auxdev->id < 0) {
-> +		int ret = prom21_auxdev->id;
-> +
-> +		devres_free(prom21_auxdev);
-> +		return ret;
-> +	}
-> +
-> +	prom21_auxdev->auxdev = auxiliary_device_create(&pdev->dev,
-> +							KBUILD_MODNAME, "hwmon",
-> +							&prom21_auxdev->pdata,
-> +							prom21_auxdev->id);
-> +	if (!prom21_auxdev->auxdev) {
-> +		ida_free(&prom21_xhci_auxdev_ida, prom21_auxdev->id);
-> +		devres_free(prom21_auxdev);
-> +		return -ENOMEM;
-
-The usual "goto error" pattern could be used instead of increasingly
-long sequences of xxx_free() calls.
-
-> +	}
-> +
-> +	devres_add(&pdev->dev, prom21_auxdev);
-> +	return 0;
-> +}
-> +
-> +static void prom21_xhci_destroy_auxdev(struct pci_dev *pdev)
-> +{
-> +	devres_release(&pdev->dev, prom21_xhci_auxdev_release, NULL, NULL);
-> +}
-> +
-
-It seems that these three functions above are everything that you truly
-want to add; the rest is boilerplate required by this two-module scheme
-to work, plus ID tables which must be duplicated and kept in sync.
-
-I wonder if a separate module is really justified, as opposed to simply
-linking this file into xhci_pci.ko when directed by Kconfig.
-
-The downside would be slightly higher memory usage on systems where the
-hwmon driver is enabled but not needed. OTOH, same systems would likely
-see reduced disk waste.
-
-> +static int prom21_xhci_probe(struct pci_dev *dev,
-> +			     const struct pci_device_id *id)
-> +{
-> +	int retval;
-> +
-> +	retval = xhci_pci_common_probe(dev, id);
-> +	if (retval)
-> +		return retval;
-> +
-> +	retval = prom21_xhci_create_auxdev(dev);
-> +	if (retval) {
-> +		/*
-> +		 * The auxiliary device only provides optional temperature sensor
-> +		 * support. Keep the xHCI controller usable if it fails.
-> +		 */
-> +		dev_err(&dev->dev,
-> +			"failed to create PROM21 hwmon auxiliary device: %d\n",
-> +			retval);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void prom21_xhci_remove(struct pci_dev *dev)
-> +{
-> +	prom21_xhci_destroy_auxdev(dev);
-> +	xhci_pci_remove(dev);
-> +}
-> +
-> +static const struct pci_device_id pci_ids[] = {
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FC) },
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FD) },
-> +	{ /* end: all zeroes */ }
-> +};
-> +MODULE_DEVICE_TABLE(pci, pci_ids);
-> +
-> +static struct pci_driver prom21_xhci_driver = {
-> +	.name = "xhci-pci-prom21",
-> +	.id_table = pci_ids,
-> +
-> +	.probe = prom21_xhci_probe,
-> +	.remove = prom21_xhci_remove,
-> +
-> +	.shutdown = usb_hcd_pci_shutdown,
-> +	.driver = {
-> +		.pm = pm_ptr(&usb_hcd_pci_pm_ops),
-> +	},
-> +};
-> +module_pci_driver(prom21_xhci_driver);
-> +
-> +MODULE_AUTHOR("Jihong Min <hurryman2212@gmail.com>");
-> +MODULE_DESCRIPTION("AMD Promontory 21 xHCI PCI Host Controller Driver");
-> +MODULE_IMPORT_NS("xhci");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-> index 585b2f3117b0..039c26b241d0 100644
-> --- a/drivers/usb/host/xhci-pci.c
-> +++ b/drivers/usb/host/xhci-pci.c
-> @@ -696,12 +696,23 @@ static const struct pci_device_id pci_ids_renesas[] = {
->  	{ /* end: all zeroes */ }
->  };
->  
-> +/* handled by xhci-pci-prom21 if enabled */
-> +static const struct pci_device_id pci_ids_prom21[] = {
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FC) },
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FD) },
-> +	{ /* end: all zeroes */ }
-> +};
-> +
->  static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
->  {
->  	if (IS_ENABLED(CONFIG_USB_XHCI_PCI_RENESAS) &&
->  			pci_match_id(pci_ids_renesas, dev))
->  		return -ENODEV;
->  
-> +	if (IS_ENABLED(CONFIG_USB_XHCI_PCI_PROM21) &&
-> +	    pci_match_id(pci_ids_prom21, dev))
-> +		return -ENODEV;
-> +
->  	return xhci_pci_common_probe(dev, id);
->  }
->  
-> diff --git a/drivers/usb/host/xhci-pci.h b/drivers/usb/host/xhci-pci.h
-> index e87c7d9d76b8..11f435f94322 100644
-> --- a/drivers/usb/host/xhci-pci.h
-> +++ b/drivers/usb/host/xhci-pci.h
-> @@ -4,6 +4,9 @@
->  #ifndef XHCI_PCI_H
->  #define XHCI_PCI_H
->  
-> +#define PCI_DEVICE_ID_AMD_PROM21_XHCI_43FC	0x43fc
-> +#define PCI_DEVICE_ID_AMD_PROM21_XHCI_43FD	0x43fd
-> +
->  int xhci_pci_common_probe(struct pci_dev *dev, const struct pci_device_id *id);
->  void xhci_pci_remove(struct pci_dev *dev);
->  
-> diff --git a/include/linux/platform_data/usb-xhci-prom21.h b/include/linux/platform_data/usb-xhci-prom21.h
-> new file mode 100644
-> index 000000000000..ee672ad452a8
-> --- /dev/null
-> +++ b/include/linux/platform_data/usb-xhci-prom21.h
-> @@ -0,0 +1,22 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * AMD Promontory 21 xHCI auxiliary device platform data.
-> + *
-> + * Copyright (C) 2026 Jihong Min <hurryman2212@gmail.com>
-> + */
-> +
-> +#ifndef _LINUX_PLATFORM_DATA_USB_XHCI_PROM21_H
-> +#define _LINUX_PLATFORM_DATA_USB_XHCI_PROM21_H
-> +
-> +#include <linux/compiler_types.h>
-> +#include <linux/types.h>
-> +
-> +struct pci_dev;
-> +
-> +struct prom21_xhci_pdata {
-> +	struct pci_dev *pdev;
-> +	void __iomem *regs;
-> +	resource_size_t rsrc_len;
-> +};
-> +
-> +#endif
-> -- 
-> 2.53.0
-> 
+Andrew
