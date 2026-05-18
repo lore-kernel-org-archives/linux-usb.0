@@ -1,229 +1,139 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AD93E3C60
-	for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 09:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779095620; cv=pass; b=lx6vNzs03FxuyX8GmpyufAZzVBsZfRqryodMGQ4x3jRXQf51hg3EWI21xCjyAabWcId42uiZ4fFSEiXjJTOADCWO0/voESCyiFDc+d+tg3qtjjUoZF+Zow8wpXWdYUM7CyKjuPbgftiWaUhziu6Epnchykz3xBKFV/de1WL806Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779095620; c=relaxed/simple;
-	bh=kw2FaFkRYggKmHsD3zbceTzDrnmQSt6sP83wo4d+5i0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f8iWTXnsPGzOJCZZFvim0ut0cF+tAy7BDxkXPsxqIr6aZ4ThbCVH2Kt2CZQe7vZB57c8DpAMfSULEoKrspsGp7W69taoY72e/2w4jDkOkMEC0I0eBk66BjkDYOMvYsKBFe9giq4N1cIytNXbz/TnvZPOxunyxC8iRZM+BT1LyIQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Rc8gMTDY; arc=pass smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D61D3E3146
+	for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 09:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779095896; cv=none; b=NRHTTvsOfc5EXfwDwwDENCDte/o+FN1vNXWNfk3x5JsAAgpRv6jFPzyRsp7cy1IlEr6OXNmw/0/mRj4vWksfnn/DSzPAUWZRP+0BH67WShR8dnuWKGY8Ek132Wus2ucKkJ8yNzCfVPIxVEKfPBIKgNYA+ydpI+9d7NlXF/ETcu0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779095896; c=relaxed/simple;
+	bh=c8h+9kDObkiLnY1wbAG2dd3q6oLJ48n3SeWeK/fnWuY=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LoIkzOy6uXpkWX0tkVdIRg5+CTs1cGTDNg0Pyt8d1secedfSWlkU2skd4oUprOcfVr8bv9Klb55GtmWN1hJA+O3Ghpccl78Qq+76wgKaQ3fH7wts/QoGbP/KmbFFDOAdo8V0zoarmmWr17GE7qbFKBjx3OQrximK2lSimPNWGW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=e3mMS2Dn; arc=none smtp.client-ip=220.130.44.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Rc8gMTDY"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-393925cb1baso24477171fa.0
-        for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 02:13:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779095618; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LMCrKaBhzdN5l16B1lvGroBgClyxbwhsnhVwmfY4vHlrnIGi1ui58rwAgPKO9sF2Zh
-         hcaf3Pp7Ay19uzC+DqCdYzgOcL3QbaIw0tnipV6moOlS+oiDxjlsZhk02AvZRxE7L2Qx
-         +9TwkIwOzKjJ1DcTIlycN/Ah9GVHozJw7oMDpZkBFQx4WmKixQ0aBqQimC2MyCaLFhvI
-         WKBQgZxXdPRRgb83DmLBLEoukpZb6bHXuaUE+2VNwY++c27y8I758yjArTkwd5R00UVF
-         Y8IE37Tq8q6rcnpwf2NimCcAMUpR+wbOJH2plgTQvIDC5j82TVI3fVy7P1jD6gSjxykw
-         ssiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Amh+bVXjDqTRNawRkZLKL9MlUJaoVw2UfnFqXJanPVg=;
-        fh=37F5bvaK0VK+AI6Ctpf45agoY7vziZjK6mkcA4uNNeI=;
-        b=WeOXHyylgNOFCWPvRoiqPeMB5ElTTdR9pbZVixwKJtm6Nt1v4zM5Ld432u4ViNZ+r3
-         EVw8MSOKIj5RTyJi8HksICMcZoS0In/mJTOuo+f5RpKG+OyE3EsN/EF8IFj1yWQ4r7ct
-         F0JkAelg9ocBthjcKmTHBcAW81PaCCB8eTBUGq8R7lbYgCuInJsHvUYdF9Zz0SuyAUUA
-         nTUKQDAEqusCqM4Z+l/NHd0/BOuqY4Nwq1WGPbg/8sRB5Ch3gcNT87E7zitFj8gMNJPb
-         sOuHuY47x+Lke8qBVhcwp4HheD0qnfkr+W9F1wLKhaSsEB1csrQFTjOd90ledc07IzQB
-         1c3w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1779095618; x=1779700418; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Amh+bVXjDqTRNawRkZLKL9MlUJaoVw2UfnFqXJanPVg=;
-        b=Rc8gMTDYJWiN51N2hXBaBljzOuBiK53ip6mgeFN2jwKbqsOHcJPWNgokM1W3qyZcMt
-         rN97B9PALBJGc+z1d9EMjwdS5KOmS1kB1mln+PyuxmXjFxI+my1KaDSTt1CfooM99e9s
-         BbGJyM/7ymRlW0+B3Xt9YrkNfdRTXAOdib3Iw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779095618; x=1779700418;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Amh+bVXjDqTRNawRkZLKL9MlUJaoVw2UfnFqXJanPVg=;
-        b=p+SBi573DAIrmoY40oX4RZCbhYnUvpUFNS5WHNkD/vhUQbjxWAPMtYISHAOrDpAKId
-         YvMZmTmTjXLGvsY2nsFk1fby5Nhq20wsJ81obfco3mq1s0Sz/DP7A8HawWf5O5DxaG1q
-         oxXKvtDojaNu71rkNcKslK2MNNwJiAF2WQl5s3ZSvjtkU7uxwfm6hrM4E259l8YTzXbn
-         Wxf4R1U+S26ewe581mTC76tCy8LP+3vgZH4VYNU+Bj3Dm2j4FdJj5ijLJ7ZwLcZFAYPs
-         tQZcSFK8+gvtbf44r7WBQX3RAqXpDIfTNh9smTPpuXgaMDI9kRR+bP7240H+EA2/iqKm
-         fOwg==
-X-Forwarded-Encrypted: i=1; AFNElJ9pNio4jy90BAypsq7YuRPTGk4JYZhovjcrW8F+v5d9iqjYypi/gwomWTgru6OkFYkLFEb7E9NmphI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcKV1QxjxMbW8uIUuo3S+PCcrKAs+swBR2zRpFOVXPGUo9VDNX
-	H8oymGOz2Iaew5OL+LVXuj0G8+km31eXJd1PN9gy3c98h5Sn+njjwfQUz39Xj9jL6wAiWQOn4FM
-	IPYTvKCfwbGRXb5IZcyFqgwNJphYaP0SGYq5NABEt
-X-Gm-Gg: Acq92OGo4iBxbYcYCf/zvnS6ITEw+ANbOsdDUGCnUGrnGQZ8SMt5g/dbaswMZ8Y6luS
-	6rYhuqSWYCw/b5yAT+UkxHFfmOfQsmmN/5q/1VKZZQsS/Y56lBuF/snGGi1RajPCiFvVnSsGPQO
-	90GZXTsIv5tpafFqUS3KQE0EhkcPYr8RqVqPikJCGZGvvbqLyyoPBPghOQewKaES5K+/wljZVgQ
-	4q0b8n2stO2bhA3ZvkUF5z/AoJniViFlGQxhKYK5r/ZP49Uz7dGE80CyUBIV1YsJGv7z7XyawoA
-	UsxAbxRVCSuY+aL5EFEOT6nIeZyjvKasMQv3VarC0134Xttt
-X-Received: by 2002:a05:6512:3e14:b0:5a8:9f6f:3212 with SMTP id
- 2adb3069b0e04-5aa0e741fd0mr3969603e87.34.1779095617441; Mon, 18 May 2026
- 02:13:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="e3mMS2Dn"
+X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
+	s=richtek; t=1779095891;
+	bh=fxUF3k3WHCHt2g6izrWysKGKB1wcrJxtUSpatTt0aj4=; l=2931;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=e3mMS2DnL/rFPa/SCChbkGIuj3aUhkhSS1PX+wXnS8Rt4BZVGSJS+sasfZ22Lgc3u
+	 8XfVr9952Tnw9o/TlsLr+k0K2i+Fa079eAVBAQHn5nL3OZa6z9mtQOqpq+QQGE+VJf
+	 k6avPCnnVGEoxduKLnMtbXCX1RB9XlM1z9qdbTsvXKbVe7EomHcbOBUpZIFioE4ZA6
+	 IukrKCgRhGVuf4dJODj3Zhegp2L8x3aU5RjXW1aFAlpS4LNBxq2Z/rSrtSjvSVCQbm
+	 VdJOKU+Aw24Z5+rluf8ADADHTModw1Y+y0NCoMCz98woD51yDaoESV/nz/DEn6zZeX
+	 DaYS4/WKAo0zg==
+Received: from 192.168.10.47
+	by mg.richtek.com with MailGates ESMTPS Server V6.0(1227019:0:AUTH_RELAY)
+	(envelope-from <cy_huang@richtek.com>)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Mon, 18 May 2026 17:18:09 +0800 (CST)
+Received: from ex3.rt.l (192.168.10.46) by ex4.rt.l (192.168.10.47) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.26; Mon, 18 May
+ 2026 17:18:08 +0800
+Received: from git-send.richtek.com (192.168.10.154) by ex3.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1748.26 via Frontend
+ Transport; Mon, 18 May 2026 17:18:08 +0800
+From: <cy_huang@richtek.com>
+To: <linux-usb@vger.kernel.org>
+CC: <badhri@google.com>, <heikki.krogerus@linux.intel.com>,
+	<gregkh@linuxfoundation.org>, <lucas_tsai@richtek.com>,
+	<cy_huang@richtek.com>, <ren_chen@richtek.com>, <kevin_hung@richtek.com>
+Subject: [PATCH 1/3] usb: typec: tcpm: add low power mode support
+Date: Mon, 18 May 2026 17:15:12 +0800
+Message-ID: <20260518091513.3277975-3-cy_huang@richtek.com>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20260518091513.3277975-2-cy_huang@richtek.com>
+References: <20260518091513.3277975-2-cy_huang@richtek.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260515090149.3169406-1-wenst@chromium.org> <20260515090149.3169406-6-wenst@chromium.org>
- <41260a6d-46fa-4a45-9906-e1bc5e5dd83a@rowland.harvard.edu>
-In-Reply-To: <41260a6d-46fa-4a45-9906-e1bc5e5dd83a@rowland.harvard.edu>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 18 May 2026 17:13:25 +0800
-X-Gm-Features: AVHnY4KWMoq2C1egFaF2o_wZ2pbZmcxOkUhi_AoDtPCF3Cwz3jQrR0zfOzxPPG4
-Message-ID: <CAGXv+5GT8vS87owuNJvMxWBnwCELCV28SbwsUXFr-Ne5O3EgsQ@mail.gmail.com>
-Subject: Re: [PATCH RFC 05/12] usb: hub: Power on connected M.2 E-key connectors
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-pm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Fri, May 15, 2026 at 10:39=E2=80=AFPM Alan Stern <stern@rowland.harvard.=
-edu> wrote:
->
-> On Fri, May 15, 2026 at 05:01:41PM +0800, Chen-Yu Tsai wrote:
-> > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> > index 90ea597d42ae..4165f71e212b 100644
-> > --- a/drivers/usb/core/hub.c
-> > +++ b/drivers/usb/core/hub.c
-> > @@ -31,7 +31,9 @@
-> >  #include <linux/minmax.h>
-> >  #include <linux/mutex.h>
-> >  #include <linux/random.h>
-> > +#include <linux/of_graph.h>
-> >  #include <linux/pm_qos.h>
-> > +#include <linux/pwrseq/consumer.h>
-> >  #include <linux/kobject.h>
-> >
-> >  #include <linux/bitfield.h>
-> > @@ -888,13 +890,25 @@ int usb_hub_set_port_power(struct usb_device *hde=
-v, struct usb_hub *hub,
-> >  {
-> >       int ret;
-> >
-> > +     if (set)
-> > +             ret =3D pwrseq_power_on(hub->ports[port1 - 1]->pwrseq);
-> > +     else
-> > +             ret =3D pwrseq_power_off(hub->ports[port1 - 1]->pwrseq);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> >       if (set)
-> >               ret =3D set_port_feature(hdev, port1, USB_PORT_FEAT_POWER=
-);
-> >       else
-> >               ret =3D usb_clear_port_feature(hdev, port1, USB_PORT_FEAT=
-_POWER);
-> >
-> > -     if (ret)
-> > +     if (ret) {
-> > +             if (set)
-> > +                     pwrseq_power_off(hub->ports[port1 - 1]->pwrseq);
-> > +             else
-> > +                     pwrseq_power_on(hub->ports[port1 - 1]->pwrseq);
-> >               return ret;
-> > +     }
-> >
-> >       if (set)
-> >               set_bit(port1, hub->power_bits);
-> > @@ -1867,6 +1881,7 @@ static int hub_probe(struct usb_interface *intf, =
-const struct usb_device_id *id)
-> >       struct usb_host_interface *desc;
-> >       struct usb_device *hdev;
-> >       struct usb_hub *hub;
-> > +     int ret;
-> >
-> >       desc =3D intf->cur_altsetting;
-> >       hdev =3D interface_to_usbdev(intf);
->
-> This change is totally useless.  Didn't you get a warning from the
-> compiler when you built it?
+From: Lucas Tsai <lucas_tsai@richtek.com>
 
-Apologies. This should have been part of the previous patch.
+Add low power mode support,
+enter low power mode at detach,
+exit low power mode at SRC_ATTACH_WAIT, SNK_ATTACH_WAIT and init.
 
-> > diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
-> > index 9ebc5ef54a32..6039e5f5dcd7 100644
-> > --- a/drivers/usb/core/hub.h
-> > +++ b/drivers/usb/core/hub.h
-> > @@ -85,6 +85,7 @@ struct usb_hub {
-> >   * @port_owner: port's owner
-> >   * @peer: related usb2 and usb3 ports (share the same connector)
-> >   * @connector: USB Type-C connector
-> > + * @pwrseq: power sequencing descriptor for the port
-> >   * @req: default pm qos request for hubs without port power control
-> >   * @connect_type: port's connect type
-> >   * @state: device state of the usb device attached to the port
-> > @@ -104,6 +105,7 @@ struct usb_port {
-> >       struct usb_dev_state *port_owner;
-> >       struct usb_port *peer;
-> >       struct typec_connector *connector;
-> > +     struct pwrseq_desc *pwrseq;
-> >       struct dev_pm_qos_request *req;
-> >       enum usb_port_connect_type connect_type;
-> >       enum usb_device_state state;
->
-> The fact that hub.h uses struct pwrseq_desc indicates that it ought to
-> #include <linux/pwrseq/consumer.h>, instead of making the .c files do
-> so themselves.  Then you wouldn't have to add the #include lines to
-> hub.c and port.c.
+Signed-off-by: Lucas Tsai <lucas_tsai@richtek.com>
+---
+ drivers/usb/typec/tcpm/tcpm.c | 10 ++++++++++
+ include/linux/usb/tcpm.h      |  4 ++++
+ 2 files changed, 14 insertions(+)
 
-I couldn't tell if the existing pattern in this file was to include
-the headers or not, as it's missing a whole bunch.
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 55fee96d3342..a4bde4c292e4 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -4939,6 +4939,9 @@ static void tcpm_reset_port(struct tcpm_port *port)
+ 
+ static void tcpm_detach(struct tcpm_port *port)
+ {
++	if (port->tcpc->set_low_power_mode)
++		port->tcpc->set_low_power_mode(port->tcpc, true);
++
+ 	if (tcpm_port_is_disconnected(port))
+ 		port->hard_reset_count = 0;
+ 
+@@ -5181,6 +5184,8 @@ static void run_state_machine(struct tcpm_port *port)
+ 			tcpm_set_state(port, SNK_UNATTACHED, PD_T_DRP_SNK);
+ 		break;
+ 	case SRC_ATTACH_WAIT:
++		if (port->tcpc->set_low_power_mode)
++			port->tcpc->set_low_power_mode(port->tcpc, false);
+ 		if (tcpm_port_is_debug_source(port))
+ 			tcpm_set_state(port, DEBUG_ACC_ATTACHED,
+ 				       port->timings.cc_debounce_time);
+@@ -5439,6 +5444,8 @@ static void run_state_machine(struct tcpm_port *port)
+ 			tcpm_set_state(port, SRC_UNATTACHED, PD_T_DRP_SRC);
+ 		break;
+ 	case SNK_ATTACH_WAIT:
++		if (port->tcpc->set_low_power_mode)
++			port->tcpc->set_low_power_mode(port->tcpc, false);
+ 		if (tcpm_port_is_debug_sink(port))
+ 			tcpm_set_state(port, DEBUG_ACC_ATTACHED,
+ 				       PD_T_CC_DEBOUNCE);
+@@ -7489,6 +7496,9 @@ static void tcpm_init(struct tcpm_port *port)
+ {
+ 	enum typec_cc_status cc1, cc2;
+ 
++	if (port->tcpc->set_low_power_mode)
++		port->tcpc->set_low_power_mode(port->tcpc, false);
++
+ 	port->tcpc->init(port->tcpc);
+ 
+ 	tcpm_reset_port(port);
+diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
+index 93079450bba0..475c5d478c0e 100644
+--- a/include/linux/usb/tcpm.h
++++ b/include/linux/usb/tcpm.h
+@@ -82,6 +82,9 @@ enum tcpm_transmit_type {
+  *		Optional; if supported by hardware, called to start dual-role
+  *		toggling or single-role connection detection. Toggling stops
+  *		automatically if a connection is established.
++ * @set_low_power_mode:
++ *		Optional; if supported by hardware, called to enter or exit
++ *		low power mode.
+  * @try_role:	Optional; called to set a preferred role
+  * @pd_transmit:Called to transmit PD message
+  * @set_bist_data: Turn on/off bist data mode for compliance testing
+@@ -155,6 +158,7 @@ struct tcpc_dev {
+ 	int (*start_toggling)(struct tcpc_dev *dev,
+ 			      enum typec_port_type port_type,
+ 			      enum typec_cc_status cc);
++	void (*set_low_power_mode)(struct tcpc_dev *dev, bool enable);
+ 	int (*try_role)(struct tcpc_dev *dev, int role);
+ 	int (*pd_transmit)(struct tcpc_dev *dev, enum tcpm_transmit_type type,
+ 			   const struct pd_message *msg, unsigned int negotiated_rev);
+-- 
+2.43.0
 
-Regardless of whether this header file includes linux/pwrseq/consumer.h
-or has a forward declaration or nothing, I think that if the .c files
-use the API, then they should include the corresponding header file
-directly.
-
-> > diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-> > index b1364f0c384c..2d09037fee93 100644
-> > --- a/drivers/usb/core/port.c
-> > +++ b/drivers/usb/core/port.c
-> > @@ -7,11 +7,14 @@
-> >   * Author: Lan Tianyu <tianyu.lan@intel.com>
-> >   */
-> >
-> > +#include <linux/cleanup.h>
->
-> Why is this needed?
-
-For the __free() in usb_hub_port_pwrseq_get() below:
-
-    struct device_node *np __free(device_node) =3D NULL;
-
-
-Thanks
-ChenYu
-
-
-> >  #include <linux/kstrtox.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/string_choices.h>
-> >  #include <linux/sysfs.h>
-> > +#include <linux/of_graph.h>
-> >  #include <linux/pm_qos.h>
-> > +#include <linux/pwrseq/consumer.h>
-> >  #include <linux/component.h>
-> >  #include <linux/usb/of.h>
-> >
->
-> Alan Stern
