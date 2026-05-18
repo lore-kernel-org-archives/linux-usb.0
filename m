@@ -1,134 +1,154 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7D13DE439
-	for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 07:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224683DDDD8
+	for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 07:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779088414; cv=none; b=sv0jO79YtakdcFcMSPq+NYYghgbo+G9MsQ3ChTfdDEUnK1PUmO+QvQ7XCIe+vQVB6Y5YhvO7gIl8giWB8LhQp3EiW+bcTZyyGLTDdazvEJMtFWWkA6CSkpsB2fiMHp0hWNTdOZjeyFqMCF8hzfI4qWqan674uaf3AUo7AvdPS2E=
+	t=1779089651; cv=none; b=RA1Usr4TBZrXeYbr1LotfakoFLIshb7CA1X39MugbxpJNlO26C6Qr6iW0K0Ngu0RyA/zO1vtusuMufv07IDJjW937T71fAYAxk7aBSS/RwYvluUBs8U9qsyR+fHYeHdevGX9PMo0Bo/2L9bUqEJ0Rszr1HbAfaugdTVqtfYfqeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779088414; c=relaxed/simple;
-	bh=Rrvsonqi2yIcxCPDdFDknt6WL01mqPR39hn2QUHgI1w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rBdpfRlQtIsRUVLolEDgPtLcgIJF0tt9XEtZjWt85mxkyX8zlQI53jvkf2ibad9ILTMcaUw++tOFlIBmH1mbStFu+lxVU1s/+S7xGbsIHbl6v3AattiBaDeUSn7gW7esZCu4Io4rpujSgS9SY5Ov7V4sM1ptRITIkNe+11ic/aQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dtLmb3G6; arc=none smtp.client-ip=209.85.221.44
+	s=arc-20240116; t=1779089651; c=relaxed/simple;
+	bh=dANvS/gBKyv4N9UelCDiQXk+Xnfh5orZMtFTpg4cCCo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=U5vO5ysQpFkaaINDWwp8P8z15PnRtQMWWx+tXFW0K9rAx0MLkBVRFf9qFygHfkFtJ25UZop1h5QYaQRfFq2FWDzmx+ccPa/ZpUNCe7FQvOeQ32UcF+nQzWh/gzX6VYUeNlC+PQCGvWaY7jO4bMLnaSbjADAUAGpXhzgmjRbV7/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I0cMeAlT; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dtLmb3G6"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-449de065cb3so1782221f8f.2
-        for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 00:13:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I0cMeAlT"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-83537a80ab6so1326683b3a.1
+        for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 00:34:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779088411; x=1779693211; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FAsqd1yDBTOZqtalJnVpjcTyCLyCi3nHRY+aOQmI2Q0=;
-        b=dtLmb3G6BBm8Vr9gASsjTo6jEqdJ2WzDimu/g4agF0Jsiy6qnWkTG6BT9Fc7LA3IYF
-         GjggHYdQd9FE/B4rF/X+ATc1jt+VNrair0WHrZIYUKmJdZvuDL0pVgM+FWiX+ZfFzTFy
-         4gVV3vodSf8Zu8Pfw6M/pVZFbfwcBW1PtlMxTa8g+E2PvrA8Wn/taqvRVH9VGkCONC1X
-         eXGDowaMybULRaTZvgQlM4/Br+g0p8Ufnh1A3Y/4zsoV8Dhl1bPQp2L83MDhSGLtBBYl
-         2i4edJ6mxzsRpcWkCnYdI7OcQS5yHNKYiiP5M8IJZCeUzYAbbPu8rNb15N8iKNnA+5eF
-         MImQ==
+        d=gmail.com; s=20251104; t=1779089649; x=1779694449; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=feqASc44QbNe6VCpQPPDc88UHJTnZ4FT1o849ySLP3c=;
+        b=I0cMeAlTiGsTQQyL3bp7Tgj7V94i1wy1uIkyrNEPAJeRQ4jI5h0DUVVdEZxqoncQkY
+         a6KUkv4hAuSsXeI+W7MIUTp8sbOZ/KITTYv9fCSThGesWpUrInB02Ws6yAo4g5XEKI+Y
+         G3zoubSLK7Q48uVrPSOVCXxPsQ0P0QRFuUMK9bS3wW36hxffkENN842H3ESynpiCTTZ2
+         WhffX8CP/A1GUB/iwme4FLgVCNtM1PBsqIeyIU+/+OGSJRT2kpZHNPEyDq9UK2sEW3mU
+         EPrnbK3sbhnqzE6E8J+Krz19xrYoHIJRktvlfIQ1rlZhP9nfEyS0LgH2+axGI9h3ouzD
+         p6Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779088411; x=1779693211;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FAsqd1yDBTOZqtalJnVpjcTyCLyCi3nHRY+aOQmI2Q0=;
-        b=M37B1okePLG95ihqJtBtXRuCxDQqQX+1MZvKlIDZ/i4cnnyoz2zS9iaGyRPkxrD5cB
-         2Fw7Ld9KOvSZjTXXsDcmtI4E0TJrzlGw9eoXdQOOAhMvSyDFGiBMpcxhnyFvbXYr90fm
-         9Yhstxfyfek6tl3kNGls794v90M0wjPOdKY9utAKF/9QDZh5FHB3581G5DDDXX/0VXcI
-         yExqJDG2yZ+nOV3Vs8mtn2nL3jDJ48GwLuIqGwBl+hsVLVulKcdDT0o1LcjmTXWGjgA+
-         tq/n2jE5Liz2sPlEYlK5ZGglHV4WIyByQCS6VUjVdgce6D1rx4vIr+cEEMRUXKrHrazh
-         Gnwg==
-X-Forwarded-Encrypted: i=1; AFNElJ9cSJ1OuGXtcnt2fBiHOX1EYCSJC4u+BQ30d4LKJhPxxWqWzMQGX2/S9Ns7mOz02FNmDi/iELCcBvs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDMC68rI5SL8kdYcWrF+319Y/QZe90ftTnAT0sSDxZ2CG1V5PX
-	3EW4PUOMXp5bUi82kvQje6va0yiPQ8XsI4ePGWfTGDAviDqTstJdsQLS
-X-Gm-Gg: Acq92OHFXxkBWFC8phYiZu2XmtrpcSkVs1fhStXailRApMqEEwsFLV2E1haYNGd62If
-	eGVGi7KPm0ZNk9m9ZiBUZuIBNCzYNGyggH4JTqYZzLb+MpGjQYxtywDnuYVa8EGruyKGwNaQE6D
-	9p6bd3h1rYMBw+KuGzzTFjuoRcML9cgSni43Whkh5DPLoUZ1xTH0V/B7PY7kizEPzhYElC1TofL
-	6AzhP4BfYbjZZm+Ed57rgYrPPjfSi6EJB1E9508TJvk8xUGErIRlWkMEFI/AWT7n0h3DZtQruMs
-	k5E+kwAqAFWpsRQVbjW3oV2fz1wHuP5HdIYNHdrwaVIhNZfpwOB2WXN8p+sjm2QZuhYyhstDiXx
-	OEscm/kFVVeLf7DF1ChdpQyaPdtBDZAtUsG7biXt/hA9S9klJGJ+wZ/38vBXCYf7+1jFYpSBBD1
-	3aH4uSy2ut30scigcEZ1ghYNV7YZkKmW/i
-X-Received: by 2002:a05:6000:2902:b0:45a:e3dd:586b with SMTP id ffacd0b85a97d-45e5c59a269mr21533158f8f.18.1779088410925;
-        Mon, 18 May 2026 00:13:30 -0700 (PDT)
-Received: from foxbook (bfk48.neoplus.adsl.tpnet.pl. [83.28.48.48])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45d9e768acesm37387905f8f.7.2026.05.18.00.13.30
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 18 May 2026 00:13:30 -0700 (PDT)
-Date: Mon, 18 May 2026 09:13:27 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Dylan Robinson <dylan_robinson@motu.com>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
- linux-usb@vger.kernel.org, mathias.nyman@intel.com,
- stern@rowland.harvard.edu
-Subject: Re: [RFT PATCH] xhci: fix frame id calculation for isoc transfer
-Message-ID: <20260518091327.470d8fb5.michal.pecio@gmail.com>
-In-Reply-To: <CA+Df+jc=z96K52NJ6YXG4x8gK95udcbFHs=0hTQS6cm1r8z0zw@mail.gmail.com>
-References: <CA+Df+jeoj_QL6XNzUyP963HF7ngCWoAs0MjqQXPr3Fa6VW3rXw@mail.gmail.com>
-	<20260511192105.3756809-1-mathias.nyman@linux.intel.com>
-	<20260512110810.17fbde0a.michal.pecio@gmail.com>
-	<85f8441d-d6c0-4607-9269-d80b1294afbd@linux.intel.com>
-	<CA+Df+jf79bnONyXUnf0_zAUrqNAVzy1zt9VCivbxYvkedfGHRQ@mail.gmail.com>
-	<20260515063210.4ed0a940.michal.pecio@gmail.com>
-	<CA+Df+jc=z96K52NJ6YXG4x8gK95udcbFHs=0hTQS6cm1r8z0zw@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1779089649; x=1779694449;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=feqASc44QbNe6VCpQPPDc88UHJTnZ4FT1o849ySLP3c=;
+        b=kyMFs7M+zMoeYhITfUEdadjOfCLDBzJDSNcifxdzJxoCzJp2v8Hz7tbkeNj2NFUUl2
+         jLSljk4qJ+660XIAY+72LfjexaIXHNFTEfuc8UDGHacK+Hud+nvXpwKtZyK9uucbCPVe
+         JvTwpPYB7n6sx8TEPQ9XvgAMss+bAu1QBoJtzhOdpEu5HSmYjmN5XD1fXilG51Xp/0/B
+         Xbjqa+ThJglGqEHUYbKjcOAbGbBAjJMS2BuY3yfLDc7CyAsac6dkM6r2ClV8hlIV0ALT
+         V7/zG6KiY/8GecIDRBuVN7YBtVFEHLKXfR+Q1Z9xf+2NtF1kXMNXgBQTMbw1aCPbYinq
+         eVaQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/2Uku6bd0ggFb2NMBWxB50iNaelYnzTNZjOKTWwQfZeyXHbsEcjPl08+DCU/zt48K+JVCxlKAAuFI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytfVeu+8C2rKAIUtbcTSIDTBaV6iiBv+Tv5ltMAcBAJDCuaJPD
+	wgIcx5Ib7TaqwmcrMtxDJHRkdDoUO2lmCuaB78cX4IX4ZJo/67zgADIh
+X-Gm-Gg: Acq92OE/lk29Jrn5e9RpcAp0uvhByv5WzpyZ4dqpD/Om1Bzerbr/5YkxojQrxCdxwxJ
+	Jtwoxqw2/tBnQM9rEaPv7Q/WLpFL+L1lJBqbZuAWMloFqu++xVgCVOyhQvp18cDgic9zwU3Owp/
+	/ADfoKIfODH8dnNlrmZS1P8o56YMwjHfZxaFZCz83CfX7dgfg9x/9dDbX7OnSZTVvNz97GOKx63
+	IFdYEuJvIP0WY98Xvo8RDIBu3dIZzBAr2U9iIAaJYTSKPajo/Pg9263dzHq3XFyMmy5KO6s/yLf
+	4Fv150OW+o2pI6rifc8kO5vNA0/kGxlL1f5YWTIGNBtqWaf2j5UAgnQ+jo4ZcQq9aW4cDfYh8ct
+	y3fytYkEDMSIFdrdL+e4vPEoScD4tY+/E7NmeKCKew4IndnZCWl5wx/oxsyqnV4nXslhA2IZZ6B
+	8yFUXqOmxZliL/DVt8NDajuCGQN2M7ZzNpbbiQwU8uqHWNBg==
+X-Received: by 2002:a05:6a00:3e22:b0:839:dd77:3501 with SMTP id d2e1a72fcca58-83f33c33546mr13925885b3a.1.1779089649248;
+        Mon, 18 May 2026 00:34:09 -0700 (PDT)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19775ca3sm14500746b3a.14.2026.05.18.00.34.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 00:34:08 -0700 (PDT)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+X-Google-Original-From: Maoyi Xie <maoyi.xie@ntu.edu.sg>
+To: Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Neal Liu <neal_liu@aspeedtech.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: gadget: aspeed_udc: avoid past-the-end iterator in dequeue
+Date: Mon, 18 May 2026 15:34:03 +0800
+Message-Id: <20260518073403.1285339-1-maoyi.xie@ntu.edu.sg>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, 15 May 2026 14:13:14 -0400, Dylan Robinson wrote:
-> On Fri, May 15, 2026 at 12:32=E2=80=AFAM Michal Pecio wrote:
-> > Did you try with short enough playback buffer to get occasional xHCI
-> > ring underruns?
-> >
-> > Is Frame ID still correct then? =20
->=20
-> Good point, no, it does not remain correct.
->=20
-> I repeated the test using 1-microframe-long URBs in order to induce
-> ring underruns/overruns.
+From: Maoyi Xie <maoyixie.tju@gmail.com>
 
-Underruns are the most important thing to test here, both with CFC and
-without. Under normal conditions these patches have no effect (besides
-possibility of blatant bugs), but when the ring underruns we want to
-know how the HW and SW will react to it.
+ast_udc_ep_dequeue() declares the loop cursor `req` outside the
+list_for_each_entry(). After the loop it tests `&req->req != _req`
+to decide whether the request was found. If the queue holds no
+match, `req` is past-the-end. It then aliases
+container_of(&ep->queue, struct ast_udc_request, queue) via offset
+cancellation. Whether that synthetic address equals `_req` depends
+on heap layout. The function can return 0 without dequeueing
+anything.
 
-> When the URB_ISO_ASAP flag is not set, urb->start_frame is initially
-> accurate, but drifts further and further off following each ring
-> underrun/overrun event. In the completion handler, urb->start_frame
-> appears to remain continuous with the previous URB even after
-> underrun/overrun events occur. The URB completion status and the
-> isochronous frame descriptor statuses always report success.
+Use the cursor-vs-result idiom from the sibling aspeed-vhub driver,
+ast_vhub_epn_dequeue() in drivers/usb/gadget/udc/aspeed-vhub/epn.c.
+A separate `iter` walks the list. `req` is set only when a request
+matches. After the loop, `req` is NULL if nothing matched.
 
-Yes, this is very annoying because it's undetectable (without CFC).
-It seems we need to handle Ring Underrun/Overrun events, somehow.
+The same idiom is used by the other UDC drivers in
+drivers/usb/gadget/udc/ (at91_udc, atmel_usba_udc, dummy_hcd,
+fsl_qe_udc, fsl_udc_core, goku_udc, gr_udc, lpc32xx_udc,
+max3420_udc, net2280, omap_udc, pxa25x_udc, pxa27x_udc, udc-xilinx,
+bcm63xx_udc).
 
-So far the only successful handling I found was to delay completion of
-the next URB by 1ms, which caused snd-usb-audio to underrun its buffer
-and restart the stream :)
+Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
+---
+ drivers/usb/gadget/udc/aspeed_udc.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
-I also tried:
-
-1. Violate the 1.0 spec and write Frame IDs instead of SIA to all TDs.
-HCs respond oddly, some skip more than they should, some get stuck when
-Frame ID is in the past (probably wait for MFINDEX overflow).
-
-2. Queue initial TDs of the next URB as No-Op TRBs and use Frame ID in
-the first TD which meets IST. But HCs handle isoc No-Op TDs oddly too:
-- Renesas ignores Frame ID in an Isoch TD following a No-Op TD
-- Fresco executes only one No-Op per interval
-- VIA re-runs the No-Os sequence each interval until Frame ID is met
-  in the subsequent Isoch TD
-
-3. Don't queue inital TDs at all. This turns out to violate assumptions
-   made in various parts of the driver. PITA, WiP, kernel panics etc.
-
-Regards,
-Michal
+--- a/drivers/usb/gadget/udc/aspeed_udc.c
++++ b/drivers/usb/gadget/udc/aspeed_udc.c
+@@ -692,26 +692,30 @@
+ {
+ 	struct ast_udc_ep *ep = to_ast_ep(_ep);
+ 	struct ast_udc_dev *udc = ep->udc;
+-	struct ast_udc_request *req;
++	struct ast_udc_request *req = NULL, *iter;
+ 	unsigned long flags;
+ 	int rc = 0;
+ 
+ 	spin_lock_irqsave(&udc->lock, flags);
+ 
+ 	/* make sure it's actually queued on this endpoint */
+-	list_for_each_entry(req, &ep->queue, queue) {
+-		if (&req->req == _req) {
+-			list_del_init(&req->queue);
+-			ast_udc_done(ep, req, -ESHUTDOWN);
+-			_req->status = -ECONNRESET;
+-			break;
+-		}
++	list_for_each_entry(iter, &ep->queue, queue) {
++		if (&iter->req != _req)
++			continue;
++		req = iter;
++		break;
+ 	}
+ 
+-	/* dequeue request not found */
+-	if (&req->req != _req)
++	if (!req) {
+ 		rc = -EINVAL;
++		goto out;
++	}
++
++	list_del_init(&req->queue);
++	ast_udc_done(ep, req, -ESHUTDOWN);
++	_req->status = -ECONNRESET;
+ 
++out:
+ 	spin_unlock_irqrestore(&udc->lock, flags);
+ 
+ 	return rc;
+-- 
+2.34.1
