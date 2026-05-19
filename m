@@ -1,87 +1,131 @@
-Received: from s1.g1.infrastructure.qtmlabs.xyz (s1.g1.infrastructure.qtmlabs.xyz [107.172.1.117])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A90919ABD8;
-	Tue, 19 May 2026 14:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=107.172.1.117
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A25403EB1
+	for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 16:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779200676; cv=none; b=UGL+P6OWYQTC89gUwiY2spF71gaSyNkjLbE13voLfS0wrz1DbS59EdGNrZxbf9Ha7pZuLrJpuEj1mAsbMUB1wKyFyHklI7K+YQQIQkMUIvJXd+J79xTX5os04iaD2NRUpA8m6zkkdAjzdcRJEGHQFi/zbR5cGDeohmJgmAlv8ZY=
+	t=1779207191; cv=none; b=ug23kkIw5U+ejy9qsiTPWxAJkW3x6ByoBxQNseZMv9mKQ1WzQ4ZST3M8zgPp8H2+Fs4X8dOz02UBHdCeXVV5qJgIMdONtyXOI4gFJtj08u+EzQgIFatdKAfUMUSuwhPg5UnUCC1nrTM7oUha7q7slAC58sb7xU13aCfw2bmK5Ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779200676; c=relaxed/simple;
-	bh=ka1TJuL4m08sTG9zn9zPZUp/qOC3cNrQk63WHi7z13I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=td9zz7IyfjZ/Z4M4ArBm/Z8lUtEdES9VW4WSYWEb8miO4xYZAWEmCGr6LoZhmwQroPnYvVVBmXThk0049/U/dFSyucByr2s+KTDcgZxLs2vmLmbvJ9/OwYSTfJ/95mT5/XA57uRgSYqTXhciH/lp7dkixPw0/RDzL2WaY7fnHLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qtmlabs.xyz; spf=pass smtp.mailfrom=qtmlabs.xyz; dkim=pass (2048-bit key) header.d=qtmlabs.xyz header.i=@qtmlabs.xyz header.b=DqI/32L3; arc=none smtp.client-ip=107.172.1.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qtmlabs.xyz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qtmlabs.xyz
+	s=arc-20240116; t=1779207191; c=relaxed/simple;
+	bh=Tsu5cKPksAu4kUFh/jfhEBoMEX2CMmo6MJSwHBEeyl8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MRXJZEKcgweb0CDMqcN5ERijz8eUAfzAiJMXoQ0unSJfEcFD/bNMKpqreps2Y18RmVg5E+iit7/ayQp8DxiJUrFLLLcrAH8U2DZcZ47Q1Tq++tGHLPQx9bX3pyX1FHPRD018p/8y9x480vsFy3odSQzLKlVj+2BNXyIaRphrYKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=e5fLmGgU; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qtmlabs.xyz header.i=@qtmlabs.xyz header.b="DqI/32L3"
-Message-ID: <da97c911-77e1-4d93-be25-ef9f061ae471@qtmlabs.xyz>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qtmlabs.xyz; s=dkim;
-	t=1779200673;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fRs5JdyXx0CEV0bf2ro8Ws1Nng/pEAIkBKMT3ucgQzM=;
-	b=DqI/32L3XNpNFJxTCI1Cd5kwQZkS8KfasilZ46nEOGUzbOPseByZnZEonUgQX01uZ/9uZb
-	ueZfFputI5BPgopQIuCgCPG4IEd/PQE76lp9v6wbbavHVbC/b40hVTAlmWS1j7dF1uVN86
-	cwa34a1nNAXto4c0pIyHea9yIBkq9XBvpQ54lDu7tjnnb9+57f1c6IGiQi/GTYhg4SXlwX
-	+DavHRJ+sOb12pC87viUMnFg7kVMItEQbqhbZS5QX0jZnE7f7/w6aDJrie3VW82N4I1MvM
-	OhMEESUFFc7NiTvwDikHXnkgy0tJiDRb5o5X5W2d7avrprLU6+GkqdXPveeneQ==
-Authentication-Results: s1.g1.infrastructure.qtmlabs.xyz;
-	auth=pass smtp.mailfrom=myrrhperiwinkle@qtmlabs.xyz
-Date: Tue, 19 May 2026 21:24:26 +0700
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="e5fLmGgU"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so45082515e9.2
+        for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 09:13:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1779207186; x=1779811986; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=G1+0LhtkVZ2YlUVIyFVTEQ/H862T2lawBohbTrKQTc4=;
+        b=e5fLmGgU4mwwHacVX8p8DIVBpa6c5afiEBTp3I1QbjVvbsEAupcXz6NtlGyiLJ/EhB
+         ieNCaVpPvb5PRVmHBBHxoJlqzPBfgwagHDYFzDHSnNehev+EieijVdBPc5Wdjqn/Pyzs
+         WYMzCDsNE8x8FX9V0BF8u4AuiKV8wlTj5iUuMEg8s/Zphmnypp/WWDcINHx4Q/B5WcwR
+         +bTEcrmLQM0vlXeDTMyJ1Uj61HaExdYC7t9rawASscmb3sAZFdKl341mnOj9J4MphVTb
+         CBihULQpBA3KJnj8g5VlkDNnXkvwjz2Z/3JN7AuY/7xSuIk/KFzMDRoYEfxJS/y8Q7uy
+         whFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779207186; x=1779811986;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G1+0LhtkVZ2YlUVIyFVTEQ/H862T2lawBohbTrKQTc4=;
+        b=o2uZ0ywFQBiHk55aq4vHtukYxLo8zbZWHJ5edtZMDxOLF3id7auHDrCe6uranUxoJ7
+         fV4npZ2EdazjyK3plII54BD8xnwJaP03/LTINOKjJpKTgk/GTVraGmMjc0drf1tANTiy
+         LRsNhpDXf1PgSQsTlXjRvexMF2FHt/ATzOquDfEL+5U+fYjlj97OvQQA5ErlHQyAt9M8
+         MToMbvu2Muw49b7PtXJ+SgFvWXkycfVyrLak/QwXDxco2kcC/JpkqWjdZmj1j4M1Ih5t
+         Nh+DrTFV25mvSkl9ODlq9fuWNqnfadMtgKchvkf4ebu4erPU8TcOgwyT2Y1oQNaSPiCx
+         AXAQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+ODgV4lmpAyj85kx1ozNSbw9LlBx3HNmPdAdgJBn8ADw4Qm1qy8r/ukt5hGJmwR2/axnfzEH36crc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0HOBi064Rk7SaupyHnwEtTcDhjtANu1YPcw5h9NuJFZ2TTQ5W
+	e1pp93ektG/Wh8NKTwPqR9jZMyFfZslm4ZyXIZKG/mHSJfnoOkxY0aY72bTLKQztCuU=
+X-Gm-Gg: Acq92OG7FDLLNEfiqUkRHRRVH2ufGV0cTZlddhio9/esd7+P+UXFP13Mchj++V53uUj
+	0beyRH4hx0orDi5OSeWmWV7si+uukzNvx9jDvZ6NLkWODe70qShizk3m4F8kd++S/ua7L182Uol
+	8zhW0sTzcbOOilE8F0I0FjicXihgrIiGkX1gGugi41h66ADaShImiS2ZONzF5yJXurqWO2x3HDG
+	GRtIrAg469V970xt0HJvCMit+YakgE27IqaR7dWJz8QTZNXlAGykLigi1CGwEmuVx6clkEwRNYH
+	iqK7rDP5g8FHHJBkanEZuQrZse8H+WJtnYHS1jVwpQYdoOh+uYX0Z9Ze/ug2DnxAArnNU1oPYp7
+	FpriVFVSfY7RA3MlpfnmbKEBJO+RrfasWU4aCpZsSKH8YcqL66tbfHlWsP+vK0xVWuTVS6sjAO6
+	gzXFTJVd6VQqz/ROD31P+kkF+uaD0lJ9o6gUNkUHIeVNVUV6ihmBafGib3adBa3MtDQjX4Qw/HD
+	jdpuKB7Y7ybkUk=
+X-Received: by 2002:a05:6000:1ac7:b0:43b:498f:dceb with SMTP id ffacd0b85a97d-45e5c35e285mr33169620f8f.9.1779207186315;
+        Tue, 19 May 2026 09:13:06 -0700 (PDT)
+Received: from localhost (p200300f65f47db048a8dfcf61053817f.dip0.t-ipconnect.de. [2003:f6:5f47:db04:8a8d:fcf6:1053:817f])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-45da0a19c2dsm47725552f8f.21.2026.05.19.09.13.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 09:13:05 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Vladimir Zapolskiy <vz@mleia.com>,
+	Johan Hovold <johan@kernel.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1] usb: phy: isp1301: Use named initializers for struct i2c_device_id
+Date: Tue, 19 May 2026 18:13:00 +0200
+Message-ID: <20260519161300.1598095-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] usb: typec: ucsi: Check if power role change actually
- happened before handling
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sergey Senozhatsky <senozhatsky@chromium.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260519-ucsi-fix-2-v1-0-6f1239535187@qtmlabs.xyz>
- <20260519-ucsi-fix-2-v1-1-6f1239535187@qtmlabs.xyz> <agxwK43LRZytVxPK@kuha>
- <agxyKCo2YPnvZ2lf@kuha>
-Content-Language: en-US
-From: Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>
-In-Reply-To: <agxyKCo2YPnvZ2lf@kuha>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Bar: ---
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1761; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=Tsu5cKPksAu4kUFh/jfhEBoMEX2CMmo6MJSwHBEeyl8=; b=owGbwMvMwMXY3/A7olbonx/jabUkhiyeHh7mUq2jN3Wag/yFpkSJ+Dr+Z9WTUI7+uSf6UmC/i qEKw6xORmMWBkYuBlkxRRb7xjWZVlVykZ1r/12GGcTKBDKFgYtTACbSHMj+31NM+kHQ7I4Tl+Oe zj/22ax8os3iOd17NXdxPlw/5eL2wzmvZ3B/M41TjdbfXlQiXFVVJ7XmdbH6bxmnLr8b8s/LLt6 3LGzw1ChcLHHo0I9O/9ltXI6Ch2SYVzs6LfATZpI5bj9Bfx//+4THvkU2lr8bOHT36IimJ1hf2X 5T9BazWu0Jg+jgNW+vMWj4Pd+5rov32QPfqTM9Y9fvVWs4FrNQQKLjS4zOvsJit313Zn0SvCWZK i587JBDSkCG3KnUmfOtZ0oLrJBM+rVtwVb+2V/EWHeu32bqZRn81195Zfnu6PT0D5Fp6cX/+TMd E0wPBh36//Ls3sBq9sqIL0eWWQTfWBnlanzJ4pFAXqIFAA==
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
+While being less compact, using named initializers allows to more easily
+see which members of the structs are assigned which value without having
+to lookup the declaration of the struct. And it's also more robust
+against changes to the struct definition.
+
+This patch doesn't modify the compiled array, only its representation in
+source form benefits. The former was confirmed with x86 and arm64
+builds.
+
+Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+---
 Hello,
 
-On 5/19/26 9:22 PM, Heikki Krogerus wrote:
-> On Tue, May 19, 2026 at 05:14:15PM +0300, Heikki Krogerus wrote:
->> On Tue, May 19, 2026 at 06:41:39PM +0700, Myrrh Periwinkle wrote:
->>> The CrOS EC may send a connector status change event with the power
->>> direction changed flag set even if the power direction hasn't actually
->>> changed after initiating a SET_PDR command internally [1]. In practice
->>> this happens on every system suspend due to other changes performed by
->>> the EC [2][3][4], causing suspend to fail.
->>>
->>> Fix this by checking if the power role change actually happened before
->>> handling it.
->>>
->>> [1]: https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/ec/zephyr/subsys/pd_controller/pdc_power_mgmt.c;l=1689;drc=2d5a1cffce4e5ac8a39442cb3b764d2d5e1cf794
->>> [2]: https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/ec/zephyr/subsys/pd_controller/pdc_power_mgmt.c;l=3923;drc=2d5a1cffce4e5ac8a39442cb3b764d2d5e1cf794
->>> [3]: https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/ec/zephyr/subsys/pd_controller/pdc_power_mgmt.c;l=5094;drc=2d5a1cffce4e5ac8a39442cb3b764d2d5e1cf794
->>> [4]: https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/ec/zephyr/subsys/pd_controller/pdc_power_mgmt.c;l=2229;drc=2d5a1cffce4e5ac8a39442cb3b764d2d5e1cf794
->>>
->>> Cc: stable@vger.kernel.org
->>> Fixes: 7616f006db07 ("usb: typec: ucsi: Update power_supply on power role change")
->>> Signed-off-by: Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>
->> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Hold on. Shouldn't this actually be fixed in that EC code?
->
-> thanks,
->
-I'm not responsible for the CrOS EC and the only alternative proposed 
-thus far is a full revert: 
-https://lore.kernel.org/all/2026051935-flashing-relearn-8444@gregkh/
+this patch is part of a bigger quest to use named initializers for
+mainly struct i2c_device_id::driver_data to be able to modify
+i2c_device_id. See e.g.
+https://lore.kernel.org/all/20260518111203.639603-2-u.kleine-koenig@baylibre.com/
+for the details.
+
+This patch here isn't critical for this quest, as this driver doesn't
+make use of .driver_data, so apart from the better readability this is
+only about consistency with other subsystems.
+
+This is the only i2c driver under drivers/usb/phy, so this is the only
+patch needed to adapt the whole subsystem to the new style for
+initializing i2c_device_id arrays.
+
+Best regards
+Uwe
+
+ drivers/usb/phy/phy-isp1301.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/phy/phy-isp1301.c b/drivers/usb/phy/phy-isp1301.c
+index 2940f0c84e1b..73cc70e958de 100644
+--- a/drivers/usb/phy/phy-isp1301.c
++++ b/drivers/usb/phy/phy-isp1301.c
+@@ -25,7 +25,7 @@ struct isp1301 {
+ #define phy_to_isp(p)		(container_of((p), struct isp1301, phy))
+ 
+ static const struct i2c_device_id isp1301_id[] = {
+-	{ "isp1301" },
++	{ .name = "isp1301" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, isp1301_id);
+
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+-- 
+2.47.3
 
