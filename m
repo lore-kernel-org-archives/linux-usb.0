@@ -1,65 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A5B2459C5;
-	Tue, 19 May 2026 07:53:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC8E3DFC82
+	for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 08:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779177204; cv=none; b=dnvvRMiB0AJMlxBWFVkkVaVxYxWiam5Y1G3w2XtmiCrGeVXkP2B+K/XgpZFfdfgo6x39n9qXH8GcU8J1PFY2K+0zDbXox6gH6DI6d0TjHT7i+/bLb5/WhfTmuDBHXTwlCRqRiGdhWLxOLw6uf88JrnOyRsVg1vNr7aPw38iKim8=
+	t=1779177741; cv=none; b=Orft5BKLYD0It/XUH6txLdYzCO0eGMkZH/3+yBKKqRq2yQr+FgJr69EIXoJSjinQirbgwqhJY4v2GqUtHqAa/Bs+L5SATuzQtxwV7o+kd0yBmjgAXukazCSOp5WNqAOxNOA133VzsX/w6A29zNwwb0cjF95RSrFjAt6dloyvlM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779177204; c=relaxed/simple;
-	bh=yXTwYb0TYewWEz8M4mWVV3N9sdfgMTYstmYNExmfTmo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HG767r5sOK0AuQXF3IaQe4Eho7MIDN1B1320JfzIcAayzooPbyMsgyD9sE4fuwGIUvRknvcIblzBfg4qaUwqvuI3CNzCR5vq44t5Zd6Uw8hbBaUwh0Cfezg/1j+eqdXwerOiyzDa30VG7KWUqtER/usZbpA99tpTIb+tPA7DRc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d2YPT5OS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779177741; c=relaxed/simple;
+	bh=TqLfvbGm6KWphZeDm5azOd7a/CiRfeYYJT4IxTyXTrI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=RyCBVb1uO+yb5Nmwu4K2Yh/oHrmbsjTqXHBnknxGQh13BfykPZmMZ9nDGF+lzLelPNpCcg5hw6bRluQ2wgmmzwo9XnDTq/AR4H6nOWSBF0fYnDNT/HGXQdk6P6eZL6di8hUCsvR2BjfGixOpQc3+gqe/SgN4HKRf3XD2Hjn6lNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=knMF0rMG; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d2YPT5OS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63A52C2BCB3;
-	Tue, 19 May 2026 07:53:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779177203;
-	bh=yXTwYb0TYewWEz8M4mWVV3N9sdfgMTYstmYNExmfTmo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d2YPT5OSl42ULfAUVG2dDg/cESPxZx8zrv0LXhmrpZHMDQmVDzm+ugMfxbzPNixLd
-	 4eU/oLuVazU2xgwYpfH7KiTlcsZP4ojXmi1f9HFN+FqaG9DQzn7C5Bs3P8V1F/CSiX
-	 AFgRmaw0mW7mc+gLxzTjCtyrNUmx9M5noua7MlOEuBKyFYgluDFHE/Mj4YkBtawArO
-	 4Wdf0sPZRfZ+BBW0+cDxBd0dJBuFXADz93qImHti7tIU0GLRx22CRFn+VStgcl7gdY
-	 JCs0L53Ejwr7tgF5U8nTX74pfOgYBEo8m9fMGB4LNz+eu3LFdgqvkWG1nzzrB15ctA
-	 ayQR3o+lEDhFg==
-Date: Tue, 19 May 2026 09:53:21 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Akash Sukhavasi <akash.sukhavasi@gmail.com>
-Cc: krzk+dt@kernel.org, robh@kernel.org, conor+dt@kernel.org, 
-	gregkh@linuxfoundation.org, gene_chen@richtek.com, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: usb: richtek,rt1711h: remove
- deprecated .txt file
-Message-ID: <20260519-pompous-ammonite-of-focus-05c63e@quoll>
-References: <20260518162014.18251-1-akash.sukhavasi@gmail.com>
- <20260518162014.18251-2-akash.sukhavasi@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="knMF0rMG"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b6ce6d1d3dcso1010509a12.3
+        for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 01:02:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779177740; x=1779782540; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p+hlBWVPQXy43hiRxqKhCnwnHHiHzFjw8+7rkTfE8vA=;
+        b=knMF0rMGSeU76JLUq33zcd5U71jBT0p2yEYxSnuGqSKcXX7cHvaCDajri6A3Xp0u9f
+         v7euF6XOqc96A+07/uJWyPEIE/RJXvRO7cBWi6a1+1F4q2i3au7zhIFAjbAGW++arUCj
+         +EVuduPJcM8pYyXZNhsgBp8/9neLTlh63XOEiX3Jk+8atYy3HfT2LMfZCRfXyl487RO5
+         qhAfCqha7pAjhTxOlp9JCQfZ/n1fIjZbupPgpq02YEDg+TXVVAOuEjsF6xTTkS3NMnnd
+         gsEH5ry4JkhTJUpIlbPoP+Jrurk+x1Zte8zPfqj9WE59SwNhVeIwzLO7V+3pijU1VWQQ
+         Q8zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779177740; x=1779782540;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=p+hlBWVPQXy43hiRxqKhCnwnHHiHzFjw8+7rkTfE8vA=;
+        b=cL5sPOdhi5oRUol+CCL7cRzJDlSqiRYdnBUuTIh0FFgy66Ics0EEFaUtN7R8gVz7n6
+         ec7LWFCrJXqjXsj2KRLb5COqCXZGC3UKGKxpiuIJwoSYwCfsm7fYXuwiv1nhruHUXQ9m
+         s1UkIoXazf/Hh9u9LYeOerF0ZzEiaxomIf8ppdVPLHNwCkjVWPdUYse9hdiPdrPqjVjt
+         aR0QLtdvNQ7KONO0+oXyYi+2ERU88XLY7S0vdVSM7jrVHmmbXchjcySsg6m8kw5LuNFJ
+         2Jd+tLONerojOruMuhWBNcpwq8bae/blNwvwfBkRoSTNJjNjFOjE6GbYN/mx/6b9oa1s
+         Vx/w==
+X-Forwarded-Encrypted: i=1; AFNElJ9IiNm7uPlODd6YDKXBaA0u1oNKv6iCp69IS14H7Qs8aObkuc9ihiXBIdR8YVyr+5ADZcTYK0TQ9jQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxR+WT4/2j2BUUtno5Cfp9n/6sJP931imLA6mF483+1mAY4g7ns
+	zv+68Rp3wG7JNH0A9SSk0E1MQBIwm1Jn+R0tlS1n9m+4cUHgIG0E6Cwi
+X-Gm-Gg: Acq92OFZEMeC5/38WzUqt8BSIeqQbwMgts9oCguYEXs1TGFMy/HGnHyxkNjXElLTLrB
+	OynhsVvRAfq6RaNk/umTVs9YOusUmilLc+cx82R8qLHOjlSLo1hWM2dhwsRcqx6cS+AMzs3m6rU
+	KEOzokIjEt1JQBKQpgbyTcqr8kcEawDxLfiJZjrxwy4MCOrilaJV2sdp0J1dgnvdeF0kQ/Ssz3n
+	TB0vbeK7VUyOCpQ++Kd/wwCTdTtFYS9gLJ+TGwwXf7MBIExy+0hDja64hEo0x9ibMhpsqCcj1i0
+	UkGjWM10O5Ekda2XOPgsspL1sPoDLEgljkxFMHWfpSqtjhWkuz+a+WjSNtrN6QiW+1hFUk7z/7j
+	EPzJ/lVMCcJph/qk7HtWad0Co01yk+ElDOUAAcWlocLR8eynSRNd4MtywXVEogbSu2uzLu96b08
+	sPa/ODKDzb0PgLKqQTiumkX6ZGmgjnZSFhRm9PWadfWRweXU7z
+X-Received: by 2002:a17:902:7206:b0:2b7:aa20:3c61 with SMTP id d9443c01a7336-2bd7e8cb16bmr129248565ad.33.1779177739786;
+        Tue, 19 May 2026 01:02:19 -0700 (PDT)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d0f8efesm181857735ad.55.2026.05.19.01.02.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 01:02:18 -0700 (PDT)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+To: Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Neal Liu <neal_liu@aspeedtech.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@aj.id.au>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] usb: gadget: aspeed_udc: avoid past-the-end iterator in dequeue
+Date: Tue, 19 May 2026 16:02:13 +0800
+Message-Id: <20260519080213.1932516-1-maoyixie.tju@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260518073403.1285339-1-maoyi.xie@ntu.edu.sg>
+References: <20260518073403.1285339-1-maoyi.xie@ntu.edu.sg>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260518162014.18251-2-akash.sukhavasi@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 18, 2026 at 11:20:13AM -0500, Akash Sukhavasi wrote:
-> Remove the deprecated .txt binding for richtek,rt1711h. It was
-> superseded by the YAML schema added in commit a72095ed8e65
-> ("dt-bindings usb: typec: rt1711h: Add binding for Richtek RT1711H").
-> 
-> Signed-off-by: Akash Sukhavasi <akash.sukhavasi@gmail.com>
-> ---
->  .../bindings/usb/richtek,rt1711h.txt          | 44 -------------------
->  1 file changed, 44 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/usb/richtek,rt1711h.txt
+ast_udc_ep_dequeue() declares the loop cursor `req` outside the
+list_for_each_entry(). After the loop it tests `&req->req != _req`
+to decide whether the request was found. If the queue holds no
+match, `req` is past-the-end. It then aliases
+container_of(&ep->queue, struct ast_udc_request, queue) via offset
+cancellation. Whether that synthetic address equals `_req` depends
+on heap layout. The function can return 0 without dequeueing
+anything.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Walk the list with a separate `iter`. Set `req` only when a
+request matches. After the loop, `req` is NULL if nothing
+matched.
 
-Best regards,
-Krzysztof
+Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
+---
+v2: Switch the loop body to Alan Stern's shape: test inside
+    the if, assign `req`, break. Same behaviour as v1.
+v1: https://lore.kernel.org/linux-usb/20260518073403.1285339-1-maoyi.xie@ntu.edu.sg/
 
+ drivers/usb/gadget/udc/aspeed_udc.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
+
+--- a/drivers/usb/gadget/udc/aspeed_udc.c	2026-05-19 15:29:28.690931576 +0800
++++ b/drivers/usb/gadget/udc/aspeed_udc.c	2026-05-19 15:29:59.482953528 +0800
+@@ -692,26 +692,30 @@
+ {
+ 	struct ast_udc_ep *ep = to_ast_ep(_ep);
+ 	struct ast_udc_dev *udc = ep->udc;
+-	struct ast_udc_request *req;
++	struct ast_udc_request *req = NULL, *iter;
+ 	unsigned long flags;
+ 	int rc = 0;
+ 
+ 	spin_lock_irqsave(&udc->lock, flags);
+ 
+ 	/* make sure it's actually queued on this endpoint */
+-	list_for_each_entry(req, &ep->queue, queue) {
+-		if (&req->req == _req) {
+-			list_del_init(&req->queue);
+-			ast_udc_done(ep, req, -ESHUTDOWN);
+-			_req->status = -ECONNRESET;
++	list_for_each_entry(iter, &ep->queue, queue) {
++		if (&iter->req == _req) {
++			req = iter;
+ 			break;
+ 		}
+ 	}
+ 
+-	/* dequeue request not found */
+-	if (&req->req != _req)
++	if (!req) {
+ 		rc = -EINVAL;
++		goto out;
++	}
++
++	list_del_init(&req->queue);
++	ast_udc_done(ep, req, -ESHUTDOWN);
++	_req->status = -ECONNRESET;
+ 
++out:
+ 	spin_unlock_irqrestore(&udc->lock, flags);
+ 
+ 	return rc;
+
+-- 
+2.34.1
