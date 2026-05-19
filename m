@@ -1,54 +1,203 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-y-111.mailbox.org (mout-y-111.mailbox.org [91.198.250.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30BC388E65;
-	Sat, 23 May 2026 11:22:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269C719004A;
+	Sat, 23 May 2026 13:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779535338; cv=none; b=EoZH6gsqLZuV+DuVoL6FDPkgUwvqxBJUNRoPZnXG30fame0dVhFj4H6eWkzDO/bCQV1oZvSsLwYDng/naVLqfZ19HOOTsUsGEahoLMiV40PT8Xrk+w6nrjjMXw69zONJ/MW0EDcYwnxLrt7GwrBVjnkRbNpGzYmWd/6LHZAYm4E=
+	t=1779542734; cv=none; b=Ajhi4kYxVcn5130zdlu1MtryYeAVJOx4X+B4DrKc8ZUtumPK/Z6PJhacNhZ+jNVTzUrDDKcHk46snROtNijYKMHW+BddxAK/e9FjK65Sp5jdYrhrD4ksHLxXi7kaCl2GIqZ/IL4a+hQN6YeaDhmF1/mLpO5FP+BobDTrxSHufF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779535338; c=relaxed/simple;
-	bh=3z187oJdspEvfdjBQDnCoD0zYJjSgMVe8daGEQHiO0s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qeI1RNPB93oEfIzIamBwSQgNPwqQ0Xz7mMwCeI1dAYdPqZiTrHfzYxJpKzAyNLN2vOPQuRNWkVlOjEmeZqJ54OS8m2riPvWOWHhOki44hU+nrI2k18lMbjVGVMB9N5wvo2kOLKZjPD9ORK16H9GGVDVlv6rRI2QUFiBLPMMthkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fCurXfNj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779542734; c=relaxed/simple;
+	bh=NLQOYHcbX92Dt/Dad0zUJKi99mTFQaq6qBCN2CEOvt0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YaGOJ2NQ2FXz0j1fNJ1wKOSj/4BUJ8iLi80U5DNSR9oWkGfmC6E3S4SdCC7WaonEFamm/nXyLg+oWlxILmDTfmkR4Z+FFP85J6NinnrttNnikfrYO/DauEHBWezvPF+rWX1Fe/HIMBVvJ/7MCJx7AQIuL21BxF5wOj8rI5l9Y6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xnydJeMP; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dq+P+aj2; arc=none smtp.client-ip=91.198.250.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fCurXfNj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73D381F000E9;
-	Sat, 23 May 2026 11:22:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779535336;
-	bh=Fo4xH9DlFocBUzd0NxxvNQMTDYgzgVIXeU4G1m275jc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fCurXfNjT5bPTrlbm+jzAji705gTGEDr/x0IqFm/Y6g8PUOPwx0Yg+RdaMJOqHR1P
-	 lhS0dm7KjgX6jy1HRam0tMlQelNhm1eSva5nBDF16q2b+I3WleowEBjsE1S6NRD0+/
-	 74rKlBjXl9I7NFW+U0FFjAcvRQtf0oaBmE05wu90=
-Date: Sat, 23 May 2026 13:22:18 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL] USB serial fixes for 7.1-rc5
-Message-ID: <2026052311-lavish-evergreen-61e8@gregkh>
-References: <ahFmuYsT3E8GcG5h@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xnydJeMP";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dq+P+aj2"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-y-111.mailbox.org (Postfix) with ESMTPS id 4gN2vY6PQnz9ygy;
+	Sat, 23 May 2026 15:25:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1779542729;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tzVCnK4h+wlvOzvoQtfIVTCV8MGHm5StGNsgjrmtRbk=;
+	b=xnydJeMPTb76I9SESgJvRguAjSnaJnsOrJlKxP8cQ4r1VzieucL6/HQvzY3Iu8stTga5//
+	SCUtIMZieWKXN9csJw/3YZERCco1M8HuIycvv9u0SZFamQVWuc7pQs0wCugKCXYLvc+b+1
+	OQz2tInuiWUhE+ns5h2vAfTm81dQUIFEwnA9qrUeHKA8jlBRajHenCjRvhkNAejOUHj0k3
+	LGA5LML/am6XLCpO+fR6mA2ZO5BMYMWqDg1P6XeRf6HbEaMbPHNInhm8S5IqxbfZ1RLQo5
+	Gp0EabxDbpqsxhWGEaiYzdHsscYka8ksPrd4LbRip6qKrVDvaxbqyaAL/sDlww==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=dq+P+aj2;
+	spf=pass (outgoing_mbo_mout: domain of a0yami@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=a0yami@mailbox.org
+From: Qing Ming <a0yami@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1779542728;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tzVCnK4h+wlvOzvoQtfIVTCV8MGHm5StGNsgjrmtRbk=;
+	b=dq+P+aj2E0RdVpYWi79sc7SpNR/Uz7m/o4Cfddzthw1ZwDPRTDFGDBmx3L6en3PaFTXnQT
+	U5l3CydzGCSilRmYKLYOJyDvpNSyjQ21HezP4UHdgFsd4Krh9rgfEBDxMvMCpZvc0KeLWA
+	xAP63xz46kxkLW7bkQ4y6MjO1JbuILBneYECHfDuujoUvaCHkv9ticx35TUXPwBlxIHyMa
+	tGEoNVq/F73FBYUafIfGbOFJhzH4lrItyc59d6KUwY5Un1gjHEnqkpBLK55cgTmlFN6RF4
+	qpTq1/b7NqYrlYW7kbI/gomKPmx6bLFBiEFcYCfSTcfFiXTM1OsqgS/S4abKhA==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Sumanth Gavini <sumanth.gavini@yahoo.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Qing Ming <a0yami@mailbox.org>
+Subject: [PATCH] usb: gadget: uac: validate rate list length before storing
+Date: Tue, 19 May 2026 22:33:19 +0800
+Message-ID: <20260519143319.147494-1-a0yami@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ahFmuYsT3E8GcG5h@hovoldconsulting.com>
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 71a918f51bf2c74dc4c
+X-MBO-RS-META: 85jdtzpdk3diaqma6xk1961cbbjnofu6
+X-Rspamd-Queue-Id: 4gN2vY6PQnz9ygy
 
-On Sat, May 23, 2026 at 10:35:05AM +0200, Johan Hovold wrote:
-> The following changes since commit 5d6919055dec134de3c40167a490f33c74c12581:
-> 
->   Linux 7.1-rc3 (2026-05-10 14:08:09 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-7.1-rc5
+UAC1 and UAC2 configfs rate-list attributes parse a comma-separated
+list of sampling rates and store each parsed value in fixed-size arrays.
+The arrays have UAC_MAX_RATES entries, but the store paths do not check
+that the input contains at most that many tokens before writing through
+opts->name##s[i++].
 
-Pulled and pushed out, thanks.
+Writing more than ten rates therefore writes past the end of the
+p_srates[] or c_srates[] array in struct f_uac1_opts or struct
+f_uac2_opts.
 
-greg k-h
+With CONFIG_UBSAN_BOUNDS enabled, writing an 11-entry rate list to the
+UAC1 p_srate attribute reports:
+
+  UBSAN: array-index-out-of-bounds
+  drivers/usb/gadget/function/f_uac1.c:1669:1
+  index 10 is out of range for type 'int [10]'
+  __ubsan_handle_out_of_bounds.cold
+  f_uac1_opts_p_srate_store
+  configfs_write_iter
+  vfs_write
+  ksys_write
+  do_syscall_64
+
+The same reproducer against the UAC2 p_srate attribute reports:
+
+  UBSAN: array-index-out-of-bounds
+  drivers/usb/gadget/function/f_uac2.c:2087:1
+  index 10 is out of range for type 'int [10]'
+  __ubsan_handle_out_of_bounds.cold
+  f_uac2_opts_p_srate_store
+  configfs_write_iter
+  vfs_write
+  ksys_write
+  do_syscall_64
+
+Reject additional tokens once UAC_MAX_RATES entries have been parsed.
+Also keep the original kstrdup() pointer for kfree(), because strsep()
+advances the parsing cursor. Freeing the advanced cursor leaks the
+original buffer on successful parses and can free an interior pointer on
+some error paths.
+
+Fixes: 695d39ffc2b5 ("usb: gadget: f_uac1: Support multiple sampling rates")
+Fixes: a7339e4f5788 ("usb: gadget: f_uac2: Support multiple sampling rates")
+Signed-off-by: Qing Ming <a0yami@mailbox.org>
+---
+ drivers/usb/gadget/function/f_uac1.c | 13 +++++++++----
+ drivers/usb/gadget/function/f_uac2.c | 13 +++++++++----
+ 2 files changed, 18 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_uac1.c b/drivers/usb/gadget/function/f_uac1.c
+index 85c502e98f57..7a81cd176abd 100644
+--- a/drivers/usb/gadget/function/f_uac1.c
++++ b/drivers/usb/gadget/function/f_uac1.c
+@@ -1594,7 +1594,8 @@ static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
+ 					  const char *page, size_t len)	\
+ {									\
+ 	struct f_uac1_opts *opts = to_f_uac1_opts(item);		\
+-	char *split_page = NULL;					\
++	char *buf = NULL;						\
++	char *split_page;						\
+ 	int ret = -EINVAL;						\
+ 	char *token;							\
+ 	u32 num;							\
+@@ -1608,18 +1609,22 @@ static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
+ 									\
+ 	i = 0;								\
+ 	memset(opts->name##s, 0x00, sizeof(opts->name##s));		\
+-	split_page = kstrdup(page, GFP_KERNEL);				\
++	buf = kstrdup(page, GFP_KERNEL);				\
++	split_page = buf;						\
+ 	while ((token = strsep(&split_page, ",")) != NULL) {		\
+ 		ret = kstrtou32(token, 0, &num);			\
+ 		if (ret)						\
+ 			goto end;					\
+-									\
++		if (i >= UAC_MAX_RATES) {				\
++			ret = -EINVAL;					\
++			goto end;					\
++		}							\
+ 		opts->name##s[i++] = num;				\
+ 		ret = len;						\
+ 	};								\
+ 									\
+ end:									\
+-	kfree(split_page);						\
++	kfree(buf);							\
+ 	mutex_unlock(&opts->lock);					\
+ 	return ret;							\
+ }									\
+diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
+index 897787d0803c..d8cf710085a0 100644
+--- a/drivers/usb/gadget/function/f_uac2.c
++++ b/drivers/usb/gadget/function/f_uac2.c
+@@ -2012,7 +2012,8 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
+ 					  const char *page, size_t len)	\
+ {									\
+ 	struct f_uac2_opts *opts = to_f_uac2_opts(item);		\
+-	char *split_page = NULL;					\
++	char *buf = NULL;						\
++	char *split_page;						\
+ 	int ret = -EINVAL;						\
+ 	char *token;							\
+ 	u32 num;							\
+@@ -2026,18 +2027,22 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
+ 									\
+ 	i = 0;								\
+ 	memset(opts->name##s, 0x00, sizeof(opts->name##s));		\
+-	split_page = kstrdup(page, GFP_KERNEL);				\
++	buf = kstrdup(page, GFP_KERNEL);				\
++	split_page = buf;						\
+ 	while ((token = strsep(&split_page, ",")) != NULL) {		\
+ 		ret = kstrtou32(token, 0, &num);			\
+ 		if (ret)						\
+ 			goto end;					\
+-									\
++		if (i >= UAC_MAX_RATES) {				\
++			ret = -EINVAL;					\
++			goto end;					\
++		}							\
+ 		opts->name##s[i++] = num;				\
+ 		ret = len;						\
+ 	};								\
+ 									\
+ end:									\
+-	kfree(split_page);						\
++	kfree(buf);							\
+ 	mutex_unlock(&opts->lock);					\
+ 	return ret;							\
+ }									\
+-- 
+2.53.0
+
