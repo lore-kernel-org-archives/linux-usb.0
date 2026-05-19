@@ -1,77 +1,68 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010035.outbound.protection.outlook.com [52.101.46.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607DD36997A;
-	Tue, 19 May 2026 18:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779214830; cv=fail; b=dnvkZo4cbsa0NT4LX1UcQCirCP8UBPlBsEbYMAWmPw+ZPQOBdYFQlxxl/E/iYSHSt3ZY+tw0ADv4RKFZMWuYJPl+8PgFKW0inEh7oCoyf1YDbbxfBzcichxDnvaguZoXIXn22J6TMMW3qDWHRNbaVtLwP77P6Tb2RCROg8WYMaU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779214830; c=relaxed/simple;
-	bh=uJgWhRyWWxIzRR6QjfikPKtjeiXY3rw5mP/rTOgClUs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g1AljcfMz46PMbCTr7n2L3MS2geo6rsGJRhn3CLTy+qAyfNrSO4BZYYWBqPfGmdEeWuWlWh3UYM1FUrZqv7EID3HofO3DdsNbR6goqoKbyVEFAQnP7dASdIr9bL9bvTZOzHfo9S6q0cwZBex+m7Pn/xCnAQCIZI0ZYwpfZxuDjg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=289svHTE; arc=fail smtp.client-ip=52.101.46.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55B932C957
+	for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 18:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779216072; cv=none; b=ICrGgu9F2Upgnlg7NUmXRjuz6JjuF4c/mLArUqvQllVPoRM1tpGnw/tnysGrTfxh72yZBHg8sZZtCLrK5ruSUe62m733N0sntq6Rngju/xPhudZUdN+q9Fv+pmXRAVVO/FM/uiaDenG7nG8G3ges3U8WdzmHjJWzNHn7YLPFQnM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779216072; c=relaxed/simple;
+	bh=5c1Apn+0X5iWHZ0FXIxTRO3d6gvYs90hLYOP2XRxv6A=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rvBjsgS57gZRtGWHZZUVgnzH+7kO/LTlipJk3C82eGuyHjHNFjik9B3ihbsQo/FNJqjRHbDaAsYGSVLJFl0s9AzIi/DT/sivK/rbbUmpStE8gtVPAlJyqsj+sn7hIpsmbPwqk/hnO0WBgNuI0xVUskmKJOvihyknfepEFkHbtgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TLZRmr7K; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="289svHTE"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Z3AVCZ5Ik0nBeaKzx1g6tA1cKgsuXwTOS8u2fJpNQhugSraVVm8Q+uOiS95N64ii9aUWCgc6daIOhM3V8Afp+/62GS81eHl+pXTdmEfcW9n24VL6fozTksRaTUScx7CpBNGjyrBAZnNQXpJaKMIh2im1G5KJSQ/lR+NeYGlyJA0q50eMLBG63PXWkI4AiC/e4UXI59uYRbOGsSO/1SQUBb9R4Y4tIP07fFzuLsaNQhf2+GtGJG7FJ962bMlz6T5n+6Z9OOZb5HIfmK56PoJ/0hBB4KMq/3GcpGjG4sOE8VLWS++TQDnUbDj08bXVyaMxBg5Fhxp7f+mIifncH1kFAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m7MidDZ4qFkVOl1M+oViGWB2koRYq/3IOKQ5slihhgw=;
- b=fCPW2kqheAaL5MwC5pB7cUncCLGHq/Nzl5uwVbnxrTuQAADzBFfbEKol3rjtfNRSl5+s/KNQ/TqwXAasmE3hTPt7qq5YkM/qIstOTLenoGv75JaOes+ssMMGtEZttqLIKYJ8FWbG+XYh2XSVryfOiCQj3UvW80XSGnMN3Q5aNm1azCj/ygFfarN2aYwV0mnHZOWX+VB2IsYs7okwOks+Ul0833XFSuBbm+ZEaMo8KuRuEfaGTU6Th7U85fx1IUkqwXWRh1hfTXeN8JR2lGuywv3SGvlr8LDi2HoaP/rnqgf8fs8nzyoL5o4+JXSNFHvsppWwT3Sp60YNyM12zLtf9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m7MidDZ4qFkVOl1M+oViGWB2koRYq/3IOKQ5slihhgw=;
- b=289svHTEYSw0tdAJ5edLmRZ4VeFFjbCEnirEivqS7j3Hmtw8GxjAiBUqvzELynJ5YP5SFrdgfQ2r+nk5pky4OHm3xDMD+/PVeGBHrYSIZ3VFNIQdbIRVUvDxcDr8fMEIfQkEb64cm10aUudhYz5lBAOT4oF+U5MEUFBmuJkZRHE=
-Received: from BN0PR04CA0068.namprd04.prod.outlook.com (2603:10b6:408:ea::13)
- by SN7PR12MB7023.namprd12.prod.outlook.com (2603:10b6:806:260::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.23; Tue, 19 May
- 2026 18:20:23 +0000
-Received: from BN1PEPF00004681.namprd03.prod.outlook.com
- (2603:10b6:408:ea:cafe::b9) by BN0PR04CA0068.outlook.office365.com
- (2603:10b6:408:ea::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.48.14 via Frontend Transport; Tue, 19
- May 2026 18:20:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- BN1PEPF00004681.mail.protection.outlook.com (10.167.243.87) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.48.11 via Frontend Transport; Tue, 19 May 2026 18:20:22 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 19 May
- 2026 13:20:14 -0500
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Tue, 19 May
- 2026 13:20:13 -0500
-Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
- Transport; Tue, 19 May 2026 13:20:11 -0500
-From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-To: <heikki.krogerus@linux.intel.com>, <gregkh@linuxfoundation.org>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<git@amd.com>, Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [PATCH v2 1/3] usb: typec: tipd: add error message for vendor ID read failure
-Date: Tue, 19 May 2026 23:49:54 +0530
-Message-ID: <0aa487d3f054b34689e95760fefd72f7571f64c9.1779214249.git.radhey.shyam.pandey@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1779214249.git.radhey.shyam.pandey@amd.com>
-References: <cover.1779214249.git.radhey.shyam.pandey@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TLZRmr7K"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82faf871346so3085009b3a.0
+        for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 11:41:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779216070; x=1779820870; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k841aqjf4cI7p/GdFm7EiqPkcmbtYc2RuSPbuNCh2AY=;
+        b=TLZRmr7KhVhYy3D2CWB1lAhHTRhbM1AT7U86b/Xsa4/BszOsjNGQrQnNTEYL98sa2i
+         ICb6d2wp1H6rzzrvdqAxBo8UbgfxvcHolOavQlYWVuOOo2I4QHoaDr9FGQeN9JxJg1xh
+         2GDKm37AhTY7QVmClqVuWCvTiAigL0YpzMlNjJt8CyAv0sBXtCkX38jljBSy5//7Lp3T
+         eoBMDbpsEZlcjk9TwganVyJXHyCpevp5P81zIPzwLdAn2c8osAH6BVflvooM6OT3wHIc
+         Fy8lVDCoDjBr8FsqBYQWoUH9cT4aWXJ+CG4ND8iYT4HdDp1g+HnHUe/ZrVstmAP3OKlh
+         GRaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779216070; x=1779820870;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k841aqjf4cI7p/GdFm7EiqPkcmbtYc2RuSPbuNCh2AY=;
+        b=kPGo0BoMeMLKfSTH8FHQtoBtqjgI0MC4UZyj4xqXc4cq8NOSo5mma44muGKIgUMcP5
+         Pdc4e0qbdUogrXPHe9gUWnK1N8Fg+7FBRLu0pIcuOYJE7kRXjeAsqzA0EakJsDUMi94N
+         ns8ji5QTTfGEWAkWCpiWrN1kjBTKA4xAxE6WI6Yoh9COGzBsXvyiDl2ciklZBJIxCEB+
+         p8ZSyJTl0qysbVj8XSyQfUG4oJ1urfpaxDqV+/b/iNXJlOsw40haZGvKFc4CBmWYfQxb
+         LHkmQzfK13o48RS4SQZrD7x+QOBDWkYGiiHe8qyyDmbABQMA7MU1bR2Xm+4Bx45BhNAU
+         w+Lg==
+X-Gm-Message-State: AOJu0YxrxS47FSGuSP3rIEe/yQzHWFZlLzp7CGZRcPPA68eIhX1/3AgE
+	9AA0lKHBU0GITC78gJCV6x82YNzPXDelDN3mJTM4MbpaE7fh3wjKjuLB
+X-Gm-Gg: Acq92OGNmfZ1dB5Eja9B2FA3NYapXLCOrNXYIodlmZGFWfsc1S5i27nlr+gICHnKcla
+	bqU/2YuHIJnkywUBRKfMII+p/MFs+/rZKLrQzfz4uXM7sd110LyP8vZ+S0BryAxU6H4t9OyNgE9
+	x2iCuHaU3E3mU6jUic02fMl9STv9juWsPaFGxrJMWH4qU0CI5t6QdBv82dJTZ1NbwoJL4JxI1+z
+	8Y8fnCcyyr6T81VhOpG8loLz1b4UYtkKRcUC2zT7snb1CK9b9TESIFRgAKhkLJb4R9+Q5l+rBil
+	bQZrjODSE/3ZQ5jpYWIAIRN3EqxZpAEBvlNx1mB44CEjim6oQP2J4bmg7/2sK6zRiWYk/3ONBPF
+	UM7529RcrIPX35H6sGn+t7HLR7bGjCekcNanhN5fmrQpGoUS6KGElcy8K/HcoyZBR51FZ4nUvRG
+	mSc3IuAlrBH0KU7DWqeck1u8+ycPlLJVMQVB6rmjo8YWiVuKuJDT/SOdN3lEc=
+X-Received: by 2002:a05:6a00:340c:b0:82c:6b46:271d with SMTP id d2e1a72fcca58-83f33d0a2e5mr21025736b3a.48.1779216069982;
+        Tue, 19 May 2026 11:41:09 -0700 (PDT)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19661261sm23913844b3a.3.2026.05.19.11.41.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 11:41:09 -0700 (PDT)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: usb: gadget: composite: dead empty check in USB_DT_OTG handler?
+Date: Wed, 20 May 2026 02:41:06 +0800
+Message-Id: <20260519184106.2356558-1-maoyixie.tju@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -79,72 +70,102 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004681:EE_|SN7PR12MB7023:EE_
-X-MS-Office365-Filtering-Correlation-Id: b25b2faa-ab97-480c-2e2b-08deb5d34ac4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|36860700016|1800799024|11063799006|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	gMlw9zqZ4wLbRbhB49H7SfUjvFqeV8BrAZUblbuOpX12j6/yIKnlnsjdoBzSqDXeHlsrfrRl3/PdV/N5TW3E/QBIXRdcsx1UxESVN/nLsrBhj6lFJ4iqLHzly84nnkYsJ4nn1H6Ii1XYy3wlcly7RmlivAHsikqthOxY2VP9pp4ZzoIhw0iOXisQXMwo7COR8d3RopHTWckLby2bguacARylPpvK+ZcRDjstVGWqoUYJIcr+4PGWKiQBqhb0F6TlI6btybigZQjgeBvpVA9sdboC1yG5wtiXiULD4a/e7K50EE64x4u+GXXvDLZ7+riyadqxx+OeHD7GVnIXSeZcMqwk+4Kuqof0eGeDPjQicyMCRQNlEcw4OgVSNpX6ZRdAVx2CnYtc37M8itrN3JyjfRwOanFKRf8E7raQaHd1Z3y1D5NV/U0TzPtbkkBjoaUTKM3vdV4fTcMSG5JWesJapfP5LfxfzPOnX6/WzbPJYPC5RqVacd59Dd6mtQq6ooD3dgas93G4/faoMiYI/hgoyNE/LXCanwIRaKNRI4cCgFhYK1SqYWMS02LZBMslYxoUJME1Mw5CGs23eN9/5GeKlXcs/JkbAJ5XYAy1SegvpONtHbTTjezkspk80oLuAZg2TtxLAm7M7xgSRyviLWcjlv+o9AuU1X0Z87dsdfh6jjN6PKyGXHvKTVto+J1aA+nLJvXOPL/PiIBWGKVvt61ZhPM74mbCjPzVBo2e8mXRhwg=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700016)(1800799024)(11063799006)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	GsrHdduorVvARnv/B7iRsoWDMF7jGp0j2wrpmXMRBPNsjldmQu/U4o/TxejVu0vQoP36bm8ZrTfjrXOxgjGGoigLuNw7opY1WxvmI6vts07SXXp1JO4KTC1vPzw4No2+tZEB+NIO1IJyxXIERZAZlFgOE20BLcGBs03GmbOwoJj0gbYgHBls4IgFcV4paGh5ryp9/tARu0A08x7n0fl4xX+RJ0maiULhg5J+i45c8vQ6i1y5E3lTnK6V8Ca2PT8nXfJsySpUDaz/VuDyS7sH0gPus0Z9HZo/qWuWzb3CCfHqXuvyDwX36Jsx2MSwE71DzvAbyI0tbmN7p/zx9m8tVBpLjfWUyV5aylvKpGcLsEOpodKtU55cnpfYa7Ms1sSFhntFlZtYxixOtnSIDYjh/2/lUfDIYJgGk47XSyuBDTaXFwevGfkAfXOdn16BDUsq
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2026 18:20:22.9896
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b25b2faa-ab97-480c-2e2b-08deb5d34ac4
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00004681.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7023
 
-Log an error when the vendor ID read fails or returns zero, including
-the I2C error code and register value, and initialize the vendor ID
-variable to avoid logging an uninitialized value on read failure.
 
-Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
----
-Changes for v2:
-- Extend commit description to justify vid initialization.
----
- drivers/usb/typec/tipd/core.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+While auditing drivers/usb/gadget/composite.c, I noticed what
+looks like a dead empty check in the OTG branch of
+composite_setup(). I built an end to end reproducer that crashes
+the kernel under KASAN. I would appreciate it if you could take a
+look and let me know whether this is worth fixing.
 
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index 43faec794b95..b282366b5326 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -1744,7 +1744,7 @@ static int tps6598x_probe(struct i2c_client *client)
- 	struct tps6598x *tps;
- 	struct fwnode_handle *fwnode;
- 	u32 status;
--	u32 vid;
-+	u32 vid = 0;
- 	int ret;
- 
- 	data = i2c_get_match_data(client);
-@@ -1772,8 +1772,11 @@ static int tps6598x_probe(struct i2c_client *client)
- 
- 	if (!device_is_compatible(tps->dev, "ti,tps25750")) {
- 		ret = tps6598x_read32(tps, TPS_REG_VID, &vid);
--		if (ret < 0 || !vid)
-+		if (ret < 0 || !vid) {
-+			dev_err(tps->dev, "failed to read vendor ID: %d, vid: %#x\n",
-+				ret, vid);
- 			return -ENODEV;
-+		}
- 	}
- 
- 	/*
--- 
-2.43.0
+The site is composite_setup() handling USB_DT_OTG (linux-7.1-rc1,
+around line 1858):
 
+    case USB_DT_OTG:
+            if (gadget_is_otg(gadget)) {
+                    struct usb_configuration *config;
+                    int otg_desc_len = 0;
+
+                    if (cdev->config)
+                            config = cdev->config;
+                    else
+                            config = list_first_entry(
+                                            &cdev->configs,
+                                    struct usb_configuration, list);
+                    if (!config)
+                            goto done;
+
+                    ...
+
+                    value = min_t(int, w_length, otg_desc_len);
+                    memcpy(req->buf, config->descriptors[0], value);
+            }
+            break;
+
+The `if (!config) goto done;` looks like a guard for an empty
+cdev->configs. list_first_entry() never returns NULL though. It
+returns container_of(&cdev->configs, struct usb_configuration,
+list), which aliases the list head. The check is dead code.
+
+With an empty cdev->configs, config aliases &cdev->configs inside
+struct usb_composite_dev. The read of config->descriptors[0]
+fetches memory at a fixed offset from cdev. memcpy() then copies
+up to w_length bytes from that location into req->buf.
+
+Empty cdev->configs is reachable in two cases. One is a gadget
+driver that returns from composite_bind without calling
+usb_add_config(). The other is a teardown race during gadget
+unbind while a control transfer is in flight.
+
+End to end reproducer on linux-7.0 with KASAN, CONFIG_USB_GADGET
+and CONFIG_USB_DUMMY_HCD:
+
+  - g_empty.ko: minimal composite gadget. Sets gadget->is_otg in
+    bind(). Does not call usb_add_config(). cdev->configs stays
+    empty for the lifetime of the gadget.
+  - kprobe on composite_setup(): rewrites the first incoming
+    GET_DESCRIPTOR to USB_DT_OTG so the function enters the
+    vulnerable branch deterministically.
+
+KASAN report from the unpatched kernel:
+
+  [probe] composite_setup: bReq=GET_DESCRIPTOR wValue=0x0900 desc_type=9
+  [probe]   cdev=ffff8881106f5400 cdev->config=NULL configs_empty=1
+  [probe] BUG WINDOW: list_first_entry on empty configs returns
+          ffff8881106f5520 (head=ffff8881106f5558 diff=-56 bytes)
+  Oops: general protection fault, probably for non canonical address
+        0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
+  KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+  RIP: 0010:composite_setup+0x38a1/0x77d0
+  Kernel panic - not syncing: Fatal exception in interrupt
+
+A candidate fix is a one liner. Replace list_first_entry with
+list_first_entry_or_null so the existing NULL guard runs:
+
+    -                       config = list_first_entry(
+    -                                       &cdev->configs,
+    -                               struct usb_configuration, list);
+    +                       config = list_first_entry_or_null(
+    +                                       &cdev->configs,
+    +                                       struct usb_configuration,
+    +                                       list);
+
+I verified the patched kernel on the same reproducer. KASAN does
+not trip. composite_setup takes the `goto done` branch cleanly.
+
+Similar dead empty checks after list_first_entry have been
+cleaned up in the same shape, for example commit fbb8bc408027
+(net: qed: Remove redundant NULL checks after list_first_entry),
+commit c708d3fad421 (crypto: atmel: use list_first_entry_or_null
+to simplify find_dev) and commit 10379171f346 (ksmbd: use
+list_first_entry_or_null for opinfo_get_list). The qed commit
+message describes the exact shape we observe here. This OTG site
+appears to be missed by those cleanups.
+
+If this is intentional or already known, please disregard.
+Otherwise I am happy to send a [PATCH] or to leave the fix to
+you.
+
+Thanks,
+Maoyi Xie
+https://maoyixie.com/
