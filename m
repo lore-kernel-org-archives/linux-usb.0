@@ -1,142 +1,72 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from s1.g1.infrastructure.qtmlabs.xyz (s1.g1.infrastructure.qtmlabs.xyz [107.172.1.117])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DED44A33E7
-	for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 11:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCFA33688F;
+	Tue, 19 May 2026 11:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=107.172.1.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779190923; cv=none; b=NKUufr5K8m10I2fHnYOX8UGOSh3DY1FoE8doohbr+UgqAYlbwFKvVEQ9uhb0+lFIwZvZh9UNvQm62qcLEfOfWVglRchUca+OO48BZ32B5mT+okMQM68xyPE/ILcV56fyTKIIOgSLpq7J09Fgg1tz/0LEQSYoOHWtwB40cxSJksg=
+	t=1779191483; cv=none; b=O47pquLelpfI78sfiKGDquNnaPNN7CMV3aGZ6XZAdGIgCY6ZELz/FgEB1su3eMeHrHGb706TKNAs5gxQkfznmrqVw8qwXUkJVpc4POVtMRDhOy34l069ZorckplP0y4Gp2na/uVlPkaarD1Imf8up087xsyfq6dWLcHJOHH/kdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779190923; c=relaxed/simple;
-	bh=iXaQej+aa3DbMyR4YHSetSZ0oLvnEXqSgtMh+UpQUEo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qarGpmZGwgEoqXf/N6s+xW9enaxFH1HIgOOxE1wY2raJzA0G3kVyUljiuxGGD8gLJsI7vv/ips/e+zbDY2OAWTsaTMZtyEQ2FEFJEkX6EpxK2TG2QPhpXwqynIM5Knx8m79gj08vPevby5m2HHEH5w3RRN7VDEuGNkm57L/tyPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K+gY1OE9; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1779191483; c=relaxed/simple;
+	bh=VSG5rZLlA3DDgs3C/5w3joB6zj88VH1GnjSufKKYAlY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=P6CDT1/QdRLI+UBpmPWckpDEkGKwKpP+AEbSs+bfs7eOaLg3RqPKTZ/WFPZ+qE7ueyGPzYn11S9COQCmu/vHfw7g9WH8/A6PlZ7zneerHrKQLVosHOnvZTyIOcA6N1JVd1aN+HeoLAZ4RmmjQjx+4TfLlRA3OGFZKDIcgj+CVGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qtmlabs.xyz; spf=pass smtp.mailfrom=qtmlabs.xyz; dkim=pass (2048-bit key) header.d=qtmlabs.xyz header.i=@qtmlabs.xyz header.b=OtQtKwHA; arc=none smtp.client-ip=107.172.1.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qtmlabs.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qtmlabs.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K+gY1OE9"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so28398035e9.0
-        for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 04:42:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1779190920; x=1779795720; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gJoGNxpHwJXF2k7E+m5KPLxypZWZKLTX+aIvO0pTfwo=;
-        b=K+gY1OE9DhU903zmTSNokRe4DZws4D7Lxrtt0xgT3FBjwBBgwwZKav+DOrRc65MbL3
-         Cpw+pNbs6o/8ADeOcEUtEbiuuhml8q7GMQdIQ/xaOha7IDuxVCboBc6rpHPTFI4llNhA
-         3SMUYFP/diYDwHcZDlhrVu4OadZFj/26l9HoBeXqpeNHBvXqOxls0NAehlgg8SkD8xs0
-         8WpeZrJsnYn2/NGizUXsRccJvmgCJ8ks7wIoJqaTMp4t/5+tLaLTztYdYY7JWZ43UBIq
-         2RRx8UQbQNJ+a8UPSxZpy4DSkxOHtc1MqleoXhuwHLXSKCNHwYreHJsRT638OCK78JAV
-         0ExA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779190920; x=1779795720;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gJoGNxpHwJXF2k7E+m5KPLxypZWZKLTX+aIvO0pTfwo=;
-        b=dzZu/xxhX6h93iHPXronnqoPQnyur1ndDh8EMgKn5Yk1alElEMPYwwKJQUcvcJOVDE
-         ZozkXQT6n2M7e0mxte1AqoBQV32RGBENe+VoNa7yGxV033paXOChELywzKkfoX48GcTa
-         nLVy4HS/bi+N/+C89IpN79mtyEqeIVJfWe9sb+qTDZbgCaYvZ6uEEQmT2A9JopowOoaj
-         UWCgj/H3rItUyHvDcrb7tk5UVGMGvODq6GLa/j3357PSTdFzFEt4HsQG/Q/F7W848buM
-         +KpeDpMC3zjtNexTZGEkIAxBrQdfD8A6fcs4akttyRviQrlOm75ZxzHmp+tyRoS8WWGz
-         Wepg==
-X-Forwarded-Encrypted: i=1; AFNElJ9hv72DhMXuQ0cnynqozdxzAuw8IvNZ8RoL7CfQp+kyZpeL07m1CZ3TZClPh1KqtqHw5erc7OT26nc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjZv2IhpREn59r3UO4fjPKQlVih8o/i12lMFksk6XHWgOA67pM
-	TCq6rWGvTPyV9ACxUi4zAJToKXH8UQ2eu3Izc/4WUyaS/qJosPqXhWAstNka9LztQCg=
-X-Gm-Gg: Acq92OGLP+4vy0iJJGTSKA8eEqj44fxE9cVBRT+c1Gc4JEW9cwE/NCBMxgiQtK6l3x/
-	uync1x5XRZr7+SdOR82k+w531MfjYUx4iLUAfaojHsvxPdobPfBvbrkY+P2zKnr4ramNTOH8/Xu
-	Hz35J+9XrPNi3oHthWRlNL1taldxxWYoM0LUJEetAP94V+C0zBL6V5ZxYQXDqw2PKCpryLn0DaM
-	xbNp486eedgRa4QmVW9l24xc2YYQ+MgTazhbSw14dCbZGeDcJxeiqqazHXGhB3iN64o5rZIkQuC
-	I+68v6nKsy7e77qAkh263H7w4wztimSqj8eOsn1bfE2r/pxapsisiN+8TjY/7uF+RwKur9ass5G
-	KqzGZyU0lPKc7FqUYJAp+XZy7WtMdBBanj15gNZPRZAllNcVl9GzRf9itRQpUFuuWuGMuAOp+wg
-	ANGedhJ0BZHlHF0dwfnr4pGYB5i0j7zV/jPg==
-X-Received: by 2002:a05:600c:848c:b0:48a:563c:c8c0 with SMTP id 5b1f17b1804b1-48fe60e51c6mr296433775e9.7.1779190920505;
-        Tue, 19 May 2026 04:42:00 -0700 (PDT)
-Received: from [192.168.0.35] ([51.37.145.233])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febf8305dsm152745015e9.9.2026.05.19.04.41.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 May 2026 04:42:00 -0700 (PDT)
-Message-ID: <1485d619-35da-48e1-a108-60de1bd8b19b@linaro.org>
-Date: Tue, 19 May 2026 12:41:59 +0100
+	dkim=pass (2048-bit key) header.d=qtmlabs.xyz header.i=@qtmlabs.xyz header.b="OtQtKwHA"
+From: Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qtmlabs.xyz; s=dkim;
+	t=1779190907;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zKrM5PeNlQhPkGpTZmJ3pPWUcImrkoOnAZH77EjREA8=;
+	b=OtQtKwHAE1kevzh0YGIaggO1sx2ei9Z/Oap5fAD3s8JCjAtYSoUthQfwX20Vi24FMYjMjr
+	NN6IULlfgKzCaZjqXRSOETN5rG41UVyyfUqE0AqbY3eV5TpxKiX3X+4+BxTJLxmLaapvUr
+	7PmQVRg304UVGYwmcQv9qJPoRylgCpMNXJIaTT/jATMMhOpZLOgOV48CIXwO9rilu0pb1Z
+	s4LbHokDmnXyxE6746iEux/alV2XWWDa9UBZTWUyi+fEr6AropjZhiEkdgRDjElsNrF+KU
+	QqEV/L2p80qNqJEdNjt80CobErCAL0DOhNPW/BjvhWEukLFNxeJaqq9NGj5xIA==
+Authentication-Results: s1.g1.infrastructure.qtmlabs.xyz;
+	auth=pass smtp.mailfrom=myrrhperiwinkle@qtmlabs.xyz
+Subject: [PATCH 0/2] usb: typec: ucsi: Additional checks for power role
+ change handling
+Date: Tue, 19 May 2026 18:41:38 +0700
+Message-Id: <20260519-ucsi-fix-2-v1-0-6f1239535187@qtmlabs.xyz>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] usb: typec: tcpm: qcom: use connector to specify VBUS
- regulator.
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260519-fix-tcpm-vbus-v1-0-14754695282d@oss.qualcomm.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20260519-fix-tcpm-vbus-v1-0-14754695282d@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqAIBAAvxJ7bsFVFOwr0SF0q71YKEUg/j3pO
+ AwzFQpn4QLTUCHzI0XO1IHGAcKxpp1RYmfQSjtlyeMdiuAmL2okY1Qg520khh5cmbv4Z/PS2gf
+ s0mmVXAAAAA==
+X-Change-ID: 20260519-ucsi-fix-2-1330c1695d1e
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>, stable@vger.kernel.org
+X-Spamd-Bar: ---
 
-On 19/05/2026 11:48, Dmitry Baryshkov wrote:
-> The Qualcomm PMIC Type-C devices historically provided their own way of
-> specifying the VBUS regulator, via the device's vdd-vbus-supply node.
-> This is not ideal as the VBUS is supplied to the connector and not to
-> the Type-C block in the PMIC. In theory hardware can use different
-> regulators for VBUS, so specifying it in the PMIC DTSI is not correct.
-> Deprecate this property in favour of the standard way of specifying it
-> (via the connector's vbus-supply property).
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
-> Dmitry Baryshkov (6):
->        dt-bindings: usb: qcom,pmic-typec: deprecate device-specific VBUS
->        usb: typec: tcpm: qcom: prefer VBUS supply from the connector node
->        arm64: dts: qcom: pm4125: move vdd-vbus-supply to connector nodes
->        arm64: dts: qcom: pm7250b: move vdd-vbus-supply to connector nodes
->        arm64: dts: qcom: pm8150b: move vdd-vbus-supply to connector nodes
->        arm64: dts: qcom: pmi632: move vdd-vbus-supply to connector nodes
-> 
->   Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml |  4 ++--
->   arch/arm64/boot/dts/qcom/pm4125.dtsi                       |  1 -
->   arch/arm64/boot/dts/qcom/pm7250b.dtsi                      |  1 -
->   arch/arm64/boot/dts/qcom/pm8150b.dtsi                      |  1 -
->   arch/arm64/boot/dts/qcom/pmi632.dtsi                       |  1 -
->   arch/arm64/boot/dts/qcom/qrb2210-rb1.dts                   |  2 ++
->   arch/arm64/boot/dts/qcom/qrb4210-rb2.dts                   |  2 ++
->   arch/arm64/boot/dts/qcom/qrb5165-rb5.dts                   |  2 ++
->   arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts          |  2 ++
->   arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dts            |  2 ++
->   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts          |  2 ++
->   arch/arm64/boot/dts/qcom/sm8150-hdk.dts                    |  2 ++
->   arch/arm64/boot/dts/qcom/sm8250-xiaomi-elish-common.dtsi   |  2 ++
->   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c         | 12 +++++++++++-
->   14 files changed, 29 insertions(+), 7 deletions(-)
-> ---
-> base-commit: 80dd246accce631c328ea43294e53b2b2dd2aa32
-> change-id: 20260519-fix-tcpm-vbus-aabde21f339d
-> 
-> Best regards,
-> --
-> With best wishes
-> Dmitry
-> 
+Fixes a regression preventing system suspend on some Chromebooks.
 
-It should be possible to use vbus from any source - and that vbus is 
-indeed port not controller specific.
-
-For the series
-
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-
+Signed-off-by: Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>
 ---
-bod
+Myrrh Periwinkle (2):
+      usb: typec: ucsi: Check if power role change actually happened before handling
+      usb: typec: ucsi: Don't update power_supply on power role change if not connected
+
+ drivers/usb/typec/ucsi/ucsi.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+---
+base-commit: ab5fce87a778cb780a05984a2ca448f2b41aafbf
+change-id: 20260519-ucsi-fix-2-1330c1695d1e
+
+Best regards,
+-- 
+Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>
+
