@@ -1,127 +1,94 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486EB4D2EFE
-	for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 10:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA546258EC1
+	for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 10:18:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779185762; cv=none; b=kTyUBPVq/Gip7GvGAnPe4mvxk62/rilGFur9mrFi0eb2x+qun0VVbvJzd0NVHHLpXqXOniDlHHLU4y5UGr2iOK3UMpH0GrA5EyzxF2EoYrX3BXI3PygOoQFmFPog9IzRUjxiiByZSHN4C0eY9ZX98280kTqLwurHhU4XFiaK6ok=
+	t=1779185935; cv=none; b=Owm7/zOuvSawxvigBUmjnp3i4spjkhWt0EDGuFBsb6U5Gdrbg/ydNPmNykOycwIepL0loDIxYI9m3s9JvObAVRe626eT3bKyw0MA/xmuAo7tTIMKB71hJXZAWS8NcCeomOScysG8TXx25PQ6e6bAaSjFjrntjse8y/4BEzSJp6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779185762; c=relaxed/simple;
-	bh=f8ALR0y3q5fP6vwtXgP9hBGv5oAQokxYrhtup0bsRmw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=o8NUKf5W1WQBkP/Gijp6gwl8O/3P8BH6JRKkY/mnEOB+BSe3cz9dOno+oPVn+Iqs3OEFQ/wgM02AhbM6dY2NddDx/4/qrBmeNaTIceo7JWaR0hsKc2JVmqHw6KZWyyad1nq3k/MYuDP/+SKnrmdJK0KI3bf+YplE7NxPVivsdpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AXmQU5YN; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1779185935; c=relaxed/simple;
+	bh=v6GoWCPgEIo2r79FVu0WIOpnz/gyRBt0XKqA+rts9as=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qmzBEpSkrSf5ccIVxJ15EFOltK+C1vdi3gdLJhV49jme/x/qZR++fcvaBol+6aiLYJhgBt2YBjbwEAJjdsmmXJiNQKBfXZqsr7b68KBV5eUb9fgOly5ARMHS5Tf81BZbrd96e2aL6AzUBx5mWp/FD7qRKT74FX3s4CD/5DSiBo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RZwaoPmi; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AXmQU5YN"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488a9033b2cso27014535e9.2
-        for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 03:15:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1779185752; x=1779790552; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=u5UZMUsOIuR/r+RRcuKln7+BwOOWAw5VkzUXX1sCtOA=;
-        b=AXmQU5YNNvOnLnq7VA31jNKiWyi5cHbCjQO1E8NGxEk2GQ4/GjhXcxyUg5kDwy29r4
-         OZdwzC61iM1F7qYqhnOKbgY7mfGBtcz5KY7o4jUgw64pt6+xgUsY50KPU2HuuVcJnN6X
-         /wiav/XRokBbp4CJsYiRVVcfo51BgbNw0ghEDa6foVFnAbZJ1o1JWnjRfhmF8rJ6+fSa
-         ECFHJx8hvv4yEvAVgHlPj05uhv+P7EmCUb48HlQEM/9jZVPzTQZ/ID0ihhGl7HDsvAr9
-         +rAZilb6/AeaKO5NOOwc102YwWRveM0itRs3wb3EEGfvzetpm5QXkOAWn4AlZbKk12G8
-         9CwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779185752; x=1779790552;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=u5UZMUsOIuR/r+RRcuKln7+BwOOWAw5VkzUXX1sCtOA=;
-        b=JyxgGHZ8u1f0gGfi+CQCAqTkXlbLRflIfRwTi9sWIqcRQNUn0x3bWsArAaW/vjBluC
-         Lt9BpXI5YOTr2cprihLvbLKwlNE9sb+UwUP2i+/yjV/3pR7ZusrCqwvM45b/P3stnkRE
-         dyE0/bWpXPQfzoT9oHj0C+tcTl5PKGSzDgw565k5ibtgwD5wRprC34a1QJqw5s6nk2+U
-         7Gpowu1IMmf9iwKryLseQ89vyV7A7oEU7XrxwhLAR+xFolF1zSehtUN9H3/bT3SttfGL
-         iiVEfy0cJCo/TdURG9O2P1qlFAjpv/JvUiVMUr4qb+T7gTzYZNH5NCQuL8uNEKJKNJUl
-         lqRQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+vmRBoTFQsXe0LkhEg+gN0lX5pnih9hapquc4WARE3D3suviHGUz35l/xdVXREPHxdcg8hrXHoP4M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlUGLcnDsphuZOPC9wrgT5/b6xq2cgXqb9sgy6PjASPojeHh99
-	FgM0RXAC/h+z5uxYXUulMT1tVHXQ29a6T7X8ml5WdfX0McojXJyzONUDvP7g7E4HxSs=
-X-Gm-Gg: Acq92OHxRx3n4FKxV9kYZr3FfLl4goocmbO2+vvI4qajzSeQGGSkfHpo/KEmW1/iK25
-	L/FPkl3oIDWiWW/77HczCRs05W9w4gPgA1sMxTmjq1BLAkg4XZOTmc63IuEkl5r2JtLqJzR2G2g
-	stCb6Y+bDKfFR3VxorbCa9UhSRfEwXRW7U3WrRpv4htFr7teWrHISt2LAzrHUzrEIrVJshvmYG6
-	+Sf1E5yiDo9eh35ou9KHCDCnrgjg38aDaWsPkpWMRIdZWqFnZjGtI1kX9VcblGMp+wNGC+CLmKy
-	rjYZ+BjTm0BiVP7FV/TqOB+pJBYkYvZt/nNW6zM+MfbyPyFRrUhWeCXfQ5U7zohVycxp/YP+R1j
-	zE6oY/9rKgRPNMOB+pTNyhEOeBXUyYpHlYUZp9PCeGRfI71mVHJzU0U/XW48gS5oxo9eQwQ/xsp
-	CuRs71cYZG33qlD5J99jkKs+vBS6OZU3rRYA==
-X-Received: by 2002:a05:600c:34d4:b0:48f:e245:394e with SMTP id 5b1f17b1804b1-48fe631f631mr307476515e9.27.1779185752498;
-        Tue, 19 May 2026 03:15:52 -0700 (PDT)
-Received: from [192.168.0.35] ([51.37.145.233])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe537ccf5sm311206415e9.14.2026.05.19.03.15.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 May 2026 03:15:52 -0700 (PDT)
-Message-ID: <48daef97-de8d-452b-9f1d-e3306fc46ffa@linaro.org>
-Date: Tue, 19 May 2026 11:15:51 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RZwaoPmi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779185934; x=1810721934;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=v6GoWCPgEIo2r79FVu0WIOpnz/gyRBt0XKqA+rts9as=;
+  b=RZwaoPmiMo30mG2Zq998cOYr3a2JHaSZXXot+j4ttzU3Nq6Y4DpTBdnF
+   QCXrcs8UrDtnf8Rxlw/kXjBu9C30gY/Zvs+MeFeW5DFqYXPXlhVqFPbNd
+   6S1MJm90BNE84srsMTMffIXogxcfSXGeHoJinSKHOd1MZQUSwVmouu6UG
+   nmkJi+7I6COxQLFWHz6Ma8r6N05zpk8D664pjztKqleuHA29bp5VE/1mo
+   EKSp4o7W8EGayUmhv6ZeUSddGhDlnXv4yxTVU3+gWxj8+XcedZGApO65z
+   r1Cj6X/X8iJJLRKRzVS00IM7zp3bafbZ0BqvrMBUuXOATdmJFs/OIk8eC
+   Q==;
+X-CSE-ConnectionGUID: Ul9AOMjqQTiW3H3AsPaBEQ==
+X-CSE-MsgGUID: EukCnMiWT3W9DIlV0Z5NKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="80231395"
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="80231395"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 03:18:53 -0700
+X-CSE-ConnectionGUID: q4MI/kTaT/Gm1PgfnFoRdA==
+X-CSE-MsgGUID: 6h6w3+vLR/aVqdR8cs+79Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="263238042"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa002.fm.intel.com with ESMTP; 19 May 2026 03:18:52 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id D6D2395; Tue, 19 May 2026 12:18:50 +0200 (CEST)
+Date: Tue, 19 May 2026 12:18:50 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>, Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	linux-usb@vger.kernel.org,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [GIT PULL] USB4/Thunderbolt fixes for v7.1-rc5
+Message-ID: <20260519101850.GB8580@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] USB: typec: qcom-pmic-typec: Drop redundant header
- includes
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260519100014.282058-3-krzysztof.kozlowski@oss.qualcomm.com>
- <20260519100014.282058-4-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20260519100014.282058-4-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On 19/05/2026 11:00, Krzysztof Kozlowski wrote:
-> Unlike other units in this module, this one does not request interrupts
-> or regulator supplies.  It does not use OF graph, USB role switching or
-> TypeC muxing APIs.  Drop redundant header includes to speed up
-> preprocessor.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> ---
->   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c | 5 -----
->   1 file changed, 5 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-> index 3766790c1548..35320f89dad2 100644
-> --- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-> +++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-> @@ -4,19 +4,14 @@
->    */
->   
->   #include <linux/err.h>
-> -#include <linux/interrupt.h>
->   #include <linux/kernel.h>
->   #include <linux/mod_devicetable.h>
->   #include <linux/module.h>
->   #include <linux/of.h>
-> -#include <linux/of_graph.h>
->   #include <linux/platform_device.h>
->   #include <linux/regmap.h>
-> -#include <linux/regulator/consumer.h>
->   #include <linux/slab.h>
-> -#include <linux/usb/role.h>
->   #include <linux/usb/tcpm.h>
-> -#include <linux/usb/typec_mux.h>
->   
->   #include <drm/bridge/aux-bridge.h>
->   
+Hi Greg,
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+The following changes since commit 5d6919055dec134de3c40167a490f33c74c12581:
 
----
-bod
+  Linux 7.1-rc3 (2026-05-10 14:08:09 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v7.1-rc5
+
+for you to fetch changes up to 928abe19fbf0127003abcb1ea69cabc1c897d0ab:
+
+  thunderbolt: property: Cap recursion depth in __tb_property_parse_dir() (2026-05-11 11:32:03 +0200)
+
+----------------------------------------------------------------
+thunderbolt: Fixes for v7.1-rc5
+
+This includes three patches that harden the XDomain property parser
+against possible malicious hosts.
+
+All these have been in linux-next with no reported issues.
+
+----------------------------------------------------------------
+Michael Bommarito (3):
+      thunderbolt: property: Reject u32 wrap in tb_property_entry_valid()
+      thunderbolt: property: Reject dir_len < 4 to prevent size_t underflow
+      thunderbolt: property: Cap recursion depth in __tb_property_parse_dir()
+
+ drivers/thunderbolt/property.c | 32 +++++++++++++++++++++++---------
+ 1 file changed, 23 insertions(+), 9 deletions(-)
