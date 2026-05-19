@@ -1,85 +1,229 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3AA2F0C62
-	for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 04:51:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779166288; cv=none; b=izCZn8QFH3aRZPSjzMhbocI4TMkMIXWUGXMjz+5FEF93VJXDQavFhHTGn0TkCO0f+hs8TZ17Ag4uuQ4/n500TygI3enndKuV4hVkr/Cjhu4FJViq/1XZBVdhlCCS4f6KzsR/GESD/e6x7GAd9a3joJLQctb/M+G1ApORIDyQsXY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779166288; c=relaxed/simple;
-	bh=vl6OcGcIR/dCd7Da9O14tCEMolLBByTvMkuSmE25wQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h2wLyfRAF98vBfP2ZxOm3XiEqodoZO5kNQAyhm7ZyBXhfh8Nw+AZ0NwqckSsmU50gitbl57jdFdr0uqyx3/GX8nPG6ePLCQ/OfxM/q3G90LmfqfkspL1ZimmcaSqFvV2moBqBykFMww50/MOmoQVJfmYDDX9spz5FwWJa7ifTxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Qkf9q3Kj; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04A83195FC
+	for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 06:15:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779171311; cv=pass; b=c1i86wr9oxhSytuufUi52z0Vj0f/ixm8xmcp8LpOTDpaGJFHQEqnUnp8Ob0G+gxOqz4+JOTCjqlyfjiM3tOPRNW7JR+h8qiBg0GeajcpYvkIxXmKWYXz2aNFgnvH/FPGgGuwKp75MkreMkGcoQZ1yYYGhBg/C0aBLMy79w7+Liw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779171311; c=relaxed/simple;
+	bh=QPv9NrKqks25XdbSHhPFI546BElb5U2rT+BiAzKQ+7M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mMIFGy3MNoEMIldirlUWWY2SsY/A6wW2O25GKZfXGScy6U1QyWmIADUunLj1VkNZ6pFmQ0vj3q4EPVfbA1B8sztR0zDvKKBIKeQyFfw49l1yvrIzyD7svmv2g5el2M0tXdhr4nWKPh4gafWd1w2sBlfamwKywoPKHgu+YS/YiG4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K0xIF9nJ; arc=pass smtp.client-ip=74.125.82.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Qkf9q3Kj"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3660ab73adbso2124811a91.1
-        for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 21:51:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K0xIF9nJ"
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-135200bc7d2so8642329c88.0
+        for <linux-usb@vger.kernel.org>; Mon, 18 May 2026 23:15:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779171309; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jLwO4HqXxcNghBXIKNjKxYcijI725zTK9Gj/N/Za2su2HDtaf7z9Xe42iyaAK55tFh
+         6UeU6g6Oj9NA5R2rjYp2zxc4ak2hi0G+GdxytbKLxkR+kwUme8aCG2IaZGoG2MzkkEZC
+         wZda5gtowUEipDLwvQKZSKnK+44Cxhs1btRJLyy/552hv4OBWMVVZNRMvYhYd/YePo5e
+         Lz9vYPozwsrczU/EwkaaO302Eb7scjuuyWPgYicS3gZ2qZf2S2VeqAIwbaiGj26RKBBQ
+         tXEa3+VqZN1DYZJtinFxBH+xrkaoclM0tUgq1lxXsmpLiB4N4fySfu4wT3lIny0Ocz+B
+         rGJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=e3rxUJ/0l+GpFnRLs/exHMJwdlcSweb1iM7tuoW5l3A=;
+        fh=jSvtIM9FN3yWCJGxPM2GiqpiVuGdJ71EJ88ENxeRuY8=;
+        b=hCJeoNELbHkIQ01jSHSSWSoa6e6bb4mHgPe/gY16PWFi+eH68/MXgQZeoCwlxyncqF
+         Ue+0I3IBWTOobcV9hWUG3cd2Anif+7l1JrbYXlBeI9OGbvim8tLG1PVk1ZFm2+jtsZc6
+         OVDSmNS3k4xWRRG0oxD7lgy2HrIhgVIqyJF1c2d+yAHESo5zsAu7EmCBpUe0B0Zf8M0X
+         6vQYZAwO4TdQduptgfeQ5GTmLchJ0Tzi76k2yfCZAfmqzXNii3/BiAhrwsCAd542sLab
+         G3ZrHJobO31paOgCvklsORNyxupBNl14RljntmumddSWtEFnKUT7fY8A0MhP/9nZPSB2
+         D4qw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1779166287; x=1779771087; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hXU6DiuUIj8+jBSL54XELS9+e4St23qQU2KmGdZGluY=;
-        b=Qkf9q3KjEOhEyl5xOHRtcZN/p66/ER/04qtwRe4qCnbeK51pswaezRwcN+fyeTWDP1
-         8ymj8FcQasXgguWPOowMDkkgt3ieoQXjHnEOiLj1v2pd+VI5ips6cXLTn2icLoN9LC1V
-         aSwBMj44WXnTNBqi9o1xdlTDP6hC8oByAO4Dg=
+        d=gmail.com; s=20251104; t=1779171309; x=1779776109; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e3rxUJ/0l+GpFnRLs/exHMJwdlcSweb1iM7tuoW5l3A=;
+        b=K0xIF9nJkPkPRVvHiSwlUbkwOna/D1U7CNVoC2deCiQWXFHenpjXwiBqd7Bie5r6fe
+         f0s1+5TexX8TcakVB9gHtxoPgrwxm4OhTInS+wgU+mftW3dCw/H37e9b038U+6FwD01K
+         dSVH+FVkOdKXctiGcv3+amRo9xlhA+zwudrZHN4ZjF2BFzHCg+Es2NwVu9AHsSxWwawH
+         IO0GT42qOuSSHbSNs7Md4qBoSck17yZoG7gVmwcst4LlV7TXLiUnHAK9XXDMFClAzTCx
+         1Oh+2vneMPrJqRQwxynJvAXSK1oxcHjHt6rIdtCch1ca5pWXivYNbPO4fmIlsvFgsnsW
+         ig2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779166287; x=1779771087;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hXU6DiuUIj8+jBSL54XELS9+e4St23qQU2KmGdZGluY=;
-        b=SsUM2U8GaGiVApOd6L7FK7kLVikIL+sNURU2BRKonI4YbVKwMwIUvk/lgr49lchapj
-         x9+flRu/fMLy1aVd0YwmybloZjpjR65DA0uG7ZAOyWCmwWTZ4fD0CrdPuCdq3N762lf3
-         QMHiWBbHdOI8rH4t9AcEDDDZFOh9vRiToEyagAZTpHRu/ztSdq1A9iihn62wiBy2W9Ao
-         UtuNKG89EwJyr7q3DSfbeSQFN5H7qcDOWu4XDrt77k/3DOdSfPo4WZZQP/Q8hCqKMlPv
-         DPd9XX4Qt1hVtjNyM/WL8kGIYgP8kozGTP+huHE318EaVunvjQyxBu+ivKoVAMJrabpC
-         tOcA==
-X-Forwarded-Encrypted: i=1; AFNElJ84jmgySgW24XPoIWLHpEaikOyjzzlliEg5U77m5gO6okTZnec4OP0SrUMmkTR45VJuc+WjO2L2WDo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwzaCIf7W1Rp25LAi1/THG/wQw+IIXKCnqnlhMiZDcUvq+wHDK
-	A8QbHfRnOAy+mx5PX4iJNiFBtxNrVNwWLIHuYa2MY0WreTnLdmk3Oe59fczmvnAkVQ==
-X-Gm-Gg: Acq92OFkICIEs2FJKGtLUJ1C7OsK0U8r0CTnTO1qghV2FksoC/6w/gtT3BLiLo8ZPt4
-	d0XRlFSQIMgic6tsiuOXmUsdAi186s/+TkuOfhEo3LC4MQhrFU3Nn3Ar15RMwHLWWAmvUZpXsdd
-	hmCzKMkx1bJ4DNN6F6UlfNC6sNHclOPnpTKmP9Sib2mnMe/4LxVUJ6QhpC/QfFKgFAiadOonH4y
-	uZEsQlWJmwu7AQjBj9dRUF8H5DYlrA/kpsi6RCHmStE0JYqzQeB17v7HJFKIbOHtIIohUUB6JM4
-	MUqeVfPWdQLUzevfP68hCdWmWn1XsHQl0r67aNz5XGLjMMOOVr73lv7AhSknroACJK5sWdLK9HQ
-	mz07p9659C9yvZIQQqC5a1eJTxpuIZbHVza7mJApPWGEh/hLBR8GufMaYXg9Vt3a2AI0ZkpMk6+
-	VJcmQGTogvSeBdG/y1ebc2qAwH+Yp2zIlPNr22pd3XTzyJdcCcFUBLHD73Ubl0ER6Y4Ukif4mI
-X-Received: by 2002:a17:90b:5708:b0:365:8fd4:925c with SMTP id 98e67ed59e1d1-3695149986amr12846915a91.8.1779166286830;
-        Mon, 18 May 2026 21:51:26 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2031:6:1f47:18e:5352:a11e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36951437316sm12821578a91.11.2026.05.18.21.51.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2026 21:51:26 -0700 (PDT)
-Date: Tue, 19 May 2026 13:51:22 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: stable@kernel.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [stable 6.6.y] commit e613904fa419 causes suspend regression
-Message-ID: <agvqqMt9x0df-WXS@google.com>
+        d=1e100.net; s=20251104; t=1779171309; x=1779776109;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=e3rxUJ/0l+GpFnRLs/exHMJwdlcSweb1iM7tuoW5l3A=;
+        b=cgQ82FZTh7bSsQYKPh3dPYFwWRV1Fis/kyblnQsoC7VEMSW7IJAGGK8p7k8Wj8/he1
+         DzXbv2J+K44xUG1ZcxT9VsvMQ1Kukn19hvVA69mUxFuWsAlRf5U7wvujpCbTcqc6ZSr9
+         5shoFJ721lsn4taMhgp5Z6HlLX+wAShivm8L8IS5ofqFUl/zi/22RkZPVZJq27L/5UbL
+         AV4iyyzoNB8aqdbapNQMOvNqln3tP5mm7Q23G2cBGyjgqbonzXQofsC495a8JaPx5RqY
+         /TsMCD0sVcPRPCgZ7eSV8UmUm5RMjs5S4rt5eKqx57T88gLyPLkWYhHEAJQSkzqksc1I
+         ammQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9xsl8QGrBvAWvJg2OOnUtTQB9bNku8e3tNTZl1LHlfV/vr+LGvCsl25ONeeTKNXsZNGH4i42++7sk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcrFvcnxd7K5KzVdw65ahynqMhIVMisij3LspFBX9sXi4qJFSm
+	HAyUImzQFZIreUENHAlbIZyDRXn1T1yEXlqUf70HImmacWQplEK/P/2L9Qjn+9zNB0ks1r1fz9v
+	qccbHH3sAyGZ4AcD5JlrpIIhSbHgmtt0=
+X-Gm-Gg: Acq92OEvWvI2pM8QowY3JnQCcysPEThbQ9Bv9ippIZZQn+mHVDUqmd9tPR1gsiG0jp8
+	76B/yH+ddAdg1uPI+soo9s/BBDPfggQoTtm/TguLveZmTLrfwYvwuB3h2va9qx/3TVc3BdlMIJC
+	mghWQSJZxFVcy5BAB8AGrfil1W2g+cZlGi3ulnrZSTuGinGqOnhm69HYQdyEBgwxMpvtgdfK3fX
+	zZCiL0VWAo/ABTl4KeM4GAB14kKOhKjAnv1PG4FQ+dZ0PXuSyIeap/T8/yY+l4W6r6gXxjQ0lVE
+	CkfuNaG/
+X-Received: by 2002:a05:7300:a984:b0:2c5:b23e:48a9 with SMTP id
+ 5a478bee46e88-303986a160emr7175515eec.25.1779171308865; Mon, 18 May 2026
+ 23:15:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20260511135703.62470-1-clamor95@gmail.com> <20260511135703.62470-6-clamor95@gmail.com>
+ <20260515-utopian-malamute-of-patience-367e8e@quoll> <CAPVz0n2wrAdU0JKx7eb7uosCcoGayqNchK591VPph-5_nBAMXg@mail.gmail.com>
+ <20260518-mustard-rabbit-of-ecstasy-eed3b6@quoll>
+In-Reply-To: <20260518-mustard-rabbit-of-ecstasy-eed3b6@quoll>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Tue, 19 May 2026 09:14:56 +0300
+X-Gm-Features: AVHnY4IxlqAJY6NaFP2GVNqF_snPzx1hM2RZ9fLkqEGHKp_bJ_sC8-qzf4i8pFA
+Message-ID: <CAPVz0n3C+g9zLaq9gN1OFnC=19oRwoZon_E0q0oFKbn-dG-FaA@mail.gmail.com>
+Subject: Re: [PATCH v1 5/6] dt-bindings: phy: tegra: Document Nvidia Tegra
+ XMM6260 PHY
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Chen <peter.chen@kernel.org>, 
+	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
+	linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+=D0=BF=D0=BD, 18 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 15:1=
+4 Krzysztof Kozlowski <krzk@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Fri, May 15, 2026 at 11:37:34AM +0300, Svyatoslav Ryhel wrote:
+> > =D0=BF=D1=82, 15 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE =
+11:20 Krzysztof Kozlowski <krzk@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> > >
+> > > On Mon, May 11, 2026 at 04:57:00PM +0300, Svyatoslav Ryhel wrote:
+> > > > Document the XMM6260 PHY used by various devices based on the Nvidi=
+a Tegra
+> > > > SoC, describing its usage
+> > > >
+> > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > ---
+> > > >  .../bindings/phy/nvidia,tegra-xmm6260.yaml    | 58 +++++++++++++++=
+++++
+> > > >  1 file changed, 58 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/phy/nvidia,te=
+gra-xmm6260.yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/phy/nvidia,tegra-xmm=
+6260.yaml b/Documentation/devicetree/bindings/phy/nvidia,tegra-xmm6260.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..0346433c9772
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/phy/nvidia,tegra-xmm6260.ya=
+ml
+> > > > @@ -0,0 +1,58 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/phy/nvidia,tegra-xmm6260.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Nvidia Tegra PHY for XMM6260 modem
+> > >
+> > > XMM6260 is Infineon modem, so any combination with nvidia,tegra is ve=
+ry
+> > > confusing.
+> > >
+> >
+> > May you please suggest how to adjust the name then? Thank you.
+>
+> Depending what is that. Start describing hardware, not driver behavior
+> to help in that.
+>
+> >
+> > > > +
+> > > > +description:
+> > > > +  A hardware configuration used in Tegra SoCs to provide proper in=
+teraction
+> > > > +  between the application processor and the modem, as well as cont=
+rol over
+> > > > +  one of the SoC's USB lines for the modem.
+> > > > +
+> > > > +maintainers:
+> > > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    const: nvidia,tegra-xmm6260
+> > >
+> > > Also here.
+> > >
+> > > What sort of phy is this? So far looks more like a software construct=
+.
+> > >
+> >
+> > Infineon XMM6260 does not work as an ordinary USB modem, it is a
+> > standalone CPU which just exposes itself to AP via USB. In order to do
+> > so, it has to have control over a USB bus of AP which is dedicated to
+> > it. In case of Tegra - XMM6260 interaction it looks like this: second
+> > Tegra USB controller is set into HSIC mode and is dedicated solely to
+> > the modem, modem controls this USB bus. Then the main XMM6260 driver
+> > performs power and init sequence and once it is ready it calls phy to
+> > register controller. Phy has its own supply, controls USB controller
+> > de/register and using enable GPIO sends signal to modem to proceed.
+> > Additionally, since some XMM626 versions have a few steps to setup
+> > exposing different USB devices, phy handles controller reinit for each
+> > step. If treat XMM6260 as an simple USB modem it will never init.
+> >
+> > One more benefit of having PHY is that modem driver itself is generic
+> > and PHY handles SoC specific configurations required by the modem.
+> > Since this modem was used on a variety of different SoC's (Exynos and
+> > OMAP for example) they can reuse modem's driver and provide only PHY
+> > which handles modem interactions with the USB bus.
+>
+> Without any registers here, this is not a PHY but a power sequencing,
+> just like we do for other USB or PCI devices.
+>
+> Optionally, it could be part of existing USB phy, when configuring it in
+> HSIC mode, but it seems you add here supplies for the modem, not actual
+> phy as the phy is undefined.
+>
+> The problem is that in the patch and explanation you mix driver model
+> and driver behavior, so I really don't know what is this hardware. And
+> it is not my job to guess, btw. A partial argument/proof why this is not
+> a PHY, is that you reference the USB in the node, so phy-provider
+> references the phy-consumer. That's reverse. If this is PHY, it's USB's
+> HSIC phy, thus this needs to be referenced by USB.
+>
+> If this is power sequencing, then it can be represented as USB device,
+> just like we do for all USB devices, but then it is not PHY and
+> phy-cells are not appropriate.
 
-We've identified 6.6.y stable commit e613904fa419 (usb: typec: ucsi:
-Update power_supply on power role change) (commit 7616f006db07017 upstream)
-as a root-cause of suspend failures on some of our laptops.  It seems
-that ucsi_port_psy_changed() causes:
+I was looking into power sequencing and using it instead of phy is
+perfectly fine for me. How I see XMM modem configuration:
+- main device which handles most of generic power sequences,
+init/deinit and detection for USB device (both, target USB device and
+intermediate stages for fw loading)
+- phy or power seq, does not matter, both fit, that performs
+manipulations with SoC specific USB controller in order to ensure
+correct modem boot
 
-[  309.858915] PM: last active wakeup source: ucsi-source-psy-cros_ec_ucsi.3.auto2
-[  309.858917] PM: PM: Last active Wakeup Source: ucsi-source-psy-cros_ec_ucsi.3.auto2
+If I use power seq then modem will require link to power seq and power
+seq will work with USB line, this should not create confusion of phy
+acquiring USB that is phy consumer. Will this approach be acceptable?
 
-which prevent laptop from entering suspend.  Reverting the commit in
-question fixes the issue.
+>
+>
+> Best regards,
+> Krzysztof
+>
