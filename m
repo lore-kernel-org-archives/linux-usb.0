@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B0A3370D5F;
-	Wed, 20 May 2026 11:16:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30BF30F545;
+	Wed, 20 May 2026 11:16:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779275797; cv=none; b=i9BrOG4wCWWfguB0pFLd3lBWDc6kWUDq1U5m0PnDxlRDentX4QTlHF9g2QUjw/4MQZlVUcUvMt4FKUY55dfixOfKWk6klS+9xe/HqFL3LoTQhMOu3gX5xKCNo0IMgeI8JNlqD5D0Dl2E/h6QdX6CsGQjgBxHiAlEUia9ISVKMbU=
+	t=1779275811; cv=none; b=FZXrsbqcinv9mJNJbSRXa7CTA8Uf+mu9HHds+kUZNJ8ChirXMxcy+XMn2AhF1ULw3vscCic5o4OMkhydTMxSgoOCcISa0VGBnUiZMYS1w8TX0ejF64Ffg4J+oCeX0WnrtmIPbCgSzLrYeOkppqsfeCGVVyXo5ZIZNo+xGE4w65k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779275797; c=relaxed/simple;
-	bh=KGuDkxNea97wNqoRzIN7eu7egFcyD1FJQG3XJy6lbDQ=;
+	s=arc-20240116; t=1779275811; c=relaxed/simple;
+	bh=u7L7RLWnfxUW+FIqd+ScvAFUVSq0TEQuHeL9i1BVrSc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X2Y7HBFfGIKisbmf3BUfPEvkZC7xZOFvp6nIW079Jgt9UcTMxgkJDPpOxZQ9T2eZ4kd1Vy43Whp9HrGRJOoh38r1YtRBt+sEr8WHWEmDeE7i1IQGy0hgxttCZjzLnse5/XUJX79Ft+eS+XlMq/3TBRe3nf6g6EP4OQTicqlM6yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Qf6nupVy; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kX7sL6afMrYnagDo0eJqeWEgo2o0TvdGChTE2mrKapcQJ2c6FKomYJUxBDVOXpu+7acbq2piYOflAzdOihCewe/30qOo8vJk/NL3zZL/A2XVGqWUKadqohIFNlDzGQ7yVUaySs0ysbVenRGDxIMwPoZn066mYEkVKgkeCMONzLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yxRgxDiW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Qf6nupVy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A44191F000E9;
-	Wed, 20 May 2026 11:16:32 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yxRgxDiW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D6ED1F000E9;
+	Wed, 20 May 2026 11:16:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779275793;
-	bh=++hjo+uLCm7FMgGqExIqw6QtJPgqYdyBXwD3Id3nqK0=;
+	s=korg; t=1779275806;
+	bh=T+4a7qii4AuPx2XAjeXrtUeNNZLMcVhSdEIO6Q4ypzk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Qf6nupVyV6tAdl/+E8zLaI0TAff9zU812l4uI0GqPYynbKo5HQ0PMKnvup9rfpGrt
-	 ZAWyft7B0BUsG70YrcbFZqCEhi0c4F2Cfuq+QgQLbFHUa5vtoJfM9ShpVRYntx7iH6
-	 MqENDokWCWEo5vLqvIpqoJ/fe3soV1wzUb0S7338=
-Date: Wed, 20 May 2026 13:16:36 +0200
+	b=yxRgxDiWH6crbyBxk/HR5MYdKKuqk6j/k95YWnISJoFjYDpmooeVUPIML8J8biJ7A
+	 HiW9lx28D2RC8qFzX3A4z2XKodDKno+3a7x+Y2tYxr/IIP+umXmJISi+ONHO2whaNx
+	 V8lMcDjdungywCVkWq00uQTL7FKIFiRtIAFmAP6Q=
+Date: Wed, 20 May 2026 13:16:49 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Johan Hovold <johan@kernel.org>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: Re: [PATCH] USB: serial: mct_u232: fix missing interrupt-in transfer
- sanity check
-Message-ID: <2026052027-boxing-strenuous-b014@gregkh>
-References: <20260520101750.657933-1-johan@kernel.org>
+Subject: Re: [PATCH] USB: serial: mct_u232: fix memory corruption with small
+ endpoint
+Message-ID: <2026052038-nemeses-bronze-b08c@gregkh>
+References: <20260520101452.657643-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,39 +40,19 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260520101750.657933-1-johan@kernel.org>
+In-Reply-To: <20260520101452.657643-1-johan@kernel.org>
 
-On Wed, May 20, 2026 at 12:17:50PM +0200, Johan Hovold wrote:
-> Add the missing sanity check on the size of interrupt-in transfers to
-> avoid parsing stale or uninitialised slab data (and leaking it to user
-> space).
+On Wed, May 20, 2026 at 12:14:52PM +0200, Johan Hovold wrote:
+> The driver overrides the maximum transfer size for a specific device
+> which only accepts 16 byte packets for its 32 byte bulk-out endpoint.
+> 
+> Make sure to never increase the maximum transfer size to prevent slab
+> corruption should a malicious device report a smaller endpoint max
+> packet size than expected.
 > 
 > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Johan Hovold <johan@kernel.org>
 > ---
->  drivers/usb/serial/mct_u232.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/usb/serial/mct_u232.c b/drivers/usb/serial/mct_u232.c
-> index ca1530da6e77..163161881d2d 100644
-> --- a/drivers/usb/serial/mct_u232.c
-> +++ b/drivers/usb/serial/mct_u232.c
-> @@ -544,6 +544,11 @@ static void mct_u232_read_int_callback(struct urb *urb)
->  		goto exit;
->  	}
->  
-> +	if (urb->actual_length < 2) {
-> +		dev_warn_ratelimited(&port->dev, "short interrupt-in packet\n");
-> +		goto exit;
-> +	}
-> +
->  	/*
->  	 * The interrupt-in pipe signals exceptional conditions (modem line
->  	 * signal changes and errors). data[0] holds MSR, data[1] holds LSR.
-> -- 
-> 2.53.0
-> 
-> 
 
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
