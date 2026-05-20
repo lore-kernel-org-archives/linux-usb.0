@@ -1,123 +1,100 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C95231B114
-	for <linux-usb@vger.kernel.org>; Wed, 20 May 2026 14:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10F13EAC74;
+	Wed, 20 May 2026 14:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779286739; cv=none; b=SyE3vI+ndnYUEj0blUdv9r0MlfT2O0QSMlap+gGsS3aCWhe5tB8SxJrtDIN+8rQ9ZgWn+JMxQse9FvmFYcqz45pLNjcKK7eoZYLRxgXBZAVgW2aT5mHv4UsEyY2VfRRToV1Oi2ngneG2vg9ME1VOyN/G38LRoD6kEcsVfMI2TNI=
+	t=1779286901; cv=none; b=PQoftHDZ+8QuT91T0013rmQYPt42DAPYAtLL6H3da5wLVE+JZDZyuMh1gZVsbTK1+jYSmB54JEpfocteXGbRH0p4a6X+3wbBlc84WOIy+RukvepPRA+BMajjaGSGrSsteJyOlb5iP/66MljSNZ02/YGiIMjcEEOjWHOKJqzCDtk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779286739; c=relaxed/simple;
-	bh=SVbGfRf42/YpRtOvkubvp4anUHrMvLtMBHhgTtWQnfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oBAXP7itAIbdSvTE1s33BABI9tTtIoXWJLs20LR1fBtfoPysDMb3+mCNxoT3Z/9BffyjPXQG0dfPxbwfQL1jYmrlQabnMEKrWhaawslM4Cx6pn+NZSxHlGYli9L5Z7HZ4lBV/FcDLVK5ZGjlJd7uviOr31mKiP79i7gUzwdSBhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DSkLvI7b; arc=none smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779286901; c=relaxed/simple;
+	bh=GDgiypVIwA/PQvdX7RyrKY/+g5n+NMwhEKvQxfGp7xE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bqz6Ept4mHi8WX3+KQs08o/aTDNKTqqDUWD+MrY4CROasMNN97xoDrGAasUfUh36pV92zAYH6moKnnRRsbKpxix8xMkwgpCYjeqfu+g+31OHu2s9nsQwrkS3EJ9O4TVecMEpo1Ac4Obod4LPLSTIu+y5htkF8p8esSBerubbEmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=qKOs1rSH; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DSkLvI7b"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2f0ad52830cso6247848eec.1
-        for <linux-usb@vger.kernel.org>; Wed, 20 May 2026 07:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779286731; x=1779891531; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Vyw5z+cwPwEeTdxGP1e0+U+3uquisZZyqDCM4ankidw=;
-        b=DSkLvI7b6i2vq92PSx5mKBVTl8Bw01nseMkFEzZBH0bQG3nBoP/mJ+FmhlUJGQcuGc
-         LsjTwrT7XJfof/GCQQ5inuAJ5/XkEvS0aqmr5mf7Cyzy6NV/8BpR5cb5/xvHlIedMG6G
-         GkzRPFh93zmlpW/w5bML8E9OPpgU17+HBN0a4otD9x8LMIe/WBJgRLhyCTt65p+YYTsb
-         uCQ2bz6bEepWi6iUcdakskDhjCj0OVFtZhOfODcp9I1QObK7GvXN0Vl+czerxIPQoE6w
-         xJPqUSX7Su2kFY2/O/Fdqqh32uISEAe9J+fnoJkoxKg7ZvlwemkZJuQ13JmR8d/vjoqC
-         7GGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779286731; x=1779891531;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Vyw5z+cwPwEeTdxGP1e0+U+3uquisZZyqDCM4ankidw=;
-        b=V8Z8Bfvyhav2TKhlUleLCXJoPPm1RTEfKNG/gQWD48A1n7TXrLrLopkGD3x8QxBGWF
-         cCVboT/1/qalqGhISRq5GIrHU40r0+Z93/rthdvSUy2OpIlgGCClbQT0SYzi6AGWmzHl
-         eWY1efBDBltVzQ5JsxE2hYNQyeHL+96Ja6b6sk1FdWRmezw/TMMb+iZGy9h3dNbc4Ajm
-         E19MYnyv+Fb+LFbYmRwO3Mc2ZxILWLA9ZpWM8i8fPgpjxjAvex7jWNYQVdW9wFTjlaY/
-         GZ9zZ11y459EFORnSpMYf4BEt+OxuXkaCuU6T4kzZkdVzouX00w2lap48L39BkRCrl4j
-         r8RQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/QyDfeUp6Tp++qZvMKVDX/fFBIol9ALMWOrEhYkY87B+bTd9zIZ9x58Bo2UXW8osLrovMbztkAtkI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykZgHKLoXL6gixlOXV/W2h0oBxaYl1gUeb2Eg1HH/l9utnsk+B
-	ML9+LacU/tjPJa91fCpzmwlI9X0Sb1pqkklyCgbSsjnc+YpCZ2lql7Nn
-X-Gm-Gg: Acq92OEW9ehN3yk81yhi/skxc/rdq5RNfYZHoE27MhnP6jT3Farn1hffcHmCO9QE5vr
-	Zkuzqw+jv/ytScQlZKpN+yM9OuCkFYv4PWhhd7eN4HtGtICmoQyRHYGXWrAxyJc7pm8iBzc5D6b
-	6gdms5OHWRt4mswxz2omY/S3ELNJ95KJjU0vNEvLAd1P6qlxSeDa4nKNk0PH9YKpyTP3qootsRB
-	mljjwu6hgrO1H/735OUxeQ263va52frtlFaG95mrQYLqaA3TVOMqRAZ0kADmxv16Ac1V06Kw3ns
-	9LXGdywE6bnp0H/mp7DoAD1si+irloTWW1/FJH6UDrWyCBzbb5kOJphY52EdGeAL5bG7PjPdlLJ
-	V9UnTsMnPDSbv1ysYvk4HpXMRny2k2g+O+8kqglm3bMT4NinmzLRHQ2/fs/DQklza/b+eS2H5lt
-	iWqBlhALEiZJQQ4tCRxKyTYFJh2z3+qIAN3FB8
-X-Received: by 2002:a05:7300:a94b:b0:2ed:a64:a457 with SMTP id 5a478bee46e88-303986552f6mr11202553eec.20.1779286731120;
-        Wed, 20 May 2026 07:18:51 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30296dcb6adsm21432427eec.15.2026.05.20.07.18.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 07:18:50 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 20 May 2026 07:18:49 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Jihong Min <hurryman2212@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	Mario Limonciello <superm1@kernel.org>,
-	Yaroslav Isakov <yaroslav.isakov@gmail.com>,
-	linux-usb@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
-Message-ID: <06236462-6c4f-413d-8324-537fb8f743d9@roeck-us.net>
-References: <20260519000732.2334711-1-hurryman2212@gmail.com>
- <20260519000732.2334711-2-hurryman2212@gmail.com>
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="qKOs1rSH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=GDgiypVIwA/PQvdX7RyrKY/+g5n+NMwhEKvQxfGp7xE=; b=qKOs1rSHUfFyQjQ2QU90qLmsEG
+	E4rO+KqFDvZdMnNVkhT2xM9SqMD/CMUMADckAN8zJzIgHiiRGrfYvDLfVYwvte7zRaDJPjinr9dN7
+	W41mCtDYikWfvkdAm1kyTt5Ns2JB93TsQ4vLGQVdLdw8UDj+b5s76SDCSf59Tvpostexn9puA2nth
+	1WSXxPyw1cawkSEQwtUp6XpmyN9Z6+X49zn1Jkj0dxFSvWFTrY7Udx+xmwDa/G9o8rsguZyCHlSmu
+	oG53XHOV5DRGeBYTKUVFMdMkD5aBSLI4rVQszy9k+eZF8tHtjXWW6HmPSv6IqLIL+WyoyuC5IVfQI
+	V1VVfT8w==;
+From: Heiko Stuebner <heiko@sntech.de>
+To: linux-phy@lists.infradead.org, Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, spacemit@lists.linux.dev,
+ UNGLinuxDriver@microchip.com, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Subject:
+ Re: [PATCH v8 phy-next 15/31] drm/rockchip: dw_hdmi: avoid direct dereference
+ of phy->dev.of_node
+Date: Wed, 20 May 2026 16:21:24 +0200
+Message-ID: <3758596.1xdlsreqCQ@phil>
+In-Reply-To: <20260505100523.1922388-16-vladimir.oltean@nxp.com>
+References:
+ <20260505100523.1922388-1-vladimir.oltean@nxp.com>
+ <20260505100523.1922388-16-vladimir.oltean@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260519000732.2334711-2-hurryman2212@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, May 19, 2026 at 09:07:31AM +0900, Jihong Min wrote:
-> AMD Promontory 21 (PROM21) xHCI PCI functions use the common xhci-pci
-> core for USB operation, but also expose controller-specific sensor data.
-> Add a small PROM21 PCI glue driver for AMD 1022:43fc and 1022:43fd
-> controllers.
-> 
-> The glue delegates USB host operation to the common xhci-pci core and
-> publishes a "hwmon" auxiliary device with parent-provided MMIO data.
-> Auxiliary device creation failure is logged but does not fail the xHCI
-> probe.
-> 
-> Make the PROM21 glue a hidden Kconfig tristate driven by the user-visible
-> SENSORS_PROM21_XHCI option. If sensor support is disabled, generic
-> xhci-pci binds PROM21 controllers normally. If sensor support is enabled,
-> the glue follows USB_XHCI_PCI.
-> 
-> This keeps the auxiliary device available for a modular sensor driver while
-> avoiding a built-in xhci-pci core handing PROM21 controllers to a glue
-> driver that is only available as a module during initramfs.
-> 
-> Assisted-by: Codex:gpt-5.5
-> Signed-off-by: Jihong Min <hurryman2212@gmail.com>
-> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> Tested-by: Yaroslav Isakov <yaroslav.isakov@gmail.com>
+Hi Vladimir,
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+Am Dienstag, 5. Mai 2026, 12:05:07 Mitteleurop=C3=A4ische Sommerzeit schrie=
+b Vladimir Oltean:
+> The dw_hdmi-rockchip driver validates pixel clock rates against the
+> HDMI PHY's internal clock provider on certain SoCs like RK3328.
+> This is currently achieved by dereferencing hdmi->phy->dev.of_node
+> to obtain the provider node, which violates the Generic PHY API's
+> encapsulation (the goal is for struct phy to be an opaque pointer
+> with a hidden definition, to be interacted with only using API
+> functions or NULL pointer checks, for the case where optional variants
+> of phy_get() did not find a PHY).
+>=20
+> Refactor dw_hdmi_rockchip_bind() to perform a manual phandle lookup
+> on the "hdmi" PHY index within the controller's DT node. This provides
+> a parallel path to the clock provider's OF node without relying on the
+> internal structure of the struct phy handle.
+>=20
+> Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
+> Reviewed-by: Heiko Stueber <heiko@sntech.de>
 
-The two patches should be applied together. For now I will assume that
-they will both be applied through a usb tree since this patch touches
-common usb code.
+there is now already more stuff depending on this change [0], and
+the change itself also is sort of independent of the whole
+phy-series. And somehow this series itself sadly hasn't gotten
+much review yet.
 
-Thanks,
-Guenter
+So would you be ok with me just picking this one patch for the
+drm-misc-tree?
+
+
+Thanks
+Heiko
+
+[0] https://lore.kernel.org/dri-devel/20260518193748.2482823-1-jonas@kwiboo=
+=2Ese/
+
+
