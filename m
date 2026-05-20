@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4C83EE1FA;
-	Wed, 20 May 2026 17:43:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4F32701C4;
+	Wed, 20 May 2026 18:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779299038; cv=none; b=uFi3NvD6RYuv6sn+jTp80HLJkLuKfM6xHd6o+Mln4gNqpmorDs+1FlzQRn/aqxFCEkNv2yCw6m/hjk7tugKdS0IU0eBUOMfA8Q7z++McMaeiceT950OziEAX7tdMRBu0Tj49I7ZQszegmiViTNx0QOFiBXlJswdmnzu6qGiRz5A=
+	t=1779303538; cv=none; b=XRUAvRA7r8baIvOIiH/I09tw2S6LPD6vrpA4Ag/CGaJwn8dovxlr5Idjaz/jWvvRKVjcWO8eyURc0Vq5C/3Df8qHYHYruk+HJV2zaoD/+1Tstjr3mssbvix/qpaFvlCzWiG3b2ysxwuE6BvFr1dXVUWHD5NHmK1+4iOHCZw+WGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779299038; c=relaxed/simple;
-	bh=HmbzItfoBNw9pRHaQ4Z+zDtSvsx6AuIEaW7Ov5R+vFs=;
+	s=arc-20240116; t=1779303538; c=relaxed/simple;
+	bh=tQ2CvlZD5E4G/EoOu8BkHnDUHVLY01kjEqytn+FSuns=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dLN4hHYVo0JLOrSgMnw9Btqj2GLzivCs+xE+4wJ+Qwb2sseoAKBjkpTZs2+hOO5SWAo6vaL2mcplFndN7+QQwBVv6fGC+m9BJDuCedhyuuPGK2z4C++Z6RVRYki5vg4H7xFHxTTZU3BJOBmqyAFFKa/KvLhtpbcKmHggDWK5HY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DA99Mr0a; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=RmreU9yv4a2jTlvmyry3CQRjY/N5pR05puGfbT5E6AnySJnxu5LOkqMSgVX0lLFhXYAMQ7VRoZ52iC4XvKKM9mKLvfCvxvKKvBTcuO9fblRsHBo+NB9yOez+VYe3tYa3SEAF7zEm82OoPkQ1ckojd0qi5JQskjyUfDusTBKzfGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C3HYJyk5; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DA99Mr0a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C3HYJyk5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779299037; x=1810835037;
+  t=1779303536; x=1810839536;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HmbzItfoBNw9pRHaQ4Z+zDtSvsx6AuIEaW7Ov5R+vFs=;
-  b=DA99Mr0av5ZAisYcOEaFv5QrJBKpMzJbVNoNLEN77+4Rydylwg2wGV4o
-   LP17rZ+tdzRhUQ/82meqfG0Fb50EZEtlaEY0HGCFPZeiavtdTRyvPDOiF
-   /kj70j40egz/1On0Z3q2K9RtUiZ3EG59Yk37pKsTOlJdH0RlryCUEz11w
-   KCYdbNvhc+5tCET4bTMSWanvw21tlNdgNB5ytNp28GXomcKnxTawxnHrv
-   m91CXYbz/LCav80CUrVKpYOmX+P8LkMWPsM1NiK+/wxKjhSZLEafyriIK
-   /G0mmdProDpbSAWVoQkXYaQDlQf6Gauuokoij+BeWOrOetSqf8jqafXJ5
-   A==;
-X-CSE-ConnectionGUID: mV6aRw06QSe+l7/GxjVgnw==
-X-CSE-MsgGUID: IiUVJVs6TySnXTxeEmxgcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="90784892"
+  bh=tQ2CvlZD5E4G/EoOu8BkHnDUHVLY01kjEqytn+FSuns=;
+  b=C3HYJyk5dFAc9JhyKoKizc2jNJtGx7EbUguzC1w8k12vNu0TIuz7WiSN
+   uO5BYrCRn5QFsxa77yB/cYVFebtzHR/V92qz+1T//1HcMp1kb8df64ZZP
+   16JQbeJHwrjXmlQyRrkjDVPkYVi7x/J6yIOIbBbCZvnmIO2+IDW9h8gfk
+   1NdORTciKRxIMtoR5y7qKZwRVVIWhvWYc9wHHU6tjuDODmkZLPGehiZO8
+   710EuOJ1ggprxZFg/J6Cjsjb7woR1HHAplC4GcpJ7Wl8ang+eoyzulhgP
+   cHHfOADuC8DklEzSJsc06K0rvRVR/scCcedHOAMgbDrZiqXOAv62JDOpk
+   g==;
+X-CSE-ConnectionGUID: VcLrXReVQ4+h+H7nXwotiA==
+X-CSE-MsgGUID: wShn7LAdS42JWRWl/JqqSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11792"; a="80332753"
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="90784892"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 10:43:57 -0700
-X-CSE-ConnectionGUID: 0RuTxDY6T6C4TrX8UPnXYw==
-X-CSE-MsgGUID: vAvB2vGvQe+79Z8PTXhRJw==
+   d="scan'208";a="80332753"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 11:58:55 -0700
+X-CSE-ConnectionGUID: 96T3v6E8Td+OA/16PJLZpg==
+X-CSE-MsgGUID: fJPfPjFAScC0AyDkCDgYUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="264063058"
+   d="scan'208";a="245266532"
 Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 20 May 2026 10:43:54 -0700
+  by orviesa005.jf.intel.com with ESMTP; 20 May 2026 11:58:54 -0700
 Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wPkx3-000000003d7-2eTq;
-	Wed, 20 May 2026 17:43:33 +0000
-Date: Thu, 21 May 2026 01:42:32 +0800
+	id 1wPm7l-000000003jh-4AQk;
+	Wed, 20 May 2026 18:58:38 +0000
+Date: Thu, 21 May 2026 02:57:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: Johan Hovold <johan@kernel.org>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
@@ -56,7 +56,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	stable@vger.kernel.org
 Subject: Re: [PATCH] USB: serial: keyspan: fix missing indat transfer sanity
  check
-Message-ID: <202605210121.M2IibKiB-lkp@intel.com>
+Message-ID: <202605210249.xpCIgp3t-lkp@intel.com>
 References: <20260520101230.657426-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -83,18 +83,18 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Johan-Hovold/USB-serial-k
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
 patch link:    https://lore.kernel.org/r/20260520101230.657426-1-johan%40kernel.org
 patch subject: [PATCH] USB: serial: keyspan: fix missing indat transfer sanity check
-config: i386-buildonly-randconfig-006-20260520 (https://download.01.org/0day-ci/archive/20260521/202605210121.M2IibKiB-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210121.M2IibKiB-lkp@intel.com/reproduce)
+config: arm-randconfig-002-20260520 (https://download.01.org/0day-ci/archive/20260521/202605210249.xpCIgp3t-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260521/202605210249.xpCIgp3t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605210121.M2IibKiB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605210249.xpCIgp3t-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/usb/serial/keyspan.c:1189:25: error: incompatible pointer types passing 'struct usb_device **' to parameter of type 'const struct device *' [-Werror,-Wincompatible-pointer-types]
+>> drivers/usb/serial/keyspan.c:1189:25: error: incompatible pointer types passing 'struct usb_device **' to parameter of type 'const struct device *' [-Wincompatible-pointer-types]
     1189 |                         dev_warn_ratelimited(&serial->dev, "malformed indat packet\n");
          |                                              ^~~~~~~~~~~~
    include/linux/dev_printk.h:227:34: note: expanded from macro 'dev_warn_ratelimited'
@@ -109,8 +109,8 @@ All errors (new ones prefixed by >>):
    include/linux/dev_printk.h:110:11: note: expanded from macro 'dev_printk_index_wrap'
      110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
          |                         ^~~
-   include/linux/dev_printk.h:89:37: note: passing argument to parameter 'dev' here
-      89 | void _dev_warn(const struct device *dev, const char *fmt, ...)
+   include/linux/dev_printk.h:52:37: note: passing argument to parameter 'dev' here
+      52 | void _dev_warn(const struct device *dev, const char *fmt, ...);
          |                                     ^
    1 error generated.
 
