@@ -1,81 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0483CF698;
-	Wed, 20 May 2026 10:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95973CFF7E;
+	Wed, 20 May 2026 10:13:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779271843; cv=none; b=o66h7zjzvPT9Rq0n3VHnzgQieQ/lB/lOp3YC27zRpOCJtRAeWI/KXcas3cL6+Y9dIHemY9Odjuxy9l1n+f1au/BU8dtgs/y2DZdFJdP8iiWLTHxb0RJh90KnLN4DuhrUXmRKlubMFvruqxD6/WfB6GnUMq/gqHxTFOiTSgLn/LY=
+	t=1779271987; cv=none; b=hi2kvh1P2HKAnZhIz2QHv5VQzwtFYzRyVQERH59pQDidi7dd1V15CGjN07J3BYopnm3JOrGZ1RAyof5QvIzdZFtr492GAg0UCC/1N6gH76YlZYK+KweHaFResEiMNNZLxQ5S20QOvOwoSSVZiDCh1qCjztY1bGhzuO6lTm2ShJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779271843; c=relaxed/simple;
-	bh=9rf5xI/LSY3mpzTc4ymTgZJNBGfWV1XBPKgNpf2TFkI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k7l1kG0XxWQapuVJOjj4wzcAE+EBxQFChPqR37G/blhxM0pudY2kngIf3Pgmm2pQ4mkHKxJnDU0Xrnldb5yBTy9UIyWsRMPb6BSjlW1EM1Xaa8yrx708rzCQ89Shizm/T9F7tTG3BIDY0urmIc+uU4zUtw9UJtPtV2dvMY6oac4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9P93Xdn; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1779271987; c=relaxed/simple;
+	bh=+5WIfa1cTbG74ah2/gMk5Y5G5l9wp7C7p78BaSEI0cg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VpHWVUv9HNQuYrM6Yee2DAx1C+fmLgtms/jJe/9zWKRjjBhwKSDFZaiOqvp29OAoOQfah433VDs75lq/k36OlI4EGowgIDenEKpoRwrVgBAPKKDwQ/QzVVz+MtwMLoslSYpNMXGUDkV/w14j3Y7yLwA9HG/4sxVtZ6dJ0SemY78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ob1nUAAM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9P93Xdn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779271842; x=1810807842;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9rf5xI/LSY3mpzTc4ymTgZJNBGfWV1XBPKgNpf2TFkI=;
-  b=K9P93XdneJH5SD57nEgM9JN2dkYYg6BnSRBxqEZvvwzpbEQY3IoZwOjk
-   7DduDrRsj39ea1H5t6M8Pz8DZVyQ68bROzQZwtUfIQTC5dUOVTm6CnNxo
-   7ULyUGsCpwcGOmwWFVxQGj6wOx/xKZNinz01lx22UYY8EGQIzw+5oh1c5
-   diDU2RIvLubuGpbzh+Aldf5fWaQVIU+TvOq+2nB7VWX8RpOwwBUGDJHjK
-   GhekJ2BP94LopAE6WNP3U95nwC+YW/nJwAG9rBtXGVDbHfKzog54LLtF6
-   Tw3Bf30jPd6YT8gclq2/gzXytCe3rvcw4IlU1Amckyww8o9C5KBeg6dKw
-   A==;
-X-CSE-ConnectionGUID: qEla3xbbQNGVYhsFQOIprQ==
-X-CSE-MsgGUID: 1hUzCnZwR/GEfunLbFj/Gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80129800"
-X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="80129800"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 03:10:42 -0700
-X-CSE-ConnectionGUID: cmyXyow/SjegDpx8iAQEKA==
-X-CSE-MsgGUID: FvH+TCduQd+R4kJG4Ix0Gg==
-X-ExtLoop1: 1
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa003.fm.intel.com with ESMTP; 20 May 2026 03:10:39 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id A0A0A95; Wed, 20 May 2026 12:10:38 +0200 (CEST)
-Date: Wed, 20 May 2026 12:10:38 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	usb4-upstream@oss.qualcomm.com,
-	Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v4 0/4] Prepwork for non-PCIe NHI/TBT hosts
-Message-ID: <20260520101038.GE8580@black.igk.intel.com>
-References: <20260515-topic-usb4_nonpcie_prepwork-v4-0-5c818378243e@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ob1nUAAM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54D811F00893;
+	Wed, 20 May 2026 10:13:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779271986;
+	bh=vS4iz4rZse6XbTnPwVMgqalS3oYcI+kt6rMOGfXvAjs=;
+	h=From:To:Cc:Subject:Date;
+	b=Ob1nUAAM+KQ1hwg6M2mwhwC86hzivP3nRZa2oGKfXIDh64Ymh+yznMV+Xh79h3oKF
+	 qMnVmb7+IxkZcyRsDEcdxs23jp7g+GcI+RtFNUt7KQiETrg2z7cbHdtF2GnX5DVnwq
+	 ySdOnxMZ9VABie/5kYLD2lvLD0lkrUzIQn8V3BE5eAQjNxMIKDRCKy3jOzGdQY1q7l
+	 3HrNbX6YzKIDfEJr8G7CbIozuRlzbA4/Pefru/hiNGmPXNzlBxh/klCpCaNEkcuaOx
+	 Z8CFAmCuIxopnZM2++NiN2XbxE/FXNVlCTMhDLgM8I2SPXffwg+bXOfJ7Se5/cz3Hl
+	 1k09Q4qcOK2zA==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1wPdvD-00000002l2Q-37nQ;
+	Wed, 20 May 2026 12:13:03 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] USB: serial: keyspan: fix missing indat transfer sanity check
+Date: Wed, 20 May 2026 12:12:30 +0200
+Message-ID: <20260520101230.657426-1-johan@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260515-topic-usb4_nonpcie_prepwork-v4-0-5c818378243e@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Konrad,
+Add the missing sanity check on the size of usa49wg indat transfers to
+avoid parsing stale or uninitialised slab data.
 
-On Fri, May 15, 2026 at 02:38:40PM +0200, Konrad Dybcio wrote:
-> Konrad Dybcio (4):
->       thunderbolt: Move pci_device out of tb_nhi
->       thunderbolt: Separate out common NHI bits
->       thunderbolt: Require nhi->ops be valid
->       thunderbolt: Add some more descriptive probe error messages
+Fixes: 0ca1268e109a ("USB Serial Keyspan: add support for USA-49WG & USA-28XG")
+Cc: stable@vger.kernel.org	# 2.6.23
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/keyspan.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I was about to apply this one it does not apply anymore on top of my
-thunderbolt.git/next. Can you rebase this on top of the latest next branch?
+diff --git a/drivers/usb/serial/keyspan.c b/drivers/usb/serial/keyspan.c
+index 46448843541a..a267bc51afc1 100644
+--- a/drivers/usb/serial/keyspan.c
++++ b/drivers/usb/serial/keyspan.c
+@@ -1187,6 +1187,10 @@ static void usa49wg_indat_callback(struct urb *urb)
+ 	len = 0;
+ 
+ 	while (i < urb->actual_length) {
++		if (urb->actual_length - i < 3) {
++			dev_warn_ratelimited(&serial->dev, "malformed indat packet\n");
++			break;
++		}
+ 
+ 		/* Check port number from message */
+ 		if (data[i] >= serial->num_ports) {
+-- 
+2.53.0
 
-Thanks!
