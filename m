@@ -1,77 +1,116 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA307367B9C
-	for <linux-usb@vger.kernel.org>; Wed, 20 May 2026 05:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29314367B9C
+	for <linux-usb@vger.kernel.org>; Wed, 20 May 2026 05:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779256254; cv=none; b=m7kQjTKQVHHQVglNrcJ/5aiEe6Auc/bSEPD0cVKKwGKtHA1KF68t0MpeuM8vsOCCSfW7cJPZlBxbkc2A3TRb+7kOLuuTOxaOh/DTuIYwrtdCe/l9OwKFXAjo4yVsRRKp1xQ+1msqVrbqzFZhNP1qvWHSnhd1RQk27759CozW0Ps=
+	t=1779256776; cv=none; b=e3Lbra6MTeL8/IgmqgZBeuX6m3TTOUpyyWMF27ODdUxP2t8BNIiX0820STN5c2E3K2XzvObP8ooNTjUmkPJ5v3NOZwz8sAzZhYJ6W5ZBH8zh6A2CbaaOGlUnu+zxkS8eTflhyqX8qXx/dPlQKLCxFfy06y+UUAyJmFI+tmErQNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779256254; c=relaxed/simple;
-	bh=34zoeXYOQMAyz0sUm+wTvo9m/RGNFZNFta+kssNuHyM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=j2ers6M9XfbxrxCHwOfDgzxBjPLsZejGc/TV7QhCHsS2VvgBXCrLhI/L+Oi3vVJK/hZ9kAn6AMHtk41DUJmfERk4mEe+1MG4I+F4PMJ0R31vVs5dedxQ41FRAhwyHxdhFqnNuhIYwP/NztBbOComkO0hYp4FBhNXhMH5+qS4/vU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=FBi/szF0; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1779256776; c=relaxed/simple;
+	bh=2f5OUImFmuhrF3x72G+LTN7IOvpnkhPV9gMr4mx2qz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IeuhsjieR3YVu5h8z7X9wzVC64RF+3cSMO5EzhDwTCzWhdcDUhhQmgYKAsQZB0rNMMuOpjBf8wPMnRPYgTbX+6iBghV+2JVuozXOr9yX1jdgbq2yTX8XMTPI4VbXrkq9PD9Ldb8CGtMzQ/VwdyjFym9K6mYb+C4RPwkT9FzfCp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kkyu4WRZ; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="FBi/szF0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Up
-	dldvFTk6SpbygcKlhzXEyvZXB46w/pbf1wxNPRjCo=; b=FBi/szF06UbjdU5ozh
-	YW27xd3Dm4oL85NbtpJLwaMe3tv7qOjIkLYeURY4wfICdnmAIYQwZUS2tg664D18
-	YUMCOFaQBM6bR6TjZK/P0v3/mMOROd8FishrgjnNEQfU/zOzr8oy9LBq3qn0KaRM
-	CC+qjDBW5l7u1qB0hki+39xeA=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wDX35KhSw1qOsK3CQ--.4561S2;
-	Wed, 20 May 2026 13:50:25 +0800 (CST)
-From: Shuping Bu <bushuping007@163.com>
-To: Thinh.Nguyen@synopsys.com
-Cc: GregKH@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	Shuping Bu <bushuping007@163.com>
-Subject: [PATCH] usb: dwc3: core: Fix incorrect kernel-doc comment for dwc3_alloc_event_buffers
-Date: Wed, 20 May 2026 13:50:23 +0800
-Message-Id: <20260520055023.2415635-1-bushuping007@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kkyu4WRZ"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4585a116a4aso3614447f8f.3
+        for <linux-usb@vger.kernel.org>; Tue, 19 May 2026 22:59:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779256773; x=1779861573; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Gnm8zcvKAshSvXmnApGnkudHEo/9J/+vPZuXibcqvww=;
+        b=kkyu4WRZQ2nLjW3vWF5k9Kk6/hKNxy1pPtUBwEjAbSNWTxkhdnzPExnESg0z648AhO
+         rGjFlqWgTfmygyQSJ2z9+ehGFyrBm3B9lk66q/tzL3irvaufJ6zBynqLrxKBzBUc0Je/
+         fUbLw/JsCDkTioM7bqZ7dxtcNBl04o+4uZZGYDR2F1nb+NMpHKAz26egctEpsrXHsZfA
+         LM5/JNGbvJW3dPvHyari0c1waaWKJAFBiBBUOLBcB4Cz6y72Hv+BiCNzx7t0Hpomnazk
+         CQjJIKKPxSsbOZzzxo+t+NyCnvsn+hsZ90KkpTUSem0sQB/HTqTzHGoNdKzg58mE12GG
+         VTFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779256773; x=1779861573;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Gnm8zcvKAshSvXmnApGnkudHEo/9J/+vPZuXibcqvww=;
+        b=eco+NCAJX6Ro1R6rjBca+Bh5beQ8FhE6Pno3Ll1abeBdacGlu61W7z8JjSRSnCQxkU
+         lXKs4f+zQFq9IEEFNwEKJpgbYhhGnNCYAyvqLwC1etrwF1spEwTNiCi3+cIAIjLsew7C
+         v9sAYQTR+Y25HALxPmjWxkfMNIkpQR3yfUO/1h9pGZUMeBvdQru84LNBBUCIwf/V7FQ6
+         sYqtX7EWSD/awpwTweBF7/YbWb5kS9tgCXWEB2+rGAzvgtWsX1XlcNknplzcuiRN3N8F
+         qB7BRq7Dk5Uef3dsgCgtPEikUH4xVDClRbJEx/5sr1c7KnP83B8MvWNZfzLaM+hQX38q
+         5H9A==
+X-Forwarded-Encrypted: i=1; AFNElJ/XDI3nb3GrZxKNfFRhMHYI4Bc7NHUKsarlqkPTtBCLImgvz927aWvEv4y6PUhdj/H6mzyhr48ikxk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQ5hfI3gfT1oN87fOGpELTpf+0xn7y65sLZ0gjwdMHOSv8J+LB
+	v/jiC6GD6xJQmTmZvl51vlKRjY10BwSAY3WNh5orA+PUG/taVN32fnlh
+X-Gm-Gg: Acq92OE18sFCRvhdiDj0pS/O301jaa6/2iMpwtFTm+vGxWamp2P3qW6JorSiNyP6QaV
+	fAEqhuARFj5KbTYZ0WoRSndJLYDVBvdeeaDdInGYGuAGbDHHVTrFpTS2rt+2CbWjkOc4uqKg1YR
+	RHbTonkjJk5svQ6UclPqOYmcd5DWN4JEdMbUtcD8Yj1vkpPSInQ9TLd3j23lHcjzA6q/yfJjQW+
+	zCAn4BNAriKSieNIOqbvsasmJrkJyTQloBr0Cj0KDjLG4jCxUDbeIp3yMOgXsMo4Hy1wbC/NpC2
+	w96fWX5u9pQAxwpvc0AQQoZj55tOVX1hTTelDRu+HbQvY4niZyj92f/ytQf9gHFXL9gco/YTnAU
+	MTaSExsq/CK+QNTQXf2v+S6BTMIsrIxi+QTwQ/C8qBrGoUjBXgNoCuRTLOOGXmzDmbPbaz/9LeN
+	eVgvLeUlZO1gk6KVsifZR1w3Q=
+X-Received: by 2002:adf:fa85:0:b0:45e:739c:f186 with SMTP id ffacd0b85a97d-45e739cf80dmr17301878f8f.20.1779256773468;
+        Tue, 19 May 2026 22:59:33 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0a17a22sm51207565f8f.22.2026.05.19.22.59.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 22:59:32 -0700 (PDT)
+Date: Wed, 20 May 2026 08:59:28 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Paul Zimmerman <Paul.Zimmerman@synopsys.com>
+Cc: Minas Harutyunyan <hminas@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] usb: dwc2: Fix use after free in debug code
+Message-ID: <ag1NwBpqT4IEQcdJ@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDX35KhSw1qOsK3CQ--.4561S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZF4DJF1Duw15WFWUtry8Grg_yoWDJwcEk3
-	4vgrZ7u398JrW7tryjyayaqry29w45Zw109F1qqrW5JFWayw4Fvwn2grW5J3y7AFsrJr1q
-	9r4vqF48uw42gjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sR_g4S5UUUUU==
-X-CM-SenderInfo: xexvx3pslqwiiqx6il2tof0z/xtbC0gLYjWoNS6JVOwAA3l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-The kernel-doc comment for dwc3_alloc_event_buffers states that the
-function "Allocates @num event buffers", but the function does not have
-a @num parameter and only allocates a single event buffer.
+We're not allowed to dereference "urb" after calling
+usb_hcd_giveback_urb() so save the urb->status ahead of time.
 
-Remove the misleading "@num" reference from the brief description to
-accurately reflect the function's behavior.
-
-Signed-off-by: Shuping Bu <bushuping007@163.com>
+Fixes: 7359d482eb4d ("staging: HCD files for the DWC2 driver")
+Signed-off-by: Dan Carpenter <error27@gmail.com>
 ---
- drivers/usb/dwc3/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/dwc2/hcd.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 65213896de99..a2587f9f0bb8 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -525,7 +525,7 @@ static void dwc3_free_event_buffers(struct dwc3 *dwc)
- }
+diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
+index 1a763ad4f721..2414291aa908 100644
+--- a/drivers/usb/dwc2/hcd.c
++++ b/drivers/usb/dwc2/hcd.c
+@@ -4804,6 +4804,7 @@ static int _dwc2_hcd_urb_dequeue(struct usb_hcd *hcd, struct urb *urb,
+ 	struct dwc2_hsotg *hsotg = dwc2_hcd_to_hsotg(hcd);
+ 	int rc;
+ 	unsigned long flags;
++	int urb_status;
  
- /**
-- * dwc3_alloc_event_buffers - Allocates @num event buffers of size @length
-+ * dwc3_alloc_event_buffers - Allocate one event buffer of size @length
-  * @dwc: pointer to our controller context structure
-  * @length: size of event buffer
-  *
+ 	dev_dbg(hsotg->dev, "DWC OTG HCD URB Dequeue\n");
+ 	dwc2_dump_urb_info(hcd, urb, "urb_dequeue");
+@@ -4828,11 +4829,12 @@ static int _dwc2_hcd_urb_dequeue(struct usb_hcd *hcd, struct urb *urb,
+ 
+ 	/* Higher layer software sets URB status */
+ 	spin_unlock(&hsotg->lock);
++	urb_status = urb->status;
+ 	usb_hcd_giveback_urb(hcd, urb, status);
+ 	spin_lock(&hsotg->lock);
+ 
+ 	dev_dbg(hsotg->dev, "Called usb_hcd_giveback_urb()\n");
+-	dev_dbg(hsotg->dev, "  urb->status = %d\n", urb->status);
++	dev_dbg(hsotg->dev, "  urb->status = %d\n", urb_status);
+ out:
+ 	spin_unlock_irqrestore(&hsotg->lock, flags);
+ 
 -- 
-2.25.1
+2.53.0
 
