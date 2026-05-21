@@ -1,163 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCE833AD9D;
-	Thu, 21 May 2026 07:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0792394797;
+	Thu, 21 May 2026 07:57:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779349654; cv=none; b=uSQedzPZLql+UK2Fc31IH4Md9PnbGQRLFVSiujLl02n66Bk2rpmm0O2kKgY4X+HdQ0S5OjHsXLNNI6McUKw9r4Lk33dTYKLZk3ZlBX8VBi23QiMgoNCT52EVqJVIzZ9eGkpiu6uW36HVGjlBio4/rAL03nWevD071LL69Wkl7zM=
+	t=1779350256; cv=none; b=QLHHeaWdbHWe0SUoe8l2DijftvfrUWdDwtaKCxU1t6uMSm9uPH/zSiWtmhlOrM+dptG6nSBmYXw2K3poDOK8MUngG+8KGbstnH13jc+EptcMNRE2eDMJ30OzowMDjKMxeJLMdRbBuoMgoccQ1MqKLGiPr+zM/pfkWIqWSP8cjAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779349654; c=relaxed/simple;
-	bh=uF97CAtH11NgQX2cMKMa/FkrzejTk64QapAv+7JBuig=;
+	s=arc-20240116; t=1779350256; c=relaxed/simple;
+	bh=5hO25DUJG6mwcnjP+pjR1h+Md4D27CyTmWx2zvii7A4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o4RNJm9M9jhq2VGke9HnziKQ6cQdo2krh3H5CeqIXsuUpYeIHovh1FP0UkQmwCuUGbrJIrDLP1X99bVc7KQYXq5D1eeDyxEyTt5j3SuuFFd/6HeLgjzvCuVidJe6giHaCH2oeGittRRKJacmkiUHf1tqeKEVH0IQGrYsddz45NE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lnVHFdnu; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=oWV/3a82wxNim8pe8E6VhELJufJE82tozlo1JZlm/zaPO9eWLA3uR4HUOAwWUQ5ku2FIp9FzyuiOGhI23JuMUxt137jZDQRdCtYtPjbqPPpAO5VL6y5C3wgv9L8LDjpxd0V5GYSYNBHZfZyXS+NuGxfFvfSqejVO+buv4NKGdaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RE6UtIGk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lnVHFdnu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16D8C1F00A3B;
-	Thu, 21 May 2026 07:47:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RE6UtIGk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA0411F000E9;
+	Thu, 21 May 2026 07:57:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779349652;
-	bh=UczfSrk2FCod7H4rifpa1n/f+nsCfH/NDhquQgw9qmA=;
+	s=k20260515; t=1779350253;
+	bh=1ilj7z8ofPWGWebTNTtjk4KCvHEDsKj0rq19QhruntQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lnVHFdnu4MxoKkNgwK7y8HGU3d4DYUs+ji4ZleQUFnc7lWrFEDHl1CvxyDjdXpvgT
-	 HlnlNlFw1CQJGU4CFlK9lKXlg2BKtXCogvJzTjYP7G3AAFoqpOzNAKV5fMtUdbFfBX
-	 nhAmOBBIl9WhjiX3HqlhL1J0mtoa1LPqB1stBsH9a1oNOXiK09uHryvqmCGyaZHGUp
-	 HxYt8eE2J1iTPLWK8onPq+B79CD00dCDAvTCQEsUzlmt28kAk9Tk82+RogLNXDjd1s
-	 BdKNotWIoG5SDfjfSx8/ZcBPmf/kArJ294dCiuHk4Z9UdDQdIRaH/dsTGUrYdG1RLG
-	 +ccFkeS4sY5Rg==
-Date: Thu, 21 May 2026 09:47:29 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Rob Clark <robin.clark@oss.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
-	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
-	Marijn Suijten <marijn.suijten@somainline.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Pengyu Luo <mitltlatltl@gmail.com>, Nikita Travkin <nikita@trvn.ru>, 
-	Yongxing Mou <yongxing.mou@oss.qualcomm.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH RESEND v3 1/6] drm/connector: report IRQ_HPD events to
- drm_connector_oob_hotplug_event()
-Message-ID: <20260521-funny-astonishing-mackerel-cc5a01@penduick>
-References: <20260513-hpd-irq-events-v3-0-086857017f16@oss.qualcomm.com>
- <20260513-hpd-irq-events-v3-1-086857017f16@oss.qualcomm.com>
+	b=RE6UtIGkL7d8d45iMMPh1Pc2VX0lbgT7fb4gK2JL8uv0X+ZAsZyCjENzl/w4UfugV
+	 NcnWmGKo5Hl2aX58BkVbce0hHb7HWcqL7pVQAy1Sia4xv/+hpWZdRnjZ899vZ9dgn9
+	 n2w+rkTvHsHzNlYOe7QsQytm0+kHBnE7rnLuYtDrUG6Djg2C/RKQu4QPuetWCK/+hb
+	 fkfEcCO4n1xg79YQfJWghqVG9ZoQrW0hAEgOc3faAAnsUD1ug+CEZgtWr9MJEASi49
+	 kf1Mm6uRwFrPOi7W1dstRoHdQOitRyYzWLVILbeBqvZwij77aJa6jgRI3C7eKLExVJ
+	 sdZE8RoD+MhQA==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1wPyHb-00000003Njt-2RYQ;
+	Thu, 21 May 2026 09:57:31 +0200
+Date: Thu, 21 May 2026 09:57:31 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Jan Volckaert <janvolck@gmail.com>
+Cc: bjorn@mork.no, gregkh@linuxfoundation.org, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] USB: serial: option: add MeiG SRM813Q
+Message-ID: <ag666-b99LGqWPQ5@hovoldconsulting.com>
+References: <af3nDLa1A1JcTftq@hovoldconsulting.com>
+ <20260517153237.55995-1-janvolck@gmail.com>
+ <20260517153237.55995-3-janvolck@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="uipgpe3pv2bnp7vq"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260513-hpd-irq-events-v3-1-086857017f16@oss.qualcomm.com>
+In-Reply-To: <20260517153237.55995-3-janvolck@gmail.com>
 
+On Sun, May 17, 2026 at 05:32:37PM +0200, Jan Volckaert wrote:
+> Add support for the Qualcomm Technology Snapdragon X35-based MeiG SRM813Q module.
+> 
+> The module can be put in different modes via AT commands to enable/disable GPS functionality:
 
---uipgpe3pv2bnp7vq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RESEND v3 1/6] drm/connector: report IRQ_HPD events to
- drm_connector_oob_hotplug_event()
-MIME-Version: 1.0
+In the future, remember to wrap the commit messages at 72 columns or so.
 
-On Wed, May 13, 2026 at 09:23:21PM +0300, Dmitry Baryshkov wrote:
-> The DisplayPort standard defines a special kind of events called IRQ.
-> These events are used to notify DP Source about the events on the Sink
-> side. It is extremely important for DP MST handling, where the MST
-> events are reported through this IRQ.
->=20
-> In case of the USB-C DP AltMode there is no actual HPD pulse, but the
-> events are ported through the bits in the AltMode VDOs.
->=20
-> Extend the drm_connector_oob_hotplug_event() interface and report IRQ
-> events to the DisplayPort Sink drivers.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/drm_connector.c          |  5 ++++-
->  drivers/usb/typec/altmodes/displayport.c | 15 +++++++++++----
->  include/drm/drm_connector.h              | 19 ++++++++++++++++++-
->  3 files changed, 33 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 47dc53c4a738..edee9daccd51 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -3510,6 +3510,8 @@ struct drm_connector *drm_connector_find_by_fwnode(=
-struct fwnode_handle *fwnode)
->   * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to=
- connector
->   * @connector_fwnode: fwnode_handle to report the event on
->   * @status: hot plug detect logical state
-> + * @extra_status: additional information provided by the sink without ch=
-anging
-> + * the HPD state (or in addition to such a change).
->   *
->   * On some hardware a hotplug event notification may come from outside t=
-he display
->   * driver / device. An example of this is some USB Type-C setups where t=
-he hardware
-> @@ -3520,7 +3522,8 @@ struct drm_connector *drm_connector_find_by_fwnode(=
-struct fwnode_handle *fwnode)
->   * a drm_connector reference through calling drm_connector_find_by_fwnod=
-e().
->   */
->  void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwn=
-ode,
-> -				     enum drm_connector_status status)
-> +				     enum drm_connector_status status,
-> +				     enum drm_connector_status_extra extra_status)
->  {
->  	struct drm_connector *connector;
-> =20
-> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec=
-/altmodes/displayport.c
-> index 35d9c3086990..7182a8e2e710 100644
-> --- a/drivers/usb/typec/altmodes/displayport.c
-> +++ b/drivers/usb/typec/altmodes/displayport.c
-> @@ -189,7 +189,9 @@ static int dp_altmode_status_update(struct dp_altmode=
- *dp)
->  	} else {
->  		drm_connector_oob_hotplug_event(dp->connector_fwnode,
->  						hpd ? connector_status_connected :
-> -						      connector_status_disconnected);
-> +						      connector_status_disconnected,
-> +						(hpd && irq_hpd) ? DRM_CONNECTOR_DP_IRQ_HPD :
-> +								   DRM_CONNECTOR_NO_EXTRA_STATUS);
+> Signed-off-by: Jan Volckaert <janvolck@gmail.com>
 
-Since the extra status itself, and what the options mean, are DP specific, =
-do we really want to
-extend drm_connector_oob_hotplug_event()? I think I'd prefer to have a DP s=
-pecific variant, with its
-own set of parameters.
+Now applied, thanks.
 
-Maxime
-
---uipgpe3pv2bnp7vq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCag64iQAKCRAnX84Zoj2+
-dhJzAYClCMH5nftN7lNJDSZByXRPwo/xO31PTF3adTcKyfMtvVmon8CIoheOgyRx
-VwxpLvMBf0dr9uwFTrG2lPtQTFNmHOzXDF1ujEGuM3hWzigGtwt7xylrgcMlpE1b
-f9c6Uo1BbQ==
-=SGa3
------END PGP SIGNATURE-----
-
---uipgpe3pv2bnp7vq--
+Johan
