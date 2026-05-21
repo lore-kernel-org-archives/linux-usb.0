@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D4A314D21;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BC51D432D;
 	Thu, 21 May 2026 08:00:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779350427; cv=none; b=p9glU1b6VkqyabvoUymXQGLO6Pwk7LhGZ62SL9EY1bGD3jM2QpVplyVDKRf2Ia/3nnugkahBirW3i49My2woYxGL5d9eExVpgx+vh20/0zIONsQIKnhJ9/wAU18K2/erWdxgPfdREvajG7rsgDL1AizShOFghqL+043BYNnHNiM=
+	t=1779350427; cv=none; b=lwl9FP4ollBJd2ay1IwByWlrTEyL53j011MAHaEDIfUS9mjhNPanQjtCjlrtSo6TAzUwYSvm0MqJoaSQtt98ZX9e1aZgRb53aqEi/Ye/h/lDB5v7egw9EX1tQ0itBFISrCzbu30bFCMiiDhd36h3DpMwNYbU3ic+5glQ4hD8JcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779350427; c=relaxed/simple;
-	bh=7b9b+neL/Qk+olLAH66ucc7yKPUy5mho34W07ooG694=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DfzNHyVDOwCUkWg88Y/JwT/C/X/Fa+wg8w3Mq0mmGT6j58KDJEI60D3q1D4Bgvnhk9Rgef4AETXX8YL0MvbvDMOBTxlW3GrybdeeoqDy44gmJjYhHou2HpmUoQzQMYDDNra+QnTicxTSMURSgd7a+gPOjbZEl/R0jT4Ey0k95Sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jgbASl/4; arc=none smtp.client-ip=10.30.226.201
+	bh=30DopE8A0+MuAJawRPhY3T0K2+zbu52aiZ71gD+Krpc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=X7AM8KHAYOYK6XBRw5qteI1onHUNZyd7nMeDV3zF7YvKQXIRYdLobgCgxENHOH3r0jqJD7Pt0URggHnzB80uMEAiqfgXJ0oBRE3YVRLZOE7joGShmGrMHG50IHDft77AC2Jj/372PZTzCuz0WITqcYV7OKSamZfTFbfbpYQ0mL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nuixDHT1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jgbASl/4"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E53D5C2BCB9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nuixDHT1"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D80A0C2BCB4;
 	Thu, 21 May 2026 08:00:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779350427;
-	bh=7b9b+neL/Qk+olLAH66ucc7yKPUy5mho34W07ooG694=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=jgbASl/4vwqHQTFzB201neSQjKaAImyyhSU7R/jeYe9TLm5PGBb6/b1D9m8xDHhp7
-	 QcIjIG7ZjzaNEyTTaxGBfdgjJ7lOmHYPZEHrMAI3ViDK5JzbU3hAVbnpHDfTqjFoi3
-	 yEL0VjYh8I+f/MmVLyiEqIVjP8dGXJQ+IYJ5e2+ChiMf2jFslgUvoG/z+oTapoNNn6
-	 BK+noRgTVizzrf2kJ3xn24BmQJCLQ+uUh1BqAAX0IBGdQG5QGCWl3RmcmfWuTunnKg
-	 KIp4QEjYTUGG644Es3uB4KY9N760MKf2nmk8ZPAMmhdRY3JE2mbpl/thq/Ez+sxf8Q
-	 EZI9G4gIC7Z3Q==
+	s=k20201202; t=1779350426;
+	bh=30DopE8A0+MuAJawRPhY3T0K2+zbu52aiZ71gD+Krpc=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=nuixDHT1/uSAaGdJSZC5c0CMS85i/ysc/nvT83+MHuO+GSwTLCI9kPWuHKF0iYS5t
+	 rOmmSSxAZ5mgI2Y/PtweT9bTIt3FXoSm9IVVoxwkvD+dILph2MVW+6xNhRXcn0M9m8
+	 bis6+vuoiwuYAIfvzNC6ggSfg5jOtCj8N2gpDkrIPp9uPfmfL68YAiYME/VzCAd30j
+	 7gyeVPP2jgielu3bDyJGOsXfphgbyb5ERNVAIlCWJLKVHaO4j9kJ9boeri8vPEdBAS
+	 Piw2eV8btk0c8S1nwiajDjSRMLw8+KXV0OWdeS9R0ZahOhxZJIaKHSEBrrWie2q41p
+	 UX98G7aEDZW8g==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCFEDCD5BAB;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E4BCD4F5E;
 	Thu, 21 May 2026 08:00:26 +0000 (UTC)
 From: Pawel Laszczak via B4 Relay <devnull+pawell.cadence.com@kernel.org>
-Date: Thu, 21 May 2026 10:16:23 +0200
-Subject: [PATCH v9 1/2] dt-bindings: usb: cdns3: Add cdns,cdnsp compatible
- string
+Subject: [PATCH v9 0/2] usb: cdns3: support configurations without DRD
+ block
+Date: Thu, 21 May 2026 10:16:22 +0200
+Message-Id: <20260521-no_drd_config_v9-v9-0-2512cef10104@cadence.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,21 +41,23 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260521-no_drd_config_v9-v9-1-2512cef10104@cadence.com>
-References: <20260521-no_drd_config_v9-v9-0-2512cef10104@cadence.com>
-In-Reply-To: <20260521-no_drd_config_v9-v9-0-2512cef10104@cadence.com>
+X-B4-Tracking: v=1; b=H4sIAFa/DmoC/yXMSwqAIBRA0a3EGyfYF2wrEeLnVa+BhlYE0d6zG
+ p7BvRdEDIQRuuyCgAdF8i5B5BmYWbkJGdlkKHnZ8qYQzHlpg5XGu5EmeQimRdFopeoKNYeUrQF
+ HOr9lP/yOu17QbO8H7vsBGdalR3QAAAA=
+X-Change-ID: 20260519-no_drd_config_v9-b915baa43eb0
 To: Peter Chen <peter.chen@kernel.org>, Roger Quadros <rogerq@kernel.org>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>
 Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Pawel Laszczak <pawell@cadence.com>
+ linux-kernel@vger.kernel.org, Pawel Laszczak <pawell@cadence.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>, kernel test robot <lkp@intel.com>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779351391; l=5213;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779351391; l=4730;
  i=pawell@cadence.com; h=from:subject:message-id;
- bh=aEGYxRlbH6so/Rcq6gM9uAtHD2TdYB9lVfqtKa4oDlw=;
- b=IrBb9TgdEMIWe9ygOquRluhb9IAOubXzcm5bnJidU/3DOEklleMP/Q5g6rZviQf1JX51lTgDn
- F3561MxwDYXD6Fj6YsKH2KF6RmBmk9eBkgSlo5JyYrmKLJUiZUuKU+A
+ bh=30DopE8A0+MuAJawRPhY3T0K2+zbu52aiZ71gD+Krpc=;
+ b=xppJ9QL6VhG7iLIKEfM5jdYn/SXDJLlCR+xnSokRv1ppemfH8hJTXv/HlHeVvpu6N4jcxq3E4
+ xBu2K1/+hiDCOUMPgb7vMmNPgcOZeDVfICkB7OEKOvnf7492CnfROg1
 X-Developer-Key: i=pawell@cadence.com; a=ed25519;
  pk=EUPBvLO9CDg7j6defeDl2iqi+z5Ivqu4Z46aiqe7dYc=
 X-Endpoint-Received: by B4 Relay for pawell@cadence.com/default with
@@ -63,49 +65,56 @@ X-Endpoint-Received: by B4 Relay for pawell@cadence.com/default with
 X-Original-From: Pawel Laszczak <pawell@cadence.com>
 Reply-To: pawell@cadence.com
 
-From: Pawel Laszczak <pawell@cadence.com>
+This series adds support for Cadence USBSSP controllers in hardware
+layouts where the Dual-Role Device (DRD) register block is either
+missing or inaccessible.
 
-Introduce a new generic fallback compatible string 'cdns,cdnsp' for
-Cadence USBSSP controllers to support hardware configurations where
-the Dual-Role Device (DRD) register block is missing or inaccessible.
+In such configurations, the controller is hardwired to a single role
+(either host or device) and the driver must skip all OTG/DRD register
+accesses to avoid bus errors or incorrect role detection.
 
-Following the maintainer's feedback, avoid generic property-like naming
-(such as "-no-drd") and use a clean generic fallback. To keep the schema
-resource-driven and strictly validated, define a two-string compatible
-matrix using an empty schema ({}) wildcard. This allows future vendor
-SoC compatibles to be prepended while safely falling back to the 2-resource
-USBSSP configuration.
-
-When 'cdns,cdnsp' is matched:
-- The 'otg' register and interrupt resources are not required.
-- The 'reg' and 'interrupts' properties are restricted to 2 items
-  (host and device).
-- 'dr_mode' must be explicitly set to either 'host' or 'peripheral'.
-
-The standard 'cdns,usb3' compatible remains unchanged, maintaining
-backward compatibility by requiring all 3 resource sets (otg, host, dev).
+The solution introduces a new 'cdns,cdnsp' compatible string
+that can be passed via DT or software nodes.
+When set, the driver:
+1. Skips DRD register mapping and IRQ requests.
+2. Uses a different BAR indexing logic for PCI-based configurations
+   (32-bit addressing layout).
+3. Hardwires the role based on 'dr_mode'.
 
 Signed-off-by: Pawel Laszczak <pawell@cadence.com>
 ---
+Note: This series is based on current linux-next. I am aware of Peter
+Chen's recent refactoring series ("usb: cdns3: plat: Expose platform
+core driver as library"). Although there is a minor conflict in
+cdns3-plat.c, Peter has already provided an Acked-by for this version.
+I am happy to provide a rebased v10 as soon as Peter's changes land in
+linux-next if required.
+---
 v9:
-- Dropped the "cdns,cdnsp-no-drd" string to avoid generic property-like
+- Dropped the "cdns,cdnsp-no-drd" string to avoid generic property-like 
   naming as requested by Conor.
-- Introduced the clean generic fallback "cdns,cdnsp".
+- Introduced the clean generic fallback "cdns,cdnsp"
+- Updated the patch description and commit message to reflect the new naming.
 
 v8:
 - Update commit message to reflect schema changes.
 - Removed 'cdns,no-drd' boolean property as per Rob Herring's suggestion.
 - Introduced a new compatible string 'cdns,cdnsp-no-drd' for controller
   variants that lack the DRD/OTG register block.
+- Use 'cdns,cdnsp-no-drd' compatible string to trigger no-DRD logic.
+- Update PCI glue layer to inject the new compatible string.
 
 v7:
-- Rename 'no_drd' to 'cdns,no-drd'.
+- Rename 'no_drd' to 'cdns,no-drd' (added vendor prefix).
 - Update commit message to reflect property renaming and schema changes.
-- Simplify 'reg-names' using a single enum.
-- Revert 'interrupt-names' to a list of constants.
-- Move 'reg' item descriptions to if/else blocks for accuracy.
-- Clean up 'if/then' logic (remove redundant checks).
+- Simplify 'reg-names' using a single enum for items.
+- Revert 'interrupt-names' to a list of constants for strict ordering.
+- Move 'reg' item descriptions to if/else blocks for better accuracy.
+- Clean up 'if' logic (remove redundant 'true' check and 'dr_mode'
+  requirement).
 - Add explicit 'items' list for 'interrupt-names' in the 'else' block.
+- Fix "uninitialized variable" warning in cdns_drd_host_on() by
+  initializing 'ret' to 0.
 
 v6:
 - Fixed validation error for 'interrupt-names' by correcting
@@ -123,108 +132,45 @@ v5:
 - Updated 'reg-names' and 'interrupt-names' to use enums in the main
   properties section to support flexible resource ordering during
   validation.
+
+v4:
+  - Added DT binding documentation for the 'no_drd' property.
+  - Relaxed 'reg' and 'interrupts' requirements in the DT schema (minItems 2)
+    to allow configurations where the OTG/DRD register block is missing.
+  - Moved PCI_DEVICE_ID_CDNS_UDC_USBSSP from pci_ids.h to cdnsp-pci.c
+    to keep the global PCI ID list clean.
+
+v3:
+  - Improved descriptions and comments for better clarity.
+  - Introduced the 'no_drd' property to indicate missing DRD register block.
+  - Added support for fixed host-only and device-only configurations.
+  - Ensured cdns_otg_disable_irq is called only when no_drd is false.
+  - Updated cdns_drd_gadget_on/off to ensure PHY mode is correctly
+    handled even if DRD is disabled.
+
+v2:
+  - Changed otg_irq to be optional.
+  - Added cdns->no_drd check in cdns_power_is_lost.
+  - Added cdns->no_drd check in cdns_get_id.
+
 ---
----
+Pawel Laszczak (2):
+      dt-bindings: usb: cdns3: Add cdns,cdnsp compatible string
+      usb: cdnsp: Add support for device-only configuration
+
  .../devicetree/bindings/usb/cdns,usb3.yaml         | 63 ++++++++++++++++++----
- 1 file changed, 53 insertions(+), 10 deletions(-)
+ drivers/usb/cdns3/cdns3-plat.c                     | 30 +++++++----
+ drivers/usb/cdns3/cdnsp-pci.c                      | 48 +++++++++++++----
+ drivers/usb/cdns3/core.c                           |  3 +-
+ drivers/usb/cdns3/core.h                           |  4 ++
+ drivers/usb/cdns3/drd.c                            | 45 ++++++++++++++--
+ 6 files changed, 159 insertions(+), 34 deletions(-)
+---
+base-commit: 80dd246accce631c328ea43294e53b2b2dd2aa32
+change-id: 20260519-no_drd_config_v9-b915baa43eb0
 
-diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-index 2d95fb7321af..e8082c5c05a2 100644
---- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-+++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-@@ -17,22 +17,24 @@ description:
- 
- properties:
-   compatible:
--    const: cdns,usb3
-+    oneOf:
-+      - const: cdns,usb3
-+      - items:
-+          - {}
-+          - const: cdns,cdnsp
- 
-   reg:
--    items:
--      - description: OTG controller registers
--      - description: XHCI Host controller registers
--      - description: DEVICE controller registers
-+    minItems: 2
-+    maxItems: 3
- 
-   reg-names:
-+    minItems: 2
-+    maxItems: 3
-     items:
--      - const: otg
--      - const: xhci
--      - const: dev
-+      enum: [ otg, xhci, dev ]
- 
-   interrupts:
--    minItems: 3
-+    minItems: 2
-     items:
-       - description: XHCI host controller interrupt
-       - description: Device controller interrupt
-@@ -41,7 +43,7 @@ properties:
-                      cleared by xhci core, this interrupt is optional
- 
-   interrupt-names:
--    minItems: 3
-+    minItems: 2
-     items:
-       - const: host
-       - const: peripheral
-@@ -93,6 +95,47 @@ allOf:
-   - $ref: usb-drd.yaml#
-   - $ref: usb-xhci.yaml#
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: cdns,cdnsp
-+    then:
-+      properties:
-+        reg:
-+          items:
-+            - description: XHCI Host controller registers
-+            - description: DEVICE controller registers
-+        reg-names:
-+          items:
-+            - const: xhci
-+            - const: dev
-+        interrupts:
-+          maxItems: 2
-+        interrupt-names:
-+          items:
-+            - const: host
-+            - const: peripheral
-+        dr_mode:
-+          enum: [host, peripheral]
-+    else:
-+      properties:
-+        reg:
-+          items:
-+            - description: OTG controller registers
-+            - description: XHCI Host controller registers
-+            - description: DEVICE controller registers
-+        reg-names:
-+          items:
-+            - const: otg
-+            - const: xhci
-+            - const: dev
-+        interrupts:
-+          minItems: 3
-+          maxItems: 4
-+        interrupt-names:
-+          minItems: 3
-+
- unevaluatedProperties: false
- 
- examples:
-
--- 
-2.43.0
+Best regards,
+--  
+Pawel Laszczak <pawell@cadence.com>
 
 
