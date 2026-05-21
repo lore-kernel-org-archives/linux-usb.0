@@ -1,143 +1,230 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E235523D297
-	for <linux-usb@vger.kernel.org>; Thu, 21 May 2026 07:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D4A314D21;
+	Thu, 21 May 2026 08:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779350356; cv=none; b=L8ILyZDhrJ6h2zEFiewOOlMFLyPvujjTk7KrWSmcAddk87wP3OV1AW+doHvw0NRNXCQi4lGt08TRj8tl0GOymtL1HdbqBmjucWOhyK5oSJ+gmG52F/0AzrD3LNhqZh6rXqY2vORAo0ov4+i2ebzKNHRMd3LKNbYYpAAC2iexuSU=
+	t=1779350427; cv=none; b=p9glU1b6VkqyabvoUymXQGLO6Pwk7LhGZ62SL9EY1bGD3jM2QpVplyVDKRf2Ia/3nnugkahBirW3i49My2woYxGL5d9eExVpgx+vh20/0zIONsQIKnhJ9/wAU18K2/erWdxgPfdREvajG7rsgDL1AizShOFghqL+043BYNnHNiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779350356; c=relaxed/simple;
-	bh=/1x4coy+EhRxr4G74Byh3jOJGsE6QncBFV+p/Hi25m4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LXIXQA3/ZP9cA/oQAYe5gH129q0rw876uudJNrBwB0z5KqCPI3ayaaaP/yJvMTg97+0F3dKFDlMPFcqKnuTa0OwMjOnnwJxgduY3rRa92N+xlw9uObsggUfHBN0sb1nMHmkbs2nDgpGtWRr4BRD30+MyU2d56DeDM1xPvk3TnPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tCpNOv5A; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779350427; c=relaxed/simple;
+	bh=7b9b+neL/Qk+olLAH66ucc7yKPUy5mho34W07ooG694=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=DfzNHyVDOwCUkWg88Y/JwT/C/X/Fa+wg8w3Mq0mmGT6j58KDJEI60D3q1D4Bgvnhk9Rgef4AETXX8YL0MvbvDMOBTxlW3GrybdeeoqDy44gmJjYhHou2HpmUoQzQMYDDNra+QnTicxTSMURSgd7a+gPOjbZEl/R0jT4Ey0k95Sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jgbASl/4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tCpNOv5A"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488ab2db91aso60496995e9.3
-        for <linux-usb@vger.kernel.org>; Thu, 21 May 2026 00:59:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779350352; x=1779955152; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RfHyghQkuGkWqA8eUzVzPKJ2kyI5blFU5Z3V4gExrrw=;
-        b=tCpNOv5A8HdCnQTC2YO6ZmPUIap2OWuVg6KtEdVlpXcpKiO/YpeIEsNE09QOC0vPcp
-         mbkj5o0ucQMdZBIgSSBrhyC/5QY7B47hG7LDVU9TFDXSzpHKknB4pvMZaTz13AtS7g8D
-         BDej5suWOmQEY1V2jTm/nLuzsxDmemRcGY3F3BsoCEQm3TZqKL7//xBS/cYch4hNkR+L
-         s3pr2Vw+4nE0uzPECzfz3ZBPiU7WNMyEj6Xu711+lGijH909MMqqhvwK7DJhjsS/BZfo
-         9CNxpVPVl792FLvzHh6sTfal8LBre/LuucO8+uBxwPHGogDvoGMGQWWey9guSQZqvaI8
-         OArw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779350352; x=1779955152;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RfHyghQkuGkWqA8eUzVzPKJ2kyI5blFU5Z3V4gExrrw=;
-        b=dgxtzMuNulMG7qWCryzzkZsEPEmqC5dH2Ap4PSXbXsfdNMJFoq46hxQc5ehao9dHE3
-         OInqUSkX4HC5RstvmC2A63+OOsec/dtn19TDcL7inzneEcKSFfDIwdeWrTDVEP2s+9I5
-         9yH1Q3M3XvyLx8qx2ltkCE8YrydSYybJwPaprwHYFspSVEffvdqdTzWsLvTJ2wOPYZsD
-         h8PMy2r+5Ii339cMZykcFrZylfz+Al8xUmenP/c1MD/gMRnOv5k8smp2LOXdJXhI0jKR
-         MaVtXoxCaF9JFRT08QNaVIvky6hHyhHzWoatio+7+qLJQjgo3hmql1l81la7Kc7GHnGN
-         6TVA==
-X-Forwarded-Encrypted: i=1; AFNElJ/ilrX35q97yGN+sUTFUCQqL98D/kOghVXfslEDOfvhq4fMwN4RNUt+3uJqrOnU+3SQ817PZFzxbug=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwJi2ARB9yNlABIJEAttBzsxdfq1uauXVE2Bhx6MVVRGypOgFJ
-	1xqxYV/YmYhxrLgUCwiU6Ji34ws1l1PfIwnf7TxOPT8XziLcc7hL3OQe
-X-Gm-Gg: Acq92OFlKWTlXP/qxOmvgkEyXj0bKGMRKbVSRTHI0xsvWojQGuG78mIH1Dyoc0ePc6E
-	h1qGpl8T7UDbB/v0Su/cwy3fVAmeM5VGTLcVcOf5A8dctsp4z8msXE1sp4Oq9HdjBLkTpp0j4RA
-	9qEbKVqydYdLcmJizPb3YF6/s8mTrIZ+n6nHDBUGRoUpaUGxwsU7Do4hAVraL9H3dVUHz3e4RJX
-	bdtUe+abBTG2+kzWUOreVjTXAn8RNuFXX2M0S1D0W1sDMyW01njZLGDzNCyYo27JWu29OyJSIua
-	rvwJtXIuoVYu5DXUlANABSmGMnQ4CNXEijgFGGWxEKuNJ+RhpYBl5eBkg9DEml8pBkbvHhM+E9V
-	4EW+y0I6q9JPe9GjdezvWtVJ4qVXGdsFYNiJ5qqKuKlll8s1gj/Vsl/eKflXSGKsFoyPTB9rXzu
-	o2xZNQtsCJbqwiWVyq51DsQHOwMlBiKfpBAvyY+EnfRqxR303C9BzG6C/pjAiYpb+ZGzZfXhjh+
-	AeFF3gOM73xBA==
-X-Received: by 2002:a05:600c:30d3:b0:48f:d612:3c59 with SMTP id 5b1f17b1804b1-4903605d86bmr12514805e9.9.1779350351689;
-        Thu, 21 May 2026 00:59:11 -0700 (PDT)
-Received: from orome (p200300e41f291e00f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f29:1e00:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490387d16basm5521255e9.35.2026.05.21.00.59.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 00:59:09 -0700 (PDT)
-Date: Thu, 21 May 2026 09:59:06 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Mathias Nyman <mathias.nyman@intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Lyude Paul <lyude@redhat.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Dmitry Osipenko <digetx@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-ide@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org, linux-usb@vger.kernel.org, 
-	Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH 6/9] usb: xhci: tegra: Explicitly specify PMC instance to
- use
-Message-ID: <ag67FStKnQcvNOrP@orome>
-References: <20260506-pmc-v1-0-a6de5da7216b@nvidia.com>
- <20260506-pmc-v1-6-a6de5da7216b@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jgbASl/4"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E53D5C2BCB9;
+	Thu, 21 May 2026 08:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779350427;
+	bh=7b9b+neL/Qk+olLAH66ucc7yKPUy5mho34W07ooG694=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=jgbASl/4vwqHQTFzB201neSQjKaAImyyhSU7R/jeYe9TLm5PGBb6/b1D9m8xDHhp7
+	 QcIjIG7ZjzaNEyTTaxGBfdgjJ7lOmHYPZEHrMAI3ViDK5JzbU3hAVbnpHDfTqjFoi3
+	 yEL0VjYh8I+f/MmVLyiEqIVjP8dGXJQ+IYJ5e2+ChiMf2jFslgUvoG/z+oTapoNNn6
+	 BK+noRgTVizzrf2kJ3xn24BmQJCLQ+uUh1BqAAX0IBGdQG5QGCWl3RmcmfWuTunnKg
+	 KIp4QEjYTUGG644Es3uB4KY9N760MKf2nmk8ZPAMmhdRY3JE2mbpl/thq/Ez+sxf8Q
+	 EZI9G4gIC7Z3Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCFEDCD5BAB;
+	Thu, 21 May 2026 08:00:26 +0000 (UTC)
+From: Pawel Laszczak via B4 Relay <devnull+pawell.cadence.com@kernel.org>
+Date: Thu, 21 May 2026 10:16:23 +0200
+Subject: [PATCH v9 1/2] dt-bindings: usb: cdns3: Add cdns,cdnsp compatible
+ string
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="o4bqtknoba4e2ooc"
-Content-Disposition: inline
-In-Reply-To: <20260506-pmc-v1-6-a6de5da7216b@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260521-no_drd_config_v9-v9-1-2512cef10104@cadence.com>
+References: <20260521-no_drd_config_v9-v9-0-2512cef10104@cadence.com>
+In-Reply-To: <20260521-no_drd_config_v9-v9-0-2512cef10104@cadence.com>
+To: Peter Chen <peter.chen@kernel.org>, Roger Quadros <rogerq@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Pawel Laszczak <pawell@cadence.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779351391; l=5213;
+ i=pawell@cadence.com; h=from:subject:message-id;
+ bh=aEGYxRlbH6so/Rcq6gM9uAtHD2TdYB9lVfqtKa4oDlw=;
+ b=IrBb9TgdEMIWe9ygOquRluhb9IAOubXzcm5bnJidU/3DOEklleMP/Q5g6rZviQf1JX51lTgDn
+ F3561MxwDYXD6Fj6YsKH2KF6RmBmk9eBkgSlo5JyYrmKLJUiZUuKU+A
+X-Developer-Key: i=pawell@cadence.com; a=ed25519;
+ pk=EUPBvLO9CDg7j6defeDl2iqi+z5Ivqu4Z46aiqe7dYc=
+X-Endpoint-Received: by B4 Relay for pawell@cadence.com/default with
+ auth_id=707
+X-Original-From: Pawel Laszczak <pawell@cadence.com>
+Reply-To: pawell@cadence.com
+
+From: Pawel Laszczak <pawell@cadence.com>
+
+Introduce a new generic fallback compatible string 'cdns,cdnsp' for
+Cadence USBSSP controllers to support hardware configurations where
+the Dual-Role Device (DRD) register block is missing or inaccessible.
+
+Following the maintainer's feedback, avoid generic property-like naming
+(such as "-no-drd") and use a clean generic fallback. To keep the schema
+resource-driven and strictly validated, define a two-string compatible
+matrix using an empty schema ({}) wildcard. This allows future vendor
+SoC compatibles to be prepended while safely falling back to the 2-resource
+USBSSP configuration.
+
+When 'cdns,cdnsp' is matched:
+- The 'otg' register and interrupt resources are not required.
+- The 'reg' and 'interrupts' properties are restricted to 2 items
+  (host and device).
+- 'dr_mode' must be explicitly set to either 'host' or 'peripheral'.
+
+The standard 'cdns,usb3' compatible remains unchanged, maintaining
+backward compatibility by requiring all 3 resource sets (otg, host, dev).
+
+Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+---
+v9:
+- Dropped the "cdns,cdnsp-no-drd" string to avoid generic property-like
+  naming as requested by Conor.
+- Introduced the clean generic fallback "cdns,cdnsp".
+
+v8:
+- Update commit message to reflect schema changes.
+- Removed 'cdns,no-drd' boolean property as per Rob Herring's suggestion.
+- Introduced a new compatible string 'cdns,cdnsp-no-drd' for controller
+  variants that lack the DRD/OTG register block.
+
+v7:
+- Rename 'no_drd' to 'cdns,no-drd'.
+- Update commit message to reflect property renaming and schema changes.
+- Simplify 'reg-names' using a single enum.
+- Revert 'interrupt-names' to a list of constants.
+- Move 'reg' item descriptions to if/else blocks for accuracy.
+- Clean up 'if/then' logic (remove redundant checks).
+- Add explicit 'items' list for 'interrupt-names' in the 'else' block.
+
+v6:
+- Fixed validation error for 'interrupt-names' by correcting
+  the items definition.
+- Adjusted 'minItems'/'maxItems' to properly support the optional
+ 'wakeup' interrupt.
+- Fixed 'too long' schema error in examples.
+
+v5:
+- Implemented strict conditional validation using if-then-else logic.
+- Enforced 2 register/interrupt items and required 'dr_mode'
+  (host or peripheral) when 'no_drd' is present.
+- Enforced the standard 3 register/interrupt items (otg, host, dev)
+  when 'no_drd' is absent to ensure backward compatibility.
+- Updated 'reg-names' and 'interrupt-names' to use enums in the main
+  properties section to support flexible resource ordering during
+  validation.
+---
+---
+ .../devicetree/bindings/usb/cdns,usb3.yaml         | 63 ++++++++++++++++++----
+ 1 file changed, 53 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+index 2d95fb7321af..e8082c5c05a2 100644
+--- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
++++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+@@ -17,22 +17,24 @@ description:
+ 
+ properties:
+   compatible:
+-    const: cdns,usb3
++    oneOf:
++      - const: cdns,usb3
++      - items:
++          - {}
++          - const: cdns,cdnsp
+ 
+   reg:
+-    items:
+-      - description: OTG controller registers
+-      - description: XHCI Host controller registers
+-      - description: DEVICE controller registers
++    minItems: 2
++    maxItems: 3
+ 
+   reg-names:
++    minItems: 2
++    maxItems: 3
+     items:
+-      - const: otg
+-      - const: xhci
+-      - const: dev
++      enum: [ otg, xhci, dev ]
+ 
+   interrupts:
+-    minItems: 3
++    minItems: 2
+     items:
+       - description: XHCI host controller interrupt
+       - description: Device controller interrupt
+@@ -41,7 +43,7 @@ properties:
+                      cleared by xhci core, this interrupt is optional
+ 
+   interrupt-names:
+-    minItems: 3
++    minItems: 2
+     items:
+       - const: host
+       - const: peripheral
+@@ -93,6 +95,47 @@ allOf:
+   - $ref: usb-drd.yaml#
+   - $ref: usb-xhci.yaml#
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: cdns,cdnsp
++    then:
++      properties:
++        reg:
++          items:
++            - description: XHCI Host controller registers
++            - description: DEVICE controller registers
++        reg-names:
++          items:
++            - const: xhci
++            - const: dev
++        interrupts:
++          maxItems: 2
++        interrupt-names:
++          items:
++            - const: host
++            - const: peripheral
++        dr_mode:
++          enum: [host, peripheral]
++    else:
++      properties:
++        reg:
++          items:
++            - description: OTG controller registers
++            - description: XHCI Host controller registers
++            - description: DEVICE controller registers
++        reg-names:
++          items:
++            - const: otg
++            - const: xhci
++            - const: dev
++        interrupts:
++          minItems: 3
++          maxItems: 4
++        interrupt-names:
++          minItems: 3
++
+ unevaluatedProperties: false
+ 
+ examples:
+
+-- 
+2.43.0
 
 
---o4bqtknoba4e2ooc
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 6/9] usb: xhci: tegra: Explicitly specify PMC instance to
- use
-MIME-Version: 1.0
-
-On Wed, May 06, 2026 at 03:41:57PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
->=20
-> Currently the kernel relies on a global variable to reference the PMC
-> context. Use an explicit lookup for the PMC and pass that to the public
-> PMC APIs.
->=20
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
-> ---
->  drivers/usb/host/xhci-tegra.c | 38 ++++++++++++++++++++++++++------------
->  1 file changed, 26 insertions(+), 12 deletions(-)
-
-Mathias, Greg,
-
-can you ack this so I can pick it up into the Tegra tree for simple
-dependency resolution?
-
-Thanks,
-Thierry
-
---o4bqtknoba4e2ooc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmoOu0oACgkQ3SOs138+
-s6HRkRAAqo5/UZ1fUVfF67PnLxU9m4v7JcLF4Ytf/Z7v087AEjfB1FXekO/SfEUl
-dvex3+uqG9CIaSIQtQ8rxWgfEyOZeFirJloIENzJtaXACdsld465AHpQKBNbI5xU
-/euNFiOwGTIgOHGhhxAIurS7F5Ag0WgWOTDN2uBlYGiDeuZShkW3Ek3M1WHSF2ey
-Ai6uDC6tf03sgZla9uXS+eOZHkVaTx9pRDE1oxxHHLMtwgfkkl9BEHKxJ4ZqTYk8
-6G5Bdz88LVtn4VWK2v/B+E6LiY5FJWuS2bM0PeRI2KpkB3F1jUy0rnC3OjdcMBjE
-zyezSJsdMXkgODfA1zpIjGaAWjJ/wkU3ptsQ2EHq2+uTAji5OBUP/fquL+uOI+xH
-WIHngd8r7BaBvygQpvVPl3YAC26qyRDmRqptWTXY/uISmcwmRZ6BaQTBsx1WOPmM
-mFdZE0rVwRSfMws0GpPu6Atz++gerVHz/2EAFKPrntor6zUjSTbF3B42XCtIwpyO
-T1Wmpfdvpt02fe1SjJvhkFCHzCv2sHvUqshC79KoN0gavq9732DOpJdn8aN8YTfe
-GK4ekoKpjRZr5MUhTWGmRL0wrDNysBgOur97daSMrtrJNs+s8wlXA+9CP9nyICzs
-2bbPfHWWQ78FiSSH8IOW/xAAFxM7aEh2UcHuajcX9pBLFwOnveo=
-=ByYw
------END PGP SIGNATURE-----
-
---o4bqtknoba4e2ooc--
