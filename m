@@ -1,224 +1,234 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mail-m32105.qiye.163.com (mail-m32105.qiye.163.com [220.197.32.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131153CC330
-	for <linux-usb@vger.kernel.org>; Thu, 21 May 2026 12:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694363CF05B;
+	Thu, 21 May 2026 12:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779365120; cv=none; b=Dq7cBRqnADfrJj+O0kl4nqsbp8ZBl+o0+r/mIZD7La0abe8vR0XAbf1/kSjAJV3AvGKLqAa8Ju1+Hqo5QRPLLIx6EMItVJdR1DrQOyUmP7pjDEjjmOKEakxnqCA3lurUEw0o6xhjvNk8EuIiK+KC7r/48X3F9eZTrh9EQy+54MU=
+	t=1779365884; cv=none; b=rDtfxm8aT7tq1NU1oH5t6STbVON2W6gOScm5nVgWZFe6l3z/5kJlrPTLGHs553a96Q0EKenqGSFBtoG0msgVwM35ApJywlig3l74c77/Wu3GMktIwF3m70UwDe/W4IoHKtWQ4LLcIPQbdVsckeHigP7Sc36oa91057vb8xNf5xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779365120; c=relaxed/simple;
-	bh=aDJZ/psOnxlQoTunQ0xGwmeeVaVR0FDflrKKkbX0p2c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h5qVWp0M8ZefX1Hwt9Top1mjLR6vMm9N9//k2n9dgjHwH9axPZJ6TfCnqMPv6BZMDb1xMg2OtQNgNv4n7aSVflwFzsrbfP04lvXTcbmarpD1MhAfILOY6Q9ZVr6Dv/Y3TYP4LqrjcTdUNOKe3yYBKsSuC6sfjRnqh0DBCrlO0Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ESUcJTqf; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Qd3TkkJI; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1779365884; c=relaxed/simple;
+	bh=veUnsT7Yklc7CMqWAZatKr6hpewVQiixmdr5NCtp/V4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C/niXgzBEPtwM3ruB9HdjiI8eh8kWQWOcskUhyF/HV9bv5zz+i/VhEYM6U06X9nZEvkPl7ieflHM4E/vbPeDRbXlNSOCkMrJCLoX8k7d0dyEqSTzfquJ437hTbXwTtcuWYmpvHPKFTCl2ONVVhpuU+Yyo0C9eWj7uy9CsjZtviw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=M53XU2q9; arc=none smtp.client-ip=220.197.32.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ESUcJTqf";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Qd3TkkJI"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64L99xfH2632696
-	for <linux-usb@vger.kernel.org>; Thu, 21 May 2026 12:05:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=pGY+j87eohBlWubIX+vUu3zL
-	xCM+uB8O9JAB1ecXkdM=; b=ESUcJTqfqAtQySEKLKp7KIRCaL9t+erTOvTDfYVG
-	fOBbLyDU9ErXoWLj4r4aG9s0cSsb8zoRyM1JEXHKMO58+5AlNlIqYhVm4fJDnyg1
-	cl2sJsIct0JQnB6xtZiA/nkLgshpE2ZJ2d8TMb2iE+jiPVc88/YLy+/uMALyWJcO
-	EFiCMzn/yB2f4Oj7+vhyZdRM7OScqDwli9yLV5lCf6V/2L0HFXQP/129g+4Vwob2
-	zmgClDrJK6DrYqqGGbrsnUTeIGoXHc4aGqrFVjT2e248jtLQepcXVGsiUmf9Vdb9
-	yl1pamahY+nuPtJOIFtAZJqeEnapAvzxGfzSceLlDVUI8g==
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com [209.85.160.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e9ee8cvnm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Thu, 21 May 2026 12:05:17 +0000 (GMT)
-Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-43a55fd90faso6607490fac.1
-        for <linux-usb@vger.kernel.org>; Thu, 21 May 2026 05:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1779365116; x=1779969916; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pGY+j87eohBlWubIX+vUu3zLxCM+uB8O9JAB1ecXkdM=;
-        b=Qd3TkkJIRKzZHlPVpj0MUejLYH5IWGx6iDlpJkwRRQOhmUSRaeqMjY03/QXxoyKyay
-         1ob05LXFRaORTHTNIVHh8Vk2wj8Ttw8Y7vkKNzq3mGFiJPBGp8T53w3FaXnElizmYU9S
-         OWG22ux9FLelOrYGCIX1cGDNO19BZBBTS18jdgCy9ZPNnjZpA/GbnoNSPulu08bEXTfx
-         /5our+DCWxdfQ6NzbEqm0wIsPLguVG8b8a8Xs+D5XXwWuWqJCTDH6uCCdgPNc4ZoZb2u
-         yVufo/uwmDyvYolgor/vKchEtuYnpavvR7sqhj02WutSF3ltJSi1AI+Tjg+SVQOWaoOp
-         Eoxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779365116; x=1779969916;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pGY+j87eohBlWubIX+vUu3zLxCM+uB8O9JAB1ecXkdM=;
-        b=khq5mMfyGDwKmeT5eOrS6qISgy+HuFthEr/LbbqSR+vmMZg/In59MV+WRNxSVYdapQ
-         HCxkBNQNi/zbF46RZ+PqQjEgjS2zip3TDcW6avWH0yf7W58CpCUalB7Pv1tKQb4oCSca
-         2m1pr2WJ8bS+G1OzENJ8GyvG4U86jm2vK68l4gu3ZamSBrzBtqF6aJIHjWMSAzdFEfG3
-         MI+LiY7RwBzKlK3NKQCx68gvPcZScMBlDIgX6sLgU9zvIbR/J7Lp5oS/cU0jRXyNRfat
-         2XUrmZzR26q892UxGdSGs46h6HjJM2iD5O1gg0VJIVY/PIHlQzMGn+0OXr4T5MISRlSt
-         WRCQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/MZFoWdQaVi+tFgqQIVSZJaMXOWj7cg/mBtLw8Ts0OFMNeZpUyq/hxnGU8soqBPFztTd8aN56PNyk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YznZCCdFKDb+avELFSfb+Jy/oUmCY7k+eJTQx9/TBs71YXow15p
-	Iu8J3npZtdKfQyrBtm1v8jvB9/UAOn5AMf1C7psISrXQwlWt+DbzE4J/+ihJzK2NgRQySccD9bA
-	LrqZZYJ9lTOH6rpsq+GOIexpXmIJeWt6fbevKy20pEcCSU6WseU7AP4WuKuOOv1w=
-X-Gm-Gg: Acq92OGMUF5N2kzGSulFSh9+WvpMOCCsFeX6DCDmpQuCUc35b6fIi3YJTqYbt51FV8w
-	eXpaMScGux1Q9noIK5ypyrkI1F8dN0rdsc2uoZUU/ieTJ+IhAIuSP9Z/kYfBhVvxcsihru3tgrF
-	mfRdJaEzxg7kb9xmY/pvcpGyvKR8w2bjGTLpG1nWNJs2SaEytM3Wboab9kZPl9ktfOW9wccfLrb
-	6gRcCVA79VDm91UuwQTeuepb/fc2Nf8u+DOVAnja2qA77Rq4roosLGuRf+8Q+vzYFZXZjxZ46+u
-	JCYVe0exXKQwWjJcnoQKCulgHBdeJI8wNbm1zm0Of11GQJXRsWcISjnPl2iqfrkcdWPjVaReOGV
-	WQPogqeRDgCufjYbSiSjTjp1OMbtxYpeQHvtig9HvUwLDAOBSNtUkxEftrZo6/D0ocicnyoXJz8
-	y+L0VyVzQudteB1JiW8PbaP0UOiX6o9XPhaJA=
-X-Received: by 2002:a05:6820:1348:b0:69b:bf80:2db5 with SMTP id 006d021491bc7-69d6ef409f7mr999575eaf.52.1779365116324;
-        Thu, 21 May 2026 05:05:16 -0700 (PDT)
-X-Received: by 2002:a05:6820:1348:b0:69b:bf80:2db5 with SMTP id 006d021491bc7-69d6ef409f7mr999560eaf.52.1779365115873;
-        Thu, 21 May 2026 05:05:15 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-395d0a107afsm2201901fa.16.2026.05.21.05.05.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 05:05:14 -0700 (PDT)
-Date: Thu, 21 May 2026 15:05:11 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Adrien Grassein <adrien.grassein@gmail.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rob Clark <robin.clark@oss.qualcomm.com>,
-        Dmitry Baryshkov <lumag@kernel.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Pengyu Luo <mitltlatltl@gmail.com>, Nikita Travkin <nikita@trvn.ru>,
-        Yongxing Mou <yongxing.mou@oss.qualcomm.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        intel-xe@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org
-Subject: Re: [PATCH RESEND v3 1/6] drm/connector: report IRQ_HPD events to
- drm_connector_oob_hotplug_event()
-Message-ID: <vpd5hyote5wspmlpad64kf5peoy5g7wv6c7xjn6ammcmjtai7r@q2tarmr5aoqn>
-References: <20260513-hpd-irq-events-v3-0-086857017f16@oss.qualcomm.com>
- <20260513-hpd-irq-events-v3-1-086857017f16@oss.qualcomm.com>
- <20260521-funny-astonishing-mackerel-cc5a01@penduick>
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="M53XU2q9"
+Received: from server001 (unknown [222.130.22.242])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 3f4cebaf7;
+	Thu, 21 May 2026 17:55:20 +0800 (GMT+08:00)
+From: Kefan Bai <baikefan@leap-io-kernel.com>
+To: linux-usb@vger.kernel.org,
+	si.yanteng@linux.dev
+Cc: gregkh@linuxfoundation.org,
+	seakeel@gmail.com,
+	alexs@kernel.org,
+	dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	doubled@leap-io-kernel.com
+Subject: [PATCH v7 3/8] docs/zh_CN: Add authorization.rst translation
+Date: Thu, 21 May 2026 17:55:08 +0800
+Message-ID: <81ba1ef4d22d6e5104614987b09dfce85af6ed0e.1779355170.git.baikefan@leap-io-kernel.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1779355170.git.baikefan@leap-io-kernel.com>
+References: <cover.1779355170.git.baikefan@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260521-funny-astonishing-mackerel-cc5a01@penduick>
-X-Proofpoint-ORIG-GUID: naiLGa5RoPXkz3jiOin-DJWUdl2-RMxK
-X-Authority-Analysis: v=2.4 cv=e5k2j6p/ c=1 sm=1 tr=0 ts=6a0ef4fd cx=c_pps
- a=CWtnpBpaoqyeOyNyJ5EW7Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
- a=mRF-X4ptvIx_UuOgb7IA:9 a=CjuIK1q_8ugA:10 a=vh23qwtRXIYOdz9xvnmn:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDEyMCBTYWx0ZWRfXxfLYnm0rDg/Z
- UhFOORi8gokwGgPUjanvG7xWOhKh5KBrAmXG/6NdBnLc4nictJ5EwuiiiW2XQ5sICzVr3wV42iZ
- FsFa5Zz3UVgSc9ruOSU19Fi86Ub6dDX3Tsm31FNmRJR2H74f03OORt7oDd1myt5E238hbmTGBfc
- R4Zzfa1C12PbCCQ8Sp/JNCQ1EtvRB38VamX+3PGkg4KT6GHZjMaAUFEDT0pu4V5KUVBFIJSwx9U
- mbfcWkiclKhSJMnhgZmSefWBxdwVaLTtlV1443U/Q/QeZq43uN9DRxgk11XroramEtc3vLFvDTy
- OtPmomWjL7LC599H/tb+S1b7lE2lkGBuWKENkEH/4vYzJvvaGVdFqvIVXAI8QPJaYHKPLCjHujx
- j1IlV4yi4oryUnAsEwllczv7mQEZxDD3+YO/K4WU4DDsRgyfNdZn0C486H4arYcVBBZmjTdhHaV
- HWiqpfJmyjZ9qemrSew==
-X-Proofpoint-GUID: naiLGa5RoPXkz3jiOin-DJWUdl2-RMxK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-21_02,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0
- adultscore=0 suspectscore=0 priorityscore=1501 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605210120
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9e49f605e809d5kunm49815c9e65c8c
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDTk8fVklPSEJOSkkYHklJGFYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSk
+	tISk5MTlVKS0tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=M53XU2q9tFRBHeyYsr2G7hO/+aQcP26IUdPdw9L/6H2y1kMEtFv0bbIqtGCEFOeps7R2bCtLtQ9hdV67zGnHatxgv/qba3dlRUrqX2ofXuDqz+VQq7BxuON7KZaxizDiuRWvdP8HZPnO9YcZecYsPKkpumSNKQoY18EJfm2kHfZr5zJhIURc+BxpwQkr2LmHn+Q19AKI1jVDWVSmsTYQvbd015zXzFo7wHUUg5hZ7uEZrifSNUCaXnpR7VwmkePa9tpXqPKZVpgVHfJA+tD4e/hW73dPYZ+ZGtJNsRfP8krm+SidnGXq/7Pbpfv2VSOlk9XSFG/4VI5A39Ecfol9hQ==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=eQoRmWzuyk8/hysgSJPGqhIcGniKRXzo/hmswwHYxOo=;
+	h=date:mime-version:subject:message-id:from;
 
-On Thu, May 21, 2026 at 09:47:29AM +0200, Maxime Ripard wrote:
-> On Wed, May 13, 2026 at 09:23:21PM +0300, Dmitry Baryshkov wrote:
-> > The DisplayPort standard defines a special kind of events called IRQ.
-> > These events are used to notify DP Source about the events on the Sink
-> > side. It is extremely important for DP MST handling, where the MST
-> > events are reported through this IRQ.
-> > 
-> > In case of the USB-C DP AltMode there is no actual HPD pulse, but the
-> > events are ported through the bits in the AltMode VDOs.
-> > 
-> > Extend the drm_connector_oob_hotplug_event() interface and report IRQ
-> > events to the DisplayPort Sink drivers.
-> > 
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
-> >  drivers/gpu/drm/drm_connector.c          |  5 ++++-
-> >  drivers/usb/typec/altmodes/displayport.c | 15 +++++++++++----
-> >  include/drm/drm_connector.h              | 19 ++++++++++++++++++-
-> >  3 files changed, 33 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> > index 47dc53c4a738..edee9daccd51 100644
-> > --- a/drivers/gpu/drm/drm_connector.c
-> > +++ b/drivers/gpu/drm/drm_connector.c
-> > @@ -3510,6 +3510,8 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
-> >   * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to connector
-> >   * @connector_fwnode: fwnode_handle to report the event on
-> >   * @status: hot plug detect logical state
-> > + * @extra_status: additional information provided by the sink without changing
-> > + * the HPD state (or in addition to such a change).
-> >   *
-> >   * On some hardware a hotplug event notification may come from outside the display
-> >   * driver / device. An example of this is some USB Type-C setups where the hardware
-> > @@ -3520,7 +3522,8 @@ struct drm_connector *drm_connector_find_by_fwnode(struct fwnode_handle *fwnode)
-> >   * a drm_connector reference through calling drm_connector_find_by_fwnode().
-> >   */
-> >  void drm_connector_oob_hotplug_event(struct fwnode_handle *connector_fwnode,
-> > -				     enum drm_connector_status status)
-> > +				     enum drm_connector_status status,
-> > +				     enum drm_connector_status_extra extra_status)
-> >  {
-> >  	struct drm_connector *connector;
-> >  
-> > diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-> > index 35d9c3086990..7182a8e2e710 100644
-> > --- a/drivers/usb/typec/altmodes/displayport.c
-> > +++ b/drivers/usb/typec/altmodes/displayport.c
-> > @@ -189,7 +189,9 @@ static int dp_altmode_status_update(struct dp_altmode *dp)
-> >  	} else {
-> >  		drm_connector_oob_hotplug_event(dp->connector_fwnode,
-> >  						hpd ? connector_status_connected :
-> > -						      connector_status_disconnected);
-> > +						      connector_status_disconnected,
-> > +						(hpd && irq_hpd) ? DRM_CONNECTOR_DP_IRQ_HPD :
-> > +								   DRM_CONNECTOR_NO_EXTRA_STATUS);
-> 
-> Since the extra status itself, and what the options mean, are DP specific, do we really want to
-> extend drm_connector_oob_hotplug_event()? I think I'd prefer to have a DP specific variant, with its
-> own set of parameters.
+Translate .../usb/authorization.rst into Chinese
 
-I can try arguing that drm_connector_oob_hotplug_event() is DP-specific,
-there are no other users for it, only the DP AltMode driver.
+Update the translation through commit f176638af476
+("USB: Remove Wireless USB and UWB documentation")
 
-Anyway, do you just mean new API here or new API and a new connector
-callback?
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
+Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
+---
+ .../translations/zh_CN/usb/authorization.rst  | 139 ++++++++++++++++++
+ .../translations/zh_CN/usb/index.rst          |   2 +-
+ 2 files changed, 140 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/usb/authorization.rst
 
--- 
-With best wishes
-Dmitry
+diff --git a/Documentation/translations/zh_CN/usb/authorization.rst b/Documentation/translations/zh_CN/usb/authorization.rst
+new file mode 100644
+index 000000000000..2aa311f6b967
+--- /dev/null
++++ b/Documentation/translations/zh_CN/usb/authorization.rst
+@@ -0,0 +1,139 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/usb/authorization.rst
++
++:翻译:
++
++ 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
++
++:校译:
++
++
++=============================
++授权或禁止 USB 设备连接到系统
++=============================
++
++版权 (C) 2007 Inaky Perez-Gonzalez
++<inaky@linux.intel.com> 英特尔公司
++
++此功能允许你控制 USB 设备是否可以在系统中使用。
++借助它，你可以完全通过用户空间实现对 USB 设备的锁定。
++
++目前，当插入一个 USB 设备时，系统会对其进行配置，
++其接口会立即向用户开放。
++有了这项改动，只有在 root 授权设备完成配置后，
++设备才可被使用。
++
++
++用法
++====
++
++授权设备接入::
++
++	$ echo 1 > /sys/bus/usb/devices/DEVICE/authorized
++
++取消对设备的授权::
++
++	$ echo 0 > /sys/bus/usb/devices/DEVICE/authorized
++
++将新连接到 ``hostX`` 的设备默认设为未授权（即锁定）::
++
++	$ echo 0 > /sys/bus/usb/devices/usbX/authorized_default
++
++解除锁定::
++
++	$ echo 1 > /sys/bus/usb/devices/usbX/authorized_default
++
++默认情况下，所有 USB 设备都是授权的。
++向 ``authorized_default`` 属性写入 ``2`` 会使内核
++默认只授权连接到内部 USB 端口的设备。
++
++系统锁定示例（比较粗糙）
++------------------------
++
++假设你想实现一个锁定功能，只允许类型为 XYZ 的设备接入
++（例如某台带有外露 USB 端口的自助服务终端）::
++
++  启动系统
++  rc.local ->
++
++   for host in /sys/bus/usb/devices/usb*
++   do
++      echo 0 > $host/authorized_default
++   done
++
++给 udev 挂一个脚本，用于处理新插入的 USB 设备::
++
++ if device_is_my_type $DEV
++ then
++   echo 1 > $device_path/authorized
++ done
++
++
++``device_is_my_type()`` 才是锁定方案真正见功夫的
++地方。仅仅检查 class、type 和 protocol 是否匹配
++某个值，是你能做出的最糟糕的安全验证之一；
++对想绕过它的人来说，这反而是最容易利用的方案。
++如果你需要真正安全的办法，那就该使用加密、
++证书认证之类的机制。把 USB 存储设备当作
++“钥匙”的一个简单例子可以是::
++
++ function device_is_my_type()
++ {
++   echo 1 > authorized		# 暂时授权它
++                                # FIXME: 确保没人能挂载它
++   mount DEVICENODE /mntpoint
++   sum=$(md5sum /mntpoint/.signature)
++   if [ $sum = $(cat /etc/lockdown/keysum) ]
++   then
++        echo "We are good, connected"
++        umount /mntpoint
++        # 再做一些额外处理，让其他人也能使用它
++   else
++        echo 0 > authorized
++   fi
++ }
++
++
++当然，这个例子很粗糙；真正要做的话，
++你会想用基于 PKI 的证书校验，这样就不必依赖
++共享密钥之类的东西。不过你应该已经明白意思了。
++任何拿到设备仿真工具包的人都能伪造描述符和设备信息。
++别信这个。
++
++接口授权
++--------
++
++也有类似的方法用于允许或拒绝特定 USB 接口。
++这使得你可以只阻止某个 USB 设备中的部分接口。
++
++授权接口::
++
++	$ echo 1 > /sys/bus/usb/devices/INTERFACE/authorized
++
++取消接口授权::
++
++	$ echo 0 > /sys/bus/usb/devices/INTERFACE/authorized
++
++也可以更改特定 USB 总线上新接口的默认授权值。
++
++默认允许接口::
++
++	$ echo 1 > /sys/bus/usb/devices/usbX/interface_authorized_default
++
++默认拒绝接口::
++
++	$ echo 0 > /sys/bus/usb/devices/usbX/interface_authorized_default
++
++默认情况下，
++``interface_authorized_default`` 位为 ``1``，
++因此所有接口默认都处于已授权状态。
++
++注意：
++  如果把一个先前未授权的接口改为已授权，
++  则必须通过将 ``INTERFACE`` 写入 ``/sys/bus/usb/drivers_probe``
++  来手动触发驱动探测。
++
++对于需要多个接口的驱动程序，应先授权所有必需接口，
++然后再触发驱动探测。这样做可以避免副作用。
+diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
+index 686e5b0a9384..3480966fee19 100644
+--- a/Documentation/translations/zh_CN/usb/index.rst
++++ b/Documentation/translations/zh_CN/usb/index.rst
+@@ -18,10 +18,10 @@ USB 支持
+     :maxdepth: 1
+
+     acm
++    authorization
+
+ Todolist:
+
+-* authorization
+ * chipidea
+ * dwc3
+ * ehci
+--
+2.54.0
+
