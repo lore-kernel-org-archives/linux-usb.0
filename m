@@ -1,24 +1,24 @@
-Received: from mail-m4921.qiye.163.com (mail-m4921.qiye.163.com [45.254.49.21])
+Received: from mail-m19731109.qiye.163.com (mail-m19731109.qiye.163.com [220.197.31.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7069A37B003;
-	Thu, 21 May 2026 10:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A343383333;
+	Thu, 21 May 2026 10:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.109
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779357648; cv=none; b=joPD3rhyNE5AHYV4x3m06jvDLCUBRdnRLgp6I7rTcf/EAZ0Rk3m3rwJnXqZ62KeNRZfjQdUUlW0ToaMPHEpVgZqjFfnh/u8l1gZbnKbMK4EoPQHTSi+9yCVB6uYh+uxOFHNjDgYdWUXeyndVnRrSpF9ls4OrZN3hQsvO9VhdF+g=
+	t=1779357650; cv=none; b=EMfGZ5Ulwwe0L6zA/PySmCxJJAOx9GyGsxX1wZvLfSwtyl7L4pqTi9sDGHOQGhZBP4UyX5GEsiXghmUGxHhxkS1d8kIVrR0xB+PZXe/44lKtaQmVx3EzUvASt9jWom8pWOBWquLPQjiL7W01nUhR9H/JlWGlgNfhtEJ0X3AX9DE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779357648; c=relaxed/simple;
-	bh=HNQWpbf4cbXJz7/W6BdxmCblV6XwVbVysp29yiAy5cU=;
+	s=arc-20240116; t=1779357650; c=relaxed/simple;
+	bh=q4Nd4g86OVyRsmXyqsdRUlITwX42dLTgDg9h++XMzAM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tu7EW76+/pjTmkOLYKkXbHkqMW5zjiQzoAffY8dhcRzZ/y50tsrKGPmLFEGqXxznAx2ST027ohSJdmhXfPN6nqg296jzx4XMuMmpZYwUbfIwg83ZFoXl2wedFmlMSFLqiusFxg5ccR+LwT5a2UYisQy5SXMRjSqJ084SO9fO/iU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=EmtF/eKu; arc=none smtp.client-ip=45.254.49.21
+	 MIME-Version:Content-Type; b=NXCWRtUq5HT3GhxVgHHYB4pQdbzp1UiK9y3kFIJGhJrcFo0kHnpz8Bw3/Kqwi7Qy9OyjcdfrtUYdbW4aWU1IM+T0hibijjCcXS2b9feHj/sqiMjuFsmtvsasCuPcXA99uPhtEaFBYF8y09QLQdUZOkdhNV/xXEDY2jd/t53Ks3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=PqmSQ0hA; arc=none smtp.client-ip=220.197.31.109
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="EmtF/eKu"
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="PqmSQ0hA"
 Received: from server001 (unknown [222.130.22.242])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 3f4cebb04;
-	Thu, 21 May 2026 17:55:23 +0800 (GMT+08:00)
+	by smtp.qiye.163.com (Hmail) with ESMTP id 3f4cebb11;
+	Thu, 21 May 2026 17:55:25 +0800 (GMT+08:00)
 From: Kefan Bai <baikefan@leap-io-kernel.com>
 To: linux-usb@vger.kernel.org,
 	si.yanteng@linux.dev
@@ -30,9 +30,9 @@ Cc: gregkh@linuxfoundation.org,
 	skhan@linuxfoundation.org,
 	linux-doc@vger.kernel.org,
 	doubled@leap-io-kernel.com
-Subject: [PATCH v7 6/8] docs/zh_CN: Add ehci.rst translation
-Date: Thu, 21 May 2026 17:55:11 +0800
-Message-ID: <7323e9def418415c3eab67bc539ceec0e986f3cb.1779355170.git.baikefan@leap-io-kernel.com>
+Subject: [PATCH v7 8/8] docs/zh_CN: Add CREDITS translation
+Date: Thu, 21 May 2026 17:55:13 +0800
+Message-ID: <634084009a0833a70efd269229919476ffe81b22.1779355170.git.baikefan@leap-io-kernel.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <cover.1779355170.git.baikefan@leap-io-kernel.com>
 References: <cover.1779355170.git.baikefan@leap-io-kernel.com>
@@ -44,40 +44,39 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e49f610ad09d5kunm49815c9e65ca3
+X-HM-Tid: 0a9e49f6183109d5kunm49815c9e65cb7
 X-HM-MType: 1
 X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaQhpPVhkdQxpCTEpCSkhIH1YVFA
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCHkJJVk5NSEwdGh5OHkhPSlYVFA
 	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlPS0hVSk
 	tJQkNDTFVKS0tVS1kG
 DKIM-Signature: a=rsa-sha256;
-	b=EmtF/eKu/CGd3wpAfjt0W7xhHuKgWeO8hmJzpb5QOi9IQnKDsQkVKRUHX2iS/ohp5yES2CrYeObRvsApa96kihf0lHToN7p3I1HcRVSM6j198TLlBHVc25hT4NqZ3Z878ZiDR9ykIfKJ4b7TjSQexiHGBo3MfRZDEoOA40zco5Z6gYdpMvAWhsVzCtQtvBkPbuBSVgkmbEIGy15LJ4ES2mlZiw3BrVCd5u53fIJCayAzEy0aYH8P2BA4jXi41rDwAw8s4l2lMPWnROBhr9vA7HvRRmt2xNQIHDU0MTwdT5N+ZV1I1Us6MBQaJdOuUebH7N2VsUC1oCUyZp8MKkDspQ==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=xCE4LoNkAitoS2FVynFdoZJsPCQT9AHeGzmLQoCb1Cs=;
+	b=PqmSQ0hARSbARSpIoUBIwAfDj56IKDRNDFR4C90eSXm1KeiTA/iBZSuA1XJUPUSHxVtZa3ZIIlJe3ZIcoULRnItmhcEdltoRwyQS0gYfq+dBuwfiSYgOujpNjzfYqYvcSbosk2gLLdnKFbGE+UvJ8WEWDdb81ILvQrCLXSnxyPS/Enx2eW7JnIRmUhr0J4CXcqrj1bCEbeAnHYDQzFih3WO5UDPJM6TI/zR704HGkuX4vqng+s68thTQBRwKzOF5pGcLOP8+3nXNWfROQ/6Bg7OtA5VSd0lRYx5Liux86O/+ycZ3ktNVVsP6nIMJdWlyFo5zIGCq8T1StZNzTN3bkQ==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=eJ7Mk4dT0iryUbzjIwTC89RoXiislC6Dm4WJZ1Q0MiI=;
 	h=date:mime-version:subject:message-id:from;
 
-Translate .../usb/ehci.rst into Chinese
+Translate .../usb/CREDITS into Chinese
 
-Update the translation through commit 570eb861243c
-("docs: usb: replace some characters")
+Update the translation through commit 7b2328c5a009
+("docs: Fix typo in usb/CREDITS")
 
 Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
 Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
 ---
- Documentation/translations/zh_CN/usb/ehci.rst | 261 ++++++++++++++++++
- .../translations/zh_CN/usb/index.rst          |   2 +-
- 2 files changed, 262 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/usb/ehci.rst
+ Documentation/translations/zh_CN/usb/CREDITS | 163 +++++++++++++++++++
+ 1 file changed, 163 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/usb/CREDITS
 
-diff --git a/Documentation/translations/zh_CN/usb/ehci.rst b/Documentation/translations/zh_CN/usb/ehci.rst
+diff --git a/Documentation/translations/zh_CN/usb/CREDITS b/Documentation/translations/zh_CN/usb/CREDITS
 new file mode 100644
-index 000000000000..e05e493a30d3
+index 000000000000..c133b1a5daff
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/usb/ehci.rst
-@@ -0,0 +1,261 @@
++++ b/Documentation/translations/zh_CN/usb/CREDITS
+@@ -0,0 +1,163 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/usb/ehci.rst
++:Original: Documentation/usb/CREDITS
 +
 +:翻译:
 +
@@ -86,271 +85,157 @@ index 000000000000..e05e493a30d3
 +:校译:
 +
 +
-+=========
-+EHCI 驱动
-+=========
++简易 Linux USB 驱动的致谢名单：
 +
-+2002年12月27日
++以下人员都为 Linux USB 驱动代码作出了贡献
++（按姓氏字母顺序排列）。我相信这份名单本应
++更长一些，但确实不容易维护。
++如需将自己加入名单，请提交补丁。
 +
-+EHCI 驱动用于通过支持 USB 2.0 的主机控制器
-+硬件与高速 USB 2.0 设备通信。USB 2.0 兼容
-+USB 1.1 标准，它定义了三种传输速率：
++  Georg Acher <acher@informatik.tu-muenchen.de>
++  David Brownell <dbrownell@users.sourceforge.net>
++  Alan Cox <alan@lxorguk.ukuu.org.uk>
++  Randy Dunlap <randy.dunlap@intel.com>
++  Johannes Erdfelt <johannes@erdfelt.com>
++  Deti Fliegl <deti@fliegl.de>
++  ham <ham@unsuave.com>
++  Bradley M Keryan <keryan@andrew.cmu.edu>
++  Greg Kroah-Hartman <greg@kroah.com>
++  Pavel Machek <pavel@suse.cz>
++  Paul Mackerras <paulus@cs.anu.edu.au>
++  Petko Manlolov <petkan@dce.bg>
++  David E. Nelson <dnelson@jump.net>
++  Vojtech Pavlik <vojtech@suse.cz>
++  Bill Ryder <bryder@sgi.com>
++  Thomas Sailer <sailer@ife.ee.ethz.ch>
++  Gregory P. Smith <greg@electricrain.com>
++  Linus Torvalds <torvalds@linux-foundation.org>
++  Roman Weissgaerber <weissg@vienna.at>
++  <Kazuki.Yasumatsu@fujixerox.co.jp>
 +
-+    - “高速”（High Speed）480 Mbit/sec（60 MByte/sec）
-+    - “全速”（Full Speed）12 Mbit/sec（1.5 MByte/sec）
-+    - “低速”（Low Speed）1.5 Mbit/sec
++特别感谢：
 +
-+USB 1.1 仅支持全速与低速。
-+高速设备可以在 USB 1.1 系统上使用，
-+但速度会降到 USB 1.1 的速率。
++  Inaky Perez Gonzalez <inaky@peloncho.fis.ucm.es>
++  感谢他发起了 Linux USB 驱动开发工作，并编写了体量较大的 uusbd
++  驱动中的大部分代码。我们从那项工作中学到了很多。
 +
-+USB 1.1 设备也可以在 USB 2.0 系统上使用。当它们
-+插入 EHCI 控制器时，会被交由 USB 1.1 的伴随
-+（companion）控制器处理，该控制器通常是 OHCI 或 UHCI。
++  NetBSD 和 FreeBSD 的 USB 开发者们
++  感谢他们加入 Linux USB 邮件列表，提供建议并分享实现经验。
 +
-+当 USB 1.1 设备插入 USB 2.0 集线器时，它们通过
-+集线器中的事务转换器（Transaction Translator，TT）
-+与 EHCI 控制器交互，该转换器将低速或全速事务转换为
-+高速分割事务，从而避免浪费传输带宽。
++附加感谢：
++  还要感谢以下公司与个人在硬件、支持、时间投入和开发方面提供的捐赠与帮助
++  （摘自 Inaky 驱动原始的 THANKS 文件）：
 +
-+截至本文撰写时，该驱动已在以下 EHCI 实现上成功运行
-+（按字母顺序）：Intel、NEC、Philips 和 VIA。
-+其他供应商的 EHCI 实现正在陆续问世；
-+预计该驱动在这些实现上也可正常运行。
++    以下公司曾帮助我们开发 Linux USB / UUSBD：
 +
-+自 2001 年年中起，usb-storage 设备就已可用
-+（在 2.4 版该驱动上速度相当不错），
-+集线器则直到 2001 年底才开始可用，而其他类型的高速设备
-+似乎要等到更多系统内置 USB 2.0 后才会出现。
-+这类新系统从 2002 年初开始上市，
-+并在 2002 年下半年变得更加常见。
++        - 3Com GmbH 捐赠了一台 ISDN Pro TA，并在技术问题和测试设备方面为我
++          提供支持。没想到能得到这么大的帮助。
 +
-+注意，USB 2.0 支持并不只是 EHCI 本身。
-+它还需要对 Linux-USB 核心 API 作出其他修改，
-+包括 hub 驱动；不过这些修改并不需要真正改变
-+暴露给 USB 设备驱动的基本 ``usbcore`` API。
++        - USAR Systems 向我们提供了他们出色的 USB 评估套件，
++          使我们能够测试 Linux USB 驱动对最新 USB 规范的符合性。
++          USAR Systems 认识到保持开放操作系统与时俱进的重要性，
++          并以硬件支持这个项目。感谢！
 +
-+- David Brownell
-+  <dbrownell@users.sourceforge.net>
++        - 感谢英特尔提供的宝贵帮助。
 +
++        - 我们与 Cherry 合作，使 Linux 成为首个内置 USB 支持的操作系统。
++          Cherry 是全球最大的键盘制造商之一。
 +
-+功能
-+====
++        - CMD Technology, Inc. 慷慨捐赠了一块 CSA-6700 PCI-to-USB
++          控制卡，用于测试 OHCI 实现。
 +
-+该驱动会定期在 x86 硬件上进行测试，
-+也已在 PPC 硬件上使用，因此大小端问题应当已经解决。
-+因此可以认为，它已经处理好了所有必要的 PCI 细节，
-+所以即便在 DMA 映射有些特殊的系统上，
-+I/O 也应能正常运行。
++        - 由于他们对我们的支持，Keytronic 可以放心，
++          他们的键盘能卖给至少 300 万 Linux 用户中的一部分。
 +
-+传输类型
-+--------
++        - ing büro h doran [http://www.ibhdoran.com]!
++          在欧洲，想给主板买一个 PC 背板 USB 连接器几乎是不可能的
++          （我自己做的那个相当糟糕 :)）。现在我知道该去哪里买漂亮的 USB
++          配件了！
 +
-+截至本文撰写时，该驱动应当已经能够很好地处理
-+所有控制传输、批量传输和中断传输，
-+包括通过 USB 2.0 集线器中的事务转换器
-+与 USB 1.1 设备通信；但仍可能存在 bug。
++        - Genius Germany 捐赠了一只 USB 鼠标，用于测试鼠标启动协议；
++          他们还捐赠了 F-23 数字摇杆和 NetMouse Pro。感谢！
 +
-+高速等时（ISO）传输支持也已可用，但截至本文撰写时，
-+还没有 Linux 驱动使用这项支持。
++        - AVM GmbH Berlin 支持我们开发 Linux 下的 AVM ISDN Controller B1 USB 驱动。
++          AVM 是领先的 ISDN 控制器制造商，其主动式设计对包括 Linux 在内的
++          所有操作系统平台开放。
 +
-+目前尚不支持通过事务转换器实现全速等时传输。
-+需要注意，ISO 传输的 split transaction 支持
-+与高速 ISO 传输几乎无法共用代码，
-+因为 EHCI 用不同的数据结构表示它们。
-+因此，目前大多数 USB 音频和视频设备
-+还不能通过高速总线连接使用。
++        - 非常感谢 Y-E Data, Inc 捐赠的 FlashBuster-U USB 软驱，
++          使我们能够测试批量传输代码。
 +
-+驱动行为
-+--------
++        - 感谢 Logitech 捐赠了一只三轴 USB 鼠标。
 +
-+所有类型的传输都可以排队。
-+这意味着来自一个接口驱动的控制传输
-+（或通过 usbfs 发出的控制传输）不会干扰
-+另一个驱动的控制传输，而且中断传输可以使用 1 帧的周期，
-+而不必担心中断处理开销导致的数据丢失。
++          Logitech 负责设计、制造并销售各种人机接口设备，
++          在键盘、鼠标、轨迹球、摄像头、扬声器，以及面向游戏和专业用途的
++          控制设备方面拥有悠久历史和丰富经验。
 +
++          作为这些设备广为人知的供应商和销售商，他们捐赠了 USB 鼠标、
++          摇杆和扫描仪，以表明 Linux 的重要性，也让 Logitech 的客户
++          能在自己喜欢的操作系统上获得支持，并让所有 Linux 用户都能使用
++          Logitech 以及其他 USB 硬件。
 +
-+EHCI 根集线器代码会将 USB 1.1 设备移交给其伴随控制器。
-+该驱动不需要了解那些驱动的任何细节；
-+一个原本就能正常工作的 OHCI 或 UHCI 驱动，
-+并不会因为 EHCI 驱动也存在而需要更改。
++          Logitech 也是 1999 年 2 月 11 日维也纳 Linux 大会的官方赞助商，
++          我们将在会上展示 Linux USB 工作的最新进展。
 +
-+电源管理方面还有一些问题；
-+当前挂起/恢复的行为还不完全正确。
++        - 感谢 CATC 提供 USB Inspector，帮助我们揭开 UHCI 内部实现中
++          那些不为人知的角落。
 +
-+此外，在调度周期性事务
-+（中断和等时传输）时还采取了一些简化处理。
-+这些简化会限制可调度的周期性事务数量，
-+并且无法使用小于一帧的轮询间隔。
++        - 感谢 Entrega 为开发工作提供 PCI 转 USB 卡、集线器和转换器产品。
 +
-+使用方式
-+========
++        - 感谢 ConnectTech 提供 WhiteHEAT USB 转串口转换器以及相关文档，
++          让这个驱动得以写成。
 +
-+假设有一个 EHCI 控制器（位于 PCI 卡或主板上），
-+并且已将此驱动编译为模块，可这样加载::
++        - 感谢 ADMtek 提供 Pegasus 和 Pegasus II 评估板、规格说明，
++          以及驱动开发过程中的宝贵建议。
 +
-+    # modprobe ehci-hcd
++    另外还要感谢以下个人（嘿，顺序不分先后 :)）
 +
-+卸载方式::
++        - Oren Tirosh <orenti@hishome.net>,
++          他非常耐心地听我唠叨各种 USB 疑问，还给了很多很酷的想法。
 +
-+    # rmmod ehci-hcd
++        - Jochen Karrer <karrer@wpfd25.physik.uni-wuerzburg.de>,
++          指出了致命 bug，并给出了宝贵建议。
 +
-+还应加载一个伴随控制器驱动，
-+例如 ``ohci-hcd`` 或 ``uhci-hcd``。
-+如果 EHCI 驱动出现任何问题，只需卸载它的模块，
-+随后该伴随控制器驱动就会接手
-+此前由 EHCI 驱动处理的所有设备
-+（但速度会降低）。
++        - Edmund Humemberger <ed@atnet.at>，他在公共关系与项目管理方面
++          为 Linux-USB 项目付出了巨大的努力。
 +
-+模块参数（传给 ``modprobe``）包括：
++        - Alberto Menegazzi <flash@flash.iol.it> 正在着手编写 UUSBD 文档，加油！
 +
-+    log2_irq_thresh（默认值 0）：
-+        默认中断延迟的 log2 值，单位是微帧。默认值 0 表示 1 个微帧
-+        （125 微秒）。最大值 6 表示 2^6 = 64 个微帧。
-+        该值控制 EHCI 控制器发出中断的频率。
++        - Ric Klaren <ia_ric@cs.utwente.nl> 编写了很好的入门文档，
++          与 Alberto 的作品形成良性竞争：）。
 +
-+如果在 2.5 内核上使用此驱动，并且启用了 USB 调试支持，
-+则会在任一 EHCI 控制器的 ``sysfs`` 目录中看到三个文件：
++        - Christian Groessler <cpg@aladdin.de>，感谢他在那些棘手细节上的帮助。
 +
-+    ``async``
-+        转储异步调度，用于控制传输和批量传输。它会显示每个活动的 ``qh``
-+        以及待处理的 ``qtd``，通常每个 ``urb`` 对应一个 ``qtd``。
-+        （可以在 ``usb-storage`` 做磁盘 I/O 时看它；顺便观察请求队列！）
++        - Paul MacKerras 改进了 OHCI 实现，推动了对 iMac 的支持，
++          并提供了大量的改进意见。
 +
-+    ``periodic``
-+        转储周期性调度，用于中断传输和等时传输。不显示 ``qtd``。
++        - Fernando Herrera <fherrera@eurielec.etsit.upm.es>
++          负责撰写、维护并不断补充那份期待已久、独一无二又精彩的
++          UUSBD FAQ！太棒了！
 +
-+    ``registers``
-+        显示控制器寄存器状态。
++        - Rasca Gmelch <thron@gmx.de> 重新启用了 raw 驱动，
++          指出了一些错误，并启动了 uusbd-utils 软件包。
 +
-+这些文件的内容有助于定位驱动问题。
++        - Peter Dettori <dettori@ozy.dec.com>，像疯了一样挖掘 bug，
++          还提出了很多很酷的建议，太棒了！
 +
++        - 自由软件与 Linux 社区的所有成员，包括 FSF、GNU 项目、
++          MIT X 联盟、TeX 社区等等，谢谢你们！
 +
-+设备驱动通常不需要关心自己是否运行在 EHCI 之上，
-+但它们可能想检查
-+``usb_device->speed == USB_SPEED_HIGH``。
-+高速设备能做到全速（或低速）设备做不到的事，
-+例如高带宽的周期性传输（中断或 ISO 传输）。
-+另外，设备描述符中的某些值
-+（例如周期性传输的轮询间隔）
-+在高速模式下使用不同的编码方式。
++        - 特别感谢 Richard Stallman 创造了 Emacs！
 +
-+不过，一定要让设备驱动经过 USB 2.0 集线器的测试。
-+当使用事务转换器时，这些集线器报告某些故障
-+（例如断开连接）的方式会不同；
-+已经见过一些驱动在遇到与 OHCI 或 UHCI
-+所报告的不同故障时表现不佳。
++        - 感谢 linux-usb 邮件列表的所有成员，读了那么多邮件——不开玩笑了，
++          感谢你们提出的所有建议！
 +
-+性能
-+====
++        - 感谢 USB Implementers Forum 成员们的帮助与支持。
 +
-+USB 2.0 吞吐量主要受两个因素制约：
-+主机控制器处理请求的速度，以及设备响应这些请求的速度。
-+480 Mbit/sec 的“原始传输率”对所有设备都成立，
-+但总吞吐量还会受到诸如单个高速包之间的延迟、
-+驱动是否足够聪明，以及系统整体负载等因素的影响。
-+延迟也是性能考量因素。
++        - Nathan Myers <ncm@cantrip.org>，感谢他的建议！
++          （希望你喜欢 Cibeles 的派对。）
 +
-+批量传输最常用于关注吞吐量的场景。
-+需要记住的是，批量传输总是以 512 字节包为单位，
-+而一个 USB 2.0 微帧中最多只能容纳 13 个这样的包。
-+8 个 USB 2.0 微帧构成一个 USB 1.1 帧；
-+一个微帧的时长是 1 毫秒 / 8 = 125 微秒。
++        - 感谢 Linus Torvalds 创建、开发并管理 Linux。
 +
-+因此，只要硬件和设备驱动软件都允许，
-+批量传输可提供超过 50 MByte/sec 的带宽。
-+周期性传输模式（等时和中断）允许使用更大的包大小，
-+从而可以逼近所宣称的 480 Mbit/sec 传输率。
-+
-+硬件性能
-+--------
-+
-+截至本文撰写时，单个 USB 2.0 设备的最大传输速率
-+通常约为 20 MByte/sec。
-+这当然会随着时间改变：一些设备现在更快，一些更慢。
-+
-+第一代 NEC EHCI 实现似乎存在
-+大约 28 MByte/sec 的硬件瓶颈。
-+虽然这对单个 20 MByte/sec 的设备显然已经够用，
-+但把三个这样的设备挂到同一总线上，
-+并不能得到 60 MByte/sec。
-+问题似乎在于控制器硬件无法并发进行 USB 与 PCI 访问，
-+因此它每个微帧只会尝试 6 次（也许是 7 次）
-+USB 事务，而不是 13 次。
-+（对一个比其他产品早上市一年的芯片来说，
-+这是个合理的妥协！）
-+
-+
-+预计较新的实现会在这方面做得更好，
-+通过投入更多芯片面积来解决这个问题，
-+使新的主板芯片组更接近 60 MByte/sec 的目标。
-+这既包括 NEC 的更新实现，也包括其他厂商的芯片。
-+
-+
-+主机从 EHCI 控制器收到“请求已完成”中断的最小延迟
-+为一个微帧（125 微秒）。该延迟可以调节；
-+驱动提供了一个模块选项。默认情况下，
-+``ehci-hcd`` 使用最小延迟，这意味着当发出一个控制
-+或批量请求时，通常可以在不到 250 微秒内得知它已完成
-+（具体取决于传输大小）。
-+
-+软件性能
-+--------
-+
-+即便只是要达到 20 MByte/sec 的传输速率，
-+Linux-USB 设备驱动也必须让 EHCI 队列始终保持满载。
-+这意味着要发出较大的请求，
-+或者在需要发出一连串小请求时使用批量请求排队。
-+如果驱动未做到这一点，那么会直接从性能结果上表现出来。
-+
-+
-+在典型情况下，使用 ``usb_bulk_msg()``
-+以 4 KB 块循环写出，
-+会浪费超过一半的 USB 2.0 带宽。
-+I/O 完成与驱动发出下一次请求之间的延迟，
-+通常会比一次 I/O 本身耗时更长。
-+如果同样的循环改用 16 KB 块，会好一些；
-+若使用一连串 128 KB 块，则浪费会少得多。
-+
-+
-+但与其依赖这么大的 I/O 缓冲区来让同步 I/O 高效，
-+不如直接向主机控制器排入多个（批量）请求，
-+然后等待它们全部完成（或在出错时取消）。
-+这种 URB 排队方式对所有 USB 1.1
-+主机控制器驱动也同样适用。
-+
-+
-+在 Linux 2.5 内核中，定义了新的 ``usb_sg_*()`` API；
-+它们会把 scatterlist 中的所有缓冲区都排入队列。
-+它们还使用 scatterlist 的 DMA 映射
-+（其中可能应用 IOMMU）并减少中断次数，
-+这些都有助于让高速传输尽可能快地运行。
-+
-+待办：
-+   中断传输和等时（ISO）传输的性能问题。
-+   这些周期性传输都是完全调度的，因此，主要问题可能在于如何触发高带宽模式。
-+
-+待办：
-+   通过 ``sysfs`` 中的 ``uframe_periodic_max`` 参数，
-+   可以分配超过标准 80% 的周期性带宽。
-+   后续将对此进行说明。
-diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
-index 7c739627077b..8c6b26912320 100644
---- a/Documentation/translations/zh_CN/usb/index.rst
-+++ b/Documentation/translations/zh_CN/usb/index.rst
-@@ -21,10 +21,10 @@ USB 支持
-     authorization
-     chipidea
-     dwc3
-+    ehci
-
- Todolist:
-
--* ehci
- * usbmon
- * functionfs
- * functionfs-desc
++        - Mike Smith、Craig Keithley、Thierry Giron 和 Janet Schank
++          感谢他们让我认识到标准 USB 集线器其实也没那么“标准”，
++          这有助于我们在标准集线器驱动中加入厂商特定的特殊处理。
 --
 2.54.0
 
