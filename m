@@ -1,134 +1,90 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CC13A75B1
-	for <linux-usb@vger.kernel.org>; Thu, 21 May 2026 14:21:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779373274; cv=pass; b=LgVf6JbbonnG6MkFCAwTY3o5Lwy0TJmBXMsH4QVWeIq9FaoRqmr4ajjdYjJf/YbieN9AkCTQUlCigaj3esIqB2wNDngfkiqDg1EQofT5j+1/87s2rlp8WHnOgUewMepUgUSCWB8u322vG2MRyFmUlw9zQgic6Vhv72MNS8FSO6g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779373274; c=relaxed/simple;
-	bh=2kvTxgC5CktaC+j4o9y0c6/EDWFOQiOSkjkB1cbEnTk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EUv2cRG7cQ+1QOf7eoP4aEJufAf1gbCiXJUXcrFZ+WKtRC6pFuJshwUhuDPT0ZqZ0+d/uIAbPJa+F2jVUepduo8hgXCvyQvuJQbqR+brCB1FSg920K7IfK4WF3fxCQvtsUAIaXAywL82phZmNY1EmEms5I/ri/ilVJEIkpKIYDU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motu.com; spf=pass smtp.mailfrom=motu.com; dkim=pass (1024-bit key) header.d=motu.com header.i=@motu.com header.b=Y3HTszzr; arc=pass smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motu.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E6237206F;
+	Thu, 21 May 2026 14:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779374856; cv=none; b=JaL3IMqfjNr+O55C5GUfYYsD8S9N5jxlLuGoYSA7Yq9y506bRvPL82es725SXclfgKi4KMnd6YZoPCzTUKP9sgF3YwJhvyKLDbKrptD+041taRmWzU8/k1CFnLU7x7sMJAL6Mut08O62sF1iNrd1+SE1v5Zg/90R0HkYsPVrFI4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779374856; c=relaxed/simple;
+	bh=34vM8oC08HMw+E4/NG6bZv1CxZSArT+5viOXRQ6TiDs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kwBJWguVBthGRg9uYqs7oes/tYd+Ad7RpoMzscmNdk1qRR3j7yg6qYGbvSr5N5kqjzmdayY/Qgb65gg06KmT2KlgIejAuPrMFtyDTvTtOyYnYb12psXGF1/A2PtJG4pBt+o1V7gItlpjkE/leIQ6Q5e77FC28kboGRjD5RLcgV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zc9Y2EKE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=motu.com header.i=@motu.com header.b="Y3HTszzr"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-67c1e0229acso10354836a12.1
-        for <linux-usb@vger.kernel.org>; Thu, 21 May 2026 07:21:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779373271; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FVRGClSEUb9DMBWe2HSl/9jY+yA2wnYilipZYWdslwqkza5mfz8tZZy3wabBYd+CgX
-         dY+4k13JlGVnVxAhYr91o5NRJ5PDsgIuGhuYbdPlB5zp+Yiz94TbUOwYOVHj8ZABILnA
-         WtqxO8WJ3Ji9Zy7GDig3nQvSI9ti7Ki1AfC9rwZ4q/VNQZ//7wENY15cGshhsWEkFD3T
-         xNXuM5uj/tkjh06MjsRQzU8CF3W3sgMBf/iDUqAiN753ri0o0eV25KZWW3Y9l+UoF9+F
-         pr3ysw6gl9SIeL4M6J7vptJAt93RoJmpsml8xRLXFJXdZuQWhsLbYULq/Icy8xfFkidw
-         OjhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2kvTxgC5CktaC+j4o9y0c6/EDWFOQiOSkjkB1cbEnTk=;
-        fh=rhCEDnVMiX1F1zk3xueImoPYx2yVZf7QqrPeTadCdV0=;
-        b=Sfc9Id5FTwH2+GVDwnpal7ueEYSzNJ/Oe7EYxOf3xHaqq5JQiP61fzrxqxWuFIj2rC
-         dEYZ4aLpx+qz/G61R8vQhUcQrN7lC2DbcvacBgy3Dlm9isHKSut3uDh7xnCd/Z8UcJup
-         CcKJCoauRhY2XZtU4cxLBFqOFNmd8U5hLLKt0AuJzIICcxiAZtkk2N5Ke+YgGThQpyP5
-         CMphYpKCqr7D9/fzTdmukZa99iPUM5ZI6CnaynN7NZtDC6s8USy00fpxRpIvKo5OmY11
-         5eRUu78BR+ox+VADgTPqsDJiU9uWBYyjpJCwjVCXoC3StbmIz6VnMLlT/1wsrAhUkN0A
-         KHvQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=motu.com; s=google; t=1779373271; x=1779978071; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2kvTxgC5CktaC+j4o9y0c6/EDWFOQiOSkjkB1cbEnTk=;
-        b=Y3HTszzrRVHezws6H40lgHszuUqpZse9mZxk/ELYiSgsig8Vby76t4qvhNzJE6piDa
-         34vksmzyi0Q9/0zeBVqQWM568a9hvmBuvdKBQDYA/IdOOz3TXPnnYGVdnMyL7It/e20i
-         2RLTmcOZN2fVfGGy1LpBNWzqilS00cxFl8Xh8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779373271; x=1779978071;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2kvTxgC5CktaC+j4o9y0c6/EDWFOQiOSkjkB1cbEnTk=;
-        b=jammrb1Gln6+xEPZGdQ5t2/+j8DtHYRsiUAloAJGTbm+21I6v3iTmdzHHtPISCFSXL
-         aWupUysDlnexSpGMPNlf3NeFdX26elvIjwLxMkdGTE1/gm+bOXaB8lM0NnTFP2Xsui05
-         dlyGgJjVahOp1lprSKlOaQO0vGsrTR9f4tRwnI2nhAuD8OEUjTTVOg/uIekiaBPK+kd2
-         BYiGHwIMbW9KVTwFHqfHuS67hycCAbHix/LK8cPlrXg2U83EqoOma6kPQ6U5a6O2Mis0
-         cvUIC1dzFfyLxOIpV4bKX+NdHsaGaWUDzC42Ft1VezFQLsMJis9Dp34/HMgOWQFB9z8V
-         rGxg==
-X-Forwarded-Encrypted: i=1; AFNElJ/MxOsCKl2fv3YjekhCbCF0iDKpzdYjLSu99YkvKUrfh5iyPhfu/cjlzmWj39KXFEIRtE+ATbdUrOU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOITsU3jxwiceM/GGphDJTv+GmL5gMav34hDj0+f6t4wNFtsSL
-	rdF9W7DnNM9CWBTBupGWXvSIHNLl8u4uVIBwCYn0BYlL1L1GjlFr5Lk5bUKZBbJGEhmPME7pYbv
-	z3wZJHqXABtbuAe08pDz7Yeia1SgRBEhOVGvr9h7wJQ==
-X-Gm-Gg: Acq92OEEjcLLjitZc/UpUW6Ky7hckxUJzJViidCH/DjGmTINyvni3h4r13WkYo37X28
-	TqOpPGBL1YQM+nYFL1TYzOKl9MLIE5wv3TY+e7NraEL7HffvWs5+SOHDhZIWh8IqoRlkIQNUmig
-	ham54zbHZJgi4zMPQzNosazJD0QXxDsMS/isQYzhKxf/iV321oupoo00jf7iHgyKqowTBLkOnEP
-	cEqTr11Jjvky4nwpsam/hOe09CcJfMj2lxGN4MERKgGgDtBbd/Z2bZTdZMDb+HHU3ZhiJSxmadz
-	Vy5coM0d
-X-Received: by 2002:a17:907:74c:b0:bab:e742:aba with SMTP id
- a640c23a62f3a-bdc186fd257mr183045166b.42.1779373271099; Thu, 21 May 2026
- 07:21:11 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zc9Y2EKE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE69D1F000E9;
+	Thu, 21 May 2026 14:47:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1779374855;
+	bh=gVaOyRE5SdvShW4Noo+xeu/A7h7G8HtSGPx8etBkX5I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=zc9Y2EKE6Helr38u2v9PnCCoGJaGhBxPLIr/lzyyt/VgW3GZ+YkVvF4am9hfWZp45
+	 3EnKnJNkmumsFoSOcbQd3oxj4i35n3jrzNMLtA5jEKljl4HyFEjuwZhuOLFdOp2Wel
+	 uQySJhO8rQObXQqBR38SuTyAlC5QQVT5W0BKA+jk=
+Date: Thu, 21 May 2026 16:47:38 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jihong Min <hurryman2212@gmail.com>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+	Michal Pecio <michal.pecio@gmail.com>,
+	Mario Limonciello <superm1@kernel.org>,
+	Yaroslav Isakov <yaroslav.isakov@gmail.com>,
+	linux-usb@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 1/2] usb: xhci-pci: add AMD Promontory 21 PCI glue
+Message-ID: <2026052131-dad-glory-59b3@gregkh>
+References: <20260519000732.2334711-1-hurryman2212@gmail.com>
+ <20260519000732.2334711-2-hurryman2212@gmail.com>
+ <06236462-6c4f-413d-8324-537fb8f743d9@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CA+Df+jeoj_QL6XNzUyP963HF7ngCWoAs0MjqQXPr3Fa6VW3rXw@mail.gmail.com>
- <20260511192105.3756809-1-mathias.nyman@linux.intel.com> <20260512110810.17fbde0a.michal.pecio@gmail.com>
- <85f8441d-d6c0-4607-9269-d80b1294afbd@linux.intel.com> <CA+Df+jf79bnONyXUnf0_zAUrqNAVzy1zt9VCivbxYvkedfGHRQ@mail.gmail.com>
- <20260515063210.4ed0a940.michal.pecio@gmail.com> <CA+Df+jc=z96K52NJ6YXG4x8gK95udcbFHs=0hTQS6cm1r8z0zw@mail.gmail.com>
- <20260518091327.470d8fb5.michal.pecio@gmail.com>
-In-Reply-To: <20260518091327.470d8fb5.michal.pecio@gmail.com>
-From: Dylan Robinson <dylan_robinson@motu.com>
-Date: Thu, 21 May 2026 10:20:56 -0400
-X-Gm-Features: AVHnY4INjbxd_gIFopOqxZ66F2rBIaVWiJjCpzU7taerGxpRx9pwASfeaM7EPPc
-Message-ID: <CA+Df+jc7rPGBWzvW4eU1WA1GB=S59OsF3_q0O9HmrczM06CV9g@mail.gmail.com>
-Subject: Re: [RFT PATCH] xhci: fix frame id calculation for isoc transfer
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, linux-usb@vger.kernel.org, 
-	mathias.nyman@intel.com, stern@rowland.harvard.edu
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <06236462-6c4f-413d-8324-537fb8f743d9@roeck-us.net>
 
-On Mon, May 18, 2026 at 3:13=E2=80=AFAM Michal Pecio wrote:
-> Underruns are the most important thing to test here
+On Wed, May 20, 2026 at 07:18:49AM -0700, Guenter Roeck wrote:
+> On Tue, May 19, 2026 at 09:07:31AM +0900, Jihong Min wrote:
+> > AMD Promontory 21 (PROM21) xHCI PCI functions use the common xhci-pci
+> > core for USB operation, but also expose controller-specific sensor data.
+> > Add a small PROM21 PCI glue driver for AMD 1022:43fc and 1022:43fd
+> > controllers.
+> > 
+> > The glue delegates USB host operation to the common xhci-pci core and
+> > publishes a "hwmon" auxiliary device with parent-provided MMIO data.
+> > Auxiliary device creation failure is logged but does not fail the xHCI
+> > probe.
+> > 
+> > Make the PROM21 glue a hidden Kconfig tristate driven by the user-visible
+> > SENSORS_PROM21_XHCI option. If sensor support is disabled, generic
+> > xhci-pci binds PROM21 controllers normally. If sensor support is enabled,
+> > the glue follows USB_XHCI_PCI.
+> > 
+> > This keeps the auxiliary device available for a modular sensor driver while
+> > avoiding a built-in xhci-pci core handing PROM21 controllers to a glue
+> > driver that is only available as a module during initramfs.
+> > 
+> > Assisted-by: Codex:gpt-5.5
+> > Signed-off-by: Jihong Min <hurryman2212@gmail.com>
+> > Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+> > Tested-by: Yaroslav Isakov <yaroslav.isakov@gmail.com>
+> 
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
+> 
+> The two patches should be applied together. For now I will assume that
+> they will both be applied through a usb tree since this patch touches
+> common usb code.
 
-Agreed.
+Sounds good, I'll go take it now, thanks.
 
-> Yes, this is very annoying because it's undetectable (without CFC).
-> It seems we need to handle Ring Underrun/Overrun events, somehow.
-
-I think handling ring underrun and overrun events is probably the
-right approach here. I started putting together some tests, but ran
-out of time. I hope to spend some more time on it this weekend.
-
-My current thinking is that for an URB submitted after an underrun or
-overrun has actually occurred, but before the xrun event is reported
-or handled, there will be no way to determine its true start frame,
-since it will have been submitted with SIA set.
-
-However, because completions are processed in order, the HCD should
-still be able to determine by completion time whether an xrun occurred
-before completion of the URB, and could therefore indicate to the
-completion handler that the reported start_frame is uncertain.
-
-Hopefully, USB drivers could then detect the discontinuity either:
-
-- after completion of the first affected URB, assuming the HCD can
-indicate that start_frame is uncertain (for example via a flag or
-sentinel value), or
-- at submission time for the first URB submitted after the HCD
-observes the xrun event.
-
-Not to repeat myself too much, but I think this discussion also helps
-illustrate the value of allowing drivers to supply a specified
-start_frame, since xrun events become much less likely when scheduling
-sufficiently far into the future. That said, I think it is worth
-sorting out these underlying frame id calculation issues first.
-
-Dylan
+greg k-h
