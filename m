@@ -1,385 +1,245 @@
-Received: from mx3.wp.pl (mx3.wp.pl [212.77.101.9])
+Received: from mail-m1973184.qiye.163.com (mail-m1973184.qiye.163.com [220.197.31.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF97A348C47
-	for <linux-usb@vger.kernel.org>; Thu, 21 May 2026 10:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.77.101.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3233F3806D9;
+	Thu, 21 May 2026 10:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779358145; cv=none; b=RNKM+PH5LZyF1YdoMcl7stUjypNSzA/Py6M3jSM37A1o+VWrQZo/kgqEzwHA85O5hlkBjWCaDHiSULM8PXV7uUNfDi7zD7/MeMA1bv1ugyLRhbXRmDm0pDruVfzt3xRpuU/55CLQZSbHEQplZRzmBA5tNEVF8cm6yWFgvTDhfWw=
+	t=1779358255; cv=none; b=O+2MNXqk7fxDdtXvD8owzHGiNiz8Yl/aLRQ/BRpUf7jS6QQcSiIclsZV2nU174NmgKtcgwYv1nbwUh902mPUIleGRiojgcET3B2K7gGV/lvn3Le7r1inT2e48fFOQHpEX3mlRNk0UEdd+mD610VSPK5VEP+hrACA76yMfKWrWxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779358145; c=relaxed/simple;
-	bh=QpbTOgbKf0fQku8KvlMgNtLZ34uwgtyVcZaT9xYqduo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pUaT69SAj1+FkTig4FQiEO9dhU3HZnCtp7z3Fvkk62Xq/wJ01x0O6iAmH9TUYB9cLfNoB/EMZ/q58IJ7QKM8U7d7bVHC17PL9SRK6pWsnwOfkb5Y2DkYJS4KeH+IYlPf/dWnpMrOpfiHb0Zc2OtmvZCvX7Cus8J6l8h4G+sE3gA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl; spf=pass smtp.mailfrom=wp.pl; dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b=DhioKkDc; arc=none smtp.client-ip=212.77.101.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wp.pl
+	s=arc-20240116; t=1779358255; c=relaxed/simple;
+	bh=UAv9+hfGQIf1aSwdGashyxhpMfBJSNn3lZx7r90BFXk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aKOeilmxdneKnCSZjSuWkieoZCbsX1XG7MvQByeCpWxrQiSDzJf2ED9FXssj3J4muu8N8ZSKfvpJp+mXQNKoAv67PzfahPCaP96MFFlxqRbVSWQVcrIJpXU5i1DZcS0uBH1SheyxlgUHqmQKz8JbKHH+wGlyW5YjpvZXcaxi1co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=EVG3QGlk; arc=none smtp.client-ip=220.197.31.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b="DhioKkDc"
-Received: (wp-smtpd smtp.wp.pl 2984 invoked from network); 21 May 2026 12:08:52 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wp.pl; s=20241105;
-          t=1779358132; bh=AYozMEC2JpdzmH+IoYSkmeX90KWPa5gTLeTYLFFvrSg=;
-          h=From:To:Cc:Subject;
-          b=DhioKkDcHzMMsxWUPkubiEW9ZYaLA7QIqeuDyQx0dhV14iuGGevHkSfeUx6MDrIom
-           tccFBMVlrDn5ejsC9zHH8TI5RphceCcKJ4LjBBHKN1ZLHL6iUO1DkxCyWEIDnaRwxf
-           lhu8P8WIema/hKqbGCHmaAVI/3BR6k89sWFTKgZu1OLOp/Hz6k4TgKS2IXthUlk+aD
-           TSsZRPjUFLD4sJAv4nZ9rMRV3rVsyNKXnU4SxTr092O5u9XkUnJc7mojSQj6/LMRWA
-           XdTcqRoedhwY94PphfjAsjyiBR0vFYcFTDyF+YBCWMazOsH6q9PMXEfaqv7EhDD9Lr
-           xiCdEdTyKEovw==
-Received: from 77-236-5-199.static.play.pl (HELO localhost) (stf_xl@wp.pl@[77.236.5.199])
-          (envelope-sender <stf_xl@wp.pl>)
-          by smtp.wp.pl (WP-SMTPD) with TLS_AES_256_GCM_SHA384 encrypted SMTP
-          for <mfo@igalia.com>; 21 May 2026 12:08:52 +0200
-Date: Thu, 21 May 2026 12:08:46 +0200
-From: Stanislaw Gruszka <stf_xl@wp.pl>
-To: Mauricio Faria de Oliveira <mfo@igalia.com>
-Cc: Matthieu CASTET <castet.matthieu@free.fr>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	kernel-dev@igalia.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] usb: atm: ueagle-atm: remove function entry/exit
- debug messages
-Message-ID: <20260521100846.GB38864@wp.pl>
-References: <20260520-ueagle-atm-cleanup-v1-0-010c8bc7b214@igalia.com>
- <20260520-ueagle-atm-cleanup-v1-2-010c8bc7b214@igalia.com>
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="EVG3QGlk"
+Received: from server001 (unknown [222.130.22.242])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 3f4cebafa;
+	Thu, 21 May 2026 17:55:21 +0800 (GMT+08:00)
+From: Kefan Bai <baikefan@leap-io-kernel.com>
+To: linux-usb@vger.kernel.org,
+	si.yanteng@linux.dev
+Cc: gregkh@linuxfoundation.org,
+	seakeel@gmail.com,
+	alexs@kernel.org,
+	dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	doubled@leap-io-kernel.com
+Subject: [PATCH v7 4/8] docs/zh_CN: Add chipidea.rst translation
+Date: Thu, 21 May 2026 17:55:09 +0800
+Message-ID: <62f3a25c6695bb3b6ef61d430e5858ba6513939e.1779355170.git.baikefan@leap-io-kernel.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1779355170.git.baikefan@leap-io-kernel.com>
+References: <cover.1779355170.git.baikefan@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260520-ueagle-atm-cleanup-v1-2-010c8bc7b214@igalia.com>
-X-WP-MailID: 86ef472dc1df47e29a5fbd61b7f01315
-X-WP-AV: skaner antywirusowy Poczty Wirtualnej Polski
-X-WP-SPAM: NO 0000000 [gVO0]                               
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9e49f6096b09d5kunm49815c9e65c8f
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCGRlPVkMeS0sYGBlNT08ZH1YVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPSVlXWRYaDxIVHRRZQVlLVUtVS1
+	VLWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=EVG3QGlkp/9o1Vov+0s1VtElYPcpn2ER4hTq7Si4kfH3Q6udlvRofg6H2JhRvgYP2tpnO2MZLhUDtJZx9R+r737e7lBYgkV/mdUl/wPP7iBPL538x40gF7idLe2cXM4Iz/4i3CKCa+zTCwvI5jkxkf62Np5Jt+99OOvVPzNwe3iTSsRtBCh5nkjdyzkaHrxOx3zEoSNwDu7mBswjxyAZUNCJjKAA+KZtVypu4Z5hyCi6ZiXd6FHfi35L/FFFkNGO5kf2NnGsCTNud+pxJoRSlHOpWTKgSSz9HN+0o+SEG9mkAD31MP5svgMG7RfvfvKQXzZOSSH6/7JZYFPNsledHQ==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=Aq6Rcm4DuL4H4iDByYc2d5vcpT+ZTDTJbg6OGpHEgYk=;
+	h=date:mime-version:subject:message-id:from;
 
-On Wed, May 20, 2026 at 07:32:51PM -0300, Mauricio Faria de Oliveira wrote:
-> Remove the driver-internal function entry/exit debug messages
-> in favor of existing kernel-level function tracing mechanisms.
-> 
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Link: https://lore.kernel.org/all/2026051657-scruffy-embark-45ea@gregkh/
-> Signed-off-by: Mauricio Faria de Oliveira <mfo@igalia.com>
-Acked-by: Stanislaw Gruszka <stf_xl@wp.pl>
+Translate .../usb/chipidea.rst into Chinese
 
-> ---
->  drivers/usb/atm/ueagle-atm.c | 56 +++++---------------------------------------
->  1 file changed, 6 insertions(+), 50 deletions(-)
-> 
-> diff --git a/drivers/usb/atm/ueagle-atm.c b/drivers/usb/atm/ueagle-atm.c
-> index 71559a934133a82ddb23d255e0f04d018c13c583..ed2611aacb252fce829b4a33589c47912aadbe67 100644
-> --- a/drivers/usb/atm/ueagle-atm.c
-> +++ b/drivers/usb/atm/ueagle-atm.c
-> @@ -51,12 +51,6 @@
->  				"[ueagle-atm vdbg]  " format, ##args); \
->  	} while (0)
->  
-> -#define uea_enters(usb_dev) \
-> -	uea_vdbg(usb_dev, "entering %s\n" , __func__)
-> -
-> -#define uea_leaves(usb_dev) \
-> -	uea_vdbg(usb_dev, "leaving  %s\n" , __func__)
-> -
->  #define uea_err(usb_dev, format, args...) \
->  	dev_err(&(usb_dev)->dev , "[UEAGLE-ATM] " format , ##args)
->  
-> @@ -606,7 +600,6 @@ static void uea_upload_pre_firmware(const struct firmware *fw_entry,
->  	u32 crc = 0;
->  	int ret, size;
->  
-> -	uea_enters(usb);
->  	if (!fw_entry) {
->  		uea_err(usb, "firmware is not available\n");
->  		goto err;
-> @@ -670,7 +663,6 @@ static void uea_upload_pre_firmware(const struct firmware *fw_entry,
->  	uea_err(usb, "firmware is corrupted\n");
->  err:
->  	release_firmware(fw_entry);
-> -	uea_leaves(usb);
->  }
->  
->  /*
-> @@ -681,7 +673,6 @@ static int uea_load_firmware(struct usb_device *usb, unsigned int ver)
->  	int ret;
->  	char *fw_name = EAGLE_FIRMWARE;
->  
-> -	uea_enters(usb);
->  	uea_info(usb, "pre-firmware device, uploading firmware\n");
->  
->  	switch (ver) {
-> @@ -710,7 +701,6 @@ static int uea_load_firmware(struct usb_device *usb, unsigned int ver)
->  	else
->  		uea_info(usb, "loading firmware %s\n", fw_name);
->  
-> -	uea_leaves(usb);
->  	return ret;
->  }
->  
-> @@ -1137,7 +1127,6 @@ static int uea_cmv_e1(struct uea_softc *sc,
->  	struct cmv_e1 cmv;
->  	int ret;
->  
-> -	uea_enters(INS_TO_USBDEV(sc));
->  	uea_vdbg(INS_TO_USBDEV(sc), "Function : %d-%d, Address : %c%c%c%c, "
->  			"offset : 0x%04x, data : 0x%08x\n",
->  			E1_FUNCTION_TYPE(function),
-> @@ -1164,9 +1153,8 @@ static int uea_cmv_e1(struct uea_softc *sc,
->  							sizeof(cmv), &cmv);
->  	if (ret < 0)
->  		return ret;
-> -	ret = wait_cmv_ack(sc);
-> -	uea_leaves(INS_TO_USBDEV(sc));
-> -	return ret;
-> +
-> +	return wait_cmv_ack(sc);
->  }
->  
->  static int uea_cmv_e4(struct uea_softc *sc,
-> @@ -1175,7 +1163,6 @@ static int uea_cmv_e4(struct uea_softc *sc,
->  	struct cmv_e4 cmv;
->  	int ret;
->  
-> -	uea_enters(INS_TO_USBDEV(sc));
->  	memset(&cmv, 0, sizeof(cmv));
->  
->  	uea_vdbg(INS_TO_USBDEV(sc), "Function : %d-%d, Group : 0x%04x, "
-> @@ -1199,9 +1186,8 @@ static int uea_cmv_e4(struct uea_softc *sc,
->  							sizeof(cmv), &cmv);
->  	if (ret < 0)
->  		return ret;
-> -	ret = wait_cmv_ack(sc);
-> -	uea_leaves(INS_TO_USBDEV(sc));
-> -	return ret;
-> +
-> +	return wait_cmv_ack(sc);
->  }
->  
->  static inline int uea_read_cmv_e1(struct uea_softc *sc,
-> @@ -1295,7 +1281,6 @@ static int uea_stat_e1(struct uea_softc *sc)
->  	u32 data;
->  	int ret;
->  
-> -	uea_enters(INS_TO_USBDEV(sc));
->  	data = sc->stats.phy.state;
->  
->  	ret = uea_read_cmv_e1(sc, E1_SA_STAT, 0, &sc->stats.phy.state);
-> @@ -1438,7 +1423,6 @@ static int uea_stat_e4(struct uea_softc *sc)
->  	u32 tmp_arr[2];
->  	int ret;
->  
-> -	uea_enters(INS_TO_USBDEV(sc));
->  	data = sc->stats.phy.state;
->  
->  	/* XXX only need to be done before operationnal... */
-> @@ -1805,7 +1789,6 @@ static int uea_start_reset(struct uea_softc *sc)
->  	u16 zero = 0;	/* ;-) */
->  	int ret;
->  
-> -	uea_enters(INS_TO_USBDEV(sc));
->  	uea_info(INS_TO_USBDEV(sc), "(re)booting started\n");
->  
->  	/* mask interrupt */
-> @@ -1873,7 +1856,6 @@ static int uea_start_reset(struct uea_softc *sc)
->  		return ret;
->  
->  	sc->reset = 0;
-> -	uea_leaves(INS_TO_USBDEV(sc));
->  	return ret;
->  }
->  
-> @@ -1889,7 +1871,6 @@ static int uea_kthread(void *data)
->  	int ret = -EAGAIN;
->  
->  	set_freezable();
-> -	uea_enters(INS_TO_USBDEV(sc));
->  	while (!kthread_should_stop()) {
->  		if (ret < 0 || sc->reset)
->  			ret = uea_start_reset(sc);
-> @@ -1898,7 +1879,7 @@ static int uea_kthread(void *data)
->  		if (ret != -EAGAIN)
->  			uea_wait(sc, 0, msecs_to_jiffies(1000));
->  	}
-> -	uea_leaves(INS_TO_USBDEV(sc));
-> +
->  	return ret;
->  }
->  
-> @@ -1911,8 +1892,6 @@ static int load_XILINX_firmware(struct uea_softc *sc)
->  	u8 value;
->  	char *fw_name = FPGA930_FIRMWARE;
->  
-> -	uea_enters(INS_TO_USBDEV(sc));
-> -
->  	ret = request_firmware(&fw_entry, fw_name, &sc->usb_dev->dev);
->  	if (ret) {
->  		uea_err(INS_TO_USBDEV(sc), "firmware %s is not available\n",
-> @@ -1956,7 +1935,6 @@ static int load_XILINX_firmware(struct uea_softc *sc)
->  err1:
->  	release_firmware(fw_entry);
->  err0:
-> -	uea_leaves(INS_TO_USBDEV(sc));
->  	return ret;
->  }
->  
-> @@ -1966,7 +1944,6 @@ static void uea_dispatch_cmv_e1(struct uea_softc *sc, struct intr_pkt *intr)
->  	struct cmv_dsc_e1 *dsc = &sc->cmv_dsc.e1;
->  	struct cmv_e1 *cmv = &intr->u.e1.s2.cmv;
->  
-> -	uea_enters(INS_TO_USBDEV(sc));
->  	if (le16_to_cpu(cmv->wPreamble) != E1_PREAMBLE)
->  		goto bad1;
->  
-> @@ -1990,7 +1967,6 @@ static void uea_dispatch_cmv_e1(struct uea_softc *sc, struct intr_pkt *intr)
->  	if (cmv->bFunction == E1_MAKEFUNCTION(E1_ADSLDIRECTIVE,
->  							E1_MODEMREADY)) {
->  		wake_up_cmv_ack(sc);
-> -		uea_leaves(INS_TO_USBDEV(sc));
->  		return;
->  	}
->  
-> @@ -2004,7 +1980,6 @@ static void uea_dispatch_cmv_e1(struct uea_softc *sc, struct intr_pkt *intr)
->  	sc->data = sc->data << 16 | sc->data >> 16;
->  
->  	wake_up_cmv_ack(sc);
-> -	uea_leaves(INS_TO_USBDEV(sc));
->  	return;
->  
->  bad2:
-> @@ -2012,14 +1987,12 @@ static void uea_dispatch_cmv_e1(struct uea_softc *sc, struct intr_pkt *intr)
->  			"Function : %d, Subfunction : %d\n",
->  			E1_FUNCTION_TYPE(cmv->bFunction),
->  			E1_FUNCTION_SUBTYPE(cmv->bFunction));
-> -	uea_leaves(INS_TO_USBDEV(sc));
->  	return;
->  
->  bad1:
->  	uea_err(INS_TO_USBDEV(sc), "invalid cmv received, "
->  			"wPreamble %d, bDirection %d\n",
->  			le16_to_cpu(cmv->wPreamble), cmv->bDirection);
-> -	uea_leaves(INS_TO_USBDEV(sc));
->  }
->  
->  /* The modem send us an ack. First with check if it right */
-> @@ -2028,7 +2001,6 @@ static void uea_dispatch_cmv_e4(struct uea_softc *sc, struct intr_pkt *intr)
->  	struct cmv_dsc_e4 *dsc = &sc->cmv_dsc.e4;
->  	struct cmv_e4 *cmv = &intr->u.e4.s2.cmv;
->  
-> -	uea_enters(INS_TO_USBDEV(sc));
->  	uea_dbg(INS_TO_USBDEV(sc), "cmv %x %x %x %x %x %x\n",
->  		be16_to_cpu(cmv->wGroup), be16_to_cpu(cmv->wFunction),
->  		be16_to_cpu(cmv->wOffset), be16_to_cpu(cmv->wAddress),
-> @@ -2040,7 +2012,6 @@ static void uea_dispatch_cmv_e4(struct uea_softc *sc, struct intr_pkt *intr)
->  	if (be16_to_cpu(cmv->wFunction) == E4_MAKEFUNCTION(E4_ADSLDIRECTIVE,
->  						E4_MODEMREADY, 1)) {
->  		wake_up_cmv_ack(sc);
-> -		uea_leaves(INS_TO_USBDEV(sc));
->  		return;
->  	}
->  
-> @@ -2053,7 +2024,6 @@ static void uea_dispatch_cmv_e4(struct uea_softc *sc, struct intr_pkt *intr)
->  	sc->data = be32_to_cpu(cmv->dwData[0]);
->  	sc->data1 = be32_to_cpu(cmv->dwData[1]);
->  	wake_up_cmv_ack(sc);
-> -	uea_leaves(INS_TO_USBDEV(sc));
->  	return;
->  
->  bad2:
-> @@ -2061,7 +2031,6 @@ static void uea_dispatch_cmv_e4(struct uea_softc *sc, struct intr_pkt *intr)
->  			"Function : %d, Subfunction : %d\n",
->  			E4_FUNCTION_TYPE(cmv->wFunction),
->  			E4_FUNCTION_SUBTYPE(cmv->wFunction));
-> -	uea_leaves(INS_TO_USBDEV(sc));
->  	return;
->  }
->  
-> @@ -2089,8 +2058,6 @@ static void uea_intr(struct urb *urb)
->  	struct intr_pkt *intr = urb->transfer_buffer;
->  	int status = urb->status;
->  
-> -	uea_enters(INS_TO_USBDEV(sc));
-> -
->  	if (unlikely(status < 0)) {
->  		uea_err(INS_TO_USBDEV(sc), "uea_intr() failed with %d\n",
->  		       status);
-> @@ -2130,8 +2097,6 @@ static int uea_boot(struct uea_softc *sc, struct usb_interface *intf)
->  	int ret = -ENOMEM;
->  	int size;
->  
-> -	uea_enters(INS_TO_USBDEV(sc));
-> -
->  	if (UEA_CHIP_VERSION(sc) == EAGLE_IV) {
->  		size = E4_INTR_PKT_SIZE;
->  		sc->dispatch_cmv = uea_dispatch_cmv_e4;
-> @@ -2188,7 +2153,6 @@ static int uea_boot(struct uea_softc *sc, struct usb_interface *intf)
->  		goto err2;
->  	}
->  
-> -	uea_leaves(INS_TO_USBDEV(sc));
->  	return 0;
->  
->  err2:
-> @@ -2198,7 +2162,6 @@ static int uea_boot(struct uea_softc *sc, struct usb_interface *intf)
->  	sc->urb_int = NULL;
->  	kfree(intr);
->  err0:
-> -	uea_leaves(INS_TO_USBDEV(sc));
->  	return ret;
->  }
->  
-> @@ -2208,7 +2171,7 @@ static int uea_boot(struct uea_softc *sc, struct usb_interface *intf)
->  static void uea_stop(struct uea_softc *sc)
->  {
->  	int ret;
-> -	uea_enters(INS_TO_USBDEV(sc));
-> +
->  	ret = kthread_stop(sc->kthread);
->  	uea_dbg(INS_TO_USBDEV(sc), "kthread finish with status %d\n", ret);
->  
-> @@ -2222,7 +2185,6 @@ static void uea_stop(struct uea_softc *sc)
->  	flush_work(&sc->task);
->  
->  	release_firmware(sc->dsp_firm);
-> -	uea_leaves(INS_TO_USBDEV(sc));
->  }
->  
->  /* syfs interface */
-> @@ -2495,8 +2457,6 @@ static int uea_bind(struct usbatm_data *usbatm, struct usb_interface *intf,
->  	int ret, ifnum = intf->altsetting->desc.bInterfaceNumber;
->  	unsigned int alt;
->  
-> -	uea_enters(usb);
-> -
->  	/* interface 0 is for firmware/monitoring */
->  	if (ifnum != UEA_INTR_IFACE_NO)
->  		return -ENODEV;
-> @@ -2589,7 +2549,6 @@ static int uea_probe(struct usb_interface *intf, const struct usb_device_id *id)
->  	struct usb_device *usb = interface_to_usbdev(intf);
->  	int ret;
->  
-> -	uea_enters(usb);
->  	uea_dbg(usb, "ADSL device found with vid (%#X) pid (%#X) Rev (%#X): %s\n",
->  		le16_to_cpu(usb->descriptor.idVendor),
->  		le16_to_cpu(usb->descriptor.idProduct),
-> @@ -2620,7 +2579,6 @@ static void uea_disconnect(struct usb_interface *intf)
->  {
->  	struct usb_device *usb = interface_to_usbdev(intf);
->  	int ifnum = intf->altsetting->desc.bInterfaceNumber;
-> -	uea_enters(usb);
->  
->  	/* ADI930 has 2 interfaces and eagle 3 interfaces.
->  	 * Pre-firmware device has one interface
-> @@ -2631,8 +2589,6 @@ static void uea_disconnect(struct usb_interface *intf)
->  		mutex_unlock(&uea_mutex);
->  		uea_info(usb, "ADSL device removed\n");
->  	}
-> -
-> -	uea_leaves(usb);
->  }
->  
->  /*
-> 
-> -- 
-> 2.51.0
-> 
+Update the translation through commit e4157519ad46
+("Documentation: usb: correct spelling")
+
+Reviewed-by: Yanteng Si <siyanteng@cqsoftware.com.cn>
+Signed-off-by: Kefan Bai <baikefan@leap-io-kernel.com>
+---
+ .../translations/zh_CN/usb/chipidea.rst       | 150 ++++++++++++++++++
+ .../translations/zh_CN/usb/index.rst          |   2 +-
+ 2 files changed, 151 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/usb/chipidea.rst
+
+diff --git a/Documentation/translations/zh_CN/usb/chipidea.rst b/Documentation/translations/zh_CN/usb/chipidea.rst
+new file mode 100644
+index 000000000000..ea0dc3043189
+--- /dev/null
++++ b/Documentation/translations/zh_CN/usb/chipidea.rst
+@@ -0,0 +1,150 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/usb/chipidea.rst
++
++:翻译:
++
++ 白钶凡 Kefan Bai <baikefan@leap-io-kernel.com>
++
++:校译:
++
++
++=============================
++ChipIdea 高速双角色控制器驱动
++=============================
++
++1. 如何测试 OTG FSM（HNP 和 SRP）
++---------------------------------
++
++下面以两块 Freescale i.MX6Q Sabre SD 开发板为例，
++说明如何通过 sysfs 输入文件演示 OTG 的 HNP 和 SRP 功能。
++
++1.1 如何使能 OTG FSM
++--------------------
++
++1.1.1 在 ``menuconfig`` 中选择 ``CONFIG_USB_OTG_FSM``，并重新编译内核
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++重新构建内核镜像和模块。如果想查看 OTG FSM 的
++一些内部变量，可以挂载 ``debugfs``；其中有两个文件
++可以显示 OTG FSM 变量以及部分控制器寄存器的值::
++
++	cat /sys/kernel/debug/ci_hdrc.0/otg
++	cat /sys/kernel/debug/ci_hdrc.0/registers
++
++1.1.2 在控制器节点对应的 ``dts`` 文件中添加以下条目
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++::
++
++	otg-rev = <0x0200>;
++	adp-disable;
++
++1.2 测试步骤
++------------
++
++1) 给两块 Freescale i.MX6Q Sabre SD 开发板上电，
++   并加载 gadget 类驱动（例如 ``g_mass_storage``）。
++
++2) 用 USB 线连接两块开发板：
++   一端是 micro A 插头，另一端是 micro B 插头。
++
++   插入 micro A 插头的一端是 A 设备，它应枚举另一端的 B 设备。
++
++3) 角色切换
++
++   在 B 设备上执行::
++
++	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
++
++   B 设备应接管主机角色并枚举 A 设备。
++
++4) A 设备切回主机角色
++
++   在 B 设备上执行::
++
++	echo 0 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
++
++   或者，通过引入 HNP 轮询，B 端主机可以知道
++   A 端外设希望切换为主机角色，因此这次角色切换
++   也可以通过 A 端外设响应 B 端主机的轮询，
++   在 A 侧触发。
++   这可以通过在 A 设备上执行下面的命令来完成::
++
++	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_req
++
++   A 设备应切回主机角色并枚举 B 设备。
++
++5) 拔掉 B 设备（拔掉 micro B 插头），
++   并在 10 秒内重新插入；
++   A 设备应重新枚举 B 设备。
++
++6) 拔掉 B 设备（拔掉 micro B 插头），
++   并在 10 秒后重新插入；
++   A 设备不应重新枚举 B 设备。
++
++   如果 A 设备希望使用总线：
++
++   在 A 设备上执行::
++
++	echo 0 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_drop
++	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_req
++
++   如果 B 设备希望使用总线：
++
++   在 B 设备上执行::
++
++	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
++
++7) A 设备关闭总线供电
++
++   在 A 设备上执行::
++
++	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/a_bus_drop
++
++   A 设备应断开与 B 设备的连接，并关闭总线供电。
++
++8) B 设备发出 SRP 数据脉冲
++
++   在 B 设备上执行::
++
++	echo 1 > /sys/bus/platform/devices/ci_hdrc.0/inputs/b_bus_req
++
++   A 设备应恢复 USB 总线并枚举 B 设备。
++
++1.3 参考文档
++------------
++《On-The-Go and Embedded Host Supplement
++to the USB Revision 2.0 Specification
++July 27, 2012 Revision 2.0 version 1.1a》
++
++2. 如何将 USB 用作系统唤醒源
++----------------------------
++下面是在 i.MX6 平台上把 USB 用作系统唤醒源的示例。
++
++2.1 使能核心控制器的唤醒功能::
++
++	echo enabled > /sys/bus/platform/devices/ci_hdrc.0/power/wakeup
++
++2.2 使能 glue 层的唤醒功能::
++
++	echo enabled > /sys/bus/platform/devices/2184000.usb/power/wakeup
++
++2.3 使能 PHY 的唤醒功能（可选）::
++
++	echo enabled > /sys/bus/platform/devices/20c9000.usbphy/power/wakeup
++
++2.4 使能根集线器的唤醒功能::
++
++	echo enabled > /sys/bus/usb/devices/usb1/power/wakeup
++
++2.5 使能相关设备的唤醒功能::
++
++	echo enabled > /sys/bus/usb/devices/1-1/power/wakeup
++
++如果系统只有一个 USB 端口，
++而你希望在该端口上启用 USB 唤醒功能，
++可以使用下面的脚本::
++
++	for i in $(find /sys -name wakeup | grep usb);do echo enabled > $i;done;
+diff --git a/Documentation/translations/zh_CN/usb/index.rst b/Documentation/translations/zh_CN/usb/index.rst
+index 3480966fee19..e6d0a4fceff7 100644
+--- a/Documentation/translations/zh_CN/usb/index.rst
++++ b/Documentation/translations/zh_CN/usb/index.rst
+@@ -19,10 +19,10 @@ USB 支持
+
+     acm
+     authorization
++    chipidea
+
+ Todolist:
+
+-* chipidea
+ * dwc3
+ * ehci
+ * usbmon
+--
+2.54.0
+
