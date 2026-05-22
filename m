@@ -1,161 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00983B2FE5;
-	Fri, 22 May 2026 09:00:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDF73B637F;
+	Fri, 22 May 2026 09:00:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779440414; cv=none; b=Un6yKHX+go8YvataB16C9BsOqYXCeIun8iCQVQScG6X5tY07zmHhhcTt4dT2/3oZsR3cRmzRkdgWvETcVIPmq5b6DKgIMRsxeDFLZEBe0lNSBg46yZXFs6EchzJyuYZYDmhhrZ9hgfhhhPMxm4x0G8asXqRgOC33KJY5A7ZrxdU=
+	t=1779440429; cv=none; b=hbhLeAG422Lkl0MV2TS+/65/X6P1iDY9tRwxU8ugjB8slvmcQ1mO3aN9ga5BSQh8cmAdYKCx6WOjGUtsSsw73BOEHEWgSNei2iYUA4H6M7Cch6S1dZ3bu+Scq8APJkOdn/pyed7mNZ3oo5Js83cr/t3cdk5RSbqQkfumCK/xDWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779440414; c=relaxed/simple;
-	bh=k/CoVrJV02wLWSyejI6Y0Z+P5UwJLjO557+rASZQns4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s/rFnRnYJLXYXfu4WlUh7RhT5pkgyVNpMb3XhgNMKSuc23NFToh3xwTYSqZKbYOHgJK8BiBiN8/l2ZDJtCEi7UCDbH/jCa/0YUJSiSAw1edLat149d6FEhOziZw2MSLrTsq/8Jf9bzhv93HeD6XEcCNpChkB7352tahUGQ07hKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E7l4MAE1; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E7l4MAE1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F4C91F000E9;
-	Fri, 22 May 2026 09:00:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779440411;
-	bh=lSkv/lz7KzchkdjiWax8l4W0knSZO9RgQ1A/r2M7HcM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=E7l4MAE1Z7DRn+0Zd6ELeXTxBh3dWX0UxuJ7H00KraF7km+5T92vaoH1xHE0L2JHQ
-	 hHdx/D+72K4tcSSfTRZl2GstORofiG3YEFPM5UsUTa3lE9gsunM1ltbhPUyxMnSM0Y
-	 DsNLKRYNghn+/MyMONnCH/rPUIdSEulentwYyiwqAZEsLazoZymU0YdTsKr7YOSTt+
-	 2NtWFheY+tXPkmGcklEsroEpEAtc5mSxLkzi3YKd9lHHOEmEEBGK8+BejXaUbIGPGe
-	 M51lIcy2GpB7ncaY/GyLKeZxMOH5gfVZzTtjbzp1YBgxkPDvVn0amoTiLuU7eArvkA
-	 DL9CMIQw2Z/gA==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1wQLjk-00000003ltC-3Lav;
-	Fri, 22 May 2026 11:00:08 +0200
-Date: Fri, 22 May 2026 11:00:08 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Zhang Cen <rollkingzzc@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	zerocling0077@gmail.com, 2045gemini@gmail.com
-Subject: Re: [PATCH] USB: serial: cypress_m8: validate interrupt packet
- headers
-Message-ID: <ahAbGBT0nbDODXIq@hovoldconsulting.com>
-References: <20260521161117.3501317-1-rollkingzzc@gmail.com>
+	s=arc-20240116; t=1779440429; c=relaxed/simple;
+	bh=SOTyRTtHeW9kZGm6MBkk/lUYdAmFEbmAGA/vOsy+fOo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WvdrLjYOzwXQFMwfQ+w/2yfpuHu1mD2tIJKAeqTsRiMUpQQrO9MwwLAU7LJt9z0nefxsFDT83y2ueJe+y76YDigTpFYKoakFkOAX0ruw75ScdgURxWAwSEL9Wm7kcYGov5spMquNU1XDxMD9IEZYqiYA9CMZaoZJ3hTI9xd7plc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from abreu.molgen.mpg.de (g42.guest.molgen.mpg.de [141.14.220.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 86E504C1511A90;
+	Fri, 22 May 2026 10:59:41 +0200 (CEST)
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+To: Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
+	George D Sworo <george.d.sworo@intel.com>,
+	Rajat Jain <rajatja@google.com>,
+	Sean Paul <seanpaul@chromium.org>,
+	Tzung-Bi Shih <tzungbi@chromium.org>,
+	Matt DeVillier <matt.devillier@gmail.com>,
+	Paul Menzel <pmenzel@molgen.mpg.de>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] xhci: add helper to check for pending interrupt
+Date: Fri, 22 May 2026 10:58:25 +0200
+Message-ID: <20260522085828.24142-2-pmenzel@molgen.mpg.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260521161117.3501317-1-rollkingzzc@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 22, 2026 at 12:11:17AM +0800, Zhang Cen wrote:
-> cypress_read_int_callback() parses the interrupt-in buffer according to
-> the selected Cypress packet format. Format 1 has a two-byte status/count
-> header and format 2 has a one-byte combined status/count header. The
-> usb-serial core sizes the interrupt-in buffer from the endpoint
-> descriptor's wMaxPacketSize, and successful interrupt transfers can
-> complete short when URB_SHORT_NOT_OK is not set.
-> 
-> Check that both the allocated URB buffer and completed packet contain the
-> selected header before reading it. Malformed short reports are ignored and
-> the interrupt URB is resubmitted through the existing retry path,
-> preventing out-of-bounds and stale header-byte reads.
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-Good catch.
+xhci driver needs to manually check if xHC has raised an interrupt in
+several places. Add a helper for it, use it in `xhci_pending_portevent()`.
 
-> KASAN report as below:
-> KASAN slab-out-of-bounds in cypress_read_int_callback+0x240/0x7f0
-> RIP: 0010:kasan_check_range+0x67/0x1b0
-> Read of size 1
-> Call trace:
->   dump_stack_lvl+0x66/0xa0 (?:?)
->   print_report+0xce/0x630 (?:?)
->   cypress_read_int_callback() (drivers/usb/serial/cypress_m8.c:1009)
->   srso_alias_return_thunk+0x5/0xfbef5 (?:?)
->   __virt_addr_valid+0x188/0x320 (?:?)
->   kasan_report+0xe0/0x110 (?:?)
->   __usb_hcd_giveback_urb+0x103/0x1d0 (?:?)
->   __usb_hcd_giveback_urb+0xf3/0x1d0 (?:?)
->   __usb_hcd_giveback_urb+0x112/0x1d0 (?:?)
->   dummy_timer+0xaaa/0x19a0 (?:?)
+Return 1 if there is a pending interrupt, -ENODEV on error (dead device),
+0 otherwise.
 
-You can trim call traces like this one from here (dummy_timer).
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+(cherry picked from commit 741aeecfd9a1b2437c5ee1d70745b1bfd90fb7d6
+git://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-next)
 
->   mark_held_locks+0x40/0x70 (?:?)
->   _raw_spin_unlock_irqrestore+0x44/0x60 (?:?)
->   lockdep_hardirqs_on_prepare+0xb7/0x1a0 (?:?)
->   __hrtimer_run_queues+0x102/0x510 (?:?)
->   hrtimer_run_softirq+0xd0/0x130 (?:?)
->   handle_softirqs+0x155/0x650 (?:?)
->   __irq_exit_rcu+0xc4/0x160 (?:?)
->   irq_exit_rcu+0xe/0x20 (?:?)
->   sysvec_apic_timer_interrupt+0x6c/0x80 (?:?)
->   asm_sysvec_apic_timer_interrupt+0x1a/0x20 (?:?)
-> 
-> Fixes: 3416eaa1f8f8 ("USB: cypress_m8: Packet format is separate from characteristic size")
-> Assisted-by: Codex:gpt-5.5
-> Signed-off-by: Zhang Cen <rollkingzzc@gmail.com>
-> ---
->  drivers/usb/serial/cypress_m8.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/drivers/usb/serial/cypress_m8.c b/drivers/usb/serial/cypress_m8.c
-> index afff1a0f4298b..50c6abc69e756 100644
-> --- a/drivers/usb/serial/cypress_m8.c
-> +++ b/drivers/usb/serial/cypress_m8.c
-> @@ -1016,6 +1016,7 @@ static void cypress_read_int_callback(struct urb *urb)
->  	unsigned long flags;
->  	char tty_flag = TTY_NORMAL;
->  	int bytes = 0;
-> +	int header_size = 0;
->  	int result;
->  	int i = 0;
->  	int status = urb->status;
-> @@ -1060,18 +1061,32 @@ static void cypress_read_int_callback(struct urb *urb)
->  	default:
->  	case packet_format_1:
->  		/* This is for the CY7C64013... */
-> +		header_size = 2;
-> +		if (result < header_size ||
-> +		    urb->transfer_buffer_length < header_size)
+[pmenzel: As of 7.1-rc4, the commit is not Linus’ master branch, so port
+  it from the ChromiumOS Linux kernel branch chromium/chromeos-6.12.]
 
-As with you previous patch, there is no need to check the
-transfer_buffer_length (here or below).
+BUG=b:192925463
+TEST=Test S0ix for 500 cycles on brya.
 
-> +			break;
->  		priv->current_status = data[0] & 0xF8;
->  		bytes = data[1] + 2;
->  		i = 2;
+Signed-off-by: George D Sworo <george.d.sworo@intel.com>
+Change-Id: If7d584369e107a6497b10f3346c05e0c32920bcb
+Reviewed-on: https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/3313527
+Reviewed-by: Rajat Jain <rajatja@google.com>
+Commit-Queue: Rajat Jain <rajatja@google.com>
+Reviewed-by: Sean Paul <seanpaul@chromium.org>
+Reviewed-on: https://chromium-review.googlesource.com/c/chromiumos/third_party/kernel/+/3399807
+Tested-by: Rajat Jain <rajatja@google.com>
 
-The variable i already holds the header size, so even if it's not
-very well named you should reuse that one after moving the assignment.
+Origin-6-6: 8651d395a93eba47285700a373c12aa53be047ea
+Signed-off-by: Tzung-Bi Shih <tzungbi@chromium.org>
 
->  		break;
->  	case packet_format_2:
->  		/* This is for the CY7C63743... */
-> +		header_size = 1;
-> +		if (result < header_size ||
-> +		    urb->transfer_buffer_length < header_size)
-> +			break;
->  		priv->current_status = data[0] & 0xF8;
->  		bytes = (data[0] & 0x07) + 1;
->  		i = 1;
->  		break;
->  	}
->  	spin_unlock_irqrestore(&priv->lock, flags);
-> +	if (result < header_size || urb->transfer_buffer_length < header_size) {
-> +		dev_dbg(dev,
-> +			"%s - short packet header - received %d bytes but buffer has %d bytes\n",
-> +			__func__, result, urb->transfer_buffer_length);
+Link: https://chromium.googlesource.com/chromiumos/third_party/kernel/+/9fc38e27c31ae70d7b7829ff61cfcd18c18d3514
+Assisted-by: Claude Sonnet 4.6
+Cc: Matt DeVillier <matt.devillier@gmail.com>
+Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
+---
+ drivers/usb/host/xhci.c | 17 ++++++++++++++---
+ drivers/usb/host/xhci.h |  1 +
+ 2 files changed, 15 insertions(+), 3 deletions(-)
 
-Just say "short packet received" and possibly include result.
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index a54f5b57f205..8d4d6a524d05 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -97,6 +97,19 @@ int xhci_handshake(void __iomem *ptr, u32 mask, u32 done, u64 timeout_us)
+ 	return ret;
+ }
+ 
++/* return 1 if there is a pending interrupt, -ENODEV on error, 0 otherwise */
++int xhci_pending_interrupt(struct xhci_hcd *xhci)
++{
++	u32 status;
++
++	status = readl(&xhci->op_regs->status);
++
++	if (status == ~(u32)0)
++		return -ENODEV;
++
++	return !!(status & STS_EINT);
++}
++
+ /*
+  * Disable interrupts and begin the xHCI halting process.
+  */
+@@ -918,11 +931,9 @@ static bool xhci_pending_portevent(struct xhci_hcd *xhci)
+ {
+ 	struct xhci_port	**ports;
+ 	int			port_index;
+-	u32			status;
+ 	u32			portsc;
+ 
+-	status = readl(&xhci->op_regs->status);
+-	if (status & STS_EINT)
++	if (xhci_pending_interrupt(xhci) > 0)
+ 		return true;
+ 	/*
+ 	 * Checking STS_EINT is not enough as there is a lag between a change
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index aeecd301f207..82a0596c0ae9 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1955,6 +1955,7 @@ void xhci_ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
+ void xhci_cleanup_command_queue(struct xhci_hcd *xhci);
+ void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
+ unsigned int count_trbs(u64 addr, u64 len);
++int xhci_pending_interrupt(struct xhci_hcd *xhci);
+ int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 			    int suspend, gfp_t gfp_flags);
+ void xhci_process_cancelled_tds(struct xhci_virt_ep *ep);
+-- 
+2.53.0
 
-> +		goto continue_read;
-> +	}
->  	if (result < bytes) {
->  		dev_dbg(dev,
->  			"%s - wrong packet size - received %d bytes but packet said %d bytes\n",
-
-Johan
