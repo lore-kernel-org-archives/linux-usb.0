@@ -1,318 +1,150 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69659382F0D
-	for <linux-usb@vger.kernel.org>; Fri, 22 May 2026 09:03:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5F61531E8
+	for <linux-usb@vger.kernel.org>; Fri, 22 May 2026 09:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779440618; cv=none; b=M9Ks+ybQirt16b+uCmojS7f1rdshsLMoqstj/gl0pV18DmPR22smossAuGkpY8Pp+G4P+zpAGmzAIS0Y2F7xgbLu8Ug6El+mGQrVdEFWuNmZ58428N3hpmd/cYQMvHwVnhslksPhVDR3zkstqB7XQGnrgn53KHgYzBPAFPxGX4M=
+	t=1779441273; cv=none; b=lNX5ijggojOEJ4pWmU1LvTpPVKl+IyLbS11fp4dM6jnyeKW3tPaA2sVY0o+OhCsoRiOqDXoFDBsfcA1M6u6IrqrIYRxu6v3vrue9W078F/F7oq7sBuX1MtcoFatozJGY0h5k3yDEy5gJuEeQ33lL//HeBSnmppyMySZ5ajPm2/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779440618; c=relaxed/simple;
-	bh=cP8Wy30SjzkGdpt59Lod6Ulao6cPITYTAJj19/9raXc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IzKyCRXiOLJmJMIoyo5USH2jYRNmB4SvEAAV5Ji1gkEPiUq5e/7oCqqMThZtBP3AsedUJB7szLkqfVG8Ch6+VL5/KX0muqKQRlvdokrfMYXcRRhaG/GyeDQ/mt3E4mB2zytP1AI1UChiaZRAPGe/i/Myp9HmK+uH9Li7p6a4210=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rWl/Ja9h; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779441273; c=relaxed/simple;
+	bh=Cq72BMYdTaHaif3ZGyucqsxnru+OByNt0wmBp9ukVd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oSIIZ6TWG4NDUe91W+sBSK+g8LNHyUTV9UW/vEOOahLqglWKg3La4vclgUD0yTk3ZI933bXv43rF+i3TezmVxCfzVv5X7N9zmOhxd33IU+wyqliw+RT2UkZiUCqXLVcu+vC1rX83Fa5cl2qwThxBsXYS7zZ7ulvr1F/bqd56AuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=haUkYYp+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rWl/Ja9h"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4891e86fabeso91622815e9.1
-        for <linux-usb@vger.kernel.org>; Fri, 22 May 2026 02:03:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779440614; x=1780045414; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rg49TtTvO2RO/6WZj2jf7npNdtKp+STjgUNA71M7QmY=;
-        b=rWl/Ja9hxd+mbzBgNzir/MKF1CIjbwCVX9xJyuWntdNF809NPjIMGjgL38qpUOoY9c
-         uec4Oe6M1eEVymfO401oa1Es0/C4NOH71APO+yQMtDXZ/cwDf7wv5GeMmTWPBqdoSkMv
-         czP7L700AVVXVTEx650WGtOrI/icwsORG/tuVAhJ8RoAbln/zZRba36jr5Wu6S9nJK3j
-         6ZcTuxYOKZdVXPpfie/49noEVhOUW8q74Zjj0uhWutTptuz1n/DzJcJzCtbxZTe3RtEx
-         KjiMLE0/Xr1zFGeoq6aafM7x7mCs/m4mMKqDLvrlF/047bwJ+kQIboiwsTnPpdhUU53d
-         oCtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779440614; x=1780045414;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Rg49TtTvO2RO/6WZj2jf7npNdtKp+STjgUNA71M7QmY=;
-        b=DtI65SLTKpV7IdIUVhe1lPOcCc9UVU8rCszTjVopa4S6PMm0pYTPRJOhowUybTt4ZM
-         wvhW2n9qKfQwNPY8nh5E11n3jhSz5ULv71rLP0ABZsoJ/mwaPAbaLytQAm5Ydf64w4bA
-         R+Jx1m10BHuxJt5DCwwHpSLIJ+mcI8JHUeJX4bLRtGsaDyjlgaiBPwLWEBFY4+z9Pz84
-         mcVvEze1KxzNcfrBpDE4ost5DPXRqHWA/1hs27NwE37TQwfJZNAYidWtTuiE/Mto8htV
-         J5m4ubPjwUg7+ptWx2U0fbmDr8NqeAijUJk+bIdHXHQKyn6U2mdJsdXGi0+J2S/u1/JO
-         zgwA==
-X-Forwarded-Encrypted: i=1; AFNElJ8c6ctY4vIU8QkUTC8/1cgB/oYrEY78EAsOWZP6KCimitm0zxrmYIshu8q7FDOspCmNLKW2YquBfMo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzONbtAN/fIDezHZmxwd0O62T8zF3iAwlOOcHJo2msl5DKrZOs
-	nYws02tPTdZEsXwry/bkEL0ul5J0CVDNU1pnBNKlNBvcG2JKzJM7w4+B
-X-Gm-Gg: Acq92OGWwRk+/ItWqC/jUclf3ZnvRbaY/Z8FpKPkTwuGmK8+6bozDzBtSVnrLjzGfo6
-	VlWC5Zlv9eBvkNe2asmCf96wQeqwKzLmP5cj91G9XgGZTMBYHLoiqNsM8IN1x5CixjXzCuLQIPd
-	qAlv4toeIJCbV8q1BIl0OwnhPtiv5II49MR0yFcQs1BMfvuKLspN8GrvMWwGDTWrvQp2aQnZy+k
-	TvuZeo++CZkQ+Ff942ty+D34LPMvKlUcUesUPSZKjBn6mvAYFZ97dwbNZMU9Z5ac+cema7xW37I
-	yRHB61kzBRr1VIqpbhjPV3yzzh9P5b+MBRZGnFwvDGnjoc0PzbYUqYBQ84GLbcSpFSAj2WOuk56
-	fp8jm6Df7XwTocfGlHBcopo9E8y4uwAAkXek7SMHdmmwbMdQAP4hT9Y4VtcdpCXucfUiAxHfbV7
-	Cl8VScD6C8YKLqDGEOA6tmJvsezLXqFd8H+2EXxpNEpyY=
-X-Received: by 2002:a05:600c:a402:b0:48f:be94:d82c with SMTP id 5b1f17b1804b1-490426d1a91mr24483905e9.19.1779440613700;
-        Fri, 22 May 2026 02:03:33 -0700 (PDT)
-Received: from foxbook (bfk48.neoplus.adsl.tpnet.pl. [83.28.48.48])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4904527f7f7sm49820785e9.7.2026.05.22.02.03.32
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 22 May 2026 02:03:33 -0700 (PDT)
-Date: Fri, 22 May 2026 11:03:28 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Desnes Nunes <desnesn@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- gregkh@linuxfoundation.org, mathias.nyman@intel.com, stable@vger.kernel.org
-Subject: Re: [PATCH RFT RFC] usb: xhci: Kill hosts with HCE or HSE on
- command timeout
-Message-ID: <20260522110328.0d3eecd8.michal.pecio@gmail.com>
-In-Reply-To: <CACaw+ewSWTo72fSk2Q7ZzCM8pNuyrX5ua+qA=SZOQuNNMKSA5Q@mail.gmail.com>
-References: <20260430014817.2006885-1-desnesn@redhat.com>
-	<20260430104850.352bd946.michal.pecio@gmail.com>
-	<CACaw+exdPSVSfdAob7+d-xH=JEjBbPpY_z1cPPU6rzXx4wUZpA@mail.gmail.com>
-	<20260430235453.2288c973.michal.pecio@gmail.com>
-	<CACaw+ewwM_5eqyGW5=+THwHsYPs7u3NT096AFQdt6x4E6HcWtA@mail.gmail.com>
-	<20260502114644.76e6b5a3.michal.pecio@gmail.com>
-	<CACaw+eyKh7buHDoDyTOe8O65FP5cSXYdzCcQvwqKw=1DwX26oA@mail.gmail.com>
-	<20260502235517.089ba5bf.michal.pecio@gmail.com>
-	<CACaw+ewOTVh49tnkz+cRr0SD_Z-LmYrMWhFUrsik6YF83mPBtA@mail.gmail.com>
-	<20260503071749.6abda137.michal.pecio@gmail.com>
-	<CACaw+ew8uV5g1G-6qZGtVBEYZ3k+fvFrOq3XMyq-Nuhbq5mdnA@mail.gmail.com>
-	<20260503213111.117db3a1.michal.pecio@gmail.com>
-	<20260504093118.615ff480.michal.pecio@gmail.com>
-	<20260518083339.507e24bd.michal.pecio@gmail.com>
-	<CACaw+ewSWTo72fSk2Q7ZzCM8pNuyrX5ua+qA=SZOQuNNMKSA5Q@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="haUkYYp+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B65481F000E9;
+	Fri, 22 May 2026 09:14:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1779441272;
+	bh=lBRGmhtbsXGu27q5c6zi+xL3oI1FFb+YjvdQ7+Hcj5g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=haUkYYp+GuosbVjVinFcGdCb+XXg96/3f/fs8Eyfnoui8JB3TBnb7aL3uhoLaydCB
+	 SdA89IHg1CBa8PUtO4mQxcJz1HY9Qv5ZjUrRbBbV7/oaOnJA9jZWr4b8spKhQQYP1f
+	 8qOQdx/a3Vjh7xTfhXXCXGslde1bamXSXCRroV0M=
+Date: Fri, 22 May 2026 11:14:35 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Giorgi Kobakhia <mrkobush@gmail.com>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: [PATCH usb v4] usb: gadget: f_fs: fix NULL dereference in
+ ffs_dmabuf_detach()
+Message-ID: <2026052222-handbag-monopoly-1468@gregkh>
+References: <20260513231041.77176-1-mrkobush@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/tdf+lakP77TA_BBXkiiy=wC"
-
---MP_/tdf+lakP77TA_BBXkiiy=wC
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260513231041.77176-1-mrkobush@gmail.com>
 
-On Wed, 20 May 2026 01:59:41 -0300, Desnes Nunes wrote:
-> On Mon, May 18, 2026 at 3:33=E2=80=AFAM Michal Pecio <michal.pecio@gmail.=
-com> wrote:
-> > > The chip IOMMU faults shortly after setting USBCMD.RUN =3D 1.
-> > > Such fault is expected to cause HSE assertion and usually it does.
-> > > You will probably find that HSE is already set while Enable Slot
-> > > is being queued, even if it was clear in xhci_gen_setup(). =20
->=20
-> I've just read HSE at these places and confirmed that HSE was already
-> set even before queuing the enable slot trb, even though it was
-> previously clear in xhci_gen_setup().
+On Wed, May 13, 2026 at 04:10:41PM -0700, Giorgi Kobakhia wrote:
+> ffs_dmabuf_detach() dereferences ffs->gadget->dev.parent without
+> checking whether the FunctionFS instance is still bound to UDC.
+> 
+> This can be triggered by mounting FunctionFS, binding it to UDC
+> instance. Then unbind would make ffs->gadget = NULL. Calling
+> ffs_epfile_ioctl with code FUNCTIONFS_DMABUF_DETACH ends up in
+> ffs_dmabuf_detach, dereferencing ffs->gadget.
+> 
+> Crash Log:
+> Oops: general protection fault
+> KASAN: null-ptr-deref in range [0x00000000000000b0-0x00000000000000b7]
+> RIP: 0010:ffs_epfile_ioctl+0x3f1/0x25d0
+> 
+> Fix this by checking ffs->gadget under ffs->mutex, taking a reference
+> to the parent device before dropping the lock, and returning -ENODEV
+> if the gadget has already been removed.
+> 
+> Fixes: 7b07a2a7ca02 ("usb: gadget: functionfs: Add DMABUF import interface")
+> Signed-off-by: Giorgi Kobakhia <mrkobush@gmail.com>
+> ---
+>  drivers/usb/gadget/function/f_fs.c | 21 ++++++++++++++++++---
+>  1 file changed, 18 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+> index 002c3441bea3..67c8e65a5aa6 100644
+> --- a/drivers/usb/gadget/function/f_fs.c
+> +++ b/drivers/usb/gadget/function/f_fs.c
+> @@ -1553,14 +1553,27 @@ static int ffs_dmabuf_detach(struct file *file, int fd)
+>  {
+>  	struct ffs_epfile *epfile = file->private_data;
+>  	struct ffs_data *ffs = epfile->ffs;
+> -	struct device *dev = ffs->gadget->dev.parent;
+> +	struct device *dev;
+>  	struct ffs_dmabuf_priv *priv, *tmp;
+>  	struct dma_buf *dmabuf;
+>  	int ret = -EPERM;
+>  
+> +	mutex_lock(&ffs->mutex);
+> +	if (!ffs->gadget) {
+> +		mutex_unlock(&ffs->mutex);
+> +		return -ENODEV;
+> +	}
+> +	dev = get_device(ffs->gadget->dev.parent);
+> +	mutex_unlock(&ffs->mutex);
+> +
+> +	if (!dev)
+> +		return -ENODEV;
+> +
+>  	dmabuf = dma_buf_get(fd);
+> -	if (IS_ERR(dmabuf))
+> -		return PTR_ERR(dmabuf);
+> +	if (IS_ERR(dmabuf)) {
+> +		ret = PTR_ERR(dmabuf);
+> +		goto out_put_dev;
+> +	}
+>  
+>  	mutex_lock(&epfile->dmabufs_mutex);
+>  
+> @@ -1585,6 +1598,8 @@ static int ffs_dmabuf_detach(struct file *file, int fd)
+>  	mutex_unlock(&epfile->dmabufs_mutex);
+>  	dma_buf_put(dmabuf);
+>  
+> +out_put_dev:
+> +	put_device(dev);
+>  	return ret;
+>  }
+>  
+> -- 
+> 2.43.0
+> 
 
-Makes sense, thanks for checking.
+Hi,
 
-> The fault addresses do not appear in the main log, nor anywhere other
-> than the DMAR fault addr messages in the crashkernel's log.
->=20
-> However, by comparing the previous log messages from the past kernel,
-> to the ones I saw with the new kernel I built today, I noticed the
-> same 8K displacement from the fault addr. Maybe an iommu driver bug
-> clue?
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-If the bug is deterministic it should be fairly easy to nail it down.
-Attached xhci debugfs patch adds a list of almost all memory the xHC
-is allowed to access, including (if I havevn't missed something) all
-mappings it is allowed to access before any slots are enabled.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-Please apply, reboot and then:
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
-zip -r before.zip /sys/kernel/debug/usb/xhci/0000:80:14.0
-# trigger crash kexec and the bug
-zip -r after.zip /sys/kernel/debug/usb/xhci/0000:80:14.0
+- You have marked a patch with a "Fixes:" tag for a commit that is in an
+  older released kernel, yet you do not have a cc: stable line in the
+  signed-off-by area at all, which means that the patch will not be
+  applied to any older kernel releases.  To properly fix this, please
+  follow the documented rules in the
+  Documentation/process/stable-kernel-rules.rst file for how to resolve
+  this.
 
-Note: if you need to use tar instead, copy the directory and then
-archive the copy, because tar doesn't work on debugfs directly.
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
-And since the bug may be an out of bounds access by the HW, if you
-don't mind running slightly experimental patch to a critical subsystem,
-please also apply the DMA guard pages patch. I've been using it for a
-few months without issues, but YMMV. It helps determine which mapping
-is accessed OOB.
+thanks,
 
-Note: DMA guard pages may casue USB to stop working before kexec if
-it's a HW bug masked by memory layout, or begin to work after kexec in
-case of some IOMMU subsystem issues.
-
-> PS: there was a big iommu PR a few days ago - all the results from on
-> this email were performed with a recent 7.1.0-rc3 kernel checked out
-> at 30e0ff6d6a83.
-
-Well, so those IOMMU changes neither broke it nor fixed it.
-Knowing xHCI I frankly suspect that the problem is here.
-
-Regards,
-Michal
-
-
-
---MP_/tdf+lakP77TA_BBXkiiy=wC
-Content-Type: text/x-patch
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=xhci-debugfs-memory.patch
-
-diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
-index da528d07b815..b4f12013d487 100644
---- a/drivers/usb/host/xhci-debugfs.c
-+++ b/drivers/usb/host/xhci-debugfs.c
-@@ -779,6 +779,78 @@ static void xhci_debugfs_create_bandwidth(struct xhci_hcd *xhci,
- 			  parent, &bw_fops);
- }
- 
-+static void list_ring_segments(struct seq_file *s, struct xhci_ring *ring)
-+{
-+	struct xhci_segment *seg;
-+
-+	xhci_for_each_ring_seg(ring->first_seg, seg)
-+		seq_printf(s, "%.3x: %pad\n", seg->num, &seg->dma);
-+}
-+
-+static void list_event_ring_segments(struct seq_file *s, struct xhci_interrupter *ir)
-+{
-+	struct xhci_segment *seg;
-+
-+	seq_printf(s, "IR%d ERST: %pad\n", ir->intr_num, &ir->erst.erst_dma_addr);
-+	xhci_for_each_ring_seg(ir->event_ring->first_seg, seg)
-+		seq_printf(s, "%.3x: %pad %c= %.16llx %.8x\n", seg->num, &seg->dma,
-+				ir->erst.entries[seg->num].seg_addr == seg->dma ? '=' : '!',
-+				ir->erst.entries[seg->num].seg_addr,
-+				ir->erst.entries[seg->num].seg_size);
-+	seq_putc(s, '\n');
-+}
-+
-+static int xhci_memory_show(struct seq_file *s, void *unused)
-+{
-+	struct xhci_hcd		*xhci = (struct xhci_hcd *)s->private;
-+	int			num_sp = HCS_MAX_SCRATCHPAD(xhci->hcs_params2);
-+
-+	if (!xhci)
-+		return -EFAULT;
-+
-+	seq_puts(s, "CR:\n");
-+	list_ring_segments(s, xhci->cmd_ring);
-+	seq_putc(s, '\n');
-+
-+	for (int i = 0; i < 1; i++)
-+		if (xhci->interrupters[i])
-+			list_event_ring_segments(s, xhci->interrupters[i]);
-+
-+	seq_printf(s, "DCBAA: %pad\n", &xhci->dcbaa->dma);
-+	for (int i = 0; i < MAX_HC_SLOTS; i++)
-+		seq_printf(s, "%.3x: %pad\n", i, xhci->dcbaa->dev_context_ptrs + i);
-+	seq_putc(s, '\n');
-+
-+	if (xhci->scratchpad) {
-+		seq_printf(s, "SBA: %pad\n", &xhci->scratchpad->sp_dma);
-+		for (int i = 0; i < num_sp; i++)
-+			seq_printf(s, "%.3x: %pad\n", i, xhci->scratchpad->sp_array + i);
-+		seq_putc(s, '\n');
-+	}
-+
-+	for (int d = 1; d < MAX_HC_SLOTS; d++)
-+		for (int e = 0; e < EP_CTX_PER_DEV; e++)
-+			if (xhci->devs[d] && xhci->devs[d]->eps[e].ring) {
-+				seq_printf(s, "DEV %d EP %d:\n", d, e);
-+				list_ring_segments(s, xhci->devs[d]->eps[e].ring);
-+				seq_putc(s, '\n');
-+			}
-+
-+	return 0;
-+}
-+
-+static int memory_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, xhci_memory_show, inode->i_private);
-+}
-+
-+static const struct file_operations memory_fops = {
-+	.open			= memory_open,
-+	.read			= seq_read,
-+	.llseek			= seq_lseek,
-+	.release		= single_release,
-+};
-+
- void xhci_debugfs_init(struct xhci_hcd *xhci)
- {
- 	struct device		*dev = xhci_to_hcd(xhci)->self.controller;
-@@ -831,6 +903,8 @@ void xhci_debugfs_init(struct xhci_hcd *xhci)
- 	xhci_debugfs_create_ports(xhci, xhci->debugfs_root);
- 
- 	xhci_debugfs_create_bandwidth(xhci, xhci->debugfs_root);
-+
-+	debugfs_create_file("memory", 0444, xhci->debugfs_root, xhci, &memory_fops);
- }
- 
- void xhci_debugfs_exit(struct xhci_hcd *xhci)
-
---MP_/tdf+lakP77TA_BBXkiiy=wC
-Content-Type: text/x-patch
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=dma-guard-pages.patch
-
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 54d96e847f16..41ff22748276 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -757,6 +757,17 @@ static int dma_info_to_prot(enum dma_data_direction dir, bool coherent,
- 	}
- }
- 
-+static unsigned long size_to_iova_len(struct iova_domain *iovad, size_t size)
-+{
-+	size_t guard_size = 0;
-+
-+	/* allocate optional guard pages after the requested mapping */
-+	if (1)
-+		guard_size = iova_align(iovad, 1024 << 10);
-+
-+	return (size + guard_size) >> iova_shift(iovad);
-+}
-+
- static dma_addr_t iommu_dma_alloc_iova(struct iommu_domain *domain,
- 		size_t size, u64 dma_limit, struct device *dev)
- {
-@@ -770,7 +781,7 @@ static dma_addr_t iommu_dma_alloc_iova(struct iommu_domain *domain,
- 	}
- 
- 	shift = iova_shift(iovad);
--	iova_len = size >> shift;
-+	iova_len = size_to_iova_len(iovad, size);
- 
- 	dma_limit = min_not_zero(dma_limit, dev->bus_dma_limit);
- 
-@@ -807,17 +818,21 @@ static void iommu_dma_free_iova(struct iommu_domain *domain, dma_addr_t iova,
- 				size_t size, struct iommu_iotlb_gather *gather)
- {
- 	struct iova_domain *iovad = &domain->iova_cookie->iovad;
-+	unsigned long iova_len;
- 
- 	/* The MSI case is only ever cleaning up its most recent allocation */
--	if (domain->cookie_type == IOMMU_COOKIE_DMA_MSI)
-+	if (domain->cookie_type == IOMMU_COOKIE_DMA_MSI) {
- 		domain->msi_cookie->msi_iova -= size;
--	else if (gather && gather->queued)
-+		return;
-+	}
-+
-+	iova_len = size_to_iova_len(iovad, size);
-+
-+	if (gather && gather->queued)
- 		queue_iova(domain->iova_cookie, iova_pfn(iovad, iova),
--				size >> iova_shift(iovad),
--				&gather->freelist);
-+				iova_len, &gather->freelist);
- 	else
--		free_iova_fast(iovad, iova_pfn(iovad, iova),
--				size >> iova_shift(iovad));
-+		free_iova_fast(iovad, iova_pfn(iovad, iova), iova_len);
- }
- 
- static void __iommu_dma_unmap(struct device *dev, dma_addr_t dma_addr,
-
---MP_/tdf+lakP77TA_BBXkiiy=wC--
+greg k-h's patch email bot
