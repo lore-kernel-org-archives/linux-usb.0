@@ -1,122 +1,88 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4663B6352;
-	Fri, 22 May 2026 09:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938363B7B76;
+	Fri, 22 May 2026 09:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779441391; cv=none; b=hL8REvsqgKPE5jmT8i3NAVti5UHhkx7hVvRz2s+WgMp02MeZY6GX0c9bg0RoDdyU7E/oHT+WulCpYjcgaMAp2U5+9BpPh8Y3WgqljjXlnU3Xd5rAP9FftYRbUhXs4XScYE4IDY6jPrMEMgpwbi7vOBkfzVUmqjbQbsygmggUi04=
+	t=1779441816; cv=none; b=TcsJI/dEhBEpDQCWDi2vf2KEA8FPCdy7dhIwRh7p0fs81uozGY5h97SpL39EBL1147Vf6GCjRGRfPVTf5d7LgNRVtk3xMN2MNDQ2r389YBxkzASRlDaMSZykJEpCmdCZNGZMLEQHZmWIQPp2mPqoH5BaTLBJxP/gRdpmraSFh8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779441391; c=relaxed/simple;
-	bh=7OfjFs4Bg5vviqn455+7WnkjH86P0c2h8wLYzLcl8Rk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JExM2vrBpK3kIh2ZEooQvQ1IqkO229P0EPbu9nZsJ180ghW/IiXEbvrCRJgaUL8IZP0rr4VoReM7531N3aZB5ewhsYwcGuXBV1pd6LIMO10Sa/baEK2dveAwWib+NEeXfyVyNUV8PzJvdcB3U1/yEHlUuYSPCTLI+HwXzN4Ilt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=hgwEI0us; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1779441816; c=relaxed/simple;
+	bh=m2NKcB6TLHjaSaT162xrmKpvge/X2ahpM/ak03ngy2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VUPrRJOmY75LyanwAs5agFmgAx6gjKU2p3UWvBrUflqq1/bRl8hwc2ETXXXrzsgF1Pfvo0ywTvosrLdbn/sM4e00k97NT4f/+Q08rTq3rqfnknCZREXRBC5yNoYI4MdahzCTOAnRto/4NtbkdqkemA26H+cMIrnvFmfX0qRnFZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RcS3MadN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="hgwEI0us"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1779441351;
-	bh=08CAO5lKzWde9l32XGequrPCSRtypNLqVRXwu/sK97Q=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=hgwEI0us+ywpGKXz5+Sw0hk9ICqiqhlt8dwtKl+ojen5+fsBgdBPyilhXJQlG8X4S
-	 bND3KmyV9r83lkWP3KijWtrmADLwvwfV2Hd0bnHSC+bYxxfDtJVlauJrJxMwPSS6fK
-	 ogKrXlBG7yT/0sAbmmpCDUgoJeLH3Zki94eD/bLo=
-X-QQ-mid: esmtpgz14t1779441329tcbca6c91
-X-QQ-Originating-IP: nOvGuVInMdku8IJEn3AcjYyrv6JtS0hpPfqrXbYa0hI=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 22 May 2026 17:15:28 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 10072213887480833044
-EX-QQ-RecipientCnt: 7
-From: Wentao Guan <guanwentao@uniontech.com>
-To: gregkh@linuxfoundation.org,
-	oneukum@suse.com
-Cc: carvsdriver@gmail.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Wentao Guan <guanwentao@uniontech.com>
-Subject: [PATCH] USB: cdc-acm: Fix bit overlap and move quirk definitions to header
-Date: Fri, 22 May 2026 17:13:58 +0800
-Message-Id: <20260522091357.1301196-1-guanwentao@uniontech.com>
-X-Mailer: git-send-email 2.30.2
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RcS3MadN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE4A61F000E9;
+	Fri, 22 May 2026 09:23:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1779441815;
+	bh=tdP9f+4CdyupRq+vjIaYKbxnzDyQmwF7Lcej1qmpQ7o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RcS3MadNcqrhlsAjPOcCDdKXGN7mGmjwhPBvghAvYyOQDptxuNgWFEcnckcDad+CJ
+	 TbXnDQIKfkdF+jfJJ0rKrVAnk1GI2pMEEjZR0TTSzE3o42BVcIkwyeEAk5U1D3z3XP
+	 1zrs5PsUedLFRxOZ5At3SAk0MJK7pF0u8PpDmUzs=
+Date: Fri, 22 May 2026 11:23:38 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+Cc: Mathias Nyman <mathias.nyman@intel.com>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
+	George D Sworo <george.d.sworo@intel.com>,
+	Matt DeVillier <matt.devillier@gmail.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] xhci: check for a pending command completion during
+ command timeout
+Message-ID: <2026052213-deserving-oppressor-bb81@gregkh>
+References: <20260522085828.24142-2-pmenzel@molgen.mpg.de>
+ <20260522085828.24142-4-pmenzel@molgen.mpg.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: NchHDkd43sBtypd/+GxbJW4NTrVJeZ7H3vo7d7PLFCmOSoclDolK/shZ
-	VbabDmrTy8GLtrFj9k/q17xThLOSbmi0Mj2wT9PRewU6t2QGFWB09FnTcrn28X9K3RQvCpz
-	joaJOpN5B8KiQB1wdeLxG8+12H/9da1RYPgmZM2EXv96YZwZCIAu2jtAEBx1976P5Gw/IXb
-	UxT9bKEDb2r5mCN7ofGIyqHCCqfEB1Za3qBFUtNPyEGSVzMzeUKA/5/hPHQpoLWhGHiQEKO
-	zPhWdANIariHWPoaKe7KcaDzNBmxdOowlxYV1jNXWNhCjsHT+vK5sHry57iW8/E+tlIG7mh
-	QIdrLMEOQz4W5ItepQ9f3rmKYgqU38/qp2YHn0Tcakv+WDqZxqVkR/3d2mHRPTN0je4Knzt
-	ix5b502UmcvGd2iE+M6zM76xpnB+dcmy56s2n18BUesLTp7+wsifzCmncyw39JwTHJqU8IA
-	nDEEWeAc6qj+EpJR/UJto6+pamenNTYXYkV/I1p9ypgolD6PP9YEclcjl5WMhjWB+SQvhiJ
-	+pAkW8G+KS2lQD6VPjdYy6mKxdnX+BJoqUqHIhmWD3hvmjSmQ/EhAQNvmuPRGLWRNs9Csuk
-	rV1Zad5D9kxS2H6hpvCYPbK7+6EO9J0iTQuDGuld03VgGwBF0InZwdwJjw0UCYy7zfX7Mtk
-	8WfDJqZlbtNQ6eeD19WhlCQB03bfQRK3HsPVPYum3B3K3MNF+jVHlYTQIgig326VMyzrSSw
-	+olHhfEY99zR7cCv/zwS8xHCI5S2SnixoBM1RwmdU9nzKVn51FMFbI+WlyLNDiTbIreE0pS
-	8LMsSZ1BtWQEu+Sx0OJ++XhGUYeOkaXcnA3xcQfHKkkuWpnrckLJIPPgaijlEj/eYzqmvdC
-	oxR6RM7vnwoYuscz5fu3aj2sX0kiwLVg4paHY0gFZ56wXJetojkCMUXpaFlwEhOjW1YmoEn
-	KD56XNYW6rCQGFZIULRptfTgof08nZHivwa2LQHz9Wb5AncYzV85K7ik7YlfjjlVhl5owET
-	pvyMIXky32NaNCVR5sl8UAgCZeCKmSnbNeSUJc1GywUVnCgVVDfwURRS5RLEWuR0eHmyUCQ
-	w==
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-X-QQ-RECHKSPAM: 0
+In-Reply-To: <20260522085828.24142-4-pmenzel@molgen.mpg.de>
 
-The VENDOR_CLASS_DATA_IFACE and ALWAYS_POLL_CTRL quirk flags added in
-commit f58752ebcb35 ("USB: cdc-acm: Add quirks for Yoga Book 9 14IAH10
-INGENIC touchscreen") were placed inside the acm_ctrl_msg() function
-rather than in the header with the other quirk flags.  Then, their
-values (BIT(9) and BIT(10)) collided with NO_UNION_12 which is already
-BIT(9).
+On Fri, May 22, 2026 at 10:58:27AM +0200, Paul Menzel wrote:
+> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+> 
+> It's possible a command times out even if xHC hardware already completed
+> the command. Driver is unaware of the command completion if interrupt
+> handler is blocked for a long time.
+> 
+> Check if there is an unhandled command completion on the event ring during
+> command timeout.
+> 
+> In this case just give the command additional time to complete. There's no
+> point in aborting the command ring to move past a stuck command.
+> 
+> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> Signed-off-by: George D Sworo <george.d.sworo@intel.com>
+> Link: https://chromium.googlesource.com/chromiumos/third_party/kernel/+/478ab723af9414b0a2a2fbc59ac34f5d319a4fc3
+> [pmenzel: one adaptation for mainline 7.1: next_trb() uses the
+>   2-argument form next_trb(&seg, &deq) — the mainline 7.1 signature
+>   dropped the xhci and ring arguments present in the 6.12 source the
+>   patch was ported from.  xhci_pending_interrupt() is used directly as
+>   it is now committed as the preceding prerequisite.]
+> Assisted-by: Claude Sonnet 4.6
+> [pmenzel: No devices with the problem available, but no regressions on
+>   Dell XPS 13 9360 and QEMU 7.2.0.
+> 
+>       qemu-system-x86_64 -enable-kvm -cpu host -m 3G -device qemu-xhci,id=xhci -device usb-storage,bus=xhci.0
+> 
+>   xHCI host controller initialised cleanly, USB 3.0 SuperSpeed root
+>   hubs and USB mass storage device enumerated without errors.
+>   The specific race (command timeout with blocked interrupt handler)
+>   cannot easily be forced in QEMU, but no regressions in the normal
+>   command path were observed.]
 
-Move the definitions to drivers/usb/class/cdc-acm.h where they belong
-and shift them to BIT(10) and BIT(11) to avoid the overlap.
+What are these additions from?  Did you mean to send these out to the
+lists?
 
-Fixes: f58752ebcb35 ("USB: cdc-acm: Add quirks for Yoga Book 9 14IAH10 INGENIC touchscreen")
-Cc: stable@vger.kernel.org
-Signed-off-by: Wentao Guan <guanwentao@uniontech.com>
----
-changelog:
-1. from RFC to ready.
----
----
- drivers/usb/class/cdc-acm.c | 2 --
- drivers/usb/class/cdc-acm.h | 2 ++
- 2 files changed, 2 insertions(+), 2 deletions(-)
+confused,
 
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index 54059e4fc6ed7..ddf0b59638595 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -114,8 +114,6 @@ static int acm_ctrl_msg(struct acm *acm, int request, int value,
- 	int retval;
- 
- 	retval = usb_autopm_get_interface(acm->control);
--#define VENDOR_CLASS_DATA_IFACE		BIT(9)  /* data interface uses vendor-specific class */
--#define ALWAYS_POLL_CTRL		BIT(10) /* keep ctrl URB active even without an open TTY */
- 	if (retval)
- 		return retval;
- 
-diff --git a/drivers/usb/class/cdc-acm.h b/drivers/usb/class/cdc-acm.h
-index 25fd5329a8781..01f448a783c03 100644
---- a/drivers/usb/class/cdc-acm.h
-+++ b/drivers/usb/class/cdc-acm.h
-@@ -115,3 +115,5 @@ struct acm {
- #define DISABLE_ECHO			BIT(7)
- #define MISSING_CAP_BRK			BIT(8)
- #define NO_UNION_12			BIT(9)
-+#define VENDOR_CLASS_DATA_IFACE		BIT(10)  /* data interface uses vendor-specific class */
-+#define ALWAYS_POLL_CTRL		BIT(11) /* keep ctrl URB active even without an open TTY */
--- 
-2.30.2
-
+greg k-h
