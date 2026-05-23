@@ -1,63 +1,71 @@
-Received: from mout-y-111.mailbox.org (mout-y-111.mailbox.org [91.198.250.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269C719004A;
-	Sat, 23 May 2026 13:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4CA28DB46
+	for <linux-usb@vger.kernel.org>; Sat, 23 May 2026 15:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779542734; cv=none; b=Ajhi4kYxVcn5130zdlu1MtryYeAVJOx4X+B4DrKc8ZUtumPK/Z6PJhacNhZ+jNVTzUrDDKcHk46snROtNijYKMHW+BddxAK/e9FjK65Sp5jdYrhrD4ksHLxXi7kaCl2GIqZ/IL4a+hQN6YeaDhmF1/mLpO5FP+BobDTrxSHufF0=
+	t=1779550081; cv=none; b=AH5r/U6I4S65o4F1vx4mYJAEf4zL03pqn7KRscLxBVLT5/9lu8w63Lg+MkxnrTmS6szP37m47cz06TJrsHFzPrw50+i5lSsiuELg4nFxftM4EQRadDF3Ncc0nv1WJWdO5oOrwfog+U1aQ/Ay1S/acWnz5fNosoh/X2kBgkJoUaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779542734; c=relaxed/simple;
-	bh=NLQOYHcbX92Dt/Dad0zUJKi99mTFQaq6qBCN2CEOvt0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YaGOJ2NQ2FXz0j1fNJ1wKOSj/4BUJ8iLi80U5DNSR9oWkGfmC6E3S4SdCC7WaonEFamm/nXyLg+oWlxILmDTfmkR4Z+FFP85J6NinnrttNnikfrYO/DauEHBWezvPF+rWX1Fe/HIMBVvJ/7MCJx7AQIuL21BxF5wOj8rI5l9Y6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=xnydJeMP; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=dq+P+aj2; arc=none smtp.client-ip=91.198.250.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1779550081; c=relaxed/simple;
+	bh=BYzGSzwVskCyUgvPX1pCwcDkXR9mWKSVLYBOavmncGA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LCJfkH4TK1ZEr+noPlHII17L4qkzJlg/3Uh3DEyHZiGBDr7kbicq+tWFf5bYZTyBO/ePCg1dZWFWODhw1qCzaUezcJYzAozI7WDMCw45sfzVE5cixu7Fy2Z1KwoZBoiO4qc+XpKCrUviIjp3TR+RQU4SV0SnFPreQT5N/yagySA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fdkD1N5W; arc=none smtp.client-ip=209.85.210.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="xnydJeMP";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="dq+P+aj2"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-y-111.mailbox.org (Postfix) with ESMTPS id 4gN2vY6PQnz9ygy;
-	Sat, 23 May 2026 15:25:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1779542729;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=tzVCnK4h+wlvOzvoQtfIVTCV8MGHm5StGNsgjrmtRbk=;
-	b=xnydJeMPTb76I9SESgJvRguAjSnaJnsOrJlKxP8cQ4r1VzieucL6/HQvzY3Iu8stTga5//
-	SCUtIMZieWKXN9csJw/3YZERCco1M8HuIycvv9u0SZFamQVWuc7pQs0wCugKCXYLvc+b+1
-	OQz2tInuiWUhE+ns5h2vAfTm81dQUIFEwnA9qrUeHKA8jlBRajHenCjRvhkNAejOUHj0k3
-	LGA5LML/am6XLCpO+fR6mA2ZO5BMYMWqDg1P6XeRf6HbEaMbPHNInhm8S5IqxbfZ1RLQo5
-	Gp0EabxDbpqsxhWGEaiYzdHsscYka8ksPrd4LbRip6qKrVDvaxbqyaAL/sDlww==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=dq+P+aj2;
-	spf=pass (outgoing_mbo_mout: domain of a0yami@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=a0yami@mailbox.org
-From: Qing Ming <a0yami@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1779542728;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=tzVCnK4h+wlvOzvoQtfIVTCV8MGHm5StGNsgjrmtRbk=;
-	b=dq+P+aj2E0RdVpYWi79sc7SpNR/Uz7m/o4Cfddzthw1ZwDPRTDFGDBmx3L6en3PaFTXnQT
-	U5l3CydzGCSilRmYKLYOJyDvpNSyjQ21HezP4UHdgFsd4Krh9rgfEBDxMvMCpZvc0KeLWA
-	xAP63xz46kxkLW7bkQ4y6MjO1JbuILBneYECHfDuujoUvaCHkv9ticx35TUXPwBlxIHyMa
-	tGEoNVq/F73FBYUafIfGbOFJhzH4lrItyc59d6KUwY5Un1gjHEnqkpBLK55cgTmlFN6RF4
-	qpTq1/b7NqYrlYW7kbI/gomKPmx6bLFBiEFcYCfSTcfFiXTM1OsqgS/S4abKhA==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Sumanth Gavini <sumanth.gavini@yahoo.com>,
-	Kees Cook <kees@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fdkD1N5W"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-834f1075805so6437363b3a.2
+        for <linux-usb@vger.kernel.org>; Sat, 23 May 2026 08:27:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779550079; x=1780154879; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=STeyAHz8huFsIROfqu2tsbEyvrvCu1lCeBtg8Cf0meA=;
+        b=fdkD1N5WH83jjS2d9hSUCxok7MwMejQ1dQ4WBL4SZjFqnl+aXWwknJmyI2wPa0Bau2
+         n2BkKdI9folDl5/pdYW8LstRT03neGmDA39xCn/p3XmFs/DsybD2375zJzajSr/eC5qu
+         35Tc8iDa3507LQbzffoXGGzv0M5ecc/R5weL/B5YR7hqXRnvX/3I9ILOqZ4tlaEmBrsi
+         FAy5eLA0oE86E1aYmKThVl7YSK1W0Pm2dQfRdO8YHnqir9y6lDn4Achl1GHo3SVjm22j
+         xoQ961/A8vb5wjuVe4MRfTfguCAPqNDAhzqL/DrMs9JLrvSQfzNMuhEGr5D3f5b7cIcI
+         qL3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779550079; x=1780154879;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=STeyAHz8huFsIROfqu2tsbEyvrvCu1lCeBtg8Cf0meA=;
+        b=lDw8h2xcWxuKvku4KxCcrQF6OwOqIn5Rb4IYjhgJlGwsq/E7daVCHMFnRBGGOosNKt
+         HL/3cBSsJlW+c4ixt0WfVKkmTmdpPhKZEajjTntc00OasTPweYg2nh1pIs1DaBlb7tYK
+         Ob4bH1RKp46++ewqXfd+wSgGdXSGhfjRKy2w8eS/h3iegkaqURfUrHciD6uCkr1ZPkdl
+         +NXhVpqHkXbeLJwgvfAiLkzDyv5szVwD9c+W0t/3VtAz0JfyIjeF25q2VYXsbDqtZ+9/
+         4hgcTUa4SeMuUu1hEdiY3Hbl3PIPdisHmxJmKRUVk4RK1wlyQv7lhfw2DBK+RN7VnTw4
+         aU5g==
+X-Forwarded-Encrypted: i=1; AFNElJ9ukMuj5DSqdtLCHCxDzTgvdp/5TTVfctNIuL3XtINEKNzSCs/6SNtrU71ZKgIbKduwPTvkr4bCLYY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLVl5VTogGIKbtildaKP0gVrlJ4dUMoKUsRUjF8Ua1pbCfVE/u
+	EoCKztBNX5KJRp9ucPDV09JMCq79vkGj44UW/kogDCuGysbeCvNCG4AZ
+X-Gm-Gg: Acq92OFVy4oSNxwV+NmXGhE07C+fn9g72M24SxIw5sKuOEG+ItzWnxokWVVDfC1gMad
+	e1HEt0mbIOQS67AQW0lyyRCbtEROat72fhFPZFZRjXOf3hg0vdRF8eYxGRBcUQicUBaW5zfuEBx
+	L6i+jUlz0XyeNGKz6BFK2M54Bfly4fdJaw0j1oBlj1Fkag/Rb2VPktHDMHEGqhEwBnG7h6opkgX
+	cBwfxb9esVJJ+U5dvyyaq2bxoCoRMpQTt9zzv7HXPXU0AvK9ItW3+Uh3/QpBA3Vp2suK3UMhOMX
+	Mqug9PUbx196NNvSfemXUQQdG4RpEOuqaZ9tsGeOhcVdn/m9bSkOwlgFQzMdJKBBuP2UosG9ZYF
+	/mdTwXfvBFCm/8gPDVT3W/LWJ+bHt0ZiD3vEC2VNrthokEa7Jmc7Ru0wEDx951fQgZA6R/ig9XI
+	juKRt+HsRbRwyTVx4BesvYhewV/Cf1xYjLN+V6OJIiCEDIYkZo/fUepv5T304z
+X-Received: by 2002:a05:6a00:f8a:b0:83a:4846:90bf with SMTP id d2e1a72fcca58-8415f3a13c9mr8207941b3a.43.1779550079097;
+        Sat, 23 May 2026 08:27:59 -0700 (PDT)
+Received: from KIPREYXIAO-MC2.tencent.com ([2409:8a00:1892:2b90:7d54:8390:eded:819])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84164ac9b5asm4945621b3a.12.2026.05.23.08.27.55
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 23 May 2026 08:27:58 -0700 (PDT)
+From: Zhenghang Xiao <kipreyyy@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Paul Cercueil <paul@crapouillou.net>
+Cc: security@kernel.org,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Qing Ming <a0yami@mailbox.org>
-Subject: [PATCH] usb: gadget: uac: validate rate list length before storing
-Date: Tue, 19 May 2026 22:33:19 +0800
-Message-ID: <20260519143319.147494-1-a0yami@mailbox.org>
+	Zhenghang Xiao <kipreyyy@gmail.com>
+Subject: [PATCH usb-gadget] usb: gadget: f_fs: clear stale priv->req/ep on DMA-BUF transfer completion
+Date: Sat, 23 May 2026 23:27:39 +0800
+Message-ID: <20260523152739.66340-1-kipreyyy@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -65,139 +73,45 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 71a918f51bf2c74dc4c
-X-MBO-RS-META: 85jdtzpdk3diaqma6xk1961cbbjnofu6
-X-Rspamd-Queue-Id: 4gN2vY6PQnz9ygy
 
-UAC1 and UAC2 configfs rate-list attributes parse a comma-separated
-list of sampling rates and store each parsed value in fixed-size arrays.
-The arrays have UAC_MAX_RATES entries, but the store paths do not check
-that the input contains at most that many tokens before writing through
-opts->name##s[i++].
+ffs_epfile_dmabuf_io_complete() frees the usb_request via
+usb_ep_free_request() but never clears priv->req or priv->ep. When the
+host later triggers endpoint disable (via SET_INTERFACE, disconnect, or
+gadget unbind), the completion fires and frees req, leaving priv->req as
+a dangling pointer. A subsequent close() or FUNCTIONFS_DMABUF_DETACH
+ioctl then passes the stale pointer to usb_ep_dequeue(), resulting in a
+use-after-free on the freed kmalloc-128 object.
 
-Writing more than ten rates therefore writes past the end of the
-p_srates[] or c_srates[] array in struct f_uac1_opts or struct
-f_uac2_opts.
+Walk back from req->context to the ffs_dma_fence and its priv, then
+clear priv->req and priv->ep before freeing the request. The cleanup
+paths in ffs_epfile_release() and ffs_dmabuf_detach() already check for
+NULL under eps_lock before calling usb_ep_dequeue().
 
-With CONFIG_UBSAN_BOUNDS enabled, writing an 11-entry rate list to the
-UAC1 p_srate attribute reports:
-
-  UBSAN: array-index-out-of-bounds
-  drivers/usb/gadget/function/f_uac1.c:1669:1
-  index 10 is out of range for type 'int [10]'
-  __ubsan_handle_out_of_bounds.cold
-  f_uac1_opts_p_srate_store
-  configfs_write_iter
-  vfs_write
-  ksys_write
-  do_syscall_64
-
-The same reproducer against the UAC2 p_srate attribute reports:
-
-  UBSAN: array-index-out-of-bounds
-  drivers/usb/gadget/function/f_uac2.c:2087:1
-  index 10 is out of range for type 'int [10]'
-  __ubsan_handle_out_of_bounds.cold
-  f_uac2_opts_p_srate_store
-  configfs_write_iter
-  vfs_write
-  ksys_write
-  do_syscall_64
-
-Reject additional tokens once UAC_MAX_RATES entries have been parsed.
-Also keep the original kstrdup() pointer for kfree(), because strsep()
-advances the parsing cursor. Freeing the advanced cursor leaks the
-original buffer on successful parses and can free an interior pointer on
-some error paths.
-
-Fixes: 695d39ffc2b5 ("usb: gadget: f_uac1: Support multiple sampling rates")
-Fixes: a7339e4f5788 ("usb: gadget: f_uac2: Support multiple sampling rates")
-Signed-off-by: Qing Ming <a0yami@mailbox.org>
+Fixes: 7b07a2a7ca02 ("usb: gadget: functionfs: Add DMABUF import interface")
+Signed-off-by: Zhenghang Xiao <kipreyyy@gmail.com>
 ---
- drivers/usb/gadget/function/f_uac1.c | 13 +++++++++----
- drivers/usb/gadget/function/f_uac2.c | 13 +++++++++----
- 2 files changed, 18 insertions(+), 8 deletions(-)
+ drivers/usb/gadget/function/f_fs.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/f_uac1.c b/drivers/usb/gadget/function/f_uac1.c
-index 85c502e98f57..7a81cd176abd 100644
---- a/drivers/usb/gadget/function/f_uac1.c
-+++ b/drivers/usb/gadget/function/f_uac1.c
-@@ -1594,7 +1594,8 @@ static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
- 					  const char *page, size_t len)	\
- {									\
- 	struct f_uac1_opts *opts = to_f_uac1_opts(item);		\
--	char *split_page = NULL;					\
-+	char *buf = NULL;						\
-+	char *split_page;						\
- 	int ret = -EINVAL;						\
- 	char *token;							\
- 	u32 num;							\
-@@ -1608,18 +1609,22 @@ static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
- 									\
- 	i = 0;								\
- 	memset(opts->name##s, 0x00, sizeof(opts->name##s));		\
--	split_page = kstrdup(page, GFP_KERNEL);				\
-+	buf = kstrdup(page, GFP_KERNEL);				\
-+	split_page = buf;						\
- 	while ((token = strsep(&split_page, ",")) != NULL) {		\
- 		ret = kstrtou32(token, 0, &num);			\
- 		if (ret)						\
- 			goto end;					\
--									\
-+		if (i >= UAC_MAX_RATES) {				\
-+			ret = -EINVAL;					\
-+			goto end;					\
-+		}							\
- 		opts->name##s[i++] = num;				\
- 		ret = len;						\
- 	};								\
- 									\
- end:									\
--	kfree(split_page);						\
-+	kfree(buf);							\
- 	mutex_unlock(&opts->lock);					\
- 	return ret;							\
- }									\
-diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
-index 897787d0803c..d8cf710085a0 100644
---- a/drivers/usb/gadget/function/f_uac2.c
-+++ b/drivers/usb/gadget/function/f_uac2.c
-@@ -2012,7 +2012,8 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
- 					  const char *page, size_t len)	\
- {									\
- 	struct f_uac2_opts *opts = to_f_uac2_opts(item);		\
--	char *split_page = NULL;					\
-+	char *buf = NULL;						\
-+	char *split_page;						\
- 	int ret = -EINVAL;						\
- 	char *token;							\
- 	u32 num;							\
-@@ -2026,18 +2027,22 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
- 									\
- 	i = 0;								\
- 	memset(opts->name##s, 0x00, sizeof(opts->name##s));		\
--	split_page = kstrdup(page, GFP_KERNEL);				\
-+	buf = kstrdup(page, GFP_KERNEL);				\
-+	split_page = buf;						\
- 	while ((token = strsep(&split_page, ",")) != NULL) {		\
- 		ret = kstrtou32(token, 0, &num);			\
- 		if (ret)						\
- 			goto end;					\
--									\
-+		if (i >= UAC_MAX_RATES) {				\
-+			ret = -EINVAL;					\
-+			goto end;					\
-+		}							\
- 		opts->name##s[i++] = num;				\
- 		ret = len;						\
- 	};								\
- 									\
- end:									\
--	kfree(split_page);						\
-+	kfree(buf);							\
- 	mutex_unlock(&opts->lock);					\
- 	return ret;							\
- }									\
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 002c3441bea3..88d3e89c21b7 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -1413,8 +1413,13 @@ static void ffs_dmabuf_signal_done(struct ffs_dma_fence *dma_fence, int ret)
+ static void ffs_epfile_dmabuf_io_complete(struct usb_ep *ep,
+ 					  struct usb_request *req)
+ {
++	struct ffs_dma_fence *fence = req->context;
++	struct ffs_dmabuf_priv *priv = fence->priv;
++
+ 	pr_vdebug("FFS: DMABUF transfer complete, status=%d\n", req->status);
+-	ffs_dmabuf_signal_done(req->context, req->status);
++	ffs_dmabuf_signal_done(fence, req->status);
++	priv->req = NULL;
++	priv->ep = NULL;
+ 	usb_ep_free_request(ep, req);
+ }
+ 
 -- 
-2.53.0
+2.50.1 (Apple Git-155)
 
