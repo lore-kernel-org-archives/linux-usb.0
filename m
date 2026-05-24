@@ -1,158 +1,195 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACDC397E89;
-	Sun, 24 May 2026 13:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7012D274FD1
+	for <linux-usb@vger.kernel.org>; Sun, 24 May 2026 14:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779628018; cv=none; b=VPjFAD1emV4cMT21f8+JEN6Ii0BX30pPBgBWerFws3nA8ZVFKtSEdeT6+eYvsHKCuM6XvN0WGrMgjUYaFf7s0FoQ1MzC5zIDqCYs/xqKmP8VrEW8HiujHhYqlGZvB4s+LNFKACUGoPuaPsiKgaIUD99yXMAQ+z2G5jInBOVDb6E=
+	t=1779633949; cv=none; b=BmXVI6nF20n6x9RT5/IedwQuZQXiMtkjkEhnkP7ZcPfNSReFJ1IMT1oM5Th8sIVwlPqXgGDA/SlzIdtyO+fEWDgmm4hWOE+FfTe3WuEE+JS8rP5DI0VPULdm0TB8YhYAWcPDy+9KhqAMDTw1HLH3F19pX1tHSxzT5znO9xwHMWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779628018; c=relaxed/simple;
-	bh=/Vtaxk+1WG7zj3pzj6DjjKr4B5prkrZSAYDSjnycjHw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UpQ+fscGReovu9tjmWhmPNI5MKKy/aqZd8+/R4kZpy5nQ+oIwD6ysyGOqA7j+V91C5v2LxM18Dw0mWnJQl2QGntJ6aZ4hga+fdQw7zHD+PfPdqexK1cEIbnyapaFrA3GBpgDLXwvGLjTuxqQaqc0/XB0puHev8Ff1OkWRgFGwYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ggUr4SOb; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1779633949; c=relaxed/simple;
+	bh=TI0/L+GejtTeSIioccUte+z8YXT9gEPZ8z/ahtZfawQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cYu7cHYeb7Efhcs/h7oJjVuTnGNqkwPAzyFi4inqUB9u/wOg1v0gmmG0aHoyaTgaKQpOTIeQg3FcmrFQjjzXcPq5rmugWXQhZjkYleWaG4fV82oZUi2Vj3y461ZFu+nyLjWbB24xega07bijiV52aioPgwxpTOz+HyBx6/g3tSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=SiVoKvUT; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ggUr4SOb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1779628008;
-	bh=/Vtaxk+1WG7zj3pzj6DjjKr4B5prkrZSAYDSjnycjHw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ggUr4SObUHGmm2ODMrfdo/wK2QXiyrqNqFI4e4VQa948nhn4dAwchaPClwPX+oppT
-	 IOd0S59vwd1Rm+xfjHCq93L8+QH1Jz8fY9qjGcAG6hl4CbsevmeLPsSYb9BxwP/5d1
-	 FokL7zrbz24OlFexJXQhkoeRjrt6TChBzWJC8ez8=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 24 May 2026 15:06:47 +0200
-Subject: [PATCH 5/6] thunderbolt: property: Unify
- parse_dwdata()/format_dwdata()
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="SiVoKvUT"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8cc9f97a124so3570056d6.2
+        for <linux-usb@vger.kernel.org>; Sun, 24 May 2026 07:45:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1779633947; x=1780238747; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jDeJRb2nrc+/qAN65EJRxpxoDR8UwF/XfIcD8wa9bss=;
+        b=SiVoKvUTYGwbwLKA7tF00uC3RFMq9EdXB3xSiLPXiTjpAIby6S0//EumIidUtbfSwA
+         5ku0LAlal7XH1GgppDHoUQCunITrju3QkzhcS7EzCK32tGvQfDN4cn/xMb7IHwuN4qPz
+         LoVZIRQUqVEq9AlLqAHyLUxBZeypOcKCKiSFufORqI9sEq0a93yGrMxRT1R7s6Ya4tjj
+         /5EmDCiMwD41a9JtDhsOBwQRaKStlHHhzGK22D4K5Ja5V2Adms1C7ckdk1IA33jcljCF
+         RgAIofpVyEIr0wjNR09tAX3NmuSnxGkhT1xjgqKG3XJSVmquhhVkS8IYEZTf+YVsZ/aY
+         eRtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779633947; x=1780238747;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jDeJRb2nrc+/qAN65EJRxpxoDR8UwF/XfIcD8wa9bss=;
+        b=UxVNtUwXhtOc2EgmV9Iiooqw9Bd7YMzA6YinUZpZIkPkbcFiNh3My837vNfzVIqUjB
+         PHCsOcU4Co1p8JBUEkwuDLzJ+62cZ5pv28ZvrMrzvc2JzrgqhrAVeD2yJq0gIyqKfrWm
+         b0x8Vwl47grBYtDVpHlzhgOo6E6bfliDUDr8MiB4BFTDb7ahxqAczJwE16RleelgJzEZ
+         lMuym8notxokcC8AFxWVHSxgzQ8GrIgSMPL8PMWitXzIaZVuzhTD2f+BargzS63nWcLy
+         YspxiiY8boIEgAEtZxlfjpKzRft3F/6V3LilvDOmoywit8g8/cIvhyrUkPJXNZQLIOwu
+         SfuA==
+X-Forwarded-Encrypted: i=1; AFNElJ9bdznxM3bj3GL/U64+xWI+pVGz/g58jTFcbQhT6/blQx74SXAleqce/ExCIpnuGJCWNQ6zBqpePMY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxl3bo+95GolC5jmbIR8SBOXxWaN8nAwTUP6D61C/21jTfl5zQ+
+	NAOkanWMQKn7sn2AJXmH/MKz23f4DJKbr3LM3ZFU0HewXLL8a5vBHfz+pliqkz8MFg==
+X-Gm-Gg: Acq92OGvAmiTSvcq1ttdLpfs1vqUkV2mnPQ/1YDnd/iNrXg96cIwheBFawYqoFdk3Am
+	cs0Hqsf5jbzv2jHdlg3FTUp1Jp/H9BX8M7sXe8cvTVqUt02virhzKz9JKwMEkzhtr0K93domVub
+	1sMRjEYuFCbWpDvnI490hR7I+E4bcXlUzRO3sJACugKDR+dRQYl4xgiL8j87DE3ANtn/YwTWdUE
+	RHcDdaomhSEcMZ5Y0U9xNxFVA9rAqkVBwzANuB78edNXAidciuRjPMvQ38/F0RCjGYx214xw1e+
+	FjlolsDxWbcHFYdwdqb8AdPj6u/Mhho5GxELIEmr1C8cV8sRXaPWml/Ynd8OzSj/1vDRfPUthVC
+	Nc6VHmmlGcMNw0zt7SIJTpLF0UU1etP4SxVphiony0/nNW3NPD3HU5nXh6zrRrIRvgOYcLazbCd
+	C4CtC4o68giSXLCqA8Cvu76M3DzGiewqRt5rRG9nn5o0g=
+X-Received: by 2002:ac8:7d0e:0:b0:516:e8aa:25e with SMTP id d75a77b69052e-516e8aa076emr63544651cf.55.1779633947167;
+        Sun, 24 May 2026 07:45:47 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-516d8d09e42sm70737431cf.28.2026.05.24.07.45.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 May 2026 07:45:46 -0700 (PDT)
+Date: Sun, 24 May 2026 10:45:39 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Joseph Bursey <jbursey@uci.edu>,
+	syzbot <syzbot+ad2aac2febc3bedf0962@syzkaller.appspotmail.com>,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Write in
+ iowarrior_write_callback (2)
+Message-ID: <69c60a2a-68d2-48b0-8236-b80cd6b602cf@rowland.harvard.edu>
+References: <6a0ce39b.170a0220.39a13.0007.GAE@google.com>
+ <32c79569-8001-48d2-9675-b38b1670f285@uci.edu>
+ <20260524103053.308501de.michal.pecio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260524-thunderbolt-big-endian-v1-5-6044edca78e7@weissschuh.net>
-References: <20260524-thunderbolt-big-endian-v1-0-6044edca78e7@weissschuh.net>
-In-Reply-To: <20260524-thunderbolt-big-endian-v1-0-6044edca78e7@weissschuh.net>
-To: Andreas Noever <andreas.noever@gmail.com>, 
- Mika Westerberg <westeri@kernel.org>, 
- Yehezkel Bernat <YehezkelShB@gmail.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Michael Jamet <michael.jamet@intel.com>
-Cc: Mika Westerberg <mika.westerberg@linux.intel.com>, 
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Yehezkel Bernat <yehezkel.bernat@intel.com>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779628007; l=3600;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=/Vtaxk+1WG7zj3pzj6DjjKr4B5prkrZSAYDSjnycjHw=;
- b=c1RRqN5R/S1GU1mvZPL7AdVBbG4s41iUitpT5fWHqru8GylPdKAresbBONxYwA+SHWiqHHno6
- FW2PHoLu0eoBc4f8m6+/TQIigQaSaN/9hljdqqR2KgFlCmFrXNRtmc2
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260524103053.308501de.michal.pecio@gmail.com>
 
-Both functions do the same. Unify them.
+On Sun, May 24, 2026 at 10:30:53AM +0200, Michal Pecio wrote:
+> On Fri, 22 May 2026 13:38:40 -0700, Joseph Bursey wrote:
+> > Hello, I believe I have a reproducer for this bug using a combination
+> > of syz-execprog and eBPF programs.
+> 
+> Hi, could you check if this patch (compile tested only) fixes it?
+> 
+> I admit I'm not an expert on USB core, but I see nothing _reliably_
+> preventing URB submissions after usb_disable_interface(), which may
+> be the root cause of this bug (besides the driver sloppiness for
+> which separate patches have been posted by Johan Hovold).
 
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/thunderbolt/property.c | 31 +++++++++++++------------------
- 1 file changed, 13 insertions(+), 18 deletions(-)
+The general attitude has been that it isn't the core's responsibility to 
+recover from bugs caused by drivers.  Rather, it is the programmers' 
+responsibility to fix the bugs properly.
 
-diff --git a/drivers/thunderbolt/property.c b/drivers/thunderbolt/property.c
-index 0cdf1c03efc6..961efcec1795 100644
---- a/drivers/thunderbolt/property.c
-+++ b/drivers/thunderbolt/property.c
-@@ -41,17 +41,12 @@ static struct tb_property_dir *__tb_property_parse_dir(const u32 *block,
- 	size_t block_len, unsigned int dir_offset, size_t dir_len,
- 	bool is_root, unsigned int depth);
- 
--static inline void parse_dwdata(void *dst, const void *src, size_t dwords)
-+static inline void convert_dwdata(void *dst, const void *src, size_t dwords)
- {
- 	for (size_t i = 0; i < dwords; i++)
- 		((u32 *)dst)[i] = swab32(((u32 *)src)[i]);
- }
- 
--static inline void format_dwdata(void *dst, const void *src, size_t dwords)
--{
--	return parse_dwdata(dst, src, dwords);
--}
--
- static bool tb_property_entry_valid(const struct tb_property_entry *entry,
- 				  size_t block_len)
- {
-@@ -110,7 +105,7 @@ static struct tb_property *tb_property_parse(const u32 *block, size_t block_len,
- 	if (!tb_property_entry_valid(entry, block_len))
- 		return NULL;
- 
--	parse_dwdata(key, entry, 2);
-+	convert_dwdata(key, entry, 2);
- 	key[TB_PROPERTY_KEY_SIZE] = '\0';
- 
- 	property = tb_property_alloc(key, entry->type);
-@@ -139,9 +134,9 @@ static struct tb_property *tb_property_parse(const u32 *block, size_t block_len,
- 			kfree(property);
- 			return NULL;
- 		}
--		parse_dwdata(property->value.data,
--			     block + le32_to_cpu(entry->value),
--			     le16_to_cpu(entry->length));
-+		convert_dwdata(property->value.data,
-+			       block + le32_to_cpu(entry->value),
-+			       le16_to_cpu(entry->length));
- 		break;
- 
- 	case TB_PROPERTY_TYPE_TEXT:
-@@ -151,9 +146,9 @@ static struct tb_property *tb_property_parse(const u32 *block, size_t block_len,
- 			kfree(property);
- 			return NULL;
- 		}
--		parse_dwdata(property->value.text,
--			     block + le32_to_cpu(entry->value),
--			     le16_to_cpu(entry->length));
-+		convert_dwdata(property->value.text,
-+			       block + le32_to_cpu(entry->value),
-+			       le16_to_cpu(entry->length));
- 		/* Force null termination */
- 		property->value.text[property->length * 4 - 1] = '\0';
- 		break;
-@@ -452,7 +447,7 @@ static ssize_t __tb_property_format_dir(const struct tb_property_dir *dir,
- 	list_for_each_entry(property, &dir->properties, list) {
- 		const struct tb_property_dir *child;
- 
--		format_dwdata(entry, property->key, 2);
-+		convert_dwdata(entry, property->key, 2);
- 		entry->type = property->type;
- 
- 		switch (property->type) {
-@@ -469,16 +464,16 @@ static ssize_t __tb_property_format_dir(const struct tb_property_dir *dir,
- 			break;
- 
- 		case TB_PROPERTY_TYPE_DATA:
--			format_dwdata(&block[data_offset], property->value.data,
--				      property->length);
-+			convert_dwdata(&block[data_offset], property->value.data,
-+				       property->length);
- 			entry->length = cpu_to_le16(property->length);
- 			entry->value = cpu_to_le32(data_offset);
- 			data_offset += property->length;
- 			break;
- 
- 		case TB_PROPERTY_TYPE_TEXT:
--			format_dwdata(&block[data_offset], property->value.text,
--				      property->length);
-+			convert_dwdata(&block[data_offset], property->value.text,
-+				       property->length);
- 			entry->length = cpu_to_le16(property->length);
- 			entry->value = cpu_to_le32(data_offset);
- 			data_offset += property->length;
+On the other hand, it won't hurt to add some code to the core for 
+detecting and reporting buggy driver behavior, so that the programmers 
+would know about it.
 
--- 
-2.54.0
+> My patch tries to fix it by updating ep->enabled under a spinlock
+> which will be held while checking this flag on submission attempts.
+> 
+> Such bug is trouble not only for sloppy drivers, but also for HCDs
+> which assume that no URBs exist while endpoints are being "dropped".
+> Syzbot and you apparently found ways to break this assumption:
+> 
+> static int usb_unbind_interface(struct device *dev)
+> {
+> 	[...]
+>         /*
+>          * Terminate all URBs for this interface unless the driver
+>          * supports "soft" unbinding and the device is still present.
+>          */
+>         if (!driver->soft_unbind || udev->state == USB_STATE_NOTATTACHED)
+>                 usb_disable_interface(udev, intf, false);
+> 	// no URBs should be pending on these endpoints now
 
+Depends on whether the driver has the soft_unbind flag set and whether 
+the device is still attached, obviously.
+
+> 
+>         driver->disconnect(intf);
+
+But definitely no URBs should be pending now.
+
+> 	// but one is observed completing concurrently now
+> 
+> I also suspect that more UAF in sloppy drivers is possible due to
+> usb_hcd_flush_endpoint() failing to wait for pending BH givebacks.
+
+usb_hcd_flush_endpoint() only guarantees that the HCD is finished 
+dealing with any pending URBs.  It is not meant to guarantee that the 
+URBs' completion handlers have run.
+
+> It seems that dummy-hcd doesn't use HCD_BH, so this shouldn't be
+> a factor here, but it could become an issue on real hardware.
+
+Do you think it would help to provoke some exotic bugs if dummy-hcd did 
+use HCD_BH?  That would be an easy change to make.
+
+> As long as resubmission is prevented reliably, this won't affect
+> HCDs, but it may cause UAF in buggy class drivers.
+> 
+> ---
+> 
+> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> index b181b43a35dc..4fee30101e96 100644
+> --- a/drivers/usb/core/hcd.c
+> +++ b/drivers/usb/core/hcd.c
+> @@ -1958,6 +1958,15 @@ int usb_hcd_alloc_bandwidth(struct usb_device *udev,
+>  	return ret;
+>  }
+>  
+> +void usb_hcd_set_endpoint_enabled(struct usb_host_endpoint *ep, int enabled)
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&hcd_urb_list_lock, flags);
+> +	ep->enabled = enabled;
+> +	spin_unlock_irqrestore(&hcd_urb_list_lock, flags);
+> +}
+> +
+>  /* Disables the endpoint: synchronizes with the hcd to make sure all
+>   * endpoint state is gone from hardware.  usb_hcd_flush_endpoint() must
+>   * have been called previously.  Use for set_configuration, set_interface,
+> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+> index 75e2bfd744a9..8d656d7e8f69 100644
+> --- a/drivers/usb/core/message.c
+> +++ b/drivers/usb/core/message.c
+> @@ -1358,7 +1358,7 @@ void usb_disable_endpoint(struct usb_device *dev, unsigned int epaddr,
+>  			dev->ep_in[epnum] = NULL;
+>  	}
+>  	if (ep) {
+> -		ep->enabled = 0;
+> +		usb_hcd_set_endpoint_enabled(ep, 0);
+>  		usb_hcd_flush_endpoint(dev, ep);
+>  		if (reset_hardware)
+>  			usb_hcd_disable_endpoint(dev, ep);
+> @@ -1523,7 +1523,7 @@ void usb_enable_endpoint(struct usb_device *dev, struct usb_host_endpoint *ep,
+>  		dev->ep_out[epnum] = ep;
+>  	if (!is_out || is_control)
+>  		dev->ep_in[epnum] = ep;
+> -	ep->enabled = 1;
+> +	usb_hcd_set_endpoint_enabled(ep, 1);
+>  }
+
+For debugging purposes you might also add a dev_warn() to 
+usb_hcd_link_urb_to_ep() in the test for !urb->ep->enabled.  We can't do 
+this all the time because a driver might unknowingly submit an URB just 
+as the endpoint is being disabled.
+
+Alan Stern
