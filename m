@@ -1,32 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE83A397AFF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACDC397E89;
 	Sun, 24 May 2026 13:06:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779628017; cv=none; b=KFuK7WygXwzL5tpxcModWp4H9p0VEsZqSM704F2qqIGDthWkjkHEoQgsX7VcxVIh/vI8P6QhdJpY9t/nD6tox+ZnEGJystxJWGi12FnUI3mPgRgJ98a/Qnb/vwUgVLkbLZn5yd8Cx8NhieNuE67FRf9vLJX1D0CBdgyIMOBHI9U=
+	t=1779628018; cv=none; b=VPjFAD1emV4cMT21f8+JEN6Ii0BX30pPBgBWerFws3nA8ZVFKtSEdeT6+eYvsHKCuM6XvN0WGrMgjUYaFf7s0FoQ1MzC5zIDqCYs/xqKmP8VrEW8HiujHhYqlGZvB4s+LNFKACUGoPuaPsiKgaIUD99yXMAQ+z2G5jInBOVDb6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779628017; c=relaxed/simple;
-	bh=MhWwgbCd/dj7nPgAVmyCoPCA1SbmNeM1KIHvSVdPcMs=;
+	s=arc-20240116; t=1779628018; c=relaxed/simple;
+	bh=/Vtaxk+1WG7zj3pzj6DjjKr4B5prkrZSAYDSjnycjHw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MAX/ZicY8ajkItr7NkPlTtq3hdEUUjAIVUqwOn+Cc43HLD4r7Won0YRKj6s0klR1/tahmxIHyxrANdzQzkyBygYzFmgKBLRiOAnMT4E9UFt577tU48ZYHvk/F7A+xy2OL1/gXSdHzwqb09Rc2kNIFvMIc2dcJowg5cpJ4N++Xc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=aUp9cGzn; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=UpQ+fscGReovu9tjmWhmPNI5MKKy/aqZd8+/R4kZpy5nQ+oIwD6ysyGOqA7j+V91C5v2LxM18Dw0mWnJQl2QGntJ6aZ4hga+fdQw7zHD+PfPdqexK1cEIbnyapaFrA3GBpgDLXwvGLjTuxqQaqc0/XB0puHev8Ff1OkWRgFGwYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ggUr4SOb; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="aUp9cGzn"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ggUr4SOb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1779628008;
-	bh=MhWwgbCd/dj7nPgAVmyCoPCA1SbmNeM1KIHvSVdPcMs=;
+	bh=/Vtaxk+1WG7zj3pzj6DjjKr4B5prkrZSAYDSjnycjHw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=aUp9cGzn6tuYg9/a7jR4pTAXFGO01PxDevNNlcwxgXcTAHiMLlg3ApXq0XZ519sPd
-	 FwwADB/Z/nAG7ev4QGjy5mB6V17vbrvF9FsbuQQNlKVSU6pWduuJwA2cbu58I8EGtm
-	 ymWDxoSZKyUv10PPRX2mI6izSdkRhHGQJLrGUuVY=
+	b=ggUr4SObUHGmm2ODMrfdo/wK2QXiyrqNqFI4e4VQa948nhn4dAwchaPClwPX+oppT
+	 IOd0S59vwd1Rm+xfjHCq93L8+QH1Jz8fY9qjGcAG6hl4CbsevmeLPsSYb9BxwP/5d1
+	 FokL7zrbz24OlFexJXQhkoeRjrt6TChBzWJC8ez8=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 24 May 2026 15:06:48 +0200
-Subject: [PATCH 6/6] thunderbolt: property: Make entry key modifications
- more visible
+Date: Sun, 24 May 2026 15:06:47 +0200
+Subject: [PATCH 5/6] thunderbolt: property: Unify
+ parse_dwdata()/format_dwdata()
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,7 +35,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260524-thunderbolt-big-endian-v1-6-6044edca78e7@weissschuh.net>
+Message-Id: <20260524-thunderbolt-big-endian-v1-5-6044edca78e7@weissschuh.net>
 References: <20260524-thunderbolt-big-endian-v1-0-6044edca78e7@weissschuh.net>
 In-Reply-To: <20260524-thunderbolt-big-endian-v1-0-6044edca78e7@weissschuh.net>
 To: Andreas Noever <andreas.noever@gmail.com>, 
@@ -49,54 +49,109 @@ Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
  Yehezkel Bernat <yehezkel.bernat@intel.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779628007; l=1380;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779628007; l=3600;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=MhWwgbCd/dj7nPgAVmyCoPCA1SbmNeM1KIHvSVdPcMs=;
- b=Bcmo0SrjhNjoQek8kEnjHNEeWYSt+3jkrR0X1uXROsQhRw/MU91kz2UfBkFekXmqhiZCpiBcn
- 7vme2RTtFGCB8Lt0o8lgyj1igXoIqelFe8gwTpffM1HyVYaQXf9xpWy
+ bh=/Vtaxk+1WG7zj3pzj6DjjKr4B5prkrZSAYDSjnycjHw=;
+ b=c1RRqN5R/S1GU1mvZPL7AdVBbG4s41iUitpT5fWHqru8GylPdKAresbBONxYwA+SHWiqHHno6
+ FW2PHoLu0eoBc4f8m6+/TQIigQaSaN/9hljdqqR2KgFlCmFrXNRtmc2
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-The modification of the key directly through the entry pointer is
-confusing. Explicitly use the key member.
+Both functions do the same. Unify them.
 
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
- drivers/thunderbolt/property.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ drivers/thunderbolt/property.c | 31 +++++++++++++------------------
+ 1 file changed, 13 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/thunderbolt/property.c b/drivers/thunderbolt/property.c
-index 961efcec1795..885a8da7e72f 100644
+index 0cdf1c03efc6..961efcec1795 100644
 --- a/drivers/thunderbolt/property.c
 +++ b/drivers/thunderbolt/property.c
-@@ -15,8 +15,7 @@
- #include <linux/thunderbolt.h>
+@@ -41,17 +41,12 @@ static struct tb_property_dir *__tb_property_parse_dir(const u32 *block,
+ 	size_t block_len, unsigned int dir_offset, size_t dir_len,
+ 	bool is_root, unsigned int depth);
  
- struct tb_property_entry {
--	__le32 key_hi;
--	__le32 key_lo;
-+	u8 key[TB_PROPERTY_KEY_SIZE];
- 	__le16 length;
- 	u8 reserved;
- 	u8 type;
-@@ -105,7 +104,7 @@ static struct tb_property *tb_property_parse(const u32 *block, size_t block_len,
+-static inline void parse_dwdata(void *dst, const void *src, size_t dwords)
++static inline void convert_dwdata(void *dst, const void *src, size_t dwords)
+ {
+ 	for (size_t i = 0; i < dwords; i++)
+ 		((u32 *)dst)[i] = swab32(((u32 *)src)[i]);
+ }
+ 
+-static inline void format_dwdata(void *dst, const void *src, size_t dwords)
+-{
+-	return parse_dwdata(dst, src, dwords);
+-}
+-
+ static bool tb_property_entry_valid(const struct tb_property_entry *entry,
+ 				  size_t block_len)
+ {
+@@ -110,7 +105,7 @@ static struct tb_property *tb_property_parse(const u32 *block, size_t block_len,
  	if (!tb_property_entry_valid(entry, block_len))
  		return NULL;
  
--	convert_dwdata(key, entry, 2);
-+	convert_dwdata(key, &entry->key, 2);
+-	parse_dwdata(key, entry, 2);
++	convert_dwdata(key, entry, 2);
  	key[TB_PROPERTY_KEY_SIZE] = '\0';
  
  	property = tb_property_alloc(key, entry->type);
-@@ -447,7 +446,7 @@ static ssize_t __tb_property_format_dir(const struct tb_property_dir *dir,
+@@ -139,9 +134,9 @@ static struct tb_property *tb_property_parse(const u32 *block, size_t block_len,
+ 			kfree(property);
+ 			return NULL;
+ 		}
+-		parse_dwdata(property->value.data,
+-			     block + le32_to_cpu(entry->value),
+-			     le16_to_cpu(entry->length));
++		convert_dwdata(property->value.data,
++			       block + le32_to_cpu(entry->value),
++			       le16_to_cpu(entry->length));
+ 		break;
+ 
+ 	case TB_PROPERTY_TYPE_TEXT:
+@@ -151,9 +146,9 @@ static struct tb_property *tb_property_parse(const u32 *block, size_t block_len,
+ 			kfree(property);
+ 			return NULL;
+ 		}
+-		parse_dwdata(property->value.text,
+-			     block + le32_to_cpu(entry->value),
+-			     le16_to_cpu(entry->length));
++		convert_dwdata(property->value.text,
++			       block + le32_to_cpu(entry->value),
++			       le16_to_cpu(entry->length));
+ 		/* Force null termination */
+ 		property->value.text[property->length * 4 - 1] = '\0';
+ 		break;
+@@ -452,7 +447,7 @@ static ssize_t __tb_property_format_dir(const struct tb_property_dir *dir,
  	list_for_each_entry(property, &dir->properties, list) {
  		const struct tb_property_dir *child;
  
--		convert_dwdata(entry, property->key, 2);
-+		convert_dwdata(&entry->key, property->key, 2);
+-		format_dwdata(entry, property->key, 2);
++		convert_dwdata(entry, property->key, 2);
  		entry->type = property->type;
  
  		switch (property->type) {
+@@ -469,16 +464,16 @@ static ssize_t __tb_property_format_dir(const struct tb_property_dir *dir,
+ 			break;
+ 
+ 		case TB_PROPERTY_TYPE_DATA:
+-			format_dwdata(&block[data_offset], property->value.data,
+-				      property->length);
++			convert_dwdata(&block[data_offset], property->value.data,
++				       property->length);
+ 			entry->length = cpu_to_le16(property->length);
+ 			entry->value = cpu_to_le32(data_offset);
+ 			data_offset += property->length;
+ 			break;
+ 
+ 		case TB_PROPERTY_TYPE_TEXT:
+-			format_dwdata(&block[data_offset], property->value.text,
+-				      property->length);
++			convert_dwdata(&block[data_offset], property->value.text,
++				       property->length);
+ 			entry->length = cpu_to_le16(property->length);
+ 			entry->value = cpu_to_le32(data_offset);
+ 			data_offset += property->length;
 
 -- 
 2.54.0
