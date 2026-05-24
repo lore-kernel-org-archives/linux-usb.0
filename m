@@ -1,32 +1,32 @@
 Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4E03955FF;
-	Sun, 24 May 2026 13:06:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39F434DCE6;
+	Sun, 24 May 2026 13:06:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779628014; cv=none; b=FEtuEF/DD2bBCOz2L9HswNYQCcD9h7weGxx/e0dW52lRmZAzBsl2PnvCxVTOpIcPKxvuQSKxO1tq6AsXNpJvQOEzNSNX/m7XevvQ6ofOmXTqQ90Dtgl6K6TKLQdLpS/GxnVlTokmD1ZFJTwSEUAsVfdbO8UJmxN/AvCFtOiooHI=
+	t=1779628014; cv=none; b=AQaV73CxRlULWsevYh2uX+ycgQrqN1ZhfO2bI1apBKwmqgC+HaEW+nAuvhdqV6EE/T5fjC1dxl7KSeQ6T9V/N373pJq/x5r30X0yrCVm23uQWTpXccyXN8TStK4YlMFpnkq+jMK8SLLt/L1WhZxS/8J2gQXISeRr4CkKlO/AwT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779628014; c=relaxed/simple;
-	bh=wuEPiBeRZL1CQrVYEoBhtUX5fd2eCjhw/OhLyxncI8E=;
+	bh=a3MKMiQ1YdYjeWFDK76VgkujpPaXG6iuY6V477D5jgQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=t3Sb5s9kuYthokIc0mg4LPRF7Paqq/v39OobyvNJrJd0CGY2YAttnGKEQALyHhNoUMgKeQYXEKGdFNTwD96v/YP6YiIojplPRn28MZR2sOMvx8EhCrUwOyG1pgEe+amhfcnxu0OE7OdX/+KYKtMoW3IgG10xU8mD8GHYIVAegGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=DBW9ec3P; arc=none smtp.client-ip=159.69.126.157
+	 In-Reply-To:To:Cc; b=XdSON+27l45bE2f/B4QupWvQvqKQBGSpryb2IbCcaXf9/GkkzP3ISb1V7dyGtaWqID+DfZ8BD6pq9TPQ8mVUVrC7trC41X3vXwmyqZPQHqZZQLnVZ1rOUWbZ6146Co0CDvzK16O0GjoqxWbFzOUxclCRpligiRJVyml2Pi6ZmL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=DvnGRkfD; arc=none smtp.client-ip=159.69.126.157
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="DBW9ec3P"
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="DvnGRkfD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
 	s=mail; t=1779628008;
-	bh=wuEPiBeRZL1CQrVYEoBhtUX5fd2eCjhw/OhLyxncI8E=;
+	bh=a3MKMiQ1YdYjeWFDK76VgkujpPaXG6iuY6V477D5jgQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=DBW9ec3PNbkt9GB1tYVbZ0yp2SOlh4Qa+jVrFta0OTu11frSIQex6JkM7cS7t77LK
-	 WZm4CD5Z9yVuwN+8e0Wde+TYy9hmSZFl1e45JXXk0q1bfRJvNpoAZOYQOGbqtPzWhX
-	 31LTgjlBSHJwOkByDyYHKM0G5EqBT2+kJS83dsNI=
+	b=DvnGRkfDVay7cHdtWnevsce5EHS8daQFGjNJIBLuIXsbEFPyqlVaNWq1h8xrDEs8E
+	 IgETUL4XAcLpUCLR0wfRLuDsT413NZSkHnceFgYOheLDA55bPZ7Zpz0o+iR+IVHx8R
+	 i9e7mga2S1pjy23Qu7jLaESslBlwh+pLolRgd3+M=
 From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Sun, 24 May 2026 15:06:46 +0200
-Subject: [PATCH 4/6] thunderbolt: property: Convert byte order of numeric
- fields
+Date: Sun, 24 May 2026 15:06:43 +0200
+Subject: [PATCH 1/6] thunderbolt: test: Make root_directory independent of
+ host byte order
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,7 +35,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260524-thunderbolt-big-endian-v1-4-6044edca78e7@weissschuh.net>
+Message-Id: <20260524-thunderbolt-big-endian-v1-1-6044edca78e7@weissschuh.net>
 References: <20260524-thunderbolt-big-endian-v1-0-6044edca78e7@weissschuh.net>
 In-Reply-To: <20260524-thunderbolt-big-endian-v1-0-6044edca78e7@weissschuh.net>
 To: Andreas Noever <andreas.noever@gmail.com>, 
@@ -49,193 +49,144 @@ Cc: Mika Westerberg <mika.westerberg@linux.intel.com>,
  Yehezkel Bernat <yehezkel.bernat@intel.com>, 
  =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779628007; l=5898;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779628007; l=5345;
  i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=wuEPiBeRZL1CQrVYEoBhtUX5fd2eCjhw/OhLyxncI8E=;
- b=xU1xnLp2GCRm0/BDLr3w1EdP3belohnpEnPR0nJWRx9LWd+HrZt/UXJDgRmRdVAc4ufDc+qqb
- j4A0bcAI4h5DempukSxDBYYPt3qYQ1GOqP6LftNBho9vdn0TNeX5ZcN
+ bh=a3MKMiQ1YdYjeWFDK76VgkujpPaXG6iuY6V477D5jgQ=;
+ b=I88w5D+iYw6GNdKzVRN7eIXPgXbBtdcXayQiFCVt4ftUZ+Pt+ko78bksws7NygKREjp6zC9x8
+ +ewztqiE0slClCI2LERz0aAROGjm8YnD3S5+x0VH6Q3TCIV6ic17LB3
 X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
  pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-On big-endian system the numeric fields need to be converted after
-reading them from the wireformat before they can be used.
+The wire-format is always the same.
 
-Add the necessary conversion.
+Make sure the test data doesn't suddenly change on big-endian systems.
 
-Fixes: cdae7c07e3e3 ("thunderbolt: Add support for XDomain properties")
+Fixes: 15a4c7e8f916 ("thunderbolt: Add KUnit tests for XDomain properties")
 Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
----
- drivers/thunderbolt/property.c | 72 +++++++++++++++++++++++-------------------
- 1 file changed, 39 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/thunderbolt/property.c b/drivers/thunderbolt/property.c
-index 94314fa07d23..0cdf1c03efc6 100644
---- a/drivers/thunderbolt/property.c
-+++ b/drivers/thunderbolt/property.c
-@@ -15,17 +15,17 @@
- #include <linux/thunderbolt.h>
- 
- struct tb_property_entry {
--	u32 key_hi;
--	u32 key_lo;
--	u16 length;
-+	__le32 key_hi;
-+	__le32 key_lo;
-+	__le16 length;
- 	u8 reserved;
- 	u8 type;
--	u32 value;
-+	__le32 value;
- };
- 
- struct tb_property_rootdir_entry {
--	u32 magic;
--	u32 length;
-+	__le32 magic;
-+	__le32 length;
- 	struct tb_property_entry entries[];
- };
- 
-@@ -61,15 +61,16 @@ static bool tb_property_entry_valid(const struct tb_property_entry *entry,
- 	case TB_PROPERTY_TYPE_DIRECTORY:
- 	case TB_PROPERTY_TYPE_DATA:
- 	case TB_PROPERTY_TYPE_TEXT:
--		if (entry->length > block_len)
-+		if (le16_to_cpu(entry->length) > block_len)
- 			return false;
--		if (check_add_overflow(entry->value, entry->length, &end) ||
-+		if (check_add_overflow(le32_to_cpu(entry->value),
-+				       le16_to_cpu(entry->length), &end) ||
- 		    end > block_len)
- 			return false;
- 		break;
- 
- 	case TB_PROPERTY_TYPE_VALUE:
--		if (entry->length != 1)
-+		if (le16_to_cpu(entry->length) != 1)
- 			return false;
- 		break;
- 	}
-@@ -116,12 +117,14 @@ static struct tb_property *tb_property_parse(const u32 *block, size_t block_len,
- 	if (!property)
- 		return NULL;
- 
--	property->length = entry->length;
-+	property->length = le16_to_cpu(entry->length);
- 
- 	switch (property->type) {
- 	case TB_PROPERTY_TYPE_DIRECTORY:
--		dir = __tb_property_parse_dir(block, block_len, entry->value,
--					      entry->length, false, depth + 1);
-+		dir = __tb_property_parse_dir(block, block_len,
-+					      le32_to_cpu(entry->value),
-+					      le16_to_cpu(entry->length),
-+					      false, depth + 1);
- 		if (!dir) {
- 			kfree(property);
- 			return NULL;
-@@ -136,8 +139,9 @@ static struct tb_property *tb_property_parse(const u32 *block, size_t block_len,
- 			kfree(property);
- 			return NULL;
- 		}
--		parse_dwdata(property->value.data, block + entry->value,
--			     entry->length);
-+		parse_dwdata(property->value.data,
-+			     block + le32_to_cpu(entry->value),
-+			     le16_to_cpu(entry->length));
- 		break;
- 
- 	case TB_PROPERTY_TYPE_TEXT:
-@@ -147,14 +151,15 @@ static struct tb_property *tb_property_parse(const u32 *block, size_t block_len,
- 			kfree(property);
- 			return NULL;
- 		}
--		parse_dwdata(property->value.text, block + entry->value,
--			     entry->length);
-+		parse_dwdata(property->value.text,
-+			     block + le32_to_cpu(entry->value),
-+			     le16_to_cpu(entry->length));
- 		/* Force null termination */
- 		property->value.text[property->length * 4 - 1] = '\0';
- 		break;
- 
- 	case TB_PROPERTY_TYPE_VALUE:
--		property->value.immediate = entry->value;
-+		property->value.immediate = le32_to_cpu(entry->value);
- 		break;
- 
- 	default:
-@@ -240,12 +245,13 @@ struct tb_property_dir *tb_property_parse_dir(const u32 *block,
- 	const struct tb_property_rootdir_entry *rootdir =
- 		(const struct tb_property_rootdir_entry *)block;
- 
--	if (rootdir->magic != TB_PROPERTY_ROOTDIR_MAGIC)
-+	if (le32_to_cpu(rootdir->magic) != TB_PROPERTY_ROOTDIR_MAGIC)
- 		return NULL;
--	if (rootdir->length > block_len)
-+	if (le32_to_cpu(rootdir->length) > block_len)
- 		return NULL;
- 
--	return __tb_property_parse_dir(block, block_len, 0, rootdir->length,
-+	return __tb_property_parse_dir(block, block_len, 0,
-+				       le32_to_cpu(rootdir->length),
- 				       true, 0);
+---
+This is actual an assumption. I didn't find the specs.
+---
+ drivers/thunderbolt/test.c | 106 ++++++++++++++++++++++-----------------------
+ 1 file changed, 53 insertions(+), 53 deletions(-)
+
+diff --git a/drivers/thunderbolt/test.c b/drivers/thunderbolt/test.c
+index 1f4318249c22..114ef11cd6f4 100644
+--- a/drivers/thunderbolt/test.c
++++ b/drivers/thunderbolt/test.c
+@@ -2604,59 +2604,59 @@ static void tb_test_credit_alloc_all(struct kunit *test)
  }
  
-@@ -438,8 +444,8 @@ static ssize_t __tb_property_format_dir(const struct tb_property_dir *dir,
- 		struct tb_property_rootdir_entry *re;
+ static const u32 root_directory[] = {
+-	0x55584401,	/* "UXD" v1 */
+-	0x00000018,	/* Root directory length */
+-	0x76656e64,	/* "vend" */
+-	0x6f726964,	/* "orid" */
+-	0x76000001,	/* "v" R 1 */
+-	0x00000a27,	/* Immediate value, ! Vendor ID */
+-	0x76656e64,	/* "vend" */
+-	0x6f726964,	/* "orid" */
+-	0x74000003,	/* "t" R 3 */
+-	0x0000001a,	/* Text leaf offset, (“Apple Inc.”) */
+-	0x64657669,	/* "devi" */
+-	0x63656964,	/* "ceid" */
+-	0x76000001,	/* "v" R 1 */
+-	0x0000000a,	/* Immediate value, ! Device ID */
+-	0x64657669,	/* "devi" */
+-	0x63656964,	/* "ceid" */
+-	0x74000003,	/* "t" R 3 */
+-	0x0000001d,	/* Text leaf offset, (“Macintosh”) */
+-	0x64657669,	/* "devi" */
+-	0x63657276,	/* "cerv" */
+-	0x76000001,	/* "v" R 1 */
+-	0x80000100,	/* Immediate value, Device Revision */
+-	0x6e657477,	/* "netw" */
+-	0x6f726b00,	/* "ork" */
+-	0x44000014,	/* "D" R 20 */
+-	0x00000021,	/* Directory data offset, (Network Directory) */
+-	0x4170706c,	/* "Appl" */
+-	0x6520496e,	/* "e In" */
+-	0x632e0000,	/* "c." ! */
+-	0x4d616369,	/* "Maci" */
+-	0x6e746f73,	/* "ntos" */
+-	0x68000000,	/* "h" */
+-	0x00000000,	/* padding */
+-	0xca8961c6,	/* Directory UUID, Network Directory */
+-	0x9541ce1c,	/* Directory UUID, Network Directory */
+-	0x5949b8bd,	/* Directory UUID, Network Directory */
+-	0x4f5a5f2e,	/* Directory UUID, Network Directory */
+-	0x70727463,	/* "prtc" */
+-	0x69640000,	/* "id" */
+-	0x76000001,	/* "v" R 1 */
+-	0x00000001,	/* Immediate value, Network Protocol ID */
+-	0x70727463,	/* "prtc" */
+-	0x76657273,	/* "vers" */
+-	0x76000001,	/* "v" R 1 */
+-	0x00000001,	/* Immediate value, Network Protocol Version */
+-	0x70727463,	/* "prtc" */
+-	0x72657673,	/* "revs" */
+-	0x76000001,	/* "v" R 1 */
+-	0x00000001,	/* Immediate value, Network Protocol Revision */
+-	0x70727463,	/* "prtc" */
+-	0x73746e73,	/* "stns" */
+-	0x76000001,	/* "v" R 1 */
+-	0x00000000,	/* Immediate value, Network Protocol Settings */
++	le32_to_cpu(0x55584401),	/* "UXD" v1 */
++	le32_to_cpu(0x00000018),	/* Root directory length */
++	le32_to_cpu(0x76656e64),	/* "vend" */
++	le32_to_cpu(0x6f726964),	/* "orid" */
++	le32_to_cpu(0x76000001),	/* "v" R 1 */
++	le32_to_cpu(0x00000a27),	/* Immediate value, ! Vendor ID */
++	le32_to_cpu(0x76656e64),	/* "vend" */
++	le32_to_cpu(0x6f726964),	/* "orid" */
++	le32_to_cpu(0x74000003),	/* "t" R 3 */
++	le32_to_cpu(0x0000001a),	/* Text leaf offset, (“Apple Inc.”) */
++	le32_to_cpu(0x64657669),	/* "devi" */
++	le32_to_cpu(0x63656964),	/* "ceid" */
++	le32_to_cpu(0x76000001),	/* "v" R 1 */
++	le32_to_cpu(0x0000000a),	/* Immediate value, ! Device ID */
++	le32_to_cpu(0x64657669),	/* "devi" */
++	le32_to_cpu(0x63656964),	/* "ceid" */
++	le32_to_cpu(0x74000003),	/* "t" R 3 */
++	le32_to_cpu(0x0000001d),	/* Text leaf offset, (“Macintosh”) */
++	le32_to_cpu(0x64657669),	/* "devi" */
++	le32_to_cpu(0x63657276),	/* "cerv" */
++	le32_to_cpu(0x76000001),	/* "v" R 1 */
++	le32_to_cpu(0x80000100),	/* Immediate value, Device Revision */
++	le32_to_cpu(0x6e657477),	/* "netw" */
++	le32_to_cpu(0x6f726b00),	/* "ork" */
++	le32_to_cpu(0x44000014),	/* "D" R 20 */
++	le32_to_cpu(0x00000021),	/* Directory data offset, (Network Directory) */
++	le32_to_cpu(0x4170706c),	/* "Appl" */
++	le32_to_cpu(0x6520496e),	/* "e In" */
++	le32_to_cpu(0x632e0000),	/* "c." ! */
++	le32_to_cpu(0x4d616369),	/* "Maci" */
++	le32_to_cpu(0x6e746f73),	/* "ntos" */
++	le32_to_cpu(0x68000000),	/* "h" */
++	le32_to_cpu(0x00000000),	/* padding */
++	le32_to_cpu(0xca8961c6),	/* Directory UUID, Network Directory */
++	le32_to_cpu(0x9541ce1c),	/* Directory UUID, Network Directory */
++	le32_to_cpu(0x5949b8bd),	/* Directory UUID, Network Directory */
++	le32_to_cpu(0x4f5a5f2e),	/* Directory UUID, Network Directory */
++	le32_to_cpu(0x70727463),	/* "prtc" */
++	le32_to_cpu(0x69640000),	/* "id" */
++	le32_to_cpu(0x76000001),	/* "v" R 1 */
++	le32_to_cpu(0x00000001),	/* Immediate value, Network Protocol ID */
++	le32_to_cpu(0x70727463),	/* "prtc" */
++	le32_to_cpu(0x76657273),	/* "vers" */
++	le32_to_cpu(0x76000001),	/* "v" R 1 */
++	le32_to_cpu(0x00000001),	/* Immediate value, Network Protocol Version */
++	le32_to_cpu(0x70727463),	/* "prtc" */
++	le32_to_cpu(0x72657673),	/* "revs" */
++	le32_to_cpu(0x76000001),	/* "v" R 1 */
++	le32_to_cpu(0x00000001),	/* Immediate value, Network Protocol Revision */
++	le32_to_cpu(0x70727463),	/* "prtc" */
++	le32_to_cpu(0x73746e73),	/* "stns" */
++	le32_to_cpu(0x76000001),	/* "v" R 1 */
++	le32_to_cpu(0x00000000),	/* Immediate value, Network Protocol Settings */
+ };
  
- 		re = (struct tb_property_rootdir_entry *)&block[start_offset];
--		re->magic = TB_PROPERTY_ROOTDIR_MAGIC;
--		re->length = dir_len - sizeof(*re) / 4;
-+		re->magic = cpu_to_le32(TB_PROPERTY_ROOTDIR_MAGIC);
-+		re->length = cpu_to_le32(dir_len - sizeof(*re) / 4);
- 		entry = re->entries;
- 	}
- 
-@@ -456,31 +462,31 @@ static ssize_t __tb_property_format_dir(const struct tb_property_dir *dir,
- 						       block_len);
- 			if (ret < 0)
- 				return ret;
--			entry->length = tb_property_dir_length(child, false,
--							       NULL);
--			entry->value = dir_end;
-+			entry->length = cpu_to_le16(
-+				tb_property_dir_length(child, false, NULL));
-+			entry->value = cpu_to_le32(dir_end);
- 			dir_end = ret;
- 			break;
- 
- 		case TB_PROPERTY_TYPE_DATA:
- 			format_dwdata(&block[data_offset], property->value.data,
- 				      property->length);
--			entry->length = property->length;
--			entry->value = data_offset;
--			data_offset += entry->length;
-+			entry->length = cpu_to_le16(property->length);
-+			entry->value = cpu_to_le32(data_offset);
-+			data_offset += property->length;
- 			break;
- 
- 		case TB_PROPERTY_TYPE_TEXT:
- 			format_dwdata(&block[data_offset], property->value.text,
- 				      property->length);
--			entry->length = property->length;
--			entry->value = data_offset;
--			data_offset += entry->length;
-+			entry->length = cpu_to_le16(property->length);
-+			entry->value = cpu_to_le32(data_offset);
-+			data_offset += property->length;
- 			break;
- 
- 		case TB_PROPERTY_TYPE_VALUE:
--			entry->length = property->length;
--			entry->value = property->value.immediate;
-+			entry->length = cpu_to_le16(property->length);
-+			entry->value = cpu_to_le32(property->value.immediate);
- 			break;
- 
- 		default:
+ static const uuid_t network_dir_uuid =
 
 -- 
 2.54.0
