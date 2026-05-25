@@ -1,72 +1,72 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6843793C3
-	for <linux-usb@vger.kernel.org>; Mon, 25 May 2026 20:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2828835F176
+	for <linux-usb@vger.kernel.org>; Mon, 25 May 2026 20:24:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779740664; cv=none; b=Y8Ld7RlNtUsgl0VRL+rj7aF2zI+qU6UIyxrot7lKGa+4N32Jz1T8AcL6nvZibCVLDPaxp/OXjiafq+orj0R6jitWfzrH1WG9NuZpshFibBuunQ0jdK0zNg51kxMGJUciwpaf5v32oz6sABC6lx59Vm5k1GVDRZZ7KNNfDV+1udI=
+	t=1779740675; cv=none; b=iB9UIHeuNj0lzzBXhxJqhNKU6QgXwB2zNDRm9YXatgcmGrpgYyhWjFQAzeWEwzBtatRsk45xkq+bvpzSNRKvAwO3gKyLyOVqti9E675IIgZqxPGkkS8AOrJqR6v0XgQzJ/Vx7DY/hVvbOMdRjjA16+8igd1zjkL44x744WQ1z/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779740664; c=relaxed/simple;
-	bh=0fGTtdOlj0OaFFj/juQWY2eIIWPMURqhon21vBu56EU=;
+	s=arc-20240116; t=1779740675; c=relaxed/simple;
+	bh=BDjNlnf6kqOTmpfdKzt077i1YFIj/VXRK26I2fNu3o8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kbosgh9Kso4wT0mRH9WPJpFJSHiJve2LlTEBt9RM0UNIWzmKBMFQNQrNtD4YNFbFAciciOsO1nL7RgAHqCxHd8GVGQx1p2ZtOgSxnnPhAPFpChxZUFmQe21ifDJy+rTU5thUUsoGjRROxUr32Cx8vCfl3RndgYFXt9K1AAzJliw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q8h1ruv2; arc=none smtp.client-ip=209.85.167.170
+	 MIME-Version:Content-Type; b=PMGSZKlpOj+Edcz4WFyVkN6JsVYcudwoueAD1uYRAZVODFPRKjg23v2GRa0lZ5jVHSDd0iEFOUuElvnoUEQM4eBUVkLmCrh1RkQ93kKlRwQ3O25Ux8NGSBysqoSUctZWldezEt6K+FvjT727b5hU5V720KrcBEDvD78qnprzrqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UbRKE9F6; arc=none smtp.client-ip=209.85.167.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q8h1ruv2"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-4856128f670so2182263b6e.0
-        for <linux-usb@vger.kernel.org>; Mon, 25 May 2026 13:24:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UbRKE9F6"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-4856128f670so2182277b6e.0
+        for <linux-usb@vger.kernel.org>; Mon, 25 May 2026 13:24:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779740661; x=1780345461; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779740663; x=1780345463; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rH2bOPxUTZ7jcp1ZJ8Ke8Qi27deWhvd2Eb9MPg+cVXs=;
-        b=q8h1ruv2kCZ+F72CzBFlom71z6M0RFl0p3YWKBF1DVOTkROSe2luFX1s8NCuq8HUTy
-         33KA6AXLk2dijHS4MefVPz4VkwmhIlgL/nh4ZpKrS+zVDpmfWlLHb3cfB0xGtH7EEu6L
-         nNzNivkxKipQ6ERuq+aKm86DbkI+qOci9LIWxoYXIlNOz4q1DspL1BkAMNGep4/54rat
-         X6yzNmE1yLeZ6YVcaRibilNSPOkGM6Yhy7kMBj0v0ig8XLRqSHEk+ryRe/lZMypVzVvX
-         px2VBWrUGd1VoGi/chUtQAgJVZae5I8V2p3D/D+GW9K2f9UYryRoOZTfzSqhGkq7GSuc
-         2vpA==
+        bh=R4eLS8y1SewZPIf8sa07E1Jfs/Pz7SGQnlUffTbCSc8=;
+        b=UbRKE9F6FkRD6933ctB9MMW6mWiRHLQLuwZHKndQIziA12X67d8wqMgNDi78Ee17vE
+         /91aDIuRkB79y6URGu0i5pBNFhUEvl3QMJzVPtcsB0Z80MwxEsMx1uHGClypzpLy73WL
+         jPTEBVKnQMRxJ4rR47K7m2JLZbLOABOByiyID6AWPgg3oM5Q7c1sXq+3yZOKRJfsKmYb
+         cfqhEQAW3Fworlrcf4D0/kF9aRh8kejZZ9s/kaxvKSpsHVD2lw8yvHpbasBxkL3GEcv+
+         Vlfy8F4kQjdWuD1ggiDTt4ps3FI+9Hp6fCFTGc62PbdkLL2ZjQe42nobgtSVRS7Lnz4K
+         Qqbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779740661; x=1780345461;
+        d=1e100.net; s=20251104; t=1779740663; x=1780345463;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=rH2bOPxUTZ7jcp1ZJ8Ke8Qi27deWhvd2Eb9MPg+cVXs=;
-        b=HfLBhpFBKiffPBoYAeLBriaFZNaFe4XanTeLjJRnNcW/LaVu4W1fl+EhgwIyUwlJYG
-         lTPNreS+wJA5asg0XWxN0bykwb20S0R/O2AgaDJWQGSPRk9zYLOexiJdIhxt8s+lj1G/
-         VfmXojsvrgxuRAHZS+mYiOe0UaKUoONl/vkpE3P3fppjE66CpZ4aTX8Xm2CmgSZsd6E+
-         5lGpDnpG7bsRw80KLBZH2hHvqq9K9TPez33pAi5RmFiCCB6qENg7m5Hg6b7ijRm+p+2I
-         RbznONMtZFseCJ7Y7xKSk5omC7dZkZhs4Rm8BwNQFuTqoOyt17rYV41btPiywX0oLxKg
-         wjvQ==
-X-Gm-Message-State: AOJu0YztbJ3TnaHb7/g1A1FfbfdHPM8zw1ZGNL/7/WMiqMftQ0rlQlNv
-	Ad0eNprzKGQKq1PPDFIahp0+sI+lcGvH+w3Zzgn4BLVlP4h5/54O2Hm3smgyYju2/qE=
-X-Gm-Gg: Acq92OGu+8/ziFGj4W/jvFiEYU1b3TN+4oTCcNWA7acLAt4fJT6ZCdpYvF9W1zm4/6T
-	KkyHyQeEBuGmyyvBYfS0yIWe29oHEJPq0dPHrKd9/9LyEbb08Vmr7+DWZ7IgEvdH9+T0Xn0dX+6
-	+Gdmr3aUZz8stBq24oK4i64I/qzhMPMivLz1/QNUK9XC/75DM1CJ+eyofx+v+mUv96wctyHA+Ku
-	U+/2k3UwzYgovPNOgyxF7qTPdx2QYkoOwwz/MI+2/MaZmokVOjvfOtL97+XxJWi4fQqfINnoEgb
-	G6ZGDrIh1A8ovd2QJQN0gwzzITv8bJS42G7P2HvoqegcxLkwcT1xCVl+ne9jcaK37T9z+n/KLAp
-	YSaqnKsDcx595iWasgENn+xvkLH3HQ1zEHlfEOGGVlX7XDce92ywI3j9I33i+yAoGvcMhtxyGcp
-	zBPpPyDekTCt8YRuFEEhxKtdqeHSw6GP/RvHFYuDSeCqFzZOKWvgdXY9M7plzbQMH0icWWSq7su
-	wGKsYmq4qtSELhMnMP+lLaSFFms0Glnxs7jdTcSyoYmFS8=
-X-Received: by 2002:a05:6808:23c4:b0:479:eb19:6e6b with SMTP id 5614622812f47-48549ead75cmr11293528b6e.15.1779740661270;
-        Mon, 25 May 2026 13:24:21 -0700 (PDT)
+        bh=R4eLS8y1SewZPIf8sa07E1Jfs/Pz7SGQnlUffTbCSc8=;
+        b=OmWhzMTBe4hLCV97SYmTxSk0QyehjvCjg+5kh2SXtxe9sFSoP6BX2wfwTyE3lkI7kx
+         dCmnoxm7d7K0g/8Uv/YMaH9b6zjvy1jKQDcSNLeCfcNcAEkqboMjDxxcSP3GGUA94t74
+         WHgR0v3duSr5C3dxCIxjcMj36nx5b+8m0PdlouF6fzkheCxLBdBzhgt7Ks0MaKR4JcAA
+         17uw1hpdC1IAcf/QRwLgsLBBULzyZPP+WUAX19jDzoZiyh5zDWgfC48Z7DyNXfu1KxdA
+         Mjjfw1QUsRI+qDaiF/IyNb3uHGiBAp21R+oXMXcrTi3m55sqHekWx0guTXff4W9kcQt9
+         h+hQ==
+X-Gm-Message-State: AOJu0YwKfZoDz9LuTEV6AfQVurhor/ZNFzbtpvx/NIzpQO4oo3tIjOLL
+	8HdThK0SOV1dKol9g1C7/ILyhjr3/ZktOp3dawYRC1FQbFJUyJyhmBOtco4igNHV7j4=
+X-Gm-Gg: Acq92OEE0dHQSmZRC8p+fHrXVEaz4Twg0Vl3840SKoPCElZ6vJrIRHLWsP4gsSzR3YS
+	uzTgQmznc8hnZ4t6zS4HQE7BybJCOBh6SnFDwouzt+aHQ6Jxgu4mdrNtLQu/PtpPblIngZ8JS12
+	HaYNF2vPfQ46SgoNNhqud2cJi/aDLz+dQdjlKTcO6dab72lth4RP+Z8nU2UowYjZwhS5OIFpz6V
+	cFNTiqPXHI7tKbxZiCyWO3SFkuTTwcMM0YmJ9dtbDbfkLfWBuXOTHK70AZiCSNT5S0tfqQ6GxtM
+	pcEyNWlX3DvfLxw/dk2CvtDGlVwEK/uSoV98Ixj+g/ya0NGE/o6lJMKA82oq3qNMisFSQWPLFSt
+	RF0EbbB25WFKJFseIoi8X0HdbE/FUK7VddJ7LHm7MqQptQC6azRlSdiVvzgLD/6xRoFtIF72sSe
+	zSIS9RTHrdYQRN/qf82mYzAlQZXTEoXW5eHziEWryhFGHrfan0uJTCVThzuNu6iGhpaVA5Mwvlg
+	PpoHc2V6ryprkQFg+MlNrRon9oiWnGB1CueL/Owq1hPjvE=
+X-Received: by 2002:a05:6808:640f:b0:485:42f0:7eb9 with SMTP id 5614622812f47-48549d6bb9dmr9450283b6e.5.1779740662729;
+        Mon, 25 May 2026 13:24:22 -0700 (PDT)
 Received: from DESKTOP-J47FREO.mynetworksettings.com (171.sub-75-196-24.myvzw.com. [75.196.24.171])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-48554757d5dsm5204305b6e.15.2026.05.25.13.24.20
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-48554757d5dsm5204305b6e.15.2026.05.25.13.24.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 13:24:21 -0700 (PDT)
+        Mon, 25 May 2026 13:24:22 -0700 (PDT)
 From: Adrian Korwel <adriank20047@gmail.com>
 To: linux-usb@vger.kernel.org
 Cc: gregkh@linuxfoundation.org,
 	stable@vger.kernel.org,
 	heikki.krogerus@linux.intel.com,
 	Adrian Korwel <adriank20047@gmail.com>
-Subject: [PATCH 3/4] usb: gadget: f_uac1_legacy: fix use-after-free caused by bound guard
-Date: Mon, 25 May 2026 15:24:12 -0500
-Message-ID: <20260525202414.602-6-adriank20047@gmail.com>
+Subject: [PATCH 4/4] usb: typec: thunderbolt: cancel work before altmode is removed
+Date: Mon, 25 May 2026 15:24:14 -0500
+Message-ID: <20260525202414.602-8-adriank20047@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260525202414.602-1-adriank20047@gmail.com>
 References: <2026052517-undergrad-reformat-44bc@gregkh>
@@ -77,68 +77,45 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-f_audio_bind() guards gaudio_setup() with an 'audio_opts->bound' flag
-to prevent re-initialization on repeated bind attempts. However the
-fail: error path unconditionally calls gaudio_cleanup(). On repeated
-bind attempts after failure, this closes file handles that were opened
-in a previous bind invocation and already freed by RCU, causing a
-use-after-free detected by KASAN:
+tbt_altmode_remove() frees resources associated with the Thunderbolt
+altmode but does not cancel the pending work item before returning.
+Since tbt is allocated with devm_kzalloc(), it is freed automatically
+when the device is released after remove() returns.
 
-  BUG: KASAN: slab-use-after-free in filp_flush+0x23/0x1b0
-  Read of size 8 at addr ffff88810d5523a8 by task bash/306
-  ...
-  gaudio_cleanup+0x59/0x100
-  f_audio_bind+0x4b0/0x590
+The work item tbt_altmode_work() can be scheduled via schedule_work()
+from tbt_altmode_vdm(), tbt_altmode_activate(), and the probe path,
+and may still be pending or running when tbt_altmode_remove() returns.
+The work function accesses tbt->lock, tbt->state, tbt->alt, and
+tbt->plug[] — all of which reside in the freed struct, resulting in
+a use-after-free.
 
-Fix by removing the bound guard and calling gaudio_setup()
-unconditionally in f_audio_bind(), making setup and cleanup a matched
-pair within each bind invocation. Remove the now-unused 'bound' field
-from struct f_uac1_legacy_opts.
+Fix by calling cancel_work_sync() in tbt_altmode_remove() before
+releasing any resources, ensuring no work item referencing tbt can
+run after teardown begins.
 
-Fixes: d355339eecd9 ("usb: gadget: function: make current f_uac1 implementation legacy")
+Fixes: 100e25738659 ("usb: typec: Add driver for Thunderbolt 3 Alternate Mode")
 Cc: stable@vger.kernel.org
 Signed-off-by: Adrian Korwel <adriank20047@gmail.com>
 ---
- drivers/usb/gadget/function/f_uac1_legacy.c | 11 ++++-------
- drivers/usb/gadget/function/u_uac1_legacy.h |  1 -
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ drivers/usb/typec/altmodes/thunderbolt.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/gadget/function/f_uac1_legacy.c b/drivers/usb/gadget/function/f_uac1_legacy.c
-index 5d201a2e30e7..6ad4b16769b7 100644
---- a/drivers/usb/gadget/function/f_uac1_legacy.c
-+++ b/drivers/usb/gadget/function/f_uac1_legacy.c
-@@ -735,13 +735,10 @@ f_audio_bind(struct usb_configuration *c, struct usb_function *f)
+diff --git a/drivers/usb/typec/altmodes/thunderbolt.c b/drivers/usb/typec/altmodes/thunderbolt.c
+index 32250b94262a..57c8dff0c51f 100644
+--- a/drivers/usb/typec/altmodes/thunderbolt.c
++++ b/drivers/usb/typec/altmodes/thunderbolt.c
+@@ -303,6 +303,8 @@ static void tbt_altmode_remove(struct typec_altmode *alt)
+ {
+ 	struct tbt_altmode *tbt = typec_altmode_get_drvdata(alt);
  
- 	audio_opts = container_of(f->fi, struct f_uac1_legacy_opts, func_inst);
- 	audio->card.gadget = c->cdev->gadget;
--	/* set up ASLA audio devices */
--	if (!audio_opts->bound) {
--		status = gaudio_setup(&audio->card);
--		if (status < 0)
--			return status;
--		audio_opts->bound = true;
--	}
-+	/* set up ALSA audio devices */
-+	status = gaudio_setup(&audio->card);
-+	if (status < 0)
-+		return status;
- 	us = usb_gstrings_attach(cdev, uac1_strings, ARRAY_SIZE(strings_uac1));
- 	if (IS_ERR(us))
- 		return PTR_ERR(us);
-diff --git a/drivers/usb/gadget/function/u_uac1_legacy.h b/drivers/usb/gadget/function/u_uac1_legacy.h
-index b5df9bcbbeba..fd22fd37fe53 100644
---- a/drivers/usb/gadget/function/u_uac1_legacy.h
-+++ b/drivers/usb/gadget/function/u_uac1_legacy.h
-@@ -61,7 +61,6 @@ struct f_uac1_legacy_opts {
- 	char				*fn_play;
- 	char				*fn_cap;
- 	char				*fn_cntl;
--	unsigned			bound:1;
- 	unsigned			fn_play_alloc:1;
- 	unsigned			fn_cap_alloc:1;
- 	unsigned			fn_cntl_alloc:1;
++	cancel_work_sync(&tbt->work);
++
+ 	for (int i = TYPEC_PLUG_SOP_PP; i >= 0; --i) {
+ 		if (tbt->plug[i])
+ 			typec_altmode_put_plug(tbt->plug[i]);
 -- 
 2.43.0
 
