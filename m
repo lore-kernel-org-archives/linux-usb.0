@@ -1,117 +1,114 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC507405C41;
-	Tue, 26 May 2026 17:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BED7421EFD
+	for <linux-usb@vger.kernel.org>; Tue, 26 May 2026 18:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779815640; cv=none; b=oFQZAt/83PNp0Zz6J54CpV5oiG4UrGy7VbaVMT1HZgBrGN/HpGi1qFyhX6tv3gwGuNWrPBq37RZtl5E8Ow5MTdL8/rM7jNFvA7A0XKE45rTBnuf/n/GFGqIiGZgI4YYFjDCGI+Qpnn2ZFJR4SYQ/c20S8kx7YBkEOqrAH2F+RfA=
+	t=1779818432; cv=none; b=hRmLwSp+ELkfxuZ1qXlzIMX8p6jtE/CMl1YCqvwG1maOABzprGQs7jKTB/YSDuYWr2jurWxlj5PFQGODKPfrVve4X4dZA5Jasmsb9TkSzvA7bjN8+s5/uONZVgpwlMzlNSKsFFscKnxFDMQhKcWhMMIe90bgB6IFOAdThH+E7no=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779815640; c=relaxed/simple;
-	bh=HKf/Xs8LOWQfuYm/NhwoSviP4MkBPUdp5MQqBgN7XDs=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=e/bYMgEBbr40N5BfkP2Z5LaHDgT/eQusIWHrcgppLE59Mpgvh/lBorG89eLwPcTzOaq/aE5f4Sgzn7ekcc2tgb9DO2862JHMCNOh/UkZTlqxkM4qLHZluCgRR9Df+/AYO8oyxqlPdTlqn4bHZ7xSp+gZay6BKiVzgEcrSzbQCSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=pnjNklEp; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1779818432; c=relaxed/simple;
+	bh=ENkQi6euUmUGVEXmwlJ89lIFxUgKslc0tIyvgXY3bNw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZCMzPFtkfozODhr2P1PkpB54L6EG8BCHkODWztN4vebB4XVq5abhVyG6uNyTEJNEi63B2zkMpwCL+HaDcYh3Ov9rr0mzA+1qTyHH5dZfVd6g3o9XIvKw8krLhMSZgDQ8+ydYHFM3OLbgmU3S1K22UuEyqzrHHXLqtNLs5+Pnvzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=uVUtwJ5c; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="pnjNklEp"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
-	In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=/G1S5XobYG9/v5zfN4G/+aemLakN1IaljOQrRg4fvFo=; b=pnjNklEpsBg0bQVHBDTK1mR9/F
-	TE4Q/gwiISSYMpJOXppjkUJxROLK6jscuYvRCf5BWViJzigd140J73gtuyzx7PE+tFZFKNR4DNwUO
-	sukCVui1eCBfvon528qe75R/OeRONlUjGKM/tSqWJr6MeLrVr1rqdgzOm27HRPXdewlXfBezgd6t5
-	oQJNTnU1a4o799V8BkhETIrh216atIsNCRajoHSNOMB7DEI9S+ceeJkelakgnsd/CK3DQXP9rGc9d
-	0+wabQWSsot9oTFKT3LgCta7q/6YmMA8VkbzhkGCRkLuszf64fudtB2RYS4NYrb7+VmFnlu5s2nM/
-	TfBW7lWg==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
-	by fanzine2.igalia.com with esmtps 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wRvLk-008X5L-Da; Tue, 26 May 2026 19:13:52 +0200
-Received: from webmail.service.igalia.com ([192.168.21.45])
-	by mail.igalia.com with esmtp (Exim)
-	id 1wRvLh-00FZsO-TM; Tue, 26 May 2026 19:13:52 +0200
-Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
-	by webmail.service.igalia.com with esmtp (Exim 4.98.2)
-	(envelope-from <mfo@igalia.com>)
-	id 1wRvLh-00000004M1A-0ud2;
-	Tue, 26 May 2026 19:13:49 +0200
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="uVUtwJ5c"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8b7dccd6fe4so105192426d6.1
+        for <linux-usb@vger.kernel.org>; Tue, 26 May 2026 11:00:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1779818430; x=1780423230; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rSgt6MfvA+HgF23IzFWZTOY3R54ZXJy/qOp6XyOSvoM=;
+        b=uVUtwJ5cdSnw48aY8xnuw5ymCEsh12i4bv8A9isCeQXvsEKGLibVn4A9MQW7DID0Bv
+         jGFb6RCXObrjXUlXo7pfu0/pPwVuzDz/2gr2NMF/hTIKkOCCWEDASDVg+yPiYzNBp1zO
+         IcdiYL0cxwSV5qEjc6WkJA4OfG04ZJkP26TskQMipfgGiB08iqEU6yqPfFfQ7W4XZuQC
+         KyGCsoJdOZQJkpurvRVpu67RJ3mSEuXFS4b+lemD4Qyf0zRl2x2JkZmYfTiZkybuAmsi
+         C4l2HrZgSGO2PtkQpE9RKQ1NU5FP7EkLMHCGy+ptwGJ8YoZteZ5wUsjSa/QcHPXKvk4E
+         mrEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779818430; x=1780423230;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rSgt6MfvA+HgF23IzFWZTOY3R54ZXJy/qOp6XyOSvoM=;
+        b=G54w7ydnN7dUJLvIJktQn8sPQ60vuSIDUuqsM6YtgxQQFPxVYAlaolhkX95A7t7i5m
+         0fLRkRHXSfPy5hKwNVJz/+Kt3QdZAi45/guqiDU9MXeItRFDxE9/TVmc4xuid+Bkmcrv
+         J5D1zgrospNCb3qX0ebAB8Vi7XWwmbkHvTZkop7VJmqojTQGej85UA8oTCRzhOclj3Lq
+         v4nmHpv3c9sd5yrg6Bb05jHCcxV6D7rY0a0VEp2JCnK6taLxs5kHb65wK8ymP5rmJfFX
+         oqfdFxixlbFiHbBFHu3fBwV3zXfAFsFu22zSMxksLeObzNdsSdQrNpsZv/vH/pyDmieM
+         rYxQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9Jcg5xltnka+c/kNJjv/dOVqnGXG3Re7bDdpO4KH/yd4AFtF+F3KXs2us9Jqm08ioDNoIJpnWyQOQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw34pZEwyjNPS6586ywWzwhI62L9jyaKXHuqnMbWIhVfciGNalL
+	kIGVXjSvHF1FZTke6aGK7OLKUldDTG2uuwrUo0X2iGHevBOgkKDOT4Rs6fzDiTOmqQ==
+X-Gm-Gg: Acq92OGQgPFTd1LYuUf/YVRBtixpaJ1W0jh3fp/pViXUEpCVGL2suPpSg49lDaffyAE
+	cKrdnjsrwBXdMZOvNinc/d5u8yCq5Qu6hFPkUNs4aEv6GSnrx9QaI6eGbUagJ8SX/L8XWull9Pw
+	2M8/oulm8vPdIy6F8Zi8bwL1Nr6At7axCK5CEeqD6nYQZxWaxJCJ2tfxAqxqru/1m7ny5hJt0i6
+	8fxqoGY4dcod2Vf1Wu5ldtS6ByJ0QMevJ09MtjV0RqOAWSoq+UPPFQzkicPNmM7eAqjrolomST+
+	yCptPp/3XJE1tgf6kOni+HDdxV0aQYC0ep16kT89DbXFJirg8l7qtQf+SkskCEfywxmWAebbd/A
+	F0WiHPxD6WzhtPeBY+s/BtKc/4/q90tAFqS0phzZ8SPCcy3nI2kQW64PNUc6lH3YUJ3CliyP2+S
+	vZGZs6gfKuMYPlgLnLYpjxWScBiHkSf7FtZ4xJ3aI2UxoVAPKmbcWI7WuRGZORaSu5Ero=
+X-Received: by 2002:a05:6214:53c1:b0:8ca:293b:bc3c with SMTP id 6a1803df08f44-8cc7b4f1f5amr342749866d6.3.1779818428972;
+        Tue, 26 May 2026 11:00:28 -0700 (PDT)
+Received: from rowland.harvard.edu ([2607:fb60:1011:2006:349c:f507:d5eb:5d9e])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cc80ded529sm147738236d6.16.2026.05.26.11.00.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 11:00:28 -0700 (PDT)
+Date: Tue, 26 May 2026 14:00:25 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Jimmy Hu <hhhuuu@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: udc: Fix NULL pointer dereference in
+ gadget_match_driver
+Message-ID: <1f7a7bf2-4d21-4944-9da0-36082d052b25@rowland.harvard.edu>
+References: <20260526070635.839701-1-hhhuuu@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 26 May 2026 14:13:49 -0300
-From: Mauricio Faria de Oliveira <mfo@igalia.com>
-To: Stanislaw Gruszka <stf_xl@wp.pl>
-Cc: Matthieu CASTET <castet.matthieu@free.fr>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Andrew Morton <akpm@osdl.org>,
- kernel-dev@igalia.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Andrey Tsygunka <aitsygunka@yandex.ru>,
- syzbot+ce1e5a1b4e086b43e56d@syzkaller.appspotmail.com,
- syzbot+306212936b13e520679d@syzkaller.appspotmail.com,
- syzbot+457452d30bcdda75ead2@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2] usb: atm: ueagle-atm: wait for pre-firmware load in
- .disconnect()
-In-Reply-To: <20260526092456.GA45806@wp.pl>
-References: <20260522-ueagle-atm_req-fw-sync-v2-1-eee7f6b823a7@igalia.com>
- <20260526092456.GA45806@wp.pl>
-Message-ID: <c374af62869016d43f54345c5fad62f3@igalia.com>
-X-Sender: mfo@igalia.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Report: NO, Score=-3.9, Tests=ALL_TRUSTED=-3,AWL=-1.718,BAYES_50=0.8
-X-Spam-Score: -38
-X-Spam-Bar: ---
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260526070635.839701-1-hhhuuu@google.com>
 
-On 2026-05-26 06:24, Stanislaw Gruszka wrote:
-> Hi, 
+On Tue, May 26, 2026 at 03:06:35PM +0800, Jimmy Hu wrote:
+> A NULL pointer dereference occurs in gadget_match_driver() because a
+> race condition exists between the DRD mode-switch work and the
+> configfs UDC write path:
 > 
-> On Fri, May 22, 2026 at 01:45:35PM -0300, Mauricio Faria de Oliveira wrote:
-[...]
->> @@ -2557,8 +2561,23 @@ static int uea_probe(struct usb_interface *intf, const struct usb_device_id *id)
->>  
->>  	usb_reset_device(usb);
->>  
->> -	if (UEA_IS_PREFIRM(id))
->> -		return uea_load_firmware(usb, UEA_CHIP_VERSION(id));
->> +	if (UEA_IS_PREFIRM(id)) {
->> +		struct completion *fw_done;
->> +
->> +		/* Wait for the firmware load to be done, in .disconnect() */
->> +		fw_done = kzalloc_obj(*fw_done);
->> +		if (!fw_done)
->> +			return -ENOMEM;
->> +
->> +		init_completion(fw_done);
->> +		usb_set_intfdata(intf, fw_done);
->> +
->> +		ret = uea_load_firmware(intf, UEA_CHIP_VERSION(id));
->> +		if (ret)
->> +			complete(fw_done);
->> +
->> +		return ret;
+> 1. The DRD mode-switch work invokes __dwc3_set_mode(), which calls
+>    dwc3_gadget_exit() and subsequently frees the UDC device name via
+>    device_unregister(&udc->dev).
+> 2. The configfs UDC write path invokes gadget_dev_desc_UDC_store(),
+>    which calls usb_gadget_register_driver() and subsequently
+>    compares the UDC device name via gadget_match_driver().
 > 
-> If uea_probe() returns an error, .disconnect() should not be called
-> so complete(fw_done) is not needed. On error path we should just do
-> kfree(fw_done), right ?
->
-> Otherwise, the patch looks good to me.
+> If gadget_match_driver() runs concurrently during UDC unregistration, it
+> may access the freed UDC device name. Once the freed memory is zeroed,
+> dev_name(&udc->dev) returns NULL, causing a panic in strcmp().
 
-You're right; thanks for catching this.
+I don't see how this can happen.  gadget_match_driver() runs during 
+probing of a gadget, which takes place only while the gadget is 
+registered in the device core.  But usb_del_gadget() calls 
+device_del(&gadget->dev) before it calls device_unregister(&udc->dev).  
+This means that at any time when gadget_match_driver() can run, the UDC 
+device name must still be allocated.
 
-Tested and fixed in v3:
-https://lore.kernel.org/all/20260526-ueagle-atm_req-fw-sync-v3-1-93c01961daaf@igalia.com/
+You should run more tests.  Add debugging printk() calls just before and 
+just after the device_del(&gadget->dev) and device_unregister(&udc->dev) 
+lines, and inside gadget_match_driver(), so the tests will show 
+unambiguously when these things happen with respect to each other.
 
-> 
-> Regards
-> Stanislaw
-[...]
+> Fix this by checking dev_name(&udc->dev) before calling strcmp().
 
--- 
-Mauricio
+Adding a check like this will not fix a race; it will only make the race 
+less likely to occur.  It won't prevent the name from being deallocated 
+between the check and the strcmp() call.
+
+Alan Stern
