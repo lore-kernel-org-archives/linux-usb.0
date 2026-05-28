@@ -1,216 +1,118 @@
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.67.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAEC348C7E;
-	Thu, 28 May 2026 08:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.132.67.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67819378822
+	for <linux-usb@vger.kernel.org>; Thu, 28 May 2026 08:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779956368; cv=none; b=YhGnhbqPw6To0H8YkkqbV/0uPeDOwFjQ8DZozOCzQsqnSk8YrxdYolQfMLU4fCoC7LgHMbYESEiWOGbPkneuUVd6xVOf/oxEB/tJFrERDLhOpg/dWtCfBrtjn95EdOCse6hxlwow168HANqowe4R63eFWAqJOA8Ny6rsEnSEB/I=
+	t=1779956415; cv=none; b=FhF4rX6hp/oeYJCuAEtMezCElBWXogg4nBS2usvwa+CEwFdTFzJygIhHQTiR9ZSuWnAvb3jsFCTwrKB4GfvCo/Km5cGRDbRyokSxuH7jO7gCRJQ0CB0S+sqg/VJdqVStqapIKd4Tk+6Av5Vw6vLMiUJnV6OW7gD90tPQKH9AkNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779956368; c=relaxed/simple;
-	bh=nAVAHsXso3C/0PsJj5P60FI82/FmYb+nqnvDIYEgvvo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=q6QoR6qjDerYQ2CAx8d5DFzKVQToMVGHfK+hpZK3N9nfZNJqyclkWZgCaFDzH5Kbjca/qxhW2KWJZ7Ie70nrN0GKh3NazmA09fAigtOzbPg98LuATAJdlX6T9ex+P8o5NhBbaAhdvmAuTkt+YynyUkLQDs7oWUVw5gU8ozLoH5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Y7mtK4/m; arc=none smtp.client-ip=114.132.67.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1779956415; c=relaxed/simple;
+	bh=yt0h3XGBchWeFUvzEbnc7l1NYOyq6+P6CPepSGZUbLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hjYS2Zj5gvRCWmL0hl5kK32vxupZ+tLYz7GdBYPm/B40y9FTbe1U9/9WOLmAeywlx04tGM+hrokOn+t2fxEfKPa+V4LuPgzWd6jYvGPAGnPZHqSVd8CXWF3/BitF1ieAHs24oeFj6dQbsrJMqJSnc9+aqJCA832yq6FS3qKiKEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eLD0Mzqx; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Y7mtK4/m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1779956354;
-	bh=hTfKHFLpQr6Uxul1FFGZN32A4tJE6awvwOwRmFziUKE=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=Y7mtK4/m5NPfiouT/AWDoaDCV+abLgbfMkDljpyj6d+bDkG8gpFfb7k4QrU5fgOj0
-	 HTjWDQ0lc0IXDIwJ1Dbhs7PbUGr0UmVawNdBVhSfPC5ymZqWF65a6OAKrZV5Zl8tFp
-	 hsL1nRWmN15lW9b20C58TdXXgSezsWNrTarmZnlk=
-X-QQ-mid: zesmtpgz3t1779956344tbbf05453
-X-QQ-Originating-IP: 8iWOHWTPwmeusF4wCfttTXj2BiriBmDGHpk8HJ2MsI0=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 28 May 2026 16:18:55 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 17934321688194046005
-EX-QQ-RecipientCnt: 15
-From: Haowen Tu <tuhaowen@uniontech.com>
-To: rafael@kernel.org
-Cc: lenb@kernel.org,
-	pavel@kernel.org,
-	linux-pm@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	stern@rowland.harvard.edu,
-	oneukum@suse.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel@uniontech.com,
-	Haowen Tu <tuhaowen@uniontech.com>
-Subject: [PATCH v2 1/2] PM: hibernate: add pm_hibernation_snapshot_done() helper
-Date: Thu, 28 May 2026 16:18:39 +0800
-Message-Id: <20260528081840.3528089-2-tuhaowen@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20260528081840.3528089-1-tuhaowen@uniontech.com>
-References: <20260428080513.1833515-1-tuhaowen@uniontech.com>
- <20260528081840.3528089-1-tuhaowen@uniontech.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eLD0Mzqx"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4893940bb5eso67306465e9.3
+        for <linux-usb@vger.kernel.org>; Thu, 28 May 2026 01:20:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779956413; x=1780561213; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yt0h3XGBchWeFUvzEbnc7l1NYOyq6+P6CPepSGZUbLA=;
+        b=eLD0Mzqx0dF4Ui0wegt2e89/t9NC7yvbAQ7qqSfJk+Dx82HNqOzzZt+0NUB0MaMJUt
+         lRMQoqq2djwL9Zd+51B6ShplyYuJSwnomjiqhf6L8AtG0o6lJYse1O9D5+W98aZNcBJm
+         1KoE0GcEsLfoRPVwN811+21VLRYH2/eHu5UoAApRwfTKhtyaP5S29JvtFjb8J8N+7csO
+         sNFzUAllZmsa4MkPaVVzMi2+6Uh1LnJB1PAWUyhH6UXdxuFZmB8onMEoIOYKkYuKnX8q
+         cay3jX4lWiEXOsyPITpQdihJvpJ+qFo+lFfOVe/Wn84I79WNhk/ucaEog707odeSQOf5
+         XPUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779956413; x=1780561213;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yt0h3XGBchWeFUvzEbnc7l1NYOyq6+P6CPepSGZUbLA=;
+        b=PCJD457bIlwNMzDAME4GmbS4VHvAHhYfg9tDqqQTfLkKrki64+8I9gnv9QkcbYqNMT
+         +SsHy2j7z5HMGFyv8Y8fBp0ZKi4J/+aS9nXreJXTd9wiKJ4w+FrhrgYFpyW+TSyXpgB0
+         QnSoC3oZS3gRU1GdBXpZI7M5NtM7DaWnD2NamcFxn4f4xlnE5rKnnvvlYd+Ot8m8+vfD
+         KfVwdGIGDH94WegjgaZuXWoZwkqIpKStP5PmRwq6iGmIG1mtnBznaQoC/qD5kusFajBU
+         LgbHffX13h6DF+/L0u5u6vtJu34HzjktlOZg8SmiajbTqGDo8ypdNpx6niMCqM2+V/0h
+         VW0Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9HbUdDclLseK53qYKfT832Hz28gSVsgw3T61FLw7UDh1xmjsoOZcMS+IIRcR/VhYoPfMPERekHhgE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEtQCXVo0NzGzk7Oyf3NpkUQn3oPJnfiPYO6l9heanx+FAOjgd
+	8HMB3XMyoAmIHmTf1taeJRmqGmEYno+5O5wm6Y5HS0XWy2Fa0h5e7Ifb
+X-Gm-Gg: Acq92OGanENThzH6C+LdmT95b6YkktpeG5bMgfCtfXjIyCshjdRTpBWAQ9vjvuNXX4M
+	sWiHnwI8GqQ3k8XKPRxXcZ5y16RsxF6tnzIcY1Vfm/Tt+cH0mnI45hl6awyrv1sRQbpvV2AmWRp
+	n1ql7e1Cu2iE7Sm8UnDkjDiAE5GcjG0gmaggIIK1NYbje03SIfK44tSAzeF0Fzxw0PJZL/xS7uA
+	6ORmYvOZBpFoSM02ki/5JPTXk8URg5erhC5DJ8DPRh08qjl2UvFM155yO0tfGBNW+k1VPJWHfEy
+	FY1NLmEUSCJYQL4NYtxwfmd3yAEOvMGhFPYvmXjadXiG2Lk8nItcUGrHEqTJFXIS5htQT1MuRP0
+	Yzj8dgZMPvJ7D0inhD47Se6l2GTrwfbEOtPoaWmsqDneApcw+sojmGIu2zygpsygh2hn5Jkh7qd
+	KEKGsNUMNvcl437gdscc6R+P8X2uJY0GXSUpDJW6HSExk1AnvJcwnu4mTY
+X-Received: by 2002:a05:600c:350e:b0:490:95b4:1cd0 with SMTP id 5b1f17b1804b1-49095b41d49mr2123425e9.15.1779956412504;
+        Thu, 28 May 2026 01:20:12 -0700 (PDT)
+Received: from foxbook (bfe246.neoplus.adsl.tpnet.pl. [83.28.42.246])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ee5a84e92sm3422698f8f.35.2026.05.28.01.20.11
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Thu, 28 May 2026 01:20:12 -0700 (PDT)
+Date: Thu, 28 May 2026 10:20:08 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Joseph Bursey <jbursey@uci.edu>
+Cc: Alan Stern <stern@rowland.harvard.edu>, syzbot
+ <syzbot+ad2aac2febc3bedf0962@syzkaller.appspotmail.com>,
+ gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Write in
+ iowarrior_write_callback (2)
+Message-ID: <20260528102008.558a0d9e.michal.pecio@gmail.com>
+In-Reply-To: <CACR97nvAMAnfEL+j5GCi9zcmNc9VLtbAtO0ywEtbBdrw=YSHhQ@mail.gmail.com>
+References: <6a0ce39b.170a0220.39a13.0007.GAE@google.com>
+	<32c79569-8001-48d2-9675-b38b1670f285@uci.edu>
+	<20260524103053.308501de.michal.pecio@gmail.com>
+	<69c60a2a-68d2-48b0-8236-b80cd6b602cf@rowland.harvard.edu>
+	<20260524184633.405c4b3c.michal.pecio@gmail.com>
+	<CACR97nvAMAnfEL+j5GCi9zcmNc9VLtbAtO0ywEtbBdrw=YSHhQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: OK3+qfAWNAgAnjmDS180e3eqdpUMk11cspPagtwEf5j8szBokYyicW9f
-	+auil4skjVabVyt9gxE9hv8UfgdJle+lY0mHzuvIfjg/5oV3qZIxTN5M8UT2DVpVvPSKXit
-	/4PqkZrgbgkmA/4FR7flM0Po1WvREmkUt8d4WhNMf7JdXZED2nvPPEIi8v4v0qwdzsuJpDj
-	O87VuJDx4Q2nQqjPygVfH2k9lkQCoa9eXuMOOz6kyCw4huyx3UzHZRZXbiCTKy2QhmmpFah
-	nSyv8Pr8e3DRSSEBmtPYIvoc0VE2j9s9JnAXk9167IJBPkFCu9qb+BrLd3BqDlmhHPz+tei
-	JbsQbnmilE7BTiIAG5oCOsjLpVqYW1Do6qeih+OuJx6Yta2ZBpH6opyM4vvu/h3p+4Z1bUD
-	gt+NIzkCsGZFXysWtlL3QpixHKrw9jDcEP9EMhzCph0mlSCGTIJYkAkXV2OYTb0z5bds9BV
-	rjFdfq+CjJjxZRQjIWFh1msPKRuq6Y7yGbV0qpnmzJPwOHXdH5Tr7YNFLLLXsUt0JdNQGqa
-	0cS8jttsQTaqVSRvafo4OZNLtk7fbehIbqyFvbdjzgqwnSvGAP02rDwA1/HWxOEErz3YDrM
-	qwTPv/SWyxYaBIVYU1tfTtKpIkxOBlEnJWdkKABl7n/XxrD0YxD0A9ZZcYLWxNtlyCjsApS
-	D86k82sOmwja2CCwoLpMLTifFDEG6L4kmhufhJqN0D74+F7XPHPM0fBATw9oRMNpqt69jvc
-	UqOAs8UZ2whOILhQljbV+aO71TBofMGuKVyzU2XTlZSLyxQFnJAduZA4QMUHAV0HTQt3rK1
-	uZRpDaskzDWEbpN22lTTjOjnsQT80Af4rUqI3e0yDp3sbM1rkMHFMZ/i6hvGuDqWicqiGAu
-	tdgJZK5yXZQhGm6T2jNfFUF4+KJiZcYQbbMJU7DQzpWlGdzOgv+bZCen+YbDg5xDsomQ/+b
-	eaFcwWu59mVjsISioLgWRZV7qzQD/GcVtNv9dLqfl+rz0Q5ZKs5+3oAyLeMErBJTFda+YLC
-	oBi1pQJm7O8cdyld6T0rAvJriceAN7LBARtBEeNEwIM6wjXnYkxf4C7CegbiUs2NzZtjYPk
-	vclPsx6Y3I4x5LJGyhP2k4=
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-During hibernation, after create_image() saves the memory snapshot, the
-kernel resumes devices with PMSG_THAW solely to write the hibernation
-image to storage, then powers off.  Drivers for hardware not involved in
-storage I/O have no reason to reinitialize during this transient phase.
+On Wed, 27 May 2026 16:36:54 -0700, Joseph Bursey wrote:
+> On Sun, May 24, 2026 at 9:46=E2=80=AFAM Michal Pecio <michal.pecio@gmail.=
+com> wrote:
+> > On Sun, 24 May 2026 10:45:39 -0400, Alan Stern wrote: =20
+> > > On Sun, May 24, 2026 at 10:30:53AM +0200, Michal Pecio wrote: =20
+> > > > On Fri, 22 May 2026 13:38:40 -0700, Joseph Bursey wrote: =20
+> > > > > Hello, I believe I have a reproducer for this bug using a
+> > > > > combination of syz-execprog and eBPF programs. =20
+> > > >
+> > > > Hi, could you check if this patch (compile tested only) fixes it?
+> > > > =20
+> > =20
+>=20
+> I tested the patch but I am still seeing the same UAF.
 
-Some subsystems, such as USB, do not expose the hibernation PM message
-to driver resume callbacks, so drivers there need an explicit query to
-distinguish the image-write phase from the final restore path.  Export
-pm_hibernation_snapshot_done() for this purpose.
+Hmm, OK, thanks for checking.
 
-The implementation returns !!in_suspend, which is set to 1 in
-create_image() just before swsusp_arch_suspend().  Because in_suspend is
-marked __nosavedata, it is not saved into the hibernation image; on the
-restore path the variable remains 0, so the helper correctly returns
-false during PMSG_RESTORE device resume.
+So I'm not sure what happens there. Maybe this interrupt endpoint isn't
+part of the interface the driver is bound to? I'm not sure how to read
+those blobs from your syzbot script.
 
-Clear in_suspend before releasing snapshot memory on hibernation failure
-paths and after swsusp_write() returns, so the helper does not report a
-stale snapshot after the snapshot pages have been released.
+> However, there does appear to be a patch here which does seem to work:
+> https://lore.kernel.org/all/20260523170523.1074563-1-johan@kernel.org/
 
-Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
----
-Changes in v2:
-- Rename pm_hibernation_storing_image() to
-  pm_hibernation_snapshot_done().
-- Clear in_suspend before releasing snapshot memory on failure paths and
-  after swsusp_write() returns.
+Yes, it fixes the UAF, but it doesn't fix the WTF (to me), which is
+that USB core somehow allows URBs to exits on an endpoint that looks
+like it should be disabled. These are separate issues, though fixing
+the WTF would also fix the UAF, if the fix worked.
 
- include/linux/suspend.h  |  2 ++
- kernel/power/hibernate.c | 31 +++++++++++++++++++++++++++----
- 2 files changed, 29 insertions(+), 4 deletions(-)
+Regards,
+Michal
 
-diff --git a/include/linux/suspend.h b/include/linux/suspend.h
-index b02876f1ae38..78e7e33c3d19 100644
---- a/include/linux/suspend.h
-+++ b/include/linux/suspend.h
-@@ -393,6 +393,7 @@ extern void hibernation_set_ops(const struct platform_hibernation_ops *ops);
- extern int hibernate(void);
- extern bool system_entering_hibernation(void);
- extern bool hibernation_available(void);
-+extern bool pm_hibernation_snapshot_done(void);
- asmlinkage int swsusp_save(void);
- extern struct pbe *restore_pblist;
- int pfn_is_nosave(unsigned long pfn);
-@@ -412,6 +413,7 @@ static inline void hibernation_set_ops(const struct platform_hibernation_ops *op
- static inline int hibernate(void) { return -ENOSYS; }
- static inline bool system_entering_hibernation(void) { return false; }
- static inline bool hibernation_available(void) { return false; }
-+static inline bool pm_hibernation_snapshot_done(void) { return false; }
- 
- static inline int hibernate_quiet_exec(int (*func)(void *data), void *data) {
- 	return -ENOTSUPP;
-diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-index af8d07bafe02..47047937e262 100644
---- a/kernel/power/hibernate.c
-+++ b/kernel/power/hibernate.c
-@@ -113,6 +113,25 @@ bool hibernation_available(void)
- 		!secretmem_active() && !cxl_mem_active();
- }
- 
-+/**
-+ * pm_hibernation_snapshot_done - check if a hibernation snapshot is available
-+ *
-+ * After create_image() saves a memory snapshot, the kernel briefly resumes
-+ * devices with PMSG_THAW to write the image to storage before final powerdown.
-+ * Drivers that do not need to participate in image writing may call this
-+ * helper from their resume callbacks to skip unnecessary hardware
-+ * initialization during that transient phase.
-+ *
-+ * Context: May be called from device PM callbacks.
-+ * Return: %true if a hibernation snapshot has been taken and has not been
-+ *         released yet.
-+ */
-+bool pm_hibernation_snapshot_done(void)
-+{
-+	return !!in_suspend;
-+}
-+EXPORT_SYMBOL_GPL(pm_hibernation_snapshot_done);
-+
- /**
-  * hibernation_set_ops - Set the global hibernate operations.
-  * @ops: Hibernation operations to use in subsequent hibernation transitions.
-@@ -418,6 +437,7 @@ static void shrink_shmem_memory(void)
- int hibernation_snapshot(int platform_mode)
- {
- 	pm_message_t msg;
-+	bool snapshot_done;
- 	int error;
- 
- 	pm_suspend_clear_flags();
-@@ -474,15 +494,18 @@ int hibernation_snapshot(int platform_mode)
- 	 * returns here (1) after the image has been created or the
- 	 * image creation has failed and (2) after a successful restore.
- 	 */
-+	snapshot_done = in_suspend;
- 
- 	/* We may need to release the preallocated image pages here. */
--	if (error || !in_suspend)
-+	if (error || !snapshot_done) {
-+		in_suspend = 0;
- 		swsusp_free();
-+	}
- 
--	msg = in_suspend ? (error ? PMSG_RECOVER : PMSG_THAW) : PMSG_RESTORE;
-+	msg = snapshot_done ? (error ? PMSG_RECOVER : PMSG_THAW) : PMSG_RESTORE;
- 	dpm_resume(msg);
- 
--	if (error || !in_suspend)
-+	if (error || !snapshot_done)
- 		pm_restore_gfp_mask();
- 
- 	console_resume_all();
-@@ -865,6 +888,7 @@ int hibernate(void)
- 
- 		pm_pr_dbg("Writing hibernation image.\n");
- 		error = swsusp_write(flags);
-+		in_suspend = 0;
- 		swsusp_free();
- 		if (!error) {
- 			if (hibernation_mode == HIBERNATION_TEST_RESUME)
-@@ -872,7 +896,6 @@ int hibernate(void)
- 			else
- 				power_down();
- 		}
--		in_suspend = 0;
- 		pm_restore_gfp_mask();
- 	} else {
- 		pm_pr_dbg("Hibernation image restored successfully.\n");
--- 
-2.20.1
