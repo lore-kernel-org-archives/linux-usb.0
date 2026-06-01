@@ -1,101 +1,73 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CBE392C42
-	for <linux-usb@vger.kernel.org>; Mon,  1 Jun 2026 09:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628873998BF;
+	Mon,  1 Jun 2026 10:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780306469; cv=none; b=rQfI+WX9X/czZktMnHNo5BaaB96DjjTpG6ftjHAmWT94zpcNr31ro49fogEhfyoPKdssZt8nkcyMzPyPM7cpZ0yZXRHySCzcGxybf0cFLp//l598fJpkRMQ3dqizemdyFq91dX0H7US+UfnoLT4n/GypTYzSXLlmZTeasxZcRhk=
+	t=1780310411; cv=none; b=QZi8vrKZCpobfTZM81cw2DyQc61PIXfmz8l6gfOsUQ4yDbf1/hsizB2PLLBPjeYmiX0U8tRXa1jz3pd+C7s89nzFhWQpIRQLUmbZNNTlIYTXWzB5ezvhjhMZHvTQpX9uSyEYoRaOLbg1CG6Vltb78ZOLmbQq1ozg+naCwkzDOgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780306469; c=relaxed/simple;
-	bh=HoKxu7sdvXYOQg4JuegHpjnjGnSj/skENgH900Vm1GA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mAJ1FUJ2/tm0V2ADLqz9KCl2OarTSep6KqP4uIk5YcqqyCvcMF2ISouX30XQ9MOpVLn4RWe26yMZeMUgrDBc9tE42fF5mEo3nBTK+ykD8Ay7511KTcqLLOK7phruF0cwdEwmbnWWI75srQI6DcZzPpGgNMXYnRWyY+xvCFfAEgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BI1xqxQG; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780310411; c=relaxed/simple;
+	bh=bwHMHe4L+qBeK222881FYVxQlgMAxXPNdsSc8eNgedo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pLKDHUIK7CedKeBD/BDTWubxcogt6ypXgEvkUPYwGQhfmH5hP70yjiS748Ij4jZCsDk5uNOfzt5OQTIow8TydrWLi+CNRnJdW1TZflzoL1kEubECZFlWy57azwsGUPGB3aH+kXsmjZJIGefXqkdsg8Rriy/l28U8gNiByBZxc0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ra94bV5C; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BI1xqxQG"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49041fb8c23so75155895e9.0
-        for <linux-usb@vger.kernel.org>; Mon, 01 Jun 2026 02:34:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780306465; x=1780911265; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HoKxu7sdvXYOQg4JuegHpjnjGnSj/skENgH900Vm1GA=;
-        b=BI1xqxQG2rCVE4+QKaTAHNJtl6o16XxNDM2+JAeKHEwHbuM/4JZA9MurfHqU2IF99L
-         EUlet3gKOxqSo55XJmBfAOlgWIFvtpbTRvODDLmGT+dD33wsGQWZo0U8Ma6/VCAyOe14
-         KdJAL7QsXAZv4Gcj8DvgXgEQOIUpc5uBpnzeQo+UTdSIEnoJ27Uid4b6lrPr6jikpfsn
-         pl2L8RK8y5AoqdvCGwdJZG4/5qdbVHBLjs3qxIkZs0Z6fjGvh9FROgLIyEr+LMwk2+3C
-         4eoKEDnqe+uHTIxWbRkg43OBHwkJhI729SE91m9xTIl5Pm16MHxwtxpuf9l/l8COhYFg
-         Pkww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780306465; x=1780911265;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HoKxu7sdvXYOQg4JuegHpjnjGnSj/skENgH900Vm1GA=;
-        b=rPmZ7Knp6gq9b2NUkerrj31ZlkqMsJ3AqA+WO8/uP/SrTJJhN3OhBSFfNHym4ShQ42
-         hxfThJzi6kdr7yFULZur4J9/YeIszhsghXOYAHTLndann4UVfWFKgX1jf6AjV5QaMBe8
-         id8IT14/7/YRLCROBvw/O8WcgxIP6pWK9LIvQd+Sn+IkvTxXFHMfYB23qzt3kVwLUml+
-         L/DiHh8QAGfaUh5nSHcBD5N8bI9Oj6O5iFA1urQ+eCNLrGat2CgftMJM9nPIro3nIdxN
-         x83+/gcGlScRuQvsuDG5Vg+ykVwhg+GDHxr4qZVgrEifYmhbELtAz2P2EjKliuxRsCZj
-         JHaQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+YH8UBTTBBa8WB0ORM+UoIXlIRXxed2FTMHZoRBMvYvOm9QY27fO0H2Jx1hnmu36Xpq/8wfFqFSjA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUqp5WC1Pr5RX5r6U7Ek35lIVqJGgUkv0uL0zDIyX5hJQgqE8J
-	BdANFMMHZ1uco8p4JUZ3/cyvhR10CihzX8bVCylLvGWhAPLyRnnnVkil
-X-Gm-Gg: Acq92OHP5am3PzwL7HNvOZmfrVwsW4dE9J9lK2V4WkQW7hf7VCe6JjH7EKIRI2qaPQs
-	A9mpkhcn2+cnscp33uNswrQuSYXfMNlixhoyfcXW6+SxmXC62L4iI/znRKTMlLcwHLjGiHcu+u9
-	L5GsYC3CT448WUkFup2d09M2MQWvuT2Rk7rvzbeWMsdio5axMT6Mcryg+bGMtE1MuOHwa46XXH5
-	fVhdO7pjOcoUl9BODntMk6fjmRTqwWFhjxj1inWYkltnvMwOejhNBF2Liz7e8R6/sc50BQOJCQh
-	73K6YqI+PkeMutk2GiKjJFPEg+Gwm9iR8uHG8RG1eFDxFZzwXYUrkCzIAeHdNKVUwZxwdax+mPV
-	PYnbQXCTJwam96JhXetBskdY54mXQXvx1drv7bAJWYPRxaZm8Scpeap0f1ltNyp5lUA9O8HRzrq
-	LPwKcuRAf3A942iIoGntMlcgeUTkOTBJGt15Ky8KrpLGvuMixKAzs=
-X-Received: by 2002:a05:600c:8a0a:10b0:490:48b7:c1ff with SMTP id 5b1f17b1804b1-490a2941d89mr136512435e9.17.1780306464763;
-        Mon, 01 Jun 2026 02:34:24 -0700 (PDT)
-Received: from ?IPV6:2001:67c:1562:8007::aac:4898? ([2001:67c:1562:8007::aac:4898])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909c053029sm72992385e9.0.2026.06.01.02.34.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2026 02:34:24 -0700 (PDT)
-Message-ID: <c4ff641a-266b-4115-8beb-993cbb2f09ec@gmail.com>
-Date: Mon, 1 Jun 2026 17:34:10 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ra94bV5C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780310406; x=1811846406;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bwHMHe4L+qBeK222881FYVxQlgMAxXPNdsSc8eNgedo=;
+  b=Ra94bV5CT+dFNZTvXMSPKjtuPI6x2lpZvgpq/xGM9NNZIndSySaQhwzo
+   dzsBoGfwF/gECHXlCziGg5j4pSgg9gVM5FEc2p7IJ8NwZTDoClIjWkqm+
+   956sq/CwzvvVYWN3DnA0h6TlzxuwmGIEpIcUYpEqFRUd9LiScujjvWBxy
+   9sBlxtsygt5lNbRy9OFNwbV75fMCnsvN2t1RHJvgxChsnyxqLxX1RmJJt
+   CFC9HK8CiIaoMlLH8YtmP5WFrBhRQpQ9DmNLxZILEebQ4rz4rEcOw6jJW
+   LBrNtefRChgEFanQx6DOxhxbx1hVTn1IMhBDgRPzgPA1H9VQ++FjTaoLX
+   g==;
+X-CSE-ConnectionGUID: t7Kixz8uT8GNhERfKBrlWA==
+X-CSE-MsgGUID: ynXOOX50TL2fOMRXjusMww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11803"; a="81096257"
+X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
+   d="scan'208";a="81096257"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 03:40:04 -0700
+X-CSE-ConnectionGUID: 0Rkdr2RTSrCOF0KXNka8Og==
+X-CSE-MsgGUID: SR4/ZcX7SsWRxmIl9AxKTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
+   d="scan'208";a="248632704"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa005.fm.intel.com with ESMTP; 01 Jun 2026 03:40:02 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 8E61995; Mon, 01 Jun 2026 12:40:01 +0200 (CEST)
+Date: Mon, 1 Jun 2026 12:40:01 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Xu Rao <raoxu@uniontech.com>
+Cc: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] thunderbolt: test: release third DP tunnel
+Message-ID: <20260601104001.GQ3102@black.igk.intel.com>
+References: <523C55ED1A2B868E+20260601062854.4334-1-raoxu@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] docs/zh_CN: usb: refine translated wording and
- formatting
-To: Kefan Bai <baikefan@leap-io-kernel.com>, linux-usb@vger.kernel.org,
- si.yanteng@linux.dev, gregkh@linuxfoundation.org
-Cc: dzm91@hust.edu.cn, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- doubled@leap-io-kernel.com, alexs@kernel.org
-References: <20260601033945.555210-1-baikefan@leap-io-kernel.com>
- <20260601082652.650303-1-baikefan@leap-io-kernel.com>
-From: Alex Shi <seakeel@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20260601082652.650303-1-baikefan@leap-io-kernel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <523C55ED1A2B868E+20260601062854.4334-1-raoxu@uniontech.com>
 
-LGTM.
+On Mon, Jun 01, 2026 at 02:28:54PM +0800, Xu Rao wrote:
+> tb_test_tunnel_3dp() allocates three DisplayPort tunnels
+> but only releases the first two before returning. Release the
+> third tunnel as well to keep the test cleanup balanced.
+> 
+> Signed-off-by: Xu Rao <raoxu@uniontech.com>
 
-Thanks!
-
-On 2026/6/1 16:26, Kefan Bai wrote:
-> Refine the zh_CN USB translations for clarity and consistency.
->
-> Improve wording, wrapping, and formatting across the translated
-> USB documents.
->
-> Link:https://lore.kernel.org/r/2026053149-flaky-shallow-2460@gregkh
-> Suggested-by: Alex Shi<seakeel@gmail.com>
-> Signed-off-by: Kefan Bai<baikefan@leap-io-kernel.com>
-> ---
-> v4:
-
+Applied to thunderbolt.git/next, thanks!
