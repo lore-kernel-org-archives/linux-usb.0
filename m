@@ -1,144 +1,98 @@
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B1F388E7A
-	for <linux-usb@vger.kernel.org>; Mon,  1 Jun 2026 08:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.125.188.122
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780301906; cv=pass; b=RqenOgfvFNjWVOtJnVBDXaLYYmy5gn5abrMbYDcGf+KE96gW4C85qu5YRUGWCgRivlTzA2dws+dARNHKIcExK6tHSu+2qPrgGUZTcObkeH5clz3WJAwgbUzJI405GoL25FOVW9hkDm9YExcIsclKqk1cnZpDy9Dq0qtKmOwX/qE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780301906; c=relaxed/simple;
-	bh=fpKAN5tEkGHrW1+w44SJcrj9WcnXCupRryJHFLX0pkk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tvw+llmG2TLum7V2crhl0HblXH6LIZ9t0jyE8EhaYAO/YKAmaw03Qv43EiNW0QTrG6TwJMIQjc81s5g9/cCgRU0z6YmONXkGiQLWNPQ7PVcjQYJ3mgKL/Sn+CKDucgx3dosFKV1GGUz/IqtBEE4k54JbKk8Xy6/t7n+DUIRK3MM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=Hx7t85Zf; arc=pass smtp.client-ip=185.125.188.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60CC343884;
+	Mon,  1 Jun 2026 08:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780303021; cv=none; b=LtiHOXV5n4XwsIqDDxEmukhi1Fb8z52tsZDpB9aK2nJur1jMRv1F1H25Sjc0KU78W2M9xJeng9anrUOp4/sUWL7qDzp9UoIfzvZyyhQU2inMrPeRnDgtsyFbKRXhxYpPdMGiPdqdI7gy/LidNpfq6otnh+cJF7qCbZvTMg9Q5IE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780303021; c=relaxed/simple;
+	bh=sV/5LOAG0khi5+7E3XPfMqP+JsWMASl8fV7WtDssefg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VN8Cona3SzyanZV7buWrT5sFqrMjvgV/wrAl2Jus/yeDlsdMsioXhr/RkGS179THYIboysKd9/q2TquagW7s6xg4AijGw/1a/tuj71mEDrRiXRggoOzMjo9sZfLn96G8ir9VN2D3zxIYY2/V8FwRCx787xkMAJ/XVBGJ3r/KQ1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NcJX5h+P; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="Hx7t85Zf"
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com [209.85.160.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id A3BF83F281
-	for <linux-usb@vger.kernel.org>; Mon,  1 Jun 2026 08:18:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20251003; t=1780301901;
-	bh=K1waAyIWMRtVgvUn0Gma9v+f4LUQwW7uBuEnb74a6m0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=Hx7t85ZfyeYMZnkUoFzPGnzAaUWrz4gdvsLRb2TySnS4oPvBBLdjtGdOt8fm4YLjy
-	 o1vYCOYTgawuvlz7ADIhTKIG/Fw3hDIQd05tKAe2dq2K/O9+C21hnj/Ob4nlO8Xjse
-	 SZOekMINvhMhlCPIDQPw4vkcnhkGRpmmacLRuf/RLyeRS8I9O3rlU+RTkzof9dmr3n
-	 2I+MEDwfZRKaAB95RBC+oC3ZMtX7TV+sTjr1EsgtdcLKjKpZAAsiDfuQRnkXDylh5O
-	 cFJHB4asbroNqn1yArndCNtT8QewzbWBcX9naeV+4Xq7ffrHDaXLK4hTYX7R90i8ii
-	 6C54JhC3YL7xlaNoCrSSoaVXWgvs6Ju0KZQjRh9hXGzelJdVzcXgnQ7V8piztZwaZD
-	 ypBPcANr1C0bg++A1fKuD6J3+Ud/p3a03hfzIFR0CvSE/TbmcM5rj1Bo8h6XgwGAKc
-	 dVg1iuUXIn2qQA/BALAnW4vFnTvuGCwgrGGBQN4Is8oz45lLuzy1xg3YvDtK+Z5dQD
-	 PL2JcmZR+GUHRW84S5/u+ndsnLvnMR+79lzdQ2xcpS6c1Ob6QR/7vcwyd97l3Nhsz7
-	 FPgloA4I2aKD2DAG9hWjsjFcLbCDjYeWkDuv9owYbINup30eRwe43D1Rw6gvWkY3na
-	 dz4eJfhYFXQ1dwDkCeJULNXg=
-Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-43d063a51feso146451fac.3
-        for <linux-usb@vger.kernel.org>; Mon, 01 Jun 2026 01:18:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780301900; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dxkOiiS5pgmE4ulIRZiqzjvbbZgDHFLblO0ay4qBoCsqEwATQXUdqnsn4E2JvGvhdE
-         UviQIVZZNHWkmD2xAO2X9WLqo2j2ZFQ0I7mcURI4zMa8ATLeIRDYl2Aj5FBy9suMjgcR
-         hJkz2sat1tthbY/E5ku3VArKQrYFO3btCEsxZq3QqhRvK2rJ8KondMaxkAgwmmwor2lg
-         RJASec0Z3pI+DpREIGtNKPJnuimfu/M9BiMxLY3iGsUfXBGkWo8leXrZGuBez40Nu7eW
-         J6tdwpQHKqGwnrs8kxShZEz1G7e9pj8SkFfqhY863hR+c4YvcazWMiqA9k4qBY/ZQoAE
-         BQyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version;
-        bh=K1waAyIWMRtVgvUn0Gma9v+f4LUQwW7uBuEnb74a6m0=;
-        fh=xBGvcC4Mmo+y6SEv/9ZBN1NLdOIjRd2Yb7b1HKCBuhA=;
-        b=QpQoGOd7BlUsRX2nG46mw0BJzZ9dqJ8D4TKpQwzerugDUwhoSOMDzO6ycnhnjavbVm
-         9BJIRw9FYLcbt4KQ+oKvP7ARpa0XQXCZEVPu+nkm8jIYuNllkQOJ+DhVUmDHlXiLB9eE
-         0cA8sa10mY99IPF8SvykkBwHoPxkq2KVjdzpgHVNphvSAh91YD1DKI2nB9VjvoIEf+cL
-         YschzuFbZUPYL7/KRbHiQm+wExq+LPTphPoSCR4jVPtg81R7dsGQuia04yWLpSISoNTr
-         B3bU+YMYyoq8zhlRohcFtIOoO3zASCed8KZSt7b/TuZTFuvPHuXPO8TbukhGJNSaSReE
-         9hhg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780301900; x=1780906700;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=K1waAyIWMRtVgvUn0Gma9v+f4LUQwW7uBuEnb74a6m0=;
-        b=XCDL42Q25mFUzNaxotcsKyesjm5HAzJ/zz4MdEjnaMUzvK72L8KZJ5gPLRM6vuivAA
-         BYpijdGo9wvx6+X4oVHvL1wGKG+kRicO+ZJ8yxk0phZHM6fmEFOmgZgq7Nsuv1MVDlQX
-         LOQI3MIwFPhiKyOSz1UjHy6Vz8JYzDZuhxbem4lAVYjJYtz5MFRP6CGm4dumL0338Aab
-         KV/zGUGLwtGtHhumaxT78Nh4oSlIhqnHkgUfO4yTjV/emSdG9NzCciXcoYvJ4TlE2i8v
-         GazExtGClPp9341Z+2Fixlpsv8x92z67EsR1mDMtRtvoe/TpexNrcTGV/unj3rlZkmCC
-         u+lw==
-X-Forwarded-Encrypted: i=1; AFNElJ8rUsfYMdOa6OMhWjm8q3K8hfXWVX0zeuW0zkAtbIAM6y87RYhfFOse1BgXylVKL/im6lG2utmYF/0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFs8XUoIeZXmapRJNQ9STwgK5akJ+J2Zo9/8RD8fp9KaeY1vmc
-	GfmNr4tH2NtBui3QYEeUc8vQ0sOr46JY2xwU6A/v4EVijxPvb0yUmRDQPkA4/aPRKflOKtZ/pYM
-	bhPCbp/k6M/7LMCNrG8hE3arvG5U7lqxqzz3xva5v+CSUP+L2NjI/rSBgZmZrJHreRU5N9a+HSW
-	5YKfcJTY0bMZloMbnL3mDDL9wq2ZmQYlrUjBzmZAJL7fm2JrvaJ/qh
-X-Gm-Gg: Acq92OGkw0oBfAzUu/GzcP4PBrCpdgoNrCOAUSxsBQNrE3K+xP7UkOcJyLlZ5W0Dhm8
-	CPnbnHXC1+w4qdJZV0n1yPeuRLlYKL7XnUKZEs0P+zt5vLFfH+MXnT1NGKeYmaQuq5qs68Y35Y+
-	PQwAW/tkDrpRQdcDL5UaDvb2etwoHSK4XY4Wv5xrSShDlhwJrvaO1hG+O+AUkkQocMBY4/aAUWS
-	p6PS2IXbSZnG5Ig8YbwvaYTVAE+EXQgfpBvs5GyXC6jM75/tp0yFwvfhZ7k1xhB
-X-Received: by 2002:a05:6808:3505:b0:485:4c50:8316 with SMTP id 5614622812f47-485fb40b25dmr2951708b6e.5.1780301900547;
-        Mon, 01 Jun 2026 01:18:20 -0700 (PDT)
-X-Received: by 2002:a05:6808:3505:b0:485:4c50:8316 with SMTP id
- 5614622812f47-485fb40b25dmr2951701b6e.5.1780301900133; Mon, 01 Jun 2026
- 01:18:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NcJX5h+P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 113841F00898;
+	Mon,  1 Jun 2026 08:36:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780303020;
+	bh=3wms+A+84QH76OVr66jdH7Kv7pI3+dDZ+rfdXKI0J4g=;
+	h=From:To:Cc:Subject:Date;
+	b=NcJX5h+PVk00TwfNJpDuDihLeI3nNtoEn5TQ3IL+bWK3SujbcmKO58Bbny6nAeOEW
+	 b0PrXiBhoXimvDdRBxm9B/e7s6rJ/rgIsv1e2LcWZmGCsG6pFAuGhhvAFOrG1AGeOX
+	 5bQ9Mf2eCmSkIGQ0kPImCW6eQjXgZVzb4j4B7KmIvV1NUFA/FpCZ9LsuQztjq8p8Kz
+	 9i4yk3nS5RiR2S33uQgMEB5ylBExbIlomg/Rjhki9QAAIuBpoByeYV4pn5r/zSlNad
+	 Vf63qokCVb/u6MsTzOOPjAviLs3qWu3TyYyDjY4dFc6f0BPYiLowOQnM5MJX7o9y8k
+	 RGUOoJzVXQI6w==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	=?UTF-8?q?Filipe=20La=C3=ADns?= <lains@riseup.net>,
+	Bastien Nocera <hadess@hadess.net>,
+	Ping Cheng <ping.cheng@wacom.com>,
+	Jason Gerecke <jason.gerecke@wacom.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	"Mario Limonciello (AMD)" <superm1@kernel.org>,
+	Kwok Kin Ming <kenkinming2002@gmail.com>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	bpf@vger.kernel.org
+Cc: stable@vger.kernel.org,
+	Vicki Pfau <vi@endrift.com>,
+	Jiri Kosina <jkosina@suse.com>
+Subject: [linux-6.12.y 1/4] HID: core: Add printk_ratelimited variants to hid_warn() etc
+Date: Mon,  1 Jun 2026 09:36:09 +0100
+Message-ID: <20260601083642.908433-1-lee@kernel.org>
+X-Mailer: git-send-email 2.54.0.823.g6e5bcc1fc9-goog
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260527064121.173952-1-an.wu@canonical.com> <20260527064121.173952-2-an.wu@canonical.com>
- <20260527071445.GB3102@black.igk.intel.com> <CAO4Mv0Y-zAZKCQTvOAb+AS-iMh1Fa97f+BqaLTdDocBWm-_B7w@mail.gmail.com>
- <20260528102934.GH3102@black.igk.intel.com> <CAO4Mv0aUjtc66AkPmsRyEFTiV5etNNXoBqocMyKpOfS7uKTVKQ@mail.gmail.com>
- <CAO4Mv0ZbazqxzM9Sjd9=7YzMzZs6w54SLkhq+NtragOau5-eAA@mail.gmail.com> <20260601070439.GO3102@black.igk.intel.com>
-In-Reply-To: <20260601070439.GO3102@black.igk.intel.com>
-From: An Wu <an.wu@canonical.com>
-Date: Mon, 1 Jun 2026 16:18:09 +0800
-X-Gm-Features: AVHnY4LpOXVxd9120A6bdclt7ekWkU5fHwMMjIq6s83UrqZWWens8x1qJxMhBc8
-Message-ID: <CAO4Mv0bnSd8Vm1raj5bnUqywkuKNjtM-W6zPr0dzGJDKwi0ZNQ@mail.gmail.com>
-Subject: Re: [PATCH] thunderbolt: Defer DP tunnel teardown until display
- driver is ready
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: andreas.noever@gmail.com, michael.jamet@intel.com, YehezkelShB@gmail.com, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Mika
-    We tried putting graphic modules into initramfs and the size
-increased from 56 MB to over 200 MB. We will discuss with the team the
-possibility of fixing this in userspace and follow up once we have a
-clearer picture.
-Really appreciate your time and patience.
+From: Vicki Pfau <vi@endrift.com>
 
-BR
-    An
+hid_warn_ratelimited() is needed. Add the others as part of the block.
 
-On Mon, Jun 1, 2026 at 3:04=E2=80=AFPM Mika Westerberg
-<mika.westerberg@linux.intel.com> wrote:
->
-> Hi,
->
-> On Mon, Jun 01, 2026 at 02:50:21PM +0800, An Wu wrote:
-> > Hi Mika
-> >
-> > Another approach I considered is using register_module_notifier() to
-> > detect when a display driver module is loaded, then retrigger the DP
-> > tunnel setup. However, since struct module does not carry any device
-> > class or subsystem metadata, there is no generic way to identify
-> > whether a loaded module is a display driver. We would need to maintain
-> > a hardcoded list of known GPU module names (i915, xe, amdgpu, etc.),
-> > which is fragile and not scalable.
->
-> Indeed. Perhaps not to try to solve this in the kernel and instead do thi=
-s
-> in userspace?
->
-> Have you actually measured how much initramfs size "increases" if you do
-> include the relevant graphics drivers and their dependencies?
+Signed-off-by: Vicki Pfau <vi@endrift.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
+(cherry picked from commit 1d64624243af8329b4b219d8c39e28ea448f9929)
+Signed-off-by: Lee Jones <lee@kernel.org>
+---
+ include/linux/hid.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 7d8d09318fa9..bef017d6b440 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -1245,4 +1245,15 @@ void hid_quirks_exit(__u16 bus);
+ #define hid_dbg_once(hid, fmt, ...)			\
+ 	dev_dbg_once(&(hid)->dev, fmt, ##__VA_ARGS__)
+ 
++#define hid_err_ratelimited(hid, fmt, ...)			\
++	dev_err_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
++#define hid_notice_ratelimited(hid, fmt, ...)			\
++	dev_notice_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
++#define hid_warn_ratelimited(hid, fmt, ...)			\
++	dev_warn_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
++#define hid_info_ratelimited(hid, fmt, ...)			\
++	dev_info_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
++#define hid_dbg_ratelimited(hid, fmt, ...)			\
++	dev_dbg_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
++
+ #endif
+-- 
+2.54.0.823.g6e5bcc1fc9-goog
+
