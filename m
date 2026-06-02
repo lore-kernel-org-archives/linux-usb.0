@@ -1,45 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F58D3D349A;
-	Tue,  2 Jun 2026 10:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C4B36A03A;
+	Tue,  2 Jun 2026 11:27:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780395475; cv=none; b=eVJPWhEA4bKAb3buBXyGMAyR24oY7zGjM72wboJnipoUD02VaOX2C1arVOrsb5NWmx6BMY3Gs5PKCkcleeyd1+miaPio8ooD0ubxJeu9n5UlhLHusT+HyM7my7KRMSz68JnJwm1rMNBwCAJ1WuFRppEiKiEqI5YYo6V4Ya+h1ZM=
+	t=1780399631; cv=none; b=YGSKUDZVmOvrSjOK37t8/orP7PGEimetOYIVjhZTXRwprO81+zT5ZhH+pEsysVq8bF/O76rMGd+JJKO8h6mc1yopRItik2yxTvHO7MVqf6/iESuWJV/oEFiI5/P0bI8+B34GlQNSg85fYw5jlDv8Oe9lMiCB4XPWDgryfyKnKFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780395475; c=relaxed/simple;
-	bh=0Xwc8J6pstK6FPuxfGfZ0a8ZZw6vYlDnpkOAwM1wCZ8=;
+	s=arc-20240116; t=1780399631; c=relaxed/simple;
+	bh=vFe0YHJbZeLES+sUauMUh5hZ46dD8ew9Ej6lDFLoT9Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eSD8LxjshX7Iflbmn33a7DgYvl5nNTbbFV0SGrgaXf9IJDJdJqNRvjPpSTHYOppsPnLArMTayD5+3ktECN/NIj11E54ZYo9mvZZeZ9/sngN6WKMdAHmYN+D/Hmwh+c6Js22zFkQprOf0Zkykz/uJ0R6ZFGaBEyQTY7zw1/fcMzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OGtn0kJe; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rr6jO1fByXYRx+tKEK7oTG4goSfF7waXcXdlLuctriRPjvmmYXgrxRRMfeZmLjnhcsB26z04C5zk7rXis6u4wOAZSP+LWrbDBXU493YwRtXD1OrEKJ9qdFg/28FfxBFreuc3DLPZS1xXWQ44/bD7tNJ5VtEr6kS4PNen2nqbcK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OpuvB+TC; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OGtn0kJe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DCD41F00893;
-	Tue,  2 Jun 2026 10:17:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780395474;
-	bh=sOUTmCnODvoRiB4svT1aqcrWncFRBiBKgj63J/VkJHE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OGtn0kJepFBMpmV/220GBzd6lN8Zh5Ff7HU69LeZuDR8hWPfTDHKD/sBawoZyNrFq
-	 3IBM2Xy7XgsdN1pgaqsishkuXS/csW7fsh/ZW3+R8j/dWyrLLuQPGnrjoUYaKIbWdc
-	 xIdc8IZUYN3uUMonCJne59IjM56Wsbz/MgRJ2wUjLUy4zzG0xNPNd1Y8eT9wzwZfSB
-	 FhJt5QqTY8aBmD1ehPRte4vp6z54hH2fnvXAHpHJWH3XwNilhf1S8EubxS1gornIMj
-	 pNIjbpbOdd0gX74B1C+KlxpbjZdoa3ZyFtc0FJ/sCZkQ/zFUXQ6hvrWQC/ynQloAfL
-	 2MAdALfjbkbsw==
-Received: from johan by xi.lan with local (Exim 4.99.3)
-	(envelope-from <johan@kernel.org>)
-	id 1wUMBz-0000000ACp1-2ZbO;
-	Tue, 02 Jun 2026 12:17:51 +0200
-Date: Tue, 2 Jun 2026 12:17:51 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Adrian Korwel <adriank20047@gmail.com>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] USB: serial: io_ti: fix heap overflow in
- get_manuf_info()
-Message-ID: <ah6tz1s90zvxaPef@hovoldconsulting.com>
-References: <2026052525-devotee-reclaim-7673@gregkh>
- <20260525145832.2941-1-adriank20047@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OpuvB+TC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780399630; x=1811935630;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vFe0YHJbZeLES+sUauMUh5hZ46dD8ew9Ej6lDFLoT9Q=;
+  b=OpuvB+TCFOlrTj1dTsQq4IO6bT0RYvhdqKiNi7guAfItcI40qmxJuR+2
+   JxfSI7H8Vs0pb6lSzui2MNNzEWzxhK2dqWRYpbiEiVo05UowkhP/brLIc
+   ZVeqrXsY/GHqe3VM+ZWp1v4ClJFL3WOZdAoNffJszSxQymB3W2SmL0kdn
+   EoTQOQCHyRV6IH4CmL1hEzveBQPF06YlAMtiXnjfxI7VYYLoSP3+xGnlr
+   LFm/IXvUvXoEkVqVbja68afnmQGU98K68zOP52EZcPPPHvMGyw+ljzTra
+   1vViH6ezFD00NvPoMZN+e9EIaC8+Q8JOgg1j4bdpBSO6q8EyVZiF5BWXP
+   A==;
+X-CSE-ConnectionGUID: oIlO4b2fRxuCw2x5D/ONOg==
+X-CSE-MsgGUID: uezSZkyoSk+dL6kVsxakLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="84804995"
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="84804995"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 04:27:07 -0700
+X-CSE-ConnectionGUID: 57WJuzJhQk+bJIT4F8AZnw==
+X-CSE-MsgGUID: InV+5AxmRSKrEz4WoNh7bQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="240879149"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.229])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 04:26:48 -0700
+Date: Tue, 2 Jun 2026 14:26:46 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+	Pengpeng Hou <pengpeng@iscas.ac.cn>, stable@vger.kernel.org,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Corey Minyard <corey@minyard.net>,
+	Gabriel Somlo <somlo@cmu.edu>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Hannes Reinecke <hare@suse.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
+	Tiwei Bie <tiwei.btw@antgroup.com>,
+	Benjamin Berg <benjamin.berg@intel.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"David E. Box" <david.e.box@linux.intel.com>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Vinod Koul <vkoul@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	John Johansen <john.johansen@canonical.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Georgia Garcia <georgia.garcia@canonical.com>, kvm@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-modules@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-mm@kvack.org,
+	apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
+	linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net, qemu-devel@nongnu.org,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, netdev@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 01/11] params: bound array element output to the caller's
+ page buffer
+Message-ID: <ah699hwLxIIOZ0-7@ashevche-desk.local>
+References: <20260521133315.work.845-kees@kernel.org>
+ <20260521133326.2465264-1-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -48,45 +130,71 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260525145832.2941-1-adriank20047@gmail.com>
+In-Reply-To: <20260521133326.2465264-1-kees@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, May 25, 2026 at 09:58:31AM -0500, Adrian Korwel wrote:
-> get_manuf_info() reads le16_to_cpu(rom_desc->Size) bytes from the
-> device I2C EEPROM into a buffer allocated with kmalloc_obj(), which
-> is sizeof(struct edge_ti_manuf_descriptor) = 10 bytes.
+On Thu, May 21, 2026 at 06:33:14AM -0700, Kees Cook wrote:
 > 
-> The Size field comes from the device and is only validated to fit
-> within TI_MAX_I2C_SIZE (16384 bytes),
-
-get_descriptor_addr() does not validate this, but apparently
-check_i2c_image() has already done so. I added a comment about that
-since it's not obvious.
-
-> not against the destination
-> buffer size. A malicious USB device can therefore set Size to any
-> value up to 16383, causing a heap overflow of up to 16373 bytes
-> when plugged into a host running this driver.
-
-You also need to account for the first two bytes and the header so these
-numbers should be 16377 and 16367, right?
- 
-> valid_csum() is called after read_rom() and also iterates
-> buffer[0..Size-1], compounding the out-of-bounds access.
+> param_array_get() appends each element's string representation into the
+> shared sysfs page buffer by passing buffer + off to the element getter.
 > 
-> Fix by rejecting descriptors larger than the destination struct
-> before calling read_rom().
+> That works for getters that only write a small bounded string, but
+> param_get_charp() and similar helpers format against PAGE_SIZE from the
+> pointer they receive. Once off is non-zero, an element getter can
+> therefore write past the end of the original sysfs page buffer.
+> 
+> Collect each element into a temporary PAGE_SIZE buffer first and then
+> copy only the remaining space into the caller's page buffer.
 
-We should also make sure that the descriptor is not too short so I
-amended the patch when applying.
+...
 
-End result is here:
+> +	elem_buf = kmalloc(PAGE_SIZE, GFP_KERNEL);
 
-	https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git/commit/?h=usb-linus&id=183c1076eca43bbb3e7bdf597456f91d81c73e74
+get_free_page() (or how it is called)?
 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Adrian Korwel <adriank20047@gmail.com>
+> +	if (!elem_buf)
+> +		return -ENOMEM;
+> +
+>  	for (i = off = 0; i < (arr->num ? *arr->num : arr->max); i++) {
+> -		/* Replace \n with comma */
+> -		if (i)
+> -			buffer[off - 1] = ',';
+>  		p.arg = arr->elem + arr->elemsize * i;
+>  		check_kparam_locked(p.mod);
+> -		ret = arr->ops->get(buffer + off, &p);
+> +		ret = arr->ops->get(elem_buf, &p);
+>  		if (ret < 0)
+> -			return ret;
+> +			goto out;
+> +		ret = min(ret, (int)(PAGE_SIZE - 1 - off));
 
-Both fixes now applied, thanks.
+It's usually discouraged to use castings in min/max/clamp. Can we make ret long
+or do something different here?
 
-Johan
+> +		if (!ret)
+> +			break;
+
+> +		/* Replace the previous element's trailing newline with a comma. */
+> +		if (i)
+> +			buffer[off - 1] = ',';
+
+Can't we do this after with help of strreplace()?
+
+> +		memcpy(buffer + off, elem_buf, ret);
+>  		off += ret;
+> +		if (off == PAGE_SIZE - 1)
+> +			break;
+>  	}
+>  	buffer[off] = '\0';
+> -	return off;
+> +	ret = off;
+> +out:
+> +	kfree(elem_buf);
+> +	return ret;
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
