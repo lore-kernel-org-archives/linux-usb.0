@@ -1,73 +1,97 @@
-Received: from ns110.s2h.net (ns110.s2h.net [139.162.45.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com [209.85.161.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CBCB30C37A
-	for <linux-usb@vger.kernel.org>; Tue,  2 Jun 2026 20:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.162.45.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67356306752
+	for <linux-usb@vger.kernel.org>; Tue,  2 Jun 2026 20:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780430816; cv=none; b=HdMeq+ZQzC9J+fE6RuyHI6HGgTPEDn5VfG2zx8wppXt0Kdvq2yJC2xOdO/c3mz/1kNzAAw835jv15WJufLEK0VWVfLwsHlQ/F8HgkjG00PNKTt7vs/D1HQP4Xe74qROxctxASSd5KOaCe8mwR8Iu9hUurkNef9WRzvWzE8eaWtY=
+	t=1780432349; cv=none; b=kAu7LkSdnniZlTo5fVEH67nN/VCLLLWSEUkafwpWTEtqHo7pZls+2V9+2qyetnhbibd5G3Cw39lw5goe3mQi/9ZMf5bcQeAulHNbV4wXMibHMb3N+ek9pgn5McJ6Fd3W3FwSUPPdjOTFUnF2wR2APpr8g7gUaPd+SJRefwsMK+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780430816; c=relaxed/simple;
-	bh=AS5ICp5+6jerECjRwnkO4Y461QreU4MeKEtzCQyzNbE=;
-	h=From:Subject:To:Content-Type:Date:Message-Id; b=tespk3L6FI395wxt3fdqN13IgoXVNI2T+8T6ilFLklXRna8QG+Z6VoVbCs1Ilh64tQbIRi16VBgONFnLvNkrvf5r0TyCzos8lDZ2tl7oNy957HLXZM1/WQMUk49PCV6TlaFJPasV8gs1S5mxVeuXpkYBmVFhu4DgnS3iyYcx/lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=obss.in; spf=pass smtp.mailfrom=obss.in; arc=none smtp.client-ip=139.162.45.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=obss.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=obss.in
-Received: from ObaTech (ec2-3-144-138-0.us-east-2.compute.amazonaws.com [3.144.138.0])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ns110.s2h.net (Postfix) with ESMTPSA id E230F10DCA
-	for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2026 01:22:38 +0530 (IST)
-From: "Computer Gaming pc" <sales.rajasthan@obss.in>
-Subject: =?UTF-8?B?QXZhaWxhYmxlIEludmVudG9yeSDigJMgSVQgSGFyZHdhcmUg?=
- =?UTF-8?B?JiBDb21wb25lbnRzIChVU0Ep?=
-To: <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Reply-To: <sales@computergamingpc.com>
-Date: Tue, 2 Jun 2026 21:04:57 +0100
-Priority: urgent
-X-Priority: 1
-Importance: high
-Message-Id: <202602062104556E42AF00EF-CFFE064D34@obss.in>
+	s=arc-20240116; t=1780432349; c=relaxed/simple;
+	bh=IQM1gkDvgjk9K/1BPg+Xwwwoxf17pzOJr2AbFuiABZM=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=u6axmawEfV/sJn4QdYuN5pgdPOw7+9lNm72HssJ58Zvqr2gWWLq4/K856nQ89+09k24tBd4XHPkZgz+PHvgTua3gAkScHrE79WUe0uUPOWR5nZ4g+uLoi6jBJZFyK1ncbrpYw2vMdL4zWBs/t9LtqEAMZ8kr5NCQ1hAYDB0p5/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-69e37d24cb1so1959896eaf.1
+        for <linux-usb@vger.kernel.org>; Tue, 02 Jun 2026 13:32:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780432347; x=1781037147;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eu28fDKHP0i3FLR3qpRQZ+i663p6RmIJHWLXuHJH5kE=;
+        b=S1o68aFrdOQAZQA87QqMBOVGg+dplZGDP4o6l1UqT/ecvEPk+fLrlzGb2r/5fRziOT
+         qEGHGMjuRB4E2Qjvi4SUm64EW1bj4ye2S6Nja/DLPCUmMT1VVGoWAskO9TRxnHobnmL/
+         BeqQFhlxYp9y1YJk6gBe5YqkgXGM2GXz26/8F6CxcrFfctuuFMkZwdTrY0aKStJ4bpVx
+         pDjxwP/GgSbZWLgoXWp2bp9h4C70dEowJrx15Gwq6hAmARGjTyxTG5sqV3JtqcrnFvbI
+         KyHqQELpH6YvZ31D5dgeNTBX9IhLMkAurfLDjzNm60SaJXCiKKq1QK/nSDa+Q1zPFanD
+         nmdQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9esv7jO2w+fJJBNm0R4408I8QT/ufejfzqYXjxhBK7tQf7Nx0fMNkN7hpwqbeK8a7SECBzNcwyz4g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLOJTgf5PWwCsDLJj8w5kt3mp5Tj6vMw9aI6LtjLY4hgG4NmwD
+	yo3bjSfupMoc5MtFlQEZ9RXWQeo+C3BFcciDi5PkVzxrAgQLSbZXQUtCvR5FUIsxLKuRNz3IoLE
+	6voM/KR01Pk5t8Y4lXNYUz2dY4SCtd0V8eSsafnKJueXNwgaFY3MSBLFAp4c=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-Received: by 2002:a05:6820:210a:b0:69e:2c79:26d6 with SMTP id
+ 006d021491bc7-69e48b49ec8mr173984eaf.1.1780432347701; Tue, 02 Jun 2026
+ 13:32:27 -0700 (PDT)
+Date: Tue, 02 Jun 2026 13:32:27 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a1f3ddb.7b89b7e1.205e57.000a.GAE@google.com>
+Subject: [syzbot] Monthly usb report (Jun 2026)
+From: syzbot <syzbot+list4790484fe82e35fffc4a@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
-Quick update — these units are in stock and can ship today: 
+Hello usb maintainers/developers,
 
-Mobile & RFID Devices
-Zebra TC53 (51 units) – $600
-Honeywell CT477 (51 units) – $600
-Zebra MC93 (60 units) – $600
-Zebra TC55 (71 units) – $600
-Zebra MC9401 (81 units) – $1,100 
-Zebra TC22 Standard Range (80 units) – $500 
-Zebra TC21 (81 units) – $220 
-Zebra RFD40 Premium RFID Reader/Writer (56 units) – $610 
-Honeywell CK65 (86 units) – $600
+This is a 31-day syzbot report for the usb subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/usb
 
-GPUs & Accelerators
-RTX 5090 Founders Edition 32GB (90 units) – $2,100 
-RTX Asus/Gigabyte 4090 24GB (45 units) – $1,680 
-RTX 4090 Founders Edition 24GB (90 units) – $2,000 
-RTX A6000 48GB Ada (54 units) – $1,100 
-RTX 6000 48GB Ada (51 units) – $1,200 
-Nvidia L40s GPU (45 units) – $3,000 
-Nvidia H100 80GB PCIe (9 units) – $20,000 
-Storage & CPUs 
-Samsung PM9A3 2.5" SSD PCIe 4.0 7.68TB (115 units) – $650.00
-7.68TB SAS SSD 2.5" 12G Server Drive (140 units) – $650.00
+During the period, 3 new issues were detected and 2 were fixed.
+In total, 63 issues are still open and 423 have already been fixed.
+There are also 19 low-priority issues.
 
-For quotes, availability, or inspection scheduling, please reach out 
-directly:
-sales@computergamingpc.com
-Call or WhatsApp: +1(774) 559-1248 | +1 (641)232-4364 
-Thank you for your continued partnership.
-Ann Kamila
-Computer Gaming PC Trading
-2500 US-6, Iowa City, IA 52240, USA
+Some of the still happening issues:
 
+Ref  Crashes Repro Title
+<1>  3774    Yes   possible deadlock in input_inject_event
+                   https://syzkaller.appspot.com/bug?extid=79c403850e6816dc39cf
+<2>  1812    Yes   WARNING in enable_work
+                   https://syzkaller.appspot.com/bug?extid=7053fbd8757fecbbe492
+<3>  1442    Yes   KASAN: use-after-free Read in em28xx_init_extension (2)
+                   https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
+<4>  1064    Yes   KASAN: slab-use-after-free Read in v4l2_open
+                   https://syzkaller.appspot.com/bug?extid=1a7507a194fff09e5c44
+<5>  866     No    INFO: task hung in hub_event (3)
+                   https://syzkaller.appspot.com/bug?extid=a7edecbf389d11a369d4
+<6>  403     Yes   INFO: task hung in get_bMaxPacketSize0
+                   https://syzkaller.appspot.com/bug?extid=f7ac46d91cf13b4591a4
+<7>  345     No    KASAN: slab-use-after-free Read in __usb_hcd_giveback_urb (2)
+                   https://syzkaller.appspot.com/bug?extid=7f5e98b052c766f47f68
+<8>  341     Yes   INFO: task hung in dvb_usb_i2c_exit
+                   https://syzkaller.appspot.com/bug?extid=0dcc341ee61fc9e4032f
+<9>  201     Yes   WARNING in cm109_input_open/usb_submit_urb (3)
+                   https://syzkaller.appspot.com/bug?extid=ac0f9c4cc1e034160492
+<10> 121     Yes   INFO: task hung in usbdev_release (2)
+                   https://syzkaller.appspot.com/bug?extid=bfa320b67fcbe2583c6f
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
