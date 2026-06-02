@@ -1,109 +1,156 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A596C2765DF
-	for <linux-usb@vger.kernel.org>; Tue,  2 Jun 2026 20:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D522425A354;
+	Tue,  2 Jun 2026 21:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780433142; cv=none; b=hZgn0DnebGCt5AY/2FPOMDP7FOnnFrxtYEeR4D8ywwyfpbHQSphoew+ff+UF0qNqhOhjtpsXgIhnqrfE+AJXtWhZ39H0FkhUSXWMZUHYqw46u2/CI8er1ItlWyZDhS7MLF7Jih2OiIdChlPxk3vD9lcA5uJBE5zcQsgy7lrCSsY=
+	t=1780436426; cv=none; b=hG1oAR4KGjTTcYBlH+fghBotxTnMZVki4ChAPUn1smESfg84PEOO8UGmTQg/rPypw1yz6YDAjfC+L7O36u7rNqg/G1GLMro+7+M36uF2GYxOUVvKjZRTMjs57h7ORblmbeztBsKrunq5qEPmax0NW7XsTC9jvRQRvvi8tWq6BmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780433142; c=relaxed/simple;
-	bh=wClLYuUGri5iXNd48EDjMfeUnOwYhJnSAc6eGu+Qe7A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hqbHlRIplSRHXNCfH4z+7rbdtDuKofmSUNeRQr9EHyIY46AExFcJ2+HBUv+g0vsUfgZUl3/oLDXOTzBWs6XivP65UY8+blYQOUmw1ACI2Zt+IJ1qw65xN1HNLOiZKHwWNpjU91ba0rDxH+X00mqsB8oyzt9e76Vsffpxsuy0xKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pPXQ0wX6; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780436426; c=relaxed/simple;
+	bh=4eyZw4UOnHhwv4cFQ/JjHG+RrOIvOOmydNLwutjD+3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QRu7q33Kb4LOlBIbQqlj7aYJtj1Lzq+sBxAP2CumSXJOKhS0BP3cc77Yw2xv15+e++kC3xhsg+XKglLv4rRBOy3Cnx74gQkX6FBmCvx1dPExSBhnc5Fy4UVlmNxeikVIpAXGYISO3E18zF+6Q2voXZzLNtGZuoOuI5EuU11dvDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bOrxwt7d; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pPXQ0wX6"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-43b53f048beso8996836fac.1
-        for <linux-usb@vger.kernel.org>; Tue, 02 Jun 2026 13:45:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780433141; x=1781037941; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NVHd7PYyJM4fCDZAfkCSR0NCftGsQElbGYgwaw/WOPw=;
-        b=pPXQ0wX6kVDf+usFDVJuqqfh3kDGvElN8xi433EAQnjypEdujCo7x54jFCFKFIEVcK
-         eXImmvGqdbAlLI/mUxwyxE5g4G+Za3bPymU4K8+vl68iMqg6XRhl9yQLYata08qtduWl
-         jMnzwcDpc6gMJYMwMZ762sLw2PpLxX8gxcYELXNkYA7j5IPnoHKJh/VGSFw6erGqVTZW
-         RFqQ21bd/kqh6CxLndDoh8haZtCO1Sj3sNwU+Ubn/qnxTrXwqbraT5HmlQazY+jc1A3P
-         +ertQ5PLS3OgyN8kC1bEXwo/qOkClpswzBgRoWBNHXcMVHWZkOZG2hX+9bcGkJtBNlJU
-         3sPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780433141; x=1781037941;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NVHd7PYyJM4fCDZAfkCSR0NCftGsQElbGYgwaw/WOPw=;
-        b=IdBCXwSlGWDFwMtuf3Muzv4DdW5Yc1VoopxLKOj2AFRzU2X4lvly9ixdfJZgeru/u+
-         ZgYehdQt/cIpjdrEV+Cp6xKhee0ExCtQP2+K7zKlk2xs5u+I/QGcBQ6nE/RhxS/EJptz
-         dDT8G9TYmS4pYU3ykoGnqq4uNtRbSQ40KEdoBa6bKdrVQzcEgQ8ZgDxauWoejOtLDDJv
-         JdZ7rpi6m1pqEWcc7bZOy4wrq1CYD0v2VMUHWl/w6cH9jUFmGWzpGA4vjuJMg99FsR6m
-         fNlJvKU2iHaJCb4WkdQd+SyUB/sHVNe8mYS5CI7dfCVZ3AxSeJDUYeklMX8g4npJsO15
-         WHmA==
-X-Gm-Message-State: AOJu0Yy3skHc8o1BvnSLO8yNo//aAJMPBaByqI7d/07xS0K5hz2vnOBD
-	39av6sKCnZLNnk8raoUySNHrlUQ17Q5hPBeE5qN/YBaSbIEX5xNJwFVc
-X-Gm-Gg: Acq92OGbpJF58128hVZW3Qx5pwW3OyHnDSFNAGHm0QRutN7VPWO6Se4/kjGaYDv3zpV
-	A48oFeoIjguRzZRqQi+PzhEvWNPGwYu6Bpx4S1NDsoEEeCbrzPGTrzIylXRI7UTTSnUPyB4WxA6
-	1PlSe0V1L+HFc7IlDQ3/suRZ1OUDvEENLJk436M95/0tnvyuoXLykpnIk+4NYavPx6/LxqcrMAE
-	hwvOv1wwGX3npXJVARVFYlkZqm4pXMGf6fkgivQLLLdxHqzFn4TBCzVvSg1mZuHjGdbpHhlSTc4
-	RMb/A3RJ+0n3gA81tPjcLdhmgpkRlIF4fFHB7fMPOXU58KxQjnYbF7U8KLdbZIsKhb4405AHOv2
-	jh5ol6n9vIcMblSGttoy5br7DkHjWqESsKqmJlujDrDslGBalsbfT/2dYH/GYU/qe1Ejfd86ABS
-	fq5DXKUJNUVk+jR8uCkkOlqreMNDF56rYCOakA0qBR
-X-Received: by 2002:a05:6870:9728:b0:43b:891d:7c89 with SMTP id 586e51a60fabf-440ddd91edamr172119fac.11.1780433140611;
-        Tue, 02 Jun 2026 13:45:40 -0700 (PDT)
-Received: from af-fff5r54.. ([50.169.220.58])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-440d7b79ad4sm780168fac.4.2026.06.02.13.45.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 13:45:40 -0700 (PDT)
-From: "Erich E. Hoover" <erich.e.hoover@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	"Erich E. Hoover" <erich.e.hoover@gmail.com>
-Subject: [PATCH] USB: quirks: add NO_LPM for the Samsung T5 EVO Portable SSD
-Date: Tue,  2 Jun 2026 14:45:08 -0600
-Message-ID: <20260602204508.48856-1-erich.e.hoover@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bOrxwt7d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780436425; x=1811972425;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4eyZw4UOnHhwv4cFQ/JjHG+RrOIvOOmydNLwutjD+3M=;
+  b=bOrxwt7dDdlu+tP9OU2MHGU2Tagrr5urXNNZGyFg9SW7iyaS4ycJF/jt
+   G7DzFSRuUviQCr4+/0YBH90Zi26k4nKHka39YsxJ6e/ItU1hjSddgaOze
+   Zrnu4wLJG/HAnwt4N4+RhcBYjnjIc4fWKDvu32buOY4fA8jSOILZRuc6/
+   Oquoy7V+wOXq3BuLTRFX4PV1ZZJLwm4xqKhixuJqCflyB/YT3R+DxvCGn
+   X+w/m00sEp/majR84hpYlILQE6N1uFcoiv4u+uasR+bJNnBpo3/gQxMNF
+   9HnQztpLpcpEsMpDc608AE4H5W8Evy7VyjMoMUy/vB74FP2Ok41osAO+j
+   A==;
+X-CSE-ConnectionGUID: 5vzSC6yuRUadbchniYYLFQ==
+X-CSE-MsgGUID: dJMr+KXQRnSltNzNwtzVWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="80972401"
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="80972401"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 14:40:24 -0700
+X-CSE-ConnectionGUID: PcIQbEzqTbKa1yc0yhfIOQ==
+X-CSE-MsgGUID: nO91ZzCfR2qu25nrSJCLRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
+   d="scan'208";a="239575909"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.116])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 14:40:11 -0700
+Date: Wed, 3 Jun 2026 00:40:08 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Lee Jones <lee@kernel.org>,
+	Mark Brown <broonie@opensource.wolfsonmicro.com>,
+	Thierry Reding <thierry.reding@avionic-design.de>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Peter Chen <peter.chen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 06/23] driver core: platform: provide
+ platform_device_set_of_node()
+Message-ID: <ah9NXwJFrkK_yuw8@ashevche-desk.local>
+References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
+ <20260521-pdev-fwnode-ref-v1-6-88c324a1b8d2@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260521-pdev-fwnode-ref-v1-6-88c324a1b8d2@oss.qualcomm.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-The Samsung T5 EVO Portable SSD (04e8:6200) exhibit two forms of
-link instability when USB Link Power Management is enabled:
+On Thu, May 21, 2026 at 10:36:29AM +0200, Bartosz Golaszewski wrote:
+> Encapsulate the reference counting logic for OF nodes assigned to
+> platform devices created with platform_device_alloc() in a helper
+> function. Make the kerneldoc state that this is the proper interface for
+> assigning OF nodes to dynamically allocated platform devices. This will
+> allow us to switch to counting the references of the device's firmware
+> nodes, not only the OF nodes.
 
-  1. The units fail to initialize properly on first detection,
-  resulting in a lockup in the drive where it must be power cycled
-  or the kernel will not recognize the presence of the device.
+...
 
-  2. If used for sustained operations (small amounts of continuous
-  data are transferred to the unit) then the unit will "hiccup"
-  after roughly 8 hours of use and will disconnect and reconnect.
-  This has a certain probability of triggering the first issue,
-  but also causes mount points to become invalid since the device
-  gets issued a new letter.
+> +/**
+> + * platform_device_set_of_node - assign an OF node to device
+> + * @pdev: platform device to add the node for
+> + * @np: new device node
+> + *
+> + * Assign an OF node to this platform device. Internally keep track of the
+> + * reference count. Devices created with platform_device_alloc() must use this
+> + * function instead of assigning the node manually.
+> + */
+> +void platform_device_set_of_node(struct platform_device *pdev,
+> +				 struct device_node *np)
 
-Signed-off-by: Erich E. Hoover <erich.e.hoover@gmail.com>
----
- drivers/usb/core/quirks.c | 3 +++
- 1 file changed, 3 insertions(+)
+Why not fwnode to begin with?
 
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index 87810eff974e..80b61a799e8b 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -296,6 +296,9 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	/* CarrolTouch 4500U */
- 	{ USB_DEVICE(0x04e7, 0x0030), .driver_info = USB_QUIRK_RESET_RESUME },
- 
-+	/* Samsung T5 EVO Portable SSD */
-+	{ USB_DEVICE(0x04e8, 0x6200), .driver_info = USB_QUIRK_NO_LPM },
-+
- 	/* Samsung Android phone modem - ID conflict with SPH-I500 */
- 	{ USB_DEVICE(0x04e8, 0x6601), .driver_info =
- 			USB_QUIRK_CONFIG_INTF_STRINGS },
+> +{
+> +	of_node_put(pdev->dev.of_node);
+
+And if it has an fwnode?
+
+> +	pdev->dev.of_node = of_node_get(np);
+> +	pdev->dev.fwnode = of_fwnode_handle(np);
+
+This looks like
+
+	device_set_node(&pdev->dev, fwnode_handle_get(...));
+
+> +}
+
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
