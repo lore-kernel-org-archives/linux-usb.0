@@ -1,140 +1,133 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9CD360745
-	for <linux-usb@vger.kernel.org>; Tue,  2 Jun 2026 14:30:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAA02D8379
+	for <linux-usb@vger.kernel.org>; Tue,  2 Jun 2026 17:31:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780410610; cv=none; b=EQ8MDe9UT0RvJ4LXWm4i3mkPY9fVF+pNEWI0/tmjPiy22Bn+MJWvePLsOOoUE8J6H7MPjOME4QF26SD+2TbZwRxIr+LG7GfSCRexIFd8kf1baU/zJZue7lPVdNyv1jc1ClVhhdmNT1lSNcpWfSh4Xfx+pTbwG7rdmJF87FBbSwY=
+	t=1780421468; cv=none; b=ZUldNpjTmYWUrbRVfUWG9zgA6JI1s5gvrynXumXzqeulyyxGDba/Rdv7z0ZUy8CwpYMr9rJ5TbxFGHrrD2iBTEoEUuYrEep/8mPKIkPGAbRJTQj5b7deSzpLdPI4tzvnZ7DBxKNsK3Zc5uIKwRCf4IDQIO7SQLYUOgLtALT2VyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780410610; c=relaxed/simple;
-	bh=6Cl/HUdwjBu7h+DF9NMHuCalt7QXfzGmzPgeIn7To6w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CdeB5L9O4uFxxsRgYm9r1rMCHmjvvI2K7pcjYwoNLWEMIKdfmzugYOTHBWJhO4jMAMg2BPMitazpVCtylpOlkcguPvP141TLG7FpispWDoDyKmaE2CvquiYWTTib3iyODJb7AGWmcq4SA4Mf9BRcRBANmn4awGYkXZrhAzwSzu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=E7T2pZui; arc=none smtp.client-ip=209.85.219.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1780421468; c=relaxed/simple;
+	bh=9VrNYSCb53PZhoI3LVUllueRT6zUQCi5rwAda8FBJ7k=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Pk+MebyxaqSRboffsoV5KVk7iVNFHPL7nahfexXvAI50thn5iShoKyHNrEs2VVyey6CwTcLrymYYGAdKuGoL551D3F/fZHTZSweYYg0JECjHjAEEm3ZJyMuFJZEueXshApad4KnGUajpb0sJTxfLwMxgVODHwrM5RlNhKLnLUjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eIEESFHF; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="E7T2pZui"
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8ccf18ef922so46767666d6.3
-        for <linux-usb@vger.kernel.org>; Tue, 02 Jun 2026 07:30:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eIEESFHF"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490ace40f4bso26442275e9.3
+        for <linux-usb@vger.kernel.org>; Tue, 02 Jun 2026 10:31:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1780410608; x=1781015408; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LHe8y8YQdchVIYSL7xdgz4Vu/wRZj0mJWgDbRik2L/Q=;
-        b=E7T2pZuidHpmH/VFUtoulmVOMBsMfsisDLakjzaP4CXKAXYWvAT+Da3KZ66aK9jGHx
-         wzyppECVgdhRiG+ZJUME/q9skFx2va+WuhEm+hHiYVW8OleAx1VFk/ZS7XPBQEZ59/jH
-         1XQmH4JkWOAgfddDfIfJwSqvaMlszeV+weerd5h1419B7bBIROHkmEHIMhNr1hMSFyRj
-         82dDtz3zGHHJ13GHnTUhHapXKODsy1zTUAGCuftES3k49xRFd0PTKfORpNzruzXbi1fQ
-         fH7/67+A/92bVxN2XeLXnbP12fb+dy2y7u+7gXBJDKc0Grn6U8VECuEC/qx0xF6vadkU
-         lKtw==
+        d=gmail.com; s=20251104; t=1780421465; x=1781026265; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9VrNYSCb53PZhoI3LVUllueRT6zUQCi5rwAda8FBJ7k=;
+        b=eIEESFHF9anTu+5RmBO5gm4e7mXkvg4m3R8QGLLDfzdRKWhJlax9b717egzGhAFioF
+         WjuajzVWopgutelDwyOoU3ySly82+AudNt4As2WDplKEgd06IbtwEeNLVRMSnGNIHQcF
+         hYy8xVQ+UcHdMHvI6ef5ST/iTKjIBhEQnVKwyYvbNuauiLfyEURqHrqi9lCbXEDgOTPT
+         CJ4BNsVyTf8frVTg6DtUNBsa7ttWqrIv9rGStpr1b1GqTBR1k6/UxUan7C6toHjfAZXo
+         8Cu8523A+4wN9AjQpScSWqH78CaHAqivtyqVxx3U3bAmvdlUFy9CzGRK4Qw9uoW2mwUF
+         NXmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780410608; x=1781015408;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LHe8y8YQdchVIYSL7xdgz4Vu/wRZj0mJWgDbRik2L/Q=;
-        b=A/ACzn3EE9bkIbFhdYXlPfWHMELdsqq2vn1v6yYqaDjHU9emsYMt4C6GoEdA9PXWIW
-         0tqxzJp3QJelYeiKQ8auU7lFqmkxVqZL5/8wwAxEHUzJSnStrEhiddX2Y6IVy5BoxuBa
-         LgEoysLj4QBSzF42mM9LPSTYNGQemuGUASaodYT9YmRkK/8yt4Tzlp+LM1my2ZmAmtPf
-         nUezrHLJPlKzH37hxTl4Oiu72e6SZMWolxKObERxllf9eYG3H/DYeY9H5wgTZiu3xVQp
-         X31fUWDFTmzE5OdwZzKKOaddTsYyMIchWP6BNOs43T7QsxBXXvRyYK93BnhEOcmUNxby
-         3kUg==
-X-Forwarded-Encrypted: i=1; AFNElJ/c75UAGak/hkesS9P3VYBlPoXh0/Ug1gtr5F6iulhB1B0PkrLqP+zIcgtiZsy6cYD1RCkXUWkmwFc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMg1c96z55U6ZMFvJxGqMc/MLWT/GojG0/70QUvtzBi5QIl+4x
-	0NLekHVyRxXXb+BfqNSvcy+/0XmMD4/33NDUhURILKDw+KpdgRKsC5d2hehb+ASPEg==
-X-Gm-Gg: Acq92OGk4ItYrV8JiUw1kcwxoIYX+M+Y2DmvJFLgXAjIDdIJWqSSOlqo/FOwG5hE3Pa
-	T4dIyNXU0YV1WMziIkwhVTEgAtOLyxPkW+bNulcS7tgrXpZ/iOvQZPrU1KM7LzodhDqH6LGReof
-	g06nOAnY4Gg1lIlZl+RpWxDMlugCyO4XYh5Kmn4aCoiuhF8iLOOKpk4aEQp0EmRon55+gS168p8
-	+l09J9skSxLceWKwga8IlgD8NgsrWzP3eVqmbAmdFs2xbUZsnSf+uvbfqr3ZXDaZrk0kO4Rs5uj
-	Uq+STsPtlFJlOsSNmuuLBvrToNo3R4sAr/25y7bqmJjF++Ob+E+FlBPkzBUrecuIxTjW5yZx1Mh
-	Z8whPKIEmWuahYTle/H0JqZQ7SrZvWZn8ssBO8swsDKsbu04wVEKZPEw4zdWwwrPlAHy2lwl1j4
-	pu80bOCucgmAPtGrLj5ryMI7ZDa2M9Spoi27gwg2+U9/pHsG5h5tExfg==
-X-Received: by 2002:a05:6214:5343:b0:8c9:cb98:5fb1 with SMTP id 6a1803df08f44-8ccefd4ce75mr252266376d6.12.1780410607839;
-        Tue, 02 Jun 2026 07:30:07 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ccea23e115sm120741666d6.42.2026.06.02.07.30.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 07:30:07 -0700 (PDT)
-Date: Tue, 2 Jun 2026 10:30:05 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: "Jimmy Hu (xWF)" <hhhuuu@xwf.google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: udc: Fix NULL pointer dereference in
- gadget_match_driver
-Message-ID: <d0042def-a513-479f-9742-12942346cd5a@rowland.harvard.edu>
-References: <20260526070635.839701-1-hhhuuu@google.com>
- <1f7a7bf2-4d21-4944-9da0-36082d052b25@rowland.harvard.edu>
- <CAJh=zjLLrY-NpV-ZcmH0V6q8CjNuKt7CmW-GEFQ8_y3zm9v1yw@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1780421465; x=1781026265;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9VrNYSCb53PZhoI3LVUllueRT6zUQCi5rwAda8FBJ7k=;
+        b=ExZoYNujgjH7QJAgn+VcLvz3pHhc3x0IGp/1t/v1iGhR4jq9d/CUdip4DPtUU3pA9y
+         dZhW652dArW4BQsJx5l8D9ZxJpcSUn+B8FLB2sQMgAXKRXH0rym6EITEnlIb1jYBZQ7P
+         v63FkgopM79crA20ODPyBdsgn0p124FAAKMfRfL/exa9SRv2wAZEoz2CuzunSEpIvvHI
+         HtPt4xungvqt4zSTBXCGRBn/JNIz2mNVn5NTOkjZ5YOHDEbiU0qNvpdIPgSYzhoxw6nm
+         I1qT9h7wTpGFKvD4/8a0c0WAtrTG3uyXBJktSWryKkwKCKLuRu7Xg4ox2TwfFFbF4MH4
+         nAkQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+M67i7upUGedDY3yK9FtRUFlx0hUZdpRObuDm6uQ1/4oVg4UsmaT5M76GAJXqKGPawp792CeVpSLg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxrb1LLeVz1l8MRnLA2E9ouFRuDLWu81HzbaUC5+2ctotXJKGGQ
+	EHQuFw8vjrmpeSIuAovRK+1EmtgnjkyzoIxiLGb35pYK4n0xOdlbWcNb
+X-Gm-Gg: Acq92OHqW5nHiYhSdHZSZcI5eFgGt8qFqqdRtzXFFz4aWlZbxhGXxKiDIboD8KV4zuI
+	FClzdFWeFt1fZjUe5YXFpSqKUtW/gzq8dKkqKZfwzqNJn1dXfWaojkXdch6sliBFq503CeAoMfC
+	hrTUGQroctxuvHmaHbtWIQyiRiPco8Je6R7FTIklHzoYpaH7pUH2MuS51BLYqvG20IVjrPkAp8e
+	C1vmS4Zkct23vdrY8rPFcxu0XWXaETi044cdSovapA7kmw+mca17ic+K05lxpzf0hi5pNToRhHy
+	C8dojSGOE9xvf5GaM6vHppgdLVhFfUbro7vUvk2ksnOq4O1SzuxNHbb/jfjLhng6B5+zt9rLDy8
+	+JOHCe9BMRz5qAPg8R5Sq1oBSxpJ5mJxpHveqfje/G94FCDNyy3hirIzskTEDBBmaQ9R6aoSAVG
+	4gsEWpDX2oJTfFkGQXnMFIfW7FrI2cwM7HCSkV/xLAT/9o3Q==
+X-Received: by 2002:a05:600c:1382:b0:48e:8741:fd42 with SMTP id 5b1f17b1804b1-490b5058707mr11996305e9.12.1780421465401;
+        Tue, 02 Jun 2026 10:31:05 -0700 (PDT)
+Received: from foxbook (bfe246.neoplus.adsl.tpnet.pl. [83.28.42.246])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b56bab73sm954695e9.34.2026.06.02.10.30.51
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Tue, 02 Jun 2026 10:31:04 -0700 (PDT)
+Date: Tue, 2 Jun 2026 19:30:47 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
+ gregkh@linuxfoundation.org, mathias.nyman@linux.intel.com,
+ sakari.ailus@linux.intel.com, katieeliu@tencent.com,
+ johannes.bruederl@gmail.com, kees@kernel.org, dengjie03@kylinos.cn,
+ limiao@kylinos.cn, wse@tuxedocomputers.com, dev@a1rm4x.com,
+ vahnenko2003@gmail.com, cs@tuxedo.de, lijiayi@kylinos.cn, oneukum@suse.com,
+ bence98@sch.bme.hu, eeodqql09@gmail.com
+Subject: Re: USB: Request for guidance investigating configuration
+ descriptor enumeration failure
+Message-ID: <20260602193047.5fe03b8d.michal.pecio@gmail.com>
+In-Reply-To: <CAFgddh+dLnR=AuAU65sxqsxAgqLYX9i0OiX3Ys_sPH+YeZuHVw@mail.gmail.com>
+References: <CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com>
+	<20260531101612.332151d8.michal.pecio@gmail.com>
+	<CAFgddhLGHvTmRxWtguXTpgZV_Mq5ZW=CVK_ZkqbOgUF9Y5bCsA@mail.gmail.com>
+	<20260531123843.736bd69a.michal.pecio@gmail.com>
+	<3b79ba92-1c51-420b-a5d2-8a358cafdbf6@rowland.harvard.edu>
+	<20260601084846.433bfc51.michal.pecio@gmail.com>
+	<CAFgddh+dLnR=AuAU65sxqsxAgqLYX9i0OiX3Ys_sPH+YeZuHVw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJh=zjLLrY-NpV-ZcmH0V6q8CjNuKt7CmW-GEFQ8_y3zm9v1yw@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 02, 2026 at 01:34:07PM +0800, Jimmy Hu (xWF) wrote:
-> On Wed, May 27, 2026 at 2:00 AM Alan Stern <stern@rowland.harvard.edu> wrote:
-> >
-> > On Tue, May 26, 2026 at 03:06:35PM +0800, Jimmy Hu wrote:
-> > > A NULL pointer dereference occurs in gadget_match_driver() because a
-> > > race condition exists between the DRD mode-switch work and the
-> > > configfs UDC write path:
-> > >
-> > > 1. The DRD mode-switch work invokes __dwc3_set_mode(), which calls
-> > >    dwc3_gadget_exit() and subsequently frees the UDC device name via
-> > >    device_unregister(&udc->dev).
-> > > 2. The configfs UDC write path invokes gadget_dev_desc_UDC_store(),
-> > >    which calls usb_gadget_register_driver() and subsequently
-> > >    compares the UDC device name via gadget_match_driver().
-> > >
-> > > If gadget_match_driver() runs concurrently during UDC unregistration, it
-> > > may access the freed UDC device name. Once the freed memory is zeroed,
-> > > dev_name(&udc->dev) returns NULL, causing a panic in strcmp().
-> >
-> > I don't see how this can happen.  gadget_match_driver() runs during
-> > probing of a gadget, which takes place only while the gadget is
-> > registered in the device core.  But usb_del_gadget() calls
-> > device_del(&gadget->dev) before it calls device_unregister(&udc->dev).
-> > This means that at any time when gadget_match_driver() can run, the UDC
-> > device name must still be allocated.
-> >
-> > You should run more tests.  Add debugging printk() calls just before and
-> > just after the device_del(&gadget->dev) and device_unregister(&udc->dev)
-> > lines, and inside gadget_match_driver(), so the tests will show
-> > unambiguously when these things happen with respect to each other.
-> >
-> > > Fix this by checking dev_name(&udc->dev) before calling strcmp().
-> >
-> > Adding a check like this will not fix a race; it will only make the race
-> > less likely to occur.  It won't prevent the name from being deallocated
-> > between the check and the strcmp() call.
-> >
-> > Alan Stern
-> 
-> Hi Alan,
-> 
-> Thank you for the review. You are absolutely right about the TOCTOU risk;
-> the simple NULL check does not prevent the name from being deallocated
-> after the check but before the strcmp() call.
-> 
-> I will submit a v2 patch that uses get_device(&udc->dev) and put_device()
-> to increment the UDC reference count during the matching phase. This will
-> guarantee that the UDC device name remains allocated and valid throughout
-> the entire duration of strcmp(), eliminating the race condition structurally.
-> 
-> Does this approach sound reasonable to you?
+On Mon, 1 Jun 2026 14:31:59 +0530, Nikhil Solanke wrote:
+> It didn't occur to me before, but since i had a patched kernel which
+> enumerated and initialized the device properly, i was able to do a usb
+> device passthrough/redirect of the controller when it is in xinput
+> mode. I have utilized libvirt for this purpose. I tried doing what
+> Michal did by using qemu cmdline directly and specifying the location
+> for pcap file, but for some reason the pcap file only contained
+> request packets. there were no response packets.
 
-No, because you haven't addressed the issue I raised at the start of my 
-email, namely, how can this problem actually occur?  And you didn't run 
-additional tests with the extra debugging information that I asked for.
+It may be a QEMU bug because the same happens to me when I pass through
+host devices. The full trace I posted was from a QEMU emulated device.
 
-Alan Stern
+You can also run Wireshark on the Linux host and it seems that QEMU
+forwards all control requests unmodified to the device and Wireshark
+records responses too. But it also records some additional string
+descriptor requests (apparently originated by QEMU) and any random
+traffic on the bus to other devices.
+
+I passed through some serial dongles that my Windows had no drivers for
+and I found that it only issues two requests for the device descriptor,
+one 255 byte request for the configuration descriptor (possibly another
+one if configuration exceeds 255 bytes, will try to find such a device)
+and a few requests for string descriptors. That's it.
+
+The other junk only appears when I install class driver for the device.
+And I still haven't installed Wireshark in QEMU Windows, but it appears
+that Windows Wireshark only sees that class driver traffic and nothing
+from core USB subsystem. So it's useless for our purpose.
+
+> I have attached the wireshark captures from the linux guest as well as
+> the libvirt xml. i also had tried using ehci/usb 2 on the guest.
+
+I only mentioned EHCI to ask if any of the hosts that you tried had it.
+The point was to rule out possibility of xhci-hcd bug, when we still
+believed that Windows issues identical 9 byte requests on the same
+xHCI controller and somehow succeeds.
+
+Now we know that Windows Wireshark traces were misleading and the use
+of 255 byte requests likely explains how Windows enumerates the device
+successfully and Linux fails without your patch.
+
+Regards,
+Michal
