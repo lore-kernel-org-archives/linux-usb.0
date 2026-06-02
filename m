@@ -1,209 +1,358 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294B43E2ABF
-	for <linux-usb@vger.kernel.org>; Tue,  2 Jun 2026 13:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D3F9463
+	for <linux-usb@vger.kernel.org>; Tue,  2 Jun 2026 14:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780405498; cv=none; b=YXZp64o/o6WV0r5lAd51/TIDX9HX/CoGxQ1SpaEQivcGyNlci9p1M0jQoqIUUXjiD3jvE9WVgIFfJ4YAYYUpdBDfgWPyJRGpogjIhbEYsXyU0xluyFGeGgHDA5S3perN8XLKBtD9NwdrQUectxO+Nl4ZA6AUHTVbf5NVR3c4TTo=
+	t=1780409344; cv=none; b=sdIpqPG0WyJJQoVPjdITj4tZwxHVR4VRABPlEVh7ifeKS3pOPAkDgAYvfjAN/AuJiyQkA+4AANAduxNYbGe4tcKRIB7jv1ssXpi/H7X9QivrsomwzMXfjlhrhK3rtmHxjg1WAjdzVUZCAf9zppPN/rMfxtf3c8ByvhT/JzukSLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780405498; c=relaxed/simple;
-	bh=Lv88enNvVjptEHx4RPDpSYkoiYl4NHCAht/k1YwYRy4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CgzmWeCfhvXcKbw7ARnTK2va1j2OgZTrmafnhH1G99D3ErgQkFNVsmA4jCfMF3G31wSknCDGk8x7I+Peg+QIlGJUqxxSUHQVXInLH758wMSQdUFu6rW6updCXnR9ngkwb6dMXOlL0eWS1gC6qudZXD4zco9CPSG2w/H5BZxH6cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oYCy8oWL; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780409344; c=relaxed/simple;
+	bh=HF2sG0xFGKo4ing1+lt8m4eKGzVEsQiU2A3AzfllwGI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PSy/JTzBF7vSZUNkDR/ljNL/h3m1Vf7xu8yGz7XVVNw1Lnk+SXqnx4yXVnxhRes5OH1MIK6iUPhnZfrs2/ex2hKDhA9maDH++Mrud0++8YroECEHewZJMqooqnhVmx2v/RILp0ptfYhkCXgPQquC8ODCdGgS3tXNTx8/YPEzELI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TrWzZh+1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oYCy8oWL"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45fd461e4a5so2275812f8f.0
-        for <linux-usb@vger.kernel.org>; Tue, 02 Jun 2026 06:04:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780405496; x=1781010296; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H/8nMdqnIqVIuE86ZCCEmz0EQ1iXOszPXfKX9VZoGH4=;
-        b=oYCy8oWLEOXs3ZZpnQ8VOQHoNFjKZT62/QUyW3df6kxvDecqCOK07UnU98cT9bih7d
-         QifFlcWIr+EJiA3Y4YekpYVbMWMA0XqQZb9m0aNzEy+n6CZ9KNJxUBct5gbgm0d6jBJX
-         4RYm7cSM4Fa+MgP775wpjzUTJB2NacljxFREy0lFq+bJunDJIYp2ZV4sTIDkO+Vc1xr7
-         FpcRQcE1R3qM6zq5aytz97WBpu5zXpd39pgEA0GnDnl2ujkjmEdAdRZhqHjKWr+k4Lc4
-         ry5o67NwkoWSsT9Lap7TwhGHQwNn20aUpkBNKTwaaKQ1kQ2Jb1T0oTaxOfTVux7BZHHQ
-         5nZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780405496; x=1781010296;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=H/8nMdqnIqVIuE86ZCCEmz0EQ1iXOszPXfKX9VZoGH4=;
-        b=lRIyhU93Yem2uevlcqnb5QTsw2IkhFLCtEcE+UDwlqMGAxfQnZ1UPFdVihERirjFN0
-         p0QVUU+LRNlxHFbFhR+EnDUX5ptwGuMPe5wv4+RwgW6/m+uqAvfteivkdeRjW+wexYN+
-         0ASPUVcBKcl6wN8x5mNTcKtme9YSyTTBqkQ8fPEEst0ri8RfX/QsA+MPUE26sDhpjXI3
-         vtvP8Q5FgvFDnB7I1wKGGZUIjWYSJ+KC1C+ePVTsyDELjRxanYfbDrwZtj6jF2OuoeoZ
-         xsYlP8TYzus5991kKfC0sJGYq3yIxbKyVuF6w1L7PshrnexjhZ7PcqA8d9Ry1DHCF4ji
-         c07A==
-X-Forwarded-Encrypted: i=1; AFNElJ9pUfUOkXgGTftllYw3LCLDzC8msvHP98OpZX+appTvYuHsDo3w1CApT7JzxUEV/KFnoZZqz78DBRc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYMEqLiMChlZKDuXYxII9gOWCDGKRXR+taTvTMBCKiuTtaf+3m
-	dr6HNAoI8dKy/wOXd8BsHy26mLSCFD33gooK4oJ3Zpkh8eKQ6S1MPegv
-X-Gm-Gg: Acq92OFjbrpe5IS7O3wf08NlyHGCmmU/MqM1ezwj8DKwzB0kv7r530Ino+1dLhvCX95
-	aaXxdF6cYKL8zkiA1sOZH286S23NVGA0Sz5yA4RCQIF+og0HXtU9ek/iqJFtMCHnXYEKQUFnD2J
-	Gs4zCJw359WnLrCNIiIazQIfZ7ZlO6XpEO56io/Rw3warC6PZ+bN2rYXzMZmqjhImduFqjiLvGA
-	Dl/xSJar7pmRDO+I0aX/92S7dMMgxdq00PWY+7RlQLgHWqw3m71A+YT9YBC3l8sbVIrh7Ucs5ws
-	x1wyT6MKgrN306w9ujizYjBHxbWwkh5rZW5MR/rqqb2Q3+hIyVFAUwdjO/d3x0VB5LxV0q4MClG
-	IlzLJv8PIQBE30RDz13Cfe/LDi9Ef4OHuhOcYmeDKgrqPEuOmB2xuj55k1N+6vWWXbDqBXxeMLj
-	9Y+XCXVVyahqwlQQYYXXy/QEakAdMvDLcl4fRwc59F/dt8oTKDN+UhMSXi+4D7qgLDXqTrwRmTu
-	ky1B8/xeA==
-X-Received: by 2002:a05:600c:8105:b0:490:b072:1be6 with SMTP id 5b1f17b1804b1-490b0721e0amr76565325e9.25.1780405495119;
-        Tue, 02 Jun 2026 06:04:55 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef34b834esm33184301f8f.11.2026.06.02.06.04.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 06:04:54 -0700 (PDT)
-Date: Tue, 2 Jun 2026 14:04:51 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Kees Cook <kees@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
- Pengpeng Hou <pengpeng@iscas.ac.cn>, stable@vger.kernel.org, Petr Pavlu
- <petr.pavlu@suse.com>, Richard Weinberger <richard@nod.at>, Anton Ivanov
- <anton.ivanov@cambridgegreys.com>, Johannes Berg
- <johannes@sipsolutions.net>, "Rafael J. Wysocki" <rafael@kernel.org>, Len
- Brown <lenb@kernel.org>, Corey Minyard <corey@minyard.net>, Gabriel Somlo
- <somlo@cmu.edu>, "Michael S. Tsirkin" <mst@redhat.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Bart Van Assche <bvanassche@acm.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede
- <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Bjorn
- Helgaas <bhelgaas@google.com>, Hannes Reinecke <hare@suse.de>, "James E.J.
- Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, Daniel Lezcano <daniel.lezcano@kernel.org>,
- Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby
- <jirislaby@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Jason Wang
- <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Eugenio
- =?UTF-8?B?UMOpcmV6?= <eperezma@redhat.com>, Jason Baron
- <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>, Tiwei Bie
- <tiwei.btw@antgroup.com>, Benjamin Berg <benjamin.berg@intel.com>, Ilpo
- =?UTF-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, "David E. Box"
- <david.e.box@linux.intel.com>, "Maciej W. Rozycki" <macro@orcam.me.uk>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Peter Zijlstra
- <peterz@infradead.org>, Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik
- <gor@linux.ibm.com>, Sean Christopherson <seanjc@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
- <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
- <hpa@zytor.com>, Vinod Koul <vkoul@kernel.org>, Frank Li
- <Frank.Li@kernel.org>, Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen
- <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, Alexander
- Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Dmitry
- Vyukov <dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>,
- John Johansen <john.johansen@canonical.com>, Paul Moore
- <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn"
- <serge@hallyn.com>, Georgia Garcia <georgia.garcia@canonical.com>,
- kvm@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
- linux-mm@kvack.org, apparmor@lists.ubuntu.com,
- linux-security-module@vger.kernel.org, linux-um@lists.infradead.org,
- linux-acpi@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- qemu-devel@nongnu.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-pm@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 01/11] params: bound array element output to the
- caller's page buffer
-Message-ID: <20260602140451.2e3e6622@pumpkin>
-In-Reply-To: <ah699hwLxIIOZ0-7@ashevche-desk.local>
-References: <20260521133315.work.845-kees@kernel.org>
-	<20260521133326.2465264-1-kees@kernel.org>
-	<ah699hwLxIIOZ0-7@ashevche-desk.local>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TrWzZh+1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACAE51F00893;
+	Tue,  2 Jun 2026 14:09:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780409342;
+	bh=TQzm2Gfj8x4+MTRk0xPkJmnom8anAVgoEpMElvD22lY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TrWzZh+1oL9Q9nuoyOEHYAlONr/Pu3hmvKRcLYjoNm4rHUVBXr61L70hhJe6vgte4
+	 kgwDDwV8Rbzg9jn8Scw41fLI8M3fJPzyRoffDJ0TXZnJV/4DNue4kq+HEMVTmjYCua
+	 t4PY1b5dUafql72VOjnTJfaq0+DZCtclBhozZZZmD7Vui5ALI/lf69dHrEe54frUHB
+	 oZEU0LxIVl9qHfCqqXbQhshzteOnnv/YuXlvzLANi0HTLUsK7QPS94rjLVYizyfDjw
+	 Pf0RfiJl3UrCE/JhG5a6HwAglGTIvH/uXWBXCJ/dv9tvVkso5xFDFPCEvaRd2E3k5Q
+	 KaugzU34HavUg==
+Received: from johan by xi.lan with local (Exim 4.99.3)
+	(envelope-from <johan@kernel.org>)
+	id 1wUPng-0000000AONq-1Pe1;
+	Tue, 02 Jun 2026 16:09:00 +0200
+Date: Tue, 2 Jun 2026 16:09:00 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Charles Yeh <charlesyeh522@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	charles-yeh@prolific.com.tw
+Subject: Re: [PATCH v2] USB: serial: pl2303: add new PID to support PL256X
+ (TYPE_MP)
+Message-ID: <ah7j_HxoAQA-vZrr@hovoldconsulting.com>
+References: <20260326123023.1711-1-charlesyeh522@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260326123023.1711-1-charlesyeh522@gmail.com>
 
-On Tue, 2 Jun 2026 14:26:46 +0300
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+Hi Charles,
 
-> On Thu, May 21, 2026 at 06:33:14AM -0700, Kees Cook wrote:
-> > 
-> > param_array_get() appends each element's string representation into the
-> > shared sysfs page buffer by passing buffer + off to the element getter.
-> > 
-> > That works for getters that only write a small bounded string, but
-> > param_get_charp() and similar helpers format against PAGE_SIZE from the
-> > pointer they receive. Once off is non-zero, an element getter can
-> > therefore write past the end of the original sysfs page buffer.
-> > 
-> > Collect each element into a temporary PAGE_SIZE buffer first and then
-> > copy only the remaining space into the caller's page buffer.  
-> 
-> ...
-> 
-> > +	elem_buf = kmalloc(PAGE_SIZE, GFP_KERNEL);  
-> 
-> get_free_page() (or how it is called)?
+and sorry about the delay.
 
-The kmalloc() should be faster and I think has to be aligned.
-There is another patch set to replace get_free_pages() with kmalloc().
+First, this patch does quite a lot more than add a new PID so please
+change the summary to something like:
 
-Although all these 'show' functions should really head to using a safer
-interface.
-Although, at the moment, it is really difficult to find the ones that
-are guaranteed to be passed a page aligned buffer.
+	USB: serial: pl2303: add support for PL256X multi-port devices
 
--- David
+which is more descriptive.
 
+On Thu, Mar 26, 2026 at 08:30:23PM +0800, Charles Yeh wrote:
+> Prolific has developed a new USB to Multi-UART chip: PL256X (TYPE_MP)
+> PL256X : PL2543,PL2533,PL2565
+> The Vendor request used by the PL256X (TYPE_MP) is different from
+> the existing PL2303 series (TYPE_HXN / TYPE_HX ).
+> Therefore, different Vendor requests are used to issue related commands.
 > 
-> > +	if (!elem_buf)
-> > +		return -ENOMEM;
-> > +
-> >  	for (i = off = 0; i < (arr->num ? *arr->num : arr->max); i++) {
-> > -		/* Replace \n with comma */
-> > -		if (i)
-> > -			buffer[off - 1] = ',';
-> >  		p.arg = arr->elem + arr->elemsize * i;
-> >  		check_kparam_locked(p.mod);
-> > -		ret = arr->ops->get(buffer + off, &p);
-> > +		ret = arr->ops->get(elem_buf, &p);
-> >  		if (ret < 0)
-> > -			return ret;
-> > +			goto out;
-> > +		ret = min(ret, (int)(PAGE_SIZE - 1 - off));  
+> 1. Added a new TYPE_MP type in pl2303_type, and then executes
+>    new Vendor request,new flow control and other related instructions
+>    if TYPE_MP is recognized.
 > 
-> It's usually discouraged to use castings in min/max/clamp. Can we make ret long
-> or do something different here?
+> 2. Added a interface_num in pl2303_serial_private, and then executes
+>    new USB index request, if TYPE_MP is recognized.
 > 
-> > +		if (!ret)
-> > +			break;  
+> 3. Because the new PL256X only accept the new Vendor request,
+>    the old Vendor request cannot be accepted (the error message
+>    will be returned)
+>    So first determine the bcdDevice in pl2303_detect_type.
 > 
-> > +		/* Replace the previous element's trailing newline with a comma. */
-> > +		if (i)
-> > +			buffer[off - 1] = ',';  
+> 4. In pl2303_open: Because TYPE_MP is different from the instruction of reset
+>    down/up stream used by TYPE_HXN/TYPE_HX.
+>    Therefore, we will also execute different instructions here.
+>    pl256x_uart_reset
 > 
-> Can't we do this after with help of strreplace()?
+> 5. In pl2303_set_termios: The UART flow control instructions used by
+>    TYPE_MP/TYPE_HXN/TYPE_HX are different.
+>    Therefore, we will also execute different instructions here.
 > 
-> > +		memcpy(buffer + off, elem_buf, ret);
-> >  		off += ret;
-> > +		if (off == PAGE_SIZE - 1)
-> > +			break;
-> >  	}
-> >  	buffer[off] = '\0';
-> > -	return off;
-> > +	ret = off;
-> > +out:
-> > +	kfree(elem_buf);
-> > +	return ret;  
+> 6. In pl2303_vendor_read & pl2303_vendor_write, since TYPE_MP is different
+>    from the vendor request instruction used by TYPE_HXN/TYPE_HX,
+>    it will also execute different instructions here.
 > 
+> 7. In pl2303_update_reg: TYPE_MP used different register for flow control.
+>    Therefore, we will also execute different instructions here.
+> 
+> 8. The max baud rate of TYPE_MP is 24M bps, and don't support divisor encoding.
+> 
+> Signed-off-by: Charles Yeh <charlesyeh522@gmail.com>
+> ---
+> v2:
+>  - remove unused variable 'dev' in pl2303_update_reg
+> ---
+>  drivers/usb/serial/pl2303.c | 109 +++++++++++++++++++++++++++++++++---
+>  drivers/usb/serial/pl2303.h |   2 +-
+>  2 files changed, 103 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/usb/serial/pl2303.c b/drivers/usb/serial/pl2303.c
+> index 50dc838e8115..67b78d2fcc92 100644
+> --- a/drivers/usb/serial/pl2303.c
+> +++ b/drivers/usb/serial/pl2303.c
+> @@ -54,6 +54,7 @@ static const struct usb_device_id id_table[] = {
+>  	{ USB_DEVICE(PL2303_VENDOR_ID, PL2303_PRODUCT_ID_GL) },
+>  	{ USB_DEVICE(PL2303_VENDOR_ID, PL2303_PRODUCT_ID_GE) },
+>  	{ USB_DEVICE(PL2303_VENDOR_ID, PL2303_PRODUCT_ID_GS) },
+> +	{ USB_DEVICE(PL2303_VENDOR_ID, PL256X_PRODUCT_ID_4P) },
 
+Which devices is this? PL2533 (0x2533)?
+
+What about the other variants you mention above (PL2543, PL2565)? Do
+they use separate PIDs?
+
+Also, judging from the Prolfic product page, these appear to be CDC
+devices, which means we would need to blacklist them in the cdc-acm
+driver.
+
+Can you please post the output of usb-devices (or lsusb -v) for this
+device?
+
+>  	{ USB_DEVICE(IODATA_VENDOR_ID, IODATA_PRODUCT_ID) },
+>  	{ USB_DEVICE(IODATA_VENDOR_ID, IODATA_PRODUCT_ID_RSAQ5) },
+>  	{ USB_DEVICE(ATEN_VENDOR_ID, ATEN_PRODUCT_ID),
+> @@ -144,10 +145,15 @@ MODULE_DEVICE_TABLE(usb, id_table);
+>  #define VENDOR_WRITE_REQUEST_TYPE	0x40
+>  #define VENDOR_WRITE_REQUEST		0x01
+>  #define VENDOR_WRITE_NREQUEST		0x80
+> +#define VENDOR_WRITE_MPREQUEST		0x80
+>  
+>  #define VENDOR_READ_REQUEST_TYPE	0xc0
+>  #define VENDOR_READ_REQUEST		0x01
+>  #define VENDOR_READ_NREQUEST		0x81
+> +#define VENDOR_READ_MPREQUEST		0x80
+> +
+> +#define PL256X_RESET_REQUEST_TYPE	0x40
+> +#define PL256X_RESET_REQUEST		0x96
+>  
+>  #define UART_STATE_INDEX		8
+>  #define UART_STATE_MSR_MASK		0x8b
+> @@ -175,6 +181,16 @@ MODULE_DEVICE_TABLE(usb, id_table);
+>  #define PL2303_HXN_FLOWCTRL_RTS_CTS	0x18
+>  #define PL2303_HXN_FLOWCTRL_XON_XOFF	0x0c
+>  
+> +#define PL256X_PORT_A_FLOWCTRL_REG	0xC005
+> +#define PL256X_PORT_B_FLOWCTRL_REG	0xD005
+> +#define PL256X_PORT_C_FLOWCTRL_REG	0xE005
+> +#define PL256X_PORT_D_FLOWCTRL_REG	0xF005
+
+nit: please use lowercase hex notation
+
+> +
+> +#define PL256X_FLOWCTRL_MASK		0x43
+
+> +#define PL256X_FLOWCTRL_XON_XOFF	0x40
+> +#define PL256X_FLOWCTRL_RTS_CTS		0x03
+
+Does the device support having hardware and software flow control
+enabled at the same time?
+
+> +#define PL256X_FLOWCTRL_NONE		0x00
+> +
+>  static int pl2303_set_break(struct usb_serial_port *port, bool enable);
+>  
+>  enum pl2303_type {
+> @@ -184,6 +200,7 @@ enum pl2303_type {
+>  	TYPE_TB,
+>  	TYPE_HXD,
+>  	TYPE_HXN,
+> +	TYPE_MP,
+>  	TYPE_COUNT
+>  };
+>  
+> @@ -199,6 +216,8 @@ struct pl2303_type_data {
+>  struct pl2303_serial_private {
+>  	const struct pl2303_type_data *type;
+>  	unsigned long quirks;
+> +	u16 interface_num;
+> +	u16 flowctrl_reg;
+>  };
+>  
+>  struct pl2303_private {
+> @@ -239,8 +258,32 @@ static const struct pl2303_type_data pl2303_type_data[TYPE_COUNT] = {
+>  		.max_baud_rate		= 12000000,
+>  		.no_divisors		= true,
+>  	},
+> +	[TYPE_MP] = {
+> +		.name			= "MP",
+> +		.max_baud_rate		= 24000000,
+> +		.no_divisors		= true,
+> +	},
+>  };
+>  
+> +static int pl256x_uart_reset(struct usb_serial *serial, u16 value, u16 index)
+
+You only call this function from one place and there does not seem to be
+any reason for passing in value and index (ifnum) that I can see.
+
+> +{
+> +	struct device *dev = &serial->interface->dev;
+> +	int res;
+> +
+> +	dev_dbg(dev, "%s - [%04x] = %02x\n", __func__, value, index);
+
+And then there is no need for this.
+
+> +
+> +	res = usb_control_msg(serial->dev, usb_sndctrlpipe(serial->dev, 0),
+> +			PL256X_RESET_REQUEST, PL256X_RESET_REQUEST_TYPE,
+> +			value, index, NULL, 0, 100);
+> +	if (res) {
+> +		dev_err(dev, "%s - failed to write [%04x]: %d\n", __func__,
+> +								value, res);
+
+And here you can just spell out "failed to reset device: %d\n".
+
+> +		return res;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int pl2303_vendor_read(struct usb_serial *serial, u16 value,
+>  							unsigned char buf[1])
+>  {
+> @@ -251,6 +294,8 @@ static int pl2303_vendor_read(struct usb_serial *serial, u16 value,
+>  
+>  	if (spriv->type == &pl2303_type_data[TYPE_HXN])
+>  		request = VENDOR_READ_NREQUEST;
+> +	else if (spriv->type == &pl2303_type_data[TYPE_MP])
+> +		request = VENDOR_READ_MPREQUEST;
+>  	else
+>  		request = VENDOR_READ_REQUEST;
+>  
+> @@ -282,6 +327,8 @@ static int pl2303_vendor_write(struct usb_serial *serial, u16 value, u16 index)
+>  
+>  	if (spriv->type == &pl2303_type_data[TYPE_HXN])
+>  		request = VENDOR_WRITE_NREQUEST;
+> +	else if (spriv->type == &pl2303_type_data[TYPE_MP])
+> +		request = VENDOR_WRITE_MPREQUEST;
+>  	else
+>  		request = VENDOR_WRITE_REQUEST;
+>  
+> @@ -307,10 +354,12 @@ static int pl2303_update_reg(struct usb_serial *serial, u8 reg, u8 mask, u8 val)
+>  	if (!buf)
+>  		return -ENOMEM;
+>  
+> -	if (spriv->type == &pl2303_type_data[TYPE_HXN])
+> +	if (spriv->type == &pl2303_type_data[TYPE_HXN] ||
+> +		spriv->type == &pl2303_type_data[TYPE_MP]) {
+
+nit: please indent continuation lines at least two tabs.
+
+>  		ret = pl2303_vendor_read(serial, reg, buf);
+> -	else
+> +	} else {
+>  		ret = pl2303_vendor_read(serial, reg | 0x80, buf);
+> +	}
+>  
+>  	if (ret)
+>  		goto out_free;
+> @@ -461,6 +510,14 @@ static int pl2303_detect_type(struct usb_serial *serial)
+>  		case 0x905:	/* GT-2AB */
+>  		case 0x1005:	/* GC-Q20 */
+>  			return TYPE_HXN;
+> +		case 0x3302:
+> +		case 0x3304:
+> +		case 0x4302:
+> +		case 0x4304:
+> +		case 0x6502:
+> +		case 0x6504:
+> +		case 0x6506:
+
+Can you add a comment here after each number so we know which device
+type they map to?
+
+I assume its PL2533-2P, PL2533-4P, etc?
+
+> +			return TYPE_MP;
+>  		}
+>  		break;
+>  	}
+> @@ -495,6 +552,7 @@ static int pl2303_startup(struct usb_serial *serial)
+>  	enum pl2303_type type;
+>  	unsigned char *buf;
+>  	int ret;
+> +	unsigned int ifnum;
+
+nit: please try to maintain reverse xmas style by moving this one after
+buf.
+
+>  
+>  	ret = pl2303_detect_type(serial);
+>  	if (ret < 0)
+> @@ -503,20 +561,42 @@ static int pl2303_startup(struct usb_serial *serial)
+>  	type = ret;
+>  	dev_dbg(&serial->interface->dev, "device type: %s\n", pl2303_type_data[type].name);
+>  
+> +	ifnum = serial->interface->altsetting->desc.bInterfaceNumber;
+> +
+>  	spriv = kzalloc_obj(*spriv);
+>  	if (!spriv)
+>  		return -ENOMEM;
+>  
+> +	if (type == TYPE_MP) {
+> +		switch (ifnum) {
+> +		case 0:
+> +			spriv->flowctrl_reg = PL256X_PORT_A_FLOWCTRL_REG;
+> +			break;
+> +		case 1:
+> +			spriv->flowctrl_reg = PL256X_PORT_B_FLOWCTRL_REG;
+> +			break;
+> +		case 2:
+> +			spriv->flowctrl_reg = PL256X_PORT_C_FLOWCTRL_REG;
+> +			break;
+> +		case 3:
+> +			spriv->flowctrl_reg = PL256X_PORT_D_FLOWCTRL_REG;
+> +			break;
+> +		}
+
+We need a default case here as well. You can just return an error.
+
+> +	}
+> +
+>  	spriv->type = &pl2303_type_data[type];
+>  	spriv->quirks = (unsigned long)usb_get_serial_data(serial);
+>  	spriv->quirks |= spriv->type->quirks;
+> +	spriv->interface_num = ifnum;
+>  
+>  	if (type == TYPE_HXD && pl2303_is_hxd_clone(serial))
+>  		spriv->quirks |= PL2303_QUIRK_NO_BREAK_GETLINE;
+>  
+>  	usb_set_serial_data(serial, spriv);
+>  
+> -	if (type != TYPE_HXN) {
+> +	if (type == TYPE_MP)
+> +		pl2303_vendor_write(serial, spriv->flowctrl_reg, PL256X_FLOWCTRL_NONE);
+
+Why you need to disable flow control here? The setting should be updated
+per termios when the device is later opened.
+
+> +	else if (type != TYPE_HXN) {
+>  		buf = kmalloc(1, GFP_KERNEL);
+>  		if (!buf) {
+>  			kfree(spriv);
+
+Overall, this looks pretty good.
+
+Johan
