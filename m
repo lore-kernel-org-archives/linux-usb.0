@@ -1,133 +1,163 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAA02D8379
-	for <linux-usb@vger.kernel.org>; Tue,  2 Jun 2026 17:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FE42F7EF5
+	for <linux-usb@vger.kernel.org>; Tue,  2 Jun 2026 19:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780421468; cv=none; b=ZUldNpjTmYWUrbRVfUWG9zgA6JI1s5gvrynXumXzqeulyyxGDba/Rdv7z0ZUy8CwpYMr9rJ5TbxFGHrrD2iBTEoEUuYrEep/8mPKIkPGAbRJTQj5b7deSzpLdPI4tzvnZ7DBxKNsK3Zc5uIKwRCf4IDQIO7SQLYUOgLtALT2VyY=
+	t=1780428965; cv=none; b=iEYxWmzlXSf1BpIh/FLAGzzK0K27NZL3/PPAM+ldQdTXzqA8fxs9awSvujPPNjBTHg6gO1VEDkRYaWPYBH7Jz803swNH4pUJ7xQEIooNo2oR5emHlb8iNgZae+tLNzLaHIoFXeYPkBT8d9L9DK7hpd4R8cobFji4Vpq38mXR/SM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780421468; c=relaxed/simple;
-	bh=9VrNYSCb53PZhoI3LVUllueRT6zUQCi5rwAda8FBJ7k=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Pk+MebyxaqSRboffsoV5KVk7iVNFHPL7nahfexXvAI50thn5iShoKyHNrEs2VVyey6CwTcLrymYYGAdKuGoL551D3F/fZHTZSweYYg0JECjHjAEEm3ZJyMuFJZEueXshApad4KnGUajpb0sJTxfLwMxgVODHwrM5RlNhKLnLUjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eIEESFHF; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780428965; c=relaxed/simple;
+	bh=VHaZE1Jd8geqVgIiWiWLQgcWOt7ZhcLOIE1fcmDAiGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hAcUw+1Ep2PG/YEfXeWyTatzsYxpVwCSVUqcYQ9o3gln05PYDI3goRzTNSB/T0Xa8SMRXpQFWQkFuCql+F+vewWt1iWZrbq33SINUjVW7rzYFW/xmc4ToPGVqYymkVbVUU6N1H6ANkctNmlo6mVkAS8r2IQhXWdDePavfewV1QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=j5b2vhTg; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eIEESFHF"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490ace40f4bso26442275e9.3
-        for <linux-usb@vger.kernel.org>; Tue, 02 Jun 2026 10:31:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="j5b2vhTg"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-8ccef25789fso29419976d6.3
+        for <linux-usb@vger.kernel.org>; Tue, 02 Jun 2026 12:36:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780421465; x=1781026265; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9VrNYSCb53PZhoI3LVUllueRT6zUQCi5rwAda8FBJ7k=;
-        b=eIEESFHF9anTu+5RmBO5gm4e7mXkvg4m3R8QGLLDfzdRKWhJlax9b717egzGhAFioF
-         WjuajzVWopgutelDwyOoU3ySly82+AudNt4As2WDplKEgd06IbtwEeNLVRMSnGNIHQcF
-         hYy8xVQ+UcHdMHvI6ef5ST/iTKjIBhEQnVKwyYvbNuauiLfyEURqHrqi9lCbXEDgOTPT
-         CJ4BNsVyTf8frVTg6DtUNBsa7ttWqrIv9rGStpr1b1GqTBR1k6/UxUan7C6toHjfAZXo
-         8Cu8523A+4wN9AjQpScSWqH78CaHAqivtyqVxx3U3bAmvdlUFy9CzGRK4Qw9uoW2mwUF
-         NXmA==
+        d=rowland.harvard.edu; s=google; t=1780428963; x=1781033763; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7hoIRPFtQ13g9TK9uwK6XyK2HuMPpvHIYT9Hx0/jA94=;
+        b=j5b2vhTgFyf0U+C5tf/SYLWwkh+VVdBeHO1RoIsJ1GpTcYs8Kw0W6A2WBOW/2mnEPS
+         q2goEA+09SXfN4j6Z2q1xx/IdVfxTzU0MO3r+rTIzE/ZvUBKPs+jPabRa2QvsAOJhlWJ
+         M0iy6JcPSbrzxJ25Icb0HVsnqQs5B34gH3DqOap4IYL/gDGp5vZoUMNh0UIQSy387CEq
+         cEzX+xxxvm0dAEMH6SQ3BKpg4qT/2I/MIo/BSyLO1AbEpjjn7eW9UQc+k7rA44JK9mmj
+         LU6kjAuVHEWca3M1JhzBhgKt+mpNohHZiCu4jNogfoFTRXJ9MEDt6JOO4c4vdsv1nF9K
+         2DrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780421465; x=1781026265;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9VrNYSCb53PZhoI3LVUllueRT6zUQCi5rwAda8FBJ7k=;
-        b=ExZoYNujgjH7QJAgn+VcLvz3pHhc3x0IGp/1t/v1iGhR4jq9d/CUdip4DPtUU3pA9y
-         dZhW652dArW4BQsJx5l8D9ZxJpcSUn+B8FLB2sQMgAXKRXH0rym6EITEnlIb1jYBZQ7P
-         v63FkgopM79crA20ODPyBdsgn0p124FAAKMfRfL/exa9SRv2wAZEoz2CuzunSEpIvvHI
-         HtPt4xungvqt4zSTBXCGRBn/JNIz2mNVn5NTOkjZ5YOHDEbiU0qNvpdIPgSYzhoxw6nm
-         I1qT9h7wTpGFKvD4/8a0c0WAtrTG3uyXBJktSWryKkwKCKLuRu7Xg4ox2TwfFFbF4MH4
-         nAkQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+M67i7upUGedDY3yK9FtRUFlx0hUZdpRObuDm6uQ1/4oVg4UsmaT5M76GAJXqKGPawp792CeVpSLg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxrb1LLeVz1l8MRnLA2E9ouFRuDLWu81HzbaUC5+2ctotXJKGGQ
-	EHQuFw8vjrmpeSIuAovRK+1EmtgnjkyzoIxiLGb35pYK4n0xOdlbWcNb
-X-Gm-Gg: Acq92OHqW5nHiYhSdHZSZcI5eFgGt8qFqqdRtzXFFz4aWlZbxhGXxKiDIboD8KV4zuI
-	FClzdFWeFt1fZjUe5YXFpSqKUtW/gzq8dKkqKZfwzqNJn1dXfWaojkXdch6sliBFq503CeAoMfC
-	hrTUGQroctxuvHmaHbtWIQyiRiPco8Je6R7FTIklHzoYpaH7pUH2MuS51BLYqvG20IVjrPkAp8e
-	C1vmS4Zkct23vdrY8rPFcxu0XWXaETi044cdSovapA7kmw+mca17ic+K05lxpzf0hi5pNToRhHy
-	C8dojSGOE9xvf5GaM6vHppgdLVhFfUbro7vUvk2ksnOq4O1SzuxNHbb/jfjLhng6B5+zt9rLDy8
-	+JOHCe9BMRz5qAPg8R5Sq1oBSxpJ5mJxpHveqfje/G94FCDNyy3hirIzskTEDBBmaQ9R6aoSAVG
-	4gsEWpDX2oJTfFkGQXnMFIfW7FrI2cwM7HCSkV/xLAT/9o3Q==
-X-Received: by 2002:a05:600c:1382:b0:48e:8741:fd42 with SMTP id 5b1f17b1804b1-490b5058707mr11996305e9.12.1780421465401;
-        Tue, 02 Jun 2026 10:31:05 -0700 (PDT)
-Received: from foxbook (bfe246.neoplus.adsl.tpnet.pl. [83.28.42.246])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b56bab73sm954695e9.34.2026.06.02.10.30.51
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 02 Jun 2026 10:31:04 -0700 (PDT)
-Date: Tue, 2 Jun 2026 19:30:47 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
- gregkh@linuxfoundation.org, mathias.nyman@linux.intel.com,
- sakari.ailus@linux.intel.com, katieeliu@tencent.com,
- johannes.bruederl@gmail.com, kees@kernel.org, dengjie03@kylinos.cn,
- limiao@kylinos.cn, wse@tuxedocomputers.com, dev@a1rm4x.com,
- vahnenko2003@gmail.com, cs@tuxedo.de, lijiayi@kylinos.cn, oneukum@suse.com,
- bence98@sch.bme.hu, eeodqql09@gmail.com
-Subject: Re: USB: Request for guidance investigating configuration
- descriptor enumeration failure
-Message-ID: <20260602193047.5fe03b8d.michal.pecio@gmail.com>
-In-Reply-To: <CAFgddh+dLnR=AuAU65sxqsxAgqLYX9i0OiX3Ys_sPH+YeZuHVw@mail.gmail.com>
-References: <CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com>
-	<20260531101612.332151d8.michal.pecio@gmail.com>
-	<CAFgddhLGHvTmRxWtguXTpgZV_Mq5ZW=CVK_ZkqbOgUF9Y5bCsA@mail.gmail.com>
-	<20260531123843.736bd69a.michal.pecio@gmail.com>
-	<3b79ba92-1c51-420b-a5d2-8a358cafdbf6@rowland.harvard.edu>
-	<20260601084846.433bfc51.michal.pecio@gmail.com>
-	<CAFgddh+dLnR=AuAU65sxqsxAgqLYX9i0OiX3Ys_sPH+YeZuHVw@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1780428963; x=1781033763;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7hoIRPFtQ13g9TK9uwK6XyK2HuMPpvHIYT9Hx0/jA94=;
+        b=KvaA1OiOZ0QaQT2YgA1+zmRimEo/O9KHABVZHE0DT4Assfhb5nXbhARzIxDie5Fi/i
+         ILfhFG0Qlh0jqyB6jEg7L+KtO2cmo940wMRHtbrPObvvIcGDX6XdcKHhap73o+tbaokG
+         PS9wj6LXORSbqxCHslypZJom6UuCWzNvTmZ55AepzgqXoL3Aoj6tJTIzmww/LhWOFG/i
+         7+Sr8F1H+Gb6WS5NCAdM5suLrIu9Jk6WJO3UwMqMWJJV3I7aOeHEhsTHyTVR/rnB7hs8
+         eiqvRqJhcaBRZZpJbtif+ppV6YKRaZ5VNemnajLShhs1U2ORem+OODGuKqTaaVc5iQQR
+         Hu+w==
+X-Gm-Message-State: AOJu0YwuJXJV9LoSNgxLyPc8CRVvi9fusncTElJgfGB4XypaEu1yvZ5r
+	KuGGU7vBmohShc1+vyetjTl+dLv+i4mcVYR7ipCrOOEoIh9i5sq1WoONsBmNQbsD5PWNulyP58P
+	cO/E=
+X-Gm-Gg: Acq92OGqvHS8MWAb8PLhmjs/6XpXPXGLwYyxjKp7kUYK9EoO4oTmXltbwvxkRnf7NDL
+	mr21d8O9digwus5j6SZbLlSSp2e4B/dVOgr65XCiYSoiI/WSaFWMBLwDF4zuwwYivIzBZxbLAjl
+	fCNLo/moXE86/kDUB5lZkv0r6z4qSlr2N85wDB92MkGAx57JWPTcUjfB7PqkUtR+kBrehE4dbkl
+	h4PZNelZ5eXV+nKNh0lTcBaaQOvoAJ99TYNAHf6D4aESqTPeCcU3o9xvtvrKtnXlUnYY48qohzG
+	EAcmpWGa6qZEd5yOzaIHRdjxlti6UaY2Kx09q95EM9E7PeDjWMKaSR/Y1CLw6/K6ufXvSxZUQae
+	6yFcaaEBdHlIZmMeoLjY1IV0kGRD/h6BbAgX81nBubmomMvMMZP0ntwVd0kDhYwfgYedXyA4XJf
+	7HiRZ7wH55+t7jIsvwUBnl7pfPLC01Qokd5Qh2fRJcSLd7ErA6j5B80MDcMn5wieSF
+X-Received: by 2002:a05:622a:6106:b0:516:585d:d1c8 with SMTP id d75a77b69052e-51778683516mr6839711cf.33.1780428962694;
+        Tue, 02 Jun 2026 12:36:02 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775d8161csm6309861cf.17.2026.06.02.12.36.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jun 2026 12:36:01 -0700 (PDT)
+Date: Tue, 2 Jun 2026 15:35:59 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Brent Page <brentfpage@gmail.com>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: [PATCH] inflate max_tt_usecs and implement sitd backpointers
+Message-ID: <0c2fc88b-eec8-4267-b6df-99c62f4d5229@rowland.harvard.edu>
+References: <bfdd7729-be9a-4014-87bc-7b7a5b393980@rowland.harvard.edu>
+ <20260602064201.84065-1-brentfpage@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260602064201.84065-1-brentfpage@gmail.com>
 
-On Mon, 1 Jun 2026 14:31:59 +0530, Nikhil Solanke wrote:
-> It didn't occur to me before, but since i had a patched kernel which
-> enumerated and initialized the device properly, i was able to do a usb
-> device passthrough/redirect of the controller when it is in xinput
-> mode. I have utilized libvirt for this purpose. I tried doing what
-> Michal did by using qemu cmdline directly and specifying the location
-> for pcap file, but for some reason the pcap file only contained
-> request packets. there were no response packets.
+On Tue, Jun 02, 2026 at 06:42:01AM +0000, Brent Page wrote:
+> ---
+> This is a version of the patch with new formatting; the content
+> otherwise is equivalent to the combination of the two prior patches in
+> this thread.  I ran a number of tests of the patch's functionality for
+> iso-in transfers from a full-speed peripheral with a single endpoint
+> with a wMaxPacketSize of 1023.  The transfers themselves were 1000
+> bytes.  I tried bIntervals of both 1 frame as well as 2 frames.
+>   Setup 1:
+> - configure this "main" peripheral to send (48x 1s followed by 32x 0s)
 
-It may be a QEMU bug because the same happens to me when I pass through
-host devices. The full trace I posted was from a QEMU emulated device.
+You mean six 0xff bytes followed by four 0x00 bytes, right?
 
-You can also run Wireshark on the Linux host and it seems that QEMU
-forwards all control requests unmodified to the device and Wireshark
-records responses too. But it also records some additional string
-descriptor requests (apparently originated by QEMU) and any random
-traffic on the bus to other devices.
+>   repeated 100 times in each transfer (1000 total data bytes)
+>     - "transfer" here means the data that is sent in one frame
+>     - the 48x 1s will require substantial bit stuffing, and the 32x 0s
+>       will require none; the actual number of bytes will be something
+>       like (7/6*48 + 32)/80 * 1000 = 1100 bus bytes
+> - on a single USB 2 port going in to the computer, plug in a USB 2
+>   one-to-four splitter
 
-I passed through some serial dongles that my Windows had no drivers for
-and I found that it only issues two requests for the device descriptor,
-one 255 byte request for the configuration descriptor (possibly another
-one if configuration exceeds 255 bytes, will try to find such a device)
-and a few requests for string descriptors. That's it.
+The correct term is "four-port hub".  "Splitter" implies something
+different (the same signals going in and out of all the ports, which
+is not what happens with USB).
 
-The other junk only appears when I install class driver for the device.
-And I still haven't installed Wireshark in QEMU Windows, but it appears
-that Windows Wireshark only sees that class driver traffic and nothing
-from core USB subsystem. So it's useless for our purpose.
+> - plug in the main peripheral along with a wireless mouse receiver,
+>   wireless keyboard receiver, and a high-speed webcam
+> - Result: for both bInterval=1 frame and bInterval=2 frames for the main
+>   peripheral, all four connected devices function well
+> - notes: the main peripheral has to be plugged in before the wireless
+>   mouse and keyboard receivers; otherwise the main peripheral's
+>   1023-byte endpoint is rejected
 
-> I have attached the wireshark captures from the linux guest as well as
-> the libvirt xml. i also had tried using ehci/usb 2 on the guest.
+Unfortunate, but very difficult to fix, as I'm sure you're aware.
 
-I only mentioned EHCI to ask if any of the hosts that you tried had it.
-The point was to rule out possibility of xhci-hcd bug, when we still
-believed that Windows issues identical 9 byte requests on the same
-xHCI controller and somehow succeeds.
+>   Setup 2:
+> - same as Setup 1, except configure the main peripheral to send (72x 1s
+>   followed by 8x 0s) repeated 100 times in each transfer
+>     - ~(7/6*72 + 8)/80 * 1000 = 1150 bus bytes
+> - Result: for both bInterval=1 frame and bInterval=2 frames, the main
+>   peripheral's 1023-byte endpoint is accepted by the computer, but all
+>   attempts by user space to retrieve urbs (ioctl-REAPURBNDELAY sys
+>   calls) yield error code -11, EAGAIN (instructing the caller to try
+>   again).
 
-Now we know that Windows Wireshark traces were misleading and the use
-of 255 byte requests likely explains how Windows enumerates the device
-successfully and Linux fails without your patch.
+Why is this?  What goes wrong?  That sort of issue should never arise.
 
-Regards,
-Michal
+> - notes: if the data transfers are instead configured to be (64x 1s
+>   followed by 16x 0s) repeated 100 times, then an occasional urb is
+>   successfully retrieved.  So, it does seem like the bit-stuffing
+>   requirements are an influential factor
+>   Setup 3:
+> - same data for the main peripheral as in the first bullet of Setup 2 
+> - don't use a splitter; plug the main peripheral directly into the
+>   computer's USB port
+> - Result: for both bInterval=1 frame and bInterval=2 frames, the main
+>   peripheral's usb connection is robust
+
+Why does this case behave differently?  Does the computer have an OHCI
+or UHCI host controller in addition to EHCI?
+
+> Test summary: the patch works for iso-in transfers that are
+> - 1150 bus bytes in a frame if the associated peripheral is plugged
+>   directly into a USB port
+> - 1100 bus bytes in a frame alongside transfers from two full-speed
+>   interrupt devices and a high-speed webcam, with all devices plugged
+>   into the same USB port via a splitter
+> 
+> Weak point: The patch doubles the number of sitds that are allocated for
+> any given urb.  This is true regardless of whether the urb's transfers
+> require frame-hopping CSPLITS.  I figured that the memory in these
+> structs was negligible, but I actually get ENOMEM from line ~1400 of
+> drivers/usb/core/devio.c in kernel version 3.18.120 when I tried to submit
+> 4x urbs with 33 transfers each (requiring 4*33*2=264 sitds for this
+> patch's code) on my 2017 Android tablet.  Things work if I only submit
+> 100 iso transfers instead.  Also, submitting 120 transfers doesn't cause
+> any issues on my 2022 Android smartphone.  Maybe the extra sitd
+> allocation should be done on-demand instead of by default?  So, start
+> off by allocating an sitd for each transfer, and only add an extra sitd
+> if a transfer has frame-hopping CSPLITS?
+
+Yes, that is the approach the driver uses everywhere else.  Not to 
+mention that it's foolish to allocate twice as many sitd's as the URB 
+will actually use.
+
+Alan Stern
