@@ -1,115 +1,92 @@
-Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD263C81A9;
-	Tue,  2 Jun 2026 09:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F58D3D349A;
+	Tue,  2 Jun 2026 10:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780391158; cv=none; b=mYwtWacUiD8fBEn7WwKvhPoNPjKAxvF5UcAzSj/T0M6vObMOqeaRkqxAdMN66n0l38uIWhA8qvZRvM7EvVRzmeI4lODg9MUMjAd/PDRUx57h95/KfP+gBwuxqM6N1aplkF33INJ/nWO6OZfJrArGGdryTe2RDTksHTvmguP7KZI=
+	t=1780395475; cv=none; b=eVJPWhEA4bKAb3buBXyGMAyR24oY7zGjM72wboJnipoUD02VaOX2C1arVOrsb5NWmx6BMY3Gs5PKCkcleeyd1+miaPio8ooD0ubxJeu9n5UlhLHusT+HyM7my7KRMSz68JnJwm1rMNBwCAJ1WuFRppEiKiEqI5YYo6V4Ya+h1ZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780391158; c=relaxed/simple;
-	bh=HKBXWv+eonGNrv6kb7tv7EZ9MZ2EISofoaQRtg/sswI=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=N3o6TzZ2rrA7zsnukYdscwaokJBm7sAfakVWilVSGTSWUkvj1rUM6gLJh3a7yGEb8ZD4xv/gZCz7tD5+O/U4pc7i3ZNKJmB1EdgYN2mfjBCC4UJ22vkrgkiiDKJKAWc8SFw/Ab99uf4jnRqp04Ftjf1uYyS8s11eEfTpwCLREqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=I97V/E0U; arc=none smtp.client-ip=162.62.58.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1780395475; c=relaxed/simple;
+	bh=0Xwc8J6pstK6FPuxfGfZ0a8ZZw6vYlDnpkOAwM1wCZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eSD8LxjshX7Iflbmn33a7DgYvl5nNTbbFV0SGrgaXf9IJDJdJqNRvjPpSTHYOppsPnLArMTayD5+3ktECN/NIj11E54ZYo9mvZZeZ9/sngN6WKMdAHmYN+D/Hmwh+c6Js22zFkQprOf0Zkykz/uJ0R6ZFGaBEyQTY7zw1/fcMzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OGtn0kJe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="I97V/E0U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1780391145;
-	bh=ylUuVX5/fzTNDiftXf/yPHUAumkurnVvyD0i0uzdRWA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=I97V/E0UiloCp2QhxCfw/mNA3dzFCDumqLNRZTWanNFzemb7JUzqrMqWQ/D6juE8L
-	 ouMBYgWuyYWxUrdquu2J+mvLK0pJGc6R16MLaAEaihB2UzFtbbgFIAzYdkfjdjJFU0
-	 kzB59Y9oeIwVbSWn1vAQE8gphXrj52yks8peNzd0=
-Received: from localhost.localdomain ([2409:8915:2067:10d5:5f88:ceb0:c03b:f401])
-	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
-	id 15E02E54; Tue, 02 Jun 2026 17:05:30 +0800
-X-QQ-mid: xmsmtpt1780391139tf7959ljq
-Message-ID: <tencent_B7686B84CD4B76D76BB912FA6367FAC2CA05@qq.com>
-X-QQ-XMAILINFO: OVFdYp27KdlJesILK4oliI4YDNv1tVXJ/JkfX06j8ISP5gcNAXSrftpr9KfZSC
-	 2mDrjTZeCvCk1VhPlhcQXxYet6gS8W1+scnMneSmxyXv1aOcxeBrfOUIE0rvsu0kuB2tW7sDWh86
-	 9aKanDRijSIPKQ0wlBTl6ptt4zKN4Yo1QWoak4nKLa44Nx2oh2uqcknC205boENawG1qxFKy3EaU
-	 T2cCV+rEyVJT0drMJbqVrWnwwaOtGmRZcXbVpVHDPiWekF3U5K+PaoEQ9kT6KfsiZE8qL8AEvwt5
-	 Xs5kc5Z3hhCoJ/qYJaZMxN1Bab/W8lZcJGEttyCsWlt9vaDlL4ylw8KiH+uQrOTPUD3b6V7/7c0a
-	 +L3uOW9GW0/zH6Kw+ZCVq666mCLjAIIawJjGaNZeHjipt2TvxTOs8T6jp1R6BtPfjV2efNgz6KpS
-	 lWW7GcHkBpTD8+qfF4ip6/i1Xx4bivNhus3DhDHZLxVIKVwoGfrZfCVDqHKck8vBG/yeiqhXyle4
-	 yAl+2dYavOG0jJWXAUw16p55pKzh64Mm94EPZL3tOfaTwf82/6KpssbkHVQJvPhANGSwsfdVAJDR
-	 0NRc1VuCBBf7lVdbRXSW/JWBo84t6CJMT1PjNduqIN6SCbPjfzTzAPbt7iHFMtzA5+KyeKQaf8BT
-	 hN4XWk27x+YO56IkzrzfqGmvhSSHpf8CQ35htCT52yrB9OsaRYJ2+by8YLowZ04IChW8szvUSzsH
-	 q5OPvmlmKtioIVdKgd79lJGriGoYYwVAotqUdJbVA+ANm4hw5FxMoSl6RCEZfavuojo27uH5xbJq
-	 jvymy6KHBWYkxwoe+NGNqzU0RDFbquIUVz7ZTyFaztDLfaUPXnmhOHmZ7JGBKko4tZq3EDCFuoSG
-	 sKyIBQ25oPHDkT7VH5rEvwnws/+bf+oTdUSp/cErbDTw3fO8Uh7mbwsWFvWQ4d15Xf7xzGUZ0Plx
-	 MCBVK7PWSc94CmDkGR9mVYNADmpVolGFXc55IKt+k+pWrbesOnJ8fwpuZKvAwqANE1kS+Bb0eYX/
-	 I7qaJXZ4VHHC915LEth/Mze3pvDIhKMaKwo2S/+bpRRO+QHdoeuxSF3rK/woU=
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
-From: Shaoxu Liu <shaoxul@foxmail.com>
-To: andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: shaoxul@foxmail.com,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2 2/2] rndis_host: enable power management for Telit LE310X1
-Date: Tue,  2 Jun 2026 17:05:28 +0800
-X-OQ-MSGID: <20260602090528.2544-3-shaoxul@foxmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260602090528.2544-1-shaoxul@foxmail.com>
-References: <20260602090528.2544-1-shaoxul@foxmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OGtn0kJe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DCD41F00893;
+	Tue,  2 Jun 2026 10:17:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780395474;
+	bh=sOUTmCnODvoRiB4svT1aqcrWncFRBiBKgj63J/VkJHE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=OGtn0kJepFBMpmV/220GBzd6lN8Zh5Ff7HU69LeZuDR8hWPfTDHKD/sBawoZyNrFq
+	 3IBM2Xy7XgsdN1pgaqsishkuXS/csW7fsh/ZW3+R8j/dWyrLLuQPGnrjoUYaKIbWdc
+	 xIdc8IZUYN3uUMonCJne59IjM56Wsbz/MgRJ2wUjLUy4zzG0xNPNd1Y8eT9wzwZfSB
+	 FhJt5QqTY8aBmD1ehPRte4vp6z54hH2fnvXAHpHJWH3XwNilhf1S8EubxS1gornIMj
+	 pNIjbpbOdd0gX74B1C+KlxpbjZdoa3ZyFtc0FJ/sCZkQ/zFUXQ6hvrWQC/ynQloAfL
+	 2MAdALfjbkbsw==
+Received: from johan by xi.lan with local (Exim 4.99.3)
+	(envelope-from <johan@kernel.org>)
+	id 1wUMBz-0000000ACp1-2ZbO;
+	Tue, 02 Jun 2026 12:17:51 +0200
+Date: Tue, 2 Jun 2026 12:17:51 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Adrian Korwel <adriank20047@gmail.com>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] USB: serial: io_ti: fix heap overflow in
+ get_manuf_info()
+Message-ID: <ah6tz1s90zvxaPef@hovoldconsulting.com>
+References: <2026052525-devotee-reclaim-7673@gregkh>
+ <20260525145832.2941-1-adriank20047@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260525145832.2941-1-adriank20047@gmail.com>
 
-Enable autosuspend support for Telit Cinterion LE310X1 RNDIS interface
-by selecting a driver_info variant with manage_power callback.
+On Mon, May 25, 2026 at 09:58:31AM -0500, Adrian Korwel wrote:
+> get_manuf_info() reads le16_to_cpu(rom_desc->Size) bytes from the
+> device I2C EEPROM into a buffer allocated with kmalloc_obj(), which
+> is sizeof(struct edge_ti_manuf_descriptor) = 10 bytes.
+> 
+> The Size field comes from the device and is only validated to fit
+> within TI_MAX_I2C_SIZE (16384 bytes),
 
-This keeps power management scoped to the new Telit ID only, and avoids
-changing behavior for all existing RNDIS devices.
+get_descriptor_addr() does not validate this, but apparently
+check_i2c_image() has already done so. I added a comment about that
+since it's not obvious.
 
-Signed-off-by: Shaoxu Liu <shaoxul@foxmail.com>
----
- drivers/net/usb/rndis_host.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+> not against the destination
+> buffer size. A malicious USB device can therefore set Size to any
+> value up to 16383, causing a heap overflow of up to 16373 bytes
+> when plugged into a host running this driver.
 
-diff --git a/drivers/net/usb/rndis_host.c b/drivers/net/usb/rndis_host.c
-index 46eab7bda..5e39d05a2 100644
---- a/drivers/net/usb/rndis_host.c
-+++ b/drivers/net/usb/rndis_host.c
-@@ -630,6 +630,17 @@ static const struct driver_info	zte_rndis_info = {
- 	.tx_fixup =	rndis_tx_fixup,
- };
+You also need to account for the first two bytes and the header so these
+numbers should be 16377 and 16367, right?
  
-+static const struct driver_info	rndis_info_lowpower = {
-+	.description =	"RNDIS device",
-+	.flags =	FLAG_ETHER | FLAG_POINTTOPOINT | FLAG_FRAMING_RN | FLAG_NO_SETINT,
-+	.bind =		rndis_bind,
-+	.unbind =	rndis_unbind,
-+	.status =	rndis_status,
-+	.rx_fixup =	rndis_rx_fixup,
-+	.tx_fixup =	rndis_tx_fixup,
-+	.manage_power =	usbnet_manage_power,
-+};
-+
- /*-------------------------------------------------------------------------*/
- 
- static const struct usb_device_id	products [] = {
-@@ -661,7 +672,7 @@ static const struct usb_device_id	products [] = {
- 	/* Telit Cinterion LE310X1 RNDIS */
- 	USB_DEVICE_AND_INTERFACE_INFO(0x1bc7, 0x7030,
- 				      USB_CLASS_WIRELESS_CONTROLLER, 1, 3),
--	.driver_info = (unsigned long)&rndis_info,
-+	.driver_info = (unsigned long)&rndis_info_lowpower,
- }, {
- 	/* "ActiveSync" is an undocumented variant of RNDIS, used in WM5 */
- 	USB_INTERFACE_INFO(USB_CLASS_MISC, 1, 1),
--- 
-2.34.1
+> valid_csum() is called after read_rom() and also iterates
+> buffer[0..Size-1], compounding the out-of-bounds access.
+> 
+> Fix by rejecting descriptors larger than the destination struct
+> before calling read_rom().
 
+We should also make sure that the descriptor is not too short so I
+amended the patch when applying.
+
+End result is here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git/commit/?h=usb-linus&id=183c1076eca43bbb3e7bdf597456f91d81c73e74
+
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Adrian Korwel <adriank20047@gmail.com>
+
+Both fixes now applied, thanks.
+
+Johan
