@@ -1,62 +1,68 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0091A0BF1;
-	Wed,  3 Jun 2026 12:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87BC3D45C1;
+	Wed,  3 Jun 2026 15:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780491335; cv=none; b=BtaqbOxywY+28x5BpIz6786sv45YdVZyArK7gxGjU3+KqFFTy01zYX3QiVsscbzFWkBcARUBWm+3rL6jxbkaUN7D8aTvn9KwPeyoFUHAjjfsU9oALhtqS5qWJVJVjq8cCSnAZijVfU+bIiPC7ZpP8JS4L1xK0I1t3r74yxqyFtI=
+	t=1780499835; cv=none; b=Ll8GqCNjB648SiMpRMp1zEAwbbB6IIiK6UO+E93+RyTvBGhS95rR/f3kmmnulU/itlZAicnSpG6n5TpNfGRMTYv/BSa2ls4LkovMPPK5SPY/z05jXDLJTO5sPb6oOQVDBZMfIL3r+mVBsZSJZIBpZk+P4XS0+7gCNdV6ulMX990=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780491335; c=relaxed/simple;
-	bh=G6k6nElzVlSohrj7Ypd/k/ztuxeVsCgtuuIksNySwj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nfMZUcH6bYTjoLGvart+ggtv3xh0yTB9PHzvKBNAaUL7bEnpcT2e51rBciovo6AQ6/394tPHmD3uN3jws1T9QG+pIk7wv2RaBewrk2NBaENBj+4thyrnMz5W8kYho+qWZB9JJCBRiXz7dFnIHRodxn5Fva2O5Mu3HJHc1uWuAo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=eBBCtHPU; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="eBBCtHPU"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=8u2Jh7i+EE4SalPv1UXpLCcYjn0jkw/InxVLERVBTqU=; b=eBBCtHPU6fp9bSQhN9llsx9xWs
-	mUThDgDiFOjj0LjhHHeV59b3LbLvjstqKXNnOGJCzV8bJHeuVPO5JccBOOBneW12XwhsQ4XePVdLh
-	ccP0f9ysQp2hbKbmT/Bu0vdfSFNNTw+ax0cwwVKC16ILLE64qxv2r7AedmXcHmxKcGVM=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wUl82-005sWW-90; Wed, 03 Jun 2026 14:55:26 +0200
-Date: Wed, 3 Jun 2026 14:55:26 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Shaoxu Liu <shaoxul@foxmail.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 2/2] rndis_host: enable power management for
- Telit LE310X1
-Message-ID: <6f52869d-da6a-4004-a35b-c27d9209d84a@lunn.ch>
-References: <20260602090528.2544-1-shaoxul@foxmail.com>
- <tencent_B7686B84CD4B76D76BB912FA6367FAC2CA05@qq.com>
+	s=arc-20240116; t=1780499835; c=relaxed/simple;
+	bh=+3I8wOy+75gvvBtz6c8y77At198hB9zAdvxpQGyGrno=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=btgFqRKyAAFFevYY5n3HqBsGnnHSLfFxXkvJZXZmdjbFP+aCHo/rVl2cd8mXZHFhXu9PHJIHsF6vePeYkocyQq7SVpHvSkg48d7fjndCUsNXQ4T9dsVsCLFjUaZT9tfWXknzJc8A6NgXkuwj/1GMmMR+b09nfn4/UqQ3bQ6eAqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 002D51F0089D;
+	Wed,  3 Jun 2026 15:17:12 +0000 (UTC)
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-usb@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/2] usb: host: xhci-rcar: Avoid repeated matching
+Date: Wed,  3 Jun 2026 17:17:08 +0200
+Message-ID: <cover.1780499433.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tencent_B7686B84CD4B76D76BB912FA6367FAC2CA05@qq.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 02, 2026 at 05:05:28PM +0800, Shaoxu Liu wrote:
-> Enable autosuspend support for Telit Cinterion LE310X1 RNDIS interface
-> by selecting a driver_info variant with manage_power callback.
-> 
-> This keeps power management scoped to the new Telit ID only, and avoids
-> changing behavior for all existing RNDIS devices.
-> 
-> Signed-off-by: Shaoxu Liu <shaoxul@foxmail.com>
+	Hi all,
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+On R-Car Gen2 and Gen3, the .plat_start() callback checks the XHCI's
+controller compatible value on each call, which happens multiple
+times during the lifetime of the device.  This series fixes that by
+using separate .plat_start() callbacks, reducing source and binary size
+in the process.
 
-    Andrew
+This has been tested on R-Car H2 (Lager, disable pci2 first), and R-Car
+H3 ES2.0 (Salvator-XS).
+
+Thanks for your comments
+
+Geert Uytterhoeven (2):
+  usb: host: xhci-rcar: Remove SET_XHCI_PLAT_PRIV_FOR_RCAR() macro
+  usb: host: xhci-rcar: Split R-Car Gen2 and Gen3 .plat_start() handling
+
+ drivers/usb/host/xhci-rcar.c | 70 +++++++++++++++++-------------------
+ 1 file changed, 33 insertions(+), 37 deletions(-)
+
+-- 
+2.43.0
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
