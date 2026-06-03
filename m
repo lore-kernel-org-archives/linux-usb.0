@@ -1,59 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DA4C43D4FD
-	for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2026 09:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAAC844CF25;
+	Wed,  3 Jun 2026 10:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780477934; cv=none; b=WFQdIoNtpjBdXNOjjhu5Gm60CYhJghp9YX/ILztIxB0lvCSRm1dyKiBrS/3Uv45J/FZ2KGdXzKiL0PiZ9x1Mu+OxBk9gbtH3shpsBRqou+Tc5NGrP5EMY1qwZZd0NjDcV2NqGRkytfv2Cdw8h479ihtZGiWmbAB2dzETuuEarFw=
+	t=1780480904; cv=none; b=Grtw70JzJpigMJ+9PlLcdaWXiqkYi7+YD3mG3BBsFVaUJerfFWKpVvTxklrnzhXmBoE9nj1sTYaIjjMC//4KtEgjtFq+WkdznnGXzJOL3ndB7/b5w5e8SwjSrP2ZaJMeLOUMszjVlpwX0FuaCVZT4TyMTmabS7mHAogLtFtQTwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780477934; c=relaxed/simple;
-	bh=RiklDHxmLaRlZoFeXz6O7lhJakHMW2Ldg9rwqWbZ2RE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d/yL9eoKWuNgPJY3rPwuI0jNEhKDL5KM0SkUC3BnflCxMGQvOOhNl55FmexVB2+jabAOVliH+3EJ/2RExX9EAE5tpT+LIdF/ACQBJNCuj3k38gceKWvfZgUgXarhypLHevhg5Fse2S6cfbHx1W09VEMPLKgsEEgfp85vRrxlqG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NusOb6FV; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1780480904; c=relaxed/simple;
+	bh=9HniKuJTweZrT2GKcDlyNZg1leqFl62U2Sd1Ydzbm8g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ROocWS/9T3nFIK2SmQb8R0o7I+nQE6w0OeH8UnSI83cEFdxmiBJdLE2D7uy58J7nuNc7bA8gNXBIur75ffN6MgeUTMRvs1I7bDl6qg5fMGgMTQRt6KUEcwFQoWIOMOXPtbm5oUG2BHwm78FSe6x1T6otNr7728xrYy0/byV2obA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Q/xF1IY/; arc=none smtp.client-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NusOb6FV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780477933; x=1812013933;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=RiklDHxmLaRlZoFeXz6O7lhJakHMW2Ldg9rwqWbZ2RE=;
-  b=NusOb6FVFnT+AvUkikQUzmSYNu6Msaou9migoqLxWNUyVPCuhfeAdsd1
-   r/sUJKszCnztq+YAfV54imBR3lzObJxPW9/gelKW5ogT7X5Lo2DKGH8h7
-   d/tiof7+wMGPro2rX+H7pAEn8tl1KlFaLIGomF3hkPhRtj+KLVXWi9Key
-   nH30YJSEI1rG/TSItC75azybSF3jesVFEpqOcTczb1Ucc+r6lXnUW6OGq
-   2QFXXvM/CFydaQYpAQQjxoxFRAvV9p1z2UfrfYsxSWr46f4axtUsabwm1
-   V+eiV8/iIOHHJN8UtEK7/KQ60WHd67B+UbCi7JqbDXKuvm2hwRf2ZHagr
-   g==;
-X-CSE-ConnectionGUID: E69uGHhkSVy2F0cYmqPrtA==
-X-CSE-MsgGUID: /43e3zjHTKy/26f++n2kfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92657628"
-X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="92657628"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:12:13 -0700
-X-CSE-ConnectionGUID: wsnO0fYcR5aBrLvWIraQ1w==
-X-CSE-MsgGUID: AXmQ9Jf5Q46zR1AUec2MTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="244282016"
-Received: from slindbla-desk.ger.corp.intel.com (HELO mnyman-desk.intel.com) ([10.245.244.174])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:12:12 -0700
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-To: <gregkh@linuxfoundation.org>
-Cc: <linux-usb@vger.kernel.org>,
-	Niklas Neronin <niklas.neronin@linux.intel.com>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 15/15] usb: xhci: allocate internal DCBAA mirror dynamically
-Date: Wed,  3 Jun 2026 12:11:32 +0300
-Message-ID: <20260603091132.1110849-16-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260603091132.1110849-1-mathias.nyman@linux.intel.com>
-References: <20260603091132.1110849-1-mathias.nyman@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Q/xF1IY/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1780480860;
+	bh=naf49GqByxcoqNAdjt4netjJ8gse0CyYGuBLHKtZUXE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=Q/xF1IY/2SjqHZKbk5XmCFPJfwCTGHu+v8Fv5eMIUbcRgAz1EGS5A0ENNCOYloVJL
+	 3rDgRR+yJI9QN68D9psXWb6Qj7xep82iEXdhU8jmiNMy5HyqEZVz1X5HQ0L6xE0970
+	 A4Y/o3A/P09cauNMVOdHHnqaMOPZxC0xhVdpZC/8=
+X-QQ-mid: zesmtpsz4t1780480844t17236796
+X-QQ-Originating-IP: jrj/gBtWK1zJFe+tihAQ2imGPyOW5vdWSFudCP7mpV8=
+Received: from PEN202512010004 ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 03 Jun 2026 18:00:42 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 7591530443748897547
+EX-QQ-RecipientCnt: 6
+From: raoxu <raoxu@uniontech.com>
+To: andreas.noever@gmail.com
+Cc: westeri@kernel.org,
+	YehezkelShB@gmail.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	raoxu@uniontech.com
+Subject: [PATCH] thunderbolt: debugfs: fix margining error counter buffer leak
+Date: Wed,  3 Jun 2026 17:59:57 +0800
+Message-ID: <5DD51F2D1DD8155C+20260603095957.1126008-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -61,115 +49,74 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: N+n6UtIkOPCa/45xjGFuDTjewm+Bw2AzjDSWhqfnJchUeeMXsIOoyQLD
+	s1GTdOPWhcNPMx0zaCLm5FYV8sOZhUQH0+gdDiTlku4J2Wlk/YqO7fHpQryTRQ4DTcYl5Vs
+	NzfsSnF9zho5LrP2AgMZ3ZL1iLO5QWA482GZqLl9Vmq4bFTTOaaUzmmlpVhtGN2x0pH2R0O
+	n4zUf2/DVE5/wF+GCNylw1YOj0Fp4a3JRe2P0Ej/uKuI6D1quTXFhwv3smqh2Z38/x1gXLt
+	4yweDwFGVhMTBemyfWKQ5ERNAdXaDl+O5QpPwd1hAwneRAADGypHf53DGiXpZMlafNBVdLu
+	B6GYtEg+Iu8VIHBuCDf4jiBF8jxo1v//Kobdji/jCR6ACLJHd/k2uWos3u5MxeZoPbG1+3x
+	zJs28ONNvFjHhqN3poV9F0cafRabJt+auFJNLIdtN2qhTSua4WDdcpcD1a5NC8MkW/s6WJC
+	91itXsgizZjYKQSJbrhCqNcwP8ZZ/LWSv+PJSBtgXM9n7h2qlHta6VV3MpKDX5zpPWbrCP7
+	qMccOyMqByXb5qbUhbYj4Jzf/kNVNfStfLDrvlFTFeSBVKDjsfTPDtLRbC7Tbe7HKjU7KLs
+	BsyQLvnfSvkLc318W20GSjkfZLUogk/inlgRyF4YWKYVV9lYfaR5qwZvq34fcz9Fh2aRii0
+	zeDrvPsA3ho6RbqSVdIrmwXv/X3CA37+2VlSOlXYtURh+q/lS4Ho1tzfzUhFXrf0en7VP3p
+	V02h7XVgmV33ljJz//f6ycGaBOvT/5O57406yXybkko5SDu/85Lox65pKs8CUYVYDu0hw9k
+	5iyKYJczno1V2kPwNxjEmyzkxE7qmfO8m/HphQQYs/HGQMWBBIydFk3Dj4wwlnRX8kXtoN7
+	o3qqEYMPIUxMNgK2Hxn6Cp9Lic/koFDv18YuwjQZQRdD0HiZgTCymLChd48bCPqzSorcB1v
+	XAAqnxVOZzpT37o0qN6sqB9X42nq63+cU5WaImjQni9Khc2L4dqsbuUB6MIDAIM4P7gL0ej
+	22YmELAOQMeCJU0qDft/KAnh7nGTUq7WKO1Q4e/wfCzN9UGbCo
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-RECHKSPAM: 0
 
-From: Niklas Neronin <niklas.neronin@linux.intel.com>
+From: Xu Rao <raoxu@uniontech.com>
 
-Allocate the internal virtual device array dynamically based on the
-maximum number of slots reported by the host controller. Previously,
-the array was always allocated to the absolute maximum of 255 entries.
+When USB4 lane margining debugfs write support is enabled,
+margining_error_counter_write() copies the user input with
+validate_and_copy_from_user(). This allocates a temporary page that is
+only needed while parsing the requested error counter mode.
 
-Repurpose the 'MAX_HC_SLOTS' macro to limit the number of enabled slots.
-This mirrors how the maximum number of ports and interrupters are handled.
+The function currently returns without freeing that page. This leaks one
+page per write to the error_counter debugfs file, including successful
+writes and writes that later fail while taking the domain lock or because
+software margining is not enabled.
 
-The allocation now uses kcalloc_node(), which zeroes the memory
-automatically, making the explicit memset() call unnecessary.
+Free the temporary page once parsing has completed, and also before
+returning from the invalid-input path.
 
-Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Fixes: 10904df3f20c ("thunderbolt: Improve software receiver lane margining")
+Signed-off-by: Xu Rao <raoxu@uniontech.com>
 ---
- drivers/usb/host/xhci-mem.c | 14 ++++++++++++--
- drivers/usb/host/xhci.c     |  4 +---
- drivers/usb/host/xhci.h     |  9 ++++++---
- 3 files changed, 19 insertions(+), 8 deletions(-)
+ drivers/thunderbolt/debugfs.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 939151e5440e..a5e7f363922f 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -1947,8 +1947,11 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Freed command ring");
- 	xhci_cleanup_command_queue(xhci);
- 
--	for (i = xhci->max_slots; i > 0; i--)
--		xhci_free_virt_devices_depth_first(xhci, i);
-+	if (xhci->devs) {
-+		for (i = xhci->max_slots; i > 0; i--)
-+			xhci_free_virt_devices_depth_first(xhci, i);
-+		kfree(xhci->devs);
-+	}
- 
- 	dma_pool_destroy(xhci->segment_pool);
- 	xhci->segment_pool = NULL;
-@@ -2005,6 +2008,7 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
- 	xhci->rh_bw = NULL;
- 	xhci->port_caps = NULL;
- 	xhci->interrupters = NULL;
-+	xhci->devs = NULL;
- 
- 	xhci->usb2_rhub.bus_state.bus_suspended = 0;
- 	xhci->usb3_rhub.bus_state.bus_suspended = 0;
-@@ -2411,6 +2415,12 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Starting %s", __func__);
- 
-+	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Allocating internal virtual device array");
-+	xhci->devs = kcalloc_node(xhci->max_slots + 1, sizeof(*xhci->devs), flags,
-+				  dev_to_node(dev));
-+	if (!xhci->devs)
-+		goto fail;
+diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
+index 042f6a0d0f7f..25f6ea6ea094 100644
+--- a/drivers/thunderbolt/debugfs.c
++++ b/drivers/thunderbolt/debugfs.c
+@@ -956,7 +956,9 @@ margining_error_counter_write(struct file *file, const char __user *user_buf,
+ 	else if (!strcmp(buf, "stop"))
+ 		error_counter = USB4_MARGIN_SW_ERROR_COUNTER_STOP;
+ 	else
+-		return -EINVAL;
++		goto err_free;
 +
- 	xhci->dcbaa.ctx_array =
- 		dma_alloc_coherent(dev, array_size(sizeof(*dcbaa->ctx_array), xhci->max_slots + 1),
- 				   &dcbaa->dma, flags);
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 14d7f866f220..6922cc5496c1 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -5457,7 +5457,7 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
- 	if (xhci->hci_version > 0x100)
- 		xhci->hcc_params2 = readl(&xhci->cap_regs->hcc_params2);
- 
--	xhci->max_slots = HCS_MAX_SLOTS(hcs_params1);
-+	xhci->max_slots = min(HCS_MAX_SLOTS(hcs_params1), MAX_HC_SLOTS);
- 	xhci->max_ports = min(HCS_MAX_PORTS(hcs_params1), MAX_HC_PORTS);
- 	/* xhci-plat or xhci-pci might have set max_interrupters already */
- 	if (!xhci->max_interrupters)
-@@ -5530,8 +5530,6 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
- 	init_completion(&xhci->cmd_ring_stop_completion);
- 	xhci_hcd_page_size(xhci);
- 
--	memset(xhci->devs, 0, MAX_HC_SLOTS * sizeof(*xhci->devs));
--
- 	/* Allocate xHCI data structures */
- 	retval = xhci_mem_init(xhci, GFP_KERNEL);
- 	if (retval)
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index cb80acac97d4..d02046a573e4 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -33,8 +33,11 @@
- /* xHCI PCI Configuration Registers */
- #define XHCI_SBRN_OFFSET	(0x60)
- 
--/* Max number of USB devices for any host controller - limit in section 6.1 */
--#define MAX_HC_SLOTS		256
-+/*
-+ * Max number of Devices Slots. xHCI specification section 5.3.3
-+ * Valid values are in the range of 1 to 255.
-+ */
-+#define MAX_HC_SLOTS		255
- /*
-  * Max Number of Ports. xHCI specification section 5.3.3
-  * Valid values are in the range of 1 to 255.
-@@ -1551,7 +1554,7 @@ struct xhci_hcd {
- 	/* these are not thread safe so use mutex */
- 	struct mutex mutex;
- 	/* Internal mirror of the HW's dcbaa */
--	struct xhci_virt_device	*devs[MAX_HC_SLOTS];
-+	struct xhci_virt_device	**devs;
- 	/* For keeping track of bandwidth domains per roothub. */
- 	struct xhci_root_port_bw_info	*rh_bw;
- 
--- 
-2.43.0
++	free_page((unsigned long)buf);
+
+ 	scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &tb->lock) {
+ 		if (!margining->software)
+@@ -966,6 +968,10 @@ margining_error_counter_write(struct file *file, const char __user *user_buf,
+ 	}
+
+ 	return count;
++
++err_free:
++	free_page((unsigned long)buf);
++	return -EINVAL;
+ }
+
+ static int margining_error_counter_show(struct seq_file *s, void *not_used)
+--
+2.50.1
 
