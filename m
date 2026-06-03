@@ -1,55 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49686408006
-	for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2026 09:12:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34CD637CD2A
+	for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2026 09:12:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780477924; cv=none; b=Tej0yDxODtoSLy1eWfbCG+qttCw2VxTi23KSKeHzVb+jbpeZxQJUxlJp2nNuAAknvMTauoLvLghaAi4L/HkizjcXUbzHRjBF8uQOEOLKxWLysdbRAZUO98tGlWVR8QhDYBOFkWYjQBf6toHgneT1YXnSZPhihnwHigabWnMsPQk=
+	t=1780477925; cv=none; b=u2j6OwtMf4OI+PIbxGlptv3An/batBrFNFwYwcwyRBvsYHpL6NMn8UzWVnJWd8/BkSraB3OBpUG+v6KLmmY3EE4S284PlCryou5flrVmJ+p7k5dsDtcwkt/LhAY12QFEXiUQituolNyO7LtzE4FT7ONh3YawDQBOUZAKTFyUr7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780477924; c=relaxed/simple;
-	bh=uEC3zoWXsWpBciowb4fYhDIycf5saVu54Yj7EXxCG+Q=;
+	s=arc-20240116; t=1780477925; c=relaxed/simple;
+	bh=+eI/6dVCA4j88bpanBqpsBduGKtgvdhBkMie72c4cG0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ruJMXPyqh/g4jIrIFl3wkpVsAz7JF6yh/FFg/BESAAzLyMKah7SUNWdmN1KBMsSW9r1GzRxrNwVMICw7O4bZfCAWD/iUSG5lUtSOz2LJUezgAXX+fX+lQx8X3fJhmiCW75rRR/OkzJ1XXEvYRFIdhrsIx/ovNJkGn9U2oVslju0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bE7MFk82; arc=none smtp.client-ip=192.198.163.10
+	 MIME-Version; b=Op02IIlaGvERkLFXFfEYT4h180bzYE+Nyorm9djcmkTWpvvmOOIdI/RQhjlBR1T6RUrnqCOzCo/c5Otdjv0Fkj3S94/Udik+9j/20N413nIqIE2kqFCTo/U0SyoacC+mZMpdwnKn5Kq+iJrwy3Sy0CDndA2UU/5GA8yaRiM6XRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0ew1DPf; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bE7MFk82"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0ew1DPf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780477923; x=1812013923;
+  t=1780477924; x=1812013924;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=uEC3zoWXsWpBciowb4fYhDIycf5saVu54Yj7EXxCG+Q=;
-  b=bE7MFk82UkCbUxg3ZL5lONRdZ4JWDHr198RBs3QQwTKRDVCMvZu2BLn+
-   ZAVObICZGSigxQeVM0uzIU8XPYn3zckpDhkcCd7hBjBi6biCgvKlhwVPT
-   WHupRYcikjQMxLcrV/lasZP8IPtc16TFZPDoQx+aloG7X1KpLBGiWhgHB
-   ky6iP/bjjSPJkcXtkM7vkurWlq2sRBNnvJ5oWzzIpwliyop2l/xFUar+4
-   BCKitHDntAjWtefVVRDk0tWkfr0DxHAJdddhozwxRTcBa2fpwpZYBPCtu
-   PhQCR+3EOpDwh6XllPefKM4tqJqbtkPh1O9nPAuHSIN+Uf35cBUNjZX0D
-   A==;
-X-CSE-ConnectionGUID: m7AjZDzYQNGZvwUtU3vXkA==
-X-CSE-MsgGUID: RMnescGiQsinT2A8QJd8ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92657572"
+  bh=+eI/6dVCA4j88bpanBqpsBduGKtgvdhBkMie72c4cG0=;
+  b=h0ew1DPfOb1w8igMielhaSvtG6litMah4QEG2FH86h9iYpHja4a8h/d2
+   rVMdztdYXj0Exaa5UNn6MnMQZbfSFLmmyVyYijdTCtrHD3w+MR6iYGhlF
+   AoruEpg4VBPmbi9ZWztSRDwvbEiPV5ZAh4zRTWqB76HKiCfbIJw5Xbktf
+   lAZP1IVutZrZnKzynnsPP864+sLFizToKDpPFXFbAzR2/VsWEsSIglwfn
+   58Fy+FkR5TEFWIAK+ZtB3d2/XV0XBWYXXO7636mFmF2mzpQP8D+R22WHe
+   cGxm9brOh1Xyyq9bnTYwkt1uiyHBwPP1pbIUO1Z8q0qJpu0+By5G1o3Ab
+   Q==;
+X-CSE-ConnectionGUID: DVLbE0hOS6qOUX8tAESBfA==
+X-CSE-MsgGUID: /OzWvwMMQeGQu/slGTOVSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92657581"
 X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="92657572"
+   d="scan'208";a="92657581"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:12:02 -0700
-X-CSE-ConnectionGUID: lz97T3zUS+uEkMITJsieCg==
-X-CSE-MsgGUID: DDpp3Bs9SiiROQHqN60QrQ==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:12:04 -0700
+X-CSE-ConnectionGUID: WvqDezfpTyiplbBaZ01kTg==
+X-CSE-MsgGUID: TKACcVVIT7uk1h99uS54fg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="244281967"
+   d="scan'208";a="244281987"
 Received: from slindbla-desk.ger.corp.intel.com (HELO mnyman-desk.intel.com) ([10.245.244.174])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:12:02 -0700
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:12:03 -0700
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 To: <gregkh@linuxfoundation.org>
 Cc: <linux-usb@vger.kernel.org>,
 	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 08/15] xhci: dbc: serialize enabling and disabling dbc
-Date: Wed,  3 Jun 2026 12:11:25 +0300
-Message-ID: <20260603091132.1110849-9-mathias.nyman@linux.intel.com>
+Subject: [PATCH 09/15] xhci: dbc: add helper to set and clear DbC DCE enable bit
+Date: Wed,  3 Jun 2026 12:11:26 +0300
+Message-ID: <20260603091132.1110849-10-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260603091132.1110849-1-mathias.nyman@linux.intel.com>
 References: <20260603091132.1110849-1-mathias.nyman@linux.intel.com>
@@ -61,197 +61,69 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-DbC can be enabled and disabled via sysfs, serialize those
-with a mutex to make sure everything is done in the correct
-order.
-
-remove xhci_do_dbc_stop() and integrate the register write and
-dbc->state setting into xhci_do_stop()
+Add xhci_dbc_enable_dce() helper to enable or disable DbC by manipulating
+DCE bit correctly. It will be used for stuck DbC recovery attempts in
+addition to normal DbC enable and disable functionality
 
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci-dbgcap.c | 66 ++++++++++++++++++++--------------
- drivers/usb/host/xhci-dbgcap.h |  1 +
- 2 files changed, 40 insertions(+), 27 deletions(-)
+ drivers/usb/host/xhci-dbgcap.c | 29 ++++++++++++++++++-----------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-dbgcap.c b/drivers/usb/host/xhci-dbgcap.c
-index 6a9f73fecb73..49ae546c4103 100644
+index 49ae546c4103..8cf0f0356bf1 100644
 --- a/drivers/usb/host/xhci-dbgcap.c
 +++ b/drivers/usb/host/xhci-dbgcap.c
-@@ -661,17 +661,6 @@ static int xhci_do_dbc_start(struct xhci_dbc *dbc)
- 	return 0;
+@@ -628,18 +628,30 @@ static void xhci_dbc_mem_cleanup(struct xhci_dbc *dbc)
+ 	dbc->ring_evt = NULL;
  }
  
--static int xhci_do_dbc_stop(struct xhci_dbc *dbc)
--{
--	if (dbc->state == DS_DISABLED)
--		return -EINVAL;
--
--	writel(0, &dbc->regs->control);
--	dbc->state = DS_DISABLED;
--
--	return 0;
--}
--
- static int xhci_dbc_start(struct xhci_dbc *dbc)
++static int xhci_dbc_enable_dce(struct xhci_dbc *dbc, bool enable)
++{
++	u32 done_state = 0;
++	u32 ctrl = 0;
++
++	if (enable) {
++		ctrl = readl(&dbc->regs->control);
++		ctrl |= DBC_CTRL_DBC_ENABLE | DBC_CTRL_PORT_ENABLE;
++		done_state =  DBC_CTRL_DBC_ENABLE;
++	}
++
++	writel(ctrl, &dbc->regs->control);
++	return xhci_handshake(&dbc->regs->control, DBC_CTRL_DBC_ENABLE,
++			      done_state, 1000);
++}
++
+ static int xhci_do_dbc_start(struct xhci_dbc *dbc)
  {
  	int			ret;
-@@ -683,29 +672,37 @@ static int xhci_dbc_start(struct xhci_dbc *dbc)
+-	u32			ctrl;
  
- 	spin_lock_irqsave(&dbc->lock, flags);
- 	ret = xhci_do_dbc_start(dbc);
-+	if (ret)
-+		goto err_unlock;
-+
- 	spin_unlock_irqrestore(&dbc->lock, flags);
- 
--	if (ret) {
--		pm_runtime_put(dbc->dev); /* note this was self.controller */
--		return ret;
--	}
-+	mod_delayed_work(system_percpu_wq, &dbc->event_work,
-+			 msecs_to_jiffies(dbc->poll_interval));
- 
--	return mod_delayed_work(system_percpu_wq, &dbc->event_work,
--				msecs_to_jiffies(dbc->poll_interval));
-+	return 0;
-+
-+err_unlock:
-+
-+	spin_unlock_irqrestore(&dbc->lock, flags);
-+	pm_runtime_put(dbc->dev); /* note this was self.controller */
-+
-+	return ret;
- }
- 
- static void xhci_dbc_stop(struct xhci_dbc *dbc)
- {
--	int ret;
- 	unsigned long		flags;
- 
- 	WARN_ON(!dbc);
- 
-+	spin_lock(&dbc->lock);
-+
- 	switch (dbc->state) {
- 	case DS_DISABLED:
-+		spin_unlock(&dbc->lock);
- 		return;
- 	case DS_CONFIGURED:
--		spin_lock(&dbc->lock);
- 		xhci_dbc_flush_requests(dbc);
- 		spin_unlock(&dbc->lock);
- 
-@@ -713,19 +710,20 @@ static void xhci_dbc_stop(struct xhci_dbc *dbc)
- 			dbc->driver->disconnect(dbc);
- 		break;
- 	default:
-+		spin_unlock(&dbc->lock);
- 		break;
- 	}
- 
- 	cancel_delayed_work_sync(&dbc->event_work);
- 
- 	spin_lock_irqsave(&dbc->lock, flags);
--	ret = xhci_do_dbc_stop(dbc);
-+	writel(0, &dbc->regs->control);
-+	dbc->state = DS_DISABLED;
- 	spin_unlock_irqrestore(&dbc->lock, flags);
--	if (ret)
--		return;
- 
- 	xhci_dbc_mem_cleanup(dbc);
--	pm_runtime_put_sync(dbc->dev); /* note, was self.controller */
-+
-+	pm_runtime_put(dbc->dev); /* note, was self.controller */
- }
- 
- static void
-@@ -1072,12 +1070,17 @@ static ssize_t dbc_store(struct device *dev,
- 	xhci = hcd_to_xhci(dev_get_drvdata(dev));
- 	dbc = xhci->dbc;
- 
--	if (sysfs_streq(buf, "enable"))
-+	if (sysfs_streq(buf, "enable")) {
-+		mutex_lock(&dbc->enable_mutex);
- 		xhci_dbc_start(dbc);
--	else if (sysfs_streq(buf, "disable"))
-+		mutex_unlock(&dbc->enable_mutex);
-+	} else if (sysfs_streq(buf, "disable")) {
-+		mutex_lock(&dbc->enable_mutex);
- 		xhci_dbc_stop(dbc);
--	else
-+		mutex_unlock(&dbc->enable_mutex);
-+	} else {
+ 	if (dbc->state != DS_DISABLED)
  		return -EINVAL;
-+	}
  
- 	return count;
- }
-@@ -1443,6 +1446,7 @@ xhci_alloc_dbc(struct device *dev, void __iomem *base, const struct dbc_driver *
- 
- 	INIT_DELAYED_WORK(&dbc->event_work, xhci_dbc_handle_events);
- 	spin_lock_init(&dbc->lock);
-+	mutex_init(&dbc->enable_mutex);
- 
- 	ret = sysfs_create_groups(&dev->kobj, dbc_dev_groups);
+-	writel(0, &dbc->regs->control);
+-	ret = xhci_handshake(&dbc->regs->control,
+-			     DBC_CTRL_DBC_ENABLE,
+-			     0, 1000);
++	ret = xhci_dbc_enable_dce(dbc, false);
  	if (ret)
-@@ -1460,8 +1464,9 @@ void xhci_dbc_remove(struct xhci_dbc *dbc)
- 	if (!dbc)
- 		return;
- 	/* stop hw, stop wq and call dbc->ops->stop() */
-+	mutex_lock(&dbc->enable_mutex);
- 	xhci_dbc_stop(dbc);
--
-+	mutex_unlock(&dbc->enable_mutex);
- 	/* remove sysfs files */
- 	sysfs_remove_groups(&dbc->dev->kobj, dbc_dev_groups);
+ 		return ret;
  
-@@ -1514,6 +1519,8 @@ int xhci_dbc_suspend(struct xhci_hcd *xhci)
- 	if (!dbc)
- 		return 0;
+@@ -647,12 +659,7 @@ static int xhci_do_dbc_start(struct xhci_dbc *dbc)
+ 	if (ret)
+ 		return ret;
  
-+	mutex_lock(&dbc->enable_mutex);
-+
- 	switch (dbc->state) {
- 	case DS_ENABLED:
- 	case DS_CONNECTED:
-@@ -1525,6 +1532,7 @@ int xhci_dbc_suspend(struct xhci_hcd *xhci)
- 	}
+-	ctrl = readl(&dbc->regs->control);
+-	writel(ctrl | DBC_CTRL_DBC_ENABLE | DBC_CTRL_PORT_ENABLE,
+-	       &dbc->regs->control);
+-	ret = xhci_handshake(&dbc->regs->control,
+-			     DBC_CTRL_DBC_ENABLE,
+-			     DBC_CTRL_DBC_ENABLE, 1000);
++	ret = xhci_dbc_enable_dce(dbc, true);
+ 	if (ret)
+ 		return ret;
  
- 	xhci_dbc_stop(dbc);
-+	mutex_unlock(&dbc->enable_mutex);
- 
- 	return 0;
- }
-@@ -1537,11 +1545,15 @@ int xhci_dbc_resume(struct xhci_hcd *xhci)
- 	if (!dbc)
- 		return 0;
- 
-+	mutex_lock(&dbc->enable_mutex);
-+
- 	if (dbc->resume_required) {
- 		dbc->resume_required = 0;
- 		xhci_dbc_start(dbc);
- 	}
- 
-+	mutex_unlock(&dbc->enable_mutex);
-+
- 	return ret;
- }
- #endif /* CONFIG_PM */
-diff --git a/drivers/usb/host/xhci-dbgcap.h b/drivers/usb/host/xhci-dbgcap.h
-index 20ae4e7617f2..f4c0169a1b4d 100644
---- a/drivers/usb/host/xhci-dbgcap.h
-+++ b/drivers/usb/host/xhci-dbgcap.h
-@@ -140,6 +140,7 @@ struct dbc_driver {
- 
- struct xhci_dbc {
- 	spinlock_t			lock;		/* device access */
-+	struct mutex			enable_mutex;
- 	struct device			*dev;
- 	struct xhci_hcd			*xhci;
- 	struct dbc_regs __iomem		*regs;
 -- 
 2.43.0
 
