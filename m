@@ -1,56 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160B23815D0
-	for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2026 09:11:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 341D137BE9C
+	for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2026 09:11:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780477916; cv=none; b=E1WYJDJxrKxez58mm7mnesTj+9EnT6M/fSs/RDr4AIzJDHZ1WCYLmOMhbVLLa0szX2+yBS3PWncxA9rsxy5nJV3ePztixvLecxnpZkZSG6HDzqGEthO3oe3VkRpeVhNf5GPmd4e9+q3BiOr+lgWRV5SvvNesxtHBhdMPjYQSZRQ=
+	t=1780477918; cv=none; b=FXXHBZIYiNpQHfUfJE0CHeY8eNHN9IF0uec6pM6aYGtDa5xupbwLGDvqgxOsyizDoCkMciGC9aogfTvbr6ucgMyKnogOGuFshrnB8e9zpnknsjSAORkyeHwXt37MZ5B8+OFdUx00DfPO4XIA7eUkf5qi3RgNewrsxg5c3J7hULA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780477916; c=relaxed/simple;
-	bh=Ljc2ehxtPDPBX+zuOeRUkj0uhNKAgopNDmjKdRgg/AM=;
+	s=arc-20240116; t=1780477918; c=relaxed/simple;
+	bh=pXhwQziFQhaFo8j1iNrLi1mQL98P99zifhqjYoHxxQU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rY+/n2HiHTfDESUz+K3hpphE0mbOJyeYIs55fyvSf/yGWf9Tk7A55gSFEqVqqgAWL4UJdYpUU5+n7eW8qnFrCr36F8cunCMZ4mZ/e/G/ERSt5rg3exqcZJXb811FCK3tYKs4uMSVJyVm1J8IWbHELloJanm4TySozS1UmEJSyRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z4PMRtYZ; arc=none smtp.client-ip=192.198.163.10
+	 MIME-Version; b=R9oezZ3OWLDvbNjmCY7Xf9fuZWOyVfLWbTs1S712tG64E8IyEChy0dSrJ4BirTrA9cN59AVpaVAnawfdoBkTv2hOIdn0TGJfEeL3PTWzNVw+8AVwiMADTB/2G25zsoo+Qy5Y5yoib7BYT6X/XvOj5JTFE7xWn8VyAwmfATvXDM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAHB4+Kw; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z4PMRtYZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAHB4+Kw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780477915; x=1812013915;
+  t=1780477917; x=1812013917;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Ljc2ehxtPDPBX+zuOeRUkj0uhNKAgopNDmjKdRgg/AM=;
-  b=Z4PMRtYZctz6OBfIsL13/BN4O2Y/3K487lrHNgltxjhr/2JqxkM6gCKO
-   ZGPw8akiJfwaN3KS00ONvdbd8gRe+AoXotIbIjZkqrsaU5giS45mbcZ7F
-   VzHiyHGouuxQs0tS0N2q5lPQsEO48cXENk6vZOz3MdiH4nS968uV7cytm
-   eM6Lxtqc2POslvY5x2t6hVFZ74LunWeaaaH1/AkAUgGqw9pjhJyb6u8Wu
-   noxJQV1vhdwz4dAJrufvj14BEBBD8bT+8DYqfKIwwdgnoBlBEfd284QyR
-   WV4uY6gxcmRwGBVhTRM5RLuM9b16xXwyil7Ir1Icya4YT+BguJWgx5J/G
-   A==;
-X-CSE-ConnectionGUID: 7UTcds+pTkW70FTTU2gMNQ==
-X-CSE-MsgGUID: YhrjC4PNSkSo5PYg6U6Z7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92657530"
+  bh=pXhwQziFQhaFo8j1iNrLi1mQL98P99zifhqjYoHxxQU=;
+  b=bAHB4+KwuBBbxpix0qeJuZdxOltNi42ddsn4r/5UQD59cfz+8I/TxrpM
+   6YKFtv6cBqWsXpEtuKRmgJgnv/kDHwC5M2t35hBeXpMDZxxaRzGEtOKEk
+   tMYBVF3urqxLjoniJIxEvEd/66TN+n/63MpqqZvgeFZCnnVeC7f+bcmOm
+   mTZ7s6r+dnwIvsFOh9BqiYROIfIDwxLHsRfUp+Z5Zi0oxNtHK/axFq29j
+   wjGNts+W3oprtw+f/dDReYg65FTXl3g281Bpx7Tg616RkRaKG3+59MU5v
+   YTxZgiYQMw4sX9vd5g90Pn1TF+Raavw1GoHEjNoqftZUpw2F1ZqwFGOx/
+   w==;
+X-CSE-ConnectionGUID: uuj9+lguSNeQWdylrMwgpg==
+X-CSE-MsgGUID: oQIvBqhLQBGSWdg1/7/TIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92657538"
 X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="92657530"
+   d="scan'208";a="92657538"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:11:55 -0700
-X-CSE-ConnectionGUID: zlDTvfgzT9KqPLlzO1oTfw==
-X-CSE-MsgGUID: EWxzVEqIRF63gFtH1XazCg==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:11:56 -0700
+X-CSE-ConnectionGUID: baGHbZ/ARWunobJLVjarXw==
+X-CSE-MsgGUID: wLlfbGC8S1CsI1Gjw0LZgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="244281807"
+   d="scan'208";a="244281830"
 Received: from slindbla-desk.ger.corp.intel.com (HELO mnyman-desk.intel.com) ([10.245.244.174])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:11:54 -0700
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:11:55 -0700
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 To: <gregkh@linuxfoundation.org>
 Cc: <linux-usb@vger.kernel.org>,
 	Michal Pecio <michal.pecio@gmail.com>,
 	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 03/15] usb: xhci: Simplify xhci_quiesce()
-Date: Wed,  3 Jun 2026 12:11:20 +0300
-Message-ID: <20260603091132.1110849-4-mathias.nyman@linux.intel.com>
+Subject: [PATCH 04/15] usb: xhci: Remove skip_isoc_td()
+Date: Wed,  3 Jun 2026 12:11:21 +0300
+Message-ID: <20260603091132.1110849-5-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260603091132.1110849-1-mathias.nyman@linux.intel.com>
 References: <20260603091132.1110849-1-mathias.nyman@linux.intel.com>
@@ -64,53 +64,67 @@ Content-Transfer-Encoding: 8bit
 
 From: Michal Pecio <michal.pecio@gmail.com>
 
-The function reads USBCMD, clears some bits and writes it back.
-Its treatment of the Run bit is weird: the bit is usually written
-as 0, as we would expect, but it may also be written as 1 if both
-its current value and USBSTS.HCHalted are observed as 1.
+This function is pointless because usb_submit_urb() initializes all
+isoc frame descriptors to -EXDEV and 0 length so that HCDs don't need
+to do anything with transfers which were never executed.
 
-Per xHCI 5.4.2, HCHalted is 0 whenever Run is 1, so the above can
-only happen due to buggy HW or SW, e.g. concurrent xhci_quiesce()
-and xhci_start() execution.
+Other HCDs rely on this (e.g. EHCI itd_complete()), so we can too.
+This gets rid of a potentially dangereous function which could corrupt
+memory if we weren't super careful to only call it on isoc URBs.
 
-It's unclear why we should treat such cases specially and write
-the bit as 1. The logic comes from original PoC implementation
-and has never been explained. Just write 0 every time, which
-looks like the safer choice when the intent is to stop the xHC.
-
-We could get in trouble if clearing Run causes some very broken
-xHC to start running after it was halted, but no such case has
-been documented. It seems the logic was just poorly thought out.
+Also, set status to 0 rather than any random status determined by the
+later TD which caused skipping. This status will be ignored anyway.
 
 Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ drivers/usb/host/xhci-ring.c | 26 +++++---------------------
+ 1 file changed, 5 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index a54f5b57f205..0bf0446b4c87 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -102,17 +102,10 @@ int xhci_handshake(void __iomem *ptr, u32 mask, u32 done, u64 timeout_us)
-  */
- void xhci_quiesce(struct xhci_hcd *xhci)
- {
--	u32 halted;
- 	u32 cmd;
--	u32 mask;
--
--	mask = ~(XHCI_IRQS);
--	halted = readl(&xhci->op_regs->status) & STS_HALT;
--	if (!halted)
--		mask &= ~CMD_RUN;
- 
- 	cmd = readl(&xhci->op_regs->command);
--	cmd &= mask;
-+	cmd &= ~(CMD_RUN | XHCI_IRQS);
- 	writel(cmd, &xhci->op_regs->command);
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index f62db238276d..1fbf43a51037 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2492,26 +2492,6 @@ static void process_isoc_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 	finish_td(xhci, ep, ep_ring, td, trb_comp_code);
  }
  
+-static void skip_isoc_td(struct xhci_hcd *xhci, struct xhci_td *td,
+-			 struct xhci_virt_ep *ep, int status)
+-{
+-	struct urb_priv *urb_priv;
+-	struct usb_iso_packet_descriptor *frame;
+-	int idx;
+-
+-	urb_priv = td->urb->hcpriv;
+-	idx = urb_priv->num_tds_done;
+-	frame = &td->urb->iso_frame_desc[idx];
+-
+-	/* The transfer is partly done. */
+-	frame->status = -EXDEV;
+-
+-	/* calc actual length */
+-	frame->actual_length = 0;
+-
+-	xhci_dequeue_td(xhci, td, ep->ring, status);
+-}
+-
+ /*
+  * Process bulk and interrupt tds, update urb status and actual_length.
+  */
+@@ -2854,7 +2834,11 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 				if (trb_comp_code == COMP_STOPPED_LENGTH_INVALID)
+ 					return 0;
+ 
+-				skip_isoc_td(xhci, td, ep, status);
++				/*
++				 * TD was missed, skip it. Core already initialized frame->status
++				 * to -EXDEV and frame->actual_length to 0, nothing more to do.
++				 */
++				xhci_dequeue_td(xhci, td, ep_ring, 0);
+ 
+ 				if (!list_empty(&ep_ring->td_list)) {
+ 					if (ring_xrun_event) {
 -- 
 2.43.0
 
