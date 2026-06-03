@@ -1,55 +1,55 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8514A408006
-	for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2026 09:12:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3ABD37F8DF
+	for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2026 09:12:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780477926; cv=none; b=l4PFvO4KNx2Kuz170SJM38wAT5SX4yZeLBW70En10CIn+PLMLd2yQdAyr7RDA1gPvSL62Zxf70O4bB7Auc27fKmOHvv52hKyuEZydZZWfMFUAO2LwJ5OBfyka7ZM52NZTjhSXsZ73UWaKuoJIYInSdbFABItN4dBedrn3iwRf/Q=
+	t=1780477928; cv=none; b=EgC3cIScUNVDM1Jg6EZdRgktnupTyknMqAQnNwtvN5ZjEtNJZdGhtiqCF2/RNBLAwmB/Nl45ZQSwTelNMzq8tP6D4sJ6fgkiqlLgrXUmXYwrEYc1YJuXwpAbaGpcAEOh6cKjMufQ/YKOj9Du+IML33K7kJbn9AUaozLjGBYaMto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780477926; c=relaxed/simple;
-	bh=m9uytlbodDLxKLXfy6yJTugmAFts7sSijwJvzXLHU8Y=;
+	s=arc-20240116; t=1780477928; c=relaxed/simple;
+	bh=Kkw8jBlu/7GinRagJeh88Fn0zPYz0c5tXq0s4Ihr020=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T10M8bptvurv1n4/1NHnYKLre9+3kWej58dcfPgSFewBU5c1JoyEMhfdpYuF6qwLnRUeokaioajrWhG4ao3wzGFcKDlF+ILj5C0idNAIflk1/lkBewtBoWJiq4aX7jj9/oZn5pzGu4DJB63XuVrhf1mCLSWpSEA0gi2IanC1LsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SZSUbUkM; arc=none smtp.client-ip=192.198.163.10
+	 MIME-Version:Content-Type; b=dEa5YH/l2no3LuFaKrZoCR2iTHset91yL7mU9Kr8IJPcCJt7yo0aG8eYfJg6/JZinmaZSMQfXd+y5f+/DyK51Mxw+LLKPAs2UD/IFgpdMKn62rHfbD6Moek6y3ygKgu4chy8Mof+oDy6K00VqTb/MC417nHLw7SM2qo7dAgZ694=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XGs5oK5o; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SZSUbUkM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XGs5oK5o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780477925; x=1812013925;
+  t=1780477927; x=1812013927;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=m9uytlbodDLxKLXfy6yJTugmAFts7sSijwJvzXLHU8Y=;
-  b=SZSUbUkM2VWJPPNVZvruL8WOIcrwIDdLIX1t4thWSRYHs5phgDIOtlsD
-   1L5A9sVcd5lgURNqgr2HrbIqmjvN6zcIY0bpYYzKiq+UgmUlFm9rdPyVH
-   XfWDFrLj5AWOa3C2mQe+swizX4yzmimDsgUYYKCPxd3dUltZuAUcCJ7gC
-   exxKaOwHqYSXty+BACbj8fR3TFgK8TZmbymzUT66kSuOvACKbmJMiEkMf
-   mgUcfqYcgXSyOayRnpuVA8AoaTS2OPt7NBvDN8G+aowyoNJF20lKwTytm
-   6Uej9OTE3hb9UgJA6p9De1dfkDpVXq7GkP3FjEf9R+TVwCoPCt/jjRefz
-   w==;
-X-CSE-ConnectionGUID: 69s9tnXLQT6OQXsVNwhU3w==
-X-CSE-MsgGUID: +b/BVQzjTl+1JgoEnP314A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92657589"
+  bh=Kkw8jBlu/7GinRagJeh88Fn0zPYz0c5tXq0s4Ihr020=;
+  b=XGs5oK5o2XwbAKZ5Sc/IrzU1AWoysYC4EjkyRnXEC7WTWRYM6XKxL2Hn
+   uotFkf639CY/Az8mwZFwxto6AxEhlpIePUXTmmvdfSmB8Gm88H1741LSY
+   tAU10bNCHoFI+Tmg6NRi7WfjoTSXC15241RN6LAFGX1x/voZHwZ28s5i9
+   nWEYxNlRCah47kCTFankTeUcep9Tp/vchUgsZ1XpHBk0KSIoTrIGYc9NU
+   L/gLcYIjkUS674vCJNgl4TGWxb7Tjh8lHAlq9oIZPwwCDhM3M2XrCe5lx
+   Q43IQQQOxBFtYHhgs4H0YJEg1PJ9gYtp9JyR8EzDFqD2qJKxVnXYXsg0D
+   Q==;
+X-CSE-ConnectionGUID: wm0xW0JmTCaHKQ+LsU+ntw==
+X-CSE-MsgGUID: fcRRPEJhS16UtHtRsZfJHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92657595"
 X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="92657589"
+   d="scan'208";a="92657595"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:12:05 -0700
-X-CSE-ConnectionGUID: iIHUi5UbQh6f/9RdtdXHlg==
-X-CSE-MsgGUID: mJBscu8XT/ufBEyqNGH4Dg==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:12:06 -0700
+X-CSE-ConnectionGUID: uLnMGEUBSjqTYYjjkcEXlg==
+X-CSE-MsgGUID: /TnEDYlQTjCAIaNPVhTTvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
-   d="scan'208";a="244281990"
+   d="scan'208";a="244281998"
 Received: from slindbla-desk.ger.corp.intel.com (HELO mnyman-desk.intel.com) ([10.245.244.174])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:12:05 -0700
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 02:12:06 -0700
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 To: <gregkh@linuxfoundation.org>
 Cc: <linux-usb@vger.kernel.org>,
 	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 10/15] xhci: dbc: add timestamps to DbC state changes in a new helper.
-Date: Wed,  3 Jun 2026 12:11:27 +0300
-Message-ID: <20260603091132.1110849-11-mathias.nyman@linux.intel.com>
+Subject: [PATCH 11/15] xhci: dbc: detect and recover hung DbC during enumeraton
+Date: Wed,  3 Jun 2026 12:11:28 +0300
+Message-ID: <20260603091132.1110849-12-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260603091132.1110849-1-mathias.nyman@linux.intel.com>
 References: <20260603091132.1110849-1-mathias.nyman@linux.intel.com>
@@ -59,102 +59,93 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The timestamp helps us track when a state changed the last time.
-It allows us to detect if DbC is stuck in connected state for too long,
-and can later be used to enable runtime suspend if there is no activity
-for some time
+Add a timeout between the detection of the debug host connection and
+the DbC Run transition to ‘1’. Toggle the DCE bit to re-enable DbC in
+order to retry the debug device enumeration process if the DbC run
+transition takes too long.
+
+Set the timeout to 2 seconds
+
+See xhci specification section 7.6.4.1 "Debug Capability Initialization"
+
+Also detect cable disconnect during enable and connected state.
 
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci-dbgcap.c | 18 ++++++++++++------
+ drivers/usb/host/xhci-dbgcap.c | 28 +++++++++++++++++++++++++++-
  drivers/usb/host/xhci-dbgcap.h |  1 +
- 2 files changed, 13 insertions(+), 6 deletions(-)
+ 2 files changed, 28 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/host/xhci-dbgcap.c b/drivers/usb/host/xhci-dbgcap.c
-index 8cf0f0356bf1..34441ffa5e15 100644
+index 34441ffa5e15..b1cabf5582fa 100644
 --- a/drivers/usb/host/xhci-dbgcap.c
 +++ b/drivers/usb/host/xhci-dbgcap.c
-@@ -644,6 +644,12 @@ static int xhci_dbc_enable_dce(struct xhci_dbc *dbc, bool enable)
- 			      done_state, 1000);
- }
- 
-+static void xhci_dbc_set_state(struct xhci_dbc *dbc, enum dbc_state new_state)
-+{
-+	dbc->state_timestamp = jiffies;
-+	dbc->state = new_state;
-+}
-+
- static int xhci_do_dbc_start(struct xhci_dbc *dbc)
- {
- 	int			ret;
-@@ -663,7 +669,7 @@ static int xhci_do_dbc_start(struct xhci_dbc *dbc)
- 	if (ret)
- 		return ret;
- 
--	dbc->state = DS_ENABLED;
-+	xhci_dbc_set_state(dbc, DS_ENABLED);
- 
- 	return 0;
- }
-@@ -725,7 +731,7 @@ static void xhci_dbc_stop(struct xhci_dbc *dbc)
- 
- 	spin_lock_irqsave(&dbc->lock, flags);
- 	writel(0, &dbc->regs->control);
--	dbc->state = DS_DISABLED;
-+	xhci_dbc_set_state(dbc, DS_DISABLED);
- 	spin_unlock_irqrestore(&dbc->lock, flags);
- 
- 	xhci_dbc_mem_cleanup(dbc);
-@@ -896,7 +902,7 @@ static enum evtreturn xhci_dbc_do_handle_events(struct xhci_dbc *dbc)
+@@ -901,23 +901,49 @@ static enum evtreturn xhci_dbc_do_handle_events(struct xhci_dbc *dbc)
+ 		return EVT_ERR;
  	case DS_ENABLED:
  		portsc = readl(&dbc->regs->portsc);
++		ctrl = readl(&dbc->regs->control);
++
  		if (portsc & DBC_PORTSC_CONN_STATUS) {
--			dbc->state = DS_CONNECTED;
-+			xhci_dbc_set_state(dbc, DS_CONNECTED);
+ 			xhci_dbc_set_state(dbc, DS_CONNECTED);
  			dev_info(dbc->dev, "DbC connected\n");
++		} else if (!(ctrl & DBC_CTRL_DBC_ENABLE)) {
++			dev_err(dbc->dev, "unexpected DbC disable, xHC reset?\n");
  		}
  
-@@ -904,7 +910,7 @@ static enum evtreturn xhci_dbc_do_handle_events(struct xhci_dbc *dbc)
+ 		return EVT_DONE;
  	case DS_CONNECTED:
  		ctrl = readl(&dbc->regs->control);
++		portsc = readl(&dbc->regs->portsc);
  		if (ctrl & DBC_CTRL_DBC_RUN) {
--			dbc->state = DS_CONFIGURED;
-+			xhci_dbc_set_state(dbc, DS_CONFIGURED);
+ 			xhci_dbc_set_state(dbc, DS_CONFIGURED);
  			dev_info(dbc->dev, "DbC configured\n");
- 			portsc = readl(&dbc->regs->portsc);
+-			portsc = readl(&dbc->regs->portsc);
  			writel(portsc, &dbc->regs->portsc);
-@@ -919,7 +925,7 @@ static enum evtreturn xhci_dbc_do_handle_events(struct xhci_dbc *dbc)
- 		if (!(portsc & DBC_PORTSC_PORT_ENABLED) &&
- 		    !(portsc & DBC_PORTSC_CONN_STATUS)) {
- 			dev_info(dbc->dev, "DbC cable unplugged\n");
--			dbc->state = DS_ENABLED;
+ 			ret = EVT_GSER;
+ 			break;
+ 		}
+ 
++		/* Connection lost */
++		if (!(portsc & DBC_PORTSC_CONN_STATUS)) {
++			/* covers DCE == 0 as it also sets CONN_STATUS to 0 */
++			dev_warn(dbc->dev, "DbC connection lost mid enumeration\n");
 +			xhci_dbc_set_state(dbc, DS_ENABLED);
- 			xhci_dbc_flush_requests(dbc);
- 			xhci_dbc_reinit_ep_rings(dbc);
- 			return EVT_DISC;
-@@ -929,7 +935,7 @@ static enum evtreturn xhci_dbc_do_handle_events(struct xhci_dbc *dbc)
- 		if (portsc & DBC_PORTSC_RESET_CHANGE) {
- 			dev_info(dbc->dev, "DbC port reset\n");
- 			writel(portsc, &dbc->regs->portsc);
--			dbc->state = DS_ENABLED;
++
++			return EVT_DONE;
++		}
++
++		/* Enumeration timeout */
++		if (time_is_before_jiffies(dbc->state_timestamp +
++				msecs_to_jiffies(DBC_ENUMERATION_TIMEOUT))) {
++			dev_err(dbc->dev, "DbC enumeration timeout, re-enabling DbC\n");
++			dev_dbg(dbc->dev, "dcctrl %x, dcportsc %x\n", ctrl, portsc);
++
++			/* Toggle DCE to retry enumeration */
++			ret = xhci_dbc_enable_dce(dbc, false);
++			udelay(100);
++			ret = xhci_dbc_enable_dce(dbc, true);
 +			xhci_dbc_set_state(dbc, DS_ENABLED);
- 			xhci_dbc_flush_requests(dbc);
- 			xhci_dbc_reinit_ep_rings(dbc);
- 			return EVT_DISC;
++		}
++
+ 		return EVT_DONE;
+ 	case DS_CONFIGURED:
+ 		/* Handle cable unplug event: */
 diff --git a/drivers/usb/host/xhci-dbgcap.h b/drivers/usb/host/xhci-dbgcap.h
-index f4c0169a1b4d..b3efea43a6be 100644
+index b3efea43a6be..df7aca8bfe99 100644
 --- a/drivers/usb/host/xhci-dbgcap.h
 +++ b/drivers/usb/host/xhci-dbgcap.h
-@@ -163,6 +163,7 @@ struct xhci_dbc {
- 	struct delayed_work		event_work;
- 	unsigned int			poll_interval;	/* ms */
- 	unsigned long			xfer_timestamp;
-+	unsigned long			state_timestamp;
- 	unsigned			resume_required:1;
- 	struct dbc_ep			eps[2];
- 
+@@ -113,6 +113,7 @@ struct dbc_ep {
+ #define DBC_POLL_INTERVAL_DEFAULT	64	/* milliseconds */
+ #define DBC_POLL_INTERVAL_MAX		5000	/* milliseconds */
+ #define DBC_XFER_INACTIVITY_TIMEOUT	10	/* milliseconds */
++#define DBC_ENUMERATION_TIMEOUT		2000	/* milliseconds */
+ /*
+  * Private structure for DbC hardware state:
+  */
 -- 
 2.43.0
 
