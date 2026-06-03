@@ -1,113 +1,117 @@
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailer241.gate86.rs.smtp.com (mailer241.gate86.rs.smtp.com [74.91.86.241])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708E028F948
-	for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2026 11:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BFA397AEF
+	for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2026 12:29:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.91.86.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780486616; cv=none; b=sm19p46/QWGFHoJ+1qPrhJRIc+KJuvUaKOnvYQ+NxizGGgcfFyTUl6ONSxACUGuBTSCslQjd10KIcU6eAO7dUqvlueygFWSVxiioE6ekyyXGheVSmpcnD7kfj8N8gM/LHXaA+VQSYBllyHF0nPQRNt/WUQP1Ejfzaa/hw3nJ3qA=
+	t=1780489793; cv=none; b=Lbo9KK2NBcdBzzSLyYMocBDXzlk3onX26u0HfZWT+K+DRbn4u0cdYhjlRVhw6PIe92IbdJLvsNk+1GN2zN9yG6cP1JBp00E+/QyQDeUxQKYvFAf+xjgrIcnoJSecqJlFK75iMdqwOZQx3Qey6babUjmkS04sQsqHiWgkqU7dbD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780486616; c=relaxed/simple;
-	bh=eVVpjat/onGdYwFwM9z/fcRVTssS1K9TnMFHu8K+1AE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Gam8mfrtWskZvFJwQYu+LO2HM+gPH9jYaqYWAKSt/+hpSlZK4waZ0OHS7qPIh4yzzixj9p4J6t+aUKbJkhLEpfc9JfEiUDcVZTqoBlvxQb9RB4WJ9guQzZ9161OG9pi8o/NBFh+PjyKbplTsI9mSn+2VqFiPoyqpxt08X5TCpcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SVWLrXm9; arc=none smtp.client-ip=209.85.221.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780489793; c=relaxed/simple;
+	bh=qTPbYkiOMspqG6VSxSHXCGcz+MklfLABEK6/0TNXX5s=;
+	h=From:Subject:To:Content-Type:Date:Message-Id; b=pCiepXbcbltlP3QOt2xQmCXPw5Dq/SEVeJnwXggEMzWb2dJ/8t0J8Zw4VFVcTmQFFwd7iscmBZv1mLdHaELalDs9CjoMlyt5doNpd3FId5k2nrtgH3oDK67jybN8aQgmCatVmM9XKZTaYyb+dPwipfvHvU1aLFQWd/434J/m3Tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=computergamingpc.com; spf=fail smtp.mailfrom=computergamingpc.com; dkim=pass (2048-bit key) header.d=computergamingpc.com header.i=@computergamingpc.com header.b=i1Wo9pxg; dkim=pass (2048-bit key) header.d=smtpmessage.com header.i=@smtpmessage.com header.b=lmS8bKxm; arc=none smtp.client-ip=74.91.86.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=computergamingpc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=computergamingpc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SVWLrXm9"
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-59bbe027424so4155036e0c.3
-        for <linux-usb@vger.kernel.org>; Wed, 03 Jun 2026 04:36:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780486614; x=1781091414; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FbSeHI2/IWIY7jYjmNlVHQbRjzH6dm0md1w7ZleWjRg=;
-        b=SVWLrXm9Za5wEXXplUrS0WHSuQ+ZUJ4fk0PHPSlHKOIPZ/kQuYl5hndek0GMcNWtD9
-         OkfOWkDKCcRUxvqGomnR+eP1n1guMZGi4AezeqOp09VHytDu7hRAvh0r+9vChydhY8eQ
-         OUISfcuJnxm4MRUOOmqVPwl9ja8qKlW6d5VzYJfqX+HN7fZpr8Tyrn8ckTsbh2UkQqQe
-         isCTcu5nBbAlKUlyIT2cKbo4tmc9/SzvnHJlg2FWk/HVdoEfuvuUp+NnC5SsN3NOXeD4
-         NTUBcZ+ncJPjRG8sSa5U+ficYCGvX9IzAOOo/ndmSb6UqEJW0EBzR2YKujIz8clBzctz
-         FmTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780486614; x=1781091414;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FbSeHI2/IWIY7jYjmNlVHQbRjzH6dm0md1w7ZleWjRg=;
-        b=JZYA6FuOa/gTc4rlc3GJGgAgisn/kFVN43IR/odPacxMHf8CoZSnL9UQZ9Z0ncHEiD
-         /x0h6SeEQuyA67U8OK0dBWaZR9TTzYL+zZuA/jicAf8ASPAd/rQz5HwwJT8M5fr8srW+
-         gd26P9XNNl/d9CqfsfE/+TjCxEV2C7iBJ8x3M989i6LKh6TV9MCTEeC0elLThphR0rUU
-         m0h8Hw/4g1IzlLsIeW1EDnT8gwClQMpTKoXd+AoVKCDbMrjw20rOUFq+YX5zUzLTkef/
-         /ouJDg/NnY6MfQIgtya88wkS1tAlZZMwEK0O92mXu2cBHIXkL7p1/eetQ36zcEAf9LPu
-         Yp+Q==
-X-Gm-Message-State: AOJu0Yw5alkR94zgd5cuXXyVsNKVGIkojqKLR8q3Kp6JglBiqes5JHVd
-	NrK639Jen0CWkRSmp2F+xO+MdS30z11qqIbYNmrvS/cK9BZFLPUvlDc+
-X-Gm-Gg: Acq92OHwDXS9y8rIaj1woMlhlrPdE+fLdNOUWKcReU9qUrIs13EaQRck/BS5N4DafLe
-	p0pF3oP71foI4iUJX3uYvJtwgTWlEnClaKP5Hd7tn8hSD745GGmyzMV5FBYDTbutMelGvS6behF
-	HUvMOR50jI3PZ8FJShNoFiRTX9SaKvZ/0WaXYGNuo2owMKGcADrP+M2SvIInyM1bNxcBeER/jqE
-	HrL5wlUgOANv3r44EJfbtxcU7zeXZHu1fFJKi/04ajBusu1c/Lk8qZZXid1ATuIAnRpOtSx2aqb
-	RltBlyuPHErgYFrnVfuCJmdSHiBn5Pi+yZcZDRP2L6TX+gVNqWrZvDytF4WN9bDbMCkj2n/+9/J
-	x56VHbp/N9WSDXia7eKWdGYrH2NkiajM4Si4eVpsHwp7vj+7aYRPfTaqsHRhRA4Lgu4dU7nsdH7
-	Q9qwqBojqbNNM624OHo9t89NG8qTIzPYbqsgsred2HKqlAQxdvBU8Xm2cnGjdyiB06aiDk8DeWP
-	8Dr
-X-Received: by 2002:a05:6122:e14e:b0:5a0:3d17:f939 with SMTP id 71dfb90a1353d-5a6e7e57815mr1618377e0c.9.1780486614555;
-        Wed, 03 Jun 2026 04:36:54 -0700 (PDT)
-Received: from lugathe ([2804:13c:4617:4c00:2c1b:7c0a:e342:3a7e])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5a6dd501a90sm2108219e0c.17.2026.06.03.04.36.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 04:36:53 -0700 (PDT)
-From: =?UTF-8?q?Rodrigo=20Lugathe=20da=20Concei=C3=A7=C3=A3o=20Alves?= <lugathe2@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	=?UTF-8?q?Rodrigo=20Lugathe=20da=20Concei=C3=A7=C3=A3o=20Alves?= <lugathe2@gmail.com>
-Subject: [PATCH] USB: core: add USB_QUIRK_NO_LPM for VIA Labs USB 2.0 hub
-Date: Wed,  3 Jun 2026 08:36:26 -0300
-Message-ID: <20260603113626.395612-1-lugathe2@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=computergamingpc.com header.i=@computergamingpc.com header.b="i1Wo9pxg";
+	dkim=pass (2048-bit key) header.d=smtpmessage.com header.i=@smtpmessage.com header.b="lmS8bKxm"
+X-Report-Abuse: SMTP.com is an email service provider. Our abuse team cares
+ about your feedback. Please contact abuse@smtp.com for further investigation.
+Received: from [10.0.16.72] (unknown [10.138.12.189])
+	by mtl-mta02-out1 (Halon) with ESMTP
+	id 68885df5-f5df-4e2f-9df9-9d493bf91302;
+	Wed, 03 Jun 2026 12:09:45 +0000 (UTC)
+Received: Received from 10.138.12.155 by Caffeine
+ (s0-aws-app2-swarm-manager-1) with SMTP id
+ 96e7bd73-c8e6-4364-ac63-61e736d14eb2  for linux-usb@vger.kernel.org;
+  Wed, 03 Jun 2026 12:09:19 +0000 (UTC)
+Feedback-ID: 9194450:SMTPCOM
+Received: from ObaTech (unknown [189.124.144.90])
+	by s0-aws-app2-mta-in-1 (Halon) with ESMTPSA
+	id 96e7bd73-c8e6-4364-ac63-61e736d14eb2;
+	Wed, 03 Jun 2026 12:09:19 +0000 (UTC)
+From: "Computer Gaming pc" <sales@computergamingpc.com>
+Subject: =?UTF-8?B?QXZhaWxhYmxlIEludmVudG9yeSDigJMgSVQgSGFyZHdhcmUg?=
+ =?UTF-8?B?JiBDb21wb25lbnRzIChVU0Ep?=
+To: <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Reply-To: <sales@computergamingpc.com>
+Date: Wed, 3 Jun 2026 13:09:19 +0100
+Priority: urgent
+X-Priority: 1
+Importance: high
+Message-Id: <03192026060913CB31C7C73C$AE7FFACE46@computergamingpc.com>
+X-SMTPCOM-Sender-ID: 9194450
+X-SMTPCOM-Tracking-Number: 96e7bd73-c8e6-4364-ac63-61e736d14eb2
+X-SMTPCOM-Message-ID: be75acc2-4a49-4b74-a409-dd2c08e6851e
+X-SMTPCOM-Payload: 
+ w1FKZ-UxYQvE2C0u_7DVOvbnNewm9X_fVaM2-WtDz9Y9s416y98PKz3C2javoCpneddCI2Zk5LM9qB9q97qQaZ3GOhpjF3B4q-_SbtAReARWCEvlKDPY9wZ_ZCHw7A6fC1gmzycatoxjwg0NdUtPQtcLKrJNa1oJxFqmfsOcQkM3sIZUm2dwl7AsNE_UqaS8
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=computergamingpc.com; i=@computergamingpc.com; q=dns/txt; s=smtpkey;
+ t=1780488576; h=feedback-id : from : subject : to : content-type :
+ content-transfer-encoding : reply-to : date : message-id :
+ list-unsubscribe : list-unsubscribe-post : from : subject : to : date;
+ bh=qTPbYkiOMspqG6VSxSHXCGcz+MklfLABEK6/0TNXX5s=;
+ b=i1Wo9pxgzeh6eC2NG6bhctNGF/qc83WRcaO/4LQOUo6P87y9Lng+UB8FRZ4iF8Jj8myCV
+ wkHR1C/YV0N1zGErt9qt2ZJnSv8c68sbwPd9cnfkQuwuDN+JRt8LsZ2kaZtLy7zA/uuPY62
+ io9EX2tThLAhkVvthd6C0m0ougC9r5Y8mKx4IHfLvc19N8LJInutFkksg8Khe4vrb0BWU/E
+ ti4b8HPfMbDkUh2MGbp+Q0PmcdxEE12ocgrue6ZTQUN2hOer0bggo3SRxquS9auyEWg2wMu
+ Z6bZtHTqnB/ETr/c2a6j2ssWMD8IPUNxwneJtWhInOQZ+USa9fLyMRFL5KVw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=smtpmessage.com;
+ i=@smtpmessage.com; q=dns/txt; s=smtpcustomer; t=1780488576;
+ h=feedback-id : from : subject : to : content-type :
+ content-transfer-encoding : reply-to : date : message-id :
+ list-unsubscribe : list-unsubscribe-post : from : subject : to : date;
+ bh=qTPbYkiOMspqG6VSxSHXCGcz+MklfLABEK6/0TNXX5s=;
+ b=lmS8bKxmUXhaMR415zzkGfepDk0yP+kRiqhI6DVzgptOcsMSv9QhpxtJKjDLAPM6kVeZx
+ WIC3mAmC5vkCxfpm//Uw5SKDEkypjNtx64YewkotQmj0rFnQ2pU9K2CMKmfKQU24yuBQf9B
+ PWKatIoQBYGlviz/o8Fwc619J8CHC76ohWua7XG5xpdg+17RQIQNFBkGMISOuOACEArYmVE
+ 7/4t+fxSoEKv/DRSUCKsMIYCDCSU+QQQJDg6w7u1Sm0mCIl8Q23p0hbwR0hfQiML8IapaPD
+ ztSHyd5pK8gDbjKnvkGCqdTZJsIq7oix2G0PSeMzP9IumpztX11Fufb6LaSA==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-The VIA Labs, Inc. USB 2.0 hub controller (2109:2817), 
-found in a KVM switch, fails to enumerate high-power devices during 
-cold boot and system restart. 
+Hi,
+Quick update — these units are in stock and can ship today:
 
-Applying the kernel parameter 
-  usbcore.quirks=2109:2817:k 
-resolves the issue. 
+Memory Modules
+* 32GB 2Rx4 PC4-2400T (Qty: 1,500) – $14.00
+* 32GB 2Rx4 PC4-3200AA (Qty: 1,500) – $15.00
+* 16GB 2Rx8 PC4-3200AA (Qty: 1,500) – $10.00
+* 128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM (Qty: 980) – $70.00
+* 32GB Dual Rank x4 DDR4-2933 CAS-21 (Qty: 1,500) – $140.00
+* 64GB Dual Rank x4 DDR4-2933 CAS-21 (Qty: 1,200) – $450.00
+* 32GB Dual Rank x4 DDR4-3200 CAS-22 (Qty: 1,500) – $150.00
+* 64GB Dual Rank x4 DDR4-3200 CAS-22 (Qty: 1,100) – $450.00
 
-Enumeration failure log: 
-  usb 1-1.2.3: device descriptor read/64, error -32 
-  usb 1-1.2.3: Device not responding to setup address. 
-  usb 1-1.2.3: device not accepting address 11, error -71 
-  usb 1-1.2-port3: unable to enumerate USB device 
+Solid State Drives
+- SSD SATA 6G 3.84TB SFF (Qty: 450) – $120.00
+- SSD SAS 12G 960GB SFF (Qty: 470) – $300.00
+- SSD SAS 12G 1.92TB SFF (Qty: 560) – $350.00
+- SSD SAS 12G 3.84TB SFF (Qty: 560) – $150.00
+- SSD SATA 6G 1.92TB SFF (Qty: 450) – $100.00
+* 32GB 2Rx4 PC4-2400T (Qty: 1,500) – $14.00
+* 32GB 2Rx4 PC4-3200AA (Qty: 1,500) – $15.00
+* 16GB 2Rx8 PC4-3200AA (Qty: 1,500) – $10.00
+* 128GB 4DRx4 DDR4 PC4-2933Y REG ECC LRDIMM (Qty: 980) – $70.00
 
-Add USB_QUIRK_NO_LPM for this device.
+- DDR5 64GB 4800Mhz ECC RDimm 2Rx4 P43331-B21 (Qty: 500) – $550.00
+- DDR5 64GB 5600Mhz ECC RDimm 2Rx4 P64707-B21 (Qty: 500) – $550.00
+- DDR4 64GB 3200Mhz ECC RDimm 2Rx4 SK Hynix (Qty: 500) – $450.00
+- DDR5 64GB 4800Mhz ECC RDimm 2Rx4 Samsung (Qty: 500) – $450.00
+- DDR5 64GB 5600Mhz ECC RDimm 2Rx4 SK Hynix (Qty: 500) – $550.00
 
-Signed-off-by: Rodrigo Lugathe da Conceição Alves <lugathe2@gmail.com>
----
- drivers/usb/core/quirks.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index 87810eff974e..a72c8cdf9777 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -576,6 +576,9 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	/* VLI disk */
- 	{ USB_DEVICE(0x2109, 0x0711), .driver_info = USB_QUIRK_NO_LPM },
- 
-+	/* VIA Labs, Inc. USB2.0 Hub */
-+	{ USB_DEVICE(0x2109, 0x2817), .driver_info = USB_QUIRK_NO_LPM },
-+
- 	/* Raydium Touchscreen */
- 	{ USB_DEVICE(0x2386, 0x3114), .driver_info = USB_QUIRK_NO_LPM },
- 
--- 
-2.54.0
-
+For quotes, availability, or inspection scheduling, please reach out 
+directly:
+sales@computergamingpc.com
+Call or WhatsApp: +1(774) 559-1248 | +1 (641)232-4364
+Thank you for your continued partnership.
+Ann Kamila
+Computer Gaming PC Trading
+2500 US-6, Iowa City, IA 52240, USA
