@@ -1,110 +1,220 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201E83F54DF;
-	Wed,  3 Jun 2026 06:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780467998; cv=none; b=frafJxjkFd+xvNvnEa2u9EHhxMk+2IDDyk2KQhA4x1RLmBfkrL6yI7boehSZ7L910GtiNu0nClTQzqRFQpArTkU7ccFdA7u27bg49tKchqnTIVg38Q9/PvYIEb0FEpIrIT6rmC25so+2xtjogg/rp1fwvhCr00n7GYZgM7FBlRA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780467998; c=relaxed/simple;
-	bh=uOIpSSc8b36xaSoY2ngJEpGOpJsetToDYXDjTAtE1fA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GPM7FJ02id/Y+T+BU8qNwfgjzonGbuk4Crds2xsld0BIktdesXtU0fw0nIl8XJZX0x/V3/f+8cVxh0NnZD2I3bA0ceghakK0fKSUhmR3vroMm+TUFEajwoJso2QGJ48kRghIAInfqOiVdHNaKQ5uHPnSRNuJZWyA0ujat+ufjPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=WzKi+E0o; arc=none smtp.client-ip=54.207.22.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888283955E4
+	for <linux-usb@vger.kernel.org>; Wed,  3 Jun 2026 06:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780469735; cv=pass; b=Kdpcf6xUC8RK78LxMgNC5Rqc22SJQojByrK3652b4oJFaN70yJZ8suXSwFD8OKzKfWMI3b3yCRMfo3yNtHXoNIYRhA/krhCsl/ikT+fLukxfjq3Y/hizpk05cFg0YLa/9ky18JyrF6nPwNnWAqmV3lqiTLGZRO3ReV4ndeDujn0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780469735; c=relaxed/simple;
+	bh=eMVHxMtbHCbUYEX8FNbdji2LBuN1ycDKpUMu2gGLVv0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hETIuGLq95UCqh5yf+GjwmTZBr+sC7k6khOoYvAT0Ti3+B2B1sCeTRRI9a/iZYoY8JfBWGmAA8fW7RV+h7V3EgSk1lHW5zkkc3n9PXqhmv5X7A9V++AfW9zK5WXRbq3o8ayEQo2SuGxg1EncD8LXITZgZ92KDG89j1zM/BYxEs0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Pg+unfsQ; arc=pass smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="WzKi+E0o"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1780467944;
-	bh=ebyoMTlPwiuTqytkHNBSCWGwbd7KHLsifEoVS9wk7Pk=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=WzKi+E0oNH9QuAE5NN1uix+4k8D6TEpBZ8M0rm8v3uLaKpFep9gHumAt1KIrEWzEi
-	 DuU4CkLiYI2W+jsrWi8mg6wqlYfieG3Vsk4DDGk/mKBtySIUAMNswU4c7ALS1/sy9C
-	 5pct8eIh1uk5uZiPpMHD0cwqr2mRa8jrjAHtAka8=
-X-QQ-mid: zesmtpgz6t1780467939tc3dbb76d
-X-QQ-Originating-IP: 0BplI3d2Iw2wPEiNHtUqVRljn4G593hAtdmUKb9R1NI=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 03 Jun 2026 14:25:37 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 15624957994155008164
-EX-QQ-RecipientCnt: 10
-From: raoxu <raoxu@uniontech.com>
-To: gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	mathias.nyman@linux.intel.com,
-	katieeliu@tencent.com,
-	johannes.bruederl@gmail.com,
-	raoxu@uniontech.com,
-	kees@kernel.org,
-	dengjie03@kylinos.cn,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: core: config: fix SS companion log for interrupt endpoints
-Date: Wed,  3 Jun 2026 14:25:35 +0800
-Message-ID: <85BCDBC1F65453B0+20260603062536.517734-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Pg+unfsQ"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-3967717c951so43916781fa.1
+        for <linux-usb@vger.kernel.org>; Tue, 02 Jun 2026 23:55:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780469732; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BLwzqIvxzBEx90DFwqymi/5NKRxx9NvDxeC9SJCujDDNlUzKvlQ4cW+O6PjIVtBJKn
+         4xMknoL+Z1HSUnHaK2ISgk0Vjmp94qw58emlaB6abpGx7PLC5PpB4Nu8co5hGF2N/xWF
+         Nd7HgqkFF5fb57ESSH+MmvxhWU+kngrCogERAmU+jOsbHDwYbHzGX1yoNYfmzm3n8O/4
+         x9BxCv3isg/7wzn9MEDAPU/HPT/gEZU7XImmaIEE6dAhL9wI8Aw+zV7nUSTuDbubcDO7
+         xnYuuPIX9gvzhn8HeMfLrTVBE7RItd9IX03Jct3aAB8AXzr/miXRvAIX9pqbVC8wL0rk
+         oLig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=eMVHxMtbHCbUYEX8FNbdji2LBuN1ycDKpUMu2gGLVv0=;
+        fh=pfB1BBpEN6dLKZRyloRZYP4CQqtgiivEoZVhxXBg0U8=;
+        b=es7dKLzrFJ6wiXqfv/PbeCoEhqWkehWmPK9IvPeKx8vNBJG0pi31y65JNzKyXvBIJR
+         yhSH60nRVhXeBbPStoegD6Qw29ktAxmL0tadXnHJGbQllJIFEPOPYpho2mjRjeTzx1t/
+         Ws8wg1HIEwXpQKzaiEdNkXkW8ZgDok/yjkrp0vwOvwD0fDyq+THLhNKLF1uhF0VHG8PN
+         BQU+rFAQK1u/abM8fdV7tSoMPmluq6Dp7eD9FeNmkGO2dpri3Nu+FTnxM4OQ3ifTYl/Q
+         YasnHVxb7/2cnz6TQB/u0laiSbgQfK8a5fSnzIkgj7Bq3wmcQqyOxSx758MefwEce6Iy
+         3eQg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1780469732; x=1781074532; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eMVHxMtbHCbUYEX8FNbdji2LBuN1ycDKpUMu2gGLVv0=;
+        b=Pg+unfsQIf2JKznDDrA5Wrd5+atGJSPKJv8JIxcNffuJnkxZBXq3v2zvCRrtJB8p8n
+         +DfPkluAPxFERGqdqRbCR/fJS0wagwDtEHXYCe8zNfxOObu93K2ulx6phcP84DimehJo
+         6vUPOq+AUez28slv12ZkQ3e2t9q5Bj6+QUIFk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780469732; x=1781074532;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=eMVHxMtbHCbUYEX8FNbdji2LBuN1ycDKpUMu2gGLVv0=;
+        b=dCHzbKw9ULoXLah98H7yVAk72iGDJKgCgRVTRb/J4r+zQc9gFlNvpi0rK30M2Ox3l4
+         jjtklmlFnj2GdKo/drrA5haqjcSqfq78InZGorDv2Ljnm28sB5b51/dcRamN1IBHOIhd
+         exvWQIY5qSiymTSMfDOWSkohi2zdcxrt70vMMQSEdpX65WO5WBxcdZzNrtBcvcFjb85q
+         bsagfv6aYnU/IFmEaJzxwlRpiTwGZbEETXkA2NrE/oHpeBwi6TO7qWaR0TDgnzh6+wyf
+         Rvr9VB2CZr13yreOSqrumkZDaFuWCwHFR9ELWaR97FrAQgnTSYMOI/Y5Ed2tPg7V8qi4
+         T/vQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8p9Trn6lt/BK7XnIbjGKAh+5a/lbX2qm86qzVqxbxTy/kb4Xb4S/PeSHdYH9EQiH39UHPsJFvbJgg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxLHUDl2s/UpcB9auE180GjgZU5AEw3yPJml0P04NnxiBw38eU
+	GTsSgNZJRY6vX9i30uAjPvkSAaLYg/9cn54xj2e5GXrmUtxGwowHNi821mf+6P9pdmgOwI21ybe
+	wsTSnVpSbVX8yeEzCSihXspb2hx+xl0UGohe6WVp+
+X-Gm-Gg: Acq92OGOszNgo0O5go5laGjBsoJgfuZifeX29weXtRJ3qn1JYnUzu/RRKMfVY26nc4/
+	6qxHmC3IZgj+FlIXNrmp3sHOhSEIy6D/A+J+Cv4VVJVN8C2SFvHinJQoyYHUfvWydgI6LIIk36L
+	y1+1MkCcBZrfB97CnF8hGvI5SS32xyfxaxRx5oItkcpDGjDqVaBnSCAmbaqNH2EIdg7BSl8KWBl
+	ON4QkfyT6RUhS+gscmTgYopLJITppjNsuNRCEopzq0va+AZZnWf3LeiTwzOpSi8OkM+I1R0GzwZ
+	Ob03Oe9sBjKvtBsXOfTKU1XQxKn+a45gRNOhL7zxqXARoElD
+X-Received: by 2002:a05:6512:2310:b0:5aa:5f81:51cc with SMTP id
+ 2adb3069b0e04-5aa7bfd939emr598153e87.0.1780469731666; Tue, 02 Jun 2026
+ 23:55:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: ObMUpol0MB3oJ0qr4l/GCIcVdLbDy7go3QYv+zqSdrXieELNgp2Df3Kv
-	4EDMdXydKQ/dC8yyzRv1JCbvJK/znBtLQpeIXOnIOZ75KUMXqfjP+gBqM2NYoSHxs3+l46c
-	BvjJdYID0RI7aAoANMBj1ETJCtpJgMYJ0pNxsx1AQLuNbMoP1JVv6PzO7GJxy69hgM0np4w
-	2ZHZLmRzfZ6yYGlbCkWF0TeAkOSuqSGb3srw8hOH8NaAyO9lMjM9LJG9H5gI9vHQ5B3RO8h
-	UyJiQyei8nqePnW6H2OCRBZgxBKywlG9nJR+on0rc9ooSiVqeZCp+4nuxhUy3H3VPiEdOFn
-	s1V6mR+zl92XHpLChlBc0Xla0g8cou25tEhum7d0Pi+r+VHlYjOH+IjaFfCg8R67Nyg4Oj1
-	Zjs0P7Kq071zCGZ8kahikS54+pOvlCXVDjYZh1MQV4tMd65xOHJmLvLuGwiBBWy7dxBJlR4
-	cOKg07/0YVStA/TNtuOY12PLo0Q7A+NQy93Ensvlzv9shCzFJk4McRdFjNDP62n4O5Iramr
-	8Cz5C89Lhpe/McKgEnQXE8wrEHaKghUthXCUHuolEDvGDkppi7VtdVnMvpuclT/Tj38mtXX
-	2jfD4mKxfGj1GKjh9F2R5vrfXerZ0++utMHDF//bUvHZALMNltkIsZANfTGOByFryWeoH5W
-	KxzVgJ+ngCPBiWWqLB1o19Ab42mEFWS6bgsI5Ib1SmRIBoMykLhpfo236Dm0sJzxesiCSNc
-	KRhCJ5Ho5Z2KxBl8QUmWoIK1gs71dQx3btVkNNmtzmFWJQZFYuzxFOfWlbJ/mx5TRefmL40
-	1Yg6LwkGQMiHeyRLWPYJmnbgZ9UQ7zOXr8vvQK7FxHIOyTsww9hbnV26vqwvD6hrKVcor6V
-	gwDBY+xcNdlFq3CQZC5d26y6/9aUYx/JZnzuxK1fZ50STq/HD4ls5y/E51uSHPXPuzpp6KT
-	I8RvoIzpj1eOLE2stXi8M4Skv0vIYzQY+ISSFvW2H0hboj3CkY44QwYuvSHgPHdafPxIknn
-	bucFkBzyRzDX9+Cz0kZjEEkIdCutUf6ZVB2UuxavLt3Mp7GqWE
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-X-QQ-RECHKSPAM: 0
+References: <20260515090149.3169406-1-wenst@chromium.org> <CAMRc=MdnjRRMVzxPkkrPhQ4dz7rsK8-HKUp9cQ0z11apL3escQ@mail.gmail.com>
+ <CAGXv+5HC3dqgcE3KnKzakHHWFHB6m_X42orOkNUvZvp=SL_O8g@mail.gmail.com>
+ <CAMRc=Med-_0GSYzoFBRiwFzBCK0DZqJD8_SEBxi+zwR20GS-HA@mail.gmail.com>
+ <CAGXv+5GbW0bx3nKdZt2+tHuHyQ-J-1-Z79nMzHAwjmEPGKT02A@mail.gmail.com> <CAMRc=McADm0F4bwhj5qoigfUT-AV6CVpo+FAaqoBnZ3PrjBc7Q@mail.gmail.com>
+In-Reply-To: <CAMRc=McADm0F4bwhj5qoigfUT-AV6CVpo+FAaqoBnZ3PrjBc7Q@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 3 Jun 2026 14:55:20 +0800
+X-Gm-Features: AVHnY4LlLDHphsEQE3sATrymTCUnapNz7ZFd_5P8UcLWbDeGGfHP5mUv-LY1yqE
+Message-ID: <CAGXv+5FhUuV_0fdOMDowffA-1jtUoNOcxZSZE-pd_T4V5Qg3Jg@mail.gmail.com>
+Subject: Re: [PATCH RFC 00/12] arm64: mediatek: Add M.2 E-key slot on Chromebooks
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-pm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Xu Rao <raoxu@uniontech.com>
+On Thu, May 28, 2026 at 4:33=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.or=
+g> wrote:
+>
+> On Wed, 27 May 2026 18:21:00 +0200, Chen-Yu Tsai <wenst@chromium.org> sai=
+d:
+> > On Tue, May 26, 2026 at 11:48=E2=80=AFAM Bartosz Golaszewski <brgl@kern=
+el.org> wrote:
+> >>
+> >> On Sun, May 24, 2026 at 10:06=E2=80=AFAM Chen-Yu Tsai <wenst@chromium.=
+org> wrote:
+> >> >
+> >> > > >
+> >> > > > I expect some discussion on this patch, because a) it adds some
+> >> > > > OF-specific code into an otherwise generic (core) driver, and
+> >> > > > b) it doesn't yet handle USB 2.0 / 3.x shared ports; it ends up =
+powering
+> >> > > > on the port twice, which negates the port reset part.
+> >> > > >
+> >> > >
+> >> > > I understand that you do this because the port device has no OF no=
+de
+> >> > > assigned. If we wanted to call pwrseq_get() for the port device, i=
+s
+> >> > > there really no other way to associate it with the correct pwrseq
+> >> > > provider?
+> >> >
+> >> > I suppose we could tie the "port@X" node to the usb port device, but
+> >> > AFAIK no other subsystem does this so we would be introducing a new
+> >> > pattern.
+> >> >
+> >> > In the M.2 pwrseq driver, we would have to match by port node instea=
+d
+> >> > of its parent device node. We may end up with different behavior for
+> >> > the USB target vs the other targets.
+> >> >
+> >>
+> >> I imagine, we can check the bus type of the parent device to know if
+> >> this is USB?
+> >
+> > The "bus type" type is probably not exported. However since the DT bind=
+ing
+> > explicitly says which port on the M.2 slot is for which connection type=
+,
+> > I think the matching can do a special case check for the USB port.
+> > The next obstacle is that the target string is not given to the provide=
+r
+> > match function.
+> >
+> >> > Also, the "port@X" nodes only exist for the OF graph connections to
+> >> > connectors and/or muxes (this series doesn't deal with the latter).
+> >> > For directly connected devices, there is a "device@X" child node
+> >> > directly under the USB hub node. That node is what gets tied to the
+> >> > the USB device.
+> >> >
+> >>
+> >> Is this a problem? I don't think I understand what you're saying here.
+> >
+> > It shouldn't be. I'm just saying there would be different behavior on
+> > the USB side for connectors vs onboard devices (like hubs) device nodes=
+.
+> >
+> > I talked to Greg earlier, and he said not to touch the hub driver; the
+> > hub driver should only deal with features from the USB spec. The
+> > "onboard USB devices" driver is what should be used. And this would
+> > be a proper case of adding an auxiliary device to the M.2 slot driver.
+> >
+>
+> The onboard USB device is what initially inspired the PCI pwrctl code so =
+it
+> doesn't surprise me we circle back to it.
+>
+> > However this seems to completely decouple the power sequencing from the
+> > USB core. Take the USB A connector for example, it was recently added t=
+o
+> > the onboard USB devices driver. However the connector has a device node
+> > that is not a child node of any USB host controller or hub; it is conne=
+cted
+> > through OF graph. At the same time, since it typically sits at the top
+> > level of the device tree, a platform device is directly created and the
+> > driver subsequently binds to that device. This is totally different fro=
+m
+> > how the hub and other directly connected onboard USB devices work. In
+> > the onboard device case, the device node is a child node of the USB hub
+> > or controller, and the corresponding platform device only gets created
+> > when the USB hub driver probes, thereby sort of tying it into the USB
+> > device topology.
+> >
+>
+> Which is precisely what we do for PCI pwrctl. Though I'm not sure how we =
+could
+> replicate this behavior without touching the hub driver.
+>
+> > If the power sequencing ends up not connected to the USB subsystem, the=
+n
+> > maybe the M.2 slot driver could just check if the USB port (port@3) was
+> > used, and just enable the USB / BT pwrseq target at probe time? That
+> > would mean less changes needed.
+> >
+>
+> That sounds sane to me.
 
-usb_parse_ss_endpoint_companion() clears bmAttributes when it is
-non-zero for control or interrupt endpoints.
+Mani seems to be against this idea though, since as I mentioned it decouple=
+s
+the timing of the power sequencing from the USB subsystem completely.
 
-The diagnostic message reports Control for control endpoints and Bulk
-for the other branch. However, the other branch can only be an
-interrupt endpoint because bulk endpoints are handled by the following
-else-if branch.
+Ideally we want them to be linked.
 
-Report the endpoint type as Interrupt instead of Bulk to avoid
-misleading descriptor diagnostics.
+So I will take a stab at option one for now, incorporating changes you
+requested:
 
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
----
- drivers/usb/core/config.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+- Drop the pwrseq API change
+- Use the firmware node API instead of the OF API
+- Tie the usb_port device to the "port@N" node
 
-diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-index 417140b012bb..7ab27c371e0e 100644
---- a/drivers/usb/core/config.c
-+++ b/drivers/usb/core/config.c
-@@ -160,7 +160,7 @@ static void usb_parse_ss_endpoint_companion(struct device *ddev, int cfgno,
- 		dev_notice(ddev, "%s endpoint with bmAttributes = %d in "
- 				"config %d interface %d altsetting %d ep %d: "
- 				"setting to zero\n",
--				usb_endpoint_xfer_control(&ep->desc) ? "Control" : "Bulk",
-+				usb_endpoint_xfer_control(&ep->desc) ? "Control" : "Interrupt",
- 				desc->bmAttributes,
- 				cfgno, inum, asnum, ep->desc.bEndpointAddress);
- 		ep->ss_ep_comp.bmAttributes = 0;
---
-2.50.1
+And we'll see how the USB folks like or dislike it.
 
+
+Thanks
+ChenYu
