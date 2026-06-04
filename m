@@ -1,87 +1,237 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 264C53A383C;
-	Thu,  4 Jun 2026 10:52:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54707404894
+	for <linux-usb@vger.kernel.org>; Thu,  4 Jun 2026 10:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780570348; cv=none; b=rJZl6clvyZr/euF/woHjbo7+k1N5S8RK1gpnm3TgI7imTQ/j3saLcWitHVCRtz0MXuUfTnD5op0ln3/+C0ZopkypEhUdogfTBq5wQa++CJNzTiHsN1epIm28VYlVj/+gs3p4imLfUg1bxfyqhw7A6YNzSqfPXzksJc5w8TulqH0=
+	t=1780570412; cv=none; b=YzBPkrfqU5Opl6nL6ULCLYZoXGiK1xpADR7j2I+yOoxtvWJuIGNZ7TlmE3GS3detWXHBOKgiUjeLno+f1ck9zNMj+RQE3DT3mnE8k3FDCES95wY9Ny+CtQWpf1kt5y1iCgcE2Qmh1bz5VyTEMpANh1DxfXCu0UcfAYI6vg1FcFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780570348; c=relaxed/simple;
-	bh=tjIIZ54mVaWVTbYr6ZcmKvMoZ61vg/mdhqD1hHL3Fsk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VqQRHNqqSY1ZxrRLWTpd+aPo7qAOUMLam2Rb2KYYhqYkfnrWhlJLGQKifnw/YM/JTs1YAdLDaWPYADwoiDtNpu9wIHSSFMGenij4VZFY9qy6n6QjuOTslhNugVqQVi5k2kPAc4TEiV5lM+wfqFdtUS6BFHmpAhLyGlMiaig/aKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=XpTsxzhE; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1780570412; c=relaxed/simple;
+	bh=rQbE2/K5cC11sw9Gz/Yi0nqDDiKiMBEtBcOa7txfpbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LITqdtDFcoZxbKSFw3ehNXt+pTDL5cio7JAnzk1XNNAipYoUAJFO+d+Vj0A9ii138XK5iABHmb/Cyzx6O6YPTfTCtCRW65GGWl6qrZAXYeYVHPlmGMpAb/GdQwFDyth7zvQi7P5F7HRopXD84JptRB+iz2K6O680u1tHuSlf9Dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eqhv5EWt; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="XpTsxzhE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=KR
-	K+iY8NCsd2VE0DHhBFKTX0BgXAwVQ4fPEG3XeL5vY=; b=XpTsxzhEjnlCQ3+C7e
-	vldeH5mEmxKjBj6bUSvNzy27sEZnG9Q6f/1bv/oP96Z0ydDytKVfylReMgMnsSfz
-	TOhxUokfzkM3LbKHSN0dM8Giw5se8iyynnH0gJZDedraZljO3CQ3mYxXTsErton2
-	zzeQsd7PjVq3EmVw047+JUZTg=
-Received: from ProDesk-480.. (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgCXb6WbWCFq1Zt2AQ--.48206S2;
-	Thu, 04 Jun 2026 18:51:34 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: gregkh@linuxfoundation.org
-Cc: badhri@google.com,
-	heikki.krogerus@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Andy Yan <andyshrk@163.com>
-Subject: [PATCH] usb: typec: tcpm: Fix VDM type for Enter Mode commands
-Date: Thu,  4 Jun 2026 18:50:24 +0800
-Message-ID: <20260604105059.18750-1-andyshrk@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eqhv5EWt"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b7866869so6842275e9.2
+        for <linux-usb@vger.kernel.org>; Thu, 04 Jun 2026 03:53:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780570410; x=1781175210; darn=vger.kernel.org;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=eglE9PA9+6Xkx8bGIrhpNjQyUVo7dwzDlxN/Gks3lUw=;
+        b=Eqhv5EWtB6NrrDcMJdiKTu6jaAJK4rJjVxc1ArISzZsaP25TNhCwIkOeU8cEpYZrHa
+         rJXGzkRCYguNQg5RLrr9I108gFZAoNu8/W8lvYOFdpZZgcVXeaT1sVlyH7G85I7M7PmJ
+         RYSSWsJ3bWPTXqOhqvJWiRqUF6pW4hm7AJd7LnwyZPHSlxaM6/5YufH5HdnoCRj5eQbb
+         6qd/dxWFnmbQ0hE0436Yo+iwmSIVbClsGPh4OLnqIIDqk6FPv4fRPt090V2wPRFnKUUS
+         QpxWV6YIqlK7WtV/dwFuIz3xr5JUsfbb5tgOnmw1WbCOVI1QeU5hhVoR0PQfiEMhscHx
+         HycA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780570410; x=1781175210;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eglE9PA9+6Xkx8bGIrhpNjQyUVo7dwzDlxN/Gks3lUw=;
+        b=jongestqwcOc+isPeIUX6mkQyPG4JRHLJEGAG+P/2BePXZlD0kKnHDba4Rfy4UEzIt
+         mAQWBkr5sZyW6y+pIuYDdyYJKlq3VKF+HzTl1W2Ojse4jJhOryvZw4DI6VGP40CO5D41
+         839kvcHoBxivOz8Z1iEkak08LnE2i3dJTXIxgaHHTBnxgI8ncDazrbOOqmw38BfmfVB/
+         0EAX2zkl0x0wBxPavqYox112AhKsr47AuMWnZvLQoQ2ZrGt1GMyKysSppnSwBo+UX0Du
+         JTeMBtJwpUEU9awvis5X2BxpwHi/y3PVT59E5tod+QAzPZ8BR/0IjDm7iyh4Hejw60uX
+         oKrQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9ubz7jzRAEQq1tuVOrWi9eCjWLYpVae+4KxCbkkOipj8b0UetIt8LoQIwBWzRCd6eCKiaORDVjRa0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdiGmxRIwaCrLPAHuG2ZfBbApwAKOyFzaZm7GLFvyC6m5gDfjA
+	oIPcZaaSoBY7bTTb4A5mkQL2z/ISq+DeW32YDiSDUH63O4OkJctRjm1V
+X-Gm-Gg: Acq92OG8VJqDc8SxPxQlxAgKq8gRQ73OMyUQIlHHuh6fa6MpKBccYBhBXLuC6WoVd9G
+	fIbWUGDLrS3+jOVbcnglZPtarBM5sN2F6EQYqHfEdbspZsgm3liboFpNTilb0uXJpwPV3JxKE/0
+	RG3WQwIaBvQxANaay7Fmba8jdR1SjnFATADQIsXJdbTzilZzDFSM2V6B00kOOCba8uutS1s3/r6
+	t1G+kiQ3KQv+XTifNrpHNB8vqHb6lwTjojxSLkAocAU0jy0mA9cY+uclRIp6bUpooeQAPPAKjMa
+	5f85i5DoTqpsg2HvQGxk6iGdI0Cj0m8MsA09buEa2D9bO3WHVvZ3mfYEAN8+PbnX4+Um1ZNo2FK
+	tqfCvOX94CGEnogFlHW6WMvIy13Pb+pxjJs/ItlJfTfCPsxdn4GW3d5BfDZgR//N+3McHBEk4JD
+	tL4Ob0gX4JWAcLQ3vwEVWuKlOC1HbvWzhJXux35M48DIUD+g==
+X-Received: by 2002:a05:600c:8b86:b0:490:b58b:a8cb with SMTP id 5b1f17b1804b1-490b60f87a7mr127355645e9.26.1780570409362;
+        Thu, 04 Jun 2026 03:53:29 -0700 (PDT)
+Received: from foxbook (bfe246.neoplus.adsl.tpnet.pl. [83.28.42.246])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b7a273e3sm99005195e9.0.2026.06.04.03.53.27
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Thu, 04 Jun 2026 03:53:29 -0700 (PDT)
+Date: Thu, 4 Jun 2026 12:53:23 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Nikhil Solanke <nikhilsolanke5@gmail.com>, linux-usb@vger.kernel.org,
+ gregkh@linuxfoundation.org, mathias.nyman@linux.intel.com,
+ sakari.ailus@linux.intel.com, katieeliu@tencent.com,
+ johannes.bruederl@gmail.com, kees@kernel.org, dengjie03@kylinos.cn,
+ limiao@kylinos.cn, wse@tuxedocomputers.com, dev@a1rm4x.com,
+ vahnenko2003@gmail.com, cs@tuxedo.de, lijiayi@kylinos.cn, oneukum@suse.com,
+ bence98@sch.bme.hu, eeodqql09@gmail.com
+Subject: Re: USB: Request for guidance investigating configuration
+ descriptor enumeration failure
+Message-ID: <20260604125323.1bcb40d7.michal.pecio@gmail.com>
+In-Reply-To: <49acc9dd-9d2e-4a37-9b41-de5e16445461@rowland.harvard.edu>
+References: <CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com>
+	<20260531101612.332151d8.michal.pecio@gmail.com>
+	<CAFgddhLGHvTmRxWtguXTpgZV_Mq5ZW=CVK_ZkqbOgUF9Y5bCsA@mail.gmail.com>
+	<20260531123843.736bd69a.michal.pecio@gmail.com>
+	<3b79ba92-1c51-420b-a5d2-8a358cafdbf6@rowland.harvard.edu>
+	<20260601084846.433bfc51.michal.pecio@gmail.com>
+	<CAFgddh+dLnR=AuAU65sxqsxAgqLYX9i0OiX3Ys_sPH+YeZuHVw@mail.gmail.com>
+	<20260602193047.5fe03b8d.michal.pecio@gmail.com>
+	<49acc9dd-9d2e-4a37-9b41-de5e16445461@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgCXb6WbWCFq1Zt2AQ--.48206S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7CF4UZry8Kr48Gr1furW5Awb_yoW8Xry3p3
-	y7WrWUK34xKFW3Za4xJr1j9Fs8ZwsrtrZFgFWYg3sIkF12grW5W348Jw15CFy3Za13X3yY
-	qrWayF15CFW8Jr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piX18kUUUUU=
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbCxhYmhGohWLaikwAA3m
+Content-Type: multipart/mixed; boundary="MP_/J_+W5d8+=_KeC1t/W.C+tvk"
 
-VDO() second parameter is VDM type (bit 15): 1 for SVDM, 0 for UVDM.
-Using 'vdo ? 2 : 1' corrupts SVID low bit when vdo is non-NULL
-(2 << 15 = BIT(16)). Enter Mode is always SVDM, hardcode to 1.
+--MP_/J_+W5d8+=_KeC1t/W.C+tvk
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Fixes: 8face9aa57c8 ("usb: typec: Add parameter for the VDO to typec_altmode_enter()")
-Signed-off-by: Andy Yan <andyshrk@163.com>
----
+On Wed, 3 Jun 2026 22:02:44 -0400, Alan Stern wrote:
+> I used a bus analyzer to capture what happens when Windows 11 
+> initializes and enumerates a USB-2 flash drive.  The short answer is 
+> that yes, the initial Get-Configuration-Descriptor request is for 255 
+> bytes.
 
- drivers/usb/typec/tcpm/tcpm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Could you also try a few BIOSes, UEFIs and such?
+Or anything from Apple?
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 55fee96d3342a..3674e1cdde57b 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -3061,7 +3061,7 @@ static int tcpm_altmode_enter(struct typec_altmode *altmode, u32 *vdo)
- 	if (svdm_version < 0)
- 		return svdm_version;
- 
--	header = VDO(altmode->svid, vdo ? 2 : 1, svdm_version, CMD_ENTER_MODE);
-+	header = VDO(altmode->svid, 1, svdm_version, CMD_ENTER_MODE);
- 	header |= VDO_OPOS(altmode->mode);
- 
- 	return tcpm_queue_vdm_unlocked(port, header, vdo, vdo ? 1 : 0, TCPC_TX_SOP);
-@@ -3109,7 +3109,7 @@ static int tcpm_cable_altmode_enter(struct typec_altmode *altmode, enum typec_pl
- 	if (svdm_version < 0)
- 		return svdm_version;
- 
--	header = VDO(altmode->svid, vdo ? 2 : 1, svdm_version, CMD_ENTER_MODE);
-+	header = VDO(altmode->svid, 1, svdm_version, CMD_ENTER_MODE);
- 	header |= VDO_OPOS(altmode->mode);
- 
- 	return tcpm_queue_vdm_unlocked(port, header, vdo, vdo ? 1 : 0, TCPC_TX_SOP_PRIME);
--- 
-2.43.0
+It has occurred to me that if Linux enumeration switches Nikhil's
+device more or less permanently to Android mode then his BIOS must
+be using some other scheme too if the device to survives intact.
 
+I also tried Windows 95 OSR 2.1 in QEMU, which AFAIK is the fist
+Windows release to support USB in any form. It works like W10:
+
+Get Descriptor DEVICE 64 bytes
+Set Address
+Get Descriptor DEVICE 18 bytes
+Get Descriptor CONFIGURATION 255 bytes
+Get Descriptor CONFIGURATION actual size, only if greater than 255
+
+And an emulated SuperSpeed UAS device with W10, which is different:
+
+<xHCI Address Device command *probably* goes here>
+Get Descriptor DEVICE 18 bytes
+Get Descriptor CONFIGURATION 255 bytes
+Get Descriptor CONFIGURATION actual size, only if greater than 255
+Get Descriptor BOS 255 bytes
+
+I'd guess that MS tries to get whole descriptors in one go, but is
+worried (or aware) of buggy devices crashing when wLength > 255.
+
+Notable SuperSpeed differences vs Linux:
+- doesn't bother with the DEVICE request before Set Address
+- CONFIGURATION is queried before BOS
+- first BOS request is for 255 bytes
+
+Some of these may be responsible for the recent BOS problems with
+some particular buggy video capture devices.
+
+I'm attaching W95 enumerating a full-speed device with configuration
+exceeding 255 bytes and W10 enumerating a SuperSpeed UAS device (the
+first few packets are QEMU BIOS, which is similar to Linux).
+
+Regards,
+Michal
+
+--MP_/J_+W5d8+=_KeC1t/W.C+tvk
+Content-Type: application/vnd.tcpdump.pcap
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=ms2109-w95.pcap
+
+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
+
+--MP_/J_+W5d8+=_KeC1t/W.C+tvk
+Content-Type: application/vnd.tcpdump.pcap
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename=uas-w10.pcap
+
+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
+
+--MP_/J_+W5d8+=_KeC1t/W.C+tvk--
