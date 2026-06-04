@@ -1,140 +1,186 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568132FD696
-	for <linux-usb@vger.kernel.org>; Thu,  4 Jun 2026 14:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780584987; cv=none; b=sEjqsKuaOJXUsPV5Eh4lktpcktrjdlE1Lhwh0EhsBmtA3BeJJSa07wpcTCoLi5ZaDIjll/k4vuxN9t23Pfa7Mn3MIRbT9jaiUOLKd7p6nK23ckyhuFKk7FmT72gHGi2x5ZDNLWrHOmlL/gXBG/xOe4oTkSPh/6/EWCRv/ZQrKkM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780584987; c=relaxed/simple;
-	bh=J4e/WT3mrcpiVeolkODYuZO+WXuzrFvz/VJMqij5lAI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CUJW1in7/20SSvjEVRjEA2eQD1GLPN/4ULlnC1P1XKG1Kd5g+Utg4Tvo+k6Hp7SZ6WKP9b5mXRigUwlRPg9MjjxfT704Eq9/LRdwOTLyKdzTUVWcn/MjcU7B4iAJpAwx0Q9gZwTyGkmtQ9TpJ4c3HMsZGwketgGacF6vquFM+mM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aoNGDKZk; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E045437DAA3
+	for <linux-usb@vger.kernel.org>; Thu,  4 Jun 2026 15:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780587799; cv=pass; b=o4oV5VUs39LaMRFbqX/ZRWI4w9jKpmKkaeC9nFxpyblX/Ck9WrqlMXyi6AwCW7vyZGp7I4S/owjvUftkOt3vakOnm5g3VQjlRs0vZ0kMiLJfOJg8auD14CiU5iV9vxbWss7q4WCE22vfcDBbvYIR0Jpvh7vJ1eQWTwEO+sqG1e4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780587799; c=relaxed/simple;
+	bh=xF/xDdGLaN60v3KrZg8JRwjzS+7vle4tIji8yDZpsZo=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=W7g2Pm9NdMHNqPcBJh1aEuhYT2+7LKFCGMCq3qDq5fRauzA+l7+roXFQMfsjGzGh44VfLastBnepZsPJ4KxFsTjDf1Zw+NGE8NeUyXMFcIhb5YJxXdZlHg64deIM8ffGhGDrQeyVx6qVZqQo2/XnscoKKuD/m6279mq7SSdy/Hc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JFwOrdc2; arc=pass smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aoNGDKZk"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490acbb0f89so5606385e9.0
-        for <linux-usb@vger.kernel.org>; Thu, 04 Jun 2026 07:56:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JFwOrdc2"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-68d22a95815so192339a12.3
+        for <linux-usb@vger.kernel.org>; Thu, 04 Jun 2026 08:43:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780587795; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZKhT0Z2lZc3FTOVRdG+fZFAVWV435piqP54e00OScVQB3zkSmi+qcz+sNi/9Zcvt3D
+         8LyOGh8y3MNW3rx2oyOvlvPB3Ixj5D6ajUTnGD2EVaWwxsX2kUVv13qsEzcbLV/r7Rwb
+         90+YXGxOYJgdvL2Jo6g+GgoFjKykvOAWsgBwlF2YiY34kdFCJHvrdDvgsaPAkGuvwQEH
+         d0+6eeteaDi+hcUm+LkuDIQhEP13qCn2/+nFfKWfZKYTU66+dClZ8TjAVCyiZvdZSSJU
+         EjJQF1tOa0XhyVVTAC/yPD2iWmNBlYPsK48bl7X0fOnRZCflxOdich6IVv94wrkw7JbQ
+         Gy4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:dkim-signature;
+        bh=bLv6DLN3xdxjaftKSIdzPbh45mexUpP7ls3tzx5curI=;
+        fh=XwKj7gG9OVj1Dec5bs1DuxS01yfr9xd2DnJG+jlzAhs=;
+        b=TH9I1ZmbU6gEBvui4QUXZuRBYM5eC/4NXSFwk3SWy59tfEjj8pnsOckMgrrteX5HHx
+         vJiYUuJ7t1a1B6IFW96mpux7dHUpYBSnzmY8otdBEpDIphuK05wH+jWuYkPWPqkeY4cT
+         FdKkS942nP2ZLTdFrrS8R200oz5/WHrKSj/7usi1qbB0LjXq7B8Kxs/5ulituT3npqvU
+         dQ9+mMb8Lvqmhj1aHjOOSkoNNKNr/kj7o7Q912akBLIesxFwmXDroKtA+hZm7M0nVlGs
+         Ky3uZNIZaSKqy15JfIiNoJL45RNMT0/MdKCYm6eArzpJySpqctdud5juKbX8dF/uPxI+
+         7/VA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780584985; x=1781189785; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dNH01qFsaNOBa5+CT8/g/fxi0qw6y4MDjPr0w/s6vDM=;
-        b=aoNGDKZkZdNe9sNMTqNIqF9I6OMZkOu8K8ZgDj+AgC8K4CN6Jt3Hq2dWLQpYCfkm7X
-         m6V5PQz9fTje0b65bTPZMRk3lgeo+FK2bDrR2MnSjTR+ohBoLj+cSLtqg9xh0kF+tojR
-         We6McJKg8ww/6GMqx2Is5rgZpeSNBgzHbVovhZbirysIlmRdotCjv4dJEYYkAWq2TJY/
-         AZHpUaxavG4jeeNx40wvucsojAOHfdggUgiTpu0kyu6PoimAN9e8s1qPsJdQeV8eEgpB
-         LoUVCM3JIOku0SjUZ1Y80xi1qZqsCWK+zojk9A2yhCrRoMacPHyAq44Kx2DNZ/tXT4JC
-         tqjg==
+        d=gmail.com; s=20251104; t=1780587795; x=1781192595; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bLv6DLN3xdxjaftKSIdzPbh45mexUpP7ls3tzx5curI=;
+        b=JFwOrdc208pTpMREhNk0yOOGsxVLjH5usjlS3YADQsi0uvqWvTZdsbEN43F+n9AwTI
+         F9kmJn/bxG6n4bLYR1Uh38qI39Epv7MSW5ttPaS8BKLD8+QC3dgmQbMitW+iJCZp8Yfl
+         xcG3PZk30QMt4IVuGet4w+kXngfqhQaNasYSwJztnPfJmdpkpNVS8k5H5mMZIRDfGALY
+         EM+7Le8octBRzlx4K9KkGnci/y1h+lmp/2MXvczPnAKlSn+HpOAmWb5MdowIWS38FBTu
+         SmdgYstP3QEEeIR1DuTQS2YPck6Mh6DI1lDDyrek3TYEwjlBVlJFbyLQXqCEzPGUKQey
+         cxxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780584985; x=1781189785;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dNH01qFsaNOBa5+CT8/g/fxi0qw6y4MDjPr0w/s6vDM=;
-        b=jkCq4Cj1JsTlHBwukz+W3230oP+SLFUPnrWlkTJgQfJLfBdxRp6TMKPWQCWQ48H7Se
-         0PUOV/xIpbrJG3qWnRJ9fWUSn9KHsjmTYvoFR6CHDVTLMWKcMmktMS3477Ei6vGtYCMF
-         ovICWbyL4YfycvFbPdlq37KEgQpCG/Y0ae21eZjJi6SlcLZ3YGIXsKP+WLvnRkFeLXEj
-         pHSOBVWVwNa9yUn3JpIN/FRf5ouGBeGITHRkUFD0o7/wVbjmBPER9X/iuXVvHTZX5Pld
-         eUowjM67SQfRC4teJMaYZe5Y5iN8XinagIh693959exeyxACtwzjn14OtMPnk/lY/B42
-         sn5Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9jSyPsWLfP50GibM3sD81Z7NRt5uUNRnfL2cmJHrEV1wn3aYRz/BlUWTT0/K30fHvcDbuHgqir1yk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVvVUWxayUHVzlTkiqNE1ihFqUHdu/MsotJ6QXTZlJnM60+QUe
-	y8YI6yqJtTuNGcP9iTrBCRoFE5jKGFMXufubiNOZ446NkphiIAaqq4WI
-X-Gm-Gg: Acq92OFwz5rBdC46oVSg9AWZS8HW0BPlpMxPt/6jegYGB8TJ1pTNe9sZaZH7gxiwx0j
-	Wg4XiSgYLcv/l08qd5pL/ChA/WWkBXsgXdfAFti5nyOh2N+P57c5kkVShD0xaOQ2F9GDVHjBv+s
-	wbaJg25vnprJpkmVdgfxFSLvIRaYgXDODKl3/wzD5vXsjH4/sFwoLW7/y1kz7ejkl9Lz1DYv96W
-	xPqdQb11d3Vmsj++5timEjdxj6/xh3ic6bNXuvYJ6Wc4mw14XDwnWQeIPsx4yGoclcpQYPUBZkW
-	Qs0E1OiSHaEtvuJuKhxQ0bCZtHo9wW4NmNzRLRIb2sYvOo/0FxNz/EdpHEEKMdoUsJQR991NZ9L
-	avoPmChqNF4iHrw37sIAHbUnwfPl6Svd0NCsMWVPedAXZewD9fRov+myjwegnQbpjupvtTjXnkl
-	qSRKOIAD7jH66Gsd7F+t5rqloKAoPmEk464ZAod4ei0y/Jew==
-X-Received: by 2002:a05:600c:529a:b0:490:bf13:a1b with SMTP id 5b1f17b1804b1-490bf130f0cmr40243405e9.26.1780584984636;
-        Thu, 04 Jun 2026 07:56:24 -0700 (PDT)
-Received: from foxbook (bfe246.neoplus.adsl.tpnet.pl. [83.28.42.246])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b79d64e8sm182362085e9.0.2026.06.04.07.56.23
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Thu, 04 Jun 2026 07:56:24 -0700 (PDT)
-Date: Thu, 4 Jun 2026 16:56:19 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Johannes =?UTF-8?B?QnLDvGRlcmw=?= <johannes.bruederl@gmail.com>,
- linux-usb@vger.kernel.org, A1RM4X <dev@a1rm4x.com>, Vyacheslav Vahnenko
- <vahnenko2003@gmail.com>
-Subject: Re: [PATCH v2] usb: core: add USB_QUIRK_NO_BOS for devices that
- hang on BOS descriptor
-Message-ID: <20260604165619.592c4e24.michal.pecio@gmail.com>
-In-Reply-To: <2025120846-nearby-breath-e5fe@gregkh>
-References: <2025120708-header-startling-ffaf@gregkh>
-	<20251207012059.7899-1-johannes.bruederl@gmail.com>
-	<20251207084012.7c232e52.michal.pecio@gmail.com>
-	<CAP=XvD+dNNDj75DYjjByE3o7F8i-QxusAdz-5+hG24fCesWYRw@mail.gmail.com>
-	<20251207104505.1d5f3718.michal.pecio@gmail.com>
-	<CAP=XvDJJP2orxYcgiKzp0FrQE2UMiXndZe8Z6BdBRFvkujWu5w@mail.gmail.com>
-	<2025120748-extras-retrain-16eb@gregkh>
-	<2025120846-nearby-breath-e5fe@gregkh>
+        d=1e100.net; s=20251104; t=1780587795; x=1781192595;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bLv6DLN3xdxjaftKSIdzPbh45mexUpP7ls3tzx5curI=;
+        b=BWPCXX/oRVEK8qT9jrVexqKFdYqnNSanNGiSQ5kMDSc5RxkGrtMVXA74bHhS3cXltL
+         C8gcigIEI6yRSYgE3xezgrQnkCRKSllMx56Ll4gBvsRgGOAYuo132MmZtshNVoY/QPBR
+         6aYFws/KUDRH86cHsUmtG2dxuZNdhFURgljflnmxidAKfPt9EETL74FX4tWKTRAC7iLG
+         ilRphwIyDJQom+koY++tfaJWVhUEPLVcPxWETqlSLOxJ2oiu6TlWfQQEdx4yd6z05jhg
+         NNmu10naKXgtgHaWawGzofidCpmpOJa/VACalXDIKBgA+kouDtTUFlvmB9edkEvVpIug
+         OvGg==
+X-Gm-Message-State: AOJu0YwjznJJbV8/jImElxdF4cUP789pOgLRq0usWW4zsWTNpVBPq3J6
+	wWP6jLpea8ZC6OO6HDWS4Y4ZRdCz8qax5hY2/mpunfM5wl/owAWc5lAY3Ppjhv+p6XvyQr0+lh4
+	AbRWmV0Rkpl1sQGwA4C7yrXd5VYcW2/+GvxSe
+X-Gm-Gg: Acq92OH8F6rugxGHxWfHawcH7Md1gE4iJaWWGx3gNdSStTUrIxX8tje9pxjXsH1L8HF
+	mNam/qht4OqYIVLU3XxgEtry47WmX7FkzriiD2feXOaj8ndaWRVbe1cBtiEaKBF0xJ9XlbKVZTc
+	hb5D0lccDIJcs4TAO6qu40dhRIx4ViOVdE2W8Hea68Jg9KwEZQAZU2xpH25kKuA0Gu9XFs+YALR
+	nIfAF4YYfjZ2g3YS30VEvpw7HnDCV08fblJpYgPzl4kqJpZXUAGQxkua8V+eMBOfGeBrQGU9njo
+	Bqr66lTpwv0TXCftDqE=
+X-Received: by 2002:a05:6402:4585:b0:670:8ccd:704a with SMTP id
+ 4fb4d7f45d1cf-68f3ed9e9c8mr824858a12.5.1780587795121; Thu, 04 Jun 2026
+ 08:43:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+From: Orlando Ulises Aguilar Rojas <orlandoulisesit@gmail.com>
+Date: Thu, 4 Jun 2026 09:43:02 -0600
+X-Gm-Features: AVHnY4LdlNpOF7JHwNf8PU4kuakHAj_CA4_d8ht9SGOaXdiYhOTQfO2HLxfQmMU
+Message-ID: <CAE=pYEp=RZCeRbAtweZ0_zkPr7cUZUu=uoDRkqko7xduVUMEKA@mail.gmail.com>
+Subject: [REGRESSION] Sino Wealth 258a:002a keyboard enters stuck shift state
+ on USB disconnect
+To: linux-input@vger.kernel.org
+Cc: linux-usb@vger.kernel.org, benjamin.tissoires@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 8 Dec 2025 06:12:15 +0900, Greg KH wrote:
-> Ok, I can duplicate this here.  Maybe we just don't ask for the BOS
-> descriptor if no one needs/asks for it.  I can play with that later
-> and see if that helps as I'm sure this isn't going to be the only
-> device that can't handle the BOS descriptor if Windows isn't querying
-> for it, so we don't want to make a huge quirk table if we don't have
-> to.
+Hi everyone,
 
-Hi Greg and others,
-
-The workaround is now in, but if somebody is interested in getting rid
-of it, it might suffice to make kernel BOS requests more Windows-like,
-since these devices work fine with Windows (and Windows queries BOS).
-
-By monitoring Windows 10 in a VM I found two key differences: Windows
-fetches BOS *after* the configuration descriptor, and it requests 255
-bytes at once in its first attempt (there is likely a second attempt
-if BOS length exceeds 255, but I don't have such a device to test).
-
-Any chance that the change below is enough for these video grabbers?
-
-THB I suspect that it's the ordering which matters (the devices respond
-to BOS queries by lsusb after enumeration), but implementing that seems
-a little more complicated, so let's try the size first.
-
-Regards,
-Michal
+I am reporting a regression that I first observed in linux-zen
+7.0.8-zen1. The zen-kernel maintainer (heftig) confirmed that the
+responsible commits also landed in upstream stable 7.0.10, so this is
+not zen-specific:
+  - HID: pass the buffer size to hid_report_raw_event
+  - HID: core: introduce hid_safe_input_report()
 
 
-diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-index 45e20c6d76c0..ca42e89399d0 100644
---- a/drivers/usb/core/config.c
-+++ b/drivers/usb/core/config.c
-@@ -1037,16 +1037,15 @@ int usb_get_bos_descriptor(struct usb_device *dev)
- 	int ret;
- 
- 	if (dev->quirks & USB_QUIRK_NO_BOS) {
--		dev_dbg(ddev, "skipping BOS descriptor\n");
--		return -ENOMSG;
-+		dev_info(ddev, "NOT skipping BOS descriptor\n");
- 	}
- 
--	bos = kzalloc_obj(*bos);
-+	bos = kzalloc(255, GFP_KERNEL);
- 	if (!bos)
- 		return -ENOMEM;
- 
- 	/* Get BOS descriptor */
--	ret = usb_get_descriptor(dev, USB_DT_BOS, 0, bos, USB_DT_BOS_SIZE);
-+	ret = usb_get_descriptor(dev, USB_DT_BOS, 0, bos, 255);
- 	if (ret < USB_DT_BOS_SIZE || bos->bLength < USB_DT_BOS_SIZE) {
- 		dev_notice(ddev, "unable to get BOS descriptor or descriptor too short\n");
- 		if (ret >= 0)
+--- Summary ---
+
+A Sino Wealth 258a:002a generic mechanical keyboard (Machenike K500)
+enters a permanent "stuck shift" / modifier ghosting state when any
+other USB device disconnects from the host. This worked flawlessly on
+7.0.7.
+
+--- Root cause ---
+
+Before these commits, a report where csize < rsize returned -EINVAL
+and was discarded in hid_report_raw_event().
+
+After the commits, the same condition is silently zero-padded and
+processed. Additionally, drivers/hid/usbhid/hid-core.c was updated to
+call hid_safe_input_report() passing urb->transfer_buffer_length as
+bufsize instead of urb->actual_length. Since the USB transfer
+buffer (typically 64 bytes) is always larger than rsize for this
+device, the new bsize < rsize early-exit guard never fires. The code
+reaches the zero-fill path unconditionally.
+
+This produces no kernel warnings =E2=80=94 dbg_hid is not visible in normal
+dmesg =E2=80=94 which is why the fault leaves no trace in the logs.
+
+
+--- Affected device ---
+
+Bus 001 Device XXX: ID 258a:002a Sino Wealth (Machenike K500)
+USB Host: Intel xHCI 0000:00:14.0, port 1-2.2
+
+This keyboard uses a non-compliant NKRO implementation. It registers a
+spurious mouse interface alongside its real keyboard interfaces:
+
+  SINO WEALTH Gaming Keyboard        -> input0 (interface 0)
+  SINO WEALTH Gaming Keyboard        -> input1 (interface 1)
+  SINO WEALTH Gaming Keyboard Mouse  -> input1 (interface 1) <- spurious
+
+That spurious mouse interface has always emitted short/malformed
+reports. Under 7.0.7 those reports were safely discarded. Under 7.0.8+
+they are zero-padded, processed, and produce a modifier key event with
+Shift held.
+
+
+--- Exact trigger ---
+
+The fault occurs at runtime, not at boot. Boot dmesg is structurally
+identical on both kernels.
+
+Trigger captured via udevadm monitor: when a separate Realtek wireless
+mouse receiver fires unbind -> remove on the USB bus, the Sino Wealth
+spurious mouse interface reacts to the hub topology change, emits a
+short report, and the zero-fill behavior causes the keyboard to output
+"!@#!@#" (Shift held). Physically unplugging and replugging the
+keyboard does not clear this state; a system reboot is required to
+restore normal functionality.
+
+
+--- What does NOT mitigate the issue ---
+
+  - Forcing power/control =3D on on the device USB path
+  - usbhid.quirks=3D0x258a:002a:0x00000004 boot parameter
+
+
+--- Suggested fix ---
+
+Reconsider the zero-fill path introduced in hid_report_raw_event():
+the pre-7.0.8 behavior (discard short reports with -EINVAL) was safer
+for devices with non-compliant NKRO implementations that have always
+emitted structurally invalid reports.
+
+If the zero-fill behavior is intentional, adding 258a:002a to the HID
+quirks table with a discard-on-short-report quirk would be an
+acceptable mitigation.
+
+--- System ---
+
+OS:             CachyOS x86_64
+Working kernel: Linux 7.0.7-zen2-1-zen
+Broken kernel:  Linux 7.0.8-zen1 through 7.0.11-zen (upstream: 7.0.10+)
+CPU:            Intel Core i5-13600KF
+
+dmesg (working/broken) and udev runtime event logs are available on
+request, or can be viewed in the downstream zen-kernel issue:
+https://github.com/zen-kernel/zen-kernel/issues/414
+
+Thanks for your time.
