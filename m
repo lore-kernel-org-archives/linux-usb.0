@@ -1,155 +1,59 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D556477E58
-	for <linux-usb@vger.kernel.org>; Thu,  4 Jun 2026 12:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1AE1ADFE4;
+	Thu,  4 Jun 2026 12:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780576782; cv=none; b=H1X5vSGDwDzta4dx+8ptXJaRwm/1PKtTHGLHtQwym0UGg/aMbAbnaeY1sQdS6BIfWiNnPltNfiCgH9trPqj731W9sKKDJq3Ms9p+GpS/U0EL/dVLWuZNhXJd7qhBRpMj6UqzIRgMT+YacLU4ECtfsS4RJ58BxXC2cFUnQK2NzQ0=
+	t=1780577637; cv=none; b=lmZHvIFXtlsKdhtUh7SqbytIVKuvuu8/szS/D7UD5CGqqzF/UOD/k8cGxuA3Mo+4wqt03MnsNVmNhDqY0+wCuXamceidrpRIz+FY5ocqOsOfixll8yf5P/hcSmx9L6uBfiWg25zsRKoau+DrNnS5ZGF8IKp5BkCq5RAdstwXXwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780576782; c=relaxed/simple;
-	bh=FP7mukO1CpC1QnxAoCv/QPxuYFUYcoaJHyOEZgnzLHQ=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=YWqcW/WjdJ+htTgfp1Qwpso9h7mN6IdNfz/RjdQX0JBDxhr7ENdUK3kg0kivvf0nabRLMkw3xMcXGXVznU7RV1OGZezRruN45bjUSYXtOeWaqGLc6hIH11QFqhYNZ7poeT1jQR+1ny5uQyqpFBZPKeXCq+CLdIgxT7PpU+TeZCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gpuKaCPj; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780577637; c=relaxed/simple;
+	bh=6vUqD9r4dFF1EMmpNeRHUUKWwnil/EYuL8gELtHMJqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mkrGErYh0ZUW7yGNE1BN9usC8C2leWRJ+Aub9qRZWCH/dyuoksY55qZVrIiahtEQJsi37v0b2FnL4nkh+4uTZIou8fge2SP7nl4Xp0IuWyW+5iAk7d3ZHUF097vHjTuNHHtPy/YA3IcasIVIr8aP94IYno+KztYxRAJZCdVh3UM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=JL0A8Os+; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gpuKaCPj"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2c0c32f6ce1so4405885ad.2
-        for <linux-usb@vger.kernel.org>; Thu, 04 Jun 2026 05:39:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780576778; x=1781181578; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4FZYJeQ0sH02KrpSH96sChGTnTwSSKIPBt+bgZNmU1Y=;
-        b=gpuKaCPjp2xmgr3S1FypgniUBL2JGCpfyXowt7RkYF3Zt06A5XmkeTgSEF+NAUurmG
-         7zD2QmGCjPpCvRI/YkN/DqPzFPbc8GnHEda1fpSYj/XZqiS8Lj0dLc9Hp51Trzi2fZud
-         G65h3ps8xTCeBeE2wRaDWu0DobkBKh1RWxKg8Pa4Xa0+jS2UaeBlYKpewt1bSH/HFXv2
-         eFu4+khC/cl9ObiHufwAd78jMpywrynk65W+zCrRc7qkEid6bZh9W2r8m687RyVslSB5
-         ruTY6/Ogl/+TiIa5xHo8B1oXPACj1phr1Zr6XmZm5gpI5/6d8EEjnmN7n+oXSnhIiv1Y
-         Msww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780576779; x=1781181579;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4FZYJeQ0sH02KrpSH96sChGTnTwSSKIPBt+bgZNmU1Y=;
-        b=AJTL2Gbh+fiGFLVeYmINSS6yUlCGa7Ax5DLvy5z/fDy1TjEu0DkZkYAg5LYXQZX/ap
-         yeCB7CKOGXia/d1wn02NpqalGMisHeSmnsl98OdETszW7HyHwODqEb98zzSfml3AMupM
-         YORqXYpcDGE4kr6yC98vyA8FFV/oNIO/Rg9YjChIZPJ7opBxE5wZRDPHtHKcuTEskiB9
-         zMWw87kVc4jc5nOgdp6HKgS3f/GiibLJwDFPlbBK0GDntI5o578BR5xYWS5Ego+BvOXN
-         5M5hNTUW9UgmTVia+QrpUxl2rMiJxkDNxytq45EYd7wVGNaZGMbpXo4lUUv9unFBqKUd
-         V+SA==
-X-Forwarded-Encrypted: i=1; AFNElJ92frQbtIzTZxqKZawKx+T97rJFFMwsSPS9FAJWijEC7yTYllqM9GwDPsVi5nix+6l3sgOqbmi9Mj0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzgz9pXjuIK5oUVh5NeUj6FHpEDAwkabyAR071nGzJYD2XSVtXK
-	rTw5aAqCL2Ff6381Bv9q834bMHLsQCdJbmH/OlGhLziwH+woi+CO7YeL
-X-Gm-Gg: Acq92OHoTpaXMmg4synUM3bcxkVaNmC5l6Eq1IXxIzdD5d0kmwHkQ8h1MF/MOCygA+G
-	g2bPjYoqxZ5tteh6yTJCih1LAwZsGj2+IqJmCtbO5rK+3f1cZDd+0lSWbN9uXrdRXKmeB0+QCXa
-	AhET1lJRV1CehqLkrwm84Wd9X1X9eOaHjOJ+63xVrqzpmiq0y6rX3yzddXJr6hFW3WCM8fZ+ZqI
-	+BCOmaq1UMSd1yd6q6AcFsRYTWFXl8mjod2gUDOpZtIHE+Mz5FOnXlES43STZ1r3/77Lu3FBsVl
-	K5apdV4lluXzgllTOjQpHroi2MpwlZYTu9lmZn0JhOGLmseN/Q/kumXJ6sg+vA/98ZZoP4NsrYA
-	WtfbfZShdBNif92EZJwCLVEqRnWveG678l/ksrvjBNsfwbOcDbHxmalL72tGkoXZZsUUgscy/tk
-	+WJB31vJqd5uNeAPMXiLZo0ODVsSJRcjY=
-X-Received: by 2002:a17:902:f78a:b0:2b2:ebed:7af5 with SMTP id d9443c01a7336-2c163a1e038mr88420215ad.13.1780576778566;
-        Thu, 04 Jun 2026 05:39:38 -0700 (PDT)
-Received: from lgs.. ([101.76.249.46])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16649d2d4sm54302925ad.77.2026.06.04.05.39.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 05:39:38 -0700 (PDT)
-From: Guangshuo Li <lgs201920130244@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiasheng Jiang <jiashengjiangcool@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Guangshuo Li <lgs201920130244@gmail.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Mike Christie <michael.christie@oracle.com>,
-	Kees Cook <kees@kernel.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: f_tcm: fix remaining nexus NULL dereferences
-Date: Thu,  4 Jun 2026 20:39:29 +0800
-Message-ID: <20260604123929.1427579-1-lgs201920130244@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="JL0A8Os+"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=wl69BemRjS64+/8O1S3AjTCz9jiMA+sY9JfxwXgC6VQ=; b=JL0A8Os+X3zvIzyi5rYTT23gZ8
+	h6lNZ7TcHLfXIU4DDztYJW4at2X4u4F1vIAGeHFBbpcrihlVjcTiB8fM0pbsir5jWoCaXULjhYE8M
+	mN2KfFSdZmtqr5At9fmqHAGmvfLS9oCbvsDZpcxaTQmhI8dX4twjZylUCAQbsKHQ6jeI=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wV7Zt-0062oL-Kp; Thu, 04 Jun 2026 14:53:41 +0200
+Date: Thu, 4 Jun 2026 14:53:41 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+Cc: kuba@kernel.org, davem@davemloft.net, netdev@vger.kernel.org,
+	nic_swsd@realtek.com, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH net] r8152: handle the return value of usb_reset_device()
+Message-ID: <c1ddf8f3-71f7-434c-ad10-64096b65fe51@lunn.ch>
+References: <20260604092247.27158-450-nic_swsd@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260604092247.27158-450-nic_swsd@realtek.com>
 
-The previous nexus NULL-dereference fix added checks to the normal
-command submission paths, but two UASP paths still dereference
-tpg->tpg_nexus without checking it first.
+On Thu, Jun 04, 2026 at 05:22:47PM +0800, Chih Kai Hsu wrote:
+> If usb_reset_device() returns a negative error code, stop the
+> process of probing.
+> 
+> Fixes: 10c3271712f5 ("r8152: disable the ECM mode")
 
-A TASK MANAGEMENT request reaches usbg_submit_tmr(), which fetches
-tvn_se_sess directly from tpg->tpg_nexus. The RC_OVERLAPPED_TAG path in
-usbg_cmd_work() does the same before walking sess_cmd_map for the active
-command with the same tag.
+https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
-If userspace drops the nexus after the command is queued, these paths can
-observe a NULL tpg_nexus and crash before they can ignore the command like
-the already-fixed command paths do.
+Does this bother people?
 
-Check tpg_nexus in both remaining paths and use the checked local nexus
-before dereferencing tvn_se_sess.
-
-Fixes: b9fde5073553 ("usb: gadget: f_tcm: Fix NULL pointer dereferences in nexus handling")
-Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
----
- drivers/usb/gadget/function/f_tcm.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-index 34d9f49e9987..1717fdd1c466 100644
---- a/drivers/usb/gadget/function/f_tcm.c
-+++ b/drivers/usb/gadget/function/f_tcm.c
-@@ -1188,12 +1188,21 @@ static void usbg_aborted_task(struct se_cmd *se_cmd);
- 
- static void usbg_submit_tmr(struct usbg_cmd *cmd)
- {
-+	struct tcm_usbg_nexus *tv_nexus;
- 	struct se_session *se_sess;
- 	struct se_cmd *se_cmd;
- 	int flags = TARGET_SCF_ACK_KREF;
- 
- 	se_cmd = &cmd->se_cmd;
--	se_sess = cmd->fu->tpg->tpg_nexus->tvn_se_sess;
-+	tv_nexus = cmd->fu->tpg->tpg_nexus;
-+	if (!tv_nexus) {
-+		struct usb_gadget *gadget = fuas_to_gadget(cmd->fu);
-+
-+		dev_err(&gadget->dev, "Missing nexus for TMR, ignoring command\n");
-+		return;
-+	}
-+
-+	se_sess = tv_nexus->tvn_se_sess;
- 
- 	target_submit_tmr(se_cmd, se_sess,
- 			  cmd->response_iu.add_response_info,
-@@ -1271,12 +1280,21 @@ static void usbg_cmd_work(struct work_struct *work)
- skip:
- 	if (cmd->tmr_rsp == RC_OVERLAPPED_TAG) {
- 		struct f_uas *fu = cmd->fu;
-+		struct tcm_usbg_nexus *tv_nexus;
- 		struct se_session *se_sess;
- 		struct uas_stream *stream = NULL;
- 		struct hlist_node *tmp;
- 		struct usbg_cmd *active_cmd = NULL;
- 
--		se_sess = cmd->fu->tpg->tpg_nexus->tvn_se_sess;
-+		tv_nexus = fu->tpg->tpg_nexus;
-+		if (!tv_nexus) {
-+			struct usb_gadget *gadget = fuas_to_gadget(fu);
-+
-+			dev_err(&gadget->dev, "Missing nexus for overlapped tag, ignoring command\n");
-+			return;
-+		}
-+
-+		se_sess = tv_nexus->tvn_se_sess;
- 
- 		hash_for_each_possible_safe(fu->stream_hash, stream, tmp, node, cmd->tag) {
- 			int i = stream - &fu->stream[0];
--- 
-2.43.0
-
+	Andrew
