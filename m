@@ -1,63 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059A3425CF2;
-	Thu,  4 Jun 2026 11:45:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DA03603D9
+	for <linux-usb@vger.kernel.org>; Thu,  4 Jun 2026 12:32:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780573554; cv=none; b=HKbFwH8IAG4FRke47mpOkQoI3h6tpN5mFD2pDdmZsxoM1aeVh6pg7S9lk1Ci0bZXiOZfWRf4r3+fnrY4Vw3Tr1J+yLQV0GGTwnBy2IaOm8tYtaqXBFseOYejta1Jx7LAROBim1uLehDtJ2WMyIS3hBhSf2NHv0LlLtaK1nM2JZY=
+	t=1780576351; cv=none; b=ohCWbjpKp8ELKYQUEjDIPBKbBVS9sylxYO142OYWRB00wlT+qQYRI1z7L2wAY8hM3T9vE125b4fLylIAMIUZ8pr4MJox19bQVvcJIkUvQYwAVVR0bFtR/ADi5084yemQHJg4NIvc5Xs3Eg0jm3M+zB0PsDWNlnkYyOHYVbE36W4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780573554; c=relaxed/simple;
-	bh=tyG6fyCYzaoCL6Y4W48Ew7UmrX3fQav6liY9qXUAKVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BI6j/Um7qH6NgwEeSrgv49Own/rTna3j+qaYlbVwTXVwuTSknWOi3ly8LfxgsLCNGmcUT+yio7CGicuFW0zx+vgwP+go3aDFM21ubCc2+pS24KnhIKRMl1LXF9TwV0s2IrhkC/ON0xJtmcR5JF/XO/r/hP7nlXOKMxgwI/ETYhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GNGs+s8x; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780576351; c=relaxed/simple;
+	bh=LnrtZB0iEg1z1vGOmrpOOK3Cssie/DMPDNqDCPjTdS8=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MYFYmfUKvqGWncE47aNu5ecLyh8KvlaMrVFUr8zcN8eMa9TrdZ/cmf3m94TAAlWvAcGRNz5Kx066tHgRZSG5PhCPs7xVbv4YTHDbtY7kTqNG+oM52+4IvSzdjlPIxJGv/jB/Aq8wkts85gJwLRXtLJoMPgVEIns2YxwoyqS1OmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cqf3MXV4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GNGs+s8x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EB4A1F00893;
-	Thu,  4 Jun 2026 11:45:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cqf3MXV4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35FBB1F008A4
+	for <linux-usb@vger.kernel.org>; Thu,  4 Jun 2026 12:32:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780573552;
-	bh=tyG6fyCYzaoCL6Y4W48Ew7UmrX3fQav6liY9qXUAKVE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GNGs+s8xm9G2K5CzDxHhkSyG4SCayKc2zFMIARNGr56kDsJfGYIRXNj/UsckDaQyI
-	 HjRTP1PyKpwuMRXzwuu2TKPRF1yTCkrUzceReeQLleNZaOwqhsuWYpJw6KwUzqoQxf
-	 +a1iMXM2bw+G3euHajI4A+e3YoFeDPjXOFykosT59o1MrLRzF3TWOKv+ZUBXRauVJX
-	 3dsPWHFnvrt9KlAAfhtF7htmVTe1FZ+cRvCunQb6ohIPnPKbJtd3U1pqRaMJUMGbwC
-	 xok1/IIYuBKmNNPKppKXYyHa25lE7/BDjcPTcqGQAya5aCZSortMaFeQZOznSZJVkQ
-	 9EFdwwaXcslww==
-Received: from johan by xi.lan with local (Exim 4.99.3)
-	(envelope-from <johan@kernel.org>)
-	id 1wV6WE-0000000BKmK-2YBR;
-	Thu, 04 Jun 2026 13:45:50 +0200
-Date: Thu, 4 Jun 2026 13:45:50 +0200
-From: Johan Hovold <johan@kernel.org>
-To: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [External Mail] Re: [PATCH v2] USB: serial: option: add new
- usb-id for Dell Wireless DW5826e-m
-Message-ID: <aiFlbttulehKSq5E@hovoldconsulting.com>
-References: <20260604-dw5826e-option-driver-v2-1-00609f65f5ae@compal.com>
- <aiEklcHp5m6H70T2@hovoldconsulting.com>
- <18167573232343f9b75762813fff5c40@compal.com>
+	s=k20260515; t=1780576350;
+	bh=LnrtZB0iEg1z1vGOmrpOOK3Cssie/DMPDNqDCPjTdS8=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=Cqf3MXV4TD52LTrKp0CEYIe9g985jGUSnNRQCoaqoWqlQrEUsixL6taFahNCfDLy3
+	 +Z6as+OOsL9nqoix/FyXeZFm2nSqFAgKe0UdZ200LCLfCzZOsL9e5aeERkfHQuCGQt
+	 lbsQ7bKitUjPcn+bHj0GDLNxKoY1a2sN6xy3To0Q9KFC5vgDE0UO/KlEqKmvCmGo2q
+	 tQFH3C8Z7JCY1CQ0ki8z08Rb6/Be/+yEVtXg1G5zNpIwheU8ILhcBZYHgFoWppCuwE
+	 gB2HgfLQ286akIY4m3Bo3GCPaJEmZyP191eGzCBLL04xi+/lRCrQ3eZvv7giv/r8Wv
+	 S0m1gGv5CNe1w==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-39677aed4d3so5551171fa.2
+        for <linux-usb@vger.kernel.org>; Thu, 04 Jun 2026 05:32:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8/i7UCsPL7Lq+EIGMQEPTwTNks6DyoFGAUkUg/MHWLVj24I+0Gr1wgRpHI0q7NyE6h2qBqr643kJI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrdZX0qS+FSqNEScKr8mAgsegwaq+el43GuMxmmCQjUL+VLASH
+	RmnHFZDwIkdLbeDVvxnMdw1Fmf2w/OtEJn5SdgfQxAyXjO62CmZ3NkYqRHA4W9oBuxMHp8cGsZX
+	OcqjLb4LDuWEIoK0FhOvTpOZ6MfYsoD4f1TEOgjVmhg==
+X-Received: by 2002:a2e:bc24:0:b0:396:9cbb:673e with SMTP id
+ 38308e7fff4ca-396af48a101mr25033101fa.24.1780576348691; Thu, 04 Jun 2026
+ 05:32:28 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 4 Jun 2026 05:32:27 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 4 Jun 2026 05:32:27 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <ah9OIVyrHEhcMHzN@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <18167573232343f9b75762813fff5c40@compal.com>
+References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
+ <20260521-pdev-fwnode-ref-v1-7-88c324a1b8d2@oss.qualcomm.com> <ah9OIVyrHEhcMHzN@ashevche-desk.local>
+Date: Thu, 4 Jun 2026 05:32:27 -0700
+X-Gmail-Original-Message-ID: <CAMRc=McLN9Ovoqo3om-3uC=q+=rcKCoiWMctC=yvwiaHacU0PQ@mail.gmail.com>
+X-Gm-Features: AVHnY4LlXi8ln45MTUjJfpd_YWjp19dT0a-H21-M7Hc7IKBiGWRxgS3l-OaDEEQ
+Message-ID: <CAMRc=McLN9Ovoqo3om-3uC=q+=rcKCoiWMctC=yvwiaHacU0PQ@mail.gmail.com>
+Subject: Re: [PATCH 07/23] driver core: platform: provide platform_device_set_fwnode()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Lee Jones <lee@kernel.org>, Mark Brown <broonie@opensource.wolfsonmicro.com>, 
+	Thierry Reding <thierry.reding@avionic-design.de>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Matthew Brost <matthew.brost@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
+	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org, 
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
+	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 04, 2026 at 10:31:43AM +0000, Wu. JackBB (GSM) wrote:
+On Tue, 2 Jun 2026 23:41:53 +0200, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> said:
+> On Thu, May 21, 2026 at 10:36:30AM +0200, Bartosz Golaszewski wrote:
+>> Provide a helper function encapsulating the logic of assigning firmware
+>> nodes to platform devices created with platform_device_alloc(). Make the
+>> kerneldoc state that this is the proper interface for assigning firmware
+>> nodes to dynamically allocated platform devices. This will allow us to
+>> switch to counting the references of the device's firmware nodes in the
+>> future, not only the OF nodes.
+>
+> But why different for of_node and fwnode to begin with?!
+>
 
-> ================================================================================================================================================================
-> This message may contain information which is private, privileged or confidential of Compal Electronics, Inc. If you are not the intended recipient of this message, please notify the sender and destroy/delete the message. Any review, retransmission, dissemination or other use of, or taking of any action in reliance upon this information, by persons or entities other than the intended recipient is prohibited.
-> ================================================================================================================================================================
+I'm not following. What are you suggesting?
 
-Make sure not to include footers like this when replying.
-
-Johan
+Bartosz
