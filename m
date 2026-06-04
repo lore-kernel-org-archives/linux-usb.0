@@ -1,84 +1,99 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dilbert.mork.no (dilbert.mork.no [65.108.154.246])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7CD299931;
-	Thu,  4 Jun 2026 09:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4045636BCDD;
+	Thu,  4 Jun 2026 09:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.108.154.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780565291; cv=none; b=u0BfoNuQTmSonWBh7xsc13wo9tHSV4x6oLCR0Kom737jC9zSiz6e2Pif6tGOkgtAQqxKk6r2AE6k2d4T3qZh/yC+gkrMQhVQyPhDggYsAToqCDpyT0qlPtBrLqyL6O41clrsr7BR1pPFPfE0ATH4Wb45sLesTfQOccG9uK4cU7Y=
+	t=1780566657; cv=none; b=PO8gXFOkLl+qoP6/W3JVMe+mc4IUAcm/QkBUXilhobRBXl9yD1i3I29DzT/vpgFFlEkX8Fa84Y89bpKG064S+QxS5qbNWzocObc6gFwHmocPyKScE1kqoCURQgWIw2/avV/bJ/GCgW4ByafVsa0jQUE/ETNnP+LG7JSLb/fTQco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780565291; c=relaxed/simple;
-	bh=0sERuNzUlon60NH1Auwx6L7IMB2nqtA0p7z5GpOk898=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=phnk+oat7yS52Ezj/2hVHEFmT5wXsg3bkM1TcSJtU0tjI5nWoLFG6/rDDTO3eMwsJ4wmBCpiDjdZE3qouPWZJSA02z4T3jKTb9yqX941/gS1TQdHxZx3nCT+Q+RGDBaXciN+qVrjuh4Df7ii60Hs7XutlnV44gFmvUrU3fwnyt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=k5vjNC4n; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1780566657; c=relaxed/simple;
+	bh=Rci4wJz7tM5FCL6R8d9ZTGE2T/GW+hduQyU1tOP3B10=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=PtDqzoeXfbjiuPqSdLH0eiLoQX4MRqPCnvXk2OL5D+1TNyPwSg9UFXs7FVgMa+D/maciVumeqGwSZ1zwqiBUCrySxjAyyNQfsSUu6i2clH7gdCKF6UngTRbunEx3PFE2TC9jsuUbDylDF8L58bXCHchT/g6W6P/LLVWkIPiCR5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mork.no; spf=pass smtp.mailfrom=miraculix.mork.no; dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b=EovQ9NH6; arc=none smtp.client-ip=65.108.154.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mork.no
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=miraculix.mork.no
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="k5vjNC4n"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6549S2690251280, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1780565282; bh=0sERuNzUlon60NH1Auwx6L7IMB2nqtA0p7z5GpOk898=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=k5vjNC4nOv7VQstPo7chZ/kLvIVJ0PBRiPixhrJAzAvPX8xs0mU7G29faBgL8WjiX
-	 UAJLKzMW83fz3nXZkkkwcTNvuwfsU8BALyxgajbw5kYWh0lihd7qdju6xXdWO5NKH9
-	 /cqe9dKA8x5TpgJXKPh2WbREcisrKAEjp/iImzI/d3ilcdsqWDI21r5e4sZHHg7OUZ
-	 UMi7UjVMZTtAnlXPiDMG+W39Lg1I64N3YkUrNwWlxYzYtfqpKYQeXxXOTVmWiQAgmJ
-	 A6Bnm5NMtNd4FOIfWbNwvJUlQdnUOvPmRPdefr2GUJly4Ryt19dyJh1KoUbFNXaFLf
-	 RWM8hkyfjrqTw==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.28/5.94) with ESMTPS id 6549S2690251280
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 4 Jun 2026 17:28:02 +0800
-Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.17; Thu, 4 Jun 2026 17:28:02 +0800
-Received: from RTKEXHMBS03.realtek.com.tw ([::1]) by
- RTKEXHMBS03.realtek.com.tw ([fe80::a2e:aeb4:fa27:c32f%9]) with mapi id
- 15.02.2562.017; Thu, 4 Jun 2026 17:28:02 +0800
-From: Hayes Wang <hayeswang@realtek.com>
-To: Chih Kai Hsu <hsu.chih.kai@realtek.com>, "kuba@kernel.org"
-	<kuba@kernel.org>, "davem@davemloft.net" <davem@davemloft.net>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, nic_swsd
-	<nic_swsd@realtek.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, Chih Kai Hsu <hsu.chih.kai@realtek.com>
-Subject: RE: [PATCH net] r8152: handle the return value of usb_reset_device()
-Thread-Topic: [PATCH net] r8152: handle the return value of usb_reset_device()
-Thread-Index: AQHc9APCJVlwBSmXAEOkvH0w1LP1cLYuIDUw
-Date: Thu, 4 Jun 2026 09:28:02 +0000
-Message-ID: <4bf89cb16f754e748f4db485e1376d3d@realtek.com>
-References: <20260604092247.27158-450-nic_swsd@realtek.com>
-In-Reply-To: <20260604092247.27158-450-nic_swsd@realtek.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="EovQ9NH6"
+Authentication-Results: dilbert.mork.no;
+	dkim=pass (1024-bit key; secure) header.d=mork.no header.i=@mork.no header.a=rsa-sha256 header.s=b header.b=EovQ9NH6;
+	dkim-atps=neutral
+Received: from canardo.dyn.mork.no ([IPv6:2a01:799:10e2:d900:0:0:0:1])
+	(authenticated bits=0)
+	by dilbert.mork.no (8.18.1/8.18.1) with ESMTPSA id 6549chCj255320
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+	Thu, 4 Jun 2026 10:38:44 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
+	t=1780565923; bh=vrnPiHwr2HvIiPSR66LgspDHmNnDMyd8H41XU8KhXn8=;
+	h=From:To:Cc:Subject:References:Date:Message-ID:From;
+	b=EovQ9NH67GMcvhSr37/QLqFuWMO8gpEyMKMgO7nJXVn7DFHcWw8AEYJ7xhIOnNEj2
+	 B5chPIArH/CEglcqdj0P4YMAiL4F3LGmkzQ6Q6wq9nRbH18PbMECKaFc72DJT+OO9D
+	 ZchqtlH3atNObMe/lCHIhEO/DNthehQkPExldO1Q=
+Received: from miraculix.mork.no ([IPv6:2a01:799:10e2:d90a:6f50:7559:681d:630c])
+	(authenticated bits=0)
+	by canardo.dyn.mork.no (8.18.1/8.18.1) with ESMTPSA id 6549chEY1198534
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+	Thu, 4 Jun 2026 11:38:43 +0200
+Received: (nullmailer pid 550250 invoked by uid 1000);
+	Thu, 04 Jun 2026 09:38:42 -0000
+From: =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+To: Greg KH <greg@kroah.com>
+Cc: SARDARUDDIN SYED <ssardaruddin2002@gmail.com>, linux-usb@vger.kernel.org,
+        stern@rowland.harvard.edu, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: ABI: remove outdated USB power/level
+ removal notice
+In-Reply-To: <2026060423-ipod-tarantula-4f5d@gregkh> (Greg KH's message of
+	"Thu, 4 Jun 2026 08:45:57 +0200")
+Organization: m
+References: <20260530233410.1718-1-ssardaruddin2002@gmail.com>
+	<2026053140-approve-enroll-5681@gregkh>
+	<CAEUfWQg7msH_qsER7nL5_855puJYsj4ztT+DrRThfbih8TObnw@mail.gmail.com>
+	<2026060423-ipod-tarantula-4f5d@gregkh>
+Date: Thu, 04 Jun 2026 11:38:42 +0200
+Message-ID: <87wlweir19.fsf@miraculix.mork.no>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Virus-Scanned: clamav-milter 1.4.3 at canardo.mork.no
+X-Virus-Status: Clean
 
-Chih Kai Hsu <hsu.chih.kai@realtek.com>
-> Sent: Thursday, June 4, 2026 5:23 PM
-> To: kuba@kernel.org; davem@davemloft.net
-> Cc: netdev@vger.kernel.org; nic_swsd <nic_swsd@realtek.com>;
-> linux-kernel@vger.kernel.org; linux-usb@vger.kernel.org; Chih Kai Hsu
-> <hsu.chih.kai@realtek.com>
-> Subject: [PATCH net] r8152: handle the return value of usb_reset_device()
->=20
-> If usb_reset_device() returns a negative error code, stop the process of
-> probing.
->=20
-> Fixes: 10c3271712f5 ("r8152: disable the ECM mode")
-> Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+Greg KH <greg@kroah.com> writes:
 
-Reviewed-by: Hayes Wang <hayeswang@realtek.com>
+>> I looked into the history and current implementation of power/level.
+>>=20
+>> The attribute is still implemented in drivers/usb/core/sysfs.c and is st=
+ill
+>> documented as a deprecated interface. The obsolete ABI entry was added w=
+hen
+>> power/level was deprecated in favor of power/control, but the interface
+>> itself remains present.
+>>=20
+>> I wasn't sure whether you meant removing the obsolete documentation entry
+>> or removing the deprecated interface itself, so I wanted to clarify befo=
+re
+>> sending a v2.
+>
+> Why not remove both?
 
-Best Regards,
-Hayes
+Won't that break stuff for anyone still using the power/level attribute?
+Time has proved that no one cares about deprecation warnings.
 
+Why not implement Alans original wish in commit a90309860b09 ("USB:
+deprecate the power/level sysfs attribute") instead:
+
+    It would be nice to replace power/level with a symlink to
+    power/control, but at the moment sysfs doesn't offer any way to do so.
+
+I believe this has been possible since commit 9255782f7061 ("sysfs: Wrap
+__compat_only_sysfs_link_entry_to_kobj function to change the symlink
+name")
+
+
+Bj=C3=B8rn
