@@ -1,168 +1,104 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF03E37F007
-	for <linux-usb@vger.kernel.org>; Thu,  4 Jun 2026 03:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CF72749DC;
+	Thu,  4 Jun 2026 03:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780544651; cv=none; b=I1AaTFFZYx+NKBpFfXUylGaIvYB9OEVeZ47POuezL99SlhSRW1mZwvMnnmg68sXbMH5epra6WrkedbRf/GOSNo+IHfLP81JAV1MDC9b428ECLQvnd/gX7+nXLBF9lbpA3o7vahE/YQr5wTGQpZbnsK0PIic4eaNBBqu/q2+jAoY=
+	t=1780544931; cv=none; b=TpQuSSNZ5oM3vi2UEAc6quZCjcIjBPUVAlbU6V9Yc4p50CIgHRneevIoI4tSiMnwBoA0B3gSB7WFusrxse6PCxxFcegfHhoCvT0ZsuQytJ60v+0aRcgbyIT3q+GsnDppc5Iq7HGgbgkcuxOhclHWvWCbmX1EXbBHzK90N7QFICA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780544651; c=relaxed/simple;
-	bh=GVUrTFHWfKbP7BPQBwxHjJiAldO45+2g44/XMUp4QN8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VWpxXHkd4568qvPOhoJQYia2YnK0sKHXrtDpEP+2wPNLaCGYuG88Dcs9DaHBWCQEEio9Bogs5MhMsB48mqQT+fzy55qpf9kbi7derfkOsHaBAgt3a0OnM62PEpr1eAuvD1vGvKu+XwLkqPqgGRbYwQ5UOoPmI+EIPNU2XOqgzv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cm/xXaND; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780544931; c=relaxed/simple;
+	bh=yNq0PaWGtoFwGiKDvPOVOuRH7x8oqWjnqxVKK8DTj6E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GvEM3YBj/+mqN5lsdhH1CpYoXhhDwP7t/Pyd7ZanxRbpmgxC5DWIjg/Gu5lttkvbO2DX9a+femhz5k/EBVflKxpxdiKbfwwzLOz5u0Kt36z3+/fKhnPBpUe9o76ZNP0PSDVJBICnJrU13zjqk+7K7Kgd8J0dN7Bm5itD3L7jOtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=aB7pqUOo; arc=none smtp.client-ip=54.204.34.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cm/xXaND"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2c0b7ca8831so528415ad.1
-        for <linux-usb@vger.kernel.org>; Wed, 03 Jun 2026 20:44:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780544649; x=1781149449; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dzk72M4ewlzxGUDCkZjiIwUqM5Q/ys2Vzl6V4FwZ3I0=;
-        b=cm/xXaNDWZc6oiRkYiEf3rhI5Frq8BcsTM1UEm2qaHQvktdYOZN/Lj1rPnYwq7ts60
-         k36L6mfiY3xKnFBaCLH7tjRWHaZW6D6t5FJeYqFWLEjHKmRiByEJEm/RzXaGMhAhpdoi
-         Colrdn8Jxh8TMaKjgDgFWDBddXIEaNQvOgoKMfSiHcXeq4xfycXeQGWCER5uDnKOd/Hm
-         1/+sYJrINtKiRg4nL8pqmljlsl5wTqumsktClDX8yhE+dWExpxnX9zFl+m0jpg8mu8cT
-         q4UssRPU3sHZX1gFO5m4zve+Olxd0U5d8/qR+mOVFTwV+9iT7bgMZbEnZj8L0T8tSJQN
-         zjcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780544649; x=1781149449;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dzk72M4ewlzxGUDCkZjiIwUqM5Q/ys2Vzl6V4FwZ3I0=;
-        b=jdxkTb4aT+Cpx+DsX47EolwcmPHf5FVPEDEchbWtnIh9Ji9jXctO97AJQHY+eMqo2W
-         YOLMyJLTEa16eRGlu3FuNOhq3gfLBV+Chqcxv+zXwJaIVscbwOfG3rPeaGBMKUhimb0e
-         dRpF6I9hFHsB7ASGaKWSJeN3R77xW2XPMR56KlG2O6VeJd/oioFMRCGKNtRLqZo95WuO
-         FgsT+nNd/SDjUdUji9KMDSfAlsdCDNihy6wICIn+unNYxQbSnJd7Hh5Sf/ZPc3vsDvvH
-         RXwir0MPeOt5nZV65ytyY1kt2NnLs4b2kNRjSDmyHY9NMwe+3y86vVYwILw53bTeSU8f
-         tfVQ==
-X-Gm-Message-State: AOJu0YzSfcVAlV/ba9XfWgwbrrwZCDJeCHf7GdnzFD4hxS1ycWcd2I3i
-	3hKyrfJl0b8oulei/mN7uvO9t1AvgFbC6w6cCfcGwDWph+MBP0JbEBn5RKmbs1pA6U8=
-X-Gm-Gg: Acq92OEvoT9NTaHR03kCA69BRE0X00jy8CSVdvQK2zEb1s1qyL1OecJCfPGBwk3aFXB
-	u1j93O8B5Hg0K9nCPE1bJzmq6MjfmCqczqQgWPyuzrJjPwGpxXDC7g3CWULb4PZ/pOMT/oD9o/6
-	ftRC1IScwPnuF9x1hWWSeZX3BAmzBwPzJCgvpBh/626E4blTPxC6DOFETHwqeKAokKmqV5o5oq/
-	vQoLOdLn2bwjN4lk9KY1NAKK4FEVu5pW9jwn3BEiGf4oQSRjx+Xor5VBTb2qjVH6kQJbAEvxyYK
-	Zf+Q4UzJ/6oBBmiWrtJrl93Jr9KiE0sUM/xMTXkAdVBlmKRyISyN+k4eG/6tAXCmx231l34rt8W
-	C3DkdYAu+F5PzogPubuiwDa0+/rlR4+vjzhR/CIQTnE1BWbkHIIULcFAH0S5FREl3quCf3i6qkA
-	AFVBc38CJ5IAWk0MwmGmMDiyFf6MC9D7U3XLV4faL5br3M
-X-Received: by 2002:a05:6a21:1519:b0:38b:d93f:bbf5 with SMTP id adf61e73a8af0-3b4b8115151mr578811637.0.1780544648870;
-        Wed, 03 Jun 2026 20:44:08 -0700 (PDT)
-Received: from [192.168.1.7] ([159.192.166.161])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-c85df043216sm3684818a12.10.2026.06.03.20.44.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2026 20:44:08 -0700 (PDT)
-Message-ID: <e56c532c-921d-4e3c-bc34-47373068f3d3@gmail.com>
-Date: Thu, 4 Jun 2026 10:44:03 +0700
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="aB7pqUOo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1780544906;
+	bh=a9Ejd70EV9g9atNw+CS/AY0J4X8r3lcMC5oWtAu5nZY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=aB7pqUOoDpHXEPTabdYVQ7QfsjpGN4+ShnBukBoqVM59YT22qgv9WgMIWmNRZXxRD
+	 OrmDNtrqy3ZNMI1hw4j1dMkzFR0zkR1zklvlaMcwLzJUqRlhusZxj4/AOLMfxyw7ZY
+	 7d+KTfF6mhRAiZ1JY6bLGU+vZ+/DCptQTGDIn91Q=
+X-QQ-mid: zesmtpgz4t1780544902t95181a87
+X-QQ-Originating-IP: mNfA+u44ICVnVNaG6OiZD5QT3+dMFlVSq3r26mCkZbs=
+Received: from PEN202512010004 ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 04 Jun 2026 11:48:20 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 1028461922281110479
+EX-QQ-RecipientCnt: 5
+From: raoxu <raoxu@uniontech.com>
+To: mathias.nyman@intel.com
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	raoxu@uniontech.com
+Subject: [PATCH] usb: xhci: limit ports on the correct root hub
+Date: Thu,  4 Jun 2026 11:48:18 +0800
+Message-ID: <185F99CE35DA6675+20260604034818.2734932-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] USB: serial: option: add new usb-id for Dell Wireless
- DW5826e-m
-To: jackbb_wu@compal.com, Johan Hovold <johan@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260604-dw5826e-option-driver-v2-1-00609f65f5ae@compal.com>
-Content-Language: en-US
-From: Lars Melin <larsm17@gmail.com>
-In-Reply-To: <20260604-dw5826e-option-driver-v2-1-00609f65f5ae@compal.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: OFWsfmE1GYcuY1bGfR+v+LCd4BX/G88AJosJSgRs0cJBOVeLoJBbEZYg
+	/AiYbZOKKmTNyKUYMV2j5+tYH9Dc44DbTCjwVO4+F4W3ZekTslGRkC7YDNoMBNiubjQ4xKD
+	mWP4OkE5PC3bC7f1TWY76uTB6e9XWpcRIzcAG97KWNPwsgMb5wbfCYypgCax3Nl1HuUqzv8
+	0nKi+bT6sGv//CB5m3EAMTh6Rc1YiFLIBOIb5FxlEEgq/Bb72uld1BI7sp5TKfZPdlCuM5x
+	fsLuL1VtplkqpuiwYbKX/Bi8jJXC7yajdoGp1FjvVZ131eM5ZKJZTTo6uKDV5pU7UKnkNT/
+	FRMdidSS/5n33Vnr4d5d+4jtIa/hdwb42LGJ/vcslHdLmNzWtDWuM8bUOfaSfPqkQIPgUJA
+	Pme2+/VOGDysMGESetexIulRWJtlOdkpoEU/G0ZmXwBvDsFH01Y5/2CGC3bCWE49SuMBudH
+	s5aqZZ3MxTAsgSNaP4xbn8ySPpkDLQ1cwrncl/glr/y5tJaoeIQ3B1GvrrsCiIsJWQfMuUQ
+	0MmfviO/pdBIYIhkOIDeVBwuBReliktejtkBqLp07v+h24oanPQKh59GsXTbFAfbRD2C4FV
+	864tm4MJr7q81erj7dom6FJ2n4MIt7RvOxjzuSSONIP1MQUoHrMJAzlZPKWFXkDHMFINGDM
+	E3tKCxlJXkkN9A0MhS2mIuXMZNxt7QgcyyTOJtr2PHZ46ACitRUW0pNBpaMNCN74mnDUJze
+	Nnkm+/B/y33GMK64Y+PckxNlww3eDsMEPoHnp9zEibHX1dr1pGOi4solOXMOmJmoVbzm/nY
+	v1GkoMpupVIU3NIljZG9AK91h3z8ghe0FUc/uT/H1wQWQetmx+TGDhj8H75oEyrieRGaFa+
+	4Ayp2jpGbt6tLBFhEFItcSlLloMmqsCYMX7zJSgZNJvKXrjMb2RY3KHrgA5KPHfcdcHNnrK
+	aSR2aCO1RJ8mKDJwbo0XvNRCTVlmomUTVhDFaKc5Ib0QCYQuMaxnJfLJko4zkmRXx04A0mG
+	tkh1Vf5u5rpNhUoDP9DppSvr/UVF56c+6l93LuBcqg2+nqByy0
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+X-QQ-RECHKSPAM: 0
 
-On 2026-06-04 09:04, Jack Wu via B4 Relay wrote:
-> From: Jack Wu <jackbb_wu@compal.com>
-> 
-> Add support for Dell DW5826e-m with USB-id 0x413c:0x81ea
-> 
-> T:  Bus=03 Lev=01 Prnt=01 Port=04 Cnt=01 Dev#=  8 Spd=480  MxCh= 0
-> D:  Ver= 2.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
-> P:  Vendor=413c ProdID=81ea Rev= 5.04
-> S:  Manufacturer=DELL
-> S:  Product=DW5826e-m Qualcomm Snapdragon X12 Global LTE-A
-> S:  SerialNumber=358988870177734
-> C:* #Ifs= 7 Cfg#= 1 Atr=a0 MxPwr=500mA
-> A:  FirstIf#=12 IfCount= 2 Cls=02(comm.) Sub=0e Prot=00
-> I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-> E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:* If#= 1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=usbfs
-> E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-> E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-> E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-> E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-> E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> I:* If#= 4 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
-> E:  Ad=87(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
-> I:* If#=12 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=0e Prot=00 Driver=cdc_mbim
-> E:  Ad=88(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
-> I:  If#=13 Alt= 0 #EPs= 0 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
-> I:* If#=13 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
-> E:  Ad=8e(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> E:  Ad=0f(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-> 
-> Signed-off-by: Jack Wu <jackbb_wu@compal.com>
-> ---
-> - Link to v1: https://patch.msgid.link/20260601-dw5826e-option-driver-v1-1-e0a0a72cfe1b@compal.com
-> 
-> To: Johan Hovold <johan@kernel.org>
-> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-usb@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
-> v2:
->   - Blacklist interface #1 (ADB) using RSVD(1)
-> ---
-> ---
->   drivers/usb/serial/option.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-> index 48ae0188f2e9..070e0c553d7a 100644
-> --- a/drivers/usb/serial/option.c
-> +++ b/drivers/usb/serial/option.c
-> @@ -203,6 +203,8 @@ static void option_instat_callback(struct urb *urb);
->   #define DELL_PRODUCT_5829E_ESIM			0x81e4
->   #define DELL_PRODUCT_5829E			0x81e6
->   
-> +#define DELL_PRODUCT_DW5826E_ESIM	0x81ea
-> +
->   #define DELL_PRODUCT_FM101R_ESIM		0x8213
->   #define DELL_PRODUCT_FM101R			0x8215
->   
-> @@ -1125,6 +1127,8 @@ static const struct usb_device_id option_ids[] = {
->   	  .driver_info = RSVD(0) | RSVD(6) },
->   	{ USB_DEVICE_INTERFACE_CLASS(DELL_VENDOR_ID, DELL_PRODUCT_FM101R, 0xff) },
->   	{ USB_DEVICE_INTERFACE_CLASS(DELL_VENDOR_ID, DELL_PRODUCT_FM101R_ESIM, 0xff) },
-> +	{ USB_DEVICE_INTERFACE_CLASS(DELL_VENDOR_ID, DELL_PRODUCT_DW5826E_ESIM, 0xff),
-> +	  .driver_info = RSVD(1) }
->   	{ USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_E100A) },	/* ADU-E100, ADU-310 */
->   	{ USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_500A) },
->   	{ USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_620UW) },
-> 
-> ---
-> base-commit: e43ffb69e0438cddd72aaa30898b4dc446f664f8
-> change-id: 20260601-dw5826e-option-driver-e9bac038e2b5
-> 
-> Best regards,
-> --
-> Jack Wu <jackbb_wu@compal.com>
-> 
-> 
-> 
-Thanks, it looks fine to me now
-Reviewed-by: Lars Melin <larsm17@gmail>
+From: Xu Rao <raoxu@uniontech.com>
+
+xhci_create_rhub_port_array() is used for both USB2 and USB3
+root hubs. The limit path always writes usb3_rhub.num_ports.
+
+When the helper limits the USB2 root hub, this leaves the passed
+root hub unchanged and modifies the wrong root hub instead.
+
+Limit the root hub passed to the helper so the cap is applied to
+the root hub currently being initialized.
+
+Fixes: 9a7ad750a8fb ("usb: xhci: move roothub port limit validation")
+Signed-off-by: Xu Rao <raoxu@uniontech.com>
+---
+ drivers/usb/host/xhci-mem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 997fe90f54e5..2545f96fd1ee 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2182,7 +2182,7 @@ static void xhci_create_rhub_port_array(struct xhci_hcd *xhci, struct xhci_hub *
+ 	 * descriptors aren't longer than the USB core will allocate.
+ 	 */
+ 	if (rhub->num_ports > max_ports) {
+-		xhci->usb3_rhub.num_ports = max_ports;
++		rhub->num_ports = max_ports;
+ 		xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Limiting USB%u root hub ports to %u",
+ 			       rhub->maj_rev, max_ports);
+ 	}
+--
+2.50.1
+
