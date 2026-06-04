@@ -1,152 +1,268 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4699F3C9896;
-	Thu,  4 Jun 2026 17:37:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780594626; cv=pass; b=QWR2ER03h/UoYKeShUW1wCcbe3Fbs4Zc85Ho0iSszcTLTRVfMxGOiOtM8S80tB3AUt/DE295paKi7jL9zOdJYB4rno/ozWwy0i+zCyOzGyfqWAD41XYC5c1ywoPNC4F06pl6Bmqenvcv00PsCkWj5fLRFH7FkkQDuN+Cdy73PZA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780594626; c=relaxed/simple;
-	bh=YtimujmjF5DOPj1+e+6hWv0Y61K1O0J+znVkXe5pno8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bdguq7JQA1E2wIchDvzsFbFDH2P3r3zsM3iWf3mDE8EgbMTmxws7ObLNqd3a6unQutVxZVz0PIVG1lDTAcizhJd0zicQLmGpnfyvi3xq+7P2vwBFNV/JNXyoPCmHiCg5JIqwqlGSw/wHtfyKGhuaLYZndoAk5e0njFLd7OATE9Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=HgrrrxoU; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879E12EEE72
+	for <linux-usb@vger.kernel.org>; Thu,  4 Jun 2026 22:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780612224; cv=none; b=LbGjrUnEPNrea/yp/I8D1ppcCLsniKMUeeppg+m85IcfLjATnBuD+y3Yo2OSfLOhty6k0LTjiui0jKkaWT+z0TF2do3vT0vpvDLIjwo25s1DX9TTAWLmpZNCJV4tVGyQacX4GFgMq9luLI7XdEeKc2TeI+fnM8DItt6BYvx5QAA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780612224; c=relaxed/simple;
+	bh=LoliRsi/Ajyug5jxuTCj9Do0TlmCwYFMDUZ+17QxP0U=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=YQPx7fHcZeASltSewhpoU+AA/3w6caAkQ5rNf6eSL1RNH+VPBWwrNR1sQ9jgvXwi1SkpTVkneRw308q6KppJ+m4rKSacejF+aA3u2UaozXYUvJGpokp78FJU+QIvlFhaiwrxsw8pKqS+ktoZmuaNEgkob7MbJmQMzicSA6l9PeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mUsxCwc2; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="HgrrrxoU"
-ARC-Seal: i=1; a=rsa-sha256; t=1780594607; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=dzjbXh15qG/M2FqsKgqy8OwNFM255RwMMmXHmVV0xS3KW9+zDM1fdmh6YANbv47QD9G9Tfz9uhh0CX1SS5Sy6uEGhdlzGXgY525+6rbPnt5pdOvACVKA1Ug8RIeNNJ5s1xhxogizx4ufrBWl44Pw+t2juess1HnpwG66cnFTkaE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1780594607; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=m4ya3KC5zO30MFYkbOaNMeGYSDnkSBv5P5+wbhq6hIQ=; 
-	b=bYlqSRDszIPKM350/FkFxiiY5rKoxv2V5JAKLUuH+Kjy/rUWNM0OVqOTAG0IuOUg58aL0s+ZxbrYIkOQSOj0iu5d/olFUm4RGx+q1JiN3+7netkj8S6jw3bE+xTa+T65mQbQeoGEarbsnEyo0WqK8XBG6JC3st2kjd0zEhGDqLs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780594607;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=m4ya3KC5zO30MFYkbOaNMeGYSDnkSBv5P5+wbhq6hIQ=;
-	b=HgrrrxoUKIzWFU+WFy8RBsIWB1Qy5CwIhGXNqIWQ/eV+r4LxPgXBpH9O3cbpbu3v
-	en4bNwCoG17LHbzteNcgw+M+iIYLiuXZ08/VcwLpteDnkF0NXih4PLRM/KKVNZMp8gq
-	oJZooE1ChZnrdRlBV02F30mEgG1jwfa+f+7+D4bU=
-Received: by mx.zohomail.com with SMTPS id 1780594606000782.1812336506821;
-	Thu, 4 Jun 2026 10:36:46 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id ADCBF181D80; Thu, 04 Jun 2026 19:36:41 +0200 (CEST)
-Date: Thu, 4 Jun 2026 19:36:41 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: amitsd@google.com
-Cc: Badhri Jagan Sridharan <badhri@google.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans de Goede <hansg@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
-	Purism Kernel Team <kernel@puri.sm>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, =?utf-8?B?QW5kcsOp?= Draszik <andre.draszik@linaro.org>, 
-	Tudor Ambarus <tudor.ambarus@linaro.org>, Peter Griffin <peter.griffin@linaro.org>, 
-	RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>
-Subject: Re: [PATCH v3 0/2] Add support for Battery Status AMS
-Message-ID: <aiG1aJY7VURSJOZ2@venus>
-References: <20260602-batt-status-v3-0-a7c1c271f3b0@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mUsxCwc2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780612222; x=1812148222;
+  h=date:from:to:cc:subject:message-id;
+  bh=LoliRsi/Ajyug5jxuTCj9Do0TlmCwYFMDUZ+17QxP0U=;
+  b=mUsxCwc24n90TYLh02oCeG8Wt0a2Ivx8GrbWjtj2ngQFThTp+zz6XdPJ
+   b+fRYwUgi4eqA8qLWG1fJkW/gVI2l9YH/HzoPqWtQoICZDvOcw4eI4WXx
+   q5gPq2L+TRY20srmmv1rs+o8lfkhNKSdEmsJfWqAEXTdonqulHszS0/xF
+   CbCNIkgsnypTImL8SfqXMcy+bfyXjMV+iXJMNG2YRAWKSofOju93ZwqUx
+   vPpI8XXMWU7uXsacG8J+6G2yEDXuhaTQQ0tykY18nSaON2erjcGHT1s/k
+   dl23P3a58hhDB4PyPCRo8M+eBHhQsHtWqTZcF0ZHy53pXEKRi4BvmtbcJ
+   w==;
+X-CSE-ConnectionGUID: ga63BjfKSduuhdYT3Ax//A==
+X-CSE-MsgGUID: bXZA5iy4RRKQbnFC8vFd/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81572974"
+X-IronPort-AV: E=Sophos;i="6.24,187,1774335600"; 
+   d="scan'208";a="81572974"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 15:30:22 -0700
+X-CSE-ConnectionGUID: YvqWm6i5Q+m7m9eLSFDmaQ==
+X-CSE-MsgGUID: 8cRIMN8wS06dds1r4dD+Wg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,187,1774335600"; 
+   d="scan'208";a="282762676"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 04 Jun 2026 15:30:21 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wVGZt-00000000FHU-3ZVt;
+	Thu, 04 Jun 2026 22:30:17 +0000
+Date: Fri, 05 Jun 2026 06:30:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ 511e746700ee6e93104d061a87743906128ab709
+Message-ID: <202606050604.sRBWsKcW-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="trq3tzyl3ngijhjc"
-Content-Disposition: inline
-In-Reply-To: <20260602-batt-status-v3-0-a7c1c271f3b0@google.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.2.1.5.2/280.581.16
-X-ZohoMailClient: External
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: 511e746700ee6e93104d061a87743906128ab709  usb: host: xhci-rcar: Split R-Car Gen2 and Gen3 .plat_start() handling
 
---trq3tzyl3ngijhjc
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 0/2] Add support for Battery Status AMS
-MIME-Version: 1.0
+elapsed time: 1543m
 
-Hi,
+configs tested: 191
+configs skipped: 11
 
-On Tue, Jun 02, 2026 at 10:47:05PM +0000, Amit Sunil Dhamne via B4 Relay wr=
-ote:
-> PD 3.1 v1.8 Spec necessitates a response to Get_Battery_Status request
-> from the port partner (see "6.13.2 Applicability of Data Message").
-> This patchset adds support to get all the battery type power supplies
-> and query them to report the telemetry required to build a Battery
-> Status Message. Right now, this submission assumes all the battery type
-> power supplies that exist in the system are fixed (meaning cannot be hot
-> swapped).
->=20
-> Previously, I had sent a patch series [1]. However there were some
-> concerns. Broadly:
->   * No client drivers
->   * Duplicating dt properties
-> To address the above issues, we now have Fuel Gauge and Charger drivers.
-> Also, I have rectified my approach to fetch information about batteries
-> from the power supply core.
->=20
-> While, the original patch series [1] added support for Battery Caps as
-> well, this patch series only adds support for Battery Status. Therefore,
-> I am sending it as a new series while incorporating relevant feedback.
->=20
-> [1] https://lore.kernel.org/all/20250507-batt_ops-v2-0-8d06130bffe6@googl=
-e.com/
->=20
-> Patches in series:
-> [A] "power: supply: Add helpers to get and put arrays of power supply han=
-dles"
-> [B] "usb: typec: tcpm: Add support for Battery Status response message"
->=20
-> Technical dependency of patches:
-> [B] depends on [A] due to usage of `power_supply_get_battery_all` &
-> `power_supply_put_battery_all` APIs.
->=20
-> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
-> ---
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-I think you want to filter on batteries that are
-POWER_SUPPLY_SCOPE_SYSTEM? Otherwise this would also give you
-battery devices for something like a cordless mouse.
+tested configs:
+alpha                             allnoconfig    gcc-15.2.0
+alpha                            allyesconfig    gcc-15.2.0
+alpha                               defconfig    gcc-16.1.0
+arc                              allmodconfig    gcc-15.2.0
+arc                               allnoconfig    gcc-15.2.0
+arc                              allyesconfig    gcc-15.2.0
+arc                                 defconfig    gcc-16.1.0
+arc                   randconfig-001-20260604    gcc-10.5.0
+arc                   randconfig-002-20260604    gcc-16.1.0
+arm                               allnoconfig    clang-23
+arm                              allyesconfig    gcc-15.2.0
+arm                                 defconfig    clang-23
+arm                   randconfig-001-20260604    gcc-8.5.0
+arm                   randconfig-002-20260604    gcc-14.3.0
+arm                   randconfig-003-20260604    clang-23
+arm                   randconfig-004-20260604    clang-23
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-15.2.0
+arm64                               defconfig    gcc-16.1.0
+arm64                 randconfig-001-20260604    clang-23
+arm64                 randconfig-002-20260604    clang-23
+arm64                 randconfig-003-20260604    clang-20
+arm64                 randconfig-004-20260604    clang-23
+csky                             allmodconfig    gcc-15.2.0
+csky                              allnoconfig    gcc-15.2.0
+csky                                defconfig    gcc-16.1.0
+csky                  randconfig-001-20260604    gcc-16.1.0
+csky                  randconfig-002-20260604    gcc-14.3.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-23
+hexagon                             defconfig    clang-23
+hexagon               randconfig-001-20260604    clang-23
+hexagon               randconfig-002-20260604    clang-23
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                             allyesconfig    gcc-14
+i386        buildonly-randconfig-001-20260604    clang-20
+i386        buildonly-randconfig-002-20260604    gcc-14
+i386        buildonly-randconfig-003-20260604    gcc-14
+i386        buildonly-randconfig-004-20260604    clang-20
+i386        buildonly-randconfig-005-20260604    gcc-14
+i386        buildonly-randconfig-006-20260604    clang-20
+i386                                defconfig    clang-22
+i386                           randconfig-001    clang-20
+i386                  randconfig-001-20260604    clang-20
+i386                           randconfig-002    gcc-14
+i386                  randconfig-002-20260604    clang-20
+i386                           randconfig-003    gcc-14
+i386                  randconfig-003-20260604    gcc-13
+i386                           randconfig-004    clang-20
+i386                  randconfig-004-20260604    clang-20
+i386                           randconfig-005    gcc-14
+i386                  randconfig-005-20260604    clang-20
+i386                           randconfig-006    gcc-14
+i386                  randconfig-006-20260604    clang-20
+i386                           randconfig-007    gcc-14
+i386                  randconfig-007-20260604    clang-20
+i386                           randconfig-011    clang-22
+i386                  randconfig-011-20260604    gcc-14
+i386                           randconfig-012    clang-22
+i386                  randconfig-012-20260604    gcc-14
+i386                           randconfig-013    gcc-14
+i386                  randconfig-013-20260604    gcc-14
+i386                           randconfig-014    clang-22
+i386                  randconfig-014-20260604    gcc-12
+i386                           randconfig-015    gcc-14
+i386                  randconfig-015-20260604    clang-22
+i386                           randconfig-016    gcc-14
+i386                  randconfig-016-20260604    clang-22
+i386                           randconfig-017    gcc-14
+i386                  randconfig-017-20260604    clang-22
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-23
+loongarch                           defconfig    clang-23
+loongarch             randconfig-001-20260604    clang-18
+loongarch             randconfig-002-20260604    gcc-16.1.0
+m68k                             allmodconfig    gcc-15.2.0
+m68k                              allnoconfig    gcc-15.2.0
+m68k                             allyesconfig    gcc-15.2.0
+m68k                                defconfig    gcc-16.1.0
+microblaze                        allnoconfig    gcc-15.2.0
+microblaze                       allyesconfig    gcc-15.2.0
+microblaze                          defconfig    gcc-16.1.0
+mips                             allmodconfig    gcc-15.2.0
+mips                              allnoconfig    gcc-15.2.0
+mips                             allyesconfig    gcc-15.2.0
+nios2                            allmodconfig    gcc-11.5.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20260604    gcc-8.5.0
+nios2                 randconfig-002-20260604    gcc-11.5.0
+openrisc                         allmodconfig    gcc-15.2.0
+openrisc                          allnoconfig    gcc-15.2.0
+openrisc                            defconfig    gcc-16.1.0
+parisc                           allmodconfig    gcc-15.2.0
+parisc                            allnoconfig    gcc-15.2.0
+parisc                           allyesconfig    gcc-15.2.0
+parisc                              defconfig    gcc-16.1.0
+parisc                         randconfig-001    gcc-13.4.0
+parisc                randconfig-001-20260604    gcc-8.5.0
+parisc                         randconfig-002    gcc-8.5.0
+parisc                randconfig-002-20260604    gcc-12.5.0
+parisc64                            defconfig    gcc-16.1.0
+powerpc                          allmodconfig    gcc-15.2.0
+powerpc                           allnoconfig    gcc-15.2.0
+powerpc                   bluestone_defconfig    clang-23
+powerpc                        randconfig-001    gcc-13.4.0
+powerpc               randconfig-001-20260604    clang-23
+powerpc                        randconfig-002    gcc-10.5.0
+powerpc               randconfig-002-20260604    clang-17
+powerpc64                      randconfig-001    clang-17
+powerpc64             randconfig-001-20260604    clang-23
+powerpc64                      randconfig-002    clang-23
+powerpc64             randconfig-002-20260604    clang-23
+riscv                            allmodconfig    clang-23
+riscv                             allnoconfig    gcc-15.2.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-23
+riscv                 randconfig-001-20260604    clang-23
+riscv                 randconfig-002-20260604    clang-23
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-23
+s390                             allyesconfig    gcc-15.2.0
+s390                                defconfig    clang-18
+s390                           randconfig-001    gcc-11.5.0
+s390                  randconfig-001-20260604    clang-20
+s390                  randconfig-002-20260604    clang-17
+sh                               allmodconfig    gcc-15.2.0
+sh                                allnoconfig    gcc-15.2.0
+sh                               allyesconfig    gcc-15.2.0
+sh                                  defconfig    gcc-16.1.0
+sh                    randconfig-001-20260604    gcc-12.5.0
+sh                    randconfig-002-20260604    gcc-16.1.0
+sparc                             allnoconfig    gcc-15.2.0
+sparc                               defconfig    gcc-16.1.0
+sparc                 randconfig-001-20260604    gcc-13.4.0
+sparc                 randconfig-002-20260604    gcc-11.5.0
+sparc64                          allmodconfig    clang-23
+sparc64                             defconfig    clang-23
+sparc64               randconfig-001-20260604    gcc-9.5.0
+sparc64               randconfig-002-20260604    gcc-11.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-23
+um                               allyesconfig    gcc-14
+um                                  defconfig    clang-23
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20260604    clang-23
+um                    randconfig-002-20260604    clang-23
+um                           x86_64_defconfig    clang-23
+x86_64                           allmodconfig    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-22
+x86_64               buildonly-randconfig-001    gcc-12
+x86_64      buildonly-randconfig-001-20260604    gcc-14
+x86_64               buildonly-randconfig-002    clang-20
+x86_64      buildonly-randconfig-002-20260604    clang-20
+x86_64               buildonly-randconfig-003    gcc-14
+x86_64      buildonly-randconfig-003-20260604    gcc-14
+x86_64               buildonly-randconfig-004    gcc-14
+x86_64      buildonly-randconfig-004-20260604    clang-20
+x86_64               buildonly-randconfig-005    gcc-14
+x86_64      buildonly-randconfig-005-20260604    gcc-13
+x86_64               buildonly-randconfig-006    clang-20
+x86_64      buildonly-randconfig-006-20260604    clang-20
+x86_64                              defconfig    gcc-14
+x86_64                randconfig-001-20260604    clang-20
+x86_64                randconfig-002-20260604    gcc-14
+x86_64                randconfig-003-20260604    clang-20
+x86_64                randconfig-004-20260604    clang-20
+x86_64                randconfig-005-20260604    clang-20
+x86_64                randconfig-006-20260604    gcc-14
+x86_64                randconfig-011-20260604    clang-22
+x86_64                randconfig-012-20260604    clang-22
+x86_64                randconfig-013-20260604    clang-22
+x86_64                randconfig-014-20260604    gcc-13
+x86_64                randconfig-015-20260604    clang-22
+x86_64                randconfig-016-20260604    clang-22
+x86_64                         randconfig-071    gcc-14
+x86_64                randconfig-071-20260604    clang-20
+x86_64                         randconfig-072    gcc-14
+x86_64                         randconfig-073    clang-20
+x86_64                randconfig-073-20260604    clang-20
+x86_64                         randconfig-074    gcc-14
+x86_64                randconfig-074-20260604    clang-20
+x86_64                         randconfig-075    gcc-13
+x86_64                         randconfig-076    clang-20
+x86_64                randconfig-076-20260604    gcc-14
+x86_64                          rhel-9.4-rust    clang-22
+xtensa                            allnoconfig    gcc-15.2.0
+xtensa                randconfig-001-20260604    gcc-13.4.0
+xtensa                randconfig-002-20260604    gcc-11.5.0
 
-You mention that this is assuming batteries to be always present,
-but handle POWER_SUPPLY_PROP_PRESENT. So basically a battery, which
-has POWER_SUPPLY_PROP_PRESENT=3D0 would violate the PD spec as Fixed
-Batteries are not supposed to have this unset?
-
-Not sure if this is fixable, but you implicitly rely on the battery
-driver to be probed before TCPM reaches this.
-
-Greetings,
-
--- Sebastian
-
---trq3tzyl3ngijhjc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmoht6EACgkQ2O7X88g7
-+prLiA/+KtDenZG++fF9L4HbEcOEoDClv2JeZicRohAUVd1sYH+lil590L1VMyDo
-MzP0Ar4CIN0X47gUq3Fx5YJaLDz7LH8IvuKdCccW9KbmkTFeACHFlEg7MSjZlrhv
-imPW5+9TjOVnu+NcpBENobaCx5k8ZcrqVcpz0S7dYjYvGItGCzradMrhTvpHnfyu
-AXnfODB4exxL2/aWDELoHnvwLQpXyTVhsXijZHDlDNTomoZPBWmgTy4uBBfRTcZS
-81BNJbK9H6USDs9LI/I15nKsXkbDbBpK7shmVvcfPluGiXXXHbULFQsN5QPIkvm2
-8O6elDerFQOawjFBUO0e+eA3Rmz/uQ9C1KeasfbX3j4yNxRKdaANk/Xu2LXMtH+T
-8djTAhcusyRGMOAzMnsOoxC5WuYNjE7h9v7CyOdwVFcYIadpvnIeLZt7Hf5LySnu
-wx7s47seEHpomKhX/Ftuy0GuTjzrpjTZU8ydIpj7sfW42Ty0dLHMAuCAF9RWgFai
-GVVBcpq4PDFN6JRpOix/6901jjd/xDyUgvGP49BuV2GmCjRq4M4sFvdXnQeMQjrR
-A/R5S5MlzMYgC+hYvvGtOYzK0IrFSIKOFfOBTmIUFprJboa75QuqAh/XuNNhQnxn
-9xHY5EaS8jMV0nS0aTg3RkSWT+we8a3pLCFEpzziW3nMffgann0=
-=chtd
------END PGP SIGNATURE-----
-
---trq3tzyl3ngijhjc--
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
