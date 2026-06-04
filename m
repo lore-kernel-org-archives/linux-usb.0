@@ -1,186 +1,152 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E045437DAA3
-	for <linux-usb@vger.kernel.org>; Thu,  4 Jun 2026 15:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4699F3C9896;
+	Thu,  4 Jun 2026 17:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780587799; cv=pass; b=o4oV5VUs39LaMRFbqX/ZRWI4w9jKpmKkaeC9nFxpyblX/Ck9WrqlMXyi6AwCW7vyZGp7I4S/owjvUftkOt3vakOnm5g3VQjlRs0vZ0kMiLJfOJg8auD14CiU5iV9vxbWss7q4WCE22vfcDBbvYIR0Jpvh7vJ1eQWTwEO+sqG1e4=
+	t=1780594626; cv=pass; b=QWR2ER03h/UoYKeShUW1wCcbe3Fbs4Zc85Ho0iSszcTLTRVfMxGOiOtM8S80tB3AUt/DE295paKi7jL9zOdJYB4rno/ozWwy0i+zCyOzGyfqWAD41XYC5c1ywoPNC4F06pl6Bmqenvcv00PsCkWj5fLRFH7FkkQDuN+Cdy73PZA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780587799; c=relaxed/simple;
-	bh=xF/xDdGLaN60v3KrZg8JRwjzS+7vle4tIji8yDZpsZo=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=W7g2Pm9NdMHNqPcBJh1aEuhYT2+7LKFCGMCq3qDq5fRauzA+l7+roXFQMfsjGzGh44VfLastBnepZsPJ4KxFsTjDf1Zw+NGE8NeUyXMFcIhb5YJxXdZlHg64deIM8ffGhGDrQeyVx6qVZqQo2/XnscoKKuD/m6279mq7SSdy/Hc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JFwOrdc2; arc=pass smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780594626; c=relaxed/simple;
+	bh=YtimujmjF5DOPj1+e+6hWv0Y61K1O0J+znVkXe5pno8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bdguq7JQA1E2wIchDvzsFbFDH2P3r3zsM3iWf3mDE8EgbMTmxws7ObLNqd3a6unQutVxZVz0PIVG1lDTAcizhJd0zicQLmGpnfyvi3xq+7P2vwBFNV/JNXyoPCmHiCg5JIqwqlGSw/wHtfyKGhuaLYZndoAk5e0njFLd7OATE9Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=HgrrrxoU; arc=pass smtp.client-ip=136.143.188.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JFwOrdc2"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-68d22a95815so192339a12.3
-        for <linux-usb@vger.kernel.org>; Thu, 04 Jun 2026 08:43:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780587795; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZKhT0Z2lZc3FTOVRdG+fZFAVWV435piqP54e00OScVQB3zkSmi+qcz+sNi/9Zcvt3D
-         8LyOGh8y3MNW3rx2oyOvlvPB3Ixj5D6ajUTnGD2EVaWwxsX2kUVv13qsEzcbLV/r7Rwb
-         90+YXGxOYJgdvL2Jo6g+GgoFjKykvOAWsgBwlF2YiY34kdFCJHvrdDvgsaPAkGuvwQEH
-         d0+6eeteaDi+hcUm+LkuDIQhEP13qCn2/+nFfKWfZKYTU66+dClZ8TjAVCyiZvdZSSJU
-         EjJQF1tOa0XhyVVTAC/yPD2iWmNBlYPsK48bl7X0fOnRZCflxOdich6IVv94wrkw7JbQ
-         Gy4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:dkim-signature;
-        bh=bLv6DLN3xdxjaftKSIdzPbh45mexUpP7ls3tzx5curI=;
-        fh=XwKj7gG9OVj1Dec5bs1DuxS01yfr9xd2DnJG+jlzAhs=;
-        b=TH9I1ZmbU6gEBvui4QUXZuRBYM5eC/4NXSFwk3SWy59tfEjj8pnsOckMgrrteX5HHx
-         vJiYUuJ7t1a1B6IFW96mpux7dHUpYBSnzmY8otdBEpDIphuK05wH+jWuYkPWPqkeY4cT
-         FdKkS942nP2ZLTdFrrS8R200oz5/WHrKSj/7usi1qbB0LjXq7B8Kxs/5ulituT3npqvU
-         dQ9+mMb8Lvqmhj1aHjOOSkoNNKNr/kj7o7Q912akBLIesxFwmXDroKtA+hZm7M0nVlGs
-         Ky3uZNIZaSKqy15JfIiNoJL45RNMT0/MdKCYm6eArzpJySpqctdud5juKbX8dF/uPxI+
-         7/VA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780587795; x=1781192595; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bLv6DLN3xdxjaftKSIdzPbh45mexUpP7ls3tzx5curI=;
-        b=JFwOrdc208pTpMREhNk0yOOGsxVLjH5usjlS3YADQsi0uvqWvTZdsbEN43F+n9AwTI
-         F9kmJn/bxG6n4bLYR1Uh38qI39Epv7MSW5ttPaS8BKLD8+QC3dgmQbMitW+iJCZp8Yfl
-         xcG3PZk30QMt4IVuGet4w+kXngfqhQaNasYSwJztnPfJmdpkpNVS8k5H5mMZIRDfGALY
-         EM+7Le8octBRzlx4K9KkGnci/y1h+lmp/2MXvczPnAKlSn+HpOAmWb5MdowIWS38FBTu
-         SmdgYstP3QEEeIR1DuTQS2YPck6Mh6DI1lDDyrek3TYEwjlBVlJFbyLQXqCEzPGUKQey
-         cxxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780587795; x=1781192595;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bLv6DLN3xdxjaftKSIdzPbh45mexUpP7ls3tzx5curI=;
-        b=BWPCXX/oRVEK8qT9jrVexqKFdYqnNSanNGiSQ5kMDSc5RxkGrtMVXA74bHhS3cXltL
-         C8gcigIEI6yRSYgE3xezgrQnkCRKSllMx56Ll4gBvsRgGOAYuo132MmZtshNVoY/QPBR
-         6aYFws/KUDRH86cHsUmtG2dxuZNdhFURgljflnmxidAKfPt9EETL74FX4tWKTRAC7iLG
-         ilRphwIyDJQom+koY++tfaJWVhUEPLVcPxWETqlSLOxJ2oiu6TlWfQQEdx4yd6z05jhg
-         NNmu10naKXgtgHaWawGzofidCpmpOJa/VACalXDIKBgA+kouDtTUFlvmB9edkEvVpIug
-         OvGg==
-X-Gm-Message-State: AOJu0YwjznJJbV8/jImElxdF4cUP789pOgLRq0usWW4zsWTNpVBPq3J6
-	wWP6jLpea8ZC6OO6HDWS4Y4ZRdCz8qax5hY2/mpunfM5wl/owAWc5lAY3Ppjhv+p6XvyQr0+lh4
-	AbRWmV0Rkpl1sQGwA4C7yrXd5VYcW2/+GvxSe
-X-Gm-Gg: Acq92OH8F6rugxGHxWfHawcH7Md1gE4iJaWWGx3gNdSStTUrIxX8tje9pxjXsH1L8HF
-	mNam/qht4OqYIVLU3XxgEtry47WmX7FkzriiD2feXOaj8ndaWRVbe1cBtiEaKBF0xJ9XlbKVZTc
-	hb5D0lccDIJcs4TAO6qu40dhRIx4ViOVdE2W8Hea68Jg9KwEZQAZU2xpH25kKuA0Gu9XFs+YALR
-	nIfAF4YYfjZ2g3YS30VEvpw7HnDCV08fblJpYgPzl4kqJpZXUAGQxkua8V+eMBOfGeBrQGU9njo
-	Bqr66lTpwv0TXCftDqE=
-X-Received: by 2002:a05:6402:4585:b0:670:8ccd:704a with SMTP id
- 4fb4d7f45d1cf-68f3ed9e9c8mr824858a12.5.1780587795121; Thu, 04 Jun 2026
- 08:43:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="HgrrrxoU"
+ARC-Seal: i=1; a=rsa-sha256; t=1780594607; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=dzjbXh15qG/M2FqsKgqy8OwNFM255RwMMmXHmVV0xS3KW9+zDM1fdmh6YANbv47QD9G9Tfz9uhh0CX1SS5Sy6uEGhdlzGXgY525+6rbPnt5pdOvACVKA1Ug8RIeNNJ5s1xhxogizx4ufrBWl44Pw+t2juess1HnpwG66cnFTkaE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1780594607; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=m4ya3KC5zO30MFYkbOaNMeGYSDnkSBv5P5+wbhq6hIQ=; 
+	b=bYlqSRDszIPKM350/FkFxiiY5rKoxv2V5JAKLUuH+Kjy/rUWNM0OVqOTAG0IuOUg58aL0s+ZxbrYIkOQSOj0iu5d/olFUm4RGx+q1JiN3+7netkj8S6jw3bE+xTa+T65mQbQeoGEarbsnEyo0WqK8XBG6JC3st2kjd0zEhGDqLs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780594607;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=m4ya3KC5zO30MFYkbOaNMeGYSDnkSBv5P5+wbhq6hIQ=;
+	b=HgrrrxoUKIzWFU+WFy8RBsIWB1Qy5CwIhGXNqIWQ/eV+r4LxPgXBpH9O3cbpbu3v
+	en4bNwCoG17LHbzteNcgw+M+iIYLiuXZ08/VcwLpteDnkF0NXih4PLRM/KKVNZMp8gq
+	oJZooE1ChZnrdRlBV02F30mEgG1jwfa+f+7+D4bU=
+Received: by mx.zohomail.com with SMTPS id 1780594606000782.1812336506821;
+	Thu, 4 Jun 2026 10:36:46 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+	id ADCBF181D80; Thu, 04 Jun 2026 19:36:41 +0200 (CEST)
+Date: Thu, 4 Jun 2026 19:36:41 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: amitsd@google.com
+Cc: Badhri Jagan Sridharan <badhri@google.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans de Goede <hansg@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
+	Purism Kernel Team <kernel@puri.sm>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, =?utf-8?B?QW5kcsOp?= Draszik <andre.draszik@linaro.org>, 
+	Tudor Ambarus <tudor.ambarus@linaro.org>, Peter Griffin <peter.griffin@linaro.org>, 
+	RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>
+Subject: Re: [PATCH v3 0/2] Add support for Battery Status AMS
+Message-ID: <aiG1aJY7VURSJOZ2@venus>
+References: <20260602-batt-status-v3-0-a7c1c271f3b0@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Orlando Ulises Aguilar Rojas <orlandoulisesit@gmail.com>
-Date: Thu, 4 Jun 2026 09:43:02 -0600
-X-Gm-Features: AVHnY4LdlNpOF7JHwNf8PU4kuakHAj_CA4_d8ht9SGOaXdiYhOTQfO2HLxfQmMU
-Message-ID: <CAE=pYEp=RZCeRbAtweZ0_zkPr7cUZUu=uoDRkqko7xduVUMEKA@mail.gmail.com>
-Subject: [REGRESSION] Sino Wealth 258a:002a keyboard enters stuck shift state
- on USB disconnect
-To: linux-input@vger.kernel.org
-Cc: linux-usb@vger.kernel.org, benjamin.tissoires@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="trq3tzyl3ngijhjc"
+Content-Disposition: inline
+In-Reply-To: <20260602-batt-status-v3-0-a7c1c271f3b0@google.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.2.1.5.2/280.581.16
+X-ZohoMailClient: External
+
+
+--trq3tzyl3ngijhjc
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 0/2] Add support for Battery Status AMS
+MIME-Version: 1.0
 
-Hi everyone,
+Hi,
 
-I am reporting a regression that I first observed in linux-zen
-7.0.8-zen1. The zen-kernel maintainer (heftig) confirmed that the
-responsible commits also landed in upstream stable 7.0.10, so this is
-not zen-specific:
-  - HID: pass the buffer size to hid_report_raw_event
-  - HID: core: introduce hid_safe_input_report()
+On Tue, Jun 02, 2026 at 10:47:05PM +0000, Amit Sunil Dhamne via B4 Relay wr=
+ote:
+> PD 3.1 v1.8 Spec necessitates a response to Get_Battery_Status request
+> from the port partner (see "6.13.2 Applicability of Data Message").
+> This patchset adds support to get all the battery type power supplies
+> and query them to report the telemetry required to build a Battery
+> Status Message. Right now, this submission assumes all the battery type
+> power supplies that exist in the system are fixed (meaning cannot be hot
+> swapped).
+>=20
+> Previously, I had sent a patch series [1]. However there were some
+> concerns. Broadly:
+>   * No client drivers
+>   * Duplicating dt properties
+> To address the above issues, we now have Fuel Gauge and Charger drivers.
+> Also, I have rectified my approach to fetch information about batteries
+> from the power supply core.
+>=20
+> While, the original patch series [1] added support for Battery Caps as
+> well, this patch series only adds support for Battery Status. Therefore,
+> I am sending it as a new series while incorporating relevant feedback.
+>=20
+> [1] https://lore.kernel.org/all/20250507-batt_ops-v2-0-8d06130bffe6@googl=
+e.com/
+>=20
+> Patches in series:
+> [A] "power: supply: Add helpers to get and put arrays of power supply han=
+dles"
+> [B] "usb: typec: tcpm: Add support for Battery Status response message"
+>=20
+> Technical dependency of patches:
+> [B] depends on [A] due to usage of `power_supply_get_battery_all` &
+> `power_supply_put_battery_all` APIs.
+>=20
+> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
+> ---
 
+I think you want to filter on batteries that are
+POWER_SUPPLY_SCOPE_SYSTEM? Otherwise this would also give you
+battery devices for something like a cordless mouse.
 
---- Summary ---
+You mention that this is assuming batteries to be always present,
+but handle POWER_SUPPLY_PROP_PRESENT. So basically a battery, which
+has POWER_SUPPLY_PROP_PRESENT=3D0 would violate the PD spec as Fixed
+Batteries are not supposed to have this unset?
 
-A Sino Wealth 258a:002a generic mechanical keyboard (Machenike K500)
-enters a permanent "stuck shift" / modifier ghosting state when any
-other USB device disconnects from the host. This worked flawlessly on
-7.0.7.
+Not sure if this is fixable, but you implicitly rely on the battery
+driver to be probed before TCPM reaches this.
 
---- Root cause ---
+Greetings,
 
-Before these commits, a report where csize < rsize returned -EINVAL
-and was discarded in hid_report_raw_event().
+-- Sebastian
 
-After the commits, the same condition is silently zero-padded and
-processed. Additionally, drivers/hid/usbhid/hid-core.c was updated to
-call hid_safe_input_report() passing urb->transfer_buffer_length as
-bufsize instead of urb->actual_length. Since the USB transfer
-buffer (typically 64 bytes) is always larger than rsize for this
-device, the new bsize < rsize early-exit guard never fires. The code
-reaches the zero-fill path unconditionally.
+--trq3tzyl3ngijhjc
+Content-Type: application/pgp-signature; name="signature.asc"
 
-This produces no kernel warnings =E2=80=94 dbg_hid is not visible in normal
-dmesg =E2=80=94 which is why the fault leaves no trace in the logs.
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmoht6EACgkQ2O7X88g7
++prLiA/+KtDenZG++fF9L4HbEcOEoDClv2JeZicRohAUVd1sYH+lil590L1VMyDo
+MzP0Ar4CIN0X47gUq3Fx5YJaLDz7LH8IvuKdCccW9KbmkTFeACHFlEg7MSjZlrhv
+imPW5+9TjOVnu+NcpBENobaCx5k8ZcrqVcpz0S7dYjYvGItGCzradMrhTvpHnfyu
+AXnfODB4exxL2/aWDELoHnvwLQpXyTVhsXijZHDlDNTomoZPBWmgTy4uBBfRTcZS
+81BNJbK9H6USDs9LI/I15nKsXkbDbBpK7shmVvcfPluGiXXXHbULFQsN5QPIkvm2
+8O6elDerFQOawjFBUO0e+eA3Rmz/uQ9C1KeasfbX3j4yNxRKdaANk/Xu2LXMtH+T
+8djTAhcusyRGMOAzMnsOoxC5WuYNjE7h9v7CyOdwVFcYIadpvnIeLZt7Hf5LySnu
+wx7s47seEHpomKhX/Ftuy0GuTjzrpjTZU8ydIpj7sfW42Ty0dLHMAuCAF9RWgFai
+GVVBcpq4PDFN6JRpOix/6901jjd/xDyUgvGP49BuV2GmCjRq4M4sFvdXnQeMQjrR
+A/R5S5MlzMYgC+hYvvGtOYzK0IrFSIKOFfOBTmIUFprJboa75QuqAh/XuNNhQnxn
+9xHY5EaS8jMV0nS0aTg3RkSWT+we8a3pLCFEpzziW3nMffgann0=
+=chtd
+-----END PGP SIGNATURE-----
 
---- Affected device ---
-
-Bus 001 Device XXX: ID 258a:002a Sino Wealth (Machenike K500)
-USB Host: Intel xHCI 0000:00:14.0, port 1-2.2
-
-This keyboard uses a non-compliant NKRO implementation. It registers a
-spurious mouse interface alongside its real keyboard interfaces:
-
-  SINO WEALTH Gaming Keyboard        -> input0 (interface 0)
-  SINO WEALTH Gaming Keyboard        -> input1 (interface 1)
-  SINO WEALTH Gaming Keyboard Mouse  -> input1 (interface 1) <- spurious
-
-That spurious mouse interface has always emitted short/malformed
-reports. Under 7.0.7 those reports were safely discarded. Under 7.0.8+
-they are zero-padded, processed, and produce a modifier key event with
-Shift held.
-
-
---- Exact trigger ---
-
-The fault occurs at runtime, not at boot. Boot dmesg is structurally
-identical on both kernels.
-
-Trigger captured via udevadm monitor: when a separate Realtek wireless
-mouse receiver fires unbind -> remove on the USB bus, the Sino Wealth
-spurious mouse interface reacts to the hub topology change, emits a
-short report, and the zero-fill behavior causes the keyboard to output
-"!@#!@#" (Shift held). Physically unplugging and replugging the
-keyboard does not clear this state; a system reboot is required to
-restore normal functionality.
-
-
---- What does NOT mitigate the issue ---
-
-  - Forcing power/control =3D on on the device USB path
-  - usbhid.quirks=3D0x258a:002a:0x00000004 boot parameter
-
-
---- Suggested fix ---
-
-Reconsider the zero-fill path introduced in hid_report_raw_event():
-the pre-7.0.8 behavior (discard short reports with -EINVAL) was safer
-for devices with non-compliant NKRO implementations that have always
-emitted structurally invalid reports.
-
-If the zero-fill behavior is intentional, adding 258a:002a to the HID
-quirks table with a discard-on-short-report quirk would be an
-acceptable mitigation.
-
---- System ---
-
-OS:             CachyOS x86_64
-Working kernel: Linux 7.0.7-zen2-1-zen
-Broken kernel:  Linux 7.0.8-zen1 through 7.0.11-zen (upstream: 7.0.10+)
-CPU:            Intel Core i5-13600KF
-
-dmesg (working/broken) and udev runtime event logs are available on
-request, or can be viewed in the downstream zen-kernel issue:
-https://github.com/zen-kernel/zen-kernel/issues/414
-
-Thanks for your time.
+--trq3tzyl3ngijhjc--
