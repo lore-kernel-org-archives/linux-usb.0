@@ -1,121 +1,103 @@
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A65533CF672;
-	Thu,  4 Jun 2026 06:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA7C3D9045
+	for <linux-usb@vger.kernel.org>; Thu,  4 Jun 2026 06:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780555619; cv=none; b=IZbFs5fsW/wCkr+PWTYO2/ohc4S0i+hUOInvsb1gjHXtXJVq7TUVd5b4rOesvwyhSAhLF6E1k1kE+1d8mzLS7IaSzpbe0g0qFPqsV4xzTFh6edFVH0p875bSeGPfQRSQkHP1N8DYZxF5FDu662gkuQBYy+VJZA0dRjfyj4tmiLM=
+	t=1780555904; cv=none; b=Zsj9vhfG2NLOBxh8i7qVa3wUJgskzVTOtmgBmUore/Vt4abMMm+d0TOuNyEUy6Hk/1Io/eHFCgqrWNGix4xhuNpx2SgZrrVsnVdxn3cmVS8kZfB2QjasJBm02OJXNjvTHWDxZF4Tv20WJYCJGIotDnUAa7L22xO/Lsqah/LuCtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780555619; c=relaxed/simple;
-	bh=Wy6xJX3ldMfWKBn4+CC1kygwv0cMZ1H22cRmN9DD+S0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wgk3THhxZ1c9l4QulvHtrTYLnnnMVS4HO6FJe/TBpKtTAt0b2C8hy6dlHeMFgNM2jzEMOSamV7qfEbQtzwDfeTb6qXVSc0rHGzQc+UBUqa+FimsNo4hPHRw/fyefzMT1E5uX7e1kQtUBHe/Lno6KB7k0cLT3y9TtSKC0MUZYqTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=SF8ZhUDf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WKAqUAa2; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1780555904; c=relaxed/simple;
+	bh=QPh7pXnQWAgvBseCTT3sjqUAdqx7C5ZI3IxDiLz3cjg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Sgr1uLmkPUqXlBGZYiaaGXXP2jMtJf81o4D8npR9l9KtFTI5WmByuAWcYgqONVvIYcyXosUSmUGdp6k54cLA3zlPLy7ZD44BYWXpo23rOBceR5al+G4sJVLCex+IWzyGM6GrQ0jJ4UVxG0ENSUNUlRQyCZbblIDG4NRqwS/xF1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SxqLIn7Q; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="SF8ZhUDf";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WKAqUAa2"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 86983140004E;
-	Thu,  4 Jun 2026 02:46:54 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Thu, 04 Jun 2026 02:46:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm1; t=1780555614; x=1780642014; bh=Hg5mhNt4rr
-	ptcFklbzm1/wVJIH4DA4WOo8269xPArfY=; b=SF8ZhUDfKozty12Y6B0TWzGRlZ
-	I4wy2yoyxawqXm8xwL7wlJHDVJlMq7QAsFhg41r6hwHzQ4XaoMapGv2Hfiq+sfAd
-	VYXG9KbwfdYBu79wxIlVZXer5lJNnv1IlGQ8oArx5YAGAL9iV4Jxmkra/rh0Tfnb
-	Nof5CjKXsWqX8G7+g5N5/Y9wXr3mXfDiSaHMzoWo7YVpxg/rJ8VolbcytJRPXK4F
-	kVMap2OlmgeGs+M8YskPRAWf+181lezBFOvCOwMrwQqznTk2/dwAM3RZzYGSF59c
-	xiomDIWi1V2L5iui28eRsDIX9YQcnPNXOwjTGu9YbZnmzsbrtOtLpYI0D9ag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1780555614; x=1780642014; bh=Hg5mhNt4rrptcFklbzm1/wVJIH4DA4WOo82
-	69xPArfY=; b=WKAqUAa2ZFtbZZGTExO+316T9GCU+u3jo2+cO5wIuAFXQ+YB66A
-	pVTxNZjRY2IX0M5sfmSdX60URtqBGbKq9szOR85JynEbfjOLAN40NOFvel8wEu/7
-	K7njPHrSkin7v4Q3dNcfNeQHQGXjyqwwmYvPwSNyWg3jcdsoZr7KSgdTIFsBxPUw
-	nH73CBTrfI7g3NkV+OS2bEAmSxFBFzMq3YXJWYjDJHQuSYP4+O6xOLMrwJRWFi2L
-	kUU2dwes5LHaqT74VpzQDRdioftI0z2VnVmxsVwD+l7lH9b3w/IHw+ERsylywIvu
-	BmBJEoZ9x/45kJrLXE7PeUgFGIZmyIuh3BQ==
-X-ME-Sender: <xms:Xh8hagEGtsv_oJuI0OkwaAN6nA-g0FkjEkT0ID3ve0S3sjIpEFs98g>
-    <xme:Xh8hapwqc75OTITj_dpbSZiCISk2O9XlSqAzwtiY1QoeiTCj1DuNtvG_a38CR_2ZX
-    tKjzo-jn6i4gvXdQNOr7uHaAw8Nt2xhrabvI1OFwxSelD4>
-X-ME-Received: <xmr:Xh8haq1IKOgJGOt2xk6XV3_RAe1E-NvM0LL6Fp6-cwx_AIusgsYIfy5cj9k>
-X-ME-Proxy-Cause: dmFkZTElrHy+p+61NcGc4tTOnGb+186I45ZxcsgsfN1oK63NQOly5+eJ27ptpn1pSIBYCb
-    XmAWvwNfbSZbHcxHWSMSDyK3Hizlo5e02+VPrVV6F3LLrOPTEKCaOLBaqkOMUm2aEj+37H
-    R2j9zp/7SWPy3r/X9FaonlKAcHt2XVJrhzTfibLtOj4xWqPV5mOBAahkvro+L2uezShlbe
-    1Bv0YNovDYiXExqFpkzwoyFP8NuDVruE4LK9cDotgFuU33qL23y1kutRynV0C+fZFjQRDY
-    oeKnSo8QM5pj2s5p1q3Iovbtf1uEB6oz6nhci8EDcSMqYXrzW6AMDi5K3mdFrcfcfwWvbq
-    Voa7rUlhiI5FwyKb+aQr9SDSlSmi7P8SozGdy0INH0KqyOkrMQKXC0EuBp0Kbw4utc3RNZ
-    Tgb7h24p5yvhtK3AvYHfSwk802slVZ3lBM6tl0dP9l3IawSUSbjP1pX/4O/qAxBCq1/yMC
-    CQJ0iO6HbCfwv3JPOs9QX1qWb6XEnQeafj2kvQNuHFFf6GG88RGH3Fn972VefvOMgikbDk
-    00hnVN9iJPk0O1gTLGWunbMBqLunAwc8qCEqF95+VfkAkbpah5uerTHuzIb0uge3Yx8fJI
-    qBWk32Q3sdc3GK4DMkS1xH2cpMaz5KOlNBsSjL6gbQC94X9rgCD5lOrfRceA
-X-ME-Proxy: <xmx:Xh8happGuof_kSQCztYkZoSLpQHjB9CkC06v2fOypOxrPtLVeqEEpQ>
-    <xmx:Xh8hanWkXDvpGUgFa4wuJqZbusLUWRlHha3uhRFc-3kjS7u9mpLT0g>
-    <xmx:Xh8haiolhMQrSEY1DT4sQa-wLyAlQb_2nkiBP1Gr5z3WBASDi9s5Tw>
-    <xmx:Xh8hauBmfXA83M_bad_dB3Ju7o30Xq1bunCjrRPorNOXlSB0yasCDw>
-    <xmx:Xh8haqWv9DZOu7YnxcXXLN3owyoZNBsRVltP3N46tBWy_f-3moYp5sfs>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 4 Jun 2026 02:46:53 -0400 (EDT)
-Date: Thu, 4 Jun 2026 08:45:57 +0200
-From: Greg KH <greg@kroah.com>
-To: SARDARUDDIN SYED <ssardaruddin2002@gmail.com>
-Cc: linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: ABI: remove outdated USB power/level
- removal notice
-Message-ID: <2026060423-ipod-tarantula-4f5d@gregkh>
-References: <20260530233410.1718-1-ssardaruddin2002@gmail.com>
- <2026053140-approve-enroll-5681@gregkh>
- <CAEUfWQg7msH_qsER7nL5_855puJYsj4ztT+DrRThfbih8TObnw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SxqLIn7Q"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490b9318997so2133915e9.2
+        for <linux-usb@vger.kernel.org>; Wed, 03 Jun 2026 23:51:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780555901; x=1781160701; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dsA0E2zRhI7EC9Ntl7Pf6hMb9UBTbaRJjBOLy9s7eyI=;
+        b=SxqLIn7QY1cnFh7YWtCceRefAgMjU92rk/x0zLTJG7/Gyn8lWg/isG0f+9Y9j41uJE
+         C6nRt12Md3MI5aSlZP9Kehm0lt1i0cglMSFCIDinoI/n3hRL7Frm4YKZqHdEJSVRMb63
+         dH0gFPBgwb5iTuNWM54lzooKyelCWu4PnWDzaxPWOK8uns0T6Mah+f6Obw4SaL6xwPYu
+         l1l2GgYfISILDM2Ihi69hTT+kQV/Wq1IvYH6YqKZxhZRa5mvfab9n9pHnRK2V2FgfTVV
+         PE21kX8V0a8selErhmz2Ky+VCSK1Jpj7ffkXxx8BBVfk3Kl85+rSCA+SA1HBAu4TwiXo
+         /MNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780555901; x=1781160701;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dsA0E2zRhI7EC9Ntl7Pf6hMb9UBTbaRJjBOLy9s7eyI=;
+        b=KViqefYBpGyNGDPT7cXP4OcPxXZBZ6y93S9D48VWSQ7w0fk6SJHRJvZbKWuGg17K9X
+         pQkyOkWPBi8xgvaNRNT9A1Wdgd9dwTLzbvdr1yDFaeaJzKYnJgYk8A6ojmMmH4ZjBayN
+         TpMk/Dwf4OFyDTLmnHNeWIrXiC6t4+yI5184wkFGwKczgJbMVeeWS6WzbcAF5Q6iCFjh
+         HxmTmKTKwDrpOAVM9OzYzbfj7zDR+CKIIac66C82zXnKnENYLUiW0GDcbhrx/JAduUpi
+         PWUt0JhIBzqG+PHQxKGbmhW+96CIXiSUjMX4wJFZCrzcl+t3eWkHYaOVg9OK5nt1tDks
+         WYYw==
+X-Forwarded-Encrypted: i=1; AFNElJ8g/XnikN1yF/MkYiOd4FFoCqi6ud9cOVApkJcxxxnN4PztlKpPeP/3bkxrlcPYEU4qs6IdTmWgg9w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw28OUQIQhlsWrWqHJmZGrP6c4ytxsKAixqxcNXlSOD7y0QTm9u
+	Tym1Wiv2roumR1BXDFEA3BTwfq1rR2kn/PQk1GD1RuU6AkFsjv+P/SGc
+X-Gm-Gg: Acq92OETsJbscx6jreRSnmkZAMM7OsdKuaJGif5JXSCrvNy3OwV9S/q4sa/5ePX5KiY
+	gP7up52wWujPVMyqYgvob/UDUOPvFt0qEWTWE/ctLRaDkYTV5xGvx6DrULJW9fqI1v60ZCLoPvw
+	K//gQqaLWloFIzq6+dqQSce5kUfWMUmdshvj9V6UL1zsomW+s2xE+rGOoB9jDVo8p1PGbQvJwON
+	6rGWQ7atbN+qQD2V7KN+g7oeJqukjPwFTgG9sFqi+E0tYtvhPy7tVLPDp962som/hH8egGDTxMV
+	0KZKi6xg11oJmPknWso+fQgWaEP+DTAzVrdgzXhiGtSUoH2PmZHdixc8D+B7TR++DrPmmRDBscU
+	WS2bQdlfMi9zQYu//+ADZSfQVLxtTypByiXiMMr80YxGBIprBvMyf/Tk8bSuUZv/DVeFchYaGD7
+	HJDqTinhWNXva4Ss6s7yb1KNnrL+IMKMLCBhObRqpa6tQ9oQ==
+X-Received: by 2002:a05:600c:8b51:b0:48e:6db3:ff2e with SMTP id 5b1f17b1804b1-490b5ebc449mr104510385e9.15.1780555901284;
+        Wed, 03 Jun 2026 23:51:41 -0700 (PDT)
+Received: from foxbook (bfe246.neoplus.adsl.tpnet.pl. [83.28.42.246])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b7a7cb85sm133041495e9.1.2026.06.03.23.51.40
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 03 Jun 2026 23:51:40 -0700 (PDT)
+Date: Thu, 4 Jun 2026 08:51:36 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: raoxu <raoxu@uniontech.com>
+Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Zhang Cen
+ <rollkingzzc@gmail.com>, Niklas Neronin <niklas.neronin@linux.intel.com>
+Subject: Re: [PATCH] usb: xhci: limit ports on the correct root hub
+Message-ID: <20260604085136.6b20d2e8.michal.pecio@gmail.com>
+In-Reply-To: <185F99CE35DA6675+20260604034818.2734932-1-raoxu@uniontech.com>
+References: <185F99CE35DA6675+20260604034818.2734932-1-raoxu@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEUfWQg7msH_qsER7nL5_855puJYsj4ztT+DrRThfbih8TObnw@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-
-A: http://en.wikipedia.org/wiki/Top_post
-Q: Were do I find info about this thing called top-posting?
-A: Because it messes up the order in which people normally read text.
-Q: Why is top-posting such a bad thing?
-A: Top-posting.
-Q: What is the most annoying thing in e-mail?
-
-A: No.
-Q: Should I include quotations after my reply?
-
-http://daringfireball.net/2007/07/on_top
-
-On Thu, Jun 04, 2026 at 05:36:29AM +0530, SARDARUDDIN SYED wrote:
-> Hi Greg,
+On Thu,  4 Jun 2026 11:48:18 +0800, raoxu wrote:
+> From: Xu Rao <raoxu@uniontech.com>
 > 
-> I looked into the history and current implementation of power/level.
+> xhci_create_rhub_port_array() is used for both USB2 and USB3
+> root hubs. The limit path always writes usb3_rhub.num_ports.
 > 
-> The attribute is still implemented in drivers/usb/core/sysfs.c and is still
-> documented as a deprecated interface. The obsolete ABI entry was added when
-> power/level was deprecated in favor of power/control, but the interface
-> itself remains present.
+> When the helper limits the USB2 root hub, this leaves the passed
+> root hub unchanged and modifies the wrong root hub instead.
 > 
-> I wasn't sure whether you meant removing the obsolete documentation entry
-> or removing the deprecated interface itself, so I wanted to clarify before
-> sending a v2.
+> Limit the root hub passed to the helper so the cap is applied to
+> the root hub currently being initialized.
+> 
+> Fixes: 9a7ad750a8fb ("usb: xhci: move roothub port limit validation")
+> Signed-off-by: Xu Rao <raoxu@uniontech.com>
 
-Why not remove both?
+Previous patch for the same bug, Cc its author and bad commit author.
+https://lore.kernel.org/linux-usb/20260516033443.3646966-1-rollkingzzc@gmail.com/
 
-thanks,
+I'm not sure how people keep discovering this issue - only by review
+or are there really xHCI controllers with more than 31 USB 2.0 ports?
+Should things be patched to support them properly?
 
-greg k-h
+Regards,
+Michal
