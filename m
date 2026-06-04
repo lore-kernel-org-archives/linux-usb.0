@@ -1,182 +1,168 @@
-Received: from tpecef22.compal.com (exmail3.compal.com [59.120.207.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF5C175A6E;
-	Thu,  4 Jun 2026 02:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF03E37F007
+	for <linux-usb@vger.kernel.org>; Thu,  4 Jun 2026 03:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780538824; cv=none; b=q4Irff5zD3FE+qDKCcdiLQZ0+YH9e96ZdLNt1HPShHyD9DdBtXpBtbwvumKb8lOWYZY46Aa5YO6/gh1wNIqYWqspjB2O0kAKi+pAsk+TNeg/XC7iy0KEQRhgHI9k7idd9T/kt+USZpw0/zv9XTy6IKIy2kZiW+J0zYcuVKDh8KA=
+	t=1780544651; cv=none; b=I1AaTFFZYx+NKBpFfXUylGaIvYB9OEVeZ47POuezL99SlhSRW1mZwvMnnmg68sXbMH5epra6WrkedbRf/GOSNo+IHfLP81JAV1MDC9b428ECLQvnd/gX7+nXLBF9lbpA3o7vahE/YQr5wTGQpZbnsK0PIic4eaNBBqu/q2+jAoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780538824; c=relaxed/simple;
-	bh=QVqN+omFbhlFBdzLuFu3gDUqRL7Pm2PqR7oZw4ksGtw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=t0EcngM9CpDeug1MttkYh1OpuXe0Z/U5nV6UiyxCJcdiIxvZnIuKm1Iv/O08DyvjF7pY2wboquh+FYtNcVkIEUmeydCa6yEwhrDJmtX6IyG5VjPrr8FiFVRbYhRowrhBtaMHLOBlOEliZ5CIB+gQhkDO/T9ddm3hn6Y2kh9nyVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
-X-UUID: 0c738d405fba11f1a87c2323a98e90a4-20260604
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:4c69715b-0f52-426b-96e4-9093376abfab,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:8d3ae49d-6ee5-48bf-9781-096606d56cd8,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|817|836|865|
-	888|898,TC:-5,Content:-10|-8|-5|14|50,EDM:-3,IP:nil,URL:0,File:130,RT:-1,B
-	ulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR
-	:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 0c738d405fba11f1a87c2323a98e90a4-20260604
-Received: from sdmg11.sdbg.compal.com [(10.113.168.9)] by tpecef22.compal.com
-	(envelope-from <jackbb_wu@compal.com>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 896043051; Thu, 04 Jun 2026 10:06:50 +0800
-X-UUID: 09cbb6da5fba11f1943831befd1aa4bc-20260604
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:37c4870b-5dc2-4716-804c-33005b706b16,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:045a7a4b-e135-4b0b-8a6b-c4a68801718d,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|817|836|865|
-	888|898,TC:-5,Content:-10|-8|-5|14|50,EDM:-3,IP:nil,URL:0,File:130,RT:-1,B
-	ulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR
-	:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 09cbb6da5fba11f1943831befd1aa4bc-20260604
-Received: from sdbmbx12.tpe.compalcomm.com [(10.113.2.136)] by sdmg11.sdbg.compal.com
-	(envelope-from <jackbb_wu@compal.com>)
-	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES256-SHA 256/256)
-	with ESMTP id 99895252; Thu, 04 Jun 2026 10:06:45 +0800
-Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
- SDBMBX12.tpe.compalcomm.com (10.113.2.136) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.2.2562.29;
- Thu, 4 Jun 2026 10:06:43 +0800
-Received: from SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69]) by
- SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69%11]) with mapi id
- 15.02.2562.029; Thu, 4 Jun 2026 10:06:43 +0800
-From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
-To: Lars Melin <larsm17@gmail.com>, Johan Hovold <johan@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [External Mail] Re: [PATCH] USB: serial: option: add new usb-id
- for Dell Wireless DW5826e-m
-Thread-Topic: [External Mail] Re: [PATCH] USB: serial: option: add new usb-id
- for Dell Wireless DW5826e-m
-Thread-Index: AQHc8lvE/6vTkZZPzE+GpkGbBBZaH7YtqGhc
-Date: Thu, 4 Jun 2026 02:06:43 +0000
-Message-ID: <ec2181152ebc46adb68fcea2802aea15@compal.com>
-References: <20260601-dw5826e-option-driver-v1-1-e0a0a72cfe1b@compal.com>,<659c740c-66cc-41c6-8bc8-6d6ef1b5ab08@gmail.com>
-In-Reply-To: <659c740c-66cc-41c6-8bc8-6d6ef1b5ab08@gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-29986.003
-x-tm-as-result: No-10--18.380500-8.000000
-x-tmase-matchedrid: G/d+gqvw/DAuv++HU7VXryRFbfQbCufdN0X64jGy2dbsEpKlvft9qnHR
-	BdVJXEE0+9MNEj82I7AzTND1hDK4zzibGcrQpQn8nFk5Pqs+1qKBhoFVhcfc62nJ1MUKQr0e0WI
-	WLLpP8rC0ErkmCIjgFuUTedInjF4ziRz4gknBIqBP69ncClBFp+fShpTpYz77mbcAVHD2StY3v9
-	TD3vOHOLINa6+7/S8JWmClCGuQ30ArnGKLUndbvbmLfadAO5r7nsSRXdX/K/tpcllX9CE7NR4C/
-	DafP/+JnuHLhwvejAQ0Rb656IStzS7D7BEjJT/0m2eUW/oDuiEMURirZdd3aRIIN3MAx5f9P1Ma
-	zgLzEQVxg7svMtapLiJsZ0L4JGotOvT30G5nOJt+3BndfXUhXQ==
-x-tm-as-user-approved-sender: No
-x-tm-as-user-blocked-sender: No
-x-tmase-result: 10--18.380500-8.000000
-x-tmase-version: SMEX-14.0.0.3239-9.1.2019-29986.003
-x-tm-snts-smtp: 8A1471BA7DC52FFA60BC220DD26D09DA5C57653683E95CF11299762738D68B842000:8
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1780544651; c=relaxed/simple;
+	bh=GVUrTFHWfKbP7BPQBwxHjJiAldO45+2g44/XMUp4QN8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VWpxXHkd4568qvPOhoJQYia2YnK0sKHXrtDpEP+2wPNLaCGYuG88Dcs9DaHBWCQEEio9Bogs5MhMsB48mqQT+fzy55qpf9kbi7derfkOsHaBAgt3a0OnM62PEpr1eAuvD1vGvKu+XwLkqPqgGRbYwQ5UOoPmI+EIPNU2XOqgzv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cm/xXaND; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cm/xXaND"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2c0b7ca8831so528415ad.1
+        for <linux-usb@vger.kernel.org>; Wed, 03 Jun 2026 20:44:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780544649; x=1781149449; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dzk72M4ewlzxGUDCkZjiIwUqM5Q/ys2Vzl6V4FwZ3I0=;
+        b=cm/xXaNDWZc6oiRkYiEf3rhI5Frq8BcsTM1UEm2qaHQvktdYOZN/Lj1rPnYwq7ts60
+         k36L6mfiY3xKnFBaCLH7tjRWHaZW6D6t5FJeYqFWLEjHKmRiByEJEm/RzXaGMhAhpdoi
+         Colrdn8Jxh8TMaKjgDgFWDBddXIEaNQvOgoKMfSiHcXeq4xfycXeQGWCER5uDnKOd/Hm
+         1/+sYJrINtKiRg4nL8pqmljlsl5wTqumsktClDX8yhE+dWExpxnX9zFl+m0jpg8mu8cT
+         q4UssRPU3sHZX1gFO5m4zve+Olxd0U5d8/qR+mOVFTwV+9iT7bgMZbEnZj8L0T8tSJQN
+         zjcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780544649; x=1781149449;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dzk72M4ewlzxGUDCkZjiIwUqM5Q/ys2Vzl6V4FwZ3I0=;
+        b=jdxkTb4aT+Cpx+DsX47EolwcmPHf5FVPEDEchbWtnIh9Ji9jXctO97AJQHY+eMqo2W
+         YOLMyJLTEa16eRGlu3FuNOhq3gfLBV+Chqcxv+zXwJaIVscbwOfG3rPeaGBMKUhimb0e
+         dRpF6I9hFHsB7ASGaKWSJeN3R77xW2XPMR56KlG2O6VeJd/oioFMRCGKNtRLqZo95WuO
+         FgsT+nNd/SDjUdUji9KMDSfAlsdCDNihy6wICIn+unNYxQbSnJd7Hh5Sf/ZPc3vsDvvH
+         RXwir0MPeOt5nZV65ytyY1kt2NnLs4b2kNRjSDmyHY9NMwe+3y86vVYwILw53bTeSU8f
+         tfVQ==
+X-Gm-Message-State: AOJu0YzSfcVAlV/ba9XfWgwbrrwZCDJeCHf7GdnzFD4hxS1ycWcd2I3i
+	3hKyrfJl0b8oulei/mN7uvO9t1AvgFbC6w6cCfcGwDWph+MBP0JbEBn5RKmbs1pA6U8=
+X-Gm-Gg: Acq92OEvoT9NTaHR03kCA69BRE0X00jy8CSVdvQK2zEb1s1qyL1OecJCfPGBwk3aFXB
+	u1j93O8B5Hg0K9nCPE1bJzmq6MjfmCqczqQgWPyuzrJjPwGpxXDC7g3CWULb4PZ/pOMT/oD9o/6
+	ftRC1IScwPnuF9x1hWWSeZX3BAmzBwPzJCgvpBh/626E4blTPxC6DOFETHwqeKAokKmqV5o5oq/
+	vQoLOdLn2bwjN4lk9KY1NAKK4FEVu5pW9jwn3BEiGf4oQSRjx+Xor5VBTb2qjVH6kQJbAEvxyYK
+	Zf+Q4UzJ/6oBBmiWrtJrl93Jr9KiE0sUM/xMTXkAdVBlmKRyISyN+k4eG/6tAXCmx231l34rt8W
+	C3DkdYAu+F5PzogPubuiwDa0+/rlR4+vjzhR/CIQTnE1BWbkHIIULcFAH0S5FREl3quCf3i6qkA
+	AFVBc38CJ5IAWk0MwmGmMDiyFf6MC9D7U3XLV4faL5br3M
+X-Received: by 2002:a05:6a21:1519:b0:38b:d93f:bbf5 with SMTP id adf61e73a8af0-3b4b8115151mr578811637.0.1780544648870;
+        Wed, 03 Jun 2026 20:44:08 -0700 (PDT)
+Received: from [192.168.1.7] ([159.192.166.161])
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-c85df043216sm3684818a12.10.2026.06.03.20.44.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Jun 2026 20:44:08 -0700 (PDT)
+Message-ID: <e56c532c-921d-4e3c-bc34-47373068f3d3@gmail.com>
+Date: Thu, 4 Jun 2026 10:44:03 +0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] USB: serial: option: add new usb-id for Dell Wireless
+ DW5826e-m
+To: jackbb_wu@compal.com, Johan Hovold <johan@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260604-dw5826e-option-driver-v2-1-00609f65f5ae@compal.com>
+Content-Language: en-US
+From: Lars Melin <larsm17@gmail.com>
+In-Reply-To: <20260604-dw5826e-option-driver-v2-1-00609f65f5ae@compal.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-PiBPbiAyMDI2LTA2LTAxIDA5OjUyLCBKYWNrIFd1IHZpYSBCNCBSZWxheSB3cm90ZToNCj4gPiBG
-cm9tOiBKYWNrIFd1IDxqYWNrYmJfd3VAY29tcGFsLmNvbT4NCj4gPg0KPiA+IEFkZCBzdXBwb3J0
-IGZvciBEZWxsIERXNTgyNmUtbSB3aXRoIFVTQi1pZCAweDQxM2M6MHg4MWVhDQo+ID4NCj4gPiBU
-OiBCdXM9MDMgTGV2PTAxIFBybnQ9MDEgUG9ydD0wNCBDbnQ9MDEgRGV2Iz0gOCBTcGQ9NDgwIE14
-Q2g9IDANCj4gPiBEOiBWZXI9IDIuMTAgQ2xzPWVmKG1pc2MgKSBTdWI9MDIgUHJvdD0wMSBNeFBT
-PTY0ICNDZmdzPSAxDQo+ID4gUDogVmVuZG9yPTQxM2MgUHJvZElEPTgxZWEgUmV2PSA1LjA0DQo+
-ID4gUzogTWFudWZhY3R1cmVyPURFTEwNCj4gPiBTOiBQcm9kdWN0PURXNTgyNmUtbSBRdWFsY29t
-bSBTbmFwZHJhZ29uIFgxMiBHbG9iYWwgTFRFLUENCj4gPiBTOiBTZXJpYWxOdW1iZXI9MzU4OTg4
-ODcwMTc3NzM0DQo+ID4gQzoqICNJZnM9IDcgQ2ZnIz0gMSBBdHI9YTAgTXhQd3I9NTAwbUENCj4g
-PiBBOiBGaXJzdElmIz0xMiBJZkNvdW50PSAyIENscz0wMihjb21tLikgU3ViPTBlIFByb3Q9MDAN
-Cj4gPiBJOiogSWYjPSAwIEFsdD0gMCAjRVBzPSAyIENscz1mZih2ZW5kLikgU3ViPWZmIFByb3Q9
-MzAgRHJpdmVyPW9wdGlvbg0KPiA+IEU6IEFkPTAxKE8pIEF0cj0wMihCdWxrKSBNeFBTPSA1MTIg
-SXZsPTBtcw0KPiA+IEU6IEFkPTgxKEkpIEF0cj0wMihCdWxrKSBNeFBTPSA1MTIgSXZsPTBtcw0K
-PiA+IEk6KiBJZiM9IDEgQWx0PSAwICNFUHM9IDIgQ2xzPWZmKHZlbmQuKSBTdWI9NDIgUHJvdD0w
-MSBEcml2ZXI9dXNiZnMNCj4gPiBFOiBBZD0wMihPKSBBdHI9MDIoQnVsaykgTXhQUz0gNTEyIEl2
-bD0wbXMNCj4gPiBFOiBBZD04MihJKSBBdHI9MDIoQnVsaykgTXhQUz0gNTEyIEl2bD0wbXMNCj4g
-PiBJOiogSWYjPSAyIEFsdD0gMCAjRVBzPSAzIENscz1mZih2ZW5kLikgU3ViPWZmIFByb3Q9NjAg
-RHJpdmVyPW9wdGlvbg0KPiA+IEU6IEFkPTg0KEkpIEF0cj0wMyhJbnQuKSBNeFBTPSAxMCBJdmw9
-MzJtcw0KPiA+IEU6IEFkPTgzKEkpIEF0cj0wMihCdWxrKSBNeFBTPSA1MTIgSXZsPTBtcw0KPiA+
-IEU6IEFkPTAzKE8pIEF0cj0wMihCdWxrKSBNeFBTPSA1MTIgSXZsPTBtcw0KPiA+IEk6KiBJZiM9
-IDMgQWx0PSAwICNFUHM9IDMgQ2xzPWZmKHZlbmQuKSBTdWI9ZmYgUHJvdD00MCBEcml2ZXI9b3B0
-aW9uDQo+ID4gRTogQWQ9ODYoSSkgQXRyPTAzKEludC4pIE14UFM9IDEwIEl2bD0zMm1zDQo+ID4g
-RTogQWQ9ODUoSSkgQXRyPTAyKEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4gRTogQWQ9MDQo
-TykgQXRyPTAyKEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4gSToqIElmIz0gNCBBbHQ9IDAg
-I0VQcz0gMSBDbHM9ZmYodmVuZC4pIFN1Yj1mZiBQcm90PWZmIERyaXZlcj1vcHRpb24NCj4gPiBF
-OiBBZD04NyhJKSBBdHI9MDMoSW50LikgTXhQUz0gNjQgSXZsPTMybXMNCj4gPiBJOiogSWYjPTEy
-IEFsdD0gMCAjRVBzPSAxIENscz0wMihjb21tLikgU3ViPTBlIFByb3Q9MDAgRHJpdmVyPWNkY19t
-YmltDQo+ID4gRTogQWQ9ODgoSSkgQXRyPTAzKEludC4pIE14UFM9IDY0IEl2bD0zMm1zDQo+ID4g
-STogSWYjPTEzIEFsdD0gMCAjRVBzPSAwIENscz0wYShkYXRhICkgU3ViPTAwIFByb3Q9MDIgRHJp
-dmVyPWNkY19tYmltDQo+ID4gSToqIElmIz0xMyBBbHQ9IDEgI0VQcz0gMiBDbHM9MGEoZGF0YSAp
-IFN1Yj0wMCBQcm90PTAyIERyaXZlcj1jZGNfbWJpbQ0KPiA+IEU6IEFkPThlKEkpIEF0cj0wMihC
-dWxrKSBNeFBTPSA1MTIgSXZsPTBtcw0KPiA+IEU6IEFkPTBmKE8pIEF0cj0wMihCdWxrKSBNeFBT
-PSA1MTIgSXZsPTBtcw0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogSmFjayBXdSA8amFja2JiX3d1
-QGNvbXBhbC5jb20+DQo+ID4gLS0tDQo+ID4gZHJpdmVycy91c2Ivc2VyaWFsL29wdGlvbi5jIHwg
-MyArKysNCj4gPiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy91c2Ivc2VyaWFsL29wdGlvbi5jIGIvZHJpdmVycy91c2Ivc2VyaWFs
-L29wdGlvbi5jDQo+ID4gaW5kZXggNDhhZTAxODhmMmU5Li5lMzcwMTNhNjk1NmEgMTAwNjQ0DQo+
-ID4gLS0tIGEvZHJpdmVycy91c2Ivc2VyaWFsL29wdGlvbi5jDQo+ID4gKysrIGIvZHJpdmVycy91
-c2Ivc2VyaWFsL29wdGlvbi5jDQo+ID4gQEAgLTIwMyw2ICsyMDMsOCBAQCBzdGF0aWMgdm9pZCBv
-cHRpb25faW5zdGF0X2NhbGxiYWNrKHN0cnVjdCB1cmIgKnVyYik7DQo+ID4gI2RlZmluZSBERUxM
-X1BST0RVQ1RfNTgyOUVfRVNJTSAweDgxZTQNCj4gPiAjZGVmaW5lIERFTExfUFJPRFVDVF81ODI5
-RSAweDgxZTYNCj4gPg0KPiA+ICsjZGVmaW5lIERFTExfUFJPRFVDVF9EVzU4MjZFX0VTSU0gMHg4
-MWVhDQo+ID4gKw0KPiA+ICNkZWZpbmUgREVMTF9QUk9EVUNUX0ZNMTAxUl9FU0lNIDB4ODIxMw0K
-PiA+ICNkZWZpbmUgREVMTF9QUk9EVUNUX0ZNMTAxUiAweDgyMTUNCj4gPg0KPiA+IEBAIC0xMTI1
-LDYgKzExMjcsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHVzYl9kZXZpY2VfaWQgb3B0aW9uX2lk
-c1tdID0gew0KPiA+IC5kcml2ZXJfaW5mbyA9IFJTVkQoMCkgfCBSU1ZEKDYpIH0sDQo+ID4geyBV
-U0JfREVWSUNFX0lOVEVSRkFDRV9DTEFTUyhERUxMX1ZFTkRPUl9JRCwgREVMTF9QUk9EVUNUX0ZN
-MTAxUiwgMHhmZikgfSwNCj4gPiB7IFVTQl9ERVZJQ0VfSU5URVJGQUNFX0NMQVNTKERFTExfVkVO
-RE9SX0lELCBERUxMX1BST0RVQ1RfRk0xMDFSX0VTSU0sIDB4ZmYpDQo+ID4gfSwNCj4gPiArIHsg
-VVNCX0RFVklDRV9JTlRFUkZBQ0VfQ0xBU1MoREVMTF9WRU5ET1JfSUQsIERFTExfUFJPRFVDVF9E
-VzU4MjZFX0VTSU0sDQo+ID4gMHhmZikgfSwNCj4gPiB7IFVTQl9ERVZJQ0UoQU5ZREFUQV9WRU5E
-T1JfSUQsIEFOWURBVEFfUFJPRFVDVF9BRFVfRTEwMEEpIH0sIC8qIEFEVS1FMTAwLA0KPiA+IEFE
-VS0zMTAgKi8NCj4gPiB7IFVTQl9ERVZJQ0UoQU5ZREFUQV9WRU5ET1JfSUQsIEFOWURBVEFfUFJP
-RFVDVF9BRFVfNTAwQSkgfSwNCj4gPiB7IFVTQl9ERVZJQ0UoQU5ZREFUQV9WRU5ET1JfSUQsIEFO
-WURBVEFfUFJPRFVDVF9BRFVfNjIwVVcpIH0sDQo+ID4NCj4gPiAtLS0NCj4gPiBiYXNlLWNvbW1p
-dDogZTQzZmZiNjllMDQzOGNkZGQ3MmFhYTMwODk4YjRkYzQ0NmY2NjRmOA0KPiA+IGNoYW5nZS1p
-ZDogMjAyNjA2MDEtZHc1ODI2ZS1vcHRpb24tZHJpdmVyLWU5YmFjMDM4ZTJiNQ0KPiA+DQo+ID4g
-QmVzdCByZWdhcmRzLA0KPiA+IC0tDQo+ID4gSmFjayBXdSA8amFja2JiX3d1QGNvbXBhbC5jb20+
-DQo+ID4NCj4gPg0KPiA+DQo+IEhpIEphY2ssDQo+IHlvdSBoYXZlIHRoZSBkZXZpY2UgaW4gdGhl
-IGNvcnJlY3QgZHJpdmVyIG5vdyBhbmQgeW91IGhhdmUgZ290IHJpZCBvZg0KPiB0aGUgbGVnYWwg
-ZGlzY2xhaW1lciBidXQgdGhlcmUgaXMgc3RpbGwgYSBwcm9ibGVtIHdpdGggdGhlIHBhdGNoLg0K
-PiBJbnRlcmZhY2UgIzEgd2hpY2ggaXMgZm9yIEFEQiBzaG91bGQgbm90IGJlIGNsYWltZWQgYnkg
-dGhlIG9wdGlvbg0KPiBkcml2ZXIsIHlvdSBoYXZlIHRvIGFkZCBhIGxpbmUgYmxhY2tsaXN0aW5n
-IChyZXNlcnZpbmcpaXQuDQo+DQo+IHRoYW5rcw0KPiBMYXJzDQoNCkhpIExhcnMsDQoNClRoYW5r
-cyBmb3IgeW91ciByZXZpZXcgYW5kIHBvaW50aW5nIHRoYXQgb3V0Lg0KDQpJIHdpbGwgZml4IHRo
-aXMgYnkgY2hhbmdpbmcgdGhlIGVudHJ5IHRvIHVzZSBVU0JfREVWSUNFX0FORF9JTlRFUkZBQ0Vf
-SU5GTyB3aXRoIFJTVkQoMSkgdG8gYmxhY2tsaXN0IGludGVyZmFjZSAjMSAoQURCKS4NCkknbGwg
-c3VibWl0IHRoZSB2MiBwYXRjaCBzaG9ydGx5Lg0KDQpUaGFua3MuDQoNCg0KPT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KVGhpcyBtZXNzYWdlIG1heSBjb250
-YWluIGluZm9ybWF0aW9uIHdoaWNoIGlzIHByaXZhdGUsIHByaXZpbGVnZWQgb3IgY29uZmlkZW50
-aWFsIG9mIENvbXBhbCBFbGVjdHJvbmljcywgSW5jLiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5k
-ZWQgcmVjaXBpZW50IG9mIHRoaXMgbWVzc2FnZSwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGFu
-ZCBkZXN0cm95L2RlbGV0ZSB0aGUgbWVzc2FnZS4gQW55IHJldmlldywgcmV0cmFuc21pc3Npb24s
-IGRpc3NlbWluYXRpb24gb3Igb3RoZXIgdXNlIG9mLCBvciB0YWtpbmcgb2YgYW55IGFjdGlvbiBp
-biByZWxpYW5jZSB1cG9uIHRoaXMgaW5mb3JtYXRpb24sIGJ5IHBlcnNvbnMgb3IgZW50aXRpZXMg
-b3RoZXIgdGhhbiB0aGUgaW50ZW5kZWQgcmVjaXBpZW50IGlzIHByb2hpYml0ZWQuDQo9PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo=
+On 2026-06-04 09:04, Jack Wu via B4 Relay wrote:
+> From: Jack Wu <jackbb_wu@compal.com>
+> 
+> Add support for Dell DW5826e-m with USB-id 0x413c:0x81ea
+> 
+> T:  Bus=03 Lev=01 Prnt=01 Port=04 Cnt=01 Dev#=  8 Spd=480  MxCh= 0
+> D:  Ver= 2.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
+> P:  Vendor=413c ProdID=81ea Rev= 5.04
+> S:  Manufacturer=DELL
+> S:  Product=DW5826e-m Qualcomm Snapdragon X12 Global LTE-A
+> S:  SerialNumber=358988870177734
+> C:* #Ifs= 7 Cfg#= 1 Atr=a0 MxPwr=500mA
+> A:  FirstIf#=12 IfCount= 2 Cls=02(comm.) Sub=0e Prot=00
+> I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
+> E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> I:* If#= 1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=usbfs
+> E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
+> E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+> E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+> E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+> E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> I:* If#= 4 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+> E:  Ad=87(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
+> I:* If#=12 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=0e Prot=00 Driver=cdc_mbim
+> E:  Ad=88(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
+> I:  If#=13 Alt= 0 #EPs= 0 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
+> I:* If#=13 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
+> E:  Ad=8e(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=0f(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> 
+> Signed-off-by: Jack Wu <jackbb_wu@compal.com>
+> ---
+> - Link to v1: https://patch.msgid.link/20260601-dw5826e-option-driver-v1-1-e0a0a72cfe1b@compal.com
+> 
+> To: Johan Hovold <johan@kernel.org>
+> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> ---
+> v2:
+>   - Blacklist interface #1 (ADB) using RSVD(1)
+> ---
+> ---
+>   drivers/usb/serial/option.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+> index 48ae0188f2e9..070e0c553d7a 100644
+> --- a/drivers/usb/serial/option.c
+> +++ b/drivers/usb/serial/option.c
+> @@ -203,6 +203,8 @@ static void option_instat_callback(struct urb *urb);
+>   #define DELL_PRODUCT_5829E_ESIM			0x81e4
+>   #define DELL_PRODUCT_5829E			0x81e6
+>   
+> +#define DELL_PRODUCT_DW5826E_ESIM	0x81ea
+> +
+>   #define DELL_PRODUCT_FM101R_ESIM		0x8213
+>   #define DELL_PRODUCT_FM101R			0x8215
+>   
+> @@ -1125,6 +1127,8 @@ static const struct usb_device_id option_ids[] = {
+>   	  .driver_info = RSVD(0) | RSVD(6) },
+>   	{ USB_DEVICE_INTERFACE_CLASS(DELL_VENDOR_ID, DELL_PRODUCT_FM101R, 0xff) },
+>   	{ USB_DEVICE_INTERFACE_CLASS(DELL_VENDOR_ID, DELL_PRODUCT_FM101R_ESIM, 0xff) },
+> +	{ USB_DEVICE_INTERFACE_CLASS(DELL_VENDOR_ID, DELL_PRODUCT_DW5826E_ESIM, 0xff),
+> +	  .driver_info = RSVD(1) }
+>   	{ USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_E100A) },	/* ADU-E100, ADU-310 */
+>   	{ USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_500A) },
+>   	{ USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_620UW) },
+> 
+> ---
+> base-commit: e43ffb69e0438cddd72aaa30898b4dc446f664f8
+> change-id: 20260601-dw5826e-option-driver-e9bac038e2b5
+> 
+> Best regards,
+> --
+> Jack Wu <jackbb_wu@compal.com>
+> 
+> 
+> 
+Thanks, it looks fine to me now
+Reviewed-by: Lars Melin <larsm17@gmail>
