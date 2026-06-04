@@ -1,158 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from tpecef22.compal.com (exmail3.compal.com [59.120.207.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35FFC305679;
-	Thu,  4 Jun 2026 10:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7453D7D8B;
+	Thu,  4 Jun 2026 10:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780569013; cv=none; b=Sw/xdPk1Wpihb8C9S09bBH2BVNIGIBsVkd/RKfRWkIqzZIOh2qCsvXzp3FTm3R64qpl9DdcxBGU9Ci5NV7NWEVFiRpWIOuet5fpvwvxTvixUf4x0D8F+gdlzQtHRaveN32youHn4k7rxmOF4fogRYB134P/xL9l4LXZEbAyk3NQ=
+	t=1780569118; cv=none; b=rV6Fbx03YMxZqnKF5EBPY8z+bqorRzcoPhsuwQEJmddi69R3LPN1qXDsJMAp0fXSOHAykLA1dzK+yXzLetTg/DyUglXy5cHST2TBrtGVRTZmQBZTtqIFXIfFcq/FKBSkgBaF1lM3mNDVijRCDk/ICK9KZxxbuqXqeCWZ8P3GhSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780569013; c=relaxed/simple;
-	bh=OovWyzlYvdgYRt+ee0Bqn71sDJ7mgK2dTimdxndpHxE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=aD1EyeLGItmp712h7gLarlFL9zx/Lxp2MK+tMSSrOSzZv++id+vCfFmsOAYBE+O2ur9lbVu2/5lD0bnsyeY8pTOQvAc5PiSDQvLOw1zeSQCI7xZK1myqfjKOlyBorrkxt1qnYZQTxB6uvoyi236gKPEHb/fHFZfMvQwZl4xqxNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O8DTJQIl; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O8DTJQIl"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B0920C2BCB8;
-	Thu,  4 Jun 2026 10:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1780569012;
-	bh=OovWyzlYvdgYRt+ee0Bqn71sDJ7mgK2dTimdxndpHxE=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=O8DTJQIliC9PLRuh+8UR0/sHph7t/5Fb4zvM2D4rvnpGemtlid6YYuzpAiWh/37f0
-	 5nsKe8B8Q+TtIwRHdUtwELJujGniqkwg6PPe908QXMKSMbUBbPE588MpTOYEP+j3sd
-	 Mkt5F6x9IR4nw0qGiZ5bnZI5jRU9+TPCYF+nh72l5DQYjhna8ppfMZqFkW2+3GykCW
-	 8u51vXvBZ+ajlEzIQMui+WejYIkJV+4XySuiNnkv9w8o6R0nJ/ASCtANGcQ6qckFjj
-	 h/iTWko9/oITeWj8MdbykRaUR8V8ep+nNjkWJsX12tX9Ky/Pq/y90UFDCEGTPocr0O
-	 o/8asmM5XJJlQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94DC6CD6E6B;
-	Thu,  4 Jun 2026 10:30:12 +0000 (UTC)
-From: Jack Wu via B4 Relay <devnull+jackbb_wu.compal.com@kernel.org>
-Date: Thu, 04 Jun 2026 18:30:10 +0800
-Subject: [PATCH v3] USB: serial: option: add new usb-id for Dell Wireless
- DW5826e-m
+	s=arc-20240116; t=1780569118; c=relaxed/simple;
+	bh=AX1Xiw2wsikuQW1aP69r7RgsIcFeVuJqfYdD5FOlMZI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=sREqpSF/G90rJXVq3swO9hyC4e4J96GNeZkSNgVEQ2q733lDkffdDKJuJD3/llPrn6Cqzo8pWDy/5lRdRRBE0or5w1+9B6//5DntUTVMN52Vx44vTjTFp3V69UdLWeSZGIAZkg3hTKwGj+tC2ZIPusOB2oUKVhnBorbL7zUnq14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
+X-UUID: 994b9ab4600011f1a87c2323a98e90a4-20260604
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:614de71d-2e98-4ded-aa99-e687266a5160,IP:0,U
+	RL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:e276073,CLOUDID:30ca1650-23b6-41e0-a310-51c498ab6908,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
+	898,TC:-5,Content:0|15|50,EDM:-3,IP:nil,URL:11|99|82|106|1,File:130,RT:0,B
+	ulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR
+	:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 994b9ab4600011f1a87c2323a98e90a4-20260604
+Received: from sdmg12.sdbg.compal.com [(10.113.168.10)] by tpecef22.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 33879730; Thu, 04 Jun 2026 18:31:51 +0800
+X-UUID: 969b3090600011f1a42089d3d1632821-20260604
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:c9310d14-a6eb-4cdd-a6e8-9c8ab9ca8954,IP:0,U
+	RL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:e276073,CLOUDID:03ca1650-23b6-41e0-a310-51c498ab6908,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|865|888|
+	898,TC:-5,Content:0|15|50,EDM:-3,IP:nil,URL:11|99|82|106|1,File:130,RT:0,B
+	ulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR
+	:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 969b3090600011f1a42089d3d1632821-20260604
+Received: from sdbmbx11.tpe.compalcomm.com [(10.113.2.135)] by sdmg12.sdbg.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
+	with ESMTP id 1374514106; Thu, 04 Jun 2026 18:31:46 +0800
+Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
+ SDBMBX11.tpe.compalcomm.com (10.113.2.135) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
+ Thu, 4 Jun 2026 18:31:43 +0800
+Received: from SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69]) by
+ SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69%11]) with mapi id
+ 15.02.2562.029; Thu, 4 Jun 2026 18:31:43 +0800
+From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
+To: Johan Hovold <johan@kernel.org>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [External Mail] Re: [PATCH v2] USB: serial: option: add new
+ usb-id for Dell Wireless DW5826e-m
+Thread-Topic: [External Mail] Re: [PATCH v2] USB: serial: option: add new
+ usb-id for Dell Wireless DW5826e-m
+Thread-Index: AQHc8/EXpf++11ltu0OoT/FXFFD9abYuMnXx
+Date: Thu, 4 Jun 2026 10:31:43 +0000
+Message-ID: <18167573232343f9b75762813fff5c40@compal.com>
+References: <20260604-dw5826e-option-driver-v2-1-00609f65f5ae@compal.com>,<aiEklcHp5m6H70T2@hovoldconsulting.com>
+In-Reply-To: <aiEklcHp5m6H70T2@hovoldconsulting.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-29986.005
+x-tm-as-result: No-10--11.722700-8.000000
+x-tmase-matchedrid: Sx6Z8sZ1/uwuv++HU7VXryRFbfQbCufdN0X64jGy2dZJTOxleK2tZgOe
+	+RYG/aOV2HZk1Px5s3K5rXjUlBMperbi+hnh2TdSDDgMha/WNJXyB0wPEnkn5b2L79/20sYb56v
+	0NFZuss1gKddpSoHUC400q+DMrnIdQcYdFGi0gsOO7ZeVwTH0dGStUhdkd3nY5TQA00qx4JWlVN
+	R1cGeRuub1Nz8aB8UnAW1a55mUwfTMUIgmRancg6wODSO9Fuc151PXML9iZzmTjkuhWXwUN3fxT
+	7na2uYs0PrEu9fgzgg+cA6AP9esib/a0nd+hIFCwPd9fpjXfbCbO4JBlqCmNyHhZY8ek8XKGtVi
+	PgZYky48w4uPqHMEMt6kjO3HWYZxKfyY5TJ2+El+3BndfXUhXQ==
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--11.722700-8.000000
+x-tmase-version: SMEX-14.0.0.3239-9.1.2019-29986.005
+x-tm-snts-smtp: 4A8C5F03B472E1DF78C3D29A7F0850601A12F69FC26E7B1B098AA38B7D46B2212000:8
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260604-dw5826e-option-driver-v3-1-413a2af11eee@compal.com>
-X-B4-Tracking: v=1; b=H4sIALFTIWoC/4WNwQ7CIBAFf6XhLAaoYOvJ/zAegC4Wo4VARU3Tf
- xfqRQ/G02aS2XkTihAsRLSrJhQg2WjdkKFeVUj3cjgBtl1mxAgTRBCKuztvmADs/JhV3AWbIGB
- oldSkboApjvKvD2DsY+kejm+ON3UGPZZYMXobRxeey3Cixfu3kSimGIgkcsu0Aar22l29vKzzQ
- WUksc/M5leG5QzJQmsEN1zCV2ae5xecQIF1FAEAAA==
-X-Change-ID: 20260601-dw5826e-option-driver-e9bac038e2b5
-To: Johan Hovold <johan@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jack Wu <jackbb_wu@compal.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780569011; l=3732;
- i=jackbb_wu@compal.com; s=20260526; h=from:subject:message-id;
- bh=yqMnz7bupA1tjFKERJw+7zlC3k49WdIKuJIy3QiQMZA=;
- b=w7wI5k8SE6CqWMEy1s+/1J0HKp+Ifz4QFanNmlNFpxzDgH6pRpFsIRwpteznm03Aep+pmudDg
- HIyqUwLzznVBy4nx7/cEacbU76G+Fch6aj9t2LaagsSgn90GJ0TC99C
-X-Developer-Key: i=jackbb_wu@compal.com; a=ed25519;
- pk=VH1prTWixNl8OEUPPSfII3p46MzJpQN8J3+ecE1tZXg=
-X-Endpoint-Received: by B4 Relay for jackbb_wu@compal.com/20260526 with
- auth_id=793
-X-Original-From: Jack Wu <jackbb_wu@compal.com>
-Reply-To: jackbb_wu@compal.com
 
-From: Jack Wu <jackbb_wu@compal.com>
-
-Add support for Dell DW5826e-m with USB-id 0x413c:0x81ea
-
-T:  Bus=03 Lev=01 Prnt=01 Port=05 Cnt=01 Dev#= 15 Spd=480  MxCh= 0
-D:  Ver= 2.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
-P:  Vendor=413c ProdID=81ea Rev= 5.04
-S:  Manufacturer=DELL
-S:  Product=DW5826e-m Qualcomm Snapdragon X12 Global LTE-A
-S:  SerialNumber=358988870177734
-C:* #Ifs= 7 Cfg#= 1 Atr=a0 MxPwr=500mA
-A:  FirstIf#=12 IfCount= 2 Cls=02(comm.) Sub=0e Prot=00
-I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=usbfs
-E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=60 Driver=option
-E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-I:* If#= 4 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
-E:  Ad=87(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
-I:* If#=12 Alt= 0 #EPs= 1 Cls=02(comm.) Sub=0e Prot=00 Driver=cdc_mbim
-E:  Ad=88(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
-I:  If#=13 Alt= 0 #EPs= 0 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
-I:* If#=13 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
-E:  Ad=8e(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-E:  Ad=0f(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
-
-Signed-off-by: Jack Wu <jackbb_wu@compal.com>
----
-- Link to v1: https://patch.msgid.link/20260601-dw5826e-option-driver-v1-1-e0a0a72cfe1b@compal.com
-
-To: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
-- Link to v2: https://patch.msgid.link/20260604-dw5826e-option-driver-v2-1-00609f65f5ae@compal.com
-
-To: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
-v3:
- - Blacklist interface #4 (ADB) using RSVD(4)
- - Change DELL_PRODUCT_DW5826E_ESIM to DELL_PRODUCT_5826E_ESIM
-v2:
- - Blacklist interface #1 (ADB) using RSVD(1)
----
----
- drivers/usb/serial/option.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index 48ae0188f2e9..541c4e26c45f 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -203,6 +203,8 @@ static void option_instat_callback(struct urb *urb);
- #define DELL_PRODUCT_5829E_ESIM			0x81e4
- #define DELL_PRODUCT_5829E			0x81e6
- 
-+#define DELL_PRODUCT_5826E_ESIM		0x81ea
-+
- #define DELL_PRODUCT_FM101R_ESIM		0x8213
- #define DELL_PRODUCT_FM101R			0x8215
- 
-@@ -1125,6 +1127,8 @@ static const struct usb_device_id option_ids[] = {
- 	  .driver_info = RSVD(0) | RSVD(6) },
- 	{ USB_DEVICE_INTERFACE_CLASS(DELL_VENDOR_ID, DELL_PRODUCT_FM101R, 0xff) },
- 	{ USB_DEVICE_INTERFACE_CLASS(DELL_VENDOR_ID, DELL_PRODUCT_FM101R_ESIM, 0xff) },
-+	{ USB_DEVICE_INTERFACE_CLASS(DELL_VENDOR_ID, DELL_PRODUCT_5826E_ESIM, 0xff),
-+	  .driver_info = RSVD(1) | RSVD(4) },
- 	{ USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_E100A) },	/* ADU-E100, ADU-310 */
- 	{ USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_500A) },
- 	{ USB_DEVICE(ANYDATA_VENDOR_ID, ANYDATA_PRODUCT_ADU_620UW) },
-
----
-base-commit: e43ffb69e0438cddd72aaa30898b4dc446f664f8
-change-id: 20260601-dw5826e-option-driver-e9bac038e2b5
-
-Best regards,
---  
-Jack Wu <jackbb_wu@compal.com>
-
-
+SGkgSm9oYW4sDQoNClRoYW5rIHlvdSBmb3IgeW91ciBjb21tZW50LCBJIGhhdmUgZml4ZWQgaXQg
+aW4gdjMuDQoNCj4gT24gVGh1LCBKdW4gMDQsIDIwMjYgYXQgMTA6MDQ6NDBBTSArMDgwMCwgSmFj
+ayBXdSB2aWEgQjQgUmVsYXkgd3JvdGU6DQo+ID4gRnJvbTogSmFjayBXdSA8amFja2JiX3d1QGNv
+bXBhbC5jb20+DQo+ID4NCj4gPiBBZGQgc3VwcG9ydCBmb3IgRGVsbCBEVzU4MjZlLW0gd2l0aCBV
+U0ItaWQgMHg0MTNjOjB4ODFlYQ0KPiA+DQo+ID4gVDogQnVzPTAzIExldj0wMSBQcm50PTAxIFBv
+cnQ9MDQgQ250PTAxIERldiM9IDggU3BkPTQ4MCBNeENoPSAwDQo+ID4gRDogVmVyPSAyLjEwIENs
+cz1lZihtaXNjICkgU3ViPTAyIFByb3Q9MDEgTXhQUz02NCAjQ2Zncz0gMQ0KPiA+IFA6IFZlbmRv
+cj00MTNjIFByb2RJRD04MWVhIFJldj0gNS4wNA0KPiA+IFM6IE1hbnVmYWN0dXJlcj1ERUxMDQo+
+ID4gUzogUHJvZHVjdD1EVzU4MjZlLW0gUXVhbGNvbW0gU25hcGRyYWdvbiBYMTIgR2xvYmFsIExU
+RS1BDQo+ID4gUzogU2VyaWFsTnVtYmVyPTM1ODk4ODg3MDE3NzczNA0KPiA+IEM6KiAjSWZzPSA3
+IENmZyM9IDEgQXRyPWEwIE14UHdyPTUwMG1BDQo+ID4gQTogRmlyc3RJZiM9MTIgSWZDb3VudD0g
+MiBDbHM9MDIoY29tbS4pIFN1Yj0wZSBQcm90PTAwDQo+ID4gSToqIElmIz0gMCBBbHQ9IDAgI0VQ
+cz0gMiBDbHM9ZmYodmVuZC4pIFN1Yj1mZiBQcm90PTMwIERyaXZlcj1vcHRpb24NCj4gPiBFOiBB
+ZD0wMShPKSBBdHI9MDIoQnVsaykgTXhQUz0gNTEyIEl2bD0wbXMNCj4gPiBFOiBBZD04MShJKSBB
+dHI9MDIoQnVsaykgTXhQUz0gNTEyIEl2bD0wbXMNCj4gPiBJOiogSWYjPSAxIEFsdD0gMCAjRVBz
+PSAyIENscz1mZih2ZW5kLikgU3ViPTQyIFByb3Q9MDEgRHJpdmVyPXVzYmZzDQo+ID4gRTogQWQ9
+MDIoTykgQXRyPTAyKEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4gRTogQWQ9ODIoSSkgQXRy
+PTAyKEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4gSToqIElmIz0gMiBBbHQ9IDAgI0VQcz0g
+MyBDbHM9ZmYodmVuZC4pIFN1Yj1mZiBQcm90PTYwIERyaXZlcj1vcHRpb24NCj4gPiBFOiBBZD04
+NChJKSBBdHI9MDMoSW50LikgTXhQUz0gMTAgSXZsPTMybXMNCj4gPiBFOiBBZD04MyhJKSBBdHI9
+MDIoQnVsaykgTXhQUz0gNTEyIEl2bD0wbXMNCj4gPiBFOiBBZD0wMyhPKSBBdHI9MDIoQnVsaykg
+TXhQUz0gNTEyIEl2bD0wbXMNCj4gPiBJOiogSWYjPSAzIEFsdD0gMCAjRVBzPSAzIENscz1mZih2
+ZW5kLikgU3ViPWZmIFByb3Q9NDAgRHJpdmVyPW9wdGlvbg0KPiA+IEU6IEFkPTg2KEkpIEF0cj0w
+MyhJbnQuKSBNeFBTPSAxMCBJdmw9MzJtcw0KPiA+IEU6IEFkPTg1KEkpIEF0cj0wMihCdWxrKSBN
+eFBTPSA1MTIgSXZsPTBtcw0KPiA+IEU6IEFkPTA0KE8pIEF0cj0wMihCdWxrKSBNeFBTPSA1MTIg
+SXZsPTBtcw0KPg0KPiA+IEk6KiBJZiM9IDQgQWx0PSAwICNFUHM9IDEgQ2xzPWZmKHZlbmQuKSBT
+dWI9ZmYgUHJvdD1mZiBEcml2ZXI9b3B0aW9uDQo+ID4gRTogQWQ9ODcoSSkgQXRyPTAzKEludC4p
+IE14UFM9IDY0IEl2bD0zMm1zDQo+DQo+IFRoZSBkcml2ZXIgc2hvdWxkIG5vdCBiaW5kIHRvIHRo
+aXMgaW50ZXJmYWNlIGVpdGhlci4NCj4NCj4gPiBJOiogSWYjPTEyIEFsdD0gMCAjRVBzPSAxIENs
+cz0wMihjb21tLikgU3ViPTBlIFByb3Q9MDAgRHJpdmVyPWNkY19tYmltDQo+ID4gRTogQWQ9ODgo
+SSkgQXRyPTAzKEludC4pIE14UFM9IDY0IEl2bD0zMm1zDQo+ID4gSTogSWYjPTEzIEFsdD0gMCAj
+RVBzPSAwIENscz0wYShkYXRhICkgU3ViPTAwIFByb3Q9MDIgRHJpdmVyPWNkY19tYmltDQo+ID4g
+SToqIElmIz0xMyBBbHQ9IDEgI0VQcz0gMiBDbHM9MGEoZGF0YSApIFN1Yj0wMCBQcm90PTAyIERy
+aXZlcj1jZGNfbWJpbQ0KPiA+IEU6IEFkPThlKEkpIEF0cj0wMihCdWxrKSBNeFBTPSA1MTIgSXZs
+PTBtcw0KPiA+IEU6IEFkPTBmKE8pIEF0cj0wMihCdWxrKSBNeFBTPSA1MTIgSXZsPTBtcw0KPiA+
+DQo+ID4gU2lnbmVkLW9mZi1ieTogSmFjayBXdSA8amFja2JiX3d1QGNvbXBhbC5jb20+DQo+ID4g
+LS0tDQo+ID4gLSBMaW5rIHRvIHYxOg0KPiBodHRwczovL3BhdGNoLm1zZ2lkLmxpbmsvMjAyNjA2
+MDEtZHc1ODI2ZS1vcHRpb24tZHJpdmVyLXYxLTEtZTBhMGE3MmNmZTFiQGNvbXBhbC5jb20NCj4g
+Pg0KPiA+IFRvOiBKb2hhbiBIb3ZvbGQgPGpvaGFuQGtlcm5lbC5vcmc+DQo+ID4gVG86IEdyZWcg
+S3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+ID4gQ2M6IGxpbnV4
+LXVzYkB2Z2VyLmtlcm5lbC5vcmcNCj4gPiBDYzogbGludXgta2VybmVsQHZnZXIua2VybmVsLm9y
+Zw0KPiA+IC0tLQ0KPiA+IHYyOg0KPiA+IC0gQmxhY2tsaXN0IGludGVyZmFjZSAjMSAoQURCKSB1
+c2luZyBSU1ZEKDEpDQo+ID4gLS0tDQo+ID4gLS0tDQo+ID4gZHJpdmVycy91c2Ivc2VyaWFsL29w
+dGlvbi5jIHwgNCArKysrDQo+ID4gMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQ0KPiA+
+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL3NlcmlhbC9vcHRpb24uYyBiL2RyaXZlcnMv
+dXNiL3NlcmlhbC9vcHRpb24uYw0KPiA+IGluZGV4IDQ4YWUwMTg4ZjJlOS4uMDcwZTBjNTUzZDdh
+IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvdXNiL3NlcmlhbC9vcHRpb24uYw0KPiA+ICsrKyBi
+L2RyaXZlcnMvdXNiL3NlcmlhbC9vcHRpb24uYw0KPiA+IEBAIC0yMDMsNiArMjAzLDggQEAgc3Rh
+dGljIHZvaWQgb3B0aW9uX2luc3RhdF9jYWxsYmFjayhzdHJ1Y3QgdXJiICp1cmIpOw0KPiA+ICNk
+ZWZpbmUgREVMTF9QUk9EVUNUXzU4MjlFX0VTSU0gMHg4MWU0DQo+ID4gI2RlZmluZSBERUxMX1BS
+T0RVQ1RfNTgyOUUgMHg4MWU2DQo+ID4NCj4gPiArI2RlZmluZSBERUxMX1BST0RVQ1RfRFc1ODI2
+RV9FU0lNIDB4ODFlYQ0KPg0KPiBJIGZpeGVkIHRoYXQgdXAgYW5kIGRyb3BwZWQgIkRXIiBmcm9t
+IHRoZSBkZWZpbmUgdG8gbWF0Y2ggdGhlIGV4aXN0aW5nDQo+IGVudHJpZXMgd2hlbiBhcHBseWlu
+Zy4NCj4NCj4gSm9oYW4NCg0KDQo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09DQpUaGlzIG1lc3NhZ2UgbWF5IGNvbnRhaW4gaW5mb3JtYXRpb24gd2hpY2ggaXMg
+cHJpdmF0ZSwgcHJpdmlsZWdlZCBvciBjb25maWRlbnRpYWwgb2YgQ29tcGFsIEVsZWN0cm9uaWNz
+LCBJbmMuIElmIHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBtZXNz
+YWdlLCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgYW5kIGRlc3Ryb3kvZGVsZXRlIHRoZSBtZXNz
+YWdlLiBBbnkgcmV2aWV3LCByZXRyYW5zbWlzc2lvbiwgZGlzc2VtaW5hdGlvbiBvciBvdGhlciB1
+c2Ugb2YsIG9yIHRha2luZyBvZiBhbnkgYWN0aW9uIGluIHJlbGlhbmNlIHVwb24gdGhpcyBpbmZv
+cm1hdGlvbiwgYnkgcGVyc29ucyBvciBlbnRpdGllcyBvdGhlciB0aGFuIHRoZSBpbnRlbmRlZCBy
+ZWNpcGllbnQgaXMgcHJvaGliaXRlZC4NCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT0NCg==
