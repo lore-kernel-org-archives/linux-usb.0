@@ -1,100 +1,66 @@
-Received: from tpecef22.compal.com (exmail3.compal.com [59.120.207.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD8123815B;
-	Fri,  5 Jun 2026 01:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797043B1034;
+	Fri,  5 Jun 2026 02:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780623425; cv=none; b=LkmCEID+Pi2WiKHv7ZYtpwJ+vVU1rgp2iurfyCP3UJGCTzYq2Gwd36RcFkyd/itdhyIj/zo6FR+lb22hrDE5Qgx02F7aZBkgyKFNyiHe6zBfnbn+4wFSNlTYS9NPg52hOxcXDiYREhSRt1p2R3cWoEkIeiokDa597EkWcAlC9ME=
+	t=1780627376; cv=none; b=kfVLlO68BU7mXV3GdrcgMB13jdzB3HXiOh1F2FdnNJztF4/yma+qjBMpcDUsdshbhouU7NLg+OCO3Z09rSKfLdlqSLOujiH3HP7Sym32YmBpkWs7gdpch7P+jpcqe33ULJRLgmChscAIw3KOcfy/OBkgef+FMjQ/kTwsg2Mp0tI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780623425; c=relaxed/simple;
-	bh=FHu/ly66q22brRpNW0qjoW1FyCsLXZ/rvUoD58k7e6s=;
+	s=arc-20240116; t=1780627376; c=relaxed/simple;
+	bh=knbVBzJHTBJPWyNraPAnWOt877mFScuJwtybl6ywCGs=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=lOi+/Cy1myDBJqyx91kx0QginVO1VFY20WaMq99Nf8/R/qsHVRAm7CPr2iO/MPSHgYMsq0uxsR9ieJUqfDvVKgEGz4L59izrZoeBPCse+f7ScI9rb7pjObxchoBbSbsEzMpiv4ni7RO2+/5noBmR5dOsqBhLe2WlYOdhJ9I3mCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
-X-UUID: 05cc7234607f11f1a87c2323a98e90a4-20260605
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:8cdf4bc4-b033-4388-98c8-b3a121f5a15f,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:f94b931a-0917-404b-aaf2-0dbbf9b2fa63,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|817|836|865|
-	888|898,TC:-5,Content:-10|-8|-5|15|50,EDM:-3,IP:nil,URL:1,File:130,RT:0,Bu
-	lk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:
-	0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 05cc7234607f11f1a87c2323a98e90a4-20260605
-Received: from sdmg11.sdbg.compal.com [(10.113.168.9)] by tpecef22.compal.com
-	(envelope-from <jackbb_wu@compal.com>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1361349306; Fri, 05 Jun 2026 09:36:49 +0800
-X-UUID: 02a15c50607f11f1943831befd1aa4bc-20260605
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:0b323438-5099-461c-b18e-6524c142bb21,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:15a01d50-23b6-41e0-a310-51c498ab6908,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|817|836|865|
-	888|898,TC:-5,Content:-10|-8|-5|15|50,EDM:-3,IP:nil,URL:1,File:130,RT:0,Bu
-	lk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:
-	0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 02a15c50607f11f1943831befd1aa4bc-20260605
-Received: from sdbmbx11.tpe.compalcomm.com [(10.113.2.135)] by sdmg11.sdbg.compal.com
-	(envelope-from <jackbb_wu@compal.com>)
-	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
-	with ESMTP id 1737434902; Fri, 05 Jun 2026 09:36:44 +0800
-Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
- SDBMBX11.tpe.compalcomm.com (10.113.2.135) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
- Fri, 5 Jun 2026 09:36:43 +0800
-Received: from SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69]) by
- SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69%11]) with mapi id
- 15.02.2562.029; Fri, 5 Jun 2026 09:36:43 +0800
-From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
-To: Johan Hovold <johan@kernel.org>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"wojackbb@gmail.com" <wojackbb@gmail.com>
-Subject: RE: [External Mail] Re: [PATCH v3] USB: serial: option: add new
- usb-id for Dell Wireless DW5826e-m
-Thread-Topic: [External Mail] Re: [PATCH v3] USB: serial: option: add new
- usb-id for Dell Wireless DW5826e-m
-Thread-Index: AQHc9BeQhpYn0JwcRkarlCYDSP8zebYvK3Wh
-Date: Fri, 5 Jun 2026 01:36:43 +0000
-Message-ID: <50432b9f12eb4d26aa17eba2bce9c059@compal.com>
-References: <20260604-dw5826e-option-driver-v3-1-413a2af11eee@compal.com>,<aiFlImelxdae6g4s@hovoldconsulting.com>
-In-Reply-To: <aiFlImelxdae6g4s@hovoldconsulting.com>
+	 Content-Type:MIME-Version; b=b8POEw7x7cWOECIFyfwyilBzBliOgvJ/h4HUt1nd7dfNncM1dVjFJKVGYXsYo155SIa2YQt0E+2UbFaDy58/s1dLaZI47gHgBHkR6Q96310mgYoqPFTZn1PWky/76dQELkewpn2giQ5EJYd13jQuaFM97qufUR95hzGAfbmMFXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=QFgwXWsG; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="QFgwXWsG"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6552gZtgD1062172, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1780627355; bh=MRgeh7Vod5VyrL8PqUQs6OOiUqbq/RWGPVA2a0PITHQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=QFgwXWsGnsRGyvhcKw44FxU0C9r77WSMy0nAzAIW1x/IvZaq8E4QZPPrbwV0BPsRj
+	 BnsmAQ0V5XjH5OaSXZeovWYVywaVklpS5MutlTaCr+3KpsthR3+NY5j/R3U0JrqGL+
+	 ik1HCJ0h1fasGCL5NobkE7e09rdxoL5wnEQg5KTcHSt9c//SoDlAQV2yVV2mSMFnUY
+	 kkwtZQP2fuVCLXhh+R6EZQQEe/ZyaorrsUibAfuzxNhwIbVeeGmOHiY6s6rvRAdI+h
+	 YbKAy2+WHp9jTMbTW5KBEu0Lops7gUM2WwlAjif23e1uU31cyDf7LpiRx+1wkdOQdM
+	 q++xnVZ+JZp6A==
+Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
+	by rtits2.realtek.com.tw (8.15.2/3.28/5.94) with ESMTPS id 6552gZtgD1062172
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 5 Jun 2026 10:42:35 +0800
+Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 5 Jun 2026 10:42:35 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Fri, 5 Jun 2026 10:42:34 +0800
+Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
+ RTKEXHMBS06.realtek.com.tw ([fe80::e6fd:5a3f:8946:92c4%10]) with mapi id
+ 15.02.2562.017; Fri, 5 Jun 2026 10:42:34 +0800
+From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+To: Andrew Lunn <andrew@lunn.ch>
+CC: "kuba@kernel.org" <kuba@kernel.org>, "davem@davemloft.net"
+	<davem@davemloft.net>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	nic_swsd <nic_swsd@realtek.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>
+Subject: RE: [PATCH net] r8152: handle the return value of usb_reset_device()
+Thread-Topic: [PATCH net] r8152: handle the return value of usb_reset_device()
+Thread-Index: AQHc9APC9XApZAQtH0mFd55w2OdfKbYt1DKAgAFpdUA=
+Date: Fri, 5 Jun 2026 02:42:34 +0000
+Message-ID: <ce2651bf86fc401b9e1e7cc29b5a6c22@realtek.com>
+References: <20260604092247.27158-450-nic_swsd@realtek.com>
+ <c1ddf8f3-71f7-434c-ad10-64096b65fe51@lunn.ch>
+In-Reply-To: <c1ddf8f3-71f7-434c-ad10-64096b65fe51@lunn.ch>
 Accept-Language: zh-TW, en-US
 Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-29988.003
-x-tm-as-result: No-10--34.957200-8.000000
-x-tmase-matchedrid: IWY1H69iwzouv++HU7VXryRFbfQbCufdN0X64jGy2dbVc/AFNTvLS9XY
-	nKy9ZqbG0wNjG7j2lpdckfZ6+scXhjibGcrQpQn8nFk5Pqs+1qKBhoFVhcfc62nJ1MUKQr0eTuo
-	3IhXX1Xd1S7PM/96TiTMkmfWh0T7f5h2ebZ16dphZnFiE9hisyXmyombYO/m6oBcgkSxtIGx3UJ
-	KTMcVBiJMsyTLk6XXrNLaF9zMAOrCiVRp30FeHAgWbP9hRrIxQ2NmsCA5Q5rrCnG8raj9956xKX
-	Xd0REcH1rNs3ywckqvPIoilrAVvE4Kv5VHh62w2sjKXwoAhxb9jgrNzi7aEMDnYCDMgBPgYxzJA
-	70xLdcKsK4MHcHSmQYgDF2Ixv+HpmLI/iR09SQ36KF0S1zktZ6QRH5b1a6p+3vJmSnAjZBC3NLB
-	ioa/QtdD6xLvX4M4IEA4s0Z67fd2/2tJ3foSBQsD3fX6Y132wU9D8gZ7zYu1+LlawpBy55Qb9wc
-	Bd7K6H
-x-tm-as-user-approved-sender: No
-x-tm-as-user-blocked-sender: No
-x-tmase-result: 10--34.957200-8.000000
-x-tmase-version: SMEX-14.0.0.3239-9.1.2019-29988.003
-x-tm-snts-smtp: 7C4A6D5BB0E2586E13AB44101C8D652A0D24E30E0A465231E66C4AB7A448EA772000:8
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -102,86 +68,24 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-DQoNCj4gT24gVGh1LCBKdW4gMDQsIDIwMjYgYXQgMDY6MzA6MTBQTSArMDgwMCwgSmFjayBXdSB2
-aWEgQjQgUmVsYXkgd3JvdGU6DQo+DQo+ID4gRnJvbTogSmFjayBXdSA8amFja2JiX3d1QGNvbXBh
-bC5jb20+DQo+ID4NCj4gPiBBZGQgc3VwcG9ydCBmb3IgRGVsbCBEVzU4MjZlLW0gd2l0aCBVU0It
-aWQgMHg0MTNjOjB4ODFlYQ0KPiA+DQo+ID4gVDogQnVzPTAzIExldj0wMSBQcm50PTAxIFBvcnQ9
-MDUgQ250PTAxIERldiM9IDE1IFNwZD00ODAgTXhDaD0gMA0KPiA+IEQ6IFZlcj0gMi4xMCBDbHM9
-ZWYobWlzYyApIFN1Yj0wMiBQcm90PTAxIE14UFM9NjQgI0NmZ3M9IDENCj4gPiBQOiBWZW5kb3I9
-NDEzYyBQcm9kSUQ9ODFlYSBSZXY9IDUuMDQNCj4gPiBTOiBNYW51ZmFjdHVyZXI9REVMTA0KPiA+
-IFM6IFByb2R1Y3Q9RFc1ODI2ZS1tIFF1YWxjb21tIFNuYXBkcmFnb24gWDEyIEdsb2JhbCBMVEUt
-QQ0KPiA+IFM6IFNlcmlhbE51bWJlcj0zNTg5ODg4NzAxNzc3MzQNCj4gPiBDOiogI0lmcz0gNyBD
-ZmcjPSAxIEF0cj1hMCBNeFB3cj01MDBtQQ0KPiA+IEE6IEZpcnN0SWYjPTEyIElmQ291bnQ9IDIg
-Q2xzPTAyKGNvbW0uKSBTdWI9MGUgUHJvdD0wMA0KPiA+IEk6KiBJZiM9IDAgQWx0PSAwICNFUHM9
-IDIgQ2xzPWZmKHZlbmQuKSBTdWI9ZmYgUHJvdD0zMCBEcml2ZXI9b3B0aW9uDQo+ID4gRTogQWQ9
-MDEoTykgQXRyPTAyKEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4gRTogQWQ9ODEoSSkgQXRy
-PTAyKEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4gSToqIElmIz0gMSBBbHQ9IDAgI0VQcz0g
-MiBDbHM9ZmYodmVuZC4pIFN1Yj00MiBQcm90PTAxIERyaXZlcj11c2Jmcw0KPiA+IEU6IEFkPTAy
-KE8pIEF0cj0wMihCdWxrKSBNeFBTPSA1MTIgSXZsPTBtcw0KPiA+IEU6IEFkPTgyKEkpIEF0cj0w
-MihCdWxrKSBNeFBTPSA1MTIgSXZsPTBtcw0KPiA+IEk6KiBJZiM9IDIgQWx0PSAwICNFUHM9IDMg
-Q2xzPWZmKHZlbmQuKSBTdWI9ZmYgUHJvdD02MCBEcml2ZXI9b3B0aW9uDQo+ID4gRTogQWQ9ODQo
-SSkgQXRyPTAzKEludC4pIE14UFM9IDEwIEl2bD0zMm1zDQo+ID4gRTogQWQ9ODMoSSkgQXRyPTAy
-KEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4gRTogQWQ9MDMoTykgQXRyPTAyKEJ1bGspIE14
-UFM9IDUxMiBJdmw9MG1zDQo+ID4gSToqIElmIz0gMyBBbHQ9IDAgI0VQcz0gMyBDbHM9ZmYodmVu
-ZC4pIFN1Yj1mZiBQcm90PTQwIERyaXZlcj1vcHRpb24NCj4gPiBFOiBBZD04NihJKSBBdHI9MDMo
-SW50LikgTXhQUz0gMTAgSXZsPTMybXMNCj4gPiBFOiBBZD04NShJKSBBdHI9MDIoQnVsaykgTXhQ
-Uz0gNTEyIEl2bD0wbXMNCj4gPiBFOiBBZD0wNChPKSBBdHI9MDIoQnVsaykgTXhQUz0gNTEyIEl2
-bD0wbXMNCj4gPiBJOiogSWYjPSA0IEFsdD0gMCAjRVBzPSAxIENscz1mZih2ZW5kLikgU3ViPWZm
-IFByb3Q9ZmYgRHJpdmVyPShub25lKQ0KPiA+IEU6IEFkPTg3KEkpIEF0cj0wMyhJbnQuKSBNeFBT
-PSA2NCBJdmw9MzJtcw0KPiA+IEk6KiBJZiM9MTIgQWx0PSAwICNFUHM9IDEgQ2xzPTAyKGNvbW0u
-KSBTdWI9MGUgUHJvdD0wMCBEcml2ZXI9Y2RjX21iaW0NCj4gPiBFOiBBZD04OChJKSBBdHI9MDMo
-SW50LikgTXhQUz0gNjQgSXZsPTMybXMNCj4gPiBJOiBJZiM9MTMgQWx0PSAwICNFUHM9IDAgQ2xz
-PTBhKGRhdGEgKSBTdWI9MDAgUHJvdD0wMiBEcml2ZXI9Y2RjX21iaW0NCj4gPiBJOiogSWYjPTEz
-IEFsdD0gMSAjRVBzPSAyIENscz0wYShkYXRhICkgU3ViPTAwIFByb3Q9MDIgRHJpdmVyPWNkY19t
-YmltDQo+ID4gRTogQWQ9OGUoSSkgQXRyPTAyKEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4g
-RTogQWQ9MGYoTykgQXRyPTAyKEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4NCj4gPiBTaWdu
-ZWQtb2ZmLWJ5OiBKYWNrIFd1IDxqYWNrYmJfd3VAY29tcGFsLmNvbT4NCj4NCj4gPiAtLS0NCj4g
-PiB2MzoNCj4gPiAtIEJsYWNrbGlzdCBpbnRlcmZhY2UgIzQgKEFEQikgdXNpbmcgUlNWRCg0KQ0K
-PiA+IC0gQ2hhbmdlIERFTExfUFJPRFVDVF9EVzU4MjZFX0VTSU0gdG8gREVMTF9QUk9EVUNUXzU4
-MjZFX0VTSU0NCj4NCj4gWW91IGZvcmdvdCB0byBtZW50aW9uIHRoZSBtaXNzaW5nIGNvbW1hIHRo
-YXQgY2F1c2VkIGEgYnVpbGQgZmFpbHVyZS4uLg0KPg0KPiBJIGFkZGVkIHRoZSBtaXNzaW5nIFJT
-VkQoNCkgd2hlbiBhcHBseWluZyB2MiBhbmQgbm90aWNlZCB0aGF0IGl0IGZhaWxlZA0KPiB0byBj
-b21waWxlIGJ1dCBhc3N1bWVkIHRoYXQgSSBoYWQgbWVzc2VkIHdoZW4gYW1lbmRpbmcgdGhlIHBh
-dGNoIChhbmQNCj4gZml4ZWQgaXQgdXApLg0KPg0KPiBFbmQgcmVzdWx0IGlzIGhlcmU6DQo+DQo+
-IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2pvaGFuL3Vz
-Yi1zZXJpYWwuZ2l0L2NvbW1pdC8/aD11c2ItbGludXMmaWQ9MTkzOGZiOWZlMzhjNGYwNGEzZjMw
-YmVhNDRmODA3MWM4MGE2M2JlNA0KPg0KPiBKb2hhbg0KDQpJJ20gc29ycnkgZm9yIHRoZSBpbmNv
-bnZlbmllbmNlLg0KRG8gSSBuZWVkIHRvIHVwbG9hZCB0aGUgdjQgdmVyc2lvbiB0byBmaXggdGhp
-cyBjb21taXQgbWVzc2FnZSBlcnJvcj8NCg0KPiBPbiBUaHUsIEp1biAwNCwgMjAyNiBhdCAxMDoz
-MTo0M0FNICswMDAwLCBXdS4gSmFja0JCIChHU00pIHdyb3RlOg0KPg0KPiA+ID09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPiBUaGlzIG1lc3NhZ2UgbWF5
-IGNvbnRhaW4gaW5mb3JtYXRpb24gd2hpY2ggaXMgcHJpdmF0ZSwgcHJpdmlsZWdlZCBvcg0KPiA+
-IGNvbmZpZGVudGlhbCBvZiBDb21wYWwgRWxlY3Ryb25pY3MsIEluYy4gSWYgeW91IGFyZSBub3Qg
-dGhlIGludGVuZGVkDQo+ID4gcmVjaXBpZW50IG9mIHRoaXMgbWVzc2FnZSwgcGxlYXNlIG5vdGlm
-eSB0aGUgc2VuZGVyIGFuZCBkZXN0cm95L2RlbGV0ZSB0aGUNCj4gPiBtZXNzYWdlLiBBbnkgcmV2
-aWV3LCByZXRyYW5zbWlzc2lvbiwgZGlzc2VtaW5hdGlvbiBvciBvdGhlciB1c2Ugb2YsIG9yDQo+
-ID4gdGFraW5nIG9mIGFueSBhY3Rpb24gaW4gcmVsaWFuY2UgdXBvbiB0aGlzIGluZm9ybWF0aW9u
-LCBieSBwZXJzb25zIG9yDQo+ID4gZW50aXRpZXMgb3RoZXIgdGhhbiB0aGUgaW50ZW5kZWQgcmVj
-aXBpZW50IGlzIHByb2hpYml0ZWQuDQo+ID4gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PQ0KPg0KPiBNYWtlIHN1cmUgbm90IHRvIGluY2x1ZGUgZm9vdGVycyBs
-aWtlIHRoaXMgd2hlbiByZXBseWluZy4NCj4NCj4gSm9oYW4NCg0KSSBhcG9sb2dpemUgZm9yIHRo
-ZSBhdXRvbWF0ZWQgZGlzY2xhaW1lci4NCkl0IGlzIGZvcmNlZCBieSBvdXIgY29ycG9yYXRlIG1h
-aWwgc2VydmVyIHdoZW5ldmVyIHNlbmRpbmcgZW1haWxzIGV4dGVybmFsbHkuDQoNCkR1ZSB0byBp
-bnRlcm5hbCBwb2xpY2llcywgd2UgYXJlIHJlcXVpcmVkIHRvIHVzZSB0aGUgY29tcGFueSBlbWFp
-bCBhZGRyZXNzIHRvIHN1Ym1pdCB0aGUgZHJpdmVyLg0KSG93ZXZlciwgdG8gYXZvaWQgdGhpcyBm
-b290ZXIgaXNzdWUsDQppcyBpdCBhY2NlcHRhYmxlIGlmIEkgdXNlIG15IHBlcnNvbmFsIGVtYWls
-ICh3b2phY2tiYkBnbWFpbC5jb20pIHRvIHJlcGx5IHRvIHRoZSBjb21tdW5pdHkgZnJvbSBub3cg
-b24/DQpJIGNhbiBDQyBteSBwZXJzb25hbCBlbWFpbCBvbiB0aGUgcGF0Y2hlcyBzbyBJIGNhbiBq
-dW1wIGludG8gdGhlIHRocmVhZCB1c2luZyB0aGF0IGFkZHJlc3MuDQoNCg0KDQoNCg0KDQo9PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQpUaGlzIG1lc3NhZ2Ug
-bWF5IGNvbnRhaW4gaW5mb3JtYXRpb24gd2hpY2ggaXMgcHJpdmF0ZSwgcHJpdmlsZWdlZCBvciBj
-b25maWRlbnRpYWwgb2YgQ29tcGFsIEVsZWN0cm9uaWNzLCBJbmMuIElmIHlvdSBhcmUgbm90IHRo
-ZSBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBtZXNzYWdlLCBwbGVhc2Ugbm90aWZ5IHRoZSBz
-ZW5kZXIgYW5kIGRlc3Ryb3kvZGVsZXRlIHRoZSBtZXNzYWdlLiBBbnkgcmV2aWV3LCByZXRyYW5z
-bWlzc2lvbiwgZGlzc2VtaW5hdGlvbiBvciBvdGhlciB1c2Ugb2YsIG9yIHRha2luZyBvZiBhbnkg
-YWN0aW9uIGluIHJlbGlhbmNlIHVwb24gdGhpcyBpbmZvcm1hdGlvbiwgYnkgcGVyc29ucyBvciBl
-bnRpdGllcyBvdGhlciB0aGFuIHRoZSBpbnRlbmRlZCByZWNpcGllbnQgaXMgcHJvaGliaXRlZC4N
-Cj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCg==
+On 04/06/26 8:54 pm, Andrew Lunn wrote:
+
+> On Thu, Jun 04, 2026 at 05:22:47PM +0800, Chih Kai Hsu wrote:
+> > If usb_reset_device() returns a negative error code, stop the process
+> > of probing.
+> >
+> > Fixes: 10c3271712f5 ("r8152: disable the ECM mode")
+>=20
+> https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+>=20
+> Does this bother people?
+Yes, it does.
+If the driver does not return early when receiving an error code from usb_r=
+eset_device(),
+the subsequent execution will trigger a kernel call trace.
+
+>=20
+>         Andrew
+
+Best Regards,
+Chih Kai
