@@ -1,87 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13DF1ACED5;
-	Thu,  4 Jun 2026 23:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1279A37F01D;
+	Fri,  5 Jun 2026 01:20:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780617112; cv=none; b=MQOcjBY182Joh6vSdEl2q2J2KFSfpuLBBgR4tIFpiwjmAThOnoCYtBjdjbq+Dr5KNVdEKMeY9PawtRDWzZ8RKlelejqnRJSLmTomIWmF07yJgYWMIGEGT3x/9paiBiYHUK1w8Kl1YZ+pRTteaLvtq7CciVQhmJU4n/op3xNi0kk=
+	t=1780622418; cv=none; b=oIYXrP6ZDZG/zItVTJ1qljkcl5zoVCUMKunxV8ZF5z6+MjTB/DLfmXGIkm/CI1dGV5OvO28xApXlor6Y6wvwlgQuHMnCzMoz07yflJvFzHhq9vNTJBwkCy9eN4efsrz7oJ74FMH7xWvGtmXM8xl0y5fFuVunj6SEKyRQ2O4f4fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780617112; c=relaxed/simple;
-	bh=Qsbe+Zr03M6GgtVi4XR4r7M6OAh7koJDCDJUXBghNFY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ld2gVpYWTswbNciZ4Vj0f+5LWHaVDiPt5yw+AvB2o2IelZvjyZxMYCm0MksSuRlCPrTAr0odeFOFKboxb72Jt4Yauf31Rq2zXyT5d//KWkAs4THMHrtjQbjJXdXRbgVVJzolSylEhNl2fSLPNJ38f6Wo7jI8bGfMtqxZSHhsOi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jKcw/Idx; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780622418; c=relaxed/simple;
+	bh=wgeL6N30aqp3zg58queOOBPIFVvApd+fuUMotuwatBc=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=C/wIJNWo4iWZBcQvbfjZVWHvCr0TbrXuKc1E+lNjqRVzuiMyo10JKO/mlDVF6o+nIEQ4pL1ihcT31pweWWroXvddSH2nxHR1fPPFVmBvjwsDFA/HRlKYkZHC4lToaVOLp5WiiC6QoydgNwkamnUdw0LB0vbMx+sUUGtQf3WpM0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hIk4yk3e; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jKcw/Idx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4175F1F00893;
-	Thu,  4 Jun 2026 23:51:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hIk4yk3e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 728471F00898;
+	Fri,  5 Jun 2026 01:20:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780617111;
-	bh=qh7GaHudWqFS4OaIxaBj0xspMhNwznx2VYShs8Ojxj0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jKcw/IdxZ03ISnE0pAxKMesbvA2zH37ofT1ZM6iLvTf8bkoWUUHHP7DKIvnR++TXM
-	 Sf/wygPpPp5JQO1CJSW1ZQaN6+Pv3ZCFh5pYEcCejg/80HHXVHtqZ36q4p0FYJWVvk
-	 uVCsNmN/MfBHpIYpTx/TRT9f0uQ9tCK7jkJNiyBu5hRdCIuL+1XgLZGfizTG4R9PHg
-	 9HPvfyNATXVxxjTv8Ex0EVM1wPYQKGO7hWZsyb+6gcqoT7SlSB30uBN1rZq2p3zYTz
-	 +QjuVQm/o5LXS9vCa6l2pSEEjJiVgs4nBu8n1ALFSUX0BbHDFAxRy6BKcGRNGYOB3J
-	 ku1q3xR/wKM4w==
-Date: Fri, 5 Jun 2026 01:51:47 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Lee Jones <lee@kernel.org>, 
-	Mark Brown <broonie@opensource.wolfsonmicro.com>, Thierry Reding <thierry.reding@avionic-design.de>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Peter Chen <peter.chen@kernel.org>, Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
-	Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, 
-	brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, driver-core@lists.linux.dev, 
-	devicetree@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 11/23] i2c: pxa-pci: use platform_device_set_of_node()
-Message-ID: <aiIOrXwc4pNk8ihI@zenone.zhora.eu>
-References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
- <20260521-pdev-fwnode-ref-v1-11-88c324a1b8d2@oss.qualcomm.com>
+	s=k20260515; t=1780622412;
+	bh=C14zNPeB9pcCuzhIAG02oq/Y2iKdXBs1TI/eaNKG/PY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=hIk4yk3eOKjsZICW1ttEmm9XrDJ1f9dRz9wATZmMQo7poF/MBFZTxDfIHWEfYobok
+	 ZrU6uWzwhbceIYPzL0ZZ1541N/Ni/++CWHxqx/XAMNoEPLCEmgvU6zH8W9P9S5TUty
+	 r3Q4QtKAubFE4UFrY6ZXRhhgBJ6HdXv/nkjFzyLZCg0yB2izhe191K+Oa8NCYatuuF
+	 CzEocS25Ouqlub5hk3N7kw1mWjIegAr52RFyYI6QejHBY2Q+sQSvB8FOjhu9+lq52i
+	 ytYAwB1aHQM4iNk+DTCEptWLauN+tDPXQBMNd3uEo0Qwb8CtDbzmeicBcevrzGGzid
+	 OHyzHnZRuiF+A==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 569663930A8A;
+	Fri,  5 Jun 2026 01:20:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260521-pdev-fwnode-ref-v1-11-88c324a1b8d2@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2 0/2] rndis_host: add LE310X1 ID and enable
+ low-power handling
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178062241289.3090676.11112897312784678410.git-patchwork-notify@kernel.org>
+Date: Fri, 05 Jun 2026 01:20:12 +0000
+References: <tencent_29CB862D5756CBCBAFD2EE436EBAC98A7E05@qq.com>
+In-Reply-To: <tencent_29CB862D5756CBCBAFD2EE436EBAC98A7E05@qq.com>
+To: Shaoxu Liu <shaoxul@foxmail.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Hi Bartosz,
+Hello:
 
-On Thu, May 21, 2026 at 10:36:34AM +0200, Bartosz Golaszewski wrote:
-> Ahead of reworking the reference counting logic for platform devices,
-> encapsulate the assignment of the OF node for dynamically allocated
-> platform devices with the provided helper.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Tue,  2 Jun 2026 17:05:26 +0800 you wrote:
+> This series adds RNDIS support for Telit Cinterion LE310X1 and then enables
+> USB power management for that specific ID.
 > 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> v2:
+> - split v1 single patch into two patches, per review
+> - patch 1: add LE310X1 USB ID only
+> - patch 2: enable power management only for LE310X1
+> - improve commit messages to separate enumeration from behavior change
+> - Link to v1: https://lore.kernel.org/netdev/<replace-with-v1-message-id>/
+> 
+> [...]
 
-Acked-by: Andi Shyti <andi.shyti@kernel.org>
+Here is the summary with links:
+  - [net-next,v2,1/2] rndis_host: add Telit LE310X1 RNDIS USB ID
+    https://git.kernel.org/netdev/net-next/c/c847ff789f01
+  - [net-next,v2,2/2] rndis_host: enable power management for Telit LE310X1
+    https://git.kernel.org/netdev/net-next/c/3dfc7fe1d553
 
-Thanks,
-Andi
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
