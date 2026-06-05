@@ -1,82 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from tpecef22.compal.com (exmail3.compal.com [59.120.207.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1279A37F01D;
-	Fri,  5 Jun 2026 01:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD8123815B;
+	Fri,  5 Jun 2026 01:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=59.120.207.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780622418; cv=none; b=oIYXrP6ZDZG/zItVTJ1qljkcl5zoVCUMKunxV8ZF5z6+MjTB/DLfmXGIkm/CI1dGV5OvO28xApXlor6Y6wvwlgQuHMnCzMoz07yflJvFzHhq9vNTJBwkCy9eN4efsrz7oJ74FMH7xWvGtmXM8xl0y5fFuVunj6SEKyRQ2O4f4fM=
+	t=1780623425; cv=none; b=LkmCEID+Pi2WiKHv7ZYtpwJ+vVU1rgp2iurfyCP3UJGCTzYq2Gwd36RcFkyd/itdhyIj/zo6FR+lb22hrDE5Qgx02F7aZBkgyKFNyiHe6zBfnbn+4wFSNlTYS9NPg52hOxcXDiYREhSRt1p2R3cWoEkIeiokDa597EkWcAlC9ME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780622418; c=relaxed/simple;
-	bh=wgeL6N30aqp3zg58queOOBPIFVvApd+fuUMotuwatBc=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=C/wIJNWo4iWZBcQvbfjZVWHvCr0TbrXuKc1E+lNjqRVzuiMyo10JKO/mlDVF6o+nIEQ4pL1ihcT31pweWWroXvddSH2nxHR1fPPFVmBvjwsDFA/HRlKYkZHC4lToaVOLp5WiiC6QoydgNwkamnUdw0LB0vbMx+sUUGtQf3WpM0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hIk4yk3e; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hIk4yk3e"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 728471F00898;
-	Fri,  5 Jun 2026 01:20:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780622412;
-	bh=C14zNPeB9pcCuzhIAG02oq/Y2iKdXBs1TI/eaNKG/PY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=hIk4yk3eOKjsZICW1ttEmm9XrDJ1f9dRz9wATZmMQo7poF/MBFZTxDfIHWEfYobok
-	 ZrU6uWzwhbceIYPzL0ZZ1541N/Ni/++CWHxqx/XAMNoEPLCEmgvU6zH8W9P9S5TUty
-	 r3Q4QtKAubFE4UFrY6ZXRhhgBJ6HdXv/nkjFzyLZCg0yB2izhe191K+Oa8NCYatuuF
-	 CzEocS25Ouqlub5hk3N7kw1mWjIegAr52RFyYI6QejHBY2Q+sQSvB8FOjhu9+lq52i
-	 ytYAwB1aHQM4iNk+DTCEptWLauN+tDPXQBMNd3uEo0Qwb8CtDbzmeicBcevrzGGzid
-	 OHyzHnZRuiF+A==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 569663930A8A;
-	Fri,  5 Jun 2026 01:20:14 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1780623425; c=relaxed/simple;
+	bh=FHu/ly66q22brRpNW0qjoW1FyCsLXZ/rvUoD58k7e6s=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=lOi+/Cy1myDBJqyx91kx0QginVO1VFY20WaMq99Nf8/R/qsHVRAm7CPr2iO/MPSHgYMsq0uxsR9ieJUqfDvVKgEGz4L59izrZoeBPCse+f7ScI9rb7pjObxchoBbSbsEzMpiv4ni7RO2+/5noBmR5dOsqBhLe2WlYOdhJ9I3mCk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com; spf=pass smtp.mailfrom=compal.com; arc=none smtp.client-ip=59.120.207.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=compal.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=compal.com
+X-UUID: 05cc7234607f11f1a87c2323a98e90a4-20260605
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:8cdf4bc4-b033-4388-98c8-b3a121f5a15f,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e276073,CLOUDID:f94b931a-0917-404b-aaf2-0dbbf9b2fa63,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|817|836|865|
+	888|898,TC:-5,Content:-10|-8|-5|15|50,EDM:-3,IP:nil,URL:1,File:130,RT:0,Bu
+	lk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:
+	0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 05cc7234607f11f1a87c2323a98e90a4-20260605
+Received: from sdmg11.sdbg.compal.com [(10.113.168.9)] by tpecef22.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1361349306; Fri, 05 Jun 2026 09:36:49 +0800
+X-UUID: 02a15c50607f11f1943831befd1aa4bc-20260605
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:0b323438-5099-461c-b18e-6524c142bb21,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e276073,CLOUDID:15a01d50-23b6-41e0-a310-51c498ab6908,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|817|836|865|
+	888|898,TC:-5,Content:-10|-8|-5|15|50,EDM:-3,IP:nil,URL:1,File:130,RT:0,Bu
+	lk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:
+	0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 02a15c50607f11f1943831befd1aa4bc-20260605
+Received: from sdbmbx11.tpe.compalcomm.com [(10.113.2.135)] by sdmg11.sdbg.compal.com
+	(envelope-from <jackbb_wu@compal.com>)
+	(Compal Mail Service with TLSv1.2 ECDHE-RSA-AES128-SHA 128/128)
+	with ESMTP id 1737434902; Fri, 05 Jun 2026 09:36:44 +0800
+Received: from SDBMBX13.tpe.compalcomm.com (10.113.2.137) by
+ SDBMBX11.tpe.compalcomm.com (10.113.2.135) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.29;
+ Fri, 5 Jun 2026 09:36:43 +0800
+Received: from SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69]) by
+ SDBMBX13.tpe.compalcomm.com ([fe80::ea2a:c2b2:8475:8d69%11]) with mapi id
+ 15.02.2562.029; Fri, 5 Jun 2026 09:36:43 +0800
+From: "Wu. JackBB (GSM)" <JackBB_Wu@compal.com>
+To: Johan Hovold <johan@kernel.org>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"wojackbb@gmail.com" <wojackbb@gmail.com>
+Subject: RE: [External Mail] Re: [PATCH v3] USB: serial: option: add new
+ usb-id for Dell Wireless DW5826e-m
+Thread-Topic: [External Mail] Re: [PATCH v3] USB: serial: option: add new
+ usb-id for Dell Wireless DW5826e-m
+Thread-Index: AQHc9BeQhpYn0JwcRkarlCYDSP8zebYvK3Wh
+Date: Fri, 5 Jun 2026 01:36:43 +0000
+Message-ID: <50432b9f12eb4d26aa17eba2bce9c059@compal.com>
+References: <20260604-dw5826e-option-driver-v3-1-413a2af11eee@compal.com>,<aiFlImelxdae6g4s@hovoldconsulting.com>
+In-Reply-To: <aiFlImelxdae6g4s@hovoldconsulting.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-as-product-ver: SMEX-14.0.0.3239-9.1.2019-29988.003
+x-tm-as-result: No-10--34.957200-8.000000
+x-tmase-matchedrid: IWY1H69iwzouv++HU7VXryRFbfQbCufdN0X64jGy2dbVc/AFNTvLS9XY
+	nKy9ZqbG0wNjG7j2lpdckfZ6+scXhjibGcrQpQn8nFk5Pqs+1qKBhoFVhcfc62nJ1MUKQr0eTuo
+	3IhXX1Xd1S7PM/96TiTMkmfWh0T7f5h2ebZ16dphZnFiE9hisyXmyombYO/m6oBcgkSxtIGx3UJ
+	KTMcVBiJMsyTLk6XXrNLaF9zMAOrCiVRp30FeHAgWbP9hRrIxQ2NmsCA5Q5rrCnG8raj9956xKX
+	Xd0REcH1rNs3ywckqvPIoilrAVvE4Kv5VHh62w2sjKXwoAhxb9jgrNzi7aEMDnYCDMgBPgYxzJA
+	70xLdcKsK4MHcHSmQYgDF2Ixv+HpmLI/iR09SQ36KF0S1zktZ6QRH5b1a6p+3vJmSnAjZBC3NLB
+	ioa/QtdD6xLvX4M4IEA4s0Z67fd2/2tJ3foSBQsD3fX6Y132wU9D8gZ7zYu1+LlawpBy55Qb9wc
+	Bd7K6H
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--34.957200-8.000000
+x-tmase-version: SMEX-14.0.0.3239-9.1.2019-29988.003
+x-tm-snts-smtp: 7C4A6D5BB0E2586E13AB44101C8D652A0D24E30E0A465231E66C4AB7A448EA772000:8
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2 0/2] rndis_host: add LE310X1 ID and enable
- low-power handling
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178062241289.3090676.11112897312784678410.git-patchwork-notify@kernel.org>
-Date: Fri, 05 Jun 2026 01:20:12 +0000
-References: <tencent_29CB862D5756CBCBAFD2EE436EBAC98A7E05@qq.com>
-In-Reply-To: <tencent_29CB862D5756CBCBAFD2EE436EBAC98A7E05@qq.com>
-To: Shaoxu Liu <shaoxul@foxmail.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Tue,  2 Jun 2026 17:05:26 +0800 you wrote:
-> This series adds RNDIS support for Telit Cinterion LE310X1 and then enables
-> USB power management for that specific ID.
-> 
-> v2:
-> - split v1 single patch into two patches, per review
-> - patch 1: add LE310X1 USB ID only
-> - patch 2: enable power management only for LE310X1
-> - improve commit messages to separate enumeration from behavior change
-> - Link to v1: https://lore.kernel.org/netdev/<replace-with-v1-message-id>/
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v2,1/2] rndis_host: add Telit LE310X1 RNDIS USB ID
-    https://git.kernel.org/netdev/net-next/c/c847ff789f01
-  - [net-next,v2,2/2] rndis_host: enable power management for Telit LE310X1
-    https://git.kernel.org/netdev/net-next/c/3dfc7fe1d553
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+DQoNCj4gT24gVGh1LCBKdW4gMDQsIDIwMjYgYXQgMDY6MzA6MTBQTSArMDgwMCwgSmFjayBXdSB2
+aWEgQjQgUmVsYXkgd3JvdGU6DQo+DQo+ID4gRnJvbTogSmFjayBXdSA8amFja2JiX3d1QGNvbXBh
+bC5jb20+DQo+ID4NCj4gPiBBZGQgc3VwcG9ydCBmb3IgRGVsbCBEVzU4MjZlLW0gd2l0aCBVU0It
+aWQgMHg0MTNjOjB4ODFlYQ0KPiA+DQo+ID4gVDogQnVzPTAzIExldj0wMSBQcm50PTAxIFBvcnQ9
+MDUgQ250PTAxIERldiM9IDE1IFNwZD00ODAgTXhDaD0gMA0KPiA+IEQ6IFZlcj0gMi4xMCBDbHM9
+ZWYobWlzYyApIFN1Yj0wMiBQcm90PTAxIE14UFM9NjQgI0NmZ3M9IDENCj4gPiBQOiBWZW5kb3I9
+NDEzYyBQcm9kSUQ9ODFlYSBSZXY9IDUuMDQNCj4gPiBTOiBNYW51ZmFjdHVyZXI9REVMTA0KPiA+
+IFM6IFByb2R1Y3Q9RFc1ODI2ZS1tIFF1YWxjb21tIFNuYXBkcmFnb24gWDEyIEdsb2JhbCBMVEUt
+QQ0KPiA+IFM6IFNlcmlhbE51bWJlcj0zNTg5ODg4NzAxNzc3MzQNCj4gPiBDOiogI0lmcz0gNyBD
+ZmcjPSAxIEF0cj1hMCBNeFB3cj01MDBtQQ0KPiA+IEE6IEZpcnN0SWYjPTEyIElmQ291bnQ9IDIg
+Q2xzPTAyKGNvbW0uKSBTdWI9MGUgUHJvdD0wMA0KPiA+IEk6KiBJZiM9IDAgQWx0PSAwICNFUHM9
+IDIgQ2xzPWZmKHZlbmQuKSBTdWI9ZmYgUHJvdD0zMCBEcml2ZXI9b3B0aW9uDQo+ID4gRTogQWQ9
+MDEoTykgQXRyPTAyKEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4gRTogQWQ9ODEoSSkgQXRy
+PTAyKEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4gSToqIElmIz0gMSBBbHQ9IDAgI0VQcz0g
+MiBDbHM9ZmYodmVuZC4pIFN1Yj00MiBQcm90PTAxIERyaXZlcj11c2Jmcw0KPiA+IEU6IEFkPTAy
+KE8pIEF0cj0wMihCdWxrKSBNeFBTPSA1MTIgSXZsPTBtcw0KPiA+IEU6IEFkPTgyKEkpIEF0cj0w
+MihCdWxrKSBNeFBTPSA1MTIgSXZsPTBtcw0KPiA+IEk6KiBJZiM9IDIgQWx0PSAwICNFUHM9IDMg
+Q2xzPWZmKHZlbmQuKSBTdWI9ZmYgUHJvdD02MCBEcml2ZXI9b3B0aW9uDQo+ID4gRTogQWQ9ODQo
+SSkgQXRyPTAzKEludC4pIE14UFM9IDEwIEl2bD0zMm1zDQo+ID4gRTogQWQ9ODMoSSkgQXRyPTAy
+KEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4gRTogQWQ9MDMoTykgQXRyPTAyKEJ1bGspIE14
+UFM9IDUxMiBJdmw9MG1zDQo+ID4gSToqIElmIz0gMyBBbHQ9IDAgI0VQcz0gMyBDbHM9ZmYodmVu
+ZC4pIFN1Yj1mZiBQcm90PTQwIERyaXZlcj1vcHRpb24NCj4gPiBFOiBBZD04NihJKSBBdHI9MDMo
+SW50LikgTXhQUz0gMTAgSXZsPTMybXMNCj4gPiBFOiBBZD04NShJKSBBdHI9MDIoQnVsaykgTXhQ
+Uz0gNTEyIEl2bD0wbXMNCj4gPiBFOiBBZD0wNChPKSBBdHI9MDIoQnVsaykgTXhQUz0gNTEyIEl2
+bD0wbXMNCj4gPiBJOiogSWYjPSA0IEFsdD0gMCAjRVBzPSAxIENscz1mZih2ZW5kLikgU3ViPWZm
+IFByb3Q9ZmYgRHJpdmVyPShub25lKQ0KPiA+IEU6IEFkPTg3KEkpIEF0cj0wMyhJbnQuKSBNeFBT
+PSA2NCBJdmw9MzJtcw0KPiA+IEk6KiBJZiM9MTIgQWx0PSAwICNFUHM9IDEgQ2xzPTAyKGNvbW0u
+KSBTdWI9MGUgUHJvdD0wMCBEcml2ZXI9Y2RjX21iaW0NCj4gPiBFOiBBZD04OChJKSBBdHI9MDMo
+SW50LikgTXhQUz0gNjQgSXZsPTMybXMNCj4gPiBJOiBJZiM9MTMgQWx0PSAwICNFUHM9IDAgQ2xz
+PTBhKGRhdGEgKSBTdWI9MDAgUHJvdD0wMiBEcml2ZXI9Y2RjX21iaW0NCj4gPiBJOiogSWYjPTEz
+IEFsdD0gMSAjRVBzPSAyIENscz0wYShkYXRhICkgU3ViPTAwIFByb3Q9MDIgRHJpdmVyPWNkY19t
+YmltDQo+ID4gRTogQWQ9OGUoSSkgQXRyPTAyKEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4g
+RTogQWQ9MGYoTykgQXRyPTAyKEJ1bGspIE14UFM9IDUxMiBJdmw9MG1zDQo+ID4NCj4gPiBTaWdu
+ZWQtb2ZmLWJ5OiBKYWNrIFd1IDxqYWNrYmJfd3VAY29tcGFsLmNvbT4NCj4NCj4gPiAtLS0NCj4g
+PiB2MzoNCj4gPiAtIEJsYWNrbGlzdCBpbnRlcmZhY2UgIzQgKEFEQikgdXNpbmcgUlNWRCg0KQ0K
+PiA+IC0gQ2hhbmdlIERFTExfUFJPRFVDVF9EVzU4MjZFX0VTSU0gdG8gREVMTF9QUk9EVUNUXzU4
+MjZFX0VTSU0NCj4NCj4gWW91IGZvcmdvdCB0byBtZW50aW9uIHRoZSBtaXNzaW5nIGNvbW1hIHRo
+YXQgY2F1c2VkIGEgYnVpbGQgZmFpbHVyZS4uLg0KPg0KPiBJIGFkZGVkIHRoZSBtaXNzaW5nIFJT
+VkQoNCkgd2hlbiBhcHBseWluZyB2MiBhbmQgbm90aWNlZCB0aGF0IGl0IGZhaWxlZA0KPiB0byBj
+b21waWxlIGJ1dCBhc3N1bWVkIHRoYXQgSSBoYWQgbWVzc2VkIHdoZW4gYW1lbmRpbmcgdGhlIHBh
+dGNoIChhbmQNCj4gZml4ZWQgaXQgdXApLg0KPg0KPiBFbmQgcmVzdWx0IGlzIGhlcmU6DQo+DQo+
+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2pvaGFuL3Vz
+Yi1zZXJpYWwuZ2l0L2NvbW1pdC8/aD11c2ItbGludXMmaWQ9MTkzOGZiOWZlMzhjNGYwNGEzZjMw
+YmVhNDRmODA3MWM4MGE2M2JlNA0KPg0KPiBKb2hhbg0KDQpJJ20gc29ycnkgZm9yIHRoZSBpbmNv
+bnZlbmllbmNlLg0KRG8gSSBuZWVkIHRvIHVwbG9hZCB0aGUgdjQgdmVyc2lvbiB0byBmaXggdGhp
+cyBjb21taXQgbWVzc2FnZSBlcnJvcj8NCg0KPiBPbiBUaHUsIEp1biAwNCwgMjAyNiBhdCAxMDoz
+MTo0M0FNICswMDAwLCBXdS4gSmFja0JCIChHU00pIHdyb3RlOg0KPg0KPiA+ID09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCj4gPiBUaGlzIG1lc3NhZ2UgbWF5
+IGNvbnRhaW4gaW5mb3JtYXRpb24gd2hpY2ggaXMgcHJpdmF0ZSwgcHJpdmlsZWdlZCBvcg0KPiA+
+IGNvbmZpZGVudGlhbCBvZiBDb21wYWwgRWxlY3Ryb25pY3MsIEluYy4gSWYgeW91IGFyZSBub3Qg
+dGhlIGludGVuZGVkDQo+ID4gcmVjaXBpZW50IG9mIHRoaXMgbWVzc2FnZSwgcGxlYXNlIG5vdGlm
+eSB0aGUgc2VuZGVyIGFuZCBkZXN0cm95L2RlbGV0ZSB0aGUNCj4gPiBtZXNzYWdlLiBBbnkgcmV2
+aWV3LCByZXRyYW5zbWlzc2lvbiwgZGlzc2VtaW5hdGlvbiBvciBvdGhlciB1c2Ugb2YsIG9yDQo+
+ID4gdGFraW5nIG9mIGFueSBhY3Rpb24gaW4gcmVsaWFuY2UgdXBvbiB0aGlzIGluZm9ybWF0aW9u
+LCBieSBwZXJzb25zIG9yDQo+ID4gZW50aXRpZXMgb3RoZXIgdGhhbiB0aGUgaW50ZW5kZWQgcmVj
+aXBpZW50IGlzIHByb2hpYml0ZWQuDQo+ID4gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PQ0KPg0KPiBNYWtlIHN1cmUgbm90IHRvIGluY2x1ZGUgZm9vdGVycyBs
+aWtlIHRoaXMgd2hlbiByZXBseWluZy4NCj4NCj4gSm9oYW4NCg0KSSBhcG9sb2dpemUgZm9yIHRo
+ZSBhdXRvbWF0ZWQgZGlzY2xhaW1lci4NCkl0IGlzIGZvcmNlZCBieSBvdXIgY29ycG9yYXRlIG1h
+aWwgc2VydmVyIHdoZW5ldmVyIHNlbmRpbmcgZW1haWxzIGV4dGVybmFsbHkuDQoNCkR1ZSB0byBp
+bnRlcm5hbCBwb2xpY2llcywgd2UgYXJlIHJlcXVpcmVkIHRvIHVzZSB0aGUgY29tcGFueSBlbWFp
+bCBhZGRyZXNzIHRvIHN1Ym1pdCB0aGUgZHJpdmVyLg0KSG93ZXZlciwgdG8gYXZvaWQgdGhpcyBm
+b290ZXIgaXNzdWUsDQppcyBpdCBhY2NlcHRhYmxlIGlmIEkgdXNlIG15IHBlcnNvbmFsIGVtYWls
+ICh3b2phY2tiYkBnbWFpbC5jb20pIHRvIHJlcGx5IHRvIHRoZSBjb21tdW5pdHkgZnJvbSBub3cg
+b24/DQpJIGNhbiBDQyBteSBwZXJzb25hbCBlbWFpbCBvbiB0aGUgcGF0Y2hlcyBzbyBJIGNhbiBq
+dW1wIGludG8gdGhlIHRocmVhZCB1c2luZyB0aGF0IGFkZHJlc3MuDQoNCg0KDQoNCg0KDQo9PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQpUaGlzIG1lc3NhZ2Ug
+bWF5IGNvbnRhaW4gaW5mb3JtYXRpb24gd2hpY2ggaXMgcHJpdmF0ZSwgcHJpdmlsZWdlZCBvciBj
+b25maWRlbnRpYWwgb2YgQ29tcGFsIEVsZWN0cm9uaWNzLCBJbmMuIElmIHlvdSBhcmUgbm90IHRo
+ZSBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhpcyBtZXNzYWdlLCBwbGVhc2Ugbm90aWZ5IHRoZSBz
+ZW5kZXIgYW5kIGRlc3Ryb3kvZGVsZXRlIHRoZSBtZXNzYWdlLiBBbnkgcmV2aWV3LCByZXRyYW5z
+bWlzc2lvbiwgZGlzc2VtaW5hdGlvbiBvciBvdGhlciB1c2Ugb2YsIG9yIHRha2luZyBvZiBhbnkg
+YWN0aW9uIGluIHJlbGlhbmNlIHVwb24gdGhpcyBpbmZvcm1hdGlvbiwgYnkgcGVyc29ucyBvciBl
+bnRpdGllcyBvdGhlciB0aGFuIHRoZSBpbnRlbmRlZCByZWNpcGllbnQgaXMgcHJvaGliaXRlZC4N
+Cj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0NCg==
