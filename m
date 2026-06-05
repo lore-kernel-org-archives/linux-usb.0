@@ -1,166 +1,239 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011011.outbound.protection.outlook.com [52.101.62.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F2D3C3428;
-	Fri,  5 Jun 2026 15:57:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780675065; cv=none; b=Up47TG/WOHscAvXERTXHBJPnLL8Zfpo+JkkxxnntnFhVIDvxN/C28oGrGwGeYzvJsjyrYk1nzr6dNH97jRKico5xlGZReGTYo6YQHnl73yZc66IxIPgzQ50aBefGI2UDQwRxwyu2/VT1iI/iih7JzUweUW7DHj0WGmHr6R7Rl8o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780675065; c=relaxed/simple;
-	bh=aJJQZ5m5d/uM/GgOvVDWQukgytKGT4MX1WelnPQ96oo=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=UZE+h4ppm1sJjWxjRWxgv41AMAsHwh6kY76g01G2o0JggkxGUJt7Z2IgfNIjBmjZvIR46/YRr/hTsgMaC/lrHqjHDAw0FUqsX9FN8aUb/mS7A5abAi8yPgotV3z6I804sFEY+1O8j0ujFhybwFpV0pae8d356OVEr5wQfPb1J8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=D35Jshgc; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC54438238D
+	for <linux-usb@vger.kernel.org>; Fri,  5 Jun 2026 16:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780676894; cv=fail; b=RfVUuUwIwd6IUc4s5KzgAiHnfCAfeor9q/1OhJE6nxm1IT19+g++W2nF9Ux1OidX2fwfO+0Rtkjl1i7nvzmY5VQlOpV8PWK9zyrpU0P7yFQrSc4RrwD/1XzgLVtD88j2JC9286gAiJeN30Q5RHm2dcnKJDeFtKpHgqTjpYewy/c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780676894; c=relaxed/simple;
+	bh=3o8FrYqSHEO0mTxNsqBzMwPnMsqZM+usrnYQ9MNzb3I=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=HUdv8C8H6Wi0vbAiceFgIOxGBHUhmYwKozSQ8q/JdCigxQfVgxNvvZ2F5b/ROoz1kBD7MqH/jkDE0pFiwwgcT5gsxVYGr7iE/3h3MNdMC9B/haTQ4NlUFm5Hb0Aq070WaRAJWqby+zbB4KVDgdujyvvrJKPLku5epwCoqQquHv8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=q2psFh8C; arc=fail smtp.client-ip=52.101.62.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="D35Jshgc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1780675058; x=1781279858; i=markus.elfring@web.de;
-	bh=xf6MbwD+0sIvrgm4zp0gSYvAhc2+bONaUW4e7zwhjPU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:From:
-	 Subject:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=D35Jshgc7gmibSYh6ZMcf3oB8zW8nkZ43fq+isM2S1+hqG4Dw9G2D/FGpCEFYtiw
-	 hy21s/cybWZSzY8R5pewBQRiFxfyOgiG7l2uC24wYF5O0ObTqHtWgHlu9yB1+cJLf
-	 L8baBp+3MnOMs6asqzmKIXwDHJITsoVJsTSYnH4xJgGDVL9d79lNyQCwseYrYBDgQ
-	 gf3ZivROFPL+5rmxyj9j9du9V/H7YJTOqZMGym/FxCLkG924R+T7gHaV+To7rXWGx
-	 knEn71xoKlT9v6mev8lcNB29i+/eyCZ2Nd+DvPWyVhUOtYGIeKPyEYAAz5Scnp19u
-	 koe3qPuKVLAbENe3ng==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N0ZsE-1xRbeg0r00-015rpR; Fri, 05
- Jun 2026 17:57:38 +0200
-Message-ID: <3fab645d-f8b3-4a44-8e1c-680608969f6f@web.de>
-Date: Fri, 5 Jun 2026 17:57:35 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="q2psFh8C"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TynxhMBR2SoSoy6Rv1/YmbqbIBR687hGZxBEaO5udsjM7Ie6zR6pY+wH6kvXKh8V9Pc3D0ISWc1WzVIe812VoFyEFAroKlBC7lsRqhHLHIMX4yW4PnJdUqPRPMMuzzRzwPmjyK4N/EXEwJZA8LYqqAFWUojGrGFwNcL1AOHFL2Dk9lDOlEk/TQaT97xdi8Pqntv1zidBPTSeqODFPMkToKC2++07qJg37OVcuL0LMBrT4nZPe8+RGG6G7dsypULLkEU312nEftzlrJ94H6jNSDDGAlikxyCmPRLGQtM1L/iMvo0RunTpfwc0fIS8lsAhP4izfj8Tt5p5Y9NZpFMbMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CV3UiCzwT0vPBK355WTZHGdVLn6a2HMwg3ADkkG3StM=;
+ b=rFx5mH0nSWHVm/t1PAUJAv0NVOTmkDUniO5zyJt9aPmssWO1ZiyPeOm+rNBLLLPox3+UHqi1V96+VLDRlJK1x4WHbc9wq5otR814O2bGTRZ+GvWn+ys99iSayzBj8DRKd8Ou8WbEJ/0lGpJ51xe3nXpmqnvh0KISHTBCSdwFVBYzMSd61cLox5j7dhUwk4j0IYSHX1mN4JjON5jN0T7E8KH0yhUDvdx4EzjfdHOsMGZlHuZRUuTikuLnddq0nijkzLrOcC9/Q/IphmwnkmTfrv1D6PxDGrZLMbhLJJQRU3zkkqduM9G0ng1fECM/i3Jy0IYaaZ8p8uBdxTm2owqX4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CV3UiCzwT0vPBK355WTZHGdVLn6a2HMwg3ADkkG3StM=;
+ b=q2psFh8CEuT88lJ4FPSqk3/36pmFT61VG+uj9ZQXJs3j8xdyV4+duln2UNolEpd6KY4S+JqnKC6I7N4yCKzJ8sp8Zvx4x7bK4Elcahnm5bs4qyHtZhDAyxVR2PZt8H/1YQB/rUmpEJJb50ma7IE8neCJH2FDHQPu01bUNItand0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com (2603:10b6:5:38b::19)
+ by PH0PR12MB8774.namprd12.prod.outlook.com (2603:10b6:510:28e::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Fri, 5 Jun 2026
+ 16:28:02 +0000
+Received: from DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::94f:c77d:ded2:28be]) by DM4PR12MB5040.namprd12.prod.outlook.com
+ ([fe80::94f:c77d:ded2:28be%6]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
+ 16:28:02 +0000
+Message-ID: <d80346d3-692a-4982-859e-5321c4ec022f@amd.com>
+Date: Fri, 5 Jun 2026 11:27:52 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] thunderbolt: Assert downstream port reset on shutdown
+To: Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com,
+ linux-usb@vger.kernel.org, Sanath S <Sanath.S@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+References: <20260603180146.3949001-1-Basavaraj.Natikar@amd.com>
+ <20260604050326.GH2990@black.igk.intel.com>
+Content-Language: en-US
+From: Basavaraj Natikar <bnatikar@amd.com>
+In-Reply-To: <20260604050326.GH2990@black.igk.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5PR01CA0205.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1b0::14) To DM4PR12MB5040.namprd12.prod.outlook.com
+ (2603:10b6:5:38b::19)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-usb@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Minas Harutyunyan <hminas@synopsys.com>
-Content-Language: en-GB, de-DE
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] usb: dwc2: Simplify data output in ep_show()
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:28CdV6dU5nUeXGjdVZMK/A4yEgGq8deXznDy2CXeqYA8bZse8Zl
- AXqwAPGKM2/wEQgqfv+to29CjMmBkwkqi2KlandlmP3B2EOgpAagqld4pq2Km1sVmzeeh/6
- FANeUCSqTSjg4f9DdYgT5XCSCNnwqZFBiBEfmY9o2Lj9uIIWkio6Ko0mjE6zIq8djNmDX8x
- pX5M/RqMIPPlsB3VAU6Lg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:OblnLqYUtiQ=;s0Zb8JKoeHiFFREMuQcJpqRgcfC
- tjTTgUVptZAjq+Y/2ihhUdrXCnIbkw0vZeodREFlSeaqRFddKd82nQEZlYMoY8vw9Vz7BSYHa
- hf0Egx+PuxZmlMUIkQFURsvrgCB62IezdTGVGdwTxdHRvXR+Ki76g+yFpAdCoJXByMLNapKN1
- jcSml2fac899UsedBvhcg6m22kfK+fTXcP1kYOcxYcuucvm+XDVDbMggGkvif/Ljyk4k8kDQc
- SH6I4GFHa4ExgGCUwE2srJPpWsuK5/IawQok55i/e/IOL4bmPw1cqRvVRpIDNUbnkYQ6f+iV9
- kffv+tSkzpFcTRQgw5STf/5okUqPvjehr/GNQ27qyx75a8MBL2w6nMB8EU811vKYPuAFxwuCt
- GmZjCINvLX41TFCH7p47eWeZwlR4AHhSf6YXG6rOKwphAQc4rQCNmUQsK3zwZBEJ9hm7GSbQG
- wAXb4EaSLQz7zRdqOrSpT6gcbaJ1apg9xr7TxfWXGF7SRtpeuZPIyjvfDzCPk5hDCE1V7a+eV
- /TTLoG9KZvqj4XNXCTSbyqGEyz73QtiuBffGrCMYVOqSnCR61GOVUsp2LcUGJNNbjB4XXgbHK
- fwj4O5qq5IFgfXhMzV4kg6bcu3/jSlBX1n9Qx3DbZ+9HSGlsvS42wBYQTAXrI5ZvBs5FrXHK7
- wi5LzTU+JtU5hQc7LDHftPxsg5lxZNwna4VrJuWirh1/q2sj0lF3MqH2AJHCJshsPNctTkxYL
- FoZgiLOcSrEmlNKgtxOMwCBE4D/htX/P51eLPu/1m8b8tWwM/o1QlBs1ACiw3ooVK0GqRncyb
- 21Fz24QNeP4kAaCy+9kalA6K/RQTHZt0PgtQAdeJ6Wd4LHj6ww18tWTal2UGVMVhPnFjiSraI
- +phzK+soBU64mCC+YHiDE1zoru7UY6fFS/Z8PMRNMViXM+miO0HWR5JfpqC9ClkBIbPFQ2l5m
- LvS8Ki1HLKvtKqJ5Wog2N8TxKjqGgP6LYYerygsNxhW68vzQePu7FC0IxsR8l5yXPj1VAwxk0
- SDy23OjsKzTb6oNpnjuvimjfXQfQUq1w5EwBw4KsuM5qNkrbuE4yYFYCNvBWQsTnfhLVP8raw
- ZHeX1Wr737f7BhWt38oiZbITMLb3RLCn5jgZBP6jEApJz4pK7VpkLPmLnCudb72VLrjsLsf+8
- boqxmzEOP7LFMbRxX8pWtvH+AMEMHshZofuK6q7qFgswnoiKYqB94yJS5zOx/Hb1EigduOn8Y
- D47bMHnS8FQzMEu/fp6bvfet59CIfiM3AiTxU2t83tkN4a0syX7RAinwshS0zoAI26cTVIUXu
- VKHostNS/KBehAqXwElpkx0JcwbvA+kS68CI40y9veRedQjbJMdG76gKXs0e+pvMcqAgibbs8
- hcGJep++KBQH9XOFvJR/eLg1ZrdCAY7qloph2pzlC/1FJo03Zj1QlECilXc013URUD9YhzdAl
- fQKmA2DjfrTPOakvborHWb73abYcQpK15Sh9E9aQWlkaf3Fni9kEHrbmDaFnlZ34vGSNzq69E
- YHqKXgKwwY3IW3LU5A0Ww/M4S+m2LqWtyhVPtX4wOdf6/v8mKIFGMsb0XEd9f6ac8N4AJpMtn
- TsLFWcSEF2XVEqvPDc6uDW6yMZLfLoxA769WsA4+3NLZ5D0F+OEXJHuUFrb2pOphh5qDY9igV
- N6+JjasP4AeUhP65hmdpSlxhWFL8z5FEW3cYZsD5R4wEbSLByxzDhpuiM1XSpsz4epFwYSOeW
- wWZOxqJRmPRBjEabKVDvjEk5gSP4cBSp3kTk5WhSMQnlJ2D0PPmPcmiv2MPM8fTxh+RJlclvZ
- Njn/QcjYx8ga7CuRC6e4iv4E9BC5h8PYfveG3VaoOtt5+qcZzWIf+ulnh3ddQA61JsA2uuhzq
- XohdikKG0nlxoh2AH6Og5WogbZ4M33hVAMXuoWv2Xb7EN2pvhcib0+QQ0YmmjwdqyKFkmErrt
- MddTSBuo5z5G4WtViAwwMDO0nb0p7pNfPRUvJEaGrGxyQuqxJsIQCmOLNSHUWWGjg4+9vZP0O
- 9e+gHJZUBuhgng5LWZ3ORVzlEPrCQweGMaOElyJp6gGGDf+w+N1zCHQLtPiiX1DtthZdqC7tf
- gxPt8W5BRRHCEfrtagKAtrRoD1HxdlXz9WXBrkw3fCqiPgFKqIB7/764abZUeC+kYQSAMi6Vn
- JTzjb6Ac4yofDc1B/9s47x1nI13URsbrZNxPQlRNYvxJRmQbNV5Ln0NatmAkh4lrUNQORvRcK
- MVuytMGGL4f9QTHenkjaUjopLCJzCvDMARxlZ/xS9Eq8jeNSkFYDakVWRI/k3sl0yXmRwerxM
- NkISFUtA9wym6BWcXEhsZY4yaql5HLPktc4vj9xItemE+vPXh8XRB4z+NVIx1lHuEU5Ifvc2J
- BSWbAF/qrn57H62BXCOkVjBpZNGG30CFYBqF80VctoRfEnpFfqrSRKR5icjru9kC+XhKEkHa8
- 2GcArqcsyaDi5QvJ2oD3IQBPArQVyvPCr+wfE83uQDb3u5uaCDxHsh5jsXow/Clv6KggvIakG
- FsPIi4iwEVtEzFt9JvsMYzsF6fmp/pfHFWOxbQ8GXY7mQIoAs9XHQNILCLGwL0B9enPZaxiZj
- 3kL16+YaSQlfaJZTzks6HB0ubz+RBrHQC3lsccR9PiO1IDscwVRM/d2mVGo4B9lKUAHrdc0V5
- mJZazw6zOXX0ehNjBqRwZI6zPUP2uKy50QOc+nqLe7p46s9A92bfXtz4UOJ+Oyo20ByvLO+oZ
- W9W9vC4BE+z9gpJhs0GUXEGaaZbkvVGM/HMYbFwlYMp2NkMrSXeeIeS7qHl4VD+K71wQLrhPo
- eNySSPij4YTwqVdw+8LFY9qxqLtlmS3naRZPR4OUAeH+ln8zAe7pxvL17p7wrb1jbrzHmdfEo
- d6E/0CyUjxLw2TxdR9lR8a6BEFYYVeYQUoFKHW61eajVmuK4HMb3D+HQ6N3+jy5BIhM0D4s0c
- hpCcP1BCScV3xPekDOjuOizWGZcH5J6Dxv9ETH1s1lcaMniv2Y9OuWVrFWt2uM7ndOVimfnqa
- JHncLgDT67ConcJuobu+AwBKwnWumO8ukTJiCivs893XiC41FJR94ZScSoT00elpvDFsnJh2z
- xqIwvbEXxVuhgqfDtZ7Bz9Uo7CyQMNiyMv/FWLEf9RiLvE4O4r8LUjPH+f6VcWyKCKu6DGqpg
- XV9UfLbBQivLN1fBDeRnhEBHUg03n/XbDl5ivbVQYq8RDC9OZqJJBR0jnisGb9eCIl1ZPfYS6
- jv8U2V14t87PK1sUI/S4SIiy6vdNdSVbZ+ObSKBlDa17WqL/d9ifvApnUR2artNwuAXCLjF0t
- c6WoE4ZYKHA97cCHSaRSQLIFdfFrBLtfb33oNiLHWpcoTxV09lEpdfFsoDUpV/5aF74uswf7y
- iwmEAHYTS+DaQPYaLPnjVDSUh7n9/qchJ54QJwenBn3i659nqx43Yx5OmkP9I3RKRfjRtTGQf
- oWUPxvdjlHW8k3l+DjhpHEKZ7E0hHS23/xzVRMxX6p8/gpyKtlOutfKHO8UeVBUB6qqjV5kNQ
- mPYa64m/kKzZXqNeBEc0dkHyHuBfNL45ykTg3tZWt/O2Ir4uBJK0FDzBdEHeiPmsaDpbSwQaf
- B3PSkSeAfXFEKJYD//Kx3S7pvxbPp8YZOhTDAPMxvK5KjCspkAlL361X0JkS18YMOGnsSdh+w
- Hf8C9n14Z8o/N+aNJJo3EAlcjLUkIHntQsSAkiM3MZVsQyy7LqAna+ABY/sJgoyxDYpaYofcB
- L/bIbWSTZFViJKu4epwSNUnQ7NTDQyDXUVHfpsB1cgtXDlh8xljopS3lkQqpP5ykzIWbYfRez
- JRE9qbeiEWeYc113pBct7i3YUMgm/zlQJo1IwInIXY4jwumt3BlCN+yVQ1qJyXO4LKTQX0RGh
- 8lXudk2U8IuCp4k8IpREgufn6CH7y/N0aycSBSfts78UXy4J62lrxCdO4wxxqn6ORvgS5G+fY
- i4B4GtThRjQYmTUXg3ienNkMwyOs9+niJzCSQymL5IWA1PhYK1Q2/AQXTp3pa6l1RRyXkPyDe
- LFfnukMW7bs1B/XWi7HHCmk2hhSxMuuW57+IYzKMJJjtpbKGZrf4HQyDgB4PRCOEXy/hJe0Zs
- RrFBXJlzoBc3TvX9yxIv/GjmXktnhb0khrQ/87riv+IR7QheaND/9Wld/ZH2QZqhNHRwS9uGi
- J2qoYnHd76Fi/uHAMKodtsKiBQMigiSMGIfK3l/okjL0paS49K096NXsujkcfiIrngb966JMh
- l0h9kJCpUdUTFPbx0f35Hk2/pcFocaVPLcQaywJWzsQ8YeUJtTd2j83hlzGmoM3pVuhbtGk+N
- JerAsOHVf9vMm6SRAWBca9uJhnarQDBk8rqup3aeRU8fUnltLIHrSAJ1D16bg4/uJXqKQj1Xs
- SwphFzhoQZFC0rOhF9wY2E5n/kN8tRd/HixhRtRthHXltH52NyovI6rsXrQB+sR9s5BsAnke9
- Cfk4uwWMSGOww//ApVGCqPKg/CRV8dlMRJ+QeqSRcV56JHeiVE7x3Kk+XtCXfQ183hsC7pR6u
- vYs4UfDIis+pQ429lTteWbw0lMtYSeO8Hq0qAGIfmlNbQzRi5IT0c4a7Oeoi6XklBYjhc5lrB
- TYfsOCdF/ek+zUvnM1DqGa+NEcFr3zi79aYoVjn3XIiqDtTc6LDNRR0LAM4yZZ2FMTlRm7Qtn
- pHKdj2AHJt/+2MFOYLJ926xrrp+ljHYFswiAiAo+AVLnZYXRwuB/wPHNTe/jJ5C1MDGB6sexU
- VtJ0okIirg7S7OF9Hx6M+yal+FgHzagJljEA6hK2yWOlM2rpWtOMfRAivaiglMU53IsPRf/CT
- qsbSWbkwNgSsnNFuERYWiAq3SPytoBeF+bimxLUolqozt4YMRAE7cyMTqk1oIvo4sD7h4B0Px
- aUVmTqFL6Cy8x6UpHF7BJR+KxNR5YKRj1njijMIxP3P8zG/5XSYznKLUQJUw4S3hObpdYxftc
- qZcyaURbAdg6LwpbnukitjtA78KzuG7Cy79KdR5/rbh/kNYT3NARSkG77iu/Cfb/vjcyth9zS
- jw4aSPntU95TpCyEY1SBLfXITHsS/O1ubpm/OXEDwod0Fb3VK5+cOhXbE5B0YaSySmxXEstOa
- Q8W6jdkygcUo8MrmA92Y8s7h5FeBmyVqzV3fnOkDA8ayHGVObTUDmObitg9Zl0Gtm5rYpKXT/
- U2GaQExSL3oCgSocYeui4m835bS9gnwm+SQzEAZPEUeX7HmueeBqYdHr3hBsey1TcFytjqmfE
- bv3dbgrUo8/2667DFMnhjQ4bpZqNE24HgvDtzUvQprpNVGvZA3hZANK2olpwd8vuiXXWgmeeJ
- HtZ4rpQtLJbHc6LtZ0JVJbAA08Aigw4tu3SknXOQdzTykh7ou4lsK6jRwObDlncEPPvG3WD7Y
- GUH71+T/5UuqabtAB0N+VWNEgnrOAMFXCmsXtQ2MY43cunvcJIH4UDZNp0NXp94GZ5w8P03Ep
- cRtMxC4lAt+xNdAqtIrd1qGdFXZiVYa1cjLSFt4IOMdgzTzVBUP6b4G8hfWrzY24UPhkEyT0M
- ngPJxGJzNI6u7E0DsLHNVvNRBo8=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB5040:EE_|PH0PR12MB8774:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0600cbcb-50eb-4d80-dafd-08dec31f699d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|4143699003|56012099006|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	rqcj8gYDamRuYc+T/+r7/YUh+RgmayhwqzqcXiQmhDrgswjTxy7QSmFmtqKGcaZP2QfUyCTeg4IfjnRCCYJ9Rslfb7G7/IKGS8/GOX88KjiL7qAgID062gxnKBh4klJbNPaG11UNcGoiphDb7i6Vrj7HX21gbBdOaJGZUeC3+V4J27vcVQ7nuU6WDtPNPNXlaNMMGJLb/TWFeAYOCnvDriuR48fRnpvQmiOM7MT4heDW1MsPV0iY6g86jF2vB4DrLnHoStkR8lc/YRwJFoeyHheETDUO59o7cHWUbJ5zarXH6MML9JZf/geStCcP33u9cV097kN9rnSwj1zoyMQAGgwwVT3B1IFJWMwdD5CQ0TGjv1v4u+huWFeps2P+4e+ls85kW9MRsI1Uw/0qD/7frQOOzsNY+oDmAuXZAxOmUcwIJvYMVf6EKpwLoNuepgTGvEYu7yMBccVLf3E0ZIdtm+Maf5NsSt3nrQSUc/0C13y4XdJdeK9hHAfE+mNj5ynaI1s6j1x0p9Dk1HnvjfWeIJNcOiL0t5V6Oa1JgKNfusfrCZgUPBeOsKonHjpPug3waqyhymn2x03OyHTBtEy0k4V9PznQcOZ37pw+q0WMuY5/wJnIlajI0p7235UqNt/C+7zuCSWXRdDJQlM97NjkFbqpKLlAHu9BkOOR9kwIZWC0k7exJaYmB9wb9tSbigmN
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5040.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(4143699003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?b09WVXduMXpLRVUvR25pZjhVTmJTdjJ2dFZReGljTHp2ekdDUzRmU25tdytI?=
+ =?utf-8?B?SHFzbjB6Z1F1bGJBV1lvYk52djdnOUlXa1VmclhJaS9CTEk0S2xDZjZ4M0N5?=
+ =?utf-8?B?YXR1MXkyRDgvc25kc0o0U29PWFF1OERHeEx1QjA4cjRoakM3ZWxNejNSTmFP?=
+ =?utf-8?B?ZFZnYndxajYrcTV2ZDZtQ2swK1YwRTV1TmJ1SWRJenpMSUVXSitMcVp1TE5Q?=
+ =?utf-8?B?QUZBRi9qWjFxckFDc0Q5QXpwRkRWdlFnY2N5Q2JxQlBzbVBRc2VFSy9KbGVC?=
+ =?utf-8?B?VHEvYmp2ekpEd1AySnZmSUN1bW9Pc1hjSXFkQks1SXV6NUhkWEs5RW4xMjNT?=
+ =?utf-8?B?OTM5SWErdmF1ME94SW5IM01vSERJOThueWR1aDBXV2dRR1ZuNmExQy9VRDFB?=
+ =?utf-8?B?Z20rTzZUcFlqN1RaSG52WWZuaVAyVE1GbnVTOWNGaXJleVlGN0lUNWs0elRt?=
+ =?utf-8?B?ZW50aHlWOGFRd0ZjNEg1NVd6SmJRdW9UcXJsL01UcXlzclp1TXhWalBoV08w?=
+ =?utf-8?B?aXB0Q0gwd1hucnhJWXBQOXJTZVBRNWJncmVLdnF6V0ltQ1ZYMWtFQUhVRm1u?=
+ =?utf-8?B?Mi9nOHpiVTRLVVIrYms5UUNKWldZVjF6VUFJRXgvdHk1R1pZekhnVG1JQ0hj?=
+ =?utf-8?B?YUtUbzNLelllQUllN1V0VEVnTkU3cW5iVG9XZkk5bFVrQlhXMUllMWhHM25Y?=
+ =?utf-8?B?dktjWUdBbmdoTW41VS95L0FuaFRnVG1BK2FwVXduRGNTR2U0bGxkbGVVMnhB?=
+ =?utf-8?B?NDJKcWNmdVVLcnJKeWxhVU5LbDErTFo2L29nTWZYL2FXYklVaHFEVEROOC9t?=
+ =?utf-8?B?SWNBVkptQVFpREo4c1dmTEVXSWtob20vVjdqNWNmSlQrZXRYQ2JiN1NRYThG?=
+ =?utf-8?B?aFFwVW5tVk81cURhMFpOSWZqK050eEU3bjRIWmsyMVRPaXp0QlRRcnFZVERp?=
+ =?utf-8?B?U3BKd0pZUFhtakhib1QyOWs5blhmRjUrOGgzZEM4bEhnSGQ2TzZTUnF2RTFh?=
+ =?utf-8?B?NFpmbGZkR2JvMjc5c041ZkMvcWcvSFE5bGJYY1dJem9PUW9heHRQTUFuVUI1?=
+ =?utf-8?B?S1BhQ2s1RXRuNVZtYmRoKzVhM0V4YmpPVzYzYko3ZnZXeFQ2M2ZETXlpdnJx?=
+ =?utf-8?B?T0FVTWRhRWZXWUFVL0NBQlVuSHV0bEdLN2RyV3ZLeU5memo3RHJRVWJjbG10?=
+ =?utf-8?B?REVXWG1uTUpSUDZKYVh4bkdsUUxDS1BDdVFESnJJQlZ4SkpXQWtBZFZ3cURx?=
+ =?utf-8?B?bU1xaDJrMjR2WGIwb1YyUElsaGFMNmhaWXV1d0hCNlNZME9OYnNXWGFob1FM?=
+ =?utf-8?B?TnF3Z1U2aC9aT1dFNGhlcC9JYUQyYVlJR1E3MHZvRDgxa2V2b2NpN0drQnRi?=
+ =?utf-8?B?ZDdPaS9QdzQ0ajJIS2NXS0NTNEt0OU5xNW1IWVRNMXVqU1JCRURNRm5ETnhz?=
+ =?utf-8?B?NXlFbkJ6YVlSajlIbW9wT2ZIQW51dDlyMnNLd2NvVzcydGxxSDRlOWpIb3FK?=
+ =?utf-8?B?M2NmeHQ4ckxMTlFBSlpFQThSeW1QNnpXczlIeFVTMTNsOTRzeVRvOFp3NFF1?=
+ =?utf-8?B?Q1J4Q0U3QlZGbXpRZ0RkV3VLQzBCb2xnUmJVTWhEcEdUbE56MEhFRHA1YjM0?=
+ =?utf-8?B?b2YxR1I2M2pMaTJWQUVUNm1NSG9zZ0pOQTNheCtpL00rdTJpMjdPZHV1SUdx?=
+ =?utf-8?B?dS9VODhzTGFDbnNOZEpMRjFqUUNzN1NpdEQwSCs4VFZrM2drcDhUcDRpWTNt?=
+ =?utf-8?B?cFFUTEtQTlQ0aFVOYTdoREJ0ai9VUXora2w0d0JhUVpleXQ4V0VIYm1hYkxs?=
+ =?utf-8?B?dUxMbHVnOHdUaUlEMmZqdVNsZGh0R1M3MlhzeEpoK2hEVXo4T011dzh0amd5?=
+ =?utf-8?B?Y3Bxb2ZocVFZRkNNb0dZb3hYV0VXL2Y1UlJGZW40SklRa0hLcWd6TFdEd2x4?=
+ =?utf-8?B?L05jM0FvZUpQd21VemZEY2V5UWcvZjRkaU5iTXhHM3BEeEV2bnB2VDNmSUls?=
+ =?utf-8?B?QVhhb2U5OTVTWUF0TmNUaDRybVQ4YlQ3bmJoQTRWdEhkV3g1cDhadzZHOGFl?=
+ =?utf-8?B?QkRjNnlKWXhIazVqOGRwK25iT3JkYlljSmt2NFhFZjIvTFBTVGo5cFQ1Snc3?=
+ =?utf-8?B?blNNNWN5K2duOXhvTHk3T1NKOXJ5VmFJeXFIa2RrdEtyWmhiWHR5cUNhN2tQ?=
+ =?utf-8?B?VUZtLzk2VnBqa0RRbU1MVDh2WXF6MnZSZmlDeXpZN3ZGRkxzc3BORVBWeCt5?=
+ =?utf-8?B?bWVmQzk1VjRXM2hzU29tZ2FUa2gxOE4vbGZDZ1EwVW1hbVB4VHB4M2dWVzRq?=
+ =?utf-8?B?M21CNGtOLzJnNDFLUUpFaXFXdG9GeDQ0bFdvaUp3Q3Q1UUFKS1Zodz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0600cbcb-50eb-4d80-dafd-08dec31f699d
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5040.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2026 16:28:02.4090
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2PMGfKu2VJ4m93bAi/tgaSR50Xos5gP1abq2Qxqq0PaVo5vWIdoyJ9CzN6ODO1/3UTmL7SSzntaVxB7FfbBOwg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8774
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Fri, 5 Jun 2026 17:52:15 +0200
+Hi,
 
-Move the specification for a line break from a seq_puts() call
-to a seq_printf() call.
 
-The source code was transformed by using the Coccinelle software.
+On 6/4/2026 12:03 AM, Mika Westerberg wrote:
+> Hi,
+>
+> On Wed, Jun 03, 2026 at 11:31:46PM +0530, Basavaraj Natikar wrote:
+>> On shutdown the connection manager tears down the switch tree without
+> router tree
+>
+>> signalling connected devices. Thunderbolt 3 devices directly connected
+>> to a USB4 host never receive a disconnect indication and during shutdown
+>> this can cause polling the dead link for up to 60 seconds. On some
+>> platforms this behavior leads to a warm reset instead of a shutdown due
+>> to this timeout.
+>>
+>> Fix this by asserting PORT_CS_19.DPR on each connected downstream port
+>> before tearing down the switch tree. This drives SBTX low unconditionally
+> router tree
+>
+>> (USB4 spec section 6.9), causing the device to detect SBRX low and
+>> transition to Uninitialized Unplugged state immediately.
+>>
+>> Co-developed-by: Sanath S <Sanath.S@amd.com>
+>> Signed-off-by: Sanath S <Sanath.S@amd.com>
+>> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+>> ---
+>>   drivers/thunderbolt/switch.c |  2 +-
+>>   drivers/thunderbolt/tb.c     | 11 +++++++++++
+>>   drivers/thunderbolt/tb.h     |  1 +
+>>   3 files changed, 13 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+>> index c2ad58b19e7b..52812908818b 100644
+>> --- a/drivers/thunderbolt/switch.c
+>> +++ b/drivers/thunderbolt/switch.c
+>> @@ -704,7 +704,7 @@ int tb_port_disable(struct tb_port *port)
+>>   	return __tb_port_enable(port, false);
+>>   }
+>>   
+>> -static int tb_port_reset(struct tb_port *port)
+>> +int tb_port_reset(struct tb_port *port)
+>>   {
+>>   	if (tb_switch_is_usb4(port->sw))
+>>   		return port->cap_usb4 ? usb4_port_reset(port) : 0;
+>> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+>> index c69c323e6952..ca57b5181422 100644
+>> --- a/drivers/thunderbolt/tb.c
+>> +++ b/drivers/thunderbolt/tb.c
+>> @@ -2935,6 +2935,7 @@ static void tb_stop(struct tb *tb)
+>>   	struct tb_cm *tcm = tb_priv(tb);
+>>   	struct tb_tunnel *tunnel;
+>>   	struct tb_tunnel *n;
+>> +	struct tb_port *port;
+>>   
+>>   	cancel_delayed_work(&tcm->remove_work);
+>>   	/* tunnels are only present after everything has been initialized */
+>> @@ -2948,6 +2949,16 @@ static void tb_stop(struct tb *tb)
+>>   			tb_tunnel_deactivate(tunnel);
+>>   		tb_tunnel_put(tunnel);
+>>   	}
+>> +	/*
+>> +	 * Assert DPR to drive SBTX low, signalling disconnect and avoiding
+>> +	 * ~60 s of link polling before warm reset on shutdown.
+>> +	 */
+>> +	tb_switch_for_each_port(tb->root_switch, port) {
+>> +		if (!tb_port_is_null(port) || !tb_port_has_remote(port))
+>> +			continue;
+>> +		if (tb_port_reset(port))
+>> +			tb_port_dbg(port, "DPR on shutdown failed, continuing\n");
+>> +	}
+> But now this tears down the topology also when the driver is unloaded? If
+> you want to do that in shutdown there is ->shutdown hook for that.
 
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/usb/dwc2/debugfs.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Asserting DPR on unload is intentional and it is harmless. After a reload
+the driver re-probes and the router tree comes back up cleanly.
 
-diff --git a/drivers/usb/dwc2/debugfs.c b/drivers/usb/dwc2/debugfs.c
-index 3116ac72747f..8fe873cf4af2 100644
-=2D-- a/drivers/usb/dwc2/debugfs.c
-+++ b/drivers/usb/dwc2/debugfs.c
-@@ -252,8 +252,7 @@ static int ep_show(struct seq_file *seq, void *v)
- 		   dwc2_readl(hsotg, DIEPTSIZ(index)),
- 		   dwc2_readl(hsotg, DOEPTSIZ(index)));
-=20
--	seq_puts(seq, "\n");
--	seq_printf(seq, "mps %d\n", ep->ep.maxpacket);
-+	seq_printf(seq, "\nmps %d\n", ep->ep.maxpacket);
- 	seq_printf(seq, "total_data=3D%ld\n", ep->total_data);
-=20
- 	seq_printf(seq, "request list (%p,%p):\n",
-=2D-=20
-2.54.0
+It is also needed. Once the driver is unloaded it is unbound, so a later
+system shutdown has no driver left to assert DPR and the ~60s link polling
+hang comes back. Doing it in tb_stop() covers both plain shutdown and the
+unload then shutdown case, so I kept it here instead of the ->shutdown hook.
+
+Will fix switch tree to router tree.
+
+Thanks,
+--
+Basavaraj
+
+>
+>>   	tb_switch_remove(tb->root_switch);
+>>   	tcm->hotplug_active = false; /* signal tb_handle_hotplug to quit */
+>>   }
+>> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+>> index 217c3114bec8..875eb538eacf 100644
+>> --- a/drivers/thunderbolt/tb.h
+>> +++ b/drivers/thunderbolt/tb.h
+>> @@ -1102,6 +1102,7 @@ int tb_port_clear_counter(struct tb_port *port, int counter);
+>>   int tb_port_unlock(struct tb_port *port);
+>>   int tb_port_enable(struct tb_port *port);
+>>   int tb_port_disable(struct tb_port *port);
+>> +int tb_port_reset(struct tb_port *port);
+>>   int tb_port_alloc_in_hopid(struct tb_port *port, int hopid, int max_hopid);
+>>   void tb_port_release_in_hopid(struct tb_port *port, int hopid);
+>>   int tb_port_alloc_out_hopid(struct tb_port *port, int hopid, int max_hopid);
+>> -- 
+>> 2.34.1
 
