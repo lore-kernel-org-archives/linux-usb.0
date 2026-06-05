@@ -1,60 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628223B14B9
-	for <linux-usb@vger.kernel.org>; Fri,  5 Jun 2026 13:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9235E40E8FF;
+	Fri,  5 Jun 2026 14:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780664627; cv=none; b=lYE9oniWD1+0ize/A45At3j0aOIGhDJKv10nMkrXsg2Gf1KBJya1d2oLYU0GMMW0L2z956SvlcAdpdq807cA6c1kXF44yCNf1kc/nZlq4hGaADBNDHP8DVt/QtxysX92qqzRa/Shua2WWB/MGQYbxpl05f76czs6acYvhI0X/7M=
+	t=1780668776; cv=none; b=gWEGedTMOOOfO9FoP7Um9HP43zgNYccaqhbDxF8SWInJHaU6jBbzTWON5pR4A2htElNH3O6RM4L4oq3Aqhl9XQ9q33sjjPK+krxz/hN82z4xE2YAfzraBSISX7t95awI4sDWH5mVjfUvCuzM5xmpIgAPwNdUcl7sCLh9rBrKJ0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780664627; c=relaxed/simple;
-	bh=2uGDs0VeipFIjN1XnUvD3WI5dVbdsaBEgaZFClXHVJg=;
+	s=arc-20240116; t=1780668776; c=relaxed/simple;
+	bh=8kte1jYsfpJ+YdWvrUzTLwzEb6GY+7W+zz0SvAjs9RU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tb9j/oEF4aR25U5Xi9g6JAlEuqP5ixlaJjIArvIS8i0EmjedZaltgEDQhVcrDPCJtCE6OpNnjJnMAx9qXqL/Q1AfPzQ7glu1YSKb132G3tDmb5cqkefrLbRYhTi6/E4aL3aw+tsOwPTw4KCIvaeJqmyeCLcrw8XFHZnXxidYHxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H5Rz1KeQ; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Egr1gDLkoC/1qwmtj33TBxw39oHVHyvV8LeViNklgTFJK0b8yf8jAvq4cA9Vw0CQCLOrcX7k0bsBvJJbD3odYyMQV0KsOuYYso8is5kTFhY/BVn4cUdmZ6/UGLZqo/lW/GHtMklKTDSfb1RYZapVsZsHiiSKk2rhI6j86MCY6CI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Y8xS4wKU; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H5Rz1KeQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780664626; x=1812200626;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2uGDs0VeipFIjN1XnUvD3WI5dVbdsaBEgaZFClXHVJg=;
-  b=H5Rz1KeQBo8hTa+UrbH3bIIMQATMLEx6CD3vY47vTBqtFKw9Zdb9wxBQ
-   M65bmNc1AVuZg1600+AXyQ3tcU+RbTrnPnWDtPZ6Wpsxv/Y3TMYvxI1Qw
-   9ZZrsmLf2wzGLUjsxhC0rayhdqzlrtJADGuP9a53wNw0bmp2cLPgVC/vP
-   03cEczX+TNvj4y4kwG0Ii4X8HVFLVP/Rh7NEY9/7jfVUD6ztfncDGEXhE
-   qjsfIoDPs8xoZ5fISsPNv44YMjz1EQ/PQDoNRqI8qiIRj+jWWR+/VBUt5
-   EWlpkAUZ/Fh9katXX08/qJ7TcD9b9FwSDRfJkhB7U0rRr3nNR1agQB1tW
-   g==;
-X-CSE-ConnectionGUID: vfTQAPe3TH+dY/DNK5D6/A==
-X-CSE-MsgGUID: AXoNsnIIRG+FM4SvoL+1dg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81529000"
-X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="81529000"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 06:03:45 -0700
-X-CSE-ConnectionGUID: Xdq/UP8VTAWpBatrgE7bMg==
-X-CSE-MsgGUID: YDvlsNvMRWmJAu+fF3Kg+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="246669179"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Jun 2026 06:03:43 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 55F4995; Fri, 05 Jun 2026 15:03:42 +0200 (CEST)
-Date: Fri, 5 Jun 2026 16:03:38 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: lucas_tsai@richtek.com
-Cc: badhri@google.com, cy_huang@richtek.com, gregkh@linuxfoundation.org,
-	kevin_hung@richtek.com, linux-usb@vger.kernel.org,
-	ren_chen@richtek.com
-Subject: Re: [PATCH 3/3] usb: typec: tcpci_rt1711h: add low power mode support
-Message-ID: <aiLJKjtKMmjxdyyI@kuha>
-References: <ah2Kwlm6Gm0rMvKt@kuha>
- <20260603031827.3692374-1-lucas_tsai@richtek.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Y8xS4wKU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=gwZpFcQuVSep5h2JfBZIsItjVotlQ0g44gywc7q0L44=; b=Y8xS4wKUwI9UtNLzhFo1rIXGQb
+	ID7ZHfXz9oSRBBQFP0TfI1kMEEPON7JahkxHrpMpfJl+yL0XCOr0svzp8Oektt3eyLNKf2k/HCWO7
+	YzgPU6Z36X7alXcHCOt2xtvePAxOu22dgr2Tb0XDmMFTaRFVwLQ8FAIXlgXxZLSYKNWY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wVVI3-006F2u-0F; Fri, 05 Jun 2026 16:12:51 +0200
+Date: Fri, 5 Jun 2026 16:12:50 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+Cc: "kuba@kernel.org" <kuba@kernel.org>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	nic_swsd <nic_swsd@realtek.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH net] r8152: handle the return value of usb_reset_device()
+Message-ID: <839beccc-165e-4f60-9c23-ccc8e4f205ed@lunn.ch>
+References: <20260604092247.27158-450-nic_swsd@realtek.com>
+ <c1ddf8f3-71f7-434c-ad10-64096b65fe51@lunn.ch>
+ <ce2651bf86fc401b9e1e7cc29b5a6c22@realtek.com>
+ <3e108daa-7913-4890-8331-9761a4654b1f@lunn.ch>
+ <19bdb89de51c46408b7e7d7cdeba8e4d@realtek.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -63,86 +51,50 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260603031827.3692374-1-lucas_tsai@richtek.com>
+In-Reply-To: <19bdb89de51c46408b7e7d7cdeba8e4d@realtek.com>
 
-On Wed, Jun 03, 2026 at 11:18:27AM +0800, lucas_tsai@richtek.com wrote:
-> On Mon, Jun 01, 2026 at 04:36:02PM +0300, Heikki Krogerus wrote:
-> > Hi,
-> > 
-> > I'm sorry to keep you waiting.
-> > 
-> > On Mon, May 18, 2026 at 05:15:14PM +0800, cy_huang@richtek.com wrote:
-> > > From: Lucas Tsai <lucas_tsai@richtek.com>
-> > > 
-> > > Add low power mode support,
-> > > add the op to enter and exit low power mode,
-> > > this mode reduce RT1711H/RT1715 VDD Iq to 1 of 10,
-> > 
-> > What is VDD Iq?
-> > 
+On Fri, Jun 05, 2026 at 06:26:46AM +0000, Chih Kai Hsu wrote:
+> On 05/06/26 12:04 pm, Andrew Lunn wrote:
 > 
-> VDD pin is RT1715's power input,
-> and Iq is the quiescent current,
-> so the low power mode reduces the baseline power used by RT1715.
-
-Got it, thanks. Please add that explanation to the commit message.
-
-> > > while disabling VBUS detection and PD BMC
-> > > but keeping CC detection and not affecting DRP toggling.
-> > > 
-> > > Signed-off-by: Lucas Tsai <lucas_tsai@richtek.com>
-> > > ---
-> > >  drivers/usb/typec/tcpm/tcpci_rt1711h.c | 14 ++++++++++++++
-> > >  1 file changed, 14 insertions(+)
-> > > 
-> > > diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> > > index 4b3e4e22a82e..48d6a6823ab9 100644
-> > > --- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> > > +++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> > > @@ -20,6 +20,7 @@
-> > >  
-> > >  #define RT1711H_PHYCTRL1	0x80
-> > >  #define RT1711H_PHYCTRL2	0x81
-> > > +#define RT1711H_BMCCTRL		0x90
-> > >  
-> > >  #define RT1711H_RTCTRL4		0x93
-> > >  /* rx threshold of rd/rp: 1b0 for level 0.4V/0.7V, 1b1 for 0.35V/0.75V */
-> > > @@ -254,6 +255,18 @@ static int rt1711h_start_drp_toggling(struct tcpci *tcpci,
-> > >  	return 0;
-> > >  }
-> > >  
-> > > +static void rt1711h_set_low_power_mode(struct tcpci *tcpci,
-> > > +				       struct tcpci_data *tdata, bool enable)
-> > > +{
-> > > +	int ret;
-> > > +	struct rt1711h_chip *chip = tdata_to_rt1711h(tdata);
-> > > +
-> > > +	ret = rt1711h_write8(chip, RT1711H_BMCCTRL, enable ? 0x08 : 0x07);
-> > > +	if (ret < 0)
-> > > +		dev_err(chip->dev, "%s lpm fail(%d)\n",
-> > > +			enable ? "enter" : "exit", ret);
-> > > +}
+> > On Fri, Jun 05, 2026 at 02:42:34AM +0000, Chih Kai Hsu wrote:
+> > > On 04/06/26 8:54 pm, Andrew Lunn wrote:
+> > >
+> > > > On Thu, Jun 04, 2026 at 05:22:47PM +0800, Chih Kai Hsu wrote:
+> > > > > If usb_reset_device() returns a negative error code, stop the
+> > > > > process of probing.
+> > > > >
+> > > > > Fixes: 10c3271712f5 ("r8152: disable the ECM mode")
+> > > >
+> > > > https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.h
+> > > > tml
+> > > >
+> > > > Does this bother people?
+> > > Yes, it does.
+> > > If the driver does not return early when receiving an error code from
+> > > usb_reset_device(), the subsequent execution will trigger a kernel call trace.
 > > 
-> > Why couldn't this just be done in the PM suspend and resume
-> > callbacks for this driver?
+> > Please include a link to such a bug report, kernel call trace etc, to to show it
+> > bothers somebody. Do you have the hardware and can trigger this?
 > 
-> Entering low power mode or not relates directly to the status of USB-C port:
-> enter low power mode when USB-C port attached nothing (unattached),
-> and exit low power mode when attached with cable or device.
-> 
-> In the other word, it is possible to have system suspended and USB-C
-> port attached at the same time, so it is not suitable to bind the flow
-> of low power mode to the PM suspend and resume.
+> If the driver ignores the error from usb_reset_device(), I get the following call trace.
 
-You don't have to do that in the system suspend callback, but you
-still should do this in the runtime suspend callback, no?
+O.K, great.
 
-This is not a major thing, but mctp.c is a bit bloated, I want to make
-sure that adding this kind of callbacks is really necessary.
+We have had a lot of AI driven bug fixes for theoretical issues, which
+in practice are unlikely to happen. We want to consider such patches
+as just ongoing development work, and merge them via net-next, and not
+backport them to stable.
 
-Badhri, do you have time to check this series?
+From the commit message it is not always clear if a patch is just
+fixing a theoretical problem, or a real problem which bothers
+people. So sometimes we need to ask....
 
-thanks,
+Including in the commit message a Reported-by, or a link to issue
+report, makes it very clear it is a real issue which bothers somebody,
+so we don't need to ask. Please consider this with further
+submissions.
 
--- 
-heikki
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+
+    Andrew
+
