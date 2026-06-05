@@ -1,40 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF0B1FCFEF;
-	Fri,  5 Jun 2026 07:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3033647A0BA
+	for <linux-usb@vger.kernel.org>; Fri,  5 Jun 2026 07:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780643027; cv=none; b=oI/vB1oP4kwt2vQlsBDriGqpZmcPq7FwXZy7sF5NzmUwxsbEzkPaM7vxb3/TK/cTX3yantpXjxbjOQedN4yIVRN1pKvffoj8ORou8bJpJ3OILTbHJwswd0/eSxcwAR/XzzFu+P+pgOtgwk5J2GWjOMd1vrUkORSYGx308vDviaA=
+	t=1780644443; cv=none; b=bSXl8oTlTw5hgQbQdoL9O8ryOOJJMnFc3tIYMza2/z3dWtxSb7Z1nbg6ASngTR8/aKLg1AxywL2tQ486whFDawDhYSoCKbIh8iQt+8NU1/IFTL86cWVuzmZZ3wr2hUXTkJ80M7SKbwL25GRGObhdsB4taRfbxTlS7s1ByZ7q/PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780643027; c=relaxed/simple;
-	bh=LDhNLU/eqAKEdxuLB19vSkHwp8j2Cx4hdelP1za4lIg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WUj9YfEfibrT0pIcqu2LvbCB+/WEcCOr8CPqkgVc0n/bBdo0EqYnM11X64P+t4qfEMqsJyTiAP1BY5W/8Fy0aLHFfR/Osjuyx/K7wyc9Gs/bW5p8mdjLC13WSCU0xFCMowypw2fdQrHvnRFv9rp9xjGCKk/EDF++HAFXhXLchgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jlFMrhXS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780644443; c=relaxed/simple;
+	bh=J5yo9hb4DiG2V5nvVCbiSN6dy3FUvV2ZxvrOFGt4cIg=;
+	h=Message-ID:Date:From:To:Cc:Subject:MIME-Version:Content-Type; b=aQdVAE4mP2vc0HrFtv4RJx45iD+eGv97A/HHOEBvAYCBasTq5AzY6hyOgpkeZHg52pAgt+ijPWoIzn17BXqxiBJ3GS1q4Okampg3mXDfyNEXYAwTFwXDLazigldsSAwNtlTx7Rfw3OUDdwSyc+xqIukY3HtxtLLSj8LKmflGtZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KE0RKmNq; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jlFMrhXS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0A261F00893;
-	Fri,  5 Jun 2026 07:03:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780643025;
-	bh=d0lNIUYbaJpxJPUjbObqZ5hC9LAq9HJV/MiAblmp2XA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jlFMrhXSOKgRX36HamaKINA7dZTeooGX1aHruR4WM56RRIOWCAF7cvJ2kdHL8u/b5
-	 AgM7rqgKGMDfdBXbIRQQXbXPifvENmiQVVqTdrx7YHoQJ+Vq9SMFd6r71+l5RsHHs4
-	 s7FCKuNISYa+L1QFpPUL9tnllSI1u2mRldnmwle3dIcEozENHKRP3wJ7Xp9hwJOwHJ
-	 HRIM/YywG/HVD5JswPYmxH6/3krgFXKz9epknM+x5Xivw+tA9c2e611ytW60wQcE0U
-	 HwmMYYeKkHMNJGkJ6RKHNp9H7pt9NKbDpjUU+yvimMNLmLLIwHRsBfSKdCZG0Pnf+r
-	 MnfxuHbHcfsbQ==
-Date: Fri, 5 Jun 2026 09:03:42 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Orlando Ulises Aguilar Rojas <orlandoulisesit@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org, 
-	benjamin.tissoires@redhat.com
-Subject: Re: [REGRESSION] Sino Wealth 258a:002a keyboard enters stuck shift
- state on USB disconnect
-Message-ID: <aiJvV_DEOOFcqTtZ@beelink>
-References: <CAE=pYEp=RZCeRbAtweZ0_zkPr7cUZUu=uoDRkqko7xduVUMEKA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KE0RKmNq"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c858dc05ee3so1046029a12.2
+        for <linux-usb@vger.kernel.org>; Fri, 05 Jun 2026 00:27:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780644440; x=1781249240; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:cc:to:from:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=610gyzIqBO1JVhEX585ySATLb6xibPYUqJZc1nejfdI=;
+        b=KE0RKmNq32w+Vxlo7XfRShbrnhFxSuPbHXS1TyWihVBdqVGHNYFwfxlOGHJwtu2LA2
+         Hf3l7JX6UmXQUJdKVmN0ugAdAhLkq9z68zhzqiOo02PprOk1Ios4pLliCp458NBzotJo
+         eOdCW9bqVBm72aGHrCZqL4aDIiS1+eLLsDbj8AbX/YphXW5VdkcNXVx811Q9YkjWQQ3q
+         AK/RvOu5gIzXB/hidRntjsOJeCkwDfHHpKywJPBmBakoLZQKPz+3xu5tpEIztRP+o9Ci
+         z4m7v049R+4cSVkct0cehURfBqoXoOP1JBkL1zdPehgHrcP2e6SGVBjPh3S0Lh/HkIZM
+         Y1cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780644440; x=1781249240;
+        h=content-transfer-encoding:mime-version:subject:cc:to:from:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=610gyzIqBO1JVhEX585ySATLb6xibPYUqJZc1nejfdI=;
+        b=DFzy/JjJ2L6iZ80EpICQRXbBWr9mdqpJQtROBvJX0vD+TV4NiP5BjEq7r2Zoy+droa
+         eGpUpv7/wC8vbSwSAQi5M02gGY/I/ks15jfvNeNpt/54zgr44u/2UUdE+3ST1rbJb8lh
+         DOzHRksCjeLRvbq9cSJaDXWvHtTQFw2Pah2sP27PPh4akRdbaTrzKcI4GOxzG971LYSp
+         WvYqtcRxc2L37yClllKCNWBlJDveNjSqcZ0SafJA/xPn6Le4pQBz4y24KKwOMF+vkFd3
+         wiHxjhrWJvC+F/g2f+QTPNz8v/Lg2AWkG67qgKbrhWBTjgjvmj8VdQjjRX25Rr2TjCbs
+         IoYQ==
+X-Gm-Message-State: AOJu0Yy3q1uWnvVHkIy0coCoshvbN1RUlWnxWlsE00gRSmbhuL5jiIDq
+	J492q/xp9saz9MHgqjGZSP5NYWN+unDQonWx5Xd3/dq83OPK03bjbAImjpA2JThQqro=
+X-Gm-Gg: Acq92OFprm/pHnbjZM8xOkpZDXl5vqd7yAXc9k9loV2ZR5H8+H+wQYVQyj0iQJFJpdV
+	dApwQqPNRleXT2j9Pv/7Qrx4WyhivqVfOq/SyAZmh/EGRk+EoSvdCCfnF/300Q6GB0ezYV6knm1
+	DiLB1MYZvn4v6mnl4fFG6Dfw2yEvKPj89XVtUYUfSPHpxfAJWhPgpsq3WHuWN9HfEISrDKgbfef
+	2hAd/jHbBspolFBovrhJgEs23tP3BvNbxg02cRv8vIswnuauowGzJDpLSZoOfzCbsBu4+81BKNH
+	cv4lI2+w+GwgjiD+BdFiG7VD6KHbHLoASAvIHurglIF38s3X63KzaZQnAY1Vp57ATGUI3GGZeZV
+	j6awMUPpM8DNFCKuU6oIF5Fax0z/jiEureMJrad+30LWCwmziF5SUGWfItV6f/h//qpGZHTdOOl
+	XU37ajri7STN+YRFoWKQQv2hm5p3ypm1fHXqPsf8XbPuAdjNc40SmRviY+T9VuoH6p9SDH7qNzI
+	/I=
+X-Received: by 2002:a05:6a21:68b:b0:3b4:c9d5:cd5b with SMTP id adf61e73a8af0-3b4ccd5dcc5mr3306756637.13.1780644440283;
+        Fri, 05 Jun 2026 00:27:20 -0700 (PDT)
+Received: from viku.office.rr.lan (fs79022602.tkyc410.ap.nuro.jp. [121.2.38.2])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85df04311bsm6839996a12.9.2026.06.05.00.27.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jun 2026 00:27:19 -0700 (PDT)
+Message-ID: <6a227a57.b453d089.3d0874.3012@mx.google.com>
+Date: Fri, 05 Jun 2026 00:27:19 -0700 (PDT)
+From: Vishal Kumar <vishalmimani008@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org, stable@vger.kernel.org, gregkh@linuxfoundation.org, thierry.reding@gmail.com, jonathanh@nvidia.com, digetx@gmail.com
+Subject: [PATCH] usb: gadget: tegra-xudc: drain EP pipeline before DMA unmap
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,162 +69,115 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAE=pYEp=RZCeRbAtweZ0_zkPr7cUZUu=uoDRkqko7xduVUMEKA@mail.gmail.com>
 
-Hi,
+From: Vishal Kumar <vishalmimani008@gmail.com>
+Date: Fri, 5 Jun 2026 14:08:54 +0900
+Subject: [PATCH] usb: gadget: tegra-xudc: drain EP pipeline before DMA
+ unmap
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Jun 04 2026, Orlando Ulises Aguilar Rojas wrote:
-> Hi everyone,
-> 
-> I am reporting a regression that I first observed in linux-zen
-> 7.0.8-zen1. The zen-kernel maintainer (heftig) confirmed that the
-> responsible commits also landed in upstream stable 7.0.10, so this is
-> not zen-specific:
->   - HID: pass the buffer size to hid_report_raw_event
->   - HID: core: introduce hid_safe_input_report()
+On Tegra186/194/234 the XUDC appears to post a transfer-completion
+event when the DMA write is dispatched to the AXI interconnect, before
+the store is committed to memory.  Under SMMU strict mode dma_unmap()
+synchronously removes the IOVA TLB entry.  If an in-flight AXI write
+to that IOVA has not yet been committed, the SMMU raises a translation
+fault (fsr=0x402) that permanently wedges the bulk endpoint; the host
+cdc_ncm TX queue stalls and fires NETDEV WATCHDOG after 5 s.
 
-This is... surprising:
-these commits are restoring the previous behavior that has been running
-under linux for the past 20+ years, that was broken by 0a3fe972a7cb
-("HID: core: Mitigate potential OOB by removing bogus memset()").
+Fix for non-control endpoints: poll EP_THREAD_ACTIVE until the endpoint
+sequencer goes idle before calling dma_unmap().  Follow the poll with an
+MMIO read-back that orders prior CPU writes to device memory.  Only
+after that does dma_unmap() invalidate the TLB entry.
 
-So basically, there was a short period of time in 7.0 (it was introduced
-in 7.0-rc5) where the device would have been working fine.
+On timeout, skip the dma_unmap to avoid triggering the SMMU fault.  The
+DMA mapping leaks, but the hardware is already in an unrecoverable state
+at that point.
 
-Can you check if kernel v6.18.21 (the last one before 0a3fe972a7cb was
-backported to the 6.18 series) was also showing the behavior? I strongly
-suspect it will, unless there was a USB change that also triggered this
-bug.
+ep_wait_for_inactive() uses readl_poll_timeout_atomic() (1 µs poll,
+100 µs timeout), already called from IRQ context in
+__tegra_xudc_ep_dequeue().  Change its return type from void to int so
+both call sites can detect and report a timeout.
 
-anyway...
+Control endpoints (EP0) are excluded: their completions go through the
+control-transfer state machine where the DMA is fully committed before
+req_done is called.
 
-> 
-> 
-> --- Summary ---
-> 
-> A Sino Wealth 258a:002a generic mechanical keyboard (Machenike K500)
-> enters a permanent "stuck shift" / modifier ghosting state when any
-> other USB device disconnects from the host. This worked flawlessly on
-> 7.0.7.
+Fixes: d720f0f7bfa0 ("usb: gadget: Add Tegra XUSB device mode controller driver")
+Cc: stable@vger.kernel.org
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Dmitry Osipenko <digetx@gmail.com>
+Cc: linux-tegra@vger.kernel.org
+Signed-off-by: Vishal Kumar <vishalmimani008@gmail.com>
+---
+ drivers/usb/gadget/udc/tegra-xudc.c | 35 ++++++++++++++++++++++++-----
+ 1 file changed, 30 insertions(+), 5 deletions(-)
 
-ouch, very much ouch
+diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
+index e9d33be02..8f1d52af0 100644
+--- a/drivers/usb/gadget/udc/tegra-xudc.c
++++ b/drivers/usb/gadget/udc/tegra-xudc.c
+@@ -1026,9 +1026,9 @@ static void ep_wait_for_stopped(struct tegra_xudc *xudc, unsigned int ep)
+ 	xudc_writel(xudc, BIT(ep), EP_STOPPED);
+ }
+ 
+-static void ep_wait_for_inactive(struct tegra_xudc *xudc, unsigned int ep)
++static int ep_wait_for_inactive(struct tegra_xudc *xudc, unsigned int ep)
+ {
+-	xudc_readl_poll(xudc, EP_THREAD_ACTIVE, BIT(ep), 0);
++	return xudc_readl_poll(xudc, EP_THREAD_ACTIVE, BIT(ep), 0);
+ }
+ 
+ static void tegra_xudc_req_done(struct tegra_xudc_ep *ep,
+@@ -1049,8 +1049,31 @@ static void tegra_xudc_req_done(struct tegra_xudc_ep *ep,
+ 					 (xudc->setup_state ==
+ 					  DATA_STAGE_XFER));
+ 	} else {
+-		usb_gadget_unmap_request(&xudc->gadget, &req->usb_req,
+-					 usb_endpoint_dir_in(ep->desc));
++		/*
++		 * Drain the endpoint DMA pipeline before unmapping.
++		 *
++		 * Under SMMU strict mode dma_unmap() synchronously
++		 * invalidates the IOVA TLB entry.  On Tegra186/194/234 the
++		 * XUDC appears to post the completion event when the DMA
++		 * write is dispatched to the AXI interconnect, before the
++		 * store is committed to memory.  A subsequent dma_unmap()
++		 * can remove the IOVA translation while the write is still
++		 * in-flight, triggering a translation fault (fsr=0x402) that
++		 * permanently wedges the bulk endpoint.
++		 *
++		 * Wait for EP_THREAD_ACTIVE to clear (endpoint sequencer
++		 * idle).  On timeout skip the unmap to avoid the SMMU fault;
++		 * the DMA mapping leaks but the hardware is already in an
++		 * unrecoverable state.
++		 */
++		if (!WARN_ONCE(ep_wait_for_inactive(xudc, ep->index),
++			       "ep%u: DMA drain timed out; skipping dma_unmap\n",
++			       ep->index)) {
++			/* MMIO read-back orders prior CPU writes to device memory. */
++			xudc_readl(xudc, EP_THREAD_ACTIVE);
++			usb_gadget_unmap_request(&xudc->gadget, &req->usb_req,
++						 usb_endpoint_dir_in(ep->desc));
++		}
+ 	}
+ 
+ 	spin_unlock(&xudc->lock);
+@@ -1451,7 +1474,9 @@ __tegra_xudc_ep_dequeue(struct tegra_xudc_ep *ep,
+ 	/* Halt DMA for this endpoint. */
+ 	if (ep_ctx_read_state(ep->context) == EP_STATE_RUNNING) {
+ 		ep_pause(xudc, ep->index);
+-		ep_wait_for_inactive(xudc, ep->index);
++		if (ep_wait_for_inactive(xudc, ep->index))
++			dev_warn(xudc->dev, "ep%u: DMA drain timed out during dequeue\n",
++				 ep->index);
+ 	}
+ 
+ 	deq_trb = trb_phys_to_virt(ep, ep_ctx_read_deq_ptr(ep->context));
+-- 
+2.25.1
 
-> 
-> --- Root cause ---
-> 
-> Before these commits, a report where csize < rsize returned -EINVAL
-> and was discarded in hid_report_raw_event().
-> 
-> After the commits, the same condition is silently zero-padded and
-> processed. Additionally, drivers/hid/usbhid/hid-core.c was updated to
-> call hid_safe_input_report() passing urb->transfer_buffer_length as
-> bufsize instead of urb->actual_length. Since the USB transfer
-> buffer (typically 64 bytes) is always larger than rsize for this
-> device, the new bsize < rsize early-exit guard never fires. The code
-> reaches the zero-fill path unconditionally.
 
-Yes. This is expected
-
-> 
-> This produces no kernel warnings — dbg_hid is not visible in normal
-> dmesg — which is why the fault leaves no trace in the logs.
-> 
-> 
-> --- Affected device ---
-> 
-> Bus 001 Device XXX: ID 258a:002a Sino Wealth (Machenike K500)
-> USB Host: Intel xHCI 0000:00:14.0, port 1-2.2
-> 
-> This keyboard uses a non-compliant NKRO implementation. It registers a
-> spurious mouse interface alongside its real keyboard interfaces:
-> 
->   SINO WEALTH Gaming Keyboard        -> input0 (interface 0)
->   SINO WEALTH Gaming Keyboard        -> input1 (interface 1)
->   SINO WEALTH Gaming Keyboard Mouse  -> input1 (interface 1) <- spurious
-> 
-> That spurious mouse interface has always emitted short/malformed
-> reports. Under 7.0.7 those reports were safely discarded. Under 7.0.8+
-> they are zero-padded, processed, and produce a modifier key event with
-> Shift held.
-> 
-> 
-> --- Exact trigger ---
-> 
-> The fault occurs at runtime, not at boot. Boot dmesg is structurally
-> identical on both kernels.
-> 
-> Trigger captured via udevadm monitor: when a separate Realtek wireless
-> mouse receiver fires unbind -> remove on the USB bus, the Sino Wealth
-> spurious mouse interface reacts to the hub topology change, emits a
-> short report, and the zero-fill behavior causes the keyboard to output
-> "!@#!@#" (Shift held).
-
-That is seriously wrong. It's not uncommon for keyboards to expose a
-mouse node when the support "macros" that you can configure in their
-firmware. That allows them to send button events, or even control the mouse.
-
-That being said, if your keyboard reacts to USB events from other
-devices, then there is something seriously wrong in the firmware.
-
-In any cases, the fix is not to revert the restored behavior, but to fix
-your bogus device.
-
-> Physically unplugging and replugging the
-> keyboard does not clear this state; a system reboot is required to
-> restore normal functionality.
-> 
-> 
-> --- What does NOT mitigate the issue ---
-> 
->   - Forcing power/control = on on the device USB path
->   - usbhid.quirks=0x258a:002a:0x00000004 boot parameter
-> 
-> 
-> --- Suggested fix ---
-> 
-> Reconsider the zero-fill path introduced in hid_report_raw_event():
-> the pre-7.0.8 behavior (discard short reports with -EINVAL) was safer
-> for devices with non-compliant NKRO implementations that have always
-> emitted structurally invalid reports.
-
-No, this is not possible, the behavior was restored because it broke
-several devices.
-
-> 
-> If the zero-fill behavior is intentional, adding 258a:002a to the HID
-> quirks table with a discard-on-short-report quirk would be an
-> acceptable mitigation.
-
-Well, you have 2 options actually:
-- write a new kernel driver that maps to the device and discards short
-  reports emitted on the mouse node
-- or write a HID-BPF program (see
-  https://libevdev.pages.freedesktop.org/udev-hid-bpf/tutorial.html)
-  that does exactly that as well, but it's simpler to debug/implement
-  because you don't need a full kernel rebuild.
-
-I don't see the benefit of adding a new generic quirk for fixing 1
-device.
-
-If I were you, I would seriously lean toward a HID-BPF program, because
-that's much easier to write and test.
-
-Cheers,
-Benjamin
-
-> 
-> --- System ---
-> 
-> OS:             CachyOS x86_64
-> Working kernel: Linux 7.0.7-zen2-1-zen
-> Broken kernel:  Linux 7.0.8-zen1 through 7.0.11-zen (upstream: 7.0.10+)
-> CPU:            Intel Core i5-13600KF
-> 
-> dmesg (working/broken) and udev runtime event logs are available on
-> request, or can be viewed in the downstream zen-kernel issue:
-> https://github.com/zen-kernel/zen-kernel/issues/414
-> 
-> Thanks for your time.
-> 
