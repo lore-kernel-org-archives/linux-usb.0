@@ -1,371 +1,156 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3B0397AEF
-	for <linux-usb@vger.kernel.org>; Fri,  5 Jun 2026 18:11:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7A53A783B;
+	Fri,  5 Jun 2026 18:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780683109; cv=none; b=iXWLUhxWzjnyMfaoHxNiXhKZFRzFq8NnFjlydBAs6MGb5CHxsz9h+rzlFIqioi+Eja3gkOubcO3zIXHlmJ3PcLEdIGsl6jJtWjX3OM718flcRX7LWQPnwmBYYrmvrDuA5nPlN5is30hjLQeINd+Tfvb3KIl2APn6hJAFE8POxW4=
+	t=1780683372; cv=none; b=Z2S2ucX3k5woa23Lb6jH6VFgX+Nh2j8JtccqEWASR/BXGRgzxX7ufY2whiU6DbVNQlJwLwQ/yhkZPoNuSYDS5+MNkZSBtqdelRAJp3McvQwBWfxxfg83tcT5LMX3mrMi6yL7w2oxPBp0rHegO7J+/L9JSTego7oWnof98uK5LcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780683109; c=relaxed/simple;
-	bh=uqCubVytNSJo5ucLjzvCp/VptxWJjDUsQJvFp3Cckto=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pRpkt96Z36oR4m92H6ViiO8lxxXx/yckreVqcS2bIXEGrXVFATPxrXCb/wt0UZON/ZEGiVLnv0HPeuEac2GzyT8nPPccoQolfV3/hEfQqz+4qZ2jKZRQpHEQiu7r7/w2xusdcvK2GVdVC1mQdmVPs23cCzegJ3Htjm0lRojTTSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TTiQiyPk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WID9igZa; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1780683372; c=relaxed/simple;
+	bh=2SJmGYKeHcbYh/1VQINjZhulcecoKpdDpZPbYOAjJ0U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZLE8SFzf96veC9H36FnbJwAPJd/hAhOFq4eqOdMD7vQ7jj0OfSyzEtz8R8ZM8JYF8PVQ1GoYaD2cuRJKVBs1Ro0YIA8thZvpq9ay/SBiRRBGO0keFkVATHLJ5SiQc4QLQuSevbG5Gq0EuH5iU4XgwglTKnYfv1SOIkW4E0Qp3iE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JBa0vHam; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TTiQiyPk";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WID9igZa"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 655Ft1IL3603459
-	for <linux-usb@vger.kernel.org>; Fri, 5 Jun 2026 18:11:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=tcO0JdaFdNA9IU7ARKvD88x76KWxgb2z07Z
-	nvg3U3P0=; b=TTiQiyPkqGN3f+LrB9CiXQgH+Uoqeap/LiLx3mEtXFmbK8pjMBF
-	F9NU7m5Yw3OHxVURbQnvmKkNnrmXFXCtuBe/TFOl+QabqJTxUHkP+s2A8yuEmp61
-	RmiK1Cj3bsOcn2n9ZCYBosgsNnfXPsh1rhFXzAsHMWKVRaOg6R/BMNCSdixO9/d3
-	z3JjaU32xaySA7nP+ri363Jbq8Wr5F5GbqYQz6G/AQ+fmC8IpmvYUYCRVySWEHaK
-	du2szutPVLYSp0TEKJGtnXBv6ZrzRy3JUIUPIJDa9iZS6ISLIPz5oSE2hxM0Odcq
-	D6bQ4YbmHIn0A7nbWxbgYZT8lOsgAr7d+9Q==
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ekmhfc2v4-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Fri, 05 Jun 2026 18:11:46 +0000 (GMT)
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-304df51ff3eso1917272eec.0
-        for <linux-usb@vger.kernel.org>; Fri, 05 Jun 2026 11:11:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780683106; x=1781287906; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tcO0JdaFdNA9IU7ARKvD88x76KWxgb2z07Znvg3U3P0=;
-        b=WID9igZaqUhleR/tuDzUjn6VqWbIYifrYa8CBK8H+7yJ8k3tqS43MPxzAHwUP/2wtT
-         nX8/sSTNeeNJnFygkPLK+kcvJ8xa4qfvLQVcuScvy256yDsqTbJYp1el2YCXZ4upAQU2
-         cO/Q+zY2Uxy5mTq+RQWo3sbFvFdDnZlwt4tWytalbj/cTqb1N0f6a6N3pcBY32DxlmmY
-         IG1JzUPF6GOdPrV/hX5QDPXufVN7ymPcp4VJRi55Mv6oTbmVKvejwRnU3sgSx3VOYO6t
-         KrSbsr3SVYNoLOZP9GHCnur5V6xKB6bsi+XagmGiNmZhxgrmpQExlhGd1H+YbjEawiy4
-         vpcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780683106; x=1781287906;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tcO0JdaFdNA9IU7ARKvD88x76KWxgb2z07Znvg3U3P0=;
-        b=pB8zGHfRVV3sF8vcPjEWnpoI10m9YpzkCmss/4b8OLO9wBYUIUs7/bkCCAEqo6dkLY
-         cg9IsgjqxlBnhTJR7N2z6KjWVb0c7TPyu6f96PijV71WiZ+TEXDSzLLsqf6dp96pnyr1
-         UKqJdCUH+EHaFJ4DAK4xW5MkpGQ9+d2jXt4Mv76kjSOgjnefPTbNqQjXMZGhTuyHdxll
-         wcikNSrjYgV8w48ILwfe+L/q60Yy70gMCwvBb6zwBvLMYRa90b8h0MtdIGosj0IVD9Vd
-         r7Kgul7LhcMuLwZpoq5NtBybuV1E6/Z3XpA7hIkTxhDQI239c/T5MrcAHTzHR77UH9nN
-         hrGA==
-X-Gm-Message-State: AOJu0Yx7tSP5d0JWdzN/f1Pg/Nd0oHqhwRznQM9rwoM9WCrrA+egS9AV
-	TD574anmxHLMWr5UsGRO5hz8QpZukcQPzNPTTVxkJuEZkYWgWoWdFR2HcaVeQQ+lpVSFM1dOdIb
-	KJrQYWBfDPh/WZyvJAoOy4NwDsj51ZtoLgvbkunQczrUPLyLwb8ltXDfJlG1brHA=
-X-Gm-Gg: Acq92OEsfAQrwHLmV9TLj61uF9dWxbrePESus4CwNabBFrcdKc8ayQUfdseVKhYFFum
-	HF87Bb++JIpOSKYXS1LGoR44W3Jeq7bMWdyFzeqiXpZp1P/uhaGWgAaJQtfB976qA5UQu+IGTBg
-	x/EKBOfOCotW2i8O2RuG4qXRiuKqFQlSBEN4V6IhufyBu4HPZTfVK5nvZucRQY+Z8KEFRzzl1q6
-	75XByM9Q4rZ0BRG0hWTlIOs4NXL2RH8Vocmfe6nyTSVQl1Jp6dwuWsrXmA4Cts1hBb+Jx7CIpUA
-	wQM205wLhbws4PefN8rgzu2S+odl5mBy3dLznkQc3j13OHdruMJ4pDHRYFOuhrpadW/XKcOzzeh
-	QMVz3qro8wKQd2bPuNHnQZaZOknp58sLmAAHTHRy+tLdNMXEs9dxAJEzEa7XbOFRcyPQgJq2Pkj
-	1oVkT39ksANQ==
-X-Received: by 2002:a05:7300:6c9e:b0:2f2:5c68:5074 with SMTP id 5a478bee46e88-3077af66474mr2195058eec.13.1780683106017;
-        Fri, 05 Jun 2026 11:11:46 -0700 (PDT)
-X-Received: by 2002:a05:7300:6c9e:b0:2f2:5c68:5074 with SMTP id 5a478bee46e88-3077af66474mr2195028eec.13.1780683105389;
-        Fri, 05 Jun 2026 11:11:45 -0700 (PDT)
-Received: from hu-eserrao-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074dba046esm7644606eec.9.2026.06.05.11.11.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 11:11:44 -0700 (PDT)
-From: Elson Serrao <elson.serrao@oss.qualcomm.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        jack.pham@oss.qualcomm.com, wesley.cheng@oss.qualcomm.com,
-        Elson Serrao <elson.serrao@oss.qualcomm.com>
-Subject: [PATCH v3] usb: dwc3: avoid probe deferral when USB power supply is not available
-Date: Fri,  5 Jun 2026 11:11:42 -0700
-Message-Id: <20260605181142.1925832-1-elson.serrao@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JBa0vHam"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780683371; x=1812219371;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=2SJmGYKeHcbYh/1VQINjZhulcecoKpdDpZPbYOAjJ0U=;
+  b=JBa0vHamn7XpDPr6UQw3mFQilGVeLLHjKfvj/QRMPc0vMd/ydakMjYXv
+   LGCRKV0kkhPjQmMgaY2u+tXXcMq/HpUvuPmYMK21peddrbSTPQhkEMju6
+   3Ds6777UqLupeCc/wJ3KBpxdVsYhE7OYZwsCtF6z+2bev9GB9onX2Ziqf
+   SV9n70vepE1ubFuYHrJT3sjSIzNGPrJX0tCuAOERqyU+SvTdSB6r/zAxc
+   R5E/qkU+46PgbPVergVmdC3rAybrEtBtNZdjm9zlbbcpVnJI0+Wjgl+Nd
+   acCFaQ6YhOAvum1qnhbOfD9sw+UNdG61jr8Y5sblyTwwl7jMsVqAjItwG
+   A==;
+X-CSE-ConnectionGUID: p/EIlvvqT7OuWGq6Ujz83A==
+X-CSE-MsgGUID: uP7dI+17Q06eizx/KjgdaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11808"; a="93010930"
+X-IronPort-AV: E=Sophos;i="6.24,189,1774335600"; 
+   d="scan'208";a="93010930"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 11:16:10 -0700
+X-CSE-ConnectionGUID: RpzaD1aPR7+f0xCriMuHcA==
+X-CSE-MsgGUID: mViOkAfYRCGUu8bltqUnxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,189,1774335600"; 
+   d="scan'208";a="244965130"
+Received: from amilburn-desk.amilburn-desk (HELO [10.245.245.223]) ([10.245.245.223])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 11:16:09 -0700
+Message-ID: <8d88e66a-c5bb-4f6c-b1a0-3f3b00a84540@linux.intel.com>
+Date: Fri, 5 Jun 2026 21:16:06 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA1MDE3OSBTYWx0ZWRfX3wYgJJEWXkJX
- 3ZMsr5tCqRfsBy+9z19cVkm+dlxcHjr+AhUgrObif7Zf24R6o3coP1TCiRUQl4VFEhsCJR8w56M
- uWmCix1eqqPZtFgLIWpcf0Uwn/WQExhb+XGQe+g6wwKhfa6nFoh73j4i0n+foY7d4ZCBAY+Nvkp
- dQ0mTOgtj6fTDnDwJTyQS/RZYkUJ79vWeWxE/zx03WzlyNyBnYbcl4xUB/EzpXVq0TtJdeq44Ie
- no5PuCTla2N+bep5AlG5BwGTENNVgBxAJQwRtuBM1Iaxp9y4CU9vCzBdK1mCv+2vgWEAOlPeK2K
- xR/MVmAP6Vz9qemKAgQFiE5bQd5TnBdpXA1wUZSHYGydv+FEHXlk73mO7ozRwRgYCEZV2dSvyV9
- zWADh5Pcu2H8xS1uAh1L0LnSa+Ey79QEmVy7FojNW7GICKfcJIN+BK+xM0hi1kPUvmGuk/Ly4kh
- KFDblTzB3dY/KK1drHQ==
-X-Proofpoint-ORIG-GUID: B2dVXln_cES3kCaSzN_iZrgGuOVe3uR3
-X-Authority-Analysis: v=2.4 cv=dfmwG3Xe c=1 sm=1 tr=0 ts=6a231163 cx=c_pps
- a=cFYjgdjTJScbgFmBucgdfQ==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=BnH1jSTHCRmwS-4C6JUA:9 a=scEy_gLbYbu1JhEsrz4S:22
-X-Proofpoint-GUID: B2dVXln_cES3kCaSzN_iZrgGuOVe3uR3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-05_03,2026-06-05_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 adultscore=0 impostorscore=0 phishscore=0
- priorityscore=1501 spamscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606050179
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v1 2/3] early: usb: xhci-dbc: Handle out of bounds
+ xhci-xdbc capability
+To: Umang Jain <uajain@igalia.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Lucas De Marchi <demarchi@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com
+References: <20260604144122.962236-1-uajain@igalia.com>
+ <20260604144122.962236-3-uajain@igalia.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20260604144122.962236-3-uajain@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The dwc3 driver currently defers probe if the USB power supply is not yet
-registered. On some platforms, even though charging and power supply
-functionality is available during normal operation, there may exist
-minimal booting modes (such as recovery or diagnostic environments) where
-the relevant USB power supply device is not registered. In such cases,
-probe deferral prevents USB gadget operation entirely.
+Hi
 
-USB data functionality for basic operation does not inherently depend on
-the power supply framework, which is only required for enforcing VBUS
-current control. The configured VBUS current limit is typically enforced
-through the charger or PMIC power path. When charging functionality is
-unavailable, applying a current limit has no practical effect, reducing
-the benefit of strict probe-time enforcement in these environments.
+On 6/4/26 17:41, Umang Jain wrote:
+> Currently, the early xhci-dbc assumes that the extended capability
+> can be mapped within the fixed boot time mappings dictated by
+> NR_FIX_BTMAPS.
+> 
+> This patch iterates over the PCI BAR address size to find and map
+> xhci-xdbc capability which could be out-of-bounds otherwise,
+> in xdbc_map_pci_mmio(). The iterations map the maximum allowed
+> boot time mappings (fixmap size) at a time and search for xhci-xdbc
+> capability offset, till the end of the bar address size.
+> 
 
-Instead of deferring probe, register a power supply notifier when the
-USB power supply is not yet available. Cache the requested VBUS current
-limit and apply it once the matching power supply becomes available, as
-notified through the registered callback.
+Patch 1/3 can probably be merged into this one.
 
-Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
----
-Changes in v3:
- - Introduced DWC3_CURRENT_UNSPECIFIED macro to replace UINT_MAX for
-   improved code readability.
- - Enhanced dwc3_gadget_vbus_draw() to return success when power supply
-   is expected but not ready yet, and only return -EOPNOTSUPP when truly
-   not supported.
- - Link to v2: https://lore.kernel.org/all/20260526183016.3501307-1-elson.serrao@oss.qualcomm.com/
+> Signed-off-by: Umang Jain <uajain@igalia.com>
+> ---
+>   drivers/usb/early/xhci-dbc.c | 47 +++++++++++++++++++++++++++++++++---
+>   1 file changed, 44 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/early/xhci-dbc.c b/drivers/usb/early/xhci-dbc.c
+> index 8ce362a90910..1f6a129d4b5d 100644
+> --- a/drivers/usb/early/xhci-dbc.c
+> +++ b/drivers/usb/early/xhci-dbc.c
+> @@ -35,10 +35,13 @@ static bool early_console_keep;
+>   static inline void xdbc_trace(const char *fmt, ...) { }
+>   #endif /* XDBC_TRACE */
+>   
+> +#define XDBC_MAPPING_SIZE 56
+> +
 
-Changes in v2:
- - Removed notifier unregistration from the vbus_draw work function to
-   avoid a race with remove callback.
- - Added an early psy registration check in the notifier callback.
- - Moved power supply registration check after notifier registration
-   in dwc3_get_usb_power_supply() to address the race identified in v1.
- - Link to v1: https://lore.kernel.org/all/20260407232410.4101455-1-elson.serrao@oss.qualcomm.com/
----
- drivers/usb/dwc3/core.c   | 99 +++++++++++++++++++++++++++++++++------
- drivers/usb/dwc3/core.h   |  6 +++
- drivers/usb/dwc3/gadget.c | 15 +++++-
- 3 files changed, 104 insertions(+), 16 deletions(-)
+I know spec says 56 bytes, but when looking at the Debug capability structure
+in xhci section 7.6.8. it looks like 64 bytes.
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 58899b1fa96d..8558bd3f38ea 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -2192,22 +2192,89 @@ static void dwc3_vbus_draw_work(struct work_struct *work)
- 			ret, dwc->current_limit);
- }
- 
--static struct power_supply *dwc3_get_usb_power_supply(struct dwc3 *dwc)
-+static int dwc3_psy_notifier(struct notifier_block *nb,
-+			     unsigned long event, void *data)
- {
--	struct power_supply *usb_psy;
--	const char *usb_psy_name;
-+	struct dwc3 *dwc = container_of(nb, struct dwc3, psy_nb);
-+	struct power_supply *psy = data;
-+	unsigned long flags;
-+
-+	if (dwc->usb_psy)
-+		return NOTIFY_DONE;
-+
-+	if (strcmp(psy->desc->name, dwc->usb_psy_name) != 0)
-+		return NOTIFY_DONE;
-+
-+	/* Explicitly get the reference for this psy */
-+	psy = power_supply_get_by_name(dwc->usb_psy_name);
-+	if (!psy)
-+		return NOTIFY_DONE;
-+
-+	spin_lock_irqsave(&dwc->lock, flags);
-+	/*
-+	 * The USB power_supply may already be set. This can happen if notifier
-+	 * callbacks for the USB power_supply race, or if a previous notifier
-+	 * callback has already successfully fetched and associated the instance.
-+	 * In such cases, release the newly acquired reference and ignore
-+	 * subsequent notifications until the notifier is unregistered.
-+	 */
-+	if (dwc->usb_psy) {
-+		spin_unlock_irqrestore(&dwc->lock, flags);
-+		power_supply_put(psy);
-+		return NOTIFY_DONE;
-+	}
-+
-+	dwc->usb_psy = psy;
-+	if (dwc->current_limit != DWC3_CURRENT_UNSPECIFIED)
-+		schedule_work(&dwc->vbus_draw_work);
-+	spin_unlock_irqrestore(&dwc->lock, flags);
-+
-+	return NOTIFY_OK;
-+}
-+
-+static void dwc3_get_usb_power_supply(struct dwc3 *dwc)
-+{
-+	struct power_supply *psy;
-+	unsigned long flags;
- 	int ret;
- 
--	ret = device_property_read_string(dwc->dev, "usb-psy-name", &usb_psy_name);
-+	ret = device_property_read_string(dwc->dev, "usb-psy-name", &dwc->usb_psy_name);
- 	if (ret < 0)
--		return NULL;
--
--	usb_psy = power_supply_get_by_name(usb_psy_name);
--	if (!usb_psy)
--		return ERR_PTR(-EPROBE_DEFER);
-+		return;
- 
- 	INIT_WORK(&dwc->vbus_draw_work, dwc3_vbus_draw_work);
--	return usb_psy;
-+
-+	dwc->current_limit = DWC3_CURRENT_UNSPECIFIED;
-+	dwc->psy_nb.notifier_call = dwc3_psy_notifier;
-+	ret = power_supply_reg_notifier(&dwc->psy_nb);
-+	if (ret) {
-+		dev_err(dwc->dev, "Failed to register power supply notifier: %d\n", ret);
-+		dwc->psy_nb.notifier_call = NULL;
-+		return;
-+	}
-+
-+	psy = power_supply_get_by_name(dwc->usb_psy_name);
-+	if (!psy)
-+		return;
-+
-+	/* Unregister the notifier now that we have the power supply */
-+	power_supply_unreg_notifier(&dwc->psy_nb);
-+	dwc->psy_nb.notifier_call = NULL;
-+
-+	spin_lock_irqsave(&dwc->lock, flags);
-+	/*
-+	 * It is possible that the notifier callback ran before we reached here
-+	 * and successfully fetched the power supply. In that case we need to
-+	 * release the above reference.
-+	 */
-+	if (dwc->usb_psy) {
-+		spin_unlock_irqrestore(&dwc->lock, flags);
-+		power_supply_put(psy);
-+		return;
-+	}
-+
-+	dwc->usb_psy = psy;
-+	spin_unlock_irqrestore(&dwc->lock, flags);
- }
- 
- int dwc3_core_probe(const struct dwc3_probe_data *data)
-@@ -2255,9 +2322,9 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
- 
- 	dwc3_get_software_properties(dwc, &data->properties);
- 
--	dwc->usb_psy = dwc3_get_usb_power_supply(dwc);
--	if (IS_ERR(dwc->usb_psy))
--		return dev_err_probe(dev, PTR_ERR(dwc->usb_psy), "couldn't get usb power supply\n");
-+	spin_lock_init(&dwc->lock);
-+
-+	dwc3_get_usb_power_supply(dwc);
- 
- 	if (!data->ignore_clocks_and_resets) {
- 		dwc->reset = devm_reset_control_array_get_optional_shared(dev);
-@@ -2309,7 +2376,6 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
- 		dwc->num_usb3_ports = 1;
- 	}
- 
--	spin_lock_init(&dwc->lock);
- 	mutex_init(&dwc->mutex);
- 
- 	pm_runtime_get_noresume(dev);
-@@ -2377,6 +2443,8 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
- err_assert_reset:
- 	reset_control_assert(dwc->reset);
- err_put_psy:
-+	if (dwc->psy_nb.notifier_call)
-+		power_supply_unreg_notifier(&dwc->psy_nb);
- 	if (dwc->usb_psy)
- 		power_supply_put(dwc->usb_psy);
- 
-@@ -2433,6 +2501,9 @@ void dwc3_core_remove(struct dwc3 *dwc)
- 
- 	dwc3_free_event_buffers(dwc);
- 
-+	if (dwc->psy_nb.notifier_call)
-+		power_supply_unreg_notifier(&dwc->psy_nb);
-+
- 	if (dwc->usb_psy) {
- 		cancel_work_sync(&dwc->vbus_draw_work);
- 		power_supply_put(dwc->usb_psy);
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index e0dee9d28740..d722d3f1402a 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -677,6 +677,8 @@
- /* Force Gen1 speed on Gen2 link */
- #define DWC3_LLUCTL_FORCE_GEN1		BIT(10)
- 
-+#define DWC3_CURRENT_UNSPECIFIED	UINT_MAX
-+
- /* Structures */
- 
- struct dwc3_trb;
-@@ -1059,6 +1061,8 @@ struct dwc3_glue_ops {
-  * @role_switch_default_mode: default operation mode of controller while
-  *			usb role is USB_ROLE_NONE.
-  * @usb_psy: pointer to power supply interface.
-+ * @usb_psy_name: name of the USB power supply
-+ * @psy_nb: power supply notifier block
-  * @vbus_draw_work: Work to set the vbus drawing limit
-  * @current_limit: How much current to draw from vbus, in milliAmperes.
-  * @usb2_phy: pointer to USB2 PHY
-@@ -1251,6 +1255,8 @@ struct dwc3 {
- 	enum usb_dr_mode	role_switch_default_mode;
- 
- 	struct power_supply	*usb_psy;
-+	const char		*usb_psy_name;
-+	struct notifier_block	psy_nb;
- 	struct work_struct	vbus_draw_work;
- 	unsigned int		current_limit;
- 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 3d4ca68e584c..c36d2a949231 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -3124,15 +3124,26 @@ static void dwc3_gadget_set_ssp_rate(struct usb_gadget *g,
- static int dwc3_gadget_vbus_draw(struct usb_gadget *g, unsigned int mA)
- {
- 	struct dwc3		*dwc = gadget_to_dwc(g);
-+	unsigned long		flags;
- 
- 	if (dwc->usb2_phy)
- 		return usb_phy_set_power(dwc->usb2_phy, mA);
- 
--	if (!dwc->usb_psy)
--		return -EOPNOTSUPP;
-+	spin_lock_irqsave(&dwc->lock, flags);
-+	if (!dwc->usb_psy) {
-+		if (!dwc->psy_nb.notifier_call) {
-+			spin_unlock_irqrestore(&dwc->lock, flags);
-+			return -EOPNOTSUPP;
-+		}
-+		dwc->current_limit = mA;
-+		spin_unlock_irqrestore(&dwc->lock, flags);
-+		dev_dbg(dwc->dev, "Stored VBUS draw: %u mA (power supply not ready)\n", mA);
-+		return 0;
-+	}
- 
- 	dwc->current_limit = mA;
- 	schedule_work(&dwc->vbus_draw_work);
-+	spin_unlock_irqrestore(&dwc->lock, flags);
- 
- 	return 0;
- }
--- 
-2.34.1
+>   static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
+>   {
+> -	u64 val64, sz64, mask64;
+> +	u64 val64, sz64, mask64, fixmap_size, mapped_size;
+>   	void __iomem *base;
+> +	int offset;
+>   	u32 val, sz;
+>   	u8 byte;
+>   
+> @@ -85,8 +88,46 @@ static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
+>   
+>   	xdbc.xhci_start = val64;
+>   	xdbc.xhci_length = sz64;
+> -	base = early_ioremap(val64, sz64);
+> -	xdbc.xhci_base_length = sz64;
+> +
+> +	fixmap_size = NR_FIX_BTMAPS << PAGE_SHIFT;
+> +	if (sz64 < fixmap_size) {
+> +		xdbc.xhci_base_length = sz64;
+> +		return early_ioremap(val64, sz64);
+> +	}
+> +
+> +	/*
+> +	 * Base address size is greater than fixed size boot mappings,
+> +	 * hence iterate over the region one fixmap_size at a time.
+> +	 */
+> +	base = early_ioremap(val64, fixmap_size);
+> +	offset = xhci_find_next_ext_cap(base, 0, 0);
+> +	mapped_size = fixmap_size;
+> +
+> +	while (mapped_size <= sz64) {
+> +		val = readl(base + offset);
+> +		if (XHCI_EXT_CAPS_ID(val) == XHCI_EXT_CAPS_DEBUG) {
+> +			if (offset + XDBC_MAPPING_SIZE > fixmap_size) {
+> +				early_iounmap(base, fixmap_size);
+> +				base = early_ioremap(val64 + offset, XDBC_MAPPING_SIZE);
 
+Took a closer look and it turns out we do sometimes need to touch registers in other
+extended capabilities. Mainly BIOS handoff in XHCI_EXT_CAPS_LEGACY and port reset in
+XHCI_EXT_CAPS_PROTOCOL
+
+In the case where xHC size is larger than early_ioremap() allows I would just
+early_ioremap() maximum allowed size once, starting from xdbc.xhci_start.
+Then walk the extended capabilities list ensuring DbC and the other needed capabilities
+are inside this maximum allowed size.
+early_iounmap() and fail if not.
+   
+This way we can also access the normal xHC host registers in case we need to reset the
+controller, or ensure the 'controller not ready' bit is clear.
+
+Thanks
+Mathias
