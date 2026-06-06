@@ -1,251 +1,202 @@
-Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CCF3AA1BD
-	for <linux-usb@vger.kernel.org>; Sat,  6 Jun 2026 13:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780751647; cv=none; b=Bl5CRIEDq4n4PMtzmA7HKeqK2ga92gEWuBkZBUfIACy+ABJtte2nLFbPne5/dO32peK3XSTtX0ToFAs441Xb3pRBbTmLimwr8nMXzpmdyO1rpNAYDn23yqj00EwuQ2FQsxEmAVIrFr2bxKOVZOdn+XIWVgqXF99WE8/+NVywLaE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780751647; c=relaxed/simple;
-	bh=MQQ0AfwZago4VrMo3jZ/jTEjuQu9LYEWWIxY/ejqxIs=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACF53C465
+	for <linux-usb@vger.kernel.org>; Sat,  6 Jun 2026 16:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780762874; cv=pass; b=tefnF+/5mBuYkIdKYwmykQIBLkoKOmH5OJQB2Y4HLnbUTQeofYPGoaL+pBBURmp+5xSh4bWYokoFKcvMUj+7AtU1VAL1udMeyAxsvApd0yj9hB7WxNpdBL2cXNbcu3Jv/mkTzRjvUKFr6JqB67DU77PEuu7v8VTxia7VBTwaB5U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780762874; c=relaxed/simple;
+	bh=voskKoDWPHE+Uu9qrc416JkEFOplRaD/gEc3pV0HX6A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QSoCz0mCDu1bhKhFjLqd+QGwyHT+/8Tv9DwJVuBHV11y2IzTGb13aHIkhUTN9ML6n0Rl4WWLU/pLxxMaOtlPrscame+tafpThmngjXU/UqsvHOMG0R1YfP4YxuLan3k29nmZDmvJ80o7PTnedEumu/EfNchVv2+YI5y2KH20ZUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=ev3s9v9U; arc=none smtp.client-ip=78.46.171.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	 To:Cc:Content-Type; b=tbMXXdOPoZbL8NfiueKGY9IyToiewyRsK6TzBhHnbX5nQ1hdFqjzLP+dLwijMxL5vGFW64TtDBNzLS59Y4NtW6FWAC+7K/rTiXK4PlPq1b+o3xSgyLOKw6jY7gC8XEAyF8I5F2ksqoE1gs1YJEn5hXPwEazg+b3sxy0YHasR2bU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Se7OY8Rx; arc=pass smtp.client-ip=209.85.160.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="ev3s9v9U"
-Received: from relay11 (localhost.localdomain [127.0.0.1])
-	by relay11.grserver.gr (Proxmox) with ESMTP id A74B8BDF42
-	for <linux-usb@vger.kernel.org>; Sat,  6 Jun 2026 16:13:56 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay11.grserver.gr (Proxmox) with ESMTPS id DCA7CBDF43
-	for <linux-usb@vger.kernel.org>; Sat,  6 Jun 2026 16:13:55 +0300 (EEST)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id 438561FF377
-	for <linux-usb@vger.kernel.org>; Sat,  6 Jun 2026 16:13:55 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1780751635;
-	bh=tGPrzwROkr8Aj3gANFYqST6rj2cZml9l2vibQA13lZI=;
-	h=Received:From:Subject:To;
-	b=ev3s9v9UIFuzQnC9vRk322qz+naSwgee0/mb4jOCkSogQaot90rW74TZcWJzlhKbG
-	 DI6qZiccguIZ3ddVbVhtgUcMO23XOMtKm2fwF3BiP7eEN+E+3es22zIXHbSz2vANk5
-	 Y1XaQ0yxbIoazNOXV3/S8+QkLTdvykWeVsU5zr+AmDfJUG07YOa075uRTpjPyEhx9o
-	 apXq48FPEh3h2pItay8CWdVQS15Te9JXakbgbwC9G19VxcJQVxmensD2PL7SFWFyhf
-	 y+cXkPtDPFiGIy2e+LdDONjCaqnn4CbpqHBpU1mCMTfMJztVRcfLsXzmFH9CWvZN69
-	 1rGnU2UoS7Xkw==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.214.179) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pl1-f179.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-pl1-f179.google.com with SMTP id
- d9443c01a7336-2bf1f074a12so29835385ad.0
-        for <linux-usb@vger.kernel.org>; Sat, 06 Jun 2026 06:13:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AFNElJ9eAY+vbc6lniYhapSetcge0FBK70lN079rRZZIpmtM1aIs0onZ+3pShu0Nlc9sguxSVEMFKtnmi4k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwTDggR+C21XpOov2e4I4RAmMHMxn1andzXnDCS3RsN2wF4AiO
-	Kktxo0+dG380CBOXfa8oDETneZPjn79FPZx0tLn5LJe2OWtTVfDk0erWhiq1jHyeOvKuyTE2+qB
-	3887JS8dotX4OVRASbUaS1jnqKhFib3Q=
-X-Received: by 2002:a17:902:e5d2:b0:2c0:cb90:1dfc with SMTP id
- d9443c01a7336-2c1e8219fccmr96708585ad.12.1780751633760; Sat, 06 Jun 2026
- 06:13:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Se7OY8Rx"
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-43d2c7b5a6aso2435938fac.0
+        for <linux-usb@vger.kernel.org>; Sat, 06 Jun 2026 09:21:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780762872; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kB910/qXTgSDJ1ygBU5gksic/01CkbI84s02MngWYnrjtAhP+utnZW8uxHrSikvvrQ
+         bAmzH5rxthHws0jCcmpRoai6snpa6fu8oCtwueM5F/zkIlmIHdAyXPR837YRfbtqzqVT
+         fNkqBcE86Lxn2GjbXR04aC2vqbgislH1bgIiZjfq//zSxrPsDeF71HdTUyWg6w+kihB+
+         I7GXUtD3GWt2ZPYLtLepOEdMoFkToBuLcYvIXRTwf1SudSN+ItN1EVTHq8T1WLlupSNR
+         uKzz3Kl9fL8mlYy5FuORJlGLI1BxqRvmEM0zm72BMY1/cVGVC205BLGByoBNuDL/Y5mh
+         7ziw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HK40qccduOwQq/qFGZ7tmPfZl76Rn6FHYBs8acZC5LA=;
+        fh=42sIzb7E6Vihku2tQi7hgo28LxxYtywTmv2BxYUE6n4=;
+        b=AC/v8ivoJQ951ipNjCUWq0XL09bQOr1G4qLhvmIP0zTlMihUkHlNgB8ElTq7tFWPru
+         pE5j0e+JhJ7/rkPYpNmq7UjP2oaVQVpHKnUwUjJtpu7f4BuGxhoyeJwhANPJQaW3+HFg
+         wLVUfuPq7OngdquSRJaXE0JFjMP5Nf+1CSZnIuTdDnAK3KY6xNBMYV2rKx3Bh0SA2olC
+         hs/wtzUqHw8iW3C0AGYK5n/iwNhsRCOHnk33VkIFLuVHUCCupV18N2mGdJCId1Rg6l5M
+         bwlPllPbbqn6K2PfvPrQKXH8NAirjNoYrfjtdl0cMLFeY/gqeTdYLCaR78IUPeK4mG3c
+         JstQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780762872; x=1781367672; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HK40qccduOwQq/qFGZ7tmPfZl76Rn6FHYBs8acZC5LA=;
+        b=Se7OY8RxN5v1NkYlWCPsmtPgMEJkv7zfry+scZK1O85vr8ZHKHeDc8UX0o11ez9hqZ
+         CAcAyjA8IO2OSoGOvvamRi95RAIxLcqg9KYsE2kFwghxcqTBTCJS3pc/JBVKQEzU/xjG
+         nt3N9HZOEq/+mbnJWNh0U58Eo2J5JasgK+GsBgB3YurfiP9vtSL+dAZOzY5pO1QuTA7V
+         43ks08xgXuHltlQ/zB9NR0Erig56uWyprJL4DjqPjzY4yQDKacALmRO9f3KdptEwA0Cs
+         Kp7GSv0LVvH832hmqyD0W581EEbasEF7fUG44VE9P2nC/M+ZkhoN+tvm3Gawj4IMav6D
+         jLjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780762872; x=1781367672;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HK40qccduOwQq/qFGZ7tmPfZl76Rn6FHYBs8acZC5LA=;
+        b=ae6vEsz0+MKA4iPLdWrTwdrZgVCRFuIowAAdy+itkL0j5MVueyAmTSA8hL7I4bLh8x
+         9ofl9QRcATP2lYOr0yrGgIyOeON+Vzk7hHx1YA36fIfPm0Z1C1NtBHcnUm2jy3Dsfw+Q
+         zRIE7K+z4lJeh+f2HD3LUDnKNMI8f9BFfpteOsN1WBB/0zmErPXClvnltnvDtUExPcWQ
+         g0E7KqyNgMtEblvKWugZS6cUmnEMKW7EctO4dkR8ivYGKAuDGQdO2Ni067PLUVDjjhRX
+         Wo9xfvlr6slZTUz2lzjbXVDmc/zW4vkyMotoOud0a/gvqvEmI88f7WThj7vgTUkDNf8U
+         o4dQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+gMsQpyDzzZLt0zNXa43Pxx6b/arY+nJ3FfnW3JVSgCZo6dnn4Hy2CANXAkszUr1LLUWyJtk5Niwc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzbv5qKkdeOUUgmsLrP386jGjGBL3/9zv3ICPyiPyKuoIBJcNgU
+	JSydWjQBk/IuaTKgRzyb8fIdf8brIaiXHhkNAUK4jv+0+hyrJUroaYcsaUUEFtd+bU+AjsVf751
+	kaIgVEEDWhBh+S9QdaFdIjtmDFztk2AOPJMfmXrp3
+X-Gm-Gg: Acq92OEVaRluubs0Rsdlfr5QnZWnt4CgFHYSczaRt5YfYDfowRFs5ZowOiO9KYjrvy5
+	Gs8sXbsE/o03Vl3hXfT+DR5dvOORvOj8h+aoVKKoyC98m2+gup0q7Q580WjxOWaZt8EDvTOol++
+	cUMoZZYBr5f+Yz3AFMHVYxjenjo9px4SF2dA01h/zBDR+SHchl36RvOi6WJbCk1VkWtS3su+YNB
+	lQstl5krwKAOXH8YCHsOzmsenuh6VgrCWM6JY1+y7JWUuFIKkUhaL2M1J8/7vTjYLW+9wSJQGoN
+	t0nuSqCS6d9zqH3MkU0F01uJCP/GvbPMwQhUwGWY5kCaXfzvzIVmo1mqW3zo
+X-Received: by 2002:a05:6820:188f:b0:69b:bf80:2db3 with SMTP id
+ 006d021491bc7-69e68c589cdmr5366672eaf.44.1780762871265; Sat, 06 Jun 2026
+ 09:21:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260605113952.38435-1-yaseen@ghoul.dev>
- <CAGwozwFWbW=v2B7ruS4OUGuPhjSayw4Qxj3K+bCzwmgQu158Ng@mail.gmail.com>
- <ceb5ed4b-1654-463d-9cff-4a1b91d52e92@gmail.com>
-In-Reply-To: <ceb5ed4b-1654-463d-9cff-4a1b91d52e92@gmail.com>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Sat, 6 Jun 2026 15:13:42 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwFMm2o2G-fOixvu+QVXGsDC+E81+1Nsk4kQ7xbpnvhVPg@mail.gmail.com>
-X-Gm-Features: AVVi8Cf0lQoiepH8dKUlun1vleyOXTgJuvJmAvkdSxvlVS4rbo2oh84ki8XgtAw
-Message-ID: 
- <CAGwozwFMm2o2G-fOixvu+QVXGsDC+E81+1Nsk4kQ7xbpnvhVPg@mail.gmail.com>
-Subject: Re: [PATCH] HID: usbhid: skip interrupt IN polling for devices with
- no input reports
-To: Denis Benato <benato.denis96@gmail.com>
-Cc: Ahmed Yaseen <yaseen@ghoul.dev>, Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Kerim Kabirov <the.privat33r+linux@pm.me>, GameBurrow <gameburrow@pm.me>,
- linux-usb@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <ah2Kwlm6Gm0rMvKt@kuha> <20260603031827.3692374-1-lucas_tsai@richtek.com>
+ <aiLJKjtKMmjxdyyI@kuha>
+In-Reply-To: <aiLJKjtKMmjxdyyI@kuha>
+From: Badhri Jagan Sridharan <badhri@google.com>
+Date: Sat, 6 Jun 2026 09:20:34 -0700
+X-Gm-Features: AVVi8CdQddCq6ZycOoR9n0u_uU8osQg36GRCK8ooDk3CW6J_D8RbNXg1UWWEZx8
+Message-ID: <CAPTae5Kpee+E2d0fwssEz=8dmGOmM09DmSma4nrSUJk5ygWbsg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] usb: typec: tcpci_rt1711h: add low power mode support
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: lucas_tsai@richtek.com, cy_huang@richtek.com, gregkh@linuxfoundation.org, 
+	kevin_hung@richtek.com, linux-usb@vger.kernel.org, ren_chen@richtek.com
 Content-Type: text/plain; charset="UTF-8"
-X-PPP-Message-ID: 
- <178075163547.1737632.9104431119585573019@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.3 at linux3247.grserver.gr
-X-Virus-Status: Clean
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 6 Jun 2026 at 14:42, Denis Benato <benato.denis96@gmail.com> wrote:
+On Fri, Jun 5, 2026 at 6:03=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
 >
->
-> On 6/5/26 14:02, Antheas Kapenekakis wrote:
-> > On Fri, 5 Jun 2026 at 13:40, Ahmed Yaseen <yaseen@ghoul.dev> wrote:
-> >> usbhid starts polling a device's interrupt IN endpoint on open
-> >> (usbhid_open() -> hid_start_in()). If the report descriptor declares no
-> >> input reports there is nothing to read there, so the poll is useless,
-> >> and on some composite devices it is also harmful.
-> > If it did have input reports, would starting the polling still cause
-> > issues? Because if it would, the issue is in the polling itself.
-> So far we haven't found an asus device that has more than one interface
-> that supports reading data out of if.
-> > Given the creativity of manufacturers when implementing hid protocols,
-> > I find it certain that they do use the in endpoint even without input
-> > reports. E.g., for feature reports. This could cause regressions.
-> While I mostly agree with this it is also true that the general direction
-> for the kernel (especially lately) has been to not do out-of-spec things
-> at least by default.
->
-> If things really regress it's expected to do so only an very few specific
-> devices with a buggy firmware, and we can think of something different
-> for those (hopefully very few ones).
->
-> Perhaps someone concerned with security might be interested in what
-> we have because it doesn't look very normal.
->
-> Note that below I have written a few ideas that maybe are worth
-
-The degradation would be silent.
-
-> looking into.
-> >> The ASUS ROG N-Key keyboards expose a second, input-less interface used
-> >> only for RGB control via feature reports. Opening its hidraw node (any
-> >> hidraw reader does, including SDL/Steam Input or a plain cat) starts the
-> > cating a hidraw causing issues would be expected, so let's focus on the former.
-
-Try to add spaces before and after your responses
-
-> Simply opening an hidraw should not trigger a delayed disconnect of that device,
-> I don't know why you would expect this to happen nor why you would
-> consider it acceptable. It's a bug.
->
-> Focusing on userspace software exposing the bug is not a realistic option
-> because over the time we found a good chunk of software doing that:
-> - logitech control software (forgot the name)
-> - open razer software
-> - sdl
-> - asusctl (obviously it opens the device albeit in the future I will change this)
->
-> and likely more given the fact not all software was identified.
-> > Asusctl has a bug where if you add the quirk that separates the event
-> > nodes per hid, this bug is reproduced as well. I chucked it to
-> > complicated threading getting out of control. It is the reason we
-> > skipped that patch that was in my series.
-> I found and solved the bug already. Regardless the issue remains:
-> Even with no asusctl at all, if a user has one logitech mouse
-> (and its control software) and a razer keyboard (and its control software)
-> the asus N-Key device will start an endless disconnect-reconnect loop.
->
-> Any combination of two or more of those tools will trigger the issue
-> on some devices (weirdly enough not every model is affected):
->
-> this is not good.
-> > Now, you say SDL/Steam do a spurious read as well, can you identify
-> > the codepath so we can look into it? What devices are affected? The
-> > early return fixes a warning on the Z13, but it also feeds through the
-> > universal lamp interface on the new Xbox Allies. Is this a bug on
-> > those devices or keyboards? If yes, it could be caused by userspace
-> > hanging on that node
-> Sure, and I agree with you that fixing all userspace tools is desirable
-> but it's also unfeasible to fix them all, if we managed to do that
-> there will be years before everyone receives a fixed version of every
-> affected software and even then a core issue would remain:
-> linux tries to poll something it can't have anything out from.
->
-> I am much more oriented on the fact that kernel shouldn't
-> be doing weird things (at least not by default) so this has to
-> somehow be stopped regardless of how well userspace behaves.
-
-The kernel is not doing weird things and I also did not ask you to fix
-all userspace software. I asked for a reproduction scenario, as it is
-not covered in the patch description. Relooking at the patch today, I
-also do not understand what it does fully.
-
-It skips enabling input interrupts (but not only that) for devices
-that have no input reports. So the kernel behavior will depend on the
-feature descriptor moving forward.
-
-And that fixes a hang on the affected devices because enabling
-interrupts on an endpoint without periodic input reports blocks a
-parallel endpoint that does have input reports?
-
-I would like this fix to target the actual cause that causes the block
-but it is not clear to me what that is or what is affected.
-
-Antheas
-
-> If you have better ideas on how to fix the kernel we would
-> like to hear those as well.
->
-> Best regards,
-> Denis
-> > Antheas
+> On Wed, Jun 03, 2026 at 11:18:27AM +0800, lucas_tsai@richtek.com wrote:
+> > On Mon, Jun 01, 2026 at 04:36:02PM +0300, Heikki Krogerus wrote:
+> > > Hi,
+> > >
+> > > I'm sorry to keep you waiting.
+> > >
+> > > On Mon, May 18, 2026 at 05:15:14PM +0800, cy_huang@richtek.com wrote:
+> > > > From: Lucas Tsai <lucas_tsai@richtek.com>
+> > > >
+> > > > Add low power mode support,
+> > > > add the op to enter and exit low power mode,
+> > > > this mode reduce RT1711H/RT1715 VDD Iq to 1 of 10,
+> > >
+> > > What is VDD Iq?
+> > >
 > >
-> >> pointless IN poll and keypress reports on the keyboard interface get
-> >> dropped for as long as the node stays open: a lost key-down drops a
-> >> letter, a lost key-up leaves the key stuck. usbmon shows the dropped
-> >> reports never reach the URB layer.
-> >>
-> >> The useless poll itself is long-standing; commit 4ac74ea68f64 ("HID:
-> >> asus: early return for ROG devices") is what exposes it on these
-> >> devices by keeping the input-less interface alive instead of ejecting
-> >> it, so its hidraw node can be opened and the poll started.
-> >>
-> >> Skip the poll in usbhid_open() when the device has no input reports.
-> >> Feature reports and hidraw output keep working over the control and OUT
-> >> endpoints, so the interface is otherwise unaffected.
-> I will write my review here to avoid forking the discussion:
+> > VDD pin is RT1715's power input,
+> > and Iq is the quiescent current,
+> > so the low power mode reduces the baseline power used by RT1715.
 >
-> I agree with the general idea but perhaps we can avoid
-> some hid devices to ever get HID_QUIRK_ALWAYS_POLL
-> and that might be enough to skip the problematic code?
+> Got it, thanks. Please add that explanation to the commit message.
 >
-> Maybe there is value in doing this with a quirk flag in hid-asus.c
-> affecting the least amount of devices?
->
-> Or maybe just prevent devices with no data possibly coming out
-> to ever get HID_QUIRK_ALWAYS_POLL?
->
-> For how to best do this we will need to hear what Jiri and
-> Benjamin have to say but if they think the proposed solution
-> is the correct solution:
->
-> Reviewed-by: Denis Benato <denis.benato@linux.dev>
-> >> Fixes: 4ac74ea68f64 ("HID: asus: early return for ROG devices")
-> >> Tested-by: Kerim Kabirov <the.privat33r+linux@pm.me>
-> >> Tested-by: GameBurrow <gameburrow@pm.me>
-> >> Signed-off-by: Ahmed Yaseen <yaseen@ghoul.dev>
-> >> ---
-> >>  drivers/hid/usbhid/hid-core.c | 3 ++-
-> >>  1 file changed, 2 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-> >> index 96b0181cf819..90a8b34d9305 100644
-> >> --- a/drivers/hid/usbhid/hid-core.c
-> >> +++ b/drivers/hid/usbhid/hid-core.c
-> >> @@ -688,7 +688,8 @@ static int usbhid_open(struct hid_device *hid)
-> >>
-> >>         set_bit(HID_OPENED, &usbhid->iofl);
-> >>
-> >> -       if (hid->quirks & HID_QUIRK_ALWAYS_POLL) {
-> >> +       if ((hid->quirks & HID_QUIRK_ALWAYS_POLL) ||
-> >> +           list_empty(&hid->report_enum[HID_INPUT_REPORT].report_list)) {
-> >>                 res = 0;
-> >>                 goto Done;
-> >>         }
-> >> --
-> >> 2.54.0
-> >>
-> >>
-> >>
->
+> > > > while disabling VBUS detection and PD BMC
+> > > > but keeping CC detection and not affecting DRP toggling.
+> > > >
+> > > > Signed-off-by: Lucas Tsai <lucas_tsai@richtek.com>
+> > > > ---
+> > > >  drivers/usb/typec/tcpm/tcpci_rt1711h.c | 14 ++++++++++++++
+> > > >  1 file changed, 14 insertions(+)
+> > > >
+> > > > diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/t=
+ypec/tcpm/tcpci_rt1711h.c
+> > > > index 4b3e4e22a82e..48d6a6823ab9 100644
+> > > > --- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
+> > > > +++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
+> > > > @@ -20,6 +20,7 @@
+> > > >
+> > > >  #define RT1711H_PHYCTRL1 0x80
+> > > >  #define RT1711H_PHYCTRL2 0x81
+> > > > +#define RT1711H_BMCCTRL          0x90
+> > > >
+> > > >  #define RT1711H_RTCTRL4          0x93
+> > > >  /* rx threshold of rd/rp: 1b0 for level 0.4V/0.7V, 1b1 for 0.35V/0=
+.75V */
+> > > > @@ -254,6 +255,18 @@ static int rt1711h_start_drp_toggling(struct t=
+cpci *tcpci,
+> > > >   return 0;
+> > > >  }
+> > > >
+> > > > +static void rt1711h_set_low_power_mode(struct tcpci *tcpci,
+> > > > +                                struct tcpci_data *tdata, bool ena=
+ble)
+> > > > +{
+> > > > + int ret;
+> > > > + struct rt1711h_chip *chip =3D tdata_to_rt1711h(tdata);
+> > > > +
+> > > > + ret =3D rt1711h_write8(chip, RT1711H_BMCCTRL, enable ? 0x08 : 0x0=
+7);
+> > > > + if (ret < 0)
+> > > > +         dev_err(chip->dev, "%s lpm fail(%d)\n",
+> > > > +                 enable ? "enter" : "exit", ret);
+> > > > +}
 
+Any reason why cant rt1711h_set_low_power_mode() be called from
+rt1711h_init_cc_params() and rt1711h_start_drp_toggling() ?
+rt1711h_start_drp_toggling() can enable low power mode.
+rt1711h_init_cc_params(), which is already aware of CC status, can
+disable low power mode when a source or sink is detected.
+This approach would avoid adding a new callback in tcpci.c.
+
+If the above works, you could optionally rely on runtime pm callbacks
+to call rt1711h_set_low_power_mode() and increment/decrement the usage
+count in  rt1711h_init_cc_params() and rt1711h_start_drp_toggling().
+
+> > >
+> > > Why couldn't this just be done in the PM suspend and resume
+> > > callbacks for this driver?
+> >
+> > Entering low power mode or not relates directly to the status of USB-C =
+port:
+> > enter low power mode when USB-C port attached nothing (unattached),
+> > and exit low power mode when attached with cable or device.
+> >
+> > In the other word, it is possible to have system suspended and USB-C
+> > port attached at the same time, so it is not suitable to bind the flow
+> > of low power mode to the PM suspend and resume.
+>
+> You don't have to do that in the system suspend callback, but you
+> still should do this in the runtime suspend callback, no?
+>
+> This is not a major thing, but mctp.c is a bit bloated, I want to make
+
+I believe Heikki was referring to tcpci.c here.
+
+> sure that adding this kind of callbacks is really necessary.
+>
+> Badhri, do you have time to check this series?
+>
+> thanks,
+>
+> --
+> heikki
