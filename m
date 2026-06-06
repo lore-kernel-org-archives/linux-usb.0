@@ -1,190 +1,169 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A13270575
-	for <linux-usb@vger.kernel.org>; Sat,  6 Jun 2026 02:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAB7230C63A
+	for <linux-usb@vger.kernel.org>; Sat,  6 Jun 2026 11:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780713645; cv=none; b=nSR+Qzf2CVm6v2UXGNZXeqI7Amc60zCFDuRkNaz605C0drlHjS7UYmMXmGngIPGNFAe4BwEuUNpFU4zUGku5Lr8n1UcDwqeDxIe0cl2QLTegTXiDGPqyOug/zhxs+vYYb8leZZwoKy7XKBVaH9bTvMgFg/KT8f4ZNw0jltjYkwQ=
+	t=1780744890; cv=none; b=nzzWPOOCVYQjYEBv3Y+ntE8yyT4UF6TG9n6xxW9dOdQBiuDOKo5lKi3tTqxl8nAkX08QMEOM6UmPrg9XViuhwh/owbrxC6bK0xgP/jJeAWcd4unuL4pXlKN5jlCt3l4dUktf32j7vPoBWyaVgSlN//4nr+ydDK2eTh13QMVmk/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780713645; c=relaxed/simple;
-	bh=M5Bi8ieqGgSX9vQ1NT8hurUhkbNY6pPyQdskgwNd82k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pmhb9em43yF0orGQbE4IfiFtxZrklMuQmrub7Xx9tnSM3w0xzVpVtMZlDHPgIAzB5VNEXivW9dWTnYgHdoQ5YIGMyRWX3fF6R7dy6aY8Kbsg/Vd64R4a/I0LXqnaffgC05SvgRTHV0E4UQ68ycyyedeX/g+Z+teNQ5n4KZ9jRnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=myPm84xg; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780744890; c=relaxed/simple;
+	bh=IO55ycN77ykj02j3o0MZ9btGWE/k+GO9wk67q5RYNTg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GXA1TNcT70seyOpleeCQymlIyaFnK5IqZOMd4uDZg0+KE+asAJNWtkKYgB2hZn2wu1owccRi7nHHGIGArAWNfPrwUXcH/pozMMFdMdhZrDfQC0jfDq7queK+1euQJFqfK11eKd8efBK8q1uUu/EdPCTyKMOwSph+eIq97kNnfi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pGDdeadf; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=iJKAcUk+; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="myPm84xg"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-36b8e1760ccso1633102a91.0
-        for <linux-usb@vger.kernel.org>; Fri, 05 Jun 2026 19:40:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pGDdeadf";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iJKAcUk+"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 656BGplx1302359
+	for <linux-usb@vger.kernel.org>; Sat, 6 Jun 2026 11:21:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=lQwX1eeP9EXpHD1YE+j4Cxtk
+	sRuCZmaeuF5xe4VQvg4=; b=pGDdeadf8tZKguvtsL8M4G44PZ0dZjOIy7ao3kua
+	+RnVqHDoN4IjClHLSzbb7tcW9YPVRH49CTnKqKk3pWGQWz/0snlqR6U7iFivX8RT
+	l3cw+p+XXZjY18/9cnYCtv8BXkuNWok1IOe8UHj452NL9V1KcGJMGPrgFgQVuRxU
+	IVI9k8IUlrEx8OzkAUYNidaBWdb1yKtX16gIKZbaXzMWmgQOqNRgPJsgOP2azE4n
+	h2G8vuYXibEQ+DCme706p31LYTYngC4Vd7d/qDh5ilBI+BgBFG958LHueBw+D4Ii
+	NPKTwQLw1Cp9LQY6/dw0fzgEa0HMTUdyihKl26ng1W6Mwg==
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com [209.85.217.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4embx68tpf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Sat, 06 Jun 2026 11:21:27 +0000 (GMT)
+Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-6cfd65ab97aso4139988137.1
+        for <linux-usb@vger.kernel.org>; Sat, 06 Jun 2026 04:21:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780713640; x=1781318440; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OnUZWQkJ/UT6kL1pJlMljxV5hMYiFMtGqMjvgMPjKdo=;
-        b=myPm84xgChtImCu0mL4QpMqL4H/zr+UqtMPY06UXC5SacM25e1MsZK1kJOlaY6iLA6
-         ciwmIJoJpipH9NZKE5b80NJn98G6x5PqusIRcXYYhpnzhdFsA3sqbYgc+wtMuU4zF4zG
-         UZW4l75W352I0A++MP54RbNuu0Iz+qhl4u/15aXLfl9m4DWwIur+R/drwQILbWZTjF4N
-         M1QDc08eJMMvgv3hf2CNaISdhdD7U/nKfXfaLB91aOEQ91D8H1QfukeIHAhLyJypfdvT
-         kZWkikpq70cFIByfBAeBTGI1hTVIfZWwQwzZQQuoYD7svFzLFjj0Js5bvkm1NT8TdfEE
-         LC8A==
+        d=oss.qualcomm.com; s=google; t=1780744887; x=1781349687; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lQwX1eeP9EXpHD1YE+j4CxtksRuCZmaeuF5xe4VQvg4=;
+        b=iJKAcUk+Gs9eJu9pQK7C9BvlDl1c5aOiUedFo14HAQPMF9xFYcLgjvJWLeLxXMldy1
+         KChRbiJu1EU2a8BfzDALJs5av8fAFC3X+jJMNJCDfYwExpuv9JqwdRo/zx1uN2pS8g+4
+         yct++w0P9tdQGdy46H9RVthDxOU2ps9JdgCN8XinVyuaQpu9Ni6FQGev2uAfKXVNo1ak
+         Tb8xQrFrkVEZkF9kl48YG4LGgi4cwVuo+Vx4KkHIZze8kDTX8IvmkvhoSZV3nBQH3I7v
+         21QkOZlqSk4vSEWpEuqngMy+QN0abaVO9V8tFCc7dkeAuKak/n8+UPSptumdojDO9g6S
+         UFzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780713640; x=1781318440;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OnUZWQkJ/UT6kL1pJlMljxV5hMYiFMtGqMjvgMPjKdo=;
-        b=nju82Ie2rOabltxuXWrrN9r4CiSvcCrXAMWM3rFlWRHV3BkxYHKECqTlIEMNfdNhV6
-         JwY0GK5RMSiF4TaVoUo5P64v78HJEi27kr6/b3kjWsJYdhaDuMmoS2qULmPCY9y2QSBy
-         2fSkXcXSU5Rm5P//UXMwde+6qaMgw6WLHsxWaqc7d2bPvnhSPNy46ac/oZvXd/CdysHe
-         hu5f0ITAvNhndkkfSsLU9sA/LLkGpMKI7Xt7TfMo7BNUsCV11kj0+gxeCP1e0ksy3Lxc
-         tWI6ZCZ+dsloFiI5o1gABTwDp58mAt8og5d1k7X1p/QPPkadY0clMo7wkf8fJyGQ3sNY
-         reQg==
-X-Gm-Message-State: AOJu0YxI5WCq304CB8LEEwsqSDYZv3qQIVkngmuUFiMiKbJbg6XBHmd/
-	Wlx7WhlVNYyz2QfOqWcu50D+LmHKZ5WI9iCR6KWglJrRqGzLifQBdK/8IREVgMHmsCI=
-X-Gm-Gg: Acq92OHmcGe7OUb7Mp7WnA3NpsUCdZ3ntJWBCbz4j2rHwiuSKnsoC2OqqJ/CdzOHOMT
-	uQGGlgvH57fjO2+RgHFQnmE85cCvQH19ADW8FJ9WfLiQE6yXNkLk9Wg27PFP4ysuglqV2y00HSr
-	3PJ7X08AHG28k4ErsargRxPgM2y2XSxrPH7jPR7E5RLBgey+vUfaFb/Xhrw7G+J2F0fRszH7T6t
-	kzNR5h0FQIGm0mykpdc58v32bTiPGMFPZ/6XQ4n6WaGboUWPO0BIQ+dC4G33xUR2k6E1UNmZSl6
-	xjGSlRAIbLFWkok3af1uvJldpaF8G3NqiYXNJLCtgvMGXc8mr79bqnzsilfvNCa8Vg7ZFRjAoLs
-	Sf4L7CD9+NHZlH8NjhQ/JuvFPa5UwLbeyla/+194aobNcRIUYcrAAYVFqUgNHsf+nIjPe40VdCr
-	zSbg/GMvvLWk6eUKUAjrhq5kew70yELMd6nPvr2E5dc/0d8LR2Af09p1j6fl+yFusuy53cWGfnl
-	vVDc+PuGzG63g==
-X-Received: by 2002:a17:90b:4b0b:b0:36b:a2cc:4857 with SMTP id 98e67ed59e1d1-370efdaca8fmr8433786a91.18.1780713640163;
-        Fri, 05 Jun 2026 19:40:40 -0700 (PDT)
-Received: from viku.office.rr.lan (fs79022602.tkyc410.ap.nuro.jp. [121.2.38.2])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f70a29cd6sm7924955a91.11.2026.06.05.19.40.37
+        d=1e100.net; s=20251104; t=1780744887; x=1781349687;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lQwX1eeP9EXpHD1YE+j4CxtksRuCZmaeuF5xe4VQvg4=;
+        b=EjdUK/X5oAfH17aDWjev91oCRLyJmwiLQaGghNoenQ6ELLXXkQJE/myDIoAr0weXQK
+         g7Z/ki3aPUpYlPEZ9Nyt6nJqKzBNM3R0v+JC1SNoLH+N9HpnTl/ivErp7CYblbEWTN63
+         1vcyy4AMKVZsO1HtPoEB7RrxAWWHwsdgd3Z8o6xmaCvAYmJdrBmKe1dGCmuK6nIV9nn1
+         YpMNefS2+9c61wJbb/THbQ1NadMxS/+O2eCMDG9JQ+Jmt0OY1SP8ju48Eqk+kqqpC/6M
+         KV/pfbrVf4HeYqHnGcd7VyE6Du/iPesT5R+yUsSz7s1BlbA9scBgFlms8WYANxzDQkvo
+         O+2g==
+X-Forwarded-Encrypted: i=1; AFNElJ+VCWNZwvpNXwr0SotIWWvErB6VkGIKXDuQbGPN8I9zR36iJUaM4spVa9AEH04BSglotkKzebnhZDI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHeGH+qBQu9hGcVF/5uQqjO8BOZJjxWoKIWplOJ9WcuNBJDFHw
+	JVNwPFaZUrpUuPWbmVLi7sBUXlzXRw03bmlj00LUGed+YKs9ajcYXLj2B/DLccNbjuHNK0vagHc
+	qV9fNy7yFkrkmG0Abrgl7QXRmB2+fOnW0h7gb66QeJjT+ChxtbDnaH/C7lm7Fbp8=
+X-Gm-Gg: Acq92OHGYJ+7Z08qEGJDtdIz4sutwnK5dpxBVCRErm0Ts8IDb3M04GlroQC3o0pEMa1
+	5BKHXTUDXnD8JllHNlIYqHH/oDa/gmy4DlK1XnldkWUWtGtwpqWLSzGYcvP2tIQ25tlRUNRvGup
+	bVrrPxCUx9opRWmCPQJJwgPD5S5p+d5MjEXKL61LDzvulX53XwnCN2FAV5WXMeItstnQgZz7i4Q
+	jVecwfWqEQkfoaXfs8+ZCCkXjeJ14XPESRv62FPHKDUzYQ6YEkHvLQy0Op0taleNbtAQIlb0DNS
+	9/dORxalRtwHgJj73dDG6QdpNRoDb+qOfTIVBDmwuHUZOu2YVKdbuuHFElQsmVEI2PLh6PXk1+6
+	KqLYv/g5xTiZ5Gd3Lfj0tx37aeeQlIX1Rx/LBx3ZX+faFQhd54/iy0QsrbNOGvMrHvRtqa5O8qm
+	7ZQBf3ASO+dhy8DVPoKi8DW8HDmgDDMFvIdcsAx2txAiJUmg==
+X-Received: by 2002:a05:6102:cc8:b0:62f:3abe:907f with SMTP id ada2fe7eead31-6feed1adbffmr4574371137.4.1780744887153;
+        Sat, 06 Jun 2026 04:21:27 -0700 (PDT)
+X-Received: by 2002:a05:6102:cc8:b0:62f:3abe:907f with SMTP id ada2fe7eead31-6feed1adbffmr4574362137.4.1780744886783;
+        Sat, 06 Jun 2026 04:21:26 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b97ac1esm2400684e87.54.2026.06.06.04.21.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 19:40:39 -0700 (PDT)
-From: Vishal Kumar <vishalmimani008@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	thierry.reding@gmail.com,
-	jonathanh@nvidia.com,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vishal Kumar <vishalmimani008@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: gadget: tegra-xudc: drain EP pipeline before dma_unmap
-Date: Sat,  6 Jun 2026 11:40:11 +0900
-Message-Id: <20260606024011.1160110-1-vishalmimani008@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Sat, 06 Jun 2026 04:21:24 -0700 (PDT)
+Date: Sat, 6 Jun 2026 14:21:22 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Oliver White <oliverjwhite07@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: usb: dwc3: document
+ snps,reinit-phy-on-resume
+Message-ID: <45e5pepjwfixymk26uodz3pqhe44n2duo5dp5aflajbh3xv2kl@3nhzdev6dxq6>
+References: <20260601231236.20402-1-oliverjwhite07@gmail.com>
+ <20260601231236.20402-2-oliverjwhite07@gmail.com>
+ <20260605190638.GA4188454-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260605190638.GA4188454-robh@kernel.org>
+X-Authority-Analysis: v=2.4 cv=cvmrVV4i c=1 sm=1 tr=0 ts=6a2402b7 cx=c_pps
+ a=N1BjEkVkxJi3uNfLdpvX3g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=pGLkceISAAAA:8
+ a=Zo7aC9OJPaZIPdUTQJkA:9 a=CjuIK1q_8ugA:10 a=crWF4MFLhNY0qMRaF8an:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA2MDExMSBTYWx0ZWRfX/TBPes1rZujE
+ gNMFWeVCjX59SPVRrmyu6soZulJCyFIaPtovcF9eqv+8gUwBRP3QrIe4rnet66si7t+FXpu2wYH
+ liTRjrrtBdIOokSHnFcrg9waKAsV8TceErqZtUNFpQRpmRHsspANYjQFS8gz0qkwV+iHLlbciCY
+ IFH59+3d3q5BEDSOQ2mT4AqjcNOXijyLr8e1voLfpeYo3N26zUN1xLDhWUEKK3IPO3TJX8kltAT
+ TxeQP0p9XAnFM9Yc3nGZT8qY8v98/NCYSehNwnCI2X9K9W01urSQbEvfNQgER/Z+6zK2sTgjOu6
+ mkQcGaV69SJvoVHlcRoKVUOPRvk8TAoiJI31ETsotOVcDYpkA33PpHV+c+YuiKsA58xTEeUd6sq
+ 40lyCy8ochQ4yeTH6WYZWDo+Xa9cB/mODX8DDwsGLJ7Mgjo4lJBkZARUlkmS4Kggi6evAZEETyX
+ fCsxuF+t4U2v7+/5dUQ==
+X-Proofpoint-GUID: tWI-27SOsltVB0kh-N8OvdVEd6DPpFID
+X-Proofpoint-ORIG-GUID: tWI-27SOsltVB0kh-N8OvdVEd6DPpFID
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-06_03,2026-06-05_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501 bulkscore=0
+ suspectscore=0 phishscore=0 clxscore=1015 malwarescore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606060111
 
-On Tegra186/194/234 the XUDC posts a transfer-completion event when the
-DMA write is dispatched to the AXI interconnect, before the store is
-committed to memory.  Under SMMU strict mode dma_unmap() synchronously
-invalidates the IOVA TLB entry.  An in-flight AXI write to the
-just-unmapped IOVA triggers a translation fault (fsr=0x402) that
-permanently wedges the bulk-OUT endpoint.
+On Fri, Jun 05, 2026 at 02:06:38PM -0500, Rob Herring wrote:
+> On Tue, Jun 02, 2026 at 11:12:34AM +1200, Oliver White wrote:
+> > Add the documentation for the 'snps,reinit-phy-on-resume' boolean
+> > property. When set, the DWC3 core will perform a full phy_exit() +
+> > phy_init() cycle on each USB2 PHY during the host-mode fast resume
+> > path. This is needed on platforms where the USB2 PHY power domain
+> > is gated during deep sleep even when device_may_wakeup is true.
+> > 
+> > Signed-off-by: Oliver White <oliverjwhite07@gmail.com>
+> > ---
+> >  .../devicetree/bindings/usb/snps,dwc3-common.yaml      | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+> > index 6c0b8b653824..d12f6ae81ab8 100644
+> > --- a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+> > +++ b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+> > @@ -212,6 +212,16 @@ properties:
+> >        When set, run the SOF/ITP counter based on ref_clk.
+> >      type: boolean
+> >  
+> > +  snps,reinit-phy-on-resume:
+> > +    description:
+> > +      When set, the DWC3 will re-initialize the USB2 PHYs during the
+> > +      host-mode fast resume path (device_may_wakeup). Some platforms
+> > +      cut PHY power during deep sleep even when USB wake is enabled,
+> > +      and the standard PHY runtime PM resume is insufficient to restore
+> > +      the PHY register state. This quirk forces a full phy_exit() +
+> > +      phy_init() cycle on each USB2 PHY.
+> > +    type: boolean
+> 
+> This should be implied from a platform specific compatible string.
 
-Observed on Tegra234 (Jetson Orin Nano) at ~170 MB/s USB-NCM transfers:
+Platform as in the "root node compatible"?
 
-  arm-smmu 8000000.iommu: Unhandled context fault: fsr=0x402,
-    iova=0xfffb5000, cbfrsynra=0x100f, cb=3
-  tegra-mc 2c00000.memory-controller: EMEM address decode error
-
-cbfrsynra=0x100f identifies XUDC (StreamID 0x0f per DT), cb=3 is iommu
-group 4 (3550000.usb).  fsr=0x402 is a translation fault on a DMA write.
-
-Fix: poll EP_THREAD_ACTIVE before calling usb_gadget_unmap_request() for
-non-control endpoints.  EP_THREAD_ACTIVE clearing is the hardware's
-guarantee that the endpoint sequencer is idle and all AXI transactions
-have completed, so the subsequent TLB invalidation cannot race an
-in-flight write.
-
-Also change ep_wait_for_inactive() to return the readl_poll_timeout()
-status so callers can detect a timeout.  On timeout in the completion
-path, skip dma_unmap() to avoid the translation fault and force
-req->usb_req.status = -EIO so the gadget driver does not treat the
-transfer as successful or requeue the still-mapped buffer.  On timeout
-in the dequeue path, emit a warning.
-
-Fixes: 49d6f3dd4abe ("usb: gadget: add tegra xusb device mode driver")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Vishal Kumar <vishalmimani008@gmail.com>
----
- drivers/usb/gadget/udc/tegra-xudc.c | 47 ++++++++++++++++++++++------
- 1 file changed, 38 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index 0b63b8c0a..3f18beddf 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -1023,9 +1023,9 @@ static void ep_wait_for_stopped(struct tegra_xudc *xudc, unsigned int ep)
- 	xudc_writel(xudc, BIT(ep), EP_STOPPED);
- }
- 
--static void ep_wait_for_inactive(struct tegra_xudc *xudc, unsigned int ep)
-+static int ep_wait_for_inactive(struct tegra_xudc *xudc, unsigned int ep)
- {
--	xudc_readl_poll(xudc, EP_THREAD_ACTIVE, BIT(ep), 0);
-+	return xudc_readl_poll(xudc, EP_THREAD_ACTIVE, BIT(ep), 0);
- }
- 
- static void tegra_xudc_req_done(struct tegra_xudc_ep *ep,
-@@ -1046,8 +1046,39 @@ static void tegra_xudc_req_done(struct tegra_xudc_ep *ep,
- 					 (xudc->setup_state ==
- 					  DATA_STAGE_XFER));
- 	} else {
--		usb_gadget_unmap_request(&xudc->gadget, &req->usb_req,
--					 usb_endpoint_dir_in(ep->desc));
-+		/*
-+		 * Drain the endpoint DMA pipeline before unmapping.
-+		 *
-+		 * Under SMMU strict mode dma_unmap() synchronously
-+		 * invalidates the IOVA TLB entry.  On Tegra186/194/234 the
-+		 * XUDC appears to post the completion event when the DMA
-+		 * write is dispatched to the AXI interconnect, before the
-+		 * store is committed to memory.  A subsequent dma_unmap()
-+		 * can remove the IOVA translation while the write is still
-+		 * in-flight, triggering a translation fault (fsr=0x402) that
-+		 * permanently wedges the bulk endpoint.
-+		 *
-+		 * Wait for EP_THREAD_ACTIVE to clear (endpoint sequencer
-+		 * idle).  On timeout skip the unmap to avoid the SMMU fault;
-+		 * the DMA mapping leaks but the hardware is already in an
-+		 * unrecoverable state.
-+		 */
-+		if (!WARN_ONCE(ep_wait_for_inactive(xudc, ep->index),
-+			       "ep%u: DMA drain timed out; skipping dma_unmap\n",
-+			       ep->index)) {
-+			/* Read-back completes the poll barrier; EP_THREAD_ACTIVE=0 guarantees DMA is idle. */
-+			xudc_readl(xudc, EP_THREAD_ACTIVE);
-+			usb_gadget_unmap_request(&xudc->gadget, &req->usb_req,
-+						 usb_endpoint_dir_in(ep->desc));
-+		} else {
-+			/*
-+			 * Timeout: mapping is intentionally leaked to avoid the
-+			 * SMMU fault.  Force -EIO so the gadget driver does not
-+			 * treat this as a successful transfer and reuse the
-+			 * still-mapped buffer.
-+			 */
-+			req->usb_req.status = -EIO;
-+		}
- 	}
- 
- 	spin_unlock(&xudc->lock);
-@@ -1443,10 +1474,12 @@ __tegra_xudc_ep_dequeue(struct tegra_xudc_ep *ep,
- 		return 0;
- 	}
- 
--	/* Halt DMA for this endpiont. */
-+	/* Halt DMA for this endpoint. */
- 	if (ep_ctx_read_state(ep->context) == EP_STATE_RUNNING) {
- 		ep_pause(xudc, ep->index);
--		ep_wait_for_inactive(xudc, ep->index);
-+		if (ep_wait_for_inactive(xudc, ep->index))
-+			dev_warn(xudc->dev, "ep%u: DMA drain timed out during dequeue\n",
-+				 ep->index);
- 	}
- 
- 	deq_trb = trb_phys_to_virt(ep, ep_ctx_read_deq_ptr(ep->context));
-
-2.39.0
+-- 
+With best wishes
+Dmitry
