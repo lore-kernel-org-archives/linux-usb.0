@@ -1,33 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5020B38D019;
-	Sat,  6 Jun 2026 11:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1653AC0F6
+	for <linux-usb@vger.kernel.org>; Sat,  6 Jun 2026 12:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780745427; cv=none; b=mIHKk2btTyPruzA/JSIxa9FNnwqwQ4EbE1mVb0gfkXkXW/uUIB3z3ZJrn+ATGVlnME1iy+YGn5j6j5eMPtJTtvYEJ/4pjylsIJCTNOgjXZMLvLFE8QYaKYb6BrJfiAH97o7pSlCiFXflr4XFb4TQ7k874CK3MtmAc9WgDPxDl1g=
+	t=1780749749; cv=none; b=P0kWxxrtaSCxqFyohJNnVvgn4TRQ62iGyrxIWqr6zu4A9RI8l1dwuEDqI8u9bb/BGsfRmlGdR1Go+OmWQU4k4Xyo7nYUxcx/Sbdkbe/68EMhEBozsb4EIIPTmgMUm3lPT5K7DxsqNSSArwbk/dOFd425JmD75yobsuEOYogXZi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780745427; c=relaxed/simple;
-	bh=v07ODksdz+aF8gL5AgpWH/w85hWCID/JwktA76+z8x0=;
+	s=arc-20240116; t=1780749749; c=relaxed/simple;
+	bh=YsC4k+dpP+I4yK9ylOxhF491wL14p5IGLAkdSLplnSs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BzQbvnlqGr88EQiF9MyfD0uE/XEcoYBM/U+NICYsK2OZ4HAiXRf3pGCrctmQpdqV4eLR+fesit/kiIgZoNrQUV2Nwx5fbg6t5UJcLwRalBaCgEu/VVty5EfJ+IoLyt/zkzlVjectKsEU/e+DnefPnheLJ2sCZhiJdOb6vW69pjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=il2Gm1CR; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=KtuA/1g+1uHswO2vUQy8JSrmVn04QDniKA1TyxyL7N5fANXgl5pcJtxeIQ5QG51kdlrMcD0FCuFzLdqnQuJxiYzEOniRWhZdQe0Aa5CDwP+tdM78kopGwuQCDBDrvpuslrGSFz5ibJ5IEPEXUXu1tUdzflgFjhi9oSNyotM0tL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=opy1Ifks; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="il2Gm1CR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57DBB1F00893;
-	Sat,  6 Jun 2026 11:30:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780745425;
-	bh=WaOjFDebIBoXOE2tc9Mm7EOVFS/2qGsWY7aQKPy7Hp4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=il2Gm1CR4HE0D+9wmcAT5QeO6rQ5oAzpsWRC72uL8NbQSA6/gb3Mr1aey/zpP14iT
-	 LaE7qTAl6I9luWwckI09Q1wlmNvMf0W5+KPapo49emJx7/W3GwjLfuAYWvtMQI6H2B
-	 CxcoIBKJrWMFuGnYuObqCTHPcpwPMjBZuAYZaoU0Ya7pE1s92DZ9UD9ueqRb88IQOG
-	 iWSkuTToG6rqlQ187KR5XWAzOTrDeFvKXRFFRJG8MCG2eoUkEf9sQLtd6xvz3H/td+
-	 zrVXAK70VYmyrD/DmTI7bpdTQDfaIgHSfo5geIvHbBiR7sii7XiqhTbC5COePVUSUa
-	 WsnMx+gW3ZJYg==
-Message-ID: <04165c33-e935-4e68-81c4-356b59a19883@kernel.org>
-Date: Sat, 6 Jun 2026 13:30:17 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="opy1Ifks"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490b7866869so33084595e9.2
+        for <linux-usb@vger.kernel.org>; Sat, 06 Jun 2026 05:42:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780749746; x=1781354546; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K+7565wOGRhMgGnAnVEfA+MTDShbkLz9evE/tw3rT6M=;
+        b=opy1IfksL61fYQUdDO7nR8c2/jIXkJiVhL+demxfFZczAfa+uXxrvrCMTZ+QqR9A6V
+         RWXUbqlzi7M2225aGWj02+ItNjA8G/Nvl+66h33hFSqTIZP79nQunc6d10V5F2a4kG2L
+         KBX85XzwQWiGcRFigDSScH3KBVZTMGhbs866tQE6vBoc/bmcb5gyJPVY9L9DLy2OiOVr
+         ws3CIHportQxsMNRyMDoLUv1zkdJS3YuRHd6Y12WiSp1Pg527sPgD8e2UEAVgEX2QQbc
+         8bIiIsEw1mxtlG2BTTkDtzRGA8vprs/wS5djjJ/xCAXDkBgnUcJvr/eBaseT1m41bRe6
+         TKBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780749746; x=1781354546;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K+7565wOGRhMgGnAnVEfA+MTDShbkLz9evE/tw3rT6M=;
+        b=hEj4rMfytk13OQHpLuFVcCJLm4It6OZairuayW9q9md+MZbbvFfOUScFNBkeiAMVBH
+         A22ANPVsTX0kS9ZBZUp9HoKnvq2uDEvo7ltcpWMvMgk47QA4ZuRQca771czASSC+Gydm
+         ew5nN/twEcLz4d0FtevlScSdKoCATp8cfN1knwJg50aSPHJiFnsBMDHN6E+vIQuRA4Mo
+         +dSmCWGRa/OkMn/e/Z2S0BVoI6na4iTL3TiEhwqsvVrQ4RkHvxAqJxLy7KzCRyvH4qE/
+         6fs06Xq9MSHajtmJfmdk9Uh1pxwRODkApwJTpJSGbZ5bbyrAfu+a0CukBtxlSDknPtAy
+         1Gmw==
+X-Forwarded-Encrypted: i=1; AFNElJ+Cj3TZms9O17rAfsSdgVquZHBlbmgPk/V01JrE9TGzMVYLX475DZ8rfydYGbYox5+pcfIXZAoaVCE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzScZO7H5iR8mHnA5LlIYIH9dKSw+IwzYCUXMP2cEFdTVHvlYh3
+	r5TZ6fnjr4E/SqFJMfeW0aN7bzxe6DCkN0MQuqSzGr2lo/OXdsdKqXKJ
+X-Gm-Gg: Acq92OEOV3nCQPeDPLSlyiWBCWMrCpro9GdOPCEsyxBOwgE9iBMldzgCU3/jOQHHUW1
+	Cbk6NlsnWVu7IuPG3N38tSvm+OAIykA+RvYp6J9Y+KR5JXufkXjdijKoHx7GkitppP1Rr27/Yge
+	l9sJ9nrvcU+BJV+iaQ13FgSEpiUD/w3ab4TOvpwGerA/DrypbCSNqLpQbq5a3xmRJXYqM5BPCwT
+	jyt3mt3BumwQsKhFMthEkv7suONSsUx0ICaXsWCNMCZni7svDXU3rV5Pmp1ykg2JiH97Afbukrp
+	LXk1G2+4LpeJeIYyot3bpx3jzmH+7FCIr0gQP0Q8LniRCli2rtQWNTz9M8eqIi3YJwNhjHj3pGD
+	3nwTP+mGfe1p197oGXx+vVmUkNCAikcnHZNvHtt3e7wF7bJ9CcFHq7iBMS2AdKSe6qzD8WLA6OL
+	OjBmFsXYmJsO+y7DLCQlx7RxbuA5OXRCRxpmXJzN1/BA==
+X-Received: by 2002:a05:600d:6444:20b0:490:5466:8591 with SMTP id 5b1f17b1804b1-490c26e1acbmr94606345e9.12.1780749745963;
+        Sat, 06 Jun 2026 05:42:25 -0700 (PDT)
+Received: from [10.80.0.99] ([151.49.228.214])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2ed944sm35237527f8f.13.2026.06.06.05.42.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 06 Jun 2026 05:42:25 -0700 (PDT)
+Message-ID: <ceb5ed4b-1654-463d-9cff-4a1b91d52e92@gmail.com>
+Date: Sat, 6 Jun 2026 14:42:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,84 +68,154 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] arm64: dts: qcom: x1e80100-microsoft-romulus: add
- phy-reinit-on-resume
-To: Oliver White <oliverjwhite07@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Thinh Nguyen
- <Thinh.Nguyen@synopsys.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+Subject: Re: [PATCH] HID: usbhid: skip interrupt IN polling for devices with
+ no input reports
+To: Antheas Kapenekakis <lkml@antheas.dev>, Ahmed Yaseen <yaseen@ghoul.dev>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Kerim Kabirov <the.privat33r+linux@pm.me>, GameBurrow <gameburrow@pm.me>,
+ linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20260601231236.20402-1-oliverjwhite07@gmail.com>
- <20260601231236.20402-4-oliverjwhite07@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+References: <20260605113952.38435-1-yaseen@ghoul.dev>
+ <CAGwozwFWbW=v2B7ruS4OUGuPhjSayw4Qxj3K+bCzwmgQu158Ng@mail.gmail.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260601231236.20402-4-oliverjwhite07@gmail.com>
+From: Denis Benato <benato.denis96@gmail.com>
+In-Reply-To: <CAGwozwFWbW=v2B7ruS4OUGuPhjSayw4Qxj3K+bCzwmgQu158Ng@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 02/06/2026 01:12, Oliver White wrote:
-> The Surface Laptop 7 gates the USB2 PHY power domain during deep sleep, causing the PHY register state to be lost. When the DWC3 multi-port controller resumes via the fast path (device_may_wakeup), the PHY is not re-initialized and USB2 devices (such as the wired keyboard on the USB-A port) may exhibit corrupted signalling, e.g. stuck modifier key reports.
-> 
-> Enable the 'snps,reinit-phy-on-resume' quirk to force a full PHY re-initialization cycle on resume.
 
-Please run scripts/checkpatch.pl on the patches and fix reported
-warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
-patches and (probably) fix more warnings. Some warnings can be ignored,
-especially from --strict run, but the code here looks like it needs a
-fix. Feel free to get in touch if the warning is not clear.
+On 6/5/26 14:02, Antheas Kapenekakis wrote:
+> On Fri, 5 Jun 2026 at 13:40, Ahmed Yaseen <yaseen@ghoul.dev> wrote:
+>> usbhid starts polling a device's interrupt IN endpoint on open
+>> (usbhid_open() -> hid_start_in()). If the report descriptor declares no
+>> input reports there is nothing to read there, so the poll is useless,
+>> and on some composite devices it is also harmful.
+> If it did have input reports, would starting the polling still cause
+> issues? Because if it would, the issue is in the polling itself.
+So far we haven't found an asus device that has more than one interface
+that supports reading data out of if.
+> Given the creativity of manufacturers when implementing hid protocols,
+> I find it certain that they do use the in endpoint even without input
+> reports. E.g., for feature reports. This could cause regressions.
+While I mostly agree with this it is also true that the general direction
+for the kernel (especially lately) has been to not do out-of-spec things
+at least by default.
 
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+If things really regress it's expected to do so only an very few specific
+devices with a buggy firmware, and we can think of something different
+for those (hopefully very few ones).
 
-Please read submitting patches and DCO. DCO chain is missing here.
+Perhaps someone concerned with security might be interested in what
+we have because it doesn't look very normal.
+
+Note that below I have written a few ideas that maybe are worth
+looking into.
+>> The ASUS ROG N-Key keyboards expose a second, input-less interface used
+>> only for RGB control via feature reports. Opening its hidraw node (any
+>> hidraw reader does, including SDL/Steam Input or a plain cat) starts the
+> cating a hidraw causing issues would be expected, so let's focus on the former.
+Simply opening an hidraw should not trigger a delayed disconnect of that device,
+I don't know why you would expect this to happen nor why you would
+consider it acceptable. It's a bug.
+
+Focusing on userspace software exposing the bug is not a realistic option
+because over the time we found a good chunk of software doing that:
+- logitech control software (forgot the name)
+- open razer software
+- sdl
+- asusctl (obviously it opens the device albeit in the future I will change this)
+
+and likely more given the fact not all software was identified. 
+> Asusctl has a bug where if you add the quirk that separates the event
+> nodes per hid, this bug is reproduced as well. I chucked it to
+> complicated threading getting out of control. It is the reason we
+> skipped that patch that was in my series.
+I found and solved the bug already. Regardless the issue remains:
+Even with no asusctl at all, if a user has one logitech mouse
+(and its control software) and a razer keyboard (and its control software)
+the asus N-Key device will start an endless disconnect-reconnect loop.
+
+Any combination of two or more of those tools will trigger the issue
+on some devices (weirdly enough not every model is affected):
+this is not good.
+> Now, you say SDL/Steam do a spurious read as well, can you identify
+> the codepath so we can look into it? What devices are affected? The
+> early return fixes a warning on the Z13, but it also feeds through the
+> universal lamp interface on the new Xbox Allies. Is this a bug on
+> those devices or keyboards? If yes, it could be caused by userspace
+> hanging on that node
+Sure, and I agree with you that fixing all userspace tools is desirable
+but it's also unfeasible to fix them all, if we managed to do that
+there will be years before everyone receives a fixed version of every
+affected software and even then a core issue would remain:
+linux tries to poll something it can't have anything out from.
+
+I am much more oriented on the fact that kernel shouldn't
+be doing weird things (at least not by default) so this has to
+somehow be stopped regardless of how well userspace behaves.
+
+If you have better ideas on how to fix the kernel we would
+like to hear those as well.
 
 Best regards,
-Krzysztof
+Denis
+> Antheas
+>
+>> pointless IN poll and keypress reports on the keyboard interface get
+>> dropped for as long as the node stays open: a lost key-down drops a
+>> letter, a lost key-up leaves the key stuck. usbmon shows the dropped
+>> reports never reach the URB layer.
+>>
+>> The useless poll itself is long-standing; commit 4ac74ea68f64 ("HID:
+>> asus: early return for ROG devices") is what exposes it on these
+>> devices by keeping the input-less interface alive instead of ejecting
+>> it, so its hidraw node can be opened and the poll started.
+>>
+>> Skip the poll in usbhid_open() when the device has no input reports.
+>> Feature reports and hidraw output keep working over the control and OUT
+>> endpoints, so the interface is otherwise unaffected.
+I will write my review here to avoid forking the discussion:
+
+I agree with the general idea but perhaps we can avoid
+some hid devices to ever get HID_QUIRK_ALWAYS_POLL
+and that might be enough to skip the problematic code?
+
+Maybe there is value in doing this with a quirk flag in hid-asus.c
+affecting the least amount of devices?
+
+Or maybe just prevent devices with no data possibly coming out
+to ever get HID_QUIRK_ALWAYS_POLL?
+
+For how to best do this we will need to hear what Jiri and
+Benjamin have to say but if they think the proposed solution
+is the correct solution:
+
+Reviewed-by: Denis Benato <denis.benato@linux.dev>
+>> Fixes: 4ac74ea68f64 ("HID: asus: early return for ROG devices")
+>> Tested-by: Kerim Kabirov <the.privat33r+linux@pm.me>
+>> Tested-by: GameBurrow <gameburrow@pm.me>
+>> Signed-off-by: Ahmed Yaseen <yaseen@ghoul.dev>
+>> ---
+>>  drivers/hid/usbhid/hid-core.c | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+>> index 96b0181cf819..90a8b34d9305 100644
+>> --- a/drivers/hid/usbhid/hid-core.c
+>> +++ b/drivers/hid/usbhid/hid-core.c
+>> @@ -688,7 +688,8 @@ static int usbhid_open(struct hid_device *hid)
+>>
+>>         set_bit(HID_OPENED, &usbhid->iofl);
+>>
+>> -       if (hid->quirks & HID_QUIRK_ALWAYS_POLL) {
+>> +       if ((hid->quirks & HID_QUIRK_ALWAYS_POLL) ||
+>> +           list_empty(&hid->report_enum[HID_INPUT_REPORT].report_list)) {
+>>                 res = 0;
+>>                 goto Done;
+>>         }
+>> --
+>> 2.54.0
+>>
+>>
+>>
