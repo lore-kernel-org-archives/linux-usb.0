@@ -1,216 +1,176 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E695D2C029D
-	for <linux-usb@vger.kernel.org>; Sun,  7 Jun 2026 20:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780862576; cv=pass; b=cAWGecqzN01WBO1G2XGlpJuhs0lkf0A11hU9XUT40G6q/kFl8b5bBvm49N9bClwPhQROTTY+crmkCr9BChg1MSHVFH3jeUQr4mlBzhg18r1CZjGiKcoen8JyFZaZEYx4IGWvhWeQ750kibBzFjsZCM4/X0LBWJRyCn6KguvaMEY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780862576; c=relaxed/simple;
-	bh=L1RFcqL8vRAyKTZto30+vbzpKHDqXRwqkhGpwhpgWl4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TAjkq93YHmmXOXokIVw/IiWyHw8iDrMEkBFx3koLbo0xOPLO7rMugt3CcJ4O2L+1DCTJj9KnRwHbs0lhyOWqUnklN+58xAloHnQmWp/HnrfdoR9YQu0uvjX89juCA9SCb6h7K+ECa/wAwUdZ/iYBu6JePvFT9AaHpKADgMNhd9M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G1olJ6LX; arc=pass smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC021333440
+	for <linux-usb@vger.kernel.org>; Sun,  7 Jun 2026 21:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780867546; cv=none; b=phsOHWgL3ZnEL/iO0iBYQS/GBnUTUKYQhK0LEcBzO7KjfbNNZtHpaQF9wyMMDjX9NaAe/0gxjW2UYvzF24XUDwHtAYgwDppnlzVmmTSajDjQIG6GRu9XrIfGI3HhjGddkiimyDdVgKc2cpKmeb+sg1A5c46AjLiFZHtFuRCToAk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780867546; c=relaxed/simple;
+	bh=lchto+4gqBceJNY8FM/WtVWfY3bYn8ZG/XdG2pcmn40=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CeNo5q7+z+ekqNCg8/eZAEwUh9dXIcEXE0kLEMgvSlqDvll0pondwMkNCmdos2SUVQ6oi+gAqEDmXZpjxlq5asfTKhCStM6rmDMRvvVZLqdDeZu1aio/9oRvxPE7oD1ZAf84inLx+Cb/Q42Wo/QqJRNHke8p33PNxaUerMSsolw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WBmOqvCs; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G1olJ6LX"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-befee9e5ef7so402880066b.0
-        for <linux-usb@vger.kernel.org>; Sun, 07 Jun 2026 13:02:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780862573; cv=none;
-        d=google.com; s=arc-20240605;
-        b=V7XaNVdhq3PE+D4p8s6x19u6Mz/VEpBJw0vl99SsaV7TQ1+5tkix5fzdIItMNLBuG0
-         2viuuPPHTThK+864MoMfkuizy3wvhh+3kOBO724SxztEJLiCwYyNdUwYEipMopNqXf7x
-         e/ccFN0BDYBYcpu1peIDngRHdUqUa+euzKq1M1GZefIO7+5TVrkMyaTD8aGtfSR2WdvT
-         TMcoDkcwZFv4RPbj+SG2anHIscfHPSIL6IaRnsuVaoeDwuozXzEoaB49QUKdhDeFJGsk
-         1ojJoUeoaSNkffDF8QVZEinA6FPsw2oH9odF95IRwhY7uW00LKNnQpaXv04QN6A/d7Cn
-         1ClA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=yBKOaEFP0IcFSqeP1OnEhPRIPrS/lPM9h5REC0zmVcc=;
-        fh=gn80QPcL6PRjKCfKCi3Cs3mQl69PK3JZz0FJtRChTOI=;
-        b=Q94CX+nPWgLFdwwwkIT1JxryXr7hiQcutDGya0fpMLlMc5lhhJbDLyvBSgeFd5uEr0
-         l9utpzSLseDk/eAsr1UaMPEMO8gpyjwkMIciJldBvAwiteYcaDSu6Vem+h8HwXmyLpuf
-         qPQvryPSECGLClUPC82I67ikxQeX46fDWXicxdpuHyTlDvYypRDUNeGtAsLf3UkPQgzQ
-         HeFWJv996n/B3BhU107dOTnUcSonqbK/kuSWsgeNiWCgDCHPP5yqazD4Uz3iQwUkaaCQ
-         sN1okA6b84AkCHb/Gl548KNjiP4WyWl7RFjvENS+WamtnXb8CboQ/94oPicw6TBbv+Xu
-         i9vA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WBmOqvCs"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aa68cfc182so3033780e87.0
+        for <linux-usb@vger.kernel.org>; Sun, 07 Jun 2026 14:25:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780862573; x=1781467373; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780867542; x=1781472342; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yBKOaEFP0IcFSqeP1OnEhPRIPrS/lPM9h5REC0zmVcc=;
-        b=G1olJ6LX35qCEbQPHsC9y8rbNANKx1uyxRC4JlVeJTVcQp7Y6FpfKwJ1e40AQACrCY
-         ca4uEtuOB3+eL6LgfEL4jqlyTHcQRhn1BePIQcWymxhGUlfeVIVl7PHK5kKfzIhz9nkI
-         EK75YB+V5Cx3qYdV3Wx7xQIuY8M1MyhQUQMKp17DlyHg3NoK/2ROdydlY2mJTdzddonq
-         2yHosdpVkUAXIUo5axLHpFscvN/W6vWYIsFGjl8quhyqgbPpJ3DZmZyvayD9TsRJRt3j
-         AVjl/mj/7fAJue1F+iy1idaqjvBulvpsT2STL0AWjwSigsVnI33IPvl7NcyQdK/shw+N
-         1lnw==
+        bh=kLechR6MtiLxhXvRA3P5DCIDwtUpI6yw8jTZaq+/SsQ=;
+        b=WBmOqvCsWOTjjXoxhdoMVUBdSQhPRdJA3GzIfSHU867+N4o/Vu0dzUMW+eFv3rO5kM
+         FtyaddSMM4N4DBm9wDkduwsgdct7fZDu9i2ICklwdc72zqInbR5yKPYgJnlgi9WsRrKJ
+         AC/ayLJrApAi9vNv/HF50MgqQOUWKKC5+/2IXxJVF0bnBuKKh9fz2H53tR0jZBdCHDjr
+         mSB+2LUR73BaNjX1rx+5l2/7VxuVljguRp107uI8iFt+SKXzbqloAsnkbCnd3VBU9ylc
+         SCdtENc/V3HJ1JJ0HbdhwGwiYJXP3L1Kqp/Jx85nfO213eR3MNw4SN/dUYyLjdTSuISK
+         iWFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780862573; x=1781467373;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1780867542; x=1781472342;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=yBKOaEFP0IcFSqeP1OnEhPRIPrS/lPM9h5REC0zmVcc=;
-        b=Ukx4Ke7t5t4tjnRuLVJEV63Qoxmo5EZKc7bHGRAz9NGOT1yuogSZe1d6n6GKzlN6yI
-         JXCFZEyS3VM5uE4WvDpbuHcrTvRdME7ygPsgOit3c/xJyVRKTZBickWeaMJU0dewwanL
-         HxhmMWEjObghsFV7YuDY3y46HQc43HRF3CVFM4Haf5VMPJhGAWC8qyPpXWDI8OpMcOtZ
-         feq4LwriWs4T98HljGFrao66ZrOCzTGS/gfFaBusP/PQIyBgyZJ819vioqpzSgISh5pd
-         qnrFZwi259rBwYIUK5BbZA28p+CTDfE7YVonWzvmEuJdQJAS2kOC+cNK9hlsCd//0b2I
-         okVw==
-X-Forwarded-Encrypted: i=1; AFNElJ8RoGcpD5ZLtePyDseEk8Eq3+rCxD4pL7dnoR7eesoq/PC1wpsai6eqLvPWEktwWj4Vinc8DfI4bn0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLzEU26YVhFYSAcZcJgpayNF2sGsM9WLRzInT24nM5IirJOH1n
-	qbfO+wZxtM59u+40ALUp/pgv+LFDrqSbWAj1g12FJwAuGtYJYsLosv9rBAmHBimRAifCisCkfDP
-	++z4hdm6jEFoON1WEuD4n7mD4XhnStxBRIYFP
-X-Gm-Gg: Acq92OGovb48WNE0mXyjdYe3rF/ntoUJimvqzVRu5Q8FFxqD4q4052lNqjkIsceWAYj
-	DNRdrsJgHgak8a/9Gb1sv/hAocdrR6lBV668bYG2E4GLpclMaJOV7yw9L8lJPLBBh7kSOplt3fr
-	yXw+RaHfiaKeSOM3m6lr9Z96mZzWq/Dn1Igo5keYygD8UgSTkMgORW7z8l/HNp6oSjk/NZpL6Uw
-	8BteZnyXz+aFxpxEvJMBMfEwVmJylFY9gCT/974qqlXPczdLnqSRYAH2EabnQBrBcUBPe5Qy498
-	K0OXvyNVW+uDm1voIw==
-X-Received: by 2002:a17:907:3fa1:b0:bdd:378:3f2a with SMTP id
- a640c23a62f3a-bf372d28da4mr540955166b.38.1780862573018; Sun, 07 Jun 2026
- 13:02:53 -0700 (PDT)
+        bh=kLechR6MtiLxhXvRA3P5DCIDwtUpI6yw8jTZaq+/SsQ=;
+        b=Uaeee7ioFSP+XWuNIdQAukK6JcDpIY+Bp2GxfGVYENQGFbyhXwqnbYMvpwIIAvVXw+
+         3t/NWD3J52GNrR4FEJGuMgJZWhKF4DtzA6z+X7bjs5tpkGMXtT/YPAOFI2PsmISEixNg
+         EBGXBosv64jDTlijNEnXlO+6eWpJq0KrZKFk6NoSC1VaitqoGzcOUHCjd8Iu9FoVSYB4
+         YAfSzcE/q6eLv3HuA+8x1mduz0b7+/tBh5STsLgjiBSQ16CsEwtFPLO6d2RiyjSTBXTt
+         M76+HaM8RxyqnMy3c5S+09n9QagLzpnD/5ISL4ODpJCJFqT2RMpmE/UXanZTn2bgWfiH
+         kC2Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8fZqB6zWsoiYjqd6QHEk5PfRvIfHQxvvqMBj0Y0+GGcTQc0v9I3J8Z3JDiZw+7jdgPPrNklakf9b0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzlw6Z71uEeDqGLpienJZtbn5JDYsqDXXJRCSG7CabNmqTn5uBe
+	7vNJFBsDDObPcesNuA4SkrN+X5M3gLIeMGYtcpwRRjD11f4Ckb/0wHO1
+X-Gm-Gg: Acq92OH3JWJEO+o/OooEyFkyHLm9KhiTqcNTBzAzdegI/7jvCuZ5Ivv0DacRQfcWsFv
+	qa5+Ot1rcQa+fXKS2p25XoLaaNJvUhHHuCyHX7FYpJ/XO54NCCYj0e5wXPtGl8UoXhFqrFJS1Ax
+	XWgrzJnYZ+01PPypCJXD6uY4MCma8orUawr/ZtV8CVAyPQPz+Vso7D+V16XdL1sfjRZ1FnbLF4j
+	WGvWK2cfHlNofrLttBLW383V72oTp52znRlzCQUdNwLzfRgo2gIARxY3/vl3nLUYNYT2A462AKD
+	KGlBRcloTrDDCTSWUXuzNJTP28nNB7mds6K1dzRjRWyI6JZxEJV/KX1HV28SDag3NRCijlOnWAU
+	+K1BGr60DBZTrCBRTX6kRQe3+PqZjqovIPBlEHdTy0of17NImB2DLePlLByEiYjlTzPW/iOJwma
+	6TEfsPDm5W8iQzx6hQ4irGjelg09gQoM+zeEiIYoW4Z3o=
+X-Received: by 2002:a05:6512:318e:b0:5aa:6a8b:43af with SMTP id 2adb3069b0e04-5aa87b404efmr4147010e87.1.1780867541681;
+        Sun, 07 Jun 2026 14:25:41 -0700 (PDT)
+Received: from foxbook (bgt94.neoplus.adsl.tpnet.pl. [83.28.83.94])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-396abf66d87sm40582121fa.1.2026.06.07.14.25.39
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sun, 07 Jun 2026 14:25:41 -0700 (PDT)
+Date: Sun, 7 Jun 2026 23:25:35 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Nikhil Solanke <nikhilsolanke5@gmail.com>, linux-usb@vger.kernel.org,
+ gregkh@linuxfoundation.org, mathias.nyman@linux.intel.com,
+ sakari.ailus@linux.intel.com, katieeliu@tencent.com,
+ johannes.bruederl@gmail.com, kees@kernel.org, dengjie03@kylinos.cn,
+ limiao@kylinos.cn, wse@tuxedocomputers.com, dev@a1rm4x.com,
+ vahnenko2003@gmail.com, cs@tuxedo.de, lijiayi@kylinos.cn, oneukum@suse.com,
+ bence98@sch.bme.hu, eeodqql09@gmail.com
+Subject: Re: USB: Request for guidance investigating configuration
+ descriptor enumeration failure
+Message-ID: <20260607232535.74b935a2.michal.pecio@gmail.com>
+In-Reply-To: <1996a7ac-2670-4124-b855-6fdf0c9999ad@rowland.harvard.edu>
+References: <CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com>
+	<20260531101612.332151d8.michal.pecio@gmail.com>
+	<CAFgddhLGHvTmRxWtguXTpgZV_Mq5ZW=CVK_ZkqbOgUF9Y5bCsA@mail.gmail.com>
+	<20260531123843.736bd69a.michal.pecio@gmail.com>
+	<3b79ba92-1c51-420b-a5d2-8a358cafdbf6@rowland.harvard.edu>
+	<20260601084846.433bfc51.michal.pecio@gmail.com>
+	<CAFgddh+dLnR=AuAU65sxqsxAgqLYX9i0OiX3Ys_sPH+YeZuHVw@mail.gmail.com>
+	<20260602193047.5fe03b8d.michal.pecio@gmail.com>
+	<49acc9dd-9d2e-4a37-9b41-de5e16445461@rowland.harvard.edu>
+	<20260604125323.1bcb40d7.michal.pecio@gmail.com>
+	<1996a7ac-2670-4124-b855-6fdf0c9999ad@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com>
- <20260531101612.332151d8.michal.pecio@gmail.com> <CAFgddhLGHvTmRxWtguXTpgZV_Mq5ZW=CVK_ZkqbOgUF9Y5bCsA@mail.gmail.com>
- <20260531123843.736bd69a.michal.pecio@gmail.com> <3b79ba92-1c51-420b-a5d2-8a358cafdbf6@rowland.harvard.edu>
- <20260601084846.433bfc51.michal.pecio@gmail.com> <CAFgddh+dLnR=AuAU65sxqsxAgqLYX9i0OiX3Ys_sPH+YeZuHVw@mail.gmail.com>
- <20260602193047.5fe03b8d.michal.pecio@gmail.com> <49acc9dd-9d2e-4a37-9b41-de5e16445461@rowland.harvard.edu>
- <20260604125323.1bcb40d7.michal.pecio@gmail.com> <1996a7ac-2670-4124-b855-6fdf0c9999ad@rowland.harvard.edu>
-In-Reply-To: <1996a7ac-2670-4124-b855-6fdf0c9999ad@rowland.harvard.edu>
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Date: Mon, 8 Jun 2026 01:32:41 +0530
-X-Gm-Features: AVVi8CdAeeFC7M9odqAudTta1b23ySADb23WE1BVh4oW-RtTZab2dfDvSd6yc9Y
-Message-ID: <CAFgddh+FU-8xQ850GTkxt08R8ZdAn=kfVZz7bG8-aJ47kSy1ww@mail.gmail.com>
-Subject: Re: USB: Request for guidance investigating configuration descriptor
- enumeration failure
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Michal Pecio <michal.pecio@gmail.com>, linux-usb@vger.kernel.org, 
-	gregkh@linuxfoundation.org, mathias.nyman@linux.intel.com, 
-	sakari.ailus@linux.intel.com, katieeliu@tencent.com, 
-	johannes.bruederl@gmail.com, kees@kernel.org, dengjie03@kylinos.cn, 
-	limiao@kylinos.cn, wse@tuxedocomputers.com, dev@a1rm4x.com, 
-	vahnenko2003@gmail.com, cs@tuxedo.de, lijiayi@kylinos.cn, oneukum@suse.com, 
-	bence98@sch.bme.hu, eeodqql09@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-It looks like from all the testing both of you agree on 255 for the
-request size. And as requested by Alan earlier, I will go ahead and
-create the patch with wLength=3D255.
+On Sat, 6 Jun 2026 22:17:20 -0400, Alan Stern wrote:
+> On Thu, Jun 04, 2026 at 12:53:23PM +0200, Michal Pecio wrote:
+> > On Wed, 3 Jun 2026 22:02:44 -0400, Alan Stern wrote:  
+> > > I used a bus analyzer to capture what happens when Windows 11 
+> > > initializes and enumerates a USB-2 flash drive.  The short answer
+> > > is that yes, the initial Get-Configuration-Descriptor request is
+> > > for 255 bytes.  
+> > 
+> > Could you also try a few BIOSes, UEFIs and such?
+> > Or anything from Apple?  
+> 
+> Here's the information.  It may not clear things up as much as you
+> would like.
+> 
+> Samsung UEFI BIOS:
+> 	Get Device Desc		8
+> 	Set Address
+> 	Get Device Desc		18
+> 	Get Config Desc		255
+> 	Set Config
+> 
+> Lenovo UEFI BIOS:
+> 	Set Address
+> 	Get Device Desc		8
+> 	Get Device Desc		8
+> 	Get Device Desc		18
+> 	Get Config Desc		8
+> 	Get Config Desc		32
+> 	Get String Desc 0	2
+> 	Get String Desc 0	4
+> 	Set Config
+> 
+> IpadOS 26.5:
+> 	Set Address
+> 	Get Device Desc		18
+> 	Get String Desc 2	2
+> 	Get String Desc 2	34
+> 	Get String Desc 1	2
+> 	Get String Desc 1	18
+> 	Get String Desc 3	2
+> 	Get String Desc 3	50
+> 	Get Config Desc		9
+> 	Get Config Desc		32
+> 	Set Config
+> 
+> OSX 10.5:
+> 	Get Device Desc		18
+> 	Set Address
+> 	Get Device Desc		18
+> 	Get String Desc 2	2
+> 	Get String Desc 2	34
+> 	Get String Desc 1	2
+> 	Get String Desc 1	18
+> 	Get String Desc 3	2
+> 	Get String Desc 3	50
+> 	Get Config Desc		8
+> 	Get Config Desc		32
+> 	Set Config
 
-I want to make sure that this patch approval/merging process is smooth
-and its easy for the other maintainers to grasp the situation. So it
-would be helpful if you could look at this email patch draft and tell
-me what you think. Let me know if I captured the details obtained
-throughtout this investigation correctly (and also asking permission
-for tagging both of you):
+Quite a variation.
 
----
+Ipad is interesting because the single Device request must be a
+high-speed optimization, or they hacked their xHC to ignore short
+packets and keep reissuing IN tokens until the URB is filled.
 
-[PATCH] usbcore: Use wLength=3D255 for initial configuration descriptor
-read to fix quirky firmware
+Linux has been doing the initial 8 or 64 byte read at LS and HS since
+forever and I found no explanation besides nobody daring to touch it.
 
-Problem:
+Though I wonder if it wouldn't make sense to skip this at SS, because
+Windows does (in my QEMU tests) and very likely Apple too.
 
-Certain third-party USB game controllers exposing (or spoofing) an
-Xbox 360-compatible interface (VID:PID 045e:028e) fail to enumerate
-under Linux. The device disconnects from the bus without responding to
-the initial GET_DESCRIPTOR(CONFIGURATION) request, and the kernel
-logs:
+> I suspect that non-storage devices (such as an Xbox clone) might have 
+> more stringent requirements, because they don't need to be visible to
+> a BIOS.  In general, imitating Windows is almost certainly the best 
+> approach -- except perhaps for a few devices which are meant to be
+> used exclusively with Macs.
 
-  unable to read config index 0 descriptor/start: -71
+Are you suggesting to make the 255 byte configuration the new default,
+or are we still talking about a quirk exclusive to one device so far?
 
-The device then falls back to a secondary Android HID mode (with a
-different VID:PID), losing XInput functionality including rumble
-support. The
-failure reproduces across multiple machines, host controller types,
-and kernel versions including current mainline and LTS.
-
-Expected:
-
-The device should remain in XInput mode and complete enumeration, as
-it does under Windows.
-
-Observed:
-
-Linux issues the initial GET_DESCRIPTOR(CONFIGURATION) with wLength=3D9
-(USB_DT_CONFIG_SIZE). The device responds to this with a protocol
-error (EPROTO, -71) and resets to Android mode. Notably, the device
-enumerates correctly in Android mode when the same 9-byte request is
-issued for that mode's configuration descriptor, confirming the
-firmware bug is specific to the XInput mode.
-
-Investigation:
-
-usbmon traces from Linux and Wireshark/usbpcap traces from Windows are
-identical up to the point of failure, with no visible protocol-level
-difference explaining the divergence. The root cause was identified
-when Michal Pecio discovered via QEMU bus-level capture that Windows
-does not use wLength=3D9 for the initial config descriptor request, it
-uses wLength=3D255. This is not visible in Windows Wireshark/USBPcap
-traces because Windows routes enumeration-phase traffic to sniffers
-only after initialization completes. Alan Stern subsequently confirmed
-this with a bus analyzer (with a different usb 2 device), and the
-behavior has been verified back to Windows 95 OSR2.1 by Michal.
-
-Targeted testing also confirmed the firmware is sensitive to this exact fie=
-ld:
-
-  wLength=3D9:   fails  (EPROTO, -71)
-  wLength=3D10:  succeeds
-  wLength=3D16:  succeeds
-  wLength=3D255: succeeds
-
-Fix:
-
-Add a new quirk flag USB_QUIRK_CONFIG_REQ_SIZE which causes
-usb_get_configuration() to use wLength=3D255 instead of
-USB_DT_CONFIG_SIZE (9) for the initial GET_DESCRIPTOR(CONFIGURATION)
-request, mimicking long-standing Windows behavior. The value 255 is
-chosen since other devices with similar bugs may fingerprint the host
-by checking for a specific wLength value. If wTotalLength exceeds 255,
-the existing second full-sized read handles it correctly.
-Proposed patch:
-
----
-<the patch will be pasted inline here>
----
-
-Reported-by: Nikhil Solanke <...>
-Tested-by: Nikhil Solanke <...>
-Suggested-by: Nikhil Solanke <...>, Alan Stern <...>, Michal Pecio <...>
-
----
-
-Another question, in the guidelines I read the following warning:
-
-> Be wary of your editor=E2=80=99s word-wrap corrupting your patch, if you =
-choose to cut-n-paste your patch.
-
-what do they mean by "corrupting" here? Does it just mean that if
-there is a single line in the diff and word wrap causes it to go
-multiline, the subsequent copy paste will mess up the patch because
-the single line turned into multiple lines?
-
-> detail.  As you can see, it is a request for a Microsoft OS WCID string
-> descriptor (index 0xee), which this device evidently doesn't support.
-
-Out of curiosity, how does Linux handle the case when a device
-requests a Microsoft OS WCID string? What does it generally respond
-with? If Linux doesn't respond with a spoofed Microsoft OS WCID
-string, shouldn't there be a quirk that does spoof it to prevent an
-enumeration failure?
-
-Thanks,
-Nikhil Solanke
+Regards,
+Michal
