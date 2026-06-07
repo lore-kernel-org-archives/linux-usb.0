@@ -1,72 +1,70 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC23A386C0D
-	for <linux-usb@vger.kernel.org>; Sun,  7 Jun 2026 09:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C5C2E7179
+	for <linux-usb@vger.kernel.org>; Sun,  7 Jun 2026 10:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780825893; cv=none; b=KQPJtJym9sESui4wZt37nrRCxv1esVUYA6oPZCsNAY/fPg5Vh/Hhshhil8V0MFB9YS66vCKHJFBoJCTSbVLpm/DaZD0/QzsW2VQxjaB7CY58gIDmnEuxEQHmjXdBF0+W6g9T3ROFvuZ2Y5X3qPHfsNhwMFfZXW9lVRWu/euZSjQ=
+	t=1780827618; cv=none; b=j9GYSPSOQanPHaLsdtw/2RSh59/AI87psFNJRpasPx060TsDYKh8HulnLqT181GkWMHN9I+bmMBwo1DXUX7BJdI3aYMgY6H0ZfKccAytJiqBdsKq5lM3HDkjFmvaOpIGUkejkq88GLbWHvNhytHMm134NLRtteO2kqJsg0WaNcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780825893; c=relaxed/simple;
-	bh=i1oCpfdFswALacqKWEmloOwuDuQecUWVE49heEfU014=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dMiC6bE0JUv/JiAA9cyZT+G9PEyJ7JjpUmxEaU0GPoNM4G9MXl/fnsldY2IVyDRx69Env88OZJwhTxVVMGM1agHpcuBE1s60lN8Kush7A9BpFptSngwhb9OXh5GB8H83oRDwswYjPoTX9metHXRmnxEs/nmdRUUvgSmGTfWxOyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Znyv3Hmq; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1780827618; c=relaxed/simple;
+	bh=6UPUyR/iIrwRUAlQA+0uiaKnFim+086J02JKKx43t5U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FhdgvWPVfDDWSlPI63rxvLAOvpLpFh3wwcgXzkppDtxXyGkucdXJyQX2ssBj4XD5Un2EYbdMM43ux3JR0OwiWp5TrLYsdTxHO6QYf3ywygEJNC/IulK8+bo5lUlNqjue6q3m5d24HklcrEwUq1y05hfJR2+iOpg8N1YwDXevxIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oOeFBdZA; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Znyv3Hmq"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8423f869421so2540440b3a.3
-        for <linux-usb@vger.kernel.org>; Sun, 07 Jun 2026 02:51:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oOeFBdZA"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2bf3781ca51so33877655ad.0
+        for <linux-usb@vger.kernel.org>; Sun, 07 Jun 2026 03:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780825891; x=1781430691; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780827616; x=1781432416; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZZHHpy1q3ydpA2HSp+30PNQez/ja9FOTHakLXuwR4NM=;
-        b=Znyv3HmqTjKyuCY+O3O6ouCk6TOtSkW8eiuXLoptskWS1NMZtNNC+m1kulYWGKz3pP
-         DxzYGvqoCQ9jvFdNYpxK8+sGqWECqKGYgTcuT8a8ykh9Ssc3Cy6ZU9AMdIGD9rIO7+ZP
-         WRCsOh366t3p6UDxhKVuTQnAknTAhVhmz9hV+CwqdjEoO2DWrCtrRuHpu2JnZLd9zYIH
-         vVx1+TN7mASvd3zo43KVlQlGpActMTrbNYusgSXryePav56/eym0F80+CpqFAkWNJwzI
-         tH3NP4qRFq39Kk31GXNxFZ3yYn35R886ybRURqRIruaEYbjdfv3lbxzEap6ialpbxYQs
-         saAA==
+        bh=4cYHoEnn8Lw9yUZnPqIqEGwANKak1fsk1XF/TKoC4MM=;
+        b=oOeFBdZAXLKOyZGyxrBNOjPajauWwcwfs2N8oIJaGbEfOOq/FL81pIysXpDX4kbJH+
+         yjQ83rIpVE0jlnkpQY9sTC2Q0BILFWVCIusoOqKY+PsxYoMc+7LZ14ImORcv3eXfPbE1
+         uJsjCd+a3blEOjzTUdF/JK50UkvYk3UH8RGQZKC4haUDSoKyFnG//geFYnGVK8LCvp6s
+         zow6PS5+EAncNbdBKzWZhx6fd09JkaWGIU62G0nwH/1sqvLqJsHhmQRJrLDqnfiVX5FM
+         fa3PfnRkhvh4yay1qr2AOB3VsLF0koD+L0ACMRyCDX2p0/oK5u/ue/N+617cgJERtoBl
+         6ZNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780825891; x=1781430691;
+        d=1e100.net; s=20251104; t=1780827616; x=1781432416;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZZHHpy1q3ydpA2HSp+30PNQez/ja9FOTHakLXuwR4NM=;
-        b=aaRrS3AE5/is4ysFTCV42k+9QWbgVivnT3GSrvrQDkJ0/i9A3mmkZoVJfMme/WXqAS
-         TTAvfsOybDB+jzNjjFMThzFhnwsoHqHL73UyiRb+vxi3A36X3ERSGW0FS18v042aY9ZI
-         Ks3plFj3HuRe4kyNbVYacWvl+77ONce7tbSkOedglO773NVU/j3qZdCcE/WDvZgBFf49
-         EU9GvFekCTgQmlDEuBzBoZuTw2rv51GMBfjNy8UTiwIz7b6T9qikS6jfXRMQecZLSYXZ
-         26yU2Wl1yyMFZ/NqlD3corrXglkWGVIdn+ov7YIgwYAZGwa9cUbBXIHGD8DQEU03lpbp
-         8AWg==
-X-Gm-Message-State: AOJu0YyWxH7FL4NGBkxCys5D7evv9NLLUHKSmR+LbddMzEnSem1Zd1ww
-	yIY+FWr2JYpdr6w8IjUBAKvu7hxcNIxUjREt3EK7gZPNm2qdfJq1k2DYEt10mQHK
-X-Gm-Gg: Acq92OHq3PgUnqDGokb+UE9ip3rWyQmA0XcXdGL2GXqNJR4jIZhH1JRPO7194O2xkXH
-	ri72xoqFNZOLJJk5iaC6OlrhDMDwbHNF1/1lW3LiUqqgD+Gwt1ka6lg7J3oQdoeBaes99P9POeu
-	+kFJYkqWw1yRUfdNlXCSipuwkNIfZLHuG3WnnxtDMudEZEMrqO+7dYkwQ7dfR2LcJ1DgVymoBbo
-	Ayf4OTy5LSMb7G/DDdX5/cxN25IImSp3AJzHdJlcDzh6rniMHW9/yhtTmaHYH8hvCxRLfbHo+77
-	+YZcZHEJD4QL1KRLEnZ3RPsDoeH4C4v4zpSk2TjMP94gBj82h4khntPmkZcRb0VD6vGVU8OejvM
-	5wPbga8RGFem2YYQg3rFFtYWLUg3DBwKJkTsNMkP79VVTeD30q4pdvXZvGJOzHICwEBHDdgBfv2
-	ljrf2FdEYJRJhZe/zmD+9EAlYW47kK/t9IuVkWf1dvmFP1XHXWrfhN3Lg+Y7ds5/fH4N0mdJe9U
-	Oqts2pe86pmHvYFLLFqvrQUkl8=
-X-Received: by 2002:a05:6a00:9286:b0:842:4023:42c9 with SMTP id d2e1a72fcca58-842b0fc08c5mr11266234b3a.41.1780825891034;
-        Sun, 07 Jun 2026 02:51:31 -0700 (PDT)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84282916b10sm14629670b3a.58.2026.06.07.02.51.29
+        bh=4cYHoEnn8Lw9yUZnPqIqEGwANKak1fsk1XF/TKoC4MM=;
+        b=VtPOrU0GhNJS4goKoKeJxr9LVUOboIbNPj0AWN8Dr7ThKta3PrUfHevbUy1ihsibt8
+         3eJFTvWwKa9Rw1HNd0paugPMUvpxr7r6GP3XotRra1hHH36kNIg2MkhzXZd80MBNPetQ
+         wCaAjDJBd5AjCiel5nh1q+EajGK9MENpMmEywrjYb1gLRl/IV6BGOp9WLcpj4eff9jBC
+         TaQbl4z6vbo3WVb9nEIzv2rscnc7FFHfLz1f5Nu5s4enTqrloihh0nX8sOILNwPlyHTV
+         4XiuQ0tqrKX2d2gwhGkjmbi2hpqSIYOpYPKe/VTsK6e+ybcSyl608K62Qd0FDb/CvxZZ
+         raNA==
+X-Gm-Message-State: AOJu0YwGl1Ie/xJfgAIgcAg1IAb/zdwwSi1RGeW5rNnO5hD5UaatMqcv
+	YCd2c7kkLoYVSsDC85WiMNZgY5DQi/TM5yM/qKwul0mOQUMSe93U92F5
+X-Gm-Gg: Acq92OFFS7meBjUBdrzltbr2vgGabKewfphdoz6BbDP5kjZpLUq3ctHuC2lt3OW4Aqr
+	38j2ayF81GVPm7iL3TNMB/vG7hKt0Hsxdxtnft9nyrfXz0Jjm6m+MMatFiubPhLvA79BfypKyKB
+	T8zBcIaWeo++nEmTE8SXaSqQMV0I53HkRI3RiDFlKPxEIaxReyyoTMPpELSBaYi65h0PPFqqvNi
+	8aX+4zjj6w3mWPEVyMtf/1LlJvMQ5PCQj+SrTJy22jQP2yJJsvrQSHFZqDEllWb1UphnG5avWjT
+	0oLosWiEtKW4QSjEBRQJvZdVLZSvUyJmYtMr+nVcdi6g2H1UJW+o6yM2Kinw65KcSI6c02MFxGG
+	wPi/wTxn7KvnRW3A3fvFGWiBOLSnBhSyvzpgXAt6RbJcwPpMEh/s/agTX80snTuHGZEU8txtc0x
+	0MXgUTjEv/MQnHZaZhr9eL7z1zNfwImIM=
+X-Received: by 2002:a17:902:f603:b0:2c0:b932:8680 with SMTP id d9443c01a7336-2c1e7e3f22cmr132901695ad.10.1780827615986;
+        Sun, 07 Jun 2026 03:20:15 -0700 (PDT)
+Received: from nuvole ([2001:19f0:8001:53c:5400:4ff:fe86:d241])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609df63sm143424675ad.40.2026.06.07.03.20.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 02:51:30 -0700 (PDT)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Johan Hovold <johan@kernel.org>,
+        Sun, 07 Jun 2026 03:20:15 -0700 (PDT)
+From: Pengyu Luo <mitltlatltl@gmail.com>
+To: Pengyu Luo <mitltlatltl@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH] USB: serial: kl5kusb105: fix bulk-out buffer overflow
-Date: Sun,  7 Jun 2026 18:51:14 +0900
-Message-ID: <20260607095114.9375-1-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: ucsi: huawei_gaokun: support mode switching
+Date: Sun,  7 Jun 2026 18:18:44 +0800
+Message-ID: <20260607101844.820064-1-mitltlatltl@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -75,57 +73,167 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-klsi_105_prepare_write_buffer() is called by the generic write path
-with the bulk-out buffer and its size (bulk_out_size, 64 bytes). It
-stores a two-byte length header at the start of the buffer and copies
-the payload from the write fifo starting at buf + KLSI_HDR_LEN, but
-passes the full buffer size as the number of bytes to copy:
+The USB PHY (QMP Combo PHY) is always initialized in USB3+DP mode. In
+the past, there was no MUX, and it was unnecessary to set it, since
+MSM only supported 2-lane DP. But now, MST and 4-lane DP support has
+been added to MSM, and a MUX has been added to the PHY. To support
+4-lane DP and mode switching for gaokun, get the MUX and set it.
 
-  count = kfifo_out_locked(&port->write_fifo, buf + KLSI_HDR_LEN,
-                           size, &port->lock);
-
-When the fifo holds at least size bytes, size bytes are copied starting
-two bytes into the size-byte buffer, writing KLSI_HDR_LEN bytes past its
-end. Copy at most size - KLSI_HDR_LEN bytes instead, leaving room for
-the header as safe_serial already does.
-
-Writing bulk_out_size or more bytes to the tty triggers a slab
-out-of-bounds write, observed with KASAN by emulating the device with
-dummy_hcd and raw-gadget:
-
-  BUG: KASAN: slab-out-of-bounds in kfifo_copy_out+0x83/0xc0
-  Write of size 64 at addr ffff888112c62202 by task python3
-   kfifo_copy_out
-   klsi_105_prepare_write_buffer [kl5kusb105]
-   usb_serial_generic_write_start [usbserial]
-  Allocated by task 139:
-   usb_serial_probe [usbserial]
-  The buggy address is located 2 bytes inside of allocated 64-byte region
-
-The out-of-bounds write no longer occurs with this change applied.
-
-Fixes: 60b3013cdaf3 ("USB: kl5usb105: reimplement using generic framework")
-Cc: stable@vger.kernel.org
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
+Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
 ---
- drivers/usb/serial/kl5kusb105.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c | 55 +++++++++++++++------
+ 1 file changed, 41 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/usb/serial/kl5kusb105.c b/drivers/usb/serial/kl5kusb105.c
-index ed8531a64768..e72a0b45a707 100644
---- a/drivers/usb/serial/kl5kusb105.c
-+++ b/drivers/usb/serial/kl5kusb105.c
-@@ -330,8 +330,8 @@ static int klsi_105_prepare_write_buffer(struct usb_serial_port *port,
- 	unsigned char *buf = dest;
- 	int count;
+diff --git a/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c b/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
+index c5965656baba..95b7b77b726d 100644
+--- a/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
++++ b/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
+@@ -18,6 +18,7 @@
+ #include <linux/usb/pd_vdo.h>
+ #include <linux/usb/typec_altmode.h>
+ #include <linux/usb/typec_dp.h>
++#include <linux/usb/typec_mux.h>
+ #include <linux/workqueue_types.h>
  
--	count = kfifo_out_locked(&port->write_fifo, buf + KLSI_HDR_LEN, size,
--								&port->lock);
-+	count = kfifo_out_locked(&port->write_fifo, buf + KLSI_HDR_LEN,
-+				 size - KLSI_HDR_LEN, &port->lock);
- 	put_unaligned_le16(count, buf);
+ #include "ucsi.h"
+@@ -82,6 +83,8 @@ struct gaokun_ucsi_port {
+ 	struct gaokun_ucsi *ucsi;
+ 	struct auxiliary_device *bridge;
  
- 	return count + KLSI_HDR_LEN;
++	struct typec_mux *typec_mux;
++
+ 	int idx;
+ 	enum gaokun_ucsi_ccx ccx;
+ 	enum gaokun_ucsi_mux mux;
+@@ -226,19 +229,18 @@ static void gaokun_ucsi_port_update(struct gaokun_ucsi_port *port,
+ 	port->hpd_state = FIELD_GET(GAOKUN_HPD_STATE_MASK, ddi);
+ 	port->hpd_irq = FIELD_GET(GAOKUN_HPD_IRQ_MASK, ddi);
+ 
+-	/* Mode and SVID are unused; keeping them to make things clearer */
+ 	switch (port->mode) {
+ 	case USBC_DPAM_PAN_C:
+ 	case USBC_DPAM_PAN_C_REVERSE:
+-		port->mode = DP_PIN_ASSIGN_C; /* correct it for usb later */
++		port->mode = TYPEC_DP_STATE_C; /* correct it for usb later */
+ 		break;
+ 	case USBC_DPAM_PAN_D:
+ 	case USBC_DPAM_PAN_D_REVERSE:
+-		port->mode = DP_PIN_ASSIGN_D;
++		port->mode = TYPEC_DP_STATE_D;
+ 		break;
+ 	case USBC_DPAM_PAN_E:
+ 	case USBC_DPAM_PAN_E_REVERSE:
+-		port->mode = DP_PIN_ASSIGN_E;
++		port->mode = TYPEC_DP_STATE_E;
+ 		break;
+ 	case USBC_DPAM_PAN_NONE:
+ 		port->mode = TYPEC_STATE_SAFE;
+@@ -287,18 +289,32 @@ static int gaokun_ucsi_refresh(struct gaokun_ucsi *uec)
+ 	return idx;
+ }
+ 
+-static void gaokun_ucsi_handle_altmode(struct gaokun_ucsi_port *port)
++static void gaokun_ucsi_handle_usb_mode(struct gaokun_ucsi_port *port)
+ {
+ 	struct gaokun_ucsi *uec = port->ucsi;
+-	int idx = port->idx;
+-
+-	if (idx >= uec->ucsi->cap.num_connectors) {
++	struct typec_mux_state state = {};
++	struct typec_altmode dp_alt = {};
++	int idx = port->idx, ret;
++
++	/*
++	 * For every typec port on this platform, the only mode-switch is
++	 * controlled by its qmp combo phy which consumes svid and mode only.
++	 */
++	dp_alt.svid = port->svid;
++	state.mode = port->mode;
++	state.alt = &dp_alt;
++
++	if (idx >= uec->num_ports) {
+ 		dev_warn(uec->dev, "altmode port out of range: %d\n", idx);
+ 		return;
+ 	}
+ 
++	ret = typec_mux_set(port->typec_mux, &state);
++	if (ret)
++		dev_err(uec->dev, "failed to set mux %d\n", ret);
++
+ 	/* UCSI callback .connector_status() have set orientation */
+-	if (port->bridge)
++	if (port->bridge && port->svid == USB_TYPEC_DP_SID)
+ 		drm_aux_hpd_bridge_notify(&port->bridge->dev,
+ 					  port->hpd_state ?
+ 					  connector_status_connected :
+@@ -307,7 +323,7 @@ static void gaokun_ucsi_handle_altmode(struct gaokun_ucsi_port *port)
+ 	gaokun_ec_ucsi_pan_ack(uec->ec, port->idx);
+ }
+ 
+-static void gaokun_ucsi_altmode_notify_ind(struct gaokun_ucsi *uec)
++static void gaokun_ucsi_usb_notify_ind(struct gaokun_ucsi *uec)
+ {
+ 	int idx;
+ 
+@@ -320,7 +336,7 @@ static void gaokun_ucsi_altmode_notify_ind(struct gaokun_ucsi *uec)
+ 	if (idx == GAOKUN_UCSI_NO_PORT_UPDATE)
+ 		gaokun_ec_ucsi_pan_ack(uec->ec, idx); /* ack directly if no update */
+ 	else
+-		gaokun_ucsi_handle_altmode(&uec->ports[idx]);
++		gaokun_ucsi_handle_usb_mode(&uec->ports[idx]);
+ }
+ 
+ /*
+@@ -352,7 +368,7 @@ static void gaokun_ucsi_handle_no_usb_event(struct gaokun_ucsi *uec, int idx)
+ 	port = &uec->ports[idx];
+ 	if (!wait_for_completion_timeout(&port->usb_ack, 2 * HZ)) {
+ 		dev_warn(uec->dev, "No USB EVENT, triggered by UCSI EVENT");
+-		gaokun_ucsi_altmode_notify_ind(uec);
++		gaokun_ucsi_usb_notify_ind(uec);
+ 	}
+ }
+ 
+@@ -366,7 +382,7 @@ static int gaokun_ucsi_notify(struct notifier_block *nb,
+ 	switch (action) {
+ 	case EC_EVENT_USB:
+ 		gaokun_ucsi_complete_usb_ack(uec);
+-		gaokun_ucsi_altmode_notify_ind(uec);
++		gaokun_ucsi_usb_notify_ind(uec);
+ 		return NOTIFY_OK;
+ 
+ 	case EC_EVENT_UCSI:
+@@ -429,8 +445,15 @@ static int gaokun_ucsi_ports_init(struct gaokun_ucsi *uec)
+ 			fwnode_handle_put(fwnode);
+ 			return PTR_ERR(ucsi_port->bridge);
+ 		}
+-	}
+ 
++		ucsi_port->typec_mux = fwnode_typec_mux_get(fwnode);
++		if (IS_ERR(ucsi_port->typec_mux)) {
++			fwnode_handle_put(fwnode);
++			return dev_err_probe(dev, PTR_ERR(ucsi_port->typec_mux),
++					     "failed to acquire mode-switch for port: %d\n",
++					     port);
++		}
++	}
+ 	for (i = 0; i < num_ports; i++) {
+ 		if (!uec->ports[i].bridge)
+ 			continue;
+@@ -502,10 +525,14 @@ static int gaokun_ucsi_probe(struct auxiliary_device *adev,
+ static void gaokun_ucsi_remove(struct auxiliary_device *adev)
+ {
+ 	struct gaokun_ucsi *uec = auxiliary_get_drvdata(adev);
++	int i;
+ 
+ 	disable_delayed_work_sync(&uec->work);
+ 	gaokun_ec_unregister_notify(uec->ec, &uec->nb);
+ 	ucsi_unregister(uec->ucsi);
++	for (i = 0; i < uec->num_ports; ++i)
++		typec_mux_put(uec->ports[i].typec_mux);
++
+ 	ucsi_destroy(uec->ucsi);
+ }
+ 
 -- 
-2.43.0
+2.54.0
 
