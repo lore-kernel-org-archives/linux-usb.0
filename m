@@ -1,239 +1,329 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C5C2E7179
-	for <linux-usb@vger.kernel.org>; Sun,  7 Jun 2026 10:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990BAF9E8;
+	Sun,  7 Jun 2026 16:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780827618; cv=none; b=j9GYSPSOQanPHaLsdtw/2RSh59/AI87psFNJRpasPx060TsDYKh8HulnLqT181GkWMHN9I+bmMBwo1DXUX7BJdI3aYMgY6H0ZfKccAytJiqBdsKq5lM3HDkjFmvaOpIGUkejkq88GLbWHvNhytHMm134NLRtteO2kqJsg0WaNcQ=
+	t=1780851104; cv=none; b=DKHrit8Xw80lMgRDUU5vebitoivXVHaYvRpcUnnP8CEhfRYK4eSz4QRlkftkLzvyLfSCZ2oDOI1rDnCMnGS6bS3C0KhwwC2Ge+2uWUEbgUX85l/kt65vHn4qugYKoCFkWiUJcsBUw8CtigSZxY74BE825F07qg7Z0a+hDWXIKO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780827618; c=relaxed/simple;
-	bh=6UPUyR/iIrwRUAlQA+0uiaKnFim+086J02JKKx43t5U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FhdgvWPVfDDWSlPI63rxvLAOvpLpFh3wwcgXzkppDtxXyGkucdXJyQX2ssBj4XD5Un2EYbdMM43ux3JR0OwiWp5TrLYsdTxHO6QYf3ywygEJNC/IulK8+bo5lUlNqjue6q3m5d24HklcrEwUq1y05hfJR2+iOpg8N1YwDXevxIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oOeFBdZA; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780851104; c=relaxed/simple;
+	bh=GjyhGzsLw2NZ5VYLPHou+5nDWn+scOoYWyBpxrWilH4=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D+w1QSfJsiRwf2qtZJ30i/gzS7n09oKJGqH4Trfi1f1Zm2voddpkqc+53R9NWb/LdEYXPbORo5M0XbnxrLcP33YE8fuYJuqaZNaSPJS2S/+4bf+4g/AjrWCqhxWO8xxHiyvLKILt8VViNneh4R0IfKFn922nKJEoDanspX5KjKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ghoul.dev; spf=pass smtp.mailfrom=ghoul.dev; dkim=pass (2048-bit key) header.d=ghoul.dev header.i=@ghoul.dev header.b=hf3Cf3dr; arc=none smtp.client-ip=185.70.43.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ghoul.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghoul.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oOeFBdZA"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2bf3781ca51so33877655ad.0
-        for <linux-usb@vger.kernel.org>; Sun, 07 Jun 2026 03:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780827616; x=1781432416; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4cYHoEnn8Lw9yUZnPqIqEGwANKak1fsk1XF/TKoC4MM=;
-        b=oOeFBdZAXLKOyZGyxrBNOjPajauWwcwfs2N8oIJaGbEfOOq/FL81pIysXpDX4kbJH+
-         yjQ83rIpVE0jlnkpQY9sTC2Q0BILFWVCIusoOqKY+PsxYoMc+7LZ14ImORcv3eXfPbE1
-         uJsjCd+a3blEOjzTUdF/JK50UkvYk3UH8RGQZKC4haUDSoKyFnG//geFYnGVK8LCvp6s
-         zow6PS5+EAncNbdBKzWZhx6fd09JkaWGIU62G0nwH/1sqvLqJsHhmQRJrLDqnfiVX5FM
-         fa3PfnRkhvh4yay1qr2AOB3VsLF0koD+L0ACMRyCDX2p0/oK5u/ue/N+617cgJERtoBl
-         6ZNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780827616; x=1781432416;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4cYHoEnn8Lw9yUZnPqIqEGwANKak1fsk1XF/TKoC4MM=;
-        b=VtPOrU0GhNJS4goKoKeJxr9LVUOboIbNPj0AWN8Dr7ThKta3PrUfHevbUy1ihsibt8
-         3eJFTvWwKa9Rw1HNd0paugPMUvpxr7r6GP3XotRra1hHH36kNIg2MkhzXZd80MBNPetQ
-         wCaAjDJBd5AjCiel5nh1q+EajGK9MENpMmEywrjYb1gLRl/IV6BGOp9WLcpj4eff9jBC
-         TaQbl4z6vbo3WVb9nEIzv2rscnc7FFHfLz1f5Nu5s4enTqrloihh0nX8sOILNwPlyHTV
-         4XiuQ0tqrKX2d2gwhGkjmbi2hpqSIYOpYPKe/VTsK6e+ybcSyl608K62Qd0FDb/CvxZZ
-         raNA==
-X-Gm-Message-State: AOJu0YwGl1Ie/xJfgAIgcAg1IAb/zdwwSi1RGeW5rNnO5hD5UaatMqcv
-	YCd2c7kkLoYVSsDC85WiMNZgY5DQi/TM5yM/qKwul0mOQUMSe93U92F5
-X-Gm-Gg: Acq92OFFS7meBjUBdrzltbr2vgGabKewfphdoz6BbDP5kjZpLUq3ctHuC2lt3OW4Aqr
-	38j2ayF81GVPm7iL3TNMB/vG7hKt0Hsxdxtnft9nyrfXz0Jjm6m+MMatFiubPhLvA79BfypKyKB
-	T8zBcIaWeo++nEmTE8SXaSqQMV0I53HkRI3RiDFlKPxEIaxReyyoTMPpELSBaYi65h0PPFqqvNi
-	8aX+4zjj6w3mWPEVyMtf/1LlJvMQ5PCQj+SrTJy22jQP2yJJsvrQSHFZqDEllWb1UphnG5avWjT
-	0oLosWiEtKW4QSjEBRQJvZdVLZSvUyJmYtMr+nVcdi6g2H1UJW+o6yM2Kinw65KcSI6c02MFxGG
-	wPi/wTxn7KvnRW3A3fvFGWiBOLSnBhSyvzpgXAt6RbJcwPpMEh/s/agTX80snTuHGZEU8txtc0x
-	0MXgUTjEv/MQnHZaZhr9eL7z1zNfwImIM=
-X-Received: by 2002:a17:902:f603:b0:2c0:b932:8680 with SMTP id d9443c01a7336-2c1e7e3f22cmr132901695ad.10.1780827615986;
-        Sun, 07 Jun 2026 03:20:15 -0700 (PDT)
-Received: from nuvole ([2001:19f0:8001:53c:5400:4ff:fe86:d241])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609df63sm143424675ad.40.2026.06.07.03.20.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 03:20:15 -0700 (PDT)
-From: Pengyu Luo <mitltlatltl@gmail.com>
-To: Pengyu Luo <mitltlatltl@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: ucsi: huawei_gaokun: support mode switching
-Date: Sun,  7 Jun 2026 18:18:44 +0800
-Message-ID: <20260607101844.820064-1-mitltlatltl@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=ghoul.dev header.i=@ghoul.dev header.b="hf3Cf3dr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ghoul.dev;
+	s=protonmail; t=1780851093; x=1781110293;
+	bh=vfcUgLdeDIcgB9Qv5T42xl+pYHFxOYE2pzGjXLMyLbI=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=hf3Cf3drU74eofgvIQ00jnwAZNzcaMWJa0ltpJIkQmBD8KRbWWUfvKELKkppiY4uT
+	 w6rWydUxA5v3OufnskqXLGKqmgscXafWviynR4B8d0XcGiYyNWgZ9PNT7sgyib07ky
+	 LOgaJMtrER0DsWU14uXMNZ4RLsctBABOq+TzvHGGat5L1E5lEpDemHYhSGAMgXTgeh
+	 4tM8+mtNR0sPfNjvVxXcOgr8YYTqXR2Uvel/snrpI5bLn5zoiYoaFQ6WwBLLLUn/DX
+	 kdqhGgV5LY1xI/qe8hCNw07QkZKs8bMRskPgRMecquo8sdQgsvU9AY9rDLxw+mzI3V
+	 NvUyEjh9HHUTg==
+Date: Sun, 07 Jun 2026 16:51:24 +0000
+To: Antheas Kapenekakis <lkml@antheas.dev>, Denis Benato <benato.denis96@gmail.com>
+From: Yaseen <yaseen@ghoul.dev>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, =?utf-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, Kerim Kabirov <the.privat33r+linux@pm.me>, GameBurrow <gameburrow@pm.me>, linux-usb@vger.kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] HID: usbhid: skip interrupt IN polling for devices with no input reports
+Message-ID: <20a9d77f-c60a-44ba-ac39-15107fc81256@ghoul.dev>
+In-Reply-To: <CAGwozwFMm2o2G-fOixvu+QVXGsDC+E81+1Nsk4kQ7xbpnvhVPg@mail.gmail.com>
+References: <20260605113952.38435-1-yaseen@ghoul.dev> <CAGwozwFWbW=v2B7ruS4OUGuPhjSayw4Qxj3K+bCzwmgQu158Ng@mail.gmail.com> <ceb5ed4b-1654-463d-9cff-4a1b91d52e92@gmail.com> <CAGwozwFMm2o2G-fOixvu+QVXGsDC+E81+1Nsk4kQ7xbpnvhVPg@mail.gmail.com>
+Feedback-ID: 177610485:user:proton
+X-Pm-Message-ID: 9d879738ad56bc6f8e065f686774cefdbeaad699
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-The USB PHY (QMP Combo PHY) is always initialized in USB3+DP mode. In
-the past, there was no MUX, and it was unnecessary to set it, since
-MSM only supported 2-lane DP. But now, MST and 4-lane DP support has
-been added to MSM, and a MUX has been added to the PHY. To support
-4-lane DP and mode switching for gaokun, get the MUX and set it.
+On 06/06/2026 18:13, Antheas Kapenekakis wrote:
+> On Sat, 6 Jun 2026 at 14:42, Denis Benato <benato.denis96@gmail.com> wrot=
+e:
+>>
+>>
+>> On 6/5/26 14:02, Antheas Kapenekakis wrote:
+>>> On Fri, 5 Jun 2026 at 13:40, Ahmed Yaseen <yaseen@ghoul.dev> wrote:
+>>>> usbhid starts polling a device's interrupt IN endpoint on open
+>>>> (usbhid_open() -> hid_start_in()). If the report descriptor declares n=
+o
+>>>> input reports there is nothing to read there, so the poll is useless,
+>>>> and on some composite devices it is also harmful.
+>>> If it did have input reports, would starting the polling still cause
+>>> issues? Because if it would, the issue is in the polling itself.
+>> So far we haven't found an asus device that has more than one interface
+>> that supports reading data out of if.
+>>> Given the creativity of manufacturers when implementing hid protocols,
+>>> I find it certain that they do use the in endpoint even without input
+>>> reports. E.g., for feature reports. This could cause regressions.
 
-Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
----
- drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c | 55 +++++++++++++++------
- 1 file changed, 41 insertions(+), 14 deletions(-)
+The ASUS ROG N-Key Device does have feature reports. They are used for=20
+RGB control on the keyboard. I have confirmed this with a test by not=20
+registering the hidraw node for this interface at all and noted that RGB=20
+stops working after. So hiding or ejecting this interface is not an=20
+option. Therefore, after this patch, I myself, together with Kerim and=20
+GameBurrow have paid attention explicitly to ensure there are no=20
+regressions to the LED controls, while fixing the keyboard issue.
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c b/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
-index c5965656baba..95b7b77b726d 100644
---- a/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
-+++ b/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
-@@ -18,6 +18,7 @@
- #include <linux/usb/pd_vdo.h>
- #include <linux/usb/typec_altmode.h>
- #include <linux/usb/typec_dp.h>
-+#include <linux/usb/typec_mux.h>
- #include <linux/workqueue_types.h>
- 
- #include "ucsi.h"
-@@ -82,6 +83,8 @@ struct gaokun_ucsi_port {
- 	struct gaokun_ucsi *ucsi;
- 	struct auxiliary_device *bridge;
- 
-+	struct typec_mux *typec_mux;
-+
- 	int idx;
- 	enum gaokun_ucsi_ccx ccx;
- 	enum gaokun_ucsi_mux mux;
-@@ -226,19 +229,18 @@ static void gaokun_ucsi_port_update(struct gaokun_ucsi_port *port,
- 	port->hpd_state = FIELD_GET(GAOKUN_HPD_STATE_MASK, ddi);
- 	port->hpd_irq = FIELD_GET(GAOKUN_HPD_IRQ_MASK, ddi);
- 
--	/* Mode and SVID are unused; keeping them to make things clearer */
- 	switch (port->mode) {
- 	case USBC_DPAM_PAN_C:
- 	case USBC_DPAM_PAN_C_REVERSE:
--		port->mode = DP_PIN_ASSIGN_C; /* correct it for usb later */
-+		port->mode = TYPEC_DP_STATE_C; /* correct it for usb later */
- 		break;
- 	case USBC_DPAM_PAN_D:
- 	case USBC_DPAM_PAN_D_REVERSE:
--		port->mode = DP_PIN_ASSIGN_D;
-+		port->mode = TYPEC_DP_STATE_D;
- 		break;
- 	case USBC_DPAM_PAN_E:
- 	case USBC_DPAM_PAN_E_REVERSE:
--		port->mode = DP_PIN_ASSIGN_E;
-+		port->mode = TYPEC_DP_STATE_E;
- 		break;
- 	case USBC_DPAM_PAN_NONE:
- 		port->mode = TYPEC_STATE_SAFE;
-@@ -287,18 +289,32 @@ static int gaokun_ucsi_refresh(struct gaokun_ucsi *uec)
- 	return idx;
- }
- 
--static void gaokun_ucsi_handle_altmode(struct gaokun_ucsi_port *port)
-+static void gaokun_ucsi_handle_usb_mode(struct gaokun_ucsi_port *port)
- {
- 	struct gaokun_ucsi *uec = port->ucsi;
--	int idx = port->idx;
--
--	if (idx >= uec->ucsi->cap.num_connectors) {
-+	struct typec_mux_state state = {};
-+	struct typec_altmode dp_alt = {};
-+	int idx = port->idx, ret;
-+
-+	/*
-+	 * For every typec port on this platform, the only mode-switch is
-+	 * controlled by its qmp combo phy which consumes svid and mode only.
-+	 */
-+	dp_alt.svid = port->svid;
-+	state.mode = port->mode;
-+	state.alt = &dp_alt;
-+
-+	if (idx >= uec->num_ports) {
- 		dev_warn(uec->dev, "altmode port out of range: %d\n", idx);
- 		return;
- 	}
- 
-+	ret = typec_mux_set(port->typec_mux, &state);
-+	if (ret)
-+		dev_err(uec->dev, "failed to set mux %d\n", ret);
-+
- 	/* UCSI callback .connector_status() have set orientation */
--	if (port->bridge)
-+	if (port->bridge && port->svid == USB_TYPEC_DP_SID)
- 		drm_aux_hpd_bridge_notify(&port->bridge->dev,
- 					  port->hpd_state ?
- 					  connector_status_connected :
-@@ -307,7 +323,7 @@ static void gaokun_ucsi_handle_altmode(struct gaokun_ucsi_port *port)
- 	gaokun_ec_ucsi_pan_ack(uec->ec, port->idx);
- }
- 
--static void gaokun_ucsi_altmode_notify_ind(struct gaokun_ucsi *uec)
-+static void gaokun_ucsi_usb_notify_ind(struct gaokun_ucsi *uec)
- {
- 	int idx;
- 
-@@ -320,7 +336,7 @@ static void gaokun_ucsi_altmode_notify_ind(struct gaokun_ucsi *uec)
- 	if (idx == GAOKUN_UCSI_NO_PORT_UPDATE)
- 		gaokun_ec_ucsi_pan_ack(uec->ec, idx); /* ack directly if no update */
- 	else
--		gaokun_ucsi_handle_altmode(&uec->ports[idx]);
-+		gaokun_ucsi_handle_usb_mode(&uec->ports[idx]);
- }
- 
- /*
-@@ -352,7 +368,7 @@ static void gaokun_ucsi_handle_no_usb_event(struct gaokun_ucsi *uec, int idx)
- 	port = &uec->ports[idx];
- 	if (!wait_for_completion_timeout(&port->usb_ack, 2 * HZ)) {
- 		dev_warn(uec->dev, "No USB EVENT, triggered by UCSI EVENT");
--		gaokun_ucsi_altmode_notify_ind(uec);
-+		gaokun_ucsi_usb_notify_ind(uec);
- 	}
- }
- 
-@@ -366,7 +382,7 @@ static int gaokun_ucsi_notify(struct notifier_block *nb,
- 	switch (action) {
- 	case EC_EVENT_USB:
- 		gaokun_ucsi_complete_usb_ack(uec);
--		gaokun_ucsi_altmode_notify_ind(uec);
-+		gaokun_ucsi_usb_notify_ind(uec);
- 		return NOTIFY_OK;
- 
- 	case EC_EVENT_UCSI:
-@@ -429,8 +445,15 @@ static int gaokun_ucsi_ports_init(struct gaokun_ucsi *uec)
- 			fwnode_handle_put(fwnode);
- 			return PTR_ERR(ucsi_port->bridge);
- 		}
--	}
- 
-+		ucsi_port->typec_mux = fwnode_typec_mux_get(fwnode);
-+		if (IS_ERR(ucsi_port->typec_mux)) {
-+			fwnode_handle_put(fwnode);
-+			return dev_err_probe(dev, PTR_ERR(ucsi_port->typec_mux),
-+					     "failed to acquire mode-switch for port: %d\n",
-+					     port);
-+		}
-+	}
- 	for (i = 0; i < num_ports; i++) {
- 		if (!uec->ports[i].bridge)
- 			continue;
-@@ -502,10 +525,14 @@ static int gaokun_ucsi_probe(struct auxiliary_device *adev,
- static void gaokun_ucsi_remove(struct auxiliary_device *adev)
- {
- 	struct gaokun_ucsi *uec = auxiliary_get_drvdata(adev);
-+	int i;
- 
- 	disable_delayed_work_sync(&uec->work);
- 	gaokun_ec_unregister_notify(uec->ec, &uec->nb);
- 	ucsi_unregister(uec->ucsi);
-+	for (i = 0; i < uec->num_ports; ++i)
-+		typec_mux_put(uec->ports[i].typec_mux);
-+
- 	ucsi_destroy(uec->ucsi);
- }
- 
--- 
-2.54.0
+Also worth noting that feature reports travel over EP0 via=20
+usbhid_{get,set}_raw_report() in both directions. The interrupt IN=20
+endpoint is only ever used to receive input reports: hid_irq_in() passes=20
+everything it gets to hid_safe_input_report(HID_INPUT_REPORT, ...).=20
+There is no code in usbhid that reads feature reports from the interrupt=20
+IN endpoint at all, so skipping that poll cannot break any feature=20
+reports on any device. This is also mentioned in my patch description:
+
+=09"Feature reports and hidraw output keep working over the control and=20
+OUT endpoints, so the interface is otherwise unaffected."
+
+Regarding a manufacturer using in endpoint without an input report, even=20
+today, the HID core would drop that data before it reaches hidraw:=20
+__hid_input_report() bails when hid_get_report() finds no matching=20
+report. That bail is also before the driver's ->raw_event() callback, so=20
+no driver or hidraw reader can currently be relying on such traffic.
+
+>> While I mostly agree with this it is also true that the general directio=
+n
+>> for the kernel (especially lately) has been to not do out-of-spec things
+>> at least by default.
+>>
+>> If things really regress it's expected to do so only an very few specifi=
+c
+>> devices with a buggy firmware, and we can think of something different
+>> for those (hopefully very few ones).
+>>
+>> Perhaps someone concerned with security might be interested in what
+>> we have because it doesn't look very normal.
+>>
+>> Note that below I have written a few ideas that maybe are worth
+>=20
+> The degradation would be silent.
+>=20
+>> looking into.
+>>>> The ASUS ROG N-Key keyboards expose a second, input-less interface use=
+d
+>>>> only for RGB control via feature reports. Opening its hidraw node (any
+>>>> hidraw reader does, including SDL/Steam Input or a plain cat) starts t=
+he
+>>> cating a hidraw causing issues would be expected, so let's focus on the=
+ former.
+>=20
+> Try to add spaces before and after your responses
+>=20
+>> Simply opening an hidraw should not trigger a delayed disconnect of that=
+ device,
+>> I don't know why you would expect this to happen nor why you would
+>> consider it acceptable. It's a bug.
+>>
+>> Focusing on userspace software exposing the bug is not a realistic optio=
+n
+>> because over the time we found a good chunk of software doing that:
+>> - logitech control software (forgot the name)
+>> - open razer software
+>> - sdl
+>> - asusctl (obviously it opens the device albeit in the future I will cha=
+nge this)
+>>
+>> and likely more given the fact not all software was identified.
+>>> Asusctl has a bug where if you add the quirk that separates the event
+>>> nodes per hid, this bug is reproduced as well. I chucked it to
+>>> complicated threading getting out of control. It is the reason we
+>>> skipped that patch that was in my series.
+>> I found and solved the bug already. Regardless the issue remains:
+>> Even with no asusctl at all, if a user has one logitech mouse
+>> (and its control software) and a razer keyboard (and its control softwar=
+e)
+>> the asus N-Key device will start an endless disconnect-reconnect loop.
+>>
+>> Any combination of two or more of those tools will trigger the issue
+>> on some devices (weirdly enough not every model is affected):
+>>
+>> this is not good.
+>>> Now, you say SDL/Steam do a spurious read as well, can you identify
+>>> the codepath so we can look into it? What devices are affected? The
+>>> early return fixes a warning on the Z13, but it also feeds through the
+>>> universal lamp interface on the new Xbox Allies. Is this a bug on
+>>> those devices or keyboards? If yes, it could be caused by userspace
+>>> hanging on that node
+
+Affected devices include the ROG STRIX 2025 lineup: Scar 16/18=20
+(G635L/G835L) and G16/G18 (G615L/G815L). My patch has been tested on=20
+both Scar 18 and G18. Additionally a user with a Scar 18 2024 model=20
+(G634JZR) has reported the issue as well; they were unable to=20
+participate in testing but reproduce the issue with the same cat command=20
+(reproduction command provided below). It is likely the G16/G18 of 2024=20
+will also be affected. Models prior to 2024 appear unaffected so far.
+
+A user with an Xbox Ally X has tested this for me as well as of writing=20
+this email. So we are able to confirm that this device is unaffected and=20
+no regressions are noticed on that device from my patch, including the=20
+lamp/RGB controls.
+
+I do not have access to a Z13 at the moment. If you have one, it would=20
+be very helpful for me if you could test for any regressions on that=20
+device and if the device is affected by the bug, and whether or not this=20
+patch fixes the issue.
+
+I would also like to take this opportunity to mention that the 3 testers=20
+and I are all daily driving a kernel with this patch applied, and over=20
+the last few days, have noticed no issues with any devices.
+
+>> Sure, and I agree with you that fixing all userspace tools is desirable
+>> but it's also unfeasible to fix them all, if we managed to do that
+>> there will be years before everyone receives a fixed version of every
+>> affected software and even then a core issue would remain:
+>> linux tries to poll something it can't have anything out from.
+>>
+>> I am much more oriented on the fact that kernel shouldn't
+>> be doing weird things (at least not by default) so this has to
+>> somehow be stopped regardless of how well userspace behaves.
+>=20
+> The kernel is not doing weird things and I also did not ask you to fix
+> all userspace software. I asked for a reproduction scenario, as it is
+> not covered in the patch description. Relooking at the patch today, I
+> also do not understand what it does fully.
+
+The reproduction scenario is in the patch description:
+
+=09"Opening its hidraw node (any hidraw reader does, including SDL/Steam=20
+Input or a plain cat) starts the pointless IN poll and keypress reports=20
+on the keyboard interface get dropped for as long as the node stays=20
+open: a lost key-down drops a letter, a lost key-up leaves the key stuck."
+
+i.e. run "sudo timeout 15 cat /dev/hidrawX" against the N-Key RGB=20
+interface, then type on the internal keyboard.
+
+>=20
+> It skips enabling input interrupts (but not only that) for devices
+> that have no input reports. So the kernel behavior will depend on the
+> feature descriptor moving forward.
+
+What the patch does is the last paragraph of the description:
+
+=09"Skip the poll in usbhid_open() when the device has no input reports."
+
+Interrupt IN endpoint on a device with 0 input reports isn't doing=20
+anything anyway. The other things the early return skips only matter=20
+when input is possible.
+
+>=20
+> And that fixes a hang on the affected devices because enabling
+> interrupts on an endpoint without periodic input reports blocks a
+> parallel endpoint that does have input reports?
+>=20
+> I would like this fix to target the actual cause that causes the block
+> but it is not clear to me what that is or what is affected.
+
+As per my investigations with usbmon, I can see that the keyboard=20
+interface's input reports never reach the URB layer while the RGB=20
+interface is being polled. From the patch description:
+
+=09"usbmon shows the dropped reports never reach the URB layer"
+
+So the blocking likely happens inside the device's firmware, and not in=20
+the kernel, so the kernel cannot fix that part. What the kernel can do=20
+is to stop arming the IN URB on an endpoint that as per its own=20
+descriptor, can never produce data.
+
+>=20
+> Antheas
+>=20
+>> If you have better ideas on how to fix the kernel we would
+>> like to hear those as well.
+>>
+>> Best regards,
+>> Denis
+>>> Antheas
+>>>
+>>>> pointless IN poll and keypress reports on the keyboard interface get
+>>>> dropped for as long as the node stays open: a lost key-down drops a
+>>>> letter, a lost key-up leaves the key stuck. usbmon shows the dropped
+>>>> reports never reach the URB layer.
+>>>>
+>>>> The useless poll itself is long-standing; commit 4ac74ea68f64 ("HID:
+>>>> asus: early return for ROG devices") is what exposes it on these
+>>>> devices by keeping the input-less interface alive instead of ejecting
+>>>> it, so its hidraw node can be opened and the poll started.
+>>>>
+>>>> Skip the poll in usbhid_open() when the device has no input reports.
+>>>> Feature reports and hidraw output keep working over the control and OU=
+T
+>>>> endpoints, so the interface is otherwise unaffected.
+>> I will write my review here to avoid forking the discussion:
+>>
+>> I agree with the general idea but perhaps we can avoid
+>> some hid devices to ever get HID_QUIRK_ALWAYS_POLL
+>> and that might be enough to skip the problematic code?
+>>
+>> Maybe there is value in doing this with a quirk flag in hid-asus.c
+>> affecting the least amount of devices?
+>>
+>> Or maybe just prevent devices with no data possibly coming out
+>> to ever get HID_QUIRK_ALWAYS_POLL?
+
+Thank you for the review!
+
+I would like to also highlight one thing here; the HID_QUIRK_ALWAYS_POLL=20
+is not given to this specific device. It was already in the if=20
+condition, for the devices that do use it; my change only ORs a second=20
+independent condition into it. So keeping devices away from that quirk=20
+would not change anything here.
+
+Adding a quirk flag for this specific device is something I too have=20
+considered and will be happy to change it like so if Jiri or Benjamin=20
+feel it is more appropriate. My reasoning for taking the current route=20
+is that it would prevent any hidden issues that might arise similarly,=20
+and fix the whole class of this issue rather than for one vendor when=20
+the likelihood of a regression is very low from skipping interrupt IN=20
+polling if a device doesn't have input reports in the first place.
+
+Best Regards,
+Yaseen
+
+>>
+>> For how to best do this we will need to hear what Jiri and
+>> Benjamin have to say but if they think the proposed solution
+>> is the correct solution:
+>>
+>> Reviewed-by: Denis Benato <denis.benato@linux.dev>
+>>>> Fixes: 4ac74ea68f64 ("HID: asus: early return for ROG devices")
+>>>> Tested-by: Kerim Kabirov <the.privat33r+linux@pm.me>
+>>>> Tested-by: GameBurrow <gameburrow@pm.me>
+>>>> Signed-off-by: Ahmed Yaseen <yaseen@ghoul.dev>
+>>>> ---
+>>>>   drivers/hid/usbhid/hid-core.c | 3 ++-
+>>>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-co=
+re.c
+>>>> index 96b0181cf819..90a8b34d9305 100644
+>>>> --- a/drivers/hid/usbhid/hid-core.c
+>>>> +++ b/drivers/hid/usbhid/hid-core.c
+>>>> @@ -688,7 +688,8 @@ static int usbhid_open(struct hid_device *hid)
+>>>>
+>>>>          set_bit(HID_OPENED, &usbhid->iofl);
+>>>>
+>>>> -       if (hid->quirks & HID_QUIRK_ALWAYS_POLL) {
+>>>> +       if ((hid->quirks & HID_QUIRK_ALWAYS_POLL) ||
+>>>> +           list_empty(&hid->report_enum[HID_INPUT_REPORT].report_list=
+)) {
+>>>>                  res =3D 0;
+>>>>                  goto Done;
+>>>>          }
+>>>> --
+>>>> 2.54.0
+>>>>
+>>>>
+>>>>
+
 
