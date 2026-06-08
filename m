@@ -1,76 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7613D3CAE7F;
-	Mon,  8 Jun 2026 14:10:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCA14C040D;
+	Mon,  8 Jun 2026 14:58:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780927825; cv=none; b=H8XRZp71zTtMdV0d7qnE6MULfv2+bpofgdlDO2qCtTRNoj2CwCnpPtgmcO3NMnQxgUryccoyEBDIqa+8vN6Q6of0FJRq7psDQkEkBrKrzxc3p4Rq1tBAixLd0A8x36xjEeTjiecLbIM72njlSBP2Eznlan+TrCRXuAvSnnmpk0Y=
+	t=1780930728; cv=none; b=Z+/CF/K+UmJllCFYIGTmtBMfHWF+lNFu33RY12YJJU1iIYDPR+GlS+jYp4apyZIa2k/l9yZGC0mAfFScPa9osph1fs1WWkeiCfbCEpxIo5BMlJX69BxVgCF6Sjz0Mr3kznTMnYLZSOHuNLw404oKExTMrXajd0NxiqR/+xx2Yjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780927825; c=relaxed/simple;
-	bh=lTUu7HGfnC7R1/traxNe+Ix0nMvr2qd1+8US+2NsCao=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xq3bTIN7BYdWPGQwFB5bKgJTYD2h/WVfFyLJJSjxsh74Nt8SWA4/NwXfws9KozlZZEJC1eUiDaGC03SC7hXXIl40U8OpbS0h5OZiqna/5ZVNIyxrL8H5I4TDKQPAOnwupnPDGnUzcJJKGvSSLhEKuFTeF2E2rpAlvPLALma/qEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HHMMG4B+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780930728; c=relaxed/simple;
+	bh=/FNmG4Db7/smwKmWct4+UV0rLkG/XBrifokthL+BGIE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KLso2Az5IZTUzr+6lxoQtqt2S0cFh/gszaRHjICBnOT4FXhj5IIMJNteg6tRANdnyTIw3l2pblV0fYdQrq14IrCScOPlrus/02nOX3zX7ShOhWAKYnZcc4+F2Ck39H2cyI2xNvyaTaowYJHKNDVsL3rwGZC2BlCWOvXIXfA5py0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kTWHijLq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HHMMG4B+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DD0C1F00899;
-	Mon,  8 Jun 2026 14:10:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kTWHijLq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77C9B1F00893;
+	Mon,  8 Jun 2026 14:58:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780927824;
-	bh=MQCqy2xtR2f7AYyGEM8OVMCx0H/VD27gge8maaKR68w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HHMMG4B+AiYQATE6m6tZIoNOhNi1OJLrHric6e4hGGPqYnzpdRUxo8OtT6usW4lyk
-	 x1qQM7LCB1fwt8NLcovHIc0PXOdmz8+09/mF+a0YZ3r/AHj/nnTSZGQ8yIdOOnrnaV
-	 wUdMI/oo7lnl4zhFJB3tAdmCUPo2e0Tn7ATm8pQlhoRbQGpaM6a5q5F05fxkeG2tSH
-	 fClcQG7Lck4DqKCsnYlfg34R2bYX5yaywK3kep46VrIa+2nOqclrIH54brc74vGgnk
-	 S+Wxy/Fz5DBN/2rVZw7qYAC9iCi40BfzzYo+tbvcWZZUxNRExrJiwKDKcVe8foYsOe
-	 IlRTUmgFOHYUQ==
+	s=k20260515; t=1780930719;
+	bh=GVWjofmVySRixplnTaf7ZAf1EmqIzm6F4hlI93gCH1g=;
+	h=From:To:Cc:Subject:Date;
+	b=kTWHijLqTvw5Dr9xEj1sYWFhs5yINW2iahb07jv/EYDtxRQ9dpCq/asjyuP2FDvxd
+	 KA1M/yXawQ99pb7YqNxhQ+kcEFr1nvnvjfZTuN5iyH1CKTgcu/+/5Fm7wyHdbXuitL
+	 t/ihGBo/+E9UtxPWONOn+79ux/gMkHrMXC22KwqSdbQIEvsBKFZLwOcyQliHZ45z4g
+	 yRg0zdQFigFePAoMfCBTFmbHy2wY88EaUbt925TIG/8nOZou9hbI2oPyv9xqz1ueF4
+	 b2PE1q+aMAni+e8zre90TnDU0STO+0ddOh/3tmPPuel1sZItAThiITjShf3+QdQrMz
+	 aSX2uacp2dm8Q==
 Received: from johan by xi.lan with local (Exim 4.99.3)
 	(envelope-from <johan@kernel.org>)
-	id 1wWagH-00000000DEF-3flj;
-	Mon, 08 Jun 2026 16:10:21 +0200
-Date: Mon, 8 Jun 2026 16:10:21 +0200
+	id 1wWbQz-00000000I3V-1jK6;
+	Mon, 08 Jun 2026 16:58:37 +0200
 From: Johan Hovold <johan@kernel.org>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>,
-	Shuangpeng <shuangpeng.kernel@gmail.com>, keithp@keithp.com,
-	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [BUG] KASAN: slab-use-after-free in dev_driver_string from
- chaoskey_release
-Message-ID: <aibNTeX696gw0xs1@hovoldconsulting.com>
-References: <20EC9664-054E-438B-B411-2145D347F97B@gmail.com>
- <257eb882-44dc-4e25-82f9-9cf9b455936d@rowland.harvard.edu>
- <2a50158f-34ff-41ae-8899-ba2ec6d550b3@suse.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] USB: ulpi: fix memory leak on registration failure
+Date: Mon,  8 Jun 2026 16:58:03 +0200
+Message-ID: <20260608145803.69360-1-johan@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2a50158f-34ff-41ae-8899-ba2ec6d550b3@suse.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 08, 2026 at 01:24:03PM +0200, Oliver Neukum wrote:
-> On 07.06.26 04:29, Alan Stern wrote:
->   
-> > The simple explanation is that the chaoskey_release() routine contains
-> > debugging statements that reference an interface for the USB device even
-> > after that data structure may have been deallocated.  Since they are
-> > merely debugging statements, the simplest solution to the problem is to
-> > get rid of them.
-> > 
-> > That's what the patch below does.  You can try it out and see if it
-> > works.
+The allocated device name is never freed on early ULPI device
+registration failures.
 
-> correct but it misses the same issue in disconnect.
-> You need this one on top.
+Fix this by initialising the device structure earlier and releasing the
+initial reference whenever registration fails.
 
-No, it's perfectly fine to access the interface in the disconnect
-callback.
+Fixes: 289fcff4bcdb ("usb: add bus type for USB ULPI")
+Cc: stable@vger.kernel.org	# 4.2
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/common/ulpi.c | 23 ++++++++++-------------
+ 1 file changed, 10 insertions(+), 13 deletions(-)
 
-It's only after disconnect() returns that you need an extra reference.
+diff --git a/drivers/usb/common/ulpi.c b/drivers/usb/common/ulpi.c
+index 9b69148128e5..7e43429e996e 100644
+--- a/drivers/usb/common/ulpi.c
++++ b/drivers/usb/common/ulpi.c
+@@ -281,28 +281,24 @@ static int ulpi_register(struct device *dev, struct ulpi *ulpi)
+ 	ulpi->dev.parent = dev; /* needed early for ops */
+ 	ulpi->dev.bus = &ulpi_bus;
+ 	ulpi->dev.type = &ulpi_dev_type;
++
++	device_initialize(&ulpi->dev);
++
+ 	dev_set_name(&ulpi->dev, "%s.ulpi", dev_name(dev));
+ 
+ 	ACPI_COMPANION_SET(&ulpi->dev, ACPI_COMPANION(dev));
+ 
+ 	ret = ulpi_of_register(ulpi);
+-	if (ret) {
+-		kfree(ulpi);
++	if (ret)
+ 		return ret;
+-	}
+ 
+ 	ret = ulpi_read_id(ulpi);
+-	if (ret) {
+-		of_node_put(ulpi->dev.of_node);
+-		kfree(ulpi);
++	if (ret)
+ 		return ret;
+-	}
+ 
+-	ret = device_register(&ulpi->dev);
+-	if (ret) {
+-		put_device(&ulpi->dev);
++	ret = device_add(&ulpi->dev);
++	if (ret)
+ 		return ret;
+-	}
+ 
+ 	root = debugfs_create_dir(dev_name(&ulpi->dev), ulpi_root);
+ 	debugfs_create_file("regs", 0444, root, ulpi, &ulpi_regs_fops);
+@@ -334,9 +330,10 @@ struct ulpi *ulpi_register_interface(struct device *dev,
+ 	ulpi->ops = ops;
+ 
+ 	ret = ulpi_register(dev, ulpi);
+-	if (ret)
++	if (ret) {
++		put_device(&ulpi->dev);
+ 		return ERR_PTR(ret);
+-
++	}
+ 
+ 	return ulpi;
+ }
+-- 
+2.53.0
 
-Johan
