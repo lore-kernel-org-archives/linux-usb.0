@@ -1,52 +1,56 @@
 Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046DE3B83E8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C8D03B892D;
 	Mon,  8 Jun 2026 09:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780912549; cv=none; b=CHnt0mC9IKUcLEdaWvsstSO6TZ/vzRPNraIg/A8oA5t3o8IpxsL0cg2CRwO9O4z0biolwNITqMy78yH3SGQ5gyeuhcQ0lw1toFgZPGD2F2pUWC140ex0uaezVR0/iJbWa+QyL0ImUTHtyYq/ekyOMdYeFIRomxmLVvBmxUc67Dk=
+	t=1780912550; cv=none; b=d3D+uHgVjgrQ12iKCqotdy20VPI+27PRmH6IlRpR7zmMBmjBLnIYzE9ZBmyOrDtfl4kK8g14fx86xQJUHy2xPWY+HG4935c7rWs26M+fOeQo79ZbFDVcqaGWdhNWH9BFTiYZJDkoRI6m40Ck2bMG38ectcC5XHKfX/s4xmklmzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780912549; c=relaxed/simple;
-	bh=CUnk1x4Eyy6ryZSFFNaF6TJX8Udx6rdz9M3iokDqJFQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=I8ezR2Rb+wt5YW9E9Ht/gvIc1fiOc8TI7IXOrCiLqIKqG5XxHVNLoGBA0yB6m2xLXl4vcsxcWSuRJHTSIhIZJei0ye7gi//rTUpzmzXKxymkjH0Hg+4YmxWLPED7Tt5l/QypiRudKycBabDi/gPYSbSKgCAfkordC9bKWtVj5mM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=biNIzAz6; arc=none smtp.client-ip=185.226.149.37
+	s=arc-20240116; t=1780912550; c=relaxed/simple;
+	bh=JBgBo18FOOVmxza4LLM2LjkvjKmcz6u9eYbUcIUglvU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Gke0PmU0eIjsg6Ay7Sxcxg1XdZeu6mbZ+For6TxkbmDWBqVUn5uzqyrwb8aC1p7kgMRZkdjUnfOzTfUjTQ+Ar7oLZNw0/mHe4e1mjoeqvDlNgyh5uNUPVGyy78RXK4RH7S/3tmKOM/dNHOkFE2PJwOFCOICk4F1O4ZB1BxdN9uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=g0guGNRS; arc=none smtp.client-ip=185.226.149.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="biNIzAz6"
-Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
+	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="g0guGNRS"
+Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
 	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.93)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1wWWhr-00BRzE-3d; Mon, 08 Jun 2026 11:55:43 +0200
+	id 1wWWhr-00BRzw-AF; Mon, 08 Jun 2026 11:55:43 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
 	 s=selector1; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
-	Subject:Cc:To:From; bh=r8QChCZOPOfFyXua0/xPt0BiIg2IJIRKQo24+m6hMA0=; b=biNIzA
-	z6OYJb8x1jNUvoqgC6J61I/yeG5JlSTZJwXxQmCVzHOUe+hYXlwzl7JVgPmrCNjjrGLEYaTOGTXay
-	XDYfCxh02BRRWgIjeB/tulJFpl7Qv/ngGNI9Sgn1fuUPwPJVOsJsmRORKHJLmkOi5WZZ+73rMvB3h
-	gS0AFYQ7S9AZWd7mQ/T78khtdgXqeFkqIFuVxX89ejlD04Ptz+2ywPQS8zGT/DVc89H16b1rv4PKg
-	RhOyRCm4735Y9LFE5K1YM8noeInoJPRTFgnr2Xwl856OcVYWEHAzikcfERrJVciMF6TtQI+JiKkvj
-	Z+od1DI+tOGjqD/J4Vag3rzhO8sg==;
+	Subject:Cc:To:From; bh=oeFxy8T5rznwD5j83Z0IyKAb1mHuGRQFCq+QufcT7ww=; b=g0guGN
+	RS7AepJOwOTc5K8Lpp446J38QnJEYfFLwI1sHhnUWJq8kO21ZyVcxB7vh0APUhHHctTwY/vg54yVm
+	aGtmZypEYKrpfvOKyt8p+mSEBqjTzPg8J8PN/1y8hIyrDDzKwlwYlqDPZhjQNKxiVDoHXN7x6P4ph
+	BIScc2V8nIh3Ylrlz/lYGahawwFDwVRwwPmWZnwsXd464/LfA6gllNKKQBht2xcecOJGjM8Ig8oh8
+	HRuiIg/TxSUOJX5PyeO3gls3E9HjkqT/6ld0K97L36hTJUvdzdIA3zoz1j4EiyCPFabaxBmQy9XMv
+	a1yv1g/4XDlxjG172cE0LYYjeUDA==;
 Received: from [10.9.9.73] (helo=submission02.runbox)
-	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
+	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
 	(envelope-from <david.laight.linux_spam@runbox.com>)
-	id 1wWWhq-0003fC-2a; Mon, 08 Jun 2026 11:55:42 +0200
+	id 1wWWhq-0000H7-OK; Mon, 08 Jun 2026 11:55:42 +0200
 Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.95)
-	id 1wWWho-00Ag6G-H1;
+	id 1wWWho-00Ag6G-5V;
 	Mon, 08 Jun 2026 11:55:40 +0200
 From: david.laight.linux@gmail.com
 To: Kees Cook <kees@kernel.org>,
 	linux-hardening@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org
 Cc: Arnd Bergmann <arnd@kernel.org>,
+	Chas Williams <3chas3@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matthieu CASTET <castet.matthieu@free.fr>,
+	Stanislaw Gruszka <stf_xl@wp.pl>,
 	David Laight <david.laight.linux@gmail.com>
-Subject: [PATCH next] usb_string_copy: Use kzalloc() to avoid leaking old data
-Date: Mon,  8 Jun 2026 10:55:21 +0100
-Message-Id: <20260608095523.2606-37-david.laight.linux@gmail.com>
+Subject: [PATCH next] drivers/usb/atm: Replace strcpy() + strlcat() with snprintf()
+Date: Mon,  8 Jun 2026 10:55:20 +0100
+Message-Id: <20260608095523.2606-36-david.laight.linux@gmail.com>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -58,11 +62,7 @@ Content-Transfer-Encoding: 8bit
 
 From: David Laight <david.laight.linux@gmail.com>
 
-If the string is read while being updated (which is why the copy is done
-in place) and the new string is longer than the old one, then the reader
-can read memory that isnt part of either string.
-
-Use memcpy() to copy the known length string instead of strcpy.
+Avoid string function that are due to be deprecated.
 
 Signed-off-by: David Laight <david.laight.linux@gmail.com>
 ---
@@ -88,27 +88,25 @@ All the patches are being sent individually to avoid very long cc lists.
 Apologies for the terse commit messages and likely unexpected tags.
 (There are about 100 patches in total.)
 
- drivers/usb/gadget/configfs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/usb/atm/ueagle-atm.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
-index 183a25f65ac8..4518dc6bb5af 100644
---- a/drivers/usb/gadget/configfs.c
-+++ b/drivers/usb/gadget/configfs.c
-@@ -125,11 +125,11 @@ static int usb_string_copy(const char *s, char **s_copy)
- 	if (copy) {
- 		str = copy;
- 	} else {
--		str = kmalloc(USB_MAX_STRING_WITH_NULL_LEN, GFP_KERNEL);
-+		str = kzalloc(USB_MAX_STRING_WITH_NULL_LEN, GFP_KERNEL);
- 		if (!str)
- 			return -ENOMEM;
- 	}
--	strcpy(str, s);
-+	memcpy(str, s, ret + 1);
- 	if (str[ret - 1] == '\n')
- 		str[ret - 1] = '\0';
- 	*s_copy = str;
+diff --git a/drivers/usb/atm/ueagle-atm.c b/drivers/usb/atm/ueagle-atm.c
+index f3ae72feb5bf..df4477668296 100644
+--- a/drivers/usb/atm/ueagle-atm.c
++++ b/drivers/usb/atm/ueagle-atm.c
+@@ -1572,10 +1572,7 @@ static void cmvs_file_name(struct uea_softc *sc, char *const cmv_name, int ver)
+ 	} else
+ 		file = cmv_file[sc->modem_index];
+ 
+-	strcpy(cmv_name, FW_DIR);
+-	strlcat(cmv_name, file, UEA_FW_NAME_MAX);
+-	if (ver == 2)
+-		strlcat(cmv_name, ".v2", UEA_FW_NAME_MAX);
++	snprintf(cmv_name, UEA_FW_NAME_MAX, FW_DIR "%s%s", file, ver == 2 ? ".v2" : "");
+ 	kernel_param_unlock(THIS_MODULE);
+ }
+ 
 -- 
 2.39.5
 
