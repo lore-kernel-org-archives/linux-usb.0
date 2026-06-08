@@ -1,126 +1,114 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA6B3B3BFE
-	for <linux-usb@vger.kernel.org>; Mon,  8 Jun 2026 09:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780909923; cv=pass; b=ZGJnw2/UwQwRH9YaudqhwaUis3k5ZCxP1rdm2K1LPIk8cKqKZpe4gD6KtUvjj1pWnY5clvTUSKPWUWGo8DS+b4mKi+pZcq3Bvq9CZJSTSpcQEZpSN1cC7jVl+zk8nbkW/1CvksB97yFSJxscgvdGxEqmgfoK0aZexSaOsqr9R+I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780909923; c=relaxed/simple;
-	bh=g6QNJFkv6IlGascc0FjOpWGc85Q3//n50YZG1Fc0EeI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FS31vWvjTmJktRWTJNtlv6gpeVa/XEyMA1vKAzDrJYSpI9HU4/0fxA/LrSxJyuGj/r/52e+16EYTWc144DZoYft+MdtZPJ1wL/aqOn/7rvInq9M/4p1f8la7eFah/PwZHuN5OZ9687IoC74eppgVriRPXhg3i0mw1eWoUrX9MGM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AGsGNnzo; arc=pass smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046DE3B83E8;
+	Mon,  8 Jun 2026 09:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780912549; cv=none; b=CHnt0mC9IKUcLEdaWvsstSO6TZ/vzRPNraIg/A8oA5t3o8IpxsL0cg2CRwO9O4z0biolwNITqMy78yH3SGQ5gyeuhcQ0lw1toFgZPGD2F2pUWC140ex0uaezVR0/iJbWa+QyL0ImUTHtyYq/ekyOMdYeFIRomxmLVvBmxUc67Dk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780912549; c=relaxed/simple;
+	bh=CUnk1x4Eyy6ryZSFFNaF6TJX8Udx6rdz9M3iokDqJFQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=I8ezR2Rb+wt5YW9E9Ht/gvIc1fiOc8TI7IXOrCiLqIKqG5XxHVNLoGBA0yB6m2xLXl4vcsxcWSuRJHTSIhIZJei0ye7gi//rTUpzmzXKxymkjH0Hg+4YmxWLPED7Tt5l/QypiRudKycBabDi/gPYSbSKgCAfkordC9bKWtVj5mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=runbox.com; dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b=biNIzAz6; arc=none smtp.client-ip=185.226.149.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=runbox.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AGsGNnzo"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45ef779c1c2so2723607f8f.1
-        for <linux-usb@vger.kernel.org>; Mon, 08 Jun 2026 02:12:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780909921; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Ivyhb6HX7cj3VSb/VqClg9WDIoJPO1DK0bONiW2PmJ0OYMd+esgseO9b7On1N55ntQ
-         MOh93kSsurt28vS4nzPmK+aOia/vMGAiwC3DWHzyp2OjZ8/Ubzc1TXtxvaVcrwd5cP6n
-         SU8LaTTmmKwGb4sSEuYYPbviovwLkRqBtLfuOtnW05cuB8ksenVWw146I0eLfpHIY3JQ
-         HiLtN9EQNNjDQsZuOpRCtbLlTm7DwanCF1jvHg7uoYBzvVc0LmuzG7bAbXpBAgkNn+0r
-         f4qiPpwp1lDueUnSHLpTbV5WVUGTOZFwHlYqnvdzQvZKZSkYQuetrDPmSgqiviSnRgIw
-         kAcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DKFV4KkC6COWNrZ/xgUNGbwVmIaCHTzuBxaE2v4BzGc=;
-        fh=Vg+WVePQ/WcrQosgGBIlDPiaIFuwwFDfaBWnbJTlQA4=;
-        b=Kn4RnuBGLgkxKYA0lY+93J70cJiAieM9yUEQZX5/rcnrUtVJNMp5XvKIC3SEdxNcjP
-         KDBJuUwRAj46DqD+Or6b/X3sFDoSYldXsqPoHJgqKBWuS4XuPgRX94YMCr8eK8rzRdnG
-         DWIEQCWAEq4sQE4fHdBcQwjlFuA4DNr1dFTRpI5zHqMQIbHuFjcfHHfXPPMxgDtSL/F4
-         2WA9pHlwY22GW22XDxbZ/+RYCxMWZrMgxSXVUL8Zq6hvXcjBJfI3hTYARnya8IOWzohi
-         MaBaAr7Yf6pt8ou9hp/0rNjbJPAOsIhuVZVO2fq1630Ve02dO8bSTMc4CT81HSt6b3he
-         Hjlg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780909921; x=1781514721; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DKFV4KkC6COWNrZ/xgUNGbwVmIaCHTzuBxaE2v4BzGc=;
-        b=AGsGNnzo9x56J3OXNY0peJwc8cObv74QdmdzG78J2iWHb2Xd51mycOTRIo9y+rEpLL
-         zD1x9KK1sGSilBviasbJ3mmZrRVMBqSVr9qPy3ykSHCkHKXcBC/b8ep8lLSLL5Mp8zs4
-         sJfFYkrxLpLatwlr7FRwJTZWyhUwRv0jtz9EOiO6SnWhbFTY46q9/JTdoWREP1kanclD
-         qvWgVBxBkpum7Bnu+/geQS5vDIrO/DAi2Uz+Kl5MdGnpxSSAq9YeUE3w+d/1VUdx8LJy
-         y2HrCScscRE8sH8LT+o04W7Gd6CUnI/bc1kM0yjpPtvN0UgmEN6Rq8+cTWlXgOfZqc3B
-         2J2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780909921; x=1781514721;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DKFV4KkC6COWNrZ/xgUNGbwVmIaCHTzuBxaE2v4BzGc=;
-        b=XWwmiVqRNgpSlcpoaAKn3cTOiAPSTa4NYMLfJGWGHKR8SpQm3oPLyX7VmFtdkScRYc
-         9O6byyLrz8/6lZZRB4KnpeN01wH5s5xDmvtqT6AZ5nEjAWmSh8AwAyHTwpansB45VW4J
-         F4Ps1oD4lL8kTruIEdMaVZ0roGSgY6vIl4aCGnAY0E+sT1HNxaS8m7z8JdzQL7BKkGyf
-         rNSONXgtMT3SLINlM2+jLG7za9zJ6mDDAL1ae9OhsVLBKFTMM5XIPjEnTVLTpi3GqkOE
-         2GJV+r6tIHDnMP6x0Qk/Wv2FsiBC6QwtvbFWe8fo+swD9qRm6f1P/aYo0PBseMBIwGWi
-         UeTg==
-X-Forwarded-Encrypted: i=1; AFNElJ/G2WLXY1JMyUFKg8zk0pIduNjsGGHVPXqMgRtefaCdxiC1HyTTkTpwnou2LrZmTbn6Oct5RAjVpkg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6qAGndj1lM7y/wl3mVIrNLHTnSWZH6uNOE21le0/2IEsGDZTt
-	TDcdpf3x8D48seeMiIRixREIBc9Bt1QjZ7ejBuFkJZLqRevVy5YT4b9msCD2Aq3IPaxitFulPwr
-	uMEuqc1nBSuIqc+vqWac4Ubylea9tkJ8=
-X-Gm-Gg: Acq92OFlUND31GGLTDbly/Z/utn/x0U+BPS/dXAxuxCImPRatyE2U2vxqFyKkaf1cxj
-	Pb2FXeC5ojmOoYA/JnRydstSxRILhcdBdxfehbDsa7Xnci8RsspM6iSy7LEw03MybUJb+HOwsiZ
-	VV5rp9tmwU5NXWZHx0xZT3B3kv3507YQcw9IbXJnMHs0qyj8sEzjVSWCFVMhgS4pCBapNmhFcys
-	gfjyqnFkna7b4Xl6eN1aYjyszV24d8eURSP4877ogDYAVIvQhsdqfMS7P9X0UvUp069I1nzygHd
-	JOq+50pWghk+/gxwEAwcj2o3rWnG3kDYlARzay7kPdGRS/bSaPY=
-X-Received: by 2002:a05:600c:674f:b0:490:b4bc:4f3d with SMTP id
- 5b1f17b1804b1-490c25b06a1mr230055115e9.18.1780909920408; Mon, 08 Jun 2026
- 02:12:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=runbox.com header.i=@runbox.com header.b="biNIzAz6"
+Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
+	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <david.laight.linux_spam@runbox.com>)
+	id 1wWWhr-00BRzE-3d; Mon, 08 Jun 2026 11:55:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=runbox.com;
+	 s=selector1; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:
+	Subject:Cc:To:From; bh=r8QChCZOPOfFyXua0/xPt0BiIg2IJIRKQo24+m6hMA0=; b=biNIzA
+	z6OYJb8x1jNUvoqgC6J61I/yeG5JlSTZJwXxQmCVzHOUe+hYXlwzl7JVgPmrCNjjrGLEYaTOGTXay
+	XDYfCxh02BRRWgIjeB/tulJFpl7Qv/ngGNI9Sgn1fuUPwPJVOsJsmRORKHJLmkOi5WZZ+73rMvB3h
+	gS0AFYQ7S9AZWd7mQ/T78khtdgXqeFkqIFuVxX89ejlD04Ptz+2ywPQS8zGT/DVc89H16b1rv4PKg
+	RhOyRCm4735Y9LFE5K1YM8noeInoJPRTFgnr2Xwl856OcVYWEHAzikcfERrJVciMF6TtQI+JiKkvj
+	Z+od1DI+tOGjqD/J4Vag3rzhO8sg==;
+Received: from [10.9.9.73] (helo=submission02.runbox)
+	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
+	(envelope-from <david.laight.linux_spam@runbox.com>)
+	id 1wWWhq-0003fC-2a; Mon, 08 Jun 2026 11:55:42 +0200
+Received: by submission02.runbox with esmtpsa  [Authenticated ID (1493616)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.95)
+	id 1wWWho-00Ag6G-H1;
+	Mon, 08 Jun 2026 11:55:40 +0200
+From: david.laight.linux@gmail.com
+To: Kees Cook <kees@kernel.org>,
+	linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Cc: Arnd Bergmann <arnd@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	David Laight <david.laight.linux@gmail.com>
+Subject: [PATCH next] usb_string_copy: Use kzalloc() to avoid leaking old data
+Date: Mon,  8 Jun 2026 10:55:21 +0100
+Message-Id: <20260608095523.2606-37-david.laight.linux@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aiZiZy8a0al7xVXe@hovoldconsulting.com> <20260608074931.5911-1-sammiee5311@gmail.com>
- <aiZ_DJGvrmotkM3J@hovoldconsulting.com>
-In-Reply-To: <aiZ_DJGvrmotkM3J@hovoldconsulting.com>
-From: Sam Hyeong <sammiee5311@gmail.com>
-Date: Mon, 8 Jun 2026 18:11:48 +0900
-X-Gm-Features: AVVi8CfxVZIX1PxJbVJtzthThC-GPmY30UFKg1hngZQYial9sUn64L8BAAVvloA
-Message-ID: <CAJciObGR+joLEEgj_ProZa4i3TmVs_RB7OHP3T=pW2CDkSu8+Q@mail.gmail.com>
-Subject: Re: [PATCH] USB: serial: kl5kusb105: fix bulk-out buffer overflow
-To: Johan Hovold <johan@kernel.org>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Johan,
+From: David Laight <david.laight.linux@gmail.com>
 
-Sure, thanks! I've just sent a v2 with the "Assisted-by" tag.
+If the string is read while being updated (which is why the copy is done
+in place) and the new string is longer than the old one, then the reader
+can read memory that isnt part of either string.
 
-Thanks,
-HyeongJun
+Use memcpy() to copy the known length string instead of strcpy.
 
+Signed-off-by: David Laight <david.laight.linux@gmail.com>
+---
+This is one of a group of patches that remove potentially unbounded
+strcpy() calls.
 
+They are mostly replaced by strscpy() or, when strlen() has just been
+called, with memcpy() (usually including the '\0').
 
-On Mon, Jun 8, 2026 at 5:36=E2=80=AFPM Johan Hovold <johan@kernel.org> wrot=
-e:
->
-> On Mon, Jun 08, 2026 at 04:49:30PM +0900, HyeongJun An wrote:
->
-> > Yes, I used an LLM to compare the custom prepare_write_buffer()
-> > handlers in drivers/usb/serial/.  kl5kusb105 passes the full "size"
-> > to the fifo copy, while the ones with a header or trailer, like
-> > safe_serial, reserve that space first.
->
-> Thanks for confirming. This needs to be documented in the commit
-> message, see:
->
->         Documentation/process/submitting-patches.rst ["Using Assisted-by"=
-]
->         Documentation/process/coding-assistants.rst
->
-> Can you send a v2 with the missing tag?
->
-> Johan
+Calls with copy string literals into arrays are left unchanged.
+They are safe and easily detected as such.
+
+The changes were made by getting the compiler to detect the calls and
+then fixing the code by hand.
+
+Note that all the changes are only compile tested.
+
+Some Makefiles were changed to allow files to contain strcpy().
+As well as 'difficult to fix' files, this included 'show' functions
+as they really need to use sysfs_emit() or seq_printf().
+
+All the patches are being sent individually to avoid very long cc lists.
+Apologies for the terse commit messages and likely unexpected tags.
+(There are about 100 patches in total.)
+
+ drivers/usb/gadget/configfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index 183a25f65ac8..4518dc6bb5af 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -125,11 +125,11 @@ static int usb_string_copy(const char *s, char **s_copy)
+ 	if (copy) {
+ 		str = copy;
+ 	} else {
+-		str = kmalloc(USB_MAX_STRING_WITH_NULL_LEN, GFP_KERNEL);
++		str = kzalloc(USB_MAX_STRING_WITH_NULL_LEN, GFP_KERNEL);
+ 		if (!str)
+ 			return -ENOMEM;
+ 	}
+-	strcpy(str, s);
++	memcpy(str, s, ret + 1);
+ 	if (str[ret - 1] == '\n')
+ 		str[ret - 1] = '\0';
+ 	*s_copy = str;
+-- 
+2.39.5
+
