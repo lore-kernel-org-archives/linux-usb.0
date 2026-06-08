@@ -1,139 +1,126 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C30439C63E
-	for <linux-usb@vger.kernel.org>; Mon,  8 Jun 2026 09:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780909801; cv=none; b=Ek192/7K0P5IngXI5Ns3S3Yiq0TLn0Dcd/MjAewK9d/V3QSEPAwWXVvFmqwMbITZM3rn8vlLiSWml19BJiN1Hzg8IddxhsMLdN8sHWrIQz3lfQh5/r8h82GqETf9GVdKwbSeTpoKMqkJoywsbpzffoU9zY/B2WDm6MXb3i1cpuQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780909801; c=relaxed/simple;
-	bh=XE93PARpsFUC8Fu5iBpHVIPInN7GAPqYBflYnDxSCcg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k4qaM0YFMIMHooWaKP1G4jbhdFYtQ+6nwjxFGHDD+g5grHUQKvjY2Q6Z1dp1VxySLKwH0gVF82+b2l7z7mHUvtaZ+rIzy6Ap610fByt6WcBbCduhBqgSWzHQJNnq0X0RAAWb0Eu56zay4IWHSyFQPdIHg05/bpaHMEIl8y3dlFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hXU5LmdZ; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA6B3B3BFE
+	for <linux-usb@vger.kernel.org>; Mon,  8 Jun 2026 09:12:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780909923; cv=pass; b=ZGJnw2/UwQwRH9YaudqhwaUis3k5ZCxP1rdm2K1LPIk8cKqKZpe4gD6KtUvjj1pWnY5clvTUSKPWUWGo8DS+b4mKi+pZcq3Bvq9CZJSTSpcQEZpSN1cC7jVl+zk8nbkW/1CvksB97yFSJxscgvdGxEqmgfoK0aZexSaOsqr9R+I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780909923; c=relaxed/simple;
+	bh=g6QNJFkv6IlGascc0FjOpWGc85Q3//n50YZG1Fc0EeI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FS31vWvjTmJktRWTJNtlv6gpeVa/XEyMA1vKAzDrJYSpI9HU4/0fxA/LrSxJyuGj/r/52e+16EYTWc144DZoYft+MdtZPJ1wL/aqOn/7rvInq9M/4p1f8la7eFah/PwZHuN5OZ9687IoC74eppgVriRPXhg3i0mw1eWoUrX9MGM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AGsGNnzo; arc=pass smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hXU5LmdZ"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-36b9ec98144so2996525a91.1
-        for <linux-usb@vger.kernel.org>; Mon, 08 Jun 2026 02:09:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AGsGNnzo"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45ef779c1c2so2723607f8f.1
+        for <linux-usb@vger.kernel.org>; Mon, 08 Jun 2026 02:12:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780909921; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Ivyhb6HX7cj3VSb/VqClg9WDIoJPO1DK0bONiW2PmJ0OYMd+esgseO9b7On1N55ntQ
+         MOh93kSsurt28vS4nzPmK+aOia/vMGAiwC3DWHzyp2OjZ8/Ubzc1TXtxvaVcrwd5cP6n
+         SU8LaTTmmKwGb4sSEuYYPbviovwLkRqBtLfuOtnW05cuB8ksenVWw146I0eLfpHIY3JQ
+         HiLtN9EQNNjDQsZuOpRCtbLlTm7DwanCF1jvHg7uoYBzvVc0LmuzG7bAbXpBAgkNn+0r
+         f4qiPpwp1lDueUnSHLpTbV5WVUGTOZFwHlYqnvdzQvZKZSkYQuetrDPmSgqiviSnRgIw
+         kAcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=DKFV4KkC6COWNrZ/xgUNGbwVmIaCHTzuBxaE2v4BzGc=;
+        fh=Vg+WVePQ/WcrQosgGBIlDPiaIFuwwFDfaBWnbJTlQA4=;
+        b=Kn4RnuBGLgkxKYA0lY+93J70cJiAieM9yUEQZX5/rcnrUtVJNMp5XvKIC3SEdxNcjP
+         KDBJuUwRAj46DqD+Or6b/X3sFDoSYldXsqPoHJgqKBWuS4XuPgRX94YMCr8eK8rzRdnG
+         DWIEQCWAEq4sQE4fHdBcQwjlFuA4DNr1dFTRpI5zHqMQIbHuFjcfHHfXPPMxgDtSL/F4
+         2WA9pHlwY22GW22XDxbZ/+RYCxMWZrMgxSXVUL8Zq6hvXcjBJfI3hTYARnya8IOWzohi
+         MaBaAr7Yf6pt8ou9hp/0rNjbJPAOsIhuVZVO2fq1630Ve02dO8bSTMc4CT81HSt6b3he
+         Hjlg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780909799; x=1781514599; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780909921; x=1781514721; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ssI6ZEk3gw66VAN5mRRaeGUv1dLfHJJ6NdyjMb06HLE=;
-        b=hXU5LmdZYyiDEn+bjDyaKZmC2hK/FAc53r4Jb43vlhwESd34WxcGddTg32qDUYEwxj
-         DX8PKxbfQlHwqZzWtm6H3ltvpmSA/UlkkqwT0xsDMt5V7gVAyP1gnSqMO4e1nx5iy6Q9
-         ZARYUt05WzK1GhtUbAw8g/6FIrOA/c6vzy5XGPWoPfMPOapxDGcAAKtSDa59tfRPL9GV
-         QAtm2WRc4fRtbDB60Ec7UqbGds3T/LsT0HUoMrqRJ4IHiAIgI9RZrewutX9SSV+HZTkB
-         sZImkn+kfrye/Hb7lm6nQeGinZ8e/yyvUouCNjinZK+hLDQHplnoAchYEvun8dKprflF
-         q/xQ==
+        bh=DKFV4KkC6COWNrZ/xgUNGbwVmIaCHTzuBxaE2v4BzGc=;
+        b=AGsGNnzo9x56J3OXNY0peJwc8cObv74QdmdzG78J2iWHb2Xd51mycOTRIo9y+rEpLL
+         zD1x9KK1sGSilBviasbJ3mmZrRVMBqSVr9qPy3ykSHCkHKXcBC/b8ep8lLSLL5Mp8zs4
+         sJfFYkrxLpLatwlr7FRwJTZWyhUwRv0jtz9EOiO6SnWhbFTY46q9/JTdoWREP1kanclD
+         qvWgVBxBkpum7Bnu+/geQS5vDIrO/DAi2Uz+Kl5MdGnpxSSAq9YeUE3w+d/1VUdx8LJy
+         y2HrCScscRE8sH8LT+o04W7Gd6CUnI/bc1kM0yjpPtvN0UgmEN6Rq8+cTWlXgOfZqc3B
+         2J2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780909799; x=1781514599;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1780909921; x=1781514721;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ssI6ZEk3gw66VAN5mRRaeGUv1dLfHJJ6NdyjMb06HLE=;
-        b=cLcVuqB6YrhN4DCXfVsvMl8hkazRiueb5/v5gcbSPISyWKWAEetfYA/NZstC4aroFL
-         j2RfTcq7mEUOaTQZUDw/MpHE2+bjlMvGfi7SYVMS4y0+yfdr1bXuSdcB/5JDLhnLzU1w
-         4jA+ZXfccsrUv+6jfn0KEooJEbsC3ZVZxs5GS5+/PPOMh9WL9IQykR3sOTlBIE2Y3K8Z
-         2jBJwXqr102hnLDktTEKgf07sbhoeSFXTB5YCSL0KKoEKUMXd5cFxbKAnpkujeieK5ZN
-         GfWBezYlf3ZGqAtfPgmuyl++2QwpMQgBj9qfB+4AzdCpOnIk17CBnv6K0vWwCix9SJWJ
-         Zyxg==
-X-Gm-Message-State: AOJu0YzrV5yArx1BH1unBs1fHZPU/NqQ72sBCtcrHjQfjm0mZHNbnuY5
-	gud/kglMqQ4NG9ekgPrL1oY7nv0YuVC/0onmiKTqd3S97sjmQQ2kfBvH
-X-Gm-Gg: Acq92OEuHo5pUo231PO69wnGEev5oot2kNvb3PrH8YFMJcL65t3mn6HRtchl8RoBGbF
-	e3gxuVIriQna0ZgqaJ9BLmER5OMwAsQEwnV4g2COcCgCINUPzOQTuifWajy2mxh5/zDYuCjvgvw
-	zqv/xw9vO22Up2mwqRLTVA+tqIWXbeEL1jsT7BXi2oNSHaGahRLn4pqdAPy02f5JG6VOVVMMfeg
-	S2lpbBSGf1nKlabWh5yk03DX14/J8rLii7DgwCP0DkUxufAa9D/I1KmLVsUK74pj6H4MoaZaDni
-	4gvWxEuGe5J/vrEvzvDtXOF7eEbjBEhMw2kym0cUKp9lqGxVP90X2JfLeCM7YV1ZnOybQ/4B/kt
-	xXOSFfSHe2MjweDGo47QdmgUEsieKjSI4T3PBZpJpYWfJaherfHoZfML84Y3I4jMQ5wAEcuylQh
-	gDRMB0Q/RzLvZVAuRhl3GYPngOc8lxwg/f5gZpYTmJCCMvkV885WR1D0PVkSKHRuxMCkpQBx9ov
-	bA4+R1s3+0SQjbyFmIVSMPg2D0=
-X-Received: by 2002:a17:90b:53c6:b0:369:a359:b181 with SMTP id 98e67ed59e1d1-370f162420amr16555954a91.23.1780909798820;
-        Mon, 08 Jun 2026 02:09:58 -0700 (PDT)
-Received: from nugod-NUC15CRHU5.tail9f095a.ts.net ([218.237.104.87])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f70a29cd6sm15147098a91.11.2026.06.08.02.09.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 02:09:58 -0700 (PDT)
-From: HyeongJun An <sammiee5311@gmail.com>
-To: Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	HyeongJun An <sammiee5311@gmail.com>
-Subject: [PATCH v2] USB: serial: kl5kusb105: fix bulk-out buffer overflow
-Date: Mon,  8 Jun 2026 18:09:26 +0900
-Message-ID: <20260608090926.10506-1-sammiee5311@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260607095114.9375-1-sammiee5311@gmail.com>
-References: <20260607095114.9375-1-sammiee5311@gmail.com>
+        bh=DKFV4KkC6COWNrZ/xgUNGbwVmIaCHTzuBxaE2v4BzGc=;
+        b=XWwmiVqRNgpSlcpoaAKn3cTOiAPSTa4NYMLfJGWGHKR8SpQm3oPLyX7VmFtdkScRYc
+         9O6byyLrz8/6lZZRB4KnpeN01wH5s5xDmvtqT6AZ5nEjAWmSh8AwAyHTwpansB45VW4J
+         F4Ps1oD4lL8kTruIEdMaVZ0roGSgY6vIl4aCGnAY0E+sT1HNxaS8m7z8JdzQL7BKkGyf
+         rNSONXgtMT3SLINlM2+jLG7za9zJ6mDDAL1ae9OhsVLBKFTMM5XIPjEnTVLTpi3GqkOE
+         2GJV+r6tIHDnMP6x0Qk/Wv2FsiBC6QwtvbFWe8fo+swD9qRm6f1P/aYo0PBseMBIwGWi
+         UeTg==
+X-Forwarded-Encrypted: i=1; AFNElJ/G2WLXY1JMyUFKg8zk0pIduNjsGGHVPXqMgRtefaCdxiC1HyTTkTpwnou2LrZmTbn6Oct5RAjVpkg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6qAGndj1lM7y/wl3mVIrNLHTnSWZH6uNOE21le0/2IEsGDZTt
+	TDcdpf3x8D48seeMiIRixREIBc9Bt1QjZ7ejBuFkJZLqRevVy5YT4b9msCD2Aq3IPaxitFulPwr
+	uMEuqc1nBSuIqc+vqWac4Ubylea9tkJ8=
+X-Gm-Gg: Acq92OFlUND31GGLTDbly/Z/utn/x0U+BPS/dXAxuxCImPRatyE2U2vxqFyKkaf1cxj
+	Pb2FXeC5ojmOoYA/JnRydstSxRILhcdBdxfehbDsa7Xnci8RsspM6iSy7LEw03MybUJb+HOwsiZ
+	VV5rp9tmwU5NXWZHx0xZT3B3kv3507YQcw9IbXJnMHs0qyj8sEzjVSWCFVMhgS4pCBapNmhFcys
+	gfjyqnFkna7b4Xl6eN1aYjyszV24d8eURSP4877ogDYAVIvQhsdqfMS7P9X0UvUp069I1nzygHd
+	JOq+50pWghk+/gxwEAwcj2o3rWnG3kDYlARzay7kPdGRS/bSaPY=
+X-Received: by 2002:a05:600c:674f:b0:490:b4bc:4f3d with SMTP id
+ 5b1f17b1804b1-490c25b06a1mr230055115e9.18.1780909920408; Mon, 08 Jun 2026
+ 02:12:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <aiZiZy8a0al7xVXe@hovoldconsulting.com> <20260608074931.5911-1-sammiee5311@gmail.com>
+ <aiZ_DJGvrmotkM3J@hovoldconsulting.com>
+In-Reply-To: <aiZ_DJGvrmotkM3J@hovoldconsulting.com>
+From: Sam Hyeong <sammiee5311@gmail.com>
+Date: Mon, 8 Jun 2026 18:11:48 +0900
+X-Gm-Features: AVVi8CfxVZIX1PxJbVJtzthThC-GPmY30UFKg1hngZQYial9sUn64L8BAAVvloA
+Message-ID: <CAJciObGR+joLEEgj_ProZa4i3TmVs_RB7OHP3T=pW2CDkSu8+Q@mail.gmail.com>
+Subject: Re: [PATCH] USB: serial: kl5kusb105: fix bulk-out buffer overflow
+To: Johan Hovold <johan@kernel.org>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-klsi_105_prepare_write_buffer() is called by the generic write path
-with the bulk-out buffer and its size (bulk_out_size, 64 bytes). It
-stores a two-byte length header at the start of the buffer and copies
-the payload from the write fifo starting at buf + KLSI_HDR_LEN, but
-passes the full buffer size as the number of bytes to copy:
+Hi Johan,
 
-  count = kfifo_out_locked(&port->write_fifo, buf + KLSI_HDR_LEN,
-                           size, &port->lock);
+Sure, thanks! I've just sent a v2 with the "Assisted-by" tag.
 
-When the fifo holds at least size bytes, size bytes are copied starting
-two bytes into the size-byte buffer, writing KLSI_HDR_LEN bytes past its
-end. Copy at most size - KLSI_HDR_LEN bytes instead, leaving room for
-the header as safe_serial already does.
+Thanks,
+HyeongJun
 
-Writing bulk_out_size or more bytes to the tty triggers a slab
-out-of-bounds write, observed with KASAN by emulating the device with
-dummy_hcd and raw-gadget:
 
-  BUG: KASAN: slab-out-of-bounds in kfifo_copy_out+0x83/0xc0
-  Write of size 64 at addr ffff888112c62202 by task python3
-   kfifo_copy_out
-   klsi_105_prepare_write_buffer [kl5kusb105]
-   usb_serial_generic_write_start [usbserial]
-  Allocated by task 139:
-   usb_serial_probe [usbserial]
-  The buggy address is located 2 bytes inside of allocated 64-byte region
 
-The out-of-bounds write no longer occurs with this change applied.
-
-Fixes: 60b3013cdaf3 ("USB: kl5usb105: reimplement using generic framework")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-4-8
-Signed-off-by: HyeongJun An <sammiee5311@gmail.com>
----
-v2:
-- Add Assisted-by tag as requested by Johan.
-
- drivers/usb/serial/kl5kusb105.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/serial/kl5kusb105.c b/drivers/usb/serial/kl5kusb105.c
-index ed8531a64768..e72a0b45a707 100644
---- a/drivers/usb/serial/kl5kusb105.c
-+++ b/drivers/usb/serial/kl5kusb105.c
-@@ -330,8 +330,8 @@ static int klsi_105_prepare_write_buffer(struct usb_serial_port *port,
- 	unsigned char *buf = dest;
- 	int count;
- 
--	count = kfifo_out_locked(&port->write_fifo, buf + KLSI_HDR_LEN, size,
--								&port->lock);
-+	count = kfifo_out_locked(&port->write_fifo, buf + KLSI_HDR_LEN,
-+				 size - KLSI_HDR_LEN, &port->lock);
- 	put_unaligned_le16(count, buf);
- 
- 	return count + KLSI_HDR_LEN;
--- 
-2.43.0
-
+On Mon, Jun 8, 2026 at 5:36=E2=80=AFPM Johan Hovold <johan@kernel.org> wrot=
+e:
+>
+> On Mon, Jun 08, 2026 at 04:49:30PM +0900, HyeongJun An wrote:
+>
+> > Yes, I used an LLM to compare the custom prepare_write_buffer()
+> > handlers in drivers/usb/serial/.  kl5kusb105 passes the full "size"
+> > to the fifo copy, while the ones with a header or trailer, like
+> > safe_serial, reserve that space first.
+>
+> Thanks for confirming. This needs to be documented in the commit
+> message, see:
+>
+>         Documentation/process/submitting-patches.rst ["Using Assisted-by"=
+]
+>         Documentation/process/coding-assistants.rst
+>
+> Can you send a v2 with the missing tag?
+>
+> Johan
