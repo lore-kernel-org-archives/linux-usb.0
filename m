@@ -1,193 +1,154 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653542FA0DF
-	for <linux-usb@vger.kernel.org>; Mon,  8 Jun 2026 01:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C2F30569D
+	for <linux-usb@vger.kernel.org>; Mon,  8 Jun 2026 03:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780882482; cv=none; b=QsbYLfHpnKsryVXcsz8cp2L4SFSn4+nTPg4mxdBsvSxb3NMKQuBwQP8oXwfznRS6sFphD8TKjxQVOwZwTjxLNa238TipCo6zVNlw3anb8QU4o5SjL5+g327vPm/gGHrg7RbJUBAt3KBa1jWiwRsu0m/yRQA1EHo1UyD8mFagpVo=
+	t=1780887957; cv=none; b=YvEDwdAFTNZ/NJp32sU5+Xnmbfx7m23rHx40bUmrjZglfLkQXKOB1qYTqO9Iv/hvg3OTpIkMnKiPFtyFL3DxA86gY8QMwrfL2vdHv1JQVPc3ZvbqacM9SuMXY8HMsOUm+/WgdXELPnHN6i5gplXzT230bRn2DAqPxzmgpdCmEqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780882482; c=relaxed/simple;
-	bh=LEihTHK+w1sm4zbpQAiDEKBa+TdKBpxdH3hnaH0FzdA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n+B92lLYqo2W1WG15zh5DS1e9Ua9ZXrd5bXH/Pt6pfriOXTNOgMAV4FN8mxtJjwiqKXTwTv18C6KwqWYX+mAyOi6dr/O+4qnSK2tR47EoH7e4DLfhaVAB/YrxVbozVCtx0pBZr9b2YSl3Z0yf/WxxMdoC+pb0ZRBCqjziK6insU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=J18XNyo8; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1780887957; c=relaxed/simple;
+	bh=KI1eepTR0BwqCoiXBtWWibwfDGXxYF1Al+S0Kmwn0+k=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C/Y5SJ/srB3uCF0RA/ihz7yRr3hXrEeOCXxSMAYYmrHeuTmQALcjvcVP4OaQ6FrBLSkL4hmSBvb7dpGAUGHd98bZPYVHD3RaHT+NgvjXc1aww2n38InAA8ecy2ZhPjA1W0tzraHHPe/N8ioNSSknD1Uj9AMu9SLS+BF/rijdB6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=0EYzUbAW; arc=none smtp.client-ip=220.130.44.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="J18XNyo8"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-9157d3f2098so471203885a.3
-        for <linux-usb@vger.kernel.org>; Sun, 07 Jun 2026 18:34:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1780882480; x=1781487280; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=16SgnmYV3zvjJapF3TwwoQHwkTB1+wo23yXQ8fUQYuw=;
-        b=J18XNyo8KWDQhEvYDdahLaMQUNQE1CSks877W4ewSADFKWXeZ/GJ7/v8KxJf5iZdAh
-         AfL8NtVAhk4UMxngd/UVu3hhZvVFrKO9juC+ivkrIqe/hM6VGJLdJby8XhSQDeEIy70X
-         3NLV+o4IQQnFbzpNmLh7Q2EzpltVkkSc34l2+xG7/YZsVhTu1hfJFn1RoAzwZVoFHwxs
-         hyMAOc6SuAKzmcC8IBNTyPJVZFdacuPYYriJ/ZhlDMFbEy+ZpCtiKCG14zdWt8EeXvR0
-         V2H7yDbUIXD9nJTEJThfjgA+adnNvIb02hZfCHynJqpYX+On0o+IdTGeKIltByMfy7Ic
-         2dog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780882480; x=1781487280;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=16SgnmYV3zvjJapF3TwwoQHwkTB1+wo23yXQ8fUQYuw=;
-        b=s2icg7ob8HtGdGcVqljjgmOYXctkfxK7qUAhPv0XbgmrVpoCvMdmM1jETdQZx+VhMP
-         8nsXSNDInSBTVoAJQRg22JQ4adKIAaKtvyNfUVx7jOnR8llbQu0lghkZ9sT9lLegZyg+
-         AUu4x+KpwrV+UnKZHOHsWb/0EX4jelcYUHofHjjoypHbA1v8hctynlbIbvfBT2aXVGo4
-         g6I4L/I9KcTY58YPwEYSSndgqC+eMFc7F7e2tTpoAb6CST7UgBFFSrQnK2GG1u7W9YpJ
-         gqfS6Dk3BDp4mQxY1mhiOGXv0ZbfFGQgxxcRnEPqW2aLHwdKe+GKi3jgtfgKrt7bGFv5
-         uYBw==
-X-Forwarded-Encrypted: i=1; AFNElJ+dSNJQk+x2Hsz9idDYQmFnxHuxyaUB9ZaqeW/qw6e1q2IRZLqq7RxUJGIXyk6eX5VS02acowxxL3c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YziHEBWJ72pyOVLDeCsAPrNYBIRdnZkXLs85p3KOG0rGcvVNRIU
-	HRc3HnezfaSd7FOhqQf6B7ZC1XTXDPFvtqlc58fv71M3b2jpqXkukadZYaVcJgyWyQ==
-X-Gm-Gg: Acq92OFGsHuK0HDP2cI2Gf0HG8hRbLFy+XA4tCPF3sQ4LuKJI88N6W8N63bGvmwJvYl
-	nItteIrg8Py7DK70XNYpPHkEwIHrQ/5FFuLB4z0hqRqLSq6CjnMBjVvRinoD+qIcj7JEPXKxq2x
-	snpmZMmd0r2M1ynE/XXHC1Gaiypjc8CMdz+LATrNVbWL2MuakNizz1JbGHEJEhDM3hwPxqubV12
-	uEjG9MZf5zAJUkoJ/fYnhVDKPJib1G/HJ2mQBn1mnpPRJW0jqdtO7sqcVDKJlW9LJzwh96WhAs3
-	9pr9Z56PX1SY6NRM19tm4PtV7NA3FkYuphLZAzwuA0NAmotInWouI5QvCxOI0d0dUl1U8D3gsGp
-	hf6YhredczH6ybVYOPOpGFo0MCspslW+esfK9ElXB2WZJSpBu5ui8eoVLD+G6NG//sK0oUZgKf3
-	qLEicdpcLAgeA4UzghIWas9HWTUeA5MtzALQ/gpnSase0Zyb+njmHMvg==
-X-Received: by 2002:a05:620a:6cc7:b0:914:c82c:79fe with SMTP id af79cd13be357-915a9ccca05mr2194820985a.27.1780882480117;
-        Sun, 07 Jun 2026 18:34:40 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a00afbcsm1606384885a.9.2026.06.07.18.34.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2026 18:34:39 -0700 (PDT)
-Date: Sun, 7 Jun 2026 21:34:37 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Nikhil Solanke <nikhilsolanke5@gmail.com>, linux-usb@vger.kernel.org,
-	gregkh@linuxfoundation.org, mathias.nyman@linux.intel.com,
-	sakari.ailus@linux.intel.com, katieeliu@tencent.com,
-	johannes.bruederl@gmail.com, kees@kernel.org, dengjie03@kylinos.cn,
-	limiao@kylinos.cn, wse@tuxedocomputers.com, dev@a1rm4x.com,
-	vahnenko2003@gmail.com, cs@tuxedo.de, lijiayi@kylinos.cn,
-	oneukum@suse.com, bence98@sch.bme.hu, eeodqql09@gmail.com
-Subject: Re: USB: Request for guidance investigating configuration descriptor
- enumeration failure
-Message-ID: <80bad7e6-239e-4b7c-a175-0ba170b7c883@rowland.harvard.edu>
-References: <CAFgddhLGHvTmRxWtguXTpgZV_Mq5ZW=CVK_ZkqbOgUF9Y5bCsA@mail.gmail.com>
- <20260531123843.736bd69a.michal.pecio@gmail.com>
- <3b79ba92-1c51-420b-a5d2-8a358cafdbf6@rowland.harvard.edu>
- <20260601084846.433bfc51.michal.pecio@gmail.com>
- <CAFgddh+dLnR=AuAU65sxqsxAgqLYX9i0OiX3Ys_sPH+YeZuHVw@mail.gmail.com>
- <20260602193047.5fe03b8d.michal.pecio@gmail.com>
- <49acc9dd-9d2e-4a37-9b41-de5e16445461@rowland.harvard.edu>
- <20260604125323.1bcb40d7.michal.pecio@gmail.com>
- <1996a7ac-2670-4124-b855-6fdf0c9999ad@rowland.harvard.edu>
- <20260607232535.74b935a2.michal.pecio@gmail.com>
+	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="0EYzUbAW"
+X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
+	s=richtek; t=1780887946;
+	bh=VFgs9skjJm1cHrltD1MNjzhX0WhpD4/42dWWYfjSJoQ=; l=3362;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=0EYzUbAWnRHkiVXYng6OHq1k1neh5HN1eoV8h/gv//6srdKqnXmiW9V164LDYU+oG
+	 zm1/JLgfqMR4hevYJVLnZeEe12WEbzuQ6WAk1aeCUY7hwFnALbc5rtCSWF0JhZtUhV
+	 7o4k2BfcETO1hdECCSxt786U/Uhc8evD3FKfPTurt9wRxGFjY5LWoCKlHhw4yJO8Yc
+	 P8XWtzWSPcK8kD4YVw6jEjHqHbY8nJTpIkL2xfQDrxV1CDxqe6gqwE2/Ha8/+5Wv2u
+	 pMFMPvKrSVl1QDEYwF0/WCFz8SuNBeE7oHkrq4d4Gw9/RM8C6SrURiHCILTrAZD2Yc
+	 cBDtS1ZRfg3Iw==
+Received: from 192.168.10.46
+	by mg.richtek.com with MailGates ESMTPS Server V6.0(1227028:0:AUTH_RELAY)
+	(envelope-from <lucas_tsai@richtek.com>)
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Mon, 08 Jun 2026 11:05:31 +0800 (CST)
+Received: from ex3.rt.l (192.168.10.46) by ex3.rt.l (192.168.10.46) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.26; Mon, 8 Jun
+ 2026 11:05:31 +0800
+Received: from git-send.richtek.com (192.168.10.154) by ex3.rt.l
+ (192.168.10.45) with Microsoft SMTP Server id 15.2.1748.26 via Frontend
+ Transport; Mon, 8 Jun 2026 11:05:31 +0800
+From: <lucas_tsai@richtek.com>
+To: <heikki.krogerus@linux.intel.com>
+CC: <badhri@google.com>, <cy_huang@richtek.com>, <gregkh@linuxfoundation.org>,
+	<kevin_hung@richtek.com>, <linux-usb@vger.kernel.org>,
+	<lucas_tsai@richtek.com>, <ren_chen@richtek.com>, <alan_lan@richtek.com>
+Subject: Re: [PATCH 3/3] usb: typec: tcpci_rt1711h: add low power mode support
+Date: Mon, 8 Jun 2026 11:05:30 +0800
+Message-ID: <20260608030530.3853620-1-lucas_tsai@richtek.com>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <aiLJKjtKMmjxdyyI@kuha>
+References: <aiLJKjtKMmjxdyyI@kuha>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260607232535.74b935a2.michal.pecio@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Sun, Jun 07, 2026 at 11:25:35PM +0200, Michal Pecio wrote:
-> On Sat, 6 Jun 2026 22:17:20 -0400, Alan Stern wrote:
-> > On Thu, Jun 04, 2026 at 12:53:23PM +0200, Michal Pecio wrote:
-> > > On Wed, 3 Jun 2026 22:02:44 -0400, Alan Stern wrote:  
-> > > > I used a bus analyzer to capture what happens when Windows 11 
-> > > > initializes and enumerates a USB-2 flash drive.  The short answer
-> > > > is that yes, the initial Get-Configuration-Descriptor request is
-> > > > for 255 bytes.  
+On Fri, Jun 05, 2026 at 04:03:38PM +0300, Heikki Krogerus wrote:
+> On Wed, Jun 03, 2026 at 11:18:27AM +0800, lucas_tsai@richtek.com wrote:
+> > On Mon, Jun 01, 2026 at 04:36:02PM +0300, Heikki Krogerus wrote:
+> > > Hi,
 > > > 
-> > > Could you also try a few BIOSes, UEFIs and such?
-> > > Or anything from Apple?  
+> > > I'm sorry to keep you waiting.
+> > > 
+> > > On Mon, May 18, 2026 at 05:15:14PM +0800, cy_huang@richtek.com wrote:
+> > > > From: Lucas Tsai <lucas_tsai@richtek.com>
+> > > > 
+> > > > Add low power mode support,
+> > > > add the op to enter and exit low power mode,
+> > > > this mode reduce RT1711H/RT1715 VDD Iq to 1 of 10,
+> > > 
+> > > What is VDD Iq?
+> > > 
 > > 
-> > Here's the information.  It may not clear things up as much as you
-> > would like.
-> > 
-> > Samsung UEFI BIOS:
-> > 	Get Device Desc		8
-> > 	Set Address
-> > 	Get Device Desc		18
-> > 	Get Config Desc		255
-> > 	Set Config
-> > 
-> > Lenovo UEFI BIOS:
-> > 	Set Address
-> > 	Get Device Desc		8
-> > 	Get Device Desc		8
-> > 	Get Device Desc		18
-> > 	Get Config Desc		8
-> > 	Get Config Desc		32
-> > 	Get String Desc 0	2
-> > 	Get String Desc 0	4
-> > 	Set Config
-> > 
-> > IpadOS 26.5:
-> > 	Set Address
-> > 	Get Device Desc		18
-> > 	Get String Desc 2	2
-> > 	Get String Desc 2	34
-> > 	Get String Desc 1	2
-> > 	Get String Desc 1	18
-> > 	Get String Desc 3	2
-> > 	Get String Desc 3	50
-> > 	Get Config Desc		9
-> > 	Get Config Desc		32
-> > 	Set Config
-> > 
-> > OSX 10.5:
-> > 	Get Device Desc		18
-> > 	Set Address
-> > 	Get Device Desc		18
-> > 	Get String Desc 2	2
-> > 	Get String Desc 2	34
-> > 	Get String Desc 1	2
-> > 	Get String Desc 1	18
-> > 	Get String Desc 3	2
-> > 	Get String Desc 3	50
-> > 	Get Config Desc		8
-> > 	Get Config Desc		32
-> > 	Set Config
+> > VDD pin is RT1715's power input,
+> > and Iq is the quiescent current,
+> > so the low power mode reduces the baseline power used by RT1715.
 > 
-> Quite a variation.
+> Got it, thanks. Please add that explanation to the commit message.
 > 
-> Ipad is interesting because the single Device request must be a
-> high-speed optimization, or they hacked their xHC to ignore short
-> packets and keep reissuing IN tokens until the URB is filled.
 
-I would guess it's the former.  The only real reason for having a short 
-request first is because for full-speed connections, the host doesn't 
-know what the ep0 maxpacket length is until it sees the descriptor.  But 
-then I guess manufacturers got so used to seeing this sequence of 
-requests that people didn't dare change them, because doing so could 
-mess up some devices.
+No problem, I will include the explanation to the commit message of next
+version.
 
-> Linux has been doing the initial 8 or 64 byte read at LS and HS since
-> forever and I found no explanation besides nobody daring to touch it.
-
-That's the explanation.  Originally Linux always did the 8-byte read.  
-But some devices didn't like it, and we saw that Windows used a 64-byte 
-read.  So we copied the Windows behavior, with a fallback to the 
-original behavior (which is what the spec recommends) when needed.  Even 
-for LS and HS, because that's what Windows does.
-
-> Though I wonder if it wouldn't make sense to skip this at SS, because
-> Windows does (in my QEMU tests) and very likely Apple too.
-
-I'd be fine with that.  OTOH, if it's not broken, you don't need to fix 
-it.
-
-> > I suspect that non-storage devices (such as an Xbox clone) might have 
-> > more stringent requirements, because they don't need to be visible to
-> > a BIOS.  In general, imitating Windows is almost certainly the best 
-> > approach -- except perhaps for a few devices which are meant to be
-> > used exclusively with Macs.
+> > > > while disabling VBUS detection and PD BMC
+> > > > but keeping CC detection and not affecting DRP toggling.
+> > > > 
+> > > > Signed-off-by: Lucas Tsai <lucas_tsai@richtek.com>
+> > > > ---
+> > > >  drivers/usb/typec/tcpm/tcpci_rt1711h.c | 14 ++++++++++++++
+> > > >  1 file changed, 14 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
+> > > > index 4b3e4e22a82e..48d6a6823ab9 100644
+> > > > --- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
+> > > > +++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
+> > > > @@ -20,6 +20,7 @@
+> > > >  
+> > > >  #define RT1711H_PHYCTRL1	0x80
+> > > >  #define RT1711H_PHYCTRL2	0x81
+> > > > +#define RT1711H_BMCCTRL		0x90
+> > > >  
+> > > >  #define RT1711H_RTCTRL4		0x93
+> > > >  /* rx threshold of rd/rp: 1b0 for level 0.4V/0.7V, 1b1 for 0.35V/0.75V */
+> > > > @@ -254,6 +255,18 @@ static int rt1711h_start_drp_toggling(struct tcpci *tcpci,
+> > > >  	return 0;
+> > > >  }
+> > > >  
+> > > > +static void rt1711h_set_low_power_mode(struct tcpci *tcpci,
+> > > > +				       struct tcpci_data *tdata, bool enable)
+> > > > +{
+> > > > +	int ret;
+> > > > +	struct rt1711h_chip *chip = tdata_to_rt1711h(tdata);
+> > > > +
+> > > > +	ret = rt1711h_write8(chip, RT1711H_BMCCTRL, enable ? 0x08 : 0x07);
+> > > > +	if (ret < 0)
+> > > > +		dev_err(chip->dev, "%s lpm fail(%d)\n",
+> > > > +			enable ? "enter" : "exit", ret);
+> > > > +}
+> > > 
+> > > Why couldn't this just be done in the PM suspend and resume
+> > > callbacks for this driver?
+> > 
+> > Entering low power mode or not relates directly to the status of USB-C port:
+> > enter low power mode when USB-C port attached nothing (unattached),
+> > and exit low power mode when attached with cable or device.
+> > 
+> > In the other word, it is possible to have system suspended and USB-C
+> > port attached at the same time, so it is not suitable to bind the flow
+> > of low power mode to the PM suspend and resume.
 > 
-> Are you suggesting to make the 255 byte configuration the new default,
-> or are we still talking about a quirk exclusive to one device so far?
+> You don't have to do that in the system suspend callback, but you
+> still should do this in the runtime suspend callback, no?
+> 
 
-Years ago I would have said to make it the new default.  But now I think 
-it would be safer to go with a specific quirk flag.
+ya, and there is no suitable and existing callback chain to do so,
+so I create a new one.
 
-Alan Stern
+> This is not a major thing, but mctp.c is a bit bloated, I want to make
+> sure that adding this kind of callbacks is really necessary.
+> 
+> Badhri, do you have time to check this series?
+> 
+> thanks,
+> 
+> -- 
+> heikki
+
+Thanks.
+--
+Lucas Tsai
