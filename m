@@ -1,180 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92BD33F8B4
-	for <linux-usb@vger.kernel.org>; Mon,  8 Jun 2026 06:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B84385D8F;
+	Mon,  8 Jun 2026 06:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780900825; cv=none; b=F2P56L3lACRTcAv0MJLQLrW8Ck/WiVSd/aP/WsYWPyEdxI7u186v8l5H5y25GCltoa5w4EmaHA3mMZfqhFssOiiUmY1tGyAkfgLHSoSRT7HkUXUfAYXV5B7Sle9JJ6p/Gvj5iBXS/1gQ6nMxDmLnNoDpflucuacsQkQ0v3IE+60=
+	t=1780901584; cv=none; b=q+BmtHPmmo9D5opDdPPCqkRvjtkczTMXOxD6jqD4X3lC/LOB+xpB12hJc9emszrj5VZFUhe7vqbeVtIOpkoNFJNhJO/vXfQVlpUbUQsSpI3svijoOOEUNg2Qc8/7/QREr6Ol/dEZppI79Hvm3SHwh4mvzARASkRM9oeBRVfOHjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780900825; c=relaxed/simple;
-	bh=fjXBBoG0yoUaEQ26+u1O3d4uSfphgKwvCoqJG1CeVM4=;
+	s=arc-20240116; t=1780901584; c=relaxed/simple;
+	bh=/i0oSk0OKgLBWCqcsuxynAGu+4KYjigz39mykr2/kUo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A1qR/Cm/YgDJc4C2YZgVMgJZ6KpGmMwzTkXQ19wtzittSha4jRFTWOnlUTPly8rEp+Taat9q4oZuQG9iwtkGEGjhA4GOfvOjQOGIfk2o1I198IJq0apLLjDLv5OgaqWhvFvD05hetk7A9DSQCJ7qdypaTUF5dpoY4g+RKxd22G8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gpd/rQgU; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=l7ETRd7LVwS3zhYLnnL+YzvpB/6I+MfC3HB0+WHziSnh+RM8L1Mk0Y+/m4O4MfYHimYznZYIWA2tKfhJmGZMtyUXsvgAVCdodcZetyBLdC7uEQaO1p9bHIJHZ47cq24SI7auUE0Ynq3si8TZtdfl2OtOp8Sfjox1044t6xRcsFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L1813wxY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gpd/rQgU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780900824; x=1812436824;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fjXBBoG0yoUaEQ26+u1O3d4uSfphgKwvCoqJG1CeVM4=;
-  b=Gpd/rQgUXDQKPYhcwKpMG2HmxFnlm87O4p11jHBI39mM1ZhMxnykOWql
-   8GczXWEEXkuFOlwmQ9K0gG/NLnx1FGSqRTz9veZMFj76ZDqmoMJO8SoGg
-   p1nawQjV94KA1kvDBvBSo4F9jF1CVCzjJ/sjgE9Z/2O9q74UhHWbB54VL
-   hd1ivemez+UI9N9EMySzsjrcwnxFg85TmadlqqxyV7TPcU5L4hpng7SRH
-   SKYe7qMn1CJJ074IQrXiv7dGXZFrFLEi6ePOuDlHgldnjkEu3Nb9fjncg
-   jk1CDmBlMKI08tjr1zZJNKRiTcOgBc21Luh4VDd9fnGH/in3OHG1DjlTo
-   g==;
-X-CSE-ConnectionGUID: rizGl2WyQlyO20tm2PuWyw==
-X-CSE-MsgGUID: m+9hK1JNTNqFLd/xyG4ymA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11810"; a="81691415"
-X-IronPort-AV: E=Sophos;i="6.24,194,1774335600"; 
-   d="scan'208";a="81691415"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2026 23:40:23 -0700
-X-CSE-ConnectionGUID: R8Uu1kofR2e1kzjcz5yzdA==
-X-CSE-MsgGUID: XJ4fMpm4T0upymthDsI+fQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,194,1774335600"; 
-   d="scan'208";a="245519329"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa009.jf.intel.com with ESMTP; 07 Jun 2026 23:40:21 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 4002F95; Mon, 08 Jun 2026 08:40:20 +0200 (CEST)
-Date: Mon, 8 Jun 2026 08:40:20 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Basavaraj Natikar <bnatikar@amd.com>
-Cc: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, andreas.noever@gmail.com,
-	westeri@kernel.org, YehezkelShB@gmail.com,
-	linux-usb@vger.kernel.org, Sanath S <Sanath.S@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH] thunderbolt: Assert downstream port reset on shutdown
-Message-ID: <20260608064020.GJ2990@black.igk.intel.com>
-References: <20260603180146.3949001-1-Basavaraj.Natikar@amd.com>
- <20260604050326.GH2990@black.igk.intel.com>
- <d80346d3-692a-4982-859e-5321c4ec022f@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L1813wxY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC2AF1F00893;
+	Mon,  8 Jun 2026 06:53:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780901583;
+	bh=havdYnCEiwh5vTCKe1DHbkaoT5AWDXTLJ1Y7Ln7iWgw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=L1813wxYCSG23bMqgH0ctBCaj9Bpvn+Mzei1rNqsq0WCcwGOsXm6XM2KGxAXsFIYY
+	 PNDm8BVVIy+mxZVPKU4wVu6h4p0KPjoC1XxutYgkz/tkmmhAG8rVrOOKTNPIdmEki7
+	 ZhxSUdrBlMWLeL8QBDbyNq9XDMsiOMNBfZ2GhLV/YwyVuA/eN004Tel/YWmS0caTVI
+	 1Ki3J3QunXEpB3QhQYJVMtlF0mA4AxTKTG00ZLd+5TQtr+P/xrxmp+UI8GKHBADra+
+	 51Vuz5yLHqFvIOweKB/4wkDinKL1buqvy1wE9fbYOVn6sWyc24920VQdY8amOd7RLf
+	 3b6jOlh5wB1iw==
+Received: from johan by xi.lan with local (Exim 4.99.3)
+	(envelope-from <johan@kernel.org>)
+	id 1wWTr1-00000000Lrw-2QFM;
+	Mon, 08 Jun 2026 08:52:59 +0200
+Date: Mon, 8 Jun 2026 08:52:59 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Lee Jones <lee@kernel.org>,
+	Mark Brown <broonie@opensource.wolfsonmicro.com>,
+	Thierry Reding <thierry.reding@avionic-design.de>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Peter Chen <peter.chen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 22/23] reset: rzg2l: use
+ platform_device_set_of_node_from_dev()
+Message-ID: <aiZmy1lxcYzMF78e@hovoldconsulting.com>
+References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
+ <20260521-pdev-fwnode-ref-v1-22-88c324a1b8d2@oss.qualcomm.com>
+ <6af284545729f03a60d06479339862a2f08c6b7e.camel@pengutronix.de>
+ <ah9QtExF2rUUTMNo@ashevche-desk.local>
+ <aiK-qZqpuC-OEigf@hovoldconsulting.com>
+ <aiLjE0SLwrDytyw0@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d80346d3-692a-4982-859e-5321c4ec022f@amd.com>
+In-Reply-To: <aiLjE0SLwrDytyw0@ashevche-desk.local>
 
-On Fri, Jun 05, 2026 at 11:27:52AM -0500, Basavaraj Natikar wrote:
-> Hi,
+On Fri, Jun 05, 2026 at 05:54:11PM +0300, Andy Shevchenko wrote:
+> On Fri, Jun 05, 2026 at 02:18:49PM +0200, Johan Hovold wrote:
+> > On Wed, Jun 03, 2026 at 12:52:52AM +0300, Andy Shevchenko wrote:
+> > > On Tue, Jun 02, 2026 at 10:24:41AM +0200, Philipp Zabel wrote:
+> > > > On Do, 2026-05-21 at 10:36 +0200, Bartosz Golaszewski wrote:
 > 
+> ...
 > 
-> On 6/4/2026 12:03 AM, Mika Westerberg wrote:
-> > Hi,
-> > 
-> > On Wed, Jun 03, 2026 at 11:31:46PM +0530, Basavaraj Natikar wrote:
-> > > On shutdown the connection manager tears down the switch tree without
-> > router tree
-> > 
-> > > signalling connected devices. Thunderbolt 3 devices directly connected
-> > > to a USB4 host never receive a disconnect indication and during shutdown
-> > > this can cause polling the dead link for up to 60 seconds. On some
-> > > platforms this behavior leads to a warm reset instead of a shutdown due
-> > > to this timeout.
+> > > > > -	device_set_of_node_from_dev(&vdev->dev, dev);
+> > > > > +	platform_device_set_of_node_from_dev(vdev, dev);
 > > > 
-> > > Fix this by asserting PORT_CS_19.DPR on each connected downstream port
-> > > before tearing down the switch tree. This drives SBTX low unconditionally
-> > router tree
-> > 
-> > > (USB4 spec section 6.9), causing the device to detect SBRX low and
-> > > transition to Uninitialized Unplugged state immediately.
+> > > Same Q here, why it uses inherited call? Cargo cult?
 > > > 
-> > > Co-developed-by: Sanath S <Sanath.S@amd.com>
-> > > Signed-off-by: Sanath S <Sanath.S@amd.com>
-> > > Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-> > > ---
-> > >   drivers/thunderbolt/switch.c |  2 +-
-> > >   drivers/thunderbolt/tb.c     | 11 +++++++++++
-> > >   drivers/thunderbolt/tb.h     |  1 +
-> > >   3 files changed, 13 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-> > > index c2ad58b19e7b..52812908818b 100644
-> > > --- a/drivers/thunderbolt/switch.c
-> > > +++ b/drivers/thunderbolt/switch.c
-> > > @@ -704,7 +704,7 @@ int tb_port_disable(struct tb_port *port)
-> > >   	return __tb_port_enable(port, false);
-> > >   }
-> > > -static int tb_port_reset(struct tb_port *port)
-> > > +int tb_port_reset(struct tb_port *port)
-> > >   {
-> > >   	if (tb_switch_is_usb4(port->sw))
-> > >   		return port->cap_usb4 ? usb4_port_reset(port) : 0;
-> > > diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-> > > index c69c323e6952..ca57b5181422 100644
-> > > --- a/drivers/thunderbolt/tb.c
-> > > +++ b/drivers/thunderbolt/tb.c
-> > > @@ -2935,6 +2935,7 @@ static void tb_stop(struct tb *tb)
-> > >   	struct tb_cm *tcm = tb_priv(tb);
-> > >   	struct tb_tunnel *tunnel;
-> > >   	struct tb_tunnel *n;
-> > > +	struct tb_port *port;
-> > >   	cancel_delayed_work(&tcm->remove_work);
-> > >   	/* tunnels are only present after everything has been initialized */
-> > > @@ -2948,6 +2949,16 @@ static void tb_stop(struct tb *tb)
-> > >   			tb_tunnel_deactivate(tunnel);
-> > >   		tb_tunnel_put(tunnel);
-> > >   	}
-> > > +	/*
-> > > +	 * Assert DPR to drive SBTX low, signalling disconnect and avoiding
-> > > +	 * ~60 s of link polling before warm reset on shutdown.
-> > > +	 */
-> > > +	tb_switch_for_each_port(tb->root_switch, port) {
-> > > +		if (!tb_port_is_null(port) || !tb_port_has_remote(port))
-> > > +			continue;
-> > > +		if (tb_port_reset(port))
-> > > +			tb_port_dbg(port, "DPR on shutdown failed, continuing\n");
-> > > +	}
-> > But now this tears down the topology also when the driver is unloaded? If
-> > you want to do that in shutdown there is ->shutdown hook for that.
-> 
-> Asserting DPR on unload is intentional and it is harmless. After a reload
-> the driver re-probes and the router tree comes back up cleanly.
-
-Well not entirely harmless as it also kills the native tunnels and now user
-cannot get rid of that by passing host_reset=0 during load.
-
-Prior this unloading the driver left the tunnels up and that was
-intentional.
-
-> It is also needed. Once the driver is unloaded it is unbound, so a later
-> system shutdown has no driver left to assert DPR and the ~60s link polling
-> hang comes back. Doing it in tb_stop() covers both plain shutdown and the
-> unload then shutdown case, so I kept it here instead of the ->shutdown hook.
-> 
-> Will fix switch tree to router tree.
-> 
-> Thanks,
-> --
-> Basavaraj
-> 
+> > > 'reused' flag is solely pin control (provider!) thingy as far as I remember.
 > > 
-> > >   	tb_switch_remove(tb->root_switch);
-> > >   	tcm->hotplug_active = false; /* signal tb_handle_hotplug to quit */
-> > >   }
-> > > diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-> > > index 217c3114bec8..875eb538eacf 100644
-> > > --- a/drivers/thunderbolt/tb.h
-> > > +++ b/drivers/thunderbolt/tb.h
-> > > @@ -1102,6 +1102,7 @@ int tb_port_clear_counter(struct tb_port *port, int counter);
-> > >   int tb_port_unlock(struct tb_port *port);
-> > >   int tb_port_enable(struct tb_port *port);
-> > >   int tb_port_disable(struct tb_port *port);
-> > > +int tb_port_reset(struct tb_port *port);
-> > >   int tb_port_alloc_in_hopid(struct tb_port *port, int hopid, int max_hopid);
-> > >   void tb_port_release_in_hopid(struct tb_port *port, int hopid);
-> > >   int tb_port_alloc_out_hopid(struct tb_port *port, int hopid, int max_hopid);
-> > > -- 
-> > > 2.34.1
+> > No, it's needed for pin control *consumers*, which can be any device,
+> > and potentially any other resource managed by driver core or bus code.
+> 
+> Why don't we set it for every pin control consumer automatically?
+
+It must only be set on the second (child) one to prevent driver core
+from trying to acquire resources already claimed by the parent.
+
+Setting it on both would break things.
+
+Johan
