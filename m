@@ -1,54 +1,47 @@
-Received: from smtp134-24.sina.com.cn (smtp134-24.sina.com.cn [180.149.134.24])
+Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDBA37AA83
-	for <linux-usb@vger.kernel.org>; Mon,  8 Jun 2026 05:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=180.149.134.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66301E2858;
+	Mon,  8 Jun 2026 06:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780897155; cv=none; b=gUpxiAsLuPO1x4h/D/6HLEwtowCrEFyCoWhwdzxdJ2uaNaR8QtKtqVQEfpkst0JOav/ZYiO4Hj2bneSWrGqdhj4kF92V6H5x9Z63NNvHkJd5Rr/TYhhnrAARCredZGtTdt92yj45J/Ud3dQa3CZeyZdHks/gj1Ls9BLUgxl11kI=
+	t=1780900364; cv=none; b=IfrPnjmutVqG/WkT2ZngF4erj/9hRwjG2Lj+jnFPopbxazXfazOE+JB+6HN0QQjLzh1q3QqC4ANo7DXp5zTtpB/acE5pZM9LIJvRcc+kyvr5O41i78z716vUulcgvvnBLKVOVvYJvrbXnTIAi3ej1Dep9P7OloaZARgTwlygxRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780897155; c=relaxed/simple;
-	bh=oRXY+9puep12Lxn5B5r/Surj8DWqdhMPbsYkJQOnAIM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S1K38kIHctPCkli1Vc8o9NyIPDDRZ8W1TuhviqIZlhlv/pFeix7Zr5oeBQ1TgXkU6zwHYUiegfHFN/eKGFN+FVXuu9u2ufR4rh+B8iUu+Dlgxf1qekT2X/yz3veFpk2JPuU76D3HfTytIaezq/PQEK75nh15amLnOHSC2rQ+cD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.cn; spf=pass smtp.mailfrom=sina.cn; dkim=pass (1024-bit key) header.d=sina.cn header.i=@sina.cn header.b=fYB2dup2; arc=none smtp.client-ip=180.149.134.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.cn
+	s=arc-20240116; t=1780900364; c=relaxed/simple;
+	bh=rCV1Sy289Q3pqonqWXdWbYjJZnXELv8xnUOZLUsILaY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ICaA7mBbk93nKAWsWZAWPZR/5uo+v/baNcmSs8lBhLEd0xSqCXnWPCAWs9gIV9qBLbKqyrPLQGuWmXRFg5B0VjZVI2xTwtbu8m/61deFnyyhbHblZDLN8FH9+7DT6/UitwEhBCZxiCV1aNlaqcJbBBYVZhiEx3Nq+7WtHJ7RHGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Hm05z132; arc=none smtp.client-ip=18.132.163.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.cn header.i=@sina.cn header.b="fYB2dup2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.cn; s=201208; t=1780897150;
-	bh=951BUsMtl8tl26sb644WYR3IJacuLYWSqxD6MFhzn4w=;
-	h=From:Subject:Date:Message-Id;
-	b=fYB2dup2FqxnwXUzwbp2m5pRVUhN/eckieoG69EfeWRMcFVnKppYHcl3lQ8ojVOXE
-	 VFlkB4tLubffkbqPvoatfys3BA1yUOnA3DCwEUQxcdO0cIffwmchWvX6XH3cbLo1a9
-	 6cdaU3Mj68nVJ3v5TkGfYsMXq8qp2Ngz6kaOGeqg=
-X-SMAIL-HELO: NTT-kernel-dev
-Received: from unknown (HELO NTT-kernel-dev)([60.247.85.88])
-	by sina.cn (10.185.250.21) with ESMTP
-	id 6A2654E400001F9A; Mon, 8 Jun 2026 13:36:40 +0800 (CST)
-X-Sender: jianqkang@sina.cn
-X-Auth-ID: jianqkang@sina.cn
-Authentication-Results: sina.cn;
-	 spf=none smtp.mailfrom=jianqkang@sina.cn;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=jianqkang@sina.cn
-X-SMAIL-MID: 1008913408272
-X-SMAIL-UIID: 31246025A2D949A0A9AEF0B92BD13DBC-20260608-133640-1
-From: Jianqiang kang <jianqkang@sina.cn>
-To: gregkh@linuxfoundation.org,
-	stable@vger.kernel.org,
-	khtsai@google.com
-Cc: patches@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Hm05z132"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1780900327;
+	bh=ksZB2/GX3gUlIEnHuom5++39MiBF0v7l7oMVxtOJcvM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=Hm05z132rTk7ffVkyPJtCzgbNw6GNENeaVUHLLhqyVJ3ihWmcNCfa5ZKk7ZIpF4KO
+	 P6XANJQtdCI/zUK6cCMZm/+URl7lDkrKw5cqdHvfZwPemlGsNmXmirFPQKH26DyhC3
+	 /jHj5A2FHKhm7ZUTwH5/GGoDP+9NXWDNFTmGFrGY=
+X-QQ-mid: zesmtpsz7t1780900311tc1a75f4a
+X-QQ-Originating-IP: KNgkMA7M6tP1gwCxuz9rHXtmMPUo/fXXWUcccwilUi4=
+Received: from PEN202512010004 ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 08 Jun 2026 14:31:49 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 981993511686728096
+EX-QQ-RecipientCnt: 6
+From: raoxu <raoxu@uniontech.com>
+To: andreas.noever@gmail.com
+Cc: westeri@kernel.org,
+	YehezkelShB@gmail.com,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	sashal@kernel.org,
-	raubcameo@gmail.com,
-	andrzej.p@samsung.com,
-	balbi@ti.com,
-	kyungmin.park@samsung.com,
-	linux-usb@vger.kernel.org
-Subject: [PATCH 6.6.y] usb: gadget: f_ncm: Fix net_device lifecycle with device_move
-Date: Mon,  8 Jun 2026 13:36:36 +0800
-Message-Id: <20260608053636.2797024-1-jianqkang@sina.cn>
-X-Mailer: git-send-email 2.34.1
+	raoxu@uniontech.com
+Subject: [PATCH] thunderbolt: debugfs: fix sideband write size check
+Date: Mon,  8 Jun 2026 14:31:47 +0800
+Message-ID: <E4D8CB8444A9950B+20260608063147.794444-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -56,217 +49,57 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: NJmTK03TIqERi1rNFv6dLm7IwL1XQU1ruixnzplr2t1D8D12VMMOtiIs
+	AJZO8nR1D9CH99LY++G3txU6C9VcPiqpiPQEv1cAH8ePPR9rhOz7VoseiGKggX2bsl1RGJH
+	ccBUQwPt8An7PTjYoWbrx1wrXQvydT/BGPhjqqG/2Sxfoa2Zf79/hS4k6RxnaIIVEVPMtlp
+	7cEFHgZS2rVnCh6C7w0SxyN3PV4h3Bdhn67R1hih+j3UxAXqKII64YV+FGffTVhb2UmDJai
+	bro2TpMAQ9Eb81xTyZ8VbelhcNdoTcJBZP/hr2ek52ximGcvIKV+8a4Y2nEw4Qwn9DkKHkM
+	CzVWm1fzyjU53TgPTfhFBg/onEQZ8RH3O7kiB16Onc0hk50Zr/KyDj2DV7ED684t33gdpv9
+	DoBqBzcQz58cNFhtQLRN0cX6JO3UKH1wTuLjSPhEeSKgNT4FICCt3TibMyzKW4NSK/huG++
+	hFmdGHez4nPbhdxno4B5sDbCFvogmPUtb2xHLbMPUjRYAKXV1zOEEXc+D5Ggeo5Hn5Mo+QV
+	1UTkuS2N35sqhyGaDnZeIrtG6WqAih85iKG6vUk15djE48bQdebYIWxPyXXyK5sxmUFr5bu
+	bemauEJuyTTZpQ+hzrcAf3fQr5/HVj1kdCNl17EJMau7y635pHBDIeGPgpGebf0/ixuXhiJ
+	2APYF1wndHPP5Udw0TMK4Ghuz0CkPycburBXub5bzcKIfaPI1qNZhjiqt8vO763ylYFdhE4
+	cpjJwdjHBh1YiX/HUxxNjgMm1A3fWLP0F+z4AkK9bcpOSqqe0zp9i1mgN8WFhUq1GlUqGXB
+	qK9MNOy2SPw0r6IKHcQoQqih+db5XyaNFjfVGRMRikue+pRRmyom0Zfres5xZQzPb8eiJg7
+	nmmvdxKPISao8dRAJSgEMYtLhLYN+s7zEOGtbAhFlvpvNZwgyzlY2LO7ktUc+ss6jbEWkM4
+	7qeMzDQjlXBYx0mRymz5TnXnc9Az8Q+HwrgTZmu4wBVzOXtFBa1nVnDPJDpmQvAx+BEx5zj
+	7n1RzA8c9ebHWzI/gUC37eb4yYAd0VWULfqT8Q74nSYbqwgd+L
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+X-QQ-RECHKSPAM: 0
 
-From: Kuen-Han Tsai <khtsai@google.com>
+From: Xu Rao <raoxu@uniontech.com>
 
-[ Upstream commit ec35c1969650e7cb6c8a91020e568ed46e3551b0 ]
+sb_regs_write() looks up the matching sideband register entry before
+validating the number of bytes to write.
 
-The network device outlived its parent gadget device during
-disconnection, resulting in dangling sysfs links and null pointer
-dereference problems.
+However, the size check uses sb_regs->size, which is the size of the
+first entry in the register table, instead of the matched entry. This
+rejects valid writes to larger sideband registers such as USB4_SB_DEBUG
+or USB4_SB_DATA.
 
-A prior attempt to solve this by removing SET_NETDEV_DEV entirely [1]
-was reverted due to power management ordering concerns and a NO-CARRIER
-regression.
+Use the matched register entry for the size check.
 
-A subsequent attempt to defer net_device allocation to bind [2] broke
-1:1 mapping between function instance and network device, making it
-impossible for configfs to report the resolved interface name. This
-results in a regression where the DHCP server fails on pmOS.
-
-Use device_move to reparent the net_device between the gadget device and
-/sys/devices/virtual/ across bind/unbind cycles. This preserves the
-network interface across USB reconnection, allowing the DHCP server to
-retain their binding.
-
-Introduce gether_attach_gadget()/gether_detach_gadget() helpers and use
-__free(detach_gadget) macro to undo attachment on bind failure. The
-bind_count ensures device_move executes only on the first bind.
-
-[1] https://lore.kernel.org/lkml/f2a4f9847617a0929d62025748384092e5f35cce.camel@crapouillou.net/
-[2] https://lore.kernel.org/linux-usb/795ea759-7eaf-4f78-81f4-01ffbf2d7961@ixit.cz/
-
-Fixes: 40d133d7f542 ("usb: gadget: f_ncm: convert to new function interface with backward compatibility")
-Cc: stable <stable@kernel.org>
-Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
-Link: https://patch.msgid.link/20260309-f-ncm-revert-v2-7-ea2afbc7d9b2@google.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-[ Use no_free_ptr() since retain_and_null_ptr() is unavailable in Linux 6.6. ]
-Signed-off-by: Jianqiang kang <jianqkang@sina.cn>
+Signed-off-by: Xu Rao <raoxu@uniontech.com>
 ---
- drivers/usb/gadget/function/f_ncm.c   | 35 ++++++++++++++++++---------
- drivers/usb/gadget/function/u_ether.c | 22 +++++++++++++++++
- drivers/usb/gadget/function/u_ether.h | 26 ++++++++++++++++++++
- drivers/usb/gadget/function/u_ncm.h   |  2 +-
- 4 files changed, 73 insertions(+), 12 deletions(-)
+ drivers/thunderbolt/debugfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/function/f_ncm.c
-index 9e9601f12b88..d8ab1adec63e 100644
---- a/drivers/usb/gadget/function/f_ncm.c
-+++ b/drivers/usb/gadget/function/f_ncm.c
-@@ -1425,6 +1425,7 @@ static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
- 	struct f_ncm_opts	*ncm_opts;
+diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
+index 25f6ea6ea094..45ec31e2d040 100644
+--- a/drivers/thunderbolt/debugfs.c
++++ b/drivers/thunderbolt/debugfs.c
+@@ -366,7 +366,7 @@ static ssize_t sb_regs_write(struct tb_port *port, const struct sb_reg *sb_regs,
+ 		if (!sb_reg)
+ 			return -EINVAL;
  
- 	struct usb_os_desc_table	*os_desc_table __free(kfree) = NULL;
-+	struct net_device		*net __free(detach_gadget) = NULL;
- 	struct usb_request		*request __free(free_usb_request) = NULL;
+-		if (bytes_read > sb_regs->size)
++		if (bytes_read > sb_reg->size)
+ 			return -E2BIG;
  
- 	if (!can_support_ecm(cdev->gadget))
-@@ -1438,16 +1439,18 @@ static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
- 			return -ENOMEM;
- 	}
- 
--	mutex_lock(&ncm_opts->lock);
--	gether_set_gadget(ncm_opts->net, cdev->gadget);
--	if (!ncm_opts->bound)
--		status = gether_register_netdev(ncm_opts->net);
--	mutex_unlock(&ncm_opts->lock);
--
--	if (status)
--		return status;
--
--	ncm_opts->bound = true;
-+	scoped_guard(mutex, &ncm_opts->lock)
-+		if (ncm_opts->bind_count == 0) {
-+			if (!device_is_registered(&ncm_opts->net->dev)) {
-+				gether_set_gadget(ncm_opts->net, cdev->gadget);
-+				status = gether_register_netdev(ncm_opts->net);
-+			} else
-+				status = gether_attach_gadget(ncm_opts->net, cdev->gadget);
-+
-+			if (status)
-+				return status;
-+			net = ncm_opts->net;
-+		}
- 
- 	ncm_string_defs[1].s = ncm->ethaddr;
- 
-@@ -1547,6 +1550,9 @@ static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
- 	}
- 	ncm->notify_req = no_free_ptr(request);
- 
-+	ncm_opts->bind_count++;
-+	no_free_ptr(net);
-+
- 	DBG(cdev, "CDC Network: IN/%s OUT/%s NOTIFY/%s\n",
- 			ncm->port.in_ep->name, ncm->port.out_ep->name,
- 			ncm->notify->name);
-@@ -1593,7 +1599,7 @@ static void ncm_free_inst(struct usb_function_instance *f)
- 	struct f_ncm_opts *opts;
- 
- 	opts = container_of(f, struct f_ncm_opts, func_inst);
--	if (opts->bound)
-+	if (device_is_registered(&opts->net->dev))
- 		gether_cleanup(netdev_priv(opts->net));
- 	else
- 		free_netdev(opts->net);
-@@ -1655,9 +1661,12 @@ static void ncm_free(struct usb_function *f)
- static void ncm_unbind(struct usb_configuration *c, struct usb_function *f)
- {
- 	struct f_ncm *ncm = func_to_ncm(f);
-+	struct f_ncm_opts *ncm_opts;
- 
- 	DBG(c->cdev, "ncm unbind\n");
- 
-+	ncm_opts = container_of(f->fi, struct f_ncm_opts, func_inst);
-+
- 	hrtimer_cancel(&ncm->task_timer);
- 
- 	kfree(f->os_desc_table);
-@@ -1673,6 +1682,10 @@ static void ncm_unbind(struct usb_configuration *c, struct usb_function *f)
- 
- 	kfree(ncm->notify_req->buf);
- 	usb_ep_free_request(ncm->notify, ncm->notify_req);
-+
-+	ncm_opts->bind_count--;
-+	if (ncm_opts->bind_count == 0)
-+		gether_detach_gadget(ncm_opts->net);
- }
- 
- static struct usb_function *ncm_alloc(struct usb_function_instance *fi)
-diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-index 62e2018d0357..49ff3fc62f74 100644
---- a/drivers/usb/gadget/function/u_ether.c
-+++ b/drivers/usb/gadget/function/u_ether.c
-@@ -896,6 +896,28 @@ void gether_set_gadget(struct net_device *net, struct usb_gadget *g)
- }
- EXPORT_SYMBOL_GPL(gether_set_gadget);
- 
-+int gether_attach_gadget(struct net_device *net, struct usb_gadget *g)
-+{
-+	int ret;
-+
-+	ret = device_move(&net->dev, &g->dev, DPM_ORDER_DEV_AFTER_PARENT);
-+	if (ret)
-+		return ret;
-+
-+	gether_set_gadget(net, g);
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(gether_attach_gadget);
-+
-+void gether_detach_gadget(struct net_device *net)
-+{
-+	struct eth_dev *dev = netdev_priv(net);
-+
-+	device_move(&net->dev, NULL, DPM_ORDER_NONE);
-+	dev->gadget = NULL;
-+}
-+EXPORT_SYMBOL_GPL(gether_detach_gadget);
-+
- int gether_set_dev_addr(struct net_device *net, const char *dev_addr)
- {
- 	struct eth_dev *dev;
-diff --git a/drivers/usb/gadget/function/u_ether.h b/drivers/usb/gadget/function/u_ether.h
-index 34be220cef77..c85a1cf3c115 100644
---- a/drivers/usb/gadget/function/u_ether.h
-+++ b/drivers/usb/gadget/function/u_ether.h
-@@ -150,6 +150,32 @@ static inline struct net_device *gether_setup_default(void)
-  */
- void gether_set_gadget(struct net_device *net, struct usb_gadget *g);
- 
-+/**
-+ * gether_attach_gadget - Reparent net_device to the gadget device.
-+ * @net: The network device to reparent.
-+ * @g: The target USB gadget device to parent to.
-+ *
-+ * This function moves the network device to be a child of the USB gadget
-+ * device in the device hierarchy. This is typically done when the function
-+ * is bound to a configuration.
-+ *
-+ * Returns 0 on success, or a negative error code on failure.
-+ */
-+int gether_attach_gadget(struct net_device *net, struct usb_gadget *g);
-+
-+/**
-+ * gether_detach_gadget - Detach net_device from its gadget parent.
-+ * @net: The network device to detach.
-+ *
-+ * This function moves the network device to be a child of the virtual
-+ * devices parent, effectively detaching it from the USB gadget device
-+ * hierarchy. This is typically done when the function is unbound
-+ * from a configuration but the instance is not yet freed.
-+ */
-+void gether_detach_gadget(struct net_device *net);
-+
-+DEFINE_FREE(detach_gadget, struct net_device *, if (_T) gether_detach_gadget(_T))
-+
- /**
-  * gether_set_dev_addr - initialize an ethernet-over-usb link with eth address
-  * @net: device representing this link
-diff --git a/drivers/usb/gadget/function/u_ncm.h b/drivers/usb/gadget/function/u_ncm.h
-index 5408854d8407..297e5087872f 100644
---- a/drivers/usb/gadget/function/u_ncm.h
-+++ b/drivers/usb/gadget/function/u_ncm.h
-@@ -18,7 +18,7 @@
- struct f_ncm_opts {
- 	struct usb_function_instance	func_inst;
- 	struct net_device		*net;
--	bool				bound;
-+	int				bind_count;
- 
- 	struct config_group		*ncm_interf_group;
- 	struct usb_os_desc		ncm_os_desc;
+ 		ret = usb4_port_sb_write(port, target, index, sb_reg->reg, data,
 -- 
-2.34.1
+2.50.1
 
