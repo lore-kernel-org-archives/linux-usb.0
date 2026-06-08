@@ -1,193 +1,272 @@
-Received: from mg.richtek.com (mg.richtek.com [220.130.44.152])
+Received: from mail115-80.sinamail.sina.com.cn (mail115-80.sinamail.sina.com.cn [218.30.115.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63090339863
-	for <linux-usb@vger.kernel.org>; Mon,  8 Jun 2026 04:17:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.130.44.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1514C30674A
+	for <linux-usb@vger.kernel.org>; Mon,  8 Jun 2026 05:37:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=218.30.115.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780892236; cv=none; b=BArfFmPh94VE8jRS503EkfBDDCVukie/OvZfzECfYYCEhSjQjfHan6U93PHHh11vVxLYX0imMQGOOInnIhHLQVfCgNx+6hyrMlrZaylB0n5PWuvrDvZbTy5vdA5siO/W+dBsHSeddO91mEPkhSMgvtIun7AjzmUA7Ubjjfd8V0o=
+	t=1780897072; cv=none; b=SBGPN40zqOrhtkZXSHpW3qvN8Q2Gy9hgNAqAjo5txT/8cDpw4GxY8b0w/kJFdl4rgF3yByYV44fOXHCvgjf5p8kNTDR5nmOg3Uxve9Y/qd0AVFhLnl8UV5GsTVtl4/YIm1Hgp4Bq5XkZ0mgwlLpp3B6oYEXD5acBqu73kZBhTRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780892236; c=relaxed/simple;
-	bh=MCyy496XYtX5oLhUtOVtEEf6pTt1e4mwKJmQv0ZoNOU=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OleXz3j0VQX1IbX5sVLOvUTDloYRkVjuBSac+Q49n9djWZUvqiyUVkTtD5WCMqYlPF6aIdZd2/hf3MW1PUM4YsXrwsqrbVKf6smy3R2w4SfqGDe4jKSnR5CfproFHX0BRF+MHTxtCKJtNdpQ9GDQdj49Uf1JfLT8wEcNghmIuHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com; spf=pass smtp.mailfrom=richtek.com; dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b=b0YygoYG; arc=none smtp.client-ip=220.130.44.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=richtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=richtek.com
+	s=arc-20240116; t=1780897072; c=relaxed/simple;
+	bh=15SLlNMVfPl3yks/gJWGtv/PuIggPGqTOPfpqDCjG0g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=q36luBYmivwtsq/RR4nlEp5nbPKX6RJIP4tMPCQB6qyj+0u74Ison1amiu2PpLMDjERaTZNw2Gft5j6K0De+jqiBofur7qDi5z3lUTnVLyoJMKlqqNj45NTRll1+yg31YF2EWqEX1KYGocfQ47fjiLOaMrm4omZhnznk4F14cUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.cn; spf=pass smtp.mailfrom=sina.cn; dkim=pass (1024-bit key) header.d=sina.cn header.i=@sina.cn header.b=HqJp8Ut/; arc=none smtp.client-ip=218.30.115.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=richtek.com header.i=@richtek.com header.b="b0YygoYG"
-X-MailGates: (SIP:2,PASS,NONE)(compute_score:DELIVER,40,3)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=richtek.com;
-	s=richtek; t=1780892230;
-	bh=6Fij1rtES1m1UzCt6ZT6pB+0EU4IBTWStEV3ubpEVfs=; l=4738;
-	h=Date:From:To:Subject:Message-ID:MIME-Version;
-	b=b0YygoYGNROkCB8U0RE52eOFdU+ihLfR+uZr+N4X1XJ2mBL8TfvGEmRMgQQI3vMsV
-	 3qfkjEBMjVBaLpwH2xDEadtG4AB/WLBwr16zK7/MQtulSpxYlxXNuGNgJL2dOnKpKQ
-	 wDVHHMCUVIM93F5ydb3NH4DA36mjcds2+VrV1NOKZ5xL+QI9GYry+MsplBTnGnIhDH
-	 NyfptgGh5AslonxeaBN0pKRMvi8UYzM4OkLXlAR1PRfGi68HBnWQX2SNGyVcHGb9a9
-	 mPuZvoLJ8gH9JyHJzPCWeHs8THKAtRYXCctAkZAgqiCICHrR5NQFa0V7WdGGgSHAY9
-	 TGibQOxqa60vQ==
-Received: from 192.168.10.46
-	by mg.richtek.com with MailGates ESMTPS Server V6.0(1227024:0:AUTH_RELAY)
-	(envelope-from <lucas_tsai@richtek.com>)
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256/256); Mon, 08 Jun 2026 12:16:58 +0800 (CST)
-Received: from ex4.rt.l (192.168.10.47) by ex3.rt.l (192.168.10.46) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.26; Mon, 8 Jun
- 2026 12:16:58 +0800
-Received: from git-send.richtek.com (192.168.10.154) by ex4.rt.l
- (192.168.10.45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.26 via Frontend
- Transport; Mon, 8 Jun 2026 12:16:58 +0800
-Date: Mon, 8 Jun 2026 12:16:52 +0800
-From: Lucas Tsai <lucas_tsai@richtek.com>
-To: Badhri Jagan Sridharan <badhri@google.com>
-CC: Heikki Krogerus <heikki.krogerus@linux.intel.com>, <cy_huang@richtek.com>,
-	<gregkh@linuxfoundation.org>, <kevin_hung@richtek.com>,
-	<linux-usb@vger.kernel.org>, <ren_chen@richtek.com>,
-	<lucas_tsai@richtek.com>, <alan_lan@richtek.com>
-Subject: Re: [PATCH 3/3] usb: typec: tcpci_rt1711h: add low power mode support
-Message-ID: <aiZCNKB23o//xIMn@git-send.richtek.com>
-References: <ah2Kwlm6Gm0rMvKt@kuha>
- <20260603031827.3692374-1-lucas_tsai@richtek.com>
- <aiLJKjtKMmjxdyyI@kuha>
- <CAPTae5Kpee+E2d0fwssEz=8dmGOmM09DmSma4nrSUJk5ygWbsg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=sina.cn header.i=@sina.cn header.b="HqJp8Ut/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.cn; s=201208; t=1780897069;
+	bh=gSy2xj2CNZv6TxCh5crV+eeqhefPzVhGr7m/yw+g0b0=;
+	h=From:Subject:Date:Message-Id;
+	b=HqJp8Ut/m7LI9tphSyJPAuWtTmFCWoV/5PiBv5FSVG8UkDYdntb9vaGG0w3I12Id6
+	 jWlcqLaPjXQM00+p4ZWjOdZsO28QmDtnURMeYFhhbNecDVZb0LCQQ7K5/F/fhUlsuy
+	 LjPU0IejkhVT2D/jZGWQq3fjQjTcJzTXNx6NQbg0=
+X-SMAIL-HELO: NTT-kernel-dev
+Received: from unknown (HELO NTT-kernel-dev)([60.247.85.88])
+	by sina.cn (10.185.250.23) with ESMTP
+	id 6A2655010000729E; Mon, 8 Jun 2026 13:37:08 +0800 (CST)
+X-Sender: jianqkang@sina.cn
+X-Auth-ID: jianqkang@sina.cn
+Authentication-Results: sina.cn;
+	 spf=none smtp.mailfrom=jianqkang@sina.cn;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=jianqkang@sina.cn
+X-SMAIL-MID: 6619948913038
+X-SMAIL-UIID: CDB44C8845D94557BA03438C9E95BF2F-20260608-133708-1
+From: Jianqiang kang <jianqkang@sina.cn>
+To: gregkh@linuxfoundation.org,
+	stable@vger.kernel.org,
+	khtsai@google.com
+Cc: patches@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	sashal@kernel.org,
+	raubcameo@gmail.com,
+	andrzej.p@samsung.com,
+	balbi@ti.com,
+	kyungmin.park@samsung.com,
+	linux-usb@vger.kernel.org
+Subject: [PATCH 6.1.y] usb: gadget: f_ncm: Fix net_device lifecycle with device_move
+Date: Mon,  8 Jun 2026 13:37:05 +0800
+Message-Id: <20260608053705.2797309-1-jianqkang@sina.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPTae5Kpee+E2d0fwssEz=8dmGOmM09DmSma4nrSUJk5ygWbsg@mail.gmail.com>
 
-On Sat, Jun 06, 2026 at 09:20:34AM -0700, Badhri Jagan Sridharan wrote:
-> On Fri, Jun 5, 2026 at 6:03 AM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
-> >
-> > On Wed, Jun 03, 2026 at 11:18:27AM +0800, lucas_tsai@richtek.com wrote:
-> > > On Mon, Jun 01, 2026 at 04:36:02PM +0300, Heikki Krogerus wrote:
-> > > > Hi,
-> > > >
-> > > > I'm sorry to keep you waiting.
-> > > >
-> > > > On Mon, May 18, 2026 at 05:15:14PM +0800, cy_huang@richtek.com wrote:
-> > > > > From: Lucas Tsai <lucas_tsai@richtek.com>
-> > > > >
-> > > > > Add low power mode support,
-> > > > > add the op to enter and exit low power mode,
-> > > > > this mode reduce RT1711H/RT1715 VDD Iq to 1 of 10,
-> > > >
-> > > > What is VDD Iq?
-> > > >
-> > >
-> > > VDD pin is RT1715's power input,
-> > > and Iq is the quiescent current,
-> > > so the low power mode reduces the baseline power used by RT1715.
-> >
-> > Got it, thanks. Please add that explanation to the commit message.
-> >
-> > > > > while disabling VBUS detection and PD BMC
-> > > > > but keeping CC detection and not affecting DRP toggling.
-> > > > >
-> > > > > Signed-off-by: Lucas Tsai <lucas_tsai@richtek.com>
-> > > > > ---
-> > > > >  drivers/usb/typec/tcpm/tcpci_rt1711h.c | 14 ++++++++++++++
-> > > > >  1 file changed, 14 insertions(+)
-> > > > >
-> > > > > diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> > > > > index 4b3e4e22a82e..48d6a6823ab9 100644
-> > > > > --- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> > > > > +++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-> > > > > @@ -20,6 +20,7 @@
-> > > > >
-> > > > >  #define RT1711H_PHYCTRL1 0x80
-> > > > >  #define RT1711H_PHYCTRL2 0x81
-> > > > > +#define RT1711H_BMCCTRL          0x90
-> > > > >
-> > > > >  #define RT1711H_RTCTRL4          0x93
-> > > > >  /* rx threshold of rd/rp: 1b0 for level 0.4V/0.7V, 1b1 for 0.35V/0.75V */
-> > > > > @@ -254,6 +255,18 @@ static int rt1711h_start_drp_toggling(struct tcpci *tcpci,
-> > > > >   return 0;
-> > > > >  }
-> > > > >
-> > > > > +static void rt1711h_set_low_power_mode(struct tcpci *tcpci,
-> > > > > +                                struct tcpci_data *tdata, bool enable)
-> > > > > +{
-> > > > > + int ret;
-> > > > > + struct rt1711h_chip *chip = tdata_to_rt1711h(tdata);
-> > > > > +
-> > > > > + ret = rt1711h_write8(chip, RT1711H_BMCCTRL, enable ? 0x08 : 0x07);
-> > > > > + if (ret < 0)
-> > > > > +         dev_err(chip->dev, "%s lpm fail(%d)\n",
-> > > > > +                 enable ? "enter" : "exit", ret);
-> > > > > +}
-> 
-> Any reason why cant rt1711h_set_low_power_mode() be called from
-> rt1711h_init_cc_params() and rt1711h_start_drp_toggling() ?
-> rt1711h_start_drp_toggling() can enable low power mode.
+From: Kuen-Han Tsai <khtsai@google.com>
 
-rt1711h_start_drp_toggling() will not be called for 
-non-DRP ports, e.g.: sink only or source only ports,
-because the flow in tcpci.c blocks such conditions:
-static int tcpci_start_toggling(...)
-{
-	...
-	if (port_type != TYPEC_PORT_DRP)
-		return -EOPNOTSUPP;
-	...
-}
+[ Upstream commit ec35c1969650e7cb6c8a91020e568ed46e3551b0 ]
 
-> rt1711h_init_cc_params(), which is already aware of CC status, can
-> disable low power mode when a source or sink is detected.
-> This approach would avoid adding a new callback in tcpci.c.
+The network device outlived its parent gadget device during
+disconnection, resulting in dangling sysfs links and null pointer
+dereference problems.
 
-Since rt1711h_start_drp_toggling() approach have the limitations,
-a new callback seems like being inevitable,
-so putting the logic of disabling low power mode in the new callback.
+A prior attempt to solve this by removing SET_NETDEV_DEV entirely [1]
+was reverted due to power management ordering concerns and a NO-CARRIER
+regression.
 
-> 
-> If the above works, you could optionally rely on runtime pm callbacks
-> to call rt1711h_set_low_power_mode() and increment/decrement the usage
-> count in  rt1711h_init_cc_params() and rt1711h_start_drp_toggling().
-> 
+A subsequent attempt to defer net_device allocation to bind [2] broke
+1:1 mapping between function instance and network device, making it
+impossible for configfs to report the resolved interface name. This
+results in a regression where the DHCP server fails on pmOS.
 
-The power mode of TCPC IC does not relate to system/runtime pm,
-but to the USB-C port status (Attached vs. Unattached).
+Use device_move to reparent the net_device between the gadget device and
+/sys/devices/virtual/ across bind/unbind cycles. This preserves the
+network interface across USB reconnection, allowing the DHCP server to
+retain their binding.
 
-> > > >
-> > > > Why couldn't this just be done in the PM suspend and resume
-> > > > callbacks for this driver?
-> > >
-> > > Entering low power mode or not relates directly to the status of USB-C port:
-> > > enter low power mode when USB-C port attached nothing (unattached),
-> > > and exit low power mode when attached with cable or device.
-> > >
-> > > In the other word, it is possible to have system suspended and USB-C
-> > > port attached at the same time, so it is not suitable to bind the flow
-> > > of low power mode to the PM suspend and resume.
-> >
-> > You don't have to do that in the system suspend callback, but you
-> > still should do this in the runtime suspend callback, no?
-> >
-> > This is not a major thing, but mctp.c is a bit bloated, I want to make
-> 
-> I believe Heikki was referring to tcpci.c here.
-> 
+Introduce gether_attach_gadget()/gether_detach_gadget() helpers and use
+__free(detach_gadget) macro to undo attachment on bind failure. The
+bind_count ensures device_move executes only on the first bind.
 
-Thanks for your clarifying.
+[1] https://lore.kernel.org/lkml/f2a4f9847617a0929d62025748384092e5f35cce.camel@crapouillou.net/
+[2] https://lore.kernel.org/linux-usb/795ea759-7eaf-4f78-81f4-01ffbf2d7961@ixit.cz/
 
-> > sure that adding this kind of callbacks is really necessary.
-> >
-> > Badhri, do you have time to check this series?
-> >
-> > thanks,
-> >
-> > --
-> > heikki
+Fixes: 40d133d7f542 ("usb: gadget: f_ncm: convert to new function interface with backward compatibility")
+Cc: stable <stable@kernel.org>
+Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
+Link: https://patch.msgid.link/20260309-f-ncm-revert-v2-7-ea2afbc7d9b2@google.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+[ Use no_free_ptr() since retain_and_null_ptr() is unavailable in Linux 6.6. ]
+Signed-off-by: Jianqiang kang <jianqkang@sina.cn>
+---
+ drivers/usb/gadget/function/f_ncm.c   | 35 ++++++++++++++++++---------
+ drivers/usb/gadget/function/u_ether.c | 22 +++++++++++++++++
+ drivers/usb/gadget/function/u_ether.h | 26 ++++++++++++++++++++
+ drivers/usb/gadget/function/u_ncm.h   |  2 +-
+ 4 files changed, 73 insertions(+), 12 deletions(-)
 
-Thanks.
---
-Lucas Tsai
+diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/function/f_ncm.c
+index addd016ffbb3..5e240cafbe9e 100644
+--- a/drivers/usb/gadget/function/f_ncm.c
++++ b/drivers/usb/gadget/function/f_ncm.c
+@@ -1440,6 +1440,7 @@ static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
+ 	struct f_ncm_opts	*ncm_opts;
+ 
+ 	struct usb_os_desc_table	*os_desc_table __free(kfree) = NULL;
++	struct net_device		*net __free(detach_gadget) = NULL;
+ 	struct usb_request		*request __free(free_usb_request) = NULL;
+ 
+ 	if (!can_support_ecm(cdev->gadget))
+@@ -1453,16 +1454,18 @@ static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
+ 			return -ENOMEM;
+ 	}
+ 
+-	mutex_lock(&ncm_opts->lock);
+-	gether_set_gadget(ncm_opts->net, cdev->gadget);
+-	if (!ncm_opts->bound)
+-		status = gether_register_netdev(ncm_opts->net);
+-	mutex_unlock(&ncm_opts->lock);
+-
+-	if (status)
+-		return status;
+-
+-	ncm_opts->bound = true;
++	scoped_guard(mutex, &ncm_opts->lock)
++		if (ncm_opts->bind_count == 0) {
++			if (!device_is_registered(&ncm_opts->net->dev)) {
++				gether_set_gadget(ncm_opts->net, cdev->gadget);
++				status = gether_register_netdev(ncm_opts->net);
++			} else
++				status = gether_attach_gadget(ncm_opts->net, cdev->gadget);
++
++			if (status)
++				return status;
++			net = ncm_opts->net;
++		}
+ 
+ 	ncm_string_defs[1].s = ncm->ethaddr;
+ 
+@@ -1562,6 +1565,9 @@ static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
+ 	}
+         ncm->notify_req = no_free_ptr(request);
+ 
++	ncm_opts->bind_count++;
++	no_free_ptr(net);
++
+ 	DBG(cdev, "CDC Network: %s speed IN/%s OUT/%s NOTIFY/%s\n",
+ 			gadget_is_superspeed(c->cdev->gadget) ? "super" :
+ 			gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full",
+@@ -1610,7 +1616,7 @@ static void ncm_free_inst(struct usb_function_instance *f)
+ 	struct f_ncm_opts *opts;
+ 
+ 	opts = container_of(f, struct f_ncm_opts, func_inst);
+-	if (opts->bound)
++	if (device_is_registered(&opts->net->dev))
+ 		gether_cleanup(netdev_priv(opts->net));
+ 	else
+ 		free_netdev(opts->net);
+@@ -1672,9 +1678,12 @@ static void ncm_free(struct usb_function *f)
+ static void ncm_unbind(struct usb_configuration *c, struct usb_function *f)
+ {
+ 	struct f_ncm *ncm = func_to_ncm(f);
++	struct f_ncm_opts *ncm_opts;
+ 
+ 	DBG(c->cdev, "ncm unbind\n");
+ 
++	ncm_opts = container_of(f->fi, struct f_ncm_opts, func_inst);
++
+ 	hrtimer_cancel(&ncm->task_timer);
+ 
+ 	kfree(f->os_desc_table);
+@@ -1690,6 +1699,10 @@ static void ncm_unbind(struct usb_configuration *c, struct usb_function *f)
+ 
+ 	kfree(ncm->notify_req->buf);
+ 	usb_ep_free_request(ncm->notify, ncm->notify_req);
++
++	ncm_opts->bind_count--;
++	if (ncm_opts->bind_count == 0)
++		gether_detach_gadget(ncm_opts->net);
+ }
+ 
+ static struct usb_function *ncm_alloc(struct usb_function_instance *fi)
+diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+index e84178bffe78..e972de236be5 100644
+--- a/drivers/usb/gadget/function/u_ether.c
++++ b/drivers/usb/gadget/function/u_ether.c
+@@ -910,6 +910,28 @@ void gether_set_gadget(struct net_device *net, struct usb_gadget *g)
+ }
+ EXPORT_SYMBOL_GPL(gether_set_gadget);
+ 
++int gether_attach_gadget(struct net_device *net, struct usb_gadget *g)
++{
++	int ret;
++
++	ret = device_move(&net->dev, &g->dev, DPM_ORDER_DEV_AFTER_PARENT);
++	if (ret)
++		return ret;
++
++	gether_set_gadget(net, g);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(gether_attach_gadget);
++
++void gether_detach_gadget(struct net_device *net)
++{
++	struct eth_dev *dev = netdev_priv(net);
++
++	device_move(&net->dev, NULL, DPM_ORDER_NONE);
++	dev->gadget = NULL;
++}
++EXPORT_SYMBOL_GPL(gether_detach_gadget);
++
+ int gether_set_dev_addr(struct net_device *net, const char *dev_addr)
+ {
+ 	struct eth_dev *dev;
+diff --git a/drivers/usb/gadget/function/u_ether.h b/drivers/usb/gadget/function/u_ether.h
+index 40144546d1b0..3e12d60053c1 100644
+--- a/drivers/usb/gadget/function/u_ether.h
++++ b/drivers/usb/gadget/function/u_ether.h
+@@ -149,6 +149,32 @@ static inline struct net_device *gether_setup_default(void)
+  */
+ void gether_set_gadget(struct net_device *net, struct usb_gadget *g);
+ 
++/**
++ * gether_attach_gadget - Reparent net_device to the gadget device.
++ * @net: The network device to reparent.
++ * @g: The target USB gadget device to parent to.
++ *
++ * This function moves the network device to be a child of the USB gadget
++ * device in the device hierarchy. This is typically done when the function
++ * is bound to a configuration.
++ *
++ * Returns 0 on success, or a negative error code on failure.
++ */
++int gether_attach_gadget(struct net_device *net, struct usb_gadget *g);
++
++/**
++ * gether_detach_gadget - Detach net_device from its gadget parent.
++ * @net: The network device to detach.
++ *
++ * This function moves the network device to be a child of the virtual
++ * devices parent, effectively detaching it from the USB gadget device
++ * hierarchy. This is typically done when the function is unbound
++ * from a configuration but the instance is not yet freed.
++ */
++void gether_detach_gadget(struct net_device *net);
++
++DEFINE_FREE(detach_gadget, struct net_device *, if (_T) gether_detach_gadget(_T))
++
+ /**
+  * gether_set_dev_addr - initialize an ethernet-over-usb link with eth address
+  * @net: device representing this link
+diff --git a/drivers/usb/gadget/function/u_ncm.h b/drivers/usb/gadget/function/u_ncm.h
+index 5408854d8407..297e5087872f 100644
+--- a/drivers/usb/gadget/function/u_ncm.h
++++ b/drivers/usb/gadget/function/u_ncm.h
+@@ -18,7 +18,7 @@
+ struct f_ncm_opts {
+ 	struct usb_function_instance	func_inst;
+ 	struct net_device		*net;
+-	bool				bound;
++	int				bind_count;
+ 
+ 	struct config_group		*ncm_interf_group;
+ 	struct usb_os_desc		ncm_os_desc;
+-- 
+2.34.1
+
