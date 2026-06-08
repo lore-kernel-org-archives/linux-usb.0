@@ -1,153 +1,129 @@
-Received: from mail-oa1-f78.google.com (mail-oa1-f78.google.com [209.85.160.78])
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCB437B00F
-	for <linux-usb@vger.kernel.org>; Mon,  8 Jun 2026 12:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE5A37FF63
+	for <linux-usb@vger.kernel.org>; Mon,  8 Jun 2026 13:29:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780922196; cv=none; b=cZB8nH18Y7PqYXriuRV+aTWytQvMfaqcJIs56MvWqERKpK0QC9LI98FC67baVJzobpWanY87PhyC2pE85UGirze4fCrPZJgDcrP+KRx6XQBgc6S6jMnbhKUEOXmb8H0cwf6M+EqU/6H51EjpgBO8FXY94IqiLvAVrrXyP7XGOmk=
+	t=1780925369; cv=none; b=MG7uooX0Pb+UOZhZf9f98CmkQqLVgIT1a7131Ysixh6D/lyW6I85A0r28SnsumQoCKweAOel60wjmNuOwGr9VL719WR4x3ziD/Ad4BYnuoF+5ePGcTC4tVBaaDIq8nhLZoByS/PkTn7AFZDLGLR1bnVrjFuHezMrX3W7Qy6GtSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780922196; c=relaxed/simple;
-	bh=w9N7rUN5MyX0SWHUVLR7eOIV31mFCPUdmgCSaGSrv1A=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=IrsXp74mUfyK+1yM3oir3oCwOZrMlBoib6O2LekMjM9VpDkh9S/rkOCLMEXb844KFe5J/x2nmBH+/FCVivPjuuy73BurGV21k4X4BeNvELjP2DcKL5npGfsssMEIcWVcoQDF3E3uDFKKivmFK6JrLT8hah+Dt4uNVAs23hnAs2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f78.google.com with SMTP id 586e51a60fabf-43d197b99b8so6606240fac.0
-        for <linux-usb@vger.kernel.org>; Mon, 08 Jun 2026 05:36:34 -0700 (PDT)
+	s=arc-20240116; t=1780925369; c=relaxed/simple;
+	bh=z8MSdvFJcLlmwUoCN7pPJ5TAVHYrBkkNG+2rX0mihLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J4LiW/x0hsMJH/xmtW4xuf40AERmRfPf8Y9x6GsNHjdxYXIXr0Oop/vKJJp7td/oSx4uKR+/bIX9SgFFLD0lCUg4BqED2TB6AypUmSwK7Zm3pF590JaSbFFX+4W/7OURzmEkzfhdjdziNXXTnWA4Fph6Wvpbi64ZPRc/UNMOTLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=OnXKoIHX; arc=none smtp.client-ip=209.85.217.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="OnXKoIHX"
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-6efdb6755f0so2572443137.2
+        for <linux-usb@vger.kernel.org>; Mon, 08 Jun 2026 06:29:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1780925366; x=1781530166; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bpRG/XYD997Ymrkj2/briBLafb3vomi9fBuHfBWo7ok=;
+        b=OnXKoIHXQDZ0jZYMUcz1Mc/DfZU3WzJjd6tJczBWurAdWpLhnobdkoBbo13Vchne2m
+         2m87pFohrb+/3ktdqrVIUpCnB+Fyh2rpOQWTezVzvjRxBnXQOqZIJLzIGEjXZO3cOkV8
+         ssAMGEgqgX0z3RII8JnMYaemIfDWoDodCEHpHp53hkAd/KEFy7TK5oPT63Fc99UtSXHo
+         KA/5nQ9s5/kODnVRMxAQjw0+A+yqs0CXGHEdO0Gi4foXvbHGqc0RqUegohuPKQHkEA7W
+         cKKwJ1EHtr+co+GeEj1s/Yru+6LXqknQjDhd7o/XC5iFViQ5gfDNgCP8TctfrLqG/r6C
+         nG+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780922194; x=1781526994;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oIREoixd2bdV8Z7DckKM4nIm0jrKXnD6MTejIoiF5rM=;
-        b=RKxD4NgfqTos3g66xuiK4qvG1mByet19wVKnswL8LgBh7oJDd3kEyu0pz8rT65aKOc
-         eRcfp5n6JDqsQ0DJHSNWyNlYGOSbpIZXCuyqXNLwF56m3BZviITo6c2mPDiVUnb6B6gk
-         dzpGS772GkSiOYdbCWPQr68qAfJQetjeUcxH7zdCA6WKzQGDn1tasU5amkFXOX98gVzi
-         +Jpd4FHd1d5jY5hKZu5CNSYNPg4FVIHrd+C/w05WoWGrozAz/f8DmtFsy7NhOeORG5rM
-         P/b3pFnfGkWMCd37jdFUBpJtPSnKQtHYBZnkQSZxJITBD8sxuw8IrZtIIKE1Btpldk5a
-         1NiQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8JCOzlWki4kgOIhxaW3mWwFMV3mxluigEEU+qDqvYDOnRD6anWXZUFOGGAPhJOTyZr3rHi2EvZGO0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxH/XLgHS+vsDVOCz4ZtWem71tBAjerxSJStnc75ryyU/sXRO8I
-	DRFrlndbFojrgAOlCr0xf+x/kkmwAHhKcHS/3VR4+ROElkjwabtriq9H6W1QAX9T1ICCxYZTMk6
-	jLY68JSRKjYmldyss1On9Q19UtNjj/Y8QuuzY/RDsTDJCKF9clugl/p6aLkg=
+        d=1e100.net; s=20251104; t=1780925366; x=1781530166;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bpRG/XYD997Ymrkj2/briBLafb3vomi9fBuHfBWo7ok=;
+        b=l66wnWQZjmIZgy+BdsUdNx4pJqYX4ulfKTH66obnfYnCTxvCHzopZbgD0xnwUHbSqR
+         mr/wSF3yLqZDmJY0gcO7gaO6ENnFy166C9Vmoa5UarQllgiRg2n3NhPjbpmO5YNeOBIA
+         tCfFbU3WsqaMH40oh3SGPIhFadbsvK26QJh5BkOYbknXOgNnm+J+M1N8KNhSM66n95R5
+         kPFdeGrqZ7maToLkXG//42OeQylPmVV4EQSQ3PHC3OoUoNRKjziKKxQX8qSzxcMX4RMX
+         +pYYHijhL4YMcHeBi0ga4+HDW8bFL7knPR+jrN4ErIK0QSrogjdHv5qGIQfcWV1hU0gu
+         NMIg==
+X-Forwarded-Encrypted: i=1; AFNElJ9KAfV6RIq6ZHAedqq7GMueH4w/+acusZcVI2IVAZRAeUv42QTrX8o4AS0WaQIGlwJ81Us7H5nEImk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxoLoPofQUC0Bx76onDAoARXFiAnuBPBZlP+b/jegxl+a+BOUKD
+	8/jSsGc2ZoFpXzrhOzG9Wd2hZQpqNYHv+HszXdtD2476NHLSkKIbVs54YqbWT0HxayBOXMPUzqJ
+	SEeA=
+X-Gm-Gg: Acq92OEk7TRC8+QL4AvCQ/YRZBgxGPDjabxNlqfoEftvv2LqnjesRIV5JFjYsuOpwGB
+	/ikaQVOZPKWnMrVU3cex2q4yD95jsaz0LovoiG17MTodW5nlHfSpCbuclVRSvwWzQAvwZSMDyfp
+	ksUdg8dK0JNVDd11xGXnoIqFOwBfjzZULzkYRz1/GGwTpfCN/Ly8p3YMBZ+YS8IsTCuMYeoSGFO
+	7m/5aoSwOzMaV17m67onElNx483zxQL/pE8v+x57xOkmGyRtoQy3lKsnYBT6Kyg48OOYA0/e4sz
+	Sqcs7rBje1DnsfzYwG2clC7kcf9MBUVeVQxWhQtLsEeUzAVce4HQR15P5nkSb/LktJx/gFSE890
+	5bCNGQ1H9t20jLjUJdO4PnCvLrkoOeJADtAs/IOrYeVROy0bxwc1hYk8lwtXhEPWHVqhLmUHyJa
+	4yqKnI2CCkHSMshC8S5SSwU1EUQfEjalVX5V77HRhQHVMvy1f5cVp9iA==
+X-Received: by 2002:a05:6102:5688:b0:631:4e9a:bab with SMTP id ada2fe7eead31-6ff084a62f4mr7261799137.18.1780925365990;
+        Mon, 08 Jun 2026 06:29:25 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8cecd051facsm163824426d6.32.2026.06.08.06.29.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jun 2026 06:29:25 -0700 (PDT)
+Date: Mon, 8 Jun 2026 09:29:23 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Shuangpeng <shuangpeng.kernel@gmail.com>, keithp@keithp.com,
+	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [BUG] KASAN: slab-use-after-free in dev_driver_string from
+ chaoskey_release
+Message-ID: <67613cb1-acaa-4870-93ed-95a282a74f06@rowland.harvard.edu>
+References: <20EC9664-054E-438B-B411-2145D347F97B@gmail.com>
+ <257eb882-44dc-4e25-82f9-9cf9b455936d@rowland.harvard.edu>
+ <2a50158f-34ff-41ae-8899-ba2ec6d550b3@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:6fc8:b0:699:a28b:18ed with SMTP id
- 006d021491bc7-69e68c6459cmr6137714eaf.48.1780922193959; Mon, 08 Jun 2026
- 05:36:33 -0700 (PDT)
-Date: Mon, 08 Jun 2026 05:36:33 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a26b751.c25708ab.1b19ef.0013.GAE@google.com>
-Subject: [syzbot] [net?] BUG: corrupted list in dev_deactivate_many (2)
-From: syzbot <syzbot+381d82bbf0253710b35d@syzkaller.appspotmail.com>
-To: davem@davemloft.net, edumazet@google.com, horms@kernel.org, 
-	jhs@mojatatu.com, jiri@resnulli.us, kuba@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	netdev@vger.kernel.org, pabeni@redhat.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2a50158f-34ff-41ae-8899-ba2ec6d550b3@suse.com>
 
-Hello,
+On Mon, Jun 08, 2026 at 01:24:03PM +0200, Oliver Neukum wrote:
+> On 07.06.26 04:29, Alan Stern wrote:
+> > The simple explanation is that the chaoskey_release() routine contains
+> > debugging statements that reference an interface for the USB device even
+> > after that data structure may have been deallocated.  Since they are
+> > merely debugging statements, the simplest solution to the problem is to
+> > get rid of them.
+> > 
+> > That's what the patch below does.  You can try it out and see if it
+> > works.
+> 
+> Hi,
+> 
+> correct but it misses the same issue in disconnect.
+> You need this one on top.
 
-syzbot found the following issue on:
+You're partly right.  Both my original patch and yours ignored the fact 
+that the driver takes a reference to the interface structure.  That 
+reference isn't dropped until chaoskey_free() runs, so the only 
+debugging statements that need to be removed are the ones following 
+calls to chaoskey_free().
 
-HEAD commit:    511e746700ee usb: host: xhci-rcar: Split R-Car Gen2 and Ge..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=14231e7a580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=30c90421ef9661c9
-dashboard link: https://syzkaller.appspot.com/bug?extid=381d82bbf0253710b35d
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1533db7e580000
+Shuangpeng, can you test this patch instead of the earlier one?
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/6557c06dfbf9/disk-511e7467.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/2753a4bffe07/vmlinux-511e7467.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6954fb52fe02/bzImage-511e7467.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+381d82bbf0253710b35d@syzkaller.appspotmail.com
-
-list_del corruption, ffff888114a18c00->next is NULL
-------------[ cut here ]------------
-kernel BUG at lib/list_debug.c:52!
-Oops: invalid opcode: 0000 [#1] SMP KASAN PTI
-CPU: 1 UID: 0 PID: 91 Comm: kworker/u8:5 Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
-Workqueue: events_unbound linkwatch_event
-RIP: 0010:__list_del_entry_valid_or_report.cold+0x22/0x2a lib/list_debug.c:52
-Code: e8 9d d8 fa ff 90 0f 0b 48 89 de 48 c7 c7 80 85 b0 87 e8 8b d8 fa ff 90 0f 0b 48 89 de 48 c7 c7 20 85 b0 87 e8 79 d8 fa ff 90 <0f> 0b 66 0f 1f 44 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-RSP: 0018:ffffc90000517870 EFLAGS: 00010086
-RAX: 0000000000000033 RBX: ffff888114a18c00 RCX: 0000000000000000
-RDX: 0000000000000033 RSI: ffffffff819207d9 RDI: fffff520000a2eff
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000080000202 R11: fffffffffffeb4a0 R12: 0000000000000000
-R13: ffffc900005178c0 R14: ffff888135550678 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff8882687a5000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007febffbd4e9c CR3: 0000000120bc2000 CR4: 00000000003506f0
-Call Trace:
- <TASK>
- __list_del_entry_valid include/linux/list.h:132 [inline]
- __list_del_entry include/linux/list.h:246 [inline]
- list_move_tail include/linux/list.h:341 [inline]
- ref_tracker_free+0x1a7/0x6c0 lib/ref_tracker.c:329
- netdev_tracker_free include/linux/netdevice.h:4491 [inline]
- netdev_put include/linux/netdevice.h:4508 [inline]
- netdev_put include/linux/netdevice.h:4504 [inline]
- netdev_watchdog_down net/sched/sch_generic.c:600 [inline]
- dev_deactivate_many+0x28c/0xfe0 net/sched/sch_generic.c:1363
- dev_deactivate+0x109/0x1d0 net/sched/sch_generic.c:1397
- linkwatch_do_dev net/core/link_watch.c:184 [inline]
- linkwatch_do_dev+0xd3/0x120 net/core/link_watch.c:166
- __linkwatch_run_queue+0x3a5/0x810 net/core/link_watch.c:240
- linkwatch_event+0x8f/0xc0 net/core/link_watch.c:314
- process_one_work+0xa0e/0x1980 kernel/workqueue.c:3314
- process_scheduled_works kernel/workqueue.c:3397 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3478
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:__list_del_entry_valid_or_report.cold+0x22/0x2a lib/list_debug.c:52
-Code: e8 9d d8 fa ff 90 0f 0b 48 89 de 48 c7 c7 80 85 b0 87 e8 8b d8 fa ff 90 0f 0b 48 89 de 48 c7 c7 20 85 b0 87 e8 79 d8 fa ff 90 <0f> 0b 66 0f 1f 44 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90
-RSP: 0018:ffffc90000517870 EFLAGS: 00010086
-RAX: 0000000000000033 RBX: ffff888114a18c00 RCX: 0000000000000000
-RDX: 0000000000000033 RSI: ffffffff819207d9 RDI: fffff520000a2eff
-RBP: 0000000000000000 R08: 0000000000000005 R09: 0000000000000000
-R10: 0000000080000202 R11: fffffffffffeb4a0 R12: 0000000000000000
-R13: ffffc900005178c0 R14: ffff888135550678 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff8882687a5000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007febffbd4e9c CR3: 0000000120bc2000 CR4: 00000000003506f0
+Alan Stern
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Index: usb-devel/drivers/usb/misc/chaoskey.c
+===================================================================
+--- usb-devel.orig/drivers/usb/misc/chaoskey.c
++++ usb-devel/drivers/usb/misc/chaoskey.c
+@@ -248,7 +248,6 @@ static void chaoskey_disconnect(struct u
+ 		mutex_unlock(&dev->lock);
+ 
+ 	mutex_unlock(&chaoskey_list_lock);
+-	usb_dbg(interface, "disconnect done");
+ }
+ 
+ static int chaoskey_open(struct inode *inode, struct file *file)
+@@ -320,7 +319,6 @@ bail:
+ 	mutex_unlock(&dev->lock);
+ destruction:
+ 	mutex_unlock(&chaoskey_list_lock);
+-	usb_dbg(interface, "release success");
+ 	return rv;
+ }
+ 
