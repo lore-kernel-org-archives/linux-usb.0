@@ -1,57 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F397324BD03
-	for <linux-usb@vger.kernel.org>; Tue,  9 Jun 2026 22:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259123F54B6
+	for <linux-usb@vger.kernel.org>; Tue,  9 Jun 2026 23:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781042827; cv=none; b=TpH/L4ZgGI2H8ECCN54AX9SSoURRgC5/fOYNpPyJjhSqdm3Y2/kaoAPlg4ryLvznMaTZohhE8xehLi9np4DKPQhvV0+KiBx6QXtUHw4/gyT5fgteT4VtTvomtwaC4n3ZPb7yft5Do35VHZHJigzKpEPbQ+26zf+4RR/VnnVPXkg=
+	t=1781046558; cv=none; b=qsff/qtVWlWZ6DHMVoczCGiYkbmozGOYotbT8n84CBcrWKTdme3kEqu1N3P0PCYEKCNvRLpK2elNiAFw8f5OAayoX7MsGxYiCJuhR/293JCcM0+7vgBoWpGCTbwaB0PGCzS+j5BYcxkI1xc4FyOjqi7zhQdWgbfMmHxuaeMDihM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781042827; c=relaxed/simple;
-	bh=ce9UhmoYHTIj/53XQtGlpUUfH4D8G7cyYzTFd8561E0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Ex8SnuD4B+8SYlUjhuZiBGsDGMwPNNg8PfDdKiAZ7M1uD/yQb2Zv6C1pn59OMImEA0f5uj0RiUQjNUJrfk39GLWf1xkwu1WsgCgv4po3Vw4NAOlP7TrGC6x4qgmm7PkKRxJnH96Cr9dXv7FD25IBIe65R4D10UTuDuL51zwTBlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LZkRDpeq; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1781046558; c=relaxed/simple;
+	bh=VLz4daNubJxG2Mn++yVemxpgH19ICFk/UrmnMtx0ENE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=EQL3HuQn35GBpeakV2tiCcAuWj0IAYeXNfz1l1nGinao4b817XKGpZmTe+pz6wLcTzuyoTL6STDLcagm8E3kQYb1Agy8elckWAtR3hk+9f6C7SdNYJe/sGyR1MRDUUP4Z9H1Vze5wC4nNE+UKjRWqLR7GjYqH2APHdwpLdOahRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EBhyDz51; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LZkRDpeq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EBhyDz51"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781042827; x=1812578827;
+  t=1781046555; x=1812582555;
   h=date:from:to:cc:subject:message-id;
-  bh=ce9UhmoYHTIj/53XQtGlpUUfH4D8G7cyYzTFd8561E0=;
-  b=LZkRDpeqyN9Ljfp05Wrn9Ck3Bv7ddB5BUqtkAfCjU+S3pXlJ8aIvrUkD
-   slBtPSVfjof8RsPv4rETyqc8r5K7wLjMvWpANwhgwI02K6mjzlCDkUgbd
-   uX0vZER6MCJ0Z59p3PXbG7rq9pl1APAg3sF5WSDsEClrIOcnCZqRNrviK
-   zpiEtPdbFbmC6pOAWmfZBaIAHp1H7bjp1e8X85rAwe7qMkjyLJ4cCYw2R
-   LXybCRV4NekHSJ7EliWfP/h6JUZkOxswR819WG63t5K49L48/l6UrPpv5
-   2S81tQwUpN083VcUTtC2zubh01AW7V+b4ztstlK31YqvoRRbBYd0MWchA
-   Q==;
-X-CSE-ConnectionGUID: m49dpvbrTBW15YsX3WbG+w==
-X-CSE-MsgGUID: KXX5+LSCQX2VueZ/UyvsYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="104487966"
+  bh=VLz4daNubJxG2Mn++yVemxpgH19ICFk/UrmnMtx0ENE=;
+  b=EBhyDz51r4ap9CTR+SKBzIrQzrW8TmFBgwgb3SpGKEi/dWQ5a7xBrdwk
+   eQuHOhfRG35iG/W6/tad/iHgo9QLWdmNZ2a75XPCrbOAbvgFVqM1spXQT
+   OJbKKpZ+WLM4HcDuAEVeZsH5yD9Rvt+6l4KIq8gCIBh2Dj/eZAoAdRUiV
+   yhnkrq6JPUZY1j8y+5sKqzFc5CFYLsy3AmH/0yMJ8dvXRP5kmJsdvUxkL
+   clj3zpQ7cIxTNuY4VeMLXfe3hgZaCRRgTBCn53UV5r2dTaoa+CuBVPybv
+   mLiRuc4iKHTcHmtV3CQglTzTQMmIDq4/xtcTKIqXkinejsCEYsfg1I8i3
+   w==;
+X-CSE-ConnectionGUID: 2CMe1aPsSe2YHqO6eMaKbQ==
+X-CSE-MsgGUID: CpKAfgQ9QsuJm+8vYYppdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81938137"
 X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
-   d="scan'208";a="104487966"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 15:07:06 -0700
-X-CSE-ConnectionGUID: /H5QzPepQm6IuQcfyrg2Lw==
-X-CSE-MsgGUID: dOC0h0N6SQuZy8cIJRABqA==
+   d="scan'208";a="81938137"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 16:09:15 -0700
+X-CSE-ConnectionGUID: J9eCVZ1oQ0WZMxwrbjxd2g==
+X-CSE-MsgGUID: xWiUl3/dRBOjde6SU4+hCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,196,1774335600"; 
-   d="scan'208";a="276175839"
+   d="scan'208";a="244858630"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 09 Jun 2026 15:07:04 -0700
+  by orviesa006.jf.intel.com with ESMTP; 09 Jun 2026 16:09:12 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wX4b7-00000000Kb6-43yP;
-	Tue, 09 Jun 2026 22:07:01 +0000
-Date: Wed, 10 Jun 2026 06:06:32 +0800
+	id 1wX5ZF-00000000Kea-41aw;
+	Tue, 09 Jun 2026 23:09:09 +0000
+Date: Wed, 10 Jun 2026 07:08:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: linux-usb@vger.kernel.org
-Subject: [westeri-thunderbolt:next] BUILD SUCCESS
- c1bef05763c94ae284ee2881c03bf0753f8d213a
-Message-ID: <202606100624.1gxv25BU-lkp@intel.com>
+To: Peter Chen <peter.chen@cixtech.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org
+Subject: [peter-chen-usb:cdns3_kconfig_reorg 2/4]
+ drivers/usb/cdns3/cdnsp-sky1.c:218:12: warning: 'cdnsp_sky1_resume' defined
+ but not used
+Message-ID: <202606100700.mSjHu5V1-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -59,167 +60,178 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
-branch HEAD: c1bef05763c94ae284ee2881c03bf0753f8d213a  thunderbolt: debugfs: Fix sideband write size check
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git cdns3_kconfig_reorg
+head:   5ef7c27aa805ae8486b5f20ef21483af7a120386
+commit: 7095d19fba7625032eb775f9f425f33f4ede1517 [2/4] usb: cdns3: sky1: Add cdnsp-sky1 glue driver
+config: arm64-randconfig-002-20260610 (https://download.01.org/0day-ci/archive/20260610/202606100700.mSjHu5V1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260610/202606100700.mSjHu5V1-lkp@intel.com/reproduce)
 
-elapsed time: 2099m
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606100700.mSjHu5V1-lkp@intel.com/
 
-configs tested: 149
-configs skipped: 2
+All warnings (new ones prefixed by >>):
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+>> drivers/usb/cdns3/cdnsp-sky1.c:218:12: warning: 'cdnsp_sky1_resume' defined but not used [-Wunused-function]
+     218 | static int cdnsp_sky1_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~
+>> drivers/usb/cdns3/cdnsp-sky1.c:213:12: warning: 'cdnsp_sky1_suspend' defined but not used [-Wunused-function]
+     213 | static int cdnsp_sky1_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~
+--
+>> Warning: drivers/usb/cdns3/cdnsp-sky1.c:84 expecting prototype for sky1_set_mode_by_id(). Prototype was for cdnsp_sky1_set_mode_by_id() instead
 
-tested configs:
-alpha                             allnoconfig    gcc-16.1.0
-alpha                            allyesconfig    gcc-16.1.0
-arc                              allmodconfig    clang-23
-arc                              allmodconfig    gcc-16.1.0
-arc                               allnoconfig    gcc-16.1.0
-arc                              allyesconfig    clang-23
-arc                              allyesconfig    gcc-16.1.0
-arm                               allnoconfig    clang-23
-arm                               allnoconfig    gcc-16.1.0
-arm                              allyesconfig    clang-23
-arm                              allyesconfig    gcc-16.1.0
-arm64                            allmodconfig    clang-23
-arm64                             allnoconfig    gcc-16.1.0
-arm64                 randconfig-001-20260610    gcc-11.5.0
-arm64                 randconfig-002-20260610    gcc-11.5.0
-arm64                 randconfig-003-20260610    gcc-11.5.0
-arm64                 randconfig-004-20260610    gcc-11.5.0
-csky                             allmodconfig    gcc-16.1.0
-csky                              allnoconfig    gcc-16.1.0
-csky                  randconfig-001-20260610    gcc-11.5.0
-csky                  randconfig-002-20260610    gcc-11.5.0
-hexagon                          allmodconfig    clang-23
-hexagon                          allmodconfig    gcc-16.1.0
-hexagon                           allnoconfig    clang-23
-hexagon                           allnoconfig    gcc-16.1.0
-i386                             allmodconfig    clang-22
-i386                              allnoconfig    gcc-14
-i386                              allnoconfig    gcc-16.1.0
-i386                             allyesconfig    clang-22
-i386        buildonly-randconfig-001-20260610    gcc-14
-i386        buildonly-randconfig-002-20260610    gcc-14
-i386        buildonly-randconfig-003-20260610    gcc-14
-i386        buildonly-randconfig-004-20260610    gcc-14
-i386        buildonly-randconfig-005-20260610    gcc-14
-i386        buildonly-randconfig-006-20260610    gcc-14
-i386                  randconfig-011-20260610    gcc-14
-i386                  randconfig-012-20260610    gcc-14
-i386                  randconfig-013-20260610    gcc-14
-i386                  randconfig-014-20260610    gcc-14
-i386                  randconfig-015-20260610    gcc-14
-i386                  randconfig-016-20260610    gcc-14
-i386                  randconfig-017-20260610    gcc-14
-loongarch                        allmodconfig    clang-19
-loongarch                        allmodconfig    clang-23
-loongarch                         allnoconfig    clang-20
-loongarch                         allnoconfig    gcc-16.1.0
-loongarch                           defconfig    clang-23
-m68k                             allmodconfig    gcc-16.1.0
-m68k                              allnoconfig    gcc-16.1.0
-m68k                             allyesconfig    clang-23
-m68k                             allyesconfig    gcc-16.1.0
-m68k                                defconfig    clang-23
-microblaze                        allnoconfig    gcc-16.1.0
-microblaze                       allyesconfig    gcc-16.1.0
-microblaze                          defconfig    clang-23
-mips                             allmodconfig    gcc-16.1.0
-mips                              allnoconfig    gcc-16.1.0
-mips                             allyesconfig    gcc-16.1.0
-nios2                            allmodconfig    clang-20
-nios2                            allmodconfig    gcc-11.5.0
-nios2                             allnoconfig    clang-23
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    clang-23
-openrisc                         allmodconfig    clang-20
-openrisc                         allmodconfig    gcc-16.1.0
-openrisc                          allnoconfig    clang-23
-openrisc                          allnoconfig    gcc-16.1.0
-openrisc                            defconfig    gcc-16.1.0
-parisc                           allmodconfig    gcc-16.1.0
-parisc                            allnoconfig    clang-23
-parisc                            allnoconfig    gcc-16.1.0
-parisc                           allyesconfig    clang-17
-parisc                           allyesconfig    gcc-16.1.0
-parisc                              defconfig    gcc-16.1.0
-parisc                randconfig-001-20260610    gcc-8.5.0
-parisc                randconfig-002-20260610    gcc-8.5.0
-parisc64                            defconfig    clang-23
-powerpc                          allmodconfig    gcc-16.1.0
-powerpc                           allnoconfig    clang-23
-powerpc                           allnoconfig    gcc-16.1.0
-powerpc                   microwatt_defconfig    gcc-16.1.0
-powerpc               randconfig-001-20260610    gcc-8.5.0
-powerpc               randconfig-002-20260610    gcc-8.5.0
-powerpc64             randconfig-001-20260610    gcc-8.5.0
-powerpc64             randconfig-002-20260610    gcc-8.5.0
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    clang-23
-riscv                             allnoconfig    gcc-16.1.0
-riscv                            allyesconfig    clang-23
-riscv                               defconfig    gcc-16.1.0
-riscv                          randconfig-001    gcc-16.1.0
-riscv                 randconfig-001-20260610    gcc-16.1.0
-riscv                          randconfig-002    gcc-16.1.0
-riscv                 randconfig-002-20260610    gcc-16.1.0
-s390                             allmodconfig    clang-17
-s390                             allmodconfig    clang-23
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-16.1.0
-s390                                defconfig    gcc-16.1.0
-s390                           randconfig-001    gcc-16.1.0
-s390                  randconfig-001-20260610    gcc-16.1.0
-s390                           randconfig-002    gcc-16.1.0
-s390                  randconfig-002-20260610    gcc-16.1.0
-sh                               allmodconfig    gcc-16.1.0
-sh                                allnoconfig    clang-23
-sh                                allnoconfig    gcc-16.1.0
-sh                               allyesconfig    clang-17
-sh                               allyesconfig    gcc-16.1.0
-sh                                  defconfig    gcc-14
-sh                             randconfig-001    gcc-16.1.0
-sh                    randconfig-001-20260610    gcc-16.1.0
-sh                             randconfig-002    gcc-16.1.0
-sh                    randconfig-002-20260610    gcc-16.1.0
-sparc                             allnoconfig    clang-23
-sparc                             allnoconfig    gcc-16.1.0
-sparc                               defconfig    gcc-16.1.0
-sparc64                          allmodconfig    clang-20
-sparc64                             defconfig    gcc-14
-um                               allmodconfig    clang-17
-um                               allmodconfig    clang-23
-um                                allnoconfig    clang-16
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-14
-um                               allyesconfig    gcc-16.1.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-22
-x86_64                            allnoconfig    clang-22
-x86_64                            allnoconfig    clang-23
-x86_64                           allyesconfig    clang-22
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-22
-x86_64                randconfig-011-20260610    gcc-14
-x86_64                randconfig-012-20260610    gcc-14
-x86_64                randconfig-013-20260610    gcc-14
-x86_64                randconfig-014-20260610    gcc-14
-x86_64                randconfig-015-20260610    gcc-14
-x86_64                randconfig-016-20260610    gcc-14
-x86_64                               rhel-9.4    clang-22
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-22
-x86_64                    rhel-9.4-kselftests    clang-22
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-22
-xtensa                            allnoconfig    clang-23
-xtensa                            allnoconfig    gcc-16.1.0
-xtensa                           allyesconfig    clang-20
+
+vim +/cdnsp_sky1_resume +218 drivers/usb/cdns3/cdnsp-sky1.c
+
+    77	
+    78	/**
+    79	 * sky1_set_mode_by_id - program one USB controller mode strap
+    80	 * @syscon: regmap for S5 syscon (from DT property cix,syscon-usb)
+    81	 * @id: controller slot ID (U3_TYPEC_DRD_ID .. U2_HOST3_ID)
+    82	 * @mode: MODE_STRAP_OTG, MODE_STRAP_HOST, or MODE_STRAP_DEVICE
+    83	 */
+  > 84	static int cdnsp_sky1_set_mode_by_id(struct regmap *syscon, int id, int mode)
+    85	{
+    86		if (id < 0 || id >= SKY1_USB_S5_NUM)
+    87			return -EINVAL;
+    88	
+    89		return regmap_update_bits(syscon,
+    90					  strap_signals[id].offset,
+    91					  GENMASK(strap_signals[id].bit + 1,
+    92						  strap_signals[id].bit),
+    93					  (unsigned int)mode << strap_signals[id].bit);
+    94	}
+    95	
+    96	static int cdnsp_sky1_set_all_controllers_otg(struct regmap *syscon)
+    97	{
+    98		int id, ret;
+    99	
+   100		for (id = 0; id < SKY1_USB_S5_NUM; id++) {
+   101			ret = cdnsp_sky1_set_mode_by_id(syscon, id, MODE_STRAP_OTG);
+   102			if (ret)
+   103				return ret;
+   104		}
+   105	
+   106		return 0;
+   107	}
+   108	
+   109	static const struct clk_bulk_data cdnsp_sky1_cdns_core_clks[] = {
+   110		{ .id = "sof" },
+   111		{ .id = "aclk" },
+   112		{ .id = "lpm" },
+   113		{ .id = "pclk" },
+   114	};
+   115	
+   116	static int cdnsp_sky1_probe(struct platform_device *pdev)
+   117	{
+   118		struct device *dev = &pdev->dev;
+   119		struct cdnsp_sky1 *priv;
+   120		struct cdns *cdns;
+   121		struct cdns3_probe_data probe_data;
+   122		struct resource *res;
+   123		int ret;
+   124	
+   125		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+   126		if (!priv)
+   127			return -ENOMEM;
+   128	
+   129		priv->dev = dev;
+   130		priv->num_clks = ARRAY_SIZE(cdnsp_sky1_cdns_core_clks);
+   131		priv->clks = devm_kmemdup(dev, cdnsp_sky1_cdns_core_clks,
+   132					   sizeof(cdnsp_sky1_cdns_core_clks), GFP_KERNEL);
+   133		if (!priv->clks)
+   134			return -ENOMEM;
+   135	
+   136		ret = devm_clk_bulk_get(dev, priv->num_clks, priv->clks);
+   137		if (ret)
+   138			return dev_err_probe(dev, ret, "failed to get clocks\n");
+   139	
+   140		ret = clk_bulk_prepare_enable(priv->num_clks, priv->clks);
+   141		if (ret)
+   142			return dev_err_probe(dev, ret, "failed to enable clocks\n");
+   143	
+   144		priv->usb_syscon = syscon_regmap_lookup_by_phandle(dev->of_node,
+   145								   "cix,syscon-usb");
+   146		if (IS_ERR(priv->usb_syscon)) {
+   147			ret = PTR_ERR(priv->usb_syscon);
+   148			dev_err_probe(dev, ret, "failed to get cix,syscon-usb regmap\n");
+   149			goto err_clk;
+   150		}
+   151	
+   152		ret = cdnsp_sky1_set_all_controllers_otg(priv->usb_syscon);
+   153		if (ret) {
+   154			dev_err_probe(dev, ret,
+   155				      "failed to set USB controllers to OTG strap\n");
+   156			goto err_clk;
+   157		}
+   158	
+   159		res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "glue");
+   160		if (!res)
+   161			goto err_clk;
+   162	
+   163		priv->glue_base = devm_ioremap_resource(dev, res);
+   164		if (IS_ERR(priv->glue_base)) {
+   165			ret = PTR_ERR(priv->glue_base);
+   166			goto err_clk;
+   167		}
+   168	
+   169		/* Set ARCACHE and AWCACHE */
+   170		writel(SKY1_USB_AXI_WR_CACHE_VALUE, priv->glue_base + AXI_SETTING_OFFSET);
+   171	
+   172		cdns = &priv->cdns;
+   173		cdns->dev = dev;
+   174	
+   175		probe_data.cdns = cdns;
+   176		probe_data.pdev = pdev;
+   177	
+   178		ret = cdns3_core_probe(&probe_data);
+   179		if (ret)
+   180			goto err_clk;
+   181	
+   182		return 0;
+   183	
+   184	err_clk:
+   185		clk_bulk_disable_unprepare(priv->num_clks, priv->clks);
+   186	
+   187		return ret;
+   188	}
+   189	
+   190	static void cdnsp_sky1_remove(struct platform_device *pdev)
+   191	{
+   192		struct cdns *cdns = platform_get_drvdata(pdev);
+   193		struct cdnsp_sky1 *priv;
+   194	
+   195		if (!cdns)
+   196			return;
+   197	
+   198		cdns3_core_remove(cdns);
+   199		priv = container_of(cdns, struct cdnsp_sky1, cdns);
+   200		clk_bulk_disable_unprepare(priv->num_clks, priv->clks);
+   201	}
+   202	
+   203	static int cdnsp_sky1_runtime_suspend(struct device *dev)
+   204	{
+   205		return cdns3_runtime_suspend(dev_get_drvdata(dev));
+   206	}
+   207	
+   208	static int cdnsp_sky1_runtime_resume(struct device *dev)
+   209	{
+   210		return cdns3_runtime_resume(dev_get_drvdata(dev));
+   211	}
+   212	
+ > 213	static int cdnsp_sky1_suspend(struct device *dev)
+   214	{
+   215		return cdns3_pm_suspend(dev_get_drvdata(dev));
+   216	}
+   217	
+ > 218	static int cdnsp_sky1_resume(struct device *dev)
+   219	{
+   220		return cdns3_pm_resume(dev_get_drvdata(dev));
+   221	}
+   222	
 
 --
 0-DAY CI Kernel Test Service
