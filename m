@@ -1,92 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C7A4963BC;
-	Tue,  9 Jun 2026 15:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07CF0357A4A
+	for <linux-usb@vger.kernel.org>; Tue,  9 Jun 2026 16:01:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781020602; cv=none; b=Z+2fIITGGo+lmvURTMJLtXf9VxiTRlt5ZsnZnIn6q7Iy8xfMXWrMBlb+d2YwcqWwJ6XQUysMVn9tln2BMUPaSsRM8O2npjMOjd66gPgBgPLQZMwqc/qnuBWOLWAjMlNyrGyeCe3e8mP4i7odQZXWrxy9K7f/TlDGzMj+LB4tT0Q=
+	t=1781020896; cv=none; b=JRzW4jpbOeb9a95eFwk56/1Hn4PV/6Xz2VGVWaPnNG7pTqRfDKsIoajybyfGW/Uow2XdtYvad51wtmIqQZcKr4ehcCTVzw1rzE6sjAnulPoJTTacsbUyjgh4eRx1WXQp+CQsjGI+I9efEGQNn7h30KEASrneZTR/CyF3EH3OuH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781020602; c=relaxed/simple;
-	bh=S3aQpyzWcbuiEjHkJj+J0gRZ5Klatf36ZnyjH1OVHuc=;
+	s=arc-20240116; t=1781020896; c=relaxed/simple;
+	bh=AHsIE3Mf0v+BtXwYQr0ZF+LTuN1HanlCwhxJURYpu0o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S9moOFSmn0f7+lvjW6VoTtne5+AGkikt2oHnZzIJv35hq/4zPbZOfjdzz4Fmrfg9gK3rhDm7D4GET7aoJaG6oK0EpU5dMT8roj1UzCGIqoM3voxv/xErgHdeHeF5nDI/ccLEBqw+IPr3GWAZEGSxcb2kzhhXbvd9PuUTaPZA/Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BwDPKhWW; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=DMyrsIMYg2c7bAQ8a/3r1atZ61S10AJX+tyu0b59dWnwd9wO4x5wdz/CUzTK4AgYWdTggCdn/JIhpMXgci3ftz74CK6dqVpIvw1r8hAZTRTZJ68/yIbs0PGNyuzfwnkk50uv63SHKC7Uq4doFUJYnYuuo41yfgi67SSO06wRwzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i6iUo6Il; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BwDPKhWW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 736691F00898;
-	Tue,  9 Jun 2026 15:56:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781020600;
-	bh=S3aQpyzWcbuiEjHkJj+J0gRZ5Klatf36ZnyjH1OVHuc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BwDPKhWWNPaluMsVm3+c8Rbl8uSyH14i2hGsJJVwwtrTBqGL20ODP3cD6dXot4nZ/
-	 l1yv0e5ojFFJ3soY97GaHwZsEkTwuPuNMG/2zcp0+V+FL1M7Ig1JWY1cX1F2sTZrhP
-	 CMX1ISLeJFoAMWUDedLaCVnQ8Br7mXpGZrK1KzC6GBc3gI2Eq8i62mG5+m7/E36vcu
-	 DbVriQd7GEKlF18l5IzECe0fvhz8bjI+lCT88rMFSSiwfSnK3UdCJXJ+KiZivU2lpq
-	 JZ5CQrRl9B+jJkkTrNH2+nDRCd5YU7VvtvZp+CSsq0ZiBF7uyqQhJwtyLL0izl5xLD
-	 BCJk6xZ69dNSQ==
-Date: Tue, 9 Jun 2026 16:56:36 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Jonas Karlman <jonas@kwiboo.se>
-Cc: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Diederik de Haas <diederik@cknow-tech.com>,
-	devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: usb: Add Rockchip RK3568 compatible for
- EHCI and OHCI
-Message-ID: <20260609-subsidize-saturate-051fb051536d@spud>
-References: <20260609154124.445182-1-jonas@kwiboo.se>
- <20260609154124.445182-2-jonas@kwiboo.se>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i6iUo6Il"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so20666685e9.1
+        for <linux-usb@vger.kernel.org>; Tue, 09 Jun 2026 09:01:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781020893; x=1781625693; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ZVnaveXVwMZjOVOXk+BfC9BsJLogm3/Wh5ng9U3F8JY=;
+        b=i6iUo6IlS15tpVn1C7LS+Rdo+APhqsEAwbglD2wLVCX7zBpt863+DL0RRGxAltZkfG
+         TS1S7KSzhYUqgR7FULrQJIYn8jBku64NGOv/wF503Y9rq7TKr4y5uN5JLobMkzAfGiWr
+         AMnwefmDfK016hcraOiYtZnPpsl/4oIvgUhZwuj2TyVI1HjjwnOCAzBa0D88wsUv4OY6
+         kR+H7zz/QXn7PvwqDKq1zkw6OI6c1pPG/dHwQh/TaTRR7h6+df5CJRxaanuCu4Jqp+hF
+         277dtkZFBQMr0/F8Zn4M9Bf0PMhDtzn4mUz+QvfGEY9lmFYSTKHbZvU9zfRFj+hWn31/
+         miaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781020893; x=1781625693;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZVnaveXVwMZjOVOXk+BfC9BsJLogm3/Wh5ng9U3F8JY=;
+        b=QYsOyYCa+Nl+5fTm7q1MlciSoVmZXnz3IbsbWBpcvpPmDJ3tdLDM03fpVhzWjKeJmL
+         E6HdDwX+23AF3kCRzwhTzpr5bFdjUbn6iYCQUNvg0UqgvAQeCp3a2CrFwAHZGaqAGKcJ
+         LE+ktY7X7xi8OYBhXnAYvOGk6uY3whDfY1qnc/AAqyAS4cBIWnIeWPAy/tWNxnFRwp6g
+         FQE1+R2g7QZZ15qFkyFYWM4ilV7gtW35DVBAJ7peoUWFpKkfmDdf/UY+q+7jmvd5c5Px
+         jfdMjXxVPGKt1+L+rfxmKYAOmjgcrHL33GA5dJVW9z7gdkCBN+LLyXizpo4Q2hdAx8aY
+         Ll4Q==
+X-Forwarded-Encrypted: i=1; AFNElJ97klyNug0cHXu/Ktap1cC98SS28e1v7sMxC8eOALapXiWsr0nAKBgNoLUM0STL2zbcMMOKjXU7Fu0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2XRvlhp0NnJc1S54Bwy6iWk+Q9cbbfx6DUJ2g9LIB9WtwszpU
+	Ah/qUZviUo/QmYMibl4/CvelAHd4QExCIlvobN+Wlt/EiqM9fGN36b8H
+X-Gm-Gg: Acq92OEPmrecNXM/KBm61xMnaVoyKLAr/piqtCSY/yARoXQ/jjkoAlHfopx55CInLJZ
+	PbxaHiTLV0Zt9PnIbbBtjdROvchmHVQTfxpAQ/YzhxZoG+ijlf5XIZBmKhb7ZhO9VFECMGNb/mJ
+	uqRpMVgz0Q4Yy2ApHjxcIjy4Uu+6jA0sB52N/eHoQo4WWa7a7X+pOG5Grbj+mj6pux3vTgDMuou
+	738VSkgaDAL1RCvh+4GHrbBGSKUdfeuE0r+e0W2mghw8s1FeuLvjao94OpUNZxL5B9TG3oOkwcN
+	USz8YIoXAJMQ7IUjKnFdMOACdy1Z/B9+9mgOzP7X8U1L0rD5DslhZ4sITP2z+qh2I7rXudhmYdO
+	HPKnjqykM3EmjGkuBQD1Mgms/PGK0YXrQqX5Ntv4gfvrsDTIfNyXbiRnWNSFCl7dv5SkRIJgv8H
+	TIUvvL9y7dOad0ULZk4xtmeGQ+PbTDmT3sQLmW
+X-Received: by 2002:a05:600c:45d1:b0:490:bf13:a1b with SMTP id 5b1f17b1804b1-490c260567bmr319243365e9.26.1781020892932;
+        Tue, 09 Jun 2026 09:01:32 -0700 (PDT)
+Received: from nsa ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3c1149sm433068545e9.4.2026.06.09.09.01.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2026 09:01:32 -0700 (PDT)
+Date: Tue, 9 Jun 2026 17:02:32 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: f_fs: Fix DMA fence leak
+Message-ID: <aig48OoC1vkdRMYL@nsa>
+References: <20260609152905.729328-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WY+aMPj6M1r/J6Zt"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260609154124.445182-2-jonas@kwiboo.se>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260609152905.729328-1-paul@crapouillou.net>
 
-
---WY+aMPj6M1r/J6Zt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jun 09, 2026 at 03:41:22PM +0000, Jonas Karlman wrote:
-> The Rockchip RK3568 EHCI/OHCI controller depends on clk_usbphy1_480m
-> being enabled, or the system may freeze when registers are accessed.
->=20
-> Add Rockchip RK3568 EHCI and OHCI compatibles with a similar four-clock
-> constraint as RK3588.
->=20
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+On Tue, Jun 09, 2026 at 05:29:05PM +0200, Paul Cercueil wrote:
+> In ffs_dmabuf_transfer(), a ffs_dma_fence object is kmalloc'd, with the
+> underlying dma_fence later initialized by dma_fence_init(), which sets
+> its kref counter to 1. Then, dma_resv_add_fence() gets a second
+> reference, and a pointer to the ffs_dma_fence is passed as the
+> usb_request's "context" field.
+> 
+> The dma-resv mechanism will manage the second reference, but the first
+> reference is never properly released; the ffs_dmabuf_cleanup() function
+> decreases the reference count, but only to balance with the reference
+> grab in ffs_dmabuf_signal_done().
+> 
+> The code will then slowly leak memory as more ffs_dma_fence objects are
+> created without being ever freed.
+> 
+> Address this issue by transferring ownership of the fence to the DMA
+> reservation object, by calling dma_fence_put() right after
+> dma_resv_add_fence(). The ffs_dma_fence then gets properly discarded
+> after being signalled.
+> 
+> Fixes: 7b07a2a7ca02 ("usb: gadget: functionfs: Add DMABUF import interface")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 > ---
-> Existing DTs for RK3568 use the plain generic-ehci/ohci compatible,
-> next patch make use of these new compatibles and adds the missing
-> clk_usbphy1_480m clock references.
 
-Reasonable complaint here from Sashiko.
-pw-bot: changes-requested
+Tested-by: Nuno Sá <nuno.sa@analog.com>
+Reviewed-by: Nuno Sá <nuno.sa@analog.com>
 
-Cheers,
-Conor.
-
---WY+aMPj6M1r/J6Zt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaig3tAAKCRB4tDGHoIJi
-0oLkAP0ZrNxgoceQzD4valaereWdt2Bj3s62HUkYP8wgyZEVngD/QekZpNu3e8iB
-Owz8oicDuMBs516aLfpRuD2ENHNPeQ8=
-=g7IK
------END PGP SIGNATURE-----
-
---WY+aMPj6M1r/J6Zt--
+>  drivers/usb/gadget/function/f_fs.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+> index 75912ce6ab55..7cc446502980 100644
+> --- a/drivers/usb/gadget/function/f_fs.c
+> +++ b/drivers/usb/gadget/function/f_fs.c
+> @@ -1704,6 +1704,7 @@ static int ffs_dmabuf_transfer(struct file *file,
+>  	resv_dir = epfile->in ? DMA_RESV_USAGE_READ : DMA_RESV_USAGE_WRITE;
+>  
+>  	dma_resv_add_fence(dmabuf->resv, &fence->base, resv_dir);
+> +	dma_fence_put(&fence->base);
+>  	dma_resv_unlock(dmabuf->resv);
+>  
+>  	/* Now that the dma_fence is in place, queue the transfer. */
+> -- 
+> 2.53.0
+> 
