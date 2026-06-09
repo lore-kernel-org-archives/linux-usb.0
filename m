@@ -1,91 +1,145 @@
-Received: from hognose1.porkbun.com (hognose1.porkbun.com [35.82.102.206])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D1636E493;
-	Tue,  9 Jun 2026 16:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.82.102.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59AF41C2FF
+	for <linux-usb@vger.kernel.org>; Tue,  9 Jun 2026 16:32:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781021448; cv=none; b=SUiKt4oyNsc+80qHn4vFjy8SEsXPlZwTL0Vh6l47kdbnTEE+WGSaHle1Krj9DnodfJ+95zFHwIyKYSRXx4NLQ+nD9gofpyp4j2pHpTnyuVSJBpT7jjgIp4lrLwaQWgkwVCd7vzXfEw9LPtkDlBBD6NUwQwn9bk1HsbjO3nZLbrY=
+	t=1781022756; cv=none; b=H6h0v33j9DIW6OEPCaF4NavZWy1pgZq8Rv/NbIKRbA1uNFRKQtoPWL8gDsWybtXasWNcH8zabuaX1TLBSuL4v14EVAU6cVYt3h28PBYDtMcBLWMRC4ApDafvECkQJk1Q1/MkMy8hJCTOTfLk2X0cgAz1+sCuAZLzuf/Fe3+uN9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781021448; c=relaxed/simple;
-	bh=O+eLWs+OWcxYj/ZX81C3cSzRxN9E5RQJC632vb41yYc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AC46y1SIchOQ0TS5z8+PlkorRAvbgK99I6qbIPBpamNOt4U4pCy3r/+zXamVxNJTVT1dE8KtbNGo+jc082MBwdqx8UBO1oOmn1sXI64y8r8r7SNuVgN9YwMAksz/amnrBLGCf8jnePdZnnPIGehBZW+NAY+j9LJ/OqAe8aVfCes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=makarenk.ooo; spf=pass smtp.mailfrom=makarenk.ooo; dkim=pass (1024-bit key) header.d=makarenk.ooo header.i=@makarenk.ooo header.b=iN3WSvHV; arc=none smtp.client-ip=35.82.102.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=makarenk.ooo
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=makarenk.ooo
+	s=arc-20240116; t=1781022756; c=relaxed/simple;
+	bh=/Midjtuh/rfgbab2AV2ai67raWTZg9S7QWnZPf50CGY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=tjsIW+cHwgJWvzfk1psXLc7g6rZtdgZ4kgFcOnNBJ04SYb79I9yulnfozpU5A5ADaKzZGo7dUqz8g86M/2p8Kt8no77uXZxKI6dNHopjZEkWEB+/1Unwfl6BrRlMd4KCgu/8yvelVj7jCmxJoJIecac9DzRwI2UWrw/B1ruEQ0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com; spf=pass smtp.mailfrom=cknow-tech.com; dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b=QOUagz86; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow-tech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=makarenk.ooo header.i=@makarenk.ooo header.b="iN3WSvHV"
-Received: from home-pc (62-157-05.netrun.cytanet.com.cy [62.228.157.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: oleg@makarenk.ooo)
-	by hognose1.porkbun.com (Postfix) with ESMTPSA id D2EFB485390;
-	Tue,  9 Jun 2026 16:01:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=makarenk.ooo;
-	s=default; t=1781020865;
-	bh=7dc5ymui68NYn6ueFqGVyMe26N+0nALw55iH7WG77r8=;
-	h=From:To:Cc:Subject:Date;
-	b=iN3WSvHVKesrHY4pGyQIxvHuxu/UGemqYEEyXP8ZHIYUTfwB51DRBk8cYcesMfQC3
-	 ZpiUkGruCW+4IQZUccnTTnX9YR7C1ntPwiU28YYJVEBApR0E4iUaxn5z+NgumrpNjI
-	 G1W9WbTUje65pmvCSzTj1u4ZSgLD8/AAt59/lhYc=
-From: Oleg Makarenko <oleg@makarenk.ooo>
-To: jikos@kernel.org,
-	bentiss@kernel.org
-Cc: Oleg Makarenko <oleg@makarenk.ooo>,
-	stable@vger.kernel.org,
-	Oliver Roundtree <oroundtree1@gmail.com>,
-	=?UTF-8?q?Ryno=20Kotz=C3=A9?= <lemon.xah@gmail.com>,
-	=?UTF-8?q?Tomasz=20Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>,
-	Anssi Hannula <anssi.hannula@gmail.com>,
-	Dmitry Torokhov <dtor@mail.ru>,
-	linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] HID: pidff: Use correct effect type in effect update
-Date: Tue,  9 Jun 2026 19:00:27 +0300
-Message-ID: <20260609160031.493353-1-oleg@makarenk.ooo>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="QOUagz86"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow-tech.com;
+	s=key1; t=1781022750;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GU6hxEB3LrImYHmp13AtCCpp8e8bRkCTpxK/TD8cOpY=;
+	b=QOUagz86dzoPrDjhHrSwN/06Sdmkq2iGHnAcJWwwkB4jGy9cpZbeuBVKzUQ2wMbiBEhNfS
+	fkXZcqO/FX8Da8Q0Jb9q0Ri64dwxeIwsei3wq03ji5x/sDo2a0B2GzHSiIlmdfbqDYKmid
+	EBrn1SB3ts5kXNKC6WG9f27WKnnLVyBVAsiozmaoQqJlJEKXdh+T01Ds0t55ucLSSadvdw
+	uUknq9hMXc6S/2Q00PMkA2/C5aaG+6n43UK9L2qDQhzLWDO7kxIpqzKkWDvYmcreWWk91w
+	ytsziuJNh2KWUV6GtxJWxrmErpQ4KJkuERcFgsEFkG1uOfZG+MkDxu5o+509UA==
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Date: Tue, 09 Jun 2026 18:32:16 +0200
+Message-Id: <DJ4NVA328NUV.LSPMVBFE0PD8@cknow-tech.com>
+Subject: Re: [PATCH 1/2] dt-bindings: usb: Add Rockchip RK3568 compatible
+ for EHCI and OHCI
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <diederik@cknow-tech.com>
+To: "Jonas Karlman" <jonas@kwiboo.se>, "Heiko Stuebner" <heiko@sntech.de>,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: "Diederik de Haas" <diederik@cknow-tech.com>,
+ <devicetree@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
+ <linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+References: <20260609154124.445182-1-jonas@kwiboo.se>
+ <20260609154124.445182-2-jonas@kwiboo.se>
+In-Reply-To: <20260609154124.445182-2-jonas@kwiboo.se>
+X-Migadu-Flow: FLOW_OUT
 
-When updating an existing effect, the effect type from the last created
-effect was sent to the device instead of the updated one.
-This caused incorrect reports when a game creates multiple different
-effects and updates only one that is not the last created.
+Hi Jonas,
 
-Fixes FFB in multiple games that create multiple simultaneous effects
-(Forza Horizon 5/6).
+On Tue Jun 9, 2026 at 5:41 PM CEST, Jonas Karlman wrote:
+> The Rockchip RK3568 EHCI/OHCI controller depends on clk_usbphy1_480m
+> being enabled, or the system may freeze when registers are accessed.
+>
+> Add Rockchip RK3568 EHCI and OHCI compatibles with a similar four-clock
+> constraint as RK3588.
+>
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> ---
+> Existing DTs for RK3568 use the plain generic-ehci/ohci compatible,
+> next patch make use of these new compatibles and adds the missing
+> clk_usbphy1_480m clock references.
+> ---
+>  .../devicetree/bindings/usb/generic-ehci.yaml          | 10 ++++++++++
+>  .../devicetree/bindings/usb/generic-ohci.yaml          |  5 ++++-
+>  2 files changed, 14 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Do=
+cumentation/devicetree/bindings/usb/generic-ehci.yaml
+> index 55a5aa7d7a54..c49a1bbc8cfd 100644
+> --- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+> @@ -52,6 +52,7 @@ properties:
+>                - ibm,476gtr-ehci
+>                - nxp,lpc1850-ehci
+>                - qca,ar7100-ehci
+> +              - rockchip,rk3568-ehci
+>                - rockchip,rk3588-ehci
+>                - snps,hsdk-v1.0-ehci
+>                - socionext,uniphier-ehci
+> @@ -186,6 +187,15 @@ allOf:
+>        required:
+>          - clocks
+>          - clock-names
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: rockchip,rk3568-ehci
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 4
 
-Fixes: 224ee88fe395 ("Input: add force feedback driver for PID devices")
-Cc: <stable@vger.kernel.org>
-Tested-by: Oliver Roundtree <oroundtree1@gmail.com>
-Co-developed-by: Ryno Kotzé <lemon.xah@gmail.com>
-Signed-off-by: Ryno Kotzé <lemon.xah@gmail.com>
-Signed-off-by: Oleg Makarenko <oleg@makarenk.ooo>
----
- drivers/hid/usbhid/hid-pidff.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think that the constraint for rk3588 is this:
+- minItems: 1
+- maxItems: 4
 
-diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index c45f182d0448..5f4395f7c645 100644
---- a/drivers/hid/usbhid/hid-pidff.c
-+++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -522,7 +522,7 @@ static void pidff_set_effect_report(struct pidff_device *pidff,
- 	pidff->set_effect[PID_EFFECT_BLOCK_INDEX].value[0] =
- 		pidff->block_load[PID_EFFECT_BLOCK_INDEX].value[0];
- 	pidff->set_effect_type->value[0] =
--		pidff->create_new_effect_type->value[0];
-+		pidff_get_effect_type_id(pidff, effect);
- 
- 	pidff_set_duration(&pidff->set_effect[PID_DURATION],
- 			   effect->replay.length);
--- 
-2.54.0
+Like ~ every other compatible; there's no 'branch' for rk3588-ehci.
+
+That's different from what you add for rk3568. Is that deliberate?
+Because from the commit message I assumed they should be the same.
+
+>  unevaluatedProperties: false
+> =20
+> diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Do=
+cumentation/devicetree/bindings/usb/generic-ohci.yaml
+> index d42f448fa204..5f1b4d2bff89 100644
+> --- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+> +++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+> @@ -47,6 +47,7 @@ properties:
+>                - hpe,gxp-ohci
+>                - ibm,476gtr-ohci
+>                - ingenic,jz4740-ohci
+> +              - rockchip,rk3568-ohci
+>                - rockchip,rk3588-ohci
+>                - snps,hsdk-v1.0-ohci
+>            - const: generic-ohci
+> @@ -198,7 +199,9 @@ allOf:
+>        properties:
+>          compatible:
+>            contains:
+> -            const: rockchip,rk3588-ohci
+> +            enum:
+> +              - rockchip,rk3568-ohci
+> +              - rockchip,rk3588-ohci
+
+Here they clearly do have the same constraint.
+
+Cheers,
+  Diederik
+
+>      then:
+>        properties:
+>          clocks:
 
