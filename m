@@ -1,145 +1,157 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from mail-gw02.astralinux.ru (mail-gw02.astralinux.ru [93.188.205.243])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59AF41C2FF
-	for <linux-usb@vger.kernel.org>; Tue,  9 Jun 2026 16:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFEEF257452;
+	Tue,  9 Jun 2026 16:46:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.188.205.243
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781022756; cv=none; b=H6h0v33j9DIW6OEPCaF4NavZWy1pgZq8Rv/NbIKRbA1uNFRKQtoPWL8gDsWybtXasWNcH8zabuaX1TLBSuL4v14EVAU6cVYt3h28PBYDtMcBLWMRC4ApDafvECkQJk1Q1/MkMy8hJCTOTfLk2X0cgAz1+sCuAZLzuf/Fe3+uN9U=
+	t=1781023624; cv=none; b=XhNKjqy9cMoA9IFjxgtLGE1qBWJuyOprEK++bBnfU2gHK/D7zIfePmDusDlbwIKZKR5vUh0KhAlBicW65YRZYRWMvowN5e5pvmIbDWwpO6ODE9Irkfll//Kb9PiKMB8ZmA7bHMWVsEHi9FMjcWvnbb5JWRgkKwS9H/ifqG1gm0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781022756; c=relaxed/simple;
-	bh=/Midjtuh/rfgbab2AV2ai67raWTZg9S7QWnZPf50CGY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=tjsIW+cHwgJWvzfk1psXLc7g6rZtdgZ4kgFcOnNBJ04SYb79I9yulnfozpU5A5ADaKzZGo7dUqz8g86M/2p8Kt8no77uXZxKI6dNHopjZEkWEB+/1Unwfl6BrRlMd4KCgu/8yvelVj7jCmxJoJIecac9DzRwI2UWrw/B1ruEQ0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com; spf=pass smtp.mailfrom=cknow-tech.com; dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b=QOUagz86; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow-tech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow-tech.com
+	s=arc-20240116; t=1781023624; c=relaxed/simple;
+	bh=zd7otinO4B9I8rd1gNUK39hV2DeIxTjVexvphjc+8jg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uZW3WFwqMBswGdLxbgS29BEoxu5OO0QhNwsQ+Iz/E5vKVpmpKHZkJlpmqD3kw/XGBxHy1QwVG2NK5sCYDdEvu0Bke8/743QViV3eeWATsT4G9w70bWxo7FLrN9+NGmkPTH71mZA+cr/0q9IK5SVxY+K5iljRwSkFvwkDMZhBeIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b=mawrAYlY; arc=none smtp.client-ip=93.188.205.243
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow-tech.com header.i=@cknow-tech.com header.b="QOUagz86"
+	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b="mawrAYlY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
+	s=mail; t=1781023610;
+	bh=zd7otinO4B9I8rd1gNUK39hV2DeIxTjVexvphjc+8jg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mawrAYlYRNEWbSOfUXrmjK+PzLRhAhuvHm6pom2O1XkfJm+1h8GTDfcAJ0CEFQAP2
+	 gVrQT/zb28wkQ3zR/HyctRiUtYzOuyxupPlXugjsJzcFX81A+ioqiYzy+9JMTegLMa
+	 30C2vax74SYMRMj3TqErLY2BhjLW5JZ3+nfGu2Ebtu2DD2RE0mXHmx9O8DDYsyGMvD
+	 JvTExdF/qnNPHDnA4kPhWN930rkIWDyrRyTc7rlT/4SIZyBkZrjzMswd6gCva2k2V2
+	 JEIHNJJFzii/2FVHlEs/f7ZTKOVGaEX6hpeburj5EZDNfTFQETGLnkC3LNz4vCHSEj
+	 l5VS8JNYf9y1Q==
+Received: from gca-msk-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
+	by mail-gw02.astralinux.ru (Postfix) with ESMTP id 551681FA44;
+	Tue,  9 Jun 2026 19:46:50 +0300 (MSK)
+Received: from new-mail.astralinux.ru (unknown [10.205.207.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail-gw02.astralinux.ru (Postfix) with ESMTPS;
+	Tue,  9 Jun 2026 19:46:47 +0300 (MSK)
+Received: from rbta-msk-lt-156703.astralinux.ru (unknown [10.198.18.49])
+	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4gZZYz1JwYz2xd5;
+	Tue, 09 Jun 2026 19:46:47 +0300 (MSK)
+From: Alexey Panov <apanov@astralinux.ru>
+To: stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alexey Panov <apanov@astralinux.ru>,
+	Oliver Neukum <oneukum@suse.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Kimball Murray <kmurray@f5.com>,
+	Soohoon Lee <Soohoon.Lee@f5.com>,
+	netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	lvc-project@linuxtesting.org,
+	Zqiang <qiang.zhang@linux.dev>
+Subject: [PATCH 5.10] usbnet: Fix using smp_processor_id() in preemptible code warnings
+Date: Tue,  9 Jun 2026 19:46:44 +0300
+Message-Id: <20260609164644.31375-1-apanov@astralinux.ru>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow-tech.com;
-	s=key1; t=1781022750;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GU6hxEB3LrImYHmp13AtCCpp8e8bRkCTpxK/TD8cOpY=;
-	b=QOUagz86dzoPrDjhHrSwN/06Sdmkq2iGHnAcJWwwkB4jGy9cpZbeuBVKzUQ2wMbiBEhNfS
-	fkXZcqO/FX8Da8Q0Jb9q0Ri64dwxeIwsei3wq03ji5x/sDo2a0B2GzHSiIlmdfbqDYKmid
-	EBrn1SB3ts5kXNKC6WG9f27WKnnLVyBVAsiozmaoQqJlJEKXdh+T01Ds0t55ucLSSadvdw
-	uUknq9hMXc6S/2Q00PMkA2/C5aaG+6n43UK9L2qDQhzLWDO7kxIpqzKkWDvYmcreWWk91w
-	ytsziuJNh2KWUV6GtxJWxrmErpQ4KJkuERcFgsEFkG1uOfZG+MkDxu5o+509UA==
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 09 Jun 2026 18:32:16 +0200
-Message-Id: <DJ4NVA328NUV.LSPMVBFE0PD8@cknow-tech.com>
-Subject: Re: [PATCH 1/2] dt-bindings: usb: Add Rockchip RK3568 compatible
- for EHCI and OHCI
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Diederik de Haas" <diederik@cknow-tech.com>
-To: "Jonas Karlman" <jonas@kwiboo.se>, "Heiko Stuebner" <heiko@sntech.de>,
- "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: "Diederik de Haas" <diederik@cknow-tech.com>,
- <devicetree@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
- <linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>
-References: <20260609154124.445182-1-jonas@kwiboo.se>
- <20260609154124.445182-2-jonas@kwiboo.se>
-In-Reply-To: <20260609154124.445182-2-jonas@kwiboo.se>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-KSMG-AntiPhishing: NotDetected, bases: 2026/06/09 15:41:00
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Envelope-From: apanov@astralinux.ru
+X-KSMG-AntiSpam-Info: LuaCore: 107 0.3.107 575e75fe8e3b9d45c142d144823c5de38605099e, {date_rfc_vio_soft_silent}, {Tracking_uf_ne_domains}, {Tracking_internal2}, {Tracking_from_domain_doesnt_match_to}, patch.msgid.link:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;astralinux.ru:7.1.1;127.0.0.199:7.1.2;new-mail.astralinux.ru:7.1.1;syzkaller.appspot.com:5.0.1,7.1.1, FromAlignment: s
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 203763 [Jun 09 2026]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.22
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/06/09 15:23:00 #28224840
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected, bases: 2026/06/09 15:41:00
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 1
 
-Hi Jonas,
+From: Zqiang <qiang.zhang@linux.dev>
 
-On Tue Jun 9, 2026 at 5:41 PM CEST, Jonas Karlman wrote:
-> The Rockchip RK3568 EHCI/OHCI controller depends on clk_usbphy1_480m
-> being enabled, or the system may freeze when registers are accessed.
->
-> Add Rockchip RK3568 EHCI and OHCI compatibles with a similar four-clock
-> constraint as RK3588.
->
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> ---
-> Existing DTs for RK3568 use the plain generic-ehci/ohci compatible,
-> next patch make use of these new compatibles and adds the missing
-> clk_usbphy1_480m clock references.
-> ---
->  .../devicetree/bindings/usb/generic-ehci.yaml          | 10 ++++++++++
->  .../devicetree/bindings/usb/generic-ohci.yaml          |  5 ++++-
->  2 files changed, 14 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Do=
-cumentation/devicetree/bindings/usb/generic-ehci.yaml
-> index 55a5aa7d7a54..c49a1bbc8cfd 100644
-> --- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-> +++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-> @@ -52,6 +52,7 @@ properties:
->                - ibm,476gtr-ehci
->                - nxp,lpc1850-ehci
->                - qca,ar7100-ehci
-> +              - rockchip,rk3568-ehci
->                - rockchip,rk3588-ehci
->                - snps,hsdk-v1.0-ehci
->                - socionext,uniphier-ehci
-> @@ -186,6 +187,15 @@ allOf:
->        required:
->          - clocks
->          - clock-names
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: rockchip,rk3568-ehci
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 4
+commit 327cd4b68b4398b6c24f10eb2b2533ffbfc10185 upstream.
 
-I think that the constraint for rk3588 is this:
-- minItems: 1
-- maxItems: 4
+Syzbot reported the following warning:
 
-Like ~ every other compatible; there's no 'branch' for rk3588-ehci.
+BUG: using smp_processor_id() in preemptible [00000000] code: dhcpcd/2879
+caller is usbnet_skb_return+0x74/0x490 drivers/net/usb/usbnet.c:331
+CPU: 1 UID: 0 PID: 2879 Comm: dhcpcd Not tainted 6.15.0-rc4-syzkaller-00098-g615dca38c2ea #0 PREEMPT(voluntary)
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x16c/0x1f0 lib/dump_stack.c:120
+ check_preemption_disabled+0xd0/0xe0 lib/smp_processor_id.c:49
+ usbnet_skb_return+0x74/0x490 drivers/net/usb/usbnet.c:331
+ usbnet_resume_rx+0x4b/0x170 drivers/net/usb/usbnet.c:708
+ usbnet_change_mtu+0x1be/0x220 drivers/net/usb/usbnet.c:417
+ __dev_set_mtu net/core/dev.c:9443 [inline]
+ netif_set_mtu_ext+0x369/0x5c0 net/core/dev.c:9496
+ netif_set_mtu+0xb0/0x160 net/core/dev.c:9520
+ dev_set_mtu+0xae/0x170 net/core/dev_api.c:247
+ dev_ifsioc+0xa31/0x18d0 net/core/dev_ioctl.c:572
+ dev_ioctl+0x223/0x10e0 net/core/dev_ioctl.c:821
+ sock_do_ioctl+0x19d/0x280 net/socket.c:1204
+ sock_ioctl+0x42f/0x6a0 net/socket.c:1311
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:906 [inline]
+ __se_sys_ioctl fs/ioctl.c:892 [inline]
+ __x64_sys_ioctl+0x190/0x200 fs/ioctl.c:892
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xcd/0x260 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-That's different from what you add for rk3568. Is that deliberate?
-Because from the commit message I assumed they should be the same.
+For historical and portability reasons, the netif_rx() is usually
+run in the softirq or interrupt context, this commit therefore add
+local_bh_disable/enable() protection in the usbnet_resume_rx().
 
->  unevaluatedProperties: false
-> =20
-> diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Do=
-cumentation/devicetree/bindings/usb/generic-ohci.yaml
-> index d42f448fa204..5f1b4d2bff89 100644
-> --- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-> +++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-> @@ -47,6 +47,7 @@ properties:
->                - hpe,gxp-ohci
->                - ibm,476gtr-ohci
->                - ingenic,jz4740-ohci
-> +              - rockchip,rk3568-ohci
->                - rockchip,rk3588-ohci
->                - snps,hsdk-v1.0-ohci
->            - const: generic-ohci
-> @@ -198,7 +199,9 @@ allOf:
->        properties:
->          compatible:
->            contains:
-> -            const: rockchip,rk3588-ohci
-> +            enum:
-> +              - rockchip,rk3568-ohci
-> +              - rockchip,rk3588-ohci
+Fixes: 43daa96b166c ("usbnet: Stop RX Q on MTU change")
+Link: https://syzkaller.appspot.com/bug?id=81f55dfa587ee544baaaa5a359a060512228c1e1
+Suggested-by: Jakub Kicinski <kuba@kernel.org>
+Signed-off-by: Zqiang <qiang.zhang@linux.dev>
+Link: https://patch.msgid.link/20251011070518.7095-1-qiang.zhang@linux.dev
+Signed-off-by: Paolo Abeni <pabeni@redhat.com>
+[ Alexey: Keep tasklet_schedule() because commit 2c04d279e857 ("net: usb:
+  Convert tasklet API to new bottom half workqueue mechanism") is not present
+  in linux-5.10.y. ]
+Signed-off-by: Alexey Panov <apanov@astralinux.ru>
+---
+Backport fix for CVE-2025-40164
+ drivers/net/usb/usbnet.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Here they clearly do have the same constraint.
-
-Cheers,
-  Diederik
-
->      then:
->        properties:
->          clocks:
-
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index 4a83228a2db5..4b34544d88aa 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -684,6 +684,7 @@ void usbnet_resume_rx(struct usbnet *dev)
+ 	struct sk_buff *skb;
+ 	int num = 0;
+ 
++	local_bh_disable();
+ 	clear_bit(EVENT_RX_PAUSED, &dev->flags);
+ 
+ 	while ((skb = skb_dequeue(&dev->rxq_pause)) != NULL) {
+@@ -692,6 +693,7 @@ void usbnet_resume_rx(struct usbnet *dev)
+ 	}
+ 
+ 	tasklet_schedule(&dev->bh);
++	local_bh_enable();
+ 
+ 	netif_dbg(dev, rx_status, dev->net,
+ 		  "paused rx queue disabled, %d skbs requeued\n", num);
+-- 
+2.47.3
