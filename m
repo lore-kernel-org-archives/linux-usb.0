@@ -1,30 +1,31 @@
 Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B203F6601
-	for <linux-usb@vger.kernel.org>; Tue,  9 Jun 2026 09:20:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F063F210B
+	for <linux-usb@vger.kernel.org>; Tue,  9 Jun 2026 09:20:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780996834; cv=none; b=e0ja25XAUIjX0j2pyWi/ztQlfVdes0iSOt/7Mjy+O6xkQeWNExPSPhH4xU/MLwepp66edHCokIttX0Gqoky6hRoW+X/FpHNHKcn7tBPEOuEbgUAIdI/l5RzkOdIYGFOtc6xlNa/uFka5FU/alSGsBplXeD6D1xNBhQRjlmfcKhs=
+	t=1780996835; cv=none; b=S3FCq7x8rpr1Z8QLFV1X2/xKWrpS9IcMND/hdhU54XdW/5qHsatuQt7cXIPQOgNcLzOVwPV45E6GYKHXigp/qm62RGveMgcyobeMGo1mHPVueBGVVhOMtDEbQfXgukzoon6ZJYL3a8pcVJ0SNfGUSragfiRUu3fPsC51R2Kg2xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780996834; c=relaxed/simple;
-	bh=OHrl1ENn3XbKWixzs3KeXahSmXCmgzEZK//8wsbpGUU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=myG8KSpxyZLfViONacz4n3UuYWLM/+eQjfJUfZcFO6QGvE79cBIAbc6ajTJB9bqeS0GFHC6Lf4VptHNxiNlrXUYrkueML1mdkhmoE411mNHT8VXd+cyr3DwQT6LHQHTEXQp083tJDoXySFRUm5Op8Ue170QK0BF3HORj8Py1Ltw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=korsgaard.com; spf=pass smtp.mailfrom=korsgaard.com; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=sRghqj8P; arc=none smtp.client-ip=34.202.193.197
+	s=arc-20240116; t=1780996835; c=relaxed/simple;
+	bh=pU9B/QqH7g8VzGyxf9sPM2ZUWtMbP1hNwo1eA2PBGio=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ufy9q1j2PWJq2U5WSjPhGfcNY38adxvFHm6PjV7MI9bYON5CRCoExQ2xw8ScaKGsJt8H5iH9MB11Ky1xr35q9W7vMYAQ4sj19C7AIatyavky5kkFzvC8tewVFJABlMZOzQ9SoqF5g91KzbuzBfMZ+fdTGbirwzTU1V6U5Ww6UnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=korsgaard.com; spf=pass smtp.mailfrom=korsgaard.com; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=C1+mJs5y; arc=none smtp.client-ip=34.202.193.197
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=korsgaard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korsgaard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="sRghqj8P"
+	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="C1+mJs5y"
 Authentication-Results: purelymail.com; auth=pass
-DKIM-Signature: a=rsa-sha256; b=sRghqj8PSwD3F+i3bPeXr7OhfxWETfQL4WwecimqMkfQ35bbLBltRxDMu8Rb2+4RZqvR/HevK9AraD0kP6fbFpgnjqQqD2fWpyK/lt4X5JhP/WfmnME+Ehvp8PpFrtMc8gkoXmkZ/S0HnAJ1wEBOLVGCvuf0gmGb4S7y9LIiCMYWBeJkwouutOJQ295SseXyrUbn04rhrD1/GdMzQBcfstxP54K87i8pzDoYovchccu94sAHSmAIWD21WzjlR2fVEjqvi/S3Oau5QniecR3Itg3EIVQ5tFF5nRnvZ3Elwt96VjxXS5Th0lrRCLt7huLk0lDTLrMDgk762Tzk9JsOWg==; s=purelymail2; d=purelymail.com; v=1; bh=OHrl1ENn3XbKWixzs3KeXahSmXCmgzEZK//8wsbpGUU=; h=Feedback-ID:Received:Received:From:To:Subject:Date;
+DKIM-Signature: a=rsa-sha256; b=C1+mJs5y5I0CSy5BBWRkmqSi4OoTM1S3c3ZIVdqnYFs2P9VXKobZ6a8K332U9ejnBoSu+LdcWAf9UFY90k4dH+n0IQzeY8JvbCYiGShXOXeAN/d7+GWX3LR2hshCOglmXU520D2xQ0UvqsIQKxaydR86/Ehxcs3B+mrbIDnOzXdxYu5X+hT1uqwjVq1JKX0KAY2CbULcqgewxuFjtvSXVpwWfwLxt3UfvH6dErWR88Wnhsb+MdNGJZILFxn+FkItj8Q+FsWrwWq6hgrm+RLFh6c4jT5R20qA2aMGVKDYe5hjXk+BioLjsXBbQ1AaAavFRUJ8TqxDGPHh22aXJmNnMg==; s=purelymail2; d=purelymail.com; v=1; bh=pU9B/QqH7g8VzGyxf9sPM2ZUWtMbP1hNwo1eA2PBGio=; h=Feedback-ID:Received:Received:From:To:Subject:Date;
 Feedback-ID: 21632:4007:null:purelymail
 X-Pm-Original-To: linux-usb@vger.kernel.org
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 55508659;
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 339864016;
           (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
           Tue, 09 Jun 2026 09:20:22 +0000 (UTC)
 Received: from peko by dell.be.48ers.dk with local (Exim 4.98.2)
 	(envelope-from <peko@dell.be.48ers.dk>)
-	id 1wWsdB-0000000BOpR-08u5;
+	id 1wWsdB-0000000BOpj-21dM;
 	Tue, 09 Jun 2026 11:20:21 +0200
 From: Peter Korsgaard <peter@korsgaard.com>
 To: linux-usb@vger.kernel.org,
@@ -33,10 +34,12 @@ To: linux-usb@vger.kernel.org,
 	Pavel Hofman <pavel.hofman@ivitera.com>
 Cc: Peter Korsgaard <peter@korsgaard.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] usb: gadget: f_uac2: fix memory leak in UAC2_RATE_ATTRIBUTE store
-Date: Tue,  9 Jun 2026 11:19:55 +0200
-Message-ID: <20260609091957.2716984-1-peter@korsgaard.com>
+Subject: [PATCH 2/2] usb: gadget: f_uac1: fix memory leak in UAC1_RATE_ATTRIBUTE store
+Date: Tue,  9 Jun 2026 11:19:56 +0200
+Message-ID: <20260609091957.2716984-2-peter@korsgaard.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260609091957.2716984-1-peter@korsgaard.com>
+References: <20260609091957.2716984-1-peter@korsgaard.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -50,49 +53,29 @@ Content-Type: text/plain; charset=UTF-8
 strsep() clobbers the passed pointer, so we need a separate variable to be
 able to correctly kfree() the memory at the end.
 
-Detected by kmemleak:
-unreferenced object 0xffffff80038f9098 (size 8):
-  comm "audio.hook", pid 323, jiffies 4294896085
-  hex dump (first 8 bytes):
-    34 38 30 30 30 0a 00 cc                          48000...
-  backtrace (crc 503efa75):
-    kmemleak_alloc+0x30/0x40
-    __kmalloc_node_track_caller_noprof+0x240/0x3d0
-    kstrdup+0x44/0x90
-    f_uac2_opts_c_srate_store+0x13c/0x200
-    configfs_write_iter+0x238/0x360
-    vfs_write+0x4a4/0xd00
-    ksys_write+0xf4/0x1e0
-    __arm64_sys_write+0x68/0xa0
-    invoke_syscall.constprop.0+0xa4/0x260
-    do_el0_svc+0xc0/0x1c0
-    el0_svc+0x20/0x60
-    el0t_64_sync_handler+0x118/0x130
-    el0t_64_sync+0x14c/0x150
-
-Fixes: a7339e4f5788 ("usb: gadget: f_uac2: Support multiple sampling rates"=
+Fixes: 695d39ffc2b5 ("usb: gadget: f_uac1: Support multiple sampling rates"=
 )
 Signed-off-by: Peter Korsgaard <peter@korsgaard.com>
 ---
- drivers/usb/gadget/function/f_uac2.c | 6 +++---
+ drivers/usb/gadget/function/f_uac1.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/func=
-tion/f_uac2.c
-index 897787d0803c1..0c2a8afccbb69 100644
---- a/drivers/usb/gadget/function/f_uac2.c
-+++ b/drivers/usb/gadget/function/f_uac2.c
-@@ -2012,7 +2012,7 @@ static ssize_t f_uac2_opts_##name##_store(struct conf=
+diff --git a/drivers/usb/gadget/function/f_uac1.c b/drivers/usb/gadget/func=
+tion/f_uac1.c
+index 85c502e98f577..5cd63e590f553 100644
+--- a/drivers/usb/gadget/function/f_uac1.c
++++ b/drivers/usb/gadget/function/f_uac1.c
+@@ -1594,7 +1594,7 @@ static ssize_t f_uac1_opts_##name##_store(struct conf=
 ig_item *item,=09\
  =09=09=09=09=09  const char *page, size_t len)=09\
  {=09=09=09=09=09=09=09=09=09\
- =09struct f_uac2_opts *opts =3D to_f_uac2_opts(item);=09=09\
+ =09struct f_uac1_opts *opts =3D to_f_uac1_opts(item);=09=09\
 -=09char *split_page =3D NULL;=09=09=09=09=09\
 +=09char *p, *split_page =3D NULL;=09=09=09=09=09\
  =09int ret =3D -EINVAL;=09=09=09=09=09=09\
  =09char *token;=09=09=09=09=09=09=09\
  =09u32 num;=09=09=09=09=09=09=09\
-@@ -2026,8 +2026,8 @@ static ssize_t f_uac2_opts_##name##_store(struct conf=
+@@ -1608,8 +1608,8 @@ static ssize_t f_uac1_opts_##name##_store(struct conf=
 ig_item *item,=09\
  =09=09=09=09=09=09=09=09=09\
  =09i =3D 0;=09=09=09=09=09=09=09=09\
