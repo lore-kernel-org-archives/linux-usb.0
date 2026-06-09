@@ -1,37 +1,57 @@
-Received: from aposti.net (aposti.net [185.119.170.32])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D29047F2D4;
-	Tue,  9 Jun 2026 15:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.119.170.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9819048125B
+	for <linux-usb@vger.kernel.org>; Tue,  9 Jun 2026 15:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781018966; cv=none; b=Rp+HSKhPWZD8HLZoxEUXLqSXtK0B70jSJhopgfcXHZExzjsElpFJPUzKxce6q//t0y7TXxiQsbY/OwhRhIZsOznDNqmK+eSPZ9Lv2awhPiKAaxFJFK9hJW/OR2tRYPFZMsj4SvgCgp5zMqpmyrIolSuxwNhJX6XUoKvAavtdBq0=
+	t=1781019704; cv=none; b=EyqhxqVMX0u2k3/QOk3fcDx9mIISgaSfNlDHB5L97hSknuWGKJZ8ks6OhuJ3GahZejLDSNbUFsmypCRhxh2hlO6Zh8TvXY4MNF3GHQZUOl37j3b7mNR7McWRLZjYJQnmWzwC0GLNVNCUDaqNS9ylSo8HNZ/RtKaP1Dh0JyzApc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781018966; c=relaxed/simple;
-	bh=Hf3NUFTPdlpBckTP5tVrDmcFEZZmCKf1Y+qeXrTx6lQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kdK/W2NgbUa3ShAkTSbUM/wMx2LVIig4nWdS3O57nY4SFzruPDvLXrv6wlH3Adx/fG2PSWEpYZNPiTx59KukuunFrbdVggScg3OnFl6DYkhmSq1MTWvROvhgKXy9jmjrTFtcvMfkqwx6Annhc93k7a+77xudIP7g+VHScHMZDRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=Gpdm53dH; arc=none smtp.client-ip=185.119.170.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+	s=arc-20240116; t=1781019704; c=relaxed/simple;
+	bh=yUj3XThMGaP3rmRIa5otSNIwOg8l2L3Cwzh2pZEi8W8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oSvw0nqU6YQ+LiK6UTNH+/PzPs7KfFrihIohfnqQdglovCD/QB8yGhcSx2/iK3fcxgc/Eauswpb8HU7las7tB1uDmmtTOEIiWPfuD8L6ecM65LT0HKKg6+I+RvjnfE5ulGpKvxi+iLQBjlJFra+dxN/osttitGG2J3Tu6Fr83uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=jPURHqcN; arc=none smtp.client-ip=121.127.44.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="Gpdm53dH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crapouillou.net;
-	s=mail; t=1781018962;
-	bh=Hf3NUFTPdlpBckTP5tVrDmcFEZZmCKf1Y+qeXrTx6lQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Gpdm53dHk42Xo4ZX2nd8sW92GOs5ztQb9unPiXuQ11pbqgoKraldRUxfeKq34WFEr
-	 zKtW9yR7StSn8L0Bu46FgiDi8LcRFUI/M1Me/Y2XylhHZ2SsX/qZNLLECEOfjS/CvC
-	 R4oCXxPP1HAtgkL5yYfbU/MdDAQ1T4m+WvJWc/Ds=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="jPURHqcN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
+ Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
+ t=1781019695; bh=tnTQJtWhXNNunD6hFzuvgsamcYY52i5xc8gBuKJVeBI=;
+ b=jPURHqcNXhxRObsILBtwUwe7LpaITT3sGq66j+Z0U34wuBnPEboH62e1Bi0wMOTBRQ6HU5WfD
+ zXQaZH5RgNe2VlZ6fjIWBJeC9mIcXEuoCPNeYrVEkTro+Hp1XJlvYqJgjPHTfVrgS+SjxNAnSaG
+ O8w116BRD/LArcahWbbdFmHc06648JMr3+TfKG25B0srVgBDmL9o0N4DCr/dPjIDgHL2E/Z9KHN
+ vdIrJzUdBPUaCstpkckgv3JQFkZE/MO9OBx8OUxHjOk0mPY4P2M9ZysOYwfF/oqDN7dX2I5HpCo
+ Az/4L4onCptmo7ysw9KoLJbCY3E3fksRnjSAm2xc6/Tg==
+X-Forward-Email-ID: 6a28342e2d71d6ad28f66e22
+X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 121.127.44.66
+X-Forward-Email-Version: 2.8.22
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+From: Jonas Karlman <jonas@kwiboo.se>
+To: Heiko Stuebner <heiko@sntech.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Diederik de Haas <diederik@cknow-tech.com>,
+	devicetree@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: gadget: f_fs: Fix DMA fence leak
-Date: Tue,  9 Jun 2026 17:29:05 +0200
-Message-ID: <20260609152905.729328-1-paul@crapouillou.net>
+	Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH 1/2] dt-bindings: usb: Add Rockchip RK3568 compatible for EHCI and OHCI
+Date: Tue,  9 Jun 2026 15:41:22 +0000
+Message-ID: <20260609154124.445182-2-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260609154124.445182-1-jonas@kwiboo.se>
+References: <20260609154124.445182-1-jonas@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,44 +60,73 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In ffs_dmabuf_transfer(), a ffs_dma_fence object is kmalloc'd, with the
-underlying dma_fence later initialized by dma_fence_init(), which sets
-its kref counter to 1. Then, dma_resv_add_fence() gets a second
-reference, and a pointer to the ffs_dma_fence is passed as the
-usb_request's "context" field.
+The Rockchip RK3568 EHCI/OHCI controller depends on clk_usbphy1_480m
+being enabled, or the system may freeze when registers are accessed.
 
-The dma-resv mechanism will manage the second reference, but the first
-reference is never properly released; the ffs_dmabuf_cleanup() function
-decreases the reference count, but only to balance with the reference
-grab in ffs_dmabuf_signal_done().
+Add Rockchip RK3568 EHCI and OHCI compatibles with a similar four-clock
+constraint as RK3588.
 
-The code will then slowly leak memory as more ffs_dma_fence objects are
-created without being ever freed.
-
-Address this issue by transferring ownership of the fence to the DMA
-reservation object, by calling dma_fence_put() right after
-dma_resv_add_fence(). The ffs_dma_fence then gets properly discarded
-after being signalled.
-
-Fixes: 7b07a2a7ca02 ("usb: gadget: functionfs: Add DMABUF import interface")
-Cc: stable@vger.kernel.org
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
- drivers/usb/gadget/function/f_fs.c | 1 +
- 1 file changed, 1 insertion(+)
+Existing DTs for RK3568 use the plain generic-ehci/ohci compatible,
+next patch make use of these new compatibles and adds the missing
+clk_usbphy1_480m clock references.
+---
+ .../devicetree/bindings/usb/generic-ehci.yaml          | 10 ++++++++++
+ .../devicetree/bindings/usb/generic-ohci.yaml          |  5 ++++-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 75912ce6ab55..7cc446502980 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -1704,6 +1704,7 @@ static int ffs_dmabuf_transfer(struct file *file,
- 	resv_dir = epfile->in ? DMA_RESV_USAGE_READ : DMA_RESV_USAGE_WRITE;
+diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+index 55a5aa7d7a54..c49a1bbc8cfd 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+@@ -52,6 +52,7 @@ properties:
+               - ibm,476gtr-ehci
+               - nxp,lpc1850-ehci
+               - qca,ar7100-ehci
++              - rockchip,rk3568-ehci
+               - rockchip,rk3588-ehci
+               - snps,hsdk-v1.0-ehci
+               - socionext,uniphier-ehci
+@@ -186,6 +187,15 @@ allOf:
+       required:
+         - clocks
+         - clock-names
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: rockchip,rk3568-ehci
++    then:
++      properties:
++        clocks:
++          minItems: 4
  
- 	dma_resv_add_fence(dmabuf->resv, &fence->base, resv_dir);
-+	dma_fence_put(&fence->base);
- 	dma_resv_unlock(dmabuf->resv);
+ unevaluatedProperties: false
  
- 	/* Now that the dma_fence is in place, queue the transfer. */
+diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+index d42f448fa204..5f1b4d2bff89 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+@@ -47,6 +47,7 @@ properties:
+               - hpe,gxp-ohci
+               - ibm,476gtr-ohci
+               - ingenic,jz4740-ohci
++              - rockchip,rk3568-ohci
+               - rockchip,rk3588-ohci
+               - snps,hsdk-v1.0-ohci
+           - const: generic-ohci
+@@ -198,7 +199,9 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            const: rockchip,rk3588-ohci
++            enum:
++              - rockchip,rk3568-ohci
++              - rockchip,rk3588-ohci
+     then:
+       properties:
+         clocks:
 -- 
-2.53.0
+2.54.0
 
