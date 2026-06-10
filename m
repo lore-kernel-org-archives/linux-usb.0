@@ -1,125 +1,179 @@
-Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com [74.125.82.201])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BA5352018
-	for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 18:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781114976; cv=none; b=VXk7KTECmavLQ54dR56psDtGAhulVkeaO3Ivu8sd6mQZ1FoosZlm6rVpG9Hy30ZhOWOwTjsfLOz+IcHP0ZVraxjXENbJfor+7QMKCPoVcAJ6dLJ7Tjo27PkM54Ys87usulkeUZnE/wXLLOsj20t22zHkFQxyQ2zzej2TUmZuZqY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781114976; c=relaxed/simple;
-	bh=TcgLzz2FKVyslii3l18U6N+Lfgdl8BRpY9C4tApmbr8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=cxLScIkhL/jfcR4ApPRaxpEFVcKIbsCF5mDzYxLaPFCfeBGqT2v3oiIDCyCRUHg+pSgAIQhSCoeKi3qKZGBLlXGIiyZuViDNG7g9BVQNtXeXi6oXmxw4vz37ZMxc9lkTZjOpYAhKJJprFLlriIXcLfuo5qYNtxWsVt0iIgujxzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--cmllamas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NhE03k66; arc=none smtp.client-ip=74.125.82.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--cmllamas.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1883ACA74
+	for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 21:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781125591; cv=pass; b=DPp/fZ/D0ji18/XH5mkt0sPJH1yp4quZ7mF2P3WutBwJahyvo3HTtqq0MN100bktb/z6jfMvG8zGk0cFgrbGXZnW1GE4+GRc/lFT2PQYeyiXGRMmsbvtUFDxRVDDJuwpz/9TNwPejL4t4CziVlQYcuAq2VJrHqYrXje3zNLML6s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781125591; c=relaxed/simple;
+	bh=8SPk+9kPUL0DQYsfiU6U+3rhy9CmKqHE6O0qDp+jLZI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X/WIrZGIFraG0aqh933h0MeBXkIUmPPsNLWGixz/ygtwBqJznJ2vzh+IaSqjQdu/6t032x+iefQrUygOMo/CDEe7H67IYyIRmTpq+C+cFUDpxFVbQxkBatM2UsH7YiY7Q5FKSoeQ6PeLAzpX64zwy26qDsL6x0zW/mrlWA9Dqg8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jWOwKwlS; arc=pass smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NhE03k66"
-Received: by mail-dy1-f201.google.com with SMTP id 5a478bee46e88-30761ab3483so4056387eec.0
-        for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 11:09:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jWOwKwlS"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-7dfe7712572so67398837b3.1
+        for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 14:06:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781125589; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FEPUHFPC+8h3o0OPUxvDH/PttgTsnXdSMMxv0jtpfcPBYWdFsgcnzQHr0zn5BxoaL+
+         bU1wDhGle0FyqznU1hPvvsDSR4dFku3YkgUIrwQhqaifVtf1kD9VwizgL07uLMvSOJ8O
+         Pxag40zhmwH1VT/Hhw65zFQZ3dy44vkqx0DY9z8vyEmTmZARWV8ZqOU4xXRkehtGAZAn
+         Lj+Rraqo+XjNfknsSHmDkLrPVkxarksQIWPpIyElOULp/pfpFe9/F7iM621KMtn52o1f
+         BnhDJAl1pPkqUjorSs+8ZnwxOe6lfZrdeCph35r6RvTCaBm4n/iYCmoyJB/Ikx1cpgq7
+         z3ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=96czj6yri6D29TEjjpnrX0Ms962E0G1MVyGNh2o55HQ=;
+        fh=8paVTK3nGPcGOXpyKyADgENMV5r7JxmeEK7Vo5s6ros=;
+        b=k/sPS/vG5W7Q8TcCxEW+d93Req509c3PY9JooxCfUuNfEd81Otr2O+kbPYuhnT+HIy
+         8a4S7kCSGALeWm6E89MWL+yTtd+zgKofTHf3DHW3EucAqWxqlJb17PKi7ie9fCz16lCJ
+         5nlN0gxVLxb+oanPRdvGeOIU65hi/inUQ+2Q9APdXi4jl+K3IQoyBQs91oA8b6XCIiyf
+         8ZKgBf/LLZjYS/BqekRrPdVauKJFxa6acsNsowqbsbhCKrhS+Xw8TDsHYeZbnkHWysd5
+         MJcjnh+oUhTnBGjZQMT6ANvRFpm3L43uhpU6Y+PHC9PavRy5KkQcchfWrqe2VctSm/g6
+         7m0g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781114973; x=1781719773; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o7qiOYfoqxge5ltmSaYzYpxHCL7kE1UyHf9z0w0ZOhY=;
-        b=NhE03k665X7Y4H3BOp3TQs4QoHRpJISu0f+a+Ok39fCWvvj14CYWPaOP3WZSaO5W3W
-         +X8VTbpD2lg+UzvQqWDOyZhVkG0+UcXwq+1rcWCinNZSBecFsQx+NaPIRxaNk4e44Awt
-         ZN9oUn65MOYbkl/ge1i3gxh1lZh7F0/MMiUkrwtaFNbImHMEQNBOr4wNy6ua5o5/ysAl
-         eI2EIJEaAmMb/geOKzNJ9Vjmu3A4PwoxGgfYyXYsxiy7kmjGTMUsLHXjEgXSEJyVYGdF
-         64cBy06g2CHDudqVxP0UVWCvCPMQlgx63o3pjoO7bWS5KlhYBA89oOA5rrJ+5Q0etz+r
-         h11A==
+        d=gmail.com; s=20251104; t=1781125589; x=1781730389; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=96czj6yri6D29TEjjpnrX0Ms962E0G1MVyGNh2o55HQ=;
+        b=jWOwKwlStXwGgUAXfngBzfebepF/l+Iz4nUi1RY4ZFUDUceLV7UGbSPy/9QVHif4B8
+         ZPz1O75qxMy7MzdeNnHDuLBQRANDqdgtNr4gpz1YjTbGBhWiD5oYWhkIc+R75zzFDCkO
+         Meumk/PL2hxGiDTi1EoFtI5Rjo6hDtBgNs4khoSmLMvoD3D6m4fDnyZeU2/SVa8Rl3Nq
+         Np8qgXa+5CNjzN4wJqgw9w2Dk9ZrR505dzxMLNWm5lQRAcJlwSMMAmfpaaFKXCI38Fkc
+         kL00/uRMaIP0VLi90TJNN5Ph1pRYS3cFKXlldKH1fiRvxQ998TEqxSQ9HgBoZT5xJce+
+         N+TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781114973; x=1781719773;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o7qiOYfoqxge5ltmSaYzYpxHCL7kE1UyHf9z0w0ZOhY=;
-        b=mZdyD0yE+EfuXCWtbq9NcDFmhJlPG2Nanf8cTEzAwvq3es4F2q2nSiHKGAd768AFjK
-         YBWBCy1z46+4t7JOjBQIFFPrbnemJgfxzPuYc4R00H/zUiG1PxYwx6+W3YkbK+mmvHQU
-         nE7F+2nyKF53SCZCWnwTJi+gJ/YRC0mjeD5K+Wdmxv0CBCWksSU21ev1ZF3P+R6G5G9r
-         bJdZGs/UsHScjfgBuv+XRTQ3SFPVRKjH2AoL6J9zcbOEEIq8pFukfgyKpdU04QTlrp1Q
-         3PrVlAZgZhPBSiOPAE82bx9FkglIOMPBH2Hf7r3OvNbOW6ozq0GwReiqQl6g+eRl2M4Y
-         cfig==
-X-Forwarded-Encrypted: i=1; AFNElJ8LuHMiNQC9Vjq/jrTWFXLYm6niuk5e2irRXv6GNZsNbdZfXmtURmyDKnx3H5+xYU7td94NoHML28I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/IUBgDQfQ/5qX9rT21WJL2yYTvWgyF5KuRrqDADiXiHk3pqtY
-	mXyroI8oAG+IT9tsK0whJIWARnLj4Kps5ZfJcHT5g/hJQpVI8J037dAVIZ3ehB9TLNoFIfBRmAZ
-	GH0rc5pftwQ7mAQ==
-X-Received: from dycuc24.prod.google.com ([2002:a05:693c:3f18:b0:307:d71d:34a7])
- (user=cmllamas job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7300:fd02:b0:304:8366:7456 with SMTP id 5a478bee46e88-307d5fc3000mr6139844eec.3.1781114973047;
- Wed, 10 Jun 2026 11:09:33 -0700 (PDT)
-Date: Wed, 10 Jun 2026 18:09:24 +0000
-In-Reply-To: <20260610180928.3093023-1-cmllamas@google.com>
+        d=1e100.net; s=20251104; t=1781125589; x=1781730389;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=96czj6yri6D29TEjjpnrX0Ms962E0G1MVyGNh2o55HQ=;
+        b=nKgC/Y4m0/Z6S+P1FQrVFfx3UfC0wmAdUOKO+mgTUG+IEq891yULyszVYaNLJkFsxh
+         NlGueRuu0TAEdtdEIGhbYQ3zbhqlr6E88TGvmqCop9k1V3NET/axa+h770g13bPt7xIn
+         X68h42JIRvTKmR+lzdedL5q4SeiGTWrg2budmI9mGkY1lu8WXRyE5rEtlUerXNmpvWF0
+         F4EozTsgXi6KUrV7IESDFvqtAPWDJgBX4x4x3lq9d47hKXivbkgukreFPN1fFVJrlbaa
+         3FlxXADl+RYxBYPsXJw7DQJWEee/+9bFJ7dP7LahzTOpKiuZdBwTWP3i82h8nUYlMnME
+         IPQg==
+X-Forwarded-Encrypted: i=1; AFNElJ+AsaLE5KQBSu8vstUhLTvtPRImK2SKSzghBuDlnnOK4jciEno8E0Fyt/3SBIvj55mDTqXcaXyTS0k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvyeXW9V1ml0DuoxEg1lwjLAYKhlgsFJeqyPfe+KYdNvRrkQez
+	/qZAG7cyDiZWt7LxA9gQykq9v1B9mDlrj6vL3No9lw4tKh8B3EZIOAnBAW5LABH166deol8butF
+	inSRcGnpJAreC3mhp+KXAR//23gxNfAw=
+X-Gm-Gg: Acq92OFhjm2K3Tq0RFp0Aknd0+lAfQjzTd0u5OGwtL58BpPATpGfFk3nFXCqGvd0moo
+	XramSGNmvf96UR7mWttmq8zIcV3lGHB6ET+otmj1n/2cSdboizpXH+s46keEE+5+gUYOqjjEA/p
+	qdg9UKmTPnfhlqsLnbQwUv0N887/n08cQj8d9maOGUDRQGpV6cfOVNQA/Et5yHYW1U0HpbxnFDA
+	RciqsLnWWW8uR4/JOstxvh8oPvFdNQtaLPKmDiEahxhUFX2rZih8O4rghVaI4E1Rw9ebeJXKndP
+	DlkPFxt5YnHEnp//BBJVsTH20A==
+X-Received: by 2002:a05:690c:45c5:b0:7e9:ab56:3c99 with SMTP id
+ 00721157ae682-7ed0adbb616mr276188567b3.6.1781125589039; Wed, 10 Jun 2026
+ 14:06:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260610180928.3093023-1-cmllamas@google.com>
-X-Mailer: git-send-email 2.54.0.1136.gdb2ca164c4-goog
-Message-ID: <20260610180928.3093023-2-cmllamas@google.com>
-Subject: [PATCH 6.6.y 2/2] usb: gadget: u_ether: Fix NULL pointer deref in eth_get_drvinfo
-From: Carlos Llamas <cmllamas@google.com>
-To: stable@vger.kernel.org
-Cc: Jianqiang kang <jianqkang@sina.cn>, Neill Kapron <nkapron@google.com>, kernel-team@android.com, 
-	Kuen-Han Tsai <khtsai@google.com>, Val Packett <val@packett.cool>, stable <stable@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Carlos Llamas <cmllamas@google.com>, 
-	"open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260521133315.work.845-kees@kernel.org> <20260521133326.2465264-4-kees@kernel.org>
+ <da358ae1-91b4-4a16-ac76-ffab99c230b9@suse.com>
+In-Reply-To: <da358ae1-91b4-4a16-ac76-ffab99c230b9@suse.com>
+From: jim.cromie@gmail.com
+Date: Wed, 10 Jun 2026 15:06:02 -0600
+X-Gm-Features: AVVi8CcLXClq9Fijm8VjZF47hQWmos5q_iXrehNZDw9kSOby-E_cMxEQI0SK-hU
+Message-ID: <CAJfuBxwRuT1K=rjPX+sdNyYurEJ=OjqbJaSa_S6JnY6yzTwTvQ@mail.gmail.com>
+Subject: Re: [PATCH 04/11] treewide: Convert struct kernel_param_ops
+ initializers to DEFINE_KERNEL_PARAM_OPS
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Kees Cook <kees@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Pengpeng Hou <pengpeng@iscas.ac.cn>, Richard Weinberger <richard@nod.at>, 
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Corey Minyard <corey@minyard.net>, 
+	Gabriel Somlo <somlo@cmu.edu>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Bart Van Assche <bvanassche@acm.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Hannes Reinecke <hare@suse.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Alan Stern <stern@rowland.harvard.edu>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Jason Baron <jbaron@akamai.com>, Tiwei Bie <tiwei.btw@antgroup.com>, 
+	Benjamin Berg <benjamin.berg@intel.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	"David E. Box" <david.e.box@linux.intel.com>, "Maciej W. Rozycki" <macro@orcam.me.uk>, 
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+	Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	John Johansen <john.johansen@canonical.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Georgia Garcia <georgia.garcia@canonical.com>, kvm@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-modules@vger.kernel.org, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, apparmor@lists.ubuntu.com, 
+	linux-security-module@vger.kernel.org, linux-um@lists.infradead.org, 
+	linux-acpi@vger.kernel.org, openipmi-developer@lists.sourceforge.net, 
+	qemu-devel@nongnu.org, intel-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org, 
+	linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net, 
+	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Kuen-Han Tsai <khtsai@google.com>
+On Mon, May 25, 2026 at 7:35=E2=80=AFAM Petr Pavlu <petr.pavlu@suse.com> wr=
+ote:
+>
+> On 5/21/26 3:33 PM, Kees Cook wrote:
+> > Using Coccinelle, rewrite every struct kernel_param_ops initializer tha=
+t
+> > sets .get into a DEFINE_KERNEL_PARAM_OPS-family macro invocation,
+> > for example:
+> >
+> > @@
+> > declarer name DEFINE_KERNEL_PARAM_OPS;
+> > identifier OPS;
+> > expression SET, GET;
+> > @@
+> > - const struct kernel_param_ops OPS =3D {
+> > -       .set =3D SET,
+> > -       .get =3D GET,
+> > - };
+> > + DEFINE_KERNEL_PARAM_OPS(OPS, SET, GET);
+> >
+> > Using the macro for initialization means future changes can manipulate
+> > the struct layout and callback prototypes without having to change ever=
+y
+> > initializer.
+>
+> Nit: For consistency, I suggest also converting the few remaining
+> kernel_param_ops instances that specify only .set and no .get, such as
+> simdisk_param_ops_filename.
+>
+> --
+> Thanks,
+> Petr
 
-[ Upstream commit e002e92e88e12457373ed096b18716d97e7bbb20 ]
+for the dynamic-debug changes
 
-Commit ec35c1969650 ("usb: gadget: f_ncm: Fix net_device lifecycle with
-device_move") reparents the gadget device to /sys/devices/virtual during
-unbind, clearing the gadget pointer. If the userspace tool queries on
-the surviving interface during this detached window, this leads to a
-NULL pointer dereference.
-
-Unable to handle kernel NULL pointer dereference
-Call trace:
- eth_get_drvinfo+0x50/0x90
- ethtool_get_drvinfo+0x5c/0x1f0
- __dev_ethtool+0xaec/0x1fe0
- dev_ethtool+0x134/0x2e0
- dev_ioctl+0x338/0x560
-
-Add a NULL check for dev->gadget in eth_get_drvinfo(). When detached,
-skip copying the fw_version and bus_info strings, which is natively
-handled by ethtool_get_drvinfo for empty strings.
-
-Suggested-by: Val Packett <val@packett.cool>
-Reported-by: Val Packett <val@packett.cool>
-Closes: https://lore.kernel.org/linux-usb/10890524-cf83-4a71-b879-93e2b2cc1fcc@packett.cool/
-Fixes: ec35c1969650 ("usb: gadget: f_ncm: Fix net_device lifecycle with device_move")
-Cc: stable <stable@kernel.org>
-Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
-Link: https://patch.msgid.link/20260316-eth-null-deref-v1-1-07005f33be85@google.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Carlos Llamas <cmllamas@google.com>
----
- drivers/usb/gadget/function/u_ether.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-index 49ff3fc62f74..91b2d1f5ed00 100644
---- a/drivers/usb/gadget/function/u_ether.c
-+++ b/drivers/usb/gadget/function/u_ether.c
-@@ -112,8 +112,10 @@ static void eth_get_drvinfo(struct net_device *net, struct ethtool_drvinfo *p)
- 
- 	strscpy(p->driver, "g_ether", sizeof(p->driver));
- 	strscpy(p->version, UETH__VERSION, sizeof(p->version));
--	strscpy(p->fw_version, dev->gadget->name, sizeof(p->fw_version));
--	strscpy(p->bus_info, dev_name(&dev->gadget->dev), sizeof(p->bus_info));
-+	if (dev->gadget) {
-+		strscpy(p->fw_version, dev->gadget->name, sizeof(p->fw_version));
-+		strscpy(p->bus_info, dev_name(&dev->gadget->dev), sizeof(p->bus_info));
-+	}
- }
- 
- /* REVISIT can also support:
--- 
-2.54.0.1136.gdb2ca164c4-goog
-
+Reviewed-by: Jim Cromie <jim.cromie@gmail.com>
