@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F341A23A6;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E9320ED;
 	Wed, 10 Jun 2026 13:22:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781097766; cv=none; b=XwtXWvnQiF0wd6qJ1ZuBQSKzqc2s7FZiATlQSiutnY5ySrSgWEnGC1N9GqTd6bgDYAUauHUPGcsjjXdSfwu3cr43D5ndh4pbHTATDRMtaTU8K/MENf3g4pHPj2i+2h8vrJF8JwsiVFflrz0JPlfw0c9zwC7fo0SJVZdOPaTDw8U=
+	t=1781097767; cv=none; b=Iy4V6iLQxtpqmWHORXobJDErSe6DFXV2AGn1Ht4JW87o69pEwbrQzqhYFk3XGWtCoY8Hn+AdTGhmnnKOFISByycsL0JmpaTXh8LLC6sdh5ga+Pnhi9dIkdML//T9tDBeITCLBw8nRnCAeMO0zt5jOczVcKtwOfSxlTmVvoupmYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781097766; c=relaxed/simple;
-	bh=PycbBQPZZyCJCTUuPX2HtE2xWpJSRs0mhK5Sf9MdOXc=;
+	s=arc-20240116; t=1781097767; c=relaxed/simple;
+	bh=FbZHDCb9KfjOhnJEJo2LbrCLdCeQQZnVe7db21rUoBw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AIyWxkAKZsXl87325otG3RokhDvgXz+NuDPHNiQd1K/YXGcOqd91kCmTLmErvaO+Zb3Z68LVmhRkJpLtWOoT0r+4JGjeGdsHmReJdpVz4jZj5nRBql9+TMm2SQeyEK2IU+xuedgEMzAenxdPiSClL6Tfi/YzSU1XbrV3XbZXSxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hjRop2jP; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=qJpGNuvq5CNKe15T+KAmLkLoajxKAf6jb7zyejkXpovxlGZv5IVpavaib8vSkLbKRwat5iyl8lxJyNopOjIrHN7ubfwUW8p4udrtbg9cgEpV65mXzYpxueMDZFa7CWeoNPDaGMuRthQVjq6BTgO1gRNLb8G/uEtjdrBm1eAzv3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lMH3+OHy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hjRop2jP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 720011F0089B;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lMH3+OHy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FB1E1F00893;
 	Wed, 10 Jun 2026 13:22:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1781097765;
-	bh=rQX6i/W4eJ+DvVMiB34BqW0gmYDeIBL0zSWxOy9n1hA=;
+	bh=R913vhvbqI0Nsv+WvL48a2w9Isz8oKwu+kxAtm47bEs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=hjRop2jPnh8RXhmQ3XxFcFcEptCROeKd+t0YJkFNjwOwWnIwG3MG+0tcDV/2CCHp8
-	 ghVXrc0q87dZKmqvZu+T1CMAEINqSLjqitNIJwo4yGxTbDpq3K/ukShqwhKIzLzKr+
-	 YwTX30+ak9FfZlZnU0ey7RE9VN4veIlIMh/05YA+60yjciJpt1A6T45X67lIPZavv4
-	 FioMbYz0i7o1Vq1ahZ7KtgFYQkJ54zBc6JT0T/kgAeMZlu6pVzlQpRnxGK9uvGzuuO
-	 fSBWbA912sCMOFWeCqbpbKneLlIKOrahs5JKKq6ggC+03qXk93D0luHt3k5We3kd8L
-	 iyHScrz+LO9+A==
+	b=lMH3+OHySOHAAPk5Gr8mOngnq1gQjK29Nt5rzifsPijQ2JPyrEALqJprXAW8tXNW0
+	 OOqA3CqgDCpcgyaHHx81wc7SYaqwzm1icF50PAaqHFa78jE2ayfP5yu3DClpbNHIi/
+	 652bxEaLSk63NfsHgaoNwFN3zCPP5hZryFCkxUoJkf1EqoCi+8MQc/hBNWmgYZ62Lr
+	 hFPggHKI+Zg2T02WNHCvQHSkKaTiMNQOVvBCBQ6oJs+OjoJ9SVN+d36scVy9t8878+
+	 bbPPXHwgnQ30PKNSaBUL3TG91v4EEoeJOf+CCALcF4QPsjJK//FSJbEIX4lCx4EADj
+	 Z79/r5G/fZgsQ==
 Received: from johan by xi.lan with local (Exim 4.99.3)
 	(envelope-from <johan@kernel.org>)
-	id 1wXItH-00000001Uez-1Sx3;
+	id 1wXItH-00000001Uf3-1Y6n;
 	Wed, 10 Jun 2026 15:22:43 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Johan Hovold <johan@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH 01/11] USB: serial: digi_acceleport: fix port registration order
-Date: Wed, 10 Jun 2026 15:22:22 +0200
-Message-ID: <20260610132232.356139-2-johan@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 03/11] USB: serial: digi_acceleport: always stop write urb on close
+Date: Wed, 10 Jun 2026 15:22:24 +0200
+Message-ID: <20260610132232.356139-4-johan@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260610132232.356139-1-johan@kernel.org>
 References: <20260610132232.356139-1-johan@kernel.org>
@@ -50,116 +49,43 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver submits the read URBs for all ports when the first port is
-opened, which could happen before the other ports have been probed and
-their private data set up.
+Explicitly stop the write URB on close() also if the device is being
+unbound instead of relying on core to do it after returning.
 
-If such an URB completes before the port has been probed, the completion
-handler will not resubmit it, thus preventing any further reads.
+Note that the dp_write_urb_in_use flag is cleared by the completion
+handler.
 
-Fix the ordering issue by not submitting the port read URBs until the
-port is opened.
-
-This also avoids wasting resources (e.g. power) when ports are not in
-use.
-
-Note that the port write URBs are already stopped on close (unless
-unbinding, but they are also stopped by core on disconnect).
-
-Fixes: fb44ff854e14 ("USB: digi_acceleport: fix port-data memory leak")
-Cc: stable@vger.kernel.org	# 3.7
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/digi_acceleport.c | 43 ++++++++++++++--------------
- 1 file changed, 22 insertions(+), 21 deletions(-)
+ drivers/usb/serial/digi_acceleport.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/usb/serial/digi_acceleport.c b/drivers/usb/serial/digi_acceleport.c
-index a75813a57fbe..d10d60b5d356 100644
+index 16ced067c5f9..7195a63da8a1 100644
 --- a/drivers/usb/serial/digi_acceleport.c
 +++ b/drivers/usb/serial/digi_acceleport.c
-@@ -1096,6 +1096,13 @@ static int digi_open(struct tty_struct *tty, struct usb_serial_port *port)
- 		not_termios.c_iflag = ~tty->termios.c_iflag;
- 		digi_set_termios(tty, port, &not_termios);
- 	}
-+
-+	ret = usb_submit_urb(port->read_urb, GFP_KERNEL);
-+	if (ret) {
-+		dev_err(&port->dev, "failed to submit read urb: %d\n", ret);
-+		return ret;
-+	}
-+
- 	return 0;
- }
+@@ -1116,7 +1116,6 @@ static void digi_close(struct usb_serial_port *port)
+ 	usb_kill_urb(port->read_urb);
  
-@@ -1107,6 +1114,8 @@ static void digi_close(struct usb_serial_port *port)
- 	unsigned char buf[32];
- 	struct digi_port *priv = usb_get_serial_port_data(port);
- 
-+	usb_kill_urb(port->read_urb);
-+
  	mutex_lock(&port->serial->disc_mutex);
- 	/* if disconnected, just clear flags */
+-	/* if disconnected, just clear flags */
  	if (port->serial->disconnected)
-@@ -1169,15 +1178,15 @@ static void digi_close(struct usb_serial_port *port)
- /*
-  *  Digi Startup Device
-  *
-- *  Starts reads on all ports.  Must be called AFTER startup, with
-+ *  Starts read on the OOB port.  Must be called AFTER startup, with
-  *  urbs initialized.  Returns 0 if successful, non-zero error otherwise.
-  */
+ 		goto exit;
  
- static int digi_startup_device(struct usb_serial *serial)
- {
--	int i, ret = 0;
- 	struct digi_serial *serial_priv = usb_get_serial_data(serial);
--	struct usb_serial_port *port;
-+	struct usb_serial_port *oob_port = serial_priv->ds_oob_port;
-+	int ret;
+@@ -1162,14 +1161,11 @@ static void digi_close(struct usb_serial_port *port)
+ 			TASK_INTERRUPTIBLE);
+ 	schedule_timeout(DIGI_CLOSE_TIMEOUT);
+ 	finish_wait(&priv->dp_flush_wait, &wait);
++exit:
++	mutex_unlock(&port->serial->disc_mutex);
  
- 	/* be sure this happens exactly once */
- 	spin_lock(&serial_priv->ds_serial_lock);
-@@ -1188,19 +1197,13 @@ static int digi_startup_device(struct usb_serial *serial)
- 	serial_priv->ds_device_started = 1;
- 	spin_unlock(&serial_priv->ds_serial_lock);
- 
--	/* start reading from each bulk in endpoint for the device */
--	/* set USB_DISABLE_SPD flag for write bulk urbs */
--	for (i = 0; i < serial->type->num_ports + 1; i++) {
--		port = serial->port[i];
--		ret = usb_submit_urb(port->read_urb, GFP_KERNEL);
--		if (ret != 0) {
--			dev_err(&port->dev,
--				"%s: usb_submit_urb failed, ret=%d, port=%d\n",
--				__func__, ret, i);
--			break;
--		}
-+	ret = usb_submit_urb(oob_port->read_urb, GFP_KERNEL);
-+	if (ret) {
-+		dev_err(&serial->interface->dev, "failed to submit OOB read urb: %d\n", ret);
-+		return ret;
- 	}
--	return ret;
-+
-+	return 0;
- }
- 
- static int digi_port_init(struct usb_serial_port *port, unsigned port_num)
-@@ -1252,13 +1255,11 @@ static int digi_startup(struct usb_serial *serial)
- 
- static void digi_disconnect(struct usb_serial *serial)
- {
--	int i;
-+	struct digi_serial *serial_priv = usb_get_serial_data(serial);
-+	struct usb_serial_port *oob_port = serial_priv->ds_oob_port;
- 
--	/* stop reads and writes on all ports */
--	for (i = 0; i < serial->type->num_ports + 1; i++) {
--		usb_kill_urb(serial->port[i]->read_urb);
--		usb_kill_urb(serial->port[i]->write_urb);
--	}
-+	usb_kill_urb(oob_port->read_urb);
-+	usb_kill_urb(oob_port->write_urb);
+ 	/* shutdown any outstanding bulk writes */
+ 	usb_kill_urb(port->write_urb);
+-exit:
+-	spin_lock_irq(&priv->dp_port_lock);
+-	priv->dp_write_urb_in_use = 0;
+-	spin_unlock_irq(&priv->dp_port_lock);
+-	mutex_unlock(&port->serial->disc_mutex);
  }
  
  
