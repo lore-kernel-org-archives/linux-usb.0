@@ -1,46 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28145272E7C;
-	Wed, 10 Jun 2026 01:29:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6255370ADE;
+	Wed, 10 Jun 2026 04:33:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781054980; cv=none; b=pehNgAL0XsmVBKO3kmCLNjKlYkN0tcELE0X4OVefsx8uhh239Q+ZXOyVA4UfSfKaIqsbp1wnwxmQoETjZJhq5Ic0wCnuMyFNocmecCbSS2AfYNpJpH12Jrl/l3PS/NPAWSq2cnIsPeSgJqbok5ii6qPUh3GoNysTVHil7h5vhsk=
+	t=1781066005; cv=none; b=JNP/Cx9Ohsj0d8YNf3nplnUxI4Qg4Zo95yn1RTJxUBzwsgupTZeE5wpGg7Pk/XNLPBBgsjdhVh3DOedJIDQxP5dAIV2zxb88r/f72z1PVrwZo84lIcOKZik+XwcDvjLXEuyc1y7a9asLbt4MahrvfjZ4gBGF4TPhtJl36qvzbMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781054980; c=relaxed/simple;
-	bh=BaMBhH4UBV/eRZkCM3tE+1Q0BPtUIU4D6dWPrPx/skw=;
+	s=arc-20240116; t=1781066005; c=relaxed/simple;
+	bh=8laxQoJT2lNJwHR3JwIshfZrBXuOnFnyYIPjA73bC3k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qjb9ae9X1tiaU4Zz9jMhLUtBYrLlGNuYEMzIBOOZtDLha/WXJ9BMBhyFvQPn6JV30644EwxwLH/KrLnxH8+16WZ1ZdMmOuJ+2m+V/UC5mh1fMaZZ0lUhQOq/VwE7bg41wu0dY1Ai2qo/hiftriI9MmPY5e+uAo1Bxr7ng0q5gsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T5VL9X7q; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=L28FKbExDer1Zqx6ZiRrCqAt2hZMrLI7L3a/ykp8tKHuFzrj5Bo2vqBagiCG/Ms10hpeSdMkqJU+W7hS9/NJVRQ6imSwcqBlg7rYfgQw5qV24R1vdOyyqO4AsV2YHcCtjYcTR2dT1uxWy9eeZK7fh9JPL9mVNe64F8VfiG1HTto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NEoNRuHm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T5VL9X7q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6A271F00893;
-	Wed, 10 Jun 2026 01:29:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NEoNRuHm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 020371F00893;
+	Wed, 10 Jun 2026 04:33:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781054979;
-	bh=mcwyzflTFzQMbgkW9om/kpXbBJQYlUaJarM14jOFs1I=;
+	s=k20260515; t=1781066004;
+	bh=oXYfUS9iAnPAsRhuciPrR5ndvfboUA5NSi/Wj0ODlDA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=T5VL9X7qMptDXVDGdYS/8chvo3Mht3G14p/QTb+o2WkMpWISDO1Zaz2TYlPYWNP9t
-	 46RpBd73POBInXOl8zfIWFxdOa8tL3YnwKaEeBhAYbPv9S+kegE6LxQoSMlGvOKILx
-	 0yWh4C24AtH+Xf7rklLX+Nta04SuKkhZXg7Tj6qd6LXHgRXwR1ijRiSxN5bxBVP8Rq
-	 Fg5QwAQXsLMagS0vixsTOIeqw5nets7wpdKmyvq0a1KSBMbdJULydCY7aDwvWIs+05
-	 MxHwnigzqNMyu5d5RPjeu3UhQdQVXFfZYtuMG69Y8dSh4/OuSzsEzxmtw40K9Uo+U3
-	 quvFq42QrcZuQ==
-Date: Wed, 10 Jun 2026 09:29:34 +0800
-From: "Peter Chen (CIX)" <peter.chen@kernel.org>
-To: Tyler Baker <tyler.baker@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Robert Baldyga <r.baldyga@samsung.com>,
-	Michal Nazarewicz <mina86@mina86.com>,
-	Felipe Balbi <balbi@kernel.org>, stable@vger.kernel.org,
-	Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: f_fs: initialize reset_work at allocation
- time
-Message-ID: <aii9/vGi5ZOEZ9uO@nchen-desktop>
-References: <20260609193635.2284430-1-tyler.baker@oss.qualcomm.com>
+	b=NEoNRuHm4G3lOhwacyNXbaBQqHrh1KHHYSnPmxbF2pO3gzLvNecXW9RqfuRtvavNR
+	 kCqQ2xsdcbbYwLCHtOqYp4dajl2MbsnCLkHk5qJ8ky4sbFj/KJH88T0VDjNYT11t8B
+	 7ohqtNPGTJAYnV2tUYCcGH8nd7k+/O4zRcrU6r0ip1d1GvBQecEa3PobFqQ7/drA0M
+	 5gOJ3ZNlrju7JiplgapmU8c+tbPufpIpSDp7pShLMDW6pbUm8Fk19TDboesVTu4U4X
+	 l2p2W65uiqCXIspXWUtzZ75EaYRw5TcEm2fCDBQ7GMQ+9EBlDPtt7MBX7TzVe8Hot5
+	 yvgHY6+mS/87A==
+Date: Tue, 9 Jun 2026 21:33:22 -0700
+From: Drew Fustini <fustini@kernel.org>
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Jisheng Zhang <jszhang@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-riscv@lists.infradead.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org, Han Gao <rabenda.cn@gmail.com>,
+	Yao Zi <ziyao@disroot.org>
+Subject: Re: [PATCH 02/12] clk: thead: th1520-ap: add support for MISC subsys
+ clocks
+Message-ID: <aijpEqzJ7fM7rGMH@thelio>
+References: <20260507081710.4090814-1-zhengxingda@iscas.ac.cn>
+ <20260507081710.4090814-3-zhengxingda@iscas.ac.cn>
+ <aier9XppLeCkJydw@thelio>
+ <93b867c1b7f5526cc25cb04f838432cd752f5981.camel@icenowy.me>
+ <aievi0s-3SO8hV6a@thelio>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -49,103 +61,54 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260609193635.2284430-1-tyler.baker@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aievi0s-3SO8hV6a@thelio>
 
-On 26-06-09 15:36:34, Tyler Baker wrote:
-> ffs_fs_kill_sb() unconditionally calls cancel_work_sync() on
-> ffs->reset_work when a functionfs instance is unmounted:
+On Mon, Jun 08, 2026 at 11:15:39PM -0700, Drew Fustini wrote:
+> On Tue, Jun 09, 2026 at 02:01:43PM +0800, Icenowy Zheng wrote:
+> > 在 2026-06-08一的 23:00 -0700，Drew Fustini写道：
+> > > On Thu, May 07, 2026 at 04:17:00PM +0800, Icenowy Zheng wrote:
+> > > > The TH1520 SoC contains a MISC_SUBSYS clock controller, which
+> > > > allows
+> > > > controlling of USB related clocks and MMC/SD controller AHB bus
+> > > > clocks.
+> > > > 
+> > > > Add support for this clock controller, in order to enable USB
+> > > > support.
+> > > > 
+> > > > Signed-off-by: Icenowy Zheng <zhengxingda@iscas.ac.cn>
+> > > > ---
+> > > >  drivers/clk/thead/clk-th1520-ap.c | 64
+> > > > +++++++++++++++++++++++++++++++
+> > > >  1 file changed, 64 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/clk/thead/clk-th1520-ap.c
+> > > > b/drivers/clk/thead/clk-th1520-ap.c
+> > > > index 3a6847f1c950f..24f785f0b329a 100644
+> > > > --- a/drivers/clk/thead/clk-th1520-ap.c
+> > > > +++ b/drivers/clk/thead/clk-th1520-ap.c
+> > > [...]
+> > > > @@ -1609,6 +1663,12 @@ static int th1520_clk_probe(struct
+> > > > platform_device *pdev)
+> > > >  			return ret;
+> > > >  	}
+> > > >  
+> > > > +	if (plat_data == &th1520_ap_platdata) {
+> > > > +		ret = devm_clk_hw_register(dev,
+> > > > &usb_suspend_div_clk.hw);
+> > > > +		if (ret)
+> > > > +			return ret;
+> > > > +	}
+> > > 
+> > > Should usb_suspend_div_clk.hw instead be registered under
+> > > 'if (plat_data == &th1520_ap_platdata)'?
+> > 
+> > Do you mean misc_platdata?
+> > 
+> > Yes, this is an copy-n-paste error that deserves a fix.
 > 
-> 	ffs_data_reset(ffs);
-> 	cancel_work_sync(&ffs->reset_work);
-> 
-> However ffs->reset_work is only ever initialized via INIT_WORK() in
-> ffs_func_set_alt() and ffs_func_disable(), and only on the
-> FFS_DEACTIVATED path. That state is reached solely by ffs_data_closed()
-> when the instance is mounted with the "no_disconnect" option, so for the
-> common case (no "no_disconnect", or mounted and unmounted without ever
-> being deactivated) reset_work is never initialized.
-> 
-> ffs_data_new() allocates the ffs_data with kzalloc_obj() and does not
-> initialize reset_work, and ffs_data_reset()/ffs_data_clear() do not touch
-> it either, so reset_work.func is left NULL. cancel_work_sync() on such a
-> work then trips the WARN_ON(!work->func) guard in __flush_work():
-> 
->   WARNING: kernel/workqueue.c:4301 at __flush_work+0x330/0x360, CPU#3: umount
->   Call trace:
->    __flush_work
->    cancel_work_sync
->    ffs_fs_kill_sb [usb_f_fs]
->    deactivate_locked_super
->    deactivate_super
->    cleanup_mnt
->    __cleanup_mnt
->    task_work_run
->    exit_to_user_mode_loop
->    el0_svc
-> 
-> On older kernels cancel_work_sync() on a zero-initialized work struct was
-> a silent no-op, which hid the missing initialization.
-> 
-> Initialize reset_work once in ffs_data_new() so it is always valid for
-> the lifetime of the ffs_data, and drop the now-redundant INIT_WORK()
-> calls from the two deactivation paths.
-> 
-> Fixes: 18d6b32fca38 ("usb: gadget: f_fs: add "no_disconnect" mode")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Tyler Baker <tyler.baker@oss.qualcomm.com>
-> Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+> Hah, yes, I also had a typo :)
 
-Reviewed-by: Peter Chen <peter.chen@kernel.org>
+Assuming that gets fixed in the next rev:
 
-Peter
-> ---
->  drivers/usb/gadget/function/f_fs.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-> index 75912ce6ab55..1ee21e29ef73 100644
-> --- a/drivers/usb/gadget/function/f_fs.c
-> +++ b/drivers/usb/gadget/function/f_fs.c
-> @@ -288,6 +288,7 @@ static int ffs_acquire_dev(const char *dev_name, struct ffs_data *ffs_data);
->  static void ffs_release_dev(struct ffs_dev *ffs_dev);
->  static int ffs_ready(struct ffs_data *ffs);
->  static void ffs_closed(struct ffs_data *ffs);
-> +static void ffs_reset_work(struct work_struct *work);
->  
->  /* Misc helper functions ****************************************************/
->  
-> @@ -2221,6 +2222,7 @@ static struct ffs_data *ffs_data_new(const char *dev_name)
->  	init_waitqueue_head(&ffs->ev.waitq);
->  	init_waitqueue_head(&ffs->wait);
->  	init_completion(&ffs->ep0req_completion);
-> +	INIT_WORK(&ffs->reset_work, ffs_reset_work);
->  
->  	/* XXX REVISIT need to update it in some places, or do we? */
->  	ffs->ev.can_stall = 1;
-> @@ -3775,7 +3777,6 @@ static int ffs_func_set_alt(struct usb_function *f,
->  	if (ffs->state == FFS_DEACTIVATED) {
->  		ffs->state = FFS_CLOSING;
->  		spin_unlock_irqrestore(&ffs->eps_lock, flags);
-> -		INIT_WORK(&ffs->reset_work, ffs_reset_work);
->  		schedule_work(&ffs->reset_work);
->  		return -ENODEV;
->  	}
-> @@ -3806,7 +3807,6 @@ static void ffs_func_disable(struct usb_function *f)
->  	if (ffs->state == FFS_DEACTIVATED) {
->  		ffs->state = FFS_CLOSING;
->  		spin_unlock_irqrestore(&ffs->eps_lock, flags);
-> -		INIT_WORK(&ffs->reset_work, ffs_reset_work);
->  		schedule_work(&ffs->reset_work);
->  		return;
->  	}
-> -- 
-> 2.43.0
-> 
-> 
-
--- 
-
-Best regards,
-Peter
+Reviewed-by: Drew Fusini <fustini@kernel.org>
