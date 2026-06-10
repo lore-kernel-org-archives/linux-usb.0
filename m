@@ -1,299 +1,211 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011018.outbound.protection.outlook.com [40.93.194.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D7825333F
-	for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 08:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781081439; cv=fail; b=p6HT/aUFwsyfLZlH/QgNyAY26oxWTxd6X8Ad/XY8HRAJOTxFD04GHW0y3hYY/k3QrE0pNiJ90rtBKXLoAqXl7AGzjc8lA8OaLH8C3NWu/yXd18rQhL/hJlso86pmrW+pUGxKVFsMStL9tR/Iefd665i/wsTaQdoL9YRDQm1yK0E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781081439; c=relaxed/simple;
-	bh=2+Q3X5126YbFqZij9uaao+OhW2NsDAZJvqvcpac5/aI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DA9KAuZ26vVBdVEYjWWo4ndaTe2b42wh2iuen4cdh94jOCXSp3NzkrOP6I8RZ/L9I4KuRVFW97/nVhXvQ1krRzXBm+pOIUSJ5J8WCHjOv0VCh+MikxEJDeUSJRVBXD0PQoz++Wy76lvHKO++PRzeOCGWyELz/9X22E3AXjH0c50=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=IVn9lyD+; arc=fail smtp.client-ip=40.93.194.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C6B3101B6
+	for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 08:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781081766; cv=none; b=FsuojZmaL4ETm7qoTPG/FBY7iCpGfGyktmPcuDHCcy7HkIOmlYURGg2VK1o/Z29m4nqSeSwPAuBVrYyeqbHEulPWdeZG6bGnaVSjC3+iG0gL1DfeHjJqe2YuF3tFLXdavszwfI3+d/b1n4JaMOuxYNNV6LphMQEMZD6hcdR2d94=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781081766; c=relaxed/simple;
+	bh=SyNZmYlHx0Bi6bq5xYZEpI+lS1TJKQeiCQ2PVJke7Ng=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Rr4l6pFomQ09EsolJoU3fIZcwFDpdHa5jeyupwXxERUNqV7ztEQxJJWpX9D/pfksxTkG0JofE7Mgj5rH7hU4G6jf4d6iKX9VDsVidjKvOxihuLb7kCPOEIXz7xq1GYbZ64ElVmwQpiS51istnLT7u/5w8aO1b820yvqZ/Y0DsI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X+HIT1T0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="IVn9lyD+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MiAq0SZn4AcpAwyEHUJ9tCQxWcItEcUAe4ROiM3OibHyD3ioGS0pINHBBGQYowj4GeMQVHeVrbn2zb6qwkVqmxo1WvuF9wp3B3OrYKEy664KgCOYuqJkLlRVMcW1MyuMikFKiG96n9WSJnsyPkrqJnYaadO+L1NCCkwC9t2VGx+fEPP4eEAIh1VxDRObqLP0wq78btAfpEm6eTlzhKyUn3xMXF6WJYX86OJoT/eAuWODApstnXskPzqG/vrib7WaQKvnySC7rmHvgC4xJKjRJSVPsfask7XS0vBKXrLRqCpYO8j3hgHo/gZok2FRB+TWwaM0MMgl4Z/xGr6K5X0VeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ayv+JoNfsQjItxbB2nnZ8vrOiI92jkqrTVzi8Pr59nw=;
- b=VAh43Ix/xUPTcjDGsHqZHfujxhooKl8GZXUXpriExQHj9BFRmZvHRNSyg67Z8dafKqjwWr4DDCTV4P2KXA2TGv1X38hU2ZYPMAKWbYoehf9lOnJfdIG4d/JUHLfbKADegPvqk3s39RCvLl6i4O766q9pY/WZkQ/ekO7o0UFJEknOZglCakoOdXswjX3kanQhChtXLGPnx7/ZMLTRomxro7j9QXk84aQhgE74lQ2NERtzxASYobNQoKAs0mrp9il/l3en/4nuLvUrdaug8w8eIHC9yov3vdsJJF1VBjBy9L9VSb1DOBQ8vvqPDWuUEr4I6mldnhpC78QgDM0CFx3Nsg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ayv+JoNfsQjItxbB2nnZ8vrOiI92jkqrTVzi8Pr59nw=;
- b=IVn9lyD+5UMxsBrlBL40NWXiIkHxgZvym1/sYL8EWROOu0zm3azx3dU5itKlnfiCwZDaMQT9ozXCTLJi/A6JJIGfWzIgj2vhgXyIaZkRUJ6AXxpn2RttSw2EhENCI58hE0RmPlJJrXvPEI4SPZapTqRk4VQMpDv2I+H1SgHMMCE=
-Received: from MW4PR04CA0322.namprd04.prod.outlook.com (2603:10b6:303:82::27)
- by DS4PR12MB9610.namprd12.prod.outlook.com (2603:10b6:8:277::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.14; Wed, 10 Jun
- 2026 08:50:33 +0000
-Received: from MWH0EPF000C618A.namprd02.prod.outlook.com
- (2603:10b6:303:82:cafe::2e) by MW4PR04CA0322.outlook.office365.com
- (2603:10b6:303:82::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.11 via Frontend Transport; Wed,
- 10 Jun 2026 08:50:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- MWH0EPF000C618A.mail.protection.outlook.com (10.167.249.122) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.113.7 via Frontend Transport; Wed, 10 Jun 2026 08:50:33 +0000
-Received: from airavat.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Wed, 10 Jun
- 2026 03:50:30 -0500
-From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-To: <andreas.noever@gmail.com>, <westeri@kernel.org>, <YehezkelShB@gmail.com>,
-	<linux-usb@vger.kernel.org>
-CC: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, Mario Limonciello
-	<superm1@kernel.org>, Sanath S <Sanath.S@amd.com>
-Subject: [PATCH v3] thunderbolt: Assert downstream port reset on shutdown
-Date: Wed, 10 Jun 2026 14:20:06 +0530
-Message-ID: <20260610085006.3735139-1-Basavaraj.Natikar@amd.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+HIT1T0"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C0C7AC2BCB9
+	for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 08:56:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1781081765;
+	bh=SyNZmYlHx0Bi6bq5xYZEpI+lS1TJKQeiCQ2PVJke7Ng=;
+	h=From:To:Subject:Date:From;
+	b=X+HIT1T00jWP6YqCh0dkjwHG51i7fwZo9T82Y4w9IgL+m/C2eEv0NNleoNMtFDntc
+	 taaz6mcWLoZZ9+VOF14Ori9pNkcXrsMYGdHROToZ4ko9Ow3qCHUKo2xYx461jCDahO
+	 Lkcy/9sE1EVb52/2VDTrEYHrrMbcuIv80jbXsVZmOVfcu3O4RDBxrXy+LRg1PXsu93
+	 OP+Fg5gSrcWDSrLYeCaMIfmhmCMq9qc0t0Z21WkgoEAAXwoZcMo1oRmp+lUBmk1bGz
+	 3OORJVCHqrKbzWCB2t1iXa4bux6cE9BJXhw0fz94ExD5JeCQL25z4DBng9vBZENGMc
+	 CIWb2umdmPA8g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id AEE55C41612; Wed, 10 Jun 2026 08:56:05 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221633] New: thunderbolt: hard system freeze from repeated DP
+ tunnel activation failures (LG UltraFine 5K dual-tile + active TB3 cable,
+ Meteor Lake-P)
+Date: Wed, 10 Jun 2026 08:56:05 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: allan.petersen@vocast.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-221633-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000C618A:EE_|DS4PR12MB9610:EE_
-X-MS-Office365-Filtering-Correlation-Id: 711d41dd-6d49-48ff-6225-08dec6cd5516
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|36860700016|376014|82310400026|18002099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	3y3IsYe42U/Ds6k8ocOckMoo2wgy/ClIA3rm8soSVCSl6xj+FktQg1Ucvp8L5CagjIiRWtlmr/jeCZNr2tVSra4Syoho0+SQeZXc8v2xB6+AvH+wmw+QiQm+7D7MAUxbPmt5c5nxmQFj14f3w4wCc3NdulRPA2u8zx+dUjKVVEpx/vuoW0dAsf8o0CN2edTdI5CJz9GVmtrRg8eFP7BnOxfO79lQ0FT6N5VVmTvIn9Pyx4EI5igs5KGkpnDBQQhuKDQ9Xh72bnxfv/eKk4db+Q4a7c1zMw+/SCWHrL9EHH7wHHjtB/lZIpjvm37VCLqOCxOxlb0byQTLW6I5WOgQz/rbF7j1p0ym2XUB7iWsnrChg02lQDM2iHfhc9LjuTvDAy4nvF7FuMlT7mSmngvNJx9ZQZJ6uSeBX2Yp/A2PfCx0G5D0zvXwGwpz1362y9ejrrHvYd/LEYTKeHDZLt268A4YOfL2cimQZRGrBirxJEL3o0qZr5Q6KSuqZmX4Bx/tKNMuBsHdBSe4l6k0AJuDtis+TREo7AYMY5dl/8pIkAFlRHEldMCfV4vgyLF/qUOuJ3eJBRio7eg7/m1fPiJ7gzI/0ijLDTVOmMek1l53eLmhlItgUhTePxtOo4X8fVHtwnNXGawByg+l939Gz2qJGioq6B+mqPJ2OeljjJH1scfb0GjiseZxLDLMlnrCbu3gW/kepaRw5joblQ7B3LUNoProDomtle3+h+IUIglfHHk=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(36860700016)(376014)(82310400026)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	r+ZNMYYhXWzEMSiJlbUvaDxSNSi3qYSys8x4TzSITB5MEeVIB2/OnozHW/Dil6lpDgRV6vboW7QgWzU+SIliQ3acY6SQZ0XjMHm2lHxou/csGDWOXObDAdOo64wEaR9enc3uZQHVDtq6TBzrgRr1Txkss2j0qAw5ao72SEbAOdtcSw12w1ShM8yOiVMXR9EtrCkFFUB9uPRfkAaxkGzc7C91bgCajeyw/iJSn9rEAPUp53Nt3KT/sYfuWArMIdb3OtmP2SY/nJC12qc2DWQoNkfEtGEntWewueQ6rEOXT0r7/h2QTfeOJohEGfUkzm033FxMz0XErSiLz0Sr1lXtTY61JpZ3tALLkLd4ZgNG7WGQSI7AH30vIP0aXSMigMzjDNN/wf235XYtQ0UouyPeTImD/ZG4h8CLPl4UkZ3m0gFyUfZsg4aNGKWvrj6VEtb0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 08:50:33.0484
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 711d41dd-6d49-48ff-6225-08dec6cd5516
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000C618A.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9610
 
-On shutdown the connection manager tears down the router tree without
-signalling connected devices. A Thunderbolt 3 device directly connected
-to a USB4 host never receives a disconnect indication and during shutdown
-this can cause polling the dead link for up to 60 seconds. On some
-platforms this behavior leads to a warm reset instead of a shutdown due
-to this timeout.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221633
 
-Fix this by asserting PORT_CS_19.DPR on each connected downstream port
-before tearing down the router tree. This drives SBTX low (USB4 spec
-section 6.9), causing the device to detect SBRX low and transition to
-Uninitialized Unplugged state immediately.
+            Bug ID: 221633
+           Summary: thunderbolt: hard system freeze from repeated DP
+                    tunnel activation failures (LG UltraFine 5K dual-tile
+                    + active TB3 cable, Meteor Lake-P)
+           Product: Drivers
+           Version: 2.5
+          Hardware: Intel
+                OS: Linux
+            Status: NEW
+          Severity: high
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: allan.petersen@vocast.com
+        Regression: No
 
-Always do this on system shutdown/reboot by forcing host_reset in the
-PCI ->shutdown callback. On plain driver unload only do it when the host
-router was actually reset on load (host_reset=1), since in that case the
-tunnels are not preserved across reload anyway; with host_reset=0 the
-tunnels are kept alive across unload/reload so the links are left intact.
-Restrict the reset to Thunderbolt 3 devices.
+SUMMARY
 
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-Co-developed-by: Sanath S <Sanath.S@amd.com>
-Signed-off-by: Sanath S <Sanath.S@amd.com>
-Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
----
-v3:
- - Rebase on top of the thunderbolt next branch; the PCI ->shutdown hook
-   now lives in drivers/thunderbolt/pci.c (nhi_pci_driver_shutdown()).
- - Add kernel-doc for tb_port_reset() now that it is exported.
- - Move the host_reset flag into struct tb_nhi instead of struct tb, and
-   set it from nhi_probe() instead of tb_domain_add().
- - Spell out "Thunderbolt 3" instead of "TBT3" in the kernel-doc.
- - Reword the debug message to "downstream port reset failed, continuing".
+Connecting an LG UltraFine 5K (dual-tile Thunderbolt 3 display, internal Ti=
+tan
+Ridge JHL7540) to a Meteor Lake-P host with the display's stock active TB3
+cable causes the TB link to flap in a tight loop (connect -> tunnel activat=
+ion
+failures -> disconnect, every ~3 s). After seconds to minutes of this churn=
+ the
+machine hard-freezes (no oops reaches the journal, no pstore record; only a
+power cycle recovers it).
 
-v2:
- - Add Reviewed-by tag from Mario Limonciello.
- - Restrict the DPR assertion to Thunderbolt 3 devices, since the issue
-   only affects Thunderbolt 3 devices.
- - Only assert DPR on system shutdown/reboot (the PCI ->shutdown callback
-   forces host_reset) or when the host router was actually reset on load.
- - Reword comments and commit message to refer to the "router tree"
-   instead of the "switch tree".
----
- drivers/thunderbolt/nhi.c    |  2 ++
- drivers/thunderbolt/pci.c    | 16 +++++++++++++++-
- drivers/thunderbolt/switch.c | 11 ++++++++++-
- drivers/thunderbolt/tb.c     | 21 +++++++++++++++++++++
- drivers/thunderbolt/tb.h     |  1 +
- include/linux/thunderbolt.h  |  6 ++++++
- 6 files changed, 55 insertions(+), 2 deletions(-)
+Reproduced on two kernels:
+- 6.17.0-35-generic (Ubuntu 24.04 HWE) - froze twice
+- 6.19.14 mainline (kernel.ubuntu.com build) - froze once; additionally emi=
+ts a
+repeating WARN at drivers/thunderbolt/path.c:589 in tb_path_activate()
 
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index 0f795ea58756..698fb124d529 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -1235,6 +1235,8 @@ int nhi_probe(struct tb_nhi *nhi)
- 
- 	init_completion(&nhi->domain_released);
- 
-+	nhi->host_reset = host_reset;
-+
- 	res = tb_domain_add(tb, host_reset);
- 	if (res) {
- 		/*
-diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
-index bbd186c29ef7..be63a4647b59 100644
---- a/drivers/thunderbolt/pci.c
-+++ b/drivers/thunderbolt/pci.c
-@@ -493,6 +493,20 @@ static void nhi_pci_remove(struct pci_dev *pdev)
- 	nhi_shutdown(nhi);
- }
- 
-+static void nhi_pci_driver_shutdown(struct pci_dev *pdev)
-+{
-+	struct tb *tb = pci_get_drvdata(pdev);
-+	struct tb_nhi *nhi = tb->nhi;
-+
-+	/*
-+	 * Force host_reset so the connection manager asserts DPR and signals
-+	 * disconnect to connected devices before the router tree is removed.
-+	 * Only Thunderbolt 3 devices are reset.
-+	 */
-+	nhi->host_reset = true;
-+	nhi_pci_remove(pdev);
-+}
-+
- static struct pci_device_id nhi_ids[] = {
- 	/*
- 	 * We have to specify class, the TB bridges use the same device and
-@@ -593,7 +607,7 @@ static struct pci_driver nhi_driver = {
- 	.id_table = nhi_ids,
- 	.probe = nhi_pci_probe,
- 	.remove = nhi_pci_remove,
--	.shutdown = nhi_pci_remove,
-+	.shutdown = nhi_pci_driver_shutdown,
- 	.driver.pm = &nhi_pm_ops,
- };
- 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index a830c82bb905..404c0693df50 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -682,7 +682,16 @@ int tb_port_disable(struct tb_port *port)
- 	return __tb_port_enable(port, false);
- }
- 
--static int tb_port_reset(struct tb_port *port)
-+/**
-+ * tb_port_reset() - Reset the port
-+ * @port: Port to reset
-+ *
-+ * Resets @port. For USB4 ports this issues a USB4 port reset and for
-+ * legacy ports the link controller port is reset.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-+ */
-+int tb_port_reset(struct tb_port *port)
- {
- 	if (tb_switch_is_usb4(port->sw))
- 		return port->cap_usb4 ? usb4_port_reset(port) : 0;
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 76323255439a..b7cc6894a598 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -2941,7 +2941,9 @@ static void tb_handle_event(struct tb *tb, enum tb_cfg_pkg_type type,
- static void tb_stop(struct tb *tb)
- {
- 	struct tb_cm *tcm = tb_priv(tb);
-+	struct tb_nhi *nhi = tb->nhi;
- 	struct tb_tunnel *tunnel;
-+	struct tb_port *port;
- 	struct tb_tunnel *n;
- 
- 	cancel_delayed_work(&tcm->remove_work);
-@@ -2956,6 +2958,25 @@ static void tb_stop(struct tb *tb)
- 			tb_tunnel_deactivate(tunnel);
- 		tb_tunnel_put(tunnel);
- 	}
-+	/*
-+	 * Signal disconnect to connected devices before the router tree is
-+	 * removed below. A Thunderbolt 3 device directly connected to a USB4
-+	 * host otherwise never receives a disconnect indication, leaving
-+	 * firmware to poll the dead link for up to ~60 s which on some
-+	 * platforms turns the shutdown into a warm reset. Asserting
-+	 * PORT_CS_19.DPR drives SBTX low (USB4 spec section 6.9) so the device
-+	 * detects SBRX low and goes to Uninitialized Unplugged immediately.
-+	 */
-+	if (nhi->host_reset) {
-+		tb_switch_for_each_port(tb->root_switch, port) {
-+			if (!tb_port_is_null(port) || !tb_port_has_remote(port))
-+				continue;
-+			if (tb_switch_is_usb4(port->remote->sw))
-+				continue;
-+			if (tb_port_reset(port))
-+				tb_port_dbg(port, "downstream port reset failed, continuing\n");
-+		}
-+	}
- 	tb_switch_remove(tb->root_switch);
- 	tb->root_switch = NULL;
- 	tcm->hotplug_active = false; /* signal tb_handle_hotplug to quit */
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index ec9192b61bc0..4373336d9425 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -1103,6 +1103,7 @@ int tb_port_clear_counter(struct tb_port *port, int counter);
- int tb_port_unlock(struct tb_port *port);
- int tb_port_enable(struct tb_port *port);
- int tb_port_disable(struct tb_port *port);
-+int tb_port_reset(struct tb_port *port);
- int tb_port_alloc_in_hopid(struct tb_port *port, int hopid, int max_hopid);
- void tb_port_release_in_hopid(struct tb_port *port, int hopid);
- int tb_port_alloc_out_hopid(struct tb_port *port, int hopid, int max_hopid);
-diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
-index feb1af175cfd..cb1621c6b703 100644
---- a/include/linux/thunderbolt.h
-+++ b/include/linux/thunderbolt.h
-@@ -514,6 +514,11 @@ void tb_service_properties_changed(struct tb_service *svc);
-  * @hop_count: Number of rings (end point hops) supported by NHI.
-  * @quirks: NHI specific quirks if any
-  * @domain_released: Completed when domain has been fully released
-+ * @host_reset: Host router was reset on driver load, or forced on system
-+ *		shutdown/reboot. When set, tb_stop() asserts DPR on connected
-+ *		downstream ports to signal disconnect before tearing down the
-+ *		router tree. Only Thunderbolt 3 devices are reset; USB4
-+ *		routers are skipped.
-  */
- struct tb_nhi {
- 	spinlock_t lock;
-@@ -528,6 +533,7 @@ struct tb_nhi {
- 	u32 hop_count;
- 	unsigned long quirks;
- 	struct completion domain_released;
-+	bool host_reset;
- };
- 
- /**
--- 
-2.34.1
+A freeze triggered by a misbehaving/marginal external device + cable is sti=
+ll a
+host-side robustness bug: hotplug churn should never take down the machine.
+
+HARDWARE
+
+- Host: Lenovo ThinkPad T14 Gen 5 (21MLCTO1WW), BIOS N47ET28W (1.17),
+12/05/2025
+- TB controller: Intel Meteor Lake-P Thunderbolt 4 NHI #0/#1 [8086:7ec2 /
+8086:7ec3]
+- Display: LG UltraFine 5K (TB vendor 0x1e, device 0x1114; internal Intel
+JHL7540 Titan Ridge bridge [8086:15ef]); dual-tile 2x 2560x2880
+- Cable: LG's bundled active TB3 cable (trigger); reproduced with two diffe=
+rent
+LG cables and three different UltraFine 5K units, on both host TB ports
+- Secure Boot disabled; no out-of-tree modules
+
+FAILURE SIGNATURE (each ~3 s cycle)
+
+thunderbolt 0-1: new device found, vendor=3D0x1e device=3D0x1114
+thunderbolt 0-1: LG Electronics UltraFine 5K
+thunderbolt 0000:00:0d.2: 1: failed to enable CL states
+thunderbolt 0000:00:0d.2: 1:1: hop deactivation failed for hop 1, index 8
+thunderbolt 0000:00:0d.2: PCIe Down path activation failed: -107
+thunderbolt 0000:00:0d.2: 0:8 <-> 1:8 (PCI): activation failed
+thunderbolt 0000:00:0d.2: 1:8: PCIe tunnel activation failed, aborting
+thunderbolt 0000:00:0d.2: 1:10: DP tunnel activation failed, aborting
+thunderbolt 0-1: device disconnected
+
+The 6.19.14 boot that froze contains 84 "DP tunnel activation failed" lines=
+ in
+~21 minutes. Other recurring messages:
+
+thunderbolt 0000:00:0d.2: 0:5 <-> 1:10 (DP): not enough bandwidth available
+thunderbolt 0000:00:0d.2: 0:5: timeout waiting for DPTX request to clear
+thunderbolt 0000:00:0d.2: 0:5 <-> 1:10 (DP): failed to change bandwidth
+allocation
+thunderbolt 0-0:1.1: failed to add NVM devices: -19
+i915 0000:00:02.0: [drm] *ERROR* [CONNECTOR:280:DP-1][ENCODER:279:DDI TC1/P=
+HY
+TC1][DPRX] Can't reduce link training parameters after failure
+
+WARN ON 6.19.14 (repeats on every flap cycle)
+
+WARNING: drivers/thunderbolt/path.c:589 at tb_path_activate+0x118/0x540
+[thunderbolt]
+Workqueue: thunderbolt0 tb_handle_hotplug [thunderbolt]
+RIP: 0010:tb_path_activate+0x121/0x540 [thunderbolt]
+ tb_tunnel_activate+0xba/0x2e0 [thunderbolt]
+ tb_tunnel_one_dp+0x29d/0x3b0 [thunderbolt]
+ tb_tunnel_dp+0xbb/0x300 [thunderbolt]
+ tb_dp_resource_available+0xda/0x250 [thunderbolt]
+ tb_handle_hotplug+0x429/0x770 [thunderbolt]
+
+The same WARN also fires via tb_domain_approve_switch / authorized_store (b=
+oltd
+authorization path) - full splat attached.
+
+After many plug cycles the Type-C side also corrupts:
+
+sysfs: cannot create duplicate filename
+'/devices/platform/USBC000:00/typec/port1/port1.2/partner'
+typec_displayport port1-partner.1: probe with driver typec_displayport fail=
+ed
+with error -17
+
+FREEZE TIMELINE (6.19.14)
+
+- 09:01:18  LG connected, DP tunnel "not enough bandwidth", flap loop resum=
+es
+- 09:01:46  last journal line (thunderbolt 0-1: device disconnected)
+- Machine completely unresponsive (UI, keyboard); no oops/panic captured; h=
+ard
+power-off required. Same pattern on 6.17.0-35 (froze 08:17 same day).
+
+WORKAROUNDS TESTED (no effect)
+
+- thunderbolt.clx=3D0 - removes "failed to enable CL states", tunnels still=
+ fail
+- thunderbolt.bw_alloc_mode=3D0 - no change
+- Both host TB ports, multiple LG cables/units - identical behaviour
+
+WHAT WORKS (isolation data)
+
+- Same LG display + certified TB4/USB4 cable (Apple Thunderbolt cable): link
+comes up at 40 Gb/s and is fully stable - dual-tile 5K, PCIe tunnel (displa=
+y's
+JHL7540 + xHCI visible), no errors. So the trigger is the active TB3 cable +
+Meteor Lake USB4 host combination.
+- Apple Studio Display works flawlessly on the same host - including through
+the LG active TB3 cable. The flap only occurs with LG display + LG cable.
+- The LG display + LG cable combination works normally on macOS hosts.
+
+EXPECTED BEHAVIOUR
+
+Repeated tunnel activation failures from a marginal link should result in t=
+he
+device being dropped/ignored (rate-limited retries), not an unbounded
+connect/teardown loop that eventually hard-freezes the host.
+
+Full kernel logs from both freeze boots, the complete WARN splat and lspci
+inventory are attached. Happy to test patches or provide further debug outp=
+ut
+(thunderbolt.dyndbg). Bisection between 6.17 and 6.19 is not possible since
+both fail.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
