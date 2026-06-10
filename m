@@ -1,43 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA13F408630;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA09C40862C;
 	Wed, 10 Jun 2026 13:22:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781097768; cv=none; b=QJJo3sBDUk3mDZGwltLcHc+vdd1dLjbQ97qQsj7uNNiyCKHdueQO4i0WyItXKnbW6rd0vM44mQZeAxT1cUJSjqAI/nQEnO30Ni301ic9LAkEEM3cSD9Nc1JWe/WmrQ5mYJYtQcQWXNoeZ2HDVktxGIhicPZwh/cuBep9zVUAVl8=
+	t=1781097768; cv=none; b=FawCaDaf2hn/eZX41e7seBcKZR1c100q8zuibKCh114fuSj7ZiKRpWjk46mLht/hC1JO2JMJJZCO5QS1Ye/hOtv6dN4FdOaPpFXO/SCukDiWOhxDaVxXSyldHo1uD4af5GPMjXI3R8JwWRTaMGCcoF3cc7A0ZwoU88Se3Jm8qwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781097768; c=relaxed/simple;
-	bh=5rt9Ke0m4J6sZuKeN02wbGhbALpTt2a5TPCcm5Pzabc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qrdja97CLd43++0zqZj+jkZtgm8bWZ1V8+cCA7rHoA42ioBccOAbd6Cbh7Ko6kgK8WdA0YU9+scl74MwaVaICOZsg6jbnlQ53mf7PqgeYYskTvKrXke5ndZUk3RR4qHL9PK9k6KMx4rBjjJIZtCEVLZ2fcMRj6v8hEECnr53vC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iMzYKtPo; arc=none smtp.client-ip=100.103.45.18
+	bh=9DWuvdyWfLsGn+dx+PprUQpKSjZwxXb7DNLxi08MAbY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=upsOH5K/S+2HzDtBaHYJXuk9MT/NUrHsh2WWiRGz9emG7i2+DZRaVAJeIzIpWvHGXjSzyodk05WiGMK74GbT8yBl7290C+giXwxu09x7jTA3CfHHk3vuX7/YJalg76tDaxlTUCyHKcRuGTaTdlkfcGiEWx7yR9+QzPgk3Jgn/mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CiuhscD1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iMzYKtPo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F3971F0089E;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CiuhscD1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 815361F0089F;
 	Wed, 10 Jun 2026 13:22:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1781097765;
-	bh=1jfv8R7z1GyHiUBfB/6PcUM1GOYS3CKOwMeL/w3W2nA=;
-	h=From:To:Cc:Subject:Date;
-	b=iMzYKtPoG/pE1v0UvcbV+V3RygygrpC9I67TcTWsi6n9zbJCm+arvA4Zt9MDP3Wlu
-	 krBRkFqLsfy5Rii9t86p2Wyp0/3LmGLjZYxxlYvFfyXz/jRZV0qDBPq4cUdLWmdSJV
-	 axhPKlFvLd+/E+YT/uYtZE28b65GDdnJW0lDqSgTUPe3vTrg4vI5jYO1vd7sg7yLv8
-	 KT5o0zy19LHa2qBvnTRY99D3g1eKz3bX7BaTyQOyxA0rLVKEyigzQA3WA+F8ssMYxq
-	 6up57riPVIg43V04mT6XqpTBsx8tnlTiZIUCh3MgRZ3Q7cPXodeL0AD83QlCniOsHF
-	 1K/PcXRMlp5OA==
+	bh=F4lGwcAOS1Zvwa3XpO9r4t8cai8sV8i7d08Ft2Bo6s8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=CiuhscD1WZagujomQT2tMSXC7yit7B8NMcn5fGqd6IDHQJMtG0+PfbvBxKvysaHgd
+	 b7n6D2PT3UZRb/AIZGL3Ofi3X+1I6RIkeEzvPnQ7il9J51zMNRZIj5PPlsx4n839T5
+	 ypf7ZRyNVzqK5Ww1EbtuTNCEwSl2Gy26Quu/RvYWxzfUKOvEbDe4vRk9XFQf+Dpe5j
+	 DGUZKNv9Tr7FIFQmh9OfEy/VfUQFn7RKNr1hhY8KkTUDnsm31ossikY7unQNJr5TQn
+	 380cCJhyj+/VxWdn8LJ+lMMAPFaGqD3U7GGFGRtMkOAL3TRU2jfbmGjjKMVUkTf7Hi
+	 3nUjsmENU3wAA==
 Received: from johan by xi.lan with local (Exim 4.99.3)
 	(envelope-from <johan@kernel.org>)
-	id 1wXItH-00000001Uex-1O0P;
+	id 1wXItH-00000001UfL-1rs3;
 	Wed, 10 Jun 2026 15:22:43 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Johan Hovold <johan@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 00/11] USB: serial: digi_acceleport: registration fix and cleanups
-Date: Wed, 10 Jun 2026 15:22:21 +0200
-Message-ID: <20260610132232.356139-1-johan@kernel.org>
+Subject: [PATCH 11/11] USB: serial: digi_acceleport: clean up inb command submission
+Date: Wed, 10 Jun 2026 15:22:32 +0200
+Message-ID: <20260610132232.356139-12-johan@kernel.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260610132232.356139-1-johan@kernel.org>
+References: <20260610132232.356139-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -46,29 +49,34 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series fixes a port registration ordering issue and makes the
-driver stop all I/O when the device is not in use, while cleaning up the
-driver somewhat.
+Clean up the inb command handling a bit by removing an unnecessary line
+break and moving the assignment operator before breaking another long
+expression.
 
-Johan
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/digi_acceleport.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-
-Johan Hovold (11):
-  USB: serial: digi_acceleport: fix port registration order
-  USB: serial: digi_acceleport: drop unused wait queue
-  USB: serial: digi_acceleport: always stop write urb on close
-  USB: serial: digi_acceleport: add oob port helper
-  USB: serial: digi_acceleport: clean up declarations and whitespace
-  USB: serial: digi_acceleport: drop redundant driver data sanity checks
-  USB: serial: digi_acceleport: stop OOB I/O when not in use
-  USB: serial: digi_acceleport: drop unused in-buf define
-  USB: serial: digi_acceleport: clean up xfer buf length expression
-  USB: serial: digi_acceleport: clean up write completion
-  USB: serial: digi_acceleport: clean up inb command submission
-
- drivers/usb/serial/digi_acceleport.c | 299 +++++++++++----------------
- 1 file changed, 117 insertions(+), 182 deletions(-)
-
+diff --git a/drivers/usb/serial/digi_acceleport.c b/drivers/usb/serial/digi_acceleport.c
+index 9fcb53eb82d8..2b755b328fe6 100644
+--- a/drivers/usb/serial/digi_acceleport.c
++++ b/drivers/usb/serial/digi_acceleport.c
+@@ -453,11 +453,10 @@ static int digi_write_inb_command(struct usb_serial_port *port,
+ 		if (priv->dp_out_buf_len > 0) {
+ 			data[0] = DIGI_CMD_SEND_DATA;
+ 			data[1] = priv->dp_out_buf_len;
+-			memcpy(data + 2, priv->dp_out_buf,
+-				priv->dp_out_buf_len);
++			memcpy(data + 2, priv->dp_out_buf, priv->dp_out_buf_len);
+ 			memcpy(data + 2 + priv->dp_out_buf_len, buf, len);
+-			port->write_urb->transfer_buffer_length
+-				= priv->dp_out_buf_len + 2 + len;
++			port->write_urb->transfer_buffer_length =
++					priv->dp_out_buf_len + 2 + len;
+ 		} else {
+ 			memcpy(data, buf, len);
+ 			port->write_urb->transfer_buffer_length = len;
 -- 
 2.53.0
 
