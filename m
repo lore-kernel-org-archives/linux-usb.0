@@ -1,72 +1,233 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E295835FF6E;
-	Wed, 10 Jun 2026 07:50:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EFDF3AFD03
+	for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 08:41:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781077854; cv=none; b=Tq1+qLupUGq1sQEGciUSp8EL+XX7genXs19rFvTkpM4bVuaWFUlD/fpEUkGQQBUaOUiPkItKyFIwv39w+LFL4T9BhXUnpJHg5ll45f/DdpKeGiEmL+igbNVYr5fsj1isnghDjwUmVbQmJkja8SdYeVD4T/WG1VUV0OngWm3+qvE=
+	t=1781080881; cv=none; b=Aeq8Eq0sPKlkn1Qo1b5nQezH7LiAFoNdB7xIK6AEX7//CFxUkgQ7AhSZIga5hXk7NqAFsG7br+JOJty5GXowuFuUyXvp/WTGN07IAZCuYUTe7ITxYArN6H8OTvnE5MnL8u5DS5zRbBMbJcPvEk0N70vZoLZq9CCSasiPQfN8TmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781077854; c=relaxed/simple;
-	bh=sErN7iWDTMj8q17Y4b2yvF7WO12TXVe/wdRKuwsR5F4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i3KSaE3zkUcSmWJrqrdMatWz6B9Xt8LH5YPrznvptO1WGrgeYwsXq+LRLLbb7VeGTjzpW8Slz5eTYrd/6wFv3bZ65pmzKiHBhotu/6UeQjGsPV0lpCTCF7F2AsVbdxe1bBWIrkCXFUgnFnfjHCMuysoTz05V/wksKEdB55U0j1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RsoTsdSA; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781080881; c=relaxed/simple;
+	bh=ZuOVxM6SCrtrNZ59Qzz16xkLgZG0V6ly6c5cBQo7Q3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fGotmUjUhrhxEjq8f08DuEPd/MBjtqcJiD9p7uKH+3/In3T9razpFosU/oTFwLENXQ9pSIwgRfcuUaGP82Z8CceoNXjv3E2N/uOGr+V/mEehP4iT4fFj3LWDGw0uFxj8fBX71w63pf1ctuHIIpJ8MQkO4S0gj6NUskjlEjKfn7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=JPrvhs+W; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RsoTsdSA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E3A91F00893;
-	Wed, 10 Jun 2026 07:50:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781077853;
-	bh=qNT+ov1yGu6RH2YYD4AuUShjabPXPWG5T8m/uVV2Zd8=;
-	h=Date:From:To:Cc:Subject;
-	b=RsoTsdSA3J5AYzdCSghOF6zGkjQsDyTGkaj+s5bl81qAvBmPxW7uQTr7V1aNg8XOh
-	 Dl8hFp82RKHmroiYZHGo4NYFFeP4AGhBIy69xFb6FNZn6oJLlogt54FVJ/Qry5GDID
-	 FLmR3bOPr3wx5aNJQ64rBwhVYmw01kVWNM0Xdgc9osqZ3QPhMimpBPYQ4byMNeeH20
-	 4dGLxA9MFW1JsONGOoWXOwoHwkaRdjxSL0UUxDJLwP6ON69yA0cF2i0CgMypYt9V2x
-	 9QPYcm3bmXFbQ0J8hsqUs3Rp09wZMXOUhXyfaTCOclQHzVPfYCY4iZmgjQ/XEuFKB6
-	 wsljAkpUCVtzg==
-Received: from johan by xi.lan with local (Exim 4.99.3)
-	(envelope-from <johan@kernel.org>)
-	id 1wXDi7-000000017FI-0tiH;
-	Wed, 10 Jun 2026 09:50:51 +0200
-Date: Wed, 10 Jun 2026 09:50:51 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [GIT PULL] USB serial fixes for 7.1-rc8
-Message-ID: <aikXWygu9EdJce5m@hovoldconsulting.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="JPrvhs+W"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2c0c3543590so43630795ad.2
+        for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 01:41:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1781080879; x=1781685679; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t8gJIv7IXV+GGLqttV7BJHv8HtnJej0L7a6gfaEYMf4=;
+        b=JPrvhs+WDBmaJ7x/7TbuEcdDiDOj22yLg0O0dBD5qyuIhw5WZmsrJWUUChf06pzpjH
+         CPNICFAopld2sYS+9Dgf2rVSXAs5gN72yUWQ21E6BWmUoQjPnadHthKi7bDZOzDPDdp8
+         eM39MpbZ1fRRATKGSSt7NlKThB0pugnmLnH/I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781080879; x=1781685679;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t8gJIv7IXV+GGLqttV7BJHv8HtnJej0L7a6gfaEYMf4=;
+        b=o5zfY/3mG5DPcPTOlttUHZKDSn4IM5/W+Uh6oI/KqyemE1ar+lz6SMTYwHipiSHssa
+         U9ww54XnWxh9svZHInb7b7lNPtpVLC83zxv1XdApEa/frI1IOffYanSY0co+5AlkItN/
+         cCA7oAbzyVdm+Z7TU+Szu4HpqrM5Kl/P3lSDnDbU+KeurTYSnyORqWJ1NN/drO2hsvhk
+         3PhqsMsZAWleW80JdTO4cFuFT9CwMIlZV9s2USktbf29ZxnQYuioVqCxn1Vphwapgn92
+         RRXLzG2yR0hZYKrRBrdVr8x7XUwS8wE15/Woqitgk+qqsT+2QT8l4WIajJ2mdtFtdu5g
+         7hrg==
+X-Forwarded-Encrypted: i=1; AFNElJ8ayLzHvn9KCLsCdyKrTXzuqQgPZUPVxZ+om9GXIG+ugcIFCzGlI+7n+dvfkQ0kwB5Z3hPjrecu91E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyU47fgroMblMwGI5CxVV4W25wY4iL8gtzwaRCr6ly+nIptYlX/
+	OUQzICedo7Fq1YVVuh+ayYrkwl5Fe1r9aneS7JAdMJSsIqNb3X/cjuJLYQ1H8ZFbqA==
+X-Gm-Gg: Acq92OEc/xfFYzgOReIeCR7Yrp1jeRiYXD8zyWAsMrQvvUjcupCFglzRxlnZPEzwd4d
+	ThyMHRqnYZRxsURP7CEFSMFHq2E4lQID3gC7/luNf6RAXWZc3HSEeZ7Oo+gAYQulEPc8oUoJw7f
+	pj/hzzCtn0YZb78aROSugEefXuZtvrJbSBEdsQ+AX1VR2X4aYWgrmxnlCuWWncfxvc3HbYa5AbT
+	oD180vKr25e1VFc0ezSj6fJon6JtkCzLtYacZeYKtnon69Av3v2aWG9R9Sv/uYa1m1PiAf36G8B
+	zQRiggoKhLk3QbqI7CGloMlaQ4TuHFPXcwY884kFl1zl/z/LEXR3b5ELs7yd0y1FX3hwQcPYd3N
+	xMDF0Xt4vhdSNmmbLUMTm7s7Fs1L5T39guGTVZw0EX3O+/YmMxrHGHlr4iNzTp8qAD1QbS4+8A2
+	0KLu420No4OmjdsD4Sr+LHO1v0dnfwwTZJizAMu8Hvd6sxxH36YYovJdiNHi/eXfjzcy9k0MoWk
+	Ya6sLwU43USLn0CjA==
+X-Received: by 2002:a17:903:1b67:b0:2c2:c0db:964a with SMTP id d9443c01a7336-2c2c0db9991mr33186765ad.26.1781080878941;
+        Wed, 10 Jun 2026 01:41:18 -0700 (PDT)
+Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:3870:6325:16c:d35c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f890b2sm239223725ad.26.2026.06.10.01.41.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2026 01:41:18 -0700 (PDT)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>
+Subject: [PATCH v2 00/16] arm64: mediatek: Add M.2 E-key slot on Chromebooks
+Date: Wed, 10 Jun 2026 16:40:34 +0800
+Message-ID: <20260610084053.2059858-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.54.0.1099.g489fc7bff1-goog
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-The following changes since commit 1938fb9fe38c4f04a3f30bea44f8071c80a63be4:
+Hi everyone,
 
-  USB: serial: option: add usb-id for Dell Wireless DW5826e-m (2026-06-04 09:05:58 +0200)
+This is v2 of my attempt at integrating the power sequencing API into
+the USB core to support the USB connection on M.2 E-key slots. M.2
+E-key was enabled in v7.1-rc1 with just PCIe and UART supported [1].
 
-are available in the Git repository at:
+Major changes since v1:
+- No longer adding the "index" parameter the power sequencing API
+- Switched from OF graph to fwnode graph APIs
+- Tie "port@" node to usb_port device, and use this device as consumer
+  to acquire power sequencing descriptor
+- Power sequencing descriptor now only tied to USB 2.0 port to avoid
+  double reference
+- Power sequencing state tracking added
+- Link to v1
+  https://lore.kernel.org/all/20260515090149.3169406-1-wenst@chromium.org/
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-7.1-rc8
+The series is based on next-20260608.
 
-for you to fetch changes up to 96d47e40bf9db4a9efd5c8fb53287a508d165f14:
 
-  USB: serial: kl5kusb105: fix bulk-out buffer overflow (2026-06-08 13:43:10 +0200)
+Patch 1 and 2 add new fwnode graph helpers. These are used by the patch
+5 and 7, respectively.
 
-----------------------------------------------------------------
-USB serial fixes for 7.1-rc8
+Patch 3 changes the power sequencing framework's Kconfig symbol from
+tristate to bool. This is needed as the USB core is bool. And since a
+later patch introduces power sequencing API usage to the USB core, the
+power sequencing framework cannot be built as a module anymore. This
+patch needs to go in with "usb: hub: Power on connected M.2 E-key
+connectors", or we will get allmodconfig build failures.
 
-Here is one more buffer overflow fix.
+Patch 4 reworks the USB hub driver to return the actual error code from
+hub_configure() in hub_probe(). This is needed in the next patch to
+correctly return -EPROBE_DEFER returned by pwrseq_get() in patch 7.
 
-This one has been in linux-next overnight with no reported issues.
+Patch 5 makes the USB port device associated with a "port@" fwnode if
+available. This depends on patch 1.
 
-----------------------------------------------------------------
-HyeongJun An (1):
-      USB: serial: kl5kusb105: fix bulk-out buffer overflow
+Patch 6 changes usb_port_is_power_on() so that |struct usb_port*| is
+passed in instead of |struct usb_hub*|. This patch does not change any
+functionality.
 
- drivers/usb/serial/kl5kusb105.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Patch 7 lets the USB hub driver look for power sequencers for each port.
+Currently this only works for M.2 E-key connections, but it could be
+extended to cover other cases. It should also make port reset via turning
+off the port VBUS work, even when VBUS is not directly controlled by the
+hub. This depends on patch 2 (for the new helper) and patch 3 (to avoid
+allmodconfig link failures).
+
+Patch 8 reverts an incorrectly modeled OF graph connection for the
+MediaTek XHCI controller.
+
+Patch 9 then adds a proper representation.
+
+Patch 10 adds matching pwrseq consumer by "port@" node to the M.2 slot
+driver. This is only used for the USB target, but there is no attempt
+to differentiate the connection type. The driver simply tries matching
+the "port@" node first, then falling back to the port parent or device's
+node.
+
+Patch 11 reworks the power sequencing targets for the E-key connector in
+the pcie-m2 driver to add targets for USB and SDIO. The former is used
+later on in this series.
+
+Patches 12 through 16 enable the M.2 E-key slots (used for WiFi/BT) and
+USB type-A connectors found on MediaTek-based Chromebooks. These are
+provided in this series for reference. The USB type-A connector changes,
+while not directly related, have overlapping context, and was easier to
+include. They were also used to test some extra local changes I tried
+to convert the USB A connector from an onboard USB device to a power
+sequencing provider.
+
+
+This series unfortunately spans multiple trees. The way I see it:
+
+  - Patch 1 and 2 go through the driver core, and an immutable tag is
+    provided to be merged together with the USB patches.
+
+  - Patch 3 gets an ack from Bartosz, and goes through the USB tree.
+
+  - Patch 4 through 9 (all the USB related ones) go through the USB
+    tree, along with the dependencies above.
+
+  - Patch 10 and 11 go through the power sequencing tree.
+
+  - Patch 12 through 16 (device tree only) go through the soc tree via
+    the mediatek tree.
+
+Some of us discussed v1 at Embedded Recipes, and I believe Bartosz, Mani
+and I agree on this approach. The debate is likely going to be on
+whether this should be integrated into the USB core or not. I believe it
+should, so that the power sequencing timing is tied to the USB port
+being brought up. I do have a fallback option of just enabling the USB
+power sequencing target inside the M.2 slot driver if a valid OF graph
+connection is seen. But this is less desired for the reason given above.
+
+Please have a look and share your thoughts.
+
+
+Thanks
+ChenYu
+
+
+[1] https://lore.kernel.org/all/20260326-pci-m2-e-v7-0-43324a7866e6@oss.qualcomm.com/
+
+Chen-Yu Tsai (16):
+  device property: Add fwnode_graph_get_port_by_id()
+  device property: Add fwnode_graph_get_next_port_endpoint()
+  power: sequencing: Change CONFIG_POWER_SEQUENCING to bool
+  usb: hub: Return actual error from hub_configure() in hub_probe()
+  usb: hub: Associate port@ fwnode with USB port device
+  usb: hub: Pass |struct usb_port*| to usb_port_is_power_on()
+  usb: hub: Power on connected M.2 E-key connectors
+  Revert "dt-bindings: usb: mediatek,mtk-xhci: Add port for SuperSpeed
+    EP"
+  dt-bindings: usb: mediatek,mtk-xhci: Allow ports for USB connections
+  power: sequencing: pcie-m2: support matching on remote "port" node
+  power: sequencing: pcie-m2: Add usb and sdio targets for E-key
+    connector
+  arm64: dts: mediatek: mt8192-asurada: Add USB type-A connector
+  arm64: dts: mediatek: mt8192-asurada: Add M.2 E-key slot
+  arm64: dts: mediatek: mt8195-cherry: Add M.2 E-key slot
+  arm64: dts: mediatek: mt8195-cherry: Add USB type-A connector
+  arm64: dts: mediatek: mt8188-geralt: Add WiFi/BT as M.2 E-key slot
+
+ .../bindings/usb/mediatek,mtk-xhci.yaml       |  17 +-
+ .../boot/dts/mediatek/mt8188-geralt.dtsi      |  93 ++++++++++-
+ .../boot/dts/mediatek/mt8192-asurada.dtsi     | 139 +++++++++++++++--
+ .../boot/dts/mediatek/mt8195-cherry.dtsi      | 147 +++++++++++++++++-
+ drivers/base/property.c                       |  55 +++++++
+ drivers/power/sequencing/Kconfig              |   2 +-
+ drivers/power/sequencing/pwrseq-pcie-m2.c     |  50 ++++--
+ drivers/usb/core/hub.c                        |  55 +++++--
+ drivers/usb/core/hub.h                        |   6 +-
+ drivers/usb/core/port.c                       |  72 ++++++++-
+ include/linux/property.h                      |   3 +
+ 11 files changed, 583 insertions(+), 56 deletions(-)
+
+-- 
+2.54.0.1099.g489fc7bff1-goog
+
