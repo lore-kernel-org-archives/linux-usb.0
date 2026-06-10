@@ -1,143 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A74D3CF212;
-	Wed, 10 Jun 2026 13:43:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27F4408017
+	for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 13:55:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781099037; cv=none; b=b6iANgHV+TxyfF7ScIpkLsTsdy4PCz5s22EZvAZSGX9trj+55LyE5PkuI+SgQbVbKtQinMFZyecQZN/R3/l1M69whLyxSR3KLUlJVe60i2kM7bNOZPG+4zmvVkUEUMBMgVfCGNOs1mhskctqvS3dt15Ngi7gO3zVcabqn9XKdbE=
+	t=1781099705; cv=none; b=shpUucdEtlsrKqvVQpwHmve4eftaxmknPFVBv6wqJ8LNpCFkjlJ9/uLZEjMLDwhhkBPvBN+rFS2Xgxw6m1LhckEq4MUeFl4VmAaMjSKQk5AAmRHBcnRIDyTY2Rhi2dnjyHHIJA20H56CV7tfqy1mdlm8WT0RFWVl6NmyLUkcEGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781099037; c=relaxed/simple;
-	bh=pjQ3p5eGhCwajA1vQ2eDZi47NIqtufz9bme2iUuP95A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T+2hbPBAW6Gv4YbP8n+97YlRrTnZOM+XA7S5xOD8r2ylW7bvWWBqJSOSlrbIQHQcT+ulqHcAZMJxW7O3QczKnPpIhqAuPfoUBbRBddjC0ddggFjXDmKiy6HkVmdRBYiRzzEmgCiwjQhVM5qMZl+W0Xn4/1Ku663ZnsbUeAkTEOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F+W4yH7q; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781099705; c=relaxed/simple;
+	bh=iFX1u099Cp95RRWd+WxFF+aB8EueyE+7mY+rhOAFDbU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eugVnDYiJncbECP/CnRru26LB5Wu0PVWNjIGFLnfvN0c/9KOPMNV2QShk9TAiXb9tbuKlN+Vpbuvf7oHhUev+eJLZdb15z4Zsz3csf6muxcmAbQx7LSiFA3UfjZjfyO/tpGKqpGcrSjiZRNQ+oHEdKZUf/w2dfkCQrzTgqU5vCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=vl/oQJA2; arc=none smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F+W4yH7q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57D951F00893;
-	Wed, 10 Jun 2026 13:43:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781099036;
-	bh=A3oIx4t3t+ADJZANkLPS377mjeN/BkX8etAL1je2/FQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=F+W4yH7qBy1K+aBJEdwbFxiNTJFm0gGQmZwSLRKejuCy2o8CPW0hSncgOTeY41ahh
-	 5Ep3BgSgjyiiKzueSD0gB53SrRakMgeMISWO08mr+p92VIEKN26kRXEZq59XuFPeL4
-	 f5m9DI+mDCAygEAYHdSVkIffGFcOORZGxZZUHT1w9g9BCQIVTzZi8KmvlNf8Bm8PLU
-	 5NlhQ/aiEdievzgSUk9nVJx/t5NIuJpBkO/sF9DzX5dAGOiv5ZDQLasc+dAbmf3k4V
-	 TjNEzWG26kezVAGwh0JFVIah3DbbKNZbfsJfDrM4G0X+3xpLw6Rbqf/lN6FHV4yWIJ
-	 BQH8v03Zg158Q==
-Message-ID: <b5ec82d0-1afd-49e4-b3b9-31a1b5d82b36@kernel.org>
-Date: Wed, 10 Jun 2026 08:43:54 -0500
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="vl/oQJA2"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-517760dc3c2so41228251cf.3
+        for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 06:55:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1781099702; x=1781704502; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=W9UaplOGpYhiXdV+tZern+iswxcB3oyFIybrOKhcHCY=;
+        b=vl/oQJA22aLTCy5K49IIq9y9gWV3wnGVIgkoQ7O8rkuJ1issAoJu8jXX2rigbwiYcD
+         xgk8JVUsUCmQfCqPZhL1JpVX24PcX9MuQuBIy0P8oOQImdqfuLyl690sjRKgSPL+xqtr
+         6uLFyg4XUrp81eNz4WvWJWCt5iLjUh+6hnri3chpKFWS0hYD4L9kGexnaVs3u+AU8tx9
+         Y4ga+ow35738iuKWRzlhK8oBa8JS54QhJPnazTm1AjHB/8TrWC5Jzig7ojtPxcV14xh7
+         kpxUIrGYJhQDFmFr4RlM9PfD/1fUuc+gqeaFEREt2/tSEC8uq8MWty6ez6sLHlLHzq2u
+         ye2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781099702; x=1781704502;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=W9UaplOGpYhiXdV+tZern+iswxcB3oyFIybrOKhcHCY=;
+        b=Hh1PM22MDJDitvg9Wb8g4JHsLf/QFByOg56gpLTSbkGj5NYt4CYojzzOeB5mWZeDZD
+         bow5+WiRp0jl3crvAK/nL3gE87PMWRY4wpbAsIAPd4NGT1iU3uO+gauv+waS1ZPVv/4i
+         r3kgjW9Drydj6OrqVsgQj9LwCLj1NoZffBZ/BE351I4VZ9P+zHbttSXbShg4nySbH3Os
+         vn1qrImOOO/7hvpqkswVZtT0tG8V89tbbyMWrUlHsIJw0NhDsMdpG/U1hzrZGqNpH5c5
+         XtAv1/mVgRBNqDkbVBSjBXUt4Kvxh+R47pWlOiMrCZJLXVd+fEbSApObGDg62wd3D+uY
+         zlwg==
+X-Forwarded-Encrypted: i=1; AFNElJ+5VynLn1XCqBbaR++ePvxgT0llB71HEZocyKSHcB5qEo/ZqUDahDLBIQZUd8Y12PH0v1e3H/DoqXU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzibaJ1BE2v3qN14SS+BWTz/YBl6dMF5Pl5FkSomlhg74m+TsvA
+	Iy/NFdTvFQR5n6t6jFfhZm62ilLfdXluMI+d8KgZsjDg0ZVLuyijPcjHW69o+Mf1Pg==
+X-Gm-Gg: Acq92OGxLw9M9C0buvZ4ZkMvRBonoRD4tznG3Fd7k05G5m1TZAIBIiT11qRcesxwkPZ
+	uIIWi+81zBlc+ooMqxuR6zdI1LtVcrJHw5UWM55pvYI2kFU8FZOqiGsvwz+oclelrWws16YsZ7b
+	Uaz9QOxenYhc/3G5RENsvAP5wlzfZ9WRm9ZVwx625TUuXT6Rdx8gKhdDI5DoZZoNMLAkBwTQukI
+	2WhvEP6DXZ7OfFcBvuPwK+fzHiIrOHz9k4zRk1K2G8fBoi8+JXkGyxzQaB7lasKAR/zXzKmx91B
+	JwMG0ESl8JhIbkcD9l+glu3Wj8g86eNnIZ9/1WZPRUttdb9zaJJoRIY7lqesPMst7OPKsJgLF34
+	9GQRqjOvNV0EUPQSy5xtggB3RP7wAshwk0mMs9+aYhiXLKbQ5Kms2zvAmbNG8bO/6VV3wzetZoW
+	rcSQG/DJWQPOCcEeCC4q026aFcUfQk+NwOqKi0qtMUV8sIVCAIDU5a
+X-Received: by 2002:a05:622a:5592:b0:50b:4491:a2cf with SMTP id d75a77b69052e-51795b5741cmr329196731cf.27.1781099701559;
+        Wed, 10 Jun 2026 06:55:01 -0700 (PDT)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775c54177sm235468361cf.12.2026.06.10.06.55.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2026 06:55:01 -0700 (PDT)
+Date: Wed, 10 Jun 2026 09:54:58 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Johan Hovold <johan@kernel.org>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	Shuangpeng <shuangpeng.kernel@gmail.com>,
+	Oliver Neukum <oneukum@suse.com>, keithp@keithp.com,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] USB: chaoskey: Fix slab-use-after-free in
+ chaoskey_release()
+Message-ID: <c5df986a-3067-4fb7-83ef-ed6cf3b2cf1c@rowland.harvard.edu>
+References: <bb5b1dc6-eb59-43e1-8d26-51e658e88bbe@rowland.harvard.edu>
+ <aikUQKaMqpocakgG@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [FYI] Several firmware files removed from linux-firmware.git
- (affects multiple drivers)
-Content-Language: en-US
-To: Xose Vazquez Perez <xose.vazquez@gmail.com>
-Cc: linux-usb@vger.kernel.org, SOUND ML <linux-sound@vger.kernel.org>,
- SCSI ML <linux-scsi@vger.kernel.org>, NETDEV ML <netdev@vger.kernel.org>,
- linux-media@vger.kernel.org, KERNEL ML <linux-kernel@vger.kernel.org>
-References: <d6c10dd0-daff-424e-bde4-8f47a036a8a0@gmail.com>
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <d6c10dd0-daff-424e-bde4-8f47a036a8a0@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aikUQKaMqpocakgG@hovoldconsulting.com>
 
-On 6/10/26 03:47, Xose Vazquez Perez wrote:
-> Hi,
+On Wed, Jun 10, 2026 at 09:37:36AM +0200, Johan Hovold wrote:
+> > The driver's last reference to the interface structure is dropped in
+> > the chaoskey_free() routine, so the code must not use the interface --
+> > even in a debugging statement -- after that routine returns.
+> > (Exception: If we know that another reference is held by someone else,
+> > such as the device core while the disconnect routine runs, there's no
+> > problem.  Thanks to Johan Hovold for pointing this out.)
+> > 
+> > Since the bad access is part of an unimportant debugging statement,
+> > we can fix the problem simply by removing the whole statement.
+> > 
+> > Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+> > Closes: https://lore.kernel.org/linux-usb/20EC9664-054E-438B-B411-2145D347F97B@gmail.com/
+> > Tested-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+> > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> > Fixes: 66e3e591891d ("usb: Add driver for Altus Metrum ChaosKey device (v2)")
+> > Cc: <stable@vger.kernel.org>
 > 
-> In commit 1e6faaf837aea079582214c9c1382e5476175576 [1] of the
-> linux-firmware.git repo, the following files were removed due
-> to unknown licenses:
+> Apparently I overlooked this debug statement when adding the missing
+> refcounting in commit 93ddb1f56ae1 ("USB: chaoskey: fix use-after-free
+> on release").
 > 
-> acenic/tg1.bin
-> acenic/tg2.bin
-> emi62/bitstream.fw
-> emi62/loader.fw
-> emi62/midi.fw
-> emi62/spdif.fw
-> ess/maestro3_assp_kernel.fw
-> ess/maestro3_assp_minisrc.fw
-> korg/k1212.dsp
-> lgs8g75.fw
-> mts_mt9234mu.fw
-> mts_mt9234zba.fw
-> myricom/lanai.bin
-> qlogic/isp1000.bin
-> sun/cassini.bin
-> ttusb-budget/dspbootcode.bin
-> vicam/firmware.fw
-> yam/1200.bin
-> yam/9600.bin
-> yamaha/ds1_ctrl.fw
-> yamaha/ds1_dsp.fw
-> yamaha/ds1e_ctrl.fw
-> 
-> 
-> This affects, at least, the following drivers:
-> 
-> drivers/media/dvb-frontends/lgs8gxx.c:#define LGS8GXX_FIRMWARE "lgs8g75.fw"
-> drivers/media/usb/gspca/vicam.c:#define VICAM_FIRMWARE "vicam/firmware.fw"
-> drivers/media/usb/gspca/vicam.c:                pr_err("Failed to load 
-> \"vicam/firmware.fw\": %d\n", ret);
-> drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:      err = 
-> request_firmware(&fw, "ttusb-budget/dspbootcode.bin",
-> drivers/media/usb/ttusb-budget/dvb-ttusb- 
-> budget.c:MODULE_FIRMWARE("ttusb-budget/dspbootcode.bin");
-> drivers/net/ethernet/sun/cassini.c:     const char fw_name[] = "sun/ 
-> cassini.bin";
-> drivers/net/ethernet/sun/cassini.c:MODULE_FIRMWARE("sun/cassini.bin");
-> drivers/scsi/qlogicpti.c:       const char fwname[] = "qlogic/isp1000.bin";
-> drivers/scsi/qlogicpti.c:MODULE_FIRMWARE("qlogic/isp1000.bin");
-> drivers/usb/misc/emi62.c:#define FIRMWARE_FW "emi62/midi.fw"
-> drivers/usb/misc/emi62.c:#define FIRMWARE_FW "emi62/spdif.fw"
-> drivers/usb/misc/emi62.c:       err = 
-> request_ihex_firmware(&bitstream_fw, "emi62/bitstream.fw",
-> drivers/usb/misc/emi62.c:       err = request_ihex_firmware(&loader_fw, 
-> "emi62/loader.fw", &dev->dev);
-> drivers/usb/misc/emi62.c:MODULE_FIRMWARE("emi62/bitstream.fw");
-> drivers/usb/misc/emi62.c:MODULE_FIRMWARE("emi62/loader.fw");
-> drivers/usb/serial/ti_usb_3410_5052.c:MODULE_FIRMWARE("mts_mt9234mu.fw");
-> drivers/usb/serial/ti_usb_3410_5052.c:MODULE_FIRMWARE("mts_mt9234zba.fw");
-> drivers/usb/serial/ti_usb_3410_5052.c:                          
-> strscpy(buf, "mts_mt9234mu.fw");
-> drivers/usb/serial/ti_usb_3410_5052.c:                          
-> strscpy(buf, "mts_mt9234zba.fw");
-> drivers/usb/serial/ti_usb_3410_5052.c:                          
-> strscpy(buf, "mts_mt9234zba.fw");
-> sound/pci/korg1212/korg1212.c:  err = request_firmware(&dsp_code, "korg/ 
-> k1212.dsp", &pci->dev);
-> sound/pci/korg1212/korg1212.c:MODULE_FIRMWARE("korg/k1212.dsp");
-> sound/pci/maestro3.c:                          "ess/ 
-> maestro3_assp_kernel.fw", &pci->dev);
-> sound/pci/maestro3.c:                          "ess/ 
-> maestro3_assp_minisrc.fw", &pci->dev);
-> sound/pci/maestro3.c:MODULE_FIRMWARE("ess/maestro3_assp_kernel.fw");
-> sound/pci/maestro3.c:MODULE_FIRMWARE("ess/maestro3_assp_minisrc.fw");
-> sound/pci/ymfpci/ymfpci_main.c: err = request_firmware(&chip- 
->  >dsp_microcode, "yamaha/ds1_dsp.fw",
-> sound/pci/ymfpci/ymfpci_main.c:MODULE_FIRMWARE("yamaha/ds1_ctrl.fw");
-> sound/pci/ymfpci/ymfpci_main.c:MODULE_FIRMWARE("yamaha/ds1_dsp.fw");
-> sound/pci/ymfpci/ymfpci_main.c:MODULE_FIRMWARE("yamaha/ds1e_ctrl.fw");
-> sound/pci/ymfpci/ymfpci_main.c: name = is_1e ? "yamaha/ds1e_ctrl.fw" : 
-> "yamaha/ds1_ctrl.fw";
-> sound/pci/ymfpci/ymfpci_main.c: name = is_1e ? "yamaha/ds1e_ctrl.fw" : 
-> "yamaha/ds1_ctrl.fw";
-> 
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux- 
-> firmware.git/commit/?id=1e6faaf837aea079582214c9c1382e5476175576
+> Reviewed-by: Johan Hovold <johan@kernel.org>
 
-Yes; I know it affects drivers, and thanks for notifying the susbystem 
-maintainers.
+Thanks.  I should have checked more carefully; evidently your commit is 
+the one that should be mentioned in the Fixes: tag.  Oh well.
 
-We shouldn't have been redistributing binaries without a LICENSE from 
-the authors indicating we had permission to do so in the first place.
-
-Hopefully this change will prompt the authors to clarify licensing and 
-we can restore binaries that we are legally allowed to redistribute.
+Alan Stern
