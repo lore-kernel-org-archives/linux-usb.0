@@ -1,102 +1,284 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-dy1-f202.google.com (mail-dy1-f202.google.com [74.125.82.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04EC3546E6
-	for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 17:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD70F9E8
+	for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 18:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781114342; cv=none; b=FNFsQ1gQaHgcgv2z2d1lRBb3yhSX7xK5KtsNVe0Wk1ELA7/3H1P5VFLhW+Yk7esTEanooYINR+DJ5b8mK/LucCNpruQVFoDxN4ZUvpIQ83psiBTGKhj92CvBYuChZPnhgJw3OACmPcy0DtKJGfFIKA54G/JLELhRSCu+71r0CVw=
+	t=1781114939; cv=none; b=hSlGUnMSLg8xwJNAfHN6WBAmoU+uDuMa9QvZGYnBoY0EFnh2VQIqEhfEkesMkFNoGmrn92wWz7RdVtp9Gk+vy+bY9v8/waPP0XW6P7Q8C05ncuNC+bex43KM5YAb60H/boBOv0ByKsyG4bmw69u5qUbx8zEWpbCbIn7rZr28/p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781114342; c=relaxed/simple;
-	bh=rjDwk63GlpD6IcSyJ6iGWBTG0j4qGvoDZhdWCYjXdCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MuOqQcaqK8HjcWpT6A+SyDGzt1A83IBWlRiVTcONAYgd+U4PqTfC8uljuIz5L5EJW/vwx57FdX2VBvi37ExTcKGHrFgFQ7ra7zyC9l24Z8NtKM897ZJm9eFwP5Bvx1B3CT0DCXaRVdY7PBbnf9p9JVsjtRorB6mntRjME/pWfVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eQdS6bnK; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1781114939; c=relaxed/simple;
+	bh=6aB1qKcFpXeQURcT21kW5rWQeM3/4p0CGXDDEO0loDw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=BAuWTukH4uEKAx8WNusCVfnXPXd3TqbS+zPv+px5uwB3+ObpjanAhpAkm3pTnibpz9KP/S+TQ8RQZky0/n3QUDaeUjHVSy5pyjJ8cPai01dtJFCS1tzu6Cab1gVgoUyf2EtplwZrFbdlAQGnnVKVEwFMPR+Bio7jTW8Xv3KkBvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--cmllamas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=R3MftaaJ; arc=none smtp.client-ip=74.125.82.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--cmllamas.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eQdS6bnK"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2bf2911f93cso9455ad.1
-        for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 10:59:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="R3MftaaJ"
+Received: by mail-dy1-f202.google.com with SMTP id 5a478bee46e88-304f1820babso8993733eec.1
+        for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 11:08:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781114340; x=1781719140; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aDcoxqooq3aEAqC8ohG0LuHtDb4TZolRXl4+Rn70IsU=;
-        b=eQdS6bnKf8OFjYdZWTGgi6/DB/Hk2p7zbEYwc/MsYJpMNpd5U/+hJIeUFJMhgboGdC
-         qIEibdadVSNL99aVgECMz5I666Z/PbQYqOi2NnWTsve9F2964/SBEquLWuJiSEjTgZQK
-         fC4FvZCzWIZPtiImHSf3QQvzaM72vUWxewuGI2j4GP1aQjoTtSRNPtEbLbdZ3qjLWaEW
-         0doAE+5G0hN30YpVfya2FQ/6/pNCRtxqQjgJ0hRRG/Cyn+SQzmAEiS/R8TwXkCT7WEtV
-         DnMXQ7eQxGfwQi+Sh+TiylbqIuI9t9Z2EUdnzzX0tGJfPv3dYpbyaoI0qG1556njWiIE
-         +Hyg==
+        d=google.com; s=20251104; t=1781114937; x=1781719737; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=tYOs/8b6tOQzwSAH52++Tpu4q+2N/IOTO4Y0awj7cSo=;
+        b=R3MftaaJk0siHW0/yaIgo1cn/0ha3CxLBXeMmvtfvhYOPTD/rbHPxrGHWC6xVyiXvY
+         KFKlW2F+M552ZPaPK1IFEAmHnaeDtuFcKLrL8sI3O7jOUnGEf2eJg2/JwePBVvf3+Gs2
+         DRMfrR7Lq2YCpUj/RS3KNt8MeWMOdeMGsSFh+aaC8TGO0HdXBYIeinoMDBRFM0EUz2Hi
+         CS/LoFJ/+blSTrwhX/Ij7ZQOjQJStNKzurVGKd7MJmXSSwD2UxiCPginGFlbFqvf/bON
+         5kPXRXV8gLmSpfIKm2az+ucEm1SwCc0BGU2e1NrBuEaV5Xr1USqnESRpuyenRrGRxblu
+         uyjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781114340; x=1781719140;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aDcoxqooq3aEAqC8ohG0LuHtDb4TZolRXl4+Rn70IsU=;
-        b=qRApQUACs9+gSTOnCEAkbTjDJaih8nn4NU3eYvaE7aKp9F/s1OaTzKRdwB4++YJvxw
-         pYgSuhBTDSqSGCeijvf1Go1iv9ujpgZkQ0Uba9NFGjstDKKzi8YyXOrRCnDoVfgNiluu
-         OgtuNfanrDkfCJ7B9ZyBmyG+KNvhn5hU7y6/JukyWT1uuxBt/l5iYftl1U5Vp1K+H6E/
-         kwUUyNowivxS9ajSJMePciyGbLqpa897rApgK2rLvJ9udAMw5to40SDh/XpkJvoDpo4b
-         wsGfAa4zQF0T4U8AlcssnXJtIyfjP4sXWLUB/ScbWBJOOgeMwS7snlntXi3e6wwXnHOC
-         X/+g==
-X-Forwarded-Encrypted: i=1; AFNElJ8KzqoU/B7LLWgNMA3JKt8xR6/et3vL47z3dEMoPosRuFZUffsQqCOe+wwZ+dQgeP+2tZBgJ5V411Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAhfiyAz5rdyHeEMHae8VdjMTS8Kbj5v8SgjPNMq85DMF9nwvg
-	RBc+L/DNvNUMF2/U4lhhpZiZWOdOihq46963n17iEquBYkGWGO1SAbYgpMvookHmBw==
-X-Gm-Gg: Acq92OERkAE5velvivU4WGNToJWyk/91Fg5J6sMa6TIRRzrJQ08/6B9KdH9PRlzLBai
-	49aS8UBPDfAVFj0P69KzbfQsFoyhX05n7xaVuTFaapH2yaIccBBimPZ86lHb1NfnM3ZUzZ72BXK
-	nBgX34NDVYF5fC/rQRynHPC5e/m0wjc3uHA8o2oMFbsdX2ZqURk3Sr0lHm47WDyhAW2wl6La/qK
-	xvvXcNGMG57fUcBiCRHj1PZOBLMRKW3Yqy2CFUW5eWXJRJbQQsDF2hqsz3w3jRy0oZ1RX5mNO/o
-	RdmS8grg2SAV0O7pwlyDyT+LhGKIKLKligMuDMT5+zDwU90yiKyv9D7Xv5Z1kpW0Jtzoey1HQzN
-	u+H6sxlyuYt0PMQ+moWylLzPX/4GEI9moGJ7Z2KPkATpbtsWvlQV6CmkabL8ENL4VghZ0Kjsq+b
-	gMbYeQQKTrsYlXhonV25hfsOazlNZUTWlITG9Zj45hLRj18eKm5PtuueTP0HiT1MhlHi2VRx8V5
-	sG5/PgIfP/UBzsAmu1OYbw9JfXZE54969W4el03SjYWwAhFKpvz6S0L
-X-Received: by 2002:a17:902:e84e:b0:2bf:749:551 with SMTP id d9443c01a7336-2c2d93c9b9cmr564445ad.22.1781114339342;
-        Wed, 10 Jun 2026 10:58:59 -0700 (PDT)
-Received: from google.com (112.174.16.34.bc.googleusercontent.com. [34.16.174.112])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8428221a7e9sm33046676b3a.11.2026.06.10.10.58.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 10:58:58 -0700 (PDT)
-Date: Wed, 10 Jun 2026 17:58:54 +0000
-From: Carlos Llamas <cmllamas@google.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: gregkh@linuxfoundation.org, stable@vger.kernel.org, khtsai@google.com,
-	patches@lists.linux.dev, linux-kernel@vger.kernel.org,
-	raubcameo@gmail.com, andrzej.p@samsung.com, balbi@ti.com,
-	kyungmin.park@samsung.com, linux-usb@vger.kernel.org,
-	Jianqiang kang <jianqkang@sina.cn>
-Subject: Re: [PATCH 6.6.y] usb: gadget: f_ncm: Fix net_device lifecycle with
- device_move
-Message-ID: <aiml3pDOjudjX71j@google.com>
-References: <20260608053636.2797024-1-jianqkang@sina.cn>
- <20260608-stable-reply-0013@kernel.org>
+        d=1e100.net; s=20251104; t=1781114937; x=1781719737;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tYOs/8b6tOQzwSAH52++Tpu4q+2N/IOTO4Y0awj7cSo=;
+        b=atemthkQvngFK8Vxjx1TH2Bus5NMUuhIxKHBuwAnuOZ8IHpk1663mRKUU5AztIRzlI
+         cFZUr1ExaQk02yMyCVa6cMNX2SgNRMEfG9gSGRmNGLwvHmQ7xgCVxbqtmuO9IFLzYnln
+         wl9O0UE6Wo7oOY+BCma8xaguFsnixnT3E8dljXZ5IYrzCqGOOO8qJSlJ1b1gX1l1i494
+         jrbt4Jqyypbx0kRfxErrqFDyYBu5AiomajfPWJ+xnkVyVZJIxKBoc3nJRZPyaRJbh0Hf
+         XVWgdE+fUxj63mTALsusI2+5iXDOn8HAWPXdAin0HyO47lwr2+diZ63o47DmVAx75c/f
+         ajMw==
+X-Forwarded-Encrypted: i=1; AFNElJ/w7ownY0929NwwwInbI+V/9JNhSGQmvJRXefSdx0+qML50300k8/6GRh/w9tRo+29ADct7UKcFWtQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvrioodV+Zkm7757S5RPgu4mulOSE2ehX1nUyh5J2YAD7fR0VP
+	oBMjU+d/vqY4VVa5Y3dqmytOOHPUTZPTYahPhjTuYJwgW1I9wh3mePcpST01B0ba74hzZlMbfiM
+	Vpv6xL0XXjiid5Q==
+X-Received: from dycez3.prod.google.com ([2002:a05:7301:5783:b0:2f9:af7:504e])
+ (user=cmllamas job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:693c:374a:b0:2f7:d419:dee0 with SMTP id 5a478bee46e88-3077b25d14dmr15998504eec.6.1781114936169;
+ Wed, 10 Jun 2026 11:08:56 -0700 (PDT)
+Date: Wed, 10 Jun 2026 18:08:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260608-stable-reply-0013@kernel.org>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.54.0.1136.gdb2ca164c4-goog
+Message-ID: <20260610180841.3091635-1-cmllamas@google.com>
+Subject: [PATCH 6.1.y 1/2] usb: gadget: f_ncm: Fix net_device lifecycle with device_move
+From: Carlos Llamas <cmllamas@google.com>
+To: stable@vger.kernel.org
+Cc: Jianqiang kang <jianqkang@sina.cn>, Neill Kapron <nkapron@google.com>, kernel-team@android.com, 
+	Kuen-Han Tsai <khtsai@google.com>, stable <stable@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Carlos Llamas <cmllamas@google.com>, 
+	Sasha Levin <sashal@kernel.org>, raub camaioni <raubcameo@gmail.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Felipe Balbi <balbi@ti.com>, 
+	Andrzej Pietrasiewicz <andrzej.p@samsung.com>, "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>, 
+	open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 08, 2026 at 08:51:59PM -0400, Sasha Levin wrote:
-> > [PATCH 6.6.y] usb: gadget: f_ncm: Fix net_device lifecycle with device_move
-> 
-> I can't take this one (6.6 or 6.1) on its own. ec35c1969650 alone opens a
-> userspace-reachable NULL deref in eth_get_drvinfo() that is later closed
-> upstream by e002e92e88e1 ("usb: gadget: u_ether: Fix NULL pointer deref in
-> eth_get_drvinfo"), so applying this commit by itself trades a UAF for a DoS.
-> 
-> Please send a complete backport that also includes e002e92e88e124 (as the
-> follow-up patch in the same series) for both 6.6.y and 6.1.y, and I'll queue
-> them together.
+From: Kuen-Han Tsai <khtsai@google.com>
 
-I just ran this patch plus a cherry-pick of e002e92e88e1 that you
-mentioned through Android's CI with no issues. Same goes with 6.1.y, so
-I can send Jianqiang's backports with the fix added to them.
+[ Upstream commit ec35c1969650e7cb6c8a91020e568ed46e3551b0 ]
 
-Cheers,
---
-Carlos Llamas
+The network device outlived its parent gadget device during
+disconnection, resulting in dangling sysfs links and null pointer
+dereference problems.
+
+A prior attempt to solve this by removing SET_NETDEV_DEV entirely [1]
+was reverted due to power management ordering concerns and a NO-CARRIER
+regression.
+
+A subsequent attempt to defer net_device allocation to bind [2] broke
+1:1 mapping between function instance and network device, making it
+impossible for configfs to report the resolved interface name. This
+results in a regression where the DHCP server fails on pmOS.
+
+Use device_move to reparent the net_device between the gadget device and
+/sys/devices/virtual/ across bind/unbind cycles. This preserves the
+network interface across USB reconnection, allowing the DHCP server to
+retain their binding.
+
+Introduce gether_attach_gadget()/gether_detach_gadget() helpers and use
+__free(detach_gadget) macro to undo attachment on bind failure. The
+bind_count ensures device_move executes only on the first bind.
+
+[1] https://lore.kernel.org/lkml/f2a4f9847617a0929d62025748384092e5f35cce.camel@crapouillou.net/
+[2] https://lore.kernel.org/linux-usb/795ea759-7eaf-4f78-81f4-01ffbf2d7961@ixit.cz/
+
+Fixes: 40d133d7f542 ("usb: gadget: f_ncm: convert to new function interface with backward compatibility")
+Cc: stable <stable@kernel.org>
+Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
+Link: https://patch.msgid.link/20260309-f-ncm-revert-v2-7-ea2afbc7d9b2@google.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+[ Use no_free_ptr() since retain_and_null_ptr() is unavailable in Linux 6.1. ]
+Signed-off-by: Jianqiang kang <jianqkang@sina.cn>
+Signed-off-by: Carlos Llamas <cmllamas@google.com>
+---
+ drivers/usb/gadget/function/f_ncm.c   | 35 ++++++++++++++++++---------
+ drivers/usb/gadget/function/u_ether.c | 22 +++++++++++++++++
+ drivers/usb/gadget/function/u_ether.h | 26 ++++++++++++++++++++
+ drivers/usb/gadget/function/u_ncm.h   |  2 +-
+ 4 files changed, 73 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/function/f_ncm.c
+index addd016ffbb3..5e240cafbe9e 100644
+--- a/drivers/usb/gadget/function/f_ncm.c
++++ b/drivers/usb/gadget/function/f_ncm.c
+@@ -1440,6 +1440,7 @@ static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
+ 	struct f_ncm_opts	*ncm_opts;
+ 
+ 	struct usb_os_desc_table	*os_desc_table __free(kfree) = NULL;
++	struct net_device		*net __free(detach_gadget) = NULL;
+ 	struct usb_request		*request __free(free_usb_request) = NULL;
+ 
+ 	if (!can_support_ecm(cdev->gadget))
+@@ -1453,16 +1454,18 @@ static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
+ 			return -ENOMEM;
+ 	}
+ 
+-	mutex_lock(&ncm_opts->lock);
+-	gether_set_gadget(ncm_opts->net, cdev->gadget);
+-	if (!ncm_opts->bound)
+-		status = gether_register_netdev(ncm_opts->net);
+-	mutex_unlock(&ncm_opts->lock);
+-
+-	if (status)
+-		return status;
+-
+-	ncm_opts->bound = true;
++	scoped_guard(mutex, &ncm_opts->lock)
++		if (ncm_opts->bind_count == 0) {
++			if (!device_is_registered(&ncm_opts->net->dev)) {
++				gether_set_gadget(ncm_opts->net, cdev->gadget);
++				status = gether_register_netdev(ncm_opts->net);
++			} else
++				status = gether_attach_gadget(ncm_opts->net, cdev->gadget);
++
++			if (status)
++				return status;
++			net = ncm_opts->net;
++		}
+ 
+ 	ncm_string_defs[1].s = ncm->ethaddr;
+ 
+@@ -1562,6 +1565,9 @@ static int ncm_bind(struct usb_configuration *c, struct usb_function *f)
+ 	}
+         ncm->notify_req = no_free_ptr(request);
+ 
++	ncm_opts->bind_count++;
++	no_free_ptr(net);
++
+ 	DBG(cdev, "CDC Network: %s speed IN/%s OUT/%s NOTIFY/%s\n",
+ 			gadget_is_superspeed(c->cdev->gadget) ? "super" :
+ 			gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full",
+@@ -1610,7 +1616,7 @@ static void ncm_free_inst(struct usb_function_instance *f)
+ 	struct f_ncm_opts *opts;
+ 
+ 	opts = container_of(f, struct f_ncm_opts, func_inst);
+-	if (opts->bound)
++	if (device_is_registered(&opts->net->dev))
+ 		gether_cleanup(netdev_priv(opts->net));
+ 	else
+ 		free_netdev(opts->net);
+@@ -1672,9 +1678,12 @@ static void ncm_free(struct usb_function *f)
+ static void ncm_unbind(struct usb_configuration *c, struct usb_function *f)
+ {
+ 	struct f_ncm *ncm = func_to_ncm(f);
++	struct f_ncm_opts *ncm_opts;
+ 
+ 	DBG(c->cdev, "ncm unbind\n");
+ 
++	ncm_opts = container_of(f->fi, struct f_ncm_opts, func_inst);
++
+ 	hrtimer_cancel(&ncm->task_timer);
+ 
+ 	kfree(f->os_desc_table);
+@@ -1690,6 +1699,10 @@ static void ncm_unbind(struct usb_configuration *c, struct usb_function *f)
+ 
+ 	kfree(ncm->notify_req->buf);
+ 	usb_ep_free_request(ncm->notify, ncm->notify_req);
++
++	ncm_opts->bind_count--;
++	if (ncm_opts->bind_count == 0)
++		gether_detach_gadget(ncm_opts->net);
+ }
+ 
+ static struct usb_function *ncm_alloc(struct usb_function_instance *fi)
+diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+index e84178bffe78..e972de236be5 100644
+--- a/drivers/usb/gadget/function/u_ether.c
++++ b/drivers/usb/gadget/function/u_ether.c
+@@ -910,6 +910,28 @@ void gether_set_gadget(struct net_device *net, struct usb_gadget *g)
+ }
+ EXPORT_SYMBOL_GPL(gether_set_gadget);
+ 
++int gether_attach_gadget(struct net_device *net, struct usb_gadget *g)
++{
++	int ret;
++
++	ret = device_move(&net->dev, &g->dev, DPM_ORDER_DEV_AFTER_PARENT);
++	if (ret)
++		return ret;
++
++	gether_set_gadget(net, g);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(gether_attach_gadget);
++
++void gether_detach_gadget(struct net_device *net)
++{
++	struct eth_dev *dev = netdev_priv(net);
++
++	device_move(&net->dev, NULL, DPM_ORDER_NONE);
++	dev->gadget = NULL;
++}
++EXPORT_SYMBOL_GPL(gether_detach_gadget);
++
+ int gether_set_dev_addr(struct net_device *net, const char *dev_addr)
+ {
+ 	struct eth_dev *dev;
+diff --git a/drivers/usb/gadget/function/u_ether.h b/drivers/usb/gadget/function/u_ether.h
+index 40144546d1b0..3e12d60053c1 100644
+--- a/drivers/usb/gadget/function/u_ether.h
++++ b/drivers/usb/gadget/function/u_ether.h
+@@ -149,6 +149,32 @@ static inline struct net_device *gether_setup_default(void)
+  */
+ void gether_set_gadget(struct net_device *net, struct usb_gadget *g);
+ 
++/**
++ * gether_attach_gadget - Reparent net_device to the gadget device.
++ * @net: The network device to reparent.
++ * @g: The target USB gadget device to parent to.
++ *
++ * This function moves the network device to be a child of the USB gadget
++ * device in the device hierarchy. This is typically done when the function
++ * is bound to a configuration.
++ *
++ * Returns 0 on success, or a negative error code on failure.
++ */
++int gether_attach_gadget(struct net_device *net, struct usb_gadget *g);
++
++/**
++ * gether_detach_gadget - Detach net_device from its gadget parent.
++ * @net: The network device to detach.
++ *
++ * This function moves the network device to be a child of the virtual
++ * devices parent, effectively detaching it from the USB gadget device
++ * hierarchy. This is typically done when the function is unbound
++ * from a configuration but the instance is not yet freed.
++ */
++void gether_detach_gadget(struct net_device *net);
++
++DEFINE_FREE(detach_gadget, struct net_device *, if (_T) gether_detach_gadget(_T))
++
+ /**
+  * gether_set_dev_addr - initialize an ethernet-over-usb link with eth address
+  * @net: device representing this link
+diff --git a/drivers/usb/gadget/function/u_ncm.h b/drivers/usb/gadget/function/u_ncm.h
+index 5408854d8407..297e5087872f 100644
+--- a/drivers/usb/gadget/function/u_ncm.h
++++ b/drivers/usb/gadget/function/u_ncm.h
+@@ -18,7 +18,7 @@
+ struct f_ncm_opts {
+ 	struct usb_function_instance	func_inst;
+ 	struct net_device		*net;
+-	bool				bound;
++	int				bind_count;
+ 
+ 	struct config_group		*ncm_interf_group;
+ 	struct usb_os_desc		ncm_os_desc;
+-- 
+2.54.0.1136.gdb2ca164c4-goog
+
