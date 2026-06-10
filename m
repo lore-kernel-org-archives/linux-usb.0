@@ -1,74 +1,73 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27F4408017
-	for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 13:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C02225A359;
+	Wed, 10 Jun 2026 13:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781099705; cv=none; b=shpUucdEtlsrKqvVQpwHmve4eftaxmknPFVBv6wqJ8LNpCFkjlJ9/uLZEjMLDwhhkBPvBN+rFS2Xgxw6m1LhckEq4MUeFl4VmAaMjSKQk5AAmRHBcnRIDyTY2Rhi2dnjyHHIJA20H56CV7tfqy1mdlm8WT0RFWVl6NmyLUkcEGQ=
+	t=1781099838; cv=none; b=nsfgWpb+S4W3PDpWgGjD8TL6MOxwo7mu/VanZxqz8AJcxm6Kv5KS5/0V7wvxrqFv4xX3+Z59XpimIJh2pOAVucGjy4UGwwnO9LQ/IlqpggV8PU3rzowdt2/DGvkW5hfuPJB7ahJOaj1nvUmQTD62nmyxmILDVH3Ew8TreHF1IyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781099705; c=relaxed/simple;
-	bh=iFX1u099Cp95RRWd+WxFF+aB8EueyE+7mY+rhOAFDbU=;
+	s=arc-20240116; t=1781099838; c=relaxed/simple;
+	bh=IvtqsN9HqWtrsYzJFpIQXKTW+grvoM/ms7i/bF9Ptxg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eugVnDYiJncbECP/CnRru26LB5Wu0PVWNjIGFLnfvN0c/9KOPMNV2QShk9TAiXb9tbuKlN+Vpbuvf7oHhUev+eJLZdb15z4Zsz3csf6muxcmAbQx7LSiFA3UfjZjfyO/tpGKqpGcrSjiZRNQ+oHEdKZUf/w2dfkCQrzTgqU5vCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=vl/oQJA2; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=KaCkf3QeN2OpNQDlk0+rJale1VODMLC0dLkD4tWLAR8CFBIlXLqmgul23nDqhO0CQrelGlwwrpfgJLd5+Rl24OIa95Gkgfv50sRE1L4MJWGWcwn//roHvj9GZu6KedLCR0ew3QVxfWMl9FT94m6holaVFuOdrQmLH1xLnbxcWT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R8PHIpnT; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="vl/oQJA2"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-517760dc3c2so41228251cf.3
-        for <linux-usb@vger.kernel.org>; Wed, 10 Jun 2026 06:55:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1781099702; x=1781704502; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W9UaplOGpYhiXdV+tZern+iswxcB3oyFIybrOKhcHCY=;
-        b=vl/oQJA22aLTCy5K49IIq9y9gWV3wnGVIgkoQ7O8rkuJ1issAoJu8jXX2rigbwiYcD
-         xgk8JVUsUCmQfCqPZhL1JpVX24PcX9MuQuBIy0P8oOQImdqfuLyl690sjRKgSPL+xqtr
-         6uLFyg4XUrp81eNz4WvWJWCt5iLjUh+6hnri3chpKFWS0hYD4L9kGexnaVs3u+AU8tx9
-         Y4ga+ow35738iuKWRzlhK8oBa8JS54QhJPnazTm1AjHB/8TrWC5Jzig7ojtPxcV14xh7
-         kpxUIrGYJhQDFmFr4RlM9PfD/1fUuc+gqeaFEREt2/tSEC8uq8MWty6ez6sLHlLHzq2u
-         ye2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781099702; x=1781704502;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=W9UaplOGpYhiXdV+tZern+iswxcB3oyFIybrOKhcHCY=;
-        b=Hh1PM22MDJDitvg9Wb8g4JHsLf/QFByOg56gpLTSbkGj5NYt4CYojzzOeB5mWZeDZD
-         bow5+WiRp0jl3crvAK/nL3gE87PMWRY4wpbAsIAPd4NGT1iU3uO+gauv+waS1ZPVv/4i
-         r3kgjW9Drydj6OrqVsgQj9LwCLj1NoZffBZ/BE351I4VZ9P+zHbttSXbShg4nySbH3Os
-         vn1qrImOOO/7hvpqkswVZtT0tG8V89tbbyMWrUlHsIJw0NhDsMdpG/U1hzrZGqNpH5c5
-         XtAv1/mVgRBNqDkbVBSjBXUt4Kvxh+R47pWlOiMrCZJLXVd+fEbSApObGDg62wd3D+uY
-         zlwg==
-X-Forwarded-Encrypted: i=1; AFNElJ+5VynLn1XCqBbaR++ePvxgT0llB71HEZocyKSHcB5qEo/ZqUDahDLBIQZUd8Y12PH0v1e3H/DoqXU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzibaJ1BE2v3qN14SS+BWTz/YBl6dMF5Pl5FkSomlhg74m+TsvA
-	Iy/NFdTvFQR5n6t6jFfhZm62ilLfdXluMI+d8KgZsjDg0ZVLuyijPcjHW69o+Mf1Pg==
-X-Gm-Gg: Acq92OGxLw9M9C0buvZ4ZkMvRBonoRD4tznG3Fd7k05G5m1TZAIBIiT11qRcesxwkPZ
-	uIIWi+81zBlc+ooMqxuR6zdI1LtVcrJHw5UWM55pvYI2kFU8FZOqiGsvwz+oclelrWws16YsZ7b
-	Uaz9QOxenYhc/3G5RENsvAP5wlzfZ9WRm9ZVwx625TUuXT6Rdx8gKhdDI5DoZZoNMLAkBwTQukI
-	2WhvEP6DXZ7OfFcBvuPwK+fzHiIrOHz9k4zRk1K2G8fBoi8+JXkGyxzQaB7lasKAR/zXzKmx91B
-	JwMG0ESl8JhIbkcD9l+glu3Wj8g86eNnIZ9/1WZPRUttdb9zaJJoRIY7lqesPMst7OPKsJgLF34
-	9GQRqjOvNV0EUPQSy5xtggB3RP7wAshwk0mMs9+aYhiXLKbQ5Kms2zvAmbNG8bO/6VV3wzetZoW
-	rcSQG/DJWQPOCcEeCC4q026aFcUfQk+NwOqKi0qtMUV8sIVCAIDU5a
-X-Received: by 2002:a05:622a:5592:b0:50b:4491:a2cf with SMTP id d75a77b69052e-51795b5741cmr329196731cf.27.1781099701559;
-        Wed, 10 Jun 2026 06:55:01 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775c54177sm235468361cf.12.2026.06.10.06.55.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 06:55:01 -0700 (PDT)
-Date: Wed, 10 Jun 2026 09:54:58 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg KH <gregkh@linuxfoundation.org>,
-	Shuangpeng <shuangpeng.kernel@gmail.com>,
-	Oliver Neukum <oneukum@suse.com>, keithp@keithp.com,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] USB: chaoskey: Fix slab-use-after-free in
- chaoskey_release()
-Message-ID: <c5df986a-3067-4fb7-83ef-ed6cf3b2cf1c@rowland.harvard.edu>
-References: <bb5b1dc6-eb59-43e1-8d26-51e658e88bbe@rowland.harvard.edu>
- <aikUQKaMqpocakgG@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R8PHIpnT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781099836; x=1812635836;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IvtqsN9HqWtrsYzJFpIQXKTW+grvoM/ms7i/bF9Ptxg=;
+  b=R8PHIpnT/eXIkzF1rQUXBhYcc4+vb5erBjM48RN1zEvLHrbotnjKgqGI
+   TuXmWK+dbvMSuc1tvLb4iTxrHiHkiMkcGMOYPNEuE3goxmQPYiqhHKBh/
+   OCKgUsc0DCk0gQp8hdorFDR4UvYt714FXLxjLenSCqjwK/Nc3G11GqrBb
+   PIQhMGlRKlmtgkDOfgBF7maroVqHCIzqN6CLeY22ji7G8bgUuFsuIII0O
+   WkwG7NffVCqpwN3z97RGO1StfIlFECLKAZaVYhmIG8d0OqEt/kgrwLpHd
+   FoHHxdm4QI6z7YK7/+nEYBPM/k0r4csmR5NZJwp3xUHsct5uI6Rq13F9r
+   A==;
+X-CSE-ConnectionGUID: 04HLvZrhS0iMdL0Wl/1P6A==
+X-CSE-MsgGUID: 5Cl6x664ST+Bd4skhdc5VQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81799392"
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="81799392"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 06:57:15 -0700
+X-CSE-ConnectionGUID: pIzUFeurTd+gn3kzaSXAbw==
+X-CSE-MsgGUID: ZwgnVHecR0qgh6Qv8HV+YQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="251260733"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.38])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 06:57:09 -0700
+Date: Wed, 10 Jun 2026 16:57:07 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>
+Subject: Re: [PATCH v2 01/16] device property: Add
+ fwnode_graph_get_port_by_id()
+Message-ID: <ailtMyYhbkOgaZWw@ashevche-desk.local>
+References: <20260610084053.2059858-1-wenst@chromium.org>
+ <20260610084053.2059858-2-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -77,33 +76,41 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aikUQKaMqpocakgG@hovoldconsulting.com>
+In-Reply-To: <20260610084053.2059858-2-wenst@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Jun 10, 2026 at 09:37:36AM +0200, Johan Hovold wrote:
-> > The driver's last reference to the interface structure is dropped in
-> > the chaoskey_free() routine, so the code must not use the interface --
-> > even in a debugging statement -- after that routine returns.
-> > (Exception: If we know that another reference is held by someone else,
-> > such as the device core while the disconnect routine runs, there's no
-> > problem.  Thanks to Johan Hovold for pointing this out.)
-> > 
-> > Since the bad access is part of an unimportant debugging statement,
-> > we can fix the problem simply by removing the whole statement.
-> > 
-> > Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-> > Closes: https://lore.kernel.org/linux-usb/20EC9664-054E-438B-B411-2145D347F97B@gmail.com/
-> > Tested-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-> > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-> > Fixes: 66e3e591891d ("usb: Add driver for Altus Metrum ChaosKey device (v2)")
-> > Cc: <stable@vger.kernel.org>
+On Wed, Jun 10, 2026 at 04:40:35PM +0800, Chen-Yu Tsai wrote:
+> In some cases the driver needs a reference to the port firmware node.
+> Once such case is the upcoming USB power sequencing integration. The
+> USB hub port is tied to the corresponding port firmware node if it
+> exists.
 > 
-> Apparently I overlooked this debug statement when adding the missing
-> refcounting in commit 93ddb1f56ae1 ("USB: chaoskey: fix use-after-free
-> on release").
-> 
-> Reviewed-by: Johan Hovold <johan@kernel.org>
+> Provide a helper for this.
 
-Thanks.  I should have checked more carefully; evidently your commit is 
-the one that should be mentioned in the Fixes: tag.  Oh well.
+Okay, if it's really needed.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Alan Stern
+...
+
+> +/**
+> + * fwnode_graph_get_port_by_id - get the port matching a given id
+> + * @fwnode: parent fwnode_handle containing the graph
+> + * @id: id of the port
+> + *
+> + * Return: A 'port' firmware node pointer with refcount incremented.
+> + *
+> + * The caller is responsible for calling fwnode_handle_put() on the returned
+> + * fwnode pointer.
+
+Note, the Return section must be last one in the kernel-doc. The last paragraph
+sounds to me as a better fit for main description. Basically check how other
+kernel-doc(s) in this file are organised and follow that pattern.
+
+> + */
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
