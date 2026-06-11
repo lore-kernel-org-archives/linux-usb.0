@@ -1,130 +1,132 @@
-Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEE43A3822;
-	Thu, 11 Jun 2026 09:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4F237B400;
+	Thu, 11 Jun 2026 09:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781169198; cv=none; b=YhuTCsBiqlDcNhkHUrJ+GkowgD9NL4S7ZDgRgtPvRJTGoGJrnU8rYIeQCX/LeD7B7xikk1hjqJKl2nX3D4QaWrwJ0bDCKPW0ggW/Ly+0SKhH5XnIY/5XNAUPn4HZV3ZilBqhjz83HTrgBCUI1GkGazASXFR8EENvGd6YfgYAGIU=
+	t=1781169642; cv=none; b=tHjiY7ONZaMuaefAn9/dQYIR5e9CY0yAmHNwYalM+/lpzWrbX0hgUkurAVVGJSGB7RwLYksnDPmJUcMcJsCBmKPqKf0NmOCMIq0HPSDgcfYDBWBLbTNCGIZFc70b8XEjSpPMF6QeTAG7KCzCa0cvY1Z3C3XyG7Nuz3Hl+TjCICk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781169198; c=relaxed/simple;
-	bh=nf6hiQxhL56ykySXrrQ7KpfEd8hhHsWz8VxNtGbc3t4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VhXH5VaTPnpp57gFJQY7HerEx+QwUjxryJE4nAl5/L80WCDab8IMSR9bXaywXhmH2n47pMTnimaiUGsMhHop+1F5ZkUrVKkXkfF6tyjqITI9TgIQ6QcrqubG0UvZ+u1CAx7uYzzhJZgqP9oebgUoOIgrqs1cvbe5FyImtDfCPdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=E0zxnhOG; arc=none smtp.client-ip=52.59.177.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1781169642; c=relaxed/simple;
+	bh=UHi2L7vHTqcAZWk8jb17dHzdh9BUVMjd/u/pdK2oNIE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s1Qqh/ARqOvj8T0AVOlFz7ehosNm+Ag7nxpy3aHM5UuOuVMO1cQ2zPYlI61qqTXYquCDGzS/H88Zx9fYP63FsPitn8O6ifBI2Ap/w1gExIT5HJf4JJO9AuZXa/XH3v2jlTU+4TZs0CmvM4hC1yqD5ZxELiHzda8jksVbGctFBPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jF42cnnG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="E0zxnhOG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1781169168;
-	bh=AikMuvne+rRsGF+LJ4+mCppYa54CBBNcqj7vmtaZezM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=E0zxnhOG7ypie7AeYyVusODqABiXPR6bHF/VrmHSPc624rtzRnb+SpVcVg/WZKrTk
-	 R6h+6u9p7seyHxODx8/ZFSsGiarbsS6RrCl+Ke5/fwVAFShxN+MfxhL8Ks81Yhgw8t
-	 27cOhFgaxQazjpLkt6opsgh4okU73jKg8IrKiCeg=
-X-QQ-mid: zesmtpgz1t1781169153t1392ddf0
-X-QQ-Originating-IP: XYhb5sbAd8pO4x1+zCEcXtYBIWsMOt2TXK/WVLkDsvQ=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 11 Jun 2026 17:12:31 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 10329221507153104627
-EX-QQ-RecipientCnt: 5
-From: raoxu <raoxu@uniontech.com>
-To: gregkh@linuxfoundation.org
-Cc: kees@kernel.org,
-	raoxu@uniontech.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: u_audio: clean up capture endpoint on feedback failure
-Date: Thu, 11 Jun 2026 17:12:28 +0800
-Message-ID: <183621D513E0DE8B+20260611091229.4017443-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jF42cnnG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B08011F00893;
+	Thu, 11 Jun 2026 09:20:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781169641;
+	bh=xodOjzoMN11YHiycgk/9RInKHkH8phYNboa6J0q2SLY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=jF42cnnGKQl91JjcBYG9RAkKZy+cNPUOrzar0j+QktoOkJaV2qFgz05NRoJ1hZ4y3
+	 GUoC7rn4u6wFpLI5FUIOWnE7Uahhf8wpcaiIzfoTdscrH6avqgmnPMp3PkDP9dRED7
+	 i/oU+sVPWW8G3oDHQKLqHPYVM1wZSCiNxzQWbY+sXD+VAsjfedc6q1bcarKz9qT60t
+	 kWBJ83BiqF4NsHzXiEurH+cc8mCZzx/b/5TM1f7Xy7r2m+qBSenY7q00sANne3RhWK
+	 7nYsi2tEsNYITTE60YdpxKQh4x0uWIVlNTJK4CwCSIXkY5T6u+xtU9VuHoRWemfz9v
+	 H8gC1Q//SLKxg==
+Message-ID: <d30e1417-1cff-43bd-a459-435f05b8a490@kernel.org>
+Date: Thu, 11 Jun 2026 11:20:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MKbpLBOB35npE4miqycRKMZVdRFDwwgXDvnCR7SEIFwdVPE27VLmnAbN
-	frcx/fJGBKgyVKEpJ4ukiGCP/qlPjAaxngDBZV+PGKopfshRiU8Rmsyy5zxat1y74EcpU+Z
-	bZWIfdXnahx/PwaLhr3WrwWpelS4yjEP5SDg6PXMimZvbDx4Veu1M5LzBDIPmNBuH7xnBg9
-	sMHqJrqUpPJsNewLKTI/LgTvAAZtQ4fS7qrtZ8c6Tl8Km6cYKds+NDrACmeMqbKKDLg/gGU
-	mHtCUV5IfJLk4jnRn2WcJleoMqTjU246I3cT8w8TouHQzr/sRQC1OQXeslOvK4nQAvmGvi4
-	LyIy7wiwBw/08PidcXt9LWEwSeOg7Mc63smmyUQ8XjruOuwq8qhbWZJ235nIWJEmyUbtHJ/
-	GOwnfLY1xV/2a9Z0JzugrBiNtvF17WOmZXpAmcayUBniS9dnPU9mJD6bjv3dlITwzIOMctz
-	YDxMr/IB4s8JTup83Q0vLowr72xS6ZLGxq30pN4wChRZsTixu7Q6K7H8MCTIKPhPZoMw2Ol
-	HHPOj69cHWzcehs16U4fqXIN3wA6RmcnmzvpzTS+eO21REgt41PpLBs8lZ3zzlekU+gDU+I
-	mVS5axslj4IEC53wwSlGmNCB0w+xdL4/R8yj2I4hUwVpSSTUxuwaKRw/0xDyxoObJZseGky
-	BUTQIGxvDYZVrcdcUpPiBENJ6qzw1759Y6pX4JlBdta4S4V6dotnNqpoosKzAtvahXDZaPW
-	bTrnvEMVwWwEozsZFc8U/JCXFAgtml+WBPAuIM5NI0e2dTDPLFmCUPXxx1xYpjdzTVItvxH
-	2uOye8mTJMorA4zCdoLARM049u+/4UZ+oij4yqXxn35SUoEaDnMetJHplRo6vsCPWBvEgpp
-	GR9c78bpxipDqiYb7+qMccbVLqARdGnlUzbM4HLHH+ZyfzcJPtLt4IjQ/B40w7QD3ytpc/V
-	0Q+ya1zLhXo7i4mGJ+bZXD8QfHW9PLTD9Js12d1yuTq0ZQr3SdN+jv5DcVNXylZ4dyI6kMZ
-	lIHT7UF3NQbG98xOqf2UWH8pwAGi37PXz6kDjuv7NmbyzCwP26
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-X-QQ-RECHKSPAM: 0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: defconfig: Enable USB_UAS in arm64 configuration
+To: Akash Kumar <akash.kumar@oss.qualcomm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+References: <20260611090946.2790631-1-akash.kumar@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260611090946.2790631-1-akash.kumar@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Xu Rao <raoxu@uniontech.com>
+On 11/06/2026 11:09, Akash Kumar wrote:
+> The USB Attached SCSI (UAS) protocol is supported by many modern USB
+> storage devices. It provides significantly higher performance than the
+> legacy Mass Storage Class (MSC) by supporting multiple outstanding
+> commands and command queuing.
+> 
+> Enable CONFIG_USB_UAS=y in the default arm64 configuration to provide
+> better out-of-the-box performance for USB storage devices on arm64
+> platforms.
 
-u_audio_start_capture() enables the capture OUT endpoint, queues capture
-requests and marks the stream active before setting up the optional
-feedback endpoint.
+Anyone in upstream actually uses it for development? Care to show some
+examples?
 
-If feedback endpoint configuration or enablement fails, the function
-returns an error while the capture endpoint remains enabled and its
-requests may remain queued. The current code even leaves TODO comments
-at these return paths.
+This is not a distro config, you know...
 
-Unwind the already started capture endpoint on these failures. Also set
-fb_ep_enabled only after usb_ep_enable() succeeds, so the software state
-matches the endpoint state.
+> 
+> Signed-off-by: Akash Kumar <akakum@qti.qualcomm.com>
+> ---
+>  arch/arm64/configs/defconfig | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+> index d905a0777f93..f82e9df77941 100644
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -1216,6 +1216,7 @@ CONFIG_USB_RENESAS_USBHS_HCD=m
+>  CONFIG_USB_RENESAS_USBHS=m
+>  CONFIG_USB_ACM=m
+>  CONFIG_USB_STORAGE=y
+> +CONFIG_USB_UAS=y
 
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
----
- drivers/usb/gadget/function/u_audio.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+For sure not built-in...
 
-diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/function/u_audio.c
-index e53f2927b539..ca26bf9c8040 100644
---- a/drivers/usb/gadget/function/u_audio.c
-+++ b/drivers/usb/gadget/function/u_audio.c
-@@ -641,15 +641,15 @@ int u_audio_start_capture(struct g_audio *audio_dev)
- 	ret = config_ep_by_speed(gadget, &audio_dev->func, ep_fback);
- 	if (ret < 0) {
- 		dev_err(dev, "config_ep_by_speed in_ep_fback failed (%d)\n", ret);
--		return ret; // TODO: Clean up out_ep
-+		goto err_out_ep;
- 	}
 
--	prm->fb_ep_enabled = true;
- 	ret = usb_ep_enable(ep_fback);
- 	if (ret < 0) {
- 		dev_err(dev, "usb_ep_enable failed for in_ep_fback (%d)\n", ret);
--		return ret; // TODO: Clean up out_ep
-+		goto err_out_ep;
- 	}
-+	prm->fb_ep_enabled = true;
- 	req_len = ep_fback->maxpacket;
-
- 	req_fback = usb_ep_alloc_request(ep_fback, GFP_ATOMIC);
-@@ -680,6 +680,12 @@ int u_audio_start_capture(struct g_audio *audio_dev)
- 		dev_err(dev, "%s:%d Error!\n", __func__, __LINE__);
-
- 	return 0;
-+
-+err_out_ep:
-+	set_active(prm, false);
-+	free_ep(prm, ep);
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(u_audio_start_capture);
-
---
-2.50.1
-
+Best regards,
+Krzysztof
