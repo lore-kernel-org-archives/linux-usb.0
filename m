@@ -1,401 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A63C2BFC8F;
-	Thu, 11 Jun 2026 02:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFE6933D6F7;
+	Thu, 11 Jun 2026 04:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781144802; cv=none; b=qSsoaVsAUDnrcQD4BOS6HKRTREPXsTY65qCb+j4OQCK/5znI5Fnxnpx82HiHgP6WFxztJG2h+/X/NTflyoXsmOnbpvf+BpjkHi58cO6j7v1pYzjFlfMU88p2b8A3p6a/4UjOOSumP4/zLvk8kkU7sqZkjyOtQau9HQt0zlZdBwY=
+	t=1781152887; cv=none; b=c6ttRkNPMxHMbAMvRuWmsJY8wHHHvD2AYiVOCdJWZUis6hbAobDBjhMe8vXG+Eos1JHGSuOSZPvpLjASsyGksrPfnarJv9o76Aq1enO5rR6XSC9Nkelp8Cqg7YueUSJ8u57sRaHRPz8ckgiMCI6kx6mQXCrsTmujRBYLMTp6AYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781144802; c=relaxed/simple;
-	bh=42ocNaY4J5enhd7f4uXUrDsldtOXegJngP81m4fa5o8=;
+	s=arc-20240116; t=1781152887; c=relaxed/simple;
+	bh=BNlxgJPdEHB5fuZUsnvdGpuQrz1LJHMgOu/0iZHHQfo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SsIBq+axcgzFLf0ga2gYcuwt9R33zZ00H2PSzwFfNx056ayJ5Gn+dk9UFX5ja2dxek4//9yVfbX3xKEyqGHAYjudMXbhZc3K0YjbchLxjiDFfdYl7T5T7vyqVLf8WSiTx90Xbf5ogZOA9X3quSL39YxqyPjGqZozKY+mJm4IXYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lXf7Rwdz; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=jGGNuvslvVRkaSBQu8YuQM9j19HZ1BSecVrKh93H19YgJhmewhD7bFiutKDSVV9QkaFxMFjqVtEyeu4AQ3jAo9EkHlEblDFa72SfQIy26Ib8rRiL8dn8UFMH2Dv58Fp/64Dx3Y8nZRizyZtZKeUI6gbeZIK0pJofg3KTLVaRN20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k56Uwmvx; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lXf7Rwdz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k56Uwmvx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781144800; x=1812680800;
+  t=1781152886; x=1812688886;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=42ocNaY4J5enhd7f4uXUrDsldtOXegJngP81m4fa5o8=;
-  b=lXf7Rwdzu8IlPHocgOXUksVyXHxT91z0pp8BC2rhJ+5jBNicStH/9GaB
-   /C5MwpGAOxJuNE0+3C1rgD2ut+c6eO2l7nUS7JxfxSImOymEMvkCOc6fb
-   lePcoyGLKegVmdx8WGNya0D7toDMqwxWx2i3074mdDVsyu8HcnuKucC2D
-   pntT3VP66msFe1GmkjdfHjgCOVOXdk2+pphJLKeLBda+4NyucUKs1Zr62
-   s+e+ywYxeFJ4bW3yNA+Uiz4n7Qd0dxFtpYmMAce5iuZMgaGttaTEWqw24
-   8CdLCQioDcBACbnfpkM7d7V3+52+Ifbkg+jtMdvjyDWXMboqAyN6Btdt8
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=BNlxgJPdEHB5fuZUsnvdGpuQrz1LJHMgOu/0iZHHQfo=;
+  b=k56UwmvxyW66G66A1aBXNG53CWhjfc2mCxhUa24yW07g6rQ5TGXgJJ8o
+   SNghqGV1wyTCJNiPl1koUUxcaFQtJ9USiX0zhKBKjls7zFdefCj0jUdSW
+   UsvBbldqzstmZBdNHPwM/pQ+0ga2Obxal6ZwhsTGJ56XNyiBPa9SsGCA1
+   b+r+peNii4oEsb9wBWS6KuuFZDIN65Qa/P9d/UKQKtSL416+PaFzgA9Hg
+   L4aCa5KO9KKpUuotNl7+eeC5lS2TJG+WZjauTvuEDJtb3Y1bzLktJuHR5
+   ma/QtU4OTlCeU9ivAiQuc/XzXrHC6LqyWcLC+yzvKetc9xNV3VhJew4bq
    A==;
-X-CSE-ConnectionGUID: LiBoSU9PQKq3d0wwkSD0Qg==
-X-CSE-MsgGUID: 6XQmXaKbS9SAH3mS48Co4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81695346"
+X-CSE-ConnectionGUID: 1kIGEFFyTAGH23pR2YMbzA==
+X-CSE-MsgGUID: 4AiPQZI1RcOsXfthgsTIDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="104623977"
 X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="81695346"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 19:26:40 -0700
-X-CSE-ConnectionGUID: 1CfD3wkvSDiRCrnQE4hKnA==
-X-CSE-MsgGUID: lMipG0LISgmMXjJCBe5GgQ==
+   d="scan'208";a="104623977"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 21:41:25 -0700
+X-CSE-ConnectionGUID: rYoH2Qq5TraWxtl29a2KKQ==
+X-CSE-MsgGUID: S0XWLuD1SzCyZg5jM5BGPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
-   d="scan'208";a="284426761"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Jun 2026 19:26:37 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wXV7p-00000000MBy-3uM3;
-	Thu, 11 Jun 2026 02:26:34 +0000
-Date: Thu, 11 Jun 2026 10:26:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Markus Elfring <Markus.Elfring@web.de>, linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	LKML <linux-kernel@vger.kernel.org>,
-	kernel-janitors@vger.kernel.org,
-	Adrian Korwel <adriank20047@gmail.com>,
-	Felix Gu <ustc.gu@gmail.com>
-Subject: Re: [PATCH] USB: serial: io_ti: Use common error handling code in
- do_download_mode()
-Message-ID: <202606111021.E9ag1FLC-lkp@intel.com>
-References: <188a2ea8-6bb6-46aa-883d-a1472b35217f@web.de>
+   d="scan'208";a="241941705"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa006.fm.intel.com with ESMTP; 10 Jun 2026 21:41:16 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id AA2D395; Thu, 11 Jun 2026 06:41:14 +0200 (CEST)
+Date: Thu, 11 Jun 2026 06:41:14 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Dag B <dag@bakke.com>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Lukas Wunner <lukas@wunner.de>
+Subject: Re: Connecting multiple TB3 eGPUs via USB4 hub?'
+Message-ID: <20260611044114.GU2990@black.igk.intel.com>
+References: <f600c4de-955f-4403-9f47-4de1088a9f56@bakke.com>
+ <20260608152640.GA35630@bhelgaas>
+ <20260609120826.GN2990@black.igk.intel.com>
+ <9507bfaa-c14e-49fc-8016-cf65bed9a76d@bakke.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <188a2ea8-6bb6-46aa-883d-a1472b35217f@web.de>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9507bfaa-c14e-49fc-8016-cf65bed9a76d@bakke.com>
 
-Hi Markus,
+Hi,
 
-kernel test robot noticed the following build errors:
+On Thu, Jun 11, 2026 at 12:48:40AM +0200, Dag B wrote:
+> 
+> On 6/9/26 14:08, Mika Westerberg wrote:
+> > Hi,
+> > 
+> > On Mon, Jun 08, 2026 at 10:26:40AM -0500, Bjorn Helgaas wrote:
+> > > [+cc linux-usb (Thunderbolt maintainers), Ilpo, Lukas]
+> > > 
+> > > On Sun, May 24, 2026 at 04:56:56PM +0200, Dag B wrote:
+> > > > I am attempting to connect two TB3 enclosures to the same USB4 port via a
+> > > > USB4 hub.
+> > > > 
+> > > > I cannot figure out of this is in violation of the TB3, TB4 or USB4 spec.
+> > > I'm not aware of a spec issue here.
+> Thank you very much Bjorn, slightly more interesting trying to get it to
+> work then.
+> > It should be fine but typically PCIe resources for one tunneled PCIe root
+> > port may not be enough for multiple GPUs. Therefore I suggest to connect
+> > them directly to the host USB4 ports without a hub.
+> 
+> That makes perfect sense. Until you run out of physical ports. The entire
+> point of this exercise started with trying to connect a 5th 3090 to my fw13
+> motherboard. :-D
+> 
+> Hence the USB4 hub. But even with just the hub and two connected GPUs, it
+> fails.
 
-[auto build test ERROR on johan-usb-serial/usb-next]
-[also build test ERROR on johan-usb-serial/usb-linus usb/usb-testing usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v7.1-rc7 next-20260609]
-[cannot apply to peter-chen-usb/for-usb-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Yes most likely because a single GPU takes lots of resources and there is
+quite small window reserved per root port for example:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Elfring/USB-serial-io_ti-Use-common-error-handling-code-in-do_download_mode/20260610-232603
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
-patch link:    https://lore.kernel.org/r/188a2ea8-6bb6-46aa-883d-a1472b35217f%40web.de
-patch subject: [PATCH] USB: serial: io_ti: Use common error handling code in do_download_mode()
-config: i386-buildonly-randconfig-003-20260611 (https://download.01.org/0day-ci/archive/20260611/202606111021.E9ag1FLC-lkp@intel.com/config)
-compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260611/202606111021.E9ag1FLC-lkp@intel.com/reproduce)
+  Memory behind bridge: 60000000-6c1fffff [size=194M] [32-bit]
+  Prefetchable memory behind bridge: 6040000000-605bffffff [size=448M] [32-bit]
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606111021.E9ag1FLC-lkp@intel.com/
+Looking at your logs you have all 4 PCIe root ports for tunneling listed
+there so I would expect you have 4 USB4/TB ports available as well
+(typically the root ports not available for tunneling will not be visible
+to the OS).
 
-All errors (new ones prefixed by >>):
+> For now, I have limited my testing to just the USB4 hub and either one or
+> two GPUs.
+> 
+> 
+> > Second thing is that you have bunch of PCIe related command line parameters
+> > that may affect. I suggest removing all of them, and retry. There is hardly
+> > any reason to add these - the kernel should be able to handle this by
+> > default.
+> 
+> Mhm. I have stripped the command line parameters for some of my tests. It
+> absolutely works with nothing extra for a single GPU. And it absolutely did
+> not work without command-line params and with 4 GPUs  when I started on this
+> adventure. But that was around 6.16-6.17.
+> 
+> 
+> > 
+> > Then provide full dmesg along with output of 'sudo lspci -vv' so we can
+> > look a the resource allocation.
+> 
+> This very quickly becomes a lot of data as I test various things. I put a
+> repo with various data up on github.
+> 
+> https://github.com/dagbdagb/usb4_to_tb3_troubleshooting/
 
->> drivers/usb/serial/io_ti.c:1325:8: error: use of undeclared identifier 'vheader'
-    1325 |         kfree(vheader);
-         |               ^~~~~~~
->> drivers/usb/serial/io_ti.c:1326:8: error: use of undeclared identifier 'header'
-    1326 |         kfree(header);
-         |               ^~~~~~
->> drivers/usb/serial/io_ti.c:1336:8: error: use of undeclared identifier 'record'
-    1336 |         kfree(record);
-         |               ^~~~~~
->> drivers/usb/serial/io_ti.c:1338:8: error: use of undeclared identifier 'firmware_version'
-    1338 |         kfree(firmware_version);
-         |               ^~~~~~~~~~~~~~~~
-   4 errors generated.
+There seems to be no dmesg + lspci without the command line parameters? Can
+you do this:
 
+  1. Remove all the non-default command line parameters.
+  2. Boot the system up, nothing connected.
+  3. Plug in the USB4 dock, enable PCIe tunnel (this probably is automatic)
+  4. Plug in the first eGPU to the dock, enable PCIe tunnel
+  5. Plug in the second eGPU to the dock, enable PCIe tunnel
 
-vim +/vheader +1325 drivers/usb/serial/io_ti.c
+From this take full dmesg and output of 'sudo lspci -vv'. At least we can
+see how the "default" kernel resource allocation fails.
 
-  1065	
-  1066	static int do_download_mode(struct edgeport_serial *serial,
-  1067			const struct firmware *fw)
-  1068	{
-  1069		struct device *dev = &serial->serial->interface->dev;
-  1070		int status = 0;
-  1071		int start_address;
-  1072		struct edge_ti_manuf_descriptor *ti_manuf_desc;
-  1073		int download_cur_ver;
-  1074		int download_new_ver;
-  1075		struct edgeport_fw_hdr *fw_hdr = (struct edgeport_fw_hdr *)fw->data;
-  1076		struct ti_i2c_desc *rom_desc;
-  1077	
-  1078		dev_dbg(dev, "%s - RUNNING IN DOWNLOAD MODE\n", __func__);
-  1079	
-  1080		status = check_i2c_image(serial);
-  1081		if (status) {
-  1082			dev_dbg(dev, "%s - DOWNLOAD MODE -- BAD I2C\n", __func__);
-  1083			return status;
-  1084		}
-  1085	
-  1086		/*
-  1087		 * Validate Hardware version number
-  1088		 * Read Manufacturing Descriptor from TI Based Edgeport
-  1089		 */
-  1090		ti_manuf_desc = kmalloc_obj(*ti_manuf_desc);
-  1091		if (!ti_manuf_desc)
-  1092			return -ENOMEM;
-  1093	
-  1094		status = get_manuf_info(serial, (u8 *)ti_manuf_desc);
-  1095		if (status)
-  1096			goto free_ti_manuf_desc;
-  1097	
-  1098		/* Check version number of ION descriptor */
-  1099		if (!ignore_cpu_rev && ti_cpu_rev(ti_manuf_desc) < 2) {
-  1100			dev_dbg(dev, "%s - Wrong CPU Rev %d (Must be 2)\n",
-  1101				__func__, ti_cpu_rev(ti_manuf_desc));
-  1102			status = -EINVAL;
-  1103			goto free_ti_manuf_desc;
-  1104		}
-  1105	
-  1106		rom_desc = kmalloc_obj(*rom_desc);
-  1107		if (!rom_desc) {
-  1108			status = -ENOMEM;
-  1109			goto free_ti_manuf_desc;
-  1110		}
-  1111	
-  1112		/* Search for type 2 record (firmware record) */
-  1113		start_address = get_descriptor_addr(serial,
-  1114				I2C_DESC_TYPE_FIRMWARE_BASIC, rom_desc);
-  1115		if (start_address != 0) {
-  1116			struct ti_i2c_firmware_rec *firmware_version;
-  1117			u8 *record;
-  1118	
-  1119			dev_dbg(dev, "%s - Found Type FIRMWARE (Type 2) record\n",
-  1120					__func__);
-  1121	
-  1122			firmware_version = kmalloc_obj(*firmware_version);
-  1123			if (!firmware_version)
-  1124				goto e_nomem;
-  1125	
-  1126			/*
-  1127			 * Validate version number
-  1128			 * Read the descriptor data
-  1129			 */
-  1130			status = read_rom(serial, start_address +
-  1131					sizeof(struct ti_i2c_desc),
-  1132					sizeof(struct ti_i2c_firmware_rec),
-  1133					(u8 *)firmware_version);
-  1134			if (status)
-  1135				goto free_firmware_version;
-  1136	
-  1137			/*
-  1138			 * Check version number of download with current
-  1139			 * version in I2c
-  1140			 */
-  1141			download_cur_ver = (firmware_version->Ver_Major << 8) +
-  1142					   (firmware_version->Ver_Minor);
-  1143			download_new_ver = (fw_hdr->major_version << 8) +
-  1144					   (fw_hdr->minor_version);
-  1145	
-  1146			dev_dbg(dev, "%s - >> FW Versions Device %d.%d  Driver %d.%d\n",
-  1147				__func__, firmware_version->Ver_Major,
-  1148				firmware_version->Ver_Minor,
-  1149				fw_hdr->major_version, fw_hdr->minor_version);
-  1150	
-  1151			/*
-  1152			 * Check if we have an old version in the I2C and
-  1153			 * update if necessary
-  1154			 */
-  1155			if (download_cur_ver < download_new_ver) {
-  1156				dev_dbg(dev, "%s - Update I2C dld from %d.%d to %d.%d\n",
-  1157					__func__,
-  1158					firmware_version->Ver_Major,
-  1159					firmware_version->Ver_Minor,
-  1160					fw_hdr->major_version,
-  1161					fw_hdr->minor_version);
-  1162	
-  1163				record = kmalloc(1, GFP_KERNEL);
-  1164				if (!record) {
-  1165					status = -ENOMEM;
-  1166					goto free_firmware_version;
-  1167				}
-  1168				/*
-  1169				 * In order to update the I2C firmware we must
-  1170				 * change the type 2 record to type 0xF2. This
-  1171				 * will force the UMP to come up in Boot Mode.
-  1172				 * Then while in boot mode, the driver will
-  1173				 * download the latest firmware (padded to
-  1174				 * 15.5k) into the UMP ram. Finally when the
-  1175				 * device comes back up in download mode the
-  1176				 * driver will cause the new firmware to be
-  1177				 * copied from the UMP Ram to I2C and the
-  1178				 * firmware will update the record type from
-  1179				 * 0xf2 to 0x02.
-  1180				 */
-  1181				*record = I2C_DESC_TYPE_FIRMWARE_BLANK;
-  1182	
-  1183				/*
-  1184				 * Change the I2C Firmware record type to
-  1185				 * 0xf2 to trigger an update
-  1186				 */
-  1187				status = write_rom(serial, start_address,
-  1188						sizeof(*record), record);
-  1189				if (status)
-  1190					goto free_record;
-  1191	
-  1192				/*
-  1193				 * verify the write -- must do this in order
-  1194				 * for write to complete before we do the
-  1195				 * hardware reset
-  1196				 */
-  1197				status = read_rom(serial,
-  1198							start_address,
-  1199							sizeof(*record),
-  1200							record);
-  1201				if (status)
-  1202					goto free_record;
-  1203	
-  1204				if (*record != I2C_DESC_TYPE_FIRMWARE_BLANK) {
-  1205					dev_err(dev, "%s - error resetting device\n",
-  1206							__func__);
-  1207					goto e_nodev;
-  1208				}
-  1209	
-  1210				dev_dbg(dev, "%s - HARDWARE RESET\n", __func__);
-  1211	
-  1212				/* Reset UMP -- Back to BOOT MODE */
-  1213				status = ti_vsend_sync(serial->serial->dev,
-  1214						UMPC_HARDWARE_RESET,
-  1215						0, 0, NULL, 0,
-  1216						TI_VSEND_TIMEOUT_DEFAULT);
-  1217	
-  1218				dev_dbg(dev, "%s - HARDWARE RESET return %d\n",
-  1219						__func__, status);
-  1220	
-  1221				/* return an error on purpose. */
-  1222				goto e_nodev;
-  1223			}
-  1224			/* Same or newer fw version is already loaded */
-  1225			serial->fw_version = download_cur_ver;
-  1226			kfree(firmware_version);
-  1227		}
-  1228		/* Search for type 0xF2 record (firmware blank record) */
-  1229		else {
-  1230			start_address = get_descriptor_addr(serial,
-  1231					I2C_DESC_TYPE_FIRMWARE_BLANK, rom_desc);
-  1232			if (start_address != 0) {
-  1233	#define HEADER_SIZE	(sizeof(struct ti_i2c_desc) + \
-  1234					sizeof(struct ti_i2c_firmware_rec))
-  1235				u8 *header;
-  1236				u8 *vheader;
-  1237	
-  1238				header = kmalloc(HEADER_SIZE, GFP_KERNEL);
-  1239				if (!header)
-  1240					goto e_nomem;
-  1241	
-  1242				vheader = kmalloc(HEADER_SIZE, GFP_KERNEL);
-  1243				if (!vheader) {
-  1244					kfree(header);
-  1245					goto e_nomem;
-  1246				}
-  1247	
-  1248				dev_dbg(dev, "%s - Found Type BLANK FIRMWARE (Type F2) record\n",
-  1249						__func__);
-  1250	
-  1251				/*
-  1252				 * In order to update the I2C firmware we must change
-  1253				 * the type 2 record to type 0xF2. This will force the
-  1254				 * UMP to come up in Boot Mode.  Then while in boot
-  1255				 * mode, the driver will download the latest firmware
-  1256				 * (padded to 15.5k) into the UMP ram. Finally when the
-  1257				 * device comes back up in download mode the driver
-  1258				 * will cause the new firmware to be copied from the
-  1259				 * UMP Ram to I2C and the firmware will update the
-  1260				 * record type from 0xf2 to 0x02.
-  1261				 */
-  1262				status = build_i2c_fw_hdr(header, fw);
-  1263				if (status)
-  1264					goto e_inval;
-  1265	
-  1266				/*
-  1267				 * Update I2C with type 0xf2 record with correct
-  1268				 * size and checksum
-  1269				 */
-  1270				status = write_rom(serial,
-  1271							start_address,
-  1272							HEADER_SIZE,
-  1273							header);
-  1274				if (status)
-  1275					goto e_inval;
-  1276	
-  1277				/*
-  1278				 * verify the write -- must do this in order for
-  1279				 * write to complete before we do the hardware reset
-  1280				 */
-  1281				status = read_rom(serial, start_address,
-  1282								HEADER_SIZE, vheader);
-  1283	
-  1284				if (status) {
-  1285					dev_dbg(dev, "%s - can't read header back\n",
-  1286							__func__);
-  1287					goto free_vheader;
-  1288				}
-  1289				if (memcmp(vheader, header, HEADER_SIZE)) {
-  1290					dev_dbg(dev, "%s - write download record failed\n",
-  1291							__func__);
-  1292					goto e_inval;
-  1293				}
-  1294	
-  1295				kfree(vheader);
-  1296				kfree(header);
-  1297	
-  1298				dev_dbg(dev, "%s - Start firmware update\n", __func__);
-  1299	
-  1300				/* Tell firmware to copy download image into I2C */
-  1301				status = ti_vsend_sync(serial->serial->dev,
-  1302						UMPC_COPY_DNLD_TO_I2C,
-  1303						0, 0, NULL, 0,
-  1304						TI_VSEND_TIMEOUT_FW_DOWNLOAD);
-  1305	
-  1306				dev_dbg(dev, "%s - Update complete 0x%x\n", __func__,
-  1307						status);
-  1308				if (status) {
-  1309					dev_err(dev,
-  1310						"%s - UMPC_COPY_DNLD_TO_I2C failed\n",
-  1311						__func__);
-  1312					goto free_rom_desc;
-  1313				}
-  1314			}
-  1315		}
-  1316	
-  1317		/* The device is running the download code */
-  1318		kfree(rom_desc);
-  1319		kfree(ti_manuf_desc);
-  1320		return 0;
-  1321	
-  1322	e_inval:
-  1323		status = -EINVAL;
-  1324	free_vheader:
-> 1325		kfree(vheader);
-> 1326		kfree(header);
-  1327		goto free_rom_desc;
-  1328	
-  1329	e_nomem:
-  1330		status = -ENOMEM;
-  1331		goto free_rom_desc;
-  1332	
-  1333	e_nodev:
-  1334		status = -ENODEV;
-  1335	free_record:
-> 1336		kfree(record);
-  1337	free_firmware_version:
-> 1338		kfree(firmware_version);
-  1339	free_rom_desc:
-  1340		kfree(rom_desc);
-  1341	free_ti_manuf_desc:
-  1342		kfree(ti_manuf_desc);
-  1343		return status;
-  1344	}
-  1345	
+> If you truly want all this on the mailing list, please let me know.
+> 
+> > 
+> > > Below it looks like you hot-added the hub.  Does it make any
+> > > difference if everything is connected before boot?
+> 
+> Yes. With both GPUs connected at boot, none of them will work. With just
+> one, it works.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Okay that tells the BIOS does not even try to assign the resources for
+both of them.
