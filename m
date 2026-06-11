@@ -1,91 +1,112 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283FD22A4E1;
-	Thu, 11 Jun 2026 13:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223492E8DFC;
+	Thu, 11 Jun 2026 13:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781185613; cv=none; b=SAoJsl/05Bz+7NLuFEHL7Co0ooG5OuG1X6wrgqUSUAmeB5XfBJcqtIwcEE7e1AZx2aIRSMZLeFvB4trKIQKekltCA3S6sJawjm4enQIWhIYY6V3WE+oiUi2s14ErMx4IUIsn9ScE6grcSLOzw6gpmXDen4TAlPP9t5jtOYcL2ro=
+	t=1781186151; cv=none; b=bZ4f/ziv5a5jEv0okOK0+vFB0QGBgXKmIsbOC84rNnkIAuNpWVwLCCuEsyVz8+3K0YO239wtB7JXSZspOIFnIEgmr1ZR/m376XRgauKvxUsC2smmyn+K57YVrBrvjP/1sSiXNdcEWom0VhABqvr5FFckJqttVVfI88vO/qmKDmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781185613; c=relaxed/simple;
-	bh=FSGTK0158Q5I2R/ujj63HFCVqCSXUlfbvZo1oONQnVk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jRVt+vBq+t/RS6EyFx7Rmmjxxh1Pp+4jdSXb03zJ2b9u+SftAJBacrkMeo1nuExcIHOG8dHns7gw3gmCMLW3zi35r1TvKTUaxrVZYXSfrt0+dc71nhX4ojxLAiKmXOjKj9VYthhv8zRmt0eAIrJF+b4XgG076PrQqjXIzvN+DD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [117.182.75.76])
-	by APP-05 (Coremail) with SMTP id zQCowAB3zhFDvCpq4OEWEw--.736S2;
-	Thu, 11 Jun 2026 21:46:45 +0800 (CST)
-From: WenTao Liang <vulab@iscas.ac.cn>
-To: gregkh@linuxfoundation.org
-Cc: vulab@iscas.ac.cn,
-	oneukum@suse.com,
-	kees@kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: misc: fix refcount leak in get_1284_register()
-Date: Thu, 11 Jun 2026 21:46:41 +0800
-Message-ID: <20260611134641.84658-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1781186151; c=relaxed/simple;
+	bh=EnxDrq4p8ENTBpj36ABul0ldpJoa2X1u1aQtG/mA8gY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DK97Oct7j7RmuXGzcv7DNV1kr/xPiVfI0ObsBusEkdPYVzv0eAcWvI9M6zSkD3arbHG+Gn3FljpUEebWrUxjZjwFCewtK0csiqARoaCBbuxjkio+zuS12SyRbvlWT3qShxIzQC1L1yzaPN/biyeLXxuJ5PwSCksl0y+jTwgzPgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DpMF+uKQ; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpMF+uKQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781186149; x=1812722149;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=EnxDrq4p8ENTBpj36ABul0ldpJoa2X1u1aQtG/mA8gY=;
+  b=DpMF+uKQuvzoU17XWKyKJtN/YAiJQ9uYedWaPYshOEbvbqwxBTWsPz4n
+   J9Ce/2Q8uu2QOIo/bzsoR5MnDmOX9Fm2STLwkDRH5ybSZ08GdzSWAhPpx
+   kOqbV69fW2J64W4SkSthSfCvWQanYRBQLA42p7U8iW8+iyx9WruF9y5Al
+   9tBW2CRNKWf2UgLtTq4Fnh4HduKvKAApEK52i6OhS8SxW1Q7Ix1p6a2qv
+   IBJ7A6ktaXO68wF+WrfOMhpapx9e6xQTrwC9jvFUUdZWlYF6HSMv2zd7C
+   PYmuI5tLV3fdN4zUAyLYNS5JShAyj5HAKFzK/GJDJWpcYPK4LpHdPgxUT
+   Q==;
+X-CSE-ConnectionGUID: zWqtyDZlRxesMGb+kvyI2Q==
+X-CSE-MsgGUID: oFNu+0IQS3+tNj5aquaf9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="85837729"
+X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
+   d="scan'208";a="85837729"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 06:55:47 -0700
+X-CSE-ConnectionGUID: I+LDsFVYTxiwKvNRgMqewg==
+X-CSE-MsgGUID: v8eP9DMdS3CiGpKjfc/Mpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
+   d="scan'208";a="244041199"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO [10.245.244.163]) ([10.245.244.163])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 06:55:45 -0700
+Message-ID: <6162a0c6-9621-471b-b425-2f821cec6594@linux.intel.com>
+Date: Thu, 11 Jun 2026 16:55:43 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAB3zhFDvCpq4OEWEw--.736S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kry5uF4UWrW3uw4rAFy3twb_yoW8Jw18pr
-	42k34jkFW5Xa1Ikw4UJFnYvFW0ya12yrWfGFWIy3s5ur13JayDur1jq34q9F13Cr4kJ3sx
-	tr1qqF15XayDXaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
-	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
-	IxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUf8nOUUU
-	UU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAgPA2oqh3ikuQAAsq
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH] xhci: sideband: fix ring sg table pages leak
+To: raoxu <raoxu@uniontech.com>, mathias.nyman@intel.com
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <37074E2036AAAC12+20260610093857.1427999-1-raoxu@uniontech.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <37074E2036AAAC12+20260610093857.1427999-1-raoxu@uniontech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In get_1284_register(), submit_async_request() returns an
-"rq" object with a caller's reference. If the subsequent
-wait_for_completion_timeout() times out, the error path
-calls kill_all_async_requests_priv() to cancel pending
-URBs, but it fails to drop that caller's reference. All
-other paths (early exit on !val and the successful
-completion path) correctly call kref_put() to release the
-reference. This leak results in the memory allocated for
-the request never being freed.
+On 6/10/26 12:38, raoxu wrote:
+> From: Xu Rao <raoxu@uniontech.com>
+> 
+> xhci_ring_to_sgtable() allocates a temporary pages array and
+> uses it to build the returned sg_table with
+> sg_alloc_table_from_pages().
+> 
+> The error paths free the pages array, but the success path
+> returns the sg_table without freeing it. This leaks the temporary
+> array every time a sideband client gets an endpoint or event ring
+> buffer.
+> 
+> Free the pages array after sg_alloc_table_from_pages() succeeds.
+> The returned sg_table has its own scatterlist entries and does not
+> depend on the temporary array after construction.
+> 
+> Fixes: de66754e9f80 ("xhci: sideband: add initial api to register a secondary interrupter entity")
+> 
+> Signed-off-by: Xu Rao <raoxu@uniontech.com>
+> ---
+>   drivers/usb/host/xhci-sideband.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
+> index 23153e136d4b..a5deeee4d5dc 100644
+> --- a/drivers/usb/host/xhci-sideband.c
+> +++ b/drivers/usb/host/xhci-sideband.c
+> @@ -58,6 +58,8 @@ xhci_ring_to_sgtable(struct xhci_sideband *sb, struct xhci_ring *ring)
+>   	if (sg_alloc_table_from_pages(sgt, pages, n_pages, 0, sz, GFP_KERNEL))
+>   		goto err;
+> 
+> +	kvfree(pages);
+> +
+>   	/*
+>   	 * Save first segment dma address to sg dma_address field for the sideband
+>   	 * client to have access to the IOVA of the ring.
+> --
+> 2.50.1
+> 
 
-Fix the timeout path by adding the missing kref_put() call
-before returning -EIO.
+Thanks
 
-Cc: stable@vger.kernel.org
-Fixes: 0f36163d3abe ("[PATCH] usb: fix uss720 schedule with interrupts off")
-Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
----
- drivers/usb/misc/uss720.c | 1 +
- 1 file changed, 1 insertion(+)
+Adding to queue,
+will send forward after 7.2-rc1
 
-diff --git a/drivers/usb/misc/uss720.c b/drivers/usb/misc/uss720.c
-index e1eba3cbef0a..ca97d77cfe2e 100644
---- a/drivers/usb/misc/uss720.c
-+++ b/drivers/usb/misc/uss720.c
-@@ -223,6 +223,7 @@ static int get_1284_register(struct parport *pp, unsigned char reg, unsigned cha
- 	}
- 	printk(KERN_WARNING "get_1284_register timeout\n");
- 	kill_all_async_requests_priv(priv);
-+	kref_put(&rq->ref_count, destroy_async);
- 	return -EIO;
- }
- 
--- 
-2.50.1 (Apple Git-155)
+-Mathias
 
