@@ -1,132 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4F237B400;
-	Thu, 11 Jun 2026 09:20:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37093BCD36
+	for <linux-usb@vger.kernel.org>; Thu, 11 Jun 2026 09:35:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781169642; cv=none; b=tHjiY7ONZaMuaefAn9/dQYIR5e9CY0yAmHNwYalM+/lpzWrbX0hgUkurAVVGJSGB7RwLYksnDPmJUcMcJsCBmKPqKf0NmOCMIq0HPSDgcfYDBWBLbTNCGIZFc70b8XEjSpPMF6QeTAG7KCzCa0cvY1Z3C3XyG7Nuz3Hl+TjCICk=
+	t=1781170530; cv=none; b=F2rsUDTruhhV/2y+qXOPrsqcXyH7ohD2dpOCy4rO+e3Uy3/BFC+W1BldHDLdevXoiVQ5kKg+WAxRKIG0QaB7zeTtjcsL0LGekfbmJedomcaMnCH1t0T7d8TiQJ9L5s++VE1yrtJhm0tDvxDCVWBPkzQlOdGqc7WVzJuxAmWQK1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781169642; c=relaxed/simple;
-	bh=UHi2L7vHTqcAZWk8jb17dHzdh9BUVMjd/u/pdK2oNIE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s1Qqh/ARqOvj8T0AVOlFz7ehosNm+Ag7nxpy3aHM5UuOuVMO1cQ2zPYlI61qqTXYquCDGzS/H88Zx9fYP63FsPitn8O6ifBI2Ap/w1gExIT5HJf4JJO9AuZXa/XH3v2jlTU+4TZs0CmvM4hC1yqD5ZxELiHzda8jksVbGctFBPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jF42cnnG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781170530; c=relaxed/simple;
+	bh=Ov574hmILB3pdxYdVww1k57wi7RZAzJuxmEZc5khEpc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FzOEHwTeqgzM9F8XtzKzWxPe8oa0MTZwsN8S/bnAsAyp6H7oXNWgiGks43yOSG9cnUPPuR8bx9jP+2CeU0JG7qCswlnimYLMFjyiyp0+nn5m+Ov18MW5B/kmWl43Xj1kflDTpnEVjiEtN31bGLaxPeLUzTEdirWIhqRDYfcEGoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A1/pVACi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jF42cnnG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B08011F00893;
-	Thu, 11 Jun 2026 09:20:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A1/pVACi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97E201F00A05
+	for <linux-usb@vger.kernel.org>; Thu, 11 Jun 2026 09:35:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781169641;
-	bh=xodOjzoMN11YHiycgk/9RInKHkH8phYNboa6J0q2SLY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=jF42cnnGKQl91JjcBYG9RAkKZy+cNPUOrzar0j+QktoOkJaV2qFgz05NRoJ1hZ4y3
-	 GUoC7rn4u6wFpLI5FUIOWnE7Uahhf8wpcaiIzfoTdscrH6avqgmnPMp3PkDP9dRED7
-	 i/oU+sVPWW8G3oDHQKLqHPYVM1wZSCiNxzQWbY+sXD+VAsjfedc6q1bcarKz9qT60t
-	 kWBJ83BiqF4NsHzXiEurH+cc8mCZzx/b/5TM1f7Xy7r2m+qBSenY7q00sANne3RhWK
-	 7nYsi2tEsNYITTE60YdpxKQh4x0uWIVlNTJK4CwCSIXkY5T6u+xtU9VuHoRWemfz9v
-	 H8gC1Q//SLKxg==
-Message-ID: <d30e1417-1cff-43bd-a459-435f05b8a490@kernel.org>
-Date: Thu, 11 Jun 2026 11:20:37 +0200
+	s=k20260515; t=1781170528;
+	bh=Ov574hmILB3pdxYdVww1k57wi7RZAzJuxmEZc5khEpc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=A1/pVACiTZRAyvqSvqEomemy4em1jq1mn10xf+YddyDmO+LQsyXzcnpO+6OdkAUdi
+	 yt34E2hgTuHynVkbQ+G7v+YhIYRTHl0CedAwB54FM/vhiIG2jKUJde3lnJAjtuutTM
+	 nbOC+ZA9BDBl9yKwb6CLfM/2miWpqts62qkiO5uoMkBFw5qMVp+gNi9r4ypV7ZdXXy
+	 utPeojc90hX3TyUAtfygwQFWHYpvCz7deOF+NgKmVqcR3EJtoPqp+B54tJBAAkZYgF
+	 poIqSVcChK12wjfXWVIP8xYLTHrHTRdakNyGwz6XbRWEH9G1GPXNksQKqmu5S1kjSx
+	 kOI/cBXt1aO1g==
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39697a4e16cso73717981fa.3
+        for <linux-usb@vger.kernel.org>; Thu, 11 Jun 2026 02:35:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/b9k6XwUo8bF4FaW0Hx3trwDSCNJpJA5AqNkh+cyCPwTSFiZ4vVrHZKlDlw2aor3gfJ23qX6qnw0E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypyvIsVdPjnQXKBX5a0hnvx/x5niojqXWBESFy4Dg+GbsnVGD8
+	YNjd5urp7bye11i30D1wFUUyYwPl+t1I566PZAIt+kYCCUTr7TxS0H8Ri0ODHJg/+I9EqkFRatF
+	GxHPkvug9ipOux3pQ6Md6PepSbW9Cnf56WuwtBxKBJQ==
+X-Received: by 2002:a05:651c:248:b0:395:6085:a15f with SMTP id
+ 38308e7fff4ca-3991a037f82mr5814191fa.9.1781170527256; Thu, 11 Jun 2026
+ 02:35:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64: defconfig: Enable USB_UAS in arm64 configuration
-To: Akash Kumar <akash.kumar@oss.qualcomm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-References: <20260611090946.2790631-1-akash.kumar@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
- /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
- s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
- EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
- rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
- DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
- IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
- vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
- oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
- sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
- vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
- Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
- BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
- 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
- f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
- WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
- XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
- IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
- YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
- p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
- GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
- YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
- vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
- ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
- QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
- +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
- wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
- c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
- K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
- n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
- qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260611090946.2790631-1-akash.kumar@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260610084053.2059858-1-wenst@chromium.org> <20260610084053.2059858-6-wenst@chromium.org>
+ <ailxrP-_9_NL8qnN@ashevche-desk.local> <CAMRc=MdiwQM6yk8FXcc+RisVP2iqWKWzVsn2-Yy6dyJXt-1X=Q@mail.gmail.com>
+ <aipz2zMFcdnZYTxS@ashevche-desk.local>
+In-Reply-To: <aipz2zMFcdnZYTxS@ashevche-desk.local>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Thu, 11 Jun 2026 11:35:13 +0200
+X-Gmail-Original-Message-ID: <CAMRc=MdRN7YitmMX8PknbzLh+MdsWm+dDg0MLtCVYOorqNobTw@mail.gmail.com>
+X-Gm-Features: AVVi8CfSg10E0UvFAW373K-Jcv4BNuLaPDP9X_vJcmiaG1CmuHb8KO5g7-SqyaM
+Message-ID: <CAMRc=MdRN7YitmMX8PknbzLh+MdsWm+dDg0MLtCVYOorqNobTw@mail.gmail.com>
+Subject: Re: [PATCH v2 05/16] usb: hub: Associate port@ fwnode with USB port device
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
+	Chen-Yu Tsai <wenst@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/06/2026 11:09, Akash Kumar wrote:
-> The USB Attached SCSI (UAS) protocol is supported by many modern USB
-> storage devices. It provides significantly higher performance than the
-> legacy Mass Storage Class (MSC) by supporting multiple outstanding
-> commands and command queuing.
-> 
-> Enable CONFIG_USB_UAS=y in the default arm64 configuration to provide
-> better out-of-the-box performance for USB storage devices on arm64
-> platforms.
+On Thu, Jun 11, 2026 at 10:37=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Thu, Jun 11, 2026 at 04:20:58AM -0400, Bartosz Golaszewski wrote:
+> > On Wed, 10 Jun 2026 16:16:12 +0200, Andy Shevchenko
+> > <andriy.shevchenko@linux.intel.com> said:
+> > > On Wed, Jun 10, 2026 at 04:40:39PM +0800, Chen-Yu Tsai wrote:
+> > >> When a USB hub port is connected to a connector in a firmware node
+> > >> graph, the port itself has a node in the graph.
+> > >>
+> > >> Associate the port's firmware node with the USB port's device,
+> > >> usb_port::dev. This is used in later changes for the M.2 slot power
+> > >> sequencing provider to match against the requesting port.
+> > >
+> > > Okay, would this affect ACPI-based systems? if so, how?
+> > > Can you elaborate on that, please?
+> >
+> > Is it possible that there's an ACPI device node associated with the por=
+t like
+> > on some DT systems? I don't think so and there should be no impact IMO =
+but I
+> > also don't know enough about ACPI.
+>
+> The API is agnostic. There is a possibility to have software nodes associ=
+ated
+> with the port. I think the best is to be sure that ACPI-aware people who =
+are
+> experts in USB will check this (Heikki?).
+>
 
-Anyone in upstream actually uses it for development? Care to show some
-examples?
+Even if there is a software node - it shouldn't really matter. It will
+just be assigned to the port device.
 
-This is not a distro config, you know...
+Bart
 
-> 
-> Signed-off-by: Akash Kumar <akakum@qti.qualcomm.com>
-> ---
->  arch/arm64/configs/defconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index d905a0777f93..f82e9df77941 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -1216,6 +1216,7 @@ CONFIG_USB_RENESAS_USBHS_HCD=m
->  CONFIG_USB_RENESAS_USBHS=m
->  CONFIG_USB_ACM=m
->  CONFIG_USB_STORAGE=y
-> +CONFIG_USB_UAS=y
-
-For sure not built-in...
-
-
-Best regards,
-Krzysztof
+> Also note Sashiko complain on reference count leakage.
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
