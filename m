@@ -1,345 +1,181 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012053.outbound.protection.outlook.com [52.101.48.53])
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012033.outbound.protection.outlook.com [40.107.75.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2112F6577
-	for <linux-usb@vger.kernel.org>; Thu, 11 Jun 2026 05:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F4F331EAF;
+	Thu, 11 Jun 2026 06:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.33
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781156550; cv=fail; b=OyudDamUSAejp1Z7XnmWsh7npKUsICRAkgnoT0Id2iXd8ER4pf4d9IZlK6VzrVaJxT5IKoELXzwiV94Jp8JI/WpUz/B/PtDgrV1q3FxdPdg/SVWzh8r1u2lyBOkmbGckjRqk/tzF4C7w/xW61TL64NR8X1+jEJ7PjDyGxHRbiBc=
+	t=1781160260; cv=fail; b=b5OreRSVhlqyQgv6OmwCKYiqg39fj+OetDD5AEreTk6pdjWcPjJmdFtBtSZdd82/sMDr3Oy1miRPmRhAuWaKR36wI63X8nNz6nAqzPg3ZxdMCbnFQpt7xl1l/1F4/Dcl+w++L56eSBeO3Ch+cMUuLifZrGti7DuQQTtGlaFmVLI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781156550; c=relaxed/simple;
-	bh=zfAN4ds4EYvjzXqqkUYWa3FvXsEoQ2yqHu4aMlGWdEs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IU5U19HJoNc5BC73KJ37y7CEqj4oDt+Az3aF204fOyG4kipvMNNASZvkKec/VmelGQNKID+/FoRTRA4q8JfRewo04zmXFsZFLXoGVOBXQXzRrh9RuE9PX9Lpmmr5LW78/UsUI8zTC5qwxPW6q8KwaNCzdRiqdtjQG3HOOANxFmY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dyw0HBfk; arc=fail smtp.client-ip=52.101.48.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1781160260; c=relaxed/simple;
+	bh=BvO7MRgnoRskaUJjrPa1rLHSaYzOahOZ4+iyGa+j83k=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=MY7ZYDebSgTfIoPStRd68PIfKiI8357Azr6oCu0pjhX30Eh8I4WoD4qT+MsZTh60qzUOuSiKNDtmzIj3o/RiiL8pSHmRrSOEWiDoKEZVHCsO/08+ZlOqxYaPI/njcg6j+oO70HDmKhVjYpWKxK8HhHy7LZqVfo0PECn9nUhZUJA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=HYigqRql; arc=fail smtp.client-ip=40.107.75.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dyw0HBfk"
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="HYigqRql"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ijxWn2PAGVnBiY3BKCMbV/ijH604DJBLDC5csvRhTuWjwOW6PocJX8c/fiuiiGrbiB1ZvOCgO6zZsAmEQXp2amjzRpEy1ZR3jEWhIHofv+qEfBUHWLxf/4kuVvXnQpNroN/oGnSoulrQbiKLFVAfMukT+QFg8jOfcT79eHqUD4cYaRdf0o9Nynmqw5loOxe6iwlDvv8ADelJIJUyCqYdmzIv3S3pVid2rNFoF9XPmhwiqjt3Ln14XXc8HojkKfz+K8UDfrP08RcCAMBJ2ZOWWzPNa8aLb9Xv1F5tlOqNJFgFviSZhGN2GZvk2UbBiVPIIETaaQLJWCZRoMFxxxMVig==
+ b=p7AqNMWl0JLNtU6hTjSOAdzl71WCHhiz804qoEpSVqIzJ7n21RI8OOBcwm09Sp+Y0WU3103W+ScO3AghE8skwu0ifNJdqikieIXzIUqhWH6175ErSZPOAVDA76t3KBtcjnW8p05R41yjYSAtivj25P84+LQNzfdOMX9vrdC2mKgU+vFetUEkA7PPhvOYB3ZdM9RVOU2u0m4UyMgg3WsnC8IYajRF64qmet8EmOT4sONpd6H5G5EMrfZnPKpAVJJFQiWymc4kOd+keY9eR4C3qdDB40j+p1rHWMXyQbgVfIP/GKVaMS4zS/BVKz5vYsxw/NkI7vdZIkSRECrTh6aQ8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2TGxawhucahx2Tcl/I0cwwyjiymViYBq0bjsDYFblp8=;
- b=NkN57jlOrL1/CcGCQk6dxjt9FXwdWqe3JVg2QqW3fwxmR48iIE4SsF0nNZX247AEMbW+2YqufPjL7jhM9vajHI4AFchEHKghhxZlwdx1++FQv7MoI+wrolCbBnEm7Jx5tK0AzkxwauNRhpyBF4L4h0hFLh8yk0rFj/lE0xB/RpSz/ThKQkCDxv99xVUMQkU2loJXAEcNVKt0NL6o/KdItAvh1CVeUpd2Xc7RPxdbDxFaWggbE+9hTqPoVDi2aN6HWoTupR+9rPUHJP3CoBCoEELkVTNwJtN8lvqrdDBZt8s9XNDPXpnl0k2aK7+gN+lxDtR88cfd+3vy7GVYk7nstg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=BvO7MRgnoRskaUJjrPa1rLHSaYzOahOZ4+iyGa+j83k=;
+ b=Jh8ec5Leqgz2YCoSpUYY8jWyExIWWREl8ylDBqiyHfil5DKXB1437ARuVxUDBX9TaNr97/7PqcXuYt47tkoMKwXEnTj36DpIQXpp9xoSHTlHyQKiep/BO56t8aTvWRgb4edhkkauvn4OkK/avQ8T4sNOCjq9fkKk6JjkmH29EsH2e2G5Q5WG5fDylS4FXtCqzhtKqZbwj9TyAIVCVw0QpUzR8MUiTkftFfIwPMXM3Ad4oJTNmn6YFr2OvgK/7nDwlH2DVYVmLhCNPeZ7L3Ga/wnUTv6m/3JaCfRJ6aEZ+4WzYVBZvZp95pjAlg0hIu0BxpJ3ly3/0YuOsYkjofX0Qw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2TGxawhucahx2Tcl/I0cwwyjiymViYBq0bjsDYFblp8=;
- b=dyw0HBfkuQazNlzTmb3yfEMuLPOJ8HRR9UkL9mD4tmjz3d0X3R9yzgmJEjZv8Xf5UMv9U9WlkmKUrduO/Y2Bcx7e+f7JH7VGwbX/niJpfJIQLicTh9lBaDzym+AAORN1TdzSZvztlS9HDfIHUXtfHsOChMsUwKbFJbzSkrzZ5M4=
-Received: from SJ0P220CA0024.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:41b::32)
- by MW4PR12MB7431.namprd12.prod.outlook.com (2603:10b6:303:225::22) with
+ bh=BvO7MRgnoRskaUJjrPa1rLHSaYzOahOZ4+iyGa+j83k=;
+ b=HYigqRqlriypUYdDCXaRZ20M90fLr2F0jm5Qj0rEY8TDp0OarTTctu2jHjVyZ36ya7Y4yr5u20BBzrhY2PxzS/+S7QwfpepFr50DGabNWh+A0F4sxzg4N5XSK+r7pF/LMbIntAMHcwj2SiWrVVD4iz9Clo50Wy1XzMcQ4n67y4rJT4Jv5Y/wmMPO3Pkx8EEsQ6T9+lkTIEAt/VOY8DHbJtMEX2zS73MarnGpd3eSELf9FoND5uitU6FIWdi3JMYlNwi8IT2dSWik/x78CNbpgdebpidnIFAfcsWMNvkuqGL7z/2k199q2az7k2m0HXLC9P4NiR6P2Nj9CAXmL9bZvg==
+Received: from TYUPR06MB6217.apcprd06.prod.outlook.com (2603:1096:400:358::7)
+ by SEZPR06MB5416.apcprd06.prod.outlook.com (2603:1096:101:67::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
- 2026 05:42:20 +0000
-Received: from SJ5PEPF00000204.namprd05.prod.outlook.com
- (2603:10b6:a03:41b:cafe::9d) by SJ0P220CA0024.outlook.office365.com
- (2603:10b6:a03:41b::32) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.10 via Frontend Transport; Thu,
- 11 Jun 2026 05:42:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ5PEPF00000204.mail.protection.outlook.com (10.167.244.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.113.7 via Frontend Transport; Thu, 11 Jun 2026 05:42:19 +0000
-Received: from airavat.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Thu, 11 Jun
- 2026 00:42:17 -0500
-From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-To: <andreas.noever@gmail.com>, <westeri@kernel.org>, <YehezkelShB@gmail.com>,
-	<linux-usb@vger.kernel.org>
-CC: Basavaraj Natikar <Basavaraj.Natikar@amd.com>, Mario Limonciello
-	<superm1@kernel.org>, Sanath S <Sanath.S@amd.com>
-Subject: [PATCH v4] thunderbolt: Assert downstream port reset on shutdown
-Date: Thu, 11 Jun 2026 11:11:57 +0530
-Message-ID: <20260611054157.928921-1-Basavaraj.Natikar@amd.com>
-X-Mailer: git-send-email 2.34.1
+ 2026 06:44:15 +0000
+Received: from TYUPR06MB6217.apcprd06.prod.outlook.com
+ ([fe80::8d51:58c7:42f3:ecc]) by TYUPR06MB6217.apcprd06.prod.outlook.com
+ ([fe80::8d51:58c7:42f3:ecc%6]) with mapi id 15.21.0113.011; Thu, 11 Jun 2026
+ 06:44:14 +0000
+From: =?gb2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, "sarah.a.sharp@linux.intel.com"
+	<sarah.a.sharp@linux.intel.com>
+CC: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	=?gb2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+Subject: [PATCH] usb: xhci: Fix sleep in atomic context in xhci_free_streams()
+Thread-Topic: [PATCH] usb: xhci: Fix sleep in atomic context in
+ xhci_free_streams()
+Thread-Index: Adz5bL4JO2Aqie56TjeTYrhhycmoBg==
+Date: Thu, 11 Jun 2026 06:44:14 +0000
+Message-ID:
+ <TYUPR06MB6217153FC7FC9757871D501ED21B2@TYUPR06MB6217.apcprd06.prod.outlook.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYUPR06MB6217:EE_|SEZPR06MB5416:EE_
+x-ms-office365-filtering-correlation-id: 8b163a30-f671-4330-c0e4-08dec784da4a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|42112799006|1800799024|376014|366016|23010399003|38070700021|18002099003|11063799006|5023799004|6133799003|56012099006;
+x-microsoft-antispam-message-info:
+ 6MfdUOSVFwoRoesOaLwpYTf/THpH2wT5bSGCga5EB0YDUS6QFlSmkd3jzpgDqZ0XyPCL6aypy70s+uyw8UTsIRLV5r544+99fX0clRrQAprp+PprsoaomEm6PTIGsuUg2oe+QOHFXdE5RVT772sqmfSN/5xxJncuKi/ZowjF/CGaVQWxCLn8iI5Ku6vlx3eT25YE2s9IDTY4gOVdf5ExYHzwgCgLhxkWrNEnmPyfq+XQCHNhOv/fxcxrPHV4jNRZBmzt0GhmHACZGF6Feol9LSI07J1Rf9X7IK00V+vAmbWoOkMTuHa1l2JlB0fR5DxJZvkHf2GNDUNA/wmz7GmJV3qeuK5XTQH4MOMU93ihHlyvNQj3bS6jBEXUQdh6nwp8uTmDkm/NBQ/hL/z0NtElYUP6mb3WddHJI9Q6PV6PHp3N8c8m6gq1x7yYMBEWpsEls3jTKN/woVGYvtnDSEBpYrGzrObTL/OllnVCkl3jwD5T6lnUixeJpjEqLiKH+86yV6kuiVXI0agYwnacWq333mak/9miUuN0YdF35FlnoQEu5DhCSqNxRj7w49Ct12baro3/ysEaPCAcLqDFTL0O9nDGBilrG1hUqDHlK9JQnihIgSzfjN5BnKCCvx7qVLXthhyb1pJTs/3tXLZ8KEgufcu0F9LOWfwBhQrZbK+myVMIDuo2D1FUbjbMgtDR1Uno23LWLui+f0KYXCpWbOwhVimQminiKDAr1addDm9/DnTFwQ9bUFxNmahF0IxxnN4D
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYUPR06MB6217.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(42112799006)(1800799024)(376014)(366016)(23010399003)(38070700021)(18002099003)(11063799006)(5023799004)(6133799003)(56012099006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?gb2312?B?Nk1XVGFqY05USnVLbGhIbnBTWTFNQ2h5OHhFNjcvYmVibTNIZDRMTDY3WTFU?=
+ =?gb2312?B?b1B2Vk1ya1REUWlMTUF6Qml1elA2THJ3TFFsZWNHNWVjY3pmNFlzZWlwZnNB?=
+ =?gb2312?B?UUUyZHBqMjJpYzhXUXAxaFQzTU45SCtHL2EzN0JKdHFWcnFLSFRLUXRDblEx?=
+ =?gb2312?B?K3RLa1NnNVQ1aThIQURqazQ5M1M5ejM2MVF4aEZVUlllbVVQVjd4R21GR3ZF?=
+ =?gb2312?B?SXkyekZTK3VnZm1RNk16QnNnTlprRWtxdnJvdGd6SGFYTG4xZ2tQeFI2RjlP?=
+ =?gb2312?B?eGJEbitsZE8xb1YrUEtRTldVbkp1UXE0a0RNZkhSY2V4WVhFNWRhc3N1Tit5?=
+ =?gb2312?B?UVQ5NjI0VVVCVE5MR25VcENVRm1PckJtYklJaURRaG5nd3VaVjM3MllmbUc3?=
+ =?gb2312?B?Z3V1Tit2RWxjQU5nQVYyQXR1eW13ZU4vWG9TeEhRMVZkSkp3YW9RYkZsWGFF?=
+ =?gb2312?B?QkNoaDloZC93UHRXbTduNTBHRnBvbUQ0L0RqRzJSZS9tVzgyV1V6Qk0yWk9y?=
+ =?gb2312?B?Snhocmt5QjU4M01BRkdNM1FuVWN6QTUwUHAxL2lIbmZuS1lTelRTTk9SbjNk?=
+ =?gb2312?B?NWcxQ1hsVmZ3emdneWdIYkxtTW5wMXVNTjZBaTUvYUgyY3JteENBS203UjRC?=
+ =?gb2312?B?b21WOWh1SXV5L21vVXZta3h4ekdPdEUrL0xlaHZZUDdzYm1IR0wzMFBMQk5V?=
+ =?gb2312?B?S3Q3ZWRnYWh6c1FETW5RT0ZZUVAwQk05b3pBWlFzRU5oZTlCeVBqa05iNjNJ?=
+ =?gb2312?B?QUEwNDdpU3p3N3RPWklxKzNOSXNvRVdLczYxSzlDanBqVlM3Nkw0OGNpZW1G?=
+ =?gb2312?B?Y1pTZ0JzT3hWci9VZkpxQ09UME02aXpYeEwwdDQ1WGlTaUFhMGhqLzE0YlVJ?=
+ =?gb2312?B?UWxiMUdCN1hWUWlKMEdQNzFudDF6ekVQU2c4NkxNZm1TaDJjbnlHbVQyOGh3?=
+ =?gb2312?B?Yi9LbnVockFpdlAwUmx2aXdxQWV1OU4zTUFWV0VQamcvb3VvRXBuTjV3YTVS?=
+ =?gb2312?B?Njlqb09qVHJYK003cVV1WDM1UjhqT2R2RHNFUVh5QmVTVnhWZXBWV3ZyaHZq?=
+ =?gb2312?B?RUxCVjg0KzQ2M3h4ckdUNCs3MTBYQTVITVdxZEdMSWk5NXBxa0s4R01qV3Fh?=
+ =?gb2312?B?Uy91a1EvZlZLWUtZZC83dzIzY1E5R1d3VGJhYytMNUJVdWtuM2tsV1V5dG5u?=
+ =?gb2312?B?SkVwWjlYNXZuVVVWVjJuajZiMWtocVZNN1Q5ME42VHFmZmd5RUg2d29YM2R3?=
+ =?gb2312?B?cU1iK0lCaWNZd0dkSzgvN1d4SXZ2SysvOW1Mb1ZJbEhJMXgycnluV2h1S2oz?=
+ =?gb2312?B?Q1pwanl3RUUyUXNDbTU1Y1c4ak1KY21qZXBjeWNIaXZiYWUrOEFYcUl5SzdQ?=
+ =?gb2312?B?c3pOT2xwTWk0akhKSW1Cd2ZuQWtTZ3F6Q1pYV29RWklCZVY4Q1BiMHVZQlQx?=
+ =?gb2312?B?SjRzOUlNUy9TOUovRjBxQTFNMXJIdUx6TW83VjlUaTVITStFM050WHczYW54?=
+ =?gb2312?B?Y2srRHp5WjI2OHdwbGExTVp4VWFpR2dTelJhUUNYeXNCalRqTGtoemRtcXl6?=
+ =?gb2312?B?bXFLMmptWE4vaUhseko2cGFDS0pBSjdXRE1qaUxOQ1Mvc0g2LytIbmh2aTNq?=
+ =?gb2312?B?dVhJWUNqcmNtTUEzcWlZQmRrNEpmd0tvVmNzMzZQcldIZTBOd2svSWFqODlL?=
+ =?gb2312?B?T0cwWHVzc1VSOGZtcTdVQlhhTFpUMFFHSUJDTERJTHdmeWc1RmRrRWdrZWtV?=
+ =?gb2312?B?TXltOGp2Q2JyVUszTzhobXB3LzRRdjI5NFhwdkl2UUU1R3M3cFhFVStaR1RC?=
+ =?gb2312?B?bjgrZ2phSkNmWWwxcnU5RXBpZkh0cWFJbVkzTGRqaXBiRjFzRW5lcnJwZWJx?=
+ =?gb2312?B?MmhrYXhoQzBveGpJMGMrcnZkbnF4ZUhzS2hoSUVBY3h1TXBEcUxyYjI0MXky?=
+ =?gb2312?B?N0ZiZGN6QXZ1RHkrb2cxM3hwOERjcHAzVGZ6Y05JUTRLVk9TeFZVOHJYUjBQ?=
+ =?gb2312?B?cGFSVjd5bGVrWVFodUNySm0xdlhSem9FVFhFNkU2dlpsanpmM1dRRGJKNlN5?=
+ =?gb2312?B?aWp4akNzdVVtUXlFZDJHZ2wreGd4SExiVGxVVjJJMkNsVWJzV1pVOUswWGdO?=
+ =?gb2312?B?Wk5vbmUyeDdCQisyK1J3QXczMDNyRWVXd1ZrT2J0SFpXYjVPNGE0N0ExVUdX?=
+ =?gb2312?B?bmRpZ3N4Q1VMYlRHSXJONGdKYlNlY1dWbDl1d3l4UFMyY2piYjVhS3FxbkFW?=
+ =?gb2312?Q?C8fzYBfnP1XX07QY8QrYXh38dmskI/gSmOnbDVIPt8=3D?=
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF00000204:EE_|MW4PR12MB7431:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8545c385-260a-4e53-5058-08dec77c3435
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|36860700016|82310400026|1800799024|18002099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	DqOmafcmjbjflbFxuvgTu+Aj2xaGHL+nBOngBIcRqL6fMmw5XTpTpyyW20BuqmmYYU6tCEje6pK2AgIwHNCbyiFlsYHSEzASzCcbGdqxflpezctYChcmoJxdPL2Hyh2VoVJP45WTyo0LwieTT2Zb2bO4ypvXEVo/wRxPzUb9CObHSPwdthRfBz911Gs043uM8TjaEQCehnE9CeL5ZutJ/Q7qmV2VqYbGqJ5wUHwNnch7PZX4WAUkCqN8pSxH0TYm13F8fuWyfs0Vp9WzkMP1fBxn6IrM4+9AS5c+P6Pvsna9tuD4n3G5Aa/HN+uC9U4FmzfXxT7XA2Y7KrayXezwBUH2FiTW6Dmk4yTkimQ4fa7itz7Ic8rQe6xjHKgpEGb4Q34/02Kn0jMmZYuAPnyRE3BEyJBdD/qwYSXJiDwgEhx9KWXCL0FG8BfR/OdFLXTXoJZ433bMarn+IBv9RnY4lXO5IBu0in7ezIZYO3MHn3EUT1aprwP6on1Qrl2wTag8bPadl7gls510Vac8gBSlLfgQjebX3uw09I+W5Z3ML1/e0ufM+Xf5HnN38ts6A4mr0h2LVbwNj9NrR1YFYQMrMmMvLVqAwfBIp6nVZxBWIVMpD2UDDLQ/ZxnDbcG5HPy3hU0BzORj2KQ9p5+EU9Vmtx56pliFyjCuFg/PXeq8GFYDYtc0qL/VavezuCIdhE0Z35taMgnFBdWZqZu3hwTRQIQb6hVqtqKxZCl6deGf5o0=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(36860700016)(82310400026)(1800799024)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	G1aS2BrpXZ9D5hqjj0xYX072zTBfbgtIAm5MKcvaD9knjolJH4BRHu23w/nEvxAqny3G9v2HTp4EhRHWAqUEuUszCrBIJzR1WMTtb9XpwU/Bq3NKZ7cvivpPlo7Fr+9B1DwpYCFMas6FBMDxsxzKm8prUlKcRZzokVoCdvv/lZgreErKfAIX/qB0BOsOgmneRycMtDgvq4lMc1nl1lAHLrI8+wfN1wSwfTfLAzZt4kHn7rasFfB3mIpXkM3oj8fES+cPvTqp1YgEoLnDo52axzRWdOZlc1MvKfgrh4zjS5JpRw00yF87ehoFVDxRLvGBTuj6KLEEEfypeunV1+St9fS1yguxvctMa432lqjt7YeUYxZUHppcJgNEbJDHFHcG8dgtkcIVSIY731CoEvRxVZcYbMvvr9+fCvEIQnuqGOtJ92B3L7YjhengC2CQAjPy
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 05:42:19.8105
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYUPR06MB6217.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b163a30-f671-4330-c0e4-08dec784da4a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2026 06:44:14.4677
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8545c385-260a-4e53-5058-08dec77c3435
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF00000204.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7431
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BD4EPlcYOFFT1dIMAZWSxggWKYURrBaIqNCQ82dBEdF/cGUE5gadNLcbsENdHtS4OFgNjjbxW3OKsgedeEeFiQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5416
 
-On shutdown the connection manager tears down the router tree without
-signalling connected devices. A Thunderbolt 3 device directly connected
-to a USB4 host never receives a disconnect indication and during shutdown
-this can cause polling the dead link for up to 60 seconds. On some
-platforms this behavior leads to a warm reset instead of a shutdown due
-to this timeout.
-
-Fix this by asserting PORT_CS_19.DPR on each connected downstream port
-before tearing down the router tree. This drives SBTX low (USB4 spec
-section 6.9), causing the device to detect SBRX low and transition to
-Uninitialized Unplugged state immediately.
-
-Always do this on system shutdown/reboot by forcing host_reset in the
-PCI ->shutdown callback. On plain driver unload only do it when the host
-router was actually reset on load (host_reset=1), since in that case the
-tunnels are not preserved across reload anyway; with host_reset=0 the
-tunnels are kept alive across unload/reload so the links are left intact.
-Restrict the reset to Thunderbolt 3 devices.
-
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-Co-developed-by: Sanath S <Sanath.S@amd.com>
-Signed-off-by: Sanath S <Sanath.S@amd.com>
-Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
----
-v4:
- - Name the PCI driver ->shutdown hook nhi_pci_shutdown(); rename the
-   existing tb_nhi_ops shutdown handler to nhi_pci_release_irq() to free
-   the name.
- - Factor the PCI removal into nhi_pci_do_remove(pdev, reset); the
-   ->remove and ->shutdown hooks call it with false/true respectively,
-   and 'reset' forces host_reset.
-
-v3:
- - Rebase on top of the thunderbolt next branch; the PCI ->shutdown hook
-   now lives in drivers/thunderbolt/pci.c.
- - Add kernel-doc for tb_port_reset() now that it is exported.
- - Move the host_reset flag into struct tb_nhi instead of struct tb, and
-   set it from nhi_probe() instead of tb_domain_add().
- - Spell out "Thunderbolt 3" instead of "TBT3" in the kernel-doc.
- - Reword the debug message to "downstream port reset failed, continuing".
-
-v2:
- - Add Reviewed-by tag from Mario Limonciello.
- - Restrict the DPR assertion to Thunderbolt 3 devices, since the issue
-   only affects Thunderbolt 3 devices.
- - Only assert DPR on system shutdown/reboot (the PCI ->shutdown callback
-   forces host_reset) or when the host router was actually reset on load.
- - Reword comments and commit message to refer to the "router tree"
-   instead of the "switch tree".
----
- drivers/thunderbolt/nhi.c    |  2 ++
- drivers/thunderbolt/pci.c    | 28 +++++++++++++++++++++++-----
- drivers/thunderbolt/switch.c | 11 ++++++++++-
- drivers/thunderbolt/tb.c     | 21 +++++++++++++++++++++
- drivers/thunderbolt/tb.h     |  1 +
- include/linux/thunderbolt.h  |  6 ++++++
- 6 files changed, 63 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -1235,6 +1235,8 @@ int nhi_probe(struct tb_nhi *nhi)
- 
- 	init_completion(&nhi->domain_released);
- 
-+	nhi->host_reset = host_reset;
-+
- 	res = tb_domain_add(tb, host_reset);
- 	if (res) {
- 		/*
-diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
---- a/drivers/thunderbolt/pci.c
-+++ b/drivers/thunderbolt/pci.c
-@@ -230,7 +230,7 @@ static void nhi_pci_ring_release_msix(struct tb_ring *ring)
- 	ring->irq = 0;
- }
- 
--static void nhi_pci_shutdown(struct tb_nhi *nhi)
-+static void nhi_pci_release_irq(struct tb_nhi *nhi)
- {
- 	struct tb_nhi_pci *nhi_pci = nhi_to_pci(nhi);
- 	struct pci_dev *pdev = to_pci_dev(nhi->dev);
-@@ -256,7 +256,7 @@ static bool nhi_pci_is_present(struct tb_nhi *nhi)
- 	.post_nvm_auth = nhi_pci_complete_dma_port,
- 	.request_ring_irq = nhi_pci_ring_request_msix,
- 	.release_ring_irq = nhi_pci_ring_release_msix,
--	.shutdown = nhi_pci_shutdown,
-+	.shutdown = nhi_pci_release_irq,
- 	.is_present = nhi_pci_is_present,
- 	.init_interrupts = nhi_pci_init_msi,
- };
-@@ -424,7 +424,7 @@ static int icl_nhi_resume(struct tb_nhi *nhi)
- 
- static void icl_nhi_shutdown(struct tb_nhi *nhi)
- {
--	nhi_pci_shutdown(nhi);
-+	nhi_pci_release_irq(nhi);
- 
- 	icl_nhi_force_power(nhi, false);
- }
-@@ -479,20 +479,38 @@ static int nhi_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	return nhi_probe(&nhi_pci->nhi);
- }
- 
--static void nhi_pci_remove(struct pci_dev *pdev)
-+static void nhi_pci_do_remove(struct pci_dev *pdev, bool reset)
- {
- 	struct tb *tb = pci_get_drvdata(pdev);
- 	struct tb_nhi *nhi = tb->nhi;
- 
-+	/*
-+	 * On system shutdown/reboot force a host router reset so the
-+	 * connection manager asserts DPR on connected Thunderbolt 3 devices
-+	 * before the router tree is removed (see tb_stop()).
-+	 */
-+	if (reset)
-+		nhi->host_reset = true;
-+
- 	pm_runtime_get_sync(&pdev->dev);
- 	pm_runtime_dont_use_autosuspend(&pdev->dev);
- 	pm_runtime_forbid(&pdev->dev);
- 
- 	tb_domain_remove(tb);
- 	wait_for_completion(&nhi->domain_released);
- 	nhi_shutdown(nhi);
- }
- 
-+static void nhi_pci_remove(struct pci_dev *pdev)
-+{
-+	nhi_pci_do_remove(pdev, false);
-+}
-+
-+static void nhi_pci_shutdown(struct pci_dev *pdev)
-+{
-+	nhi_pci_do_remove(pdev, true);
-+}
-+
- static struct pci_device_id nhi_ids[] = {
- 	/*
- 	 * We have to specify class, the TB bridges use the same device and
-@@ -593,7 +611,7 @@ static struct pci_driver nhi_driver = {
- 	.id_table = nhi_ids,
- 	.probe = nhi_pci_probe,
- 	.remove = nhi_pci_remove,
--	.shutdown = nhi_pci_remove,
-+	.shutdown = nhi_pci_shutdown,
- 	.driver.pm = &nhi_pm_ops,
- };
- 
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -682,7 +682,16 @@ int tb_port_disable(struct tb_port *port)
- 	return __tb_port_enable(port, false);
- }
- 
--static int tb_port_reset(struct tb_port *port)
-+/**
-+ * tb_port_reset() - Reset the port
-+ * @port: Port to reset
-+ *
-+ * Resets @port. For USB4 ports this issues a USB4 port reset and for
-+ * legacy ports the link controller port is reset.
-+ *
-+ * Return: %0 on success, negative errno otherwise.
-+ */
-+int tb_port_reset(struct tb_port *port)
- {
- 	if (tb_switch_is_usb4(port->sw))
- 		return port->cap_usb4 ? usb4_port_reset(port) : 0;
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -2941,7 +2941,9 @@ static void tb_handle_event(struct tb *tb, enum tb_cfg_pkg_type type,
- static void tb_stop(struct tb *tb)
- {
- 	struct tb_cm *tcm = tb_priv(tb);
-+	struct tb_nhi *nhi = tb->nhi;
- 	struct tb_tunnel *tunnel;
-+	struct tb_port *port;
- 	struct tb_tunnel *n;
- 
- 	cancel_delayed_work(&tcm->remove_work);
-@@ -2956,6 +2958,25 @@ static void tb_stop(struct tb *tb)
- 			tb_tunnel_deactivate(tunnel);
- 		tb_tunnel_put(tunnel);
- 	}
-+	/*
-+	 * Signal disconnect to connected devices before the router tree is
-+	 * removed below. A Thunderbolt 3 device directly connected to a USB4
-+	 * host otherwise never receives a disconnect indication, leaving
-+	 * firmware to poll the dead link for up to ~60 s which on some
-+	 * platforms turns the shutdown into a warm reset. Asserting
-+	 * PORT_CS_19.DPR drives SBTX low (USB4 spec section 6.9) so the device
-+	 * detects SBRX low and goes to Uninitialized Unplugged immediately.
-+	 */
-+	if (nhi->host_reset) {
-+		tb_switch_for_each_port(tb->root_switch, port) {
-+			if (!tb_port_is_null(port) || !tb_port_has_remote(port))
-+				continue;
-+			if (tb_switch_is_usb4(port->remote->sw))
-+				continue;
-+			if (tb_port_reset(port))
-+				tb_port_dbg(port, "downstream port reset failed, continuing\n");
-+		}
-+	}
- 	tb_switch_remove(tb->root_switch);
- 	tb->root_switch = NULL;
- 	tcm->hotplug_active = false; /* signal tb_handle_hotplug to quit */
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -1103,6 +1103,7 @@ int tb_port_clear_counter(struct tb_port *port, int counter);
- int tb_port_unlock(struct tb_port *port);
- int tb_port_enable(struct tb_port *port);
- int tb_port_disable(struct tb_port *port);
-+int tb_port_reset(struct tb_port *port);
- int tb_port_alloc_in_hopid(struct tb_port *port, int hopid, int max_hopid);
- void tb_port_release_in_hopid(struct tb_port *port, int hopid);
- int tb_port_alloc_out_hopid(struct tb_port *port, int hopid, int max_hopid);
-diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
---- a/include/linux/thunderbolt.h
-+++ b/include/linux/thunderbolt.h
-@@ -514,6 +514,11 @@ void tb_service_properties_changed(struct tb_service *svc);
-  * @hop_count: Number of rings (end point hops) supported by NHI.
-  * @quirks: NHI specific quirks if any
-  * @domain_released: Completed when domain has been fully released
-+ * @host_reset: Host router was reset on driver load, or forced on system
-+ *		shutdown/reboot. When set, tb_stop() asserts DPR on connected
-+ *		downstream ports to signal disconnect before tearing down the
-+ *		router tree. Only Thunderbolt 3 devices are reset; USB4
-+ *		routers are skipped.
-  */
- struct tb_nhi {
- 	spinlock_t lock;
-@@ -528,4 +533,5 @@ struct tb_nhi {
- 	u32 hop_count;
- 	unsigned long quirks;
- 	struct completion domain_released;
-+	bool host_reset;
- };
--- 
-2.34.1
+V2hlbiBhIFVTQiBkZXZpY2Ugd2l0aCBhY3RpdmUgc3RyZWFtIGVuZHBvaW50cyBpcyBkaXNjb25u
+ZWN0ZWQsDQp4aGNpX2ZyZWVfc3RyZWFtcygpIGlzIGNhbGxlZCBmcm9tIHRoZSBodWJfZXZlbnQg
+d29ya3F1ZXVlIHRvDQpmcmVlIHRoZSBzdHJlYW0gcmVzb3VyY2VzIHdoaWxlIGhvbGRpbmcgeGhj
+aS0+bG9jayB3aXRoIGlycXMNCmRpc2FibGVkLg0KDQpJdCBjYWxscyB4aGNpX2ZyZWVfc3RyZWFt
+X2luZm8oKSwgd2hpY2ggaW52b2tlcw0KeGhjaV9mcmVlX3N0cmVhbV9jdHgoKSwgd2hpY2ggaW4g
+dHVybiBjYWxscyBkbWFfZnJlZV9jb2hlcmVudCgpDQpmb3IgbGFyZ2Ugc3RyZWFtIGNvbnRleHQg
+YXJyYXlzLg0KDQpkbWFfZnJlZV9jb2hlcmVudCgpIGNhbiBzbGVlcCAoZS5nLiB2aWEgdnVubWFw
+KSwgdHJpZ2dlcmluZw0KYSBCVUcgd2hlbiBjYWxsZWQgZnJvbSBhdG9taWMgY29udGV4dC4NCg0K
+Q2FsbCB0cmFjZToNCiBkbWFfZnJlZV9hdHRycysweDE3NC8weDIyMA0KIHhoY2lfZnJlZV9zdHJl
+YW1faW5mbysweGQwLzB4MTFjDQogeGhjaV9mcmVlX3N0cmVhbXMrMHgyNzgvMHgzN2MNCiB1c2Jf
+ZnJlZV9zdHJlYW1zKzB4OTgvMHhjMA0KIHVzYl91bmJpbmRfaW50ZXJmYWNlKzB4MWI4LzB4MmY4
+DQogZGV2aWNlX3JlbGVhc2VfZHJpdmVyX2ludGVybmFsKzB4MWQ0LzB4MmNjDQogZGV2aWNlX3Jl
+bGVhc2VfZHJpdmVyKzB4MTgvMHgyOA0KIGJ1c19yZW1vdmVfZGV2aWNlKzB4MTYwLzB4MWE0DQog
+ZGV2aWNlX2RlbCsweDFlYy8weDM1MA0KIHVzYl9kaXNhYmxlX2RldmljZSsweDk4LzB4MjE0DQog
+dXNiX2Rpc2Nvbm5lY3QrMHhmMC8weDM1Yw0KIGh1Yl9ldmVudCsweGFiNC8weDE5ZWMNCiBwcm9j
+ZXNzX29uZV93b3JrKzB4Mjc4LzB4NjNjDQoNCkZpeCB0aGlzIGJ5IHNhdmluZyB0aGUgc3RyZWFt
+X2luZm8gcG9pbnRlcnMgYW5kIGNsZWFyaW5nIHRoZQ0KZXAgcmVmZXJlbmNlcyB1bmRlciB0aGUg
+bG9jaywgdGhlbiBjYWxsaW5nIHhoY2lfZnJlZV9zdHJlYW1faW5mbygpDQpvdXRzaWRlIHRoZSBs
+b2NrIHdoZXJlIHNsZWVwaW5nIGlzIGFsbG93ZWQuDQoNCkZpeGVzOiA4ZGY3NWY0MmY4ZTYgKCJV
+U0I6IHhoY2k6IEFkZCBtZW1vcnkgYWxsb2NhdGlvbiBmb3IgVVNCMyBidWxrIHN0cmVhbXMuIikN
+CkNjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnDQpTaWduZWQtb2ZmLWJ5OiBMaWFucWluIEh1IDxo
+dWxpYW5xaW5Adml2by5jb20+DQotLS0NCiBkcml2ZXJzL3VzYi9ob3N0L3hoY2kuYyB8IDEwICsr
+KysrKysrKy0NCiAxIGZpbGUgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
+DQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9ob3N0L3hoY2kuYyBiL2RyaXZlcnMvdXNiL2hv
+c3QveGhjaS5jDQppbmRleCBhNTRmNWI1N2YyMDUuLmM5YWY1MDhlZGNiOSAxMDA2NDQNCi0tLSBh
+L2RyaXZlcnMvdXNiL2hvc3QveGhjaS5jDQorKysgYi9kcml2ZXJzL3VzYi9ob3N0L3hoY2kuYw0K
+QEAgLTM3ODgsNiArMzc4OCw3IEBAIHN0YXRpYyBpbnQgeGhjaV9mcmVlX3N0cmVhbXMoc3RydWN0
+IHVzYl9oY2QgKmhjZCwgc3RydWN0IHVzYl9kZXZpY2UgKnVkZXYsDQogCXN0cnVjdCB4aGNpX3Zp
+cnRfZGV2aWNlICp2ZGV2Ow0KIAlzdHJ1Y3QgeGhjaV9jb21tYW5kICpjb21tYW5kOw0KIAlzdHJ1
+Y3QgeGhjaV9pbnB1dF9jb250cm9sX2N0eCAqY3RybF9jdHg7DQorCXN0cnVjdCB4aGNpX3N0cmVh
+bV9pbmZvICpzdHJlYW1faW5mb1tFUF9DVFhfUEVSX0RFVl07DQogCXVuc2lnbmVkIGludCBlcF9p
+bmRleDsNCiAJdW5zaWduZWQgbG9uZyBmbGFnczsNCiAJdTMyIGNoYW5nZWRfZXBfYml0bWFzazsN
+CkBAIC0zODQ4LDEwICszODQ5LDE0IEBAIHN0YXRpYyBpbnQgeGhjaV9mcmVlX3N0cmVhbXMoc3Ry
+dWN0IHVzYl9oY2QgKmhjZCwgc3RydWN0IHVzYl9kZXZpY2UgKnVkZXYsDQogCWlmIChyZXQgPCAw
+KQ0KIAkJcmV0dXJuIHJldDsNCiANCisJLyogZG1hX2ZyZWVfY29oZXJlbnQoKSBjYWxsZWQgYnkg
+eGhjaV9mcmVlX3N0cmVhbV9pbmZvKCkgbWF5IHNsZWVwLA0KKwkgKiBzbyBzYXZlIHN0cmVhbV9p
+bmZvIHBvaW50ZXJzIGFuZCBjbGVhciByZWZlcmVuY2VzIHVuZGVyIGxvY2ssDQorCSAqIHRoZW4g
+ZnJlZSB0aGUgbWVtb3J5IG91dHNpZGUgbG9jay4NCisJICovDQogCXNwaW5fbG9ja19pcnFzYXZl
+KCZ4aGNpLT5sb2NrLCBmbGFncyk7DQogCWZvciAoaSA9IDA7IGkgPCBudW1fZXBzOyBpKyspIHsN
+CiAJCWVwX2luZGV4ID0geGhjaV9nZXRfZW5kcG9pbnRfaW5kZXgoJmVwc1tpXS0+ZGVzYyk7DQot
+CQl4aGNpX2ZyZWVfc3RyZWFtX2luZm8oeGhjaSwgdmRldi0+ZXBzW2VwX2luZGV4XS5zdHJlYW1f
+aW5mbyk7DQorCQlzdHJlYW1faW5mb1tpXSA9IHZkZXYtPmVwc1tlcF9pbmRleF0uc3RyZWFtX2lu
+Zm87DQogCQl2ZGV2LT5lcHNbZXBfaW5kZXhdLnN0cmVhbV9pbmZvID0gTlVMTDsNCiAJCS8qIEZJ
+WE1FIFVuc2V0IG1heFBzdHJlYW1zIGluIGVuZHBvaW50IGNvbnRleHQgYW5kDQogCQkgKiB1cGRh
+dGUgZGVxIHB0ciB0byBwb2ludCB0byBub3JtYWwgc3RyaW5nIHJpbmcuDQpAQCAtMzg2MSw2ICsz
+ODY2LDkgQEAgc3RhdGljIGludCB4aGNpX2ZyZWVfc3RyZWFtcyhzdHJ1Y3QgdXNiX2hjZCAqaGNk
+LCBzdHJ1Y3QgdXNiX2RldmljZSAqdWRldiwNCiAJfQ0KIAlzcGluX3VubG9ja19pcnFyZXN0b3Jl
+KCZ4aGNpLT5sb2NrLCBmbGFncyk7DQogDQorCWZvciAoaSA9IDA7IGkgPCBudW1fZXBzOyBpKysp
+DQorCQl4aGNpX2ZyZWVfc3RyZWFtX2luZm8oeGhjaSwgc3RyZWFtX2luZm9baV0pOw0KKw0KIAly
+ZXR1cm4gMDsNCiB9DQogDQotLSANCjIuNDguMQ0KDQo=
