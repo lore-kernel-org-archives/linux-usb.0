@@ -1,112 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D37093BCD36
-	for <linux-usb@vger.kernel.org>; Thu, 11 Jun 2026 09:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9483CAA31
+	for <linux-usb@vger.kernel.org>; Thu, 11 Jun 2026 10:14:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781170530; cv=none; b=F2rsUDTruhhV/2y+qXOPrsqcXyH7ohD2dpOCy4rO+e3Uy3/BFC+W1BldHDLdevXoiVQ5kKg+WAxRKIG0QaB7zeTtjcsL0LGekfbmJedomcaMnCH1t0T7d8TiQJ9L5s++VE1yrtJhm0tDvxDCVWBPkzQlOdGqc7WVzJuxAmWQK1E=
+	t=1781172894; cv=none; b=QGSjsXx6nSXBLvnSfM8wnAfiG+xVgsMJICjDxydKtwBFbhVbzREPqEKL3Ic/U43SvUGKyX1sDE9YLgpZ5x1R8+yKvsnl8QhEzcBsgJD3r1pz02pE1/S2eJWOijjF1kc3GAQs3vxRKMiIvvCp3j8RRd3WlGAuPJsOpRGDR1acIr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781170530; c=relaxed/simple;
-	bh=Ov574hmILB3pdxYdVww1k57wi7RZAzJuxmEZc5khEpc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FzOEHwTeqgzM9F8XtzKzWxPe8oa0MTZwsN8S/bnAsAyp6H7oXNWgiGks43yOSG9cnUPPuR8bx9jP+2CeU0JG7qCswlnimYLMFjyiyp0+nn5m+Ov18MW5B/kmWl43Xj1kflDTpnEVjiEtN31bGLaxPeLUzTEdirWIhqRDYfcEGoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A1/pVACi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781172894; c=relaxed/simple;
+	bh=9eZNdwPNfhUP5WBjs6gZQh1KrkEXUZ82qFh22EZeSes=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=a1jKRH3QUNndCXquYHpCyzLptxGZPMLGq3qrUw0nqCZq9WiBJi7TTXPPHiRf7c2tRNC7RukQ+uNA6NIWjDRCsRRX4hLq6XcCYvBGUQT7CKYrdHMKKfI7lwyswfqlskdQAV+fF9wICYvkHVdgd2SRtvACgODNq/wzVQjhwykXpeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mina86.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ibPJU6bb; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mina86.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A1/pVACi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97E201F00A05
-	for <linux-usb@vger.kernel.org>; Thu, 11 Jun 2026 09:35:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781170528;
-	bh=Ov574hmILB3pdxYdVww1k57wi7RZAzJuxmEZc5khEpc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=A1/pVACiTZRAyvqSvqEomemy4em1jq1mn10xf+YddyDmO+LQsyXzcnpO+6OdkAUdi
-	 yt34E2hgTuHynVkbQ+G7v+YhIYRTHl0CedAwB54FM/vhiIG2jKUJde3lnJAjtuutTM
-	 nbOC+ZA9BDBl9yKwb6CLfM/2miWpqts62qkiO5uoMkBFw5qMVp+gNi9r4ypV7ZdXXy
-	 utPeojc90hX3TyUAtfygwQFWHYpvCz7deOF+NgKmVqcR3EJtoPqp+B54tJBAAkZYgF
-	 poIqSVcChK12wjfXWVIP8xYLTHrHTRdakNyGwz6XbRWEH9G1GPXNksQKqmu5S1kjSx
-	 kOI/cBXt1aO1g==
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39697a4e16cso73717981fa.3
-        for <linux-usb@vger.kernel.org>; Thu, 11 Jun 2026 02:35:28 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/b9k6XwUo8bF4FaW0Hx3trwDSCNJpJA5AqNkh+cyCPwTSFiZ4vVrHZKlDlw2aor3gfJ23qX6qnw0E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YypyvIsVdPjnQXKBX5a0hnvx/x5niojqXWBESFy4Dg+GbsnVGD8
-	YNjd5urp7bye11i30D1wFUUyYwPl+t1I566PZAIt+kYCCUTr7TxS0H8Ri0ODHJg/+I9EqkFRatF
-	GxHPkvug9ipOux3pQ6Md6PepSbW9Cnf56WuwtBxKBJQ==
-X-Received: by 2002:a05:651c:248:b0:395:6085:a15f with SMTP id
- 38308e7fff4ca-3991a037f82mr5814191fa.9.1781170527256; Thu, 11 Jun 2026
- 02:35:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ibPJU6bb"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-beeba001887so1039290866b.3
+        for <linux-usb@vger.kernel.org>; Thu, 11 Jun 2026 03:14:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781172891; x=1781777691; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZLVj8HPnjQUPxr42XEggbTLDi52RglLjMQW50aq25TE=;
+        b=ibPJU6bb3DAVPz1Kyvi2HLUag1BIJq8yMEbuhR57tYz5FoEk0TbZYmXqAqNbZZpqFX
+         XE0o1XNT542PbEKiidKZcClUkNR3jqIwIpldnn6sqY0Opso81qcgvD0zIDDxM3DXODn7
+         hMTDCqUpW3jC3KJU+IEQGEeuL4IxdkkyrrxlKvfsVd7fgGQo0pXQr3K2kh8ueYr4mu/1
+         auogk/HY+HxY4I4lXKWMR3ufGL6uk2HcjFup537a53HG5q5yy4DtH0XZorQfJrULRsIW
+         akTLyacvXp6uRoJGxswOOc05lfNhL7JTBvxoQ1ozD0Nr7bOwYAgBhGeJEgfaHDSCVpur
+         1dbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781172891; x=1781777691;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:sender:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZLVj8HPnjQUPxr42XEggbTLDi52RglLjMQW50aq25TE=;
+        b=CyhV8Y7JNERLTWKJoj6GHnmmXYhwccY91gRZZ6MF3wP3Id770TY4rdU1SiZHUFDVJs
+         78QB3n/2ujtOfrZRc9zMfFJ78RRaVLkkGj2rT2UEewN0QNqv7mdnrKXo1DnCt/Jfl5fv
+         tfxNyG4PwzvPLVU950b0WcWdl4GHFg6oS/ISiRamZiUL5EKBS7TSkEeJZe7nHFypkinF
+         AI0X2BAi8OHWhn8ukkhWeiIa7AyVwtCu/T6zZv6+XH5hnphuJZWZ4m+4n1++lB1Ma9Dn
+         Vh8hXOhR1dpZU26jX0KauLLtKLB2wmsvxMySDJYvEUPcV8KN9gxpVE/WlpqKEho21Y48
+         sXoA==
+X-Forwarded-Encrypted: i=1; AFNElJ80N4CqXBr+jT6noLOt/9HuVL+u03ITR/4YNcVAQQb80wUJd8Oq9TNiD2/018PmhWxo1HobxwWo6iI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTn9DEi7j0StSBPNuLJlipekuNVU+kwFsMMPyiUz93/nEzExRy
+	6C1zjA6kEWnwakfw+SiqD53LFflHs+AZ4KG7wNYEyGwg1MbFs9mRblqo
+X-Gm-Gg: Acq92OG2FpHzTGS2l+0QvCIlH83f2us2PgMNki89vfbK/OA7UE/A0yqqMWyLhtNTm/j
+	Ilqy+qARM0bJkL+IkvotlDVwK9bVeKg8u6FnvKcad4Hp06DQQj73jCAHGu/lB+6NxAKuArLlzgw
+	H9MIiOTaobDIsIVzsBuevA0VP/6IuaS28jZYR3/YtscLiqW1gysWR1F3AK/TR5vzP/ZgTui58eu
+	IhOO7DMkTJvjVoZI3Mt0AshvMQnKsF9NHuBVjcEXHI/CLPDRXrzHTs8eyBrSrZ+azjJY+/6MFch
+	YTehY6PDceypzOytsUwHFO0yjI48uDogHFmzS06CxYwnwBzdD7qVUg/M2vsRcwBpQBOScMolrtn
+	H9zvjmqxxWfW3kPn1VG+ixCGoYqGUTroKKNGeNtMYXdbTIzWd5P3Nseg4Uu4rQNIa1BVc17LvPO
+	F/DiP2m2fU+ImRURytvRkD4+7FVZG+wg6fWEM87zabZPs3WT3RY15gp/mgi+dA
+X-Received: by 2002:a17:907:9689:b0:bef:d3a1:5065 with SMTP id a640c23a62f3a-bfc863dffeemr91864566b.18.1781172890398;
+        Thu, 11 Jun 2026 03:14:50 -0700 (PDT)
+Received: from erwin (109241130011.warszawa.vectranet.pl. [109.241.130.11])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bfcb6785ef3sm44632866b.59.2026.06.11.03.14.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 03:14:49 -0700 (PDT)
+Sender: =?UTF-8?Q?Micha=C5=82_Nazarewicz?= <mnazarewicz@gmail.com>
+From: =?utf-8?Q?Micha=C5=82?= Nazarewicz <mina86@mina86.com>
+To: Tyler Baker <tyler.baker@oss.qualcomm.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Robert Baldyga <r.baldyga@samsung.com>,
+ Felipe Balbi <balbi@kernel.org>
+Cc: Tyler Baker <tyler.baker@oss.qualcomm.com>, stable@vger.kernel.org, Loic
+ Poulain <loic.poulain@oss.qualcomm.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@oss.qualcomm.com>, Srinivas Kandagatla
+ <srinivas.kandagatla@oss.qualcomm.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: f_fs: initialize reset_work at allocation
+ time
+In-Reply-To: <20260609193635.2284430-1-tyler.baker@oss.qualcomm.com>
+References: <20260609193635.2284430-1-tyler.baker@oss.qualcomm.com>
+Date: Thu, 11 Jun 2026 12:14:48 +0200
+Message-ID: <gocsn4hb4w977+wspbo8l48+@mina86.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260610084053.2059858-1-wenst@chromium.org> <20260610084053.2059858-6-wenst@chromium.org>
- <ailxrP-_9_NL8qnN@ashevche-desk.local> <CAMRc=MdiwQM6yk8FXcc+RisVP2iqWKWzVsn2-Yy6dyJXt-1X=Q@mail.gmail.com>
- <aipz2zMFcdnZYTxS@ashevche-desk.local>
-In-Reply-To: <aipz2zMFcdnZYTxS@ashevche-desk.local>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Thu, 11 Jun 2026 11:35:13 +0200
-X-Gmail-Original-Message-ID: <CAMRc=MdRN7YitmMX8PknbzLh+MdsWm+dDg0MLtCVYOorqNobTw@mail.gmail.com>
-X-Gm-Features: AVVi8CfSg10E0UvFAW373K-Jcv4BNuLaPDP9X_vJcmiaG1CmuHb8KO5g7-SqyaM
-Message-ID: <CAMRc=MdRN7YitmMX8PknbzLh+MdsWm+dDg0MLtCVYOorqNobTw@mail.gmail.com>
-Subject: Re: [PATCH v2 05/16] usb: hub: Associate port@ fwnode with USB port device
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
-	Chen-Yu Tsai <wenst@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 11, 2026 at 10:37=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Tue, Jun 09 2026, Tyler Baker wrote:
+> ffs_fs_kill_sb() unconditionally calls cancel_work_sync() on
+> ffs->reset_work when a functionfs instance is unmounted:
 >
-> On Thu, Jun 11, 2026 at 04:20:58AM -0400, Bartosz Golaszewski wrote:
-> > On Wed, 10 Jun 2026 16:16:12 +0200, Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> said:
-> > > On Wed, Jun 10, 2026 at 04:40:39PM +0800, Chen-Yu Tsai wrote:
-> > >> When a USB hub port is connected to a connector in a firmware node
-> > >> graph, the port itself has a node in the graph.
-> > >>
-> > >> Associate the port's firmware node with the USB port's device,
-> > >> usb_port::dev. This is used in later changes for the M.2 slot power
-> > >> sequencing provider to match against the requesting port.
-> > >
-> > > Okay, would this affect ACPI-based systems? if so, how?
-> > > Can you elaborate on that, please?
-> >
-> > Is it possible that there's an ACPI device node associated with the por=
-t like
-> > on some DT systems? I don't think so and there should be no impact IMO =
-but I
-> > also don't know enough about ACPI.
+> 	ffs_data_reset(ffs);
+> 	cancel_work_sync(&ffs->reset_work);
 >
-> The API is agnostic. There is a possibility to have software nodes associ=
-ated
-> with the port. I think the best is to be sure that ACPI-aware people who =
-are
-> experts in USB will check this (Heikki?).
+> However ffs->reset_work is only ever initialized via INIT_WORK() in
+> ffs_func_set_alt() and ffs_func_disable(), and only on the
+> FFS_DEACTIVATED path. That state is reached solely by ffs_data_closed()
+> when the instance is mounted with the "no_disconnect" option, so for the
+> common case (no "no_disconnect", or mounted and unmounted without ever
+> being deactivated) reset_work is never initialized.
 >
+> ffs_data_new() allocates the ffs_data with kzalloc_obj() and does not
+> initialize reset_work, and ffs_data_reset()/ffs_data_clear() do not touch
+> it either, so reset_work.func is left NULL. cancel_work_sync() on such a
+> work then trips the WARN_ON(!work->func) guard in __flush_work():
+>
+>   WARNING: kernel/workqueue.c:4301 at __flush_work+0x330/0x360, CPU#3: um=
+ount
+>   Call trace:
+>    __flush_work
+>    cancel_work_sync
+>    ffs_fs_kill_sb [usb_f_fs]
+>    deactivate_locked_super
+>    deactivate_super
+>    cleanup_mnt
+>    __cleanup_mnt
+>    task_work_run
+>    exit_to_user_mode_loop
+>    el0_svc
+>
+> On older kernels cancel_work_sync() on a zero-initialized work struct was
+> a silent no-op, which hid the missing initialization.
+>
+> Initialize reset_work once in ffs_data_new() so it is always valid for
+> the lifetime of the ffs_data, and drop the now-redundant INIT_WORK()
+> calls from the two deactivation paths.
+>
+> Fixes: 18d6b32fca38 ("usb: gadget: f_fs: add "no_disconnect" mode")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Tyler Baker <tyler.baker@oss.qualcomm.com>
+> Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Cc: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
 
-Even if there is a software node - it shouldn't really matter. It will
-just be assigned to the port device.
+Acked-by: Micha=C5=82 Nazarewicz <mina86@mina86.com>
 
-Bart
+> ---
+>  drivers/usb/gadget/function/f_fs.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/func=
+tion/f_fs.c
+> index 75912ce6ab55..1ee21e29ef73 100644
+> --- a/drivers/usb/gadget/function/f_fs.c
+> +++ b/drivers/usb/gadget/function/f_fs.c
+> @@ -288,6 +288,7 @@ static int ffs_acquire_dev(const char *dev_name, stru=
+ct ffs_data *ffs_data);
+>  static void ffs_release_dev(struct ffs_dev *ffs_dev);
+>  static int ffs_ready(struct ffs_data *ffs);
+>  static void ffs_closed(struct ffs_data *ffs);
+> +static void ffs_reset_work(struct work_struct *work);
+>=20=20
+>  /* Misc helper functions ***********************************************=
+*****/
+>=20=20
+> @@ -2221,6 +2222,7 @@ static struct ffs_data *ffs_data_new(const char *de=
+v_name)
+>  	init_waitqueue_head(&ffs->ev.waitq);
+>  	init_waitqueue_head(&ffs->wait);
+>  	init_completion(&ffs->ep0req_completion);
+> +	INIT_WORK(&ffs->reset_work, ffs_reset_work);
+>=20=20
+>  	/* XXX REVISIT need to update it in some places, or do we? */
+>  	ffs->ev.can_stall =3D 1;
+> @@ -3775,7 +3777,6 @@ static int ffs_func_set_alt(struct usb_function *f,
+>  	if (ffs->state =3D=3D FFS_DEACTIVATED) {
+>  		ffs->state =3D FFS_CLOSING;
+>  		spin_unlock_irqrestore(&ffs->eps_lock, flags);
+> -		INIT_WORK(&ffs->reset_work, ffs_reset_work);
+>  		schedule_work(&ffs->reset_work);
+>  		return -ENODEV;
+>  	}
+> @@ -3806,7 +3807,6 @@ static void ffs_func_disable(struct usb_function *f)
+>  	if (ffs->state =3D=3D FFS_DEACTIVATED) {
+>  		ffs->state =3D FFS_CLOSING;
+>  		spin_unlock_irqrestore(&ffs->eps_lock, flags);
+> -		INIT_WORK(&ffs->reset_work, ffs_reset_work);
+>  		schedule_work(&ffs->reset_work);
+>  		return;
+>  	}
 
-> Also note Sashiko complain on reference count leakage.
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
+--=20
+Best regards
+=E3=83=9F=E3=83=8F=E3=82=A6 =E2=80=9C=F0=9D=93=B6=F0=9D=93=B2=F0=9D=93=B7=
+=F0=9D=93=AA86=E2=80=9D =E3=83=8A=E3=82=B6=E3=83=AC=E3=83=B4=E3=82=A3=E3=83=
+=84
+=C2=ABIf at first you don=E2=80=99t succeed, give up skydiving=C2=BB
