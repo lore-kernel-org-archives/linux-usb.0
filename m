@@ -1,108 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C113B3019C8;
-	Fri, 12 Jun 2026 09:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781255329; cv=none; b=fORcVHzBfqKOjzsxiXMgUsI/3yx2grfxb6yP6syLWDY7GCua+R9HTWbozoz7wnLETjzlTH/8UCK7rqF8UtgpL/1Z29f1oVme+Ytg1dQodKBRMor+7bU/zETT9Oe/QTIW/7tgu5dK9C/TKn9JR0XxZDxPYDAjKvEosrH2afhxkPk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781255329; c=relaxed/simple;
-	bh=X0h9qzffs4Mr+jLbQ6wsfgUWcYZaSs/OHsx1tSguQhA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ESEz5m5y3cYI58i6eL+lOUok2ZpO3lpXo8Q0Nq68BTU+0OwpIxHBRsQx4njBjjDkOitRLKnMMKBwJaUNporkMpz1rxbyqaTHGPdLoQONs8q2J70r57nx8fFV89hU/bg7wNmTD9XTsS/tih/Pmdt+vvMj/V7azXmKGqWF2qnchNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFo6c/gw; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F913988E1
+	for <linux-usb@vger.kernel.org>; Fri, 12 Jun 2026 09:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781255537; cv=pass; b=LWoncIEawrVom0rsHe0WBPhkamK8tyfYrSwPnamZBRCVaArMex1j2XSahAx+mlL6tuiyx69tBj2T3q9jWSVpxbkVK3+2NfXWtus8ME4z6Mka9515yRBPxY21y1QfxFvtE9BPBPXP+m7UMIz/nK6Fe+IoGyfS2tDfqoyL9Qc80Os=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781255537; c=relaxed/simple;
+	bh=V9+QmrpZdZ64QkPAYEa/J5l5l39WRUXFgGRxiy0LOV0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W8qAAm8VH7gSVshG8gh3Lo7Hy9SniscpVeGkMiRYpDsAED65YUwzYU2xBKOOZtOsmMwPFa5bEqeYW53PRGGl3rA/VuimtRlUA7IRyRt/L/R1HZ1+gJixywcjKL+J7UDX1M1Z0LyGuUPQPgh+ERpCqxJ0rsUF6ODENvJ4Y9u6gt0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=VY6z8Y27; arc=pass smtp.client-ip=209.85.128.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFo6c/gw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56C4A1F00A3A;
-	Fri, 12 Jun 2026 09:08:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781255328;
-	bh=uFe+jQS8ife+ArR1PefA5xIjFY5vP2b+bv7MvqxNs90=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FFo6c/gwD5+/iMeteUmloxED+zhI1Jsefq05Le1kipgpQnHu/2MhqurllCutE3XLq
-	 wYxFJrjztv+7CGF+DguhK4C/ZQlkOGTG1rftY6t73Qbd2lNklOILx6n8pMNUDpm0iQ
-	 tsK6OybAzAHvrYxFUy32m0j6P1FaZPRYWhMi0TRYdatebDbeKWfyq+X1b6duVSWUFB
-	 ypdQFpq50xfdR6eteNidBnHOUgszRuyQfT6wIiL5XcNDWHmUZyNsiLvyHBhJR3jYEO
-	 I213v0/uufi/t5ljalanAoJeMM7qMf7o9yA6RybVGjgQC7ixxt5AejlZ3rJ+zmzBQQ
-	 V2LyLKSCWIfOQ==
-Received: from johan by xi.lan with local (Exim 4.99.3)
-	(envelope-from <johan@kernel.org>)
-	id 1wXxsb-00000002A1O-4AO2;
-	Fri, 12 Jun 2026 11:08:46 +0200
-Date: Fri, 12 Jun 2026 11:08:45 +0200
-From: Johan Hovold <johan@kernel.org>
-To: WenTao Liang <vulab@iscas.ac.cn>
-Cc: gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
-	mathias.nyman@linux.intel.com, khtsai@google.com,
-	thorsten.blum@linux.dev, kees@kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: hub: fix refcount leak in usb_new_device()
-Message-ID: <aivMnTkZ-jTRH2Jy@hovoldconsulting.com>
-References: <20260611130223.80884-1-vulab@iscas.ac.cn>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VY6z8Y27"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7de68222e96so5794337b3.2
+        for <linux-usb@vger.kernel.org>; Fri, 12 Jun 2026 02:12:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781255532; cv=none;
+        d=google.com; s=arc-20240605;
+        b=S35qK8+Nb4p4P7OJ70VyCDwREqCW9NEaulcCvrjF0tLSVPw7xIZekcNwjOOwlcZY2r
+         h+7xtAYvQxExjCgs1DJW6kin8uZNMl72ImLkPRMJdgorQpA0ZOWo28dHE/Ssp84bb12q
+         3wnTxsuXZVF/cfVTX34aX3mK8pZCMCj834dftXZDoSgLtm6kQHfrEAwL5nYMXKJQfJGY
+         NGc/SFpa1yTj4ES9PfXTwKphXbT//yq2xYHu/spO/tfw7vItIPwDWSWnFfrYpe/9YdPl
+         C8PUzeexBAdIsR71dXsOeinLA8rHGyIqSrslWQveFYldhAH0DZZjmU3sN3z0s6oydJlm
+         v7ng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=GT5k7NNhpJZZ3Z4dV7FccQcGuRptRglhhV64m8hW5dM=;
+        fh=1p6ocFm16sEOnHan1APmJatfU2AuoRV54jfjtnu3Hzc=;
+        b=giUikZjs0/excnZC0rzopNL90bfh9MhTUzpBVUH89MOyRuGAO1qKnJ/ASp5mJrAcwf
+         7imINm3M7n+j2PZ26q5byPFsOWxmMwbHSr6GRSIWbshaISWgdHRlIhV9IDBM+ESKWXfv
+         I3L72RxolpXT6oqJcgsSvF2rd58bCSKxs6RXMydNZasqz/+BgHZhhVXjWukgyllKXBXz
+         JZCZuH0cez5zkW2PM38ETRWU/2XB9jnjMaL0J/Y1A3QphkgwxhRv9nuDVDVN+8NGvUu3
+         OLva7ovHeCrgA8KLlEUU5k3wXkXZM8XvEDioqk1s0FpTzXZ/gXgwDIRCsGF2HbfJ23TK
+         zlGw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1781255532; x=1781860332; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GT5k7NNhpJZZ3Z4dV7FccQcGuRptRglhhV64m8hW5dM=;
+        b=VY6z8Y27Bq/k1VaXQDtfw4d6RhDkAb7ja36E1h1GoBPyxh8YLLuJ0VGxGCciWhduL3
+         K6pOSFQWx1us+l10HBVmKuj+38x5U1b+jmRjcTWKFAb1lZmSa9x2dBwuyDpyBhsriic0
+         0cEp83ACaRF9R3X5w43ashV/jsuNNogzc5ovw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781255532; x=1781860332;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GT5k7NNhpJZZ3Z4dV7FccQcGuRptRglhhV64m8hW5dM=;
+        b=dal/uerbS1HSYA+on+wP/tca86RXKCZgYMRDOlUK62zv2S8OcyCtIVmxzifBNhgLIt
+         o6ylebYhYXijoGjBkxTQMzzJCTxrtB+XCN22GataTsyVJhSqg7K+kWX8RtV2R0CpYW+X
+         N7F0ZePsyKeaqd5M1yxR7vQRuvw46syJFyO+fa3uRoNsL+fYN1B4wi+QfP0gpsmccCpC
+         dWzcDNoNzZfG4l1P/PmUKFl5XWc3NKzuC9TOab56OhsTZsTsUfImindKSgG5aK4+KSdP
+         FEnsYozP4iyXToDZR6jKmijpuhx0ZBgeqFz5LvtjnKns5N3/y1JwuXSlsIZB9reWOQX/
+         sWMw==
+X-Forwarded-Encrypted: i=1; AFNElJ9PjgxFnq1ZcW184ob+zaKwB2MwwPHolQnzATgSOleagXf97Bt7nmNi3jg2E32SVamzZry6Az+C75s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaSYSmOPZjrj+dLhKzkNJBcUbg0tN6iTFrHgmQ7mtXIBR4XaVw
+	S77WtoJAv3ZC2zPXzlkeOdzkhjblT3rbZSbSMHhxOytDUAmquokmUqCRWVl5dcqz8cetMFXBeP2
+	ruWKezP+b8tiZ0/WVINXPTYbrpCCFNpCO/nJbRbAl
+X-Gm-Gg: Acq92OE0zAs0F3tQCAIb8NubdWhorj05MvPUVl0kE37Omg8iq9obvW4TSpjvk+XD9zR
+	Vk7Fe0ahj5Dk1RqjNGX0gg6glsMER0eQo2uwIdETVbMboXSsJQIozzHQLvctVh28X4PCSC2Gp4L
+	OBl0mzrQMxCkEyozkiUPjZSEU8GGMUD2M9YiEMR8kMjNJ9ayDBGkCrbROK6zbjIE9eoxknDycKO
+	rMz47Gxlz3I43e4WUgsAJleiXbJxd91TTmwVkIuxJm9MgGfLLSnXhcEYp2864LWnl5cY7dc9pvJ
+	fkPPOWyb
+X-Received: by 2002:a05:690c:f0a:b0:7ef:d039:a334 with SMTP id
+ 00721157ae682-7f7bcf0d73cmr16871217b3.22.1781255532401; Fri, 12 Jun 2026
+ 02:12:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260611130223.80884-1-vulab@iscas.ac.cn>
+References: <20260610084053.2059858-1-wenst@chromium.org> <20260610084053.2059858-11-wenst@chromium.org>
+ <ail1sAxgh5Xtkj2y@ashevche-desk.local>
+In-Reply-To: <ail1sAxgh5Xtkj2y@ashevche-desk.local>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Fri, 12 Jun 2026 18:12:01 +0900
+X-Gm-Features: AVVi8Cc47lUt9lrnuGQ2TayhjSsjO0Ufug4-8BS--usEeOHUYmKa3VTCiJvbq60
+Message-ID: <CAGXv+5Fkp9R3i+WnCunbydJpn_rjxX5Cz9Cb=auS-cR1RE=R8g@mail.gmail.com>
+Subject: Re: [PATCH v2 10/16] power: sequencing: pcie-m2: support matching on
+ remote "port" node
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 11, 2026 at 09:02:23PM +0800, WenTao Liang wrote:
-> If usb_new_device() fails after pm_runtime_get_noresume() has
-> been called, it does not release the corresponding reference.
-> In the successful path, the reference is properly dropped via
-> pm_runtime_put_sync_autosuspend().  However, when an error
-> occurs during enumeration (e.g. usb_enumerate_device() failure)
-> or device registration (e.g. device_add() failure), the function
-> jumps to the "fail" label.  That error cleanup path only disables
-> runtime PM and marks the device as suspended, never putting the
-> usage count back.
+On Wed, Jun 10, 2026 at 11:33=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Wed, Jun 10, 2026 at 04:40:44PM +0800, Chen-Yu Tsai wrote:
+> > A USB hub can have multiple ports, and this driver needs to
+> > differentiate which port is being matched to. The USB hub driver now
+> > associates the "port" node with the usb_port device, so here we can
+> > use the remote "port" node to check for a match. Then fall back to
+> > the remote device node for the other connection types.
+>
+> ...
+>
+> > +             if (remote_port && remote_port =3D=3D dev_of_node(dev))
+> > +                     return PWRSEQ_MATCH_OK;
+> >               if (remote && (remote =3D=3D dev_of_node(dev)))
+> >                       return PWRSEQ_MATCH_OK;
+>
+> We have device_match_of_node() IIRC the name of that API.
 
-> This results in a permanent imbalance of
-> power.usage_count, preventing future runtime PM state transitions
-> and proper device cleanup.
-
-Not really, as the device is about to be freed. Sure, the runtime pm
-usage count is never balanced, but it does not have any practical
-implications whatsoever.
-
-> Fix the leak by adding a pm_runtime_put_noidle() call before
-> pm_runtime_disable() in the fail error path, which releases the
-> reference without queuing any suspend work and appropriately
-> matches the pm_runtime_get
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 9bbdf1e0afe7 ("USB: convert to the runtime PM framework")
-
-So there is no need for either a Fixes or CC-stable tag here.
-
-> Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
-
-How was this "issue" found? Are you using some kind of static checker or
-LLM?
-
-> ---
->  drivers/usb/core/hub.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 24960ba9caa9..05f1a4267aec 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -2731,6 +2731,7 @@ int usb_new_device(struct usb_device *udev)
->  	device_del(&udev->dev);
->  fail:
->  	usb_set_device_state(udev, USB_STATE_NOTATTACHED);
-> +	pm_runtime_put_noidle(&udev->dev);
-
-The reference should be dropped after disabling (so that the device
-cannot possibly be suspended here).
-
->  	pm_runtime_disable(&udev->dev);
->  	pm_runtime_set_suspended(&udev->dev);
->  	return err;
-
-Johan
+Ack. Will also replace the existing instance.
