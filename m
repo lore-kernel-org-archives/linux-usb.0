@@ -1,63 +1,63 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103C639B978
-	for <linux-usb@vger.kernel.org>; Fri, 12 Jun 2026 05:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC9E39BFE7
+	for <linux-usb@vger.kernel.org>; Fri, 12 Jun 2026 05:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781241684; cv=none; b=IfLotEJtAkD57E3280ShFj9V196rK3EwvW3rUTui9EY1YY9nYHZ4+SNqNRRPvxCHl0nT961ONorC9mppBAyxrixKOv4P6DB95F/sGBnpUONIGL8oSuR0NUpx5Ayg+j5Hj8io7PnV5Njur1mPQIguvSlWJh9uiVdgSNg6WW0otVs=
+	t=1781241688; cv=none; b=WH7T3yXdvdGXnYfuec0ll3pokj+Tf1gT/LTxt6rxaP03pGsx3dJ83883GYzDyk5IoWNkxL2SpRfAoZXyMOL51B3x5kJ6OAKHWjEdzDjaqaLHZcDQp47swV8ku6Ai0znpWREPwacWqi3VozlexSMhB1hjP4G5IIsMM02j7sxR9vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781241684; c=relaxed/simple;
-	bh=d0FojcgqGHxFZQUGFDioGsFSnSoG08U5K4yGq+rirxs=;
+	s=arc-20240116; t=1781241688; c=relaxed/simple;
+	bh=bCDlH3Pg3MhK5JB4icqU+hAOOLprGDN2GMxKN42gIQY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pbYyFscvqqJjYhhHKdiHkVAoFwldQ7wOUEMPAdJ+4b0OCjgm4mCNTTtThpzPf2fucaRdwBxQMxFPUtdiVFWkzXjQ675r2mNeLcudhDN5W+xfqAcdMXgIQg1t2I0TWa6338D+v9568Dt/WIgt2hkfNZoAcW6cv+LQYsd/rgO+VY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NM5jPKVf; arc=none smtp.client-ip=209.85.210.174
+	 MIME-Version; b=l+PtjhJ8mUZTlo1X7Lg9SV6g4Xyt8tTGKhdsIiAM2t5SJqQY8xhjIvm+iRsRlAUOYPVHpKqrE8is3YZOV2cbKJsnJFnH/eGwE1PJivAWhGPAzKunhGn2Y38uKH7klXqkq78KR2jj5+Vly/6Srw5D+3JFqV1UHreaYXj/uxpcv0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RY+nwhDA; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NM5jPKVf"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-842307473b5so496200b3a.2
-        for <linux-usb@vger.kernel.org>; Thu, 11 Jun 2026 22:21:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RY+nwhDA"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-36d9794d82aso396180a91.0
+        for <linux-usb@vger.kernel.org>; Thu, 11 Jun 2026 22:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781241682; x=1781846482; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781241686; x=1781846486; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LY1YZhB8AKmupMGzw9E2JCn6oLAGuV3NZ41mLtimSng=;
-        b=NM5jPKVfPyi8WUlpAbeq4F8rLLuabGsIWUVmMsFsaPsDiaypjsCqqumS4OEz34Cm3g
-         E2+oZfJKourMlr7cAXjROmyawqprqDyjKz1b25AOXxrM0RF/m/pt0gvNBb18cHVln/p/
-         ajF2Gs1PsdYqvbbgF/o9qVNCUPVu8l/B07X4x0P4o0K6bw23rK73l8/OfPqIUSA+Xiz3
-         o3lkHSj2bJJ0YwF0acLAKhBJKD2himmP/V7fxns+ZLmuq+tTZmFX2lf58422WBhK1NU2
-         uz3Zqu/fkmSKoee3ZZ2lRHITfQG5ipdPpb7qMS0CcmFeXkjANPIXJZJapDzoLxdsOs/t
-         r+Kw==
+        bh=I0iLxu0OIMq4uond8gTEg2/ZhyX7yERRrr2Iv0KZlrM=;
+        b=RY+nwhDAyrl5wsmp1eyCRFYSEQPiJjQnhg3gqjAJnDGBjD8AuWfkYeu1GcLsXZB+hy
+         MmVBvksjJ4FOkYfwVBE/5ocouzayNpVYE3fNCHQ4AlEIuxwOYoHxaWr7MlUppN4LDyLz
+         OA55FoWG+7fos//N8C4xqKOb2gHQMO9ZeTEHYV6En887g1OryQa3iI7r01JEwdOjizfv
+         G6HQmKkAzHDBqMu9l7N6HeTE+T198vnrkW2VWryKr+ahA5BieU0QLDPbMgSu5xLnZdXy
+         /U14Blf3d+9pYsYgj4dyf46Jc2VrD5D/2mR3pjf/x8gi7uRVLexqYk34XPkYo3CVvkXX
+         vm4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781241682; x=1781846482;
+        d=1e100.net; s=20251104; t=1781241686; x=1781846486;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LY1YZhB8AKmupMGzw9E2JCn6oLAGuV3NZ41mLtimSng=;
-        b=IDCBZBVKxMY/k3n3WHqci5BB4hgLq0hN5HRaX6m8F9yQFp5euUwtf1aPUfY+mbEnH0
-         KtSCTu3gdnV55dSeFdQG6YJ+sTrm/HIGo14VMx4rJPDBSFpuJS5vvOWPGDwVAbIP/tCM
-         TbejXhdK9gR9JEN96Z9/ryIUrHA/QPrIyiUawBCBiD8I84lbgTeh40I7Mm7vUxTTMERL
-         UxBhuSY7YyK+vkzU6pKSEEerfqpcEZw4zLoSoRF4c7Vq/u0VoKO9KFDdnR0DyI+KYY77
-         dQgoLMxxsRldFcKVz4amRdx0lrQ3TWPMB8BjBGqfcoAsX2vtavcVeKekqWQX71ypwmDi
-         jeLQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8r1B+GqdNg0jCp0Ue362G0n0MerNFMio5rQND9EUB5qG0s4EOgkgFNsp9yDIwG2uDXA98TM7nsltY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/D6AbVZuZbdMOwebIdgneL2/aOx50NWC3yYvzIrorSo+IfTUe
-	3HB9kUO1pJ11WOEjfZi0MeSbPMkGPtvtbzHr+n8tz+V0CwHnR1geYBlP
-X-Gm-Gg: Acq92OGc4ah2kC1tnfFhZQLLXOF3mV5dVOXmNp7D/OEdqgm9GEIpBdFdAXoReBvqsT0
-	qq2RUnz4GbdnV5W5P7o/IK9eUN9VhTImHOYtvbGCycoJJ3ryrmPSYoWDzwhbj3w9V20M9fijv8Q
-	RlXpygmCSspje4Eb3RFbKf4wfknww3FEpV8v3PyMpwVFrcoF2wCBlZ1y3xn1ZL9zEXyT3E8qZSE
-	gXc2L23+opUBqV2BGmLIsBJO5AfzHFR56apElJ8fxIKy2/v7Gi2LpANp6KbECqcxnhb8fZwtdns
-	uWQkTduIjfS5J8SGz+4iO3bKEk+nIFeovBFgQzZRku5WHTfCr2BQFxxzmTn+I6v32dlTgJZW4f5
-	/eN7Eq9hFBFL4GmjgPBZ1bOJRMg9E4lQhWKHGuTLxZUSFlvdyotuj14WD6n484dQfgT+zOsxEZs
-	gv/DQDGCzkonrZ2az47g0hMgBw1L67vJkoRiGbKbZPnRJ1LPg8o0jo
-X-Received: by 2002:a05:6a00:3486:b0:842:670d:f6dc with SMTP id d2e1a72fcca58-8434ce46526mr1408285b3a.27.1781241682423;
-        Thu, 11 Jun 2026 22:21:22 -0700 (PDT)
+        bh=I0iLxu0OIMq4uond8gTEg2/ZhyX7yERRrr2Iv0KZlrM=;
+        b=V1d+KO94rZda/YQhyoOgolNRaf+oxq6GpXnYhNbHUTHKI+eXjLEoNqG7J74N70v7fH
+         EX28o8PA6xWhJCq9+X7991dc4dPyTS/PtsuENCXVMyU2AuBZJGmKU8f14d1AAMqtVxD7
+         I+wn8Ed5AZLKEMFpjz82k7Rm4JYnqK6kcFbsD9RHm0j99TNF0BivjBITbw+G2vZBP8//
+         +5IDZxaPNJNObdzAyur+zLLEWAMRcFT9VK3hH90CC5lw1/PT6rQI38XE+0wSDAG+ix/n
+         eJs362G/PWCUPUnty1U1JXt+s9/KwfaXh6jFF+N7W12CqX2qovZdr2q6r/uYOMReo2xx
+         gBlQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8f4nM58TJYTc+pPZfyqwMcKg9Skk/XCUKRD/eZBbC59WsW+imoJ24MfK2IDHZM1W9fzzKgkLtcgQw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMI8z79S343q5EGiQPjJ45fA5eZLQI53WWu/zvgTOFJ+GGcGgY
+	6Qyoq6n1pVDR1Us2Cii00AcsU/Ys+zSHgHjREmdls0o9X6kUdjQYvQSG
+X-Gm-Gg: Acq92OEeoYMixR3cVVUSkf0bnnWYANxeCP753F8YuRZIwOEZgFRAk3hzDjwloK8lQj8
+	1drx2PaQdYpfpLmvQnkeIt3pSVBMI65e9U534kosqMu91bRsq4Bzg4Qs3DieUbq5ig63Ed8S3Fg
+	4alYUYpNH/xzMeF9y6cstVAYQLs4OU3KP2QqUmzhtbkgSlLXLBojJCRE2qUXeRMxFv6TOmWIS6T
+	T3hX0TowPr8L/YiVDRLQF5GVhIhGq0mgyEUHugPfTwCUC3EFoefWgTHx4iYax6/gur+F4UlUQcu
+	CUURLCIy+Gq/wY/U1aA0Y0xw/ohH1aRPVuj6GoVG+ZI+y1+oW+krNKbDkLnMYw8rw+FjmMUVlOW
+	5bPFSzpRTDWjFkdseoMf5R+RV6V+IWn6RJPmIxuvftDgvmmtE4qd6lHea2rv5U3PdkuusStiw3O
+	2TleeH4Nd8Eo0maYiSW1/RvidluUn6LhLXEhGBLJBr/rshcxxwVZ/H
+X-Received: by 2002:a17:902:ce8c:b0:2bc:f1ef:2e64 with SMTP id d9443c01a7336-2c4111adec5mr18173645ad.12.1781241685597;
+        Thu, 11 Jun 2026 22:21:25 -0700 (PDT)
 Received: from localhost (211-75-139-220.hinet-ip.hinet.net. [211.75.139.220])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434b009e67sm1018294b3a.42.2026.06.11.22.21.21
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c4328a4c14sm6383225ad.43.2026.06.11.22.21.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 22:21:21 -0700 (PDT)
+        Thu, 11 Jun 2026 22:21:25 -0700 (PDT)
 Sender: AceLan Kao <acelan@gmail.com>
 From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
 To: heikki.krogerus@linux.intel.com,
@@ -72,9 +72,9 @@ Cc: bleung@chromium.org,
 	dmitry.baryshkov@oss.qualcomm.com,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 2/3] usb: typec: ucsi: Add duplicate detection to nvidia registration path
-Date: Fri, 12 Jun 2026 13:21:11 +0800
-Message-ID: <20260612052112.1325812-3-acelan.kao@canonical.com>
+Subject: [PATCH v6 3/3] usb: typec: ucsi: yoga_c630: Remove redundant duplicate altmode handling
+Date: Fri, 12 Jun 2026 13:21:12 +0800
+Message-ID: <20260612052112.1325812-4-acelan.kao@canonical.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260612052112.1325812-1-acelan.kao@canonical.com>
 References: <20260612052112.1325812-1-acelan.kao@canonical.com>
@@ -86,63 +86,73 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Extend the duplicate altmode detection to ucsi_register_altmodes_nvidia()
-which is used when a driver provides the update_altmodes() callback.
+This reverts commit e0c48e42d818 ("usb: typec: ucsi: yoga-c630: remove
+duplicate AltModes").
 
-This ensures all drivers benefit from duplicate detection, whether they
-use the standard registration path or the nvidia path with update_altmodes
-callback.
+The yoga_c630 driver previously implemented its own duplicate altmode
+detection in yoga_c630_ucsi_update_altmodes() to work around buggy EC
+firmware that returns duplicate AltModes instead of empty ones.
 
-Without this fix, drivers using the nvidia path (like yoga_c630) would
-still encounter duplicate altmode registration errors from buggy firmware.
+With the introduction of the common ucsi_altmode_is_duplicate() helper
+in both the standard and nvidia registration paths, duplicate detection
+is now handled automatically in the core UCSI code. This makes the
+yoga_c630-specific implementation added in commit e0c48e42d818 ("usb:
+typec: ucsi: yoga-c630: remove duplicate AltModes") redundant.
 
-Fixes: a79f16efcd00 ("usb: typec: ucsi: Add support for the partner USB Modes")
-Cc: stable@vger.kernel.org
+Remove yoga_c630_ucsi_update_altmodes() and its callback to eliminate
+code duplication and simplify the driver. Note that this causes the
+driver to switch back from the nvidia registration path to the standard
+path, which is the original behavior before commit e0c48e42d818 ("usb:
+typec: ucsi: yoga-c630: remove duplicate AltModes"). Both paths now
+include duplicate detection, ensuring the firmware bug is still properly
+handled.
+
 Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
 ---
- drivers/usb/typec/ucsi/ucsi.c | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+ drivers/usb/typec/ucsi/ucsi_yoga_c630.c | 23 -----------------------
+ 1 file changed, 23 deletions(-)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 9cd7fd7a38521..9eeb38e7472c0 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -706,19 +706,25 @@ ucsi_register_altmodes_nvidia(struct ucsi_connector *con, u8 recipient)
+diff --git a/drivers/usb/typec/ucsi/ucsi_yoga_c630.c b/drivers/usb/typec/ucsi/ucsi_yoga_c630.c
+index 1be18d1018426..bb7b09bc7c1c1 100644
+--- a/drivers/usb/typec/ucsi/ucsi_yoga_c630.c
++++ b/drivers/usb/typec/ucsi/ucsi_yoga_c630.c
+@@ -139,28 +139,6 @@ static int yoga_c630_ucsi_sync_control(struct ucsi *ucsi,
+ 	return ret;
+ }
  
- 	/* now register altmodes */
- 	for (i = 0; i < max_altmodes; i++) {
--		memset(&desc, 0, sizeof(desc));
--		if (multi_dp) {
--			desc.svid = updated[i].svid;
--			desc.vdo = updated[i].mid;
--		} else {
--			desc.svid = orig[i].svid;
--			desc.vdo = orig[i].mid;
+-static bool yoga_c630_ucsi_update_altmodes(struct ucsi *ucsi,
+-					   u8 recipient,
+-					   struct ucsi_altmode *orig,
+-					   struct ucsi_altmode *updated)
+-{
+-	int i;
+-
+-	if (orig[0].svid == 0 || recipient != UCSI_RECIPIENT_SOP)
+-		return false;
+-
+-	/* EC is nice and repeats altmodes again and again. Ignore copies. */
+-	for (i = 1; i < UCSI_MAX_ALTMODES; i++) {
+-		if (orig[i].svid == orig[0].svid) {
+-			dev_dbg(ucsi->dev, "Found duplicate altmodes, starting from %d\n", i);
+-			memset(&orig[i], 0, (UCSI_MAX_ALTMODES - i) * sizeof(*orig));
+-			break;
 -		}
--		desc.roles = TYPEC_PORT_DRD;
-+		struct ucsi_altmode *altmode_array = multi_dp ? updated : orig;
+-	}
+-
+-	return false;
+-}
+-
+ static void yoga_c630_ucsi_update_connector(struct ucsi_connector *con)
+ {
+ 	if (con->num == 1)
+@@ -174,7 +152,6 @@ static const struct ucsi_operations yoga_c630_ucsi_ops = {
+ 	.read_message_in = yoga_c630_ucsi_read_message_in,
+ 	.sync_control = yoga_c630_ucsi_sync_control,
+ 	.async_control = yoga_c630_ucsi_async_control,
+-	.update_altmodes = yoga_c630_ucsi_update_altmodes,
+ 	.update_connector = yoga_c630_ucsi_update_connector,
+ };
  
--		if (!desc.svid)
-+		if (!altmode_array[i].svid)
- 			return 0;
- 
-+		/*
-+		 * Check for duplicates in current array and already
-+		 * registered altmodes. Skip if duplicate found.
-+		 */
-+		if (ucsi_altmode_is_duplicate(con, recipient, altmode_array, i,
-+					      altmode_array[i].svid,
-+					      altmode_array[i].mid, i))
-+			continue;
-+
-+		memset(&desc, 0, sizeof(desc));
-+		desc.svid = altmode_array[i].svid;
-+		desc.vdo = altmode_array[i].mid;
-+		desc.roles = TYPEC_PORT_DRD;
-+
- 		ret = ucsi_register_altmode(con, &desc, recipient);
- 		if (ret)
- 			return ret;
 -- 
 2.53.0
 
