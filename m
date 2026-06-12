@@ -1,83 +1,36 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC9E39BFE7
-	for <linux-usb@vger.kernel.org>; Fri, 12 Jun 2026 05:21:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A80D306778;
+	Fri, 12 Jun 2026 05:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781241688; cv=none; b=WH7T3yXdvdGXnYfuec0ll3pokj+Tf1gT/LTxt6rxaP03pGsx3dJ83883GYzDyk5IoWNkxL2SpRfAoZXyMOL51B3x5kJ6OAKHWjEdzDjaqaLHZcDQp47swV8ku6Ai0znpWREPwacWqi3VozlexSMhB1hjP4G5IIsMM02j7sxR9vM=
+	t=1781241929; cv=none; b=PSgP3chevtvBRJQwD2QJq7v1T9od772aDjhz/dkAQ/L31IMho2O40sTryZFQZ7y/9pDnk3NPq3ohz/X7y3iCHCju63U6tKBC39q2niBqNU44wnM7Z9IFL0rZkuBzGPxlP1jn5d1vG9+4QQ+bEQXYzHopDM9tgrbCnr3QKVf3kV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781241688; c=relaxed/simple;
-	bh=bCDlH3Pg3MhK5JB4icqU+hAOOLprGDN2GMxKN42gIQY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l+PtjhJ8mUZTlo1X7Lg9SV6g4Xyt8tTGKhdsIiAM2t5SJqQY8xhjIvm+iRsRlAUOYPVHpKqrE8is3YZOV2cbKJsnJFnH/eGwE1PJivAWhGPAzKunhGn2Y38uKH7klXqkq78KR2jj5+Vly/6Srw5D+3JFqV1UHreaYXj/uxpcv0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RY+nwhDA; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781241929; c=relaxed/simple;
+	bh=6AXVtEgiCzO/2RP/Wt1qsytfBuE3IodFRGvzMuYE61M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rcivNHDX1hw0NpFR0aUKqrvQzQexAVDZR4bfaFvruSGtxHbEXcFnUji/L0LD4kNZAtG2hSASW70YxMOJG3sX8eMlBVHObWtosuv/8s2tZ6C0Ibljaf0Ch2nccbt8/xeEi5ju02uqBNfb52LuByj5cNQAVUQHpXZklcK513wfW3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=n/xURZ1U; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RY+nwhDA"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-36d9794d82aso396180a91.0
-        for <linux-usb@vger.kernel.org>; Thu, 11 Jun 2026 22:21:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781241686; x=1781846486; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I0iLxu0OIMq4uond8gTEg2/ZhyX7yERRrr2Iv0KZlrM=;
-        b=RY+nwhDAyrl5wsmp1eyCRFYSEQPiJjQnhg3gqjAJnDGBjD8AuWfkYeu1GcLsXZB+hy
-         MmVBvksjJ4FOkYfwVBE/5ocouzayNpVYE3fNCHQ4AlEIuxwOYoHxaWr7MlUppN4LDyLz
-         OA55FoWG+7fos//N8C4xqKOb2gHQMO9ZeTEHYV6En887g1OryQa3iI7r01JEwdOjizfv
-         G6HQmKkAzHDBqMu9l7N6HeTE+T198vnrkW2VWryKr+ahA5BieU0QLDPbMgSu5xLnZdXy
-         /U14Blf3d+9pYsYgj4dyf46Jc2VrD5D/2mR3pjf/x8gi7uRVLexqYk34XPkYo3CVvkXX
-         vm4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781241686; x=1781846486;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I0iLxu0OIMq4uond8gTEg2/ZhyX7yERRrr2Iv0KZlrM=;
-        b=V1d+KO94rZda/YQhyoOgolNRaf+oxq6GpXnYhNbHUTHKI+eXjLEoNqG7J74N70v7fH
-         EX28o8PA6xWhJCq9+X7991dc4dPyTS/PtsuENCXVMyU2AuBZJGmKU8f14d1AAMqtVxD7
-         I+wn8Ed5AZLKEMFpjz82k7Rm4JYnqK6kcFbsD9RHm0j99TNF0BivjBITbw+G2vZBP8//
-         +5IDZxaPNJNObdzAyur+zLLEWAMRcFT9VK3hH90CC5lw1/PT6rQI38XE+0wSDAG+ix/n
-         eJs362G/PWCUPUnty1U1JXt+s9/KwfaXh6jFF+N7W12CqX2qovZdr2q6r/uYOMReo2xx
-         gBlQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8f4nM58TJYTc+pPZfyqwMcKg9Skk/XCUKRD/eZBbC59WsW+imoJ24MfK2IDHZM1W9fzzKgkLtcgQw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMI8z79S343q5EGiQPjJ45fA5eZLQI53WWu/zvgTOFJ+GGcGgY
-	6Qyoq6n1pVDR1Us2Cii00AcsU/Ys+zSHgHjREmdls0o9X6kUdjQYvQSG
-X-Gm-Gg: Acq92OEeoYMixR3cVVUSkf0bnnWYANxeCP753F8YuRZIwOEZgFRAk3hzDjwloK8lQj8
-	1drx2PaQdYpfpLmvQnkeIt3pSVBMI65e9U534kosqMu91bRsq4Bzg4Qs3DieUbq5ig63Ed8S3Fg
-	4alYUYpNH/xzMeF9y6cstVAYQLs4OU3KP2QqUmzhtbkgSlLXLBojJCRE2qUXeRMxFv6TOmWIS6T
-	T3hX0TowPr8L/YiVDRLQF5GVhIhGq0mgyEUHugPfTwCUC3EFoefWgTHx4iYax6/gur+F4UlUQcu
-	CUURLCIy+Gq/wY/U1aA0Y0xw/ohH1aRPVuj6GoVG+ZI+y1+oW+krNKbDkLnMYw8rw+FjmMUVlOW
-	5bPFSzpRTDWjFkdseoMf5R+RV6V+IWn6RJPmIxuvftDgvmmtE4qd6lHea2rv5U3PdkuusStiw3O
-	2TleeH4Nd8Eo0maYiSW1/RvidluUn6LhLXEhGBLJBr/rshcxxwVZ/H
-X-Received: by 2002:a17:902:ce8c:b0:2bc:f1ef:2e64 with SMTP id d9443c01a7336-2c4111adec5mr18173645ad.12.1781241685597;
-        Thu, 11 Jun 2026 22:21:25 -0700 (PDT)
-Received: from localhost (211-75-139-220.hinet-ip.hinet.net. [211.75.139.220])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c4328a4c14sm6383225ad.43.2026.06.11.22.21.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 22:21:25 -0700 (PDT)
-Sender: AceLan Kao <acelan@gmail.com>
-From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-To: heikki.krogerus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: bleung@chromium.org,
-	jthies@google.com,
-	myrrhperiwinkle@qtmlabs.xyz,
-	pooja.katiyar@intel.com,
-	abelvesa@kernel.org,
-	yuanhsinte@chromium.org,
-	johan@kernel.org,
-	dmitry.baryshkov@oss.qualcomm.com,
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="n/xURZ1U"
+Received: from PC-202605011814.localdomain (unknown [58.241.16.34])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 421b3136f;
+	Fri, 12 Jun 2026 13:20:12 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Roger Quadros <rogerq@kernel.org>,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 3/3] usb: typec: ucsi: yoga_c630: Remove redundant duplicate altmode handling
-Date: Fri, 12 Jun 2026 13:21:12 +0800
-Message-ID: <20260612052112.1325812-4-acelan.kao@canonical.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260612052112.1325812-1-acelan.kao@canonical.com>
-References: <20260612052112.1325812-1-acelan.kao@canonical.com>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	"jianhao . xu" <jianhao.xu@seu.edu.cn>,
+	"runyu . xiao" <runyu.xiao@seu.edu.cn>
+Subject: [PATCH] usb: dwc3: run gadget disconnect from sleepable suspend context
+Date: Fri, 12 Jun 2026 13:20:05 +0800
+Message-Id: <20260612052005.3849659-1-runyu.xiao@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -85,74 +38,125 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9eba46086503a1kunm1643b5d918651a
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCH0IYVkpITEkaHxlJS0weSlYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+	xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=n/xURZ1UYfeoJ8x2oZ0neNrO0lI4NaXqV2FFClx+XInEszJTdAs8KPBuvYz4d/dR7HqdijBBAMtCdbzpsi3y6TfN7a5bvIps8c0t7E2k4D7kRaNlKY6GDXlx2YYM5Bg6m+masNK7q7EE9iMkwlnSsfNV2wnp06oFc2/hN3cHSCQ=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=Gbm/mGQFxmKA5WEZQ72EuY/oIBOh6E65pmH0EXPD82w=;
+	h=date:mime-version:subject:message-id:from;
 
-This reverts commit e0c48e42d818 ("usb: typec: ucsi: yoga-c630: remove
-duplicate AltModes").
+dwc3_gadget_suspend() takes dwc->lock with IRQs disabled and then calls
+dwc3_disconnect_gadget().  For async callbacks that helper only uses
+plain spin_unlock()/spin_lock(), so the gadget ->disconnect() callback
+still runs with IRQs disabled and any sleepable callback trips Lockdep.
 
-The yoga_c630 driver previously implemented its own duplicate altmode
-detection in yoga_c630_ucsi_update_altmodes() to work around buggy EC
-firmware that returns duplicate AltModes instead of empty ones.
+This issue was found by our static analysis tool and then manually
+reviewed against the current tree.
 
-With the introduction of the common ucsi_altmode_is_duplicate() helper
-in both the standard and nvidia registration paths, duplicate detection
-is now handled automatically in the core UCSI code. This makes the
-yoga_c630-specific implementation added in commit e0c48e42d818 ("usb:
-typec: ucsi: yoga-c630: remove duplicate AltModes") redundant.
+The grounded PoC kept the dwc3_gadget_suspend() ->
+dwc3_disconnect_gadget() -> gadget_driver->disconnect() chain, and
+Lockdep reported:
 
-Remove yoga_c630_ucsi_update_altmodes() and its callback to eliminate
-code duplication and simplify the driver. Note that this causes the
-driver to switch back from the nvidia registration path to the standard
-path, which is the original behavior before commit e0c48e42d818 ("usb:
-typec: ucsi: yoga-c630: remove duplicate AltModes"). Both paths now
-include duplicate detection, ensuring the firmware bug is still properly
-handled.
+  BUG: sleeping function called from invalid context
+  gadget_disconnect+0x21/0x39 [vuln_msv]
+  dwc3_gadget_suspend.constprop.0+0x2b/0x42 [vuln_msv]
 
-Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+Keep the disconnect callback selection in one common helper, but add a
+sleepable suspend-side wrapper which snapshots the callback under
+dwc->lock and then runs it after spin_unlock_irqrestore().  The regular
+event path still uses the existing spin_unlock()/spin_lock() window.
+
+Fixes: c8540870af4c ("usb: dwc3: gadget: Improve dwc3_gadget_suspend() and dwc3_gadget_resume()")
+Cc: stable@vger.kernel.org
+Signed-off-by: Runyu Xiao <runyu.xiao@seu.edu.cn>
 ---
- drivers/usb/typec/ucsi/ucsi_yoga_c630.c | 23 -----------------------
- 1 file changed, 23 deletions(-)
+Notes:
+  - Validated with a grounded Lockdep PoC that preserves the
+    dwc3_gadget_suspend() -> dwc3_disconnect_gadget() ->
+    gadget_driver->disconnect() chain.
+  - Not tested on dwc3 hardware.
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_yoga_c630.c b/drivers/usb/typec/ucsi/ucsi_yoga_c630.c
-index 1be18d1018426..bb7b09bc7c1c1 100644
---- a/drivers/usb/typec/ucsi/ucsi_yoga_c630.c
-+++ b/drivers/usb/typec/ucsi/ucsi_yoga_c630.c
-@@ -139,28 +139,6 @@ static int yoga_c630_ucsi_sync_control(struct ucsi *ucsi,
- 	return ret;
+ drivers/usb/dwc3/gadget.c | 43 ++++++++++++++++++++++++++++++++-------
+ 1 file changed, 36 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index db5e5b77b1ea..63faa2d3811b 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -3934,15 +3934,48 @@ static void dwc3_endpoint_interrupt(struct dwc3 *dwc,
+ 	}
  }
  
--static bool yoga_c630_ucsi_update_altmodes(struct ucsi *ucsi,
--					   u8 recipient,
--					   struct ucsi_altmode *orig,
--					   struct ucsi_altmode *updated)
--{
--	int i;
--
--	if (orig[0].svid == 0 || recipient != UCSI_RECIPIENT_SOP)
--		return false;
--
--	/* EC is nice and repeats altmodes again and again. Ignore copies. */
--	for (i = 1; i < UCSI_MAX_ALTMODES; i++) {
--		if (orig[i].svid == orig[0].svid) {
--			dev_dbg(ucsi->dev, "Found duplicate altmodes, starting from %d\n", i);
--			memset(&orig[i], 0, (UCSI_MAX_ALTMODES - i) * sizeof(*orig));
--			break;
--		}
--	}
--
--	return false;
--}
--
- static void yoga_c630_ucsi_update_connector(struct ucsi_connector *con)
++static bool dwc3_prepare_disconnect_gadget(struct dwc3 *dwc,
++					   struct usb_gadget_driver **driver,
++					   struct usb_gadget **gadget)
++{
++	if (!dwc->async_callbacks || !dwc->gadget_driver ||
++	    !dwc->gadget_driver->disconnect)
++		return false;
++
++	*driver = dwc->gadget_driver;
++	*gadget = dwc->gadget;
++
++	return true;
++}
++
+ static void dwc3_disconnect_gadget(struct dwc3 *dwc)
  {
- 	if (con->num == 1)
-@@ -174,7 +152,6 @@ static const struct ucsi_operations yoga_c630_ucsi_ops = {
- 	.read_message_in = yoga_c630_ucsi_read_message_in,
- 	.sync_control = yoga_c630_ucsi_sync_control,
- 	.async_control = yoga_c630_ucsi_async_control,
--	.update_altmodes = yoga_c630_ucsi_update_altmodes,
- 	.update_connector = yoga_c630_ucsi_update_connector,
- };
+-	if (dwc->async_callbacks && dwc->gadget_driver->disconnect) {
++	struct usb_gadget_driver *driver;
++	struct usb_gadget *gadget;
++
++	if (dwc3_prepare_disconnect_gadget(dwc, &driver, &gadget)) {
+ 		spin_unlock(&dwc->lock);
+-		dwc->gadget_driver->disconnect(dwc->gadget);
++		driver->disconnect(gadget);
+ 		spin_lock(&dwc->lock);
+ 	}
+ }
  
++static void dwc3_disconnect_gadget_sleepable(struct dwc3 *dwc)
++{
++	struct usb_gadget_driver *driver;
++	struct usb_gadget *gadget;
++	unsigned long flags;
++
++	spin_lock_irqsave(&dwc->lock, flags);
++	if (!dwc3_prepare_disconnect_gadget(dwc, &driver, &gadget)) {
++		spin_unlock_irqrestore(&dwc->lock, flags);
++		return;
++	}
++
++	spin_unlock_irqrestore(&dwc->lock, flags);
++	driver->disconnect(gadget);
++}
++
+ static void dwc3_suspend_gadget(struct dwc3 *dwc)
+ {
+ 	if (dwc->async_callbacks && dwc->gadget_driver->suspend) {
+@@ -4836,7 +4869,6 @@ void dwc3_gadget_exit(struct dwc3 *dwc)
+ 
+ int dwc3_gadget_suspend(struct dwc3 *dwc)
+ {
+-	unsigned long flags;
+ 	int ret;
+ 
+ 	ret = dwc3_gadget_soft_disconnect(dwc);
+@@ -4850,10 +4882,7 @@ int dwc3_gadget_suspend(struct dwc3 *dwc)
+ 		return -EAGAIN;
+ 	}
+ 
+-	spin_lock_irqsave(&dwc->lock, flags);
+-	if (dwc->gadget_driver)
+-		dwc3_disconnect_gadget(dwc);
+-	spin_unlock_irqrestore(&dwc->lock, flags);
++	dwc3_disconnect_gadget_sleepable(dwc);
+ 
+ 	return 0;
+ }
 -- 
-2.53.0
-
+2.34.1
