@@ -1,92 +1,92 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F913988E1
-	for <linux-usb@vger.kernel.org>; Fri, 12 Jun 2026 09:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818B437E301
+	for <linux-usb@vger.kernel.org>; Fri, 12 Jun 2026 09:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.171
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781255537; cv=pass; b=LWoncIEawrVom0rsHe0WBPhkamK8tyfYrSwPnamZBRCVaArMex1j2XSahAx+mlL6tuiyx69tBj2T3q9jWSVpxbkVK3+2NfXWtus8ME4z6Mka9515yRBPxY21y1QfxFvtE9BPBPXP+m7UMIz/nK6Fe+IoGyfS2tDfqoyL9Qc80Os=
+	t=1781255869; cv=pass; b=hNiNvUurU55N73D5/RIY6NVhC+wk4S5sPPaPdP4iTL1FwB2ECDFIYTjjcKHfPXu2/2fw2D7lxkHMaH7IEUkrmL7VRxAjqvkjWh+6qPsOMqRAPjapI7yRrLKO5QnNoGEat84n4KurDu1KkPtpDwpsbbpgurCGg5e44CSbAEW8cWI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781255537; c=relaxed/simple;
-	bh=V9+QmrpZdZ64QkPAYEa/J5l5l39WRUXFgGRxiy0LOV0=;
+	s=arc-20240116; t=1781255869; c=relaxed/simple;
+	bh=hhcCFioqMSZRCk/5HvD/sKp69EwBtqpgSp4Ql/r2CVc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=W8qAAm8VH7gSVshG8gh3Lo7Hy9SniscpVeGkMiRYpDsAED65YUwzYU2xBKOOZtOsmMwPFa5bEqeYW53PRGGl3rA/VuimtRlUA7IRyRt/L/R1HZ1+gJixywcjKL+J7UDX1M1Z0LyGuUPQPgh+ERpCqxJ0rsUF6ODENvJ4Y9u6gt0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=VY6z8Y27; arc=pass smtp.client-ip=209.85.128.170
+	 To:Cc:Content-Type; b=b0OXPM4lVlpcq/COA20diY5L6gK2ACqqY4W1L+55NnVVPpX5NOprhYbv0/m/njAB9X7tHzmWHYscIVGU+YIWXspxyASXnpEjcqGBuvKasJt3e0x59CMT6FcdfEjlDW6NIt9MPfTCDx/rew3X+l8lkM3X9OtBboZEAtgtRtkmw5s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Cp45EbXQ; arc=pass smtp.client-ip=209.85.128.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VY6z8Y27"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7de68222e96so5794337b3.2
-        for <linux-usb@vger.kernel.org>; Fri, 12 Jun 2026 02:12:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781255532; cv=none;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Cp45EbXQ"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-7e1c3f47d78so8231537b3.0
+        for <linux-usb@vger.kernel.org>; Fri, 12 Jun 2026 02:17:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781255867; cv=none;
         d=google.com; s=arc-20240605;
-        b=S35qK8+Nb4p4P7OJ70VyCDwREqCW9NEaulcCvrjF0tLSVPw7xIZekcNwjOOwlcZY2r
-         h+7xtAYvQxExjCgs1DJW6kin8uZNMl72ImLkPRMJdgorQpA0ZOWo28dHE/Ssp84bb12q
-         3wnTxsuXZVF/cfVTX34aX3mK8pZCMCj834dftXZDoSgLtm6kQHfrEAwL5nYMXKJQfJGY
-         NGc/SFpa1yTj4ES9PfXTwKphXbT//yq2xYHu/spO/tfw7vItIPwDWSWnFfrYpe/9YdPl
-         C8PUzeexBAdIsR71dXsOeinLA8rHGyIqSrslWQveFYldhAH0DZZjmU3sN3z0s6oydJlm
-         v7ng==
+        b=BAe6M7jhhh81/hhNcXPceNwjieO4IzbTP4ghYe6aORd19NL6GJngsc0iufA6ZiT3eQ
+         43iK3Ws8DxTEyQJSJvxLiZAdRuFENEvs977MrOibcsCHgmhw/vyjqG7e5rfAkDNn5rNz
+         51HjeQUBpMi2hHmzExqRisggBkqqzZNCc9PDYt4SU08KLou6YX/3o4dTSMESmldZgHWZ
+         MmGbf7FB/GIetoB5hdaMpZw7fXM+gYTspDCzCWU3RZaxtIhdsuMaggrHI+FkOrFizs6k
+         dS0qzWW4GzjBOoOqQuFRSBWm6DB/2PCPZaEm6sJ7l6hu384stK1N1sk6PjBZaqsVtmWN
+         UnMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=GT5k7NNhpJZZ3Z4dV7FccQcGuRptRglhhV64m8hW5dM=;
-        fh=1p6ocFm16sEOnHan1APmJatfU2AuoRV54jfjtnu3Hzc=;
-        b=giUikZjs0/excnZC0rzopNL90bfh9MhTUzpBVUH89MOyRuGAO1qKnJ/ASp5mJrAcwf
-         7imINm3M7n+j2PZ26q5byPFsOWxmMwbHSr6GRSIWbshaISWgdHRlIhV9IDBM+ESKWXfv
-         I3L72RxolpXT6oqJcgsSvF2rd58bCSKxs6RXMydNZasqz/+BgHZhhVXjWukgyllKXBXz
-         JZCZuH0cez5zkW2PM38ETRWU/2XB9jnjMaL0J/Y1A3QphkgwxhRv9nuDVDVN+8NGvUu3
-         OLva7ovHeCrgA8KLlEUU5k3wXkXZM8XvEDioqk1s0FpTzXZ/gXgwDIRCsGF2HbfJ23TK
-         zlGw==;
+        bh=hhcCFioqMSZRCk/5HvD/sKp69EwBtqpgSp4Ql/r2CVc=;
+        fh=Gxk1M+kPcHMIbkSUqyEYVbiSCa4cGvLNVaVpbntzB2U=;
+        b=Xd4kGJeGI1GyuQ36MV3yggbW/zwoU9BVFRs7Jmf4loynf0LMtg3NykFv+F5S3z0I95
+         daXDUZBl4Es+cg6eRtV1VhVYh2Ne39HRwdh3ISM9Av8CF1PKNUVefimq/9//wK7Y0m0l
+         EXx0EJKGK6sUAzb2spehpFwbThBHNLynuRYoV06Rzbd/x/WAUikUGpmRYMrSbtBFo0y3
+         9wGCpEr0Vlf7Qnz945anApbGGW3SsjlBOb0BpLPjTnePKarbkKkKqUgOFOmv+RpoHo6l
+         H1YSdZpEFmxwx32aazHITAhO+EQNB4q2ctLaEagQ5T80Cch81FMGEfetUWR4GK+m8UPQ
+         PXaQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1781255532; x=1781860332; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1781255867; x=1781860667; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GT5k7NNhpJZZ3Z4dV7FccQcGuRptRglhhV64m8hW5dM=;
-        b=VY6z8Y27Bq/k1VaXQDtfw4d6RhDkAb7ja36E1h1GoBPyxh8YLLuJ0VGxGCciWhduL3
-         K6pOSFQWx1us+l10HBVmKuj+38x5U1b+jmRjcTWKFAb1lZmSa9x2dBwuyDpyBhsriic0
-         0cEp83ACaRF9R3X5w43ashV/jsuNNogzc5ovw=
+        bh=hhcCFioqMSZRCk/5HvD/sKp69EwBtqpgSp4Ql/r2CVc=;
+        b=Cp45EbXQPotQHJV6pD9Z1tRcMMw/E1UVxgnMhXoZBjFie5UhROaMkWEwt2QF5D70y8
+         YOD/NxeL/50JCSOtVLg3QZOu3/P+oUy7rMUa01zQtjLxNz547rc1kAL0UpiWXQfOIV15
+         NmZbH96i2TJi0/uf3Vwh2QluHzpV4IczZXOAY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781255532; x=1781860332;
+        d=1e100.net; s=20251104; t=1781255867; x=1781860667;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GT5k7NNhpJZZ3Z4dV7FccQcGuRptRglhhV64m8hW5dM=;
-        b=dal/uerbS1HSYA+on+wP/tca86RXKCZgYMRDOlUK62zv2S8OcyCtIVmxzifBNhgLIt
-         o6ylebYhYXijoGjBkxTQMzzJCTxrtB+XCN22GataTsyVJhSqg7K+kWX8RtV2R0CpYW+X
-         N7F0ZePsyKeaqd5M1yxR7vQRuvw46syJFyO+fa3uRoNsL+fYN1B4wi+QfP0gpsmccCpC
-         dWzcDNoNzZfG4l1P/PmUKFl5XWc3NKzuC9TOab56OhsTZsTsUfImindKSgG5aK4+KSdP
-         FEnsYozP4iyXToDZR6jKmijpuhx0ZBgeqFz5LvtjnKns5N3/y1JwuXSlsIZB9reWOQX/
-         sWMw==
-X-Forwarded-Encrypted: i=1; AFNElJ9PjgxFnq1ZcW184ob+zaKwB2MwwPHolQnzATgSOleagXf97Bt7nmNi3jg2E32SVamzZry6Az+C75s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaSYSmOPZjrj+dLhKzkNJBcUbg0tN6iTFrHgmQ7mtXIBR4XaVw
-	S77WtoJAv3ZC2zPXzlkeOdzkhjblT3rbZSbSMHhxOytDUAmquokmUqCRWVl5dcqz8cetMFXBeP2
-	ruWKezP+b8tiZ0/WVINXPTYbrpCCFNpCO/nJbRbAl
-X-Gm-Gg: Acq92OE0zAs0F3tQCAIb8NubdWhorj05MvPUVl0kE37Omg8iq9obvW4TSpjvk+XD9zR
-	Vk7Fe0ahj5Dk1RqjNGX0gg6glsMER0eQo2uwIdETVbMboXSsJQIozzHQLvctVh28X4PCSC2Gp4L
-	OBl0mzrQMxCkEyozkiUPjZSEU8GGMUD2M9YiEMR8kMjNJ9ayDBGkCrbROK6zbjIE9eoxknDycKO
-	rMz47Gxlz3I43e4WUgsAJleiXbJxd91TTmwVkIuxJm9MgGfLLSnXhcEYp2864LWnl5cY7dc9pvJ
-	fkPPOWyb
-X-Received: by 2002:a05:690c:f0a:b0:7ef:d039:a334 with SMTP id
- 00721157ae682-7f7bcf0d73cmr16871217b3.22.1781255532401; Fri, 12 Jun 2026
- 02:12:12 -0700 (PDT)
+        bh=hhcCFioqMSZRCk/5HvD/sKp69EwBtqpgSp4Ql/r2CVc=;
+        b=Dvs+eb61F2rj8hU8A2c7CmMxA1DvnYUDvbuwEjLwH2zQ5hVKiu/bWVkXvXWXsgtMwC
+         zfjUUKr4HmfBctrLcVdZ+upuQste3wsGnrsuwPr+Wd5PaGsUD8m3+ar4cy0oNinJ2pAh
+         ta1FZNVDJZbsPkHXaERkXVhSXdMempQw7F/QmGuzgMFHLVR8T92vpN7A5NQxirPh7Bmy
+         C4TWtQ/pPLXgrI2roAjwLsKKwrnQppol4RkYHvP23h2vJEx3AuYNz/Ku0n5toQxn7uq7
+         lHwmQ2dc7yolKfa9lj5HgTnTVK4MXSfdeOTvE0I9cjNq0DaEfByUyLlRVsnCYSykZARh
+         110w==
+X-Forwarded-Encrypted: i=1; AFNElJ9EdK78sW5qtkTazEcPgCbXoRIP0H2+w0p5/QuXVswQgQxuEC13nHCwyMtiwnwrMDCL6ma48+xhMXI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1s8aSFKj2qFaSRpdrp4179VvUqsxmntJvM+XD2rkRNA0uLUt8
+	QRUcfhP69sqxlqX1zW4vBHYSoj0IeETjN2JHHU2/u/dEyOJXM9q1AWFhvn4gYDJCIW0uQjTjQ2X
+	/db9jjzgL9KnkdyhAUTRy9FiXoEzL1pP7eAyBimlb
+X-Gm-Gg: Acq92OH7Aa/0zDcNuRZvQRQ87sj4rAg7vEL3IDV5zahu5NKrkF48Q/Mme/ltZ2n7y8B
+	aALoMETs65NuN3lQpur/AmkgwqjlkPha0bfoQFW/fR1DCC2vF4aCBr9h2xUg+ZiB/zDFqjV4Jw3
+	i8pbQ7z6EAgx9YiXDt8w4PI61GPwqYPL4UZ5iPkEnvPQYI/oEhN9pPLiM2l4+s0GRwvriLmLfxd
+	oynX/QiN5nIV3aC1Qk/KlX5/F8tx6pBpip7wRjRBYnproYJ/dHKo4e1jGtHNR3b2QMUhFu+5xVd
+	vc3/Wto4
+X-Received: by 2002:a05:690c:3a0:b0:7cf:af41:50b0 with SMTP id
+ 00721157ae682-7f7b8d248damr20618557b3.36.1781255867482; Fri, 12 Jun 2026
+ 02:17:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260610084053.2059858-1-wenst@chromium.org> <20260610084053.2059858-11-wenst@chromium.org>
- <ail1sAxgh5Xtkj2y@ashevche-desk.local>
-In-Reply-To: <ail1sAxgh5Xtkj2y@ashevche-desk.local>
+References: <20260610084053.2059858-1-wenst@chromium.org> <20260610084053.2059858-12-wenst@chromium.org>
+ <ail2VcubjT7HNGUC@ashevche-desk.local>
+In-Reply-To: <ail2VcubjT7HNGUC@ashevche-desk.local>
 From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Fri, 12 Jun 2026 18:12:01 +0900
-X-Gm-Features: AVVi8Cc47lUt9lrnuGQ2TayhjSsjO0Ufug4-8BS--usEeOHUYmKa3VTCiJvbq60
-Message-ID: <CAGXv+5Fkp9R3i+WnCunbydJpn_rjxX5Cz9Cb=auS-cR1RE=R8g@mail.gmail.com>
-Subject: Re: [PATCH v2 10/16] power: sequencing: pcie-m2: support matching on
- remote "port" node
+Date: Fri, 12 Jun 2026 18:17:35 +0900
+X-Gm-Features: AVVi8CeDuG6qw5zFxFcHgtnnMaKWsSajO4ZT4D-k-SPwtRIr1WJR_hE6bMB1VZI
+Message-ID: <CAGXv+5GNfWFinO1E=5X46xnBsQpY-_i45mq60eeQu=U3Z0MtDA@mail.gmail.com>
+Subject: Re: [PATCH v2 11/16] power: sequencing: pcie-m2: Add usb and sdio
+ targets for E-key connector
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
@@ -103,23 +103,27 @@ Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfound
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 10, 2026 at 11:33=E2=80=AFPM Andy Shevchenko
+On Wed, Jun 10, 2026 at 11:36=E2=80=AFPM Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> wrote:
 >
-> On Wed, Jun 10, 2026 at 04:40:44PM +0800, Chen-Yu Tsai wrote:
-> > A USB hub can have multiple ports, and this driver needs to
-> > differentiate which port is being matched to. The USB hub driver now
-> > associates the "port" node with the usb_port device, so here we can
-> > use the remote "port" node to check for a match. Then fall back to
-> > the remote device node for the other connection types.
+> On Wed, Jun 10, 2026 at 04:40:45PM +0800, Chen-Yu Tsai wrote:
+> > The M.2 E-key connector allows either PCIe or SDIO for WiFi and USB or
+> > UART for BT. Currently the driver only supports PCIe and UART.
+> >
+> > Add power sequencing targets for SDIO and USB. To avoid adding a
+> > complicated dependency tree, rename the existing power sequencing units
+> > "pcie" and "uart" to "wifi" and "bt". The existing target names are lef=
+t
+> > untouched. The new "sdio" and "usb" targets just point to the renamed
+> > "wifi" and "bt" units.
 >
-> ...
->
-> > +             if (remote_port && remote_port =3D=3D dev_of_node(dev))
-> > +                     return PWRSEQ_MATCH_OK;
-> >               if (remote && (remote =3D=3D dev_of_node(dev)))
-> >                       return PWRSEQ_MATCH_OK;
->
-> We have device_match_of_node() IIRC the name of that API.
+> Why can we do that? No breakage? Only internal names? No ABI affected?
+> Please, clarify all this in the commit message.
 
-Ack. Will also replace the existing instance.
+Will do.
+
+In short, the target names (which are not modified) are used by the
+consumer, while the unit names are internal only.
+
+
+ChenYu
