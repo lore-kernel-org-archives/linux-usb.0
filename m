@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5B02DA74A
-	for <linux-usb@vger.kernel.org>; Sat, 13 Jun 2026 18:38:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0786038E5FF
+	for <linux-usb@vger.kernel.org>; Sat, 13 Jun 2026 18:45:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781375888; cv=none; b=c5bVYP/C0NZO3qrsdnWcmH7jDsS+VShEIPXFopCDRuREF4XYAgNqniUS2xgVehYKJeYiWle+FOMW/5g6TIeCbvM1tH/ITdK9XAIBWi1aFkWqBltnrqaXk2CN1Ssq5rhke07EhlU5g8X4RSRTUQQnrZAAd+cXHYc3hdrqZc1WXUs=
+	t=1781376310; cv=none; b=ZONo38XBTKGHAqZJ+1rtDNvagSk93mzCkxxQUj0d3+l54syxLFAelXvSstCS06bgmnhe8XHR0nEyG35yBaD+byBJxkBaDmNEalZ6owRfcO8nIdvNw4t91TlJrq3josvgVOEeDm/MUeYxMgaBT6g9esIFwbDOeDHXy+gaj+524lY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781375888; c=relaxed/simple;
-	bh=g/utP+CIf9p8rwq7ydQdXpnCksl1a2k5ZqDrFzz0gOQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=GzzX7oIxqNoARNxkqZwyiMB2x6NjmYhuWrIZLR4FAEZOiEBbHXmf88eUYnVWtisCqokGcNA7Bq1BkeJJv0SwwkhMNDwvcPbn4OuQBFlZbiBVNAxcRaRmZquHr7JdZEJkRAEgGiJ+g1exqZ+F9SHizaIr/eTP2xw6YkerJhOEriI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dn9iWeKT; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1781376310; c=relaxed/simple;
+	bh=+3dBKcsCKtGBYrGYxKPHHafTxruM17IotzNuZugTNC0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KKYkZa7okB9OjijIRgfNwjQsJzWKe00woGBv7FtgNMdHFF1+zbl8+cY/YbhxJHlFjQjv8EFr1r54YhdgIaUeeR8b74kbfrF5l43elrh9z/onX3vyramRRrfWIev34effRtm41Y2ORY/jYxOr9a6O5e9c63DPeZkrd8nADUTo1hY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wi7FVMkL; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dn9iWeKT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wi7FVMkL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781375886; x=1812911886;
+  t=1781376308; x=1812912308;
   h=date:from:to:cc:subject:message-id;
-  bh=g/utP+CIf9p8rwq7ydQdXpnCksl1a2k5ZqDrFzz0gOQ=;
-  b=dn9iWeKTDNAB+pqOKYgFzQHOvZzWCmWPxv9pRRGbHfseiQlw41yRwVVn
-   kdEUAoutups7+yaoBL02KqnQva7N4VQzl2CFeC0jsOvH1EasT4KRMRxEt
-   b+oyG5BvULq8mGXW5yj5+gqasFA/pQvuxHhooHuq2w1beinM1PFYLca9f
-   cDhG2/KcN0i30497bEgWfZ4bruIpNkY21mb617sN6R0Q3oz8AOYdtUidh
-   UyZgjukF6qzF/Cmg1KfGmlFIzFJScyQKlGWekTiCCLGYeHGfOBNcRey9H
-   PSyT8pblInPUNNhJRLdf36nqsJDmYoDGBPoYacAYsKxkZwP1gtZJgj870
-   w==;
-X-CSE-ConnectionGUID: fJC+8CmrSOiavhFDFp0u1w==
-X-CSE-MsgGUID: qbNeCBFPQTy3ogzUTpBovQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="82160089"
+  bh=+3dBKcsCKtGBYrGYxKPHHafTxruM17IotzNuZugTNC0=;
+  b=Wi7FVMkLdS/Q/K7oag+tUNiTy45LSB10P3510FmK7IoDfvz+Z6nCrI5l
+   Z8EDygO3CBnYpAgrw8z90zLIJwHrKmvv8tAuv9S/ryng2Pu0slp8RKH2r
+   O+FjwmaJ0EWAc0EynX9vz/2f9VrJhBdMsPcBs1uDruGP1vfpA0JzhURin
+   7dUr0CNYc13KB/L15YvRLvwTt5jCC1VK9yjE2DtKIpYnCOMBSQM69WlSu
+   AdkdX8/xA/rHG9BKc3Z40ogghVQgqyVkL4uLxPQ8hhuK2Wdv+O9KnKjys
+   gubkqQE/OwSZw7xzbtHFu1O3kNKa4AC9TIJhMu/Te9P06+d7Af4Xc9/f/
+   Q==;
+X-CSE-ConnectionGUID: oY9uw0UoTNGPFXFjfNpFKQ==
+X-CSE-MsgGUID: ezedPU4qRIqnIcGGyKNOwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="82160284"
 X-IronPort-AV: E=Sophos;i="6.24,203,1774335600"; 
-   d="scan'208";a="82160089"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 11:38:06 -0700
-X-CSE-ConnectionGUID: VeqjCxpGSO2VI/tBSuesHw==
-X-CSE-MsgGUID: 44TxWUs1TO2IVojuiM6M7A==
+   d="scan'208";a="82160284"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 11:45:08 -0700
+X-CSE-ConnectionGUID: UKKvGaWGSC6abbN8jB0Geg==
+X-CSE-MsgGUID: zQDpCUIcR2C8Ap/clQYtcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,203,1774335600"; 
-   d="scan'208";a="240746401"
+   d="scan'208";a="245985395"
 Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 13 Jun 2026 11:38:04 -0700
+  by orviesa006.jf.intel.com with ESMTP; 13 Jun 2026 11:45:06 -0700
 Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wYTF4-00000000QAY-0Qrz;
-	Sat, 13 Jun 2026 18:38:02 +0000
-Date: Sun, 14 Jun 2026 02:37:30 +0800
+	id 1wYTLr-00000000QAo-3juH;
+	Sat, 13 Jun 2026 18:45:03 +0000
+Date: Sun, 14 Jun 2026 02:44:54 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- 1c2b66a7d7257d2652aa41f9a860ecb96dde27dd
-Message-ID: <202606140210.HIudpO5S-lkp@intel.com>
+Subject: [usb:usb-next] BUILD SUCCESS
+ 7b4456767fd478ff1dbee55444d5e3e5a7194089
+Message-ID: <202606140245.2CcZpUG2-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -59,12 +59,12 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: 1c2b66a7d7257d2652aa41f9a860ecb96dde27dd  usb: ucsi: huawei_gaokun: support mode switching
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
+branch HEAD: 7b4456767fd478ff1dbee55444d5e3e5a7194089  Merge tag 'usb-serial-7.2-rc1' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-next
 
-elapsed time: 921m
+elapsed time: 929m
 
-configs tested: 238
+configs tested: 246
 configs skipped: 2
 
 The following configs have been built successfully.
@@ -242,11 +242,15 @@ sh                    randconfig-002-20260613    gcc-10.5.0
 sh                    randconfig-002-20260614    gcc-9.5.0
 sparc                             allnoconfig    clang-23
 sparc                               defconfig    gcc-16.1.0
+sparc                          randconfig-001    gcc-13.4.0
 sparc                 randconfig-001-20260613    gcc-13.4.0
+sparc                          randconfig-002    gcc-13.4.0
 sparc                 randconfig-002-20260613    gcc-13.4.0
 sparc64                          allmodconfig    clang-20
 sparc64                             defconfig    gcc-14
+sparc64                        randconfig-001    gcc-13.4.0
 sparc64               randconfig-001-20260613    gcc-13.4.0
+sparc64                        randconfig-002    gcc-13.4.0
 sparc64               randconfig-002-20260613    gcc-13.4.0
 um                               allmodconfig    clang-17
 um                               allmodconfig    clang-23
@@ -254,7 +258,9 @@ um                                allnoconfig    clang-23
 um                               allyesconfig    gcc-16.1.0
 um                                  defconfig    gcc-14
 um                             i386_defconfig    gcc-14
+um                             randconfig-001    gcc-13.4.0
 um                    randconfig-001-20260613    gcc-13.4.0
+um                             randconfig-002    gcc-13.4.0
 um                    randconfig-002-20260613    gcc-13.4.0
 um                           x86_64_defconfig    gcc-14
 x86_64                           allmodconfig    clang-22
@@ -307,7 +313,9 @@ x86_64                           rhel-9.4-ltp    gcc-14
 x86_64                          rhel-9.4-rust    clang-22
 xtensa                            allnoconfig    clang-23
 xtensa                           allyesconfig    clang-20
+xtensa                         randconfig-001    gcc-13.4.0
 xtensa                randconfig-001-20260613    gcc-13.4.0
+xtensa                         randconfig-002    gcc-13.4.0
 xtensa                randconfig-002-20260613    gcc-13.4.0
 
 --
