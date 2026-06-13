@@ -1,70 +1,71 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D541F5821
-	for <linux-usb@vger.kernel.org>; Sat, 13 Jun 2026 20:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6967C2FE060
+	for <linux-usb@vger.kernel.org>; Sat, 13 Jun 2026 23:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781381951; cv=none; b=Bb3K7R3JLjfLW76cSoQYoic7nfvugnNx5sx74HnTJRkl+jje73rszwlGrp1vtvZI2U21vnVZ/xXs5R2ZIXUyih2QlchlRFlAyoK1guF/8cAwgFWeI4ZbbcGPLOLQCcetURUoiWdT0ubADqXfzDpQCzmjrY4DEZO1rcSvMPCFiro=
+	t=1781394722; cv=none; b=OAYV7ov3pc4mGt3LA16eiX/Ji5RfGDiuiOWVCEvtq+uckWudSTISWxQT9bUwfhW8zbtZDVUXsAztOExEtpzy57NUzsvRXWw/CyjpHO84Z+EwnE6MUHbPk9MrsJifVCYifDpkGIsNyAbkw7LCB5jlIVB0Oo8LSViBmekKV4ndI0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781381951; c=relaxed/simple;
-	bh=/lLAwCB04viPlzOFwK4tQlglFCwf4KPbJnwB6ud+6hg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B4HQBaZT3x33u8PJIlCs84yf8+FVaHkY5D7KPMM0A4FD8VNtT926NldRYV7xym98cJrij/ERxHSjuwDgdCGe7oRSxFucOKtYxNUW7e00D145HdwJKQQvwP8HkkxrM47uV3uwkD1CSMJ/jBexdx7bTsS7wmrfApNfJ9ngVQ7AYQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dMWzPWU9; arc=none smtp.client-ip=209.85.216.49
+	s=arc-20240116; t=1781394722; c=relaxed/simple;
+	bh=RYAIiHj58ERZEHSLNjDFTbW1jFn94CqBXziAJ83qc1I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T5hxqCWX2iSCMtRasxllBhmg2zDo5gMTtsf1EOZ7uX2Tw1Y1/HIpY7OW0M/ulsG/D1PDmtm8Evbe3ohWfQ30b26T/Gd7g50AdYYSQcYWtI+Nf7T845sc4A7G6rFoQKJZ/ps8gbKkNzH1W2f69EILGwudWH5exj/Dzfyc6CbNZcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ixO5vrm3; arc=none smtp.client-ip=74.125.82.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dMWzPWU9"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-36b8d414666so1291091a91.3
-        for <linux-usb@vger.kernel.org>; Sat, 13 Jun 2026 13:19:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ixO5vrm3"
+Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-304d8362a58so1658214eec.1
+        for <linux-usb@vger.kernel.org>; Sat, 13 Jun 2026 16:52:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781381950; x=1781986750; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781394720; x=1781999520; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t8S/FRZaPPC7RlOodUALTRDD+yK09EFYwcSWuYSfBKw=;
-        b=dMWzPWU9PuxfAA+iMdcEOkdPWcdoL3SkHP9NDcN2W0nhhINO3NJFzz7pbMOtmiBSQ+
-         +oLL2TsfOzymJY88X6fEREie6EVAR2GMVnSxtCX8aaAp1KbsiXWy6931Y7Gf24eg56ZD
-         MHJgSLh7TnCnaCL3lwX6ynmXe0HAEtrUWt5Wv2qE/5U75EocJEwjkxf1JMyLA8CWtxAV
-         11R5BGiJoPJLNod2ggRPzfjDvNLerfjrSyGTAH/i0YwVvkgBr65GHeSZFlEX73mANguI
-         xfYGFVjxFABENF/Qkc1vhMLAoEtm/WcuujTM9ubjKu1Bx0Q0s+ZldVW5q/wvuhoN8qEg
-         CWqw==
+        bh=pQNEZ4jBfjhrm9hWDk4a6BkVYFxfVXT4i8xjzJvzlRQ=;
+        b=ixO5vrm3/78glTmxYnDz8NRoKBGs8EBiIcsbPgR0OpHY5VPnytqMtxC6MDSNJkywv9
+         ig03MfI96VKmak9gh2nKnzyq1eMAx4phKOrosPZ5arbJTadYhqUZul/yGBELfBjjrix6
+         gsQUNmtvSvahqkmvOQ/Y+elirH4AK/XqHLytMN3zBUAWn0oxWfJsE8V1qfjwjSSCbrzk
+         w2XYr8DvyRwkCyl1uRTUtBWhaMuU7lA8WQZgQH+w9/Vy+KlGzbjdc0eiQMSwuAklODmX
+         QpU/v02vtxkhpaOp7VTJoJ/eRjE1ZxC0Q1c4HMnW3MCH75iwxPcV1HgsH0FDNJKAJDh2
+         tGkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781381950; x=1781986750;
+        d=1e100.net; s=20251104; t=1781394720; x=1781999520;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t8S/FRZaPPC7RlOodUALTRDD+yK09EFYwcSWuYSfBKw=;
-        b=eOYNH9MBe2YycQeiPPHUBGLCkGCGKrevpBv/LrowTcQ/LiWxGbNMuGnkKGQexahT0B
-         qFqr5FnWOB/msEkCa8xCmpfEpnTbXmaNle5JDl7qjxXtzPKeoRLbAnwELndh8MuUk9I4
-         WRdRMBn++mkTC6AAMZBmbgCY+8/9xUGAWPyFaEhPHwgdVL2hM9qhjs8RHYQZ+tqqrxjz
-         1CIFNpvZvXo/5IRWsQtH3paBFL3E05jfHUmi5NTtwPXHhRPamsEzi/3cQIsahYyK5lkv
-         24k+iDKAyuL73SZLXJf9MF12tpVqLa+knMSEIywRO+1iqPSSfRmzkp2mjreHmVZZ+m8l
-         Z5AA==
-X-Gm-Message-State: AOJu0Yx/Yq/PJZMTy7JfNWj1HgwfLf1LCNbP+SkG3bKcY4iMX2CYue/N
-	ln8fVNNYzBaIF1onpD30C8igHDPyRAGU99yx/aqPZW1y/O1V9DX7Cy1miXG5Xg==
-X-Gm-Gg: Acq92OEexIqDUKnmfdUCGbv63yNVio+06Lo3mgNHrhp7ZOHxE8FSfnQifURQdDkh0eC
-	N+IAUhQ6V5xhdBLkMA5+qsaLnGdrkF2RdWw18+ePgdLjZgsB50ejp4ynZr0bVeuSMfZdoQFTduR
-	6ZHeahNn3FQonHHTxaICn9dPP6swyPfNjNTr/Q6deBWfC8rlYlss3Hi1EZ2qPcOqDsu9oeMWZBp
-	NillfpkOV6L41kKsKUZHjwHHUqUENHH85MaS4KHKfW1CfHF9I6RYL0Bi+mmyd2zblrhseoLR0cZ
-	Aucpyk4Cgi3RNRNLsPZvdrlljPV5ejA651RgtGFqlZ61ucFV55f87gMAkgkgG5KsrOxEmNOe4rY
-	X/xG/64cCsWVuuoP5ZGsFBfSFH3KQZMZ1TCHZVmAhlpUCZCbJYHQ7k15jCsVDRwCMFSwDt3mbnH
-	3egSnsU2mYbdrCZsJT6dTt+frsirL/fkpCTCpOEKaMVDMfIIhaQu+6cjDqb76R5Tx4VHn06RD0N
-	D2wmr8VPiTP2KxpGig9Ssq+AcyfC1W/Kcw=
-X-Received: by 2002:a17:90b:514f:b0:35a:189b:43db with SMTP id 98e67ed59e1d1-37a0184a3bemr8740341a91.4.1781381950019;
-        Sat, 13 Jun 2026 13:19:10 -0700 (PDT)
-Received: from ryzen ([2601:644:8000:5b5d:46e3:727c:48bc:b7a2])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37a20dbd301sm5878092a91.10.2026.06.13.13.19.07
+        bh=pQNEZ4jBfjhrm9hWDk4a6BkVYFxfVXT4i8xjzJvzlRQ=;
+        b=fvX7sDi0PC2L3dM0xwNfm+Ye5ELnmp7Wm2pmfv9oHW3h/5JkgM0j4+XbFnj9CvScRd
+         N28qhiPqr68Dka56t7L92qoHxqYE6D5zZPaL35Y3RNVRYo859BBnnLcqUkk8jpjNnj8R
+         voB59E7OOM9P18oH/QatNhrhY7sqD153uEgOUiXgdIm60PxClw9nPv0dWLs744EUsp/L
+         eXIZXzAFNOP39+yEtoFhkndpFXIXxHiKJetVISQ6DsZjySeX/nDPXmjfhGKukVSzi1WL
+         wJ6hA0ActjrWu8e7i2EfzlFUFVweRY48SkQAIa0QrtOekxfsxxGYXFMJdxUO2Lld/nBm
+         m0tQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/WIAkLPXF1AwzmUfrF0do7RadWRveXg7I6D/1HSOFGJ4SVfx/bK4MVgaSgdpt4lyB5JeND+ON9bQg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqsklpLxttjn9sWEarrbycY/qOWdQYTy58IItt1PiIqQkf643E
+	B+i+Qj1ILDcFlTxR6Hj9GfjG8d6k00zP1tEqU7TO+8m6WdvJ6kzwj/hc
+X-Gm-Gg: Acq92OFNQmUwhd5auv+zTOU8/dGicsg7QEzFgDjvKSxS4INfBO0tBPHwZOBJjgKneef
+	hVAruEODKAfO7KVN4p1df7znScgjF37agwn8h58qs6qW8j2qJpQkroh28emEbG23HL9kZAkWMjg
+	0V17I2LvWkDPyklue4nmrFTL0Z82iZmbklGW251d/9LEu8gyNcgoaNV7ZWbL6NlY8l5AXEiHPZq
+	Wi0chpb9Q7SjtGvtRznDde9eJxYGVbRaIi8iLWASz2pghXPDt+KNflGlULq8IUnw2yvA6ZLE9p9
+	ZE5D5e/UmJuxe2CdyAwEyPrrUdpddvQ2TIcnXP5NtFvkuQpUWKKO4AgLv4KpvjELsJrM5liwH9L
+	Z76yKEl95xcxvkHynDlSz5nlbD2rqF5t7rMg5TDk/ey7mFEYvECB3Or0dFnGcL9pjIAcHpcCl0h
+	4MZ1nh9zorvtNMgMSh3GOWsGCKnNF5ZqEnkiy06XFoECqptZ/9Ypyw94TsUir8Sj9QjXBfuizTa
+	Iyj6mPgM1T8tlxYF7W5+4x1zfHzlGMfmrMKR0erjgyQOHYyCf5Irh2Ht7M8VaSnR579zQp0VhSz
+	f3pTIHnpKK3qwu8L1A==
+X-Received: by 2002:a05:7301:19a6:b0:304:cd0d:9ea5 with SMTP id 5a478bee46e88-30820c2d295mr4712965eec.7.1781394720576;
+        Sat, 13 Jun 2026 16:52:00 -0700 (PDT)
+Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e91f8b5sm8808882eec.19.2026.06.13.16.51.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2026 13:19:09 -0700 (PDT)
-From: Rosen Penev <rosenp@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: Bastien Nocera <hadess@hadess.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] usb: apple-mfi-fastcharge: Convert to devm resources
-Date: Sat, 13 Jun 2026 13:18:51 -0700
-Message-ID: <20260613201851.63191-1-rosenp@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        Sat, 13 Jun 2026 16:52:00 -0700 (PDT)
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+To: "GitAuthor: Ethan Nelson-Moore" <enelsonmoore@gmail.com>,
+	linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] usb: gadget: nokia: correct CONFIG_USB_GADGET_DEBUG_FILES macro name in comment
+Date: Sat, 13 Jun 2026 16:51:52 -0700
+Message-ID: <20260613235156.164531-1-enelsonmoore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -73,113 +74,30 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use devm_kzalloc(), devm_kasprintf(), and devm_power_supply_register()
-to let the driver core handle resource cleanup. This allows removing
-the mfi_fc_disconnect() function and the error labels in probe.
+A comment in drivers/usb/gadget/legacy/nokia.c incorrectly refers to
+CONFIG_USB_DEBUG instead of CONFIG_USB_GADGET_DEBUG_FILES. Correct it.
 
-Also take the opportunity to shrink the private struct and move the
-variables in probe as devm doesn't need them in the struct.
+Discovered while searching for CONFIG_* symbols referenced in code but
+not defined in any Kconfig file.
 
-Assisted-by: opencode:big-pickle
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
+Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 ---
- drivers/usb/misc/apple-mfi-fastcharge.c | 61 ++++++-------------------
- 1 file changed, 13 insertions(+), 48 deletions(-)
+ drivers/usb/gadget/legacy/nokia.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/misc/apple-mfi-fastcharge.c b/drivers/usb/misc/apple-mfi-fastcharge.c
-index af266e19f2fd..c1064f672d6d 100644
---- a/drivers/usb/misc/apple-mfi-fastcharge.c
-+++ b/drivers/usb/misc/apple-mfi-fastcharge.c
-@@ -43,8 +43,6 @@ MODULE_DEVICE_TABLE(usb, mfi_fc_id_table);
- /* Driver-local specific stuff */
- struct mfi_device {
- 	struct usb_device *udev;
--	struct power_supply *battery;
--	struct power_supply_desc battery_desc;
- 	int charge_type;
- };
+diff --git a/drivers/usb/gadget/legacy/nokia.c b/drivers/usb/gadget/legacy/nokia.c
+index 2e15f9a32ce9..396605a84cd1 100644
+--- a/drivers/usb/gadget/legacy/nokia.c
++++ b/drivers/usb/gadget/legacy/nokia.c
+@@ -50,7 +50,7 @@ static unsigned int fsg_num_buffers = CONFIG_USB_GADGET_STORAGE_NUM_BUFFERS;
+  */
+ #define fsg_num_buffers	CONFIG_USB_GADGET_STORAGE_NUM_BUFFERS
  
-@@ -177,67 +175,34 @@ static bool mfi_fc_match(struct usb_device *udev)
- static int mfi_fc_probe(struct usb_device *udev)
- {
- 	struct power_supply_config battery_cfg = {};
--	struct mfi_device *mfi = NULL;
--	char *battery_name;
--	int err;
--
--	if (!mfi_fc_match(udev))
--		return -ENODEV;
-+	struct power_supply_desc battery_desc;
-+	struct power_supply *battery;
-+	struct mfi_device *mfi;
+-#endif /* CONFIG_USB_DEBUG */
++#endif /* CONFIG_USB_GADGET_DEBUG_FILES */
  
--	mfi = kzalloc_obj(struct mfi_device);
-+	mfi = devm_kzalloc(&udev->dev, sizeof(*mfi), GFP_KERNEL);
- 	if (!mfi)
- 		return -ENOMEM;
+ FSG_MODULE_PARAMETERS(/* no prefix */, fsg_mod_data);
  
--	battery_name = kasprintf(GFP_KERNEL, "apple_mfi_fastcharge_%d-%d",
--				 udev->bus->busnum, udev->devnum);
--	if (!battery_name) {
--		err = -ENOMEM;
--		goto err_free_mfi;
--	}
--
--	mfi->battery_desc = apple_mfi_fc_desc;
--	mfi->battery_desc.name = battery_name;
-+	battery_desc = apple_mfi_fc_desc;
-+	battery_desc.name = devm_kasprintf(&udev->dev, GFP_KERNEL,
-+						"apple_mfi_fastcharge_%d-%d",
-+						udev->bus->busnum,
-+						udev->devnum);
-+	if (!battery_desc.name)
-+		return -ENOMEM;
- 
- 	battery_cfg.drv_data = mfi;
- 
- 	mfi->charge_type = POWER_SUPPLY_CHARGE_TYPE_TRICKLE;
--	mfi->battery = power_supply_register(&udev->dev,
--						&mfi->battery_desc,
--						&battery_cfg);
--	if (IS_ERR(mfi->battery)) {
--		dev_err(&udev->dev, "Can't register battery\n");
--		err = PTR_ERR(mfi->battery);
--		goto err_free_name;
--	}
--
- 	mfi->udev = udev;
--	dev_set_drvdata(&udev->dev, mfi);
--
--	return 0;
--
--err_free_name:
--	kfree(battery_name);
--err_free_mfi:
--	kfree(mfi);
--	return err;
--}
--
--static void mfi_fc_disconnect(struct usb_device *udev)
--{
--	struct mfi_device *mfi;
- 
--	mfi = dev_get_drvdata(&udev->dev);
--	if (mfi->battery)
--		power_supply_unregister(mfi->battery);
--	kfree(mfi->battery_desc.name);
--	dev_set_drvdata(&udev->dev, NULL);
--	kfree(mfi);
-+	battery = devm_power_supply_register(&udev->dev, &battery_desc, &battery_cfg);
-+	return PTR_ERR_OR_ZERO(battery);
- }
- 
- static struct usb_device_driver mfi_fc_driver = {
- 	.name =		"apple-mfi-fastcharge",
- 	.probe =	mfi_fc_probe,
--	.disconnect =	mfi_fc_disconnect,
- 	.id_table =	mfi_fc_id_table,
- 	.match =	mfi_fc_match,
- 	.generic_subclass = 1,
 -- 
-2.54.0
+2.43.0
 
