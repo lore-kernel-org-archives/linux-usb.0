@@ -1,94 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f74.google.com (mail-ot1-f74.google.com [209.85.210.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501C830E0D4;
-	Sun, 14 Jun 2026 17:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6435631E84A
+	for <linux-usb@vger.kernel.org>; Sun, 14 Jun 2026 18:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781458418; cv=none; b=WhblvrlL02gZjVw25K08OfCJxqdMB8S+qLM1zA4tfo4mYZQuIV1qbJjzS/+6gphrnzftBIRZuBrWi82utLvqAbVecFHttwVclfkFwWv6yzcETcxoiVtwzHCiUyKsFM3LHaVUOM3KxcURXsBaV57i6AKdqYRgob1XC9i9t2hJ4/Y=
+	t=1781460621; cv=none; b=GeRJW8G6DhI+U5rskfh8qYD4j47hMKCjflFXtsxp4yjQrpBHsfnQq9spDeYz2Wau+ZiVu8a7lCBTiJ85dNNVcqfVsRd7OHeZNpEOckodYCTxhJMAKFV0OtQKqe4euBYINNFkzYOcWJZR05tnap0vcPiLJTVRnd1Mk2gPwLsDE8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781458418; c=relaxed/simple;
-	bh=Usklhn653q4m/Se20lSOzIPZ20ZE6C+GkfAbPYz7lo4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QGQu3ViQZP12MwOE4/tIovxmM4nwHcBEIEs8dct1p43+oswRNFS4qvon7QBsKM4hOK3ia5DxXut+ykHvb5iTCwbNCeMWrh1kk+Ivzm9w9aIVyc+JCnUEunSDNHtFSYdc/CgPvajcdRjUX88Be8WiayM7WUjjfim+JsAjNrtbNvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WBJiaMl5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781460621; c=relaxed/simple;
+	bh=Ztl320bRV0CeN9v5pgOuj9s/hyNW06jjghOIwFROCDU=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=ibQKcZarorJWotCQQwR9fLibIqjMUwMkUw194jmEtPMSFA/6H9ly7Ynw/J8v1lKEZL7jzBH3SqAfb8LoQJ1YdT6XQAh7qTezG5rn1SzgjCdSztA0JuFz5S3V5a3UCm7YqJQ+zhByypzR61/WPhKEq8X7nRvhA5N7EcZ6i9ZHC1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vrMXv0oQ; arc=none smtp.client-ip=209.85.210.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WBJiaMl5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40A391F000E9;
-	Sun, 14 Jun 2026 17:33:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1781458416;
-	bh=PJpbpsB19NKJJxXOhVQ3b4i/gA1Iu3bh+NTFTFsa/XQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WBJiaMl5mCY+mI6wnfLQ0Qq4M6JEpRgk5cqS4q+7bL7IkRkWIgpeHYaDE2CN/ZJ7K
-	 OzxG0+1m4DMYPaGkSDpXs0wBlIIvc3uXtS//kuYObJnUbjGFed3JeXh9xRrPz8nPG5
-	 dI0frPj9QG6t81RDNcTExhN9Bk91OWIROrfg9TUY=
-Date: Sun, 14 Jun 2026 19:32:36 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Shuangpeng <shuangpeng.kernel@gmail.com>
-Cc: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [BUG] KASAN: slab-out-of-bounds in select_usb_power_delivery_show
-Message-ID: <2026061454-pep-avenging-9656@gregkh>
-References: <178144969600.60470.6584137935143789620@gmail.com>
- <2026061444-flattered-rewrap-3d96@gregkh>
- <D027A719-E252-4A9B-80DE-E6758D810DA5@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vrMXv0oQ"
+Received: by mail-ot1-f74.google.com with SMTP id 46e09a7af769-7e6caac6486so3384310a34.0
+        for <linux-usb@vger.kernel.org>; Sun, 14 Jun 2026 11:10:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781460619; x=1782065419; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sv1A/WniXeV/9AwyHTmngGxQOjB2Zbrdkiqo3uhJouI=;
+        b=vrMXv0oQrReE+7Lv/GDgygNb9Ii8CydzrclFubDeiix8rU32A2YlggAC7coQwyn34R
+         PHlQ6DDKSVc7GZ5tBCCIEMNlED9XqHjg8ehQ0eYnHIwfKHzgXBRRzpCXZr+41l8ul5KF
+         XRsr8Y3j/Po3gwUH3fdp1qGZ80kw1fThwpSPxNIVIMcJ/iu9qgvMk6OK7io/DuSlZDqc
+         fw08ym2EMBlUE7RlPruHGs0OGmU8qXFMpD7kFkeX4jxKLS2MlEh/MzjU0VLeuQtrRD9f
+         oAu6NXGZPoC6pE9ndNCWCUIM0F5N3zF2v1Jb9l9b8MjklgdwZ4OIHMtzED+1GkKQi2/A
+         W9Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781460619; x=1782065419;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Sv1A/WniXeV/9AwyHTmngGxQOjB2Zbrdkiqo3uhJouI=;
+        b=P9uFvLADmVsnzTtJrakolzzbPrMMMiiqUM+QNmeUV0MFMQxpre3gbePWu5/bGFgwhv
+         KawUqbEFKtMluBxDnQtxP+w+iFCSn+jKQ2aBK7tChxV7QAG880RJn4IQO12UgFpEZ2t6
+         m3DtjqZTmuWf+wLkE67GqvmyITeVSLOvD6u70Vbb+qaY13I10ZjphWq3eT1OK5Nwh4bb
+         urHQZUIcLmmQbnb96+gRV4Jyjpwm4vWnoG6TlSieNhw7MHnvjKWYTNQmimL/7eUom0Oh
+         jz2KaWULcHa9D5yvb8hwwa+w/2Yo3vX3MPp19YUsZY14GXY5sfVTwAkAgeVPAAKQpYBI
+         Q1Dw==
+X-Gm-Message-State: AOJu0Yz5nX4iYUMchjlLsyamv00v8s74Yjp3IBQJpoYZ8tW+sRi30iE7
+	Xe95bntDekAI4J2ieyWnwfcuo1xBDj1JZLBT/qtlv0BdnoWT9uqV++0NMLrIZ2hGjOoFErpOtMS
+	t/bPMYzJ3cg==
+X-Received: from jafr13-n1.prod.google.com ([2002:a05:6638:afcd:10b0:5e2:636f:6a1c])
+ (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6809:2cc:10b0:487:4d4e:bcf3
+ with SMTP id 5614622812f47-4874d4ebfe3mr2618878b6e.9.1781460619171; Sun, 14
+ Jun 2026 11:10:19 -0700 (PDT)
+Date: Sun, 14 Jun 2026 18:09:59 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D027A719-E252-4A9B-80DE-E6758D810DA5@gmail.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.54.0.1136.gdb2ca164c4-goog
+Message-ID: <20260614181006.3648010-1-nkapron@google.com>
+Subject: [PATCH 0/3] usb: gadget: f_fs: Add R/W proxy EPs and ZLP support
+From: Neill Kapron <nkapron@google.com>
+To: gregkh@linuxfoundation.org, corbet@lwn.net, skhan@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel-team@android.com, 
+	Neill Kapron <nkapron@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 14, 2026 at 01:28:36PM -0400, Shuangpeng wrote:
-> 
-> 
-> > On Jun 14, 2026, at 12:37, Greg KH <gregkh@linuxfoundation.org> wrote:
-> > 
-> > On Sun, Jun 14, 2026 at 11:22:45AM -0400, Shuangpeng Bai wrote:
-> >> Hi Kernel Maintainers,
-> >> 
-> >> I hit the following report while testing current upstream kernel:
-> >> 
-> >> KASAN: slab-out-of-bounds in select_usb_power_delivery_show
-> >> 
-> >> on commit: e8c2f9fdadee7cbc75134dc463c1e0d856d6e5c7 (May 25 2026)
-> > 
-> > What about the latest tree?
-> 
-> I retested it on the latest Linus tree:
-> 
-> 424280953322cf66314f3ba5e2d1ef345f21c770
-> 
-> The same bug still reproduces there.
-> 
-> >> 
-> >> The reproducer and .config files are here.
-> >> https://gist.github.com/shuangpengbai/79c08ada299b3ae37b7a0af292ca413f
-> >> 
-> >> I'm happy to test debug patches or provide additional information.
-> >> 
-> >> Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-> >> 
-> >> [  102.318332] BUG: KASAN: slab-out-of-bounds in select_usb_power_delivery_show (drivers/usb/typec/class.c:1642)
-> >> [  102.319225] Read of size 8 at addr ffff888117d2f2c0 by task cat/8378
-> >> [  102.319943] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> > 
-> > Does this happen on real hardware, or just on emulated hardware?
-> 
-> I have only reproduced it in QEMU so far, not on real hardware.
-> The repro uses QEMU to emulate the hardware environment needed to load the
-> FUSB302/TCPM driver path. I have not tested whether the same issue happens on
-> physical hardware.
-> 
-> Please let me know if any additional information would be helpful.
+We are working to deprecate a widely used, out of tree gadget driver by
+moving the functionality to userspace via functionfs. To do so, we have to
+maintain strict compatibility with the legacy driver, as there are many
+third party applications which can=E2=80=99t be modified and are reliant on=
+ this
+interface. Specifically, the following requirements must be met:
 
-If you could test on real hardware, that would be best.  How do we know
-that qemu is actually correct?  :)
+- The function must expose a single file descriptor to userspace for both
+  reads and writes,
+- It must block on writes when it can not handle more data,=20
+- It must handle arbitrary write transaction sizes,
+- It must automatically append a zero length packet (ZLP) when the write
+  transaction ends on a boundary of a multiple of the max packet size.
 
-thanks,
+Initially, we pursued a compatibility layer in userspace which implemented
+a socket pair to combine the OUT and IN endpoint files. This approach
+proved problematic for several reasons.
 
-greg k-h
+To preserve the write transaction boundary for ZLP calculation, we
+attempted to use SOCK_SEQPACKET. This created problems as larger
+transactions required contiguous buffers to be allocated, and, even if we
+ignore the constraint to the arbitrary write size and limited it to 1MB,
+the socket would occasionally return -ENOBUFS to the end user if a write
+operation was attempted when other sockets on the system were consuming
+more than 7MB of the 8MB wmem_max limit.
+
+After significant investigation including switching to SOCK_STREAM and
+attempting a heuristic timeout approach, we decided the best path forward
+was to pursue a native proxy endpoint approach in the functionfs driver
+itself.
+
+This patchset introduces the `FUNCTIONFS_RW_PROXY_EPS` flag to functionfs
+which, when set, creates an additional proxy file for reading or writing
+to a pair of endpoints. In an attempt to limit the change to the UAPI
+surface, we added several constraints to this proxy file. We chose not to
+handle ioctls on this proxy file, as the current ioctls do not have a
+directionality associated with them, and would require essentially
+creating duplicate ioctls with a direction argument. To use this flag, an
+even number of in/out endpoints must be created, and a proxy ep is created
+for each pair of endpoints in the descriptors.
+
+With this new r/w proxy ep, we are able to transparently hand it to the
+end application. However, to match the legacy driver=E2=80=99s ZLP function=
+ality,
+a new ioctl is added, `FUNCTIONFS_ENDPOINT_ENABLE_ZLP`. This allows the
+userspace functionfs daemon to write the necessary descriptors, configure
+the auto ZLP functionality on the IN EP, then handoff the proxy ep to the
+application. When enabled, functionfs sets the req->zero flag. The UDC
+driver then automatically adds the ZLP if the transaction length % max
+packet size is 0.
+
+An addition, a patch is included which fixes an issue if certain ioctls
+(like the new `FUNCTIONFS_ENDPOINT_ENABLE_ZLP` or
+`FUNCTIONFS_DMABUF_ATTACH`) are called prior to the host being connected.
+
+This patchset has been tested on a kernel based on 7.1-rc7, as well as a
+backported version tested on 6.1. Existing functionfs implementations
+continue to work without modification, and the new functionality passes
+tests designed for our legacy kernel driver implementation.
+
+Neill Kapron (3):
+  usb: gadget: f_fs: Initialize epfile->in early to fix endpoint
+    direction checks
+  usb: gadget: f_fs: Add zero-length packet ioctl
+  usb: gadget: f_fs: Introduce rw_proxy file descriptors
+
+ Documentation/usb/functionfs.rst    |  80 +++++++++++++++++
+ drivers/usb/gadget/function/f_fs.c  | 132 ++++++++++++++++++++++++----
+ drivers/usb/gadget/function/u_fs.h  |   8 +-
+ include/uapi/linux/usb/functionfs.h |  24 +++++
+ 4 files changed, 226 insertions(+), 18 deletions(-)
+
+--=20
+2.54.0.1136.gdb2ca164c4-goog
+
