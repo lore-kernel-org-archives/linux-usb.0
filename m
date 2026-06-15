@@ -1,178 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6763D349A;
-	Mon, 15 Jun 2026 16:41:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055CE411664
+	for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2026 17:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781541682; cv=none; b=LCFEG999ZSCdYdao/7xJUAqX+QkXohF+1XgZKraaeVosu85IrVw8qmdBmG/VJhjhgwJ3QPm7JIj4EQVGPoGI5eb5yok7Pkj5T/aHWgd85GN92vWmXUfLmAwRdebuXnlIUPSSS9O+YgnH1jcP6Ji4v8yFN4Z+SZnqb0faregFZdw=
+	t=1781545158; cv=none; b=oB6SUnb0cD0XosBIhSNu4gCkOcSAAruHbwmSmiu8pYX8g/hORdZ8A/4+DmRbpX7ME5PH9yB8PRLEKzW6EaTAPx5yo8DRkkuFx/uh4KquTbYnxIYbP6SIWxU4arvjbiKjyGkO0t7MKgqc9isvPmohxk9Mcl1VK+QFqbyPVsJsR2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781541682; c=relaxed/simple;
-	bh=zGx+qZ0QyNkKm0016IvdKKSBRkhur0pSmP4v6muMB0I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h4oPfcdQKeOL6oa/o2lu3wKQZglWHBVrJrCxnSEw0swUQ7iOd9oVFGvs+R4s17V2gvxJsKVvFtcu8rsMGybBwch1rQ1unMmkZNQ8VIey8A8lBZZEWb4/cLjNG0MA015WVZ+8Ads9VNk6ULhR9MylV6qkPlLiD9toEBWBp07+/uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iu72/a4m; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781545158; c=relaxed/simple;
+	bh=b1KQtTshbtili0wyZAgkxDnKPTtj3bS+cOTRQEQ2T4Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nBN1+9gdZT5kwy9kb8KSoYwQg8erZQxACg8oynMVhJEGPjsMhTYgHQjOKVOXD2XqXAylFqFoaayWy8buWU/qpjr/WfuhIMEn5ZQnmf5upikw8F0tYW7EwtkDmhvdEUDMcywuFinE/Hbv0FjtVRIxsjw1sMxaN0cxJ8jYXyNkTvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XJCtHaUq; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iu72/a4m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A9191F000E9;
-	Mon, 15 Jun 2026 16:41:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781541680;
-	bh=udlWMUoZKfMCOQypoj8EGPr5EJFgIz3hwyh2Mg7jRA4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Iu72/a4mYmAmY8UjPHPDEoKcpiz9ET/Fui2UP6H2MGote0rmoTDKeE3gQfKRRhcgQ
-	 8DBzw+RkEitHYWvPURs85lk/Y3bc4xxRwVWXZzgEbhlUrGV9+e9CvaxmnQUFd5gcs1
-	 OG2/LegHiPI9RvTehGqgafXOr/NQ63b5DsbQ+ioBgIBF66R1ZIeUIGTyjNCQQV99G8
-	 rfUbPssE8my6/YvEZIeRTm4iEZpNZ0xmDr2MtdYmDnJoPHB2jK0Rh2/WBs6m1fRcoC
-	 gEtSrwHVI9SQh6+u0XOzH3ZefCaXSzopPj42W+vsAF+x84jLTvET5R6pnjsnUIUex4
-	 IY35MLn1Tzszg==
-Date: Mon, 15 Jun 2026 17:41:15 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Amber Kao <amber.kao@ite.com.tw>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jeson Yang <jeson.yang@ite.com.tw>,
-	Yaode Fang <Yaode.Fang@ite.com.tw>,
-	Bling Chiang <Bling.Chiang@ite.com.tw>,
-	Eric Su <Eric.Su@ite.com.tw>, Doreen Lin <doreen.lin@ite.com.tw>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: usb: Add ITE IT885x support
-Message-ID: <20260615-browse-atop-417be2f2aac3@spud>
-References: <20260615-ucsi-itepd-feature-v1-0-a826cfd0df6a@ite.com.tw>
- <20260615-ucsi-itepd-feature-v1-1-a826cfd0df6a@ite.com.tw>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XJCtHaUq"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490ae94a89eso32597185e9.1
+        for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2026 10:39:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781545155; x=1782149955; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wUS4w+g3WwlW2RArtbPlHwbcMKiF74iqmdmNoauqTDo=;
+        b=XJCtHaUqk1fhdWGM5IIT4iTKEjCQf48ZN6kmr9rx3MYMduetlH43oZTHVx84icba2Y
+         66jGICMBt14tjCHl1l2UcDEWAWDIAPsmxL6HdKkhJmdt8ww7lvGgOEYauhWOvoD+piYz
+         1c4HOGnLHcjexP4vZjH43e2yN8PlIEkziFQ8FiBOPoPknCyUPhT+dMLYGXnW3ov6QJ9E
+         lCre6zuy5zX12Eal4xp9/HURT/qhQWXtnffcmZ9xZnMeZ+uYqVe7nYJrF/1mcgKmgoJS
+         WmVVLXIVGCB8ZNZK4kexVO7wapNE2e6Y1JWymnue7pcQ1mHCv9Dmeti3iM6DaQUzA3OH
+         hdqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781545155; x=1782149955;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wUS4w+g3WwlW2RArtbPlHwbcMKiF74iqmdmNoauqTDo=;
+        b=tWjYd+unKrH+t6Mae7q1Rk+CdfhiXUmioQcSfiLk6DWjiK/pA4HY+qmfzM7UI/3mjX
+         u4CK+ZeW6CO2lp+SOS+w0Mf3EN1C4BRCcS/fifbpZOZNW022oNLLEAVBD/v0t8/m2BsF
+         eGLH9swMaRDV/riRbfONdA0FnhBhos6KgLiFDlbEXviF8OSbtRq8vRmFpRwY3t1rjz64
+         6+vTnbwnsZZpH70dDqV6B0J+A9lz822IMv+fN46tCASFRA/iwHvPRTCTYQTJCQoYXHR5
+         fCmN7/m9nTLeXbOsE8Gk3DB/fVFcS7pg3Mj19zv9TS+jmbG12DLRorw9pQCoYlAR2RAO
+         by0w==
+X-Forwarded-Encrypted: i=1; AFNElJ8rDEu66T9gQBLRiDOce+UCeYtni8xf7FRBnS+9fC349E9C3aW5Hcm7UhaMvTo/1wcArbUWpU98/ZA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsAHXHjnuTPPUIi7R12G3TNVLqYzlr8MVZQUouD77zMl25fKS/
+	/hPr5jtLh/hPL9HdA6n/ZP984stc1Cw5lhK3OHOfkkLUjQCA+SMbTQ7+
+X-Gm-Gg: Acq92OETUNH2COqCITA4bu9CmYYLSC0LanflTbtjJ3miRYXAeo+kM1MO61Vldi+JiQZ
+	D2Ib8xvccxRt232ZF4p+bzNCy6ZhNV+yuvk581pb9vEnfmvSfzF7lCrUuZCEushdNWQA4k4vtvM
+	OzZu6cB9i/vF1tmLI3BAfuEYOCNIugi8lxK2IZziNDzjG+RtOJC5oKwYAYd1soD6dzg632njq6h
+	yG6wzD8swZqZURowPG4D8yvCYEaNE7aSrQ1dWH8ahu5gahtv+0bZWlnCD9Tmz1ONdzIw6xpttAA
+	DY5UIQ/byWA6U7/+wan92HrOKpBLaMXxD5qXIOvFzpARgSI5fSE3sHWcZ5U7O6cL4ERfpY3j1RQ
+	5EBsDcdFbLurv48SKbQGLZ/u4qv2vOwsmJyoYMfFY98ed+o9aWb69BoXluR66qtB1zppDmKMy2S
+	FEzBYkYh6XHKsdt3dt+xQQWhXGM5FiKLMrkIE1SuCDSFcsehM=
+X-Received: by 2002:a05:600c:6542:b0:48a:93f8:dd02 with SMTP id 5b1f17b1804b1-4922006283cmr105801505e9.14.1781545155201;
+        Mon, 15 Jun 2026 10:39:15 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:23c4:a700:7301:eeb:53f9:7d71:64c4])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2b0d4fsm39399894f8f.24.2026.06.15.10.39.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 10:39:14 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Fan Wu <fanwu01@zju.edu.cn>,
+	Vinod Koul <vkoul@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] usb: renesas_usbhs: Fix power-off ordering on unbind
+Date: Mon, 15 Jun 2026 18:39:10 +0100
+Message-ID: <20260615173912.336408-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6E2wXWT8cA4E2vle"
-Content-Disposition: inline
-In-Reply-To: <20260615-ucsi-itepd-feature-v1-1-a826cfd0df6a@ite.com.tw>
+Content-Transfer-Encoding: 8bit
 
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
---6E2wXWT8cA4E2vle
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Move the usbhsc_power_ctrl() call to before usbhs_*_hardware_exit(), so
+that usbhs_*_hardware_exit() sets priv->phy to NULL only after
+usbhsc_power_ctrl() has executed, which controls the PHY power.
 
-On Mon, Jun 15, 2026 at 09:47:39PM +0800, Amber Kao wrote:
-> Add device tree binding documentation for the ITE IT885x.
-> The ITE IT885x is an I2C-based USB Type-C Power Delivery (PD) controller.
->=20
-> Cc: Yaode Fang <Yaode.Fang@ite.com.tw>
-> Cc: Jeson Yang <jeson.yang@ite.com.tw>
-> Cc: Bling Chiang <Bling.Chiang@ite.com.tw>
-> Cc: Eric Su <Eric.Su@ite.com.tw>
-> Cc: Doreen Lin <doreen.lin@ite.com.tw>
-> Signed-off-by: Amber Kao <amber.kao@ite.com.tw>
-> ---
->  .../devicetree/bindings/usb/ite,itepd-it885x.yaml  | 109 +++++++++++++++=
-++++++
->  MAINTAINERS                                        |  11 +++
->  2 files changed, 120 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml =
-b/Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml
-> new file mode 100644
-> index 000000000000..59e4eaa32ff1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml
-> @@ -0,0 +1,109 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/ite,itepd-it885x.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: ITE IT885x USB Type-C Power Delivery Controller
-> +
-> +maintainers:
-> +  - Jeson Yang <jeson.yang@ite.com.tw>
-> +
-> +description:
-> +  The ITE IT885x is an I2C-based USB Type-C Power Delivery (PD) controll=
-er.
-> +
-> +properties:
-> +  compatible:
-> +    const: ite,itepd-it885x
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  gpios:
-> +    maxItems: 1
+Fixes: eb9ac779830b ("usb: renesas_usbhs: Fix synchronous external abort on unbind")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+ drivers/usb/renesas_usbhs/common.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Sashiko comments on this and on
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index 8c93bde4b816..614b724a0e52 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -813,6 +813,10 @@ static void usbhs_remove(struct platform_device *pdev)
+ 
+ 	flush_delayed_work(&priv->notify_hotplug_work);
+ 
++	/* power off */
++	if (!usbhs_get_dparam(priv, runtime_pwctrl))
++		usbhsc_power_ctrl(priv, 0);
++
+ 	usbhs_platform_call(priv, hardware_exit, pdev);
+ 	reset_control_assert(priv->rsts);
+ 
+@@ -828,10 +832,6 @@ static void usbhs_remove(struct platform_device *pdev)
+ 	usbhs_fifo_remove(priv);
+ 	usbhs_pipe_remove(priv);
+ 
+-	/* power off */
+-	if (!usbhs_get_dparam(priv, runtime_pwctrl))
+-		usbhsc_power_ctrl(priv, 0);
+-
+ 	usbhsc_clk_put(priv);
+ 	pm_runtime_disable(&pdev->dev);
+ }
+-- 
+2.43.0
 
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  wakeup-source: true
-> +
-> +  pinctrl-names:
-> +    minItems: 1
-> +
-> +  pinctrl-0: true
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^connector(@[0-9a-f]+)?$":
-> +    $ref: /schemas/connector/usb-connector.yaml#
-> +    unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        itepd@40 {
-(usb-pd here as the node name please)
-
-> +            compatible =3D "ite,itepd-it885x";
-> +            reg =3D <0x40>;
-> +            gpios =3D <&tlmm 129 GPIO_ACTIVE_LOW>;
-> +            interrupts-extended =3D <&tlmm 129 IRQ_TYPE_EDGE_FALLING>;
-
-This double use seem valid. Either this is a gpio or an interrupt, it's
-not both.
-pw-bot: changes-requested
-
-Thanks,
-Conor.
-
---6E2wXWT8cA4E2vle
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCajArKwAKCRB4tDGHoIJi
-0jpqAQC8i3l+Fc4tWxMRAdt/mcUMVox2W3RzhZiBv/Ec9LzrgwD8C8o8cQhcn/v4
-cgkMCqlLYWT0/NoXt4jjFY5ZYEUozwI=
-=7VZE
------END PGP SIGNATURE-----
-
---6E2wXWT8cA4E2vle--
