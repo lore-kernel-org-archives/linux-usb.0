@@ -1,111 +1,178 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE3A3F44E4;
-	Mon, 15 Jun 2026 14:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781534168; cv=pass; b=Bpk8qWPYaNGkscaVn+eaOnwJgq/zMwfUWhx/BkRVfHiToS12nJDb9oXxVhdGdELw0SF88JkJsJzaGANfYxvFvtaNJvzfJwv7Ws6oz+ECcIvde14LYYupJSyuajUh0fE5gaUTXHCakcvDykKhe7jmM5W35tSPYSLxrtpV3DDByug=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781534168; c=relaxed/simple;
-	bh=rkAP6YqwWCS5cGUa5DvmRXLt0jBDm5CaDGoJUbZ+N6g=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lfn5YD6Vf0nLZnyYJOmXW/w0WUuDeiX+Kglfg2IkZhMBJSjZH/m2/oQqIyJFkvg09pEoWS8l7z/vYsjj/1D52G/UO3rD6hUv5I5rVC7Xql5z77auHcCO1SZxn2J9yQcOIKfo0gvXp48OPzd/OsSyzKV6Dn6oOOP1nV0FHMWiXIw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b=bnw9glbg; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6763D349A;
+	Mon, 15 Jun 2026 16:41:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781541682; cv=none; b=LCFEG999ZSCdYdao/7xJUAqX+QkXohF+1XgZKraaeVosu85IrVw8qmdBmG/VJhjhgwJ3QPm7JIj4EQVGPoGI5eb5yok7Pkj5T/aHWgd85GN92vWmXUfLmAwRdebuXnlIUPSSS9O+YgnH1jcP6Ji4v8yFN4Z+SZnqb0faregFZdw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781541682; c=relaxed/simple;
+	bh=zGx+qZ0QyNkKm0016IvdKKSBRkhur0pSmP4v6muMB0I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h4oPfcdQKeOL6oa/o2lu3wKQZglWHBVrJrCxnSEw0swUQ7iOd9oVFGvs+R4s17V2gvxJsKVvFtcu8rsMGybBwch1rQ1unMmkZNQ8VIey8A8lBZZEWb4/cLjNG0MA015WVZ+8Ads9VNk6ULhR9MylV6qkPlLiD9toEBWBp07+/uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iu72/a4m; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b="bnw9glbg"
-ARC-Seal: i=1; a=rsa-sha256; t=1781534159; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YHXLC9Z8LfiAt0jovLkQEA3xV9PVhkaPkBb+hOJsC8/7Hv7gbd5zHyqnorHbI3wXHp9GK6kHXyL3xUk6LOkKfORvxn9UCkfaopMCjtIWzxcKhl1nU7E4Au6fr/gnHZDvWXxkQ3Vzzb2b4Cn3COL+k2RS2wXzA5SA3ypOTodd1Ag=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1781534159; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=WbyFAdXv0amXKRe9FoCu+3GE7MXeSTJ/XGsAa1Kt/yQ=; 
-	b=Z68XpIlIetS8tpIu7SqTuEmKlNZf2WZLYYzvobHjCBIlWNGxhetJGJnlXiDhT4R7YckNI1iLTI2eYNPoACyYS2qOjsshiwBNVMHAQK8qzGQMUgDAthFetAh0VUk3l6hD1GqTPEb+MjN1uiHzStUSnFEOd0QFCkvpIEpMxiSdDEQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nfraprado@collabora.com;
-	dmarc=pass header.from=<nfraprado@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781534159;
-	s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Cc:Cc:Reply-To;
-	bh=WbyFAdXv0amXKRe9FoCu+3GE7MXeSTJ/XGsAa1Kt/yQ=;
-	b=bnw9glbg+R7Fi5McgSFcsp9Gh6ebJm7CKiygWJXDYoYmey8opoMoZSNkB23obuDJ
-	VLd0BDCjM3bXxX02HKkr4ovQmV6pcNWdE71vIVs1KK2NrBtkzJza0bUbMgvII5c8QiK
-	UKEX4sfltRoYCGnbN7Kzm3rZD6O1MytJLKIEz398=
-Received: by mx.zohomail.com with SMTPS id 1781534158126808.950981769617;
-	Mon, 15 Jun 2026 07:35:58 -0700 (PDT)
-From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Mon, 15 Jun 2026 10:35:33 -0400
-Subject: [PATCH] usb: core: Notify through uevent when not enough bandwidth
- available
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iu72/a4m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A9191F000E9;
+	Mon, 15 Jun 2026 16:41:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781541680;
+	bh=udlWMUoZKfMCOQypoj8EGPr5EJFgIz3hwyh2Mg7jRA4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Iu72/a4mYmAmY8UjPHPDEoKcpiz9ET/Fui2UP6H2MGote0rmoTDKeE3gQfKRRhcgQ
+	 8DBzw+RkEitHYWvPURs85lk/Y3bc4xxRwVWXZzgEbhlUrGV9+e9CvaxmnQUFd5gcs1
+	 OG2/LegHiPI9RvTehGqgafXOr/NQ63b5DsbQ+ioBgIBF66R1ZIeUIGTyjNCQQV99G8
+	 rfUbPssE8my6/YvEZIeRTm4iEZpNZ0xmDr2MtdYmDnJoPHB2jK0Rh2/WBs6m1fRcoC
+	 gEtSrwHVI9SQh6+u0XOzH3ZefCaXSzopPj42W+vsAF+x84jLTvET5R6pnjsnUIUex4
+	 IY35MLn1Tzszg==
+Date: Mon, 15 Jun 2026 17:41:15 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Amber Kao <amber.kao@ite.com.tw>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jeson Yang <jeson.yang@ite.com.tw>,
+	Yaode Fang <Yaode.Fang@ite.com.tw>,
+	Bling Chiang <Bling.Chiang@ite.com.tw>,
+	Eric Su <Eric.Su@ite.com.tw>, Doreen Lin <doreen.lin@ite.com.tw>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: usb: Add ITE IT885x support
+Message-ID: <20260615-browse-atop-417be2f2aac3@spud>
+References: <20260615-ucsi-itepd-feature-v1-0-a826cfd0df6a@ite.com.tw>
+ <20260615-ucsi-itepd-feature-v1-1-a826cfd0df6a@ite.com.tw>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260615-usb-notify-not-enough-bandwidth-v1-1-09ee5098b42d@collabora.com>
-X-B4-Tracking: v=1; b=H4sIALQNMGoC/x2Nyw6DIBAAf8XsuZv4KBj9laYHgUX2shjQtsb47
- 0VPk7nMHJApMWUYqwMSfThzlCLNowIbJpkJ2RWHtm51rRuFWzYocWW/X0CSuM0BzSTuy24NqHw
- 3WOt1r54GSmVJ5Pl3H17v8/wDse6t7nEAAAA=
-X-Change-ID: 20260615-usb-notify-not-enough-bandwidth-5f39ccf6754b
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel@collabora.com, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-X-Mailer: b4 0.14.3
-X-ZohoMailClient: External
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6E2wXWT8cA4E2vle"
+Content-Disposition: inline
+In-Reply-To: <20260615-ucsi-itepd-feature-v1-1-a826cfd0df6a@ite.com.tw>
 
-Currently, when a new device is plugged in and the host controller can't
-find enough bandwidth for it, an error message is printed:
 
-  usb 1-3: Not enough bandwidth for new device state.
+--6E2wXWT8cA4E2vle
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In order to allow userspace to react to this and suggest the user to use
-a different host controller, send a uevent with
-'USB_NOT_ENOUGH_BANDWIDTH=1' to the root hub device.
+On Mon, Jun 15, 2026 at 09:47:39PM +0800, Amber Kao wrote:
+> Add device tree binding documentation for the ITE IT885x.
+> The ITE IT885x is an I2C-based USB Type-C Power Delivery (PD) controller.
+>=20
+> Cc: Yaode Fang <Yaode.Fang@ite.com.tw>
+> Cc: Jeson Yang <jeson.yang@ite.com.tw>
+> Cc: Bling Chiang <Bling.Chiang@ite.com.tw>
+> Cc: Eric Su <Eric.Su@ite.com.tw>
+> Cc: Doreen Lin <doreen.lin@ite.com.tw>
+> Signed-off-by: Amber Kao <amber.kao@ite.com.tw>
+> ---
+>  .../devicetree/bindings/usb/ite,itepd-it885x.yaml  | 109 +++++++++++++++=
+++++++
+>  MAINTAINERS                                        |  11 +++
+>  2 files changed, 120 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml =
+b/Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml
+> new file mode 100644
+> index 000000000000..59e4eaa32ff1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml
+> @@ -0,0 +1,109 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/ite,itepd-it885x.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: ITE IT885x USB Type-C Power Delivery Controller
+> +
+> +maintainers:
+> +  - Jeson Yang <jeson.yang@ite.com.tw>
+> +
+> +description:
+> +  The ITE IT885x is an I2C-based USB Type-C Power Delivery (PD) controll=
+er.
+> +
+> +properties:
+> +  compatible:
+> +    const: ite,itepd-it885x
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  gpios:
+> +    maxItems: 1
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
----
- drivers/usb/core/hcd.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Sashiko comments on this and on
 
-diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index 8e8a5f59b319..a71605398540 100644
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -1825,6 +1825,13 @@ void usb_hcd_flush_endpoint(struct usb_device *udev,
- 	}
- }
- 
-+static void not_enough_bandwidth_notify(struct usb_hcd *hcd)
-+{
-+	static char *envp[2] = { "USB_NOT_ENOUGH_BANDWIDTH=1", NULL };
-+
-+	kobject_uevent_env(&hcd->self.root_hub->dev.kobj, KOBJ_CHANGE, envp);
-+}
-+
- /**
-  * usb_hcd_alloc_bandwidth - check whether a new bandwidth setting exceeds
-  *				the bus bandwidth
-@@ -1954,6 +1961,8 @@ int usb_hcd_alloc_bandwidth(struct usb_device *udev,
- 		}
- 	}
- 	ret = hcd->driver->check_bandwidth(hcd, udev);
-+	if (ret == -ENOSPC)
-+		not_enough_bandwidth_notify(hcd);
- reset:
- 	if (ret < 0)
- 		hcd->driver->reset_bandwidth(hcd, udev);
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  wakeup-source: true
+> +
+> +  pinctrl-names:
+> +    minItems: 1
+> +
+> +  pinctrl-0: true
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^connector(@[0-9a-f]+)?$":
+> +    $ref: /schemas/connector/usb-connector.yaml#
+> +    unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        itepd@40 {
+(usb-pd here as the node name please)
 
----
-base-commit: c425609d6ac4012c8bbf01ec2e10e801b1923a7b
-change-id: 20260615-usb-notify-not-enough-bandwidth-5f39ccf6754b
+> +            compatible =3D "ite,itepd-it885x";
+> +            reg =3D <0x40>;
+> +            gpios =3D <&tlmm 129 GPIO_ACTIVE_LOW>;
+> +            interrupts-extended =3D <&tlmm 129 IRQ_TYPE_EDGE_FALLING>;
 
-Best regards,
--- 
-Nícolas F. R. A. Prado <nfraprado@collabora.com>
+This double use seem valid. Either this is a gpio or an interrupt, it's
+not both.
+pw-bot: changes-requested
 
+Thanks,
+Conor.
+
+--6E2wXWT8cA4E2vle
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCajArKwAKCRB4tDGHoIJi
+0jpqAQC8i3l+Fc4tWxMRAdt/mcUMVox2W3RzhZiBv/Ec9LzrgwD8C8o8cQhcn/v4
+cgkMCqlLYWT0/NoXt4jjFY5ZYEUozwI=
+=7VZE
+-----END PGP SIGNATURE-----
+
+--6E2wXWT8cA4E2vle--
