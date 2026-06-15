@@ -1,124 +1,906 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055CE411664
-	for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2026 17:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F3531717C
+	for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2026 19:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781545158; cv=none; b=oB6SUnb0cD0XosBIhSNu4gCkOcSAAruHbwmSmiu8pYX8g/hORdZ8A/4+DmRbpX7ME5PH9yB8PRLEKzW6EaTAPx5yo8DRkkuFx/uh4KquTbYnxIYbP6SIWxU4arvjbiKjyGkO0t7MKgqc9isvPmohxk9Mcl1VK+QFqbyPVsJsR2k=
+	t=1781552978; cv=none; b=BHs5BRH7626QyRfMvc9yA7TP1NGoQDI+/O9sVh+ukC52X7uUjerjlXBJ7/DHIC9Pm7fQNpjR6kSQLV04lyZUrP1+8Ghhgdah3MmUMbxUIhWyldJ7g70ZJ+AVz6I0Mbix/B2zxUMFbG5MavU7De3VtCJcq49Cym5SvAe5G1VlVAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781545158; c=relaxed/simple;
-	bh=b1KQtTshbtili0wyZAgkxDnKPTtj3bS+cOTRQEQ2T4Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nBN1+9gdZT5kwy9kb8KSoYwQg8erZQxACg8oynMVhJEGPjsMhTYgHQjOKVOXD2XqXAylFqFoaayWy8buWU/qpjr/WfuhIMEn5ZQnmf5upikw8F0tYW7EwtkDmhvdEUDMcywuFinE/Hbv0FjtVRIxsjw1sMxaN0cxJ8jYXyNkTvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XJCtHaUq; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781552978; c=relaxed/simple;
+	bh=7fky0y2zMZy4GZ1CxKpDIHH0dKV9FTQ+CYGUy6gkSak=;
+	h=Date:Mime-Version:Message-ID:Subject:From:Cc:Content-Type; b=t4DkkdIEXVJN3AnApyni7tJE5hP1VaiuWnY5BZ5p3v23KrMwMzEURRq3V1k5rvsCuKEe3akgVSxxmJqtUWXt8hBoTZOCE5qAX2dA1rnSlhM8SKkHIQWMmp9BhL3zlxRc2ojlnz5w/RmP72BOdsSJIKurhXaBUQCPUgt3C4pmrqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--rdbabiera.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QwtcX+Uy; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rdbabiera.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XJCtHaUq"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490ae94a89eso32597185e9.1
-        for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2026 10:39:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QwtcX+Uy"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c857fa2706aso1503785a12.2
+        for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2026 12:49:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781545155; x=1782149955; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wUS4w+g3WwlW2RArtbPlHwbcMKiF74iqmdmNoauqTDo=;
-        b=XJCtHaUqk1fhdWGM5IIT4iTKEjCQf48ZN6kmr9rx3MYMduetlH43oZTHVx84icba2Y
-         66jGICMBt14tjCHl1l2UcDEWAWDIAPsmxL6HdKkhJmdt8ww7lvGgOEYauhWOvoD+piYz
-         1c4HOGnLHcjexP4vZjH43e2yN8PlIEkziFQ8FiBOPoPknCyUPhT+dMLYGXnW3ov6QJ9E
-         lCre6zuy5zX12Eal4xp9/HURT/qhQWXtnffcmZ9xZnMeZ+uYqVe7nYJrF/1mcgKmgoJS
-         WmVVLXIVGCB8ZNZK4kexVO7wapNE2e6Y1JWymnue7pcQ1mHCv9Dmeti3iM6DaQUzA3OH
-         hdqQ==
+        d=google.com; s=20251104; t=1781552975; x=1782157775; darn=vger.kernel.org;
+        h=cc:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Y3wpUhTroZHnakWr7jFcm57X1jE6IdLOMN6Fyd4XlJU=;
+        b=QwtcX+UywA4ddXPVI9gEBulEwJ104qxkeleq44TMxbNA11Qqk11uMuiuK1jkecCVnJ
+         VtGm6pxz1JFU9y55YfeZGf/S3Sso0XnHE6umcTmL3FmsU8TsLbpdF2hN0jSfK2/fuoQQ
+         n3DnSZRM4gOUFLPy/ff7+uL/X6dzmrIDez1kt2L4ccCgKSJW+kktgaYiaUj8dRqn+/6o
+         Sm21aWg0vTFUjrsdBFJBgeD6VkkLiTFn2x7KtM4z9BZdzAJ91drzU9vJxpHrtp5gc4Yl
+         DjX7aV06Z8CAfbc00lI7oWgGdO5MYWB4yuEA4bFbNcY16+vHhwPpYiZ2Vc2qOxAx61VZ
+         oBFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781545155; x=1782149955;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wUS4w+g3WwlW2RArtbPlHwbcMKiF74iqmdmNoauqTDo=;
-        b=tWjYd+unKrH+t6Mae7q1Rk+CdfhiXUmioQcSfiLk6DWjiK/pA4HY+qmfzM7UI/3mjX
-         u4CK+ZeW6CO2lp+SOS+w0Mf3EN1C4BRCcS/fifbpZOZNW022oNLLEAVBD/v0t8/m2BsF
-         eGLH9swMaRDV/riRbfONdA0FnhBhos6KgLiFDlbEXviF8OSbtRq8vRmFpRwY3t1rjz64
-         6+vTnbwnsZZpH70dDqV6B0J+A9lz822IMv+fN46tCASFRA/iwHvPRTCTYQTJCQoYXHR5
-         fCmN7/m9nTLeXbOsE8Gk3DB/fVFcS7pg3Mj19zv9TS+jmbG12DLRorw9pQCoYlAR2RAO
-         by0w==
-X-Forwarded-Encrypted: i=1; AFNElJ8rDEu66T9gQBLRiDOce+UCeYtni8xf7FRBnS+9fC349E9C3aW5Hcm7UhaMvTo/1wcArbUWpU98/ZA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsAHXHjnuTPPUIi7R12G3TNVLqYzlr8MVZQUouD77zMl25fKS/
-	/hPr5jtLh/hPL9HdA6n/ZP984stc1Cw5lhK3OHOfkkLUjQCA+SMbTQ7+
-X-Gm-Gg: Acq92OETUNH2COqCITA4bu9CmYYLSC0LanflTbtjJ3miRYXAeo+kM1MO61Vldi+JiQZ
-	D2Ib8xvccxRt232ZF4p+bzNCy6ZhNV+yuvk581pb9vEnfmvSfzF7lCrUuZCEushdNWQA4k4vtvM
-	OzZu6cB9i/vF1tmLI3BAfuEYOCNIugi8lxK2IZziNDzjG+RtOJC5oKwYAYd1soD6dzg632njq6h
-	yG6wzD8swZqZURowPG4D8yvCYEaNE7aSrQ1dWH8ahu5gahtv+0bZWlnCD9Tmz1ONdzIw6xpttAA
-	DY5UIQ/byWA6U7/+wan92HrOKpBLaMXxD5qXIOvFzpARgSI5fSE3sHWcZ5U7O6cL4ERfpY3j1RQ
-	5EBsDcdFbLurv48SKbQGLZ/u4qv2vOwsmJyoYMfFY98ed+o9aWb69BoXluR66qtB1zppDmKMy2S
-	FEzBYkYh6XHKsdt3dt+xQQWhXGM5FiKLMrkIE1SuCDSFcsehM=
-X-Received: by 2002:a05:600c:6542:b0:48a:93f8:dd02 with SMTP id 5b1f17b1804b1-4922006283cmr105801505e9.14.1781545155201;
-        Mon, 15 Jun 2026 10:39:15 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c4:a700:7301:eeb:53f9:7d71:64c4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2b0d4fsm39399894f8f.24.2026.06.15.10.39.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 10:39:14 -0700 (PDT)
-From: Biju <biju.das.au@gmail.com>
-X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Fan Wu <fanwu01@zju.edu.cn>,
-	Vinod Koul <vkoul@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Biju Das <biju.das.au@gmail.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] usb: renesas_usbhs: Fix power-off ordering on unbind
-Date: Mon, 15 Jun 2026 18:39:10 +0100
-Message-ID: <20260615173912.336408-1-biju.das.jz@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1781552975; x=1782157775;
+        h=cc:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y3wpUhTroZHnakWr7jFcm57X1jE6IdLOMN6Fyd4XlJU=;
+        b=KcPVHgtVTpzHbHBRu83q7l7rTGPXOuEA9uvWxAbiF9maF2ks1L+63QYbHajJwIhTB4
+         z2NFk17DkuwyZVGknJ+vfGEAh9ZjF/KNDlynUr0l2kpwaytrkYH43Klz3TD9d3gqIW2R
+         5mVVnY5pqy80AOhxBuC/BQXFbjZmKy/LOZ+AmlaLRZCmeyDnXIas76zoJ87XrDxQvK7I
+         jOXgu0whKerzPlT7+WIXJNXsf3vF3Sw/8S3IiBKnLTHOM8adLOVCBujJw9RJTbBURBUe
+         I/63oIkoYmnZwlZsmDnV9OL/SUQb42WEngO8gqf38c3xHa5hjRep+3cRNuECUZAbI4OG
+         NNRQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+1Eqy3CLXQkjTJIQ4WDYO1E7/XKms8iuabgTtpBe0//I7QxZ5eCg7Ex9qAZ28f4OWJ2NQS16+G3+Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztG1WWAtawVZof9VtIORJ1O3eDmYcRSLI6l3vc9DWvTfqYBdhr
+	MbVCE5zXq4/kd8pTDANH5NAtpJBSp16q7UGfKAfjddCn6Hj/GUHh5zJmZfOt8CY+3ys84rSinw7
+	OgKmCp0VpCMSiLJo3rw==
+X-Received: from pgg25.prod.google.com ([2002:a05:6a02:4d99:b0:c85:8689:5271])
+ (user=rdbabiera job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a21:6117:b0:3b4:8818:fd20 with SMTP id adf61e73a8af0-3b7961fa03cmr13924533637.8.1781552974690;
+ Mon, 15 Jun 2026 12:49:34 -0700 (PDT)
+Date: Mon, 15 Jun 2026 19:49:23 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Developer-Key: i=rdbabiera@google.com; a=openpgp; fpr=0B74D21BCA57BD40083A73A0DB00FC8CD80B20A1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=31361; i=rdbabiera@google.com;
+ h=from:subject; bh=7fky0y2zMZy4GZ1CxKpDIHH0dKV9FTQ+CYGUy6gkSak=;
+ b=owGbwMvMwCV2m+FPzw1uhYWMp9WSGLIMwp3jy7jtoj52Wc+In2JuU2z910Xp4webWxLJTvOuW
+ yrN5NraUcrCIMbFICumyMJdckn6VPheBw6r4gUwc1iZQIYwcHEKwETavBkZns/1Sll5KNq9z/2D
+ 3ZyknfblWmnz3vnd8Vu59fJS709mHxn+2dbFBtyWnOhamH6xfs6F4vmrzt90qm0vFlp05szFhc9 28AEA
+X-Mailer: git-send-email 2.54.0.1189.g8c84645362-goog
+Message-ID: <20260615194923.4192117-2-rdbabiera@google.com>
+Subject: [PATCH v1] usb: typec: tcpm: implement retry mechanism for Discover
+ Identity VDMs
+From: RD Babiera <rdbabiera@google.com>
+Cc: badhri@google.com, heikki.krogerus@linux.intel.com, 
+	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, RD Babiera <rdbabiera@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Biju Das <biju.das.jz@bp.renesas.com>
+The current mechanism for sending Discover Identity in the ready state
+presents a flaw where tcpm_queue_vdm can collide with non interruptible
+AMSes such as GET_SINK_CAP or VCONN_SWAP. vdm_run_state_machine will hit
+the VDM_STATE_BUSY state, and Discover SVIDs or Discover Modes will not
+retry.
 
-Move the usbhsc_power_ctrl() call to before usbhs_*_hardware_exit(), so
-that usbhs_*_hardware_exit() sets priv->phy to NULL only after
-usbhsc_power_ctrl() has executed, which controls the PHY power.
+This patch introduces a state machine under the enum vdm_discovery_states.
+The tcpm_port field vdm_discover_state tracks which step of the Discover
+Identity process has been completed.
 
-Fixes: eb9ac779830b ("usb: renesas_usbhs: Fix synchronous external abort on unbind")
-Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+The current TCPM implementation utilizes the send_discover and
+send_discover_prime booleans to queue Discover Identity in the
+aforementioned collision case. These booleans are removed in place of
+vdm_discover_state and send_discover_work is replaced by
+vdm_discovery_work, which runs unconditionally in the ready state.
+When the Discovery process is complete, the port will move to the
+VDM_DISCOVERY_COMPLETE state and vdm_discovery_work becomes a no-op.
+When there are still Discovery VDMs to be sent, vdm_discovery_work will
+continue based on the last received response from the port partner or
+cable.
+
+Signed-off-by: RD Babiera <rdbabiera@google.com>
+Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
 ---
- drivers/usb/renesas_usbhs/common.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/usb/typec/tcpm/tcpm.c | 417 ++++++++++++++++++++++------------
+ 1 file changed, 275 insertions(+), 142 deletions(-)
 
-diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-index 8c93bde4b816..614b724a0e52 100644
---- a/drivers/usb/renesas_usbhs/common.c
-+++ b/drivers/usb/renesas_usbhs/common.c
-@@ -813,6 +813,10 @@ static void usbhs_remove(struct platform_device *pdev)
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index 7ef746a90a17..3d16e4b41108 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -212,6 +212,88 @@ static const char * const tcpm_ams_str[] = {
+ 	FOREACH_AMS(GENERATE_STRING)
+ };
  
- 	flush_delayed_work(&priv->notify_hotplug_work);
- 
-+	/* power off */
-+	if (!usbhs_get_dparam(priv, runtime_pwctrl))
-+		usbhsc_power_ctrl(priv, 0);
++enum vdm_discovery_states {
++	/*
++	 * VDM_DISCOVERY_UNKNOWN: The port has not received a Discover Identity response
++	 * from the port partner.
++	 *
++	 * 1. The port will send Discover Identity to the partner over SOP in the SRC_READY
++	 *    and SNK_READY states if there is an explicit contract.
++	 * 2. The port will send Discover Identity to the cable over SOP' in the
++	 *    SRC_VDM_IDENTITY_REQUEST state if capable of doing so.
++	 */
++	VDM_DISCOVERY_UNKNOWN = 0,
++	/*
++	 * VDM_DISCOVERY_PARTNER_IDENT: The port has received a Discover Identity ACK
++	 * from the port partner.
++	 *
++	 * 1. The port will send Discover Identity to the cable over SOP' in the SRC_READY and
++	 *    SNK_READY states if it did not previously discover the cable but is capable of doing
++	 *    so.
++	 * 2. The port will send Discover SVIDs to the partner over SOP in the SRC_READY and
++	 *    SNK_READY states otherwise.
++	 */
++	VDM_DISCOVERY_PARTNER_IDENT,
++	/*
++	 * VDM_DISCOVERY_CABLE_IDENT: The port has received a Discover Identity ACK
++	 * from the cable.
++	 *
++	 * 1. The port will send Discover SVIDs to the partner over SOP.
++	 */
++	VDM_DISCOVERY_CABLE_IDENT,
++	/*
++	 * VDM_DISCOVERY_PARTNER_SVIDS: The port has received a Discover SVIDs ACK from the partner
++	 * for the last SVIDs supported by the partner.
++	 *
++	 * 1. The port will send Discover Modes for the first SVID over SOP if the partner supports
++	 *    modal operation and valid SVIDs were registered.
++	 * 2. The vdm_discovery_state will move to VDM_DISCOVERY_COMPLETE otherwise.
++	 */
++	VDM_DISCOVERY_PARTNER_SVIDS,
++	/*
++	 * VDM_DISCOVERY_PARTNER_MODES: The port has received a Discover Modes ACK from the partner
++	 * for any mode.
++	 *
++	 * 1. The port will send Discover Modes for the next SVID that has not been discovered to
++	 *    the port partner over SOP.
++	 * 2. The port will send Discover SVIDs over SOP' if the port can communicate over SOP'
++	 *    and the cable supports VDMs.
++	 * 3. The vdm_discovery_state will move to VDM_DISCOVERY_COMPLETE otherwise.
++	 */
++	VDM_DISCOVERY_PARTNER_MODES,
++	/*
++	 * VDM_DISCOVERY_CABLE_SVIDS: The port has received a Discover SVIDs ACK from the cable over
++	 * SOP'.
++	 *
++	 * 1. The port will send Discover Modes for the first SVID over SOP'.
++	 */
++	VDM_DISCOVERY_CABLE_SVIDS,
++	/*
++	 * VDM_DISCOVERY_CABLE_MODES: The port has received a Discover Modes ACK from the cable for
++	 * any mode.
++	 *
++	 * 1. The port will send Discover Modes for the next SVID that has not been discovered to
++	 *    the cable over SOP'.
++	 */
++	VDM_DISCOVERY_CABLE_MODES,
++	/*
++	 * VDM_DISCOVERY_COMPLETE: The port partner does not need to send a Discovery VDM to the
++	 * port partner or cable.
++	 */
++	VDM_DISCOVERY_COMPLETE,
++};
 +
- 	usbhs_platform_call(priv, hardware_exit, pdev);
- 	reset_control_assert(priv->rsts);
++const char *vdm_discovery_state_strings[] = {
++	[VDM_DISCOVERY_UNKNOWN] = "VDM_DISCOVERY_UNKNOWN",
++	[VDM_DISCOVERY_PARTNER_IDENT] = "VDM_DISCOVERY_PARTNER_IDENT",
++	[VDM_DISCOVERY_CABLE_IDENT] = "VDM_DISCOVERY_CABLE_IDENT",
++	[VDM_DISCOVERY_PARTNER_SVIDS] = "VDM_DISCOVERY_PARTNER_SVIDS",
++	[VDM_DISCOVERY_PARTNER_MODES] = "VDM_DISCOVERY_PARTNER_MODES",
++	[VDM_DISCOVERY_CABLE_SVIDS] = "VDM_DISCOVERY_CABLE_SVIDS",
++	[VDM_DISCOVERY_CABLE_MODES] = "VDM_DISCOVERY_CABLE_MODES",
++	[VDM_DISCOVERY_COMPLETE] = "VDM_DISCOVERY_COMPLETE",
++};
++
+ enum vdm_states {
+ 	VDM_STATE_ERR_BUSY = -3,
+ 	VDM_STATE_ERR_SEND = -2,
+@@ -274,7 +356,7 @@ enum frs_typec_current {
+ #define ALTMODE_DISCOVERY_MAX	(SVID_DISCOVERY_MAX * MODE_DISCOVERY_MAX)
  
-@@ -828,10 +832,6 @@ static void usbhs_remove(struct platform_device *pdev)
- 	usbhs_fifo_remove(priv);
- 	usbhs_pipe_remove(priv);
+ #define GET_SINK_CAP_RETRY_MS	100
+-#define SEND_DISCOVER_RETRY_MS	100
++#define SEND_DISCOVERY_VDM_RETRY_MS	100
  
--	/* power off */
--	if (!usbhs_get_dparam(priv, runtime_pwctrl))
--		usbhsc_power_ctrl(priv, 0);
--
- 	usbhsc_clk_put(priv);
- 	pm_runtime_disable(&pdev->dev);
+ struct pd_mode_data {
+ 	int svid_index;		/* current SVID index		*/
+@@ -483,8 +565,6 @@ struct tcpm_port {
+ 	bool vbus_source;
+ 	bool vbus_charge;
+ 
+-	/* Set to true when Discover_Identity Command is expected to be sent in Ready states. */
+-	bool send_discover;
+ 	bool op_vsafe5v;
+ 
+ 	int try_role;
+@@ -510,8 +590,8 @@ struct tcpm_port {
+ 	struct kthread_work vdm_state_machine;
+ 	struct hrtimer enable_frs_timer;
+ 	struct kthread_work enable_frs;
+-	struct hrtimer send_discover_timer;
+-	struct kthread_work send_discover_work;
++	struct hrtimer vdm_discovery_timer;
++	struct kthread_work vdm_discovery_work;
+ 	bool state_machine_running;
+ 	/* Set to true when VDM State Machine has following actions. */
+ 	bool vdm_sm_running;
+@@ -578,6 +658,9 @@ struct tcpm_port {
+ 
+ 	u32 bist_request;
+ 
++	/* VDM Discovery State to determine message sent */
++	enum vdm_discovery_states vdm_discovery_state;
++
+ 	/* PD state for Vendor Defined Messages */
+ 	enum vdm_states vdm_state;
+ 	u32 vdm_retries;
+@@ -641,12 +724,6 @@ struct tcpm_port {
+ 	bool potential_contaminant;
+ 
+ 	/* SOP* Related Fields */
+-	/*
+-	 * Flag to determine if SOP' Discover Identity is available. The flag
+-	 * is set if Discover Identity on SOP' does not immediately follow
+-	 * Discover Identity on SOP.
+-	 */
+-	bool send_discover_prime;
+ 	/*
+ 	 * tx_sop_type determines which SOP* a message is being sent on.
+ 	 * For messages that are queued and not sent immediately such as in
+@@ -771,6 +848,9 @@ static const char * const pd_rev[] = {
+ #define tcpm_wait_for_discharge(port) \
+ 	(((port)->auto_vbus_discharge_enabled && !(port)->vbus_vsafe0v) ? PD_T_SAFE_0V : 0)
+ 
++#define tcpm_can_send_vdm(state) \
++	((state == SRC_READY || state == SNK_READY || state == SRC_VDM_IDENTITY_REQUEST))
++
+ static enum tcpm_state tcpm_default_state(struct tcpm_port *port)
+ {
+ 	if (port->port_type == TYPEC_PORT_DRP) {
+@@ -1559,13 +1639,19 @@ static void mod_enable_frs_delayed_work(struct tcpm_port *port, unsigned int del
+ 	}
  }
+ 
+-static void mod_send_discover_delayed_work(struct tcpm_port *port, unsigned int delay_ms)
++static void mod_vdm_discovery_cancel_delayed_work(struct tcpm_port *port)
++{
++	hrtimer_cancel(&port->vdm_discovery_timer);
++	kthread_cancel_work_sync(&port->vdm_discovery_work);
++}
++
++static void mod_vdm_discovery_delayed_work(struct tcpm_port *port, unsigned int delay_ms)
+ {
+ 	if (delay_ms) {
+-		hrtimer_start(&port->send_discover_timer, ms_to_ktime(delay_ms), HRTIMER_MODE_REL);
++		hrtimer_start(&port->vdm_discovery_timer, ms_to_ktime(delay_ms), HRTIMER_MODE_REL);
+ 	} else {
+-		hrtimer_cancel(&port->send_discover_timer);
+-		kthread_queue_work(port->wq, &port->send_discover_work);
++		hrtimer_cancel(&port->vdm_discovery_timer);
++		kthread_queue_work(port->wq, &port->vdm_discovery_work);
+ 	}
+ }
+ 
+@@ -1773,16 +1859,11 @@ static void tcpm_queue_vdm(struct tcpm_port *port, const u32 header,
+ 	WARN_ON(!mutex_is_locked(&port->lock));
+ 
+ 	/* If is sending discover_identity, handle received message first */
+-	if (PD_VDO_SVDM(vdo_hdr) && PD_VDO_CMD(vdo_hdr) == CMD_DISCOVER_IDENT) {
+-		if (tx_sop_type == TCPC_TX_SOP_PRIME)
+-			port->send_discover_prime = true;
+-		else
+-			port->send_discover = true;
+-		mod_send_discover_delayed_work(port, SEND_DISCOVER_RETRY_MS);
+-	} else {
++	if (PD_VDO_SVDM(vdo_hdr) && PD_VDO_CMD(vdo_hdr) == CMD_DISCOVER_IDENT)
++		mod_vdm_discovery_delayed_work(port, SEND_DISCOVERY_VDM_RETRY_MS);
++	else
+ 		/* Make sure we are not still processing a previous VDM packet */
+ 		WARN_ON(port->vdm_state > VDM_STATE_DONE);
+-	}
+ 
+ 	port->vdo_count = cnt + 1;
+ 	port->vdo_data[0] = header;
+@@ -1805,8 +1886,7 @@ static void tcpm_queue_vdm_work(struct kthread_work *work)
+ 	struct tcpm_port *port = event->port;
+ 
+ 	mutex_lock(&port->lock);
+-	if (port->state != SRC_READY && port->state != SNK_READY &&
+-	    port->state != SRC_VDM_IDENTITY_REQUEST) {
++	if (!tcpm_can_send_vdm(port->state)) {
+ 		tcpm_log_force(port, "dropping altmode_vdm_event");
+ 		goto port_unlock;
+ 	}
+@@ -2149,6 +2229,19 @@ static bool tcpm_cable_vdm_supported(struct tcpm_port *port)
+ 	       tcpm_can_communicate_sop_prime(port);
+ }
+ 
++static void tcpm_update_vdm_discovery_state(struct tcpm_port *port,
++					    enum vdm_discovery_states new_state)
++{
++	enum vdm_discovery_states old_state = port->vdm_discovery_state;
++
++	if (old_state != new_state)
++		tcpm_log_force(port, "vdm discovery state changed [%s -> %s]",
++			       vdm_discovery_state_strings[old_state],
++			       vdm_discovery_state_strings[new_state]);
++
++	port->vdm_discovery_state = new_state;
++}
++
+ static int tcpm_handle_discover_mode(struct tcpm_port *port, u32 *response,
+ 				     enum tcpm_transmit_type rx_sop_type,
+ 				     enum tcpm_transmit_type *response_tx_sop_type)
+@@ -2166,6 +2259,7 @@ static int tcpm_handle_discover_mode(struct tcpm_port *port, u32 *response,
+ 			response[0] = VDO(svid, 1,
+ 					  typec_get_negotiated_svdm_version(typec),
+ 					  CMD_DISCOVER_MODES);
++			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_PARTNER_MODES);
+ 			return 1;
+ 		}
+ 
+@@ -2174,10 +2268,12 @@ static int tcpm_handle_discover_mode(struct tcpm_port *port, u32 *response,
+ 			response[0] = VDO(USB_SID_PD, 1,
+ 					  typec_get_cable_svdm_version(typec),
+ 					  CMD_DISCOVER_SVID);
++			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_PARTNER_MODES);
+ 			return 1;
+ 		}
+ 
+ 		tcpm_register_partner_altmodes(port);
++		tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
+ 	} else if (rx_sop_type == TCPC_TX_SOP_PRIME) {
+ 		modep = &port->mode_data_prime;
+ 		modep->svid_index++;
+@@ -2188,11 +2284,13 @@ static int tcpm_handle_discover_mode(struct tcpm_port *port, u32 *response,
+ 			response[0] = VDO(svid, 1,
+ 					  typec_get_cable_svdm_version(typec),
+ 					  CMD_DISCOVER_MODES);
++			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_CABLE_MODES);
+ 			return 1;
+ 		}
+ 
+ 		tcpm_register_plug_altmodes(port);
+ 		tcpm_register_partner_altmodes(port);
++		tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
+ 	}
+ 
+ 	return 0;
+@@ -2371,18 +2469,18 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 						typec_cable_set_svdm_version(port->cable,
+ 									     svdm_version);
+ 				}
++				tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_PARTNER_IDENT);
++
+ 				/* 6.4.4.3.1 */
+ 				svdm_consume_identity(port, p, cnt);
+ 				/* Attempt Vconn swap, delay SOP' discovery if necessary */
+ 				if (tcpm_attempt_vconn_swap_discovery(port)) {
+-					port->send_discover_prime = true;
+ 					port->upcoming_state = VCONN_SWAP_SEND;
+ 					ret = tcpm_ams_start(port, VCONN_SWAP);
+ 					if (!ret)
+ 						return 0;
+ 					/* Cannot perform Vconn swap */
+ 					port->upcoming_state = INVALID_STATE;
+-					port->send_discover_prime = false;
+ 				}
+ 
+ 				/*
+@@ -2393,7 +2491,6 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 				if (IS_ERR_OR_NULL(port->cable) &&
+ 				    tcpm_can_communicate_sop_prime(port)) {
+ 					*response_tx_sop_type = TCPC_TX_SOP_PRIME;
+-					port->send_discover_prime = true;
+ 					response[0] = VDO(USB_SID_PD, 1,
+ 							  typec_get_negotiated_svdm_version(typec),
+ 							  CMD_DISCOVER_IDENT);
+@@ -2421,6 +2518,7 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 					tcpm_set_state(port, SRC_SEND_CAPABILITIES, 0);
+ 					return 0;
+ 				}
++				tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_CABLE_IDENT);
+ 
+ 				*response_tx_sop_type = TCPC_TX_SOP;
+ 				response[0] = VDO(USB_SID_PD, 1,
+@@ -2440,16 +2538,27 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 				rlen = 1;
+ 			} else {
+ 				if (rx_sop_type == TCPC_TX_SOP) {
++					tcpm_update_vdm_discovery_state(port,
++							VDM_DISCOVERY_PARTNER_SVIDS);
+ 					if (modep->nsvids && supports_modal(port)) {
+ 						response[0] = VDO(modep->svids[0], 1, svdm_version,
+ 								CMD_DISCOVER_MODES);
+ 						rlen = 1;
++					} else {
++						tcpm_update_vdm_discovery_state(port,
++								VDM_DISCOVERY_COMPLETE);
+ 					}
+ 				} else if (rx_sop_type == TCPC_TX_SOP_PRIME) {
++					tcpm_update_vdm_discovery_state(port,
++							VDM_DISCOVERY_CABLE_SVIDS);
+ 					if (modep_prime->nsvids) {
+ 						response[0] = VDO(modep_prime->svids[0], 1,
+ 								  svdm_version, CMD_DISCOVER_MODES);
+ 						rlen = 1;
++					} else {
++						tcpm_register_partner_altmodes(port);
++						tcpm_update_vdm_discovery_state(port,
++								VDM_DISCOVERY_COMPLETE);
+ 					}
+ 				}
+ 			}
+@@ -2500,8 +2609,13 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+ 	case CMDT_RSP_NAK:
+ 		tcpm_ams_finish(port);
+ 		switch (cmd) {
++		/*
++		 * The cable is not allowed to respond with NAK so this must've happened over SOP
++		 */
+ 		case CMD_DISCOVER_IDENT:
+ 		case CMD_DISCOVER_SVID:
++			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
++			break;
+ 		case VDO_CMD_VENDOR(0) ... VDO_CMD_VENDOR(15):
+ 			break;
+ 		case CMD_DISCOVER_MODES:
+@@ -2681,44 +2795,6 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
+ 		port->vdm_sm_running = false;
+ }
+ 
+-static void tcpm_send_vdm(struct tcpm_port *port, u32 vid, int cmd,
+-			  const u32 *data, int count, enum tcpm_transmit_type tx_sop_type)
+-{
+-	int svdm_version;
+-	u32 header;
+-
+-	switch (tx_sop_type) {
+-	case TCPC_TX_SOP_PRIME:
+-		/*
+-		 * If the port partner is discovered, then the port partner's
+-		 * SVDM Version will be returned
+-		 */
+-		svdm_version = typec_get_cable_svdm_version(port->typec_port);
+-		if (svdm_version < 0)
+-			svdm_version = SVDM_VER_MAX;
+-		break;
+-	case TCPC_TX_SOP:
+-		svdm_version = typec_get_negotiated_svdm_version(port->typec_port);
+-		if (svdm_version < 0)
+-			return;
+-		break;
+-	default:
+-		svdm_version = typec_get_negotiated_svdm_version(port->typec_port);
+-		if (svdm_version < 0)
+-			return;
+-		break;
+-	}
+-
+-	if (WARN_ON(count > VDO_MAX_SIZE - 1))
+-		count = VDO_MAX_SIZE - 1;
+-
+-	/* set VDM header with VID & CMD */
+-	header = VDO(vid, ((vid & USB_SID_PD) == USB_SID_PD) ?
+-			1 : (PD_VDO_CMD(cmd) <= CMD_ATTENTION),
+-			svdm_version, cmd);
+-	tcpm_queue_vdm(port, header, data, count, tx_sop_type);
+-}
+-
+ static unsigned int vdm_ready_timeout(u32 vdm_hdr)
+ {
+ 	unsigned int timeout;
+@@ -2764,8 +2840,7 @@ static void vdm_run_state_machine(struct tcpm_port *port)
+ 		 * if there's traffic or we're not in PDO ready state don't send
+ 		 * a VDM.
+ 		 */
+-		if (port->state != SRC_READY && port->state != SNK_READY &&
+-		    port->state != SRC_VDM_IDENTITY_REQUEST) {
++		if (!tcpm_can_send_vdm(port->state)) {
+ 			port->vdm_sm_running = false;
+ 			break;
+ 		}
+@@ -2775,22 +2850,10 @@ static void vdm_run_state_machine(struct tcpm_port *port)
+ 			switch (PD_VDO_CMD(vdo_hdr)) {
+ 			case CMD_DISCOVER_IDENT:
+ 				res = tcpm_ams_start(port, DISCOVER_IDENTITY);
+-				if (res == 0) {
+-					switch (port->tx_sop_type) {
+-					case TCPC_TX_SOP_PRIME:
+-						port->send_discover_prime = false;
+-						break;
+-					case TCPC_TX_SOP:
+-						port->send_discover = false;
+-						break;
+-					default:
+-						port->send_discover = false;
+-						break;
+-					}
+-				} else if (res == -EAGAIN) {
++				if (res == -EAGAIN) {
+ 					port->vdo_data[0] = 0;
+-					mod_send_discover_delayed_work(port,
+-								       SEND_DISCOVER_RETRY_MS);
++					mod_vdm_discovery_delayed_work(port,
++							SEND_DISCOVERY_VDM_RETRY_MS);
+ 				}
+ 				break;
+ 			case CMD_DISCOVER_SVID:
+@@ -2848,6 +2911,7 @@ static void vdm_run_state_machine(struct tcpm_port *port)
+ 		 */
+ 		if (port->state == SRC_VDM_IDENTITY_REQUEST) {
+ 			tcpm_ams_finish(port);
++			port->vdo_data[0] = 0;
+ 			port->vdm_state = VDM_STATE_DONE;
+ 			tcpm_set_state(port, SRC_SEND_CAPABILITIES, 0);
+ 		/*
+@@ -2864,6 +2928,7 @@ static void vdm_run_state_machine(struct tcpm_port *port)
+ 				tcpm_ams_finish(port);
+ 		} else {
+ 			tcpm_ams_finish(port);
++			port->vdo_data[0] = 0;
+ 			if (port->tx_sop_type == TCPC_TX_SOP)
+ 				break;
+ 			/* Handle SOP' Transmission Errors */
+@@ -2873,11 +2938,11 @@ static void vdm_run_state_machine(struct tcpm_port *port)
+ 			 * discovery process on SOP only.
+ 			 */
+ 			case CMD_DISCOVER_IDENT:
+-				port->vdo_data[0] = 0;
+ 				response[0] = VDO(USB_SID_PD, 1,
+ 						  typec_get_negotiated_svdm_version(
+ 									port->typec_port),
+ 						  CMD_DISCOVER_SVID);
++				tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_CABLE_IDENT);
+ 				tcpm_queue_vdm(port, response[0], &response[1],
+ 					       0, TCPC_TX_SOP);
+ 				break;
+@@ -2887,9 +2952,11 @@ static void vdm_run_state_machine(struct tcpm_port *port)
+ 			 */
+ 			case CMD_DISCOVER_SVID:
+ 				tcpm_register_partner_altmodes(port);
++				tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
+ 				break;
+ 			case CMD_DISCOVER_MODES:
+ 				tcpm_register_partner_altmodes(port);
++				tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
+ 				break;
+ 			default:
+ 				break;
+@@ -3802,7 +3869,8 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
+ 					   PD_MSG_CTRL_NOT_SUPP,
+ 					   NONE_AMS);
+ 		} else {
+-			if (port->send_discover && port->negotiated_rev < PD_REV30) {
++			if (port->vdm_discovery_state == VDM_DISCOVERY_UNKNOWN &&
++			    port->negotiated_rev < PD_REV30) {
+ 				tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
+ 				break;
+ 			}
+@@ -3818,7 +3886,8 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
+ 					   PD_MSG_CTRL_NOT_SUPP,
+ 					   NONE_AMS);
+ 		} else {
+-			if (port->send_discover && port->negotiated_rev < PD_REV30) {
++			if (port->vdm_discovery_state == VDM_DISCOVERY_UNKNOWN &&
++			    port->negotiated_rev < PD_REV30) {
+ 				tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
+ 				break;
+ 			}
+@@ -3827,7 +3896,8 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
+ 		}
+ 		break;
+ 	case PD_CTRL_VCONN_SWAP:
+-		if (port->send_discover && port->negotiated_rev < PD_REV30) {
++		if (port->vdm_discovery_state == VDM_DISCOVERY_UNKNOWN &&
++		    port->negotiated_rev < PD_REV30) {
+ 			tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
+ 			break;
+ 		}
+@@ -4848,8 +4918,7 @@ static int tcpm_src_attach(struct tcpm_port *port)
+ 	port->partner = NULL;
+ 
+ 	port->attached = true;
+-	port->send_discover = true;
+-	port->send_discover_prime = false;
++	tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_UNKNOWN);
+ 
+ 	return 0;
+ 
+@@ -4926,6 +4995,7 @@ static void tcpm_reset_port(struct tcpm_port *port)
+ 	port->in_ams = false;
+ 	port->ams = NONE_AMS;
+ 	port->vdm_sm_running = false;
++	tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
+ 	tcpm_unregister_altmodes(port);
+ 	tcpm_typec_disconnect(port);
+ 	port->attached = false;
+@@ -5009,8 +5079,7 @@ static int tcpm_snk_attach(struct tcpm_port *port)
+ 	port->partner = NULL;
+ 
+ 	port->attached = true;
+-	port->send_discover = true;
+-	port->send_discover_prime = false;
++	tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_UNKNOWN);
+ 
+ 	return 0;
+ }
+@@ -5417,16 +5486,11 @@ static void run_state_machine(struct tcpm_port *port)
+ 		 * as well.
+ 		 */
+ 		if (port->explicit_contract) {
+-			if (port->send_discover_prime) {
+-				port->tx_sop_type = TCPC_TX_SOP_PRIME;
+-			} else {
+-				port->tx_sop_type = TCPC_TX_SOP;
++			if (port->vdm_discovery_state == VDM_DISCOVERY_UNKNOWN)
+ 				tcpm_set_initial_svdm_version(port);
+-			}
+-			mod_send_discover_delayed_work(port, 0);
++			mod_vdm_discovery_delayed_work(port, 0);
+ 		} else {
+-			port->send_discover = false;
+-			port->send_discover_prime = false;
++			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
+ 		}
+ 
+ 		/*
+@@ -5809,18 +5873,14 @@ static void run_state_machine(struct tcpm_port *port)
+ 		 * as well.
+ 		 */
+ 		if (port->explicit_contract) {
+-			if (port->send_discover_prime) {
+-				port->tx_sop_type = TCPC_TX_SOP_PRIME;
+-			} else {
+-				port->tx_sop_type = TCPC_TX_SOP;
++			if (port->vdm_discovery_state == VDM_DISCOVERY_UNKNOWN)
+ 				tcpm_set_initial_svdm_version(port);
+-			}
+-			mod_send_discover_delayed_work(port, 0);
++			mod_vdm_discovery_delayed_work(port, 0);
+ 		} else {
+-			port->send_discover = false;
+-			port->send_discover_prime = false;
++			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
+ 		}
+ 
++
+ 		power_supply_changed(port->psy);
+ 		break;
+ 
+@@ -5864,8 +5924,8 @@ static void run_state_machine(struct tcpm_port *port)
+ 		port->tcpc->set_pd_rx(port->tcpc, false);
+ 		tcpm_unregister_altmodes(port);
+ 		port->nr_sink_caps = 0;
+-		port->send_discover = true;
+-		port->send_discover_prime = false;
++		tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_UNKNOWN);
++		mod_vdm_discovery_cancel_delayed_work(port);
+ 		if (port->pwr_role == TYPEC_SOURCE)
+ 			tcpm_set_state(port, SRC_HARD_RESET_VBUS_OFF,
+ 				       PD_T_PS_HARD_RESET);
+@@ -6012,25 +6072,15 @@ static void run_state_machine(struct tcpm_port *port)
+ 	/* DR_Swap states */
+ 	case DR_SWAP_SEND:
+ 		tcpm_pd_send_control(port, PD_CTRL_DR_SWAP, TCPC_TX_SOP);
+-		if (port->data_role == TYPEC_DEVICE || port->negotiated_rev > PD_REV20) {
+-			port->send_discover = true;
+-			port->send_discover_prime = false;
+-		}
+ 		tcpm_set_state_cond(port, DR_SWAP_SEND_TIMEOUT,
+ 				    PD_T_SENDER_RESPONSE);
+ 		break;
+ 	case DR_SWAP_ACCEPT:
+ 		tcpm_pd_send_control(port, PD_CTRL_ACCEPT, TCPC_TX_SOP);
+-		if (port->data_role == TYPEC_DEVICE || port->negotiated_rev > PD_REV20) {
+-			port->send_discover = true;
+-			port->send_discover_prime = false;
+-		}
+ 		tcpm_set_state_cond(port, DR_SWAP_CHANGE_DR, 0);
+ 		break;
+ 	case DR_SWAP_SEND_TIMEOUT:
+ 		tcpm_swap_complete(port, -ETIMEDOUT);
+-		port->send_discover = false;
+-		port->send_discover_prime = false;
+ 		tcpm_ams_finish(port);
+ 		tcpm_set_state(port, ready_state(port), 0);
+ 		break;
+@@ -6042,6 +6092,8 @@ static void run_state_machine(struct tcpm_port *port)
+ 		else
+ 			tcpm_set_roles(port, true, TYPEC_STATE_USB, port->pwr_role,
+ 				       TYPEC_HOST);
++		if (port->data_role == TYPEC_HOST || port->negotiated_rev > PD_REV20)
++			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_UNKNOWN);
+ 		tcpm_ams_finish(port);
+ 		tcpm_set_state(port, ready_state(port), 0);
+ 		break;
+@@ -6325,9 +6377,7 @@ static void run_state_machine(struct tcpm_port *port)
+ 
+ 	/* Cable states */
+ 	case SRC_VDM_IDENTITY_REQUEST:
+-		port->send_discover_prime = true;
+-		port->tx_sop_type = TCPC_TX_SOP_PRIME;
+-		mod_send_discover_delayed_work(port, 0);
++		mod_vdm_discovery_delayed_work(port, 0);
+ 		port->upcoming_state = SRC_SEND_CAPABILITIES;
+ 		break;
+ 
+@@ -7031,8 +7081,8 @@ static void tcpm_enable_frs_work(struct kthread_work *work)
+ 		goto unlock;
+ 
+ 	/* Send when the state machine is idle */
+-	if (port->state != SNK_READY || port->vdm_sm_running || port->send_discover ||
+-	    port->send_discover_prime)
++	if (port->state != SNK_READY || port->vdm_sm_running ||
++	    port->vdm_discovery_state == VDM_DISCOVERY_UNKNOWN)
+ 		goto resched;
+ 
+ 	port->upcoming_state = GET_SINK_CAP;
+@@ -7049,30 +7099,113 @@ static void tcpm_enable_frs_work(struct kthread_work *work)
+ 	mutex_unlock(&port->lock);
+ }
+ 
+-static void tcpm_send_discover_work(struct kthread_work *work)
++static void tcpm_vdm_discovery_work(struct kthread_work *work)
+ {
+-	struct tcpm_port *port = container_of(work, struct tcpm_port, send_discover_work);
++	struct tcpm_port *port = container_of(work, struct tcpm_port, vdm_discovery_work);
++	enum tcpm_transmit_type tx_sop_type = TCPC_TX_SOP;
++	struct typec_port *typec = port->typec_port;
++	struct pd_mode_data *modep, *modep_prime;
++	u32 msg[2] = { };
++	int svdm_version;
+ 
+ 	mutex_lock(&port->lock);
+-	/* No need to send DISCOVER_IDENTITY anymore */
+-	if (!port->send_discover && !port->send_discover_prime)
++
++	tcpm_log_force(port, "%s state [%s]", __func__,
++		       vdm_discovery_state_strings[port->vdm_discovery_state]);
++
++	/* No need to perform work if Discovery process is complete */
++	if (port->vdm_discovery_state == VDM_DISCOVERY_COMPLETE)
+ 		goto unlock;
+ 
+-	if (port->data_role == TYPEC_DEVICE && port->negotiated_rev < PD_REV30) {
+-		port->send_discover = false;
+-		port->send_discover_prime = false;
++	/* Retry if the port is not idle */
++	if (!tcpm_can_send_vdm(port->state) || port->vdm_sm_running) {
++		mod_vdm_discovery_delayed_work(port, SEND_DISCOVERY_VDM_RETRY_MS);
+ 		goto unlock;
+ 	}
+ 
+-	/* Retry if the port is not idle */
+-	if ((port->state != SRC_READY && port->state != SNK_READY &&
+-	     port->state != SRC_VDM_IDENTITY_REQUEST) || port->vdm_sm_running) {
+-		mod_send_discover_delayed_work(port, SEND_DISCOVER_RETRY_MS);
++	modep = &port->mode_data;
++	modep_prime = &port->mode_data_prime;
++
++	svdm_version = typec_get_negotiated_svdm_version(typec);
++
++	switch (port->vdm_discovery_state) {
++	case VDM_DISCOVERY_UNKNOWN:
++		/* Can't send Discover Identity, VDM discovery is complete */
++		if (port->data_role == TYPEC_DEVICE && port->negotiated_rev < PD_REV30) {
++			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
++			goto unlock;
++		}
++
++		if (port->state == SRC_VDM_IDENTITY_REQUEST) {
++			tx_sop_type = TCPC_TX_SOP_PRIME;
++			svdm_version = SVDM_VER_MAX;
++		}
++
++		msg[0] = VDO(USB_SID_PD, 1, svdm_version, CMD_DISCOVER_IDENT);
++		break;
++	case VDM_DISCOVERY_PARTNER_IDENT:
++		if (tcpm_can_communicate_sop_prime(port) && !port->cable) {
++			tx_sop_type = TCPC_TX_SOP_PRIME;
++			msg[0] = VDO(USB_SID_PD, 1, svdm_version, CMD_DISCOVER_IDENT);
++		} else {
++			if (tcpm_can_communicate_sop_prime(port))
++				tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_CABLE_IDENT);
++			msg[0] = VDO(USB_SID_PD, 1, svdm_version, CMD_DISCOVER_SVID);
++		}
++		break;
++	case VDM_DISCOVERY_CABLE_IDENT:
++		msg[0] = VDO(USB_SID_PD, 1, svdm_version, CMD_DISCOVER_SVID);
++		break;
++	case VDM_DISCOVERY_PARTNER_SVIDS:
++		if (modep->nsvids && supports_modal(port)) {
++			msg[0] = VDO(modep->svids[0], 1, svdm_version, CMD_DISCOVER_MODES);
++		} else {
++			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
++			goto unlock;
++		}
++		break;
++	case VDM_DISCOVERY_PARTNER_MODES:
++		/* Not all modes have been discovered yet */
++		if (modep->svid_index < modep->nsvids) {
++			msg[0] = VDO(modep_prime->svids[modep->svid_index], 1, svdm_version,
++				     CMD_DISCOVER_MODES);
++		} else if (tcpm_can_communicate_sop_prime(port) && tcpm_cable_vdm_supported(port)) {
++			tx_sop_type = TCPC_TX_SOP_PRIME;
++			svdm_version = typec_get_cable_svdm_version(typec);
++			msg[0] = VDO(USB_SID_PD, 1, svdm_version, CMD_DISCOVER_SVID);
++		} else {
++			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
++			goto unlock;
++		}
++		break;
++	case VDM_DISCOVERY_CABLE_SVIDS:
++		if (modep_prime->nsvids) {
++			tx_sop_type = TCPC_TX_SOP_PRIME;
++			svdm_version = typec_get_cable_svdm_version(typec);
++			msg[0] = VDO(modep_prime->svids[0], 1, svdm_version, CMD_DISCOVER_MODES);
++		} else {
++			goto unlock;
++		}
++		break;
++	case VDM_DISCOVERY_CABLE_MODES:
++		if (modep_prime->svid_index < modep_prime->nsvids) {
++			tx_sop_type = TCPC_TX_SOP_PRIME;
++			svdm_version = typec_get_cable_svdm_version(typec);
++			msg[0] = VDO(modep_prime->svids[modep->svid_index], 1, svdm_version,
++				     CMD_DISCOVER_MODES);
++		} else {
++			goto unlock;
++		}
++		break;
++	default:
+ 		goto unlock;
+ 	}
+ 
+-	tcpm_send_vdm(port, USB_SID_PD, CMD_DISCOVER_IDENT, NULL, 0, port->tx_sop_type);
++	/* No port partner exists, and Discover Identity */
++	if (svdm_version < 0)
++		goto unlock;
+ 
++	tcpm_queue_vdm(port, msg[0], &msg[1], 0, tx_sop_type);
+ unlock:
+ 	mutex_unlock(&port->lock);
+ }
+@@ -8487,12 +8620,12 @@ static enum hrtimer_restart enable_frs_timer_handler(struct hrtimer *timer)
+ 	return HRTIMER_NORESTART;
+ }
+ 
+-static enum hrtimer_restart send_discover_timer_handler(struct hrtimer *timer)
++static enum hrtimer_restart vdm_discovery_timer_handler(struct hrtimer *timer)
+ {
+-	struct tcpm_port *port = container_of(timer, struct tcpm_port, send_discover_timer);
++	struct tcpm_port *port = container_of(timer, struct tcpm_port, vdm_discovery_timer);
+ 
+ 	if (port->registered)
+-		kthread_queue_work(port->wq, &port->send_discover_work);
++		kthread_queue_work(port->wq, &port->vdm_discovery_work);
+ 	return HRTIMER_NORESTART;
+ }
+ 
+@@ -8526,14 +8659,14 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
+ 	kthread_init_work(&port->vdm_state_machine, vdm_state_machine_work);
+ 	kthread_init_work(&port->event_work, tcpm_pd_event_handler);
+ 	kthread_init_work(&port->enable_frs, tcpm_enable_frs_work);
+-	kthread_init_work(&port->send_discover_work, tcpm_send_discover_work);
++	kthread_init_work(&port->vdm_discovery_work, tcpm_vdm_discovery_work);
+ 	hrtimer_setup(&port->state_machine_timer, state_machine_timer_handler, CLOCK_MONOTONIC,
+ 		      HRTIMER_MODE_REL);
+ 	hrtimer_setup(&port->vdm_state_machine_timer, vdm_state_machine_timer_handler,
+ 		      CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+ 	hrtimer_setup(&port->enable_frs_timer, enable_frs_timer_handler, CLOCK_MONOTONIC,
+ 		      HRTIMER_MODE_REL);
+-	hrtimer_setup(&port->send_discover_timer, send_discover_timer_handler, CLOCK_MONOTONIC,
++	hrtimer_setup(&port->vdm_discovery_timer, vdm_discovery_timer_handler, CLOCK_MONOTONIC,
+ 		      HRTIMER_MODE_REL);
+ 
+ 	spin_lock_init(&port->pd_event_lock);
+@@ -8628,7 +8761,7 @@ void tcpm_unregister_port(struct tcpm_port *port)
+ 	port->registered = false;
+ 	kthread_destroy_worker(port->wq);
+ 
+-	hrtimer_cancel(&port->send_discover_timer);
++	hrtimer_cancel(&port->vdm_discovery_timer);
+ 	hrtimer_cancel(&port->enable_frs_timer);
+ 	hrtimer_cancel(&port->vdm_state_machine_timer);
+ 	hrtimer_cancel(&port->state_machine_timer);
+
+base-commit: 511e746700ee6e93104d061a87743906128ab709
 -- 
-2.43.0
+2.54.0.1189.g8c84645362-goog
 
