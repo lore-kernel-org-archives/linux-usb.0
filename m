@@ -1,580 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C2F3A5E71
-	for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2026 06:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781503894; cv=fail; b=oKVzgeAg6h55rMiELLCPLFfHVMW9tmK5/vo2Me4hbW07F8HY5AfhpzADGneYD6UVMP9xjLcqpZDGQFuSq4HHd8n7kOJG2h637EPdQDGn/BwnhVImGXTTOlNtW6Gs1hGSlP0lmTIJi2zbyrKocmeKa2Pzpmrx1Jc+97ClibL4Kf8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781503894; c=relaxed/simple;
-	bh=JEDGxNJlL17RdIBPx2wgG4qfu5zInGFtv+LBkZ6Rm1o=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Zdw7FWinatjlP9XN/rBJaEPcQbZUssHuHDRhnzvHip6l0Bu7olxtCAGRhX1tbtWt7bjolB5y1khmLBFbx1N8+3Yp9HseNpju6O5+CuQrrO5U6TqXBzQj79KqPpJPEl1BaZPHuWMECNxD8y6KlhDQs304vxVfdWDxXXwo08uzL1s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IrNmUdfK; arc=fail smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0291E3A5E71
+	for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2026 06:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781503946; cv=none; b=AhaVTk7Wuqklhwyj46R7h1OZKXqYI7VPYhWefJvRfZgs+ANOktcVLdIp3kUSY3/luxrWfEOiyCCDTQ2lM6sXIJnL9y/5OKEkdwYHzd3pdhx3hZBkSkWGtMMZ+urHoEIgx5DPMLuitXw2giOtRrIspYa0gCOdt0xsgHg24JXgQH4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781503946; c=relaxed/simple;
+	bh=fiaEpLMoSTTLWN5RAB+e2V+zrRn9C1pdqE1a/4H/dHk=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=r8i3SbAFbdk5EwHrk9DaAYW5/A2xSxDqZrMDNreJAZDXNvECp6JtVWU3QuiqTQnk61h7u1cWmRP5gNHvKChmHEsbsV8a8mmyAy3JL2Jb7t+VCv1FJUDpWDkD0tyy5cq4MJLHwdFVKExV0P+/zBD31PIMj4MdV4TrLTC9cXetit8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IVEK69Sx; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IrNmUdfK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781503892; x=1813039892;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=JEDGxNJlL17RdIBPx2wgG4qfu5zInGFtv+LBkZ6Rm1o=;
-  b=IrNmUdfKlYdCBsThPdp61DyCPFNalU+UQ6wm8v76CsJRygssmKEmH0wr
-   rs4mfPSD+N6XGFn5D4ygozD+0bs/RvypM3LY63WxLXe4dTMXK5PexoXYg
-   yrvz7jNfnT7qhqIPyQyMdhG/8/aPJK1w6j3mEm8O0MY7vdauWt42BXvas
-   nk/jdg0y6T0RofEOrRnd05Qe2a7DDPy4ediTNJfQfH0kYgntGUTNO8AfB
-   FMjjyLpVTquDvYWpCV2OH6iR9udP8AhA689Uf1pUc1rhKYsL/VToVhAyC
-   pPbqmPOIZzVCsHGoAAbhi+p9zZ/TlRJe0oK5S8/VtOm2/+e10akeE/oHZ
-   A==;
-X-CSE-ConnectionGUID: KUudQqMRRqWYmin3yKaGeg==
-X-CSE-MsgGUID: FozYtT6vR2KprOnh7bT9XA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="99812636"
-X-IronPort-AV: E=Sophos;i="6.24,205,1774335600"; 
-   d="scan'208";a="99812636"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 23:11:29 -0700
-X-CSE-ConnectionGUID: 22Ms9DXITyahUl7Z9uQUwg==
-X-CSE-MsgGUID: KAQ9S6wfRoawU+BBbSC0qA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,205,1774335600"; 
-   d="scan'208";a="243228932"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2026 23:11:29 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Sun, 14 Jun 2026 23:11:28 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Sun, 14 Jun 2026 23:11:28 -0700
-Received: from DM1PR04CU001.outbound.protection.outlook.com (52.101.61.39) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Sun, 14 Jun 2026 23:11:28 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SWFl0jiHd6qTsiBBVeALvE3ocKnZuQE8sxcXrQZACp4Y4evDxQ1n/HvmCuRe88tGzZyaZ+EfVcSZooJe1ftsQJuBfWXlN26M1IYAxhfGm/F5Og/BsXAnhQBipQnsNhLbvXjwNupAYiHJQPveUGdDo6eAqfIoNJv+uaOaBhfgxqUsSXX/xWfqIKzVNF3jVm2ENL4WbbLQ2co2hxDVZS7EGMt84Xl7qfYVdQI2elShPx/uTHA/1tzKghzbrG93/R+A7RZ0a1kOSvt8l2lqvBqihU8k50lV3t2jA0cSM0yPBsqT7o9yZ4mYiPjbZCdODOWEytL72elOb/846w2nPyhiCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1sVJzrJgccOaj3vMuYzyJhTIgx8xY+4Ppie48TaClPg=;
- b=A8MJYGL5YdC0ILnp2PGRpJMgIrH2MOe5BlGOFev6rGKV9TKmUZzkjwi0j2LCGUV8FtHWc8cmXxl0Wgn01z3nut5iZnaUr2XTw/UblObpG/BWf/kFwbdmyl83NSTwm8w1FGAH6bl974h85P7adV6UvYJ7QivYK6IZZE2mf4/vGtgBVsCoLPx/MyzJU9JcURpxYIwBs275e/uN4Fwxmse9l8nuU8+TSogn25XZUk55E6RGR8EkWFdsSEc21LA7RFzxZsJvm6RkIt5x0yXeXrt1lMx7ooosNrPzxyNcQFQlSdHvHxnyTo4Fr8hTULlSffL8V2L554KsgmF+XYGtCYDjEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SN7PR11MB7639.namprd11.prod.outlook.com (2603:10b6:806:32a::14)
- by IA1PR11MB7367.namprd11.prod.outlook.com (2603:10b6:208:421::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Mon, 15 Jun
- 2026 06:11:25 +0000
-Received: from SN7PR11MB7639.namprd11.prod.outlook.com
- ([fe80::1d9f:d286:449a:a8b9]) by SN7PR11MB7639.namprd11.prod.outlook.com
- ([fe80::1d9f:d286:449a:a8b9%4]) with mapi id 15.21.0092.006; Mon, 15 Jun 2026
- 06:11:25 +0000
-Message-ID: <9ce24ff5-efab-4089-92d7-709862d68e6d@intel.com>
-Date: Mon, 15 Jun 2026 11:41:17 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/15] xhci: dbc: serialize enabling and disabling dbc
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
-	<gregkh@linuxfoundation.org>
-CC: <linux-usb@vger.kernel.org>, "intel-gfx@lists.freedesktop.org"
-	<intel-gfx@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
-	<intel-xe@lists.freedesktop.org>, <ravitejax.veesam@intel.com>
-References: <20260603091132.1110849-1-mathias.nyman@linux.intel.com>
- <20260603091132.1110849-9-mathias.nyman@linux.intel.com>
-Content-Language: en-GB
-From: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
-In-Reply-To: <20260603091132.1110849-9-mathias.nyman@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IVEK69Sx"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-36da151a152so2034914a91.1
+        for <linux-usb@vger.kernel.org>; Sun, 14 Jun 2026 23:12:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781503944; x=1782108744; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=H4MY35j38zKZqHIBGfhBPpLsbB1y1+JPTM2zRf9KQbY=;
+        b=IVEK69SxWw2eFctsxg2h330SIjbxxLnFQU7LXVHXDFZmGiiGkn5YZAICbL9rkA8ysl
+         LWbPsfpLT0L/dBXeD6JcTAStf9U+4jdygPNu6tvUyMj8imjOF1PPcu8c/npuRRRceCCS
+         uRIPC6yNFzSLPrtoULX80zR/GZS/CfoynYYG4aiddNL3TiA+ScVxa7tQMzK8vnrjzR00
+         chyHI7YF8hI4jQikks52gQJUvvI4bc5qwzlIMCRdhL5na8prNAEbbT+0bwFSyYs1GxJb
+         d+fp+gmtdH4x+vo8iDBrD9HtZO33pGsZvqe+yg/gSBBBL4bDBQnWLqLBNMHhtRzu4Oyb
+         mWTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781503944; x=1782108744;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=H4MY35j38zKZqHIBGfhBPpLsbB1y1+JPTM2zRf9KQbY=;
+        b=W/dbMRiHhvnmK1fvqT6+KRWLI5CsgPYi6fT9ZQtqZhMqaG5GkNikid2djxMmOMcs3l
+         PKs5OxwXkFeq8lL2JndLvQH946oOwnI8MkJS8BO2+zjXU9I6JrdgEa3tCQqrx2HBoC/h
+         iE4vsVlw9YS/pqvQeUfIbm61ZSu5nrLC6gR8cGJKivgm/X2AgRsVSvAX7iLHGuAGGw8N
+         ucYdKqZtn8jEz/WQlWRIqPrIyXYputwFXKPAdy4UvNI0psZVN22erQ64U9mGvUesD2V2
+         dz88hYXJw7z0GNq18B3aMMj8wMZq/jkjSAmP3lUXbWvhTtC98Ua8qF/IJ3JrPPt8bSMa
+         MXTg==
+X-Gm-Message-State: AOJu0Yxt7LCuX4EMkVtpALlQCkSMNP3pi1CEniEeTM7RORn8sVj/7v7G
+	hQ4FXZCQLZAb2WK1waKvrkJceMP01WossgEy1aoI13EW0im5o7DjIUCPRq1PXA==
+X-Gm-Gg: Acq92OGWxWOn0C3dAu7dS09fRj+RVs25S2TULpHv4hRzIzVm9xoLdMsGxN9cx3qBxaa
+	O2TMR5V6bMgvrBET8mmQrZ8WSIEhlTTnQFqPDw58qQuI7Q6MMr1g60Nrpt1V315gXWxXiEkA5dk
+	S85DFeEu1QN+2wDUdQ9wGZGkP6/Kc1R/LCWyc2JCGGv0xfFC0NeysOLst/jpZRCOECoY02jVsAM
+	FYG/x4IOqYXyy19t2LUUjxBbr8SQv6XWJso5ojZF6D/453AkJ2FdZg9tCsZmG6pEXGq+4BE4xKo
+	BFfyw5vRbr5dexiKuxHbZG3wE1QftpP19WUPgll6tOcyc0VV9gLXRP/tueGmEDtou+vcOzEr1g2
+	0Zc8pHo61PZ9YA1xLsphUdMXQWPZzgEvQynXkyayWcAH+byp2CL/o5zDeVhoI3SjK7K3zgfkpch
+	Ha3eLge0dE2gENyChWopTBauSyuGxdaZazTEiCTJcDtfP5UmvI
+X-Received: by 2002:a17:90b:2dca:b0:36a:6ac2:8bc8 with SMTP id 98e67ed59e1d1-37c2bcef7dfmr9190949a91.14.1781503944011;
+        Sun, 14 Jun 2026 23:12:24 -0700 (PDT)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37a233f4531sm9327814a91.2.2026.06.14.23.12.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jun 2026 23:12:23 -0700 (PDT)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+To: Oliver Neukum <oneukum@suse.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: kalmia_rx_fixup(): possible out of bounds read on a short RX frame
+Date: Mon, 15 Jun 2026 14:12:20 +0800
+Message-ID: <178150394040.1087339.3314243829968462233@maoyixie.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA0PR01CA0012.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:80::11) To SN7PR11MB7639.namprd11.prod.outlook.com
- (2603:10b6:806:32a::14)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR11MB7639:EE_|IA1PR11MB7367:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a60a8cd-6d3a-418a-dadd-08decaa4ee3d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|13003099007|18002099003|22082099003|4143699003|6133799003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: REi8qfSR2OGWovAvv4dIZ654cLwYTLviKy73W0cuwfeoGeiTDd5LORX1fHui5BtuZPFVWj8Wyjd9qM/hYweowLivDIxZvtRo1C7W8MdHm4dAkw7svPT4dxUGPJHMSgdF8qoaO9SymfQrPdeWwZ2PZ8kYSYHexmQsw06TrX8QGeDUI0PBH+M+sm0W5t5uXtHrvhR9IJ60syOOB1STRuBjVrz5izxLEYI46DnX0iycJ92J2tZZy1zeapsC17WN4v1KoYUaUf1lKkNh8RB0LZCNRi+3792HjLCY4KHeQ8QLGScOurUHYIig7/QCpV8eYX5SbzoDvV6dok8C8MSao3JeF8NPH3DFMeMWZAfe80ylCGavcFCVKNdVrw9q8JxxcJKPK5/1eIPE8UCR+XHy49b9T2Go21WT3hQhIiA+nQDu2bL7yx+fUPhAvO3U4I2pKeheVKag+29Ize1ajD7wvgPx2y+68Qp770whmpc4TajhEpQKl6YAA6UbhVIt8w/L8WU+37HOgGOGhez1h82E/jWLTv/H1dU7emrGGkWk9cv2yRDbxiXL1LuFfoGBUfI6ZuFBNvIA9JwirlodNphEjGnNMKieq6kOCc0lq6iZZb4yG8RogxQaQH/Stjbwx7/SQG+QfQdRwv6YwdIO3wlUwCwe/w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7639.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(13003099007)(18002099003)(22082099003)(4143699003)(6133799003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V200Q0o5NThnSXRWVnBPbVUvS3c1TGdtc0RwQ2F0UW5wYStTeWp2MmQzV0hl?=
- =?utf-8?B?c2dnekdGZ3pETE95bzBqVkplWDQyNk9QZmNRdWtZRGlTSG5TK2MvTGJYeWc1?=
- =?utf-8?B?SDcwU0dmY1N0VEUvVzkwZkRIaXZoRXBTSTZ3NGcyVGRWdW51OXZzWHFLUEwr?=
- =?utf-8?B?bW9QRDBBeHhRUmFBZlFSZXpEMFBaMmxBWkhqby9kdTFGUVZDVTlkUUM4T3h6?=
- =?utf-8?B?ZE5xOHg5ZUpDM3JWV2x2NTlXbXlNeHpIUVBnUlVQNHJwZXhXb3NwMmIxc3ht?=
- =?utf-8?B?bGtVbGlFZGc4bzl4eThtMCsvNjJzNVU5T1V3NUJZMUdzaFdEclVnUjZWY1VL?=
- =?utf-8?B?a3NKN0Y2M1hTSDFXTEhoTGRrcUpWNWtmWWhOMHFJMlB5b2o3Ty9nY0xQWXo0?=
- =?utf-8?B?alJrVFMwU0FvWXVGb0VKQjRFYmcyR2pYeWlENkZxbmgxUi9RSEZtK3FEWlha?=
- =?utf-8?B?N3VBaCt0VVZhblV2L3AxeVJKT3k1emQ5SXR3ekV6bExFZk5nMkVRR1U3VWlt?=
- =?utf-8?B?QzJRNVgzbkpJaFljM3hkVm5VWHFHQldQeUNHWllLejQvR20zakdJK3hOQ20x?=
- =?utf-8?B?QlFoWmltVGtvazVDL0duQjd5SklsZ25VQlUzQWoyOVZEMEhoKzIyTjRIL0VY?=
- =?utf-8?B?R3dDeHNXR202UzBoVjNadHlkekF4VTlSM2Z6RU9DRzhDNEJDYXdBOFlQcTNY?=
- =?utf-8?B?Z1lkYjFMKy9zM0NOL2FKS2xsOHp2UzEzaldhTytLMjJPK3kwVjVhYk1aL3gv?=
- =?utf-8?B?N1BHcGZINDlPNzJCQXBZb1UvR3dtbjZEUmFobHcvaDYxdHdPQ1FiUkd0cG9B?=
- =?utf-8?B?b0dIQVhQNGxBS2xOd3g5MnFxUG9GaG5EUDdhdUZja2tLOVBBbUxPcjhxa01Y?=
- =?utf-8?B?UXJoaU1tNlZ0WmZvclMzcGNEZi85ZU9oR0c4RjAwVmptcy9RNW5URndrdkZQ?=
- =?utf-8?B?cElnZWhlKy9RZUhqSTQyS21PN1A0elp6U1ZUT09PbndiMXdDTkJZZVphMll3?=
- =?utf-8?B?M29lNXNjQVNhamFCYmRoTHNuOU5odzhkR1JHU3hZa2syRVhIeDlCVTcweDAx?=
- =?utf-8?B?WGdHYWpyVkppNmRzZ1MzdVBkSGRTRHU3MktrNGpPN1haYm82cVJJdVJKRkVq?=
- =?utf-8?B?VnJIVmpMVGNQZVJ0MmVDU2FaRUdmM1QxUjQyS1QxejZCK1REQVdEbmpRS3lO?=
- =?utf-8?B?QVhSRGNDdUxUTlQ0VWVNTmt5RDQ1ZFA5Z3hDWXNJVFFjRzhhVzRvc3l3REZ1?=
- =?utf-8?B?Q0laSUh3YW9sYmhFN1ZGaXhZSXBCR2ZiOXhGbzhrU0NHYXYrcGVRSG12SVpu?=
- =?utf-8?B?ejJCeGhpbWFWcE5KR3g3OTB0SkNGWlh6ZDNPSlNjU1YyRk1aNVhCNlA3M0xp?=
- =?utf-8?B?SWxIbVJHdmpsYThIMnBLZGozdFA3MklGZmtzWmxhSWJYWDExcFoyblBhMWFE?=
- =?utf-8?B?S2hzbGpUWmlodDkxWGJjNnRIWkF4UlUrZXoyUDNyTHI1VzBQOWllc0FtVDRW?=
- =?utf-8?B?a0dwZWJBeGdRYTF0UlBKM21td0tiYVEyZ2VUT0cxWGx0SjFRai9vTXRITVFs?=
- =?utf-8?B?TU5yTndCbTNXbXVhZUZJa0tCRXNndVZleUVkRXdGQjg0aGVmUEwxZGlPeVJh?=
- =?utf-8?B?cXhmcmd6dThrbFBMVE5KcTVORzlsNlBNMkJkSDVZbnFjMllSUXp2WXBNbUJB?=
- =?utf-8?B?enFmcGFERk5qZ0V3N2hxcG5ZWjNndGxaaFB2UDV5R1VMRG1JUDR0WXc5eFpF?=
- =?utf-8?B?akdycFRrYnU3TzdFNVg2emNSSmQ5Zk1odmg4SEdPTjhmTUU3aU1PL00zSVhL?=
- =?utf-8?B?aXZyaEwxS2hQc09teTh5MGRxUE1zT1JTYlQ5YUxFMlgzQXQxNDhiSlVkWDJC?=
- =?utf-8?B?WUJEdzZRTDJpc2JYancrWTNmek9Zcy9Bb04weW9sSWVzVm5scmMxaWhLeWRP?=
- =?utf-8?B?NHFMUURIU0xzellzUEx2aUdvbHFnM3Rub0xsUjU3QmxPTU83WTVFRGIvdzlY?=
- =?utf-8?B?dGFnRGt0bHRCWGhTR2wyaXNYUDg1ZHdQUjdtVVNaczM5dUdlVGlHd1hLaTk5?=
- =?utf-8?B?ZUl3djMvdzh0VGtmL3p5eEJETDBYWTVOV29CTEdPN0hhSzdLb21lMS9pWHg4?=
- =?utf-8?B?S3haSWFnZTNGVmNURVlwYjRReXZITzVhbHJuazJaTzBSbUQzYjgwcE5oZEEv?=
- =?utf-8?B?NHQyWTlNYUJVeWQ4SzNWTVZDWW1SQVU1TWRUYkhXUitMUXBCWEFGUzVzdmFQ?=
- =?utf-8?B?TjVpd25EZEYxWExkTDN1V3Y1d3F4STRDYTVEblhaeG9FbEJYV0FRLzg0dGlS?=
- =?utf-8?B?RitzanNoMSt2MllJQ3VCMzYyOTJRUXJZVHVXZVdRTktzejJXVGR4anF4UDhS?=
- =?utf-8?Q?P1xTrgnWweHMahfQ=3D?=
-X-Exchange-RoutingPolicyChecked: AgoI4vMdLxw34FbW/SVmaKaKkaxy2q7djzlV4qz+xpwbkrbrOi/s+GlZVuHxlf0MaU5w5ngK16zz4VXBYV1l57PG0q1+rZqA7G/gCXLUpWu3uSGwzmRzvJf+85PWrwn0X2ErJk2fisV16MFI54OsKNHVnPmeZDukhpxFMobAaJVYhtl6PZ8OPr779whORdWbHcpiNc6B6ufiwMGi8csLKk6P+t4vOPuryZo24BhH/lBxUDStUYIWJ6YkrAXc/iggliTvm7Bq56euvw06iH39jekxnVDDPeit/Yh1BDwAUK1TV5DhHoxy5WinHMDxlDybg8gv/rWD4IH8W6SprerUKg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a60a8cd-6d3a-418a-dadd-08decaa4ee3d
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7639.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2026 06:11:25.6800
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Hv4Rc1Py1spmTLRtFBTvTO3G17ZbR9+Ut9EHfdmtUk2k8GFThyMMyRwW2VvZF7Z2OL/jQOHWMHD8VTQLLqTJPi0B1oxhZtbVhcFVP8d9FDI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7367
-X-OriginatorOrg: intel.com
 
+Hi all,
 
-Hello Mathias,
+I was reading the usbnet rx_fixup helpers after the recent endpoint validation
+fixes. I think kalmia_rx_fixup() in drivers/net/usb/kalmia.c can read past the
+receive buffer when a device sends a short frame. I am not sure about it, so I
+would appreciate it if you could let me know whether you see this as a real
+problem.
 
-On 6/3/2026 2:41 PM, Mathias Nyman wrote:
-> DbC can be enabled and disabled via sysfs, serialize those
-> with a mutex to make sure everything is done in the correct
-> order.
-> 
-> remove xhci_do_dbc_stop() and integrate the register write and
-> dbc->state setting into xhci_do_stop()
-> 
+This is the relevant part of the loop:
 
-This patch seems to cause a regression in our CI. [1]
+	if (skb->len < KALMIA_HEADER_LENGTH)        /* 6 */
+		return 0;
+	...
+	usb_packet_length   = skb->len - (2 * KALMIA_HEADER_LENGTH);  /* u16 */
+	ether_packet_length = get_unaligned_le16(&header_start[2]);   /* from device */
+	skb_pull(skb, KALMIA_HEADER_LENGTH);
 
-We could not revert the patch because of merge conflicts but resetting 
-to the parent commit seems to heal the issue.
+	if (usb_packet_length < ether_packet_length) {
+		ether_packet_length = usb_packet_length + KALMIA_HEADER_LENGTH;
+		is_last = true;
+	} else {
+		is_last = (memcmp(skb->data + ether_packet_length,
+				  HEADER_END_OF_USB_PACKET, ...) == 0);
+		...
+	}
 
-Could you please check why the patch causes this regression and provide
-a fix if necessary?
+The only length check is skb->len < KALMIA_HEADER_LENGTH, which is 6. Say a
+device sends a frame with skb->len between 6 and 11. Then usb_packet_length is
+skb->len minus 12. It is a u16, so it wraps to a large value. Now the check
+usb_packet_length < ether_packet_length is false. So ether_packet_length is used
+as is. It comes straight from the frame. It can be as large as 65535. It is then
+used to index the memcmp() above. That memcmp reads past the end of the receive
+buffer. The skb_trim() and skb_pull() after it use the same value. The buffer is
+rx_urb_size, which is hard_mtu * 10, so 14000 bytes. CVE-2026-23365 added
+endpoint checks to kalmia_bind(), but it does not cover this path.
 
-==
-Chaitanya
+I do not have the hardware. So I called the function directly with a crafted skb
+on 7.1-rc7 with KASAN. The frame was skb->len 8, header 0x57 0x44, and
+ether_packet_length 210. The read goes past the buffer and faults. The address
+is the frame start plus 6 plus 210:
 
-[1] 
-https://intel-gfx-ci.01.org/tree/xe-linux-next/xe-linux-next-20260611/bat-lnl-2/boot0.txt
+  BUG: unable to handle page fault for address: ffffc900001a40d0
+  #PF: supervisor read access in kernel mode
+  RIP: 0010:kalmia_rx_fixup+0x9a/0x310
+  RAX: ffffc900001a40d0  R12: 00000000fffffffc  R14: 00000000000000d2
+  CR2: ffffc900001a40d0
 
-Bisect log:
+R14 is 0xd2, which is 210. That is the ether_packet_length from the frame. R12
+is 0xfffffffc, which is skb->len minus 12 after it wrapped. So the short frame
+made the length wrap. Then the value 210 from the device was used as the offset.
 
-git bisect start
-# status: waiting for both good and bad commits
-# good: [382f7d3b4c9740ac06199207796ed9b71582c7c5] Merge remote-tracking 
-branch 'regulator/for-7.2' into regulator-next
-git bisect good 382f7d3b4c9740ac06199207796ed9b71582c7c5
-# status: waiting for bad commit, 1 good commit known
-# bad: [49e02880ec0a8c378e811bc9d85da188d7c6204c] Add linux-next 
-specific files for 20260609
-git bisect bad 49e02880ec0a8c378e811bc9d85da188d7c6204c
-# skip: [821165b2f4b76644407d4e5284d9c41363e7caec] Merge branch 'master' 
-of 
-https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git
-git bisect skip 821165b2f4b76644407d4e5284d9c41363e7caec
-# good: [5c65b96b549ea2dcfde497436bf9e048deb87758] Bluetooth: hci_sync: 
-reject oversized Broadcast Announcement prepend
-git bisect good 5c65b96b549ea2dcfde497436bf9e048deb87758
-# good: [c17dfc8bb0b61ed36b984449eae8f246878052eb] m68k: coldfire: 
-select legacy gpiolib interface for mcfqspi
-git bisect good c17dfc8bb0b61ed36b984449eae8f246878052eb
-# good: [28db4b2625174a47b3f6b79d996b0804aaae8ab2] wifi: iwlwifi: mld: 
-fix NAN max channel switch time unit
-git bisect good 28db4b2625174a47b3f6b79d996b0804aaae8ab2
-# skip: [4fdfc0229a10464e8b2a4a56d9aeec8a4057a424] Merge branch 
-'spi-nor/next' of 
-https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git
-git bisect skip 4fdfc0229a10464e8b2a4a56d9aeec8a4057a424
-# good: [ce0e10c130c30ad480d83b32d8508183113d585e] staging: rtl8723bs: 
-move constant to right side of test in comparison
-git bisect good ce0e10c130c30ad480d83b32d8508183113d585e
-# skip: [9755c6cf85febe7756c6dddb6405b16bb393783c] Merge branch 
-'nand/next' of https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git
-git bisect skip 9755c6cf85febe7756c6dddb6405b16bb393783c
-# good: [fe017012c5825f22bd856249e4f3cf57e31027b8] Merge tag 
-'drm-intel-gt-next-2026-05-29' of 
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-next
-git bisect good fe017012c5825f22bd856249e4f3cf57e31027b8
-# skip: [ff34647c5266a05cbd0a4807cb0333b3a3856194] Merge branch 'main' 
-of https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
-git bisect skip ff34647c5266a05cbd0a4807cb0333b3a3856194
-# good: [1389ab9bf9f627d4daed86f492091b00f110aa86] PCI: loongson: Do not 
-ignore downstream devices on external bridges
-git bisect good 1389ab9bf9f627d4daed86f492091b00f110aa86
-# good: [fb1758e74b8061aacfbce7bbb7a7cc650537e167] crypto: ccp - Do not 
-initialize SNP for SEV ioctls
-git bisect good fb1758e74b8061aacfbce7bbb7a7cc650537e167
-# good: [79e33ddc62c03cce6c29f0792454e1d618228acf] Merge patch series 
-"cleanup block-style layouts exports"
-git bisect good 79e33ddc62c03cce6c29f0792454e1d618228acf
-# good: [ddf9d68a368d8cae5510923a99bd2d9a7275a091] media: i2c: adv7604: 
-Add range checks for chip info
-git bisect good ddf9d68a368d8cae5510923a99bd2d9a7275a091
-# good: [764f409b840ab400253215e765a72b903feb6afd] phy: qcom-qmp: Use 
-explicit QSERDES COM v2 register definitions
-git bisect good 764f409b840ab400253215e765a72b903feb6afd
-# good: [b5b481063f5a68ef8361ba025bf655fc451f5d93] arm64: dts: amlogic: 
-meson-gxl-s905d-phicomm-n1: add bluetooth node
-git bisect good b5b481063f5a68ef8361ba025bf655fc451f5d93
-# good: [057bb70f531c3e33c18c067716f39f8413b252aa] RDMA/uverbs: Push out 
-CQ buffer umem processing into a helper
-git bisect good 057bb70f531c3e33c18c067716f39f8413b252aa
-# good: [6e302107d9c9fcfee48db57b175e82de39301645] can: virtio: Fix 
-comment in UAPI header
-git bisect good 6e302107d9c9fcfee48db57b175e82de39301645
-# good: [95937cbb6d51e0c6f8ac937bd043fb3b442391ec] arm64: dts: mediatek: 
-mt8192-asurada: Fix SPI-NOR flash compatible
-git bisect good 95937cbb6d51e0c6f8ac937bd043fb3b442391ec
-# good: [52ae64602394bc9a8e7b67f5e4e70c56e31699a7] phy: 
-phy-can-transceiver: Drop unused include
-git bisect good 52ae64602394bc9a8e7b67f5e4e70c56e31699a7
-# good: [d8eb890079d19e4b5ac8073038c4fea006992e00] media: rockchip: rga: 
-use card type to specify rga type
-git bisect good d8eb890079d19e4b5ac8073038c4fea006992e00
-# skip: [0f8575ca3a10c62d352be357c54d949b9d181fcd] Merge branch 
-'for-next' of 
-https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
-git bisect skip 0f8575ca3a10c62d352be357c54d949b9d181fcd
-# good: [fc13a4b9b9c8cb0b8e5ba54b21712d00f810496c] firmware: samsung: 
-acpm: Add devm_acpm_get_by_phandle helper
-git bisect good fc13a4b9b9c8cb0b8e5ba54b21712d00f810496c
-# good: [91f5d698478f3d07230cf9ca4dfaf67e0316a53d] cpufreq: governor: 
-Fix data races on per-CPU idle/nice baselines
-git bisect good 91f5d698478f3d07230cf9ca4dfaf67e0316a53d
-# good: [106ce4a01c179b8de664767cf5c7367210b66dba] dt-bindings: net: 
-starfive,jh7110-dwmac: Remove jh8100
-git bisect good 106ce4a01c179b8de664767cf5c7367210b66dba
-# good: [a1b94131042930114d0257c44362ee16bca18f4a] dt-bindings: 
-firmware: qcom,scm: Document SCM for Nord SoC
-git bisect good a1b94131042930114d0257c44362ee16bca18f4a
-# good: [1b203f7677100fa761f87641f35e72fe4e31a429] Merge branch 
-'net-mdio-realtek-rtl9300-refactor-initialization-and-port-lookup'
-git bisect good 1b203f7677100fa761f87641f35e72fe4e31a429
-# skip: [534ed190a0f1997553d0ee91403b361134f23f9d] Merge branch 
-'for-next' of 
-https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git
-git bisect skip 534ed190a0f1997553d0ee91403b361134f23f9d
-# good: [b2362b824f977a0a08f8d16c36510cabd6f58ce8] iio: light: vcnl4000: 
-drop enum id table in favor of chip structs
-git bisect good b2362b824f977a0a08f8d16c36510cabd6f58ce8
-# good: [9893f32976b5dd8ca6ed43a97794531d8d49981e] staging: rtl8723bs: 
-fix unbalanced braces in 3 files
-git bisect good 9893f32976b5dd8ca6ed43a97794531d8d49981e
-# good: [deb02080ca5d3f015cf71e56067a39ef2f141998] drm/amdgpu/userq: 
-remove amdgpu_userq_create/destroy_object wrapper
-git bisect good deb02080ca5d3f015cf71e56067a39ef2f141998
-# good: [4503ca234c1c5995609f77ce41e66d0f8e08cbfd] arm64: dts: 
-imx91-11x11-evk: add reset gpios for ethernet PHYs
-git bisect good 4503ca234c1c5995609f77ce41e66d0f8e08cbfd
-# good: [650fd10092529ca2dea85cb39b35a995808fd6dd] Bluetooth: l2cap: fix 
-MPS check in l2cap_ecred_reconf_req
-git bisect good 650fd10092529ca2dea85cb39b35a995808fd6dd
-# good: [a4c6d5d146157228bc03429cf7926d8a14072c84] gpu: nova-core: 
-enable GA100
-git bisect good a4c6d5d146157228bc03429cf7926d8a14072c84
-# good: [859e49597088b445173ed45cf4c4a44aff5e3f5a] perf callchain: Don't 
-pass evsel and sample
-git bisect good 859e49597088b445173ed45cf4c4a44aff5e3f5a
-# good: [8bdb0b3830eaf588fcd7c76c1893d05d871600d2] usb: typec: 
-intel_pmc_mux: combine kzalloc + kcalloc
-git bisect good 8bdb0b3830eaf588fcd7c76c1893d05d871600d2
-# good: [3b0ed04bc852887a9164e1bbf521652e8ef3eb92] fbdev: s3fb: fix 
-potential memory leak in s3_pci_probe()
-git bisect good 3b0ed04bc852887a9164e1bbf521652e8ef3eb92
-# good: [d8a4cef90b1a4ae9196a5bfba683eb9a0c75acdc] clk: spacemit: k3: 
-Switch to pll2_d6 as parent for PCIe clock
-git bisect good d8a4cef90b1a4ae9196a5bfba683eb9a0c75acdc
-# good: [b008ad40670b67e1cf6cfaa0692d830fc70dd94a] arm64: dts: renesas: 
-salvator-common: Rename clk-multiplier to clock-controller
-git bisect good b008ad40670b67e1cf6cfaa0692d830fc70dd94a
-# good: [206bb143689e493a7ebb0f2259e462c35125a89a] gpu: nova-core: 
-Blackwell: compute PMU-reserved framebuffer size
-git bisect good 206bb143689e493a7ebb0f2259e462c35125a89a
-# bad: [c029eea1cd96fa3653b4461c0ca7d5a360ead289] Merge branch 
-'tty-next' of https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git
-git bisect bad c029eea1cd96fa3653b4461c0ca7d5a360ead289
-# skip: [611be4400f3b3a82f864749ead45c32e16d34833] Merge branch 'next' 
-of https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/linux-pm.git
-git bisect skip 611be4400f3b3a82f864749ead45c32e16d34833
-# good: [09d555136e011b7a083f1f7b40b86b6894e94a3f] Bluetooth: btrtl: fix 
-RTL8761B/BU broken LE extended scan
-git bisect good 09d555136e011b7a083f1f7b40b86b6894e94a3f
-# good: [48b68337bf6523f16b2afbb0d3e059eb211e3c85] firewire: core: 
-append _auto suffix for non-once iso resource operations
-git bisect good 48b68337bf6523f16b2afbb0d3e059eb211e3c85
-# good: [552ad802cad94bd759f85c170d07cc53f7d5deb9] Merge branch 
-'bpf-extend-btf-uapi-vlen-kinds-to-use-unused-bits'
-git bisect good 552ad802cad94bd759f85c170d07cc53f7d5deb9
-# skip: [956fef287b67de54fd2c863f1452e7e64fbe2fa3] Merge branch 
-'devfreq-next' of 
-https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git
-git bisect skip 956fef287b67de54fd2c863f1452e7e64fbe2fa3
-# good: [e6eff926482d0f6ebe038a15348158682f5711a0] buffer: Remove 
-mark_buffer_async_write()
-git bisect good e6eff926482d0f6ebe038a15348158682f5711a0
-# good: [b7b0f9bb1acc4e8f7becbd39aaa1db1c0539da87] ASoC: cs35l56: 
-Replace open-coded SoundWire regmap with generic regmap-sdw
-git bisect good b7b0f9bb1acc4e8f7becbd39aaa1db1c0539da87
-# skip: [7cceaa0da03cbd23e4831511a5e813ca7ead8bce] Merge branch 
-'linux-next' of 
-https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
-git bisect skip 7cceaa0da03cbd23e4831511a5e813ca7ead8bce
-# good: [19f5e1ab965ab995794ea43866ae78fb02b381b0] Merge branch 
-'for-linux-next' of https://gitlab.freedesktop.org/drm/i915/kernel.git
-git bisect good 19f5e1ab965ab995794ea43866ae78fb02b381b0
-# good: [957d69dbe13b4c5452374f58859a179e9297ae32] Merge branch 
-'for-next' of 
-https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git
-git bisect good 957d69dbe13b4c5452374f58859a179e9297ae32
-# good: [74edfb4e12192b69c463bd9c3761ef753cee27d2] Merge branch 'next' 
-of git://git.kernel.org/pub/scm/virt/kvm/kvm.git
-git bisect good 74edfb4e12192b69c463bd9c3761ef753cee27d2
-# good: [be8c98cace3802ed8cb5f5a6fce0587db6349aea] Merge branch 
-'for-next' of 
-https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git
-git bisect good be8c98cace3802ed8cb5f5a6fce0587db6349aea
-# good: [927ff9df74b956bdccc8e9ac94ef483251cb484b] Merge branch 
-'driver-core-next' of 
-https://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git
-git bisect good 927ff9df74b956bdccc8e9ac94ef483251cb484b
-# bad: [bc35c68502637e8be9f03033a52b9cf086d7cc36] Merge branch 
-'usb-next' of https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-git bisect bad bc35c68502637e8be9f03033a52b9cf086d7cc36
-# good: [7fd6fb1fe40b992b2c39c3f586624ad93ee66c22] dt-bindings: usb: 
-ci-hdrc-usb2: allow up to 3 clocks for qcom,ci-hdrc
-git bisect good 7fd6fb1fe40b992b2c39c3f586624ad93ee66c22
-# good: [22d91cef94b5b86cff0d68ebfce7741740672704] usb: cdnsp: Add 
-support for device-only configuration
-git bisect good 22d91cef94b5b86cff0d68ebfce7741740672704
-# bad: [520058b73ba336380ecf7ea412263de9a7573df8] xhci: dbc: serialize 
-enabling and disabling dbc
-git bisect bad 520058b73ba336380ecf7ea412263de9a7573df8
-# good: [d20405dcdfb616cbae5c3e17e790a969ea03469d] usb: xhci: Remove 
-skip_isoc_td()
-git bisect good d20405dcdfb616cbae5c3e17e790a969ea03469d
-# good: [e765ab012f73717238c95ab9c34bfc3c767fa48c] usb: xhci: Improve 
-Soft Retries after short transfers
-git bisect good e765ab012f73717238c95ab9c34bfc3c767fa48c
-# good: [dc2ff8ba9b9093eb0564407e46e71520b054fc85] xhci: dbc: Fix sysfs 
-ABI Documentation for xhci dbc states
-git bisect good dc2ff8ba9b9093eb0564407e46e71520b054fc85
-# first bad commit: [520058b73ba336380ecf7ea412263de9a7573df8] xhci: 
-dbc: serialize enabling and disabling dbc
+The smallest fix I could think of is to require both framing headers before the
+subtraction, on every iteration:
 
-> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-> ---
->   drivers/usb/host/xhci-dbgcap.c | 66 ++++++++++++++++++++--------------
->   drivers/usb/host/xhci-dbgcap.h |  1 +
->   2 files changed, 40 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci-dbgcap.c b/drivers/usb/host/xhci-dbgcap.c
-> index 6a9f73fecb73..49ae546c4103 100644
-> --- a/drivers/usb/host/xhci-dbgcap.c
-> +++ b/drivers/usb/host/xhci-dbgcap.c
-> @@ -661,17 +661,6 @@ static int xhci_do_dbc_start(struct xhci_dbc *dbc)
->   	return 0;
->   }
->   
-> -static int xhci_do_dbc_stop(struct xhci_dbc *dbc)
-> -{
-> -	if (dbc->state == DS_DISABLED)
-> -		return -EINVAL;
-> -
-> -	writel(0, &dbc->regs->control);
-> -	dbc->state = DS_DISABLED;
-> -
-> -	return 0;
-> -}
-> -
->   static int xhci_dbc_start(struct xhci_dbc *dbc)
->   {
->   	int			ret;
-> @@ -683,29 +672,37 @@ static int xhci_dbc_start(struct xhci_dbc *dbc)
->   
->   	spin_lock_irqsave(&dbc->lock, flags);
->   	ret = xhci_do_dbc_start(dbc);
-> +	if (ret)
-> +		goto err_unlock;
-> +
->   	spin_unlock_irqrestore(&dbc->lock, flags);
->   
-> -	if (ret) {
-> -		pm_runtime_put(dbc->dev); /* note this was self.controller */
-> -		return ret;
-> -	}
-> +	mod_delayed_work(system_percpu_wq, &dbc->event_work,
-> +			 msecs_to_jiffies(dbc->poll_interval));
->   
-> -	return mod_delayed_work(system_percpu_wq, &dbc->event_work,
-> -				msecs_to_jiffies(dbc->poll_interval));
-> +	return 0;
-> +
-> +err_unlock:
-> +
-> +	spin_unlock_irqrestore(&dbc->lock, flags);
-> +	pm_runtime_put(dbc->dev); /* note this was self.controller */
-> +
-> +	return ret;
->   }
->   
->   static void xhci_dbc_stop(struct xhci_dbc *dbc)
->   {
-> -	int ret;
->   	unsigned long		flags;
->   
->   	WARN_ON(!dbc);
->   
-> +	spin_lock(&dbc->lock);
-> +
->   	switch (dbc->state) {
->   	case DS_DISABLED:
-> +		spin_unlock(&dbc->lock);
->   		return;
->   	case DS_CONFIGURED:
-> -		spin_lock(&dbc->lock);
->   		xhci_dbc_flush_requests(dbc);
->   		spin_unlock(&dbc->lock);
->   
-> @@ -713,19 +710,20 @@ static void xhci_dbc_stop(struct xhci_dbc *dbc)
->   			dbc->driver->disconnect(dbc);
->   		break;
->   	default:
-> +		spin_unlock(&dbc->lock);
->   		break;
->   	}
->   
->   	cancel_delayed_work_sync(&dbc->event_work);
->   
->   	spin_lock_irqsave(&dbc->lock, flags);
-> -	ret = xhci_do_dbc_stop(dbc);
-> +	writel(0, &dbc->regs->control);
-> +	dbc->state = DS_DISABLED;
->   	spin_unlock_irqrestore(&dbc->lock, flags);
-> -	if (ret)
-> -		return;
->   
->   	xhci_dbc_mem_cleanup(dbc);
-> -	pm_runtime_put_sync(dbc->dev); /* note, was self.controller */
-> +
-> +	pm_runtime_put(dbc->dev); /* note, was self.controller */
->   }
->   
->   static void
-> @@ -1072,12 +1070,17 @@ static ssize_t dbc_store(struct device *dev,
->   	xhci = hcd_to_xhci(dev_get_drvdata(dev));
->   	dbc = xhci->dbc;
->   
-> -	if (sysfs_streq(buf, "enable"))
-> +	if (sysfs_streq(buf, "enable")) {
-> +		mutex_lock(&dbc->enable_mutex);
->   		xhci_dbc_start(dbc);
-> -	else if (sysfs_streq(buf, "disable"))
-> +		mutex_unlock(&dbc->enable_mutex);
-> +	} else if (sysfs_streq(buf, "disable")) {
-> +		mutex_lock(&dbc->enable_mutex);
->   		xhci_dbc_stop(dbc);
-> -	else
-> +		mutex_unlock(&dbc->enable_mutex);
-> +	} else {
->   		return -EINVAL;
-> +	}
->   
->   	return count;
->   }
-> @@ -1443,6 +1446,7 @@ xhci_alloc_dbc(struct device *dev, void __iomem *base, const struct dbc_driver *
->   
->   	INIT_DELAYED_WORK(&dbc->event_work, xhci_dbc_handle_events);
->   	spin_lock_init(&dbc->lock);
-> +	mutex_init(&dbc->enable_mutex);
->   
->   	ret = sysfs_create_groups(&dev->kobj, dbc_dev_groups);
->   	if (ret)
-> @@ -1460,8 +1464,9 @@ void xhci_dbc_remove(struct xhci_dbc *dbc)
->   	if (!dbc)
->   		return;
->   	/* stop hw, stop wq and call dbc->ops->stop() */
-> +	mutex_lock(&dbc->enable_mutex);
->   	xhci_dbc_stop(dbc);
-> -
-> +	mutex_unlock(&dbc->enable_mutex);
->   	/* remove sysfs files */
->   	sysfs_remove_groups(&dbc->dev->kobj, dbc_dev_groups);
->   
-> @@ -1514,6 +1519,8 @@ int xhci_dbc_suspend(struct xhci_hcd *xhci)
->   	if (!dbc)
->   		return 0;
->   
-> +	mutex_lock(&dbc->enable_mutex);
-> +
->   	switch (dbc->state) {
->   	case DS_ENABLED:
->   	case DS_CONNECTED:
-> @@ -1525,6 +1532,7 @@ int xhci_dbc_suspend(struct xhci_hcd *xhci)
->   	}
->   
->   	xhci_dbc_stop(dbc);
-> +	mutex_unlock(&dbc->enable_mutex);
->   
->   	return 0;
->   }
-> @@ -1537,11 +1545,15 @@ int xhci_dbc_resume(struct xhci_hcd *xhci)
->   	if (!dbc)
->   		return 0;
->   
-> +	mutex_lock(&dbc->enable_mutex);
-> +
->   	if (dbc->resume_required) {
->   		dbc->resume_required = 0;
->   		xhci_dbc_start(dbc);
->   	}
->   
-> +	mutex_unlock(&dbc->enable_mutex);
-> +
->   	return ret;
->   }
->   #endif /* CONFIG_PM */
-> diff --git a/drivers/usb/host/xhci-dbgcap.h b/drivers/usb/host/xhci-dbgcap.h
-> index 20ae4e7617f2..f4c0169a1b4d 100644
-> --- a/drivers/usb/host/xhci-dbgcap.h
-> +++ b/drivers/usb/host/xhci-dbgcap.h
-> @@ -140,6 +140,7 @@ struct dbc_driver {
->   
->   struct xhci_dbc {
->   	spinlock_t			lock;		/* device access */
-> +	struct mutex			enable_mutex;
->   	struct device			*dev;
->   	struct xhci_hcd			*xhci;
->   	struct dbc_regs __iomem		*regs;
+	if (skb->len < 2 * KALMIA_HEADER_LENGTH)
+		return 0;
 
+I tried it. With that check the same frame is dropped and the fault is gone. I
+am not sure how it fits with the "Some small packets misses end marker" case
+just below, so I did not want to assume. I would appreciate it if you could let
+me know whether this is a real issue, and whether that is the right place to fix
+it. I am happy to send a proper patch with the reproducer once you confirm.
+
+Thanks,
+Maoyi
+https://maoyixie.com/
