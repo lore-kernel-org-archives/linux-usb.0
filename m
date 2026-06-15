@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8615F12CD8B;
-	Mon, 15 Jun 2026 02:29:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B61A23A562;
+	Mon, 15 Jun 2026 02:30:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781490575; cv=none; b=MAP2glSxyqrzS2u/pe287dgX+0f0FBDbcwAgLSotaJimvEanyv+OVvT02K7Dg/hQdsXu6AY2kptyLepcu4uJmAVRqAV/apVsdnDBd/xo6B6Vy/rn3OHlU/yZgP3LjhZI/27OFpxqpCwqUtsbSfuy2F36HqEgjpe7/EnxJuO5WkM=
+	t=1781490615; cv=none; b=SQf6ecZl8k4FzmNJjuf+eXjDYuqjlcEkBR7VoZ2CBxd9g82iRElmXhUZ58iA+RxzDyUZZhx+pMZey8SMqM3Ohz8HtdrLmDGt5dgDfo8v7BCRe9B93H1ErPFlDJb0Zl3Sk88dwIKLRJiM2CZHEpClG42BGVD73eHcS+bu5Rty4Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781490575; c=relaxed/simple;
-	bh=ovfGSvaAnvitqIpJOZ1LkF4qGXzzJ7uneRo1b9B9soA=;
+	s=arc-20240116; t=1781490615; c=relaxed/simple;
+	bh=q/cS3ir7m1lC33UUBwFbPdJD2RljfJFnX9Jn5xZKV3M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e077E4kxBTDKqDDpFngwUnuJLLp4/8Za2CTEo+u8dlXQtSqQYIXn3+r/ypKNMoXvwHPJspWa2SIyIT/4fuaWuGJHv2MH9kYFPToXp+MQaH+1k/565vETgbDRfCYdx8QhhyqKJjg+tpLVETbfa4H2EpxAQZ1x+tTPtBuHXq/EGic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dXZ4xvql; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=oRbE/JTZyTf5XYwhTjdRfARoDfasRketeHo/Jx/FU9gDfViXPu+h+0F12miSHx7beWxrspRSMuyjX807wdk1HBlIYrWSeZd8AfcyF1XhiU+dtrCKMwXDgYK6YO0Jk2k/Q6osCUjt/WUaWB70jXpLhGeEzJsw99pk6dw3qtkTr0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=j00eUUwg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dXZ4xvql"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 801D71F000E9;
-	Mon, 15 Jun 2026 02:29:33 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="j00eUUwg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89E701F000E9;
+	Mon, 15 Jun 2026 02:30:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1781490574;
-	bh=GOeMq8EyaCrbakDnUs7ZlaFP+Oe+WxNyYb4IwGzLMIM=;
+	s=korg; t=1781490614;
+	bh=dcuxpABPtwvCqGuHC5wGl/PX7KUgZBz1H4lSZggXdiw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dXZ4xvqlzr4M7vXVjwYMcv10nDey4knwJjKoHiExpFE7AwqPBrRZ19RCKVb9X88ev
-	 UDjTfvZn92PlIoKYIkg+GMuHGrd8A0geBYLPGH4HhI6DkrYqn5paMinqGU3VcT3Pes
-	 jqbpSdyebfm/JMuqxp3LkLiPvbvr1EaC92GVX+qk=
-Date: Mon, 15 Jun 2026 04:28:32 +0200
+	b=j00eUUwg7HhNJnrN4igpc+1UjtrKjM5rU4tE/nBiY0xHUSpM66ooKvSj6bVuryhNj
+	 +mYx75z8Jj9f+Nmf9KAo4WXAuhrZQBvDd72mMhGclI48w4qdNY4YjZZfichC4FbLjo
+	 a/ClIXRzcWdYE7RMCiDU0UBgZKqcTZJp/yMUy8qw=
+Date: Mon, 15 Jun 2026 04:29:13 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Leonid Konontsov <lkonontsov@gmail.com>
 Cc: Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] usb: serial: replacing mutex_lock to guard(mutex)
-Message-ID: <2026061555-climate-phosphate-4747@gregkh>
+Message-ID: <2026061540-drivable-campsite-8ba0@gregkh>
 References: <20260614192337.9449-1-lkonontsov@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -44,12 +44,47 @@ In-Reply-To: <20260614192337.9449-1-lkonontsov@gmail.com>
 On Sun, Jun 14, 2026 at 10:23:37PM +0300, Leonid Konontsov wrote:
 > Moving from manual mutex_lock's and mutex_unlock's to guard(mutex) in
 > ark3116.c file.
+> 
+> Signed-off-by: Leonid Konontsov <lkonontsov@gmail.com>
+> ---
+>  drivers/usb/serial/ark3116.c | 15 ++++-----------
+>  1 file changed, 4 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/usb/serial/ark3116.c b/drivers/usb/serial/ark3116.c
+> index d974da43fba3..9cd8179de583 100644
+> --- a/drivers/usb/serial/ark3116.c
+> +++ b/drivers/usb/serial/ark3116.c
+> @@ -237,7 +237,7 @@ static void ark3116_set_termios(struct tty_struct *tty,
+>  	}
+>  
+>  	/* Update state: synchronize */
+> -	mutex_lock(&priv->hw_lock);
+> +	guard(mutex)(&priv->hw_lock);
+>  
+>  	/* keep old LCR_SBC bit */
+>  	lcr |= (priv->lcr & UART_LCR_SBC);
+> @@ -280,8 +280,6 @@ static void ark3116_set_termios(struct tty_struct *tty,
+>  		ark3116_write_reg(serial, UART_LCR, lcr);
+>  	}
+>  
+> -	mutex_unlock(&priv->hw_lock);
+> -
+>  	/* check for software flow control */
+>  	if (I_IXOFF(tty) || I_IXON(tty)) {
+>  		dev_warn(&port->dev,
+> @@ -379,9 +377,8 @@ static int ark3116_tiocmget(struct tty_struct *tty)
+>  	__u32 ctrl;
+>  	unsigned long flags;
+>  
+> -	mutex_lock(&priv->hw_lock);
+> +	guard(mutex)(&priv->hw_lock);
+>  	ctrl = priv->mcr;
+> -	mutex_unlock(&priv->hw_lock);
 
-That says what you are doing, but not why.
+As "proof" you shouldn't be doing this, you just changed the logic here
+and might have broken the driver :(
 
-Please don't change code to use guard() unless you are fixing a bug.
-Otherwise the churn in the kernel would not be worth it.  Just use it in
-new code please.
+Did you test this change?
 
 thanks,
 
