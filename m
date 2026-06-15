@@ -1,75 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [91.198.250.237])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5845230F7EB
-	for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2026 10:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAAC30AD1A;
+	Mon, 15 Jun 2026 10:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.237
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781519696; cv=none; b=btG9P5HomviMWuTuIsIw0Tim2ju2UreAGuozTLgw6oVMOxuv/hcYqjDYEVKeWeqVOyXSchALXnoIMAEwGY2rgfZD9ljncmTCwjoPgoenA5XGPIKySNir3JsZzIJaJoqb5Vfcyrz1zvpAcObaLPvFQfghVIporsVx4V5ew70tkEQ=
+	t=1781521140; cv=none; b=kiQySkd/oGbfHKmlbIFawr+JRB7dBhkXUHxZOV1mujNu3Qapl29lEDp851Fc/c95auK7q6d/o5NAnQHHZuoepdBxpUPRt30UQu/scwXStDWpGA8omIbuvd/um39vvDL7oGZ+NDjsiYTpBdfbLiYDshq01wnn1bsRRi7l1fLx+lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781519696; c=relaxed/simple;
-	bh=rrjG0k5skviO2C+5rCJftUcCIGTtk9BfRN55j2OKdtg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ohrTZfmpk/zgGNhv98FEB7F7BWT1/mYW72bFLfGkbJv5bJ0xyE0WhQQZr0oavvBOIeqBhXusYECO7VxC0RxFZ/GVi1hsl9Qr+usu2QhVppktNg2zl7LhUhkCEengpmYtlOZQy3OLJlFBQqsiq9KCyKPGHKY/jsyf8aGx2ylec4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=D6b6WgEa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781521140; c=relaxed/simple;
+	bh=qkLOz8BFGD6OE1gBbId4XPWsUe4KgGN7l4XlOl7Gd1s=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=RBUZmAkLMwqC1kRpwBugqjwiaRTK425V1qPHXh9mwulW5EXqGJRX6JVaQg70RsA1dyfPXzgXASBXkJPyBuAHTkUvW8Yw73yMagu6qdlITeh/u6N+CZYKfiKejR5ggtlyzmdJpNaw23d7MWdpn+3lRPg+AFPUP7esxZOe5jZdLnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=p9kyMfzP; arc=none smtp.client-ip=91.198.250.237
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="D6b6WgEa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 479B61F000E9;
-	Mon, 15 Jun 2026 10:34:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1781519694;
-	bh=nEYxULFf+8wnrWH0Kvi6MzPqKvH3V845mmP2dwKe1qo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=D6b6WgEaPyK3sUQmbEVkDcZvSdWF6dTDP+U2/VmaGAPBXhHZUr7PseSNytbLZI2Er
-	 QhfUw6QqjuA3nxTvA9TUNZNHyxTQDi8BMdN+S/MEtulya048zErGyaP6EzgYT9ljTc
-	 qmO+bWHPQKihS1FhF5fr9ttatjz77T7NePNdI2+0=
-Date: Mon, 15 Jun 2026 12:33:47 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Hu Xinyao <huxinyao0011@gmail.com>
-Cc: Valentina Manea <valentina.manea.m@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Hongren Zheng <i@zenithal.me>, linux-usb@vger.kernel.org,
-	security@kernel.org
-Subject: Re: [PATCH] usbip: vudc: get vudc from endpoint in vep_dequeue
-Message-ID: <2026061508-product-pliable-13cd@gregkh>
-References: <2026061502-rants-doing-407e@gregkh>
- <20260615101110.1913-1-huxinyao0011@gmail.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="p9kyMfzP"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4gf6Pw6nwTzB14X;
+	Mon, 15 Jun 2026 12:52:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781520725;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DNBH2K03g05Hq1hpu70f2ZScBCxnub6UyQBbCoNr07I=;
+	b=p9kyMfzPMBewXA2hZ9xfZJobNCivzbME8HvALDOZeohXedPBcyxy8ccadbEjTCLqULBVDM
+	nk7IsOlr38w5FCJ00RIWQwWIwZIaXw/uqwMELuYaf7nId8nrFZNEdDYY3MRrli+23TSkHY
+	Hk5WLWxqbSs3cHJQiK8oTTTsHS1WW/LArUQBFfNM6MdwWQcl9Open5qL1vpgPo+plvZo+L
+	6zq4t0b2ATKIjwRdYjuGir9cTtHPyWfu01WxneaFfdYI1/s6nNhQ7PzdvmFhpnMKZmj/tP
+	5pYZSc0cbWilxRxADEyTLuQC4lwbJTdZmV2Jjy8rUKgN9Znw5/qZqQqTIrZIHA==
+Date: Mon, 15 Jun 2026 18:52:01 +0800 (CST)
+From: Ming Qing <a0yami@mailbox.org>
+To: Peter Korsgaard <peter@korsgaard.com>, linux-usb@vger.kernel.org
+Cc: julian@jusst.de, gregkh@linuxfoundation.org,
+	Pavel Hofman <pavel.hofman@ivitera.com>,
+	linux-kernel@vger.kernel.org
+Message-ID: <6564238.328878.1781520721949@app.mailbox.org>
+In-Reply-To: <87zf0xmpfv.fsf@dell.be.48ers.dk>
+References: <20260609091957.2716984-1-peter@korsgaard.com>
+ <87zf0xmpfv.fsf@dell.be.48ers.dk>
+Subject: Re: [PATCH 1/2] usb: gadget: f_uac2: fix memory leak in
+ UAC2_RATE_ATTRIBUTE store
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260615101110.1913-1-huxinyao0011@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-MBO-RS-META: yzapo8ghpgkcscrdegfe784i85sgp37e
+X-MBO-RS-ID: 05b6df8f41ca0a1d0f2
 
-On Mon, Jun 15, 2026 at 06:11:10PM +0800, Hu Xinyao wrote:
-> vep_dequeue() looks up the virtual UDC through vrequest->udc, but
-> that field is never initialized when requests are allocated or queued.
-> A gadget function that dequeues a request during disconnect can
-> therefore dereference a NULL vudc pointer and crash the kernel.
+On Sun, Jun 14, 2026 at 5:39 PM +0800, Peter Korsgaard wrote:
+> FYI, I see the same issue is also fixed in the recently proposed
+> "[PATCH] usb: gadget: uac: validate rate list length before storing"
 > 
-> This was observed with a USB/IP vUDC ACM gadget. ACM is not unique here;
-> it was only the tested gadget path. The bug is in the generic vUDC
-> dequeue path rather than in ACM itself.
-> 
-> Use the endpoint to recover the vudc, as the other vUDC endpoint ops
-> already do, instead of relying on the request-private field.
-> 
-> Fixes: b6a0ca111867 ("usbip: vudc: Add UDC specific ops")
-> Cc: stable@vger.kernel.org
-> Reported-by: Hu Xinyao <huxinyao0011@gmail.com>
-> Signed-off-by: Hu Xinyao <huxinyao0011@gmail.com>
+> https://lore.kernel.org/linux-usb/20260519143319.147494-1-a0yami@mailbox.org/
 
-When you author and sign off on a patch, you don't need the reported-by
-line.
-
-Anyway, isn't this patch:
-	https://lore.kernel.org/r/18A5F3B379FB205B+20260615093559.3436095-1-raoxu@uniontech.com
-a better one instead?
-
-thanks,
-
-greg k-h
+Yes, that includes the same buffer lifetime fix. I'm happy to split it up if that makes it easier to pick.
