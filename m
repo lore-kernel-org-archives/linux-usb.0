@@ -1,48 +1,48 @@
-Received: from ironport.ite.com.tw (hc210-202-87-179.vdslpro.static.apol.com.tw [210.202.87.179])
+Received: from ironport.ite.com.tw (219-87-157-213.static.tfn.net.tw [219.87.157.213])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493E43AEF3E;
-	Mon, 15 Jun 2026 05:56:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.202.87.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B75E3A3E98;
+	Mon, 15 Jun 2026 05:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=219.87.157.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781502995; cv=none; b=ZCjl1ug4q6rGYn9k4ZYDNN7dQLcp8HqeiyZ1ct21Jv9JPQ7B+NCrISTXEJeFIMb0K4kHrJFi6C/UQwISnxPxBEPVBZMi9HDze+F22rsbPGEmqRIqFum2tw/k/eivP4FBQtTAyPSu/E4rzBmO1AQXBVZOG3fVP6R6YTW4zvD/fck=
+	t=1781502997; cv=none; b=qfXfNjGZ89L3wo7hQiSTcm5rveJw2IOjI+cnVqCDnZ5K44XnStdt8eiwLC2SCc3pcj/gPvlLOSiKQgslPx+CpwM0OMDnZZWSaXmTz8WYlhOr9JR7OGS2lnopLAYVVXQ9RGraPnIDL8ZXiEmhfla7d6sKKLcN5mVEK/Rg9i+MtsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781502995; c=relaxed/simple;
-	bh=SiVyORRwuhFdqbqx0GzQHz/kK8K9pjnUbjRaoyFNjI4=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=bwmfO1T26ONPnTszNV7R7VUcESrO8YmfQ/cA37LrHJnapkmXQOO/GAz//1VyTATrRbgujI5TIi9bDO6+A+n5/A9ZdCZpeha+RHR37HjKxyCBzN85xSkSxGdUJ48ZB7V2FMC1wadRKSyZWBbceDm5Yyt4AU4qGM3aXGRMtGp711M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw; spf=pass smtp.mailfrom=ite.com.tw; dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b=VanCr8++; arc=none smtp.client-ip=210.202.87.179
+	s=arc-20240116; t=1781502997; c=relaxed/simple;
+	bh=r7HZ7SjJDL4kbPtuQtlzFQVOFeSBjL/KqcGWJpZYWXc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=eocNW2+fQ8+Ds1DPo8odPZ0qids2ZaFYSNKgCmC+rfJpThqudxCV+9Gi61zIQkhqixIuPqij/ws3oLTJzxPGB72xIZ8lSRM8KBUFLxS7IWavqR61K8WKxFcLLLGoHU8y56+jXxbiZ6aiPX2FVFBDTidP3aA5OK2Ayvn+iRyCcew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw; spf=pass smtp.mailfrom=ite.com.tw; dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b=bQvimAy9; arc=none smtp.client-ip=219.87.157.213
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ite.com.tw
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b="VanCr8++"
+	dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b="bQvimAy9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=ite.com.tw; s=dkim;
-  h=from:subject:date:message-id:mime-version:
-   content-transfer-encoding:to:cc;
-  bh=MWuzMR5mlK1/XKFsPqoAgPV+TmbTeFBZaOz3YhTM7jU=;
-  b=VanCr8++PwPZ+ZpF7T8YNG2H2IPyHSWhuGckGIg/l9tNuXe15vSDZsSo
-   +pfAAWXuoqL7gFUYBjOXFejrN7lJDUnoWYEgGx+HINyh3/nHekGtrTtK/
-   poXFj4R3CH/s9ubbLxsW/VLguOhlfbI67H5hsx74Y872d7dS0aPu+ZLXs
-   4EbzKCwAYQmRFITSRB+F/iupGD36kpAm+IZVPd0+KqBmqNAXMreqZIZ6c
-   2qN2JcVwA7qLbvx/WPjpRg4qhFWZTOmLElEVsEYbUzahNqpIgQp95r7Vu
-   yi68IltPRe1pYAYj6vX+kx2mG2KZEYk1rleMyoBcX+fSYc7MhdQ+Jzk2B
-   g==;
-X-CSE-ConnectionGUID: nktS+QTqTw+9Ca0kC/aE+Q==
-X-CSE-MsgGUID: JRbp+5h2SgWWa/txnUAh5w==
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=lHUDI48IB0vNnyP/jIIJx+CbSD3K8jAiqutdVgoT/9c=;
+  b=bQvimAy9fB0broQUVQn07V/bugrfmUjAeIaJmLbKTLASAUJHis2pARHp
+   Cwq0ScOmU93cGGvJj/86SuWlIQMDC8eNBbeJVh6TFvVZANghhGKUintnC
+   fQ4tosMyDhsjmYeFwYwgTpRgMqNeSyC4wO4xK+XMR4m01DPKQIIMIUYb8
+   lbM22jRXykbAEhLJw5/vG+YXLqZVrm4rqpLN/EvQAvRCiiilphguJ35+w
+   SndnRzs8rCb04wVNrH8b23KC90WuYghfKg246Zq5MCVv5s60Z7om7tiGR
+   Od3iT0U4h7U2pO9w68qyBEHicnkGjFwLHoMaZbFJq2KyrPryS1Wz6hNLc
+   A==;
+X-CSE-ConnectionGUID: Xam9FUj1RiSjk5g8XoBZLQ==
+X-CSE-MsgGUID: fSgV5QVXSCyjJEazl3L7jA==
 Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
-  by ironport.ite.com.tw with ESMTP; 15 Jun 2026 13:48:55 +0800
+  by ironport.ite.com.tw with ESMTP; 15 Jun 2026 13:48:56 +0800
 Received: from hscmail1.internal.ite.com.tw (HSCMAIL1.internal.ite.com.tw [192.168.35.58])
-	by mse.ite.com.tw with ESMTP id 65F5mqj2030760;
-	Mon, 15 Jun 2026 13:48:52 +0800 (+08)
+	by mse.ite.com.tw with ESMTP id 65F5mrEw030761;
+	Mon, 15 Jun 2026 13:48:53 +0800 (+08)
 	(envelope-from amber.kao@ite.com.tw)
 Received: from [127.0.1.1] (192.168.37.107) by HSCMAIL1.internal.ite.com.tw
  (192.168.35.58) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Mon, 15 Jun
  2026 13:48:51 +0800
 From: Amber Kao <amber.kao@ite.com.tw>
-Subject: [PATCH 0/2] Add support for ITE IT885x USB PD controller
-Date: Mon, 15 Jun 2026 21:47:38 +0800
-Message-ID: <20260615-ucsi-itepd-feature-v1-0-a826cfd0df6a@ite.com.tw>
+Date: Mon, 15 Jun 2026 21:47:39 +0800
+Subject: [PATCH 1/2] dt-bindings: usb: Add ITE IT885x support
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -51,10 +51,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQrCMBBG4auUWTuQFhOoVyku6uSPThe1ZBIRS
- u9u1OW3eG8nQ1YYXbqdMl5q+lwb+lNH8pjXO1hjMw1uCC44z1VMWQu2yAlzqRk8eoQowDmJpxZ
- uGUnfv+l0/dvqbYGU74mO4wNqwZ2PdgAAAA==
-X-Change-ID: 20260605-ucsi-itepd-feature-95e6dcee4fc5
+Message-ID: <20260615-ucsi-itepd-feature-v1-1-a826cfd0df6a@ite.com.tw>
+References: <20260615-ucsi-itepd-feature-v1-0-a826cfd0df6a@ite.com.tw>
+In-Reply-To: <20260615-ucsi-itepd-feature-v1-0-a826cfd0df6a@ite.com.tw>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring
 	<robh@kernel.org>,
@@ -75,58 +74,161 @@ X-Mailer: b4 0.15.2
 X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
  HSCMAIL1.internal.ite.com.tw (192.168.35.58)
 X-TM-SNTS-SMTP:
-	D438130F484BC8F6F881F28309264865B798B7D71E3BACE103EBBCE6349514382002:8
-X-MAIL:mse.ite.com.tw 65F5mqj2030760
+	7FD34ABA158DD4EF9E49A1E2FD261B5B5E556E7261FE938ED12F8974BC27CF4F2002:8
+X-MAIL:mse.ite.com.tw 65F5mrEw030761
 
-This series adds Device Tree bindings and driver support for the ITE IT885x
-USB Type-C Power Delivery controller over I2C. The driver uses the auxiliary
-bus to spawn UCSI and Alternate Mode child devices from the main I2C core
-driver.
+Add device tree binding documentation for the ITE IT885x.
+The ITE IT885x is an I2C-based USB Type-C Power Delivery (PD) controller.
 
-Note: This driver has not been tested on physical hardware. Runtime
-verification was performed using i2c-stub emulation with force-binding
-on an x86_64 virtual machine.
-
-Testing performed:
-- checkpatch.pl: no errors or warnings
-- dtschema (dt_binding_check): no errors or warnings
-- Sparse static analysis (C=2 W=1): no errors or warnings
-- checkstack.pl: no functions exceed 512-byte stack limit on x86_64 and arm64
-- Dependency check (allnoconfig + make): all dependency is been added
-- Kconfig tristate: tested =m, =y, =n and allmodconfig
-- Cross-compilation: x86_64, arm64, arm32, powerpc64
-- CONFIG_SMP and CONFIG_PREEMPT: both on and off
-- Strict warning mode (W=1 EXTRA_CFLAGS=-W): no new warnings
-- Fault injection (CONFIG_FAILSLAB): error paths verified on modified kernel
-
-Question regarding Fault Injection testing:
-Since physical hardware is currently unavailable for testing, my approach to
-verifying the error handling paths was to temporarily modify the driver code
-(e.g., forcing a function to return -ENOMEM), run the mock tests, and then
-revert the code once passed. Is this ad-hoc instrumentation approach
-acceptable for submission under these constraints, or is there an officially
-recommended fault injection method that the community prefers for this kind of validation?
-
+Cc: Yaode Fang <Yaode.Fang@ite.com.tw>
+Cc: Jeson Yang <jeson.yang@ite.com.tw>
+Cc: Bling Chiang <Bling.Chiang@ite.com.tw>
+Cc: Eric Su <Eric.Su@ite.com.tw>
+Cc: Doreen Lin <doreen.lin@ite.com.tw>
 Signed-off-by: Amber Kao <amber.kao@ite.com.tw>
 ---
-Amber Kao (2):
-      dt-bindings: usb: Add ITE IT885x support
-      usb: typec: ucsi: Add ITE IT885x Type-C PD controller driver
+ .../devicetree/bindings/usb/ite,itepd-it885x.yaml  | 109 +++++++++++++++++++++
+ MAINTAINERS                                        |  11 +++
+ 2 files changed, 120 insertions(+)
 
- .../devicetree/bindings/usb/ite,itepd-it885x.yaml  | 109 ++++
- MAINTAINERS                                        |  15 +
- drivers/usb/typec/ucsi/Kconfig                     |  15 +
- drivers/usb/typec/ucsi/Makefile                    |   1 +
- drivers/usb/typec/ucsi/itepd.c                     | 481 ++++++++++++++++++
- drivers/usb/typec/ucsi/itepd.h                     |  64 +++
- drivers/usb/typec/ucsi/itepd_altmode.c             | 438 ++++++++++++++++
- drivers/usb/typec/ucsi/ucsi_itepd.c                | 558 +++++++++++++++++++++
- 8 files changed, 1681 insertions(+)
----
-base-commit: 8fde5d1d47f69db6082dfa34500c27f8485389a5
-change-id: 20260605-ucsi-itepd-feature-95e6dcee4fc5
+diff --git a/Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml b/Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml
+new file mode 100644
+index 000000000000..59e4eaa32ff1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml
+@@ -0,0 +1,109 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/ite,itepd-it885x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ITE IT885x USB Type-C Power Delivery Controller
++
++maintainers:
++  - Jeson Yang <jeson.yang@ite.com.tw>
++
++description:
++  The ITE IT885x is an I2C-based USB Type-C Power Delivery (PD) controller.
++
++properties:
++  compatible:
++    const: ite,itepd-it885x
++
++  reg:
++    maxItems: 1
++
++  gpios:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  wakeup-source: true
++
++  pinctrl-names:
++    minItems: 1
++
++  pinctrl-0: true
++
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++patternProperties:
++  "^connector(@[0-9a-f]+)?$":
++    $ref: /schemas/connector/usb-connector.yaml#
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        itepd@40 {
++            compatible = "ite,itepd-it885x";
++            reg = <0x40>;
++            gpios = <&tlmm 129 GPIO_ACTIVE_LOW>;
++            interrupts-extended = <&tlmm 129 IRQ_TYPE_EDGE_FALLING>;
++            wakeup-source;
++
++            pinctrl-names = "default";
++            pinctrl-0 = <&itepd_int_default>;
++
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            connector@0 {
++                compatible = "usb-c-connector";
++                reg = <0>;
++                label = "USB-C";
++                power-role = "dual";
++                data-role = "dual";
++
++                ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    port@0 {
++                        reg = <0>;
++                        endpoint {
++                            remote-endpoint = <&eud_con>;
++                        };
++                    };
++
++                    port@1 {
++                        reg = <1>;
++                        endpoint {
++                            remote-endpoint = <&redriver_ss_out>;
++                        };
++                    };
++
++                    port@2 {
++                        reg = <2>;
++                        endpoint {
++                            remote-endpoint = <&fsa4480_sbu_mux>;
++                        };
++                    };
++                };
++            };
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 461a3eed6129..94afe3729059 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13720,6 +13720,17 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
+ F:	Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
+ F:	drivers/gpu/drm/bridge/ite-it66121.c
+ 
++ITE IT885x TYPE-C PD CONTROLLER DRIVER
++M:	Amber Kao <amber.kao@ite.com.tw>
++M:	Jeson Yang <jeson.yang@ite.com.tw>
++R:	Yaode Fang <Yaode.Fang@ite.com.tw>
++R:	Bling Chiang <Bling.Chiang@ite.com.tw>
++R:	Eric Su <Eric.Su@ite.com.tw>
++R:	Doreen Lin <doreen.lin@ite.com.tw>
++L:	linux-usb@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml
++
+ IVTV VIDEO4LINUX DRIVER
+ M:	Andy Walls <awalls@md.metrocast.net>
+ L:	linux-media@vger.kernel.org
 
-Best regards,
---  
-Amber Kao <amber.kao@ite.com.tw>
+-- 
+2.53.0
 
