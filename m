@@ -1,48 +1,77 @@
-Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFCF3DA5BD;
-	Mon, 15 Jun 2026 09:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C886C3DD85B
+	for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2026 10:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781516239; cv=none; b=MUpMRNpdf8jdrOiIGTLolXNBaVGps0CgeZs/FJFbRiLyWLdD2CbFaUlqirIGEVGz30JXJzIPpGFWICbHWEBxHEa/O4l7EwRmF/DetSVBZ853akWYw5Ogy4ATElwxDaAWSA4yIbdjNZhf8xRVLIwlKtfrk2hhxmJAQ03lQtxBBO4=
+	t=1781518285; cv=none; b=frRt1/Gesk7DrH12UQXsFAXdZuh2PPyA0Ur3OU/HnVz6yxSGoLcSTn5lQZ43aisx6r1QfqaST/ScWcVzJM5pLUgWJStuHbtNKXvA0KmzelaDrmVG8Ns4Zkj1zAq41WNJHDGklOb8vKFgGz3BR5ApPyDvwv+CfLk/nwTbZHljLWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781516239; c=relaxed/simple;
-	bh=2ZcerHJBaMq2e/JMGr86nJo2ZzsoboFMfGwfCDcbVUw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oJ8AZD++2x/FIQYpy8sVweXoibA0+3ij0CVFVbP2vSrjMGcv2DtKGs4vL0rUXNF0OI6y+lCt54gQ8brL1djKyyqmXtjg5CLyvqxEYHdYMx2fzmlr25NtM19/oDJmaZ4WKuvS+IEpsFy8GJN2uCbfdaU5HKWDmfPRiPaUQx1lNmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=jVie9gRN; arc=none smtp.client-ip=54.243.244.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1781518285; c=relaxed/simple;
+	bh=b4DFbYTqrbafPbAUIyCZ3yEenOwgT+KZGEuH6olCxA0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EElFCQt0IGETD6bY+/rU5ikkHHYO9RnyoyfmKaMnfiFjCHwWr03wyrsOCXDjk7id7n66zbAVAFU4D+bWujj5v6rea/L4Bm4vzv2TYzzcyK2GK+x+7QNNabj1u8ysZHCFSq0FppQjk9XgnzHH19PGZe+mdWibaHXS8JLmQmhGKTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MsGHK5eT; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="jVie9gRN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1781516198;
-	bh=bH/3ksGMfagOroq13frQLZrH/1toIP3H6hqHcfqLuAY=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=jVie9gRNOxdICkKx71+3MgC8yR+hcNh7DGyZRM+9Ai81i+zfjg1mQGOJwaWzt1fYG
-	 rfq9TjpGCKZq0/HVVyzN448rvZdhumN5wnHb/dHCTBL9vhZ5s5ED98pozQjMRHSdtP
-	 NBAbE6govq+TbrT2O6GIYs3XFNgYlm2neVvEShQY=
-X-QQ-mid: zesmtpgz9t1781516181t723a726d
-X-QQ-Originating-IP: w8VJb/HMorRi7A2ttqL4n/w1ZTbw4pwGr1vxSpdqH6M=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 15 Jun 2026 17:36:08 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 13452823700449764752
-EX-QQ-RecipientCnt: 7
-From: raoxu <raoxu@uniontech.com>
-To: valentina.manea.m@gmail.com
-Cc: shuah@kernel.org,
-	gregkh@linuxfoundation.org,
-	i@zenithal.me,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MsGHK5eT"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c858d69bde9so1128846a12.1
+        for <linux-usb@vger.kernel.org>; Mon, 15 Jun 2026 03:11:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781518277; x=1782123077; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6RVi7KkvQsQOeDWpnCRQ5qnL7fNugRknh1rPXsQ6BoE=;
+        b=MsGHK5eTErhP8qPSJAvp3HHSoJSe0CSioer7jcQPaLNezfAV5NqK7LKZPHPpbXztz5
+         65Proq3iBoIluzmBdB7pL+ncPocSPVeT5+xW6VhH/0k8KUgpNznlhWbtU9wc6nahhzZA
+         ixwJ2qANSmR6rKAQ22LT5Bw3bbh/l0QA3wfgRGoC/0Lu630cWrf82tKgiXTeuPns4Hxy
+         alA8rYXV60zssPC7eKyoqddsvRt2B+NTjMg5ey1KejyyeFri89+Euiaw3rqfuWEXPvYd
+         dtE65RdyvJwJFfwt/z+sc8UPdFJF6jTRMMJMUWH2i7AAjB1ZxlwDL6CR7mro6PFvBToq
+         OC2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781518277; x=1782123077;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6RVi7KkvQsQOeDWpnCRQ5qnL7fNugRknh1rPXsQ6BoE=;
+        b=mhnVFrnpb13yFB2oPOm591fIKRYECeNmfd7XTLPsgOZElkVxlFzZUcEi6jk21pb9Px
+         r2ioMQ3UL+dtluzy/wIsLElYrekv+XjuMBfUlZ79Wk26/cD88/yPixWSJZL8JHJwWsbj
+         p6HokL5ChdkFOCiVDBiznQD6IpW0dO+kjbTs+U1ejpgFH0BJ5LPnL1GIop8s1mQeHMUA
+         DK0RK8OdSq3+f2QjaAt4Dchu8ubB6PkGyLfDsf+Xy7prHy3xRL4W12p8HJVOsTc+XITR
+         5ZE48wxSYjnCqforeqrQkqvp2zwzNXSnbipAdc3tMwqf5h4qm9wCxIHj4TJ+LpcNuE+d
+         LTzw==
+X-Forwarded-Encrypted: i=1; AFNElJ8jUTGhuV8G8URP/VXpfvyX0dguaL4b/nhdPxw5YK79JWX5HQ34IigLgj4EEcqySZTe0hvwF/RMDFs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsjMiSxwIU8nRVjyiFhVOpVZh3dSIhZC4ETyPVb5hbZeivF8pZ
+	g6dE7khTwYd5BJf6jmqmx4+LmztX6rIvLKGQyrJs12E+ExN+XFCDRoEI
+X-Gm-Gg: Acq92OGtmpd5WabPaKnzMhORbkgyspptiVMTFsU/ibu0qagWJhe2yj9yF235GJM2EQt
+	gvUv/gzg9SzusN+WE14C8u3RvIdh1mJxWBDPZRE5sgTkbzM404z2/OJeQEhVvKLKQotvhHckALy
+	iqNzpz0waJDVgR9tqrZnaDGCHSpVXNlJRnLNWqQq4FznddJkTmqySjMbWgnH9yE3sfQUYB5WPIs
+	nwqPUH5msguqj1hnjvP8oLUwmg3+v1yqRcchqQCXHseBuknumkMB+0nSuFxXwinJPj8/5sYmaXn
+	ROlNaO5nB+krH3fR2SCsggr6PkjzQjg17I4vmVlsMRFzCfJy+424bTKdFOzX6m1p/HXV2JWXZe0
+	5GsbPZ1zq2vz9lau77IN6ACdqb2BnWoBvnwmd6SLbEFPpQ5oMxEyzY6ohMkv07zMfac3MxhWDkp
+	X9oriUPrlDr+O+Q/Sp0cOV17oOpQR1MhRHhLhps5iwITYyhD7IUEc/xTFPyQ==
+X-Received: by 2002:a05:6a20:7f95:b0:3b4:8880:2089 with SMTP id adf61e73a8af0-3b783bb0448mr16174579637.16.1781518276972;
+        Mon, 15 Jun 2026 03:11:16 -0700 (PDT)
+Received: from kylinsec-189 (li1862-99.members.linode.com. [172.105.208.99])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c866325e477sm8181173a12.10.2026.06.15.03.11.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 03:11:16 -0700 (PDT)
+From: Hu Xinyao <huxinyao0011@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Valentina Manea <valentina.manea.m@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Hongren Zheng <i@zenithal.me>,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	raoxu@uniontech.com
-Subject: [PATCH] usbip: vudc: fix NULL pointer dereference in vep_dequeue()
-Date: Mon, 15 Jun 2026 17:35:59 +0800
-Message-ID: <18A5F3B379FB205B+20260615093559.3436095-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	security@kernel.org
+Subject: [PATCH] usbip: vudc: get vudc from endpoint in vep_dequeue
+Date: Mon, 15 Jun 2026 18:11:10 +0800
+Message-ID: <20260615101110.1913-1-huxinyao0011@gmail.com>
+X-Mailer: git-send-email 2.53.0.windows.1
+In-Reply-To: <2026061502-rants-doing-407e@gregkh>
+References: <2026061502-rants-doing-407e@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -50,83 +79,42 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MglA7JX7t2v3MHF3FDNc4ckLBvLkPRfHaWWSqGSxGo9d8iO8EKBpBhGX
-	WQg1wjgefAa+GgT8eh/mFJvJQ6SasMPfK6bpy/5YUFZQMv0tRAL2ZemHdhxEczKtfXiCdfq
-	KwGRquUKGFHQZaRD9W54YQGtIHOaDt6eoXa3lxUwDcwpi3Gag1MaCCRNROO3m/mX9nQ/pzs
-	4+y3LGatg28Qu/jCyqylKwAE9v6rUxesEZrN8OKn7Mn6p4z3CCsH32Od5vvC94qnGMvZJZc
-	VTh8zfx7+fLhLRrAI6RMlaIKhMevBOlwqheNUmvjVs2aVmGmDZQR6KVbnZlMSG4hOmebxtq
-	RvfJ2NrhkuDmXZZuu6V4CSLkHXjjPMspLw5+xXA2xQzhGQTbrtGw1EH68azL5rzxAoRmTOT
-	dXzmVTI/csEsiQLaThbvQWzccGQGoHLebkUf2/FZEebrtmSZ6QNw8sUVot9iqZKfZdOH4OR
-	/RrlBqHlcbNBuz8u2YWld+tx/GuPLIeAvSFa1Fi4OYJBZqmuM7hUL2Pcr3qJqm5X2vWcXmv
-	EdNqTeT8cwSLEPx9qNJwhKYA6m2efPaYySYOVlusv96s0D9JERRr6xN+J6PsOrxUZ3+WHme
-	p/6SiY2qx/2bA+D2Q4unkw2wZcj/1Qkc0h0HsRZ+LUmiIyoTJvLMJwVPd9iciw0THQlysI8
-	himDlQjVhBarnnKd6xsuzZGcIpMBiS89N4RDoE0ohzaJH6TtcburJibJipqREeUBYUxd0Wh
-	JkCAOGnxz1007LM9zFz2xMcrkrYlEoKLPoODHeCZLLtKxfUDcysIy9U6sCYNALtH03ngM31
-	w9HWw4vPm+X0vmURiZx3DY99hyUpg7CEzR11dBYCtCH22oLXTq071ETxMgEkCiv2+REwh6v
-	P7b6SvwnYm2UBEE1j30/suIplW1I4sriuXzENikFo/uzVOLyeME4rLNkbkWqfv7S9jheWQG
-	GIJ1lpVbHtpD0ailEhqxb6xxMyUEqTiaQZZe2gGCMrbHm07ifYroYYa83OEU8DyBYM8lXHD
-	lTkC+Y5MES+XhhWuKVN70uxwyvrhnoqxMJSmOdHUIRyiVlYSiTJ5wQa7VIimLdtLQ81wN9n
-	Q==
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-X-QQ-RECHKSPAM: 0
 
-From: Xu Rao <raoxu@uniontech.com>
+vep_dequeue() looks up the virtual UDC through vrequest->udc, but
+that field is never initialized when requests are allocated or queued.
+A gadget function that dequeues a request during disconnect can
+therefore dereference a NULL vudc pointer and crash the kernel.
 
-vep_alloc_request() zero-initializes struct vrequest but never assigns
-vrequest::udc. vep_dequeue() then reads that field and dereferences it
-while checking udc->driver. Consequently, any usb_ep_dequeue() call that
-reaches the vUDC dequeue operation can crash the kernel.
+This was observed with a USB/IP vUDC ACM gadget. ACM is not unique here;
+it was only the tested gadget path. The bug is in the generic vUDC
+dequeue path rather than in ACM itself.
 
-The endpoint passed to ->dequeue() identifies both the request queue
-being searched and the owning vUDC. Derive the controller from that
-endpoint with ep_to_vudc(), as the other endpoint operations do.
-
-After this change, vrequest::udc has no users. Remove the redundant
-controller backpointer.
+Use the endpoint to recover the vudc, as the other vUDC endpoint ops
+already do, instead of relying on the request-private field.
 
 Fixes: b6a0ca111867 ("usbip: vudc: Add UDC specific ops")
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
+Cc: stable@vger.kernel.org
+Reported-by: Hu Xinyao <huxinyao0011@gmail.com>
+Signed-off-by: Hu Xinyao <huxinyao0011@gmail.com>
 ---
- drivers/usb/usbip/vudc.h     | 1 -
- drivers/usb/usbip/vudc_dev.c | 4 +---
- 2 files changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/drivers/usb/usbip/vudc.h b/drivers/usb/usbip/vudc.h
-index faf61c9c6a98..5ef0e7d9b23a 100644
---- a/drivers/usb/usbip/vudc.h
-+++ b/drivers/usb/usbip/vudc.h
-@@ -38,7 +38,6 @@ struct vep {
-
- struct vrequest {
- 	struct usb_request req;
--	struct vudc *udc;
- 	struct list_head req_entry; /* Request queue */
- };
+ drivers/usb/usbip/vudc_dev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/usb/usbip/vudc_dev.c b/drivers/usb/usbip/vudc_dev.c
-index c5f079c5a1ea..5ef88117965d 100644
+index c5f079c5a1ea..f0a1a44c18e3 100644
 --- a/drivers/usb/usbip/vudc_dev.c
 +++ b/drivers/usb/usbip/vudc_dev.c
-@@ -333,7 +333,6 @@ static int vep_queue(struct usb_ep *_ep, struct usb_request *_req,
- static int vep_dequeue(struct usb_ep *_ep, struct usb_request *_req)
- {
- 	struct vep *ep;
--	struct vrequest *req;
- 	struct vudc *udc;
- 	struct vrequest *lst;
- 	unsigned long flags;
-@@ -343,8 +342,7 @@ static int vep_dequeue(struct usb_ep *_ep, struct usb_request *_req)
- 		return ret;
-
+@@ -344,7 +344,7 @@ static int vep_dequeue(struct usb_ep *_ep, struct usb_request *_req)
+ 
  	ep = to_vep(_ep);
--	req = to_vrequest(_req);
+ 	req = to_vrequest(_req);
 -	udc = req->udc;
 +	udc = ep_to_vudc(ep);
-
+ 
  	if (!udc->driver)
  		return -ESHUTDOWN;
---
-2.50.1
+
+base-commit: 186d3c4e92242351afc24d9784f31cb4cd08a4b7
+-- 
+2.53.0.windows.1
 
