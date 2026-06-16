@@ -1,301 +1,206 @@
-Received: from mail.aminvakil.com (mail.aminvakil.com [178.63.189.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3D147B432
-	for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 16:52:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.189.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781628749; cv=none; b=AMd9DYtWABKIevIKs+0d+32w4HVEMQSzDO5/uuaHeo4MdbH3B+60XE2CXVfAC7VQIn2Mk5GqdOj6Lowo0cvDY410ihGGMn3j717gKOzaJx2b17AJGb6NKkStJeHixR6vFNWphkD1ObnMPPxhVOxxfR++gurH1xybqj1cr57ryJ0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781628749; c=relaxed/simple;
-	bh=Pmmnvi2C5IbgmBENY6Y1klpbi8m+N50NmhW+cKVsqBg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OasuVJokq4EaipJneuM556sxGLvAIWJ/+8GCcYl0UrnQBpNcO1ETrikIzhbRFl822Z+dh2g2EDhy9k6vw/gfPttIXXaFREwxNI734sVIEqRRiFlaeh10NUyaur7HjlIDnYhsStEDMiCT75iENtMNlvBKrMlzVymZHu9tYgu3jnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aminvakil.com; spf=pass smtp.mailfrom=aminvakil.com; dkim=pass (2048-bit key) header.d=aminvakil.com header.i=@aminvakil.com header.b=LII4wH1C; arc=none smtp.client-ip=178.63.189.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aminvakil.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aminvakil.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4959547B42C
+	for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 17:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781631822; cv=pass; b=i5T0OOEHz3HIdMz8W8QqHx8qpX2dLsQe1SsBdkQNmyef5BwILvTl9cYIPEvEcn0hoHyBAmuF5x7OrijXrzfGC2+IkomwLHPIURK4CxpBeaPEhTlNpt2ttoLx8vJnWVvT37dfdZngHit9iaASVWrY8GkKDIV3SMlG28VfZ3xf3Jg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781631822; c=relaxed/simple;
+	bh=vwbDjwm7A+RW5akweFv5F9AqjleNOlBoQgRfrF6rPR0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UJkx5cvl18oksXz2bFhUFAbM5sro4/hY5k207iba0KlPgKuSZlcB7pZhjuX3wxHzV1HpSFcM7zwlQsRipm2mEYsMRqq6rA5iwSiy/82SXNN8/QhV3eMr7r3+qCZkCRnHnW509cUPjUjfPEb/VtneFvOgd5wCR7xuoMrL6pyi0gM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HQixdRYe; arc=pass smtp.client-ip=209.85.222.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aminvakil.com header.i=@aminvakil.com header.b="LII4wH1C"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A7A90453ED;
-	Tue, 16 Jun 2026 20:22:21 +0330 (+0330)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aminvakil.com;
-	s=dkim; t=1781628745;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-language:in-reply-to:references:autocrypt;
-	bh=Pmmnvi2C5IbgmBENY6Y1klpbi8m+N50NmhW+cKVsqBg=;
-	b=LII4wH1CqEHSGUx7QBvZjXZscS+JfCEkam+u6gzgpjnJkFPTSmjpz6Idvh9AjAoRoL5kBk
-	QGJXvwUnFi8oIkb0D8MC0s7cqYXxMpRt8YD40XgFv4afvCVl0rBP6sUh2SXcnUW9kdLT8/
-	zIy0HaZolaX70vokajuMAb6eykYSzjZzAcoyi9UtrtrDFYSDyf0hd3Enx1xzflhIT2ZbMI
-	bxGefw5SKjAaMj7yBnyuJyC1/Wxp2vWtdx6wOeAL8xjXIj9MdWmLk6N1hdnofTgVsREk44
-	YsBfBeqI/DylFU3oaOo5oiXMDZkos/nmYVMldurYJwmuFINnjFvO+cdM3XLMEA==
-Message-ID: <8f862eb6-adfb-43a9-b4f5-8f9232333b51@aminvakil.com>
-Date: Tue, 16 Jun 2026 20:22:19 +0330
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HQixdRYe"
+Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-91587626a3eso512314585a.2
+        for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 10:43:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781631818; cv=none;
+        d=google.com; s=arc-20240605;
+        b=efxbc2KNnMYDppgboFQd8Ji9U7f7gfuqNQPuDPuU2cS8Pvxe33wBMWwPUgUUM8Pxr3
+         mlg0SnfbOacO8fJ9vTuY7lSq+8nDjjrNgHdo2+bMeHY4VR4ejLl/b/GnApnJg9ukubtZ
+         rjXW/Buo55LPsiea2xdiuPo3FqJKvUaGUUupZ5Y8Ak/TTbJf/QUB0PZ2zluhZWNbscko
+         NW96e1UCuD5WXFpbjFKDcPcuA6/aoMcH8CC/I78w+T78M5csW6lrn1lfXZrl3jlqHXQc
+         JeMUZ1ek3F4lBA5aktDvJzUTGG5mX0RsxFu1GBeOg0FLO57SRZXQJUQJiV1iofm90rEj
+         wasQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vwbDjwm7A+RW5akweFv5F9AqjleNOlBoQgRfrF6rPR0=;
+        fh=W6swb5c7SZOnz8qBPeLc4aJkn4Hr2BP3rpQ9VmAFPYE=;
+        b=NL0R6cFGU4f66FrfLv33N7c2HpcNAYXLC3lgnDJW5Fm8OCU6rZFjFDwbz8QwMU3BnN
+         Lzdi33duYoWkvsvSuIyJPfxjYdteHresY+GzYm4wNNdXNzeIsoNkiSyNMgMu6NvrtZD+
+         mlf7rKubIUVxAwYsR4q269uE8HP5aQLWkgimf8bjCXNRGu5XsKMSTJH+2AVslUpOpL4m
+         9mrABRp6Y2XmuDqjsKG/eSHe/M4cqo0g8usxKm36mS2LSxJv+GBb9BNGu6pNVDkWI2xE
+         E2XYxbChvcd2clu/L8rjKkltvd+2gfoBcg9Ve7dsDEpKBa1Qlz3tMR62f6b+4Y/fgj/g
+         83Lg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781631818; x=1782236618; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vwbDjwm7A+RW5akweFv5F9AqjleNOlBoQgRfrF6rPR0=;
+        b=HQixdRYeMco0YM478bwom3xvwR3M0rTY64Xdzb8ddn24bpAG7SXynyLKzHF9yyLyup
+         0aCJAPOrpEWkMsp3lGHf4bg8vdtAVP6EnD4AoNzUySCUpUNnRW4FViF611zzHr3HoA5w
+         3e0yT6t0BG6Ml3u4O8ts7npLAV/ZVZSsclRZUk4l8MhpznN7Ip3iNxTHDCxrHRD9kRrt
+         WaPZCTQcuHy97a6arUKt/34gymx+DQk1sM8b1QD+YFy92D94G1RQIoSupyUDUPJEpDuQ
+         bZ97xOazH2pq4VJl/Trsx23FQjkjZtZA7y5JDrr2xbAEHzkM5s8N+zwRvGxvpYvgvdpk
+         pKQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781631818; x=1782236618;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vwbDjwm7A+RW5akweFv5F9AqjleNOlBoQgRfrF6rPR0=;
+        b=tNi4b0YRPLxke7AJpYxp0XzQtDQlXZPOGBEsTg1srmrbLA0E6oCxfvlHrqz5WCeUUR
+         Yavm3+X48tk6X2SxHxGhgSF7RRTTugwKsy+oxYTop4po04jYHtId5p2MKK3mEw1DckHn
+         juyNseFkdfXanX31fMDGUBLW9VZLgXtbYIkIKGnwofHQ0wCumMDeNPh6N6L0BPL23ovG
+         yHaVIwTAWzxAvK7cHNe3yECQl5b6KmYpWhuFu+pObp//gYeCq0RUGo3T30auVXvidizi
+         8j+FdqietMqxjZUl/yR5Fbgrkw5FEGxty5WoSkKShuj/uBckydNJ9tj+vwIl2hqCwpoV
+         A3/g==
+X-Forwarded-Encrypted: i=1; AFNElJ9ma71jZO/PMR4jzpUE/o+BEhZeuZlS1i5XOsEexqg0jB9iQH0x3lDAUJP6T8ZNdjllbCdLs/h4MJA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwopK36OmmnzV6AWn5h5osHyvVEuUhPqcCGjJCfFvAD5VfWAvnh
+	qh4JbVVoKx+2RVkMHGfIHqBpxK4KmUWtLyN3kBglFGBKTV/t5EIItjyfkLkl8FngoEY7XfvY1bx
+	Et2hfYRBaenyPm/vg1LCa8d3Gfyrcn9fnHSpC
+X-Gm-Gg: Acq92OF9UtOovtcPlkEufSSmC8WAPSh+iGud9Tf2y5rbXKuYTVDS04lq+XfnFkNNN2N
+	y51EQ9W/HCoNJPvEJWq6PqNUuST8nMmG3lA7JNcvp8XYWsRS6PZMv5EuvC555p4JD0Zo1N8J6wl
+	9O1r5o0D596QncI4oN7gbFb7AM3ZHSYET3hyRSdXI8pAqn13lt1YMMtyO1l8gYq5B0jysD0vlVu
+	GvUenLv3p7KVWxBRWbvFYKDrDCB1CqnH45KW+gIyaNo4XJBYP8GSJFE0NQTY1fEksevrMjDamwG
+	TKwB1E0DKqCAsTTFedE9MViIPHR2A0NsNYp4oA==
+X-Received: by 2002:a05:620a:8014:b0:915:e932:e07f with SMTP id
+ af79cd13be357-91d8a7f76ddmr92213685a.8.1781631817899; Tue, 16 Jun 2026
+ 10:43:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] usb: core: interrupt-IN wBytesPerInterval fixup
- (727d045d064b) breaks RTL8153 in Lenovo dock
+References: <CA+_z3hRjPnQOrEp7uXsNsu6wzqQp9O6FT18i=XcSC7k74Xd2QA@mail.gmail.com>
+ <20260330020749.18fbe433.michal.pecio@gmail.com> <CA+_z3hRTD-QAgv3jZhOZUUPA0sNZ8946jfYwYsZ=RnQJ0LG7cw@mail.gmail.com>
+ <20260404152438.582f0451.michal.pecio@gmail.com> <CA+_z3hTMfggtv+u_A_SRyb2FRzVjm=Nav5NRCTuhmEthb8x0jw@mail.gmail.com>
+ <20260509180603.6f67c9d8.michal.pecio@gmail.com> <CA+_z3hT_n09fAszT+DkoTHLzracB7fQZwkiiTxGGBJxhFcD8hg@mail.gmail.com>
+ <20260512120334.4eef3d0b.michal.pecio@gmail.com> <fc2d9862-6c46-4161-8fd5-68b9e6c2e8bb@linux.intel.com>
+ <CA+_z3hRdXfZm2ziCmsXEDEY-i8XJjxnw2oe6mkTf+O+B0fx91A@mail.gmail.com>
+ <20260529001057.1e0403c4.michal.pecio@gmail.com> <CA+_z3hQF-EGKr11Yaa5vwMLt9TUB1mL9ESUAQU5Rnd=UZDXrBQ@mail.gmail.com>
+ <20260529122210.6d2c5543.michal.pecio@gmail.com> <CA+_z3hSMRvW6qhZ4wB54hQyY89z+Mm0C48MGA40aqG7_+spX2g@mail.gmail.com>
+ <20260530005742.25893efa.michal.pecio@gmail.com> <CA+_z3hS4sdnZAhAvO+dDTR9hZVwGudDrsw93Do6dZkva8vK=5A@mail.gmail.com>
+ <20260613112648.2ea61301.michal.pecio@gmail.com> <CA+_z3hTJh1fiC_cqXWAseAyFVjWf8c2Qht8dPt4MUTX+DJqDXA@mail.gmail.com>
+In-Reply-To: <CA+_z3hTJh1fiC_cqXWAseAyFVjWf8c2Qht8dPt4MUTX+DJqDXA@mail.gmail.com>
+From: Martin Alderson <martinalderson@gmail.com>
+Date: Tue, 16 Jun 2026 18:43:26 +0100
+X-Gm-Features: AVVi8CdxD180y6tCM_bte6cNsC1b2huPzdmn9OwpBcsxNsZSo_ybitZSgbadvsg
+Message-ID: <CA+_z3hShppxx3xvMJEEVw__ZxSPzVehBrtywbEtQYnuseyj-_Q@mail.gmail.com>
+Subject: Re: xhci_hcd: AMD Raphael/Granite Ridge USB 2.0 xHCI [1022:15b8] dies
+ on resume from suspend
 To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Thorsten Leemhuis <regressions@leemhuis.info>, linux-usb@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Stern <stern@rowland.harvard.edu>, Tao Xue <xuetao09@huawei.com>,
- regressions@lists.linux.dev
-References: <cbdeb118-58c7-48a7-94a0-15e5cdb5879c@aminvakil.com>
- <35d2b455-382e-470e-acf4-1ab60770da90@leemhuis.info>
- <5036fee2-4d00-4ca0-aeed-400da64d7872@aminvakil.com>
- <573bbb08-0ba7-4f00-8996-819cc1d9cc48@aminvakil.com>
- <20260616183646.4798516b.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Amin Vakil <info@aminvakil.com>
-Autocrypt: addr=info@aminvakil.com; keydata=
- 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
- +78sXChAfE9n44i0gJHzV8BhCsQG4+k=
-In-Reply-To: <20260616183646.4798516b.michal.pecio@gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------DD3awKhZkdKoIHEuCSYOPkbf"
-X-Last-TLS-Session-Version: TLSv1.3
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------DD3awKhZkdKoIHEuCSYOPkbf
-Content-Type: multipart/mixed; boundary="------------SnqF6jRORrHkalnuYnouvcF2";
- protected-headers="v1"; hp="clear"
-Message-ID: <8f862eb6-adfb-43a9-b4f5-8f9232333b51@aminvakil.com>
-Date: Tue, 16 Jun 2026 20:22:19 +0330
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] usb: core: interrupt-IN wBytesPerInterval fixup
- (727d045d064b) breaks RTL8153 in Lenovo dock
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Thorsten Leemhuis <regressions@leemhuis.info>, linux-usb@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Stern <stern@rowland.harvard.edu>, Tao Xue <xuetao09@huawei.com>,
- regressions@lists.linux.dev
-References: <cbdeb118-58c7-48a7-94a0-15e5cdb5879c@aminvakil.com>
- <35d2b455-382e-470e-acf4-1ab60770da90@leemhuis.info>
- <5036fee2-4d00-4ca0-aeed-400da64d7872@aminvakil.com>
- <573bbb08-0ba7-4f00-8996-819cc1d9cc48@aminvakil.com>
- <20260616183646.4798516b.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Amin Vakil <info@aminvakil.com>
-Autocrypt: addr=info@aminvakil.com; keydata=
- xsDNBGDcQdQBDADCwSezvQSyNvL8EGhgR7rXMMnxfj/746TAFcAnMI5rtOs6yAQPXbCc3rv9
- Vph8myG6ZGu+G1q9SEIHQviYVTkgBUW7xY062KHgohbk3OhsUbnmCtmMOsQMgVT9Z7nT8tIQ
- T/RrFchVK4zcnYvhUM0HNQclS5skueVTwrEYh3JVITPtsPeCeTua1uVrUNeCOfRcH+nab2yd
- lMSw7NMTCqvmxG2PSz0EEFqhFT4jnGw27V4nPzAvLa3M/IysLE/Jp3hMKIURsEKosuCQ6UB8
- OEWEA6fvKGJRYecqzWZAcKeFZTxHndrJR5Gc0qayUdpoal0pYrFpxzv4tqT1yprcnYF3dKl5
- IpqyaxpfkL3EQAHSKuRLov+xXXamNa8EBM3Uak/ixi45F0yQhaCqtf6PwwsMMuTQ2EwqBTZV
- qQCMquLyLwDzJl6c6rh/eji2Oldp+pUIV27o/rb2aHMpfmZyoMs6kMLz72kyHHdsSeyAtz1s
- uWFhh+Mh4YAzbdRCCgRrfVEAEQEAAc0fQW1pbiBWYWtpbCA8aW5mb0BhbWludmFraWwuY29t
- PsLBFAQTAQgAPhYhBIRqwASF5Vxv9LyfUx78GGTp2eVrBQJg3EHUAhsDBQkSzAMABQsJCAcC
- BhUKCQgLAgQWAgMBAh4BAheAAAoJEB78GGTp2eVr1ocL/RNFJ7YF+jV/JtXCcL3k3C4qyUrO
- eO1Lw5X3hIfUXqjGG2ut9D331U3IsHllfEPFowukg1cQUOhl+2M45He4FCtSr53PGXhvXjfF
- 1XQzHPpSRdDbdly3nUR2L8BE+VLu4WCgB6dBiMnU3NdXa1XWmoxCdG1Ly/R1ev4UAMLFHsMs
- IVL+HfddytXHKAltGqAb9OAEOHpbGJNxHORl0E2BCNtK5I/Qh6uw066koEgPbahE9rpldL9E
- c6pl3HyrxPpjFImTVNK9Xh36bbuz+pwF2v2jvc4oFZHx6LdMoxDdH9vjC2a5Boa77a9PWY3c
- 0lz27RlixCGWyQjmQTeVdJNYlY0tcgEZlKZrbypr6UGXqTMZeHvpz0XJCM5UI34ebPZVAPMF
- EOsJRAIAqM+02xwAhBXws09IKPIVPypEzbD5BDV2qbs0qg/vYtipyzmAJOWVeYuCJmYYg3cy
- 34Kmpa9q2t43HvWtD7Mor6n2G0CnXh0NoGiPpad4DyQvwphhFON6Wc7AzQRg3EHUAQwAvJ9D
- Dw5MC5IY/9KaWspX4ahk1vfsNs3k2fXeY/UUgaZsGQWdkb/GanyiSBrGwUu91Ala6YcVsg6g
- MO5gzryRemmOTgHn3ycMJB8jmu7EYxCC4DSoxSCWXumbLfnaQwZPh+Ic9i3sw5g4cFMRTMKr
- 4Zt2jUQULtu825mc8V0Hb5c41B2yQAXTQ09+M5C1UPhzzGt6oHqqO+6Pg2dUwi276UW79OCV
- 3qEpesUwrgq5xrTC32jJG4cO7uFmYBZRBVY4KI7r8E3WWia42IRSZ2wEfaAqF7kTeOakmP8Z
- xX9qpV8v7MLjZIhhqXjAWKtUDqiktLRQJtsoUvteeeQEIbYL7M/6bzF5BtIylqxmGxcrSC+M
- Or7AvqRYfntEqkhhlWdjNR0yx4Dd9IItpdkTjBwN6iBWDCdlh/I36HkpAj51gOCXvEelqr3w
- KQMToyH5IrysJuOUR3wuaLHXfeHHBHaIWsDwaBADLVNOT7LWqe4d/gRaB69eqaAPSInJQRJo
- c5tjABEBAAHCwPwEGAEIACYWIQSEasAEheVcb/S8n1Me/Bhk6dnlawUCYNxB1AIbDAUJEswD
- AAAKCRAe/Bhk6dnlaww5DACArVoYcgMyBTl4s7C3MBXTNh9MA5jjQtkL3Bv9wR1+UusORuhY
- 2cn7MseJpaMvfDGS7pfJRJY+w4l51TGs2lSSUntdZ1g7a684i5mQ0KLaJ4cvoekvKmdkh0kn
- QmnkZnu8wxtgbLdCkbSr1QKtRb5DiV2ctYLiLkqwBvLh4RUNTNr1chFEuO/3QcETbpKvgKFR
- 9KPlEPp0l71dm5I7oBy9sEJ2KPtiykFCGF2UzFqDHubfHrjFAtyZYkuNg1fGJhNJkICrUYK3
- WUawq3KIumHDL/ZEoBvMvnlOtrki8HKHg+G6hTt0axoC/4fV9fhqUfMcahOLSrt9TwaJT+ba
- IznyzP6eRXjhG/E+UtCe4qkmevDf1Uu9Q22oaQsC1qU6K2Iy/xp6QbdQfjtohu5HXPBX80MH
- AYKrRSHkfUFH4grn6l0fkYvREs7Jdp7Oq0Je5wP6mj7v0sQ9ShjqFH12Zd59EenqNIr5OoYY
- +78sXChAfE9n44i0gJHzV8BhCsQG4+k=
-In-Reply-To: <20260616183646.4798516b.michal.pecio@gmail.com>
-
---------------SnqF6jRORrHkalnuYnouvcF2
-Content-Type: multipart/mixed; boundary="------------klMQ4J2GMVQT9i7R4CvHhsvO"
-
---------------klMQ4J2GMVQT9i7R4CvHhsvO
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-T24gNi8xNi8yNiA4OjA2IFBNLCBNaWNoYWwgUGVjaW8gd3JvdGU6DQo+IE9uIFR1ZSwgMTYg
-SnVuIDIwMjYgMTc6Mzg6MzIgKzAzMzAsIEFtaW4gVmFraWwgd3JvdGU6DQo+PiBJIGNhbiBj
-b25maXJtIDcuMSBtYWlubGluZSAoaW5zdGFsbGVkIGZyb20gQVVSKSBzdGlsbCBoYXMgdGhl
-IHByb2JsZW06DQo+Pg0KPj4gZG1lc2cgKGtlcm5lbCA3LjEuMCkNCj4+DQo+PiAgICAgdXNi
-IDItMS4xOiBOZXcgVVNCIGRldmljZSBmb3VuZCwgaWRWZW5kb3I9MTdlZiwgaWRQcm9kdWN0
-PTcyMWUsDQo+PiBiY2REZXZpY2U9MzEuMDMNCj4+ICAgICB1c2Jjb3JlOiByZWdpc3RlcmVk
-IG5ldyBkZXZpY2UgZHJpdmVyIHI4MTUyLWNmZ3NlbGVjdG9yDQo+PiAgICAgcjgxNTItY2Zn
-c2VsZWN0b3IgMi0xLjE6IHJlc2V0IFN1cGVyU3BlZWQgVVNCIGRldmljZSBudW1iZXIgMyB1
-c2luZw0KPj4geGhjaV9oY2QNCj4+ICAgICByODE1MiAyLTEuMToxLjAgKHVubmFtZWQgbmV0
-X2RldmljZSkgKHVuaW5pdGlhbGl6ZWQpOiBJbnZhbGlkIGhlYWRlcg0KPj4gd2hlbiByZWFk
-aW5nIHBhc3MtdGhydSBNQUMgYWRkcg0KPiANCj4gV2FzIHRoaXMganVuayBhbHdheXMgaGVy
-ZT8NCg0KWWVzLCBkbyB5b3Ugd2FudCBtZSB0byBsb29rIGZvciBvbGRlciBib290cz8NCg0K
-JCBzdWRvIGpvdXJuYWxjdGwgLWIgLU9MREVSIHwgZ3JlcCAtRSAicjgxNTIiDQprZXJuZWw6
-IExpbnV4IHZlcnNpb24gNy4wLjgtaGFyZGVuZWQxLTEtaGFyZGVuZWQgDQoobGludXgtaGFy
-ZGVuZWRAYXJjaGxpbnV4KSAoZ2NjIChHQ0MpIDE2LjEuMSAyMDI2MDQzMCwgR05VIGxkIChH
-TlUgDQpCaW51dGlscykgMi40Ni4wKSAjMSBTTVAgUFJFRU1QVF9EWU5BTUlDIEZyaSwgMTUg
-TWF5IDIwMjYgMTU6NDQ6MDkgKzAwMDANCmtlcm5lbDogdXNiY29yZTogcmVnaXN0ZXJlZCBu
-ZXcgZGV2aWNlIGRyaXZlciByODE1Mi1jZmdzZWxlY3Rvcg0Ka2VybmVsOiByODE1Mi1jZmdz
-ZWxlY3RvciAyLTEuMTogcmVzZXQgU3VwZXJTcGVlZCBVU0IgZGV2aWNlIG51bWJlciAzIA0K
-dXNpbmcgeGhjaV9oY2QNCmtlcm5lbDogcjgxNTIgMi0xLjE6MS4wICh1bm5hbWVkIG5ldF9k
-ZXZpY2UpICh1bmluaXRpYWxpemVkKTogSW52YWxpZCANCmhlYWRlciB3aGVuIHJlYWRpbmcg
-cGFzcy10aHJ1IE1BQyBhZGRyDQprZXJuZWw6IHVzYmNvcmU6IHJlZ2lzdGVyZWQgbmV3IGlu
-dGVyZmFjZSBkcml2ZXIgcjgxNTINCmtlcm5lbDogcjgxNTIgMi0xLjE6MS4wIGVucDBzMTNm
-MHUxdTE6IHJlbmFtZWQgZnJvbSBldGgwDQprZXJuZWw6IHI4MTUyIDItMS4xOjEuMCBlbnAw
-czEzZjB1MXUxOiBjYXJyaWVyIG9uDQoNCj4gDQo+PiAgICAgdXNiY29yZTogcmVnaXN0ZXJl
-ZCBuZXcgaW50ZXJmYWNlIGRyaXZlciByODE1Mg0KPj4gICAgIHI4MTUyIDItMS4xOjEuMCBl
-bnAwczEzZjB1MXUxOiByZW5hbWVkIGZyb20gZXRoMA0KPj4gICAgIHI4MTUyLWNmZ3NlbGVj
-dG9yIDItMS4xOiBVU0IgZGlzY29ubmVjdCwgZGV2aWNlIG51bWJlciAzDQo+Pg0KPj4+Pj4g
-SGFyZHdhcmU6IExlbm92byBkb2NrIGJ1aWx0LWluIFJlYWx0ZWsgUlRMODE1MywgZW51bWVy
-YXRpbmcgYXMNCj4+Pj4+IFVTQiBJRCAxN2VmOjcyMWUgKExlbm92byByZWJyYW5kIG9mIDBi
-ZGE6ODE1MyksIGRyaXZlbiBieSByODE1Mg0KPj4+Pj4gdGhyb3VnaCByODE1Mi0gY2Znc2Vs
-ZWN0b3IuIEhvc3QgaXMgYW4gSW50ZWwgbGFwdG9wIHdpdGggeGhjaV9oY2QuDQo+Pj4+Pg0K
-Pj4+Pj4gU3ltcHRvbTogb24gdGhlIHBhdGNoZWQga2VybmVsIHRoZSBOSUMgZW51bWVyYXRl
-cywgcjgxNTIgYmluZHMNCj4+Pj4+IGFuZCB0aGUgbmV0ZGV2IGlzIGNyZWF0ZWQsIHRoZW4g
-YWJvdXQgb25lIHNlY29uZCBsYXRlciB0aGUgZGV2aWNlDQo+Pj4+PiBpcyBVU0ItIGRpc2Nv
-bm5lY3RlZCBieSByODE1Mi1jZmdzZWxlY3RvciBhbmQgbmV2ZXIgcmV0dXJucy4gTm8NCj4+
-Pj4+IGV0aGVybmV0IGludGVyZmFjZSByZW1haW5zLiBVU0IsIEhETUkgYW5kIHRoZSByZXN0
-IG9mIHRoZSBkb2NrDQo+Pj4+PiBrZWVwIHdvcmtpbmcsIGFuZCBwbHVnZ2luZyB0aGUgY2Fi
-bGUgc3RyYWlnaHQgaW50byB0aGUgbGFwdG9wDQo+Pj4+PiBidWlsdC1pbiBOSUMgaXMgdW5h
-ZmZlY3RlZC4NCj4+Pj4+DQo+Pj4+PiBBZmZlY3RlZCB2cyB3b3JraW5nIChBcmNoIGxpbnV4
-LWhhcmRlbmVkKTogNy4wLjExLmhhcmRlbmVkMiB3b3JrcywNCj4+Pj4+IDcuMC4xMi5oYXJk
-ZW5lZDEgaXMgYnJva2VuLiBUaGlzIGNvbW1pdCBpcyB0aGUgb25seQ0KPj4+Pj4gUlRMODE1
-My9VU0ItY29yZSBjaGFuZ2UgaW4gdGhhdCBkZWx0YSwgYW5kIGl0IGFjdGl2YXRlcyBhIGNv
-ZGUNCj4+Pj4+IHBhdGggdGhhdCBkaWQgbm90IHJ1biBiZWZvcmUgb24gdGhpcyBkZXZpY2Ug
-KG5vdGUgdGhlIG5ldw0KPj4+Pj4gd0J5dGVzUGVySW50ZXJ2YWwgbWVzc2FnZSBpbiB0aGUg
-ZG1lc2cgYmVsb3csIGFic2VudCBvbiA3LjAuMTEpLg0KPiANCj4gUlRMODE1MyB3YXMgb25l
-IG9mIHRoZSBjaGlwcyBzcGVjaWZpY2FsbHkgdGFyZ2V0ZWQgYnkgdGhpcyBmaXgsIGJ1dA0K
-PiBpdCBhZmZlY3RzIHRoZSBDREMgY29uZmlndXJhdGlvbiB3aGljaCB5b3UgZG9uJ3Qgc2Vl
-bSB0byBiZSB1c2luZy4NCj4gDQo+IEkgaGF2ZSB0cmllZCBsaW51eC1oYXJkZW5lZC03LjAu
-MTIuaGFyZGVuZWQxLTEteDg2XzY0IGZyb20gQXJjaCByZXBvDQo+IGFzIHdlbGwgYXMgbXkg
-b3duIGJ1aWxkIG9mIDcuMS1yYzYsIGFuZCBteSBSVEw4MTUzICgwYmRhOjgxNTMpIGluIGEN
-Cj4gZGlmZmVyZW50IGtpbmQgb2YgVVNCLUMgZG9jayBzdGlsbCB3b3JrcyB3aXRoIGEgZmV3
-IHhIQ0kgY29udHJvbGxlcnMuDQo+IA0KPiBTbyBpdCdzIHNvbWUgd2VpcmQgcHJvYmxlbSBu
-YXJyb3dseSBzcGVjaWZpYyB0byB5b3VyIHN5c3RlbS4gTm93IHRoYXQNCj4geW91IGhhdmUg
-YnVpbHQgeW91ciBvd24ga2VybmVsLCBwbGVhc2UgYWxzbyByZXZlcnQgdGhlIHN1c3BlY3Qg
-cGF0Y2gNCj4gdG8gdmVyaWZ5IGlmIHRoYXQncyByZWFsbHkgaXQuDQoNCkhvbmVzdGx5IEkn
-dmUgdHJpZWQgcGF0Y2hpbmcgaXQgbXlzZWxmIDopDQoNCmJ5IGNoYW5naW5nDQoNCihsZTE2
-X3RvX2NwdShkZXNjLT53Qnl0ZXNQZXJJbnRlcnZhbCkgPCB1c2JfZW5kcG9pbnRfbWF4cCgm
-ZXAtPmRlc2MpICYmDQoNCnRvDQoNCihsZTE2X3RvX2NwdShkZXNjLT53Qnl0ZXNQZXJJbnRl
-cnZhbCkgPT0gMCAmJg0KDQppbiBsaW5lIDE4NyBvZiBkcml2ZXJzL3VzYi9jb3JlL2NvbmZp
-Zy5jIHRvIHNlZSBpZiB0aGF0IGZpeGVzIHRoZSBpc3N1ZSANCmFuZCBpdCBkaWQgbm90LCBi
-dXQgSSBkaWRuJ3Qgc3BlY2lmaWNhbGx5IHJldmVydGVkIHRoZSBjb21taXQgdG8gc2VlIGlm
-IA0KdGhhdCBmaXhlcyB0aGUgaXNzdWUuDQoNCkkgd2lsbCByZXZlcnQgdGhlIGV4YWN0IGNv
-bW1pdCBhbmQgcmVwb3J0IGJhY2suDQo+IA0KPj4+Pj4gSSBjYW4gcHJvdmlkZSB0aGUgZnVs
-bCBkbWVzZyBhbmQgZnVsbCBsc3VzYiAtdiBvdXRwdXQgb24gcmVxdWVzdC4NCj4gDQo+IGxz
-dXNiIC12IG9mIHRoZSBOSUMgbWF5IGJlIHVzZWZ1bCBpbiBjYXNlIGl0J3MgZGlmZmVyZW50
-IGZyb20gbWluZS4NCj4gbHN1c2IgLXR2IG9mIHRoZSB3aG9sZSBkb2NrLCBiZWNhdXNlIHRo
-ZXJlIGFyZSBvdGhlciByZWNlbnQgcGF0Y2hlcw0KPiBmb3IgTGVub3ZvIGRvY2tzIGFuZCBJ
-J20gbm90IHN1cmUgaWYgdGhleSBhcHBseSB0byB5b3Vycy4NCj4gDQoNClN1cmUsIEkgZG8g
-bm90IGhhdmUgdGhlIGRvY2sgd2l0aCBtZSBub3csIEknbGwgc2VuZCB0aGlzIHRvbW9ycm93
-IGFzIHdlbGwuDQoNCkJlc3QgUmVnYXJkcywNCkFtaW4gVmFraWwNCg0KPiBSZWdhcmRzLA0K
-PiBNaWNoYWwNCg0K
---------------klMQ4J2GMVQT9i7R4CvHhsvO
-Content-Type: application/pgp-keys; name="OpenPGP_0x1EFC1864E9D9E56B.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x1EFC1864E9D9E56B.asc"
-Content-Description: OpenPGP public key
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
------BEGIN PGP PUBLIC KEY BLOCK-----
+FYI, I had Claude look thru the current kernel sources. It thinks
+these HID drivers are potentially at risk of triggering this same bug:
 
-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
-+78sXChAfE9n44i0gJHzV8BhCsQG4+k=3D
-=3DGHsk
------END PGP PUBLIC KEY BLOCK-----
+hid-logitech-hidpp.c
+hid-corsair-void.c
+hid-playstation.c
+hid-steam.c
+hid-lg-g15.c
+hid-uclogic-core.c
+hid-asus.c
+hid-lenovo.c
+hid-bigbenff.c
+hid-kysona.c
+hid-steelseries.c
+hid-elo.c
+hid-cp2112.c
+hid-nvidia-shield.c
+hid-apple.c
+hid-sony.c
+hid-nintendo.c
+hid-rmi.c
 
---------------klMQ4J2GMVQT9i7R4CvHhsvO--
+So I think this is quite a widespread issue; so your thought on fixing
+it at this level would probably fix a lot of other suspend issues!
 
---------------SnqF6jRORrHkalnuYnouvcF2--
+Cheers
+Martin
 
---------------DD3awKhZkdKoIHEuCSYOPkbf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wsD5BAABCAAjFiEEhGrABIXlXG/0vJ9THvwYZOnZ5WsFAmoxf0MFAwAAAAAACgkQHvwYZOnZ5Wv+
-2wwAkjYKZD77bxiZ1Ga1Q52xaTnTi3ODL1BRSQqcZVqK0fNBROu/kFGSvhOUnNtDgfpoSvN6bE++
-41QQp1d4KdkNmDvnu7bVx3iTmx0EnPtT/egl7kyD0mUAmXM8ctWGfl9Kth1dQ4BjeZou/1nqtJvw
-zMVSMfaME9p4tw0f9usP+zam6QclIFL3n/0jCwqCrZPe8C4EVJ7q5oWUVdOcSeAJ0QAy/YN199h0
-TFEY4FIrf+nmFVz/IfR8djADL8LkHq6vcVsPyrYpb4XNrJuhtwAgwT6JjE5Ie62uts1ZzhpOMlkH
-6TJ7drRX3sIoccJbggajUI+guMU7hBQ2IU303dVijuVuT7AK3opIMnG5PC3IpbOSesdYXNwE7VpZ
-d+ExLHt7lkGa0NqwZqjIM5OeS6CzCgR+5ov5xX9/RHv/n50opg/NYuRKyG8JGaVQxfzeTZzd539w
-gdBwSbVPQQYC9OZLBmoacLiLsFmBOzv6yimJ3HafeDVRrrKoAn4gIgRQkkdy
-=GlTt
------END PGP SIGNATURE-----
-
---------------DD3awKhZkdKoIHEuCSYOPkbf--
+On Sun, Jun 14, 2026 at 5:41=E2=80=AFPM Martin Alderson
+<martinalderson@gmail.com> wrote:
+>
+> Hey,
+>
+> Yes agreed - would be great if could fix it for all. FYI I have had no
+> failures with my rebuild logitech hid driver whatsoever, so that
+> approach definitely works.
+>
+> Happy to test patches. And yes, it does happen on subsequent suspends
+> so can repro a bit easier that way!
+>
+> Thanks
+> Martin
+>
+> On Sat, Jun 13, 2026 at 10:26=E2=80=AFAM Michal Pecio <michal.pecio@gmail=
+.com> wrote:
+> >
+> > On Sat, 6 Jun 2026 14:12:22 +0100, Martin Alderson wrote:
+> > > So the ordering that kills the controller is:
+> > >
+> > > 1. dj work issues a control SET_REPORT on ep0; the URB lands on the r=
+ing
+> > > 2. usb_suspend_both() =E2=86=92 usb_suspend_device() drives the port =
+to U3
+> > > 3. only afterwards does usb_suspend_both() set udev->can_submit =3D 0
+> > > and call usb_hcd_flush_endpoint() (drivers/usb/core/driver.c) =E2=80=
+=94 and
+> > > that flush unlinks the still-pending ep0 URB
+> > > 4. xhci issues Stop Endpoint to an endpoint on a U3 port =E2=86=92 5s=
+ timeout =E2=86=92 HC died
+> > >
+> > > That matches the trace exactly: the "Cancel URB ... ep 0x0" appears
+> > > after "Set port 7-1 link state ... U3", and the debugfs command ring
+> > > shows the single stuck Stop Endpoint TRB (slot 1, ep 1).
+> >
+> > Makes sense. And good point about usb_hcd_flush_endpoint() - if this
+> > gets stuck then usb_suspend_both() can't complete, which explains why
+> > the HC still isn't suspended either.
+> >
+> > > I had Claude patch the driver and this seems to fix it:
+> > >
+> > > --- /tmp/hid-logitech-dj.orig.c 2026-06-06 14:08:26.580516662 +0100
+> > > +++ hid-logitech-dj.c 2026-06-06 13:42:15.702948099 +0100
+> >
+> > Improving HID drivers is one thing (which should be discussed with HID
+> > maintainers - see Documentation/process/submitting-patches.rst), but
+> > other drivers may behave similarly and it would be nice if this didn't
+> > crash xHCI controllers.
+> >
+> > While URBs on a suspended device are weird, it turns out that xHCI
+> > spec (4.15.1) doesn't prohibit that, it only says that endpoints should
+> > be stopped. Which they are - problem happens when we try to stop again.
+> > I'd expect such a command to simply complete with Context State Error,
+> > which it does in my tests on different HW, but yours gets stuck.
+> >
+> > I'm not sure what specifically triggers this failure - is it stopping
+> > a stopped endpoint always in general, or only after using the SP flag,
+> > or on a device behind a suspended root port, or something else.
+> >
+> > Would you mind testing some patches? I'm thikning about reordering
+> > things in usb_suspend_both() so that URBs are flushed before suspending
+> > the port, or investigating what exactly breaks your chip and adding
+> > some workarounds. We don't need to stop a stopped endpoint, we could
+> > proceed immediately to Set TR Dequeue, but it's uncertain if your HW
+> > would accept that.
+> >
+> > BTW, you initially stated that this happens on the first suspend after
+> > new boot, but are you sure that it can't happen later? This would make
+> > it possible to test patches by suspending repeatedly until failure.
+> >
+> > Regards,
+> > Michal
