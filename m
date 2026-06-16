@@ -1,107 +1,308 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 319923195FC;
-	Tue, 16 Jun 2026 13:21:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
+Received: from mail.aminvakil.com (mail.aminvakil.com [178.63.189.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5109367B69
+	for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 14:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.189.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781616100; cv=none; b=G2h3nlzlQ5EpPAkT8Ad4LA2mb9RYDo8qmjgqfgeAtEWCaI+x3X2WZfryfCl6hfmg3HmUas5R9rg1AvEL+Mm2MSAoIZ7aEXUrOizlSO5OZOn8fBIPV7dvN5vkpPUOZGauSJa59BkB9VWXE/sBxUHOrj5FC+uOomgSf4VBDhAZKiw=
+	t=1781618920; cv=none; b=i9BYFqizVq6S9qG3VZLxTYMFAUAk//phkK9+9G9q0fVHH6rzxSZcApUSMSKhpU4xG4nxwAF/wq4+HcllmMwhpBOEdQ/pCSGNMqE1RXVyhCptn2UvZGaVhbrRp7yvVKrADBT1IAy7kJPYgo8I7qClV1JnHudpquh7KGYhl2DBXsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781616100; c=relaxed/simple;
-	bh=xYo44AF5Yfod+StgKVtatg/QGVfjn4U6Fl5uwbcFhDE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AuXzZTFqqlJG9f86Vr87MkJLqnzsLQaoRP7ZS6zHXnU3SiXnoAhVXPDZveUNTe8PJNkgBqR5o5i2ZX4/A3iZoVYeGiAG5eWZP5iwsvMc3WjZWanQwPBgKWbMs7Eo+oe7XK0NUO9QgL2aU0negSAAo9prw8Mu/Vz+qw2N9sJNQSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=207.46.229.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wB3nKbVTTFqEG2wAg--.61962S3;
-	Tue, 16 Jun 2026 21:21:26 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app4 (Coremail) with SMTP id zi_KCgDH+TDUTTFqiguXAQ--.44550S2;
-	Tue, 16 Jun 2026 21:21:24 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Fan Wu <fanwu01@zju.edu.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: typec: ucsi: ccg: Fix use-after-free of ucsi on remove
-Date: Tue, 16 Jun 2026 13:20:11 +0000
-Message-Id: <20260616132011.103279-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1781618920; c=relaxed/simple;
+	bh=o+k41eSYPC3u7g+lG6VMLFp7ka1IlrwdmaaUEOH1+ZA=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=UJ98OqIEbZK0evU009ctiumm6jZ/8TRtaXYQlW4QL1WyPcQABUOweqY1UU3k2DqAcNAWOCr/AU1v97nWmDzwVIzI/dTpSU4nu6YLoJpIoRv5joKsNfdF+lMpOUjyhBqdoSsVgsX/9tJ9YbLEls2PuWxv5UwjtraUpaxY84ztl9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aminvakil.com; spf=pass smtp.mailfrom=aminvakil.com; dkim=pass (2048-bit key) header.d=aminvakil.com header.i=@aminvakil.com header.b=jPihClf0; arc=none smtp.client-ip=178.63.189.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aminvakil.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aminvakil.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=aminvakil.com header.i=@aminvakil.com header.b="jPihClf0"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BAC594206C;
+	Tue, 16 Jun 2026 17:38:33 +0330 (+0330)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aminvakil.com;
+	s=dkim; t=1781618916;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-language:in-reply-to:references:autocrypt;
+	bh=o+k41eSYPC3u7g+lG6VMLFp7ka1IlrwdmaaUEOH1+ZA=;
+	b=jPihClf0m64CrrPPh/WK/4bbVHW7K6dlNBjl92VXOvVmwwiS/46UpvTlS3Yu3bFYvyDH1A
+	rpf4cH01KdJ7V+C+IBdgl4eKqg8vSMCgWz8QpaaU6s2VPJ3H4+smKHXa1KaM3JIWiYvb7c
+	7My+FUNGwPetzwzmHJVmdhsWn8b0nw7kMrlz4FD6KxAa9YLSECVcoUQ9I9gdfpqVPFmMwO
+	+NpBK0W30bTJSnFNZuqcfeXRcEjat6mOpGL5Ix1n8YMtFuazZTBee2NnB4uPplneOhLRQ4
+	Z3PNQE4PP8ze92ffu/uJqd471mcx7TeBdrVi3zXAV7ccKkalIKgE6GWGJEitvw==
+Message-ID: <573bbb08-0ba7-4f00-8996-819cc1d9cc48@aminvakil.com>
+Date: Tue, 16 Jun 2026 17:38:32 +0330
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zi_KCgDH+TDUTTFqiguXAQ--.44550S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?ND0nYAXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfnXz+g1OQfMo27QHy5TwQyZwohKw2SZcbPewIttoX0xtNb7pduqu6xNQ7nX8+qX39pR2n
-	mPgDSnrqtblu1gT9C2HN5RPxYw6l01w8CbPzC/8w
-X-Coremail-Antispam: 1Uk129KBj93XoWxJr43JrWrGFy5KFyrtr4DJrc_yoW8Cr18pr
-	y2y3y2krW8XF1aga1DZ3Z8XFy8uF4DAry2k3y2gwnxGan8Aw1j9a40ka4YgFy5Xr9rGF1q
-	yr43J3y5AFW5CwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Gb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
-	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
-	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
-	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
-	I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
-	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
-	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
-	JrUvcSsGvfC2KfnxnUUI43ZEXa7IU85l1PUUUUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] usb: core: interrupt-IN wBytesPerInterval fixup
+ (727d045d064b) breaks RTL8153 in Lenovo dock
+From: Amin Vakil <info@aminvakil.com>
+To: Thorsten Leemhuis <regressions@leemhuis.info>, linux-usb@vger.kernel.org
+Cc: Michal Pecio <michal.pecio@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Stern <stern@rowland.harvard.edu>, Tao Xue <xuetao09@huawei.com>,
+ regressions@lists.linux.dev
+References: <cbdeb118-58c7-48a7-94a0-15e5cdb5879c@aminvakil.com>
+ <35d2b455-382e-470e-acf4-1ab60770da90@leemhuis.info>
+ <5036fee2-4d00-4ca0-aeed-400da64d7872@aminvakil.com>
+Content-Language: en-US
+Autocrypt: addr=info@aminvakil.com; keydata=
+ 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
+ +78sXChAfE9n44i0gJHzV8BhCsQG4+k=
+In-Reply-To: <5036fee2-4d00-4ca0-aeed-400da64d7872@aminvakil.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------BufKtsfy02k51ZV9Awkde7pg"
+X-Last-TLS-Session-Version: TLSv1.3
 
-The threaded IRQ handler ccg_irq_handler() calls ucsi_notify_common(),
-which on a connector-change event calls ucsi_connector_change() and
-schedules connector work.  In ucsi_ccg_remove(), ucsi_destroy() frees
-uc->ucsi (kfree) before free_irq() is called, so a handler invocation
-already in flight may access the freed object after ucsi_destroy().
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------BufKtsfy02k51ZV9Awkde7pg
+Content-Type: multipart/mixed; boundary="------------01s8XXgMqKHJOZPMwVJRTfgY";
+ protected-headers="v1"; hp="clear"
+Message-ID: <573bbb08-0ba7-4f00-8996-819cc1d9cc48@aminvakil.com>
+Date: Tue, 16 Jun 2026 17:38:32 +0330
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] usb: core: interrupt-IN wBytesPerInterval fixup
+ (727d045d064b) breaks RTL8153 in Lenovo dock
+From: Amin Vakil <info@aminvakil.com>
+To: Thorsten Leemhuis <regressions@leemhuis.info>, linux-usb@vger.kernel.org
+Cc: Michal Pecio <michal.pecio@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Stern <stern@rowland.harvard.edu>, Tao Xue <xuetao09@huawei.com>,
+ regressions@lists.linux.dev
+References: <cbdeb118-58c7-48a7-94a0-15e5cdb5879c@aminvakil.com>
+ <35d2b455-382e-470e-acf4-1ab60770da90@leemhuis.info>
+ <5036fee2-4d00-4ca0-aeed-400da64d7872@aminvakil.com>
+Content-Language: en-US
+Autocrypt: addr=info@aminvakil.com; keydata=
+ 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
+ +78sXChAfE9n44i0gJHzV8BhCsQG4+k=
+In-Reply-To: <5036fee2-4d00-4ca0-aeed-400da64d7872@aminvakil.com>
 
-  CPU 0 (remove)            | CPU 1 (threaded IRQ)
-    ucsi_destroy(uc->ucsi)  |   ccg_irq_handler()
-      kfree(ucsi) // FREE   |     ucsi_notify_common(uc->ucsi) // USE
+--------------01s8XXgMqKHJOZPMwVJRTfgY
+Content-Type: multipart/mixed; boundary="------------N1KaZMVWTXTh5FQ2hFcJSwAt"
 
-Move free_irq() before ucsi_destroy() in the remove path.  It is kept
-after ucsi_unregister(): ucsi_unregister() cancels connector work whose
-handler issues GET_CONNECTOR_STATUS through ucsi_send_command_common(),
-which waits for a completion that is signalled from the IRQ handler, so
-the IRQ must stay active until that work has been cancelled.
+--------------N1KaZMVWTXTh5FQ2hFcJSwAt
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-The probe error path already orders free_irq() before ucsi_destroy().
+T24gNi8xNi8yNiAzOjIxIFBNLCBBbWluIFZha2lsIHdyb3RlOg0KPiBPbiA2LzE2LzI2IDE6
+NTggUE0sIFRob3JzdGVuIExlZW1odWlzIHdyb3RlOg0KPj4gT24gNi8xNi8yNiAxMTo0OSwg
+QW1pbiBWYWtpbCB3cm90ZToNCj4+Pg0KPj4+IFRoZSBmb2xsb3dpbmcgY2hhbmdlLCBiYWNr
+cG9ydGVkIHRvIHRoZSA3LjAueCBzdGFibGUgc2VyaWVzLCBpbnRyb2R1Y2VzDQo+Pj4gYSBy
+ZWdyZXNzaW9uIHRoYXQgZGlzYWJsZXMgdGhlIHdpcmVkIGV0aGVybmV0IG9mIGEgTGVub3Zv
+IFVTQi1DLw0KPj4+IFRodW5kZXJib2x0IGRvY2s6DQo+Pj4NCj4+PiDCoMKgIGNvbW1pdCA3
+MjdkMDQ1ZDA2NGI3YzlhMjRkYjNiY2U5YzA0ODVhMzgyY2I3NjhiDQo+Pj4gwqDCoCB1c2I6
+IGNvcmU6IEZpeCB1cCBJbnRlcnJ1cHQgSU4gZW5kcG9pbnRzIHdpdGggYm9ndXMgd0J5dGVz
+UGVySW50ZXJ2YWwNCj4+DQo+PiBJcyA3LjEgYWZmZWN0ZWQgYXMgd2VsbD8gSWRlYWxseSB0
+cnkgdXNpbmcgYSBub24taGFyZGVuZWQga2VybmVsIHRvIGtlZXANCj4+IHRoZSBkb3duc3Ry
+ZWFtIHBhdGNoZXMgb3V0IG9mIHRoZSB3YXkuDQo+Pg0KPj4gQ2lhbywgVGhvcnN0ZW4NCj4+
+DQo+IA0KPiBsaW51eCA3LjEgaXMgbm90IGF2YWlsYWJsZSBvbiBvZmZpY2lhbCBBcmNoIExp
+bnV4IHJlcG9zaXRvcmllcywgZ2l2ZSBtZSANCj4gYSBjb3VwbGUgb2YgaG91cnMgdG8gY29t
+cGlsZSBhbmQgdGVzdCwgSSdsbCB1c2Ugbm9uLWhhcmRlbmVkIGtlcm5lbCBhcyANCj4gd2Vs
+bCwgSSdsbCBwcm9wb3NlIGEgcGF0Y2ggZW5zdXJpbmcgaXNzdWUgaGFzIGJlZW4gZml4ZWQg
+YXMgd2VsbCwgaWYgDQo+IHRoYXQncyBPSy4NCj4gDQo+IEJlc3QgUmVnYXJkcywNCj4gQW1p
+biBWYWtpbA0KPiANCkkgY2FuIGNvbmZpcm0gNy4xIG1haW5saW5lIChpbnN0YWxsZWQgZnJv
+bSBBVVIpIHN0aWxsIGhhcyB0aGUgcHJvYmxlbToNCg0KZG1lc2cgKGtlcm5lbCA3LjEuMCkN
+Cg0KICAgdXNiIDItMS4xOiBOZXcgVVNCIGRldmljZSBmb3VuZCwgaWRWZW5kb3I9MTdlZiwg
+aWRQcm9kdWN0PTcyMWUsIA0KYmNkRGV2aWNlPTMxLjAzDQogICB1c2Jjb3JlOiByZWdpc3Rl
+cmVkIG5ldyBkZXZpY2UgZHJpdmVyIHI4MTUyLWNmZ3NlbGVjdG9yDQogICByODE1Mi1jZmdz
+ZWxlY3RvciAyLTEuMTogcmVzZXQgU3VwZXJTcGVlZCBVU0IgZGV2aWNlIG51bWJlciAzIHVz
+aW5nIA0KeGhjaV9oY2QNCiAgIHI4MTUyIDItMS4xOjEuMCAodW5uYW1lZCBuZXRfZGV2aWNl
+KSAodW5pbml0aWFsaXplZCk6IEludmFsaWQgaGVhZGVyIA0Kd2hlbiByZWFkaW5nIHBhc3Mt
+dGhydSBNQUMgYWRkcg0KICAgdXNiY29yZTogcmVnaXN0ZXJlZCBuZXcgaW50ZXJmYWNlIGRy
+aXZlciByODE1Mg0KICAgcjgxNTIgMi0xLjE6MS4wIGVucDBzMTNmMHUxdTE6IHJlbmFtZWQg
+ZnJvbSBldGgwDQogICByODE1Mi1jZmdzZWxlY3RvciAyLTEuMTogVVNCIGRpc2Nvbm5lY3Qs
+IGRldmljZSBudW1iZXIgMw0KDQoNCj4+PiBIYXJkd2FyZTogTGVub3ZvIGRvY2sgYnVpbHQt
+aW4gUmVhbHRlayBSVEw4MTUzLCBlbnVtZXJhdGluZyBhcyBVU0IgSUQNCj4+PiAxN2VmOjcy
+MWUgKExlbm92byByZWJyYW5kIG9mIDBiZGE6ODE1MyksIGRyaXZlbiBieSByODE1MiB0aHJv
+dWdoIHI4MTUyLQ0KPj4+IGNmZ3NlbGVjdG9yLiBIb3N0IGlzIGFuIEludGVsIGxhcHRvcCB3
+aXRoIHhoY2lfaGNkLg0KPj4+DQo+Pj4gU3ltcHRvbTogb24gdGhlIHBhdGNoZWQga2VybmVs
+IHRoZSBOSUMgZW51bWVyYXRlcywgcjgxNTIgYmluZHMgYW5kIHRoZQ0KPj4+IG5ldGRldiBp
+cyBjcmVhdGVkLCB0aGVuIGFib3V0IG9uZSBzZWNvbmQgbGF0ZXIgdGhlIGRldmljZSBpcyBV
+U0ItDQo+Pj4gZGlzY29ubmVjdGVkIGJ5IHI4MTUyLWNmZ3NlbGVjdG9yIGFuZCBuZXZlciBy
+ZXR1cm5zLiBObyBldGhlcm5ldA0KPj4+IGludGVyZmFjZSByZW1haW5zLiBVU0IsIEhETUkg
+YW5kIHRoZSByZXN0IG9mIHRoZSBkb2NrIGtlZXAgd29ya2luZywgYW5kDQo+Pj4gcGx1Z2dp
+bmcgdGhlIGNhYmxlIHN0cmFpZ2h0IGludG8gdGhlIGxhcHRvcCBidWlsdC1pbiBOSUMgaXMg
+dW5hZmZlY3RlZC4NCj4+Pg0KPj4+IEFmZmVjdGVkIHZzIHdvcmtpbmcgKEFyY2ggbGludXgt
+aGFyZGVuZWQpOiA3LjAuMTEuaGFyZGVuZWQyIHdvcmtzLA0KPj4+IDcuMC4xMi5oYXJkZW5l
+ZDEgaXMgYnJva2VuLiBUaGlzIGNvbW1pdCBpcyB0aGUgb25seSBSVEw4MTUzL1VTQi1jb3Jl
+DQo+Pj4gY2hhbmdlIGluIHRoYXQgZGVsdGEsIGFuZCBpdCBhY3RpdmF0ZXMgYSBjb2RlIHBh
+dGggdGhhdCBkaWQgbm90IHJ1bg0KPj4+IGJlZm9yZSBvbiB0aGlzIGRldmljZSAobm90ZSB0
+aGUgbmV3IHdCeXRlc1BlckludGVydmFsIG1lc3NhZ2UgaW4gdGhlDQo+Pj4gZG1lc2cgYmVs
+b3csIGFic2VudCBvbiA3LjAuMTEpLg0KPj4+DQo+Pj4gV2h5IHRoaXMgY29tbWl0OiBjb25m
+aWd1cmF0aW9uIDIgKENEQykgb2YgdGhlIGRldmljZSBoYXMgYW4gaW50ZXJydXB0IElODQo+
+Pj4gZW5kcG9pbnQgKEVQIDB4ODMpIHdpdGggd01heFBhY2tldFNpemU9MTYgYW5kIHdCeXRl
+c1BlckludGVydmFsPTguIFRoZQ0KPj4+IG5ldyBjb25kaXRpb24gKHdCeXRlc1BlckludGVy
+dmFsIDwgd01heFBhY2tldFNpemUgb24gYW4gaW50ZXJydXB0IElODQo+Pj4gZW5kcG9pbnQp
+IG5vdyBmaXJlcyBhbmQgcmV3cml0ZXMgd0J5dGVzUGVySW50ZXJ2YWwgZnJvbSA4IHRvIDE2
+LiBPbiB0aGlzDQo+Pj4gZG9jayBwbHVzIHhIQ0kgaG9zdCB0aGF0IHJld3JpdGUgYXBwZWFy
+cyB0byBtYWtlIHRoZSBkZXZpY2UgZmFsbCBvZmYgdGhlDQo+Pj4gYnVzIHJpZ2h0IGFmdGVy
+IHRoZSBjZmdzZWxlY3RvciByZXNldC4NCj4+Pg0KPj4+IGRtZXNnIChicm9rZW4ga2VybmVs
+IDcuMC4xMi5oYXJkZW5lZDEpOg0KPj4+IMKgwqAgdXNiIDItMS4xOiBOZXcgVVNCIGRldmlj
+ZSBmb3VuZCwgaWRWZW5kb3I9MTdlZiwgaWRQcm9kdWN0PTcyMWUsDQo+Pj4gYmNkRGV2aWNl
+PTMxLjAzDQo+Pj4gwqDCoCB1c2IgMi0xLjE6IEludCBlbmRwb2ludCB3aXRoIHdCeXRlc1Bl
+ckludGVydmFsIG9mIDggaW4gY29uZmlnIDINCj4+PiBpbnRlcmZhY2UgMCBhbHRzZXR0aW5n
+IDAgZXAgMTMxOiBzZXR0aW5nIHRvIDE2DQo+Pj4gwqDCoCByODE1Mi1jZmdzZWxlY3RvciAy
+LTEuMTogcmVzZXQgU3VwZXJTcGVlZCBVU0IgZGV2aWNlIG51bWJlciAzIHVzaW5nDQo+Pj4g
+eGhjaV9oY2QNCj4+PiDCoMKgIHI4MTUyIDItMS4xOjEuMCAodW5uYW1lZCBuZXRfZGV2aWNl
+KSAodW5pbml0aWFsaXplZCk6IEludmFsaWQgaGVhZGVyDQo+Pj4gd2hlbiByZWFkaW5nIHBh
+c3MtdGhydSBNQUMgYWRkcg0KPj4+IMKgwqAgcjgxNTIgMi0xLjE6MS4wIGVucDBzMTNmMHUx
+dTE6IHJlbmFtZWQgZnJvbSBldGgwDQo+Pj4gwqDCoCByODE1Mi1jZmdzZWxlY3RvciAyLTEu
+MTogVVNCIGRpc2Nvbm5lY3QsIGRldmljZSBudW1iZXIgMw0KPj4+DQo+Pj4gUmVsZXZhbnQg
+ZGVzY3JpcHRvcnMgKGxzdXNiIC12IC1kIDE3ZWY6NzIxZSwgY2FwdHVyZWQgb24gdGhlIHdv
+cmtpbmcNCj4+PiA3LjAuMTEga2VybmVsKTogY29uZmlndXJhdGlvbiAyIChDREMpLCBlbmRw
+b2ludCAweDgzIElOIEludGVycnVwdCBoYXMNCj4+PiB3TWF4UGFja2V0U2l6ZT0weDAwMTAg
+KDE2IGJ5dGVzKSwgYkludGVydmFsPTgsIGJNYXhCdXJzdD0wLA0KPj4+IHdCeXRlc1Blcklu
+dGVydmFsPTggKHJld3JpdHRlbiB0byAxNiBieSB0aGUgbmV3IGZpeHVwKS4gQ29uZmlndXJh
+dGlvbiAxLA0KPj4+IHRoZSB2ZW5kb3IgY29uZmlnIHRoYXQgcjgxNTIgYWN0dWFsbHkgdXNl
+cywgaGFzIGl0cyBpbnRlcnJ1cHQgZW5kcG9pbnQNCj4+PiAweDgzIHdpdGggd01heFBhY2tl
+dFNpemU9MiBhbmQgd0J5dGVzUGVySW50ZXJ2YWw9Miwgd2hpY2ggaXMgbm90IA0KPj4+IGFm
+ZmVjdGVkLg0KPj4+DQo+Pj4gUmV2ZXJ0aW5nIHRoaXMgY29tbWl0IChvciBqdXN0IHRoZSBu
+ZXcgaW50ZXJydXB0IElOIGJyYW5jaCBpbiBkcml2ZXJzLw0KPj4+IHVzYi9jb3JlL2NvbmZp
+Zy5jKSBzaG91bGQgcmVzdG9yZSB0aGUgZGV2aWNlLiBJIGFtIGhhcHB5IHRvIGJ1aWxkIGFu
+ZA0KPj4+IGNvbmZpcm0gYSByZXZlcnQsIGFuZCB0byB0ZXN0IGFueSBwcm9wb3NlZCBmaXgu
+IEEgcXVpcmsgdG8gc2tpcCB0aGUNCj4+PiBpbnRlcnJ1cHQgSU4gZml4dXAgZm9yIHRoZSBS
+VEw4MTUzIENEQyBjb25maWd1cmF0aW9uLCBvciBvdGhlcndpc2UNCj4+PiBuYXJyb3dpbmcg
+dGhlIG5ldyBjb25kaXRpb24sIHNlZW1zIGxpa2UgdGhlIHJpZ2h0IGRpcmVjdGlvbi4NCj4+
+Pg0KPj4+IEkgY2FuIHByb3ZpZGUgdGhlIGZ1bGwgZG1lc2cgYW5kIGZ1bGwgbHN1c2IgLXYg
+b3V0cHV0IG9uIHJlcXVlc3QuDQo+Pj4NCj4+PiAjcmVnemJvdCBpbnRyb2R1Y2VkOiA3Mjdk
+MDQ1ZDA2NGI3YzlhMjRkYjNiY2U5YzA0ODVhMzgyY2I3NjhiDQo+Pj4NCj4+PiBCZXN0IFJl
+Z2FyZHMsDQo+Pj4gQW1pbiBWYWtpbA0KPj4NCj4gDQoNCg==
+--------------N1KaZMVWTXTh5FQ2hFcJSwAt
+Content-Type: application/pgp-keys; name="OpenPGP_0x1EFC1864E9D9E56B.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x1EFC1864E9D9E56B.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-This bug was found by static analysis.
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-Fixes: e32fd989ac1c ("usb: typec: ucsi: ccg: Move to the new API")
-Cc: stable@vger.kernel.org
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
----
- drivers/usb/typec/ucsi/ucsi_ccg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+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
++78sXChAfE9n44i0gJHzV8BhCsQG4+k=3D
+=3DGHsk
+-----END PGP PUBLIC KEY BLOCK-----
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index d83a0051c737..c089000bd448 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -1513,8 +1513,8 @@ static void ucsi_ccg_remove(struct i2c_client *client)
- 	cancel_work_sync(&uc->work);
- 	pm_runtime_disable(uc->dev);
- 	ucsi_unregister(uc->ucsi);
--	ucsi_destroy(uc->ucsi);
- 	free_irq(uc->irq, uc);
-+	ucsi_destroy(uc->ucsi);
- }
+--------------N1KaZMVWTXTh5FQ2hFcJSwAt--
 
- static const struct of_device_id ucsi_ccg_of_match_table[] = {
---
-2.45.2
+--------------01s8XXgMqKHJOZPMwVJRTfgY--
 
+--------------BufKtsfy02k51ZV9Awkde7pg
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsD5BAABCAAjFiEEhGrABIXlXG/0vJ9THvwYZOnZ5WsFAmoxWOAFAwAAAAAACgkQHvwYZOnZ5Wtj
+dgwAskVwnsLYI6uaVf1jk9xXqTlzSF80OJDxe93V4hRyqqPvr7hl2BieBdkxIlE4xQZ7quwMUWfY
+GMnT/eDenrojcNlKVbM4wPqMQe5mmBHy48HYzO3zus9Ke+daNti1zPmAVR1jtbWkzY6/iFLFLoOY
+zIT9i/yb3H7vHQ92T0IzZYzEQqwTw2oe+vuZ6YcqUsxTO3r/ETYtcwh/l5jnktuFjIhpJJq+6clZ
+BL5+cs9Z6Sf+6ouJ+ykemNk/U13PmzymHcJgQQrrp9FIgB+CeJv3djZ5/QOk2FRbK2hHOb9hGO7v
+AHOfCkgjcqktVDWraCm80g6G21ikNPFEYx/O+RKalWoQrlthDJa4uw1V64PDeQ9dBtnEW7CAY22o
+MQcumnCgHLDmtM8cbybLNRvEnaa+dx7kaIEqUiq3UBI9GFYWMTxU7FyWpHf1hd07NB+gj8/hqs5z
+2K4cgVcOyUq48aIFgPdRCJglrQdjKdcTAUdrQ7/DZbYvixgZe3uzvilgnbVf
+=QKgA
+-----END PGP SIGNATURE-----
+
+--------------BufKtsfy02k51ZV9Awkde7pg--
