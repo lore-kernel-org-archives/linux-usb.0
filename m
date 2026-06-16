@@ -1,37 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EEB30677B
-	for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 09:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741323B5846;
+	Tue, 16 Jun 2026 09:49:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781603239; cv=none; b=rdK2Z5tpnwtwSiEiSE681unq9zuvE6eYz+dLgSzRYXLlHIBZVYtg7c63BRn/8oi6dcUTlHI9ne5DZUz3rp/F/OwIfVhLd7q6rdxdKXV/w6vczd3aPgzRCE01iDA0XXkNQV/adkItzx31OOHbqLAuO+qEHlVQ1SKJOXYJfOaMfYs=
+	t=1781603348; cv=none; b=abNt9fydkX3mrt6yYLEJR1x6vplM9mHh8Av1wfEYCXF8V7gDZcidmfsLKYTknfCW9SlQ8ZoSemXRqJilb4DLEdOmyx+2C8QrO6s2+0O9lzEugCqf2kKTuO1kJcVFBm1q0HGdomY2Q2zfriFbvGTVC5a+IYjemaE9vu7SNt+2qAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781603239; c=relaxed/simple;
-	bh=4Myxajr584GTYSshA9ty/cEdvgoP78XY9dv4mQAaM0M=;
+	s=arc-20240116; t=1781603348; c=relaxed/simple;
+	bh=jiLEocxNQBK6GjMpzXPf7ZOCUOSYAPAZ38ELX1lscIw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kNBLFAnkqPbEWsez9JN7YXnLJpAh2SxsrZVFbtuvXXgSBkrYn1ErCW76DwXh2dGFeaWa544nisSxRUbL1TGKEoos4K55hFNiKzwvqHQlMSFfW74uxewiIsXrvTqyIgzeDPBsd1e+DqUXhOE5inDn/3/sXdg46825L88eOzYu/8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sivpY4GK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=o30p7rSRpQ56ZjJBHihA1IwtZPs+FnrabTRmD0O/occtMRORzILny7r6UKYFtowXt4B7gGrH7sh3IDWAkNrshnwS/c9RDadP5nQ5HHYmoIOruK9Z7TcAivR7am5xFkPFUYMOiRdCZjVKY/Zfq1qeabk3Dq2ejTl5nvweQDTs+1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nbLNPnAo; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sivpY4GK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D059D1F000E9;
-	Tue, 16 Jun 2026 09:47:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1781603237;
-	bh=mf2Vlt80PehLEaUJP6y4XMfV9Yc/cI23jUO2Ouf0eDo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=sivpY4GKDhET8NX8vHCxmLHxXHNmEZhr/QozamY3FucaLoufk0muXyxgGSkuizsQH
-	 TyFHCqaGeqT63WObdxUSe70TZw8IwrVWnnggQOvEkn1tjCtoMs7UJ5x0+5B5iUCs3j
-	 ur1o2d8xy5pM5NvVZhhywB7iSj4NlMPMWR5bn2/U=
-Date: Tue, 16 Jun 2026 15:16:12 +0530
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: chaitanya.kumar.borah@intel.com, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/1] xhci: dbc: support runtime suspend while DbC is in
- enabled state
-Message-ID: <2026061602-underfed-glue-19b8@gregkh>
-References: <20260616080932.2229237-1-mathias.nyman@linux.intel.com>
- <20260616080932.2229237-2-mathias.nyman@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nbLNPnAo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781603348; x=1813139348;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jiLEocxNQBK6GjMpzXPf7ZOCUOSYAPAZ38ELX1lscIw=;
+  b=nbLNPnAob3BkNkA47PDUnSjfnra8Igumnyc2w9WR4aY+GGU9VlF5QkJT
+   MOeHYrl/s0B5N8itYeOo9wvSRkih5hPZm01Mb4IiGDrDpppQDUEKgzGyy
+   FooBq+TB9EEW0ywxQPAimj/CXwIHU4t98dxlMMPxeYMuiXzR/mcv5Knik
+   V39ieRR6EQfEqc1fSuk5RT7Jsau7XnDd9dJ9kHoPhe04po1GKrByX44Lc
+   NxkowA8uumhG/W5AMlxjaaQfe7KId2syd4QsZssaBapvFT3SosLyfOlpz
+   /84+mwI3NMacH9s8QP1H7Z7ITUcWo7viMpA7vz65SYgys4QK4K0S9UTHH
+   A==;
+X-CSE-ConnectionGUID: AxNcf0vpQDuQS6mkZwzzWQ==
+X-CSE-MsgGUID: gGZawzcvT0WqqXJVH/xvNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="86265553"
+X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
+   d="scan'208";a="86265553"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 02:49:07 -0700
+X-CSE-ConnectionGUID: XVg//dqXQqi8918oDLukJQ==
+X-CSE-MsgGUID: EE0dTLFuQNKgd0mpuJkkDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
+   d="scan'208";a="246843978"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa010.jf.intel.com with ESMTP; 16 Jun 2026 02:49:03 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 6626895; Tue, 16 Jun 2026 11:49:02 +0200 (CEST)
+Date: Tue, 16 Jun 2026 11:49:02 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Lee Jones <lee@kernel.org>,
+	Mark Brown <broonie@opensource.wolfsonmicro.com>,
+	Thierry Reding <thierry.reding@avionic-design.de>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Peter Chen <peter.chen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH 07/23] driver core: platform: provide
+ platform_device_set_fwnode()
+Message-ID: <ajEcDq0S067wMFaK@black.igk.intel.com>
+References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com>
+ <20260521-pdev-fwnode-ref-v1-7-88c324a1b8d2@oss.qualcomm.com>
+ <ah9OIVyrHEhcMHzN@ashevche-desk.local>
+ <CAMRc=McLN9Ovoqo3om-3uC=q+=rcKCoiWMctC=yvwiaHacU0PQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,39 +112,36 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260616080932.2229237-2-mathias.nyman@linux.intel.com>
+In-Reply-To: <CAMRc=McLN9Ovoqo3om-3uC=q+=rcKCoiWMctC=yvwiaHacU0PQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Jun 16, 2026 at 11:09:32AM +0300, Mathias Nyman wrote:
-> Allow xHC to runtime suspend if DbC is in 'enabled' state for over
-> 15 seconds without a connect.
+On Thu, Jun 04, 2026 at 05:32:27AM -0700, Bartosz Golaszewski wrote:
+> On Tue, 2 Jun 2026 23:41:53 +0200, Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> said:
+> > On Thu, May 21, 2026 at 10:36:30AM +0200, Bartosz Golaszewski wrote:
+> >> Provide a helper function encapsulating the logic of assigning firmware
+> >> nodes to platform devices created with platform_device_alloc(). Make the
+> >> kerneldoc state that this is the proper interface for assigning firmware
+> >> nodes to dynamically allocated platform devices. This will allow us to
+> >> switch to counting the references of the device's firmware nodes in the
+> >> future, not only the OF nodes.
+> >
+> > But why different for of_node and fwnode to begin with?!
 > 
-> Idea is that every time we go to 'enabled' state we make sure DbC runtime
-> pm usage is '1' and save a timestamp. if the event loop still finds DbC in
-> enabled state 15 seconds later then it decrease DbC runtime pm usage by
-> calling pm_runtime_put().
-> Enabled state is reached either when DbC is enabled by userspace or a
-> connected/configured DbC is disconnected.
-> 
-> When a connect is detected we make sure DbC usage count is 1.
-> 
-> If DbC has been in 'enabled' state for 15 seconds and DbC usage is
-> decreased to 0 by pm_runtime_put, then the whole xHC controller may
-> runtime suspends to PCI D3 state if no other devices are using it
-> 
-> DbC sysfs file will show 'suspended' when xHC is suspended and will wake up
-> and enable DbC at cable connect, or when user writes 'enable' to the file.
-> 
-> This patch was originally part of a larger DbC series, but dropped before
-> the series was submitted to 7.2-rc1. The series has a locking issue in
-> commit 520058b73ba3 ("xhci: dbc: serialize enabling and disabling dbc")
-> which is also resolved by this patch
-> 
-> Fixes: 520058b73ba3 ("xhci: dbc: serialize enabling and disabling dbc")
-> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-> ---
->  .../testing/sysfs-bus-pci-drivers-xhci_hcd    |  2 +-
->  drivers/usb/host/xhci-dbgcap.c                | 60 ++++++++++++++++++-
->  drivers/usb/host/xhci-dbgcap.h                |  3 +
->  3 files changed, 62 insertions(+), 3 deletions(-)
+> I'm not following. What are you suggesting?
 
-No "reported-by:"?
+After re-reading of this thread, I think I'm suggesting the same what you have
+in plans to do in the future as you put it as "This will allow us to switch to
+counting the references of the device's firmware nodes in the future, not only
+the OF nodes."
+
+// Offtopic
+I haven't heard from you for more than a month on this:
+https://lore.kernel.org/r/af18zdP5HF3_P9Vo@black.igk.intel.com
+Anything should I do? Please, answer to that thread.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
