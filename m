@@ -1,152 +1,107 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1013F317142
-	for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 13:16:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 319923195FC;
+	Tue, 16 Jun 2026 13:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781615793; cv=none; b=jSEWHEwbQS5cRWAGtubPPINgdabQ5xEM3lc1agknPJaJMbVRDnae5qDp/SpDNlJndYL6X1rfDudSqQHszNBndHuxD9UVY7wHGBHbCeuBCHnsrW4Sm52pkIS7aS+08W67w70epiLPjsztWpFxEjeRFHEUgY9MKsFMYsYvCUBsJsI=
+	t=1781616100; cv=none; b=G2h3nlzlQ5EpPAkT8Ad4LA2mb9RYDo8qmjgqfgeAtEWCaI+x3X2WZfryfCl6hfmg3HmUas5R9rg1AvEL+Mm2MSAoIZ7aEXUrOizlSO5OZOn8fBIPV7dvN5vkpPUOZGauSJa59BkB9VWXE/sBxUHOrj5FC+uOomgSf4VBDhAZKiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781615793; c=relaxed/simple;
-	bh=49PdK05MfJuPjs1aRlijj6dHIPLp72WX74A/rJI6gok=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pqXKAQ14REDhfMo087VyMzEcPgon3GBFmm3IgYfVabxm4Kj9IQrMuunWc27Xq1p3KGAOslPpuKgrYUAVdenoBba8Jc8nqzWxlEWHBClPoNFO2HqVasMvVLWtKZqJ+YhsqkgD9CuSlFmWcirJsKwl7OploL9B41+rquZv24D57vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=durfiHYN; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=We8PQEIH; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="durfiHYN";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="We8PQEIH"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65GACTfN3474696
-	for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 13:16:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	BowRZ2AS+201sr5j8jJBVB2tSw9pjrUlTsmfC3fjNtg=; b=durfiHYNrkEpvh73
-	Q462eTqBlCeQulUOGCwf/kh43n4TaCYOJVAwewBOqK4XpXk0wFSmnHdLq/U7xfpm
-	l1pf/A5sNVN/qRhrSzWhsvSKFzKxq6iPLkq9Jur3t4B19aTBxAqvocq9yhCuGeAo
-	9YfmcYECHLXFhEpthCZAZTIwfzHO9z+EbycTSaBQG4mOUPk9qTHw/wmkihsWOPrv
-	/dUpNBfw/V3N7LqUIwYdkzSLxEgJDyNCEAY5BHZbegbbljvyFvG1I1XSU3xmzW1E
-	XVUhy1bSW/X/Sqgtp/wklban5G9bpA9ro4xhs/9aTXReBnbpxw9EIk6DNrD/nDQm
-	S9SPCA==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ety52t6qf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 13:16:30 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-9158ecbfbc2so34847485a.0
-        for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 06:16:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1781615790; x=1782220590; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BowRZ2AS+201sr5j8jJBVB2tSw9pjrUlTsmfC3fjNtg=;
-        b=We8PQEIHJ+LC5VHPYko/TDV82PZTMyoP1ZDgT2v5DBaqvbtcwV00/RsGo2vtfE5j6l
-         1gb6x6vwa7fK3HB77hpd0Dertlk1M1AdYk2ITjeXM7ChmxuCUQ6LQNABe+iZ2UaG1iaP
-         lLwSs9A5IUb5soAb220nn8Yfym3zUxofnFuSOqZIaR1CyUg4i7MoqMd2+za8OBN67Pvj
-         NKzg+IRnaZTmearzv99jT/5MU4HtlxIy2DFbJRgDCZigxR/yHLZeMclPc8BHMvbwfcrK
-         05v/VuyLcaeg/kW7O62CgHtqBYP826Jqadtjf7Io3S3Ae7OrHONg8NzG0aWt1Q94xmTN
-         YzvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781615790; x=1782220590;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BowRZ2AS+201sr5j8jJBVB2tSw9pjrUlTsmfC3fjNtg=;
-        b=FV2HCWEsiothy65mPuhwH7uHvU4eqc8BJICGzTLhV/NHTKBHSmEfAUiKANRzFX0gKK
-         2O+Fg+OsLaf1D1JSQWBJT/ZIABvhq3EiD1dVtIW/rsjepANjISwNIRQOWILPEE5hwxJ0
-         qqDzNpSmQ4f2Z3Mp5RBnCkf3WcFvRo3qUGSHVpjJVzmV6KAGWpsYEF8yHufCk/xv1LTm
-         UTexFVOoRfzIsC4Ok84W52ZzeFnIZNipDFMyNyJ4bOXC04ME0KYYtx74YhTVJI7iogcU
-         gVeiyPR6+McxURcE75AHNFaIMsDOTWpeiW1+Y0Lf9PAmX0qG5gNkiYyrAdksn6NVQ/qT
-         glVQ==
-X-Gm-Message-State: AOJu0Yw1o3xqK802/nnkmZeEU9Jop6raf7WZ51cQQP20qu8mWa6XePVh
-	xcGBzY7RRI1OrC4LOpxrOSJ8M2Xk+tTzs4t4uYU2UzFZ/HWtgr3Zfv7S2/72vNL9bPaAYpZQumi
-	9kaYRjGV9QaDQNzKJppbHAwZJ/BKqxVNSnjNcyvxTvkdUjPhoDuReRylmuTBV52Y=
-X-Gm-Gg: Acq92OH4I/6ray5Vl50eD0MmDYtqNeSoEuAGITm0Pl2AJECN0NezUWmI6xPRb3Rj0OY
-	nl2xu+sKyT8syGRv4wAnYlM/EsT63bNvNHxk/is9BpgIkibk8/JACPpJp81wBaoN0n+8L67+72i
-	kIIieyePlll9UaTJ0MzNqQI8yDSuX951RL1htCNILrtAxzRwhf4dWRJLArEk6E+WnvorXN9BxyA
-	8GYbUe6k5DvKLuRTu06Z9pkNc1GHkllg0NJRcEa12OVSln29brm2zofFzFtAnHc99Vkpgvz8IuH
-	M4guswzdqsb3SHrHxDdx2WmEOxcrX/jIGYbs86S3s3PwLxi6ihv0oLv/0YlS3fglbBnk3c/r67S
-	4pqzmO9gOLmISaRBY8oTv3DFwGJ3njd5hU2c2s9N5chZjiA==
-X-Received: by 2002:a05:620a:2a07:b0:902:daaf:22cd with SMTP id af79cd13be357-9161b9598e7mr1677790485a.0.1781615790279;
-        Tue, 16 Jun 2026 06:16:30 -0700 (PDT)
-X-Received: by 2002:a05:620a:2a07:b0:902:daaf:22cd with SMTP id af79cd13be357-9161b9598e7mr1677788385a.0.1781615789754;
-        Tue, 16 Jun 2026 06:16:29 -0700 (PDT)
-Received: from [192.168.120.170] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad2e1a730esm3517152e87.41.2026.06.16.06.16.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Jun 2026 06:16:28 -0700 (PDT)
-Message-ID: <ea6a5d86-601f-4755-adc6-edaae29cfece@oss.qualcomm.com>
-Date: Tue, 16 Jun 2026 15:16:27 +0200
+	s=arc-20240116; t=1781616100; c=relaxed/simple;
+	bh=xYo44AF5Yfod+StgKVtatg/QGVfjn4U6Fl5uwbcFhDE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AuXzZTFqqlJG9f86Vr87MkJLqnzsLQaoRP7ZS6zHXnU3SiXnoAhVXPDZveUNTe8PJNkgBqR5o5i2ZX4/A3iZoVYeGiAG5eWZP5iwsvMc3WjZWanQwPBgKWbMs7Eo+oe7XK0NUO9QgL2aU0negSAAo9prw8Mu/Vz+qw2N9sJNQSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=207.46.229.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wB3nKbVTTFqEG2wAg--.61962S3;
+	Tue, 16 Jun 2026 21:21:26 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app4 (Coremail) with SMTP id zi_KCgDH+TDUTTFqiguXAQ--.44550S2;
+	Tue, 16 Jun 2026 21:21:24 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Johan Hovold <johan@kernel.org>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Fan Wu <fanwu01@zju.edu.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: typec: ucsi: ccg: Fix use-after-free of ucsi on remove
+Date: Tue, 16 Jun 2026 13:20:11 +0000
+Message-Id: <20260616132011.103279-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: typec: ucsi: unregister debugfs entries on teardown
-To: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20260611-usci-unregister-debugfs-v1-1-f4a518a94f27@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260611-usci-unregister-debugfs-v1-1-f4a518a94f27@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE2MDEzNSBTYWx0ZWRfX6VzdYPq8OKam
- fjLnTm539WmOUgfpd+sZRd+p5/5aJ7RBZJuC1viFVVPNRDr5WBgMq7LhBX74qwTvwChlUQlxfbe
- R9T3p4QJ87Pim39BTMk45VWs1ETLVgQ=
-X-Authority-Analysis: v=2.4 cv=FJwrAeos c=1 sm=1 tr=0 ts=6a314cae cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=EUspDBNiAAAA:8 a=N3f1q4s7xJVnOBk5yegA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE2MDEzNSBTYWx0ZWRfXwMmjS5k+p3yx
- oWoJN67h7mpVWgfJJveV9ncHz3ylM579DcaiBhkfwufKTrK+aoasRuiwhlPEV2qag97Ae7hVYZU
- nxQUVKBi3M69LjNucfiPjN0BYEbmF850tOjZPHLs1SEP4Gbm76VQWhECfXksfjvu7g2BKz7bnJ2
- +KDsPRvZyifVF1O9vGnm33rVyl9IeGsR0ziFA0kQwznCFCXs7MpB/1799IQilpJpUfOue1rBWnf
- 52cXhygsRFzrKbn6byJ85KoH3nHCl+51g+gl/RNx9cBlM1tZcaXlVoEYCZkWfI71IDogFhssK5P
- s8Yev01F203aiDPh0b+3PFWNk6D78q0TMNSIvbz7qVEErYGnFyR3ChwWSBsjqkZDBda/m+8q9OD
- i5CGywkKV5Nmo9YQwmlpCsZVYSh74ZynnoONZILjakaX7t7xa9hTJ3pWMjjhUV9mpSEhF+m3R/N
- /Q/9pL6is9JXS96r+9g==
-X-Proofpoint-ORIG-GUID: L3GgAXYvMRWbcWdI5DnXjYFdIz6z1a45
-X-Proofpoint-GUID: L3GgAXYvMRWbcWdI5DnXjYFdIz6z1a45
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-16_03,2026-06-15_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 lowpriorityscore=0 spamscore=0 phishscore=0 malwarescore=0
- impostorscore=0 adultscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606040000 definitions=main-2606160135
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zi_KCgDH+TDUTTFqiguXAQ--.44550S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?ND0nYAXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnXz+g1OQfMo27QHy5TwQyZwohKw2SZcbPewIttoX0xtNb7pduqu6xNQ7nX8+qX39pR2n
+	mPgDSnrqtblu1gT9C2HN5RPxYw6l01w8CbPzC/8w
+X-Coremail-Antispam: 1Uk129KBj93XoWxJr43JrWrGFy5KFyrtr4DJrc_yoW8Cr18pr
+	y2y3y2krW8XF1aga1DZ3Z8XFy8uF4DAry2k3y2gwnxGan8Aw1j9a40ka4YgFy5Xr9rGF1q
+	yr43J3y5AFW5CwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Gb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
+	JrUvcSsGvfC2KfnxnUUI43ZEXa7IU85l1PUUUUU==
 
-On 6/12/26 12:22 AM, Bjorn Andersson wrote:
-> ucsi_register() creates per-instance debugfs entries, but
-> ucsi_unregister() keeps them around until ucsi_destroy().
-> 
-> Drivers like ucsi_glink that unregister/register the same UCSI
-> instance across remoteproc restart then try to create an already
-> existing debugfs directory and log:
-> 
->   debugfs: 'pmic_glink.ucsi.0' already exists in 'ucsi'
-> 
-> Unregister debugfs entries as part of ucsi_unregister(), and
-> clear ucsi->debugfs after freeing it so repeated unregister
-> paths remain safe.
-> 
-> Assisted-by: Codex:GPT-5.5
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@oss.qualcomm.com>
-> ---
+The threaded IRQ handler ccg_irq_handler() calls ucsi_notify_common(),
+which on a connector-change event calls ucsi_connector_change() and
+schedules connector work.  In ucsi_ccg_remove(), ucsi_destroy() frees
+uc->ucsi (kfree) before free_irq() is called, so a handler invocation
+already in flight may access the freed object after ucsi_destroy().
 
-Fixes: df0383ffad64 ("usb: typec: ucsi: Add debugfs for ucsi commands")
-Tested-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com> # X1E80100 CRD 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+  CPU 0 (remove)            | CPU 1 (threaded IRQ)
+    ucsi_destroy(uc->ucsi)  |   ccg_irq_handler()
+      kfree(ucsi) // FREE   |     ucsi_notify_common(uc->ucsi) // USE
 
-Konrad
+Move free_irq() before ucsi_destroy() in the remove path.  It is kept
+after ucsi_unregister(): ucsi_unregister() cancels connector work whose
+handler issues GET_CONNECTOR_STATUS through ucsi_send_command_common(),
+which waits for a completion that is signalled from the IRQ handler, so
+the IRQ must stay active until that work has been cancelled.
+
+The probe error path already orders free_irq() before ucsi_destroy().
+
+This bug was found by static analysis.
+
+Fixes: e32fd989ac1c ("usb: typec: ucsi: ccg: Move to the new API")
+Cc: stable@vger.kernel.org
+Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+---
+ drivers/usb/typec/ucsi/ucsi_ccg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
+index d83a0051c737..c089000bd448 100644
+--- a/drivers/usb/typec/ucsi/ucsi_ccg.c
++++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
+@@ -1513,8 +1513,8 @@ static void ucsi_ccg_remove(struct i2c_client *client)
+ 	cancel_work_sync(&uc->work);
+ 	pm_runtime_disable(uc->dev);
+ 	ucsi_unregister(uc->ucsi);
+-	ucsi_destroy(uc->ucsi);
+ 	free_irq(uc->irq, uc);
++	ucsi_destroy(uc->ucsi);
+ }
+
+ static const struct of_device_id ucsi_ccg_of_match_table[] = {
+--
+2.45.2
+
