@@ -1,221 +1,139 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 548FD379987
-	for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 14:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715D34779B3
+	for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 16:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781620093; cv=none; b=MxB+/SCvnHa/F3GvaAj6TmYUfoPtaO+15FEurLYsn0bUcxlwxJopWFwbTnNZ4KMRmVqmT/R2IR/incGGwffZ33zL80ITxckwWUdNfRvYfOEbQhVvxX6PUknAp8pTE6zNDQDqw/BZu/Tb/JuHt/kLU28QGX+crnPggEuiGrvG5PU=
+	t=1781627813; cv=none; b=nzqA1szDlv9b+qBJOjh/bffDQlVdxGD+vKtAx37odIcnqxBw7ynuNFnsbmAS7whctA/+G9DQEs2uDjJ09AyGj1k3Uz3yelFDbfU07MUzglVi24VmBDONVgEemieJi61AldGaMeVKRuskL+59ZUgYt0MeYpV9Pbe/mr8vBEPLVrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781620093; c=relaxed/simple;
-	bh=yvUtyGChRITdacoZi2gl3Px5RNLwduZ1sP3kH8lYtxE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g2Y3XXeZO+tidQPkfvetUPX++i3upUAc1YuXtxtf0GEq5FCvecoR+WQ/V/eWpO2TFFY4/vjNnZly0tH3SrSiGob5aV6yiDrsa/b5EXoVrnI3kcsxCry4MEKNc+8wbWA1Jm7+//4r3EpDDfdNVDXEABbfu07ZyNJohi9b38tAlDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=ZtQ3S2lg; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1781627813; c=relaxed/simple;
+	bh=KWyR6lLbfsKyvj+2Veq9+Tz9SdQtZ+iqwrafWa+Suds=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IQfcFBI1cMYPUWVEX/mA9q4FBxj0o3XoyKpuzaCL7JWOIs4GzhZB+ot4TrD9Te43+ACjr5DEdYOus/aDb3Hx5pZW0dFKjqftm/H/5rrCUYkk9oz2AUElp6+vLV2eo2/wuVjw8A68w6roqvFS4UyN5INMR6wJavTLs6ATmq7u3/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q8OzLnNo; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="ZtQ3S2lg"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51775f2473aso35232301cf.0
-        for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 07:28:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q8OzLnNo"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-45ef779c1c2so3618257f8f.1
+        for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 09:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1781620091; x=1782224891; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=QBzxltYFB5IlhH9MRB9F4u0mC5z3CJixmHvtZ6C+QV8=;
-        b=ZtQ3S2lg+R58dMhjFI9tb2F5ZIzHQ5AqXdxiUnEdn+ZuLdneiX1VIpCVXa5Y92nszX
-         3B+RjNPtaGJtdrt0ckIrM7mt7JqB4HuS5KkPnSGRa5bBkp6lDeEz8W5ELrRkdRMOtRGu
-         YR/Y9lhRFyS76mYlzuXuE61PazZjbxxm9PVPGiny6mBgDXkkYbCe//xVHxWiR2ifJ+6n
-         x+TSz8O/i6BcGDo/g476DcUb3ONCLO1JxkO+2hFR/DTfWYVZuiOSIGPHYg6p9cC6U8xz
-         K7+gM6B5toYV+tJp6Qs6pChlcB4paEYtkxeBnwtzsdCL4p7zqs9K2WpZc3KRk6nCsgA4
-         E6lg==
+        d=gmail.com; s=20251104; t=1781627811; x=1782232611; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HFaNAqinUgkXjh92IVLXqIUVWHUv/aOY2jo/+DQ3enI=;
+        b=q8OzLnNoElAWU3fsuzcwCUfaZKNeOh7J+FQAKcnPUYW9WCIy85AscFgi5+RtdHNFjT
+         GHzW12HlzeSkhoOnIDlLU01NzA1C5e69mYZvw+L0OboqdPUxipUEgVVbju4AO9z/Dune
+         lrXkoOh3I/CjqlM2ZOIbfxmHQ63c2FuPTtGdkkW0rJidw/j2qFOxW1YxcajD3Au4GyDL
+         pbbDKzQMu9iaoUarth/02EL0nAMhEyAOMLp1Jv6e6n9wOSglDStZGzN0Q2QEMFefsZ/z
+         bpf0vnU6G+HS6CGR5+hgSIizfjY62xvnjMkG72fFH9BoS3bXXdhyXnUA92f7NcG7bTAQ
+         oxqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781620091; x=1782224891;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QBzxltYFB5IlhH9MRB9F4u0mC5z3CJixmHvtZ6C+QV8=;
-        b=cvbqZJ/6sN7Sn2J4ilDBUYUY/xHju0WgkOudXD3SGYKdKFiGzDZBJrpaP7xFTWXuYo
-         4Xx4rWgMmvxTs0pUKgpMrQCuLnT4E4s10nzxaJHfXhLfc65SZZHxuJJvEax0ks7Awpxi
-         i1T8bproSs0KYtWUZiXYBYidb/ty7uO5Xm3jGdd62bX+j2nuDW/p+nMiwovENurs0asX
-         7z9ZinljkMHTfVG+6LpM5tyatl1N59FbgxEXK4R8E9hzsXYWXsc+qKMYcpp6d7A8LQjx
-         wuIQ9CYFH+Fx3N3DC1CuLHGe4VpSQGqlzINxN3jtwTjs0Q5L39NK51t6rihaSmbsYWE7
-         j8Yw==
-X-Forwarded-Encrypted: i=1; AFNElJ+8s69iJZogRqrg/IpGYuHhT/QrNqD0nnnmvxT5jyTQ72FaZA3BLB2NDUPUroFFnsqWJh8LEAgf5BY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMZpM3YB3o42X6/K6Ud4DOnkVq0e0AtWWiok6G2543kIPDoc4B
-	2Dkqm70HFPLK+zv5i4o61rHpQ3I/m5VxKG0C+37Em40iv28lNFO6BggLU704VdvBZw==
-X-Gm-Gg: Acq92OGe49xVzXs2o8+jiDTdgu4lePn0XYKkI6qkLbPoEr8Cewk40jdUwVFXzoZgYe2
-	j3z5C9AgtaxAb9MqWmHlLqQuPvX57f+/E/+sCmgO0ni7hic557yIy+JC1n5SnQ6q5z/FON/XPZt
-	QPGBHcIcA7GAGBD4b/53Ryw72yvcLn8mbHfZ8EloPv4QeNoCElNTh7NwOGG5W86JHrD9Navk4HP
-	MtlAzsdOmh3L2n4MuLVsQH5NwznYfH+Izf+tLVyqEZ6+nT91oNtSxaLXfplTW6IYybTyiE2d3Hv
-	kLnrcPOvyryGYICtSF3XJE0a8GMuQvJHZRvf0uksG6H0zwEel+Ts1MAlzll2T2NAhTOXN5mfVom
-	rUtun/UpH2MdtDWgg6QPa4tYrpxUdzZpjF37OWaHhTFtW/6EbVKOxd7lB2Mr1/trMTvwCDavHpj
-	V6Bpt3G31F9/iURCum8hn5cb4X/wZvcixMRCc9eOHbZpI=
-X-Received: by 2002:a05:622a:2c8:b0:517:5ffc:4a11 with SMTP id d75a77b69052e-517fe4bc675mr269519021cf.36.1781620090787;
-        Tue, 16 Jun 2026 07:28:10 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51955b271fbsm107149761cf.22.2026.06.16.07.28.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 07:28:09 -0700 (PDT)
-Date: Tue, 16 Jun 2026 10:28:06 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: "Jimmy Hu (xWF)" <hhhuuu@xwf.google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: udc: Fix NULL pointer dereference in
- gadget_match_driver
-Message-ID: <adbaf493-fe24-489f-9ad5-87eacc7c187e@rowland.harvard.edu>
-References: <20260526070635.839701-1-hhhuuu@google.com>
- <1f7a7bf2-4d21-4944-9da0-36082d052b25@rowland.harvard.edu>
- <CAJh=zjLLrY-NpV-ZcmH0V6q8CjNuKt7CmW-GEFQ8_y3zm9v1yw@mail.gmail.com>
- <d0042def-a513-479f-9742-12942346cd5a@rowland.harvard.edu>
- <CAJh=zjJqarEkrzajpdcUAZwOxisbdrwTPwX_jHWzuWZFSQ16SA@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1781627811; x=1782232611;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HFaNAqinUgkXjh92IVLXqIUVWHUv/aOY2jo/+DQ3enI=;
+        b=fkHIKFb7YaArPh3YCKZ+j4tbIf3C6nm0GPUxayjcVm8xpIuxvIGrEJ7b9GX1Ggg//p
+         qo35QS3MhrEb6Uu9MjvIisWjZh8Z3u8a0mCXLm40SWw8IaZxk0h3Whl+L123CAYJQGJd
+         E6trZ2rXAAhRV+c/NbKwN0+5EX3Uo9g1qbi3ubfk68M2XnfeSW06iA8TlEcFPjz9ZMmc
+         cpm5MRLTQwKtuZzSKIDue2nH69smOwV6yjrGfYTmG9evgxfQ3IXqHg7Xlpns5dXjm91Z
+         i7ztr9MpfetK8iF3dU0rUs6F8NNSo36R996hsoKGuTPOs2M242BGBUlZ4vZE5KBlP0zv
+         Y1ig==
+X-Forwarded-Encrypted: i=1; AFNElJ+eURiOd3Q68G9di+4ox2jrgPkGkKaystG26PnmO4erslyy1vCFYDlvLC5PQsq4ddvvw5985EPaNCI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTNnrtuit0+BI1HihH/RO5SJcyjgfpr12wvaL1sa7Touy2OoK5
+	ygJPZD11kE4oPuw/GdeQBfK39DP4q3czuFjfZyyv3CYN5tAPcutBNfGu
+X-Gm-Gg: Acq92OE5Qp1PUbz3NKHTCeYGAe8Pz8H9zpmOO+foJtzPOwWVkeJfueVzQ2lN886lfxi
+	YH5SbGFMe9Y9yhlCS3n9Rq5huwrJYmKi9urFKFPHDkmqf1WOy3c2g4yeNgOuPh4cwH13jfAMwfq
+	980fbH0WvypKr0H+KDdQJytnJvVHdiArEQY/qTWNp8OHD+pDCIu2NfHFudew6MRgkpOL7xY2Ffr
+	roZYnFUmPRBK6bIgHTnGBKSBdFG/y3m6FoQFD0MsUKUKxZdEbyD75BL/cwCMgQ3v0L8T0mLZzFo
+	GQ16N5OJHQ4thJNyZ0Y9YK4NghVtpSeAhPIdjlYZA67pW4hkG0BsFl2HzN+x36TZJSxRSQDB/ju
+	GjGiH29SRPkMnGONkxE9BtbRoH1ektB9alaCp4ZsfTc8PHMRG8bZyKNe31b+kZhwGsEePF0YDAj
+	qVCbHQfr1DILh08Wq36nhlDxDelyc1zFWk
+X-Received: by 2002:a05:600c:19d3:b0:492:2100:aba2 with SMTP id 5b1f17b1804b1-492333ba311mr4589965e9.4.1781627810369;
+        Tue, 16 Jun 2026 09:36:50 -0700 (PDT)
+Received: from foxbook (bfg19.neoplus.adsl.tpnet.pl. [83.28.44.19])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26f309sm42606551f8f.14.2026.06.16.09.36.49
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Tue, 16 Jun 2026 09:36:50 -0700 (PDT)
+Date: Tue, 16 Jun 2026 18:36:46 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Amin Vakil <info@aminvakil.com>
+Cc: Thorsten Leemhuis <regressions@leemhuis.info>,
+ linux-usb@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Stern <stern@rowland.harvard.edu>, Tao Xue <xuetao09@huawei.com>,
+ regressions@lists.linux.dev
+Subject: Re: [REGRESSION] usb: core: interrupt-IN wBytesPerInterval fixup
+ (727d045d064b) breaks RTL8153 in Lenovo dock
+Message-ID: <20260616183646.4798516b.michal.pecio@gmail.com>
+In-Reply-To: <573bbb08-0ba7-4f00-8996-819cc1d9cc48@aminvakil.com>
+References: <cbdeb118-58c7-48a7-94a0-15e5cdb5879c@aminvakil.com>
+	<35d2b455-382e-470e-acf4-1ab60770da90@leemhuis.info>
+	<5036fee2-4d00-4ca0-aeed-400da64d7872@aminvakil.com>
+	<573bbb08-0ba7-4f00-8996-819cc1d9cc48@aminvakil.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJh=zjJqarEkrzajpdcUAZwOxisbdrwTPwX_jHWzuWZFSQ16SA@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 16, 2026 at 01:14:03PM +0800, Jimmy Hu (xWF) wrote:
-> On Tue, Jun 2, 2026 at 10:30 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> >
-> > On Tue, Jun 02, 2026 at 01:34:07PM +0800, Jimmy Hu (xWF) wrote:
-> > > On Wed, May 27, 2026 at 2:00 AM Alan Stern <stern@rowland.harvard.edu> wrote:
-> > > >
-> > > > On Tue, May 26, 2026 at 03:06:35PM +0800, Jimmy Hu wrote:
-> > > > > A NULL pointer dereference occurs in gadget_match_driver() because a
-> > > > > race condition exists between the DRD mode-switch work and the
-> > > > > configfs UDC write path:
-> > > > >
-> > > > > 1. The DRD mode-switch work invokes __dwc3_set_mode(), which calls
-> > > > >    dwc3_gadget_exit() and subsequently frees the UDC device name via
-> > > > >    device_unregister(&udc->dev).
-> > > > > 2. The configfs UDC write path invokes gadget_dev_desc_UDC_store(),
-> > > > >    which calls usb_gadget_register_driver() and subsequently
-> > > > >    compares the UDC device name via gadget_match_driver().
-> > > > >
-> > > > > If gadget_match_driver() runs concurrently during UDC unregistration, it
-> > > > > may access the freed UDC device name. Once the freed memory is zeroed,
-> > > > > dev_name(&udc->dev) returns NULL, causing a panic in strcmp().
-> > > >
-> > > > I don't see how this can happen.  gadget_match_driver() runs during
-> > > > probing of a gadget, which takes place only while the gadget is
-> > > > registered in the device core.  But usb_del_gadget() calls
-> > > > device_del(&gadget->dev) before it calls device_unregister(&udc->dev).
-> > > > This means that at any time when gadget_match_driver() can run, the UDC
-> > > > device name must still be allocated.
-> > > >
-> > > > You should run more tests.  Add debugging printk() calls just before and
-> > > > just after the device_del(&gadget->dev) and device_unregister(&udc->dev)
-> > > > lines, and inside gadget_match_driver(), so the tests will show
-> > > > unambiguously when these things happen with respect to each other.
-> > > >
-> > > > > Fix this by checking dev_name(&udc->dev) before calling strcmp().
-> > > >
-> > > > Adding a check like this will not fix a race; it will only make the race
-> > > > less likely to occur.  It won't prevent the name from being deallocated
-> > > > between the check and the strcmp() call.
-> > > >
-> > > > Alan Stern
-> > >
-> > > Hi Alan,
-> > >
-> > > Thank you for the review. You are absolutely right about the TOCTOU risk;
-> > > the simple NULL check does not prevent the name from being deallocated
-> > > after the check but before the strcmp() call.
-> > >
-> > > I will submit a v2 patch that uses get_device(&udc->dev) and put_device()
-> > > to increment the UDC reference count during the matching phase. This will
-> > > guarantee that the UDC device name remains allocated and valid throughout
-> > > the entire duration of strcmp(), eliminating the race condition structurally.
-> > >
-> > > Does this approach sound reasonable to you?
-> >
-> > No, because you haven't addressed the issue I raised at the start of my
-> > email, namely, how can this problem actually occur?  And you didn't run
-> > additional tests with the extra debugging information that I asked for.
-> >
-> > Alan Stern
+On Tue, 16 Jun 2026 17:38:32 +0330, Amin Vakil wrote:
+> I can confirm 7.1 mainline (installed from AUR) still has the problem:
 > 
-> Hi Alan,
+> dmesg (kernel 7.1.0)
 > 
-> I have captured the KASAN log with the extra debugging information
-> you requested, which shows how this race condition occurs.
-> 
-> The log shows that after gadget_match_driver() enters execution on
-> one core, a parallel core can invoke usb_del_gadget() and complete
-> both device_del(&gadget->dev) and device_unregister(&udc->dev)
-> before strcmp() executes.
-> 
-> Here is the exact timeline from the dmesg output:
-> 
-> 1. At 268.595241, task 1374 (configfs path) enters
-> gadget_match_driver() (on CPU6):
-> [  268.595241][ T1374] [CPU6
-> android.hardwar]:[JJ][core.c/gadget_match_driver/1568] Enter
-> 
-> 2. At 268.595250 (only 9 us later), DRD work invokes usb_del_gadget() (on CPU3):
-> [  268.595250][  T102] [CPU3
-> kworker/3:1]:[JJ][core.c/usb_del_gadget/1529] Before
-> device_del(&gadget->dev);
-> [  268.598129][  T102] [CPU3
-> kworker/3:1]:[JJ][core.c/usb_del_gadget/1531] After
-> device_del(&gadget->dev);
-> [  268.598159][  T102] [CPU3
-> kworker/3:1]:[JJ][core.c/usb_del_gadget/1534] Before
-> device_unregister(&udc->dev);
-> [  268.599405][  T102] [CPU3
-> kworker/3:1]:[JJ][core.c/usb_del_gadget/1536] After
-> device_unregister(&udc->dev);
-> 
-> 3. At 268.599427, task 1374 starts comparison, where it triggers a
-> KASAN invalid-access. (Due to kernel preemption, the task was migrated
-> to CPU7):
-> [  268.599434][ T1374] BUG: KASAN: invalid-access in
-> gadget_match_driver+0x150/0x1cc
-> [  268.599448][ T1374] Read of size 8 at addr 66ffff801a49b880 by task
-> android.hardwar/1374
-> [  268.599454][ T1374] Pointer tag: [66], memory tag: [fe]
-> [  268.599456][ T1374]
-> [  268.599460][ T1374] CPU: 7 PID: 1374 Comm: android.hardwar Tainted:
-> G S      W  O       6.1.124-android14-11-ga633402dff84-dirty #1
+>    usb 2-1.1: New USB device found, idVendor=17ef, idProduct=721e, 
+> bcdDevice=31.03
+>    usbcore: registered new device driver r8152-cfgselector
+>    r8152-cfgselector 2-1.1: reset SuperSpeed USB device number 3 using 
+> xhci_hcd
+>    r8152 2-1.1:1.0 (unnamed net_device) (uninitialized): Invalid header 
+> when reading pass-thru MAC addr
 
-Now I see the problem.  I had thought that the gadget device would be 
-locked while gadget_match_driver() runs, but it isn't.
+Was this junk always here?
 
-> To resolve this object lifetime issue, I see two potential approaches:
-> 
-> 1. Protect the UDC device lifecycle during the comparison phase using
->    get_device(&udc->dev) and put_device() (as a lightweight fix).
-> 2. Serialize the configfs match path and the unregister path using
->    a subsystem mutex.
-> 
-> I would highly appreciate your thoughts on which direction you prefer.
-> Does this data address the scenario you raised?
+>    usbcore: registered new interface driver r8152
+>    r8152 2-1.1:1.0 enp0s13f0u1u1: renamed from eth0
+>    r8152-cfgselector 2-1.1: USB disconnect, device number 3
+>
+> >>> Hardware: Lenovo dock built-in Realtek RTL8153, enumerating as
+> >>> USB ID 17ef:721e (Lenovo rebrand of 0bda:8153), driven by r8152
+> >>> through r8152- cfgselector. Host is an Intel laptop with xhci_hcd.
+> >>>
+> >>> Symptom: on the patched kernel the NIC enumerates, r8152 binds
+> >>> and the netdev is created, then about one second later the device
+> >>> is USB- disconnected by r8152-cfgselector and never returns. No
+> >>> ethernet interface remains. USB, HDMI and the rest of the dock
+> >>> keep working, and plugging the cable straight into the laptop
+> >>> built-in NIC is unaffected.
+> >>>
+> >>> Affected vs working (Arch linux-hardened): 7.0.11.hardened2 works,
+> >>> 7.0.12.hardened1 is broken. This commit is the only
+> >>> RTL8153/USB-core change in that delta, and it activates a code
+> >>> path that did not run before on this device (note the new
+> >>> wBytesPerInterval message in the dmesg below, absent on 7.0.11).
 
-The problem is to make sure that the udc structure (and its name) 
-remains allocated during the match.  The best way to do this is to have 
-the gadget take a reference to the udc when it is added, and have it 
-drop the reference when the gadget is released.  Not take and drop a 
-reference every time the comparison phase runs.
+RTL8153 was one of the chips specifically targeted by this fix, but
+it affects the CDC configuration which you don't seem to be using.
 
-Unfortunately, this will require changing the way we handle releasing 
-gadgets.  The gadget driver's own release routine could be stored as a 
-pointer in the udc structure, and there would have to be a new 
-usb_gadget_release() routine added to the core.  This routine would drop 
-the reference to the udc and then call the gadget driver's release 
-routine.
+I have tried linux-hardened-7.0.12.hardened1-1-x86_64 from Arch repo
+as well as my own build of 7.1-rc6, and my RTL8153 (0bda:8153) in a
+different kind of USB-C dock still works with a few xHCI controllers.
 
-See how usb_initialize_gadget(), usb_add_gadget_udc(), 
-usb_add_gadget_udc_release(), and usb_udc_nop_release() interact -- that 
-whole arrangement would be affected.  But it wouldn't be a horribly 
-complicated change.
+So it's some weird problem narrowly specific to your system. Now that
+you have built your own kernel, please also revert the suspect patch
+to verify if that's really it.
 
-Alan Stern
+> >>> I can provide the full dmesg and full lsusb -v output on request.
+
+lsusb -v of the NIC may be useful in case it's different from mine.
+lsusb -tv of the whole dock, because there are other recent patches
+for Lenovo docks and I'm not sure if they apply to yours.
+
+Regards,
+Michal
