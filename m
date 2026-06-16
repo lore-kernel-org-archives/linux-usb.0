@@ -1,103 +1,131 @@
-Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF47F30AD0A;
-	Tue, 16 Jun 2026 08:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B278F41C31C;
+	Tue, 16 Jun 2026 08:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781600109; cv=none; b=eyCcVo3E5SFitAHF2oHcucGvnyIQWBLq1tuKO3Q+XY8Y0+Xm7ENHrsyoMm2a5R87YtUty7sDZDpZpGk05CUktUaqoxZjZbGhAPS+/uHnUCXlOmT62DdN68Lrzbs/+ne8bI4leCdIoEZww+xXX9Yd7cYkcJ6eNxuXFomjI3L1IwU=
+	t=1781600265; cv=none; b=gBhIN897x7pv5Lck1CAyQh3eywDqd6rOXTqvxmqytVBpuL4SDYKXVVKuNxPJw/z/MVesKUqSWZypm6PEpX9d8b6rYmaRB6E0//zJOxtckozqzIP20h8WBEz+y/TxP5VGpSxkbhfkYQq+DcJbJDGKzE9MI1oOcxn35yumynp4ZRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781600109; c=relaxed/simple;
-	bh=dcBkUnRVmUxkhLKZ5WwhCRcLw9cMfnw1gt244NdkAI4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qLiwLXGN4k62sLgC2P2WsrwKMfB8rnRiqEDUJgRlj0PGwrgI1zvbIMaN2nwL9P8+opUlTHRdb6CjkFP8wCLJkivarjYu0kle2me1xJ2MJ6GUyQHeCOHx4SjWDLmJUk1DkJvlggCLUaLv4mZO4q+4L4C9bvbntH2/eTEDmEntmlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=bBPVf6yw; arc=none smtp.client-ip=18.169.211.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="bBPVf6yw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1781600086;
-	bh=rVaXII/CGnqlL4327R7/btw4c1gd2RXVOhKvBNnWTQM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=bBPVf6ywQ+gIK33OYyHWl1zEP8t1md+eK71+GvLqZFtoBCrBcdn+Y62esGYwDT/FO
-	 V+6g79dD6HBiHnFvHxG7nqdNXGr8/pF99ZJjZ4R3dIlyE+PE83hHBn4R2ADojZFFQp
-	 BNdpT8I9Q/We1GtSoeME11mBDlTQTD+fJOSC1Gag=
-X-QQ-mid: esmtpgz13t1781600082t0b6e65aa
-X-QQ-Originating-IP: KQ76DmTOqK1vKuj87/oeWoaPZuFAPDTaPqQBnSrVVwE=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 16 Jun 2026 16:54:40 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 11855543236985699695
-EX-QQ-RecipientCnt: 4
-From: raoxu <raoxu@uniontech.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	raoxu@uniontech.com
-Subject: [PATCH] usb: typec: tcpm: fix EPR AVS APDO maximum voltage decoding
-Date: Tue, 16 Jun 2026 16:54:39 +0800
-Message-ID: <48301FCEC9F3CA14+20260616085439.987664-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1781600265; c=relaxed/simple;
+	bh=Kd1FcGFHU4GjjZdj/NFv9P8h5hSAhqphNEAHcwPrcx4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M7G0PJ3Sn1K4qEfIzo5xIj6L1HR9mlFxlnG5d8anyrJ8g9rilUky7YzLQzAR4CLimP8P3sQxcV4P+glMhNHhffdE944FkRTzy+Pfi9/M6dEqjDCSshBbvA57Fxrl0sqJSFsUnnsxGcuJL9HLvpPg8EHzfE7of/5DBIH0flEbQMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A47F51F000E9;
+	Tue, 16 Jun 2026 08:57:41 +0000 (UTC)
+Message-ID: <a6be40ce-975f-4c7f-a261-18a447e6aeca@tuxon.dev>
+Date: Tue, 16 Jun 2026 11:57:39 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MfQnJH+7WKv6DpBIZ9gaEKCKwDHi68/1Ug2VfM4Z/kMWk39elqa4fbXy
-	8/lsE/hYjB19ID+Xp2qUdTz6HQa6uS4P7B9rtA06PM3vNhqeH2Cg3JHS5KJA+xhQMr33JTc
-	5x0AxOxFs566TYbCevDcbORfp6MRPLNRgNN3hh5b1+0eN1Vq+LXywg70/EYgB29lOPKs9d8
-	sZ0DL4/tFzpA8OuVb6BsD9s/9va/plgMoAJlIjj507w2SbaVkq/c43c1nbqL5apaH3U/KH1
-	4j0wgFZccoKZtgwyWL0EIttzZnZf16H6jTTFovGStjYHijyyHvmOpvtWM6/glGPQMq2UVIA
-	5YIC3j0aC5tgW7LXljHVysS2oQwieDtH5afJYv+utAFkHU+k+cokm8Jc3F+DAe9LdDrHPV8
-	fgyGf+fV30NNG87X/bq17soFUqJMmT+7sFlUTW0baNwiheG5SJIsclKX/iYkMiPXxk+OVlb
-	DEhn/aK1Fd8SYpzDEQxrS4v1virbqXvYXtVjW/rSd49ZHsz9/+0XUxX2V6g2QY9+R28AUZj
-	XCARpm9Kkt4w4lQY0ZWR0J5LmSux5Cqe/GqqQ1zJFc9rxz6jl4ZUD8rPSim5FJnNokw1J7B
-	se6R66fBpvQyy8dZxwQhdW6AiTyKgtt14Wui+Zv+O0w6/6GQ2EBoNdPUPj0yxh+h6NV4nK8
-	PfKB66FkG26DIe4Nd6efRe2OhuTAzvzWdSsyFLd2IIcTvZxzHBmYFtUQp3xMvPrZSoAslqJ
-	2Q9DcCyzVlTC76EreoDL0YaJM5R53VbZe1oUtIs7ufTEDByzWBsh+KXEzcKkd7PegcVr3fD
-	zethPnKPHmruaFW0HjuDc4Tuq3DrXuzc13vrs8bw0Y1Bo7zkexGAEk6lSnPeCYh962xKqg+
-	Viky/gDRbPlu+ZFN+aaFd81IC/Muht56+82LIWgE8DAGaFPT7PQ58fu1kKeVRW71Uc+XyZ5
-	oDDJ0nX+kymKF7b8HAIzuSINjDoGb77e8XgLEbQwHDCMfdPkgSbFno19OMTH7y3Ee09OByZ
-	kZdMtpufbvvPEQTFFo4U0rsqIVwp7Z7BXhV0Nalu63iv5xxlEc
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-QQ-RECHKSPAM: 0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: renesas_usbhs: Fix power-off ordering on unbind
+To: Biju <biju.das.au@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ Fan Wu <fanwu01@zju.edu.cn>, Vinod Koul <vkoul@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org
+References: <20260615173912.336408-1-biju.das.jz@bp.renesas.com>
+Content-Language: en-US
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <20260615173912.336408-1-biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Xu Rao <raoxu@uniontech.com>
+Hi, Biju,
 
-pdo_epr_avs_apdo_max_voltage_mv() extracts the EPR AVS minimum-voltage
-field instead of the maximum-voltage field. As a result, an EPR AVS APDO
-with different minimum and maximum voltages is decoded as having
-identical limits. The currently visible effect is that
-tcpm_log_source_caps() reports a min-min voltage range.
+On 6/15/26 20:39, Biju wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+> Move the usbhsc_power_ctrl() call to before usbhs_*_hardware_exit(), so
+> that usbhs_*_hardware_exit() sets priv->phy to NULL only after
+> usbhsc_power_ctrl() has executed, which controls the PHY power.
+> 
+> Fixes: eb9ac779830b ("usb: renesas_usbhs: Fix synchronous external abort on unbind")
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+> ---
+>   drivers/usb/renesas_usbhs/common.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+> index 8c93bde4b816..614b724a0e52 100644
+> --- a/drivers/usb/renesas_usbhs/common.c
+> +++ b/drivers/usb/renesas_usbhs/common.c
+> @@ -813,6 +813,10 @@ static void usbhs_remove(struct platform_device *pdev)
+>   
+>   	flush_delayed_work(&priv->notify_hotplug_work);
+>   
+> +	/* power off */
+> +	if (!usbhs_get_dparam(priv, runtime_pwctrl))
+> +		usbhsc_power_ctrl(priv, 0);
+> +
 
-Extract PDO_EPR_AVS_APDO_MAX_VOLT in the maximum-voltage accessor.
+Moving this back here will lead to the issue described in commit eb9ac779830b 
+("usb: renesas_usbhs: Fix synchronous external abort on unbind") being 
+reproducible again. I've checked it on RZ/G2L.
 
-Fixes: f82890c98f3e ("tcpm: Parse and log AVS APDO")
+Instead, the below diff fixes both the USB PHY regulator WARN_ON() stack trace 
+and still keeps away the crash fixed by eb9ac779830b ("usb: renesas_usbhs: Fix 
+synchronous external abort on unbind").
 
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
----
- include/linux/usb/pd.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index 8c93bde4b816..843468d42786 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -813,7 +813,6 @@ static void usbhs_remove(struct platform_device *pdev)
 
-diff --git a/include/linux/usb/pd.h b/include/linux/usb/pd.h
-index 337a5485af7c..ee360dedeaa6 100644
---- a/include/linux/usb/pd.h
-+++ b/include/linux/usb/pd.h
-@@ -493,7 +493,7 @@ static inline unsigned int pdo_epr_avs_apdo_min_voltage_mv(u32 pdo)
+         flush_delayed_work(&priv->notify_hotplug_work);
 
- static inline unsigned int pdo_epr_avs_apdo_max_voltage_mv(u32 pdo)
- {
--	return FIELD_GET(PDO_EPR_AVS_APDO_MIN_VOLT, pdo) * 100;
-+	return FIELD_GET(PDO_EPR_AVS_APDO_MAX_VOLT, pdo) * 100;
- }
+-       usbhs_platform_call(priv, hardware_exit, pdev);
+         reset_control_assert(priv->rsts);
 
- static inline unsigned int pdo_epr_avs_apdo_pdp_w(u32 pdo)
---
-2.50.1
+         /*
+@@ -832,6 +831,8 @@ static void usbhs_remove(struct platform_device *pdev)
+         if (!usbhs_get_dparam(priv, runtime_pwctrl))
+                 usbhsc_power_ctrl(priv, 0);
 
++       usbhs_platform_call(priv, hardware_exit, pdev);
++
+         usbhsc_clk_put(priv);
+         pm_runtime_disable(&pdev->dev);
+  }
+
+Along with it, the reset_control_assert() could also be moved as follows to 
+avoid accessing registers IPs with the reset line asserted. The following was 
+also tested on RZ/G2L:
+
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index 8c93bde4b816..51d3035f82be 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -813,9 +813,6 @@ static void usbhs_remove(struct platform_device *pdev)
+
+         flush_delayed_work(&priv->notify_hotplug_work);
+
+-       usbhs_platform_call(priv, hardware_exit, pdev);
+-       reset_control_assert(priv->rsts);
+-
+         /*
+          * Explicitly free the IRQ to ensure the interrupt handler is
+          * disabled and synchronized before freeing resources.
+@@ -832,6 +829,9 @@ static void usbhs_remove(struct platform_device *pdev)
+         if (!usbhs_get_dparam(priv, runtime_pwctrl))
+                 usbhsc_power_ctrl(priv, 0);
+
++       usbhs_platform_call(priv, hardware_exit, pdev);
++       reset_control_assert(priv->rsts);
++
+         usbhsc_clk_put(priv);
+         pm_runtime_disable(&pdev->dev);
+  }
+
+Thank you,
+Claudiu
