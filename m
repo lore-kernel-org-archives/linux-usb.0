@@ -1,111 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47453093B5;
-	Tue, 16 Jun 2026 06:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D78D2F8E96
+	for <linux-usb@vger.kernel.org>; Tue, 16 Jun 2026 08:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781589827; cv=none; b=bI+Fi+5V/mpxddx9ytBVUUrApS5OXnO23hxnp2AVwVa0CzGk/z/kI/XFO0TrQBOCM7JW3dAnmKkSRM94Wmsj2vMA9qS3awyKFEQe/xB2P5Pnygnx8+QiSrWXb9+GYj0M7a6tbpc4/O3MSQ9Trh04JIXBthAWfy5Gnp2M4364LIA=
+	t=1781597388; cv=none; b=BQMqOs48tz3vl0rtMg79iBbqGiWjQzBfDhsfieMzCreK02yxJkW19o6o4V7RzypvcjWIg66ZgdsBvOlhiXmJPSB/fpgGFXFnQY4XxqDpKX8QWJdlTzPBREyBsSaH3DvX5H4WNUjFjewjAeHo5K9lv3zY732/A48b7Ff9zPrWCYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781589827; c=relaxed/simple;
-	bh=R/AHKju/NJWmooHGAFSRZLAPNC+346Fg7D+e2npzwjk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YxSU8g7zkydQ+Ins8bEfJAKG8egTE0jl95TB+U1cz124PkNWh1isiye1pkxxMMVDNxwW5rD1lxDwA/W+PK/tO8fCew7l7a1HpH727KJg8CzrSVKyAKw2t/YfkOofPcPVIG9o5Fo09y7lTrc8eK3kJkzvgMMwJ2XLo9SbelqrKYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G+8V7fOT; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781597388; c=relaxed/simple;
+	bh=a9Zsrrbax08JtG9l8UlgwrXKgDbqD6eN2218ZU5cqJQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o4QkjzDy76it3ZjsI+/xV6PSvmAzoJtlZlIKTfJxkV5K9Ojm6rKUPUPYOYlwTxMya3Yid+3lIS9GO8HeEh6dIeYAsU3AFdemT+wxgrrysv3I8pkUyDbYWYd9kGZldSbmB9aIAlNvI0Jn8k2vJdLFGyLzZ7TZR1Xu0PfyXBEAS4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JgKcs7S3; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G+8V7fOT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JgKcs7S3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781589825; x=1813125825;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R/AHKju/NJWmooHGAFSRZLAPNC+346Fg7D+e2npzwjk=;
-  b=G+8V7fOTKrcNKXD31q84u88IREZVU4GUN4cxqQArHAS/5xneeKxB/qjA
-   FvVE5Hboe9Z7tXPYvcYM1joPzz9I/aZdd00eTTlJ/GXVEZI8msF0duPaH
-   oUcRU6x60w1W9kO7QZGdpiDundQUowBZRzJjH7dOaMxdv2aOGFjc3Mr8M
-   uBYSDSOowJPuKxEeI3erTv0zmeVfVwc7ReDHLV5rynluWxoRbICf8by+t
-   emIKpDpsbO/c70KO4zcXL85gJRHSit3zd0v8QqjL4XxDGNOgQ5me6XGi0
-   tGZ3HTWsC0d9UhF6npw4Qjs7OYo/W4UHym7+8qUei0VteKrxYxA1V9/9H
-   Q==;
-X-CSE-ConnectionGUID: sSqCQoAERKazKIA6zDj+NA==
-X-CSE-MsgGUID: +Xmum1URTjyd9U6VnJoo0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="82449410"
+  t=1781597387; x=1813133387;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=a9Zsrrbax08JtG9l8UlgwrXKgDbqD6eN2218ZU5cqJQ=;
+  b=JgKcs7S3wGmCUNHDHWJ4V/GbmCQdxBK/x2XrOjA/i/N+NSyqtjQvCmk6
+   DX/qhcD7+W914JCkzcWb25K4pvr9am5t9teuwf9pekhre/whbuw8df7kV
+   wtc+kxRs8MNr3z0L3ghsd0zeyjbZZyKL/h38Vfit+N5lheW4Dcsxkz0Fj
+   lL24/5bMYM6fyRjJY4G9nHsOp5QmGsTqGbefzwsZwIynorZ8BlT2ixquL
+   Hesof/NctQGL+MNpqOdOmCFrqcuVkXPBi0uoh8uYWzOZnayF13G0o52Tz
+   VHiG+K/BDRZIOwJTDWGMF+QjZd0wQ1WWW1H5vgdMIf/Cgnunu6UqOQ1Kn
+   A==;
+X-CSE-ConnectionGUID: JBqNcmL7SdiOLFsFZilEwg==
+X-CSE-MsgGUID: zLKXsCyDRJeyNcxGJIsrNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="93737614"
 X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="82449410"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 23:03:44 -0700
-X-CSE-ConnectionGUID: F1KmPwTxREepThZEns0hFA==
-X-CSE-MsgGUID: aBHSjVxVQX64gv0JEuoxlA==
+   d="scan'208";a="93737614"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 01:09:46 -0700
+X-CSE-ConnectionGUID: hfSuH6NjTlu4hevuvzU4kg==
+X-CSE-MsgGUID: arMaMG1+Tbqzjjv5dW97vg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,207,1774335600"; 
-   d="scan'208";a="247731455"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 15 Jun 2026 23:03:42 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wZMtf-00000000SmE-1ZCN;
-	Tue, 16 Jun 2026 06:03:39 +0000
-Date: Tue, 16 Jun 2026 14:03:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: RD Babiera <rdbabiera@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, badhri@google.com,
-	heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	RD Babiera <rdbabiera@google.com>
-Subject: Re: [PATCH v1] usb: typec: tcpm: implement retry mechanism for
- Discover Identity VDMs
-Message-ID: <202606161310.GCXb2ogf-lkp@intel.com>
-References: <20260615194923.4192117-2-rdbabiera@google.com>
+   d="scan'208";a="247568285"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO mnyman-desk.intel.com) ([10.245.244.156])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 01:09:45 -0700
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+To: <gregkh@linuxfoundation.org>
+Cc: chaitanya.kumar.borah@intel.com,
+	linux-usb@vger.kernel.org,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH 0/1] xhci fixup patch for usb-next
+Date: Tue, 16 Jun 2026 11:09:31 +0300
+Message-ID: <20260616080932.2229237-1-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260615194923.4192117-2-rdbabiera@google.com>
+Content-Transfer-Encoding: 8bit
 
-Hi RD,
+Hi Greg
 
-kernel test robot noticed the following build warnings:
+This is a fixup patch for the xhci DbC patches in usb-next.
 
-[auto build test WARNING on 511e746700ee6e93104d061a87743906128ab709]
+This patch was originally part of the xhci DbC series going to 7.2-rc1,
+but I decided last minute to drop it to let it mature for a while.
+It enables runtime PM for xhci with DbC enabled.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/RD-Babiera/usb-typec-tcpm-implement-retry-mechanism-for-Discover-Identity-VDMs/20260616-035226
-base:   511e746700ee6e93104d061a87743906128ab709
-patch link:    https://lore.kernel.org/r/20260615194923.4192117-2-rdbabiera%40google.com
-patch subject: [PATCH v1] usb: typec: tcpm: implement retry mechanism for Discover Identity VDMs
-config: loongarch-randconfig-r133-20260616 (https://download.01.org/0day-ci/archive/20260616/202606161310.GCXb2ogf-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project e19d1f51a2c80b63cd8ca95bcc757b7077112808)
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260616/202606161310.GCXb2ogf-lkp@intel.com/reproduce)
+Turns out the series going to 7.2-rc1 is flawed without this patch.
+It introduces a locking issue that this patch resolves.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606161310.GCXb2ogf-lkp@intel.com/
+If possible it would be nice to get this included to 7.2-rc1, or if it's
+too late, then to rc2.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/typec/tcpm/tcpm.c:286:12: sparse: sparse: symbol 'vdm_discovery_state_strings' was not declared. Should it be static?
+It passed the CI test that discovered the locking issue.
 
-vim +/vdm_discovery_state_strings +286 drivers/usb/typec/tcpm/tcpm.c
+Thanks
+Mathias
 
-   285	
- > 286	const char *vdm_discovery_state_strings[] = {
-   287		[VDM_DISCOVERY_UNKNOWN] = "VDM_DISCOVERY_UNKNOWN",
-   288		[VDM_DISCOVERY_PARTNER_IDENT] = "VDM_DISCOVERY_PARTNER_IDENT",
-   289		[VDM_DISCOVERY_CABLE_IDENT] = "VDM_DISCOVERY_CABLE_IDENT",
-   290		[VDM_DISCOVERY_PARTNER_SVIDS] = "VDM_DISCOVERY_PARTNER_SVIDS",
-   291		[VDM_DISCOVERY_PARTNER_MODES] = "VDM_DISCOVERY_PARTNER_MODES",
-   292		[VDM_DISCOVERY_CABLE_SVIDS] = "VDM_DISCOVERY_CABLE_SVIDS",
-   293		[VDM_DISCOVERY_CABLE_MODES] = "VDM_DISCOVERY_CABLE_MODES",
-   294		[VDM_DISCOVERY_COMPLETE] = "VDM_DISCOVERY_COMPLETE",
-   295	};
-   296	
+Mathias Nyman (1):
+  xhci: dbc: support runtime suspend while DbC is in enabled state
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+ .../testing/sysfs-bus-pci-drivers-xhci_hcd    |  2 +-
+ drivers/usb/host/xhci-dbgcap.c                | 60 ++++++++++++++++++-
+ drivers/usb/host/xhci-dbgcap.h                |  3 +
+ 3 files changed, 62 insertions(+), 3 deletions(-)
+
+-- 
+2.43.0
+
