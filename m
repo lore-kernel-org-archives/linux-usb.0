@@ -1,87 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE664ADDBA
-	for <linux-usb@vger.kernel.org>; Wed, 17 Jun 2026 15:50:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F0447F2E0;
+	Wed, 17 Jun 2026 16:07:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781711418; cv=none; b=sGwVKjGBZK9PW4cy5Go/WJt/LhXEOjY3vvPlIQiEM6zhttc/EuRNSXxK557wAg1Ei/pK9VLo7trYrpNzIiY/d/SW2OXRInpcublP2occImkRDlvhjrVAxaGzl47iuAky2tFO3PT7+KXhELa0G4S2FnIL4waI0cCRFCi/Lk0GNKA=
+	t=1781712455; cv=none; b=EpPq74tpG6tlKqWK9gl/XaTMfj40T4HEvNVWsSsXw72e9+znS+80wE2apSKjXTBBx837CmIRi84hIJamFMRawixVHUysdNjtZcjolBqLl7v21BehvbzxjzhLZTF/xsAfQtzxaAuOTj5zjHMtWvnFqxR7k4O9H+kP6mZxp6Zxk9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781711418; c=relaxed/simple;
-	bh=AWNQXnpd4Q9+RNBbCLBQLrQX8g/xFzIb9HESPwrsD7c=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ahwZT52KImebdFmcBE2ffcwlAmbHDjvWkAc1BsWlqWo9cUyxTcPn/hW5db6GzrA9Zjh7mN+x33EjQNn4fCZ0exPPxjHmxhwkMvsRHdsgZV9uKwtjvqq0bxUnzPKNtpgRy3NkM2BIGuJ9ygu83ANObhUqUFSxXhXnCaeGbVODpow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u0r2IZwS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1781712455; c=relaxed/simple;
+	bh=aWq/QEkoGDmxlMTijslmCtGIfeSHPIRFDWrnl4URJvg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=D6woxVOuP+6LIJ8mZn8K7qxOywloXskjeE9Y0ZiQvI+mJk6QQ2HLK27Fkjz3xhxwz06l94SdnXfSBF/nPi03quuRCt31Iit5BbyZ0MbYl9MyB0p1iJ3g3VKugfwESFWE/cA4yo61Dou3xCrwbfU2LBPUku18BjQubOYP73lp8g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqbIEveb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u0r2IZwS"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5255EC2BCC6
-	for <linux-usb@vger.kernel.org>; Wed, 17 Jun 2026 15:50:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1781711418;
-	bh=AWNQXnpd4Q9+RNBbCLBQLrQX8g/xFzIb9HESPwrsD7c=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=u0r2IZwSPuafHTYMp9s2HjmFRpyjL2QlhJqBOgkSi6oGhxXs0akegn+7Ubqpn09IK
-	 HQ5Fyy/X8I7yo4OQrpmRzpMN8JSPx/vV9AqOC+HujYGZ+RfWgE5rDEzvDTmXPEK2RI
-	 fq+cqeduY1xDYbBjQwyoLEjQQFq4jI8e8A1ut6GHDLl4vxjI/5wveK6vOCnnblEMaA
-	 Tvc2l/ZPVUYoKUM0yh/jbsJKOdDv3JtsUpXdD64QywGjOvMY1RcJ+BXeJcvGo5+Oua
-	 bdc+3O/tSb+YAneE8XJQ8lpsp9+vu1TRGAn7N1zvB1wNAnkZmXuhb0CjpaV7XcbrA8
-	 GvIbMvzOPo9jA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 4C8DEC53BC5; Wed, 17 Jun 2026 15:50:18 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221073] xHCI host controller dies on resume from s2idle on AMD
- Strix Halo [1022:1587]
-Date: Wed, 17 Jun 2026 15:50:17 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: stern@rowland.harvard.edu
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221073-208809-xipzUxxNKq@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221073-208809@https.bugzilla.kernel.org/>
-References: <bug-221073-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqbIEveb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D41E91F00A3A;
+	Wed, 17 Jun 2026 16:07:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781712445;
+	bh=53P62tPSkAqWcCKSZdxa4fBnQU0Jt3G/vZE9f4lZBwo=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=DqbIEveba3gCtTg+OHfPtLQmG/Mzqnj4ghMcqdOO0H0ttJdsf07Y4ScXnzXOO+6SF
+	 oo2+2KoLDqLgD8TXactIT0+JVkR8CAWV3zuSzKTHi3gcYj9g06ysWZBz/NqX7rGfIj
+	 KkRwB+vAzsX+Ao3VYOYkQ/CSRUGqVTn0Rotz+1krzdi+meNs0f4kFqAVUGXMSD5811
+	 oReMN1c+r2SEGBb95U0p8Yh3Xnd+gtHcXRw9vINdCr2yzDNbZW0rEhAX5xkyBzb0Xv
+	 4NhuO4y0G6vwtTiM/TD1FPw6SjB8JGRlh3F5yVDjVaGufZ5GLX7j9qlrij5ffzVU2f
+	 sAec4KqZTdYmQ==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 17 Jun 2026 18:07:21 +0200
+Message-Id: <DJBGCJZ3CMEX.3ORMLBEQE87LS@kernel.org>
+Subject: Re: [RFC PATCH 1/9] rust: usb: add synchronous bulk transfer
+ support
+Cc: <rust-for-linux@vger.kernel.org>, <linux-usb@vger.kernel.org>, "Miguel
+ Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ "Shankari Anand" <shankari.ak0208@gmail.com>,
+ <linux-kernel@vger.kernel.org>
+To: "Mike Lothian" <mike@fireburn.co.uk>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260617145946.1894-1-mike@fireburn.co.uk>
+ <20260617145946.1894-2-mike@fireburn.co.uk>
+In-Reply-To: <20260617145946.1894-2-mike@fireburn.co.uk>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221073
+On Wed Jun 17, 2026 at 4:59 PM CEST, Mike Lothian wrote:
+> @@ -426,7 +427,7 @@ unsafe impl Sync for Interface {}
+>  ///
+>  /// [`struct usb_device`]: https://www.kernel.org/doc/html/latest/driver=
+-api/usb/usb.html#c.usb_device
+>  #[repr(transparent)]
+> -struct Device<Ctx: device::DeviceContext =3D device::Normal>(
+> +pub struct Device<Ctx: device::DeviceContext =3D device::Normal>(
 
---- Comment #45 from Alan Stern (stern@rowland.harvard.edu) ---
-I'd like to invite people on the linux-pci mailing list to pay attention=20
-to this bug report:
+Please see commit 22d693e45d4a ("rust: usb: keep usb::Device private for no=
+w"),
+this shouldn't be needed for writing a usb::Interface driver; please also s=
+ee
+[1].
 
-        https://bugzilla.kernel.org/show_bug.cgi?id=3D221073
+[1] https://lore.kernel.org/all/DD08HWM0M68R.2R74OSODBIWSZ@kernel.org/
 
-Comments #14, #37, and #38 seem particularly relevant.
+> +    pub fn bulk_send(&self, endpoint: u8, data: &[u8], timeout: Delta) -=
+> Result<usize> {
 
-In short, the problem seems to be that after resuming from s2idle, a PCI=20
-xHCI host controller sometimes does not get MSI-X interrupts any more.=20=20
-Setting a quirk flag that causes the driver to use PCI INTx interrupts=20
-instead works around the problem, but it's still a bug.
-
-I have one of the affected systems but haven't tried to do any real=20
-testing.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+This should only be exposed for a usb::Interface<Bound>, i.e. note the Boun=
+d
+device context.
