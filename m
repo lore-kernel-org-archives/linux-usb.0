@@ -1,46 +1,51 @@
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.197.177])
+Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7624380FE5;
-	Wed, 17 Jun 2026 08:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.154.197.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A19D3B7760;
+	Wed, 17 Jun 2026 08:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.203.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781685367; cv=none; b=WfXKsWdz5wfgyqBj3hAkTCUTCwoA51is0ZdKtdAvXCw3FQAsBjW+rALMcqeSLc/WhKZaHplJAiXVwIvbN9Z+Tlc7bmc9F8hf9wuCaHQmt9ozt3vffoAJ622wxZvd7DBhMYVti4tpj67+VFgiDCCDY0Bg4Y3y+oNbOLihZshWuBc=
+	t=1781686788; cv=none; b=ZgVSukzakci1OR2LmSXtlCKhMkNmw2sbXS9IO+Kdl2Ep8xq7ZpVoc2W2luhelUPIxpzBvDj3EGirhorPnvkgq3l377vqNxmuglzAItUNspcGeE7jpDLCZutYzturAVmvI4iSRLPtlGzAkhC9Ht5vGvrGBMHgQE/UePjjM3wuhCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781685367; c=relaxed/simple;
-	bh=rFk9Dz+OQl7pCrKzNhGH3W4iJyugBYla2kbVlG4ZwIY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oS7mIxxJuZqBXgJL8vjmgurqom6qPa3fINTn2sTR6D2GVCF5OV+YRQ9b5yYtja5qnbEQjeX9XM56RqJoO0/u1OUPGiBQ6XznHLJWjrVkhLVk3XIDRNY97DSQ2wwVp62Hw1eNeqaRYC4VEJXy5P1ldMd8t2J8rGp+sC0wbbtX3VI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=fcrTt2WJ; arc=none smtp.client-ip=43.154.197.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1781686788; c=relaxed/simple;
+	bh=i+pQKXGUcgPKUzvbQwHL/hm1XTmlhqYpkFDI4LYaTxI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SC5fseeQ7UnIWIPDdyaYR29uoQWV3cGQzqW5gJ9q1NQkw6T13nTGX+RdKa/+D6aDB89Q7ocIaHKhIGKukM7gSfQAG2Kt/qX/AqAi+TtfEmtjg/CAjbMj85QzZu+7kBc+WW6AqOmjQZxI11J1kRM/nB0AdIaRs//8DN7a2RbcokQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.com; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=XwQjN5Qb; arc=none smtp.client-ip=188.40.203.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="fcrTt2WJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1781685306;
-	bh=9e+TqUpkTXuK1EcikghW+cE29+U9fhClyyDN9ZFVYOg=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=fcrTt2WJd1rxRqGv+cLSGKcKvTZF28hOyPMIHlGDGekb9b+3v7l3tvdadYw5eBsEC
-	 HfhADRy6Djv+l0bfWqlefT+9q34cVZZcKO43lARkTY1J+Ghx6feAmmzFuaaNtCtI1v
-	 ZanKT1d9dCLHpSA7+SkqCv6rygdIffDtvY8JnOeg=
-X-QQ-mid: zesmtpsz7t1781685302t483993b0
-X-QQ-Originating-IP: gz6fZEAQ2pZjnrBt6+SWmcxKBgudbZ/TbDk3lOABZik=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 17 Jun 2026 16:34:57 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 6232479303334653688
-EX-QQ-RecipientCnt: 5
-From: raoxu <raoxu@uniontech.com>
-To: mathias.nyman@intel.com
-Cc: gregkh@linuxfoundation.org,
+	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="XwQjN5Qb"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
+	References; bh=e/8o+urkQdir5oSiiAqoJ1zlhz0zqdz8NUBU/Dbm8sQ=; b=XwQjN5QbnoUsoE
+	4Uh1yOuSw6Hww5xeaSh3g1aAySj/WUm7H5AGJSGZHuivoNNNS+LDUVcjKsBjuKKPeL6bAl66NViSD
+	UtuXTmSx3OrTwLOIZS8ybbP4JY03aa/lt10Tqfgy+x+MhXpnlMYQkbz7XV+mdeuPn9i1ARAuHgvS5
+	WVqHnwNCHkXUYt8q4/FxEMXmci0+CzmGZ0gasnvwuwmBsQcuDQdctU3ulrQuwTn4HY71u2i+nDvxz
+	2wmhNggm6r0mQackIupU+zzupqGAJCSgJaGQLQRjbpWfkPdUtM/YxbWTEEPXh1Yan5dB+b9hb91ea
+	B+UFqRtpwVLMviklX4Bw==;
+Received: from [167.98.27.226] (helo=rainbowdash)
+	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+	id 1wZm7Q-008NBU-Ue; Wed, 17 Jun 2026 09:59:33 +0100
+Received: from ben by rainbowdash with local (Exim 4.99.4)
+	(envelope-from <ben@rainbowdash>)
+	id 1wZm7Q-00000002z0J-2Vns;
+	Wed, 17 Jun 2026 09:59:32 +0100
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Sam Day <me@samcday.com>,
+	Michael Bommarito <michael.bommarito@gmail.com>,
+	Kees Cook <kees@kernel.org>,
+	Ingo Rohloff <ingo.rohloff@lauterbach.com>,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	raoxu@uniontech.com
-Subject: [PATCH] xhci: pci: Disable soft retry for Renesas uPD720201
-Date: Wed, 17 Jun 2026 16:34:54 +0800
-Message-ID: <EDCDD0E72ED38009+20260617083454.2764851-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	linux-kernel@vger.kernel.org
+Cc: Ben Dooks <ben.dooks@codethink.co.uk>
+Subject: [PATCH] usb: gadget: f_fs: fix __le16 of wMaxPacketSize
+Date: Wed, 17 Jun 2026 09:59:30 +0100
+Message-Id: <20260617085930.711146-1-ben.dooks@codethink.co.uk>
+X-Mailer: git-send-email 2.37.2.352.g3c44437643
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -48,85 +53,38 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: ONcd5u+FjiuQiw/9lD4CG+A5F19PfQ023l5w8lfB+dglllwBqfvBLGAI
-	YAa3izJ2MWgfi24/afMw0+V3ECC4AhasuQXtU6mcgwSShH9Cpt59qI2hYiBh11PE67wnGiq
-	Qrn3u+Vre5V/1kvoQ9ry/s2rchACCE32s69C3W9j8ZbCepCYydE07T12FqqqSW23JlBcCEf
-	XT099fKSg8sLECiGYuD1iRuw3LPnpkhLvYMR5SYDMFoUs/xvVYhnhiA3UzRueEcMuGFBbue
-	9q5dv+MEuSqVmU6xCI35ZXhpv3wABZPohQY8COwuvvfN2uaQaBMZryXwLWxfOCqi25qP6wD
-	4V0MEm0u3UzpyZf5cd6wgUtIgP7xtwV9CB/HvXM/+UW/BqvbUX2wI+Q8pMmH5jxbFcy8Z7I
-	76ittAMFzGXBO04SocMjAxwXZs/kQmhxRSMyV/SCFq4FnyZmlV/dmCxj0vhFp8FU0P8YbBB
-	9eIzWScSgViYYlKGUFheTexFfhA/UgbNNXvk12nvIJDvr2oHvY9ooefRzxHqFIQJ4oGkCzh
-	3SENpGgcSDqvwuen60VQw4FMDBTSG8LanKww2fwswqW1BMRDNVCN7axc/b4DrWyTPIoaiQI
-	IwdRTYvuolqhxkdQXbGYc9DAd6kuKVGAuRfC07DiqstoqOTuemZmrTO7TvEaETWIvvNXtMN
-	+NoS35mktuubVHs606RlVxb4shJ0u3fWfjnpS6c4nxOatzs19SqZaUDcZp1zPv0mdNCPXyf
-	bke+jQp3ZWRO2yLMkbITypDdxFLIcGFHn6dyyw0y26odbkq26in6P6iyXLpypzjma6JNfwt
-	ooI0wjRMJHGhlnNssGyPUtFtYJbcCRnZ4P0qVVIaAbzh0ITQ5Pk1Fx2fMthsY8IVz0YYYSd
-	WGnDTP7vpTyR5RzuQJeQfqTCDQmSFI5D3Pz+V+Ajl4lZP9+v/8yFoLKBGhenW+yAGFa4muE
-	TRt3CH+ssU3mVU6S2v+4+KtgH0EmDuVNmH6J3BhqnPvi6RtwkXM8b3b+OgmJw53t98N6v9D
-	Zy2qqFoY+uQWUF+7mHPcyHHCwokvaenuvmdbPpmshzAzX1wkU/rM9zzpj2lPg=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-X-QQ-RECHKSPAM: 0
+Sender: srv_ts003@codethink.com
 
-From: Xu Rao <raoxu@uniontech.com>
+The wMaxPacketSize is __le16 type, fix the sparse warnings by changing
+the type.
 
-The Renesas uPD720201 xHCI controller can fail to complete
-a Stop Endpoint command after a transaction error on an interrupt
-endpoint when soft retry is used.
+Fixes:
 
-This was reproduced with this setup:
+drivers/usb/gadget/function/f_fs.c:3346:32: warning: incorrect type in assignment (different base types)
+drivers/usb/gadget/function/f_fs.c:3346:32:    expected unsigned short [usertype] wMaxPacketSize
+drivers/usb/gadget/function/f_fs.c:3346:32:    got restricted __le16 [usertype] wMaxPacketSize
+drivers/usb/gadget/function/f_fs.c:3371:36: warning: incorrect type in assignment (different base types)
+drivers/usb/gadget/function/f_fs.c:3371:36:    expected restricted __le16 [usertype] wMaxPacketSize
+drivers/usb/gadget/function/f_fs.c:3371:36:    got unsigned short [usertype] wMaxPacketSize
 
-  xHCI: Renesas uPD720201, PCI ID 1912:0014 rev 03
-  dev:  USB Ethernet device with an integrated Genesys Logic
-        USB3.1 hub, USB ID 05e3:0626, and a Realtek RTL8153
-        Ethernet function, USB ID 0bda:8153
-
-Reproducer:
-
-  1. Plug the integrated USB hub and Ethernet device into the
-     1912:0014 xHCI controller.
-  2. Let r8152 bind to the 0bda:8153 RTL8153 Ethernet function
-     behind the integrated hub.
-  3. Bring the Ethernet device up.
-  4. Hot-unplug the device.
-
-The host reports a transaction error on the RTL8153 interrupt
-endpoint, queues a soft reset, and later times out the Stop
-Endpoint command while disconnecting the device:
-
-  Transfer error for slot 8 ep 6 on endpoint
-  Soft-reset ep 6, slot 8
-  Ignoring reset ep completion code of 1
-  xHCI host not responding to stop endpoint command
-  xHCI host controller not responding, assume dead
-  HC died; cleaning up
-
-The Renesas 1912:0014 controller cannot safely use the xHCI soft
-retry path. Set XHCI_NO_SOFT_RETRY for this controller so
-transaction errors use the pre-soft-retry recovery path. With
-this quirk the same hot-unplug test no longer times out the Stop
-Endpoint command and the RTL8153 remains usable and stable.
-
-Fixes: f8f80be501aa ("xhci: Use soft retry to recover faster from transaction errors")
-
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
+Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
 ---
- drivers/usb/host/xhci-pci.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/gadget/function/f_fs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 585b2f3117b0..d70c6a6a64bb 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -427,6 +427,7 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
- 	if (pdev->vendor == PCI_VENDOR_ID_RENESAS &&
- 	    pdev->device == 0x0014) {
- 		xhci->quirks |= XHCI_ZERO_64B_REGS;
-+		xhci->quirks |= XHCI_NO_SOFT_RETRY;
- 	}
- 	if (pdev->vendor == PCI_VENDOR_ID_RENESAS &&
- 	    pdev->device == 0x0015) {
---
-2.50.1
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 75912ce6ab55..35d885178b52 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -3332,7 +3332,7 @@ static int __ffs_func_bind_do_descs(enum ffs_entity_type type, u8 *valuep,
+ 		struct usb_request *req;
+ 		struct usb_ep *ep;
+ 		u8 bEndpointAddress;
+-		u16 wMaxPacketSize;
++		__le16 wMaxPacketSize;
+ 
+ 		/*
+ 		 * We back up bEndpointAddress because autoconfig overwrites
+-- 
+2.37.2.352.g3c44437643
 
