@@ -1,63 +1,63 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798EE392C2F
-	for <linux-usb@vger.kernel.org>; Wed, 17 Jun 2026 15:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA16A47DF92
+	for <linux-usb@vger.kernel.org>; Wed, 17 Jun 2026 15:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781708455; cv=none; b=shYOf0wQD3wP4qJZ3qSvX/psF0EpS5G+rvm9iq6vWL4a1xedB0F2mMT+fXEhgd9xdT5mhRnMkyxaoxBxO9xemW4jeMw2zQd3OPhI82LYUK6vQz4kXulila6nvv2wjXrMHyfKgIIFfRqECK2tkMbSJr5ohOyIL91t6PNNu1oGz/0=
+	t=1781708456; cv=none; b=IR89bHpU8ZuAjg8Mk37SR0VVnlyEZgkyjoLShdtepP92lIcZjTTkxuoEHq6eTXicOQEkbfG25vc0m0yR4DxpSFUhGYTijFFajNomjUoyO9nZuK3+44veWpiodATs6U8ixF38O3RRy8fZGRPIJSOddbrnm1ghR+yMMr/vF5P7bYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781708455; c=relaxed/simple;
-	bh=sdp2t6vfqEppC/dVPMLIuJInICylhXtRkr9AwFlbGFw=;
+	s=arc-20240116; t=1781708456; c=relaxed/simple;
+	bh=qMZZk38qjpvNtR0Uhz2whLdQXCAGa/tLw954Ev+lV8s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fPoKWczoO3EyV6fYF0/7kPDDOXqI1s+VqqEhyrKXfNzX43fSjV4PllEx2EVRi+drxXIDoy4+O2uQVnoMCrDIw2y8pKVCdbb7HGT+HhwQqIi+KlRBSp8Uw9R+KPDyJw3yVfwOBx14i2r1hcHjuXkSsL4NU7GIepyIB3WOTV/D88k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=LShXWH1r; arc=none smtp.client-ip=209.85.128.49
+	 MIME-Version; b=Pv/tQBR9rX6prymVbhwCLeBBYMsIfmrH6K7mn1mqb634pusPzn2PaLuXkE3ih+xiyJb8Lr4jFzJKMpUo96k5xcTdFTn8Pm3CbnoAppFqN21vZavJwZLzKflYdWX6o25FM5TJNfhUcVApGMmfADsHR8wrL4iRCvLJeBTQiPPSdvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=t+Pd2wEc; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fireburn.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="LShXWH1r"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-492329c5514so5133225e9.1
-        for <linux-usb@vger.kernel.org>; Wed, 17 Jun 2026 08:00:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="t+Pd2wEc"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so41170765e9.1
+        for <linux-usb@vger.kernel.org>; Wed, 17 Jun 2026 08:00:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1781708449; x=1782313249; darn=vger.kernel.org;
+        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1781708450; x=1782313250; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p+sHLws/3qJi46z31ZQSkIz66AhJ7UkYvYrNInNWLLA=;
-        b=LShXWH1r79gml+u8JtYvzpMd6dn5phptv3uvX34ToEkFfThiGdh1sILnYhE3xiHCks
-         Us2regbHUfWxBsh6kxbggcV7JYBRgMoBM9oY41ThEiv8ErDwzydAemcxQySrMm19FYrE
-         0pof7IOkqfWQbAOPCe3kfsd/1nIkCuVQACNB/mDdNVWJkV+JJP3VPA3wxAaeiYV6lCnZ
-         y6VUPDbtFmI1flhVPFr49KWkhtxiMrPB3PRg9y4DoE99fhFUroYh0ZdAdHcYccQAhP89
-         zh3H2sI2kJVbMyaDW6JcdoflUPIOwGt1EC2E4+NPwmPvyNHE1YbSrMRzoTPehqhP+QnB
-         i74Q==
+        bh=KBJL7lbxolFQpvxeBg6chjr1TSQl6/jrqgGzGn/4OiA=;
+        b=t+Pd2wEc9gZlJAY8TWzARhQFaV3yudB8nJxR/MDuOVwGOjoPfE9RBIpoHVkjPkekT0
+         pgJZfKrCBnQIvAnfwydNf9HHCUP7HhsS2BBvd78/uBpE3N3QZqPDFBSDgYQkSdw7uYiq
+         aLCrGCbC7wzTnhD+ZnympTDnP3Kv7ERdCQeLHsVa+DsbE5VIRzZURqAeGpZKCiK/jbhX
+         Vs1Z3afm4blkNJ2lwOXxG+PV1fntx1yvra+PdaaKHE//BD+XnmleySdzSEpvnLLhqmx3
+         Hohb9/SPXYn5h1JEN+ZgCwFqtLzUK3BNujisyOVY9nbYe8J6b3N1BOmPJt3+UEzsqj49
+         3H0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781708449; x=1782313249;
+        d=1e100.net; s=20251104; t=1781708450; x=1782313250;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=p+sHLws/3qJi46z31ZQSkIz66AhJ7UkYvYrNInNWLLA=;
-        b=pIKVmfB9PeV0a5r7TboccXQ51MpnYa2B1Vuozfgk/iiwKiIrQ6yIkTleUFQzHSXPct
-         wvC5RNypznZEvYG/ZTHHtV9o+NtnhQrqW5r1PwfKcXxpdSr8OLqjhlul+SqmpYo3DbM5
-         kZvxwsEsXgK7pthBPuHJNTG295glpq8OJlJCiWHrDySeqpBki1+TiC0Q9Fy1rxs6IDUJ
-         KrlYFOHL6WlOzAWzy+ERa0866Fy6X9W4HfFCiHfuwM/Cjg8HvDpb6FwlHpShz7rf9Hjq
-         ewOXHZASk/UDBEwHr7v/YJv6fDPMp4ZE6XtYoRxTcHBP7gZgZFxtpXY+UvDi8zn25IVt
-         sZhw==
-X-Forwarded-Encrypted: i=1; AFNElJ95tH7mGTDFaH8vuTrvZHIdAj58lw7IPiJLCT83//aWMdos75tkzBuPYIpvC2RdpjlH9jU5kHiWwGA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0OKIjJGz38fNT/sE0CTbYV3cakSIgj5pymZ97WOoU7InKkQLz
-	3OUgsXuZNYeQKZrBjvMyM/Kn1D8r5N9ZNSxMGJ0QITw0C/Ua9xG+uH2Ia2kG5cEaxg==
-X-Gm-Gg: Acq92OGEc7P6VtxadI/lsdHCq3w2Zxnuj16VPESNkO45nZdKtGZVB6Qn8n2G/yCS406
-	+e708g6eJ0DqiZl4tzMAdN4kylUd6lSNqCtAK1fVutcvpdvCrsOsz6jddAKF0wEUtFDhqaxEGnM
-	5dBxmpf/BFDfq3zLed6UvlzUoQruH+/DdkjEZtlFo8o0GzSKGJdS26M/moR69c+lgDm9g5+9Lnw
-	XHmHBiutFxvVCT8Iu2Q5smMnTvfymRL5EBSQjiNEgM23pK5pFbgwhC63fesNmBK2+FycfkDKh9i
-	Cb2Ub9xUiw4s/RuiS2lO2+8olSTUPaoTiYUTEddOXFHqOn8SoqewYrdtx1OT/3aUlsa6mhtFvGn
-	XtG8zIZJpTeZsNHk4k01BhIFeuuYtJMOSBioWsxVGvgZYHoPFhzwy4fQVGrjcAaYSyj//08GnPG
-	jW9eXJHZtbtTn48DW6Nzj2jlsiJ33vFGk+66ZMHDyM6lmSWed2aLhqzBfE
-X-Received: by 2002:a05:600c:1e0f:b0:490:9dc3:3483 with SMTP id 5b1f17b1804b1-492340bc974mr52545715e9.2.1781708448384;
-        Wed, 17 Jun 2026 08:00:48 -0700 (PDT)
+        bh=KBJL7lbxolFQpvxeBg6chjr1TSQl6/jrqgGzGn/4OiA=;
+        b=VW4CjXWN6btGj7o5H1LH4o4TA3HzsHfyHG/cjIiZETJBHpwNFD9Lvy9ixjoO5DcseN
+         KuigqWnnVVGUGYWtYeRMK90ZqnK6ZUReshHW59rO8eH1qzYw3WmIAmLInTwqTJsOIu4m
+         8gaGJ9Ly/3aks2dH2eAfWr18e1DL3pcuTmuBtovYC14oGf+479NEOaNbcLA7KCPZKDzn
+         9T0ssAq0nNGxE0myhlC3JGGutU5KXt/h/23u03VU2MpYLDOdTaWQpY3XBenpv4geERxU
+         Wq4VeQ3wyHV2rbp6H+cjz6UCQQ91BJT4tYsDkMw2lvyKUzVmHHAHM9WPJXihYwKs4h/1
+         hXFg==
+X-Forwarded-Encrypted: i=1; AFNElJ/jZI8gAByjxr8Blh3e/xmf+xLmsLHHIjQYcIvadEE6XkjBwXwyHF14rukk4+4Fx4kSd23PaV9tvPI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/pUGaTwrXLHGBVP4RL5JxBb6pAcdl3/mrnT267cIYkEHQK+az
+	yfxRiHWemeEzDRjepPNTlGJSBeV8qYP4q7GHmeQcAR/gh7tBJZbPQb1RTEYjZkeYbw==
+X-Gm-Gg: Acq92OHCeyM7OJIGnGWaEnS3RTWpMqyJ9cRPmyv6aIokoXfQFJXKLT9Ud1zeZ7jaAAv
+	ZD0TEXcQu16aJMtXtcoXAgi7+uq4tBDeooizpir1kUIqKN6Us/go9DmljM5q3nKUeVzSYgpD2XH
+	TJPqOkpKjISIDGvBPjjfUL5ym6BnFLk/xD24s3HKvtUQZdmjcGDs4lybyzPU2WzValm7jhOt472
+	d80Jod6BHXXWFB55ZB2n2LGrUc9/cFkNtxZHxyxtVp0l+Pj9noIgse5nc/Atom2hTry8CUBz2/1
+	jIUFMCXaKwLkYqXGE6UtPZer+XwrRZmalzmDh2T85vcW0P9jAEsDN1E/ypgtsavKAC/8UI9mgFZ
+	NVuXJGpn/zOo6ePMaytRk+a366J2ef827ouQoqPAxH3A1G6gpDo3KJhKKvqnaDAbi+STaJ4G4az
+	ZCZl7xXre+XNxCXQoAkVIDjkDMtryPxEzgNmci1QWLRiQxUu++50dk8uDe
+X-Received: by 2002:a05:600d:108:20b0:490:c2a3:23d3 with SMTP id 5b1f17b1804b1-492333e2af5mr62784095e9.35.1781708449670;
+        Wed, 17 Jun 2026 08:00:49 -0700 (PDT)
 Received: from axion.fireburn.co.uk ([137.220.119.72])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa9f2c0sm203011965e9.15.2026.06.17.08.00.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922fa9f2c0sm203011965e9.15.2026.06.17.08.00.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 08:00:47 -0700 (PDT)
+        Wed, 17 Jun 2026 08:00:49 -0700 (PDT)
 From: Mike Lothian <mike@fireburn.co.uk>
 To: rust-for-linux@vger.kernel.org
 Cc: Mike Lothian <mike@fireburn.co.uk>,
@@ -76,9 +76,9 @@ Cc: Mike Lothian <mike@fireburn.co.uk>,
 	Alexandre Courbot <acourbot@nvidia.com>,
 	Shankari Anand <shankari.ak0208@gmail.com>,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 3/9] rust: usb: add usb::Device::set_interface()
-Date: Wed, 17 Jun 2026 15:59:15 +0100
-Message-ID: <20260617145946.1894-4-mike@fireburn.co.uk>
+Subject: [RFC PATCH 4/9] rust: usb: add usb::Interface::number()
+Date: Wed, 17 Jun 2026 15:59:16 +0100
+Message-ID: <20260617145946.1894-5-mike@fireburn.co.uk>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260617145946.1894-1-mike@fireburn.co.uk>
 References: <20260617145946.1894-1-mike@fireburn.co.uk>
@@ -90,41 +90,40 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a safe wrapper over `usb_set_interface()` (the standard SET_INTERFACE
-request) so a Rust driver can select an interface's alternate setting
-during bring-up. It blocks and sleeps, so it must be called from process
-context only.
+Add a safe accessor returning an interface's bInterfaceNumber (from its
+current alternate setting). A USB function driver's probe() is called once
+per matching interface; a multi-interface device therefore needs to know
+which interface it was handed so it can drive its protocol on the right one
+and stay idle on the others. This exposes that number to Rust drivers.
 
 Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
 Assisted-by: Claude:claude-opus-4-8 [Claude-Code]
 ---
- rust/kernel/usb.rs | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ rust/kernel/usb.rs | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
-index e1fb50fd6997..73637e3467f1 100644
+index 73637e3467f1..683e8b52d6d1 100644
 --- a/rust/kernel/usb.rs
 +++ b/rust/kernel/usb.rs
-@@ -605,6 +605,19 @@ pub fn control_recv(
-             )
-         })
+@@ -357,6 +357,17 @@ impl<Ctx: device::DeviceContext> Interface<Ctx> {
+     fn as_raw(&self) -> *mut bindings::usb_interface {
+         self.0.get()
      }
 +
-+    /// Selects alternate setting `alternate` of interface `interface`.
-+    ///
-+    /// Wraps [`usb_set_interface()`] (the standard `SET_INTERFACE` request). This is
-+    /// a blocking, sleeping call and must only be invoked from process context.
-+    ///
-+    /// [`usb_set_interface()`]: https://docs.kernel.org/driver-api/usb/usb.html#c.usb_set_interface
-+    pub fn set_interface(&self, interface: u8, alternate: u8) -> Result {
-+        // SAFETY: `self.as_raw()` is a valid `struct usb_device` by the type invariant.
-+        to_result(unsafe {
-+            bindings::usb_set_interface(self.as_raw(), interface.into(), alternate.into())
-+        })
++    /// Returns the interface number (`bInterfaceNumber`) of this interface's
++    /// current alternate setting.
++    pub fn number(&self) -> u8 {
++        // SAFETY: `self.as_raw()` is a valid `struct usb_interface` pointer by the
++        // type invariant, and a bound interface always has a `cur_altsetting`.
++        unsafe {
++            let altsetting = (*self.as_raw()).cur_altsetting;
++            (*altsetting).desc.bInterfaceNumber
++        }
 +    }
  }
  
- // SAFETY: `Device` is a transparent wrapper of a type that doesn't depend on `Device`'s generic
+ // SAFETY: `usb::Interface` is a transparent wrapper of `struct usb_interface`.
 -- 
 2.54.0
 
