@@ -1,94 +1,98 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FB6735E937
-	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 11:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362BF3B42C6
+	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 11:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781780486; cv=none; b=NqAYHc75HzcyXZIbcWk/i7+e8cXLwQTPQGwZzZLJ1/ghIu8jrAElz7IfBz13alkQSo+2m2pVL2XZv/0vJPAX4NUR/cq8O9dubQKNlFgAT/j3HUxVjg5HCcxEZhwolY04iI9I/b2IHLhco+rImq4ccZvKPJNiIuEKak+WTzn4exs=
+	t=1781780784; cv=none; b=VaIcrYWxWYlNmGh7FyfczdPgl6JQe+LrNo6m0QcstRa12m6EVtnjM3tXTAKp0BLV8kkpT1bbXGpCycHBBnW+14MLNrFvuTjtWBAmWh2T4seBN9Z1is7BPvtXSDdnyaMaoO/RvIL49NAJcHIa5ySjhfjGmcQjHQcQFXSpZsTmWJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781780486; c=relaxed/simple;
-	bh=ohN/FIDdvwk3+o1HVeaJp8hjSFEdqxA1uWlnKhI6S/8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ltl3FC0B3XNEqv7idV7wYBuwpmudxZgW9AWWI9F22xkxL9JHCyl51Q1loCtslSXPeTMVGdzrSNymLx529ReIzAc8/uwfHPUfX/DcZVG1sjVEo5KRsbJxxYYGRNkzAMgPjh6xk9Zmwvu7Kj+/k2e64PPGBucQlFGmT46ynjMma4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1waAUW-0004mq-SN; Thu, 18 Jun 2026 13:01:00 +0200
-Message-ID: <43e13854-a634-4706-bc12-723c871a5579@pengutronix.de>
-Date: Thu, 18 Jun 2026 13:00:58 +0200
+	s=arc-20240116; t=1781780784; c=relaxed/simple;
+	bh=FNeYfy1SwZzgug/EO0lY6WxpmJZk7+D32D2cjfIbjmk=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=gjiYCxfs4cE1Jll9lCeFXEnSsh1hR1bAShPAoCPCh8POd8VCMdJ3ejvSvGdhe0WISqAl1axHOaPOMFW5V78dZ2E0EmWMfXnbcHmq0wzlCVtM6d45thdW4CkZgymeSo1ZJTIdUX5oTj7EQmJ9ZI6EgHLEOCG47RBom2QhWi+eMhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ead9Ts7Y; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ead9Ts7Y; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ead9Ts7Y";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ead9Ts7Y"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 49EC26C34C;
+	Thu, 18 Jun 2026 11:06:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1781780776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=ZKHyBef4sxWkE+7l0tdtcOPsu+LbeJVuTP+qVBmXQ8s=;
+	b=ead9Ts7YxghhKEwC0SCpZ+OLYpDXhmFpnK+TRm/jfocEwEBkN9ZDhfAW2CV2BaTZMR+XK6
+	1gbQR60oDB/D5x03THyZLoJbWA6KfVysQ2O7dDwQfJYyhYqUveK3s8q0h4s4hzN9j3h3vA
+	OWgS2IJERnhkI+cyeMbD3PT2SqlHzFI=
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1781780776; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=ZKHyBef4sxWkE+7l0tdtcOPsu+LbeJVuTP+qVBmXQ8s=;
+	b=ead9Ts7YxghhKEwC0SCpZ+OLYpDXhmFpnK+TRm/jfocEwEBkN9ZDhfAW2CV2BaTZMR+XK6
+	1gbQR60oDB/D5x03THyZLoJbWA6KfVysQ2O7dDwQfJYyhYqUveK3s8q0h4s4hzN9j3h3vA
+	OWgS2IJERnhkI+cyeMbD3PT2SqlHzFI=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 24012779A8;
+	Thu, 18 Jun 2026 11:06:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YyBDByjRM2q7TgAAD6G6ig
+	(envelope-from <oneukum@suse.com>); Thu, 18 Jun 2026 11:06:16 +0000
+From: Oliver Neukum <oneukum@suse.com>
+To: linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: 
+Date: Thu, 18 Jun 2026 13:04:14 +0200
+Message-ID: <20260618110612.439021-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: typec: add trace point for typec_set_mode
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, kernel@pengutronix.de
-References: <20260617-typec_set_mode-tracepoint-v1-1-bdfbb39cfccd@pengutronix.de>
- <ajPO6roV4HRZYGNd@kuha>
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Content-Language: en-US, de-DE, de-BE
-In-Reply-To: <ajPO6roV4HRZYGNd@kuha>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -1.32
+X-Spamd-Result: default: False [-1.32 / 50.00];
+	BAYES_HAM(-2.52)[97.86%];
+	EMPTY_SUBJECT(1.00)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	ARC_NA(0.00)[];
+	TO_DN_NONE(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:mid]
+X-Spam-Level: 
 
-Hello Heikki,
 
-On 6/18/26 12:56 PM, Heikki Krogerus wrote:
-> On Wed, Jun 17, 2026 at 10:03:04PM +0200, Ahmad Fatoum wrote:
->> --- a/drivers/usb/typec/class.c
->> +++ b/drivers/usb/typec/class.c
->> @@ -20,6 +20,9 @@
->>  #include "class.h"
->>  #include "pd.h"
->>  
->> +#define CREATE_TRACE_POINTS
->> +#include <trace/events/typec.h>
-> 
-> Those should probable go to drivers/usb/typec/trace.c and then you
-> need add something like this to drivers/usb/typec/Makefile:
-> 
->  obj-$(CONFIG_TYPEC)            += typec.o
->  typec-y                                := class.o mux.o bus.o pd.o retimer.o mode_selection.o
->  typec-$(CONFIG_ACPI)           += port-mapper.o
-> +typec-$(CONFIG_TRACING)                += trace.o
+Hi, unfortunately my old phne broke, so I am out of options for
+testing patches for WDM. I need testers.
 
-Thanks for the suggestion. I will do that for v2.
+This patch is a major modernization of the driver in that it
+switches it to using a kfifo.
 
-I also saw there is Sashiko AI feedback on this patch[1], but I am not
-familiar enough with how the event headers are used outside the kernel
-to determine if that's actionable advice or if it can be ignored.
-
-Do you have an opinion on that?
-
-[1]:
-https://sashiko.dev/#/patchset/20260617-typec_set_mode-tracepoint-v1-1-bdfbb39cfccd%40pengutronix.de
-
-Thanks,
-Ahmad
-
-> 
-> 
-> Thanks,
-> 
-
--- 
-Pengutronix e.K.                  |                             |
-Steuerwalder Str. 21              | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany         | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686  | Fax:   +49-5121-206917-5555 |
+	Regards
+		Oliver
 
