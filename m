@@ -1,76 +1,72 @@
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012033.outbound.protection.outlook.com [40.107.209.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078BC3D811B;
-	Thu, 18 Jun 2026 07:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.33
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781768899; cv=fail; b=JmX9c8tXG+ya4DVRxyTNdvx3KzLC/ntmI/xuLMgQu3hCwpNjmlBokV7xA9jVY+t99aKQg/oI20StVE8yCy4xSWjGfC25xP97JANYP3GUIZ/vi32IF1iG2GBneq9fa335De5/q90kurF/gH/iGN2+tyv0o14ekXR9PzdBEcFf0CM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781768899; c=relaxed/simple;
-	bh=LGKnFAdkb6N98ET9DKmAWo54KVVmT5vCd2n4+LYYZl0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=X+vFqtcc3TpQgTLmqe1eLf+sjz4RfqCUJX5bpCK1nrwcngol9JLxhKAVs9GiRMZZgD2FNX8+8tLrAw7YIaIaOy5RdgSgpDXevx2jAMjrUXow93iEW7Bz8bBf5Hd52/OHrHwibZVil4/5Iv9Ozk0PrcczkMb0wm5U5WT8RobqAus=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NlLP26SI; arc=fail smtp.client-ip=40.107.209.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8CB3B27F4
+	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 08:02:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781769734; cv=none; b=MldPRFGGnYTcePkzGU6J3wYRN1hYroo6QNFy2SN6oqYf8wJSvuC3DJd/aWSc9TRNKwX0NH4JgDgluoP1Jfz2mNGuQViDEd9hauR92+lcF2A1bAaHkcpHECqki/+OIRE4xs6DwqmN3rtRdhQpgJPZvMmqfS7RheV8FvdhLI8yEIM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781769734; c=relaxed/simple;
+	bh=B9ERn6wyZ+SdWqlxtweWgTffzPQMLgVmc0AIPQhWR1o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EbZRx8Qej4WCHCdJR8hAqaqqipvH8A1bIFgWHcDEU2SBT2SJJvAMSHKDILbq9n2ia0oeV37MLJ21oo4s0lYQS2aJXqpBoxfE+0sNOClUYh+0p2sB25l8gQys4kpOW0JDpv+8bBXPM5mIVLnglpyrtZKdAn/pqcQqH2K3+MbrFg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=httVzFQ7; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NlLP26SI"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ce1TfK7zdBepGKolMqWwvvNFRBh6KeefrmNngtRTYifuCdr8qjnM1r3tdHa1M6lU2kwr8h1kS1J7DhyQQlcImaxF+yHRHudVKbAcIA36Ej4AawYGpQ9wxceMc2kikDL3O8TRrxSXlTStkc+WmBYbmax+2CZsGdxIMCWWNIHnZX/Eb+eEjVxmGXS7/357akw9BYSG2UCIlKDmTR81WTOtL3OHhbV27KKOuXJXiNrDhtWTGFU3dsMiuQMyvqXWIHOBsqMXLygdp2FBSWQxsbhMGPwPlucen+MT+oXqC88R69vYdSdyAys2+0qGxly9Uxo/xxkm5aOvNo5v3s3UP8iBpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tHzPPDV0YSruCMy4c0wKpJ6wRbzMjnXtBWJCH7OCHbA=;
- b=OXIAsqV8+hLUjKS55/A7JvkrfIf5cVUVUkKkjm/dVrhtTpNGDHhwl3GAMXJDVD36EHbPguzHOtY00dh6N9lyh96LR4D3LUQt5RmbOWyuqqpje3Cvn+uX4Kzbd4ng3NVGl/B1UxHFeCmkfFYy4vZv1fbrD4p7irHJCeXgvmWM4OZIYCt2KmGHpPnOjDx6nGhyfv1RDWcs0JcOxg+jIbnOjisgytut8eVisqsyEYlliTykClV9FxK7Fce/pZVIBIL05VRhie9i7qUIKYG7B9NyUOBgCBOJ9dJLAIeNaaeZCDkWQYP7msee6YEATDX5mtEStwkKkITSW4IW4kUUJgKD+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tHzPPDV0YSruCMy4c0wKpJ6wRbzMjnXtBWJCH7OCHbA=;
- b=NlLP26SIMGGMSaBB7SFefXI82H+eY/TuYV3Li515Kaj8Zftd+B5uXjzcyWrwO39aUOuqSXdFcBOJDfe+X+gQz6Nj8vC9jHZ4TQZ/R0uSOS9agMy8Mu1hAOFAnwFa+Lw4uaxtDY/ZencNaSBAhofjXAuCXxemyrgbH9T7PEPGTtA=
-Received: from DS7PR03CA0158.namprd03.prod.outlook.com (2603:10b6:5:3b2::13)
- by SN7PR12MB8057.namprd12.prod.outlook.com (2603:10b6:806:34a::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.12; Thu, 18 Jun
- 2026 07:48:11 +0000
-Received: from CY4PEPF0000E9CF.namprd03.prod.outlook.com (2603:10b6:5:3b2::4)
- by DS7PR03CA0158.outlook.office365.com (2603:10b6:5:3b2::13) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.18
- via Frontend Transport; Thu, 18 Jun 2026 07:48:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CY4PEPF0000E9CF.mail.protection.outlook.com (10.167.241.134) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.139.8 via Frontend Transport; Thu, 18 Jun 2026 07:48:10 +0000
-Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Thu, 18 Jun
- 2026 02:48:03 -0500
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
- (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Thu, 18 Jun
- 2026 02:48:02 -0500
-Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
- Transport; Thu, 18 Jun 2026 02:48:00 -0500
-From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-To: <heikki.krogerus@linux.intel.com>, <gregkh@linuxfoundation.org>
-CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<git@amd.com>, Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [PATCH v3 1/3] usb: typec: tipd: add error message for vendor ID read failure
-Date: Thu, 18 Jun 2026 13:17:42 +0530
-Message-ID: <20260618074745.629638-2-radhey.shyam.pandey@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260618074745.629638-1-radhey.shyam.pandey@amd.com>
-References: <20260618074745.629638-1-radhey.shyam.pandey@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="httVzFQ7"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-842307472d4so250174b3a.0
+        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 01:02:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781769732; x=1782374532; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=665cu2JkGrEN5s1CSruckLaWh1CnKkpNki6EeeB3F1w=;
+        b=httVzFQ7fcvbwJR5PTEYjmWfQvP9VRL5pdfMPko+cWHrrHEhXTGpnzfMbBXgFOYYHd
+         fv0GSBP+2HbBKFBL55XePT9T/LsdBC1rTQh9he2LpPj9ZTjiQufXMHK9a4uxxaelzBOE
+         rmY1Du7JmHjTvVJwC6FXnSx9EtRuse/YKuBJh3XcRNsPTxw38YNQEoEfPl1DD37IMHQK
+         fGTQbL+wD7EOL3ZYVJ7fQ5sOF5zG8LOMMLl+xXEYm4BIbJf/Ht81YclViqx/HZIgTKez
+         pl4Awv0CQHsPpnLs6BXJcswy943Mrvd+3tmZyJMY4y5+A46b2L2rrbJ09n7MfEF1cl2s
+         p23A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781769732; x=1782374532;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=665cu2JkGrEN5s1CSruckLaWh1CnKkpNki6EeeB3F1w=;
+        b=U//kxa0TtH9oZ8DVumTljjGBK/twQPMhSlKMuogubN06TtorI2s8rOJ2H9DSD2w5wB
+         sjIlqi6n1wR6nHR8vRZfNho7HeAcs4gQfK3c3IaASMQYpanBBcmBhDs2b41kqAvhh/+t
+         xriaolA3VP/iLZeie9ndr/AW4Zw+P8ulyfHlKq9Dy0nD8ylaWIasm1KB84AuIX0ZI4ZM
+         JmYX7CBlnhnOWDKW0+FnpzYoyHIsBL4RJgGpgxkDBN2xfjR1jok741XiIrfTlOxV9T4t
+         Hj0WBhegVgaKqVbziH/e/xyuDKcVlVgHOrM3qDFV2/A3TvLle0MXD1R5rTsIgepXx4k2
+         knlQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9XMmJ9YUQnjaYeHczIhcxwd9htlE3PVTJCR26e0Au9yMbfLSqb4dsVYfv9CaQ+Mmyy8AnLdva+T80=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4f1MakYUGkRyST5N3D5NuNw4hlJ6/OL+abBtUlUxsRVB1Haem
+	uekxZ/G2hzEEEbhdGUk6Y6qFDTIWqbFL2gUE1tc8beUZ+mLZx1GaFXlS
+X-Gm-Gg: AfdE7cl3tgEU4p0Z9lD3KDlWgy4VI5Pfkyuzb4TOe/obhS2EJjLEV+omv3CVMVT7Xt4
+	cXmmtFBrdRB6CkX0TBnUyKVTJxiJ84Tc3iyM/09P4l/LVqZpP19in9o76eTKFYVZmk2nWYw9v9o
+	41EOkNfVIgPAZoNlcWHXEiSQGdKzFi6kkknmVjDc6LqNbeCKmoaXKIIvlfgiaA0+VBgbSeAd8ND
+	9UyoWebcmOespi9xWw6KLUXpsYl8Ibi2bBswOYCuau2hiccHNPWb0BkriLrQ4DRhLXhWI3GoZpA
+	LcsVZ5LRX67I5JkJ5hQj39q5fE52BBy4Soeu+EOs4JzzQgwfgqhgbpr/6hwO+4Icx4oojOBcQB9
+	8SGBN2JNS/H1gnsQ4dwjIl+R2x3XeZZjWxjHRxruRBTeXLWSLFnfk9NANvVRyPdJsUwMOvwPqzt
+	EGQD6F8gzY1WeIDeopb30=
+X-Received: by 2002:aa7:88d3:0:b0:841:f876:a899 with SMTP id d2e1a72fcca58-845416e0aaemr1634678b3a.0.1781769731650;
+        Thu, 18 Jun 2026 01:02:11 -0700 (PDT)
+Received: from gmail.com (vps-8b58878c.vps.ovh.us. [2604:2dc0:202:300::a96])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8453416cc2asm3282553b3a.35.2026.06.18.01.02.09
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 18 Jun 2026 01:02:11 -0700 (PDT)
+From: Yue Sun <samsun1006219@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Oliver Neukum <oneukum@suse.com>
+Cc: Kees Cook <kees@kernel.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzkaller@googlegroups.com
+Subject: [Bug]KASAN: slab-use-after-free Read in iowarrior_release
+Date: Thu, 18 Jun 2026 16:02:04 +0800
+Message-ID: <20260618080204.38322-1-samsun1006219@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,76 +74,226 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9CF:EE_|SN7PR12MB8057:EE_
-X-MS-Office365-Filtering-Correlation-Id: 33a7c6d5-32a7-400d-262a-08decd0df1c8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|82310400026|1800799024|36860700016|11063799006|56012099006|6133799003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	Hf5om0hDHr6ffBPGefnqZe8OWLRHx+cklNsUyNT1K6EKuGEktWm78gaQWnCB9xqAnb6ajBJpboIlQtPpSrDTG1LqB9n0s48BoUvqtr/P3S12p+DJ9F24gbIkuN+va/qoMDmOTkeLPhr5Lghayg8OPexH0bj8MyyZuPTdA6GF2oshBMmuSznKKIGqqx0iP57MCGbVCT3NFaJVVAn3aHolviqDBmLYhqqks/TlWNoeoF1ZgwDcambYl/qDqUg1NP6VMbbVktzJTgNNcyN8ijH09nCgtlGSZqhroSuUg737sSJERdEZlm4RbPcEGx1dOk5sQMXiW17uz/B6EdrON5+/rGaWTBGu3H31C21KPKMGnFWOXZLT2eogdPvtPH8Azr3SldnoC/vExrH0fWOKtkai6VuukOMPo5JToLeS5IARGhZ4PH+yoP5VJubyTrnEMt4SoagZuLs9Zyzb5OsyKb5XosNikjKKmIP5gsUWdiqBSfHChZ/v/ilJxys/MxJrLGAMiX9tQrm5kSGjFQ1SdCxU8LfYrTZZzxG7mfXDnmw6GH5lFWoleW8MZjPWdz6xaNh2eI2Mr6pWoUi3NWfFTdfh0HhweVa6g19cARQ0C4KK1XCdr9o1kyaf7CDG0yK3CbNubnIjSvxKQYKELN6TMmCE+hg1CdacX3mBrUzkuPzf7jhXKt86BVppUTpuzSjiot2l6OTijPIYX8boTrak4iHcn+XZhFBUfnn/vJDR9Xj+/Ew=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(82310400026)(1800799024)(36860700016)(11063799006)(56012099006)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	w4H1Kr+v9EfaQkTVL+jXHlaG3aZtl2KIqGDhHnBQWgcL449Txqn5twG5r+mJVN1KLMU3f/KUj0vA85oDwsfELG2mCvucv5HzNaJIXrNYK1zza5jR+2JB3U0nOhBdDcDMjBm4beWooFHVkIB82oBzNI51YPOlz+HmUT82MqkKTTNNBnsDQejAIwHT86lSOVX+cvRWwox0g5MApYtcvPQ6eWEk9BJEfFAp/TXmscVlBgI9G5Wv9LN5pcJ5JceJ+YYrs92cytgo8R5P3eTI2Hf0wHzGRlSiETFVeAtgDTu98+mfEuCUUvl1OO9fl4ksQC+MVCGOi3RxtnOtkR/eOU+0R6mf8MZwiDmwTcR5RYnz6uEp7Kq03Fwg3CQwwwPmKeoBYg/K+7fhg14siwAx1MPSNy2asmxBSdZCWWUDFSLZgjcMnj754rpqgrrpAvqD9csh
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2026 07:48:10.7414
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33a7c6d5-32a7-400d-262a-08decd0df1c8
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9CF.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8057
 
-Log an error when the vendor ID read fails or returns zero, including
-the I2C error code and register value, and initialize the vendor ID
-variable to avoid logging an uninitialized value on read failure.
+Hello,
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
----
-Changes for v3:
-- Add Heikki reviewed-by tag.
+I would like to report a use-after-free in the iowarrior USB misc
+driver. The crash was found by local syzkaller testing with USB gadget
+emulation. Although the crash was collected on an older kernel, I also
+confirmed that the same issue is still present on the latest kernel
+commit I checked, 6b5a2b7d9bc1 (v7.1-2765-g6b5a2b7d9bc1).
 
-Changes for v2:
-- Extend commit description to justify vid initialization.
----
- drivers/usb/typec/tipd/core.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Observed kernel/configuration
+=============================
 
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index d5ee0af9058b..465788f8490a 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -1744,7 +1744,7 @@ static int tps6598x_probe(struct i2c_client *client)
- 	struct tps6598x *tps;
- 	struct fwnode_handle *fwnode;
- 	u32 status;
--	u32 vid;
-+	u32 vid = 0;
- 	int ret;
- 
- 	data = i2c_get_match_data(client);
-@@ -1772,8 +1772,11 @@ static int tps6598x_probe(struct i2c_client *client)
- 
- 	if (!device_is_compatible(tps->dev, "ti,tps25750")) {
- 		ret = tps6598x_read32(tps, TPS_REG_VID, &vid);
--		if (ret < 0 || !vid)
-+		if (ret < 0 || !vid) {
-+			dev_err(tps->dev, "failed to read vendor ID: %d, vid: %#x\n",
-+				ret, vid);
- 			return -ENODEV;
-+		}
- 	}
- 
- 	/*
--- 
-2.43.0
+Relevant config:
 
+  CONFIG_USB_IOWARRIOR=y
+  CONFIG_USB_RAW_GADGET=y
+  CONFIG_USB_DUMMY_HCD=y
+  CONFIG_KASAN=y
+  CONFIG_KASAN_GENERIC=y
+  CONFIG_PREEMPT=y
+
+Test environment:
+
+  QEMU 6.2.0, x86_64, 2 CPUs, 4096 MB RAM
+
+The following is the raw KASAN report excerpt from the syzkaller crash:
+
+==================================================================
+BUG: KASAN: slab-use-after-free in __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:132 [inline]
+BUG: KASAN: slab-use-after-free in _raw_spin_lock_irqsave+0x3d/0x60 kernel/locking/spinlock.c:166
+Read of size 1 at addr ff110000238d3020 by task syz.0.924/37593
+
+CPU: 0 UID: 0 PID: 37593 Comm: syz.0.924 Tainted: G             L      7.1.0-rc3-00362-g6916d5703ddf-dirty #35 PREEMPT(full)
+Tainted: [L]=SOFTLOCKUP
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.15.0-1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1b0 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0xf1/0x5c0 mm/kasan/report.c:482
+ kasan_report+0xca/0x100 mm/kasan/report.c:595
+ __kasan_check_byte+0x3a/0x50 mm/kasan/common.c:574
+ kasan_check_byte include/linux/kasan.h:402 [inline]
+ lock_acquire kernel/locking/lockdep.c:5842 [inline]
+ lock_acquire+0x132/0x360 kernel/locking/lockdep.c:5825
+ __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:132 [inline]
+ _raw_spin_lock_irqsave+0x3d/0x60 kernel/locking/spinlock.c:166
+ __mutex_unlock_slowpath+0x182/0x880 kernel/locking/mutex.c:1015
+ iowarrior_release+0x231/0x2c0 drivers/usb/misc/iowarrior.c:678
+ __fput+0x402/0xb60 fs/file_table.c:510
+ task_work_run+0x16b/0x260 kernel/task_work.c:233
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ __exit_to_user_mode_loop kernel/entry/common.c:67 [inline]
+ exit_to_user_mode_loop+0x121/0x570 kernel/entry/common.c:98
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:238 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:318 [inline]
+ do_syscall_64+0x737/0xf80 arch/x86/entry/syscall_64.c:100
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f9eb63b561d
+Code: 02 b8 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f9eb8356f68 EFLAGS: 00000246 ORIG_RAX: 0000000000000128
+RAX: ffffffffffffffb9 RBX: 00007f9eb76b0020 RCX: 00007f9eb63b561d
+RDX: 0000000000000001 RSI: 0000200000000240 RDI: 0000000000000005
+RBP: 0000000000000056 R08: 0000000000000004 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 0000000000000000 R14: 00007f9eb6351640 R15: 00007f9eb8337000
+ </TASK>
+
+Allocated by task 10489:
+ kasan_save_stack+0x24/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:415
+ kmalloc_noprof include/linux/slab.h:950 [inline]
+ kzalloc_noprof include/linux/slab.h:1188 [inline]
+ iowarrior_probe+0x87/0x13a0 drivers/usb/misc/iowarrior.c:766
+ usb_probe_interface+0x30e/0xac0 drivers/usb/core/driver.c:396
+ call_driver_probe drivers/base/dd.c:631 [inline]
+ really_probe+0x252/0xb20 drivers/base/dd.c:709
+ __driver_probe_device+0x3d3/0x4f0 drivers/base/dd.c:871
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:901
+ __device_attach_driver+0x1db/0x340 drivers/base/dd.c:1029
+ bus_for_each_drv+0x14b/0x1d0 drivers/base/bus.c:500
+ __device_attach+0x1ee/0x4f0 drivers/base/dd.c:1101
+ device_initial_probe+0xaa/0xc0 drivers/base/dd.c:1156
+ bus_probe_device+0x64/0x150 drivers/base/bus.c:613
+ device_add+0x1169/0x1930 drivers/base/core.c:3706
+ usb_set_configuration+0x1346/0x1e90 drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0xb7/0x110 drivers/usb/core/generic.c:250
+ usb_probe_device+0xed/0x400 drivers/usb/core/driver.c:291
+ call_driver_probe drivers/base/dd.c:631 [inline]
+ really_probe+0x252/0xb20 drivers/base/dd.c:709
+ __driver_probe_device+0x3d3/0x4f0 drivers/base/dd.c:871
+ driver_probe_device+0x4c/0x1a0 drivers/base/dd.c:901
+ __device_attach_driver+0x1db/0x340 drivers/base/dd.c:1029
+ bus_for_each_drv+0x14b/0x1d0 drivers/base/bus.c:500
+ __device_attach+0x1ee/0x4f0 drivers/base/dd.c:1101
+ device_initial_probe+0xaa/0xc0 drivers/base/dd.c:1156
+ bus_probe_device+0x64/0x150 drivers/base/bus.c:613
+ device_add+0x1169/0x1930 drivers/base/core.c:3706
+ usb_new_device+0xd2c/0x1ac0 drivers/usb/core/hub.c:2695
+ hub_port_connect drivers/usb/core/hub.c:5567 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ port_event drivers/usb/core/hub.c:5871 [inline]
+ hub_event+0x2eff/0x5030 drivers/usb/core/hub.c:5953
+ process_one_work+0xc57/0x2240 kernel/workqueue.c:3594
+ process_scheduled_works kernel/workqueue.c:3703 [inline]
+ worker_thread+0x693/0xeb0 kernel/workqueue.c:3784
+ kthread+0x38d/0x4a0 kernel/kthread.c:436
+ ret_from_fork+0xb09/0xdb0 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Freed by task 48:
+ kasan_save_stack+0x24/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ kasan_save_free_info+0x3b/0x60 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x61/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2689 [inline]
+ slab_free mm/slub.c:6250 [inline]
+ kfree+0x2d6/0x6d0 mm/slub.c:6565
+ iowarrior_delete drivers/usb/misc/iowarrior.c:249 [inline]
+ iowarrior_disconnect+0x210/0x270 drivers/usb/misc/iowarrior.c:921
+ usb_unbind_interface+0x1e8/0x9e0 drivers/usb/core/driver.c:458
+ device_remove drivers/base/dd.c:621 [inline]
+ device_remove+0x125/0x170 drivers/base/dd.c:613
+ __device_release_driver drivers/base/dd.c:1352 [inline]
+ device_release_driver_internal+0x45e/0x630 drivers/base/dd.c:1375
+ bus_remove_device+0x2ba/0x570 drivers/base/bus.c:657
+ device_del+0x396/0x9d0 drivers/base/core.c:3895
+ usb_disable_device+0x35c/0x810 drivers/usb/core/message.c:1478
+ usb_disconnect+0x2df/0xa00 drivers/usb/core/hub.c:2345
+ hub_port_connect drivers/usb/core/hub.c:5407 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ port_event drivers/usb/core/hub.c:5871 [inline]
+ hub_event+0x1ece/0x5030 drivers/usb/core/hub.c:5953
+ process_one_work+0xc57/0x2240 kernel/workqueue.c:3594
+ process_scheduled_works kernel/workqueue.c:3703 [inline]
+ worker_thread+0x693/0xeb0 kernel/workqueue.c:3784
+ kthread+0x38d/0x4a0 kernel/kthread.c:436
+ ret_from_fork+0xb09/0xdb0 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+The buggy address belongs to the object at ff110000238d3000
+ which belongs to the cache kmalloc-1k of size 1024
+The buggy address is located 32 bytes inside of
+ freed 1024-byte region [ff110000238d3000, ff110000238d3400)
+
+Memory state around the buggy address:
+ ff110000238d2f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ff110000238d2f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ff110000238d3000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                               ^
+ ff110000238d3080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ff110000238d3100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+Root cause analysis
+===================
+
+iowarrior_open() stores a raw struct iowarrior pointer in
+file->private_data. The object lifetime is controlled only by the
+dev->opened and dev->present state flags. These flags are not sufficient
+to protect the object across the file release path and the USB disconnect
+path.
+
+In the observed crash, iowarrior_release() is still returning through
+mutex_unlock(&dev->mutex) while iowarrior_disconnect(), running from the
+USB hub worker, observes dev->opened == 0 and frees the same object via
+iowarrior_delete(). KASAN then reports a use-after-free on dev->mutex
+inside __mutex_unlock_slowpath().
+
+This matches the mutex_unlock() lifetime rule documented in
+kernel/locking/mutex.c:
+
+  The caller must ensure that the mutex stays alive until this function has
+  returned - mutex_unlock() can NOT directly be used to release an object such
+  that another concurrent task can free it.
+  Mutexes are different from spinlocks & refcounts in this aspect.
+
+The iowarrior release/disconnect paths can violate this rule because
+iowarrior_disconnect() can free dev while iowarrior_release() is still
+inside mutex_unlock(&dev->mutex).
+
+One interleaving matching the KASAN report is:
+
+  CPU 0: close()/__fput()/iowarrior_release()
+  CPU 1: USB hub workqueue/iowarrior_disconnect()
+
+  CPU 0                                      CPU 1
+  -----                                      -----
+  dev = file->private_data
+  mutex_lock(&dev->mutex)
+  dev->opened = 0
+  if (dev->present) {
+    usb_kill_urb(dev->int_in_urb)
+    wake_up_interruptible(&dev->read_wait)
+    wake_up_interruptible(&dev->write_wait)
+    mutex_unlock(&dev->mutex)
+      enters __mutex_unlock_slowpath()
+      // while still releasing/waking a waiter
+                                             mutex_lock(&dev->mutex)
+                                             dev->present = 0
+                                             if (!dev->opened) {
+                                               mutex_unlock(&dev->mutex)
+                                               iowarrior_delete(dev)
+                                                 kfree(dev)
+                                             }
+      // continues touching dev->mutex
+      KASAN reports UAF in _raw_spin_lock_irqsave()
+      from __mutex_unlock_slowpath()
+
+The freed-by stack confirms that the object is freed from the asynchronous
+USB disconnect path running as hub_event on a worker thread. Unfortunately,
+I do not have a minimized standalone reproducer yet.
+
+If you have any questions, please let me know.
+
+Best regards,
+Yue
