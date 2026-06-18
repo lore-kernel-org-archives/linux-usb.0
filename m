@@ -1,116 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4402C237E;
-	Thu, 18 Jun 2026 11:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781782269; cv=none; b=MNfzfNq90LQ2QZWWn+nTn7DnetrN3zJ66543N56NXBDnqBc+qeANS0hkm2OUai3ZuBNap2oSWi29zansSyQO7aiGICHceSVXF4yIjBKWW01YcWCfSyKnaqj6ZFX5/RsCL5cmWEHUzm1ko3caMP+DTj8UXXgWOJucbDexYu3WsnY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781782269; c=relaxed/simple;
-	bh=exqW6jqn0JFmQgPZsiczt4WrBH7hyT3D7XC8zd1c2LA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KhHgkaX1KB62c+4ZAZGzNftk/L58iuoP/QuXkt2R2qUbVV48Wf4wiVqoy0aN1gr5zNNRiJMu8levd+Jky7Nh1qNcMiqaPWe4D43mzRGtpeR6fJWlU4k7XpxTACA2dIUDPSdyvPet7w7I84XAxG57tXYcP8PW65OdW/efnid+Pmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8K4CEpo; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAC23A4520
+	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 12:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781785494; cv=pass; b=PcQPADQ+lCtC9WBNLrpJAuU/xSoHwUsFIem4HSHa3lEL4uNzk8Typdtfz6nsvFPyCKQ0t/dv21BMoPjm/3APqQZXWiFmUxahQ6ji0Btv2UmCXljTu/HIXMn0XZkBJq4rqUwVSLJHU8JEPohCxhCHAPnUEpq9rUEFLBObfPfogIg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781785494; c=relaxed/simple;
+	bh=F/LbjmUpjZiiDq4qw+y/SukWOI/qnSsQRidGKnAerWM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S6sYm05EAZ90APuUGJ9mq2MnJzIY95cuosA71eg/aM2LC7bUevT6YU+l22L5OwacDMxbVdQwhAccikxqJEEZfRbwDrZslBw4mG4t0krtz69VzXL4cI8kIgbqiletRW2jbo0RdiW4j6gCj4JQcsDyh2HLHiF4erzG6YSwQcU9IIU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JPO8fMaO; arc=pass smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8K4CEpo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781782266; x=1813318266;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=exqW6jqn0JFmQgPZsiczt4WrBH7hyT3D7XC8zd1c2LA=;
-  b=m8K4CEpo5Wg0ec9dMbQTRmbLJqSKlUGmVdyaHn00ol53riXxgS2gLkZ5
-   Vx1/J314WH12Umcx2JStYAJpIqQ7QJ+x5kiu+Fq34FANJBYh3p+mfQBop
-   WiarkdRFjEaIQXEnI0RX15IGM6SBLVX2XttfOUSyPdHS+4xVGwRHustQY
-   RYngW8FoA0ZRzYHnr+TFfz0SRfoa3aIThgcOq5sQAtcvyMgruHS2+dq73
-   QiMqc6WFh37pzfIAC4sP7LxdWG/A02Pswh1PsKxXzkPbblUJsWi+Wrpci
-   FvMkKpjdGmwNw6qKyIqWgwhvtiFfDAk7b8Lawp0bpHy0P2ha/9QiN54yr
-   g==;
-X-CSE-ConnectionGUID: CbFbPC+JQWmeRfrh3eABvQ==
-X-CSE-MsgGUID: C3kc30nKTGGRF99xdKsSeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="93213674"
-X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
-   d="scan'208";a="93213674"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 04:31:05 -0700
-X-CSE-ConnectionGUID: ZJHAHjVIRnydtgjxYzVMXA==
-X-CSE-MsgGUID: yYbXqfKiQd6Y23gLQtzbzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
-   d="scan'208";a="247196307"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa006.jf.intel.com with ESMTP; 18 Jun 2026 04:31:03 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 841A298; Thu, 18 Jun 2026 13:31:01 +0200 (CEST)
-Date: Thu, 18 Jun 2026 14:31:00 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH] usb: typec: add trace point for typec_set_mode
-Message-ID: <ajPW9P6qZyhqtjvp@kuha>
-References: <20260617-typec_set_mode-tracepoint-v1-1-bdfbb39cfccd@pengutronix.de>
- <ajPO6roV4HRZYGNd@kuha>
- <43e13854-a634-4706-bc12-723c871a5579@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JPO8fMaO"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-8000e21f014so5785027b3.2
+        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 05:24:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781785492; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Ya5nHHsq/ylbi0ZVlkKEBswBtM0wrjcvaXss3oZ/PqPfxw7wduWzSdc0TOEei7i8P1
+         ebSyVERgEUKiEpnnAu8rYTmqEXSJsD+fMVRPvGhwiEZ07Ciowi0YVaU2fcfH/5dc2f2u
+         GOEdXgDa1Omk1gGff1IFTEjEF7cDdIOGGcpE2Ow5gj0hQaooRrW4ZbUi/ERBI2E3VYd5
+         G/7jCYyzP7Rib7O8ENo4tEmcBa2zmvMoa0oioWN66Pe9VC573wgXjKgLFZ8YvnVB0UwJ
+         l5RmShjCRY3XikbpZD9LPNMMVbDaGNeLci6G8D9Fes6c9u3g2T8BOp4LznQq6wA6hm8k
+         w7Dw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=F/LbjmUpjZiiDq4qw+y/SukWOI/qnSsQRidGKnAerWM=;
+        fh=g/8/BZ5dgYem6uYnN4x9Lf/yGWKNFEdmOkjhId0B/bU=;
+        b=LFIE13RVKeyYn/JR47aGbDi3s7zHbuhV4QQ92QDo0fxqDzZjdFFkmfpvc2DCWC0pGQ
+         k4/9gGDWWpffEmjrqy/pbxpGkBPHesvvuTLcR9QQyKP1CqoDVEPOwiu2u6muKTVS9AwX
+         hXtwbnOguScoI5vZdPAN/b8ec8uuyQ/lF/0W66sV9aV+mxB/EdSlLlkk/+56fz9+Rixl
+         VDPe3i9znIz2Ep7D8s9M24vUAlbEApXOJm4sWxBqoUOdECDMQR2j6MRVcmeX1UePQot7
+         R85i6wzVBQ7E1K1S2NzfernE5Z3D87n8PGXGftMWYy68hDGNpOvdaNS/Wy59+c2IXMwa
+         husA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781785492; x=1782390292; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=F/LbjmUpjZiiDq4qw+y/SukWOI/qnSsQRidGKnAerWM=;
+        b=JPO8fMaOK7RZhUJ5SKL520sRXyyjgX99QQvs7jJI6eftB1nNzlG5wvJCsDpbmClnKl
+         fzT+amFf/DuEtD6iGM7QY4YvPRZrOCwbJDDjB/iGY6JhvfhJrrUxfoh+3QoJohK3x2a8
+         2opCSvWEvv8r8oPpcpvlLNNKRFNxiY88s//I0ea6RqOaVjKTaVgvkJu0ucludd3/cG4w
+         hJ8Xwq3EVx8eEJ34pFeywQJYcsr1eX9fCkyJhzHuc3wMisM5bAtZnJ2UPvRQvzlCSsSf
+         xNT5GYeNFHvdMo5iIPNdQOJLyGjZVvjPTiS8PkP2jGLO7d35cAsENpt6pbIe2oP2t5Ks
+         2C0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781785492; x=1782390292;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F/LbjmUpjZiiDq4qw+y/SukWOI/qnSsQRidGKnAerWM=;
+        b=kvH/RuducV4S7Kun+Heo9GJX2MDADBkqakQ/mXbdEBSEj/JaGXDftTRDXO50aHq4BM
+         JPhlnPQ76G7lhoVMqj3EyiG7dofCJTJurl8VwuZExrqc1dRrUyqnh/mvoAs3abwgbno8
+         9DdzpmMU3WYq9ASsN6lH2Qld9sWU+VvULrVPMOTCab2fKQnUpMxM1rWFLVVQpgGUhd0v
+         cNaDMulUpOHMvtODkqMHwsWpGLTyinpEAu6wHj1rezIEg4FpMQoXj2KD7RWErj3yIGgl
+         8SVFPxiclg85pB1pWYG+ei6t70ObHRA5St1xij/e2AK9kBi+AA5Dcte55iGOHPfoeCV2
+         DX5A==
+X-Forwarded-Encrypted: i=1; AFNElJ9cfZpBpSSfjfXd6dNtEcZ6axnfugcl/z0kd5gJm2fCJXuAa746bjLVO9eGLWXB+42jn9hldjpiLAE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypyAroEBmgmo6LgxITaK+KShzhs/BD20KJnX5IJ24GGiasO0iC
+	u3GwiZl02mRRfQzMQ5ZrO8FtoxHmQqz0nULI38GH94zy8vORDdr01F2e/3/VY4UvPWOZoeCOeBz
+	ZoUcEsQxgHBdxFDosN4Adr/dMbASbqfg=
+X-Gm-Gg: AfdE7cmOkAn/dH1VLM1P7ycLvlUuMeBz1AjrxMsw/fK6Y3ws6hKvdJGJTnIjNn1HX9I
+	/22rfrxExX7Xqb4rtnauxOqIA4iGLyhCBtqcQmqkbqnMguS4495FCPqqsagTeWeK2TNfIU73l+B
+	gwxWTRlp0HrtIqZQ8G1LlY+0u15LReBdQTHh2sl6mROkZcqc3O3JgsfCg8rEXe3Lh/dYH+pHjEU
+	X4E2FssaW9pa3BkCMiWBXE7g3SxFGXr9wFbROoeLWSj1kMXEl9FPxf/iTv844kU6UeadJZaHKsH
+	tGp3xqe6tw==
+X-Received: by 2002:a05:690c:ecc:b0:7bf:424:bf6b with SMTP id
+ 00721157ae682-7ffc564332cmr35464057b3.14.1781785492177; Thu, 18 Jun 2026
+ 05:24:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <43e13854-a634-4706-bc12-723c871a5579@pengutronix.de>
+References: <20260618104633.3405705-1-zzzccc427@gmail.com> <b39be4f6-e63a-43c3-9903-e4e6e0a85cd3@kernel.org>
+In-Reply-To: <b39be4f6-e63a-43c3-9903-e4e6e0a85cd3@kernel.org>
+From: Cen Zhang <zzzccc427@gmail.com>
+Date: Thu, 18 Jun 2026 20:24:40 +0800
+X-Gm-Features: AVVi8CfAETxQyYmH3rRfqOECzWT_WYi84LAnKNLka3kkP49rD0HQI4EoV1BHgU4
+Message-ID: <CAFRLqsXdz6+3fvkamEHtjLHpLdWN_ffKXHgbipr16s8EV5-BBA@mail.gmail.com>
+Subject: Re: [PATCH] usb: misc: usbio: fix disconnect UAF in client teardown
+To: Hans de Goede <hansg@kernel.org>
+Cc: Israel Cepeda <israel.a.cepeda.lopez@intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hi, Hans
 
-On Thu, Jun 18, 2026 at 01:00:58PM +0200, Ahmad Fatoum wrote:
-> Hello Heikki,
-> 
-> On 6/18/26 12:56 PM, Heikki Krogerus wrote:
-> > On Wed, Jun 17, 2026 at 10:03:04PM +0200, Ahmad Fatoum wrote:
-> >> --- a/drivers/usb/typec/class.c
-> >> +++ b/drivers/usb/typec/class.c
-> >> @@ -20,6 +20,9 @@
-> >>  #include "class.h"
-> >>  #include "pd.h"
-> >>  
-> >> +#define CREATE_TRACE_POINTS
-> >> +#include <trace/events/typec.h>
-> > 
-> > Those should probable go to drivers/usb/typec/trace.c and then you
-> > need add something like this to drivers/usb/typec/Makefile:
-> > 
-> >  obj-$(CONFIG_TYPEC)            += typec.o
-> >  typec-y                                := class.o mux.o bus.o pd.o retimer.o mode_selection.o
-> >  typec-$(CONFIG_ACPI)           += port-mapper.o
-> > +typec-$(CONFIG_TRACING)                += trace.o
-> 
-> Thanks for the suggestion. I will do that for v2.
-> 
-> I also saw there is Sashiko AI feedback on this patch[1], but I am not
-> familiar enough with how the event headers are used outside the kernel
-> to determine if that's actionable advice or if it can be ignored.
-> 
-> Do you have an opinion on that?
-> 
-> [1]:
-> https://sashiko.dev/#/patchset/20260617-typec_set_mode-tracepoint-v1-1-bdfbb39cfccd%40pengutronix.de
+> Why I see no reason to delete the list node here ?
 
-It's correct. You need to use a private trace.h in this case, so just
-move it here: drivers/usb/typec/trace.h
+Thanks a lot for your review. You are right, the list_del_init() is
+not needed for fixing this.
 
-And also make sure you include everything needed in that header like
-it's telling you.
+I'll send a v2 dropping the list_del_init() and update the commit message
+accordingly.
 
-Thanks,
-
--- 
-heikki
+Best regards,
+Cen Zhang
