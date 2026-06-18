@@ -1,49 +1,73 @@
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AD532C302;
-	Thu, 18 Jun 2026 19:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF3F33EAED
+	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 20:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781809900; cv=none; b=AggMIZ2ODmfeVeTDeyT3x09jQtnYqFKAP4V7D+ECK32Ky9R0XoA7PtP2OHmXBII+ogsAsYu+h5ouLxGeNN6HhKhOa9hZWJvOeu3bbUb0DAsJXY/M9El6yJPDc/77D9seE+s7tbCQVWrxn3tyG1/RyvC4jh3wcCNK7TOksCFGW/M=
+	t=1781814684; cv=none; b=mZzUu/tOZpYlBTaw3JPYMWPkBVZ/K+nFaw0VtOjEBw5zr0NfTnbLrnbAa8PSJCkykvY5hY+3vM17QrFVlNEM+99EReNnj0k73BsDM3h+V/HjXcofAgJ47hJKJfV+7exOjGE2aeiDtIUECAvTZ/ENugFDSSVegNilB8wyYS/4HQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781809900; c=relaxed/simple;
-	bh=BHtCh0b8TOuswa7hGrMfjuNY27YzqJTCUlO9bZ66Tag=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OZb6Kd2gsV49QTvyt6VdNd6/DYqUbeUKRMFY+0YidHWWWqTRh94MQ+5KmKtnY9XKI/WTjD9UbMcVnfOre8LRJAmAiN+Tjf6zRx5cXMbXpdPTqBOQGnBDOVkwgcakpfrpCQ2e9JEeXhrDaP4XiRYRRKWEYpYa6FXGfP1wl+Cn3Mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=jw327lAb; arc=none smtp.client-ip=194.13.80.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
+	s=arc-20240116; t=1781814684; c=relaxed/simple;
+	bh=/LPHXZT7LD771IVECNquueWpuQAnVIKcTNUWyjKTOHM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=urOI754ycYCQzZUg8OoD1y52y8nayGkiXBhxGxH3kPzGRf56ogzVz8RyU8FWqRLmMoxqg88OA6DuNUov2xpz9jhyJ3p+Pe5v1LZFK28hhCxnQL4gNSw9oehpR4nJqzjBakK+uXKF6qz/ofmTGJYPMvYRB1SYtUlZDoLNtTIagbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eSEtq4CS; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="jw327lAb"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8D7B6A3ED1;
-	Thu, 18 Jun 2026 21:11:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1781809896; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=BZmMdIyN4y3YvhjhU/ik4zjvZCEifGsK+dfHTV2z28A=;
-	b=jw327lAbeWqcEMZ4AagUMj0vGnOu39EEZ8EQBVRpwxNX99FOen0mNPwS6E1FmlanK/Yhuq
-	8YkhEE9td7BZXikHmtlvqq14GAUDtwk4A78SORr3YFGL7QcO3Bsgj0TLG6yF9ReJAxtbPc
-	WfsLLfFq8NfJhQTRGlLVqVkPE3NByZPAqRdt88Zxv+5v/769ekpKl6QklVGm3zLfSGfBc9
-	BUdKBomIXCTfe1e6E2ywQp/lDeOPq2fY++xF6Ehu1nud2Rl6wecOtbg8Ofz6EyFbrUkP52
-	XQb3t1J2szPMBOOOlC+uUoVvZPQirdhjxdqXLpFtGE+hO4/iq7cB3P48daCyWw==
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
-	Rengarajan Sundararajan <Rengarajan.S@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Woojung.Huh@microchip.com
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sven Schuchmann <schuchmann@schleissheimer.de>,
-	netdev@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eSEtq4CS"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-36d5b11201aso989503a91.2
+        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 13:31:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781814681; x=1782419481; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hY833qL63LecSXXf24b+TIT9KgU6CCDE0sbpVpUWuMI=;
+        b=eSEtq4CSsT6JKcYk9i1QI6lR7Aupgp4Wn2dD8yLjW9sRKoirMwOGXczLslllss6fnJ
+         AFziRRp2IbRTV/DQrD39KSGeG9kjhCb2v3dmT3ZMbtNof6hILPv/tYjOvZ8gsjnrDUF+
+         4SHe4OJhScU/sC6h40nToOMprRU12MsTxXV3JDPH0HochCRBGXEzMZ5jIJN35owkavlc
+         m8s6Yox6LsQOySElTeqlLtxxV0ZYYjS/C979Dkkfe3aASWIL2r5YkphErxOhrSO9eOHv
+         SzBWdJapznb3pYs8SIxTDRHuLqfXagivzEE5SNDPDeRB0plqOaNlbMDt0VofgzoDIG0K
+         RGqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781814681; x=1782419481;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hY833qL63LecSXXf24b+TIT9KgU6CCDE0sbpVpUWuMI=;
+        b=QCgArhcoyCT3IUoTqGAyMk6CXzvXJrvUi67F7rLs5T1IxsHQmI1AhPbQzYO5MBRRLX
+         BYA1wN1RQL/AkWjNyJGxb1PTjyE9ONi7FuG719O6JoTpaKg+/5xFyaZC6ZsVu0Klimea
+         QiLDhbSOW/bgGtqiHSwSuXrFR81b8PsxuOhqK9MTS7XQwyWAu20vRrgB4IIdj5YyEe8k
+         uko6cPdx6QwnK6nomAKFrGdLN9mWIZC6MrVo7CJPCk/C7ssr2+6E+PGZfq5hj4nmnZO2
+         6+iP4gnINfEz16urXoqrxMybVBCNwoEkR2UyP5Vh8e7NhQVFO0T1u22TeLXXB0wcJszd
+         gDfg==
+X-Forwarded-Encrypted: i=1; AFNElJ+JDhvVPCzRBVEX8otHQoCtWZAKMQVGxh7/lTDpaUaaL7BOvR0kUvWrhG8fGqy2+iCOYyBR8tULHWk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtRXqpYrSOhK/Jg+33n4Kmv9e72NuE8EUMocpJzWtUgexd8CKy
+	gkG79Pd602CWhZHa6Fj46m7z7C6xti7DhrM4Rdj4ms6fdNL+bbvidNVr
+X-Gm-Gg: AfdE7cl8dqaJJy3RqZCuPmMjaI2cXFBosQMc6LzXrI/B0OijXrp52m84lwSRC6EQzbx
+	XCHTEcXhSUPhLVKw8rY9fRn4Sxvdu/SLIQVrUG4wKHUMt1ctWXhqvHhCrzh/Oy26Rc6RTqq9Fa3
+	0bQ6IUGZcBcRTTcWq1rfemfE8+DWyY74X668jpxsM7JSom5E1p+KyZREyECRH5hbfU0rFjdieAP
+	+J3KJwaUHQQCbDJZvZ27iXia0iq+2y8Zs8GCxPnJ/kATCWqP7wa25o8KAZfYcTySh9j0DqJrvYx
+	GlvDnFmcaxY/59fhmJ7PYV6RhORrutslb3BLMcVdvpi0kIr85PQk/Z1VXzTzZN9XQYJl/AsMF9V
+	L8e9bQIfE/NvlBadTP+yHSP8KYoDpiNGHqzT98Z4IF8KkccOQzwqpUI1u00hGRDQycbJ9TXDVzl
+	s5mT5xDDD4XRuR9TP80i9+LzSB3wZ5MIIUUQ==
+X-Received: by 2002:a17:90b:2709:b0:37c:ad9b:680b with SMTP id 98e67ed59e1d1-37d15e90058mr1278525a91.20.1781814681485;
+        Thu, 18 Jun 2026 13:31:21 -0700 (PDT)
+Received: from LAPTOP-TMVMP5FD.localdomain ([106.222.251.180])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37d15de5d3dsm544009a91.10.2026.06.18.13.31.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2026 13:31:21 -0700 (PDT)
+From: Keshav Verma <iganschel@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: johan@kernel.org,
+	kees@kernel.org,
+	o.bock@fh-wolfenbuettel.de,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Nicolai Buchwitz <nb@tipi-net.de>
-Subject: [PATCH net] net: usb: lan78xx: restore VLAN filter table after device reset
-Date: Thu, 18 Jun 2026 21:11:08 +0200
-Message-ID: <20260618191109.4086598-1-nb@tipi-net.de>
-X-Mailer: git-send-email 2.53.0
+	Keshav Verma <iganschel@gmail.com>
+Subject: [PATCH] usb: misc: cypress_cy7c63: check control transfer status
+Date: Fri, 19 Jun 2026 02:00:53 +0530
+Message-Id: <20260618203053.4725-1-iganschel@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -51,73 +75,35 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Configured VLANs stop receiving traffic after a USB autosuspend/resume
-cycle, e.g. when a cable is unplugged long enough for the device to
-suspend and then plugged back in. VLAN filtering stays enabled but all
-VLAN-tagged frames are dropped until a VLAN is added or removed again.
+read_port() currently ignores errors from vendor_command() and always
+returns the cached port value. This can report stale data when the USB
+control transfer fails or returns a short response.
 
-The reset on resume clears the hardware VLAN filter table, but unlike
-the multicast and address filters it is never reprogrammed from the
-driver's shadow copy, so it stays empty.
+Return the underlying error for failed transfers and report -EIO if the
+device returns fewer bytes than required.
 
-Restore the VLAN filter table as part of the reset sequence.
-
-Reported-by: Sven Schuchmann <schuchmann@schleissheimer.de>
-Closes: https://lore.kernel.org/netdev/BEZP281MB224501E38B30BFDC4BD3D364D9E32@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM/T/#u
-Fixes: 55d7de9de6c3 ("Microchip's LAN7800 family USB 2/3 to 10/100/1000 Ethernet device driver")
-Signed-off-by: Nicolai Buchwitz <nb@tipi-net.de>
+Fixes: 9189bfc2df0f ("[PATCH] USB: rename Cypress CY7C63xxx driver to proper name and fix up some tiny things")
+Signed-off-by: Keshav Verma <iganschel@gmail.com>
 ---
- drivers/net/usb/lan78xx.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+ drivers/usb/misc/cypress_cy7c63.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index bcf293ea1bd3..52c76de64eb9 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -3065,14 +3065,20 @@ static int lan78xx_set_features(struct net_device *netdev,
- 	return lan78xx_write_reg(dev, RFE_CTL, pdata->rfe_ctl);
+diff --git a/drivers/usb/misc/cypress_cy7c63.c b/drivers/usb/misc/cypress_cy7c63.c
+index 4a7f955ba85b..8601ee0a1ea3 100644
+--- a/drivers/usb/misc/cypress_cy7c63.c
++++ b/drivers/usb/misc/cypress_cy7c63.c
+@@ -177,6 +177,10 @@ static ssize_t read_port(struct device *dev, struct device_attribute *attr,
+ 	result = vendor_command(cyp, CYPRESS_READ_PORT, read_id, 0);
+ 
+ 	dev_dbg(&cyp->udev->dev, "Result of vendor_command: %d\n\n", result);
++	if (result < 0)
++		return result;
++	if (result < 2)
++		return -EIO;
+ 
+ 	return sprintf(buf, "%d", cyp->port[port_num]);
  }
- 
-+static int lan78xx_write_vlan_table(struct lan78xx_net *dev)
-+{
-+	struct lan78xx_priv *pdata = (struct lan78xx_priv *)(dev->data[0]);
-+
-+	return lan78xx_dataport_write(dev, DP_SEL_RSEL_VLAN_DA_, 0,
-+				      DP_SEL_VHF_VLAN_LEN, pdata->vlan_table);
-+}
-+
- static void lan78xx_deferred_vlan_write(struct work_struct *param)
- {
- 	struct lan78xx_priv *pdata =
- 			container_of(param, struct lan78xx_priv, set_vlan);
--	struct lan78xx_net *dev = pdata->dev;
- 
--	lan78xx_dataport_write(dev, DP_SEL_RSEL_VLAN_DA_, 0,
--			       DP_SEL_VHF_VLAN_LEN, pdata->vlan_table);
-+	lan78xx_write_vlan_table(pdata->dev);
- }
- 
- static int lan78xx_vlan_rx_add_vid(struct net_device *netdev,
-@@ -3353,6 +3359,15 @@ static int lan78xx_reset(struct lan78xx_net *dev)
- 
- 	lan78xx_set_multicast(dev->net);
- 
-+	/* The chip reset above also clears the VLAN filter table held in the
-+	 * shared VLAN/DA hash RAM. The network stack does not re-add VLANs
-+	 * after a silent device reset (e.g. on reset_resume after USB
-+	 * autosuspend), so restore the table from our shadow copy here.
-+	 */
-+	ret = lan78xx_write_vlan_table(dev);
-+	if (ret < 0)
-+		return ret;
-+
- 	/* reset PHY */
- 	ret = lan78xx_read_reg(dev, PMT_CTL, &buf);
- 	if (ret < 0)
-
-base-commit: 7d8297e26b4e20b5d1c3c3fe51fe81a1c7fbc823
 -- 
-2.53.0
+2.39.5
 
