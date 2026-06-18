@@ -1,165 +1,149 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650D4375F8E;
-	Wed, 17 Jun 2026 20:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69EC615E8B
+	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 00:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781726599; cv=none; b=WTZJMQLL4Pezu5eqGCrIV3TTP6hLp7Z5p/sagtyvP5pqzEE0ho8zcI5j4hid/Oh50aF83TmQ33Y08y5lUV1M0/u1UMFG9UPt61UahXjn6GMAppUieUhB9Jkh4+GEZ7ZacbKbXhJI4wmNXSCUdE2jZItD+G70VlG1Rn07inWCJqM=
+	t=1781742138; cv=none; b=M7imXo1Qd0x3f+JEro8/NMTbFHJJN81w+rbonWMd0D0reSVt4AuMI8JoFS2yM25q1u9g5clvg4flbyrULQUp4ugLQRbz+aSzoLHGKaGz/GEac2sENuu+4bai9JsKf090fJAk10YJNz1P923ETWZbWlrVA3Q/Mwgg2GynIm99mA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781726599; c=relaxed/simple;
-	bh=uU+tItC/1uVjMcfL5SvT4z+uuSzTsuI3LesfIXa7L2k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=a4yRX0hy6NUhWTX2v92d0Q8KdkFZjmGqNn2d3yNukutaW9QXGlvlXqOu6WyIFxTEeE4klEDWY/RKoqReOB+yoS4ZFD9F81ZDS4eLoSjEOYiVTYeaNFaHvR6/x1nFd6aIJjs/Ga9OvawTXn6NnP4+brP/MgIG2GDFtlHDhjPQ7TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
-	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 0F85120098A;
-	Wed, 17 Jun 2026 22:03:13 +0200 (CEST)
-Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1wZwTg-003K6u-34;
-	Wed, 17 Jun 2026 22:03:12 +0200
-Received: from [::1] (helo=dude05.red.stw.pengutronix.de)
-	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.98.2)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1wZwTg-0000000DKEA-3gcg;
-	Wed, 17 Jun 2026 22:03:12 +0200
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Date: Wed, 17 Jun 2026 22:03:04 +0200
-Subject: [PATCH] usb: typec: add trace point for typec_set_mode
+	s=arc-20240116; t=1781742138; c=relaxed/simple;
+	bh=SixMGirlMng4LGktkF5cVcWRJJuONy+YaWY/IhZiRQ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P6enxU2IQsNfMCRQWb3BrWpzLRhSlCKuDIwb9AsAVWfc64iJF9q72kZqvvOTK5Zj18w8/etCxlZMw0OeV+qatKE6KmxXVzyFgY4cwC3+/Dod3m+bX5hVSRgLANsbC/j1ays2/vvsXG0YNV5DorDwObPC2dbnQWGkT5CiouXhUE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VE/f5Chf; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VE/f5Chf"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2c6bc87f4d5so1461665ad.1
+        for <linux-usb@vger.kernel.org>; Wed, 17 Jun 2026 17:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1781742137; x=1782346937; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lYpPtSh25gsa1457fRyGH7PTPSfn9PqeD4HQ16ouiG4=;
+        b=VE/f5Chf8zTIMOW3m0vVj0JTxqcCf/HV+TUY1XeanirPGfQh5LQmRExhzW6Aa6ud64
+         25MC8uPR+Y21dgskSjFs87SuxKqJtH82NQYJgxH1zcvdR8TP6vIz7Yz+KjQjSVOYckxd
+         S//gjcH7lnNqkouscwAwa+r3vmDye4sC6CkSthW7uBbliughoz8TWRlbZDlwg3sx7wxD
+         qG9Ag3zdDTMQhNuZxCCQVBrptftqJt2wXlnaPl0NhE1ppxEB7gOr5fWnt1L9E2jfVCAk
+         GIcPUCLC045wkKrzFtIb14/M/Ux5yQV455HyT0cJ40pG/D1YDtXdEMBgq8un/L1URnlf
+         FzpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781742137; x=1782346937;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lYpPtSh25gsa1457fRyGH7PTPSfn9PqeD4HQ16ouiG4=;
+        b=rIUdgeJVMkKNfxF4fAyVImLM8c3G6FK2maJdwp2jqZi1Fm9TYWl/aw9gCkrw/ZX9/O
+         Y4pf0YOcdS1qbejNopfhc/7xytn1uIlOkVJclFx/BYHVhl2VLftaaclogNQwuC97talb
+         KcQdKiFr7Tx1GbbNNgl0JrOTkdmbU15XXc1AYw5TYPDuRMLU6lidOzZaO0jKcS7R9/0M
+         5f3kMPfuag9byH5h3nn7QF6hMvl/tn930uqUhF2AspP5xH9EKdBnz13hp6JShvRwqi34
+         3hOLcNVetI5u1cKBjMC0bZl7lfSMrYwZWZM9nQSN53cZHJUnOuLEVJU1lU0TdNMfbH13
+         5nPw==
+X-Forwarded-Encrypted: i=1; AFNElJ83ZxdUpNgpvO4qGoP197ReqSdu0EcfwkVs+UM1sbaXOz8EJYsGsUUYlw0S//ZqfIA3wFRzm/4sHrc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxm2mlEKkbgPRYuPSOHOImmRb6EDlHG4RwSJ2Xg56sg5CgAHscS
+	Rf43IyVcSrCAW9cUZiAfxUCQcb7ykPIIc0lILFnrLz01bH+TchsKix8i2tNMkHRhrA==
+X-Gm-Gg: AfdE7cn3UN+Ua/jk805E+WA0+bdVUwdd9Dm7YrZTY7ni2WU1mbj1eJXESJ7T3uQKlNI
+	oJMApmehkC64p28J3rjokS9wUt0ZXC6zV+xhTFzC8CYAQ4XcixdTQau4HZR284jGTqAzI0BOs/W
+	uCZD8JYDX3l5MsNgSUWanaNNVRJrjGSUPMRzosuAgLbTU+2SRMMFC1j6LZLvuZXhmEsmvglnzmB
+	VqqFjP88da8p8g1kvFQCGvE9QRlmcrh2XBqh8DZeaSKc+TUuCvM5+bDGDmmd5V9pxoPBioiDbqK
+	awRHvh1rbfvi+MuzhEMKSpqm2dJPCzhukjgkBrr7V2loKaEMLEQwX+HfTt/Z1FWg9IUQL86md8s
+	BeStMupYJNDnosAlruLQcm1EIktzenKCCNoM2DnyrGPuOQTVImtsCfAVl/R9vkSkVCxVMhQglLO
+	ct5bhmhvn5auKr6Nk6zYbdPOANr1j5+Tazgh+jA5aTaQ3jFva7
+X-Received: by 2002:a17:903:2f81:b0:2c0:f807:9bf3 with SMTP id d9443c01a7336-2c6bc0a6b2cmr57503465ad.10.1781742135993;
+        Wed, 17 Jun 2026 17:22:15 -0700 (PDT)
+Received: from google.com (211.37.230.35.bc.googleusercontent.com. [35.230.37.211])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c6be262b06sm33810445ad.77.2026.06.17.17.22.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2026 17:22:14 -0700 (PDT)
+Date: Thu, 18 Jun 2026 00:22:11 +0000
+From: Benson Leung <bleung@google.com>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] usb: typec: displayport: Check cable altmode
+ support
+Message-ID: <ajM6M9IuO8WB4DV6@google.com>
+References: <20260611122146.262184-1-akuchynski@chromium.org>
+ <20260611122146.262184-4-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260617-typec_set_mode-tracepoint-v1-1-bdfbb39cfccd@pengutronix.de>
-X-B4-Tracking: v=1; b=H4sIAHf9MmoC/yXMQQrCMBBG4auUWRtIWqngVURKnP7REUxCMoql9
- O5GXX6L91aqKIJKx26lgpdUSbHB7Trim49XGJmbqbf9aEd3MLpk8FSh0yPNMFo8IyeJaqxzgfd
- DgGdPrc8FQd6/9+n8d31e7mD9DmnbPhLgF+99AAAA
-X-Change-ID: 20260617-typec_set_mode-tracepoint-011fc43feaca
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, kernel@pengutronix.de, 
- Ahmad Fatoum <a.fatoum@pengutronix.de>
-X-Mailer: b4 0.15.2
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="w+NIav+LPleAVV4B"
+Content-Disposition: inline
+In-Reply-To: <20260611122146.262184-4-akuchynski@chromium.org>
 
-Some Type-C controllers toggle muxes themselves. Other controllers like
-the TUSB320 report the mode to the host, so it can control the muxes.
 
-To improve debuggability of both kinds of drivers, add a trace point that
-can be used to keep track of the mode being set inside the Type-C
-framework:
+--w+NIav+LPleAVV4B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  echo 1 > /sys/kernel/debug/tracing/events/typec/typec_mode/enable
+On Thu, Jun 11, 2026 at 12:21:46PM +0000, Andrei Kuchynski wrote:
+> Update the probe function to utilize the new
+> typec_cable_altmode_unsupported() helper. If the cable doesn't support
+> DisplayPort altmode, don't initialize altmode_ops and prevent altmode
+> from being activated.
+> A captive cable shouldn't be checked; it may not provide discoverable
+> capability information, but it is inherently designed to support the
+> device's requirements.
+>=20
+Thanks for explaining clearly that this unsupported check only makes sense
+when the port partner reports it has a receptacle.
 
-Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
----
- MAINTAINERS                  |  1 +
- drivers/usb/typec/class.c    |  9 ++++++++-
- include/trace/events/typec.h | 36 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 45 insertions(+), 1 deletion(-)
+> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c8d4b913f26c..ddd59e5e6eaf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -27753,6 +27753,7 @@ F:	Documentation/ABI/testing/sysfs-class-typec
- F:	Documentation/driver-api/usb/typec.rst
- F:	drivers/usb/typec/
- F:	include/linux/usb/typec.h
-+F:	include/trace/events/typec*.h
- 
- USB TYPEC INTEL PMC MUX DRIVER
- M:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 0977581ad1b6..9316d067f19a 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -20,6 +20,9 @@
- #include "class.h"
- #include "pd.h"
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/typec.h>
-+
- static DEFINE_IDA(typec_index_ida);
- 
- const struct class typec_class = {
-@@ -2427,10 +2430,14 @@ EXPORT_SYMBOL_GPL(typec_get_orientation);
- int typec_set_mode(struct typec_port *port, int mode)
- {
- 	struct typec_mux_state state = { };
-+	int ret;
- 
- 	state.mode = mode;
- 
--	return typec_mux_set(port->mux, &state);
-+	ret = typec_mux_set(port->mux, &state);
-+	trace_typec_mode(port, mode, ret);
-+
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(typec_set_mode);
- 
-diff --git a/include/trace/events/typec.h b/include/trace/events/typec.h
-new file mode 100644
-index 000000000000..a7dcb9f3fd49
---- /dev/null
-+++ b/include/trace/events/typec.h
-@@ -0,0 +1,36 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM typec
-+
-+#if !defined(_TRACE_TYPEC_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_TYPEC_H
-+
-+#include <linux/usb/typec.h>
-+#include <linux/tracepoint.h>
-+
-+TRACE_EVENT(typec_mode,
-+
-+	TP_PROTO(struct typec_port *port, int mode, int err),
-+
-+	TP_ARGS(port, mode, err),
-+
-+	TP_STRUCT__entry(
-+		__string(device, dev_name(&port->dev))
-+		__field(int, mode)
-+		__field(int, err)
-+	),
-+
-+	TP_fast_assign(
-+		__assign_str(device);
-+		__entry->mode = mode;
-+		__entry->err = err;
-+	),
-+
-+	TP_printk("%s mode=%d (%d)",
-+		  __get_str(device), __entry->mode, __entry->err)
-+);
-+
-+#endif /* if !defined(_TRACE_TYPEC_H) || defined(TRACE_HEADER_MULTI_READ) */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
+Reviewed-by: Benson Leung <bleung@chromium.org>
 
----
-base-commit: 8cd9520d35a6c38db6567e97dd93b1f11f185dc6
-change-id: 20260617-typec_set_mode-tracepoint-011fc43feaca
+> ---
+>  drivers/usb/typec/altmodes/displayport.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec=
+/altmodes/displayport.c
+> index 263a89c5f3243..5ee33a69b9cf7 100644
+> --- a/drivers/usb/typec/altmodes/displayport.c
+> +++ b/drivers/usb/typec/altmodes/displayport.c
+> @@ -790,7 +790,6 @@ int dp_altmode_probe(struct typec_altmode *alt)
+>  	dp->alt =3D alt;
+> =20
+>  	alt->desc =3D "DisplayPort";
+> -	typec_altmode_set_ops(alt, &dp_altmode_ops);
+> =20
+>  	if (plug) {
+>  		plug->desc =3D "Displayport";
+> @@ -811,6 +810,10 @@ int dp_altmode_probe(struct typec_altmode *alt)
+>  	if (plug)
+>  		typec_altmode_set_drvdata(plug, dp);
+> =20
+> +	if ((alt->vdo & DP_CAP_RECEPTACLE) && typec_cable_altmode_unsupported(a=
+lt))
+> +		return 0;
+> +
+> +	typec_altmode_set_ops(alt, &dp_altmode_ops);
+>  	if (!alt->mode_selection) {
+>  		dp->state =3D plug ? DP_STATE_ENTER_PRIME : DP_STATE_ENTER;
+>  		schedule_work(&dp->work);
+> --=20
+> 2.54.0.1099.g489fc7bff1-goog
+>=20
+>=20
 
-Best regards,
---  
-Ahmad Fatoum <a.fatoum@pengutronix.de>
+--w+NIav+LPleAVV4B
+Content-Type: application/pgp-signature; name=signature.asc
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQQCtZK6p/AktxXfkOlzbaomhzOwwgUCajM6MwAKCRBzbaomhzOw
+wsr9AP9xQSpUG/TMARDjBbAUlWcq9HO8Yz1pxyMHOk635LqCbQD/a3ptcA01Tbcb
+4Eg5duEszwL9Pd9MzqAceUyjUFFaBgU=
+=xYgA
+-----END PGP SIGNATURE-----
+
+--w+NIav+LPleAVV4B--
