@@ -1,108 +1,221 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAC23A4520
-	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 12:24:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781785494; cv=pass; b=PcQPADQ+lCtC9WBNLrpJAuU/xSoHwUsFIem4HSHa3lEL4uNzk8Typdtfz6nsvFPyCKQ0t/dv21BMoPjm/3APqQZXWiFmUxahQ6ji0Btv2UmCXljTu/HIXMn0XZkBJq4rqUwVSLJHU8JEPohCxhCHAPnUEpq9rUEFLBObfPfogIg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781785494; c=relaxed/simple;
-	bh=F/LbjmUpjZiiDq4qw+y/SukWOI/qnSsQRidGKnAerWM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=S6sYm05EAZ90APuUGJ9mq2MnJzIY95cuosA71eg/aM2LC7bUevT6YU+l22L5OwacDMxbVdQwhAccikxqJEEZfRbwDrZslBw4mG4t0krtz69VzXL4cI8kIgbqiletRW2jbo0RdiW4j6gCj4JQcsDyh2HLHiF4erzG6YSwQcU9IIU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JPO8fMaO; arc=pass smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF29301474
+	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 12:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781786438; cv=none; b=RQfmD4Iha1d5rw15oscljLezQAH3mbuwjPx15gDeIOIuF0gL8/24pFJPmO3IlI7YE74sFO7Lv2l1henKiT6a8sgFJGz1DxrBfr098gIsC82l1U4v6QooBJIegg+SOkcSGE6nswJg4rfbU1gLcA/1uwFRULpsVub1oIGyMkkCs60=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781786438; c=relaxed/simple;
+	bh=26V5SDUbDp8lGf2dtZE0/EVVRB0FC6Q8kCIxc65KvfM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZAvd1f4M7oExs8gJOAbGmptGugk3DUQ3ZHXXgMtL4ZtpLA/ih45ebfVKbbijtDgWuxD2Ycx4BIRj8Z2Yx1SSOOMH90bIu10Klz6LIgfep6nPua+fo0+pc4KJIHaDPwGaaz/MTQ0EWAC8Mgi0V8QJheiqh6zmIAOy+IdHD6CF2D4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LiVTzSeu; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JPO8fMaO"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-8000e21f014so5785027b3.2
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 05:24:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781785492; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Ya5nHHsq/ylbi0ZVlkKEBswBtM0wrjcvaXss3oZ/PqPfxw7wduWzSdc0TOEei7i8P1
-         ebSyVERgEUKiEpnnAu8rYTmqEXSJsD+fMVRPvGhwiEZ07Ciowi0YVaU2fcfH/5dc2f2u
-         GOEdXgDa1Omk1gGff1IFTEjEF7cDdIOGGcpE2Ow5gj0hQaooRrW4ZbUi/ERBI2E3VYd5
-         G/7jCYyzP7Rib7O8ENo4tEmcBa2zmvMoa0oioWN66Pe9VC573wgXjKgLFZ8YvnVB0UwJ
-         l5RmShjCRY3XikbpZD9LPNMMVbDaGNeLci6G8D9Fes6c9u3g2T8BOp4LznQq6wA6hm8k
-         w7Dw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=F/LbjmUpjZiiDq4qw+y/SukWOI/qnSsQRidGKnAerWM=;
-        fh=g/8/BZ5dgYem6uYnN4x9Lf/yGWKNFEdmOkjhId0B/bU=;
-        b=LFIE13RVKeyYn/JR47aGbDi3s7zHbuhV4QQ92QDo0fxqDzZjdFFkmfpvc2DCWC0pGQ
-         k4/9gGDWWpffEmjrqy/pbxpGkBPHesvvuTLcR9QQyKP1CqoDVEPOwiu2u6muKTVS9AwX
-         hXtwbnOguScoI5vZdPAN/b8ec8uuyQ/lF/0W66sV9aV+mxB/EdSlLlkk/+56fz9+Rixl
-         VDPe3i9znIz2Ep7D8s9M24vUAlbEApXOJm4sWxBqoUOdECDMQR2j6MRVcmeX1UePQot7
-         R85i6wzVBQ7E1K1S2NzfernE5Z3D87n8PGXGftMWYy68hDGNpOvdaNS/Wy59+c2IXMwa
-         husA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LiVTzSeu"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-37ce68a54f8so363787a91.0
+        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 05:40:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781785492; x=1782390292; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=F/LbjmUpjZiiDq4qw+y/SukWOI/qnSsQRidGKnAerWM=;
-        b=JPO8fMaOK7RZhUJ5SKL520sRXyyjgX99QQvs7jJI6eftB1nNzlG5wvJCsDpbmClnKl
-         fzT+amFf/DuEtD6iGM7QY4YvPRZrOCwbJDDjB/iGY6JhvfhJrrUxfoh+3QoJohK3x2a8
-         2opCSvWEvv8r8oPpcpvlLNNKRFNxiY88s//I0ea6RqOaVjKTaVgvkJu0ucludd3/cG4w
-         hJ8Xwq3EVx8eEJ34pFeywQJYcsr1eX9fCkyJhzHuc3wMisM5bAtZnJ2UPvRQvzlCSsSf
-         xNT5GYeNFHvdMo5iIPNdQOJLyGjZVvjPTiS8PkP2jGLO7d35cAsENpt6pbIe2oP2t5Ks
-         2C0Q==
+        d=gmail.com; s=20251104; t=1781786436; x=1782391236; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Em4soZVbEstplz9Ebabbr+wHmpAw7PoPCOmv3WbAhgg=;
+        b=LiVTzSeu++DarUmG+kEZbOACnzjhyd2JU9FrE4MK9CjUilwOvcLJJP+2leGdtD4geq
+         Njtr4Gso3xE1ujvRxIy3l1JY+zImSzssWQmomjNq5oKxzFzi3/3qDpBinUlfuDwLw+ti
+         9lBD27u4Ex69CmyaOIGuKfSVx7+A8K/Psi3gLnxBopYuyFbb2ZzuVRXA3ighK2rdpQKQ
+         WSZqSXf30oUHlSa+1yeB3hdQfrKnz5itDuySDloViqYQn7gjmyjtoRqxchyPLgZ1CcqT
+         izVxvDstvof+sq7AFoamP4/3F9b7wk28TziVyA1iwWfdnaZ4gJ1l5oswIucqFnPnR43Q
+         IGEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781785492; x=1782390292;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1781786436; x=1782391236;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F/LbjmUpjZiiDq4qw+y/SukWOI/qnSsQRidGKnAerWM=;
-        b=kvH/RuducV4S7Kun+Heo9GJX2MDADBkqakQ/mXbdEBSEj/JaGXDftTRDXO50aHq4BM
-         JPhlnPQ76G7lhoVMqj3EyiG7dofCJTJurl8VwuZExrqc1dRrUyqnh/mvoAs3abwgbno8
-         9DdzpmMU3WYq9ASsN6lH2Qld9sWU+VvULrVPMOTCab2fKQnUpMxM1rWFLVVQpgGUhd0v
-         cNaDMulUpOHMvtODkqMHwsWpGLTyinpEAu6wHj1rezIEg4FpMQoXj2KD7RWErj3yIGgl
-         8SVFPxiclg85pB1pWYG+ei6t70ObHRA5St1xij/e2AK9kBi+AA5Dcte55iGOHPfoeCV2
-         DX5A==
-X-Forwarded-Encrypted: i=1; AFNElJ9cfZpBpSSfjfXd6dNtEcZ6axnfugcl/z0kd5gJm2fCJXuAa746bjLVO9eGLWXB+42jn9hldjpiLAE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YypyAroEBmgmo6LgxITaK+KShzhs/BD20KJnX5IJ24GGiasO0iC
-	u3GwiZl02mRRfQzMQ5ZrO8FtoxHmQqz0nULI38GH94zy8vORDdr01F2e/3/VY4UvPWOZoeCOeBz
-	ZoUcEsQxgHBdxFDosN4Adr/dMbASbqfg=
-X-Gm-Gg: AfdE7cmOkAn/dH1VLM1P7ycLvlUuMeBz1AjrxMsw/fK6Y3ws6hKvdJGJTnIjNn1HX9I
-	/22rfrxExX7Xqb4rtnauxOqIA4iGLyhCBtqcQmqkbqnMguS4495FCPqqsagTeWeK2TNfIU73l+B
-	gwxWTRlp0HrtIqZQ8G1LlY+0u15LReBdQTHh2sl6mROkZcqc3O3JgsfCg8rEXe3Lh/dYH+pHjEU
-	X4E2FssaW9pa3BkCMiWBXE7g3SxFGXr9wFbROoeLWSj1kMXEl9FPxf/iTv844kU6UeadJZaHKsH
-	tGp3xqe6tw==
-X-Received: by 2002:a05:690c:ecc:b0:7bf:424:bf6b with SMTP id
- 00721157ae682-7ffc564332cmr35464057b3.14.1781785492177; Thu, 18 Jun 2026
- 05:24:52 -0700 (PDT)
+        bh=Em4soZVbEstplz9Ebabbr+wHmpAw7PoPCOmv3WbAhgg=;
+        b=dO0DnJPrih0cwNPaOCRxppOfvvi5w5fN4sZakc/TCFOKOiticGLev3AFPMjdW8zpJZ
+         KFVEf0h9Zsy9mo4PKr9ZJ5a/FhCuxq8hGl+CXDSG4+yvajQ10ux6dSkC6p0Ot/fywVGQ
+         OBvRTLqaT47aSiOt2Ml0eUc6ZX6aIeA579xeICgrHuU00d5FmgCuoP3/PJXzOopxUB28
+         JNb2EBksofI0fa9b52+vFQk09IuUn2cAmsRwGcEZ7gwCNiZXuM4F8zSlgJMiOa1W5XdL
+         //+2aKghPryYsPRcbW5YH4sxLWvxnyY3Vem9dCLOkUwjftP9X2ZUN/T73MV+B+EFjfM7
+         AZGg==
+X-Gm-Message-State: AOJu0Yz5hxOSDfZcZ7RiWE1VLKc+f5iHwQDnl/SH7DANxRSnEz04fJhJ
+	37ybJhv/WZejj1HflPocSpIDNdgSRH3/Yg/xwwdON3x7jDLpM5nwWfpthcuFLzXawtQ=
+X-Gm-Gg: AfdE7clnvWfEt7LS8CDSi9YXlz7mLsKMW8uuJDexnmQF4kTJ2kC/F5Rp9g6rFmQWhA/
+	08cRCYrCEPs+n5GmdcOs4nTZxjb3Rf2i0AyPYnynYBa9EXS2uPIYsMOMq2w+mBc4immSyoyo3zK
+	BFKoj1id7MoO/3VjkrZFq6RMlQLtU0WY4LzrvteQMAZuUHqUq6jRbw3Je4Mszr9TCcduV57elSi
+	kusLl1Fi2R9qeaO7mtsB78Kd2erIijZZY2U67LVIKkLspvuA/qku1Kr28CWruzXONVyu5cPJ5F2
+	MkNwXWoi9Rw2sO9DenaP9qqCmOeXdO8VC3GQmN+UeWESHDa6XfpgXQU5pJZKiuY48A3Sh33ihWL
+	Y1Ny9YhUWqyaqoGLcF8JEfU44QTYdlnYfJIFbBioi1P4pfuXbhp6BvFDpGOT0fjy4cLfVUE09Rl
+	V+CIlSBGs=
+X-Received: by 2002:a17:90b:1a8e:b0:37c:63fc:b2fb with SMTP id 98e67ed59e1d1-37c9ebe9457mr8374915a91.22.1781786435944;
+        Thu, 18 Jun 2026 05:40:35 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37c52092ee3sm9765839a91.0.2026.06.18.05.40.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2026 05:40:35 -0700 (PDT)
+From: Cen Zhang <zzzccc427@gmail.com>
+To: Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	zzzccc427@gmail.com
+Subject: [PATCH v2] usb: misc: usbio: fix disconnect UAF in client teardown
+Date: Thu, 18 Jun 2026 20:40:29 +0800
+Message-Id: <20260618124029.3704089-1-zzzccc427@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618104633.3405705-1-zzzccc427@gmail.com> <b39be4f6-e63a-43c3-9903-e4e6e0a85cd3@kernel.org>
-In-Reply-To: <b39be4f6-e63a-43c3-9903-e4e6e0a85cd3@kernel.org>
-From: Cen Zhang <zzzccc427@gmail.com>
-Date: Thu, 18 Jun 2026 20:24:40 +0800
-X-Gm-Features: AVVi8CfAETxQyYmH3rRfqOECzWT_WYi84LAnKNLka3kkP49rD0HQI4EoV1BHgU4
-Message-ID: <CAFRLqsXdz6+3fvkamEHtjLHpLdWN_ffKXHgbipr16s8EV5-BBA@mail.gmail.com>
-Subject: Re: [PATCH] usb: misc: usbio: fix disconnect UAF in client teardown
-To: Hans de Goede <hansg@kernel.org>
-Cc: Israel Cepeda <israel.a.cepeda.lopez@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi, Hans
+usbio_disconnect() walks usbio->cli_list in reverse and uninitializes each
+auxiliary device. auxiliary_device_uninit() drops the device reference, and
+for an unbound child that can run usbio_auxdev_release() and free the
+containing struct usbio_client.
 
-> Why I see no reason to delete the list node here ?
+list_for_each_entry_reverse() advances after the loop body by reading
+client->link.prev. If the current client is freed by
+auxiliary_device_uninit(), the iterator dereferences freed memory.
 
-Thanks a lot for your review. You are right, the list_del_init() is
-not needed for fixing this.
+Use list_for_each_entry_safe_reverse() so the previous client is
+cached before the body can drop the final reference. This preserves
+reverse teardown order while keeping the next iterator cursor independent
+of the current client's lifetime.
 
-I'll send a v2 dropping the list_del_init() and update the commit message
-accordingly.
+Validation reproduced this kernel report:
+BUG: KASAN: slab-use-after-free in usbio_disconnect+0x12e/0x150
 
-Best regards,
-Cen Zhang
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x66/0xa0
+ print_report+0xce/0x630
+ ? usbio_disconnect+0x12e/0x150
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? __virt_addr_valid+0x188/0x320
+ ? usbio_disconnect+0x12e/0x150
+ kasan_report+0xe0/0x110
+ ? usbio_disconnect+0x12e/0x150
+ usbio_disconnect+0x12e/0x150
+ usb_unbind_interface+0xf3/0x400
+ really_probe+0x316/0x660
+ __driver_probe_device+0x106/0x240
+ driver_probe_device+0x4a/0x110
+ __device_attach_driver+0xf1/0x1a0
+ ? __pfx___device_attach_driver+0x10/0x10
+ bus_for_each_drv+0xf9/0x160
+ ? __pfx_bus_for_each_drv+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? trace_hardirqs_on+0x18/0x130
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? _raw_spin_unlock_irqrestore+0x44/0x60
+ __device_attach+0x133/0x2a0
+ ? __pfx___device_attach+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? do_raw_spin_unlock+0x9a/0x100
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ device_initial_probe+0x55/0x70
+ bus_probe_device+0x4a/0xd0
+ device_add+0x9b9/0xc10
+ ? __pfx_device_add+0x10/0x10
+ ? _raw_spin_unlock_irqrestore+0x44/0x60
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? lockdep_hardirqs_on_prepare+0xea/0x1a0
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? usb_enable_lpm+0x3c/0x260
+ usb_set_configuration+0xb64/0xf20
+ usb_generic_driver_probe+0x5f/0x90
+ usb_probe_device+0x71/0x1b0
+ really_probe+0x46b/0x660
+ __driver_probe_device+0x106/0x240
+ driver_probe_device+0x4a/0x110
+ __device_attach_driver+0xf1/0x1a0
+ ? __pfx___device_attach_driver+0x10/0x10
+ bus_for_each_drv+0xf9/0x160
+ ? __pfx_bus_for_each_drv+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? trace_hardirqs_on+0x18/0x130
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? _raw_spin_unlock_irqrestore+0x44/0x60
+ __device_attach+0x133/0x2a0
+ ? __pfx___device_attach+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? do_raw_spin_unlock+0x9a/0x100
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ device_initial_probe+0x55/0x70
+ bus_probe_device+0x4a/0xd0
+ device_add+0x9b9/0xc10
+ ? __pfx_device_add+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? add_device_randomness+0xb7/0xf0
+ usb_new_device+0x492/0x870
+ hub_event+0x1b10/0x29c0
+ ? __pfx_hub_event+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? lock_acquire+0x187/0x300
+ ? process_one_work+0x475/0xb90
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? lock_release+0xc8/0x290
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ process_one_work+0x4d7/0xb90
+ ? __pfx_process_one_work+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? __list_add_valid_or_report+0x37/0xf0
+ ? __pfx_hub_event+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ worker_thread+0x2d8/0x570
+ ? __pfx_worker_thread+0x10/0x10
+ kthread+0x1ad/0x1f0
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x3c9/0x540
+ ? __pfx_ret_from_fork+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? __switch_to+0x2e9/0x730
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork_asm+0x1a/0x30
+ </TASK>
+
+Fixes: 121a0f839dbb ("usb: misc: Add Intel USBIO bridge driver")
+Assisted-by: Codex:gpt-5.5
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+---
+v2:
+Drop the unnecessary list_del_init() per Hans de Goede; the safe reverse
+iterator is sufficient.
+
+ drivers/usb/misc/usbio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/misc/usbio.c b/drivers/usb/misc/usbio.c
+index 02d1e0760f0c..0e5ccd2f04d8 100644
+--- a/drivers/usb/misc/usbio.c
++++ b/drivers/usb/misc/usbio.c
+@@ -518,7 +518,7 @@ static int usbio_resume(struct usb_interface *intf)
+ static void usbio_disconnect(struct usb_interface *intf)
+ {
+ 	struct usbio_device *usbio = usb_get_intfdata(intf);
+-	struct usbio_client *client;
++	struct usbio_client *client, *next;
+ 
+ 	/* Wakeup any clients waiting for a reply */
+ 	usbio->rxdat_len = 0;
+@@ -535,7 +535,7 @@ static void usbio_disconnect(struct usb_interface *intf)
+ 	usb_kill_urb(usbio->urb);
+ 	usb_free_urb(usbio->urb);
+ 
+-	list_for_each_entry_reverse(client, &usbio->cli_list, link) {
++	list_for_each_entry_safe_reverse(client, next, &usbio->cli_list, link) {
+ 		auxiliary_device_delete(&client->auxdev);
+ 		auxiliary_device_uninit(&client->auxdev);
+ 	}
+-- 
+2.43.0
+
