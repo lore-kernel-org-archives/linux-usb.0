@@ -1,123 +1,141 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012038.outbound.protection.outlook.com [40.93.195.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3875F3AE1A9;
-	Thu, 18 Jun 2026 06:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781765784; cv=none; b=cGp/Oa2m8sULGQIu2lt6MD+baS2cdC+sW5aQkEtaLlezXoBTZ0egfA02CVUSN3FOIzA9rTFCKh9mr3QBK0eAO60eetVoSzOMPFAGmzJZ4c0W6G88yMTFzU6A87cwS19gDG5wpNEKYUaJ8X9cVinLo7F+pAd5734sSvJrvWsNEVk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781765784; c=relaxed/simple;
-	bh=eOkwncWRJZvV/pVYoxwzciXIbEsYagcDbAFTfTdeE7M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P4lp4kF2u4bMaZVF8iHiNeEFkUnv8yFmHrZfH60V3LRjvXtQ5gi7uJLFNfV6R3M2ileTyYi9h/6zl9IG1mcbzIouvwDr+LrJQcpF9NjtV1rO2NKioFYEeEbFEEmZQTrHWhySUHPqv/C96ChJcB/t0ttmtgkLp4lK0BVwuGRgluk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EJ7Qy7lN; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A08C3D6CDE;
+	Thu, 18 Jun 2026 07:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.38
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781768887; cv=fail; b=SR8iMXHvFgWXVQWdNwLWVVCou57Ul/f63ooxTmL2zDCTslps0lb6tkexFbsI0R3hJ7hk7MhYR5+dHJ/rdSijjE7fLwKzPKpBEO4hK/gho6rSZS0nCBR877x0BDGTW918Wqc1OlNjvrW9gxkOlrZQp3ZzvRq8jEqA2AxNPPK5SFM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781768887; c=relaxed/simple;
+	bh=R65+b5zL8EuVliR9VR+5A7uTryOEzNiIQYJ+Jl9zc1M=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=L/sylBbHIK4DuoroFz6Cwxz2uXV+cKUes1rlIL0CuQPQ5CQYcOyn5j/gE5MnecETknPMMG5Kbwpe6m105SkxrXQIFtdBthnvl7tmQx+zlIPXZjfIjncyR4Ue6Lj5dzHC+OW+nR4oKCnDhkOTGIFCDbSqHN0PSRJvj6jC0WZCN2o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=urh3yl+I; arc=fail smtp.client-ip=40.93.195.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EJ7Qy7lN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781765784; x=1813301784;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eOkwncWRJZvV/pVYoxwzciXIbEsYagcDbAFTfTdeE7M=;
-  b=EJ7Qy7lNeQPyrJYxW9a3dUOj/0tb1njnTYS2mR2KS11EkxhfKUNcqt6a
-   pWwhozd2TPqiQMxKvS7wLn3ojVyhoiuKLGKVYSC3RRI0Y9rUK3Xx41P5O
-   1AcZlv85dAd5I5OGINEoSnHFyaMJpFw5ZFRii0OQmR8SmMyNrQkDKAc3n
-   2D9Uv4Cf1026wl4tPL1B5bazTiVcZAPF/YNrmvNk7pfUbItT+EkcsKTaY
-   KZwhIDMBjHaiQRXH7g7xmyYx31pyPExyZwBNejpU/BDjHaejXxF/SCSzH
-   dUYujm6AgrnskPm01gy1JmCwSLrr0NiptcgeJ82TQ2IgD31n+PNYziHEM
-   w==;
-X-CSE-ConnectionGUID: VY3YLYa2Rlas8MUgEQSZKg==
-X-CSE-MsgGUID: d+Kb1AyhS/uhciO5FQ2GYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="86505888"
-X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
-   d="scan'208";a="86505888"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 23:56:23 -0700
-X-CSE-ConnectionGUID: XNI88FMVTc2bagX9GEi3Kw==
-X-CSE-MsgGUID: Rk4WAd7tQYmdLGoRdMevjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
-   d="scan'208";a="248373683"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.24])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 23:56:21 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 9965011FAA5;
-	Thu, 18 Jun 2026 09:56:20 +0300 (EEST)
-Date: Thu, 18 Jun 2026 09:56:20 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Maoyi Xie <maoyixie.tju@gmail.com>
-Cc: Lixu Zhang <lixu.zhang@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: ljca: bound bank_num in ljca_enumerate_gpio()
-Message-ID: <ajOWlN0RbjosG_Me@kekkonen.localdomain>
-References: <178176358875.3352358.6059116660356914900@maoyixie.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="urh3yl+I"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aCATvPvnDt7ilDWhGe8uugPrgo3oWvel/uWt12n4YoJjbVLDP97qujDHljL1a7fx53wyGPl9FVlUgHwgXZoslXE/iXBEsSdEHMcCH2tqjLpS5m3kBrKOp3MnVko6cK9AeqHDRBKuwxuT3g5oQQ80sxrXloHf+OKulLD3Z+YDskOneODiZpzn07JSQowWdBf9Y7dYsibS/QC7wzo/yoINPiXzXB7yAWe1rgdBRmbdw0k/GxM7bkqllWc6b5QXAMUBhAFg9/rIYaLR92smE6cW60JUz1X0uHImx2iMutREmEQBDH8xRI8mHWDHSGR06G6qQtQtExQw8UOZQ0167ETkag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ij7MGnFQxVPF4ZUHtT68EdfSNe4AxG53l7zWPypYEKc=;
+ b=O0PPAGMg4sKMWziWbmfqhMMG+/10zCllu/uL6IzAK66GzW/J8hQEOdNa8TGw/juFAJnBZFIWuVF6i4P8fGBtka2Xurppe81aUe8B1lHGPnmzfWOUhjyAeaEJlFNK2xtrgyHXFVlc1x4FqTq+fMdSYTkBFrXfI3lhROgEB4jF6CkWBUiR+HDIjdjt6jyr8rxnsuzPqPp7R624z1G9e0OaD1Z7yqt6DwTx5SmzLyRZWaaKpqo4TRijWA0JdkGSZIBJTxW2Uyt9kJIcZ4OZZ91eEnaPYFXRkrl41xuVlDT1dFQT/ZsM+FJ/ZPHD4Fp/vpaNxEtcaZ5VIpEtNjthSgAhBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ij7MGnFQxVPF4ZUHtT68EdfSNe4AxG53l7zWPypYEKc=;
+ b=urh3yl+IXbbveI9tc/am8YIV7EmYwLSRS0/cutFKqK5pDyR56dTiDO45OPXhVZi853d5LlM0CE8OEK2uBwZ6eB3q0mqYtlU7qWu8VZo/zVBg7vue5ZoLPZJosDW13BCv2OuhcSAGBU+9OZ+XXkUcZtMoIDAonBcs4D+eWUzEFKg=
+Received: from SA1P222CA0062.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:2c1::13)
+ by DM6PR12MB4236.namprd12.prod.outlook.com (2603:10b6:5:212::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.18; Thu, 18 Jun
+ 2026 07:48:01 +0000
+Received: from SN1PEPF0002636E.namprd02.prod.outlook.com
+ (2603:10b6:806:2c1:cafe::a7) by SA1P222CA0062.outlook.office365.com
+ (2603:10b6:806:2c1::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.139.14 via Frontend Transport; Thu,
+ 18 Jun 2026 07:48:01 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
+Received: from satlexmb08.amd.com (165.204.84.17) by
+ SN1PEPF0002636E.mail.protection.outlook.com (10.167.241.139) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.139.8 via Frontend Transport; Thu, 18 Jun 2026 07:48:01 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb08.amd.com
+ (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Thu, 18 Jun
+ 2026 02:48:01 -0500
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Thu, 18 Jun
+ 2026 02:48:00 -0500
+Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
+ Transport; Thu, 18 Jun 2026 02:47:58 -0500
+From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+To: <heikki.krogerus@linux.intel.com>, <gregkh@linuxfoundation.org>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<git@amd.com>, Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: [PATCH v3 0/3] usb: typec: tipd: improve probe diagnostics and POWER_STATUS handling
+Date: Thu, 18 Jun 2026 13:17:41 +0530
+Message-ID: <20260618074745.629638-1-radhey.shyam.pandey@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <178176358875.3352358.6059116660356914900@maoyixie.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002636E:EE_|DM6PR12MB4236:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1c9cd776-7a76-4eda-4ac8-08decd0dec4a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|376014|23010399003|82310400026|1800799024|11063799006|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	DkMlyob7Lw7azzePnN5/WdkEclD6koQsPP5l6MbQT6L8bazgSUACfWYxwv1TpPZOKxXmyd5GL+Kwdj6jBlim1HwOo0KlObZuGfcRY7p4x84IySUjoF5XPCtLBZJ+plVBOIsxGuC0X8wgrQS6yeugRjlccmFJV4H6fWtepdCDtJuI6xUrzidLbQ6ozGiTFS36KptAys+4tLfL7Sv8RkL8fDsH3Mg1Z1SXqVPBRZf/Mbjjc0Zvv6/SBkD9VDPrDUDMQV+VGxJVO4G9kXSt5dJhltiFlIrwzIIEEDPccE4hVxAV8DwtkWw1s+1fzXW8OnZhk5IS5cutOpDb9Cl+fbib+5ok4JGuPfmt0RMFfR2f3BoIFBpEvi3zP1MHVsizp2cos/roswOCZVbJwypVxUgj0UeIRLZLCDdCZ16IYU1rR3fqAfu54vDXIyHPpPsYG1z+UOhL6hpUVDLJ0WjCY8t+umf8zvc0IYMLV8PjR+7A/VspKOtdHVqnc/SyEYmKTipV5g9bC74utFCm3g6QQNwuKtKz7O8N8+5lTyEkzrCDeuymMIB9Pt3Gik35mSH92yFwtS3LmAbsJzC00RSxJ7XI7aRk2QEKiRH5dBgvBtXnKxIm9616ZWBCPbxwOQ4oj/+NvekjcqC5oq3jHkREhNBrXFA0tY93cYo49oZ0zSp7anskNZ03hR4a18uwFZCzusTMaScFJVyMb620cEdaLDcywwG9agsZJljDz1zulINT5Dw=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(23010399003)(82310400026)(1800799024)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	qgeFdC6OT8FZb1DidxQKPTuO7TNcml0GA2VwTf7mBQ6dBsphRxb3AuIhqi4GGO2DGo3ELZFsmt/Emyx8v2+heNy8V+FgSS8Lq2qUpxokSp5chmpGdtuK5eJRwG/8ZCupOt6CK7CpX7zEvInkOMjKrQEWuFTxRyQ0J/gcXw8psvEWkgzAuE069HVUEfsyvY7c18Usctv3+SfLv9uS+p4q0sHpREbGKImqPuiwVLlhKu5UvHNTbd73FObWL+LksVtFfxSAVcOgTnXXkM2FRcKpUjqOuQCg1EBoMzc6GmRr6YOIE+xh3OusxHRR4CZ9f0QFojfjKHyRgYzTuCpaIEywnoCPsPISro20OhEFjbQxhC21K+Svp8guhUb4/u2R7iuCHJqOQH49a4nae8VnXSUI2CAPJefgDmf6QO2rg0KnS2gULoFmDkqeOQx5jvY42AoD
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2026 07:48:01.5128
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c9cd776-7a76-4eda-4ac8-08decd0dec4a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SN1PEPF0002636E.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4236
 
-Hi Maoyi,
+This series tightens TI TIPD (TPS6598x family) bring-up ergonomics and
+cleans up register bit definitions:
 
-Thanks for the patch.
+- Log vendor ID read failures with I2C return code and register value so
+  boards with wiring or address mistakes are easier to debug at probe
+  time.
 
-On Thu, Jun 18, 2026 at 02:19:48PM +0800, Maoyi Xie wrote:
-> ljca_enumerate_gpio() reads desc->bank_num from the device and loops
-> valid_pin[i] = get_unaligned_le32(...) for i < bank_num. valid_pin[]
-> holds only LJCA_MAX_GPIO_NUM / 32 = 2 entries.
-> 
-> Two checks run before the loop. The reply length must match
-> struct_size(desc, bank_desc, bank_num). The product
-> pins_per_bank * bank_num must not exceed LJCA_MAX_GPIO_NUM. Neither one
-> bounds bank_num against the size of valid_pin[]. The reply is capped at
-> LJCA_MAX_PAYLOAD_SIZE (60) bytes, so the struct_size check limits
-> bank_num to 9. A device that reports bank_num 9 with pins_per_bank 7
-> still passes both checks. gpio_num is 63 and the reply is 56 bytes. The
-> loop then writes nine u32 into the two entry array and overruns
-> valid_pin[] on the stack.
-> 
-> A broken or malicious LJCA device can therefore overflow the stack.
-> Reject a bank_num that does not fit valid_pin[].
-> 
-> Fixes: acd6199f195d ("usb: Add support for Intel LJCA device")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
-> ---
->  drivers/usb/misc/usb-ljca.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/usb/misc/usb-ljca.c b/drivers/usb/misc/usb-ljca.c
-> index c60121faa3da..a1876c05b7c2 100644
-> --- a/drivers/usb/misc/usb-ljca.c
-> +++ b/drivers/usb/misc/usb-ljca.c
-> @@ -596,6 +596,9 @@ static int ljca_enumerate_gpio(struct ljca_adapter *adap)
->  	if (gpio_num > LJCA_MAX_GPIO_NUM)
->  		return -EINVAL;
->  
-> +	if (desc->bank_num > ARRAY_SIZE(valid_pin))
-> +		return -EINVAL;
-> +
+- Treat operation without an interrupt line as a normal polling setup and
+  log at debug instead of warning.
 
-This certainly does fix the problem but it looks like the code somehow
-appears to assume desc->pins_per_bank is always 32. I guess that's ok as
-it's been working in the past.
+- Name TPS_REG_POWER_STATUS connection/source-sink bit masks and use
+  them consistently with TPS_FIELD_GET (no behavior change).
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Changes for v3:
+- Add Heikki Krogerus Reviewed-by tag in 1 and 2nd patch.
 
->  	/* construct platform data */
->  	gpio_info = kzalloc_obj(*gpio_info);
->  	if (!gpio_info)
+Changes for v2:
+- Extend commit description in 1/3 patch.
+- Move to _dbg() for missing IRQ message in 2/3 patch.
+- Add Heikki Krogerus Reviewed-by tag in 3/3 patch.
 
+Radhey Shyam Pandey (3):
+  usb: typec: tipd: add error message for vendor ID read failure
+  usb: typec: tipd: demote missing IRQ message to debug
+  usb: typec: tipd: name TPS_REG_POWER_STATUS field masks
+
+ drivers/usb/typec/tipd/core.c     |  9 ++++++---
+ drivers/usb/typec/tipd/tps6598x.h | 10 +++++++---
+ 2 files changed, 13 insertions(+), 6 deletions(-)
+
+
+base-commit: 4fa3f5fabb30bf00d7475d5a33459ea83d639bf9
 -- 
-Kind regards,
+2.43.0
 
-Sakari Ailus
