@@ -1,159 +1,116 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889092BEFFF
-	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 04:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 898E62877C3
+	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 06:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781757988; cv=none; b=HeM3oANSIZNFowVT+popTepKnrfBCVRFtkzMOo/IGr3NBvmkjYdvQ/8TfXy1Dy9yqCPxuWM21xGMtK2yfC5TUSG0gYfhmHJkkmKfrV2yMnTH3/NMiDbek5R3EU5wG6nkO5c5YdOpBj/xM4tJIsPKlnoJWtN/jCI9t6g5QtQu9Eo=
+	t=1781763594; cv=none; b=GSNVU01QSEMr/cpxZTAKnVUiiYm5/V+PoUbFld7jf7VYaIQuW3SOjhZez6JIVaXtEQpHh3/8dlkq/H3ryoi5uAOwpyi9ze9+6JKhZwNVWj3dCk4lnSibB47BsUpVeW6A8SOnj2xEjPXgHbB0JJhMSid2lrV0K0pnG60sm3OToHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781757988; c=relaxed/simple;
-	bh=ip04cpuJ6gZcMJKZUo/58OpvKcONH5fc81aL2U5VDTU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Geu6WxvN3VuTjtOut5fMPERoig8IHHQjpoImKnWgbD2gt3ANt/dlTTsKLHkQACxBR7Xa4pH8z5vr2Ea45n+n7Cz8i233Zdm5RUF6/OW8mRyvgdGlDbv0j5Pumeoh9xKdNbAkn1yknuvXQexRdnuHvCQ7ZnJLTDqRMwJShd2M5Xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fv/1urIo; arc=none smtp.client-ip=209.85.128.43
+	s=arc-20240116; t=1781763594; c=relaxed/simple;
+	bh=MR2Nm1LmUc4dhFtlCkfzDS2422dNtrlpxROFYdYilic=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=J7+0HQQUgHR+0wRwqmaDGv+ceahfESTy9rJIhYs1YXyIUnwDewZ5g2qVk0Oygw9XEYD0ND5c/cUp5YWuN6f+sOWzyDCNBsfUq2uHQjE1O48ZC+H27esHK3o/jt7fl2ybZHQSgB0fKKwd0OaCVGzRLMSNB8oSW61PCis8iS1WW3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QiSwLRLn; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fv/1urIo"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490a76757e5so2178955e9.2
-        for <linux-usb@vger.kernel.org>; Wed, 17 Jun 2026 21:46:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QiSwLRLn"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-36b8d414666so248312a91.3
+        for <linux-usb@vger.kernel.org>; Wed, 17 Jun 2026 23:19:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781757986; x=1782362786; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P2406RcRfSwFwzqOnhnwujT4ewtnrCh+0Xd1gHWd5a4=;
-        b=fv/1urIoRFzw1+c5+quRncujEA7ZIby/KMaL4roCUxUMtPUzfP56t4tmLZTmOvcZOj
-         8/lM4Earcxaxm+LUAT0V0i3PaiZRrByZfneMVMgC3nOoHohCfhGA39nkY0hNLLHIUTks
-         K7bSxhyVhBLQR1UnsFj1kYBq3XBJgQl9+9MpeUVo2CJCmK6ztAV637gP2lJTGjmMwzSb
-         QL+ZVKmVfO7RDaNTmWp4bJIQTlBVz8rrHNzWzQmAG6NkD1Q6BGRGocyMPUlNO4U3hk8p
-         4Y8c5MAhnEqz/hg5AKLGDq6Q/1kJqKuWWYliIYVS2mu0LFcyGhwQQHCmGjN3V1S6/JZV
-         xDUA==
+        d=gmail.com; s=20251104; t=1781763593; x=1782368393; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ScOr+/vdrOb5bFKQDTI3ANdSYyfxyJ58Srz3IQTKWsw=;
+        b=QiSwLRLn51EdAxG1FHzi81jsXF1Be0OpyGVsZfpcOqA16NSi1zHzK5HdaHXxpwegnr
+         K6wlFc2Dr4UlcHlwvZ6o+Oay7o0vqDxqPsVMcb/mLx/iNTqmu5v97NCrR2fxcObfalr/
+         Vlgdj8F58j5MHSdk3+UbTCnLa5weYgXb+fBzzfLXkrMB6Jx+ETMFN95bfjh/0p3vzaG/
+         HW60zdtXsRWU2i28QnhDZCToLvcj1VosItsrSBE1Io6k52WdoovKycpIJHT7LUxZbXYl
+         skDH8E66BpoZqdTNBO0yjz8QF6vTrhMusAJgOj/a9LXAr9oRTm7OQ4gZN/1w11Xr4j3H
+         6WzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781757986; x=1782362786;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=P2406RcRfSwFwzqOnhnwujT4ewtnrCh+0Xd1gHWd5a4=;
-        b=UiQMxUdRLPySHMt34KVDIuP644NPG0PbdO32KMMLN0BivV95ctWHC7DMi9zjOg5kYe
-         dUFrN+ijZcAL13x4n+S2REoSH11gADuiSkEK7+JN4b0DhX3myIx5MzCG5dbwYXGeoD1x
-         2ko3WHA5OFE5opyqqP+8M0i/EPMDxltfsMnxCe/WDhD6HXJndLfNxmu6A9d++KIiQ7fE
-         iSkRJvKnB4uGx6Pf3iKtFOyQOXHxBhel4QomPcS4pNEI/77dm5GBw8GSM9QibhPzl/+k
-         1G8zt1t/0O1Aqx404LZWC6Mu2sl8h4AyBcX/+XgGpj9TCrOGISltiqdWRBLSFzbLLO+b
-         PL1Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/y4HcDy1+N5vV2HR2HJCdRZirM6Naw2ycUKDgaLkg5fRqEBH4uxUAiFfpRT90iHI/IEaGlJwHuiVw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3/yGdbD/hh4myqqMWb+PtvhNQnWeh0TMIz/qox6a/qrgeSIbY
-	2IY3seWKuo3YYlOb8+jRbxErfJnKcyKgKoH8gHL2NLoRUOu0dXKGCxpp
-X-Gm-Gg: Acq92OG3DmP4EHR39tzSk6xj/oSqJ1nqvDUv9d2jMkRUD7I8Pnn1T90rnMPSCzHdOb7
-	H8eD0/9W0ybAjRayYT6yoUMC1wX/dOyfqSbibx1cvzmPTetisaHmKenC5saeFnLx4dfnbcyYi5P
-	YAe7SX61aNXtofl1nl9TZJTa9HlvkW4TGfdeW8b21+8N0IOMmhDE8M6I4IXZuMrw7IPrY9WwgU6
-	BdBU+scJyB1gK/EeylKlz7WAN1PY7qtkqJ69Z32In/LTcd8D/EMaeYSkG72DV+6p+kCiLsh8+0x
-	OJ74J2VnLyBRY47cPQqhUSxGU5v3s34GoKi/FHFT5eD4KWckzZawPH0eLQH+UwVXdZmukgruPYq
-	LJHW3tkiCXBdbtgwGBP56tQOqpdtftszQSEEEJ1ji4kfv0Vk4ef2YyEh0l337tTcCv3UXo+b1ue
-	vKj/D6zusHxlnV6/b8FO16YA==
-X-Received: by 2002:a05:600c:4fcf:b0:490:c024:2ec8 with SMTP id 5b1f17b1804b1-4923819e3f0mr31138725e9.0.1781757985830;
-        Wed, 17 Jun 2026 21:46:25 -0700 (PDT)
-Received: from foxbook (bfg19.neoplus.adsl.tpnet.pl. [83.28.44.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923a1d585esm19139325e9.2.2026.06.17.21.46.24
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 17 Jun 2026 21:46:25 -0700 (PDT)
-Date: Thu, 18 Jun 2026 06:46:21 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Desnes Nunes <desnesn@redhat.com>
-Cc: David Woodhouse <dwmw2@infradead.org>, Lu Baolu
- <baolu.lu@linux.intel.com>, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
- mathias.nyman@intel.com, stable@vger.kernel.org, iommu@lists.linux.dev
-Subject: Re: Intel IOMMU bug: xHCI faults during crash kernel boot
-Message-ID: <20260618064621.01217209.michal.pecio@gmail.com>
-In-Reply-To: <CACaw+ewuPm-eOACKX3Ux0UwJBRSftoBm7H+rxE2Z9E7KzWb5ew@mail.gmail.com>
-References: <20260430014817.2006885-1-desnesn@redhat.com>
-	<20260503071749.6abda137.michal.pecio@gmail.com>
-	<CACaw+ew8uV5g1G-6qZGtVBEYZ3k+fvFrOq3XMyq-Nuhbq5mdnA@mail.gmail.com>
-	<20260503213111.117db3a1.michal.pecio@gmail.com>
-	<20260504093118.615ff480.michal.pecio@gmail.com>
-	<20260518083339.507e24bd.michal.pecio@gmail.com>
-	<CACaw+ewSWTo72fSk2Q7ZzCM8pNuyrX5ua+qA=SZOQuNNMKSA5Q@mail.gmail.com>
-	<20260522110328.0d3eecd8.michal.pecio@gmail.com>
-	<CACaw+ezqEO_PgjGeYCLq5hA2eKczFXgmZLa8qjPtVJZCGwsdsg@mail.gmail.com>
-	<20260523022944.59799d83.michal.pecio@gmail.com>
-	<CACaw+exPdwXVsJc5Xr=vN1WJt8XR46=X0-8PP=+5dWY5zUrKeQ@mail.gmail.com>
-	<20260523102815.5c05c70a.michal.pecio@gmail.com>
-	<CACaw+ezMnQh2_oqbZ0jF99+wOADMU2vSMqxh9BoJoefjAC_ixw@mail.gmail.com>
-	<20260527103221.7f8b15b0.michal.pecio@gmail.com>
-	<CACaw+exN3fdzGQE7oK-hRE3KpMrA3ckPDRAcXaFbd=ySXf8E5A@mail.gmail.com>
-	<CACaw+ewuPm-eOACKX3Ux0UwJBRSftoBm7H+rxE2Z9E7KzWb5ew@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1781763593; x=1782368393;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ScOr+/vdrOb5bFKQDTI3ANdSYyfxyJ58Srz3IQTKWsw=;
+        b=USMANB/uqu/1xC5hPoaNyJbN89ajrstcfCd+ta5NbKLImEVDxvfYTiCwbw+4ID8kwb
+         YfzHApGRf9lmB0hfFmU4pQQflVtR2N2KNilkUZn/7PkTNFBOY+HnumZ1bstyKqe3UuBq
+         8sreoaiDnSQWfOb54djILtQfmU1y9deUCzvMMgVujFOJD3roShleSRenHMRGB2bDSx5K
+         tRHJkFs3x7AGUDFm3+seLVtxKbPwNiyl7OcgYKMnpIA6zD4OAwo5pJVWKMr/w2j4bXxh
+         aIZIpYhVootcxh+6JcuvbVBsZPxa1A/tvpQ4cRYfGDhiTcqY3qowKtpHVzaIzzl6f1WC
+         kq9A==
+X-Forwarded-Encrypted: i=1; AFNElJ9obtqoScLTWRVfXgeNXsA9r132XA+HgQ/1H76bdiuYOHBSH0acG+b1fggATycL16fcdROfw7DhcMM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyC+DNB4vGQYZmHX6SeGGzDjaZ+4Jz/S4KWemUzt3zrBmvJdu/Q
+	je/+mCiZeZWe9RwRJOxn2UtuFkTY5Ll0iw55267rcms805LI6liQ4AMu
+X-Gm-Gg: AfdE7cnjiTtAxKChyHxRyuO/55XOvFf61hpjSKOVQQrWL6LBsxEuYkayfmcqOlgFVJO
+	Bg0r96WrWshnQ7gDtxM9gXQXRZyXkBz+ZfC57d6vgi2c3HZSbDo/xaS4jVvtHLxhaSxRDDacMfc
+	kNAuQ0iRezAjQ4LXDjtJjpMQYtGSLnB7FmL+O5srPYq9e1nZwvuvz3yOUFdwl9ZBiOy9KHINo4c
+	B8oK6x6i6p/o66UrsmwJyzP1mZBbTF0jp2BctHID8TZhlBD9ZBSqImgW4ibh3fEj/Vnw/7vKX5a
+	igbaoSNYOd82r+zc+ZIVcdsbn8vG82NQyeT2RfkTdX8+6GyintQGzR3aa7ktBUxSRTwGZbsI1sQ
+	zKe00WbtG4fMjoBbdqLltmJhbH/E3oQvtnkqXKRO/SQpxOUfh51AbukI5xqtLcJcj75u6a6bs+y
+	PpDvniASl5TeC9A+wFfHfm+zZl0SWmEaEW4NeDAA==
+X-Received: by 2002:a17:90b:3a0c:b0:37c:543f:b83 with SMTP id 98e67ed59e1d1-37ce857afd6mr1402234a91.4.1781763592872;
+        Wed, 17 Jun 2026 23:19:52 -0700 (PDT)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37c521ae7d1sm7653752a91.3.2026.06.17.23.19.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2026 23:19:52 -0700 (PDT)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+To: Lixu Zhang <lixu.zhang@intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: ljca: bound bank_num in ljca_enumerate_gpio()
+Date: Thu, 18 Jun 2026 14:19:48 +0800
+Message-ID: <178176358875.3352358.6059116660356914900@maoyixie.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, 17 Jun 2026 21:57:02 -0300, Desnes Nunes wrote:
-> Hello IOMMU mailing list,
->=20
-> On Wed, Jun 10, 2026 at 12:32=E2=80=AFPM Desnes Nunes <desnesn@redhat.com=
-> wrote:
-> >
-> > I have just found out the solution for the bug.
-> > =20
-> ...
-> > In scalable mode, a PCI bus may populate only the upper root half
-> > (UCTP) when all devices on that bus have devfn >=3D 0x80. On bus
-> > 0x80, I have e1000e at 80:1f.6 (devfn 0xfe) and xHCI at 80:14.0
-> > (devfn 0xa0), so the hardware root entry correctly has lo=3D0 and
-> > hi=3DUCTP present.
-> >
-> > However, after copy_translation_tables(), I noticed that
-> > root[128].hi was zeroed-out (Present bit cleared) and another
-> > (expected) different value on root[128].lo.
-> >
-> > In short, the culprit here is having a zeroed LCTP, since at
-> > copy_context_table() the allocation of new_ce for LCTP context
-> > entries currently governs the pos variable; which is later used to
-> > save new_ce entries for UCTP at tbl[tbl + pos].
-> > On the first iteration idx will be zero, old_ce_phys will be empty,
-> > thus this moves the loop straight to devfn=3D0x80. At devfn 0x80, idx
-> > wraps to 0 again ( (devfn * 2) mod 256), but since no new_ce was
-> > previouly allocated for LCTP context entries, pos will remain zero
-> > while copying UCTP context entries.  After all upper context entries
-> > are saved, tbl will receive new_ce from UCTP at tbl[tbl_idx + 0],
-> > and not tbl[tbl_idx + 1]. These will be later written in
-> > copy_translation_tables() to iommu->root_entry[bus].lo and
-> > iommu->root_entry[bus].hi, which causes the bug.
-> >
-> > In summary, the hardware tables were correct, but the copy path
-> > misplaced the UCTP table for bus 0x80 when dealing with a LCTP
-> > zeroed-out during kdump.
-> >
-> > To fix this, I created a v3 patch that uses devfn to better track
-> > which half we are copying, so UCTP-only buses (lo=3D0, hi=3DP) are
-> > installed into the upper root half. =20
->=20
-> 0001-iommu-vt-d-Fix-UCTP-context-table-slot-when-copying-.rfc.patch
->=20
-> > I am doing some final tests now, but since this was a lot to digest,
-> > comments at this stage will be most appreciated. =20
->=20
-> FYI, all of my last tests looked OK.
->=20
-> > To IOMMU maintainers: should I send this patch to the iommu mailing
-> > list and move the discussion there? =20
->=20
-> I meant as a new submission to IOMMU maling list, since this started
-> in xHCI at the usb mailing list.
-> Of course, that is if nobody has any comments or objections to the
-> patch.
+ljca_enumerate_gpio() reads desc->bank_num from the device and loops
+valid_pin[i] = get_unaligned_le32(...) for i < bank_num. valid_pin[]
+holds only LJCA_MAX_GPIO_NUM / 32 = 2 entries.
 
-Looks like no one from IOMMU pays much attention in the first place.
-Let's see if a subject change helps.
+Two checks run before the loop. The reply length must match
+struct_size(desc, bank_desc, bank_num). The product
+pins_per_bank * bank_num must not exceed LJCA_MAX_GPIO_NUM. Neither one
+bounds bank_num against the size of valid_pin[]. The reply is capped at
+LJCA_MAX_PAYLOAD_SIZE (60) bytes, so the struct_size check limits
+bank_num to 9. A device that reports bank_num 9 with pins_per_bank 7
+still passes both checks. gpio_num is 63 and the reply is 56 bytes. The
+loop then writes nine u32 into the two entry array and overruns
+valid_pin[] on the stack.
 
-If you have a working patch which fixes this, just submit it following
-usual rules in Documentation/process/submitting-patches.rst.
+A broken or malicious LJCA device can therefore overflow the stack.
+Reject a bank_num that does not fit valid_pin[].
 
-Regards,
-Michal
+Fixes: acd6199f195d ("usb: Add support for Intel LJCA device")
+Cc: stable@vger.kernel.org
+Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
+---
+ drivers/usb/misc/usb-ljca.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/usb/misc/usb-ljca.c b/drivers/usb/misc/usb-ljca.c
+index c60121faa3da..a1876c05b7c2 100644
+--- a/drivers/usb/misc/usb-ljca.c
++++ b/drivers/usb/misc/usb-ljca.c
+@@ -596,6 +596,9 @@ static int ljca_enumerate_gpio(struct ljca_adapter *adap)
+ 	if (gpio_num > LJCA_MAX_GPIO_NUM)
+ 		return -EINVAL;
+ 
++	if (desc->bank_num > ARRAY_SIZE(valid_pin))
++		return -EINVAL;
++
+ 	/* construct platform data */
+ 	gpio_info = kzalloc_obj(*gpio_info);
+ 	if (!gpio_info)
+-- 
+2.34.1
+
