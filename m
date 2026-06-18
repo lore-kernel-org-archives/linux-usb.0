@@ -1,72 +1,79 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541D33EB810
-	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 10:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB9A3D16FD
+	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 10:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781777717; cv=none; b=KHMuXHPefQh92pxTlTKm1zZWMpCqYqoxZhfZccJmVv4/uYJT4ysDOQzqx4NsSOaFGPmuic4qqewj4q2O7sQbDTHu0udZWTB/EostnKvxwKtEUOpWz2tDeK7KCf+EFN6fZKDuH5fgciw8jMPfT5Y5vrrLDKNqBIjQj+ldSZk8yOo=
+	t=1781777720; cv=none; b=R0TmiY5qR2W9tX2mwoQfv9ba3DHso4waf1D55QsS1iSqu+iVd3ErclFHEuci9KZwxI3jLXJL6U7nfaqf696P1EgJPSkr5fjvZXQnw0LratbzlSaGPsmEBxka9j72qcSwidGfR7JimjwdpmQ8QoAArM+KCKxuGoq2hikb8vCRNuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781777717; c=relaxed/simple;
-	bh=/ph9sLNxzAH4C/IxXRsz9y0wPDLhnOzID6phL4K8OI0=;
+	s=arc-20240116; t=1781777720; c=relaxed/simple;
+	bh=BWcvhUW+0cc5VX+GP36rvT15yne5n9RmucB5Uo/uotk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ilpqAureZQdmiEy1FbsZbkkmFgenJzqGdObCtkIyjErAex+ktzWYI0NHKUeZl4t3Hm/gQg6j5wyGz+9oUm4Cr31AQFbib31xv77V/qH8xwr/LoO0z4kj06PZCbVtIY5YZiV75/VtReAQoOyNrcMFpt/lkuWsmjoepS3MenlNuic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Z0bNZS3m; arc=none smtp.client-ip=209.85.221.42
+	 MIME-Version:Content-Type; b=IJb/5loL1o8xDyW8m+l11Agr5Ze9zkFsxNgDfBAwL35JY4jKnai/0lLpDdNZOmXewqSnbquYADGF/Au2lEy0SEkfjICO0/i4x3b4JEzvXphDxvc+UFZFxHP7U89uVjMXNFRGqshFbryE7HRZQbz+I2Y6P61d89tgGacE+MiQAOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=ZdPgfVt1; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="Z0bNZS3m"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4633193af19so579388f8f.2
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 03:15:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="ZdPgfVt1"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-45eeea039ebso434142f8f.1
+        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 03:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781777709; x=1782382509; darn=vger.kernel.org;
+        d=baylibre.com; s=google; t=1781777711; x=1782382511; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TFiC4yaH+yHhFXvZVffNRQ5JjoUucabPkwg7C0VSjd8=;
-        b=Z0bNZS3mcYm1ZKoGClQbrv6KCLRWy4trQTbf9dUZEdLYp0aL/YSphkRZcKzatTWurQ
-         Gmr48pefa5BHI5/nXyJ7oObLvzyMVzf6PCf5TJ1A7AOUDGeRKhj/IPljiJfEgooxhHjt
-         Ep0+hxo7TEWFoGneZQxnK4Pfahj8xqu2SXIwK93EjLC0sjN3YmItAM/G0Smn9d2jBEvV
-         EELqwaKqqotKZi4gxPHRMkVg0L1G6wUO2V9I2X2uVbgZ5fCj8YRC4FYPt+GzKg06amX3
-         st6/VZDFIhyJkYVhQrTbwYqGCMLP9plWAGJ9ujJKE9LiO1hgk9DOryp01bSYpzTNc282
-         Hphw==
+        bh=OxcIh58Ro8lbA8Z7AdmochDFxerQSeNXvjZHG1Ej2DE=;
+        b=ZdPgfVt1kE2ZaVtU53o5akgU1DgCVRjXIqbxbOeb+SnN93Py2j33xiKcOoVcScw1+m
+         87N1V1EZZssn003Nl2bB18c2cN6pK3zl5XytXdYYRP0DDtcB6qAoD7z0mWFZkI4o8mFs
+         tVqiq88H7/cgkF/6hZLOjLG4ZRHivrX7UrQsqKDooZDjxw3t4ao4d/cSyQjZgZ/SeyH0
+         N991mE41o+0YdxHFrQXyejnnnuJvu3xt/0gFMNkNdsXQDF4yiIgM2ZxIVWa2zwFLu6r0
+         Vhrb3B4prX6ofs0lRvlVjYIgNsat84T3wWUhKZHi8r8NoCl61rH/HmlNok/RwvkSNdqm
+         Fh5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781777709; x=1782382509;
+        d=1e100.net; s=20251104; t=1781777711; x=1782382511;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=TFiC4yaH+yHhFXvZVffNRQ5JjoUucabPkwg7C0VSjd8=;
-        b=ZXKO4sZvJuld0902k9EPqazbJBBbYibM+ami331eTChiAxeExECEXakhQt2S0rPwnp
-         dzkPjvhzswYN/esavBcOos+63Kru9ONNpC9bDIzonvsNbmEkZijn1zrtS21kiiKR0pSe
-         ldUGFcEruJOO3tefVLV9kTvlGEWUjcfZuUCnOtlgvlywSV84x+0Va2X7HFAqTRysup8X
-         h3ULbnh89s940jYafFgS6FoL/zioMquo7tGWbvfvO16h24HB8aIDbAA9Eie38UtACPpl
-         3TPNITVHIu/yrtNN7uh+MQSVH9MKTq+YyL8+7gj2k84sg9nfH/CtTA0wTYWKfU6lOpvs
-         59Iw==
-X-Gm-Message-State: AOJu0YwWuTUf2aEa1SolZMN4vQ1LULgSdZdG/Fj3vvUnqdaWk6Y1eLBZ
-	qmzYNBTU47C6HIBZTgyWGPpbDc/tViT+ZE1x9GPHgnm0SkBFOuo9x1pDcXHli5CyDlM=
-X-Gm-Gg: AfdE7clZwie0Q0VtG5AdkpLAA/CT70/lWruFRMtW5MM+Ql8/jUztBUIUDTscTFB4INA
-	6soRQwzhXWYsS3dR8cM9YAjjiGxfpL16fgPq/FDylK5a+ZMpN8uPE3NF53g4n0Geq8ed+WVRigP
-	kpW4Igsk6rwbrQdaUtbS3uExxJAIB7+Hs26csPxhU3UPQyCJ5qpSCdctGQNUyhVEg/jHljRTXq6
-	e2LI+gx9rGqcpqsQDpP4surI0RwLyV6fwEhAgl/ZWH9I63PFsji69gUw/SHRgQJzL5S+dgLiXsy
-	G+3IIH1KZf8KnO0Q0e0O9X+QC3TBMZHGj/uy0RTJ9N8UzqXKY2AXy9A0mL2TfqZsRShwvfz2tQ6
-	7xw0YejzxxHhrcykyC808T8cVe8sPLeoAhZ2R39iGGdY0q+BiJqPSZ+CK/Tjnftg25tZuJlCpU9
-	pbmRXyr+1y2k/yJJ3eO5lwI3KizWliNhdoRqHvcg+kU3gEFDENjxPFrtAbl0Ki4a/0bROilFYIm
-	rfH
-X-Received: by 2002:a05:600c:6216:b0:48a:5565:ec3d with SMTP id 5b1f17b1804b1-4923a9d07a4mr20695825e9.22.1781777709351;
-        Thu, 18 Jun 2026 03:15:09 -0700 (PDT)
+        bh=OxcIh58Ro8lbA8Z7AdmochDFxerQSeNXvjZHG1Ej2DE=;
+        b=r1mosl9fN1GdU+dhN3nKuhKi30CYMA93yZd+6y5hT4RAbkix2+op2gEGqo+gAk/Cjq
+         NY9BGWMmwoZ5ClrUV78n3Q7u4koKsZa7RP3rqd7PZJqKDtxR00PrFoY4+Yyqdq4r3A5d
+         tdOe+OIXL4okcx0qMZ5QFVTpfeIk6UOYQ+M3r1triEOHnYsQemdU0MZiawdh+oIcVZ4k
+         CbvE/KOB93T92DGxaPy1i9k/OKApa427RZ+bfNkwdNdHGsJi5rO7atgNAVo+X+DIJxlx
+         wrXcaeG+bNSi9t2M6K9sP40ughFCrXzoLYuKIzqw4sMXf/+KWswjWXwS55+9gY7yWA2/
+         BloA==
+X-Forwarded-Encrypted: i=1; AFNElJ+2dh1mFSKKMF9ot6FOuIVzWEdop6cdwHqkYJ3LZAb+bCgoI9/ukbw4tx8H99lSejgoWi7mBqyiWPk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9nMH/tsqVaHNa5WW8o5BkJaY2fy258O4RQAy7Xduqnk0V4+QJ
+	Dmi2dtAwBjCh2SbHuJHU9lWdRzLj+JjCiiJFmGfZGYCtT2PYHHe5JX93s8nGpUamIAw=
+X-Gm-Gg: AfdE7cnDrZTYC/xnRvqitbuIvlrT9SJiV2OTrgfTHyAzx2wcuDSGzjXZ5c4Kh2ErLNJ
+	x99gjOZrj0bNYhXeIlcYOKxqWCrauOgNq4Lpt4ZroMMWVc+Orj3MNJD65rO2saamomK6BqLnu5k
+	jzWWyDlkBozGhuoS46PUVeLvaqeRrRvQ0CQ/lk326OpGTXG9njFEZZHVGoGqv0uvjwEVcOaozQn
+	Xnw9ub0kE2apIwn94eaVuPRT0nqxYxPwSacX1W+ys2T6OXzK8KhqMi1+05wXIA8f14cowJUUhiQ
+	N7iiGvwNLThshLaDnvG0p+P0uxERgosuWw+3dg1QcaKiSAseXngUHxmLfv7OGh8hK08k4ynyhFz
+	N9X0e7dx60O0AAfnfJQpTYB9AbGgsbjI4MgQ7QhcILZzUQND+dH7+idZ4/tx+ti0Th8p9+LY7Q+
+	9XuQLgkn8tys/crn4uZ1RCElowJU98vYEa8gH6DrbI5H4+ohBeXeu0uqwC7ixgRDwQSxbXdKJfN
+	PSu
+X-Received: by 2002:a05:6000:2087:b0:460:70ff:fe14 with SMTP id ffacd0b85a97d-463adc9236bmr4887039f8f.42.1781777711239;
+        Thu, 18 Jun 2026 03:15:11 -0700 (PDT)
 Received: from localhost (p200300f65f47db048595530b320b6c5c.dip0.t-ipconnect.de. [2003:f6:5f47:db04:8595:530b:320b:6c5c])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-49230a58becsm224242985e9.7.2026.06.18.03.15.08
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-462236047c8sm17760805f8f.10.2026.06.18.03.15.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 03:15:08 -0700 (PDT)
+        Thu, 18 Jun 2026 03:15:10 -0700 (PDT)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/3] thunderbold: Assert that a service driver has a probe callback
-Date: Thu, 18 Jun 2026 12:14:51 +0200
-Message-ID:  <7dcaa7db505c01ecc08ebcd3aab419b3466dd1e3.1781776904.git.u.kleine-koenig@baylibre.com>
+To: Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Andreas Noever <andreas.noever@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH v1 3/3] thunderbold: Drop comma after device id array terminator
+Date: Thu, 18 Jun 2026 12:14:52 +0200
+Message-ID:  <329e2c612b360a01524df7630a8a3acc34a90940.1781776904.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1781776904.git.u.kleine-koenig@baylibre.com>
 References: <cover.1781776904.git.u.kleine-koenig@baylibre.com>
@@ -77,33 +84,59 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=828; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=/ph9sLNxzAH4C/IxXRsz9y0wPDLhnOzID6phL4K8OI0=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqM8UfEE9mGE99wwqYYimmIWj7mIoGxyievI4td G8EDkUeP2aJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCajPFHwAKCRCPgPtYfRL+ TnqCB/sE7SCVSa3bUKxRBOtFQgWQj9Y7yiUJFTPDopfixZIbcGh+YEts8Ayvk0wJnSZicm1yYeX lF8Z9/E5C+dpuX82IlxGx33798tg0ngD+2gE9jIkrpf8D45qYFhmi/qb8Rv6Ellr8wA8+CkkuRJ YjVlHbXeiOWszeIq1WsN0LKT5S4IIyOkOcMqnoHIv+otwaO6ywXxa7+OpZwS3AwAw8z7cV9nv+m nhorUa1apgbamAR2rt2hnhs0D0f+Q0mivzWTRc1XvJZ/P4MFXtWitODs3ZwwyFbfuHC2FTPZFNV ZJsHFZsUXMlhn6fbwjIlJ5EOYN6QOYR0Jqz2ifXTnf0V9+M1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1655; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=BWcvhUW+0cc5VX+GP36rvT15yne5n9RmucB5Uo/uotk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqM8UiytK7hE/SMYGmvn17tEkYw4JJmFqOZ+FZ2 TZ5qPoMm06JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCajPFIgAKCRCPgPtYfRL+ TraLB/sEasozUm4YNFh+0ZWpXwFBATBMd6XdLIle165DLme+RkDZn/OSuY3SXYYspOq5PRZZZG7 8EZ7zdpJEdeE6YEYt9Ls5VYG0W1bkqC6ROoie7T75DTFHG6jQZEsH4YKUQ3EIF+zmDfDCVJDKTo ieJ2dKxNrkKgN15TInMfAm60gKjeBc+Zz+Xgjjlh3ldDmeoT9FrBjPW4PPKdzqrPKRgqlXITzcP xFaQUNIaEsHT2dIoCrnNxJL5helTWll5KCzqsQoMa8h9Wi/zVHyZK8AcfKpok02gDFAuv0mnSNA wsnSRoi/lBFIIzrIJ6bsIpUdI7gF6AVbGB7evuFsBnAq99QG
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-tb_service_probe() calls the driver's probe function unconditionally.
-Check at driver register time that this callback is valid to prevent a
-NULL pointer exception.
+The usual style for other device id arrays doesn't have a comma after
+the initializer.
 
 Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
 ---
- drivers/thunderbolt/xdomain.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/net/thunderbolt/main.c | 2 +-
+ drivers/thunderbolt/dma_test.c | 2 +-
+ drivers/thunderbolt/stream.c   | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index 86b2f7474670..05442df0e99c 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -968,6 +968,9 @@ tb_xdp_schedule_request(struct tb *tb, const struct tb_xdp_header *hdr,
-  */
- int tb_register_service_driver(struct tb_service_driver *drv)
- {
-+	if (!drv->probe)
-+		return -EINVAL;
-+
- 	drv->driver.bus = &tb_bus_type;
- 	return driver_register(&drv->driver);
- }
+diff --git a/drivers/net/thunderbolt/main.c b/drivers/net/thunderbolt/main.c
+index edfcfc41a316..c1003e06a8bd 100644
+--- a/drivers/net/thunderbolt/main.c
++++ b/drivers/net/thunderbolt/main.c
+@@ -1455,7 +1455,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(tbnet_pm_ops, tbnet_suspend, tbnet_resume);
+ 
+ static const struct tb_service_id tbnet_ids[] = {
+ 	{ TB_SERVICE("network", 1) },
+-	{ },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(tbsvc, tbnet_ids);
+ 
+diff --git a/drivers/thunderbolt/dma_test.c b/drivers/thunderbolt/dma_test.c
+index 63e6bbf00e12..519c67678b08 100644
+--- a/drivers/thunderbolt/dma_test.c
++++ b/drivers/thunderbolt/dma_test.c
+@@ -689,7 +689,7 @@ static const struct dev_pm_ops dma_test_pm_ops = {
+ 
+ static const struct tb_service_id dma_test_ids[] = {
+ 	{ TB_SERVICE("dma_test", 1) },
+-	{ },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(tbsvc, dma_test_ids);
+ 
+diff --git a/drivers/thunderbolt/stream.c b/drivers/thunderbolt/stream.c
+index b28e4e95b422..68d81958262e 100644
+--- a/drivers/thunderbolt/stream.c
++++ b/drivers/thunderbolt/stream.c
+@@ -1630,7 +1630,7 @@ static const struct dev_pm_ops tbstream_pm_ops = {
+ 
+ static const struct tb_service_id tbstream_ids[] = {
+ 	{ TB_SERVICE("stream", 1) },
+-	{ },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(tbsvc, tbstream_ids);
+ 
 -- 
 2.47.3
 
