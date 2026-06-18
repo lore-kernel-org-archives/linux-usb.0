@@ -1,142 +1,191 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB9A3D16FD
-	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 10:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FA53B14D6;
+	Thu, 18 Jun 2026 10:25:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781777720; cv=none; b=R0TmiY5qR2W9tX2mwoQfv9ba3DHso4waf1D55QsS1iSqu+iVd3ErclFHEuci9KZwxI3jLXJL6U7nfaqf696P1EgJPSkr5fjvZXQnw0LratbzlSaGPsmEBxka9j72qcSwidGfR7JimjwdpmQ8QoAArM+KCKxuGoq2hikb8vCRNuU=
+	t=1781778340; cv=none; b=YPqgJO4qXxTdT2v4dDTyFzkabVUJ85O/cFnKCiGQvGoRHS1tZ6vETyz/FJiZAirP3wYnfmxQ3srlqP5VfNTkDFwlBFOG5Vubmme6fwpx3o/Q4SDnPYBfzNbrt8WqDWyHxUnRZSUqyR4QfXjn66tKVujYqBDoLfULUK4hSf9HeaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781777720; c=relaxed/simple;
-	bh=BWcvhUW+0cc5VX+GP36rvT15yne5n9RmucB5Uo/uotk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IJb/5loL1o8xDyW8m+l11Agr5Ze9zkFsxNgDfBAwL35JY4jKnai/0lLpDdNZOmXewqSnbquYADGF/Au2lEy0SEkfjICO0/i4x3b4JEzvXphDxvc+UFZFxHP7U89uVjMXNFRGqshFbryE7HRZQbz+I2Y6P61d89tgGacE+MiQAOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=ZdPgfVt1; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1781778340; c=relaxed/simple;
+	bh=96GGsVdsB54/b8XaADEkiN8ATRGW018FsKcVJycvGH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lki1QJByEK0uy5LXYc+WHz1PUYJLxsAni2DIKSva7tFT3hsw3mx2D+embVeUHKF74IwR9VcXyvTz2s8USkGvSq+oVdSxD+4aS6AoMzIbMHIn74YWtthn0o4h2l3/HxLkMfgWKP1lvdraeorLdB2fNQAWRfCVdkvScm4Sz0+/mys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G0kW4uKb; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="ZdPgfVt1"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-45eeea039ebso434142f8f.1
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 03:15:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781777711; x=1782382511; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OxcIh58Ro8lbA8Z7AdmochDFxerQSeNXvjZHG1Ej2DE=;
-        b=ZdPgfVt1kE2ZaVtU53o5akgU1DgCVRjXIqbxbOeb+SnN93Py2j33xiKcOoVcScw1+m
-         87N1V1EZZssn003Nl2bB18c2cN6pK3zl5XytXdYYRP0DDtcB6qAoD7z0mWFZkI4o8mFs
-         tVqiq88H7/cgkF/6hZLOjLG4ZRHivrX7UrQsqKDooZDjxw3t4ao4d/cSyQjZgZ/SeyH0
-         N991mE41o+0YdxHFrQXyejnnnuJvu3xt/0gFMNkNdsXQDF4yiIgM2ZxIVWa2zwFLu6r0
-         Vhrb3B4prX6ofs0lRvlVjYIgNsat84T3wWUhKZHi8r8NoCl61rH/HmlNok/RwvkSNdqm
-         Fh5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781777711; x=1782382511;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OxcIh58Ro8lbA8Z7AdmochDFxerQSeNXvjZHG1Ej2DE=;
-        b=r1mosl9fN1GdU+dhN3nKuhKi30CYMA93yZd+6y5hT4RAbkix2+op2gEGqo+gAk/Cjq
-         NY9BGWMmwoZ5ClrUV78n3Q7u4koKsZa7RP3rqd7PZJqKDtxR00PrFoY4+Yyqdq4r3A5d
-         tdOe+OIXL4okcx0qMZ5QFVTpfeIk6UOYQ+M3r1triEOHnYsQemdU0MZiawdh+oIcVZ4k
-         CbvE/KOB93T92DGxaPy1i9k/OKApa427RZ+bfNkwdNdHGsJi5rO7atgNAVo+X+DIJxlx
-         wrXcaeG+bNSi9t2M6K9sP40ughFCrXzoLYuKIzqw4sMXf/+KWswjWXwS55+9gY7yWA2/
-         BloA==
-X-Forwarded-Encrypted: i=1; AFNElJ+2dh1mFSKKMF9ot6FOuIVzWEdop6cdwHqkYJ3LZAb+bCgoI9/ukbw4tx8H99lSejgoWi7mBqyiWPk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9nMH/tsqVaHNa5WW8o5BkJaY2fy258O4RQAy7Xduqnk0V4+QJ
-	Dmi2dtAwBjCh2SbHuJHU9lWdRzLj+JjCiiJFmGfZGYCtT2PYHHe5JX93s8nGpUamIAw=
-X-Gm-Gg: AfdE7cnDrZTYC/xnRvqitbuIvlrT9SJiV2OTrgfTHyAzx2wcuDSGzjXZ5c4Kh2ErLNJ
-	x99gjOZrj0bNYhXeIlcYOKxqWCrauOgNq4Lpt4ZroMMWVc+Orj3MNJD65rO2saamomK6BqLnu5k
-	jzWWyDlkBozGhuoS46PUVeLvaqeRrRvQ0CQ/lk326OpGTXG9njFEZZHVGoGqv0uvjwEVcOaozQn
-	Xnw9ub0kE2apIwn94eaVuPRT0nqxYxPwSacX1W+ys2T6OXzK8KhqMi1+05wXIA8f14cowJUUhiQ
-	N7iiGvwNLThshLaDnvG0p+P0uxERgosuWw+3dg1QcaKiSAseXngUHxmLfv7OGh8hK08k4ynyhFz
-	N9X0e7dx60O0AAfnfJQpTYB9AbGgsbjI4MgQ7QhcILZzUQND+dH7+idZ4/tx+ti0Th8p9+LY7Q+
-	9XuQLgkn8tys/crn4uZ1RCElowJU98vYEa8gH6DrbI5H4+ohBeXeu0uqwC7ixgRDwQSxbXdKJfN
-	PSu
-X-Received: by 2002:a05:6000:2087:b0:460:70ff:fe14 with SMTP id ffacd0b85a97d-463adc9236bmr4887039f8f.42.1781777711239;
-        Thu, 18 Jun 2026 03:15:11 -0700 (PDT)
-Received: from localhost (p200300f65f47db048595530b320b6c5c.dip0.t-ipconnect.de. [2003:f6:5f47:db04:8595:530b:320b:6c5c])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-462236047c8sm17760805f8f.10.2026.06.18.03.15.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 03:15:10 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Andreas Noever <andreas.noever@gmail.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v1 3/3] thunderbold: Drop comma after device id array terminator
-Date: Thu, 18 Jun 2026 12:14:52 +0200
-Message-ID:  <329e2c612b360a01524df7630a8a3acc34a90940.1781776904.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1781776904.git.u.kleine-koenig@baylibre.com>
-References: <cover.1781776904.git.u.kleine-koenig@baylibre.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G0kW4uKb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781778336; x=1813314336;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=96GGsVdsB54/b8XaADEkiN8ATRGW018FsKcVJycvGH0=;
+  b=G0kW4uKb7Jnc4JXIJ6vf4VDbzk5wRxy8lJGvcbIW0CeWfWqDUNsiKV3y
+   ThwKTaAER9g7K8lM8kS2kY5S6OeqV6HfycK3SWxC3E8Hy5oYq46ctKYCb
+   3h/h4RCUQo8+G1/ceJfxWNxmTqFNL5elRafDpoJdnoYmsNoQuNpcj1j9g
+   /O7bg5uVk8vgh4nPj61MGHx6voYmAHzUZgLM8P39hv0G1RutBEsOquIxv
+   xEv4mQAfPIEWiFuxMv5xjVAVg97kwZmDysZmv8lXqziLdTqmk6aV6SOTB
+   c1v+oalw2r4miHaAn/EbHn2LyVKFjvJSs9pw0L/n4vUEuv1qdN0WAAg8r
+   w==;
+X-CSE-ConnectionGUID: jbunSO5mTRmVYpWS+nanIw==
+X-CSE-MsgGUID: 5x9YhT6DRaupGxqoMJAiww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="85166825"
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="85166825"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 03:25:35 -0700
+X-CSE-ConnectionGUID: 3poGjjN+Tmi13Nhk9Xt5rg==
+X-CSE-MsgGUID: vWynShSUQQ24BCEExYDk+w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="247186385"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa006.jf.intel.com with ESMTP; 18 Jun 2026 03:25:32 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 16D4598; Thu, 18 Jun 2026 12:25:31 +0200 (CEST)
+Date: Thu, 18 Jun 2026 13:25:29 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Amber Kao <amber.kao@ite.com.tw>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jeson Yang <jeson.yang@ite.com.tw>,
+	Yaode Fang <Yaode.Fang@ite.com.tw>,
+	Bling Chiang <Bling.Chiang@ite.com.tw>,
+	Eric Su <Eric.Su@ite.com.tw>, Doreen Lin <doreen.lin@ite.com.tw>,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] usb: typec: ucsi: Add ITE IT885x Type-C PD
+ controller driver
+Message-ID: <ajPHmem_l1P2WGs2@kuha>
+References: <20260615-ucsi-itepd-feature-v1-0-a826cfd0df6a@ite.com.tw>
+ <20260615-ucsi-itepd-feature-v1-2-a826cfd0df6a@ite.com.tw>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1655; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=BWcvhUW+0cc5VX+GP36rvT15yne5n9RmucB5Uo/uotk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqM8UiytK7hE/SMYGmvn17tEkYw4JJmFqOZ+FZ2 TZ5qPoMm06JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCajPFIgAKCRCPgPtYfRL+ TraLB/sEasozUm4YNFh+0ZWpXwFBATBMd6XdLIle165DLme+RkDZn/OSuY3SXYYspOq5PRZZZG7 8EZ7zdpJEdeE6YEYt9Ls5VYG0W1bkqC6ROoie7T75DTFHG6jQZEsH4YKUQ3EIF+zmDfDCVJDKTo ieJ2dKxNrkKgN15TInMfAm60gKjeBc+Zz+Xgjjlh3ldDmeoT9FrBjPW4PPKdzqrPKRgqlXITzcP xFaQUNIaEsHT2dIoCrnNxJL5helTWll5KCzqsQoMa8h9Wi/zVHyZK8AcfKpok02gDFAuv0mnSNA wsnSRoi/lBFIIzrIJ6bsIpUdI7gF6AVbGB7evuFsBnAq99QG
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260615-ucsi-itepd-feature-v1-2-a826cfd0df6a@ite.com.tw>
 
-The usual style for other device id arrays doesn't have a comma after
-the initializer.
+Hi,
 
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
----
- drivers/net/thunderbolt/main.c | 2 +-
- drivers/thunderbolt/dma_test.c | 2 +-
- drivers/thunderbolt/stream.c   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+On Mon, Jun 15, 2026 at 09:47:40PM +0800, Amber Kao wrote:
+> Add core, UCSI, and Alternate Mode support for the ITE IT885x
+> Type-C Power Delivery controller over I2C. The driver uses the
+> auxiliary bus to spawn UCSI and Alternate Mode child devices from
+> the main I2C core driver.
+> 
+> Cc: Yaode Fang <Yaode.Fang@ite.com.tw>
+> Cc: Jeson Yang <jeson.yang@ite.com.tw>
+> Cc: Bling Chiang <Bling.Chiang@ite.com.tw>
+> Cc: Eric Su <Eric.Su@ite.com.tw>
+> Cc: Doreen Lin <doreen.lin@ite.com.tw>
+> 
+> Signed-off-by: Amber Kao <amber.kao@ite.com.tw>
+> ---
+>  MAINTAINERS                            |   4 +
+>  drivers/usb/typec/ucsi/Kconfig         |  15 +
+>  drivers/usb/typec/ucsi/Makefile        |   1 +
+>  drivers/usb/typec/ucsi/itepd.c         | 481 ++++++++++++++++++++++++++++
+>  drivers/usb/typec/ucsi/itepd.h         |  64 ++++
+>  drivers/usb/typec/ucsi/itepd_altmode.c | 438 ++++++++++++++++++++++++++
+>  drivers/usb/typec/ucsi/ucsi_itepd.c    | 558 +++++++++++++++++++++++++++++++++
+>  7 files changed, 1561 insertions(+)
 
-diff --git a/drivers/net/thunderbolt/main.c b/drivers/net/thunderbolt/main.c
-index edfcfc41a316..c1003e06a8bd 100644
---- a/drivers/net/thunderbolt/main.c
-+++ b/drivers/net/thunderbolt/main.c
-@@ -1455,7 +1455,7 @@ static DEFINE_SIMPLE_DEV_PM_OPS(tbnet_pm_ops, tbnet_suspend, tbnet_resume);
- 
- static const struct tb_service_id tbnet_ids[] = {
- 	{ TB_SERVICE("network", 1) },
--	{ },
-+	{ }
- };
- MODULE_DEVICE_TABLE(tbsvc, tbnet_ids);
- 
-diff --git a/drivers/thunderbolt/dma_test.c b/drivers/thunderbolt/dma_test.c
-index 63e6bbf00e12..519c67678b08 100644
---- a/drivers/thunderbolt/dma_test.c
-+++ b/drivers/thunderbolt/dma_test.c
-@@ -689,7 +689,7 @@ static const struct dev_pm_ops dma_test_pm_ops = {
- 
- static const struct tb_service_id dma_test_ids[] = {
- 	{ TB_SERVICE("dma_test", 1) },
--	{ },
-+	{ }
- };
- MODULE_DEVICE_TABLE(tbsvc, dma_test_ids);
- 
-diff --git a/drivers/thunderbolt/stream.c b/drivers/thunderbolt/stream.c
-index b28e4e95b422..68d81958262e 100644
---- a/drivers/thunderbolt/stream.c
-+++ b/drivers/thunderbolt/stream.c
-@@ -1630,7 +1630,7 @@ static const struct dev_pm_ops tbstream_pm_ops = {
- 
- static const struct tb_service_id tbstream_ids[] = {
- 	{ TB_SERVICE("stream", 1) },
--	{ },
-+	{ }
- };
- MODULE_DEVICE_TABLE(tbsvc, tbstream_ids);
- 
+I could not figure out what is the purpose of the separated altmode
+handling. Why would you need separate handling for the retimers and
+muxes? If the typec core is not doing something properly, then we need
+to fix that. I also did not quite understand why are you creating
+child device for the ucsi and altmode.
+
+You need to split this into smaller patches and provide a bit of
+explanation for each feature. Start with the bare minimum. So UCSI
+without support for altmodes, just register the ports and partners.
+Then add things one by one, each feature in its own patch.
+
+<snip>
+
+> +static void ucsi_itepd_command_hook(struct ucsi_itepd *ucsi_itepd, u64 *cmd)
+> +{
+> +	/* Translate UCSI 1.2 commands/fields to ITE PD controller (v2.1) */
+> +	switch (UCSI_COMMAND(*cmd)) {
+> +	case UCSI_SET_NOTIFICATION_ENABLE:
+> +		if (*cmd & UCSI_ENABLE_NTFY_CMD_COMPLETE)
+> +			/* Enable Attention Notification for alt. mode */
+> +			*cmd |= FIELD_PREP(GENMASK_ULL(32, 16), BIT(3));
+> +		break;
+> +	case UCSI_GET_PDOS:
+> +		*cmd &= ~GENMASK_ULL(38, 37);
+> +		break;
+> +	case UCSI_GET_ERROR_STATUS:
+> +		*cmd &= ~GENMASK_ULL(22, 16);
+> +		*cmd |= UCSI_CONNECTOR_NUMBER(ucsi_itepd->cmd_port + 1);
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	/* Track the connector number associated with this command */
+> +	switch (UCSI_COMMAND(*cmd)) {
+> +	case UCSI_PPM_RESET:
+> +	case UCSI_CANCEL:
+> +	case UCSI_SET_NOTIFICATION_ENABLE:
+> +	case UCSI_GET_CAPABILITY:
+> +		ucsi_itepd->cmd_port = 0;
+> +		break;
+> +	case UCSI_CONNECTOR_RESET:
+> +	case UCSI_GET_CONNECTOR_CAPABILITY:
+> +	case UCSI_SET_CCOM:		/* 0x08 - SET_UOM in older specs */
+> +	case UCSI_SET_UOR:
+> +	case UCSI_SET_PDR:
+> +	case UCSI_GET_CAM_SUPPORTED:
+> +	case UCSI_GET_CURRENT_CAM:
+> +	case UCSI_SET_NEW_CAM:
+> +	case UCSI_GET_PDOS:
+> +	case UCSI_GET_CABLE_PROPERTY:
+> +	case UCSI_GET_CONNECTOR_STATUS:
+> +	case UCSI_SET_POWER_LEVEL:	/* 0x14 */
+> +	case UCSI_GET_PD_MESSAGE:	/* 0x15 */
+> +	case UCSI_GET_ATTENTION_VDO:	/* 0x16 */
+> +	case UCSI_GET_CAM_CS:		/* 0x18 */
+> +	case 0x19:
+> +	case 0x1A:
+> +	case 0x1B:
+
+Add definitions for these.
+
+> +	case UCSI_SET_SINK_PATH:	/* 0x1C */
+> +	case 0x1D:
+> +	case UCSI_READ_POWER_LEVEL:	/* 0x1E */
+> +	case 0x1F:
+> +		ucsi_itepd->cmd_port =
+> +			FIELD_GET(GENMASK(22, 16), *cmd) - 1;
+
+Use the existing definitions with these.
+
+		ucsi_itepd->cmd_port = UCSI_DEFAULT_GET_CONNECTOR_NUMBER(cmd) - 1;
+
+> +		break;
+> +	case UCSI_GET_ALTERNATE_MODES:
+> +		ucsi_itepd->cmd_port =
+> +			FIELD_GET(GENMASK(30, 24), *cmd) - 1;
+> +		break;
+> +	}
+> +
+> +	ucsi_itepd->cmd = *cmd;
+> +}
+
+I won't do complete review yet, but I'm just pointing out that since
+you are going over all the commands here, it should not be a problem
+to first disable some of them, and then add them in separate patches.
+
+Thanks,
+
 -- 
-2.47.3
-
+heikki
