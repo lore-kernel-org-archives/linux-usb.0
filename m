@@ -1,158 +1,127 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7403EEAC2
-	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 10:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446533EFFA6;
+	Thu, 18 Jun 2026 10:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781779603; cv=none; b=sTLCJRaTHfqWccU+rMfSYSMvyS39okBp9+9EcRATmUBPFdX1ipJ0GBHCeZNXYYTqVvJi06xU5HRGKcA+UGTTYpWTlfI537Ep3nyrmYgCJexS+o3iVDXRt2bmiMWxXlm7b0spg/CJnHGRr3erhG1sCdh9qqyLZnsBrNW+4vBu6I4=
+	t=1781780212; cv=none; b=scIZ8bGkGbaaEBhgJou+fuvnTt5S8G9a6kQAxHO3ZbTmAKgPPu2HlworD+4efh0Me/RwN5A2aiw+VaWCYtWZk7KLhb09gqfQ1yl6grx/fLuPFf7+pvJtcxX7cJMstWpwZinfWkierkiC4EVu1MjVDYXXuEQ1FnLyEdR8S669rr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781779603; c=relaxed/simple;
-	bh=Ghj47it56rTGliAjOb39kwvDwxEuirBwNhZJr4HXjnY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bAHy6bN+boNzLdbZq5IqUeUwfX0GWkYxKCQjBon9ryAMEvdr59lw++DoZA+3SAVWIZc0ki8TjgUjQoIOCNYY7qSupxcNxovJQdROggA7Gbm1hVHpljt1fw17Tf6d3itphqTZgdv6+LWX+Fd0lB0b8EWdb8OsrhuqzUZCHMkLEKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lCnLO+6L; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781780212; c=relaxed/simple;
+	bh=fsQYycVBnqb9n34Pt2t06JT/O+eXxaMrTWpTT6VYuZE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=btGrqCMSs2nVdU2pBTD0/RlBIyS4nM6xfFFx99o42cgpEjdTeYKd0vc8yvtoKQHJq0vcwURfnZvzsxLraJD/xD2zl8+ETq5pjUBsxqTouvDiqkxY8C5RJbrDVn7o8rmOlNE6xdTY5tDSXDUAd2e7O741XbxDK9KonE0jYX6E5Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UzE195kQ; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lCnLO+6L"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c85a297d2d2so581917a12.0
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 03:46:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781779599; x=1782384399; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ov8oT9CR8+rUw2WWELI6NS00pAxh4046pPVTwZYrfaY=;
-        b=lCnLO+6LVJRw4gEBucymOn+zd+Z+bs6oxxLB7BYDg7kyQ3R0FLolAdU1+LUuA/RwsF
-         KbFGD6SumTMU7ANTwuWor3h6uObx2I86kAy8O3xLarPN81Z0OBzPbSjZsR3S+LYhOGSp
-         PILnSzhFrDp+FmamzIIg8hSWELvE9GTrnIq3OG9464WZfw9m9OiDXulVMu8p0SzMlonJ
-         2/C1hXrArI/GMFWcmh41KY3/eu4lcGAqf6Ok8lC50YBWLGaOEkRKueDG7kaWMmL707nZ
-         3kpMZ7/n8M4oQtQupj8VwiVfDp0msEsFqSPnfZIbMOJei9WpQ3n8YPXe7eryDpXF8gLb
-         3QJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781779599; x=1782384399;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ov8oT9CR8+rUw2WWELI6NS00pAxh4046pPVTwZYrfaY=;
-        b=rMpqJapelpms7eKPHB6UU2W6A/GncgZb2otFvz1K1Dpd1jB9TBEAahxVDzxykJm1XG
-         G+zqx+4FJdkjz19YjrPjnaC6jLcBW4P93GJgR8P0Xpa1/OCfAm5avCI+wd/Wv4B62LzM
-         /UG9XXVcRwRdM2VO/GDmLnpxsKKQdvbyxTSDD57agGS914IFNHCnMADqsNivItSzkkMR
-         s+Lx+G36cwyECUGRCPbRxJLeq5xYjSiozuzK9yyICZ70+MAu5+RNOthaC2am8UG3BFC0
-         5c3rVJAg3Ia/kLS4Ug7RF9OJMkGg0W4kANmXLEEzVILb6Ww0frVWA2s2QjDGSS31a48/
-         im3w==
-X-Gm-Message-State: AOJu0Yzk/YbWHmyA6ztmJiqf3VYpLyEwo4LXxm8aKhM1P7iPF5KMBEic
-	AlnelvxPYXiCv6r/qDolxX1AVTaquhK28iB+zw7FhedcE9uKdE5CRoZV
-X-Gm-Gg: AfdE7cmU2sRfW0GvoNuqNBmRLJQTNhVAydQ8+T1dp+b/Har6l8yBHZ7nrn4rmwTWTbu
-	T5KW07BgxwtzuoQzel48fDN8+pwoWTU07s3Iec2FbL6Wf8XaR6keDSHnZq4hiBURX/iCkhB+xKf
-	VzJ6pDBrat/8xsvURvXgVgDlwmoCDZxHE7bvNBPFGAObBdbBOBwLbglMSvxuyNl+zI9CnrOTW/r
-	t++1iWcuAEYK105ndQOvUfxRuPyJfvaDtaWVQmaESimsSgp23cZnnGTPttOCmjOhuVA16bl56WT
-	34NYPB5sQSUToLDhY9A8xPPdZfTirS9ER9jV7clvsVCOL7HvgxLiAXNR70LXuDvdIreZJ7IaLOK
-	R+Y3ikbwnljcA0GQDkNclI5wzFVpexw4A23YNgdQg7J5mT7szIdqPAcROnkaR4SPCL/ZOn7VzDb
-	e9Tn2Mq2A=
-X-Received: by 2002:a05:6a21:4688:b0:3a2:ebfc:6bee with SMTP id adf61e73a8af0-3b8b80ef09cmr8763169637.41.1781779599528;
-        Thu, 18 Jun 2026 03:46:39 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8665186b53sm17135937a12.20.2026.06.18.03.46.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 03:46:39 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	zzzccc427@gmail.com
-Subject: [PATCH] usb: misc: usbio: fix disconnect UAF in client teardown
-Date: Thu, 18 Jun 2026 18:46:33 +0800
-Message-Id: <20260618104633.3405705-1-zzzccc427@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzE195kQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781780209; x=1813316209;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fsQYycVBnqb9n34Pt2t06JT/O+eXxaMrTWpTT6VYuZE=;
+  b=UzE195kQE6GqpPi9u33hKY3NgfOIdgE+V9poq937QovP6F9TDvGqqAH4
+   0LMMg8sNourNK+A95Wul5jwyH5tdvG7tUn0wjzWcd5lalqXaP86MJ9Aly
+   E8C8y7eRZvEukRmI5gD9JUFPuMcJdgFwGu7H1OoXVlKyP8WJ5LpFdBf92
+   S4ScjPH09XygTSv77eZXi1TuJuEpAs8unvTRkKNW0ioeHwv7b7sRyGyhy
+   mS1jJNC9Bos8+xm4U0hQj3UpQgS+h6b42WbQskScC0mVO7XKhFQCdTugY
+   OxwEhS8SOthIEx8jQkiceuu/F56MRBSkzzrCfHSg+LrghcfwAV2ZrIdbt
+   Q==;
+X-CSE-ConnectionGUID: ffSgM2IlTlCHxKfDWDHLdQ==
+X-CSE-MsgGUID: O+gUHiA9QxuVSBu8aymlOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="92948531"
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="92948531"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 03:56:47 -0700
+X-CSE-ConnectionGUID: bKeu51ycQH2Sjlhr9qejKA==
+X-CSE-MsgGUID: MZPV6/pfTFWl6pz6ePmTDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="278514150"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa002.jf.intel.com with ESMTP; 18 Jun 2026 03:56:45 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 4E86A98; Thu, 18 Jun 2026 12:56:44 +0200 (CEST)
+Date: Thu, 18 Jun 2026 13:56:42 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH] usb: typec: add trace point for typec_set_mode
+Message-ID: <ajPO6roV4HRZYGNd@kuha>
+References: <20260617-typec_set_mode-tracepoint-v1-1-bdfbb39cfccd@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260617-typec_set_mode-tracepoint-v1-1-bdfbb39cfccd@pengutronix.de>
 
-usbio_disconnect() walks usbio->cli_list in reverse while each
-auxiliary_device_uninit() can drop the last device reference and run
-usbio_auxdev_release(). If that happens, the current struct usbio_client is
-freed before list_for_each_entry_reverse() advances by reading
-client->link.prev.
+Hi Ahmad,
 
-Use list_for_each_entry_safe_reverse() and delete the list node before
-uninitializing the auxiliary device. The next cursor is then captured before
-the put_device() path can free the current client, and cli_list does not retain
-stale nodes during teardown.
+On Wed, Jun 17, 2026 at 10:03:04PM +0200, Ahmad Fatoum wrote:
+> Some Type-C controllers toggle muxes themselves. Other controllers like
+> the TUSB320 report the mode to the host, so it can control the muxes.
+> 
+> To improve debuggability of both kinds of drivers, add a trace point that
+> can be used to keep track of the mode being set inside the Type-C
+> framework:
+> 
+>   echo 1 > /sys/kernel/debug/tracing/events/typec/typec_mode/enable
+> 
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> ---
+>  MAINTAINERS                  |  1 +
+>  drivers/usb/typec/class.c    |  9 ++++++++-
+>  include/trace/events/typec.h | 36 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 45 insertions(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c8d4b913f26c..ddd59e5e6eaf 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -27753,6 +27753,7 @@ F:	Documentation/ABI/testing/sysfs-class-typec
+>  F:	Documentation/driver-api/usb/typec.rst
+>  F:	drivers/usb/typec/
+>  F:	include/linux/usb/typec.h
+> +F:	include/trace/events/typec*.h
+>  
+>  USB TYPEC INTEL PMC MUX DRIVER
+>  M:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> index 0977581ad1b6..9316d067f19a 100644
+> --- a/drivers/usb/typec/class.c
+> +++ b/drivers/usb/typec/class.c
+> @@ -20,6 +20,9 @@
+>  #include "class.h"
+>  #include "pd.h"
+>  
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/typec.h>
 
-Validation reproduced this kernel report:
-KASAN slab-use-after-free in usbio_disconnect+0x12e/0x150
-Workqueue: usb_hub_wq hub_event
-Read of size 8
-Call trace:
-  dump_stack_lvl+0x66/0xa0
-  print_report+0xce/0x630
-  usbio_disconnect+0x12e/0x150 (drivers/usb/misc/usbio.c:518)
-  srso_alias_return_thunk+0x5/0xfbef5
-  __virt_addr_valid+0x188/0x320
-  kasan_report+0xe0/0x110
-  usb_unbind_interface+0xf3/0x400
-  __device_attach_driver+0xf1/0x1a0
-  bus_for_each_drv+0xf9/0x160
-  trace_hardirqs_on+0x18/0x130
-  _raw_spin_unlock_irqrestore+0x44/0x60
-  __device_attach+0x133/0x2a0
-  do_raw_spin_unlock+0x9a/0x100
-  device_add+0x9b9/0xc10
-  lockdep_hardirqs_on_prepare+0xea/0x1a0
-  usb_enable_lpm+0x3c/0x260
-  usb_set_configuration+0xb64/0xf20
-  add_device_randomness+0xb7/0xf0
-  usb_new_device+0x492/0x870
-  hub_event+0x1b10/0x29c0
-  lock_acquire+0x187/0x300
-  process_one_work+0x475/0xb90 (kernel/workqueue.c:3200)
-  lock_release+0xc8/0x290
-  process_one_work+0x4d7/0xb90 (kernel/workqueue.c:3200)
-  __list_add_valid_or_report+0x37/0xf0
-  worker_thread+0x2d8/0x570
-  kthread+0x1ad/0x1f0
-  ret_from_fork+0x3c9/0x540
-  __switch_to+0x2e9/0x730
-  ret_from_fork_asm+0x1a/0x30
+Those should probable go to drivers/usb/typec/trace.c and then you
+need add something like this to drivers/usb/typec/Makefile:
 
-Fixes: 121a0f839dbb ("usb: misc: Add Intel USBIO bridge driver")
-Assisted-by: Codex:gpt-5.5
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
----
- drivers/usb/misc/usbio.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ obj-$(CONFIG_TYPEC)            += typec.o
+ typec-y                                := class.o mux.o bus.o pd.o retimer.o mode_selection.o
+ typec-$(CONFIG_ACPI)           += port-mapper.o
++typec-$(CONFIG_TRACING)                += trace.o
+ obj-$(CONFIG_TYPEC)            += altmodes/
+ obj-$(CONFIG_TYPEC_TCPM)       += tcpm/
+ obj-$(CONFIG_TYPEC_UCSI)       += ucsi/
 
-diff --git a/drivers/usb/misc/usbio.c b/drivers/usb/misc/usbio.c
-index 02d1e0760f0c..7dc44bbcafd2 100644
---- a/drivers/usb/misc/usbio.c
-+++ b/drivers/usb/misc/usbio.c
-@@ -518,7 +518,7 @@ static int usbio_resume(struct usb_interface *intf)
- static void usbio_disconnect(struct usb_interface *intf)
- {
- 	struct usbio_device *usbio = usb_get_intfdata(intf);
--	struct usbio_client *client;
-+	struct usbio_client *client, *next;
- 
- 	/* Wakeup any clients waiting for a reply */
- 	usbio->rxdat_len = 0;
-@@ -535,7 +535,8 @@ static void usbio_disconnect(struct usb_interface *intf)
- 	usb_kill_urb(usbio->urb);
- 	usb_free_urb(usbio->urb);
- 
--	list_for_each_entry_reverse(client, &usbio->cli_list, link) {
-+	list_for_each_entry_safe_reverse(client, next, &usbio->cli_list, link) {
-+		list_del_init(&client->link);
- 		auxiliary_device_delete(&client->auxdev);
- 		auxiliary_device_uninit(&client->auxdev);
- 	}
+
+Thanks,
+
 -- 
-2.43.0
-
+heikki
