@@ -1,259 +1,147 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2290F3EBF02
-	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 11:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53CD383C94;
+	Thu, 18 Jun 2026 11:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781780791; cv=none; b=Lgw2oGwBHqZZDz8pIJlSOcxce3DKyQM9vQZJr5xGE80OFATfMzXrej4D0RLlEKIJWK5kNgkeurWl1W8TIH7TYuvwb81tqLDOtbgtFeXWSl89qpqOgcCfEvzagqHvP/KoJSMRmqMlKr1D7MywqDha+dXJQ2IJf9Qk7fO3A+7itoA=
+	t=1781781783; cv=none; b=gFJhIZJDfK7YuPqJjn7TAe6eDKjOHlpflJBBqbAWWNCr7kMEzI38p7ECpbwvz2K4cYR08+15Cm06c8ZhZ8c1AzMhwABabaXiVcy3rEgfoT6vml7DqrXORrv2jNBbXLcJZ4uTiIp7bn+6miSz4L6YtK4KbwLkXpqOAAo1Qay81rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781780791; c=relaxed/simple;
-	bh=Q2/gPX351QT9J41evKl/wDt9TJNiRoYd+yFER/bglR4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bBNtyi26iINWtcbLK3/OelYnEYOx9Y4nd/RkJ1G2M/ZPMQYph/4E0BsDSUm0Zaw7bMI4L+AbVKuuNTXTqk0E4PKsA70PrRsu/B4GN8pf30cA3F0fYFtLGL2DRNBIus10+jIJo9q9mL/gDjmjx7/MF+90X8RBdq4GY+xfVS/FnKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 64C8B6D2D5;
-	Thu, 18 Jun 2026 11:06:16 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 497A9779AB;
-	Thu, 18 Jun 2026 11:06:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qEHJECjRM2q7TgAAD6G6ig
-	(envelope-from <oneukum@suse.com>); Thu, 18 Jun 2026 11:06:16 +0000
-From: Oliver Neukum <oneukum@suse.com>
-To: linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: Oliver Neukum <oneukum@suse.com>
-Subject: [RFT 1/1] usb: class: cdc-wdm: switch to kfifo for buffering
-Date: Thu, 18 Jun 2026 13:04:15 +0200
-Message-ID: <20260618110612.439021-2-oneukum@suse.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260618110612.439021-1-oneukum@suse.com>
-References: <20260618110612.439021-1-oneukum@suse.com>
+	s=arc-20240116; t=1781781783; c=relaxed/simple;
+	bh=YRVUJ7tQUULetwS37AV9ORmF1fcBWRK1WHSIMEkE44o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FVsgt5xsdLQR7ebltaJ2/yTwffu611XL1KozgbqXMlXigOINzadKF8w1/mn/PA3a0v3R+WhhurVorGQX0rkY9xCDfHkcnTl1kKBqgemV845P2vl+Z6Xdk30mI/mv/RfHb3p9t5Y4CFJ4CYWqS7KvetUw9bcmq71WrJUMbGe53iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h+aDd9YX; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h+aDd9YX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 007B91F000E9;
+	Thu, 18 Jun 2026 11:23:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781781782;
+	bh=NOvz0g2r41Djn50R8ImJda6ByKd2KzzcVuwR2sbjL/Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=h+aDd9YX5t6/4eDqgTDdAUV+wm1Rq4O8tXvk5EOeyB+6bBCL6NxnJPV6hQyZfifdJ
+	 ryJOSdpxTFDqh6sxd5x7muxHFuYT2BcSUJ3jWNYmWJ+zSQivE8tPkvSfmqKLzzeMZC
+	 x5gMSrsl4HO0wQn2TCKslvJrqIoLdm4FFnHnkPC9lDknLwzTaHSIPM+b84Q/2scrLK
+	 IJnIBBT7ofM4HiYYogQrDbqh9dautdqudMaEZJ+R1hAxmiWENkwDC+01zaf2cEjJVZ
+	 js2dwewru1luGl8W4VzAL6I5ieu49sGtNaXaoG0e+GZozM92c+98RtByf7l+pOazze
+	 v1Eu8Zls+78Ig==
+Message-ID: <b39be4f6-e63a-43c3-9903-e4e6e0a85cd3@kernel.org>
+Date: Thu, 18 Jun 2026 13:22:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 64C8B6D2D5
-X-Rspamd-Action: no action
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: misc: usbio: fix disconnect UAF in client teardown
+To: Cen Zhang <zzzccc427@gmail.com>,
+ Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ baijiaju1990@gmail.com
+References: <20260618104633.3405705-1-zzzccc427@gmail.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260618104633.3405705-1-zzzccc427@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The kfifo code is more efficient and takes care
-of memory ordering without locking.
+Hi,
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/usb/class/cdc-wdm.c | 62 ++++++++++++++++++-------------------
- 1 file changed, 30 insertions(+), 32 deletions(-)
+On 18-Jun-26 12:46, Cen Zhang wrote:
+> usbio_disconnect() walks usbio->cli_list in reverse while each
+> auxiliary_device_uninit() can drop the last device reference and run
+> usbio_auxdev_release(). If that happens, the current struct usbio_client is
+> freed before list_for_each_entry_reverse() advances by reading
+> client->link.prev.
+> 
+> Use list_for_each_entry_safe_reverse()
 
-diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index 7556c0dac908..83fc253f8c09 100644
---- a/drivers/usb/class/cdc-wdm.c
-+++ b/drivers/usb/class/cdc-wdm.c
-@@ -27,6 +27,7 @@
- #include <linux/wwan.h>
- #include <asm/byteorder.h>
- #include <linux/unaligned.h>
-+#include <linux/kfifo.h>
- #include <linux/usb/cdc-wdm.h>
- 
- #define DRIVER_AUTHOR "Oliver Neukum"
-@@ -77,7 +78,8 @@ struct wdm_device {
- 	u8			*inbuf; /* buffer for response */
- 	u8			*outbuf; /* buffer for command */
- 	u8			*sbuf; /* buffer for status */
--	u8			*ubuf; /* buffer for copy to user space */
-+
-+	struct kfifo		ubuf; /* payload */
- 
- 	struct urb		*command;
- 	struct urb		*response;
-@@ -92,7 +94,6 @@ struct wdm_device {
- 	u16			wMaxCommand;
- 	u16			wMaxPacketSize;
- 	__le16			inum;
--	int			length;
- 	int			read;
- 	int			count;
- 	dma_addr_t		shandle;
-@@ -170,6 +171,7 @@ static void wdm_in_callback(struct urb *urb)
- 	struct wdm_device *desc = urb->context;
- 	int status = urb->status;
- 	int length = urb->actual_length;
-+	int processed;
- 
- 	spin_lock_irqsave(&desc->iuspin, flags);
- 	clear_bit(WDM_RESPONDING, &desc->flags);
-@@ -218,17 +220,13 @@ static void wdm_in_callback(struct urb *urb)
- 		goto skip_zlp;
- 	}
- 
--	if (length + desc->length > desc->wMaxCommand) {
--		/* The buffer would overflow */
--		set_bit(WDM_OVERFLOW, &desc->flags);
--	} else {
--		/* we may already be in overflow */
--		if (!test_bit(WDM_OVERFLOW, &desc->flags)) {
--			memmove(desc->ubuf + desc->length, desc->inbuf, length);
--			smp_wmb(); /* against wdm_read() */
--			WRITE_ONCE(desc->length, desc->length + length);
--		}
-+	processed = kfifo_in(&desc->ubuf, desc->inbuf, length);
-+	if (processed < length) {
-+		 set_bit(WDM_OVERFLOW, &desc->flags);
-+		 /* WDM_OVERFLOW must not be set after WDM_READ */
-+		 smp_wmb(); /* against wdm_read() */
- 	}
-+
- skip_error:
- 
- 	if (desc->rerr) {
-@@ -372,8 +370,8 @@ static void cleanup(struct wdm_device *desc)
- 	kfree(desc->inbuf);
- 	kfree(desc->orq);
- 	kfree(desc->irq);
--	kfree(desc->ubuf);
- 	free_urbs(desc);
-+	kfifo_free(&desc->ubuf);
- 	kfree(desc);
- }
- 
-@@ -524,8 +522,7 @@ static int service_outstanding_interrupt(struct wdm_device *desc)
- static ssize_t wdm_read
- (struct file *file, char __user *buffer, size_t count, loff_t *ppos)
- {
--	int rv, cntr;
--	int i = 0;
-+	int rv, cntr, done;
- 	struct wdm_device *desc = file->private_data;
- 
- 
-@@ -533,8 +530,7 @@ static ssize_t wdm_read
- 	if (rv < 0)
- 		return -ERESTARTSYS;
- 
--	cntr = READ_ONCE(desc->length);
--	smp_rmb(); /* against wdm_in_callback() */
-+	cntr = kfifo_len(&desc->ubuf);
- 	if (cntr == 0) {
- 		desc->read = 0;
- retry:
-@@ -547,7 +543,6 @@ static ssize_t wdm_read
- 			rv = -ENOBUFS;
- 			goto err;
- 		}
--		i++;
- 		if (file->f_flags & O_NONBLOCK) {
- 			if (!test_bit(WDM_READ, &desc->flags)) {
- 				rv = -EAGAIN;
-@@ -568,6 +563,13 @@ static ssize_t wdm_read
- 			rv = -EIO;
- 			goto err;
- 		}
-+		smp_rmb(); /* against wdm_in_callback() */
-+		if (test_bit(WDM_OVERFLOW, &desc->flags)) {
-+			clear_bit(WDM_OVERFLOW, &desc->flags);
-+			rv = -ENOBUFS;
-+			goto err;
-+		}
-+
- 		usb_mark_last_busy(interface_to_usbdev(desc->intf));
- 		if (rv < 0) {
- 			rv = -ERESTARTSYS;
-@@ -591,31 +593,27 @@ static ssize_t wdm_read
- 			goto retry;
- 		}
- 
--		cntr = desc->length;
-+		cntr = kfifo_len(&desc->ubuf);
- 		spin_unlock_irq(&desc->iuspin);
- 	}
- 
- 	if (cntr > count)
- 		cntr = count;
--	rv = copy_to_user(buffer, desc->ubuf, cntr);
--	if (rv > 0) {
-+	rv = kfifo_to_user(&desc->ubuf, buffer, cntr, &done);
-+	if (rv < 0) {
- 		rv = -EFAULT;
- 		goto err;
- 	}
- 
- 	spin_lock_irq(&desc->iuspin);
- 
--	for (i = 0; i < desc->length - cntr; i++)
--		desc->ubuf[i] = desc->ubuf[i + cntr];
--
--	desc->length -= cntr;
- 	/* in case we had outstanding data */
--	if (!desc->length) {
-+	if (kfifo_is_empty(&desc->ubuf)) {
- 		clear_bit(WDM_READ, &desc->flags);
- 		service_outstanding_interrupt(desc);
- 	}
- 	spin_unlock_irq(&desc->iuspin);
--	rv = cntr;
-+	rv = done;
- 
- err:
- 	mutex_unlock(&desc->rlock);
-@@ -1013,7 +1011,7 @@ static void service_interrupt_work(struct work_struct *work)
- 
- 	spin_lock_irq(&desc->iuspin);
- 	service_outstanding_interrupt(desc);
--	if (!desc->resp_count && (desc->length || desc->rerr)) {
-+	if (!desc->resp_count && (!kfifo_is_empty(&desc->ubuf) || desc->rerr)) {
- 		set_bit(WDM_READ, &desc->flags);
- 		wake_up(&desc->wait);
- 	}
-@@ -1071,10 +1069,6 @@ static int wdm_create(struct usb_interface *intf, struct usb_endpoint_descriptor
- 	if (!desc->command)
- 		goto err;
- 
--	desc->ubuf = kmalloc(desc->wMaxCommand, GFP_KERNEL);
--	if (!desc->ubuf)
--		goto err;
--
- 	desc->sbuf = kmalloc(desc->wMaxPacketSize, GFP_KERNEL);
- 	if (!desc->sbuf)
- 		goto err;
-@@ -1083,6 +1077,10 @@ static int wdm_create(struct usb_interface *intf, struct usb_endpoint_descriptor
- 	if (!desc->inbuf)
- 		goto err;
- 
-+	rv = kfifo_alloc(&desc->ubuf, roundup_pow_of_two(desc->wMaxCommand), GFP_KERNEL);
-+	if (rv < 0)
-+		goto err;
-+
- 	usb_fill_int_urb(
- 		desc->validity,
- 		interface_to_usbdev(intf),
--- 
-2.54.0
+Ack that is good.
+
+> and delete the list node before
+> uninitializing the auxiliary device.
+
+Why I see no reason to delete the list node here ?
+
+Regards,
+
+Hans
+
+
+
+
+> The next cursor is then captured before
+> the put_device() path can free the current client, and cli_list does not retain
+> stale nodes during teardown.
+> 
+> Validation reproduced this kernel report:
+> KASAN slab-use-after-free in usbio_disconnect+0x12e/0x150
+> Workqueue: usb_hub_wq hub_event
+> Read of size 8
+> Call trace:
+>   dump_stack_lvl+0x66/0xa0
+>   print_report+0xce/0x630
+>   usbio_disconnect+0x12e/0x150 (drivers/usb/misc/usbio.c:518)
+>   srso_alias_return_thunk+0x5/0xfbef5
+>   __virt_addr_valid+0x188/0x320
+>   kasan_report+0xe0/0x110
+>   usb_unbind_interface+0xf3/0x400
+>   __device_attach_driver+0xf1/0x1a0
+>   bus_for_each_drv+0xf9/0x160
+>   trace_hardirqs_on+0x18/0x130
+>   _raw_spin_unlock_irqrestore+0x44/0x60
+>   __device_attach+0x133/0x2a0
+>   do_raw_spin_unlock+0x9a/0x100
+>   device_add+0x9b9/0xc10
+>   lockdep_hardirqs_on_prepare+0xea/0x1a0
+>   usb_enable_lpm+0x3c/0x260
+>   usb_set_configuration+0xb64/0xf20
+>   add_device_randomness+0xb7/0xf0
+>   usb_new_device+0x492/0x870
+>   hub_event+0x1b10/0x29c0
+>   lock_acquire+0x187/0x300
+>   process_one_work+0x475/0xb90 (kernel/workqueue.c:3200)
+>   lock_release+0xc8/0x290
+>   process_one_work+0x4d7/0xb90 (kernel/workqueue.c:3200)
+>   __list_add_valid_or_report+0x37/0xf0
+>   worker_thread+0x2d8/0x570
+>   kthread+0x1ad/0x1f0
+>   ret_from_fork+0x3c9/0x540
+>   __switch_to+0x2e9/0x730
+>   ret_from_fork_asm+0x1a/0x30
+> 
+> Fixes: 121a0f839dbb ("usb: misc: Add Intel USBIO bridge driver")
+> Assisted-by: Codex:gpt-5.5
+> Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+> ---
+>  drivers/usb/misc/usbio.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/misc/usbio.c b/drivers/usb/misc/usbio.c
+> index 02d1e0760f0c..7dc44bbcafd2 100644
+> --- a/drivers/usb/misc/usbio.c
+> +++ b/drivers/usb/misc/usbio.c
+> @@ -518,7 +518,7 @@ static int usbio_resume(struct usb_interface *intf)
+>  static void usbio_disconnect(struct usb_interface *intf)
+>  {
+>  	struct usbio_device *usbio = usb_get_intfdata(intf);
+> -	struct usbio_client *client;
+> +	struct usbio_client *client, *next;
+>  
+>  	/* Wakeup any clients waiting for a reply */
+>  	usbio->rxdat_len = 0;
+> @@ -535,7 +535,8 @@ static void usbio_disconnect(struct usb_interface *intf)
+>  	usb_kill_urb(usbio->urb);
+>  	usb_free_urb(usbio->urb);
+>  
+> -	list_for_each_entry_reverse(client, &usbio->cli_list, link) {
+> +	list_for_each_entry_safe_reverse(client, next, &usbio->cli_list, link) {
+> +		list_del_init(&client->link);
+>  		auxiliary_device_delete(&client->auxdev);
+>  		auxiliary_device_uninit(&client->auxdev);
+>  	}
 
