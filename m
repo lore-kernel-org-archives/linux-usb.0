@@ -1,221 +1,101 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF29301474
-	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 12:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64EB3D8132;
+	Thu, 18 Jun 2026 13:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781786438; cv=none; b=RQfmD4Iha1d5rw15oscljLezQAH3mbuwjPx15gDeIOIuF0gL8/24pFJPmO3IlI7YE74sFO7Lv2l1henKiT6a8sgFJGz1DxrBfr098gIsC82l1U4v6QooBJIegg+SOkcSGE6nswJg4rfbU1gLcA/1uwFRULpsVub1oIGyMkkCs60=
+	t=1781788254; cv=none; b=dlrwvoqEm3fzL8TfRrDHfD4jxeDapIyp5WW04dhHLhK0jGAQlHxB62xm6mgVB2N+Nfs/gyGLRZnkXcHFdXe9mIGBfKvWzbHQB7oW5CZaPccNgTgIwyl2qHhFWi/kf12wxSZzJNn67CfqU/I0dGAIebPtldKn9B2L9ZWDeGnddo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781786438; c=relaxed/simple;
-	bh=26V5SDUbDp8lGf2dtZE0/EVVRB0FC6Q8kCIxc65KvfM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZAvd1f4M7oExs8gJOAbGmptGugk3DUQ3ZHXXgMtL4ZtpLA/ih45ebfVKbbijtDgWuxD2Ycx4BIRj8Z2Yx1SSOOMH90bIu10Klz6LIgfep6nPua+fo0+pc4KJIHaDPwGaaz/MTQ0EWAC8Mgi0V8QJheiqh6zmIAOy+IdHD6CF2D4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LiVTzSeu; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781788254; c=relaxed/simple;
+	bh=YkBVIg4bj1u/a2NkwKTjIxv+pBp+0lL/mAgwSRFTYAk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jPoFkBleiQIGTVANNcr5f/R6FeCS/z35uEYY1UFybiKgDuW0dB9XpxiwplXM8diKJqSIdeJqQUNZhhve8Ww0ZtWSiuS2dBe1/VZFxS7WTDTa9JGgrYM9j1ziMLoz5OgrypC0P22PXEittMerkX5zMZ6pLwagntjfhcVPdL3zKbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L5ajYynu; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LiVTzSeu"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-37ce68a54f8so363787a91.0
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 05:40:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781786436; x=1782391236; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Em4soZVbEstplz9Ebabbr+wHmpAw7PoPCOmv3WbAhgg=;
-        b=LiVTzSeu++DarUmG+kEZbOACnzjhyd2JU9FrE4MK9CjUilwOvcLJJP+2leGdtD4geq
-         Njtr4Gso3xE1ujvRxIy3l1JY+zImSzssWQmomjNq5oKxzFzi3/3qDpBinUlfuDwLw+ti
-         9lBD27u4Ex69CmyaOIGuKfSVx7+A8K/Psi3gLnxBopYuyFbb2ZzuVRXA3ighK2rdpQKQ
-         WSZqSXf30oUHlSa+1yeB3hdQfrKnz5itDuySDloViqYQn7gjmyjtoRqxchyPLgZ1CcqT
-         izVxvDstvof+sq7AFoamP4/3F9b7wk28TziVyA1iwWfdnaZ4gJ1l5oswIucqFnPnR43Q
-         IGEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781786436; x=1782391236;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Em4soZVbEstplz9Ebabbr+wHmpAw7PoPCOmv3WbAhgg=;
-        b=dO0DnJPrih0cwNPaOCRxppOfvvi5w5fN4sZakc/TCFOKOiticGLev3AFPMjdW8zpJZ
-         KFVEf0h9Zsy9mo4PKr9ZJ5a/FhCuxq8hGl+CXDSG4+yvajQ10ux6dSkC6p0Ot/fywVGQ
-         OBvRTLqaT47aSiOt2Ml0eUc6ZX6aIeA579xeICgrHuU00d5FmgCuoP3/PJXzOopxUB28
-         JNb2EBksofI0fa9b52+vFQk09IuUn2cAmsRwGcEZ7gwCNiZXuM4F8zSlgJMiOa1W5XdL
-         //+2aKghPryYsPRcbW5YH4sxLWvxnyY3Vem9dCLOkUwjftP9X2ZUN/T73MV+B+EFjfM7
-         AZGg==
-X-Gm-Message-State: AOJu0Yz5hxOSDfZcZ7RiWE1VLKc+f5iHwQDnl/SH7DANxRSnEz04fJhJ
-	37ybJhv/WZejj1HflPocSpIDNdgSRH3/Yg/xwwdON3x7jDLpM5nwWfpthcuFLzXawtQ=
-X-Gm-Gg: AfdE7clnvWfEt7LS8CDSi9YXlz7mLsKMW8uuJDexnmQF4kTJ2kC/F5Rp9g6rFmQWhA/
-	08cRCYrCEPs+n5GmdcOs4nTZxjb3Rf2i0AyPYnynYBa9EXS2uPIYsMOMq2w+mBc4immSyoyo3zK
-	BFKoj1id7MoO/3VjkrZFq6RMlQLtU0WY4LzrvteQMAZuUHqUq6jRbw3Je4Mszr9TCcduV57elSi
-	kusLl1Fi2R9qeaO7mtsB78Kd2erIijZZY2U67LVIKkLspvuA/qku1Kr28CWruzXONVyu5cPJ5F2
-	MkNwXWoi9Rw2sO9DenaP9qqCmOeXdO8VC3GQmN+UeWESHDa6XfpgXQU5pJZKiuY48A3Sh33ihWL
-	Y1Ny9YhUWqyaqoGLcF8JEfU44QTYdlnYfJIFbBioi1P4pfuXbhp6BvFDpGOT0fjy4cLfVUE09Rl
-	V+CIlSBGs=
-X-Received: by 2002:a17:90b:1a8e:b0:37c:63fc:b2fb with SMTP id 98e67ed59e1d1-37c9ebe9457mr8374915a91.22.1781786435944;
-        Thu, 18 Jun 2026 05:40:35 -0700 (PDT)
-Received: from localhost ([111.228.63.84])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37c52092ee3sm9765839a91.0.2026.06.18.05.40.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 05:40:35 -0700 (PDT)
-From: Cen Zhang <zzzccc427@gmail.com>
-To: Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	zzzccc427@gmail.com
-Subject: [PATCH v2] usb: misc: usbio: fix disconnect UAF in client teardown
-Date: Thu, 18 Jun 2026 20:40:29 +0800
-Message-Id: <20260618124029.3704089-1-zzzccc427@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L5ajYynu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781788253; x=1813324253;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YkBVIg4bj1u/a2NkwKTjIxv+pBp+0lL/mAgwSRFTYAk=;
+  b=L5ajYynuh+MwuY8Wfr8QIv+EONEuhhSyPGPstKclDljR1a4J3/sUnpiP
+   6RNi7ArR4dXywBq1qMWV4XwGDd6nO4xdBKTilcSp7P5aYUrOw0TGXgdDr
+   j2RyAZ4moljuYNdKxdBED0YduALSOGa9fvboymB8zLzBcV/m5nJ/awvNj
+   9mZZbtzwCGnjBVwoss6Myj+7JTb5f4xa0Rbj/YAh2eTEFloLxo3xH0IYt
+   fk5IHHHwSV2Yi1wmVuXPIPjG0EGRYN+0FOLgtJVc3tcaouFcyMGAlIRKL
+   dszfbX74fnZjR0JGz8z4xB1WXWuaWutE6Hm4vohj0I25XWzKXHj1Qh9xU
+   A==;
+X-CSE-ConnectionGUID: aWfbms1xTkS3ajS/dKoC1A==
+X-CSE-MsgGUID: DsEerdcnSAqaeLTiXWDdVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="100033167"
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="100033167"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 06:10:52 -0700
+X-CSE-ConnectionGUID: uQFeuoEWQEWdWLV2NYWwmQ==
+X-CSE-MsgGUID: lp648KhATfiheW2qATX2nA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="245437495"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa007.fm.intel.com with ESMTP; 18 Jun 2026 06:10:50 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id A7BF998; Thu, 18 Jun 2026 15:10:49 +0200 (CEST)
+Date: Thu, 18 Jun 2026 16:10:48 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/3] usb: typec: thunderbolt: Check cable altmode
+ support
+Message-ID: <ajPuWJek7uaLSsRJ@kuha>
+References: <20260611122146.262184-1-akuchynski@chromium.org>
+ <20260611122146.262184-3-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260611122146.262184-3-akuchynski@chromium.org>
 
-usbio_disconnect() walks usbio->cli_list in reverse and uninitializes each
-auxiliary device. auxiliary_device_uninit() drops the device reference, and
-for an unbound child that can run usbio_auxdev_release() and free the
-containing struct usbio_client.
+On Thu, Jun 11, 2026 at 12:21:45PM +0000, Andrei Kuchynski wrote:
+> Update the probe function to utilize the new
+> typec_cable_altmode_unsupported() helper. If the cable doesn't support
+> Thunderbolt altmode, don't initialize altmode_ops and prevent altmode
+> from being activated.
+> 
+> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
 
-list_for_each_entry_reverse() advances after the loop body by reading
-client->link.prev. If the current client is freed by
-auxiliary_device_uninit(), the iterator dereferences freed memory.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Use list_for_each_entry_safe_reverse() so the previous client is
-cached before the body can drop the final reference. This preserves
-reverse teardown order while keeping the next iterator cursor independent
-of the current client's lifetime.
+> ---
+>  drivers/usb/typec/altmodes/thunderbolt.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/altmodes/thunderbolt.c b/drivers/usb/typec/altmodes/thunderbolt.c
+> index 32250b94262a9..2eccdddf1b1f4 100644
+> --- a/drivers/usb/typec/altmodes/thunderbolt.c
+> +++ b/drivers/usb/typec/altmodes/thunderbolt.c
+> @@ -284,6 +284,10 @@ static int tbt_altmode_probe(struct typec_altmode *alt)
+>  
+>  	alt->desc = "Thunderbolt3";
+>  	typec_altmode_set_drvdata(alt, tbt);
+> +
+> +	if (typec_cable_altmode_unsupported(alt))
+> +		return 0;
+> +
+>  	typec_altmode_set_ops(alt, &tbt_altmode_ops);
+>  
+>  	if (!alt->mode_selection && tbt_ready(alt)) {
+> -- 
+> 2.54.0.1099.g489fc7bff1-goog
 
-Validation reproduced this kernel report:
-BUG: KASAN: slab-use-after-free in usbio_disconnect+0x12e/0x150
-
-Call Trace:
- <TASK>
- dump_stack_lvl+0x66/0xa0
- print_report+0xce/0x630
- ? usbio_disconnect+0x12e/0x150
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? __virt_addr_valid+0x188/0x320
- ? usbio_disconnect+0x12e/0x150
- kasan_report+0xe0/0x110
- ? usbio_disconnect+0x12e/0x150
- usbio_disconnect+0x12e/0x150
- usb_unbind_interface+0xf3/0x400
- really_probe+0x316/0x660
- __driver_probe_device+0x106/0x240
- driver_probe_device+0x4a/0x110
- __device_attach_driver+0xf1/0x1a0
- ? __pfx___device_attach_driver+0x10/0x10
- bus_for_each_drv+0xf9/0x160
- ? __pfx_bus_for_each_drv+0x10/0x10
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? trace_hardirqs_on+0x18/0x130
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? _raw_spin_unlock_irqrestore+0x44/0x60
- __device_attach+0x133/0x2a0
- ? __pfx___device_attach+0x10/0x10
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? do_raw_spin_unlock+0x9a/0x100
- ? srso_alias_return_thunk+0x5/0xfbef5
- device_initial_probe+0x55/0x70
- bus_probe_device+0x4a/0xd0
- device_add+0x9b9/0xc10
- ? __pfx_device_add+0x10/0x10
- ? _raw_spin_unlock_irqrestore+0x44/0x60
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? lockdep_hardirqs_on_prepare+0xea/0x1a0
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? usb_enable_lpm+0x3c/0x260
- usb_set_configuration+0xb64/0xf20
- usb_generic_driver_probe+0x5f/0x90
- usb_probe_device+0x71/0x1b0
- really_probe+0x46b/0x660
- __driver_probe_device+0x106/0x240
- driver_probe_device+0x4a/0x110
- __device_attach_driver+0xf1/0x1a0
- ? __pfx___device_attach_driver+0x10/0x10
- bus_for_each_drv+0xf9/0x160
- ? __pfx_bus_for_each_drv+0x10/0x10
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? trace_hardirqs_on+0x18/0x130
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? _raw_spin_unlock_irqrestore+0x44/0x60
- __device_attach+0x133/0x2a0
- ? __pfx___device_attach+0x10/0x10
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? do_raw_spin_unlock+0x9a/0x100
- ? srso_alias_return_thunk+0x5/0xfbef5
- device_initial_probe+0x55/0x70
- bus_probe_device+0x4a/0xd0
- device_add+0x9b9/0xc10
- ? __pfx_device_add+0x10/0x10
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? add_device_randomness+0xb7/0xf0
- usb_new_device+0x492/0x870
- hub_event+0x1b10/0x29c0
- ? __pfx_hub_event+0x10/0x10
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? lock_acquire+0x187/0x300
- ? process_one_work+0x475/0xb90
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? lock_release+0xc8/0x290
- ? srso_alias_return_thunk+0x5/0xfbef5
- process_one_work+0x4d7/0xb90
- ? __pfx_process_one_work+0x10/0x10
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? __list_add_valid_or_report+0x37/0xf0
- ? __pfx_hub_event+0x10/0x10
- ? srso_alias_return_thunk+0x5/0xfbef5
- worker_thread+0x2d8/0x570
- ? __pfx_worker_thread+0x10/0x10
- kthread+0x1ad/0x1f0
- ? __pfx_kthread+0x10/0x10
- ret_from_fork+0x3c9/0x540
- ? __pfx_ret_from_fork+0x10/0x10
- ? srso_alias_return_thunk+0x5/0xfbef5
- ? __switch_to+0x2e9/0x730
- ? __pfx_kthread+0x10/0x10
- ret_from_fork_asm+0x1a/0x30
- </TASK>
-
-Fixes: 121a0f839dbb ("usb: misc: Add Intel USBIO bridge driver")
-Assisted-by: Codex:gpt-5.5
-Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
----
-v2:
-Drop the unnecessary list_del_init() per Hans de Goede; the safe reverse
-iterator is sufficient.
-
- drivers/usb/misc/usbio.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/misc/usbio.c b/drivers/usb/misc/usbio.c
-index 02d1e0760f0c..0e5ccd2f04d8 100644
---- a/drivers/usb/misc/usbio.c
-+++ b/drivers/usb/misc/usbio.c
-@@ -518,7 +518,7 @@ static int usbio_resume(struct usb_interface *intf)
- static void usbio_disconnect(struct usb_interface *intf)
- {
- 	struct usbio_device *usbio = usb_get_intfdata(intf);
--	struct usbio_client *client;
-+	struct usbio_client *client, *next;
- 
- 	/* Wakeup any clients waiting for a reply */
- 	usbio->rxdat_len = 0;
-@@ -535,7 +535,7 @@ static void usbio_disconnect(struct usb_interface *intf)
- 	usb_kill_urb(usbio->urb);
- 	usb_free_urb(usbio->urb);
- 
--	list_for_each_entry_reverse(client, &usbio->cli_list, link) {
-+	list_for_each_entry_safe_reverse(client, next, &usbio->cli_list, link) {
- 		auxiliary_device_delete(&client->auxdev);
- 		auxiliary_device_uninit(&client->auxdev);
- 	}
 -- 
-2.43.0
-
+heikki
