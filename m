@@ -1,145 +1,89 @@
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF1A2D9EE4;
-	Thu, 18 Jun 2026 01:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D83023BD05;
+	Thu, 18 Jun 2026 01:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781746335; cv=none; b=XiT7jasN7P2ofBtIqteLcnV7yOAerZn5apV09pWGEzDpgw9gUgmvaX94dOtcdkw2vi7Ke9179s4Veszb+ETcJTqoKfSDOAYjzfrBnM3Cf54FehWpGI+6YaH1Q/63zMGrPF43f4GUtA36EAso8m0J98k/cfo+fKU6SbrkuaocTRk=
+	t=1781747392; cv=none; b=Pm1Le6fLqPnvHGShIlqTEnSMwlt1fYsfkmlnnHLkyH+QSYLEkKblB/uvmUyJpr4ZMqpSJiIAJlpTCAJYD8i7iMdT6dKwI+VbRGhhnyFZrVOlW19n8fiInjE+3awbVtk/HoHnuSQGgBk3CdUG4UwYDMKShRW+AryidPcKEbLsUSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781746335; c=relaxed/simple;
-	bh=2gr6RnPWlqfowu2APd9UT+JaBUmNi2S9q1Qj8h8PPWs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ID5mJ0Keex3lMip/2D0YuM+FD1s9SZybT234vni/HJSEZRMcDdd/+4qGtmVXvz6G2xd0nal5IoN5VBUAKjTbJBlmTElnYYj/eeet3UYIB1BUoLgCHh+ViAFUePEQdnopUDNFYsAFcTljdWMSZwiCAbK2HjsgvAPb7aRfsj80IKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=c26MEkLL; arc=none smtp.client-ip=54.204.34.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1781747392; c=relaxed/simple;
+	bh=iDBWGl90AtxrYFFDxYuCHf2caEyIsLL1KDcMwPUipgE=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=PAdXcxXFXnXCsR8CgnUAVlN6xdvWoMnQ/iNc7Ks3ZzLuplqxTU62tv0m7H4W1jJQmXgdhZDSN50DU/21Gs9lW2VDGLjz9QstTzZ7himDX+Q2VelD55qZkLRwM9b2wcVcJ2z2IjfSTrtOqhvMpaCFHFw2tWRuDG8zT5/aZlLS+TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=AGcE4QTb; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="c26MEkLL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1781746329;
-	bh=IJJqRoaJn1UGNs+9V5J1PVXcLQf6UF9/UcB48PE0U4M=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=c26MEkLLzc4B6JI9ktoaQunXCSmtDX3dGaCiTsCx9V3t+xam7d9FTnwHQfVMMlU9w
-	 f2dQ+sdLuaajOFGfTVxqV9whyOKZxbVG9AO/xWDO87cZyqstqzxlvGzB6jYT2JFdvm
-	 vSAHexN7fMH6LDdoS3RDkB8PNKsMiqf3+2zbNRy0=
-X-QQ-mid: esmtpsz10t1781746320tc3798f72
-X-QQ-Originating-IP: lrrYilJAl45jPMuEjtLcMdeb/zzIeyM440DdwcO7wec=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 18 Jun 2026 09:31:56 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 1632563843144384507
-EX-QQ-RecipientCnt: 15
-From: Haowen Tu <tuhaowen@uniontech.com>
-To: rafael@kernel.org
-Cc: tuhaowen@uniontech.com,
-	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	kernel@uniontech.com,
-	laurent.pinchart@ideasonboard.com,
-	lenb@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pm@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="AGcE4QTb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id; bh=1gDclstGlZXC0L5
+	RluzmQDzcBHifAHzHZtlDSW7rskc=; b=AGcE4QTbfgyhETSzLpgcSSWyKFykTKZ
+	DOKbZPOYLNtjdUyEeT/+A0euGTVIuEtaTMLph9nY/tIYmM2fXvd1rHYsBUoVgYs9
+	3yLwBs+wBVMRmOTN+JMabB8QB3iDdsDx/g70+OGKgX01X3UER4p0i21CV/NbUISA
+	k3RA1qS2/nRk=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wDX9guhTjNqsKJ3EQ--.1079S2;
+	Thu, 18 Jun 2026 09:49:22 +0800 (CST)
+From: yangsizhe <18392868223@163.com>
+To: Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org,
-	mchehab@kernel.org,
-	oneukum@suse.com,
-	pavel@kernel.org,
-	stern@rowland.harvard.edu
-Subject: [PATCH v3 3/3] media: uvcvideo: skip streaming restart after hibernation snapshot
-Date: Thu, 18 Jun 2026 09:31:33 +0800
-Message-Id: <20260618013133.1047270-4-tuhaowen@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20260618013133.1047270-1-tuhaowen@uniontech.com>
-References: <20260602032413.1540166-1-tuhaowen@uniontech.com>
- <20260618013133.1047270-1-tuhaowen@uniontech.com>
+	linux-kernel@vger.kernel.org
+Cc: yangsizhe <18392868223@163.com>
+Subject: [PATCH] usb: serial: option: add multiple VID/PID
+Date: Thu, 18 Jun 2026 09:49:17 +0800
+Message-Id: <20260618014917.11383-1-18392868223@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:_____wDX9guhTjNqsKJ3EQ--.1079S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Cw17XFyDZFyUXrWUuF1DGFg_yoW8AFyrpF
+	1rKryYvrZ3XFWfWr1xAFs7ZF95CanYkFyakw43Kw4agr4xJw4YgwnrArW3t34rGr45X3sF
+	vwnYyrWUGrn5JrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRdwIgUUUUU=
+X-CM-SenderInfo: zpryjmasywmjist6il2tof0z/xtbDAgIj+mozTqJ8vAAA3s
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: OYMEOeTae7ml0htRwYqZzVrpBuOjNfauwX4TaBEmwv1BlxDiACpfk67E
-	KE4ZD6pgn5JH7cJAaUc3zX07o6RXF4MTX6wGEDOeSTO6NE3wGfvhy3Btgwsf60GhEegc5x7
-	5ung55hp+wKpiFfqaHS4byfvbtSraKHf6sVkthC51jyT+iGHytLgmQ0BVi4HfC+7XGcVPPm
-	YMLYzXVCg6bd1/22B18VnkfLr+iBTeI60/kNn5gVngBu5jNJxWalX85qLC/neoj43G7VGwf
-	qtdd1odJOgDWVHKYBm0SGn3kimAgZ5gpX/gcTTGNLQEjqcsBsIpxR0FqSrcdihiqD+cFih0
-	LEndi0hdWxWwSDd6pqkV9QBzZ6ywATsLfP5fMtDunAXpejBeqPfECqRkeSks4pWHdSgDi8o
-	tZOX1zk9yyC6tiMCeoCkBbNCQ9XOqFnbs1XIuEm06wtVFy1GBb+YhXp9+rFki9XewQn3KeO
-	KzOd5nKrc7rJ//iDF5j4CSRMdnxCI4qod7XE6p0PcCmQ7/BAjEEUIUWzsaVLtBMg86or3iN
-	ggKzoON27msX4VwurT2xHPkmKy5hnor+2bdhf3Aq8iNAKrNZNhCTlfnCIE9Y5gAM0OzbsVJ
-	G4loAP7mVacNJOb+wS1sFzA3pk/KnQlCHWlvsP7eY3y6UXcrBdwfK4tulm4ZsyJd7WgaMMv
-	7KOA5mv94Wu/msS6syKzvE9UiTqFjcMlP9+8xSohA70opl0bbY7akACBFKcEFSqwR3WYEwM
-	8ypey7hNHih7PIpjIAkHOKbvXRKTI97ZD1uBO//rfpfRDzZu65WzpYnFyt4EQH9mbZnEU6c
-	o1ovhPeaT531/Z357llmJDrIkP9igKFqPONRBxLHSha2agpLgrxPZhkkwD6SoUv5zQvlkYL
-	c0bnnrgs9G6nIWuEhPQyJaEU1sJMwpy/Nv9fSFHIoqWVI6ec/+B8N9TNn368ePvAcMa+N5e
-	EQVMH3HM69NefKod/d9laUK1W8Ks1tZaOhVdla8KZCQzZyCm0cTnAnD/2z46FgziKZUhmUL
-	Y6KKGxy8/txpK5fxpX/YBRge0MdJwgbXZ7lL1v1QuJNxwFTIOTHbX8F1WR3v8=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-X-QQ-RECHKSPAM: 0
 
-After the hibernation snapshot is created, devices are resumed with
-PMSG_THAW before the image is written and the system is powered off.
-Restarting an active UVC stream during this phase reinitializes the
-camera and visibly turns its indicator LED back on.
+Add the PID and VID to facilitate the binding of our company's module
 
-Skip only the UVC streaming hardware restart while the snapshot is
-available.  The driver's frozen state and clock are still updated before
-the check, and a subsequent UVC suspend can stop the stream and select
-alternate setting 0 as usual.  uvcvideo does not provide a shutdown
-callback that requires the streaming hardware to be restarted first.
+Real name:MeiG Smart Technology Co., Ltd
 
-This is a device-specific use of pm_hibernation_snapshot_done().  The
-helper does not cause other drivers or USB core to skip THAW resume.
-
-Tested with hibernation image written to local storage and resumed from
-disk on a system with a USB UVC camera attached; the camera LED remains
-off during image writing and the video stream resumes correctly after
-restore.
-
-Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
+Signed-off-by: yangsizhe <18392868223@163.com>
 ---
-Changes in v3:
-- Clarify that only the UVC streaming hardware restart is skipped.
-- Explain the subsequent UVC suspend and shutdown handling.
+ drivers/usb/serial/option.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-Changes in v2:
-- Use pm_hibernation_snapshot_done() after the PM helper was renamed.
-- Move the check after clearing the frozen state and resetting the clock.
-
- drivers/media/usb/uvc/uvc_video.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index f6c8e3223796..1744298f4b1f 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -12,6 +12,7 @@
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-+#include <linux/suspend.h>
- #include <linux/usb.h>
- #include <linux/usb/hcd.h>
- #include <linux/videodev2.h>
-@@ -2151,6 +2152,13 @@ int uvc_video_resume(struct uvc_streaming *stream, int reset)
- 	if (!uvc_queue_streaming(&stream->queue))
- 		return 0;
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index a34e79cfd5b6..e7025e0fa3b0 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -2458,6 +2458,24 @@ static const struct usb_device_id option_ids[] = {
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d64, 0xff, 0xff, 0x30) },	/* MeiG SRM813Q (Diag) */
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d64, 0xff, 0xff, 0x40) },	/* MeiG SRM813Q (AT) */
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d64, 0xff, 0xff, 0x60) },	/* MeiG SRM813Q (NMEA) */
++	{ USB_DEVICE(0x2dee, 0x4d23),						/* MeiG SLM868x*/
++	.driver_info = RSVD(4) | RSVD(5) },
++	{ USB_DEVICE(0x2dee, 0x4d62),						/* MeiG SLM820x*/
++	.driver_info = RSVD(4) },
++	{ USB_DEVICE(0x2dee, 0x4d30),						/* MeiG SRM813Q*/
++	.driver_info = RSVD(0) },
++	{ USB_DEVICE(0x2dee, 0x4d50),						/* MeiG SRM811x*/
++	.driver_info = RSVD(0) | RSVD(6) },
++	{ USB_DEVICE(0x2dee, 0x4d51),						/* MeiG SRM821x*/
++	.driver_info = RSVD(0) | RSVD(6) },
++	{ USB_DEVICE(0x2dee, 0x4d52),						/* MeiG SRM810x*/
++	.driver_info = RSVD(0) | RSVD(6) },
++	{ USB_DEVICE(0x2dee, 0x4d57),						/* MeiG SLM770A*/
++	.driver_info = RSVD(0) },
++	{ USB_DEVICE(0x2dee, 0x4d58),						/* MeiG SLM828A*/
++	.driver_info = RSVD(0) },
++	{ USB_DEVICE(0x05c6, 0xf601),						/* MeiG SLM750x*/
++	.driver_info = RSVD(5) },
  
-+	/*
-+	 * Avoid restarting the streaming hardware during the transient THAW
-+	 * phase after a hibernation snapshot has been created.
-+	 */
-+	if (pm_hibernation_snapshot_done())
-+		return 0;
-+
- 	ret = uvc_commit_video(stream, &stream->ctrl);
- 	if (ret < 0)
- 		return ret;
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x2df3, 0x9d03, 0xff) },			/* LongSung M5710 */
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x305a, 0x1404, 0xff) },			/* GosunCn GM500 RNDIS */
 -- 
-2.20.1
+2.17.1
+
