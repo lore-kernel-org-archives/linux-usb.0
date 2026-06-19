@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA08C2B9BA;
-	Fri, 19 Jun 2026 15:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2992DA765;
+	Fri, 19 Jun 2026 16:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781881454; cv=none; b=oBHs2tyGSg29iFftOnd7MXaqT3dCw09aoVNrYmeiPGeDaqWYLRe4l+ELOpwGEnBHguY7Y4kHyprTqAopCbg6mgBvkCGFB82kjewHUt2BS2+Wninmc0YvZfR5Tg9QTQ+bn+x+0MmweTQ+jE09GACdw6iukMjeg1HVYUMHOFbjAGY=
+	t=1781884881; cv=none; b=usp1LC4Hi4FDc9PCo1D3SVWlWlvYUlPPojMhlensMM8iYjZIXW+Y8JNSfUwKLMpARVzTn+G3/2HO/3Ryd1AQ6X8a5uYhxTjKu0skyesP0nnZUOOVxzLYlGnzBnRQjdg6/KLouL9ZOM8R8FHwTQQFXFFB9Rvrf9HiiZiPwcBwhTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781881454; c=relaxed/simple;
-	bh=lmThtTde8A2kexr9X/ktffpNfffqiuw7oczNDBREhOQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZPCsZr7W1VN4L4hpTpncpGSSin9aU8xG8wV75DOawn2tsRJ2mfeG/tVDCG4OlSBCF6s3sd7+Q7sKppRT7A+C0BRR4FtOXvh2FVNs+hWZVoujgQrft+9DIU5XB2XRc8CD3jqJioXvmjD+1IItyfkxnrULV85XVoWRbpFzbP+CO/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hyi2TgTc; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1781884881; c=relaxed/simple;
+	bh=CdM0Xa8h4nr5+OTA5G3o+WFIdJyocfZOVbaAuR7k2hI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qx1dUo31ID+xFUC1tuRRtQQzaOfyuqplEHx9RIOOyE4FKizQ7PVbMCkQhvuYxmmMMJxr4fUFiQ+j7rY3ULYzw4zFG8UTq5psVJiNfkiXrh80baxlm3q184iTRaK9K3svQxSbOPEm27/xYMTPGRLicg4nYWBJ5TcANhjUjKJ8jSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gOuJNZu4; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hyi2TgTc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gOuJNZu4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781881453; x=1813417453;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=lmThtTde8A2kexr9X/ktffpNfffqiuw7oczNDBREhOQ=;
-  b=hyi2TgTcaCo/Kx1urDBoZlfJZoEWDJOjygkMBsn3CuZ5YPNBdfxP1Vcy
-   7Sh2q3vnkdrN5RONS4x+UJ4hJ5H9Nfce4J8hlwHyEXFkIgYP8VDN8fjVd
-   HY6KT4iqUuCru83oGxYf5rgFlOJRoX9eADpqMhglwt69RwwONloP5cdWm
-   ghEe2x6DF39mecziXuDhtwGHJyHnk3z0KZN18XtD5waYMIUS/ScxHDERo
-   qtKphbTAdb7RCiBNrjdf4CrjZtrEuZrxDaOrwIOsz3+HKLNFbc8Eu8oYW
-   rhCnZ6VZoG10Bo/BzIP1J6rOVxd437WL6d/QR6ttedRCTdd0DNwiJPep0
-   A==;
-X-CSE-ConnectionGUID: 9RYUyqU+S5WNtiiPHyRL1g==
-X-CSE-MsgGUID: fC7eTxE5RPKR76AI3LsSPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11821"; a="70241292"
+  t=1781884879; x=1813420879;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CdM0Xa8h4nr5+OTA5G3o+WFIdJyocfZOVbaAuR7k2hI=;
+  b=gOuJNZu4HRjlpM0QX9n7pvxRJice57swahkVTnAsHvzIgu+x3bu+EseS
+   RuC+V7LuOPgt6zaWAOB4TQxL77JKuaddmDUOhjEvkwTrgfAPYho3hlRFO
+   Sawwk7bqF3z5vO1pxK3M8Su84VwMD32ypRytkugj2aeIeu4ohZ6PHaeBd
+   e+KdR0gJf4dPbv/O8sfeByNWPMfRpIVoyMkd8boO9TdwBdOm9ITG2y5aw
+   zUfsp5WkIbrMVW7OWwSx3xm0ugo6kBqkJtUuI1N/8eVH2UY5OlDrTz06d
+   RKZB/ExV9QFAz3Jem5bCcUbottwSbE+pf/YlaxMbV5/vCQESqhpg//aJh
+   w==;
+X-CSE-ConnectionGUID: m+yk8o4DTwKlDTtePmHOHA==
+X-CSE-MsgGUID: zp8oT4Y9S0Ga3wA/rk7pwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11821"; a="82839789"
 X-IronPort-AV: E=Sophos;i="6.24,213,1774335600"; 
-   d="scan'208";a="70241292"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2026 08:04:12 -0700
-X-CSE-ConnectionGUID: zyquARy1Tyu8HsdYh/rNcA==
-X-CSE-MsgGUID: QRPHrvk1Q1upV+C4KhZyPQ==
+   d="scan'208";a="82839789"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2026 09:01:17 -0700
+X-CSE-ConnectionGUID: 96Qq+acXQWW9GK0ZRJm/gA==
+X-CSE-MsgGUID: auwsh9zMTr+ymASnfoeU1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,213,1774335600"; 
-   d="scan'208";a="247508669"
+   d="scan'208";a="245732256"
 Received: from madhum (HELO madhum..) ([10.223.131.52])
-  by orviesa006.jf.intel.com with ESMTP; 19 Jun 2026 08:03:19 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 19 Jun 2026 09:01:15 -0700
 From: madhu.m@intel.com
 To: gregkh@linuxfoundation.org
 Cc: heikki.krogerus@linux.intel.com,
-	stable@vger.kernel.org,
-	jthies@google.com,
 	akuchynski@chromium.org,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Madhu M <madhu.m@intel.com>
-Subject: [PATCH v2] usb: typec: ucsi: Pass full DP config payload in SET_NEW_CAM for DP alt mode
-Date: Fri, 19 Jun 2026 21:03:11 +0530
-Message-Id: <20260619153311.3526083-1-madhu.m@intel.com>
+Subject: [PATCH v2] usb: typec: displayport: Reject DP Alt Mode VDO with no pin assignment for its capability
+Date: Fri, 19 Jun 2026 22:01:09 +0530
+Message-Id: <20260619163109.3529666-1-madhu.m@intel.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <message-id-of-gregs-reply>
-References: <message-id-of-gregs-reply>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -68,49 +63,67 @@ Content-Transfer-Encoding: 8bit
 
 From: Madhu M <madhu.m@intel.com>
 
-In the UCSI Specification Revision 3.1 RC1, bits 32-63 of the SET_NEW_CAM
-command hold the 32-bit Alternate Mode Specific (AMSpecific) field.
+Some docks/Type-C dongles expose a malformed DP Capabilities VDO: they
+claim a DFP_D (source) or UFP_D (sink) capability but leave the
+corresponding pin assignment field empty. Such a device can never have
+Alt Mode configured. Currently the driver still proceeds, which is
+misleading and offers no diagnostic.
 
-For DisplayPort Alternate Mode, this field must contain the full
-32-bit DisplayPort configuration VDO payload that the OPM wants the
-connector to operate in, rather than just the pin assignment value.
-This AMSpecific value follows the DisplayPort Configurations defined
-in the DisplayPort Alt Mode on USB Type-C Specification v2.1a,
-Table 5-13: SOP DisplayPort Configurations.
+Per VESA DPAM v2.1a Section 5.4.1 (Table 5-6):
+Case 1 (receptacle): A DP Source device receptacle (DFP_D) declares its
+lane routing in the DP Source Pin field (Bits 15:8); a DP Sink device
+receptacle (UFP_D) declares its lanes in the DP Sink Pin field
+(Bits 23:16).
+Case 2 (direct-attach plug): A DP Sink device plug (UFP_D) declares its
+lane routing in the DP Source Pin field (Bits 15:8), and a DP Source
+device plug (DFP_D) declares its lanes in the DP Sink Pin field
+(Bits 23:16).
+In either case the field holds the supported pin assignment values
+(e.g. C/D/E); 00000000b means no pin assignment is supported for that
+capability.
 
-Fixes: af8622f6a585 ("usb: typec: ucsi: Support for DisplayPort alt mode")
-Cc: stable@vger.kernel.org
+Reject such a DP Alt Mode VDO in dp_altmode_probe(): if the claimed
+capability has no matching pin assignments, fail probe with -ENODEV,
+releasing the SOP' plug reference on the error path.
+
 Signed-off-by: Madhu M <madhu.m@intel.com>
-Reviewed-by: Jameson Thies <jthies@google.com>
 Reviewed-by: Andrei Kuchynski <akuchynski@chromium.org>
 Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
-Changes in v2:
-- Add Fixes: tag and Cc: stable; the bug (passing only the pin-assignment
-  value instead of the full DP configuration VDO) dates back to the initial
-  UCSI DisplayPort alt mode support in af8622f6a585.
- drivers/usb/typec/ucsi/displayport.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/usb/typec/altmodes/displayport.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucsi/displayport.c
-index 67a0991a7b76..2e3d7c734d9f 100644
---- a/drivers/usb/typec/ucsi/displayport.c
-+++ b/drivers/usb/typec/ucsi/displayport.c
-@@ -185,13 +185,12 @@ static int ucsi_displayport_status_update(struct ucsi_dp *dp)
+diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+index 263a89c5f324..2a553cfcf61d 100644
+--- a/drivers/usb/typec/altmodes/displayport.c
++++ b/drivers/usb/typec/altmodes/displayport.c
+@@ -764,6 +764,7 @@ int dp_altmode_probe(struct typec_altmode *alt)
+ 	struct typec_altmode *plug = typec_altmode_get_plug(alt, TYPEC_PLUG_SOP_P);
+ 	struct fwnode_handle *fwnode;
+ 	struct dp_altmode *dp;
++	u32 cap = DP_CAP_CAPABILITY(alt->vdo);
  
- static int ucsi_displayport_configure(struct ucsi_dp *dp)
- {
--	u32 pins = DP_CONF_GET_PIN_ASSIGN(dp->data.conf);
- 	u64 command;
+ 	/* Port can only be DFP_U. */
+ 	if (typec_altmode_get_data_role(alt) != TYPEC_HOST)
+@@ -778,6 +779,18 @@ int dp_altmode_probe(struct typec_altmode *alt)
+ 		return -ENODEV;
+ 	}
  
- 	if (!dp->override)
- 		return 0;
- 
--	command = UCSI_CMD_SET_NEW_CAM(dp->con->num, 1, dp->offset, pins);
-+	command = UCSI_CMD_SET_NEW_CAM(dp->con->num, 1, dp->offset, dp->data.conf);
- 
- 	return ucsi_send_command(dp->con->ucsi, command, NULL, 0);
- }
++	/*
++	 * Make sure the DisplayPort VDO is valid (VESA DPAM v2.1a, Section
++	 * 5.4.1, Table 5-6, DP Capabilities VDO). A device exposing DP on a
++	 * USB-C receptacle must advertise at least one pin assignment for the
++	 * capability it claims, otherwise Alt Mode can never be configured.
++	 */
++	if ((cap == DP_CAP_DFP_D && !DP_CAP_PIN_ASSIGN_DFP_D(alt->vdo)) ||
++	    (cap == DP_CAP_UFP_D && !DP_CAP_PIN_ASSIGN_UFP_D(alt->vdo))) {
++		typec_altmode_put_plug(plug);
++		return -ENODEV;
++	}
++
+ 	dp = devm_kzalloc(&alt->dev, sizeof(*dp), GFP_KERNEL);
+ 	if (!dp) {
+ 		typec_altmode_put_plug(plug);
 -- 
 2.34.1
 
