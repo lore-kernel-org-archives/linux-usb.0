@@ -1,129 +1,319 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2992DA765;
-	Fri, 19 Jun 2026 16:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E8A3B7779
+	for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2026 19:46:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781884881; cv=none; b=usp1LC4Hi4FDc9PCo1D3SVWlWlvYUlPPojMhlensMM8iYjZIXW+Y8JNSfUwKLMpARVzTn+G3/2HO/3Ryd1AQ6X8a5uYhxTjKu0skyesP0nnZUOOVxzLYlGnzBnRQjdg6/KLouL9ZOM8R8FHwTQQFXFFB9Rvrf9HiiZiPwcBwhTg=
+	t=1781898397; cv=none; b=nlRBzKvrKmy4+aH2HvTVIRXekcCrJPK+khPrLu1wqdTyhi6Rv5aky86GQO3zptMzdsKb+xAV23emY0TK0pVjCwchS3Hq8tmR2ZjlsheEzI8Lel70nBqB8X1q3D8ixkp8vCPM1/x9A/AZRHW5ILf06EV97DLYqz1n7YSB5jnCzmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781884881; c=relaxed/simple;
-	bh=CdM0Xa8h4nr5+OTA5G3o+WFIdJyocfZOVbaAuR7k2hI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qx1dUo31ID+xFUC1tuRRtQQzaOfyuqplEHx9RIOOyE4FKizQ7PVbMCkQhvuYxmmMMJxr4fUFiQ+j7rY3ULYzw4zFG8UTq5psVJiNfkiXrh80baxlm3q184iTRaK9K3svQxSbOPEm27/xYMTPGRLicg4nYWBJ5TcANhjUjKJ8jSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gOuJNZu4; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781898397; c=relaxed/simple;
+	bh=Ak8KaVYAdNCM7uKimDwuwsEeEDofSny7sAcpzlfK4UY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gofiB8ukQ8aQSGc9PT49FaWIhfKspK+Djz7p2+x5uqSMpDqjkxX00QfrFVpyL3zC8L9F+zgQa1hRS8sDGfDSFzcd/gNyxXkg6plB90ia2zCm5y7HWebLMSoa3+ZiiwI1QJzUvINTITAdIf5P/g40q6jEy56rXefD/b2gCx33uYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=rDZESBX0; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gOuJNZu4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781884879; x=1813420879;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=CdM0Xa8h4nr5+OTA5G3o+WFIdJyocfZOVbaAuR7k2hI=;
-  b=gOuJNZu4HRjlpM0QX9n7pvxRJice57swahkVTnAsHvzIgu+x3bu+EseS
-   RuC+V7LuOPgt6zaWAOB4TQxL77JKuaddmDUOhjEvkwTrgfAPYho3hlRFO
-   Sawwk7bqF3z5vO1pxK3M8Su84VwMD32ypRytkugj2aeIeu4ohZ6PHaeBd
-   e+KdR0gJf4dPbv/O8sfeByNWPMfRpIVoyMkd8boO9TdwBdOm9ITG2y5aw
-   zUfsp5WkIbrMVW7OWwSx3xm0ugo6kBqkJtUuI1N/8eVH2UY5OlDrTz06d
-   RKZB/ExV9QFAz3Jem5bCcUbottwSbE+pf/YlaxMbV5/vCQESqhpg//aJh
-   w==;
-X-CSE-ConnectionGUID: m+yk8o4DTwKlDTtePmHOHA==
-X-CSE-MsgGUID: zp8oT4Y9S0Ga3wA/rk7pwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11821"; a="82839789"
-X-IronPort-AV: E=Sophos;i="6.24,213,1774335600"; 
-   d="scan'208";a="82839789"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2026 09:01:17 -0700
-X-CSE-ConnectionGUID: 96Qq+acXQWW9GK0ZRJm/gA==
-X-CSE-MsgGUID: auwsh9zMTr+ymASnfoeU1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,213,1774335600"; 
-   d="scan'208";a="245732256"
-Received: from madhum (HELO madhum..) ([10.223.131.52])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Jun 2026 09:01:15 -0700
-From: madhu.m@intel.com
-To: gregkh@linuxfoundation.org
-Cc: heikki.krogerus@linux.intel.com,
-	akuchynski@chromium.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Madhu M <madhu.m@intel.com>
-Subject: [PATCH v2] usb: typec: displayport: Reject DP Alt Mode VDO with no pin assignment for its capability
-Date: Fri, 19 Jun 2026 22:01:09 +0530
-Message-Id: <20260619163109.3529666-1-madhu.m@intel.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="rDZESBX0"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-519b63eff15so23422271cf.2
+        for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2026 12:46:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1781898393; x=1782503193; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=X6gTumD1afmt47+eQHNq2xIZFcuee6vcKia2u6xIXfs=;
+        b=rDZESBX0DrLOIqna8imPexW95HanL4g9euTnNj9pPe/NsLVfMuug9tY5C31VmOqxzR
+         97nqPohGBaYm5H//KvrMzw18siSrJYv2Frhk9okhFo44YrftBYzZQM5CxZXBUAYsOoel
+         Rci9paFPHwkeZ5E/1VgvzYzntkKOieWseY77eghR0Ws6Dpz/qN6pGSYAnNLJ2JeT9qep
+         mTVcWZiddBucwYMIQ0mg6XrybXcGlTStOcq1XeGp/2NSGYya6w30FIQqxWl6udEKLJ33
+         PXcoXDxdhKCdTg6NKo5t8E1mHjzRMGmTax2791utvP+tVA/UNdDT9Vsev+OLU8FbpjAj
+         G/rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781898393; x=1782503193;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=X6gTumD1afmt47+eQHNq2xIZFcuee6vcKia2u6xIXfs=;
+        b=QqL5qqDpRSNGRG0XAIXheWDJM4VVzOM1U0vNdxpyu18hd6fBx2afYnr9YK7S6tsa0g
+         qA2hPiss/lcPaAn7V5t0zjMp7f6uN5Sbjs6lX9HgqcdmcUTVPkvwIVBCS9vk5PJCm06N
+         EElid9FGi2pKDuuW/Mt0tpCgQHxmIUn/uXPFidmivMRPKqUFfchIAvOHtoKDgZJruf/c
+         PJqzMt6CLI1MCvB+9kzn+FyeoLZaQWXx/fSC2hCgJ82hudzsAqCUP+7JFHOZXEsUWTPv
+         C73QZGssPAL5Y7ht+TiO5AGRVrdaAuhY96Mc0S0vzu+MFcO5gUNe1M9gl/pOkb6ayu6F
+         AFrA==
+X-Gm-Message-State: AOJu0YwC3RLSYhiBlCIAW9DWajJ8APF3jeVk1JMLv0ybdFmwyEvKJtGU
+	qytlwkKtk/6TiUuKghgySY4abhySJteaJtHvF9fSP9+yEn+dNd2y4rGHjSdscP0k5Q==
+X-Gm-Gg: AfdE7cnHgQHZ0CoY4dM3rOFD1x9ad3kTksE8gY54v9/Wq2sqiZFusArsTQIekC76Vk9
+	pW43S9xZbnt4LIYpfuaxsqb8KumXBpxHlVHoCjVkyhmUcVab7VXU8qmvSERM3BMNLbQeZiPRxC3
+	myNA2rPTAkm8bs+mfUt5+PZRes9R7q9cPp59Rv4g8t1YFz608SoIg+Uwh0cAkKu+uuiWNt5eP0n
+	LSOCdpHj+Nffl/7GBhLFxCdZhIBHHKXWHFIP3I1Tdp00tdeXeyR96b41sCR6BBsRHeAWTYOHxo+
+	7sVxHiWWWP6/pwepLizwX72rzYS/ZxAlvAeU3YViV7r7h+vXE6zVeigqMAjtWIq/74wFTXWu6k5
+	SR4RZC/iBCALeIjMEWaDQOggrw5Fhu7owztos8nmGc8uW59kuC2+co8q/5CJqtpCjHtVvmFo2YF
+	cHb9Ylh1y2XDcSTYsj7HitGwxaDDJprxeD
+X-Received: by 2002:a05:622a:651:b0:517:9e57:c681 with SMTP id d75a77b69052e-519e4de8800mr73003911cf.53.1781898392539;
+        Fri, 19 Jun 2026 12:46:32 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8df81cdf302sm10419126d6.30.2026.06.19.12.46.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Jun 2026 12:46:31 -0700 (PDT)
+Date: Fri, 19 Jun 2026 15:46:29 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, michal.pecio@gmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usbcore: Add quirk for 255-bytes initial config read
+Message-ID: <8175e40d-357a-4513-b827-752f679e9904@rowland.harvard.edu>
+References: <20260619095936.24080-1-nikhilsolanke5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260619095936.24080-1-nikhilsolanke5@gmail.com>
 
-From: Madhu M <madhu.m@intel.com>
+On Fri, Jun 19, 2026 at 03:29:36PM +0530, Nikhil Solanke wrote:
+> Certain third-party USB game controllers exposing (or spoofing) an Xbox
+> 360-compatible interface (VID:PID 045e:028e) fail to enumerate under Linux.
+> The device disconnects from the bus without responding to the initial
+> GET_DESCRIPTOR(CONFIGURATION) request, and the kernel logs 'unable to read
+> config index 0 descriptor/start: -71'.
+> 
+> The device then falls back to a secondary Android HID mode (with a
+> different VID:PID), losing XInput functionality including rumble support.
+> The failure reproduces across multiple machines, host controller types, and
+> kernel versions including current mainline and LTS. The device enumerates
+> correctly and remains in XInput mode under Windows. Notably, the device
+> enumerates correctly in Android mode when the same aklsjdasd 9-byte request
+> is issued for that mode's configuration descriptor, confirming the firmware
+> bug is specific to the XInput mode.
+> 
+> usbmon traces from Linux and Wireshark/USBPcap traces from Windows are
+> identical up to the point of failure, with no visible protocol-level
+> difference explaining the divergence. The root cause was identified when
+> Michal Pecio discovered via a QEMU bus-level capture that Windows does not
+> use wLength=9 for the initial config descriptor request; it uses
+> wLength=255. This is not visible in Windows Wireshark/USBPcap traces
+> because Windows routes enumeration-phase traffic to sniffers only after
+> initialization completes. Alan Stern subsequently confirmed this with a bus
+> analyzer on a different USB 2.0 device, and Michal verified the behavior
+> goes back to Windows 95 OSR2.1.
+> 
+> So, add a new quirk flag USB_QUIRK_CONFIG_SIZE which causes
+> usb_get_configuration() to issue a 255 byte sized configuration request
+> instead of USB_DT_CONFIG_SIZE (9) for the initial
+> GET_DESCRIPTOR(CONFIGURATION) request, mimicking long-standing Windows
+> behavior.
+> 
+> Suggested-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
 
-Some docks/Type-C dongles expose a malformed DP Capabilities VDO: they
-claim a DFP_D (source) or UFP_D (sink) capability but leave the
-corresponding pin assignment field empty. Such a device can never have
-Alt Mode configured. Currently the driver still proceeds, which is
-misleading and offers no diagnostic.
+You don't need Suggested-by here.  It's redundant; we always assume that 
+people are responsible for authorship of the patches they write and 
+submit, unless they say otherwise.
 
-Per VESA DPAM v2.1a Section 5.4.1 (Table 5-6):
-Case 1 (receptacle): A DP Source device receptacle (DFP_D) declares its
-lane routing in the DP Source Pin field (Bits 15:8); a DP Sink device
-receptacle (UFP_D) declares its lanes in the DP Sink Pin field
-(Bits 23:16).
-Case 2 (direct-attach plug): A DP Sink device plug (UFP_D) declares its
-lane routing in the DP Source Pin field (Bits 15:8), and a DP Source
-device plug (DFP_D) declares its lanes in the DP Sink Pin field
-(Bits 23:16).
-In either case the field holds the supported pin assignment values
-(e.g. C/D/E); 00000000b means no pin assignment is supported for that
-capability.
+> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> Suggested-by: Michal Pecio <michal.pecio@gmail.com>
+> Closes: https://lore.kernel.org/linux-usb/CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com/
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: <stable@vger.kernel.org>
+> 
+> Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
+> ---
+>  drivers/usb/core/config.c  | 56 +++++++++++++++++++++++++++-----------
+>  drivers/usb/core/quirks.c  |  3 ++
+>  include/linux/usb/quirks.h |  4 +++
+>  3 files changed, 47 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
+> index 45e20c6d76c0..623425cef085 100644
+> --- a/drivers/usb/core/config.c
+> +++ b/drivers/usb/core/config.c
+> @@ -912,6 +912,8 @@ int usb_get_configuration(struct usb_device *dev)
+>  	unsigned char *bigbuffer;
+>  	struct usb_config_descriptor *desc;
+>  	int result;
+> +	size_t usb_dt_config_size = (dev->quirks & USB_QUIRK_CONFIG_SIZE)
+> +		? USB_DT_CONFIG_SIZE_QUIRK : USB_DT_CONFIG_SIZE;
 
-Reject such a DP Alt Mode VDO in dp_altmode_probe(): if the claimed
-capability has no matching pin assignments, fail probe with -ENODEV,
-releasing the SOP' plug reference on the error path.
+I wouldn't call the variable usb_dt_config_size.  It isn't always the 
+size of a USB configuration descriptor; it isn't even always the size 
+you expect for the response.  Rather, it is the size you intend to ask 
+for.
 
-Signed-off-by: Madhu M <madhu.m@intel.com>
-Reviewed-by: Andrei Kuchynski <akuchynski@chromium.org>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- drivers/usb/typec/altmodes/displayport.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+>  
+>  	if (ncfg > USB_MAXCONFIG) {
+>  		dev_notice(ddev, "too many configurations: %d, "
+> @@ -938,7 +940,8 @@ int usb_get_configuration(struct usb_device *dev)
+>  	if (!dev->rawdescriptors)
+>  		return -ENOMEM;
+>  
+> -	desc = kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
+> +	desc = kmalloc(usb_dt_config_size, GFP_KERNEL);
+> +
+>  	if (!desc)
+>  		return -ENOMEM;
+>  
+> @@ -946,7 +949,7 @@ int usb_get_configuration(struct usb_device *dev)
+>  		/* We grab just the first descriptor so we know how long
+>  		 * the whole configuration is */
 
-diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-index 263a89c5f324..2a553cfcf61d 100644
---- a/drivers/usb/typec/altmodes/displayport.c
-+++ b/drivers/usb/typec/altmodes/displayport.c
-@@ -764,6 +764,7 @@ int dp_altmode_probe(struct typec_altmode *alt)
- 	struct typec_altmode *plug = typec_altmode_get_plug(alt, TYPEC_PLUG_SOP_P);
- 	struct fwnode_handle *fwnode;
- 	struct dp_altmode *dp;
-+	u32 cap = DP_CAP_CAPABILITY(alt->vdo);
- 
- 	/* Port can only be DFP_U. */
- 	if (typec_altmode_get_data_role(alt) != TYPEC_HOST)
-@@ -778,6 +779,18 @@ int dp_altmode_probe(struct typec_altmode *alt)
- 		return -ENODEV;
- 	}
- 
-+	/*
-+	 * Make sure the DisplayPort VDO is valid (VESA DPAM v2.1a, Section
-+	 * 5.4.1, Table 5-6, DP Capabilities VDO). A device exposing DP on a
-+	 * USB-C receptacle must advertise at least one pin assignment for the
-+	 * capability it claims, otherwise Alt Mode can never be configured.
-+	 */
-+	if ((cap == DP_CAP_DFP_D && !DP_CAP_PIN_ASSIGN_DFP_D(alt->vdo)) ||
-+	    (cap == DP_CAP_UFP_D && !DP_CAP_PIN_ASSIGN_UFP_D(alt->vdo))) {
-+		typec_altmode_put_plug(plug);
-+		return -ENODEV;
-+	}
-+
- 	dp = devm_kzalloc(&alt->dev, sizeof(*dp), GFP_KERNEL);
- 	if (!dp) {
- 		typec_altmode_put_plug(plug);
--- 
-2.34.1
+This comment is now out of date.  It should be rewritten to explain why 
+the quirk does and why.
 
+>  		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
+> -		    desc, USB_DT_CONFIG_SIZE);
+> +		    desc, usb_dt_config_size);
+>  		if (result < 0) {
+>  			dev_err(ddev, "unable to read config index %d "
+>  			    "descriptor/%s: %d\n", cfgno, "start", result);
+> @@ -957,26 +960,39 @@ int usb_get_configuration(struct usb_device *dev)
+>  			break;
+>  		} else if (result < 4) {
+>  			dev_err(ddev, "config index %d descriptor too short "
+> -			    "(expected %i, got %i)\n", cfgno,
+> -			    USB_DT_CONFIG_SIZE, result);
+> +			    "(expected %zu, got %i)\n", cfgno,
+
+Likewise, "expected" here is wrong.  It should be "asked for" or 
+something like that.
+
+> +			    usb_dt_config_size, result);
+>  			result = -EINVAL;
+>  			goto err;
+>  		}
+> -		length = max_t(int, le16_to_cpu(desc->wTotalLength),
+> -		    USB_DT_CONFIG_SIZE);
+> +		/* If the device does returns the full length configuration
+> +		 * descriptor, skip the second read. Fallback to default
+> +		 * behavior otherwise.
+> +		 */
+
+New multiline comments (or ones that are rewritten) should use the same 
+format as the rest of the USB stack:
+
+	/*
+	 * Blah, blah, blah
+	 * Blah, blah, blah
+	 */
+
+> +		if (dev->quirks & USB_QUIRK_CONFIG_SIZE
+> +				&& result == le16_to_cpu(desc->wTotalLength)
+> +				&& result < USB_DT_CONFIG_SIZE_QUIRK) {
+
+Whether the quirk flag is set doesn't matter.  All you care about is 
+whether the information received earlier contains the entire descriptor 
+set.  The first and third tests here should be removed.
+
+There is some question about what to do if wTotalLength < result.  My 
+advice is to use the smaller value in this case, but not smaller than 
+USB_DT_CONFIG_SIZE.
+
+>  
+> -		/* Now that we know the length, get the whole thing */
+> -		bigbuffer = kmalloc(length, GFP_KERNEL);
+> -		if (!bigbuffer) {
+> -			result = -ENOMEM;
+> -			goto err;
+> -		}
+> +			bigbuffer = (unsigned char *) desc;
+> +			desc = NULL;
+> +			length = result;
+
+Don't keep the entire 255-byte buffer.  Use krealloc() to shrink the 
+buffer down to the right size.
+
+> +		} else {
+> +			length = max_t(int, le16_to_cpu(desc->wTotalLength),
+> +			    usb_dt_config_size);
+> +
+> +			/* Now that we know the length, get the whole thing */
+> +			bigbuffer = kmalloc(length, GFP_KERNEL);
+> +			if (!bigbuffer) {
+> +				result = -ENOMEM;
+> +				goto err;
+> +			}
+>  
+> -		if (dev->quirks & USB_QUIRK_DELAY_INIT)
+> -			msleep(200);
+> +			if (dev->quirks & USB_QUIRK_DELAY_INIT)
+> +				msleep(200);
+>  
+> -		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
+> -		    bigbuffer, length);
+> +			result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
+> +			    bigbuffer, length);
+> +		}
+>  		if (result < 0) {
+>  			dev_err(ddev, "unable to read config index %d "
+>  			    "descriptor/%s\n", cfgno, "all");
+> @@ -1000,6 +1016,14 @@ int usb_get_configuration(struct usb_device *dev)
+>  	}
+>  
+>  err:
+> +	/* Log failed device's VID:PID pair to make it easy to debug and fix
+> +	 * enumeration and initialization issues
+> +	 */
+> +	if (result < 0) {
+> +		dev_err(ddev, "Failed to initialize device %04x:%04x due to above errors.",
+
+The "due to above errors" part isn't needed, since the errors will be 
+obvious in the kernel log.  In fact, it probably would be better not to 
+put this information here at all but instead modify the error message in 
+usb_enumerate_device() (the caller).
+
+> +		    le16_to_cpu(dev->descriptor.idVendor), le16_to_cpu(dev->descriptor.idProduct));
+> +	}
+> +
+>  	kfree(desc);
+>  	dev->descriptor.bNumConfigurations = cfgno;
+>  
+> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+> index 87810eff974e..92219684a604 100644
+> --- a/drivers/usb/core/quirks.c
+> +++ b/drivers/usb/core/quirks.c
+> @@ -142,6 +142,9 @@ static int quirks_param_set(const char *value, const struct kernel_param *kp)
+>  				break;
+>  			case 'q':
+>  				flags |= USB_QUIRK_FORCE_ONE_CONFIG;
+> +				break;
+> +			case 'r':
+> +				flags |= USB_QUIRK_CONFIG_SIZE;
+
+For good style, there should be a "break" statement here.
+
+Also, you need to document the new flag under the usbcore.quirks entry 
+in Documentation/admin-guide/kernel-parameters.txt.
+
+>  			/* Ignore unrecognized flag characters */
+>  			}
+>  		}
+> diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
+> index b3cc7beab4a3..f864571da870 100644
+> --- a/include/linux/usb/quirks.h
+> +++ b/include/linux/usb/quirks.h
+> @@ -81,4 +81,8 @@
+>  /* Device claims zero configurations, forcing to 1 */
+>  #define USB_QUIRK_FORCE_ONE_CONFIG		BIT(18)
+>  
+> +/* Use a 255 byte sized config descriptor request */
+> +#define USB_QUIRK_CONFIG_SIZE			BIT(19)
+> +#define USB_DT_CONFIG_SIZE_QUIRK		255
+
+Again, I don't like this name.  It's not a quirk in the size of the 
+configuration descriptor type, which is what "USB_DT_CONFIG_SIZE" stands 
+for; it's a quirk in the way the kernel asks for config descriptors.  
+(Or in what size request the device will accept, if you prefer.)
+
+And the 255 value doesn't belong in this header file anyway.  It should 
+be defined in config.c since that's the only place it gets used.
+
+Alan Stern
+
+> +
+>  #endif /* __LINUX_USB_QUIRKS_H */
+> -- 
+> 2.54.0
+> 
