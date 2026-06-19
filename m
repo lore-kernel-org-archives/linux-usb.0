@@ -1,149 +1,196 @@
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from FR5P281CU006.outbound.protection.outlook.com (mail-germanywestcentralazon11022116.outbound.protection.outlook.com [40.107.149.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E39F3233ED
-	for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2026 12:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781872464; cv=none; b=VGkc7bK+mkp2moOYBFbRaAc6+6uLuVVxWJVopp26UnkFnTsL1NfMrri5OTFslyDPIIWLAWSd/S6Lm5Qh4hm1WT9mbyHTJRxgJsFs6IhD/ofAlAEmNCnWEBne+BWjaRrAV51thCkm5wOEuhuL0CyacbdxuwEheFQmRt/QZLI6zpY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781872464; c=relaxed/simple;
-	bh=TFPLhR4MLlfnYvoATa8D8wog2i2+9kKhDe2PK3kabKs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=cNANIBGe4g2ZeT4580MaqovORZ1xDgJyBX6H8vuC8FNMwUWStqf8xyXVBjP2M8V8he5JgSTVCfQ33d9P+0bGcZp3QqoIwbYvNO8rFhpmY2CPrAg/CPrxCbEGijOA9ruSHNDuy0F/vDgn+UhwJrF54jidIa4ukfaRAbQjXH5D3ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=appB/nlh; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71202AD03;
+	Fri, 19 Jun 2026 13:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.149.116
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781875885; cv=fail; b=AXel5QsK9bqOLmUyLzQROSe4WvgLW/qU6mzwEWHC5b3hgQzz7aTnWKXfnpUeT5tMavTmkorqZHQ7X6IlFIg/zKSmG4ygsG2pKVAyZ1B50qzhti1ZJ7Yj7KLWynMBSoqSJO9mGqWBDIbtI6ZmfXxBAeNQ3aGwy2ZaFC4bD2CP+pQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781875885; c=relaxed/simple;
+	bh=rmyV1fyh0NrHeiVGeGB3t9RIJwb3QkFx/K6XTLCmN1Q=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=BQHSm6Q7S+Dm6faUyBbaNBbPD/Ogj6J81NBGcYsduebG98PIIKDgffr7PZ26LGJjZ5W0gWTxsBgwL75IQJMbw9mSd+/prShptnfxB1U6oaALxRIjJjepY7THUUHyMCa0g1zIVsSNLEHeEL+z5STFZNDoARolxbel/ojW/Z7kmHY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=schleissheimer.de; spf=pass smtp.mailfrom=schleissheimer.de; dkim=pass (1024-bit key) header.d=schleissheimer.onmicrosoft.com header.i=@schleissheimer.onmicrosoft.com header.b=kfeq5Vu/; arc=fail smtp.client-ip=40.107.149.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=schleissheimer.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schleissheimer.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="appB/nlh"
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260619123413euoutp0285f964eaa35f72eb91ca6c08814303c1~6e45If2q12042420424euoutp02R
-	for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2026 12:34:13 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260619123413euoutp0285f964eaa35f72eb91ca6c08814303c1~6e45If2q12042420424euoutp02R
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1781872453;
-	bh=QZWDoXZ2PQ0x6/SMzTbUAs3v6q9dpSxo1wKl+L04RBI=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=appB/nlhEr+KZtNwcl+Qod6LkNCBHoAbH8S2c6u8k3k4PvpjeUcpQk/JM9JHNE9Ms
-	 r+QbEtDBCA/j1h6fXDt2+vhGp2eOj7oH+5Fby92aQcmS2nEZ2cwk0Up5TCCxT5r+EE
-	 0POfKsqRHUi1t1Dh/WejRZVcnR7LeDZsTpiolURA=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20260619123412eucas1p1a1cc6b07d7edf3b3f6cff15c9f7470f1~6e44XYMUe3240832408eucas1p1B;
-	Fri, 19 Jun 2026 12:34:12 +0000 (GMT)
-Received: from [106.120.50.52] (unknown [106.120.50.52]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260619123411eusmtip130521ece6ef159bc040e2e8af4df7764~6e43IQO8_2673926739eusmtip1d;
-	Fri, 19 Jun 2026 12:34:11 +0000 (GMT)
-Message-ID: <55bd7e53-9f90-414e-aa07-f228d8b2b35f@samsung.com>
-Date: Fri, 19 Jun 2026 14:34:10 +0200
+	dkim=pass (1024-bit key) header.d=schleissheimer.onmicrosoft.com header.i=@schleissheimer.onmicrosoft.com header.b="kfeq5Vu/"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qGEZk4nJ+ILC2ZTlb5Pj2yt0Qr1TUGiS1GJQs68+O3HNsNB4wikv+a7DdoIk008ACY6uZuPXGjOozrWNzrbdVjgiwiEJEAvyGyjuMzL3c6ip5uAyA/aYSFV3qH3L557KhiFhKA0Uwe22HpDEFuPrFRdwRI69riSwsmG4MnkjFFI4c/fCU5/0iQrjazWzaUrSWl81TimG8grjvM6gTz9p9I+M/0YvHU2Cf+RPtiv8Qi0QyY7cs79XPaP0DLSx4hSNlKqJviD1WhG14fOptKKbKsAp/CKFOEsz/O3QMoB1giP6Ra7rUlkPthFJvb2kSu3zHY2toAFyZv6CYAFfAIo1yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QChXyCW9BdrBGve57zrValF5/ffVUYgKSopRVyW1JZs=;
+ b=pzNWwfJxbM44kHGn8v+d75UnCoyAmPpyEDfYpa4ZPE1QnkKz6+BTp7/VnO9JmYaaSGPZGxlCHnEOrNzBjZf7apucG9hHKERG+IwnaYZmOgt3aZsZaBau424hSQuZemRqg7dK/wR2Tkpr1YsMVypIvBtlWkJWVGTd+E1SlShaQzLee9n1/89/VM56EfVVDybDcep6PqaC2Ho5JfYVSTGGzKvmPa9moW9ROnX1qAseKoukULgj/vXfOW8OZWxr6PhHo63AVRonvPGC5lrxAaQDc+c4fghh1GkNthHs3hLPAkcB1PAiPmV3VVjm09lRrByRAJqzb2LKXFeogl/u6dgt9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=schleissheimer.de; dmarc=pass action=none
+ header.from=schleissheimer.de; dkim=pass header.d=schleissheimer.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=schleissheimer.onmicrosoft.com; s=selector1-schleissheimer-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QChXyCW9BdrBGve57zrValF5/ffVUYgKSopRVyW1JZs=;
+ b=kfeq5Vu/0xinC1d+T6K3vZ7qjy+P8MqKFPEp1jhOJGFcYfDJwrr2ogq4Huqne2wBYQRXUG3nv9XJWKdBDK+/uqfVPkvIfSufo8Q+Axfs9667xYpS7C6NatbTq+sxro/FxZvivW/pEcvBclCPlyWTl8031LlpO1KoiBrHdhqSNcc=
+Received: from BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:52::10)
+ by BEYP281MB5537.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:e4::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.13; Fri, 19 Jun
+ 2026 13:31:19 +0000
+Received: from BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::2bc1:32a6:153:c3e9]) by BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::2bc1:32a6:153:c3e9%4]) with mapi id 15.21.0139.011; Fri, 19 Jun 2026
+ 13:31:19 +0000
+From: Sven Schuchmann <schuchmann@schleissheimer.de>
+To: Nicolai Buchwitz <nb@tipi-net.de>
+CC: Thangaraj Samynathan <Thangaraj.S@microchip.com>, Rengarajan Sundararajan
+	<Rengarajan.S@microchip.com>, "UNGLinuxDriver@microchip.com"
+	<UNGLinuxDriver@microchip.com>, "Woojung.Huh@microchip.com"
+	<Woojung.Huh@microchip.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S .
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: AW: AW: AW: [PATCH net] net: usb: lan78xx: restore VLAN filter table
+ after device reset
+Thread-Topic: AW: AW: [PATCH net] net: usb: lan78xx: restore VLAN filter table
+ after device reset
+Thread-Index: AQHc/1ZL+dYj4wyIHkavMkZrzwxM9bZFg8XYgAAJTICAAAseOIAADC2AgAA5uBQ=
+Date: Fri, 19 Jun 2026 13:31:19 +0000
+Message-ID:
+ <BEZP281MB224523ADACDB48D8E3974D4AD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
+References: <20260618191109.4086598-1-nb@tipi-net.de>
+ <BEZP281MB2245740AE8E3221DD076CE7DD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
+ <6d638042ad07a8bfb09ff3ee923e7b3f@tipi-net.de>
+ <BEZP281MB2245422BB9FBFF4AFE081451D9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
+ <4abfc9b1e8860da93c03639863bd0232@tipi-net.de>
+In-Reply-To: <4abfc9b1e8860da93c03639863bd0232@tipi-net.de>
+Accept-Language: de-DE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=schleissheimer.de;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BEZP281MB2245:EE_|BEYP281MB5537:EE_
+x-ms-office365-filtering-correlation-id: f5a16b3d-e3b7-47d8-b4ed-08dece070bd2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|18002099003|22082099003|38070700021|56012099006|4143699003|5023799004;
+x-microsoft-antispam-message-info:
+ DQdzLDLcimZ+2LiXMCWq5oR2r/kS+NKCeA6jAvTskJqSiCDKaAlJC1gAHpJA6IgGIE1smzAuz05ZNfc+VG5GtWIG56JyfNtUY2Tq0iOdW8Ak7JpDdl8jOIJ5EoqqydOjp0dW6vTwQ3bBzfwS4VT9tMy02ynmWEr0Pj0JbecVFeElIDjFINZdBmM/IQANP5MZmRO4qD4ozOvie469Nz4FC0krS1NNJfCsEgBEhnubCak3j4+O8L0O0AbNMSo1sJ+KKNhasrjtemxBtJdpmRQEBpE+skJFFhvmvsf/L/FxiQkOQNWiX3BbyQfdwqu/WtspM5sLdemywABsB8BUsmNddmcgVcVl7D79mKzPuCqmolRQij5345i+GgqtePBq6YWEWUL4u2Kwz0GRGdTfWETYPWXVpO9DIx3wy0RT45xhUPL2edTYmpWZgQhR/7rdkYvRXwb/Abc3NXuMPZTMjMljAJ/C6Q4CzlYHrrL0PZqvc5JztARrImR95h+teeSeH35vOmasf8ENLC60RwbqTtJP5sv4042EurH1QqJ8qhhL5BOyJdLQKBcmAaJZh5sTVtn/TgcgmOmeBXykebt+AWxbn+yHfGjQySlr4nbe3oqy6b1ABU20f7hJbabAlYE/fPJgMeUYIanixEO5uqflXKUOd/K/yzDd8uWuARZ20My9yrmcyRffFvWcP/Xvl6uVKTBS4CCggTsxgI6IDwMNpcGQHkEDLqHLGAwNzyaeC8USka4=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(18002099003)(22082099003)(38070700021)(56012099006)(4143699003)(5023799004);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?vweIxcRm5Ro4e5iuCEsvsr3R2MpnnZOVVDw5epKryIzgUWm0/lk6rtLdJt?=
+ =?iso-8859-1?Q?ji+sph7sI9pwyejpefIFh/oyXtONuga33IFHU9keIv/1zek+grCKHxXLXr?=
+ =?iso-8859-1?Q?cFSQGAie11PARk47IUkezKWa6BuJebv6wRhPS0z4r/grmgR0ypkCJTUHmy?=
+ =?iso-8859-1?Q?l8nCkv4mSdeXQiuH0bpK7QMiGDB8OwXmeMWZGvwVQvvLJFEHJBUfj+i8e8?=
+ =?iso-8859-1?Q?Q8P7+9Of+IiOSP4m4Cig69Fr7Ge8qmX93KPNCuReInqXQDTNUPbqC+h73Y?=
+ =?iso-8859-1?Q?2fxArFTRdoZga9bwSJLX60xIUeUNy6VuP5gNorNK0vE0EckWGieyfhI8tS?=
+ =?iso-8859-1?Q?ZLW6BKZvQYIEA7dsNN/mw9xWY4sdpP8kI/Tmuto6NikbiX4nRzAewjFysF?=
+ =?iso-8859-1?Q?TVBleQg/ccv59J1xTf/ijhRgL4rv5MS7kiChtmI/7UOHgx0XyL7SLOo9gs?=
+ =?iso-8859-1?Q?EQAJl5N96w5XD5e+RRSBDhfsapgJOt4z2TfmFabqfi0OnRjg9+QphKIX+c?=
+ =?iso-8859-1?Q?dYiah6Coiic/Sbyx0HBcsJWkVmuJXTyjcpCboFl12YJecpFMzEZlctVYoz?=
+ =?iso-8859-1?Q?2DQwLX0/Ebkr5jHDItinIlyHgFysDqXOV5sj/Y2bLEVPtdpILIm3q9TrNu?=
+ =?iso-8859-1?Q?iFtQerOlKgneCIpCgMl738g0ehz1JT+6Wzz1pi9QtOO1aBl2FKYqYRYrLv?=
+ =?iso-8859-1?Q?OB/xggyR30cPJZPjx8gRcCFbZpHtblBooCcCUNwKyGSEjfzmUkbeBrwRkj?=
+ =?iso-8859-1?Q?9g2cem8DSLgodUyKt0Gvik3pFcU65qaWq16k1sqgGVTpsWYkr4CwrtgeLg?=
+ =?iso-8859-1?Q?mnq4gtXU7leNyR294J7HhPNzfHHsMdNDw7dUUuRhXvIwX6wB/PCsoWmvao?=
+ =?iso-8859-1?Q?oiLaXhBcstp8Dbe1GxE+MGLtvJdNDeQoolhYEZGcef04qJ4uTW5IWyZEAf?=
+ =?iso-8859-1?Q?CM960piju5rW5kEWPv0asYHVFXfpr9MqdNLFa2SwfrvMWkH2nYTOMdHA9T?=
+ =?iso-8859-1?Q?cEJuPKfGliaTSg+HUk3s6S87k/f1MWqaIFJnLxHUmlDbAqEFqvC31eawsk?=
+ =?iso-8859-1?Q?fxceQ0pMW0zCXDLoDg1noomeSyGeYH98I4V39U21ZPFNu+aWpMsjlUVss/?=
+ =?iso-8859-1?Q?NQmKu8QZYofYKs6gjfM97HvXkRPVh6i3JHeexAKnMLSI2HTSPtDTjpdwcE?=
+ =?iso-8859-1?Q?J0/O8YD70JbNuC/R4MVkywZmu8woeTuEWWNE2NLnWcMjEjRgwPwZHUEAek?=
+ =?iso-8859-1?Q?zErhu+6LYrn9nKCEkTycCJT0hSX+uxnzubaaIkY+PtQixPtkVOGGE85BFr?=
+ =?iso-8859-1?Q?eW5WQBhEVjNhBJpb54SHH9X58EkrPPB9RCwUaPWC8a2QB+TjvdAoBggfC5?=
+ =?iso-8859-1?Q?vfYZicAehhabOkaFf/q6JgpXkLZIV1npIfwknaXWrW0rK6DUMX7nDVIuMt?=
+ =?iso-8859-1?Q?WGRxyTB1parmxmWIXuMKjP6LbtR33G/aBCsh2QsCHeuRaz3mgT3U+4J9g/?=
+ =?iso-8859-1?Q?v7Eeu0tZX1fXCHe1npmVg7FVGJP9pPZ0i56PoSBBFOQD5MrqJor/r/4y3v?=
+ =?iso-8859-1?Q?wulx64P6p8+hy4CjHbjBmDbqfAYPQIkOnnWq2bW2Uk6faZEt6v73x5gECM?=
+ =?iso-8859-1?Q?pp9vQLzWLwnNcVg8cw1sHxBSOtMf6/TtCxVn7/SQGv/Pph9yrGLTMAayUN?=
+ =?iso-8859-1?Q?AR1dRMV5XsRR2fZkd288oI2irTywsEt59PraTyARLlkAxC1TzSHtKhbp9k?=
+ =?iso-8859-1?Q?1DcBBs8n9aj043JfkbaJZmwvSdMAAweEcA3R9rDDsD1TSTFgfDYkpM3f01?=
+ =?iso-8859-1?Q?pxhCL/0pOw=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usbip: vudc: fix NULL deref in vep_dequeue()
-To: me@samcday.com, Valentina Manea <valentina.manea.m@gmail.com>, Shuah
-	Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Karol Kosik <karo9@interia.eu>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-From: "Igor Kotrasinski/Security (PLT) /SRPOL/Engineer/Samsung Electronics"
-	<i.kotrasinsk@samsung.com>
-Content-Language: en-US
-Autocrypt: addr=i.kotrasinsk@samsung.com; keydata=
-	xjMEaZL2IBYJKwYBBAHaRw8BAQdAvUmLmhxMQ0BlwZGuLemepi5ypJs6Yjjar+1jdrW8ecnN
-	Xklnb3IgS290cmFzaW5za2kvU2VjdXJpdHkgKFBMVCkgL1NSUE9ML0VuZ2luZWVyL1NhbXN1
-	bmcgRWxlY3Ryb25pY3MgPGkua290cmFzaW5za0BzYW1zdW5nLmNvbT7CjwQTFggANxYhBG5k
-	fRePp7i54VvfwyFa+/ugg4keBQJpkvYgBQkDwmcAAhsDBAsJCAcFFQgJCgsFFgIDAQAACgkQ
-	IVr7+6CDiR6wfgD/eSy7+zw/l0TD294VtS0rkgFmxz87LE5qp0MwppVmWWQBAMICVmVtobFJ
-	chcKnth+QyVUzobU+2qTZTmIr/76pDUDzjgEaZL2IBIKKwYBBAGXVQEFAQEHQDEsN2IVbTF7
-	Au+2GHOdmWLY2bRQb/QEZjsXKqkGUJQEAwEIB8J+BBgWCAAmFiEEbmR9F4+nuLnhW9/DIVr7
-	+6CDiR4FAmmS9iAFCQPCZwACGwwACgkQIVr7+6CDiR5aJQEA/O2jzcH785NF77p1mOkgmW6t
-	nR5Q1wzCl3H09LsoL9wBAIX1jHib04j6DZxbOL35M1nQVahHZd8NdTIMbj4thksG
-In-Reply-To: <20260619-usbip-vudc-deque-fix-v1-1-9021463b1903@samcday.com>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260619123412eucas1p1a1cc6b07d7edf3b3f6cff15c9f7470f1
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260619002859eucas1p2ac95b8f06a59a44eeb7e1a8b4bfc3a0d
-X-EPHeader: CA
-X-CMS-RootMailID: 20260619002859eucas1p2ac95b8f06a59a44eeb7e1a8b4bfc3a0d
-References: <CGME20260619002859eucas1p2ac95b8f06a59a44eeb7e1a8b4bfc3a0d@eucas1p2.samsung.com>
-	<20260619-usbip-vudc-deque-fix-v1-1-9021463b1903@samcday.com>
+X-OriginatorOrg: schleissheimer.de
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5a16b3d-e3b7-47d8-b4ed-08dece070bd2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2026 13:31:19.1110
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: ba05321a-a007-44df-8805-c7e62d5887b5
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xzArrZtFzGlaw71ETCgaTBtmBYbhlbIXaVJaB7+QdnRqaQunK3cL/V84sTHxzAter3o1THzOw6sDOfZ6Xo8/MugtCUhuuNAwhMN+VBgMQ1Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BEYP281MB5537
 
-Hi,
-
-> From: Sam Day <me@samcday.com>
-> 
-> vep_alloc_request() wasn't initializing vrequest->udc, so cancellations
-> on the FunctionFS AIO path were arriving in vep_dequeue without a valid
-> UDC reference.
-> 
-> AFAICT this bug has existed for ~10 years. Seems that nobody has really
-> stressed the FunctionFS AIO path on usbip's vudc.
-> 
-> I tested this fix in a QEMU aarch64 guest driving FunctionFS endpoints
-> via AIO. Before the fix, running `usbip attach` from the host would
-> cause the guest to oops with the following backtrace:
-> 
-> Call trace:
->   vep_dequeue+0x1c/0xe4 (P)
->   usb_ep_dequeue+0x14/0x20
->   ffs_aio_cancel+0x24/0x34
->   __arm64_sys_io_cancel+0xb0/0x124
->   do_el0_svc+0x68/0x100
->   el0_svc+0x18/0x5c
->   el0t_64_sync_handler+0x98/0xdc
->   el0t_64_sync+0x154/0x158
-> 
-> Assisted-by: opencode:openai/gpt-5.5
-> Fixes: b6a0ca111867 ("usbip: vudc: Add UDC specific ops")
-> Signed-off-by: Sam Day <me@samcday.com>
-> ---
->   drivers/usb/usbip/vudc_dev.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/usb/usbip/vudc_dev.c b/drivers/usb/usbip/vudc_dev.c
-> index c5f079c5a1ea..2f1f141909b2 100644
-> --- a/drivers/usb/usbip/vudc_dev.c
-> +++ b/drivers/usb/usbip/vudc_dev.c
-> @@ -279,15 +279,18 @@ static int vep_disable(struct usb_ep *_ep)
->   static struct usb_request *vep_alloc_request(struct usb_ep *_ep,
->   		gfp_t mem_flags)
->   {
-> +	struct vep *ep;
->   	struct vrequest *req;
->   
->   	if (!_ep)
->   		return NULL;
-> +	ep = to_vep(_ep);
->   
->   	req = kzalloc_obj(*req, mem_flags);
->   	if (!req)
->   		return NULL;
->   
-> +	req->udc = ep_to_vudc(ep);
-
-We can get rid of udc in struct vrequest and call ep_to_vudc() in 
-vep_dequeue(). All the other places do it, I think I missed that one 
-during a refactor before submitting the driver.
-
->   	INIT_LIST_HEAD(&req->req_entry);
->   
->   	return &req->req;
-> 
-> ---
-> base-commit: 5cd1731cc883a9914d91e3b93d4597317b5b5339
-> change-id: 20260619-usbip-vudc-deque-fix-d316de3d3f16
-> 
-> Best regards,
-
-Side note, there are some checks for udc->driver being NULL that I feel 
-are either redundant or should be behind a spinlock, just like setting 
-udc->driver is. I'm not sure which, will have to take a look.
-
-BRs,
-
-Igor Kotrasiński
+Hello Nicolai,=0A=
+=0A=
+looks good from my point of view=0A=
+(Calling the lan78xx_write_vlan_table() from =0A=
+lan78xx_mac_link_up() and from lan78xx_reset()).=0A=
+=0A=
+But I investigated a little more and it seems the hash table=0A=
+(which is right behind the vlan table in the controllers memory)=0A=
+also gets cleared. I wrote some random data into this table and have=0A=
+seen that it gets also cleared. I think this needs to be fixed too.=0A=
+=0A=
+In the Datasheet from the LAN7801 I can read:=0A=
+"After a reset event, the RFE will automatically initialize the contents of=
+ the VHF to 0h."=0A=
+Where VHF also refers to the hash table.=0A=
+But I still do not understand what reset is happening when I just unplug th=
+e network cable....=0A=
+=0A=
+Regards,=0A=
+   Sven=0A=
+=0A=
+=0A=
+On 19.6.2026 11:53, Nicolai Buchwitz wrote:=0A=
+> Hi Sven=0A=
+> =0A=
+> On 19.6.2026 11:18, Sven Schuchmann wrote:=0A=
+> > Hello Nicolai,=0A=
+> >=0A=
+> > my first opservation is that calling lan78xx_write_vlan_table()=0A=
+> > at the end lan78xx_start_rx_path() fixes the problem. I was able=0A=
+> > to do over 200 connect/disconnects without any problem.=0A=
+> =0A=
+> Thanks, that's the right direction. For the final patch I'd move it=0A=
+> to lan78xx_mac_link_up(), which is IMHO a bit "cleaner":=0A=
+> =0A=
+> [...]=0A=
+>   static void lan78xx_rx_urb_submit_all(struct lan78xx_net *dev);=0A=
+> +static int lan78xx_write_vlan_table(struct lan78xx_net *dev);=0A=
+> [...]=0A=
+> static void lan78xx_mac_link_up(struct phylink_config *config,=0A=
+> [...]=0A=
+>          if (ret < 0)=0A=
+>                  goto link_up_fail;=0A=
+> =0A=
+> +       ret =3D lan78xx_write_vlan_table(dev);=0A=
+> +       if (ret < 0)=0A=
+> +               goto link_up_fail;=0A=
+> +=0A=
+>          netif_start_queue(net);=0A=
+> [...]=0A=
+> =0A=
+> Could you give this version a quick test and confirm? Then I'll add=0A=
+> your Tested-by.=0A=
+> =0A=
+> > [...]=0A=
+> =0A=
+> Thanks=0A=
+> Nicolai=
