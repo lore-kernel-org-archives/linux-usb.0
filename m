@@ -1,53 +1,53 @@
-Received: from mail-oi1-f202.google.com (mail-oi1-f202.google.com [209.85.167.202])
+Received: from mail-oa1-f73.google.com (mail-oa1-f73.google.com [209.85.160.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DCF7322B72
-	for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2026 04:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF7F32694E
+	for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2026 04:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781841991; cv=none; b=DxfoAALMxdzvTPNcHozUYVWxtsHdxkE/2rx+RYKg3BceIiwPO8h/zfQfvz42KERovAk3hIBnJt8Hv0oDEG8Quy6Wf7jTvlJo7oRFhdovvlzYuh5kNkB0WVLzwt7B9LuFWHg2YIDhMFL1ilNZ1HaLTxf5XiS9QpgBKZJI9LYwZ0w=
+	t=1781841992; cv=none; b=iJSATsD6hyoB+2l87TJvAOEnXBVbmQpG5NQtuc8XmD3r0+l/Vc/44ngoP3G0XrFpUQ7RDojrqEvqzw86frqvcZwawje1JhRnKBiDHe1348/PSm0HiCtZ1LSVybhTc+5yDb4oM3jBfRDy6uvwTK3X21uWvnqBon7Feur5fR4zRdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781841991; c=relaxed/simple;
-	bh=YrJizVXLfuOEqkUomNiZSsMQZbHBHINC9DMoRg69K9I=;
+	s=arc-20240116; t=1781841992; c=relaxed/simple;
+	bh=ZpgkT7T8zHJWzP3yKHW7eXby7QSFpHbZLkjDtQkZc20=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=hEt5snGm55O/eno/XiDblkbnedLzLc/JUaOBFoME1XWUmD3kN0etU/cQeqj7hqHr5M0SOX05mdREQbJGcheFcgFIpjVw5jB9q1jMf57z5RH3KrwjyYsH2/w4qVxShQfRntFd6/3/l3ms/hP5sXDB7gSCQLQy8vKV2eV60rRj0yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HJ9n9kU0; arc=none smtp.client-ip=209.85.167.202
+	 To:Cc:Content-Type; b=nvLj9onJ2W5I1kRXzbfqCeJdl7jeAE3bBcFye7zXGvsuU10AtE+EW6XIMl8173m+kQzquU476u7dM3JYvzdcQLRQGTt/ir+OfS7rSq1qEodZd9/GmMRXYT7Dsz9bj8V8oCzCFn8WD8jDUYX2edOfNzD8HpDZIQsjmdnuKU3vZZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NVqyOiUQ; arc=none smtp.client-ip=209.85.160.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HJ9n9kU0"
-Received: by mail-oi1-f202.google.com with SMTP id 5614622812f47-486e64c8edeso2251983b6e.2
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 21:06:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NVqyOiUQ"
+Received: by mail-oa1-f73.google.com with SMTP id 586e51a60fabf-43d052ba649so2228881fac.1
+        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 21:06:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781841987; x=1782446787; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1781841990; x=1782446790; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SR8zjAKre3J8GnH3WROY30Hd0JabqNU0hbcBZVH8r1Y=;
-        b=HJ9n9kU0/NSa9Gjtvoq5usxLRrh9nYYS7chkY630A/JV0WSPz2zn8CSVRLq8e1dWdY
-         /cCwSDNHjt6l4U1ZrovMJdOOFUmLSSFFQHo6MbXxruMIDEgnUFoptYOQBjbRopyWvVPv
-         ldqpxHMAGWweLraikzB8KXVP4maYeyyjxodfSM7h3fLnycaHIKlpkWPSmFjbKGI7i63R
-         oRUbXsFemD86KQIZ/bF7tZqst8rMs6+AZtFm87zXeHoFRjQ4y8FGtAzLLI612IZ/y5WP
-         sW2+iBxtIKjF4FkVTsog9FfFRGlFE3ESHZhIj8IXpQhqq2JAD+aUpd5mgpbV+ez0DJWs
-         pebw==
+        bh=15vmYD/R1b1d0CWwawdVeqLkpMEGeJHKPQPf2snCIH0=;
+        b=NVqyOiUQgLbiBygvMNTdYB4LXmV7xM1rA1xtI45Z8fFiPJ1JS+hxI7y4HZfKi7oCBo
+         9i7DhONKOrhLcGNlRsNm026npBtipxHejNSFskA3ZK5CxQvlX/4BLNIFnk4lYK5YASDZ
+         WhugQb6MmO12bxfZfSCVPAY6wMVkH6LWwq87Xco5Y958QY5p+hmFKHePzzm9bD3wZByp
+         vAgiD6QxRvjo+3QKzn2Ykz2aJEY2wHbxeOdBmbjXFvYeJzgs/R45+WFlAEF8Ibeq80g8
+         o+mLFfUDsw0CD/Ww6mxMHbKuxUVxPfAAHUqdFxyrVqifZAADvDaA9o4iXZRgOiraX92F
+         ZHIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781841987; x=1782446787;
+        d=1e100.net; s=20251104; t=1781841990; x=1782446790;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SR8zjAKre3J8GnH3WROY30Hd0JabqNU0hbcBZVH8r1Y=;
-        b=L7XNwRKKDV85tMBWnbSZWOIlNp6Mrf6omaV+EeZKyHW87L533nD6HBH32bZAsd0h1A
-         KMnpqWBudpWMuGYk90FPYUAn82liSMQXf6FArN9j8535Vm3LLM4WRE/epAWwk6znOXdV
-         3KkeJVALhHrvfg1NfSEJZmgj6VX9JXe9FZBstkB0PHr2Kx/rk4YLw26JZDjkzc58p2+i
-         vB3W8KvCGyvLRuz3vHGlwTphcf41HF7p9gmZad4wgGpl9HbZWSm/2nlIYYTFZAVO8uxD
-         Nr81gFOj6I8QmI3XbCfUyhEoiJaxZSR4V2edBd8JhuAmYt0Bq2FL5Y9qiLFQeERcBctH
-         T8Kw==
-X-Gm-Message-State: AOJu0Yw8RoMUVMje92KINvQ6TCB/M9WNSC/3htY4qYVYeG851rJzfN2L
-	WWvN2E5k+e+szdYrx2iY2e5ZCpW2yrRpxbWuRWCVoen96F322CQfCgeKDEMm6CI789z00qNOvMA
-	L2OShtsf0nQ==
-X-Received: from iomr1.prod.google.com ([2002:a5d:9b81:0:b0:996:2f73:a52f])
- (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6808:179f:b0:487:5cb4:bada
- with SMTP id 5614622812f47-489aeebfb9amr723113b6e.10.1781841986782; Thu, 18
- Jun 2026 21:06:26 -0700 (PDT)
-Date: Fri, 19 Jun 2026 04:06:05 +0000
+        bh=15vmYD/R1b1d0CWwawdVeqLkpMEGeJHKPQPf2snCIH0=;
+        b=BY8R6UYCCdjHkQ39ifGzwTZTONjNNleciXLt1UgqRF3dTY+ZPwm99RwpbIBoNbjUd+
+         xQEJ6wtTMmyp23F6HgAZHJow7OEXu/a3yj0G1AdH2P0P4C/Yd7kr2LNJINXEdCf/tU8/
+         SpbedKScjqEQbj2pEfsEjLf8SxHc3TqOAXCq+lh0mgbQwas4qldQUCqyIkix2ZCjm+2I
+         O6oQMMpLHs0xhZ8KvtqV9ZuUGnM0xd3bbMYnB8zzIbHVpTt0vRWfP3APkBSXEFISWQ1/
+         i/AREixZzslE9tICLDqt5/IdpSERAf6La0eKO9vtIJ80QzEuDoLMIU+4oRqZJMXi998N
+         G1Mg==
+X-Gm-Message-State: AOJu0YxeUTef+6385v5cvHLXvKJ67b+TpKfg561sLVgTcEXtrBDibwPq
+	iLQk9+arCWM6nto5OM7VdaJsU6eUg48VPW5bNQFR5TFNlbKInrF33OoaOH+4MFw0n7iDgLmqK8O
+	K2/q7fSqb/w==
+X-Received: from oabli2.prod.google.com ([2002:a05:6871:4202:b0:441:b4e:ecac])
+ (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6870:16d1:b0:446:eba3:a1ad
+ with SMTP id 586e51a60fabf-44707ca9e9dmr1990819fac.10.1781841989593; Thu, 18
+ Jun 2026 21:06:29 -0700 (PDT)
+Date: Fri, 19 Jun 2026 04:06:06 +0000
 In-Reply-To: <20260619040609.4010746-1-nkapron@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -57,8 +57,8 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260619040609.4010746-1-nkapron@google.com>
 X-Mailer: git-send-email 2.55.0.rc0.738.g0c8ab3ebcc-goog
-Message-ID: <20260619040609.4010746-4-nkapron@google.com>
-Subject: [PATCH v2 3/4] usb: gadget: f_fs: Add zero-length packet ioctl
+Message-ID: <20260619040609.4010746-5-nkapron@google.com>
+Subject: [PATCH v2 4/4] usb: gadget: f_fs: Introduce rw_proxy file descriptors
 From: Neill Kapron <nkapron@google.com>
 To: gregkh@linuxfoundation.org, corbet@lwn.net, skhan@linuxfoundation.org
 Cc: linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, 
@@ -66,176 +66,362 @@ Cc: linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
 	Neill Kapron <nkapron@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-When transferring data from a USB gadget to a host, a transfer is
-considered complete when the host receives a short packet (a packet
-smaller than wMaxPacketSize). If the total transfer length is an
-exact multiple of wMaxPacketSize, a Zero-Length Packet (ZLP) must
-be appended to signal the end of the transfer.
+Currently, FunctionFS exposes each USB endpoint as a separate,
+unidirectional file descriptor (e.g., `ep1` for IN, `ep2` for OUT).
+While this mirrors the underlying hardware structure, it forces
+userspace daemons implementing bidirectional protocols to manage
+multiple file descriptors. When dealing with legacy protocols which
+require exposing a single, bi-directional fd to userspace, this becomes
+problematic.
 
-FunctionFS currently provides no mechanism for userspace to instruct
-the kernel to set the `req->zero` flag on transfers. Userspace
-workarounds, such as manually submitting separate 0-byte requests,
-may not be available for legacy protocols which must maintain write
-behavior compatibility when moved to functionfs implementations.
+This patch introduces the `FUNCTIONFS_RW_PROXY_EPS` UAPI flag. When
+passed in the descriptor header during initialization, FunctionFS
+provisions a "rw_proxy" bidirectional file descriptor (e.g., `ep1_rw`)
+alongside every pair of IN/OUT endpoints.
 
-To resolve this, introduce a new ioctl, FUNCTIONFS_ENDPOINT_ENABLE_ZLP,
-which takes a pointer to a __u32 flag. When enabled, all subsequent
-transfers on that endpoint will have the `req->zero` flag set, allowing
-the underlying USB Device Controller (UDC) hardware to automatically
-append a ZLP only when mathematically required. For logical transfers
-chunked across multiple requests, userspace can dynamically toggle this
-flag, enabling it only prior to submitting the final chunk.
+Implementation details:
+- RW proxy files act as a pure VFS alias, proxying operations
+  directly to the base ffs_epfile instances. A `read()` proxies to
+  the OUT endpoint's file, and a `write()` proxies to the IN file.
+- Because operations are proxied natively, they reuse the underlying
+  base endpoint's lock (`epfile->mutex`) and tracking state. This
+  serializes concurrent I/O, preventing buffer corruption or races
+  even if userspace mixes transfers across both the rw_proxy and base files
+  while allowing full-duplex synchronous operations to occur concurrently
+  without serializing on a single lock.
+- Control operations (like IOCTLs) and intentional stalls (via
+  reverse-direction I/O) must still be issued on the base endpoints, as the
+  rw_proxy returns `-ENOTTY` for IOCTLs and cannot trigger stalls.
 
-The flag defaults to false to maintain backward compatibility. Once
-enabled, the state is persistent for the lifetime of the endpoint and
-will not be reset by opening or closing the endpoint file descriptors.
-
-Assisted-by: Gemini-CLI:gemini-3.1-pro-preview
+Assisted-by: Antigravity:gemini-3.1-pro
 Signed-off-by: Neill Kapron <nkapron@google.com>
 ---
- Documentation/usb/functionfs.rst    | 24 ++++++++++++++++++++++++
- drivers/usb/gadget/function/f_fs.c  | 25 ++++++++++++++++++++++++-
- include/uapi/linux/usb/functionfs.h | 23 +++++++++++++++++++++++
- 3 files changed, 71 insertions(+), 1 deletion(-)
+ Documentation/usb/functionfs.rst    | 56 +++++++++++++++++++
+ drivers/usb/gadget/function/f_fs.c  | 87 ++++++++++++++++++++++++-----
+ drivers/usb/gadget/function/u_fs.h  |  8 ++-
+ include/uapi/linux/usb/functionfs.h |  1 +
+ 4 files changed, 136 insertions(+), 16 deletions(-)
 
 diff --git a/Documentation/usb/functionfs.rst b/Documentation/usb/functionfs.rst
-index f7487b0d8057..582e53549d5b 100644
+index 582e53549d5b..b189cf5626ba 100644
 --- a/Documentation/usb/functionfs.rst
 +++ b/Documentation/usb/functionfs.rst
-@@ -72,6 +72,30 @@ have been written to their ep0's.
- Conversely, the gadget is unregistered after the first USB function
- closes its endpoints.
- 
-+Endpoint IOCTLs
-+===============
+@@ -96,6 +96,58 @@ One such IOCTL is:
+     * ``-ENODEV``: The FunctionFS instance is not active.
+     * ``-EINVAL``: The endpoint is not an IN endpoint.
+     * ``-EFAULT``: Invalid user space pointer for the argument.
 +
-+FunctionFS supports additional IOCTLs that can be performed on data endpoints
-+(ie. not ep0). For a full list of these IOCTLs, please refer to the documentation
-+in ``include/uapi/linux/usb/functionfs.h``.
++RW Proxy Endpoints
++==================
 +
-+One such IOCTL is:
++If the ``FUNCTIONFS_RW_PROXY_EPS`` flag is passed in the descriptor header
++(requires ``FUNCTIONFS_DESCRIPTORS_MAGIC_V2``), FunctionFS will provision a
++bidirectional rw_proxy file descriptor (e.g., "ep1_rw") alongside each pair
++of IN and OUT endpoints. The rw_proxy file aliases the underlying hardware
++endpoints, allowing userspace to use a single file descriptor for both reading
++(OUT) and writing (IN).
 +
-+  ``FUNCTIONFS_ENDPOINT_ENABLE_ZLP(__u32 *)``
-+    Enable or disable automatic zero-length packet (ZLP) appending for the
-+    endpoint. The argument is a pointer to a __u32: 0 to disable, non-zero to
-+    enable. When enabled, the kernel will automatically append a ZLP at the end
-+    of a transfer if the payload length is an exact multiple of the endpoint's
-+    max packet size. This is useful for compatibility with legacy protocols
-+    which require automatic ZLP appending to data written from userspace. This
-+    IOCTL can only be used on IN endpoints. It can be called at any time after
-+    the FunctionFS instance is active, even before the host has connected or
-+    enabled the endpoint. Returns zero on success, or a negative errno value on
-+    error:
++This flag requires the total number of hardware endpoints to be an even number.
++FunctionFS will automatically walk the provided endpoints and group them into
++adjacent pairs (e.g., ep1 and ep2 form the first pair, ep3 and ep4 form the
++second pair). Each pair must consist of exactly one IN endpoint and one OUT
++endpoint.
 +
-+    * ``-ENODEV``: The FunctionFS instance is not active.
-+    * ``-EINVAL``: The endpoint is not an IN endpoint.
-+    * ``-EFAULT``: Invalid user space pointer for the argument.
++For each valid pair, a rw_proxy file is created and named after the first
++endpoint in the pair with a "_rw" suffix. For example, if ep1 and ep2 are
++paired, a rw_proxy file named "ep1_rw" is created. If ep3 and ep4 are paired,
++"ep3_rw" is created.
++
++If the ``FUNCTIONFS_VIRTUAL_ADDR`` flag is also enabled, the endpoints will be
++named using their physical endpoint address in hexadecimal instead of their
++index. RW proxy files will inherit this naming convention. For example, if the
++first endpoint of a pair maps to address 0x02, the rw_proxy file will be
++named "ep02_rw".
++
++When this flag is enabled, userspace has the choice of performing data transfers
++via the single rw_proxy file descriptor or the two base file descriptors. The
++rw_proxy file descriptor acts as a pure VFS alias that proxies all operations
++directly to the underlying base file descriptors.
++
++Because it is a pure proxy, there are no data races or buffer corruptions if
++userspace uses both the rw_proxy endpoint and the base endpoints concurrently.
++The native mutexes of the base endpoints perfectly serialize all concurrent
++transfers. However, userspace should generally pick one method and stick to it
++to avoid interleaving its own data stream.
++
++- **IOCTLs (Clear Halt, etc.):** RW proxy endpoints do not support IOCTLs and
++  will return ``-ENOTTY``. To clear a host-initiated halt, userspace must issue
++  the ``FUNCTIONFS_CLEAR_HALT`` ioctl directly on the corresponding base
++  endpoint file descriptor.
++- **Intentional Stalls:** The traditional mechanism for intentionally halting an
++  endpoint by issuing a reverse-direction data operation (e.g., attempting to
++  read from an IN endpoint) continues to work, but it must be issued on the
++  base endpoint. RW proxy endpoints cannot be used to trigger a stall because
++  they are fully bidirectional.
++
++Note that DMABUF data transfers (``FUNCTIONFS_DMABUF_TRANSFER``) are unsupported
++via the rw_proxy endpoint because it does not support IOCTLs. If DMABUF
++transfers are required, users must use the standard base endpoints.
  DMABUF interface
  ================
  
+@@ -103,6 +155,10 @@ FunctionFS additionally supports a DMABUF based interface, where the
+ userspace can attach DMABUF objects (externally created) to an endpoint,
+ and subsequently use them for data transfers.
+ 
++Note: The DMABUF interface is unsupported on rw_proxy endpoints. See
++the RW Proxy Endpoints section for details on using DMABUF alongside
++the ``FUNCTIONFS_RW_PROXY_EPS`` flag.
++
+ A userspace application can then use this interface to share DMABUF
+ objects between several interfaces, allowing it to transfer data in a
+ zero-copy fashion, for instance between IIO and the USB stack.
 diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 374ab36eaaa3..07aba722dd5b 100644
+index 07aba722dd5b..c5647febf3ea 100644
 --- a/drivers/usb/gadget/function/f_fs.c
 +++ b/drivers/usb/gadget/function/f_fs.c
-@@ -224,7 +224,7 @@ struct ffs_epfile {
+@@ -159,7 +159,9 @@ struct ffs_epfile {
+ 	struct mutex			mutex;
+ 
+ 	struct ffs_data			*ffs;
+-	struct ffs_ep			*ep;	/* P: ffs->eps_lock */
++	struct ffs_ep			*ep;		/* P: ffs->eps_lock */
++	struct ffs_epfile		*epfile_in;	/* P: ffs->eps_lock */
++	struct ffs_epfile		*epfile_out;	/* P: ffs->eps_lock */
+ 
+ 	/*
+ 	 * Buffer for holding data from partial reads which may happen since
+@@ -219,12 +221,13 @@ struct ffs_epfile {
+ 	struct ffs_buffer		*read_buffer;
+ #define READ_BUFFER_DROP ((struct ffs_buffer *)ERR_PTR(-ESHUTDOWN))
+ 
+-	char				name[5];
++	char				name[8];
+ 
  	unsigned char			in;	/* P: ffs->eps_lock */
  	unsigned char			isoc;	/* P: ffs->eps_lock */
  
--	unsigned char			_pad;
-+	u8				zlp_enabled; /* P: ffs->eps_lock */
+ 	u8				zlp_enabled; /* P: ffs->eps_lock */
++	bool				is_rw_proxy;
  
  	/* Protects dmabufs */
  	struct mutex			dmabufs_mutex;
-@@ -1114,6 +1114,8 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 			req->buf = data;
- 			req->num_sgs = 0;
- 		}
-+
-+		req->zero = epfile->zlp_enabled;
- 		req->length = data_len;
+@@ -978,9 +981,8 @@ static ssize_t __ffs_epfile_read_data(struct ffs_epfile *epfile,
+ 	return ret;
+ }
  
- 		io_data->buf = data;
-@@ -1165,6 +1167,8 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
- 			req->buf = data;
- 			req->num_sgs = 0;
- 		}
-+
-+		req->zero = epfile->zlp_enabled;
- 		req->length = data_len;
- 
- 		io_data->buf = data;
-@@ -1707,6 +1711,7 @@ static int ffs_dmabuf_transfer(struct file *file,
- 
- 	/* Now that the dma_fence is in place, queue the transfer. */
- 
-+	usb_req->zero = epfile->zlp_enabled;
- 	usb_req->length = req->length;
- 	usb_req->buf = NULL;
- 	usb_req->sg = priv->sgt->sgl;
-@@ -1754,6 +1759,7 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
- 	struct ffs_epfile *epfile = file->private_data;
+-static struct ffs_ep *ffs_epfile_wait_ep(struct file *file)
++static struct ffs_ep *ffs_epfile_wait_ep(struct ffs_epfile *epfile, struct file *file)
+ {
+-	struct ffs_epfile *epfile = file->private_data;
  	struct ffs_ep *ep;
  	int ret;
-+	__u32 enable_zlp = 0;
  
+@@ -1007,17 +1009,22 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
+ 	char *data = NULL;
+ 	ssize_t ret, data_len = -EINVAL;
+ 	int halt;
++	bool is_rw_proxy = epfile->is_rw_proxy;
+ 
+ 	/* Are we still active? */
  	if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
  		return -ENODEV;
-@@ -1786,6 +1792,23 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
  
- 		return ffs_dmabuf_transfer(file, &req);
+-	ep = ffs_epfile_wait_ep(file);
++	/* Proxy to base endpoint if rw_proxy */
++	if (is_rw_proxy)
++		epfile = io_data->read ? epfile->epfile_out : epfile->epfile_in;
++
++	ep = ffs_epfile_wait_ep(epfile, file);
+ 	if (IS_ERR(ep))
+ 		return PTR_ERR(ep);
+ 
+ 	/* Do we halt? */
+-	halt = (!io_data->read == !epfile->in);
++	halt = is_rw_proxy ? 0 : (!io_data->read == !epfile->in);
+ 	if (halt && epfile->isoc)
+ 		return -EINVAL;
+ 
+@@ -1115,7 +1122,7 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
+ 			req->num_sgs = 0;
+ 		}
+ 
+-		req->zero = epfile->zlp_enabled;
++		req->zero = !io_data->read ? epfile->zlp_enabled : 0;
+ 		req->length = data_len;
+ 
+ 		io_data->buf = data;
+@@ -1168,7 +1175,7 @@ static ssize_t ffs_epfile_io(struct file *file, struct ffs_io_data *io_data)
+ 			req->num_sgs = 0;
+ 		}
+ 
+-		req->zero = epfile->zlp_enabled;
++		req->zero = !io_data->read ? epfile->zlp_enabled : 0;
+ 		req->length = data_len;
+ 
+ 		io_data->buf = data;
+@@ -1646,7 +1653,7 @@ static int ffs_dmabuf_transfer(struct file *file,
+ 
+ 	priv = attach->importer_priv;
+ 
+-	ep = ffs_epfile_wait_ep(file);
++	ep = ffs_epfile_wait_ep(epfile, file);
+ 	if (IS_ERR(ep)) {
+ 		ret = PTR_ERR(ep);
+ 		goto err_attachment_put;
+@@ -1764,6 +1771,9 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
+ 	if (WARN_ON(epfile->ffs->state != FFS_ACTIVE))
+ 		return -ENODEV;
+ 
++	if (epfile->is_rw_proxy)
++		return -ENOTTY;
++
+ 	switch (code) {
+ 	case FUNCTIONFS_DMABUF_ATTACH:
+ 	{
+@@ -1814,7 +1824,7 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
  	}
+ 
+ 	/* Wait for endpoint to be enabled */
+-	ep = ffs_epfile_wait_ep(file);
++	ep = ffs_epfile_wait_ep(epfile, file);
+ 	if (IS_ERR(ep))
+ 		return PTR_ERR(ep);
+ 
+@@ -2212,7 +2222,7 @@ static void ffs_data_closed(struct ffs_data *ffs)
+ 
+ 		if (epfiles)
+ 			ffs_epfiles_destroy(ffs->sb, epfiles,
+-					 ffs->eps_count);
++					 ffs->epfiles_count);
+ 
+ 		if (ffs->setup_state == FFS_SETUP_PENDING)
+ 			__ffs_ep0_stall(ffs);
+@@ -2270,7 +2280,7 @@ static void ffs_data_clear(struct ffs_data *ffs)
+ 	 * copy of epfile will save us from use-after-free.
+ 	 */
+ 	if (epfiles) {
+-		ffs_epfiles_destroy(ffs->sb, epfiles, ffs->eps_count);
++		ffs_epfiles_destroy(ffs->sb, epfiles, ffs->epfiles_count);
+ 		ffs->epfiles = NULL;
+ 	}
+ 
+@@ -2368,11 +2378,16 @@ static void functionfs_unbind(struct ffs_data *ffs)
+ static int ffs_epfiles_create(struct ffs_data *ffs)
+ {
+ 	struct ffs_epfile *epfile, *epfiles;
+-	unsigned i, count;
++	unsigned int i, count, epfiles_count;
+ 	int err;
+ 
+ 	count = ffs->eps_count;
+-	epfiles = kzalloc_objs(*epfiles, count);
++	epfiles_count = count;
++	if (ffs->user_flags & FUNCTIONFS_RW_PROXY_EPS)
++		epfiles_count += count / 2;
++	ffs->epfiles_count = epfiles_count;
++
++	epfiles = kzalloc_objs(*epfiles, epfiles_count);
+ 	if (!epfiles)
+ 		return -ENOMEM;
+ 
+@@ -2395,6 +2410,32 @@ static int ffs_epfiles_create(struct ffs_data *ffs)
+ 		}
+ 	}
+ 
++	if (ffs->user_flags & FUNCTIONFS_RW_PROXY_EPS) {
++		struct ffs_epfile *comp = epfiles + count;
++
++		for (i = 0; i < count; i += 2, ++comp) {
++			struct ffs_epfile *ep1 = &epfiles[i];
++			struct ffs_epfile *ep2 = &epfiles[i + 1];
++			bool ep1_in = ffs->eps_addrmap[i + 1] & USB_ENDPOINT_DIR_MASK;
++
++			comp->ffs = ffs;
++			comp->is_rw_proxy = true;
++			comp->epfile_in = ep1_in ? ep1 : ep2;
++			comp->epfile_out = ep1_in ? ep2 : ep1;
++			mutex_init(&comp->mutex);
++			mutex_init(&comp->dmabufs_mutex);
++			INIT_LIST_HEAD(&comp->dmabufs);
++			snprintf(comp->name, sizeof(comp->name), "%s_rw",
++				 epfiles[i].name);
++			err = ffs_sb_create_file(ffs->sb, comp->name,
++						 comp, &ffs_epfile_operations);
++			if (err) {
++				ffs_epfiles_destroy(ffs->sb, epfiles, count + (i / 2));
++				return err;
++			}
++		}
++	}
++
+ 	ffs->epfiles = epfiles;
+ 	return 0;
+ }
+@@ -2972,7 +3013,8 @@ static int __ffs_data_got_descs(struct ffs_data *ffs,
+ 			      FUNCTIONFS_VIRTUAL_ADDR |
+ 			      FUNCTIONFS_EVENTFD |
+ 			      FUNCTIONFS_ALL_CTRL_RECIP |
+-			      FUNCTIONFS_CONFIG0_SETUP)) {
++			      FUNCTIONFS_CONFIG0_SETUP |
++			      FUNCTIONFS_RW_PROXY_EPS)) {
+ 			ret = -ENOSYS;
+ 			goto error;
+ 		}
+@@ -3060,6 +3102,21 @@ static int __ffs_data_got_descs(struct ffs_data *ffs,
+ 		goto error;
+ 	}
+ 
++	if (ffs->user_flags & FUNCTIONFS_RW_PROXY_EPS) {
++		if (ffs->eps_count % 2) {
++			ret = -EINVAL;
++			goto error;
++		}
++
++		for (i = 1; i < ffs->eps_count; i += 2) {
++			if ((ffs->eps_addrmap[i] & USB_ENDPOINT_DIR_MASK) ==
++			    (ffs->eps_addrmap[i + 1] & USB_ENDPOINT_DIR_MASK)) {
++				ret = -EINVAL;
++				goto error;
++			}
++		}
++	}
++
+ 	ffs->raw_descs_data	= _data;
+ 	ffs->raw_descs		= raw_descs;
+ 	ffs->raw_descs_length	= data - raw_descs;
+diff --git a/drivers/usb/gadget/function/u_fs.h b/drivers/usb/gadget/function/u_fs.h
+index 6a80182aadd7..c280c495fbd2 100644
+--- a/drivers/usb/gadget/function/u_fs.h
++++ b/drivers/usb/gadget/function/u_fs.h
+@@ -252,8 +252,14 @@ struct ffs_data {
+ 
+ 	unsigned short			strings_count;
+ 	unsigned short			interfaces_count;
++
 +	/*
-+	 * We handle this IOCTL before ffs_epfile_wait_ep() to allow userspace
-+	 * to configure ZLP behavior immediately without blocking indefinitely
-+	 * while waiting for the USB host to connect and enable the endpoint.
++	 * eps_count tracks the number of underlying hardware endpoints.
++	 * epfiles_count tracks the total number of VFS endpoint files.
++	 * When companion endpoints are active, epfiles_count > eps_count.
 +	 */
-+	case FUNCTIONFS_ENDPOINT_ENABLE_ZLP:
-+		if (!epfile->in)
-+			return -EINVAL;
-+
-+		if (copy_from_user(&enable_zlp, (void __user *)value, sizeof(enable_zlp)))
-+			return -EFAULT;
-+
-+		spin_lock_irq(&epfile->ffs->eps_lock);
-+		epfile->zlp_enabled = !!enable_zlp;
-+		spin_unlock_irq(&epfile->ffs->eps_lock);
-+
-+		return 0;
- 	default:
- 		break;
- 	}
+ 	unsigned short			eps_count;
+-	unsigned short			_pad1;
++	unsigned short			epfiles_count;
+ 
+ 	/* filled by __ffs_data_got_strings() */
+ 	/* ids in stringtabs are set in functionfs_bind() */
 diff --git a/include/uapi/linux/usb/functionfs.h b/include/uapi/linux/usb/functionfs.h
-index beef1752e36e..06134dca4e8a 100644
+index 06134dca4e8a..290308c9dd92 100644
 --- a/include/uapi/linux/usb/functionfs.h
 +++ b/include/uapi/linux/usb/functionfs.h
-@@ -414,4 +414,27 @@ struct usb_functionfs_event {
- #define FUNCTIONFS_DMABUF_TRANSFER	_IOW('g', 133, \
- 					     struct usb_ffs_dmabuf_transfer_req)
+@@ -25,6 +25,7 @@ enum functionfs_flags {
+ 	FUNCTIONFS_EVENTFD = 32,
+ 	FUNCTIONFS_ALL_CTRL_RECIP = 64,
+ 	FUNCTIONFS_CONFIG0_SETUP = 128,
++	FUNCTIONFS_RW_PROXY_EPS = 256,
+ };
  
-+/*
-+ * Enable or disable automatic zero-length packet (ZLP) appending for the
-+ * endpoint. The argument is a pointer to a __u32: 0 to disable, non-zero to
-+ * enable.
-+ *
-+ * When enabled, the kernel will automatically append a ZLP at the end of
-+ * a transfer if the payload length is an exact multiple of the endpoint's
-+ * max packet size.
-+ *
-+ * This is useful for compatibility with legacy protocols which require
-+ * automatic ZLP appending to data written from userspace.
-+ *
-+ * This ioctl can only be used on IN endpoints. It can be called at any time
-+ * after the FunctionFS instance is active, even before the host has connected
-+ * or enabled the endpoint.
-+ *
-+ * Returns zero on success, or a negative errno value on error:
-+ * -ENODEV: The FunctionFS instance is not active.
-+ * -EINVAL: The endpoint is not an IN endpoint.
-+ * -EFAULT: Invalid user space pointer for the argument.
-+ */
-+#define	FUNCTIONFS_ENDPOINT_ENABLE_ZLP	_IOW('g', 134, __u32)
-+
- #endif /* _UAPI__LINUX_FUNCTIONFS_H__ */
+ /* Descriptor of an non-audio endpoint */
 -- 
 2.54.0.1136.gdb2ca164c4-goog
 
