@@ -1,109 +1,129 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF3F33EAED
-	for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 20:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8F286331;
+	Fri, 19 Jun 2026 00:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781814684; cv=none; b=mZzUu/tOZpYlBTaw3JPYMWPkBVZ/K+nFaw0VtOjEBw5zr0NfTnbLrnbAa8PSJCkykvY5hY+3vM17QrFVlNEM+99EReNnj0k73BsDM3h+V/HjXcofAgJ47hJKJfV+7exOjGE2aeiDtIUECAvTZ/ENugFDSSVegNilB8wyYS/4HQQ=
+	t=1781828935; cv=none; b=R460qfxIWDbASAxWAF3cvKUZnHrwMfmjzlOIVGYZiv/HdBTmkQpQivKZJ1c58QNG4IfQCURXoQTKR+rlCmgjkBqOYx6x/BNdS5YwSuBz9o1GPJZAa9ZnVzZJZ4JlOFZH5XFT0WGJzK6Zphb45Xpk0lcRPMc3yfjrytl8VcfnG0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781814684; c=relaxed/simple;
-	bh=/LPHXZT7LD771IVECNquueWpuQAnVIKcTNUWyjKTOHM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=urOI754ycYCQzZUg8OoD1y52y8nayGkiXBhxGxH3kPzGRf56ogzVz8RyU8FWqRLmMoxqg88OA6DuNUov2xpz9jhyJ3p+Pe5v1LZFK28hhCxnQL4gNSw9oehpR4nJqzjBakK+uXKF6qz/ofmTGJYPMvYRB1SYtUlZDoLNtTIagbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eSEtq4CS; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781828935; c=relaxed/simple;
+	bh=a7J2vjFOpzjFBVE77dN1yd66J+NGlsSCBrq+iApzqd0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ky/QgglRW6ZfuwGQs5rtb1xlFlhRE8yXonEsaRLCNL4L/i3ZXoblDrmLzakePOFHubY5udSi4totw0goJEBjXAMsvaBRhCOaOU/Bvy0kCGqOFnhvt6oe1onaf1Qlh86tWwxDlE3MDBUye3b9mm6LSCYb/K8fyB7yE+w2I0z1Dng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BvOKG3SV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eSEtq4CS"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-36d5b11201aso989503a91.2
-        for <linux-usb@vger.kernel.org>; Thu, 18 Jun 2026 13:31:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781814681; x=1782419481; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hY833qL63LecSXXf24b+TIT9KgU6CCDE0sbpVpUWuMI=;
-        b=eSEtq4CSsT6JKcYk9i1QI6lR7Aupgp4Wn2dD8yLjW9sRKoirMwOGXczLslllss6fnJ
-         AFziRRp2IbRTV/DQrD39KSGeG9kjhCb2v3dmT3ZMbtNof6hILPv/tYjOvZ8gsjnrDUF+
-         4SHe4OJhScU/sC6h40nToOMprRU12MsTxXV3JDPH0HochCRBGXEzMZ5jIJN35owkavlc
-         m8s6Yox6LsQOySElTeqlLtxxV0ZYYjS/C979Dkkfe3aASWIL2r5YkphErxOhrSO9eOHv
-         SzBWdJapznb3pYs8SIxTDRHuLqfXagivzEE5SNDPDeRB0plqOaNlbMDt0VofgzoDIG0K
-         RGqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781814681; x=1782419481;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hY833qL63LecSXXf24b+TIT9KgU6CCDE0sbpVpUWuMI=;
-        b=QCgArhcoyCT3IUoTqGAyMk6CXzvXJrvUi67F7rLs5T1IxsHQmI1AhPbQzYO5MBRRLX
-         BYA1wN1RQL/AkWjNyJGxb1PTjyE9ONi7FuG719O6JoTpaKg+/5xFyaZC6ZsVu0Klimea
-         QiLDhbSOW/bgGtqiHSwSuXrFR81b8PsxuOhqK9MTS7XQwyWAu20vRrgB4IIdj5YyEe8k
-         uko6cPdx6QwnK6nomAKFrGdLN9mWIZC6MrVo7CJPCk/C7ssr2+6E+PGZfq5hj4nmnZO2
-         6+iP4gnINfEz16urXoqrxMybVBCNwoEkR2UyP5Vh8e7NhQVFO0T1u22TeLXXB0wcJszd
-         gDfg==
-X-Forwarded-Encrypted: i=1; AFNElJ+JDhvVPCzRBVEX8otHQoCtWZAKMQVGxh7/lTDpaUaaL7BOvR0kUvWrhG8fGqy2+iCOYyBR8tULHWk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtRXqpYrSOhK/Jg+33n4Kmv9e72NuE8EUMocpJzWtUgexd8CKy
-	gkG79Pd602CWhZHa6Fj46m7z7C6xti7DhrM4Rdj4ms6fdNL+bbvidNVr
-X-Gm-Gg: AfdE7cl8dqaJJy3RqZCuPmMjaI2cXFBosQMc6LzXrI/B0OijXrp52m84lwSRC6EQzbx
-	XCHTEcXhSUPhLVKw8rY9fRn4Sxvdu/SLIQVrUG4wKHUMt1ctWXhqvHhCrzh/Oy26Rc6RTqq9Fa3
-	0bQ6IUGZcBcRTTcWq1rfemfE8+DWyY74X668jpxsM7JSom5E1p+KyZREyECRH5hbfU0rFjdieAP
-	+J3KJwaUHQQCbDJZvZ27iXia0iq+2y8Zs8GCxPnJ/kATCWqP7wa25o8KAZfYcTySh9j0DqJrvYx
-	GlvDnFmcaxY/59fhmJ7PYV6RhORrutslb3BLMcVdvpi0kIr85PQk/Z1VXzTzZN9XQYJl/AsMF9V
-	L8e9bQIfE/NvlBadTP+yHSP8KYoDpiNGHqzT98Z4IF8KkccOQzwqpUI1u00hGRDQycbJ9TXDVzl
-	s5mT5xDDD4XRuR9TP80i9+LzSB3wZ5MIIUUQ==
-X-Received: by 2002:a17:90b:2709:b0:37c:ad9b:680b with SMTP id 98e67ed59e1d1-37d15e90058mr1278525a91.20.1781814681485;
-        Thu, 18 Jun 2026 13:31:21 -0700 (PDT)
-Received: from LAPTOP-TMVMP5FD.localdomain ([106.222.251.180])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37d15de5d3dsm544009a91.10.2026.06.18.13.31.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 13:31:21 -0700 (PDT)
-From: Keshav Verma <iganschel@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: johan@kernel.org,
-	kees@kernel.org,
-	o.bock@fh-wolfenbuettel.de,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Keshav Verma <iganschel@gmail.com>
-Subject: [PATCH] usb: misc: cypress_cy7c63: check control transfer status
-Date: Fri, 19 Jun 2026 02:00:53 +0530
-Message-Id: <20260618203053.4725-1-iganschel@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BvOKG3SV"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9103FC2BCB0;
+	Fri, 19 Jun 2026 00:28:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1781828935;
+	bh=a7J2vjFOpzjFBVE77dN1yd66J+NGlsSCBrq+iApzqd0=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=BvOKG3SVosm1H0BkCj2WJmptfKzwCMKc353zwEWaFaRbH8i6H5FQnpRrukAM+Ogz1
+	 Jkf+IHqALcjpbOcEzaBL17LvO8JTUUP89xBuXAw9c8ZK4lMXn6ZpscBx3wk33hzJrD
+	 +64TfQE87lgzKNpSETbgB7tX2HnM9dAjxSTS4Lm+CN1FtlIvzizfYmFIqdvyDyQ/2P
+	 0gLvGdf6AkwuMygGnHgD0JsS1FPvvc/R81xLlKKZKkPlOk71licIwb8pbe9S2IPTCo
+	 PiItoKhcgh3JWWoBTFEAjlFb6hENsCcoQAr2ri6qU6fnvZ9VLAnLwrCTRFvzDhDRq7
+	 b+lT+J8Z3tdxA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78150CD98FA;
+	Fri, 19 Jun 2026 00:28:55 +0000 (UTC)
+From: Sam Day via B4 Relay <devnull+me.samcday.com@kernel.org>
+Date: Fri, 19 Jun 2026 10:28:49 +1000
+Subject: [PATCH] usbip: vudc: fix NULL deref in vep_dequeue()
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260619-usbip-vudc-deque-fix-v1-1-9021463b1903@samcday.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MywqAIBAAfyX23IIPEOpXokO1W+3FTFEC6d+Tj
+ jMwUyFxFE4wdhUiF0ly+Qa672A7F38wCjUGo4xTTg+Y0yoBS6YNie/MuMuDZLUjtmR37aClIXL
+ T/3aa3/cDPmYkymYAAAA=
+X-Change-ID: 20260619-usbip-vudc-deque-fix-d316de3d3f16
+To: Valentina Manea <valentina.manea.m@gmail.com>, 
+ Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Krzysztof Opasiak <k.opasiak@samsung.com>, 
+ Igor Kotrasinski <i.kotrasinsk@samsung.com>, Karol Kosik <karo9@interia.eu>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Sam Day <me@samcday.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781828934; l=1715;
+ i=me@samcday.com; s=20240502; h=from:subject:message-id;
+ bh=JVJhd3pJhD1WvH0uTHxGI5DtrMLVc93YCbkxWy2vbjU=;
+ b=mCvH0QQzyVr4xaU1WgxDh4XXu3UvflWoTXd75tyXz6TTb4J5HwEzGc1+dNKLWe//gJhRa2cag
+ 9xZhwOm4ohiBZkvFeuZBqf8O0nIE2mEjFFls/Xt6x+f0Y9fMt8Wggj4
+X-Developer-Key: i=me@samcday.com; a=ed25519;
+ pk=bzyS0akxWMqr9+AXzgBRIp28KKpEOs+GjYMc2yf+aeU=
+X-Endpoint-Received: by B4 Relay for me@samcday.com/20240502 with
+ auth_id=595
+X-Original-From: Sam Day <me@samcday.com>
+Reply-To: me@samcday.com
 
-read_port() currently ignores errors from vendor_command() and always
-returns the cached port value. This can report stale data when the USB
-control transfer fails or returns a short response.
+From: Sam Day <me@samcday.com>
 
-Return the underlying error for failed transfers and report -EIO if the
-device returns fewer bytes than required.
+vep_alloc_request() wasn't initializing vrequest->udc, so cancellations
+on the FunctionFS AIO path were arriving in vep_dequeue without a valid
+UDC reference.
 
-Fixes: 9189bfc2df0f ("[PATCH] USB: rename Cypress CY7C63xxx driver to proper name and fix up some tiny things")
-Signed-off-by: Keshav Verma <iganschel@gmail.com>
+AFAICT this bug has existed for ~10 years. Seems that nobody has really
+stressed the FunctionFS AIO path on usbip's vudc.
+
+I tested this fix in a QEMU aarch64 guest driving FunctionFS endpoints
+via AIO. Before the fix, running `usbip attach` from the host would
+cause the guest to oops with the following backtrace:
+
+Call trace:
+ vep_dequeue+0x1c/0xe4 (P)
+ usb_ep_dequeue+0x14/0x20
+ ffs_aio_cancel+0x24/0x34
+ __arm64_sys_io_cancel+0xb0/0x124
+ do_el0_svc+0x68/0x100
+ el0_svc+0x18/0x5c
+ el0t_64_sync_handler+0x98/0xdc
+ el0t_64_sync+0x154/0x158
+
+Assisted-by: opencode:openai/gpt-5.5
+Fixes: b6a0ca111867 ("usbip: vudc: Add UDC specific ops")
+Signed-off-by: Sam Day <me@samcday.com>
 ---
- drivers/usb/misc/cypress_cy7c63.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/usbip/vudc_dev.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/misc/cypress_cy7c63.c b/drivers/usb/misc/cypress_cy7c63.c
-index 4a7f955ba85b..8601ee0a1ea3 100644
---- a/drivers/usb/misc/cypress_cy7c63.c
-+++ b/drivers/usb/misc/cypress_cy7c63.c
-@@ -177,6 +177,10 @@ static ssize_t read_port(struct device *dev, struct device_attribute *attr,
- 	result = vendor_command(cyp, CYPRESS_READ_PORT, read_id, 0);
+diff --git a/drivers/usb/usbip/vudc_dev.c b/drivers/usb/usbip/vudc_dev.c
+index c5f079c5a1ea..2f1f141909b2 100644
+--- a/drivers/usb/usbip/vudc_dev.c
++++ b/drivers/usb/usbip/vudc_dev.c
+@@ -279,15 +279,18 @@ static int vep_disable(struct usb_ep *_ep)
+ static struct usb_request *vep_alloc_request(struct usb_ep *_ep,
+ 		gfp_t mem_flags)
+ {
++	struct vep *ep;
+ 	struct vrequest *req;
  
- 	dev_dbg(&cyp->udev->dev, "Result of vendor_command: %d\n\n", result);
-+	if (result < 0)
-+		return result;
-+	if (result < 2)
-+		return -EIO;
+ 	if (!_ep)
+ 		return NULL;
++	ep = to_vep(_ep);
  
- 	return sprintf(buf, "%d", cyp->port[port_num]);
- }
+ 	req = kzalloc_obj(*req, mem_flags);
+ 	if (!req)
+ 		return NULL;
+ 
++	req->udc = ep_to_vudc(ep);
+ 	INIT_LIST_HEAD(&req->req_entry);
+ 
+ 	return &req->req;
+
+---
+base-commit: 5cd1731cc883a9914d91e3b93d4597317b5b5339
+change-id: 20260619-usbip-vudc-deque-fix-d316de3d3f16
+
+Best regards,
 -- 
-2.39.5
+Sam Day <me@samcday.com>
+
 
