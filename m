@@ -1,196 +1,117 @@
-Received: from FR5P281CU006.outbound.protection.outlook.com (mail-germanywestcentralazon11022116.outbound.protection.outlook.com [40.107.149.116])
+Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71202AD03;
-	Fri, 19 Jun 2026 13:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.149.116
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781875885; cv=fail; b=AXel5QsK9bqOLmUyLzQROSe4WvgLW/qU6mzwEWHC5b3hgQzz7aTnWKXfnpUeT5tMavTmkorqZHQ7X6IlFIg/zKSmG4ygsG2pKVAyZ1B50qzhti1ZJ7Yj7KLWynMBSoqSJO9mGqWBDIbtI6ZmfXxBAeNQ3aGwy2ZaFC4bD2CP+pQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781875885; c=relaxed/simple;
-	bh=rmyV1fyh0NrHeiVGeGB3t9RIJwb3QkFx/K6XTLCmN1Q=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=BQHSm6Q7S+Dm6faUyBbaNBbPD/Ogj6J81NBGcYsduebG98PIIKDgffr7PZ26LGJjZ5W0gWTxsBgwL75IQJMbw9mSd+/prShptnfxB1U6oaALxRIjJjepY7THUUHyMCa0g1zIVsSNLEHeEL+z5STFZNDoARolxbel/ojW/Z7kmHY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=schleissheimer.de; spf=pass smtp.mailfrom=schleissheimer.de; dkim=pass (1024-bit key) header.d=schleissheimer.onmicrosoft.com header.i=@schleissheimer.onmicrosoft.com header.b=kfeq5Vu/; arc=fail smtp.client-ip=40.107.149.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=schleissheimer.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=schleissheimer.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3911428CF6F;
+	Fri, 19 Jun 2026 14:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781877718; cv=none; b=e717KzlaKIwyXd9j2d0EwQxtbKBE+4RPzI1RAcSDOBuEvjyUGrRvM3lIBPAGERvHik2cqgAuXs6sHKR+kJ3kUMtv281pu7PbQsBikSK+m7VUbGcC+fS6ODS8cqXVfw8cAFkAh4qtqoR553ljcKrNd8nohc/m7xIQBUYcgXeO10Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781877718; c=relaxed/simple;
+	bh=7r+gWLbdzCWmndG+gBwFRbgXNU6RGyqb7Gy5j+rKHys=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=LmHDokShQP7ygdX8PXh/cMwLZU5VJ7qVWwlEjiMjvta/phMdl72mRwXSo65/XGyQjswGi5cLWIiHFjYp9aZa9bG5BDjwl+/AXuygULkzaEvRQESI8hXEAJavrExZYJtD6cAeIlJevvLuotO3SMrv/ECboBoldxQXmPD5XLJGgsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=sSeNWiLe; arc=none smtp.client-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=schleissheimer.onmicrosoft.com header.i=@schleissheimer.onmicrosoft.com header.b="kfeq5Vu/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qGEZk4nJ+ILC2ZTlb5Pj2yt0Qr1TUGiS1GJQs68+O3HNsNB4wikv+a7DdoIk008ACY6uZuPXGjOozrWNzrbdVjgiwiEJEAvyGyjuMzL3c6ip5uAyA/aYSFV3qH3L557KhiFhKA0Uwe22HpDEFuPrFRdwRI69riSwsmG4MnkjFFI4c/fCU5/0iQrjazWzaUrSWl81TimG8grjvM6gTz9p9I+M/0YvHU2Cf+RPtiv8Qi0QyY7cs79XPaP0DLSx4hSNlKqJviD1WhG14fOptKKbKsAp/CKFOEsz/O3QMoB1giP6Ra7rUlkPthFJvb2kSu3zHY2toAFyZv6CYAFfAIo1yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QChXyCW9BdrBGve57zrValF5/ffVUYgKSopRVyW1JZs=;
- b=pzNWwfJxbM44kHGn8v+d75UnCoyAmPpyEDfYpa4ZPE1QnkKz6+BTp7/VnO9JmYaaSGPZGxlCHnEOrNzBjZf7apucG9hHKERG+IwnaYZmOgt3aZsZaBau424hSQuZemRqg7dK/wR2Tkpr1YsMVypIvBtlWkJWVGTd+E1SlShaQzLee9n1/89/VM56EfVVDybDcep6PqaC2Ho5JfYVSTGGzKvmPa9moW9ROnX1qAseKoukULgj/vXfOW8OZWxr6PhHo63AVRonvPGC5lrxAaQDc+c4fghh1GkNthHs3hLPAkcB1PAiPmV3VVjm09lRrByRAJqzb2LKXFeogl/u6dgt9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=schleissheimer.de; dmarc=pass action=none
- header.from=schleissheimer.de; dkim=pass header.d=schleissheimer.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=schleissheimer.onmicrosoft.com; s=selector1-schleissheimer-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QChXyCW9BdrBGve57zrValF5/ffVUYgKSopRVyW1JZs=;
- b=kfeq5Vu/0xinC1d+T6K3vZ7qjy+P8MqKFPEp1jhOJGFcYfDJwrr2ogq4Huqne2wBYQRXUG3nv9XJWKdBDK+/uqfVPkvIfSufo8Q+Axfs9667xYpS7C6NatbTq+sxro/FxZvivW/pEcvBclCPlyWTl8031LlpO1KoiBrHdhqSNcc=
-Received: from BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:52::10)
- by BEYP281MB5537.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:e4::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.13; Fri, 19 Jun
- 2026 13:31:19 +0000
-Received: from BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM
- ([fe80::2bc1:32a6:153:c3e9]) by BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM
- ([fe80::2bc1:32a6:153:c3e9%4]) with mapi id 15.21.0139.011; Fri, 19 Jun 2026
- 13:31:19 +0000
-From: Sven Schuchmann <schuchmann@schleissheimer.de>
-To: Nicolai Buchwitz <nb@tipi-net.de>
-CC: Thangaraj Samynathan <Thangaraj.S@microchip.com>, Rengarajan Sundararajan
-	<Rengarajan.S@microchip.com>, "UNGLinuxDriver@microchip.com"
-	<UNGLinuxDriver@microchip.com>, "Woojung.Huh@microchip.com"
-	<Woojung.Huh@microchip.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S .
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: AW: AW: AW: [PATCH net] net: usb: lan78xx: restore VLAN filter table
- after device reset
-Thread-Topic: AW: AW: [PATCH net] net: usb: lan78xx: restore VLAN filter table
- after device reset
-Thread-Index: AQHc/1ZL+dYj4wyIHkavMkZrzwxM9bZFg8XYgAAJTICAAAseOIAADC2AgAA5uBQ=
-Date: Fri, 19 Jun 2026 13:31:19 +0000
-Message-ID:
- <BEZP281MB224523ADACDB48D8E3974D4AD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
-References: <20260618191109.4086598-1-nb@tipi-net.de>
- <BEZP281MB2245740AE8E3221DD076CE7DD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
- <6d638042ad07a8bfb09ff3ee923e7b3f@tipi-net.de>
- <BEZP281MB2245422BB9FBFF4AFE081451D9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
- <4abfc9b1e8860da93c03639863bd0232@tipi-net.de>
-In-Reply-To: <4abfc9b1e8860da93c03639863bd0232@tipi-net.de>
-Accept-Language: de-DE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=schleissheimer.de;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BEZP281MB2245:EE_|BEYP281MB5537:EE_
-x-ms-office365-filtering-correlation-id: f5a16b3d-e3b7-47d8-b4ed-08dece070bd2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|1800799024|366016|23010399003|18002099003|22082099003|38070700021|56012099006|4143699003|5023799004;
-x-microsoft-antispam-message-info:
- DQdzLDLcimZ+2LiXMCWq5oR2r/kS+NKCeA6jAvTskJqSiCDKaAlJC1gAHpJA6IgGIE1smzAuz05ZNfc+VG5GtWIG56JyfNtUY2Tq0iOdW8Ak7JpDdl8jOIJ5EoqqydOjp0dW6vTwQ3bBzfwS4VT9tMy02ynmWEr0Pj0JbecVFeElIDjFINZdBmM/IQANP5MZmRO4qD4ozOvie469Nz4FC0krS1NNJfCsEgBEhnubCak3j4+O8L0O0AbNMSo1sJ+KKNhasrjtemxBtJdpmRQEBpE+skJFFhvmvsf/L/FxiQkOQNWiX3BbyQfdwqu/WtspM5sLdemywABsB8BUsmNddmcgVcVl7D79mKzPuCqmolRQij5345i+GgqtePBq6YWEWUL4u2Kwz0GRGdTfWETYPWXVpO9DIx3wy0RT45xhUPL2edTYmpWZgQhR/7rdkYvRXwb/Abc3NXuMPZTMjMljAJ/C6Q4CzlYHrrL0PZqvc5JztARrImR95h+teeSeH35vOmasf8ENLC60RwbqTtJP5sv4042EurH1QqJ8qhhL5BOyJdLQKBcmAaJZh5sTVtn/TgcgmOmeBXykebt+AWxbn+yHfGjQySlr4nbe3oqy6b1ABU20f7hJbabAlYE/fPJgMeUYIanixEO5uqflXKUOd/K/yzDd8uWuARZ20My9yrmcyRffFvWcP/Xvl6uVKTBS4CCggTsxgI6IDwMNpcGQHkEDLqHLGAwNzyaeC8USka4=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(23010399003)(18002099003)(22082099003)(38070700021)(56012099006)(4143699003)(5023799004);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?vweIxcRm5Ro4e5iuCEsvsr3R2MpnnZOVVDw5epKryIzgUWm0/lk6rtLdJt?=
- =?iso-8859-1?Q?ji+sph7sI9pwyejpefIFh/oyXtONuga33IFHU9keIv/1zek+grCKHxXLXr?=
- =?iso-8859-1?Q?cFSQGAie11PARk47IUkezKWa6BuJebv6wRhPS0z4r/grmgR0ypkCJTUHmy?=
- =?iso-8859-1?Q?l8nCkv4mSdeXQiuH0bpK7QMiGDB8OwXmeMWZGvwVQvvLJFEHJBUfj+i8e8?=
- =?iso-8859-1?Q?Q8P7+9Of+IiOSP4m4Cig69Fr7Ge8qmX93KPNCuReInqXQDTNUPbqC+h73Y?=
- =?iso-8859-1?Q?2fxArFTRdoZga9bwSJLX60xIUeUNy6VuP5gNorNK0vE0EckWGieyfhI8tS?=
- =?iso-8859-1?Q?ZLW6BKZvQYIEA7dsNN/mw9xWY4sdpP8kI/Tmuto6NikbiX4nRzAewjFysF?=
- =?iso-8859-1?Q?TVBleQg/ccv59J1xTf/ijhRgL4rv5MS7kiChtmI/7UOHgx0XyL7SLOo9gs?=
- =?iso-8859-1?Q?EQAJl5N96w5XD5e+RRSBDhfsapgJOt4z2TfmFabqfi0OnRjg9+QphKIX+c?=
- =?iso-8859-1?Q?dYiah6Coiic/Sbyx0HBcsJWkVmuJXTyjcpCboFl12YJecpFMzEZlctVYoz?=
- =?iso-8859-1?Q?2DQwLX0/Ebkr5jHDItinIlyHgFysDqXOV5sj/Y2bLEVPtdpILIm3q9TrNu?=
- =?iso-8859-1?Q?iFtQerOlKgneCIpCgMl738g0ehz1JT+6Wzz1pi9QtOO1aBl2FKYqYRYrLv?=
- =?iso-8859-1?Q?OB/xggyR30cPJZPjx8gRcCFbZpHtblBooCcCUNwKyGSEjfzmUkbeBrwRkj?=
- =?iso-8859-1?Q?9g2cem8DSLgodUyKt0Gvik3pFcU65qaWq16k1sqgGVTpsWYkr4CwrtgeLg?=
- =?iso-8859-1?Q?mnq4gtXU7leNyR294J7HhPNzfHHsMdNDw7dUUuRhXvIwX6wB/PCsoWmvao?=
- =?iso-8859-1?Q?oiLaXhBcstp8Dbe1GxE+MGLtvJdNDeQoolhYEZGcef04qJ4uTW5IWyZEAf?=
- =?iso-8859-1?Q?CM960piju5rW5kEWPv0asYHVFXfpr9MqdNLFa2SwfrvMWkH2nYTOMdHA9T?=
- =?iso-8859-1?Q?cEJuPKfGliaTSg+HUk3s6S87k/f1MWqaIFJnLxHUmlDbAqEFqvC31eawsk?=
- =?iso-8859-1?Q?fxceQ0pMW0zCXDLoDg1noomeSyGeYH98I4V39U21ZPFNu+aWpMsjlUVss/?=
- =?iso-8859-1?Q?NQmKu8QZYofYKs6gjfM97HvXkRPVh6i3JHeexAKnMLSI2HTSPtDTjpdwcE?=
- =?iso-8859-1?Q?J0/O8YD70JbNuC/R4MVkywZmu8woeTuEWWNE2NLnWcMjEjRgwPwZHUEAek?=
- =?iso-8859-1?Q?zErhu+6LYrn9nKCEkTycCJT0hSX+uxnzubaaIkY+PtQixPtkVOGGE85BFr?=
- =?iso-8859-1?Q?eW5WQBhEVjNhBJpb54SHH9X58EkrPPB9RCwUaPWC8a2QB+TjvdAoBggfC5?=
- =?iso-8859-1?Q?vfYZicAehhabOkaFf/q6JgpXkLZIV1npIfwknaXWrW0rK6DUMX7nDVIuMt?=
- =?iso-8859-1?Q?WGRxyTB1parmxmWIXuMKjP6LbtR33G/aBCsh2QsCHeuRaz3mgT3U+4J9g/?=
- =?iso-8859-1?Q?v7Eeu0tZX1fXCHe1npmVg7FVGJP9pPZ0i56PoSBBFOQD5MrqJor/r/4y3v?=
- =?iso-8859-1?Q?wulx64P6p8+hy4CjHbjBmDbqfAYPQIkOnnWq2bW2Uk6faZEt6v73x5gECM?=
- =?iso-8859-1?Q?pp9vQLzWLwnNcVg8cw1sHxBSOtMf6/TtCxVn7/SQGv/Pph9yrGLTMAayUN?=
- =?iso-8859-1?Q?AR1dRMV5XsRR2fZkd288oI2irTywsEt59PraTyARLlkAxC1TzSHtKhbp9k?=
- =?iso-8859-1?Q?1DcBBs8n9aj043JfkbaJZmwvSdMAAweEcA3R9rDDsD1TSTFgfDYkpM3f01?=
- =?iso-8859-1?Q?pxhCL/0pOw=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="sSeNWiLe"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A09A0A0285;
+	Fri, 19 Jun 2026 16:01:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
+	t=1781877711; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=0kzVf2rab1tQ1NJcQPC2UBtf3cOYxXzI6xVDXbFZBT4=;
+	b=sSeNWiLescYGP4jzUxbMPA7Jyb8FExiAKhaW/mOGgwIWppN7scrsjkka8jYowMUmo4e1IM
+	YxJaNI14d7atbO8/aNQoFgCjMk6HcEhjgDfEydYtJnD3vNw4NFvmyIQpZmhxOi3b6sisFl
+	bHgP2DVbVsiP8sGzQ497GQi9MnrbMJAOJ1wvFAPzxmCKYy4CSn6VeRab6j5patSTR2wtMy
+	+LE1q5dgjbT1WbCUCM4RAGVZE+FHFlJebFPkhGx0g14m1om7C/ZBCvqF4MCOa4lwjuxpOs
+	SaSyjbDsDE2dWSoRaM6yALdM4ewRP1Gr2jD6Wf8FIJd4+mvUPb9E4gWd55Wjtg==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: schleissheimer.de
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5a16b3d-e3b7-47d8-b4ed-08dece070bd2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2026 13:31:19.1110
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: ba05321a-a007-44df-8805-c7e62d5887b5
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xzArrZtFzGlaw71ETCgaTBtmBYbhlbIXaVJaB7+QdnRqaQunK3cL/V84sTHxzAter3o1THzOw6sDOfZ6Xo8/MugtCUhuuNAwhMN+VBgMQ1Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BEYP281MB5537
+Date: Fri, 19 Jun 2026 16:01:49 +0200
+From: Nicolai Buchwitz <nb@tipi-net.de>
+To: Sven Schuchmann <schuchmann@schleissheimer.de>
+Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>, Rengarajan
+ Sundararajan <Rengarajan.S@microchip.com>, UNGLinuxDriver@microchip.com,
+ Woojung.Huh@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>, "David S .
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: AW: AW: AW: [PATCH net] net: usb: lan78xx: restore VLAN filter
+ table after device reset
+In-Reply-To: <BEZP281MB224523ADACDB48D8E3974D4AD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
+References: <20260618191109.4086598-1-nb@tipi-net.de>
+ <BEZP281MB2245740AE8E3221DD076CE7DD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
+ <6d638042ad07a8bfb09ff3ee923e7b3f@tipi-net.de>
+ <BEZP281MB2245422BB9FBFF4AFE081451D9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
+ <4abfc9b1e8860da93c03639863bd0232@tipi-net.de>
+ <BEZP281MB224523ADACDB48D8E3974D4AD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
+Message-ID: <f76711d2f45c527f9ce0f5d288631bc6@tipi-net.de>
+X-Sender: nb@tipi-net.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hello Nicolai,=0A=
-=0A=
-looks good from my point of view=0A=
-(Calling the lan78xx_write_vlan_table() from =0A=
-lan78xx_mac_link_up() and from lan78xx_reset()).=0A=
-=0A=
-But I investigated a little more and it seems the hash table=0A=
-(which is right behind the vlan table in the controllers memory)=0A=
-also gets cleared. I wrote some random data into this table and have=0A=
-seen that it gets also cleared. I think this needs to be fixed too.=0A=
-=0A=
-In the Datasheet from the LAN7801 I can read:=0A=
-"After a reset event, the RFE will automatically initialize the contents of=
- the VHF to 0h."=0A=
-Where VHF also refers to the hash table.=0A=
-But I still do not understand what reset is happening when I just unplug th=
-e network cable....=0A=
-=0A=
-Regards,=0A=
-   Sven=0A=
-=0A=
-=0A=
-On 19.6.2026 11:53, Nicolai Buchwitz wrote:=0A=
-> Hi Sven=0A=
-> =0A=
-> On 19.6.2026 11:18, Sven Schuchmann wrote:=0A=
-> > Hello Nicolai,=0A=
-> >=0A=
-> > my first opservation is that calling lan78xx_write_vlan_table()=0A=
-> > at the end lan78xx_start_rx_path() fixes the problem. I was able=0A=
-> > to do over 200 connect/disconnects without any problem.=0A=
-> =0A=
-> Thanks, that's the right direction. For the final patch I'd move it=0A=
-> to lan78xx_mac_link_up(), which is IMHO a bit "cleaner":=0A=
-> =0A=
-> [...]=0A=
->   static void lan78xx_rx_urb_submit_all(struct lan78xx_net *dev);=0A=
-> +static int lan78xx_write_vlan_table(struct lan78xx_net *dev);=0A=
-> [...]=0A=
-> static void lan78xx_mac_link_up(struct phylink_config *config,=0A=
-> [...]=0A=
->          if (ret < 0)=0A=
->                  goto link_up_fail;=0A=
-> =0A=
-> +       ret =3D lan78xx_write_vlan_table(dev);=0A=
-> +       if (ret < 0)=0A=
-> +               goto link_up_fail;=0A=
-> +=0A=
->          netif_start_queue(net);=0A=
-> [...]=0A=
-> =0A=
-> Could you give this version a quick test and confirm? Then I'll add=0A=
-> your Tested-by.=0A=
-> =0A=
-> > [...]=0A=
-> =0A=
-> Thanks=0A=
-> Nicolai=
+Hi Sven
+
+On 19.6.2026 15:31, Sven Schuchmann wrote:
+> Hello Nicolai,
+> 
+> looks good from my point of view
+> (Calling the lan78xx_write_vlan_table() from
+> lan78xx_mac_link_up() and from lan78xx_reset()).
+
+Thanks.
+
+> But I investigated a little more and it seems the hash table
+> (which is right behind the vlan table in the controllers memory)
+> also gets cleared. I wrote some random data into this table and have
+> seen that it gets also cleared. I think this needs to be fixed too.
+
+Something like
+
+static int lan78xx_write_mchash_table(struct lan78xx_net *dev)
+{
+        struct lan78xx_priv *pdata = (struct lan78xx_priv 
+*)(dev->data[0]);
+
+        return lan78xx_dataport_write(dev, DP_SEL_RSEL_VLAN_DA_,
+                                      DP_SEL_VHF_VLAN_LEN,
+                                      DP_SEL_VHF_HASH_LEN, 
+pdata->mchash_table); // from lan78xx_deferred_multicast_write)
+}
+
+with callers in lan78xx_deferred_multicast_write() and 
+lan78xx_mac_link_up(), should
+do the trick?
+
+> 
+> In the Datasheet from the LAN7801 I can read:
+> "After a reset event, the RFE will automatically initialize the 
+> contents of the VHF to 0h."
+> Where VHF also refers to the hash table.
+> But I still do not understand what reset is happening when I just 
+> unplug the network cable....
+
+I suspect it is triggered from the PHY:
+
+8.10 (MAC Reset Watchdog Timer):
+"A portion of the MAC operates on clocks generated by the Ethernet PHY 
+[...] PHY Reset
+(PHY_RST) results in resetting the portion of the MAC operating on the 
+PHY receive and
+transmit clocks."
+
+So which PHY are you using?
+
+> [...]
+
+Thanks,
+Nicolai
