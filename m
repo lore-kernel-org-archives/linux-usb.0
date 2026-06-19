@@ -1,257 +1,465 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F16D367297
-	for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2026 10:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058B03655C2
+	for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2026 10:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781863208; cv=none; b=uZxqfRQWPfkmpdLWl7m/VZ2nZjoQX0M2POeDiThuo4k0kxot44Yi6j1/AoZe4NlfvsyRuiebVDYTLtcISp50ohLIWcmJsQnXKW9Eas9tO+gymqTFK5hCflFnxr84KjDzk0c4dewqLZSNChihHwpWtiuTzwu11ZBMSBv8MzX4rhI=
+	t=1781865762; cv=none; b=N8CsJ8cIrjgTSh3Wj4hUFY2hh4oDdUWA0bfOPEk8rZATqKGfzRjjN5/hdqRqqg+hP/ftVgDU5pUD5V6FLcVp3qtbXbuo3VEpAftJNnI7AbI5AGkJavOEmnCL+HPG5OCjq2My5FT59l4/9X2w+FYzLVnzrRVBoluOeWkHergnw/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781863208; c=relaxed/simple;
-	bh=HfmQkOtk9IaM+WPmz7eE7lkMj2hf2wlI6dSjVLexa2g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OAEnS9rk2QL2CeXofMX8rr3NkLMSP7sQZjrMj/G1UWziXjw5oQB8Zqs4LMQzM/18Ixz8lzig2q0+sdphb0faL91EWxGXBt3UHPy+KsD9xPSd4LYjdX8M6NFRkueOoDL/RKkaq0nVgaJ4I16Fd/lYU5+VCq4hdkZ8TaLby9vzUD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rTqxvQZ3; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1781865762; c=relaxed/simple;
+	bh=d7wQD2SRd/b5HcWwTGAQG/8iGCr7bMydWNZicS/LIqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=m19p8HUnRgfvEzJbhg2MRAovMT2mmfEHgU/52Zmbp/m5i4txS7MM3GNLKT77p+dU1hqAvjxzaC+agZu1toGrnV6lYchQfEPQX8b4HYtnBc/JNC6GelkumVv2j+tGRjoF7ZhBQSaU1rn7ax3EkkL4Ui/0LukJ45sesE0zzmCNDcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OKtdrpt9; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rTqxvQZ3"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c89fa656ea1so413091a12.2
-        for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2026 03:00:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OKtdrpt9"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-45eeea039ebso1123284f8f.1
+        for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2026 03:42:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781863201; x=1782468001; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8d76X3icq3/Ja/CPqgRT+rRdC5OqM1uOzKiEQhI8PbA=;
-        b=rTqxvQZ3BdDoqe3jN23HJOP5iuif+JPdlRrNuhMzi1QkLGv8es08fAX+yTs427RBCX
-         Rq9aMhqvBxFKfGxMeflz/996nDop0HjQ/fuugWruwMFIXCJyoysjBQoFn/kEjyPpuj4T
-         dGZVYQX5zhtHUcnHaQ8r6p4Q0+DY6/Emg5S6but9cW322mnFYjmjQN0/BxHyuR3Yne6M
-         LsrcmnIXFpVALIT5lNaaQEKQK7goFQI/0R9PlmvYon+U0kihW1b+t10fcFp9cQbNqiRV
-         YfhkFiCfKIPv3A+J2qY3+VBacuNQhEKpVwNi+p5sv45Mphm3+cBHy423ZHjiqpfVeQ1k
-         xphg==
+        d=gmail.com; s=20251104; t=1781865759; x=1782470559; darn=vger.kernel.org;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JmfL4fDWdtp3QfnCMbKyt4hwMdf5Ddyrer+vB+D7Auo=;
+        b=OKtdrpt9lMFSnYFZTlEstGtL8JqvbonhopFTJAPQ1iyfLB/QkQ+D4DXK/v9haKjrJE
+         Aqe61GPmi3B81BlP1nqWJNC2pKlMtByWuDk1VU3Yr6Mq7IMjXbq7T2OEIKXyi9gjB19V
+         VN19FsoV2izTr7HT9xSY7xvUklgavt4zJ8+V8UFxu8p1jkhSu3+MNjHLtds0q1ZIGfNn
+         NW5uiItMoGDWE0N4fgb71xmPMrfT6Yk9UUYS20hc8xfIblsrKNXP9RO6oORNJ3gbMRKv
+         TLA811q8Zqod11zTcV1IkIHucE1zRGQ7uMEDBLOm94U66ccBc45yke7mLg69svCHdqPs
+         dflw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781863201; x=1782468001;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8d76X3icq3/Ja/CPqgRT+rRdC5OqM1uOzKiEQhI8PbA=;
-        b=Le1c2vOkvreft/bH0foIQxaKrMQkUwzfjjQLrmDw+lgGgXn1JddND9q9oPARRpVaG0
-         aDiML70NVIq6YnFXy87zVYU7RtRZaQTTgrUXOMUouVz2eiBqoSj4VhDQsR/eep5UK67b
-         lv5tJtORzW4N8cg0FpVfGBPWobCYFOxvI/XVXeSB41CsxoBK76IEugB8O6nZJC30noW+
-         VX09c/8KpI70Ka1xjd/3n0w/Vn2JcQstsM77T7eFkZpQzUC4e0OqCAcHMvdRpisLpoD9
-         2/7r7qnFUDbhS7MK4bWlssbRFhCvHA7nqLyOlNxyXgFxW+BVXEsbIRpmeHhWt15Nzb8Y
-         a8Ug==
-X-Gm-Message-State: AOJu0YwlTNwaYK4F93F3ohhzFWVT3x+SQ+9YUI/WvrGQYy+a5AurmnD1
-	f0bacL9EOdHhRMiFYBnxpZ+LZ0yyyQt3Uboo2bskAMxQhCu/ALAVVPiK7gcmEQ==
-X-Gm-Gg: AfdE7ck2/+wWYtyxiEWyRDx77LL56sv7CsjQ98SyBK1wHdzHHsnbfGoJZFNRFJczjix
-	Ie+0vwmVCavsBDT2CcNHv+ljO0ZGBKSfC8+aWadf2AG3AZQtS6EQ6KwaT4mfiKF8eCtVgkLjxwU
-	8pg7sE1PZ2iQojK76PapwtDnz/8xxPS9lmI8c1X6tvUQ0wwoX/kCMQ6iu677Z2FhnUpU4vxKYlR
-	RdoWG2CK+vB9jDbSg6GiE1Ypnig1EsSkWhukeVn1WMjgkvLrryzw8HAM8zRzfQYM+lTBPSN625B
-	vAk7oMR6Mt0fctXZNj9n8XRsB+aq4IQQLRyotPZx8eHUR3hxdjtmVLntyyTCngbFfj31pXuK1mA
-	BKGVUmTSrbsLnRiQtbbUPe+qGxtjw5+G9mtYhkA3ljU8TiTSnAg9KhH9BDPj9pclXRoeu67Fgwp
-	MD70G671uin9KFGA==
-X-Received: by 2002:a05:6a20:6a0f:b0:398:9b42:69f7 with SMTP id adf61e73a8af0-3bb34658412mr2933727637.39.1781863201220;
-        Fri, 19 Jun 2026 03:00:01 -0700 (PDT)
-Received: from ghost ([2409:40c2:6043:71b1:a047:7236:4a11:a43c])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8a84c6e5fbsm2231370a12.7.2026.06.19.02.59.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 03:00:00 -0700 (PDT)
-Received: from ghost.localdomain (localhost [127.0.0.1])
-	by ghost (OpenSMTPD) with ESMTP id 2d3f23de;
-	Fri, 19 Jun 2026 09:59:55 +0000 (UTC)
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	stern@rowland.harvard.edu,
-	michal.pecio@gmail.com,
-	stable@vger.kernel.org,
-	Nikhil Solanke <nikhilsolanke5@gmail.com>
-Subject: [PATCH] usbcore: Add quirk for 255-bytes initial config read
-Date: Fri, 19 Jun 2026 15:29:36 +0530
-Message-ID: <20260619095936.24080-1-nikhilsolanke5@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20251104; t=1781865759; x=1782470559;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JmfL4fDWdtp3QfnCMbKyt4hwMdf5Ddyrer+vB+D7Auo=;
+        b=VV48f0Kcctp9ij/WUJDjefApz3xbofVl48JVUx9ALaUlq9UEQMD1RPDN3mWau8Ze4M
+         /gNe0CuG+sUjl31RUziwvaEgBjKLR+radZHPJHrSsbyEQziM2YXUqiavdImWB4yoAxXd
+         lDx96C7FuRU/5TdIXQKB4ZZELMaz3lZSBOhNXG3k9umIDr2uNDTJTa7uejFx9xJVOgi6
+         bx/MyHwRD1W/9fjoVhKzzG5mI0buHI1lrR5gthxHogn6eHI9nHShpxfXkd9t+aCzh9u0
+         brEovzvzFE/zzudxrgqPrWBb3TwPn5aaK1GMN+QxOE7ePRCvQ+yhci4Q0z3j6rMXk+qL
+         vr0Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9ohECuvR6agLVjK7xaYhfOGzVYdXG2w7M1Ca2mec7+mm8Tj1yeCmS54kP9BIWJCcZ89LKZCudwS2k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+EHkkdxYeWOjsVjHYArTZA5tlRTxnbxA47/8Wa7NWFMg94kCn
+	o7LMNxyMep3fKmWWkLAZMaewCOxPcLBkToJgXg5RtPya1PeEq49h4bRA
+X-Gm-Gg: AfdE7cn6nIC32b9cH4uL6a1dvTuVvxQm7qVmEDCNDppJ7GEttL84Nn2Y8ENrfFgKCsA
+	3+SYTC2E9FJHHQLQZd9GXflX1ABIQWX8ylhmtXDQSNZX3PW9vBrLCv0CGf3D0ZQfLS8jXuQeh61
+	jMDM+W2wnizQeUXws1aT868hSGlyuFeFL4ekzAGji1wsvhvFMlr5X98JKkU8ly089OMLGPuL5lL
+	y1ed9N7yRmdVqLRvUkmqPAdVix5gtxpHZFOlm2iLDC7G9I9SNviZRtHB90X6CLod8G3U8LJasJd
+	2rnF+HqYBEhNY542azq/gEWLf1GtB/f2yrw/a2fpui6FCcboI2L6wJGNHJK93yy3tQr1FOgiVve
+	Rc8GgOT7rbd6VwVgCvVPKb4Icyxr0grJn0RLAZ73u1QG+TYOp1IkU/HFHE3Xfc9t4wFRV4s6Y71
+	rs3i4/4dLkNLSDyT5a6Mdnn75x8waEiTct
+X-Received: by 2002:a05:6000:298d:20b0:463:a83f:fc12 with SMTP id ffacd0b85a97d-46502bafa75mr4162045f8f.23.1781865759174;
+        Fri, 19 Jun 2026 03:42:39 -0700 (PDT)
+Received: from foxbook (bfg19.neoplus.adsl.tpnet.pl. [83.28.44.19])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650bc429a1sm6751690f8f.30.2026.06.19.03.42.38
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Fri, 19 Jun 2026 03:42:38 -0700 (PDT)
+Date: Fri, 19 Jun 2026 12:42:34 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: raoxu <raoxu@uniontech.com>, mathias.nyman@intel.com,
+ gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] xhci: pci: Disable soft retry for Renesas uPD720201
+Message-ID: <20260619124234.0a9e4670.michal.pecio@gmail.com>
+In-Reply-To: <62003881-4975-4bb2-a842-cb153ebd8cd4@linux.intel.com>
+References: <D9BA02889D046D23+20260617100957.2888108-1-raoxu@uniontech.com>
+	<62003881-4975-4bb2-a842-cb153ebd8cd4@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="MP_/a30Xhx_PbaPSoGRaznypMiF"
 
-Certain third-party USB game controllers exposing (or spoofing) an Xbox
-360-compatible interface (VID:PID 045e:028e) fail to enumerate under Linux.
-The device disconnects from the bus without responding to the initial
-GET_DESCRIPTOR(CONFIGURATION) request, and the kernel logs 'unable to read
-config index 0 descriptor/start: -71'.
+--MP_/a30Xhx_PbaPSoGRaznypMiF
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-The device then falls back to a secondary Android HID mode (with a
-different VID:PID), losing XInput functionality including rumble support.
-The failure reproduces across multiple machines, host controller types, and
-kernel versions including current mainline and LTS. The device enumerates
-correctly and remains in XInput mode under Windows. Notably, the device
-enumerates correctly in Android mode when the same aklsjdasd 9-byte request
-is issued for that mode's configuration descriptor, confirming the firmware
-bug is specific to the XInput mode.
+> On 6/17/26 13:09, raoxu wrote:
+> > From: Xu Rao <raoxu@uniontech.com>
+> > 
+> > The Renesas uPD720201 xHCI controller can fail to complete
+> > a Stop Endpoint command after a transaction error on an interrupt
+> > endpoint when soft retry is used.
+> > 
+> > This was reproduced with this setup:
+> > 
+> >    xHCI: Renesas uPD720201, PCI ID 1912:0014 rev 03
+> >    dev:  USB Ethernet device with an integrated Genesys Logic
+> >          USB3.1 hub, USB ID 05e3:0626, and a Realtek RTL8153
+> >          Ethernet function, USB ID 0bda:8153
 
-usbmon traces from Linux and Wireshark/USBPcap traces from Windows are
-identical up to the point of failure, with no visible protocol-level
-difference explaining the divergence. The root cause was identified when
-Michal Pecio discovered via a QEMU bus-level capture that Windows does not
-use wLength=9 for the initial config descriptor request; it uses
-wLength=255. This is not visible in Windows Wireshark/USBPcap traces
-because Windows routes enumeration-phase traffic to sniffers only after
-initialization completes. Alan Stern subsequently confirmed this with a bus
-analyzer on a different USB 2.0 device, and Michal verified the behavior
-goes back to Windows 95 OSR2.1.
+Same thing with uPD720202 (1912:0015) here.
 
-So, add a new quirk flag USB_QUIRK_CONFIG_SIZE which causes
-usb_get_configuration() to issue a 255 byte sized configuration request
-instead of USB_DT_CONFIG_SIZE (9) for the initial
-GET_DESCRIPTOR(CONFIGURATION) request, mimicking long-standing Windows
-behavior.
+Is the hub even necessary? In my case I have one too, but I cannot
+separate it from the RTL8153 for testing.
 
-Suggested-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Suggested-by: Michal Pecio <michal.pecio@gmail.com>
-Closes: https://lore.kernel.org/linux-usb/CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com/
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: <stable@vger.kernel.org>
+> > Reproducer:
+> > 
+> >    1. Plug the integrated USB hub and Ethernet device into the
+> >       1912:0014 xHCI controller.
+> >    2. Let r8152 bind to the 0bda:8153 RTL8153 Ethernet function
+> >       behind the integrated hub.
+> >    3. Bring the Ethernet device up.
+> >    4. Hot-unplug the device.
 
-Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
+In my case, necessary step 3.5: connect a cable and wait for the
+"r8152: carrier on" message. Otherwise it disconnects cleanly.
+
+> > The host reports a transaction error on the RTL8153 interrupt
+> > endpoint, queues a soft reset, and later times out the Stop
+> > Endpoint command while disconnecting the device:
+> > 
+> >    Transfer error for slot 8 ep 6 on endpoint
+> >    Soft-reset ep 6, slot 8
+> >    Ignoring reset ep completion code of 1
+> >    xHCI host not responding to stop endpoint command
+> >    xHCI host controller not responding, assume dead
+> >    HC died; cleaning up
+
+There is other stuff too, like concurrent teardown of a separate bulk
+endpoint, not yet sure what exactly breaks these chips.
+
+Would you mind to apply the attached debug patch, reproduce and post
+dmesg from your system for comparison?
+
+> > The Renesas 1912:0014 controller cannot safely use the xHCI soft
+> > retry path. Set XHCI_NO_SOFT_RETRY for this controller so
+> > transaction errors use the pre-soft-retry recovery path. With
+> > this quirk the same hot-unplug test no longer times out the Stop
+> > Endpoint command and the RTL8153 remains usable and stable.
+
+A bit heavy handed, but we might find no better way.
+
+On Thu, 18 Jun 2026 17:03:26 +0300, Mathias Nyman wrote:
+> I'd appreciate your opinion on a related issue.
+> I'm thinking about trying to recover from these stop endpoint command
+> timeouts.
+
+I can share a bit of mine. I tried aborting Stop EP on Etron and found
+the EP in some bogus state afterwards (e.g. Running but Stop EP fails
+with Context State Error, or Stopped but not responing to doorbells,
+something like that, I don't remember). 
+
+Per xHCI 4.6.9 there isn't really a case when this command should time
+out, so it's always some internal bug/deadlock in the xHC and IMO good
+chance that abort will leave at least this one EP or slot broken.
+
+Another case is ASMedia, which doesn't seem to implement abort at all -
+at least in my tests with Address Device and a dummy device that always
+NAKs, abort simply waits for the command to finish (these chips have
+internal 3 second timeout on Address Device). I would expect the same
+for Stop EP, except that it likely lacks internal timeout. And the
+driver will busy-wait for several seconds with IRQs disabled.
+
+> While debugging this, did xHC controller otherwise seem somewhat
+> functional? Did you for example see port status change events, or
+> transfer events between queuing the stop endpoint command and the
+> timeout?
+
+Mouse continues to work until we kill the HC. And I can even abort the
+command, but then some URB is never given back, so teardown of the USB
+device gets stuck and IDK what would happen later.
+
+Such recovery would be a bit of work, potential chip specific bugs and
+frankly we can' be sure if the EP won't try to begin executing URBs.
+
+The spec would advise to reset the broken chip, but that's also not
+easy to do, particularly if we would like USB devices to maintain their
+state. On the upside, I think it's similar to existing "USB persist"
+mechanism, so core and drivers might be able to handle such things.
+
+Regards,
+Michal
+
+--MP_/a30Xhx_PbaPSoGRaznypMiF
+Content-Type: text/x-patch
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=xhci-ep-info.patch
+
+From 69a5add743e203fe58267eb4ac58cdf46b42920c Mon Sep 17 00:00:00 2001
+From: Michal Pecio <michal.pecio@gmail.com>
+Date: Mon, 28 Oct 2024 21:08:17 +0100
+Subject: [PATCH] EP info debug
+
 ---
- drivers/usb/core/config.c  | 56 +++++++++++++++++++++++++++-----------
- drivers/usb/core/quirks.c  |  3 ++
- include/linux/usb/quirks.h |  4 +++
- 3 files changed, 47 insertions(+), 16 deletions(-)
+ drivers/usb/host/xhci-ring.c | 62 ++++++++++++++++++++++++++++++++++--
+ drivers/usb/host/xhci.c      | 14 ++++++++
+ drivers/usb/host/xhci.h      | 28 ++++++++++++++++
+ 3 files changed, 102 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-index 45e20c6d76c0..623425cef085 100644
---- a/drivers/usb/core/config.c
-+++ b/drivers/usb/core/config.c
-@@ -912,6 +912,8 @@ int usb_get_configuration(struct usb_device *dev)
- 	unsigned char *bigbuffer;
- 	struct usb_config_descriptor *desc;
- 	int result;
-+	size_t usb_dt_config_size = (dev->quirks & USB_QUIRK_CONFIG_SIZE)
-+		? USB_DT_CONFIG_SIZE_QUIRK : USB_DT_CONFIG_SIZE;
- 
- 	if (ncfg > USB_MAXCONFIG) {
- 		dev_notice(ddev, "too many configurations: %d, "
-@@ -938,7 +940,8 @@ int usb_get_configuration(struct usb_device *dev)
- 	if (!dev->rawdescriptors)
- 		return -ENOMEM;
- 
--	desc = kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
-+	desc = kmalloc(usb_dt_config_size, GFP_KERNEL);
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index d9ada94ee52c..e4fee00a00b8 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -421,6 +421,8 @@ static unsigned int xhci_ring_expansion_needed(struct xhci_hcd *xhci, struct xhc
+ /* Ring the host controller doorbell after placing a command on the ring */
+ void xhci_ring_cmd_db(struct xhci_hcd *xhci)
+ {
++	xhci_ep_info(xhci, 0, -1, "xhci_ring_cmd_db cmd_ring_state %d\n", xhci->cmd_ring_state);
 +
- 	if (!desc)
- 		return -ENOMEM;
+ 	if (!(xhci->cmd_ring_state & CMD_RING_STATE_RUNNING))
+ 		return;
  
-@@ -946,7 +949,7 @@ int usb_get_configuration(struct usb_device *dev)
- 		/* We grab just the first descriptor so we know how long
- 		 * the whole configuration is */
- 		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
--		    desc, USB_DT_CONFIG_SIZE);
-+		    desc, usb_dt_config_size);
- 		if (result < 0) {
- 			dev_err(ddev, "unable to read config index %d "
- 			    "descriptor/%s: %d\n", cfgno, "start", result);
-@@ -957,26 +960,39 @@ int usb_get_configuration(struct usb_device *dev)
- 			break;
- 		} else if (result < 4) {
- 			dev_err(ddev, "config index %d descriptor too short "
--			    "(expected %i, got %i)\n", cfgno,
--			    USB_DT_CONFIG_SIZE, result);
-+			    "(expected %zu, got %i)\n", cfgno,
-+			    usb_dt_config_size, result);
- 			result = -EINVAL;
- 			goto err;
- 		}
--		length = max_t(int, le16_to_cpu(desc->wTotalLength),
--		    USB_DT_CONFIG_SIZE);
-+		/* If the device does returns the full length configuration
-+		 * descriptor, skip the second read. Fallback to default
-+		 * behavior otherwise.
-+		 */
-+		if (dev->quirks & USB_QUIRK_CONFIG_SIZE
-+				&& result == le16_to_cpu(desc->wTotalLength)
-+				&& result < USB_DT_CONFIG_SIZE_QUIRK) {
+@@ -565,6 +567,10 @@ void xhci_ring_ep_doorbell(struct xhci_hcd *xhci,
+ 	    (ep_state & EP_HALTED) || (ep_state & EP_CLEARING_TT))
+ 		return;
  
--		/* Now that we know the length, get the whole thing */
--		bigbuffer = kmalloc(length, GFP_KERNEL);
--		if (!bigbuffer) {
--			result = -ENOMEM;
--			goto err;
--		}
-+			bigbuffer = (unsigned char *) desc;
-+			desc = NULL;
-+			length = result;
-+		} else {
-+			length = max_t(int, le16_to_cpu(desc->wTotalLength),
-+			    usb_dt_config_size);
++	struct xhci_ep_ctx *ep_ctx = xhci_get_ep_ctx(xhci, xhci->devs[slot_id]->out_ctx, ep_index);
++	if (GET_EP_CTX_STATE(READ_ONCE(ep_ctx)) != EP_STATE_RUNNING)
++		xhci_ep_info(xhci, slot_id, ep_index, "ring_ep_doorbell stream %d\n", stream_id);
 +
-+			/* Now that we know the length, get the whole thing */
-+			bigbuffer = kmalloc(length, GFP_KERNEL);
-+			if (!bigbuffer) {
-+				result = -ENOMEM;
-+				goto err;
-+			}
+ 	trace_xhci_ring_ep_doorbell(slot_id, DB_VALUE(ep_index, stream_id));
  
--		if (dev->quirks & USB_QUIRK_DELAY_INIT)
--			msleep(200);
-+			if (dev->quirks & USB_QUIRK_DELAY_INIT)
-+				msleep(200);
+ 	writel(DB_VALUE(ep_index, stream_id), db_addr);
+@@ -779,6 +785,8 @@ static int xhci_move_dequeue_past_td(struct xhci_hcd *xhci,
  
--		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
--		    bigbuffer, length);
-+			result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
-+			    bigbuffer, length);
-+		}
- 		if (result < 0) {
- 			dev_err(ddev, "unable to read config index %d "
- 			    "descriptor/%s\n", cfgno, "all");
-@@ -1000,6 +1016,14 @@ int usb_get_configuration(struct usb_device *dev)
+ 	if (stream_id)
+ 		trb_sct = SCT_FOR_TRB(SCT_PRI_TR);
++	xhci_ep_info(xhci, slot_id, ep_index, "queue_set_tr_deq stream %d addr %.8llx\n",
++			stream_id, (u64) addr);
+ 	ret = queue_command(xhci, cmd,
+ 		lower_32_bits(addr) | trb_sct | new_cycle,
+ 		upper_32_bits(addr),
+@@ -1239,8 +1247,6 @@ static void xhci_handle_cmd_stop_ep(struct xhci_hcd *xhci, int slot_id,
+ 			 * If the halt happened before Stop Endpoint failed, its transfer event
+ 			 * should have already been handled and Reset Endpoint should be pending.
+ 			 */
+-			if (ep->ep_state & EP_HALTED)
+-				goto reset_done;
+ 
+ 			if (ep->ep_state & EP_HAS_STREAMS) {
+ 				reset_type = EP_SOFT_RESET;
+@@ -1250,6 +1256,12 @@ static void xhci_handle_cmd_stop_ep(struct xhci_hcd *xhci, int slot_id,
+ 				if (td)
+ 					td->status = -EPROTO;
+ 			}
++			xhci_ep_info(xhci, slot_id, ep_index, "handle_cmd_stop_ep stalled TD found %d handled %d\n",
++					!!td, !!(ep->ep_state & EP_HALTED));
++
++			if (ep->ep_state & EP_HALTED)
++				goto reset_done;
++
+ 			/* reset ep, reset handler cleans up cancelled tds */
+ 			err = xhci_handle_halted_endpoint(xhci, ep, td, reset_type);
+ 			xhci_dbg(xhci, "Stop ep completion resetting ep, status %d\n", err);
+@@ -1872,6 +1884,10 @@ static void handle_cmd_completion(struct xhci_hcd *xhci,
  	}
  
- err:
-+	/* Log failed device's VID:PID pair to make it easy to debug and fix
-+	 * enumeration and initialization issues
-+	 */
-+	if (result < 0) {
-+		dev_err(ddev, "Failed to initialize device %04x:%04x due to above errors.",
-+		    le16_to_cpu(dev->descriptor.idVendor), le16_to_cpu(dev->descriptor.idProduct));
+ 	cmd_type = TRB_FIELD_TO_TYPE(le32_to_cpu(cmd_trb->generic.field[3]));
++	int ep_index = TRB_TO_EP_INDEX(le32_to_cpu(cmd_trb->generic.field[3]));
++	xhci_ep_info(xhci, slot_id, ep_index, "handle_cmd_completion cmd_type %d comp_code %d\n",
++			cmd_type, cmd_comp_code);
++
+ 	switch (cmd_type) {
+ 	case TRB_ENABLE_SLOT:
+ 		xhci_handle_cmd_enable_slot(slot_id, cmd, cmd_comp_code);
+@@ -2664,6 +2680,10 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 	trb_comp_code = GET_COMP_CODE(le32_to_cpu(event->transfer_len));
+ 	ep_trb_dma = le64_to_cpu(event->buffer);
+ 
++	if (trb_comp_code != COMP_SUCCESS && trb_comp_code != COMP_SHORT_PACKET)
++		xhci_ep_info(xhci, slot_id, ep_index, "handle_tx_event comp_code %d trb_dma %.8llx\n",
++				trb_comp_code, (u64) ep_trb_dma);
++
+ 	ep = xhci_get_virt_ep(xhci, slot_id, ep_index);
+ 	if (!ep) {
+ 		xhci_err(xhci, "ERROR Invalid Transfer event\n");
+@@ -2686,6 +2706,18 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 	/* find the transfer trb this events points to */
+ 	ep_trb = xhci_dma_to_trb(ep_ring->deq_seg, ep_trb_dma, NULL);
+ 
++	if (trb_comp_code != COMP_SUCCESS && trb_comp_code != COMP_SHORT_PACKET) {
++		u32 remaining, ep_trb_len;
++
++		remaining = EVENT_TRB_LEN(le32_to_cpu(event->transfer_len));
++		ep_trb_len = ep_trb ?
++				TRB_LEN(le32_to_cpu(ep_trb->generic.field[2])) :
++				~0;
++
++		xhci_ep_info(xhci, slot_id, ep_index, "handle_tx_event stream_id %d trb_len %u missing %d\n",
++				ep_ring->stream_id, ep_trb_len, remaining);
 +	}
 +
- 	kfree(desc);
- 	dev->descriptor.bNumConfigurations = cfgno;
- 
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index 87810eff974e..92219684a604 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -142,6 +142,9 @@ static int quirks_param_set(const char *value, const struct kernel_param *kp)
- 				break;
- 			case 'q':
- 				flags |= USB_QUIRK_FORCE_ONE_CONFIG;
-+				break;
-+			case 'r':
-+				flags |= USB_QUIRK_CONFIG_SIZE;
- 			/* Ignore unrecognized flag characters */
- 			}
- 		}
-diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
-index b3cc7beab4a3..f864571da870 100644
---- a/include/linux/usb/quirks.h
-+++ b/include/linux/usb/quirks.h
-@@ -81,4 +81,8 @@
- /* Device claims zero configurations, forcing to 1 */
- #define USB_QUIRK_FORCE_ONE_CONFIG		BIT(18)
- 
-+/* Use a 255 byte sized config descriptor request */
-+#define USB_QUIRK_CONFIG_SIZE			BIT(19)
-+#define USB_DT_CONFIG_SIZE_QUIRK		255
+ 	/* Look for common error cases */
+ 	switch (trb_comp_code) {
+ 	/* Skip codes that require special handling depending on
+@@ -4411,6 +4443,18 @@ static int queue_command(struct xhci_hcd *xhci, struct xhci_command *cmd,
+ int xhci_queue_slot_control(struct xhci_hcd *xhci, struct xhci_command *cmd,
+ 		u32 trb_type, u32 slot_id)
+ {
++	char *type = "wtf";
 +
- #endif /* __LINUX_USB_QUIRKS_H */
++	switch (trb_type) {
++	case TRB_ENABLE_SLOT:
++		type = "enable";
++		break;
++	case TRB_DISABLE_SLOT:
++		type = "disable";
++		break;
++	}
++	xhci_ep_info(xhci, slot_id, -1, "queue_%s_slot\n", type);
++
+ 	return queue_command(xhci, cmd, 0, 0, 0,
+ 			TRB_TYPE(trb_type) | SLOT_ID_FOR_TRB(slot_id), false);
+ }
+@@ -4419,6 +4463,9 @@ int xhci_queue_slot_control(struct xhci_hcd *xhci, struct xhci_command *cmd,
+ int xhci_queue_address_device(struct xhci_hcd *xhci, struct xhci_command *cmd,
+ 		dma_addr_t in_ctx_ptr, u32 slot_id, enum xhci_setup_dev setup)
+ {
++	xhci_ep_info(xhci, slot_id, -1, "queue_address_device bsr %d\n",
++			setup == SETUP_CONTEXT_ONLY);
++
+ 	return queue_command(xhci, cmd, lower_32_bits(in_ctx_ptr),
+ 			upper_32_bits(in_ctx_ptr), 0,
+ 			TRB_TYPE(TRB_ADDR_DEV) | SLOT_ID_FOR_TRB(slot_id)
+@@ -4435,6 +4482,8 @@ int xhci_queue_vendor_command(struct xhci_hcd *xhci, struct xhci_command *cmd,
+ int xhci_queue_reset_device(struct xhci_hcd *xhci, struct xhci_command *cmd,
+ 		u32 slot_id)
+ {
++	xhci_ep_info(xhci, slot_id, -1, "queue_reset_device\n");
++
+ 	return queue_command(xhci, cmd, 0, 0, 0,
+ 			TRB_TYPE(TRB_RESET_DEV) | SLOT_ID_FOR_TRB(slot_id),
+ 			false);
+@@ -4445,6 +4494,8 @@ int xhci_queue_configure_endpoint(struct xhci_hcd *xhci,
+ 		struct xhci_command *cmd, dma_addr_t in_ctx_ptr,
+ 		u32 slot_id, bool command_must_succeed)
+ {
++	xhci_ep_info(xhci, slot_id, -1, "queue_configure_endpoint in_ctx %.8llx\n", (u64) in_ctx_ptr);
++
+ 	return queue_command(xhci, cmd, lower_32_bits(in_ctx_ptr),
+ 			upper_32_bits(in_ctx_ptr), 0,
+ 			TRB_TYPE(TRB_CONFIG_EP) | SLOT_ID_FOR_TRB(slot_id),
+@@ -4466,6 +4517,8 @@ int xhci_queue_get_port_bw(struct xhci_hcd *xhci,
+ int xhci_queue_evaluate_context(struct xhci_hcd *xhci, struct xhci_command *cmd,
+ 		dma_addr_t in_ctx_ptr, u32 slot_id, bool command_must_succeed)
+ {
++	xhci_ep_info(xhci, slot_id, -1, "queue_evaluate_context in_ctx %.8llx\n", (u64) in_ctx_ptr);
++
+ 	return queue_command(xhci, cmd, lower_32_bits(in_ctx_ptr),
+ 			upper_32_bits(in_ctx_ptr), 0,
+ 			TRB_TYPE(TRB_EVAL_CONTEXT) | SLOT_ID_FOR_TRB(slot_id),
+@@ -4484,6 +4537,8 @@ int xhci_queue_stop_endpoint(struct xhci_hcd *xhci, struct xhci_command *cmd,
+ 	u32 type = TRB_TYPE(TRB_STOP_RING);
+ 	u32 trb_suspend = SUSPEND_PORT_FOR_TRB(suspend);
+ 
++	xhci_ep_info(xhci, slot_id, ep_index, "queue_stop_endpoint suspend %d\n", suspend);
++
+ 	return queue_command(xhci, cmd, 0, 0, 0,
+ 			trb_slot_id | trb_ep_index | type | trb_suspend, false);
+ }
+@@ -4496,6 +4551,9 @@ int xhci_queue_reset_ep(struct xhci_hcd *xhci, struct xhci_command *cmd,
+ 	u32 trb_ep_index = EP_INDEX_FOR_TRB(ep_index);
+ 	u32 type = TRB_TYPE(TRB_RESET_EP);
+ 
++	xhci_ep_info(xhci, slot_id, ep_index, "queue_reset_endpoint tsp %d\n",
++			reset_type == EP_SOFT_RESET);
++
+ 	if (reset_type == EP_SOFT_RESET)
+ 		type |= TRB_TSP;
+ 
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 849a568d0e63..0b96fd8bff12 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1853,6 +1853,9 @@ static int xhci_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
+ 
+ 	for (; i < urb_priv->num_tds; i++) {
+ 		td = &urb_priv->td[i];
++		xhci_ep_info(xhci, urb->dev->slot_id, ep_index, "xhci_urb_dequeue cancel TD at %.8llx stream %d\n",
++				(u64) xhci_trb_virt_to_dma(urb_priv->td[i].start_seg, urb_priv->td[i].start_trb),
++				urb->stream_id);
+ 		/* TD can already be on cancelled list if ep halted on it */
+ 		if (list_empty(&td->cancelled_td_list)) {
+ 			td->cancel_status = TD_DIRTY;
+@@ -1969,6 +1972,7 @@ int xhci_drop_endpoint(struct usb_hcd *hcd, struct usb_device *udev,
+ 	u32 drop_flag;
+ 	u32 new_add_flags, new_drop_flags;
+ 	int ret;
++	int td_num = -1;
+ 
+ 	ret = xhci_check_args(hcd, udev, ep, 1, true, __func__);
+ 	if (ret <= 0)
+@@ -1995,7 +1999,13 @@ int xhci_drop_endpoint(struct usb_hcd *hcd, struct usb_device *udev,
+ 	}
+ 
+ 	ep_index = xhci_get_endpoint_index(&ep->desc);
++	struct xhci_virt_ep *vep = &xhci->devs[udev->slot_id]->eps[ep_index];
++	if (vep && vep->ring)
++		td_num = list_count_nodes(&vep->ring->td_list);
+ 	ep_ctx = xhci_get_ep_ctx(xhci, out_ctx, ep_index);
++	xhci_ep_info(xhci, udev->slot_id, ep_index, "xhci_drop_endpoint ctx_state %d td_num %d\n",
++			GET_EP_CTX_STATE(ep_ctx), td_num);
++
+ 	/* If the HC already knows the endpoint is disabled,
+ 	 * or the HCD has noted it is disabled, ignore this request
+ 	 */
+@@ -2087,6 +2097,8 @@ int xhci_add_endpoint(struct usb_hcd *hcd, struct usb_device *udev,
+ 	}
+ 
+ 	ep_index = xhci_get_endpoint_index(&ep->desc);
++	xhci_ep_info(xhci, udev->slot_id, ep_index, "xhci_add_endpoint\n");
++
+ 	/* If this endpoint is already in use, and the upper layers are trying
+ 	 * to add it again without dropping it, reject the addition.
+ 	 */
+@@ -3388,6 +3400,8 @@ static void xhci_endpoint_reset(struct usb_hcd *hcd,
+ 	xhci = hcd_to_xhci(hcd);
+ 	ep_index = xhci_get_endpoint_index(&host_ep->desc);
+ 
++	xhci_ep_info(xhci, udev->slot_id, ep_index, "xhci_endpoint_reset\n");
++
+ 	/*
+ 	 * Usb core assumes a max packet value for ep0 on FS devices until the
+ 	 * real value is read from the descriptor. Core resets Ep0 if values
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 32617dc155ac..c46bd4697c7a 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1747,6 +1747,34 @@ static inline bool xhci_has_one_roothub(struct xhci_hcd *xhci)
+ #define xhci_info(xhci, fmt, args...) \
+ 	dev_info(xhci_to_hcd(xhci)->self.controller , fmt , ## args)
+ 
++#define xhci_ep_info(xhci, slot_id, ep_index, fmt, args...)				\
++	do {										\
++		int ep_state = 0xfff;							\
++		int ctx_state = 0xf;							\
++		u64 ep_deq = 0xffffffff;						\
++		u64 ctx_deq = 0xffffffff;						\
++		u64 ep_enq = 0xffffffff;						\
++		if (slot_id > 0 && slot_id < MAX_HC_SLOTS &&				\
++				ep_index >= 0 && ep_index < 32 &&			\
++				xhci->devs[slot_id]) {					\
++			struct xhci_virt_device *vdev = xhci->devs[slot_id];		\
++			struct xhci_virt_ep *ep = vdev->eps + ep_index;			\
++			struct xhci_ep_ctx *ep_ctx =					\
++				xhci_get_ep_ctx(xhci, vdev->out_ctx, ep_index);		\
++			if (ep->ring) {							\
++				ep_deq = xhci_trb_virt_to_dma(ep->ring->deq_seg,	\
++								ep->ring->dequeue);	\
++				ep_enq = xhci_trb_virt_to_dma(ep->ring->enq_seg,	\
++								ep->ring->enqueue);	\
++			}								\
++			ep_state = ep->ep_state;					\
++			ctx_state = GET_EP_CTX_STATE(READ_ONCE(ep_ctx));		\
++			ctx_deq = le64_to_cpu(READ_ONCE(ep_ctx->deq));			\
++		}									\
++		xhci_info(xhci, "%d/%d (%.3x/%x) [%.8llx/%.8llx/%.8llx] " fmt,		\
++				slot_id, ep_index, ep_state, ctx_state,			\
++				ep_deq, ctx_deq, ep_enq, ## args);			\
++	} while (0);
+ /*
+  * Registers should always be accessed with double word or quad word accesses.
+  *
 -- 
-2.54.0
+2.48.1
 
+
+--MP_/a30Xhx_PbaPSoGRaznypMiF--
