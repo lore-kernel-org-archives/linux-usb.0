@@ -1,120 +1,100 @@
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719DD298CB2;
-	Fri, 19 Jun 2026 08:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5583E2F8E98
+	for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2026 09:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781857828; cv=none; b=S0JAJw4NISPty/2/OylBapIZuxen+pWvVWqCR0CxGb9i408iQOvPT30u3SY70mYERTjq+lvASTYLuxqM82SyZKET4p07JZwA4OCK9D3kW38xJ9M7zJ/NytA+1LV38XiRRBAv5rvQ9pSlY0tHhs2uFPGjv4V7uWCJ7W5paxGF5yk=
+	t=1781859893; cv=none; b=rw9fb+fGkyBxs5QvXCggInHGMv+aYennjEZmftx/lnbuYjV0g9+xWhaiHv+Taflq7arApc/oH3uoTjtZ5/ilkLmr2yOns/IjeAMeEFwyh64LAnI4wwsR7NVP4bKAVI0oQ/7pcJNXl9A+qsgJF2Buva0PmJG6f7wonMycwtLFzSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781857828; c=relaxed/simple;
-	bh=iqZRUz8SKRy1NgRwT2lOifewnmALL2tQYL7EpvJrZ38=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=Y2V71boC/IcqGFMABrwV8A4kxI6ZH2d35taxqbNRhNxvgLT2jlzXUaT5eXlIB2mKkLZL+VDqvMuLsZwJ5HN0WJg32UJQ9R0wzQpkVHIZvzgwNmZoYGgYV15M88s0AiCgitXzVLon4CstEAax8eXXQxG6IPr/wIbwPWoQ02jv4zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=cwt2uDLQ; arc=none smtp.client-ip=194.13.80.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
+	s=arc-20240116; t=1781859893; c=relaxed/simple;
+	bh=AQayZSv8LiFNtJUg7nXjei5rem8CAOvfpAdGfnzRXxY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hEBbv1dvU41ETI2WlhTVbHsx3aH0Nm1tjSBh5krqfOvhrI3Iw73i8yPQiJ/Os24FW4/nzIBQvXokWd2woiRNbfq7KWAZdtbGwx2ZGyUD6X91+5irOGmKAHy6w8VgMmYziQG64TJW4yiKIB9w3/M7UVokEcOd6BsmVWPxQzgk1aM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IEYqAZee; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="cwt2uDLQ"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2CD56A47D2;
-	Fri, 19 Jun 2026 10:30:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1781857824; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=V2QBu7CDupdPYy31HVgPBAYKthBcmzdHptwvbLWexlA=;
-	b=cwt2uDLQ90g728H6aS5JCN85gzhL3tvpqBvt5OkORKv8f98RXxLcXHjlntRSwwlzdCT573
-	8uU+LCcXoqUFuo/ER27uUzLzt4PfohtewYLeQ03n3QEIfUt3cIf2876D+tbd0LU2sI3cO/
-	Epk+kZuDIq9BWorvGQIAULz6kBCDuOQYGU33MAtlv/G5TIr0u5BzVvvWCKtBRKYllkOpDu
-	Mt7mF6XPhW6sOVZ/PT+wOb5K+h1TteyEJVlEAphLsKmAht9mjnooPANAAoA+nDebA7wGzd
-	VGH660s1ExeqtXrkstzhcGiVf/QIHH7YVrLmQ4nYxAFhHN1eM8d0i1KoPtWTyA==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IEYqAZee"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-491b390f9e9so16501265e9.0
+        for <linux-usb@vger.kernel.org>; Fri, 19 Jun 2026 02:04:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781859891; x=1782464691; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NvPeX4rm8LDSKuRTQPiG1oQWnoxsH14o+aTlQ6C2+v0=;
+        b=IEYqAZeenOdx1KkkRuoEQtdu35u+5FqQw+sE6yCz37vyjr3YezXuRmImuaPmbRMgZS
+         hBYJUdmVft1tPNjJor1tGZWO0than53vVU8N8LredZ3Ujf8O2XhlKjS6Ru3U53uNyi7a
+         x15vurk+FFAOv2SXMihU4iFZOpAVIgNR8WKH64GCpKg99r6VQT70NNyPlI+sQdFi1gIP
+         q5Vor3K2PVieJBwOTqc9Lpifhj3oBYhJdqi6rGQriddQPfLtpPkLxvYKjznGZJm9hEte
+         Wfrg3sWO9CT+jzLD1Ti7PY0sggvRDX7PacXActzuWooJ3SYc8AIj62++C0oIg87954b6
+         U8YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781859891; x=1782464691;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NvPeX4rm8LDSKuRTQPiG1oQWnoxsH14o+aTlQ6C2+v0=;
+        b=TXfogINXmTBscUXzM66q9lp8+grmwb6sVuDtb/6nMPZm3R2b3+MYj/cyYD69cx6QNR
+         mHnf1UuQ250r206S9jwXagYOugyHWwzL8w4XB1CiFmxBEDHSZKz8dz1fN1YlvVIQN+Ep
+         Thp9x0QbcbAhkpXmDjthRkKCgfagI7h7dbAY4xeu97JoAkDv0pleolp6R+VoErLpXAhI
+         JsiOnhgaOgwofxi9qmLSYgNoa0AptCEKtRyRw4SDjO9+OlhrHA+Hwz/CBhnqZBbEUrHz
+         J8fXTXxX/Warhl8EVIf4s+fm5UzSXrXmwK7JEmSzWXUEte8MC+Xpz/s0XmdKkgzepDAD
+         XsEA==
+X-Forwarded-Encrypted: i=1; AFNElJ8ZJDyhSwBltn2Q09Lo8PAFYFqv6GGezzNxdlHS8TZ80KkI+PYXmAliHU9PafEbzS0BM8cH4RX0CFA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8Eak6Lf3L6YSLq4U7FhbxDl7sv8+MthdUlpLl9nN/QIj+jTDn
+	979jkuUO/U7xVJR0RtfQTgGF+LiJISLqzqYtM6jIUDWCws7MsP+Pesum
+X-Gm-Gg: AfdE7cmrtTS0Z3hhEtAu+4X5JERfsU1xiyBVpMgH8tyCr7GFdkTFeAz58so87L0hExu
+	vTbrOOiqpS1CGDtO7Mbp75k5Q6kf+dkZoj5z2MfNHeCxngWtLR2773YCONy2yrGyajcDQCscWM4
+	/bfB4dQq014sL0Ba/1YTyyXlSSEB4uzj+UHZ3rIgpmr8yvEnZmSKpzS1Mi8666b9Lf13rlPGFI9
+	bjMurydKP+771KhW0cIuZSh5GyXaZn09ycnNk7Ia0YmcrXTJciYIXS/57M4VYwilpOTMLu4mMEO
+	DI/ipOxUxCR+afpcIt9lwcEORhLkxtUVp+f8GP88cQX5TgW3yIjCbK/mlXsJJa9utWIlqZU0OfR
+	xWR884FAQGsOOJY7dz25XGLzsscX1mvZJNwZV5NVqS3VzOUQA8T/V92NrXMzO/d+MUTYahw94uV
+	yZ8oFQF2IzYgJ8TzYBZw671A==
+X-Received: by 2002:a05:600c:6c09:b0:490:b8d3:5dcc with SMTP id 5b1f17b1804b1-49240e5b499mr32202475e9.19.1781859890525;
+        Fri, 19 Jun 2026 02:04:50 -0700 (PDT)
+Received: from foxbook (bfg19.neoplus.adsl.tpnet.pl. [83.28.44.19])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fcd7027sm54074305e9.1.2026.06.19.02.04.49
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Fri, 19 Jun 2026 02:04:50 -0700 (PDT)
+Date: Fri, 19 Jun 2026 11:04:45 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Amin Vakil <info@aminvakil.com>
+Cc: Thorsten Leemhuis <regressions@leemhuis.info>,
+ linux-usb@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Stern <stern@rowland.harvard.edu>, Tao Xue <xuetao09@huawei.com>,
+ regressions@lists.linux.dev
+Subject: Re: [REGRESSION] usb: core: interrupt-IN wBytesPerInterval fixup
+ (727d045d064b) breaks RTL8153 in Lenovo dock
+Message-ID: <20260619110445.5ecf05fb.michal.pecio@gmail.com>
+In-Reply-To: <4e45e34d-31d4-4117-9277-36799e63e6f8@aminvakil.com>
+References: <cbdeb118-58c7-48a7-94a0-15e5cdb5879c@aminvakil.com>
+	<35d2b455-382e-470e-acf4-1ab60770da90@leemhuis.info>
+	<5036fee2-4d00-4ca0-aeed-400da64d7872@aminvakil.com>
+	<573bbb08-0ba7-4f00-8996-819cc1d9cc48@aminvakil.com>
+	<20260616183646.4798516b.michal.pecio@gmail.com>
+	<8f862eb6-adfb-43a9-b4f5-8f9232333b51@aminvakil.com>
+	<20260616232027.10ba0415.michal.pecio@gmail.com>
+	<4e45e34d-31d4-4117-9277-36799e63e6f8@aminvakil.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 19 Jun 2026 10:30:23 +0200
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: Sven Schuchmann <schuchmann@schleissheimer.de>
-Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>, Rengarajan
- Sundararajan <Rengarajan.S@microchip.com>, UNGLinuxDriver@microchip.com,
- Woojung.Huh@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>, "David S .
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: AW: [PATCH net] net: usb: lan78xx: restore VLAN filter table
- after device reset
-In-Reply-To: <BEZP281MB2245740AE8E3221DD076CE7DD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
-References: <20260618191109.4086598-1-nb@tipi-net.de>
- <BEZP281MB2245740AE8E3221DD076CE7DD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
-Message-ID: <6d638042ad07a8bfb09ff3ee923e7b3f@tipi-net.de>
-X-Sender: nb@tipi-net.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Sven
-
-On 19.6.2026 10:11, Sven Schuchmann wrote:
-> Hello Nicolai,
-> thank you for the quick response and the quick patch!
+On Wed, 17 Jun 2026 21:19:37 +0330, Amin Vakil wrote:> 
+> The problem is something with usbguard all the way :)
 > 
-> But actually it is not working for me... If I disconnect and connect
-> the LAN Cable (I have setup an automated test already with two adapters
-> connected to my RaspberryPi CM5) the lan78xx_reset() function is not 
-> called.
+> Disabling usbguard fixed the issue and it's now working on 7.1 
+> correctly. Sorry for the noise.
 > 
-> Here is a dmesg output from my test.
-> I defined DEBUG at the beginning of the driver and added
-> netdev_info(dev->net, "function()"); to nearly every function
-> in the driver. Also I added my a VLAN compare function:
-> 
-> static void lan78xx_check_vlan_table(struct net_device *netdev)
-> {
-> 	struct lan78xx_net *dev = netdev_priv(netdev);
-> 	struct lan78xx_priv *pdata = (struct lan78xx_priv *)(dev->data[0]);
-> 
-> 	for (int i = 0; i < 1; i++) {
-> 		u32 buf;
-> 		lan78xx_dataport_read(dev, DP_SEL_RSEL_VLAN_DA_, i, 1, &buf);
-> 		if (pdata->vlan_table[i] != buf)
-> 			netdev_err(dev->net, "VLAN TABLE %d: 0x%02x 0x%02x - ERROR", i, 
-> pdata->vlan_table[i], buf);
-> 		else
-> 			netdev_info(dev->net, "VLAN TABLE %d: 0x%02x 0x%02x - Ok", i, 
-> pdata->vlan_table[i], buf);
-> 	}
-> }
-> 
-> I call this at the end of lan78xx_start_rx_path() and 
-> lan78xx_mac_link_up().
-> I now I get this output. The output ends after 16 disconnects and 
-> connects.
-> Then it is broken. What I am wondering is what is happening after
-> lan78xx_start_rx_path() that destroys the table...
+> The problem was a stale usbguard policy blocking the hub, updating 
+> usbguard policy with new hash fixed that as well.
 
-> [...]
+Well, OK, thanks for letting us know.
 
-Can you please try with the following changes to lan78xx_mac_reset()?
-
-	ret = lan78xx_stop_rx_path(dev);
-	if (ret < 0)
-		goto link_down_fail;
-
--	/* MAC reset seems to not affect MAC configuration, no idea if it is
--	 * really needed, but it was done in previous driver version. So, 
-leave
--	 * it here.
--	 */
--	ret = lan78xx_mac_reset(dev);
--	if (ret < 0)
--		goto link_down_fail;
--
-	return;
-
-BR
-Nicolai
-
-self NACK (or whatever it takes to withdraw this patch for now)
+#regzbot invalid: configuration issue, not kernel bug
