@@ -1,122 +1,226 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7032C1519B4;
-	Sat, 20 Jun 2026 12:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE25E396D14
+	for <linux-usb@vger.kernel.org>; Sat, 20 Jun 2026 14:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781958162; cv=none; b=XbpaoOB03gRukzm9i/1SzHUGn9PxJ5lDOhD41O2Yd1Ho1I36MCBaEcEPkP5PX18LWKdRDHbgj79gVvjua4Fy/wdodLFSC2wC7/j5dsWG1aJ70U33xW5iqXSd6levTvfBDzets0Mj5Pw+3hpJkp/fMYbqAqExWJyxnBnI57LXxDg=
+	t=1781966236; cv=none; b=DCgrmNg7D5IjKIqbszVdQ/e91/tiKGZSENvwuZaMPS1MsSb7rGXlzwUxD1r2Oi11m8PL7oSZa4j+rSWyqIEHWeIR6UoZpVrxgBtsC7+0e2Y9uRYammEIFAMdyhlEU6GBzmqsNuAi6mpqe7eTThkamZyqxXljUEzX/BdNIjBDT2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781958162; c=relaxed/simple;
-	bh=z06SE+O4l1uGAOhNHtwzja9IB6q+7NywnrXY4VAhA4U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FKxtifTsEpOx4TxpRpRnnbw/XKB2GJdUMH1m8iPpnF8Ip9Xf6hM2MyOkbTwO1IoHKzErFrnOQlon/zUP7dbrNmXh6x51d+O/1TeaX1WI5Y53og6PyR2RvUkpQxfkEOHWAtJGNK4/WUVOjZcV0nmNPOekPg2feAIJKEONSCJLnt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=owiumOIG; arc=none smtp.client-ip=54.207.22.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1781966236; c=relaxed/simple;
+	bh=3LnB2KEMsWTwILNjzOPYbu/QSICMjx+q5S3tQtePcpw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IPnqNksoy1mn37Ehv1vUrE4UaLw+uYMVW1crbusyLRDU7SREhMA8HOGHRVjlpN3cu7FXrSOICatTHdEj8CB9XZXk/W9CznsrSyOwdtQIZRQRFXF38Z+qco+CwxW78dLBazRe1M4VnfXypoWhzqcVYZN7XLTti+0W9/YIj5AkFyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=E0m8vB7i; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="owiumOIG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1781958117;
-	bh=eEa12VyWOAHw9CqaKZFjtIC6GC3hKtxVz3//tNqOK0c=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=owiumOIGfmaNj4Mb2yeitidXINZnqM0RgxC69kjKqKb/8IOEluMUbjhsr2LFYlY3W
-	 iRhEu/5BP7AqMhKgNHfCjbGKm2/cxPiyaDHntbVyBP3vHc4o0dXxMey9I9d/yLTTIX
-	 rfM3ba37OOwZmJup6McySIK5d8B/G685vRmzPmaA=
-X-QQ-mid: esmtpsz20t1781958101tde85a756
-X-QQ-Originating-IP: nP3TNb6yzfWUz4A1IH3zVFz+MgH2sNiB95uBKV9/DYg=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 20 Jun 2026 20:21:33 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 9996273884252133458
-EX-QQ-RecipientCnt: 8
-From: raoxu <raoxu@uniontech.com>
-To: michal.pecio@gmail.com
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	mathias.nyman@intel.com,
-	mathias.nyman@linux.intel.com,
-	raoxu@uniontech.com,
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="E0m8vB7i"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-519f758bca6so9739561cf.0
+        for <linux-usb@vger.kernel.org>; Sat, 20 Jun 2026 07:37:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1781966234; x=1782571034; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JZrVAzbLCWnlT/KunNGolgjG4pmV/JlH45+vzJSkxkg=;
+        b=E0m8vB7iGtLAjtl66ovcC0dKnCaTLqOTSeSvpXZtqg1cQx6J4xA0Umz/GjNPnMa0f+
+         /S6A2PFFjIp5LwW/nzaOJ155NYAw5gfnt0woVTVnKxB7TfjEwjBRu3GNlXtKrnhVXtJ4
+         3wwjQkrPQQ9Sh2RNtv4OUPR43JrqqaziEkXVjXjuz8/d4sNMo4HEfHySjPhS6KqIec+o
+         iRxCDwgg+BIY6c9KvEn/HmZ9sFLHGzaw2ZR+3zP9pOAVeBE0/dOEJs1EmojyirPqHJX2
+         BwlfkQ3iTycBu4YTuFCD6nPlC/fSLlNOHXhkpbXfgQirsCceouvOYvmUrU/lqzFjUKvo
+         /6Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781966234; x=1782571034;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JZrVAzbLCWnlT/KunNGolgjG4pmV/JlH45+vzJSkxkg=;
+        b=HilCNqOSPnHHYPU7Ib4zg6g0PB56Xu+RpwgNI9afWlUo+aABauMyzsxHP+exc1/oZ8
+         yOJztXRyr1KBMBtSJOc9CDqShQ/2RtOFAlNmoEMPlBCH0m/3/05X4fkx1OMxVAXJ1r/v
+         5pjpNbsFBASAb41axlJaH4liXzET12h1gnurnoWtRdqIAjBqqb1wkr1FsnJSZK6KMkkZ
+         xpi7fKgXTGDkIp/RlQNFtHnjiNmRiU9xdqhMxdqi91z9KYyDF0ukqi4rWJ/5lRIKcYmQ
+         FXChW2Oe6MvDGwMJiLxcdMNdcszVIQAs67pSE8qSYzCaZ1RCDfuaMPxB3V5UV3ZAENPa
+         jOOg==
+X-Gm-Message-State: AOJu0YyUj+ZtJCBi9tkNrOdagixRu8B1ZXtEL7vkq5LjTAiDXREDBVDU
+	lCv1798nkZB3bqACfxEmTXwKmV4w8/LZ+2WJ3Lkvo0Q46x+KWSNvHdd2ZGJNie73RA==
+X-Gm-Gg: AfdE7cm65u0mTcXzta5ZOKoOdh6iBvMNvA3ZeFSGWaqinZ6fKD3pCSoexrv/Dg8u+fq
+	12y81GyVXDW3NyHqvWuqMbbv5mcesyZZnnpXFlJwzYxs3gErVHA6gXabCaiDEBdqmfHA336vjkr
+	5BN44DW8mcuo4iOMe/2CvSwfnW9kJhICA5pRf8nzgAvLi7QvuiqCdwjg8OGTcrNdGb+adaUReiI
+	pVV/tj9OfNOLrOF/JcqgLh2jiWYLhvKNndCuTQHP2oKIG+G4BCblWk4H/0CmudqW389vKfnZ7dF
+	APW87GqnctZNxu7l/cuhUhf8LNHhAjszXSTmyTVSde/xkyip3qGBrhRreZC7PuQD3sc6vkdpUyD
+	1FGLwGP3iRjI+xqSzGhszY9XyrAeHhzwP+obxDNpjCKCPUx1S4r82v5qPrEfaoIbCXlygRY2ObN
+	Apocup9XKCn2w6YmSNlX8KbA8zsIbnnRf0
+X-Received: by 2002:a05:622a:957:20b0:51a:35d:ab59 with SMTP id d75a77b69052e-51a035dac3amr52318961cf.39.1781966233460;
+        Sat, 20 Jun 2026 07:37:13 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51a09202f35sm22205601cf.8.2026.06.20.07.37.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Jun 2026 07:37:12 -0700 (PDT)
+Date: Sat, 20 Jun 2026 10:37:09 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, michal.pecio@gmail.com,
 	stable@vger.kernel.org
-Subject: Re: [PATCH v2] xhci: pci: Disable soft retry for Renesas uPD720201
-Date: Sat, 20 Jun 2026 20:21:31 +0800
-Message-ID: <DB886E067EE79C2A+20260620122131.4050642-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260619124234.0a9e4670.michal.pecio@gmail.com>
-References: <20260619124234.0a9e4670.michal.pecio@gmail.com>
+Subject: Re: [PATCH] usbcore: Add quirk for 255-bytes initial config read
+Message-ID: <8da4a00f-a01c-4b38-82a3-a718e5588f51@rowland.harvard.edu>
+References: <20260619095936.24080-1-nikhilsolanke5@gmail.com>
+ <8175e40d-357a-4513-b827-752f679e9904@rowland.harvard.edu>
+ <CAFgddhKKuGQgu0Ahu_WRyZocQGwPZkUejjoaJQ+P8--+k=Lwkg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: NcfXIs+Ms1qHAGY9hd3YKAt7lQWCiV9g3+762jj9RJwIL8wNRpp2ummy
-	uJsmKjMJ3pw/LBOzzBfcAYALM6KtPZx7bAcULRRgdXJ+OINyyhQ3caAPSvQznqZl8DcWL3P
-	wXKAGST9NsFUOt1tLcnDMqB+YGy5u5dEWWI5XkvL5NEpED4diUfwQI6o/QqzrZMEqRFyXWF
-	8TeHRLtHaxFcxqtHh6KojJu7bExKfwqst3dOwIIz+EEAQRww5Obv29Ht3LxNS1r3JUYUCFZ
-	307mCqblJ9ZIMnJNNMB8NjFTr8y4Zf5f/NG6HiW80dIQpI3CphzAopiolvGAhA0TEJi5JNN
-	bjZmMg0JAmYcFbyWk+/oCWeUFbVC+WbB2ZfbNs/uBRRTWimT/J4XmjiwvZULS0GKtsp5Xay
-	u5sMkr5xFG/BknPCFTBfPNOAJ2cniVT0RHmPcykPnozllS+tYLgW7mF9PtDuSAvwQfNpGyn
-	tumw/1sXcdkfBGpOGQEBSDYi9PJKV0Pe7LE8zmEr/gdKQNjewGTMC1+NuTsbWXHRdXSxJYJ
-	gvVqw7tltgeWp01g5eSiYraMRPZgY9oVLLsM13xy1hRy34PNz2sGwqBCmfBBpvBFulxfns9
-	DxUr7sZFmBfxerhGafH396FdZv9PpenLMIxzlNkW4GWW/L+6HXQkazQLYUbALVYQqAK5UZS
-	30dXV49yMeovIz3/HOifAIoNtdTqm0P+Y5xFpAgbJ0Qeh6DauKDweI/kgdMpro1+kk3nA5Y
-	qZIcRDLYN91+qef+MDn8s5gL6VGYYeRxbWyL4Sv21sREQyY6HqECzT9PZ1nP/M147plrFR7
-	zgzJCUUGpgtrwf6BlCK8aGOOQl4cITxCCOAaGwqFhCbozi4AAf1F0yiGGHNBLn4tUUB9YXf
-	tB6NLjed/2KPS++rBslPXXYtBjjfX+o/c1/KVDMrwyTDEge+YFwOn1Nq9Jjcw5e1L40vRcw
-	VlHvIstyeZM1RNYVewcnGi/CrMShxzJNR4Oc40yCiGIk8NNE0CaH6yjG67WIwtgxtjxsdwv
-	eAI48iW08JxxGOcBMuaF1k13uHNXZDf4zpW5ycGA==
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFgddhKKuGQgu0Ahu_WRyZocQGwPZkUejjoaJQ+P8--+k=Lwkg@mail.gmail.com>
 
-Hi Michal,
+On Sat, Jun 20, 2026 at 12:38:00PM +0530, Nikhil Solanke wrote:
+> > > @@ -946,7 +949,7 @@ int usb_get_configuration(struct usb_device *dev)
+> > >               /* We grab just the first descriptor so we know how long
+> > >                * the whole configuration is */
+> >
+> > This comment is now out of date.  It should be rewritten to explain why
+> > the quirk does and why.
+> 
+> I will explain the quirk above where the variable is defined and reference
+> it here. A reader would probably question about the quirk there.
 
-Thanks for testing this and for sharing the additional details.
+Okay, so long as you don't keep a comment that is now incorrect.
 
-> > > The host reports a transaction error on the RTL8153 interrupt
-> > > endpoint, queues a soft reset, and later times out the Stop
-> > > Endpoint command while disconnecting the device:
+> > > @@ -957,26 +960,39 @@ int usb_get_configuration(struct usb_device *dev)
+> > >                       break;
+> > >               } else if (result < 4) {
+> > >                       dev_err(ddev, "config index %d descriptor too short "
+> > > -                         "(expected %i, got %i)\n", cfgno,
+> > > -                         USB_DT_CONFIG_SIZE, result);
+> > > +                         "(expected %zu, got %i)\n", cfgno,
+> >
+> > Likewise, "expected" here is wrong.  It should be "asked for" or
+> > something like that.
+> 
+> For this branch tho, we are expecting atleast 9 bytes. if we don't get
+> those we simply bail out. expected is the right word here. But this was the
+> originial implementation. With the introduction of the quirk, the wording
+> of it does fall apart. Instead of adding more branches just to rename a log
+> message, let's just keep it as "expected"? In a similar branch later on,
+> when we ask for the bigbuffer, it does make sense to use "asked for" like
+> you suggested. I will make the change there.
+
+Again, I don't care too much about the exact wording; I just want to 
+make sure that the log message isn't actually wrong.  Saying "expected 
+255" would definitely be wrong, but saying "expected at least 9" would 
+be okay.
+
+> > > +                         usb_dt_config_size, result);
+> > >                       result = -EINVAL;
+> > >                       goto err;
+> > >               }
+> > > -             length = max_t(int, le16_to_cpu(desc->wTotalLength),
+> > > -                 USB_DT_CONFIG_SIZE);
+> > > +             /* If the device does returns the full length configuration
+> > > +              * descriptor, skip the second read. Fallback to default
+> > > +              * behavior otherwise.
+> > > +              */
+> >
+> > New multiline comments (or ones that are rewritten) should use the same
+> > format as the rest of the USB stack:
+> >
+> >         /*
+> >          * Blah, blah, blah
+> >          * Blah, blah, blah
+> >          */
+> >
+> 
+> Alright. About the comments formatting, all other comments were not
+> following a consistent format in the same file. so I didn't bother to fix
+> such small style changes. But I will still fix them in the way you (and
+> kernel code style guidelines) say.
+
+Yeah, don't bother to fix up comments that the patch doesn't otherwise 
+touch -- that would be mere pointless churn and would make reviewing the 
+patch more difficult for no good reason.  But comments that you _do_ 
+alter are fair game for reformatting.
+
+> > Whether the quirk flag is set doesn't matter.  All you care about is
+> > whether the information received earlier contains the entire descriptor
+> > set.  The first and third tests here should be removed.
+> >
+> > There is some question about what to do if wTotalLength < result.  My
+> > advice is to use the smaller value in this case, but not smaller than
+> > USB_DT_CONFIG_SIZE.
+> 
+> In the case where wTotalLength < result, wouldn't it be better to consider
+> the result value as the truth? Or are there scenarios where the device or
+> the buffer will contain gibberish just to fill it, which is why you
+> suggested a smaller value.
+
+Sort of.  Software that parses the descriptors later on will ignore the 
+extra stuff in any case, limiting itself to just the first wTotalLength 
+bytes.  So there's not really any need to keep the excess.
+
+>  I did understand the part that it should be
+> atleast USB_DT_CONFIG_SIZE because its the header, but isn't that part
+> already handled above with result < 4? It does ensure all the critical
+> fields are actually present.
+
+The critical fields are not just the first 4 bytes, but the first 9 
+bytes.  If you want, you can change that test against 4 above, making it 
+against USB_DT_CONFIG_SIZE.  The reason the existing code only tests 
+against 4 is because it knows that it will issue another request for the 
+full length, but that won't always be true after your changes.
+
+>  And with just the second test, the code will
+> naturally jump to the else branch for any cases like you mentioned. I will
+> change the max_t back to use USB_DT_CONFIG_SIZE and everything seems to be
+> covered now? Also looking at the 3rd test now, it is actually redundant.
+> Thanks for pointing that out.
+> 
+> 
 > > >
-> > >    Transfer error for slot 8 ep 6 on endpoint
-> > >    Soft-reset ep 6, slot 8
-> > >    Ignoring reset ep completion code of 1
-> > >    xHCI host not responding to stop endpoint command
-> > >    xHCI host controller not responding, assume dead
-> > >    HC died; cleaning up
->
-> There is other stuff too, like concurrent teardown of a separate bulk
-> endpoint, not yet sure what exactly breaks these chips.
->
-> Would you mind to apply the attached debug patch, reproduce and post
-> dmesg from your system for comparison?
+> > > -             /* Now that we know the length, get the whole thing */
+> > > -             bigbuffer = kmalloc(length, GFP_KERNEL);
+> > > -             if (!bigbuffer) {
+> > > -                     result = -ENOMEM;
+> > > -                     goto err;
+> > > -             }
+> > > +                     bigbuffer = (unsigned char *) desc;
+> > > +                     desc = NULL;
+> > > +                     length = result;
+> >
+> > Don't keep the entire 255-byte buffer.  Use krealloc() to shrink the
+> > buffer down to the right size.
+> 
+> I did intially though of using krealloc(), but when looked at existing
+> implementation, bigbuffer is alloced with wTotalLength while ensuring its
+> atleast USB_DT_CONFIG_SIZE (9) bytes. Then when we receive the result, the
+> bigbuffer isn't realloced as per the size we received. So I tried to mirror
+> this exising behavior in fear that I might mess up something else while
+> trying to be smart. (Although yea, it is waste of memory).
 
-Sure. I will apply the debug patch, reproduce the issue next week, and
-provide the complete dmesg output for comparison.
+You're right that the existing code could have reallocated the buffer if 
+it received less than it asked for.  I believe it doesn't bother to do 
+this because that possibility is considered to be very unlikely.
 
-> > While debugging this, did xHC controller otherwise seem somewhat
-> > functional? Did you for example see port status change events, or
-> > transfer events between queuing the stop endpoint command and the
-> > timeout?
->
-> Mouse continues to work until we kill the HC. And I can even abort the
-> command, but then some URB is never given back, so teardown of the USB
-> device gets stuck and IDK what would happen later.
+In fact, you could arrange to do the check and reallocation after the 
+two code paths merge back together.  That would be the best solution.
 
-I observed the same behavior on my system. During the roughly five
-second interval between queuing the Stop Endpoint command and the
-command timeout, the USB keyboard and mouse remain fully functional.
-They stop working only after the timeout handler marks the host
-controller dead and starts the host cleanup.
+> > Again, I don't like this name.  It's not a quirk in the size of the
+> > configuration descriptor type, which is what "USB_DT_CONFIG_SIZE" stands
+> > for; it's a quirk in the way the kernel asks for config descriptors.
+> > (Or in what size request the device will accept, if you prefer.)
+> >
+> > And the 255 value doesn't belong in this header file anyway.  It should
+> > be defined in config.c since that's the only place it gets used.
+> 
+> So what about USB_CONFIG_REQ_SIZE? it's what you had suggested before in
+> earlier conversations (without the QUIRK word in between naming our magic
+> number 255).
 
-This suggests that the controller is still processing transfer events
-for other endpoints while the Stop Endpoint command is stuck.
+Yes, that seems like a better choice for the name.  Or maybe 
+USB_CONFIG_BIG_REQ_SIZE or USB_CONFIG_WINDOWS_REQ_SIZE, to indicate this 
+isn't the value we normally use but copies the behavior of Windows.
 
-Thanks,
-Xu Rao
-
+Alan Stern
