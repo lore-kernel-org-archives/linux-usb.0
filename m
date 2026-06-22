@@ -1,102 +1,156 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64312238D52;
-	Mon, 22 Jun 2026 16:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3042C21C7;
+	Mon, 22 Jun 2026 16:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782146452; cv=none; b=TaSOTJJ2K8BH15QgQZ+a0WtpyrNnprsNFfuAjX8ay7JzxQwZ1eP3ZQ4swrr0ZzISQABsMzXtKzcXoBDTVJcdNlZsGN9FJFJ56rliV+A/L/7S6VZ6qcTTNsJFE2fjh1x3Kj2HYGIuxyOMfN+lu2K8qP/RnRDzjqlPEFdg6HYgdJw=
+	t=1782147041; cv=none; b=eqIBiaG/mG2MTj1hGJ5SZP4DdwYkcuiglX+WXSrQr0tqkSw1dKALFMpxQPoQ5CC+zYsy1D9txG5dQB2gcVkLmMN0jrQtZ4gFfeULofcYq87ZAFe8i/w+sTqhSuHSHzbkbPpprDNqOPgoCUP2UKAp3psGlJLQ/D5CxeRXN4yn4YI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782146452; c=relaxed/simple;
-	bh=VlfRDc9QQZP3OTb4meK3W37YOlAqyrnZGvqyxn7MT0w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kCP5UK+Oe6zuu9WEdqREnyk4CLmh6yw6/5xOC6WfVGItJwLfFEKMZ03qD8D3bXSVdYKfbHwcFCmoxYHXBtx0RX/8aV/H7GSI23pTauMYmOmkhdawX59Z3m6LPg/J8pS+8eXJqIMd1G89J02WUIb51ipbKT29tG/i+VbYO5zkd1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wSEig2tX; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1782147041; c=relaxed/simple;
+	bh=JCsAnCKSCGIzOul+9K7QDhmU/8+tMp4yJTDsnabDyPE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jJizMnPe9e3vaK9+r/JgvwU0+sIiZSkwKc1L2V1zptolKZ0JfSMmlrVqFyEIuN9hXfFz01WvBwCghrkfmUblgG4t4C+CeNLS/p7fRQJVnlQ9zZEcKsLFfXMbZxPmUwogDFMWtqbU4SdrMm9ll6Yh9gmzRy1ztHJxlz/jTLSgyDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TdiEOuR3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wSEig2tX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=c5UMhYqzW3FXITWipN5SHhAQOB1P9YUKBIDy0r3xPQw=; b=wSEig2tXNqqYlMi+DO0fVntY5n
-	xOHolZZKA+fIDoV0P9vbcZYk+nTw3ZO3neQaPzi4xv2gcxwSzlDonXdcprWpDH2QVuSHb1XstdPJW
-	SDJunku4cTdk3jGABXOOirk4qvdvStLyf+TSspP6lyyvSkgzI8foJ7iUHjAWC1KMbyOnlr8Bk2/AC
-	kSmplFs4mh7vU8qt6mUcBWozaXfZYbjxcaOPfxhFG3Z95uao/bptRNf0v9TlnvAPmJRfMGZZ11YUj
-	Kd2cOw4Cnm3blaF1fkpC/rbtuwYhawbpOJtgBO9UdgKUgdoYUd8ev6TfDb5XWKvISvKwTYP33Ug+E
-	awdU0f0A==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wbhhW-00000005CFj-0vuV;
-	Mon, 22 Jun 2026 16:40:46 +0000
-Message-ID: <08b3c961-18bb-43d9-8d7f-8a87bcad0afa@infradead.org>
-Date: Mon, 22 Jun 2026 09:40:45 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TdiEOuR3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A898E1F000E9;
+	Mon, 22 Jun 2026 16:50:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782147039;
+	bh=JCsAnCKSCGIzOul+9K7QDhmU/8+tMp4yJTDsnabDyPE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TdiEOuR38PfO/JHs84E85gCdwBYKdEwvGwn64x1QP3HF3u3b4f9/yczqdqAUPRAKj
+	 0N54McxrC1CqIkz+RB/iKUMdq4r+3nagg7bu5NO0mrFF8QCB85dhID2TvQmeOhAgzD
+	 feLz+1l7UD8MQHh4Pgnqo2bob7WoBedV8/HuVNjHzrAYvlizZpsYI4GLCaVX58LDu5
+	 61fqs0E/c1KgBRA1Y6OBgPHrFeNGZ4VJ/YuEnxsbWhNbFPvWiz9A9MckTXn+xz0QEs
+	 lfquX/fHU9mENWGrPxgWasMlwzELb5AqiWdewxzyfFJ65y6N4dcnWJPBQ7J9MnU+HL
+	 +NMAXZJ7MqSXg==
+Date: Mon, 22 Jun 2026 17:50:21 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Sam Protsenko <semen.protsenko@linaro.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Inki Dae <inki.dae@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Georgi Djakov <djakov@kernel.org>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Ulf Hansson <ulfh@kernel.org>, Peter Rosin <peda@lysator.liu.se>,
+	Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Javier Martinez Canillas <javier@dowhile0.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Jonathan Marek <jonathan@marek.ca>,
+	Taniya Das <quic_tdas@quicinc.com>,
+	Robert Marko <robimarko@gmail.com>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Stephan Gerhold <stephan@gerhold.net>,
+	Adam Skladowski <a_skl39@protonmail.com>,
+	Sireesh Kodali <sireeshkodali@protonmail.com>,
+	Barnabas Czeman <barnabas.czeman@mainlining.org>,
+	Imran Shaik <quic_imrashai@quicinc.com>,
+	Sricharan Ramabadhran <quic_srichara@quicinc.com>,
+	Anusha Rao <quic_anusha@quicinc.com>,
+	Luo Jie <quic_luoj@quicinc.com>,
+	Tomasz Figa <tomasz.figa@gmail.com>,
+	Chanho Park <chanho61.park@samsung.com>,
+	Sunyeal Hong <sunyeal.hong@samsung.com>,
+	Shin Son <shin.son@samsung.com>,
+	Krishna Manikandan <quic_mkrishn@quicinc.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Alina Yu <alina_yu@richtek.com>, Andy Gross <agross@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+	linux-i2c@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-serial@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: clock: Drop incorrect usage of double
+ '::'
+Message-ID: <20260622-awkward-superman-77c1820980fd@spud>
+References: <20260622101606.485961-3-krzysztof.kozlowski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] tracing: Move trace_printk.h out of kernel.h
-To: Peter Zijlstra <peterz@infradead.org>, Steven Rostedt <rostedt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- Masami Hiramatsu <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- John Ogness <john.ogness@linutronix.de>, Thomas Gleixner <tglx@kernel.org>,
- Julia Lawall <julia.lawall@inria.fr>, Yury Norov <yury.norov@gmail.com>,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-nfs@vger.kernel.org, kvm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org
-References: <20260621093430.264983361@kernel.org>
- <20260622083440.GX49951@noisy.programming.kicks-ass.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260622083440.GX49951@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ekjFkzmEIYkrCPca"
+Content-Disposition: inline
+In-Reply-To: <20260622101606.485961-3-krzysztof.kozlowski@oss.qualcomm.com>
 
 
+--ekjFkzmEIYkrCPca
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 6/22/26 1:34 AM, Peter Zijlstra wrote:
-> On Sun, Jun 21, 2026 at 05:34:30AM -0400, Steven Rostedt wrote:
->> There's been complaints about trace_printk() being defined in kernel.h as it
->> can increase the compilation time. As it is only used by some developers for
->> debugging purposes, it should not be in kernel.h causing lots of wasted CPU
->> cycles for those that do not ever care about it.
->>
->> Instead, add a CONFIG_TRACE_PRINTK_DEBUGGING option that developers that do
->> use it can set and not have to always remember to add #include <linux/trace_printk.h>
->> to the files they add trace_printk() while debugging. It also means that
->> those that do not have that config set will not have to worry about wasted
->> CPU cycles as it is only include in the CFLAGS when the option is set, and
->> its completely ignored otherwise.
-> 
-> Did you forget your C 101 class? If you use a function, you gotta
-> include the relevant header.
+On Mon, Jun 22, 2026 at 12:16:07PM +0200, Krzysztof Kozlowski wrote:
+> There is no use of double colon '::' in YAML. OTOH, the literal style
+> block, e.g. using '|' treats all characters as content [1] therefore
+> single use of ':' in descriptions is perfectly fine, whenever '|' is
+> used.
+>=20
+> Cleanup existing code, so the confusing style won't be re-used in new
+> contributions.
+>=20
+> Link: https://yaml.org/spec/1.2.2/#literal-style [1]
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Also item #1 in Documentation/process/submit-checklist.rst.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-> You don't see userspace saying: 'Hey, you know what, perhaps we should
-> add stdio.h to every other header, just in case someone wants to
-> printf()' either.
-> 
-> I really don't understand your argument. Yes, maybe someone will forget
-> and then either their editor (if they have a halfway modern setup with
-> LSP enabled) or their build will complain, but so what? This is all
-> trivial stuff, surely we have more pressing matters to concern outselves
-> with?
+--ekjFkzmEIYkrCPca
+Content-Type: application/pgp-signature; name=signature.asc
 
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCajlnzQAKCRB4tDGHoIJi
+0pm4AQDVA6W42Jd2yOWiv511GaumWdq9efHBBIFcwF+PLR8AcQD/U21p7Opovpsk
+KXGBfmks88NdCaBeEYOnPhOQGN7PYwA=
+=rDEr
+-----END PGP SIGNATURE-----
 
--- 
-~Randy
-
+--ekjFkzmEIYkrCPca--
