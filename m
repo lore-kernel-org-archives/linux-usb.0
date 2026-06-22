@@ -1,194 +1,165 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022138.outbound.protection.outlook.com [40.107.75.138])
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022109.outbound.protection.outlook.com [40.107.75.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6925C39D6D9;
-	Mon, 22 Jun 2026 09:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7C839EF30;
+	Mon, 22 Jun 2026 09:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.109
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782121414; cv=fail; b=R2FmBxWd1RCcrIWPb9FmzDdrtPTkyhcPZoF+dPLcV2pbgjfTVPbFzFSOwRQFCVdHWs7ebxBcwqnou2I1aTu80hh28mpjeYrIFgj139+LVT65470msz2O/SKIsTy9sOkviIDm/WiKUmykHxA/uQaZAcHaw2ZgGpDTJjUg5FxQ/MA=
+	t=1782121448; cv=fail; b=GPK7dE/uxhMK/LFo5sK/ekituvwNPrzmoMc2MvQ3mWaMl0xOYym2YjOyBMAIJeBizKEVpPvjHXQHsuhJ1r6w5T4XKvJIqkkOQmT9Kk/t0SAW9QDUvMjbiGy/hqENfrnvqRF1Vdgxv7py70LZFo1xW4Mvdu+/TdsVAelc+9oIaSE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782121414; c=relaxed/simple;
-	bh=Jy8hZfzi2DMZPhdLSS8N4bOM9lUs2JRVLX1R9d2w7yw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=InjnjPb9D4cCE2txV1OMZvpXR8camsz0cV6l4uDRET2QW5NsDDdoVYO41mlAjayISeg3qwOtr/cSPpUt95T70cMx1flqlGCjU79py9VYPR4IPSbIWJkFTgnd19PRyw8yGzrgzCj2QwIi3firkQs0L3zYIF/sTMHBDOnV0YiJQOs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ftdichip.com; spf=pass smtp.mailfrom=ftdichip.com; dkim=pass (2048-bit key) header.d=ftdichip.com header.i=@ftdichip.com header.b=s9fMmpgf; arc=fail smtp.client-ip=40.107.75.138
+	s=arc-20240116; t=1782121448; c=relaxed/simple;
+	bh=k7gC3gjoFpHyIer8Dx8UCMiwfzCJnnbGuDb6boSe1x4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HB68Wril4YfqYv6ruQU9VmNurGcY+sfxl48aSN6DPqqMH/4HcijMk25YpdThEfUj5lxkXTYk67pgOURTXHSl/R/S6t2yTvsFKaLk7bzfzpR6V7PhToYURWknZCrYhK0YhQ4eUjWS9uhT5UKSY/CpDSARMKYF1W5sldiEVyVsf6Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ftdichip.com; spf=pass smtp.mailfrom=ftdichip.com; dkim=pass (2048-bit key) header.d=ftdichip.com header.i=@ftdichip.com header.b=mvxAapp4; arc=fail smtp.client-ip=40.107.75.109
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ftdichip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ftdichip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ftdichip.com header.i=@ftdichip.com header.b="s9fMmpgf"
+	dkim=pass (2048-bit key) header.d=ftdichip.com header.i=@ftdichip.com header.b="mvxAapp4"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HFQBiqLAp8kecvaAQeIXdEPtQDRweKBEIFO7yOeQFpwkDfMXDsG1VZwTa3HT+2yxbIluaEgkchGEvAz5oHNTyLT5l8UR+DZpUXjV3Dxc6inaGwW3yiBIVBuOF61nbo+sYrzB4cA9jlKzuGghScvxr4z17+CJ9JQLoXA3JeiNDpdybxxvEFm/Z6zTtnB7DQQ4ic5jQrw0Z2fyu/E12RGpTHryIRlk8k4TpPCtD+3nhhrncKQEmP9mVEKVSA3GrIuIcqyRyTXNrfAuMLPI9gi+kZrZYmamvffCVgU+igFSYvM/Vo8xyvYijKpE9PRzLcAQ5EptSBFfP5PpQ8No8yNrXg==
+ b=VZj+L+QabQ0Z0nw/fkK+1bZUDendvfyINMb6vEJQtwFKm6DKExYtDyVf+4CtSq8WSoJjGLDGozV11sui+uP9bMK9GKA1ojkUwdD4cAcf9HKP5wxjDT4WWqWh9BIo1njHlXwIlwDxUURlBD7VQYGLdSxLz5w4JPqMpK9C61nX6uzcRB3J1v7LBPQO/nONdRvB3oYS5MqIv0GiZG9PeLLSxZasECHLHj27Xt5zrzIod0AHklCtOMDrsyebcEuSr8e0Ox2oNaDIEW6upcf1xEYfSSBIILdfyNjQhQ+V2Zp7UglVbiK4VWk628ZAvCNd07AZNYbJJY+yzjNt+x9b2m3TNQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uapX2mLfFiIKbWGjxM0rwnJObbZwU+9I/cqncQkTkcQ=;
- b=XTgvxf80UfOPrLF96AaTV+z3Rcd6r6CIdWAs0K6Njs4fhtTtW+nL7nPmA3spdfncLxjWo4A3KWaSeQuNjLZ+VAoXgh/81TgXTe9drnw/uVhziVHlTiD+AJCX0/Y4cQ+OV6JTM+zdT279C79QnEiZehiQXlny0vlnFh5Muj1PARhRPywUhBCOIEM5o0M3YCWj4f2pbCOxds0a9JkR9mu+ojyq0nqICzVmsRCfCo6hM5+uKJgJswaXUZTSdyP8sPOA8vhr+c6q41Unm2vq34DqTO5J3/hskrw9TkiSi9+k9NfyHyoH5iOiijTqVzEcQi1O/uv9ov3LD9JKCPBYpkg/zA==
+ bh=DxDwWO1RaeTxfNUBE1pGQcdX5SSJVLzGZoG+dmhUnvc=;
+ b=LXj9AmjnCzrPEaeBTlSQQTmbkppDWXGGmV2z+eVm7nEiTPfJZr7MSf5SFK1K0f+ImsX7/VlohdkJwnUbz10+OlyBNZ17Emburw2MHobK7nGxgD6rb47EPf9byrki5tEl+2h8zXWKApzQDnxW49xQkzxa3h6UTeKXiNdvt+OKZUgaCB4l2SRO+bJ3KrRht3+szwD75PCIiosLxZVJVtsC5TIonOvFs+OaDL17/bV0ECwWn2GKljf2FhMGadmFzQ8EkCZybV/3dtpyHtpsPiPQx/8Y1QklePJ5661fXIFAT+BQ7GLifnxTrn2ix41NPPbiI9XVrRdNn5PSZPK2U+he9A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=ftdichip.com; dmarc=pass action=none header.from=ftdichip.com;
  dkim=pass header.d=ftdichip.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ftdichip.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uapX2mLfFiIKbWGjxM0rwnJObbZwU+9I/cqncQkTkcQ=;
- b=s9fMmpgfc/DBhJwqMYlEdei5a1ncNoJ1yPOcav6rAmcp2EvPq9YN9DT17kIOT7/rUtC460LdL2Q/aySwwFzpC8iwAwTiQyOdFk7lruAzSGM6C0DqTdHyfhxUX9lgilT+0M8ZYKmWks8sV6pwyKXqpaYCUV7jfOsLKSDQg2/VGcMRVcKreBMOID1UF4ixnUg7+W5/KcdidQsbFy1Pm/X1X4ngCbAk7vO6HXsf5acZfEV/DsJcXyJt13spimQOF/ILs213zrJn/Uc9/0V9p+inZvKYQJ8ysYySpvutcyOPdtWt2aW0sj3VuIPQ688/90KCrYOXyO0lO0ZJabWgkjIrBQ==
+ bh=DxDwWO1RaeTxfNUBE1pGQcdX5SSJVLzGZoG+dmhUnvc=;
+ b=mvxAapp4TqV0r9qoVZeRsNtLtKhezHRyv1R6eKIWd+FsRrDK5QOeGWSEWHmcDyqHveEZVBiB34l171mgPK8UPvAh3zMitjrX2O8lO9hwow+LlVLftyR9QJD9CEVRl3u2Yc4lUb8bqT+0tBUqm8o1VcvwcwbWfXfN4fu8ahOjFzPJHJVpT8hx8Q5yiwJbQ6sTtR9EH6guSmYGnddA4bXekQVjo7VmbzryE4moJaIqpAeZqao/ciBY1c7wys++c57+FA6d/OE8Kz+8VricAg2WM3dBoMEizlYGN/W1FKJw+Psi3Dr1648S8EMcfPPwhfyLp+HhjlyEtwxoBMKJCzYH8Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ftdichip.com;
 Received: from SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
  (2603:1096:f:fff6::45e) by SI4PR01MB8053.apcprd01.prod.exchangelabs.com
  (2603:1096:4:29c::13) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.19; Mon, 22 Jun
- 2026 09:43:28 +0000
+ 2026 09:44:04 +0000
 Received: from SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
  ([fe80::e65f:ac00:2342:9108]) by
  SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
  ([fe80::e65f:ac00:2342:9108%4]) with mapi id 15.21.0139.018; Mon, 22 Jun 2026
- 09:43:28 +0000
-From: "Chinna Mopurigari Naveen Kumar Reddy (FTDI-SG)"
-	<naveen.reddy@ftdichip.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC: Johan Hovold <johan@kernel.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "Arun Pappan (FTDI-SG)"
-	<arun.pappan@ftdichip.com>
-Subject: RE: [PATCH 1/6] USB: serial: ftdi_sio: add configurable inter-batch
- defer for read URBs
-Thread-Topic: [PATCH 1/6] USB: serial: ftdi_sio: add configurable inter-batch
- defer for read URBs
-Thread-Index: AQHdAhlPSBjjJ1ZFjUmtnEU1RKl6+bZKRKkAgAACk/CAAAdZgIAABDxw
-Date: Mon, 22 Jun 2026 09:43:27 +0000
-Message-ID:
- <SG2PPFE985372F0FF0AD8346E95771A0452EFEF2@SG2PPFE985372F0.apcprd01.prod.exchangelabs.com>
+ 09:44:03 +0000
+From: Chinna Mopurigari Naveen Kumar Reddy <naveen.reddy@ftdichip.com>
+To: Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arun Pappan <arun.pappan@ftdichip.com>
+Subject: [PATCH v2 0/2] USB: serial: ftdi_sio: latency_timer reliability fixes
+Date: Mon, 22 Jun 2026 17:43:38 +0800
+Message-ID: <cover.1782121274.git.naveen.reddy@ftdichip.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1781744946.git.naveen.reddy@ftdichip.com>
 References: <cover.1781744946.git.naveen.reddy@ftdichip.com>
- <eb7093a47b77e9ef3ab55ada4c9591ae472da645.1781744946.git.naveen.reddy@ftdichip.com>
- <2026062250-sassy-hamper-025b@gregkh>
- <SG2PPFE985372F0DEC3C668B0C138E0684BEFEF2@SG2PPFE985372F0.apcprd01.prod.exchangelabs.com>
- <2026062229-pesky-wasabi-ae9b@gregkh>
-In-Reply-To: <2026062229-pesky-wasabi-ae9b@gregkh>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ftdichip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SG2PPFE985372F0:EE_|SI4PR01MB8053:EE_
-x-ms-office365-filtering-correlation-id: 7c47f53f-23d1-497d-6b14-08ded042b669
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|4143699003|56012099006|3023799007|5023799004|38070700021|22082099003|18002099003;
-x-microsoft-antispam-message-info:
- WeIVMbyGEjPuvLHb1UPNYWkLglgMGqvVZETWwoRQcUqJT6gb6APTwtFmSihsYlRVTMO95tvgFN6ejACBIdbMlrUcAaVUJSe2FDSkrGhCpuqdGme3p1htLFVmozwDM9Mfj5CjTPTxlDPGcr9Nkv5lqoHZ6FraqYa4DQcJmyx7usVbR/ZHeJbKPHt7aD4JGgR9f6iAJ1hcW2dYiZB6tpj/0NGgI1DowoDShgtMK7M91RtGbo3kgzNyT8AmjTxsbVVdYAi57/eQu1JPegTi819V4PVa05yPVlonFWQ/XOlFdA8repUadU3VQ7/5bCQBNkYnWlPR0WgMGb3Ygsik9BPbACf5qa0OFK+YE8yUVYM6I3uF5E18Cp1DH52ddNlqwHI3vpm+E9nyrTKbCIrkrpl4zPo804FfxSX+iuZtFeYJvc7RCmIRx1o5uQ2z+v6jAVY9LP+fobyPmTpwQh4aio5dhae+JXihEgT88GlcMt4/6ZahnEUoFO32qijm1fEqHnx1KO4m3cX46DvyI4vHKpOZQZFb1F4kipRQNLJyusmzYHWI4BiYg4LxxWni1/UzdhV/GIVJZADZuZQP9PMeqfslmWaca2rzXBQziwXTdMyu9g1VamwdUb40I0h2iVVPd//i5vaKSdEe/o5Fe35+8KgH9MMbDJVcGmTdJnqQusnwuX1czhHWwnTGjdSxbYSsJF6s2lBVA0o163PHDcrsSGYpBwX36KiDQlmp8HhARNz0zg4=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PPFE985372F0.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(4143699003)(56012099006)(3023799007)(5023799004)(38070700021)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?UgVbDK9plHVuBYHOoyJyQlbespg6Ny4M+NDPr+EEWF/MNGUIk1segsoMbxV8?=
- =?us-ascii?Q?R5aBCY+vNi+zfB9yrS1Q9pY53WfgZevK1aK3dUAofX+0RcI+U8EMYNvP5PY6?=
- =?us-ascii?Q?sWHgpT0gbPg1M6CzxFyORqCNBAZCnH2RiNufY2kPevIpOMAdNVZEqlHDTy8I?=
- =?us-ascii?Q?ynXlIDG1vYRHjW4FkzKcK/60XwKqHBsOedSy4p6U45gvitTreKSa0GKwZBEI?=
- =?us-ascii?Q?CFvUTa7ct7xhDcUTTv5ML8zo7PvJPwG93XeoJQ/wK4G4f1qoB/Z2NtvnpoW0?=
- =?us-ascii?Q?YPsOtUK9mrZZb1BEeWi2RZ+A33QPCEO8cFw6vI1FQdrmN9hS+Ca402paPUgS?=
- =?us-ascii?Q?D64QqzaNMXtjsHfhsBeRpZ2FLS/UQYlYIb6+WdTa2DEhiyO/0L53IzbMkHZp?=
- =?us-ascii?Q?EjQHpxsLF2igZTctlOqcKtCUQuaZZPjaDRX5hoa7PDlE9PB/44VV+zRYnezY?=
- =?us-ascii?Q?n+GOL4UnLlQ/DOKfzgNyY84ka0k9Rp1v+/5QZV78W7y4atFRW+nRpV9GFWjU?=
- =?us-ascii?Q?Tq+IMRfO/TjLnQDCEZ/Pujo+Ozsfmj44s/iFekkX90ekMDdiPnKJ7xNHPtAC?=
- =?us-ascii?Q?ZIv0pqGsYWNYW9tZQbW9aeMV6mVYeJSPkVhT88Ur4hqlD3WXSFVLyryfFHNH?=
- =?us-ascii?Q?EeGXPIMagd6Zd3ovtYaZtpQh/W4FnjbSqJx6SXYFxFrYNXsPuHXMFJlyDXTX?=
- =?us-ascii?Q?0c9Vux8QaXL+6SjbyVsWcGGxpDj4Ds3taPUiNC0wSjvnJmQaW4uDYYlMct/j?=
- =?us-ascii?Q?e0YrfQkj5xJAXUWYw3KjwCmQZRStiSwX2rWN13wT1QCrnZBPVFVPM3kZLfO8?=
- =?us-ascii?Q?WeF9d+dzSp6oz5jz5ETK0lE+yUMulMqeh1RVvpHtbw4aSWf/g05zsZxb/QBx?=
- =?us-ascii?Q?p5ZjjWOK7069GJMQzNdCqh/AwcqB2r9L+hJJIkxw8K4C1+Sn04bd86bK3RUc?=
- =?us-ascii?Q?GnjY6DLXSIOmw7/OX/hNdSOoechQxkyDd0o3Y3hvfxRWZOeVhL0hAh9e4/Dm?=
- =?us-ascii?Q?zAOnQNgSe2Pl3vPr7Kim7js/uUAYKsfRc99wvmRMh9HEQ3VTHNdnF/alopES?=
- =?us-ascii?Q?izs64/2vvfi+zvDjCwIXDz1hQ94V6QmqmOcWNvvDj3Q391/5GNkmBD8BwA8n?=
- =?us-ascii?Q?AObICWwzcH7IHPnKIjTWfkjDWctpHaBreMfp1PQX87g7nsPvnBPwPl0lfI//?=
- =?us-ascii?Q?Pw5Dr0qtJ+LJGGnVJxcLzkL9BRQemZ/E1Dq6Kk8svLSv+ikEKHtP/xRXiksA?=
- =?us-ascii?Q?ZV+3Y8kaodyN875bSS3nEYdCApSX/pTPhJJmQmTFswViWVv0umhgs0FLoadB?=
- =?us-ascii?Q?8aTwVvB95BXn7qXqXMS7a/3FT5V2tpwcRR3Jv/rTiNQhNdsRarb1cDRAn1ju?=
- =?us-ascii?Q?juxNEnQEaTKEOg8eI0MhMprT3PHPn1voElxbRMv0m3kaBp58WlI3lgy7FB12?=
- =?us-ascii?Q?VF0KagL0v55HlpH3NhlFDzscyOGMyUhc32HslB1sOlFLStw+9a8iyUqv6GRq?=
- =?us-ascii?Q?kWt1E6DTBhxrtgibkVJZlsXueBhm2b1FEEvbRrNUVnTaqSzYn+Thskc7fGl9?=
- =?us-ascii?Q?YnBrzDh/nkhoWBWjOZHPe0aw0c1coqg2HwyZZ9zF6ffzO9joLJSlx8V+VRbI?=
- =?us-ascii?Q?QsI3T5dWbl5/kvRltlOSub1gcuAmBM0ZLitFfsRt6Dzn7hnUsALd5BL0YL1l?=
- =?us-ascii?Q?FoA+Vrxa5cvwNnblg3JmTmayeAPsP5Ke3eVU35E5EDsLYBHXnetbq7Oja6ZG?=
- =?us-ascii?Q?0hFFmme69A=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TPYP295CA0001.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:7d0:9::18) To SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
+ (2603:1096:f:fff6::45e)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SG2PPFE985372F0:EE_|SI4PR01MB8053:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2646d103-8879-477d-17c6-08ded042cb6c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|23010399003|366016|1800799024|38350700014|56012099006|3023799007|6133799003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	hgT9WFD7UYSE39WHOCSLOTNIBlUn2cOSN0RZyIjxr86NsftqOGHXGKdSfwhlbC2WWDVZBLj2nv3gO+tQKCAx2ohUvTfhcRy/Fy1SaMMlVK5u14QN2qFE8pTDvhQxzEk4UK9oGfNfoUIVq+fF7sHLjtDL9OKLEXNZw97iUBKRPD9LuQOOyP6WQVK9feXZK3qEXJhJTRDQ8Osqiftp+r9roXn1324AadTrtypPdk13BkUD4VN7TSxBmIRX6jNcr0xoG091AGlaeTFpIBKRaWk+RCKWrCjiGft+sWepA/wXZhvLmHSwVoiHdErQ5BHVaUfzeu9rOAV1hLpUDQBUcdydpFZl8U3cgXvSMX1mHWPpfTfohMbeoG8TM1FAaiuTCnphG979oLLX8uVYUh+jtBCObcDvcun3BKV39M5sIgfk/zRfXE9JjIEBDKGECLz44x/ATByhx8Hh1x3ujDGYKKVyrmfuZLWUBH/d4SvB/ixIf7t2+fj2/HEKBf7M7PYOeH/QiouIxATCOa6OUrlMqBygRnAKl1KC87tmMCWdJR1rAAPZhN3XcEbpgMj7Ddd1uU+lDRh40E1EUz/iaIk/NTXMZP9CE4eS0Fu/F9GVCCHIpOXaMVab4fEinctXGT/g6WMNkCiZYd2Cy1D6KSizDh0E/s/sFouINjDH6wzJXvHJFrnEFt7lI+kZn6V+TnwqfT9OsBVwwSAh8j9LYIjXpW7NHqhhJxWwfoqzJHT0gMxl2aY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PPFE985372F0.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(23010399003)(366016)(1800799024)(38350700014)(56012099006)(3023799007)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?BfKGiQN+4gmMDv9NtaJevl5zx/a106s2uqIRkyW/OVGmJJKQTwSecZIOwk+p?=
+ =?us-ascii?Q?LlxcnvLxvkXDeH6iV8hzxPU1YIv/e750LpdZ+2o8IQVIUIurreEe1OOZ00+L?=
+ =?us-ascii?Q?91yyeRGOZeJFAlguTxa7cX6MAXpRKqeN3dkCBtq58+vFueHmNQXDzjOwMnSX?=
+ =?us-ascii?Q?5cwgk6Fy9JhY9my81bi4AXXZr/1MVAs7Vw1kN9gBuUYet/l/+tlHXprF7bPp?=
+ =?us-ascii?Q?sfc1zw6t4krXyQ3SCAeO2LerZdk4ufSBfYZ+0Es2DUVvp4xAN9Q9Axedbg3y?=
+ =?us-ascii?Q?gonBEhIeWZfGuL8wojTjHE2jlP19M1zoXjkXDTQQOMbXrawgzH6WE55Lw/kI?=
+ =?us-ascii?Q?OHkqegpVYbe9geVFI5Z1irUjzW/rZBxSz8Ik03QLwsr5lhTQZEHTgiJS/MoQ?=
+ =?us-ascii?Q?mOgcCKaaPpapfOcsMdBpDQ6FfV+qE4edKDf2HhXEfZJ0cLe8pdgOYTM/3IC+?=
+ =?us-ascii?Q?z03fhHqzIYLNeQ3E4Ko6ty49ImOySlrq85xcuxCnHqH0E2MSFGsoZTCbtA0G?=
+ =?us-ascii?Q?FRbdndnTXDzNIWcrzdUa0ETVZjXWAlmJH/+Y1YMJaWKKWPWcnF1S3wgT8/eE?=
+ =?us-ascii?Q?k2S49hEXjgEkmnvAQV0UOXh0cBaYAjlSOUVOx1dAAlREYbnb5Qe5+HFqgMxJ?=
+ =?us-ascii?Q?Fv2sMw1jHWa0E546/kEqGUSckVXQHq/lMbGmMd0fjnw7g1bqIAMR+YDsrK96?=
+ =?us-ascii?Q?cLNHkkU+OGDmaMF6XDtDBvDVOXySJKbxYklx8Dj15Hcf/t8zd2nsx0tXt2Jz?=
+ =?us-ascii?Q?68JRqSvhuYUb9mkf6RWCZwJ+HP/SQpllSut16nRsAPFHnZWkf6d/pR7uA05U?=
+ =?us-ascii?Q?l5yBGpVuAY7gSQJttkWHUaaxzh2tMwvXjopVr7JiwV5dxOmsyje839q+OKi8?=
+ =?us-ascii?Q?85PH2AaUfbLwaRfzulKqq+CELpsYcDfmGVTOUd+TOKUL0Lw5opoQ28EVgQAq?=
+ =?us-ascii?Q?9QWpOVa0we0ejXXkvguQlkM2EeKrsDvAMel0V51V+PwM3x8mBsN5xcPqTHa7?=
+ =?us-ascii?Q?jH8MwWtyhxT15GhucNzqLsD3lL1KXaN2SwS/W893hB2Ebyjx8JzM4UDUkFPk?=
+ =?us-ascii?Q?f1/Qm2kNv7aUNHpybtF61DG7D/dW5JJcVJZ0DBAVoGKOsPZoYBSlbFowlIX9?=
+ =?us-ascii?Q?8fXJqJj8SlSMTCef292SX3jApG9yRhckqO62zHicZqPrB55U+iVmf0BplPfA?=
+ =?us-ascii?Q?iMWvK/blp/cdMRBNpSf3L1MjLRU+M0U/zEmSayqNdbqPoimhxlg1a2E0H4g3?=
+ =?us-ascii?Q?PztAWL7xmMGLVkbxzJzue7JdRNEmGPdU3ixOQdsqvQuQ7tnCQJfsHOJdKsho?=
+ =?us-ascii?Q?8PfRg7ukOHl3U8b4NFMSelpqz31iEPlmbcvSx1/HDnWNfeUucL36NDzps7zw?=
+ =?us-ascii?Q?Jwdal7Kjl30b0+ZCVfQtHw82561OmKlC+rY1iAqKdVSU4IW/9RBjgRIqj8ts?=
+ =?us-ascii?Q?m6nqmlfawjF0jIYMMOsCzTnQfMKViHc2qsn7lpciABBA4q9vFTYl7RSoQxbg?=
+ =?us-ascii?Q?M/OuwCFNUxS0HCywDGKm9ROdozbYA8OIZPQyS8dq9Eoi23MKkd5sn/lV+Qnp?=
+ =?us-ascii?Q?Ppm1e4m5PDW1+i4eaqtebk+lOUeEeagOmfAIqrr4zZFanTi+nkc5a+jFSPkx?=
+ =?us-ascii?Q?r4FbU8Go17yxMwLaZAUB0Sl1234hmNy3e3VPFS8QyQiDtComFBx9V7fUC+Rs?=
+ =?us-ascii?Q?+9+aUxCcyVkp+0uxVOuzLaJRaEXn8+6t63FDT3w2f3/a7+S9oSnIRhFQfaRZ?=
+ =?us-ascii?Q?kDd9oVJywyBT5nDj/xQgPwAmBENRYz0=3D?=
 X-OriginatorOrg: ftdichip.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2646d103-8879-477d-17c6-08ded042cb6c
 X-MS-Exchange-CrossTenant-AuthSource: SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c47f53f-23d1-497d-6b14-08ded042b669
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2026 09:43:27.9676
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2026 09:44:03.4674
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c2456335-1328-47c5-82f2-1fe6783d7182
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: b4Sey37OTH+cnAZgQRjQF4O8PNDgFuDiVujA4ghXJhTDR2Jtqeimt/RVVxj1DErPk49ZeKQOtQplUDj+J1m/xc/LkPUG47Hc1llGb+JVdPE=
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c2456335-1328-47c5-82f2-1fe6783d7182
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Q/h7tzV4FoZ+7F8HMxPLk503t/BzIn2HGecmuSYxoCSpG2d0qOlBPjggq1hiu3AKoWQp8MZkXnL1Bw+OvsJoGzbHG5Uls9p0S2aIJZNp55M=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI4PR01MB8053
 
-Hi Greg,
+v2: Drop patches 1, 4, 5, 6 from v1 per Greg Kroah-Hartman's review.
 
-On Mon, Jun 22, 2026 at 05:28:00PM +0000, Greg Kroah-Hartman wrote:
-> As this is an out-of-tree issue, there's nothing we can do in our
-> in-tree drivers for that.
+Patches 1 and 6 used module parameters (urb_defer_timer_ns and
+low_latency_defer_ns) to address DMA-channel starvation on a host
+controller that does not enforce DMA-channel fairness.  Greg correctly
+pointed out that the host controller driver is the right place to fix
+that, and that ftdi_sio should not carry per-driver workarounds for an
+out-of-tree host controller deficiency.  Those patches are dropped.
 
-Understood, thanks Greg. I will drop the urb_defer_timer_ns patch and
-the low_latency patches that depended on it, and take the host
-controller starvation issue to the Raspberry Pi / BCM2835 USB folks
-separately.
+Patches 4 and 5 (per-port low_latency sysfs attribute and its
+serialisation fix) depended on the hrtimer infrastructure introduced
+by the dropped patch 1 and have no standalone purpose without it.
+They are dropped too.
 
-I will shortly post a v2 with just the two standalone ftdi_sio fixes
-(transient control-transfer retry, and making an explicit latency_timer
-sysfs write authoritative), which are independent of the host
-controller issue.
+This v2 contains only the two patches that are independent correctness
+fixes for ftdi_sio itself:
 
-Thanks,
-Naveen
+  1. Retry transient errors (-ETIMEDOUT / -EPIPE / -EPROTO) on
+     chip-side control transfers so that a single transient USB hiccup
+     under bus load does not fail an otherwise-healthy one-shot
+     configuration (e.g. a latency_timer sysfs write) back to
+     userspace as -EIO.
 
------Original Message-----
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>=20
-Sent: Monday, 22 June 2026 5:28 pm
-To: Chinna Mopurigari Naveen Kumar Reddy (FTDI-SG) <naveen.reddy@ftdichip.c=
-om>
-Cc: Johan Hovold <johan@kernel.org>; linux-usb@vger.kernel.org; linux-kerne=
-l@vger.kernel.org; Arun Pappan (FTDI-SG) <arun.pappan@ftdichip.com>
-Subject: Re: [PATCH 1/6] USB: serial: ftdi_sio: add configurable inter-batc=
-h defer for read URBs
+  2. Make an explicit sysfs write to latency_timer authoritative so
+     that a userspace write is not silently clamped to 1 by the
+     ASYNC_LOW_LATENCY tty flag left set by an earlier TIOCSSERIAL
+     (setserial(8), libftdi, certain tcsetattr paths).
 
-On Mon, Jun 22, 2026 at 09:05:53AM +0000, Chinna Mopurigari Naveen Kumar Re=
-ddy (FTDI-SG) wrote:
-> Hi Greg,
->=20
-> On Mon, Jun 22, 2026 at 04:52:00PM +0000, Greg Kroah-Hartman wrote:
-> > This is not the 1990's, module parameters should not be used anymore...
-> > Why not just fix this at the root of the problem?
->=20
-> Thank you for the review, Greg.
->=20
-> You are right on both points.
->=20
-> On the module parameter: I will switch to sysfs if the per-driver=20
-> approach is accepted, or drop it entirely.
->=20
-> On the location: your core point is well-taken. The DMA channel=20
-> starvation is a BCM2835 DWC_OTG host controller deficiency, and the=20
-> correct fix belongs in the host controller driver, not in each USB device=
- driver.
-> I will investigate fixing it there instead. If that is not feasible=20
-> (the
-> BCM2835 DWC_OTG is a vendor tree that Broadcom/RPi maintain outside=20
-> mainline), I will report back before proposing any per-driver workaround.
+Chinna Mopurigari Naveen Kumar Reddy (2):
+  USB: serial: ftdi_sio: retry transient errors on chip-side control
+    transfers
+  USB: serial: ftdi_sio: make explicit latency_timer sysfs write
+    authoritative
 
-As this is an out-of-tree issue, there's nothing we can do in our in-tree d=
-rivers for that.  Please work with that team to either get their code merge=
-d properly upstream with us, where we can all work on the issue together, o=
-r just work with them out-of-tree.
+ drivers/usb/serial/ftdi_sio.c | 65 +++++++++++++++++++++++++++++++----
+ 1 file changed, 58 insertions(+), 7 deletions(-)
 
-thanks,
 
-greg k-h
+base-commit: ba3e43a9e601636f5edb54e259a74f96ca3b8fd8
+-- 
+2.43.0
+
