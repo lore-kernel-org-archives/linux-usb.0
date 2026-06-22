@@ -1,133 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BFA3342514
-	for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 17:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF31283FE6
+	for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 19:20:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782150215; cv=none; b=hcDsJQFzoBMpgjJOBaa48fqXsQTlnQZsNgoYoZpFGrdGE668JgdeaIf0u7wUFzCmobqh4i4Qn+Oh0fJBf/NHns/Fd++01SN0wIfiPT2oXuNnoNniifsRIDJHGC4bm7BRJSICmxjuuieg+Y9bbljCNsFWoU4ar0T98tIvhBtHSOo=
+	t=1782156022; cv=none; b=Zpqh3TNNuzKMkKQhkqVy660Ox4IfDAYPkOXg7o1eW6uPF10rLU0kBXglWTyMTAYCWqQaebyyfsumykjhoXbS1hEOf1TsiO2Y3b7XgCac/C8x3XI/TwU/04u3wNmh28zPeQmMEcybP0uB7p48DEZUIXRk7URPIEr0KB8eruOcRKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782150215; c=relaxed/simple;
-	bh=37n0r5kMauruI+X87up//ZNJGThpP+mu8r7gnCJwuZs=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MX/hEZj/3AcIVgczlvwdmrYsyIedMKsjRcVMyzg1OKenbTV2LagIGMTOdskK0wlJIlQtuX8AVKtXjJeG/n8VyQlQpec9MwGkatsNQA4uWXENHfD7UjmSTHQn7rgoXRYRi+Nt+FqP2Pu4vaW1XmOtsUpzAmE3/75qhx7Iw6yiw8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bWs9bj1f; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782156022; c=relaxed/simple;
+	bh=j/h+URImDdxSyb0+bU+8F0V9rJuPI+Pnc3VjZ6LMoEY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oakN0Dx0iv5CTWWI/x5rHSnvPMJaiMq976AKPhVPowhy3/C6c8Yp7kbz+ApozTEu0O2Tqo+SsYQMVov2TcWlND8XgwF4TTaY9gAgtnIlZzboIdNU2kksX9RJbnH5pxsnWOVizDfPmH4UWbNsA0bB9nzz2vkHHYY3u1X0GKFHzNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=F9Yqzx1e; arc=none smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bWs9bj1f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BF191F0155B
-	for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 17:43:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782150212;
-	bh=ZOvkxM7SoiYga4F3HI0NRlsezjpo0hLIkN4UO4HHxjU=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=bWs9bj1fag5KYrEtQKDWajU/F6qyj+Xj0XywCLK/icvKgyu3zXE8BtiE5VCmzBOIO
-	 skOV0vdmfh5mCkma6G1yrE/H1sWckCiKx0kV384oGGNyzktYrin//aZ1A2T9J+RvZq
-	 tLhd4ueV9nefHqs6/L55gODvylLnx+BGn1DaSxnxjd+YO5r+feGhhbbldQDXQzrV7q
-	 InN3bE5Wk7q70Sq7/fRrBO5JcoyyAgKcaZfkUgqIJcm8KxCXn9dPVJbUuFpObZuXcl
-	 40yRt2QoBA60YiGyyZSznJ1lh57IMuMv+WKUqWeRQZyld2GfoWo6fs7ZFdt1rcNYd6
-	 YnYd6Pb1v9FZg==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-3996c9eeebeso41601221fa.1
-        for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 10:43:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+s/airx9qN8fMBdreW5WIOD9YvwJ1WvVIhRRasSGAaVgoTWcQcIWvKC2SHGtjUEjn9pkrQ6U+mcMk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywp3xRX2lqqDK2GooeWLRdT9YoxSNp3m/1fg+c2pyUW9cKZRr1x
-	uHrCZwPdDqG43/3+SwH8Zfh2am07UV7PpIfl4SExvDYQN3K5kZKL4Ta5FKo/xGplg++4TniXL0b
-	WUlnKIsLmWEjQZno3eUf0pxqiH/0vtmNmtHj1VPC0bg==
-X-Received: by 2002:a05:651c:88b:b0:394:635:70b1 with SMTP id
- 38308e7fff4ca-3998bc52fbemr41304291fa.3.1782150210743; Mon, 22 Jun 2026
- 10:43:30 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 22 Jun 2026 13:43:29 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 22 Jun 2026 13:43:28 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260521-pdev-fwnode-ref-v1-5-88c324a1b8d2@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="F9Yqzx1e"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7e6d991991dso3965546a34.3
+        for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 12:20:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1782156018; x=1782760818; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DqKEqkgorRteBv1u8AcOLPP9p3Ks9lbIdi91P4utQN8=;
+        b=F9Yqzx1eHDUCizjeNFE1t7u6ubgKrGBklA/Kqfg+XsLHJrdqq2c4hkde6+T+KaBh+o
+         DX6Dr5enlNPU2LKz+3YVtuEVuTSuS3HX3/8lZs/qsEDHXvKg4cKJtS1gPbEirVzZF6rB
+         oLrDHOnn3/OIGg1MmsPWg81IQ+sSZk0/cIEXY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782156018; x=1782760818;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DqKEqkgorRteBv1u8AcOLPP9p3Ks9lbIdi91P4utQN8=;
+        b=G4bQWa5XIoN3ghFnKw30rVKxXEuV5TnsCYuldZ73mpexaoV72VGkJ0b6PPB4PlgT1f
+         GlWZEpZJEOQKlBSvW2+Vlj7R/npxm1rUJso7GQxyTWQtX2pLUWrnJhnItBqcGYELNqxi
+         SSNAUTRgV2RW+z02bdyTa8aANyDnQJffH4Re62ZoTpAlv1+m0yvcqEUo/HLkuqlHqUkE
+         Ioc3lYRLHrJDUhVe1OdvWAGgfBVVqqZPypqNAB0XOo6MTSsDWwGQxkpl+bDYyaZBZ9ar
+         ayBK10exH6xH7WdqiuFOgyTd4QpuVYVWRGLID1vo+2rfwJ7IWL0EDQgpR1KqtuFpLL47
+         3JTA==
+X-Forwarded-Encrypted: i=1; AFNElJ8Rsokbq7V2b0dXSuuxv+9vifdhUuyZAYIWfF/cduSyHiPFeqZ54jH23klFj1s3bbNmPhBoPi8tZYE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyxe8Zs74Dq+lPgzuY1PT8+XLXlytML4PN3lROrZWD9lHzfVvVO
+	tU8nhr+HIjSDmFUo+vafOjedbC9zb1Tcz6DGGHlV8pXxaXK7f0SSkkpxmJjm6Y2P2N8=
+X-Gm-Gg: AfdE7ckHNfipBKQVPxzerp+Lf+QJlUmgOtMhpSGnh8iuU6Z8vAH551FtflfmiA2yrKf
+	vwy68q6XdfnznSdodaO04vZmBOBTfu+h+NaEHWjP1FKvB7DXnZQEznp5hzB83drZc15YnOF8Aat
+	Ys+vTDZHa+vSX08M5hQJFpfjSGXKbKWpqLO4Uun/ZcZGo/c5gfNpumgzZRhVRz6/FB/KyKhXRX+
+	vMywjaCxye7L+wbVFDWvq5wUb1KfrXAkVyuqIC+Qj7pdZd7N4aQoReid43A7EEm3hQvoLdSueT/
+	DEL6Rz2thXuOweco37v0AbCpObgk0iSk2Uu3cLHo1g5K62cypfNARN7jW0STb1x8B9m+TuCVzDG
+	UL1wmRoAOeYoHj5awcJLztwa/qtRJuKnKpm0ra/aWSdnh53EMPnZcOOgppvugLDJGwlPtpZmZm3
+	C9fxSNxusJE2S1pvTlPRyC
+X-Received: by 2002:a05:6808:120b:b0:489:4d48:56e7 with SMTP id 5614622812f47-4896ac031e1mr14500472b6e.25.1782156018429;
+        Mon, 22 Jun 2026 12:20:18 -0700 (PDT)
+Received: from [192.168.1.14] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-48aedf23f7bsm5336450b6e.11.2026.06.22.12.20.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jun 2026 12:20:17 -0700 (PDT)
+Message-ID: <d2c461a4-9271-43b5-9ba4-8c3c9c63c134@linuxfoundation.org>
+Date: Mon, 22 Jun 2026 13:20:16 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260521-pdev-fwnode-ref-v1-0-88c324a1b8d2@oss.qualcomm.com> <20260521-pdev-fwnode-ref-v1-5-88c324a1b8d2@oss.qualcomm.com>
-Date: Mon, 22 Jun 2026 13:43:28 -0400
-X-Gmail-Original-Message-ID: <CAMRc=MfSsLt8+CAh++8qo_=F=q5XRu6G3WGB=B2TZj8dTZydfg@mail.gmail.com>
-X-Gm-Features: AVVi8CfRnQqz6Nh2M0v3z0C67LQjbAf_AXtOmIr-lp4acya5s7VimMoD1ExGxmc
-Message-ID: <CAMRc=MfSsLt8+CAh++8qo_=F=q5XRu6G3WGB=B2TZj8dTZydfg@mail.gmail.com>
-Subject: Re: [PATCH 05/23] powerpc/powermac: fix OF node refcount
-To: Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
-	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, stable@vger.kernel.org, 
-	Lee Jones <lee@kernel.org>, Mark Brown <broonie@opensource.wolfsonmicro.com>, 
-	Thierry Reding <thierry.reding@avionic-design.de>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, 
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usbip: tools: support SuperSpeed Plus devices
+To: raoxu <raoxu@uniontech.com>, valentina.manea.m@gmail.com
+Cc: shuah@kernel.org, i@zenithal.me, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <1B3C4D10DA532DC9+20260622100802.377751-1-raoxu@uniontech.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <1B3C4D10DA532DC9+20260622100802.377751-1-raoxu@uniontech.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, 21 May 2026 10:36:28 +0200, Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> said:
-> Platform devices created with platform_device_alloc() call
-> platform_device_release() when the last reference to the device's
-> kobject is dropped. This function calls of_node_put() unconditionally.
-> This works fine for devices created with platform_device_register_full()
-> but users of the split approach (platform_device_alloc() +
-> platform_device_add()) must bump the reference of the of_node they
-> assign manually. Add the missing call to of_node_get().
->
-> Cc: stable@vger.kernel.org
-> Fixes: 81e5d8646ff6 ("i2c/powermac: Register i2c devices from device-tree")
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+On 6/22/26 04:08, raoxu wrote:
+> From: Xu Rao <raoxu@uniontech.com>
+> 
+> USB/IP reads a remote device's speed from the server-side sysfs
+> "speed" attribute. read_attr_speed() converts the string to
+> enum usb_device_speed before the value is sent to the client.
+> 
+> The conversion table only recognizes 5000 Mbps. Devices reporting
+> 10000 or 20000 Mbps are therefore sent as USB_SPEED_UNKNOWN. The
+> client then selects a USB 2.0 VHCI port, and the kernel rejects the
+> attach request because USB_SPEED_UNKNOWN is not a supported speed.
+> 
+> Map both SuperSpeed Plus sysfs values to USB_SPEED_SUPER_PLUS and
+> select the SuperSpeed VHCI hub for that speed.
+> 
+> The issue was reproduced with the following server hardware:
+> 
+>    xHCI controller: Intel 8086:a0ed, revision 20
+>    Subsystem:       Lenovo 17aa:382a
+>    USB device:      Silicon Motion 090c:2320 mass storage
+>    sysfs speed:     10000 Mbps
+> 
+> Before the change:
+> 
+>    $ usbip attach -r 10.20.12.170 -b 2-2
+>    usbip: error: import device
+> 
+> After the change, the device attaches and uses usb-storage:
+> 
+>    $ usbip port
+>    Port 08: <Port in Use> at Super Speed(5000Mbps)
+>      8-1 -> usbip://10.20.12.170:3240/2-2
+> 
+> VHCI currently exposes the imported device as SuperSpeed, so the
+> client reports 5000 Mbps instead of 10000 Mbps. This is a separate
+> speed-reporting limitation and does not prevent attachment or I/O.
+> 
+> Signed-off-by: Xu Rao <raoxu@uniontech.com>
 > ---
->  arch/powerpc/platforms/powermac/low_i2c.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/powerpc/platforms/powermac/low_i2c.c b/arch/powerpc/platforms/powermac/low_i2c.c
-> index da72a30ab8657e6dc7e6f3437af612155783d8f9..973f58771d9636605ed5d3e91b45008543b584d3 100644
-> --- a/arch/powerpc/platforms/powermac/low_i2c.c
-> +++ b/arch/powerpc/platforms/powermac/low_i2c.c
-> @@ -1471,7 +1471,7 @@ static int __init pmac_i2c_create_platform_devices(void)
->  		if (bus->platform_dev == NULL)
->  			return -ENOMEM;
->  		bus->platform_dev->dev.platform_data = bus;
-> -		bus->platform_dev->dev.of_node = bus->busnode;
-> +		bus->platform_dev->dev.of_node = of_node_get(bus->busnode);
->  		platform_device_add(bus->platform_dev);
->  	}
->
->
+>   tools/usb/usbip/libsrc/usbip_common.c | 2 ++
+>   tools/usb/usbip/libsrc/vhci_driver.c  | 1 +
+>   2 files changed, 3 insertions(+)
+> 
+> diff --git a/tools/usb/usbip/libsrc/usbip_common.c b/tools/usb/usbip/libsrc/usbip_common.c
+> index b8d7d480595a..d91872a425f5 100644
+> --- a/tools/usb/usbip/libsrc/usbip_common.c
+> +++ b/tools/usb/usbip/libsrc/usbip_common.c
+> @@ -29,6 +29,8 @@ static const struct speed_string speed_strings[] = {
+>   	{ USB_SPEED_HIGH, "480", "High Speed(480Mbps)" },
+>   	{ USB_SPEED_WIRELESS, "53.3-480", "Wireless"},
+>   	{ USB_SPEED_SUPER, "5000", "Super Speed(5000Mbps)" },
+> +	{ USB_SPEED_SUPER_PLUS, "10000", "SuperSpeed Plus" },
+> +	{ USB_SPEED_SUPER_PLUS, "20000", "SuperSpeed Plus" },
+
+These are duplicate strings? Shouldn't they
+be unique?
+
+>   	{ 0, NULL, NULL }
+>   };
+> 
+> diff --git a/tools/usb/usbip/libsrc/vhci_driver.c b/tools/usb/usbip/libsrc/vhci_driver.c
+> index 8159fd98680b..4ca3783ee5b7 100644
+> --- a/tools/usb/usbip/libsrc/vhci_driver.c
+> +++ b/tools/usb/usbip/libsrc/vhci_driver.c
+> @@ -338,6 +338,7 @@ int usbip_vhci_get_free_port(uint32_t speed)
+> 
+>   		switch (speed) {
+>   		case	USB_SPEED_SUPER:
+> +		case	USB_SPEED_SUPER_PLUS:
+>   			if (vhci_driver->idev[i].hub != HUB_SPEED_SUPER)
+
+Won't this continue when hub == USB_SPEED_SUPER_PLUS?
+Doesn't look right to me.
+
+>   				continue;
+>   		break;
 > --
-> 2.47.3
->
->
+> 2.50.1
+> 
 
-Madhavan, can you please pick this up and send it upstream as a fix please?
-Not having to carry it with the rest of the series will make things easier
-for the next release.
-
-Thanks,
-Bartosz
+thanks,
+-- Shuah
