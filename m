@@ -1,107 +1,91 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8FB03546D7
-	for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 12:50:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D30D3AFD19
+	for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 13:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782132655; cv=none; b=WelOrQqakWlKy+nBKTVrUlGXwZG43HDHK6q/SQrOYzBje98MtfWtme3S5wgSuoL/mUT5pIM8ib9aCcjGV/H0sOcT8rsZdqXB9DbiYNrEWC/FdKz5CtzvkXgoVHqCq02B9pcUOdlj1UtAdYzbxqb7ZJ3Fz+yhooqNocPJH+TLf5o=
+	t=1782133439; cv=none; b=eyuhFi/W2y+nuCqOEw5vRqHOu9rYp8TbSzVv9jdrn44wmKjvk3VoLmJyNXPoudED6MPyiuk83Sec6pn2R6uhjTe01NPUuk8t4pI+g85ddIwHfj3usz30e/09MR6qOnO/ut72HBxghqs6QXZSdkgwXWS7Te5UZn+rfTnIhmG2L9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782132655; c=relaxed/simple;
-	bh=bHzHEipgVoyBRyX2ynPaWW+ImLplX3HM2h/iS7yIDMg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XcnftL4qSgRgW99RPVY1K6iioSSbp98kLD8Q0CZIo4LKF1iNa35pwe6775LT7pBw77h3lSJxfuq3qc8Jw+SmIsXDYmW3f8chg9uLkRb7TJ6sPjqhSYjBXtwcNxnBlxrIDjvb9liV+p3U6C84KWB/UUnXq17VFvWI/0a7hTv7NZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PL3HFLXs; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782133439; c=relaxed/simple;
+	bh=ZWrnUmd4s1PGLsWmsZ0VBfx45QUJkGzVruaA75Xj70E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lHo2iHPrwVD7Nw2jq82u0vInZNkoRk6wJtg5JfRWsUpMPllONxzH/nyMPR5//b9D9IaI5Ops0iqdj5gyUmfQbhi8iHfdWsY0DW4iC9S6oa1IbFLuoxfxugNGQnyn4ZeK4R0Elzp7jQZt550ioWNIdE1uE4MAQN8b6d9wY3uIwC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Y8TOYgJT; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PL3HFLXs"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-45ef779c1c2so3375522f8f.1
-        for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 05:50:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Y8TOYgJT"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4923fb1f095so31604925e9.1
+        for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 06:03:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782132652; x=1782737452; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VLLr5EyOH8gGg6bkLYFw5CLPo8V5jKDBCqSICrOTJIw=;
-        b=PL3HFLXs9sRzM4NPA5xEAGHOwn69MCOagQZh1EgXRXwhl5gbogS4aTlbRlTUuIp2Ek
-         xho1lI/ETGwpJxyROfALcU7hwbNkEADA7xOohXsFA2/RlcQ5d9aoBOUuRfosgY+2WZdq
-         QObN4p4Kn16q4Noxm8F9cX2WwuAC74MVyQdoBkOV6/fc4/SSosazVXrtxodBeENRN2ym
-         0h4vm4n0cy4a23Rrja+4GxwYtuK0y+UcbogazvsMBzRCNCOHvYtA8KhY+7FX5aEsorOG
-         4dOPnjbrj3Ozl/sy9ZHI+CqC3GwrAMwYre7raMq+P/ljNsUoVqNnyfGyxqv3i5rfltU4
-         4ElQ==
+        d=suse.com; s=google; t=1782133432; x=1782738232; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3hsVtpSsUNsx/k80Nk5sPLM4WST9qjS6SPhICLZMfjk=;
+        b=Y8TOYgJTPUQMyJgv8i/CMPEXEWG7yGYg8JL7YKX++WGdOX1KBeHDzvK4NlA/Yf4XbR
+         oQ63nxuBZqIwP4Fy3qIfv5S2el04/ZGZwgIuR2mCARKODTUUD6jQlxFJ+GioCVPk/51h
+         yib/8TuSBPK8iWA9dNOYJ1wRHPU8bK8a+Lxibv6Bo+1Kce/eEzZbzD7axSNpEkygqrlk
+         zU28Qk5gWSI8XYJGPGeBjUD3niJ18L4+rVlt9pOG4CWAFapU4O3zwOmMJTsGR1VX6l+h
+         0/o6uHk2ADklHscQmPOAdyza/uI7VQ7qyw/OzZyTuMJfP6cocba/YUCrBYExafuTHGFD
+         9uyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782132652; x=1782737452;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VLLr5EyOH8gGg6bkLYFw5CLPo8V5jKDBCqSICrOTJIw=;
-        b=O2Hg6U3FCAbBAZBN/tP+n1Mpo4WnWrK2rdNuLsXbpDdm8rdCmBWltrS3PHR6LiUCJJ
-         bD9RDXgY6GXWGZsre/cLszKKPWz22/Tfh9Kux/Sxkeuf0A17fB8Unavymmh3+YnpUbH4
-         2UxT29KY8xE6RhkRAG8CXxXDTJf0X069MiDDYaaaQV7kK+G4MNythQC6O2vvy80PEQaE
-         /oCwvs6CyXVFpeChxl3xcFlHcmCEBhA7NGmO03TaN/oBBaNY2zTeFI2nQEFCuhxJsD/s
-         g15UJG51ffyzrmdkw1aLrS3J1k5tceY5sJCKfu8FW4dCZ5p0zqVzLaFoB+E0bFpYEt2K
-         xTKA==
-X-Gm-Message-State: AOJu0YxTBB09/+koIr8V1LvkPiDoNQMTyFob8WTzKQqLIWWyXFJM7x10
-	M5fNxHY8OqBeVzrL7r+4AU4rVwK23HIK9+VZ88dvbQ3is8VAolZCuvMa
-X-Gm-Gg: AfdE7cmkYZCUe/DIMQ4JP/OGpd57gCKGq6K19ktWLQOVEqc11vfQPd4QAaW3Ucz0adx
-	ZWM8wYTUYGUMmnmHzc7pXB3xB3WcXrTQ4KyF0bonWEfbsqLdq3On2eYqC11OCFs4SDCIyYKcLuP
-	tm4pYFcMHixkTO1KWQTY4eAQdCejgIR62XtLA3PmDj3WYtngwI1ZRP/qYOgEIebujmOB8pPmL0A
-	nvMOCYb67XGF0tcVOyKCcT3a+i5CUXwMhU6s7TBuQqXMgqJHsTiLtCv+/KuBYNDuS08Yh8iQ24/
-	rRn10R3oQ52PqZLZgjhYs7vPuowEkWS0VydgbIt40lxsoe4kTbOlbreLwwW/HRtjkFizO6TVrts
-	2UAx9uv6Y/LWWGtYVzlpqg7CsdoDO09QeK8KzjBjILwyVnFoT+hi3emeOXg1O1YSVJdYCFbuH5k
-	AMKz2umq6vgR/xYfLbuJ23Cn+uAE6CRbp+TvjmzZKtB8cnwK8CZPRh50W/iEphhTviy2p927BR
-X-Received: by 2002:adf:e010:0:10b0:468:e22c:3f1d with SMTP id ffacd0b85a97d-468e22c7d10mr5539669f8f.17.1782132651942;
-        Mon, 22 Jun 2026 05:50:51 -0700 (PDT)
-Received: from 192.168.1.39 ([196.92.41.250])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46667221de7sm25305714f8f.33.2026.06.22.05.50.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 05:50:51 -0700 (PDT)
-From: Jad Keskes <inasj268@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jad Keskes <inasj268@gmail.com>
-Subject: [PATCH] usb: misc: usbsevseg: replace deprecated simple_strtoul with kstrtouint
-Date: Mon, 22 Jun 2026 13:50:45 +0100
-Message-ID: <20260622125045.2398164-1-inasj268@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20251104; t=1782133432; x=1782738232;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3hsVtpSsUNsx/k80Nk5sPLM4WST9qjS6SPhICLZMfjk=;
+        b=Q86RZkbY94ywvXSe1SO80fp28XMlvNOfwekEagSM5FoTnh+/ffXmPQTDpMYef8Hgpg
+         N/qPkSlpOhhswW7qwqm7oqvwUR6fdZVcPWVet43LcIOhtyuKhRd0COmmzdVHRiJtBuTb
+         PXhMWrtzk78V2WJH7HjXiiizr5/2zwIWRsIlRTY65wGF4RutvN/Go2dHkaG2X+yypAGr
+         cAeeTvMJv+Re5asSiyv+COQhINWolEINs2hCPEvVGRNMdTSW0KDPne5K78O0mf50eqU5
+         zMXPzy4tpiG/1rnokH+wxk4em6Zj1YJ0khSfOPAYSc5Yl/zIxqLiu9sX0b6B4vodqcXM
+         f54w==
+X-Gm-Message-State: AOJu0YzLgEsv+QYFuU3QznP6/RaSit0St4SDzCAnyM7TM7SCDQ+X2SIY
+	RTO42azMubM8pHunjN8wqNgDK4IwfRF7DdHKrTmXQN1LHnMcpPwXigkHHoJYjirXbyY=
+X-Gm-Gg: AfdE7cmscPrCwctBPHQTrbwiBHsuA5fv1k6biWX6DSATPnOI/XUeMNFGatojupksf38
+	ltULgdyagKNjGA6Jb1vl+B7lB2GagiC318CXsG2ufl3iokc8HNlQ/iyCa/DPpL+neYfWyilhjLR
+	kRGI4199dt64h/OIklQHfp8gumH2T4SzFjQLcNM7t3QBInKULtdDmraxSXEV3jCEUVvCLSv9NcZ
+	z9h4scWnZ66V3LGJNF228fFJvJpvcgDYjfUH+GNe4RpPWsf9GmQqrlhrhoD93yDzwzUaTr2sEt7
+	57mGGpCg77ELLuRR+o5sw6a9zgVE9L7PySG/7+Hu8ZqjeVzfaBoMcWKpnRMxEhSMVg1xcfgqPT4
+	OOcqBdSphyOeR9pbqEOtjfRolG5o0sEI7NsvRNE4Z4hHi2Apqbf+TSj6xTGLXumObsfo8z+OlYi
+	B9BV/Csa+bBnWESGrpCnGx3RHI1Bo1MSqc/1JRh726c+QafPFnUeOyAKlA8biv9nmRyA==
+X-Received: by 2002:a05:600c:4713:b0:492:4667:8c40 with SMTP id 5b1f17b1804b1-49246678e86mr166579925e9.8.1782133432322;
+        Mon, 22 Jun 2026 06:03:52 -0700 (PDT)
+Received: from ?IPV6:2001:a61:13d4:6901:78ed:1f08:f691:11a2? ([2001:a61:13d4:6901:78ed:1f08:f691:11a2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46666c57ba0sm27430103f8f.32.2026.06.22.06.03.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jun 2026 06:03:51 -0700 (PDT)
+Message-ID: <2dfae761-581c-401e-9438-2b06aea82f23@suse.com>
+Date: Mon, 22 Jun 2026 15:03:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: misc: usbsevseg: replace deprecated simple_strtoul
+ with kstrtouint
+To: Jad Keskes <inasj268@gmail.com>, gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260622125045.2398164-1-inasj268@gmail.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20260622125045.2398164-1-inasj268@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-simple_strtoul() is deprecated. kstrtouint() actually tells you when
-the input is garbage instead of silently accepting zero.
 
-Fixes 3 sysfs store paths (powered, mode_msb, mode_lsb) from one
-macro expansion.
 
-Signed-off-by: Jad Keskes <inasj268@gmail.com>
----
- drivers/usb/misc/usbsevseg.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+On 22.06.26 14:50, Jad Keskes wrote:
+> simple_strtoul() is deprecated. kstrtouint() actually tells you when
+> the input is garbage instead of silently accepting zero.
 
-diff --git a/drivers/usb/misc/usbsevseg.c b/drivers/usb/misc/usbsevseg.c
-index 89d25fcef642..2c08d8ee7d86 100644
---- a/drivers/usb/misc/usbsevseg.c
-+++ b/drivers/usb/misc/usbsevseg.c
-@@ -154,7 +154,13 @@ static ssize_t name##_store(struct device *dev,			\
- 	struct usb_interface *intf = to_usb_interface(dev);	\
- 	struct usb_sevsegdev *mydev = usb_get_intfdata(intf);	\
- 								\
--	mydev->name = simple_strtoul(buf, NULL, 10);		\
-+	unsigned int val;						\
-+	int ret;							\
-+								\
-+	ret = kstrtouint(buf, 10, &val);			\
-+	if (ret < 0)						\
-+		return ret;						\
-+	mydev->name = val;						\
- 	update_fcn(mydev); 					\
- 								\
- 	return count;						\
--- 
-2.54.0
+That changes the API visible to user space. Is this a good idea?
+
+	Regards
+		Oliver
 
