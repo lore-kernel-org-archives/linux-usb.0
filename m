@@ -1,111 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787FA35BDC7;
-	Mon, 22 Jun 2026 08:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1F9345CA1;
+	Mon, 22 Jun 2026 08:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782115521; cv=none; b=BOHlFV2qfaWNeL/c6RcCoHApqOBTS0wHKxzCaDlMZuxDoml+sHbi8AeoMgZrPp9g9upRnjSL5+ynltYnWyvoovARZfj0a5Taaar+vbOvZdkYks0UT2mvyJGdPRRAFnfqpkBYAzLbwyZAuHlnj9TN+uDD3mOf7XyAuYVfOPeVqX4=
+	t=1782115768; cv=none; b=ZcdbSkC19h7jjU8pRhZdppK3lDjvDgC+zpgtjLv7dxFXzvHCgemd0G5209/5Cpj0z/w4FWpOwW1vKQhq0ix4hS16ac7M1/092yWny2CAoj42QLcjQdwr4+nhrTmfMqQ14AKtzyyyKTKognRBeuwUV1eW8yQrN45SlSKl+mScumc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782115521; c=relaxed/simple;
-	bh=OlSbs9VLtf/8IxeWwRDXkTD/lKuu/eFujrA7c2e9KSI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QUigK4pukFvGY8vXstr72PGDapkVBkCkcIOQ0Aa0lzhhrGCoRHtv/L9ZOqlGiED9mSb6ZvdCr4I+wOFRe3vwsXy5K+MsZ/yj137d0ynbvJdujVruZXVAjubcvSXBNoiNKSzJLND1mkf5PHwRLI4QKQ9Dby+fYli3WZnO/1F8E9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WKhiDDUd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782115768; c=relaxed/simple;
+	bh=kBSaxasdUpSBApMp8lPp+2UF19a9J1gBJMFb36DxKgo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oNsNvQibjKUG2vV7QxMWFO+YAZZ1OcXsGgYmx/E52am++z0RBEf+AOjWqA+hoqXHtcpKxizS+t9Vf0k5rWzrJCXWFwv3sAhCat0CBfKZv9o16XN+XBG5RCtf+fPYVGOGszhEvUftukJoJp66eWxO9goTzobwWSVRLZA9LIh+D/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=xqk+evGB; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WKhiDDUd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B84C1F000E9;
-	Mon, 22 Jun 2026 08:05:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782115519;
-	bh=FAbpiNhKVqoEfhFmUfUdlxgESW8QuGiY+lhl+lA+T60=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=WKhiDDUdL0KRgYXfe2WI9TPD1Fcz4Jm9ZEs4TCvppOjXgUFC4H1afMQFw+2v6sbYC
-	 wyKQOW94sIC2JrNxh5T1XMUYBWAlDKC18spHzcXcYSeSIENbdvnOdBeIFeCRHU0wcr
-	 GXhaSILwuzYrxIUKMomqoVtJ32rfzWA7jVghDLmfnz+BZrvg16SiSZpHTKMbep/4WK
-	 cTRFBl6B2TwAUd1X5OjJrSj8wdRtwPxWGGAsp+lGM7jfcHoi8eTosbKCizRmGWHd0+
-	 cQFh5OCUybibOIb31BzksIWMYD20OkhiGIxmv8Z+opVm7KScIv+rhlWvQYzzdL9N23
-	 S4BwD770Utgzw==
-Message-ID: <dbb5915e-6587-4de9-87f3-76bea5024da8@kernel.org>
-Date: Mon, 22 Jun 2026 10:05:13 +0200
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="xqk+evGB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=LDq3f4iBwMZLdwHtzyFKK39pq/ztqthvsDddqEESusI=; b=xqk+evGB7ouG2cO+A1vTL+0Bbn
+	H4zCeI3IZXur6NE460llhAJh7tuglZCQLSdQ02t0LDeagbsujhCjiLhB/e02bUoexTRKqhxc+l/UB
+	NlgXlLGyL7bncg/FiUBlvwkc8UJgZlFYUcBjvNxaV5AMiocXwUgBkmhIKXtrtFStlGYA=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wbZiZ-008nbV-Cu; Mon, 22 Jun 2026 10:09:19 +0200
+Date: Mon, 22 Jun 2026 10:09:19 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Maoyi Xie <maoyixie.tju@gmail.com>
+Cc: Oliver Neukum <oneukum@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH net] net: usb: kalmia: bound RX frame length in
+ kalmia_rx_fixup()
+Message-ID: <4aa18a37-cda7-4849-8f29-d0aba76bc933@lunn.ch>
+References: <178211531778.2216480.12637613349790980750@maoyixie.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] tracing: Move trace_printk.h out of kernel.h
-To: Steven Rostedt <rostedt@kernel.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: Masami Hiramatsu <mhiramat@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- John Ogness <john.ogness@linutronix.de>, Thomas Gleixner <tglx@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Julia Lawall <julia.lawall@inria.fr>,
- Yury Norov <yury.norov@gmail.com>, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-nfs@vger.kernel.org, kvm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org
-References: <20260621093430.264983361@kernel.org>
-Content-Language: fr-FR
-From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-In-Reply-To: <20260621093430.264983361@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <178211531778.2216480.12637613349790980750@maoyixie.com>
 
-
-
-Le 21/06/2026 à 11:34, Steven Rostedt a écrit :
-> There's been complaints about trace_printk() being defined in kernel.h as it
-> can increase the compilation time. As it is only used by some developers for
-> debugging purposes, it should not be in kernel.h causing lots of wasted CPU
-> cycles for those that do not ever care about it.
-
-Do we have a measurement of the increased compilation time ?
-
-Christophe
-
+On Mon, Jun 22, 2026 at 04:01:57PM +0800, Maoyi Xie wrote:
+> kalmia_rx_fixup() computes usb_packet_length = skb->len - (2 *
+> KALMIA_HEADER_LENGTH) as a u16, guarded only by a pre-loop check that
+> skb->len is at least KALMIA_HEADER_LENGTH, which is 6. A device can
+> deliver a short bulk-IN frame with skb->len in the 6 to 11 range, or
+> leave a short trailing remainder on a later loop iteration. Either case
+> underflows usb_packet_length to about 65530.
 > 
-> Instead, add a CONFIG_TRACE_PRINTK_DEBUGGING option that developers that do
-> use it can set and not have to always remember to add #include <linux/trace_printk.h>
-> to the files they add trace_printk() while debugging. It also means that
-> those that do not have that config set will not have to worry about wasted
-> CPU cycles as it is only include in the CFLAGS when the option is set, and
-> its completely ignored otherwise.
+> That bypasses the usb_packet_length < ether_packet_length truncation path.
+> The device-supplied ether_packet_length, a le16 up to 65535 read from
+> header_start[2], then drives a memcmp() and the following skb_trim() and
+> skb_pull() past the end of the rx buffer. The rx buffer is hard_mtu * 10,
+> which is 14000 bytes. That is an out of bounds read.
 > 
-> Steven Rostedt (2):
->        tracing: Move non-trace_printk prototypes back to kernel.h
->        tracing: Add CONFIG_TRACE_PRINTK_DEBUGGING to clean up kernel.h
+> Require both the start and end framing headers to be present before
+> subtracting them, on every loop iteration.
 > 
-> ----
->   .../driver_development_debugging_guide.rst         |  2 +-
->   Makefile                                           |  5 +++++
->   arch/powerpc/kvm/book3s_xics.c                     |  1 +
->   drivers/gpu/drm/i915/gt/intel_gtt.h                |  1 +
->   drivers/gpu/drm/i915/i915_gem.h                    |  1 +
->   drivers/hwtracing/stm/dummy_stm.c                  |  4 ++++
->   drivers/infiniband/hw/hfi1/trace_dbg.h             |  1 +
->   drivers/usb/early/xhci-dbc.c                       |  1 +
->   fs/ext4/inline.c                                   |  1 +
->   include/linux/kernel.h                             | 19 ++++++++++++++++++-
->   include/linux/sunrpc/debug.h                       |  1 +
->   include/linux/trace_printk.h                       | 22 +++-------------------
->   kernel/trace/Kconfig                               | 10 ++++++++++
->   kernel/trace/ring_buffer_benchmark.c               |  1 +
->   kernel/trace/trace.h                               |  1 +
->   samples/fprobe/fprobe_example.c                    |  1 +
->   samples/ftrace/ftrace-direct-modify.c              |  1 +
->   samples/ftrace/ftrace-direct-multi-modify.c        |  1 +
->   samples/ftrace/ftrace-direct-multi.c               |  2 +-
->   samples/ftrace/ftrace-direct-too.c                 |  2 +-
->   samples/ftrace/ftrace-direct.c                     |  2 +-
->   21 files changed, 56 insertions(+), 24 deletions(-)
-> 
+> Fixes: d40261236e8e ("net/usb: Add Samsung Kalmia driver for Samsung GT-B3730")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
 
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+
+    Andrew
