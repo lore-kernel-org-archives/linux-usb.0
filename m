@@ -1,78 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2263B39A05D;
-	Mon, 22 Jun 2026 09:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73ECC392836
+	for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 09:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782120456; cv=none; b=O7OqeFByDorO4PHlvX7GgTENDsaycSuNuIsL4Ysum5ls2k3wATj0RlAeYG0A5eMkW+5YY4ok8b5TjOkqAD9Zf710jemO8kx3KjOHR6w1v/Xh586hpqvMNTlGiTZsLWOwkG1AkBNCwrs25K3/CmuG5Ustzr9VYE4cX2FIgO8l0mQ=
+	t=1782121157; cv=none; b=tV/yWv6ymnV+CkxxF/AQJDpOVcH2kUHtILhWrMKVxd4E9pGjMhNtuaPRh8iw4w5V6+5HPK0Z5fm1I7iIoacNYFKelc5sSIMVVQYC6OS4w2mOxxXXeD/8vKqaMSBsybHI/YotKkSVhN3pShVL51iL0y3b4QXY8A53SuE/zEFz1SE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782120456; c=relaxed/simple;
-	bh=0blUKzrWU6CytkpQ+qcGrr7moTfEg2Q1U8ZPyHlE8CI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uVtXj1e6I6FUG3LUBUvnuIJEJYvxAVeMJlK4da9viAvaY7WCSUq/Cl6ylQuf5Aaeb/SS3IYJbjEWO5NbjlmVzLTqqGE+k03XSvCFxJYdNflj1sADpLKea24jq6gaT7nKyLCcmbVD9WR2ICui6S08smgnaKPyjnC42e8X1Bv/8IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lU0d05KG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782121157; c=relaxed/simple;
+	bh=eu+GJeFnTcnrRH/YTV+AB/tyehPblnosPlo9b7R03oM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l1IVoe0w42YvpmlN/AyGB01E22m9c4Mj/wJGDj833XpbHpVJw9j9Hw6erWt9pGC1Jd6FumMvPSWygjRc6fak2Z22tUUGiBy8kSYbC8NVamYzahCsKb50LVh/yLQz2ASkIt2boPGCDYgvzcWwz+DaM8HLQVZWgt5Q3Gc9kFoMMy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mj1U1VGq; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lU0d05KG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42E9F1F00A3A;
-	Mon, 22 Jun 2026 09:27:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782120454;
-	bh=dUnaRspGAlHQxXzz2MXZf2NnJgZzukGctlWg4d1f0+c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lU0d05KGMCokZzMmNB01CcWgQCiFyJFimcIN2UlXtRXV4iKFSWV9kna2XUX1+so8G
-	 dlTGRfVIs/bpJt9xlXlQSXcpA1mp2crVPNA7PkBKzQvRgsbSW4zmSSp7y8gI/GsZQ1
-	 etlSTD+ixbli8zYyw7Q9O+yPYcI+bd6ExJlv11NY=
-Date: Mon, 22 Jun 2026 11:27:49 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Chinna Mopurigari Naveen Kumar Reddy (FTDI-SG)" <naveen.reddy@ftdichip.com>
-Cc: Johan Hovold <johan@kernel.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Arun Pappan (FTDI-SG)" <arun.pappan@ftdichip.com>
-Subject: Re: [PATCH 1/6] USB: serial: ftdi_sio: add configurable inter-batch
- defer for read URBs
-Message-ID: <2026062229-pesky-wasabi-ae9b@gregkh>
-References: <cover.1781744946.git.naveen.reddy@ftdichip.com>
- <eb7093a47b77e9ef3ab55ada4c9591ae472da645.1781744946.git.naveen.reddy@ftdichip.com>
- <2026062250-sassy-hamper-025b@gregkh>
- <SG2PPFE985372F0DEC3C668B0C138E0684BEFEF2@SG2PPFE985372F0.apcprd01.prod.exchangelabs.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mj1U1VGq"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-691c5776f95so6608997a12.3
+        for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 02:39:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1782121155; x=1782725955; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QCi9OiSqIs4619EHraKpkIBeaT7EInxvbeZ757OwJfI=;
+        b=mj1U1VGqYk0oLwv27cwFRH8edetc334NTF9Daey4D8lgyCNA3NzyYRjXfqLORcKKlp
+         pRmdhogHoHgtidwhOB0SupqfuUR9VWz4ZX6EpERwc8sHTMNr4OIwH86v9GOqbohamiq9
+         uO3hOljDty4e8OURiO+k7JFy8/SkeDCxMxK88=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782121155; x=1782725955;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QCi9OiSqIs4619EHraKpkIBeaT7EInxvbeZ757OwJfI=;
+        b=c0DbjGvkyNY4dqNUV7mXV9yXG12UvJAFBNv8PyBs5S2O4K1DOnAonnhAFk8pv9Sjnv
+         4f+evXgG6zyqQlaPsAbN3cf9cn/cm0g0RR2atuABeOwZtKblkV4HeGhMuLpf7cmJzOt0
+         tOUSK3yXa5W4q8ZP6TGJwjuFpi2XgnkGKyFePtUXw6CZ/2Tw5G31xYrJP1O+7bxXymym
+         vnTn5nOEGvWmDIIMjlhp/iswkA2PHiRobOfzVR33ELzI0NT888+RUtMI/ERb01P9EmdQ
+         QFKnBouUYjdkEc32eIWIrPMVmvS4aqGp8Ce3tHmcrqfYxR4J449XxlHqmNlkZa4o6mxA
+         MMlg==
+X-Forwarded-Encrypted: i=1; AFNElJ/69W45Mtms0ENTwRtOD/DucZHKYDN6n2XEFZsCsExQUJwxizGwHWvpdUOmWvHzR1DFzVnXIkCQMkc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8l43/Rf9As0NWaFWM2aOsdmV4Nx/R0l3KF/utmc53r6mImjL1
+	lLapM0R6kvPIqd/mdTcF0CJNWvNZdHxI0HzKFtW3ePcc0LeCLFGSxyPgItcP2X9UZ+HKt3mXqA/
+	o9qA=
+X-Gm-Gg: AfdE7cmih9JbBb2vXeLGzZURQvYTSD8p2kpQBnmQ5cOKmhyzyx0e/HX7rqLjeUQBrpv
+	x/2jZaukKeV/I76wQ/Fqm8bJ5YaVdh+JsuRNuBv3BJCrXomk0iIqA6Qh4iu5T9PMiZEB0bON1XH
+	eaOxPI/lBOvXK/kuQ9C4aPshxBSISjeoqNybAm2geIwypgpqcS2PMVJ1GD0QDBpNBVI2Jqw63Fi
+	9yuWWhrr0eErjU9ZzPC0D+wnnoYzirCFE5Y00ZLlTnI5awO96IqCeWw305FklAT0oz1JCFUntI8
+	76I28gUByJIavGGoBYfX5tS9QHCWnFqnF6Ke6hYwW0vsMHbB18qZ3RvwCsc4C6B3dMa9ycTqWFf
+	tym6UQ/eAXF/21EYnpnrI5qdAxFyJ6QqbFGFFE6Ljea2Wtz46nkI5J2anTv6k+wMLJDaLbz+MbH
+	hiX9811xK5dSHT/wzAZuKrz42JqpxIjChQoSeV6fgySrebciOznwe/CjlAydCulMU9XckasnO2B
+	M/MazuZMQ==
+X-Received: by 2002:a17:907:e84a:b0:be2:208a:a8ae with SMTP id a640c23a62f3a-c0b60602f38mr633263366b.22.1782121154828;
+        Mon, 22 Jun 2026 02:39:14 -0700 (PDT)
+Received: from akuchynski.c.googlers.com.com (208.220.32.34.bc.googleusercontent.com. [34.32.220.208])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c610e526asm324855566b.51.2026.06.22.02.39.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2026 02:39:14 -0700 (PDT)
+From: Andrei Kuchynski <akuchynski@chromium.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Benson Leung <bleung@chromium.org>,
+	Jameson Thies <jthies@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andrei Kuchynski <akuchynski@chromium.org>
+Subject: [PATCH v2 0/3] Restrict alternate modes based on cable capabilities
+Date: Mon, 22 Jun 2026 09:39:07 +0000
+Message-ID: <20260622093910.1210089-1-akuchynski@chromium.org>
+X-Mailer: git-send-email 2.55.0.rc0.738.g0c8ab3ebcc-goog
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SG2PPFE985372F0DEC3C668B0C138E0684BEFEF2@SG2PPFE985372F0.apcprd01.prod.exchangelabs.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 22, 2026 at 09:05:53AM +0000, Chinna Mopurigari Naveen Kumar Reddy (FTDI-SG) wrote:
-> Hi Greg,
-> 
-> On Mon, Jun 22, 2026 at 04:52:00PM +0000, Greg Kroah-Hartman wrote:
-> > This is not the 1990's, module parameters should not be used anymore...
-> > Why not just fix this at the root of the problem?
-> 
-> Thank you for the review, Greg.
-> 
-> You are right on both points.
-> 
-> On the module parameter: I will switch to sysfs if the per-driver approach
-> is accepted, or drop it entirely.
-> 
-> On the location: your core point is well-taken. The DMA channel starvation
-> is a BCM2835 DWC_OTG host controller deficiency, and the correct fix
-> belongs in the host controller driver, not in each USB device driver.
-> I will investigate fixing it there instead. If that is not feasible (the
-> BCM2835 DWC_OTG is a vendor tree that Broadcom/RPi maintain outside
-> mainline), I will report back before proposing any per-driver workaround.
+Currently, alternate mode drivers (like DisplayPort and Thunderbolt)
+automatically assign operational callbacks (`typec_altmode_set_ops`)
+during probing, even if the underlying cable capabilities cannot support
+them. This can lead to incorrectly advertised state configurations or
+initialization failures later on.
 
-As this is an out-of-tree issue, there's nothing we can do in our
-in-tree drivers for that.  Please work with that team to either get
-their code merged properly upstream with us, where we can all work on
-the issue together, or just work with them out-of-tree.
+The first patch introduces the core helper function, and the subsequent
+patches update the DisplayPort and Thunderbolt altmode drivers to
+utilize this check during their respective probe phases.
 
-thanks,
+Changes in v2:
+- Updated patch 1/3 to use a switch-case statement, added detailed inline
+  comments, and separated the non-e-marked cable validation logic.
+- Patches 2 and 3 remain unchanged from the previous version.
 
-greg k-h
+Andrei Kuchynski (3):
+  usb: typec: Add helper to check cable altmode support
+  usb: typec: thunderbolt: Check cable altmode support
+  usb: typec: displayport: Check cable altmode support
+
+ drivers/usb/typec/altmodes/displayport.c |  5 +-
+ drivers/usb/typec/altmodes/thunderbolt.c |  4 ++
+ drivers/usb/typec/class.c                | 65 ++++++++++++++++++++++++
+ include/linux/usb/typec.h                |  1 +
+ 4 files changed, 74 insertions(+), 1 deletion(-)
+
+-- 
+2.55.0.rc0.738.g0c8ab3ebcc-goog
+
