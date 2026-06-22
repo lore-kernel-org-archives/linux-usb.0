@@ -1,273 +1,508 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011060.outbound.protection.outlook.com [52.101.57.60])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D118E379C57;
-	Mon, 22 Jun 2026 13:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782134691; cv=fail; b=Nvwy0vw/NcB0gio+pftxbic+xLA7peeClLIDcxj+bXe/Uu99MFCHfLQCxEoltl/YREc2kionjbSZDGRWZpOmYI722FkVe0+sv7ni9ndtQRez1TEOzYoge2QY304Asxjnso16OY2I8zZm4Bt/6XFGnRlCZ27kGUssbLIZA6Bw7Tk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782134691; c=relaxed/simple;
-	bh=7njEvVlv5BCQG5G0tHk/WqPOD4iBYf2cmW5MG/wpk0c=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=CacBtt13Cwk0mJl8E+jUX5+bHYJPKlyTu5nqM1+P4XIU5WE/0MF7mZgv2EE8N/LbDZsHZ3GP1fzVeIQgw/EXXrcU0RJFjBlBvNXO0yX18vb0OqgmtHotRbjNfJKYYNypN8iM1Ij6D48wSLyjGumRclF4KCfBXO7ob+STPb4Z/Ms=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rxsgRj0U; arc=fail smtp.client-ip=52.101.57.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712233AC0F0;
+	Mon, 22 Jun 2026 13:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782135322; cv=none; b=GhStYzzwbT2olm0gs/3CURC0Iliggr0E+2UIU5ijyPQXDf1FqE/3MYvnEGBNdHJiaty3jxRh7MDBbqb/wAoRg757V7qtFiZRKF5k4NlA+s9WsD248466m52jQlGylOCjGZpPFxWZylrxao9P7o7GjZUFHMlZ+kKGqhEoQhInnWs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782135322; c=relaxed/simple;
+	bh=P5ugq5sZym1PS0kLunT9dvyCbUNmJH3399w19MnR74Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NQIKwiuAD+2WnR6ZFbHEjp96nV90CKYwD35aZ3njtKPKhqye8mjdbrZ5nXWsFXIop/SPMjf/5XweDczjVy1vF36NmBY7KyFIz8+l2svVwBF8EMjwS2DNzwL3OUQkKUIjfw6ETCE8tiwVsLISiO6Cw68QrQ6zwh6fSrC5lusZuoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xpyrsL7F; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rxsgRj0U"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iWfOfVgwVCjTkFCYcxoaNiZDZWsPr9ilD+3ZAEtw4HkYnfGps7GhTEhe6K5xXH1eGhZeE+qf6gaRhBtYTS2ro7w8F73IgfbqSJJw9yTdVwJlubWZ8Sjry0Nl0AQkGME6Zox1FMhAic8t1T13VxQQmkEEqptBq/1vWiS927i2QR611llnmKBaNOiMymh930ViEvK5OQocwCEWYw8GR92wcuTx1GJbik7DBb6429IjbsH7qR2w9bOFv2ZOw5zyMzvm83a3NnHooBds5biitIWyZYR/QCVqboveQRDt6LhbVWZOaSi8yrYOZFpxfa5jfZEhUAEgktdkPvlP/ZOim3Mh1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4rUXEZgcq9Y2E/3aP9SFG9L0DowPvlknkAD3D4G0Ef0=;
- b=GIyZQfqrQCqXbd7VttROwv2sr9xZ3b1t5+wAAmd8fav0hpRtPyVt6fj4iL100APbuOQIEzGPI8LcmGsmQT6h//d5wFRy+ugs16ci6h/Z8vQOdzOdbWr8x9lusGdY54+xzUiFRszpKczm1RZdNWQshhzK67sMDulQ2Ojv88YzZy0ToH/fGEjPDsKN+IqICsr0S9ozywdKgMEKrSGegLDvklHdaIiIPkkn0ij29SZlmp9cZHtyqvkH6J6w4RLYKl+2p66DhaYLPfAxtI9SZlPELGCYAUD8z1Y9QmunSTCEF2gA3N2bu4m4BzD1/L73I47DBJX5f4ZWfB3RltIr1UhJWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4rUXEZgcq9Y2E/3aP9SFG9L0DowPvlknkAD3D4G0Ef0=;
- b=rxsgRj0UYfvp+o3kSoUF9DoPRvEbl7GnVtpPs28gmQ+8n4Fn7GRnsCCUecPGEGktHWWnpGmTMB0STh++mzmagpelA7Jb6sAs9Yn1JpG+4XOrmc3Fwa7mAIufLmoxTrcVHRZh5+1Dv0uKFNod/TGWoey2NNcajD6T4emorv02Nkomb3ijFMBvEpIYQlC3bEA1vWZdMXwzzC8aRG5vd2rgryzSfRCpW6RojqdHpHwq64h43yEZ3zS+QLZUQT5X1OIIe8OnlCqxTQTJyzE8h1ABkZkYSv7w9Vm6q38KzgvaUXRDuClusXsEa4MCr+DFZJ7A86rME/bqpQIYqvMySQu4AA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS2PR12MB9750.namprd12.prod.outlook.com (2603:10b6:8:2b0::12)
- by CH3PR12MB7739.namprd12.prod.outlook.com (2603:10b6:610:151::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.19; Mon, 22 Jun
- 2026 13:24:44 +0000
-Received: from DS2PR12MB9750.namprd12.prod.outlook.com
- ([fe80::56a8:d6bf:e24c:b391]) by DS2PR12MB9750.namprd12.prod.outlook.com
- ([fe80::56a8:d6bf:e24c:b391%6]) with mapi id 15.21.0139.009; Mon, 22 Jun 2026
- 13:24:44 +0000
-Message-ID: <169ef7cc-e1fe-46d6-95ca-0f3514e806c0@nvidia.com>
-Date: Mon, 22 Jun 2026 14:24:40 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: gadget: tegra-xudc: drain EP pipeline before
- dma_unmap
-To: Vishal Kumar <vishalmimani008@gmail.com>, linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, thierry.reding@gmail.com,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20260606024011.1160110-1-vishalmimani008@gmail.com>
-From: Jon Hunter <jonathanh@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <20260606024011.1160110-1-vishalmimani008@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0077.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9a::14) To DS2PR12MB9750.namprd12.prod.outlook.com
- (2603:10b6:8:2b0::12)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xpyrsL7F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4A2B1F000E9;
+	Mon, 22 Jun 2026 13:35:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1782135320;
+	bh=oArVu4dMmxRik8OtGgdJLDacSWBiklj4CNrEIiPa47w=;
+	h=Date:From:To:Cc:Subject;
+	b=xpyrsL7F4dobMZNMnlYO+Qibmm3dcVxvB8Y0Dl8BIR2V1AdMxhNzaF1HEtFOuX4TR
+	 gp3WC4OrTJ4bijY46R08UVN/xFGR+2/Nh5gzHt7QJhVi5wNg0h0IcD/TVfA2IqOWjr
+	 UpX5E6zAimu75flQk0Lw/xa/NdhuhN4lBjYikmsA=
+Date: Mon, 22 Jun 2026 15:35:19 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB / Thunderbolt driver changes for 7.2-1
+Message-ID: <ajk6F7wN7SNpW82A@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PR12MB9750:EE_|CH3PR12MB7739:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2694c70-b1c0-40e7-2f7f-08ded0619fd8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|10070799003|18002099003|22082099003|11063799006|6133799003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	fWWolRiyBuNlAIkMFEmKIp2th7yoOCVN1CJsannU4Bcld4ZDhB4YY10/1Qg6RyEt0gLetNL/2nQEwikh9R9lF4IV1CJr+1HpDnyGOKymdRwMQ/4/mQEeYTvGonEfn+vYbC7oEFIORCqEqpxOUTs1mJqN6ALmAHji025p7n4JVYQ5GqJoWbT1eVcmeGiJSrSdcBhIb0TOdfF4fXiYkZ1wrc+kxS++sMpTC+MKomR69gy7HBBOFzyeidGAjNaDpvbYp/Ssa2zJ17+iLJ9UcsN0mlgGBS8uhrEmdkFWsJj2uCUr8hU5QY2iTBg8Qih+nPGFPyxiQdfYyveBNMEhPs5sKFkwW0DoPchtEi7kmpxI5GyHZQwHrTDX+717XlPaZHUUC/ZzGXFCXGTt4GJjx+8TfqR2HPH3MSlU/Sw2Rl/+CN1DthMXTUw1i5h1H1/2IdZZ6IRmlvZ8ROiolJyCO55jaLFsUTFdfJwBvZ0JeYoD4p6jE+oNRuk8i2lvF53Xu3pKoxLN35yKKcuSTcbqp2EOwKclySxo6TcKGNiEuwNNEsoSgMZoWfZPOc956TEzHsTfSY+ScQ9866JWFkkvcXGzhIzJ7HDjKWx34wT/9PgOf+QZFZuQpSfyfJvNztwTnnbNyt2Zza4IB8v83aJoVZyUT6K/r+EyKOP3+UncE2iy3J4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS2PR12MB9750.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(10070799003)(18002099003)(22082099003)(11063799006)(6133799003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MWd4K25GSTFqVm5idHF3Sk9KWmdKRWxnYUVuUjBCTU5iMFFxaWVzUEJHL0VC?=
- =?utf-8?B?N1I1bkFWTjh6NFVPRGtQbi95WlFaMDNrV0xpWi9rcmtZL1ZBQ3J5ZTdwZWxi?=
- =?utf-8?B?U2lYem4zN1BySktBREp0T2lteFQxeFIwWVJzMUNiUUN4bmJISG1YTkJ0dnpK?=
- =?utf-8?B?bjlBbk9vZWthTEFCRDhjZ0xqbkFVcGo2U3FZNHl3TlZtU0VtVDVXa2daQ1BO?=
- =?utf-8?B?TmZTeFNpUkI3aGd6TVZjcXlYdU9zZkZRYTVpVVJXZVM4Tk90UitEK1l0VEJo?=
- =?utf-8?B?VGZXOTFGamgxaVdnT1hPMEFiR2ZUN0FpYk1veDlqRDBWcEVyWVNEVEhZRDQ3?=
- =?utf-8?B?cHEwR3VZcVYwMTJFamxwWFNSL3VJSjNUUHVDVVFjZjZ4a1loa1hFaTNhWEtB?=
- =?utf-8?B?NXRvZ2FUUng4RHV0OWRHaXQvTFZvN0RTYTN2Mzg3UWpWemVTYSswT2Jadkkz?=
- =?utf-8?B?TlpZS0wycHNtZXZoZTh1K0J4eG5ic2Z2UC9xYlNkVHJ4dmVkNEpuZU9lMzR0?=
- =?utf-8?B?Uml2bHdQK2ttdXlKaHpoRWFNQzJnbDR1WFk0MlV6eUV5ckdYUTl5Q1hJck1n?=
- =?utf-8?B?YW12WjljZHcxdlZBVWVaYjJza1p2S1ErSDZKS096dVZ2a0NwR1RZKzlkQWx3?=
- =?utf-8?B?cVcwajhqZXVENUxHNU0zb251bytiZnVxcDZqYStwTU1iZHBuZTcxTDd6alBF?=
- =?utf-8?B?VU5JRTFob1lZcDR0cmMwWm1oeTY1VFhvQWFiaTNPN1lnekdZNnllNWZuRk9O?=
- =?utf-8?B?ZGVSZzM0d1dEQWR1VVI4VFh1a2FxMVhvUXFsMkFBbkZJOVQ5dEtUbWhWa0w5?=
- =?utf-8?B?cmtOWG5aS0pQU3hKQ1VXaFFIa2dWZGJkU3ZndGwvOXZ6UjZWeFFVMjhtMmhl?=
- =?utf-8?B?clB6cGlDQVViQ1YrMk4wS2pFNkNhZ2MwL1UyV21ESit1T09hbFNCMGFIcXZ6?=
- =?utf-8?B?MmlWUnJYaUh1OTRhSE9icURKZFJiRlEwY0F2U0x6SWJYWGgvYmN3TGZZZVNI?=
- =?utf-8?B?SWl5a2R0TVZVUE83N25uYWxGb0xXb0RSRUV0b2kxOTBnSHVVclM4WitJRnkr?=
- =?utf-8?B?b2pQcVdwMDhCN2R6UHExMWtleitOYjJOZkZUbjJzOXY0bThQczF6OVA1OFhw?=
- =?utf-8?B?NGRHblZOekhzM2JaVU95NjJ0RDNYVDVJck5Wd0lJUkpwdVJsT3J0TzA2MWhY?=
- =?utf-8?B?emRaUWc5aktHdzBoczY1OEUzOEkzc3VrSWVadHpEQnlJNDcvb2JYU0U5ZTk4?=
- =?utf-8?B?S3JXMjJDME1ZejFEU1orMytzN1A0dG15Umt6RVdyS3Fra0hYOC9JRTdGWWd3?=
- =?utf-8?B?T0p4V0pEM1phUEdMbzlYVU5qQ1RqR2FtOFBvMnM1SW1XbjVUR2xGTWs0UDJu?=
- =?utf-8?B?dmRBa1hiQ2VsK0FlTlRtTzNUQTNqRWFqQUdsMTdQZkhIakR6MEhOV0Fxdmwv?=
- =?utf-8?B?TkJjenhwY2pEV1ZCWlR0cmVxSjQ4WnR3WUliL2M1RkdPVFN1MFA2TE8yR1JB?=
- =?utf-8?B?aEhyNVFQeHRsRkRWanBWOHBCUjR0YlVXV09CYmhUUUx6eEF3Si8wWkNtcjFr?=
- =?utf-8?B?UGFjeTMyWTA3NGIvaU1xQW5jaGpJNC9ESVJ1U2p1R1ZQaDlGU05nYUlydkVp?=
- =?utf-8?B?T2RIK0RMZDJLUFdMeGJENENRVkJwYUJqVHI4ckZWRzZVeDB4UVlwbGdpQ25W?=
- =?utf-8?B?VFJCc215dFZXRnJqVmJPMDhPdmJ6VWEzTjlDcVA1bTFaclNxYlpwRFFnSE9U?=
- =?utf-8?B?dTBNV3BodGZqWDN2VWU3WVByQSs0N1dGajBBRC9kaG5RSHcyZWVIMmUvbkZu?=
- =?utf-8?B?Q2E3Y3NCQmVURHRhaXpsSGd0NHN6OVlOMksyNm4rSFBMc1F5MkNKV2NGR0Fi?=
- =?utf-8?B?ZnpoNkVxcjNHdnhpQU9saENhazdQT2xuUkdhWUowM2lxZ2syaTJqRFdVQmdk?=
- =?utf-8?B?dy9DU1hKYzdtamRvVUVXSHFDMGd0clEzTHJzVTF0R1ZuTWEzNzQvamdpalBt?=
- =?utf-8?B?aHFJK2xRRWNaVHpaQUFJcmJOWld3Nk16Wi81K2lwK1FHdGVzWnVYQW1YYStz?=
- =?utf-8?B?TnhFZk02dGhWcGk2SllxQmNTNk5xcEZ3cjBMZmRGRlRoaEZyZFBNN2xzUEJl?=
- =?utf-8?B?T2F0akR3UHZ2VkxoNVFsSVpOdGVYRm1qcEZCOHJRN0dxWGYzb3NSODFFUTMv?=
- =?utf-8?B?ZzdGMm1vQ0VyU2ZZbWpxUzZRQlIyNy9oU1VkdW9CN2dGa2hoeHVlUkVWVzhX?=
- =?utf-8?B?c1NyTkQ2U0ZCYndndkwrTjl3R25SaEdGdXREU3hMdlhPZVJmeGZjb3NVNk9t?=
- =?utf-8?B?QlJnZCtpalEvMG1tcG95NGpxWkg5aUlXY2wycUQ1Z0RZL05rWTNyN1FFZ3Vz?=
- =?utf-8?Q?PYVcwPIXkFlevmBAwIMafGTcixXJ+Us0PoKm+oJRSOiYy?=
-X-MS-Exchange-AntiSpam-MessageData-1: vFw2Tm0mO0E4iQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2694c70-b1c0-40e7-2f7f-08ded0619fd8
-X-MS-Exchange-CrossTenant-AuthSource: DS2PR12MB9750.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2026 13:24:44.7555
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5n87VpZyA5cxB3JgnvmEOsGgfKX1Ci5Ix6o6ixBwyEONEbbOTlfd8h16bLP6YPilhf2ahVWLe0Pny3KGGWzBrA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7739
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
+The following changes since commit e43ffb69e0438cddd72aaa30898b4dc446f664f8:
 
+  Linux 7.1-rc6 (2026-05-31 15:14:24 -0700)
 
-On 06/06/2026 03:40, Vishal Kumar wrote:
-> On Tegra186/194/234 the XUDC posts a transfer-completion event when the
-> DMA write is dispatched to the AXI interconnect, before the store is
-> committed to memory.  Under SMMU strict mode dma_unmap() synchronously
-> invalidates the IOVA TLB entry.  An in-flight AXI write to the
-> just-unmapped IOVA triggers a translation fault (fsr=0x402) that
-> permanently wedges the bulk-OUT endpoint.
-> 
-> Observed on Tegra234 (Jetson Orin Nano) at ~170 MB/s USB-NCM transfers:
-> 
->    arm-smmu 8000000.iommu: Unhandled context fault: fsr=0x402,
->      iova=0xfffb5000, cbfrsynra=0x100f, cb=3
->    tegra-mc 2c00000.memory-controller: EMEM address decode error
-> 
-> cbfrsynra=0x100f identifies XUDC (StreamID 0x0f per DT), cb=3 is iommu
-> group 4 (3550000.usb).  fsr=0x402 is a translation fault on a DMA write.
-> 
-> Fix: poll EP_THREAD_ACTIVE before calling usb_gadget_unmap_request() for
-> non-control endpoints.  EP_THREAD_ACTIVE clearing is the hardware's
-> guarantee that the endpoint sequencer is idle and all AXI transactions
-> have completed, so the subsequent TLB invalidation cannot race an
-> in-flight write.
-> 
-> Also change ep_wait_for_inactive() to return the readl_poll_timeout()
-> status so callers can detect a timeout.  On timeout in the completion
-> path, skip dma_unmap() to avoid the translation fault and force
-> req->usb_req.status = -EIO so the gadget driver does not treat the
-> transfer as successful or requeue the still-mapped buffer.  On timeout
-> in the dequeue path, emit a warning.
-> 
-> Fixes: 49d6f3dd4abe ("usb: gadget: add tegra xusb device mode driver")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Vishal Kumar <vishalmimani008@gmail.com>
-> ---
->   drivers/usb/gadget/udc/tegra-xudc.c | 47 ++++++++++++++++++++++------
->   1 file changed, 38 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-> index 0b63b8c0a..3f18beddf 100644
-> --- a/drivers/usb/gadget/udc/tegra-xudc.c
-> +++ b/drivers/usb/gadget/udc/tegra-xudc.c
-> @@ -1023,9 +1023,9 @@ static void ep_wait_for_stopped(struct tegra_xudc *xudc, unsigned int ep)
->   	xudc_writel(xudc, BIT(ep), EP_STOPPED);
->   }
->   
-> -static void ep_wait_for_inactive(struct tegra_xudc *xudc, unsigned int ep)
-> +static int ep_wait_for_inactive(struct tegra_xudc *xudc, unsigned int ep)
->   {
-> -	xudc_readl_poll(xudc, EP_THREAD_ACTIVE, BIT(ep), 0);
-> +	return xudc_readl_poll(xudc, EP_THREAD_ACTIVE, BIT(ep), 0);
->   }
->   
->   static void tegra_xudc_req_done(struct tegra_xudc_ep *ep,
-> @@ -1046,8 +1046,39 @@ static void tegra_xudc_req_done(struct tegra_xudc_ep *ep,
->   					 (xudc->setup_state ==
->   					  DATA_STAGE_XFER));
->   	} else {
-> -		usb_gadget_unmap_request(&xudc->gadget, &req->usb_req,
-> -					 usb_endpoint_dir_in(ep->desc));
-> +		/*
-> +		 * Drain the endpoint DMA pipeline before unmapping.
-> +		 *
-> +		 * Under SMMU strict mode dma_unmap() synchronously
-> +		 * invalidates the IOVA TLB entry.  On Tegra186/194/234 the
-> +		 * XUDC appears to post the completion event when the DMA
-> +		 * write is dispatched to the AXI interconnect, before the
-> +		 * store is committed to memory.  A subsequent dma_unmap()
-> +		 * can remove the IOVA translation while the write is still
-> +		 * in-flight, triggering a translation fault (fsr=0x402) that
-> +		 * permanently wedges the bulk endpoint.
-> +		 *
-> +		 * Wait for EP_THREAD_ACTIVE to clear (endpoint sequencer
-> +		 * idle).  On timeout skip the unmap to avoid the SMMU fault;
-> +		 * the DMA mapping leaks but the hardware is already in an
-> +		 * unrecoverable state.
-> +		 */
-> +		if (!WARN_ONCE(ep_wait_for_inactive(xudc, ep->index),
-> +			       "ep%u: DMA drain timed out; skipping dma_unmap\n",
-> +			       ep->index)) {
-> +			/* Read-back completes the poll barrier; EP_THREAD_ACTIVE=0 guarantees DMA is idle. */
-> +			xudc_readl(xudc, EP_THREAD_ACTIVE);
+are available in the Git repository at:
 
-The ep_wait_for_inactive() is reading the EP_THREAD_ACTIVE and so this 
-would appear to be redundant.
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-7.2-rc1
 
-> +			usb_gadget_unmap_request(&xudc->gadget, &req->usb_req,
-> +						 usb_endpoint_dir_in(ep->desc));
-> +		} else {
-> +			/*
-> +			 * Timeout: mapping is intentionally leaked to avoid the
-> +			 * SMMU fault.  Force -EIO so the gadget driver does not
-> +			 * treat this as a successful transfer and reuse the
-> +			 * still-mapped buffer.
-> +			 */
-> +			req->usb_req.status = -EIO;
+for you to fetch changes up to 1c2b66a7d7257d2652aa41f9a860ecb96dde27dd:
 
-The above is confusing. Wouldn't it be simpler to have ...
+  usb: ucsi: huawei_gaokun: support mode switching (2026-06-12 18:04:07 +0200)
 
-  if (WARN_ONCE(ep_wait_for_inactive())) {
-      req->usb_req.status = -EIO;
-  } else {
-      xudc_readl(xudc, EP_THREAD_ACTIVE);
-      usb_gadget_unmap_request(...);
-  }
+----------------------------------------------------------------
+USB/Thunderbolt driver changes for 7.2-rc1
 
-Furthermore, it seems that if this now fails then we don't unmap the 
-buffer, but we still give back the request afterwards anyway.
+Here is the big set of USB and Thunderbolt driver changes for 7.2-rc1.
 
-> +		}
->   	}
->   
->   	spin_unlock(&xudc->lock);
-> @@ -1443,10 +1474,12 @@ __tegra_xudc_ep_dequeue(struct tegra_xudc_ep *ep,
->   		return 0;
->   	}
->   
-> -	/* Halt DMA for this endpiont. */
-> +	/* Halt DMA for this endpoint. */
->   	if (ep_ctx_read_state(ep->context) == EP_STATE_RUNNING) {
->   		ep_pause(xudc, ep->index);
-> -		ep_wait_for_inactive(xudc, ep->index);
-> +		if (ep_wait_for_inactive(xudc, ep->index))
-> +			dev_warn(xudc->dev, "ep%u: DMA drain timed out during dequeue\n",
-> +				 ep->index);
+Lots of little stuff in here, major highlights include:
+  - USB4STREAM support for Thunderbolt devices.  A new way to send "raw"
+    data very quickly over a USB4 connection to another system directly.
+  - Other thunderbolt updates and changes to make the stream code work
+  - xhci driver updates and additions
+  - typec driver updates and additions
+  - usb gadget driver updates and fixes for reported issues
+  - zh_CN documentation translation of the USB documentation
+  - usb-serial driver updates
+  - dts cleanups for some USB platforms
+  - other minor USB driver updates and tweaks
 
-Maybe it is better to put the warning in the ep_wait_for_inactive() 
-function.
+All of these have been in linux-next for over a week with no reported
+issues, most of them for many many weeks.
 
->   	}
->   
->   	deq_trb = trb_phys_to_virt(ep, ep_ctx_read_deq_ptr(ep->context));
-> 
-> 2.39.0
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
--- 
-nvpublic
+----------------------------------------------------------------
+Adrian Wowk (2):
+      usbip: vhci_hcd: fix NULL deref in status_show_vhci
+      usbip: vhci_hcd: reduce CONFIG_USBIP_VHCI_NR_HCS upper bound to 32
 
+Akash Sukhavasi (1):
+      dt-bindings: usb: richtek,rt1711h: remove deprecated .txt file
+
+Alan Borzeszkowski (2):
+      thunderbolt: Don't create multiple DMA tunnels on firmware connection manager
+      thunderbolt: Improve multi-display DisplayPort tunnel allocation
+
+Antony Kurniawan Soemardi (1):
+      dt-bindings: usb: ci-hdrc-usb2: allow up to 3 clocks for qcom,ci-hdrc
+
+Arnd Bergmann (1):
+      usb: udc: pxa: remove unused platform_data
+
+Christian Marangi (1):
+      usb: host: add ARCH_AIROHA in XHCI MTK dependency
+
+Dave Carey (1):
+      USB: cdc-acm: start bulk-IN polling when ALWAYS_POLL_CTRL is set
+
+Dmitry Baryshkov (6):
+      dt-bindings: usb: qcom,pmic-typec: deprecate device-specific VBUS
+      usb: typec: tcpm: qcom: prefer VBUS supply from the connector node
+      arm64: dts: qcom: pm4125: move vdd-vbus-supply to connector nodes
+      arm64: dts: qcom: pm7250b: move vdd-vbus-supply to connector nodes
+      arm64: dts: qcom: pm8150b: move vdd-vbus-supply to connector nodes
+      arm64: dts: qcom: pmi632: move vdd-vbus-supply to connector nodes
+
+Geert Uytterhoeven (2):
+      usb: host: xhci-rcar: Remove SET_XHCI_PLAT_PRIV_FOR_RCAR() macro
+      usb: host: xhci-rcar: Split R-Car Gen2 and Gen3 .plat_start() handling
+
+Gil Fine (7):
+      thunderbolt: Avoid reserved fields in path config space for USB4 routers
+      thunderbolt: Fix lane bonding log when bonding not possible
+      thunderbolt: Activate path hops from source to destination
+      thunderbolt: Verify PCIe adapter in detect state before tunnel setup
+      thunderbolt: Verify Router Ready bit is set after router enumeration
+      thunderbolt: Increase timeout for Configuration Ready bit
+      thunderbolt: Increase Notification Timeout to 255 ms for USB4 routers
+
+Greg Kroah-Hartman (4):
+      Merge tag 'v7.1-rc3' into usb-next
+      Merge tag 'v7.1-rc6' into usb-next
+      Merge tag 'thunderbolt-for-v7.2-rc1' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt into usb-next
+      Merge tag 'usb-serial-7.2-rc1' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-next
+
+Hans Zhang (6):
+      usb: dwc3: Use FIELD_MODIFY()
+      usb: dwc3: google: Use FIELD_MODIFY()
+      usb: dwc3: dwc3-octeon: Use FIELD_MODIFY()
+      usb: xhci: Use FIELD_MODIFY()
+      usb: xhci-mtk: Use FIELD_MODIFY()
+      usb: typec: Use FIELD_MODIFY()
+
+Jihong Min (2):
+      usb: xhci-pci: add AMD Promontory 21 PCI glue
+      hwmon: add AMD Promontory 21 xHCI temperature sensor support
+
+Jisheng Zhang (1):
+      usb: dwc2: remove WARN in dwc2_hcd_save_data_toggle
+
+Johan Hovold (9):
+      USB: serial: mxuport: update number-of-ports encoding
+      USB: serial: drop unused tty_driver includes
+      USB: serial: drop unused tty_flip includes
+      USB: serial: xr: add missing uaccess include
+      USB: serial: drop unused uaccess includes
+      USB: serial: drop unused moduleparam includes
+      USB: serial: garmin_gps: drop unused atomic include
+      USB: serial: add missing atomic includes
+      USB: serial: whiteheat: drop termbits include
+
+Jonas Karlman (1):
+      dt-bindings: usb: dwc3: Add compatible for RK3528
+
+Kefan Bai (8):
+      docs/zh_CN: Add index.rst translation
+      docs/zh_CN: Add acm.rst translation
+      docs/zh_CN: Add authorization.rst translation
+      docs/zh_CN: Add chipidea.rst translation
+      docs/zh_CN: Add dwc3.rst translation
+      docs/zh_CN: Add ehci.rst translation
+      docs/zh_CN: Add usbmon.rst translation
+      docs/zh_CN: Add CREDITS translation
+
+Konrad Dybcio (6):
+      thunderbolt: debugfs: Don't stop reading SB registers if just one fails
+      usb: typec: mux: ps883x: Power the retimer off when not in use
+      thunderbolt: Move pci_device out of tb_nhi
+      thunderbolt: Separate out common NHI bits
+      thunderbolt: Require nhi->ops be valid
+      thunderbolt: Add some more descriptive probe error messages
+
+Krzysztof Kozlowski (3):
+      USB: qcom: Unify user-visible "Qualcomm" name
+      dt-bindings: usb: qcom,pmic-typec: Drop redundant port
+      USB: typec: qcom-pmic-typec: Drop redundant header includes
+
+Maoyi Xie (1):
+      usb: gadget: aspeed_udc: avoid past-the-end iterator in dequeue
+
+Mathias Nyman (6):
+      xhci: dbc: Fix sysfs ABI Documentation for xhci dbc states
+      xhci: dbc: serialize enabling and disabling dbc
+      xhci: dbc: add helper to set and clear DbC DCE enable bit
+      xhci: dbc: add timestamps to DbC state changes in a new helper.
+      xhci: dbc: detect and recover hung DbC during enumeraton
+      xhci: Prevent queuing new commands if xhci is inaccessible
+
+Mauricio Faria de Oliveira (2):
+      usb: atm: ueagle-atm: use dev_dbg() for 'device found' message
+      usb: atm: ueagle-atm: remove function entry/exit debug messages
+
+Michael Bommarito (3):
+      thunderbolt: test: add KUnit regression tests for XDomain property parser
+      thunderbolt: test: Add KUnit tests for property parser bounds checks
+      thunderbolt: Prevent XDomain delayed work use-after-free on disconnect
+
+Michal Pecio (4):
+      usb: xhci: Simplify xhci_quiesce()
+      usb: xhci: Remove skip_isoc_td()
+      usb: xhci: Remove isochronous URB_SHORT_NOT_OK handling
+      usb: xhci: Improve Soft Retries after short transfers
+
+Mika Westerberg (20):
+      thunderbolt: Don't disable lane adapter if XDomain lane bonding isn't possible
+      thunderbolt: Make XDomain lane bonding comply with the USB4 v2 spec
+      thunderbolt: Keep the domain reference while processing hotplug
+      thunderbolt: Release request if tb_cfg_request() fails in __tb_xdomain_response()
+      thunderbolt: Set tb->root_switch to NULL when domain is stopped
+      thunderbolt: Wait for tb_domain_release() to complete when driver is removed
+      thunderbolt: Keep XDomain reference during the lifetime of a service
+      thunderbolt: dma_test: No need to store debugfs directory pointer
+      thunderbolt: Remove service debugfs entries during unregister
+      thunderbolt: Remove XDomain from the bus without holding tb->lock
+      thunderbolt: Add tb_property_merge_dir()
+      thunderbolt: Add KUnit test for tb_property_merge_dir()
+      thunderbolt: Allow service drivers to specify their own properties
+      thunderbolt / net: Move ring_frame_size() to thunderbolt.h
+      thunderbolt / net: Let the service drivers configure interrupt throttling
+      thunderbolt: Add helper to figure size of the ring
+      thunderbolt: Add tb_ring_flush()
+      thunderbolt: Add support for ConfigFS
+      thunderbolt: Add support for USB4STREAM
+      docs: admin-guide: thunderbolt: Add instructions how to use USB4STREAM
+
+Nathan Chancellor (1):
+      usb: typec: intel_pmc_mux: Zero initialize num_ports in pmc_usb_probe()
+
+Niklas Neronin (4):
+      usb: xhci: remove legacy 'num_trbs_free' tracking
+      usb: xhci: refactor DCBAA struct
+      usb: xhci: allocate DCBAA based on host controller max slots
+      usb: xhci: allocate internal DCBAA mirror dynamically
+
+Oliver Neukum (1):
+      usb: core: hcd: fix possible deadlock in rh control transfers
+
+Pawel Laszczak (3):
+      usb: cdnsp: add support for eUSB2v2 port
+      dt-bindings: usb: cdns3: Add cdns,cdnsp compatible string
+      usb: cdnsp: Add support for device-only configuration
+
+Pengyu Luo (1):
+      usb: ucsi: huawei_gaokun: support mode switching
+
+Peter Chen (3):
+      dt-bindings: usb: cdns,usb3: document USBSSP controller support
+      usb: cdns3: Add USBSSP platform driver support
+      usb: cdns3: plat: fix leaked role switch on core role initialization failure
+
+Pooja Katiyar (4):
+      thunderbolt: Don't access path config space on Lane 1 adapters in tb_switch_reset_host()
+      usb: typec: ucsi: Add support for message_out data structure
+      usb: typec: ucsi: Enable debugfs for message_out data structure
+      usb: typec: ucsi: Add support for SET_PDOS command
+
+Rosen Penev (1):
+      usb: typec: intel_pmc_mux: combine kzalloc + kcalloc
+
+Sergey Senozhatsky (1):
+      usb: typec: ucsi: split connector lock classes
+
+Seungjin Bae (2):
+      usb: host: max3421: Fix shift-out-of-bounds in max3421_hub_control()
+      usb: host: max3421: Reject hub port requests for non-existent ports
+
+Shuping Bu (1):
+      usb: dwc3: core: Fix incorrect kernel-doc comment for dwc3_alloc_event_buffers
+
+Stepan Ionichev (2):
+      usb: gadget: goku_udc: avoid NULL deref of dev->driver in INT_USBRESET log
+      usb: xhci: fix typo in xhci_set_port_power() comment
+
+Swati Agarwal (2):
+      dt-bindings: usb: Add Genesys Logic GL3590 hub
+      usb: misc: onboard_usb_hub: Add Genesys Logic GL3590 hub support
+
+Uwe Kleine-König (The Capable Hub) (3):
+      usb: typec: Use named initializers for arrays of i2c_device_data
+      usb: misc: Use named initializers for struct i2c_device_id
+      usb: phy: isp1301: Use named initializers for struct i2c_device_id
+
+Xu Rao (3):
+      thunderbolt: test: Release third DP tunnel
+      thunderbolt: debugfs: Fix margining error counter buffer leak
+      thunderbolt: debugfs: Fix sideband write size check
+
+Xu Yang (3):
+      usb: gadget: udc: skip pullup() if already connected
+      usb: chipidea: udc: add a helper ci_udc_enable_vbus_irq()
+      usb: chipidea: udc: support dynamic gadget add/remove
+
+ .../ABI/testing/configfs-thunderbolt_stream        |   83 +
+ .../ABI/testing/sysfs-bus-pci-drivers-xhci_hcd     |    2 +-
+ Documentation/admin-guide/thunderbolt.rst          |   61 +
+ .../devicetree/bindings/usb/cdns,usb3.yaml         |   73 +-
+ .../devicetree/bindings/usb/ci-hdrc-usb2.yaml      |   25 +-
+ .../devicetree/bindings/usb/genesys,gl850g.yaml    |   18 +
+ .../devicetree/bindings/usb/qcom,pmic-typec.yaml   |    9 +-
+ .../devicetree/bindings/usb/richtek,rt1711h.txt    |   44 -
+ .../devicetree/bindings/usb/rockchip,dwc3.yaml     |    3 +
+ Documentation/hwmon/index.rst                      |    1 +
+ Documentation/hwmon/prom21-xhci.rst                |  101 ++
+ .../translations/zh_CN/subsystem-apis.rst          |    2 +-
+ Documentation/translations/zh_CN/usb/CREDITS       |  163 ++
+ Documentation/translations/zh_CN/usb/acm.rst       |  147 ++
+ .../translations/zh_CN/usb/authorization.rst       |  139 ++
+ Documentation/translations/zh_CN/usb/chipidea.rst  |  150 ++
+ Documentation/translations/zh_CN/usb/dwc3.rst      |   63 +
+ Documentation/translations/zh_CN/usb/ehci.rst      |  261 +++
+ Documentation/translations/zh_CN/usb/index.rst     |   54 +
+ Documentation/translations/zh_CN/usb/usbmon.rst    |  427 +++++
+ arch/arm/mach-pxa/devices.c                        |    7 -
+ arch/arm/mach-pxa/gumstix.c                        |    1 -
+ arch/arm/mach-pxa/udc.h                            |    8 -
+ arch/arm64/boot/dts/qcom/pm4125.dtsi               |    1 -
+ arch/arm64/boot/dts/qcom/pm7250b.dtsi              |    1 -
+ arch/arm64/boot/dts/qcom/pm8150b.dtsi              |    1 -
+ arch/arm64/boot/dts/qcom/pmi632.dtsi               |    1 -
+ arch/arm64/boot/dts/qcom/qrb2210-rb1.dts           |    2 +
+ arch/arm64/boot/dts/qcom/qrb4210-rb2.dts           |    2 +
+ arch/arm64/boot/dts/qcom/qrb5165-rb5.dts           |    2 +
+ arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dts  |    2 +
+ arch/arm64/boot/dts/qcom/sm6115-fxtec-pro1x.dts    |    2 +
+ arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts  |    2 +
+ arch/arm64/boot/dts/qcom/sm8150-hdk.dts            |    2 +
+ .../boot/dts/qcom/sm8250-xiaomi-elish-common.dtsi  |    2 +
+ drivers/hwmon/Kconfig                              |   10 +
+ drivers/hwmon/Makefile                             |    1 +
+ drivers/hwmon/prom21-xhci.c                        |  239 +++
+ drivers/net/thunderbolt/main.c                     |   20 +-
+ drivers/thunderbolt/Kconfig                        |   15 +
+ drivers/thunderbolt/Makefile                       |    6 +-
+ drivers/thunderbolt/acpi.c                         |   14 +-
+ drivers/thunderbolt/configfs.c                     |   61 +
+ drivers/thunderbolt/ctl.c                          |   16 +-
+ drivers/thunderbolt/debugfs.c                      |   18 +-
+ drivers/thunderbolt/dma_test.c                     |   25 +-
+ drivers/thunderbolt/domain.c                       |   37 +-
+ drivers/thunderbolt/eeprom.c                       |    2 +-
+ drivers/thunderbolt/icm.c                          |   39 +-
+ drivers/thunderbolt/nhi.c                          |  606 ++-----
+ drivers/thunderbolt/nhi.h                          |   33 +-
+ drivers/thunderbolt/nhi_ops.c                      |  185 ---
+ drivers/thunderbolt/nhi_regs.h                     |    3 +-
+ drivers/thunderbolt/path.c                         |   37 +-
+ drivers/thunderbolt/pci.c                          |  622 +++++++
+ drivers/thunderbolt/property.c                     |  164 +-
+ drivers/thunderbolt/stream.c                       | 1698 ++++++++++++++++++++
+ drivers/thunderbolt/switch.c                       |   77 +-
+ drivers/thunderbolt/tb.c                           |   86 +-
+ drivers/thunderbolt/tb.h                           |   21 +-
+ drivers/thunderbolt/tb_regs.h                      |   19 +-
+ drivers/thunderbolt/test.c                         |  249 +++
+ drivers/thunderbolt/tunnel.c                       |   35 +
+ drivers/thunderbolt/usb4.c                         |   35 +-
+ drivers/thunderbolt/usb4_port.c                    |    2 +-
+ drivers/thunderbolt/xdomain.c                      |  315 +++-
+ drivers/usb/Makefile                               |    2 -
+ drivers/usb/atm/ueagle-atm.c                       |   58 +-
+ drivers/usb/cdns3/Kconfig                          |  112 +-
+ drivers/usb/cdns3/Makefile                         |   46 +-
+ drivers/usb/cdns3/cdns3-gadget.c                   |    1 +
+ drivers/usb/cdns3/cdns3-plat.c                     |   58 +-
+ drivers/usb/cdns3/cdnsp-gadget.c                   |   50 +-
+ drivers/usb/cdns3/cdnsp-gadget.h                   |    1 +
+ drivers/usb/cdns3/cdnsp-mem.c                      |   73 +-
+ drivers/usb/cdns3/cdnsp-pci.c                      |  243 ++-
+ drivers/usb/cdns3/cdnsp-ring.c                     |    9 +-
+ drivers/usb/cdns3/core.c                           |   48 +-
+ drivers/usb/cdns3/core.h                           |    9 +-
+ drivers/usb/cdns3/drd.c                            |   45 +-
+ drivers/usb/cdns3/gadget-export.h                  |   10 +-
+ drivers/usb/cdns3/host-export.h                    |    4 +-
+ drivers/usb/chipidea/core.c                        |   11 +-
+ drivers/usb/chipidea/udc.c                         |   93 +-
+ drivers/usb/class/cdc-acm.c                        |    6 +
+ drivers/usb/core/hcd.c                             |   14 +-
+ drivers/usb/dwc2/hcd_intr.c                        |   10 +-
+ drivers/usb/dwc3/core.c                            |   14 +-
+ drivers/usb/dwc3/dwc3-google.c                     |    5 +-
+ drivers/usb/dwc3/dwc3-octeon.c                     |   12 +-
+ drivers/usb/gadget/udc/aspeed_udc.c                |    7 +-
+ drivers/usb/gadget/udc/core.c                      |    7 +-
+ drivers/usb/gadget/udc/goku_udc.c                  |    3 +-
+ drivers/usb/gadget/udc/pxa25x_udc.c                |   41 +-
+ drivers/usb/gadget/udc/pxa25x_udc.h                |    2 +-
+ drivers/usb/gadget/udc/pxa27x_udc.c                |   35 +-
+ drivers/usb/gadget/udc/pxa27x_udc.h                |    2 -
+ drivers/usb/host/Kconfig                           |    8 +-
+ drivers/usb/host/Makefile                          |    1 +
+ drivers/usb/host/max3421-hcd.c                     |    8 +
+ drivers/usb/host/xhci-dbgcap.c                     |  144 +-
+ drivers/usb/host/xhci-dbgcap.h                     |    3 +
+ drivers/usb/host/xhci-hub.c                        |    7 +-
+ drivers/usb/host/xhci-mem.c                        |   60 +-
+ drivers/usb/host/xhci-mtk.c                        |    6 +-
+ drivers/usb/host/xhci-pci-prom21.c                 |  137 ++
+ drivers/usb/host/xhci-pci.c                        |   11 +
+ drivers/usb/host/xhci-pci.h                        |    3 +
+ drivers/usb/host/xhci-rcar.c                       |   70 +-
+ drivers/usb/host/xhci-ring.c                       |   53 +-
+ drivers/usb/host/xhci.c                            |   23 +-
+ drivers/usb/host/xhci.h                            |   29 +-
+ drivers/usb/misc/Kconfig                           |    2 +-
+ drivers/usb/misc/onboard_usb_dev.c                 |    1 +
+ drivers/usb/misc/onboard_usb_dev.h                 |    8 +
+ drivers/usb/misc/usb251xb.c                        |   18 +-
+ drivers/usb/misc/usb3503.c                         |    2 +-
+ drivers/usb/misc/usb4604.c                         |    2 +-
+ drivers/usb/phy/phy-isp1301.c                      |    2 +-
+ drivers/usb/serial/ark3116.c                       |    1 -
+ drivers/usb/serial/belkin_sa.c                     |    2 -
+ drivers/usb/serial/cyberjack.c                     |    2 -
+ drivers/usb/serial/cypress_m8.c                    |    2 -
+ drivers/usb/serial/digi_acceleport.c               |    2 -
+ drivers/usb/serial/empeg.c                         |    3 -
+ drivers/usb/serial/f81232.c                        |    3 -
+ drivers/usb/serial/f81534.c                        |    1 -
+ drivers/usb/serial/ftdi_sio.c                      |    1 -
+ drivers/usb/serial/garmin_gps.c                    |    3 -
+ drivers/usb/serial/generic.c                       |    1 -
+ drivers/usb/serial/io_edgeport.c                   |    2 +-
+ drivers/usb/serial/io_ti.c                         |    2 -
+ drivers/usb/serial/ipaq.c                          |    3 -
+ drivers/usb/serial/ipw.c                           |    2 -
+ drivers/usb/serial/ir-usb.c                        |    2 -
+ drivers/usb/serial/iuu_phoenix.c                   |    2 -
+ drivers/usb/serial/keyspan.c                       |    2 -
+ drivers/usb/serial/keyspan_pda.c                   |    2 -
+ drivers/usb/serial/kl5kusb105.c                    |    2 -
+ drivers/usb/serial/kobil_sct.c                     |    2 -
+ drivers/usb/serial/mct_u232.c                      |    2 -
+ drivers/usb/serial/metro-usb.c                     |    3 -
+ drivers/usb/serial/mos7720.c                       |    3 +-
+ drivers/usb/serial/mos7840.c                       |    1 -
+ drivers/usb/serial/mxuport.c                       |   40 +-
+ drivers/usb/serial/omninet.c                       |    2 -
+ drivers/usb/serial/opticon.c                       |    2 -
+ drivers/usb/serial/option.c                        |    1 -
+ drivers/usb/serial/oti6858.c                       |    3 -
+ drivers/usb/serial/pl2303.c                        |    3 -
+ drivers/usb/serial/qcserial.c                      |    1 -
+ drivers/usb/serial/quatech2.c                      |    2 -
+ drivers/usb/serial/safe_serial.c                   |    2 -
+ drivers/usb/serial/spcp8x5.c                       |    2 -
+ drivers/usb/serial/ssu100.c                        |    2 -
+ drivers/usb/serial/symbolserial.c                  |    2 -
+ drivers/usb/serial/ti_usb_3410_5052.c              |    2 -
+ drivers/usb/serial/usb-serial.c                    |    3 -
+ drivers/usb/serial/usb_wwan.c                      |    1 -
+ drivers/usb/serial/visor.c                         |    4 -
+ drivers/usb/serial/whiteheat.c                     |    4 -
+ drivers/usb/serial/wishbone-serial.c               |    1 -
+ drivers/usb/serial/xr_serial.c                     |    1 +
+ drivers/usb/serial/xsens_mt.c                      |    1 -
+ drivers/usb/typec/anx7411.c                        |    4 +-
+ drivers/usb/typec/mux/fsa4480.c                    |    2 +-
+ drivers/usb/typec/mux/intel_pmc_mux.c              |   19 +-
+ drivers/usb/typec/mux/it5205.c                     |    2 +-
+ drivers/usb/typec/mux/nb7vpq904m.c                 |    2 +-
+ drivers/usb/typec/mux/pi3usb30532.c                |    2 +-
+ drivers/usb/typec/mux/ps883x.c                     |  350 ++--
+ drivers/usb/typec/mux/ptn36502.c                   |    2 +-
+ drivers/usb/typec/mux/wcd939x-usbss.c              |    2 +-
+ drivers/usb/typec/tcpm/fusb302.c                   |    4 +-
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c      |    5 -
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c |   12 +-
+ drivers/usb/typec/tcpm/tcpci.c                     |   13 +-
+ drivers/usb/typec/tcpm/tcpci_maxim_core.c          |    2 +-
+ drivers/usb/typec/tcpm/tcpci_rt1711h.c             |    8 +-
+ drivers/usb/typec/tipd/core.c                      |    2 +-
+ drivers/usb/typec/ucsi/cros_ec_ucsi.c              |    6 +-
+ drivers/usb/typec/ucsi/debugfs.c                   |   31 +
+ drivers/usb/typec/ucsi/ucsi.c                      |   60 +-
+ drivers/usb/typec/ucsi/ucsi.h                      |   21 +-
+ drivers/usb/typec/ucsi/ucsi_acpi.c                 |   22 +-
+ drivers/usb/typec/ucsi/ucsi_ccg.c                  |   10 +-
+ drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c        |   53 +-
+ drivers/usb/typec/ucsi/ucsi_stm32g0.c              |    4 +-
+ drivers/usb/typec/ucsi/ucsi_yoga_c630.c            |    6 +-
+ drivers/usb/usbip/Kconfig                          |    2 +-
+ drivers/usb/usbip/vhci_sysfs.c                     |   52 +-
+ include/linux/platform_data/pxa2xx_udc.h           |   15 -
+ include/linux/platform_data/usb-xhci-prom21.h      |   22 +
+ include/linux/thunderbolt.h                        |   59 +-
+ 194 files changed, 6991 insertions(+), 2114 deletions(-)
+ create mode 100644 Documentation/ABI/testing/configfs-thunderbolt_stream
+ delete mode 100644 Documentation/devicetree/bindings/usb/richtek,rt1711h.txt
+ create mode 100644 Documentation/hwmon/prom21-xhci.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/CREDITS
+ create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/authorization.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/chipidea.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/dwc3.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/ehci.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/index.rst
+ create mode 100644 Documentation/translations/zh_CN/usb/usbmon.rst
+ delete mode 100644 arch/arm/mach-pxa/udc.h
+ create mode 100644 drivers/hwmon/prom21-xhci.c
+ create mode 100644 drivers/thunderbolt/configfs.c
+ delete mode 100644 drivers/thunderbolt/nhi_ops.c
+ create mode 100644 drivers/thunderbolt/pci.c
+ create mode 100644 drivers/thunderbolt/stream.c
+ create mode 100644 drivers/usb/host/xhci-pci-prom21.c
+ create mode 100644 include/linux/platform_data/usb-xhci-prom21.h
