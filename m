@@ -1,85 +1,148 @@
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C97D3491D0;
-	Mon, 22 Jun 2026 10:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF14372B31
+	for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 10:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782124445; cv=none; b=Zv3f5T2mYWuEy+LvJc2GufnbFVKwKS5OKvPWd9sBCwP+sLuuZCuOMq0yW5xVDLBEu6hTk6DeyJEk5yBNCiSbuYjZHT20KuFDQzfv6nouJ/xQ0rRQldvpz6WZZPoMo9Jta5m6JvUKAE/4XG0Q8hzBdQ05Ovr962KUAUcrzOLTUhU=
+	t=1782124844; cv=none; b=sQMts1fveKos4cm6NYF5zb9BIUeAIpRdcfGYqjM3psUTdIblKzZPHuRFzbDQI5tbiGifxNJ5lIMenmotHdYS2Zm3Vhjn4Q9j9kgQ8DOBp/tUQWQ0S595L5hxr9XFnbkacWxgRsKz5QT0+L06RwxifjL4N3L0lxYXPvUqHIgmThA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782124445; c=relaxed/simple;
-	bh=dLWCFMXElJAimOVvnulujwYsPKAab/rtBHijkyJGNfM=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=aJGz+HahUT/2Jcabc+5Yjw/LB3819gUbcp7FXuly1cvaHlRPIafmvPP/qynYYiDioFG4GvEMs8nFyTlwzXHpxLDlrJAMeYq9SXWnKbt06TDBF2BSfVT9S6P9r15MF+tgcH9/0cci4IhQttk601/+StZs2RiVIGY2KH1MklF6g+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=vSbDrnBP; arc=none smtp.client-ip=194.13.80.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="vSbDrnBP"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AD3BAA02DF;
-	Mon, 22 Jun 2026 12:34:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1782124441; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=dx/B2m4epnkAcHaC7egWzuokCQWHPyJnQKfGd2yfeTY=;
-	b=vSbDrnBPqo5QeqIpa+C+G7d7FrD6k2Ox/Xymoys4Zuq8QzL5wFxjOw8SO0I2VXLMf8gJly
-	JPluI1++N1vVPhcqr2BS2me6QTORRUkrL8yvUYNTpKvueFDwDl4LehXeurCtbywV37BpCl
-	STaQhm6AZu+ubiFr8Tmaqb+ZkEvddyv1s57QWfqKQFhA+81yt3zpGa+ZZnaufjXROzwtyM
-	B19zaTfQBo+I+FIsSZee7IKlF0ZK0gm9NwE95PmoiSygtuGsj+HuYFOyl2k4y+szQt5P8t
-	1jBxpPkxuOi+GqEhhbtPYsMM3HFX2xs5Dz2UZN8QI0VuY9jaGir/Dn6GwD1Aag==
+	s=arc-20240116; t=1782124844; c=relaxed/simple;
+	bh=CTQXMUV+/UBVnNjzgtkJO88wjy6FOPIwK3y5DrpmBBk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QUJJ/BE09FoAkOR3q2H1iwviGlXjHaXsBw4sftsd2QCBhogaTv02aZisGT3XaPbi2yrSQeIuErzFEx0Lzc0ghJHsHG7bqolza9+pz16M3knBFLqQn3bleeJks/JgDj+UocNuvY6mNfBk0xPtQnQ1+PW3VoVvsa4lrp5JKB0hmmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2c0c379e8ffso34566135ad.3
+        for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 03:40:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782124843; x=1782729643;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6sEwup8vrGtzg0eQ+zIA6Kd2oTy+XBY9jxS2BNcFzC0=;
+        b=dzlcJzWni87Wfnlqc1335yt2jDx9oW54ePnHkoDfVKMRVMu6i9ONr3kgEuhLvbLqET
+         zeTYs3ZEO+JpLeQRKnxb4+vTRPRbCHxPkguM6zI/JTJQ2Khd3MPSmJ8UryTmm5upIH0j
+         PF7+GAaTckTngOIXw9JqZyYbWEWBq7xugMPTzGnACbD8LgDKxC3b/UD2NSQBv3wvW9gL
+         Rbwhu68ZuRA/AwfLLGQPpJUnAQqBatJdZ6X1SpeuYaTlYHv/PA7enSijxrIuKOCc+Q2Q
+         oUsUXnJERa41M22ekovCaWXMbRNqCEa/Z/5TJmet7CWrKrIXwKMpCfsRR2XW7ST1z1kp
+         9mBw==
+X-Forwarded-Encrypted: i=1; AHgh+RqwvG5h3Imtw2BsO3IvOieKkX3+YXFgnAxUA+Sf54JvMGV4drqTx0RzsYB/IHQbGbiHKIQSVa4Xzg8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/Qz6szJSSFc4nfC0l1W356w4JuI70LBNNmOo+Nky6CR7Y3wQn
+	ApGDip5ekaRJCIfzQ202gbQbw6JBUZprFDaUNP0SJjD1pFlBngQN82PnHqU+GCT5
+X-Gm-Gg: AfdE7cncIcAP4atUaqliLSfnyAy3JH+h2aHSWh54qx30bwT418bYyVMJaLj8aLQaIkZ
+	WOaq03e3Nvepo8uDLplHhlrILA+fn4UlFnTgD98VEgbp7GfJXaIUWcYJx2IYZv7LTiDUoLDOWKy
+	BDggvOrwHR/z5TYB7Pvh4c6+W8MrXKsLtGUeTHkE9qiDIAYr3WTtQV+FqYdY42Ezuo8l9oXbq9R
+	7ekCyK/QPqD9IRnAgSVFNY9jQKQQGKkQSEpzaI5jGcPkCaSSDamQ3mMUPZhaDqu2/0tSGfrUx8b
+	BMbUy1XvTB5MXx6kN3t/TYEN1c/zF2ire1l3d5AIHnli1diNT3u5ouw3PlXuNOMAuCzqIIAbKR2
+	no/QRfR9TtZ7M21LXXMrXp97U/FMAgdgJ1yoMNv1FD+qbfUOsmr41DeFbtdtzeUf6+InIGOvDut
+	FhJ5jl5Tr6o2ViAAnBteNzRh/G5mYfnMaWrl0Fd3kYUHfXoHxs
+X-Received: by 2002:a17:902:d4c8:b0:2be:1c3c:72ba with SMTP id d9443c01a7336-2c71901c639mr150653455ad.32.1782124843002;
+        Mon, 22 Jun 2026 03:40:43 -0700 (PDT)
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com. [74.125.82.45])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7436af6d9sm74768075ad.4.2026.06.22.03.40.42
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jun 2026 03:40:42 -0700 (PDT)
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-13988680a69so9782912c88.0
+        for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 03:40:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+wAuwmERXnVrxbWzX+rkFUPk8TdzGP+rH0sJkl1yYd64Rv9n7kgeW/ojbKwipYJ8hwjqB1zSDHw34=@vger.kernel.org
+X-Received: by 2002:a05:6102:3314:b0:6ef:f6cf:1b32 with SMTP id
+ ada2fe7eead31-72a043c9af3mr8022945137.27.1782124344043; Mon, 22 Jun 2026
+ 03:32:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 22 Jun 2026 12:34:00 +0200
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: Sven Schuchmann <schuchmann@schleissheimer.de>
-Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>, Rengarajan
- Sundararajan <Rengarajan.S@microchip.com>, UNGLinuxDriver@microchip.com,
- Woojung.Huh@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>, "David S .
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: AW: AW: AW: AW: [PATCH net] net: usb: lan78xx: restore VLAN
- filter table after device reset
-In-Reply-To: <BEZP281MB22457C80F9D1AC7F788EC008D9EF2@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
-References: <20260618191109.4086598-1-nb@tipi-net.de>
- <BEZP281MB2245740AE8E3221DD076CE7DD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
- <6d638042ad07a8bfb09ff3ee923e7b3f@tipi-net.de>
- <BEZP281MB2245422BB9FBFF4AFE081451D9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
- <4abfc9b1e8860da93c03639863bd0232@tipi-net.de>
- <BEZP281MB224523ADACDB48D8E3974D4AD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
- <f76711d2f45c527f9ce0f5d288631bc6@tipi-net.de>
- <BEZP281MB22457C80F9D1AC7F788EC008D9EF2@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
-Message-ID: <3964f6655b98681b9aab92593b5ed3ca@tipi-net.de>
-X-Sender: nb@tipi-net.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20260622101606.485961-3-krzysztof.kozlowski@oss.qualcomm.com> <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 22 Jun 2026 12:32:09 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWw4+-YZRx2icp_t3OQt3cb9osjac7gziiyRZcHa3zMbQ@mail.gmail.com>
+X-Gm-Features: AVVi8CeRh5uGKoGdWXUVe0e4sYYTgs7H91cw7cP665l5Rz_E8v79r8eSiiAY4SE
+Message-ID: <CAMuHMdWw4+-YZRx2icp_t3OQt3cb9osjac7gziiyRZcHa3zMbQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dt-bindings: Drop incorrect usage of double '::'
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Brian Masney <bmasney@redhat.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Sam Protsenko <semen.protsenko@linaro.org>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>, 
+	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Georgi Djakov <djakov@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulfh@kernel.org>, Peter Rosin <peda@lysator.liu.se>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Linus Walleij <linusw@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Sebastian Reichel <sre@kernel.org>, 
+	Javier Martinez Canillas <javier@dowhile0.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Srinivas Kandagatla <srini@kernel.org>, 
+	Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Jonathan Marek <jonathan@marek.ca>, 
+	Taniya Das <quic_tdas@quicinc.com>, Robert Marko <robimarko@gmail.com>, 
+	Christian Marangi <ansuelsmth@gmail.com>, Stephan Gerhold <stephan@gerhold.net>, 
+	Adam Skladowski <a_skl39@protonmail.com>, Sireesh Kodali <sireeshkodali@protonmail.com>, 
+	Barnabas Czeman <barnabas.czeman@mainlining.org>, Imran Shaik <quic_imrashai@quicinc.com>, 
+	Sricharan Ramabadhran <quic_srichara@quicinc.com>, Anusha Rao <quic_anusha@quicinc.com>, 
+	Luo Jie <quic_luoj@quicinc.com>, Tomasz Figa <tomasz.figa@gmail.com>, 
+	Chanho Park <chanho61.park@samsung.com>, Sunyeal Hong <sunyeal.hong@samsung.com>, 
+	Shin Son <shin.son@samsung.com>, Krishna Manikandan <quic_mkrishn@quicinc.com>, 
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>, Jaehoon Chung <jh80.chung@samsung.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Alina Yu <alina_yu@richtek.com>, 
+	Andy Gross <agross@kernel.org>, =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Wesley Cheng <quic_wcheng@quicinc.com>, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	freedreno@lists.freedesktop.org, linux-i2c@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Sven
+On Mon, 22 Jun 2026 at 12:16, Krzysztof Kozlowski
+<krzysztof.kozlowski@oss.qualcomm.com> wrote:
+> There is no use of double colon '::' in YAML. OTOH, the literal style
+> block, e.g. using '|' treats all characters as content [1] therefore
+> single use of ':' in descriptions is perfectly fine, whenever '|' is
+> used.
+>
+> Cleanup existing code, so the confusing style won't be re-used in new
+> contributions.
+>
+> Link: https://yaml.org/spec/1.2.2/#literal-style [1]
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+>
+> ---
+>
+> Intention for this patch is to go via Rob's tree.
 
-On 22.6.2026 12:07, Sven Schuchmann wrote:
+>  .../bindings/power/renesas,rcar-sysc.yaml     |  2 +-
+>  .../bindings/soc/renesas/renesas-soc.yaml     |  4 ++--
 
-> [...]
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be> # renesas
 
->> > looks good from my point of view
->> > (Calling the lan78xx_write_vlan_table() from
->> > lan78xx_mac_link_up() and from lan78xx_reset()).
->> 
->> Thanks.
-> 
-> Just to be clear I used this patch which is looking good:
+Gr{oetje,eeting}s,
 
-> [...]
+                        Geert
 
-Thanks for testing! I've sent a v2 of my patch with your t-b:
-https://lore.kernel.org/netdev/20260622102911.484045-1-nb@tipi-net.de/
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Regards
-Nicolai
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
