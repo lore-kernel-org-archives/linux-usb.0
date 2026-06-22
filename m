@@ -1,184 +1,85 @@
 Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C0836607D;
-	Mon, 22 Jun 2026 10:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C97D3491D0;
+	Mon, 22 Jun 2026 10:34:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782124186; cv=none; b=PgBskcKRIQMLKFmccJaYpijvuS0XgTE9x15WqqfRRPFSd1OfHj03YJC9coao1u+Cr8dGhtZILufpPUkYy2DzYFBBeNZlScXLG4lMvEyMA6m9onnGZYsmKdX4eF1rTG9PyyS/0CWtj1ZdIdZctHH5xUShK6n+HgFfpVJEdAbqIGs=
+	t=1782124445; cv=none; b=Zv3f5T2mYWuEy+LvJc2GufnbFVKwKS5OKvPWd9sBCwP+sLuuZCuOMq0yW5xVDLBEu6hTk6DeyJEk5yBNCiSbuYjZHT20KuFDQzfv6nouJ/xQ0rRQldvpz6WZZPoMo9Jta5m6JvUKAE/4XG0Q8hzBdQ05Ovr962KUAUcrzOLTUhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782124186; c=relaxed/simple;
-	bh=47vcHFLPuP+Dz92uLwTGP3oycukQXMy1KngWp5abA2E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gXqebaRkVeb0J3wP8etR4YfEgQyrf3CuR3GukML3zRto5Y2A+oPIOTwsEM+7JnByENXnJHcuroiyViV2UMUddbXDn1vN8zmhRr5mRFgsLdE8oLsCdbWm+tLIrZI6eltFYnHd8LRdr+qv1me9Zwx+xanJ8F9MvdyZ4FZ1Y7usVU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=ajUllmYM; arc=none smtp.client-ip=194.13.80.246
+	s=arc-20240116; t=1782124445; c=relaxed/simple;
+	bh=dLWCFMXElJAimOVvnulujwYsPKAab/rtBHijkyJGNfM=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=aJGz+HahUT/2Jcabc+5Yjw/LB3819gUbcp7FXuly1cvaHlRPIafmvPP/qynYYiDioFG4GvEMs8nFyTlwzXHpxLDlrJAMeYq9SXWnKbt06TDBF2BSfVT9S6P9r15MF+tgcH9/0cci4IhQttk601/+StZs2RiVIGY2KH1MklF6g+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=vSbDrnBP; arc=none smtp.client-ip=194.13.80.246
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="ajUllmYM"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BB90FA12E1;
-	Mon, 22 Jun 2026 12:29:30 +0200 (CEST)
+	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="vSbDrnBP"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AD3BAA02DF;
+	Mon, 22 Jun 2026 12:34:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1782124173; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=8cPvtgry6fEbZtg+k+Au9a9S0BXjMYqcdb90NcXocuw=;
-	b=ajUllmYMIln5//RHD2CocqO8/L+SF6R1mQis5I20AnMw+CFafMUd8Nm6IQaFFvTfCIzrre
-	FEo8CwVew20hPWK0BClOC8j9HOu3IHAYj13LdRfLNdCQsnDbn2Oy6CKZBSQ3hsd51b65w5
-	ydnZ22XHbZqYXyOrKKPTPKwMTIfnGFgIF43NSPbpIu1HbPF6mRyD3aR1sh8v+kxDmnpcMf
-	bU2/DsrANXWCL9mFMn13/pjkS6Lgf+pTNl0SfvYCPMaApehIOHPQfmHxZIql9/Gtr+St7m
-	8iuuUb0wFurjKGGgz/zqi2YK5EW5WLWi+Lk3JURjn9VFF4NPjGovsVIPVBwHhA==
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
-	Rengarajan Sundararajan <Rengarajan.S@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Woojung.Huh@microchip.com
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Sven Schuchmann <schuchmann@schleissheimer.de>,
-	netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nicolai Buchwitz <nb@tipi-net.de>
-Subject: [PATCH net v2] net: usb: lan78xx: restore VLAN and hash filters after link up
-Date: Mon, 22 Jun 2026 12:29:11 +0200
-Message-ID: <20260622102911.484045-1-nb@tipi-net.de>
-X-Mailer: git-send-email 2.53.0
+	t=1782124441; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=dx/B2m4epnkAcHaC7egWzuokCQWHPyJnQKfGd2yfeTY=;
+	b=vSbDrnBPqo5QeqIpa+C+G7d7FrD6k2Ox/Xymoys4Zuq8QzL5wFxjOw8SO0I2VXLMf8gJly
+	JPluI1++N1vVPhcqr2BS2me6QTORRUkrL8yvUYNTpKvueFDwDl4LehXeurCtbywV37BpCl
+	STaQhm6AZu+ubiFr8Tmaqb+ZkEvddyv1s57QWfqKQFhA+81yt3zpGa+ZZnaufjXROzwtyM
+	B19zaTfQBo+I+FIsSZee7IKlF0ZK0gm9NwE95PmoiSygtuGsj+HuYFOyl2k4y+szQt5P8t
+	1jBxpPkxuOi+GqEhhbtPYsMM3HFX2xs5Dz2UZN8QI0VuY9jaGir/Dn6GwD1Aag==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Mon, 22 Jun 2026 12:34:00 +0200
+From: Nicolai Buchwitz <nb@tipi-net.de>
+To: Sven Schuchmann <schuchmann@schleissheimer.de>
+Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>, Rengarajan
+ Sundararajan <Rengarajan.S@microchip.com>, UNGLinuxDriver@microchip.com,
+ Woojung.Huh@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>, "David S .
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: AW: AW: AW: AW: [PATCH net] net: usb: lan78xx: restore VLAN
+ filter table after device reset
+In-Reply-To: <BEZP281MB22457C80F9D1AC7F788EC008D9EF2@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
+References: <20260618191109.4086598-1-nb@tipi-net.de>
+ <BEZP281MB2245740AE8E3221DD076CE7DD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
+ <6d638042ad07a8bfb09ff3ee923e7b3f@tipi-net.de>
+ <BEZP281MB2245422BB9FBFF4AFE081451D9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
+ <4abfc9b1e8860da93c03639863bd0232@tipi-net.de>
+ <BEZP281MB224523ADACDB48D8E3974D4AD9E22@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
+ <f76711d2f45c527f9ce0f5d288631bc6@tipi-net.de>
+ <BEZP281MB22457C80F9D1AC7F788EC008D9EF2@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM>
+Message-ID: <3964f6655b98681b9aab92593b5ed3ca@tipi-net.de>
+X-Sender: nb@tipi-net.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Configured VLANs intermittently stop receiving traffic after a link
-down/up cycle, e.g. when the network cable is unplugged and plugged back
-in. VLAN filtering stays enabled but all VLAN-tagged frames are dropped
-until a VLAN is added or removed again.
+Hi Sven
 
-The LAN7801 datasheet (DS00002123E) states:
+On 22.6.2026 12:07, Sven Schuchmann wrote:
 
-  "A portion of the MAC operates on clocks generated by the Ethernet
-   PHY. During a PHY reset event, this portion of the MAC is designed to
-   not be taken out of reset until the PHY clocks are operational"
-  (section 8.10, MAC Reset Watchdog Timer)
+> [...]
 
-  "After a reset event, the RFE will automatically initialize the
-   contents of the VHF to 0h."
-  (section 7.1.4, VHF Organization)
+>> > looks good from my point of view
+>> > (Calling the lan78xx_write_vlan_table() from
+>> > lan78xx_mac_link_up() and from lan78xx_reset()).
+>> 
+>> Thanks.
+> 
+> Just to be clear I used this patch which is looking good:
 
-Thus a link down/up cycle stops and restarts the PHY clock, resets the
-PHY-clocked portion of the MAC, and the RFE clears its VLAN/DA hash
-filter (VHF) memory. The VHF holds both the VLAN filter table and the
-multicast hash table, but the driver never reprograms either from its
-shadow copy once the link is back, so both stay empty.
+> [...]
 
-Reprogram the VLAN filter and multicast hash tables on link up.
+Thanks for testing! I've sent a v2 of my patch with your t-b:
+https://lore.kernel.org/netdev/20260622102911.484045-1-nb@tipi-net.de/
 
-Reported-by: Sven Schuchmann <schuchmann@schleissheimer.de>
-Closes: https://lore.kernel.org/netdev/BEZP281MB224501E38B30BFDC4BD3D364D9E32@BEZP281MB2245.DEUP281.PROD.OUTLOOK.COM/T/#u
-Tested-by: Sven Schuchmann <schuchmann@schleissheimer.de>
-Fixes: 55d7de9de6c3 ("Microchip's LAN7800 family USB 2/3 to 10/100/1000 Ethernet device driver")
-Signed-off-by: Nicolai Buchwitz <nb@tipi-net.de>
----
-v2:
- - Reprogram in lan78xx_mac_link_up() instead of lan78xx_reset(); the
-   table is lost on a plain link down/up cycle, where reset() is not
-   called. This also avoids the usb_autopm_get_interface() -EACCES path
-   in reset_resume() that was flagged on v1.
- - Also restore the multicast hash table: the RFE clears the whole VHF
-   (VLAN + hash) memory, per the LAN7801 datasheet.
-
-v1: https://lore.kernel.org/netdev/20260618191109.4086598-1-nb@tipi-net.de/
-
- drivers/net/usb/lan78xx.c | 37 +++++++++++++++++++++++++++++++------
- 1 file changed, 31 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index bcf293ea1bd3..c4cebacabcb5 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -1452,6 +1452,15 @@ static inline u32 lan78xx_hash(char addr[ETH_ALEN])
- 	return (ether_crc(ETH_ALEN, addr) >> 23) & 0x1ff;
- }
- 
-+static int lan78xx_write_mchash_table(struct lan78xx_net *dev)
-+{
-+	struct lan78xx_priv *pdata = (struct lan78xx_priv *)(dev->data[0]);
-+
-+	return lan78xx_dataport_write(dev, DP_SEL_RSEL_VLAN_DA_,
-+				      DP_SEL_VHF_VLAN_LEN,
-+				      DP_SEL_VHF_HASH_LEN, pdata->mchash_table);
-+}
-+
- static void lan78xx_deferred_multicast_write(struct work_struct *param)
- {
- 	struct lan78xx_priv *pdata =
-@@ -1462,9 +1471,7 @@ static void lan78xx_deferred_multicast_write(struct work_struct *param)
- 	netif_dbg(dev, drv, dev->net, "deferred multicast write 0x%08x\n",
- 		  pdata->rfe_ctl);
- 
--	ret = lan78xx_dataport_write(dev, DP_SEL_RSEL_VLAN_DA_,
--				     DP_SEL_VHF_VLAN_LEN,
--				     DP_SEL_VHF_HASH_LEN, pdata->mchash_table);
-+	ret = lan78xx_write_mchash_table(dev);
- 	if (ret < 0)
- 		goto multicast_write_done;
- 
-@@ -1557,6 +1564,7 @@ static void lan78xx_set_multicast(struct net_device *netdev)
- }
- 
- static void lan78xx_rx_urb_submit_all(struct lan78xx_net *dev);
-+static int lan78xx_write_vlan_table(struct lan78xx_net *dev);
- 
- static int lan78xx_mac_reset(struct lan78xx_net *dev)
- {
-@@ -2514,6 +2522,17 @@ static void lan78xx_mac_link_up(struct phylink_config *config,
- 	if (ret < 0)
- 		goto link_up_fail;
- 
-+	/* The RFE clears the VLAN/DA hash filter (VHF) on a link down/up
-+	 * cycle, so reprogram both tables from their shadow copies.
-+	 */
-+	ret = lan78xx_write_vlan_table(dev);
-+	if (ret < 0)
-+		goto link_up_fail;
-+
-+	ret = lan78xx_write_mchash_table(dev);
-+	if (ret < 0)
-+		goto link_up_fail;
-+
- 	netif_start_queue(net);
- 
- 	return;
-@@ -3065,14 +3084,20 @@ static int lan78xx_set_features(struct net_device *netdev,
- 	return lan78xx_write_reg(dev, RFE_CTL, pdata->rfe_ctl);
- }
- 
-+static int lan78xx_write_vlan_table(struct lan78xx_net *dev)
-+{
-+	struct lan78xx_priv *pdata = (struct lan78xx_priv *)(dev->data[0]);
-+
-+	return lan78xx_dataport_write(dev, DP_SEL_RSEL_VLAN_DA_, 0,
-+				      DP_SEL_VHF_VLAN_LEN, pdata->vlan_table);
-+}
-+
- static void lan78xx_deferred_vlan_write(struct work_struct *param)
- {
- 	struct lan78xx_priv *pdata =
- 			container_of(param, struct lan78xx_priv, set_vlan);
--	struct lan78xx_net *dev = pdata->dev;
- 
--	lan78xx_dataport_write(dev, DP_SEL_RSEL_VLAN_DA_, 0,
--			       DP_SEL_VHF_VLAN_LEN, pdata->vlan_table);
-+	lan78xx_write_vlan_table(pdata->dev);
- }
- 
- static int lan78xx_vlan_rx_add_vid(struct net_device *netdev,
-
-base-commit: d07d80b6a129a44538cda1549b7acf95154fb197
--- 
-2.53.0
+Regards
+Nicolai
 
