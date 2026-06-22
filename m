@@ -1,851 +1,768 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5EB241C8C
-	for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 05:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36DA53546C0;
+	Mon, 22 Jun 2026 06:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782107039; cv=none; b=jQTAmQxc2ncU/HykS0F/IIfMlLbzsT/tjlAnKcGzt2xXbrs+XadK+vByFKP7ZYLmKOhA9xx6SQkinoaOgbci0FVC3DlI+AVR1U7FwjaLdl3LJcHQlsbRFepJSyh64LUHXr30LeIves6PSJNupQMQVcgxauu6grusvqDfWAEctwk=
+	t=1782109348; cv=none; b=oIcxQySiJzdklgKUWDBy6curryqJuP+AFEXf93amGTPRPKKvtJcS2D+BS21mAKP56jf4EIVUYhBoarGE7f5mkCbaWGXynIBpRVXHJYMIJ6nv4lgR+evwHNMvjrQWjgpDtChSOvGp/iy4I6CqttwKeNVo3INLXK9GQuiqMbM9j5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782107039; c=relaxed/simple;
-	bh=NkMzUCH19V3Jo6yfBVYa6YyjB4S/DpuAJyVlhH6akQI=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=P+7u84xgUiL3Gp1vf6Y5KqZ98/wFUez0xSsKsw4wmGp7YTeO/nqIoz3HtreE0AAoliFUFJgaGVr9K/1W83mFJL0tzoMcg/DvVgxwTNVJjpb16lfkY8LmAJa36dC6tWz0AUmK3qKLpXH8g9c1VCZJPZYzCQBTqr1rFrKqvGSL+AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cF2b98XK; arc=none smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782109348; c=relaxed/simple;
+	bh=zo1/q3TOHgSF/dD9tY1Lr9wZliLpz1/+pUdlCGJp1y4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kRZNhYDOJv8BQH0/MhkjrVxocqECpEynnzqqoF2BH0SxZROo6NETBPH4qxei0FqqjrrFulZqXACRJBNVWzArKkeHES0XzGQGIrAViqLG6HuuvHu2lSkD3wufWMOyL12uPFNTAS10vXR59OCvKPf6nrvvbLbvOyEzX0sXTwLpriU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=dRd/Kmbf; arc=none smtp.client-ip=18.194.254.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cF2b98XK"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-30bbe98c3f0so7305706eec.0
-        for <linux-usb@vger.kernel.org>; Sun, 21 Jun 2026 22:43:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782107037; x=1782711837; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GcRyY+mBYQGRZAiyCkUgz5MrUDwc1+16DWFULnkRTLc=;
-        b=cF2b98XKwO+3UaGSljMlKdpeRGhFQ0aCnmuJETdl7mR5tqdFnPo7LPzQ+mn7FBnGRg
-         MQBx1KEriI4OiUdYtY41fuwGhQxE4+9G/X1ADYD+p0kQF7AO4em3rOsSIFWXgrhVGV/p
-         tD2ZTuCwnoNi+LXBfnLyVhYTX+9eb5TLlNE+WA92NS5qaGeuOmRGB09WhpzBCvIaEEsv
-         XgFJ9LFRWzb/lQbR42nLt98DU7XcQzWZ76KnqxJqxYCQcoJiy21glUU1ymExecfj1cGd
-         BmWp/Sp9a+VfQjVRbj0F3MjgtUN3o/823JyCHbvop1rLEgUCMyVebgCNS1qN40PJ8qiu
-         iaOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782107037; x=1782711837;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GcRyY+mBYQGRZAiyCkUgz5MrUDwc1+16DWFULnkRTLc=;
-        b=izlgZCs16gXOpXSvrQzd66DG5GIQMeqg343BIv66+r48t7eYvfWoly8r8q1lGmCVpI
-         4P41Z5WKNPLgo8aiDs9X79l9ufvzZUw2mkdRH0e/DgvDaYvnBOHEK8pK2NQenLaFbAdU
-         vgIqeHrZUA/gzwyy4unf5iQ3JiWJjvqDAurbpPXjaEBXgN8mHMnNB2eWZkQP5sj891/b
-         I6nqlxzbhoyPwy4v2SaYNMpRbxJZ/DLTS+Z/mM6cS7igRkvEkYFT9arlIfcUCX6T0Gpf
-         Mz+1GL4pueMGnbDWscGn1K/N5h0JA+K2o9S/R7TxWvnYDLGpg2QREjwULVI0/IPBA8BG
-         6PzA==
-X-Gm-Message-State: AOJu0Yxagn0lEWVYYUF17Pr2ddc70CoCPzy/W8YAFiZY77y1md0xJhGv
-	YtEMDS6QpbXWs557eedSqYEH0ELVlIR3oVdMZU6L7OwXvnrJcXGK/OLBuKtTPxiIR8g=
-X-Gm-Gg: AfdE7clGkKJAs9dBSU6vofbRWVPWYGvXHlsLQrVlNncNLYcJ0kNDmlrLJZ6OjOTrsxQ
-	DzDE68RmDpNSLCyHSaruTvvqo21sE4KrRknSK+4jw18GIHDQZYif2q6TJHV3lpIBuVYcH+Ro6m2
-	XFQ1RoMUMlIL38kvidJdhwvpGh/11uAwBqsMu8tja4sChbCNBh2TVc1QgX22tusept9c1TyuHn1
-	Qv7ZiSGDuDdLchou7gfGehc3gruvzJw76fVrdw6HOEGHxeIH8pC75Tg17CNrmVGFdGf2+QCnAA0
-	9EcG4X2d0ZdBn3wOj4VfDfD72VY3hgSbvbUgeXn8ryAoNmqh6PCTTOOZxkwa1+28lfolYipxTtY
-	iuta5s+ku8W7g0sGFytZ2TC58HR6ND9qiLEcZj15HTzu7JV6MrPYA56UTE/LTGf1XyVbf02TYXi
-	MBsgl6wCxuHQH6tVjeHTJEJMWGSdmHD5hNULqZ04xU
-X-Received: by 2002:a05:7301:19ac:b0:2e2:3381:2fba with SMTP id 5a478bee46e88-30c0cd3e894mr7446390eec.3.1782107036425;
-        Sun, 21 Jun 2026 22:43:56 -0700 (PDT)
-Received: from smtpclient.apple ([2607:fb90:8e0a:2041:e8ce:c3f6:cac8:c8ba])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c1ba1f8b2sm9070692eec.4.2026.06.21.22.43.55
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 21 Jun 2026 22:43:55 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="dRd/Kmbf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1782109298;
+	bh=KcyAE9Mrv2QeCOjGTTel9nwmN2YZobFO2XHb69/e0DI=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=dRd/KmbfAgiDdy1ygEage2Da7KZhKn4fh1p8LQ55A535LFyHQxRMuy2TODzbve/sd
+	 NwAOXgfON2sXJAmQ105M7UsGSWdkNFekoHCI/4E3FUkSawcLv/xuuV2d1vgu5X3isC
+	 2zQF3aUZ3VgAG9JMwRkks1Wpx4tBifiymNSuSMas=
+X-QQ-mid: zesmtpsz3t1782109280t30273a8d
+X-QQ-Originating-IP: sor/btoz+tcHmtaIniwhSBXoUsSwJ4UUG2Oq8nsaqbE=
+Received: from PEN202512010004 ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 22 Jun 2026 14:21:17 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 3886938880095797919
+EX-QQ-RecipientCnt: 8
+From: raoxu <raoxu@uniontech.com>
+To: michal.pecio@gmail.com
+Cc: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	mathias.nyman@intel.com,
+	mathias.nyman@linux.intel.com,
+	raoxu@uniontech.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] xhci: pci: Disable soft retry for Renesas uPD720201
+Date: Mon, 22 Jun 2026 14:21:17 +0800
+Message-ID: <237BFC17C62D63DF+20260622062117.56278-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260619124234.0a9e4670.michal.pecio@gmail.com>
+References: <20260619124234.0a9e4670.michal.pecio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81.1.4\))
-Subject: Re: [PATCH] inflate max_tt_usecs and implement sitd backpointers
-From: Brent Page <brentfpage@gmail.com>
-In-Reply-To: <0c2fc88b-eec8-4267-b6df-99c62f4d5229@rowland.harvard.edu>
-Date: Sun, 21 Jun 2026 22:43:44 -0700
-Cc: linux-usb@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <E19252E2-3620-4D3C-805C-1FCA8084291E@gmail.com>
-References: <bfdd7729-be9a-4014-87bc-7b7a5b393980@rowland.harvard.edu>
- <20260602064201.84065-1-brentfpage@gmail.com>
- <0c2fc88b-eec8-4267-b6df-99c62f4d5229@rowland.harvard.edu>
-To: Alan Stern <stern@rowland.harvard.edu>
-X-Mailer: Apple Mail (2.3826.700.81.1.4)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: MxdW4jxL6NvX8FB/p8RhEVx7+aaunHMTd5a+JM0RF4JnC10t50vjZAUk
+	2PBUQYM39r3ROJiJPZ8aisDxKJky0P02rT2w+jI4tfqiR1yohxJfo6oQ9CyQiIaKNb6T2Gn
+	qKl2Ns79rJeTTm6PiYEqThTBafszl5B4ERTDCB+C1CEjHfzwHZkMgOcs0no2zYs3NmXFjQj
+	CrCnY/l5I+Y1d4/QfD6ye/wpK+SrnyWRh41xx++LWZs4qv/u7H8MgZNTBxGvYxELDhYkZIo
+	vNeXvynKVqocmtji2LtWm08XFpsoE6oiuHubkPnaB+IiUyU7YL8OqfBb+quiJ/CS8grD+P8
+	8+vKGC6SVdfmoCPhK6Q7ZlFOvCemDpZEJ5OWCelItjtWcYaoyB3semqlbc6QY+cvPc7bxQb
+	YpucESRIivFLMdodQvsmquZMCT6AusTN6UyXY89wW/yqCJVDNSVKxmgiAa/IF4LPNvwprPS
+	5wBno2s+B/Gu4e4JLNSaQlsaHVoiEpRX8CQbZ4uzTMZCQ2bFTwVU0wPhu66i4pDIcf4Tcla
+	NH4SUImjxymukYUNtX8bLDMZdD8AwkIBqVYYx2MRxvi7PFxEvTolqPIloeQxicK9O32uCO5
+	3lNcx8NTRLNXjU1D8Q2W0bBZHL1j9ZlMC/tnQkDqrhUyc/skCsvHz4WhACaAKmu3Khxfagq
+	1rAfP1MSw9tJ7u6Qz9WPIYsn2JyWZZhPszhlJFDgzfGVYJRFJxph92dyi+QJO/S5cb5WFaI
+	bKCXJn2Z6DCy8o3BVFGzpZOrApwvIPmNFN5LgtgMSVMuWP6fb95Vv+h7dBWNveYCy4+hK+T
+	dr6knzz+bAFzfVBNTYHWHFzjxwbrA5YdygiSaRcXkddgIk7rDJ4+6CaXN5VY/MOX4KIrSFm
+	DRttHRm9pltlXqZjcfCZ8o8qxduBJA1HGgfLrtbN/Gj06RyHNPzeCrPzhTfOmjbU3AGh01y
+	8x/fvShDQ2S3AqDHAugfmAZlk9btrpd70WxImfhscU3xJGoEvOk34iuTHyxT96/SW50o4nj
+	QsJ+lXwoHB4iH5Sz5CCGdYNTQtEXw=
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+X-QQ-RECHKSPAM: 0
 
----
-> You mean six 0xff bytes followed by four 0x00 bytes, right?
-Yes
+Hi Michal,
 
-> Why is this?  What goes wrong?  That sort of issue should never arise.
-Now, the test results are as follows:
-Setup 3:
-- configure the "main" (1023-byte-endpoint full-speed iso-in) peripheral =
-to
-  send nine 0xff bytes followed by one 0x00 byte 100 times per transfer
-- plug the main peripheral into a four-port USB 2 hub that plugs in to a
-  computer's USB 2 port.  Don't plug anything else into the hub.
-- for both bInterval=3D1 and 2, there's a good data link between the =
-peripheral
-  and the computer
-  - I see a bit error in the last word of each transfer; it's typically =
-1101
-    or 1110 instead of 1111, but I see these for USB 3 ports as well.  =
-Maybe a
-    ferrite bead on the peripheral would help?  That's the only error I =
-see in
-    the data link.
-Setup 4:
-- same data as for Setup 3
-- also plug a high-speed webcam into the four-port hub
-- bInterval=3D2: both the "main" peripheral and the webcam work well
-- bInterval=3D1: ~50% of the raster scan lines in the webcam's stream =
-are blank.
-  The main peripheral's data link remains good (same near-optimal =
-quality as
-  for Setup 3).
-Setup 5:
-- same data for the main peripheral as in Setups 3 and 4.
-- in addition to the main peripheral, plug in a full-speed HID with an =
-8-byte
-  interrupt endpoint to the four-port hub
-- bInterval=3D1: the HID doesn't work
-- bInterval=3D2: two interrupt full-speed HIDs work well alongside the =
-main
-  peripheral.  Would it make sense if the first time plugging one in has =
-a
-  50% success rate (presumably if it fortuitously gets scheduled for the
-  free frame) and all subsequent unplug/replug events work after the =
-first
-  successful one?  Seems like that might be the case.
-Setup 1:
-- repeating from my previous email
-- configure the main peripheral to send five 0xff bytes followed by five =
-0x00
-  bytes 100 times per transfer
-- plug in the main peripheral, two full-speed HIDs, and the high-speed =
-webcam
-  into the four-port hub
-- bInterval=3D1 and bInterval=3D2: everything works great.  Considering =
-that this
-  worked even before I fixed up the patch, it doesn't depend on =
-backpointers at
-  all.
+> > > The host reports a transaction error on the RTL8153 interrupt
+> > > endpoint, queues a soft reset, and later times out the Stop
+> > > Endpoint command while disconnecting the device:
+> > >
+> > >    Transfer error for slot 8 ep 6 on endpoint
+> > >    Soft-reset ep 6, slot 8
+> > >    Ignoring reset ep completion code of 1
+> > >    xHCI host not responding to stop endpoint command
+> > >    xHCI host controller not responding, assume dead
+> > >    HC died; cleaning up
+>
+> There is other stuff too, like concurrent teardown of a separate bulk
+> endpoint, not yet sure what exactly breaks these chips.
+>
+> Would you mind to apply the attached debug patch, reproduce and post
+> dmesg from your system for comparison?
 
-So, the patch improves things (it can do a data stream from the main =
-peripheral
-with 90% ones through the four-port hub.  Without the patch, only 50% =
-ones is
-possible), but isn't perfect.  One change that's necessary for the patch =
-to work
-is in scan_isoc, which now doesn't consider an sitd to be expired until =
-it is
-three frames in the past.  Looking through the history of ehci-sched, I =
-see
-that sitds originally were considered expired if they were a single =
-frame in
-the past.  Then, commit 22e1869 changed this to two frames in the past =
-to
-accommodate some aberrant HW.  This current backpointer patch allows =
-sitds to
-complete one frame after they appear in the queue as a matter of normal =
-course,
-and I guess that the four-port hub that I'm using occasionally reports =
-sitd
-completion late. So, the expiration frame needs to be delayed one frame
-further.  BTW, this change for whatever reason is only required to get =
-the
-bInterval=3D1 case to work.
+I applied the debug patch and reproduced the issue.
+The XHCI_NO_SOFT_RETRY quirk was disabled during the test.
 
-This frame delay I think is a possible cause of remaining failures in =
-the
-test results. The TT is clearly busy on the main peripheral's data until =
-past
-the primary frame, so maybe getting an HID to work for the Setup 5: =
-bInterval=3D1
-case would require FSTNs? Also, maybe the missed raster scan lines from =
-the
-webcam can be mitigated by allowing itds to complete in future frames,
-specifically by tweaking scan_isoc?  Considering that the itds don't use =
-the
-TT, I don't know why this would matter, but I still plan to try it.
+Short timeline from the log:
+13:23:29 The USB hub with an integrated RTL8153 Ethernet adapter was
+	 plugged in.
+13:23:39 The USB hub was unplugged, and the endpoint error occurred.
+13:23:44 The Stop Endpoint command timed out and the xHCI host was
+         declared dead.
 
-> Why does this case behave differently?  Does the computer have an OHCI
-or UHCI host controller in addition to EHCI?
-Just EHCI according to the output of /sys/kernel/debug/usb/devices
+The complete dmesg output follows:
 
-> > So, start off by allocating an sitd for each transfer, and only add =
-an extra
-> > sitd if a transfer has frame-hopping CSPLITS?
+----- dmesg begin -----
+2026-06-22T13:23:29.291089+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: Port change event, 2-3, id 3, portsc: 0xa021203
+2026-06-22T13:23:29.291105+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: resume root hub
+2026-06-22T13:23:29.291107+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: handle_port_status: starting usb2 port polling.
+2026-06-22T13:23:29.291108+08:00 uos-PC kernel: usbcore:usb_remote_wakeup: usb usb2: usb wakeup-resume
+2026-06-22T13:23:29.291114+08:00 uos-PC kernel: usbcore:hcd_bus_resume: usb usb2: usb auto-resume
+2026-06-22T13:23:29.291115+08:00 uos-PC kernel: usbcore:hub_resume: hub 2-0:1.0: hub_resume
+2026-06-22T13:23:29.321052+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 2-1 read: 0x2a0, return 0x2a0
+2026-06-22T13:23:29.321058+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 2-2 read: 0x1263, return 0x263
+2026-06-22T13:23:29.321060+08:00 uos-PC kernel: usbcore:hub_activate: usb usb2-port2: status 0263 change 0000
+2026-06-22T13:23:29.321061+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 2-3 read: 0x21203, return 0x10203
+2026-06-22T13:23:29.321062+08:00 uos-PC kernel: usbcore:hub_activate: usb usb2-port3: status 0203 change 0001
+2026-06-22T13:23:29.321063+08:00 uos-PC kernel: xhci_hcd:xhci_clear_port_change_bit: xhci_hcd 0000:04:00.0: clear port3 connect change, portsc: 0x1203
+2026-06-22T13:23:29.321064+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 2-4 read: 0x2a0, return 0x2a0
+2026-06-22T13:23:29.362901+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: Port change event, 1-3, id 7, portsc: 0x202e1
+2026-06-22T13:23:29.362905+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: handle_port_status: starting usb1 port polling.
+2026-06-22T13:23:29.362908+08:00 uos-PC kernel: usbcore:hub_event: hub 1-0:1.0: state 7 ports 4 chg 0000 evt 0008
+2026-06-22T13:23:29.365052+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x202e1, return 0x10101
+2026-06-22T13:23:29.365056+08:00 uos-PC kernel: xhci_hcd:xhci_clear_port_change_bit: xhci_hcd 0000:04:00.0: clear port3 connect change, portsc: 0x2e1
+2026-06-22T13:23:29.365057+08:00 uos-PC kernel: usbcore:hub_port_connect_change: usb usb1-port3: status 0101, change 0001, 12 Mb/s
+2026-06-22T13:23:29.365057+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x2e1, return 0x101
+2026-06-22T13:23:29.401047+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x2e1, return 0x101
+2026-06-22T13:23:29.421050+08:00 uos-PC kernel: xhci_hcd:xhci_hub_status_data: xhci_hcd 0000:04:00.0: xhci_hub_status_data: stopping usb1 port polling
+2026-06-22T13:23:29.421054+08:00 uos-PC kernel: xhci_hcd:xhci_hub_status_data: xhci_hcd 0000:04:00.0: xhci_hub_status_data: stopping usb2 port polling
+2026-06-22T13:23:29.433054+08:00 uos-PC kernel: usbcore:hub_event: hub 2-0:1.0: state 7 ports 4 chg 0008 evt 0000
+2026-06-22T13:23:29.433059+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 2-3 read: 0x1203, return 0x203
+2026-06-22T13:23:29.433059+08:00 uos-PC kernel: usbcore:hub_port_connect_change: usb usb2-port3: status 0203, change 0000, 5.0 Gb/s
+2026-06-22T13:23:29.433060+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_enable_slot
+2026-06-22T13:23:29.433061+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.433061+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.433062+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 9 comp_code 1
+2026-06-22T13:23:29.433064+08:00 uos-PC kernel: xhci_hcd:xhci_alloc_virt_device: xhci_hcd 0000:04:00.0: Slot 6 output ctx = 0x0x000000202074e000 (dma)
+2026-06-22T13:23:29.433065+08:00 uos-PC kernel: xhci_hcd:xhci_alloc_virt_device: xhci_hcd 0000:04:00.0: Slot 6 input ctx = 0x0x000000200b52e000 (dma)
+2026-06-22T13:23:29.433066+08:00 uos-PC kernel: xhci_hcd:xhci_alloc_virt_device: xhci_hcd 0000:04:00.0: Set slot id 6 dcbaa entry 000000009d531643 to 0x202074e000
+2026-06-22T13:23:29.433068+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 2-3 read: 0x1203, return 0x203
+2026-06-22T13:23:29.433068+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: set port reset, actual port 2-3 status  = 0x1311
+2026-06-22T13:23:29.433069+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: Port change event, 2-3, id 3, portsc: 0x201203
+2026-06-22T13:23:29.433070+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: handle_port_status: starting usb2 port polling.
+2026-06-22T13:23:29.433071+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x2e1, return 0x101
+2026-06-22T13:23:29.473049+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x2e1, return 0x101
+2026-06-22T13:23:29.501051+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 2-3 read: 0x201203, return 0x100203
+2026-06-22T13:23:29.501056+08:00 uos-PC kernel: xhci_hcd:xhci_clear_port_change_bit: xhci_hcd 0000:04:00.0: clear port3 reset change, portsc: 0x1203
+2026-06-22T13:23:29.501058+08:00 uos-PC kernel: xhci_hcd:xhci_clear_port_change_bit: xhci_hcd 0000:04:00.0: clear port3 warm(BH) reset change, portsc: 0x1203
+2026-06-22T13:23:29.501058+08:00 uos-PC kernel: xhci_hcd:xhci_clear_port_change_bit: xhci_hcd 0000:04:00.0: clear port3 link state change, portsc: 0x1203
+2026-06-22T13:23:29.501059+08:00 uos-PC kernel: xhci_hcd:xhci_clear_port_change_bit: xhci_hcd 0000:04:00.0: clear port3 connect change, portsc: 0x1203
+2026-06-22T13:23:29.501060+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 2-3 read: 0x1203, return 0x203
+2026-06-22T13:23:29.513048+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x2e1, return 0x101
+2026-06-22T13:23:29.513053+08:00 uos-PC kernel: usbcore:hub_port_debounce: usb usb1-port3: debounce total 100ms stable 100ms status 0x101
+2026-06-22T13:23:29.565054+08:00 uos-PC kernel: xhci_hcd:xhci_setup_addressable_virt_dev: xhci_hcd 0000:04:00.0: Set root hub portnum to 3
+2026-06-22T13:23:29.565059+08:00 uos-PC kernel: xhci_hcd:xhci_setup_addressable_virt_dev: xhci_hcd 0000:04:00.0: Set fake root hub portnum to 3
+2026-06-22T13:23:29.565060+08:00 uos-PC kernel: xhci_hcd:xhci_setup_addressable_virt_dev: xhci_hcd 0000:04:00.0: udev->tt = 0000000000000000
+2026-06-22T13:23:29.565061+08:00 uos-PC kernel: xhci_hcd:xhci_setup_addressable_virt_dev: xhci_hcd 0000:04:00.0: udev->ttport = 0x0
+2026-06-22T13:23:29.565061+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_address_device bsr 0
+2026-06-22T13:23:29.565062+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.565069+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.565070+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 11 comp_code 1
+2026-06-22T13:23:29.565071+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful setup address command
+2026-06-22T13:23:29.565072+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Op regs DCBAA ptr = 0x000020021cc000
+2026-06-22T13:23:29.565073+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Slot ID 6 dcbaa entry @000000009d531643 = 0x0000202074e000
+2026-06-22T13:23:29.565073+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Output Context DMA address = 0x202074e000
+2026-06-22T13:23:29.565074+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Internal device address = 6
+2026-06-22T13:23:29.565075+08:00 uos-PC kernel: usb 2-3: new SuperSpeed USB device number 3 using xhci_hcd
+2026-06-22T13:23:29.589051+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_enable_slot
+2026-06-22T13:23:29.589054+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.589054+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.589055+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 9 comp_code 1
+2026-06-22T13:23:29.589056+08:00 uos-PC kernel: xhci_hcd:xhci_alloc_virt_device: xhci_hcd 0000:04:00.0: Slot 7 output ctx = 0x0x000000200c093000 (dma)
+2026-06-22T13:23:29.589057+08:00 uos-PC kernel: xhci_hcd:xhci_alloc_virt_device: xhci_hcd 0000:04:00.0: Slot 7 input ctx = 0x0x0000002006f06000 (dma)
+2026-06-22T13:23:29.589063+08:00 uos-PC kernel: xhci_hcd:xhci_alloc_virt_device: xhci_hcd 0000:04:00.0: Set slot id 7 dcbaa entry 00000000048e82a9 to 0x200c093000
+2026-06-22T13:23:29.589064+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: set port reset, actual port 1-3 status  = 0x331
+2026-06-22T13:23:29.593056+08:00 uos-PC kernel: usbcore:usb_parse_endpoint: usb 2-3: skipped 1 descriptor after endpoint
+2026-06-22T13:23:29.593061+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.593062+08:00 uos-PC kernel: usbcore:usb_get_langid: usb 2-3: default language 0x0409
+2026-06-22T13:23:29.593063+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.593064+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.593064+08:00 uos-PC kernel: usbcore:usb_new_device: usb 2-3: udev 3, busnum 2, minor = 130
+2026-06-22T13:23:29.593065+08:00 uos-PC kernel: usb 2-3: New USB device found, idVendor=05e3, idProduct=0626, bcdDevice= 6.55
+2026-06-22T13:23:29.593070+08:00 uos-PC kernel: usb 2-3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+2026-06-22T13:23:29.593072+08:00 uos-PC kernel: usb 2-3: Product: USB3.1 Hub
+2026-06-22T13:23:29.593072+08:00 uos-PC kernel: usb 2-3: Manufacturer: GenesysLogic
+2026-06-22T13:23:29.593073+08:00 uos-PC kernel: usbcore:usb_probe_device: usb 2-3: usb_probe_device
+2026-06-22T13:23:29.593074+08:00 uos-PC kernel: usbcore:usb_choose_configuration: usb 2-3: configuration #1 chosen from 1 choice
+2026-06-22T13:23:29.593075+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/2 (000/0) [ffffffff/00000000/ffffffff] xhci_add_endpoint
+2026-06-22T13:23:29.593075+08:00 uos-PC kernel: xhci_hcd:xhci_add_endpoint: xhci_hcd 0000:04:00.0: add ep 0x81, slot id 6, new drop flags = 0x0, new add flags = 0x8
+2026-06-22T13:23:29.593076+08:00 uos-PC kernel: xhci_hcd:xhci_check_bandwidth: xhci_hcd 0000:04:00.0: xhci_check_bandwidth called for udev 00000000e00147c8
+2026-06-22T13:23:29.593078+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 200b52e000
+2026-06-22T13:23:29.593078+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.593079+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.597058+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:29.597063+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Endpoint Configure command
+2026-06-22T13:23:29.597063+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/2 (000/1) [2015a35000/2015a35001/2015a35000] xhci_endpoint_reset
+2026-06-22T13:23:29.597064+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/2 (080/1) [2015a35000/2015a35001/2015a35000] queue_stop_endpoint suspend 0
+2026-06-22T13:23:29.597065+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.597065+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.597072+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/2 (080/3) [2015a35000/2015a35001/2015a35000] handle_tx_event comp_code 27 trb_dma 2015a35000
+2026-06-22T13:23:29.597073+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/2 (080/3) [2015a35000/2015a35001/2015a35000] handle_tx_event stream_id 0 trb_len 0 missing 0
+2026-06-22T13:23:29.597074+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stopped on No-op or Link TRB for slot 6 ep 2
+2026-06-22T13:23:29.597075+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/2 (080/3) [2015a35000/2015a35001/2015a35000] handle_cmd_completion cmd_type 15 comp_code 1
+2026-06-22T13:23:29.597076+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 2014823000
+2026-06-22T13:23:29.597077+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.597077+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.597078+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:29.597079+08:00 uos-PC kernel: usbcore:usb_set_configuration: usb 2-3: adding 2-3:1.0 (config #1, interface 0)
+2026-06-22T13:23:29.597080+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.597081+08:00 uos-PC kernel: usbcore:usb_probe_interface: hub 2-3:1.0: usb_probe_interface
+2026-06-22T13:23:29.597082+08:00 uos-PC kernel: usbcore:usb_probe_interface: hub 2-3:1.0: usb_probe_interface - got id
+2026-06-22T13:23:29.597083+08:00 uos-PC kernel: hub 2-3:1.0: USB hub found
+2026-06-22T13:23:29.601055+08:00 uos-PC kernel: hub 2-3:1.0: 4 ports detected
+2026-06-22T13:23:29.601060+08:00 uos-PC kernel: usbcore:hub_configure: hub 2-3:1.0: standalone hub
+2026-06-22T13:23:29.601061+08:00 uos-PC kernel: usbcore:hub_configure: hub 2-3:1.0: ganged power switching
+2026-06-22T13:23:29.601062+08:00 uos-PC kernel: usbcore:hub_configure: hub 2-3:1.0: global over-current protection
+2026-06-22T13:23:29.601062+08:00 uos-PC kernel: usbcore:hub_configure: hub 2-3:1.0: TT requires at most 8 FS bit times (666 ns)
+2026-06-22T13:23:29.601063+08:00 uos-PC kernel: usbcore:hub_configure: hub 2-3:1.0: power on to power good time: 0ms
+2026-06-22T13:23:29.601064+08:00 uos-PC kernel: usbcore:hub_configure: hub 2-3:1.0: local power source is good
+2026-06-22T13:23:29.601065+08:00 uos-PC kernel: usbcore:hub_configure: hub 2-3:1.0: no over-current condition exists
+2026-06-22T13:23:29.601071+08:00 uos-PC kernel: xhci_hcd:xhci_update_hub_device: xhci_hcd 0000:04:00.0: xHCI version 100 needs hub TT think time and number of ports
+2026-06-22T13:23:29.601072+08:00 uos-PC kernel: xhci_hcd:xhci_update_hub_device: xhci_hcd 0000:04:00.0: Set up configure endpoint for hub device.
+2026-06-22T13:23:29.601073+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 2014823000
+2026-06-22T13:23:29.601073+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.601074+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.601075+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 6/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:29.601082+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Endpoint Configure command
+2026-06-22T13:23:29.601083+08:00 uos-PC kernel: usbcore:hub_power_on: hub 2-3:1.0: enabling power on all ports
+2026-06-22T13:23:29.641059+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: Port change event, 1-3, id 7, portsc: 0x200e03
+2026-06-22T13:23:29.641070+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: handle_port_status: starting usb1 port polling.
+2026-06-22T13:23:29.657049+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x200e03, return 0x100503
+2026-06-22T13:23:29.657052+08:00 uos-PC kernel: xhci_hcd:xhci_clear_port_change_bit: xhci_hcd 0000:04:00.0: clear port3 reset change, portsc: 0xe03
+2026-06-22T13:23:29.669054+08:00 uos-PC kernel: xhci_hcd:xhci_hub_status_data: xhci_hcd 0000:04:00.0: xhci_hub_status_data: stopping usb1 port polling
+2026-06-22T13:23:29.669060+08:00 uos-PC kernel: xhci_hcd:xhci_hub_status_data: xhci_hcd 0000:04:00.0: xhci_hub_status_data: stopping usb2 port polling
+2026-06-22T13:23:29.705051+08:00 uos-PC kernel: usbcore:hub_activate: usb 2-3-port1: status 0203 change 0011
+2026-06-22T13:23:29.721057+08:00 uos-PC kernel: usb 1-3: new high-speed USB device number 6 using xhci_hcd
+2026-06-22T13:23:29.721063+08:00 uos-PC kernel: xhci_hcd:xhci_setup_addressable_virt_dev: xhci_hcd 0000:04:00.0: Set root hub portnum to 7
+2026-06-22T13:23:29.721064+08:00 uos-PC kernel: xhci_hcd:xhci_setup_addressable_virt_dev: xhci_hcd 0000:04:00.0: Set fake root hub portnum to 3
+2026-06-22T13:23:29.721065+08:00 uos-PC kernel: xhci_hcd:xhci_setup_addressable_virt_dev: xhci_hcd 0000:04:00.0: udev->tt = 0000000000000000
+2026-06-22T13:23:29.721066+08:00 uos-PC kernel: xhci_hcd:xhci_setup_addressable_virt_dev: xhci_hcd 0000:04:00.0: udev->ttport = 0x0
+2026-06-22T13:23:29.721067+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_address_device bsr 1
+2026-06-22T13:23:29.721068+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.721068+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.721069+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 11 comp_code 1
+2026-06-22T13:23:29.721070+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful setup context command
+2026-06-22T13:23:29.721071+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Op regs DCBAA ptr = 0x000020021cc000
+2026-06-22T13:23:29.721072+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Slot ID 7 dcbaa entry @00000000048e82a9 = 0x0000200c093000
+2026-06-22T13:23:29.721073+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Output Context DMA address = 0x200c093000
+2026-06-22T13:23:29.721080+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Internal device address = 0
+2026-06-22T13:23:29.721081+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.721082+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: set port reset, actual port 1-3 status  = 0x331
+2026-06-22T13:23:29.768636+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: Port change event, 1-3, id 7, portsc: 0x200e03
+2026-06-22T13:23:29.768641+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: handle_port_status: starting usb1 port polling.
+2026-06-22T13:23:29.789054+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x200e03, return 0x100503
+2026-06-22T13:23:29.789059+08:00 uos-PC kernel: xhci_hcd:xhci_clear_port_change_bit: xhci_hcd 0000:04:00.0: clear port3 reset change, portsc: 0xe03
+2026-06-22T13:23:29.813057+08:00 uos-PC kernel: usbcore:hub_event: hub 2-3:1.0: state 7 ports 4 chg 0002 evt 0000
+2026-06-22T13:23:29.813064+08:00 uos-PC kernel: usbcore:hub_port_connect_change: usb 2-3-port1: status 0203, change 0000, 5.0 Gb/s
+2026-06-22T13:23:29.853057+08:00 uos-PC kernel: xhci_hcd:xhci_discover_or_reset_device: xhci_hcd 0000:04:00.0: Resetting device with slot ID 7
+2026-06-22T13:23:29.853063+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_reset_device
+2026-06-22T13:23:29.853065+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.853066+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.853072+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 17 comp_code 19
+2026-06-22T13:23:29.853074+08:00 uos-PC kernel: xhci_hcd:xhci_handle_cmd_reset_dev: xhci_hcd 0000:04:00.0: Completed reset device command.
+2026-06-22T13:23:29.853074+08:00 uos-PC kernel: xhci_hcd:xhci_discover_or_reset_device: xhci_hcd 0000:04:00.0: Can't reset device (slot ID 7) in default state
+2026-06-22T13:23:29.853075+08:00 uos-PC kernel: xhci_hcd:xhci_discover_or_reset_device: xhci_hcd 0000:04:00.0: Not freeing device rings.
+2026-06-22T13:23:29.853076+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_address_device bsr 0
+2026-06-22T13:23:29.853077+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.853078+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.853078+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 11 comp_code 1
+2026-06-22T13:23:29.853079+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful setup address command
+2026-06-22T13:23:29.853080+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Op regs DCBAA ptr = 0x000020021cc000
+2026-06-22T13:23:29.853081+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Slot ID 7 dcbaa entry @00000000048e82a9 = 0x0000200c093000
+2026-06-22T13:23:29.853083+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Output Context DMA address = 0x200c093000
+2026-06-22T13:23:29.853084+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Internal device address = 7
+2026-06-22T13:23:29.877057+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_enable_slot
+2026-06-22T13:23:29.877064+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.877065+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.877066+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 9 comp_code 1
+2026-06-22T13:23:29.877066+08:00 uos-PC kernel: xhci_hcd:xhci_alloc_virt_device: xhci_hcd 0000:04:00.0: Slot 8 output ctx = 0x0x0000002014823000 (dma)
+2026-06-22T13:23:29.877067+08:00 uos-PC kernel: xhci_hcd:xhci_alloc_virt_device: xhci_hcd 0000:04:00.0: Slot 8 input ctx = 0x0x000000201888f000 (dma)
+2026-06-22T13:23:29.877070+08:00 uos-PC kernel: xhci_hcd:xhci_alloc_virt_device: xhci_hcd 0000:04:00.0: Set slot id 8 dcbaa entry 0000000047596e38 to 0x2014823000
+2026-06-22T13:23:29.881062+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.881068+08:00 uos-PC kernel: usbcore:usb_get_langid: usb 1-3: default language 0x0409
+2026-06-22T13:23:29.881069+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.881069+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.881075+08:00 uos-PC kernel: usbcore:usb_new_device: usb 1-3: udev 6, busnum 1, minor = 5
+2026-06-22T13:23:29.881076+08:00 uos-PC kernel: usb 1-3: New USB device found, idVendor=05e3, idProduct=0610, bcdDevice= 6.55
+2026-06-22T13:23:29.881077+08:00 uos-PC kernel: usb 1-3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+2026-06-22T13:23:29.881078+08:00 uos-PC kernel: usb 1-3: Product: USB2.1 Hub
+2026-06-22T13:23:29.881078+08:00 uos-PC kernel: usb 1-3: Manufacturer: GenesysLogic
+2026-06-22T13:23:29.881079+08:00 uos-PC kernel: usbcore:usb_probe_device: usb 1-3: usb_probe_device
+2026-06-22T13:23:29.881080+08:00 uos-PC kernel: usbcore:usb_choose_configuration: usb 1-3: configuration #1 chosen from 1 choice
+2026-06-22T13:23:29.881081+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (000/0) [ffffffff/00000000/ffffffff] xhci_add_endpoint
+2026-06-22T13:23:29.881081+08:00 uos-PC kernel: xhci_hcd:xhci_add_endpoint: xhci_hcd 0000:04:00.0: add ep 0x81, slot id 7, new drop flags = 0x0, new add flags = 0x8
+2026-06-22T13:23:29.881082+08:00 uos-PC kernel: xhci_hcd:xhci_check_bandwidth: xhci_hcd 0000:04:00.0: xhci_check_bandwidth called for udev 00000000ec865509
+2026-06-22T13:23:29.881083+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 2006f06000
+2026-06-22T13:23:29.881084+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.881089+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.881090+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:29.881091+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Endpoint Configure command
+2026-06-22T13:23:29.881092+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (000/1) [201fe3b000/201fe3b001/201fe3b000] xhci_endpoint_reset
+2026-06-22T13:23:29.881093+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (080/1) [201fe3b000/201fe3b001/201fe3b000] queue_stop_endpoint suspend 0
+2026-06-22T13:23:29.881093+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.881094+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.881095+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (080/3) [201fe3b000/201fe3b001/201fe3b000] handle_tx_event comp_code 27 trb_dma 201fe3b000
+2026-06-22T13:23:29.881096+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (080/3) [201fe3b000/201fe3b001/201fe3b000] handle_tx_event stream_id 0 trb_len 0 missing 0
+2026-06-22T13:23:29.881098+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stopped on No-op or Link TRB for slot 7 ep 2
+2026-06-22T13:23:29.881099+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (080/3) [201fe3b000/201fe3b001/201fe3b000] handle_cmd_completion cmd_type 15 comp_code 1
+2026-06-22T13:23:29.881100+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201fe43000
+2026-06-22T13:23:29.881101+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.881101+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.885060+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:29.885065+08:00 uos-PC kernel: usbcore:usb_set_configuration: usb 1-3: adding 1-3:1.0 (config #1, interface 0)
+2026-06-22T13:23:29.885066+08:00 uos-PC kernel: usbcore:usb_probe_interface: hub 1-3:1.0: usb_probe_interface
+2026-06-22T13:23:29.885067+08:00 uos-PC kernel: usbcore:usb_probe_interface: hub 1-3:1.0: usb_probe_interface - got id
+2026-06-22T13:23:29.885068+08:00 uos-PC kernel: hub 1-3:1.0: USB hub found
+2026-06-22T13:23:29.885069+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.885070+08:00 uos-PC kernel: hub 1-3:1.0: 4 ports detected
+2026-06-22T13:23:29.885071+08:00 uos-PC kernel: usbcore:hub_configure: hub 1-3:1.0: standalone hub
+2026-06-22T13:23:29.885072+08:00 uos-PC kernel: usbcore:hub_configure: hub 1-3:1.0: ganged power switching
+2026-06-22T13:23:29.885073+08:00 uos-PC kernel: usbcore:hub_configure: hub 1-3:1.0: global over-current protection
+2026-06-22T13:23:29.885073+08:00 uos-PC kernel: usbcore:hub_configure: hub 1-3:1.0: Single TT
+2026-06-22T13:23:29.885074+08:00 uos-PC kernel: usbcore:hub_configure: hub 1-3:1.0: TT requires at most 32 FS bit times (2664 ns)
+2026-06-22T13:23:29.885075+08:00 uos-PC kernel: usbcore:hub_configure: hub 1-3:1.0: Port indicators are supported
+2026-06-22T13:23:29.885075+08:00 uos-PC kernel: usbcore:hub_configure: hub 1-3:1.0: power on to power good time: 0ms
+2026-06-22T13:23:29.885076+08:00 uos-PC kernel: usbcore:hub_configure: hub 1-3:1.0: local power source is good
+2026-06-22T13:23:29.885077+08:00 uos-PC kernel: usbcore:hub_configure: hub 1-3:1.0: no over-current condition exists
+2026-06-22T13:23:29.885078+08:00 uos-PC kernel: usbcore:link_peers_report: usb 1-3-port1: peered to 2-3-port1
+2026-06-22T13:23:29.885079+08:00 uos-PC kernel: usbcore:link_peers_report: usb 1-3-port2: peered to 2-3-port2
+2026-06-22T13:23:29.885079+08:00 uos-PC kernel: usbcore:link_peers_report: usb 1-3-port3: peered to 2-3-port3
+2026-06-22T13:23:29.885080+08:00 uos-PC kernel: usbcore:link_peers_report: usb 1-3-port4: peered to 2-3-port4
+2026-06-22T13:23:29.885088+08:00 uos-PC kernel: xhci_hcd:xhci_update_hub_device: xhci_hcd 0000:04:00.0: xHCI version 100 needs hub TT think time and number of ports
+2026-06-22T13:23:29.885089+08:00 uos-PC kernel: xhci_hcd:xhci_update_hub_device: xhci_hcd 0000:04:00.0: Set up configure endpoint for hub device.
+2026-06-22T13:23:29.885090+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201fe43000
+2026-06-22T13:23:29.885090+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.885091+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.885092+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:29.885093+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Endpoint Configure command
+2026-06-22T13:23:29.885094+08:00 uos-PC kernel: usbcore:hub_power_on: hub 1-3:1.0: enabling power on all ports
+2026-06-22T13:23:29.889065+08:00 uos-PC kernel: xhci_hcd:process_bulk_intr_td: xhci_hcd 0000:04:00.0: ep 0x81 - asked for 2 bytes, 1 bytes untransferred
+2026-06-22T13:23:29.917073+08:00 uos-PC kernel: xhci_hcd:xhci_hub_status_data: xhci_hcd 0000:04:00.0: xhci_hub_status_data: stopping usb1 port polling
+2026-06-22T13:23:29.965062+08:00 uos-PC kernel: xhci_hcd:xhci_setup_addressable_virt_dev: xhci_hcd 0000:04:00.0: Set root hub portnum to 3
+2026-06-22T13:23:29.965071+08:00 uos-PC kernel: xhci_hcd:xhci_setup_addressable_virt_dev: xhci_hcd 0000:04:00.0: Set fake root hub portnum to 3
+2026-06-22T13:23:29.965073+08:00 uos-PC kernel: xhci_hcd:xhci_setup_addressable_virt_dev: xhci_hcd 0000:04:00.0: udev->tt = 0000000000000000
+2026-06-22T13:23:29.965073+08:00 uos-PC kernel: xhci_hcd:xhci_setup_addressable_virt_dev: xhci_hcd 0000:04:00.0: udev->ttport = 0x0
+2026-06-22T13:23:29.965074+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_address_device bsr 0
+2026-06-22T13:23:29.965082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.965086+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.965087+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 11 comp_code 1
+2026-06-22T13:23:29.965089+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful setup address command
+2026-06-22T13:23:29.965090+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Op regs DCBAA ptr = 0x000020021cc000
+2026-06-22T13:23:29.965090+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Slot ID 8 dcbaa entry @0000000047596e38 = 0x00002014823000
+2026-06-22T13:23:29.965091+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Output Context DMA address = 0x2014823000
+2026-06-22T13:23:29.965092+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Internal device address = 8
+2026-06-22T13:23:29.965093+08:00 uos-PC kernel: usb 2-3.1: new SuperSpeed USB device number 4 using xhci_hcd
+2026-06-22T13:23:29.985056+08:00 uos-PC kernel: usbcore:usb_detect_quirks: usb 2-3.1: USB quirks for this device: 0x400
+2026-06-22T13:23:29.985064+08:00 uos-PC kernel: usbcore:usb_parse_endpoint: usb 2-3.1: skipped 1 descriptor after endpoint
+2026-06-22T13:23:29.985065+08:00 uos-PC kernel: usbcore:usb_parse_endpoint: usb 2-3.1: skipped 1 descriptor after endpoint
+2026-06-22T13:23:29.985065+08:00 uos-PC kernel: usbcore:usb_parse_endpoint: usb 2-3.1: skipped 1 descriptor after endpoint
+2026-06-22T13:23:29.989079+08:00 uos-PC kernel: usbcore:usb_parse_interface: usb 2-3.1: skipped 3 descriptors after interface
+2026-06-22T13:23:29.989086+08:00 uos-PC kernel: usbcore:usb_parse_endpoint: usb 2-3.1: skipped 1 descriptor after endpoint
+2026-06-22T13:23:29.989087+08:00 uos-PC kernel: usbcore:usb_parse_endpoint: usb 2-3.1: skipped 1 descriptor after endpoint
+2026-06-22T13:23:29.989088+08:00 uos-PC kernel: usbcore:usb_parse_endpoint: usb 2-3.1: skipped 1 descriptor after endpoint
+2026-06-22T13:23:29.989089+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.989098+08:00 uos-PC kernel: usbcore:usb_get_langid: usb 2-3.1: default language 0x0409
+2026-06-22T13:23:29.989099+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.989100+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.989101+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.989101+08:00 uos-PC kernel: usbcore:usb_new_device: usb 2-3.1: udev 4, busnum 2, minor = 131
+2026-06-22T13:23:29.989102+08:00 uos-PC kernel: usb 2-3.1: New USB device found, idVendor=0bda, idProduct=8153, bcdDevice=31.00
+2026-06-22T13:23:29.989103+08:00 uos-PC kernel: usb 2-3.1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+2026-06-22T13:23:29.989104+08:00 uos-PC kernel: usb 2-3.1: Product: USB 10/100/1000 LAN
+2026-06-22T13:23:29.989105+08:00 uos-PC kernel: usb 2-3.1: Manufacturer: Realtek
+2026-06-22T13:23:29.989106+08:00 uos-PC kernel: usb 2-3.1: SerialNumber: 001000001
+2026-06-22T13:23:29.989107+08:00 uos-PC kernel: usbcore:usb_probe_device: usb 2-3.1: usb_probe_device
+2026-06-22T13:23:29.989108+08:00 uos-PC kernel: usbcore:usb_choose_configuration: usb 2-3.1: configuration #2 chosen from 2 choices
+2026-06-22T13:23:29.989109+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/0) [ffffffff/00000000/ffffffff] xhci_add_endpoint
+2026-06-22T13:23:29.989110+08:00 uos-PC kernel: xhci_hcd:xhci_add_endpoint: xhci_hcd 0000:04:00.0: add ep 0x83, slot id 8, new drop flags = 0x0, new add flags = 0x80
+2026-06-22T13:23:29.989111+08:00 uos-PC kernel: xhci_hcd:xhci_check_bandwidth: xhci_hcd 0000:04:00.0: xhci_check_bandwidth called for udev 00000000b85d7ba3
+2026-06-22T13:23:29.989112+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201888f000
+2026-06-22T13:23:29.989113+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.989114+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.989115+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:29.989121+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Endpoint Configure command
+2026-06-22T13:23:29.989122+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/1) [200368a000/200368a001/200368a000] xhci_endpoint_reset
+2026-06-22T13:23:29.989122+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/1) [200368a000/200368a001/200368a000] queue_stop_endpoint suspend 0
+2026-06-22T13:23:29.989123+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.989124+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.989125+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/3) [200368a000/200368a001/200368a000] handle_tx_event comp_code 27 trb_dma 200368a000
+2026-06-22T13:23:29.989126+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/3) [200368a000/200368a001/200368a000] handle_tx_event stream_id 0 trb_len 0 missing 0
+2026-06-22T13:23:29.989127+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stopped on No-op or Link TRB for slot 8 ep 6
+2026-06-22T13:23:29.993055+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/3) [200368a000/200368a001/200368a000] handle_cmd_completion cmd_type 15 comp_code 1
+2026-06-22T13:23:29.993062+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201fe43000
+2026-06-22T13:23:29.993063+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.993064+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.993064+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:29.993065+08:00 uos-PC kernel: usbcore:usb_set_configuration: usb 2-3.1: adding 2-3.1:2.0 (config #2, interface 0)
+2026-06-22T13:23:29.993066+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:29.993072+08:00 uos-PC kernel: usbcore:usb_set_configuration: usb 2-3.1: adding 2-3.1:2.1 (config #2, interface 1)
+2026-06-22T13:23:29.993074+08:00 uos-PC kernel: usbcore:hub_event: hub 2-3:1.0: state 7 ports 4 chg 0000 evt 0002
+2026-06-22T13:23:29.993074+08:00 uos-PC kernel: usbcore:hub_event: hub 1-3:1.0: state 7 ports 4 chg 0000 evt 0000
+2026-06-22T13:23:29.997105+08:00 uos-PC kernel: usbcore:hub_suspend: hub 1-3:1.0: hub_suspend
+2026-06-22T13:23:29.997118+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Cancel URB 00000000cd08cff2, dev 3, ep 0x81, starting at offset 0x201fe3b000
+2026-06-22T13:23:29.997120+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (000/1) [201fe3b000/201fe3b001/201fe3b010] xhci_urb_dequeue cancel TD at 201fe3b000 stream 0
+2026-06-22T13:23:29.997122+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (004/1) [201fe3b000/201fe3b001/201fe3b010] queue_stop_endpoint suspend 0
+2026-06-22T13:23:29.997123+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.997124+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.997125+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (004/1) [201fe3b000/201fe3b001/201fe3b010] handle_tx_event comp_code 26 trb_dma 201fe3b000
+2026-06-22T13:23:29.997126+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (004/1) [201fe3b000/201fe3b001/201fe3b010] handle_tx_event stream_id 0 trb_len 1 missing 1
+2026-06-22T13:23:29.997127+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stopped on Transfer TRB for slot 7 ep 2
+2026-06-22T13:23:29.997127+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (004/3) [201fe3b000/201fe3b001/201fe3b010] handle_cmd_completion cmd_type 15 comp_code 1
+2026-06-22T13:23:29.997128+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Removing canceled TD starting at 0x201fe3b000 (dma) in stream 0 URB 00000000cd08cff2
+2026-06-22T13:23:29.997130+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (004/3) [201fe3b000/201fe3b001/201fe3b010] queue_set_tr_deq stream 0 addr 201fe3b010
+2026-06-22T13:23:29.997131+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Set TR Deq ptr 0x201fe3b010, cycle 1
+2026-06-22T13:23:29.997132+08:00 uos-PC kernel:
+2026-06-22T13:23:29.997133+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:29.997134+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:29.997135+08:00 uos-PC kernel: xhci_hcd:xhci_giveback_invalidated_tds: xhci_hcd 0000:04:00.0: xhci_giveback_invalidated_tds: Keep cancelled URB 00000000cd08cff2 TD as cancel_status is 2
+2026-06-22T13:23:29.997136+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (001/3) [201fe3b000/201fe3b011/201fe3b010] handle_cmd_completion cmd_type 16 comp_code 1
+2026-06-22T13:23:29.997137+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Set TR Deq Ptr cmd, deq = @201fe3b010
+2026-06-22T13:23:29.997138+08:00 uos-PC kernel: xhci_hcd:xhci_handle_cmd_set_deq: xhci_hcd 0000:04:00.0: xhci_handle_cmd_set_deq: Giveback cancelled URB 00000000cd08cff2 TD
+2026-06-22T13:23:29.997139+08:00 uos-PC kernel: xhci_hcd:xhci_td_cleanup: xhci_hcd 0000:04:00.0: Giveback URB 00000000cd08cff2, len = 0, expected = 1, status = -115
+2026-06-22T13:23:29.997140+08:00 uos-PC kernel: xhci_hcd:xhci_handle_cmd_set_deq: xhci_hcd 0000:04:00.0: xhci_handle_cmd_set_deq: All TDs cleared, ring doorbell
+2026-06-22T13:23:30.009063+08:00 uos-PC kernel: usbcore: registered new device driver r8152-cfgselector
+2026-06-22T13:23:30.009070+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 2-3.1: unregistering interface 2-3.1:2.0
+2026-06-22T13:23:30.009071+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 2-3.1: unregistering interface 2-3.1:2.1
+2026-06-22T13:23:30.009072+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 2-3.1: usb_disable_device nuking non-ep0 URBs
+2026-06-22T13:23:30.009073+08:00 uos-PC kernel: xhci_hcd:xhci_drop_endpoint: xhci_hcd 0000:04:00.0: xhci_drop_endpoint called for udev 00000000b85d7ba3
+2026-06-22T13:23:30.009073+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/1) [200368a000/200368a001/200368a000] xhci_drop_endpoint ctx_state 1 td_num 0
+2026-06-22T13:23:30.009083+08:00 uos-PC kernel: xhci_hcd:xhci_drop_endpoint: xhci_hcd 0000:04:00.0: drop ep 0x83, slot id 8, new drop flags = 0x80, new add flags = 0x0
+2026-06-22T13:23:30.009084+08:00 uos-PC kernel: xhci_hcd:xhci_check_bandwidth: xhci_hcd 0000:04:00.0: xhci_check_bandwidth called for udev 00000000b85d7ba3
+2026-06-22T13:23:30.009085+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201888f000
+2026-06-22T13:23:30.009086+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.009087+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.009088+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:30.009088+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Endpoint Configure command
+2026-06-22T13:23:30.009089+08:00 uos-PC kernel: xhci_hcd:xhci_check_bandwidth: xhci_hcd 0000:04:00.0: xhci_check_bandwidth called for udev 00000000b85d7ba3
+2026-06-22T13:23:30.009090+08:00 uos-PC kernel: usbcore:usb_probe_device: r8152-cfgselector 2-3.1: usb_probe_device
+2026-06-22T13:23:30.009091+08:00 uos-PC kernel: usbcore:usb_choose_configuration: r8152-cfgselector 2-3.1: configuration #2 chosen from 2 choices
+2026-06-22T13:23:30.009092+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/0) [ffffffff/200368a001/ffffffff] xhci_add_endpoint
+2026-06-22T13:23:30.009093+08:00 uos-PC kernel: xhci_hcd:xhci_add_endpoint: xhci_hcd 0000:04:00.0: add ep 0x83, slot id 8, new drop flags = 0x0, new add flags = 0x81
+2026-06-22T13:23:30.009095+08:00 uos-PC kernel: xhci_hcd:xhci_check_bandwidth: xhci_hcd 0000:04:00.0: xhci_check_bandwidth called for udev 00000000b85d7ba3
+2026-06-22T13:23:30.009095+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201888f000
+2026-06-22T13:23:30.009096+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.009097+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.013064+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/0 (000/1) [202182f480/202182f031/202182f480] queue_stop_endpoint suspend 1
+2026-06-22T13:23:30.013070+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.013071+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.013071+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:30.013072+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Endpoint Configure command
+2026-06-22T13:23:30.013073+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/1) [200368a000/200368a001/200368a000] xhci_endpoint_reset
+2026-06-22T13:23:30.013074+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/1) [200368a000/200368a001/200368a000] queue_stop_endpoint suspend 0
+2026-06-22T13:23:30.013074+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.013076+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.013076+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/0 (000/3) [202182f480/202182f481/202182f480] handle_tx_event comp_code 27 trb_dma 202182f480
+2026-06-22T13:23:30.013077+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/0 (000/3) [202182f480/202182f481/202182f480] handle_tx_event stream_id 0 trb_len 0 missing 0
+2026-06-22T13:23:30.013078+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stopped on No-op or Link TRB for slot 7 ep 0
+2026-06-22T13:23:30.013079+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/0 (000/3) [202182f480/202182f481/202182f480] handle_cmd_completion cmd_type 15 comp_code 1
+2026-06-22T13:23:30.013079+08:00 uos-PC kernel: xhci_hcd:xhci_set_link_state: xhci_hcd 0000:04:00.0: Set port 1-3 link state, portsc: 0xe03, write 0x10e61
+2026-06-22T13:23:30.013080+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/3) [200368a000/200368a001/200368a000] handle_tx_event comp_code 27 trb_dma 200368a000
+2026-06-22T13:23:30.013081+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/3) [200368a000/200368a001/200368a000] handle_tx_event stream_id 0 trb_len 0 missing 0
+2026-06-22T13:23:30.013082+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stopped on No-op or Link TRB for slot 8 ep 6
+2026-06-22T13:23:30.013084+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/3) [200368a000/200368a001/200368a000] handle_cmd_completion cmd_type 15 comp_code 1
+2026-06-22T13:23:30.013091+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201fe43000
+2026-06-22T13:23:30.013093+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.013093+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.013094+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:30.013095+08:00 uos-PC kernel: usbcore:usb_set_configuration: r8152-cfgselector 2-3.1: adding 2-3.1:2.0 (config #2, interface 0)
+2026-06-22T13:23:30.013096+08:00 uos-PC kernel: usbcore:usb_set_configuration: r8152-cfgselector 2-3.1: adding 2-3.1:2.1 (config #2, interface 1)
+2026-06-22T13:23:30.013096+08:00 uos-PC kernel: usbcore:usb_disable_device: r8152-cfgselector 2-3.1: unregistering interface 2-3.1:2.0
+2026-06-22T13:23:30.013097+08:00 uos-PC kernel: usbcore:usb_disable_device: r8152-cfgselector 2-3.1: unregistering interface 2-3.1:2.1
+2026-06-22T13:23:30.013098+08:00 uos-PC kernel: usbcore:usb_disable_device: r8152-cfgselector 2-3.1: usb_disable_device nuking non-ep0 URBs
+2026-06-22T13:23:30.013099+08:00 uos-PC kernel: xhci_hcd:xhci_drop_endpoint: xhci_hcd 0000:04:00.0: xhci_drop_endpoint called for udev 00000000b85d7ba3
+2026-06-22T13:23:30.013099+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/1) [200368a000/200368a001/200368a000] xhci_drop_endpoint ctx_state 1 td_num 0
+2026-06-22T13:23:30.013100+08:00 uos-PC kernel: xhci_hcd:xhci_drop_endpoint: xhci_hcd 0000:04:00.0: drop ep 0x83, slot id 8, new drop flags = 0x80, new add flags = 0x0
+2026-06-22T13:23:30.013101+08:00 uos-PC kernel: xhci_hcd:xhci_check_bandwidth: xhci_hcd 0000:04:00.0: xhci_check_bandwidth called for udev 00000000b85d7ba3
+2026-06-22T13:23:30.013102+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201888f000
+2026-06-22T13:23:30.013104+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.013105+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.017056+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:30.017059+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Endpoint Configure command
+2026-06-22T13:23:30.017059+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/2 (000/0) [ffffffff/00000000/ffffffff] xhci_add_endpoint
+2026-06-22T13:23:30.017060+08:00 uos-PC kernel: xhci_hcd:xhci_add_endpoint: xhci_hcd 0000:04:00.0: add ep 0x81, slot id 8, new drop flags = 0x0, new add flags = 0x8
+2026-06-22T13:23:30.017061+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/3 (000/0) [ffffffff/00000000/ffffffff] xhci_add_endpoint
+2026-06-22T13:23:30.017065+08:00 uos-PC kernel: xhci_hcd:xhci_add_endpoint: xhci_hcd 0000:04:00.0: add ep 0x2, slot id 8, new drop flags = 0x0, new add flags = 0x18
+2026-06-22T13:23:30.017066+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/0) [ffffffff/200368a001/ffffffff] xhci_add_endpoint
+2026-06-22T13:23:30.017067+08:00 uos-PC kernel: xhci_hcd:xhci_add_endpoint: xhci_hcd 0000:04:00.0: add ep 0x83, slot id 8, new drop flags = 0x0, new add flags = 0x98
+2026-06-22T13:23:30.017069+08:00 uos-PC kernel: xhci_hcd:xhci_check_bandwidth: xhci_hcd 0000:04:00.0: xhci_check_bandwidth called for udev 00000000b85d7ba3
+2026-06-22T13:23:30.017070+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201888f000
+2026-06-22T13:23:30.017070+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.017071+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.017072+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:30.017072+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Endpoint Configure command
+2026-06-22T13:23:30.017073+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/2 (000/1) [200368a000/200368a001/200368a000] xhci_endpoint_reset
+2026-06-22T13:23:30.017074+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/2 (080/1) [200368a000/200368a001/200368a000] queue_stop_endpoint suspend 0
+2026-06-22T13:23:30.017075+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.017076+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.017076+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/2 (080/3) [200368a000/200368a001/200368a000] handle_tx_event comp_code 27 trb_dma 200368a000
+2026-06-22T13:23:30.017077+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/2 (080/3) [200368a000/200368a001/200368a000] handle_tx_event stream_id 0 trb_len 0 missing 0
+2026-06-22T13:23:30.017083+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stopped on No-op or Link TRB for slot 8 ep 2
+2026-06-22T13:23:30.017084+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/2 (080/3) [200368a000/200368a001/200368a000] handle_cmd_completion cmd_type 15 comp_code 1
+2026-06-22T13:23:30.017085+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201fe43000
+2026-06-22T13:23:30.017086+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.017086+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.021061+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:30.021066+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/3 (000/1) [20119e9000/20119e9001/20119e9000] xhci_endpoint_reset
+2026-06-22T13:23:30.021066+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/3 (080/1) [20119e9000/20119e9001/20119e9000] queue_stop_endpoint suspend 0
+2026-06-22T13:23:30.021067+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.021068+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.021069+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/3 (080/3) [20119e9000/20119e9001/20119e9000] handle_tx_event comp_code 27 trb_dma 20119e9000
+2026-06-22T13:23:30.021069+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/3 (080/3) [20119e9000/20119e9001/20119e9000] handle_tx_event stream_id 0 trb_len 0 missing 0
+2026-06-22T13:23:30.021070+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stopped on No-op or Link TRB for slot 8 ep 3
+2026-06-22T13:23:30.021071+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/3 (080/3) [20119e9000/20119e9001/20119e9000] handle_cmd_completion cmd_type 15 comp_code 1
+2026-06-22T13:23:30.021072+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201fe43000
+2026-06-22T13:23:30.021073+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.021074+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.021074+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:30.021075+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/1) [2014f4d000/2014f4d001/2014f4d000] xhci_endpoint_reset
+2026-06-22T13:23:30.021076+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/1) [2014f4d000/2014f4d001/2014f4d000] queue_stop_endpoint suspend 0
+2026-06-22T13:23:30.021077+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.021078+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.021079+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/3) [2014f4d000/2014f4d001/2014f4d000] handle_tx_event comp_code 27 trb_dma 2014f4d000
+2026-06-22T13:23:30.021079+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/3) [2014f4d000/2014f4d001/2014f4d000] handle_tx_event stream_id 0 trb_len 0 missing 0
+2026-06-22T13:23:30.021080+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stopped on No-op or Link TRB for slot 8 ep 6
+2026-06-22T13:23:30.021081+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/3) [2014f4d000/2014f4d001/2014f4d000] handle_cmd_completion cmd_type 15 comp_code 1
+2026-06-22T13:23:30.021082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201fe43000
+2026-06-22T13:23:30.021083+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.021083+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.025072+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:30.025078+08:00 uos-PC kernel: usbcore:usb_set_configuration: r8152-cfgselector 2-3.1: adding 2-3.1:1.0 (config #1, interface 0)
+2026-06-22T13:23:30.025079+08:00 uos-PC kernel: usbcore:usb_probe_interface: r8152 2-3.1:1.0: usb_probe_interface
+2026-06-22T13:23:30.025079+08:00 uos-PC kernel: usbcore:usb_probe_interface: r8152 2-3.1:1.0: usb_probe_interface - got id
+2026-06-22T13:23:30.033050+08:00 uos-PC kernel: usbcore:usb_port_suspend: usb 1-3: usb auto-suspend, wakeup 1
+2026-06-22T13:23:30.033054+08:00 uos-PC kernel: xhci_hcd:process_bulk_intr_td: xhci_hcd 0000:04:00.0: ep 0x81 - asked for 2 bytes, 1 bytes untransferred
+2026-06-22T13:23:30.033055+08:00 uos-PC kernel: usbcore:hub_event: hub 2-3:1.0: state 7 ports 4 chg 0000 evt 0002
+2026-06-22T13:23:30.113061+08:00 uos-PC kernel: xhci_hcd:xhci_discover_or_reset_device: xhci_hcd 0000:04:00.0: Resetting device with slot ID 8
+2026-06-22T13:23:30.113070+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_reset_device
+2026-06-22T13:23:30.113071+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.113071+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.113072+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 17 comp_code 1
+2026-06-22T13:23:30.113073+08:00 uos-PC kernel: xhci_hcd:xhci_handle_cmd_reset_dev: xhci_hcd 0000:04:00.0: Completed reset device command.
+2026-06-22T13:23:30.113081+08:00 uos-PC kernel: xhci_hcd:xhci_discover_or_reset_device: xhci_hcd 0000:04:00.0: Successful reset device command.
+2026-06-22T13:23:30.113082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_address_device bsr 0
+2026-06-22T13:23:30.113083+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.113084+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.113085+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 11 comp_code 1
+2026-06-22T13:23:30.113085+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful setup address command
+2026-06-22T13:23:30.113086+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Op regs DCBAA ptr = 0x000020021cc000
+2026-06-22T13:23:30.113087+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Slot ID 8 dcbaa entry @0000000047596e38 = 0x00002014823000
+2026-06-22T13:23:30.113088+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Output Context DMA address = 0x2014823000
+2026-06-22T13:23:30.113088+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Internal device address = 8
+2026-06-22T13:23:30.113089+08:00 uos-PC kernel: r8152-cfgselector 2-3.1: reset SuperSpeed USB device number 4 using xhci_hcd
+2026-06-22T13:23:30.133059+08:00 uos-PC kernel: usbcore:usb_detect_quirks: r8152-cfgselector 2-3.1: USB quirks for this device: 0x400
+2026-06-22T13:23:30.133065+08:00 uos-PC kernel: xhci_hcd:process_ctrl_td: xhci_hcd 0000:04:00.0: Waiting for status stage event
+2026-06-22T13:23:30.133066+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/2 (000/0) [ffffffff/200368a001/ffffffff] xhci_add_endpoint
+2026-06-22T13:23:30.133067+08:00 uos-PC kernel: xhci_hcd:xhci_add_endpoint: xhci_hcd 0000:04:00.0: add ep 0x81, slot id 8, new drop flags = 0x0, new add flags = 0x8
+2026-06-22T13:23:30.133068+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/3 (000/0) [ffffffff/20119e9001/ffffffff] xhci_add_endpoint
+2026-06-22T13:23:30.133068+08:00 uos-PC kernel: xhci_hcd:xhci_add_endpoint: xhci_hcd 0000:04:00.0: add ep 0x2, slot id 8, new drop flags = 0x0, new add flags = 0x18
+2026-06-22T13:23:30.133069+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/0) [ffffffff/2014f4d001/ffffffff] xhci_add_endpoint
+2026-06-22T13:23:30.133077+08:00 uos-PC kernel: xhci_hcd:xhci_add_endpoint: xhci_hcd 0000:04:00.0: add ep 0x83, slot id 8, new drop flags = 0x0, new add flags = 0x98
+2026-06-22T13:23:30.133078+08:00 uos-PC kernel: xhci_hcd:xhci_check_bandwidth: xhci_hcd 0000:04:00.0: xhci_check_bandwidth called for udev 00000000b85d7ba3
+2026-06-22T13:23:30.133079+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201888f000
+2026-06-22T13:23:30.133080+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.133080+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.137061+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:30.137067+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Endpoint Configure command
+2026-06-22T13:23:30.137068+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/2 (000/1) [2014f4d000/2014f4d001/2014f4d000] xhci_endpoint_reset
+2026-06-22T13:23:30.137069+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/2 (080/1) [2014f4d000/2014f4d001/2014f4d000] queue_stop_endpoint suspend 0
+2026-06-22T13:23:30.137070+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.137071+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.137078+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/2 (080/3) [2014f4d000/2014f4d001/2014f4d000] handle_tx_event comp_code 27 trb_dma 2014f4d000
+2026-06-22T13:23:30.137079+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/2 (080/3) [2014f4d000/2014f4d001/2014f4d000] handle_tx_event stream_id 0 trb_len 0 missing 0
+2026-06-22T13:23:30.137080+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stopped on No-op or Link TRB for slot 8 ep 2
+2026-06-22T13:23:30.137081+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/2 (080/3) [2014f4d000/2014f4d001/2014f4d000] handle_cmd_completion cmd_type 15 comp_code 1
+2026-06-22T13:23:30.137082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201fe43000
+2026-06-22T13:23:30.137082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.137083+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.137084+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:30.137085+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/3 (000/1) [20119e9000/20119e9001/20119e9000] xhci_endpoint_reset
+2026-06-22T13:23:30.137085+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/3 (080/1) [20119e9000/20119e9001/20119e9000] queue_stop_endpoint suspend 0
+2026-06-22T13:23:30.137086+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.137087+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.137088+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/3 (080/3) [20119e9000/20119e9001/20119e9000] handle_tx_event comp_code 27 trb_dma 20119e9000
+2026-06-22T13:23:30.137088+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/3 (080/3) [20119e9000/20119e9001/20119e9000] handle_tx_event stream_id 0 trb_len 0 missing 0
+2026-06-22T13:23:30.137089+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stopped on No-op or Link TRB for slot 8 ep 3
+2026-06-22T13:23:30.141060+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/3 (080/3) [20119e9000/20119e9001/20119e9000] handle_cmd_completion cmd_type 15 comp_code 1
+2026-06-22T13:23:30.141066+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201fe43000
+2026-06-22T13:23:30.141067+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.141068+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.141068+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:30.141069+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/1) [200368a000/200368a001/200368a000] xhci_endpoint_reset
+2026-06-22T13:23:30.141076+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/1) [200368a000/200368a001/200368a000] queue_stop_endpoint suspend 0
+2026-06-22T13:23:30.141078+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.141079+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.141079+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/3) [200368a000/200368a001/200368a000] handle_tx_event comp_code 27 trb_dma 200368a000
+2026-06-22T13:23:30.141080+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/3) [200368a000/200368a001/200368a000] handle_tx_event stream_id 0 trb_len 0 missing 0
+2026-06-22T13:23:30.141081+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stopped on No-op or Link TRB for slot 8 ep 6
+2026-06-22T13:23:30.141081+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (080/3) [200368a000/200368a001/200368a000] handle_cmd_completion cmd_type 15 comp_code 1
+2026-06-22T13:23:30.141082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 201fe43000
+2026-06-22T13:23:30.141083+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.141084+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.141085+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:30.209052+08:00 uos-PC kernel: r8152 2-3.1:1.0: load rtl8153b-2 v2 04/27/23 successfully
+2026-06-22T13:23:30.269062+08:00 uos-PC kernel: r8152 2-3.1:1.0 eth0: v1.12.13
+2026-06-22T13:23:30.269079+08:00 uos-PC kernel: usbcore: registered new interface driver r8152
+2026-06-22T13:23:30.273085+08:00 uos-PC kernel: usbcore: registered new interface driver cdc_ether
+2026-06-22T13:23:30.277075+08:00 uos-PC kernel: usbcore: registered new interface driver r8153_ecm
+2026-06-22T13:23:30.285111+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (000/2) [200ca193b0/200ca193c0/200ca193e0] handle_tx_event comp_code 6 trb_dma 200ca193c0
+2026-06-22T13:23:30.285123+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (000/2) [200ca193b0/200ca193c0/200ca193e0] handle_tx_event stream_id 0 trb_len 1024 missing 1024
+2026-06-22T13:23:30.285125+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stalled endpoint for slot 8 ep 0
+2026-06-22T13:23:30.285128+08:00 uos-PC kernel: xhci_hcd:xhci_reset_halted_ep: xhci_hcd 0000:04:00.0: Hard-reset ep 0, slot 8
+2026-06-22T13:23:30.285129+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (040/2) [200ca193b0/200ca193c0/200ca193e0] queue_reset_endpoint tsp 0
+2026-06-22T13:23:30.285130+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.285131+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.285132+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (042/3) [200ca193b0/200ca193c0/200ca193e0] handle_cmd_completion cmd_type 14 comp_code 1
+2026-06-22T13:23:30.285133+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Ignoring reset ep completion code of 1
+2026-06-22T13:23:30.285134+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Removing canceled TD starting at 0x200ca193b0 (dma) in stream 0 URB 00000000f32725a0
+2026-06-22T13:23:30.285135+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (042/3) [200ca193b0/200ca193c0/200ca193e0] queue_set_tr_deq stream 0 addr 200ca193e0
+2026-06-22T13:23:30.285137+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Set TR Deq ptr 0x200ca193e0, cycle 0
+2026-06-22T13:23:30.285138+08:00 uos-PC kernel:
+2026-06-22T13:23:30.285149+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.285151+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.285152+08:00 uos-PC kernel: xhci_hcd:xhci_giveback_invalidated_tds: xhci_hcd 0000:04:00.0: xhci_giveback_invalidated_tds: Keep cancelled URB 00000000f32725a0 TD as cancel_status is 2
+2026-06-22T13:23:30.285154+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (041/3) [200ca193b0/200ca193e0/200ca193e0] handle_cmd_completion cmd_type 16 comp_code 1
+2026-06-22T13:23:30.285155+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Set TR Deq Ptr cmd, deq = @200ca193e0
+2026-06-22T13:23:30.285156+08:00 uos-PC kernel: xhci_hcd:xhci_handle_cmd_set_deq: xhci_hcd 0000:04:00.0: xhci_handle_cmd_set_deq: Giveback cancelled URB 00000000f32725a0 TD
+2026-06-22T13:23:30.285157+08:00 uos-PC kernel: xhci_hcd:xhci_td_cleanup: xhci_hcd 0000:04:00.0: Giveback URB 00000000f32725a0, len = 0, expected = 1024, status = -32
+2026-06-22T13:23:30.285157+08:00 uos-PC kernel: xhci_hcd:xhci_handle_cmd_set_deq: xhci_hcd 0000:04:00.0: xhci_handle_cmd_set_deq: All TDs cleared, ring doorbell
+2026-06-22T13:23:30.301070+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (040/3) [200ca193e0/200ca193e0/200ca19410] ring_ep_doorbell stream 0
+2026-06-22T13:23:30.301079+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (040/2) [200ca193e0/200ca193f0/200ca19410] handle_tx_event comp_code 6 trb_dma 200ca193f0
+2026-06-22T13:23:30.301080+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (040/2) [200ca193e0/200ca193f0/200ca19410] handle_tx_event stream_id 0 trb_len 1024 missing 1024
+2026-06-22T13:23:30.301081+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Stalled endpoint for slot 8 ep 0
+2026-06-22T13:23:30.301082+08:00 uos-PC kernel: xhci_hcd:xhci_reset_halted_ep: xhci_hcd 0000:04:00.0: Hard-reset ep 0, slot 8
+2026-06-22T13:23:30.301083+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (040/2) [200ca193e0/200ca193f0/200ca19410] queue_reset_endpoint tsp 0
+2026-06-22T13:23:30.301086+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.301087+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.301090+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (042/3) [200ca193e0/200ca193f0/200ca19410] handle_cmd_completion cmd_type 14 comp_code 1
+2026-06-22T13:23:30.301091+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Ignoring reset ep completion code of 1
+2026-06-22T13:23:30.301092+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Removing canceled TD starting at 0x200ca193e0 (dma) in stream 0 URB 00000000f32725a0
+2026-06-22T13:23:30.301093+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (042/3) [200ca193e0/200ca193f0/200ca19410] queue_set_tr_deq stream 0 addr 200ca19410
+2026-06-22T13:23:30.301094+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Set TR Deq ptr 0x200ca19410, cycle 0
+2026-06-22T13:23:30.301096+08:00 uos-PC kernel:
+2026-06-22T13:23:30.301097+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:30.301098+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:30.301099+08:00 uos-PC kernel: xhci_hcd:xhci_giveback_invalidated_tds: xhci_hcd 0000:04:00.0: xhci_giveback_invalidated_tds: Keep cancelled URB 00000000f32725a0 TD as cancel_status is 2
+2026-06-22T13:23:30.301100+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (041/3) [200ca193e0/200ca19410/200ca19410] handle_cmd_completion cmd_type 16 comp_code 1
+2026-06-22T13:23:30.301101+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Set TR Deq Ptr cmd, deq = @200ca19410
+2026-06-22T13:23:30.301102+08:00 uos-PC kernel: xhci_hcd:xhci_handle_cmd_set_deq: xhci_hcd 0000:04:00.0: xhci_handle_cmd_set_deq: Giveback cancelled URB 00000000f32725a0 TD
+2026-06-22T13:23:30.301103+08:00 uos-PC kernel: xhci_hcd:xhci_td_cleanup: xhci_hcd 0000:04:00.0: Giveback URB 00000000f32725a0, len = 0, expected = 1024, status = -32
+2026-06-22T13:23:30.301104+08:00 uos-PC kernel: xhci_hcd:xhci_handle_cmd_set_deq: xhci_hcd 0000:04:00.0: xhci_handle_cmd_set_deq: All TDs cleared, ring doorbell
+2026-06-22T13:23:30.309070+08:00 uos-PC kernel: r8152 2-3.1:1.0 enx2c16dba85d18: renamed from eth0
+2026-06-22T13:23:30.345066+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/0 (040/3) [200ca19410/200ca19410/200ca19440] ring_ep_doorbell stream 0
+2026-06-22T13:23:39.445959+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: Port change event, 1-3, id 7, portsc: 0x202a0
+2026-06-22T13:23:39.445974+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: handle_port_status: starting usb1 port polling.
+2026-06-22T13:23:39.445980+08:00 uos-PC kernel: usbcore:hub_event: hub 1-0:1.0: state 7 ports 4 chg 0000 evt 0008
+2026-06-22T13:23:39.445989+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x202a0, return 0x10100
+2026-06-22T13:23:39.449065+08:00 uos-PC kernel: xhci_hcd:xhci_clear_port_change_bit: xhci_hcd 0000:04:00.0: clear port3 connect change, portsc: 0x2a0
+2026-06-22T13:23:39.449074+08:00 uos-PC kernel: usbcore:hub_port_connect_change: usb usb1-port3: status 0100, change 0001, 12 Mb/s
+2026-06-22T13:23:39.449078+08:00 uos-PC kernel: usb 1-3: USB disconnect, device number 6
+2026-06-22T13:23:39.449085+08:00 uos-PC kernel: usbcore:usb_disconnect: usb 1-3: unregistering device
+2026-06-22T13:23:39.449087+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 1-3: unregistering interface 1-3:1.0
+2026-06-22T13:23:39.449087+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 1-3: usb_disable_device nuking all URBs
+2026-06-22T13:23:39.449088+08:00 uos-PC kernel: xhci_hcd:xhci_drop_endpoint: xhci_hcd 0000:04:00.0: xhci_drop_endpoint called for udev 00000000ec865509
+2026-06-22T13:23:39.449089+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/2 (000/3) [201fe3b010/201fe3b011/201fe3b010] xhci_drop_endpoint ctx_state 3 td_num 0
+2026-06-22T13:23:39.449090+08:00 uos-PC kernel: xhci_hcd:xhci_drop_endpoint: xhci_hcd 0000:04:00.0: drop ep 0x81, slot id 7, new drop flags = 0x8, new add flags = 0x0
+2026-06-22T13:23:39.449092+08:00 uos-PC kernel: xhci_hcd:xhci_check_bandwidth: xhci_hcd 0000:04:00.0: xhci_check_bandwidth called for udev 00000000ec865509
+2026-06-22T13:23:39.449093+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_configure_endpoint in_ctx 2006f06000
+2026-06-22T13:23:39.449094+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:39.449095+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:39.449096+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: Port change event, 2-3, id 3, portsc: 0x202c0
+2026-06-22T13:23:39.449097+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: handle_port_status: starting usb2 port polling.
+2026-06-22T13:23:39.449098+08:00 uos-PC kernel: usbcore:hub_event: hub 2-0:1.0: state 7 ports 4 chg 0000 evt 0008
+2026-06-22T13:23:39.449104+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 2-3 read: 0x202c0, return 0x102c0
+2026-06-22T13:23:39.449105+08:00 uos-PC kernel: xhci_hcd:xhci_clear_port_change_bit: xhci_hcd 0000:04:00.0: clear port3 connect change, portsc: 0x2c0
+2026-06-22T13:23:39.449105+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 12 comp_code 1
+2026-06-22T13:23:39.449107+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Successful Endpoint Configure command
+2026-06-22T13:23:39.449108+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_disable_slot
+2026-06-22T13:23:39.449108+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:39.449110+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:39.449111+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 10 comp_code 1
+2026-06-22T13:23:39.449112+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x2a0, return 0x100
+2026-06-22T13:23:39.457060+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/2) [200cb341b0/200cb341b1/200cb341c0] handle_tx_event comp_code 4 trb_dma 200cb341b0
+2026-06-22T13:23:39.457070+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/2) [200cb341b0/200cb341b1/200cb341c0] handle_tx_event stream_id 0 trb_len 2 missing 2
+2026-06-22T13:23:39.457071+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Transfer error for slot 8 ep 6 on endpoint
+2026-06-22T13:23:39.457072+08:00 uos-PC kernel: xhci_hcd:xhci_reset_halted_ep: xhci_hcd 0000:04:00.0: Soft-reset ep 6, slot 8
+2026-06-22T13:23:39.457072+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/2) [200cb341b0/200cb341b1/200cb341c0] queue_reset_endpoint tsp 1
+2026-06-22T13:23:39.457073+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:39.457074+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:39.457082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (002/3) [200cb341b0/200cb341b1/200cb341c0] handle_cmd_completion cmd_type 14 comp_code 1
+2026-06-22T13:23:39.457084+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Ignoring reset ep completion code of 1
+2026-06-22T13:23:39.457084+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/3) [200cb341b0/200cb341b1/200cb341c0] ring_ep_doorbell stream 0
+2026-06-22T13:23:39.477064+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 2-3 read: 0x2a0, return 0x2a0
+2026-06-22T13:23:39.477069+08:00 uos-PC kernel: usbcore:port_event: usb usb2-port3: Wait for inactive link disconnect detect
+2026-06-22T13:23:39.477070+08:00 uos-PC kernel: usbcore:hub_port_connect_change: usb usb2-port3: status 02a0, change 0001, 5.0 Gb/s
+2026-06-22T13:23:39.477071+08:00 uos-PC kernel: usb 2-3: USB disconnect, device number 3
+2026-06-22T13:23:39.477071+08:00 uos-PC kernel: r8152-cfgselector 2-3.1: USB disconnect, device number 4
+2026-06-22T13:23:39.477072+08:00 uos-PC kernel: usbcore:usb_disconnect: r8152-cfgselector 2-3.1: unregistering device
+2026-06-22T13:23:39.477079+08:00 uos-PC kernel: usbcore:usb_disable_device: r8152-cfgselector 2-3.1: unregistering interface 2-3.1:1.0
+2026-06-22T13:23:39.477080+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Cancel URB 000000005c134e45, dev 3.1, ep 0x83, starting at offset 0x200cb341b0
+2026-06-22T13:23:39.477082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/3) [200cb341b0/200cb341b1/200cb341c0] xhci_urb_dequeue cancel TD at 200cb341b0 stream 0
+2026-06-22T13:23:39.477082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (004/3) [200cb341b0/200cb341b1/200cb341c0] queue_stop_endpoint suspend 0
+2026-06-22T13:23:39.477083+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+2026-06-22T13:23:39.477084+08:00 uos-PC kernel: xhci_hcd:xhci_ring_cmd_db: xhci_hcd 0000:04:00.0: // Ding dong!
+2026-06-22T13:23:39.477085+08:00 uos-PC kernel: usbcore:usb_hcd_flush_endpoint: xhci_hcd 0000:04:00.0: shutdown urb 000000005c134e45 ep3in-intr
+2026-06-22T13:23:39.489048+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x2a0, return 0x100
+2026-06-22T13:23:39.525050+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x2a0, return 0x100
+2026-06-22T13:23:39.561050+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x2a0, return 0x100
+2026-06-22T13:23:39.581068+08:00 uos-PC kernel: xhci_hcd:xhci_hub_status_data: xhci_hcd 0000:04:00.0: xhci_hub_status_data: stopping usb2 port polling
+2026-06-22T13:23:39.581073+08:00 uos-PC kernel: xhci_hcd:xhci_hub_status_data: xhci_hcd 0000:04:00.0: xhci_hub_status_data: stopping usb1 port polling
+2026-06-22T13:23:39.597050+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x2a0, return 0x100
+2026-06-22T13:23:39.597055+08:00 uos-PC kernel: usbcore:hub_port_debounce: usb usb1-port3: debounce total 100ms stable 100ms status 0x100
+2026-06-22T13:23:44.565110+08:00 uos-PC kernel: xhci_hcd:xhci_handle_command_timeout: xhci_hcd 0000:04:00.0: Command timeout, USBSTS: 0x00000000
+2026-06-22T13:23:44.565132+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: xHCI host not responding to stop endpoint command
+2026-06-22T13:23:44.565133+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: // Halt the HC
+2026-06-22T13:23:44.565134+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: xHCI host controller not responding, assume dead
+2026-06-22T13:23:44.565135+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 1, ep index 0
+2026-06-22T13:23:44.565136+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 1, ep index 2
+2026-06-22T13:23:44.565137+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 2, ep index 0
+2026-06-22T13:23:44.565138+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 2, ep index 2
+2026-06-22T13:23:44.565139+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 3, ep index 0
+2026-06-22T13:23:44.565149+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 3, ep index 2
+2026-06-22T13:23:44.565150+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 4, ep index 0
+2026-06-22T13:23:44.565152+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 4, ep index 2
+2026-06-22T13:23:44.565165+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 5, ep index 0
+2026-06-22T13:23:44.565167+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 5, ep index 2
+2026-06-22T13:23:44.565168+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 5, ep index 4
+2026-06-22T13:23:44.565169+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 6, ep index 0
+2026-06-22T13:23:44.565170+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 6, ep index 2
+2026-06-22T13:23:44.565172+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 8, ep index 0
+2026-06-22T13:23:44.565173+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 8, ep index 2
+2026-06-22T13:23:44.565174+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 8, ep index 3
+2026-06-22T13:23:44.565174+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Killing URBs for slot ID 8, ep index 6
+2026-06-22T13:23:44.565176+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: HC died; cleaning up
+2026-06-22T13:23:44.565177+08:00 uos-PC kernel: r8152 2-3.1:1.0 enx2c16dba85d18: Stop submitting intr, status -108
+2026-06-22T13:23:44.565178+08:00 uos-PC kernel: usbcore:hub_event: hub 1-0:1.0: state 0 ports 4 chg 0000 evt 0000
+2026-06-22T13:23:44.565178+08:00 uos-PC kernel: usb 1-1: USB disconnect, device number 2
+2026-06-22T13:23:44.565180+08:00 uos-PC kernel: usb 1-1.3: USB disconnect, device number 4
+2026-06-22T13:23:44.565180+08:00 uos-PC kernel: usbcore:usb_disconnect: usb 1-1.3: unregistering device
+2026-06-22T13:23:44.565181+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 1-1.3: unregistering interface 1-1.3:1.0
+2026-06-22T13:23:44.637078+08:00 uos-PC kernel: usbcore:usb_disable_device: r8152-cfgselector 2-3.1: usb_disable_device nuking all URBs
+2026-06-22T13:23:44.637093+08:00 uos-PC kernel: usbcore:usb_disconnect: usb 2-3: unregistering device
+2026-06-22T13:23:44.637095+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 2-3: unregistering interface 2-3:1.0
+2026-06-22T13:23:44.637096+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 2-3: usb_disable_device nuking all URBs
+2026-06-22T13:23:44.637097+08:00 uos-PC kernel: usbcore:hub_event: hub 2-0:1.0: state 0 ports 4 chg 0000 evt 0000
+2026-06-22T13:23:44.637098+08:00 uos-PC kernel: usb 2-2: USB disconnect, device number 2
+2026-06-22T13:23:44.637099+08:00 uos-PC kernel: usbcore:usb_disconnect: usb 2-2: unregistering device
+2026-06-22T13:23:44.637108+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 2-2: unregistering interface 2-2:1.0
+2026-06-22T13:23:44.637192+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 2-2: usb_disable_device nuking all URBs
+2026-06-22T13:23:44.669064+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 1-1.3: usb_disable_device nuking all URBs
+2026-06-22T13:23:44.669075+08:00 uos-PC kernel: usbcore:usb_disconnect: usb 1-1: unregistering device
+2026-06-22T13:23:44.669076+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 1-1: unregistering interface 1-1:1.0
+2026-06-22T13:23:44.669077+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 1-1: usb_disable_device nuking all URBs
+2026-06-22T13:23:44.669079+08:00 uos-PC kernel: usb 1-2: USB disconnect, device number 3
+2026-06-22T13:23:44.669081+08:00 uos-PC kernel: usbcore:usb_disconnect: usb 1-2: unregistering device
+2026-06-22T13:23:44.669082+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 1-2: unregistering interface 1-2:1.0
+2026-06-22T13:23:44.669083+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 1-2: usb_disable_device nuking all URBs
+2026-06-22T13:23:44.669084+08:00 uos-PC kernel: usb 1-4: USB disconnect, device number 5
+2026-06-22T13:23:44.669085+08:00 uos-PC kernel: usbcore:usb_disconnect: usb 1-4: unregistering device
+2026-06-22T13:23:44.669085+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 1-4: unregistering interface 1-4:1.0
+2026-06-22T13:23:44.797059+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 1-4: unregistering interface 1-4:1.1
+2026-06-22T13:23:44.981134+08:00 uos-PC kernel: usbcore:usb_disable_device: usb 1-4: usb_disable_device nuking all URBs
+----- dmesg end -----
 
-> Yes, that is the approach the driver uses everywhere else.  Not to =
-mention
-> that it's foolish to allocate twice as many sitd's as the URB will =
-actually
-> use.
-
-Done now.  I broke out the sitd allocation part of sitd_urb_transaction =
-into
-new function: allocate_sitds.  This new function is called once in
-sitd_urb_transacton, making this latter function nearly* equivalent to =
-what it
-is in the current kernel.  Then, iso_stream_schedule gets
-called, which determines whether the urb requires 2 sitds for each =
-packet. If
-the urb does, allocate_sitds is called a second time.
-
-An alternative would be to not allocate any sitds until after
-iso_stream_schedule gets called, and then do either 1 or 2 for each =
-packet as
-appropriate.  This would conserve fewer the choices made in the current =
-driver,
-which allocates sitds before iso_stream_schedule, but seems harmless and =
-would
-make the patched driver slightly more streamlined.  Do you have any =
-immediate
-objections to this alternative?
-
-The exception to *, above, is that allocate_sitds now does not recycle =
-sitds
-from the free list until they are two frames in the past, as opposed to =
-just
-one frame in the past like before.  I guess this may lead to an =
-occasional
-extra sitd being allocated if urbs are resubmitted soon after they =
-finish,
-i.e., when the last sitd of the finished urb isn't 3 frames in the past =
-yet.
-Is the harm here minimal enough?
-
-One more thing on this topic: allocate_sitds gets called with ehci->lock =
-held
-and also ends with ehci->lock held, but in the middle of allocate_sitds, =
-the
-lock gets unlocked and then relocked surrounding a call to =
-dma_pool_alloc.  For
-correct unlocking here, allocate sitds takes the associated irq =
-save/restore
-flags as an argument and passes it on in its call to =
-spin_unlock_irqrestore.
-Easy enough.  But, allocate_sitds also needs to be able to communicate =
-the
-flags that are set when it relocks the lock back up to the caller of
-allocate_sitds.  So, I made the flags argument of allocate_sitds a =
-pointer that
-gets dereferenced in allocate_sitds calls to =
-spin_(un)lock_irq(restore/save).
-Is that objectionable?  Seems to work (specifically, ensures that the =
-whole
-computer doesn't crash, which is what I saw when I got this wrong), but =
-maybe
-diverges from current practice.
-
-In principal, there's a nasty failure mode for the bInterval=3D1 case.  =
-It stems
-from ehci1's prescription - not this patch's particular implementation.
-Namely, a single sitd failure breaks the stream for all subsequent =
-sitds.  This
-is because those subsequent sitds are initialized in a Do Complete Split =
-state.
-An error in a single sitd causes the subsequent sitd to never transition =
-out of
-the Do Complete Split state.  This subsequent sitd then also isn't =
-successful,
-causing the next sitd to also fail, and so forth.
-I haven't encountered this failure mode, so it seems that it is =
-addressed in
-HW. Maybe after a few failed sitds, the HC simply ignores the initial Do
-Complete Split flag?  I didn't see any comment like that when reading =
-ehci1,
-but maybe it's in there.
-
-v3 of the patch is below.
-
- drivers/usb/host/ehci-sched.c | 248 +++++++++++++++++++++++++++-------
- drivers/usb/host/ehci.h       |  12 +-
- 2 files changed, 206 insertions(+), 54 deletions(-)
-
-diff --git a/drivers/usb/host/ehci-sched.c =
-b/drivers/usb/host/ehci-sched.c
-index a241337c9..67ef1a918 100644
---- a/drivers/usb/host/ehci-sched.c
-+++ b/drivers/usb/host/ehci-sched.c
-@@ -285,13 +285,14 @@ static void compute_tt_budget(u8 =
-budget_table[EHCI_BANDWIDTH_SIZE],
- 			for (uf =3D ps->phase_uf; uf < 8; ++uf) {
- 				x +=3D budget_line[uf];
-=20
--				/* Each microframe lasts 125 us */
--				if (x <=3D 125) {
-+				/* Cumulative tt_usecs can be as large =
-as 145
-+				 * us */
-+				if (x <=3D 145) {
- 					budget_line[uf] =3D x;
- 					break;
- 				}
--				budget_line[uf] =3D 125;
--				x -=3D 125;
-+				budget_line[uf] =3D 145;
-+				x -=3D 145;
- 			}
- 		}
- 	}
-@@ -313,7 +314,12 @@ static int __maybe_unused same_tt(struct usb_device =
-*dev1,
- #ifdef CONFIG_USB_EHCI_TT_NEWSCHED
-=20
- static const unsigned char
--max_tt_usecs[] =3D { 125, 125, 125, 125, 125, 125, 30, 0 };
-+/*
-+ * tt_usecs includes worst-case bit stuffing time, so the transactions
-+ * budgeted for a given 125 us uframe can have cumulative tt_usecs as =
-large
-+ * as 145 us and still possibly fit into the uframe.
-+ */
-+max_tt_usecs[] =3D { 145, 145, 145, 145, 145, 145, 35, 0 };
-=20
- /* carryover low/fullspeed bandwidth that crosses uframe boundries */
- static inline void carryover_tt_bandwidth(unsigned short tt_usecs[8])
-@@ -378,13 +384,13 @@ static int tt_available(
- 		if (max_tt_usecs[uframe] <=3D tt_usecs[uframe])
- 			return 0;
-=20
--		/* special case for isoc transfers larger than 125us:
-+		/* special case for isoc transfers larger than =
-max_tt_usecs:
- 		 * the first and each subsequent fully used uframe
- 		 * must be empty, so as to not illegally delay
- 		 * already scheduled transactions
- 		 */
--		if (usecs > 125) {
--			int ufs =3D (usecs / 125);
-+		if (usecs > 145) {
-+			int ufs =3D (usecs / 145);
-=20
- 			for (i =3D uframe; i < (uframe + ufs) && i < 8; =
-i++)
- 				if (tt_usecs[i] > 0)
-@@ -1302,7 +1308,7 @@ static void reserve_release_iso_bandwidth(struct =
-ehci_hcd *ehci,
- {
- 	unsigned		uframe;
- 	unsigned		i, j;
--	unsigned		s_mask, c_mask, m;
-+	unsigned		s_mask, c_mask, c_mask2, m;
- 	int			usecs =3D stream->ps.usecs;
- 	int			c_usecs =3D stream->ps.c_usecs;
- 	int			tt_usecs =3D stream->ps.tt_usecs;
-@@ -1328,16 +1334,18 @@ static void reserve_release_iso_bandwidth(struct =
-ehci_hcd *ehci,
- 	} else {			/* Full speed */
- 		s_mask =3D stream->ps.cs_mask;
- 		c_mask =3D s_mask >> 8;
-+		c_mask2 =3D stream->ps.c_mask2 >> 8;
-=20
--		/* NOTE: adjustment needed for frame overflow */
- 		for (i =3D uframe; i < EHCI_BANDWIDTH_SIZE;
- 				i +=3D stream->ps.bw_uperiod) {
--			for ((j =3D stream->ps.phase_uf, m =3D 1 << j); =
-j < 8;
-+			for ((j =3D 0, m =3D 1 << j); j < 8;
- 					(++j, m <<=3D 1)) {
- 				if (s_mask & m)
- 					ehci->bandwidth[i+j] +=3D usecs;
- 				else if (c_mask & m)
- 					ehci->bandwidth[i+j] +=3D =
-c_usecs;
-+				if (c_mask2 & m)
-+					=
-ehci->bandwidth[(i+8+j)%EHCI_BANDWIDTH_SIZE] +=3D c_usecs;
- 			}
- 		}
-=20
-@@ -1388,7 +1396,7 @@ sitd_slot_ok(
- 	struct ehci_tt		*tt
- )
- {
--	unsigned		mask, tmp;
-+	unsigned		mask, c_mask2, tmp;
- 	unsigned		frame, uf;
-=20
- 	mask =3D stream->ps.cs_mask << (uframe & 7);
-@@ -1397,10 +1405,38 @@ sitd_slot_ok(
- 	if (((stream->ps.cs_mask & 0xff) << (uframe & 7)) >=3D (1 << 7))
- 		return 0;
-=20
--	/* for IN, don't wrap CSPLIT into the next frame */
--	if (mask & ~0xffff)
-+	/* for IN, don't wrap SSPLIT too far into next frame */
-+	if (mask & ~0x7ffff)
- 		return 0;
-=20
-+	c_mask2 =3D mask >> 16;
-+	mask =3D mask & 0xffff;
-+	if((c_mask2 & 1) && (c_mask2 & 1<<1) && (c_mask2 & 1<<2)) {
-+		/* if BuFrame6 is the last uframe in which a transaction =
-is
-+		 * budgeted, the transaction will initially be =
-configured to
-+		 * have CSPLITS in BuFrame7 as well as BuFrames 0 and 1 =
-of
-+		 * the following frame (HuFrames 0,1,2)
-+		 */
-+		/* below: usb2 spec 11.18.4.3.c paragraph 3 */
-+		if(mask & 1) {
-+			c_mask2 =3D 1;
-+		} else {
-+			c_mask2 =3D (1<<2)-1;
-+		}
-+	} else if ((c_mask2 & 1) && (c_mask2 & 1<<1)) {
-+		/* if BuFrame5 is the last uframe in which a transaction =
-is
-+		 * budgeted, the transaction will initially be =
-configured to
-+		 * have CSPLITS in BuFrames 6 and 7 as well as BuFrame 0 =
-of
-+		 * the following frame (HuFrames 7,0,1)
-+		 */
-+		/* below: usb2 spec 11.18.4.3.c paragraph 2 */
-+		if(mask & 1) {
-+			c_mask2 =3D 1;
-+		}
-+	}
-+	if((c_mask2 & mask & 1<<1))
-+		return 0; /* ehci1 4.12.3.1 */
-+
- 	/* check bandwidth */
- 	uframe &=3D stream->ps.bw_uperiod - 1;
- 	frame =3D uframe >> 3;
-@@ -1445,13 +1481,22 @@ sitd_slot_ok(
- 				if (ehci->bandwidth[uf+i] > max_used)
- 					return 0;
- 			}
-+			tmp =3D 1;
-+			for (i =3D 0; i < 2; (++i, tmp <<=3D 1)) {
-+				if ((stream->ps.c_mask2 & tmp) =3D=3D 0)
-+					continue;
-+				if (ehci->bandwidth[(uf+8+i) % =
-EHCI_BANDWIDTH_SIZE] > max_used)
-+					return 0;
- 		}
-=20
- 		uframe +=3D stream->ps.bw_uperiod;
- 	} while (uframe < EHCI_BANDWIDTH_SIZE);
-=20
--	stream->ps.cs_mask <<=3D uframe & 7;
-+	stream->ps.cs_mask =3D mask;
-+	stream->ps.c_mask2 =3D c_mask2 << 8;
- 	stream->splits =3D cpu_to_hc32(ehci, stream->ps.cs_mask);
-+	stream->c_splits2 =3D cpu_to_hc32(ehci, stream->ps.c_mask2);
-+
- 	return 1;
- }
-=20
-@@ -2028,54 +2073,45 @@ sitd_sched_init(
- }
-=20
- static int
--sitd_urb_transaction(
-+allocate_sitds(
- 	struct ehci_iso_stream	*stream,
- 	struct ehci_hcd		*ehci,
- 	struct urb		*urb,
--	gfp_t			mem_flags
-+	struct ehci_iso_sched	*iso_sched,
-+	gfp_t			mem_flags,
-+	unsigned long		*ehci_lock_flags
- )
- {
-+	/* caller must hold ehci->lock and provide associated irq flags =
-*/
- 	struct ehci_sitd	*sitd;
- 	dma_addr_t		sitd_dma;
- 	int			i;
--	struct ehci_iso_sched	*iso_sched;
--	unsigned long		flags;
--
--	iso_sched =3D iso_sched_alloc(urb->number_of_packets, =
-mem_flags);
--	if (iso_sched =3D=3D NULL)
--		return -ENOMEM;
--
--	sitd_sched_init(ehci, iso_sched, stream, urb);
-=20
- 	/* allocate/init sITDs */
--	spin_lock_irqsave(&ehci->lock, flags);
- 	for (i =3D 0; i < urb->number_of_packets; i++) {
-=20
--		/* NOTE:  for now, we don't try to handle wraparound =
-cases
--		 * for IN (using sitd->hw_backpointer, like a FSTN), =
-which
--		 * means we never need two sitds for full speed packets.
--		 */
--
- 		/*
--		 * Use siTDs from the free list, but not siTDs that may
-+		 * Use iTDs from the free list, but not iTDs that may
- 		 * still be in use by the hardware.
- 		 */
- 		if (likely(!list_empty(&stream->free_list))) {
- 			sitd =3D list_first_entry(&stream->free_list,
- 					 struct ehci_sitd, sitd_list);
--			if (sitd->frame =3D=3D ehci->now_frame)
-+			/* include frame+1 to accommodate frame-hopping =
-CSPLITS */
-+			if (sitd->frame =3D=3D ehci->now_frame ||
-+				sitd->frame + 1 =3D=3D ehci->now_frame)
- 				goto alloc_sitd;
- 			list_del(&sitd->sitd_list);
- 			sitd_dma =3D sitd->sitd_dma;
- 		} else {
-- alloc_sitd:
--			spin_unlock_irqrestore(&ehci->lock, flags);
-+alloc_sitd:
-+			spin_unlock_irqrestore(&ehci->lock, =
-*ehci_lock_flags);
- 			sitd =3D dma_pool_alloc(ehci->sitd_pool, =
-mem_flags,
- 					&sitd_dma);
--			spin_lock_irqsave(&ehci->lock, flags);
-+			spin_lock_irqsave(&ehci->lock, =
-*ehci_lock_flags);
- 			if (!sitd) {
- 				iso_sched_free(stream, iso_sched);
--				spin_unlock_irqrestore(&ehci->lock, =
-flags);
-+				/* caller should release ehic->lock */
- 				return -ENOMEM;
- 			}
- 		}
-@@ -2085,6 +2121,32 @@ sitd_urb_transaction(
- 		sitd->frame =3D NO_FRAME;
- 		list_add(&sitd->sitd_list, &iso_sched->td_list);
- 	}
-+	return 0;
-+}
-+
-+static int
-+sitd_urb_transaction(
-+	struct ehci_iso_stream	*stream,
-+	struct ehci_hcd		*ehci,
-+	struct urb		*urb,
-+	gfp_t			mem_flags
-+)
-+{
-+	struct ehci_iso_sched	*iso_sched;
-+	unsigned long		flags;
-+	int			status;
-+
-+	iso_sched =3D iso_sched_alloc(urb->number_of_packets, =
-mem_flags);
-+	if (iso_sched =3D=3D NULL)
-+		return -ENOMEM;
-+
-+	sitd_sched_init(ehci, iso_sched, stream, urb);
-+	spin_lock_irqsave(&ehci->lock, flags);
-+	status =3D allocate_sitds(stream, ehci, urb, iso_sched, =
-mem_flags, &flags);
-+	if(status) {
-+		spin_unlock_irqrestore(&ehci->lock, flags);
-+		return status;
-+	}
-=20
- 	/* temporarily store schedule info in hcpriv */
- 	urb->hcpriv =3D iso_sched;
-@@ -2107,12 +2169,29 @@ sitd_patch(
- {
- 	struct ehci_iso_packet	*uf =3D &iso_sched->packet[index];
- 	u64			bufp;
-+	__hc32			transaction;
-=20
- 	sitd->hw_next =3D EHCI_LIST_END(ehci);
- 	sitd->hw_fullspeed_ep =3D stream->address;
--	sitd->hw_uframe =3D stream->splits;
--	sitd->hw_results =3D uf->transaction;
--	sitd->hw_backpointer =3D EHCI_LIST_END(ehci);
-+	sitd->hw_backpointer =3D cpu_to_hc32(ehci, =
-sitd->backpointer_sitd_dma);
-+	transaction =3D uf->transaction;
-+
-+	if(stream->ps.period!=3D1 && sitd->backpointer_sitd_dma!=3D1) {
-+		sitd->hw_uframe=3Dstream->c_splits2;
-+	} else {
-+		/*
-+		 * frame-hopping CSPLITS get skipped if the sitd doesn't
-+		 * start in the Do Complete Split state.
-+		 */
-+		sitd->hw_uframe=3Dstream->splits|stream->c_splits2;
-+	}
-+
-+	if(sitd->backpointer_sitd_dma!=3D1) {
-+		/* start in Do Complete Split mode, ehci1 4.12.3.3.2.1 =
-*/
-+		transaction |=3D cpu_to_hc32(ehci, SITD_STS_STS);
-+	}
-+
-+	sitd->hw_results =3D transaction;
-=20
- 	bufp =3D uf->bufp;
- 	sitd->hw_buf[0] =3D cpu_to_hc32(ehci, bufp);
-@@ -2149,13 +2228,26 @@ static void sitd_link_urb(
- 	unsigned		next_uframe;
- 	struct ehci_iso_sched	*sched =3D urb->hcpriv;
- 	struct ehci_sitd	*sitd;
-+	struct ehci_sitd	*sitd_before;
-+	int			sitd_mult;
-=20
- 	next_uframe =3D stream->next_uframe;
-=20
--	if (list_empty(&stream->td_list))
-+	if (list_empty(&stream->td_list)) {
- 		/* usbfs ignores TT bandwidth */
- 		ehci_to_hcd(ehci)->self.bandwidth_allocated
- 				+=3D stream->bandwidth;
-+		sitd_before =3D NULL;
-+	} else {
-+		sitd_before =3D list_last_entry(&stream->td_list,
-+				struct ehci_sitd, sitd_list);
-+		/* only add a bkptr to sitds scheduled in frames past =
-now_frame */
-+		if(sitd_before->frame =3D=3D ehci->now_frame ||
-+			sitd_before->frame + 1 =3D=3D ehci->now_frame)
-+		{
-+			sitd_before =3D NULL;
-+		}
-+	}
-=20
- 	if (ehci_to_hcd(ehci)->self.bandwidth_isoc_reqs =3D=3D 0) {
- 		if (ehci->amd_pll_fix =3D=3D 1)
-@@ -2163,11 +2255,15 @@ static void sitd_link_urb(
- 	}
-=20
- 	ehci_to_hcd(ehci)->self.bandwidth_isoc_reqs++;
-+	if(stream->ps.c_mask2 && stream->ps.period!=3D1)
-+		sitd_mult =3D 2;
-+	else
-+		sitd_mult =3D 1;
-=20
- 	/* fill sITDs frame by frame */
--	for (packet =3D sched->first_packet, sitd =3D NULL;
--			packet < urb->number_of_packets;
--			packet++) {
-+	for (int i =3D sched->first_packet, sitd =3D NULL;
-+			i < sitd_mult * urb->number_of_packets;
-+			i++) {
-=20
- 		/* ASSERT:  we have all necessary sitds */
- 		BUG_ON(list_empty(&sched->td_list));
-@@ -2176,15 +2272,41 @@ static void sitd_link_urb(
-=20
- 		sitd =3D list_entry(sched->td_list.next,
- 				struct ehci_sitd, sitd_list);
-+		if(stream->ps.cs_mask2 && sitd_before!=3DNULL &&
-+			!(sched->first_packet!=3D0 && =
-i=3D=3Dsched->first_packet) &&
-+			(stream->ps.period=3D=3D1 || i%2=3D=3D1) ) {
-+
-+			sitd->backpointer_sitd_dma =3D =
-sitd_before->sitd_dma;
-+		} else {
-+			sitd->backpointer_sitd_dma =3D 1;
-+		}
-+
- 		list_move_tail(&sitd->sitd_list, &stream->td_list);
- 		sitd->stream =3D stream;
- 		sitd->urb =3D urb;
-=20
-+		if(stream->ps.c_mask2 && (stream->ps.period!=3D1)) {
-+			packet =3D i/2;
-+			sitd->first_in_pair =3D i%2 =3D=3D 0;
-+		} else {
-+			packet =3D i;
-+		}
-+
- 		sitd_patch(ehci, stream, sitd, sched, packet);
- 		sitd_link(ehci, (next_uframe >> 3) & =
-(ehci->periodic_size - 1),
- 				sitd);
-=20
--		next_uframe +=3D stream->uperiod;
-+		if(stream->ps.c_mask2 && (stream->ps.period!=3D1)) {
-+			if((i%2)=3D=3D0) {
-+				/* next sitd only has frame-hopping =
-CSPLITS */
-+				next_uframe +=3D 8;
-+			} else if ((i%2)=3D=3D1) {
-+				next_uframe +=3D stream->uperiod - 8;
-+			}
-+		} else {
-+			next_uframe +=3D stream->uperiod;
-+		}
-+		sitd_before =3D sitd;
- 	}
- 	stream->next_uframe =3D next_uframe & (mod - 1);
-=20
-@@ -2220,6 +2342,13 @@ static bool sitd_complete(struct ehci_hcd *ehci, =
-struct ehci_sitd *sitd)
- 	struct ehci_iso_stream			*stream =3D =
-sitd->stream;
- 	bool					retval =3D false;
-=20
-+	if(stream->force_sitd_done) {
-+		/* sitd is the 2nd in a pair for a bIntrvl!=3D1 case w/ =
-bkptrs */
-+		stream->force_sitd_done =3D false;
-+		goto done;
-+	}
-+	stream->force_sitd_done =3D sitd->first_in_pair; /* for next =
-sitd */
-+
- 	urb_index =3D sitd->index;
- 	desc =3D &urb->iso_frame_desc[urb_index];
- 	t =3D hc32_to_cpup(ehci, &sitd->hw_results);
-@@ -2245,7 +2374,7 @@ static bool sitd_complete(struct ehci_hcd *ehci, =
-struct ehci_sitd *sitd)
- 	}
-=20
- 	/* handle completion now? */
--	if ((urb_index + 1) !=3D urb->number_of_packets)
-+	if (likely ((urb_index + 1) !=3D urb->number_of_packets))
- 		goto done;
-=20
- 	/*
-@@ -2293,6 +2422,7 @@ static int sitd_submit(struct ehci_hcd *ehci, =
-struct urb *urb,
- 	gfp_t mem_flags)
- {
- 	int			status =3D -EINVAL;
-+	int			status2 =3D 0;
- 	unsigned long		flags;
- 	struct ehci_iso_stream	*stream;
-=20
-@@ -2335,13 +2465,21 @@ static int sitd_submit(struct ehci_hcd *ehci, =
-struct urb *urb,
- 		goto done_not_linked;
- 	status =3D iso_stream_schedule(ehci, urb, stream);
- 	if (likely(status =3D=3D 0)) {
-+		if(stream->ps.c_mask2 && stream->ps.period!=3D1) {
-+			/*
-+			 * stream has frame-hopping CSPLITS and period =
-isn't 1:
-+			 * 2 sitds required for each packet
-+			 */
-+			status2 =3D allocate_sitds(stream, ehci, urb, =
-urb->hcpriv, mem_flags,
-+					&flags);
-+		}
- 		sitd_link_urb(ehci, urb, ehci->periodic_size << 3, =
-stream);
- 	} else if (status > 0) {
- 		status =3D 0;
- 		ehci_urb_done(ehci, urb, 0);
--	} else {
--		usb_hcd_unlink_urb_from_ep(ehci_to_hcd(ehci), urb);
- 	}
-+	if(status<0 || status2<0)
-+		usb_hcd_unlink_urb_from_ep(ehci_to_hcd(ehci), urb);
-  done_not_linked:
- 	spin_unlock_irqrestore(&ehci->lock, flags);
-  done:
-@@ -2433,10 +2571,16 @@ static void scan_isoc(struct ehci_hcd *ehci)
- 			 * No need to check for activity unless the
- 			 * frame is current.
- 			 */
-+			/* delay the expiration frame by one frame past =
-now_frame to
-+			 * accommodate HW delay (commit 22e1869). delay =
-it one further
-+			 * frame to accommodate frame-hopping csplits
-+			 */
- 			if (((frame =3D=3D now_frame) ||
--					(((frame + 1) & fmask) =3D=3D =
-now_frame))
-+					(((frame + 1) & fmask) =3D=3D =
-now_frame) ||
-+					(((frame + 2) & fmask) =3D=3D =
-now_frame))
- 				&& live
--				&& (q.sitd->hw_results & =
-SITD_ACTIVE(ehci))) {
-+				&& (q.sitd->hw_results & =
-SITD_ACTIVE(ehci))
-+				&& !q.sitd->stream->force_sitd_done) {
-=20
- 				q_p =3D &q.sitd->sitd_next;
- 				hw_p =3D &q.sitd->hw_next;
-@@ -2482,8 +2626,8 @@ static void scan_isoc(struct ehci_hcd *ehci)
- 	if (frame =3D=3D now_frame)
- 		return;
-=20
--	/* The last frame may still have active siTDs */
--	ehci->last_iso_frame =3D frame;
-+	/* next call's scan begins at this call's now_frame-2 */
-+	ehci->last_iso_frame =3D (frame - 1) & fmask;
- 	frame =3D (frame + 1) & fmask;
-=20
- 	goto restart;
-diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
-index d7a3c8d13..e4a387976 100644
---- a/drivers/usb/host/ehci.h
-+++ b/drivers/usb/host/ehci.h
-@@ -50,7 +50,9 @@ struct ehci_per_sched {
- 	struct usb_host_endpoint *ep;
- 	struct list_head	ps_list;	/* node on ehci_tt's =
-ps_list */
- 	u16			tt_usecs;	/* time on the FS/LS bus =
-*/
--	u16			cs_mask;	/* C-mask and S-mask =
-bytes */
-+	u32			cs_mask;	/* C-mask and S-mask =
-bytes */
-+	u16			c_mask2;	/* C-mask for =
-frame-hopping CSPLITS */
-+
- 	u16			period;		/* actual period in =
-frames */
- 	u16			phase;		/* actual phase, frame =
-part */
- 	u8			bw_phase;	/* same, for bandwidth
-@@ -485,11 +487,13 @@ struct ehci_iso_stream {
- 	u8			highspeed;
- 	struct list_head	td_list;	/* queued itds/sitds */
- 	struct list_head	free_list;	/* list of unused =
-itds/sitds */
-+	bool			force_sitd_done;/* for bIntrvl!=3D1 case =
-w/ bkptrs */
-=20
- 	/* output of (re)scheduling */
- 	struct ehci_per_sched	ps;		/* scheduling info */
- 	unsigned		next_uframe;
--	__hc32			splits;
-+	__hc32			splits;		/* C-mask and S-mask */
-+	__hc32			c_splits2;	/* C-mask for =
-frame-hopping CSPLITS */
-=20
- 	/* the rest is derived from the endpoint descriptor,
- 	 * including the extra info for hw_bufp[0..2]
-@@ -579,7 +583,11 @@ struct ehci_sitd {
-=20
- 	/* the rest is HCD-private */
- 	dma_addr_t		sitd_dma;
-+	dma_addr_t		backpointer_sitd_dma;
-+
- 	union ehci_shadow	sitd_next;	/* ptr to periodic q =
-entry */
-+	bool			first_in_pair;  /* for period!=3D1 w/ =
-bkptrs */
-+
-=20
- 	struct urb		*urb;
- 	struct ehci_iso_stream	*stream;	/* endpoint's queue */
---=20
-2.39.5
-
-
+Thanks,
+Xu Rao
