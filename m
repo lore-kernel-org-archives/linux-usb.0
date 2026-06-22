@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907C429D27A;
-	Mon, 22 Jun 2026 11:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67C12BEC2A;
+	Mon, 22 Jun 2026 11:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782127925; cv=none; b=HuIvUbKdAwcPYVTBE4+MlWMuZbpoEDgy4jfBVLY/sN0kmToiAWSLtugYVWI8sxvJHToQ14Z2TDo0JDo9Ffwv11ghYeYk/774UduxOVvNhnZQeflw3T7HElzUoWAUvk2JRwYhJEMIx30VwBTN/T0zt7EkZCY3hheBQO3lvgrNmnw=
+	t=1782128198; cv=none; b=uJX3dDTzY2U4q5EqSfgGhQZMxTR5CYhhvWBddW//v008t5VYPsNYr2jE/P7lGBzOiV5uCLGDfQMKrnPpNIJ43JP7NYA32NNgIQveHXvJIlUdthteNphFuNQOTWZv1TRTrto0VM7k+N4r3KPtuvNP86tHI1ResIWoTB6l5k9YSAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782127925; c=relaxed/simple;
-	bh=HN1V8qtgV3fIWRsR1jZQRHDCYOZtMvmI9KomBmsAGnc=;
+	s=arc-20240116; t=1782128198; c=relaxed/simple;
+	bh=NMegGtCpazuqTxx3oAKyKyvlgzrPygdUq4zbpguWgqQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L/rCmMzc3q2Y5KCEEAV7sLoABSDEw20+SGJjFhfdkA7sX5NGD310yRb/9fyx4Unh2Pkg1Waxn1agTfoxFP4OxWiEm52egMl7R+u96NU2Wix4yQp4v5HSxaULpGTaqWdHsYS7B6eBAdPL7sl8pLdfrdn1cnPxOMawSQyhQ8irf+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jrGeW/kx; arc=none smtp.client-ip=198.175.65.17
+	 In-Reply-To:Content-Type; b=mjlA73S1qSvAfTIz4xnK8YzesXf9n5O6kBQA7gOB1az9bkuSNaoNf2DXE0TchjwKBUErIJ3oCBJF5wqYJtBKiR8CvPz+Lo9TioDYhlQOwX/D+UaVZUrdG/g+rISYgmzGwfObnz4FGhea2RjhypPuqSNWUeF7ZTWvEVS8uA4SF/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HrUpJK+X; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jrGeW/kx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HrUpJK+X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782127924; x=1813663924;
+  t=1782128197; x=1813664197;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=HN1V8qtgV3fIWRsR1jZQRHDCYOZtMvmI9KomBmsAGnc=;
-  b=jrGeW/kxI5jyuV+CXuabfBG9f8l45UubQEP2VdwAOaxCgSHCXoqUfkh3
-   ANMCk0lMtsI0CyjDqM5WLGSsY9x64SvnxRVUP5GcJsxSEzbuCquKXZAcP
-   JpmjNCuCYLOmYbqN97G+snlWqEVapTZVq8jY5ujgr9M+rErFoZA4tpNjE
-   EZCNLhEKxhSPV5Mb3qf0osNoqgDZjBVkXj8ncHjPhHK1j3f8mvHDFWIzZ
-   RuK1jXjzCAx2VKc5dICo4qkKfpntIKATBH1Ptz9jBSgaAeBaz7k7tj9F0
-   l/0Y8Na4MHWn+dhT+cP78NKvb+avukut2c4cdu9fEkpqSpMysRk9n1rkU
-   A==;
-X-CSE-ConnectionGUID: MRfvxBvkTsug8auDlt4kUA==
-X-CSE-MsgGUID: 9IxGdnwcSwqgHVBlL8DWaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11824"; a="82858254"
+  bh=NMegGtCpazuqTxx3oAKyKyvlgzrPygdUq4zbpguWgqQ=;
+  b=HrUpJK+X1cNBElg9bDyiW7dvGQi66EFQ2fPPBb/y8Lm9i2mkNE/MoY9x
+   aTFZuw8kUOOlsJLGpFcHB4jcV8FwEjbWSoIY4stRlg/xsH/oWEEYkmYqc
+   axv42BOPP1ZQsj/jZbYKNYaaxba3qTDkae5GMHTNgp9XA1EylI+fGZUhh
+   cXbWY1hd6Bud8yRG9wpbEFN0ReUY5GDhsm+nb74UZv4S96eV3vIxuSREp
+   15jA8q7xrmlS/YeJZFjpG5m10aff4Vh/VG18UYbgXLsfvcMN33m0LJ/Mc
+   Xg3rdOtsiRJsIYCFRk4ZA9Ovm1kY15k/JJYdcO96ghN/LrQink1VSWWtz
+   g==;
+X-CSE-ConnectionGUID: jJZOwNYYT1GAoUMfaoM2tA==
+X-CSE-MsgGUID: C5BGC01sRtCnmKszgSfFeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11824"; a="94243755"
 X-IronPort-AV: E=Sophos;i="6.24,218,1774335600"; 
-   d="scan'208";a="82858254"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 04:32:03 -0700
-X-CSE-ConnectionGUID: 9yvaQduzTfSypwHnQZ+Rbw==
-X-CSE-MsgGUID: tEhBITmTQTuG2VVvyJxe9A==
+   d="scan'208";a="94243755"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 04:36:36 -0700
+X-CSE-ConnectionGUID: dien85zHTPibEvZGxJApeg==
+X-CSE-MsgGUID: oXAWpn18TTCJohiofCyVPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,218,1774335600"; 
-   d="scan'208";a="254300381"
+   d="scan'208";a="253106030"
 Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.57]) ([10.245.245.57])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 04:32:00 -0700
-Message-ID: <c4ef0081-fbe9-47a4-b5d5-60665564ca02@linux.intel.com>
-Date: Mon, 22 Jun 2026 14:31:58 +0300
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 04:36:34 -0700
+Message-ID: <9d87814e-baf0-4dad-aeb9-b34d28a4fc86@linux.intel.com>
+Date: Mon, 22 Jun 2026 14:36:31 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -53,107 +53,118 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2] xhci: pci: Disable soft retry for Renesas uPD720201
-To: raoxu <raoxu@uniontech.com>, michal.pecio@gmail.com
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, mathias.nyman@intel.com, stable@vger.kernel.org
-References: <20260619124234.0a9e4670.michal.pecio@gmail.com>
- <237BFC17C62D63DF+20260622062117.56278-1-raoxu@uniontech.com>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: raoxu <raoxu@uniontech.com>, mathias.nyman@intel.com,
+ gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <D9BA02889D046D23+20260617100957.2888108-1-raoxu@uniontech.com>
+ <62003881-4975-4bb2-a842-cb153ebd8cd4@linux.intel.com>
+ <20260619124234.0a9e4670.michal.pecio@gmail.com>
 Content-Language: en-US
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <237BFC17C62D63DF+20260622062117.56278-1-raoxu@uniontech.com>
+In-Reply-To: <20260619124234.0a9e4670.michal.pecio@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/22/26 09:21, raoxu wrote:
-> Hi Michal,
+On 6/19/26 13:42, Michal Pecio wrote:
+>> On 6/17/26 13:09, raoxu wrote:
+>>> From: Xu Rao <raoxu@uniontech.com>
+>>>
+>>> The Renesas uPD720201 xHCI controller can fail to complete
+>>> a Stop Endpoint command after a transaction error on an interrupt
+>>> endpoint when soft retry is used.
+>>>
+>>> This was reproduced with this setup:
+>>>
+>>>     xHCI: Renesas uPD720201, PCI ID 1912:0014 rev 03
+>>>     dev:  USB Ethernet device with an integrated Genesys Logic
+>>>           USB3.1 hub, USB ID 05e3:0626, and a Realtek RTL8153
+>>>           Ethernet function, USB ID 0bda:8153
 > 
->>>> The host reports a transaction error on the RTL8153 interrupt
->>>> endpoint, queues a soft reset, and later times out the Stop
->>>> Endpoint command while disconnecting the device:
->>>>
->>>>     Transfer error for slot 8 ep 6 on endpoint
->>>>     Soft-reset ep 6, slot 8
->>>>     Ignoring reset ep completion code of 1
->>>>     xHCI host not responding to stop endpoint command
->>>>     xHCI host controller not responding, assume dead
->>>>     HC died; cleaning up
->>
->> There is other stuff too, like concurrent teardown of a separate bulk
->> endpoint, not yet sure what exactly breaks these chips.
->>
->> Would you mind to apply the attached debug patch, reproduce and post
->> dmesg from your system for comparison?
+> Same thing with uPD720202 (1912:0015) here.
 > 
-> I applied the debug patch and reproduced the issue.
-> The XHCI_NO_SOFT_RETRY quirk was disabled during the test.
+> Is the hub even necessary? In my case I have one too, but I cannot
+> separate it from the RTL8153 for testing.
 > 
-> Short timeline from the log:
-> 13:23:29 The USB hub with an integrated RTL8153 Ethernet adapter was
-> 	 plugged in.
-> 13:23:39 The USB hub was unplugged, and the endpoint error occurred.
-> 13:23:44 The Stop Endpoint command timed out and the xHCI host was
->           declared dead.
+>>> Reproducer:
+>>>
+>>>     1. Plug the integrated USB hub and Ethernet device into the
+>>>        1912:0014 xHCI controller.
+>>>     2. Let r8152 bind to the 0bda:8153 RTL8153 Ethernet function
+>>>        behind the integrated hub.
+>>>     3. Bring the Ethernet device up.
+>>>     4. Hot-unplug the device.
 > 
-> The complete dmesg output follows:
-
-Thanks,
-I think there are some steps we could do to avoid soft retry, restart, and stopping
-an endpoint we know is behind a disconnected parent.
-
+> In my case, necessary step 3.5: connect a cable and wait for the
+> "r8152: carrier on" message. Otherwise it disconnects cleanly.
 > 
-> ----- dmesg begin -----
-> 2026-06-22T13:23:39.445959+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: Port change event, 1-3, id 7, portsc: 0x202a0
+>>> The host reports a transaction error on the RTL8153 interrupt
+>>> endpoint, queues a soft reset, and later times out the Stop
+>>> Endpoint command while disconnecting the device:
+>>>
+>>>     Transfer error for slot 8 ep 6 on endpoint
+>>>     Soft-reset ep 6, slot 8
+>>>     Ignoring reset ep completion code of 1
+>>>     xHCI host not responding to stop endpoint command
+>>>     xHCI host controller not responding, assume dead
+>>>     HC died; cleaning up
+> 
+> There is other stuff too, like concurrent teardown of a separate bulk
+> endpoint, not yet sure what exactly breaks these chips.
+> 
+> Would you mind to apply the attached debug patch, reproduce and post
+> dmesg from your system for comparison?
+> 
+>>> The Renesas 1912:0014 controller cannot safely use the xHCI soft
+>>> retry path. Set XHCI_NO_SOFT_RETRY for this controller so
+>>> transaction errors use the pre-soft-retry recovery path. With
+>>> this quirk the same hot-unplug test no longer times out the Stop
+>>> Endpoint command and the RTL8153 remains usable and stable.
+> 
+> A bit heavy handed, but we might find no better way.
+> 
+> On Thu, 18 Jun 2026 17:03:26 +0300, Mathias Nyman wrote:
+>> I'd appreciate your opinion on a related issue.
+>> I'm thinking about trying to recover from these stop endpoint command
+>> timeouts.
+> 
+> I can share a bit of mine. I tried aborting Stop EP on Etron and found
+> the EP in some bogus state afterwards (e.g. Running but Stop EP fails
+> with Context State Error, or Stopped but not responing to doorbells,
+> something like that, I don't remember).
+> 
+> Per xHCI 4.6.9 there isn't really a case when this command should time
+> out, so it's always some internal bug/deadlock in the xHC and IMO good
+> chance that abort will leave at least this one EP or slot broken.
+> 
+> Another case is ASMedia, which doesn't seem to implement abort at all -
+> at least in my tests with Address Device and a dummy device that always
+> NAKs, abort simply waits for the command to finish (these chips have
+> internal 3 second timeout on Address Device). I would expect the same
+> for Stop EP, except that it likely lacks internal timeout. And the
+> driver will busy-wait for several seconds with IRQs disabled.
+> 
+>> While debugging this, did xHC controller otherwise seem somewhat
+>> functional? Did you for example see port status change events, or
+>> transfer events between queuing the stop endpoint command and the
+>> timeout?
+> 
+> Mouse continues to work until we kill the HC. And I can even abort the
+> command, but then some URB is never given back, so teardown of the USB
+> device gets stuck and IDK what would happen later.
+> 
+> Such recovery would be a bit of work, potential chip specific bugs and
+> frankly we can' be sure if the EP won't try to begin executing URBs.
 
-usb2 part of hub disconnect now known by xhci driver
+Thanks, sounds like simple recovery by just canceling the command and moving
+on might not be the best approach.
 
-> 2026-06-22T13:23:39.449096+08:00 uos-PC kernel: xhci_hcd:handle_port_status: xhci_hcd 0000:04:00.0: Port change event, 2-3, id 3, portsc: 0x202c0
+If root port is disconnected or link in error state (link:Inactive) then
+we could avoid all soft retries and ring restarts for child devices.
 
-usb3 part of hub disconnect now known by xhci driver
+This could avoid queuing the problematic stop endpoint command as well.
 
-> 2026-06-22T13:23:39.449108+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] queue_disable_slot
-> 2026-06-22T13:23:39.449111+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 7/-1 (fff/f) [ffffffff/ffffffff/ffffffff] handle_cmd_completion cmd_type 10 comp_code 1
-
-hub slot now disabled
-
-> 2026-06-22T13:23:39.449112+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 1-3 read: 0x2a0, return 0x100
-> 2026-06-22T13:23:39.457060+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/2) [200cb341b0/200cb341b1/200cb341c0] handle_tx_event comp_code 4 trb_dma 200cb341b0
-> 2026-06-22T13:23:39.457070+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/2) [200cb341b0/200cb341b1/200cb341c0] handle_tx_event stream_id 0 trb_len 2 missing 2
-> 2026-06-22T13:23:39.457071+08:00 uos-PC kernel: xhci_hcd:handle_tx_event: xhci_hcd 0000:04:00.0: Transfer error for slot 8 ep 6 on endpoint
-
-transfer error on realtek ethernet child device behind the disconnected hub
-
-> 2026-06-22T13:23:39.457072+08:00 uos-PC kernel: xhci_hcd:xhci_reset_halted_ep: xhci_hcd 0000:04:00.0: Soft-reset ep 6, slot 8
-
-Try to soft reset/retry. (xhci driver knows parent is disconnected, need a fix that avoids soft retry here)
-
-> 2026-06-22T13:23:39.457072+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/2) [200cb341b0/200cb341b1/200cb341c0] queue_reset_endpoint tsp 1
-> 2026-06-22T13:23:39.457082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (002/3) [200cb341b0/200cb341b1/200cb341c0] handle_cmd_completion cmd_type 14 comp_code 1
-
-> 2026-06-22T13:23:39.457084+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/3) [200cb341b0/200cb341b1/200cb341c0] ring_ep_doorbell stream 0
-
-Tried to restart ring after soft retry, we know parent is gone, should write a fix that avoids restarting ring.
+Thanks
+Mathias
 
 
-> 2026-06-22T13:23:39.477064+08:00 uos-PC kernel: xhci_hcd:xhci_hub_control: xhci_hcd 0000:04:00.0: Get port status 2-3 read: 0x2a0, return 0x2a0
-> 2026-06-22T13:23:39.477069+08:00 uos-PC kernel: usbcore:port_event: usb usb2-port3: Wait for inactive link disconnect detect
-> 2026-06-22T13:23:39.477070+08:00 uos-PC kernel: usbcore:hub_port_connect_change: usb usb2-port3: status 02a0, change 0001, 5.0 Gb/s
-> 2026-06-22T13:23:39.477071+08:00 uos-PC kernel: usb 2-3: USB disconnect, device number 3
-> 2026-06-22T13:23:39.477071+08:00 uos-PC kernel: r8152-cfgselector 2-3.1: USB disconnect, device number 4
-> 2026-06-22T13:23:39.477072+08:00 uos-PC kernel: usbcore:usb_disconnect: r8152-cfgselector 2-3.1: unregistering device
-> 2026-06-22T13:23:39.477079+08:00 uos-PC kernel: usbcore:usb_disable_device: r8152-cfgselector 2-3.1: unregistering interface 2-3.1:1.0
-> 2026-06-22T13:23:39.477080+08:00 uos-PC kernel: xhci_hcd:xhci_dbg_trace: xhci_hcd 0000:04:00.0: Cancel URB 000000005c134e45, dev 3.1, ep 0x83, starting at offset 0x200cb341b0
-
-Cancel the realtek URB we tried to soft retry earlier.
-
-> 2026-06-22T13:23:39.477082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/3) [200cb341b0/200cb341b1/200cb341c0] xhci_urb_dequeue cancel TD at 200cb341b0 stream 0
-> 2026-06-22T13:23:39.477082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (004/3) [200cb341b0/200cb341b1/200cb341c0] queue_stop_endpoint suspend 0
-
-queue stop endpoint to cancel URB for realtek device.
-Endpoint context still shows endpoint is in "stopped" state.
-Note that we restarted the endpoint 20ms earlier, endpoint context might not have updated yet.
-
-> 2026-06-22T13:23:44.565110+08:00 uos-PC kernel: xhci_hcd:xhci_handle_command_timeout: xhci_hcd 0000:04:00.0: Command timeout, USBSTS: 0x00000000
-
-Stop endpoint command times out.
-
--Mathias
