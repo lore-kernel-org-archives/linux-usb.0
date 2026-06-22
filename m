@@ -1,61 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81F23A453B;
-	Mon, 22 Jun 2026 10:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D773A5427;
+	Mon, 22 Jun 2026 10:19:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782123537; cv=none; b=MKsJoxA4wDnSzylsdDd2YGa2mOOYqfKrMuO+qsft8/FpFTIu5BtXoPVtIuQ65GlXA8PH/jRVFVYCkJ/VaoYoLaywS1O/LmyLN5GyQrzoq0HArDw5iBJzTUthfMJlYz2SulgBb6M87Hy/S2IO2LVbu7+FWPh5WI6zslBGpewLjGs=
+	t=1782123552; cv=none; b=soS/t2Vqoibylw6ID2uaFC/4BIl5+cCjTmmXaKrwS96XQ03k2x6LVAiWGOGIDXA4JJi0EQsrC2myk3mlc2foyNMG6MFJPlQFdp6C+nL/x37azrtLTUeDvTh0S1OemzoPVYal6zjgd8FZRtgTdPfjFzZzq8C//F0Qy41NP6QWHzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782123537; c=relaxed/simple;
-	bh=+ujngRhFVXDEdryOndccdQG5D/KiH6b6ITGyOgjbZaA=;
+	s=arc-20240116; t=1782123552; c=relaxed/simple;
+	bh=TBib9yrjbEVNkBNQ9HnbdPTUbAcEeTcjo9cyl3zcGqA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ST84ihR7qPxPNBDG3TsBrNQjopGp8zFYZA3YiKcM7LOi3uc+8geGOCOn1ScHqshAS6Ljeh5FTLYEjCi1btTVX8sKcdZWJp6LJ7Fh8i7P+5GavKpabqdSPxG81txyo61CbcfnrM5zXmil+h6QLCcM5EuSfgjRhGBl6eOJX2UwlvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Au2/P3A1; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sSnRMc6yv+H/B6Dn6JsBawMUZLIu+pywu86VzWsKqxJYaJ3Uv5UFmDL1tM2o3aKZckHfXEuj07RMzTlsMHnKkCRY/Sc47q39mX15f5J3W3mEaHIZZeI65Mq5kRSLmWUnEqalxb1+LSE9w0dBaG8eaY3/pBMcm5S4Mu8dCIULLTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=a+7yORkF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Au2/P3A1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782123535; x=1813659535;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+ujngRhFVXDEdryOndccdQG5D/KiH6b6ITGyOgjbZaA=;
-  b=Au2/P3A17dTVs21lbHFrVNz++uxbN2uzSBzhbWLzYjsXfNxX4fR+64dv
-   eot179hBGi/E47nbOskryCXtsGy4ca/x6oUGARMyTAC6ThOrjGeSkaZd3
-   203jRtAc4mf1N/6Zl3PE4M/eHRdV/oA2K4wMwK/BU00qpD2R8FS4vPxI8
-   3mit+xPqUTFMUyjr2JjTAEDyIngVAl1eIDCNXox7LOwFkiMhyrbKUIAr2
-   hdf1aSnaNVYlA9sqBgxz8ww0O+KlyQPMOhDV5TqSg4FHYzL6ybHKf22gs
-   4YUEUgMjEAaQFMwAsgeOZq3LDRevU2e4KPNno9HEzpaAJSFENUOdXj9zz
-   g==;
-X-CSE-ConnectionGUID: 2nV0m9pRRJGnjU4zN+vhmw==
-X-CSE-MsgGUID: F2iLA7WkQh+FuaIADm3CnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11824"; a="86532153"
-X-IronPort-AV: E=Sophos;i="6.24,218,1774335600"; 
-   d="scan'208";a="86532153"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 03:18:55 -0700
-X-CSE-ConnectionGUID: RQxnr6a7QQaA3ymrFeVXzw==
-X-CSE-MsgGUID: wGOiQujFR2isMeqcCDeW+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,218,1774335600"; 
-   d="scan'208";a="254184102"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa005.jf.intel.com with ESMTP; 22 Jun 2026 03:18:54 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 9C0CE95; Mon, 22 Jun 2026 12:18:52 +0200 (CEST)
-Date: Mon, 22 Jun 2026 13:18:51 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Jameson Thies <jthies@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] usb: typec: Add helper to check cable altmode
- support
-Message-ID: <ajkMCz52lkq9hz3s@kuha>
-References: <20260622093910.1210089-1-akuchynski@chromium.org>
- <20260622093910.1210089-2-akuchynski@chromium.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="a+7yORkF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 401BF1F000E9;
+	Mon, 22 Jun 2026 10:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1782123550;
+	bh=Ga6CI1r6bXomO84NvP5HZfg2FS17Ih03Ve30Psn0Osw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=a+7yORkFBge+bZYoIpFn67SbnXmbKpOlbULfBvtQ/4O/gx3Ofn3ZaBb1yZSaDvYHL
+	 EKfNQmTc/kDwT5+7dcbnLgmC5BFUopw4ZKcSWZ03QnT9YRuvQ5UjFLePYIy4uNbloP
+	 9qaKN1yxf8kn8WEut9PxbtYSh9Jfb0ojapY67Xqk=
+Date: Mon, 22 Jun 2026 12:19:25 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Chinna Mopurigari Naveen Kumar Reddy <naveen.reddy@ftdichip.com>
+Cc: Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Arun Pappan <arun.pappan@ftdichip.com>
+Subject: Re: [PATCH v2 2/2] USB: serial: ftdi_sio: make explicit
+ latency_timer sysfs write authoritative
+Message-ID: <2026062200-tamer-gallows-b8ad@gregkh>
+References: <cover.1781744946.git.naveen.reddy@ftdichip.com>
+ <cover.1782121274.git.naveen.reddy@ftdichip.com>
+ <180003edbd4fb3f6ef2b87551499698927b1191d.1782121274.git.naveen.reddy@ftdichip.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -64,89 +43,61 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260622093910.1210089-2-akuchynski@chromium.org>
+In-Reply-To: <180003edbd4fb3f6ef2b87551499698927b1191d.1782121274.git.naveen.reddy@ftdichip.com>
 
-Hi Andrei,
-
-> +bool typec_cable_altmode_unsupported(struct typec_altmode *alt)
-> +{
-> +	struct typec_altmode *plug;
-> +	struct typec_cable *cable;
-> +	bool unsupported = false;
-> +
+On Mon, Jun 22, 2026 at 05:43:40PM +0800, Chinna Mopurigari Naveen Kumar Reddy wrote:
+> write_latency_timer() clamps the value programmed into the FT chip's
+> per-channel latency_timer register to 1 whenever ASYNC_LOW_LATENCY is
+> set in priv->flags.  ASYNC_LOW_LATENCY is set by userspace via
+> TIOCSSERIAL, used by setserial(8), libftdi and certain tcsetattr
+> paths.  The interaction with the existing sysfs latency_timer
+> attribute is surprising: once any of those tools has set the flag, a
+> later write of "16" (or any other value) to
+> /sys/bus/usb-serial/devices/ttyUSBx/latency_timer is silently
+> clamped to 1 and never reaches the chip.
+> 
+> The store path is the most explicit way userspace can ask for a
+> particular latency_timer value; treat it as authoritative.  On an
+> explicit sysfs write, clear ASYNC_LOW_LATENCY before calling
+> write_latency_timer() so the requested value is what the chip
+> register actually receives.  Emit a dev_info() so the override is
+> visible.
+> 
+> Reads continue to honour ASYNC_LOW_LATENCY (returning "1") so any
+> userspace that previously inspected the attribute to confirm
+> low-latency mode keeps working until it does its own explicit write.
+> 
+> Signed-off-by: Chinna Mopurigari Naveen Kumar Reddy <naveen.reddy@ftdichip.com>
+> ---
+>  drivers/usb/serial/ftdi_sio.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
+> index 7aaa7fc1be71..e7f13eca7ae6 100644
+> --- a/drivers/usb/serial/ftdi_sio.c
+> +++ b/drivers/usb/serial/ftdi_sio.c
+> @@ -1683,6 +1683,23 @@ static ssize_t latency_timer_store(struct device *dev,
+>  	if (kstrtou8(valbuf, 10, &v))
+>  		return -EINVAL;
+>  
 > +	/*
-> +	 * Check if the cable has an e-marker, supports modal operation, and the
-> +	 * SOP' altmode nodes are created. If yes, then altmode is supported.
+> +	 * An explicit sysfs write wins over the legacy ASYNC_LOW_LATENCY
+> +	 * tty-flag override.  Without this, if any userspace tool
+> +	 * (setserial(8), libftdi, certain tcsetattr paths) had set
+> +	 * ASYNC_LOW_LATENCY via TIOCSSERIAL, write_latency_timer() would
+> +	 * silently clamp the chip register to 1 regardless of what was
+> +	 * written to sysfs.  Clearing the flag here makes sysfs the
+> +	 * authoritative source so the next chip-side write uses exactly
+> +	 * the value the caller asked for.
 > +	 */
-> +	plug = typec_altmode_get_plug(alt, TYPEC_PLUG_SOP_P);
-> +	if (plug) {
-> +		typec_altmode_put_plug(plug);
-> +		return false;
-> +	}
-> +
-> +	/*
-> +	 * Check if the cable is registered and its identity is specified.
-> +	 * If not, the cable altmode restriction cannot be checked.
-> +	 */
-> +	cable = typec_cable_get(typec_altmode2port(alt));
-> +	if (cable && cable->identity) {
-> +		const u32 id_header = cable->identity->id_header;
-> +		const u32 speed = VDO_TYPEC_CABLE_SPEED(cable->identity->vdo[0]);
-> +
-> +		/*
-> +		 * A cable lacking an ID Header indicates a non-e-marked cable,
-> +		 * can only be guaranteed to have a USB 2.0 data path (D+ and D-).
-> +		 */
-> +		if (!id_header) {
-> +			unsupported = true;
-> +		} else {
-> +			switch (PD_IDH_PTYPE(id_header)) {
-> +			/*
-> +			 * If the speed field explicitly declares it is a
-> +			 * USB 2.0-only cable, altmode is unsupported.
-> +			 */
-> +			case IDH_PTYPE_PCABLE:
-> +				unsupported = (speed == CABLE_USB2_ONLY);
-> +				break;
-> +			/*
-> +			 * Active cables must establish an SOP' communication
-> +			 * node. Since that check failed at the beginning of
-> +			 * this function, this active cable does not support
-> +			 * this specific altmode.
-> +			 */
-> +			case IDH_PTYPE_ACABLE:
-> +				unsupported = true;
-> +				break;
-> +			}
-> +		}
-> +	}
-> +	if (cable)
-> +		typec_cable_put(cable);
-> +
-> +	return unsupported;
+> +	if (priv->flags & ASYNC_LOW_LATENCY) {
+> +		dev_info(&port->dev,
+> +			 "explicit latency_timer=%u clears ASYNC_LOW_LATENCY flag\n",
+> +			 v);
 
-So if typec_cable_get() doesn't return a cable, this function will now
-always return false - i.e. the cable is supported? Is that intentional?
+When drivers work properly, they are quiet.  Make this a debugging
+message at the most please.
 
-This would probable be much more clear if you checked the cable only
-ones, right after you take the handle.
+thanks,
 
-	cable = typec_cable_get(typec_altmode2port(alt));
-        if (!cable)
-                return true; /* or false? */
-        ...
-        /* Now unconditionally */
-	typec_cable_put(cable);
-
-I think this would be even more clear if the function was called
-typec_cable_altmode_supported() and you would then have a wrapper:
-
-static inline bool typec_cable_altmode_unsupported(struct typec_altmode *alt)
-{
-        return !typec_cable_altmode_supported(alt);
-}
-
-Thanks,
-
--- 
-heikki
+greg k-h
