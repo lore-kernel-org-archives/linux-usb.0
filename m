@@ -1,57 +1,57 @@
 Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023072.outbound.protection.outlook.com [52.101.127.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BBE36E467;
-	Mon, 22 Jun 2026 07:39:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6212436DA0B;
+	Mon, 22 Jun 2026 07:39:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.72
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782113964; cv=fail; b=rZQCYX9qcqyzkSJO2HJVFj+VLxG36dKWuw1v29SJfAIEaYLscF0hg4pFpGHWRrwXEDHeAhS8WrOzexCGicCZyj4e3rE3TNKQzihUURLIsY2dBQFx/5/Yb1isPAA4VvqENjAYvdSi1QK9mRKyAuhGZtK9KCjaPvpp4VtuLhsa+GQ=
+	t=1782113965; cv=fail; b=uUeQ/ZCig3PX2G/rW3Yobs14+Vqhbh+gHFZ/8laxpstNAOBVHYvZnwSmfdNsZWbcysd99coTMvukuhQKoMb56oDgkarVIQqsBH7pTOmiVYpiMhCHlUWxYIlAhHhs/WSk8fh79aBt9/F9cmsnsItx5pCbfS1bfC0MtKokbJY99lw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782113964; c=relaxed/simple;
-	bh=pGo6IeLLQqY+wTZ35VEz9f9ipEn6kfye/M7/NjjJ2+A=;
+	s=arc-20240116; t=1782113965; c=relaxed/simple;
+	bh=DpnKq9bdl+jivwByTq7nK84b6kG3R4/HAqAI2txzlzY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UEfvFldDA2wEHecuza2lJYDjc2qCLi/S66y1J/LyNmRlGiKSIIRt37Fxw6uWCZDTkP1jH+FKWByDw13TCpLCSY6tDnG5royzibjHutafiGaScFV8LchUN5WuJ5pUdDNJeCwUi2A4H8+HYxcI7Hqkyk/OTV6zPYwmdMv9wxUg1xs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ftdichip.com; spf=pass smtp.mailfrom=ftdichip.com; dkim=pass (2048-bit key) header.d=ftdichip.com header.i=@ftdichip.com header.b=Nwd3jU3u; arc=fail smtp.client-ip=52.101.127.72
+	 Content-Type:MIME-Version; b=hJ4PvMMktRxMZf7GW/f2nDFccUtPHfJKCeLiqOxhTHigLi7ixKnn3zndaRgONWNPbyIMTod3Botl24xVj8ycSxpCu2mzzvKr3jC+MnO5/EvSKAYs8K2prXnOtPiW9UPqJzUCTcII0TZB5IXemLzvagezSOONzanNMJVQYAgUJ+o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ftdichip.com; spf=pass smtp.mailfrom=ftdichip.com; dkim=pass (2048-bit key) header.d=ftdichip.com header.i=@ftdichip.com header.b=nfs8jYl0; arc=fail smtp.client-ip=52.101.127.72
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ftdichip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ftdichip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ftdichip.com header.i=@ftdichip.com header.b="Nwd3jU3u"
+	dkim=pass (2048-bit key) header.d=ftdichip.com header.i=@ftdichip.com header.b="nfs8jYl0"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g55FyprME5fyTdwr7NNybuGbH108n5kLSerNH6rGeFZzMSjIQIKPyJkQ+eex33BUve5krFYmk/cFBzV/P3Q/qjIc4gPcAi4RGlm3jbEm72iI9c/fZJWvs3zyISbp8yDpROMcg1PFeZPk0EiBNZ1MjZJ9DJpNeEfnq2yqU7coSFcpIoorOjwAZ9VeuLn8c3ANU2C7zEGWSqy0oAkHMazVKOkdN5cR4sxZkm0cp8bUrT4FLcZ/UQsoC2PeVKtFcXKPincumABmPAqWa9O7aBXRVumJySnjPzWeALZPFEH7brhSs6mVAw/o4633cowJ+XYeHJ8Oowm8gELHIYvCae+lqQ==
+ b=O1infHjw0fDyMArROkMTlRSK55mXZ+2e3mB2AIcEMmAa2h56GIpg29erfi0FqF80DXZYFkohAfDiN7vyVkvu2G2eRegcqNlQRuNcJE6vwCsYu04SmaCqreR6e2xNxj2hHPXjW4OBFJyZ7dDR3e08S9unnAn2czVFLAKBn67h1Y6N33MrvsukyWuA34R3kP2Ppz/2QTwRzdzh6kVOubaumgT0g9dtnZuWn94YRXwYAir3KfhVl+O3bEhG1b0Z2/FYaFWdXtJluzR3jqF7KOqUJUhOalU5fggR2Af+5pIHurigVIhfKf9wrW1oL3wbkkmrrIeru6IHFPyyoyTNoUg6sA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xi9FQx6LqCQuyU3YtfpBJtxRDZzxtEodEPnKQBTBivM=;
- b=GkucUtAwAbVYtoQfArDvaK8QXNhUIOTyJX3zNhdjZzjlkL5F3kXFf/AWrGbIE2qanrC4qxKHwWhLP8gaXj/Ze2GAfbm7XLBd2JZXGJ7cXp+0PmpAHKAAMsKXwNz7U44TSMgrhWgyoi1DmbJZ45frjK+TM4MzpznCRBBrOuaoGmpXImODuAMHITtzRnIXa1OMOvRwJ/Uwm1+RxKAGciT9fpRtgufvIzFvnedgL/TtOYLjv6MpXhJQKLvrGQY9+NKXa3ZCJf5gV7jOsbcgwaCcZCSO0DiOPPDo7z1qMP3pKmRDcb38UcpiNHg6G0aBkEjmka9SFbweRNlsr0xDfxoh6w==
+ bh=zgbl4khM/HW1IwyyZQNg4QN4OZ8CXf5ZmqoGX9AYRi8=;
+ b=m22XKSOspyYXv4HXuhTQ+LW9X2zt3c78/1QNu9k5ElSmHYfIq6z6R1/bQ8M4z9yTRPMbzK3t8BoPpgFycz7DzBkhDZaVKEoplFTUJBSSl+6CI8TrLuzVPsbreHpX8wFKKKKgvOv4FkQBu1kSGO7VJ+hY8wfx3H3b4z9jxOpKpDdbjuAGnLiyCPpXY0nxoYLD3WxJMZeNIc4ktg6Ovoi1Cqd3qGr6PaW48i2P3tP4r5qVbqw+eBGUkLOhO0Fb22B9Y7h16s4DqtAkfxoauaxcPrm8oJk+Uey9ll0aT/3XS/90Ku7b4PzxPDw7CRXWJgg4Kx26Yutd4kMB7f52S+BsNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=ftdichip.com; dmarc=pass action=none header.from=ftdichip.com;
  dkim=pass header.d=ftdichip.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ftdichip.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xi9FQx6LqCQuyU3YtfpBJtxRDZzxtEodEPnKQBTBivM=;
- b=Nwd3jU3uuivux8tmTqi+hyNNKazJZYcAmdw7BAJ764L7wJnB4jLA5auatpADj+Jt/MehBXs10hWvQgAYuC9C+uJTa43rTzncx8SwQn8LvBFs163ZAezg/UPGJLBDEVjOmw4o5pIT/fV5BSu0ELew/aAOFVWV4inl1Or5AZB2k5kJ4fj25tSjlpDoFUSr+VICY10S1rOfKj571mr8+8RBxVOT1nfOmpP2lCXzSWCHPHATMLkz/eiGePIX//ffRIuHjHXY9DHvsGwDu1MMraP9k4qka5zCqWofs2l4uP3Volb03rSnGL3n7EuqEscLU/q//I2jZfqrYTlcgBJDelLGqQ==
+ bh=zgbl4khM/HW1IwyyZQNg4QN4OZ8CXf5ZmqoGX9AYRi8=;
+ b=nfs8jYl0m76Qi+R5doCnXGWWV4fa0zyeggUPIKCXiOAzmHYByX5oRAupzhtnPSaQ7wqU8Ld1YzSxgQAKWwhKwxN3+MGatJdaRBWb1sW7p5NV2rlp4EY2JXPhbuMzoIaUmzWQqZooOPjgde7DCiNn7JDNq+e+BQlgdKgjZant82tyWkKrTKvQSWUazibnX8C5Tf5GZkK5y1V+tsf4MKABHAH6qdmBXL7Me5iqgnPXVy4FwQeKHgbaovgGb0jQwpsmJ//2TDxOvMxjWFB/9nqEaGz9cTC+yadS3krlsaSR+d8yfXv562cBVGOkNiXXBkR33FO1n68WkAusEat/Diwu2A==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=ftdichip.com;
 Received: from SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
  (2603:1096:f:fff6::45e) by TY0PR0101MB4383.apcprd01.prod.exchangelabs.com
  (2603:1096:400:1b6::6) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Mon, 22 Jun
- 2026 07:39:10 +0000
+ 2026 07:39:11 +0000
 Received: from SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
  ([fe80::e65f:ac00:2342:9108]) by
  SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
  ([fe80::e65f:ac00:2342:9108%4]) with mapi id 15.21.0139.018; Mon, 22 Jun 2026
- 07:39:10 +0000
+ 07:39:11 +0000
 From: Chinna Mopurigari Naveen Kumar Reddy <naveen.reddy@ftdichip.com>
 To: Johan Hovold <johan@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Arun Pappan <arun.pappan@ftdichip.com>
-Subject: [PATCH 3/6] USB: serial: ftdi_sio: make explicit latency_timer sysfs write authoritative
-Date: Mon, 22 Jun 2026 15:38:36 +0800
-Message-ID: <77d0e27269cd78fb0e1288b2ca0f5500217882f6.1781744946.git.naveen.reddy@ftdichip.com>
+Subject: [PATCH 4/6] USB: serial: ftdi_sio: add per-port low_latency sysfs attribute
+Date: Mon, 22 Jun 2026 15:38:37 +0800
+Message-ID: <3c60c6d2b9812d19ee9b1b9b573add084fa68dea.1781744946.git.naveen.reddy@ftdichip.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1781744946.git.naveen.reddy@ftdichip.com>
 References: <cover.1781744946.git.naveen.reddy@ftdichip.com>
@@ -68,113 +68,192 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SG2PPFE985372F0:EE_|TY0PR0101MB4383:EE_
-X-MS-Office365-Filtering-Correlation-Id: f440e834-5b35-419f-606d-08ded0315913
+X-MS-Office365-Filtering-Correlation-Id: 5d15ef28-050b-4c98-c8c1-08ded03159aa
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|23010399003|18002099003|22082099003|38350700014|56012099006|3023799007|6133799003;
+	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|23010399003|3122999024|18002099003|22082099003|38350700014|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	m19VIfKt49bqlU3PCDJ6V9ymTzzDYtkQnoA0Nb8w49FBsZ/NYYHH5AUtLTG0CczaSPVIOK23BBUl7YCC32osgd7svpdhxnVqtRLNkGkx8Cvw4zi4838SaLhluDxmEzUkv0w8mybLrdmLAMeFuXb5QXlNjnq6Ron8thpra8F7sHi0S5mGh0lxVB97a2JF6pWM4tP17OUmdrzjj6GDLYSWpBXXrH4MQEqFoJq3RtUH2AJor3rb7vPU8cA+ybNxw1LffFokuya5uijw+cmSnzbtANJCNtqWIZjwCtBMlJbwJTYxOTxxo2mubCtHN4DxYWlopo+3qlP7EbtlePp8/dPET+bYmsw825jfnKRu1j44t5JerV2gACKzo2PQixsNtlLM2ivwju6XpG7VyqZO2GH41scxUYn9X/THlkgZPWjhnlMbvaAkg0yImKvHwrLnpxX7JStFwJwAY0lwDbyUr9SBZWVa85sVHyP29sHPQfcF7ZWt+20CpsZJT6DyREVu3p0hN6mi73lG3shLU5/wQkIHsDQD8f1gI3Pxew0RkQJBvXLwEno30+Kmvhi7C1bNd+YNOLHqB7PJzDHzQnJKU5Sx2qRrTzGNr56eOBYH740BdQEAwnzFvKeA8q+BVdMJnfmHRxdKRNJ58+Sf1m8JeCmwgX14PMsg8p/ADDinWbdgve6gr5SwujSS7cAM0dB0zEriNrOSGohIMEdvYyuMmE6H72YcsXed5CTWjiliYFH3+fg=
+	6TBpHV6cszRDT4GbtHLnCAkkowUnc6o+K7H9a26dSyE1UP53MliJh4gvym3dHt0Oglshy49sbvfYAa/kTWceCx7fk5WAUllQSp+2xUC+nHl7kUaiaDKafrMCNLd39U/77StC08F1NSMYlecPFm7KPI37k3+o1568fJNEBSvo3Phn3ARqs4kXXT78Cw1cQFGfe3Vf/LmLqaGUdWo7kPe2cLnMUmOqtddPNoE5uAXpCLRtQwbJ8Cmpo+2qpxc2iOh83Jyy6dSIzJYpqn9DnJ/60IOR9IyR7qh3q27Q0lWIsXx6fJ2+mX3jnzj3zAVTejY9sQPb6gYcBDOXx8A5Hy4fOyQpaoNPcnYxwnEViyBV9XhDUjn+sLJki26N4E8mqsl0/wUyCEOd9pjIZEcVRod2Mc8dlitDI+RsSNq7IS/YPDu9Az3hLW4PSVcLKUinQ+zRBpsacZtokMDaAkZq1OLFPwmBTHNcWHAjkFnQcUaqhV8TF8cbfgNsxP5VFG8XcyDsKI5ojbd7CD83uC46DbLJTa1IK3tmS4ObxP8XoBN4RLhYYPaftE64jfLXi/vw8kGTZb38/ToeYwuJzfrCzGBWZvIOGfLulyGJQXFumnw7Y1Zz1h1HTZLGTtoRZW09e3oxVTUzOUWIMcx6M8v9Y+EGi4P9kk3SpbphORNT3htQtdVFfHHvV4vvDKmEPwtgFPwl/pQ8zKWwa1ChiBXjIUcyDg==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PPFE985372F0.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(23010399003)(18002099003)(22082099003)(38350700014)(56012099006)(3023799007)(6133799003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PPFE985372F0.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(23010399003)(3122999024)(18002099003)(22082099003)(38350700014)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?RlY57nl8SpgDmpDC6vD3KnGEPqOQrlrCCDu8qjxPB9ED7g/2USwq0Rutmo8j?=
- =?us-ascii?Q?YMxychXSOoSCWvX+RAeeoVkXQTDa+Ddmod8WOdhwnUUTGPyuRHgIOQ3jUH9e?=
- =?us-ascii?Q?uRjULQl7ipX97lHpAB/krXwjzKNSrZ1bypSS73Gy+Ro6e9/aSpeMnt/0O2ms?=
- =?us-ascii?Q?7LbL0DUrLE9erEhWm+UNI8bH5LZa2Ts3Uu9GPupfFtDAQBEsYBitG4wdc6DS?=
- =?us-ascii?Q?mAh8FdakEVvCIhIfKU9vSE4zLqMqRZcYJKesovV9rTtpSNxsD0v8MrgWSWNL?=
- =?us-ascii?Q?cBnItlVDTN7hcd7+Cuo4gzhUcY+M72B+RY0aElRyDmnSwQoJdm6wWXHTnu4U?=
- =?us-ascii?Q?bT9YHVs/2OlAKLdJtN2bhymSbuWDSxEPmp34VMnfdUvi2iG0WfMGgCaBXEil?=
- =?us-ascii?Q?HLfJSQ0IWKgWbVO9ClrbN1p1+4jaRIpHRYJ404uUGUq7tmFb05H+5eIVvO2z?=
- =?us-ascii?Q?p71dhJBpDYA45Qhbw77tdg5nt48E62Y6Z+3SBz9BlUKkhON+kBlN636f+q+7?=
- =?us-ascii?Q?fhnA71fgJxxGcEQ+whXfdFjLfW36dH6Pyk/gEzT2GyBR06cuMADbpAOzSjD2?=
- =?us-ascii?Q?yDJNQClumBwQst2aSx+R1Rq9ybYMrwjOzjWD7YutOLo7cCQgFOyne10xoG8y?=
- =?us-ascii?Q?dKjexKmBUVQ6Dm65U1zMKdU+WZ+IPImwqNJ9Zg3ZXLl7NRpm+N6EOxm5eqk9?=
- =?us-ascii?Q?bmPzCmZofbVu2akRG+Ob7x8quEewf+Dm/J8L1ZcOFs3HEW2Xey+bTOEKRNmq?=
- =?us-ascii?Q?1fZ+jCu+UNg2Oi3Y3fdMIPWu8+cdpRp9kMs42ICLznu03r5yNHk5+3/76JCM?=
- =?us-ascii?Q?uPORl0Tmf0rdvyvSCBLnMZfOv72RQ0/7W6PE8DeJOGjaeXtSoSgWD7d8Oc1e?=
- =?us-ascii?Q?9FmAWYD/ePqpULl2cGga5JGdfk/QkoQjbAH7pfJigfekSmVVh6YtwTPc3tmD?=
- =?us-ascii?Q?/YigcJB4fAZZnPLgbUMY0HC6eFIphE7TnY55Sh4Je7f7fMglIt10nIvm/z+m?=
- =?us-ascii?Q?uKiOHSacArkSEQOME3bgRsJIBRS8quhnR5m16bBjzYoKYEQW802RhBFqUVfK?=
- =?us-ascii?Q?pfFFCLoc1NrLICP9cyPGzigHaZxAt++Eqb/6L7dY8ftRcko+e9jF9ujHbZqA?=
- =?us-ascii?Q?4qedOEqf1asExDqplIwXJbuf3vEzlpL8Tvp0FO4Ho1jAuaqJy+KjOkvT4T3n?=
- =?us-ascii?Q?8os5HWU5eQ1mCLarCEVPTNscSptzpOkzhX0iZ1XW2MKMUtN7avvqxo4EXq7D?=
- =?us-ascii?Q?Pw0PkYgkXuP3CfWiP7pw4dSbjOGa55vVs54Y/JLCwVXpL7KW0UUwpix/EbpE?=
- =?us-ascii?Q?Ie7jWbSS5rHbtZs6nGXxATP0PRfrXqJjsvxq1+nFAD9XozqrPMYSM1HdjU5p?=
- =?us-ascii?Q?eUnI1f4aKcEyXA9W5DFw2TKePEfUDdpGAuxO0iZI/PMdqYIKjjjTZohG0bbC?=
- =?us-ascii?Q?YtpNLRY1cNElhcfR0WvwSUvbAl9iegwUu4UiizuOhAPndeB6f7WNUQC6kqbR?=
- =?us-ascii?Q?+FztCHuxgW/xKFVhgpT9Laz96ArbBwVLZsHD8ONPu5/OWpTHb77XzCNoIPBg?=
- =?us-ascii?Q?WoGo1bpRnPJ0oYau8PFHc+qEfWG0Zv/8v8BM8fqw8UsNjDg1xB1TGtDgZQh5?=
- =?us-ascii?Q?zNSXq73uEVc8iDJxfQyV9zD05XZbMlLoT8Hg1DknLVMA347El76w7USKZsm+?=
- =?us-ascii?Q?/aIQQ2V93RoRoayS9sdz2J50m6XS+7tIfn2aWMsodVfbwE3e0hfBVCWpBKAq?=
- =?us-ascii?Q?EIuwCANErDGtvj1UMnfyltquMyhGREk=3D?=
+	=?us-ascii?Q?S/Jz9CY04HxFcpTanGBFB+hohXvWpWAXWuTCd25HOjehVmmAHldTxbonNesM?=
+ =?us-ascii?Q?UsqNIqkypPKAEtqE1opcAWRYawVF6YlYFtVOYfdZhWuprkkPKx1HucLmiPOw?=
+ =?us-ascii?Q?Kktnn6hX4RVYoT74vcDLvU1yuUcXoJVSHpvaPkGY1Dkbcvaa8Zdh7eq51+D5?=
+ =?us-ascii?Q?MtovlfsC1gjIN4az6OBxP0GeVRIYyWVrb0Yjfz4X2+qACEKSAtz/qJ8ymFp4?=
+ =?us-ascii?Q?GIma6fVkcn4XYpOMBbE9zOlCOvzT+rEjksbmAFu33AvWV+oqIvA1K2CIGknJ?=
+ =?us-ascii?Q?HNJUQ5XNJ9wnBqWzd8Y9qY4imxwZHHxr3xb2pyJXowy9ZPYUkX1Yhh1eQLtE?=
+ =?us-ascii?Q?F3hrA17wxaprh6Uj0uB3Wh+VQ0Sd+aOYXvPad9RQQaAQ9b7RFR7Nh/en8TDF?=
+ =?us-ascii?Q?kGGvH0YDXJRKohOBcFjAtdDqY3nUsjPlvzkVSSmCdmaNoO6vZbC7MVuSo6d+?=
+ =?us-ascii?Q?+JB1Q1JTYx44WVUe67GrB/6zFLUYa5YUt08Oe7E3ETGwuCGqNPAi6KYp5DzW?=
+ =?us-ascii?Q?MwPM1MJpDgZjthjh/ON5c23GGuwfoK3UfGD4CKoXPQkxKOLhuwAYBIQj4u9I?=
+ =?us-ascii?Q?1+PUZJ9jyGhLEn4EkfPgA+x9z+JRgY54+8tu8lpCsB42jfmA4Neov8KL6PV8?=
+ =?us-ascii?Q?MbvKqpjgyQngR97z7UxWZkCjv1it9cpLcxjMYOkbLNdKIThXTF+SDkj30HXE?=
+ =?us-ascii?Q?UdOzVIel9C1TxqLI1LurChmnKEo9FkVI0PBHDNo5zdrXeoIWfJ+YaejQpHR2?=
+ =?us-ascii?Q?O0PwhMJZMf+kYMeGwHvkNpMwIgZrIjjmtOYV1N5wa1aHpgNa0vUG0OcAaUIa?=
+ =?us-ascii?Q?3o/G3C1+kPDhFp6JJP6rVzcsuo98cVfk+H3SwKvCQNXep6SI14wIrQF5zJk4?=
+ =?us-ascii?Q?NdnS/n8xXvHAU49wI95YoeeF7y2kO4rsapeNuJVAnVKmj7IUWcOmmO5o+WZj?=
+ =?us-ascii?Q?DrfhUw5ppjydcZ4EYzCh/9ZRTGAfIsYJfOvqzQi4BcBXmAOZhrZqNCJt/gxi?=
+ =?us-ascii?Q?RW3EMWAH+1icX7AYMuJPBkqTBdd5UTEh4SzOY261MfnbUKPmjtQmizaJo93A?=
+ =?us-ascii?Q?/NeJn/ZJ7Wh/FycUfYYbPqGeXyPhrQ0nMWpCq3XOxM4KdysvLFsQMdsySszz?=
+ =?us-ascii?Q?s0362Uj+QV9EEjbaaOqAWpJiD8Yx/Voc/F2+lUeGColm/Ok0161HH5YNzbjq?=
+ =?us-ascii?Q?CasHsBtjBt9zM1YWYJO8xptpmqoBwF6NtEpjtWyjCq/SdKJpbgVjmSTg3XH6?=
+ =?us-ascii?Q?orAaBzqsav3bwR5camPhenT4GMohOhhmEEeuy974krY4I0S1XPaM2BC5cXjj?=
+ =?us-ascii?Q?UzNCA6IxHEFJ617BCCWqOQLy/zsS27eOIrw9VrMfz3LF2cXXQopJOjwU6wKe?=
+ =?us-ascii?Q?ZP8YMUX/+QPORUDrxjli9o1xvGS7vSQiITjz3ioLRPoQoLmQmSBg40NJwg7i?=
+ =?us-ascii?Q?eN35R7i6K7ftAl1f0SO/l9NmuMemZqPXBY19XXPtDlHbYR/NQW29VUi822x1?=
+ =?us-ascii?Q?INuE8KKKgvxKge+b4jHvHWq+65e1BqGtUJB2a2uz7nLhrmeqvaV9eDsEY3b5?=
+ =?us-ascii?Q?ZzLyuh9JkXV2hNVPst7WQ98P0tpUOvtnCIj4M1ruTedOkBGG3/FTfbpQFXc3?=
+ =?us-ascii?Q?uqvzBrAtgsxsWCh+viltVffAJiy1CGbX+/rUqpsL6lLY7QWiWmFLfV7//pOB?=
+ =?us-ascii?Q?A5XqPb4MmT+FzWwMrI5UwcTccX28Rsu+v2A82WxosCrAa35fR7JU5x6hLGVb?=
+ =?us-ascii?Q?l47izFNt2BdAI8nWroLSZDyfF3L4aZM=3D?=
 X-OriginatorOrg: ftdichip.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f440e834-5b35-419f-606d-08ded0315913
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d15ef28-050b-4c98-c8c1-08ded03159aa
 X-MS-Exchange-CrossTenant-AuthSource: SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2026 07:39:10.1160
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2026 07:39:11.1733
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: c2456335-1328-47c5-82f2-1fe6783d7182
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tB0FHyYwMDrNjzwik8wMBcc/B2Ted1Q7t2WAqGU2nhOMbkr4iCfIwl7WKZBUPnJ6H3+GmnIcA2eYRZlHlXtzW0LCBcBB+u8wd+MDvhL8kI0=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Vtyi2LUKQe+jA0yljdvhwMMGNACml5N+cLtKlDvL3+feiwM/WPuxKCljNW4/gnwlVHAwc3V922DsCQuxCFLQV6FyJMHUfPkyz4lKHIdziDI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR0101MB4383
 
-write_latency_timer() clamps the value programmed into the FT chip's
-per-channel latency_timer register to 1 whenever ASYNC_LOW_LATENCY is
-set in priv->flags.  ASYNC_LOW_LATENCY is set by userspace via
-TIOCSSERIAL, used by setserial(8), libftdi and certain tcsetattr
-paths.  The interaction with the existing sysfs latency_timer
-attribute is surprising: once any of those tools has set the flag, a
-later write of "16" (or any other value) to
-/sys/bus/usb-serial/devices/ttyUSBx/latency_timer is silently
-clamped to 1 and never reaches the chip.
+When the inter-batch read-URB defer added by the previous patch is
+enabled globally (urb_defer_timer_ns != 0), every port served by
+this driver pays a small read-side latency.  In multi-channel
+products it is common for one or more channels to be
+latency-critical while others tolerate the defer; today there is
+no way to express that on a per-port basis.
 
-The store path is the most explicit way userspace can ask for a
-particular latency_timer value; treat it as authoritative.  On an
-explicit sysfs write, clear ASYNC_LOW_LATENCY before calling
-write_latency_timer() so the requested value is what the chip
-register actually receives.  Emit a dev_info() so the override is
-visible.
+Add a new writable boolean sysfs attribute, low_latency, on every
+ftdi_sio port:
 
-Reads continue to honour ASYNC_LOW_LATENCY (returning "1") so any
-userspace that previously inspected the attribute to confirm
-low-latency mode keeps working until it does its own explicit write.
+  /sys/bus/usb-serial/devices/ttyUSBx/low_latency
+    0 (default): inter-batch defer applies to this port when the
+                 defer is globally enabled.
+    1          : defer is bypassed on this port; the generic
+                 read-bulk callback handles URB completions
+                 directly with no throttle / hrtimer interaction.
+
+The implementation adds a bool low_latency field to struct
+ftdi_private (zero-initialised by kzalloc), settable via the new
+attribute.  ftdi_read_bulk_callback() short-circuits to
+usb_serial_generic_read_bulk_callback() at the top of the function
+when the flag is set, skipping the throttle/hrtimer path entirely.
+
+Writing 1 also cancels any in-flight defer hrtimer and clears the
+timer_active bookkeeping so the next URB completion takes the
+direct path immediately.
+
+A udev rule typically sets the flag at device-add for the
+latency-critical port; other ports are unaffected.
 
 Signed-off-by: Chinna Mopurigari Naveen Kumar Reddy <naveen.reddy@ftdichip.com>
 ---
- drivers/usb/serial/ftdi_sio.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/usb/serial/ftdi_sio.c | 66 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
 diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index ac0951ba74a0..c0cda19f074a 100644
+index c0cda19f074a..8faa073f1383 100644
 --- a/drivers/usb/serial/ftdi_sio.c
 +++ b/drivers/usb/serial/ftdi_sio.c
-@@ -1703,6 +1703,23 @@ static ssize_t latency_timer_store(struct device *dev,
- 	if (kstrtou8(valbuf, 10, &v))
- 		return -EINVAL;
+@@ -110,6 +110,15 @@ struct ftdi_private {
+ 	struct hrtimer		urb_defer_timer;
+ 	struct tty_struct	*urb_defer_tty;
+ 	bool			urb_defer_timer_active;
++	/*
++	 * Per-port opt-out of the inter-batch defer.  When true, set via
++	 * /sys/bus/usb-serial/devices/ttyUSBx/low_latency, the read-bulk
++	 * callback short-circuits to the generic upstream callback and
++	 * skips the hrtimer-based throttle.  Defaults to false: the
++	 * defer applies to every port unless this port is explicitly
++	 * opted out (and the defer is globally enabled to begin with).
++	 */
++	bool			low_latency;
+ #ifdef CONFIG_GPIOLIB
+ 	struct gpio_chip gc;
+ 	struct mutex gpio_lock;	/* protects GPIO state */
+@@ -1728,6 +1737,51 @@ static ssize_t latency_timer_store(struct device *dev,
+ }
+ static DEVICE_ATTR_RW(latency_timer);
+ 
++/*
++ * /sys/bus/usb-serial/devices/ttyUSBx/low_latency
++ *   0 (default): inter-batch defer applies to this port (only
++ *                meaningful when the defer is globally enabled
++ *                via urb_defer_timer_ns).
++ *   1          : defer bypassed on this port; the upstream
++ *                read-bulk callback handles URB completions with
++ *                no throttle / hrtimer interaction.
++ * Typically written by a udev rule on the latency-critical port at
++ * device-add. Writing 1 also cancels any in-flight defer timer so
++ * the next URB submits immediately.
++ */
++static ssize_t low_latency_show(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct usb_serial_port *port = to_usb_serial_port(dev);
++	struct ftdi_private *priv = usb_get_serial_port_data(port);
++
++	return sprintf(buf, "%u\n", priv->low_latency ? 1 : 0);
++}
++
++static ssize_t low_latency_store(struct device *dev,
++				 struct device_attribute *attr,
++				 const char *valbuf, size_t count)
++{
++	struct usb_serial_port *port = to_usb_serial_port(dev);
++	struct ftdi_private *priv = usb_get_serial_port_data(port);
++	unsigned long flags;
++	u8 v;
++
++	if (kstrtou8(valbuf, 10, &v))
++		return -EINVAL;
++
++	priv->low_latency = !!v;
++
++	if (priv->low_latency) {
++		hrtimer_cancel(&priv->urb_defer_timer);
++		spin_lock_irqsave(&priv->urb_defer_lock, flags);
++		priv->urb_defer_timer_active = false;
++		spin_unlock_irqrestore(&priv->urb_defer_lock, flags);
++	}
++	return count;
++}
++static DEVICE_ATTR_RW(low_latency);
++
+ /* Write an event character directly to the FTDI register.  The ASCII
+    value is in the low 8 bits, with the enable bit in the 9th bit. */
+ static ssize_t event_char_store(struct device *dev,
+@@ -1762,6 +1816,7 @@ static DEVICE_ATTR_WO(event_char);
+ static struct attribute *ftdi_attrs[] = {
+ 	&dev_attr_event_char.attr,
+ 	&dev_attr_latency_timer.attr,
++	&dev_attr_low_latency.attr,
+ 	NULL
+ };
+ 
+@@ -2763,6 +2818,17 @@ static void ftdi_read_bulk_callback(struct urb *urb)
+ 		return;
+ 	}
  
 +	/*
-+	 * An explicit sysfs write wins over the legacy ASYNC_LOW_LATENCY
-+	 * tty-flag override.  Without this, if any userspace tool
-+	 * (setserial(8), libftdi, certain tcsetattr paths) had set
-+	 * ASYNC_LOW_LATENCY via TIOCSSERIAL, write_latency_timer() would
-+	 * silently clamp the chip register to 1 regardless of what was
-+	 * written to sysfs.  Clearing the flag here makes sysfs the
-+	 * authoritative source so the next chip-side write uses exactly
-+	 * the value the caller asked for.
++	 * Latency-critical ports opt out of the inter-batch defer via
++	 * /sys/.../low_latency. Delegate straight to the generic
++	 * callback so the data stream sees no added latency on this
++	 * port even when the defer is globally enabled.
 +	 */
-+	if (priv->flags & ASYNC_LOW_LATENCY) {
-+		dev_info(&port->dev,
-+			 "explicit latency_timer=%u clears ASYNC_LOW_LATENCY flag\n",
-+			 v);
-+		priv->flags &= ~ASYNC_LOW_LATENCY;
++	if (priv->low_latency) {
++		usb_serial_generic_read_bulk_callback(urb);
++		return;
 +	}
 +
- 	priv->latency = v;
- 	rv = write_latency_timer(port);
- 	if (rv < 0)
+ 	for (i = 0; i < ARRAY_SIZE(port->read_urbs); ++i) {
+ 		if (urb == port->read_urbs[i])
+ 			break;
 -- 
 2.43.0
 
