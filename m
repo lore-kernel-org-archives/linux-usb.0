@@ -1,126 +1,111 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A4738E8B5
-	for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 08:02:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787FA35BDC7;
+	Mon, 22 Jun 2026 08:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782115328; cv=none; b=mhcX60t9wpLimcSVmZJ0Em+diXNUe6c4NcLXaN2hv8kX5M5ezqCAbN29zqGN5afDNjpUzc6z+xtLKo0bQG+leibW5Ci1j5KO6u7TpGHIQG4B3qCT4Gnt07gWyJTUFxu88DDvS+MME8zr7s2qxbKZbaRmqMF5xnbrqpC8mRRxudw=
+	t=1782115521; cv=none; b=BOHlFV2qfaWNeL/c6RcCoHApqOBTS0wHKxzCaDlMZuxDoml+sHbi8AeoMgZrPp9g9upRnjSL5+ynltYnWyvoovARZfj0a5Taaar+vbOvZdkYks0UT2mvyJGdPRRAFnfqpkBYAzLbwyZAuHlnj9TN+uDD3mOf7XyAuYVfOPeVqX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782115328; c=relaxed/simple;
-	bh=XtlAZCp5/3F/xwVUnuePPqRADO4ZsJiWAhJuz4RSiB0=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=gCjzrnIHEK6PSrhkpYn3pDBAn/848fehQnGb8YelyG8ZlKfUwaXyv9Q5Aya6Payu5lfhoStLfODJqi47v93hjplJzLKdnW16S+tchMUq76mOymQsId3/32v8D6dVpu0FEKoacvEJJRR2hZ/WjC0l/A9wv8MQSxakyLcQwb2KBFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZ9RAtJy; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782115521; c=relaxed/simple;
+	bh=OlSbs9VLtf/8IxeWwRDXkTD/lKuu/eFujrA7c2e9KSI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QUigK4pukFvGY8vXstr72PGDapkVBkCkcIOQ0Aa0lzhhrGCoRHtv/L9ZOqlGiED9mSb6ZvdCr4I+wOFRe3vwsXy5K+MsZ/yj137d0ynbvJdujVruZXVAjubcvSXBNoiNKSzJLND1mkf5PHwRLI4QKQ9Dby+fYli3WZnO/1F8E9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WKhiDDUd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZ9RAtJy"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c892a0ef503so2586087a12.2
-        for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 01:02:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782115325; x=1782720125; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QIY8NrKQY33GiAZXeNgSrvmyjQBHSuRv6lsLBuV2R68=;
-        b=nZ9RAtJyGf12YTxGAK4GPun5ZkVDAQQ5986MRkF0IHgJ0JJj/4vkC3XMa5jOtJFzfE
-         fJmec0g+sX/9plfJg80/kMEZRiy64SSxyAv4ug8vw3CRglV/Gf8IgFGObvPxPW0zEg1i
-         39V4cSR2HTsIYLRbrSzID32J5YxriwpHqDpZVwKO5t0Z0YQsBYVi6dEAr72r/FEQcW9w
-         kiDDXx4nmZPbjR/1+3fgwUi/PNFNItBBC9emPncxNsNSmcYDObqfOhZtzMJ5XDNfDbba
-         sObBTk/nJKqcZ4rrHmg64aUXLSYAc9xkpvYU+cWZfXWqJ5Zee93NsN4ruTFnPbOcWyKK
-         LWSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782115325; x=1782720125;
-        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QIY8NrKQY33GiAZXeNgSrvmyjQBHSuRv6lsLBuV2R68=;
-        b=PzTvoEW1VkKx3fK2KSbb2PT+xiAeZapEM3RKFvLwZ6s8axSh+Pk33lFU/cUPCBT//X
-         AxPCMeWjTx5AjiPsOEWW6n1slAoCSRLVL8cmZGL2i5PJ+gJTiA+MmLiWfTg46Tb2K0NU
-         wUPBiU7YI74NNa8fLUAlemzfOaMzMK+Q/Iwj4Yxp1/XtNJpC7r+UZXeijg7hjrH+X5Qu
-         HZv3k9wQtmBH2ybjiHQY4ZM/K4qDmUN+fu73PXRc+N4B3WkMbTDcpi7uwV4Ey7EbMI8J
-         oChzD/nymEvUua6ucKJ0Gc0UlsRe9tooAHBz8HIB1Z66Oq6v5aDgfiilKAfbul76Swmo
-         c3VQ==
-X-Forwarded-Encrypted: i=1; AFNElJ99xsYJt4KoOpZq3GAY5ICYawxJ8RgZ7LxfLaBWc52Gf8cwifFjRau7QQmKJ+9IREFdtea364KhRFA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9YmdlVmlRBSwjUhdd1fuigO8uU4GytMHCUfCqz9QlZhc8qg24
-	XUVyRA/BVvdH5q4DLTGE8Qk960/drwLiqGLr36wlwALI00tY9nT6DSoJ
-X-Gm-Gg: AfdE7cns4v0O2swD/MbEK6RhLHyn9UEEYS+ol9ueBfHJYThsrn248eILp0vAs6jnfjq
-	pa0jwqA+KKzUYM0XDay+QLiCIfYZEQLDvrGZjEL1G0wB0i7I80M9wo1/AxGLyvHBEuKGY5n5uly
-	f3VOYPXtcmLnMVpE6nOfNLxl+0C+VUktzEf8fMOWLSvXzE/n8MMoakCA2GgQuVT5mYSGgPZ0ySQ
-	2b2mN5ePMQZQmBoF8UaF6aP8mXRcNadsMxeXIa7ybm8YPSC6kDS8ihEConNkl2gdAlpEN6ykKmg
-	IWD2eUz+FpT6Lf4YJgniWkhZ9Nr/7pQ/Bonc2mkHJCZ+AIpmCEgQ0h5RP1KAkMClaHgosa4+uXu
-	u1wZy86kyfkNnFUpzjhXUIEgB/lXyTC/UX7tiF1oBMu9hKQRYHABUfXRvD8HrkIambHvd4tQ0hV
-	0B6kdAxjJYXtvEBbZqfuUhrSib8YmAYAHFdbxrAA==
-X-Received: by 2002:a05:6a21:7105:b0:3b1:cce5:9140 with SMTP id adf61e73a8af0-3bb346583d8mr15583404637.33.1782115324909;
-        Mon, 22 Jun 2026 01:02:04 -0700 (PDT)
-Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8bc374375csm6564925a12.13.2026.06.22.01.01.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 01:02:03 -0700 (PDT)
-From: Maoyi Xie <maoyixie.tju@gmail.com>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject:
- [PATCH net] net: usb: kalmia: bound RX frame length in kalmia_rx_fixup()
-Date: Mon, 22 Jun 2026 16:01:57 +0800
-Message-ID: <178211531778.2216480.12637613349790980750@maoyixie.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WKhiDDUd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B84C1F000E9;
+	Mon, 22 Jun 2026 08:05:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782115519;
+	bh=FAbpiNhKVqoEfhFmUfUdlxgESW8QuGiY+lhl+lA+T60=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=WKhiDDUdL0KRgYXfe2WI9TPD1Fcz4Jm9ZEs4TCvppOjXgUFC4H1afMQFw+2v6sbYC
+	 wyKQOW94sIC2JrNxh5T1XMUYBWAlDKC18spHzcXcYSeSIENbdvnOdBeIFeCRHU0wcr
+	 GXhaSILwuzYrxIUKMomqoVtJ32rfzWA7jVghDLmfnz+BZrvg16SiSZpHTKMbep/4WK
+	 cTRFBl6B2TwAUd1X5OjJrSj8wdRtwPxWGGAsp+lGM7jfcHoi8eTosbKCizRmGWHd0+
+	 cQFh5OCUybibOIb31BzksIWMYD20OkhiGIxmv8Z+opVm7KScIv+rhlWvQYzzdL9N23
+	 S4BwD770Utgzw==
+Message-ID: <dbb5915e-6587-4de9-87f3-76bea5024da8@kernel.org>
+Date: Mon, 22 Jun 2026 10:05:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] tracing: Move trace_printk.h out of kernel.h
+To: Steven Rostedt <rostedt@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ John Ogness <john.ogness@linutronix.de>, Thomas Gleixner <tglx@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Julia Lawall <julia.lawall@inria.fr>,
+ Yury Norov <yury.norov@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-ext4@vger.kernel.org,
+ linux-nfs@vger.kernel.org, kvm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+References: <20260621093430.264983361@kernel.org>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <20260621093430.264983361@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-kalmia_rx_fixup() computes usb_packet_length = skb->len - (2 *
-KALMIA_HEADER_LENGTH) as a u16, guarded only by a pre-loop check that
-skb->len is at least KALMIA_HEADER_LENGTH, which is 6. A device can
-deliver a short bulk-IN frame with skb->len in the 6 to 11 range, or
-leave a short trailing remainder on a later loop iteration. Either case
-underflows usb_packet_length to about 65530.
 
-That bypasses the usb_packet_length < ether_packet_length truncation path.
-The device-supplied ether_packet_length, a le16 up to 65535 read from
-header_start[2], then drives a memcmp() and the following skb_trim() and
-skb_pull() past the end of the rx buffer. The rx buffer is hard_mtu * 10,
-which is 14000 bytes. That is an out of bounds read.
 
-Require both the start and end framing headers to be present before
-subtracting them, on every loop iteration.
+Le 21/06/2026 à 11:34, Steven Rostedt a écrit :
+> There's been complaints about trace_printk() being defined in kernel.h as it
+> can increase the compilation time. As it is only used by some developers for
+> debugging purposes, it should not be in kernel.h causing lots of wasted CPU
+> cycles for those that do not ever care about it.
 
-Fixes: d40261236e8e ("net/usb: Add Samsung Kalmia driver for Samsung GT-B3730")
-Cc: stable@vger.kernel.org
-Signed-off-by: Maoyi Xie <maoyixie.tju@gmail.com>
----
-I asked about this on linux-usb on 2026-06-15 and got no reply, so I
-am sending the fix.
+Do we have a measurement of the increased compilation time ?
 
- drivers/net/usb/kalmia.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Christophe
 
-diff --git a/drivers/net/usb/kalmia.c b/drivers/net/usb/kalmia.c
-index ee9c48f7f68f..0dd0a30c3db4 100644
---- a/drivers/net/usb/kalmia.c
-+++ b/drivers/net/usb/kalmia.c
-@@ -276,6 +276,14 @@ kalmia_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
- 				"Received header: %6phC. Package length: %i\n",
- 				header_start, skb->len - KALMIA_HEADER_LENGTH);
- 
-+		/* both framing headers must be present before we subtract
-+		 * them, otherwise usb_packet_length underflows and the
-+		 * device-supplied ether_packet_length drives an out of bounds
-+		 * access below
-+		 */
-+		if (skb->len < 2 * KALMIA_HEADER_LENGTH)
-+			return 0;
-+
- 		/* subtract start header and end header */
- 		usb_packet_length = skb->len - (2 * KALMIA_HEADER_LENGTH);
- 		ether_packet_length = get_unaligned_le16(&header_start[2]);
--- 
-2.34.1
+> 
+> Instead, add a CONFIG_TRACE_PRINTK_DEBUGGING option that developers that do
+> use it can set and not have to always remember to add #include <linux/trace_printk.h>
+> to the files they add trace_printk() while debugging. It also means that
+> those that do not have that config set will not have to worry about wasted
+> CPU cycles as it is only include in the CFLAGS when the option is set, and
+> its completely ignored otherwise.
+> 
+> Steven Rostedt (2):
+>        tracing: Move non-trace_printk prototypes back to kernel.h
+>        tracing: Add CONFIG_TRACE_PRINTK_DEBUGGING to clean up kernel.h
+> 
+> ----
+>   .../driver_development_debugging_guide.rst         |  2 +-
+>   Makefile                                           |  5 +++++
+>   arch/powerpc/kvm/book3s_xics.c                     |  1 +
+>   drivers/gpu/drm/i915/gt/intel_gtt.h                |  1 +
+>   drivers/gpu/drm/i915/i915_gem.h                    |  1 +
+>   drivers/hwtracing/stm/dummy_stm.c                  |  4 ++++
+>   drivers/infiniband/hw/hfi1/trace_dbg.h             |  1 +
+>   drivers/usb/early/xhci-dbc.c                       |  1 +
+>   fs/ext4/inline.c                                   |  1 +
+>   include/linux/kernel.h                             | 19 ++++++++++++++++++-
+>   include/linux/sunrpc/debug.h                       |  1 +
+>   include/linux/trace_printk.h                       | 22 +++-------------------
+>   kernel/trace/Kconfig                               | 10 ++++++++++
+>   kernel/trace/ring_buffer_benchmark.c               |  1 +
+>   kernel/trace/trace.h                               |  1 +
+>   samples/fprobe/fprobe_example.c                    |  1 +
+>   samples/ftrace/ftrace-direct-modify.c              |  1 +
+>   samples/ftrace/ftrace-direct-multi-modify.c        |  1 +
+>   samples/ftrace/ftrace-direct-multi.c               |  2 +-
+>   samples/ftrace/ftrace-direct-too.c                 |  2 +-
+>   samples/ftrace/ftrace-direct.c                     |  2 +-
+>   21 files changed, 56 insertions(+), 24 deletions(-)
+> 
 
