@@ -1,119 +1,157 @@
-Received: from mail-dl1-f74.google.com (mail-dl1-f74.google.com [74.125.82.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD253379980
-	for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 22:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0AAAE571;
+	Tue, 23 Jun 2026 00:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782166100; cv=none; b=Uq03JymXO8K7QQ020WAeceh05ivW0PYRampdy4ox6Z2p5b2qbH+7lFg/QfqG88j85tMR1JcdKJwfEICCYFE+7fBQgbaUbgeF9dxFvkiCDDzYREk36yEWq1EBvi7EBMNFE0RGnkf3HyQcLmrofjG+W0yTY5N7tW2VsMcdxtjhYZc=
+	t=1782172947; cv=none; b=l9O/XRErjYyMq9rCKiWl+Ah0lDJRGRYWcODE3BxmJ5jphU7SNZKQKLvtNlxNm5SymtoxGEzFUWdMhEZqdG7sXkgY0/GSVNiru5V++YeyqwI5BSQvbbn+BoC1NEBQnvWVlnUaYhnO6C21IzmrxaQ7Q6zzWwTpvqbQkpw0tER9CVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782166100; c=relaxed/simple;
-	bh=gtoZ3+8Rgife3T2ykHMgjoCmnfMDfwH5a1KX3OmxMbU=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=F4LCM1Yu6WzTuSA2JYzt8Ap8ncfSn650eesGFJ8/zcSpWP273MJBxYHD/P+jJjN3jihfoF0Gc4U+lP0GdpYTbEgEcCwOwlI7c3M3E4bWNBu4A9nnIyl37TKWWY9H8XtKUFRgrz3yRyjwMFvshMTDzUxy20lrp3Y2QenXxP7PnyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--badhri.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TviACZLb; arc=none smtp.client-ip=74.125.82.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--badhri.bounces.google.com
+	s=arc-20240116; t=1782172947; c=relaxed/simple;
+	bh=nfgqYhajdoUxpAAG+qWrLcrRuw4Y9IT6SCFp/lIQpnQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=MPKLmo4Dd4XMpzH2rC+3y76p0mxguhDP5hPFn+N1jl2yxumr5uh/L3aw4b+otan1m7m219cypV9LlEGk5afrdBZ7x1x1ysieWgcjHVybje/dltxl522g+AE1v/foxJ6VGehGZoRLqGepjIZJaQIaSkBWkJ9/S9WzIYLBtCMSkEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fGKq+ERj; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TviACZLb"
-Received: by mail-dl1-f74.google.com with SMTP id a92af1059eb24-139b74d67e0so6617938c88.1
-        for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 15:08:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782166097; x=1782770897; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=7YgVxJJLb1a5N4KPK+tUPVQZqGOEaMSSQ6ahe+ZpFIk=;
-        b=TviACZLb0J6KKPDyboQrGhBqHwKL2b4wsJECLlPF40aeN1d2wnPyUoi+H4uVGgj4iO
-         wgC+LnfjiVfbXkbI/rLBZ57IXsmTWPREcEDcvtGGMoUrhnZ08J7q5d0mT6elLMa/hVCZ
-         Cnn+EklsIB7v0n87wNM95Qor915lVW/6xWqiy++Ug9/kHaRxXu2vCuBxYQxIhZRBxA1e
-         QbD2mtzvGAjxJOiYmbmrp/LISEewwUnCEzRQPbBpkRVp7DQm9e2vmOTQnVpSHTfZ+aHP
-         bFGkhfkKq6cRzR/FjN6R8V2iu54h9WK8+MbT8BkVhl4n+SSu8GH1836cmOFZn+B/la/N
-         L2jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782166097; x=1782770897;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7YgVxJJLb1a5N4KPK+tUPVQZqGOEaMSSQ6ahe+ZpFIk=;
-        b=f3U7YgcI3v3uru2ZLEkhUy+CNEdym3pVjyyeUSW0MmRQdGgTcxBUg/QFM2WttNloPa
-         +OKqYSVDUoD5ZEbUTTvHmdYQyUSDY5rcp1G1jPximmZ45yNixv+jaeC7m/SCfvpsl7WT
-         KwOMB++P/N+YXlFzXJ2bMfLFSRE7Zj148IJ7UeB1wZPiv/pePdWLdntwEJ3sDz9EOE+d
-         BxcdJ0PSq4sP2kk76rLFNJKJ/rHGX2ggXPvB6mF8bomI9nJXbo10Z9XJC0/It54Q10Kn
-         yPx1kc3rvId6Adhln9OOPBUQK2iuLRg0Zr77kNG8QsjFlswqFJx93ZvLI6PvgfedyTvl
-         cZcw==
-X-Forwarded-Encrypted: i=1; AFNElJ9Vq7mr+7jkhZFVtOo38rTyLuEoLmBPHnO/XoWAGKu80tMQR2BuWY+q9CMyBcDzKt80NfjNGWCjW8k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYsFKNNIsx8w5J7BXXqIQOEzyGodAW09C9E5Eg8jWdw6V5rY8o
-	2hj0A78Wktb+MeIv9VyHu96fSBK8waRPp1/xFto5QqF9c4xaJfdrwgpY26zKfJUIoj/ZIAitjYC
-	Djai71A==
-X-Received: from dled15-n1.prod.google.com ([2002:a05:701b:42cf:10b0:138:15e3:14ab])
- (user=badhri job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:911:b0:135:3025:be5c
- with SMTP id a92af1059eb24-139ad7113e7mr7552036c88.27.1782166096347; Mon, 22
- Jun 2026 15:08:16 -0700 (PDT)
-Date: Mon, 22 Jun 2026 22:08:03 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fGKq+ERj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782172945; x=1813708945;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=nfgqYhajdoUxpAAG+qWrLcrRuw4Y9IT6SCFp/lIQpnQ=;
+  b=fGKq+ERj3DfA+FDLkPqkH3iATykb3pp7jB8LWbRlNRjlk100/G00fO1G
+   eqHWPhA5rcjXLjAwh2c//MdzGuhvqvb4OxsvPamEbNoGJNHZs+/K7mCBm
+   b7bn7+xO/o67DhDODbQ8q/FTJq9Yrh7KdfJ27ONOYWTF5JlkxfLQ8w+T1
+   uF1dW6fS5aYZM490EeexYRDflaiWY3Gi3bRHZYQ4A58SayegkdWQHAiFf
+   ZeOXLokUoS73GORBSOMu6sBbBtEXzhw/wBfs3XaICsTWOTrHL7nYGTGRl
+   /uyPeRubCzcACzVtfjgQ0tBcyyR/TykIy6hWNWl1COLBVndB3Z0ZSxEPf
+   g==;
+X-CSE-ConnectionGUID: gOO4R0A7Qempdvu3u8LUnA==
+X-CSE-MsgGUID: xqyPeLJ5Sd2rXYJmnQNVXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="93567546"
+X-IronPort-AV: E=Sophos;i="6.24,219,1774335600"; 
+   d="scan'208";a="93567546"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2026 17:02:25 -0700
+X-CSE-ConnectionGUID: Sc/8sg2GQvaRXEwnp/h5tQ==
+X-CSE-MsgGUID: BvfWT0hqQomfs28JbfK+wg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,219,1774335600"; 
+   d="scan'208";a="249227264"
+Received: from madhum (HELO madhum..) ([10.223.131.52])
+  by orviesa008.jf.intel.com with ESMTP; 22 Jun 2026 17:02:23 -0700
+From: madhu.m@intel.com
+To: gregkh@linuxfoundation.org
+Cc: heikki.krogerus@linux.intel.com,
+	akuchynski@chromium.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Madhu M <madhu.m@intel.com>
+Subject: [PATCH v3] usb: typec: displayport: Reject DP Alt Mode VDO with no pin assignment for its capability
+Date: Tue, 23 Jun 2026 06:02:15 +0530
+Message-Id: <20260623003215.4077711-1-madhu.m@intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260619163109.3529666-1-madhu.m@intel.com>
+References: <20260619163109.3529666-1-madhu.m@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.55.0.rc0.786.g65d90a0328-goog
-Message-ID: <20260622220803.305750-1-badhri@google.com>
-Subject: [PATCH v1] usb: typec: tcpm: Validate SVID index in svdm_consume_modes()
-From: Badhri Jagan Sridharan <badhri@google.com>
-To: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org, 
-	badhri@google.com
-Cc: amitsd@google.com, kyletso@google.com, rdbabiera@google.com, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	stable <stable@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-In svdm_consume_modes(), the SVID value is read from pmdata->svids using
-pmdata->svid_index as an array index without bounds validation:
+From: Madhu M <madhu.m@intel.com>
 
-    paltmode->svid = pmdata->svids[pmdata->svid_index];
+Some docks/Type-C dongles expose a malformed DP Capabilities VDO: they
+claim a DFP_D (source) or UFP_D (sink) capability but leave the
+corresponding pin assignment field empty. Such a device can never have
+Alt Mode configured. Currently the driver still proceeds, which is
+misleading and offers no diagnostic.
 
-If pmdata->svid_index is driven beyond SVID_DISCOVERY_MAX (16), it results
-in an out-of-bounds read of the pmdata->svids array. Because pd_mode_data
-is embedded inside struct tcpm_port, indexing past svids reads into
-adjacent fields. In particular:
-- At index 16, it reads the altmodes count.
-- At index 18 and beyond, it reads into altmode_desc[], which contains
-  partner-supplied SVDM Discovery Modes VDOs.
+Per VESA DPAM v2.1a Section 5.4.1 (Table 5-6):
+Case 1 (receptacle): A DP Source device receptacle (DFP_D) declares its
+lane routing in the DP Source Pin field (Bits 15:8); a DP Sink device
+receptacle (UFP_D) declares its lanes in the DP Sink Pin field
+(Bits 23:16).
+Case 2 (direct-attach plug): A DP Sink device plug (UFP_D) declares its
+lane routing in the DP Source Pin field (Bits 15:8), and a DP Source
+device plug (DFP_D) declares its lanes in the DP Sink Pin field
+(Bits 23:16).
+In either case the field holds the supported pin assignment values
+(e.g. C/D/E); 00000000b means no pin assignment is supported for that
+capability.
 
-By injecting a chosen SVID into altmode_desc[0].vdo and driving svid_index
-to 20, the partner can force paltmode->svid to be loaded with an arbitrary,
-partner- chosen SVID, which is then registered via
-typec_partner_register_altmode().
+Reject such a DP Alt Mode VDO in dp_altmode_probe(): if the claimed
+capability has no matching pin assignments, fail probe with -ENODEV,
+releasing the SOP' plug reference on the error path.
 
-Fix this by validating that pmdata->svid_index is non-negative and strictly
-less than pmdata->nsvids before accessing the pmdata->svids array inside
-svdm_consume_modes().
-
-Assisted-by: Antigravity:gemini-3.5-flash
-Fixes: 4ab8c18d4d67 ("usb: typec: Register a device for every mode")
-Cc: stable <stable@kernel.org>
-Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
-Reviewed-by: RD Babiera <rdbabiera@google.com>
+Signed-off-by: Madhu M <madhu.m@intel.com>
+Reviewed-by: Andrei Kuchynski <akuchynski@chromium.org>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- drivers/usb/typec/tcpm/tcpm.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Changes in v3:
+- No functional change. Restore the version changelog below the --- line.
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 7ef746a90a17..bc531923b1ca 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -2000,6 +2000,11 @@ static void svdm_consume_modes(struct tcpm_port *port, const u32 *p, int cnt,
- 		return;
+Note: v1 was an internal review (with Heikki) and was never posted to the
+list, so v2 was effectively the first public submission.
+
+Changes in v2 (vs internal v1):
+- Drop the explicit "if (alt->vdo & DP_CAP_RECEPTACLE)" guard and the
+  nested block. Use the receptacle-aware DP_CAP_PIN_ASSIGN_DFP_D()/
+  DP_CAP_PIN_ASSIGN_UFP_D() macros instead of the raw
+  DP_CAP_DFP_D_PIN_ASSIGN()/DP_CAP_UFP_D_PIN_ASSIGN() ones. They already
+  apply the Bit 6 (Receptacle Indication) swap, so a single check now
+  covers both receptacles and direct-attach plugs.
+- Return -ENODEV instead of -EOPNOTSUPP, matching the existing
+  pin-configuration rejection path right above.
+- Drop the dev_err() diagnostic line (raw VDO + "DFP_D"/"UFP_D" string).
+- Hoist "cap" to a function-scope u32 at the top of dp_altmode_probe()
+  (was a local u8 inside the receptacle block).
+- Reword subject: "usb: typec: altmodes/displayport: validate dp pin
+  assignments for USB-C receptacles" -> "usb: typec: displayport: Reject
+  DP Alt Mode VDO with no pin assignment for its capability".
+- Rewrite commit body: describe the VESA Table 5-6 pin-field routing for
+  both receptacles and direct-attach plugs (including the 00000000b
+  "not supported" encoding).
+
+ drivers/usb/typec/altmodes/displayport.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+index 263a89c5f324..2a553cfcf61d 100644
+--- a/drivers/usb/typec/altmodes/displayport.c
++++ b/drivers/usb/typec/altmodes/displayport.c
+@@ -764,6 +764,7 @@ int dp_altmode_probe(struct typec_altmode *alt)
+ 	struct typec_altmode *plug = typec_altmode_get_plug(alt, TYPEC_PLUG_SOP_P);
+ 	struct fwnode_handle *fwnode;
+ 	struct dp_altmode *dp;
++	u32 cap = DP_CAP_CAPABILITY(alt->vdo);
+ 
+ 	/* Port can only be DFP_U. */
+ 	if (typec_altmode_get_data_role(alt) != TYPEC_HOST)
+@@ -778,6 +779,18 @@ int dp_altmode_probe(struct typec_altmode *alt)
+ 		return -ENODEV;
  	}
  
-+	if (pmdata->svid_index < 0 || pmdata->svid_index >= pmdata->nsvids) {
-+		tcpm_log(port, "Invalid SVID index %d", pmdata->svid_index);
-+		return;
++	/*
++	 * Make sure the DisplayPort VDO is valid (VESA DPAM v2.1a, Section
++	 * 5.4.1, Table 5-6, DP Capabilities VDO). A device exposing DP on a
++	 * USB-C receptacle must advertise at least one pin assignment for the
++	 * capability it claims, otherwise Alt Mode can never be configured.
++	 */
++	if ((cap == DP_CAP_DFP_D && !DP_CAP_PIN_ASSIGN_DFP_D(alt->vdo)) ||
++	    (cap == DP_CAP_UFP_D && !DP_CAP_PIN_ASSIGN_UFP_D(alt->vdo))) {
++		typec_altmode_put_plug(plug);
++		return -ENODEV;
 +	}
 +
- 	for (i = 1; i < cnt; i++) {
- 		if (pmdata->altmodes >= ALTMODE_DISCOVERY_MAX) {
- 			/* Already logged in svdm_consume_svids() */
-
-base-commit: 1c2b66a7d7257d2652aa41f9a860ecb96dde27dd
+ 	dp = devm_kzalloc(&alt->dev, sizeof(*dp), GFP_KERNEL);
+ 	if (!dp) {
+ 		typec_altmode_put_plug(plug);
 -- 
-2.55.0.rc0.786.g65d90a0328-goog
+2.34.1
 
