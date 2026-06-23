@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD343D45CF
-	for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 12:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4252821A92F;
+	Tue, 23 Jun 2026 12:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782216062; cv=none; b=PepcJKZs6bc0UpkU63p7L5yxJrVwBKgFGmyY7TvAtH/QoRXgX/hZaCZsmon1hOIln1uaf/VLw5saPtlpr6LIxiAu+x0EBxzvTDYQratL3Xe/fSDrn3WtCV72QzM8tr6uzqTm0Wl2ZRinKGOA3Z6msT8LHO4wT0u/HsejwaXBFKY=
+	t=1782216381; cv=none; b=JYgGZ7OoBu/DJLGr8CO7DviLxPU/LktIH1dqopZP1iM12LlGKFqf8S6YnhwT+JKPuvvwtS0GWaE1+zgaCvRq6PDxCsSccQh1uNfhHm7fy2O5fas1sKveCJNS/mO26/w3uSB/ZjTnmLgDjHwAYMuVZQOOkq4MvTaPPJKdWqDIjM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782216062; c=relaxed/simple;
-	bh=OXt0GWxkEZAm3oq2nGNPN5A04oE321xd4uKWSRpBk0E=;
+	s=arc-20240116; t=1782216381; c=relaxed/simple;
+	bh=qLwu/4uxuZ8ZTGqmEajHB0b3KrS8R5SVoSH+dRkns3A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QFxK2J0OBli4awEfvJn6EVhpfyopp5/nfTZrIEZKO3+2Vp5bYXgcyXy+obKVg4Fyh2A1bWbIftPqvVrV70/zaDeWZCb3toF8pfk2DDPQIBIzAWTSFfRStowMOST5tdVUtRMs5xCuPJNNLKSf2sSFEAGrdVz+FFA+tRfjXTOS3ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fgKR00qE; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=WktI7B1xAnQR/+1LO0F8+vWxPgPp8nbJk2zW9TwwPgQhNuUXzr6LjocQa1qwylXHNiaPJ8EWdDMfmBpliiUHMAeSwxBB/zUwFAfP7CPZtneVIMLOs4GT7+EFV90XRH+GUBGSzutYyVNIBXJROkEo+E6LTVvBuMkvJALaH78wVJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uh/ENTq7; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fgKR00qE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uh/ENTq7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782216060; x=1813752060;
+  t=1782216381; x=1813752381;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OXt0GWxkEZAm3oq2nGNPN5A04oE321xd4uKWSRpBk0E=;
-  b=fgKR00qEjXm5oudK56PvxkiQ32kAxNmZX6UiEVLg5DitMXl6TGkjtcz+
-   WhMNMjUTCp8tB8Kzm6nJjMVKawYjnTNwv7WCXkUGGlTTiIvCFxXTCix8c
-   NifBhVnlxfLggi/aOll/BuaKGKxFWZXSbMl7Fx/MVqCBrfXBt0HExsqyP
-   OZ5f0xHilKvwQyRAPmEVa9Tja9+ZEZEvd7T42j6L5deWqUJVF6YPTOJd5
-   96w9kMipt8v9ruOM8sJEkjzO+iGjVvaZ4I5scji9MlfN+GD1AHcQNpaWg
-   YcmkA+TJNuK+TH0J0l4UuA2124LAg/Hi2rXehqUV2aJbE27pMlnvygBdr
-   Q==;
-X-CSE-ConnectionGUID: STCZHcI5TpmUFXfMSRSwCQ==
-X-CSE-MsgGUID: tJDDL/U7RkuD2SPe6JPA3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="82959860"
+  bh=qLwu/4uxuZ8ZTGqmEajHB0b3KrS8R5SVoSH+dRkns3A=;
+  b=Uh/ENTq7jtoFs048/aRBEvQNpjl3RTncvCKkk39dmIH4hInA9xmBHW9C
+   0bUEcgUmpgMXVGr5tH0eYCGZaoGsup3fQJClf3/FdF+epxRMBZjBoFSNw
+   JnJpI7lU16R+Ic+kUmAkhpeVzwHVt31bojcAJaFq7gTt4S5C3SRAlLMqk
+   YqMQ2U9FX7G4rtNZaWAhqEVx7Av2ohp7yPhXDllpZAUqCQhOWh4Lg7ZGa
+   cMcCNnTrvaqgIh2cxHFoNY46AjWYDCcvyDSQ+fuat1OmHmIQLrD9M391e
+   Rzal8FHSgJ6GHYXLo2uuBsW+ZTW4Hhj0mGzI7wXqeaK4zdXvwUjbfkOMB
+   g==;
+X-CSE-ConnectionGUID: 277jXfUrRxeG5Ao9PgK4ow==
+X-CSE-MsgGUID: GhrtaVkATSyApUBtWRtfTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="94073689"
 X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="82959860"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 05:01:00 -0700
-X-CSE-ConnectionGUID: n5nOjFO7QauEpmTzmfpGOg==
-X-CSE-MsgGUID: C4P7YQYcQtKcP+G4XpFXfA==
+   d="scan'208";a="94073689"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 05:06:20 -0700
+X-CSE-ConnectionGUID: z8eoPMGxTH+2GxWUmKkXNA==
+X-CSE-MsgGUID: zqJ20BrqQvutbQ0Wx2v8Tw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="245144839"
+   d="scan'208";a="279683286"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 23 Jun 2026 05:00:57 -0700
+  by orviesa002.jf.intel.com with ESMTP; 23 Jun 2026 05:06:18 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 3D92E95; Tue, 23 Jun 2026 14:00:56 +0200 (CEST)
-Date: Tue, 23 Jun 2026 14:00:56 +0200
+	id 4FE1295; Tue, 23 Jun 2026 14:06:17 +0200 (CEST)
+Date: Tue, 23 Jun 2026 14:06:17 +0200
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+To: raoxu <raoxu@uniontech.com>
 Cc: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com,
-	linux-usb@vger.kernel.org, Mario Limonciello <superm1@kernel.org>,
-	Sanath S <Sanath.S@amd.com>
-Subject: Re: [PATCH v4] thunderbolt: Assert downstream port reset on shutdown
-Message-ID: <20260623120056.GA3066@black.igk.intel.com>
-References: <20260611054157.928921-1-Basavaraj.Natikar@amd.com>
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH tb-next] thunderbolt: stream: unmap buffers with mapped
+ size
+Message-ID: <20260623120617.GB3066@black.igk.intel.com>
+References: <BCAED571E6DC370E+20260611064530.3495292-1-raoxu@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -62,33 +62,33 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260611054157.928921-1-Basavaraj.Natikar@amd.com>
+In-Reply-To: <BCAED571E6DC370E+20260611064530.3495292-1-raoxu@uniontech.com>
 
 Hi,
 
-On Thu, Jun 11, 2026 at 11:11:57AM +0530, Basavaraj Natikar wrote:
-> On shutdown the connection manager tears down the router tree without
-> signalling connected devices. A Thunderbolt 3 device directly connected
-> to a USB4 host never receives a disconnect indication and during shutdown
-> this can cause polling the dead link for up to 60 seconds. On some
-> platforms this behavior leads to a warm reset instead of a shutdown due
-> to this timeout.
+On Thu, Jun 11, 2026 at 02:45:30PM +0800, raoxu wrote:
+> From: Xu Rao <raoxu@uniontech.com>
 > 
-> Fix this by asserting PORT_CS_19.DPR on each connected downstream port
-> before tearing down the router tree. This drives SBTX low (USB4 spec
-> section 6.9), causing the device to detect SBRX low and transition to
-> Uninitialized Unplugged state immediately.
+> The size passed to dma_unmap_page() must match the size used for the
+> corresponding dma_map_page() call.
 > 
-> Always do this on system shutdown/reboot by forcing host_reset in the
-> PCI ->shutdown callback. On plain driver unload only do it when the host
-> router was actually reset on load (host_reset=1), since in that case the
-> tunnels are not preserved across reload anyway; with host_reset=0 the
-> tunnels are kept alive across unload/reload so the links are left intact.
-> Restrict the reset to Thunderbolt 3 devices.
+> Stream RX and TX buffers are mapped with TB_MAX_FRAME_SIZE when the
+> buffer pools are allocated. However, tbstream_ring_free() currently uses
+> tb_ring_frame_size() as the unmap size.
 > 
-> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> Co-developed-by: Sanath S <Sanath.S@amd.com>
-> Signed-off-by: Sanath S <Sanath.S@amd.com>
-> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+> That helper returns the current frame payload size, not the DMA mapping
+> size. On the TX path, tbstream_dev_alloc_tx() stores a shorter payload
+> length in frame.size when the payload is smaller than TB_MAX_FRAME_SIZE.
+> This happens for a short final DATA frame, and also for the CLOSE frame,
+> which is allocated with SZ_256.
+> 
+> In those cases the buffer was mapped with TB_MAX_FRAME_SIZE, but
+> tb_ring_frame_size() returns the shorter frame payload length. This makes
+> the dma_unmap_page() size differ from the original dma_map_page() size.
+> 
+> Use TB_MAX_FRAME_SIZE when unmapping stream buffers so the unmap size
+> matches the DMA mapping size used by the buffer allocation paths.
+> 
+> Signed-off-by: Xu Rao <raoxu@uniontech.com>
 
-Applied to thunderbolt.git/next, thanks!
+Applied to thunderbolt.git/fixes, thanks!
