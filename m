@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707AF3D564B;
-	Tue, 23 Jun 2026 12:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6C626F2BF;
+	Tue, 23 Jun 2026 12:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782216774; cv=none; b=VKPcmJS8POyHEDARwJ0KCVrbtiR0wLDzBfiOPBJyx6+0vIMY66UpNy+UXKqSInPebTqRK3j0nHkRGUpS4OMRGzpBRhn31Il9qcRQqMf3ipexrHCuGhuGqHMzkpytAjyU7IIShRiY5NA+N6fbH9H7R2tmzq3G4qJPRXyxwoBPrtA=
+	t=1782217072; cv=none; b=fShk68R6+rlb6xRDbZTrbgAL8BKta7c7HcbU9SPSTP703PsQ8EqkAeVKlzdxNKqXKoWJ7HycfNfRCsVZxMzEYPx6ZEP1YNHLJuS9RaQ2Sb1HO+7X727gWhIYc0UYtiRhQ8IaATdLveRkjnqo+wRh2n7LBsOsb2fl21eRZOL/zJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782216774; c=relaxed/simple;
-	bh=1zVehaIPtNNj7/QGqi/JCOJgCD7gju3UXdkntTQ8cSk=;
+	s=arc-20240116; t=1782217072; c=relaxed/simple;
+	bh=L1fmSH/ngeQavYEYr07Dz490+UJrqa9tBu7ExUZOitg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OgxaJQ3sVyIgZ6Mb3HT5r5I3tv5lo+0A1/3eHhze789k21a0OyR3F5StjiKYU4q6Di+vk+42KyL0fUQa7TajzjA0MFfTnYlTqMuSYtJGR7S9KfhuNZrl+jxFN1vh8C8VHuWqvM2RpWiuCoPEl0JvVpZ7Vcy1zO6KOnD7KhBKZDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S2ikakXe; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=lgUFMjdGpOUX0YovKY1eKjXmsqpR85YRgZgWf2x0gllVDXndLNOvrqwT3WxkB73A7sxBx5xpt7zTh9nHr8Hzo/zo1h95ht0qXSzFAz+mmKipWvHzitU7JsB7PB9FuWkBTgo7/BmI9ZUMq/rqPVZFfYgpdq2tTtGmpsBLW6gxsD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GeTwnJr6; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S2ikakXe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GeTwnJr6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782216773; x=1813752773;
+  t=1782217071; x=1813753071;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1zVehaIPtNNj7/QGqi/JCOJgCD7gju3UXdkntTQ8cSk=;
-  b=S2ikakXeiy5EHF9DDFs1KYOtpf4ejr9uCN+okmgTS2qWsrdpTomqFgMt
-   QTW2GvCb76WHSTGU0uN1/4S6bp50thcvzs4sQcmXbtbgEi2bABn3fX34O
-   EHsuRnxj/IS4fXaiNTI0kmGS2MjK66qcLkw3tAHoEFQgviZRNEzyv0nd0
-   ERQqGAuEHdz1rSzpIgAoNkimG9S5NcAfTEwME9ZW5vJqaHUJEWx05UwU1
-   XRuwqbvx5ppkS8oUcDfI/h2bG/+dVByb2fE7KI38p1ga+HatQ/rjUOou7
-   N+xpndFgwi2pxSd/xyDt8j4HhCULpJV36NOdEy2Babm70oTW+yfzEoJTD
-   Q==;
-X-CSE-ConnectionGUID: bOfJOZFoTw2ibuD9kKhK8Q==
-X-CSE-MsgGUID: Ytl6CNW0Ro+pNcytLt2kGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="82960854"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=L1fmSH/ngeQavYEYr07Dz490+UJrqa9tBu7ExUZOitg=;
+  b=GeTwnJr62DC98UCWnjq+4pk4o6Cg8Nw4BCfTtPMLIqa9TlW+X6wxPO1b
+   ek+TD6TWYDRHvuYz0MGOkZi8NdcmAwL0oPrVWBaDB6lNu8uNAfRYAzSuk
+   U81yXrk9wGgCzeUyiDwmnw+0U7AZG3ox4DUsvc+glteAv7hF8Zs7eCptq
+   LRNS4bxHaGG9MNKUBqxY7ZTZWVsmaPyMZ2Jdu2VcmypnWi7udAaBDjrM8
+   3pphkCONuytPoD1aesSgTL7RZp5vhiSS8vviBAjP53iJQggFTsVTd08kC
+   95Uejor0thjqslpztacrlDNjNDybDP2yAxNGF/IyElidtiJtQORv6mnNE
+   w==;
+X-CSE-ConnectionGUID: 4WSLVIARQOaMt/D2JOhxIg==
+X-CSE-MsgGUID: MYXCnIgGQTCHUY35DctRbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="82999146"
 X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="82960854"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 05:12:53 -0700
-X-CSE-ConnectionGUID: htrFZsPeTvOGi59oe56ZJw==
-X-CSE-MsgGUID: WZAykranT2+rZYpFtdB3fA==
+   d="scan'208";a="82999146"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 05:17:50 -0700
+X-CSE-ConnectionGUID: Izw3kUsBS7yuTBUSDff/mw==
+X-CSE-MsgGUID: q4sWQ8K3QhOczEFYXY7V/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="254601897"
+   d="scan'208";a="254486432"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa005.fm.intel.com with ESMTP; 23 Jun 2026 05:12:51 -0700
+  by orviesa005.jf.intel.com with ESMTP; 23 Jun 2026 05:17:47 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 717FB95; Tue, 23 Jun 2026 14:12:50 +0200 (CEST)
-Date: Tue, 23 Jun 2026 14:12:50 +0200
+	id 9CB5F95; Tue, 23 Jun 2026 14:17:46 +0200 (CEST)
+Date: Tue, 23 Jun 2026 14:17:46 +0200
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: raoxu <raoxu@uniontech.com>
-Cc: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] thunderbolt: fix bandwidth group reservation indexing
-Message-ID: <20260623121250.GC3066@black.igk.intel.com>
-References: <1ACD3C00B2C83FD0+20260615090348.3058017-1-raoxu@uniontech.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v1 0/3] thunderbold: A few cleanups
+Message-ID: <20260623121746.GD3066@black.igk.intel.com>
+References: <cover.1781776904.git.u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -61,30 +68,42 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1ACD3C00B2C83FD0+20260615090348.3058017-1-raoxu@uniontech.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1781776904.git.u.kleine-koenig@baylibre.com>
 
 Hi,
 
-On Mon, Jun 15, 2026 at 05:03:48PM +0800, raoxu wrote:
-> From: Xu Rao <raoxu@uniontech.com>
+On Thu, Jun 18, 2026 at 12:14:49PM +0200, Uwe Kleine-König (The Capable Hub) wrote:
+> Hello,
 > 
-> tb_init_bandwidth_groups() initializes each bandwidth group with
-> "group->index = i + 1", so the valid group index range is
-> 1..MAX_GROUPS.
-
-That's because group 0 is "reserved".
-
-> tb_consumed_dp_bandwidth() uses group->index directly as an index into
-> group_reserved[], which has MAX_GROUPS elements and is zero-based. This
-> leaves group_reserved[0] unused and makes group 7 access one element past
-> the end of the array.
+> I'm currently working on a project that includes looking at all device
+> ID structures from <linux/mod_devicetable.h>. While doing that for
+> tb_service_id, I spotted these patch opportunities.
 > 
-> When Group_ID 7 has reserved bandwidth, the condition reads beyond the
-> end of the array and may also write beyond it. The reserved bandwidth
-> for Group_ID 7 is not included in the consumed bandwidth sum either.
+> These are all non-critical and also my quest doesn't depend on this, so
+> there is no urge to apply these patches. My suggestion is to apply them
+> via the thunderbold tree during the next merge window with an ack from
+> the network guys.
 > 
-> Convert the Group_ID to a zero-based array index before accessing
-> group_reserved[].
+> The first patch touches drivers/net and drivers/thunderbold. It could
+> theretically be split, but then this results in at least 3 commits which
+> seems excessive to handle three drivers, so I kept it as a single patch.
+> 
+> The third patch is a style change and so is subjective. Drop it, if you
+> don't like it. Here splitting would be easy, but given that patch #1
+> already touches the same files, letting these go in together without
+> splitting seems to be sensible.
+> 
+> Best regards
+> Uwe
+> 
+> Uwe Kleine-König (The Capable Hub) (3):
+>   thunderbold: Stop passing matched device ID to .probe()
+>   thunderbold: Assert that a service driver has a probe callback
+>   thunderbold: Drop comma after device id array terminator
 
-Let's keep it like that but can you make a patch that makes MAX_GROUPS =
-7+1 instead? Thanks!
+Fixed the typo "thunderbold" -> "thunderbolt" and applied all to
+thunderbolt.git/next. I also took the networking patch, let me know if
+that's not okay (I'm the maintainer of that driver too and it looked fine).
+
+Thanks!
