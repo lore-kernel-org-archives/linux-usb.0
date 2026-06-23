@@ -1,257 +1,160 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F012F3D5226
-	for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 11:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2D734BA50
+	for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 11:55:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782215167; cv=none; b=CoEI6MhoRZn4TCk1gKV0IyyMTS1x14Zayw+OBx3AaEAC1TxXoRj/33pVb6oyQQ3iIP4Su9IdV0ydWVLL6u1tQTFUCOSZKdA9bPvh9VKAomZIFhariVAK08Nb564sXv84NHuVdH4gtpECvmadDGKyclhOdYV1SHLLzzwuUZo/5lw=
+	t=1782215724; cv=none; b=NKbuJuljAxROwRoLMd5GB9OlnfI7l/1rXWso9GdvvvoknzAC0m21Mx0YlybT14rDQ66N/eqq3RD0rDSpXpBo5icU767D0MCUfE6ASXzeKzGzyzsuZeRlrupC6sUje2PIMHHcbpaa+gQ/pRPciEQQ1JbvlYU+jMa7ZMBe4LdYR5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782215167; c=relaxed/simple;
-	bh=Hso0a6UrliQE5puSOMxPFIsfnb5JdMwIZP9scKQqL2c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=C70GMaUYzUAq5w/rcf/769ii5TDCLxxObHwd9p0ff3mcdVb4kPy4fWQKiim0G33W/J4bRzGJqPLDMA7wigP7WeEUziiXpXDEg3WpS06CUGVBehP0OTRq4bD4X10bCyud5P2UIiNllvw0jfghnXZFn/ummuV0zMgD4JdCRLQ+ubI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=exUMlBsl; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BvcnztHI; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1782215724; c=relaxed/simple;
+	bh=h2Rwr37eMoGme/d9wKqtjK2U64WXg2RRslmQ/9OCDWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VsVDWeCMvDkybRh/Rzb/Bn1QpLlsyQR189imwDw3mu3h9XLf0pcOzbo25zzIO4+BmPJH6g/Mq/KJfnmREC3ZAQvnvw9kQWyqhbbC4ebrnA7RJEBHeu6osOHNZNgeufFlpbnznOH3muwNIfu9kcuherer17zz5ctGer+b+J+rYoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NOSCPC+A; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="exUMlBsl";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BvcnztHI"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65NBXu1a3673597
-	for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 11:46:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	m5U5jjEW9F6IsBKiOyKcfNkewQXQpsrvSh1PrEY+JBU=; b=exUMlBslb0malfKz
-	wCVTsgbL6sHO2bs58FC2dSO2vcOdObXhisMaudGZqA+tvxqLVcxYMqo53yM5ZR3k
-	XgaFyf1xh5KgV/PPy3y70NVXa1uNxhmxw94+fRE5kzc861jjNTEkp8qJDvUWoR6K
-	rDO5jMbVYXVvf1I3jovyjDvZPXW+MH4biNZK3cbEceK9vZN4EZC304yp8g+n68sx
-	TbW5Sgatnbk8GjPZq4FkVYvsrOiIeJJyG9AyJpWJkmjeU+4evg7ol9N4Qb8sRU6Y
-	oR5lhUn7boKNCCKY7S/c+dL5/L+QKMpvL32nAU1kri1Ox2Sulta97j8lScjbM9h8
-	9+z2Gg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ey729v8hb-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 11:46:05 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-9254309dfd4so308899685a.2
-        for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 04:46:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NOSCPC+A"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-49249707788so23801955e9.2
+        for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 04:55:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1782215164; x=1782819964; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=m5U5jjEW9F6IsBKiOyKcfNkewQXQpsrvSh1PrEY+JBU=;
-        b=BvcnztHIDBzosmQ82QmQ2MMbQuqs6E3OokPRoy5EOrmxzSa87gk6eE4UTvN4yFO+3n
-         WEStobcZSvMpZLHUzGu7V5CUuRzkqLXyFWP4NBa3+eR0vY+OnXxzZXOzHLZqERqB8tex
-         H19TVV+Moc/Kb30M44bJz9D/sLWaRL2lTX+benm6riMk/8nfe/dSCv1qcFy5OwNyaIGm
-         SIjKQyVbdNyvNgorDMWffcZd68ipVw8DQ4GDm8XAzVxQu1sAI94/Iv7VVrK9fxlqqW9h
-         Uwwp8oN2PjKjsaLp271UfkYJbLJiHCci+1IXVkiRRJSqqchatwBJXtoIzSnkbaoDlX7O
-         +qwQ==
+        d=gmail.com; s=20251104; t=1782215721; x=1782820521; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lx0STp9J5MD57IIANrpjIDVf2U7oRAYtvaIvJeF38Lw=;
+        b=NOSCPC+AdZS7XjzzPf3YH5zhsi6PcezFTVP9rr9WzHZNx67chgHnIH+xQtVeuIy3oy
+         WbUjeg7HzoE8o0DWW/SYogLYK3zuGcn8xmHjI9PXWGEAW7d3zsLRk8qOyUOB5Q/Q+znA
+         uN70PyNf2vLjwgWPW9+IKW5NEJVEJQ1oJuHF37wJaI/hJS5Mfk8YqcVciZr8BeClEcXC
+         ESb5jAfaLB5bt7e2LXRW0CYxUVI+RjViUOH4NDvt+ZHrRxFJuPBDoRiDMpN8vRklkS5U
+         FRYgYJyE5kPPjUOsC3PozGmma+zxPV38to7EBS1uH/X4Gj0WglPNTAJtPpl2+tU702iI
+         f/nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782215164; x=1782819964;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m5U5jjEW9F6IsBKiOyKcfNkewQXQpsrvSh1PrEY+JBU=;
-        b=Zrwou55gKrYIF2bACrQtAbZP15t2emto+cSrXq1anGhYrUOTXl8UWhP3SCxeT68O//
-         yP7k/4Pc01UFYtjg0bEpD25ibXIuzLVR3a0/A7qEl0+kiJzhNMmFxqQasXcWAdpC9Ub9
-         DTd/D0jULW1f7QX2jIT/WPVXGev3FJKryyO8M4IkijePxwxiRenUCQpriKlBl2t/hGDH
-         ubGbRcRdTPEY4YCcxmf95OCG5WAEFFemjyY8eJWjRttYZgGUCpyFwzAMMvFReTnehl7L
-         QPi/CyvvZJ7GcN6JoEO4oq3mVn1N/PvoEbgDlriFyzToVbgstlNGds7aW+oFP2kL1Dy5
-         bqdw==
-X-Forwarded-Encrypted: i=1; AFNElJ8aPuHishkxtIiVIKIZdhvJfBfeQPHIU7iGYwG2LdJh6BoZ+kkD0HJo1j08y8xawCZBaomBkRVqv4g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwB8nWXWPUnuqhISLyXHvWaBuw/zdXS9ht55JPgmfTB8eYUSQlc
-	cKCRcKnWLBieRrNW8eL7qJiLdJ1W3t+aJw6bT8SAKMQl3sA+mc7uHp65RohSWrwYZYvoXfuCd43
-	1BnFbPGmRdW/zqqDxyd0XOJcjflmVHnB3w1rNcZLV+QclTTT5WimmL43D5+fG2oA=
-X-Gm-Gg: AfdE7ckIHS6iMPwZ7weCFaNMBZ3aHcInlNuJP4wSF0b6sKk3n7k3MiGPPr5N/LFj6Ti
-	7BoJ2OUbaN/U8q0qNkUdb0kvVZXfvxLlgcsg8DfpTXqX2dInAkJ/HOihfrCu7uEZr79WYtnfuc/
-	WtDPJj9yLmNgdFZvofCDPplvceH9jn82Bc5+qECetuG0+bG8mR+VQGz/8LYUQoPykuczDOdFGaz
-	HMnsmQl2R7+QirF/DKSE/HEf4ISsOmEgnie8I6Bx4pfNeKvJkW3c9p6Bh9tHvBmUwfMeiiBytKk
-	OFqxfIQSyN9+517/3lNKTXLRVZvtsv4k2c3oxXvEzfPQuoImMXXFLelZ2Q2ujFHLDIR27bmhVbY
-	DcyykT8sCErRl3oYJAgr2EWmVLEPqkoezw440j6cI8LHLVK86Z1GBHuLfkMvM5+J4/ap9kwHMXQ
-	==
-X-Received: by 2002:a05:620a:4625:b0:915:d322:c47b with SMTP id af79cd13be357-92645aa5b4dmr405207985a.13.1782215163874;
-        Tue, 23 Jun 2026 04:46:03 -0700 (PDT)
-X-Received: by 2002:a05:620a:4625:b0:915:d322:c47b with SMTP id af79cd13be357-92645aa5b4dmr405194985a.13.1782215163149;
-        Tue, 23 Jun 2026 04:46:03 -0700 (PDT)
-Received: from ?IPV6:2a05:6e02:1041:c10:21db:9254:19d9:645e? ([2a05:6e02:1041:c10:21db:9254:19d9:645e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fe7ba08sm370702135e9.11.2026.06.23.04.46.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2026 04:46:02 -0700 (PDT)
-Message-ID: <b35abbd7-f06e-4794-91a1-bdaccd63af50@oss.qualcomm.com>
-Date: Tue, 23 Jun 2026 13:45:59 +0200
+        d=1e100.net; s=20251104; t=1782215721; x=1782820521;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lx0STp9J5MD57IIANrpjIDVf2U7oRAYtvaIvJeF38Lw=;
+        b=cH1+EGkuBo17DsEtQ60VzmExFW3+utOzDblR6ntoI3/q+0dusRb90kW6l8adwO2vuQ
+         diR0sF9en1YrW7biJoZAbUqf/U66tloBuMC2Ov3rQlcGlldR3UVYM7pOXxS+NuTcXMwF
+         yQO2LjOdUny4rqpUmVVIWN2XX80fR14lHnp2I6YVC4KghKAPLnwqCg3O6/mT6RMUSN3Y
+         Ba/M2Kuh1koUZ79uWZP5COtdFeEi00loGkFET8pn8gYITNhqHR0eNn/mE2noFcFyZIKh
+         qWzlg+aVf02geFa+6WdDhHQROhaNoaloGbKxUGwKtNe1xkTeJrMILlD+FbBLLJWOZtyI
+         IoKA==
+X-Forwarded-Encrypted: i=1; AFNElJ8DI1Ih5RnQxcrEkzfE5T3KDiKGYFVX0pJCZ6cV4QtP0gTN8xtMXxT1D9XCNZd0LEp0OtaibgVD5RI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNKqclu7PL5QtebEHKBMt8WJ4pVsUY/IMV5EGXKRwzmrqSpsP+
+	8lA0QU34hBPf2CCC8q9GQF6tbaa8hCJDAiRl9z2cE6uUCOx6uy+kUSqh
+X-Gm-Gg: AfdE7cnqxYec3xEyovKYFd7Bv8nidYkmqLWJrqe+Cuihb1DySgsOxOWjBYenDFZIQqG
+	NxuNOxNilH/ABxHFfzGI2YCp8vF+cHaGN0zaAVbof3NZZLv5XK9PwKs8sXJZOlwewkZn4ydagqR
+	Iv4wMffj76SZBI1vTBQszDKTo0AORFr3cP08wcHAtn2sdInZWemgj2lX6rv/fo1BiMaW+xKCVaO
+	j0HXdwOfa2y24lOa5kBkzphwFiqbmrQiD/TqkGB06eMMxKy8dIRZOAx4GMzwzvcrCsEZxAKwjFE
+	c8IxVqf42Rpd5uyCdhcckIg2Eo5ukEQblmGoD6x6i30y0HlTjC27WzIBcXbwUk1lZA6xImyap9c
+	eV2xELV4ICYKUT9hCo1jIdWqGQMLUDR2uR/ilvxo/W2K2OLYl7vWg8XORES94+doVGjoRI1cYJl
+	+XpI9xGkLTpsAh/sLyYOBQNg==
+X-Received: by 2002:a05:600c:3113:b0:48a:5565:ec3d with SMTP id 5b1f17b1804b1-492490a790cmr200461135e9.22.1782215720987;
+        Tue, 23 Jun 2026 04:55:20 -0700 (PDT)
+Received: from foxbook (bfg19.neoplus.adsl.tpnet.pl. [83.28.44.19])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492494496d8sm289452405e9.9.2026.06.23.04.55.20
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Tue, 23 Jun 2026 04:55:20 -0700 (PDT)
+Date: Tue, 23 Jun 2026 13:55:17 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: raoxu <raoxu@uniontech.com>, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ mathias.nyman@intel.com, stable@vger.kernel.org
+Subject: Re: [PATCH v2] xhci: pci: Disable soft retry for Renesas uPD720201
+Message-ID: <20260623135517.2b1f0809.michal.pecio@gmail.com>
+In-Reply-To: <c4ef0081-fbe9-47a4-b5d5-60665564ca02@linux.intel.com>
+References: <20260619124234.0a9e4670.michal.pecio@gmail.com>
+	<237BFC17C62D63DF+20260622062117.56278-1-raoxu@uniontech.com>
+	<c4ef0081-fbe9-47a4-b5d5-60665564ca02@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] dt-bindings: Drop incorrect usage of double '::'
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Peter Griffin <peter.griffin@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd
- <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Rob Clark <robin.clark@oss.qualcomm.com>,
-        Dmitry Baryshkov
- <lumag@kernel.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Inki Dae <inki.dae@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Andi Shyti
- <andi.shyti@kernel.org>, Georgi Djakov <djakov@kernel.org>,
-        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ulf Hansson <ulfh@kernel.org>, Peter Rosin <peda@lysator.liu.se>,
-        Vinod Koul <vkoul@kernel.org>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Linus Walleij
- <linusw@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Javier Martinez Canillas <javier@dowhile0.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Srinivas Kandagatla <srini@kernel.org>,
-        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-        Jonathan Marek <jonathan@marek.ca>, Taniya Das <quic_tdas@quicinc.com>,
-        Robert Marko <robimarko@gmail.com>,
-        Christian Marangi <ansuelsmth@gmail.com>,
-        Stephan Gerhold <stephan@gerhold.net>,
-        Adam Skladowski <a_skl39@protonmail.com>,
-        Sireesh Kodali <sireeshkodali@protonmail.com>,
-        Barnabas Czeman <barnabas.czeman@mainlining.org>,
-        Imran Shaik <quic_imrashai@quicinc.com>,
-        Sricharan Ramabadhran <quic_srichara@quicinc.com>,
-        Anusha Rao <quic_anusha@quicinc.com>, Luo Jie <quic_luoj@quicinc.com>,
-        Tomasz Figa <tomasz.figa@gmail.com>,
-        Chanho Park
- <chanho61.park@samsung.com>,
-        Sunyeal Hong <sunyeal.hong@samsung.com>,
-        Shin Son <shin.son@samsung.com>,
-        Krishna Manikandan <quic_mkrishn@quicinc.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Jaehoon Chung <jh80.chung@samsung.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Alina Yu
- <alina_yu@richtek.com>, Andy Gross <agross@kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Wesley Cheng <quic_wcheng@quicinc.com>, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-i2c@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-sound@vger.kernel.org,
-        linux-usb@vger.kernel.org
-References: <20260622101606.485961-3-krzysztof.kozlowski@oss.qualcomm.com>
- <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Language: en-US
-From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-In-Reply-To: <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDA5NiBTYWx0ZWRfX9an6vak0D4IZ
- dDue4paBRRLlHlVc1Z3Zl//tHrZhlyz8elLIucGx+Z//XbYJOUMieaj6ycjUQJbAWh/fh45d8FT
- LQIMMb1V79HkrU8k/AFvXRGuXLKdzlQ=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDA5NiBTYWx0ZWRfX5XfY1IRApc0z
- n/xH+92hKs5MK8LUIOSlATobPJ+Ifs0vDSon6NBw8peARk8g4MkBAuylsEaW3h0pmYAHnHRhvX0
- BrSGmEp0Q+gEW+JdXABrXu1RyLwzho09EqISylUqjLkTundr9wbjMQQNp0u1PCIDuaU8WV+tJFT
- EJea5s7gKpWb5U9RMslbv18qGdD/rTi5g5ij7j94BCfadq2TGKZOm9ohzp3FuYuCAwyX+ZBLwoP
- y/tRi8vgbC/DpXG+ISfWWu9nun4xqM3Jhgc28EUaty+29QrBDIA8Vrk/HP10EclYUq8yJM2eefY
- Ab/NOp+BSeRCstbmqS2nMT1wucyRF/amdxMRn6Fk6det+OfB/7GIEXOjaCLMxuExcoMqyEHwenX
- bDFeQb3QVqcQcxCjC8KLAwnmodP0K5F5txeFggikV+cdSSIGEXIqal8fsdN5vR8Dm0FxZlejZJb
- Er2utnLz3wHanoLO5Bw==
-X-Proofpoint-ORIG-GUID: 01YytAnvf6p-4Ln5Fqm02Yg9_0D0V8iV
-X-Proofpoint-GUID: 01YytAnvf6p-4Ln5Fqm02Yg9_0D0V8iV
-X-Authority-Analysis: v=2.4 cv=eN0jSnp1 c=1 sm=1 tr=0 ts=6a3a71fd cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=fqWYVyBuAAAA:8
- a=EUspDBNiAAAA:8 a=p1VIHm5NO6eVjb5xVX8A:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=3EkFFxAVN7Xjp7FSp-fE:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-23_03,2026-06-23_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0 bulkscore=0
- clxscore=1011 priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606230096
 
-On 6/22/26 12:16, Krzysztof Kozlowski wrote:
-> There is no use of double colon '::' in YAML. OTOH, the literal style
-> block, e.g. using '|' treats all characters as content [1] therefore
-> single use of ':' in descriptions is perfectly fine, whenever '|' is
-> used.
-> 
-> Cleanup existing code, so the confusing style won't be re-used in new
-> contributions.
-> 
-> Link: https://yaml.org/spec/1.2.2/#literal-style [1]
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> ---
-> 
-> Intention for this patch is to go via Rob's tree.
-> ---
->   .../devicetree/bindings/arm/qcom-soc.yaml     |  4 ++--
->   .../devicetree/bindings/arm/qcom.yaml         |  4 ++--
->   .../bindings/arm/samsung/samsung-soc.yaml     |  4 ++--
->   .../display/msm/dsi-controller-main.yaml      | 20 +++++++++----------
->   .../display/samsung/samsung,fimd.yaml         |  4 ++--
->   .../bindings/i2c/samsung,s3c2410-i2c.yaml     |  2 +-
->   .../interconnect/qcom,msm8998-bwmon.yaml      |  2 +-
->   .../interconnect/samsung,exynos-bus.yaml      | 14 ++++++-------
->   .../bindings/leds/qcom,pm8058-led.yaml        |  4 ++--
->   .../bindings/leds/skyworks,aat1290.yaml       |  6 +++---
->   .../bindings/media/cec/cec-gpio.yaml          |  2 +-
->   .../bindings/mmc/samsung,exynos-dw-mshc.yaml  |  2 +-
->   .../devicetree/bindings/mux/mux-consumer.yaml |  4 ++--
->   .../bindings/phy/samsung,mipi-video-phy.yaml  |  4 ++--
->   .../bindings/phy/samsung,usb2-phy.yaml        |  2 +-
->   .../bindings/phy/samsung,usb3-drd-phy.yaml    |  2 +-
->   .../bindings/pinctrl/samsung,pinctrl.yaml     |  2 +-
->   .../bindings/power/renesas,rcar-sysc.yaml     |  2 +-
->   .../bindings/power/reset/restart-handler.yaml |  8 ++++----
->   .../bindings/regulator/maxim,max77802.yaml    |  4 ++--
->   .../bindings/regulator/richtek,rtq2208.yaml   |  2 +-
->   .../bindings/serial/qcom,msm-uartdm.yaml      |  2 +-
->   .../devicetree/bindings/slimbus/slimbus.yaml  |  4 ++--
->   .../bindings/soc/qcom/qcom,apr-services.yaml  |  2 +-
->   .../bindings/soc/qcom/qcom,rpmh-rsc.yaml      |  8 ++++----
->   .../bindings/soc/qcom/qcom,wcnss.yaml         |  2 +-
->   .../bindings/soc/renesas/renesas-soc.yaml     |  4 ++--
->   .../bindings/sound/qcom,q6asm-dais.yaml       |  2 +-
->   .../thermal/samsung,exynos-thermal.yaml       |  4 ++--
+Replying a little out of order here.
 
-Acked-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com> # thermal
+On Mon, 22 Jun 2026 14:31:58 +0300, Mathias Nyman wrote:
+> Cancel the realtek URB we tried to soft retry earlier.
+> 
+> > 2026-06-22T13:23:39.477082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (000/3) [200cb341b0/200cb341b1/200cb341c0] xhci_urb_dequeue cancel TD at 200cb341b0 stream 0
+> > 2026-06-22T13:23:39.477082+08:00 uos-PC kernel: xhci_hcd 0000:04:00.0: 8/6 (004/3) [200cb341b0/200cb341b1/200cb341c0] queue_stop_endpoint suspend 0  
+> 
+> queue stop endpoint to cancel URB for realtek device.
+> Endpoint context still shows endpoint is in "stopped" state.
+> Note that we restarted the endpoint 20ms earlier, endpoint context
+> might not have updated yet.
 
+This was business as usual on uPD720200, it seems that these chips
+don't update EP Context until the first scheduled service opportunity
+(though no later than about 30ms - long interval endpoints must have
+different rules) and they cannot execute Stop EP until then either. 
+
+Some of them complete the command with Context State Error, others
+delay completion until the scheduled restart. If we wait longer and
+then queue Stop Endpoint, it executes instantly (fraction of a ms).
+
+It seems that 201/202 chips still have the same limitation.
+
+> I think there are some steps we could do to avoid soft retry,
+> restart, and stopping an endpoint we know is behind a disconnected
+> parent.
+
+Yes, existing logic can be trivially extended to cover children too.
+Of course, this does nothing if the device is disconnected from an
+external hub or a transaction error occurs without disconnection.
+
+But further experiments indicate that disconnection from the root hub
+is actually a necessary condition to trigger this bug.
+
+If another SuperSpeed device (even one without periodic endpoints like
+UAS) is connected to another port, the retry causes another Transaction
+Error a few ms later, the pipe halts and Stop EP completes normally
+with Context State Error, as expected. Then we reset, remove the URB
+and never restart this endpoint again.
+
+The same happens if I trigger the bug and then connect either the same
+hub or any other device to any SuperSpeed port before command timeout.
+
+[  +0,000009] xhci_hcd 0000:06:00.0: 6/6 (000/2) [ff8f0bd0/ff8f0bd1/ff8f0be0] queue_reset_endpoint tsp 1
+[  +0,000009] xhci_hcd 0000:06:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+[  +0,000504] xhci_hcd 0000:06:00.0: 6/6 (002/3) [ff8f0bd0/ff8f0bd1/ff8f0be0] handle_cmd_completion cmd_type 14 comp_code 1
+[  +0,000025] xhci_hcd 0000:06:00.0: 6/6 (000/3) [ff8f0bd0/ff8f0bd1/ff8f0be0] ring_ep_doorbell stream 0
+[  +0,006627] usb 10-1: USB disconnect, device number 22
+[  +0,000016] usb 10-1.4: USB disconnect, device number 23
+[  +0,000005] r8152-cfgselector 10-1.4.4: USB disconnect, device number 24
+[  +0,000190] xhci_hcd 0000:06:00.0: 6/6 (000/3) [ff8f0bd0/ff8f0bd1/ff8f0be0] xhci_urb_dequeue cancel TD at ff8f0bd0 stream 0
+[  +0,000011] xhci_hcd 0000:06:00.0: 6/6 (004/3) [ff8f0bd0/ff8f0bd1/ff8f0be0] queue_stop_endpoint suspend 0
+[  +0,000009] xhci_hcd 0000:06:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+[  +0,000655] xhci_hcd 0000:06:00.0: 6/6 (004/2) [ff8f0bd0/ff8f0bd1/ff8f0be0] handle_tx_event comp_code 4 trb_dma ff8f0bd0
+[  +0,000023] xhci_hcd 0000:06:00.0: 6/6 (004/2) [ff8f0bd0/ff8f0bd1/ff8f0be0] handle_tx_event stream_id 0 trb_len 2 missing 2
+[  +0,000013] xhci_hcd 0000:06:00.0: 6/6 (004/2) [ff8f0bd0/ff8f0bd1/ff8f0be0] queue_reset_endpoint tsp 1
+[  +0,000008] xhci_hcd 0000:06:00.0: 0/-1 (fff/f) [ffffffff/ffffffff/ffffffff] xhci_ring_cmd_db cmd_ring_state 1
+[  +0,000012] xhci_hcd 0000:06:00.0: 6/6 (006/2) [ff8f0bd0/ff8f0bd1/ff8f0be0] handle_cmd_completion cmd_type 15 comp_code 19
+
+I would guess that disconnecting all SuperSpeed ports causes the chip
+to turn off its SuperSpeed schedule altogether and wait for SW to stop
+all endpoints which aren't halted yet, but in case of pending restart,
+Stop EP is scheduled to complete at the next service opportunity, which
+never happens.
+
+I also found that disconnecting a different affected NIC from the root
+hub itself also triggers this bug, but only if I disable protection
+from queuing Reset Endpoint (including with TSP) to "inactive" devices.
+
+And the bug doesn't trigger every time - sometimes the unlink happens
+while Reset Endpoint is pending and then its handler removes the URB
+without Stop Endpoint.
+
+And cable connection isn't actually necessary - I was mistaken due to
+the randomness of the bug.
+
+Regards,
+Michal
