@@ -1,46 +1,30 @@
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FE3244694;
-	Tue, 23 Jun 2026 13:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4816737F73A;
+	Tue, 23 Jun 2026 14:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782221934; cv=none; b=hVYT7K4cpzO+RtTdbo2faM/CmaXVx/2fd3IXn373MdeJFz75ZnRNN+1ABJyBgjebH+JAUlw1A81w0VsW4uJao/wYm+J/RoqqJy5usofBXIWlFOoZkNeUGR5fxHTMV8ZQ7B4viNHASYDWZ/RVSVwpp6TuiuGp8j+zXg5/dLqONIQ=
+	t=1782223510; cv=none; b=txpA8r1YikQt1uslzaAyq9vwU8JVUtPOv1FhndH31Mx4JP7OtBTF71hwOw+zKlD1zEBbnpBn2ewkGBopXRa1eW9w/PN1g2pFjHBBhHpOfR2ZGFPaKJwbs82zqvTX6XUwDVUt95t1EXl2Vm2uG7y96Ltfd7jql5aVYiSMf6xT2Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782221934; c=relaxed/simple;
-	bh=rdIiEiqORGFMd419s1rPy0RcJsLRhkDijTmzVR9Hv5E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p/1RjRx6Y+iIPecYWXP9F1nq3+u8ypZHIEAiK8rnwcdiJHMvPS5Afu1B+SQOdkeDTlWiArHLQbhxNr8k6cSUD3DP7gJUWBpPKcuCQuAvWHgRe7A+JugBhowB48qJaoMbfe7WE8+3NM1cKkNbP0lpyUy+JrEvl82XkG4+2ks06nA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=MsRGYAJy; arc=none smtp.client-ip=54.207.22.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="MsRGYAJy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1782221900;
-	bh=CUq9uMqj8lss7P0RA5ytDq6vUrCVmrLAjy/ms1mG0jg=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=MsRGYAJyQyIJZgD2O3xDAThHa5lOYxtxwhwSjlMj/gPqgZxzdDKD5PEb8qnQ/Bfpe
-	 9vUmeZXx3blCOpzKYobqdTozz5M0HQ70SSNTzBglAJGMVrVCeT5HcpbQx1RDnrLwkk
-	 aOZRsPtkpQ0HSqYGUuD+DugWwQVpJABjeRrpwd9Q=
-X-QQ-mid: zesmtpgz3t1782221882t62caaee6
-X-QQ-Originating-IP: dZ1oTjGJLtCnPiveTtRt6uy2SmSRLwKUSU7HFsDex+M=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 23 Jun 2026 21:38:01 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 14857673330865042966
-EX-QQ-RecipientCnt: 6
-From: raoxu <raoxu@uniontech.com>
-To: andreas.noever@gmail.com
-Cc: westeri@kernel.org,
-	YehezkelShB@gmail.com,
+	s=arc-20240116; t=1782223510; c=relaxed/simple;
+	bh=Z1eitwFXHKTICrZqp8xL00MC72ben16wKEu+AduVlYg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MjoA/LGAywqrFAjuAfU9pKe1wgB5x5R1No2aD4ccd6lFyP4JNSBgo5dZNYuvOtJzX/aoneF8gfqAT2zWXkOIbmQf3BTnk2E+VBjuG7MQ7hApOY8Iqh2a7bcaV96U4EXwD5xvi4zkoRx9OmyegOr97lZqe0tuGdry68UJWkmYYQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-05 (Coremail) with SMTP id zQCowACnCt6PkjpqZWvYFA--.57057S2;
+	Tue, 23 Jun 2026 22:05:03 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	raoxu@uniontech.com
-Subject: [PATCH V2] thunderbolt: fix bandwidth group reservation indexing
-Date: Tue, 23 Jun 2026 21:37:59 +0800
-Message-ID: <E53B82E8FA767BC5+20260623133759.3019094-1-raoxu@uniontech.com>
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH] usb: xhci: report USB2 resume-exit timeout as an error
+Date: Tue, 23 Jun 2026 22:05:03 +0800
+Message-ID: <20260623140503.87226-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -49,89 +33,76 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MUIhDWa+DFIVuVUDIgT/oh37TYPWHF680c+DJKbmQS4hx6Yx9HFsQHOt
-	gAx8qzblDEwldaLHwTC4DHmHHiV3K8Nwm4aHgA3IM66ZScKs37nFfMSyUBPiOJK8nZrKyzN
-	qnJTr4S1KoIPmYKWrESxRsZutgxxHIaAVvsKt7/rhvRjRg63nDgmbUaY2RzguSeKFGZvCA0
-	nzIqDsjdUC8fbAQ38vRRYAE1dhWw2ZKz/JYrdOmesaaEB4jYAYn9H5BhEHCpdLOrO3XuZlN
-	KsO6ShBlgnr8NuNsLRK80eP99q2WjEF0wSRBxh868B4mLR7BXapiGI6PYeaujKJ4SUUC5Ui
-	5/Kxr3McB3I8nlYR6OISa8LAphP9T2B9R4yz2l6VwDPhjqeXvwWrbd9QBB72FEJwzp7RsCE
-	CGX0PcslNoNw4dQs3sd4OFLPGBI1mjSJ5gZVX0CDeJ/ThX4KilZ7dnhDt75rvbCc8XvU2py
-	3OhNCLhRnIWkHjUarQN9Y61bfG+FqI4m3pOciCh4/r3U+i+aw0DNS5azedi0GVThPPiTdf9
-	NOB/Ok2wan+LrBKutlRA0mF8CdQJpShTtHZnmiHQtGvf7Df3dQHuSclwurn4OvovWsVE65u
-	6fNawNKFsTwZAOU5kD/TEp6gzLHJj2xzz9VmZ0e+nRAS88aMqRZ7DmBaFGICvNyek5sSOPx
-	TeUCw3QTjZYihb4vUR/YRnUEub2YNPxUVR6ovzJkCbDJ3U7eohlBwQVatcgP+FVmYcvdNER
-	Lwaue37p2YYxBWAPZOsM56ek26WVLxKUTKzw+94AL4OXGtDAJH+eUAd6r3JU0NMTxVCGzkv
-	FSj1x4fidI/Al/IN1DUkRLb4766YXQqLfKTQXde5gBq+jKHHSZXN0qNz+uF5LN39WmK9N7M
-	Lgc/IMamqfIuIJPAhHVJOdxo1e27gMqtwzktQdmau0iE8Thnu3sSL3jb1EkbbxSbsBIR2tK
-	IAqRxHVdup+KF31O9w9rN35bmMvUrDL43WA+UxXt9igDcq0oaAsS8t6dlrfU+mkqACckCAC
-	4r9DHasgpJG2a93HIWNLfaRhPfwVW8/Ex+UyQKUviWNMzCXG3eNNGBGtQseYw=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-X-QQ-RECHKSPAM: 0
+X-CM-TRANSID:zQCowACnCt6PkjpqZWvYFA--.57057S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZFyxZFW8ZFW8Gw1UtF48Xrb_yoW8Zr4UpF
+	ZIg3yFkryDtF47Gr4ayF4UtF4F9ws5J3y7GFyfJrykAr4Utr45Cr1vkrZ0v3srXrZ7CFy3
+	tF48Aay5G3WDtF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvj14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
+	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14
+	v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
+	6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU8-
+	B_UUUUU
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-From: Xu Rao <raoxu@uniontech.com>
+xhci_handle_usb2_port_link_resume() waits for the USB2 resume exit
+completion after requesting U0. If that wait times out, it only logs a
+warning and then continues through the normal resume-done path, ending
+the port resume and marking the suspend change as completed.
 
-Group ID 0 is reserved, while valid bandwidth groups use IDs 1 through
-7. MAX_GROUPS is used both for tb_cm::groups, which stores allocatable
-bandwidth groups, and for group_reserved[], which is indexed directly
-by Group ID.
+Return -ETIMEDOUT on resume-exit timeout so the port status path reports
+an error instead of a successful resume. The patch still ends the
+usbcore port-resume accounting before returning. This is intended as an
+RFC patch because xHCI resume state handling is policy-sensitive.
 
-tb_init_bandwidth_groups() assigns i + 1 to each entry in
-tb_cm::groups. Keeping seven entries therefore creates exactly the valid
-Group IDs 1 through 7.
-
-However, group_reserved[MAX_GROUPS] currently also has seven entries,
-providing indices 0 through 6. When a tunnel belongs to Group ID 7,
-tb_consumed_dp_bandwidth() reads and may write one element past the end
-of the array. The reservation for that group is consequently not
-included in the consumed bandwidth total either.
-
-Define MAX_GROUPS as 7 + 1 so arrays indexed directly by Group ID cover
-the complete 0 through 7 range, including the reserved ID 0. Size
-tb_cm::groups as MAX_GROUPS - 1 so only seven bandwidth group objects
-are initialized and tb_init_bandwidth_groups() continues to assign IDs
-1 through 7. tb_consumed_dp_bandwidth() can then retain the direct
-Group ID indexing, with Group ID 7 selecting the final valid array
-element instead of accessing beyond it.
-
-Fixes: 52a4490e89d7 ("thunderbolt: Reserve released DisplayPort bandwidth for a group for 10 seconds")
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
-Changes in v2:
-- Drop the zero-based Group ID conversion used in v1 and keep
-  group->index as the direct group_reserved[] index.
-- Include the reserved Group ID 0 in MAX_GROUPS so direct-indexed arrays
-  cover the complete Group ID range 0 through 7.
-- Size tb_cm::groups as MAX_GROUPS - 1 so
-  tb_init_bandwidth_groups() continues to create only the seven valid
-  groups with IDs 1 through 7.
+ drivers/usb/host/xhci-hub.c | 32 ++++++++++++++++++--------------
+ 1 file changed, 18 insertions(+), 14 deletions(-)
 
- drivers/thunderbolt/tb.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 76323255439a..51f909db9383 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -41,7 +41,7 @@
-  */
- #define TB_ASYM_THRESHOLD	45000
-
--#define MAX_GROUPS		7	/* max Group_ID is 7 */
-+#define MAX_GROUPS		(7 + 1) /* Group ID 0 is reserved */
-
- static unsigned int asym_threshold = TB_ASYM_THRESHOLD;
- module_param_named(asym_threshold, asym_threshold, uint, 0444);
-@@ -66,7 +66,7 @@ struct tb_cm {
- 	struct list_head dp_resources;
- 	bool hotplug_active;
- 	struct delayed_work remove_work;
--	struct tb_bandwidth_group groups[MAX_GROUPS];
-+	struct tb_bandwidth_group groups[MAX_GROUPS - 1];
- };
-
- static inline struct tb *tcm_to_tb(struct tb_cm *tcm)
---
-2.50.1
+diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
+index b0264bd85..b7b7d8b31 100644
+--- a/drivers/usb/host/xhci-hub.c
++++ b/drivers/usb/host/xhci-hub.c
+@@ -998,21 +998,23 @@ static int xhci_handle_usb2_port_link_resume(struct xhci_port *port,
+-		if (time_left) {
+-			if (!port->slot_id) {
+-				xhci_dbg(xhci, "slot_id is zero\n");
+-				return -ENODEV;
+-			}
+-			xhci_ring_device(xhci, port->slot_id);
+-		} else {
++		if (!time_left) {
+ 			int port_status = xhci_portsc_readl(port);
+ 
+ 			xhci_warn(xhci, "Port resume timed out, port %d-%d: 0x%x\n",
+ 				  hcd->self.busnum, wIndex + 1, port_status);
+ 			/*
+ 			 * keep rexit_active set if U0 transition failed so we
+ 			 * know to report PORT_STAT_SUSPEND status back to
+ 			 * usbcore. It will be cleared later once the port is
+ 			 * out of RESUME/U3 state
+ 			 */
++			usb_hcd_end_port_resume(&hcd->self, wIndex);
++			return -ETIMEDOUT;
+ 		}
+ 
++		if (!port->slot_id) {
++			xhci_dbg(xhci, "slot_id is zero\n");
++			return -ENODEV;
++		}
++		xhci_ring_device(xhci, port->slot_id);
++
+ 		usb_hcd_end_port_resume(&hcd->self, wIndex);
+ 		bus_state->port_c_suspend |= 1 << wIndex;
+ 		bus_state->suspended_ports &= ~(1 << wIndex);
+-- 
+2.50.1 (Apple Git-155)
 
