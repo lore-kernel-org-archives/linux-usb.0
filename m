@@ -1,115 +1,270 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235503845B3
-	for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 00:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782174744; cv=pass; b=upIH0ledz5/iRk3NuKV/5dUK5CJxi7dkO1Zq5tDO5wOvunFAS9gSa5JqXlNVxnGdBiVbIKf3FXEaFe8aP06Ff0ZvGk2ribOeDWdHlRP03Z0wYTv0Q9m4P7xb3+9sP8ho7kS5trWdr0i0YmxGOp++HsncBiopflkOXP1hmGxHt0A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782174744; c=relaxed/simple;
-	bh=IY7BvNJy5YUJHRWxxgD+VTRpDgXM+4I9yayLCBMrVDU=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=F57a5XCSruIIJzdArKatRw+lSNdGpwfCNEcSk3xQ22MBdNpwe9XczU9cOLCkptGykHDymg7pi7+lCgu255gfxuq8HpIBLWBm62kY/ZvgoPwfzeUE8/mea2/gNR88gXAkx4UoPiVrZn3sgea80fujAn3sVQJHQ6AmHKZTTNUBg3g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F8zTfSSN; arc=pass smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA0617BEBF
+	for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 01:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782179540; cv=none; b=qV9aLO5GmG2DGs0tLYzhoWYT28LP+O26raW3feMHOrVkL2xjVj6fQJapshy0+5cakfT3CzwySaEDdiE8cH6e0OwQh0zASfpC3quX9weCrhxQ4lFN+lf0DS+cMxQUKB+Q8FQwwzQxVUIKt5ObgHbkCxH0lRg9pImDkmJ4Xt2D6ao=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782179540; c=relaxed/simple;
+	bh=cR0KjUOwpJ2qIHpYg0ffrExapLMoXDdLrFIMx7CdStU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W2JxBl3QKkjlt0O2QP6lVFO/PN/5nTrmdmRRYu3Hx8v+A8mf6bG3RapzpMOJ5LxOZ44/AMjSGtOZNBZ1RSpoDEkg61QYwcvw2+EasVUE96CsXhOBYYYfn3je3329qOkRcJXWAKTeeiyBsq4XqqLVs7QHuDQnxCMiVXWixClRSsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dqaUXEHr; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F8zTfSSN"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8de6adb2357so6237046d6.1
-        for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 17:32:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782174742; cv=none;
-        d=google.com; s=arc-20240605;
-        b=j65ZLGXDHZq470IO3yNI1mO5Wop08Woaxb3hLXh246wIKDRoZ3HU02ItN2NVRvx2vN
-         B6+PKv5FBKB1ApHrvInoLAktKG/3U9qFjF9HrtTIphCCZufC/dP0165OQNsmSxBManpk
-         ctfA48slLTuDtwb3i9FZi1Z37vDiFitpi/6Z3zwQK+3KI9jZPmqHdpbcOjLx0cPgZmDu
-         umLs2G5KDkeZ/jBoLL+FmXBx1g6W6m4pD4tML9EV/aE0wXbPjeuYW+fHPsxhztglA56e
-         02uCjLQYA87LAQ1y1lqUPA+FCA6q/7uvXl9uM+zIIXUsaswpxojyJ+bM/EcvWbkMCgwo
-         6vHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=IY7BvNJy5YUJHRWxxgD+VTRpDgXM+4I9yayLCBMrVDU=;
-        fh=VimqKRrJCN9rdcfuq5onff2+63396vNbthBTDDSyxg0=;
-        b=CCK3kPg6NXOS3WXRT34sqEgFO1/+8O/PduhKn9FlAKTaN+ac/9x52x+G8Pqwgus0C2
-         dMv9aWyalJBegR4ViaHHzhtjAOEl4b5d10Cmnrio9Y6UQycmkAbUQ76e5piiPQeZMhYK
-         qR7wbq+Y6NUponQE4M/UrXxZASoxOSIYNr4p3Ahr/UO3TqHNcyEsV64iQPKo9NFoXTM+
-         XtjfKr9Y7BsEoiSAzzgypFWp4OlAyuk6UUiuFkjWWcm/rmmtCzduHQ9JNHMgmsRwvzaC
-         vj9zGvBKP1vraZup/dHjZ8mZiV0sMQe1nTpSKkIXDtiBPp1rWBp7h+CRsaNBXZHXPU7H
-         /ArQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dqaUXEHr"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c85d8615b09so3409483a12.3
+        for <linux-usb@vger.kernel.org>; Mon, 22 Jun 2026 18:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782174742; x=1782779542; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=IY7BvNJy5YUJHRWxxgD+VTRpDgXM+4I9yayLCBMrVDU=;
-        b=F8zTfSSNDU3Zi6aRDcqKtGm4OrrlL8I5d76kR3j5HhLWJo1tpwq5nh5etjejUwWnxb
-         1HNcVwyNH453gEJT+VL1SP3OY5eOKdobQnZK80MmAZyC/Q4NgzT9/4WKS1PVShr2ccBq
-         7IGjWD8e+R9QT74kg1yBsVhhm5TagdcqRfVb2fRWhBsYynXHQXUZAgyp8I7z9s1MsBLW
-         cQG299dJtsVgs5rS6cOmW9dx3v3EAj01kzXGr1WkUTPhE9hspm1mTBHXM8vih0NVcEfI
-         ZsYaCp/dnqIySsHF7ZqPMxXePI/vUzj2zb/QUsFokALxzpoBXoF17ziojy0/jvd3BiY6
-         Y/Gg==
+        d=gmail.com; s=20251104; t=1782179539; x=1782784339; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mISB+NK2EkO8OtiU/5wV8YPXNGm1LEpqbnrfAMNKAyE=;
+        b=dqaUXEHr9iGC0Okc5JC1KDEeKcQ0hmzOmcjszK8BPWWQkqG3B/ao4N/vF9A1KwsbCm
+         drvS8vEHke9AVBeqqSIRv5X00Pk1jftxGQaVykW1GzqnTVMRwlUt7bRMFJAOMBsCA1UO
+         0ymEmliEKlDYak0mY/r79x/e/sS1uvPbHSs49Ymt4kjPibeAeUFKmD7tUjUq5RlQ+3ka
+         MXQct0R2LmLd2s7Cva5pyn8iAyxQYps5LJu8K+6jMsFoY1o7FwJPTKyJcECZHvhFPr3T
+         6oRX+pNHVLdm73VEPRklyvFS6G821IhuojaKJpwj4+S+yizFfTPg2QW88/Tr8QhapifT
+         iwZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782174742; x=1782779542;
-        h=to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IY7BvNJy5YUJHRWxxgD+VTRpDgXM+4I9yayLCBMrVDU=;
-        b=BgdqwhzDokmZJ1iAmFMx+wIG66r56xNpTcP4+SkcJubYEDTkiSEvAg6BV4qHKJnKm7
-         l3pGw+wlMN6tuK7EkrcuToCVueLPSCPhSozDKlZsTiZy0csXMX4jPKVQ0C6efQ29uK4+
-         z01+JrTelBCYyg+JrguOk4/KylPb9I/pA1f4XBVxmwNjEoe+v94dOb4zy69qMVvjNzTM
-         pnv/rbBub3VO/xzH8BGEWDfhi0rLFK2uzliw0DhGfDGZ5cve3RD/7L8tG/S3OQtwUTKZ
-         +jbiuzokvUaFNjcnV0zYJMQsK7IXjl0AUIeajUo3/BX0ZuK3ruAMFLLmg0aPy6g9Ezrd
-         n8yg==
-X-Gm-Message-State: AOJu0Yz+KUWGZNjD0v/sOO0LMPKl8F0vf2FqY4NR6SQe80bkdZ88GJjf
-	5GUKkZCO45Pc69E32EchNsXz5gg6qPAW2Bpqwu1MQdPQOUNDZExmvzkoC/j/5gxLxTMFgRTf2dO
-	tVWHXIbCiOO/ZS6PgmJWxU/fBC7i8238zLVkYaGs=
-X-Gm-Gg: AfdE7ckguuFP0+qE/rH0clel7ZgDF/O63PDmxlXE2i9mm3vgKVo8XjNLMm6jitr71SX
-	Bkp7uzkLimOk9dA+MB7AToSf9UbGipNfd4EvBV4bWPZ52CoInrPTACERuIhfNBeHJlhgMqDsrUl
-	SuFOzSm2YCrTwGGmLmWWYO5qQnrlXSj9S5e0BzYlaYblBKpepeN3OMyPqwzmEkSIb7Z4KAvn2+N
-	rHiQmnBYDfQr8QYvfxVrkyjcnmSzip9BWru067PdOTTP+kfIDAFPQ2aK+mrGwh+aTZ9zlXbQb4=
-X-Received: by 2002:ad4:5d45:0:b0:8dd:1779:4d1d with SMTP id
- 6a1803df08f44-8e37026277fmr37832176d6.2.1782174742068; Mon, 22 Jun 2026
- 17:32:22 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782179539; x=1782784339;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mISB+NK2EkO8OtiU/5wV8YPXNGm1LEpqbnrfAMNKAyE=;
+        b=FjzB51Z2gV4ZFISfuoZqKcRYpFoNahZ9cS1j6QCxrtJOYVL7BveoNgh6LHhOWi1HoT
+         1KN2tPa1BmfnOhDrLwnN3zK3yEVGalYql1O7FrL0j2kKLVWEJ4KINjgdu3qeNoL6F8M1
+         QlfVuQBj5vG8/mi8FZPlqPnjjeEtsNd7dCfiFk3gD7sgFdFgxFpguBWD4H7tuvyrdWzn
+         ZJnTCs1qVvq/6vNukZYwEGWSVh4UKxfXP1bwr2aUFH5RxxbhQnpiPii9TwWFKXGAXku/
+         PiYcedYrxr1AcR5ZSkEvOFNDBxn2+rzwGbNw9gxywFQSP6p+/hFhNacttGzxNeAocoZv
+         +j+A==
+X-Gm-Message-State: AOJu0Yzq1WsTkpAC0Ek9Zqle62wNpr3hF+W1nOQO7BGtbb0ht1AYrqdj
+	C3ghKAgm7p1VwE1LTIp+u3uhQ177z/fiR8kTOp8hnX0srmRRptgrr0Ng
+X-Gm-Gg: AfdE7cnfxoTCLlIoKYxvebPfWy4Ik5P+juz+lb2Rw625OO0u3Fh5lqbHh/X2gStx2tY
+	GHPA/5BwAdoHEvItyme4BSuQyGbSEJQf5/bWa6Xeh8k6Lgnb6Y2yHVybGiyYxr3EqKQhYlSZMhE
+	jRwy2RWI2M68PGO+AOSuB6G5270aiGqg7BtNDF9EdAq47dUTlwB01ikm3YAOSEHOgorJu0co8d+
+	0j8I/VtJ6BdkX/8bcwskTvGDbIwaO9Dv6hvBt/Krjp87FCbhUuHmd4EiTpxr72ZksVdbS02HfIV
+	CyAPC53Avw4GSqWFuUMLuBPIpUxtuFHLJrV1fRJedqtVYQf/0Z+0bauGiskI/blrgh1rZY6MBqO
+	yr4lRc0Y2p0RPZ+Bso/OLZxadX1p4vkcMzsbjBRE+FCC8ZEIsZlTomN/Tyr9Ukavpq0MjEbfJ87
+	yiOyPwSQ4=
+X-Received: by 2002:a05:6a21:7105:b0:38b:eadd:449a with SMTP id adf61e73a8af0-3bb34652f1emr20055685637.38.1782179538646;
+        Mon, 22 Jun 2026 18:52:18 -0700 (PDT)
+Received: from localhost ([111.228.63.84])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8bc2c8f0a7sm8680214a12.7.2026.06.22.18.52.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2026 18:52:18 -0700 (PDT)
+From: Cen Zhang <zzzccc427@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiasheng Jiang <jiashengjiangcool@gmail.com>,
+	Kees Cook <kees@kernel.org>,
+	Mike Christie <michael.christie@oracle.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	zzzccc427@gmail.com
+Subject: [PATCH] usb: gadget: f_tcm: Cancel delayed set_alt work on teardown
+Date: Tue, 23 Jun 2026 09:52:11 +0800
+Message-Id: <20260623015211.4111938-1-zzzccc427@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Aditya Upadhyay <adityau930@gmail.com>
-Date: Mon, 22 Jun 2026 20:32:10 -0400
-X-Gm-Features: AVVi8Cd0G9gNZXcbLBEacGL0GMZUtsbNor1P7r_BBMbDzcry641GiRQK_EyvplE
-Message-ID: <CAAF7Zqye8YCxpCXcVPbAQzsAiF7upRySyFP959Wio+07rRS5nA@mail.gmail.com>
-Subject: ucsi_acpi: USBC000:00 repeatedly fails to re-enable notifications on
- ASUS Vivobook S 15 M5506WA
-To: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hardware: ASUS Vivobook S 15 M5506WA_M5506WA (baseboard: M5506WA)
-BIOS: M5506WA.316
-Kernel: 7.0.12-201.fc44.x86_64
-ACPI SSDT: AMD CPMUCSI v02 (INTL 20230331)
+tcm_set_alt() defers BOT/UAS endpoint setup to a system workqueue and
+returns USB_GADGET_DELAYED_STATUS. The queued work keeps the function
+state alive only by a raw struct f_uas pointer, but configfs unlink can
+unbind and free that function before the work runs.
 
-Both USB-C ports are enumerated at boot (port0, port1 visible under
-/sys/class/typec/). However, the second port (port1) does not charge
-when a PD charger is plugged in.
+The buggy scenario involves two paths, with each column showing the order
+within that path:
 
-Additionally, ucsi_acpi repeatedly fails to re-enable notifications
-throughout the session, likely after suspend/resume cycles:
+USB control request path:           configfs unlink path:
+  1. SET_CONFIGURATION or             1. Userspace removes the function
+     SET_INTERFACE reaches               symlink while the gadget is bound.
+     tcm_set_alt().
+  2. tcm_set_alt() queues delayed     2. config_usb_cfg_unlink() forces
+     set_alt work and returns            gadget unregister.
+     USB_GADGET_DELAYED_STATUS.
+  3. tcm_delayed_set_alt() later      3. tcm_unbind() releases descriptors
+     dereferences struct f_uas.          and tcm_free() frees struct f_uas.
 
-[Sun Jun 21 17:22:25 2026] ucsi_acpi USBC000:00:
-ucsi_handle_connector_change: GET_CONNECTOR_STATUS failed (-110)
-[Sun Jun 21 17:22:49 2026] ucsi_acpi USBC000:00: failed to re-enable
-notifications (-110)
-[Sun Jun 21 18:23:22 2026] ucsi_acpi USBC000:00: failed to re-enable
-notifications (-110)
-(repeats throughout uptime)
+Validation reproduced this kernel report:
+BUG: KASAN: slab-use-after-free in tcm_delayed_set_alt+0x6c/0xef0
 
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0x66/0xa0
+ print_report+0xce/0x630
+ ? tcm_delayed_set_alt+0x6c/0xef0
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? __virt_addr_valid+0x188/0x320
+ ? tcm_delayed_set_alt+0x6c/0xef0
+ kasan_report+0xe0/0x110
+ ? tcm_delayed_set_alt+0x6c/0xef0
+ tcm_delayed_set_alt+0x6c/0xef0
+ ? __pfx_tcm_delayed_set_alt+0x10/0x10
+ ? process_one_work+0x4cb/0xb90
+ ? rcu_is_watching+0x20/0x50
+ ? tcm_delayed_set_alt+0x9/0xef0
+ process_one_work+0x4d7/0xb90
+ ? __pfx_process_one_work+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? __list_add_valid_or_report+0x37/0xf0
+ ? __pfx_tcm_delayed_set_alt+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ worker_thread+0x2d8/0x570
+ ? __pfx_worker_thread+0x10/0x10
+ kthread+0x1ad/0x1f0
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x3c9/0x540
+ ? __pfx_ret_from_fork+0x10/0x10
+ ? srso_alias_return_thunk+0x5/0xfbef5
+ ? __switch_to+0x2e9/0x730
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork_asm+0x1a/0x30
+ </TASK>
 
-The workaround is to reload the module:
-sudo modprobe -r ucsi_acpi && sudo modprobe ucsi_acpi
+Allocated by task 544:
+ kasan_save_stack+0x33/0x60
+ kasan_save_track+0x14/0x30
+ __kasan_kmalloc+0x8f/0xa0
+ tcm_alloc+0x68/0x180
+ usb_get_function+0x36/0x60
+ config_usb_cfg_link+0x125/0x1b0
+ configfs_symlink+0x322/0x890
+ vfs_symlink+0xc2/0x270
+ filename_symlinkat+0x295/0x2f0
+ __x64_sys_symlinkat+0x62/0x90
+ do_syscall_64+0x115/0x6a0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
+Freed by task 661:
+ kasan_save_stack+0x33/0x60
+ kasan_save_track+0x14/0x30
+ kasan_save_free_info+0x3b/0x60
+ __kasan_slab_free+0x43/0x70
+ kfree+0x2f9/0x530
+ config_usb_cfg_unlink+0x173/0x1e0
+ configfs_unlink+0x1fa/0x340
+ vfs_unlink+0x15c/0x510
+ filename_unlinkat+0x2ba/0x450
+ __x64_sys_unlinkat+0x63/0x90
+ do_syscall_64+0x115/0x6a0
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-After reload, both ports work correctly and notifications are restored
-until the next suspend/resume.
+Make the delayed set_alt work item owned by struct f_uas instead of an
+anonymous heap allocation. This gives teardown paths a stable handle for
+the exact work item: disable cancels pending work without sleeping, and
+unbind/free synchronously cancel it before descriptors or struct f_uas are
+released.
 
-No relevant BIOS updates are available from ASUS for this model.
+Fixes: c52661d60f63 ("usb-gadget: Initial merge of target module for UASP + BOT")
+Assisted-by: Codex:gpt-5.5
+Signed-off-by: Cen Zhang <zzzccc427@gmail.com>
+---
+ drivers/usb/gadget/function/f_tcm.c | 32 ++++++++++-------------------
+ drivers/usb/gadget/function/tcm.h   |  2 ++
+ 2 files changed, 13 insertions(+), 21 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
+index 34d9f49e9987..4096f94586fe 100644
+--- a/drivers/usb/gadget/function/f_tcm.c
++++ b/drivers/usb/gadget/function/f_tcm.c
+@@ -2363,20 +2363,10 @@ static int tcm_bind(struct usb_configuration *c, struct usb_function *f)
+ 	return -ENOTSUPP;
+ }
+ 
+-struct guas_setup_wq {
+-	struct work_struct work;
+-	struct f_uas *fu;
+-	unsigned int alt;
+-};
+-
+ static void tcm_delayed_set_alt(struct work_struct *wq)
+ {
+-	struct guas_setup_wq *work = container_of(wq, struct guas_setup_wq,
+-			work);
+-	struct f_uas *fu = work->fu;
+-	int alt = work->alt;
+-
+-	kfree(work);
++	struct f_uas *fu = container_of(wq, struct f_uas, delayed_set_alt);
++	int alt = fu->delayed_alt;
+ 
+ 	if (fu->flags & USBG_IS_BOT)
+ 		bot_cleanup_old_alt(fu);
+@@ -2413,15 +2403,8 @@ static int tcm_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
+ 		return -EOPNOTSUPP;
+ 
+ 	if ((alt == USB_G_ALT_INT_BBB) || (alt == USB_G_ALT_INT_UAS)) {
+-		struct guas_setup_wq *work;
+-
+-		work = kmalloc_obj(*work, GFP_ATOMIC);
+-		if (!work)
+-			return -ENOMEM;
+-		INIT_WORK(&work->work, tcm_delayed_set_alt);
+-		work->fu = fu;
+-		work->alt = alt;
+-		schedule_work(&work->work);
++		fu->delayed_alt = alt;
++		schedule_work(&fu->delayed_set_alt);
+ 		return USB_GADGET_DELAYED_STATUS;
+ 	}
+ 	return -EOPNOTSUPP;
+@@ -2431,6 +2414,8 @@ static void tcm_disable(struct usb_function *f)
+ {
+ 	struct f_uas *fu = to_f_uas(f);
+ 
++	cancel_work(&fu->delayed_set_alt);
++
+ 	if (fu->flags & USBG_IS_UAS)
+ 		uasp_cleanup_old_alt(fu);
+ 	else if (fu->flags & USBG_IS_BOT)
+@@ -2583,11 +2568,15 @@ static void tcm_free(struct usb_function *f)
+ {
+ 	struct f_uas *tcm = to_f_uas(f);
+ 
++	cancel_work_sync(&tcm->delayed_set_alt);
+ 	kfree(tcm);
+ }
+ 
+ static void tcm_unbind(struct usb_configuration *c, struct usb_function *f)
+ {
++	struct f_uas *tcm = to_f_uas(f);
++
++	cancel_work_sync(&tcm->delayed_set_alt);
+ 	usb_free_all_descriptors(f);
+ }
+ 
+@@ -2621,6 +2610,7 @@ static struct usb_function *tcm_alloc(struct usb_function_instance *fi)
+ 	fu->function.free_func = tcm_free;
+ 	fu->tpg = tpg_instances[i].tpg;
+ 
++	INIT_WORK(&fu->delayed_set_alt, tcm_delayed_set_alt);
+ 	hash_init(fu->stream_hash);
+ 	mutex_unlock(&tpg_instances_lock);
+ 
+diff --git a/drivers/usb/gadget/function/tcm.h b/drivers/usb/gadget/function/tcm.h
+index 009974d81d66..b07bf4aa7d88 100644
+--- a/drivers/usb/gadget/function/tcm.h
++++ b/drivers/usb/gadget/function/tcm.h
+@@ -123,6 +123,8 @@ struct f_uas {
+ 	struct usbg_tpg		*tpg;
+ 	struct usb_function	function;
+ 	u16			iface;
++	struct work_struct	delayed_set_alt;
++	unsigned int		delayed_alt;
+ 
+ 	u32			flags;
+ #define USBG_ENABLED		(1 << 0)
+-- 
+2.43.0
