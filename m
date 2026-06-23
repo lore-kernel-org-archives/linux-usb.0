@@ -1,32 +1,60 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C47D39EF30;
-	Tue, 23 Jun 2026 06:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425A4375F67;
+	Tue, 23 Jun 2026 07:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782195503; cv=none; b=B6Blrji/f+MT5i4+AQP2fbSDwoJKnH7YI5EJPgbj4L7ha6vUEeWjGRbv2VEFZDsUutupbgOQwoPalrX688fgpB4w5iDDDQACWnhJuw/8DR/6SAhq3s4GqRwWRnPoxmdUYEKuBDaew37m8bNYqnjhbjkm8bUHm/YHCo6h2U1Yb38=
+	t=1782199360; cv=none; b=e4/yoTymDw5IGUXuZSlov1KRG0iO5u5SWNlW6H4I14nzMWTyt7mZgIAgE5ZqHUT0hVkqbW4wp/orZaExDZH6KJt/Yr83Wzxb/UGvPfiqk7Z1hSKIJeRn6cAA0yhwRFdfaqOnJimpEwT09wJSWUgfVhNodecA63WBmgbfn+H+iRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782195503; c=relaxed/simple;
-	bh=fsshT5Pcby25XllhAoRyA7gE05zHhQ8XQ7kWVbpHbTo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=STQpeIvAIEHAfbwPLg7fk6bCqhklGX1R2HYblEqDFavKXE3obsWdmx/fyJvAf/PJUczPUwzzgPHS8/6wx5Tfb79QiRCRoIe/DHW6lwoezlDtn2mfo99x4t68gxAXsLrNysr1QO5DhSHApTQjLqWApQ2hh2WS7pvKfi5Ctoix+kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowABHntElJTpq6kXKFA--.5124S2;
-	Tue, 23 Jun 2026 14:18:13 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [RFC PATCH] thunderbolt: icm: report switch runtime resume timeout
-Date: Tue, 23 Jun 2026 14:18:11 +0800
-Message-ID: <20260623061811.62475-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1782199360; c=relaxed/simple;
+	bh=6oZHtSGN1axWPoO7G7atZZXyrhY+by302a0hNee9d/o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fqu0NpfIMgHkvz5nGvBiJMmRtwb4poJEo64CQtrJOGnyCq50bQiljguB/mEkQ2nxE9wZUNYz1NkakdgOBLxocHEpDLAY4OwFlM0U9q5G8PTIkVgFmK8guc0MF+zkWCCLnSO7Gw+49HzsAXFlpK5ibzpNemldB75wzA5sDlXQpcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 4a917a286ed411f1aa26b74ffac11d73-20260623
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
+	IP_UNTRUSTED, SRC_UNTRUSTED, IP_UNFAMILIAR, SRC_UNFAMILIAR, DN_TRUSTED
+	SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_TRUSTED, SN_EXISTED
+	SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_GOOD_SPF, CIE_UNKNOWN
+	GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:fd54e42f-80b0-41bd-a663-0b0a2202b272,IP:10,
+	URL:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:-10
+X-CID-INFO: VERSION:1.3.12,REQID:fd54e42f-80b0-41bd-a663-0b0a2202b272,IP:10,UR
+	L:0,TC:0,Content:0,EDM:-20,RT:0,SF:0,FILE:0,BULK:0,RULE:EDM_GE969F26,ACTIO
+	N:release,TS:-10
+X-CID-META: VersionHash:e7bac3a,CLOUDID:529c76515e422231ead3dd5cbd70642b,BulkI
+	D:260623152230JLGO609M,BulkQuantity:0,Recheck:0,SF:10|38|66|78|102|127|865
+	|898,TC:nil,Content:0|15|50,EDM:1,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:
+	nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,AR
+	C:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_AEC
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 4a917a286ed411f1aa26b74ffac11d73-20260623
+X-User: pengcan@kylinos.cn
+Received: from lenovo [(74.48.78.170)] by mailgw.kylinos.cn
+	(envelope-from <pengcan@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 750956835; Tue, 23 Jun 2026 15:22:28 +0800
+From: Can Peng <pengcan@kylinos.cn>
+To: gregkh@linuxfoundation.org,
+	kees@kernel.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Can Peng <pengcan@kylinos.cn>
+Subject: [PATCH] USB: misc: adutux: use kmalloc_array() for read buffers
+Date: Tue, 23 Jun 2026 15:22:11 +0800
+Message-ID: <20260623072211.79481-1-pengcan@kylinos.cn>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -34,50 +62,39 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABHntElJTpq6kXKFA--.5124S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7GFykKrWDuryrKry8uw13twb_yoWDGrgE9r
-	n5ur17Xwn8uF1DKw17t3W5Z34SgFykuF18Ar92k34fJFy3Xrn8ZrWDWr1DCryUtw4DGF9x
-	ur42qFWfZwnrGjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb4AFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
-	6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
-	AVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
-	JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUjnmRU
-	UUUUU==
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-icm_runtime_resume_switch() waits for firmware to signal switch runtime-
-resume completion. If the wait expires, it only prints a debug message
-and still returns success to the runtime PM path.
+Use kmalloc_array() for the primary and secondary read buffers. Each
+buffer stores four interrupt-in endpoint packets, so express the
+allocation as 4 elements of in_end_size bytes and avoid open-coded
+multiplication in allocator arguments.
 
-Return -ETIMEDOUT when the completion does not arrive so runtime PM
-callers can observe the failed switch resume instead of using the device
-as if resume had completed.
-
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Signed-off-by: Can Peng <pengcan@kylinos.cn>
 ---
- drivers/thunderbolt/icm.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/misc/adutux.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
-index 10fefac3b1d9..46d491627970 100644
---- a/drivers/thunderbolt/icm.c
-+++ b/drivers/thunderbolt/icm.c
-@@ -2179,6 +2179,7 @@ static int icm_runtime_resume_switch(struct tb_switch *sw)
- 		if (!wait_for_completion_timeout(&sw->rpm_complete,
- 						 msecs_to_jiffies(500))) {
- 			dev_dbg(&sw->dev, "runtime resuming timed out\n");
-+			return -ETIMEDOUT;
- 		}
- 	}
- 	return 0;
+diff --git a/drivers/usb/misc/adutux.c b/drivers/usb/misc/adutux.c
+index 369d0d2ee2be..7615cb6bb482 100644
+--- a/drivers/usb/misc/adutux.c
++++ b/drivers/usb/misc/adutux.c
+@@ -680,7 +680,7 @@ static int adu_probe(struct usb_interface *interface,
+ 	in_end_size = usb_endpoint_maxp(dev->interrupt_in_endpoint);
+ 	out_end_size = usb_endpoint_maxp(dev->interrupt_out_endpoint);
+ 
+-	dev->read_buffer_primary = kmalloc((4 * in_end_size), GFP_KERNEL);
++	dev->read_buffer_primary = kmalloc_array(4, in_end_size, GFP_KERNEL);
+ 	if (!dev->read_buffer_primary)
+ 		goto error;
+ 
+@@ -690,7 +690,7 @@ static int adu_probe(struct usb_interface *interface,
+ 	memset(dev->read_buffer_primary + (2 * in_end_size), 'c', in_end_size);
+ 	memset(dev->read_buffer_primary + (3 * in_end_size), 'd', in_end_size);
+ 
+-	dev->read_buffer_secondary = kmalloc((4 * in_end_size), GFP_KERNEL);
++	dev->read_buffer_secondary = kmalloc_array(4, in_end_size, GFP_KERNEL);
+ 	if (!dev->read_buffer_secondary)
+ 		goto error;
+ 
 -- 
-2.50.1 (Apple Git-155)
+2.53.0
 
