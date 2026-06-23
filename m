@@ -1,90 +1,125 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA3F3D565A
-	for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 12:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97C783D5246;
+	Tue, 23 Jun 2026 12:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782216656; cv=none; b=MaZoWEPT+zFZMEleLlFCnVkDnLQvvmjmwj2xp1xZZ+PgSPMIM2zLtNERaDeWgIiPGLjOQFJeHe4cOM5UtrkOcrbG/hZg+DkBTZ0upMRtFMeQk3IMO0M4emefZow6W63gOtNnoXin85jkcn7lLjGldhE2m/6Khjti1qRFG9RMFMg=
+	t=1782216734; cv=none; b=DdXmQIG+SzfvtrAg8uOkBpHrNRALEBilt2Q3duxQzqQSrF2taYYttTnTyK2M3iB4H8AN8Wkehyibh8xn/+gk161lfdW9nhAbjbKP+UaGqkCVypmTqeDiO+9G1KhEnkMEwpPnA6fNlRprhhfPhSI5D4PvkxYIKxYTMxlFq7oQjHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782216656; c=relaxed/simple;
-	bh=0U2bDQ+5IRu4I1tO2PCnTMsOtcSpC1KIoW8zbhSBkow=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=jkFNJfgSmPGweg9Q+PdGT+/s579MF0/ilA38EeepxiVwtNZr2Z/41PgzP6UlFSqhBsw0tWX///ffle6+yjcbIsLXun0CA6PfyTDCaGYJtnyO1X82qQwl8EYqi+laf4fdDZZgHOwT8/nz9ETVhtfdRUhjNHB2tTh1+CuFO0oAnXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GtCjF7M2; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782216734; c=relaxed/simple;
+	bh=EH9EcIzna55ddB1ECPmL4CvMEQp02/oALQmFNP80KY4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EJ8irTMprjLiMNPI7lWplmRqJmH21cn/ur5eymWOQf7kf0xO69/gCkggAH6/N4730gWbnXDnCwUdzyUaT4OmgnwLc0kLS893AZgxdUcZcQrrCPZlptyXP337qJy/OZukC71Oek5iyFvBlZGUzkruSaPOy+PN6oKpvxAzsMRmWTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S6Cdi3Jw; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GtCjF7M2"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-37c64c1fc17so300386a91.1
-        for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 05:10:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782216655; x=1782821455; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=a23MQiixjOOW4WRBEtyS0bqfPWsN3SOpWsffpg3zMIg=;
-        b=GtCjF7M2NygcPTwavJ4f08bnOOsmPDBYbX0xs/mY/L9Wl8Q58tqQrAmdPnH4lGcjLj
-         crhCjjME2CSU7fALzugPNUjt/1pJ/l37CYEBGZy40Tkk4YRNfLf5R4Z/oOAPpkaHVPxm
-         bGzerFvXJuYwcvKSWRkmZ3pIvOYpYuv94EVW5i58ogrNR0aEkITBrZZ0YFANZdZgW9if
-         xatInCYS3iHSMZSAtpAyr7vAWxoVIJL3skpIdu/dnFfg/YsTckXaMEd2YxXod49ny8vc
-         BtOEbDl9SxVgCcUlXgFrOu+qK7CinU1R9JfXXYNJztOEYB4kUg5S0SNtAkTSamHicz0F
-         GpRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782216655; x=1782821455;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a23MQiixjOOW4WRBEtyS0bqfPWsN3SOpWsffpg3zMIg=;
-        b=oKeSGznWsZgmTLSyjpO3UYxpaiJQshAIAhsjsgLQ1FjoLLBmB28V9pULy9+ExWAkF7
-         Ljih5uTgL0XqhSIS2co1ysWnUFtPRzVnGVh79AJYiFiE4LYxtbmomBfv8Nn0sSuxdPAJ
-         qOInCaTK+2vK5gZ8zeenKWB6V2F/ApS1OfzS1wow7PdWWh1gpBpMOQ9fzDUU32iYVOzu
-         JcFm3rwuIWid1EPbqxJSwffTl7sSgnE7AWz5X1ak3UZlkIDP4VkXNEvI6JTm+pWixBCn
-         eA5YeVhMIiScLUEuXS/SWvQePZX06AhjsdHb+Ae2TMd7jtvXZni5O3Zrg5BQOoM1PQ5t
-         4m6g==
-X-Forwarded-Encrypted: i=1; AHgh+RqgZ9wXbuu5kRMOSdAie7K775qM3EQnJ/NixDyM+3dHf+7p7oowiNxAAxhJODKm89L9jswSyI498JQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9WEOU0iKeRKD6C1py3f818IBK0LK2X3iJa8po7SYCuOCDjYvy
-	rYYTw8CSs+pU0dkGBw4Zhp/SPdJ78bwjEO2R9Be417VmHEw3MS9VxfsK
-X-Gm-Gg: AfdE7cl5uKmQ2mmSWWLXwhUrnmkSbcyyn2dhvUaV9whP4jGki4FAhO8bpD8GuwT4nSg
-	QiaSDlqsy0tXeP7Y+o1sL0cCmS3eUX+0bODjMDCyWX0vhRrPr6O2fZ14ey+SrMrda9qzdBl236I
-	Qq7ngwjJ1+eR+HCEkX+yS8ThIpMQcfG1hlxPliLaF572FsIHiaHwvDrta5g21UHS7/IKTH8quUj
-	CTx/9IaEWtpKAIuW65VyCSZeS8b5BIiVaKTauTUTVhUSfqGDEFQZ/Tp3gf2ryx82vDULTCufpz/
-	bdRFZjMFgN3KkfDupAGQbXg4Lvllsqe5gCQka8h/cSvMNZL7FYUbpfqTx4kUh2E+b7iAxXCJZd7
-	COdu7MbG+yza77to1lKlq2kjIrZmr4juCGqeWDwkW1SdTv1kIIuNpzoYYENJSf23jWRtd6s2QdZ
-	DAiN+H2Q0YYj7bcsJ3H+IjMJF1/A==
-X-Received: by 2002:a17:90b:4c4b:b0:36b:54f3:64d5 with SMTP id 98e67ed59e1d1-37dc9870906mr2271472a91.6.1782216654509;
-        Tue, 23 Jun 2026 05:10:54 -0700 (PDT)
-Received: from [192.168.1.7] ([134.236.156.89])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-37d1558b599sm12906942a91.7.2026.06.23.05.10.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2026 05:10:54 -0700 (PDT)
-Message-ID: <8d8a3edc-9e57-4449-822f-3582d7fbfada@gmail.com>
-Date: Tue, 23 Jun 2026 19:10:49 +0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6Cdi3Jw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782216733; x=1813752733;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EH9EcIzna55ddB1ECPmL4CvMEQp02/oALQmFNP80KY4=;
+  b=S6Cdi3Jwy04z8rorOgFSmXH52Gbf23tg0wh07Ry0Qzkz8xaJHFVC6Pl+
+   sNyQIoPLI2J+j/pmnXKlwcEa0RKAbDPHWUN6SVlXE0QMkoxVZ0h20IPss
+   hLmROHRrQIutq4YeE8gqKlLyOBZo1NG9WI27PNpsDDGhBDu5LiNI24O55
+   X2H6qrxn8l0tsGcKw9qCWF2m2s/S93NP4DX6e/XvUsGdKYpCnQuM+LYjz
+   eJXvAOtpKCh8hu5lmvOAhD6z4X+xw4rSacbM3LV5IKuaaIBuEVT2fng1X
+   TSBgDMxWe+9lr2gpg9g3Cn2Yg8Z6wCwjTJOjdmludtwQqbwgtFVy3Q/5O
+   w==;
+X-CSE-ConnectionGUID: NqLnLojhS0uOl5HJwRvAJw==
+X-CSE-MsgGUID: rmunu6WJRxuHx6ojBna5oQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="81936889"
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="81936889"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 05:12:12 -0700
+X-CSE-ConnectionGUID: VITcNh0OTTq6e3Td4U7s+A==
+X-CSE-MsgGUID: QjycDJ8bQWKHTHZiCfdhVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="243142744"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa009.fm.intel.com with ESMTP; 23 Jun 2026 05:12:10 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 2A6FC95; Tue, 23 Jun 2026 14:12:09 +0200 (CEST)
+Date: Tue, 23 Jun 2026 15:12:07 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Badhri Jagan Sridharan <badhri@google.com>
+Cc: gregkh@linuxfoundation.org, amitsd@google.com, kyletso@google.com,
+	rdbabiera@google.com, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, stable <stable@kernel.org>
+Subject: Re: [PATCH v1] usb: typec: tcpm: Validate SVID index in
+ svdm_consume_modes()
+Message-ID: <ajp4F-xwmRnwb8BE@kuha>
+References: <20260622220803.305750-1-badhri@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] usb: serial: option: add multiple VID/PID
-To: yangsizhe <18392868223@163.com>, johan@kernel.org,
- gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, yangsizhe@meigsmart.com
-References: <20260623024108.2400-1-18392868223@163.com>
-Content-Language: en-US
-From: Lars Melin <larsm17@gmail.com>
-In-Reply-To: <20260623024108.2400-1-18392868223@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260622220803.305750-1-badhri@google.com>
 
-On 2026-06-23 09:41, yangsizhe wrote:
-> { USB_DEVICE(0x2dee, 0x4d57),						/* MeiG SLM770A*/
-> +	.driver_info = RSVD(0) | RSVD(1) },
+On Mon, Jun 22, 2026 at 10:08:03PM +0000, Badhri Jagan Sridharan wrote:
+> In svdm_consume_modes(), the SVID value is read from pmdata->svids using
+> pmdata->svid_index as an array index without bounds validation:
+> 
+>     paltmode->svid = pmdata->svids[pmdata->svid_index];
+> 
+> If pmdata->svid_index is driven beyond SVID_DISCOVERY_MAX (16), it results
+> in an out-of-bounds read of the pmdata->svids array. Because pd_mode_data
+> is embedded inside struct tcpm_port, indexing past svids reads into
+> adjacent fields. In particular:
+> - At index 16, it reads the altmodes count.
+> - At index 18 and beyond, it reads into altmode_desc[], which contains
+>   partner-supplied SVDM Discovery Modes VDOs.
+> 
+> By injecting a chosen SVID into altmode_desc[0].vdo and driving svid_index
+> to 20, the partner can force paltmode->svid to be loaded with an arbitrary,
+> partner- chosen SVID, which is then registered via
+> typec_partner_register_altmode().
+> 
+> Fix this by validating that pmdata->svid_index is non-negative and strictly
+> less than pmdata->nsvids before accessing the pmdata->svids array inside
+> svdm_consume_modes().
+> 
+> Assisted-by: Antigravity:gemini-3.5-flash
+> Fixes: 4ab8c18d4d67 ("usb: typec: Register a device for every mode")
+> Cc: stable <stable@kernel.org>
+> Signed-off-by: Badhri Jagan Sridharan <badhri@google.com>
+> Reviewed-by: RD Babiera <rdbabiera@google.com>
 
-Hi yangsizhe,
-have you compile-tested this patch?
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-thanks
-Lars
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 7ef746a90a17..bc531923b1ca 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -2000,6 +2000,11 @@ static void svdm_consume_modes(struct tcpm_port *port, const u32 *p, int cnt,
+>  		return;
+>  	}
+>  
+> +	if (pmdata->svid_index < 0 || pmdata->svid_index >= pmdata->nsvids) {
+> +		tcpm_log(port, "Invalid SVID index %d", pmdata->svid_index);
+> +		return;
+> +	}
+> +
+>  	for (i = 1; i < cnt; i++) {
+>  		if (pmdata->altmodes >= ALTMODE_DISCOVERY_MAX) {
+>  			/* Already logged in svdm_consume_svids() */
+> 
+> base-commit: 1c2b66a7d7257d2652aa41f9a860ecb96dde27dd
+> -- 
+> 2.55.0.rc0.786.g65d90a0328-goog
+
+-- 
+heikki
