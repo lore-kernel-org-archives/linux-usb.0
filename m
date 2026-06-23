@@ -1,108 +1,132 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4816737F73A;
-	Tue, 23 Jun 2026 14:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A036F3955FE
+	for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 14:35:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782223510; cv=none; b=txpA8r1YikQt1uslzaAyq9vwU8JVUtPOv1FhndH31Mx4JP7OtBTF71hwOw+zKlD1zEBbnpBn2ewkGBopXRa1eW9w/PN1g2pFjHBBhHpOfR2ZGFPaKJwbs82zqvTX6XUwDVUt95t1EXl2Vm2uG7y96Ltfd7jql5aVYiSMf6xT2Oo=
+	t=1782225352; cv=none; b=i+KIAYJNtIFB0IT6dq9Eqgl74s23MvgWa7zWqRowA0fvWrU7RCUigVzWOC3Hw00TqyuIA6EmG+8R4zywV4Qd+JP8LO10bDhRDoLIs0cYP5Ol7aS6xlbQRq7/BLb6wbwyqAbw8/YeyhPNxQFxtzMYfQlgXUYthvS6UEJ9s5JlcZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782223510; c=relaxed/simple;
-	bh=Z1eitwFXHKTICrZqp8xL00MC72ben16wKEu+AduVlYg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MjoA/LGAywqrFAjuAfU9pKe1wgB5x5R1No2aD4ccd6lFyP4JNSBgo5dZNYuvOtJzX/aoneF8gfqAT2zWXkOIbmQf3BTnk2E+VBjuG7MQ7hApOY8Iqh2a7bcaV96U4EXwD5xvi4zkoRx9OmyegOr97lZqe0tuGdry68UJWkmYYQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowACnCt6PkjpqZWvYFA--.57057S2;
-	Tue, 23 Jun 2026 22:05:03 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] usb: xhci: report USB2 resume-exit timeout as an error
-Date: Tue, 23 Jun 2026 22:05:03 +0800
-Message-ID: <20260623140503.87226-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1782225352; c=relaxed/simple;
+	bh=fKy5YnCZhDxCWkfmcmX8SEvo4bn+lLypjOoYVvYBSDU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QNzF6al29/+dRPdyYl5WZ1KxTF15YMo9qBadMk5BtPAWqvg4zkRbVhz55aosg8bca+qLCnuLI4JistEFSErc0GCkwjN053nWH6kVPxlNFxCWXUHySAlA7WdNdWTOSDnRIUD/4shISe2c9yr9PebAuthiC0kFMZDJ24w85KXAM9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=bqqY4zxE; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="bqqY4zxE"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4908b92904fso81383535e9.0
+        for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 07:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1782225348; x=1782830148; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=p03/V4N3PaxsAZCpDTVaKukRbxS3xX9UfTKCkcMJvwQ=;
+        b=bqqY4zxEpvYf4mVxdM+NTFNqIvNTRJSfwck96w9NaLf5gqIW06u0cFTvDYZBDuqPQk
+         yx5tOrcq/qnNt7ZywetVAq6zw//ZPYuLe3hBad74aEUy+6Sjgr4z2Q+p1R9MelC77cSB
+         khEnTqMQ84BQKU7oRlkBOiIre0lmt8fR2XLnRPqW4xBRzUUy5fq2WHdQAIUKeG170Z8c
+         p1dXhbWyKh3aJuHoVMaPUFKxxLhlXKr6/4Dhf3okaQe9wfkjXAkeEo3KHFeo2Rvqf8sT
+         AkuVXOwejHxIXELWcoJNpizf88JN+E9raHobh0YXs17/kXsp858NdfZCeea2X9R8TjCR
+         c0kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782225348; x=1782830148;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p03/V4N3PaxsAZCpDTVaKukRbxS3xX9UfTKCkcMJvwQ=;
+        b=Cc2LDeEilmOolbPwq0wROp7g2r6w9b9eS/Mm3J5g3vRZLq1H9u5Kh0aLMJkizuwXKx
+         EVmDOsWp4x/8tuHCzIy/riqkfWRB6igHMlMS4CTiKCWb3K5yH32Zj1yeNcb77aka2L+x
+         Uu/7P0ed96m+uWrNbxKCYqEJij3+pMEeCkQVuJWI2VBi97Xu7iTrjfxz6IeqB8xrr3Cj
+         w6vM2qh4lPK/dvQvOa5nsSCKXSOtsWLBq5J6ngApw8Dil4Yxn+mJ1r1EH3/wiFgYpRSc
+         TXRBydpH38w1DV62wvRaLLoy/6MH9tlzuNHsWolINEq+0/9SpMJ3jhEjCg+bAZmNZyFU
+         WlNw==
+X-Forwarded-Encrypted: i=1; AFNElJ8Dcm4HnuXeljkIZfjcxHtrH4Ga+/hIwG1+2yF86at00FzOBp5aOheAf3ix5zogllXZZOYcrDUqbhU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmVzJV8Ot0zbdxWoYYhWzIcMVRaLZ0AzrQcoRWEIlo2JhQTscc
+	ZzsL4oJevN8tp5Yqr7pHjeh4N6q0+LuHXtagpREbAJcf2Xxcc18dCap6OiyEJIP2T3c=
+X-Gm-Gg: AfdE7cmDyxcYVWxBB5X9Tlzqqwbsmeb7qXiuPxNt2GQuwiP0q5b6wbhEJ1JbwBsJoYx
+	UFQ02TIxLq4sMoWoChV965lb6jszg8EATW/F+p6hOd8Ie1obPVOHVSx6ioi8jCaFRRHvFQ5Q38Q
+	tNxMURailExTlKvOmlgu6kGxmRzO23Ev7x/q+hc3H1F1382wlBldcgf+I/lLedMn84AczoYetpu
+	1eomx9zNtRPmgVuNKziyxQMDCfnRxHTAutByUXD3giDkA5C7m1vhQi7dd+KVRuG17pkcYBR3y2s
+	n5o8irdAsBlZ36E4Xqp44np/U1qsx1niDHko9oBdwAKbqC0Z2U5+/hpMSG7hfrwRqjK+KVod9Ji
+	PDl2Zbe8Tl6b4TSSq5oU9IKSB2heC2X6EMBZh2HOyQ0YoCgxnxGsO1dK2gEWnPgawnd7lvoN+Dh
+	RjBrPsHIEPKxf/WGKPbzSfGmw+PRWA0kzlA4MGVizjQxgrMlkwXv73yoi93hBNRGReHlGkFyeO9
+	zulgIAgwMA7TA==
+X-Received: by 2002:a05:600c:81c5:b0:492:4ed1:77cf with SMTP id 5b1f17b1804b1-4925b35338bmr40281835e9.11.1782225348031;
+        Tue, 23 Jun 2026 07:35:48 -0700 (PDT)
+Received: from localhost (p200300f65f47db0493d7da2f3a2c0dc4.dip0.t-ipconnect.de. [2003:f6:5f47:db04:93d7:da2f:3a2c:dc4])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-46666788226sm35782076f8f.23.2026.06.23.07.35.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 07:35:47 -0700 (PDT)
+Date: Tue, 23 Jun 2026 16:35:46 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Mika Westerberg <westeri@kernel.org>, 
+	Yehezkel Bernat <YehezkelShB@gmail.com>, Andreas Noever <andreas.noever@gmail.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v1 0/3] thunderbold: A few cleanups
+Message-ID: <ajqZcKCYphDMIqRn@monoceros>
+References: <cover.1781776904.git.u.kleine-koenig@baylibre.com>
+ <20260623121746.GD3066@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowACnCt6PkjpqZWvYFA--.57057S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZFyxZFW8ZFW8Gw1UtF48Xrb_yoW8Zr4UpF
-	ZIg3yFkryDtF47Gr4ayF4UtF4F9ws5J3y7GFyfJrykAr4Utr45Cr1vkrZ0v3srXrZ7CFy3
-	tF48Aay5G3WDtF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvj14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-	JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j
-	6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU8-
-	B_UUUUU
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="l34oe6w67l43o6ih"
+Content-Disposition: inline
+In-Reply-To: <20260623121746.GD3066@black.igk.intel.com>
 
-xhci_handle_usb2_port_link_resume() waits for the USB2 resume exit
-completion after requesting U0. If that wait times out, it only logs a
-warning and then continues through the normal resume-done path, ending
-the port resume and marking the suspend change as completed.
 
-Return -ETIMEDOUT on resume-exit timeout so the port status path reports
-an error instead of a successful resume. The patch still ends the
-usbcore port-resume accounting before returning. This is intended as an
-RFC patch because xHCI resume state handling is policy-sensitive.
+--l34oe6w67l43o6ih
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v1 0/3] thunderbold: A few cleanups
+MIME-Version: 1.0
 
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
- drivers/usb/host/xhci-hub.c | 32 ++++++++++++++++++--------------
- 1 file changed, 18 insertions(+), 14 deletions(-)
+Hello Mika,
 
-diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index b0264bd85..b7b7d8b31 100644
---- a/drivers/usb/host/xhci-hub.c
-+++ b/drivers/usb/host/xhci-hub.c
-@@ -998,21 +998,23 @@ static int xhci_handle_usb2_port_link_resume(struct xhci_port *port,
--		if (time_left) {
--			if (!port->slot_id) {
--				xhci_dbg(xhci, "slot_id is zero\n");
--				return -ENODEV;
--			}
--			xhci_ring_device(xhci, port->slot_id);
--		} else {
-+		if (!time_left) {
- 			int port_status = xhci_portsc_readl(port);
- 
- 			xhci_warn(xhci, "Port resume timed out, port %d-%d: 0x%x\n",
- 				  hcd->self.busnum, wIndex + 1, port_status);
- 			/*
- 			 * keep rexit_active set if U0 transition failed so we
- 			 * know to report PORT_STAT_SUSPEND status back to
- 			 * usbcore. It will be cleared later once the port is
- 			 * out of RESUME/U3 state
- 			 */
-+			usb_hcd_end_port_resume(&hcd->self, wIndex);
-+			return -ETIMEDOUT;
- 		}
- 
-+		if (!port->slot_id) {
-+			xhci_dbg(xhci, "slot_id is zero\n");
-+			return -ENODEV;
-+		}
-+		xhci_ring_device(xhci, port->slot_id);
-+
- 		usb_hcd_end_port_resume(&hcd->self, wIndex);
- 		bus_state->port_c_suspend |= 1 << wIndex;
- 		bus_state->suspended_ports &= ~(1 << wIndex);
--- 
-2.50.1 (Apple Git-155)
+On Tue, Jun 23, 2026 at 02:17:46PM +0200, Mika Westerberg wrote:
+> On Thu, Jun 18, 2026 at 12:14:49PM +0200, Uwe Kleine-K=F6nig (The Capable=
+ Hub) wrote:
+> > Uwe Kleine-K=F6nig (The Capable Hub) (3):
+> >   thunderbold: Stop passing matched device ID to .probe()
+> >   thunderbold: Assert that a service driver has a probe callback
+> >   thunderbold: Drop comma after device id array terminator
+>=20
+> Fixed the typo "thunderbold" -> "thunderbolt" and applied all to
 
+Oh.
+
+> thunderbolt.git/next. I also took the networking patch, let me know if
+> that's not okay (I'm the maintainer of that driver too and it looked fine=
+).
+
+Sounds fine to me. So assuming you're not offending the network guys,
+that should be ok.
+
+Thanks!
+Uwe
+
+--l34oe6w67l43o6ih
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmo6mcAACgkQj4D7WH0S
+/k7T+gf/Xgon2MgxvTPWE6llhCIH/yeCNiL+YW+XDYeJThkZMnsedTRVqwEaSK46
+AJk1q5IsrPrZvHr4/S+8hknSgwKwiS8Jwecmn4NjFk/LvU/gKuYqx2eV8q08dJNl
+xVkiQWfIiDAExtK4cmixSKiIJIEDK6bj/k3XV1Z+rk8inM7H2eSWLs+6ntqhj+1T
+TVPhuVw4RYo0nOyAjsYjj9rPIGk//jdEjoNuyaVwaROm7KcknCu9YKIiBbtimJ7p
+3X4y5sHIUOmSG24xqqMxt+xMVyyTNhb+2yLlaFpk45eLm1x4fJoKxxGnwzvWw4mL
+sVfl6UCiHFCwX21uyZ24tpQ3NnByOg==
+=+gL3
+-----END PGP SIGNATURE-----
+
+--l34oe6w67l43o6ih--
