@@ -1,126 +1,257 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8034222E3F0;
-	Tue, 23 Jun 2026 11:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F012F3D5226
+	for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 11:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782214963; cv=none; b=NNgXpIJ4Pne5GPvSwsvawQ7juy2eX/NNPc2hNzatcjRsixmIJMNBBDh7uq7/0eOkTZCdLMEToWb+jbOIExfQkP+MuXZc7LYV76a3PUy1wUHqKYzVRblfoHy9Ruoqv0k7RB0PL/pGM4o8c8J1mYZfJq0DQrVwU9A18k8oo51fqlU=
+	t=1782215167; cv=none; b=CoEI6MhoRZn4TCk1gKV0IyyMTS1x14Zayw+OBx3AaEAC1TxXoRj/33pVb6oyQQ3iIP4Su9IdV0ydWVLL6u1tQTFUCOSZKdA9bPvh9VKAomZIFhariVAK08Nb564sXv84NHuVdH4gtpECvmadDGKyclhOdYV1SHLLzzwuUZo/5lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782214963; c=relaxed/simple;
-	bh=qk9bjfRGos+O4n6swuh9Npk07MjZbR//otHx48tuGxY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jyxhZSccY5Pw1h3D61BiMVSFvONiJ57oMnmmxkVwx/Wvxn/s28M8wV2DgYfGN0ZOVjyIgf0n4PPq2MBcw8lBSsVgTpVw4tZv7Dex7vSTbREs22YDgRmuDuvLMnhbWzYEm89Cc1rz4v9HAflNMQWtPV+3Yq+3SNwNIPv4jLd3Ark=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=husrEPyQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782215167; c=relaxed/simple;
+	bh=Hso0a6UrliQE5puSOMxPFIsfnb5JdMwIZP9scKQqL2c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=C70GMaUYzUAq5w/rcf/769ii5TDCLxxObHwd9p0ff3mcdVb4kPy4fWQKiim0G33W/J4bRzGJqPLDMA7wigP7WeEUziiXpXDEg3WpS06CUGVBehP0OTRq4bD4X10bCyud5P2UIiNllvw0jfghnXZFn/ummuV0zMgD4JdCRLQ+ubI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=exUMlBsl; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BvcnztHI; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="husrEPyQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DC6C1F000E9;
-	Tue, 23 Jun 2026 11:42:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782214962;
-	bh=T+2LJtkZOo7zVvvD1fwQYUjIghWRLRNZtms8N1waA6U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=husrEPyQ2uYygUyC/f+DdU6YkHNgkUoAcJ53B3wKd+OCJZtia4DvbvHWZobWxUG00
-	 qCc4mxz07jLBpIkSGfCugsFmL5+n6eAPwR2uICfYLiO5mNhDVp9v3BQ1BN8JvIrxwE
-	 YEbOWWSzigFk8cCUNb0mnTBqIjoRlmwwlHJn+Hfg=
-Date: Tue, 23 Jun 2026 13:41:31 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ben Dooks <ben.dooks@codethink.co.uk>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-usb@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: dwc3: imx8mp: make dwc3_imx_glue_ops static and
- rename to imx8mp
-Message-ID: <2026062313-poker-closable-d9d0@gregkh>
-References: <20260623101043.748359-1-ben.dooks@codethink.co.uk>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="exUMlBsl";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BvcnztHI"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65NBXu1a3673597
+	for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 11:46:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	m5U5jjEW9F6IsBKiOyKcfNkewQXQpsrvSh1PrEY+JBU=; b=exUMlBslb0malfKz
+	wCVTsgbL6sHO2bs58FC2dSO2vcOdObXhisMaudGZqA+tvxqLVcxYMqo53yM5ZR3k
+	XgaFyf1xh5KgV/PPy3y70NVXa1uNxhmxw94+fRE5kzc861jjNTEkp8qJDvUWoR6K
+	rDO5jMbVYXVvf1I3jovyjDvZPXW+MH4biNZK3cbEceK9vZN4EZC304yp8g+n68sx
+	TbW5Sgatnbk8GjPZq4FkVYvsrOiIeJJyG9AyJpWJkmjeU+4evg7ol9N4Qb8sRU6Y
+	oR5lhUn7boKNCCKY7S/c+dL5/L+QKMpvL32nAU1kri1Ox2Sulta97j8lScjbM9h8
+	9+z2Gg==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ey729v8hb-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 11:46:05 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-9254309dfd4so308899685a.2
+        for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 04:46:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1782215164; x=1782819964; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=m5U5jjEW9F6IsBKiOyKcfNkewQXQpsrvSh1PrEY+JBU=;
+        b=BvcnztHIDBzosmQ82QmQ2MMbQuqs6E3OokPRoy5EOrmxzSa87gk6eE4UTvN4yFO+3n
+         WEStobcZSvMpZLHUzGu7V5CUuRzkqLXyFWP4NBa3+eR0vY+OnXxzZXOzHLZqERqB8tex
+         H19TVV+Moc/Kb30M44bJz9D/sLWaRL2lTX+benm6riMk/8nfe/dSCv1qcFy5OwNyaIGm
+         SIjKQyVbdNyvNgorDMWffcZd68ipVw8DQ4GDm8XAzVxQu1sAI94/Iv7VVrK9fxlqqW9h
+         Uwwp8oN2PjKjsaLp271UfkYJbLJiHCci+1IXVkiRRJSqqchatwBJXtoIzSnkbaoDlX7O
+         +qwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782215164; x=1782819964;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m5U5jjEW9F6IsBKiOyKcfNkewQXQpsrvSh1PrEY+JBU=;
+        b=Zrwou55gKrYIF2bACrQtAbZP15t2emto+cSrXq1anGhYrUOTXl8UWhP3SCxeT68O//
+         yP7k/4Pc01UFYtjg0bEpD25ibXIuzLVR3a0/A7qEl0+kiJzhNMmFxqQasXcWAdpC9Ub9
+         DTd/D0jULW1f7QX2jIT/WPVXGev3FJKryyO8M4IkijePxwxiRenUCQpriKlBl2t/hGDH
+         ubGbRcRdTPEY4YCcxmf95OCG5WAEFFemjyY8eJWjRttYZgGUCpyFwzAMMvFReTnehl7L
+         QPi/CyvvZJ7GcN6JoEO4oq3mVn1N/PvoEbgDlriFyzToVbgstlNGds7aW+oFP2kL1Dy5
+         bqdw==
+X-Forwarded-Encrypted: i=1; AFNElJ8aPuHishkxtIiVIKIZdhvJfBfeQPHIU7iGYwG2LdJh6BoZ+kkD0HJo1j08y8xawCZBaomBkRVqv4g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwB8nWXWPUnuqhISLyXHvWaBuw/zdXS9ht55JPgmfTB8eYUSQlc
+	cKCRcKnWLBieRrNW8eL7qJiLdJ1W3t+aJw6bT8SAKMQl3sA+mc7uHp65RohSWrwYZYvoXfuCd43
+	1BnFbPGmRdW/zqqDxyd0XOJcjflmVHnB3w1rNcZLV+QclTTT5WimmL43D5+fG2oA=
+X-Gm-Gg: AfdE7ckIHS6iMPwZ7weCFaNMBZ3aHcInlNuJP4wSF0b6sKk3n7k3MiGPPr5N/LFj6Ti
+	7BoJ2OUbaN/U8q0qNkUdb0kvVZXfvxLlgcsg8DfpTXqX2dInAkJ/HOihfrCu7uEZr79WYtnfuc/
+	WtDPJj9yLmNgdFZvofCDPplvceH9jn82Bc5+qECetuG0+bG8mR+VQGz/8LYUQoPykuczDOdFGaz
+	HMnsmQl2R7+QirF/DKSE/HEf4ISsOmEgnie8I6Bx4pfNeKvJkW3c9p6Bh9tHvBmUwfMeiiBytKk
+	OFqxfIQSyN9+517/3lNKTXLRVZvtsv4k2c3oxXvEzfPQuoImMXXFLelZ2Q2ujFHLDIR27bmhVbY
+	DcyykT8sCErRl3oYJAgr2EWmVLEPqkoezw440j6cI8LHLVK86Z1GBHuLfkMvM5+J4/ap9kwHMXQ
+	==
+X-Received: by 2002:a05:620a:4625:b0:915:d322:c47b with SMTP id af79cd13be357-92645aa5b4dmr405207985a.13.1782215163874;
+        Tue, 23 Jun 2026 04:46:03 -0700 (PDT)
+X-Received: by 2002:a05:620a:4625:b0:915:d322:c47b with SMTP id af79cd13be357-92645aa5b4dmr405194985a.13.1782215163149;
+        Tue, 23 Jun 2026 04:46:03 -0700 (PDT)
+Received: from ?IPV6:2a05:6e02:1041:c10:21db:9254:19d9:645e? ([2a05:6e02:1041:c10:21db:9254:19d9:645e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fe7ba08sm370702135e9.11.2026.06.23.04.46.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jun 2026 04:46:02 -0700 (PDT)
+Message-ID: <b35abbd7-f06e-4794-91a1-bdaccd63af50@oss.qualcomm.com>
+Date: Tue, 23 Jun 2026 13:45:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260623101043.748359-1-ben.dooks@codethink.co.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] dt-bindings: Drop incorrect usage of double '::'
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Peter Griffin <peter.griffin@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd
+ <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Dmitry Baryshkov
+ <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Inki Dae <inki.dae@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Andi Shyti
+ <andi.shyti@kernel.org>, Georgi Djakov <djakov@kernel.org>,
+        Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+        Hans Verkuil <hverkuil@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulfh@kernel.org>, Peter Rosin <peda@lysator.liu.se>,
+        Vinod Koul <vkoul@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Linus Walleij
+ <linusw@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Javier Martinez Canillas <javier@dowhile0.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Srinivas Kandagatla <srini@kernel.org>,
+        Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+        Jonathan Marek <jonathan@marek.ca>, Taniya Das <quic_tdas@quicinc.com>,
+        Robert Marko <robimarko@gmail.com>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Adam Skladowski <a_skl39@protonmail.com>,
+        Sireesh Kodali <sireeshkodali@protonmail.com>,
+        Barnabas Czeman <barnabas.czeman@mainlining.org>,
+        Imran Shaik <quic_imrashai@quicinc.com>,
+        Sricharan Ramabadhran <quic_srichara@quicinc.com>,
+        Anusha Rao <quic_anusha@quicinc.com>, Luo Jie <quic_luoj@quicinc.com>,
+        Tomasz Figa <tomasz.figa@gmail.com>,
+        Chanho Park
+ <chanho61.park@samsung.com>,
+        Sunyeal Hong <sunyeal.hong@samsung.com>,
+        Shin Son <shin.son@samsung.com>,
+        Krishna Manikandan <quic_mkrishn@quicinc.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Jaehoon Chung <jh80.chung@samsung.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Alina Yu
+ <alina_yu@richtek.com>, Andy Gross <agross@kernel.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Wesley Cheng <quic_wcheng@quicinc.com>, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        linux-i2c@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-sound@vger.kernel.org,
+        linux-usb@vger.kernel.org
+References: <20260622101606.485961-3-krzysztof.kozlowski@oss.qualcomm.com>
+ <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
+Content-Language: en-US
+From: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+In-Reply-To: <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjIzMDA5NiBTYWx0ZWRfX9an6vak0D4IZ
+ dDue4paBRRLlHlVc1Z3Zl//tHrZhlyz8elLIucGx+Z//XbYJOUMieaj6ycjUQJbAWh/fh45d8FT
+ LQIMMb1V79HkrU8k/AFvXRGuXLKdzlQ=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjIzMDA5NiBTYWx0ZWRfX5XfY1IRApc0z
+ n/xH+92hKs5MK8LUIOSlATobPJ+Ifs0vDSon6NBw8peARk8g4MkBAuylsEaW3h0pmYAHnHRhvX0
+ BrSGmEp0Q+gEW+JdXABrXu1RyLwzho09EqISylUqjLkTundr9wbjMQQNp0u1PCIDuaU8WV+tJFT
+ EJea5s7gKpWb5U9RMslbv18qGdD/rTi5g5ij7j94BCfadq2TGKZOm9ohzp3FuYuCAwyX+ZBLwoP
+ y/tRi8vgbC/DpXG+ISfWWu9nun4xqM3Jhgc28EUaty+29QrBDIA8Vrk/HP10EclYUq8yJM2eefY
+ Ab/NOp+BSeRCstbmqS2nMT1wucyRF/amdxMRn6Fk6det+OfB/7GIEXOjaCLMxuExcoMqyEHwenX
+ bDFeQb3QVqcQcxCjC8KLAwnmodP0K5F5txeFggikV+cdSSIGEXIqal8fsdN5vR8Dm0FxZlejZJb
+ Er2utnLz3wHanoLO5Bw==
+X-Proofpoint-ORIG-GUID: 01YytAnvf6p-4Ln5Fqm02Yg9_0D0V8iV
+X-Proofpoint-GUID: 01YytAnvf6p-4Ln5Fqm02Yg9_0D0V8iV
+X-Authority-Analysis: v=2.4 cv=eN0jSnp1 c=1 sm=1 tr=0 ts=6a3a71fd cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=fqWYVyBuAAAA:8
+ a=EUspDBNiAAAA:8 a=p1VIHm5NO6eVjb5xVX8A:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=3EkFFxAVN7Xjp7FSp-fE:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-23_03,2026-06-23_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=0 bulkscore=0
+ clxscore=1011 priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2606230096
 
-On Tue, Jun 23, 2026 at 11:10:43AM +0100, Ben Dooks wrote:
-> The dwc3_imx_glue_ops is not used outside this file, and technically this
-> is the dwc3-imx8mp driver so whilst making this static to avoid the
-> following warning, rename it dwc3_imx8mp_glue_ops to distinguish it from
-> the other driver which also has dwc3_imx_glue_ops.
+On 6/22/26 12:16, Krzysztof Kozlowski wrote:
+> There is no use of double colon '::' in YAML. OTOH, the literal style
+> block, e.g. using '|' treats all characters as content [1] therefore
+> single use of ':' in descriptions is perfectly fine, whenever '|' is
+> used.
 > 
-> Fixes:
-> drivers/usb/dwc3/dwc3-imx8mp.c:176:22: warning: symbol 'dwc3_imx_glue_ops' was not declared. Should it be static?
+> Cleanup existing code, so the confusing style won't be re-used in new
+> contributions.
 > 
-> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+> Link: https://yaml.org/spec/1.2.2/#literal-style [1]
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
 > ---
->  drivers/usb/dwc3/dwc3-imx8mp.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/usb/dwc3/dwc3-imx8mp.c b/drivers/usb/dwc3/dwc3-imx8mp.c
-> index 1cf96540b66e..de8c17bc940d 100644
-> --- a/drivers/usb/dwc3/dwc3-imx8mp.c
-> +++ b/drivers/usb/dwc3/dwc3-imx8mp.c
-> @@ -158,7 +158,7 @@ static irqreturn_t dwc3_imx8mp_interrupt(int irq, void *_dwc3_imx)
->  	return IRQ_HANDLED;
->  }
->  
-> -static void dwc3_imx_pre_set_role(struct dwc3 *dwc, enum usb_role role)
-> +static void dwc3_imx8mp_pre_set_role(struct dwc3 *dwc, enum usb_role role)
->  {
->  	if (role == USB_ROLE_HOST)
->  		/*
-> @@ -173,8 +173,8 @@ static void dwc3_imx_pre_set_role(struct dwc3 *dwc, enum usb_role role)
->  		pm_runtime_use_autosuspend(dwc->dev);
->  }
->  
-> -struct dwc3_glue_ops dwc3_imx_glue_ops = {
-> -	.pre_set_role   = dwc3_imx_pre_set_role,
-> +static struct dwc3_glue_ops dwc3_imx8mp_glue_ops = {
-> +	.pre_set_role   = dwc3_imx8mp_pre_set_role,
->  };
->  
->  static int dwc3_imx8mp_probe(struct platform_device *pdev)
-> @@ -266,7 +266,7 @@ static int dwc3_imx8mp_probe(struct platform_device *pdev)
->  		goto put_dwc3;
->  	}
->  
-> -	dwc3->glue_ops = &dwc3_imx_glue_ops;
-> +	dwc3->glue_ops = &dwc3_imx8mp_glue_ops;
->  
->  	if (dwc3->dr_mode == USB_DR_MODE_HOST)
->  		pm_runtime_dont_use_autosuspend(dwc3->dev);
-> -- 
-> 2.37.2.352.g3c44437643
-> 
+> Intention for this patch is to go via Rob's tree.
+> ---
+>   .../devicetree/bindings/arm/qcom-soc.yaml     |  4 ++--
+>   .../devicetree/bindings/arm/qcom.yaml         |  4 ++--
+>   .../bindings/arm/samsung/samsung-soc.yaml     |  4 ++--
+>   .../display/msm/dsi-controller-main.yaml      | 20 +++++++++----------
+>   .../display/samsung/samsung,fimd.yaml         |  4 ++--
+>   .../bindings/i2c/samsung,s3c2410-i2c.yaml     |  2 +-
+>   .../interconnect/qcom,msm8998-bwmon.yaml      |  2 +-
+>   .../interconnect/samsung,exynos-bus.yaml      | 14 ++++++-------
+>   .../bindings/leds/qcom,pm8058-led.yaml        |  4 ++--
+>   .../bindings/leds/skyworks,aat1290.yaml       |  6 +++---
+>   .../bindings/media/cec/cec-gpio.yaml          |  2 +-
+>   .../bindings/mmc/samsung,exynos-dw-mshc.yaml  |  2 +-
+>   .../devicetree/bindings/mux/mux-consumer.yaml |  4 ++--
+>   .../bindings/phy/samsung,mipi-video-phy.yaml  |  4 ++--
+>   .../bindings/phy/samsung,usb2-phy.yaml        |  2 +-
+>   .../bindings/phy/samsung,usb3-drd-phy.yaml    |  2 +-
+>   .../bindings/pinctrl/samsung,pinctrl.yaml     |  2 +-
+>   .../bindings/power/renesas,rcar-sysc.yaml     |  2 +-
+>   .../bindings/power/reset/restart-handler.yaml |  8 ++++----
+>   .../bindings/regulator/maxim,max77802.yaml    |  4 ++--
+>   .../bindings/regulator/richtek,rtq2208.yaml   |  2 +-
+>   .../bindings/serial/qcom,msm-uartdm.yaml      |  2 +-
+>   .../devicetree/bindings/slimbus/slimbus.yaml  |  4 ++--
+>   .../bindings/soc/qcom/qcom,apr-services.yaml  |  2 +-
+>   .../bindings/soc/qcom/qcom,rpmh-rsc.yaml      |  8 ++++----
+>   .../bindings/soc/qcom/qcom,wcnss.yaml         |  2 +-
+>   .../bindings/soc/renesas/renesas-soc.yaml     |  4 ++--
+>   .../bindings/sound/qcom,q6asm-dais.yaml       |  2 +-
+>   .../thermal/samsung,exynos-thermal.yaml       |  4 ++--
 
-Hi,
+Acked-by: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com> # thermal
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
