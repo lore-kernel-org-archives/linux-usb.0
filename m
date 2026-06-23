@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9E73D7A16;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8B73D79EF;
 	Tue, 23 Jun 2026 15:09:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782227345; cv=none; b=MVGYfC9ny7q2KAh5SLUSwnr7lhocbd8wVbpJhwWTdk6xIs9bBTXJ2rCNhK5SfN9bJwGCJlSZi6TqG+zQeufx2UKOKG9B8XWOU5tCWB/bDT0mnkH/6cGJUaTCTPEMYwDZ4hVjqC5lBMtn48lzzQEdGqFehgCNr9v4kS+6gC9GY8g=
+	t=1782227345; cv=none; b=dnr1HIM24HdW3zrHL+/80GTkYqQXuWFTZ4pF7rX9cNP+2v2/xWylCv1Akp1hsCPOIVcITJzyy/nNW0eXeAg6vYG4qE4lQHpoB41ficzV3cx9uOx9dsBK7+b9LXnohXuRBUfyAtw9AdqL4X4dgz8gvSBSvoG133GOnabSq6jHF68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1782227345; c=relaxed/simple;
-	bh=84AOcl7aE1Mwm8MajbQoIYDNoBi4rr7mmYkPfFnP1J0=;
+	bh=SItC1j2Hi4Tma0LHN7dNFDDUjB3T9AHW0502vxBlyaA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SA/RS/94++0c1O+XUC4Gh5jqRrNCeyLvuEs17Z34Gu6JIkcQoUseY8CGOl3uxKA3lwykQ0so+Xv1mPya0Zg1O24unxWrlqHKydho1CeNHLUmkyBq/nciP6C1kgOHu+jT0rf+EPMYolpm7uO4iDKNIL87THf9ciTN1p5UbfFVZX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DaI4OXE4; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=h7jECLGqJKbvAJtuVIvZ1U0gJnu9mfSGctOAcTjc7RipEkjVVoPODA3BI019nZktG2Cr3bq6rEunxT21f1scULNpbNJFGsONytPBenR5KgcsF56IlrPnLYaS1i+47PhbTrU/w1LHK2umsa2vx5zdb6DBD3Q7zWi9LACnXV+r988=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VaNl+tRC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DaI4OXE4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5936C1F00A3A;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VaNl+tRC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6858B1F00A3D;
 	Tue, 23 Jun 2026 15:09:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1782227344;
-	bh=myUYcGb7DhO2xb4zyqOK6Jjtakd/9NfUGoaPXxt9eYM=;
+	bh=JfazaLZ+RJOWbGYUf+i2fcJEADcKqm6JTS5AT6ckAYQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=DaI4OXE4zHXFPvHYxfELxvBeB+2eCSquu49piYUFl423iqvbCztvTSQinkjjB07+T
-	 MaKu7nuJ24gJowSMaCbek293Bf9d+u0EpFZE6bPV/a8ah5weBpcMaMKSWGTlXIx40X
-	 Lx/jowQURLVW3aZKNOMOI2Yo7ksYCLSSuhoavJ2rqdHaqDVq8sfODSORFQTcp1Vn41
-	 V4vOCQbg0cVF9WfXqu/RClgoYnk4d9PwbXGgsDoQVyIEAWAbkZ1quKDl/CHWTUBFa2
-	 3+hOfiCq1ytPUbicxX0mSp0RTP1h5P3FfRRonI+H/DanQns4nemj+13bYHAeSCGnkt
-	 Tj9wmP4GmS+Ag==
+	b=VaNl+tRCoXX3I5J3O8yUN7yfluo9+fEaxU/WrIO8QW3oXAzgSirhbiH0xcFQEzx/0
+	 4vLM+sYpzcBemryCorNCwnbpskzNgXrdwfs+7dUhYA0DUbOnzFVNj4o3NNU99ukiHR
+	 ZjpC6UYghkI7NlxXOvITVd/muUk+/AKtJhHNBZ4TMdkDnBNOP0IZhiPdTAjSWScuFp
+	 Axnyq1VIwb0406QGi8CbYUQwN5UmkbmmUZmxhSoVtkit+IXC0wkjIqlpylRC4c4+UN
+	 K9l8FPkT6lmKA7bF89LkHUCPr4GTo6+9wJEi6EIGNwq3XdOuVTKbp3AyNb6aas4DQx
+	 I2qYlcq9erolg==
 Received: from johan by xi.lan with local (Exim 4.99.3)
 	(envelope-from <johan@kernel.org>)
-	id 1wc2kI-00000001JuF-1RRB;
+	id 1wc2kI-00000001JuL-1Yqc;
 	Tue, 23 Jun 2026 17:09:02 +0200
 From: Johan Hovold <johan@kernel.org>
 To: linux-usb@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org,
 	Johan Hovold <johan@kernel.org>
-Subject: [PATCH v2 04/12] USB: serial: digi_acceleport: always stop write urb on close
-Date: Tue, 23 Jun 2026 17:08:18 +0200
-Message-ID: <20260623150826.314727-5-johan@kernel.org>
+Subject: [PATCH v2 07/12] USB: serial: digi_acceleport: drop redundant driver data sanity checks
+Date: Tue, 23 Jun 2026 17:08:21 +0200
+Message-ID: <20260623150826.314727-8-johan@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260623150826.314727-1-johan@kernel.org>
 References: <20260623150826.314727-1-johan@kernel.org>
@@ -49,46 +49,89 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Explicitly stop the write urb on close() also if the device is being
-unbound instead of relying on core to do it after returning.
+The urb context pointer does not change while an urb is in flight so
+there is never a need to check for NULL on completion.
 
-Note that the dp_write_urb_in_use flag is cleared by the completion
-handler.
+The port driver data is not freed until the port is unbound at which
+point all I/O for that port has been stopped (and I/O is no longer
+started for a port that has not yet been probed).
+
+The device driver data is not freed until after the driver has been
+unbound and at which point all I/O has also ceased.
+
+Drop the redundant, overly defensive (and still incomplete) sanity
+checks from the completion callbacks.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/digi_acceleport.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/usb/serial/digi_acceleport.c | 40 +++-------------------------
+ 1 file changed, 4 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/usb/serial/digi_acceleport.c b/drivers/usb/serial/digi_acceleport.c
-index 83c4bacc2df8..7a52600c09b1 100644
+index 0dd898a96c33..64b3f42af981 100644
 --- a/drivers/usb/serial/digi_acceleport.c
 +++ b/drivers/usb/serial/digi_acceleport.c
-@@ -1121,7 +1121,6 @@ static void digi_close(struct usb_serial_port *port)
- 	usb_kill_urb(port->read_urb);
+@@ -942,28 +942,12 @@ static int digi_write(struct tty_struct *tty, struct usb_serial_port *port,
+ static void digi_write_bulk_callback(struct urb *urb)
+ {
+ 	struct usb_serial_port *port = urb->context;
+-	struct usb_serial *serial;
+-	struct digi_port *priv;
+-	struct digi_serial *serial_priv;
+-	int status = urb->status;
++	struct digi_serial *serial_priv = usb_get_serial_data(port->serial);
++	struct digi_port *priv = usb_get_serial_port_data(port);
+ 	unsigned long flags;
+ 	bool wakeup;
+ 	int ret = 0;
  
- 	mutex_lock(&port->serial->disc_mutex);
--	/* if disconnected, just clear flags */
- 	if (port->serial->disconnected)
- 		goto exit;
+-	/* port and serial sanity check */
+-	if (port == NULL || (priv = usb_get_serial_port_data(port)) == NULL) {
+-		pr_err("%s: port or port->private is NULL, status=%d\n",
+-			__func__, status);
+-		return;
+-	}
+-	serial = port->serial;
+-	if (serial == NULL || (serial_priv = usb_get_serial_data(serial)) == NULL) {
+-		dev_err(&port->dev,
+-			"%s: serial or serial->private is NULL, status=%d\n",
+-			__func__, status);
+-		return;
+-	}
+-
+ 	/* handle oob callback */
+ 	if (priv->dp_port_num == serial_priv->ds_oob_port_num) {
+ 		dev_dbg(&port->dev, "digi_write_bulk_callback: oob callback\n");
+@@ -1292,27 +1276,11 @@ static void digi_port_remove(struct usb_serial_port *port)
+ static void digi_read_bulk_callback(struct urb *urb)
+ {
+ 	struct usb_serial_port *port = urb->context;
+-	struct digi_port *priv;
+-	struct digi_serial *serial_priv;
++	struct digi_serial *serial_priv = usb_get_serial_data(port->serial);
++	struct digi_port *priv = usb_get_serial_port_data(port);
+ 	int status = urb->status;
+ 	int ret;
  
-@@ -1167,14 +1166,11 @@ static void digi_close(struct usb_serial_port *port)
- 			TASK_INTERRUPTIBLE);
- 	schedule_timeout(DIGI_CLOSE_TIMEOUT);
- 	finish_wait(&priv->dp_flush_wait, &wait);
-+exit:
-+	mutex_unlock(&port->serial->disc_mutex);
- 
- 	/* shutdown any outstanding bulk writes */
- 	usb_kill_urb(port->write_urb);
--exit:
--	spin_lock_irq(&priv->dp_port_lock);
--	priv->dp_write_urb_in_use = 0;
--	spin_unlock_irq(&priv->dp_port_lock);
--	mutex_unlock(&port->serial->disc_mutex);
- }
- 
- 
+-	/* port sanity check, do not resubmit if port is not valid */
+-	if (port == NULL)
+-		return;
+-	priv = usb_get_serial_port_data(port);
+-	if (priv == NULL) {
+-		dev_err(&port->dev, "%s: port->private is NULL, status=%d\n",
+-			__func__, status);
+-		return;
+-	}
+-	if (port->serial == NULL ||
+-		(serial_priv = usb_get_serial_data(port->serial)) == NULL) {
+-		dev_err(&port->dev, "%s: serial is bad or serial->private "
+-			"is NULL, status=%d\n", __func__, status);
+-		return;
+-	}
+-
+ 	/* do not resubmit urb if it has any status error */
+ 	if (status) {
+ 		dev_err(&port->dev,
 -- 
 2.53.0
 
