@@ -1,85 +1,128 @@
-Received: from ultrarisc.com (unknown [218.76.62.146])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CCEF38B7B4;
-	Wed, 24 Jun 2026 07:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=218.76.62.146
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782284813; cv=none; b=QAqBZquVQCWQIZ53g24F8sojjPRr3LKym3aqRGl9GbEsiw0rsEae0HYoMeROrWWE3nNNQuv/7xGec3XjuwEfOGOS6F1y2g+ZBaiyc2s9vYFonFOi9l6dtqXi9lyR94ccJgZb9p5znhhY2f6F/VF074y89e9/xnyFyhRgqurrXDU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782284813; c=relaxed/simple;
-	bh=8Cd6+H4RNiHdWqEe1lDMeUgukwCB0rSDBxzZjoK1EPA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Unr0Cy33+ohfQtwsUK+ZNKHESTW8JTsn2eTZGKCLeQaRRbgA3ZFdkOVZeJ5uIVR9gosf4d5p829bffmZtzvuA1tLIm/C95j7+/WojR7mUcqwI3LrHwEuRAwNXeoSG+qFK+ltordrSCq/AaxI4IomS4MwItWMoIn96hZG6Iyp4F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com; spf=none smtp.mailfrom=ultrarisc.com; dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b=pJswjbKe; arc=none smtp.client-ip=218.76.62.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ultrarisc.com
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A0426CE1E
+	for <linux-usb@vger.kernel.org>; Wed, 24 Jun 2026 08:06:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782288403; cv=pass; b=ZRzNqTH39A8StR2nSZKBqsKHi4wY8CBDHkEN0/6JSFTKGHBabLQn7Z3eB3eR7/TScFacPyd1Awoa292iRSUTAEfJoCtjf5+M1wQNPxkUwIF2IyPnzuHAWx8duvLOPzG9TXyW5aA4d9GT3vzhfYDngAotsE28zQLwxTdywN3EGMs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782288403; c=relaxed/simple;
+	bh=gZeNPuamGXtqBkLQzEmuZPlOeqKMujWLum9QRt/g1bQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=a2PH+m/hYyl9jVtPYSL4caxn4NcUYqgR+L767ZP0DtSB+zYCi7Z36BGZoMHsST60eqyo/2wlGCY4E9tjnO+w2iQ9PayOdk8Dn5ZNXuHZjTj+nKIWvd7Vh8M4jA4z6BMEk7cSSPM3DcQJyfWXFUcEc9sOSdmp+XlHmmxc7Nn9HCk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IzYxjx+f; arc=pass smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b="pJswjbKe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IzYxjx+f"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c07ea058c0cso144947166b.2
+        for <linux-usb@vger.kernel.org>; Wed, 24 Jun 2026 01:06:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782288400; cv=none;
+        d=google.com; s=arc-20240605;
+        b=chhgDS1GdHV+c6FJVfLjQ/8jtughW0TV65hrUJZxkuX4+w6fBEq3L40yOFGr9u5sNR
+         8YP+/lI1uPD22mSChkujQJSlTqatGTJOSEQNj6reXUYLFtb7lVVZTHLK8dMTJFMlpFJJ
+         +Zj2wzn86DyXL6A4mRuCV6YzoYQ8Xva2vhFjsvs1Vmck/bCxtEE7eGI3PbnDwYwazXMz
+         vW0VeBRwi00Vz6+MunJKzAA9igvcwG9N87yutiwdzxPjEJgS/gLJcWO4QHI/2eWFEDK+
+         2EXvcY2IUgFp1E/5PU44RSQ0V+Qpzw991hJQDwT+9MpziE+wIyHeTTf2Fyu1JfVtZwWX
+         mHqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=lM0sj/gFrnWNNsB/THsiD2+stmMptnCgeunijBGiJP0=;
+        fh=cQQC4ZcnSDaZ03G3vNlFyuY8RcJWNy18nF+ZnOE1ImQ=;
+        b=WmtyT3//To1XiRaSR008KhLEz8weF3sNu/4wfPgtUsedsSoz2dUwXnSsFhrEiJifmI
+         LD1GYLRyHrgJ0ZhXV6QNhVo8tEEdnB18Gjt8aWNj+uPjEi1nSwY/aWS132MqD/RGFMvq
+         06FpjmGpkQkrn4B1WTfK08evu4C+4lkrRPcFoWbIfXU6ed1Z58BovGOsgsYTEDIxT03y
+         6BakjHU1aGW47H7mEibE/q6XJP8GICj/t5sQgkidZDmWFlqTwzA38TsdrvZsPBzOS1gz
+         EnQNnZ2ghc3isHWhxPEjJIbFhXw4xzMgFnJdFHXbix0e7P+PfDuP207TmjVb5OTzQpv7
+         qVpg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ultrarisc.com; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:In-Reply-To:References:MIME-Version:
-	Content-Transfer-Encoding; bh=/NLBZOYNCStta42wBbvRH4yHB25JbGFVyE
-	ty1z8J4hE=; b=pJswjbKeC0O1CL2w3Cy0qnAfH3+fbX2ra6u3Wr64WHQ2DNG9Ca
-	+utwQXFJd89vEIlimPtTy4vq3uQXLx31WnG7wfA6Zv4xZ3T5HVZlab2SiqUs9CjR
-	AITNmxcQTYnP7PwW1Ice0bS37cinanu8NDEHa12ipB3Ocv8nCougv2Zcc=
-Received: from leopard.. (unknown [192.168.100.1])
-	by localhost.localdomain (Coremail) with SMTP id AQAAfwA3cUIpgjtqJ78MAA--.14160S2;
-	Wed, 24 Jun 2026 15:07:21 +0800 (CST)
-From: Xincheng Zhang <zhangxincheng@ultrarisc.com>
-To: michal.pecio@gmail.com
-Cc: cyrozap@gmail.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	mathias.nyman@intel.com,
-	zhangxincheng@ultrarisc.com
-Subject: Re: [PATCH] usb: xhci-pci: Disable 64-bit DMA for VIA VL805
-Date: Wed, 24 Jun 2026 15:06:12 +0800
-Message-Id: <20260624070612.337013-1-zhangxincheng@ultrarisc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260623121847.53749028.michal.pecio@gmail.com>
-References: <20260623121847.53749028.michal.pecio@gmail.com>
+        d=gmail.com; s=20251104; t=1782288400; x=1782893200; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=lM0sj/gFrnWNNsB/THsiD2+stmMptnCgeunijBGiJP0=;
+        b=IzYxjx+f4Z8/We9K/7J6kIBnc5HIvl0pZPGjt0PCA/kXigCxu12jPdOVWcGNxvdVyK
+         le0cfMTSELGrd1aLyBTP6pYgGScgfLU04A+24F0B6pv/D9vnq+35RwZlBlccCGvXCZFr
+         UE3SrjCjoEweZGjKoK2Bqp/fDjb+CjnkVMLXUSB4xv7JWSVpFuu7B0Fv66RGcr7QM0NK
+         8Rb0U5IxYYWbeAuCsCtBpY+Q2riaUJdnYOkrIDAiOSgOKMkMkpRU8SaoWGhNLY0EqE7t
+         EMAl5Z/D5GX0h9L0L+zHv1H1oFJ6izYxyrlPJlzaa/8GvgX/Vz1MciPYBKvHqYGKErCC
+         yxIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782288400; x=1782893200;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lM0sj/gFrnWNNsB/THsiD2+stmMptnCgeunijBGiJP0=;
+        b=AobVOzohYtP9rcPZ4s2VKTfOCpK8+7l9yRipB5B+l+SfSCHBlofXRcU5bZxlHhLIoG
+         j2+n6N0HlMRieLKvLAqVVujgIYAd71m6xDeMFuun8DNRh8gWoMMi/1nDq4R64/2V+pKA
+         QERIe5XIEXuJH1DWL8ReR1edV3LlJn1tb49w/W7fEWNE1OvuWDrUnvDBNtInVHu0ba5g
+         ofYT/eCcdUB8ZWc4x4Aq0mWjrfefVX4vdl82D1qW51NOOc+sezlTG7UssrB219NiF3BG
+         dlVp1QO2SJ1KTupiyAMAxg1q+3Vm6Gv6tYoNw1kjTA4YBIcc/UwKhWVzncHF7WbjRb7v
+         u8kQ==
+X-Gm-Message-State: AOJu0Ywj93fEaEXiXRkvJ4JNy6QB70gtZ4EA4v61MPuAlNkk8tcNAs/w
+	6i0qzSaZLdcywANXncpsXD2kzgBe4AiwFyqQpy2xSBxWzMSgRETqLjANJYsSIHH3ynTRdlh9tyD
+	Gw4NvOibxQMhg+4rpewezmqqZAB2Myw8=
+X-Gm-Gg: AfdE7ck9YQ/lPNgOfb5ikAZnYyZRsPAYvU60A1iXzV8Blabh9Mgrj6c6Di6vPSXI9VT
+	hQesyrpaHqoZzEBJ9lXtyUrZdYHYccxU3anA+pbHGdhNdF50jK89m2gz8UrRzA9o0k0rBdpq0M8
+	FXLz9Fdzqynu2wCTkpeZpir/GedCsAvsdsOSyYF026BzEkXuhNFN0rchfvGVqboi6XFH2WoMW5g
+	Nt+/CQd7X/tmlcLgQPwUOcX6EpVaqmVNagKvyJhXsSxlM0cCQ0fJ/VclbzsRh2dydvbd5JLtQ==
+X-Received: by 2002:a17:906:9f86:b0:bfa:f563:9294 with SMTP id
+ a640c23a62f3a-c107e0dfebbmr347805666b.18.1782288400043; Wed, 24 Jun 2026
+ 01:06:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAfwA3cUIpgjtqJ78MAA--.14160S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7JF4UXFWkGF4fuF1xWFWktFb_yoWxZFcE93
-	4kuFZrKayDXF47Ar4kXr1Ygws7Krs7WFyUXrW0qws5t34rZwsxXw4jg3s5ZF12yayftFya
-	g3s8t3yIk3yagjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbIkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_
-	Gr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
-	1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
-	6r1DMxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
-	026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
-	JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
-	vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE
-	14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
-	9x0JUBVbkUUUUU=
-X-CM-SenderInfo: x2kd0wp0lquxxhqjq3powut2xlvfhudrp/1tbiAQAIDGo7VEwABAABsJ
+References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
+ <567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
+ <CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com> <5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
+In-Reply-To: <5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
+From: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Date: Wed, 24 Jun 2026 13:36:28 +0530
+X-Gm-Features: AVVi8Cdz6KHrxpF6FVDarjMSsiC-uOJ-UdMHqIhmrG7YgFP-x12nJ9Fo0j02HUE
+Message-ID: <CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com>
+Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, michal.pecio@gmail.com, stable@vger.kernel.org, 
+	corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Michal,
+> Actually, the best approach here would be to put this single change into
+> a separate patch that comes before the current one.  That removes issues
+> of making more than one functional change in one patch and improves
+> bisectability.
 
-On 2026-06-23 12:18 +0200, Michal Pecio wrote:
-> But I don't like this abuse of the quirk. Firstly, it causes
-> unnecessary bouncing on systems with >4GB RAM and no IOMMU.
-> I found other drivers that use DMA_BIT_MASK(36) or even weirder
-> numbers, so it seems that we too could request 64 gigs exactly
-> with a bit of driver refactoring.
+Before? Shouldn't it be after my changes? That would make it easier to
+justify the changes. And just to be sure, you did mention it does
+align with what the intention of USB_QUIRK_DELAY_INIT, but it does
+change its behavior when the quirk is not set. Atleast from what I
+understood from the documentation and an LLM's summary, the device
+needs time to prepare the full configuration set. So, does delaying
+before the first header read really work? I can't test this since I
+don't have a device that requires the quirk to be set.
 
-Thanks for the review. I totally agree that using `DMA_BIT_MASK(36)` is
-a much better approach to avoid bounce buffers and register width issues. 
+I personally think adding a condition to check if the quirk is set and
+then delaying before sending the first request would be appropriate.
+What are your opinions on this.
 
-I will prepare a v2 patch with this refactoring. I'll wait a bit for
-Forest's input on the ASMedia chips before sending it out, just in case 
-we need to handle them together.
+> The style used in this file is to indent continuation lines by 4 spaces,
+> because some of the continued statements are extremely long.  If you
+> want to align new continuation lines with an open paren, you can -- but
+> you didn't even do that in the example above; you aligned it with the
+> space following the first comma.
 
-Thanks,
-Xincheng
+I will make my changes more consistent with the existing file, i.e.
+continuation with 4 spaces.
 
+Also is it fine if the string lines exceed 100 columns?
+
+Also, is there a need to check for krealloc()'s return value? Since we
+are only shrinking the buffer, there won't be any moves or completely
+new blocks (at least as per my understanding). Do I still need to
+check its return value for completeness' sake?
