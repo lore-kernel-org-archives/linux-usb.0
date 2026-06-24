@@ -1,105 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423DE3A1B5;
-	Wed, 24 Jun 2026 10:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484F5276028
+	for <linux-usb@vger.kernel.org>; Wed, 24 Jun 2026 11:46:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782298682; cv=none; b=ChKmf9plkzfO6/ViWK7llIlxZDFpnjqzNVf4alLDWdUkSam0ZG5ZQTrYpfMR+jTN41jofp7tmJ5PxUMvUQDq382wrp/L/JN8fzXy2YMAfnsUkORJD9soyDAC6Ri50ckSzRCdDOH20TuBYLT0dy1AiOj2Qfmxavs36o9Ra2pR23A=
+	t=1782301611; cv=none; b=Iqwz0TJODCPL6swUYZHT9N4GW7UP1KcVE3Hoqg4UoMTjAPSP7CCQf30TTdVe04hfkCNbTZ00qKJ06nKgIUUP4a1d+iHS551edYxJ1xsdpAsU9iZtZvXotCj3xWn1cLkynia0Pf7As4KuUj0P/wJmChO+fysdjAy7jWNEG4EBpA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782298682; c=relaxed/simple;
-	bh=xfiVJXkNfw1spXDRgHatsV/aIUpjIbzmJtt0xI6c2Gg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CtHZuJ62lkXff+o900tqog15TXqF5X2zokUAnvUmU5+nhQxZPVxR6Fosbn4KneWKiJ+FJCRbSgtFT8o6z2kMO0bPvwXWtTzHFeKnBtOZ7puFmoQDwDH67fPV+cKIK56hcyW92DFbwfjEvvegfwRZy2hx2i2oRKBv0H96AYiF4PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HalWHlm1; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782301611; c=relaxed/simple;
+	bh=hUG3sRV5RMfHn1ZN0bBsvFTkVjqprDKCzLA//HYhC5A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cKzNDbhyIc+0dSSUgdrt8R2h8sds+v8xBW7JKwedxEPpIPmOXUDGDmZcn2ze4hp+vZHgKHZIFQAqnMFKb0xbhb7J62AEU+Dzmz04aPlrs6U8xt6AelCfJg1TAo4LytVkicY+aDOkj4NdiirknJRc+i1G7iDYzFUypOpmKNta+d4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SzknugUL; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HalWHlm1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782298682; x=1813834682;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=xfiVJXkNfw1spXDRgHatsV/aIUpjIbzmJtt0xI6c2Gg=;
-  b=HalWHlm1MFr0YTPBgjkZT7CiEjzc/NLvSU7WFHPnZ/N0nnusATLhtncP
-   bWLlQWcM5e1z2PdAP2wEpq3voOQ6QFp+eVJf4oEOsLUGlC+l7Z0D8AyXA
-   e5LjH15fceEq5orydkW3XVSqBa8xCRnkMs7D4rJd3raHojt/B712zf3Aw
-   LE35pmo8Uuua+mDFNS0khXOb3tsgyfm2n5Lk++uNr7IJDVy6jyJ6HbqNR
-   Oqs4O/F9YVNTbfRGPIUs/d1RdFSkrc5sgjq7kCm9QrMVxDyg/taehedM1
-   8clb65SzJx7OX0LjXMc3HCqSxn6ayELD3XNqFgE0mXdSYPtZa+9dxj8EZ
-   A==;
-X-CSE-ConnectionGUID: Ve925WXVR8Wo/6S3BQ9uHQ==
-X-CSE-MsgGUID: xGy/6f9lRQWNRXVhNCMStA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="83060661"
-X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
-   d="scan'208";a="83060661"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 03:58:01 -0700
-X-CSE-ConnectionGUID: V12GY4fvRGGsM1wEJOY7jw==
-X-CSE-MsgGUID: GFPNuM0VTAycKGMXQk6c4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
-   d="scan'208";a="246902727"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Jun 2026 03:57:59 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 53C7C95; Wed, 24 Jun 2026 12:57:58 +0200 (CEST)
-Date: Wed, 24 Jun 2026 13:57:56 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Jameson Thies <jthies@google.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SzknugUL"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-46cbe01d4b6so258582f8f.2
+        for <linux-usb@vger.kernel.org>; Wed, 24 Jun 2026 04:46:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782301609; x=1782906409; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3H5kDynZSbAePBxuJSQkwuSXPVIrHP5CTV7ASDH3eLk=;
+        b=SzknugULj36b7nmStZ5gtzcWwSvFnuAI3tVQbRKO/Ajna6AcdlkDMOMyccICadm2/o
+         Gi4l1GMzsgC3BkaYFgmlJKPS3sLjYzFlZb1WHPu63aLlCeftuCRD9Cpd2f9SWiA/nqjJ
+         kb9qsJiM25w0AKSylYfBdrhmw0eFiVnzf0mxoR2MaFvQbxFopaa0Tpr58jJAWOxw4IM4
+         so7uIHUuKNr6FzDfx3lenjMzd17c8nE2yZq6tumhPO4xA7s3sOplo6soRzaqusdpK/jp
+         BDj6yDeJwaxsrr15bzLXGzxMK9KWmxvXO1Ah4RRTnbTMS1T6shd0dqSEqPdzX5M0FhOx
+         nUKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782301609; x=1782906409;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3H5kDynZSbAePBxuJSQkwuSXPVIrHP5CTV7ASDH3eLk=;
+        b=rv1lanmsNf7PYSdrKosUU3zq5o4HZvY0RaSaLd2EE2EIbnQZt3UAjUJ/Xz8HiVpnQE
+         9H30HuUoXYq6RgpKh7wARj1Y0RwOvwyvkQ9xPiRX7hoz7pCj+8EsAfJmwi2IM73Z25RF
+         mwf78AZl7oTAd2cTcISu/nrmXkrjmMQCrDkuNYruPWrE5qshIs2kxH6TEKGQYpQxfvGr
+         h4K62nz2sw17M9NRDZQkDwZoXwEj3jrVsHDw8Ma3RX/VtPONhnTmi8LG2McQS/Vq228i
+         CNr7S4wk0l5QFyH/eepJWIuylCBslSi3hrmKc23PBoYG6QdaG7XhG+dPKwmND4V4nVnc
+         dyWQ==
+X-Gm-Message-State: AOJu0YzKfmc+SavT37Exfw9qaWM5mudtyhFNfAnDs2jiih1g4H/tYTfG
+	Nd7lpFkFxE9ztIQkiZ53LUrF1MJfrb1MqiAoWquQgkEsomeY2y3W7hI+sok38uNyTg==
+X-Gm-Gg: AfdE7cn9QcKfwHFSIKybZ6grlP3Dfmd0J4q65kv17CEZo/r/FsH1yNVCPPoU9cvhs8r
+	OE58Apu19h8wAXnPwgurOLXzOez5fGur0rsGV+u+DkukO9iMNc4SMtU7W3GMm/1KMfFpCvZAT1P
+	8RFoihl/q/sY8vZOkaAe9PjJ0kutmpgsgpzqBdQ0kAp+uQBql48DuvBK3c3FxYzamejx5WnVMkN
+	Y4qrNggt9zAEhfphotnglgN4dEvSvoeI2yQpi5GLXB3pi1PtZ3RaTzhUHNSD4HAl2EQK/ZhYYS2
+	NcihMJJPU1OFMY7hK44IEYn1RyA5AILnTv9LHNqc6iJek7Fx8A/q0NkObkoCPzKh823bL44lWpc
+	mQQeVYuCsMXKDo6HuADeZ2YidIrYhq+HuTn4XYPet1yhY99dGwcb20K/JXBas0IrYND4MAYqsbJ
+	sswPDXGlAQwKpxrXQ0noBzuwo2cVsqFzwlhMsG7+BBXotFseqQAxUbmsLStIzpn9mpryYx8mWPM
+	qNUR//BerSPP2xtOv8bWpOmOx3zKBKfndrBPXbE
+X-Received: by 2002:a05:6000:29d0:b0:462:d07e:4bc4 with SMTP id ffacd0b85a97d-46ad8a3a16fmr8045661f8f.7.1782301608585;
+        Wed, 24 Jun 2026 04:46:48 -0700 (PDT)
+Received: from archtop.localdomain (92-242-248-0.broadband.mtnet.hr. [92.242.248.0])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1ee0189esm6396036f8f.9.2026.06.24.04.46.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2026 04:46:47 -0700 (PDT)
+From: Jakov Novak <jakovnovak30@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] usb: typec: Add helper to check cable altmode
- support
-Message-ID: <aju4NGd84VRyvQer@kuha>
-References: <20260622093910.1210089-1-akuchynski@chromium.org>
- <20260622093910.1210089-2-akuchynski@chromium.org>
- <ajkMCz52lkq9hz3s@kuha>
- <CAMMMRMf0kLTJeVztQwDsz8Zm4wBXX52agNpvnKttkFqupQX=4w@mail.gmail.com>
- <ajpEG7ryQi8im7U-@kuha>
- <CAMMMRMcAkhbyJ0F+a_C6QSmG5AxB3UpDPZt70sXoit8iQW3XOQ@mail.gmail.com>
+	Prashanth K <prashanth.k@oss.qualcomm.com>,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jakov Novak <jakovnovak30@gmail.com>
+Subject: [PATCH] usb: dwc3: fix kernel-doc string in struct dwc3_ep
+Date: Wed, 24 Jun 2026 13:46:15 +0200
+Message-ID: <20260624114615.18593-1-jakovnovak30@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMMMRMcAkhbyJ0F+a_C6QSmG5AxB3UpDPZt70sXoit8iQW3XOQ@mail.gmail.com>
 
-On Tue, Jun 23, 2026 at 05:34:16PM +0200, Andrei Kuchynski wrote:
->  if you are not against it
-> 
-> On Tue, Jun 23, 2026 at 10:30 AM Heikki Krogerus
-> <heikki.krogerus@linux.intel.com> wrote:
-> >
-> > One day and I'm completely confused again :). I opened the code for
-> > myself (not compiled) to get the idea again. Please consider that, or
-> > something like it - the important part for me is the enum. The enum
-> > does not cost that many lines, but it does make the idea more clear,
-> > at least for me.
-> >
-> 
-> Thank you for such a detailed look.
-> The code not only compiles, but it actually works as expected)
-> 
-> >         case IDH_PTYPE_PCABLE:
-> >                 if (speed == CABLE_USB2_ONLY)
-> >                         return CABLE_NOT_SUPPORTED;
-> >                 break;
-> 
-> With one change: `return CABLE_SUPPORTED;` instead of `break` here.
-> 
-> So, the enum and the wrapper are in V3.
-> If you don't mind, I'll add you to the "Co-Developers" list.
+Building the documentation currently with make htmldocs gives the
+following errors:
 
-Okay, though I'm not sure that's necessary.
+  WARNING: ./drivers/usb/dwc3/core.h:803 Excess struct member 'regs' description in 'dwc3_ep'
+  WARNING: ./drivers/usb/dwc3/core.h:803 Excess struct member 'regs' description in 'dwc3_ep'
 
-thanks,
+This is because the member variable regs of the struct dwc3_ep was
+removed in a previous patch. Remove regs from the kernel-doc
+string, fixing the warning.
 
+Fixes: abdd1eef04f0cb3b ("usb: dwc3: Remove of dep->regs")
+Signed-off-by: Jakov Novak <jakovnovak30@gmail.com>
+---
+ drivers/usb/dwc3/core.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index e0dee9d28740..034e8d7717e1 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -722,7 +722,6 @@ struct dwc3_event_buffer {
+  * @cancelled_list: list of cancelled requests for this endpoint
+  * @pending_list: list of pending requests for this endpoint
+  * @started_list: list of started requests on this endpoint
+- * @regs: pointer to first endpoint register
+  * @trb_pool: array of transaction buffers
+  * @trb_pool_dma: dma address of @trb_pool
+  * @trb_enqueue: enqueue 'pointer' into TRB array
 -- 
-heikki
+2.54.0
+
