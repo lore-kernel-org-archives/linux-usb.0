@@ -1,34 +1,73 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19373290D1;
-	Wed, 24 Jun 2026 05:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D173845C1
+	for <linux-usb@vger.kernel.org>; Wed, 24 Jun 2026 06:09:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782280657; cv=none; b=XAInHkLdosfcATN3E73jOsp8TpVfWND2t4F6WsKV4kkoOc/3Wm935mcWP4UdmFc6gppSNGcHjPlf4F4fCGlga6TC143RKLhLB0NJBwaqAst6l/H87LRA5nPYLbTnU1zDeSx3+Smw9q9mUWP/bo6h7o9lAcXy4kcK8ChorJHWpAQ=
+	t=1782281375; cv=none; b=dG6Ymxj7EMDHqxVkn0iZBiTRyqgSlzb1WrExCorFJIJ/PX6YUn8hQYLyYSL5CclDllje51HZyTNZcFzyavCKL3C4v5LZcBPCjWFI93vc6g86gS22i4o4Oshcy24lylL+q0TawfJKKhuKxqgLnZjVajSXKKdRYUzfvCwC3YAFK3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782280657; c=relaxed/simple;
-	bh=WlXmYIl4eC/qw1l0szNv1vcljvMMwJop+TpOZYviabE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FyjY6ta9D6A0Om/58elP50hjEVoXMLgJfm3LVzi89H/YgjsmnVp11jVCSwSxe3WmSL1WL37XfrQK362mac4uAh3GzjMD6EN9EOJDpkwmoZuyqmTrGajB/7ePAusacMqZNWE/aLspSBEtTdXf+Ozu3WG23QaopThQIbL5aLq983w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-03 (Coremail) with SMTP id rQCowADXwajIcTtqXSqtFQ--.64136S2;
-	Wed, 24 Jun 2026 13:57:28 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Patrice Chotard <patrice.chotard@foss.st.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-arm-kernel@lists.infradead.org,
+	s=arc-20240116; t=1782281375; c=relaxed/simple;
+	bh=TXk4fa3D41VXHM6wPe/OIN5XBFpRyysnQs6Rp1YFGkI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u6SXIRO1EWw1IiuuUsyeQeOIvU0gLI7wOlH6POz+eN6r3+s5Pu9+AaJlRvp+tFVPvy3QPmscgByqBTo5hrZrqHixTJu1ta2Xt2LvEwS87M0puLcdIbHsjti8jElKxKABEL81CpbyG6jCtdmNvixNqjigW+62iFTJtqRNll3G1Bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PY7zq3oj; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PY7zq3oj"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c8deb37737dso222865a12.1
+        for <linux-usb@vger.kernel.org>; Tue, 23 Jun 2026 23:09:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782281373; x=1782886173; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SxAaM/1kNN1HWVvYIeABJxE6tmk5JJUqKChm7Am8Wes=;
+        b=PY7zq3oj0ZqNllzgopI+HTG3+YKZky9RioJuGM3POGZ+PjL+1Xm8yjki34WnacAIJf
+         mchWacqI2hR0tBUrH9Nl+AvafyZqnCpxYJBCn9hUDNVDhw+2Ybk9cz/SAbO6six6YuVd
+         KVKwcWmlbkf3ARJFRXFdBWU5u7NL+3zKb6wekVp7QkQ675euO+29r4PNUwioILXA44Ha
+         3V8TniuxixYP9jHuqaW/4lMSJsMC6fHQ4o+zHm1GqiKMUMDBfKyislCrjCo1ehBZfxK6
+         YWDtVXHxDRcAdP0IzbvXWJi3nGRKn9I+titWZImjOKXeCA+r4ftg1yr8psHXusAydYIJ
+         UbTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782281373; x=1782886173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SxAaM/1kNN1HWVvYIeABJxE6tmk5JJUqKChm7Am8Wes=;
+        b=iU+UG43bWJrKRlfPRV3MZLMrFPNptrMCWVUrRTs7x88EeFILT8aiVt2IAKAJ1QuDq/
+         JDLcghMcqILKg+ANS/vtsutL6tORHqQPyaUoWtzMjAVwV2BmtKVfhpmBtNDmaDOx0nWN
+         2WN/sgKfrZPkYL+wEvuHajwLw4NyE7GyQK0wMmxVKuu805DWZ8SjpT1Zhsydg+5DroLI
+         s5tkpIxMwOgd4/5mP0L29TlAD8ngJpm6deH0T46ZaxVFGeZzm0Ykqm4JJuAx1EhVLtgJ
+         rjxx3rQfMKVkAcOUhhmpoS5A55/eNe34eztfhs8BVU2hJoOSW+U2alkNUlRSPjzZ/NUy
+         pZgw==
+X-Forwarded-Encrypted: i=1; AFNElJ/r4HcvUwiDulcY54a1+7G48+my+JfZvNpZjTBamxeNMJwd51xOizJsQCcjdnSLN+8eLewxG3yaLgQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiX+ew2aBKPuCH1JpL3m+Ns0xL4tTv7c7BK/VJTrKUuO+OmiWA
+	jhTaMrpf+J8Cmij42sogMDGSt3h7bj7DZGYTZeYPbmH9ulhdQAdw9xKZshqo3SGcy1A=
+X-Gm-Gg: AfdE7clM8sTlXkJEsTl9m870j/chF6LaATn9fJxHrnDrslrsxVQs4yxEvHjvQGho4Bl
+	3DUvD/gQAISFbCEc4DCUsIjb48doRGKwcFwP9lO5+BgMR3QNATXJRHEeRaCyVAVrA+O+1xIuNL2
+	90JnM0QO0idAXB5kj3jY7g8zfX6ycDUGDBmJDzgmfpKPbzmf9vOebzJ8GiCcUcXjam5VpMYour+
+	oZcM0lutqZhpWwrSAOe79SjWPHEoAepwms0LLLtCgAD5Zz8ktrN9MQmccTcGVXoyXyGTVcxbqHU
+	zkMFW9XebSbaUjFLtC/gQeZwkdFH7fZzo+Hl7yHzgEx7xVFOvWI5ItoZpTCpdXcWO8oTZmR5MBQ
+	OWgFFErnNjLByu9Kp8uhvquvHZ76oCUYPuUCkZzEsNPpW/SR1aFe0OmOmwu/5zSgRANX0X4gjmx
+	XUaBZUp/Y=
+X-Received: by 2002:a05:6a20:1587:b0:39b:dea7:5626 with SMTP id adf61e73a8af0-3bd2d298c5bmr2455975637.35.1782281372649;
+        Tue, 23 Jun 2026 23:09:32 -0700 (PDT)
+Received: from gmail.com ([113.90.157.158])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8bc326c487sm11585658a12.12.2026.06.23.23.09.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 23:09:32 -0700 (PDT)
+From: Milo Chen <cmh79479@gmail.com>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH] usb: dwc3: st: Propagate reset deassert failures
-Date: Wed, 24 Jun 2026 13:57:28 +0800
-Message-ID: <20260624055728.46078-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	Milo Chen <cmh79479@gmail.com>
+Subject: [PATCH v2] thunderbolt: xdomain: notify peers after enumeration
+Date: Wed, 24 Jun 2026 14:09:09 +0800
+Message-ID: <20260624060909.2610434-1-cmh79479@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -36,82 +75,42 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowADXwajIcTtqXSqtFQ--.64136S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ury7tFW5Gr1rAFyxur1fCrg_yoW8ZrWrp3
-	y7GrWSyry09rs3Ja1fAF15uFyruFWSqFWUG3y3Kw18Awsaq3yDtryYkFyrJa4DJFWkAryU
-	CF4UtF4rua9FvaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
-	AVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
-	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUnGQDUU
-	UUU
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-The ST DWC3 glue driver treats the powerdown and softreset reset
-controls as required resources, but ignores reset_control_deassert()
-failures before populating the child DWC3 device.  Resume ignores the
-same failures before returning success.
+Service drivers may register local XDomain properties while discovery is
+still in progress. This can cause the properties changed notification to be
+sent before the peer is ready to act on it.
 
-Check the deassert operations and unwind the already deasserted
-powerdown reset if softreset deassertion fails.
+If the peer has already read the local property block before the service
+was registered, it may keep using the old property generation and miss the
+newly registered service. With ThunderboltIP this can leave the network
+service half-discovered after a warm reboot and the login request
+eventually times out.
 
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Queue another properties changed notification after the XDomain reaches
+ENUMERATED so the peer can re-read the final local properties.
+
+Signed-off-by: Milo Chen <cmh79479@gmail.com>
 ---
- drivers/usb/dwc3/dwc3-st.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+Changes in v2:
+- Use full name in From and Signed-off-by.
 
-diff --git a/drivers/usb/dwc3/dwc3-st.c b/drivers/usb/dwc3/dwc3-st.c
-index 5d513decaacd..bbabfd933798 100644
---- a/drivers/usb/dwc3/dwc3-st.c
-+++ b/drivers/usb/dwc3/dwc3-st.c
-@@ -242,7 +242,9 @@ static int st_dwc3_probe(struct platform_device *pdev)
- 				     "could not get power controller\n");
+ drivers/thunderbolt/xdomain.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
+index 86b2f7474..9c068d073 100644
+--- a/drivers/thunderbolt/xdomain.c
++++ b/drivers/thunderbolt/xdomain.c
+@@ -1811,6 +1811,7 @@ static void tb_xdomain_state_work(struct work_struct *work)
+ 			tb_xdomain_failed(xd);
+ 		} else {
+ 			xd->state = XDOMAIN_STATE_ENUMERATED;
++			tb_xdomain_queue_properties_changed(xd);
+ 		}
+ 		break;
  
- 	/* Manage PowerDown */
--	reset_control_deassert(dwc3_data->rstc_pwrdn);
-+	ret = reset_control_deassert(dwc3_data->rstc_pwrdn);
-+	if (ret)
-+		return ret;
- 
- 	dwc3_data->rstc_rst =
- 		devm_reset_control_get_shared(dev, "softreset");
-@@ -253,7 +255,9 @@ static int st_dwc3_probe(struct platform_device *pdev)
- 	}
- 
- 	/* Manage SoftReset */
--	reset_control_deassert(dwc3_data->rstc_rst);
-+	ret = reset_control_deassert(dwc3_data->rstc_rst);
-+	if (ret)
-+		goto undo_powerdown;
- 
- 	/* Allocate and initialize the core */
- 	ret = of_platform_populate(node, NULL, NULL, dev);
-@@ -328,8 +332,15 @@ static int st_dwc3_resume(struct device *dev)
- 
- 	pinctrl_pm_select_default_state(dev);
- 
--	reset_control_deassert(dwc3_data->rstc_pwrdn);
--	reset_control_deassert(dwc3_data->rstc_rst);
-+	ret = reset_control_deassert(dwc3_data->rstc_pwrdn);
-+	if (ret)
-+		return ret;
-+
-+	ret = reset_control_deassert(dwc3_data->rstc_rst);
-+	if (ret) {
-+		reset_control_assert(dwc3_data->rstc_pwrdn);
-+		return ret;
-+	}
- 
- 	ret = st_dwc3_drd_init(dwc3_data);
- 	if (ret) {
+
+base-commit: 502d801f0ab03e4f32f9a33d203154ce84887921
 -- 
-2.50.1 (Apple Git-155)
+2.47.3
 
