@@ -1,216 +1,325 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E2C3B42D1
-	for <linux-usb@vger.kernel.org>; Wed, 24 Jun 2026 14:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5EB33BBBA
+	for <linux-usb@vger.kernel.org>; Wed, 24 Jun 2026 16:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782311910; cv=none; b=NxnI6uTAOcz0wBE4BO60Kf85lOrWbdK9X79hOWBcymMsMN7uQ2lnxmF5tTyaFb5aLhpWp0Bb8apydy9UoyRnU+kp57aDJ2mlnJhLuQL9/ocBRpqk08yysi+aCd3a0s5MugbLvdLEMIUKXuAdzuEiizPEv3PlLLWwRreMWewaanE=
+	t=1782319521; cv=none; b=CV53TbxIvC98q6MtpOtEYp00mY258NF7BEKm9NcDX5aP/4E7nK8bhKExacunK0RbCJXo1iSQ/VOIBFIVOEjt95l8ztLyusrUxMgc62IQgyQJjlGos/lnRZXDJOS9rRjGFfm19hxm1roHEouVGDxzT9XNX97Zp9RrWPbA3imrrZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782311910; c=relaxed/simple;
-	bh=Ag2dMLJyxsxo2yKyBiVG3MrdVzSXXfqSu4U59syt9qM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yr4+oXtnWkH34/rxT5UEXjwtvttYkA2SEJIr0b7xbhSq2Bc3ZjABa0sVYhWlqXM0ywoKH7zg7Opuif2xrqTGmNgh9Sex3zuSLt3aerhnSn3VppGg/y8FbVg2+BwyifpZhrySS7RhM8KaaOHRTOlumxCTKgNu5jHJ2Q80KmPqZJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=lNdpJaW1; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1782319521; c=relaxed/simple;
+	bh=otxIjdiUmR0kD+MtlmLc6ccQi3ddcjPMQSKwibqykxU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Fx9XzAqhxvinK7USWrAPWH2jMOpBK4d3wGidkASDGO4edNTmHfs4iiCuyOgJFLQSZ7BlYzzFT4UyfOxJBscd9r2k1l1y1i39XmWpkvhY+nph32iIrQVbkECoytQLlqV8FTE5LFacGn15/g81Xzf/ejOKmA2PPkRFq2u6sxACPQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bBNWMXez; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="lNdpJaW1"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8dc09919aa2so19151296d6.3
-        for <linux-usb@vger.kernel.org>; Wed, 24 Jun 2026 07:38:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1782311908; x=1782916708; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=j4TwTbCnVZ8bBjyLyd7NRPMpWOFSAYz6ZPnesPypTyM=;
-        b=lNdpJaW17qPMoH2yUAMnqM8j5XpcPExFLbf+hhzalZihNNYvpm0EzeafdSjEpDDfqf
-         L4b0TKHbbHnCCCxSykgNT67gv2ENUbipEx2f599phE3Oilw9BELJE2VCF7Wjs+VjYMKP
-         bpsUOTHWGelmvINcBqFjniRmo+iH3XlZU2v5rhaImUm6k8oXNiLEiDv839GkUZDXhcJw
-         9Yf04yaDRX125DQ29z9MN3CrpZfcnVTJMHWyh+wOrHXgc43LmQ2vbr/kwC/EleBely0F
-         3vo8QWr/EasLXRCTqI7GOgVOm9IPLIbR9VGHIYV9Pb6oHUtuUU7BI7x/pUT0dX81gWOu
-         NPQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782311908; x=1782916708;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j4TwTbCnVZ8bBjyLyd7NRPMpWOFSAYz6ZPnesPypTyM=;
-        b=RIDQeYMrP4FwLpupJQxxLaMtCFCkrDZOTq4KYg3vjEtZNZ5jx4c4S8f4kvtUWuaFx8
-         C9K8a22FZbQJqdT+4kUUXdkCskMbFaSv1wePmRsdIjjKNAyvHdnI0Z3PyhT4OngkA7i1
-         JcY+Gjw2dDUGNVHFas2e7FGvoViqwLVh/Jw+q8MQJ26Dre9jWAH1jv2BGUbx8iYDOhUR
-         J1Xljora0xH+1csrn/yvlfygE33O6HBGEQehlVwJGw1MwY/b2v27pvlTOBpGnkw8wT9W
-         m1u4e0/Oc4XOl0JricW6htgUllANOVRmNabjtUWUv1lb35aAylGzms/5ydU3wzNMgh+r
-         VJhw==
-X-Forwarded-Encrypted: i=1; AFNElJ+rPRQsitAOKcdoMCxmARkjDhhpHAihLfjY+9lyFvjH6NalbmjlDQ/nLSl96AgPNMW4uVLDBslsxFg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyxio+L81hl/zIDmHQRFFSXCQQdFJZH8VzIWdUicL+JOtpnUFqR
-	1KzLE7v/1yumw/EU2x7MNbrftXeW4/w/ZD8eW2YeBnFu6zIsnZ9AoANcSEwF6YT2s2F1rr2YVnN
-	rUjY=
-X-Gm-Gg: AfdE7cmPw+TieeE0FwXMw+7wwpYkbx/yZTbIPjsonhhn/fh1/d5P7CJ2KC1sq2EJcSv
-	fYLrsQ+GN5jBxBLXxI+ruXdjsbo8Ps1BqXh1nReLYXX858dVQAnPYoanhaEz5vamGlQz8hTuyDh
-	SQSMBXqJLilEKjGgXaMs5hFAcreFbwc4qKxaL2bPDLZFo+hSMoKTaszirf/vBu+/Zgn+d0sHS4V
-	d/6UjJlY5HEesd9lvwBrjity19r8K+z8J0mMozxTKLt5oPJlJdSIcgskWaSx7qXf24+Jfd/PLh0
-	gbvFmuTFvOQWGeLcZD/yiF9abFEIKwmH/ZSq9t39EDBtO8b/z/ixfARkwu5qQZoyXMMiHbEywuH
-	ofbl3qZQrEvfClshs9Nfkd6suQp3Iph1XvfY2Ho/2jMmsyCtM0sXDCkqNPDW1fuGveGXulEmwIA
-	cby0bsprohuVcPz5QwaIvj+iCy213Kycia
-X-Received: by 2002:a05:620a:2950:b0:911:9a7a:8076 with SMTP id af79cd13be357-9277beeeb53mr668661585a.8.1782311907591;
-        Wed, 24 Jun 2026 07:38:27 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92600c7bd89sm569510685a.45.2026.06.24.07.38.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 07:38:26 -0700 (PDT)
-Date: Wed, 24 Jun 2026 10:38:24 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Jimmy Hu <hhhuuu@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] usb: gadget: udc: Fix use-after-free in
- gadget_match_driver
-Message-ID: <079877da-315a-4ed6-b344-35d9954a54cc@rowland.harvard.edu>
-References: <20260624030154.393004-1-hhhuuu@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bBNWMXez"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782319520; x=1813855520;
+  h=date:from:to:cc:subject:message-id;
+  bh=otxIjdiUmR0kD+MtlmLc6ccQi3ddcjPMQSKwibqykxU=;
+  b=bBNWMXezfrnx+Ts0Z1wYDj2lmcEmdB1isp6sLj+l23Nh+1cevjMsVImr
+   INzXbpAgCymjBGyYNXPjXSWY8I73AVkHgviX6f34QJIC6bHlhCz8304OR
+   76mR1XGZ+DV/sr2VZWxA0vtltnaGfdbwAfM83gqULfhZCJhwIVP+GvYpp
+   mlaFkKzqzxwx8d2NHls5MGfbuIx6PHFR2DWTMVJLk6dAFYTpqaB50ZXHl
+   0biz7ivqkp5zBzv1uA/0d6dMt0vw7exK06cvVRDhtiwubpYZgJZsRVZTd
+   dIy1MRuU6SlfUkEWk8OYqudDJMERQw07e0FsFnEpWdnrwjSTunIPwxELc
+   A==;
+X-CSE-ConnectionGUID: xWFK0zhvTHmKjzkjjvx6tw==
+X-CSE-MsgGUID: Wtu5y3B0RrGbwAFzMbHT7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="93741649"
+X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
+   d="scan'208";a="93741649"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 09:45:19 -0700
+X-CSE-ConnectionGUID: vAbjCZtrRuCsyqgFgHFL/w==
+X-CSE-MsgGUID: CvrelpsATyqZ1NjIu9frEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
+   d="scan'208";a="274050524"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 24 Jun 2026 09:45:18 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wcQix-000000003Wp-2lSL;
+	Wed, 24 Jun 2026 16:45:15 +0000
+Date: Thu, 25 Jun 2026 00:44:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ b95e3c7c9118c38629718e3a075ae6fbbde04122
+Message-ID: <202606250022.q1ANkb2F-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260624030154.393004-1-hhhuuu@google.com>
 
-On Wed, Jun 24, 2026 at 11:01:54AM +0800, Jimmy Hu wrote:
-> The udc structure acts as the management structure for the gadget,
-> but their lifecycles are decoupled. A race condition exists where
-> usb_del_gadget() frees the udc memory (e.g., via mode-switch work)
-> while gadget_match_driver() concurrently accesses the freed udc memory
-> (e.g., via configfs), causing a Use-After-Free (UAF) that triggers a
-> NULL pointer dereference when the freed memory is zeroed:
-> 
-> [39430.908615][ T1171] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000000
-> [39430.911397][ T1171] pc : __pi_strcmp+0x20/0x140
-> [39430.911441][ T1171] lr : gadget_match_driver+0x34/0x60
-> ...
-> [39430.911890][ T1171]  usb_gadget_register_driver_owner+0x50/0xf8
-> [39430.911910][ T1171]  gadget_dev_desc_UDC_store+0xf4/0x140
-> [39430.931308][ T1171]  configfs_write_iter+0xec/0x134
-> 
-> [39430.957058][ T1171] Workqueue: events_freezable __dwc3_set_mode
-> [39430.957287][ T1171]  dwc3_gadget_exit+0x34/0x8c
-> [39430.957304][ T1171]  __dwc3_set_mode+0xc0/0x664
-> 
-> Fix this by ensuring the udc structure remains allocated during the
-> match. To achieve this, introduce a new usb_gadget_release() routine
-> to the core. When the gadget is added, usb_add_gadget() stores the
-> gadget's release routine in the udc structure and takes a reference
-> to the udc. When the gadget is released, usb_gadget_release() drops
-> the reference to the udc and then calls the gadget's release routine.
-> 
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Jimmy Hu <hhhuuu@google.com>
-> ---
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: b95e3c7c9118c38629718e3a075ae6fbbde04122  xhci: dbc: support runtime suspend while DbC is in enabled state
 
-This is basically right, but there are a few small issues noted below...
+elapsed time: 1448m
 
-> V1 -> V2: Rework the fix using a new release routine in the core.
-> 
-> v1: https://lore.kernel.org/all/20260526070635.839701-1-hhhuuu@google.com/
-> 
->  drivers/usb/gadget/udc/core.c | 21 ++++++++++++++++++++-
->  1 file changed, 20 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/gadget/udc/core.c b/drivers/usb/gadget/udc/core.c
-> index 60340ff9edbf..f8ce8694c101 100644
-> --- a/drivers/usb/gadget/udc/core.c
-> +++ b/drivers/usb/gadget/udc/core.c
-> @@ -31,8 +31,9 @@ static const struct bus_type gadget_bus_type;
->  /**
->   * struct usb_udc - describes one usb device controller
->   * @driver: the gadget driver pointer. For use by the class code
-> - * @dev: the child device to the actual controller
->   * @gadget: the gadget. For use by the class code
-> + * @gadget_release: the gadget's release routine
-> + * @dev: the child device to the actual controller
->   * @list: for use by the udc class driver
->   * @vbus: for udcs who care about vbus status, this value is real vbus status;
->   * for udcs who do not care about vbus status, this value is always true
-> @@ -53,6 +54,7 @@ static const struct bus_type gadget_bus_type;
->  struct usb_udc {
->  	struct usb_gadget_driver	*driver;
->  	struct usb_gadget		*gadget;
-> +	void					(*gadget_release)(struct device *dev);
+configs tested: 248
+configs skipped: 11
 
-What happened to the column alignment here?
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->  	struct device			dev;
->  	struct list_head		list;
->  	bool				vbus;
-> @@ -1362,6 +1364,18 @@ static void usb_udc_nop_release(struct device *dev)
->  	dev_vdbg(dev, "%s\n", __func__);
->  }
->  
-> +static void usb_gadget_release(struct device *dev)
-> +{
-> +	struct usb_gadget *gadget = dev_to_usb_gadget(dev);
-> +	struct usb_udc *udc = gadget->udc;
-> +	/* Cache the gadget's release routine to prevent UAF */
-> +	void (*release)(struct device *dev) = udc->gadget_release;
-> +
-> +	put_device(&udc->dev);
-> +	if (release)
-> +		release(dev);
+tested configs:
+alpha                             allnoconfig    gcc-16.1.0
+alpha                            allyesconfig    gcc-16.1.0
+alpha                               defconfig    gcc-16.1.0
+arc                              allmodconfig    clang-23
+arc                               allnoconfig    gcc-16.1.0
+arc                              allyesconfig    clang-23
+arc                              allyesconfig    gcc-16.1.0
+arc                                 defconfig    gcc-16.1.0
+arc                   randconfig-001-20260624    gcc-15.2.0
+arc                   randconfig-002-20260624    gcc-15.2.0
+arm                               allnoconfig    gcc-16.1.0
+arm                              allyesconfig    clang-23
+arm                                 defconfig    gcc-16.1.0
+arm                   randconfig-001-20260624    gcc-15.2.0
+arm                   randconfig-002-20260624    gcc-15.2.0
+arm                   randconfig-003-20260624    gcc-15.2.0
+arm                   randconfig-004-20260624    gcc-15.2.0
+arm                           sama5_defconfig    gcc-16.1.0
+arm                           tegra_defconfig    gcc-16.1.0
+arm64                            allmodconfig    clang-23
+arm64                             allnoconfig    gcc-16.1.0
+arm64                               defconfig    gcc-16.1.0
+arm64                          randconfig-001    clang-23
+arm64                 randconfig-001-20260624    clang-21
+arm64                 randconfig-001-20260624    clang-23
+arm64                          randconfig-002    clang-23
+arm64                 randconfig-002-20260624    clang-21
+arm64                 randconfig-002-20260624    clang-23
+arm64                          randconfig-003    clang-23
+arm64                 randconfig-003-20260624    clang-21
+arm64                 randconfig-003-20260624    clang-23
+arm64                          randconfig-004    clang-23
+arm64                 randconfig-004-20260624    clang-21
+arm64                 randconfig-004-20260624    clang-23
+csky                             allmodconfig    gcc-16.1.0
+csky                              allnoconfig    gcc-16.1.0
+csky                                defconfig    gcc-16.1.0
+csky                           randconfig-001    clang-23
+csky                  randconfig-001-20260624    clang-21
+csky                  randconfig-001-20260624    clang-23
+csky                           randconfig-002    clang-23
+csky                  randconfig-002-20260624    clang-21
+csky                  randconfig-002-20260624    clang-23
+hexagon                          allmodconfig    gcc-16.1.0
+hexagon                           allnoconfig    gcc-16.1.0
+hexagon                             defconfig    gcc-16.1.0
+hexagon                        randconfig-001    gcc-11.5.0
+hexagon               randconfig-001-20260624    gcc-11.5.0
+hexagon               randconfig-001-20260624    gcc-9.5.0
+hexagon                        randconfig-002    gcc-11.5.0
+hexagon               randconfig-002-20260624    gcc-11.5.0
+hexagon               randconfig-002-20260624    gcc-9.5.0
+i386                             allmodconfig    clang-22
+i386                              allnoconfig    gcc-16.1.0
+i386                             allyesconfig    clang-22
+i386                 buildonly-randconfig-001    gcc-12
+i386        buildonly-randconfig-001-20260624    gcc-12
+i386                 buildonly-randconfig-002    gcc-12
+i386        buildonly-randconfig-002-20260624    gcc-12
+i386                 buildonly-randconfig-003    gcc-12
+i386        buildonly-randconfig-003-20260624    gcc-12
+i386                 buildonly-randconfig-004    gcc-12
+i386        buildonly-randconfig-004-20260624    gcc-12
+i386                 buildonly-randconfig-005    gcc-12
+i386        buildonly-randconfig-005-20260624    gcc-12
+i386                 buildonly-randconfig-006    gcc-12
+i386        buildonly-randconfig-006-20260624    gcc-12
+i386                                defconfig    gcc-16.1.0
+i386                           randconfig-001    clang-22
+i386                  randconfig-001-20260624    clang-22
+i386                           randconfig-002    clang-22
+i386                  randconfig-002-20260624    clang-22
+i386                           randconfig-003    clang-22
+i386                  randconfig-003-20260624    clang-22
+i386                           randconfig-004    clang-22
+i386                  randconfig-004-20260624    clang-22
+i386                           randconfig-005    clang-22
+i386                  randconfig-005-20260624    clang-22
+i386                           randconfig-006    clang-22
+i386                  randconfig-006-20260624    clang-22
+i386                           randconfig-007    clang-22
+i386                  randconfig-007-20260624    clang-22
+i386                           randconfig-011    clang-22
+i386                  randconfig-011-20260624    clang-22
+i386                           randconfig-012    clang-22
+i386                  randconfig-012-20260624    clang-22
+i386                           randconfig-013    clang-22
+i386                  randconfig-013-20260624    clang-22
+i386                           randconfig-014    clang-22
+i386                  randconfig-014-20260624    clang-22
+i386                           randconfig-015    clang-22
+i386                  randconfig-015-20260624    clang-22
+i386                           randconfig-016    clang-22
+i386                  randconfig-016-20260624    clang-22
+i386                           randconfig-017    clang-22
+i386                  randconfig-017-20260624    clang-22
+loongarch                        allmodconfig    clang-19
+loongarch                        allmodconfig    clang-23
+loongarch                         allnoconfig    gcc-16.1.0
+loongarch                           defconfig    clang-23
+loongarch                      randconfig-001    gcc-11.5.0
+loongarch             randconfig-001-20260624    gcc-11.5.0
+loongarch             randconfig-001-20260624    gcc-9.5.0
+loongarch                      randconfig-002    gcc-11.5.0
+loongarch             randconfig-002-20260624    gcc-11.5.0
+loongarch             randconfig-002-20260624    gcc-9.5.0
+m68k                             allmodconfig    gcc-16.1.0
+m68k                              allnoconfig    gcc-16.1.0
+m68k                             allyesconfig    clang-23
+m68k                                defconfig    clang-23
+m68k                        stmark2_defconfig    gcc-16.1.0
+microblaze                        allnoconfig    gcc-16.1.0
+microblaze                       allyesconfig    gcc-16.1.0
+microblaze                          defconfig    clang-23
+mips                             allmodconfig    gcc-16.1.0
+mips                              allnoconfig    gcc-16.1.0
+mips                             allyesconfig    gcc-16.1.0
+mips                           mtx1_defconfig    clang-19
+mips                        omega2p_defconfig    clang-17
+nios2                            allmodconfig    clang-20
+nios2                             allnoconfig    clang-23
+nios2                               defconfig    clang-23
+nios2                          randconfig-001    gcc-11.5.0
+nios2                 randconfig-001-20260624    gcc-11.5.0
+nios2                 randconfig-001-20260624    gcc-9.5.0
+nios2                          randconfig-002    gcc-11.5.0
+nios2                 randconfig-002-20260624    gcc-11.5.0
+nios2                 randconfig-002-20260624    gcc-9.5.0
+openrisc                         allmodconfig    clang-20
+openrisc                          allnoconfig    clang-23
+openrisc                            defconfig    gcc-16.1.0
+parisc                           allmodconfig    gcc-16.1.0
+parisc                            allnoconfig    clang-23
+parisc                           allyesconfig    clang-17
+parisc                              defconfig    gcc-16.1.0
+parisc                         randconfig-001    gcc-16.1.0
+parisc                randconfig-001-20260624    gcc-16.1.0
+parisc                         randconfig-002    gcc-16.1.0
+parisc                randconfig-002-20260624    gcc-16.1.0
+parisc64                            defconfig    clang-23
+powerpc                          allmodconfig    gcc-16.1.0
+powerpc                           allnoconfig    clang-23
+powerpc                     asp8347_defconfig    clang-23
+powerpc                        fsp2_defconfig    gcc-16.1.0
+powerpc                          g5_defconfig    gcc-16.1.0
+powerpc                        randconfig-001    gcc-16.1.0
+powerpc               randconfig-001-20260624    gcc-16.1.0
+powerpc                        randconfig-002    gcc-16.1.0
+powerpc               randconfig-002-20260624    gcc-16.1.0
+powerpc64                      randconfig-001    gcc-16.1.0
+powerpc64             randconfig-001-20260624    gcc-16.1.0
+powerpc64                      randconfig-002    gcc-16.1.0
+powerpc64             randconfig-002-20260624    gcc-16.1.0
+riscv                            allmodconfig    clang-23
+riscv                             allnoconfig    clang-23
+riscv                            allyesconfig    clang-23
+riscv                               defconfig    gcc-16.1.0
+riscv                 randconfig-001-20260624    clang-18
+riscv                 randconfig-002-20260624    clang-18
+s390                             allmodconfig    clang-17
+s390                              allnoconfig    clang-23
+s390                             allyesconfig    gcc-16.1.0
+s390                                defconfig    gcc-16.1.0
+s390                  randconfig-001-20260624    clang-18
+s390                  randconfig-002-20260624    clang-18
+sh                               allmodconfig    gcc-16.1.0
+sh                                allnoconfig    clang-23
+sh                               allyesconfig    clang-17
+sh                                  defconfig    gcc-14
+sh                    randconfig-001-20260624    clang-18
+sh                    randconfig-002-20260624    clang-18
+sparc                             allnoconfig    clang-23
+sparc                               defconfig    gcc-16.1.0
+sparc                          randconfig-001    gcc-14.3.0
+sparc                 randconfig-001-20260624    gcc-14.3.0
+sparc                          randconfig-002    gcc-14.3.0
+sparc                 randconfig-002-20260624    gcc-14.3.0
+sparc                       sparc32_defconfig    gcc-16.1.0
+sparc64                          allmodconfig    clang-20
+sparc64                             defconfig    gcc-14
+sparc64                        randconfig-001    gcc-14.3.0
+sparc64               randconfig-001-20260624    gcc-14.3.0
+sparc64                        randconfig-002    gcc-14.3.0
+sparc64               randconfig-002-20260624    gcc-14.3.0
+um                               allmodconfig    clang-17
+um                                allnoconfig    clang-23
+um                               allyesconfig    gcc-16.1.0
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                             randconfig-001    gcc-14.3.0
+um                    randconfig-001-20260624    gcc-14.3.0
+um                             randconfig-002    gcc-14.3.0
+um                    randconfig-002-20260624    gcc-14.3.0
+um                           x86_64_defconfig    gcc-14
+x86_64                           allmodconfig    clang-22
+x86_64                            allnoconfig    clang-23
+x86_64                           allyesconfig    clang-22
+x86_64               buildonly-randconfig-001    clang-22
+x86_64      buildonly-randconfig-001-20260624    clang-22
+x86_64               buildonly-randconfig-002    clang-22
+x86_64      buildonly-randconfig-002-20260624    clang-22
+x86_64               buildonly-randconfig-003    clang-22
+x86_64      buildonly-randconfig-003-20260624    clang-22
+x86_64               buildonly-randconfig-004    clang-22
+x86_64      buildonly-randconfig-004-20260624    clang-22
+x86_64               buildonly-randconfig-005    clang-22
+x86_64      buildonly-randconfig-005-20260624    clang-22
+x86_64               buildonly-randconfig-006    clang-22
+x86_64      buildonly-randconfig-006-20260624    clang-22
+x86_64                              defconfig    gcc-14
+x86_64                                  kexec    clang-22
+x86_64                randconfig-001-20260624    clang-22
+x86_64                randconfig-002-20260624    clang-22
+x86_64                randconfig-003-20260624    clang-22
+x86_64                randconfig-004-20260624    clang-22
+x86_64                randconfig-005-20260624    clang-22
+x86_64                randconfig-006-20260624    clang-22
+x86_64                randconfig-011-20260624    gcc-14
+x86_64                randconfig-012-20260624    gcc-14
+x86_64                randconfig-013-20260624    gcc-14
+x86_64                randconfig-014-20260624    gcc-14
+x86_64                randconfig-015-20260624    gcc-14
+x86_64                randconfig-016-20260624    gcc-14
+x86_64                         randconfig-071    gcc-14
+x86_64                randconfig-071-20260624    gcc-14
+x86_64                         randconfig-072    gcc-14
+x86_64                randconfig-072-20260624    gcc-14
+x86_64                         randconfig-073    gcc-14
+x86_64                randconfig-073-20260624    gcc-14
+x86_64                         randconfig-074    gcc-14
+x86_64                randconfig-074-20260624    gcc-14
+x86_64                         randconfig-075    gcc-14
+x86_64                randconfig-075-20260624    gcc-14
+x86_64                         randconfig-076    gcc-14
+x86_64                randconfig-076-20260624    gcc-14
+x86_64                               rhel-9.4    clang-22
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-22
+x86_64                    rhel-9.4-kselftests    clang-22
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+x86_64                          rhel-9.4-rust    clang-22
+xtensa                            allnoconfig    clang-23
+xtensa                           allyesconfig    clang-20
+xtensa                         randconfig-001    gcc-14.3.0
+xtensa                randconfig-001-20260624    gcc-14.3.0
+xtensa                         randconfig-002    gcc-14.3.0
+xtensa                randconfig-002-20260624    gcc-14.3.0
 
-I don't think the test is needed.  Even if the release function pointer 
-was given as NULL when usb_initialize_gadget() was called, the value 
-stored in gadget->dev.release would be usb_udc_nop_release(), not NULL.
-
-(Come to mention it, that's a really dumb name -- it should be called 
-usb_gadget_nop_release() because it's a release function for a 
-usb_gadget, not for a usb_udc.)
-
-> +}
-> +
->  /**
->   * usb_initialize_gadget - initialize a gadget and its embedded struct device
->   * @parent: the parent device to this udc. Usually the controller driver's
-> @@ -1418,6 +1432,9 @@ int usb_add_gadget(struct usb_gadget *gadget)
->  	mutex_init(&udc->connect_lock);
->  
->  	udc->started = false;
-> +	udc->gadget_release = gadget->dev.release;
-> +	gadget->dev.release = usb_gadget_release;
-> +	get_device(&udc->dev);
-
-What this is doing -- the whole scheme you are now implementing -- is 
-sufficiently unconventional that it deserves a comment explaining the 
-situation.  That is, saying why we need to take a reference to the udc 
-and why we therefore need to override the gadget's release routine 
-(i.e., to drop the udc reference).
-
->  
->  	mutex_lock(&udc_lock);
->  	list_add_tail(&udc->list, &udc_list);
-> @@ -1462,6 +1479,8 @@ int usb_add_gadget(struct usb_gadget *gadget)
->  	mutex_lock(&udc_lock);
->  	list_del(&udc->list);
->  	mutex_unlock(&udc_lock);
-> +	gadget->dev.release = udc->gadget_release;
-> +	put_device(&udc->dev);
-
-These two lines don't seem to be needed; usb_gadget_release() will take 
-care of this for you when it runs.
-
-I suppose you could argue that usb_gadget_release() might never be 
-called if the gadget was statically allocated by a modular driver.  In 
-that case the udc structure would be leaked.  So if you want to keep 
-these lines here, that's okay -- provided you add a comment explaining 
-why.
-
-Alan Stern
-
->   err_put_udc:
->  	put_device(&udc->dev);
-> 
-> base-commit: 502d801f0ab03e4f32f9a33d203154ce84887921
-> -- 
-> 2.55.0.rc0.799.gd6f94ed593-goog
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
