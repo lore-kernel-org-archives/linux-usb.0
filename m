@@ -1,199 +1,109 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B093A05C2
-	for <linux-usb@vger.kernel.org>; Wed, 24 Jun 2026 10:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FB03A1B5;
+	Wed, 24 Jun 2026 10:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782295523; cv=none; b=Npt7Yb2WBihPHqzQ3kA3vfiG8ECCnkjtAI+PqsO+xWjwpq5NZ5X7gcSWl8bUpXQlgEENzM5HWVY3JvnJEzHEq+eCmKHdnazT265Supyzda42+HcsdGK0ItdWR3L69hGmtey9OgK//1qdswXWMNuS6Wu5Ddp37PUKsREWB9rQrdo=
+	t=1782298610; cv=none; b=X2M2zjaEnDBTt3Qgfl4mCOnv6PdOMfPE6Qwh1ntizUUbibvQlHGJkroduzsDVvcJwZofhf61uZF59sqHCELQPl7HeE+ov2deba+PDHiPZ/imODQPQXPBhdy5zVeMT2T1xLASne4zu0V0SsH0ZXOB16RybqEcjiopfZp7FkILfoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782295523; c=relaxed/simple;
-	bh=HTArwVKu1Y38xUl5eFcMw3mUeVPxit5uZcPbJoGuZ24=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WSv+8iI8nNwAgF90rCk+Pu+SalcWNE5BX68C/fULwd6N7qfMGJXY7ADjaTEhOzkNQzdX/pNotpxzkPxT1jV18AlK5V2ooHIQQKLWNbtwwnIjXiutuH1MvpwOAjCvuFteqxixUyoL3J0ea+VJIfHLZ1kUIgx10v7uqbUjSD7XW4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=hMGdAMcK; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	s=arc-20240116; t=1782298610; c=relaxed/simple;
+	bh=+uXVurxJXjz8Uxc6eOImWX775lbEJ14hoAiB9MZejhc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l6IFl0ajJacn0peCaIjA9ZD10dx4Ae/f4HP/fBIuAZ21tIj+w60kHw/UsYTfqWhElmx2GqlTmfFRJwiy/bXcLAFjP4oroOFhb/h66mnr/7TWa7UGxiLzdVkAUq5Ldy9gFqiq7nTOQizPBrv4HlKt1X7Lw++4SCLCWlNvahInO5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X4QAQ4eK; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="hMGdAMcK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1782295502; x=1782900302; i=wahrenst@gmx.net;
-	bh=HTArwVKu1Y38xUl5eFcMw3mUeVPxit5uZcPbJoGuZ24=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=hMGdAMcKFIO67z64skEXRq4wWNboHoTlLhievESyU5DZhriD53fMzs2UidtAfBhH
-	 49cWGL6TNuQJKN9XrVoQQSNs3WqLJbz/WpbLcy+wfadTWlnXNj/tE2fo4LMcCrmXt
-	 jkyniVvJJBRB2ezbuXUMLVKkm23yJ9yWprzAji5bHibxeNeo6hDqTCuKjS7k4QBaO
-	 81d/4LlHcA47HHD6u7rpJJgrmf+j5iBkidgT1U1UrB50xA348Nfa5HRifUw4Y9jsb
-	 vX90XGiGYiAVZ6xt5A/GpDUAUwV9F9omS8UuiVdnMwL015yUU1oGIYCJXBjqap9Lb
-	 qOzxUUzSqYU8C0+hWA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MTABZ-1wjELx0B15-00IVpp; Wed, 24
- Jun 2026 12:05:02 +0200
-Message-ID: <07bc94cf-2b89-45ce-b36e-d07af6749ef9@gmx.net>
-Date: Wed, 24 Jun 2026 12:05:00 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X4QAQ4eK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782298610; x=1813834610;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+uXVurxJXjz8Uxc6eOImWX775lbEJ14hoAiB9MZejhc=;
+  b=X4QAQ4eKRFYb49qMWdsxdgZb/V1VhUSpvMwIdzuNl7N6s4WadlfMFVWM
+   XS8QaetvIjVizgylFfhcViIxQ/n1XOa8p2yvsRSpLJHOit6UVPyzP2lQi
+   jMb+yiL2radICQfpZITbtYN6sf7zAYtvajLttHXum2TtOLV1CW+VsTFPc
+   gvADxh2G5/EIJVpz3Pf1F5fHyxishOtBWqxQvIhtMKomx41AWbHfXshBi
+   MYZihg1lHi/nOv7Pj48XPh/scpPdt9yXMcz0WoA3wsHSr7inDxXnII7mN
+   b88ssCfVMiJ09X0h1siilHT+geZ94zuIAP7dhQHEvf6whWKbyZ9lbjAvL
+   Q==;
+X-CSE-ConnectionGUID: hJSfKv8sQ1mfYa/ms7b4DA==
+X-CSE-MsgGUID: kDom/GGxSkqb1buqukoxvw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="94546910"
+X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
+   d="scan'208";a="94546910"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 03:56:49 -0700
+X-CSE-ConnectionGUID: SWDYjH+oTty+lRTVGDgO9Q==
+X-CSE-MsgGUID: x3ilFz9vTzmWLMaYAUq41Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
+   d="scan'208";a="248632799"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa006.jf.intel.com with ESMTP; 24 Jun 2026 03:56:46 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 5ADAC95; Wed, 24 Jun 2026 12:56:44 +0200 (CEST)
+Date: Wed, 24 Jun 2026 13:56:42 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Haoxiang Li <haoxiang_li2024@163.com>
+Cc: gregkh@linuxfoundation.org, bleung@chromium.org, abelvesa@kernel.org,
+	jthies@google.com, myrrhperiwinkle@qtmlabs.xyz,
+	pooja.katiyar@intel.com, venkat.jayaraman@intel.com,
+	yuanhsinte@chromium.org, johan@kernel.org,
+	quic_linyyuan@quicinc.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: destroy work queue on
+ fwnode_usb_role_switch_get() fails
+Message-ID: <aju36u5fQVLIgMDh@kuha>
+References: <20260624081301.2866854-1-haoxiang_li2024@163.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: chipidea: usbmisc_imx: i.MX93 support
-To: Xu Yang <xu.yang_2@oss.nxp.com>
-Cc: Xu Yang <xu.yang_2@nxp.com>, Frank Li <Frank.Li@nxp.com>,
- Jun Li <jun.li@nxp.com>, Alexander Stein <alexander.stein@ew.tq-group.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-References: <b2fb88eb-5c5f-499f-9cee-6a69769c578c@gmx.net>
- <ibkjg6bymxoy5wcewrfn4y63f5izlh2yvdqjt42a63kvttr42w@tvqjjhfjg3u4>
- <40e4df43-5de8-48fb-9c5d-9ccb437e63b9@gmx.net>
- <lwo7rsdsfuibceyz5qoi46bbrhmofjpb2e3ukzdawieou3uo7m@5o2ral3q4oaf>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-Autocrypt: addr=wahrenst@gmx.net; keydata=
- xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
- IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
- NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
- JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
- TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
- f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
- V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
- aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
-In-Reply-To: <lwo7rsdsfuibceyz5qoi46bbrhmofjpb2e3ukzdawieou3uo7m@5o2ral3q4oaf>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-Provags-ID: V03:K1:gaU3oCttgjVbp2xNHvZFXcsZfjrXQe8xVzyJD3vWmQAFerULpWx
- eknls63rMtGIPFeguD5N+I6jd0fTJb4fDEasJPfg+Kxap6Bum4KPpvRVi68ccgPQggQt2ne
- NMjuib4aI5zM8Npmm+MVUUrZfRMnmUc3NhXbjC6RANAaQ73uB0xwUn2QU5kjjvU5nApUlKl
- CZ1eZlnOErJUuic5rROCA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:TXRI+9cUPns=;MCvG8RMQprIM8RW1tL9WVnTnaYQ
- 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
- RA4wAoToZVyXnLKIbLWLaGzAWG8UU1Eamknk=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260624081301.2866854-1-haoxiang_li2024@163.com>
 
-SGkgWHUsDQoNCkFtIDI0LjA2LjI2IHVtIDExOjExIHNjaHJpZWIgWHUgWWFuZzoNCj4gT24gV2Vk
-LCBKdW4gMjQsIDIwMjYgYXQgMDg6MzA6MDBBTSArMDIwMCwgU3RlZmFuIFdhaHJlbiB3cm90ZToN
-Cj4gV2hhdCdzIHlvdXIgaXNzdWUgb24gaS5NWDkzPw0Kd2UgaGF2ZSBhbiBpLk1YOTMgYm9hcmQg
-dXNpbmcgYm90aCBVU0IgaW50ZXJmYWNlczoNCg0KVVNCMToNCi0gZXh0ZXJuYWwgYXZhaWxhYmxl
-IHZpYSBVU0ItQyBjb25uZWN0b3INCi0gT1RHIGludGVyZmFjZSBzaG91bGQgYmUgYWJsZSB0byBz
-d2l0Y2ggYmV0d2VlbiBob3N0IGFuZCBwZXJpcGhlcmFsDQotIGFzIFVTQi1DIGludGVyZmFjZSBj
-b250cm9sIHdlIHVzZSB0aGUgVEkgVFVTQjMyMUFJIFsxXSAod2hpbGUgaXRzIERJUiwgDQpPVVQx
-LCBPVVQyLCBDVVJSRU5UX01PREUsIFBPUlQgaXMgdW5jb25uZWN0ZWQgb3IgdGllZCB0byBHTkQp
-DQoNCiDCoFVTQjI6DQotIHVzZWQgYXMgaW50ZXJuYWwgaG9zdCBpbnRlcmZhY2UNCg0KIMKgV2Ug
-aGF2ZSB0aGUgcHJvYmxlbSB0aGF0IDUgc2Vjb25kcyBhZnRlciBkaXNjb25uZWN0aW5nIGEgVVNC
-IGRldmljZSANCmZyb20gVVNCLUMgKFVTQjEpIGludGVyZmFjZSwgdGhlIFVTQiBkcml2ZXIgY29t
-cGxhaW5zIHRoYXQgdGhlIFZCVVMgaXMgDQpzdGlsbCB0byBoaWdoOg0KDQpbwqAgMTQ0LjA3ODM0
-N10gdXNiIDItMTogVVNCIGRpc2Nvbm5lY3QsIGRldmljZSBudW1iZXIgMg0KW8KgIDE0NC4wODM0
-MjVdIGNpX2hkcmMgY2lfaGRyYy4wOiByZW1vdmUsIHN0YXRlIDENClvCoCAxNDQuMDgzNTIxXSB1
-c2IgMi0xLjE6IFVTQiBkaXNjb25uZWN0LCBkZXZpY2UgbnVtYmVyIDMNClvCoCAxNDQuMDkwMzEw
-XSB1c2IgdXNiMjogVVNCIGRpc2Nvbm5lY3QsIGRldmljZSBudW1iZXIgMQ0KW8KgIDE0NC4xMzkz
-MjVdIHVzYiAyLTEuNTogVVNCIGRpc2Nvbm5lY3QsIGRldmljZSBudW1iZXIgNA0KW8KgIDE0NC4x
-NTg3MDBdIGNpX2hkcmMgY2lfaGRyYy4wOiBVU0IgYnVzIDIgZGVyZWdpc3RlcmVkDQpbwqAgMTQ5
-LjE5MDI3NF0gY2lfaGRyYyBjaV9oZHJjLjA6IHRpbWVvdXQgd2FpdGluZyBmb3IgMDAwMDA4MDAg
-aW4gT1RHU0MNClvCoCAxNDkuMTk2NzQxXSB1c2JtaXNjX2lteCA0YzEwMDIwMC51c2JtaXNjOiB2
-YnVzIGlzIGVycm9yDQpbwqAgMTQ5LjIwMjA3OF0gdXNibWlzY19pbXggNGMxMDAyMDAudXNibWlz
-YzogRXJyb3Igb2NjdXJzIGR1cmluZyANCmRldGVjdGlvbjogLTIyDQoNCkJ1dCBleGNlcHQgb2Yg
-dGhpcywgYm90aCByb2xlcyB3b3JrcyBhcyBleHBlY3RlZC4NCg0KSGVyZSBhcmUgdGhlIHJlbGV2
-YW50IGRldmljZSB0cmVlIHBhcnRzOg0KDQogwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgcmVnX3Vz
-Yl9vdGcxX3ZidXM6IHJlZ3VsYXRvci11c2Itb3RnMS12YnVzIHsNCiDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoHBpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7
-DQogwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqBwaW5jdHJs
-LTAgPSA8JnBpbmN0cmxfdXNib3RnMWdycD47DQogwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqBjb21wYXRpYmxlID0gInJlZ3VsYXRvci1maXhlZCI7DQogwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqByZWd1bGF0b3ItbmFt
-ZSA9ICJ1c2Jfb3RnMV92YnVzIjsNCiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDC
-oCDCoCDCoCDCoCDCoHJlZ3VsYXRvci1taW4tbWljcm92b2x0ID0gPDUwMDAwMDA+Ow0KIMKgIMKg
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgcmVndWxhdG9yLW1heC1t
-aWNyb3ZvbHQgPSA8NTAwMDAwMD47DQogwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqBncGlvID0gPCZncGlvNCAxMyBHUElPX0FDVElWRV9ISUdIPjsNCiDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoGVuYWJsZS1hY3RpdmUt
-aGlnaDsNCiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoHJl
-Z3VsYXRvci1ib290LW9uOw0KIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIH07DQoNCiDCoCDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCAmdXNib3RnMSB7DQogwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqB2YnVzLXN1cHBseSA9IDwmcmVnX3VzYl9vdGcxX3ZidXM+Ow0K
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgb3Zlci1jdXJy
-ZW50LWFjdGl2ZS1sb3c7DQogwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqBzdGF0dXMgPSAib2theSI7DQogwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfTsNCg0K
-VGhhbmtzDQpTdGVmYW4NCg0KWzFdIC0gaHR0cHM6Ly93d3cudGkuY29tL2xpdC9kcy9zeW1saW5r
-L3R1c2IzMjFhaS5wZGYNCj4NCj4gVGhhbmtzLA0KPiBYdSBZYW5nDQoNCg==
+On Wed, Jun 24, 2026 at 04:13:01PM +0800, Haoxiang Li wrote:
+> Call destroy_workqueue() if fwnode_usb_role_switch_get() fails
+> to destroy the work queue con->wq.
+> 
+> Fixes: 3c162511530c ("usb: typec: ucsi: Wait for the USB role switches")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
+> ---
+>  drivers/usb/typec/ucsi/ucsi.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+> index 61cb24ed820f..63303e26929f 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi.c
+> @@ -1663,9 +1663,11 @@ static int ucsi_register_port(struct ucsi *ucsi, struct ucsi_connector *con)
+>  
+>  	cap->fwnode = ucsi_find_fwnode(con);
+>  	con->usb_role_sw = fwnode_usb_role_switch_get(cap->fwnode);
+> -	if (IS_ERR(con->usb_role_sw))
+> +	if (IS_ERR(con->usb_role_sw)) {
+> +		destroy_workqueue(con->wq);
+>  		return dev_err_probe(ucsi->dev, PTR_ERR(con->usb_role_sw),
+>  			"con%d: failed to get usb role switch\n", con->num);
+> +	}
+
+You need to add a label err_destroy_workqueue after the
+mutex_unlock(&con->lock) and then here:
+
+	if (IS_ERR(con->usb_role_sw)) {
+		ret = PTR_ERR(con->usb_role_sw);
+		dev_err(ucsi->dev, "con%d: failed to get usb role switch\n", con->num);
+                goto err_destroy_workqueue;
+	}
+
+thanks,
+
+-- 
+heikki
