@@ -1,109 +1,104 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A41C256D
-	for <linux-usb@vger.kernel.org>; Thu, 25 Jun 2026 00:04:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7842B2D7;
+	Thu, 25 Jun 2026 01:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782345869; cv=none; b=Ob2IIVW+xBSLLdvxcWZz07XTMn0nENMVipcB+RghEnoNx4Btbp8gRsmMdVOfoDofeBj81coNQQ1AlDSY8in0xyMHzB3zWslT6O/5yKjxmuTIZls6+4cVqEMpshXZt9NYgmAgBne3KBf0SRtjhNtAiBGHqRNa0n6rK/pPMyEK/h8=
+	t=1782350210; cv=none; b=Zrpi5OLoJL/WoYMHGAoSdR3AbNtpG+3FqI/gF9/1z05u2thyRV6hQIimtQ3bbiv5MXF4eW23+sKRvtfyZ+iYtgb7gMeAh1oFKy1lLhiBSl5lCX4uU/xpku2dKusgUxfkClsG9M58pmETOPrncFnkdJYgAtmDCPof4HEy39JiBmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782345869; c=relaxed/simple;
-	bh=I0NXuarWnH8UYOKMagkD8xxvCNYItg/6Hvcpq84VFVk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WMRds/Gwtwkzm61FshXteAKdFz8yUlcczJI5xQ4JTeaNDjJKezZDRe7FFFJl5CPFM6rduoxI1/RAWjGQmixFZotJg1BOcAy+Q43VcJ3c14g2eyqetZjmmxR/NqHZf6EGEzC4+zk8Vfo59B3sK8uCH9uogeVPBevZq2EQQZkT5+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RfLHqVCj; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782350210; c=relaxed/simple;
+	bh=bWjgzOiss5rncFwrFsXra0zcfyL6qXVwPOqWWql6Pgk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IOdZJMxfrL+cWEfzhKsIs6dtjyOipkBl0VbJyQr1GeU0mxoY6nk9qd70W+AeSzgsWxuIuIhJF1So4cKQMVRkM/zHmfE3KIf6vnyG7BA5DVmmLbp/UE1zKIurc2uEHGcL9rj7evuquA3e469s0K4gxJSgutwMIgrNBsV8j0sS8Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=XTPlXxD3; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RfLHqVCj"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4602e2a0372so1277494f8f.3
-        for <linux-usb@vger.kernel.org>; Wed, 24 Jun 2026 17:04:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782345867; x=1782950667; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8QPXKXh/0+ryVan7xW/qbQJHj74/wdXUYEX1Gx7aERM=;
-        b=RfLHqVCjirhGkcRyhTN6/T2sAghOC4JFidKeO10PeFRQHTXOZLuf2YoqisI3n28BfR
-         753IHkOFDA2BW50wj2/Ej/xvsioQY0FZ/zy5aNdLma8FJUKOaAPvfMqBe925vghV1C0a
-         cxUdKq+V0V6kAYdY2YvF9KJB4NsAcvhJKEUcHXIsxxfc4wj8khHFNFMvcUQvO8H7Oxi1
-         3KiOkCm+xxhioyTZrjT9sUfydKjFreS/AjqxFHF8tfFttQ4Cwb3+RC3xGMIY1M4Osoxb
-         2XZz2ddM0Sxto/jlxb7jc4l89glwjFLYdd1l83OcRiJXBJLNMIGVIcYHYJFH0jrEGGfW
-         7Ngg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782345867; x=1782950667;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8QPXKXh/0+ryVan7xW/qbQJHj74/wdXUYEX1Gx7aERM=;
-        b=B1Q6shM0UzlWEyH6UkP9w9zgngdLCXSPMurvkgKNsKE37J68Qq8dpY0/jjzrStgrLq
-         gVw7I5OzzkOKguANBEdtfZc5ckkKgN4IiLfBeFnnYwWgZbHLdI9MTIA+DEMf0Bs54sBO
-         8IL4AVo+ktiJE3Zx8hSPQQZggS9rAF9eElFulJXiFzOyQX8rPQDf1lH+lzaNnPZhXDjb
-         T4GsrxHz2/3ptSRhNGwavvn1pQjCvdfx1Bv5tktCobW81YjS7uSr2JNNZcnEjhB7MjTo
-         Oi2Rgm6UiOQWtnLL6WHEruE8AFYYDn1qPjXU2EUeDHDNXJvYgB9kp18AEW9ugsNNwPLx
-         uWUw==
-X-Forwarded-Encrypted: i=1; AHgh+RoWodpAN0Iqkcz+aXfIKil7oQNvAYwYWu7A9F0+KbH+0vjoqm7wI6Hj4XS/D/Pf0RL2dDgfUWFtkm0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzdjolc95e0y+qM0d+o2zfMh6LMFhhJb8jgrSXZI0bi3QhFk9bQ
-	Sy5uca7fIPYXT4gUfikTUY6zQ6u5hB2+2tJ8IsDFwSP0kEoKptr4UA7U
-X-Gm-Gg: AfdE7ckHYHx9iE0lWbBnJz9KEUWsNZfddv83mjTrd8qqxtT1auH35CVmBEfTCv5690M
-	6nHVzrYTuiWixx7WzgJWQG1VCtVVJN9LN2qU0uaEW7lI3g/ZDH+7kWU1f6gmeD1EEovWN/EM0qS
-	obXp119SOW4T4T3LbSyRCShBZIuq74SBJ1Vx42YiZc9MHF1OLGCT639WdeCDE5Ab4btaocRC1p9
-	krhytdFdoEzYy5qpgSxOS7QW/YK8MmcbvA+e/cYx7vfMKvkgRTongUTn96XY0d4XqZMaJtt3Jjl
-	aI8r4EmTNtK22VZjinudM+Mb9vcLFeXWTtRxMlabyFqkNZQlf40Y84Jc4LKzdJZcYT7Wcawt1s2
-	kr4zHYtKdtzLCUdXlJNv66mLtAFZkn3xDOxePBIqLSP1c79d3qvKLG3BpCc8MYmwoPOSrbRyrZU
-	a4OUNdoLKqRLl9+klVMiNtRg==
-X-Received: by 2002:a05:6000:490d:b0:439:c18f:5aaf with SMTP id ffacd0b85a97d-46adb0b626fmr14440997f8f.34.1782345866763;
-        Wed, 24 Jun 2026 17:04:26 -0700 (PDT)
-Received: from foxbook (bfg19.neoplus.adsl.tpnet.pl. [83.28.44.19])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c221d9a22sm11308423f8f.19.2026.06.24.17.04.24
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 24 Jun 2026 17:04:25 -0700 (PDT)
-Date: Thu, 25 Jun 2026 02:04:21 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Xincheng Zhang <zhangxincheng@ultrarisc.com>
-Cc: cyrozap@gmail.com, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- mathias.nyman@intel.com
-Subject: Re: [PATCH] usb: xhci-pci: Disable 64-bit DMA for VIA VL805
-Message-ID: <20260625020421.2e577a94.michal.pecio@gmail.com>
-In-Reply-To: <20260624070612.337013-1-zhangxincheng@ultrarisc.com>
-References: <20260623121847.53749028.michal.pecio@gmail.com>
-	<20260624070612.337013-1-zhangxincheng@ultrarisc.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="XTPlXxD3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=GU
+	6I1Ll3K1QM1UvrFJ6ycsSbd981EIeymAe7fRZaVAs=; b=XTPlXxD3VG0XITwiIp
+	EZYjR4iVOflmRpZqZd5SWJaEOsLnb8DmjtbkIpy4q1vi5Nc6fDvJ8gXcqgWvD2B6
+	mljRPuxu3gw/YSOYiTTBIA11s1hYNuGUKlnTG/j9fSc7zIpxxnjbxXBYtYoGmx1M
+	mp24LakG5c7sVtM+HGnJWes9U=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp3 (Coremail) with SMTP id PigvCgD3Xwu3gDxqOQ4NEQ--.52354S2;
+	Thu, 25 Jun 2026 09:13:29 +0800 (CST)
+From: Haoxiang Li <haoxiang_li2024@163.com>
+To: heikki.krogerus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	bleung@chromium.org,
+	abelvesa@kernel.org,
+	myrrhperiwinkle@qtmlabs.xyz,
+	jthies@google.com,
+	johan@kernel.org,
+	pooja.katiyar@intel.com,
+	yuanhsinte@chromium.org,
+	quic_linyyuan@quicinc.com
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haoxiang Li <haoxiang_li2024@163.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] usb: typec: ucsi: destroy work queue on fwnode_usb_role_switch_get() fails
+Date: Thu, 25 Jun 2026 09:13:26 +0800
+Message-Id: <20260625011326.3411572-1-haoxiang_li2024@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PigvCgD3Xwu3gDxqOQ4NEQ--.52354S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7CFWfCrW8Ww43JF4Utr4rAFb_yoW8WF45pr
+	Zakw4jqw18JF43WanrK3WDWF1Yg3W8JFy7Jr4Iqw18KrsxJw4DXw18tFyYgF15WFZ7WFnI
+	yFWDJrykua4DurJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piyE_tUUUUU=
+X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbC7hn3Zmo8gLn91QAA3h
 
-On Wed, 24 Jun 2026 15:06:12 +0800, Xincheng Zhang wrote:
-> Hi Michal,
-> 
-> On 2026-06-23 12:18 +0200, Michal Pecio wrote:
-> > But I don't like this abuse of the quirk. Firstly, it causes
-> > unnecessary bouncing on systems with >4GB RAM and no IOMMU.
-> > I found other drivers that use DMA_BIT_MASK(36) or even weirder
-> > numbers, so it seems that we too could request 64 gigs exactly
-> > with a bit of driver refactoring.  
-> 
-> Thanks for the review. I totally agree that using `DMA_BIT_MASK(36)`
-> is a much better approach to avoid bounce buffers and register width
-> issues.
+Call destroy_workqueue() if fwnode_usb_role_switch_get() fails
+to destroy the work queue con->wq.
 
-By the way, are you sure that 64GB is the magic number and not 1TB?
-I booted a common AMD64 box with iommu.forcedac=1 and instantly got
-IOMMU faults, but the addresses were truncated to 40 bits, not 36.
+Fixes: 3c162511530c ("usb: typec: ucsi: Wait for the USB role switches")
+Cc: stable@vger.kernel.org
+Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
+---
+Changes in v2:
+ - Use a common err_destroy_workqueue error path. Thanks, Heikki!
+---
+ drivers/usb/typec/ucsi/ucsi.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-I applied 40 bit DMA mask and my VL805 seems to work. I looked into
-debugfs and many things are mapped close to 1TB, so I wonder if some
-chips are better than others or maybe there are particular workloads
-where VL805 truncates something to 36 bits? I tried a few, including
-bulk, interrupt, isochronous and USB3 bulk streams.
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 61cb24ed820f..4503661b85d5 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -1663,9 +1663,12 @@ static int ucsi_register_port(struct ucsi *ucsi, struct ucsi_connector *con)
+ 
+ 	cap->fwnode = ucsi_find_fwnode(con);
+ 	con->usb_role_sw = fwnode_usb_role_switch_get(cap->fwnode);
+-	if (IS_ERR(con->usb_role_sw))
+-		return dev_err_probe(ucsi->dev, PTR_ERR(con->usb_role_sw),
+-			"con%d: failed to get usb role switch\n", con->num);
++	if (IS_ERR(con->usb_role_sw)) {
++		ret = PTR_ERR(con->usb_role_sw);
++		dev_err(ucsi->dev, "con%d: failed to get usb role switch\n",
++			con->num);
++		goto err_destroy_workqueue;
++	}
+ 
+ 	/* Delay other interactions with the con until registration is complete */
+ 	mutex_lock(&con->lock);
+@@ -1803,7 +1806,7 @@ static int ucsi_register_port(struct ucsi *ucsi, struct ucsi_connector *con)
+ 	fwnode_handle_put(cap->fwnode);
+ out_unlock:
+ 	mutex_unlock(&con->lock);
+-
++err_destroy_workqueue:
+ 	if (ret && con->wq) {
+ 		destroy_workqueue(con->wq);
+ 		con->wq = NULL;
+-- 
+2.25.1
 
-How was this problem found? Do you have >64GB RAM and no IOMMU?
-Or with IOMMU whose driver allocates mappings above 4GB?
-
-Regards,
-Michal
