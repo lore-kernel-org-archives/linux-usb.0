@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E76A34CFBA;
-	Thu, 25 Jun 2026 13:56:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5572F2E7394;
+	Thu, 25 Jun 2026 13:58:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782395793; cv=none; b=YIdvoesMey99sPA7p7rryuziRtUlO2F3pmKF/9JZbji7wvZHzEi+N6wuxniJYOHZ7KekgxhaW29C3jdyqk6t5vGTL/mZl/QT3lJu9VqBph7OKXFmS1LQWxXQrqkiLOkOMau5CImYN2BPZRK6W/hMnZoRsC8sBvgbYBSb1reNbqQ=
+	t=1782395884; cv=none; b=FZ4Do9VHEXTD5MWApe4RvmSt4DXKy2EW6+pEXJatmtfOaRAUhaWM4jodce2qTXHLFLWt72dpF6xnX+vbDyMIDwuPJVH+Kh4/i0WN5Qa34qDjiKPUcjWnurACNSvVLW2qQ8V/tCI4+F10GGCTNP7svAMnl1mHLoq8jHQayw2LL10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782395793; c=relaxed/simple;
-	bh=CNfmS8bbRabm1iqvFbH1ZzqCkH9FrcXD4e/kGchZWfc=;
+	s=arc-20240116; t=1782395884; c=relaxed/simple;
+	bh=WkpX74Apm5zS3j+opCUVdUTkZMu1z3vSVuewr0vE0WA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AFNCfGevJ3MWEKnpBB1pj64Md+EqU7ljo3AKfMsiNYw5ZC0MpXmjMrDkXXxnDKP4Nv3UYz9xsj6MV+T+N6neS3eMsccl2ulZCVSUhdULUJ8H29HHNULhCH2fCR8yZ1nylm8eDKN4QHI+TylDK16T8h1OGbO3EA7cgca+bYTQTr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RI2hdoB7; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=IxLjhtqkBrDeLN+SQQabYPjRSUmjee0jL9n4ak1KWMwZFeWBM6TaDPXB4t68MYjcYECWurRJ78tqvTXS4CspHSIBWXDvJRBB+T0d6oUulDXaoYM5uHsRA5Es2MCKGzGhLB9q8jA392LZ2S+R3UOAXEb2VdlrTTJBCg8H0EfFCEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rXYrCJdy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RI2hdoB7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 090011F000E9;
-	Thu, 25 Jun 2026 13:56:30 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rXYrCJdy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52D751F000E9;
+	Thu, 25 Jun 2026 13:58:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782395791;
-	bh=FNbbktM1Ahz8D4/nbDMEV4nBKwwmFLwPSPxhbDDCQOk=;
+	s=korg; t=1782395882;
+	bh=tc+ZdzXRZteGRMtjR4CniifwuVl4SgWaauwfcCEypNU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RI2hdoB7qnYKrB0zv/qAntWdq7bbKTnCgLWxLnny9iX9NLa6wU4x5tawhXB2vMqpr
-	 XEu2RasT8Of6QDidnQls4rH9IPJTo3rqckLUpIsDk5TXjNkhtYs1UezLXT1d5RhIYY
-	 fm0eAVYocQVLJPvTeHpLMP+wDMT5VkIESKbHVn/U=
-Date: Thu, 25 Jun 2026 14:55:19 +0100
+	b=rXYrCJdyjnxpsIjwNB43it0OboJBvuFr+8wBU+n4wpKJm7PthsSxs3TNiqbzuPMio
+	 MXr16C/loNOeILGs/+sQkc1Qt7p9YIRRZeCU+Sox80JuYSIEN9g9S1jCg51k3LDUOz
+	 S4Z1x57qnuswWmB40dldCGZ7ldwZyTtFN85xzlOA=
+Date: Thu, 25 Jun 2026 14:56:50 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Haoxiang Li <haoxiang_li2024@163.com>
-Cc: kees@kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: renesas_usbhs: Check pipe allocation in host pipe
- init
-Message-ID: <2026062533-dock-frosting-5a64@gregkh>
-References: <20260622114521.1022197-1-haoxiang_li2024@163.com>
+To: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stern@rowland.harvard.edu, michal.pecio@gmail.com,
+	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
+Message-ID: <2026062551-irritably-monotype-a70b@gregkh>
+References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,37 +41,25 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260622114521.1022197-1-haoxiang_li2024@163.com>
+In-Reply-To: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
 
-On Mon, Jun 22, 2026 at 07:45:21PM +0800, Haoxiang Li wrote:
-> usbhsh_pipe_init_for_host() allocates pipes with usbhs_dcp_malloc()
-> or usbhs_pipe_malloc(), both of which may return NULL. The returned
-> pointer is dereferenced unconditionally when clearing pipe->mod_private.
-> 
-> Check the returned pipe before using it to avoid a NULL pointer
-> dereference on pipe allocation/setup failure.
-> 
-> Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
-> ---
->  drivers/usb/renesas_usbhs/mod_host.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/usb/renesas_usbhs/mod_host.c b/drivers/usb/renesas_usbhs/mod_host.c
-> index f7ef3a9f82a4..11244cf3408d 100644
-> --- a/drivers/usb/renesas_usbhs/mod_host.c
-> +++ b/drivers/usb/renesas_usbhs/mod_host.c
-> @@ -1441,6 +1441,9 @@ static void usbhsh_pipe_init_for_host(struct usbhs_priv *priv)
->  						 dir_in);
->  		}
->  
-> +		if (!pipe)
-> +			return;
+On Tue, Jun 23, 2026 at 09:40:35PM +0530, Nikhil Solanke wrote:
+> @@ -912,6 +915,13 @@ int usb_get_configuration(struct usb_device *dev)
+>  	unsigned char *bigbuffer;
+>  	struct usb_config_descriptor *desc;
+>  	int result;
+> +	/*
+> +	 * Devices with quirky firmware will stall or reset when asked only for
+> +	 * the configuration header. This variable decides which size to use in
+> +	 * that case, if the quirk for that device was set.
+> +	 */
+> +	size_t usb_config_req_size = (dev->quirks & USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE)
+> +		? USB_CONFIG_WINDOWS_REQ_SIZE : USB_DT_CONFIG_SIZE;
 
-No, you just leaked memory and caused the system to be in an unknown
-state, which is probably worse off than the crash that would have
-happened.
-
-Please fix this properly, if you really have ever hit this before.
+Please just use if () lines for code logic like this.  Don't abuse ?:
+stuff as it's not needed.  Remember, we write code for people first,
+compilers second, and in this case the compiler doesn't care either way
+at all, but an if () line makes people much happier.
 
 thanks,
 
