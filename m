@@ -1,207 +1,135 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC39D3AA1B0;
-	Thu, 25 Jun 2026 16:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C72435F180
+	for <linux-usb@vger.kernel.org>; Thu, 25 Jun 2026 17:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782406533; cv=none; b=P9ziNTKkBg2EdGv0rZ8MIygqc4TUunpljAyhlDqhSUOzd/vzzjQf9Klr6ioV3KH+OdP9rgGL+/uYLOUf3m3jvJqFpTUp63dipuOGmcc6dCVOn3sKcxjYYYk30S9bHgDe1MHyKqT71QEzeehpfu6z+XW+QhKaM4I2jNYPDsHXfRc=
+	t=1782407939; cv=none; b=V0G6NtdaK35irY3uVTwtEvILH+UlJEXgqAP8xkimqOD+eYao5yyJBooMXedBvFvbDw9Lf06yl2gKJI6cVe64egs76zxCtKpsZTcnhjiRhNNreNoXCwwygy4QbylhzmSmEOG+YWffRY4UJsmFuvc8Emr4AiZp4pbXAFD+Xy/cvT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782406533; c=relaxed/simple;
-	bh=FHHGYQXQT1PKs5B2WZMLLUlKrYmF4nfrY/NoIn3shQk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hNxSFxuPHmwCB+YabnrwHcMrlHVKjYorlX3R1ysDrMkgr7VkdErCyDp+jseQ0JVVPP6nPdT12SqP2V0/UuWJc8Fk1mIUfa4Is7Fivv3AzMTOHhu36WTxbWAcBVLMy4lsIOp0gzs+3H3gX8zKjomLCjBV11A6yZay36B+iqCkW3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=C2N9a/Ob; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1782407939; c=relaxed/simple;
+	bh=j3Qx0IS00/mV024HFa4j2M0OlqykQOUAcj5GJc2wYk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AcCSXnFxErefLKMwfHYJI8qEQDK41/0wfcxIvCO+EP/BwySwS4UVmrNjBzEkND+NGfo9fKTeHQcYdJ4wByBSguF3FMGDH6HEGv9fn2030UD+QHrnD821K1ol4JEpG9rHH3X+xTSh6mqQ3u5UFXoTk20qNZQtvqtIP+AgjKhxSQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RbdLiuNN; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="C2N9a/Ob"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1782406523; x=1783011323; i=markus.elfring@web.de;
-	bh=+K2RNATNlxo7gLOQ3ng9eBBYAtZI8qC0skGXdt4jsbg=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=C2N9a/ObPV/zIBbAXK0h23YDYxXnaj0Eh2l4J2emgUjLg+ZMpH/rCLzRY0k+1wWt
-	 Olt+OgFApTOBrEzVBHKXtdLz1k5pTr/fiIgdCC5mQmuO1irkVVfLCqpG8ifUeGmBf
-	 h9SOj8lqkVmWfCYbeEihl6QF3u/FIGvsSVJ8Vy0d6/KvaVlQI3J8iV9XWGSx1AD/x
-	 RvY3jj8NS5G3gUITeeg/EZ6jPwl2y4nWhB1Ji91xgJ2DbFsh/Lv5fLWkMBfTNqKW3
-	 zN/0STLCc6eKF6NHPTyKKQqTXezb+Dw3Zr2Jx4Ts4KfKkl/YurmZzuvrN5B3YQJpJ
-	 /4YsV6NfxqJubuemVA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1N9cLR-1xF69m1j5J-00vpFs; Thu, 25
- Jun 2026 18:55:23 +0200
-Message-ID: <393fdf99-e6ac-4cb4-8d82-02c55b9e83a4@web.de>
-Date: Thu, 25 Jun 2026 18:55:21 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RbdLiuNN"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-46e30429b10so544460f8f.1
+        for <linux-usb@vger.kernel.org>; Thu, 25 Jun 2026 10:18:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782407937; x=1783012737; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Suz2lUACoLx3teOmZbTvIhEiTcrbGDmlBBfnx9PsK68=;
+        b=RbdLiuNN/Wa2lysWHQvAinFBT1g1pkJx7qLHzrSt+MCZ+dvb2OFI8oZYr5+MlpRK3e
+         m12hfemhFTAqEwbWjrOgwgkGCzgd8cdOVjCWAJIVpugJBZxPvuut7ZpX/KzLz0w5RVSu
+         PWmjj5u00n8sSeR59QTSIU/+ePn6MZ9Fr4mZcXcR0KKxjpfFLXTW5f+8pzyYU+0WYfPv
+         ZZg+5IPsQeUzUnpJyM3S24QHWGRpFN7pqa6reqc87OamhO/krW5wVeMWMolclRYpFPTs
+         q9metR+i1tn/Ww062JkvDdwxKCWDbMwufGKMtt+sF9g78XuFRBr5ZMws5qO81z21ecgv
+         gK8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782407937; x=1783012737;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Suz2lUACoLx3teOmZbTvIhEiTcrbGDmlBBfnx9PsK68=;
+        b=hI1G+cWueorlcSEW/voUOvIoKEQCVU0QkhyVM7TLKKV+WPhifsElaHk7lN9LzfUuhg
+         HVPkLcFXGBhohZknNM+dqcyLyWYDnj39MaFLFcShjuql4G0pvBUVi+AAMMVJzOn8yRYQ
+         FoVzh4chmk52Xf7AxN1iPqooPLAND9h4tuey5HLfcIEIuuG5Ky1q2WCjEeBPTuF2Th4m
+         uopDMeTM/ByiE68mSQcwTLAHJAsC0oLndO17Om1yRvjJvmsJKA1eTg8HSHxso39XomC0
+         q9bkfnI6u09FmCBo/ZIQBJHV/OJbpJFqoyNc2uSypCZBbln5u00uK7/AAILAiCqFAkRK
+         QScw==
+X-Forwarded-Encrypted: i=1; AHgh+Rq4p/1d01qLrPLM40Bm+Nl8ylIYdtN6VpAxEnhUt2tdvBK5P9DS0WBzs0YY9PIposnCVDJhntGnmm0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0Dt1o7EbYxWqOmDdD66JJkj+Dz+BEkOrPYkFyYl5zB2YcCAT5
+	KgIiSmXbl/U61B33gSWDwn2n2Ann+JD9eDzMHFrvIx6BXJki6SlV3mvaLaTD3Q==
+X-Gm-Gg: AfdE7cnHMSHngFTFkwcFCUv5wrImiW/3SHk/Y9n5z89trH3GlXMzjG2VSHhFYDwUTre
+	AVZm98pciF0cZGXlz7VnpeyarBjNG6dKJNG7TSWElFaq2KAbZHIKStUPJg4t+BnNqyY369qeMus
+	dZdhKGQ+ygjFvGkKJqnt0q2GJEuT7Huyk+Idnxxj+aHqnIorYBBOaYUTF3nd8KroLJn4jqjyetj
+	KyTpDPfI5ddJ51PKt+My2+ziJlYzgridK/5kj2XXZKyrDlIEwkNVivl9N7xL7dX/tZi7cyjHf+9
+	XutPpBY8VBgRfE3QK7UfKcb86M0PcwxKCiN0OcVNra/YdsQKOZymjHXulSveqRpF8h9bD23DYf+
+	54UsYe5vnJszp/fTXI3OTyq2A/NHtcHfE5vJ85GVtquBD5r4ECnf69Rv9hEPYZZqM+Nwh6Aw17A
+	AQ2X4WJAqOIs1LPTU3StnElQ==
+X-Received: by 2002:a05:6000:2908:b0:461:a5d6:8794 with SMTP id ffacd0b85a97d-46dbfe8cd75mr5247546f8f.6.1782407936678;
+        Thu, 25 Jun 2026 10:18:56 -0700 (PDT)
+Received: from foxbook (bfg19.neoplus.adsl.tpnet.pl. [83.28.44.19])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1e840eefsm21008147f8f.1.2026.06.25.10.18.55
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Thu, 25 Jun 2026 10:18:56 -0700 (PDT)
+Date: Thu, 25 Jun 2026 19:18:52 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Xincheng Zhang <zhangxincheng@ultrarisc.com>
+Cc: cyrozap@gmail.com, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ mathias.nyman@intel.com
+Subject: Re: [PATCH] usb: xhci-pci: Disable 64-bit DMA for VIA VL805
+Message-ID: <20260625191852.0a8d511c.michal.pecio@gmail.com>
+In-Reply-To: <178235378952.3114334.15752812276771065417.b4-reply@b4>
+References: <20260623121847.53749028.michal.pecio@gmail.com>
+	<20260624070612.337013-1-zhangxincheng@ultrarisc.com>
+	<20260625020421.2e577a94.michal.pecio@gmail.com>
+	<178235378952.3114334.15752812276771065417.b4-reply@b4>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] HID: usbhid: Use seq_buf_putc() in three functions
-To: sashiko-reviews@lists.linux.dev, linux-input@vger.kernel.org,
- linux-usb@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Woradorn Laodhanadhaworn <woradorn.laon@gmail.com>,
- LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
-References: <89e9c672-efee-4ed2-9ef5-637ec9707f0b@web.de>
- <20260625093209.34B6B1F000E9@smtp.kernel.org>
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260625093209.34B6B1F000E9@smtp.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:4b7Y/G4j3UchnPBDL5vVLRedezB65lLB1RT8wGCvBpBY21sNKyW
- WE8zyCJgwMV8Tghx5zd2qU/qPWdZAp0EjSxJi4Z3kFvYrf/NksV8/hcqCf97VtQeBRDvjwd
- qcXfef83qFj9+Axh9sORSzMXVBM7/l7Mt1XZTKg4yRXMvY60PRloFwZ/TkEf6zqtST++780
- axsB/EXPs9C+zW9osMc1w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:YmyZGL0qctM=;cOlshYKwWkO47ADFd1LQdlzAa6W
- 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
- iZV7HczbR7HRfG9AkZ7aHpc5lXI=
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
->> +++ b/drivers/hid/usbhid/hid-core.c
->> @@ -1412,7 +1412,7 @@ static int usbhid_probe(struct usb_interface *int=
-f, const struct usb_device_id *
->> =20
->>  	if (dev->product) {
->>  		if (dev->manufacturer)
->> -			seq_buf_puts(&hid_name, " ");
->> +			seq_buf_putc(&hid_name, ' ');
->=20
-> [Severity: Medium]
-> Does this change introduce a missing null termination bug in usbhid_prob=
-e()
-> if the manufacturer string is exactly 127 bytes long?
->=20
-> The previous code using seq_buf_puts() requires two bytes of available
-> capacity (one for the space, one for the trailing null byte) and safely =
-fails
-> if there isn't enough room.
+On Thu, 25 Jun 2026 10:16:29 +0800, Xincheng Zhang wrote:
+> I re-tested this on our side and collected more details. The machine
+> is an UltraRISC DP1000 riscv64 system with a VIA VL805/806 controller:
+> 
+>   0002:01:00.0 USB controller [0c03]: VIA Technologies, Inc. VL805/806 xHCI USB 3.0 Controller [1106:3483] (rev 01)
+> 
+> The booted kernel was built with xHCI debug enabled and with the VL805
+> XHCI_NO_64BIT_SUPPORT quirk removed, so the controller was allowed to
+> use the normal AC64/64-bit DMA path.
+> 
+> This is a no-IOMMU setup, and the command line does not include
+> iommu.forcedac.
+> 
+> The system has about 64 GB of RAM:
+> 
+>   MemTotal:       65837388 kB
+> 
+> With the 64-bit DMA path enabled, xHCI setup logged DMA addresses
+> above 0x1000000000:
+>
+>   xhci_hcd 0002:01:00.0: Enabling 64-bit DMA addresses.
+>   xhci_hcd 0002:01:00.0: // Device context base array address = 0x0x0000001075cef000 (DMA), (____ptrval____) (virt)
+>   xhci_hcd 0002:01:00.0: First segment DMA is 0x0x0000000108961000
+>   xhci_hcd 0002:01:00.0: ERST deq = 64'h1075ca7000
+>   xhci_hcd 0002:01:00.0: Slot 1 output ctx = 0x0x0000001075387000 (dma)
+>   xhci_hcd 0002:01:00.0: Output Context DMA address = 0x1075387000
+> 
+> Shortly afterwards the controller stopped responding:
+> 
+>   xhci_hcd 0002:01:00.0: Command timeout, USBSTS: 0x00000000
 
-I see a need to reconsider such information in more detail.
+Right, your addresses barely exceed the 36 bit limit. And I found why
+my chip behaved differently - 40 bit DMA was a firmware upgrade.
 
+After downgrading my controller from 00013704 to 00013600 it truncates
+addresses to 36 bits and fails like yours. And it's a pretty nasty bug,
+because some of those accesses are writes to scratchpad buffers, so
+without IOMMU the chip corrupts unrelated memory below 64GB.
 
+You can check your FW version with this one-liner:
+lspci -d 1106:3483 -xxx | awk '/^50:/ { print "VL805 FW version: " $5 $4 $3 $2 }'
 
-> Looking at seq_buf_putc(), it only checks if there is room for one byte.
-> If the sequence buffer is exactly 128 bytes long
+More about VL805 firmwares:
+https://github.com/jpmorrison/VL805
 
-This is the case as such a technical detail can be determined from the mem=
-ber =E2=80=9Cname=E2=80=9D
-of the data structure =E2=80=9Chid_device=E2=80=9D.
-https://elixir.bootlin.com/linux/v7.1.1/source/include/linux/hid.h#L721
-
-
->                                                  and already contains 12=
-7
-> characters from dev->manufacturer plus the null terminator, seq_buf_putc=
-()
-> will overwrite the null terminator at index 127 with a space character.
-
-Other contributors can add further experiences for corresponding data leng=
-th characteristics.
-
-
-> This leaves hid->name completely unterminated.
-
-I would like to point the comment =E2=80=9CDon't count the trailing null b=
-yte against the capacity=E2=80=9D
-once more from the implementation of the function =E2=80=9Cseq_buf_puts=E2=
-=80=9D.
-https://elixir.bootlin.com/linux/v7.1.1/source/lib/seq_buf.c#L193-L194
-
-
->                                                When exposed to userspace=
- via
-> sysfs or input ioctls, this could lead to an out-of-bounds read into the
-> adjacent hid->phys memory field.
-
-If such a data reuse would be attempted, API requirements for sequence buf=
-fers
-should probably be taken better into account at a concrete place.
+One could ask whether 36 bits is low enough for all VL805, but I think
+it is because the bug is hard not to notice and nobody ever reported it
+on systems with less than 64 GB of RAM, even though 16 or 32 GB without
+IOMMU was a common option in DDR3 generation PCs, which is also about
+the era when this controller was introduced.
 
 Regards,
-Markus
+Michal
