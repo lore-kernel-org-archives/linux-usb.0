@@ -1,38 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C072E11B9;
-	Thu, 25 Jun 2026 14:56:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC23344DA4;
+	Thu, 25 Jun 2026 14:57:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782399400; cv=none; b=BAFPESUjSrTAEUZ+yCF3y+aBOW5TrtLaBSRWzJwPWoqENhjjzCqqVYMPSZC4Vbmt+A3CCD/R7hITWVPgugIp6DOc3DXhLa2V8tvouQkYQh7wAkLTnuYFmGzjjPONuoHVl1dLp97YqnM0NYf7eFyoxq+j/JJXf9C3VZGNZel1Hck=
+	t=1782399471; cv=none; b=TchLKw1kjpX/Onl63tssCS0KNG+pN6ZlYPB6wntmy/16vA41jynnRoXvmole607C0JqSfBV0LyA5e2HowQxj+JETsBZYN1MwTbyoPEsxa3YaY+/H2sNJIRNrFyVPZkKnRxkyOmGaMFbqIeZF0L30jBkCXNUMrgomQCNaB46Z9Dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782399400; c=relaxed/simple;
-	bh=uz7HktKOTXe/0HFaltcv0ttPQM80fVGrVhVlWrSvGMY=;
+	s=arc-20240116; t=1782399471; c=relaxed/simple;
+	bh=kv294x4YAZ+0Oix+anqF2OBcUe8MY3JMsJIpKdpUTTg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hvai2Ekyb2iCfNBnQqsio5yXpk7OuWqlFxorBJILySRPjCuVQnaikkI+qmIOzpnN8U54Per3PEUMt/2LLfZoJOiyBKhGo8s7iOyq11C7IkscqYcbrx9Z2/HjGndD0OqCUXkf3BWEai3QyZRghXu19peuu3AmsNZThcb7N0x1zOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1JVLv8/W; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=bvj4GXFuxCTmLD/BbmGaOi18OSXDCjzy6atCY3sOF6sbQNVUEehNEYE98mjEAttbdcn+YdbN8ccpbI7hQFC1zWpggXmY6puJnkko0+y19DCWHMTEb2Es/hq81AzNSXEGqcCXqE2n+bA3esJy20LQ8GHtAXJPu27vFejKtZwK7lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=E19Df53u; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1JVLv8/W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E07811F000E9;
-	Thu, 25 Jun 2026 14:56:38 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="E19Df53u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 872AA1F000E9;
+	Thu, 25 Jun 2026 14:57:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782399399;
-	bh=80z3qdr1Ri+GX2ZpVWhKDkBHRsxbX1EdK+IIUrsw1PQ=;
+	s=korg; t=1782399470;
+	bh=GOqinxuII2k9fZezRRO5XQKgi0k+V24HFIXhqb91kL0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=1JVLv8/WnfpoZFLRt1IedSCno2nVh7GfnUOghogiyIdavCxO010sXTVaR4HjLN1pJ
-	 vvD05dPJ2xkc82p4EMxHBNpYtT6g9nV2QGdm4HaDDMJ4Jssw8SCB+LUfl9OvYpdDQ9
-	 fitTkeZQYduCvUQiyrBMgiUXDuw9weqri26lR6u4=
-Date: Thu, 25 Jun 2026 15:55:27 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Haoxiang Li <haoxiang_li2024@163.com>
-Cc: kees@kernel.org, balbi@ti.com, sebastian@breakpoint.cc,
-	linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org, stable@kernel.org
-Subject: Re: [PATCH] usb: gadget: fsl_qe_udc: fix gadget lifetime on
- registration failure
-Message-ID: <2026062552-danger-slug-bc0d@gregkh>
-References: <20260622140610.1140558-1-haoxiang_li2024@163.com>
+	b=E19Df53uv0ltXwIwHWXKzpMYpnLj7nMDo6M/d4FGYEoBpkWokmZ0+mRXTc9TW0WLN
+	 ik+M2NrX8FPjDIKoJZifYXZE3gzAIYZpWrsBHEwKIEdI14so8BceYl+R8Wwp87ixRa
+	 vhH/SklPFoLAIByygNrGmCi+Ejjk66JmcFBWdQh0=
+Date: Thu, 25 Jun 2026 15:56:37 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: digi_acceleport: fix write buffer corruption
+Message-ID: <2026062529-entity-setup-6b60@gregkh>
+References: <20260623151229.315224-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,59 +39,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260622140610.1140558-1-haoxiang_li2024@163.com>
+In-Reply-To: <20260623151229.315224-1-johan@kernel.org>
 
-On Mon, Jun 22, 2026 at 10:06:10PM +0800, Haoxiang Li wrote:
-> usb_add_gadget_udc_release() drops the gadget device reference when
-> registration fails. This invokes qe_udc_release() while qe_udc_probe()
-> is still unwinding. Since udc->done is not initialized during probe,
-> the release callback dereferences NULL in complete(). It also frees
-> the qe_udc object before the remaining probe cleanup accesses it,
-> resulting in use-after-free and double-free risks.
+On Tue, Jun 23, 2026 at 05:12:29PM +0200, Johan Hovold wrote:
+> The digi_write_inb_command() is supposed to wait for the write urb to
+> become available or return an error, but instead it updates the transfer
+> buffer and tries to resubmit the urb on timeout.
 > 
-> Initialize the gadget device explicitly and register it with
-> usb_add_gadget(), which leaves the gadget reference owned by the
-> driver on failure. Unwind the IRQ, DMA mappings, endpoint resources
-> and registers before dropping that reference with usb_put_gadget().
-> Make the completion notification conditional because it is only
-> installed by the remove path.
+> To make things worse, for commands like break control where no timeout
+> is used, the driver would corrupt the urb immediately due to a broken
+> jiffies comparison (on 32-bit machines this takes five minutes of uptime
+> to trigger due to INITIAL_JIFFIES).
 > 
-> Similarly, use usb_del_gadget() during removal so the final gadget
-> reference remains held while the controller resources are released.
-> Set the completion pointer immediately before dropping the reference,
-> then wait for the release callback to finish.
+> Fix this by adding the missing return on timeout and waiting
+> indefinitely when no timeout has been specified as intended.
 > 
-> Fixes: d77c1198666d ("usb: gadget: fsl_qe_udc: convert to new style start/stop")
-> Cc: stable@kernel.org
-> Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
-> ---
->  drivers/usb/gadget/udc/fsl_qe_udc.c | 17 +++++++++++------
->  1 file changed, 11 insertions(+), 6 deletions(-)
+> This issue was (sort of) flagged by Sashiko when reviewing an unrelated
+> change to the driver.
 > 
-> diff --git a/drivers/usb/gadget/udc/fsl_qe_udc.c b/drivers/usb/gadget/udc/fsl_qe_udc.c
-> index bf87285ad13c..f9a59b32e272 100644
-> --- a/drivers/usb/gadget/udc/fsl_qe_udc.c
-> +++ b/drivers/usb/gadget/udc/fsl_qe_udc.c
-> @@ -2459,7 +2459,9 @@ static void qe_udc_release(struct device *dev)
->  	struct qe_udc *udc = container_of(dev, struct qe_udc, gadget.dev);
->  	int i;
->  
-> -	complete(udc->done);
-> +	if (udc->done)
-> +		complete(udc->done);
-> +
->  	cpm_muram_free(cpm_muram_offset(udc->ep_param[0]));
->  	for (i = 0; i < USB_MAX_ENDPOINTS; i++)
->  		udc->ep_param[i] = NULL;
-> @@ -2489,6 +2491,9 @@ static int qe_udc_probe(struct platform_device *ofdev)
->  		return -ENOMEM;
->  	}
->  
-> +	usb_initialize_gadget(&ofdev->dev, &udc->gadget,
-> +						qe_udc_release);
+> Link: https://sashiko.dev/#/patchset/20260610132232.356139-1-johan%40kernel.org?part=11
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 
-Odd coding style, why not just one line?
-
-thanks,
-
-greg k-h
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
