@@ -1,65 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14DC636A34F;
-	Thu, 25 Jun 2026 10:42:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3003CF698;
+	Thu, 25 Jun 2026 10:43:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782384127; cv=none; b=Zkt+lEx4YOlc0Vpn2xsa6fHbV6R1WK/H7YT+/qeZDvQqKgqT6hoXyEBg5CeowX1V0O9+ztU7r+AxXwtcAClYYgkQniNrQ0h0WN8US0vuq3e1swLJgqxA3Wx1M7ZfkitTH+2+KFufZFIvWo6HuUj8LCMWSGQGkcPQcb1HpCyoy9I=
+	t=1782384215; cv=none; b=igQXBHBclsMjgztqBe+FiFLISbambeptdRqT1oqGrH5TopU3eALjA5o3N3GlBjTO3JRwHTA32SWeLnRvuij1jnCLkr/uIiom4Y94rM+W+sY/JSfpc5Hd0G1lfurj2MbknQfS+5WDleKA+9dd9Rm9rZEmBO+NPEEKLQk5QKLHDe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782384127; c=relaxed/simple;
-	bh=zkMcNaJSDWv3xcGECUXrWF9UiyDSLmH0igTKlE0o8C4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J/TnD5fM6y0AVkyEjYw2hm9LCaRV6CmhpVerF4XNPEW/7gfH6c0rJJvu17uEpBdBSE7wr1gsGbxB+XECRfGcH3trCZz5CLfK9JQZfTA/lA0sYuIjpqLiRN7xbKmLktqkByzUaFF7aL5gYWEa4qbaxfEupldQwsGJg6ZcfaQZKkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bcmrGuqS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782384215; c=relaxed/simple;
+	bh=lBuu39UbK68A8xrKG/Ns64hX/mqB5WWzuQz5XMfitXs=;
+	h=Message-ID:Date:From:To:Cc:Subject; b=mZf9FEd82+0F71BJrAlS5OgcLW4/F1+fcWVqmPiEG82/dNocQ1YEnhR7vWR3o5H/bWHV+T353Xts6xZXkNi+nDfUgDrI/4Hdnb+w4EZ+pC1gHZcGKYPdGPirk/lbeA9MzHSnConLkHGwPBbDRTofP8jUjo46VqHHLekHfL8JlEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T44en6Na; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bcmrGuqS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4716C1F000E9;
-	Thu, 25 Jun 2026 10:42:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T44en6Na"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E7681F00A3A;
+	Thu, 25 Jun 2026 10:43:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782384125;
-	bh=zkMcNaJSDWv3xcGECUXrWF9UiyDSLmH0igTKlE0o8C4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=bcmrGuqSPhlvJkHbi3GW/+6yM1bL+DuVNeFGJApTj5fbiCE7ky3A9LTN5BcAVE4uF
-	 OslWM8DQxvw7K+Ia19GbnrFerwCZog6R+pAI6OgP09yBddwsztkIu7QY/A9K5TDQov
-	 YBbWHHqtnNwUZf6XUYepYh+YvFP5Cvn8qm+Ob61wDLud7rfG6LJUDlFT+xHI9w3fU3
-	 3zz24xgJXcWfQJ8TsmbOV0dJhi0hjx9tRVoUmPiRaFvVxSWTBUq0UrGkWVwLm5Aers
-	 mBcg5ziCxhgAlXIyT9VRNCCAqKLJ53Ilvs0y8yYva8FC4loZYDaIWc6o0teeivH1eX
-	 yF+6oqgwiljxA==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org
-Cc: Sasha Levin <sashal@kernel.org>,
-	gregkh@linuxfoundation.org,
-	WeitaoWang-oc@zhaoxin.com,
-	linux-usb@vger.kernel.org,
-	mathias.nyman@intel.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	Mathias Nyman <mathias.nyman@linux.intel.com>,
-	David Wang <00107082@163.com>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	Justin Chen <justin.chen@broadcom.com>
-Subject: Re: [PATCH stable 5.15] xhci: fix memory leak regression when freeing xhci vdev devices depth first
-Date: Thu, 25 Jun 2026 06:41:49 -0400
-Message-ID: <20260625054005.0001.xhci-515@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260624034938.4126679-1-justin.chen@broadcom.com>
-References: <20260624034938.4126679-1-justin.chen@broadcom.com>
+	s=k20260515; t=1782384214;
+	bh=olDhkqtxI30UfcWJ97Za0LqCZRLOxs3Rv1WfiI82UaQ=;
+	h=Date:From:To:Cc:Subject;
+	b=T44en6NaGlPGuxRlGZBX7xnth52c5FHMZA7AOZVAPYNjd0/OrfRoLodTcHRiLQybk
+	 YHPoJMZyP0iX25n7G9jANVJXXjT2z//aa7wnRevhkJ0bI3u0YaLzPgTwOLcAbRt64j
+	 ACmhmjoVdR07WL1bwoDOgc/oadNP+3aEkFJFaDkjj9n69C6YXWcorpHXSRZwvWTuMo
+	 /nSOIt8LzbsdCM6rRxySNy5v7RD5esp/F39Dz65F50D+Tmp5AncdllaYY7jVXX+xRH
+	 LpczgNSv52PoLL5Oxla7W8wbkAlEz02czNEPjic5fmsZKO6KeFuPL++VV9MmCK/mlb
+	 QVwtXegLzsm0A==
+Received: from rostedt by gandalf with local (Exim 4.99.3)
+	(envelope-from <rostedt@kernel.org>)
+	id 1wchYw-00000002W9c-0A36;
+	Thu, 25 Jun 2026 06:44:02 -0400
+Message-ID: <20260625104007.041432666@kernel.org>
+User-Agent: quilt/0.69
+Date: Thu, 25 Jun 2026 06:40:07 -0400
+From: Steven Rostedt <rostedt@kernel.org>
+To: linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ John Ogness <john.ogness@linutronix.de>,
+ Thomas Gleixner <tglx@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Julia Lawall <julia.lawall@inria.fr>,
+ Yury Norov <yury.norov@gmail.com>,
+ linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rdma@vger.kernel.org,
+ linux-usb@vger.kernel.org,
+ linux-ext4@vger.kernel.org,
+ linux-nfs@vger.kernel.org,
+ kvm@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org
+Subject: [PATCH v4 0/2] tracing: Move non-trace_printk prototypes into trace_controls.h
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-> xhci: fix memory leak regression when freeing xhci vdev devices depth first
->
-> Pass xhci->devs[slot_id] instead of the reused vdev temporary to
-> xhci_free_virt_device() in the leaf path of
-> xhci_free_virt_devices_depth_first().
+Remove trace_printk.h by creating a trace_controls.h for those places that
+need access to tracing prototypes like tracing_off() and for the places that
+need trace_printk() directly, to have it included directly.
 
-Queued for 5.15, thanks!
+Changse since v3: https://lore.kernel.org/all/20260624081806.120105649@kernel.org/
 
---
-Thanks,
-Sasha
+- Always include trace_controls.h in rcu.h (kernel test robot)
+
+  There are other configs that may include tracing_off() in rcu.h besides
+  the one that had the include of trace_controls.h. Just always include
+  it in that header to be safe.
+
+Steven Rostedt (2):
+      tracing: Move non-trace_printk prototypes into trace_controls.h
+      tracing: Remove trace_printk.h from kernel.h
+
+----
+ arch/powerpc/kvm/book3s_xics.c         |  1 +
+ arch/powerpc/xmon/xmon.c               |  1 +
+ arch/s390/kernel/ipl.c                 |  1 +
+ arch/s390/kernel/machine_kexec.c       |  1 +
+ drivers/gpu/drm/i915/gt/intel_gtt.h    |  1 +
+ drivers/gpu/drm/i915/i915_gem.h        |  2 ++
+ drivers/hwtracing/stm/dummy_stm.c      |  1 +
+ drivers/infiniband/hw/hfi1/trace_dbg.h |  1 +
+ drivers/tty/sysrq.c                    |  1 +
+ drivers/usb/early/xhci-dbc.c           |  1 +
+ fs/ext4/inline.c                       |  1 +
+ include/linux/ftrace.h                 |  2 ++
+ include/linux/kernel.h                 |  1 -
+ include/linux/sunrpc/debug.h           |  1 +
+ include/linux/trace_controls.h         | 54 ++++++++++++++++++++++++++++++++
+ include/linux/trace_printk.h           | 56 ++--------------------------------
+ kernel/debug/debug_core.c              |  1 +
+ kernel/panic.c                         |  1 +
+ kernel/rcu/rcu.h                       |  1 +
+ kernel/rcu/rcutorture.c                |  1 +
+ kernel/trace/ring_buffer_benchmark.c   |  1 +
+ kernel/trace/trace.h                   |  1 +
+ kernel/trace/trace_benchmark.c         |  1 +
+ lib/sys_info.c                         |  1 +
+ samples/fprobe/fprobe_example.c        |  1 +
+ samples/ftrace/ftrace-direct-too.c     |  1 -
+ samples/trace_printk/trace-printk.c    |  1 +
+ 27 files changed, 82 insertions(+), 55 deletions(-)
+ create mode 100644 include/linux/trace_controls.h
