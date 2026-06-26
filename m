@@ -1,124 +1,105 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B8A3DFC6D
-	for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 08:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7CF3E1696;
+	Fri, 26 Jun 2026 08:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782461189; cv=none; b=txrpJPikJNA08appB87zVnX6GHD1Qv90C/duz0P/lE9Lg4jHQqbpD6rNMBHyDhTKnrnK6a1iZHRncMS9yLMro1BzKgmOhAIGnC1Q1r/x8leAmIq2xC0elC3wtReV2lMzAPhD872y5bW+TjpXtgVHofi5GCVkA2PDL30SHsBtu6s=
+	t=1782462114; cv=none; b=blBsEee2j92gRf+Uv7CeWnDVNFiT14GF5FTJ1P93O8+SIFCu3gm1QCZ0r5tn4EcV1YaR2l2CssfAOtNE3f0R8cwYVu23XtAvuvir44b+gTvLCjPTT+zYqP8lHg4tkkCYOfC2d3oVR9YpoWCRldg5cq6PkZNaQIUnOnGI1wY+OK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782461189; c=relaxed/simple;
-	bh=aNf/SIvnB6c9FraSrGdr/C620AP7V86KVgV4EjsKswI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uxJEKByiVZK+/TZtUAUPKIewygJd/q+xBFDCHlYX5ajdrc4XfAnRrAjlSkfQxsQrpSyeRXo5x98wdgF+QRt9B58Ew5LXDGfz1y41I5rzbZhS1Z2m1T+Qa/r1kEZuqa3J2tR1BpVr8g05ghgWuJ4cJpKFMvPgKkPFmx6+9/OL0D8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p0Xrb92E; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782462114; c=relaxed/simple;
+	bh=/4mtzQsCbxNw+zby24mrqKFAWlXw3OO99jVq6qbqJHU=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=X7UCXmfpqRRnQ0FV9n2VmXE+DT8iSoo+pQWTO50LFQh0QoAz9m+PpVsycnWRl0IiRRXQbXWlGHOSh6IM0wMaQZhg15tCS4pIU+SyyrMhBMX2xpyzQrhm4oJeOp2LkYfgPQjL8e7Lrmm/g0MwE6gjKiOr9KdRP9auSkiuBtOqTqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLkaMOoe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p0Xrb92E"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4923139e940so3824105e9.3
-        for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 01:06:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782461178; x=1783065978; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mUEr3dtQd9Nv7yPrUavx0YnTQwbVYdum/QDhfIL5EyA=;
-        b=p0Xrb92ERekAxv1jPyVroHbX3Xw2bOpG/6/UzVjs12gaZQh8Tyz/kYmOXKv4Gye25W
-         Y2V9067/hsbUufTtBSlPG3UlsRWkT0/yiqqGKk8fOpMGgSTohfbqVVcMa04V/POZ1+6k
-         8lp5GPmizLh1lXVRU+MHPq4P/2WFfj2oWEfvqVHrgltteH4LAiFAWW8DErz0qAmORaDL
-         W8EQv3LW7sQfveeHFjlElr6MopO5SsGnU6S798LBwrSWcwx9OIXvBmxtz45lGVYgsc2Q
-         DHDxYcYYANioNscYs03nI/u3ZbfNnxTw5otLKT3gJ++9kPyG0zFSZveUatNKya4S2oy8
-         Ke/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782461178; x=1783065978;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mUEr3dtQd9Nv7yPrUavx0YnTQwbVYdum/QDhfIL5EyA=;
-        b=Fr85hhE9aGD9zY0Q/Hy+SYpqy7F8GI4lK8+2orurNiX+uss243d3dmciBLdPkkMSb4
-         YCgLB9piRjO6pugYaZ6UMHPGTebfhE+LjG8OWOGIEADlUPjAEMidRvZcpHZZcJvdKyRd
-         nQCUXfwPzFdAw6ZPbuUHBj4hrGuesrM7dms4k2JlPFO806UEmATpQZ7I/1Nr9HOeafI/
-         I+ziSayIVw5SCudvseHzaj5vAnpZsU4OO5USjT0rrxa88Be1uhqRYB2vKvcbBMXoArsz
-         t8KxEVScvKoYQDtQw40scWJN9fp4/RNr50JnfEOsMIKVDAmwBVjtO/wnIW1fum3eSGUn
-         y9Pg==
-X-Forwarded-Encrypted: i=1; AFNElJ/felKslPLQMMqYEo6yxykSkm4l8nC+tBdea8OiIhRIOERs8bRo2snWf6MIru+g+XyEk8BSbRdSwCo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyU3YRkotp1RWPlQ9fkh7rA8xZbjA2qCsbAoe74UpqVE048SdeS
-	Re6uDy0K6h0gL6jOjr8rSuPSKRpW2cI2RYZ0zOa+2VNToMRqyultXVAw
-X-Gm-Gg: AfdE7cmqh68jm+jHHD+eLWWZLAcdabwY4n3llK4mL2V+G4AwYLiT8khr1f7USVkSSAh
-	z8Cn2yTvNCkmyFSsYF2wH4Nca0ErfvjSCXVBB9UQhp5oNKu4Ngn/+XXHkxz7ZGVd557s3N6jYyC
-	whwVHDci3EHR79Tgl/yC8yBqtKQJZDjG4NzM9hGoCLfaVSw/NbcjUZsrqQGS+yq9AyTOBc//EXK
-	boUKr00y1TtjWyQWi4Q7vSLoscxWgwcJvrbQvSNDcsfCjzcIsfT0sIqZkj1PWQVWVNJ46TbchY1
-	kz+yEuLkyft+kZ9db6bXFtcN00IB2pTE/ArZZD9QU9Ar3nItirqylEjCGmK2SL2kvkefGga5d2U
-	hSZyO4vtrxSNx5HpBnC8iGxPL8JfkzUTQkIqW9OJcgepaW/nvYjw6UNiTNFyIJixC/Olo4MoFDk
-	JSSWwLiAvgS9xlF76cQIi1NGQuBIUSMK/aTY34peM2OlvPrYI3tA==
-X-Received: by 2002:a05:600c:4baa:b0:489:5022:39a4 with SMTP id 5b1f17b1804b1-49266869e2cmr52298345e9.9.1782461177788;
-        Fri, 26 Jun 2026 01:06:17 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492690a1a85sm101588975e9.15.2026.06.26.01.06.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 01:06:16 -0700 (PDT)
-Date: Fri, 26 Jun 2026 09:06:15 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Xincheng Zhang <zhangxincheng@ultrarisc.com>, cyrozap@gmail.com,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, mathias.nyman@intel.com
-Subject: Re: [PATCH] usb: xhci-pci: Disable 64-bit DMA for VIA VL805
-Message-ID: <20260626090615.616666b4@pumpkin>
-In-Reply-To: <20260625191852.0a8d511c.michal.pecio@gmail.com>
-References: <20260623121847.53749028.michal.pecio@gmail.com>
-	<20260624070612.337013-1-zhangxincheng@ultrarisc.com>
-	<20260625020421.2e577a94.michal.pecio@gmail.com>
-	<178235378952.3114334.15752812276771065417.b4-reply@b4>
-	<20260625191852.0a8d511c.michal.pecio@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLkaMOoe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBDAC1F00A3A;
+	Fri, 26 Jun 2026 08:21:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782462112;
+	bh=7N6xFs6HldNaJtHXB+1so7kMQ4CsatgFOfKvzUpfQ6c=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=DLkaMOoe7jjLq0zrWVM7g5T3weWBVn0GKvdUrsWL1NS6Qs/YGb/jSI/OCz0xvfzqS
+	 Qaym8bn+YQ7Yv3mFvqa3JZPMQyeTT1JkI61/DRV2mqoJOQ6RCZahCcrN/sZ0P41GxN
+	 lQMkVEyzffwbljfjI4cRAmJFH6TA/MXXocYqdJ0r2fyaFbY7MUFYbzOT2mQ1bO9ESQ
+	 aXENlZ4+KidZLyWpFEQCN/4TQ2SdvjPzYQw0gZqKyFHWnTN9MR5o7FqI9NLTieKhiJ
+	 eEE7hw/g70YQVjdOMlBaDUGyYwudw/LY4An0H/3ioGWkJoeS59H947CE7rYTKgUHWr
+	 baMoIKRFCt04w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 199D639389E8;
+	Fri, 26 Jun 2026 08:21:41 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v5 0/9] driver core: Fix some race conditions
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <178246209959.3816447.5329631417058038374.git-patchwork-notify@kernel.org>
+Date: Fri, 26 Jun 2026 08:21:39 +0000
+References: <20260406232444.3117516-1-dianders@chromium.org>
+In-Reply-To: <20260406232444.3117516-1-dianders@chromium.org>
+To: Doug Anderson <dianders@chromium.org>
+Cc: linux-riscv@lists.infradead.org, gregkh@linuxfoundation.org,
+ rafael@kernel.org, dakr@kernel.org, stern@rowland.harvard.edu, aik@ozlabs.ru,
+ johan@kernel.org, edumazet@google.com, leon@kernel.org, hch@lst.de,
+ robin.murphy@arm.com, maz@kernel.org, aleksander.lobakin@intel.com,
+ saravanak@kernel.org, akpm@linux-foundation.org, Frank.Li@kernel.org,
+ jgg@ziepe.ca, alex@ghiti.fr, alexander.stein@ew.tq-group.com,
+ andre.przywara@arm.com, andrew@codeconstruct.com.au, andrew@lunn.ch,
+ andriy.shevchenko@linux.intel.com, aou@eecs.berkeley.edu, ardb@kernel.org,
+ astewart@tektelic.com, bhelgaas@google.com, brgl@kernel.org,
+ broonie@kernel.org, catalin.marinas@arm.com, chleroy@kernel.org,
+ davem@davemloft.net, david@kernel.org, devicetree@vger.kernel.org,
+ dmaengine@vger.kernel.org, driver-core@lists.linux.dev, gbatra@linux.ibm.com,
+ gregory.clement@bootlin.com, hkallweit1@gmail.com, iommu@lists.linux.dev,
+ jirislaby@kernel.org, joel@jms.id.au, joro@8bytes.org, kees@kernel.org,
+ kevin.brodsky@arm.com, kuba@kernel.org, lenb@kernel.org, lgirdwood@gmail.com,
+ linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-cxl@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-usb@vger.kernel.org,
+ linux@armlinux.org.uk, linuxppc-dev@lists.ozlabs.org,
+ m.szyprowski@samsung.com, maddy@linux.ibm.com, mani@kernel.org,
+ miko.lenczewski@arm.com, mpe@ellerman.id.au, netdev@vger.kernel.org,
+ npiggin@gmail.com, osalvador@suse.de, oupton@kernel.org, pabeni@redhat.com,
+ palmer@dabbelt.com, peter.ujfalusi@gmail.com, peterz@infradead.org,
+ pjw@kernel.org, robh@kernel.org, sebastian.hesselbarth@gmail.com,
+ tglx@kernel.org, tsbogend@alpha.franken.de, vgupta@kernel.org,
+ vkoul@kernel.org, will@kernel.org, willy@infradead.org,
+ yangyicong@hisilicon.com, yeoreum.yun@arm.com
 
-On Thu, 25 Jun 2026 19:18:52 +0200
-Michal Pecio <michal.pecio@gmail.com> wrote:
+Hello:
 
-...
-> Right, your addresses barely exceed the 36 bit limit. And I found why
-> my chip behaved differently - 40 bit DMA was a firmware upgrade.
-> 
-> After downgrading my controller from 00013704 to 00013600 it truncates
-> addresses to 36 bits and fails like yours. And it's a pretty nasty bug,
-> because some of those accesses are writes to scratchpad buffers, so
-> without IOMMU the chip corrupts unrelated memory below 64GB.
-> 
-> You can check your FW version with this one-liner:
-> lspci -d 1106:3483 -xxx | awk '/^50:/ { print "VL805 FW version: " $5 $4 $3 $2 }'
-> 
-> More about VL805 firmwares:
-> https://github.com/jpmorrison/VL805
-> 
-> One could ask whether 36 bits is low enough for all VL805, but I think
-> it is because the bug is hard not to notice and nobody ever reported it
-> on systems with less than 64 GB of RAM, even though 16 or 32 GB without
-> IOMMU was a common option in DDR3 generation PCs, which is also about
-> the era when this controller was introduced.
+This patch was applied to riscv/linux.git (fixes)
+by Danilo Krummrich <dakr@kernel.org>:
 
-36 bits is just enough to support 32bit x86 with PAE.
-Seems very short sighted.
-IIRC xhci has a quite restrictive limit on address boundaries so supporting
-larger addresses is just latches - there is no need for a 64bit counter.
-
-Can you do a read-back of one of the control registers that contains
-an address - if you are lucky the high bits will return zero.
-That might let the generic code enforce a limit.
-
--- David
-
+On Mon,  6 Apr 2026 16:22:53 -0700 you wrote:
+> The main goal of this series is to fix the observed bug talked about
+> in the first patch ("driver core: Don't let a device probe until it's
+> ready"). That patch fixes a problem that has been observed in the real
+> world and could land even if the rest of the patches are found
+> unacceptable or need to be spun.
 > 
-> Regards,
-> Michal
+> That said, during patch review Danilo correctly pointed out that many
+> of the bitfield accesses in "struct device" are unsafe. I added a
+> bunch of patches in the series to address each one.
 > 
+> [...]
+
+Here is the summary with links:
+  - [v5,7/9] driver core: Replace dev->dma_coherent with dev_dma_coherent()
+    https://git.kernel.org/riscv/c/3e2c1e213ac2
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
