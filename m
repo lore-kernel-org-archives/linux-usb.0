@@ -1,111 +1,121 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A523E559A
-	for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 08:23:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78B83DC4B6;
+	Fri, 26 Jun 2026 08:32:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782462186; cv=none; b=M8vWsYrZuhTWCNOPRQvOYvPMr0PyAQH6kwcFlOmBu8DWKshSymMt303aHDeFKPo/XexgvdDt8/3eHi9gqvkSufwjD+AkFmUV7uIpqcfHbu1ZWVtMSGhB0wgYrYsIa4Orq+MIHOIPi9u+SC6Jh8njhK8K5uaUUN6DCeFQV44ovlg=
+	t=1782462768; cv=none; b=lnRV4JMv0jiqpIx8kj3uY2HpXf/nqlcKre8s+yTnIuCnyhT1q5ywFrh6UkhfJVdW52taMa+vqZ6M1JvAjuqI3nk+Yexs7Nd/AR+i8i03P1vK8lyW58umsdSeVrha7JqTDwfheNyQmEihHMyCGyisgC/2dOxyYd/+GQIIXTZCdaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782462186; c=relaxed/simple;
-	bh=gOA5yml4+Yws9KKNInNvCnm18pOTkkdcEyQ+aZ8d3oM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o6ngIZ29hpbufw4IYbnoOn7Ox2bicyKHnE1Fs/BBuIzmwFIr1B0vQh++HShuUBaR3Jz2NVtUsHyw/71+QaeOaAk4ki2h43ml4WDz8eHZh5maquRLWFnPGYcvffUfbW4zt4rmPY8ypjSl5jEVZeHf1bs/bKiKJPL2a4Y9WuRgbCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bHkFrS8M; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1782462768; c=relaxed/simple;
+	bh=fN9Z+4SIkdhKUBHQNrTSY+nfHPkzG6ev+/cA3e9IMjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dxAgoUhuUim7BRd5wSkj5p9bCfJ2Rk5dLuUUEkuI7KDAMFjqKNZLQkMKcqcfVjw4SXM9xqftHx83vuxXbK8bESBKMvCZMeW2uKJmmO6K38srlCEtFydJHK6wJfU76VlR+/Is1anGTGnaCQvEM0CdfohWr+VgWJ5/iXUGtYo8EeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RphR6Lj7; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bHkFrS8M"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c7f11150cfso4651145ad.1
-        for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 01:23:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1782462184; x=1783066984; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xYGUQ3BK82lNxZT2T8m+B+M94mEtALcyUvit8Pk1ycM=;
-        b=bHkFrS8MeYtlGmJLwWpG6IsMJbDZrsLgVCznFNXt+0fE7iT+0aCKIKUlrIru/JLYPi
-         Iq9oP2xo9R0rZaGyApsWnHfOua5yl5heAGyE25cAMTWa7UpmDEEsjm2mJZXoXm1+RoJy
-         nYkABbOtXTU2A4Z+VOVTqHRwIEoPQxoWyoB5A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782462184; x=1783066984;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xYGUQ3BK82lNxZT2T8m+B+M94mEtALcyUvit8Pk1ycM=;
-        b=hsdR+fkn/tPGYABgYmIxBZWE0u/xrN2lDsjT6nyP//i6u3q1yd4fpFsUZj2A63HO3l
-         oT6Fu235gAkk2J9BP+bJ5Cv4ITmQG9e/alzXXRKLyb330+ALKtAoqVlGwq1CwbncHjvP
-         zk94j+yXKpQwiz16BBKOVDd8LUaLFo8u6S5wYwQcEr8qe4niLSVbGBZm4JvrpFR+xf+J
-         7/N2MGxnhZHw2woxJSJCj91q6q0OVW4tNgA2vtBPPArjqbh2OGb/HXKM4Y8IB3BVjGoH
-         3RjmeYUvmtfklL8l6TtQJGr4PxUi1ZOjX3F0sOcQYI74Ajll8y/b6jw1+yS7GsY+s/pr
-         fgOg==
-X-Forwarded-Encrypted: i=1; AHgh+Rp39eYr1F8g8Evvzu5yyZBA+LyE/iWUBag5a6Fs2iVKAyr6YMOeVCubXm/KraNSkTr5o96fQJczjwM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyilEXAJDD3AaRVJfAmiJ6HYh9vkAM3CdVO3ZNlAF9SMFdBAJw4
-	Yx1kr1eJlJ5En3tsU8xi3GleAJTsa/2INGIGwdlNncfwP/G8SkXeQ8UIj1xIk5AdmOvgShOsLRX
-	yhLE=
-X-Gm-Gg: AfdE7cnBDLSkFoZKCREt9h5+CduAOZltK/yNXSMnO0H8VqQqaiJQF5rTPCiHlzFQkOJ
-	XUI/f0H6mEcgqv2ItEnzhoEOPbcOaNXHIyFSY2qs5ZEAJPDNIA2xyNAbacZ8XgQhZhFyPOuJqdo
-	2irTk+8bgaTVpEqFPbzNxyfsOGnDrBzHzmShq6JIzObQVKFFssI/4Ye/dSKzsSig49WA3JizOqb
-	9vhGjBp1tvn7x6FSCtaHNHZE0hmddUwOU3odwJTpykBT/OT3c+mVsUAvcz/pU53ZY3OYUpk92El
-	o2zXQghwlSJCfu80DcyqCylgDspWklil8GdZ8tbSkpvpsytJpA55c3F8RgI63KjEYgcZs6UJ8EE
-	AOkogih1qOxHUOeUgrkGhlQ+Ur8WAd9Lm1Oxl9Ufrc2D+VIOem8T3m34qD+/TNbtNBeMwKIOPEC
-	VbFRE07t9VR22TOl4NmDwfFxxsaQmmRdslQde2JOXOOLQvQeyBLMRv+2m/Y5Tg3sB8MvHDVOo=
-X-Received: by 2002:a17:902:d2c8:b0:2c7:e823:6834 with SMTP id d9443c01a7336-2c7fc657e3dmr59806355ad.8.1782462184290;
-        Fri, 26 Jun 2026 01:23:04 -0700 (PDT)
-Received: from fshao-p620.tpe.corp.google.com ([2a00:79e0:201d:8:2593:3e55:e36c:f47d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f64dcc30sm34619185ad.66.2026.06.26.01.23.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 01:23:03 -0700 (PDT)
-From: Fei Shao <fshao@chromium.org>
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc: Fei Shao <fshao@chromium.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RphR6Lj7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782462767; x=1813998767;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=fN9Z+4SIkdhKUBHQNrTSY+nfHPkzG6ev+/cA3e9IMjU=;
+  b=RphR6Lj7mLlvEjnJ6z9nA02Z5jhJ5WvRMgZiShtL28fxlcKyqP/F+v7g
+   8TaQ0c7ajs/Y88fZ4ve/N4VRNUGstK/9Ey5U1W1OFN7OL4qOixUxEWU8j
+   xDEWRA/0BNrXKRUyvfehkEQJmsvxlV+zc8e7PqFCvztE1s309RNuSVQD7
+   au1a1QC+Qx0Nx4Gzz53p3i61QuxRCzq4mbNOFb7OqtD+hZ1L4xIegF5IV
+   Jpzoo4KIDsUOXjDF7r0Iln34wVfeaMnTSg6NEYhgvbXQd5DIpUGjjfvY4
+   BTsARcgx3Yyp8w5CXPHFdR/N8fhCut9/0QUbMCSsEq9IOX5978Gxtdh+l
+   g==;
+X-CSE-ConnectionGUID: KGv4UF3uQziYpZ9N4uXvPQ==
+X-CSE-MsgGUID: dIEW8AiNQ8i6+msn7S76uw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="83458425"
+X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
+   d="scan'208";a="83458425"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 01:32:46 -0700
+X-CSE-ConnectionGUID: FVuWtfz/RJSN5/qzjPbwHg==
+X-CSE-MsgGUID: wdfhldQ1Sr6Ny5Axjcq67A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
+   d="scan'208";a="244881654"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.35])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 01:32:44 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 9D4381204E0;
+	Fri, 26 Jun 2026 11:32:44 +0300 (EEST)
+Date: Fri, 26 Jun 2026 11:32:44 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: HE WEI =?utf-8?B?KOOCruOCq+OCryk=?= <skyexpoc@gmail.com>
+Cc: Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH 2/2] usb: mtu3: condition PHY wakeup for host mode and runtime suspend
-Date: Fri, 26 Jun 2026 16:21:52 +0800
-Message-ID: <20260626082218.2750459-3-fshao@chromium.org>
-X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
-In-Reply-To: <20260626082218.2750459-1-fshao@chromium.org>
-References: <20260626082218.2750459-1-fshao@chromium.org>
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: misc: usbio: bound bulk IN response length to the
+ received transfer
+Message-ID: <aj45LDu_DxVC5sL0@kekkonen.localdomain>
+References: <20260624090952.86439-1-skyexpoc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260624090952.86439-1-skyexpoc@gmail.com>
 
-Host bus activity during gadget mode system suspend can trigger
-unexpected system wakeups via interrupts because PHY wakeup is enabled
-unconditionally.
+Hi Wei,
 
-Improve the suspend flow by conditioning PHY wakeup setup on
-device_may_wakeup() and restricting it to host mode or runtime suspend
-to ensure proper wakeup handling in gadget mode.
+Thanks for the patch.
 
-Signed-off-by: Fei Shao <fshao@chromium.org>
----
+On Wed, Jun 24, 2026 at 06:09:52PM +0900, HE WEI (ギカク) wrote:
+> usbio_bulk_msg() copies bpkt_len = le16_to_cpu(bpkt->len) bytes out of
+> the bulk IN buffer (usbio->rxbuf, allocated with size usbio->rxbuf_len)
+> into the caller's buffer.  bpkt_len is fully controlled by the device
+> and is only checked against ibuf_len; ibuf_len in turn is checked
+> against usbio->txbuf_len, not against rxbuf_len:
+> 
+> 	if ((obuf_len > (usbio->txbuf_len - sizeof(*bpkt))) ||
+> 	    (ibuf_len > (usbio->txbuf_len - sizeof(*bpkt))))
+> 		return -EMSGSIZE;
+> 
+> txbuf_len and rxbuf_len are taken independently from the bulk OUT and
+> bulk IN endpoint wMaxPacketSize in usbio_probe().  A malicious or
+> malfunctioning device that advertises a large bulk OUT endpoint and a
+> small bulk IN endpoint (e.g. by claiming one of the quirk-free IDs such
+> as the Lattice NX33U, 0x2ac1:0x20cb) therefore makes ibuf_len, and
+> hence the device-supplied bpkt_len, exceed rxbuf_len.  memcpy() then
+> reads up to txbuf_len - rxbuf_len bytes past the end of the rxbuf slab
+> object.  The over-read bytes are handed back to the i2c layer and on to
+> user space through i2c-dev, disclosing adjacent slab memory; with KASAN
+> this is reported as a slab-out-of-bounds read.
+> 
+> The number of bytes actually received is already known: act equals the
+> URB actual_length and is bounded by rxbuf_len.  Reject any response
+> that claims more payload than was received, mirroring the existing
+> "act < sizeof(*bpkt)" check just above.
+> 
+> The control path (usbio_ctrl_msg()) is not affected: it uses a single
+> buffer (ctrlbuf) for both directions, so its analogous copy can never
+> leave the allocation.
+> 
+> Found by code review.  The out-of-bounds read was confirmed under
+> AddressSanitizer with a faithful userspace model of usbio_bulk_msg()'s
+> receive path (an rxbuf_len-sized buffer, the same act/ibuf_len/bpkt_len
+> checks and the memcpy).  A USB raw-gadget + dummy_hcd reproducer is
+> also available.
+> 
+> Fixes: 121a0f839dbb ("usb: misc: Add Intel USBIO bridge driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: HE WEI (ギカク) <skyexpoc@gmail.com>
 
- drivers/usb/mtu3/mtu3_plat.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-diff --git a/drivers/usb/mtu3/mtu3_plat.c b/drivers/usb/mtu3/mtu3_plat.c
-index cc8a864dbd63..b4f4c776adb9 100644
---- a/drivers/usb/mtu3/mtu3_plat.c
-+++ b/drivers/usb/mtu3/mtu3_plat.c
-@@ -544,7 +544,8 @@ static int mtu3_suspend_common(struct device *dev, pm_message_t msg)
- 
- 	ssusb_phy_power_off(ssusb);
- 	clk_bulk_disable_unprepare(BULK_CLKS_CNT, ssusb->clks);
--	ssusb_wakeup_set(ssusb, true);
-+	if (device_may_wakeup(dev) && (ssusb->is_host || PMSG_IS_AUTO(msg)))
-+		ssusb_wakeup_set(ssusb, true);
- 	return 0;
- 
- sleep_err:
 -- 
-2.55.0.rc0.799.gd6f94ed593-goog
-
+Sakari Ailus
