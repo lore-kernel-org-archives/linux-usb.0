@@ -1,59 +1,61 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CDC3F88BA
-	for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 14:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7DA3EFFC8
+	for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 14:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782484032; cv=none; b=ei3zgThixx+80XzSUqDA2rywF2bglpUd7575bMmdMjSq3TBVV5Bavo+Xvw/1RdtmxKLtJmaqBGtVgM6pftnwld2jTMcPvpCu2UdqKwBTkce0WePe6HzxkSrsePEId0Pl8b4EqACuXo8+GVXveLcOCmAa1EKjODbhnj0bfMRg/Xg=
+	t=1782484037; cv=none; b=P86G889FCiiXOTjaJCKlxELrFbHtaH7UJFXmdjq7vJNzXeWUAy3tulF791AdWfpKHAHmJMFKEwdgO3ShlGLUsek78Lon2M21BsujwCJm9T1SK+OlTFo14pz22Zodke03GUKI/Te+V6qdjVrqz1X/PUXZBg+XNqnBiYDAlLkt6do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782484032; c=relaxed/simple;
-	bh=e7W7XK+si28LPdcTi/yKM+HfuhRf04velbB6bmBCDEE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HYW75w9csiUOZaHfmwUBsRvnr9YxYkp7C/x2K0U5Md3835DKJQdou4RwnLBsdGJL1YcshVWy5Mk8AQp+gUSMAajo36nDtZb0LwkE874AQCt9QmIZTFpznQmMYcp2RZ9pWl2z3xwAjXMWACxfTwDlOeGdr32nmTLkrzJkehNetGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ipJAteeK; arc=none smtp.client-ip=209.85.208.42
+	s=arc-20240116; t=1782484037; c=relaxed/simple;
+	bh=x2uu1ellr0i43e+q8ybl9FUPAJocaRHRLLotF9ztVKk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VlLlMg9N2PSx4m7GtOHaUJQP7897GsuNZ8NxGs1EhgjfrzoSSjtaTV4y9KhRqoPD2KJ04qitmRuROj2ClV7XohlHYImPfgWWPzOtaZWarfG2/QkvyLKxC/JjaMq1LubyrTpg4nMUj+zgz4UehdKHeF+0rFXYzzCYi8qtyTtmy2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cffcSudZ; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ipJAteeK"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-693c51a8a19so1906549a12.3
-        for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 07:27:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cffcSudZ"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-bdb3fd39045so142588366b.3
+        for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 07:27:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1782484026; x=1783088826; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IMJRii6zV79IzIpWO4mvAa5Wtzk+HYUJ+L7a7vjxsXc=;
-        b=ipJAteeKDx7dc2q6lX+tVOmDpeGQX/Ve0W3zxTUVulhzpIT5/an/gLEaZHSyol+YQm
-         JiNt1Fxul4uX1cnnPD1Nt5AA8J5GWrBjfU1iR1ImulJRSTrefvaaJpUA5hXePQVr5az/
-         XVxt+R9Y+cdR8PaY6WlM5hPZr39j06FpKWlHk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782484026; x=1783088826;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1782484029; x=1783088829; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IMJRii6zV79IzIpWO4mvAa5Wtzk+HYUJ+L7a7vjxsXc=;
-        b=GuEpLvIg9iwh8Pfeb+7Thze5TvIu4FJjg8YF3VW84k0own5NWt9KhyTuo/Zo5EVfPt
-         5dsF3G+D50+HpEN1w/DcBhNilYaShuZWhU2oi6gb3XITghp3Ezu/8hgYxUeg82gJ0rk4
-         n/FOF6HMZGwwZBILOxW+rTW6ZeF65OJYn5nkqrryUA81TgnakBVH7Wlu6g67enotTRCP
-         jHnDLQmCGC0Ivc/Mz/yKut6UStuuA8b4rryJYXFQF8XhF8xeLPmJMPleQJTGn31HM8yP
-         6lrvgOa0aloujThTjIYxI+e6xWLgiN+W0lC8iA3k0E+tc5e30l8vQlrDynfxk44AdzvH
-         YuZA==
-X-Forwarded-Encrypted: i=1; AHgh+RoBMqjxxfSyc5QIYCXw2F+fWFwYPGxnhu9hr6PfEjq3Ya7TVEONugrVNaq2kDWynbnjLP/zeqaN3S4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykWUynfEsUELBHN/WzSyKGINFXm2LaAZfs+WHGHpC3Zmjls0Um
-	JmJEX9Tn3V1fvCgULV3sG3lJOzojBbNkaj5jmir4VXdPkzq+CfUzg3m4NN47Eco9XQ==
-X-Gm-Gg: AfdE7cmW3B9i0HwipS1DhCBTM5cGtY3uXj2T0tXTNir9bWy2SPzvjlZfIVDrL4wNVzr
-	GkW+R/5VtcbsIFpj0TZOCwlm1N0KkcV3YA5TvEVkp8n7RVhgZyw643kNcs0aspDO7Op5Dyf01tl
-	ayUIuO5DKYT8dzsGBAjJEn+MAdP/lySacBy/Ay5LPXUQ3Ax1Q3kU+hANsJM8L3DnNMLt5g7so89
-	hSSxu/B6ja+o9D2YruDEFIDBRlhX6Nm7KtJgAyy9+Xjz8cSAuRL+QmJQcZ32dRPLZpcBbmmkeHw
-	3lQX5Z7jJjgLKGes7m3BDELwEWigtgXFVv9s2QFaTSKQAq+AA/R/ZQ7AtqAKKuwOW33DbfGHcOn
-	P3B/Is3nTMti43/hKGUNDBtNq4BDN0fRk3XS5SW/nyDqaUWRaB+w3D+RVRHNcYuYZ40iG1ike64
-	24ny9hNzJeTV8An5m7wA2YR51cUGcKaw5zV7dICA/+5G5sJw4hAs1nZF56RNBwrxuLPm8F7YJMl
-	zkO2XcYdQ==
-X-Received: by 2002:a17:907:e143:b0:c12:b32:5651 with SMTP id a640c23a62f3a-c120b3256cemr244716366b.13.1782484026489;
-        Fri, 26 Jun 2026 07:27:06 -0700 (PDT)
+        bh=6lcpW4k9A5UfDIIIPyGAlobBpqHG09WlpCDTZRLp2JA=;
+        b=cffcSudZRvGvGKUB++0/oFWtmo0Y2VD3AtCVdxOfON+LieWal/ykQBYRatmtMmPwU5
+         JhqmnCoYQn2vH2a98BeTivi+WpzvM2o7ce/YqSuRvfH6hcDCWiaCQnvCnfKSv3iUtVa9
+         vOk7LNAvkH0tW2Q08QzpvpgEyM2Fs7EL5+TtM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782484029; x=1783088829;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6lcpW4k9A5UfDIIIPyGAlobBpqHG09WlpCDTZRLp2JA=;
+        b=rMtA58e68aqyGYfvDiwLhm3vRPrTDE0ymDO2O/EDSOUgaOf1bpxwCXbN1Yls8ONodK
+         ni34Tuf3yq/2/57CvzfO8O4pLnKeG6aXkzGrj+/fpyINZh9a6aoDc1ePbMGRHzqvq7J0
+         E/ewB05oPN2l3PNOKacb0UzTGQ/kZ6q3ZKbFla+oxOZNBtzdi3cbhLNFDNwWedPWHGR5
+         4dEtXt3NQ46D1TUbMm9gRt5K0IITxVNnpPNTXhkxpnO8AXj3NHulDc4jhzVMIC5vcsVg
+         2T19zRk/KcK+HoJc3mYgW8TVv3iHIylPsJoVvdsZEs7lYfZd6e/UVHnQeEAGMZ0r044X
+         6V2w==
+X-Forwarded-Encrypted: i=1; AHgh+RrtNEqOGgBVfDFEwdh/7qgqZZZ1mWsh5Cn7GCQaVoITJ7i8qLMd7YMRYqlKj1YroOAx0Y03FKgz0zY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTxZ/qkkgcf3SmHG8Pd+b/jDH2JXmFnQDsBsiiUAPRsYqXCF5y
+	e2HK0WlcVEoKcGDUXQCv7rKk97yrIzoashxpeAs+n0gmGPiJuuBmjVvO/zjgM0yZ7Q==
+X-Gm-Gg: AfdE7cmDGvVMKZh+h6D0/bAUgdEa5BsJ6vqwflHxIvjdQXi7c2GVJQngy04R93/aF+8
+	kGmjgiS+eJRyWdd78zZK9aLmMG2GvEDvhrxU02Q5wY26yXCIVL6pR0Dq/rPCxi/9HVpei3I+fu8
+	2MLdUFfJ4rA2ou6W5KxI1XbVFQdiyHw3//J/GzCZ1bNjbQjpEf2EAiteA/3u2ki1Stcj6ICGnA2
+	3qmw7CWAZUQC1Fbuj/NZXZp+16fB10I3c/gDfKuqgYNSlz9W4rdxE/dHTUjSJZo8PzI1iH9Qvmt
+	9+POQCdSOXsYyFy66M2BFfHjnQTky1KUl3CcBt7gs5Yg2EDU3Q+e7JM1Jejqt1hmqhFOKjNX3ys
+	7No+xM5SsrWTcIyQ6fLYyr5smVRRh8z9OJsmGTmxCoJ4gN0duIv1yZNMKzqxVqz5cXA3twCcg5r
+	Ayb5uU960RcbQwQLTNHo+DfVfIpoYju3spfYMa7ZS+Gu6STcqc412UVGigIe3T/IQbnnYu+mhmS
+	KYexkWvNw==
+X-Received: by 2002:a17:906:385b:b0:c12:34f0:f7c2 with SMTP id a640c23a62f3a-c1234f0f9c6mr23933066b.65.1782484029044;
+        Fri, 26 Jun 2026 07:27:09 -0700 (PDT)
 Received: from akuchynski.c.googlers.com.com (208.220.32.34.bc.googleusercontent.com. [34.32.220.208])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c11fbba6787sm355968666b.6.2026.06.26.07.27.05
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c11fbba6787sm355968666b.6.2026.06.26.07.27.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 07:27:06 -0700 (PDT)
+        Fri, 26 Jun 2026 07:27:08 -0700 (PDT)
 From: Andrei Kuchynski <akuchynski@chromium.org>
 To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Benson Leung <bleung@chromium.org>,
@@ -62,10 +64,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Andrei Kuchynski <akuchynski@chromium.org>
-Subject: [PATCH v3 0/3] Restrict alternate modes based on cable capabilities
-Date: Fri, 26 Jun 2026 14:26:59 +0000
-Message-ID: <20260626142702.1941182-1-akuchynski@chromium.org>
+Subject: [PATCH v3 1/3] usb: typec: Add helper to check cable altmode support
+Date: Fri, 26 Jun 2026 14:27:00 +0000
+Message-ID: <20260626142702.1941182-2-akuchynski@chromium.org>
 X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
+In-Reply-To: <20260626142702.1941182-1-akuchynski@chromium.org>
+References: <20260626142702.1941182-1-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -74,37 +78,123 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, alternate mode drivers (like DisplayPort and Thunderbolt)
-automatically assign operational callbacks (`typec_altmode_set_ops`)
-during probing, even if the underlying cable capabilities cannot support
-them. This can lead to incorrectly advertised state configurations or
-initialization failures later on.
+Introduce typec_cable_altmode_unsupported function to evaluate whether an
+alternate mode is restricted based on the connected cable's properties.
 
-The first patch introduces the core helper function, and the subsequent
-patches update the DisplayPort and Thunderbolt altmode drivers to
-utilize this check during their respective probe phases.
+Implement validation logic that parses the cable's identity to catch
+incompatible setups early. Alternate modes are restricted over:
+ - cables lacking an identity header
+ - passive cables with USB 2.0 speed
+ - active cables unless they have corresponding plugs
 
-Changes in v3:
+The function returns false if the cable is not registered or the identifier
+is not set.
+
+Suggested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+---
+Changes in V3:
 - Extracted core verification logic into a static helper function
 - Added an enum to handle supported, unsupported, and unknown cable states
-- Patches 2 and 3 remain unchanged from the previous version.
 
-Changes in v2:
-- Updated patch 1/3 to use a switch-case statement, added detailed inline
-  comments, and separated the non-e-marked cable validation logic.
-- Patches 2 and 3 remain unchanged from the previous version.
+ drivers/usb/typec/class.c | 71 +++++++++++++++++++++++++++++++++++++++
+ include/linux/usb/typec.h |  1 +
+ 2 files changed, 72 insertions(+)
 
-Andrei Kuchynski (3):
-  usb: typec: Add helper to check cable altmode support
-  usb: typec: thunderbolt: Check cable altmode support
-  usb: typec: displayport: Check cable altmode support
-
- drivers/usb/typec/altmodes/displayport.c |  5 +-
- drivers/usb/typec/altmodes/thunderbolt.c |  4 ++
- drivers/usb/typec/class.c                | 71 ++++++++++++++++++++++++
- include/linux/usb/typec.h                |  1 +
- 4 files changed, 80 insertions(+), 1 deletion(-)
-
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 0977581ad1b6e..e9f34eb14ceff 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -1429,6 +1429,77 @@ int typec_cable_is_active(struct typec_cable *cable)
+ }
+ EXPORT_SYMBOL_GPL(typec_cable_is_active);
+ 
++enum typec_cable_altmode_support {
++	CABLE_SUPPORT_UNKNOWN,
++	CABLE_SUPPORTED,
++	CABLE_NOT_SUPPORTED,
++};
++
++static enum typec_cable_altmode_support
++typec_cable_check_altmode_support(struct typec_cable *cable,
++				  struct typec_altmode *alt)
++{
++	struct typec_altmode *plug;
++	u32 speed;
++
++	/*
++	 * Check if the cable has an e-marker, supports modal operation, and the
++	 * SOP' altmode nodes are created.
++	 */
++	plug = typec_altmode_get_plug(alt, TYPEC_PLUG_SOP_P);
++	if (plug) {
++		typec_altmode_put_plug(plug);
++		return CABLE_SUPPORTED;
++	}
++
++	/* The identity is not specified */
++	if (!cable->identity)
++		return CABLE_SUPPORT_UNKNOWN;
++
++	/* Non-e-marked cable */
++	if (!cable->identity->id_header)
++		return CABLE_NOT_SUPPORTED;
++
++	switch (PD_IDH_PTYPE(cable->identity->id_header)) {
++	case IDH_PTYPE_PCABLE:
++		speed = VDO_TYPEC_CABLE_SPEED(cable->identity->vdo[0]);
++		if (speed == CABLE_USB2_ONLY)
++			return CABLE_NOT_SUPPORTED;
++		return CABLE_SUPPORTED;
++	case IDH_PTYPE_ACABLE:
++		/*
++		 * Active cables must establish an SOP' communication
++		 * node. Since that check failed at the beginning of
++		 * this function, this active cable does not support
++		 * this specific altmode.
++		 */
++		return CABLE_NOT_SUPPORTED;
++	}
++
++	return CABLE_SUPPORT_UNKNOWN;
++}
++
++/**
++ * typec_cable_altmode_unsupported - Check if a cable restricts altmode
++ * @alt: The Alternate Mode to evaluate
++ *
++ * Returns true if the connected cable is incapable of handling the altmode.
++ */
++bool typec_cable_altmode_unsupported(struct typec_altmode *alt)
++{
++	enum typec_cable_altmode_support support = CABLE_SUPPORT_UNKNOWN;
++	struct typec_cable *cable;
++
++	cable = typec_cable_get(typec_altmode2port(alt));
++	if (cable) {
++		support = typec_cable_check_altmode_support(cable, alt);
++		typec_cable_put(cable);
++	}
++
++	return support == CABLE_NOT_SUPPORTED;
++}
++EXPORT_SYMBOL_GPL(typec_cable_altmode_unsupported);
++
+ /**
+  * typec_cable_set_identity - Report result from Discover Identity command
+  * @cable: The cable updated identity values
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index d61ec38216fa9..10a783b738efd 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -337,6 +337,7 @@ void typec_unregister_cable(struct typec_cable *cable);
+ struct typec_cable *typec_cable_get(struct typec_port *port);
+ void typec_cable_put(struct typec_cable *cable);
+ int typec_cable_is_active(struct typec_cable *cable);
++bool typec_cable_altmode_unsupported(struct typec_altmode *alt);
+ 
+ struct typec_plug *typec_register_plug(struct typec_cable *cable,
+ 				       struct typec_plug_desc *desc);
 -- 
 2.55.0.rc0.799.gd6f94ed593-goog
 
