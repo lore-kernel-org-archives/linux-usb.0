@@ -1,56 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC903E3DAB;
-	Fri, 26 Jun 2026 08:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A01B286415
+	for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 08:57:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782463887; cv=none; b=OTd11UIZpvmCNVNUzzMXj6oCtpU4gRRQKuwXUnGTF/KaCh0ryE2pr4Z0mYVYJld9v9+L856+uC/f8SPR9FFwAIenswL9MUc3vHNPlZ68qa3A9Easa01HMZ3PlC9ml5dy1fv60jpGAbfeFnxLY1HeKBoB5Dcq5svG+XRJgip29no=
+	t=1782464249; cv=none; b=Uyk3n0jQ5UouIbA8UYpVV74FZmPRbAzr+jBMlwyhpiogNJKbHErU4HftaMtkY+M8LNBI+3nDt49fQ9uU4EtFz/3mey5hjDBvbXlu0913iBNEMilJYE0fr7xCjiauwnVNdrk9qYR/O8TUDOOgMVgDIIc+4r9nH1HzH8wgF27UN+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782463887; c=relaxed/simple;
-	bh=72LW1Sqy+CyJluT8dJ+TRAWGIYqhMfoj0D3AB5ay3hw=;
+	s=arc-20240116; t=1782464249; c=relaxed/simple;
+	bh=uQnAjxcKadS4cMxr+8DK6HL9dEP9bGGGvyJSmmUYm84=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EqOoRqSNcWYnhnT9yQRZjaV08cPeRk7nSijS+easOoLCIpkZO5ydHJzsmT32rxIHXTjTbyJAqxPpUnJSr5KqlIKkq2WXS7rn79IOk+/KxtkVexSIJ0v6oxfQ3Ci8tlacvSD6G75y+qK7AXN41huxj1mNcTrjjxfWF9qCDwvWpzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZuN86shS; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=gpo1+Pes88iACgWgoTPBasr5lWrmJdtIJdMEH/lTorM5f1UCjxZLEsgVq1ad9lcT1Nx/wK8fgJVODBEF8dJ7+q6cUd8eFwR1iJmz36Jrt3lUROGhUiYS5HOHuD5OIishYASS2gYL+V9ZWQA9KSsSdkKa8Ko19dmgsS6O3/qAOn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sie5z9ks; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZuN86shS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55C131F000E9;
-	Fri, 26 Jun 2026 08:51:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782463886;
-	bh=dczgg0EG8SzCmQOx10ra7Wu7tyi/QlMQ5W656css9gI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ZuN86shSSyy0XeJHxDjAleAAh3O8h5DItrYs4TSav34bAuZW0MAx9ZBBE9S3nKp+q
-	 JUucAqzuWIOp1XCgdpd9P3oFXnLbWNeWduuAN7d3BLmln+qoARZNZxKF2O06nPeYv4
-	 1dAdVGA0JDyuC0sJVCZD2wvL+fK7VqCql7n7upa+dFP/qqyZ8tCeX05jqkcgPFDC5w
-	 tFX0+2mg/DvZd1BW9undZCZbfHnid5R0fV0ghRYpjUgkCITPyYbrNbnJWUD3Su88Bu
-	 iGHlEwHR4XUomu86ZdOshDLSTLNHrTMNbY7gs9BX+9uYtxaMeTpyySj/HlKZUt2HrK
-	 5/RKab/63CQEw==
-Date: Fri, 26 Jun 2026 04:51:19 -0400
-From: Steven Rostedt <rostedt@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, Masami
- Hiramatsu <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
- <akpm@linux-foundation.org>, Linus Torvalds
- <torvalds@linux-foundation.org>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, John Ogness <john.ogness@linutronix.de>, Thomas
- Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Julia
- Lawall <julia.lawall@inria.fr>, Yury Norov <yury.norov@gmail.com>,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-rdma@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-ext4@vger.kernel.org,
- linux-nfs@vger.kernel.org, kvm@vger.kernel.org,
- intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH v4 2/2] tracing: Remove trace_printk.h from kernel.h
-Message-ID: <20260626045119.659d1e6b@fedora>
-In-Reply-To: <20260625234158.GA261868@ax162>
-References: <20260625104007.041432666@kernel.org>
-	<20260625104402.210473477@kernel.org>
-	<20260625234158.GA261868@ax162>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sie5z9ks"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-46db3c9a9e0so407360f8f.0
+        for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 01:57:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782464247; x=1783069047; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uQnAjxcKadS4cMxr+8DK6HL9dEP9bGGGvyJSmmUYm84=;
+        b=sie5z9ksbRq+/pZ+J42JTbXm5K6HLjzlpcbV1rZ9SIQgjTSayW/IG5RslYSbyd01vs
+         ZPHr9hbdZVtidMzHtjkOGnwn1kiKLgKLADYWYFegBOGOQ9ZTsfcVHCcpM3MnbZDXHKCN
+         y3waFdTExzVuL/oqj/ZWag81m+7G23j0aPU6tMsNM7fIjWBNTP+dcou1TFjpuG8aLim9
+         g29M1EqMsRP0YwRZOPZWT9liWUtbBE9YXb+i2S4hVUS8Aef+ZCHa/QLfPqi9/SlV9ACU
+         ewNqIRW2eMDiKcT1r+gI/FEAOYsVsFE5tHdb6eUUN+MWS+6Nl2n5UlolPrzhhPcqcXjF
+         /NXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782464247; x=1783069047;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uQnAjxcKadS4cMxr+8DK6HL9dEP9bGGGvyJSmmUYm84=;
+        b=OffH6s7W7ogurkk86iUoGjE2XNMT9zMzAo6VkIaGTNIZyIELETNonpMGmb5v+J9CPf
+         qQa4IgVcuZX81D+ijOohkR575tfsEXe+PdKfmkbPSxcKq0pNdTaoHEMEwRRPQlbHpjvS
+         Mgz+L4PWDV8s4XduZ+W/8Dma6IQHmMWKia5mKEHl0TQJcHT+H2/LWCv2L5bNcznyNSqA
+         DGEn+zNUvAyp0lOQHmndybUF9YDJqfbFyQFwtqcUjVLpUOl7peJgckQcUe93dHzjzfRS
+         cgwgqVtwqJeSowfJEz8i1FzDadZaEmxd2GpbevVjVe+eaEFEc0QG1ShTAFS6O1kn8pyH
+         S7yA==
+X-Forwarded-Encrypted: i=1; AFNElJ+SFNlL6ZlevFBeevPUugpkCEfmgA4/wRn+twEXeqiFoJ2/RjHFFZZTKDbhOJkEFcOdJC4flAuxZ/Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFRtpXNVzmHW8KVVlJBSqbH9mTvgO0mlpxGEYJHM4tRD6/15SI
+	v++IzLO/CmowExB6QXDbjDaN+BraJNRH5HmLoeB1bir+SoF+xCJ9LTNcAmELag==
+X-Gm-Gg: AfdE7ckfVg+nFZSVmMOvyu/sY3kS40DdiI93VKJYFjop4JDJgiPe15UkJN7dX8v0zEb
+	hzWZQCm6bXxW6Q11yVnGMqbb9sCRhHOYBXBa3aoA//5kleibW3RbLt37unsp6Oogixw77lUxvM2
+	zBtwfQt6+cNlOHFISfGinWTQMJxAusm3+UPRCE3W9yo3BHIBszjqQcbvxsoWzmsB+Lm0MKdIehu
+	nqLQhwQkIva/thU5hwYY5/MNOMZSreT+qdP/jTxsG0/7lPZ0Aodiwjv/ztoZl0MJIBzDbkl0B2L
+	QJMMX4xsDhlVMQHL0neW16e2SCaIOvRwzdTL8AOlSF4gvQbmjZQ6CDle8tJLuhkvdOF7PE1on5E
+	cXteCxyuGJfbcai86iZJw7c8r5vIYBUMrGp/9/RsFBcCyCkfJS+60QXr5NDfkjvNpgufCZw6gwJ
+	nsVC1flDdRcaj/auLQioC36Q==
+X-Received: by 2002:a05:600c:6b70:b0:490:b06a:649e with SMTP id 5b1f17b1804b1-49266893253mr59786115e9.25.1782464246700;
+        Fri, 26 Jun 2026 01:57:26 -0700 (PDT)
+Received: from foxbook (bfg19.neoplus.adsl.tpnet.pl. [83.28.44.19])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49268fd9e77sm58423035e9.4.2026.06.26.01.57.25
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Fri, 26 Jun 2026 01:57:26 -0700 (PDT)
+Date: Fri, 26 Jun 2026 10:57:23 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Xincheng Zhang <zhangxincheng@ultrarisc.com>, cyrozap@gmail.com,
+ gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, mathias.nyman@intel.com
+Subject: Re: [PATCH] usb: xhci-pci: Disable 64-bit DMA for VIA VL805
+Message-ID: <20260626105723.42972329.michal.pecio@gmail.com>
+In-Reply-To: <20260626090615.616666b4@pumpkin>
+References: <20260623121847.53749028.michal.pecio@gmail.com>
+	<20260624070612.337013-1-zhangxincheng@ultrarisc.com>
+	<20260625020421.2e577a94.michal.pecio@gmail.com>
+	<178235378952.3114334.15752812276771065417.b4-reply@b4>
+	<20260625191852.0a8d511c.michal.pecio@gmail.com>
+	<20260626090615.616666b4@pumpkin>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -60,39 +82,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 25 Jun 2026 16:41:58 -0700
-Nathan Chancellor <nathan@kernel.org> wrote:
+On Fri, 26 Jun 2026 09:06:15 +0100, David Laight wrote:
+> Can you do a read-back of one of the control registers that contains
+> an address - if you are lucky the high bits will return zero.
+> That might let the generic code enforce a limit.
 
+Interesting idea, but nope. My VL805 with 36 bit 013600 firmware
+is set up with 37 bit DMA mask right now. MMIO registers read:
 
-> The following diff resolves it for me, should I send it as a separate
-> patch or do you want to just fold it in with a note?
-> 
-> diff --git a/include/linux/lockdep.h b/include/linux/lockdep.h
-> index 621566345406..2301a701ffbb 100644
-> --- a/include/linux/lockdep.h
-> +++ b/include/linux/lockdep.h
-> @@ -10,6 +10,7 @@
->  #ifndef __LINUX_LOCKDEP_H
->  #define __LINUX_LOCKDEP_H
->  
-> +#include <linux/instruction_pointer.h>
+DCBAAP_LOW = 0xffffe000
+DCBAAP_HIGH = 0x0000001f
+IR0_ERSTBA_LOW = 0xfffee000
+IR0_ERSTBA_HIGH = 0x0000001f
+IR0_ERDP_LOW = 0xffff4018
+IR0_ERDP_HIGH = 0x0000001f
 
-Ah, so the reason for this breakage is because lockdep was relying on
-instruction_pointer.h, that just happened to be included in kernel.h
-via trace_printk.h.
+Nothing hints that the chip will truncate this to 36 bits when
+DMA-ing. We learn about it when it happens.
 
-This is a separate issue, so it should be a separate patch. I'll add it
-as patch 1 of this series.
-
-Can you send me the config you used. This didn't trigger in my tests.
-
-Thanks,
-
--- Steve
-
-
-
->  #include <linux/lockdep_types.h>
->  #include <linux/smp.h>
->  #include <asm/percpu.h>
-
+Regards,
+Michal
