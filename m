@@ -1,116 +1,301 @@
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080AC3D88E3;
-	Fri, 26 Jun 2026 07:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62645A95E
+	for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 07:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782457617; cv=none; b=etdYcuYSDl1v7nTVlzreN5ucIs/zb1ZGH3DgJNIWJLuuzoy++0Zpnc3S6UskSI6uQyUeoNm3wsrtj1Oe8fIdqnV5GwoO36O9Gptuk+oeVHt43uH9Fsk6LspakYcTSeBfm0s4P5uG69KIOLimh64w5WqMz6YEplrzu8xVmMgaFjA=
+	t=1782458285; cv=none; b=Zf0ljmAE/90r7qAXRNUrg5v5H4mUMsEo0v/KlMldLlDoqFDolgw/i4xOP0/4V9kfPBfV4FO8ep3nh3WOeSFcvY0M9BDMgvZaflmAEZ8bP5s/z5PYS0JNWlWOu1E+/3Q/HaQyK4uKyc+CjoR+0X/fjlajM97r2TMtmj9xndb9Cfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782457617; c=relaxed/simple;
-	bh=Nb9xg8I7O5dI9Quw5ZIkI7Mjl17b1sJ8iAmhI9Cf1tg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uG3iGC5MF7qtjm2V3af/RNqF5L+pTYcZI1TODlm6smbHhaLG+jp5V0ooAEuZTihRcLkin/IjVu/NwgHlzCqYFk5d+F0l4OEdK+kVG5Z145Z5PgSxZjMm+akeddUb+XgXXShsFpjlzlkZUxg3SQ+ZQS22Z8wLxfusn9vcn476YZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=e4nlL3id; arc=none smtp.client-ip=54.254.200.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1782458285; c=relaxed/simple;
+	bh=WPSs6Hdv7YNK6vkq1/z8paoh4kt+uv8cZGnf018Hj4M=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=dSk1mK9l0k/v6OtuE61q2Ua9EBlQi+Rn7hNZGfi4wZvNcekfI5XK36adyh/TmfwiwTJmT1sQOqRU9L759lYdOraVltNn9O1OJuBZC5S7ARpSW5PO7HWoCBJ9f0tffvEP+1+5seh4Y+eeGRSOVXCF5m0al769Sq8HRm1vDLEXpFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JaAtJ6dR; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="e4nlL3id"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1782457589;
-	bh=Y4W/r58Q3W/dWz2m7sS0Ii3kXhsGKStDl7s2/hoHkxQ=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=e4nlL3idc29w8pWdKLa025YG9KYcGH+NvY2ybfze5VPZ2Qzb4I2nWKdFveiofatKu
-	 W8L/cGx4RcwrGqdBu7jd+uZ4RTIlC3c7Df0T1ZgOt1VUcuF/+WRz6YAXF168GWUQYo
-	 b0Yaiq9U1vA+O1/v/eJcwh0Sp3EbUMMSHPBj/ZuA=
-X-QQ-mid: esmtpgz12t1782457571ta26b18e1
-X-QQ-Originating-IP: BpomGn1BFIDJ/YTZkQXfR4Y5obiQ7PKkNtMtN8XtDJc=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 26 Jun 2026 15:06:09 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 11897432787244039745
-EX-QQ-RecipientCnt: 7
-From: raoxu <raoxu@uniontech.com>
-To: stern@rowland.harvard.edu
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	raoxu@uniontech.com,
-	stable@vger.kernel.org
-Subject: [PATCH] USB: usb-storage: ene_ub6250: restore media-ready check
-Date: Fri, 26 Jun 2026 15:06:07 +0800
-Message-ID: <F42641386E32404F+20260626070607.4119527-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JaAtJ6dR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782458284; x=1813994284;
+  h=date:from:to:cc:subject:message-id;
+  bh=WPSs6Hdv7YNK6vkq1/z8paoh4kt+uv8cZGnf018Hj4M=;
+  b=JaAtJ6dRY7xw+fFUWO0m/BUBnc6HvwXewO5zg+lnCz5saLL0aqcYxmy0
+   jdSJlCRMrY9zCAtHxCqvA9+ugpE1aRMhhimkxV7ufO2BQ3U1mNQpHbuCB
+   0rKseh1v5xXX6iz4W9eJLnV9r9ZP8Upcm/dVwK9rkausqWwH2H01HrBdU
+   j6tTjjcXXbaNA8drYi9Z7xe5kciVWRaxkL4ijdsKa8Lv2kU98YFUmmoBq
+   nkl6yxbg0hV8gKNZRPLV0V/CJp9EN42uPSAKtIl0xeHS8rLGjC6LJjQ0U
+   Sz3L+AVMV+kUXRcF4X/flWtkQBObYKl3CrVaUO5xoa/r9H12bfwpLUv4J
+   w==;
+X-CSE-ConnectionGUID: l4wYXjX8TZuDCcjbhD5nxg==
+X-CSE-MsgGUID: Cn5kh9d5Qg+i8eAUpBUcfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="82242601"
+X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
+   d="scan'208";a="82242601"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 00:18:03 -0700
+X-CSE-ConnectionGUID: 9EypVGK9SyWnq8MK8Uarvg==
+X-CSE-MsgGUID: flMh1zFKRqWYO0QZtMF0yQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
+   d="scan'208";a="250198390"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 26 Jun 2026 00:18:02 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wd0p4-000000004rN-3wKR;
+	Fri, 26 Jun 2026 07:17:58 +0000
+Date: Fri, 26 Jun 2026 15:17:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [usb:usb-linus] BUILD SUCCESS
+ 8c6314489550fa81d41723a0ff33f655b5b6c7b6
+Message-ID: <202606261520.reNurHnE-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: NWujniBqiFoNpJH9EpvNOowZ6Rgffau97gsI5BJwYrqety1klK/GGQIa
-	HOwee4ZnABMm00n3nGPxxmd1PiOUaLK0vD0sbHrWE0KuCirpvykIOmiv68ZH5daZsitKVOH
-	ZDE0USsbh+mLyK1uHyGCabi9AzFKisB5f7ixudvjY0N+UGl0BioGtnZfCfD5Y6e24VNfQ6t
-	06LJ8Jgw+5MLTnbcEoeipcHVlib0KYIQV2vB98fc4drybO3G21Y7vrFyq93O6IUgNZEMxyw
-	68mcScDujSu+q4PMpK9m7a2JHNj5+98FuD2DUoxquQp4kRmK98kbz/z4Pflm4R+ChYzYcGV
-	od8cvvwU0F/WOB7vyzmosRXX8zmNu5n8vluMm8rnRot2YJ9aAxgKSnHwqQHjVlQ6Yms/YyG
-	is2p7hirw+zGT1zQ8iKKFWPBHAMK99gU8jl4yt7TwUpMzSpwpIxJrVBHqM8MX2nYlBLScIg
-	IKnSoiPRPXWL1f1wmYL0qq9p330OqOZXtzMj6ITUdr5oh+lvhPDm6ZXtqNrxNy7cqOt53gD
-	MmF7EZMAh/ZJ/N2IoYPflUU0CC9UpSzYmnjbmo52lx/rj2bYF3DDABd8wBqGjrZ2fxg+7nQ
-	DZz16tPklDLZCl+u/6lI7ObwQrn2sULuVjLmaBMK7Y6EtysJsPGB/6XisercGM/Hhw0s55A
-	QgD3abJsUygSjMgYi+QKGN4o9+I8/lvpr4/u57toUlfYXZLOtWvsNaO4Gpdaava+gXmTAEa
-	ukZEOGUZeNW5QuiKIjtjW20hVwZNh0g1K7hh9axmwwV3kKm0YPBCWf4qGY3HB+0TuBBz8PN
-	s9VFNivIiXjY4Cmfp52MW8CeWCmJ9VlkMCrjmUH2po3JjbT+LqNgoQuNG5cn+HnLzPdmE9u
-	jrRanCd48qTtOicfPHHE4gBs5yIqRQJgZ3VwAFhU5iPolorFF3LG975xbbHWpTHin2AJ6m1
-	1boQ75Kcc8JPowNBkYnd8fMZ9iT5LXiHQ/l+30wqG1Q8Oo2MqXQwjwzQ6EAj95s26QZA8hG
-	FZf5QqPQbTIy2mbYT64fX2jBQcmjWUVs6Zn5R7FdheTP7h3c9/yNAccmN3rtM6diyUfOT9X
-	w==
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-RECHKSPAM: 0
 
-From: Xu Rao <raoxu@uniontech.com>
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+branch HEAD: 8c6314489550fa81d41723a0ff33f655b5b6c7b6  usb: misc: usbio: bound bulk IN response length to the received transfer
 
-Commit 1892bf90677a ("USB: usb-storage: Fix use of bitfields for
-hardware data in ene_ub6250.c") converted the media status fields from
-bitfields to bit masks.
+elapsed time: 739m
 
-The original ene_transport() test called ene_init() only when neither
-media type was ready:
+configs tested: 224
+configs skipped: 3
 
-        !(sd_ready || ms_ready)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-The converted test became:
+tested configs:
+alpha                             allnoconfig    gcc-16.1.0
+alpha                            allyesconfig    gcc-16.1.0
+alpha                               defconfig    gcc-16.1.0
+arc                              allmodconfig    clang-23
+arc                               allnoconfig    gcc-16.1.0
+arc                              allyesconfig    clang-23
+arc                                 defconfig    gcc-16.1.0
+arc                            randconfig-001    gcc-16.1.0
+arc                   randconfig-001-20260626    gcc-13.4.0
+arc                   randconfig-001-20260626    gcc-16.1.0
+arc                            randconfig-002    gcc-16.1.0
+arc                   randconfig-002-20260626    gcc-13.4.0
+arc                   randconfig-002-20260626    gcc-16.1.0
+arm                               allnoconfig    clang-17
+arm                               allnoconfig    gcc-16.1.0
+arm                              allyesconfig    clang-23
+arm                                 defconfig    gcc-16.1.0
+arm                             mxs_defconfig    clang-17
+arm                            randconfig-001    gcc-16.1.0
+arm                   randconfig-001-20260626    gcc-13.4.0
+arm                   randconfig-001-20260626    gcc-16.1.0
+arm                            randconfig-002    gcc-16.1.0
+arm                   randconfig-002-20260626    gcc-13.4.0
+arm                   randconfig-002-20260626    gcc-16.1.0
+arm                            randconfig-003    gcc-16.1.0
+arm                   randconfig-003-20260626    gcc-13.4.0
+arm                   randconfig-003-20260626    gcc-16.1.0
+arm                            randconfig-004    gcc-16.1.0
+arm                   randconfig-004-20260626    gcc-13.4.0
+arm                   randconfig-004-20260626    gcc-16.1.0
+arm64                            allmodconfig    clang-23
+arm64                             allnoconfig    gcc-16.1.0
+arm64                               defconfig    gcc-16.1.0
+arm64                 randconfig-001-20260626    gcc-8.5.0
+arm64                 randconfig-002-20260626    gcc-8.5.0
+arm64                 randconfig-003-20260626    gcc-8.5.0
+arm64                 randconfig-004-20260626    gcc-8.5.0
+csky                             allmodconfig    gcc-16.1.0
+csky                              allnoconfig    gcc-16.1.0
+csky                                defconfig    gcc-16.1.0
+csky                  randconfig-001-20260626    gcc-8.5.0
+csky                  randconfig-002-20260626    gcc-8.5.0
+hexagon                          allmodconfig    gcc-16.1.0
+hexagon                           allnoconfig    clang-23
+hexagon                           allnoconfig    gcc-16.1.0
+hexagon                             defconfig    gcc-16.1.0
+hexagon               randconfig-001-20260626    gcc-11.5.0
+hexagon               randconfig-002-20260626    gcc-11.5.0
+i386                             allmodconfig    clang-22
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                              allnoconfig    gcc-16.1.0
+i386                             allyesconfig    clang-22
+i386                 buildonly-randconfig-001    gcc-14
+i386        buildonly-randconfig-001-20260626    gcc-14
+i386                 buildonly-randconfig-002    gcc-14
+i386        buildonly-randconfig-002-20260626    gcc-14
+i386                 buildonly-randconfig-003    gcc-14
+i386        buildonly-randconfig-003-20260626    gcc-14
+i386                 buildonly-randconfig-004    gcc-14
+i386        buildonly-randconfig-004-20260626    gcc-14
+i386                 buildonly-randconfig-005    gcc-14
+i386        buildonly-randconfig-005-20260626    gcc-14
+i386                 buildonly-randconfig-006    gcc-14
+i386        buildonly-randconfig-006-20260626    gcc-14
+i386                                defconfig    gcc-16.1.0
+i386                  randconfig-001-20260626    gcc-14
+i386                  randconfig-002-20260626    gcc-14
+i386                  randconfig-003-20260626    gcc-14
+i386                  randconfig-004-20260626    gcc-14
+i386                  randconfig-005-20260626    gcc-14
+i386                  randconfig-006-20260626    gcc-14
+i386                  randconfig-007-20260626    gcc-14
+i386                           randconfig-011    gcc-14
+i386                  randconfig-011-20260626    gcc-14
+i386                           randconfig-012    gcc-14
+i386                  randconfig-012-20260626    gcc-14
+i386                           randconfig-013    gcc-14
+i386                  randconfig-013-20260626    gcc-14
+i386                           randconfig-014    gcc-14
+i386                  randconfig-014-20260626    gcc-14
+i386                           randconfig-015    gcc-14
+i386                  randconfig-015-20260626    gcc-14
+i386                           randconfig-016    gcc-14
+i386                  randconfig-016-20260626    gcc-14
+i386                           randconfig-017    gcc-14
+i386                  randconfig-017-20260626    gcc-14
+loongarch                        allmodconfig    clang-23
+loongarch                         allnoconfig    clang-20
+loongarch                         allnoconfig    gcc-16.1.0
+loongarch                           defconfig    clang-23
+loongarch             randconfig-001-20260626    gcc-11.5.0
+loongarch             randconfig-002-20260626    gcc-11.5.0
+m68k                             allmodconfig    gcc-16.1.0
+m68k                              allnoconfig    gcc-16.1.0
+m68k                             allyesconfig    clang-23
+m68k                                defconfig    clang-23
+microblaze                        allnoconfig    gcc-16.1.0
+microblaze                       allyesconfig    gcc-16.1.0
+microblaze                          defconfig    clang-23
+mips                             allmodconfig    gcc-16.1.0
+mips                              allnoconfig    gcc-16.1.0
+mips                             allyesconfig    gcc-16.1.0
+mips                     loongson2k_defconfig    gcc-16.1.0
+nios2                            allmodconfig    clang-20
+nios2                            allmodconfig    gcc-11.5.0
+nios2                             allnoconfig    clang-23
+nios2                               defconfig    clang-23
+nios2                 randconfig-001-20260626    gcc-11.5.0
+nios2                 randconfig-002-20260626    gcc-11.5.0
+openrisc                         allmodconfig    clang-20
+openrisc                         allmodconfig    gcc-16.1.0
+openrisc                          allnoconfig    clang-23
+openrisc                            defconfig    gcc-16.1.0
+parisc                           allmodconfig    gcc-16.1.0
+parisc                            allnoconfig    clang-23
+parisc                           allyesconfig    clang-17
+parisc                              defconfig    gcc-16.1.0
+parisc                randconfig-001-20260626    gcc-8.5.0
+parisc                randconfig-002-20260626    gcc-8.5.0
+parisc64                            defconfig    clang-23
+powerpc                          allmodconfig    gcc-16.1.0
+powerpc                           allnoconfig    clang-23
+powerpc                      ep88xc_defconfig    gcc-16.1.0
+powerpc                   motionpro_defconfig    clang-23
+powerpc               randconfig-001-20260626    gcc-8.5.0
+powerpc               randconfig-002-20260626    gcc-8.5.0
+powerpc64             randconfig-001-20260626    gcc-8.5.0
+powerpc64             randconfig-002-20260626    gcc-8.5.0
+riscv                            allmodconfig    clang-23
+riscv                             allnoconfig    clang-23
+riscv                            allyesconfig    clang-23
+riscv                               defconfig    gcc-16.1.0
+riscv             nommu_k210_sdcard_defconfig    gcc-16.1.0
+riscv                          randconfig-001    clang-23
+riscv                 randconfig-001-20260626    clang-23
+riscv                          randconfig-002    clang-23
+riscv                 randconfig-002-20260626    clang-23
+s390                             allmodconfig    clang-17
+s390                              allnoconfig    clang-23
+s390                             allyesconfig    gcc-16.1.0
+s390                                defconfig    gcc-16.1.0
+s390                           randconfig-001    clang-23
+s390                  randconfig-001-20260626    clang-23
+s390                           randconfig-002    clang-23
+s390                  randconfig-002-20260626    clang-23
+sh                               allmodconfig    gcc-16.1.0
+sh                                allnoconfig    clang-23
+sh                               allyesconfig    clang-17
+sh                                  defconfig    gcc-14
+sh                             randconfig-001    clang-23
+sh                    randconfig-001-20260626    clang-23
+sh                             randconfig-002    clang-23
+sh                    randconfig-002-20260626    clang-23
+sh                          rsk7264_defconfig    gcc-16.1.0
+sparc                             allnoconfig    clang-23
+sparc                               defconfig    gcc-16.1.0
+sparc                 randconfig-001-20260626    gcc-12.5.0
+sparc                 randconfig-002-20260626    gcc-12.5.0
+sparc64                          allmodconfig    clang-20
+sparc64                             defconfig    gcc-14
+sparc64               randconfig-001-20260626    gcc-12.5.0
+sparc64               randconfig-002-20260626    gcc-12.5.0
+um                               allmodconfig    clang-17
+um                                allnoconfig    clang-23
+um                               allyesconfig    gcc-16.1.0
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20260626    gcc-12.5.0
+um                    randconfig-002-20260626    gcc-12.5.0
+um                           x86_64_defconfig    gcc-14
+x86_64                           allmodconfig    clang-22
+x86_64                            allnoconfig    clang-23
+x86_64                           allyesconfig    clang-22
+x86_64               buildonly-randconfig-001    gcc-14
+x86_64      buildonly-randconfig-001-20260626    gcc-14
+x86_64               buildonly-randconfig-002    gcc-14
+x86_64      buildonly-randconfig-002-20260626    gcc-14
+x86_64               buildonly-randconfig-003    gcc-14
+x86_64      buildonly-randconfig-003-20260626    gcc-14
+x86_64               buildonly-randconfig-004    gcc-14
+x86_64      buildonly-randconfig-004-20260626    gcc-14
+x86_64               buildonly-randconfig-005    gcc-14
+x86_64      buildonly-randconfig-005-20260626    gcc-14
+x86_64               buildonly-randconfig-006    gcc-14
+x86_64      buildonly-randconfig-006-20260626    gcc-14
+x86_64                              defconfig    gcc-14
+x86_64                                  kexec    clang-22
+x86_64                randconfig-001-20260626    clang-22
+x86_64                randconfig-002-20260626    clang-22
+x86_64                randconfig-003-20260626    clang-22
+x86_64                randconfig-004-20260626    clang-22
+x86_64                randconfig-005-20260626    clang-22
+x86_64                randconfig-006-20260626    clang-22
+x86_64                randconfig-011-20260626    gcc-14
+x86_64                randconfig-012-20260626    gcc-14
+x86_64                randconfig-013-20260626    gcc-14
+x86_64                randconfig-014-20260626    gcc-14
+x86_64                randconfig-015-20260626    gcc-14
+x86_64                randconfig-016-20260626    gcc-14
+x86_64                         randconfig-071    gcc-14
+x86_64                randconfig-071-20260626    gcc-14
+x86_64                         randconfig-072    gcc-14
+x86_64                randconfig-072-20260626    gcc-14
+x86_64                         randconfig-073    gcc-14
+x86_64                randconfig-073-20260626    gcc-14
+x86_64                         randconfig-074    gcc-14
+x86_64                randconfig-074-20260626    gcc-14
+x86_64                         randconfig-075    gcc-14
+x86_64                randconfig-075-20260626    gcc-14
+x86_64                         randconfig-076    gcc-14
+x86_64                randconfig-076-20260626    gcc-14
+x86_64                               rhel-9.4    clang-22
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-22
+x86_64                    rhel-9.4-kselftests    clang-22
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+x86_64                          rhel-9.4-rust    clang-22
+xtensa                            allnoconfig    clang-23
+xtensa                           allyesconfig    clang-20
+xtensa                           allyesconfig    gcc-16.1.0
+xtensa                randconfig-001-20260626    gcc-12.5.0
+xtensa                randconfig-002-20260626    gcc-12.5.0
 
-        !sd_ready || ms_ready
-
-This is not equivalent. Restore the original semantics by testing that
-both ready bits are clear before calling ene_init().
-
-Fixes: 1892bf90677a ("USB: usb-storage: Fix use of bitfields for hardware data in ene_ub6250.c")
-Cc: stable@vger.kernel.org
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
----
- drivers/usb/storage/ene_ub6250.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
-index 8770de01a384..ed49a3bc859c 100644
---- a/drivers/usb/storage/ene_ub6250.c
-+++ b/drivers/usb/storage/ene_ub6250.c
-@@ -2305,7 +2305,8 @@ static int ene_transport(struct scsi_cmnd *srb, struct us_data *us)
-
- 	/*US_DEBUG(usb_stor_show_command(us, srb)); */
- 	scsi_set_resid(srb, 0);
--	if (unlikely(!(info->SD_Status & SD_Ready) || (info->MS_Status & MS_Ready)))
-+	if (unlikely(!(info->SD_Status & SD_Ready) &&
-+		     !(info->MS_Status & MS_Ready)))
- 		result = ene_init(us);
- 	if (result == USB_STOR_XFER_GOOD) {
- 		result = USB_STOR_TRANSPORT_ERROR;
 --
-2.50.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
