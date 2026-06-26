@@ -1,365 +1,250 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00230701.pphosted.com (mx0b-00230701.pphosted.com [148.163.158.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3CB3BF676
-	for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 21:26:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782509166; cv=none; b=Y2gsy+nasOYOaJ0iu6/0Mmvn1VQNf/X/Jqr+LmLx0QENlB1vtlFzZSz56Gbe9K7o875XqDHnyWHKmfPChtR3tZcVar5sK5R+2ZtIGmsd58Ghcy+l9kR0GPWegAqvfW1JGz/CpJ4swFiDSUTMSXJpcB+82weonqF/6UI5DK68c3A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782509166; c=relaxed/simple;
-	bh=WZRUHxSxB8g4psTh9ZiB1OLTbpG9QypM2MkQRgaclfM=;
-	h=Message-ID:Date:Subject:To:Cc:Content-Type:MIME-Version:From; b=IqcjfIPSE2jUo2eKoxwtjLf+7iMtytvjGIjt0JkiZOvL1ZON97xkfdQTB4zpsVgeIU+fNmF+7n7sjYLYgYNtQ5xj0t4hfIuPml1Ma8BfEfJ6CcTSI7pfzVE1TXZ2i8+kEAi6NZ1r1H4Ujktt4lRJ/uN3YKA3jpWP6jExF4X55z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AUIYY5Ph; arc=none smtp.client-ip=209.85.217.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EAC3BD643;
+	Fri, 26 Jun 2026 22:08:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.158.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782511687; cv=fail; b=JJhC+kFObTeaK7S9+wRHAD6IKpsQ++XIMBWYrkKCBMjqUZMy14tYbfcn3IQDmU1hUFE62EzPPqnjULCyIqFBgDGSiDXk8TBOh5KGyhgvIhCUrvNpFegyUFVupmNi8PpMEpk8WsiSqD80WIkR61e6WhGwp9QD5mtJaWK73NlOliM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782511687; c=relaxed/simple;
+	bh=nlKult501L1z1hUbb+icRQobALMyX9zvcPGWWM44LR4=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=gCJXzcoY5oqgOXT9lZ7wlmBao+rhcPodvc2y4kg3bLBhKebqgVfyTOCV3EadcBcCa4A8wX38Eeb/lSWRsKp/yaEJpNeODkA0SaOs47W3Vk0xcQcV6qBUBrSgp6wcbqFVd6n6BhxNgUhk5/rcBm3qwfolLAZiAM9IhHj1FdJxq0M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com; spf=pass smtp.mailfrom=synopsys.com; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=U7KLCcl4; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=VNlAtDcs; dkim=fail (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=vFcMia1a reason="signature verification failed"; arc=fail smtp.client-ip=148.163.158.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AUIYY5Ph"
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-73531dfb95cso72251137.2
-        for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 14:26:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782509163; x=1783113963; darn=vger.kernel.org;
-        h=from:mime-version:content-transfer-encoding:content-type:cc:to
-         :subject:date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3yA7PEaAZplsOG+IODluDgWXb/GywcjZbNAieGW5ryk=;
-        b=AUIYY5Ph5JpulJhc5000ryd6VA0qRkIujTCv6X0ISSpGNFe/WiHpJN11IFT1Axy/9D
-         9FahatLmD1kT6azFVsn4bjjsUABa817CxpWAcMQSFtGDaprCBcvDotvPqVUjq50YKQQ/
-         KgwD/geHfJm1J+22WV7NTWETQXhgocDbJQ2mN2S3mkYnVLMYpdYj1Y9hSat76Vx2MnNI
-         C50QI2pw5n62HwKHeaihnJ8yRjZ6KqCu9HjlqFo3In02wIaDQE6OIfPUNo/aH42TeXmi
-         CoCad2gAQdCJnuVVCsR8pGPR2AVpVkOZKxVpBMJlssXZWhB7wvLLeKXyXpQ6gVYRltgL
-         yZrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782509163; x=1783113963;
-        h=from:mime-version:content-transfer-encoding:content-type:cc:to
-         :subject:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=3yA7PEaAZplsOG+IODluDgWXb/GywcjZbNAieGW5ryk=;
-        b=jJwaqURAa9xKuCmttk3fAoPG4kw42FqtyZgkbGIFPptJ2BcBt8cpoc4pi28p0oqczI
-         pzvw6h0/fUqDHR18u+DVtn2YgErdeuTXd6aW+sRtTCktBiGFbJ3T8XVZaUh/m5G+EjeF
-         XWYGLDhD6KX7Exr7HXccVb9poZWr7/dR6W4tsPUPIU7RLWPVxB1xmOLKq5fay2DOrKE5
-         jz27sN5edq5GrCavEZtV6Ths7C51w32/A9dEfGEvpVJFP0xu9zwDBC6vfSGrEn9CZhKG
-         THKhkR39dH3m8irAeKsUS56Zt2YlTDNIPmvDcTGP671JUjct3LBBSUXtE/4uQBA3B/E9
-         fGdA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpqp6xHn2DIhwjKS4O1eqtYtuiQmK25T1RwjgWw+hnj8I6PCt8NMbiTpw2U1KGVGGsHH2er5g7o7NY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1COTLDIG85ATv8fgwDp2KNFjyx1Yf1444WDJJKbBwzIUqt9e+
-	jnAW+bHlqmHCbVaRjWQvhAs1YHhye3fHuJsMJHqDarY4LWis5RQrRSE6
-X-Gm-Gg: AfdE7ck+9ViJU0Q6ALJMPb4e43Cviw1QfgZSs1lk/KmruEycH/B5zZ8ufC4AgtdLRlE
-	80tpm7nmVVEYe9aOXhJs1rV96EYOKMiGaRVRmzLKBwfNgUeABjAs794pFPvZMgPqKnSalLcj3hC
-	EVJCo8QPqZRUKMfHslmTJD7WaeVD3NOJDDJeaWKWOf2YgcHANi+Bt7G9bJayOutB7M5ZkwQipe7
-	Uy0ssdJ3bYYPQvIHDeuCI/mkf4HWMEA/xLfDF/RZy58bQG92ZOe2kBtYDQC7H72Sgkmvf9bVzsK
-	GgZCeaB1xhxWZpZB0fK5rdAdAGp08ctCQyLQM15brJKfYHnWjsmpJJWVVdPmoxYKtwEuOj8ZIlE
-	EyTQVFVS4j+PSCTLOVOrCEQXK7kg25RIsmGO1lk5gl4Olxcx1zMv9Yty/RiJv8/iC9TtlG4cBfx
-	RUnaLCCkaFCuHYU9n83jnYRL1vBWzXSIiWWf0GIdtW4hNl+JFuhPCPV+25dc8zHNRU5ot4SZGI6
-	5iAFatb0KaV2rb7b+ReYJ8=
-X-Received: by 2002:a05:6102:440f:b0:6d1:8f7:18a5 with SMTP id ada2fe7eead31-73433e3dc72mr1563090137.1.1782509162922;
-        Fri, 26 Jun 2026 14:26:02 -0700 (PDT)
-Received: from [192.168.10.115] ([132.170.207.48])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-96916e88e59sm1898626241.6.2026.06.26.14.26.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 14:26:02 -0700 (PDT)
-Message-ID: <6a3eee6a.87857ece.10923b.6588@mx.google.com>
-Date: Fri, 26 Jun 2026 14:26:02 -0700 (PDT)
-Subject:
- BUG: sleeping function called from invalid context in submit_async_request
-To: gregkh@linuxfoundation.org, kees@kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: syzkaller@googlegroups.com, contact@pgazz.com
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="U7KLCcl4";
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="VNlAtDcs";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="vFcMia1a"
+Received: from pps.filterd (m0297265.ppops.net [127.0.0.1])
+	by mx0a-00230701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65QKhWhX1930484;
+	Fri, 26 Jun 2026 15:07:49 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
+	cc:content-id:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	pfptdkimsnps; bh=nlKult501L1z1hUbb+icRQobALMyX9zvcPGWWM44LR4=; b=
+	U7KLCcl4mOGnYI0q8Kh6sjxFJ4PRrhgTFa/xmPEhYZ5FFB3JiN6b+zQv+b6ek0sZ
+	6Y3IWwyfFB461EbLb2XgbqoIqTIycgoK++jlABAOG4WURI6Ojea/X/wIB1caPTiC
+	Fqf4NBCrx+aPvc7dyR6N4vPU/iqy/eM61GbdIg+wwY7EA/mEOLnb99m843pocJvL
+	p2WhliZcRCLMEIlw5BkE5tp8Cs8gZ/CQgE50fHeS0PqYrEv7OmwyjAlPcRJGwQWJ
+	jJIa/QHZqyo9usx3x9i+VKxGLzbMt9BPy1UWGaqcmAob613D7gvi5EieZPig2oYO
+	Me6bIx8u8mTxHBsYAXHwUQ==
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.73.133])
+	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 4f20qc8jak-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 26 Jun 2026 15:07:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1782511668; bh=nlKult501L1z1hUbb+icRQobALMyX9zvcPGWWM44LR4=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=VNlAtDcssGK65ig0dnXe+XP1YVL3fO773lQfR1RkqLz3WbyIqfxUQ8+VI01Gpg9xd
+	 chjGbISi55I+tdI52+NPqQZWbB7RBuLWpDf+9HWpNtyPAFCGJfevZb+ru4lqdhyAHA
+	 17Rp+PHVR/UuP/W7KK3cQLBTshNQ3lLgQjGUaMrLzbuIk+CuV5zrXCmVLpIQ2qWKy6
+	 VEIAsDRBs9sbAJD2u+Mb/O+d82+hcGpVAOWZIJBIpLVRIzOmaCM/SGigW6Ko4QINws
+	 6NTBv998YOcB5Gsg16CnMVV2Skn9KL/NsFXIGQUV5erQmh0mgodDfjuyzha5RNLuIC
+	 VRN77GdS/sakw==
+Received: from mailhost.synopsys.com (badc-mailhost3.synopsys.com [10.192.0.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
+	 client-signature RSA-PSS (2048 bits))
+	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id B3AA540125;
+	Fri, 26 Jun 2026 22:07:46 +0000 (UTC)
+Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com [10.202.1.137])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
+	 client-signature RSA-PSS (2048 bits))
+	(Client CN "o365relay-in.synopsys.com", Issuer "Sectigo Public Server Authentication CA OV R36" (not verified))
+	by mailhost.synopsys.com (Postfix) with ESMTPS id EC2F9A007A;
+	Fri, 26 Jun 2026 22:07:45 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=vFcMia1a;
+	dkim-atps=neutral
+Received: from DS2PR08CU001.outbound.protection.outlook.com (mail-ds2pr08cu00107.outbound.protection.outlook.com [40.93.13.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
+	(Client CN "mail.protection.outlook.com", Issuer "DigiCert Cloud Services CA-1" (verified OK))
+	by o365relay-in.synopsys.com (Postfix) with ESMTPS id 8ECF14011C;
+	Fri, 26 Jun 2026 22:07:41 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LqqjAPd1IJPv+C7tQd8sat+xDzBf+2sDvDxoqmzSpoVCUKaxwqeM0IH3BnD0IsB3pOJXFH1zE5R28VRxi7gndz9eI46oyHzAr8Y9v4W1pI2MWpufHUL0iE4cw0b7Gn6E+4X4N83M/TmULeeeSJjfdJ2XRrKp0qzxH0HF8KaZjrfvxY9hY40o9IGWyxoNWPd4XCnhUodwzeerXu0XWxVA6RSgSqxluJWxg/NJT/ZsR7ctIP/8FaP6U0kG26bvmWNr/7hztIkzJQeEN9T2XXT0PCyG3Mv7K2muxzR2zwyLeMutpPT/LDr4CvP0JQCTnJL+Nkj02UFQAz02/3huGvJNkA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nlKult501L1z1hUbb+icRQobALMyX9zvcPGWWM44LR4=;
+ b=MkyoCj/F5jSkR+G/JmYpgoU5VjfXMKrL6z4P7x34AqjxueCOpoz06V/tzkDlNsz0nzH8cbhARe42/ewMJsPrCZ57G5U9xBXL8nFstvUfqu6OMPODZFItQKPG/ithXC3UO5E7BqITMfonh0yzFYNZ6B9dIshhJfvwZ1xYlwH0RYxqalb1J8FOf9OZNy8n2vmO50mO7Lq4fyOaqr8n8+/hgeV/jG2KZ0m9Leoao4rvpeeEXYvyxw5okPr8AwhgzEWxB1M3f4Ir7pXxvsQROSCnPjuysDcM6hOknLJcG/tY8nXT4NnzzddaERmPPOsiplubk5Yv902qijcUARTKszEIog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nlKult501L1z1hUbb+icRQobALMyX9zvcPGWWM44LR4=;
+ b=vFcMia1a/fXtJbmnagyUUzrSL9LYicIDg2vgpqI/V4aVoPJnMC4Rqc83g974ghhoFS1ObK+Ggfn0ncoBgjEQMt/SfehmYrO0VmtfzoTkOt9ATJE57LKblnYaSwqKg4Mugtl4PWNCY7Lud4vkoyroEltKNHUTg71tHgqY/LImS2U=
+Received: from PH0PR12MB7486.namprd12.prod.outlook.com (2603:10b6:510:1e9::6)
+ by DM4PR12MB6493.namprd12.prod.outlook.com (2603:10b6:8:b6::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Fri, 26 Jun
+ 2026 22:07:35 +0000
+Received: from PH0PR12MB7486.namprd12.prod.outlook.com
+ ([fe80::7df9:b25e:9216:f109]) by PH0PR12MB7486.namprd12.prod.outlook.com
+ ([fe80::7df9:b25e:9216:f109%6]) with mapi id 15.21.0159.015; Fri, 26 Jun 2026
+ 22:07:35 +0000
+X-SNPS-Relay: synopsys.com
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>
+CC: Patrice Chotard <patrice.chotard@foss.st.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb: dwc3: st: Propagate reset deassert failures
+Thread-Topic: [PATCH] usb: dwc3: st: Propagate reset deassert failures
+Thread-Index: AQHdA55lv1c8W0tRNE+dggZ1pzGO9bZRaSOA
+Date: Fri, 26 Jun 2026 22:07:35 +0000
+Message-ID: <aj73tdMG7uEHoUBy@vbox>
+References: <20260624055728.46078-1-pengpeng@iscas.ac.cn>
+In-Reply-To: <20260624055728.46078-1-pengpeng@iscas.ac.cn>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR12MB7486:EE_|DM4PR12MB6493:EE_
+x-ms-office365-filtering-correlation-id: 9fcba0f4-e8de-4c81-c6f9-08ded3cf53f2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|11063799006|56012099006|38070700021|18002099003|22082099003;
+x-microsoft-antispam-message-info:
+ 7yxuJJCO4eOiV/odToJ350CjVINUvWb7AuFyVDjyHXLOjeCjcJBlKwvqHdwZ5e8ttOQjxdMb5ysE683Xp9Qv1JClVi6Z+hd59uWTHIZPc0cLreFqAuvSXQUnXmwZEgLi67Wse0cTMuttvdg3VAyM0ITDt6SZH2lmRu8cg22xfNAhv+m1kjiFaUuK3ITgxbMoJC0YgJM2pzEL16junOiYyZybVnPbDJf47WSQSGcPDyFx4NrT/LmKC8o+LgCBtRkaYt70aTepsPoHsLvOfAbNSxTdzvUrhaawR1YOnE++QaHiZGSwZkVvtyPAr3+Bd+baZShIr7rNSjzBOYKppYFeM6eFNk6zGkvZtpb/IFyxq0+iAcr2dRrlCYYIWVuIK2lRrDT5DVeaStkhhpQ1eXb/fLMUWtsT1U8I2QGtgbgJun3/dNzx2bynlelaqZ2t236lV22/HhA2vxvC/jz0OrjvhgjJtDtJ1NM36q/6qLpMHKrqHVw+mj05ghZ5VUD9Bnywdun1UXhuklptM6S69Qdt0zWfoHHOMqlSHtyk4h4NgdHDREhJnWWIKwpDkNUFipjUSMPEo9vN0sy0xI9vCMwz6ttnGgrXphwRjmvnqg6CQdmUGV0UyhJggeMU44NMbD+OwrMUKnDltmuA9jloiKoB3O282fE7RKMmpZw/aA0mGIWE9D9WyLVMeJKTjEqsNfBfwIVv5+eZVUKdpFMDNWWTWXSv7NeUWEzIG+8aUppZuMk=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB7486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(11063799006)(56012099006)(38070700021)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?SkZPZmpmRHVMWFBtQlFZbmFGSzVXNGlQZWR5Qy93SXJ2c0FQRXhvVXFkbXd4?=
+ =?utf-8?B?SkF2Y1hyVWpDZ2pHaXNiblp5WitYYVlDQkJ1bG5zUGl3bWV4YVowZ2diN2I2?=
+ =?utf-8?B?ZlJXeHBHQUV3cFdKL25xWExhSzI4VHYxL3NMaHVCbU5HMEpTMFpoT1d1Um95?=
+ =?utf-8?B?L0pWVEZpUGluM09UbTZ3Zi9RS0NxV1o0OUdzaWlmaDlwT0pTYWhPRFdxenpN?=
+ =?utf-8?B?eHdyRFVIcCs2U3lTZHlBQVAyVlRxNnhKUEdQbnNON28yb0wyR3ZPYTNuaHBr?=
+ =?utf-8?B?Tk5qcGhtTHgxNFNaanUwTU1MWTNMK2o5TWcreDNHMkVzUTU5SzgzSUdBL0s2?=
+ =?utf-8?B?OW9YdXpsdjRoeUZzUUlYallZWVhZZnpkVHpHUjMvMDNXbWlNRkIzSDBJVmM5?=
+ =?utf-8?B?SGkyeDEzeUYyT3dyR1dYRFRWS0Qyd1A4NzU1WitnVHFmZFlpWkphT0d4Tzdq?=
+ =?utf-8?B?U3RnR3pqRUJrY25sUEU5dzFnbytlWWpveHMzOXdXbGxkdncvcjExMTdzM1V1?=
+ =?utf-8?B?RjJHVDBKOGlPczJEZWdSQngrWGlUN3Uzamt0WVY2cHFZMWxEN1ZsdjN3MkJz?=
+ =?utf-8?B?cURnank1QXc3eTFCQVZuYnRLRVFvUUdXM2ZZME5rZkRDZFFDK1dITUN0S1FO?=
+ =?utf-8?B?V0N0cCtJMFBxMDJMSm1KeFA4YnFYVVRGYnczYytGa1NDZWtSeExMN2dlWkZU?=
+ =?utf-8?B?RDVrUGMyY0l2OXBsMkUvUStPOHZSMyt1ZXREdU5nUExhdmhoQUVuQVFTY2lo?=
+ =?utf-8?B?SEg0eDRqTTB6NHZyNWNoOVNkVXVCTVpYV0RIeWNzMnptR1Z5R0R0cXZvY0Fi?=
+ =?utf-8?B?eHc0V08xbmNmRXRNWlpzVWFvU0Y4NnNYc1JUMVRwZi9IQ0FCVThQRFYyQXNT?=
+ =?utf-8?B?WDk1TDhRY1NXTFVlMERRc01DU1h2bWN5Y01jSlZIQVMwKzFjQlB3TkJtV21t?=
+ =?utf-8?B?alJyRE1WYkpGQlluV0RuaXdhaDRlSVFQbHBJdEhYL2RPMFBTUncwY2JLSVJv?=
+ =?utf-8?B?Sk5zZnhxZWpEdkViQ1JsK3J1aWlkWDlVY3BWbE5ZTXhZWmxaLzRHdzdJVlo5?=
+ =?utf-8?B?VFdCTVNwRWxPdTdlVTl1bHNIWnRRVzNrMmloUzJCckJ2UkU2YjlQaXpXQ295?=
+ =?utf-8?B?U1ZBNjNCU3NvYlNudkpORzk3UHREaWhIdVFVVmtNb3I5dkRqcEtZQktUeTRO?=
+ =?utf-8?B?aFJZU0JGSzNFTzdxMjBjUVZmdUt1T2JIbjJHYzQrdDV3V1RXV2ZTdmpOWTVz?=
+ =?utf-8?B?NU5YODE0TWN3OUZVVzlFRlo5VnNwK0p6OHp2aFJjWWJ1NjJ6cnVubjNEUmRk?=
+ =?utf-8?B?a3ZPSk8yeGVhWHM5MHdSbE0vKzEwNGdZRzNvbVZkOWkwQlh5eXhzUGxXcXVN?=
+ =?utf-8?B?MzYrNDBnNDRKcWg3WWNtTlpjR0t3NGFabDRtMmR0Yktabm4wTFVVNTd5WmxP?=
+ =?utf-8?B?K2t5b1g3cmNUcjRQalNJWk9HQngyWWhBdUl5Q25TSHQyQVcvQzBMRk9FcC9y?=
+ =?utf-8?B?eWVEOGVCVUlQRFI0Rm5XS2hYSVdQRnRQSWhWZWlady8wVTRLMmI2VnJJSEZN?=
+ =?utf-8?B?RW5FeFpkcGVJMGZJQjFtWEorQThpL1psL3E4bjY0QWs2NXVjMi9wVzV4b0pI?=
+ =?utf-8?B?dVIxaTBybUFNbkJObDhZM0xBQ05sZkNMTnhYd1pDUk5Gb3Q3ME9tOFVrd0dD?=
+ =?utf-8?B?Ky9WKzRaZFlzWGxhemZtem5udzZRNHhmWW1CRVFjNVMyOUFkNWNZczlEb3p3?=
+ =?utf-8?B?L0ErM041c3hCMVJnTkczSVgwNDlacmtsR1paVmVGeHZ2ek03eUUrM3RndkZS?=
+ =?utf-8?B?c3FDYmsxSzFNVzdaT2EvaW9KZzBsdUV5a0FnaWI2cTFHUzdtS3VlRFE2SjN5?=
+ =?utf-8?B?clFJQkFpOXVlNzlzVjU5S05JdmpnckdxSUwzZndCckI0MFFObFhTWkFJL0d6?=
+ =?utf-8?B?Z3J3WVFoNzhVci9QejU0QzR2THlseWpZUTkxcDl5cEV2RWVPdG9jQ2Y4M2dP?=
+ =?utf-8?B?SDVlcmdRbnFQOGU4RjlkL1FiLy9kbnpYYlk4Qy9DWlY5dC8vVUsxTkJMQUlD?=
+ =?utf-8?B?SWVMYTVZVmcrMmMyNEVacFZ2WTkzbkNhbTFDNlNTUmhoSjNaMDhQek5KeW4y?=
+ =?utf-8?B?cDZtYUJvUGVuaG5rTG9VTzlwSDBLWUM0Y3I5OVVvN2NGRGJZMjNNN1JPN2VT?=
+ =?utf-8?B?YW42Z281VkFjZUV5L05XU1piZk10QXNtM01KNjZxdlI4cmsvYjJMcmxRZ1JO?=
+ =?utf-8?B?dExFV0R6Uy9LWmltUWFJMnZXOWlhMlRVa0djVFVVQkE3YUdIb3BmNDNBTlVr?=
+ =?utf-8?B?akFYRWUwQmRFM2JHMk5MSHhqeEYrZ3M5aHFhRTlZeklQZ2cxb2Mxdz09?=
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-ID: <6BB3896D22B3A9499836CDB7887ADB58@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: sanan.hasanou@gmail.com
+X-Exchange-RoutingPolicyChecked:
+	CUfIRmmkTFaiC+gt/+IMxTZ1D2Cc7nWNUUPl/RB4T7u6s8dRcmh4NrJNN8nQIY0kjfwuyB8532A/eDMqubfvDImZQ9evFTWzjrXg9pJk1Yx2Cmpja8Q33HkAoaFDEPg8NMLQl6NG9dUgSAUJXBEuss8ZltwXFR/Te+J5B/LzfSJ8GMrpzu+qC2S8i53qwPizYdbPitQ99gMI9ZuWnUWfU8ZpNtDkuuSF2QGTTmtUfec+cuhx5patOQH4m8Y4VicR1qdPhR/GdWOrjF/0Eg7SWktbs4+/TpjlcIFXpCl3l6juO20N9rBsgDB1cV1KKyQ9zVtlQQeKYpWQlY00/yTYEQ==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	0vgoG41L6qQQOBoB3inFmJDM/nnPLeDZjWfdiqUUtICx7TbImDaXSSHEyJj2DYG4AEtggLrMF0GWROlxH9ojNJ7yJruh2Hhi5ZUzAdixnPi7qtAD4jdfWsUGLnYi5lnhNf8XFy9+hwkQiXN3PjRQ8izENBEWSKRRtaFafNUraOL0W/AqUMlvnwRv5O4UrY533lv5TT1ndyz6RVbC9tWqquFUjmuN1gfqONRvoq+egoouo2SCtoQovf/qKWjy1ps6xFU/7PufHWhLLRTu/UXcPi6cPCAReZZtVbQtPUBeWiCfVjVbS0v273qUcScZvjkE9VlRlwX+pyfbBBGXMQt8oZkaF6clzafpJG9xARF7MIyrWbwRynriUAUg253pUBCH5LXCVdp0p7hgb2iML4FfLwOMHPPyCiF7aQrVy2efHfdihgsfvFZnjryQo/VJqHTMLfMhR1wndXgXqbnvAmRCE83Pyjx7lCKuN1RgEGLX9RNTwxikBxvpGiKGUKGbLdA5H8+/w6L25XLagAAlZwmwNenWbus1KEg56Ho7oYvQNE3fYNxRPJI8y/HrGLbM+nAdW1WzQ/mH99MNy7o902Dfv5VBfagv34ZO4IZ8UZYOzfuuT1mKZVV44lUI6EWJhV+JIPesQwHBpNdmoBIfMvGjfw==
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB7486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9fcba0f4-e8de-4c81-c6f9-08ded3cf53f2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2026 22:07:35.2793
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mYGBr1g2Zy/zFBOx15RZcBLV1+X+xYEEb7ncFtejYje86MGqOVswFXj3Joi8Lk6QNwEhQM8HuIwt0IhVd59O7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6493
+X-Proofpoint-ORIG-GUID: 0ayNV1wsCADqvZNPxhFAC8Hc439dEodr
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI2MDE4NCBTYWx0ZWRfX+q6uyQwjB+dS
+ qauwEbDiXRiq2dpvW+YZYc54CRaoblV+8V61bW3l5Ra3nvt+s6EsYyUyiuXGn25S2wz769FEajm
+ ErUcz76lxatezEJdNqRppuyGQOugIRkQzWcphdbqde4NV0mUZbvYocO6tG5rlWDkcGhGFtqfwyy
+ jmfRFL234jQe04MnyZLQepvjnGTvemM78Issi2E74jwfrcEUNVUBit8pcj/YH2hm8ABY7jTb0Ma
+ gyi0V/sFEyWupdPtI9GrHunxMvV2Wb3Pt5cx+tnvsEj9fJ3RVSrLKavX/24V5pYQq3+NJdeJcfI
+ sQr45rwI/kIBJSyAMwDtGGxcoI5hjLMg9iDle4JZB+LlLhaW4zTtl3NfKtnUVyX7918x30lJ6vO
+ MA1DCZ2cqV+msqHU//Yda9E69MmVVApouWsgs78hwS3dW4v/0c/V3Fod9B9XeqFVH7PDltevW9l
+ I+XXrJvQMh5koF7jV3g==
+X-Authority-Analysis: v=2.4 cv=bo18wkai c=1 sm=1 tr=0 ts=6a3ef835 cx=c_pps
+ a=8EbXvwLXkpGsT4ql/pYRAw==:117 a=8EbXvwLXkpGsT4ql/pYRAw==:17
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=qPHU084jO2kA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=tU_645BZ7FZt8VqRJtHG:22 a=-4-sGo8i1FcW4KD7_GeR:22
+ a=QPOMwdtYFG5MZfDgLBoA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjI2MDE4NCBTYWx0ZWRfX093+1WzuL1HM
+ 2i083c8UaROkQKuOSPYZVu5CYzyvLUDT0WwnCAz6k47mjiRFmoy+ZULYyhWJsiCBnYrk1+dM278
+ 57ch3106AjIfM4FeVEgwSK+J2rNSiUE=
+X-Proofpoint-GUID: 0ayNV1wsCADqvZNPxhFAC8Hc439dEodr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-26_05,2026-06-26_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam
+ policy=outbound_active_cloned score=0 impostorscore=0 phishscore=0
+ suspectscore=0 clxscore=1011 lowpriorityscore=0 bulkscore=0 spamscore=0
+ adultscore=0 malwarescore=0 priorityscore=1501 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.22.0-2606150000 definitions=main-2606260184
 
-Good day, dear maintainers,
-
-We found a bug using a modified version of syzkaller.
-
-Kernel Branch: 7.0-rc1
-Kernel Config: <https://drive.google.com/open?id=1SkS9U2y8MGrnaXhjJJI5n5SymSSMyYnS>
-Unfortunately, we don't have any reproducer for this bug yet.
-Thank you!
-
-Best regards,
-Sanan Hasanov
-
-BUG: sleeping function called from invalid context at ./include/linux/sched/mm.h:323
-in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 11047, name: kworker/0:7
-preempt_count: 0, expected: 0
-RCU nest depth: 1, expected: 0
-8 locks held by kworker/0:7/11047:
- #0: ffff8880183efd38 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3250 [inline]
- #0: ffff8880183efd38 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_scheduled_works+0x968/0x15e0 kernel/workqueue.c:3358
- #1: ffffc9000eecfc40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3251 [inline]
- #1: ffffc9000eecfc40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_scheduled_works+0x9a8/0x15e0 kernel/workqueue.c:3358
- #2: ffff88801f1d0188 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:895 [inline]
- #2: ffff88801f1d0188 (&dev->mutex){....}-{4:4}, at: hub_event+0x189/0x4f20 drivers/usb/core/hub.c:5899
- #3: ffff88803bf3c188 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:895 [inline]
- #3: ffff88803bf3c188 (&dev->mutex){....}-{4:4}, at: __device_attach+0x8d/0x3f0 drivers/base/dd.c:1008
- #4: ffff88806754c150 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:895 [inline]
- #4: ffff88806754c150 (&dev->mutex){....}-{4:4}, at: __device_attach+0x8d/0x3f0 drivers/base/dd.c:1008
- #5: ffffffff8de73c38 (registration_lock#2){+.+.}-{4:4}, at: parport_announce_port+0x6a/0x3c0 drivers/parport/share.c:518
- #6: ffffffff8e16f5d8 (pprt_lock){+.+.}-{3:3}, at: spin_lock_irq include/linux/spinlock_rt.h:96 [inline]
- #6: ffffffff8e16f5d8 (pprt_lock){+.+.}-{3:3}, at: lcd_write_cmd_p8+0x31/0x7f0 drivers/auxdisplay/panel.c:750
- #7: ffffffff8d558ce0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:312 [inline]
- #7: ffffffff8d558ce0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:850 [inline]
- #7: ffffffff8d558ce0 (rcu_read_lock){....}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
- #7: ffffffff8d558ce0 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x18d/0x360 kernel/locking/spinlock_rt.c:57
-CPU: 0 UID: 0 PID: 11047 Comm: kworker/0:7 Tainted: G             L      7.0.0-rc1 #1 PREEMPT_{RT,(full)} 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- __dump_stack+0x21/0x30 lib/dump_stack.c:94
- dump_stack_lvl+0xee/0x150 lib/dump_stack.c:120
- dump_stack+0x19/0x20 lib/dump_stack.c:129
- __might_resched+0x35b/0x4d0 kernel/sched/core.c:8884
- __might_sleep+0x41/0x70 kernel/sched/core.c:8813
- might_alloc include/linux/sched/mm.h:323 [inline]
- slab_pre_alloc_hook mm/slub.c:4452 [inline]
- slab_alloc_node mm/slub.c:4807 [inline]
- __kmalloc_cache_noprof+0x7f/0x5c0 mm/slub.c:5334
- kmalloc_noprof include/linux/slab.h:962 [inline]
- kzalloc_noprof include/linux/slab.h:1200 [inline]
- submit_async_request+0xd2/0x9c0 drivers/usb/misc/uss720.c:137
- set_1284_register drivers/usb/misc/uss720.c:237 [inline]
- parport_uss720_write_data+0x70/0x130 drivers/usb/misc/uss720.c:337
- lcd_write_cmd_p8+0x94/0x7f0 drivers/auxdisplay/panel.c:752
- hd44780_common_init_display+0x188/0x4f0 drivers/auxdisplay/hd44780_common.c:124
- charlcd_init drivers/auxdisplay/charlcd.c:585 [inline]
- charlcd_register+0x1e6/0x320 drivers/auxdisplay/charlcd.c:652
- panel_attach+0x19f9/0x1f20 drivers/auxdisplay/panel.c:1644
- driver_check+0x51/0x60 drivers/parport/share.c:158
- bus_for_each_drv+0x252/0x2e0 drivers/base/bus.c:500
- attach_driver_chain drivers/parport/share.c:172 [inline]
- parport_announce_port+0x2e8/0x3c0 drivers/parport/share.c:529
- uss720_probe+0x6e0/0xbf0 drivers/usb/misc/uss720.c:746
- usb_probe_interface+0x692/0xcf0 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x264/0xaf0 drivers/base/dd.c:661
- __driver_probe_device+0x19a/0x340 drivers/base/dd.c:803
- driver_probe_device+0x58/0x250 drivers/base/dd.c:833
- __device_attach_driver+0x2c8/0x4b0 drivers/base/dd.c:961
- bus_for_each_drv+0x252/0x2e0 drivers/base/bus.c:500
- __device_attach+0x2b6/0x3f0 drivers/base/dd.c:1033
- device_initial_probe+0x9e/0xd0 drivers/base/dd.c:1088
- bus_probe_device+0x136/0x210 drivers/base/bus.c:574
- device_add+0x798/0xb40 drivers/base/core.c:3689
- usb_set_configuration+0x1ae9/0x2160 drivers/usb/core/message.c:2208
- usb_generic_driver_probe+0x9a/0x160 drivers/usb/core/generic.c:250
- usb_probe_device+0x1cb/0x3d0 drivers/usb/core/driver.c:291
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x264/0xaf0 drivers/base/dd.c:661
- __driver_probe_device+0x19a/0x340 drivers/base/dd.c:803
- driver_probe_device+0x58/0x250 drivers/base/dd.c:833
- __device_attach_driver+0x2c8/0x4b0 drivers/base/dd.c:961
- bus_for_each_drv+0x252/0x2e0 drivers/base/bus.c:500
- __device_attach+0x2b6/0x3f0 drivers/base/dd.c:1033
- device_initial_probe+0x9e/0xd0 drivers/base/dd.c:1088
- bus_probe_device+0x136/0x210 drivers/base/bus.c:574
- device_add+0x798/0xb40 drivers/base/core.c:3689
- usb_new_device+0xa29/0x1710 drivers/usb/core/hub.c:2695
- hub_port_connect drivers/usb/core/hub.c:5567 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x2a21/0x4f20 drivers/usb/core/hub.c:5953
- process_one_work kernel/workqueue.c:3275 [inline]
- process_scheduled_works+0xa5a/0x15e0 kernel/workqueue.c:3358
- worker_thread+0xab9/0xff0 kernel/workqueue.c:3439
- kthread+0x355/0x410 kernel/kthread.c:467
- ret_from_fork+0x49c/0xa10 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:245
- </TASK>
-usb 6-1: USB disconnect, device number 19
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,1) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,10) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,11) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,128) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,10) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,11) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,76) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,67) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,68) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,32) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,100) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,114) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,105) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,118) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,101) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,114) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,32) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,117) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,110) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,108) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,111) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,97) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,100) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,101) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,100) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,46) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,8) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(2,9) failed
-
-<<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
-
-usb 6-1: async_complete: urb error -71
-usb 6-1: async_complete: urb error -71
-usb 6-1: async_complete: urb error -71
-usb 6-1: async_complete: urb error -71
-get_1284_register timeout
-BUG: sleeping function called from invalid context at ./include/linux/sched/mm.h:323
-in_atomic(): 0, irqs_disabled(): 0, non_block: 0, pid: 16, name: ktimers/0
-preempt_count: 0, expected: 0
-RCU nest depth: 3, expected: 0
-7 locks held by ktimers/0/16:
- #0: ffffffff8d3ff980 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x38/0x410
- #1: ffffffff8d558ce0 (rcu_read_lock){....}-{1:3}, at: __local_bh_disable_ip+0x38/0x410
- #2: ffff88806b22ea20 (&base->expiry_lock){+...}-{3:3}, at: __run_timer_base+0x102/0x830
- #3: ffffffff8d558ce0 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x18d/0x360
- #4: ffffc9000010faa0 ((&scan_timer)){+...}-{0:0}, at: call_timer_fn+0xc5/0x520
- #5: ffffffff8e16f5d8 (pprt_lock){+.+.}-{3:3}, at: panel_scan_timer+0x4f/0x1980
- #6: ffffffff8d558ce0 (rcu_read_lock){....}-{1:3}, at: rt_spin_trylock+0x117/0x2b0
-CPU: 0 UID: 0 PID: 16 Comm: ktimers/0 Tainted: G        W    L      7.0.0-rc1 #1 PREEMPT_{RT,(full)} 
-Tainted: [W]=WARN, [L]=SOFTLOCKUP
-Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack+0x21/0x30
- dump_stack_lvl+0xee/0x150
- dump_stack+0x19/0x20
- __might_resched+0x35b/0x4d0
- __might_sleep+0x41/0x70
- __kmalloc_cache_noprof+0x7f/0x5c0
- submit_async_request+0xd2/0x9c0
- parport_uss720_write_data+0x70/0x130
- panel_scan_timer+0x164/0x1980
- call_timer_fn+0x148/0x520
- __run_timer_base+0x5e9/0x830
- run_timer_softirq+0xc5/0x180
- handle_softirqs+0x1c7/0x690
- run_ktimerd+0x70/0xb0
- smpboot_thread_fn+0x547/0xa20
- kthread+0x355/0x410
- ret_from_fork+0x49c/0xa10
- ret_from_fork_asm+0x11/0x20
- </TASK>
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,0) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: get_1284_register(1) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: set_1284_register(0,63) failed
-usb 6-1: submit_async_request submit_urb failed with -19
-usb 6-1: get_1284_register(1) failed
-usb 6-1: async_complete: urb error -104
-
-<<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
+T24gV2VkLCBKdW4gMjQsIDIwMjYsIFBlbmdwZW5nIEhvdSB3cm90ZToNCj4gVGhlIFNUIERXQzMg
+Z2x1ZSBkcml2ZXIgdHJlYXRzIHRoZSBwb3dlcmRvd24gYW5kIHNvZnRyZXNldCByZXNldA0KPiBj
+b250cm9scyBhcyByZXF1aXJlZCByZXNvdXJjZXMsIGJ1dCBpZ25vcmVzIHJlc2V0X2NvbnRyb2xf
+ZGVhc3NlcnQoKQ0KPiBmYWlsdXJlcyBiZWZvcmUgcG9wdWxhdGluZyB0aGUgY2hpbGQgRFdDMyBk
+ZXZpY2UuICBSZXN1bWUgaWdub3JlcyB0aGUNCj4gc2FtZSBmYWlsdXJlcyBiZWZvcmUgcmV0dXJu
+aW5nIHN1Y2Nlc3MuDQo+IA0KPiBDaGVjayB0aGUgZGVhc3NlcnQgb3BlcmF0aW9ucyBhbmQgdW53
+aW5kIHRoZSBhbHJlYWR5IGRlYXNzZXJ0ZWQNCj4gcG93ZXJkb3duIHJlc2V0IGlmIHNvZnRyZXNl
+dCBkZWFzc2VydGlvbiBmYWlscy4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFBlbmdwZW5nIEhvdSA8
+cGVuZ3BlbmdAaXNjYXMuYWMuY24+DQo+IC0tLQ0KPiAgZHJpdmVycy91c2IvZHdjMy9kd2MzLXN0
+LmMgfCAxOSArKysrKysrKysrKysrKystLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwgMTUgaW5zZXJ0
+aW9ucygrKSwgNCBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9k
+d2MzL2R3YzMtc3QuYyBiL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1zdC5jDQo+IGluZGV4IDVkNTEz
+ZGVjYWFjZC4uYmJhYmZkOTMzNzk4IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL3VzYi9kd2MzL2R3
+YzMtc3QuYw0KPiArKysgYi9kcml2ZXJzL3VzYi9kd2MzL2R3YzMtc3QuYw0KPiBAQCAtMjQyLDcg
+KzI0Miw5IEBAIHN0YXRpYyBpbnQgc3RfZHdjM19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNl
+ICpwZGV2KQ0KPiAgCQkJCSAgICAgImNvdWxkIG5vdCBnZXQgcG93ZXIgY29udHJvbGxlclxuIik7
+DQo+ICANCj4gIAkvKiBNYW5hZ2UgUG93ZXJEb3duICovDQo+IC0JcmVzZXRfY29udHJvbF9kZWFz
+c2VydChkd2MzX2RhdGEtPnJzdGNfcHdyZG4pOw0KPiArCXJldCA9IHJlc2V0X2NvbnRyb2xfZGVh
+c3NlcnQoZHdjM19kYXRhLT5yc3RjX3B3cmRuKTsNCj4gKwlpZiAocmV0KQ0KPiArCQlyZXR1cm4g
+cmV0Ow0KPiAgDQo+ICAJZHdjM19kYXRhLT5yc3RjX3JzdCA9DQo+ICAJCWRldm1fcmVzZXRfY29u
+dHJvbF9nZXRfc2hhcmVkKGRldiwgInNvZnRyZXNldCIpOw0KPiBAQCAtMjUzLDcgKzI1NSw5IEBA
+IHN0YXRpYyBpbnQgc3RfZHdjM19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0K
+PiAgCX0NCj4gIA0KPiAgCS8qIE1hbmFnZSBTb2Z0UmVzZXQgKi8NCj4gLQlyZXNldF9jb250cm9s
+X2RlYXNzZXJ0KGR3YzNfZGF0YS0+cnN0Y19yc3QpOw0KPiArCXJldCA9IHJlc2V0X2NvbnRyb2xf
+ZGVhc3NlcnQoZHdjM19kYXRhLT5yc3RjX3JzdCk7DQo+ICsJaWYgKHJldCkNCj4gKwkJZ290byB1
+bmRvX3Bvd2VyZG93bjsNCg0KVGhpcyBzaG91bGQgZ290byB1bmRvX3NvZnRyZXNldCBpbnN0ZWFk
+IG9mIHVuZG9fcG93ZXJkb3duLg0KDQpCUiwNClRoaW5o
