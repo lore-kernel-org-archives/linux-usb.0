@@ -1,35 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7CF3E1696;
-	Fri, 26 Jun 2026 08:21:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1382A3D6692
+	for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 08:22:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782462114; cv=none; b=blBsEee2j92gRf+Uv7CeWnDVNFiT14GF5FTJ1P93O8+SIFCu3gm1QCZ0r5tn4EcV1YaR2l2CssfAOtNE3f0R8cwYVu23XtAvuvir44b+gTvLCjPTT+zYqP8lHg4tkkCYOfC2d3oVR9YpoWCRldg5cq6PkZNaQIUnOnGI1wY+OK4=
+	t=1782462181; cv=none; b=HTg5ZGxO7GmTTZ3ansmatNBw72A+2ASBsfZL+vRZSle3XdlqigPr8yhysbj93plvaNV7ar/T657Nintt8YUjCzpUVIOCpocOVDpuUj92r2rjBYAGxBew6m2rZMEqDG9a93JIc9ZQToDebieMGa3/Hts1aTz9o6fB4uk2zKOkNGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782462114; c=relaxed/simple;
-	bh=/4mtzQsCbxNw+zby24mrqKFAWlXw3OO99jVq6qbqJHU=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=X7UCXmfpqRRnQ0FV9n2VmXE+DT8iSoo+pQWTO50LFQh0QoAz9m+PpVsycnWRl0IiRRXQbXWlGHOSh6IM0wMaQZhg15tCS4pIU+SyyrMhBMX2xpyzQrhm4oJeOp2LkYfgPQjL8e7Lrmm/g0MwE6gjKiOr9KdRP9auSkiuBtOqTqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DLkaMOoe; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782462181; c=relaxed/simple;
+	bh=OGlsf+7HqBjuGPfFGCf43g/lveRlVL3UB1JBJicsZSg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ujMzn81QNoEAAetvTN/oIFbcbDD0mRODlnZq1Kori10cQgdkkVxuyGiY5Wxx+xc4qNECXZQOpUGYxx4NUNZj1vUABn4nOyQGmSYoDuM9qL0SrGJhKh8Et6sUmadx1BEGhlMP03ImUwljyi7gfHHK919BfjvAAvKmAw1LwJhzYXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jdzaD0k7; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DLkaMOoe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBDAC1F00A3A;
-	Fri, 26 Jun 2026 08:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782462112;
-	bh=7N6xFs6HldNaJtHXB+1so7kMQ4CsatgFOfKvzUpfQ6c=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=DLkaMOoe7jjLq0zrWVM7g5T3weWBVn0GKvdUrsWL1NS6Qs/YGb/jSI/OCz0xvfzqS
-	 Qaym8bn+YQ7Yv3mFvqa3JZPMQyeTT1JkI61/DRV2mqoJOQ6RCZahCcrN/sZ0P41GxN
-	 lQMkVEyzffwbljfjI4cRAmJFH6TA/MXXocYqdJ0r2fyaFbY7MUFYbzOT2mQ1bO9ESQ
-	 aXENlZ4+KidZLyWpFEQCN/4TQ2SdvjPzYQw0gZqKyFHWnTN9MR5o7FqI9NLTieKhiJ
-	 eEE7hw/g70YQVjdOMlBaDUGyYwudw/LY4An0H/3ioGWkJoeS59H947CE7rYTKgUHWr
-	 baMoIKRFCt04w==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 199D639389E8;
-	Fri, 26 Jun 2026 08:21:41 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jdzaD0k7"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-37de961d1bfso663937a91.0
+        for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 01:22:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1782462179; x=1783066979; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HzVIQilP3ckL+D+ToPJDoqRVs2r93lzUUB6zieccihg=;
+        b=jdzaD0k7oobBZiY993Izdc7oC0hPRnpE1w1kzyF1GLkWpGakZ3EWv7dyp2s+ZFDofK
+         WU7MEgrDXTzHtpOgu2Uh8z20Y4cq8TVgpqyRJQn8UfskCdl3IZgtCyvkf9ULcuQ0Vmu2
+         qRt5TFO1PoOVII/CP3nDX4AGswuHRhcUIOVy0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782462179; x=1783066979;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HzVIQilP3ckL+D+ToPJDoqRVs2r93lzUUB6zieccihg=;
+        b=cNo8PPhb0ONNMy9pZ07dZNmtlteO06XLmI+1f32QCsGNHl+42kqOdOIMIw9Dk08idb
+         /P6FTurkUk53A7YMkaOaCIgmTRrDGKzk5+IT4xfsyfj3/RVMbxuW3RbEUyth39aHlLhW
+         KLTvYxCoCi8p4ieWu1HuHaqKjbk/S3xBQNe2auQ+o2g9iBpAaoXq7tu/7YVG2xh0uL3B
+         DBiJIwXdqdUYsvfkGybO+FAetypK9WKHGx2flY8HXHtS4xk8PuGySoCbWeuOkc3UykmU
+         8M6AGwy8VNn1uQaclDPzrmP8UBmy8ZJjcI3xdljdynSjJblPjkm1XyMtL927cIhqnTP2
+         XPSg==
+X-Forwarded-Encrypted: i=1; AHgh+RrJTlhMHcjnsUel5njoFccHgyeyI3SHmKrILhhjfYVl/vaC93Ww7q5DAWM0uIQPilg0Op958B5ET1M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOkkJSZWmVyZDLeooq3h3zj6B+y/D7GoV4Ug/sNsNoxf6AsAxQ
+	vDuxX5WasgegCS9sgTi6+X9++DEEzQiR9ZXnDalRNq6P79nEILlG2lOrwDUR6b0ic2UbXUVWLAA
+	Ewbw=
+X-Gm-Gg: AfdE7cnh8fNGoh41N4+qUrf+StePfDEhtt7jhfa1ahPlnoQjJqE/dTjI6QeRejp/A32
+	7+CW+lnVXnM5mlauE4mw+2bek1Q69YzjT8zpKxaxIaAEywNcwyrdzG68yc/3HjTvbE9aYOaEqyx
+	Klea9aHYb9IYcq7l412zWQcsRFa+NkweybrPe3gjZziFZsP7nVEWFs7ji2aXcbiuPGkbxOC8pn0
+	dQtUDZSDYYUbYKIWneOylSiuzIPN2/wBkVmE+K4pP+qTcO4cb9BM/Z1r0elD0rkQrOEpgDAA9+O
+	xRYKpUVQkyIJASup8eXeTDVrQXFLFSu5cYrA9kVEtY3AnvmVBaVEHmNuMPtIJTxezwlJxPFeZwb
+	ont1WXLwuyaQmRs/AexGO5h/mFx9RotBEtnMOUAqc/jiaVD581TG/H/xPMFR8WUWPGgiyz70LSs
+	HywQrqppUXWHgL7hMnZEBPXlvZQQMo+k/4a92tLL8Wy+k3dqbLobyeapfxh8XM2iHMqb6ohwc=
+X-Received: by 2002:a17:903:2a8f:b0:2c8:218d:4373 with SMTP id d9443c01a7336-2c8218d4499mr8132345ad.10.1782462179430;
+        Fri, 26 Jun 2026 01:22:59 -0700 (PDT)
+Received: from fshao-p620.tpe.corp.google.com ([2a00:79e0:201d:8:2593:3e55:e36c:f47d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f64dcc30sm34619185ad.66.2026.06.26.01.22.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2026 01:22:58 -0700 (PDT)
+From: Fei Shao <fshao@chromium.org>
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Fei Shao <fshao@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH 0/2] usb: mtu3: fix system suspend failure and improve gadget PM
+Date: Fri, 26 Jun 2026 16:21:50 +0800
+Message-ID: <20260626082218.2750459-1-fshao@chromium.org>
+X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -37,69 +73,31 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v5 0/9] driver core: Fix some race conditions
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <178246209959.3816447.5329631417058038374.git-patchwork-notify@kernel.org>
-Date: Fri, 26 Jun 2026 08:21:39 +0000
-References: <20260406232444.3117516-1-dianders@chromium.org>
-In-Reply-To: <20260406232444.3117516-1-dianders@chromium.org>
-To: Doug Anderson <dianders@chromium.org>
-Cc: linux-riscv@lists.infradead.org, gregkh@linuxfoundation.org,
- rafael@kernel.org, dakr@kernel.org, stern@rowland.harvard.edu, aik@ozlabs.ru,
- johan@kernel.org, edumazet@google.com, leon@kernel.org, hch@lst.de,
- robin.murphy@arm.com, maz@kernel.org, aleksander.lobakin@intel.com,
- saravanak@kernel.org, akpm@linux-foundation.org, Frank.Li@kernel.org,
- jgg@ziepe.ca, alex@ghiti.fr, alexander.stein@ew.tq-group.com,
- andre.przywara@arm.com, andrew@codeconstruct.com.au, andrew@lunn.ch,
- andriy.shevchenko@linux.intel.com, aou@eecs.berkeley.edu, ardb@kernel.org,
- astewart@tektelic.com, bhelgaas@google.com, brgl@kernel.org,
- broonie@kernel.org, catalin.marinas@arm.com, chleroy@kernel.org,
- davem@davemloft.net, david@kernel.org, devicetree@vger.kernel.org,
- dmaengine@vger.kernel.org, driver-core@lists.linux.dev, gbatra@linux.ibm.com,
- gregory.clement@bootlin.com, hkallweit1@gmail.com, iommu@lists.linux.dev,
- jirislaby@kernel.org, joel@jms.id.au, joro@8bytes.org, kees@kernel.org,
- kevin.brodsky@arm.com, kuba@kernel.org, lenb@kernel.org, lgirdwood@gmail.com,
- linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-cxl@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-usb@vger.kernel.org,
- linux@armlinux.org.uk, linuxppc-dev@lists.ozlabs.org,
- m.szyprowski@samsung.com, maddy@linux.ibm.com, mani@kernel.org,
- miko.lenczewski@arm.com, mpe@ellerman.id.au, netdev@vger.kernel.org,
- npiggin@gmail.com, osalvador@suse.de, oupton@kernel.org, pabeni@redhat.com,
- palmer@dabbelt.com, peter.ujfalusi@gmail.com, peterz@infradead.org,
- pjw@kernel.org, robh@kernel.org, sebastian.hesselbarth@gmail.com,
- tglx@kernel.org, tsbogend@alpha.franken.de, vgupta@kernel.org,
- vkoul@kernel.org, will@kernel.org, willy@infradead.org,
- yangyicong@hisilicon.com, yeoreum.yun@arm.com
 
-Hello:
 
-This patch was applied to riscv/linux.git (fixes)
-by Danilo Krummrich <dakr@kernel.org>:
+This series resolves system suspend failures and improves power
+management in the MediaTek MTU3 USB driver when operating in gadget
+mode:
 
-On Mon,  6 Apr 2026 16:22:53 -0700 you wrote:
-> The main goal of this series is to fix the observed bug talked about
-> in the first patch ("driver core: Don't let a device probe until it's
-> ready"). That patch fixes a problem that has been observed in the real
-> world and could land even if the rest of the patches are found
-> unacceptable or need to be spun.
-> 
-> That said, during patch review Danilo correctly pointed out that many
-> of the bitfield accesses in "struct device" are unsafe. I added a
-> bunch of patches in the series to address each one.
-> 
-> [...]
+Patch 1 fixes a system suspend failure when connected to a host by
+restricting the active connection -EBUSY check to runtime autosuspend
+and performing a soft disconnect.
 
-Here is the summary with links:
-  - [v5,7/9] driver core: Replace dev->dma_coherent with dev_dma_coherent()
-    https://git.kernel.org/riscv/c/3e2c1e213ac2
+Patch 2 improves PHY wakeup handling by conditioning setup on
+device_may_wakeup() and restricting it to host mode or runtime suspend.
 
-You are awesome, thank you!
+Regards,
+Fei
+
+
+Fei Shao (2):
+  usb: mtu3: allow system suspend during active gadget connection
+  usb: mtu3: condition PHY wakeup for host mode and runtime suspend
+
+ drivers/usb/mtu3/mtu3_core.c | 11 ++++++++++-
+ drivers/usb/mtu3/mtu3_plat.c |  3 ++-
+ 2 files changed, 12 insertions(+), 2 deletions(-)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.55.0.rc0.799.gd6f94ed593-goog
 
