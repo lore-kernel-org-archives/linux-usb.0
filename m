@@ -1,62 +1,61 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C88D3E44EA
-	for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 08:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A523E559A
+	for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 08:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782462183; cv=none; b=vBRy5T4dRhsP+n9J1EGWrEXViuzRCMhxOw6MtpnIzLs1XUdZ873td5OaRcbZi2EhZohtsBJidPuLAYTarTJJKttncSw5k+/X1CVVnuw3zpDqrpmvAhaGYd2Z6xt/8ZLL5ICB2r56ZvK1qXmOshflUPZW06JI590MLMBEzwUus94=
+	t=1782462186; cv=none; b=M8vWsYrZuhTWCNOPRQvOYvPMr0PyAQH6kwcFlOmBu8DWKshSymMt303aHDeFKPo/XexgvdDt8/3eHi9gqvkSufwjD+AkFmUV7uIpqcfHbu1ZWVtMSGhB0wgYrYsIa4Orq+MIHOIPi9u+SC6Jh8njhK8K5uaUUN6DCeFQV44ovlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782462183; c=relaxed/simple;
-	bh=W1w472VHFu9Kg4ZZoVNc2CTiAuOu/6asyIujO+CxZqM=;
+	s=arc-20240116; t=1782462186; c=relaxed/simple;
+	bh=gOA5yml4+Yws9KKNInNvCnm18pOTkkdcEyQ+aZ8d3oM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p4w8sxdfBfZVZGeuM2EBVqnEM3u2oaqnIL85c5jlVeOlsGNhsEFZNQiP4ZTfN2M5qLdMjWxrhXldnAr/oYcy1uP2PqdPlK0hZUyR68ORUDyuMVEgLUG/VB2KsLMTTl5Yq3Dh3ieXgSkXQuaxf59k8UMVV6LEUR2UqxN5vmm9hFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=B/mryCWJ; arc=none smtp.client-ip=209.85.214.170
+	 MIME-Version; b=o6ngIZ29hpbufw4IYbnoOn7Ox2bicyKHnE1Fs/BBuIzmwFIr1B0vQh++HShuUBaR3Jz2NVtUsHyw/71+QaeOaAk4ki2h43ml4WDz8eHZh5maquRLWFnPGYcvffUfbW4zt4rmPY8ypjSl5jEVZeHf1bs/bKiKJPL2a4Y9WuRgbCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bHkFrS8M; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="B/mryCWJ"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2c6c57c5bcfso7510745ad.1
-        for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 01:23:02 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bHkFrS8M"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c7f11150cfso4651145ad.1
+        for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 01:23:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1782462182; x=1783066982; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1782462184; x=1783066984; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WV5yYAQhu5LuQKYBaN1uWFLZmyuh5tReudUkrHR0RRI=;
-        b=B/mryCWJLs5RLcdO0YmLHIE++cbzQAy9u/mGHk2WcLN/XQatHGVLcEoNmmhZnhH670
-         QZbVkaCUzqo2Wkg9xS3yRAzpDNDdWZSwujNWVX2bvWYqhJbMl6I0zvJsJeE1AvflyffK
-         5ZSiEK95Hsg9hTebm7V0aVyjyTxn8hvmXLuAE=
+        bh=xYGUQ3BK82lNxZT2T8m+B+M94mEtALcyUvit8Pk1ycM=;
+        b=bHkFrS8MeYtlGmJLwWpG6IsMJbDZrsLgVCznFNXt+0fE7iT+0aCKIKUlrIru/JLYPi
+         Iq9oP2xo9R0rZaGyApsWnHfOua5yl5heAGyE25cAMTWa7UpmDEEsjm2mJZXoXm1+RoJy
+         nYkABbOtXTU2A4Z+VOVTqHRwIEoPQxoWyoB5A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782462182; x=1783066982;
+        d=1e100.net; s=20251104; t=1782462184; x=1783066984;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=WV5yYAQhu5LuQKYBaN1uWFLZmyuh5tReudUkrHR0RRI=;
-        b=ksgaqAVTqNPnI26bN8wQwGz5ER9ipH3a+UsiTdhJcP5Bui4gUbqba+io3aut7zSglf
-         Ux3hjJVXRoH3lhhQaReAuuhyTHSjiNR1b3eELCMa5dzJ6+PlJbCwLZz1b99lh1Cxx61H
-         JVDHGYCgzaWGWySygxxtJ3IkiYL4nKcRzmQ6+Gf2ElnLgCm7RJjAU7BwuHu3vQ4vtuqe
-         DyynQTa95xGkzb+a/hU3ZEAEWYvWGvmoUcXEDiy/0dT7DoXZEDoQvT4b3tdoK6PaWR76
-         DR9StsXCBveQIKbihczsiBfkOMu3CXSCXBGtKce7I4Q+X8XRARvWwaJik0NnjdfCum2b
-         bcrA==
-X-Forwarded-Encrypted: i=1; AHgh+RoZETilvcZxmr3JK54zaplK2f553JRLKkUwZeoyQ2aZushVhfgkdH+GMqAe+PJE9fg0EVT07/YZVt4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1qSD17W91kfPI1C8DshNBYPCWRHDB8btUVbKMipeAsL8ymgHu
-	oHqombeldGCsuWidiWY2xKYkkgNAKq2c2ZRGyg237l2Ix4vuxqQbEeMUXBvV7w1RhITFsXTVLYt
-	Z7Dw=
-X-Gm-Gg: AfdE7clG70sk3p7UM15p5+hUnwK+sTznu5ob015sGK5EnOD7ghOPhgJzAn6IdzRELrU
-	kBwuMEcrqWeOx0HhXW8ZGzwNA6v4IWoIjuDM0d8+ruDXWOuNR0q6L+nBUc6OZJBTqLxnZYfrncd
-	GQ6HrVV9Aji3hEKHCFgR/0enHY5y+r434n9rlc5ckeQImFrYHWv5py+nSq/x/WjBf5kS+DZ+/PF
-	iWxK05uU6DbUenu5Lp3HzfeA/fH33cU2V9iD/aDLPNHkocKQpGhMw7mPkf0GlpOHV+AEtKsbk0h
-	yXgO3VEdS5OUxE/VNjr3Wquymftm+uYZRL70hH8ch9Dl6ucf/1wwPEhYZFdXTpapfdXEjfBrHCW
-	M+TtdjUV3q6uSVmIZ9ufTURPpa3kXJJ0HRvmpR1mk6IrQuLb/hykf9+4r+sy1aYq1boHNKQWR+g
-	4ZVCX61wIbv8WOEoZ+IStEOkOILokEWCr4iXbIe9oFdymsfB8VTikUdrAHu91C0RbuZtVl1liu7
-	G4udp4Wmg==
-X-Received: by 2002:a17:903:1ce:b0:2c2:75c4:4b0f with SMTP id d9443c01a7336-2c7fc70a32dmr65200675ad.2.1782462181768;
-        Fri, 26 Jun 2026 01:23:01 -0700 (PDT)
+        bh=xYGUQ3BK82lNxZT2T8m+B+M94mEtALcyUvit8Pk1ycM=;
+        b=hsdR+fkn/tPGYABgYmIxBZWE0u/xrN2lDsjT6nyP//i6u3q1yd4fpFsUZj2A63HO3l
+         oT6Fu235gAkk2J9BP+bJ5Cv4ITmQG9e/alzXXRKLyb330+ALKtAoqVlGwq1CwbncHjvP
+         zk94j+yXKpQwiz16BBKOVDd8LUaLFo8u6S5wYwQcEr8qe4niLSVbGBZm4JvrpFR+xf+J
+         7/N2MGxnhZHw2woxJSJCj91q6q0OVW4tNgA2vtBPPArjqbh2OGb/HXKM4Y8IB3BVjGoH
+         3RjmeYUvmtfklL8l6TtQJGr4PxUi1ZOjX3F0sOcQYI74Ajll8y/b6jw1+yS7GsY+s/pr
+         fgOg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp39eYr1F8g8Evvzu5yyZBA+LyE/iWUBag5a6Fs2iVKAyr6YMOeVCubXm/KraNSkTr5o96fQJczjwM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyilEXAJDD3AaRVJfAmiJ6HYh9vkAM3CdVO3ZNlAF9SMFdBAJw4
+	Yx1kr1eJlJ5En3tsU8xi3GleAJTsa/2INGIGwdlNncfwP/G8SkXeQ8UIj1xIk5AdmOvgShOsLRX
+	yhLE=
+X-Gm-Gg: AfdE7cnBDLSkFoZKCREt9h5+CduAOZltK/yNXSMnO0H8VqQqaiJQF5rTPCiHlzFQkOJ
+	XUI/f0H6mEcgqv2ItEnzhoEOPbcOaNXHIyFSY2qs5ZEAJPDNIA2xyNAbacZ8XgQhZhFyPOuJqdo
+	2irTk+8bgaTVpEqFPbzNxyfsOGnDrBzHzmShq6JIzObQVKFFssI/4Ye/dSKzsSig49WA3JizOqb
+	9vhGjBp1tvn7x6FSCtaHNHZE0hmddUwOU3odwJTpykBT/OT3c+mVsUAvcz/pU53ZY3OYUpk92El
+	o2zXQghwlSJCfu80DcyqCylgDspWklil8GdZ8tbSkpvpsytJpA55c3F8RgI63KjEYgcZs6UJ8EE
+	AOkogih1qOxHUOeUgrkGhlQ+Ur8WAd9Lm1Oxl9Ufrc2D+VIOem8T3m34qD+/TNbtNBeMwKIOPEC
+	VbFRE07t9VR22TOl4NmDwfFxxsaQmmRdslQde2JOXOOLQvQeyBLMRv+2m/Y5Tg3sB8MvHDVOo=
+X-Received: by 2002:a17:902:d2c8:b0:2c7:e823:6834 with SMTP id d9443c01a7336-2c7fc657e3dmr59806355ad.8.1782462184290;
+        Fri, 26 Jun 2026 01:23:04 -0700 (PDT)
 Received: from fshao-p620.tpe.corp.google.com ([2a00:79e0:201d:8:2593:3e55:e36c:f47d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f64dcc30sm34619185ad.66.2026.06.26.01.22.59
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f64dcc30sm34619185ad.66.2026.06.26.01.23.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 01:23:01 -0700 (PDT)
+        Fri, 26 Jun 2026 01:23:03 -0700 (PDT)
 From: Fei Shao <fshao@chromium.org>
 To: Chunfeng Yun <chunfeng.yun@mediatek.com>
 Cc: Fei Shao <fshao@chromium.org>,
@@ -65,9 +64,9 @@ Cc: Fei Shao <fshao@chromium.org>,
 	linux-kernel@vger.kernel.org,
 	linux-mediatek@lists.infradead.org,
 	linux-usb@vger.kernel.org
-Subject: [PATCH 1/2] usb: mtu3: allow system suspend during active gadget connection
-Date: Fri, 26 Jun 2026 16:21:51 +0800
-Message-ID: <20260626082218.2750459-2-fshao@chromium.org>
+Subject: [PATCH 2/2] usb: mtu3: condition PHY wakeup for host mode and runtime suspend
+Date: Fri, 26 Jun 2026 16:21:52 +0800
+Message-ID: <20260626082218.2750459-3-fshao@chromium.org>
 X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
 In-Reply-To: <20260626082218.2750459-1-fshao@chromium.org>
 References: <20260626082218.2750459-1-fshao@chromium.org>
@@ -79,51 +78,34 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When operating in gadget mode connected to a USB host, system suspend
-fails with -EBUSY because active peripheral connections block suspend
-entry.
+Host bus activity during gadget mode system suspend can trigger
+unexpected system wakeups via interrupts because PHY wakeup is enabled
+unconditionally.
 
-Fix this by restricting the -EBUSY check to runtime autosuspend
-(PMSG_IS_AUTO). For system suspend (!PMSG_IS_AUTO), perform soft
-disconnect to disconnect from the bus and allow MAC sleep.
+Improve the suspend flow by conditioning PHY wakeup setup on
+device_may_wakeup() and restricting it to host mode or runtime suspend
+to ensure proper wakeup handling in gadget mode.
 
-Fixes: 427c66422e14 ("usb: mtu3: support suspend/resume for device mode")
 Signed-off-by: Fei Shao <fshao@chromium.org>
 ---
 
- drivers/usb/mtu3/mtu3_core.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/usb/mtu3/mtu3_plat.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
-index 66dbfe1705d5..a40bf5bad2d5 100644
---- a/drivers/usb/mtu3/mtu3_core.c
-+++ b/drivers/usb/mtu3/mtu3_core.c
-@@ -1037,9 +1037,14 @@ int ssusb_gadget_suspend(struct ssusb_mtk *ssusb, pm_message_t msg)
- 	if (!mtu->gadget_driver)
- 		return 0;
+diff --git a/drivers/usb/mtu3/mtu3_plat.c b/drivers/usb/mtu3/mtu3_plat.c
+index cc8a864dbd63..b4f4c776adb9 100644
+--- a/drivers/usb/mtu3/mtu3_plat.c
++++ b/drivers/usb/mtu3/mtu3_plat.c
+@@ -544,7 +544,8 @@ static int mtu3_suspend_common(struct device *dev, pm_message_t msg)
  
--	if (mtu->connected)
-+	/* Prevent runtime suspend when active connection exists */
-+	if (mtu->connected && PMSG_IS_AUTO(msg))
- 		return -EBUSY;
- 
-+	/* Perform soft disconnect for system suspend */
-+	if (mtu->softconnect && !PMSG_IS_AUTO(msg))
-+		mtu3_dev_on_off(mtu, 0);
-+
- 	mtu3_dev_suspend(mtu);
- 	synchronize_irq(mtu->irq);
- 
-@@ -1055,5 +1060,9 @@ int ssusb_gadget_resume(struct ssusb_mtk *ssusb, pm_message_t msg)
- 
- 	mtu3_dev_resume(mtu);
- 
-+	/* Restore soft connect for system resume */
-+	if (mtu->softconnect && !PMSG_IS_AUTO(msg))
-+		mtu3_dev_on_off(mtu, 1);
-+
+ 	ssusb_phy_power_off(ssusb);
+ 	clk_bulk_disable_unprepare(BULK_CLKS_CNT, ssusb->clks);
+-	ssusb_wakeup_set(ssusb, true);
++	if (device_may_wakeup(dev) && (ssusb->is_host || PMSG_IS_AUTO(msg)))
++		ssusb_wakeup_set(ssusb, true);
  	return 0;
- }
+ 
+ sleep_err:
 -- 
 2.55.0.rc0.799.gd6f94ed593-goog
 
