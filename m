@@ -1,47 +1,47 @@
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AF43CEB8A;
-	Fri, 26 Jun 2026 06:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 080AC3D88E3;
+	Fri, 26 Jun 2026 07:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782456428; cv=none; b=ITjTZNC1dNY6duVprthauUSWGlmIRPXVDVKhaFNahOO1MuMuEgXfv2a6Kn5pGLQvIFD0D1UgQ3klb1iTYvSeWjcO54mH4Mbukl2PC1SK4lJ1DfPx434pBPUDbb4vbX5Yw/BwFQW2/Q2Bzh9MDtv8RXDQgBg5bVBAnrN6NcxfXOQ=
+	t=1782457617; cv=none; b=etdYcuYSDl1v7nTVlzreN5ucIs/zb1ZGH3DgJNIWJLuuzoy++0Zpnc3S6UskSI6uQyUeoNm3wsrtj1Oe8fIdqnV5GwoO36O9Gptuk+oeVHt43uH9Fsk6LspakYcTSeBfm0s4P5uG69KIOLimh64w5WqMz6YEplrzu8xVmMgaFjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782456428; c=relaxed/simple;
-	bh=8V37NypHK7R6XvN+Th5Z4WG2AVo1np0/RNX4wWXKg74=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XFwXZDeAJJvaDVLU2IhhMEKv15ho8UfXMhw5SwUs8muGS0D636JsA3loZ+BvSCy69A94tyOyyPflHvLZdCqWI3E2bXCTygBct98Piqz6zIsaVWohuYqBi6M2dZXobFg7ykMGhsvmKUA3kUW4B/NNJzRaGSiVkbf2PVvdgyOVK54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=fEEpb8/1; arc=none smtp.client-ip=54.206.34.216
+	s=arc-20240116; t=1782457617; c=relaxed/simple;
+	bh=Nb9xg8I7O5dI9Quw5ZIkI7Mjl17b1sJ8iAmhI9Cf1tg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uG3iGC5MF7qtjm2V3af/RNqF5L+pTYcZI1TODlm6smbHhaLG+jp5V0ooAEuZTihRcLkin/IjVu/NwgHlzCqYFk5d+F0l4OEdK+kVG5Z145Z5PgSxZjMm+akeddUb+XgXXShsFpjlzlkZUxg3SQ+ZQS22Z8wLxfusn9vcn476YZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=e4nlL3id; arc=none smtp.client-ip=54.254.200.128
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="fEEpb8/1"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="e4nlL3id"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1782456396;
-	bh=tnLnFYCtOzBz6nmdK/bR6bVt53nUxSinAHQUyvhZLsE=;
+	s=onoh2408; t=1782457589;
+	bh=Y4W/r58Q3W/dWz2m7sS0Ii3kXhsGKStDl7s2/hoHkxQ=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=fEEpb8/1XCYZVTlSKD21snmG7GduqWjOyQKLlrj6SpfPjxBdz+/F6mcrYMTvgSHD0
-	 5gOO8dQFJojJlvqrI+RQjutkT0uquYQ5h/o5yzfQ2mSWZw6im8KMfVF3yHTC1lBiZS
-	 6yiVRsY6dIIpyA2ThbLJBlsZvp1bSgRaTarUaiYM=
-X-QQ-mid: zesmtpgz3t1782456380tc9da7d66
-X-QQ-Originating-IP: DGVO9sqbos913dc5uCpwEpjkfXxzYnQOZ3faqwyBH/E=
+	b=e4nlL3idc29w8pWdKLa025YG9KYcGH+NvY2ybfze5VPZ2Qzb4I2nWKdFveiofatKu
+	 W8L/cGx4RcwrGqdBu7jd+uZ4RTIlC3c7Df0T1ZgOt1VUcuF/+WRz6YAXF168GWUQYo
+	 b0Yaiq9U1vA+O1/v/eJcwh0Sp3EbUMMSHPBj/ZuA=
+X-QQ-mid: esmtpgz12t1782457571ta26b18e1
+X-QQ-Originating-IP: BpomGn1BFIDJ/YTZkQXfR4Y5obiQ7PKkNtMtN8XtDJc=
 Received: from PEN202512010004 ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 26 Jun 2026 14:46:18 +0800 (CST)
+	id ; Fri, 26 Jun 2026 15:06:09 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 10800267307979064095
+X-BIZMAIL-ID: 11897432787244039745
 EX-QQ-RecipientCnt: 7
 From: raoxu <raoxu@uniontech.com>
-To: gregkh@linuxfoundation.org
-Cc: kees@kernel.org,
-	raoxu@uniontech.com,
-	christophe.jaillet@wanadoo.fr,
+To: stern@rowland.harvard.edu
+Cc: gregkh@linuxfoundation.org,
 	linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
 	linux-kernel@vger.kernel.org,
+	raoxu@uniontech.com,
 	stable@vger.kernel.org
-Subject: [PATCH] usb: gadget: f_printer: take kref only for successful open
-Date: Fri, 26 Jun 2026 14:46:17 +0800
-Message-ID: <80295742B820DA9B+20260626064617.4090626-1-raoxu@uniontech.com>
+Subject: [PATCH] USB: usb-storage: ene_ub6250: restore media-ready check
+Date: Fri, 26 Jun 2026 15:06:07 +0800
+Message-ID: <F42641386E32404F+20260626070607.4119527-1-raoxu@uniontech.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -51,61 +51,66 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: NQPIPhQO7YRQynSLXVtsX6rkqkJzB8l2hjaK47vtkXt9E7RUw33PZ/b8
-	+lOS8r0C8bicHYMTrWYbGc2HAIVnvWpbDlXc7oUaasIWO+97ihdhRzBpunbgWTSx39bbLv5
-	1kjy7nr2l/wb4mpCpaPKuv+K1qhV6ejNTfB6cdVfUIZq43vZ+jB4K9TyMCrCuKIvPsPlyxE
-	as/+Ew/AAa7t2CVjZ8oTxN5APbNRcFN/gAmKEErZ/mQQsrpQPy6d6fgoEyAWVtbLpc4c38O
-	g5zdTCmYfMdEotqT8LKjpns2IshUkULX15Yaz6+JnAWHoP9cv7aGGIJXRSLgN0ICcJtKmTP
-	KcylH8yJCpiAiHzPzmsMibOgaVtbVK0DhWt2/RAvhc+gEYcuulhrAmccbpm7luLuEbt4sPC
-	AqeV8g2w2u2FCzcmSPlLM1F9Z8uwaZY6kbyrIsc1i3BcfZVYrykEt6l0aPR0qsqoLiHV1sv
-	b8uzeU1pcObWsNiYCyhNqaXUR8397qlhnWXVZNayar65DtPM6dpG1nfFUsJWn+2PCz3lsAn
-	MiZgBMYA0qZoYBao6poo9mZL7PMzPX8XUG2BuEvUkzO7D8AvBr1Qqxc42OhNqOcvJ6Cvk0Z
-	BygAWkFW9S/+jotP30uL7nNGY6Dnn2OcX/I0ARL3ml7QbS5dXJd7+6hzAiDdorQou9MYt85
-	oxVCUSDUtKmrZooNxPHVdYDg1bsv3Io3R41N3Eiq/s+o5I5uXPpJXz45m/lVYZ5Xq94J/eM
-	+7byO0tB73WzHuLm3n+Jq5/TTuGyjxmJ51jk0n5TBzjDWFXGEGl/RabEjSAxB5trI/pIa31
-	2k6KKc6ZQFo3t7w+wnWOyCIQJXNjBw0CGsGGZPtY8hwcK9gLhoFC9+/W1cFx7UjaC10+s0w
-	F3NrzluhumAfhtMZUjupAt/okoeS7+WsdX3tCS75Ds3SdGMJjVCqU6Sb4yNPGdim9446Pri
-	9tucC4kyK7mEWbb+9RNlJJX3PjxW2iNhWMPyVB2G5zBaWMImQtSBIDr9ZYSUDkoguDcsWxy
-	/Dguqaqyg3/7WPijaWdxLFbPEfr/oI1sabflBZS4Rkq0GZ8h/BtYAcX61XCXMHSFuREmx8s
-	A==
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: NWujniBqiFoNpJH9EpvNOowZ6Rgffau97gsI5BJwYrqety1klK/GGQIa
+	HOwee4ZnABMm00n3nGPxxmd1PiOUaLK0vD0sbHrWE0KuCirpvykIOmiv68ZH5daZsitKVOH
+	ZDE0USsbh+mLyK1uHyGCabi9AzFKisB5f7ixudvjY0N+UGl0BioGtnZfCfD5Y6e24VNfQ6t
+	06LJ8Jgw+5MLTnbcEoeipcHVlib0KYIQV2vB98fc4drybO3G21Y7vrFyq93O6IUgNZEMxyw
+	68mcScDujSu+q4PMpK9m7a2JHNj5+98FuD2DUoxquQp4kRmK98kbz/z4Pflm4R+ChYzYcGV
+	od8cvvwU0F/WOB7vyzmosRXX8zmNu5n8vluMm8rnRot2YJ9aAxgKSnHwqQHjVlQ6Yms/YyG
+	is2p7hirw+zGT1zQ8iKKFWPBHAMK99gU8jl4yt7TwUpMzSpwpIxJrVBHqM8MX2nYlBLScIg
+	IKnSoiPRPXWL1f1wmYL0qq9p330OqOZXtzMj6ITUdr5oh+lvhPDm6ZXtqNrxNy7cqOt53gD
+	MmF7EZMAh/ZJ/N2IoYPflUU0CC9UpSzYmnjbmo52lx/rj2bYF3DDABd8wBqGjrZ2fxg+7nQ
+	DZz16tPklDLZCl+u/6lI7ObwQrn2sULuVjLmaBMK7Y6EtysJsPGB/6XisercGM/Hhw0s55A
+	QgD3abJsUygSjMgYi+QKGN4o9+I8/lvpr4/u57toUlfYXZLOtWvsNaO4Gpdaava+gXmTAEa
+	ukZEOGUZeNW5QuiKIjtjW20hVwZNh0g1K7hh9axmwwV3kKm0YPBCWf4qGY3HB+0TuBBz8PN
+	s9VFNivIiXjY4Cmfp52MW8CeWCmJ9VlkMCrjmUH2po3JjbT+LqNgoQuNG5cn+HnLzPdmE9u
+	jrRanCd48qTtOicfPHHE4gBs5yIqRQJgZ3VwAFhU5iPolorFF3LG975xbbHWpTHin2AJ6m1
+	1boQ75Kcc8JPowNBkYnd8fMZ9iT5LXiHQ/l+30wqG1Q8Oo2MqXQwjwzQ6EAj95s26QZA8hG
+	FZf5QqPQbTIy2mbYT64fX2jBQcmjWUVs6Zn5R7FdheTP7h3c9/yNAccmN3rtM6diyUfOT9X
+	w==
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
 X-QQ-RECHKSPAM: 0
 
 From: Xu Rao <raoxu@uniontech.com>
 
-printer_open() returns -EBUSY when the character device is already
-open, but it increments dev->kref regardless of the return value. VFS
-does not call ->release() for a failed open, so every rejected second
-open permanently leaks one reference.
+Commit 1892bf90677a ("USB: usb-storage: Fix use of bitfields for
+hardware data in ene_ub6250.c") converted the media status fields from
+bitfields to bit masks.
 
-Move kref_get() into the successful-open branch.
+The original ene_transport() test called ene_init() only when neither
+media type was ready:
 
-Fixes: e8d5f92b8d30 ("usb: gadget: function: printer: fix use-after-free in __lock_acquire")
+        !(sd_ready || ms_ready)
+
+The converted test became:
+
+        !sd_ready || ms_ready
+
+This is not equivalent. Restore the original semantics by testing that
+both ready bits are clear before calling ene_init().
+
+Fixes: 1892bf90677a ("USB: usb-storage: Fix use of bitfields for hardware data in ene_ub6250.c")
 Cc: stable@vger.kernel.org
 Signed-off-by: Xu Rao <raoxu@uniontech.com>
 ---
- drivers/usb/gadget/function/f_printer.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/usb/storage/ene_ub6250.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
-index e4f7828ae75d..837f753d0cae 100644
---- a/drivers/usb/gadget/function/f_printer.c
-+++ b/drivers/usb/gadget/function/f_printer.c
-@@ -363,12 +363,11 @@ printer_open(struct inode *inode, struct file *fd)
- 		ret = 0;
- 		/* Change the printer status to show that it's on-line. */
- 		dev->printer_status |= PRINTER_SELECTED;
-+		kref_get(&dev->kref);
- 	}
+diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
+index 8770de01a384..ed49a3bc859c 100644
+--- a/drivers/usb/storage/ene_ub6250.c
++++ b/drivers/usb/storage/ene_ub6250.c
+@@ -2305,7 +2305,8 @@ static int ene_transport(struct scsi_cmnd *srb, struct us_data *us)
 
- 	spin_unlock_irqrestore(&dev->lock, flags);
-
--	kref_get(&dev->kref);
--
- 	return ret;
- }
-
+ 	/*US_DEBUG(usb_stor_show_command(us, srb)); */
+ 	scsi_set_resid(srb, 0);
+-	if (unlikely(!(info->SD_Status & SD_Ready) || (info->MS_Status & MS_Ready)))
++	if (unlikely(!(info->SD_Status & SD_Ready) &&
++		     !(info->MS_Status & MS_Ready)))
+ 		result = ene_init(us);
+ 	if (result == USB_STOR_XFER_GOOD) {
+ 		result = USB_STOR_TRANSPORT_ERROR;
 --
 2.50.1
 
