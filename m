@@ -1,104 +1,91 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A01B286415
-	for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 08:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB5830D40F;
+	Fri, 26 Jun 2026 09:12:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782464249; cv=none; b=Uyk3n0jQ5UouIbA8UYpVV74FZmPRbAzr+jBMlwyhpiogNJKbHErU4HftaMtkY+M8LNBI+3nDt49fQ9uU4EtFz/3mey5hjDBvbXlu0913iBNEMilJYE0fr7xCjiauwnVNdrk9qYR/O8TUDOOgMVgDIIc+4r9nH1HzH8wgF27UN+8=
+	t=1782465158; cv=none; b=l+/Q5kz2eiiJ/ZjuX3lTQ5MsBKXv4xO5bexxXWgyxx9w9GgLzKSY7mlu/kSsYbCC02Dq6WyjfvQXSi3nKCwZ+i+oUb7cqvceu3ewF1632R5rxj0WHzygFHWoWW82Blh57k9laRYNP2vLaJCJw5lxkZUQZiM26rerqb8LkgVpJ4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782464249; c=relaxed/simple;
-	bh=uQnAjxcKadS4cMxr+8DK6HL9dEP9bGGGvyJSmmUYm84=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gpo1+Pes88iACgWgoTPBasr5lWrmJdtIJdMEH/lTorM5f1UCjxZLEsgVq1ad9lcT1Nx/wK8fgJVODBEF8dJ7+q6cUd8eFwR1iJmz36Jrt3lUROGhUiYS5HOHuD5OIishYASS2gYL+V9ZWQA9KSsSdkKa8Ko19dmgsS6O3/qAOn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sie5z9ks; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782465158; c=relaxed/simple;
+	bh=Qikoo7ekR53urE0BHRU7Wrf1gH8Awx50/AvSB60gTNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UJQG0YQt7BSj+DsHKtMYGRfM9f+nzfPPjQhyZvNyI0RkiGGLVaimNQCb30qr4Ggal6COhi74BOIcqjIKsSaFVU8P89iwm6rpqvj9pWSkfneGc0RqWvK8gU7iGVxxmnn/h9UqrkL8E2OHZOHqebOB5pbtGoVqb/E5GUw3WGp/rqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=apbuyk1A; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sie5z9ks"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-46db3c9a9e0so407360f8f.0
-        for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 01:57:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782464247; x=1783069047; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uQnAjxcKadS4cMxr+8DK6HL9dEP9bGGGvyJSmmUYm84=;
-        b=sie5z9ksbRq+/pZ+J42JTbXm5K6HLjzlpcbV1rZ9SIQgjTSayW/IG5RslYSbyd01vs
-         ZPHr9hbdZVtidMzHtjkOGnwn1kiKLgKLADYWYFegBOGOQ9ZTsfcVHCcpM3MnbZDXHKCN
-         y3waFdTExzVuL/oqj/ZWag81m+7G23j0aPU6tMsNM7fIjWBNTP+dcou1TFjpuG8aLim9
-         g29M1EqMsRP0YwRZOPZWT9liWUtbBE9YXb+i2S4hVUS8Aef+ZCHa/QLfPqi9/SlV9ACU
-         ewNqIRW2eMDiKcT1r+gI/FEAOYsVsFE5tHdb6eUUN+MWS+6Nl2n5UlolPrzhhPcqcXjF
-         /NXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782464247; x=1783069047;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=uQnAjxcKadS4cMxr+8DK6HL9dEP9bGGGvyJSmmUYm84=;
-        b=OffH6s7W7ogurkk86iUoGjE2XNMT9zMzAo6VkIaGTNIZyIELETNonpMGmb5v+J9CPf
-         qQa4IgVcuZX81D+ijOohkR575tfsEXe+PdKfmkbPSxcKq0pNdTaoHEMEwRRPQlbHpjvS
-         Mgz+L4PWDV8s4XduZ+W/8Dma6IQHmMWKia5mKEHl0TQJcHT+H2/LWCv2L5bNcznyNSqA
-         DGEn+zNUvAyp0lOQHmndybUF9YDJqfbFyQFwtqcUjVLpUOl7peJgckQcUe93dHzjzfRS
-         cgwgqVtwqJeSowfJEz8i1FzDadZaEmxd2GpbevVjVe+eaEFEc0QG1ShTAFS6O1kn8pyH
-         S7yA==
-X-Forwarded-Encrypted: i=1; AFNElJ+SFNlL6ZlevFBeevPUugpkCEfmgA4/wRn+twEXeqiFoJ2/RjHFFZZTKDbhOJkEFcOdJC4flAuxZ/Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFRtpXNVzmHW8KVVlJBSqbH9mTvgO0mlpxGEYJHM4tRD6/15SI
-	v++IzLO/CmowExB6QXDbjDaN+BraJNRH5HmLoeB1bir+SoF+xCJ9LTNcAmELag==
-X-Gm-Gg: AfdE7ckfVg+nFZSVmMOvyu/sY3kS40DdiI93VKJYFjop4JDJgiPe15UkJN7dX8v0zEb
-	hzWZQCm6bXxW6Q11yVnGMqbb9sCRhHOYBXBa3aoA//5kleibW3RbLt37unsp6Oogixw77lUxvM2
-	zBtwfQt6+cNlOHFISfGinWTQMJxAusm3+UPRCE3W9yo3BHIBszjqQcbvxsoWzmsB+Lm0MKdIehu
-	nqLQhwQkIva/thU5hwYY5/MNOMZSreT+qdP/jTxsG0/7lPZ0Aodiwjv/ztoZl0MJIBzDbkl0B2L
-	QJMMX4xsDhlVMQHL0neW16e2SCaIOvRwzdTL8AOlSF4gvQbmjZQ6CDle8tJLuhkvdOF7PE1on5E
-	cXteCxyuGJfbcai86iZJw7c8r5vIYBUMrGp/9/RsFBcCyCkfJS+60QXr5NDfkjvNpgufCZw6gwJ
-	nsVC1flDdRcaj/auLQioC36Q==
-X-Received: by 2002:a05:600c:6b70:b0:490:b06a:649e with SMTP id 5b1f17b1804b1-49266893253mr59786115e9.25.1782464246700;
-        Fri, 26 Jun 2026 01:57:26 -0700 (PDT)
-Received: from foxbook (bfg19.neoplus.adsl.tpnet.pl. [83.28.44.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49268fd9e77sm58423035e9.4.2026.06.26.01.57.25
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 26 Jun 2026 01:57:26 -0700 (PDT)
-Date: Fri, 26 Jun 2026 10:57:23 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Xincheng Zhang <zhangxincheng@ultrarisc.com>, cyrozap@gmail.com,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, mathias.nyman@intel.com
-Subject: Re: [PATCH] usb: xhci-pci: Disable 64-bit DMA for VIA VL805
-Message-ID: <20260626105723.42972329.michal.pecio@gmail.com>
-In-Reply-To: <20260626090615.616666b4@pumpkin>
-References: <20260623121847.53749028.michal.pecio@gmail.com>
-	<20260624070612.337013-1-zhangxincheng@ultrarisc.com>
-	<20260625020421.2e577a94.michal.pecio@gmail.com>
-	<178235378952.3114334.15752812276771065417.b4-reply@b4>
-	<20260625191852.0a8d511c.michal.pecio@gmail.com>
-	<20260626090615.616666b4@pumpkin>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="apbuyk1A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782465157; x=1814001157;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Qikoo7ekR53urE0BHRU7Wrf1gH8Awx50/AvSB60gTNA=;
+  b=apbuyk1AzYBjrB4kz9gKHGPM//skNlgfZ9LExPZZ1AtQdxizAGVc4UZV
+   Hr6dB7+HYuvp84xHTchzvw+W065G4W+wVhloHKwFBrke+5uXR5vqZeevT
+   If9EqtpamlvssLen18H7pG06ZXE8x/w5jSEjgNz1wDI2U6KVX7VZxClps
+   +Z+leMvhN1Pe9NLLiIxcWuJOowUByxWr2uEzOS3l+PF5OaO8x6BqVmT95
+   3Ia3NQY8DZaZGIajzYeBWVpBMqpG4hEOVHdYTjpswrMWnAjs4DHDLGsIr
+   oabygyhizrdYALj5kwxSw6UL5xFbK7p6mQ8IgiHS2hGwgqGR2WOD/zpIl
+   w==;
+X-CSE-ConnectionGUID: wFVdtY0sSAmKdvSajUxPZA==
+X-CSE-MsgGUID: CbJD2IHySL+qE1/WPP/Fow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="93915021"
+X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
+   d="scan'208";a="93915021"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 02:12:36 -0700
+X-CSE-ConnectionGUID: gcnur3qNQk+JihW3k5gxsA==
+X-CSE-MsgGUID: ZFT61vRNQ/6Tov0Me5kpjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
+   d="scan'208";a="244888566"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa009.fm.intel.com with ESMTP; 26 Jun 2026 02:12:35 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id F078498; Fri, 26 Jun 2026 11:12:33 +0200 (CEST)
+Date: Fri, 26 Jun 2026 11:12:33 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: hexlabsecurity@proton.me
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] thunderbolt: bound the DROM dual link port number before
+ indexing sw->ports
+Message-ID: <20260626091233.GN3066@black.igk.intel.com>
+References: <20260625-b4-disp-9f8d8a2d-v1-1-d767f256c54b@proton.me>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260625-b4-disp-9f8d8a2d-v1-1-d767f256c54b@proton.me>
 
-On Fri, 26 Jun 2026 09:06:15 +0100, David Laight wrote:
-> Can you do a read-back of one of the control registers that contains
-> an address - if you are lucky the high bits will return zero.
-> That might let the generic code enforce a limit.
+Hi,
 
-Interesting idea, but nope. My VL805 with 36 bit 013600 firmware
-is set up with 37 bit DMA mask right now. MMIO registers read:
+On Thu, Jun 25, 2026 at 06:54:09AM -0500, Bryam Vargas via B4 Relay wrote:
+> From: Bryam Vargas <hexlabsecurity@proton.me>
+> 
+> tb_drom_parse_entry_port() validates the device-supplied header->index
+> against sw->config.max_port_number before indexing sw->ports[], but the
+> sibling field entry->dual_link_port_nr -- a 6-bit value also read from
+> the DROM -- indexes the same array with no such check. A malicious or
+> malformed Thunderbolt device can set dual_link_port_nr beyond the
+> allocated sw->ports[] (max_port_number + 1 entries), producing an
+> out-of-bounds tb_port pointer that is stored and later dereferenced.
+> 
+> Reject a port entry whose dual_link_port_nr exceeds max_port_number,
+> the same bound already applied to header->index.
+> 
+> Fixes: cd22e73bdf5e ("thunderbolt: Read port configuration from eeprom.")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
 
-DCBAAP_LOW = 0xffffe000
-DCBAAP_HIGH = 0x0000001f
-IR0_ERSTBA_LOW = 0xfffee000
-IR0_ERSTBA_HIGH = 0x0000001f
-IR0_ERDP_LOW = 0xffff4018
-IR0_ERDP_HIGH = 0x0000001f
-
-Nothing hints that the chip will truncate this to 36 bits when
-DMA-ing. We learn about it when it happens.
-
-Regards,
-Michal
+Applied to thunderbolt.git/fixes, thanks!
