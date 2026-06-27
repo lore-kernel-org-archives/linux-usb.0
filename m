@@ -1,90 +1,182 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD1975809;
-	Sat, 27 Jun 2026 03:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782531709; cv=none; b=Dg4M0nAn4Lt2OjiKqEpD4hHkjHBKG7hL1Zmg+j1Tldj8ie+ZEV6UFZZPSmgn2JHggEIHTRZKsIvA2YIibEwzALKCoRGU5PePr4gYv77o9JA2zxgmHtdAELwA6e7BDrb8nr7CDhGxCQuCuU3Ml9ArPrIXKJ6S7xHohqOPtWeh8WI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782531709; c=relaxed/simple;
-	bh=M4//0bVBdjFvOB+c0rpyZ8FWd9hqVzJmF04tUj1AYd8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ml0o0bc95jjRjRUzvR/wuLQPHFqU0PcTS+CC3wtrMN0QLyBdVceOrXQle+/31awPPBKNA3TOY9cUgUDRd+tObWeVbxH7pEKCHpZKg2pHiUY6X0bfR7ZL9dUigT7l6jxHFdLc5HDloTK5+8AnjsxbtoMVRFReGl3dloVvmcgZEi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [117.182.75.66])
-	by APP-01 (Coremail) with SMTP id qwCowAA329N4Rj9qulaBAw--.43090S2;
-	Sat, 27 Jun 2026 11:41:45 +0800 (CST)
-From: WenTao Liang <vulab@iscas.ac.cn>
-To: heikki.krogerus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	WenTao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] fix: drivers/usb/typec/altmodes: dp_altmode_probe: missing typec_altmode_put_plug on error path
-Date: Sat, 27 Jun 2026 11:41:43 +0800
-Message-Id: <20260627034143.59224-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD6E3537F9
+	for <linux-usb@vger.kernel.org>; Sat, 27 Jun 2026 05:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782538509; cv=pass; b=ampX9CO2JfjpJfAIjuaYpGKohEgEqHMYQc4J31i599XzzspHb2B2CJZkYZkmbkZcyr0KMYvbaFS4ZaIAEReaK//qB1p1GeH4+1tUkDJJK9bBZsZdby1ptFo5WZQnBn7s+TphktERCE9OVWJkCio3zcInIeG96jT2yGz5dsIY6GI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782538509; c=relaxed/simple;
+	bh=I95998fJ7/ciTUMSpIssnMY9mIcZyePior8gH2txOzo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rfqCjFBLvkerCIxhC24tMqlhT8bKHR1QJbTH12YHeVOVpMQrGm9MTT1222k4kcbR9wjSzupwK5dRdYeZWjc+gJe3oFzyL+CDx72QAyrHhthd3UD0PAHx6bmddH59bjPIi+ZjZxY1rMVvrz9+7W0vgGfJ4cz0ix0QNok+7QBT/oI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fNceUcE7; arc=pass smtp.client-ip=209.85.217.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fNceUcE7"
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-735df2106easo738599137.0
+        for <linux-usb@vger.kernel.org>; Fri, 26 Jun 2026 22:35:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782538507; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YG0kAJbFHwZ2orAwQkUeXmutEHLkvJND5VaJzOGsL5ELVk5yeRepaDU2qmotrBsuqY
+         289vtvZJb+Q//cJaaWpp9RUfRycz6ry3y09aiIIY5nW3kOyAP1U5XCXKvSvFUOtnpYh2
+         4fcPRQUwtubf5H51dKUX/VR/aPOBSiw5z4HKpadAuoMaa8Ygib+CflqE7Db2lMzJUdcc
+         M7iHNGxdSH7blqsnnT6amD3z7JjHj7zDacvZe+Xv5idKVr9mTJ70Vikgr3JiIYCJ0DHB
+         QOhY8GBDqndfvEwxse2Dx4B4ZLn71qHognn8HvZsKkptPakAyMnl6hy5Q/x1nTBsYD4G
+         18xg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pIhqcm5AmAdJmBC5B9mtGL1DFO3ooFECfF8TV3TVWZk=;
+        fh=AH61xHI5+7gu1sO/Y5+YjPm+JS9iC9vaq2IrAgDdPZc=;
+        b=hitp+2FlEe2hePz0FhfAa7B21zp7LYfRDQv3zGdXFrz0nBsuXPPyEigzMm+gyqqodI
+         nRc0MB1jG9Nuoc17F+uP8yKXjHDuv3n5f3gdROTPpBBR/svDgzAiq1PTNXdgNcqh+mUA
+         4j89d0kh2VX1v1Xs/M4fff+a5yUfUgA8chNyKg8kyOM4OE3uCd1iDIdbfCaZGmwILnWx
+         kAPjJ7WZlHnrnZ+Y49b5bN5MDL8VweshaX1LfzA/JetuBBESamkHIurSFHxvFZuqt4WG
+         Sf6kuMd9bjyJuMHYyqsGNe+YIYmNjPs2wRXMyaSD67yblc5KczOQirWXoC2eu4xu6s3i
+         pZ1w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782538507; x=1783143307; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pIhqcm5AmAdJmBC5B9mtGL1DFO3ooFECfF8TV3TVWZk=;
+        b=fNceUcE7yReEQUhPxvmvN4VlTzj6LSmCKDhnREMBbUrCPfLmaXKLuGM9/K8qeYcfjU
+         EEi4dlsuJlTe4QDDePkztbRcZGhFsh3zI47JhrMFsJeBSsgqgjRTBKK13YZpr3DnXNOA
+         5gwJIHQlY5CJtJ/TgAAMljp2EB8f3ItGra8Yv8ZKbngIJ0VUSeH/+E9xFVQK8wAOazqU
+         r9otN+clZUFwPlLs8HEntlj+bMko27pktAmC9ilbNkXeLLeBEkw4eC74+JCfxdVDKlqX
+         s9g5AKlfRRpj/JEkL6pPpJCq6lfSdJfuiSgXsVtx4caduwtRU8g+Q9JNwRsXsCSC4rhy
+         16Vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782538507; x=1783143307;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pIhqcm5AmAdJmBC5B9mtGL1DFO3ooFECfF8TV3TVWZk=;
+        b=N0iXefg/ygMTljfSyumAK0G6+oaaV/08SR8uNUglavgU8sTPxeTtzvCSj0iCC+MTqM
+         Q0mx7Hmq7wuvmb+f4GkaO/JaxBnMFaYvfvAqfQpItAcqa9CyGV12IdKZwKcZ/G5M2yQX
+         9HNSuQyZfTp/eyabUdAq37eoS9eCLgI47ru1INa1cr5+n83j1s9MPLr5ItQWhszZ5fzS
+         GLuN5CNp1y3q7QLF3KmZ9VakxS6Z9aTbrHN4UNhK9RORzY1+CmfzIeiNtSfwFtmdAHKb
+         ABvYxbBJu7FOoKCS8HdGIxjZ+Q3DVntQZVQYabl5WfOE+dbtlSOTV38I/uSW8SBRyMcN
+         uVQw==
+X-Forwarded-Encrypted: i=1; AHgh+RosP1A1A2cPk/IpjMfdOtV8i6W6x434Ksvv/HFhP3MApMg5cjS1A+ilbaIezAwn+k+SLV16H8phNIM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTrtF1TepfuDfuxQQX1dCBs1h8hkKJdLTVozEG54W5FBL73UOS
+	S2tGluXLxS+c3WXqnCTpVlM4b67/JxDDkXMvZpTSXLhjuPuot287va72rK0e2AfpzvttsPyzjXS
+	Qb2gu3FbVbWt3fAbw+E7ze1bXi3VCAyg=
+X-Gm-Gg: AfdE7clLL3R2rPo/akfgFZaw4Be2H3ozRWP9yCoCcTd/jIcewcO7vAn/YtC+9oIoPgi
+	nRKuG6hl2DBHXPacudyExrd7/doOdlNBmODoY+CWhufWeQQroA1LkvdT74535ADivtPQXcQUzch
+	AUgdM8rJtKzOSuq2jKDUYV3LSd+he10tt/b/gGBC2MhAI68rEzovRmpL4J9/Ekcsj3JJ5UTXtWX
+	HumYVmBKOzs/+tsuXEeKc3l9coWnAS/V54pyr0gHdfRlG4qqH8M7viGSca8dTT2UtFPUaB+fEub
+	eeXfYZgy4Q32kDBLFPsyOv1j055ebAIjYbmtJu0=
+X-Received: by 2002:a05:6102:80a5:b0:6a2:b2a1:f16f with SMTP id
+ ada2fe7eead31-734362b5ab6mr4861776137.18.1782538507403; Fri, 26 Jun 2026
+ 22:35:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAA329N4Rj9qulaBAw--.43090S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kr43ZrykCr1Dury8XryrZwb_yoW8GF4DpF
-	4UWrWDtFy7JFZ3t3W8Jr4j9FW8W3WkA3y5GrWSkw1Sqrn8Jw4jq3y8GrWq9ryxWFZ5Xayr
-	Xw13KryYkrykAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
-	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
-	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
-	Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjIJmU
-	UUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwgLA2o-ErFryAAAsS
+References: <20260622153230.75195-1-pengpeng@iscas.ac.cn>
+In-Reply-To: <20260622153230.75195-1-pengpeng@iscas.ac.cn>
+From: Pengyu Luo <mitltlatltl@gmail.com>
+Date: Sat, 27 Jun 2026 13:33:40 +0800
+X-Gm-Features: AVVi8CeeH5YmJXI55RsF_RpWrji7vaGIye66LT0JbCteRliHFLwWefVc3rdLXyg
+Message-ID: <CAH2e8h5fOrSbma9HbjG3BLRArBEf72Qid_6O-QDSLJc-gZJ3EA@mail.gmail.com>
+Subject: Re: [PATCH v2] usb: typec: ucsi: gaokun: unwind notifier on UCSI
+ register failure
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In dp_altmode_probe(), typec_altmode_get_plug() acquires a reference on
-plug. When the data role check fails (TYPEC_HOST check), the function
-returns -EPROTO without calling typec_altmode_put_plug(plug), leaking the
-plug reference. Other error paths (ENODEV, ENOMEM) correctly release the
-reference.
+On Mon, Jun 22, 2026 at 11:32=E2=80=AFPM Pengpeng Hou <pengpeng@iscas.ac.cn=
+> wrote:
+>
+> gaokun_ucsi_register_worker() registers the EC notifier before calling
+> ucsi_register().  If ucsi_register() fails, the worker currently only log=
+s
+> the error and leaves the notifier registered.  Later EC events can then
+> call into an unpublished UCSI instance.  The remove path also
+> unconditionally unregisters the notifier and UCSI device even if the
+> delayed worker failed before both were published.
+>
+> Unregister the notifier immediately when ucsi_register() fails, and track
+> only the fully published state.  The remove path then tears down the pair
+> only if both publication steps completed.
+>
+> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 
-Add typec_altmode_put_plug(plug) before returning on the EPROTO error
-path to fix the leak.
+This makes things clearer.
 
-Cc: stable@vger.kernel.org
-Fixes: 41294342fad7 ("usb: typec: altmodes/displayport: do not enter mode if port is the UFP")
-Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
----
- drivers/usb/typec/altmodes/displayport.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Reviewed-by: Pengyu Luo <mitltlatltl@gmail.com>
 
-diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-index 263a89c5f324..06fe04e9e9b5 100644
---- a/drivers/usb/typec/altmodes/displayport.c
-+++ b/drivers/usb/typec/altmodes/displayport.c
-@@ -766,8 +766,10 @@ int dp_altmode_probe(struct typec_altmode *alt)
- 	struct dp_altmode *dp;
- 
- 	/* Port can only be DFP_U. */
--	if (typec_altmode_get_data_role(alt) != TYPEC_HOST)
-+	if (typec_altmode_get_data_role(alt) != TYPEC_HOST) {
-+		typec_altmode_put_plug(plug);
- 		return -EPROTO;
-+	}
- 
- 	/* Make sure we have compatible pin configurations */
- 	if (!(DP_CAP_PIN_ASSIGN_DFP_D(port->vdo) &
--- 
-2.39.5 (Apple Git-154)
+FWIW, ucsi_register() would never fail since we hardcoded the ucsi
+version, but nowadays ucsi init work is still a question. (failed to
+register alt modes occasionally)
 
+Best wishes,
+Pengyu
+
+> ---
+> Changes since v1:
+> - Drop the two-flag bookkeeping objected to by Greg Kroah-Hartman.
+> - Keep the existing registration order, but use a single flag that is set
+>   only after both the notifier and UCSI device are published.
+> - Unregister the EC notifier immediately if ucsi_register() fails.
+> - Compile-tested only; no Gaokun hardware was available.
+>
+>  drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c b/drivers/usb/ty=
+pec/ucsi/ucsi_huawei_gaokun.c
+> index ca749fde49bd..0dcbbff5f205 100644
+> --- a/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
+> +++ b/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
+> @@ -98,6 +98,7 @@ struct gaokun_ucsi {
+>         struct device *dev;
+>         struct delayed_work work;
+>         struct notifier_block nb;
+> +       bool registered;
+>         u16 version;
+>         u8 num_ports;
+>  };
+> @@ -457,8 +458,12 @@ static void gaokun_ucsi_register_worker(struct work_=
+struct *work)
+>         }
+>
+>         ret =3D ucsi_register(ucsi);
+> -       if (ret)
+> +       if (ret) {
+>                 dev_err_probe(ucsi->dev, ret, "ucsi register failed\n");
+> +               gaokun_ec_unregister_notify(uec->ec, &uec->nb);
+> +               return;
+> +       }
+> +       uec->registered =3D true;
+>  }
+>
+>  static int gaokun_ucsi_probe(struct auxiliary_device *adev,
+> @@ -504,8 +509,10 @@ static void gaokun_ucsi_remove(struct auxiliary_devi=
+ce *adev)
+>         struct gaokun_ucsi *uec =3D auxiliary_get_drvdata(adev);
+>
+>         disable_delayed_work_sync(&uec->work);
+> -       gaokun_ec_unregister_notify(uec->ec, &uec->nb);
+> -       ucsi_unregister(uec->ucsi);
+> +       if (uec->registered) {
+> +               gaokun_ec_unregister_notify(uec->ec, &uec->nb);
+> +               ucsi_unregister(uec->ucsi);
+> +       }
+>         ucsi_destroy(uec->ucsi);
+>  }
+>
+> --
+> 2.50.1
+>
