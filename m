@@ -1,126 +1,366 @@
-Received: from mail-m25480.xmail.ntesmail.com (mail-m25480.xmail.ntesmail.com [103.129.254.80])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E6A38D;
-	Sat, 27 Jun 2026 06:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.129.254.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB556231A41
+	for <linux-usb@vger.kernel.org>; Sat, 27 Jun 2026 06:22:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782540135; cv=none; b=d1tOH3zJ4DphoRXwUOE1AHbxjStEZ0fQMWrXrBqvlTcZvz+UMB8lVRnmNPBf93PAWPhhZlIXCY4ZxVEmMuQ8tvO4yjmFZE/obuACVcm/QsuId8Dq2kwzjAkS8TGcJXwAGp1700KoYo2p8OqWm1C/BX3TmG3NcA3ZAVh+SlNXIks=
+	t=1782541361; cv=none; b=UFFb3lbeujD6FzVO11SMfzZp8m/OevajVsjGNvfsYPpXP8v7SjGkVshw80b+MUJ/2dyVpQ9SUlkcd/V4jNbOMP6AIQzUmglhAO4wp7PLQErQYtd7Ee6VNNUM2HkHJIEz5gezvYKue9bCn6a7LQCuTvDLt9lgzVzoYUUvFPYFyLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782540135; c=relaxed/simple;
-	bh=RDp+J++cMiM5EXpN1DVkoOqPgcThQ/SSI7QkoKnwB8E=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=F3n/k69AO3eOnJTYLvRKdiWX+CuOB26wIf9PbOCe0M6UhlgaGVM0KI0zb5ib6okHLTils5WJA5kvH0fcV7aHt6PLOSY/61MzwiElo2PcooE4doBMUTlFjoRa07r6Zf1HrPjT5PzISF4/EM/wPwSWPRVILcMAGz/fR92R9MejX6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=bbPal+EP; arc=none smtp.client-ip=103.129.254.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1782541361; c=relaxed/simple;
+	bh=QL5IvEIJhEwl/rSb3ffoBlSbk7RL6CFvVirdf2T1W7E=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=c87iAWM9z/9q4ssRL9gvUt1MktFSsKqB4xiqXtCa3e/IGNqWybTLvNpR2dhE+KmZWj2JgnoPp6zhiY4wAuHaZIeoHOZao98ptm2AR3hyjjt6PQDtNnHdvr4i86cNdgMJDlREzWqw+Gwy8G/2WfR4jG7NDlCfGSninHCUiif0KNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DpHok5lA; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="bbPal+EP"
-Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 43fb5734c;
-	Sat, 27 Jun 2026 14:02:06 +0800 (GMT+08:00)
-From: Dawei Feng <dawei.feng@seu.edu.cn>
-To: stern@rowland.harvard.edu
-Cc: gregkh@linuxfoundation.org,
-	linusw@kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn,
-	zilin@seu.edu.cn,
-	Dawei Feng <dawei.feng@seu.edu.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: free iso schedules on failed submit
-Date: Sat, 27 Jun 2026 14:02:07 +0800
-Message-Id: <20260627060207.2543749-1-dawei.feng@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpHok5lA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782541360; x=1814077360;
+  h=date:from:to:cc:subject:message-id;
+  bh=QL5IvEIJhEwl/rSb3ffoBlSbk7RL6CFvVirdf2T1W7E=;
+  b=DpHok5lAGyigcyTDh87ukuGN+MAFXfMDM1OoYj53AxcWqVdZg624f/J/
+   jKptD92yzDsqOoytGR3YjH3T8FjNoKcMuirhs6Olw8lStZKUCF9bCgP4r
+   UE/eehtylWN/49lvr7DDpQ7Zyxtl6Xc47Wxkp9Z/jT0JpgePLcQjW0tO+
+   SUiOKFE8mnljq3aEWL7mG6Fxbw2XWKodFkgfMqzSgimLzw+tOOAsAxtRh
+   PEcA59dFy+QfyhVQ0dfa2bf4kpWq6QXTXlXqP1XEdNZ5+yWoFv5aegbtm
+   ZGBg0y9f4HHNWH92WcU08BGHVtGXNoVAxYWDyW2pHTTJ8gsh6iGWpZErr
+   w==;
+X-CSE-ConnectionGUID: XRqe5WtST8ys1W25OO+ylw==
+X-CSE-MsgGUID: UhhUa7E9SoS2WQajfzQQfw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11829"; a="93978538"
+X-IronPort-AV: E=Sophos;i="6.24,228,1774335600"; 
+   d="scan'208";a="93978538"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 23:22:37 -0700
+X-CSE-ConnectionGUID: Ub9juTw7T9CEnbLuDIlxLQ==
+X-CSE-MsgGUID: 0GslDQgpQf6iJJ2buLsFZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,228,1774335600"; 
+   d="scan'208";a="247032731"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa006.fm.intel.com with ESMTP; 26 Jun 2026 23:22:35 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wdMQy-000000005fp-428f;
+	Sat, 27 Jun 2026 06:22:32 +0000
+Date: Sat, 27 Jun 2026 14:21:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: linux-usb@vger.kernel.org
+Subject: [westeri-thunderbolt:fixes] BUILD SUCCESS
+ db79679595326fd3f6bd1e6fd0cefc3ba016039a
+Message-ID: <202606271439.kmFRBIKz-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9f07abc88c03a2kunmb178c0f5ebeef
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZSh8eVk1OQ0xNSExPTR9CGFYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
-	9ITFVKS0tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=bbPal+EP/on1mILwQBWEofyBSBf7jEbF/Zvy5P6+rF+XuUKhMNsrHfvbWBj43AkC94E9dyJFo0GwCRP7mUO7VKRowvm8pXzEXRblxEQEuzkHBHt13k7wa57NrN0CUuibDjBVf5+wkRrg3CgdHwyC0e2o36ATkbsZc3j6wz+0BNw=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=P/28q1bQb5ROyksuFPBg9FZKSgb/MWwXMwuiu/ZP2vU=;
-	h=date:mime-version:subject:message-id:from;
 
-EHCI and FOTG210 isochronous submits build an ehci_iso_sched before
-linking the URB to the endpoint queue, and keep the staged schedule in
-urb->hcpriv until iso_stream_schedule() and the link helpers consume it.
-If the controller is no longer accessible, or usb_hcd_link_urb_to_ep()
-fails, submit jumps to done_not_linked before that handoff happens and
-leaks the staged schedule still attached to urb->hcpriv.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git fixes
+branch HEAD: db79679595326fd3f6bd1e6fd0cefc3ba016039a  thunderbolt: Bound the DROM dual link port number before indexing sw->ports
 
-Free the staged schedule from done_not_linked when submit fails before
-the URB is linked and clear urb->hcpriv after the free.
+elapsed time: 740m
 
-The bug was first flagged by an experimental analysis tool we are
-developing for kernel memory-management bugs while analyzing
-v6.13-rc1. The tool is still under development and is not yet publicly
-available. Manual inspection confirms that the bug is still
-present in v7.1.1.
+configs tested: 289
+configs skipped: 5
 
-An x86_64 allyesconfig build showed no new warnings. As we do not have an
-EHCI host controller with a USB isochronous device to test with, no
-runtime testing was able to be performed.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Fixes: 8de98402652c ("[PATCH] USB: Fix USB suspend/resume crasher (#2)")
-Fixes: e9df41c5c589 ("USB: make HCDs responsible for managing endpoint queues")
-Fixes: 7d50195f6c50 ("usb: host: Faraday fotg210-hcd driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
----
- drivers/usb/fotg210/fotg210-hcd.c | 4 ++++
- drivers/usb/host/ehci-sched.c     | 8 ++++++++
- 2 files changed, 12 insertions(+)
+tested configs:
+alpha                             allnoconfig    gcc-16.1.0
+alpha                            allyesconfig    gcc-16.1.0
+alpha                               defconfig    gcc-16.1.0
+arc                              allmodconfig    clang-23
+arc                              allmodconfig    gcc-16.1.0
+arc                               allnoconfig    gcc-16.1.0
+arc                              allyesconfig    clang-23
+arc                              allyesconfig    gcc-16.1.0
+arc                                 defconfig    gcc-16.1.0
+arc                 nsimosci_hs_smp_defconfig    gcc-16.1.0
+arc                   randconfig-001-20260627    gcc-16.1.0
+arc                   randconfig-002-20260627    gcc-16.1.0
+arm                               allnoconfig    clang-17
+arm                               allnoconfig    gcc-16.1.0
+arm                              allyesconfig    clang-23
+arm                              allyesconfig    gcc-16.1.0
+arm                                 defconfig    gcc-16.1.0
+arm                         lpc18xx_defconfig    clang-23
+arm                   randconfig-001-20260627    gcc-16.1.0
+arm                   randconfig-002-20260627    gcc-16.1.0
+arm                   randconfig-003-20260627    gcc-16.1.0
+arm                   randconfig-004-20260627    gcc-16.1.0
+arm                           spitz_defconfig    gcc-16.1.0
+arm64                            allmodconfig    clang-23
+arm64                             allnoconfig    gcc-16.1.0
+arm64                               defconfig    gcc-16.1.0
+arm64                          randconfig-001    clang-23
+arm64                 randconfig-001-20260627    clang-23
+arm64                 randconfig-001-20260627    gcc-10.5.0
+arm64                          randconfig-002    clang-23
+arm64                 randconfig-002-20260627    clang-23
+arm64                 randconfig-002-20260627    gcc-10.5.0
+arm64                          randconfig-003    clang-23
+arm64                 randconfig-003-20260627    clang-23
+arm64                 randconfig-003-20260627    gcc-10.5.0
+arm64                          randconfig-004    clang-23
+arm64                 randconfig-004-20260627    clang-23
+arm64                 randconfig-004-20260627    gcc-10.5.0
+arm64                 randconfig-004-20260627    gcc-16.1.0
+csky                             allmodconfig    gcc-16.1.0
+csky                              allnoconfig    gcc-16.1.0
+csky                                defconfig    gcc-16.1.0
+csky                           randconfig-001    clang-23
+csky                  randconfig-001-20260627    clang-23
+csky                  randconfig-001-20260627    gcc-10.5.0
+csky                  randconfig-001-20260627    gcc-16.1.0
+csky                           randconfig-002    clang-23
+csky                  randconfig-002-20260627    clang-23
+csky                  randconfig-002-20260627    gcc-10.5.0
+csky                  randconfig-002-20260627    gcc-14.3.0
+hexagon                          allmodconfig    gcc-16.1.0
+hexagon                           allnoconfig    clang-23
+hexagon                           allnoconfig    gcc-16.1.0
+hexagon                             defconfig    gcc-16.1.0
+hexagon                        randconfig-001    gcc-11.5.0
+hexagon               randconfig-001-20260627    clang-23
+hexagon               randconfig-001-20260627    gcc-11.5.0
+hexagon                        randconfig-002    gcc-11.5.0
+hexagon               randconfig-002-20260627    clang-18
+hexagon               randconfig-002-20260627    gcc-11.5.0
+i386                             allmodconfig    clang-22
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                              allnoconfig    gcc-16.1.0
+i386                             allyesconfig    clang-22
+i386                 buildonly-randconfig-001    clang-22
+i386        buildonly-randconfig-001-20260627    clang-22
+i386                 buildonly-randconfig-002    clang-22
+i386        buildonly-randconfig-002-20260627    clang-22
+i386                 buildonly-randconfig-003    clang-22
+i386        buildonly-randconfig-003-20260627    clang-22
+i386                 buildonly-randconfig-004    clang-22
+i386        buildonly-randconfig-004-20260627    clang-22
+i386                 buildonly-randconfig-005    clang-22
+i386        buildonly-randconfig-005-20260627    clang-22
+i386        buildonly-randconfig-005-20260627    gcc-13
+i386                 buildonly-randconfig-006    clang-22
+i386        buildonly-randconfig-006-20260627    clang-22
+i386                                defconfig    gcc-16.1.0
+i386                           randconfig-001    clang-22
+i386                  randconfig-001-20260627    clang-22
+i386                           randconfig-002    clang-22
+i386                  randconfig-002-20260627    clang-22
+i386                           randconfig-003    clang-22
+i386                  randconfig-003-20260627    clang-22
+i386                  randconfig-003-20260627    gcc-13
+i386                           randconfig-004    clang-22
+i386                  randconfig-004-20260627    clang-22
+i386                           randconfig-005    clang-22
+i386                  randconfig-005-20260627    clang-22
+i386                           randconfig-006    clang-22
+i386                  randconfig-006-20260627    clang-22
+i386                  randconfig-006-20260627    gcc-14
+i386                           randconfig-007    clang-22
+i386                  randconfig-007-20260627    clang-22
+i386                  randconfig-011-20260627    clang-22
+i386                  randconfig-012-20260627    clang-22
+i386                  randconfig-013-20260627    clang-22
+i386                  randconfig-014-20260627    clang-22
+i386                  randconfig-015-20260627    clang-22
+i386                  randconfig-016-20260627    clang-22
+i386                  randconfig-017-20260627    clang-22
+loongarch                        allmodconfig    clang-19
+loongarch                        allmodconfig    clang-23
+loongarch                         allnoconfig    clang-20
+loongarch                         allnoconfig    gcc-16.1.0
+loongarch                           defconfig    clang-23
+loongarch                      randconfig-001    gcc-11.5.0
+loongarch             randconfig-001-20260627    clang-23
+loongarch             randconfig-001-20260627    gcc-11.5.0
+loongarch                      randconfig-002    gcc-11.5.0
+loongarch             randconfig-002-20260627    gcc-11.5.0
+loongarch             randconfig-002-20260627    gcc-16.1.0
+m68k                             allmodconfig    gcc-16.1.0
+m68k                              allnoconfig    gcc-16.1.0
+m68k                             allyesconfig    clang-23
+m68k                             allyesconfig    gcc-16.1.0
+m68k                                defconfig    clang-23
+m68k                                defconfig    gcc-16.1.0
+microblaze                        allnoconfig    gcc-16.1.0
+microblaze                       allyesconfig    gcc-16.1.0
+microblaze                          defconfig    clang-23
+microblaze                          defconfig    gcc-16.1.0
+mips                             allmodconfig    gcc-16.1.0
+mips                              allnoconfig    gcc-16.1.0
+mips                             allyesconfig    gcc-16.1.0
+nios2                            allmodconfig    clang-20
+nios2                            allmodconfig    gcc-11.5.0
+nios2                             allnoconfig    clang-23
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    clang-23
+nios2                               defconfig    gcc-11.5.0
+nios2                          randconfig-001    gcc-11.5.0
+nios2                 randconfig-001-20260627    gcc-11.5.0
+nios2                          randconfig-002    gcc-11.5.0
+nios2                 randconfig-002-20260627    gcc-11.5.0
+openrisc                         allmodconfig    clang-20
+openrisc                         allmodconfig    gcc-16.1.0
+openrisc                          allnoconfig    clang-23
+openrisc                          allnoconfig    gcc-16.1.0
+openrisc                            defconfig    gcc-16.1.0
+parisc                           allmodconfig    gcc-16.1.0
+parisc                            allnoconfig    clang-23
+parisc                            allnoconfig    gcc-16.1.0
+parisc                           allyesconfig    clang-17
+parisc                           allyesconfig    gcc-16.1.0
+parisc                              defconfig    gcc-16.1.0
+parisc                         randconfig-001    gcc-8.5.0
+parisc                randconfig-001-20260627    gcc-8.5.0
+parisc                         randconfig-002    gcc-8.5.0
+parisc                randconfig-002-20260627    gcc-8.5.0
+parisc64                            defconfig    clang-23
+parisc64                            defconfig    gcc-16.1.0
+powerpc                          allmodconfig    gcc-16.1.0
+powerpc                           allnoconfig    clang-23
+powerpc                           allnoconfig    gcc-16.1.0
+powerpc                   motionpro_defconfig    clang-23
+powerpc               mpc834x_itxgp_defconfig    clang-23
+powerpc                        randconfig-001    gcc-8.5.0
+powerpc               randconfig-001-20260627    gcc-8.5.0
+powerpc                        randconfig-002    gcc-8.5.0
+powerpc               randconfig-002-20260627    gcc-8.5.0
+powerpc64                      randconfig-001    gcc-8.5.0
+powerpc64             randconfig-001-20260627    gcc-8.5.0
+powerpc64                      randconfig-002    gcc-8.5.0
+powerpc64             randconfig-002-20260627    gcc-8.5.0
+riscv                            allmodconfig    clang-23
+riscv                             allnoconfig    clang-23
+riscv                             allnoconfig    gcc-16.1.0
+riscv                            allyesconfig    clang-23
+riscv                               defconfig    gcc-16.1.0
+riscv                          randconfig-001    clang-23
+riscv                 randconfig-001-20260627    clang-22
+riscv                 randconfig-001-20260627    clang-23
+riscv                          randconfig-002    clang-23
+riscv                 randconfig-002-20260627    clang-23
+s390                             allmodconfig    clang-17
+s390                             allmodconfig    clang-23
+s390                              allnoconfig    clang-23
+s390                             allyesconfig    gcc-16.1.0
+s390                                defconfig    gcc-16.1.0
+s390                           randconfig-001    clang-23
+s390                  randconfig-001-20260627    clang-17
+s390                  randconfig-001-20260627    clang-23
+s390                           randconfig-002    clang-23
+s390                  randconfig-002-20260627    clang-23
+sh                               allmodconfig    gcc-16.1.0
+sh                                allnoconfig    clang-23
+sh                                allnoconfig    gcc-16.1.0
+sh                               allyesconfig    clang-17
+sh                               allyesconfig    gcc-16.1.0
+sh                                  defconfig    gcc-14
+sh                                  defconfig    gcc-16.1.0
+sh                             randconfig-001    clang-23
+sh                    randconfig-001-20260627    clang-23
+sh                    randconfig-001-20260627    gcc-16.1.0
+sh                             randconfig-002    clang-23
+sh                    randconfig-002-20260627    clang-23
+sh                    randconfig-002-20260627    gcc-10.5.0
+sparc                             allnoconfig    clang-23
+sparc                             allnoconfig    gcc-16.1.0
+sparc                               defconfig    gcc-16.1.0
+sparc                          randconfig-001    gcc-8.5.0
+sparc                 randconfig-001-20260627    gcc-13.4.0
+sparc                 randconfig-001-20260627    gcc-8.5.0
+sparc                          randconfig-002    gcc-8.5.0
+sparc                 randconfig-002-20260627    gcc-8.5.0
+sparc64                          allmodconfig    clang-20
+sparc64                             defconfig    clang-23
+sparc64                             defconfig    gcc-14
+sparc64                        randconfig-001    gcc-8.5.0
+sparc64               randconfig-001-20260627    gcc-13.4.0
+sparc64               randconfig-001-20260627    gcc-8.5.0
+sparc64                        randconfig-002    gcc-8.5.0
+sparc64               randconfig-002-20260627    gcc-15.2.0
+sparc64               randconfig-002-20260627    gcc-8.5.0
+um                               allmodconfig    clang-17
+um                                allnoconfig    clang-17
+um                                allnoconfig    clang-23
+um                               allyesconfig    gcc-14
+um                               allyesconfig    gcc-16.1.0
+um                                  defconfig    clang-23
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                             randconfig-001    gcc-8.5.0
+um                    randconfig-001-20260627    clang-22
+um                    randconfig-001-20260627    gcc-8.5.0
+um                             randconfig-002    gcc-8.5.0
+um                    randconfig-002-20260627    clang-23
+um                    randconfig-002-20260627    gcc-8.5.0
+um                           x86_64_defconfig    clang-23
+um                           x86_64_defconfig    gcc-14
+x86_64                           allmodconfig    clang-22
+x86_64                            allnoconfig    clang-22
+x86_64                            allnoconfig    clang-23
+x86_64                           allyesconfig    clang-22
+x86_64      buildonly-randconfig-001-20260627    gcc-13
+x86_64      buildonly-randconfig-001-20260627    gcc-14
+x86_64      buildonly-randconfig-002-20260627    clang-22
+x86_64      buildonly-randconfig-002-20260627    gcc-14
+x86_64      buildonly-randconfig-003-20260627    clang-22
+x86_64      buildonly-randconfig-003-20260627    gcc-14
+x86_64      buildonly-randconfig-004-20260627    gcc-14
+x86_64      buildonly-randconfig-005-20260627    clang-22
+x86_64      buildonly-randconfig-005-20260627    gcc-14
+x86_64      buildonly-randconfig-006-20260627    clang-22
+x86_64      buildonly-randconfig-006-20260627    gcc-14
+x86_64                              defconfig    gcc-14
+x86_64                                  kexec    clang-22
+x86_64                randconfig-001-20260627    clang-22
+x86_64                randconfig-002-20260627    clang-22
+x86_64                randconfig-002-20260627    gcc-12
+x86_64                randconfig-003-20260627    clang-22
+x86_64                randconfig-004-20260627    clang-22
+x86_64                randconfig-004-20260627    gcc-14
+x86_64                randconfig-005-20260627    clang-22
+x86_64                randconfig-005-20260627    gcc-14
+x86_64                randconfig-006-20260627    clang-22
+x86_64                randconfig-011-20260627    clang-22
+x86_64                randconfig-011-20260627    gcc-14
+x86_64                randconfig-012-20260627    clang-22
+x86_64                randconfig-012-20260627    gcc-14
+x86_64                randconfig-013-20260627    gcc-14
+x86_64                randconfig-014-20260627    gcc-14
+x86_64                randconfig-015-20260627    gcc-14
+x86_64                randconfig-016-20260627    gcc-14
+x86_64                randconfig-071-20260627    clang-22
+x86_64                randconfig-072-20260627    clang-22
+x86_64                randconfig-073-20260627    clang-22
+x86_64                randconfig-074-20260627    clang-22
+x86_64                randconfig-074-20260627    gcc-14
+x86_64                randconfig-075-20260627    clang-22
+x86_64                randconfig-075-20260627    gcc-14
+x86_64                randconfig-076-20260627    clang-22
+x86_64                               rhel-9.4    clang-22
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-22
+x86_64                    rhel-9.4-kselftests    clang-22
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+x86_64                          rhel-9.4-rust    clang-22
+xtensa                            allnoconfig    clang-23
+xtensa                            allnoconfig    gcc-16.1.0
+xtensa                           allyesconfig    clang-20
+xtensa                           allyesconfig    gcc-16.1.0
+xtensa                         randconfig-001    gcc-8.5.0
+xtensa                randconfig-001-20260627    gcc-8.5.0
+xtensa                         randconfig-002    gcc-8.5.0
+xtensa                randconfig-002-20260627    gcc-8.5.0
 
-diff --git a/drivers/usb/fotg210/fotg210-hcd.c b/drivers/usb/fotg210/fotg210-hcd.c
-index 1a48329a4e08..d92b11d488a5 100644
---- a/drivers/usb/fotg210/fotg210-hcd.c
-+++ b/drivers/usb/fotg210/fotg210-hcd.c
-@@ -4562,6 +4562,10 @@ static int itd_submit(struct fotg210_hcd *fotg210, struct urb *urb,
- 	else
- 		usb_hcd_unlink_urb_from_ep(fotg210_to_hcd(fotg210), urb);
- done_not_linked:
-+	if (status < 0) {
-+		iso_sched_free(stream, urb->hcpriv);
-+		urb->hcpriv = NULL;
-+	}
- 	spin_unlock_irqrestore(&fotg210->lock, flags);
- done:
- 	return status;
-diff --git a/drivers/usb/host/ehci-sched.c b/drivers/usb/host/ehci-sched.c
-index a241337c9af8..33a0111cfb37 100644
---- a/drivers/usb/host/ehci-sched.c
-+++ b/drivers/usb/host/ehci-sched.c
-@@ -1966,6 +1966,10 @@ static int itd_submit(struct ehci_hcd *ehci, struct urb *urb,
- 		usb_hcd_unlink_urb_from_ep(ehci_to_hcd(ehci), urb);
- 	}
-  done_not_linked:
-+	if (status < 0) {
-+		iso_sched_free(stream, urb->hcpriv);
-+		urb->hcpriv = NULL;
-+	}
- 	spin_unlock_irqrestore(&ehci->lock, flags);
-  done:
- 	return status;
-@@ -2343,6 +2347,10 @@ static int sitd_submit(struct ehci_hcd *ehci, struct urb *urb,
- 		usb_hcd_unlink_urb_from_ep(ehci_to_hcd(ehci), urb);
- 	}
-  done_not_linked:
-+	if (status < 0) {
-+		iso_sched_free(stream, urb->hcpriv);
-+		urb->hcpriv = NULL;
-+	}
- 	spin_unlock_irqrestore(&ehci->lock, flags);
-  done:
- 	return status;
--- 
-2.34.1
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
