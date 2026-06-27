@@ -1,90 +1,126 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A8A17B50F;
-	Sat, 27 Jun 2026 09:23:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782552199; cv=none; b=E0mne9zajbHdx+9VfFv/Pq0Q8vRP46UjATjkFFv+qGr0h9e+7r6gNOGc6Uh9EpgXmhA4I1vY2+8KWWinhV/o3/EOvKWJuF9QR13J+sddNLQTyEIXEWPqR/01Y8ad1fyYVnETJqsnKyQlsoR/1VnQlsoLItEqGOdS1mLEZIGKJ5s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782552199; c=relaxed/simple;
-	bh=fKJ3hXeFES2RpNSuyJhsOx2YjBVHuGlVrz3hG6NU1J0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t0I5lXrgH9cjZAXmrBs12gUgy0HuRWekI4mS5fFgWpYhMhtPbHDOy6klhUNDnryS+1Z+DzWvZJJSb52ekRZU23kTxoVR6y+k225ka2pKrmIDNkiHgCMQJYrR1Zxh/tswpDtvv+Q7HDEVwalqi+QrqDimogY4EQyksG2uET2ip/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf12.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id 3B79BC3314;
-	Sat, 27 Jun 2026 09:23:16 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf12.hostedemail.com (Postfix) with ESMTPA id 8EFBB1B;
-	Sat, 27 Jun 2026 09:23:13 +0000 (UTC)
-Date: Sat, 27 Jun 2026 05:23:11 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Ahmad Fatoum <a.fatoum@pengutronix.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Masami Hiramatsu <mhiramat@kernel.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH] usb: typec: add trace point for typec_set_mode
-Message-ID: <20260627052311.18649b98@fedora>
-In-Reply-To: <ajPW9P6qZyhqtjvp@kuha>
-References: <20260617-typec_set_mode-tracepoint-v1-1-bdfbb39cfccd@pengutronix.de>
-	<ajPO6roV4HRZYGNd@kuha>
-	<43e13854-a634-4706-bc12-723c871a5579@pengutronix.de>
-	<ajPW9P6qZyhqtjvp@kuha>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFD91946DA
+	for <linux-usb@vger.kernel.org>; Sat, 27 Jun 2026 10:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782556781; cv=pass; b=ZuCog7c1tJ7F3+xWYF79qsIRnIgKUof8A3WyAWRmu2UDySY9QJrThp7ILOBK9pkOmmeyV/Wm89cISYiDtGjB533f+AeOBJI6TGdBfv18/fk+6zoRsY/J4kporPeDZMTAw025wLUtswNBVqJUZWCAAdxBOo2/6xdyK3o3BO+nedE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782556781; c=relaxed/simple;
+	bh=y0DZJwtDtEhghSBktd9l68Z0/z93dAVJRUHJFNsOOro=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aDwlYYf7k37kbQc5+Cfnzcvwvu4muzkwbGu9b/OGThxc0YYTJFeFyQp5TZE5QStHJNOOixb8+yodg0XCdFTdo45N9W0Mw6nNbtvoO5ZXAYSEfqbx6b7bJNRxtTPJUex9W1pZ4ut5BDMzlMBcyZymRR6mozcqrlOg2Mi0Awe4QBQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DofrcguE; arc=pass smtp.client-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DofrcguE"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-6647bc8f900so2180726d50.0
+        for <linux-usb@vger.kernel.org>; Sat, 27 Jun 2026 03:39:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782556779; cv=none;
+        d=google.com; s=arc-20260327;
+        b=cz068VOs3rZp+AupR88hEDusBdi8fveqQVziD/DvYUBsVpcYBulXyU26wIDjbBHOq1
+         d6yhomrVGi2xB/b16nQPB0Uo6Qalpv4VzBhX+8PoktfYWUbkUShAQZ8nnLFGrU86q/RJ
+         5YB6RVwE+UjvUz4B9QkSbEPXHoP+AcGsx4aAiZD4tvirmjZUqBUkVYNuPv1ifUgk6pAA
+         xEqkVpTW0abVAmNYH2XDHs+rYqBKolyZaKW8Xhrrc+BBVKn1dE/D5LJ0webwv3GLE5Ce
+         D5j9/dOUpVhfwiES81aOHUbEo3AjHZc9lL8HzigOUYmlcIchd6YQvrvkrJFJjDxIz5+x
+         wBMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=y0DZJwtDtEhghSBktd9l68Z0/z93dAVJRUHJFNsOOro=;
+        fh=x5HGY3Vb4iPu39SSI4SY5gTMTSpWqAi3W4DMI/znGoE=;
+        b=oz3FNKBYr/5X5D/Ss6VxezpETn7qR8l5wUyI6lwOAPbUbMmOkxKS4Ycf+0yH0wblhk
+         sxrslRCEKbjnqmp9Rev85awgQgmjPiBvPYwSDLbAVZhl1M/+Nq/0zYntfmblGRByVsab
+         FVbq0hqyL04ejEOQNKa79rhCyZzKhv5oGqUTFrpjNXkPdthmh7oy10arKQ8uqijb+ONW
+         PQ5GxojAMXbC3mn0Cs8zPyE7Vlhh2ewTu42AFvbtC+NSoGV5RMYSL9q5vqVx+1AiXsR7
+         i2nkzyqf/cyqjDtIffUEGhHdOFdMY2QiEPc0c9CjJ8k9AWvWSciWSx5+c571jOxIeY7a
+         D1Mw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782556779; x=1783161579; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y0DZJwtDtEhghSBktd9l68Z0/z93dAVJRUHJFNsOOro=;
+        b=DofrcguEIsRMQ1BwBplMZNpUYCpd1tTCJFY0B0Bd9lqouf8HHCkYxURC1sq0mtOK20
+         scrVUGTqGB67tIJAyivPBtTZKOo/Z/+Qn/xDNKqBnL/isPMAbydE7Njs8xCqDFKTOJ9b
+         H7N/mcwFEkN6saMafeKXL6mPOcFRHiJwmAUkYeMtr1Lmk0cJv61Yr0y0+/mKE3QAI9dP
+         A8YXWOhM1KPVr5nSz/ODXOWHbH07qSDPgwF1WG5xEQ5KzNLi3ed6wghPmarmFeHqAylJ
+         y6JyIa91NDIZuDbby5s/BnygT+QdlafQcNBW0SMb5R/xFB1d87ctxmTq5bpFgqXjyYYg
+         iQxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782556779; x=1783161579;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=y0DZJwtDtEhghSBktd9l68Z0/z93dAVJRUHJFNsOOro=;
+        b=K6B7NCBgfz27QybTwzubgsq36fHLSQQLBmK/ZmsRSoLrQ/1jl71ezYkoM5cCIQJ2zs
+         8jy+0lVBXx8RCyVdwsZksVdjlj22cXcsuMQ0lHxBjcJoQ8jboV9K7wmuDt8h6MGAgh8E
+         6P0UwkZH+T/ggGlmCPOMGohjzfX+kGLSN0iaZwP3fqzm0zp8oICdc08rsZiLXrhrJWoF
+         C4ieaT7vTLzKKiifxpYbraw+JEB5rdZDlmuMB8gyRdmoyYwtwAhlLFrji0q+FKcoZxHc
+         OAtaXbaNo3vmrY7H4GnUZh8pVLBeV328WbiGoa9E1k3WMPFNw2MAIpa+5aAwnr2HFigG
+         vNhQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqSCBDdIIRIbdrUCTHvk+LgP7i7W36PrdfUns/38TNK6tLBxZCErlSErOnzHoahEqUTPEs9GKRXnSE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJzCLsioPWUvpEF2QBPJliAS+I5fPxBUnnf4xxS6pev0Jf+jA5
+	wc5PpbZD0ATK519+BcDvydIjQA44eoeJ/lqWNMszNSqqT6PKCdbjsZ7MCcSPEQRiACfQHgzP034
+	aaIhsApoWZPCFCmDAyWnb+OmoccOt8dA=
+X-Gm-Gg: AfdE7cl4A8oTYhnivVKvuAMBDKiQgAHeZV+RsIrCq0fkttNNsK8nYvn7l/WVBR9T3f0
+	istFuOkDtjmn9gTkVZ+PefDYnNz1nAXdaFYuAya/6Feb0wjUBDH6xXfPYJpLvz7OV0k/2xaJJBV
+	Ykn7gjtszlbZBvjFAY7bGD18HmZRZm2bzAMBmf4PHBYAZECSgx4S4hA0TxKcDSflxJIQ56oi2Lt
+	jIyEeQL51lx7mYUwb0Ny0dpMvHnjWKtNBjW9FvHBdhD9MCFQ1ve832sQGgOzNahPIv0ZmOkAjc=
+X-Received: by 2002:a05:690c:4a0c:b0:7f9:2c1b:764f with SMTP id
+ 00721157ae682-80a6b897d1amr94314277b3.50.1782556779069; Sat, 27 Jun 2026
+ 03:39:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 56xn5xisgfc1h3rakkp99kdu3ytujj5w
-X-Rspamd-Server: rspamout02
-X-Rspamd-Queue-Id: 8EFBB1B
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX19NYMANLc1o9IuX67SxFSTjbOUYmdbT/Kc=
-X-HE-Tag: 1782552193-635815
-X-HE-Meta: U2FsdGVkX18tHMH5FQKISpJCF3z3ylpEN7fnXxNGv//UlNTTvjSi55n73awhAtNwniTqbqEcZYXQnmzv/nz4Fjm2PSA1MTS30w3GfeBZ+gKYAaTBL+MGze92asptEBp13uRe9DE70U/ymCIeQbrytkXoDlChZWfsX0mrBxEVoFC3BWoav4pGtQoVCFZgm8Ah5sPXZE5BdTsZWNxBeFY9CDHvIVLve+fWUW+ScwfL4V8DEEoFo65PrvQkzLuyGpQ+D3ap3KIeHu4pIn0ytyGEfIkR0W4k9vWw8RdY1aGqXMtySSzDKMl9o2nhsGBi9lxOJ/14Q0jI0tnz0zB3xhSBKCWUQE9H6J21DbOWVJAtFlCTVGWXsP5GZnCnKNKWputKoXfxvVI1kN29X4DO63EISg==
+References: <20260623015211.4111938-1-zzzccc427@gmail.com> <aj8S2btHtbyjvbCB@vbox>
+In-Reply-To: <aj8S2btHtbyjvbCB@vbox>
+From: Cen Zhang <zzzccc427@gmail.com>
+Date: Sat, 27 Jun 2026 18:39:27 +0800
+X-Gm-Features: AVVi8Cf7iFkpLbEl8Nxp---kRLvJaX1_MTj4vKRuIhdSP654Yp_UeunbPTQdntA
+Message-ID: <CAFRLqsWQSyhn_p6iNHtzvgfcDvHp5HfTTAbez=xzpJtaingGrA@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: f_tcm: Cancel delayed set_alt work on teardown
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiasheng Jiang <jiashengjiangcool@gmail.com>, Kees Cook <kees@kernel.org>, 
+	Mike Christie <michael.christie@oracle.com>, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"baijiaju1990@gmail.com" <baijiaju1990@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 18 Jun 2026 14:31:00 +0300
-Heikki Krogerus <heikki.krogerus@linux.intel.com> wrote:
+Hi Thinh,
 
-> > >  obj-$(CONFIG_TYPEC)            += typec.o
-> > >  typec-y                                := class.o mux.o bus.o pd.o retimer.o mode_selection.o
-> > >  typec-$(CONFIG_ACPI)           += port-mapper.o
-> > > +typec-$(CONFIG_TRACING)                += trace.o  
-> > 
-> > Thanks for the suggestion. I will do that for v2.
-> > 
-> > I also saw there is Sashiko AI feedback on this patch[1], but I am not
-> > familiar enough with how the event headers are used outside the kernel
-> > to determine if that's actionable advice or if it can be ignored.
-> > 
-> > Do you have an opinion on that?
-> > 
-> > [1]:
-> > https://sashiko.dev/#/patchset/20260617-typec_set_mode-tracepoint-v1-1-bdfbb39cfccd%40pengutronix.de  
-> 
-> It's correct. You need to use a private trace.h in this case, so just
-> move it here: drivers/usb/typec/trace.h
-> 
-> And also make sure you include everything needed in that header like
-> it's telling you.
+Thinh Nguyen <Thinh.Nguyen@synopsys.com> =E4=BA=8E2026=E5=B9=B46=E6=9C=8827=
+=E6=97=A5=E5=91=A8=E5=85=AD 08:08=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Couldn't a race still happen here? I don't think you can just use
+> cancel_work_sync in tcm_disable here.
+>
 
+You're right. tcm_disable() can be called while the composite device lock i=
+s
+held, so using cancel_work_sync() there is not safe.
 
-You may need more updates to make this work in a different directory.
+I reworked this in v2 by using a small delayed-set-alt state machine:
+tcm_disable() now only uses a non-sleeping cancellation path. If the work i=
+s
+still queued, it is cancelled and cleaned up immediately. If it is already
+running, it is marked cancelled and the worker owns the cleanup before
+returning. cancel_work_sync() is only used from unbind/free paths where
+sleeping is safe.
 
-Please read the comments in:
+I also added Cc: stable@vger.kernel.org as suggested.
 
-  samples/trace_events/trace-events-sample.h
-
-and
-
-  samples/trace_events/Makefile
-
--- Steve
+Thanks,
+Cen Zhang
