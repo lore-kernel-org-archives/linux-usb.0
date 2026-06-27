@@ -1,163 +1,149 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2712F0680
-	for <linux-usb@vger.kernel.org>; Sat, 27 Jun 2026 19:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CBC367B98
+	for <linux-usb@vger.kernel.org>; Sat, 27 Jun 2026 20:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782587164; cv=none; b=pOMBnPqZGeIZg2AM7gbRM2kClouf/QBE3paQzd7afqcO7XQSFt3GEn5vEwhdu6IMMsmWA2L68X9PpplTmh8S6tYm3H0GaCjwZu9xCbzz0+WLAHfHj4ndWtcpO3hOOf5Fbv07IX7v1qMa+jUN0uTKuWaLnsKZ71R4pAO6x4Fy/pA=
+	t=1782593641; cv=none; b=tBcPbeztCtV5Ny9FZfuL80N9aJofYeii9WGGIfP7+RvEIA6O3Ef5O1KvJMX0mnStcsBGR+tRDITsvCzjRlQ89VHx7lnt2lkRJQxQmWJ1xUXUZyPlyYr5H5cEXHfkwL5/VL0n0vxFJV4IY76JdwLgGCCkcGeMxYM5rnxONdE4TlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782587164; c=relaxed/simple;
-	bh=89Zjr3sigTpNO+YBK0fIaiyL/mTz7iHfnKZeTYd4owc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CHh9vJT5EDKICrp3WhTU1RF7tP5lPB2oR03kNa7nz9L0yo4xuwTPhH7/5Vm0sbRQWGGKpCUj2tF8nfKSd82dcib8Xmgk7BbpLU+9JdqpfNxzFtk97H+yVCzSC2Goka4SxNzCPp5u2bOf4zhu/MVzdwqdHpNrSKxkBKajBJsPT1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Xy4i3pxx; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1782593641; c=relaxed/simple;
+	bh=e7wQOCZ2RmUk/JLlzqi8q5dvkrkwEKZp/vsqcgT7OlY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZQfUjVUMCrpijfaaTrKLtbRYkB0Ex3VfEYGFSnyA1CtfPCdSnN0UY85uIY7BX77XnM9GTn+aMJmbo5Zmqc17pACT8Qj9qoroP1BZEugT5ZEQcihF52VdRBC7cUJLNK91LJkY6h20Zex1UeLM7LOh6DXArVEuZTzi92Bk1/gYGvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=DOKTrW8b; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Xy4i3pxx"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8e3d22c38a8so23739906d6.0
-        for <linux-usb@vger.kernel.org>; Sat, 27 Jun 2026 12:06:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="DOKTrW8b"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-845c38dee22so985224b3a.0
+        for <linux-usb@vger.kernel.org>; Sat, 27 Jun 2026 13:53:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1782587162; x=1783191962; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tmvmjt9spbKklkKa1+k5Z+7yo+q1XUSyyWvIpAb5/rY=;
-        b=Xy4i3pxxx5BLnN9jW+L7GFwFPCm+ws8NXbyI5R9t/wVDvCMvy1OnSiiWn+DnDWNwSK
-         PSelaD0UAy/P+wYxcnNcImBmORTH3tCbQ5ziIQXgrdIoofPzL03JCUT3bnmc981Zl577
-         GGKsQqF/PZFTTsOamjP5srY6VEqXtcMe7KcddatfSomRn7QuB9bzTSVVZDikTND+h2YF
-         emLSZ2WMBaSuN6hmZreOpizHpxS/r1xZO6NH9N1u/KzY6rSSWYsKN4q4hC872Ln1ojOE
-         lGLSHOGc/ZjPxMXrF/f5LSsDXKHP2ovrfFf7gCDKUjosajtKycJYa8UiKHGKRceHP4xj
-         za7Q==
+        d=asu.edu; s=google; t=1782593638; x=1783198438; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eHRjizZyH2fQDJvnCRDCcWYlVrs6WnvhUFm2dNj9VHQ=;
+        b=DOKTrW8bzAoY0Yzfb1G1m3Wqgq7mfZ8C5ctzuUMu3uRxZ37zUjJmGmR3+3bVFcRSw8
+         MdjKkP/+cH+ZJqM7mcp6dFnEzqwpn+HU56zoWEc0Wm53TCpSvxdrAYSpaxnUnS2xUNDT
+         LthQpw6RFVv6fojSRBKsmVkOMoh/ZF9lSDCxGG9ppMrACmPE3TWsuYTXk1hYRHcypFkO
+         8KgcQZh137rNvvZ7I0KOuxF4hDknZRwbsHy/SRnmjsODxwbO48JoKJodyPSiyouDN/ns
+         sp5j6CXpqE6lkdBZkOhG3G2gaF+oKFQbWUP3EHwFLJSp2VRqbFTDE5PPNehgsmjFQY4n
+         RFkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782587162; x=1783191962;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tmvmjt9spbKklkKa1+k5Z+7yo+q1XUSyyWvIpAb5/rY=;
-        b=WqocdevZIHhXC3nRbU7IBnUT0x1xHBe/SrdHHtNH7uyiQlZtuPJG70dA+qaazZqGGY
-         JkerXmgeuiekOkYtQ3cx5X/p/Et6i931sQc9bnBf8OFTpUVt5UwR5d/Q12FZl7FVunZe
-         fQzi5euJbeoHTgLKbirdesqKVVeTF6Yjwb2rNq8Bwng5El4X0wBIhyni5fw9tsi/b815
-         cVgq/CIe7OSSTDIyIpWPusODujWXnYTy+tT9fO6IhC6jjOhhnabU7HHLXultWioTkbyP
-         ayFdOetVj6bEAr5lQpquip3n9xPQY1o/F7WGA1nalK0z0AtIxERWvS6k/wMKnja1AWyJ
-         k72A==
-X-Forwarded-Encrypted: i=1; AHgh+Rp3NwsbGpFk8gNFO4YgOpbho47R28i3NjXBEPhMdN4gzilyhV75WOWcKs5rtIvUnCmwY0JcVdPtHmI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvU/ybdY0qe1kKrpSVi7Jncpe/Gyec6MM6lXLe6K7r/gWXpQAo
-	MLUUTaDQjkJ9COolqr+BiwbgytEDdh+bN7atB1GzpEP4wBoHal20WkVghwMVBFJjVg==
-X-Gm-Gg: AfdE7cluTDguJzmjB+maR2HuVHtJ7JEmmKYQAi2bNQRtFfdjQpNuyn5EoMMPq4J/bFt
-	O0J5ZrCN8xED3wcsINrhJcBPRPeUYvfuDqqPqrAbnOp81GSj3thmzC+h5N6ytsQXvVxXyRFzqnX
-	y73qP2s7FMXB6putUBKltGC+Nw6cIoP7LmRv4FMMZPSQHTEjuY41EBMy/BfRhl5qlrzJHh0Hqzx
-	xi2xSj7Bx73Xkx0Nzi8T+cqWErZdR4bpqLI9Dzg9IfCxUTmzLbf4ZncNR/o0PR8ZwZJZqiZ0zwP
-	7/Xmy8sLGGa9uL9Bxb/9XDTynBB1WUL3PIah86Rg6ifbD7GnCYBy4aRSmfvTVmMJgCh5vWm4jxz
-	yH5mNU0xChga24punhQoW6gmMPZs0t9pBWDB9On/xvXQmTNpAoymB57KPYld3yEQD7aVZOCYotP
-	76wIY/dmf+YGVWS6/Ke3CbvCVIvzN9HYyP
-X-Received: by 2002:ad4:5aeb:0:b0:8ed:a980:6b2c with SMTP id 6a1803df08f44-8eda980739bmr31745426d6.30.1782587161596;
-        Sat, 27 Jun 2026 12:06:01 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8df82693f73sm251673806d6.44.2026.06.27.12.05.59
+        d=1e100.net; s=20251104; t=1782593638; x=1783198438;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eHRjizZyH2fQDJvnCRDCcWYlVrs6WnvhUFm2dNj9VHQ=;
+        b=Nq460uo5H2j1czYzV3F+z3khlju+ACoqAe9javF/o3WWvZ1gY4iYITm8/K4WUe118D
+         6cW0co4nXtceRcMVRFEhj97p6PEW5kT/N5H37VbfPkyx5OO0X6c5nnB4GHN+UyX3nyYJ
+         /Ad3DW+TYka1DbCd/T4bCsJYkdnnoIEN5BTIZdJrbjEQKip1Dicn0i41IaTTE+LwEZQ/
+         hEj8vxs8ANfpxjEuh6XpucAKIsmQrSiwFI+k+4tqRXYkXAyE1AYkoy1vSvZAAJaQSTzZ
+         +oYTJJzJOd5yfeKbRUaUkpkWud0ppQh0q1uviXHPDwcesgFRNZPKyHFEostmhlNlWRjq
+         75+g==
+X-Gm-Message-State: AOJu0Yy0uxBGKvj0AdZ79BmfkDB+HodW8tzyJAFMbqSdJkvnYlGsXH+X
+	jiBuoVPHk28g2FaZ56ti/R5SU0UnDgp5JD8O8raRkNzN0zrUyjUYdpXEM2AZt6+Bmg==
+X-Gm-Gg: AfdE7cmRmUVUsAHEYb2cOx0cJk//uCWzLsqxxLLuALK2MLgdXkkgBqNHeV3s/fqEW5i
+	Pm3dGYbaDYsKktcezVNwnVi/gbBoLxUxQPqUVIXD/J0P0Hm6QTVO86J7ABkvOLVnhEvM5+GGlsD
+	LGLlc6ekX/QOPa2KVhw/z/7RhovsC7baA87N2XLQCbwuoLCqLrjLd2CCBYl7S0zXlmdF6LtcsWn
+	CFgKEJLyCEDy5TBYFSVZeGJuK36qoJa3p9HLbYZmR2HoqjKdysPISgIctOI75jYrAec+zbn/XnG
+	36fK1JqbopYIX38nko72mmUgUIqcWUYJTjiakseYRBVPAhreC+T+xwwRW+UPAjeWGHU5wPvM9LM
+	MEyyNrpb66rf6r6gZLOq34rQsFG4hq9BHeKr0uz8KmG4nvAtKxt5rMn9fEUFRhjHQxVC86a3Zqx
+	WSqT6aRIQ=
+X-Received: by 2002:a05:6a00:c87:b0:845:a302:2281 with SMTP id d2e1a72fcca58-845d25fb441mr4561069b3a.35.1782593637421;
+        Sat, 27 Jun 2026 13:53:57 -0700 (PDT)
+Received: from p1.. ([2607:fb90:ec0d:cc1e:95f8:260b:6b05:f94])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-845a4127bd0sm8822715b3a.53.2026.06.27.13.53.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jun 2026 12:06:00 -0700 (PDT)
-Date: Sat, 27 Jun 2026 15:05:57 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Dawei Feng <dawei.feng@seu.edu.cn>
-Cc: gregkh@linuxfoundation.org, linusw@kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn, zilin@seu.edu.cn, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: free iso schedules on failed submit
-Message-ID: <1b80afec-0263-4e7a-8f9f-94abf15ae239@rowland.harvard.edu>
-References: <20260627060207.2543749-1-dawei.feng@seu.edu.cn>
+        Sat, 27 Jun 2026 13:53:57 -0700 (PDT)
+From: Xiang Mei <xmei5@asu.edu>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Weiming Shi <bestswngs@gmail.com>,
+	Xiang Mei <xmei5@asu.edu>
+Subject: [PATCH net] usbnet: gl620a: fix out-of-bounds read in genelink_rx_fixup()
+Date: Sat, 27 Jun 2026 13:53:53 -0700
+Message-ID: <20260627205353.4000788-1-xmei5@asu.edu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260627060207.2543749-1-dawei.feng@seu.edu.cn>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 27, 2026 at 02:02:07PM +0800, Dawei Feng wrote:
-> EHCI and FOTG210 isochronous submits build an ehci_iso_sched before
-> linking the URB to the endpoint queue, and keep the staged schedule in
-> urb->hcpriv until iso_stream_schedule() and the link helpers consume it.
-> If the controller is no longer accessible, or usb_hcd_link_urb_to_ep()
-> fails, submit jumps to done_not_linked before that handoff happens and
-> leaks the staged schedule still attached to urb->hcpriv.
-> 
-> Free the staged schedule from done_not_linked when submit fails before
-> the URB is linked and clear urb->hcpriv after the free.
-> 
-> The bug was first flagged by an experimental analysis tool we are
-> developing for kernel memory-management bugs while analyzing
-> v6.13-rc1. The tool is still under development and is not yet publicly
-> available. Manual inspection confirms that the bug is still
-> present in v7.1.1.
-> 
-> An x86_64 allyesconfig build showed no new warnings. As we do not have an
-> EHCI host controller with a USB isochronous device to test with, no
-> runtime testing was able to be performed.
-> 
-> Fixes: 8de98402652c ("[PATCH] USB: Fix USB suspend/resume crasher (#2)")
-> Fixes: e9df41c5c589 ("USB: make HCDs responsible for managing endpoint queues")
-> Fixes: 7d50195f6c50 ("usb: host: Faraday fotg210-hcd driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
-> ---
->  drivers/usb/fotg210/fotg210-hcd.c | 4 ++++
->  drivers/usb/host/ehci-sched.c     | 8 ++++++++
->  2 files changed, 12 insertions(+)
-> 
-> diff --git a/drivers/usb/fotg210/fotg210-hcd.c b/drivers/usb/fotg210/fotg210-hcd.c
-> index 1a48329a4e08..d92b11d488a5 100644
-> --- a/drivers/usb/fotg210/fotg210-hcd.c
-> +++ b/drivers/usb/fotg210/fotg210-hcd.c
-> @@ -4562,6 +4562,10 @@ static int itd_submit(struct fotg210_hcd *fotg210, struct urb *urb,
->  	else
->  		usb_hcd_unlink_urb_from_ep(fotg210_to_hcd(fotg210), urb);
->  done_not_linked:
-> +	if (status < 0) {
-> +		iso_sched_free(stream, urb->hcpriv);
-> +		urb->hcpriv = NULL;
-> +	}
->  	spin_unlock_irqrestore(&fotg210->lock, flags);
->  done:
->  	return status;
-> diff --git a/drivers/usb/host/ehci-sched.c b/drivers/usb/host/ehci-sched.c
-> index a241337c9af8..33a0111cfb37 100644
-> --- a/drivers/usb/host/ehci-sched.c
-> +++ b/drivers/usb/host/ehci-sched.c
-> @@ -1966,6 +1966,10 @@ static int itd_submit(struct ehci_hcd *ehci, struct urb *urb,
->  		usb_hcd_unlink_urb_from_ep(ehci_to_hcd(ehci), urb);
->  	}
->   done_not_linked:
-> +	if (status < 0) {
-> +		iso_sched_free(stream, urb->hcpriv);
-> +		urb->hcpriv = NULL;
-> +	}
+genelink_rx_fixup() splits an aggregated RX frame into its individual
+packets, using a per-packet length taken from device-supplied data. That
+length is only bounded by GL_MAX_PACKET_LEN (1514); it is never compared
+against how many bytes were actually received.
 
-That's not quite optimal, because iso_stream_schedule() already calls 
-iso_sched_free() whenever its return value is < 0.  You should remove 
-that call now that the deallocation is being done down here.  And also 
-have iso_stream_schedule() clear urb->hcpriv in the other place where it 
-calls iso_sched_free().
+A malicious GeneLink (GL620A) device can therefore send a short URB whose
+header claims packet_count > 1 and a first packet of up to 1514 bytes.
 
-Aside from that, this looks good.
+	skb_put_data(gl_skb, packet->packet_data, size);
 
-Alan Stern
+then copies past the end of the receive buffer and hands the adjacent slab
+contents up the network stack, an out-of-bounds read that leaks kernel heap.
+No privilege is required: the path runs in the usbnet RX softirq as soon as
+the interface is up.
 
->  	spin_unlock_irqrestore(&ehci->lock, flags);
->   done:
->  	return status;
-> @@ -2343,6 +2347,10 @@ static int sitd_submit(struct ehci_hcd *ehci, struct urb *urb,
->  		usb_hcd_unlink_urb_from_ep(ehci_to_hcd(ehci), urb);
->  	}
->   done_not_linked:
-> +	if (status < 0) {
-> +		iso_sched_free(stream, urb->hcpriv);
-> +		urb->hcpriv = NULL;
-> +	}
->  	spin_unlock_irqrestore(&ehci->lock, flags);
->   done:
->  	return status;
-> -- 
-> 2.34.1
+  BUG: KASAN: slab-out-of-bounds in genelink_rx_fixup (drivers/net/usb/gl620a.c:112)
+  Read of size 1514 at addr ffff888011309708 by task ksoftirqd/0/14
+  Call Trace:
+    ...
+    __asan_memcpy (mm/kasan/shadow.c:105)
+    genelink_rx_fixup (include/linux/skbuff.h:2814 drivers/net/usb/gl620a.c:112)
+    usbnet_bh (drivers/net/usb/usbnet.c:572 drivers/net/usb/usbnet.c:1589)
+    process_one_work (kernel/workqueue.c:3322)
+    bh_worker (kernel/workqueue.c:3405)
+    tasklet_action (kernel/softirq.c:965)
+    handle_softirqs (kernel/softirq.c:622)
+    run_ksoftirqd (kernel/softirq.c:1076)
+    ...
+
+skb_pull() already verifies that the requested length fits the buffer and
+returns NULL otherwise. Move it ahead of the copy and check its result, so
+a packet that overruns the received data is rejected before it is read.
+Well-formed frames, whose packets are fully present, are unaffected.
+
+Fixes: 47ee3051c856 ("[PATCH] USB: usbnet (5/9) module for genesys gl620a cables")
+Reported-by: Weiming Shi <bestswngs@gmail.com>
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Xiang Mei <xmei5@asu.edu>
+---
+ drivers/net/usb/gl620a.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/usb/gl620a.c b/drivers/net/usb/gl620a.c
+index 0bfa37c14059..09afd137b64e 100644
+--- a/drivers/net/usb/gl620a.c
++++ b/drivers/net/usb/gl620a.c
+@@ -104,6 +104,9 @@ static int genelink_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+ 			return 0;
+ 		}
+ 
++		if (!skb_pull(skb, size + 4))
++			return 0;
++
+ 		// allocate the skb for the individual packet
+ 		gl_skb = alloc_skb(size, GFP_ATOMIC);
+ 		if (gl_skb) {
+@@ -116,9 +119,6 @@ static int genelink_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+ 		// advance to the next packet
+ 		packet = (struct gl_packet *)&packet->packet_data[size];
+ 		count--;
+-
+-		// shift the data pointer to the next gl_packet
+-		skb_pull(skb, size + 4);
+ 	}
+ 
+ 	// skip the packet length field 4 bytes
+-- 
+2.43.0
+
