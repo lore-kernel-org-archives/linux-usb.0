@@ -1,88 +1,163 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE683161BA;
-	Sat, 27 Jun 2026 16:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2712F0680
+	for <linux-usb@vger.kernel.org>; Sat, 27 Jun 2026 19:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782576465; cv=none; b=SPNlPXe9V5FNqbuWDc0OVJbZ3tVfVun5Kcqfg542eaQexdDvNJW/BB+3kWOk28nv1YmlUyZmU3npxu1NzJD+jiQdGjK44/RyR/UVBjkoy4vdioRoS4bREauJiu4p86FaeQgOy7HNrhW7+M0zj5U1zz4FMHdFr9GBoF3sivP2fqM=
+	t=1782587164; cv=none; b=pOMBnPqZGeIZg2AM7gbRM2kClouf/QBE3paQzd7afqcO7XQSFt3GEn5vEwhdu6IMMsmWA2L68X9PpplTmh8S6tYm3H0GaCjwZu9xCbzz0+WLAHfHj4ndWtcpO3hOOf5Fbv07IX7v1qMa+jUN0uTKuWaLnsKZ71R4pAO6x4Fy/pA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782576465; c=relaxed/simple;
-	bh=kbXE+e2kShUdFQUZEtzV5kb5kIHvO0+olg3vo8dAYAI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=QVIWMeaa2RUosxF2ZKkdx5Qbzu4wuJjA+f3NDKn1y0aqXogXgBvq2l1Shxt6lGEzla+KUv6ZpKEwK6t7BmXWcar0u0In155TyXTsu6x/6fCxfjF/EJy+/AT05+iz7W2sxrKVf7F1Rxiv0Gz7onQCEPjdcD1tJa12M9U780ta9SU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qw2Y59Rm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782587164; c=relaxed/simple;
+	bh=89Zjr3sigTpNO+YBK0fIaiyL/mTz7iHfnKZeTYd4owc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CHh9vJT5EDKICrp3WhTU1RF7tP5lPB2oR03kNa7nz9L0yo4xuwTPhH7/5Vm0sbRQWGGKpCUj2tF8nfKSd82dcib8Xmgk7BbpLU+9JdqpfNxzFtk97H+yVCzSC2Goka4SxNzCPp5u2bOf4zhu/MVzdwqdHpNrSKxkBKajBJsPT1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Xy4i3pxx; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qw2Y59Rm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24B671F000E9;
-	Sat, 27 Jun 2026 16:07:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782576463;
-	bh=Eai9illNnwIVHHx82Y8oRRChAijNkCdc6Gtuf6pgPNA=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=Qw2Y59RmKIirc9QicmPqL66sTrj2a2pRKQ4q1v06L1xA9E/C/n8ujusPhFM+JyAMq
-	 Sc7C+LA2hGDEhdfXPP6JFmdPW/lxQo9uwCywxV3gUUCsoaqp/p8gFp8rSRqgPX9Rot
-	 aq3TQmnmHDhFsytBp0U3bmY62h9aCkV7OgVPCbZZlU8BaFdjaz9P3zEBUeuvx5tPmD
-	 4Tx2RvxcWeTQ2au9N+Wnor838KKBkB0xRChuAMilaNqmNIuEwn8ueK3uR1GU+mDUy3
-	 YyRV47jAv1zDKiToKjdTIwjPqIKhSumFkr9k6T4RB7BOfeDsDOS70P4Gje9HvpGVAd
-	 5T1h6xlOziCJQ==
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Xy4i3pxx"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8e3d22c38a8so23739906d6.0
+        for <linux-usb@vger.kernel.org>; Sat, 27 Jun 2026 12:06:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1782587162; x=1783191962; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tmvmjt9spbKklkKa1+k5Z+7yo+q1XUSyyWvIpAb5/rY=;
+        b=Xy4i3pxxx5BLnN9jW+L7GFwFPCm+ws8NXbyI5R9t/wVDvCMvy1OnSiiWn+DnDWNwSK
+         PSelaD0UAy/P+wYxcnNcImBmORTH3tCbQ5ziIQXgrdIoofPzL03JCUT3bnmc981Zl577
+         GGKsQqF/PZFTTsOamjP5srY6VEqXtcMe7KcddatfSomRn7QuB9bzTSVVZDikTND+h2YF
+         emLSZ2WMBaSuN6hmZreOpizHpxS/r1xZO6NH9N1u/KzY6rSSWYsKN4q4hC872Ln1ojOE
+         lGLSHOGc/ZjPxMXrF/f5LSsDXKHP2ovrfFf7gCDKUjosajtKycJYa8UiKHGKRceHP4xj
+         za7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782587162; x=1783191962;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tmvmjt9spbKklkKa1+k5Z+7yo+q1XUSyyWvIpAb5/rY=;
+        b=WqocdevZIHhXC3nRbU7IBnUT0x1xHBe/SrdHHtNH7uyiQlZtuPJG70dA+qaazZqGGY
+         JkerXmgeuiekOkYtQ3cx5X/p/Et6i931sQc9bnBf8OFTpUVt5UwR5d/Q12FZl7FVunZe
+         fQzi5euJbeoHTgLKbirdesqKVVeTF6Yjwb2rNq8Bwng5El4X0wBIhyni5fw9tsi/b815
+         cVgq/CIe7OSSTDIyIpWPusODujWXnYTy+tT9fO6IhC6jjOhhnabU7HHLXultWioTkbyP
+         ayFdOetVj6bEAr5lQpquip3n9xPQY1o/F7WGA1nalK0z0AtIxERWvS6k/wMKnja1AWyJ
+         k72A==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3NwsbGpFk8gNFO4YgOpbho47R28i3NjXBEPhMdN4gzilyhV75WOWcKs5rtIvUnCmwY0JcVdPtHmI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvU/ybdY0qe1kKrpSVi7Jncpe/Gyec6MM6lXLe6K7r/gWXpQAo
+	MLUUTaDQjkJ9COolqr+BiwbgytEDdh+bN7atB1GzpEP4wBoHal20WkVghwMVBFJjVg==
+X-Gm-Gg: AfdE7cluTDguJzmjB+maR2HuVHtJ7JEmmKYQAi2bNQRtFfdjQpNuyn5EoMMPq4J/bFt
+	O0J5ZrCN8xED3wcsINrhJcBPRPeUYvfuDqqPqrAbnOp81GSj3thmzC+h5N6ytsQXvVxXyRFzqnX
+	y73qP2s7FMXB6putUBKltGC+Nw6cIoP7LmRv4FMMZPSQHTEjuY41EBMy/BfRhl5qlrzJHh0Hqzx
+	xi2xSj7Bx73Xkx0Nzi8T+cqWErZdR4bpqLI9Dzg9IfCxUTmzLbf4ZncNR/o0PR8ZwZJZqiZ0zwP
+	7/Xmy8sLGGa9uL9Bxb/9XDTynBB1WUL3PIah86Rg6ifbD7GnCYBy4aRSmfvTVmMJgCh5vWm4jxz
+	yH5mNU0xChga24punhQoW6gmMPZs0t9pBWDB9On/xvXQmTNpAoymB57KPYld3yEQD7aVZOCYotP
+	76wIY/dmf+YGVWS6/Ke3CbvCVIvzN9HYyP
+X-Received: by 2002:ad4:5aeb:0:b0:8ed:a980:6b2c with SMTP id 6a1803df08f44-8eda980739bmr31745426d6.30.1782587161596;
+        Sat, 27 Jun 2026 12:06:01 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8df82693f73sm251673806d6.44.2026.06.27.12.05.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jun 2026 12:06:00 -0700 (PDT)
+Date: Sat, 27 Jun 2026 15:05:57 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Dawei Feng <dawei.feng@seu.edu.cn>
+Cc: gregkh@linuxfoundation.org, linusw@kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jianhao.xu@seu.edu.cn, zilin@seu.edu.cn, stable@vger.kernel.org
+Subject: Re: [PATCH] usb: free iso schedules on failed submit
+Message-ID: <1b80afec-0263-4e7a-8f9f-94abf15ae239@rowland.harvard.edu>
+References: <20260627060207.2543749-1-dawei.feng@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 27 Jun 2026 18:07:32 +0200
-Message-Id: <DJJYM56GLGXX.2L6RY669ZOJSC@kernel.org>
-Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Mark Brown" <broonie@kernel.org>, "Nathan
- Chancellor" <nathan@kernel.org>, "Nick Desaulniers"
- <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>, "Raag Jadav"
- <raag.jadav@intel.com>, "Sohil Mehta" <sohil.mehta@intel.com>, "Dave
- Hansen" <dave.hansen@linux.intel.com>, "Rob Herring" <robh@kernel.org>,
- "Saravana Kannan" <saravanak@kernel.org>, "Bjorn Helgaas"
- <bhelgaas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, "Len Brown"
- <lenb@kernel.org>, "Andi Shyti" <andi.shyti@kernel.org>,
- <linux-kernel@vger.kernel.org>, "Yemike Abhilash Chandra"
- <y-abhilashchandra@ti.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- <linux-media@vger.kernel.org>, "Nicolas Frattaroli"
- <nicolas.frattaroli@collabora.com>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Heiko
- Stuebner" <heiko@sntech.de>, <linux-rockchip@lists.infradead.org>,
- <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <driver-core@lists.linux.dev>, "Jonathan Cameron" <jic23@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Bartosz Golaszewski"
- <bartosz.golaszewski@oss.qualcomm.com>, "Pei Xiao" <xiaopei01@kylinos.cn>,
- "Shashank Balaji" <shashank.mahadasyam@sony.com>, "Ben Horgan"
- <ben.horgan@arm.com>, "Johan Hovold" <johan@kernel.org>,
- <linux-usb@vger.kernel.org>, "Nikita Kravets" <teackot@gmail.com>, "Hans de
- Goede" <hansg@kernel.org>, =?utf-8?q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, <platform-driver-x86@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-i2c@vger.kernel.org>, "Daniel Scally"
- <dan.scally@ideasonboard.com>, "Sakari Ailus"
- <sakari.ailus@linux.intel.com>, "Minas Harutyunyan" <hminas@synopsys.com>,
- "Tianrui Zhao" <zhaotianrui@loongson.cn>, "Bibo Mao" <maobibo@loongson.cn>,
- "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
- <kvm@vger.kernel.org>, <loongarch@lists.linux.dev>
-To: =?utf-8?b?VXdlIEtsZWluZS1Lw7ZuaWcgKFRoZSBDYXBhYmxlIEh1Yik=?=
- <u.kleine-koenig@baylibre.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 00/17] mod_devicetable.h: Split into per subsystem
- headers
-References: <cover.1782490566.git.u.kleine-koenig@baylibre.com>
-In-Reply-To: <cover.1782490566.git.u.kleine-koenig@baylibre.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260627060207.2543749-1-dawei.feng@seu.edu.cn>
 
-On Fri Jun 26, 2026 at 8:00 PM CEST, Uwe Kleine-K=C3=B6nig (The Capable Hub=
-) wrote:
-> Uwe Kleine-K=C3=B6nig (The Capable Hub) (17):
->   mod_devicetable.h: Split into per subsystem headers
->   driver: core: Include headers for acpi_device_id and of_device_id for s=
-truct device_driver
->   driver core: platform: Include header for struct platform_device_id
+On Sat, Jun 27, 2026 at 02:02:07PM +0800, Dawei Feng wrote:
+> EHCI and FOTG210 isochronous submits build an ehci_iso_sched before
+> linking the URB to the endpoint queue, and keep the staged schedule in
+> urb->hcpriv until iso_stream_schedule() and the link helpers consume it.
+> If the controller is no longer accessible, or usb_hcd_link_urb_to_ep()
+> fails, submit jumps to done_not_linked before that handoff happens and
+> leaks the staged schedule still attached to urb->hcpriv.
+> 
+> Free the staged schedule from done_not_linked when submit fails before
+> the URB is linked and clear urb->hcpriv after the free.
+> 
+> The bug was first flagged by an experimental analysis tool we are
+> developing for kernel memory-management bugs while analyzing
+> v6.13-rc1. The tool is still under development and is not yet publicly
+> available. Manual inspection confirms that the bug is still
+> present in v7.1.1.
+> 
+> An x86_64 allyesconfig build showed no new warnings. As we do not have an
+> EHCI host controller with a USB isochronous device to test with, no
+> runtime testing was able to be performed.
+> 
+> Fixes: 8de98402652c ("[PATCH] USB: Fix USB suspend/resume crasher (#2)")
+> Fixes: e9df41c5c589 ("USB: make HCDs responsible for managing endpoint queues")
+> Fixes: 7d50195f6c50 ("usb: host: Faraday fotg210-hcd driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+> ---
+>  drivers/usb/fotg210/fotg210-hcd.c | 4 ++++
+>  drivers/usb/host/ehci-sched.c     | 8 ++++++++
+>  2 files changed, 12 insertions(+)
+> 
+> diff --git a/drivers/usb/fotg210/fotg210-hcd.c b/drivers/usb/fotg210/fotg210-hcd.c
+> index 1a48329a4e08..d92b11d488a5 100644
+> --- a/drivers/usb/fotg210/fotg210-hcd.c
+> +++ b/drivers/usb/fotg210/fotg210-hcd.c
+> @@ -4562,6 +4562,10 @@ static int itd_submit(struct fotg210_hcd *fotg210, struct urb *urb,
+>  	else
+>  		usb_hcd_unlink_urb_from_ep(fotg210_to_hcd(fotg210), urb);
+>  done_not_linked:
+> +	if (status < 0) {
+> +		iso_sched_free(stream, urb->hcpriv);
+> +		urb->hcpriv = NULL;
+> +	}
+>  	spin_unlock_irqrestore(&fotg210->lock, flags);
+>  done:
+>  	return status;
+> diff --git a/drivers/usb/host/ehci-sched.c b/drivers/usb/host/ehci-sched.c
+> index a241337c9af8..33a0111cfb37 100644
+> --- a/drivers/usb/host/ehci-sched.c
+> +++ b/drivers/usb/host/ehci-sched.c
+> @@ -1966,6 +1966,10 @@ static int itd_submit(struct ehci_hcd *ehci, struct urb *urb,
+>  		usb_hcd_unlink_urb_from_ep(ehci_to_hcd(ehci), urb);
+>  	}
+>   done_not_linked:
+> +	if (status < 0) {
+> +		iso_sched_free(stream, urb->hcpriv);
+> +		urb->hcpriv = NULL;
+> +	}
 
-With the suggested rename,
+That's not quite optimal, because iso_stream_schedule() already calls 
+iso_sched_free() whenever its return value is < 0.  You should remove 
+that call now that the deallocation is being done down here.  And also 
+have iso_stream_schedule() clear urb->hcpriv in the other place where it 
+calls iso_sched_free().
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+Aside from that, this looks good.
+
+Alan Stern
+
+>  	spin_unlock_irqrestore(&ehci->lock, flags);
+>   done:
+>  	return status;
+> @@ -2343,6 +2347,10 @@ static int sitd_submit(struct ehci_hcd *ehci, struct urb *urb,
+>  		usb_hcd_unlink_urb_from_ep(ehci_to_hcd(ehci), urb);
+>  	}
+>   done_not_linked:
+> +	if (status < 0) {
+> +		iso_sched_free(stream, urb->hcpriv);
+> +		urb->hcpriv = NULL;
+> +	}
+>  	spin_unlock_irqrestore(&ehci->lock, flags);
+>   done:
+>  	return status;
+> -- 
+> 2.34.1
