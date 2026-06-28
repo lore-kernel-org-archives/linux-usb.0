@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C695F12F585
-	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 07:22:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C2F218845
+	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 07:28:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782631369; cv=none; b=EdvVyUEwlBrsjXBOANWlXHkEoGYVTFdKRIkqYne5oV79j4k0dYH6JYZ4Pc+lrHHNC3q9vs+DcG0AviFyFL74sX3zD9D3Ii8fJIvXrfGXcvX5edk0qLFwGX9dL+X5B+Q/kiQmn32ZUfkWWGuBiU2zK5iedZtnskrFHEFiESWmU3g=
+	t=1782631695; cv=none; b=K5v4/1kRyjewAWw5QCIHZ0KbZHwEv43i+UYk5+aLnW44tZjE4XB/A4QADZJMzoGWmjvsn2eLl+mCIljCRIZ9vV277+OgLU2k9654qC3fB1x3yQ0YkL/TmFOxlJ56+ULgCZO+5On3CjEP0VMOHwAiC+NDc9N9vZyqn27opMRgVTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782631369; c=relaxed/simple;
-	bh=Lv60fe2qd6NfkQddNdYxz8iQxecEUG5qTURUkN83gig=;
+	s=arc-20240116; t=1782631695; c=relaxed/simple;
+	bh=4sffH032SPCtDJzKHJC9BSGQ8Mid+j0QBd8FturgRnw=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KuUy9DjcKTsvb0zAgwxyGiipey18dbyR+yFQdTtqyobH0EuHxE9lWfDL1fNxSwOKWsnbPOJkX7Sfms6QK1ORgwAflICL1ygBjS64MxnAbFgr3AJQU2toybsx64nGhzK4uKxxKqNk8FVPXktzig6Wxly1X28oQ7ppEl/x+vT66js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PBdcCsl0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=C5wTjEOrnkY+UePaklggE9VbrGqSeXR5cdWuZslbWWTORFOe1Kk5hduKjLpTvjge+coqFeKFRksaJGNh+RkF/tRzUBc0f6NZKL+IZd3tk7MVtY7SXITw59OJZByCouX3xTdvbIstSzdWXdzbrFq4b9pU7TLEEuVdldOlZiBskm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PFBJvcHb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PBdcCsl0"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6ED6AC2BCB9
-	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 07:22:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PFBJvcHb"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3A2BFC2BCB9
+	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 07:28:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1782631369;
-	bh=Lv60fe2qd6NfkQddNdYxz8iQxecEUG5qTURUkN83gig=;
+	s=k20201202; t=1782631694;
+	bh=4sffH032SPCtDJzKHJC9BSGQ8Mid+j0QBd8FturgRnw=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=PBdcCsl04kCJT9KB0SSHWpCamMoFAWAPUYZ8JnWIl5Iz+4a0I8w4Q8H2dvtc7E87E
-	 54nqjBxYYxXQSSBbo+iNv1rudtOr58iimKApVmj1sALjgNCqIGmNQK+MILn3FgQeD7
-	 Ej0qoWsPHGZqlkvYPcabb69sDjHue69wRTwNt+99uzLNxoZLxbPZdmBpZYOYnDGuGL
-	 pmB7i5g4B0ORvH1oUBMO5TNWeyxo9bmL9CduWhlFjvK2OwC3bguq8DF5mAZ+kRFATr
-	 OguOIoJ/shKiyXQwMS/B2LTlYKIj/iZ05x3XYhmouztaDO7WIREoDBwNtK/Ey3XfS2
-	 gHmTwEyegTovg==
+	b=PFBJvcHbSjMp2nyPbT6xCA/JikZaOdYJ+4sFtcbC8hzXZ+bbdm2EA5quWEdz8w5JV
+	 tO/7GLLIpvDQSDK6pbZtCdNYy0KK/vi+IPWxNVDPXHzB+LcLt2HhpdGL/DbpyudfsC
+	 5vdclMpvqL2IKvrMZZxsixYIrMceWSLFo6H+ljcWSRJ8vle1AVjuc6sVVQif5Hsrs7
+	 JVkHeGbQ116zaU/Vx0AWV71YZFa8GcfEzwI2ehCwnYgYXrVpXcGCaXNA6+jCmQm+l7
+	 uurblY6oIkUk8arh/BVAzH+DyeC7LsBkzYFgAffjyFkXJJtQtVYAeJotgLu1QE8aFz
+	 Vvg4MPR0PVkZA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 6513FC41614; Sun, 28 Jun 2026 07:22:49 +0000 (UTC)
+	id 1E2F8C41614; Sun, 28 Jun 2026 07:28:14 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: =?UTF-8?B?W0J1ZyAyMjE2OTldIFBDSWUgbGluayBkcm9wcyBkdXJpbmcgR1BV?=
  =?UTF-8?B?IEJBUjIgaW5pdCDigJQgTWluaXNmb3J1bSBERUcyIGVHUFUgZG9jayBvdmVy?=
  =?UTF-8?B?IFRodW5kZXJib2x0IDQ=?=
-Date: Sun, 28 Jun 2026 07:22:49 +0000
+Date: Sun, 28 Jun 2026 07:28:13 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -49,7 +49,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-221699-208809-ojSTNFC2F3@https.bugzilla.kernel.org/>
+Message-ID: <bug-221699-208809-gzWeQ8ehSU@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221699-208809@https.bugzilla.kernel.org/>
 References: <bug-221699-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -65,10 +65,12 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221699
 
---- Comment #1 from Artiom (artiom@flexlabs.org) ---
-Created attachment 310386
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310386&action=3Dedit
-dmesg logs: Connecting the dock with GPU removed, only NVMe drive attached
+--- Comment #2 from Artiom (artiom@flexlabs.org) ---
+Created attachment 310387
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310387&action=3Dedit
+dmesg logs: Connected the dock with the nvidia driver disabled in grub, usi=
+ng
+Nouveau driver instead
 
 --=20
 You may reply to this email to add a comment.
