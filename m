@@ -1,132 +1,200 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651E12E7377
-	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 17:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55FF3101C2
+	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 19:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782667330; cv=none; b=mwOQDGsvg6+NNle4FRZCQizp2RvbTqsZErAomJSjlvtiMVcgCPZnqwJncETLM3sx1Q6hTgYMp2rqFZRcP4IZ61z+faMpwfEzhTG48TqWwu2NAuYCIrGl772mmTM12FBEzH8sZfXTbk9sfT+1XED1l4I5gnEfYED/yuz08BfuoMc=
+	t=1782674289; cv=none; b=GuyEGQHCicoJhNrqaG1xdJUC380rnxPlcQcWXE8BkijboH9acWN/WPAOn8WWoTa+mbwAyuLL0TMVg7JqbgQW802ouEXWBq1XQQbQDyvdXAlNxZiZ3aZkQUe7ktiZB2nqLScixqcsmDiCXd0g+P1QFuZgzlEmdbUZWBXahxz74BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782667330; c=relaxed/simple;
-	bh=K3EOnm1FTPPIVgm7ZBKpbKmC5oI+YrXDEzBB1/dVpHY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JevnbFIMQn+MaCQ9LIPHOeo0TI17hUuBy6xDnyqK5Q+vEX6Q2DiF3H7g8a81R+nghSsiez+N0JsjGxUpRWaOnmRHrE9wnotXMtI6x6mXmku51S490dbhFoxbR4dLKAjcXjQ54XR1YiAUAp36apLGBmBTrq/wzp0YE9RbS7URglI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p9ZMZPeK; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782674289; c=relaxed/simple;
+	bh=n/G92GrsA9ruso1DbYIYE4AnAPuAZp/VAjINM+B7Ly0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o2y5xJn5zwYzblxToh+3JrgBix/eQ0hMS+R3YHjrO8ztZ6Go9GhOK/jZHW2Id8QJXLgBfIyNshBkioHAJac+i2FdHuQ4CyMFVEQjxeWCfGzKy/3KN9D3Kggbmo5lpTQw9qZLCZUfds1cS27nBTv/ZNGsdYjD6aetNGsnFS7cnEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Xxul7sXu; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p9ZMZPeK"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-46cbe01d4b6so1433451f8f.2
-        for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 10:22:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Xxul7sXu"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-92e512a9a6bso16295285a.2
+        for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 12:18:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782667328; x=1783272128; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BBABlV/y3tcVRj6J4pCvx1ErOlS8DPYAimesttySdoE=;
-        b=p9ZMZPeKYklW9y9bTUWZv3xL6SxinrYKC5qxU3P6Z7EqCWdR8yfWyWcsx4c4uga1cS
-         aqSPWK32B7VKgYG0SbA1DKqWFF4SvPv9n+/PKDkyEzkHFDjPJ3IsmHjP/OZhmjsyLmYC
-         /kGnBW3J+e62qCJiqiTZ/KOPwYF6x+P8OLWnJKDqDpYhglZp68xomAami1etPoSCVcs3
-         AEH4SIKd70Sv8N0g6Csgxpi6OY4yn+VBPMprnCVb7DoJI+FIbJEAZ24qSCFhw7cqUbSB
-         +95cB+MjtzRMKa4aDrWNVLpo+LRybZd1wwMXxcx2zaoaiOA0RhvbBQgyZegVuyJ7uygk
-         oLCg==
+        d=rowland.harvard.edu; s=google; t=1782674287; x=1783279087; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oo5Z8Yt77eV159eB51RytXZ95igPn7LmT+HtkoqhKVU=;
+        b=Xxul7sXuHGHi+ll0holyF4sdpxdTJvRDQ7SnP+xGyabk8dvVpGkDlSeYwy7o3xPkIh
+         tJ1nqASfQ0mKMDEnEji7qpgBMUkWQgL2GJlWhIDGRwgZwLrQcWWLYRT3V4KXlffRx7l9
+         KvPXVtSvwMXFKNXOsnGK5+wM2pdezRLxt2rhe0m6Oyg5WrLUkz8dkr6hFjVdLB+ZH50o
+         9p6xtkoW0Zaje1gJdK11HMu48alPaC8mLQ2b/mMvBL3EhfG732/5UwFTXA+pknJTRdpw
+         EsnOikqJMpwdq3QuF8Cz8VduDFm8Sll1HxflbQ3b+58VC1TQLAhQuttrzFn1jSsusGmo
+         Ca/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782667328; x=1783272128;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BBABlV/y3tcVRj6J4pCvx1ErOlS8DPYAimesttySdoE=;
-        b=TIF6oa3/AjFg+Si5mX1xQ1h+Ty2p+miP/qF0Yhlz+M3YGkdgn1pCBBiDez6UkLsIDh
-         xiD2gS2Jo+DpHaaW8PHrnUnz+CbMrmZpxiiQhHAJmUjzfKBYNqKcRp4029NATeQMe1a5
-         ogWaD5Wo2l6f3jSqtFGs3OG2VBHZKc/n5fMzM7sFPdQrpHENCHWjRSegAPSEQeAvrzTC
-         UXwOCE5nwJIgv4iETrnh1GYBjwl+0R/UhAt7bJt5qMUrbwgd73sqdGjylyUzOQl9Qzng
-         dy2rsAMC8agDrJDzpkRmHvD8groWUDksdBwZgl8SSj2X8KDHiYFjFmI/Hw1A3TybWdT2
-         //IA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp3Pn1tUztvDSI8lzLtMAhoNI75RYCqrloaG5LVxmuVtemJHiJ5BYZhWgLpDCJuaPWTuCc3CvlQ0uk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxo13iysGB09jcndXfobDtjwDCDF4wc/IMyeaz2o9as/XZmnPuv
-	JDdnjlCCTs6ViEdnfJFnZacBWSxh9eovLkNBrrttNNDO7Hs5NbV0Phr3
-X-Gm-Gg: AfdE7cmCVkW4g+XiAwgQLV0jB+psb2ZE+dzI/TMrbWi6PQKCESB6jj08dLR/qXLmaQK
-	h85W+OUe9zqNhCU+6OkXaHxF721OCPqcohKGHFJ1pMwO+vK5sClWbPSzrQ6+2Ds0ZAGYAiuG/mP
-	QSjoIODtJ/CKbiZuKdLXmCc0j1YSYxqGI56NuEtaOJiJb7r+ZiywutgSLTTaar5UNrxsaU8c7ql
-	tUGAtAuTCiw4knMhBoY1dIhkv9WmQ1dcF607ip3ZSOA6oo3K1vioJ3ItgpSQQb7H7QNdK+LQEOC
-	4tACavxVBtAXsvGRE5k8DkcnNJKwDvZ41CwMqPoY1mdNbCpGVa+jdeXHJKF3qppSNfnMS+kzpnj
-	26c4S6dNWgaFJv+5k8LU6p1yUPQ33pejGWAXcEheQALGrdLhX8WYjohLApjgPEPDELRn5yu4j/T
-	cChX/a5NKO4rlFtnGkyjEiw5T/
-X-Received: by 2002:a05:6000:1867:b0:46d:8695:f49d with SMTP id ffacd0b85a97d-46dc2a1614cmr23514992f8f.34.1782667327708;
-        Sun, 28 Jun 2026 10:22:07 -0700 (PDT)
-Received: from foxbook (bgu190.neoplus.adsl.tpnet.pl. [83.28.84.190])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-472c7bec9c2sm7927088f8f.12.2026.06.28.10.22.06
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 28 Jun 2026 10:22:07 -0700 (PDT)
-Date: Sun, 28 Jun 2026 19:22:03 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
+        d=1e100.net; s=20251104; t=1782674287; x=1783279087;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oo5Z8Yt77eV159eB51RytXZ95igPn7LmT+HtkoqhKVU=;
+        b=Ed5ChdAr0ti7CFvN3mZwOn8kcLpXAoBolI3gSfqV89ZdOkmkDwy+DGcmHZC6S0vZg9
+         QP6qMDR44c3tVgvr/nm4MR95S8RKNlrl5qmJ1sF+WI2Iln7MLaEjvxUdLOa2trVjAYM+
+         Tm2Bs1dalyBBiVIVCXMgUhizJvHw3ZT3iom5agJ3Hu2UO8bJUaJLlggH5G/38LW58+Pi
+         w6BvACUUDadvyjO0EuC3arpvGwtujKz6SQufyjSG0v3I4+BRvs1G1905TvCP3WPt9Haa
+         9wpacf/j9WAYJYr90DxErzGABsybKhjPvCKkKkpIjNnonyAbUsSA8aMa1Cr2li36Qb/k
+         q6Ng==
+X-Forwarded-Encrypted: i=1; AFNElJ9vTCffd8pcVOivVgug9wgs9Z+7q+HXYBJK9igSpXTXNzMUl/7x/ZUYNQuMU4u2NZAGp8j8JwscQ0c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEAXBV6cB84z1q3A6QHDTW5gXsWVe5srqZUaOokvaVrVErFZ04
+	vtBbH9/i+IePE+Nt5HGYbCQoFMYU5XHKw8xVN1+Rvpn1EkHoeac74wgmA1hStgR+CQ==
+X-Gm-Gg: AfdE7cn5D+dm1Hwta/f3PM4oI6rkrZ0GaXvoAQCYJkjMRyjvjpmcqXgN518RRmEoyEx
+	+vLTSTRfqWhKOD8ySm9UtfGPPSY8z6OsDrzsiBRj4NOj0SEsNZ8EteOre8LTl62SOl5t7Ec76oc
+	Zt1w4P4hrHQmzDzyzyUwfWMMQDKyF9zVf6NNL2Lc9E3XLHdc5CfcR8/NmeV0dyXhtEyeOiuNpUp
+	8b1LDPcZMjvVPNQ0CIltOD0zGYKS+pMiAp1sksGyz8BD6yKcZCDDtoxHIs3xc8+D2zWFKSbfPO/
+	jzlt/isU0926dlSg1W8gUYfB3a9vF4y+LgpaEzl4l6YNQaxDPZgtA5wvA27CT6KbTPFhYrTqsUZ
+	JUEEKUq8helVc1PAkCBd4mwTOnXv+eyJMQHWwXKtkysqocGc0ufdVv21EDTsxycgfJ7iOERaki+
+	h2aXdwKUSDxZxPY0FOVmp8N2yLzl8qKTgR
+X-Received: by 2002:a05:620a:a0c6:20b0:92b:a2f6:d1a9 with SMTP id af79cd13be357-92ba2f6d1f0mr646592985a.44.1782674286568;
+        Sun, 28 Jun 2026 12:18:06 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-926000c343bsm1872097985a.28.2026.06.28.12.18.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Jun 2026 12:18:05 -0700 (PDT)
+Date: Sun, 28 Jun 2026 15:18:02 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Michal Pecio <michal.pecio@gmail.com>
 Cc: Nikhil Solanke <nikhilsolanke5@gmail.com>, linux-usb@vger.kernel.org,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-doc@vger.kernel.org
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org
 Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-Message-ID: <20260628192203.5fb9daac.michal.pecio@gmail.com>
-In-Reply-To: <20260628190201.00afdccf.michal.pecio@gmail.com>
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
-	<567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
-	<CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com>
-	<5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
-	<CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com>
-	<eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
-	<CAFgddhLZ9SuOzG_6mW09j9aDkCp6TedpNkzJ6TUD+DnR3TDLKA@mail.gmail.com>
-	<02060df3-b8c5-4a86-b3ab-3a28eea8a562@rowland.harvard.edu>
-	<20260628165040.76fd608d.michal.pecio@gmail.com>
-	<62e1fab3-1045-41f3-bc74-4c7624011619@rowland.harvard.edu>
-	<20260628190201.00afdccf.michal.pecio@gmail.com>
+Message-ID: <8f5bb295-fc1b-4698-8f2f-2d40fb4d9f93@rowland.harvard.edu>
+References: <567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
+ <CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com>
+ <5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
+ <CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com>
+ <eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
+ <CAFgddhLZ9SuOzG_6mW09j9aDkCp6TedpNkzJ6TUD+DnR3TDLKA@mail.gmail.com>
+ <02060df3-b8c5-4a86-b3ab-3a28eea8a562@rowland.harvard.edu>
+ <20260628165040.76fd608d.michal.pecio@gmail.com>
+ <62e1fab3-1045-41f3-bc74-4c7624011619@rowland.harvard.edu>
+ <20260628190201.00afdccf.michal.pecio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260628190201.00afdccf.michal.pecio@gmail.com>
 
-I really think it could (and should) be a simple patch.
+On Sun, Jun 28, 2026 at 07:02:01PM +0200, Michal Pecio wrote:
+> On Sun, 28 Jun 2026 11:48:36 -0400, Alan Stern wrote:
+> > > How about "keep unrelated changes out of a stable patch", i.e. always
+> > > do the delay (if any) after the first request, regardless of size?  
+> > 
+> > This is not an unrelated change.  Rather, it's deciding on how to behave 
+> > in an entirely new control pathway -- the one where the 255-byte quirk 
+> > flag is set.  The old pathway is completely unaffected.
+> > 
+> > I suspect no devices will have both this quirk flag and the DELAY_INIT 
+> > flag set, which means the location of any delays in the new pathway 
+> > won't matter at all since they will never be used.
+> 
+> If no devices will have both quirks then new delay added before the
+> first configuration request will never execute.
 
-This is what I wrote a few weeks ago. It's an unconditional change
-for all devices, but it would be easy to turn it into a quirk.
+Correct.
 
+> If such devices will exist, then it probably won't matter whether the
+> delay comes after or before the first request. Purpose isn't known,
+> but it appears to be rate limiting configuration descriptor requests
+> or delaying other requests after this function returns.
 
---- a/drivers/usb/core/config.c
-+++ b/drivers/usb/core/config.c
-@@ -938,15 +938,14 @@ int usb_get_configuration(struct usb_device *dev)
- 	if (!dev->rawdescriptors)
- 		return -ENOMEM;
- 
--	desc = kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
-+	desc = kmalloc(255, GFP_KERNEL);
- 	if (!desc)
- 		return -ENOMEM;
- 
- 	for (cfgno = 0; cfgno < ncfg; cfgno++) {
--		/* We grab just the first descriptor so we know how long
--		 * the whole configuration is */
-+		/* Try 255 bytes first because that's what Windows does */
- 		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
--		    desc, USB_DT_CONFIG_SIZE);
-+		    desc, 255);
- 		if (result < 0) {
- 			dev_err(ddev, "unable to read config index %d "
- 			    "descriptor/%s: %d\n", cfgno, "start", result);
-@@ -975,8 +974,12 @@ int usb_get_configuration(struct usb_device *dev)
- 		if (dev->quirks & USB_QUIRK_DELAY_INIT)
- 			msleep(200);
- 
--		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
--		    bigbuffer, length);
-+		/* Don't bother if we already have it all */
-+		if (length <= result)
-+			memcpy(bigbuffer, desc, length);
-+		else
-+			result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
-+					bigbuffer, length);
- 		if (result < 0) {
- 			dev_err(ddev, "unable to read config index %d "
- 			    "descriptor/%s\n", cfgno, "all");
+In fact, the commit that talks about the Logitech webcams does describe 
+their buggy behavior to some extent.  It says that they seem to reply 
+with stale video data instead of the real config information, and from 
+there it's a short guess that adding a delay gives time for the video 
+pipeline to drain or time out.
+
+In addition, the fact that the delay is needed after the first request 
+but before the second suggests that the data corruption only affects 
+transfers longer than 9 bytes -- which the new first request would be.  
+Therefore it would be appropriate to have the delay before the new first 
+request.  Whether another delay would be needed before the second 
+request (if there is one) is unknown.
+
+> Either way, no known need exists to add another delay before the first
+> request or alter the existing delay (or its conditions) in any way.
+
+See the reasoning above.
+
+> In general, I always object to code which serves no purpose because
+> such code is easy to add but very hard to remove when it gets in the
+> way. There are no known users, no test cases, only paranoia.
+> 
+> So I would keep the delay code completely unchaged.
+
+At this point it's entirely theoretical anyway, since the devices that 
+would get the new 255-byte quirk flag don't also have the DELAY_INIT 
+quirk.
+
+> And skip other random changes like error string nitpicking. Reliable
+> and up to date information about how many bytes are requested,
+> "expected" (what does it even mean, to somebody reading dmesg?),
+> received or verified to exist can be gained from source and usbmon.
+
+Good point.  But I dislike messages that actively produce wrong 
+information.  Nikhil could get rid of the parts of the log messages you 
+don't like, but he shouldn't leave them as they are.  He could even do 
+that in a second patch, separate from this one.
+
+> A stable patch is supposedly supposed to be 100 lines with context ;)
+
+Nonsense.  An excellent stable patch is 7 lines, including context.  :-)
+
+> I really think it could (and should) be a simple patch.
+> 
+> This is what I wrote a few weeks ago. It's an unconditional change
+> for all devices, but it would be easy to turn it into a quirk.
+> 
+> 
+> --- a/drivers/usb/core/config.c
+> +++ b/drivers/usb/core/config.c
+> @@ -938,15 +938,14 @@ int usb_get_configuration(struct usb_device *dev)
+>  	if (!dev->rawdescriptors)
+>  		return -ENOMEM;
+>  
+> -	desc = kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
+> +	desc = kmalloc(255, GFP_KERNEL);
+>  	if (!desc)
+>  		return -ENOMEM;
+>  
+>  	for (cfgno = 0; cfgno < ncfg; cfgno++) {
+> -		/* We grab just the first descriptor so we know how long
+> -		 * the whole configuration is */
+> +		/* Try 255 bytes first because that's what Windows does */
+>  		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
+> -		    desc, USB_DT_CONFIG_SIZE);
+> +		    desc, 255);
+>  		if (result < 0) {
+>  			dev_err(ddev, "unable to read config index %d "
+>  			    "descriptor/%s: %d\n", cfgno, "start", result);
+> @@ -975,8 +974,12 @@ int usb_get_configuration(struct usb_device *dev)
+>  		if (dev->quirks & USB_QUIRK_DELAY_INIT)
+>  			msleep(200);
+>  
+> -		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
+> -		    bigbuffer, length);
+> +		/* Don't bother if we already have it all */
+> +		if (length <= result)
+> +			memcpy(bigbuffer, desc, length);
+> +		else
+> +			result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
+> +					bigbuffer, length);
+>  		if (result < 0) {
+>  			dev_err(ddev, "unable to read config index %d "
+>  			    "descriptor/%s\n", cfgno, "all");
+
+Making this depend on a quirk flag instead of being unconditional would 
+yield a patch very similar to what Nikhil has already posted.
+
+Alan Stern
