@@ -1,130 +1,109 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lan.nucleusys.com (lan.nucleusys.com [92.247.61.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF873A874B
-	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 14:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF3B5A79B;
+	Sun, 28 Jun 2026 15:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.247.61.126
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782658248; cv=none; b=BTV56GXr47HbaZHoXf6vFE8Bt9LsGyvgaOAeJWvEk3wgqGYLbxxioYAOJTk3e8x/vF2AEVrkd40wk4bi+H3QkoA6ncS/Xgv6gT/KxGeTGAnNaibZVh8S07v06hKGEhgy8R0wYmVzisLEUtxpTyuALJp0fA/SjKpy0tecqNm6E0s=
+	t=1782660318; cv=none; b=G5vNOrgJtN+wjjwPmsacZIUQSJ6XnTH2/IumL4tpLcljmTAjG9zV8Md65hK5msiHxCyQs8sGlp0ldv65YTJRzwJeUUS7Pi7umLSoft/dd8mecr9xQmzWhethBj3XaRL6xNJVhIU7ZZrbkKrBfTtsjgmqcZKgUfwZlOHPF+JctBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782658248; c=relaxed/simple;
-	bh=4sy1Y4WR9ugVm1F65RWh7OvYWb4yYk3Tn9QjzRV+Rq0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cbVCOi2g2pBbZRP/VXCnH5grLgA1I0YP4hAL/DsmqfOJZLdm7AaCEw4NvRcpPXvUzK6Z/uRcq6tmMbhgJ/BX5yKbsoFjtWO7kG+ECzl+9Ek3JF4Sgip2bvZipI2WRGGaiyg3k+XAf74FzMs3hmiGHeuq3Y5+0uAWY8pvb75vfPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dXqjuEyi; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782660318; c=relaxed/simple;
+	bh=w/epT0ahS6q94buTFyAQH/uBAn9kJQHvuxCbCRAFn7k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pjh5+Iuy+YEH68gJRvcrRvdHCEfE0spBMxxk3W4hRRYriVOubILec9WJ5MJitD0D4BPA+XfoROQ5wS7UtUmk2CWa4WyX7yeuKpdISdM7RKJ6FVPa2EX7M3eKC3H95ocWDR7OuIPhRT6f3xPBZokWYKwbnM6/enXaBuWTSCD8ubc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nucleusys.com; spf=pass smtp.mailfrom=nucleusys.com; dkim=pass (2048-bit key) header.d=nucleusys.com header.i=@nucleusys.com header.b=PrTr3khF; arc=none smtp.client-ip=92.247.61.126
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nucleusys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nucleusys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dXqjuEyi"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-493a54b80a5so10104355e9.2
-        for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 07:50:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782658246; x=1783263046; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DIbIf43pbwX/hQV/fKrmKMDT2zLMO167rrGvyP3bRww=;
-        b=dXqjuEyidrp8mZ7tBLHJkteW8ltO3ZFVT6Z64dVPHZAewV+vI2mrFfevHD/nNjwJK7
-         qzvOMwGg172+ZjbOWMJmObKTr5zj4ku3DecV0wl+4jXzqakEqB4HfAuiKv9hy3+a0dvl
-         3Wjehu1VSLFFtkR5P3405ewO9UY67z/Qm8wfsIlS1w0QxdeO05z659n2b+A+MEvGhzvd
-         rJy/wMxcZjUzZWADTbjaRfJ/tVTT/AiQ4vo7k12RnSaKDyBcRAkEdLzd6UJQ7wcMz4cD
-         RJpKEu3KK17Tia8rkPLv2PpZ1D8HvpSZotAPk6ok5+fP2RziW1+/ektnkFK6ga5xE56C
-         s5Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782658246; x=1783263046;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DIbIf43pbwX/hQV/fKrmKMDT2zLMO167rrGvyP3bRww=;
-        b=ECJ38kuPZ3NFnzSyKe5AdWEix4l/1bTMd581c1jA7JmTtkxtljOXKKjf102G6UQBF/
-         Mf1sIwP9fFifXScvZ7Ssy0phf+31NiraKlgbmbwORm7wwFvh/KMcW/UR/kE5/QJoIQWE
-         Hz+H4qfunww9ru095yT36XAVPasPlZgUx1zHsodtc4D24+uj//KhauKc4ElnurMLJhu1
-         QR+/mJK3X5eyKgLjDcBjfWRDMrfvPRDr2fzCgAAG8Di0XkFZyU5pmAxuX0UEryVzmyGA
-         XGllmgQTOIYSYmXxLUUlx5H4wumak+NlrGTxRysaQqhUdRHmZiJMXCkmM+R1PzjQXr0x
-         tBlg==
-X-Forwarded-Encrypted: i=1; AFNElJ9rt5iByvcp18GCoTLllPh79xU0Pl1inJXytASRb/Xu2KMYCOM3TZeK4XcGXpwBdKuZ98q9O4YwD68=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHF9+au5StVMevS543E23mD5VSbCjaEwObFFHPTeHItqVDHDhD
-	7ZIhyO0zsUXhmf7ItNboaVJ6IaBl0uGhHE0Mchmjjcg80Py2fYe1PUgu
-X-Gm-Gg: AfdE7ckvSKKDH3RRgmf4mNIKjFJyIGvrO9EOMk2Qo0EufaJeeM14cOhTRazhSV+E7Yd
-	fAf4m8qWDQlt5hbTlP9WST+WjYPi3PzhtaUImefmI8f3fcDEVv25lDMdw9is9ubOGtkMW8W3dfF
-	H+ZugOzb4bm4d0rkp6QumVRkP+LpAykv2OWggPYeU3legrnnd1vufQ9rNqqLTYuLaLz7Z03McaB
-	TYEwKYgL+GpweX0qQk7gJ2b9Tr9zXzn9tZo6X1AAdS957mpdji4DKNs+kr93bYxdmWVAUizX9C8
-	X14pJLAJ8FjTz+tNmZyW+hp3vH9GDERDAvAtGrYsAvpOe4Qjpt66eL0l+5214y2cpDqqAqyGHPl
-	vJxV9XSGTBYp+0VncXAOGwAoEDz9GXCPeC3T7YCfDX3gN//2SuLyKbCoV9yxo6sRS+6XloOQJE7
-	ObaecMZJKC3n+GNPKSz20N0XSX
-X-Received: by 2002:a05:600c:c4aa:b0:492:3445:ecf8 with SMTP id 5b1f17b1804b1-4926685fe2dmr206794015e9.3.1782658245742;
-        Sun, 28 Jun 2026 07:50:45 -0700 (PDT)
-Received: from foxbook (bgu190.neoplus.adsl.tpnet.pl. [83.28.84.190])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926c00a34esm136115845e9.0.2026.06.28.07.50.43
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 28 Jun 2026 07:50:45 -0700 (PDT)
-Date: Sun, 28 Jun 2026 16:50:40 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Nikhil Solanke <nikhilsolanke5@gmail.com>, linux-usb@vger.kernel.org,
- gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-Message-ID: <20260628165040.76fd608d.michal.pecio@gmail.com>
-In-Reply-To: <02060df3-b8c5-4a86-b3ab-3a28eea8a562@rowland.harvard.edu>
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
-	<567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
-	<CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com>
-	<5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
-	<CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com>
-	<eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
-	<CAFgddhLZ9SuOzG_6mW09j9aDkCp6TedpNkzJ6TUD+DnR3TDLKA@mail.gmail.com>
-	<02060df3-b8c5-4a86-b3ab-3a28eea8a562@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=nucleusys.com header.i=@nucleusys.com header.b="PrTr3khF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nucleusys.com; s=xyz;
+	t=1782659915; bh=w/epT0ahS6q94buTFyAQH/uBAn9kJQHvuxCbCRAFn7k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PrTr3khF9brmi02LWzuiNOkw+TePq9rB+8wtA2F8urhbxgOUj2iTUm92/ffkVFE5c
+	 p3o6MOZF5VMepLu9sHzrNRbq9KCE//icMrmMAetfJUmkvXaQHIuFxuNEPVtTMus5q0
+	 zYHmcKXO8Mfheuh4Q0aUwW8h/TOABZzLMPleRYxxJJc9BVtd9VBJw4s9u5adct9XFR
+	 ek8tsyJoP6zfKq11bA/Rw1B5qfVdObXd9NZLEJPctDXhAywg6/OqbCZRuNd2dP5EAO
+	 dHzMXep4txsoWiu95LPsq/DW/ljOL/JxV25AN/ct+UnHmtEFhfmIeXNYNXzp/4wisz
+	 ya+GRC3bOuXfA==
+Received: from carbon.k.g (unknown [85.187.61.220])
+	by lan.nucleusys.com (Postfix) with ESMTPSA id DB5B53FBC8;
+	Sun, 28 Jun 2026 18:18:34 +0300 (EEST)
+Date: Sun, 28 Jun 2026 18:18:35 +0300
+From: Petko Manolov <petkan@nucleusys.com>
+To: Yousef Alhouseen <alhouseenyousef@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	syzbot+9db6c624635564ad813c@syzkaller.appspotmail.com
+Subject: Re: [PATCH] net: usb: rtl8150: handle link status read failures
+Message-ID: <20260628151835.GC14404@carbon.k.g>
+References: <20260628093929.44214-1-alhouseenyousef@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260628093929.44214-1-alhouseenyousef@gmail.com>
 
-On Sun, 28 Jun 2026 09:55:07 -0400, Alan Stern wrote:
-> On Sun, Jun 28, 2026 at 11:53:09AM +0530, Nikhil Solanke wrote:
-> > I need some help with the USB_QUIRK_DELAY_INIT part. I can't figure
-> > out how to make it properly work with my patch because of the
-> > following reasons:
-> >=20
-> > 1. I don't want to move it to the top because, from my pov, there
-> > must have been some reason for placing that quirk where it is now.
-> > so i don't want to mess with it.
+On 26-06-28 11:39:29, Yousef Alhouseen wrote:
+> set_carrier() ignores the result of the USB control transfer and tests the
+> stack variable supplied as its receive buffer. If the device rejects or aborts
+> the request, that variable remains uninitialized and the driver chooses an
+> arbitrary carrier state.
+> 
+> Report carrier down when the link status cannot be read.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Reported-by: syzbot+9db6c624635564ad813c@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=9db6c624635564ad813c
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+> ---
+>  drivers/net/usb/rtl8150.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
+> index c880c95c41a5..5606490aaea0 100644
+> --- a/drivers/net/usb/rtl8150.c
+> +++ b/drivers/net/usb/rtl8150.c
+> @@ -732,7 +732,11 @@ static void set_carrier(struct net_device *netdev)
+>  	rtl8150_t *dev = netdev_priv(netdev);
+>  	short tmp;
+>  
+> -	get_registers(dev, CSCR, 2, &tmp);
+> +	if (get_registers(dev, CSCR, 2, &tmp)) {
+> +		netif_carrier_off(netdev);
+> +		return;
+> +	}
+> +
+>  	if (tmp & CSCR_LINK_STATUS)
+>  		netif_carrier_on(netdev);
+>  	else
 
-git blame is your friend:
+I'd rather do something along these lines:
 
-    The DELAY_INIT quirk only reduces the frequency of enumeration
-    failures with the Logitech HD Pro C920 and C930e webcams, but does
-    not quite eliminate them. We have found that adding a delay of 100ms
-    between the first and second Get Configuration request makes the
-    device enumerate perfectly reliable even after several weeks of
-    extensive testing. The reasons for that are anyone's guess,
+@@ -732,7 +732,9 @@ static void set_carrier(struct net_device *netdev)
+ 	rtl8150_t *dev = netdev_priv(netdev);
+ 	short tmp;
+ 
+-	get_registers(dev, CSCR, 2, &tmp);
++	if (get_registers(dev, CSCR, 2, &tmp)
++		return;
++
+ 	if (tmp & CSCR_LINK_STATUS)
+ 		netif_carrier_on(netdev);
+ 	else
 
-> >=20
-> > 2. Regarding my idea of adding a condition =E2=80=94 so that it doesn't
-> > change the behavior when the quirk isn't set =E2=80=94 if the full
-> > configuration set exceeds 255 bytes, we would have to issue a 2nd
-> > request. In this case the existing behavior would be more justified.
-> >=20
-> > So, I'm a bit confused about how to implement this properly. Adding
-> > yet another condition to fix the second case doesn't feel right to
-> > me. It would look unnecessarily complicated. I would appreciate a
-> > bit of help and advice. =20
->=20
-> If the 255-byte quirk flag isn't set, do the delay before the second=20
-> transfer just as it is now.
->=20
-> If the 255-byte quirk flag is set, do the delay before the first=20
-> transfer.  If a second transfer is needed, you can do a second delay=20
-> before it or not -- I suspect it doesn't matter.  If you want to be=20
-> safe, add the second delay.
+IIRC it is possible for the message get lost in bus noise while the device is
+still operating correctly.  So if my memory isn't failing me, it is better to
+not do anything if usb_control_msg_recv() is non-zero and only change the
+carrier status if 'tmp' contains meaningful value.
 
-How about "keep unrelated changes out of a stable patch", i.e. always
-do the delay (if any) after the first request, regardless of size?
 
-Regards,
-Michal
+		Petko
