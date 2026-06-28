@@ -1,122 +1,239 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CAD315D5B
-	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 06:23:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782627806; cv=pass; b=TRRRSq8ej5V/tvkEScDEmev0YtycOKy92vcksLbAraX+8Fjm0eCc80o1DS+tLLbNGEvhK6hTc1oakBx0C87LtwYgnx/gLSwPwiBp2rYiq5qFeqcOeDaORHVbRfzUo8q7rwEm9ApSzY5KrLMECkiQB5mshtXodJ3C4ARYBGjy4jo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782627806; c=relaxed/simple;
-	bh=vTzRYgBgZOamBxw1WiYenNhfQ94/nUWzB9wfTPJ1rsQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bXsWyQasjp60W5g0bm8ZslqHqddQ5U15v7bUrmVpXOfnVmWrfpFalqQIBAuj5cnC++GBY+p7Woe4vYBZNfi6hws7kI4gMo0rWjXFSpzSrIuL23TrUGa/+TYwWh4oPPMXyw+TtYSy6snWVNSp4IKdot8zQrMEqk57k3dbMwREMBA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EPNoA4iQ; arc=pass smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D0C2253B0
+	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 07:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782631302; cv=none; b=YDdeg0crlw40BA1iCXJLiEYoayKUHl2SVE0Y+2xCZefdO851Bir40SFYOSaSrKpxevVKdbRG+odCLFmTfKYwdrGY3zgTWBoUK9HxtPz1hTRQ84tV+nbpEG8PnPhThEDRtW0pWt0mHIEYvZltfooMvWHQ0CP19nQEaHQWp3iBqlI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782631302; c=relaxed/simple;
+	bh=IyG4/U3SQP8JZrBShXzivGYLucFVR+4qPqt2tshEwLc=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Sdj1rczWwYh78kp+wyzJAqK40yYKJOfkZIjU3pSY1Z/Fi5KdFucYL7iKbwnvA7HCrgXvzZLeCXyQ3zx6WmcDY5suiHP6Pmu3QYYE+oQPepp4kfgeXHTUouWKKLrC1FTlmZPELN5r7LQTfOa2vpUSYkvf9k0+GTtNZcVcVMnWgCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hUt6Fheq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EPNoA4iQ"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c1214dc027cso239038166b.1
-        for <linux-usb@vger.kernel.org>; Sat, 27 Jun 2026 23:23:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782627803; cv=none;
-        d=google.com; s=arc-20260327;
-        b=RCQYyOefCO+MWl2Kwgi3AliuxJWH8BOv0HUgjUWx6tI2kZ/2e1zqRj/bXcIxRRFjZB
-         7fYnZmq+H2Lkh2yw7hfN1tfKopfX8+bGtujnHoP02F68/VgRCfZCRLYhQO3Y7c2ffV8S
-         nuN5QqUlgvJ4Zp9CsJdwmIQu3qb+5Kp8+bOUHeFlVT/+d9JnlTH/kcnTNiRevdrjxnY9
-         RmVW08vxPFmPDNFEldnYpRzge+PZejo4iLDLxbGJ+Wpr2s9fi82H43FK961YLQJ75ngN
-         VMVOuRN+U2+Ess0sMgxDsK/roScA6FdbZgKCHdWsOKxTYGiFZa4QFBeWic2zRv4K7rV6
-         sumg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vTzRYgBgZOamBxw1WiYenNhfQ94/nUWzB9wfTPJ1rsQ=;
-        fh=cQQC4ZcnSDaZ03G3vNlFyuY8RcJWNy18nF+ZnOE1ImQ=;
-        b=F7wZ0o2hu7QeAQWnEkRbrDxlJyJacj1vixGJNjww60wZbbx6+Qj1KibADg7rfrNWr7
-         MacRdIPuyRqh+t9LOBsqJ2Yh7zgwOG+2WoBj2NFMlNLYZsconJTisq04zR3uK7UcgAJj
-         /rcjWkhecD4YGoL5b+jE74WI0sPTQbezJrqf0Bgk/JnZIRjxiZperisC8vlYLaWlsTHK
-         6QDgTPettQI0uoV6tXqsWRF0l2wwB8s6pfk2u2/SqhHF9i4jYnd5rcK4V6Vn3Wfv3y06
-         LqNVez60kQ2zBLL8/68vYt9LQW3QdsfbKHzQlbxJ9Unr+FeUWyL4MM5rv+0aiEPAbKQX
-         JEJA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782627803; x=1783232603; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vTzRYgBgZOamBxw1WiYenNhfQ94/nUWzB9wfTPJ1rsQ=;
-        b=EPNoA4iQlIzz9NigehdKIO7AMaJMUw0QzNlWS1vlbWdOdFHpW7M2PSJzvBNlZMYCZ8
-         BWukGH8w5kvrwt+DZwyMdnHLJkkmFQaPIfpVntipk8PHVsN51Gqb/KhBHzuznggYyS1w
-         zAcBmcfyLPtQN99HcTfOTse/4Xe434Y+QyaLDGqMBRLb0nuiq7Ps/UnErKc4+auyBj6x
-         hb+WZsIVuc2ujVZc4fASPRLdig/MCxW6S+AURcfiYien3/iIQ2wICPb7fo3HekdNCoVd
-         eFBZ7rn0pl5ZOUhcYRVNzKOGy4McSm5KpmmWSDCVWTRZ7/xv+jqekHj8Jy/0KlaTm89u
-         Mvnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782627803; x=1783232603;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vTzRYgBgZOamBxw1WiYenNhfQ94/nUWzB9wfTPJ1rsQ=;
-        b=p6BzOoGjGvSn7zyXy3ICzcLZvSLL9uUwhE7G9BLNsp9GgqXtQGFYEwN1teny57qx9z
-         XvZ08vj1uLyn7R8pMvbKAktgH0CC46kb385nDr2K4E2eDDKM2gFE6aKnerHDybnTE37n
-         OS4Ko9fIx3oZ6yH+3Z3jcngoJib59m5b5HccBrs3YsJJA4gXLWGN+IdbrKsN1r8fMGi3
-         mORemqua9sjAVi/b1PYn6if+u2tDQXL/1C9rUqHLLUvzPCXlNXufQojg8hjoFxJ0uSvB
-         7oTjBciiUHEAOMtqLNCTgNN4/yC3/EG39+nPJD3rZBmzqsnW2T++BK1/TM9e6BYbRIhj
-         zmEw==
-X-Gm-Message-State: AOJu0YzlJZIUbKtXrOlrSR2J3koCASsJgVSyn8XpybZc8/Agj3JQteiI
-	wHps9lkXDpy57oOiZLmhd/LNcsj3xeZ3flawWEAyr/gUbhJbvnggae6jzTA//F1P+GfFIPpUeDV
-	lCXlsgtB4zR/VeSuDsOoFQJLeQ8xz9MQ=
-X-Gm-Gg: AfdE7ckc6aXYHSboY4D1bTtoaoPftE8j9uMMDy7oxMNHzPF+EZMX2dk6w7Hc/LPOG5z
-	OiTEp4kJbBAobp93xy3azMjlgrTx9d3RJkq46iin+35EyRNXCCXxHZJUs4y8/2D5qSZqWG2Wa1+
-	vzaZmtGOFUKazPS+0iFFf+qqLCYqu7azWDwEYLoWUgd67s0W8/h+XHluylQQ0GSWG92iCS/kyxw
-	fGxPDmELfapUrnnOrpP3EPbdguofsPcJs+WFx7t4IjR9xxj3WJJ9Q/QSfutROJ8AYetwwcDUHm6
-	NMjnlj8=
-X-Received: by 2002:a17:907:7b99:b0:c12:1d42:6cd1 with SMTP id
- a640c23a62f3a-c121d426fc1mr437953166b.9.1782627802896; Sat, 27 Jun 2026
- 23:23:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hUt6Fheq"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 85C8AC2BCB9
+	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 07:21:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1782631301;
+	bh=IyG4/U3SQP8JZrBShXzivGYLucFVR+4qPqt2tshEwLc=;
+	h=From:To:Subject:Date:From;
+	b=hUt6FheqCznTYEDRykrNwo8Nfvrq4BiIzCvRYNmO8afHteldBLYoSsBD36oB9L9rS
+	 NSLHKvFEUCbTZXeBg6Q/y8QDO3pY6p7ZxC4B0Gm7J72xE6Rf1gtRozhhz/00u19qQQ
+	 /ZDo1NsNUfgUqZGxlnb0Wchh0AqTKVLyaFvK51+EFtAdgzZrqSVbjsJFMjkiysdxod
+	 ks48s6tg5ElOu2fgXYcbkfFE8cbNoE4rS/WlkvNDM9507oooOXVAP9IJpDCpxoZ8xj
+	 7uCMZPI7ZAezyN26wB5oasQpyNXqCxWo3NQf/M5B0JlpdRAcbLnSeBMXaybVYCGnjS
+	 BDsp+W83hviXg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 658C0C41614; Sun, 28 Jun 2026 07:21:41 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: =?UTF-8?B?W0J1ZyAyMjE2OTldIE5ldzogUENJZSBsaW5rIGRyb3BzIGR1cmlu?=
+ =?UTF-8?B?ZyBHUFUgQkFSMiBpbml0IOKAlCBNaW5pc2ZvcnVtIERFRzIgZUdQVSBkb2Nr?=
+ =?UTF-8?B?IG92ZXIgVGh1bmRlcmJvbHQgNA==?=
+Date: Sun, 28 Jun 2026 07:21:41 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: artiom@flexlabs.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-221699-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
- <567e8866-4308-4e5f-819c-fe778dbf74f8@rowland.harvard.edu>
- <CAFgddhJk0EYG71fnKdio=RHC-cH+JmL-EZ7-oVD-LdHoa2TBSA@mail.gmail.com>
- <5159fd69-dddf-4073-a8e7-95fa77de0b7f@rowland.harvard.edu>
- <CAFgddhJ2HeJ=oTBX_axMJcgJq7GXH9abe+LH+x9NGekGO4BMyw@mail.gmail.com> <eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
-In-Reply-To: <eb0dfd45-91c5-49ba-a297-b183dbc52c8c@rowland.harvard.edu>
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Date: Sun, 28 Jun 2026 11:53:09 +0530
-X-Gm-Features: AVVi8CdvfZ8_HcAxzQ6YMXiRMTaitnhhJ0mCfb8fG-r-MuhUVjsbTL_143EGKF0
-Message-ID: <CAFgddhLZ9SuOzG_6mW09j9aDkCp6TedpNkzJ6TUD+DnR3TDLKA@mail.gmail.com>
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, michal.pecio@gmail.com, stable@vger.kernel.org, 
-	corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-I need some help with the USB_QUIRK_DELAY_INIT part. I can't figure
-out how to make it properly work with my patch because of the
-following reasons:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221699
 
-1. I don't want to move it to the top because, from my pov, there must
-have been some reason for placing that quirk where it is now. so i
-don't want to mess with it.
+            Bug ID: 221699
+           Summary: PCIe link drops during GPU BAR2 init =E2=80=94 Minisfor=
+um DEG2
+                    eGPU dock over Thunderbolt 4
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: artiom@flexlabs.org
+        Regression: No
 
-2. Regarding my idea of adding a condition =E2=80=94 so that it doesn't cha=
-nge
-the behavior when the quirk isn't set =E2=80=94 if the full configuration s=
-et
-exceeds 255 bytes, we would have to issue a 2nd request. In this case
-the existing behavior would be more justified.
+Created attachment 310385
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310385&action=3Dedit
+dmesg logs: Connecting the dock with the GPU attached, USB and NVMe
+disconnected, using Nvidia driver
 
-So, I'm a bit confused about how to implement this properly. Adding
-yet another condition to fix the second case doesn't feel right to me.
-It would look unnecessarily complicated. I would appreciate a bit of
-help and advice.
+An RTX 3080 Ti connected via a Minisforum DEG2 Thunderbolt 5 eGPU dock to a
+Thunderbolt-4 laptop running Linux enumerates correctly over the PCIe tunne=
+l,
+but the PCIe link then dies roughly 8=E2=80=9310 seconds later, while the G=
+PU driver is
+in its early BAR2 (instance-memory / page-table aperture) initialization ph=
+ase.
+This reproduces under both the proprietary NVIDIA driver and the in-tree
+nouveau driver, which strongly suggests the fault is below the driver layer=
+ =E2=80=94
+in the Thunderbolt/PCIe tunnel itself (the kernel thunderbolt/pciehp path, =
+the
+dock firmware, or the Intel Barlow Ridge-class controller).
 
-Thanks,
-Nikhil Solanke
+The same dock, cable, and GPU work without issue under Windows, including u=
+nder
+a sustained 3D stress test.
+
+## System configuration:
+
+* Laptop: Lenovo ThinkPad, model 21VVCTO1WW, BIOS N4QET33W (1.12)
+* CPU/platform: Intel Panther Lake, integrated Arc B390 iGPU (xe driver)
+* Thunderbolt host: Intel Panther Lake Thunderbolt 4 NHI (USB4)
+* OS / kernel: Fedora 44, 7.0.13-200.fc44.x86_64
+* eGPU dock: Minisforum DEG2 in Thunderbolt mode. Enumerates over Thunderbo=
+lt
+as "Micro Computer (HK) Tech. Ltd. TBGAA"
+* GPU: NVIDIA RTX 3080 Ti
+* Cable: DEG2-supplied TB5 cable (confirmed functional under Windows 3D loa=
+d)
+* Dock PSU: Corsair SF850
+* Drivers tested: NVIDIA open kernel module 595.80 (GSP-based); nouveau
+(in-tree, GSP/r535 path, firmware RM version 570.144)
+
+
+## Reproducible symptom
+
+1. Dock connected (reproduces on both cold-plug and hot-plug).
+2. Thunderbolt/USB4 link authorizes; PCIe hotplug bridge reports pciehp:
+Slot(10-2): Card present =E2=86=92 Link Up.
+3. Full PCIe enumeration succeeds: the Intel switch, the GPU (82:00.0) and =
+its
+audio function (82:00.1) appear, and BARs are assigned (BAR1 prefetchable 2=
+56
+MB, BAR3 prefetchable 32 MB, BAR0 16 MB, etc.).
+4. The GPU driver begins bring-up and reaches BAR2 initialization.
+5. Within 5 seconds after connecting the cable, the OS becomes visually
+unresponsive
+6. Approximately 8=E2=80=9310 seconds after Link Up, the GPU stops respondi=
+ng on the
+PCIe link:
+
+  * NVIDIA driver (~10 s): NVRM: Xid (PCI:0000:82:00): 79, GPU has fallen o=
+ff
+the bus, immediately followed by BAR2 setup failing as a consequence =E2=80=
+=94
+kbusInitVirtualBar2_HAL ... kern_bus.c:469, kbusInitBar2_HAL ...
+kern_bus_gm107.c:332 =E2=80=94 then pciehp: Slot(10-2): Link Down and RM re=
+source-leak
+assertions during teardown.
+  * nouveau driver (~8 s): the driver is actively performing BAR2 bring-up
+(gf100_bar_oneinit_bar =E2=86=92 nvkm_vmm_boot =E2=86=92 nvkm_bar_bar2_init=
+/r535_bar_bar2_init)
+when MMIO accesses begin returning all-ones: nouveau: timer: stalled at
+ffffffffffffffff in g84_bar_flush/tu102_vmm_flush, looping for several seco=
+nds,
+then pciehp: pcie_do_write_cmd: no response from device.
+
+7. Unplugging the dock immediately restores stability; replugging reproduces
+the fault. Leaving it plugged keeps the system unresponsive, and it shortly
+resets within 5 more seconds or so.
+
+The key shared detail: under both drivers, the device falls off the bus dur=
+ing
+early BAR2 initialization =E2=80=94 NVIDIA's "fallen off the bus" detection=
+ and its
+BAR2-init failure are interleaved in the same instant, and nouveau's hang is
+literally inside the BAR2 flush. The two drivers share no relevant code her=
+e,
+so this points away from a driver bug.
+
+## Directly observed evidence
+
+* Cross-driver reproduction at the same stage. Two independent drivers fail=
+ at
+BAR2 init (function names above), with the link dropping ~8=E2=80=9310 s af=
+ter
+enumeration.
+* GPU-presence is the determining variable. With the GPU removed from the r=
+iser
+and only the dock's onboard NVMe SSD connected, the dock ran stably for ~37=
+ s
+(49 s =E2=86=92 86 s, ended by manual disconnect) with clean USB/UAS/SCSI e=
+numeration
+and no link drop or errors. The fault appears only when the GPU is present =
+and
+BAR2 init begins.
+* Windows is unaffected. The same dock + cable + GPU sustained a 3D stress =
+test
+under Windows on a different host with no link loss, indicating the GPU, ca=
+ble,
+dock power delivery, and dock hardware are functional.
+
+## Kernel parameters tried
+
+* Default parameters: GPU enumerates fully, link dies at BAR2 init as descr=
+ibed
+above. (This is the failure being reported.)
+* pcie_aspm=3Doff: system boots, but the eGPU's PCIe link does not initiali=
+ze =E2=80=94
+the GPU does not reach the enumeration/BAR2 stage at all. This is a differe=
+nt
+behavior from the default-parameter crash, not a reproduction of it.
+
+## Other potential factors
+
+* GPU, cable, dock power delivery: Functional, tested by sustained 3D stress
+test on Windows
+* BIOS configuration: All thunderbolt configuration turned on, including PC=
+Ie
+tunneling
+* DEG2 configuration: Verified that the mode switch is set to Thunderbolt
+(tested with the Oculink setting, just to be safe, but also TB mode confirm=
+ed
+working on Windows)
+
+## Suspected root-cause area (hypothesis)
+
+* A kernel thunderbolt/pciehp interaction specific to a discrete GPU's large
+memory-mapped BAR2 traffic tunneled through this Barlow Ridge-class control=
+ler
+over a TB4 host.
+* DEG2 / controller firmware failing to sustain the PCIe tunnel once large
+BAR-mapped GPU MMIO begins (vs. the lighter NVMe/USB traffic that runs fine=
+).
+* A Linux-specific gap in tunnel setup/maintenance that Windows handles
+differently (Windows is unaffected under heavier load).
+
+## Attached log files:
+
+1. GPU only: Connecting the dock with the GPU attached, USB and NVMe
+disconnected, using Nvidia driver
+2. NVMe only: Connecting the dock with GPU removed, only NVMe drive attached
+3. Nouveau driver: Connected the dock with the nvidia driver disabled in gr=
+ub,
+using Nouveau driver instead
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
