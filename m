@@ -1,73 +1,76 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA43B270EC1
-	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 09:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020562E5B29
+	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 09:40:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782639212; cv=none; b=PAr8wCk3F6FNGMOC/HhSIjN3YuoCOuEuI9KbuplSTkr68obofPVR8RTW0psPxiLpcRbeSF52c9qHmQ7DrVgmupASRDshkli0AgzL4cjZAMMwdRcOungDTQBMAtNZp+Y1sefsB3ZiOGLmRBMrftMXD2vuJesf67eapiRvknMeErY=
+	t=1782639618; cv=none; b=cTbT4QnTXRuDF/dzS+3q8kpg/hEA46msKJ/sN1PDqC6LSTuoezwi7JHiDx9Wk3rcM7FLuA4hdoSI4RgVLLih/ZvK2Yl2rjEp39SyN6tOe5l9N6pkEtUstzBfYqC/VxzjcoU8FTPAqpCy/iYy908tTy2jc08mDm8qCIFA8ZD/vd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782639212; c=relaxed/simple;
-	bh=DJTHZvl6S11OOfAQB6lqm5ikN8o5iBUg99YfgfnT5U4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tMBNFOK1ERnnO5X+WtbG6Mlh/m3hzwa6kdtBAZYTUEQJADxEMA61WtGFAX14lsnvERQYIyhQY/ORgjvmh+M8A6QgGL5jszjvnEvJAZkeXdlENpORgkKQYrkgLuecM9IhoCyCH6hTSkQeP2PPHmMSec7LrVt6M4zbUyFdU+SFIo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oQquA0RP; arc=none smtp.client-ip=209.85.128.43
+	s=arc-20240116; t=1782639618; c=relaxed/simple;
+	bh=zEhabAI2O90UsNhJN+aYbI0vGc1cPHAPDwVCmpZpHDo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y5oduXd8P92YiHyZNkaehZoBNTHlfAIRWiGJ7tz4zhaPEqW+wGuM6+MhU6DFO3eqglK2Rmo994G20BVN88LcM+m8DoZpPRp8rkmZSE5NHRkahBr5gjKlTwv7+YPlFo4TC20+JnDsNVp2MFKZOUcPMFSCMJeT2kv56QtmC75DV0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YQBPGFKF; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oQquA0RP"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493a54b80a5so8112065e9.2
-        for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 02:33:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YQBPGFKF"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4926fe5be4bso15679075e9.0
+        for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 02:40:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782639209; x=1783244009; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782639615; x=1783244415; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TFWzc7Dr8BMNziQC19/fthox8mYezwUWhmmBeBzJP4M=;
-        b=oQquA0RP0lsFOz19uEGAteLaWKqrTQ1mr9j7/7B6iMjf85lJUOHPGrDBMWIflgCmHF
-         FEUnyJEDnr+Bk34YxqYj7u3CV1X/ZV1TyYGogm54P8/wZUJhArzJecDItwEkPYuYvBhK
-         1LB544qAgmSqThiXB+WRR4xjb/fbkDn6/3y34Cm01lQq6fo8rtGD4PP7VYJlq2hULcud
-         nEIcX5tUz48WVuYfnOJlbb+4dU23uxEit5iiXTVK449uvbwhFVbua8V0JuGxRvmMZsOi
-         12OQqt5hLF9FHZKKmHisUNiFjQUIM8ZooWRz0miybxsh5tIuoG9tRD9RKXVWJLaN5uDl
-         QfpQ==
+        bh=XP+qkIHt1FgWGwOQvENORT6XdMJYDsJDs2bi6NZ8b2Q=;
+        b=YQBPGFKFKf0qAUaAICB1Y6tZnoIitRbxLxtjFM5FWLe1/EVQgRUByzreO8VevU3SQz
+         0mm2ewFJlLlFeCI4CqG9Q0Ys8uB5YrRaJc1PHVJjcXImp/5J3ZgLsASGf0YDW63zTdZa
+         A1n3YmENCRblZu2leWHQsNBd8LVyI/SeJ+Xbl3Kc2DMzl+jOQehbBp8gAacBpki18Y/G
+         rS1ru/sXf5LtRPCHNsGhDNUBJip+ddIeGy+SFc03JjykOu+aCLfcwtIvVlcZ3C+7UkmT
+         pBQAV0Fd0jjff+9zPnK8oagPUSj0zn19mBpwiRXa+k3fGdVUGym1QP6aGh2TfyQFBvUV
+         n7eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782639209; x=1783244009;
+        d=1e100.net; s=20251104; t=1782639615; x=1783244415;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TFWzc7Dr8BMNziQC19/fthox8mYezwUWhmmBeBzJP4M=;
-        b=Mat8x1MPN0JsIaS6ovfbvxCT7zMHHJuCjmALIOzJNT9aQhl4BDUp10RwzLCs0zJHMz
-         8GeepNlqA5VnrZAMWAdPxC1nb/KeugADs9YOsqUzlYU+O1uxyDkXAPdyZkuhdhAiedhC
-         IqbRB5dRfY72saJdgCvgSRHA8maYRgOQPMH/nPAmGsbMCYbaLExqxwh43um4jXR4mRzo
-         27HvpGJfAN1ff1AD/zPpSm/tXjZxfdtgxyDQStUK6tsxMQ73ubP6L3151xuFviOPNIUh
-         O7JEH+y0c2IjtjNdskRAPQ/9aMxovPoaE3rZcgDLNfaJAHzbVsHzRPQy93BtgwWzxNip
-         hEjA==
-X-Forwarded-Encrypted: i=1; AFNElJ9WXx+h74Dg5sJVA7z8xM0Bb2Mwpmb5eYXv35eIUlRaMv0L3iKDRttNFKF8o9rwTEGcd+seFqAZO3Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YznmJxv+sHN8a9MpzSkC3vcEQxsn1j7z8zVFHcX72XMmhDyEWFM
-	5MlyFANB56BLp0Zh/DMq1KLokiSoMSydXF8pNC1Ymedg67+Ft+kUK3wv
-X-Gm-Gg: AfdE7cn6iDzROS9kgZtYbPAgaJsTVZekbT6eKptaqzRWKmY16k8WzOU5fyGzmhoIRfL
-	0Yw5NAgz5303OjHXog6tdyAWulb5yju9gJhTSDyM8B6GNwmUDMQR4kntD8USex+FJOu7tDHyWs6
-	QfA0mznOQ/LcLiCza9lzTap2U3eiVQ4RkBjdGPbz2N7gVJS5XiBtKNiqPP3Akhn9td3FPPVhdSv
-	vn2DUYX7UW5kVhfPxVj55116R6qwMc+/1zZn0FJA/b2xhw0oIzu/g719vxbSj6rx1Dq71eiudk7
-	bmBTMskdb0jpyqTa88zpRHSYiCMGwIpBHzRIhDqxVYXR1/4P/t+J8L46WHI8vuodO7AfE87ay+x
-	By7AINs1GOnRyXmigbclXjNgjBr2ERQm1FPA3QtVcg5S4HCTH6EbRYoM3t/ZXSOysH8hnKD4WlJ
-	dKH6s3HTE8S4hxzDADpgfzNKNWvQ==
-X-Received: by 2002:a05:600c:1d1b:b0:492:4caa:e2f4 with SMTP id 5b1f17b1804b1-492668ad885mr198132705e9.36.1782639209171;
-        Sun, 28 Jun 2026 02:33:29 -0700 (PDT)
+        bh=XP+qkIHt1FgWGwOQvENORT6XdMJYDsJDs2bi6NZ8b2Q=;
+        b=qXjGxTf/dNA4X0+LaTHWOJRr9djWY673KFwXZedwQ8+uAp3OEvbV1t3AcQ6YmcDDA/
+         sH2LZIH4U366vtUnrj1DE9hmw9XVdY4ra6P8XHUqSnKLqWLflPyBo8FJzn7ITqKQEf9P
+         10MlFck1hgUcr5D18zAwB9PfRr59m7fCizNXa/xPVsBF4EDypgpVt5pfhg+vyQI9E0yw
+         pL+8FPnXiaVrIGONketCph6ZfJjIzuO7qX0DIUTOjn5oarzvopSwKBpo2bYUp7JEE+EW
+         Yw2XkRAGjSWbOSmekv1J8K+qBppZnjetCjEZUMsJE9K/3aNk3jYFrifMmPwP/Cib28AO
+         VWFw==
+X-Gm-Message-State: AOJu0YzYKcLQjNBDe7kvez0jEyPLdYG3N1Sd+NaTmsLOcaQXuYyVY/lS
+	H73plCXhkXsoyueTK8l/EWtUOqnIqyG6UOMr3uzdXbkWq5mJUaNGfGzq
+X-Gm-Gg: AfdE7cl7iq7RqlQfonL1IPunbM5tsXB0Ffam7tFVNcsFGqACdbL13J9lEIWagidDuou
+	kTX8K5TmRpW/+akGdwJawORtgqRJ62ZaDpjBgk3OlhBf8IFo3qHiHhQLwibmRXdpZxsZrAbbwK8
+	WwEdqsSVz5yOqw54ajLUVhVHk2gAVgfqvoD0pRir6FNDqFYrQLphAdOUG7z4u82iAJNA5LF2kl7
+	PrXxxOsAXGLzsFgt2C3RfOOGRsCkHnbMTcS5WJSD61UirrrZ5/6HJ1AQbgfbg6WBNU4VoGeWzfu
+	t6yYUxKIvh0oklZ3XsjduXnh9cpBf+pZp2TmEFAKVz0qTOiYSPyHIG0U+MH0Zo66cWvt1sRvpoq
+	ahmXEl3ttxJXXMD0ZcOm3mQFc9pjH6epXdloh1wkfdQZOxsYpSaCx/BGBB/64fwN2F+CN0DrQVf
+	UMHBnBstQsBAgXoOBWqSZobdWsAg==
+X-Received: by 2002:a05:600c:82cd:b0:492:48c8:c705 with SMTP id 5b1f17b1804b1-4926fc2fa58mr69551225e9.1.1782639615378;
+        Sun, 28 Jun 2026 02:40:15 -0700 (PDT)
 Received: from Dev-Null-MSI ([2a0d:3344:52ac:a808:98a4:4381:be45:536f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c2279bc77sm37461059f8f.32.2026.06.28.02.33.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47290ed4377sm5958924f8f.37.2026.06.28.02.40.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 02:33:28 -0700 (PDT)
+        Sun, 28 Jun 2026 02:40:14 -0700 (PDT)
 From: Yousef Alhouseen <alhouseenyousef@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org,
+To: Petko Manolov <petkan@nucleusys.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
-	syzbot+563191a4939ddbfe73d4@syzkaller.appspotmail.com,
+	syzbot+9db6c624635564ad813c@syzkaller.appspotmail.com,
 	Yousef Alhouseen <alhouseenyousef@gmail.com>
-Subject: [PATCH] HID: hiddev: keep state alive through disconnect unlock
-Date: Sun, 28 Jun 2026 11:32:45 +0200
-Message-ID: <20260628093245.42065-1-alhouseenyousef@gmail.com>
+Subject: [PATCH] net: usb: rtl8150: handle link status read failures
+Date: Sun, 28 Jun 2026 11:39:29 +0200
+Message-ID: <20260628093929.44214-1-alhouseenyousef@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -77,127 +80,39 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-hiddev_disconnect() drops existancelock before freeing the hiddev state,
-but a waiting final file release can run as soon as the mutex becomes
-available. On PREEMPT_RT, that waiter may free hiddev while the disconnect
-thread is still executing the mutex slow-unlock path, causing a
-use-after-free in the mutex implementation.
+set_carrier() ignores the result of the USB control transfer and tests
+the stack variable supplied as its receive buffer. If the device rejects
+or aborts the request, that variable remains uninitialized and the driver
+chooses an arbitrary carrier state.
 
-Give the connection and each open file an explicit reference. Drop each
-reference only after its existancelock critical section has completed, so
-the state cannot be freed from the other unlock path.
+Report carrier down when the link status cannot be read.
 
-Fixes: 079034073faf ("HID: hiddev cleanup -- handle all error conditions properly")
-Reported-by: syzbot+563191a4939ddbfe73d4@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=563191a4939ddbfe73d4
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: syzbot+9db6c624635564ad813c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=9db6c624635564ad813c
 Cc: stable@vger.kernel.org
 Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
 ---
- drivers/hid/usbhid/hiddev.c | 37 +++++++++++++++++++------------------
- include/linux/hiddev.h      |  2 ++
- 2 files changed, 21 insertions(+), 18 deletions(-)
+ drivers/net/usb/rtl8150.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/hid/usbhid/hiddev.c b/drivers/hid/usbhid/hiddev.c
-index 6378801b22c6..21396481995b 100644
---- a/drivers/hid/usbhid/hiddev.c
-+++ b/drivers/hid/usbhid/hiddev.c
-@@ -46,6 +46,12 @@ struct hiddev_list {
- 	struct mutex thread_lock;
- };
+diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
+index c880c95c41a5..5606490aaea0 100644
+--- a/drivers/net/usb/rtl8150.c
++++ b/drivers/net/usb/rtl8150.c
+@@ -732,7 +732,11 @@ static void set_carrier(struct net_device *netdev)
+ 	rtl8150_t *dev = netdev_priv(netdev);
+ 	short tmp;
  
-+static void hiddev_put(struct hiddev *hiddev)
-+{
-+	if (refcount_dec_and_test(&hiddev->refcount))
-+		kfree(hiddev);
-+}
+-	get_registers(dev, CSCR, 2, &tmp);
++	if (get_registers(dev, CSCR, 2, &tmp)) {
++		netif_carrier_off(netdev);
++		return;
++	}
 +
- /*
-  * Find a report, given the report's type and ID.  The ID can be specified
-  * indirectly by REPORT_ID_FIRST (which returns the first report of the given
-@@ -216,26 +222,21 @@ static int hiddev_fasync(int fd, struct file *file, int on)
- static int hiddev_release(struct inode * inode, struct file * file)
- {
- 	struct hiddev_list *list = file->private_data;
-+	struct hiddev *hiddev = list->hiddev;
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&list->hiddev->list_lock, flags);
-+	spin_lock_irqsave(&hiddev->list_lock, flags);
- 	list_del(&list->node);
--	spin_unlock_irqrestore(&list->hiddev->list_lock, flags);
-+	spin_unlock_irqrestore(&hiddev->list_lock, flags);
- 
--	mutex_lock(&list->hiddev->existancelock);
--	if (!--list->hiddev->open) {
--		if (list->hiddev->exist) {
--			hid_hw_close(list->hiddev->hid);
--			hid_hw_power(list->hiddev->hid, PM_HINT_NORMAL);
--		} else {
--			mutex_unlock(&list->hiddev->existancelock);
--			kfree(list->hiddev);
--			vfree(list);
--			return 0;
--		}
-+	mutex_lock(&hiddev->existancelock);
-+	if (!--hiddev->open && hiddev->exist) {
-+		hid_hw_close(hiddev->hid);
-+		hid_hw_power(hiddev->hid, PM_HINT_NORMAL);
- 	}
- 
--	mutex_unlock(&list->hiddev->existancelock);
-+	mutex_unlock(&hiddev->existancelock);
-+	hiddev_put(hiddev);
- 	vfree(list);
- 
- 	return 0;
-@@ -270,6 +271,7 @@ static int __hiddev_open(struct hiddev *hiddev, struct file *file)
- 	spin_unlock_irq(&hiddev->list_lock);
- 
- 	file->private_data = list;
-+	refcount_inc(&hiddev->refcount);
- 
- 	return 0;
- 
-@@ -897,6 +899,7 @@ int hiddev_connect(struct hid_device *hid, unsigned int force)
- 	INIT_LIST_HEAD(&hiddev->list);
- 	spin_lock_init(&hiddev->list_lock);
- 	mutex_init(&hiddev->existancelock);
-+	refcount_set(&hiddev->refcount, 1);
- 	hid->hiddev = hiddev;
- 	hiddev->hid = hid;
- 	hiddev->exist = 1;
-@@ -937,9 +940,7 @@ void hiddev_disconnect(struct hid_device *hid)
- 	if (hiddev->open) {
- 		hid_hw_close(hiddev->hid);
- 		wake_up_interruptible(&hiddev->wait);
--		mutex_unlock(&hiddev->existancelock);
--	} else {
--		mutex_unlock(&hiddev->existancelock);
--		kfree(hiddev);
- 	}
-+	mutex_unlock(&hiddev->existancelock);
-+	hiddev_put(hiddev);
- }
-diff --git a/include/linux/hiddev.h b/include/linux/hiddev.h
-index 2164c03d2c72..8e9f8a33e359 100644
---- a/include/linux/hiddev.h
-+++ b/include/linux/hiddev.h
-@@ -13,6 +13,7 @@
- #ifndef _HIDDEV_H
- #define _HIDDEV_H
- 
-+#include <linux/refcount.h>
- #include <uapi/linux/hiddev.h>
- 
- 
-@@ -24,6 +25,7 @@ struct hiddev {
- 	int minor;
- 	int exist;
- 	int open;
-+	refcount_t refcount;
- 	struct mutex existancelock;
- 	wait_queue_head_t wait;
- 	struct hid_device *hid;
+ 	if (tmp & CSCR_LINK_STATUS)
+ 		netif_carrier_on(netdev);
+ 	else
 -- 
 2.54.0
 
