@@ -1,124 +1,77 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C3F36E47E
-	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 10:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782641352; cv=pass; b=ctUT8NzMQTCP6c25hTs6ozFLcxKO5Ht7ILbbS4FXukyQa+CL2lJfHflWJaQUEmnEJ2YSabTni5frhTTS396MDxj+1AbwiA3Y7URQxd7gDoa8YA99HSjxwK/xNcqYB06oaIlcVqgHVNO079Bvm4Oqv+3Bw/l4suKleyY4NFMflgQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782641352; c=relaxed/simple;
-	bh=CH55ZDErGBusi1y6rzbbTwumKhX8mVGmqH/AIM3YLpI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BY6VgEM2l6oGHH3Shkk1cxvJdnGW/DuidS3EePgMfddDtNIlblWgbTbgI89YAaTg2ureBbiXTpuUChKPgijWO2jype0BAlPRJ+jObLWsVaVEpEFGR/dRh9OEPoDu/amOE06EdrQ2f21fGb8MgKE9GeBM1YTYn/V7BoSrWCc0WBk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j2s3Wz1N; arc=pass smtp.client-ip=74.125.82.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1F8194AE6;
+	Sun, 28 Jun 2026 11:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782645812; cv=none; b=loajmLx1E3qRzphcLMeZ4K4xHObeHiaEZ5XVBbpadew9t85SKa70lfz4YA2QP4vfqYneGXS3zJqLz9Jr+VLbRVaZuDLa0bIijOnJc5Amohysu++q3CQ6YN/pS0wj7Wq6c8b60sPw4MkvWkrGkMyboZV0KiDtud/wm3nUtus8wIk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782645812; c=relaxed/simple;
+	bh=+m4Zd+dC0Qbx+qEE6dG5GGnHVT/5LNDO3C75LwBTaFA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Omzchk9GUftU6KnUOC0LMl/xWootX1Uullb+3urVJ+CMX/lgOXT5HKhlaq2wG6tAEtzWpk5jNqLnd1rrQ33D43nd0Ij5wymkNcWXjkjj2s3bdHjVDAN+r/NZx4LPyB27T/hgzpt7tkChnehbZXKP5wpziTp6pzLyCZO2lTTnNwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=FSutw9O5; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j2s3Wz1N"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-30e869ebc19so44063eec.0
-        for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 03:09:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782641349; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Oq4mGmmEfqlpYj/EdCstF9WDR7GGiZbV4vXh3iVZRql5SmwSPWSJXyJmy2YqKae5RX
-         sRRxl34yk9GSX9Z1+DGp/ax7HrkgfXpGPskN9Q8Qh/FEFbyA8d0mylV0yA4p43CuQbgh
-         Xdk8gYak8dTEWKcgXpeLCZVn0ZlJdIZxVLY+kDo2yHx+L8mB/si2nJEYXr2ppySNPRdI
-         RQBDjFI4etEWrOFWZxa1LxWzPYI0ow/xi9jCIQREm0ZnzdNMzw0HKYQEYKc80duUcnYN
-         gQHtFYf42AltweogGExK7ktHgetkIGnjxwgs4WJeul3XlL8ISl3/+y+byXxHJKGdqWuQ
-         YumQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=CH55ZDErGBusi1y6rzbbTwumKhX8mVGmqH/AIM3YLpI=;
-        fh=m5ubJlpJJnxf2gzHc8jzRK/R7z+pnu6uYrnS965MEyc=;
-        b=o9xZplK9A/2kd5cvQ4ofIiV3zpcDpJXcQBXHdHcEqmOUXkkn5Q4a+dDpr7ifdWzcpX
-         SHSUk3yw7cwi7HQSST539YWH6iOP6y3TRnAkYoIkxGGSwF3iJ8aTtversVgAKTSDLPSP
-         DM5YWmTgU/SIuGUy50IVWspe4Mq3eoH7vwQBMCaOo31YytFS220V/L2MxDcfcvC+X+9V
-         DKF0l6yX6MVGfHcoAMeWrDZX3bvq1jotQeY9cVKrJ2lr1Jx/ykzq95J7va4tUT5YRzVt
-         CRwzdNDD3kIxT8D+yTI6DDDgg2MLBBw181DZAfuKNj2hd7rjlwEKFoUTzz2F9BbJR5AE
-         lk3A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782641349; x=1783246149; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=CH55ZDErGBusi1y6rzbbTwumKhX8mVGmqH/AIM3YLpI=;
-        b=j2s3Wz1NL9n4BfxFbs8a9ybTUnzD/ufHtK0KWIUQWC7iZryQCM8kvegBMNn16U3w5w
-         OhjiM1fUxfbnu5+OWMRJPsBoOD9RoTwhYDBri9nhOOy5facyc4zDqjWj8YN8h8L6BVKG
-         MiUas3cgpb6zNkY1DQBzyV7WhZt9wb+7TZO+Z/S5qnN0cAGLAQlZSkEXndVWFg0bl/QA
-         ShKPU2DrbNSLEEmzgCn+SJOTg496JOumXqJ5+MjixbZYrBNReqg2/lvtNbQ9pqym9rdP
-         sCSrlTTSGGx+ahy282jwmasPq0kx6/onhdXUdUos9UMhxI38syCf/Ji1+FNVcyJIRNRy
-         aStg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782641349; x=1783246149;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CH55ZDErGBusi1y6rzbbTwumKhX8mVGmqH/AIM3YLpI=;
-        b=U6IIzVVyfXKBj8Rc+dI30ZqciZTRFMc8cQ6WIiMB0pFoxFVzw6nwc0z7xev+18BKsr
-         7wi/c/eu5U3DR+RGyyJcHfWI4hwVnN9aIsUAmAOMQYETcEU7Uql8qehCVRXcu+zeA3WE
-         14/7FTI8NXquidV6xYIR/ojxql/7cogvCzLu7bTt9p5RrQlpElftP3/UvILz92vonai5
-         p/UhbmWeQt1Svn6ljYKJWbHtQh+HhMqx/YRCAAEevKjOF3E7WKHXhya8/JOjNu99oEr8
-         ivzgS6vCs26Nojp7uZQm1R+CRDADt1MDH8lPTsDBTSTLDYdKGMuneK2+bJlYh1Ky2Y+N
-         FjAQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrZ31YdGMs3twhEeVv7eLuOSWcOEQyfYklVtlNm66XwFGMssgPUoelyQnQF2ejYNvx4DxhXB373pqg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxk37/a5b7x2g020pZ7s+MNWyJXIX2KxSNFlLCzaZWLg2MSJKxZ
-	cHmdqOegUln7ky/LLm0BXQktCzroe141MKzd8H/30mNak10e+lFSnPfii9sdqjtHZqjSGuboS1M
-	ck3GSApXjhutcwpBIx7iCQnKBJ/HNWj4=
-X-Gm-Gg: AfdE7cldCtxDgUN+ciKQGWm4iCqhAwvFH4iN9DwIQAUaSl8btmKGrWUk2vpKSZ3omZy
-	I+ljQR2f8BxqcEobGTMDV+3o5Xalsu8LDXE/NYqv+gchIl18hYFGxcZNWeF+079Nwre23eEag6o
-	jwzadSVv43sMIBd+wQenD40giqSj0qeNNUhTIVg6xkoFlo/ermfys6B9qXw0pf3f7TG/2UdmH3D
-	hFOyhzE2cyDKv1991gw+qMWWTtLNU7an1LKP5idMyV/53QoHqI83SxiVJmkhq4gbex4rF5D2Sg6
-	oPKAKj6BDt2/zROwfXgQgcKvZFYJS6/msXP7KqDg+q9bR8vALVmyAGhAX/gtXSjDmbM/y1teEdw
-	d+C1sdMNqbCsI
-X-Received: by 2002:a05:7300:8609:b0:30c:b42d:47d4 with SMTP id
- 5a478bee46e88-30cb42d4aa6mr2725415eec.3.1782641348716; Sun, 28 Jun 2026
- 03:09:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="FSutw9O5"
+Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 440b0cabd;
+	Sun, 28 Jun 2026 19:18:02 +0800 (GMT+08:00)
+From: Dawei Feng <dawei.feng@seu.edu.cn>
+To: stern@rowland.harvard.edu
+Cc: dawei.feng@seu.edu.cn,
+	gregkh@linuxfoundation.org,
+	jianhao.xu@seu.edu.cn,
+	linusw@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	stable@vger.kernel.org,
+	zilin@seu.edu.cn
+Subject: Re: [PATCH] usb: free iso schedules on failed submit
+Date: Sun, 28 Jun 2026 19:18:02 +0800
+Message-Id: <20260628111802.3342187-1-dawei.feng@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <1b80afec-0263-4e7a-8f9f-94abf15ae239@rowland.harvard.edu>
+References: <1b80afec-0263-4e7a-8f9f-94abf15ae239@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260625224927.404258-1-nico.antinori.7@gmail.com>
-In-Reply-To: <20260625224927.404258-1-nico.antinori.7@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 28 Jun 2026 12:08:56 +0200
-X-Gm-Features: AVVi8Cfb_v-G46exRFY3-4t9C9_BwKpZ6hE6o2xuD9yPTXeLyP3R3mkBDkoASc8
-Message-ID: <CANiq72mx1EDo4EYLUMN63_MtScJjobbPH3QCZ50oJCnZ9vc27g@mail.gmail.com>
-Subject: Re: [PATCH] usb: rust: Use pin_init::zeroed for usb_device_id initialization
-To: =?UTF-8?Q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Benno Lossin <lossin@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Boqun Feng <boqun@kernel.org>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Tamir Duberstein <tamird@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9f0df3648903a2kunm572a28491346a8
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaSB8dVkxPShgdTBhMGBpPGFYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
+	9ITFVKS0tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=FSutw9O57RfWwxc4mNC+yCPqdug2u76yWFJEZyzI8ryYgxuaiNi8nDxGn0O1VYkwAUEfcRZUJAUwpgedqXNtJvACV7YQlfE9cnGVTPZUnnjEq8RzMcUK3e282jxaTDcBRdJzkCCdX1dtgbk88SUwcNEKDfLNg6XYKQlhxTyc+pM=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=XR4XxvDozcd87t19jJawNld0zWG0g6kjr2+cWPEjprM=;
+	h=date:mime-version:subject:message-id:from;
 
-On Fri, Jun 26, 2026 at 12:50=E2=80=AFAM Nicol=C3=A1s Antinori
-<nico.antinori.7@gmail.com> wrote:
+Hi, Alan,
+
+Thanks for the review.
+
+On Sat, 27 Jun 2026 15:05:57 -0400, Alan Stern wrote:
+>>  	}
+>>   done_not_linked:
+>> +	if (status < 0) {
+>> +		iso_sched_free(stream, urb->hcpriv);
+>> +		urb->hcpriv = NULL;
+>> +	}
 >
-> All types in `bindings` implement `Zeroable` if they can. This enables
-> using `pin_init::zeroed()` for `usb_device_id` initialization instead
-> of relying on `..unsafe { MaybeUninit::zeroed().assume_init() }`.
->
-> This change improves readability and removes unnecessary unsafe blocks.
->
-> Link: https://github.com/Rust-for-Linux/linux/issues/1189
-> Suggested-by: Benno Lossin <lossin@kernel.org>
-> Signed-off-by: Nicol=C3=A1s Antinori <nico.antinori.7@gmail.com>
+>That's not quite optimal, because iso_stream_schedule() already calls 
+>iso_sched_free() whenever its return value is < 0.  You should remove 
+>that call now that the deallocation is being done down here.  And also 
+>have iso_stream_schedule() clear urb->hcpriv in the other place where it 
+>calls iso_sched_free().
 
-Looks fine -- if needed I can pick it up via `rust-next`.
+You are right. I'll update it in v2.
 
-Thanks!
-
-Cheers,
-Miguel
+Best regards,
+Dawei
