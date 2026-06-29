@@ -1,96 +1,105 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61D73D75AB
-	for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 07:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+Received: from ultrarisc.com (unknown [218.76.62.146])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6AB53D902D;
+	Mon, 29 Jun 2026 07:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=218.76.62.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782718122; cv=none; b=ExsEnN2OjY7/jYpu+bhxYUKvLg1Ex0KW+mwwlmR4ztMud4jgPnLOBFD9ZpzfNyMZR9ObhSu1272BsvPlqO2+CQX3TJBQRzNVsPBUeEwRY/UUL+EkkIFXHRSs6UCm5e1/GYtzjzzSICAkihYWSgpUZLWAM2Si0nFHhYfi5HAuePw=
+	t=1782718139; cv=none; b=Gmy61L9iVqBs30M98PU2AVQ8Lx0xCadGRXGK6zCaq+VmzcZQUAGjRNbJYtoGTZMoCrgPzcuM3iVU239CVpP5cKqyH/wvA+63+8dHQcxYEG9lKlhgolFmtKtfS4UZYZUfWe6LLhXobG+WQ1WdTwEynTeCGZyvxJdmSwlYTo8NXGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782718122; c=relaxed/simple;
-	bh=lQpHZi11cKsP2uCr/CzXPM2KCFMIncW7KSkiCY3Sf8o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qVP2DDHGc4oJUPy67DttrvpWxQmHQ/CE0iJdRdA4tL2S+O7oQI+HfBzzfYc2w+0WxBiJhSCfjK+1vuK0xOLK5PEJqHjIjKwBtvQb/D7/8R2b7aybqqyGakHzMkKmQdL+ZPyCagc84cTRYXnWXAtLMmXcElwBbw6bQ3SwW8Ensls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UrOxzvN/; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782718139; c=relaxed/simple;
+	bh=ZENJ3f5Ea3Zb1Uy2qs2eMFlAH3pKho6umsOMXtZokL4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Js/e3pR3zA14jb/n9plYmVDyQew86afSppU8SRB1AzM1+OH21qhKddMQpc0t/qx0MLEEjNFmckkeWlhLhplhxmVN38d8yIQdcZGK+3xcM21Vzz3eg0sC7qRRCCD1lGcAbfPSToLCNOChfU9S6nMyjes4cfiLBbaNwrrKluposog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com; spf=none smtp.mailfrom=ultrarisc.com; dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b=PsbNgNIC; arc=none smtp.client-ip=218.76.62.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ultrarisc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UrOxzvN/"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4629051c946so1568737f8f.1
-        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 00:28:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b="PsbNgNIC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782718117; x=1783322917; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lQpHZi11cKsP2uCr/CzXPM2KCFMIncW7KSkiCY3Sf8o=;
-        b=UrOxzvN/VLZyexkM42OPh/9OB+oBzCCqGQnoAOCIPya+wOdsU0frbhCb2fR7dUu7T+
-         IlnRyU7B8j4zKGbfdKVaHuQxRGxpsx6/YtqSkvLFEsnai3kZuY1cWl9NDpckegzAqfQ4
-         Ao3bcEPd1zl29neZKxRM6iionnN0nE/ZYbQKSOEu5UhwFBFYacqYtiQ3hlVIBHkZ+eBR
-         Q8EFYPW7bgSTvEo65YBJ2j6JBqQsa+IruDkro40c/fidgxZljjdRzB7MKKETNBcGo7ZY
-         lLvXj0kTHJFjcbGUu/XXAEAJgKp4p8Wo3NUv5kBwSygAVWDbkl1ZJgOrAjNfKYzn2+YA
-         XYGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782718117; x=1783322917;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lQpHZi11cKsP2uCr/CzXPM2KCFMIncW7KSkiCY3Sf8o=;
-        b=c02oDnhXDpuyoiLKDozXobK2dmEoP2FAVui401uMaA5AGihc6kgbBYAabLpbzl+nDe
-         GPujIBptlTywJK52kiUSqggmBmG7ncgecJmqWy/J7TzCQlT5E2gwnBl3Ab+EngRTsX2L
-         9Jb0Jcpj4deE2pTvy+bm6bKljCUBajoIlXF87EHeFDnSWJFIhF68KEwR9AWl673j3n2L
-         TIYN7vFmRasQngWGmlCksZt746HmwGilwqSf5orVhYbX0iPzBmUfDzL9gzlDhh6JiuxA
-         Qjy7CB8HMPuV9hKCRFPX3jYYwweUcplp3Gmy0jDXtcy7U8wLsba6W+ETbcZ7alYiOr+y
-         +ubQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrWyTZKmfoQkBhig9ET5QfE+tpf2N/zQs0GQcZn6ryPe9r9RXIlIbB+4RaWW6YyWYj864GwPkAKeRg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRajG3nW5scVmS6bfy+wEg3h5cwFVkhJN4dMpF84/6D6aGhMG4
-	zefAUP5X9veeMRzz5PB6Fgs7TaznxS7l0mb3o48xBIvPH6RVjrUKE5+X
-X-Gm-Gg: AfdE7cl01XEgqz5EygYpHJrj/pNueGSLSz+d/BkGqUVUmROguNrIWR/b0Q6NYW+trX3
-	NDT8qCimMR1c1fkXXvZDiAza8OXOP0eM2KNJQ1EQQRJgXvvrgT208gnRdzDVarILYCyc4wMPfKr
-	B0kC1gdD4c5SQ8yM4OPKG9nezMDvDQCx+SsG0yaePAV9zWf6VS6c6oHPdoAFZl6M7CS4QE+yPkl
-	iruID305lQqB/TRCnZTXn3rxVB7Qh1DWZpA5f2wdDt0ZJqsThtMRKHJEBld757/sjk7+UmKmTrJ
-	HHtTDIIyxQ7Q5SwhSNf7wX2vNyVnsiObOIDg4ciwGtueRicI2xBi2Zc/weEu4R+IxpXOtR7suYk
-	VijU0pgFgGk7dnwndc59rAK2Cqx3VZBl5xiShcqWT7qjdD2kAFlTxBZvBKNclmSrWvpbk5/tkWf
-	t9lFrG9jSTWH30bFV941WZTPYB
-X-Received: by 2002:a05:6000:3110:b0:46f:1b89:999 with SMTP id ffacd0b85a97d-46f1b890a94mr16268450f8f.30.1782718116866;
-        Mon, 29 Jun 2026 00:28:36 -0700 (PDT)
-Received: from foxbook (bgu190.neoplus.adsl.tpnet.pl. [83.28.84.190])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46d86960983sm40122019f8f.4.2026.06.29.00.28.35
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 29 Jun 2026 00:28:36 -0700 (PDT)
-Date: Mon, 29 Jun 2026 09:28:32 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: sanan.hasanou@gmail.com, vbabka@suse.cz, akpm@linux-foundation.org,
- cl@gentwo.org, rientjes@google.com, roman.gushchin@linux.dev,
- harry.yoo@oracle.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- syzkaller@googlegroups.com, contact@pgazz.com, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, Mauro Carvalho
- Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, Dinghao Liu
- <dinghao.liu@zju.edu.cn>
-Subject: Re: WARNING in usb_free_urb
-Message-ID: <20260629092832.355327e7.michal.pecio@gmail.com>
-In-Reply-To: <20260629092033.4a83e91b.michal.pecio@gmail.com>
-References: <6a3eeead.7fb353d3.354599.b0b0@mx.google.com>
-	<85cf5045-b52b-4aaa-a038-ca1b856b55f9@kernel.org>
-	<20260629092033.4a83e91b.michal.pecio@gmail.com>
+	d=ultrarisc.com; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding; bh=ZENJ3f5Ea3Zb1Uy2qs2eMFlAH3pKho6ums
+	OMXtZokL4=; b=PsbNgNICLzqYg68xXx4GAoDUhNNoekOxxd1YDex00mqqZv1MFN
+	kbu1Q85N0GrSYt8VOpZMKHXSqzwDrUIQ2yLLT/3KH3OHPrWLpcwC1mLN6hwcZOii
+	se1AE9vV39cGsWoLs9QAJ52/VGeB7AAi4kCX9m6anAzYq5KJ3jTQMHpQk=
+Received: from leopard.. (unknown [192.168.100.1])
+	by localhost.localdomain (Coremail) with SMTP id AQAAfwAnEkPUHkJqxOsNAA--.14725S2;
+	Mon, 29 Jun 2026 15:29:24 +0800 (CST)
+From: Xincheng Zhang <zhangxincheng@ultrarisc.com>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Xincheng Zhang <zhangxincheng@ultrarisc.com>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Forest Crossman <cyrozap@gmail.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: xhci-pci: Limit VIA VL805 DMA addressing to 36 bits
+Date: Mon, 29 Jun 2026 15:28:12 +0800
+Message-Id: <20260629072812.1410424-1-zhangxincheng@ultrarisc.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260629070906.37320541.michal.pecio@gmail.com>
+References: <20260629-xhci-via-dma-fix-v2-1-380167319652@ultrarisc.com> <20260629070906.37320541.michal.pecio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAfwAnEkPUHkJqxOsNAA--.14725S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZryxJryktF48XFWxCw48Zwb_yoW8WFy7pF
+	Wagw1xtr4vkryIkFnIka10va4Fywnay3s8tr95Ka4Y9w15GF9Fgr4xXw4Yva4DArs7Zw42
+	q3yjqr9xurZ8JaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUva14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+	6r4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+	4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
+	AVWUtwCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2
+	IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v2
+	6r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2
+	IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv
+	67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyT
+	uYvjfUYCJmUUUUU
+X-CM-SenderInfo: x2kd0wp0lquxxhqjq3powut2xlvfhudrp/1tbiAQANDGpB680AEgAAsf
 
-On Mon, 29 Jun 2026 09:20:33 +0200, Michal Pecio wrote:
-> The free(buf[i]) loop should simply be removed. It was mistakenly
-> added by d571b592c6206, then a26efd1961a18 recognized the double free
-> but attempted to fix it only by changing the order of freeing. Sent
-> from .edu domain, so probably an automatic static analyzer fix...
+Hi Michal,
 
-Correction: it failed to recognize the double free, but it fixed a
-different (real) problem that the buf array itself was already NULL
-and couldn't be scanned for buffer pointers to free.
+On Mon, Jun 29, 2026 at 07:09:06AM +0200, Michal Pecio wrote:
+> This may turn into multiple quirks differing only in the number at the
+> end. For example, ASMedia chips appear to be limited to 48 bits and we
+> don't even know if these two are the only bad vendors. I briefly tested
+> Etron and NEC/Renesas, they seem to be OK, but there are others.
+>
+> The driver is getting dangerously close to filling quirks bitmap and
+> needing changes to support more than 64 quirks.
+>
+> Alternatively, I think your 'dma_bits' variable could be allocated at
+> the beginning and initialized to 64, then passed by reference to
+> get_quirks() so it can tweak it, and lastly clamped to 32 if the AC64
+> capability is absent or disabled by quirk.
 
-So it turned this NULL dereferenc into a double free.
+Thanks, this makes sense.
+
+I reworked v3 to avoid consuming a new xHCI quirk bit for each possible
+DMA address width. Instead, struct xhci_hcd now has a generic
+dma_mask_bits field. xhci_gen_setup() initializes it to 64 before
+calling get_quirks(), and the VIA VL805/806 PCI quirk sets it to 36.
+
+The DMA mask setup then uses DMA_BIT_MASK(xhci->dma_mask_bits), while
+still preserving HCCPARAMS1.AC64 for VL805/806.
+
+> I'm not sure if we really need this second call to dma_set_mask() below
+> when the first call fails? This code was added by fda182d80a0bf and it
+> really should have been an 'else' to the check for AC64 capbality, not
+> to the capability *and* having successfully enabled 64 bit DMA.
+>
+> OTOH, one could argue against cleaning this up in a stable patch.
+
+I left the existing 32-bit fallback behavior unchanged in v3, since this
+patch is intended to stay narrowly scoped for stable.
+
+Thanks,
+Xincheng
+
