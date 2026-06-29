@@ -1,47 +1,56 @@
-Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AE438237D;
-	Mon, 29 Jun 2026 11:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.203.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C900404BF7
+	for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 12:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782733073; cv=none; b=s09rjXN4xl8kOe+h25O3zJT+SowSMSksp5p7Cf8JZaWoNwk1lFVJh9W9iUKLaPfkDuPmVaaxeWS7JD/g+5aYkXbY3RQ7Sg4VjGSAs9XmHLMMVA4gncgLLnPI42IQBW2lOw+kgike5QMbROQuJBLtMnjO9MaIYjs+80D8wiiKgiE=
+	t=1782736250; cv=none; b=uqG/Gvj51Krx+WqpaTpxC0e0eQD6tioxv4s4XFd793TUTw56MrariIR8KOrTJZRSjJqapkkZoDbnbor+rNWtzKX3JRf38uMhRGbfy+rI73RAxLbyLAA9apDTnsS/I4aVPYtph+zmEmi+XHjTh6MRsrewxh6ExChADR1Gu6vWKUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782733073; c=relaxed/simple;
-	bh=/FISdUzWa4jhl1iQ3S3a8MCiO8ObQKuQAEGL2GhpF4c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YSn+zXy37qHnb8ZM4GXHvIHOsHaHOxntQWFruUVSDARwFWib8zDvFD0cS/JkCQ812HiVIcYH9mSFlrfW896kL6Qke1qDSU7dlzeevuC9sCS9Ty1yKuCDy0kRHyob9vEw9lgwbjb7UHVG0QfCs8nB4IykYfWM5PYnsKg0jC4dpio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.com; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=sRl0m9mM; arc=none smtp.client-ip=188.40.203.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.com
+	s=arc-20240116; t=1782736250; c=relaxed/simple;
+	bh=Ys3Xu+69BHzNMnI/H1obvV6MbeoYgxXQyy7pB/TDDRg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mfQ1zW+8THilWIucxdcMNApWT7AjlD+lBJfWfEYSsyIoL676JtsX1iv2lgJpwp6INBtCvji1RZikbk5n1/uwLQZtsXfeV4siTQ4kTyxre8o2NygsfuMW5MLEXnv54Vw+C0ABrK4fRWWMQamsMMArWbDyh5tPc6ih4B8p+E6F9Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwiZg2bq; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="sRl0m9mM"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
-	References; bh=Kk9sUoilZshEHSgLKnKBimRLc1pZNYUGaGCYgPP1URw=; b=sRl0m9mM7aT7Na
-	pC1bEyGYbo/5KyzUbxtoKVFWh0hRaTNfWcWYEbTK/XMVMVNIUBU/WbVrDhT8MS9MyYgPT1LbgWYzw
-	b6Jh5dMvdJqv3+psb7zwTXvLJp8nXwLfOcMl7cmqQS+oYwCqQLtJgqtbsOxKDS9aVvB3skOtOPp10
-	d8tEZ4gTG6y2jL+w8U3TQFZzgbyU2ZCWUHCiCW+Yi5ky1yvxOxqrzVZZrngglX0c1IkRzy4pqej7T
-	1iZ7Oxz227am4m8dQlzmynRPYyQ9dhshPWqsXsQkb+MJ3TuVnrNCO89kt8hjlTNnCdeAhv+uvLIPr
-	5lnryhpzAvtYFpzfZOHQ==;
-Received: from [167.98.27.226] (helo=rainbowdash)
-	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
-	id 1weAJ1-0064Rh-Im; Mon, 29 Jun 2026 12:37:39 +0100
-Received: from ben by rainbowdash with local (Exim 4.99.4)
-	(envelope-from <ben@rainbowdash>)
-	id 1weAJ1-00000005Ceo-0oc5;
-	Mon, 29 Jun 2026 12:37:39 +0100
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Ben Dooks <ben.dooks@codethink.co.uk>,
-	stable@kernel.org
-Subject: [PATCH v2] usb: dwc3: fix dwc3_readl() and dwc3_writel() calls in dwc3_ulpi_setup()
-Date: Mon, 29 Jun 2026 12:37:37 +0100
-Message-Id: <20260629113737.1240285-1-ben.dooks@codethink.co.uk>
-X-Mailer: git-send-email 2.37.2.352.g3c44437643
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwiZg2bq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782736248; x=1814272248;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Ys3Xu+69BHzNMnI/H1obvV6MbeoYgxXQyy7pB/TDDRg=;
+  b=CwiZg2bqAnnBFHpK/470xUnY2uhS9QW6D97PwUv4KaIruAwjyHXD07X/
+   GhskMYC4bpO94xw1cA5clYQwLMV0FDr7qm9UOP04iDHjRDB6NVuLNoJaz
+   ZIYQtUCygn6Xmb1hVMY+TiuBda/IClJWBE2TTRy/H2x2CCRz7qXjBDeMA
+   HhHxIEnUkxeFpuxhFY5QgedrhbVHzfuQxF2v4Da1wlsINroM6EiXDSlQM
+   gut+EHCIKkhrdAb7Fc9HDEuUGRTfSnapkDL58zQPchE1boySrM6PHZOxH
+   klBgxbawMWAczmB3APjW2dXtWrWgtNghBRqhI4j4rvgTcQozX+NqBhEvF
+   w==;
+X-CSE-ConnectionGUID: UaEoRK5YTjiMt0op+tcwAA==
+X-CSE-MsgGUID: BQxcMpuIQf6xj2ie2hfo4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11831"; a="70943943"
+X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
+   d="scan'208";a="70943943"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 05:30:47 -0700
+X-CSE-ConnectionGUID: 4tllXYy8QrSNLOFZj90l5A==
+X-CSE-MsgGUID: PXrXWmJpS/2ShYlSZiUjyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
+   d="scan'208";a="252081261"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO mnyman-desk.home) ([10.245.244.241])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 05:30:45 -0700
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+To: <linux-usb@vger.kernel.org>
+Cc: raoxu@uniontech.com,
+	michal.pecio@gmail.com,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [RFT PATCH 0/3] xhci: avoid futile stop endpoint command and host teardown
+Date: Mon, 29 Jun 2026 15:30:28 +0300
+Message-ID: <20260629123031.142133-1-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -49,47 +58,43 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: srv_ts003@codethink.com
 
-The dwc3_ulpi_setup() calls the register read and write calls with
-dwc3->regs when both these calls take the dwc3 structure directly.
+This series is an attempt to avoid stop endpoint command failure
+leading to xhci teardown with messages:
 
-Chnage these two calls to fix the following sparse warning, and
-possibly a nasty bug in the dwc3_ulpi_setup() code:
+xHCI host not responding to stop endpoint command
+xHCI host controller not responding, assume dead
 
-drivers/usb/dwc3/core.c:796:45: warning: incorrect type in argument 1 (different address spaces)
-drivers/usb/dwc3/core.c:796:45:    expected struct dwc3 *dwc
-drivers/usb/dwc3/core.c:796:45:    got void [noderef] __iomem *regs
-drivers/usb/dwc3/core.c:798:40: warning: incorrect type in argument 1 (different address spaces)
-drivers/usb/dwc3/core.c:798:40:    expected struct dwc3 *dwc
-drivers/usb/dwc3/core.c:798:40:    got void [noderef] __iomem *regs
+Series is based on a discussion with Michal and Xu Rao:
 
-Cc: stable@kernel.org
-Fixes: dcdc3f399e3b ("usb: dwc3: Support USB3340x ULPI PHY high-speed negotiation.")
-Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
----
-v2: add fixes and cc to stable
----
- drivers/usb/dwc3/core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+https://lore.kernel.org/linux-usb/D9BA02889D046D23+20260617100957.2888108-1-raoxu@uniontech.com/
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 517aa7f1486d..ceb49f2f8004 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -789,9 +789,9 @@ static void dwc3_ulpi_setup(struct dwc3 *dwc)
- 
- 	if (dwc->enable_usb2_transceiver_delay) {
- 		for (index = 0; index < dwc->num_usb2_ports; index++) {
--			reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(index));
-+			reg = dwc3_readl(dwc, DWC3_GUSB2PHYCFG(index));
- 			reg |= DWC3_GUSB2PHYCFG_XCVRDLY;
--			dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(index), reg);
-+			dwc3_writel(dwc, DWC3_GUSB2PHYCFG(index), reg);
- 		}
- 	}
- }
+A Renesas xHC host with a device behind a disconnected hub failed to
+complete a stop endoint command immediately after a endpoint soft
+reset and restart. Michal had some plausible theories why stop endpoint
+command issued immediately after endpoint restart fails after disconnect.
+
+Many of these cases can be avoided as xhci driver knows the rootport
+link state and can avoid futile transfer retry and recovery on link
+error or disconnect
+
+I don't have a easy way to reproduce this myself, all testing is
+welcome
+
+Thanks
+Mathias
+
+Mathias Nyman (3):
+  xhci: include all root port children in recovery prevention on link
+    error
+  xhci: prevent endpoint recovery after roothub disconnect
+  xhci: avoid xHC endpoint changes after disconnect or link error.
+
+ drivers/usb/host/xhci-ring.c | 50 +++++++++++++++++++++++++-----------
+ drivers/usb/host/xhci.c      |  9 ++++---
+ drivers/usb/host/xhci.h      | 11 +++-----
+ 3 files changed, 43 insertions(+), 27 deletions(-)
+
 -- 
-2.37.2.352.g3c44437643
+2.43.0
 
