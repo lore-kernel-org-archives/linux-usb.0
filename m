@@ -1,174 +1,181 @@
-Received: from mail-m8236.xmail.ntesmail.com (mail-m8236.xmail.ntesmail.com [156.224.82.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF2133F38A;
-	Mon, 29 Jun 2026 01:29:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.224.82.36
+Received: from ultrarisc.com (unknown [218.76.62.146])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D241379C29;
+	Mon, 29 Jun 2026 02:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=218.76.62.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782696567; cv=none; b=m8ny3IxHHk1A21C6gBtf0oeOs35ZVmAkazW2Q5/WfIDbGhPw1i/sbKIEt0nj9irHf3XhGOklXOhdC1dxp0qJa3P5JUiCf3U7vnuxiXj7JjD+QMOkBWqokV3dGQ4K6YbkxzqeBuzVYp5PeePvjtWlU3mylKB/HqlPE1c9+tqaaJQ=
+	t=1782701315; cv=none; b=m2UYAagnzUXVr+VAGeI7VTUERRjhnIaxsYIfV04hrKitLw+HmdpXobCpbRKWh5xAjOs9KeO/Jm1Xj4XO4S773X983p2zL2+MuoY/wkfSnK1oPvagjzeb0p74qze8p2XvfbGSctjki3tAIcYIMlILGthRV47MtF3D/SPQxABNcvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782696567; c=relaxed/simple;
-	bh=wWFAIF0zuz8Dkz8Wdr5+B1vXQREN9qit4lZfDgy2Uno=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K0rpk9a4BOGdPe036XkYJpvwKC2cGq9JtOBngem/hoJwa9fefmaemomAaM3wrfQrEsFwqO/aXv/091JIrDCQ35wV6V7bqH1KdYHz8iR0AhygAwaK0+Z0CnfEaweAhb2USpVlsKPDfIcH85/28eXxgXz5hEGvoiMGLx/jN2hnERA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=bc5KtQ7U; arc=none smtp.client-ip=156.224.82.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1782701315; c=relaxed/simple;
+	bh=0DXV7TBJTEKVHS4/A75aHzTHTLuAWWHcbzjhWo+G0to=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TqtcwVNTAwDMfGhK3d/+Yi6pZ1BXUfV8Tf+uqe/7OOZsZqtzaSxOTDBH1zz8jRnM9v+yTl87eDYidA2AcEXo1VBp7zETDfucSepRjWCR/OU5S4bJFbOetF8s/EU2l0OY+5K62mYPmb7gJzS53wXg+rtPBCbpc1osQ3ZFTXg1nTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com; spf=pass smtp.mailfrom=ultrarisc.com; dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b=c2aMUCC7; arc=none smtp.client-ip=218.76.62.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ultrarisc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="bc5KtQ7U"
-Received: from [172.16.12.90] (unknown [61.154.14.86])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 4413e3e2e;
-	Mon, 29 Jun 2026 09:29:10 +0800 (GMT+08:00)
-Message-ID: <56c6abb8-c127-449f-9368-12f94620c2bc@rock-chips.com>
-Date: Mon, 29 Jun 2026 09:29:08 +0800
+	dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b="c2aMUCC7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ultrarisc.com; s=dkim; h=Received:From:Date:Subject:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	To:Cc; bh=jI3rkscHq7ZrnXCdHklKwSkU4os5bL2jvsGPGs+nQuY=; b=c2aMUC
+	C7z2RgrL5DqQY4empZ+v4o60PY4MDovomggP6dc7SP17zA9bqi31ZOxVVpzqP1aP
+	23bm+KE2Ym3qmVPDHCIe3dbVom36Z/ipJuncFt7evfDxYSqOjphuJTNaNPWda+/s
+	g+avfUEX3oRJYVy37pwnLWzyhC9/AKwmzgWEU=
+Received: from [127.0.0.1] (unknown [192.168.100.1])
+	by localhost.localdomain (Coremail) with SMTP id AQAAfwA3cUIW3UFq+98NAA--.14731S2;
+	Mon, 29 Jun 2026 10:48:54 +0800 (CST)
+From: Xincheng Zhang <zhangxincheng@ultrarisc.com>
+Date: Mon, 29 Jun 2026 10:48:13 +0800
+Subject: [PATCH v2] usb: xhci-pci: Limit VIA VL805 DMA addressing to 36
+ bits
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 1/9] drm/bridge: Implement generic USB Type-C DP HPD
- bridge
-To: Xu Yang <xu.yang_2@oss.nxp.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Chaoyi Chen <kernel@airkyi.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Peter Chen <hzpeterchen@gmail.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
- Peter Robinson <pbrobinson@gmail.com>, Hugh Cole-Baker <sigmaris@gmail.com>,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- dri-devel@lists.freedesktop.org
-References: <20260304094152.92-1-kernel@airkyi.com>
- <20260304094152.92-2-kernel@airkyi.com>
- <erx73m2ueuvbzjteadjli6aki5by4pr3hyertkkqqoqwhaa4v3@5cstmshcercx>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <erx73m2ueuvbzjteadjli6aki5by4pr3hyertkkqqoqwhaa4v3@5cstmshcercx>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9f10fea08b03a7kunmf966b99e214af0
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaSBgaVhpDH0kaHhhKTh4ZTlYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlNSlVKTk9VSk9VQ01ZV1kWGg8SFR0UWUFZT0tIVUpLSE
-	pKQk1VSktLVUpCWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=bc5KtQ7UrGKUA1rijDG/0B4GnAe4Tbk7iG+1XzHoKWSacIyQrLgRn/wZx/UCpNfTXWV4YMlY+zS699AajY0KFrqU8mPgVl3OdvBTceFp8y15yVHWma3EgFqkkQYhFlnRAVXl6lg8VchEaO+B6yHrFQ3CnqvDkdKPMtnFtZ92LDI=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=7rX64/yu/OhWoqaAPGRmOa806yP0CYEXLXKtENt1Bg4=;
-	h=date:mime-version:subject:message-id:from;
+Message-Id: <20260629-xhci-via-dma-fix-v2-1-380167319652@ultrarisc.com>
+X-B4-Tracking: v=1; b=H4sIAOzcQWoC/32NzQ6CMBCEX4Xs2TW0CKmefA/DoSyLrJGftNBgC
+ O9uwbvHbzLzzQqenbCHW7KC4yBehj6CPiVAre2fjFJHBp3qIi10hktLgkEs1p3FRhakvMgqY65
+ s8wvE2eg4xofyUf7Yz9WLado9e6MVPw3uc3wGtff+6INChVmjNBllFTXmPr8nZ514OtPQQblt2
+ xdiDZYZxgAAAA==
+X-Change-ID: 20260623-xhci-via-dma-fix-c563b889ea54
+To: Mathias Nyman <mathias.nyman@intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Michal Pecio <michal.pecio@gmail.com>, 
+ Forest Crossman <cyrozap@gmail.com>, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Xincheng Zhang <zhangxincheng@ultrarisc.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782701301; l=4067;
+ i=zhangxincheng@ultrarisc.com; s=20260624; h=from:subject:message-id;
+ bh=0DXV7TBJTEKVHS4/A75aHzTHTLuAWWHcbzjhWo+G0to=;
+ b=t06XoIEUsWxF/QfR1K8t7CFBHkBP8bMIKNqWOeRZRvGiz/5ZhIZsYummRFDMB/U9xZgvBTprA
+ zN5PCPiiWMLC7sPRB3Y98qfFHDit8oEgNm4NvwbR2RbLYBDBqngcebj
+X-Developer-Key: i=zhangxincheng@ultrarisc.com; a=ed25519;
+ pk=QKwIEfHqvHrwmpA11qRt63ntQ3+BYBPSEvecshGYdOA=
+X-CM-TRANSID:AQAAfwA3cUIW3UFq+98NAA--.14731S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAryDXF1xKw4UWF15Ar4fKrg_yoWrWw18pa
+	y5XF43CrWrtF4SvasxCw48Zas5J3Z3JFy5KF9rK34akr45Za45WF9rCFWfJF13Xw4fXr1a
+	qr1kW3y5WaykJaDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvI14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
+	6r4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
+	4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
+	AVWUtwCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2
+	IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v2
+	6r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2
+	IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv
+	67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf
+	9x0JUBVbkUUUUU=
+X-CM-SenderInfo: x2kd0wp0lquxxhqjq3powut2xlvfhudrp/1tbiAQAJDGo8pcwAIQARsL
 
-Hello Xu Yang,
+The VIA VL805/806 xHCI controller advertises AC64, but fails to handle
+DMA addresses at or above 0x1000000000. On systems with large amounts of
+RAM, this can cause USB device failures when the controller is given DMA
+addresses beyond its usable address width.
 
-On 6/26/2026 7:15 PM, Xu Yang wrote:
-> On Wed, Mar 04, 2026 at 05:41:44PM +0800, Chaoyi Chen wrote:
->> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->>
->> The HPD function of Type-C DP is implemented through
->> drm_connector_oob_hotplug_event(). For embedded DP, it is required
->> that the DRM connector fwnode corresponds to the Type-C port fwnode.
->>
->> To describe the relationship between the DP controller and the Type-C
->> port device, we usually using drm_bridge to build a bridge chain.
->>
->> Now several USB-C controller drivers have already implemented the DP
->> HPD bridge function provided by aux-hpd-bridge.c, it will build a DP
->> HPD bridge on USB-C connector port device.
->>
->> But this requires the USB-C controller driver to manually register the
->> HPD bridge. If the driver does not implement this feature, the bridge
->> will not be create.
->>
->> So this patch implements a generic DP HPD bridge based on
->> aux-hpd-bridge.c. It will monitor Type-C bus events, and when a
->> Type-C port device containing the DP svid is registered, it will
->> create an HPD bridge for it without the need for the USB-C controller
->> driver to implement it.
->>
->> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
->> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
->> ---
->>
->> (no changes since v14)
->>
->> Changes in v13:
->> - Only register drm dp hpd bridge for typec port altmode device.
->>
->> (no changes since v12)
->>
->> Changes in v11:
->> - Switch to using typec bus notifiers.
->>
->> (no changes since v10)
->>
->> Changes in v9:
->> - Remove the exposed DRM_AUX_HPD_BRIDGE option, and select
->> DRM_AUX_HPD_TYPEC_BRIDGE when it is available.
->> - Add more commit comment about problem background.
->>
->> Changes in v8:
->> - Merge generic DP HPD bridge into one module.
->> ---
->>
->>  drivers/gpu/drm/bridge/Kconfig                | 10 ++++
->>  drivers/gpu/drm/bridge/Makefile               |  1 +
->>  .../gpu/drm/bridge/aux-hpd-typec-dp-bridge.c  | 49 +++++++++++++++++++
->>  3 files changed, 60 insertions(+)
->>  create mode 100644 drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
->>
->> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
->> index a250afd8d662..559487aa09a9 100644
->> --- a/drivers/gpu/drm/bridge/Kconfig
->> +++ b/drivers/gpu/drm/bridge/Kconfig
->> @@ -30,6 +30,16 @@ config DRM_AUX_HPD_BRIDGE
->>  	  Simple bridge that terminates the bridge chain and provides HPD
->>  	  support.
->>  
->> +if DRM_AUX_HPD_BRIDGE
->> +config DRM_AUX_HPD_TYPEC_BRIDGE
->> +	tristate
->> +	depends on TYPEC || !TYPEC
->> +	default TYPEC
->> +	help
->> +	  Simple bridge that terminates the bridge chain and provides HPD
->> +	  support. It build bridge on each USB-C connector device node.
->> +endif
->> +
-> 
-> Should CONFIG_TYPEC_DP_ALTMODE select this one? Otherwise, we need to do it
-> manually.
-> 
-> $ grep -nr --include=Kconfig "select DRM_AUX_HPD_BRIDGE" .
-> ./drivers/soc/qcom/Kconfig:118: select DRM_AUX_HPD_BRIDGE
-> ./drivers/usb/typec/ucsi/Kconfig:88:    select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
-> ./drivers/usb/typec/ucsi/Kconfig:99:    select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
-> ./drivers/usb/typec/tcpm/Kconfig:62:    select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
-> ./drivers/usb/typec/tcpm/Kconfig:85:    select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
-> 
+Do not use XHCI_NO_64BIT_SUPPORT for this controller. That quirk clears
+the cached AC64 capability and limits DMA to 32 bits, causing unnecessary
+bouncing for addresses between 4GiB and 64GiB and hiding the controller's
+real AC64 capability from code that may need to distinguish register
+access width from usable DMA address width.
 
-That's a fair point. But based on the previous discussion, Heikki
-point out that configurations in the TYPEC subsystem should not
-select configurations from DRM.
+Add a separate xHCI quirk for controllers whose usable DMA address width
+is limited to 36 bits, and apply it to VIA VL805/806. This keeps AC64
+visible while restricting the DMA mask to exactly the range that the
+controller can handle.
 
--- 
-Best, 
-Chaoyi
+Cc: stable@vger.kernel.org
+Signed-off-by: Xincheng Zhang <zhangxincheng@ultrarisc.com>
+---
+Changes in v2:
+- Replace XHCI_NO_64BIT_SUPPORT with a dedicated 36-bit DMA mask quirk.
+- Preserve HCCPARAMS1.AC64 instead of clearing it for VL805/806.
+- Limit VL805/806 DMA to DMA_BIT_MASK(36) instead of 32-bit.
+- Add a stable Cc trailer.
+- Link to v1: https://lore.kernel.org/all/20260623-xhci-via-dma-fix-v1-1-3f12c81a1cf8@ultrarisc.com/
+---
+ drivers/usb/host/xhci-pci.c |  1 +
+ drivers/usb/host/xhci.c     | 30 ++++++++++++++++++++++++------
+ drivers/usb/host/xhci.h     |  1 +
+ 3 files changed, 26 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 039c26b241d0..e5618551e022 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -448,6 +448,7 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
+ 	if (pdev->vendor == PCI_VENDOR_ID_VIA && pdev->device == PCI_DEVICE_ID_VIA_VL805) {
+ 		xhci->quirks |= XHCI_LPM_SUPPORT;
+ 		xhci->quirks |= XHCI_TRB_OVERFETCH;
++		xhci->quirks |= XHCI_LIMIT_36BIT_DMA;
+ 	}
+ 
+ 	if (pdev->vendor == PCI_VENDOR_ID_ASMEDIA &&
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 6922cc5496c1..fa546e5cd300 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -5506,13 +5506,31 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
+ 	if (xhci->quirks & XHCI_NO_64BIT_SUPPORT)
+ 		xhci->hcc_params &= ~BIT(0);
+ 
+-	/* Set dma_mask and coherent_dma_mask to 64-bits,
+-	 * if xHC supports 64-bit addressing */
+-	if ((xhci->hcc_params & HCC_64BIT_ADDR) &&
+-			!dma_set_mask(dev, DMA_BIT_MASK(64))) {
+-		xhci_dbg(xhci, "Enabling 64-bit DMA addresses.\n");
+-		dma_set_coherent_mask(dev, DMA_BIT_MASK(64));
++	/*
++	 * Set dma_mask and coherent_dma_mask to 64-bits if xHC supports
++	 * 64-bit addressing, unless a controller-specific quirk limits the
++	 * usable address width.
++	 */
++	if (xhci->hcc_params & HCC_64BIT_ADDR) {
++		u64 dma_mask = DMA_BIT_MASK(64);
++		unsigned int dma_bits = 64;
++
++		if (xhci->quirks & XHCI_LIMIT_36BIT_DMA) {
++			dma_mask = DMA_BIT_MASK(36);
++			dma_bits = 36;
++		}
++
++		retval = dma_set_mask(dev, dma_mask);
++		if (!retval) {
++			xhci_dbg(xhci, "Enabling %u-bit DMA addresses.\n",
++				 dma_bits);
++			dma_set_coherent_mask(dev, dma_mask);
++		}
+ 	} else {
++		retval = -ENODEV;
++	}
++
++	if (retval) {
+ 		/*
+ 		 * This is to avoid error in cases where a 32-bit USB
+ 		 * controller is used on a 64-bit capable system.
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index d02046a573e4..e737ab36d0a3 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1647,6 +1647,7 @@ struct xhci_hcd {
+ #define XHCI_CDNS_SCTX_QUIRK	BIT_ULL(48)
+ #define XHCI_ETRON_HOST	BIT_ULL(49)
+ #define XHCI_LIMIT_ENDPOINT_INTERVAL_9 BIT_ULL(50)
++#define XHCI_LIMIT_36BIT_DMA	BIT_ULL(51)
+ 
+ 	unsigned int		num_active_eps;
+ 	unsigned int		limit_active_eps;
+
+---
+base-commit: 502d801f0ab03e4f32f9a33d203154ce84887921
+change-id: 20260623-xhci-via-dma-fix-c563b889ea54
+
+Best regards,
+--  
+Xincheng Zhang <zhangxincheng@ultrarisc.com>
+
