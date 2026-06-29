@@ -1,61 +1,105 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C13426D13;
-	Mon, 29 Jun 2026 15:04:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F27A265CC2;
+	Mon, 29 Jun 2026 15:19:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782745451; cv=none; b=B47gpGHPFCluO8bHG5AsYjhIgFj2X+6YR7XpHz7AAyQkIcG9Nch+wMd0V2dVobQwxdhjawsIsfxfhd3F66aHJIf4l16wX0iXprFE9W9SZxMu/Uypvjnsey8b5qEwofZ7fa0XV4tZT4hM+YH4r7lWKYydx+6ehuawo9L6W58QoCY=
+	t=1782746353; cv=none; b=UgZ245KGHyAJrqcX+Orw3vpze5RU+x0wQG9qctNWxIB+c+weErFOXDscRilEdYGYh18yVteq4Y8+6gPnR4t0RsT7PiCZBWGy7AvBDLECzuaEsCgmuM0JMF1acR1/8LmzAYUo2PxaYu802KbjAFsp82X+j6d/LngL31r/J0CLcPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782745451; c=relaxed/simple;
-	bh=qubJ+N+dc9V0cxYf6uPieT6b9/ZlYWmutB4jGVIR8zU=;
+	s=arc-20240116; t=1782746353; c=relaxed/simple;
+	bh=iv/fiKg3EuQ2jv4GyHWtObJl/Zd75MjEvho8+pDnZ1E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P6Ky0fmkf1OMecHnBI92Mwd9orDbtQ20P1E6B90tPsqdR7Y6Esv7sbkmZLaxaHgCQZU5LUtf92B1bVvHnwmMZfD4w/n5pSecdOln3N9Ti8PdOINY1w6/1Bl/ZziOy7tXyoh/cYv0OYYV28k31iHNoEZ95He3dHqJHVl2H/1vmus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WUHTHZRR; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=U/FprdJp79rslOJ4JhSvBETXkc1dm5bn29cRPHJIXKJ6kxxuAevr4iBEchdftyucO4gVz8gzcMF1+WcjUOW4NnzXNAJ69k4O1+jV/bkgqjg1oi1idTQj1/eb23T4+oHYWyDC4WclLzl2iT/4qg++p/rclyh6dgSootKkBPonJyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HEmZvJtK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WUHTHZRR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C147E1F00A3D;
-	Mon, 29 Jun 2026 15:04:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HEmZvJtK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 079AD1F000E9;
+	Mon, 29 Jun 2026 15:19:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782745449;
-	bh=qubJ+N+dc9V0cxYf6uPieT6b9/ZlYWmutB4jGVIR8zU=;
+	s=k20260515; t=1782746351;
+	bh=6FUFc8VbJurEpSDevgOvU/4VEZEQWETJDf8GR/IYV3w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WUHTHZRR3rZtUXc6QkfXeX0xOOHV3JHD3M+xTBshWJGG78Oean9LeG9GvMjWDu5J9
-	 wZMCue+cQLzdEiY2LgcOWoJRohzD6y03b9xocsdfesWaCEXKoQ7FYQtfiJEMClwo61
-	 z230tO+XVVKToqiq19sHXnkW+1HlY3YuKpIYHM+Nb/6KpauelgFGh2w29OZbYs/snG
-	 BVO2bfuFmlYDcHwblKNn598oPrSJ/4rkz449J7ksniYskWVx0Csenqz7vSqsnt89CT
-	 JBkTyE8MLvnexOLH1s77p2jEB+P6ucbQRCQ/W8uEMhK4FT3dfwM7sDJJCPgnqLHEqy
-	 aq0dneZmaGyNQ==
-Received: from johan by xi.lan with local (Exim 4.99.3)
-	(envelope-from <johan@kernel.org>)
-	id 1weDWp-00000000cJB-30gs;
-	Mon, 29 Jun 2026 17:04:07 +0200
-Date: Mon, 29 Jun 2026 17:04:07 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Fabio Porcedda <fabio.porcedda@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, Daniele Palmas <dnlplm@gmail.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] USB: serial: option: add Telit Cinterion FE990D50
- compositions
-Message-ID: <akKJZ5MyUAsYJ7oo@hovoldconsulting.com>
-References: <20260612113916.34894-1-fabio.porcedda@gmail.com>
+	b=HEmZvJtKwhfG6+2u9YMDRUtu8arFt06cJRcwTdMJHDbr2BHORKFUmM8gzS6+Nuf59
+	 JYOhNUCmlBBHYF4/8GdQhH8elDIxldPzftRRCbyQdOym90+G3RJsaxiTmlJsRPMyXw
+	 cmHFhugQ3ScY89DeGqRHL0sT3Pa2VJZbvS578kDJ2rES6+ZhkK2iWFbxB9SjZEnRze
+	 cYG9qds5ZcxWY1O9CXAb4WrhnjMiTNVfz0VLe0pimYobJ+lyt7cdzICzOD3zsrBLoc
+	 Z6VNlufBJhg7Y9FhKrBdhGHPxBAiOT1o6kA/lutHXLf0sYWPInSBvkRrdiU73lP/MU
+	 zApxhoY6JGLbA==
+Date: Mon, 29 Jun 2026 16:19:07 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Wayne Chang <waynec@nvidia.com>
+Cc: mathias.nyman@intel.com, vkoul@kernel.org, neil.armstrong@linaro.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	gregkh@linuxfoundation.org, thierry.reding@gmail.com,
+	jonathanh@nvidia.com, linux-usb@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/8] dt-bindings: phy: tegra-xusb: Add support for
+ Tegra264
+Message-ID: <20260629-baffling-gag-05e20c9d925b@spud>
+References: <20260629093406.1118594-1-waynec@nvidia.com>
+ <20260629093406.1118594-2-waynec@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ZivZHyQiMsJs/gWz"
+Content-Disposition: inline
+In-Reply-To: <20260629093406.1118594-2-waynec@nvidia.com>
+
+--ZivZHyQiMsJs/gWz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260612113916.34894-1-fabio.porcedda@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 12, 2026 at 01:39:16PM +0200, Fabio Porcedda wrote:
-> Add support for Telit Cinterion FE990D50 compositions:
+On Mon, Jun 29, 2026 at 05:33:59PM +0800, Wayne Chang wrote:
+> Add the compatible string for the Tegra264 XUSB PHY.
+>=20
+> Signed-off-by: Wayne Chang <waynec@nvidia.com>
 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Fabio Porcedda <fabio.porcedda@gmail.com>
+Why is a fallback compatible not suitable here?
 
-Applied, thanks.
 
-Johan
+Thanks,
+Conor.
+
+> ---
+>  .../devicetree/bindings/phy/nvidia,tegra194-xusb-padctl.yaml     | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/phy/nvidia,tegra194-xusb-p=
+adctl.yaml b/Documentation/devicetree/bindings/phy/nvidia,tegra194-xusb-pad=
+ctl.yaml
+> index d8de900a4fce..f6fe3c90b5b0 100644
+> --- a/Documentation/devicetree/bindings/phy/nvidia,tegra194-xusb-padctl.y=
+aml
+> +++ b/Documentation/devicetree/bindings/phy/nvidia,tegra194-xusb-padctl.y=
+aml
+> @@ -45,6 +45,7 @@ properties:
+>      enum:
+>        - nvidia,tegra194-xusb-padctl
+>        - nvidia,tegra234-xusb-padctl
+> +      - nvidia,tegra264-xusb-padctl
+> =20
+>    reg:
+>      items:
+> --=20
+> 2.25.1
+>=20
+
+--ZivZHyQiMsJs/gWz
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCakKM6gAKCRB4tDGHoIJi
+0kBcAQCrqgOOerZugKKmjKtKayBzITE7zLM1L51QJ4kOU8RpIQEA2dvPt7Nwz6Xi
+yE/Bh7l6FDgrHCL0xL46jpuiCDlmugU=
+=iSW+
+-----END PGP SIGNATURE-----
+
+--ZivZHyQiMsJs/gWz--
