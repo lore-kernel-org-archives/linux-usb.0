@@ -1,130 +1,182 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020084.outbound.protection.outlook.com [52.101.196.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B8E3FFAC1;
-	Mon, 29 Jun 2026 12:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782736845; cv=none; b=TyLWbOUSomSH2GioQEDFzDExNn4n5INTnxDv4WPhiE3RBqXoahGDJlkr8z8IQ2FxGoYgiaPAjXWVWi1WFlkM0uOqj9X+adsEgCp1Fg82UXQq4IbZi8foTYrLc0ofIm+gAeaOefrFWBCNIWNuuBY/zn5d3iOcDkdEbGnTG6M0Rkw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782736845; c=relaxed/simple;
-	bh=t+nDr07gdYTeaEMIPjEEUj/KXFVdT71WU/lxyMOPeyw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=t/bQHkzioANwL4Q9S+c/JHfz+ZlzB3Hg4syK7llbmrwut9eLGbWioby5Q2SMHol+xnNzgJpsVnNJDD9W07V+LtwAlJ1MR2kmvWnfBaPQkDZkwGe+Q3WaLXITcoJDKnpYZAE5A7rkLC6PIngC1xxtcy1Zh2CavWWynvNQZOkDVJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UlXDYJGl; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B72D3FFF8E;
+	Mon, 29 Jun 2026 12:41:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.84
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782736893; cv=fail; b=XORUx50xEOJ1J32akYCiiYAY5RrIzvjkjLixFnEYLQvxdKwOWyy8j8q28kMmRmug2IouJm+KZxJp3ct9Rl4j31zI2ARZa/74sjwlQbBlgZEIps9dKXyjh1kbHOkQ/fEL4kp8KW09kLte9hSzNulnPNM1PJSsW0BbmWKpaqJpfFQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782736893; c=relaxed/simple;
+	bh=LDYYTVUp+R/1yfTxR5yae1AUWBO/WnHWcue8BMxLq00=;
+	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
+	 In-Reply-To:MIME-Version; b=cj30aa1OJctDo1bn5VpeUv3h3vB7bxPZGR0nm9ZEmXA1AxKgZ23woj2p7JvB8Whd0SxvcHzyz9lDN7XZbGwt1Fvi+WsN4N2J/LdObOLtcRYmfsOfPew+5i541rWgGxy6TUjzpwUgH6PcXtSGwiShgtlFVtcG1bFqaLf0m1QFGUk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=XDmMDCQC; arc=fail smtp.client-ip=52.101.196.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UlXDYJGl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3AFD1F000E9;
-	Mon, 29 Jun 2026 12:40:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782736843;
-	bh=o3w6UWgLJ050FwWo6p3grD2aDa4O5Nxo4lUubjCbEJ0=;
-	h=From:To:Cc:Subject:Date;
-	b=UlXDYJGlaWjJfSXk+Ypx+3hW0ZFb0JfSJKX+khZtoErd4T1C0OGBm4MHgcPv1J+9W
-	 dYj288ZBUNTG4gNXDD6StGDCv60RhjlII3FzQAwQbZEobz1+7ocPAw2b5ebx1iEnYJ
-	 Z9reW5AMfb7dSyevRBUh3zKwLbt/TQVyokSK8eVG79b7PTMuQBLLgfpzJAOgYVxOvd
-	 qXzfN5ks7LpsRgWEM6oBwW80FWjiZzUlQHZssiLCvOCnuP0sKOEJ02dr9lQPh8iANl
-	 jvcTb+zU0QHjRiOzfN8RZpgre9gbo1O8UfjCIoYxQt9D+vWIv2pBSvCYeS14DMIgGi
-	 tGnTBueVelKDA==
-Received: from johan by xi.lan with local (Exim 4.99.3)
-	(envelope-from <johan@kernel.org>)
-	id 1weBI1-00000000PW7-2Nlm;
-	Mon, 29 Jun 2026 14:40:41 +0200
-From: Johan Hovold <johan@kernel.org>
-To: linux-usb@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>
-Subject: [PATCH] USB: serial: digi_acceleport: fix oob port dev_printk()
-Date: Mon, 29 Jun 2026 14:40:37 +0200
-Message-ID: <20260629124037.98072-1-johan@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="XDmMDCQC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=blEWDuLWsVAANWIznPsWEBD02+Mf2K5l03e4YKtmvy1OFuJWoJ6KVQLmtDXPJ1aJBhTfz8wkFQLG9f/bkUn7gbXJ3f3o9CMnqTHJm1cxd3z+6GKSjak9s1z44r1Wbgpinj4zs+F6m4ah/ywN19m0FbObW4LcPaR1gbfetQ8AtY70b2CrG0zFtk6C1NH5rwehV6naXk/+zr8vx/phsDWKKWkYg8vMl4c3PR4WH/Ia5yqggRpYL7/962eeQzfg9165pgyO1q7JTV5ifallm5d+pppzMAx+4VGSbuppOW3MmRrS1mDVgns2QQ67QXiCcn962epxLLdGWExTgq3gxqfjzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vliDejBhmFLgEJKSBy1bIstOMBmAcE7Fy81DTJxfL74=;
+ b=MYundaLZS1vtExkL+7vGFfQb7rK9XOUBpftPoZf9xJ5XBemI2XNLAQM6znQBVw/U0duVx6Bmtr9ZZsQFnA5NhHxNCOjpOqYm7izM/TT/7cY8VbX9Lyzh3DfxM4bpuVSX1N4rMCgLWnwND4tHKot72V/tvn2I4cus2Of/DxtBWo3XQI6zYOroqey18kptCjUjpmlgE4sHmYhVUhN5ltkbz66QrLETXRv+op6agqnOgYoGWew5gKbevPVcA+MY5gUG97wD46ITpLzWtKBLgjIUuNYjOMPL4zA4aYVw5ZNmHuXZE1k7uYJDvSlgumQHnqWGwboUdnRF0omhw/rNCiSLiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vliDejBhmFLgEJKSBy1bIstOMBmAcE7Fy81DTJxfL74=;
+ b=XDmMDCQCBTgjBmB7qX5z3CTo3uFtCTFuEEEsSAkczt30JIDKgBO12aXk2hkevQip06ivPC93B8mFrNwdVxjpTE54kBCRMWlVOBCXxKryIPoTFN47IAu5FcrocTdoGzj+/ngenhldBtFYJ11WxZGLOqzlOldblz1iLXS5IuztdoU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO4P265MB5932.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:29d::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Mon, 29 Jun
+ 2026 12:41:29 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.21.0159.018; Mon, 29 Jun 2026
+ 12:41:29 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 29 Jun 2026 13:41:28 +0100
+Message-Id: <DJLJHGBA8ZGJ.2LBSFEZ5A72VL@garyguo.net>
+Subject: Re: [PATCH v2 00/12] rust: driver: use pointers instead of indices
+ for ID info
+From: "Gary Guo" <gary@garyguo.net>
+To: "Gary Guo" <gary@garyguo.net>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Danilo Krummrich" <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Boqun Feng" <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Tamir Duberstein" <tamird@kernel.org>,
+ "Alexandre Courbot" <acourbot@nvidia.com>, =?utf-8?q?Onur_=C3=96zkan?=
+ <work@onurozkan.dev>, "FUJITA Tomonori" <fujita.tomonori@gmail.com>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Bjorn
+ Helgaas" <bhelgaas@google.com>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, "Abdiel Janulgue" <abdiel.janulgue@gmail.com>,
+ "Robin Murphy" <robin.murphy@arm.com>, "Dave Ertman"
+ <david.m.ertman@intel.com>, "Ira Weiny" <iweiny@kernel.org>, "Leon
+ Romanovsky" <leon@kernel.org>, "Len Brown" <lenb@kernel.org>, "Igor
+ Korotin" <igor.korotin@linux.dev>, "Rob Herring" <robh@kernel.org>,
+ "Saravana Kannan" <saravanak@kernel.org>, "Viresh Kumar"
+ <viresh.kumar@linaro.org>, "Michal Wilczynski" <m.wilczynski@samsung.com>,
+ "Drew Fustini" <fustini@kernel.org>, "Guo Ren" <guoren@kernel.org>, "Fu
+ Wei" <wefu@redhat.com>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>
+Cc: <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <nova-gpu@lists.linux.dev>, <dri-devel@lists.freedesktop.org>,
+ <linux-pci@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-pwm@vger.kernel.org>, <linux-usb@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260629-id_info-v2-0-95a18280fe30@garyguo.net>
+In-Reply-To: <20260629-id_info-v2-0-95a18280fe30@garyguo.net>
+X-ClientProxiedBy: LO3P123CA0024.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:388::7) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO4P265MB5932:EE_
+X-MS-Office365-Filtering-Correlation-Id: d0428ac3-862d-4ed6-4d28-08ded5dbbdc1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|7416014|10070799003|376014|6133799003|56012099006|3023799007|22082099003|18002099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	GXPChxqk5kPloF3jde4sbirbhTs23B+Q5bYyoMfs+Rej4RmoTSezWPvRqcR++O0+Ql6GvvjgqB9QEHCiIv9iXNEQqv69PYsJawzhb8n7jwnmocbMrsnBBGgbpRnduWi+q7+CE0e7bVmKp+/McdSn7Ci9YEpLThWvijS7NZ9G6Jm5M6CWeY9QUaCLSi/AKvLQLEObMq5VtWTY4R1PfoiD+cbOcKaRSUVXv8aPZuO/UoJWsuot1arAzK0yWKkL+EIcrhMEKU/pVbLU8pZ3UkHZ+PzA+FqseYpOC0Rm+v6MHXEYwrMa7+M6tIetNvc5ZVYFCvK0lyPfZNOl5j8TA2ROyTwZMjxU4APcldXlEx/oEwvTfZ1JiQz7SJGpm+Qon23H43r6rPeOWGTnz7hFI2/nw9ad9xmtEcm5mFJ98BP4WXioQRE+u8dDFt2Bctgb3oK4A4lHKZmXXosBg/Y9TiYiGUrmVEqwZ1JNJBfhA0F0CDxeu++HjHVOcPcWkaeKMZmkahcdTHmWAh+oing8Vq/jVfKCAKaDm89Z2BIP0lPXcnuSbiIh2lcQBuo3jn090OZhs6FRTwBfupR7yqMit4J1pftzmrPSp7G8Gn3nNDQO/zakFvFzIJVOsoxNKjxaQexcET56xev8Wirk/qzSb4qvsazlA9L0bZ8xS6LZR99Juwc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(7416014)(10070799003)(376014)(6133799003)(56012099006)(3023799007)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RGdsVW1TMzRzWnd3dVdKTzJnY3ljUlI1M3ByUk1wdndZQlpJbkhueW5FNEs4?=
+ =?utf-8?B?M3ZhYUNaMHlYVEZmYTlrT3YvclJLS0gwY0krb0FRWE9GZ0hXUWNEM1hHZk15?=
+ =?utf-8?B?QjdoNzRYZGV4SHNzWCtzQ0dwcmJyN3BJQ0tIVlFwdG9iWWNQSXI5cmhzQ1BC?=
+ =?utf-8?B?SlppYWNqR0REYlZhYWRQci9BWmRHeTFpZGpJMXNpeGNDbEoyYitQZUlDVW9H?=
+ =?utf-8?B?QVFKdHdSR1F2N1doemp3cms2dFVteVcwM0R2S3BFRFlGcFEyZWdNaEFxZm5i?=
+ =?utf-8?B?Z0NEbmF2U2Jubkx6MjVSazNabXBaU2NWQlAvWml0anhoY0RqbEdaMThaVk4x?=
+ =?utf-8?B?bnlqcmdmdXJMcDAzMnNHSExReUYrdVpySmhrN3hxZTVGYzBSNVhwN1R5TVVh?=
+ =?utf-8?B?SjdLUGx0ejNad1Q3dUtleUhETlhsVm5KVW50ZG1rTlN5LytnVzFpUXlHc0RM?=
+ =?utf-8?B?SmlBTGUyczZJYis3TFVLcmZTaWpUWG5FYzdWZ0FWNjhZM1Rab3AxWWJaSnNo?=
+ =?utf-8?B?TGNCbnJEVlFnSzhaMFVMeVFHNUsyOURoWDc0WEFSRjFqdW1zRThyL2hTRTZm?=
+ =?utf-8?B?T1luVTRCcXdnTFpRZ0VkSVdFQ2oyTlAyeUpMb2c4ZGVBaVhWVmlOYlBzaXgv?=
+ =?utf-8?B?NXQvZnI4R2NCeHRvZ2NQaVMvRlJSRWRuR1VKVzhBRjd2L1RnN0dVVnREbUdS?=
+ =?utf-8?B?UUprdmJOMTMxUXZZNDBvc0sxM3F0UklURkVleWtYRzlaTDFkK0htWTZZZ0NL?=
+ =?utf-8?B?WGZlZXV6UjVjQ2c4Nm9ITWsvMEVkdW8xT0ZUakhSaDhKdEF5S3Z5QmhQTG9z?=
+ =?utf-8?B?cnJaUHBpbi80YnBWTDNsV0hKdldUU09FVjFmL2pNYm96cHRLYWJsQ210N2Jw?=
+ =?utf-8?B?dCtKelBZbm50alA5Q1NlWXZUdkpWaGRNeGFRTEtqUFhyWFdqRlRVTUJLMnhC?=
+ =?utf-8?B?cmJzekt0L1gwaSt4UisyUmY4NkF0aENLL1lEZXhWZE1MT2NZM2tUQmtBU3ZK?=
+ =?utf-8?B?dVpwN1ZNZjNXME8rZ2JSQ1ZPVFhDbkNyQWs2WmRnaysySDRlTytTemdTdEhW?=
+ =?utf-8?B?dmRxZ2VZTEZ6Q280WW5EODdTTndWTm5NTDBwK3I3enVtVU9iQTdGT2JCRUxa?=
+ =?utf-8?B?YnVYdVZRaVlwMUlHSnpxYmlaN2pWTEtLQ2xuNDU4QnFUb0RHRWRCU2Rha1hX?=
+ =?utf-8?B?QTNtRW9TcURIbGJ0OUpJTWJGTUp0dnZvR0JrSjFqQzB5SmVMdURyTklxYS9x?=
+ =?utf-8?B?WFFKbEZObGQ4bEVtZ3ZTM29hRkdNVUxVbldCclpBUTFnN2JOZFBIdWNxZ0Mv?=
+ =?utf-8?B?c3NYTE92M01VbU4rSW0xNXhkV1RDN002VUtBOUpZRXp6Zk96TzErU0RCZFJy?=
+ =?utf-8?B?WDNnZ25KcU5LcVFnWFo2UW9xaFNIUjBURWJkanBLaTNPTmUwMTFXVFczRzhH?=
+ =?utf-8?B?RXBNbzNZRk9xaGZ3R2FYMHVlSmtjV2d6ZmpLendrbkhxNHQ0R1NmaHpOM2o1?=
+ =?utf-8?B?Q2F1ekNGdWhDUzRwTWxCUnZWODJSTVdUNHZpMHczOFRNdWJtR0kxdkJKdUZx?=
+ =?utf-8?B?bXFTMWN3TDNZbHhKSXRmcEV6Qkl5emt3TU9yTGlZZkVrT3hMcWYzdlFIeVN1?=
+ =?utf-8?B?RWU3YXFqY1JLbHZIUmlxRGJ6OVRrV0Y0bngrWjBBMXlpdEJ3SFRubGE3WVZY?=
+ =?utf-8?B?VndKZWlGS1hralZpMWRGb2xJbTNSVWVmWU1lbU5VRTN6MjhNR0tQSWJMMmkz?=
+ =?utf-8?B?Z28rZTFHaEZqMGJQK3UraGRrZkdzZXpFSy9oWmRlbm0zZFZwOXJlaU15WUcy?=
+ =?utf-8?B?MXdyTU1VTm85L3Jsc001YlB2dkMwNXR2YzkvRm5YbEpXbG1jNlE0bkU1RVN1?=
+ =?utf-8?B?Rzc3ek0rUGsya0EySlNJajljZTY5dEVKWXZSVWtncjBFU3R0bW9ZcUJNcWxq?=
+ =?utf-8?B?VDdxM1lEeVd0K2szb3M4M2dhN3BBWmJ3VFRIL3hZY2pmMzE0ckQ2OFBYNkZW?=
+ =?utf-8?B?RWZZSXBicXNOblBhSXlNYVhCL1RGcjhKN1hsSHIyYXZUZytMcnczVDNLWlhN?=
+ =?utf-8?B?WVIvVFg2QTl5MEliaUxZSm50R0NBVmtUOTNMTDV2ZXBBMjY4RkNzVXA4TlFP?=
+ =?utf-8?B?d2NUZ1Q3Y1ZJb0w3eEF1Tk9TM3kvSWZBL2dmQ0VjcVltWFA4aStMZ0Z5aFI1?=
+ =?utf-8?B?bUpqTE5ZcjhpM09nZ09Qd3c0WWFZaGlvQmQzMklIWlFRQTdtbWxtaUdPK0Qz?=
+ =?utf-8?B?cFdFNTI4bXhMS0R2WWpnaENZdUxZbUN2bkRIVm03MzJEd2x5OThHd3d4Rk9K?=
+ =?utf-8?B?SnJ6OGtmZzdTL2YySmd1M2NzelRHeGNjUWVjL0hHdWJ5MjZMWnZmUT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0428ac3-862d-4ed6-4d28-08ded5dbbdc1
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2026 12:41:29.1895
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: v2/Ds9cDeCcAKKu6U05PToYFVFUDvnsBxAcyd7O1gnIP1sJ1jFwxDLGOtAOZzdycFSpNDgF2shMPIuIcDxPJDA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB5932
 
-The OOB port is not registered with driver core and does not have a
-name.
+On Mon Jun 29, 2026 at 1:38 PM BST, Gary Guo wrote:
+> Most C drivers use a pointer (and cast to kernel_ulong_t) for driver_data
+> fields in device_id. Rust code currently does not do this, but rather use
+> indices. These indices then needs to be translated to `&IdInfo` separatel=
+y
+> and this is by a side table.
+>
+> This leads to open-coded ACPI/OF handling in driver.rs, which is not
+> desirable. Convert the code to use pointers (or rather, static references=
+)
+> instead.
+>
+> Signed-off-by: Gary Guo <gary@garyguo.net>
+> ---
+> Changes in v2:
+> - Change USB to take `Option<&IdInfo>` in addition to PCI due to ability =
+to
+>   dynamically add IDs.
+> - Mention dyn IDs and driver_override in safety comments and justify why
+>   they're correct.
+> - Link to v1: https://patch.msgid.link/20260618-id_info-v1-0-96af1e559ef9=
+@garyguo.net
 
-Use the USB interface with dev_printk() that may involve the OOB port to
-avoid log entries with no driver and a "NULL" device name.
+Oops, this cover letter is sent by mistake. Please see the 11-patch series.
 
-Fixes: f9dfbebb8b39 ("USB: serial: digi_acceleport.c: remove dbg() usage")
-Fixes: 194343d9364e ("USB: remove use of err() in drivers/usb/serial")
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
-
-This one applies on top of the port registration series and the
-preparatory patch just posted:
-
-	https://lore.kernel.org/lkml/20260629123733.97892-1-johan@kernel.org/
-	https://lore.kernel.org/lkml/20260610132232.356139-1-johan@kernel.org/
-
-Johan
-
-
- drivers/usb/serial/digi_acceleport.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/usb/serial/digi_acceleport.c b/drivers/usb/serial/digi_acceleport.c
-index efaafaf728f8..e6d14f7d106d 100644
---- a/drivers/usb/serial/digi_acceleport.c
-+++ b/drivers/usb/serial/digi_acceleport.c
-@@ -949,7 +949,6 @@ static void digi_write_bulk_callback(struct urb *urb)
- 
- 	/* handle oob callback */
- 	if (priv->dp_port_num == serial_priv->ds_oob_port_num) {
--		dev_dbg(&port->dev, "digi_write_bulk_callback: oob callback\n");
- 		spin_lock_irqsave(&priv->dp_port_lock, flags);
- 		priv->dp_write_urb_in_use = 0;
- 		wake_up_interruptible(&priv->write_wait);
-@@ -1279,7 +1278,8 @@ static void digi_port_remove(struct usb_serial_port *port)
- static void digi_read_bulk_callback(struct urb *urb)
- {
- 	struct usb_serial_port *port = urb->context;
--	struct digi_serial *serial_priv = usb_get_serial_data(port->serial);
-+	struct usb_serial *serial = port->serial;
-+	struct digi_serial *serial_priv = usb_get_serial_data(serial);
- 	struct digi_port *priv = usb_get_serial_port_data(port);
- 	int status = urb->status;
- 	int ret;
-@@ -1291,12 +1291,12 @@ static void digi_read_bulk_callback(struct urb *urb)
- 	case -ENOENT:
- 	case -ECONNRESET:
- 	case -ESHUTDOWN:
--		dev_dbg(&port->dev,
-+		dev_err(&serial->interface->dev,
- 			"%s: nonzero read bulk status: status=%d, port=%d\n",
- 			__func__, status, priv->dp_port_num);
- 		return;
- 	default:
--		dev_err(&port->dev,
-+		dev_err(&serial->interface->dev,
- 			"%s: nonzero read bulk status: status=%d, port=%d\n",
- 			__func__, status, priv->dp_port_num);
- 		return;
-@@ -1314,7 +1314,7 @@ static void digi_read_bulk_callback(struct urb *urb)
- 	/* continue read */
- 	ret = usb_submit_urb(urb, GFP_ATOMIC);
- 	if (ret != 0 && ret != -EPERM) {
--		dev_err(&port->dev,
-+		dev_err(&serial->interface->dev,
- 			"%s: failed resubmitting urb, ret=%d, port=%d\n",
- 			__func__, ret, priv->dp_port_num);
- 	}
-@@ -1438,7 +1438,8 @@ static int digi_read_oob_callback(struct urb *urb)
- 		status = buf[i + 2];
- 		val = buf[i + 3];
- 
--		dev_dbg(&port->dev, "digi_read_oob_callback: opcode=%d, line=%d, status=%d, val=%d\n",
-+		dev_dbg(&serial->interface->dev,
-+			"digi_read_oob_callback: opcode=%d, line=%d, status=%d, val=%d\n",
- 			opcode, line, status, val);
- 
- 		if (status != 0 || line >= serial->type->num_ports)
--- 
-2.53.0
-
+Best,
+Gary
