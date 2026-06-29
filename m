@@ -1,148 +1,116 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37592F2910;
-	Mon, 29 Jun 2026 18:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535791DE894
+	for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 19:50:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782757432; cv=none; b=FR+mMVhECWy+9VELNFLyhopjP3fRqQtJrxI9TC5hPu3s/fHyn5GeKqq8FcYBP3IaL3f/qWzhlxb5C2lrbq9XaXp63x1/BoY6X+EXpCg18WEPdkJ8ygWE7dDmvuB7R04YkZ5EcPG4TXSdSm6fTMVJv+2Xo9XNCXqsRfSc6vdB5bo=
+	t=1782762614; cv=none; b=UF+Gja6Y56GBuO+v/N14Mu1wBjZ9dBsYcWyOtRDQbOk7/+QfnS6SqOUE2KKHZCUZN4SrcB+FZF03KZw5dYFrxx1tr2/MuolRPr14Yec7SrwI7jK9XQ+kbNzBQXU0sG0XMZHuMRGrP1iOVbFSwbGeXeUkqVOilBS9Gu4RuQMxPog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782757432; c=relaxed/simple;
-	bh=1P2OVUAuHOcqUzFU659MHxPQo52FQGXlvTspmoB+nAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IGu2W60o7OYkqbqRwDZgpseSOJdmmp7+UyOl4MUk7JI0Xz5Ma+7gtNsvikxBJ2Od4gSoYrcMNp/OE6SiPp5Pu3Iu5nGduUqqnJW58TundVFnxfOuAL3YDch21vAezb89hDASv6S6/j6GT0SWmKAjOw2jiUViCG8Yl3YWVqThXQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=grvNSIBf; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1782762614; c=relaxed/simple;
+	bh=qoN6igkrWbOlb45qlTXOirSohErKuB2rWvqGvlLdHWo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ScmgRxAGeENHZbB//QbuCHGNNkyqLZJEzECizIc9dk/mzMynQYtXUscsFrk7DupURVR2c24Q6sbaWM2LUWMrufV1WWPSI1m2LMvTW9pQHe7Po1Az5ilwIpKMSlkSlTOSMKRZ9xqq2OUoBvQQ6aN6aDmi2Hi1H/S6yMhFC9QJIiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IAZX6oVD; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="grvNSIBf"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 719F58D4;
-	Mon, 29 Jun 2026 20:23:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782757385;
-	bh=1P2OVUAuHOcqUzFU659MHxPQo52FQGXlvTspmoB+nAY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=grvNSIBfkYDSvED3TvPWknia5BuzWXueb7mK3pnVfPRDYcACpbeWgSn4Az1fWkOx8
-	 bTb5TQ3xFTjwSBweCACgTNxBcB3pJ9ZJ22rpOKNo+GvPf5YeNFSstbydh1Qcxan97P
-	 Cf/TCdchk11riDz6vCQpvtXA4IZwFvKszhfv4Vww=
-Date: Mon, 29 Jun 2026 21:23:47 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Pol =?utf-8?B?RmVybsOhbmRleiBGZXJuw6FuZGV6?= <fernandezfernandezpol@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IAZX6oVD"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ca11143dbbso7037125ad.2
+        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 12:50:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782762612; x=1783367412; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QBn6VbDoCaQPNtGeLIJZzo8oFouBg5xwQihuCt036fc=;
+        b=IAZX6oVDe7VOWn9QIsF+DWU0xaauLKJ4RUoR1JtLsy+Q5UEQ29Z5d715bfs0J+TbIG
+         dANA8vQ1oxnZuyUYd2G/xCU4ujjKsxG2jxWj0RXhxmSSnqTVO8XIcqUADXRu4vYP7MwZ
+         RdOqwAboUwSue+Dod8Vi0dOFRFjEaWUfmdWftsTUKtv39i8OP6DnAU0JFV/zaEvozl50
+         wXxT6WzNGiEKD/EU3y/uCUL9Me9mvNS0QaXz9psnrZ5cfq1Nhh9lMROxQKVru6bi6u7X
+         9wVlfEne9asBR7bZqPlcGGIYBocZzxCmRQ5jipUxhQbgL8NtNtG3hDGdofW5PlUhnb2Z
+         TLwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782762612; x=1783367412;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QBn6VbDoCaQPNtGeLIJZzo8oFouBg5xwQihuCt036fc=;
+        b=Sv7uG9hdDCBkHhEPBsO8euIonNUXDKQ/lpePDZ/xkMGGNAZ6koSyk+R8rgCXE5cLGX
+         2hHfeaCDUWbvvkey5M5gNtvp9PxUxtirl8pP/4iG1cEc6gOlTJZ4QJQAFc83nEsrRJDv
+         kZMSikp0V/e7Pm95VDEeEF3suxRrTJnuabXLWgpxG5DIFibTRCdN5OKbw+Uy34qUSQ0t
+         fDBaICbInd1773PmIlaS7cffi2kacar/kGEv0KBnmlEWyqkw4Ly03TGaZOsZdqNW93E1
+         ArJn2dNBeNDG7DmtTPcaYICrL6SBnciFlCrtbUyTKGL0k9EWCj8UbH7lQOTnDjah2FJp
+         FEhw==
+X-Forwarded-Encrypted: i=1; AHgh+RozRC/CH0xkjTlL2x9pRzqwk9eX+gmE85nKPng8ue/BD+XGPcjrhPHAYovxNmVCek98HZnxzA58ld4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbxXjzI0sSO5wx1C2LlzO6Pqh962NvuedhP6yXZtxgY71PwcAC
+	StHdkD+QfDjday/Q3dSX7WpuD4hYfUbDn6pNjwE8POFxtPdPcWB90BbJRP+kbn5F0S3AFQ==
+X-Gm-Gg: AfdE7clYGx7aHWy5QvOqpMpqWCkpd7hSkK0MNBeoROA0SMR+H8b7N0sJYLlyCO0OE/G
+	K0EOBc/wT+siXTbOWghXmyEH9y4zkhNsGzcvDculOZ/rBmk9FU4si1Vp8Q/BFZBX/MeJ1QWjjwc
+	7cdjQlDs3fDaoDdTDVmhXBNuqZpvv1mpmJNTDDbNy1Y3Qyx4rgXO6Hr61jY5l9VZVtL/LV46/5V
+	yTLcXD0Qz/4nSeoXypJrpKX3WICi5zbvCBaiJ/sprlkHAuAHeaATOMqx2TDGMF/R0ibAq1c4paS
+	icg13C2OfgFCjK+ZKdDbFoPOg3k6l33wGANACFZMsn6+YFdhsfhXWZmCbCn7wjLUbNLSjQKvIzr
+	QcLkTrBHQ1L9EY3PTVMZXMhf3JCwHtmrxPIr1b9+XUCgcmoDd7nk5zS0dzgz+zCQVVVpTCt9Lmk
+	E9KnE9WlwEDRH5i44Xv8AJ2hY+Q3I4bM7BnjAS5GRC84MqT7Csxq9I47NNhU/5RRnTJ2LaIHE=
+X-Received: by 2002:a17:902:cf01:b0:2ca:202c:644e with SMTP id d9443c01a7336-2ca2e91640emr4921755ad.32.1782762612541;
+        Mon, 29 Jun 2026 12:50:12 -0700 (PDT)
+Received: from node ([149.40.62.32])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c9e28d8129sm36969575ad.80.2026.06.29.12.50.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 12:50:12 -0700 (PDT)
+From: Muhammad Bilal <meatuni001@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: uvcvideo: add quirks for per-device stream
- error handling
-Message-ID: <20260629182347.GI3054459@killaraus.ideasonboard.com>
-References: <20260629163805.37879-1-fernandezfernandezpol@gmail.com>
+Subject: [PATCH] usb: gadget: uvc: clamp SEND_RESPONSE length to the response buffer
+Date: Tue, 30 Jun 2026 00:50:04 +0500
+Message-ID: <20260629195004.148405-1-meatuni001@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260629163805.37879-1-fernandezfernandezpol@gmail.com>
 
-On Mon, Jun 29, 2026 at 06:38:02PM +0200, Pol Fernández Fernández wrote:
-> The UVC_STREAM_ERR bit in the payload header signals that the device
-> could not deliver a frame correctly. By default, uvcvideo delivers
-> these frames to userspace with V4L2_BUF_FLAG_ERROR when uvc_no_drop_param
-> is set (the default). Applications that rely on strict JPEG decoders
-> (e.g. libjpeg) will display gray bands for the incomplete portion of
-> the image, since libjpeg fills undecodable MCU rows with a neutral gray
-> when the EOI marker is missing.
-> 
-> Add UVC_QUIRK_DROP_STREAM_ERR to force-drop frames flagged with
-> UVC_STREAM_ERR for specific devices, regardless of the uvc_no_drop_param
-> module parameter. This ensures applications never receive truncated frames
-> from devices known to set UVC_STREAM_ERR on genuine encoding errors.
+uvc_send_response() builds the UVC control response from a user-supplied
+struct uvc_request_data:
 
-That completely defeats the point of uvc_no_drop_param. The issue should
-be fixed in userspace, where you should ignore frames with the error
-flag set if desired.
+	req->length = min_t(unsigned int, uvc->event_length, data->length);
+	...
+	memcpy(req->buf, data->data, req->length);
 
-> The existing uvc_queue_to_stream() helper is used to reach the device
-> quirks from within uvc_queue_buffer_complete().
-> 
-> Additionally, uvcvideo unconditionally overrides the camera's probed
-> wCompQuality with the maximum value returned by GET_MAX. For devices
-> whose firmware treats wCompQuality=0 as an adaptive encoding mode (where
-> the encoder adjusts quality dynamically to fit within the available USB
-> bandwidth),
+req->length is clamped to uvc->event_length, which is taken from the
+host control request wLength (up to UVC_MAX_REQUEST_SIZE, 64), and to
+data->length, which comes from the UVCIOC_SEND_RESPONSE ioctl and is
+only checked for being negative.  The source buffer data->data is only
+60 bytes, so a response with uvc->event_length and data->length both
+greater than 60 makes memcpy() read past the end of data->data.
 
-The UVC 1.1 specification documents the range wCompQuality values as
+Clamp req->length to sizeof(data->data) as well.
 
-"Values for this property range from 0 to 10000 (0 indicates the lowest
-quality, 10000 the highest)."
+Fixes: a5eaaa1f33e7 ("usb: gadget: uvc: use capped length value")
+Cc: stable@vger.kernel.org
+Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+---
+ drivers/usb/gadget/function/uvc_v4l2.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-While the UVC 1.5 specification documents it as
-
-"Values for this property range from 1 to 10000 (1 indicates the lowest
-quality, 10000 the highest)."
-
-There is no mention of 0 being allowed as a magic value. Where did you
-find information about the adaptive encoding mode ?
-
-> this override increases encoding pressure and can contribute
-> to UVC_STREAM_ERR events. Add UVC_QUIRK_NO_FORCE_QUALITY to preserve
-> the camera's default quality value during probe negotiation.
-> 
-> Signed-off-by: Pol Fernández Fernández <fernandezfernandezpol@gmail.com>
-
-Please split this patch in two as it addresses two different issues.
-
-> ---
->  drivers/media/usb/uvc/uvc_queue.c | 3 ++-
->  drivers/media/usb/uvc/uvc_video.c | 3 ++-
->  drivers/media/usb/uvc/uvcvideo.h  | 2 ++
->  3 files changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index XXXXXXX..XXXXXXX 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -81,6 +81,8 @@
->  #define UVC_QUIRK_INVALID_DEVICE_SOF	0x00010000
->  #define UVC_QUIRK_MJPEG_NO_EOF		0x00020000
->  #define UVC_QUIRK_MSXU_META		0x00040000
-> +#define UVC_QUIRK_DROP_STREAM_ERR	0x00080000
-> +#define UVC_QUIRK_NO_FORCE_QUALITY	0x00100000
-> 
->  /* Format flags */
->  #define UVC_FMT_FLAG_COMPRESSED		0x00000001
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index XXXXXXX..XXXXXXX 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -451,7 +451,8 @@ int uvc_probe_video(struct uvc_streaming *stream,
->  		if (ret < 0)
->  			goto done;
-> 
-> -		probe->wCompQuality = probe_max.wCompQuality;
-> +		if (!(stream->dev->quirks & UVC_QUIRK_NO_FORCE_QUALITY))
-> +			probe->wCompQuality = probe_max.wCompQuality;
->  	}
-> 
->  	for (i = 0; i < 2; ++i) {
-> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
-> index XXXXXXX..XXXXXXX 100644
-> --- a/drivers/media/usb/uvc/uvc_queue.c
-> +++ b/drivers/media/usb/uvc/uvc_queue.c
-> @@ -357,7 +357,8 @@ static void uvc_queue_buffer_complete(struct kref *ref)
->  	struct vb2_buffer *vb = &buf->buf.vb2_buf;
->  	struct uvc_video_queue *queue = vb2_get_drv_priv(vb->vb2_queue);
-> 
-> -	if (buf->error && !uvc_no_drop_param) {
-> +	if (buf->error && (!uvc_no_drop_param ||
-> +	    (uvc_queue_to_stream(queue)->dev->quirks & UVC_QUIRK_DROP_STREAM_ERR))) {
->  		uvc_queue_buffer_requeue(queue, buf);
->  		return;
->  	}
-
+diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+index 514e5930b9ca9..dfa0521a243ac 100644
+--- a/drivers/usb/gadget/function/uvc_v4l2.c
++++ b/drivers/usb/gadget/function/uvc_v4l2.c
+@@ -200,6 +200,8 @@ uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
+ 		return usb_ep_set_halt(cdev->gadget->ep0);
+ 
+ 	req->length = min_t(unsigned int, uvc->event_length, data->length);
++	if (req->length > sizeof(data->data))
++		req->length = sizeof(data->data);
+ 	req->zero = data->length < uvc->event_length;
+ 
+ 	memcpy(req->buf, data->data, req->length);
 -- 
-Regards,
+2.54.0
 
-Laurent Pinchart
