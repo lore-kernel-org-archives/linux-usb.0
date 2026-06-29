@@ -1,156 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFE937C11C;
-	Mon, 29 Jun 2026 16:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E2C45BD57
+	for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 16:38:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782750198; cv=none; b=owM4QpLmrkahAVgrqs5JFoR0lFDzgofa/gDYDf4FfGAl2kBA4Yhmi+6cc7jJpielHtMjgKD2XnX1LWnydAAA/MCxUde0ZbjQPY4NrFRVlNoBqkGuhFqnp62wkL2EooWA61OE8arhfFRKh8KD+Xl4Nl1yxJQ3ltJ2Qz5inM4SDGQ=
+	t=1782751097; cv=none; b=gOhSrWDXF6fMTivcqQZUCAfe/wzjJRErTo8Xu3h9oTxUW12emKg6vegm4NMPMj2B+8ilNdjEG6FwmQMLE9AQ5pbn9STUF+nvVwXj4SFKfK1CKfjZ2Ymi08w0hMWt/A2br2n7kXlZ7WsCyKzGHzqFE6jwDWpyFX0AFeXhm1tI3nk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782750198; c=relaxed/simple;
-	bh=60Kkhn1S4xFp8KF1ZAF46WPmvC0pF6KOvaZqQh2Mlf4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b8rWrCByepTNYNmoCV7qBk1LFvloGKC6EPVDI2SPteW94xvNHwo6thFWGbCAjpoc39aK4yfXa6nEDDy166aM1kf4/VR5FdVh2I4DcPMWUZuVdD364SOki6U6QZh54vbVaZDt2Jho4KwMcEZWqWo/HpIVa3egFNi8SCIEDlWRgok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XUh5lqOG; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1782751097; c=relaxed/simple;
+	bh=xS9HXkHQt65kbdNX3PEY/ixQR504OdS8n7/Y+5xz3o4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TavYiWz5mF47yba/Um9X4Z3vf8A6Q4LyJmiawXCpiQeVqhViQAN+HBf2n4QMZYztMBWL5gDp+RsqNugoIkyn57ZEMcOc+kXoC5puI26v7jcUamO3dQ0OLvJInRiHo+PfkwiHd7PVQUWZNe5YL2Cw82KlRrL554av78j5PNc+W2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zjcx7ts/; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XUh5lqOG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782750197; x=1814286197;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=60Kkhn1S4xFp8KF1ZAF46WPmvC0pF6KOvaZqQh2Mlf4=;
-  b=XUh5lqOG7e40hPihuH2jgk5xQ/GzbvFEk+m2Al0tfQThrr2AJoRATROb
-   pl1/dHkRS+rxWEqhDjD3t+Bctb0rHUJlluhmSenAhd6AFRvO3vfbiPoYg
-   jTzF3a7OAQrGE6BuiXVI3z6L+5R7H4SJhlSgTrVBFV7XaNsP6/OYrz47U
-   FO2Hr9lD+tzP7MjBON94ne4N0yiuex75fYqeLwDn9AuoyWVohKlzgeZ5O
-   RkcadvbYng+4kTIG/WK2u1XooArWAckObng2uOJu2EMMOLg3PzLY5dAiC
-   0imZlnO1t55X1xaMVfuqg7vb5sf7i0wj90u+q1z48Y3wH9jhzd8ZKpP8w
-   w==;
-X-CSE-ConnectionGUID: fMrWV1YGS0WgZZhEI/S5Gw==
-X-CSE-MsgGUID: bHUpvzGsScON9AZIM1DNmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83476036"
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="83476036"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 09:23:15 -0700
-X-CSE-ConnectionGUID: tfo8W8J/QcSmRxl6mSfrug==
-X-CSE-MsgGUID: qa+c086/QemtMiZKLSzfAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="256920930"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 09:23:02 -0700
-Date: Mon, 29 Jun 2026 19:23:00 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Lee Jones <lee@kernel.org>,
-	Mark Brown <broonie@opensource.wolfsonmicro.com>,
-	Thierry Reding <thierry.reding@avionic-design.de>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Peter Chen <peter.chen@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, stable@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v2 00/19] driver core: count references of the platform
- device's fwnode, not OF node
-Message-ID: <akKb5LPBIMenF9yD@ashevche-desk.local>
-References: <20260629-pdev-fwnode-ref-v2-0-8abe2513f96e@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zjcx7ts/"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4938d60c035so19774835e9.0
+        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 09:38:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782751094; x=1783355894; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=y+CxHy0SCXrpnemjCBAKhWexIpJlnOyaJVCHp2VG4Pg=;
+        b=Zjcx7ts/EqreYudtfUHjHxJZm3wGEJempZOrTfWAC5WIW9tNOgwWLeiwJhSMs4sT9e
+         j4S+lVmQLH6p51/oWstbQb78KFaGYO87aP1o0x6GOj8OcaJMUcPJ505qd1ucDaV4A8u+
+         rge841X0wBv8a3UMIEfwBI6G/oQdaXOTT8agLQ5X8ZjGBr9/9VmgpUDq6NMQkeunZMdx
+         BjZrPPIyJUJYAsUKmAwprgZROcAwtL3EvDF24Vi8aN8MMasNCot1+wN5rWIPoapG+am6
+         XN/6fh2N6TjjIj1LDTKhE2WZsGy8M8541H4f6ChtMtO3bRdkQk9JA/kRNgP1mIu1zl0d
+         8UFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782751094; x=1783355894;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y+CxHy0SCXrpnemjCBAKhWexIpJlnOyaJVCHp2VG4Pg=;
+        b=GqI2P94QYgLG0tQcFHUfakt4eFJo7JBLqxj1IgOD0+NtbRpFPp7jPeILW7UuJIJtcM
+         gu9gqXZBPikKkBhGdANYY2uJ9xuWxJ1GsCAsunri65j9Ov+2JGpf3YLSngU2Nq+H/hQA
+         1KRhxgoFMQAC/O6WkURkOjRHhhcz+TS9SmOg7lp7mboN1ZhcCBzU2uVu+ujb/UWukuW2
+         WY+pSPxvCpywkE8rAk4D3jqhfX8yhMGy4xIEOoZsgTZTfhkXyDdXEXnE4qiKn5E3oVZE
+         ayipbiX58yTSNtR0Eln+JqLWl4ZOcAKiDYF6u+kZAczkp9asKWOdhSY+1KApmjCXF20H
+         qqEw==
+X-Forwarded-Encrypted: i=1; AFNElJ9MOmaEs8go8acclVcnp4tmtXFFTmcRZLVA1Z1dt+7F9OdrY5E2ksie+v8whQxjmBVrgLd08NqHdWk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/7Q7edzUMvn50AUbvIuw0/RqAZ7p/maLonJVT0sunIsZfi3N+
+	ajCpBpzWMRVBYys9BbFRRt8ejVsI3xF1DwW7vXUngrl3zvxgcb7wBpyF
+X-Gm-Gg: AfdE7cm7lX6c9dJw5Oc38EHP3LPgrscl1f31LSEHXNNdNGKmTmsDMPXbTKo/AMUmcih
+	QzOnMlmjQPaA/L50Ybhjwafgj/UiIXDKUhWNMZGBy71J2f0DbrE2YC4LJj6Ev961iX7W/kINbmP
+	skesbLBy4BLXDjFEFxUS0VpUr4rSTDPp04us+bIKsH8nyHbHWQP+2CMJGPnodZaollFeEupJLqn
+	AxUGqqbD9as3KAonOsO4Py/x8Y4GZqim+Ye7JgRRFs6bFZBDS63toGep2q2jYDltuN2CvbZ4wwf
+	89swKxclq/1pr7qgpr9WgdYt/hTVdCXrXXWF15knkVxsJowRJToxjJ1ve3HIbq45Qu2DgjipNXK
+	fV0GUIiI2TE4zxIo1iNsGbtOrCc2fEGkbm7qZmHtUv+/y6Qt3KBePYiZ6+vSYcOalPXHdOE9ZFy
+	90eQJnBlGa5+oFN6KoCWMkTHN6Z6LgQAVE/EhEDw4MuIQsrsT43XKzkY3XLFBbInLDDrSmzIwO8
+	FYz9AE/6kdPJXhf17MYnbIm
+X-Received: by 2002:a05:600c:800f:b0:493:b243:900f with SMTP id 5b1f17b1804b1-493b8281619mr6983255e9.1.1782751093660;
+        Mon, 29 Jun 2026 09:38:13 -0700 (PDT)
+Received: from helmholtz-coils-PC.nanosat.lab ([147.83.201.139])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4730937e18dsm15765501f8f.21.2026.06.29.09.38.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 09:38:13 -0700 (PDT)
+From: =?UTF-8?q?Pol=20Fern=C3=A1ndez=20Fern=C3=A1ndez?= <fernandezfernandezpol@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Pol=20Fern=C3=A1ndez=20Fern=C3=A1ndez?= <fernandezfernandezpol@gmail.com>
+Subject: [PATCH 1/2] media: uvcvideo: add quirks for per-device stream error handling
+Date: Mon, 29 Jun 2026 18:38:02 +0200
+Message-ID: <20260629163805.37879-1-fernandezfernandezpol@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260629-pdev-fwnode-ref-v2-0-8abe2513f96e@oss.qualcomm.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 29, 2026 at 11:12:23AM +0200, Bartosz Golaszewski wrote:
-> Platform device core provides helper interfaces for dealing with
-> dynamically created platform devices. Most users should use
-> platform_device_register_full() which encapsulates most of the
-> operations but some modules will want to use the split approach of
-> calling platform_device_alloc() + platform_device_add() separately for
-> various reasons.
-> 
-> With many platform devices now using dynamic software nodes as their
-> primary firmware nodes and with the platform device interface being
-> extended to also better cover the use-cases of secondary software nodes,
-> I believe it makes sense to switch to counting the references of all
-> kinds of firmware nodes.
-> 
-> To that end, I identified all users of platform_device_alloc() that also
-> assign dev.of_node or dev.fwnode manually. I noticed five cases where
-> the references are not increased as they should (patches 1-5 fix these
-> users) and provided three new functions in platform_device.h that now
-> become the preferred interfaces for assigning firmware nodes to dynamic
-> platform devices (in line with platform_device_add_data(),
-> platform_device_add_resources(), etc.). The bulk of the patches in this
-> series are small driver conversions to port all users to going through
-> the new functions that now encapsulate the refcount logic. With that
-> done, the final patch seamlessly switches to counting the references of
-> all firmware node types.
-> 
-> This effort is prerequisite of removing platform_device_release_full()
-> and unifying the release path for dynamic platform devices using
-> unmanaged software nodes.
-> 
-> Merging strategy: The entire series should go through the driver core
-> tree, possibly with an immutable branch provided to solve any potential
-> conflicts though these are rather unlikely.
+The UVC_STREAM_ERR bit in the payload header signals that the device
+could not deliver a frame correctly. By default, uvcvideo delivers
+these frames to userspace with V4L2_BUF_FLAG_ERROR when uvc_no_drop_param
+is set (the default). Applications that rely on strict JPEG decoders
+(e.g. libjpeg) will display gray bands for the incomplete portion of
+the image, since libjpeg fills undecodable MCU rows with a neutral gray
+when the EOI marker is missing.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-for patches 2-4 assuming they will be accompanied with patch 19 at the same
-time.
+Add UVC_QUIRK_DROP_STREAM_ERR to force-drop frames flagged with
+UVC_STREAM_ERR for specific devices, regardless of the uvc_no_drop_param
+module parameter. This ensures applications never receive truncated frames
+from devices known to set UVC_STREAM_ERR on genuine encoding errors.
+The existing uvc_queue_to_stream() helper is used to reach the device
+quirks from within uvc_queue_buffer_complete().
 
--- 
-With Best Regards,
-Andy Shevchenko
+Additionally, uvcvideo unconditionally overrides the camera's probed
+wCompQuality with the maximum value returned by GET_MAX. For devices
+whose firmware treats wCompQuality=0 as an adaptive encoding mode (where
+the encoder adjusts quality dynamically to fit within the available USB
+bandwidth), this override increases encoding pressure and can contribute
+to UVC_STREAM_ERR events. Add UVC_QUIRK_NO_FORCE_QUALITY to preserve
+the camera's default quality value during probe negotiation.
 
+Signed-off-by: Pol Fernández Fernández <fernandezfernandezpol@gmail.com>
+---
+ drivers/media/usb/uvc/uvc_queue.c | 3 ++-
+ drivers/media/usb/uvc/uvc_video.c | 3 ++-
+ drivers/media/usb/uvc/uvcvideo.h  | 2 ++
+ 3 files changed, 6 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index XXXXXXX..XXXXXXX 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -81,6 +81,8 @@
+ #define UVC_QUIRK_INVALID_DEVICE_SOF	0x00010000
+ #define UVC_QUIRK_MJPEG_NO_EOF		0x00020000
+ #define UVC_QUIRK_MSXU_META		0x00040000
++#define UVC_QUIRK_DROP_STREAM_ERR	0x00080000
++#define UVC_QUIRK_NO_FORCE_QUALITY	0x00100000
+
+ /* Format flags */
+ #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index XXXXXXX..XXXXXXX 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -451,7 +451,8 @@ int uvc_probe_video(struct uvc_streaming *stream,
+ 		if (ret < 0)
+ 			goto done;
+
+-		probe->wCompQuality = probe_max.wCompQuality;
++		if (!(stream->dev->quirks & UVC_QUIRK_NO_FORCE_QUALITY))
++			probe->wCompQuality = probe_max.wCompQuality;
+ 	}
+
+ 	for (i = 0; i < 2; ++i) {
+diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+index XXXXXXX..XXXXXXX 100644
+--- a/drivers/media/usb/uvc/uvc_queue.c
++++ b/drivers/media/usb/uvc/uvc_queue.c
+@@ -357,7 +357,8 @@ static void uvc_queue_buffer_complete(struct kref *ref)
+ 	struct vb2_buffer *vb = &buf->buf.vb2_buf;
+ 	struct uvc_video_queue *queue = vb2_get_drv_priv(vb->vb2_queue);
+
+-	if (buf->error && !uvc_no_drop_param) {
++	if (buf->error && (!uvc_no_drop_param ||
++	    (uvc_queue_to_stream(queue)->dev->quirks & UVC_QUIRK_DROP_STREAM_ERR))) {
+ 		uvc_queue_buffer_requeue(queue, buf);
+ 		return;
+ 	}
+--
+2.43.0
