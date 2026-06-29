@@ -1,213 +1,174 @@
-Received: from mail3-162.sinamail.sina.com.cn (mail3-162.sinamail.sina.com.cn [202.108.3.162])
+Received: from mail-m8236.xmail.ntesmail.com (mail-m8236.xmail.ntesmail.com [156.224.82.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87FC3128D7
-	for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 22:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.108.3.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF2133F38A;
+	Mon, 29 Jun 2026 01:29:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.224.82.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782685737; cv=none; b=pOcL1KLeKGKflOrtyJvlpqyRXWaOhe15GZb6freZMSIRPjZmCm0Q9yT9Phsyh58z8lGZsy/WfCZldwy8dh+bsHiHET0Dex+ToHV0ixlU7mzzTiFwvvqCTfcd6RrW4O/JRKini6N4HDW+977iKZO5MYhQnXtMQN7xSnMykgH0eZQ=
+	t=1782696567; cv=none; b=m8ny3IxHHk1A21C6gBtf0oeOs35ZVmAkazW2Q5/WfIDbGhPw1i/sbKIEt0nj9irHf3XhGOklXOhdC1dxp0qJa3P5JUiCf3U7vnuxiXj7JjD+QMOkBWqokV3dGQ4K6YbkxzqeBuzVYp5PeePvjtWlU3mylKB/HqlPE1c9+tqaaJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782685737; c=relaxed/simple;
-	bh=wGYpFsjex/GCY9A+FuTsvSXCPQg5jHoqyNSdYqZu1WU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xbk/ipymOsa7tFO0mn+TB+R006PHOM3lrrGBRbI4wgLhLk92IdD+UgzIpIuosdymFz02BuElUxuKFiSQVbvyTco1/xbr2HMwcegVgdJMKauc5t19uY/vcALImryZvjXwefJ2zOWQyY5JEOiC/oUVPPvJ93sBkHpN3TEoEFizbxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=ZtefNvSx; arc=none smtp.client-ip=202.108.3.162
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+	s=arc-20240116; t=1782696567; c=relaxed/simple;
+	bh=wWFAIF0zuz8Dkz8Wdr5+B1vXQREN9qit4lZfDgy2Uno=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K0rpk9a4BOGdPe036XkYJpvwKC2cGq9JtOBngem/hoJwa9fefmaemomAaM3wrfQrEsFwqO/aXv/091JIrDCQ35wV6V7bqH1KdYHz8iR0AhygAwaK0+Z0CnfEaweAhb2USpVlsKPDfIcH85/28eXxgXz5hEGvoiMGLx/jN2hnERA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=bc5KtQ7U; arc=none smtp.client-ip=156.224.82.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="ZtefNvSx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1782685734;
-	bh=BAEX8aiOH6dT1GznRr9coicnP9iFd2gwEqT4dY7X+/g=;
-	h=From:Subject:Date:Message-ID;
-	b=ZtefNvSxyeyzrGvfWlPKVrEHSCbF7P+W7TwDpXMwo9vq12I2nhAdw28fnmI4WQLGC
-	 vBhcgAvNtaqZklRDasFj7Cy6yTVYB0Ef7n9nuixaTofq/mNQII9q2R9l2HbBeeJfJV
-	 Q5QP81+ddP45l03PwYtNKbRCpCesnKvgeWUrWPoM=
-X-SMAIL-HELO: localhost.localdomain
-Received: from unknown (HELO localhost.localdomain)([114.249.62.144])
-	by sina.com (10.54.253.34) with ESMTP
-	id 6A419F8D00003478; Sun, 29 Jun 2026 06:26:24 +0800 (CST)
-X-Sender: hdanton@sina.com
-X-Auth-ID: hdanton@sina.com
-Authentication-Results: sina.com;
-	 spf=none smtp.mailfrom=hdanton@sina.com;
-	 dkim=none header.i=none;
-	 dmarc=none action=none header.from=hdanton@sina.com
-X-SMAIL-MID: 7340946292108
-X-SMAIL-UIID: 26DF4A2D11AA4ABB93D11DE157D1456F-20260629-062624-1
-From: Hillf Danton <hdanton@sina.com>
-To: Yousef Alhouseen <alhouseenyousef@gmail.com>
-Cc: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+563191a4939ddbfe73d4@syzkaller.appspotmail.com
-Subject: Re: [PATCH] HID: hiddev: keep state alive through disconnect unlock
-Date: Mon, 29 Jun 2026 06:26:15 +0800
-Message-ID: <20260628222617.226-1-hdanton@sina.com>
-In-Reply-To: <20260628093245.42065-1-alhouseenyousef@gmail.com>
-References: 
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="bc5KtQ7U"
+Received: from [172.16.12.90] (unknown [61.154.14.86])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4413e3e2e;
+	Mon, 29 Jun 2026 09:29:10 +0800 (GMT+08:00)
+Message-ID: <56c6abb8-c127-449f-9368-12f94620c2bc@rock-chips.com>
+Date: Mon, 29 Jun 2026 09:29:08 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 1/9] drm/bridge: Implement generic USB Type-C DP HPD
+ bridge
+To: Xu Yang <xu.yang_2@oss.nxp.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Chaoyi Chen <kernel@airkyi.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Peter Chen <hzpeterchen@gmail.com>, Luca Ceresoli
+ <luca.ceresoli@bootlin.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>,
+ Peter Robinson <pbrobinson@gmail.com>, Hugh Cole-Baker <sigmaris@gmail.com>,
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+References: <20260304094152.92-1-kernel@airkyi.com>
+ <20260304094152.92-2-kernel@airkyi.com>
+ <erx73m2ueuvbzjteadjli6aki5by4pr3hyertkkqqoqwhaa4v3@5cstmshcercx>
+Content-Language: en-US
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <erx73m2ueuvbzjteadjli6aki5by4pr3hyertkkqqoqwhaa4v3@5cstmshcercx>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-HM-Tid: 0a9f10fea08b03a7kunmf966b99e214af0
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaSBgaVhpDH0kaHhhKTh4ZTlYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlNSlVKTk9VSk9VQ01ZV1kWGg8SFR0UWUFZT0tIVUpLSE
+	pKQk1VSktLVUpCWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=bc5KtQ7UrGKUA1rijDG/0B4GnAe4Tbk7iG+1XzHoKWSacIyQrLgRn/wZx/UCpNfTXWV4YMlY+zS699AajY0KFrqU8mPgVl3OdvBTceFp8y15yVHWma3EgFqkkQYhFlnRAVXl6lg8VchEaO+B6yHrFQ3CnqvDkdKPMtnFtZ92LDI=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=7rX64/yu/OhWoqaAPGRmOa806yP0CYEXLXKtENt1Bg4=;
+	h=date:mime-version:subject:message-id:from;
 
-On Sun, 28 Jun 2026 11:32:45 +0200 Yousef Alhouseen wrote:
-> hiddev_disconnect() drops existancelock before freeing the hiddev state,
-> but a waiting final file release can run as soon as the mutex becomes
-> available. On PREEMPT_RT, that waiter may free hiddev while the disconnect
-> thread is still executing the mutex slow-unlock path, causing a
-> use-after-free in the mutex implementation.
+Hello Xu Yang,
+
+On 6/26/2026 7:15 PM, Xu Yang wrote:
+> On Wed, Mar 04, 2026 at 05:41:44PM +0800, Chaoyi Chen wrote:
+>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>>
+>> The HPD function of Type-C DP is implemented through
+>> drm_connector_oob_hotplug_event(). For embedded DP, it is required
+>> that the DRM connector fwnode corresponds to the Type-C port fwnode.
+>>
+>> To describe the relationship between the DP controller and the Type-C
+>> port device, we usually using drm_bridge to build a bridge chain.
+>>
+>> Now several USB-C controller drivers have already implemented the DP
+>> HPD bridge function provided by aux-hpd-bridge.c, it will build a DP
+>> HPD bridge on USB-C connector port device.
+>>
+>> But this requires the USB-C controller driver to manually register the
+>> HPD bridge. If the driver does not implement this feature, the bridge
+>> will not be create.
+>>
+>> So this patch implements a generic DP HPD bridge based on
+>> aux-hpd-bridge.c. It will monitor Type-C bus events, and when a
+>> Type-C port device containing the DP svid is registered, it will
+>> create an HPD bridge for it without the need for the USB-C controller
+>> driver to implement it.
+>>
+>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+>> ---
+>>
+>> (no changes since v14)
+>>
+>> Changes in v13:
+>> - Only register drm dp hpd bridge for typec port altmode device.
+>>
+>> (no changes since v12)
+>>
+>> Changes in v11:
+>> - Switch to using typec bus notifiers.
+>>
+>> (no changes since v10)
+>>
+>> Changes in v9:
+>> - Remove the exposed DRM_AUX_HPD_BRIDGE option, and select
+>> DRM_AUX_HPD_TYPEC_BRIDGE when it is available.
+>> - Add more commit comment about problem background.
+>>
+>> Changes in v8:
+>> - Merge generic DP HPD bridge into one module.
+>> ---
+>>
+>>  drivers/gpu/drm/bridge/Kconfig                | 10 ++++
+>>  drivers/gpu/drm/bridge/Makefile               |  1 +
+>>  .../gpu/drm/bridge/aux-hpd-typec-dp-bridge.c  | 49 +++++++++++++++++++
+>>  3 files changed, 60 insertions(+)
+>>  create mode 100644 drivers/gpu/drm/bridge/aux-hpd-typec-dp-bridge.c
+>>
+>> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+>> index a250afd8d662..559487aa09a9 100644
+>> --- a/drivers/gpu/drm/bridge/Kconfig
+>> +++ b/drivers/gpu/drm/bridge/Kconfig
+>> @@ -30,6 +30,16 @@ config DRM_AUX_HPD_BRIDGE
+>>  	  Simple bridge that terminates the bridge chain and provides HPD
+>>  	  support.
+>>  
+>> +if DRM_AUX_HPD_BRIDGE
+>> +config DRM_AUX_HPD_TYPEC_BRIDGE
+>> +	tristate
+>> +	depends on TYPEC || !TYPEC
+>> +	default TYPEC
+>> +	help
+>> +	  Simple bridge that terminates the bridge chain and provides HPD
+>> +	  support. It build bridge on each USB-C connector device node.
+>> +endif
+>> +
 > 
-The root cause is not specified as clearly as expected.
-
-	hiddev_disconnect()	hiddev_release()
-	---			---
-	mutex_lock(&hiddev->existancelock);
-	hiddev->exist = 0;
-
-	if (hiddev->open) {
-		hid_hw_close(hiddev->hid);
-		wake_up_interruptible(&hiddev->wait);
-		mutex_unlock(&hiddev->existancelock);
-		__mutex_unlock_slowpath()
-		raw_spin_lock_irqsave()   //UAF
-
-				mutex_lock(&list->hiddev->existancelock);
-				if (!--list->hiddev->open) {
-					if (list->hiddev->exist) {
-						hid_hw_close(list->hiddev->hid);
-						hid_hw_power(list->hiddev->hid, PM_HINT_NORMAL);
-					} else {
-						mutex_unlock(&list->hiddev->existancelock);
-						kfree(list->hiddev); // free mem
-						vfree(list);
-						return 0;
-					}
-				}
-				mutex_unlock(&list->hiddev->existancelock);
-
-Given the syzbot report, uaf occured upon acquiring the raw spinlock in
-__mutex_unlock_slowpath(), but no mutex waiter could be waken up without
-the raw spinlock held, thus the report sounds false positive.
-
-> Give the connection and each open file an explicit reference. Drop each
-> reference only after its existancelock critical section has completed, so
-> the state cannot be freed from the other unlock path.
+> Should CONFIG_TYPEC_DP_ALTMODE select this one? Otherwise, we need to do it
+> manually.
 > 
-> Fixes: 079034073faf ("HID: hiddev cleanup -- handle all error conditions properly")
-> Reported-by: syzbot+563191a4939ddbfe73d4@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=563191a4939ddbfe73d4
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
-> ---
->  drivers/hid/usbhid/hiddev.c | 37 +++++++++++++++++++------------------
->  include/linux/hiddev.h      |  2 ++
->  2 files changed, 21 insertions(+), 18 deletions(-)
+> $ grep -nr --include=Kconfig "select DRM_AUX_HPD_BRIDGE" .
+> ./drivers/soc/qcom/Kconfig:118: select DRM_AUX_HPD_BRIDGE
+> ./drivers/usb/typec/ucsi/Kconfig:88:    select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
+> ./drivers/usb/typec/ucsi/Kconfig:99:    select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
+> ./drivers/usb/typec/tcpm/Kconfig:62:    select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
+> ./drivers/usb/typec/tcpm/Kconfig:85:    select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
 > 
-> diff --git a/drivers/hid/usbhid/hiddev.c b/drivers/hid/usbhid/hiddev.c
-> index 6378801b22c6..21396481995b 100644
-> --- a/drivers/hid/usbhid/hiddev.c
-> +++ b/drivers/hid/usbhid/hiddev.c
-> @@ -46,6 +46,12 @@ struct hiddev_list {
->  	struct mutex thread_lock;
->  };
->  
-> +static void hiddev_put(struct hiddev *hiddev)
-> +{
-> +	if (refcount_dec_and_test(&hiddev->refcount))
-> +		kfree(hiddev);
-> +}
-> +
->  /*
->   * Find a report, given the report's type and ID.  The ID can be specified
->   * indirectly by REPORT_ID_FIRST (which returns the first report of the given
-> @@ -216,26 +222,21 @@ static int hiddev_fasync(int fd, struct file *file, int on)
->  static int hiddev_release(struct inode * inode, struct file * file)
->  {
->  	struct hiddev_list *list = file->private_data;
-> +	struct hiddev *hiddev = list->hiddev;
->  	unsigned long flags;
->  
-> -	spin_lock_irqsave(&list->hiddev->list_lock, flags);
-> +	spin_lock_irqsave(&hiddev->list_lock, flags);
->  	list_del(&list->node);
-> -	spin_unlock_irqrestore(&list->hiddev->list_lock, flags);
-> +	spin_unlock_irqrestore(&hiddev->list_lock, flags);
->  
-> -	mutex_lock(&list->hiddev->existancelock);
-> -	if (!--list->hiddev->open) {
-> -		if (list->hiddev->exist) {
-> -			hid_hw_close(list->hiddev->hid);
-> -			hid_hw_power(list->hiddev->hid, PM_HINT_NORMAL);
-> -		} else {
-> -			mutex_unlock(&list->hiddev->existancelock);
-> -			kfree(list->hiddev);
-> -			vfree(list);
-> -			return 0;
-> -		}
-> +	mutex_lock(&hiddev->existancelock);
-> +	if (!--hiddev->open && hiddev->exist) {
-> +		hid_hw_close(hiddev->hid);
-> +		hid_hw_power(hiddev->hid, PM_HINT_NORMAL);
->  	}
->  
-> -	mutex_unlock(&list->hiddev->existancelock);
-> +	mutex_unlock(&hiddev->existancelock);
-> +	hiddev_put(hiddev);
->  	vfree(list);
->  
->  	return 0;
-> @@ -270,6 +271,7 @@ static int __hiddev_open(struct hiddev *hiddev, struct file *file)
->  	spin_unlock_irq(&hiddev->list_lock);
->  
->  	file->private_data = list;
-> +	refcount_inc(&hiddev->refcount);
->  
->  	return 0;
->  
-> @@ -897,6 +899,7 @@ int hiddev_connect(struct hid_device *hid, unsigned int force)
->  	INIT_LIST_HEAD(&hiddev->list);
->  	spin_lock_init(&hiddev->list_lock);
->  	mutex_init(&hiddev->existancelock);
-> +	refcount_set(&hiddev->refcount, 1);
->  	hid->hiddev = hiddev;
->  	hiddev->hid = hid;
->  	hiddev->exist = 1;
-> @@ -937,9 +940,7 @@ void hiddev_disconnect(struct hid_device *hid)
->  	if (hiddev->open) {
->  		hid_hw_close(hiddev->hid);
->  		wake_up_interruptible(&hiddev->wait);
-> -		mutex_unlock(&hiddev->existancelock);
-> -	} else {
-> -		mutex_unlock(&hiddev->existancelock);
-> -		kfree(hiddev);
->  	}
-> +	mutex_unlock(&hiddev->existancelock);
-> +	hiddev_put(hiddev);
->  }
-> diff --git a/include/linux/hiddev.h b/include/linux/hiddev.h
-> index 2164c03d2c72..8e9f8a33e359 100644
-> --- a/include/linux/hiddev.h
-> +++ b/include/linux/hiddev.h
-> @@ -13,6 +13,7 @@
->  #ifndef _HIDDEV_H
->  #define _HIDDEV_H
->  
-> +#include <linux/refcount.h>
->  #include <uapi/linux/hiddev.h>
->  
->  
-> @@ -24,6 +25,7 @@ struct hiddev {
->  	int minor;
->  	int exist;
->  	int open;
-> +	refcount_t refcount;
->  	struct mutex existancelock;
->  	wait_queue_head_t wait;
->  	struct hid_device *hid;
-> -- 
-> 2.54.0
+
+That's a fair point. But based on the previous discussion, Heikki
+point out that configurations in the TYPEC subsystem should not
+select configurations from DRM.
+
+-- 
+Best, 
+Chaoyi
