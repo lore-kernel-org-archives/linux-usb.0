@@ -1,100 +1,148 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD2443E9C4
-	for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 17:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37592F2910;
+	Mon, 29 Jun 2026 18:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782752504; cv=none; b=Ay+j1FtXmesjs2fxNbhFH+XPdtWFueGsQMvkcn+j2PyI7APf9AZyLBc33u6ZuqsxbLmYmx1fqtW2kiIdEgG24uQMWEDWFrJy3UKzjiBr/baMGktma9eNUhTudJpFGtofM4gQl3M1Uj5QT8+CoKYYgO+JfMWn6hWOYK5vH/Xyqns=
+	t=1782757432; cv=none; b=FR+mMVhECWy+9VELNFLyhopjP3fRqQtJrxI9TC5hPu3s/fHyn5GeKqq8FcYBP3IaL3f/qWzhlxb5C2lrbq9XaXp63x1/BoY6X+EXpCg18WEPdkJ8ygWE7dDmvuB7R04YkZ5EcPG4TXSdSm6fTMVJv+2Xo9XNCXqsRfSc6vdB5bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782752504; c=relaxed/simple;
-	bh=0ZbNq3krgb6G8hdaDapKsW5xowxyl35n00VG63vlvsE=;
+	s=arc-20240116; t=1782757432; c=relaxed/simple;
+	bh=1P2OVUAuHOcqUzFU659MHxPQo52FQGXlvTspmoB+nAY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H2PZ/BvyLMjMpzOUhtnTuSBqW/QQgl+SnWc6yOx3oD9Ndy5iez6aGnMaOV1SBNpf5eBWQXdtk86Bneum5QQO+wLtMP8KZe2znbv35zN4AxkOJVSSO8DL+twQO0rIah8vM5xiNX4Cqq8673oPf7PvGFS/rUzj8YT/c7eLSUfjpNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=YsFHHwbp; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=IGu2W60o7OYkqbqRwDZgpseSOJdmmp7+UyOl4MUk7JI0Xz5Ma+7gtNsvikxBJ2Od4gSoYrcMNp/OE6SiPp5Pu3Iu5nGduUqqnJW58TundVFnxfOuAL3YDch21vAezb89hDASv6S6/j6GT0SWmKAjOw2jiUViCG8Yl3YWVqThXQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=grvNSIBf; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="YsFHHwbp"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-51a0188b92fso37894631cf.3
-        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 10:01:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1782752502; x=1783357302; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YeHN7utODULOILBow3SQ4SKTKi+vOT1iFpqN2h/hBuo=;
-        b=YsFHHwbpRsX5WjoNxm3vYRCqhksFNPQnB0Jc2ywinYZG01tXjjJH3fkHn/Div+1sMs
-         ZhqEsZ3KP5/hCtwmCB0sggQycScKKihHnrWvN4HLpcOJuNZTlKnq+N2iGObngd0tVmR2
-         sNCaSLYR9ResDcJSB9fXvvlTivQR+tJU0vmOPohlYuGpV8zozEEJARYh8Cc8bA0gcbt/
-         mPAqGodfzl0Ws6ujYVGVqZHCS1Omy0pqmvxo2PmF2iMoXoZYTgsg4O1eIA98ZRCZYVFz
-         SIZNs95vuTXa4A2PxaBZ2HnF6UIEM5kPpV4hO2xHaCIgQsKcJicrKhkSKSda3VKHsaRQ
-         GEKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782752502; x=1783357302;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YeHN7utODULOILBow3SQ4SKTKi+vOT1iFpqN2h/hBuo=;
-        b=LMbJLcF2TtuDggayVXKgwmshtMMaBNwPsbZyU+lIbm6olUL+LQFpWBp9o7iI9dK+dr
-         dtWYh4BI+nQHLqlPlyy26oxsVytaZhmyBnp96fnNS6D9QVMRDER/rjeqGivpurXdVD+S
-         xHG3wAZ0hFp731/x8ZHihm13osybcPHLP8fDJNsQYPFCrSbCf3p1qmJ4FxSddJJo7V8B
-         6sVex6Gn6cQgSuAMkaPaOF3cRkXeDY/CcDzBFJV0i8MdU6y7q/11gyLJa8uPOZyffAYZ
-         3BgdnCTbDf4806Q9syJwoMC7thFURuIlkveVFaJEjz7dRCE3qOy/hDS44V4L4QQOiTDX
-         AV0A==
-X-Forwarded-Encrypted: i=1; AFNElJ+IZ2KAqkWEIytEW3rFwkbfZnDH4oTZd3KhU+lQ33OIfOQpnMxlliPXjY57cgMSs4RqWsX1fuHKcVo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YztpckTgfj3GGp0kKzxiwcYpLMh6nZNPCzinmXIktbwqjAY6tcw
-	1S9wIIMYCY3B2d5NzzDz4Aya3mfL5y/pSzAmgdjEYXmRVMcMp5QTViRJ48BjImmAyA==
-X-Gm-Gg: AfdE7cltgQUC8L7oN+UbiCaNBcjiFDg017KzcqqXseQHCH4c56Ii9G99HkSS3exdLVi
-	JoQ59TZ7hxvBT5DinIB17eAbQBkkqMY3IKa1gXFngjLVijUsA3nkUtER1lLl381M6LxUVm23kWj
-	Xl11Sm48U4xEp0jqd2a1V5gHN8gkLbW/y1kmY66lndQNV6rCfYx2+moZ3wORyr0GwBshEIMoFoS
-	RhriEjL/QFpx1pCvs4z5irDeGDkClUb8RpN78fyctfvAWqo2X72AbOmwtS+qM3vD5qGXs+ERctL
-	24CAVdYJcEZQ2CHQ94x14IW83/AxUPtPPE4+oxoNnUgmV49cJNuENqbA/KasYA4zB2Ml3uxAjIa
-	rxp3LlsfJ3xSBVq+mVaNsgeJ61HUgzdNz2dli3Nrov6wVBW77pd5e0frxJWMTvSnckODj5K9XJY
-	E45HwXS0MSD9Y5+Z1qXQNpdhQ05Td7jD7U+KDMESWg6H6t4Rbe950rLmqi
-X-Received: by 2002:a05:622a:551b:b0:517:8446:3afc with SMTP id d75a77b69052e-51c1074e85cmr2361671cf.14.1782752501737;
-        Mon, 29 Jun 2026 10:01:41 -0700 (PDT)
-Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c1080d4f4sm881251cf.4.2026.06.29.10.01.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 10:01:41 -0700 (PDT)
-Date: Mon, 29 Jun 2026 13:01:38 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Cc: Michal Pecio <michal.pecio@gmail.com>, linux-usb@vger.kernel.org,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-Message-ID: <e7d49127-0215-4b29-9a2a-e1dc0d889b70@rowland.harvard.edu>
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
- <20260628231634.6752f74d.michal.pecio@gmail.com>
- <CAFgddh+AUNH9Ji-Qd=BKEDZWJrzPMWN20-g-htQDPSdSehZStQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="grvNSIBf"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 719F58D4;
+	Mon, 29 Jun 2026 20:23:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782757385;
+	bh=1P2OVUAuHOcqUzFU659MHxPQo52FQGXlvTspmoB+nAY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=grvNSIBfkYDSvED3TvPWknia5BuzWXueb7mK3pnVfPRDYcACpbeWgSn4Az1fWkOx8
+	 bTb5TQ3xFTjwSBweCACgTNxBcB3pJ9ZJ22rpOKNo+GvPf5YeNFSstbydh1Qcxan97P
+	 Cf/TCdchk11riDz6vCQpvtXA4IZwFvKszhfv4Vww=
+Date: Mon, 29 Jun 2026 21:23:47 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Pol =?utf-8?B?RmVybsOhbmRleiBGZXJuw6FuZGV6?= <fernandezfernandezpol@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: uvcvideo: add quirks for per-device stream
+ error handling
+Message-ID: <20260629182347.GI3054459@killaraus.ideasonboard.com>
+References: <20260629163805.37879-1-fernandezfernandezpol@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAFgddh+AUNH9Ji-Qd=BKEDZWJrzPMWN20-g-htQDPSdSehZStQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260629163805.37879-1-fernandezfernandezpol@gmail.com>
 
-On Mon, Jun 29, 2026 at 11:00:44AM +0530, Nikhil Solanke wrote:
-> On that note, I discovered that usb_get_descriptor just blindly trusts
-> the caller with the allocation of buf, it never checks if buf is null
-> or not. There is only a check for the size. and then there is a
-> memset(buf, 0, size). This results in a segfault if buf is NULL and
-> size > 0. Perhaps it's time for a new patch to fix this?
+On Mon, Jun 29, 2026 at 06:38:02PM +0200, Pol Fernández Fernández wrote:
+> The UVC_STREAM_ERR bit in the payload header signals that the device
+> could not deliver a frame correctly. By default, uvcvideo delivers
+> these frames to userspace with V4L2_BUF_FLAG_ERROR when uvc_no_drop_param
+> is set (the default). Applications that rely on strict JPEG decoders
+> (e.g. libjpeg) will display gray bands for the incomplete portion of
+> the image, since libjpeg fills undecodable MCU rows with a neutral gray
+> when the EOI marker is missing.
+> 
+> Add UVC_QUIRK_DROP_STREAM_ERR to force-drop frames flagged with
+> UVC_STREAM_ERR for specific devices, regardless of the uvc_no_drop_param
+> module parameter. This ensures applications never receive truncated frames
+> from devices known to set UVC_STREAM_ERR on genuine encoding errors.
 
-There's nothing wrong with trusting the caller to do the right thing.  
-Besides, if a segfault does occur then it will be pretty obvious that 
-the caller needs to be fixed.
+That completely defeats the point of uvc_no_drop_param. The issue should
+be fixed in userspace, where you should ignore frames with the error
+flag set if desired.
 
-What would you do if buf is NULL?  Return an error code?  That won't 
-help anyone locate the bug.  Put an error message in the log?  Segfaults 
-are much more visible.
+> The existing uvc_queue_to_stream() helper is used to reach the device
+> quirks from within uvc_queue_buffer_complete().
+> 
+> Additionally, uvcvideo unconditionally overrides the camera's probed
+> wCompQuality with the maximum value returned by GET_MAX. For devices
+> whose firmware treats wCompQuality=0 as an adaptive encoding mode (where
+> the encoder adjusts quality dynamically to fit within the available USB
+> bandwidth),
 
-Not to mention that nobody has complained about this code failing, so it 
-seems unlikely that buf ever is NULL.
+The UVC 1.1 specification documents the range wCompQuality values as
 
-Alan Stern
+"Values for this property range from 0 to 10000 (0 indicates the lowest
+quality, 10000 the highest)."
+
+While the UVC 1.5 specification documents it as
+
+"Values for this property range from 1 to 10000 (1 indicates the lowest
+quality, 10000 the highest)."
+
+There is no mention of 0 being allowed as a magic value. Where did you
+find information about the adaptive encoding mode ?
+
+> this override increases encoding pressure and can contribute
+> to UVC_STREAM_ERR events. Add UVC_QUIRK_NO_FORCE_QUALITY to preserve
+> the camera's default quality value during probe negotiation.
+> 
+> Signed-off-by: Pol Fernández Fernández <fernandezfernandezpol@gmail.com>
+
+Please split this patch in two as it addresses two different issues.
+
+> ---
+>  drivers/media/usb/uvc/uvc_queue.c | 3 ++-
+>  drivers/media/usb/uvc/uvc_video.c | 3 ++-
+>  drivers/media/usb/uvc/uvcvideo.h  | 2 ++
+>  3 files changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index XXXXXXX..XXXXXXX 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -81,6 +81,8 @@
+>  #define UVC_QUIRK_INVALID_DEVICE_SOF	0x00010000
+>  #define UVC_QUIRK_MJPEG_NO_EOF		0x00020000
+>  #define UVC_QUIRK_MSXU_META		0x00040000
+> +#define UVC_QUIRK_DROP_STREAM_ERR	0x00080000
+> +#define UVC_QUIRK_NO_FORCE_QUALITY	0x00100000
+> 
+>  /* Format flags */
+>  #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index XXXXXXX..XXXXXXX 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -451,7 +451,8 @@ int uvc_probe_video(struct uvc_streaming *stream,
+>  		if (ret < 0)
+>  			goto done;
+> 
+> -		probe->wCompQuality = probe_max.wCompQuality;
+> +		if (!(stream->dev->quirks & UVC_QUIRK_NO_FORCE_QUALITY))
+> +			probe->wCompQuality = probe_max.wCompQuality;
+>  	}
+> 
+>  	for (i = 0; i < 2; ++i) {
+> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> index XXXXXXX..XXXXXXX 100644
+> --- a/drivers/media/usb/uvc/uvc_queue.c
+> +++ b/drivers/media/usb/uvc/uvc_queue.c
+> @@ -357,7 +357,8 @@ static void uvc_queue_buffer_complete(struct kref *ref)
+>  	struct vb2_buffer *vb = &buf->buf.vb2_buf;
+>  	struct uvc_video_queue *queue = vb2_get_drv_priv(vb->vb2_queue);
+> 
+> -	if (buf->error && !uvc_no_drop_param) {
+> +	if (buf->error && (!uvc_no_drop_param ||
+> +	    (uvc_queue_to_stream(queue)->dev->quirks & UVC_QUIRK_DROP_STREAM_ERR))) {
+>  		uvc_queue_buffer_requeue(queue, buf);
+>  		return;
+>  	}
+
+-- 
+Regards,
+
+Laurent Pinchart
