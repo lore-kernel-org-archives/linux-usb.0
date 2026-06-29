@@ -1,253 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DDA389107;
-	Mon, 29 Jun 2026 06:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782714475; cv=none; b=KN6eS0hUuiTJLd9cvNyHJYY/L4js3Cx76DYzCZTNbQDmwIn44BumrqbRXxGcju3J0/KXhQ1PCk/CsTEzfCytWNzOOkxV4CALlSiKShhFHwf2YMy/fUjKhMq3TpSjDsIylCorYWLGUnJzt32tCSu10GlkSNSRkvASPJSft7EgFvY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782714475; c=relaxed/simple;
-	bh=CEoNdJbM+G0EYznPjnQPpoh429ZsOMIvdd62gxFGavs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eMVOXBIFbFl0+XbG4Ubb1MafbF+8KiFN5j/MqP/punyjIKqtulCpcuf+AH1HMkBHce3nn6RvxbYhlrtHjh2V/uazwlwdwl1HZRtbNX1HTpEtwaWn/YNnDD1pkp0PPJOilz2R4l2MXBB1yscKBO05cZ6BbzbNPGnSA2E2TqjczMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XUoHVk1I; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C39DC3A63EF
+	for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 06:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782715616; cv=pass; b=g8CpAv39bftlaJb2n+aZUD5kNvnaYlBn9wvfiy5eOI4JdOLYqraXwTGD/SJWpuGTnEhdI9iV6V5Mp4pCDQdcbyr/GENURt18zwzP6TmoXh9DvoU0/R00FsSL1CLTEY+zjVdNwmss1zypbNip5hcvTPYl4RcMd+IHWY5hLHcRFx0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782715616; c=relaxed/simple;
+	bh=wtT+R2QEQMbY0+UAKHyPbJ02qh8DU6NUrzght/3Gr+c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J6Y6oU03NjFC+Ul3v7KdoKNlvkD5h1xKTzGburv2XTCrVgw/uYMg/JR4EpjvYnqi7h9fOIF3z0KyyE7n3/uaIh9eQ8WTOtEeBZm611kUaa6WN8KvuP1ebDe7Smg9JJ3L/+B0Rfm614CXIM9VjaNa2yvZz4TJZYk6XbOGy0Ab8H8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Q/wPAOgr; arc=pass smtp.client-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XUoHVk1I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10E361F000E9;
-	Mon, 29 Jun 2026 06:27:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782714473;
-	bh=8diiuVvstmh7e4zfvwC2TUp3d+EiAMlelXELW0j1hjI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XUoHVk1IkDHpBf/rl1gBmvmCwGQXinaUwLcSEq8EvP3XGURvE/T00WCGDMaDt9/Ha
-	 ClQlj6YrvXnwFi6pa2mQYOM69K0jgcIK24NBAjAk1+JOm9DWkAutR2dsUeNNtxdbOS
-	 gq6WMK/Zz9vb8+mVM4lzCx0LF/BC84Lgwd/AsqDWo8s/l9nG/cgz1D+Fus+SQXB8qq
-	 dQ3FWrXaWWDEyfbHi5nHuqSMBPSjfaebnbmkQU+g27mXs33Jn4cPRbf/4AiRWt25Ro
-	 LeieO9Rj3+pCr4LnifXrjcDB2MgHMmur19W0Ki1FDuerhlZKi1gNC92u45zL7+GBLo
-	 4azJoKnYhHOwQ==
-Message-ID: <85cf5045-b52b-4aaa-a038-ca1b856b55f9@kernel.org>
-Date: Mon, 29 Jun 2026 08:27:48 +0200
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Q/wPAOgr"
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-664b2c00e12so1910423d50.2
+        for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 23:46:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782715614; cv=none;
+        d=google.com; s=arc-20260327;
+        b=a3AnrFzjm44RClvBWINAlV+HQA4mTVYEwRBqmlDib/9ySV+4qSevvhHnMVx1nYynr/
+         6zgoagVr5xBkg3gB/YSsf9Govf34QHMX6PsRLnGFSSSVc6uSaOkS0MmEbTvUWp7t5fNh
+         Ct+0HtEq9yuFtGvPSHgpsRlerDI0PutW0r2W05b+TxywlU9XwtCFaR4TTLzk9CyFDahp
+         IJOGhOcR+qjSxVuNlbLPuB8yIlphlOLFN1fkzGvJYcWcR3vP2le5vOszggCFwUHPLp5Q
+         PepWD89/LVrFnM0SBusqBLM6CF97+XZ4lMzBClGiFLe+e8EG/USigfpnfjWlooRo3N1h
+         Z13w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=AdLfLl6UogJFWv6j1WTnAMUaWp/TzmRrbHb3NuUWZmc=;
+        fh=qTd19pBRmWhXeIfNT0Y0E16QizZcvFr5iEKF9Sb8R5w=;
+        b=HzyEdAEwMCj20P10e3viwssZKWPp8yaJG6DMfwlBCP1uBQqnryz1MZFYDzbpaPyxG8
+         qRHtBsUNmnQ8yCoawLPx/BPBse6tAU4u9XJDanqlve9pWpN58p7RBkPSfQP+tuCPcaNd
+         yfyOi5piEqEznHAJfVLBq5QqUDps/lLYo27FjsNS44zSLIvru15zyp4BADOd9jAsD98k
+         xC3LG70D2IRz9ApNjEXnWxITeAbdvQjyj7uj8YiFIOjD+byCoUAvOzgOO3vX+gRaFWHE
+         F2W1bcd6aMydU2TOEtQsHqCIV0MLIwnUTC9ybpyamnN65AygNkReMYkqbH89I2+cQGbs
+         jq/g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1782715614; x=1783320414; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AdLfLl6UogJFWv6j1WTnAMUaWp/TzmRrbHb3NuUWZmc=;
+        b=Q/wPAOgrjHthVssKFodjWVx3k9XmfpfyW2y3hGXc9wncZljjfv/zuhGIDv24uulgSV
+         PavgeIgqEgr14M610VzlDpLik3vcHZsQjbvyHFX63RI03m76M5UmptHzDU63GqPHixBA
+         FAe65nc4nXaDvGO0SxZv3c8XYT8RekIJlN9Do=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782715614; x=1783320414;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=AdLfLl6UogJFWv6j1WTnAMUaWp/TzmRrbHb3NuUWZmc=;
+        b=oQYiFSC2nk4BKrAioCdKdQTB+9z1YG+ta591V8N0k9sS4RZ6Wojak9qqLkTGm9jEEj
+         axdnzxbxzDuRVSApndBwkJxOkbqCUNvAgHnYSasXusSx8Pg1TGqdTkayIr8hYk/+Z63B
+         E+GPAgha077ux9S026kMGpv1F9Rh3hlPpOOt4ovb4MqwC+ixMyovYyRXjKJxl4sh32Yb
+         lFtHTjzAdMaxtUONl/kUpdbZ8VuQHQtMKMDofDjVr9JqemomE1g0P5XwsbR4BuW4qMhO
+         40d8X3gy+Ax/otlH0Xy4DOhEngLIg/k4O27ASgzGx8qcUlREDfeOxfPyZD+dwgdrwKyG
+         ISgA==
+X-Forwarded-Encrypted: i=1; AHgh+RrVXOYcEN9Ry9tSHxXN92DUuVn40AtS2yc0i6wual/X/bH2YEtH38wd9HxxYWFGqNBkxmJT0Olmip4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzll/iey5+KIO7OAilNEIhD3lUzeAQjGqDd7OlONf5aXvC4AwRO
+	p9xGlI24B6Ce2aO/E7LaI1xH23PRCpd0u15xCeie6Hv96MHbH2la+TiZIlXUnJyx7WY01PFcfeW
+	sW2XFv3l4VfYuJ8/iV8oRyZNN8jaXBNlZGPJrArdV
+X-Gm-Gg: AfdE7cljwyecVMOjFNINI5Nxmgj8eTonqom3zKe44OIZAob3CLuetH+bjS8znpxgBit
+	kN0Ckcrh9okz+/XdJ/g7G+MkMHbFznEedcsDZ58HQr0tSaMhBgvNcJu8nVaaX/c++PRArH9Xaj4
+	YK8cLB3hjEySBshsmDZ+UNw/lz8f5sx9VVED/WsTRzQ8VldhzoMHrSx4scH0ZF6Go1a2LU0spXS
+	383vJrFuzdD5UXm3xSC2i+w2LZZLnmZLXKQFSgq1RepwWhRDLt6/YRvEWhTpDxT+goKE3guu1Gh
+	VKpYn1mdXouLh1foE3X7+c65O4U=
+X-Received: by 2002:a53:d24b:0:b0:664:ae6a:f07 with SMTP id
+ 956f58d0204a3-664ae6a108dmr6236222d50.81.1782715613698; Sun, 28 Jun 2026
+ 23:46:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: WARNING in usb_free_urb
-To: sanan.hasanou@gmail.com, vbabka@suse.cz, akpm@linux-foundation.org,
- cl@gentwo.org, rientjes@google.com, roman.gushchin@linux.dev,
- harry.yoo@oracle.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Cc: syzkaller@googlegroups.com, contact@pgazz.com,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <6a3eeead.7fb353d3.354599.b0b0@mx.google.com>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <6a3eeead.7fb353d3.354599.b0b0@mx.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260610084053.2059858-1-wenst@chromium.org> <20260610084053.2059858-8-wenst@chromium.org>
+ <CAMRc=Mc3DqGb2MsvM4tjcqFuRraAO+EftO1UrtNFvR5dMRXmVA@mail.gmail.com> <CAGXv+5HQa9BH5wyVwKNxjXLEZDnE0sbeQjgNxwmAG+OF8bbz=w@mail.gmail.com>
+In-Reply-To: <CAGXv+5HQa9BH5wyVwKNxjXLEZDnE0sbeQjgNxwmAG+OF8bbz=w@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Mon, 29 Jun 2026 14:46:42 +0800
+X-Gm-Features: AVVi8Cf2Jr6SG6fphp7pdwOmuJjdBOlHCbVmzmc43-YAOHTJXjsvshlXzGC6cxU
+Message-ID: <CAGXv+5Gbf8+=hMZcK0pYraC1t4qmDx_WVPkr2RhWdm3bq_LZEQ@mail.gmail.com>
+Subject: Re: [PATCH v2 07/16] usb: hub: Power on connected M.2 E-key connectors
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/26/26 23:27, sanan.hasanou@gmail.com wrote:
-> Good day, dear maintainers,
-> 
-> We found a bug using a modified version of syzkaller.
+On Fri, Jun 12, 2026 at 4:55=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org> w=
+rote:
+>
+> On Thu, Jun 11, 2026 at 6:11=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.=
+org> wrote:
+> >
+> > On Wed, 10 Jun 2026 10:40:41 +0200, Chen-Yu Tsai <wenst@chromium.org> s=
+aid:
+> > > The new M.2 E-key connector can have a USB connection. For the USB de=
+vice
+> > > on this connector to work, its power must be enabled and the W_DISABL=
+E2#
+> > > signal deasserted. The connector driver handles this and provides a
+> > > toggle over the power sequencing API.
+> > >
+> > > This feature currently only supports a directly connected (no mux in
+> > > between) M.2 E-key connector. Existing USB connector types are not
+> > > covered. The USB A connector was recently added to the onboard device=
+s
+> > > driver. USB B connectors have historically been managed by the USB
+> > > gadget or dual-role device controller drivers. USB C connectors are
+> > > handled by TCPM drivers.
+> > >
+> > > The power sequencing API does not know whether a power sequence provi=
+der
+> > > is not needed or not available yet, so we only request it for connect=
+ors
+> > > that we know need it, which at this time is just the E-key connector.
+> > >
+> > > On the USB side, the port firmware node (if present) is tied to the
+> > > usb_port device. This device is used to acquire the power sequencing
+> > > descriptor. This allows the provider to tell the different ports on o=
+ne
+> > > hub apart.
+> > >
+> > > This feature is not implemented in the onboard USB devices driver. Th=
+e
+> > > power sequencing API expects the consumer device to make the request,
+> > > but there is no device node to instantiate a platform device to tie
+> > > the driver to. The connector is not a child node of the USB host or
+> > > hub, and the graph connection is from a USB port to the connector.
+> > > And the connector itself already has a driver.
+> > >
+> > > Power sequencing is not directly enabled in the connector driver as
+> > > that would completely decouple the timing of it from the USB subsyste=
+m.
+> > > It would not be possible for the USB subsystem to toggle the power
+> > > for a power cycle or to disable the port.
+> > >
+> > > This change depends on another change to make the power sequencing
+> > > framework bool instead of tristate. The USB core and hub driver are
+> > > bool, so if the power sequencing framework is built as a module, the
+> > > kernel will fail to link.
+> > >
+> >
+> > That bit needs to go away I suppose?
+>
+> Yeah, instead we need
+>
+>     config USB
+>         depends on POWER_SEQUENCING && !POWER_SEQUENCING
 
-Subject says "usb_free_urb" but you only CC'd slab maintainers, where slab
-slab is most likely a victim here of e.g. double kfree() or a kfree() of
-otherwise broken pointer.
+FTR:
 
-Ccing USB and EM28XX maintainers. But they can feel free to ignore this per
-the next point.
+Somehow I remembered this incorrectly. It should be the following instead:
 
-> Kernel Branch: 7.0-rc1
+    depends on POWER_SEQUENCING || !POWER_SEQUENCING
 
-Why use such a version for fuzzing? rc1 will have many bugs that are already
-fixed in 7.0 final. And it's not even latest, 7.1 was released 2 weeks ago too.
+and the dependency issue mentioned below then goes away.
 
-> Kernel Config: <https://drive.google.com/open?id=1zJHAs5GUroGFBkxAlzfDaWAd_NVPZTfJ>
-> Unfortunately, we don't have any reproducer for this bug yet.
-> Thank you!
-> 
-> Best regards,
-> Sanan Hasanov
-> 
-> 179683 pages reserved
-> 0 pages cma reserved
-> Memory cgroup min protection 0kB -- low protection 0kB
-> ------------[ cut here ]------------
-> !PageLargeKmalloc(page)
-> WARNING: mm/slub.c:6352 at free_large_kmalloc+0xb3/0x160 mm/slub.c:6352, CPU#1: kworker/1:4/12317
+ChenYu
 
-A kfree() was attempted on a pointer that's neither from a slab page nor a
-large kmalloc page. Might be double free or corrupted.
-
-> Modules linked in:
-> CPU: 1 UID: 0 PID: 12317 Comm: kworker/1:4 Tainted: G             L      7.0.0-rc1 #1 PREEMPT(full) 
-> Tainted: [L]=SOFTLOCKUP
-> Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> Workqueue: events request_module_async
-> RIP: 0010:free_large_kmalloc+0xb3/0x160 mm/slub.c:6352
-> Code: 25 00 00 00 ff 3d 00 00 00 f8 0f 85 a6 00 00 00 c7 43 30 ff ff ff ff 48 89 df 44 89 f6 e8 45 d9 fc ff 5b 41 5e 41 5f 5d c3 90 <0f> 0b 90 48 89 df 48 c7 c6 b7 4c 72 8d e8 cb e8 08 ff eb e4 90 0f
-> RSP: 0018:ffffc900028e76f8 EFLAGS: 00010287
-> RAX: 00000000f0000000 RBX: ffffea00019a5c00 RCX: ffff888067550001
-> RDX: 0000000000000000 RSI: ffff888066970000 RDI: ffffea00019a5c00
-> RBP: ffffc900028e7710 R08: ffff888049c40603 R09: 1ffff110093880c0
-> R10: dffffc0000000000 R11: ffffed10093880c1 R12: ffff888066970000
-> R13: ffffffff870bc0f1 R14: 0000000000000000 R15: dffffc0000000000
-> FS:  0000000000000000(0000) GS:ffff8880ef136000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007fba7e4bf008 CR3: 000000005776b000 CR4: 00000000000006f0
-> Call Trace:
->  <TASK>
->  kfree+0xae/0x630 mm/slub.c:6437
->  urb_destroy drivers/usb/core/urb.c:25 [inline]
-
-static void urb_destroy(struct kref *kref)
-{
-        struct urb *urb = to_urb(kref);
-
-        if (urb->transfer_flags & URB_FREE_BUFFER)
-                kfree(urb->transfer_buffer);  <--- this one
-
-        kfree(urb);
-}
-
->  kref_put include/linux/kref.h:65 [inline]
->  usb_free_urb+0xd1/0x120 drivers/usb/core/urb.c:96
-
-USB layer itself is likely also not the root cause.
-
->  em28xx_uninit_usb_xfer+0x165/0x310 drivers/media/usb/em28xx/em28xx-core.c:833
->  em28xx_alloc_urbs+0xf2a/0x1130 drivers/media/usb/em28xx/em28xx-core.c:-1
->  em28xx_dvb_init+0x2b0/0x4a20 drivers/media/usb/em28xx/em28xx-dvb.c:-1
->  em28xx_init_extension+0x121/0x1d0 drivers/media/usb/em28xx/em28xx-core.c:1117
-
-So it might be this driver doing something wrong?
-
->  request_module_async+0x5e/0x80 drivers/media/usb/em28xx/em28xx-cards.c:3457
->  process_one_work kernel/workqueue.c:3275 [inline]
->  process_scheduled_works+0xae1/0x1800 kernel/workqueue.c:3358
->  worker_thread+0xa0f/0xf70 kernel/workqueue.c:3439
->  kthread+0x37d/0x470 kernel/kthread.c:467
->  ret_from_fork+0x507/0xb90 arch/x86/kernel/process.c:158
->  ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:245
->  </TASK>
-> 
-> <<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
-> 
-> Modules linked in:
-> CPU: 1 UID: 0 PID: 12317 Comm: kworker/1:4 Tainted: G             L      7.0.0-rc1 #1 PREEMPT(full) 
-> Tainted: [L]=SOFTLOCKUP
-> Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> Workqueue: events request_module_async
-> RIP: 0010:free_large_kmalloc+0xb3/0x160
-> Code: 25 00 00 00 ff 3d 00 00 00 f8 0f 85 a6 00 00 00 c7 43 30 ff ff ff ff 48 89 df 44 89 f6 e8 45 d9 fc ff 5b 41 5e 41 5f 5d c3 90 <0f> 0b 90 48 89 df 48 c7 c6 b7 4c 72 8d e8 cb e8 08 ff eb e4 90 0f
-> RSP: 0018:ffffc900028e76f8 EFLAGS: 00010287
-> RAX: 00000000f0000000 RBX: ffffea00019a5c00 RCX: ffff888067550001
-> RDX: 0000000000000000 RSI: ffff888066970000 RDI: ffffea00019a5c00
-> RBP: ffffc900028e7710 R08: ffff888049c40603 R09: 1ffff110093880c0
-> R10: dffffc0000000000 R11: ffffed10093880c1 R12: ffff888066970000
-> R13: ffffffff870bc0f1 R14: 0000000000000000 R15: dffffc0000000000
-> FS:  0000000000000000(0000) GS:ffff8880ef136000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007fba7e4bf008 CR3: 000000005776b000 CR4: 00000000000006f0
-> Call Trace:
->  <TASK>
->  kfree+0xae/0x630
->  usb_free_urb+0xd1/0x120
->  em28xx_uninit_usb_xfer+0x165/0x310
->  em28xx_alloc_urbs+0xf2a/0x1130
->  em28xx_dvb_init+0x2b0/0x4a20
->  em28xx_init_extension+0x121/0x1d0
->  request_module_async+0x5e/0x80
->  process_scheduled_works+0xae1/0x1800
->  worker_thread+0xa0f/0xf70
->  kthread+0x37d/0x470
->  ret_from_fork+0x507/0xb90
->  ret_from_fork_asm+0x11/0x20
->  </TASK>
-> Kernel panic - not syncing: kernel: panic_on_warn set ...
-> CPU: 1 UID: 0 PID: 12317 Comm: kworker/1:4 Tainted: G             L      7.0.0-rc1 #1 PREEMPT(full) 
-> Tainted: [L]=SOFTLOCKUP
-> Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> Workqueue: events request_module_async
-> Call Trace:
->  <TASK>
->  __dump_stack+0x21/0x30
->  dump_stack_lvl+0x2b/0x150
->  dump_stack+0x19/0x20
->  vpanic+0x53e/0xa20
->  panic+0xb9/0xc0
->  __warn+0x320/0x500
->  __report_bug+0x28d/0x500
->  report_bug+0x175/0x220
->  handle_bug+0x9c/0x200
->  exc_invalid_op+0x1f/0x50
->  asm_exc_invalid_op+0x1f/0x30
-> RIP: 0010:free_large_kmalloc+0xb3/0x160
-> Code: 25 00 00 00 ff 3d 00 00 00 f8 0f 85 a6 00 00 00 c7 43 30 ff ff ff ff 48 89 df 44 89 f6 e8 45 d9 fc ff 5b 41 5e 41 5f 5d c3 90 <0f> 0b 90 48 89 df 48 c7 c6 b7 4c 72 8d e8 cb e8 08 ff eb e4 90 0f
-> RSP: 0018:ffffc900028e76f8 EFLAGS: 00010287
-> RAX: 00000000f0000000 RBX: ffffea00019a5c00 RCX: ffff888067550001
-> RDX: 0000000000000000 RSI: ffff888066970000 RDI: ffffea00019a5c00
-> RBP: ffffc900028e7710 R08: ffff888049c40603 R09: 1ffff110093880c0
-> R10: dffffc0000000000 R11: ffffed10093880c1 R12: ffff888066970000
-> R13: ffffffff870bc0f1 R14: 0000000000000000 R15: dffffc0000000000
->  kfree+0xae/0x630
->  usb_free_urb+0xd1/0x120
->  em28xx_uninit_usb_xfer+0x165/0x310
->  em28xx_alloc_urbs+0xf2a/0x1130
->  em28xx_dvb_init+0x2b0/0x4a20
->  em28xx_init_extension+0x121/0x1d0
->  request_module_async+0x5e/0x80
->  process_scheduled_works+0xae1/0x1800
->  worker_thread+0xa0f/0xf70
->  kthread+0x37d/0x470
->  ret_from_fork+0x507/0xb90
->  ret_from_fork_asm+0x11/0x20
->  </TASK>
-> Kernel Offset: disabled
-> Rebooting in 86400 seconds..
-> 
-> <<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
-
+> But I ran into a dozen or so drivers that have "select USB", mostly
+> input devices:
+>
+>     config TOUCHSCREEN_USB_COMPOSITE
+>         tristate "USB Touchscreen Driver"
+>         depends on USB_ARCH_HAS_HCD
+>         select USB
+>
+> Kconfig complains about unmet dependencies.
+>
+> > I see Andy has some suggestions but in general I like this approach muc=
+h better
+> > than adding the pwrseq_get_index() function. Thanks!
+>
+> Thanks!
+>
+> ChenYu
