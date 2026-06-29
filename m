@@ -1,116 +1,153 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-oa1-f77.google.com (mail-oa1-f77.google.com [209.85.160.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535791DE894
-	for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 19:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748E025B095
+	for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 21:09:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782762614; cv=none; b=UF+Gja6Y56GBuO+v/N14Mu1wBjZ9dBsYcWyOtRDQbOk7/+QfnS6SqOUE2KKHZCUZN4SrcB+FZF03KZw5dYFrxx1tr2/MuolRPr14Yec7SrwI7jK9XQ+kbNzBQXU0sG0XMZHuMRGrP1iOVbFSwbGeXeUkqVOilBS9Gu4RuQMxPog=
+	t=1782767369; cv=none; b=lpDK5X+K9OfKjKR93la55hR2hchyt2q269tN48c/lJIG0Ldt41dlfeJ+0wjkQTW7/+0XJYn9RskHdKBAe+h6uaDV7d+zSL5bi/jT3MOSLAGpH5r4E1mRDCAmxcKZRTY0CB+wklg38ZFNPkgffsybI8f8ZVDHw5Dmw4d6oVyDL1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782762614; c=relaxed/simple;
-	bh=qoN6igkrWbOlb45qlTXOirSohErKuB2rWvqGvlLdHWo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ScmgRxAGeENHZbB//QbuCHGNNkyqLZJEzECizIc9dk/mzMynQYtXUscsFrk7DupURVR2c24Q6sbaWM2LUWMrufV1WWPSI1m2LMvTW9pQHe7Po1Az5ilwIpKMSlkSlTOSMKRZ9xqq2OUoBvQQ6aN6aDmi2Hi1H/S6yMhFC9QJIiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IAZX6oVD; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IAZX6oVD"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ca11143dbbso7037125ad.2
-        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 12:50:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782762612; x=1783367412; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QBn6VbDoCaQPNtGeLIJZzo8oFouBg5xwQihuCt036fc=;
-        b=IAZX6oVDe7VOWn9QIsF+DWU0xaauLKJ4RUoR1JtLsy+Q5UEQ29Z5d715bfs0J+TbIG
-         dANA8vQ1oxnZuyUYd2G/xCU4ujjKsxG2jxWj0RXhxmSSnqTVO8XIcqUADXRu4vYP7MwZ
-         RdOqwAboUwSue+Dod8Vi0dOFRFjEaWUfmdWftsTUKtv39i8OP6DnAU0JFV/zaEvozl50
-         wXxT6WzNGiEKD/EU3y/uCUL9Me9mvNS0QaXz9psnrZ5cfq1Nhh9lMROxQKVru6bi6u7X
-         9wVlfEne9asBR7bZqPlcGGIYBocZzxCmRQ5jipUxhQbgL8NtNtG3hDGdofW5PlUhnb2Z
-         TLwA==
+	s=arc-20240116; t=1782767369; c=relaxed/simple;
+	bh=ywK+jmLIUBCAOzSFSMVIKI+bYm9mhJ6yboUEn0dK8YU=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=qf6fsfcPPV1VOpaVnXv+YkPmwW+y4VaFIeBmUmUOBLMwPzzX55VGiOiW0cQ9JJaiZTWWJLwmpPSgUhfOngt22nybrQ3vskJQ6XzlWXdDW/dwLisnWT9EOGkPYdlkavTxu+1e/ygDhRLDs/73B3duytYihoMLv5vTG/WP5twfCEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f77.google.com with SMTP id 586e51a60fabf-43ccd5d5357so2068634fac.0
+        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 14:09:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782762612; x=1783367412;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QBn6VbDoCaQPNtGeLIJZzo8oFouBg5xwQihuCt036fc=;
-        b=Sv7uG9hdDCBkHhEPBsO8euIonNUXDKQ/lpePDZ/xkMGGNAZ6koSyk+R8rgCXE5cLGX
-         2hHfeaCDUWbvvkey5M5gNtvp9PxUxtirl8pP/4iG1cEc6gOlTJZ4QJQAFc83nEsrRJDv
-         kZMSikp0V/e7Pm95VDEeEF3suxRrTJnuabXLWgpxG5DIFibTRCdN5OKbw+Uy34qUSQ0t
-         fDBaICbInd1773PmIlaS7cffi2kacar/kGEv0KBnmlEWyqkw4Ly03TGaZOsZdqNW93E1
-         ArJn2dNBeNDG7DmtTPcaYICrL6SBnciFlCrtbUyTKGL0k9EWCj8UbH7lQOTnDjah2FJp
-         FEhw==
-X-Forwarded-Encrypted: i=1; AHgh+RozRC/CH0xkjTlL2x9pRzqwk9eX+gmE85nKPng8ue/BD+XGPcjrhPHAYovxNmVCek98HZnxzA58ld4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbxXjzI0sSO5wx1C2LlzO6Pqh962NvuedhP6yXZtxgY71PwcAC
-	StHdkD+QfDjday/Q3dSX7WpuD4hYfUbDn6pNjwE8POFxtPdPcWB90BbJRP+kbn5F0S3AFQ==
-X-Gm-Gg: AfdE7clYGx7aHWy5QvOqpMpqWCkpd7hSkK0MNBeoROA0SMR+H8b7N0sJYLlyCO0OE/G
-	K0EOBc/wT+siXTbOWghXmyEH9y4zkhNsGzcvDculOZ/rBmk9FU4si1Vp8Q/BFZBX/MeJ1QWjjwc
-	7cdjQlDs3fDaoDdTDVmhXBNuqZpvv1mpmJNTDDbNy1Y3Qyx4rgXO6Hr61jY5l9VZVtL/LV46/5V
-	yTLcXD0Qz/4nSeoXypJrpKX3WICi5zbvCBaiJ/sprlkHAuAHeaATOMqx2TDGMF/R0ibAq1c4paS
-	icg13C2OfgFCjK+ZKdDbFoPOg3k6l33wGANACFZMsn6+YFdhsfhXWZmCbCn7wjLUbNLSjQKvIzr
-	QcLkTrBHQ1L9EY3PTVMZXMhf3JCwHtmrxPIr1b9+XUCgcmoDd7nk5zS0dzgz+zCQVVVpTCt9Lmk
-	E9KnE9WlwEDRH5i44Xv8AJ2hY+Q3I4bM7BnjAS5GRC84MqT7Csxq9I47NNhU/5RRnTJ2LaIHE=
-X-Received: by 2002:a17:902:cf01:b0:2ca:202c:644e with SMTP id d9443c01a7336-2ca2e91640emr4921755ad.32.1782762612541;
-        Mon, 29 Jun 2026 12:50:12 -0700 (PDT)
-Received: from node ([149.40.62.32])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c9e28d8129sm36969575ad.80.2026.06.29.12.50.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 12:50:12 -0700 (PDT)
-From: Muhammad Bilal <meatuni001@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: uvc: clamp SEND_RESPONSE length to the response buffer
-Date: Tue, 30 Jun 2026 00:50:04 +0500
-Message-ID: <20260629195004.148405-1-meatuni001@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20251104; t=1782767367; x=1783372167;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gaZr34ys5Ki64CCh0X0YqV0Wo6Hd8GclX02Ssf8CR9g=;
+        b=IOJ5Sh3kVx4r/saAxSxqbaOCRtZDPJ0U1+v7r/PEN+kfay/9I+74ZXN1FPyLaYgkwE
+         cNAtvOkzgc/5eLn6fKYoqgLGnKOpxwrx+NuH0i4i8quqgRzJAkjox0TaoXpwOpjjKak6
+         DdTNuizKQRu2zq2/y0kczbag/q+4IKcoOfiqLEZQLjDZcLejGLqXozsxrZXBTp4t3v4M
+         jRnr9GnbCvjuUsz8rk/6uGN0WQY0z0Su+40FUnbkJSsp1lWQn8tTpn6Lw75AtIvDdZD/
+         7yioUk/Nmtx29L/JUVh2BjwaR+gzG1Bt7V31AuBdnR4FUg395wuMV1uX0k85YYXjx/4y
+         4fHA==
+X-Forwarded-Encrypted: i=1; AFNElJ+pEfllClGfDlH1EC1eZp0Kw+B4KR01wgyu9B51e4NQMacwXsuBm4qNYotdRv69OqVOeH+Hf8jK1A8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIIz93iTAH9wW2GV5JJn7RCmFaYbJ6zr5dgbARxcG1rhWWJJlw
+	oQ081q5Wo7l4EHEljpBrwZIPGdxm2M74OiTvH8rRhUuP5bodzedTKskZTATNWz0+TonSb9CHy8k
+	1bXanvY0TAjGvP3NanKfaZJdmEIhBWx68SbN/getKrIq8vd9iFFJnU2XxnV8=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:5296:b0:491:bee4:d722 with SMTP id
+ 5614622812f47-495eaf639a5mr851332b6e.23.1782767367604; Mon, 29 Jun 2026
+ 14:09:27 -0700 (PDT)
+Date: Mon, 29 Jun 2026 14:09:27 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a42df07.854d4ab9.360e1d.000d.GAE@google.com>
+Subject: [syzbot] [usb?] KASAN: slab-use-after-free Read in uea_upload_pre_firmware
+From: syzbot <syzbot+3d45d763d18796f97412@syzkaller.appspotmail.com>
+To: 3chas3@gmail.com, castet.matthieu@free.fr, gregkh@linuxfoundation.org, 
+	linux-atm-general@lists.sourceforge.net, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org, stf_xl@wp.pl, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-uvc_send_response() builds the UVC control response from a user-supplied
-struct uvc_request_data:
+Hello,
 
-	req->length = min_t(unsigned int, uvc->event_length, data->length);
-	...
-	memcpy(req->buf, data->data, req->length);
+syzbot found the following issue on:
 
-req->length is clamped to uvc->event_length, which is taken from the
-host control request wLength (up to UVC_MAX_REQUEST_SIZE, 64), and to
-data->length, which comes from the UVCIOC_SEND_RESPONSE ioctl and is
-only checked for being negative.  The source buffer data->data is only
-60 bytes, so a response with uvc->event_length and data->length both
-greater than 60 makes memcpy() read past the end of data->data.
+HEAD commit:    3d5670d672ae Add linux-next specific files for 20260626
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=10b76dfe580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2bb8183b2d472f18
+dashboard link: https://syzkaller.appspot.com/bug?extid=3d45d763d18796f97412
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15fa0e1c580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13519391580000
 
-Clamp req->length to sizeof(data->data) as well.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/a96151aa0055/disk-3d5670d6.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/cdb70a1a6c6c/vmlinux-3d5670d6.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/3ffb9df12cc1/bzImage-3d5670d6.xz
 
-Fixes: a5eaaa1f33e7 ("usb: gadget: uvc: use capped length value")
-Cc: stable@vger.kernel.org
-Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+3d45d763d18796f97412@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: slab-use-after-free in __intf_to_usbdev include/linux/usb.h:752 [inline]
+BUG: KASAN: slab-use-after-free in uea_upload_pre_firmware+0x8d/0x640 drivers/usb/atm/ueagle-atm.c:598
+Read of size 8 at addr ffff88802b0710b8 by task kworker/0:2/1664
+
+CPU: 0 UID: 0 PID: 1664 Comm: kworker/0:2 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
+Workqueue: events request_firmware_work_func
+
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ __intf_to_usbdev include/linux/usb.h:752 [inline]
+ uea_upload_pre_firmware+0x8d/0x640 drivers/usb/atm/ueagle-atm.c:598
+ request_firmware_work_func+0xf7/0x2d0 drivers/base/firmware_loader/main.c:1164
+ process_one_work+0x93a/0x12b0 kernel/workqueue.c:3326
+ process_scheduled_works kernel/workqueue.c:3409 [inline]
+ worker_thread+0xb05/0x10d0 kernel/workqueue.c:3490
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+Allocated by task 5937:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x3d2/0x6b0 mm/slub.c:5515
+ _kmalloc_noprof include/linux/slab.h:969 [inline]
+ _kzalloc_noprof include/linux/slab.h:1290 [inline]
+ usb_set_configuration+0x3cc/0x2180 drivers/usb/core/message.c:2096
+ usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
+ usb_probe_device+0x1c3/0x3b0 drivers/usb/core/driver.c:291
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3772
+ usb_new_device+0x98d/0x1610 drivers/usb/core/hub.c:2695
+ hub_port_connect drivers/usb/core/hub.c:5567 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ port_event drivers/usb/core/hub.c:5871 [inline]
+ hub_event+0x28cf/0x4cf0 drivers/usb/core/hub.c:5953
+
+
 ---
- drivers/usb/gadget/function/uvc_v4l2.c | 2 ++
- 1 file changed, 2 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index 514e5930b9ca9..dfa0521a243ac 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -200,6 +200,8 @@ uvc_send_response(struct uvc_device *uvc, struct uvc_request_data *data)
- 		return usb_ep_set_halt(cdev->gadget->ep0);
- 
- 	req->length = min_t(unsigned int, uvc->event_length, data->length);
-+	if (req->length > sizeof(data->data))
-+		req->length = sizeof(data->data);
- 	req->zero = data->length < uvc->event_length;
- 
- 	memcpy(req->buf, data->data, req->length);
--- 
-2.54.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
