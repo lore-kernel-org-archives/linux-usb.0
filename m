@@ -1,105 +1,187 @@
-Received: from ultrarisc.com (unknown [218.76.62.146])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6AB53D902D;
-	Mon, 29 Jun 2026 07:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=218.76.62.146
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10ED328610;
+	Mon, 29 Jun 2026 07:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782718139; cv=none; b=Gmy61L9iVqBs30M98PU2AVQ8Lx0xCadGRXGK6zCaq+VmzcZQUAGjRNbJYtoGTZMoCrgPzcuM3iVU239CVpP5cKqyH/wvA+63+8dHQcxYEG9lKlhgolFmtKtfS4UZYZUfWe6LLhXobG+WQ1WdTwEynTeCGZyvxJdmSwlYTo8NXGE=
+	t=1782718295; cv=none; b=A4gxRzSCW90MdXs+5QyH962Y1jKryuzK061Jj/EyithPVY8io7WkLAESh47xdJ8TyRDkw1/7GMMNR7nEJ8JBpSh05/P6l4vMHr/fR628udEsGcIksMCzABoYRFKGCn91DQ56QvwRVRVxZ81MdTzEFpi2kwpQ3Z3TYVu7isT5Y+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782718139; c=relaxed/simple;
-	bh=ZENJ3f5Ea3Zb1Uy2qs2eMFlAH3pKho6umsOMXtZokL4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Js/e3pR3zA14jb/n9plYmVDyQew86afSppU8SRB1AzM1+OH21qhKddMQpc0t/qx0MLEEjNFmckkeWlhLhplhxmVN38d8yIQdcZGK+3xcM21Vzz3eg0sC7qRRCCD1lGcAbfPSToLCNOChfU9S6nMyjes4cfiLBbaNwrrKluposog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com; spf=none smtp.mailfrom=ultrarisc.com; dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b=PsbNgNIC; arc=none smtp.client-ip=218.76.62.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ultrarisc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ultrarisc.com
+	s=arc-20240116; t=1782718295; c=relaxed/simple;
+	bh=SwHiPs+xOpgxja93LG00y7ipfqihNQwmq9d/QZteab8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g0hk2TmSHDuwtEyiNazIUSD3eg3efM/HsmqimbmiVzHDBPEGkNV/ElFpXuXzfj/80Vi81uzBEsU8hJJhE8+VMQheHGna77xDrhTFctSjP6UcECDagW2S9ojaoNLNv6TtBRSwvb5glRUvZEsrbXXv7jTCnAGo/a6qncdfV/FZ5aA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RPpyMNwD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ultrarisc.com header.i=@ultrarisc.com header.b="PsbNgNIC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ultrarisc.com; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:In-Reply-To:References:MIME-Version:
-	Content-Transfer-Encoding; bh=ZENJ3f5Ea3Zb1Uy2qs2eMFlAH3pKho6ums
-	OMXtZokL4=; b=PsbNgNICLzqYg68xXx4GAoDUhNNoekOxxd1YDex00mqqZv1MFN
-	kbu1Q85N0GrSYt8VOpZMKHXSqzwDrUIQ2yLLT/3KH3OHPrWLpcwC1mLN6hwcZOii
-	se1AE9vV39cGsWoLs9QAJ52/VGeB7AAi4kCX9m6anAzYq5KJ3jTQMHpQk=
-Received: from leopard.. (unknown [192.168.100.1])
-	by localhost.localdomain (Coremail) with SMTP id AQAAfwAnEkPUHkJqxOsNAA--.14725S2;
-	Mon, 29 Jun 2026 15:29:24 +0800 (CST)
-From: Xincheng Zhang <zhangxincheng@ultrarisc.com>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Xincheng Zhang <zhangxincheng@ultrarisc.com>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Forest Crossman <cyrozap@gmail.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: xhci-pci: Limit VIA VL805 DMA addressing to 36 bits
-Date: Mon, 29 Jun 2026 15:28:12 +0800
-Message-Id: <20260629072812.1410424-1-zhangxincheng@ultrarisc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260629070906.37320541.michal.pecio@gmail.com>
-References: <20260629-xhci-via-dma-fix-v2-1-380167319652@ultrarisc.com> <20260629070906.37320541.michal.pecio@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RPpyMNwD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA2251F000E9;
+	Mon, 29 Jun 2026 07:31:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782718291;
+	bh=gfFSSbFa1kkiEFju+F2cWFK+kFerBLm7T/klRFOuIwg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RPpyMNwDxysjUcOYZ4W+pforECuPsD7hMwvFilq+ds9qaGhx1Igu2VE42OfdXIsQy
+	 ZzDXfSX/hk1IUtpf3E4WAW09xj/bDch7THnUpa5oUa7aSX4lOq/6SciAFiGOr/XquU
+	 6boEJD3X4bCxX3SK0foOnvI7rwfvikUW2jM+0kaKSgzAhOIe7tFcIRm/6ZbSSMJWCK
+	 /UAIzIs/z1ArHGGH/37tj0FGbmOpGGvAyjoqqnDhMvD2rhqx70PENKtqRq8lAMzzy6
+	 l2SfLXFGOu/Ckq3xO2wVbcbhxGlrUEzrG2kFJjPXivhlkiEnP/3AYhWk+MrFk6gZYv
+	 AYwoZpNALHhWg==
+Message-ID: <b50be148-f7e4-4c11-9893-54d4278b2e32@kernel.org>
+Date: Mon, 29 Jun 2026 09:31:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAfwAnEkPUHkJqxOsNAA--.14725S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZryxJryktF48XFWxCw48Zwb_yoW8WFy7pF
-	Wagw1xtr4vkryIkFnIka10va4Fywnay3s8tr95Ka4Y9w15GF9Fgr4xXw4Yva4DArs7Zw42
-	q3yjqr9xurZ8JaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUva14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
-	6r4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
-	4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
-	AVWUtwCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2
-	IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v2
-	6r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2
-	IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv
-	67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyT
-	uYvjfUYCJmUUUUU
-X-CM-SenderInfo: x2kd0wp0lquxxhqjq3powut2xlvfhudrp/1tbiAQANDGpB680AEgAAsf
+User-Agent: Mozilla Thunderbird
+Subject: Re: WARNING in usb_free_urb
+Content-Language: en-US
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: sanan.hasanou@gmail.com, vbabka@suse.cz, akpm@linux-foundation.org,
+ cl@gentwo.org, rientjes@google.com, roman.gushchin@linux.dev,
+ harry.yoo@oracle.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ syzkaller@googlegroups.com, contact@pgazz.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ Dinghao Liu <dinghao.liu@zju.edu.cn>
+References: <6a3eeead.7fb353d3.354599.b0b0@mx.google.com>
+ <85cf5045-b52b-4aaa-a038-ca1b856b55f9@kernel.org>
+ <20260629092033.4a83e91b.michal.pecio@gmail.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <20260629092033.4a83e91b.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Michal,
+On 6/29/26 09:20, Michal Pecio wrote:
+> On Mon, 29 Jun 2026 08:27:48 +0200, Vlastimil Babka (SUSE) wrote:
+>> On 6/26/26 23:27, sanan.hasanou@gmail.com wrote:
+>> > Good day, dear maintainers,
+>> > 
+>> > We found a bug using a modified version of syzkaller.  
+>> 
+>> Subject says "usb_free_urb" but you only CC'd slab maintainers, where slab
+>> slab is most likely a victim here of e.g. double kfree() or a kfree() of
+>> otherwise broken pointer.
+>> 
+>> Ccing USB and EM28XX maintainers. But they can feel free to ignore this per
+>> the next point.
+>> 
+>> > Kernel Branch: 7.0-rc1  
+>> 
+>> Why use such a version for fuzzing? rc1 will have many bugs that are
+>> already fixed in 7.0 final. And it's not even latest, 7.1 was
+>> released 2 weeks ago too.
+> 
+> To be fair, em28xx had no changes since 2024 until 7.1-rc1, so the bug
+> must be present in various stable releases and likely in mainline too.
 
-On Mon, Jun 29, 2026 at 07:09:06AM +0200, Michal Pecio wrote:
-> This may turn into multiple quirks differing only in the number at the
-> end. For example, ASMedia chips appear to be limited to 48 bits and we
-> don't even know if these two are the only bad vendors. I briefly tested
-> Etron and NEC/Renesas, they seem to be OK, but there are others.
->
-> The driver is getting dangerously close to filling quirks bitmap and
-> needing changes to support more than 64 quirks.
->
-> Alternatively, I think your 'dma_bits' variable could be allocated at
-> the beginning and initialized to 64, then passed by reference to
-> get_quirks() so it can tweak it, and lastly clamped to 32 if the AC64
-> capability is absent or disabled by quirk.
+OK I didn't check that, but in general my comment stands.
 
-Thanks, this makes sense.
+>> > WARNING: mm/slub.c:6352 at free_large_kmalloc+0xb3/0x160 mm/slub.c:6352, CPU#1: kworker/1:4/12317  
+>> 
+>> A kfree() was attempted on a pointer that's neither from a slab page nor a
+>> large kmalloc page. Might be double free or corrupted.
+>> 
+>> > Call Trace:
+>> >  <TASK>
+>> >  kfree+0xae/0x630 mm/slub.c:6437
+>> >  urb_destroy drivers/usb/core/urb.c:25 [inline]  
+>> 
+>> static void urb_destroy(struct kref *kref)
+>> {
+>>         struct urb *urb = to_urb(kref);
+>> 
+>>         if (urb->transfer_flags & URB_FREE_BUFFER)
+>>                 kfree(urb->transfer_buffer);  <--- this one
+>> 
+>>         kfree(urb);
+>> }
+>> 
+>> >  kref_put include/linux/kref.h:65 [inline]
+>> >  usb_free_urb+0xd1/0x120 drivers/usb/core/urb.c:96  
+>> 
+>> USB layer itself is likely also not the root cause.
+>> 
+>> >  em28xx_uninit_usb_xfer+0x165/0x310 drivers/media/usb/em28xx/em28xx-core.c:833
+>> >  em28xx_alloc_urbs+0xf2a/0x1130 drivers/media/usb/em28xx/em28xx-core.c:-1
+>> >  em28xx_dvb_init+0x2b0/0x4a20 drivers/media/usb/em28xx/em28xx-dvb.c:-1
+>> >  em28xx_init_extension+0x121/0x1d0 drivers/media/usb/em28xx/em28xx-core.c:1117  
+>> 
+>> So it might be this driver doing something wrong?
+> 
+> Yes, it is. 
 
-I reworked v3 to avoid consuming a new xHCI quirk bit for each possible
-DMA address width. Instead, struct xhci_hcd now has a generic
-dma_mask_bits field. xhci_gen_setup() initializes it to 64 before
-calling get_quirks(), and the VIA VL805/806 PCI quirk sets it to 36.
+Cool :)
 
-The DMA mask setup then uses DMA_BIT_MASK(xhci->dma_mask_bits), while
-still preserving HCCPARAMS1.AC64 for VL805/806.
-
-> I'm not sure if we really need this second call to dma_set_mask() below
-> when the first call fails? This code was added by fda182d80a0bf and it
-> really should have been an 'else' to the check for AC64 capbality, not
-> to the capability *and* having successfully enabled 64 bit DMA.
->
-> OTOH, one could argue against cleaning this up in a stable patch.
-
-I left the existing 32-bit fallback behavior unchanged in v3, since this
-patch is intended to stay narrowly scoped for stable.
-
-Thanks,
-Xincheng
+>         /* allocate urbs and transfer buffers */
+>         for (i = 0; i < usb_bufs->num_bufs; i++) {
+>                 urb = usb_alloc_urb(usb_bufs->num_packets, GFP_KERNEL);
+>                 if (!urb) {
+>                         em28xx_uninit_usb_xfer(dev, mode);
+>                         return -ENOMEM;
+>                 }
+>                 usb_bufs->urb[i] = urb;
+> 
+>                 usb_bufs->buf[i] = kzalloc(sb_size, GFP_KERNEL);
+>                 if (!usb_bufs->buf[i]) {
+>                         for (i--; i >= 0; i--)
+>                                 kfree(usb_bufs->buf[i]);
+> 
+>                         em28xx_uninit_usb_xfer(dev, mode);
+>                         return -ENOMEM;
+>                 }
+> 
+>                 urb->transfer_flags = URB_FREE_BUFFER;
+> 
+> If buf[i] allocation fails, all previous buffers are freed and then all
+> previous URBs are destroyed. But they already have the URB_FREE_BUFFER
+> flag set, which causes a double free as shown above.
+> 
+> The free(buf[i]) loop should simply be removed. It was mistakenly added
+> by d571b592c6206, then a26efd1961a18 recognized the double free but
+> attempted to fix it only by changing the order of freeing. Sent from
+> .edu domain, so probably an automatic static analyzer fix...
+> 
+> Regards,
+> Michal
 
