@@ -1,209 +1,149 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 087822C324C
-	for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 05:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782709753; cv=none; b=PpU8wfpb8Z/3dGPlPlZnSYDtKdTNB5ZiyLR6eVpG6+h9uybSugMtAYIeyVjPE/QG9Tm+RekvOFQPHla5FKSLFVxSslqs9PKkRS8MAQXFfMc7M7GJVlT+mjKk8l8N3XBLG+6r7c1fwI9c+wosW1Nd4fwZ/Ds9EnHBO5sVYzklu9Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782709753; c=relaxed/simple;
-	bh=OpZDIxmT4tyvY+jqNo/Ihr4kIhSVQJd+lLeKHTXXaEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AArtno1X+ip+pOsJ/gIfeupYjaDbh3rxOesFjxxNx6bxEqjPMBWBbQIB6cXBCWeUTVwiDZWRSO1zdZ13L4Yh9wUfnFf1x7mJejRHsHrH3k5vOZQIsJSLCwyY52+bALTsOfmaXP2AF+HrTEwvc9EQmakPYCIsXOoxw2BL5dCefY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OK3ZcX+s; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D8238CFFA
+	for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 05:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782711071; cv=pass; b=esCWqSLtQPhTyenUhSDrKFgIYiXCYELhv6AmDJ2b7iTZsBl3Oq3TRkMwyGKEKqQUlv8hBd6R1oUoakYHUais9kJNKz8XM1DXj5ruHbXlfUuDWF9f8iay0jQegSnF57MUTZwOy8ywJdn6j+4CHDtA9VAWLCtbFq2RxyEEVrYaLIw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782711071; c=relaxed/simple;
+	bh=epmWe8s3QLJXcy4rA2U5Y/B/KOdqRodzVHArrGYs0W4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ih80u0gWmN9DkNv26HL80kb+vIWF6B3riR3oMX/EtX26s9Wqd8i3aEMTXBrzAT3xdlNWq2YMBElU5lWrOLFmm+DR6mv1+D9TVAAEJQobxj2oF90HstdUm49G/aPnNy3mJvFaLuVWkJ0iMHjr0v0DeCP0BAuFuWX6/KavdYiB+KI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AV4j0iMx; arc=pass smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OK3ZcX+s"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-46e4764ca48so2724549f8f.0
-        for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 22:09:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AV4j0iMx"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c126fe7d0f3so34747966b.0
+        for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 22:31:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782711062; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Dnuqh/kYuf8hYwk4cd1wqiTCLcUNM/LbWoErXtiCqC9sQ4Xdtx2uHNKLSlF1/mMwRa
+         WkZGBXKFmU+0KLsDuBfpwT6u7RqJ2k29tbw6g8LhbqdrMoJV8xO5WLk1E0cAlLsgEXg8
+         sz/eBYH5+ntp15kCqzZJ5XGael4FF7ZYstAm2+j+4YcSE4JK4IpAaEg5dREds4YSV7Yc
+         tjyC03MzIATkGpgnFCj136kp8ZMH3viZ6N+c0CGu3OK+AhHDicB/Ev+w4VYDhrimNzcF
+         TdIodSFclqT59N0jhTdiXYKrxQMhjvugsbbr31DXWn8lbPZk7m7M5UVEmYiQsEcVh+EH
+         m3Fg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=epmWe8s3QLJXcy4rA2U5Y/B/KOdqRodzVHArrGYs0W4=;
+        fh=pLwuIsqWaWqv1g+B5z2dhQSEqmg8DYyi0d9vyjHUX5k=;
+        b=eV63uKA29+yQBIhNkPbbsu/sZvL+JN1oM1OJo0m9oYHzO/lCHrVmDB32tLAG0hpXQC
+         WM+tdGzs54lpssx3H/YzkUz6mMOw8IHTgzZMzQM0qUkwgeYUWPc+lXDDP2u2EJ3tBbkn
+         O0hW3CCEBrNmX8/0ujkZ85T1QUr3lr3oXhqtCD3EvqUZX2f+y7P6T+KEued5NOZh548I
+         BVLTxCmvFZkgQZGW/Md1NL8J2Rj9dwnLd1VONX30Ivpg7FDdwkLc2xJbPdwe249nqfza
+         2XPFRB55pgl5AlYexsB1z7xqaGtQvu8kJdKeR3CFnaDRzGwNyV+bkgruqaVhbRORznm8
+         oUxw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782709750; x=1783314550; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T6OKDAmxvRGxTewczytplZi38XRSpEi2mkwnsgdP2A4=;
-        b=OK3ZcX+sGiVgE2sidqPP/KJIunEtx4vV6SxSCAWZSXkRMyNjUEV7K+blOhb+j09vJH
-         6uk7cF/kh8BsSZlV784WEWl7toyHnFns15idM6RSGdsWzFUL3I2aIVK8vEM5kDWQmQ9U
-         vgcFWiFY7ZHntrt9NVmMAEmrzqObkmXKVAzWZ6kV61CrAynuNxha9+mazrqBxVHoF2LK
-         /1nwcCsEayWm6zF0axLOIZGgRM+w2L4DeTAkwrOnEAYhj8Fj3VKgQ1KwEENftZssEjHz
-         un94K+bNf+2aAAkxq5YFZRoN7O5Mqq2ag/Q0naVYZ3T5EXkJu8JAT0K3vSgdGrcFgQqj
-         7bCw==
+        d=gmail.com; s=20251104; t=1782711062; x=1783315862; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=epmWe8s3QLJXcy4rA2U5Y/B/KOdqRodzVHArrGYs0W4=;
+        b=AV4j0iMxr+XjllNcw9Eu7cPbbJJRXgdZRub0lsu6FrFGGmGRRomZmdBv4ITGv20bbK
+         ijAiIDEi0drAUIap7BTghHqkmP58Fvu6iVRH3nzKiup5rSoPwdZpbvxrOlEc5a3O0uOy
+         0nwUaHB9GbI6cdw2ReM4r3WYhh4gY8bZl7AmAXIk6YTzBbDMfLmCl6fklSGkqaSMqkZu
+         eliHS0scf2+h5x0y2jZujNZOX0yBLI8ekRw2Q6sObbclqM2zrXffjAUIGVEo4taiVRzM
+         jfAZ330NqTAFuNCRZ/Rmopgfx+3P8T5VD8PpotMvU7YDUQkYknXK5rou7ipfD0Vcpuo9
+         8Q4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782709750; x=1783314550;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=T6OKDAmxvRGxTewczytplZi38XRSpEi2mkwnsgdP2A4=;
-        b=FpdDHsozQ4et2T1aDfGyA5PFcxdm8tWiYbJmzLzwsZ8hgnVJ3TP4mWsP7SxQHDUgh9
-         kyf5XAsx6GSl5TQWyswupf6w6y6AMOzaFf0GZes8lFmeqDa2fCDiIlIdnkZtOXukL8oP
-         LPvGabOA7OQ8Y/wVnMV9k6zxDBCAPDj0Fu1m9xeX8MXq/aeCwdYzivF4WSig8EsaWeur
-         5GnfnadOFo4jtVRhpwRlBj4SZiiEeRJGnRC1QNThcGasldYmowm/Dz5c8trrTpKitpnh
-         XN6FhXmi//0PMe3oXr3oR04conxCfwCPac5h3t1wtaxCJ39BtAuHT5Y+SNldSoTBj/we
-         GBxA==
-X-Forwarded-Encrypted: i=1; AHgh+RogU06FMkaN4rwfc+wwMKAu7V0M0FgtPQ6YYLa5fAXedSAG8NTQGoBR2VYN5K/zWaq6t8ZukQARZqg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2lrJ3I2nLUJGip4uCUM4cMszgunoAnb24SujMTXbCtDKqBz/t
-	n0JNhI6ehYR9zlroC3mCv88s27kaYswq10nNEWbK6QNngKAsDKf+P7J9
-X-Gm-Gg: AfdE7cmmXrgnJhojP1G5MBL99aOkKS8CDRA+FHktP+7PbdT6UosZIOwqKD5dwlYsSix
-	v4Ld1+V9YTymyhlc7gjdt25osujBmwagrdtSsTjAK++8zbyn+7v95YY1+OaR22U54akatTj2RNx
-	ON5yUWvFFVYpWw66L3Xx8PLxxwvPk4wfdSz86yYN2KnUBXsrRKMsij5GNaCbULbUkmXOOxEUpKE
-	u7U1jVJnNSts/bX4dcBYKkznnB0ffByHWGD+w7Whqt6+BhUhCVBFZUD0P8xf80TBBoXC3tlB4oo
-	tU5RhLUE/TdUPdwWQ4L5IPlH2mfikdjnsMQxHZcUqzc+d/gCrdyyuIJYY3bX6ZSIPp0or94tznN
-	bhWs/wPFkT4bTRV3fi5ChBiKdat92nipLwrIThZtvkUIVBNfq0/CnlXKS04E8MacYYbMg0o4Pia
-	oWlfrFhRC4jAzGMgMJXTec29HK6PT/DWnbJ40=
-X-Received: by 2002:a05:6000:4304:b0:472:c587:1a2 with SMTP id ffacd0b85a97d-472c58702c1mr6548383f8f.16.1782709749908;
-        Sun, 28 Jun 2026 22:09:09 -0700 (PDT)
-Received: from foxbook (bgu190.neoplus.adsl.tpnet.pl. [83.28.84.190])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46efd7ee1c7sm36827265f8f.14.2026.06.28.22.09.08
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 28 Jun 2026 22:09:09 -0700 (PDT)
-Date: Mon, 29 Jun 2026 07:09:06 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Xincheng Zhang <zhangxincheng@ultrarisc.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Forest Crossman <cyrozap@gmail.com>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: xhci-pci: Limit VIA VL805 DMA addressing to 36
- bits
-Message-ID: <20260629070906.37320541.michal.pecio@gmail.com>
-In-Reply-To: <20260629-xhci-via-dma-fix-v2-1-380167319652@ultrarisc.com>
-References: <20260629-xhci-via-dma-fix-v2-1-380167319652@ultrarisc.com>
+        d=1e100.net; s=20251104; t=1782711062; x=1783315862;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=epmWe8s3QLJXcy4rA2U5Y/B/KOdqRodzVHArrGYs0W4=;
+        b=gvogbjuR1YWll9B8s3js0lHnS5I2phuARbFZnkCGe4434Y+pIWQ1ouquMVZGoAwl4x
+         JhfWBwT+ZnxqY1I7XhmyzczV3PX/vggG2CR9jXSjyHZC1CF47zSjhWaM6d/UUF8JfyNB
+         YilZHtKQydlkQH1OYadpw4vS55QlJTTtp0F4c8iLWzSo7vQj25Iqaxpw56OvfPtSyFBX
+         hX3uPg8jJmYCIPJ7/GiVySB78g0THcfm+f23yAg5/NUv4rPwdZjMQb3QXibkcQ7z9Cze
+         mrq+IqNzLm8pJPG9iMrX0Loqpo161/ZLNgtCDBIjPRD023hWRuygjy0Qhl18DRg1oTFI
+         mGmg==
+X-Gm-Message-State: AOJu0YyzwlOmB/IHMBwRfqMPTGMD+7+OxAJ7BICjjxxkMF96+dUgBcYV
+	XtPSseSaFyoyJeyBU+STePPxRIqT9tNJmpdS7zpPz5+6uk1RA5+DRSMmR80s7HJczTwf8zv2UPt
+	vUFum2/dylFWyPr1+zZhJpiPK5W0I4eo=
+X-Gm-Gg: AfdE7clKGjUF9vQmvTb86uKIyQAo2EQsbJqSed4z6Zj3QvHeEQZ65bjfhsvlSqiz+sk
+	ws3/Tq4xd0eM/AItR20pgG6U6WmQz1208Ga/xN53GbXbwoJMAI1dFyx9WbCPsoTvvUCUw4dwbcG
+	1ssPojj2knKddV0KuXBY2MY7P39CqM3x8+XqPRCsGqiPAFpLCefYl5SPiAGCGXjrukvKL/A1lKl
+	zLRPRBC2usXKUv3aNSkJqpQZHIMemgc9Dtz/nib2NrtHtSHTjlZsh6VXheZY1e8KmBYnBLsyihp
+	8d2tuTM=
+X-Received: by 2002:a17:906:c141:b0:c12:2aac:2b4b with SMTP id
+ a640c23a62f3a-c12336c2698mr415388166b.44.1782711062080; Sun, 28 Jun 2026
+ 22:31:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260623161035.5792-1-nikhilsolanke5@gmail.com> <20260628231634.6752f74d.michal.pecio@gmail.com>
+In-Reply-To: <20260628231634.6752f74d.michal.pecio@gmail.com>
+From: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Date: Mon, 29 Jun 2026 11:00:44 +0530
+X-Gm-Features: AVVi8Cetk7IhAA3m56dYLZoJwEj6Rfc_rSgjh_WDaPAAo5ultThdmtlYIIEH2Xw
+Message-ID: <CAFgddh+AUNH9Ji-Qd=BKEDZWJrzPMWN20-g-htQDPSdSehZStQ@mail.gmail.com>
+Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, stern@rowland.harvard.edu, 
+	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 29 Jun 2026 10:48:13 +0800, Xincheng Zhang wrote:
-> The VIA VL805/806 xHCI controller advertises AC64, but fails to handle
-> DMA addresses at or above 0x1000000000. On systems with large amounts of
-> RAM, this can cause USB device failures when the controller is given DMA
-> addresses beyond its usable address width.
-> 
-> Do not use XHCI_NO_64BIT_SUPPORT for this controller. That quirk clears
-> the cached AC64 capability and limits DMA to 32 bits, causing unnecessary
-> bouncing for addresses between 4GiB and 64GiB and hiding the controller's
-> real AC64 capability from code that may need to distinguish register
-> access width from usable DMA address width.
-> 
-> Add a separate xHCI quirk for controllers whose usable DMA address width
-> is limited to 36 bits, and apply it to VIA VL805/806. This keeps AC64
-> visible while restricting the DMA mask to exactly the range that the
-> controller can handle.
+> And here it's USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE, but in the commit
+> message it was USB_QUIRK_CONFIG_SIZE.
 
-This may turn into multiple quirks differing only in the number at the
-end. For example, ASMedia chips appear to be limited to 48 bits and we
-don't even know if these two are the only bad vendors. I briefly tested
-Etron and NEC/Renesas, they seem to be OK, but there are others. 
+Yes, I have fixed it already.
 
-The driver is getting dangerously close to filling quirks bitmap and
-needing changes to support more than 64 quirks.
+> Honestly, I would suggest a third option: something with "255" instead
+> of "Windows", because not everybody knows how windows queries
+> descriptors, but everybody knows what 255 is.
 
-Alternatively, I think your 'dma_bits' variable could be allocated at
-the beginning and initialized to 64, then passed by reference to
-get_quirks() so it can tweak it, and lastly clamped to 32 if the AC64
-capability is absent or disabled by quirk.
+Well naming ain't my strong suit (if I name something, it will
+definitely get called out). Do you have a specific name in mind? if
+your concern lies more in people not knowing what Windows does, should
+i just make it apparent in a comment where it is set?
 
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Xincheng Zhang <zhangxincheng@ultrarisc.com>
-> ---
-> Changes in v2:
-> - Replace XHCI_NO_64BIT_SUPPORT with a dedicated 36-bit DMA mask quirk.
-> - Preserve HCCPARAMS1.AC64 instead of clearing it for VL805/806.
-> - Limit VL805/806 DMA to DMA_BIT_MASK(36) instead of 32-bit.
-> - Add a stable Cc trailer.
-> - Link to v1: https://lore.kernel.org/all/20260623-xhci-via-dma-fix-v1-1-3f12c81a1cf8@ultrarisc.com/
-> ---
->  drivers/usb/host/xhci-pci.c |  1 +
->  drivers/usb/host/xhci.c     | 30 ++++++++++++++++++++++++------
->  drivers/usb/host/xhci.h     |  1 +
->  3 files changed, 26 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-> index 039c26b241d0..e5618551e022 100644
-> --- a/drivers/usb/host/xhci-pci.c
-> +++ b/drivers/usb/host/xhci-pci.c
-> @@ -448,6 +448,7 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
->  	if (pdev->vendor == PCI_VENDOR_ID_VIA && pdev->device == PCI_DEVICE_ID_VIA_VL805) {
->  		xhci->quirks |= XHCI_LPM_SUPPORT;
->  		xhci->quirks |= XHCI_TRB_OVERFETCH;
-> +		xhci->quirks |= XHCI_LIMIT_36BIT_DMA;
->  	}
->  
->  	if (pdev->vendor == PCI_VENDOR_ID_ASMEDIA &&
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index 6922cc5496c1..fa546e5cd300 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
-> @@ -5506,13 +5506,31 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
->  	if (xhci->quirks & XHCI_NO_64BIT_SUPPORT)
->  		xhci->hcc_params &= ~BIT(0);
->  
-> -	/* Set dma_mask and coherent_dma_mask to 64-bits,
-> -	 * if xHC supports 64-bit addressing */
-> -	if ((xhci->hcc_params & HCC_64BIT_ADDR) &&
-> -			!dma_set_mask(dev, DMA_BIT_MASK(64))) {
-> -		xhci_dbg(xhci, "Enabling 64-bit DMA addresses.\n");
-> -		dma_set_coherent_mask(dev, DMA_BIT_MASK(64));
-> +	/*
-> +	 * Set dma_mask and coherent_dma_mask to 64-bits if xHC supports
-> +	 * 64-bit addressing, unless a controller-specific quirk limits the
-> +	 * usable address width.
-> +	 */
-> +	if (xhci->hcc_params & HCC_64BIT_ADDR) {
-> +		u64 dma_mask = DMA_BIT_MASK(64);
-> +		unsigned int dma_bits = 64;
-> +
-> +		if (xhci->quirks & XHCI_LIMIT_36BIT_DMA) {
-> +			dma_mask = DMA_BIT_MASK(36);
-> +			dma_bits = 36;
-> +		}
-> +
-> +		retval = dma_set_mask(dev, dma_mask);
-> +		if (!retval) {
-> +			xhci_dbg(xhci, "Enabling %u-bit DMA addresses.\n",
-> +				 dma_bits);
-> +			dma_set_coherent_mask(dev, dma_mask);
-> +		}
->  	} else {
-> +		retval = -ENODEV;
-> +	}
-> +
-> +	if (retval) {
->  		/*
->  		 * This is to avoid error in cases where a 32-bit USB
->  		 * controller is used on a 64-bit capable system.
+> That's a lot of capital letters, USBCONFIG_WINDOWS_REQ_SIZE never
+> appears outside this function and personally I would just spell it out
+> as 255 here with appropriate comment.
 
-I'm not sure if we really need this second call to dma_set_mask() below
-when the first call fails? This code was added by fda182d80a0bf and it
-really should have been an 'else' to the check for AC64 capbality, not
-to the capability *and* having successfully enabled 64 bit DMA.
+I wanted to avoid the plausible "avoid magic numbers" criticism. If
+everybody else is fine with bare 255, I will just do that then.
 
-OTOH, one could argue against cleaning this up in a stable patch.
 
-> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-> index d02046a573e4..e737ab36d0a3 100644
-> --- a/drivers/usb/host/xhci.h
-> +++ b/drivers/usb/host/xhci.h
-> @@ -1647,6 +1647,7 @@ struct xhci_hcd {
->  #define XHCI_CDNS_SCTX_QUIRK	BIT_ULL(48)
->  #define XHCI_ETRON_HOST	BIT_ULL(49)
->  #define XHCI_LIMIT_ENDPOINT_INTERVAL_9 BIT_ULL(50)
-> +#define XHCI_LIMIT_36BIT_DMA	BIT_ULL(51)
->  
->  	unsigned int		num_active_eps;
->  	unsigned int		limit_active_eps;
-> 
-> ---
-> base-commit: 502d801f0ab03e4f32f9a33d203154ce84887921
-> change-id: 20260623-xhci-via-dma-fix-c563b889ea54
-> 
-> Best regards,
-> --  
-> Xincheng Zhang <zhangxincheng@ultrarisc.com>
-> 
+> > + bigbuffer = (unsigned char *) desc;
+> > + desc = NULL;
+>
+> What happens in the next iteration of the loop?
+
+Disaster to say the least. A memcpy in bigbuffer and memset(0,..) on
+desc would be the correct approach here, wouldn't it?
+
+On that note, I discovered that usb_get_descriptor just blindly trusts
+the caller with the allocation of buf, it never checks if buf is null
+or not. There is only a check for the size. and then there is a
+memset(buf, 0, size). This results in a segfault if buf is NULL and
+size > 0. Perhaps it's time for a new patch to fix this?
+
+> I wonder if it wouldn't make sense to split announce_device() so that
+> the first line is printed as soon as usb_new_device() starts, before
+> enumeration is attempted and possibly fails.
+
+Do you want something like announce_device_ids() where it would only
+print out the first "New Usb device found..." line? and then
+announce_device_strings()?
+
+Perhaps even another macro announce_device that does both? But its
+only used in one place, so I doubt it would be necessary.
+
+> That would be a separate patch, of course.
+
+If i have to make this change, should this be a completely separate
+patch or is it fine to include it in this patchseries?
+
+Thanks,
+Nikhil Solanke
