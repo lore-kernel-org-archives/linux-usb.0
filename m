@@ -1,267 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A5C3EF647;
-	Mon, 29 Jun 2026 15:21:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5068426D29;
+	Mon, 29 Jun 2026 15:23:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782746477; cv=none; b=g1wVI1CjjKtL6fTctIi7BiXvw1qIWqOm5rM0/xPvVhOqGkUYA7CDdS4pzSh6+FUzWYUuLAjACKzrrHXdKVilXLPyN0QKKRRBENUCNbmuxryDgoELd5VFrkpUXWtQhATMlF+eccV0a+rJZ24eN/jLDatNRhuqX1IKnlrhhfSNVfM=
+	t=1782746610; cv=none; b=Rb2SQCgiYof/5eTbg9Yr/5EVaGHZgghVAdpgUQKJYmSUrpVzLK/KdcE2md4IUoa1zdkLtMBsBT+/nA4fl1RT6XJHy1wFc6iTZfjnnX1LT1AV7lukw6ob3QBel5Wh3oRl7xi2ifYnfxx3UTPtkSEY632lIJyxLjhPnxMKEwmyTjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782746477; c=relaxed/simple;
-	bh=wNio1yLMq99NcwrcTVnYEWhf7LC8jplmGfolKk7Hn8E=;
+	s=arc-20240116; t=1782746610; c=relaxed/simple;
+	bh=ikG8LyC1XcdBJf6tJzF7Bt/BQgmZRgtL19n+WxN3KCI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LKbEJSxP2kGeMMqG+hhCSZsvA3gmegx1oCXk2mMJMVDs2JbIJG2cuHXwa7Q1H4UF72ZknJrEBQhBpaqKcYt+QmyHwKG1oHUkNm1RnxDIooO5lzbuA8LILvsS0oPX9jT61w12U3gwlxjeksnZX9f3RMjFhx0XTE8V7R2TNiWEIG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mxDCw+NK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=HEfA8WcMa/z8z/haPaMwFMUHbtSy0y1BWIvWmhF/boI/G2upFHIC7oNI9ttta+3OAPj5DbGk48FGeTR57S4l2H1eDZl+gACVxFFw91Qgja2bQ+vBBu+XIx9e5wnA7ucH95GCsHiHZjaV/avOj4V+IBwCwjmjHGPsC7DtZKv9ULg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MttTyO8L; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mxDCw+NK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF041F00A3A;
-	Mon, 29 Jun 2026 15:21:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782746475;
-	bh=8JeIET6BIO7IAQ1VGFsVbdLpIFTiA3/rwieOpXwgEHU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mxDCw+NKxACQINPLhkoDiHknZMmfP32yHsviw3jgAyjmVXAAG6DLBb+4HJdGvJ2XA
-	 DVnomXBv5PvZn9EMPMbF2i5bom8RC2+9nPW/Rd52QBuElEFAf0rE9/WiHD4uLHA3bM
-	 POMb019YotS0sS/0EOkrK/i4oU62mgKHgchFQR0mJoywpSHhzL5IltXPJU/MeIgCYx
-	 ap0JwBevDgGf4ZkMMfnZfhPZuE5smna7fJU5Lou68n/gfmrNzTEwrD0k8G0Eh7J2pA
-	 /8dbudFQQkg/dfFzw19Oz6oMBIhRdpH1cEVStTHfBdI9nrYiFHWCF11zI8gxqNuFfa
-	 y1SH9IS6U/TaA==
-Date: Mon, 29 Jun 2026 16:21:11 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Wayne Chang <waynec@nvidia.com>
-Cc: mathias.nyman@intel.com, vkoul@kernel.org, neil.armstrong@linaro.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	gregkh@linuxfoundation.org, thierry.reding@gmail.com,
-	jonathanh@nvidia.com, linux-usb@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/8] dt-bindings: usb: Add Tegra264 XUSB host support
-Message-ID: <20260629-primal-refrain-1eb04745384f@spud>
-References: <20260629093406.1118594-1-waynec@nvidia.com>
- <20260629093406.1118594-3-waynec@nvidia.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MttTyO8L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782746608; x=1814282608;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ikG8LyC1XcdBJf6tJzF7Bt/BQgmZRgtL19n+WxN3KCI=;
+  b=MttTyO8L1ct2KvTGJaLRWCVwN4SGxjOmgbnzswLlWgeVBPQztTpu7zLz
+   wsrnu0grXvnBch0n7/+Cl3tMFTvh7teNu57Kor2zEq2CCYhQ7XC04xx0k
+   vHSJmGfmQUXLv8Z1OaqA+i3ATFtt0fC62JhMwpvPxzKzdLySvjIWWiQ5l
+   dPyrrI1d27HLaE4EPVg9xSk3VpRnuCLvdNH3IZeX3b5RvXqOiUA2jphGn
+   At4GQ1cJyqlQgzGB3K6rBFOMJWwyY5cZxVBdvVnnqEI4PfJ6YB752Rsl9
+   utHl3TVPTXwyX9wRbZTmK+P2n+TGc58ppdron3g+Mxc36nAmsfrGGzgpe
+   g==;
+X-CSE-ConnectionGUID: 1a3yruufQASLYQzulWkzEw==
+X-CSE-MsgGUID: 6EZfrAeSS0eCEnvQw11iUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="94023536"
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="94023536"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:23:26 -0700
+X-CSE-ConnectionGUID: 7N2MW441QaazjVGcO5Si8w==
+X-CSE-MsgGUID: QtCGyfNORrCYVEX/UtpPDg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="245635032"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:23:22 -0700
+Date: Mon, 29 Jun 2026 18:23:19 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Andy Shevchenko <andy@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Ulf Hansson <ulfh@kernel.org>, linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] [RFC] gpiolib: introduce gpio_name() helper
+Message-ID: <akKN59lv55CXS3HU@ashevche-desk.local>
+References: <20260629135917.1308621-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eqDp6fcqM2UH+2oI"
-Content-Disposition: inline
-In-Reply-To: <20260629093406.1118594-3-waynec@nvidia.com>
-
---eqDp6fcqM2UH+2oI
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260629135917.1308621-1-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Jun 29, 2026 at 05:34:00PM +0800, Wayne Chang wrote:
-> Extend the Tegra234 XUSB host binding to cover Tegra264:
->=20
-> - Add nvidia,tegra264-xusb compatible string
-> - Document optional USB wake interrupts for Tegra264
-> - Document Tegra264 PMC wake event to port mapping
-> - Allow up to five IOMMU specifiers for the additional XUSB host
->   stream IDs
->=20
-> Signed-off-by: Wayne Chang <waynec@nvidia.com>
-> ---
->  .../bindings/usb/nvidia,tegra234-xusb.yaml    | 115 ++++++++++++------
->  1 file changed, 80 insertions(+), 35 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra234-xusb.y=
-aml b/Documentation/devicetree/bindings/usb/nvidia,tegra234-xusb.yaml
-> index ec0993497fbb..94b1dbe2b02f 100644
-> --- a/Documentation/devicetree/bindings/usb/nvidia,tegra234-xusb.yaml
-> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra234-xusb.yaml
-> @@ -17,7 +17,9 @@ description: |
-> =20
->  properties:
->    compatible:
-> -    const: nvidia,tegra234-xusb
-> +    enum:
-> +      - nvidia,tegra234-xusb
-> +      - nvidia,tegra264-xusb
-> =20
->    reg:
->      items:
-> @@ -31,37 +33,6 @@ properties:
->        - const: fpci
->        - const: bar2
-> =20
-> -  interrupts:
-> -    minItems: 2
-> -    items:
-> -      - description: xHCI host interrupt
-> -      - description: mailbox interrupt
-> -      - description: USB wake event 0
-> -      - description: USB wake event 1
-> -      - description: USB wake event 2
-> -      - description: USB wake event 3
-> -      - description: USB wake event 4
-> -      - description: USB wake event 5
-> -      - description: USB wake event 6
-> -    description: |
-> -      The first two interrupts are required for the USB host controller.=
- The
-> -      remaining USB wake event interrupts are optional. Each USB wake ev=
-ent is
-> -      independent; it is not necessary to use all of these events on a
-> -      platform. The USB host controller can function even if no wake-up =
-events
-> -      are defined. The USB wake event interrupts are handled by the Tegr=
-a PMC;
-> -      hence, the interrupt controller for these is the PMC and the inter=
-rupt
-> -      IDs correspond to the PMC wake event IDs. A complete list of wake =
-event
-> -      IDs is provided below, and this information is also present in the=
- Tegra
-> -      TRM document.
-> -
-> -        PMC wake-up 76 for USB3 port 0 wakeup
-> -        PMC wake-up 77 for USB3 port 1 wakeup
-> -        PMC wake-up 78 for USB3 port 2 and port 3 wakeup
-> -        PMC wake-up 79 for USB2 port 0 wakeup
-> -        PMC wake-up 80 for USB2 port 1 wakeup
-> -        PMC wake-up 81 for USB2 port 2 wakeup
-> -        PMC wake-up 82 for USB2 port 3 wakeup
-> -
+On Mon, Jun 29, 2026 at 03:56:29PM +0200, Arnd Bergmann wrote:
 
-Property definitions should remain at the top level, with the widest
-constraints and list of entries.
-Conditional sections should just apply restrictions. In this case, only
-one additional clock seems to be the difference, so conditional
-restrictions should suffice.
+> Most remaining users of desc_to_gpio() only call it for printing debug
+> information.
+> 
+> Replace this with a new gpiod_name() helper that returns the
+> gpio_desc->name string after checking the gpio_desc pointer.
 
->    clocks:
->      items:
->        - description: XUSB host clock
-> @@ -96,9 +67,6 @@ properties:
->        - const: dma-mem # read
->        - const: write
-> =20
-> -  iommus:
-> -    maxItems: 1
+Oh, that's nice!
 
-Same with this, conditionally forbid it on the new platform but leave
-this here.
+...
+
+> +/**
+> + * gpiod_name() - get a name to print for a gpio descriptor
+> + * @desc: gpio or NULL pointer to query
+> + *
+> + * Returns:
+> + * The desc->name field or a dummy string for unknown GPIOs.
+> + */
+> +const char *gpiod_name(const struct gpio_desc *desc)
+> +{
+> +	return desc ? desc->name : "(no gpio)";
+
+Can we get into here with wrong (error pointer descriptor)? Shouldn't you call
+one of validate_desc() / VALIDATE_DESC()?
+
+Also not sure if "(no gpio)" is a good choice. "not requested"? "not provided"?
+
+> +}
+
+...
+
+> +static inline const char *gpiod_name(const struct gpio_desc *desc)
+> +{
+> +	WARN_ON(desc);
+> +	return "(no gpio)";
+
+Hmm... This will be a second copy with a slight potential of going apart from
+the other case. Perhaps a #define? (Yes, yes, I understand that there are pros
+and cons, in particular readability with define is questionable.)
+
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-pw-bot: changes-requested
-
-Thanks,
-Conor.
-
-> -
->    nvidia,xusb-padctl:
->      $ref: /schemas/types.yaml#/definitions/phandle
->      description: phandle to the XUSB pad controller that is used to conf=
-igure
-> @@ -137,6 +105,83 @@ properties:
->  allOf:
->    - $ref: usb-xhci.yaml
-> =20
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - nvidia,tegra234-xusb
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          minItems: 2
-> +          description: |
-> +            The first two interrupts are required for the USB host contr=
-oller.
-> +            The remaining USB wake event interrupts are optional. Each U=
-SB wake
-> +            event is independent; it is not necessary to use all of thes=
-e events
-> +            on a platform. The USB host controller can function even if =
-no
-> +            wake-up events are defined. The USB wake event interrupts are
-> +            handled by the Tegra PMC; hence, the interrupt controller fo=
-r these
-> +            is the PMC and the interrupt IDs correspond to the PMC wake =
-event
-> +            IDs.
-> +
-> +            PMC wake-up 76 for USB3 port 0 wakeup
-> +            PMC wake-up 77 for USB3 port 1 wakeup
-> +            PMC wake-up 78 for USB3 port 2 and port 3 wakeup
-> +            PMC wake-up 79 for USB2 port 0 wakeup
-> +            PMC wake-up 80 for USB2 port 1 wakeup
-> +            PMC wake-up 81 for USB2 port 2 wakeup
-> +            PMC wake-up 82 for USB2 port 3 wakeup
-> +          items:
-> +            - description: xHCI host interrupt
-> +            - description: mailbox interrupt
-> +            - description: USB wake event 0
-> +            - description: USB wake event 1
-> +            - description: USB wake event 2
-> +            - description: USB wake event 3
-> +            - description: USB wake event 4
-> +            - description: USB wake event 5
-> +            - description: USB wake event 6
-> +        iommus:
-> +          maxItems: 1
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - nvidia,tegra264-xusb
-> +    then:
-> +      properties:
-> +        interrupts:
-> +          minItems: 2
-> +          description: |
-> +            Same as Tegra234, with one additional optional USB wake event
-> +            interrupt. USB3 port 2 and port 3 each have a dedicated wake=
- event
-> +            interrupt on Tegra264.
-> +
-> +            PMC wake-up 79 for USB3 port 0 wakeup
-> +            PMC wake-up 80 for USB3 port 1 wakeup
-> +            PMC wake-up 81 for USB3 port 2 wakeup
-> +            PMC wake-up 82 for USB3 port 3 wakeup
-> +            PMC wake-up 83 for USB2 port 0 wakeup
-> +            PMC wake-up 84 for USB2 port 1 wakeup
-> +            PMC wake-up 85 for USB2 port 2 wakeup
-> +            PMC wake-up 86 for USB2 port 3 wakeup
-> +          items:
-> +            - description: xHCI host interrupt
-> +            - description: mailbox interrupt
-> +            - description: USB wake event 0
-> +            - description: USB wake event 1
-> +            - description: USB wake event 2
-> +            - description: USB wake event 3
-> +            - description: USB wake event 4
-> +            - description: USB wake event 5
-> +            - description: USB wake event 6
-> +            - description: USB wake event 7
-> +        iommus:
-> +          maxItems: 5
-> +
->  unevaluatedProperties: false
-> =20
->  examples:
-> --=20
-> 2.25.1
->=20
-
---eqDp6fcqM2UH+2oI
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCakKNZwAKCRB4tDGHoIJi
-0mfTAP9A9GmGGdOGVMyr6X9sPpaTSh4nzhGwFvLGrU+wledLKwEA1gnN+c4MbrQN
-c9h/2QDvCBQLEbB5tocWAg7MFq+CXAg=
-=N0ZX
------END PGP SIGNATURE-----
-
---eqDp6fcqM2UH+2oI--
