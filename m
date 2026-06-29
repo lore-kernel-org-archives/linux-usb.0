@@ -1,149 +1,253 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D8238CFFA
-	for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 05:31:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782711071; cv=pass; b=esCWqSLtQPhTyenUhSDrKFgIYiXCYELhv6AmDJ2b7iTZsBl3Oq3TRkMwyGKEKqQUlv8hBd6R1oUoakYHUais9kJNKz8XM1DXj5ruHbXlfUuDWF9f8iay0jQegSnF57MUTZwOy8ywJdn6j+4CHDtA9VAWLCtbFq2RxyEEVrYaLIw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782711071; c=relaxed/simple;
-	bh=epmWe8s3QLJXcy4rA2U5Y/B/KOdqRodzVHArrGYs0W4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ih80u0gWmN9DkNv26HL80kb+vIWF6B3riR3oMX/EtX26s9Wqd8i3aEMTXBrzAT3xdlNWq2YMBElU5lWrOLFmm+DR6mv1+D9TVAAEJQobxj2oF90HstdUm49G/aPnNy3mJvFaLuVWkJ0iMHjr0v0DeCP0BAuFuWX6/KavdYiB+KI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AV4j0iMx; arc=pass smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15DDA389107;
+	Mon, 29 Jun 2026 06:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782714475; cv=none; b=KN6eS0hUuiTJLd9cvNyHJYY/L4js3Cx76DYzCZTNbQDmwIn44BumrqbRXxGcju3J0/KXhQ1PCk/CsTEzfCytWNzOOkxV4CALlSiKShhFHwf2YMy/fUjKhMq3TpSjDsIylCorYWLGUnJzt32tCSu10GlkSNSRkvASPJSft7EgFvY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782714475; c=relaxed/simple;
+	bh=CEoNdJbM+G0EYznPjnQPpoh429ZsOMIvdd62gxFGavs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eMVOXBIFbFl0+XbG4Ubb1MafbF+8KiFN5j/MqP/punyjIKqtulCpcuf+AH1HMkBHce3nn6RvxbYhlrtHjh2V/uazwlwdwl1HZRtbNX1HTpEtwaWn/YNnDD1pkp0PPJOilz2R4l2MXBB1yscKBO05cZ6BbzbNPGnSA2E2TqjczMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XUoHVk1I; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AV4j0iMx"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c126fe7d0f3so34747966b.0
-        for <linux-usb@vger.kernel.org>; Sun, 28 Jun 2026 22:31:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782711062; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Dnuqh/kYuf8hYwk4cd1wqiTCLcUNM/LbWoErXtiCqC9sQ4Xdtx2uHNKLSlF1/mMwRa
-         WkZGBXKFmU+0KLsDuBfpwT6u7RqJ2k29tbw6g8LhbqdrMoJV8xO5WLk1E0cAlLsgEXg8
-         sz/eBYH5+ntp15kCqzZJ5XGael4FF7ZYstAm2+j+4YcSE4JK4IpAaEg5dREds4YSV7Yc
-         tjyC03MzIATkGpgnFCj136kp8ZMH3viZ6N+c0CGu3OK+AhHDicB/Ev+w4VYDhrimNzcF
-         TdIodSFclqT59N0jhTdiXYKrxQMhjvugsbbr31DXWn8lbPZk7m7M5UVEmYiQsEcVh+EH
-         m3Fg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=epmWe8s3QLJXcy4rA2U5Y/B/KOdqRodzVHArrGYs0W4=;
-        fh=pLwuIsqWaWqv1g+B5z2dhQSEqmg8DYyi0d9vyjHUX5k=;
-        b=eV63uKA29+yQBIhNkPbbsu/sZvL+JN1oM1OJo0m9oYHzO/lCHrVmDB32tLAG0hpXQC
-         WM+tdGzs54lpssx3H/YzkUz6mMOw8IHTgzZMzQM0qUkwgeYUWPc+lXDDP2u2EJ3tBbkn
-         O0hW3CCEBrNmX8/0ujkZ85T1QUr3lr3oXhqtCD3EvqUZX2f+y7P6T+KEued5NOZh548I
-         BVLTxCmvFZkgQZGW/Md1NL8J2Rj9dwnLd1VONX30Ivpg7FDdwkLc2xJbPdwe249nqfza
-         2XPFRB55pgl5AlYexsB1z7xqaGtQvu8kJdKeR3CFnaDRzGwNyV+bkgruqaVhbRORznm8
-         oUxw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782711062; x=1783315862; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=epmWe8s3QLJXcy4rA2U5Y/B/KOdqRodzVHArrGYs0W4=;
-        b=AV4j0iMxr+XjllNcw9Eu7cPbbJJRXgdZRub0lsu6FrFGGmGRRomZmdBv4ITGv20bbK
-         ijAiIDEi0drAUIap7BTghHqkmP58Fvu6iVRH3nzKiup5rSoPwdZpbvxrOlEc5a3O0uOy
-         0nwUaHB9GbI6cdw2ReM4r3WYhh4gY8bZl7AmAXIk6YTzBbDMfLmCl6fklSGkqaSMqkZu
-         eliHS0scf2+h5x0y2jZujNZOX0yBLI8ekRw2Q6sObbclqM2zrXffjAUIGVEo4taiVRzM
-         jfAZ330NqTAFuNCRZ/Rmopgfx+3P8T5VD8PpotMvU7YDUQkYknXK5rou7ipfD0Vcpuo9
-         8Q4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782711062; x=1783315862;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=epmWe8s3QLJXcy4rA2U5Y/B/KOdqRodzVHArrGYs0W4=;
-        b=gvogbjuR1YWll9B8s3js0lHnS5I2phuARbFZnkCGe4434Y+pIWQ1ouquMVZGoAwl4x
-         JhfWBwT+ZnxqY1I7XhmyzczV3PX/vggG2CR9jXSjyHZC1CF47zSjhWaM6d/UUF8JfyNB
-         YilZHtKQydlkQH1OYadpw4vS55QlJTTtp0F4c8iLWzSo7vQj25Iqaxpw56OvfPtSyFBX
-         hX3uPg8jJmYCIPJ7/GiVySB78g0THcfm+f23yAg5/NUv4rPwdZjMQb3QXibkcQ7z9Cze
-         mrq+IqNzLm8pJPG9iMrX0Loqpo161/ZLNgtCDBIjPRD023hWRuygjy0Qhl18DRg1oTFI
-         mGmg==
-X-Gm-Message-State: AOJu0YyzwlOmB/IHMBwRfqMPTGMD+7+OxAJ7BICjjxxkMF96+dUgBcYV
-	XtPSseSaFyoyJeyBU+STePPxRIqT9tNJmpdS7zpPz5+6uk1RA5+DRSMmR80s7HJczTwf8zv2UPt
-	vUFum2/dylFWyPr1+zZhJpiPK5W0I4eo=
-X-Gm-Gg: AfdE7clKGjUF9vQmvTb86uKIyQAo2EQsbJqSed4z6Zj3QvHeEQZ65bjfhsvlSqiz+sk
-	ws3/Tq4xd0eM/AItR20pgG6U6WmQz1208Ga/xN53GbXbwoJMAI1dFyx9WbCPsoTvvUCUw4dwbcG
-	1ssPojj2knKddV0KuXBY2MY7P39CqM3x8+XqPRCsGqiPAFpLCefYl5SPiAGCGXjrukvKL/A1lKl
-	zLRPRBC2usXKUv3aNSkJqpQZHIMemgc9Dtz/nib2NrtHtSHTjlZsh6VXheZY1e8KmBYnBLsyihp
-	8d2tuTM=
-X-Received: by 2002:a17:906:c141:b0:c12:2aac:2b4b with SMTP id
- a640c23a62f3a-c12336c2698mr415388166b.44.1782711062080; Sun, 28 Jun 2026
- 22:31:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XUoHVk1I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10E361F000E9;
+	Mon, 29 Jun 2026 06:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782714473;
+	bh=8diiuVvstmh7e4zfvwC2TUp3d+EiAMlelXELW0j1hjI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=XUoHVk1IkDHpBf/rl1gBmvmCwGQXinaUwLcSEq8EvP3XGURvE/T00WCGDMaDt9/Ha
+	 ClQlj6YrvXnwFi6pa2mQYOM69K0jgcIK24NBAjAk1+JOm9DWkAutR2dsUeNNtxdbOS
+	 gq6WMK/Zz9vb8+mVM4lzCx0LF/BC84Lgwd/AsqDWo8s/l9nG/cgz1D+Fus+SQXB8qq
+	 dQ3FWrXaWWDEyfbHi5nHuqSMBPSjfaebnbmkQU+g27mXs33Jn4cPRbf/4AiRWt25Ro
+	 LeieO9Rj3+pCr4LnifXrjcDB2MgHMmur19W0Ki1FDuerhlZKi1gNC92u45zL7+GBLo
+	 4azJoKnYhHOwQ==
+Message-ID: <85cf5045-b52b-4aaa-a038-ca1b856b55f9@kernel.org>
+Date: Mon, 29 Jun 2026 08:27:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com> <20260628231634.6752f74d.michal.pecio@gmail.com>
-In-Reply-To: <20260628231634.6752f74d.michal.pecio@gmail.com>
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Date: Mon, 29 Jun 2026 11:00:44 +0530
-X-Gm-Features: AVVi8Cetk7IhAA3m56dYLZoJwEj6Rfc_rSgjh_WDaPAAo5ultThdmtlYIIEH2Xw
-Message-ID: <CAFgddh+AUNH9Ji-Qd=BKEDZWJrzPMWN20-g-htQDPSdSehZStQ@mail.gmail.com>
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, stern@rowland.harvard.edu, 
-	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: WARNING in usb_free_urb
+To: sanan.hasanou@gmail.com, vbabka@suse.cz, akpm@linux-foundation.org,
+ cl@gentwo.org, rientjes@google.com, roman.gushchin@linux.dev,
+ harry.yoo@oracle.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Cc: syzkaller@googlegroups.com, contact@pgazz.com,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <6a3eeead.7fb353d3.354599.b0b0@mx.google.com>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=vbabka@kernel.org; keydata=
+ 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
+In-Reply-To: <6a3eeead.7fb353d3.354599.b0b0@mx.google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> And here it's USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE, but in the commit
-> message it was USB_QUIRK_CONFIG_SIZE.
+On 6/26/26 23:27, sanan.hasanou@gmail.com wrote:
+> Good day, dear maintainers,
+> 
+> We found a bug using a modified version of syzkaller.
 
-Yes, I have fixed it already.
+Subject says "usb_free_urb" but you only CC'd slab maintainers, where slab
+slab is most likely a victim here of e.g. double kfree() or a kfree() of
+otherwise broken pointer.
 
-> Honestly, I would suggest a third option: something with "255" instead
-> of "Windows", because not everybody knows how windows queries
-> descriptors, but everybody knows what 255 is.
+Ccing USB and EM28XX maintainers. But they can feel free to ignore this per
+the next point.
 
-Well naming ain't my strong suit (if I name something, it will
-definitely get called out). Do you have a specific name in mind? if
-your concern lies more in people not knowing what Windows does, should
-i just make it apparent in a comment where it is set?
+> Kernel Branch: 7.0-rc1
 
-> That's a lot of capital letters, USBCONFIG_WINDOWS_REQ_SIZE never
-> appears outside this function and personally I would just spell it out
-> as 255 here with appropriate comment.
+Why use such a version for fuzzing? rc1 will have many bugs that are already
+fixed in 7.0 final. And it's not even latest, 7.1 was released 2 weeks ago too.
 
-I wanted to avoid the plausible "avoid magic numbers" criticism. If
-everybody else is fine with bare 255, I will just do that then.
+> Kernel Config: <https://drive.google.com/open?id=1zJHAs5GUroGFBkxAlzfDaWAd_NVPZTfJ>
+> Unfortunately, we don't have any reproducer for this bug yet.
+> Thank you!
+> 
+> Best regards,
+> Sanan Hasanov
+> 
+> 179683 pages reserved
+> 0 pages cma reserved
+> Memory cgroup min protection 0kB -- low protection 0kB
+> ------------[ cut here ]------------
+> !PageLargeKmalloc(page)
+> WARNING: mm/slub.c:6352 at free_large_kmalloc+0xb3/0x160 mm/slub.c:6352, CPU#1: kworker/1:4/12317
 
+A kfree() was attempted on a pointer that's neither from a slab page nor a
+large kmalloc page. Might be double free or corrupted.
 
-> > + bigbuffer = (unsigned char *) desc;
-> > + desc = NULL;
->
-> What happens in the next iteration of the loop?
+> Modules linked in:
+> CPU: 1 UID: 0 PID: 12317 Comm: kworker/1:4 Tainted: G             L      7.0.0-rc1 #1 PREEMPT(full) 
+> Tainted: [L]=SOFTLOCKUP
+> Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> Workqueue: events request_module_async
+> RIP: 0010:free_large_kmalloc+0xb3/0x160 mm/slub.c:6352
+> Code: 25 00 00 00 ff 3d 00 00 00 f8 0f 85 a6 00 00 00 c7 43 30 ff ff ff ff 48 89 df 44 89 f6 e8 45 d9 fc ff 5b 41 5e 41 5f 5d c3 90 <0f> 0b 90 48 89 df 48 c7 c6 b7 4c 72 8d e8 cb e8 08 ff eb e4 90 0f
+> RSP: 0018:ffffc900028e76f8 EFLAGS: 00010287
+> RAX: 00000000f0000000 RBX: ffffea00019a5c00 RCX: ffff888067550001
+> RDX: 0000000000000000 RSI: ffff888066970000 RDI: ffffea00019a5c00
+> RBP: ffffc900028e7710 R08: ffff888049c40603 R09: 1ffff110093880c0
+> R10: dffffc0000000000 R11: ffffed10093880c1 R12: ffff888066970000
+> R13: ffffffff870bc0f1 R14: 0000000000000000 R15: dffffc0000000000
+> FS:  0000000000000000(0000) GS:ffff8880ef136000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007fba7e4bf008 CR3: 000000005776b000 CR4: 00000000000006f0
+> Call Trace:
+>  <TASK>
+>  kfree+0xae/0x630 mm/slub.c:6437
+>  urb_destroy drivers/usb/core/urb.c:25 [inline]
 
-Disaster to say the least. A memcpy in bigbuffer and memset(0,..) on
-desc would be the correct approach here, wouldn't it?
+static void urb_destroy(struct kref *kref)
+{
+        struct urb *urb = to_urb(kref);
 
-On that note, I discovered that usb_get_descriptor just blindly trusts
-the caller with the allocation of buf, it never checks if buf is null
-or not. There is only a check for the size. and then there is a
-memset(buf, 0, size). This results in a segfault if buf is NULL and
-size > 0. Perhaps it's time for a new patch to fix this?
+        if (urb->transfer_flags & URB_FREE_BUFFER)
+                kfree(urb->transfer_buffer);  <--- this one
 
-> I wonder if it wouldn't make sense to split announce_device() so that
-> the first line is printed as soon as usb_new_device() starts, before
-> enumeration is attempted and possibly fails.
+        kfree(urb);
+}
 
-Do you want something like announce_device_ids() where it would only
-print out the first "New Usb device found..." line? and then
-announce_device_strings()?
+>  kref_put include/linux/kref.h:65 [inline]
+>  usb_free_urb+0xd1/0x120 drivers/usb/core/urb.c:96
 
-Perhaps even another macro announce_device that does both? But its
-only used in one place, so I doubt it would be necessary.
+USB layer itself is likely also not the root cause.
 
-> That would be a separate patch, of course.
+>  em28xx_uninit_usb_xfer+0x165/0x310 drivers/media/usb/em28xx/em28xx-core.c:833
+>  em28xx_alloc_urbs+0xf2a/0x1130 drivers/media/usb/em28xx/em28xx-core.c:-1
+>  em28xx_dvb_init+0x2b0/0x4a20 drivers/media/usb/em28xx/em28xx-dvb.c:-1
+>  em28xx_init_extension+0x121/0x1d0 drivers/media/usb/em28xx/em28xx-core.c:1117
 
-If i have to make this change, should this be a completely separate
-patch or is it fine to include it in this patchseries?
+So it might be this driver doing something wrong?
 
-Thanks,
-Nikhil Solanke
+>  request_module_async+0x5e/0x80 drivers/media/usb/em28xx/em28xx-cards.c:3457
+>  process_one_work kernel/workqueue.c:3275 [inline]
+>  process_scheduled_works+0xae1/0x1800 kernel/workqueue.c:3358
+>  worker_thread+0xa0f/0xf70 kernel/workqueue.c:3439
+>  kthread+0x37d/0x470 kernel/kthread.c:467
+>  ret_from_fork+0x507/0xb90 arch/x86/kernel/process.c:158
+>  ret_from_fork_asm+0x11/0x20 arch/x86/entry/entry_64.S:245
+>  </TASK>
+> 
+> <<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
+> 
+> Modules linked in:
+> CPU: 1 UID: 0 PID: 12317 Comm: kworker/1:4 Tainted: G             L      7.0.0-rc1 #1 PREEMPT(full) 
+> Tainted: [L]=SOFTLOCKUP
+> Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> Workqueue: events request_module_async
+> RIP: 0010:free_large_kmalloc+0xb3/0x160
+> Code: 25 00 00 00 ff 3d 00 00 00 f8 0f 85 a6 00 00 00 c7 43 30 ff ff ff ff 48 89 df 44 89 f6 e8 45 d9 fc ff 5b 41 5e 41 5f 5d c3 90 <0f> 0b 90 48 89 df 48 c7 c6 b7 4c 72 8d e8 cb e8 08 ff eb e4 90 0f
+> RSP: 0018:ffffc900028e76f8 EFLAGS: 00010287
+> RAX: 00000000f0000000 RBX: ffffea00019a5c00 RCX: ffff888067550001
+> RDX: 0000000000000000 RSI: ffff888066970000 RDI: ffffea00019a5c00
+> RBP: ffffc900028e7710 R08: ffff888049c40603 R09: 1ffff110093880c0
+> R10: dffffc0000000000 R11: ffffed10093880c1 R12: ffff888066970000
+> R13: ffffffff870bc0f1 R14: 0000000000000000 R15: dffffc0000000000
+> FS:  0000000000000000(0000) GS:ffff8880ef136000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007fba7e4bf008 CR3: 000000005776b000 CR4: 00000000000006f0
+> Call Trace:
+>  <TASK>
+>  kfree+0xae/0x630
+>  usb_free_urb+0xd1/0x120
+>  em28xx_uninit_usb_xfer+0x165/0x310
+>  em28xx_alloc_urbs+0xf2a/0x1130
+>  em28xx_dvb_init+0x2b0/0x4a20
+>  em28xx_init_extension+0x121/0x1d0
+>  request_module_async+0x5e/0x80
+>  process_scheduled_works+0xae1/0x1800
+>  worker_thread+0xa0f/0xf70
+>  kthread+0x37d/0x470
+>  ret_from_fork+0x507/0xb90
+>  ret_from_fork_asm+0x11/0x20
+>  </TASK>
+> Kernel panic - not syncing: kernel: panic_on_warn set ...
+> CPU: 1 UID: 0 PID: 12317 Comm: kworker/1:4 Tainted: G             L      7.0.0-rc1 #1 PREEMPT(full) 
+> Tainted: [L]=SOFTLOCKUP
+> Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+> Workqueue: events request_module_async
+> Call Trace:
+>  <TASK>
+>  __dump_stack+0x21/0x30
+>  dump_stack_lvl+0x2b/0x150
+>  dump_stack+0x19/0x20
+>  vpanic+0x53e/0xa20
+>  panic+0xb9/0xc0
+>  __warn+0x320/0x500
+>  __report_bug+0x28d/0x500
+>  report_bug+0x175/0x220
+>  handle_bug+0x9c/0x200
+>  exc_invalid_op+0x1f/0x50
+>  asm_exc_invalid_op+0x1f/0x30
+> RIP: 0010:free_large_kmalloc+0xb3/0x160
+> Code: 25 00 00 00 ff 3d 00 00 00 f8 0f 85 a6 00 00 00 c7 43 30 ff ff ff ff 48 89 df 44 89 f6 e8 45 d9 fc ff 5b 41 5e 41 5f 5d c3 90 <0f> 0b 90 48 89 df 48 c7 c6 b7 4c 72 8d e8 cb e8 08 ff eb e4 90 0f
+> RSP: 0018:ffffc900028e76f8 EFLAGS: 00010287
+> RAX: 00000000f0000000 RBX: ffffea00019a5c00 RCX: ffff888067550001
+> RDX: 0000000000000000 RSI: ffff888066970000 RDI: ffffea00019a5c00
+> RBP: ffffc900028e7710 R08: ffff888049c40603 R09: 1ffff110093880c0
+> R10: dffffc0000000000 R11: ffffed10093880c1 R12: ffff888066970000
+> R13: ffffffff870bc0f1 R14: 0000000000000000 R15: dffffc0000000000
+>  kfree+0xae/0x630
+>  usb_free_urb+0xd1/0x120
+>  em28xx_uninit_usb_xfer+0x165/0x310
+>  em28xx_alloc_urbs+0xf2a/0x1130
+>  em28xx_dvb_init+0x2b0/0x4a20
+>  em28xx_init_extension+0x121/0x1d0
+>  request_module_async+0x5e/0x80
+>  process_scheduled_works+0xae1/0x1800
+>  worker_thread+0xa0f/0xf70
+>  kthread+0x37d/0x470
+>  ret_from_fork+0x507/0xb90
+>  ret_from_fork_asm+0x11/0x20
+>  </TASK>
+> Kernel Offset: disabled
+> Rebooting in 86400 seconds..
+> 
+> <<<<<<<<<<<<<<< tail report >>>>>>>>>>>>>>>
+
