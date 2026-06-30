@@ -1,91 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5782C224B04;
-	Tue, 30 Jun 2026 21:55:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592E040D574;
+	Tue, 30 Jun 2026 22:42:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782856549; cv=none; b=k1RVh0q59DP4nGsY7qMQL4gDNTtqct6wzASbZtmGj5n53JFBC3yZGLLhOTz0e6HUkm1p3vM27iW6L1BxSPU8Ct2wX5M06hinhYHtpHtPCf/7otSSCnQu/9oKUkkpNN3R7XgU381+v7W5yet3A+ERR3z6pPskcatse+jxHdA/Kg8=
+	t=1782859377; cv=none; b=qM77HRUBQpoKm83jHKnM3w5DlThJtxb3RkLgywyCjSHoKq5Nluh9UCc4l3KrvLuRZkHUv1fZYjMahay6Vw5u6I+FgbYZ11vwyWEoPllYQuUv6vOoGin/9PpiMJG5eyxHQMigePFYWG7JHxn9VjEQZ75Eksc7kATApeSv+wslYsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782856549; c=relaxed/simple;
-	bh=AzgWfUadsxXXl91k1YepQX3sOGSydX+rniN6XnLDOWk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=b2oakdQdUltpWLWyABplN5YILrb+HuEZbP5KDE3tF1A+EW/eOp9lRHr4U5pu8GSZEYbMPbVL0K2W66CG5uWxeJxsgHgWvryFNcMFNPMLW8g6U4AgPXPtdMqGaS8gN269czppm0VTplk7azcOl9gVhW/TROEvieAG+jkkPkEsjRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dCg0wK7L; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782859377; c=relaxed/simple;
+	bh=luNVmqhdNWNPyAJ0G9onacvp8OC3uiAo1Jp3h3h/H7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oA7pu7kivJd8JJcJeGxrO8iugGiUdvaDbruJdwcaNvBw+cPbZmtjrCtujNNQP3AVYxbDKYCN+lFxOsqzoaLBHfFp3Ws/XWJSMzZfvKUUumAoLrvO55u1v9jzxE2mlk5J3Zohgn0A82Jfffo4C2cwYevI6GLNFMBr1laSDFvJZhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QiGzyGF6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dCg0wK7L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 313291F000E9;
-	Tue, 30 Jun 2026 21:55:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QiGzyGF6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F10471F000E9;
+	Tue, 30 Jun 2026 22:42:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782856547;
-	bh=srQ9IMbSxBsXUogcwFbDc7WcbubgWp0stEVi0zSwC6E=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=dCg0wK7L3bAkrxJoAbg45PoI34akiDZgSlNyyLIAamfVjDexyiIkIfvKLOe94+e3h
-	 fYu1HtabqCs0J2HACQlB6vjzzMebaz+UPBSdWNfQ8fnzZlXcnqTCzsqly4aX6yNOGj
-	 W17JJH8WW8KES68nl8XgWsN7nEuzreDQm11jUX0h/4hW6VrG95FrP52muTNxX3YRwP
-	 mGttoi80U+NS9u07u+uup/j3Gn3/keNvW5kO89L0DeBkqxW8bSBoqew2mvdhntxVeV
-	 uP/dY+tk138kjMIyqJRLDYu4+0jNMOTerwGREgg3YmQQrr/DY0nli4SRh60DZGMGWM
-	 tlpozJ+B+IB9Q==
+	s=k20260515; t=1782859376;
+	bh=kGD5WRMQdZ0R+3egv71JkQENkPVVjj9qHKXmH1pqyNM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=QiGzyGF6P7Iuj+S3oUqZ8t96qYBQszc+u7XoKV1SPrGYJG73TtkADOMrh7VfonEpT
+	 KgCYhOUEUjIeSm7r5IzOcxZKnFe+zzdPqzcY7aaBU4NwV1lWkMZGX3NH5S4ndXDsq2
+	 yaFLhDtlc+ZhQ6t7Ibha5528oMpD/bsvtRWc6uQ7iwvnuqPt+6S2NkDNxJ/g9VTFkZ
+	 LypyibTSbTu0nEb53RpRH4YqReCXtqtklKyC8TVwMjcUToJl1HRU2upqIm+LHxYTkW
+	 6zC3tSz30EKthKaIUx+BT1YmMmUnmb9vY7h+8jApw/e81R+1KFtLPvbAOOFfJ6+Nb6
+	 qHmUICs7XUcQw==
+Date: Tue, 30 Jun 2026 15:42:55 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: "Tianchu Chen" <tianchu.chen@linux.dev>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH] net: usb: cx82310_eth: stop parsing reboot marker as
+ packet
+Message-ID: <20260630154255.2954c33a@kernel.org>
+In-Reply-To: <e87b8ecf4bbcf87635d144508bf35377dd5397b3@linux.dev>
+References: <700e16e9523d7f1299b00df75b13a3c66b6e517b@linux.dev>
+	<20260629174458.6ebf647d@kernel.org>
+	<e87b8ecf4bbcf87635d144508bf35377dd5397b3@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 30 Jun 2026 23:55:44 +0200
-Message-Id: <DJMPWDSKN8C3.1Z3RQ8WGH563R@kernel.org>
-Subject: Re: [PATCH 4/4] usb: fix UAF when probe runs concurrent to dyn ID
- removal
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, =?utf-8?q?Toke_H=C3=B8iland-J=C3=B8rgensen?=
- <toke@toke.dk>, "Johan Hovold" <johan@kernel.org>,
- <linux-wireless@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-usb@vger.kernel.org>, <driver-core@lists.linux.dev>
-To: "Gary Guo" <gary@garyguo.net>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260630-usb_dyn_id_uaf-v1-0-160a02be5ac2@garyguo.net>
- <20260630-usb_dyn_id_uaf-v1-4-160a02be5ac2@garyguo.net>
-In-Reply-To: <20260630-usb_dyn_id_uaf-v1-4-160a02be5ac2@garyguo.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue Jun 30, 2026 at 1:38 PM CEST, Gary Guo wrote:
-> @@ -320,7 +321,8 @@ static int usb_probe_interface(struct device *dev)
->  	struct usb_driver *driver =3D to_usb_driver(dev->driver);
->  	struct usb_interface *intf =3D to_usb_interface(dev);
->  	struct usb_device *udev =3D interface_to_usbdev(intf);
-> -	const struct usb_device_id *id;
-> +	struct usb_device_id id;
-> +	const struct usb_device_id *matched_id;
->  	int error =3D -ENODEV;
->  	int lpm_disable_error =3D -ENODEV;
-> =20
-> @@ -340,11 +342,12 @@ static int usb_probe_interface(struct device *dev)
->  		return error;
->  	}
-> =20
-> -	id =3D usb_match_dynamic_id(intf, driver);
-> -	if (!id)
-> -		id =3D usb_match_id(intf, driver->id_table);
-> -	if (!id)
-> -		return error;
-> +	if (!usb_match_dynamic_id(intf, driver, &id)) {
-> +		matched_id =3D usb_match_id(intf, driver->id_table);
-> +		if (!matched_id)
-> +			return error;
-> +		id =3D *matched_id;
-> +	}
+On Tue, 30 Jun 2026 10:30:53 +0000 Tianchu Chen wrote:
+> June 30, 2026 at 8:44 AM, "Jakub Kicinski" <kuba@kernel.org mailto:kuba@kernel.org?to=%22Jakub%20Kicinski%22%20%3Ckuba%40kernel.org%3E > wrote:
+> > On Thu, 25 Jun 2026 15:32:04 +0000 Tianchu Chen wrote:
+> > > From: Tianchu Chen <flynnnchen@tencent.com>
+> > >  
+> > >  Discovered by Atuin - Automated Vulnerability Discovery Engine.
+> > >  
+> > >  cx82310_rx_fixup() treats an RX length of 0xffff as a device reboot
+> > >  marker and schedules work to re-enable ethernet mode, but then continues
+> > >  processing the marker as a normal packet length. This is an out-of-bounds
+> > >  heap write controlled by the usb device.
+> > >   
+> > Where? Can you be more specific in the commit message? At a glance 
+> > the accesses seem to be bound-checked with skb->len.
+> > -- 
+> > pw-bot: cr
+> >  
+> 
+> 
+> The "len > skb->len" check bounds the source read, but the overflow is on the
+> destination buffer.
+> 
+> The buggy path is:
+> 
+> 	if (len == 0xffff) {
+> 		netdev_info(dev->net, "router was rebooted, re-enabling ethernet mode");
+> 		schedule_work(&priv->reenable_work);
+> 		/* <- BUG: missing return; 0xffff bypasses the oversized-length reject */
+> 	} else if (len > CX82310_MTU) {
+> 		netdev_err(dev->net, "RX packet too long: %d B\n", len);
+> 		return 0;
+> 	}
+> 	if (len > skb->len) {
+> 		dev->partial_len = skb->len; // skb->len is bounded by the USB transfer size (4K)
+> 		dev->partial_rem = len - skb->len;
+> 		memcpy((void *)dev->partial_data, skb->data,
+> 		       dev->partial_len); /* <- TRIGGER: can copy 4K bytes into 1516-byte partial_data */
 
-I think this could just be:
+If skb->len (== dev->partial_len) is not bound-checked to the size
+of dev->partial_data - aren't there more paths that could hit this
+overflow? Are you fixing the right thing?
 
-	struct usb_device_id id_copy;
+> ...
+> ...
+> 	}
+> 
+> For normal oversized lengths, the len > CX82310_MTU branch rejects
+> before this copy. But 0xffff is special-cased and falls through. With a
+> 4096-byte RX URB, after the 2-byte length header is pulled, skb->len can
+> be 4094, while partial_data is allocated as dev->hard_mtu
+> (CX82310_MTU + 2, 1516 bytes).
+> 
+> So the source read is bounded by skb->len; the destination write is not.
+> 
+> I am happy to send a v2 with this spelled out more clearly in the commit message
+> if needed.
+> 
+> Best regards,
+> Tianchu Chen
+> 
 
-	if (usb_match_dynamic_id(intf, driver, &id_copy)) {
-		id =3D &id_copy;
-	} else {
-		id =3D usb_match_id(intf, driver->id_table);
-		if (!id)
-			return error;
-	}
-
-Avoids the unnecessary copy and also results in a smaller diff.
