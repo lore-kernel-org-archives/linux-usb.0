@@ -1,122 +1,127 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D21A381AED
-	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 04:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782795076; cv=pass; b=K0OwkMmVbWmq7pEAwK3lQUylbGinBK87FsOXtCnmQOyxKTeAMXsqdfCTuqVN+eYELrZk5wJLq69bVPaWYQgpoEP+TiTnun/ndu+VmSNo08AE9gvpTYHEghORTpZySs0kiXatKsOkxpdZdD8RsJ4U++E+3ZEqEIe0rHMTv9yBlqs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782795076; c=relaxed/simple;
-	bh=TRjVtJVVkYCXrDDyEP2GKqv9i4PVdFAjyE8Km8RSnC4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NXD3FVXwAlpgJ3I+sWYtuBQoemEr7J2wRCMUddVoZ6zv2RCs45YCAOuBY76uEa5KmTy15ywswIu9dOtocEQ28yJctLCq0KPxZxHQ8a/UBww807iBgrPMQGRorQwR3LgieYUIYrrytMF9uLmxLT5I6ldwcSt2UvRasqej7PT9I4g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=V9y6XLoE; arc=pass smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140AA399341
+	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 04:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782795093; cv=none; b=cHiJHp+7QtvzVKWBqxmhuGz5iIvK/VMebrOc6NEY1qkfJfCPagGuz96bw89oV5iopbgBViXGGJ33gRbTMcCVYvU8nODy4iOB9nYdAwblwyJ+ePO1O+Em2IRlzZvs5Es6CnLRCsCpzDUaFSfpGt5fxWBWu2nkyJnxqcs0caSJlKw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782795093; c=relaxed/simple;
+	bh=PujPPfMdGmHyDlkNHdLKC9VmWX14ZBNcw0Eb/Lc1ai0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cSz6+He6KFmSE9fmLIagbGVp0c4n5hSAPb58IaqEgRPz43+GvQ/P0VMUsl34V5Q6MPkfn686hDt/SZL2vPkXl20h4XqipwrT8jYyOzRPYc1bXohxPBiG5S6iGc+Qrr9Ht9NlPJNvfP2yh88vLNZvxTGh4g7jyerP/0/e3f0/MH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=BYFT93R8; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="V9y6XLoE"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38005a36edbso1021459a91.1
-        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 21:51:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782795074; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lDQwETHqiibFwUWICx+GBrRPqFFq79v1mMxK+qwQGnS3MGySaxxsLWmV28Vo6Gcj2t
-         t0A9tzXNiYmjOt7qXylzA/YcWcaElfvWhqpujCuiQbkdcqU5S88XciMxaAxM2pAqhR0a
-         V8TtKqAdSGLQ0XNC0eZik2EqpiFQUW3mUSdPAXu9C2QPwlJScWGG39DZhnuBeBfBVSQr
-         ou59ZMoZ8tgQgrxeJ/gEVW03veDHc+L3Nm6ovZb25662WeDeRno2AvbXgtSIc2mv2nML
-         Q8zqgAdk0GeZ/rNE8zH4K47rn7BdVL7rAq3MUj/i8IUVxX7GLcRQTb4UaWszv35a4A9a
-         hN8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=lGUgc0kMZV3Fo7Zy8Xt0uQZgg4awqO/uttcHalUom48=;
-        fh=SFJ2y+/cZGQ97n75QySRKpJnxdQWW2y1uSKT5Zs3vEE=;
-        b=mz1lJNqNNVf2D3hyCIR6Yx70I3Gg9Eh0AcwOf78qtaSygMOOPpchzApJ7sOcHRXfTJ
-         DFAx95ckInkX/dMrfVjHBLQk4L0surLlMQWnkeu7flS35QryiMm0StCmzH6ZqlrMBVNb
-         +O5h61WBBQvQu4wrjq+yS9/175+QYDa7orHltGZBv2LHfu+81YWEEVPmMc3as81JtZx3
-         4HLGGdv3AjjsX1r/S5h76nZhoDXqrNtw28Kx1P8Bcg+xizUeaIl58P+pRJ3VTEXgHSQr
-         3jd8/BtD5LiB2saOp2BhCtS1GYraTRFZWPDWr0mxCSSk6nsBltwuA1Wh+RX9uP5toHDr
-         iR4A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="BYFT93R8"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ca265d6ca1so1343885ad.1
+        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 21:51:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=asu.edu; s=google; t=1782795074; x=1783399874; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lGUgc0kMZV3Fo7Zy8Xt0uQZgg4awqO/uttcHalUom48=;
-        b=V9y6XLoEm9pOSPMLPcWIvx3PZYPut0YC0WKSD0gO+leQ3hgNgI4fI0Fhh3Olcyl08w
-         lDlpg8gyWqNHERmuG6tynUrL+u0hb6MOKGQtXpK9LJ+4GyluI2GuoeRoA4RFh0cxFh6n
-         o78kG9Bw3jSYJ4Ms6OR7nHG7jR71k+8DFC3qQFLo7jbvToWdsitSs7OaA1MJLBvMkIuT
-         UEV/kQZVxeQ5BB2/8iwpCKafXJzK9JTMHp+LPkV1t1aVgHFj3RISiogbt/FTtnhj1QTH
-         mFgnzy3SMpsdCkUCOvDuU7JtA73jqLNAJbJXsCtgR/Ao+D4uhwhnDDMwainLaxQbMvrQ
-         QxfA==
+        d=asu.edu; s=google; t=1782795091; x=1783399891; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=u8majgDhsjuju8MljyfR5KkPklBqvXm945cQmfmoHoI=;
+        b=BYFT93R8cqXRrt4Tr2VnKuOTaKLAsNSar8WFvL0LeWzqIBWxJLfSRz2Vn2R5sps4al
+         mJUTGwWQ4mnlGor9AAic9Vt4BYbH3/0j2xmaSA4H6hhJk+Ak5YTPND2FhKehk7yhb3kK
+         3n7qzoAumf2/mn6w8y6RRM2dF/AgnotRgn18zs4NNnyWYh4AQqMLpp8cZWLfKAtZahKx
+         DoDdC1iCTzNCAmj4xAlDyV/w5xpmmZT0zRhj8tCey0ieUi4xxSFyCV50vxZpNHZVWXle
+         04lHlhx0ycNbnTkpE1z1LP9xpt6jyWdhrYb9JHxTq2Xy/m8fCv0pTK3fYKRPNudjb9mR
+         wylw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782795074; x=1783399874;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lGUgc0kMZV3Fo7Zy8Xt0uQZgg4awqO/uttcHalUom48=;
-        b=qFQDsDFfhiteMbcFcL045+MbXgk6HOeRCwcUPqnkNUghabqw6xpvLHb4fGIkZgtmoP
-         z5k3Wy2qrSpvswNz/WLRgG4X4LLa8d/lnOgiKFG6PPR7/ZVv8xSA4r1CzboTLF/WI43h
-         9kIxo7PXiauhLAX5ktg2o3gpYSWZZHgg/m7/8f1R8SXf7N7g6Env2y0HEIjiajF3P9SY
-         skNhudhULdcPgIsE8tunjHTdQHUAqsl4OLmSOHjRUSQbOhfv0j2jodtIInRD0pb1g8cx
-         Qjod16Y9M/ae5s7iBZICjD8WG0abzgwbEoge/PeLLKJEkk2bwXuUPDz28KshRXVECCek
-         NVqA==
-X-Forwarded-Encrypted: i=1; AHgh+RpnXDzGqqlBnesIvDCtLuaTBU2F7PYtZthUvaXv0OzcPZz3LwuiquEwbWwFsbJVJM2cEHFr+VEc9eI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YymWDkkQPvtHHN1Kq/OrgizGw8eQ0abAaqgcililq/rYgWlrFzf
-	jUswi5fTgLyYj9iBgOm7cTEDenYAR+R/vJYGh13fUItWLT3M8cIVL954Hu8lJv/hXK5tTTw03Oq
-	rRz5Ma976qLNU7manUS+wNFOemn3zp/d8+bqk0Y7L
-X-Gm-Gg: AfdE7cldpo6izI8t5xW4s1RNvTtK+hrraqOX54f8+WIzZtJihcQu3G8yjk45ffQD5ei
-	44vUgf49gAfePiHc8V5UHD8LwsKKaKtLV8w8ykx9Gv1iAEAUsnRjDIyQC7V2HF90hy2gEDiTYks
-	RYK9EZ0a5X0P7BLhFLSiKtoMFTpMNIfoCvsb4v69JhcxRsTwX6b92kQ8V0Ho0ITKchxVGXebarM
-	NG3mE78XTDqAauM/I8xkDiQZb6SFz+phIyFRfdR3hEp4PQfdQX+vbka/vkKhExlPxvXd1vxzOD3
-	T2huRZT7FwI4+8HdufLJkgG0JQzOlw==
-X-Received: by 2002:a17:90b:224c:b0:37c:6973:5a65 with SMTP id
- 98e67ed59e1d1-380527a8bfcmr1475127a91.17.1782795074444; Mon, 29 Jun 2026
- 21:51:14 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782795091; x=1783399891;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u8majgDhsjuju8MljyfR5KkPklBqvXm945cQmfmoHoI=;
+        b=Fc96wicwVjdKxxfkacbyQFLnN9i+eC0f4u2LaDzcRbdRNWnftetgeWssWfGeFuf0w/
+         hfQFKBy7PHqQUa9sFtLHGJVW5Q1j7k3mPS8VANiWscpLm4K6wsGSAcxJ0f0J2OSScldF
+         ZU7o7fEe5O+OHl5fAWkhqYG+qmCq3JyIjGje9xi2gmzlXLQJLKgH0C/Qc2LxPY9nVkI2
+         sh9L1aZNnukfpzJAvPHI3ZcMQIOVCctrzBxIfyFnMjtmpx/RKlbKUKTIpU7tEfkwnDlh
+         vUjirdUEfp/hsaFNN8Tremez0380Iph516EaC6a1RM51Zk2OXa4eCVsZHI2QbXROjC3L
+         Ivgg==
+X-Forwarded-Encrypted: i=1; AHgh+RqEyfeg0l1lPETEapDIbjIzVMZms3T3LuJRqn9XZQcYgTdz1hYTfcePhY5orleir1FxeFCSEyKBYfM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNIMKQ5sbmRi8cGzmzv6ekOyona0AoW3gE+z7eB8zzS4/aPast
+	ubjHKimR0T+66X1PjNet/poWJdHKFSby48j44qo4kgGEStoFSaUn8AYmgEG3HaAaSQ==
+X-Gm-Gg: AfdE7cmoNQGEiP6tN18qM6mH4sZ4gzNA3Iu7yCAxHkwaqiWHgC47kBYRnaluavk4ZI8
+	bugLDEQb85ot6mCaewv3iwEbJuKIE5ixBGxHJ+f6YRC/xEVzKhDFkM7Tmdh4MyO7Hl3+3yepSnP
+	38X15xFbf8fS0MaktcC2wUMfuve3JSF2xvngxQzpKVKK3ocWOeytvoahQqpS5dSgNBrrxJrwWSH
+	3nQVz6ojdtilne2ofueRpohQqTEbtYNzFxgrNz6Dmbio3CyYDS7lqMctjiaYGiHDe16dBlxGw/v
+	+1UrV+I4FIhUzhfJXpYSTSB9cynpSuZTzmKHU25w8GBCArAdVQU9b2a8RFeagWs5vsEy3RT5Fsb
+	l/NAw5uIJPmV10Gn0JUp599PuinFS4uZV1Lpl1Cp2wP0qNGXHkRz1uiuKk5H/d25lprE+zMh+Lk
+	zoYn+wxo4e
+X-Received: by 2002:a17:902:dac6:b0:2ca:feb:2aae with SMTP id d9443c01a7336-2ca44a1c9abmr2328505ad.21.1782795091214;
+        Mon, 29 Jun 2026 21:51:31 -0700 (PDT)
+Received: from p1.. ([2601:600:a402:c8a0:2cee:3f13:b030:dfb4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca382acd0csm4972415ad.62.2026.06.29.21.51.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 21:51:30 -0700 (PDT)
+From: Xiang Mei <xmei5@asu.edu>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Weiming Shi <bestswngs@gmail.com>,
+	Xiang Mei <xmei5@asu.edu>
+Subject: [PATCH net v2] net: usb: net1080: validate packet_len before pad-byte access in rx_fixup
+Date: Mon, 29 Jun 2026 21:51:21 -0700
+Message-ID: <20260630045121.1565324-1-xmei5@asu.edu>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260627212854.4025016-1-xmei5@asu.edu> <20260629185415.56ec8b67@kernel.org>
-In-Reply-To: <20260629185415.56ec8b67@kernel.org>
-From: Xiang Mei <xmei5@asu.edu>
-Date: Mon, 29 Jun 2026 21:51:03 -0700
-X-Gm-Features: AVVi8CewLOgWSWPBc3mXeyF3ERg0gtdsHbk009Us5gbj_iOnook_1HYN5mupzrc
-Message-ID: <CAPpSM+Rj9Y_nb1UJNN1koNebGRSwFhpvx-Ne9o3S2juqYFoEJA@mail.gmail.com>
-Subject: Re: [PATCH net] net: usb: net1080: validate packet_len before
- pad-byte access in rx_fixup
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Weiming Shi <bestswngs@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 29, 2026 at 6:54=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Sat, 27 Jun 2026 14:28:54 -0700 Xiang Mei wrote:
-> >       if ((packet_len & 0x01) =3D=3D 0) {
->
-> just add "skb->len &&" to this condition?
->
-Thanks for the review; your one-line patch is clearer.
+For an even packet_len, net1080_rx_fixup() reads the pad byte at
+skb->data[packet_len] before the skb->len != packet_len check further
+down, and packet_len is only bounded against NC_MAX_PACKET. A malicious
+NetChip 1080 device can send a short frame advertising a large even
+packet_len (e.g. 0x4000), so the pad-byte read lands past the end of the
+skb:
 
-v2 has been sent.
+  BUG: KASAN: slab-out-of-bounds in net1080_rx_fixup
+  Read of size 1 at addr ffff8880106c83c6 by task ksoftirqd/0/14
+   ...
+   net1080_rx_fixup (drivers/net/usb/net1080.c:384)
+   usbnet_bh (drivers/net/usb/usbnet.c:1589)
+   process_one_work (kernel/workqueue.c:3322)
+   bh_worker (kernel/workqueue.c:3708)
+   tasklet_action (kernel/softirq.c:965)
+   handle_softirqs (kernel/softirq.c:622)
+   ...
 
-Xiang
-> > +             if (packet_len >=3D skb->len) {
-> > +                     dev->net->stats.rx_frame_errors++;
-> > +                     netdev_dbg(dev->net, "bad packet len %d (expected=
- %d)\n",
-> > +                                skb->len, packet_len);
-> > +                     nc_ensure_sync(dev);
-> > +                     return 0;
-> > +             }
-> --
-> pw-bot: cr
+Reject the frame when packet_len >= skb->len before reading.
+
+Fixes: 904813cd8a0b ("[PATCH] USB: usbnet (4/9) module for net1080 cables")
+Reported-by: Weiming Shi <bestswngs@gmail.com>
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Xiang Mei <xmei5@asu.edu>
+---
+v2: merge two validations into one
+
+ drivers/net/usb/net1080.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/usb/net1080.c b/drivers/net/usb/net1080.c
+index 5d4a1fd2b524..19f6e1222d93 100644
+--- a/drivers/net/usb/net1080.c
++++ b/drivers/net/usb/net1080.c
+@@ -381,7 +381,7 @@ static int net1080_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+ 	skb_trim(skb, skb->len - sizeof *trailer);
+ 
+ 	if ((packet_len & 0x01) == 0) {
+-		if (skb->data [packet_len] != PAD_BYTE) {
++		if (packet_len >= skb->len || skb->data[packet_len] != PAD_BYTE) {
+ 			dev->net->stats.rx_frame_errors++;
+ 			netdev_dbg(dev->net, "bad pad\n");
+ 			return 0;
+-- 
+2.43.0
+
