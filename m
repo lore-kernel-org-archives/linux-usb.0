@@ -1,143 +1,122 @@
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B5F3B27D9
-	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 04:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782793049; cv=none; b=GVWBUSXSfR2/IRA9playvYno96tJC4spoBeZT67Ew1vgfvOJFKJXlhDbjmC08Ay7TgqKjeyv1v02ElZcxXbeyxdHh0y94mILHd3vsDBOapwfmgRNdlbrQMc5w3Bcuq0YOGuyKBnb6In+7yGE5+ONUF0hWMbjyZd0ooJtmTPOLS4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782793049; c=relaxed/simple;
-	bh=8u5uZUMqhrL/gnN85tqtWF3US52t+rBo+R6AWDwO5ck=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NUW+S8E52Z/t3fdT6ZbUiPFZIK9B10uR8oWNazPhct81cPRYWo07BYiuuItWzQlRpzDwNSwL4FapMEr0UvMshVhWPPvHd5TD2vrWCeKbDgLXdoiLO5Gsj6IeX4BEYK/wUtG6SC7PN0xtNQQ2f5xWxuFjW20I95P5WGpbWS5KZa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O323CP3q; arc=none smtp.client-ip=74.125.82.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D21A381AED
+	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 04:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782795076; cv=pass; b=K0OwkMmVbWmq7pEAwK3lQUylbGinBK87FsOXtCnmQOyxKTeAMXsqdfCTuqVN+eYELrZk5wJLq69bVPaWYQgpoEP+TiTnun/ndu+VmSNo08AE9gvpTYHEghORTpZySs0kiXatKsOkxpdZdD8RsJ4U++E+3ZEqEIe0rHMTv9yBlqs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782795076; c=relaxed/simple;
+	bh=TRjVtJVVkYCXrDDyEP2GKqv9i4PVdFAjyE8Km8RSnC4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NXD3FVXwAlpgJ3I+sWYtuBQoemEr7J2wRCMUddVoZ6zv2RCs45YCAOuBY76uEa5KmTy15ywswIu9dOtocEQ28yJctLCq0KPxZxHQ8a/UBww807iBgrPMQGRorQwR3LgieYUIYrrytMF9uLmxLT5I6ldwcSt2UvRasqej7PT9I4g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu; spf=pass smtp.mailfrom=asu.edu; dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b=V9y6XLoE; arc=pass smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=asu.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=asu.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O323CP3q"
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-139edc6bfc0so7642619c88.1
-        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 21:17:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=asu.edu header.i=@asu.edu header.b="V9y6XLoE"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38005a36edbso1021459a91.1
+        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 21:51:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782795074; cv=none;
+        d=google.com; s=arc-20260327;
+        b=lDQwETHqiibFwUWICx+GBrRPqFFq79v1mMxK+qwQGnS3MGySaxxsLWmV28Vo6Gcj2t
+         t0A9tzXNiYmjOt7qXylzA/YcWcaElfvWhqpujCuiQbkdcqU5S88XciMxaAxM2pAqhR0a
+         V8TtKqAdSGLQ0XNC0eZik2EqpiFQUW3mUSdPAXu9C2QPwlJScWGG39DZhnuBeBfBVSQr
+         ou59ZMoZ8tgQgrxeJ/gEVW03veDHc+L3Nm6ovZb25662WeDeRno2AvbXgtSIc2mv2nML
+         Q8zqgAdk0GeZ/rNE8zH4K47rn7BdVL7rAq3MUj/i8IUVxX7GLcRQTb4UaWszv35a4A9a
+         hN8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lGUgc0kMZV3Fo7Zy8Xt0uQZgg4awqO/uttcHalUom48=;
+        fh=SFJ2y+/cZGQ97n75QySRKpJnxdQWW2y1uSKT5Zs3vEE=;
+        b=mz1lJNqNNVf2D3hyCIR6Yx70I3Gg9Eh0AcwOf78qtaSygMOOPpchzApJ7sOcHRXfTJ
+         DFAx95ckInkX/dMrfVjHBLQk4L0surLlMQWnkeu7flS35QryiMm0StCmzH6ZqlrMBVNb
+         +O5h61WBBQvQu4wrjq+yS9/175+QYDa7orHltGZBv2LHfu+81YWEEVPmMc3as81JtZx3
+         4HLGGdv3AjjsX1r/S5h76nZhoDXqrNtw28Kx1P8Bcg+xizUeaIl58P+pRJ3VTEXgHSQr
+         3jd8/BtD5LiB2saOp2BhCtS1GYraTRFZWPDWr0mxCSSk6nsBltwuA1Wh+RX9uP5toHDr
+         iR4A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782793045; x=1783397845; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OjgHD+veL6Mrs93d7R3aSe1UX0mQg1cLxReyF2YhYPw=;
-        b=O323CP3qFts6eay/77P5Bgbp0JoTIDQIXpTbAo5xG4OQTLtykzxJcwieKuJM0e1n/J
-         4JHRHXVin4N8vfSQgj73907E9c/HawBqTLJg4mC0c571T7L6J5j/c+DJQEK1wdErE8IH
-         Ahu+GHiD/KbCy2CLZFAszbcdQ29yWRq5nj+csx5CPpWcjWtxr3/UhpY/Nwz27FaisPgt
-         2RaVmtSvHZQbDBZLPq/PrzIjlnVaj1aneagwCJSCLIsI8MuMtsUOBv81kAy1rZYAngIF
-         axj2u3IfLqnQt7MmnKbjuCC3JLd35YjvptO7+XTYwKrmmgRMa/0cv074haxzdd8MNW5x
-         GA8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782793045; x=1783397845;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=asu.edu; s=google; t=1782795074; x=1783399874; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OjgHD+veL6Mrs93d7R3aSe1UX0mQg1cLxReyF2YhYPw=;
-        b=GO0NFR381hfWNBERV9ZDVOnM9yQZvesG70tXJs7XWGRtDo4tMOsU+U7jw62YQCVqd7
-         AftO+v0RD3FLSEJoF8q+G5xupBMIVxNMrqImVB9caYIKlMujUwQhuEWYCbVs48PkzmdR
-         ArVMcM4Gnumm+o4quXjj5sl7lCmQ1TXFSE55VNNiL7gC38cUy0vk9a18JXHytif5d+Fe
-         +xGefc/9UpkGGrfbWzLDaO2cXsgVuM9QoaZYUOpQYy5VCIcXv3l4wNSM53xSnzyJyl9o
-         4GtVkvYNo+jqS1Xbq2+emzuLXfYy4s1uPPGAHOKO54/CTVBEoKkGSFB6qQCpYBNAZ5wd
-         +QdQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9NxTz847pp7qOGpGyMy61PTZ5eQrtfOr4Spunb/WUdprPONeTu5kRPIlnI4kb8wOZQLgFJiDhAUDs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHJvPwp+smOD1aVao1fymbujlBV7PI2UuCtPftbClKAWoZ06s3
-	QMAQ883OJtBEb+CFk+oJMhWFGqHJD6t54Drz1s3r+4quewyczXWh6gAU
-X-Gm-Gg: AfdE7cmCFjcWeWyyzvBzO7gslAWoADpnBdJGU8JXQWHwyGfiFnmQ9KnozOduhc2c74d
-	qA+XLeF2HfHtOuF1+GBkLctX6aaSKpyWYIS4kDGk16k9jVqQTslySuK/24qRbEZThElBhIvRE0i
-	8M0up72ghVF2m4dtkPa3LZSnb8c4oZ9x/6rG76Mu5xieQlBoS68r8ZZ3PBe3f2nH+12OT3def9k
-	a/HPZQ5DnCWrlMaZrpRgzJ6JElvu8v3ibmectIC80HXrKNMDBGS34vHUFK6krz78Q6wgw+3Q0xu
-	wlbC7NLFt7CGEYScHtqzN9+Xhjo8PVGnHjgYXMlq8kdxd60CeBdakdai9TjfruVUC+zR3pRs5HP
-	sE0skuTcrTnBpKsf1v7qgZq89cbdQj/ZPAqBI4pbOHC2gyHov0ClsNH4EZRzWymRXe08nOjDprK
-	U5x10zopciNXAt5/8NEv0wdcxuBL70mxAdSXIJfXIaU7k7D7OG57U3HG3O1lBoCtAH1OSQ
-X-Received: by 2002:a05:7022:fa0:b0:13b:20ad:b96a with SMTP id a92af1059eb24-13b2a1dd575mr1300904c88.50.1782793045226;
-        Mon, 29 Jun 2026 21:17:25 -0700 (PDT)
-Received: from deepanshu-kernel-hacker.. ([2405:201:682f:383f:bf30:8dca:9d63:c0de])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b2a9b425asm3891062c88.0.2026.06.29.21.17.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 21:17:24 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: castet.matthieu@free.fr,
-	stf_xl@wp.pl,
-	3chas3@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: linux-atm-general@lists.sourceforge.net,
-	netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	syzbot+3d45d763d18796f97412@syzkaller.appspotmail.com
-Subject: [PATCH] usb: atm: ueagle: fix use-after-free in uea_upload_pre_firmware()
-Date: Tue, 30 Jun 2026 09:47:16 +0530
-Message-ID: <20260630041716.97102-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=lGUgc0kMZV3Fo7Zy8Xt0uQZgg4awqO/uttcHalUom48=;
+        b=V9y6XLoEm9pOSPMLPcWIvx3PZYPut0YC0WKSD0gO+leQ3hgNgI4fI0Fhh3Olcyl08w
+         lDlpg8gyWqNHERmuG6tynUrL+u0hb6MOKGQtXpK9LJ+4GyluI2GuoeRoA4RFh0cxFh6n
+         o78kG9Bw3jSYJ4Ms6OR7nHG7jR71k+8DFC3qQFLo7jbvToWdsitSs7OaA1MJLBvMkIuT
+         UEV/kQZVxeQ5BB2/8iwpCKafXJzK9JTMHp+LPkV1t1aVgHFj3RISiogbt/FTtnhj1QTH
+         mFgnzy3SMpsdCkUCOvDuU7JtA73jqLNAJbJXsCtgR/Ao+D4uhwhnDDMwainLaxQbMvrQ
+         QxfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782795074; x=1783399874;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lGUgc0kMZV3Fo7Zy8Xt0uQZgg4awqO/uttcHalUom48=;
+        b=qFQDsDFfhiteMbcFcL045+MbXgk6HOeRCwcUPqnkNUghabqw6xpvLHb4fGIkZgtmoP
+         z5k3Wy2qrSpvswNz/WLRgG4X4LLa8d/lnOgiKFG6PPR7/ZVv8xSA4r1CzboTLF/WI43h
+         9kIxo7PXiauhLAX5ktg2o3gpYSWZZHgg/m7/8f1R8SXf7N7g6Env2y0HEIjiajF3P9SY
+         skNhudhULdcPgIsE8tunjHTdQHUAqsl4OLmSOHjRUSQbOhfv0j2jodtIInRD0pb1g8cx
+         Qjod16Y9M/ae5s7iBZICjD8WG0abzgwbEoge/PeLLKJEkk2bwXuUPDz28KshRXVECCek
+         NVqA==
+X-Forwarded-Encrypted: i=1; AHgh+RpnXDzGqqlBnesIvDCtLuaTBU2F7PYtZthUvaXv0OzcPZz3LwuiquEwbWwFsbJVJM2cEHFr+VEc9eI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YymWDkkQPvtHHN1Kq/OrgizGw8eQ0abAaqgcililq/rYgWlrFzf
+	jUswi5fTgLyYj9iBgOm7cTEDenYAR+R/vJYGh13fUItWLT3M8cIVL954Hu8lJv/hXK5tTTw03Oq
+	rRz5Ma976qLNU7manUS+wNFOemn3zp/d8+bqk0Y7L
+X-Gm-Gg: AfdE7cldpo6izI8t5xW4s1RNvTtK+hrraqOX54f8+WIzZtJihcQu3G8yjk45ffQD5ei
+	44vUgf49gAfePiHc8V5UHD8LwsKKaKtLV8w8ykx9Gv1iAEAUsnRjDIyQC7V2HF90hy2gEDiTYks
+	RYK9EZ0a5X0P7BLhFLSiKtoMFTpMNIfoCvsb4v69JhcxRsTwX6b92kQ8V0Ho0ITKchxVGXebarM
+	NG3mE78XTDqAauM/I8xkDiQZb6SFz+phIyFRfdR3hEp4PQfdQX+vbka/vkKhExlPxvXd1vxzOD3
+	T2huRZT7FwI4+8HdufLJkgG0JQzOlw==
+X-Received: by 2002:a17:90b:224c:b0:37c:6973:5a65 with SMTP id
+ 98e67ed59e1d1-380527a8bfcmr1475127a91.17.1782795074444; Mon, 29 Jun 2026
+ 21:51:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260627212854.4025016-1-xmei5@asu.edu> <20260629185415.56ec8b67@kernel.org>
+In-Reply-To: <20260629185415.56ec8b67@kernel.org>
+From: Xiang Mei <xmei5@asu.edu>
+Date: Mon, 29 Jun 2026 21:51:03 -0700
+X-Gm-Features: AVVi8CewLOgWSWPBc3mXeyF3ERg0gtdsHbk009Us5gbj_iOnook_1HYN5mupzrc
+Message-ID: <CAPpSM+Rj9Y_nb1UJNN1koNebGRSwFhpvx-Ne9o3S2juqYFoEJA@mail.gmail.com>
+Subject: Re: [PATCH net] net: usb: net1080: validate packet_len before
+ pad-byte access in rx_fixup
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Weiming Shi <bestswngs@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-uea_load_firmware() calls request_firmware_nowait() passing a raw
-struct usb_device pointer as context, without holding a reference
-to it.
+On Mon, Jun 29, 2026 at 6:54=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Sat, 27 Jun 2026 14:28:54 -0700 Xiang Mei wrote:
+> >       if ((packet_len & 0x01) =3D=3D 0) {
+>
+> just add "skb->len &&" to this condition?
+>
+Thanks for the review; your one-line patch is clearer.
 
-If the USB device is disconnected before the firmware workqueue
-fires, the usb_device and its usb_interface objects are freed while
-uea_upload_pre_firmware() is still pending on the workqueue. When
-the callback eventually runs, it accesses the freed memory causing
-a slab-use-after-free:
+v2 has been sent.
 
-  BUG: KASAN: slab-use-after-free in __intf_to_usbdev
-  include/linux/usb.h:752 [inline]
-  BUG: KASAN: slab-use-after-free in uea_upload_pre_firmware+0x8d/0x640
-  drivers/usb/atm/ueagle-atm.c:598
-  Read of size 8 at addr ffff88802b0710b8 by task kworker/0:2/1664
-
-Fix by calling usb_get_dev() before queuing the firmware request to
-pin the usb_device in memory for the lifetime of the async operation,
-and usb_put_dev() in the callback once it is finished with the
-pointer. On the error path where request_firmware_nowait() itself
-fails, drop the reference immediately since the callback will never
-fire.
-
-Reported-by: syzbot+3d45d763d18796f97412@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=3d45d763d18796f97412
-Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
----
- drivers/usb/atm/ueagle-atm.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/atm/ueagle-atm.c b/drivers/usb/atm/ueagle-atm.c
-index d610cdcef7d0..686cc58fb89f 100644
---- a/drivers/usb/atm/ueagle-atm.c
-+++ b/drivers/usb/atm/ueagle-atm.c
-@@ -663,6 +663,7 @@ static void uea_upload_pre_firmware(const struct firmware *fw_entry,
- 	uea_err(usb, "firmware is corrupted\n");
- err:
- 	release_firmware(fw_entry);
-+	usb_put_dev(usb);
- }
- 
- /*
-@@ -693,12 +694,14 @@ static int uea_load_firmware(struct usb_device *usb, unsigned int ver)
- 		break;
- 	}
- 
-+	usb_get_dev(usb);
- 	ret = request_firmware_nowait(THIS_MODULE, 1, fw_name, &usb->dev,
- 					GFP_KERNEL, usb,
- 					uea_upload_pre_firmware);
--	if (ret)
-+	if (ret) {
- 		uea_err(usb, "firmware %s is not available\n", fw_name);
--	else
-+		usb_put_dev(usb);
-+	} else
- 		uea_info(usb, "loading firmware %s\n", fw_name);
- 
- 	return ret;
--- 
-2.43.0
-
+Xiang
+> > +             if (packet_len >=3D skb->len) {
+> > +                     dev->net->stats.rx_frame_errors++;
+> > +                     netdev_dbg(dev->net, "bad packet len %d (expected=
+ %d)\n",
+> > +                                skb->len, packet_len);
+> > +                     nc_ensure_sync(dev);
+> > +                     return 0;
+> > +             }
+> --
+> pw-bot: cr
