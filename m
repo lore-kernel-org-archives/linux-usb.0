@@ -1,119 +1,100 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B693EC2F8
-	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 10:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A391B25B09F;
+	Tue, 30 Jun 2026 10:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782814358; cv=none; b=FgUciskb4flyG1+xHHms7mjtw/H0+ZLsHs56gCF8FpbuaCYK/ZRTh1ZcKdJ0sDF6S/ep63lfKGifbeW1QmzcYohXkCgvvmrJSzUrIcWc0oeRJGxLvj3wSseIz69TZy+mOGneq3VO75eIM4v+tBZ7dYlJoXcRVmk6AMMVoWLKI7I=
+	t=1782815238; cv=none; b=C2Wp//g1xY40G6mQ6Nh/oPIABuaPkAlJl81xxSh3QK9ZTKoKIDHioA0TKHxCawiqH659XbVQVLK1G+b6AvvekdlNV1hwRVPvzEt5gM2bDCXaUh3CbMvPdovDgnx/vGaYhYTHGsLIlX6gS8PR23jIbUV5TNk8X3jw7+7WzMKkHZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782814358; c=relaxed/simple;
-	bh=fpVV70lRt6gaxeu9NgkMR0EjFnDbIYv9+3uh2IF88IA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RuHFMsB1uO9gipCycAkaJuQOLHvvC0LCfnBF6CEkULSQKeKZHtDXK2C9+gzreF2Fg0DyIHujLBzZSMOJPcuoqZkv1EW3E+/OqMsoc/DKG6SfL8w/9sgga0ivGJBxpbVFiaJceS2IzUqNrugshM6RYp94+qyE8epD0Z/F602d3Zs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ahCmdf53; arc=none smtp.client-ip=74.125.224.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782815238; c=relaxed/simple;
+	bh=9GbKR8ps1ESxpvxVxVlLrVMo7MKVnUnbwmMwCrmWBj0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=A0e/lgAUlP8f60KDYzm6Xkxi5KaAB9DeVZCEtsqW970G8KCMSQb5ksA9EaNHHmQuIN9bWQeHXwLA3ApazB58JDbKXO5Jw2GyZh73LNdu3tnmob5jbQ6JzWWZL1bVPG1UATLIWvmDApAUtFnYz58Gvokt0Y24s8jmcUMqdDnt0gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ij0/X3OB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ahCmdf53"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-664cdeab266so2175391d50.3
-        for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 03:12:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782814355; x=1783419155; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ME3E5bLTc9knmTM+lqxIbMll01z0y4z3RLqE7f/es5c=;
-        b=ahCmdf53tcQpDbVjnO6xYQeZqIqITEqGnTKbGSPt6OQUlf/x7W3ZMm2L5mgjrcE5Ho
-         fIPTFoxDwA806NuteKa23Thn6h/8G/Cr5LUpPyvPu/d3LOWrXv18eD86LnF8GiOwHd5m
-         5J1murSrwPBT8cEuf7Mq/8dxcEeaUkGOITZ2VE8ftuUXxqvcBimd3KgFzW4jVxHFwVBX
-         LvduVyzK41DOiCU8WQXY/glowyhOpDKZa/8QixhaIGjsVBTyj4gifJLZFo4lYP13jEm2
-         Ko910SOyuHj8CX4LyVh66XcUgH+5pOdJew3p/bBKjO14hrkfLaxCvtLnjBLT44nEt7KA
-         v3Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782814355; x=1783419155;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ME3E5bLTc9knmTM+lqxIbMll01z0y4z3RLqE7f/es5c=;
-        b=bVA4BMe+3p2jgnYIEL5VTt+df0Iz2Ij0/iMd4Deis7dSDqFQE4L82G1rUFMUdi57jp
-         hgdb/Eyx1Q/vdZiSdpXUtvh0axjdvij619HaYry3M7TS0PFXFWep691rkA78WdVhvsco
-         I1SferpI28JAiMCOHcJYCKzkDNRTPhFpmrG2yGl1b2dnHv6Z1SBfwiA8pfgM8GEs43zY
-         nkGHMmZp/moJtFC3OpKPELlp97pFryWuntzWDrgsBMb4Is4ltd94VjJ9nE3FiUxgPXr9
-         46z+gnHxrz9o4sPlssA0RJVU1+5quX7MvSEFTkKE5C/OVGVoyJOZtlEj0WtvSr4igb15
-         g4wQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rpj7TWSaAAURPf7O4bUCAAX95ZNB0ohVf345yu0iosIvBgR5a/DIrRtibZnkm/iCWCRXedasFqURo4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4wftnRjuDNqYeoUcM1pQLTrS2RJVYSNUVKtd0f/LC07bdaIKF
-	VRLoWH2fplVqqQPCQkMewrQDzmqKHfm6u3DcUP34zpSThMJqx4NuULWY
-X-Gm-Gg: AfdE7cntWjfL/SxNqEKC0OlJ50sE33GvJBAa8uxwY6aP6nOaBuAh0MeikrJzAfHa9f2
-	qN9poEfIArFNnJKEBJP8PJFqYX7cAlBVf6KfRS+KWzOjk/J4Lmnr0ATViq2+bf1kk8g+yJiWYPE
-	32VTrSjVxdK+WtBwQOFm1AhLXXHABOXtnWMQLcDGY+qNhUcjtL1ek1VBMavGhIEfR0UJfQI5jDH
-	gUtv17DCRnCMgEW/m+W5RwoeOBp6QZXglccgdJF1VaF1ISwVx3tLBvLUO7Q1OpiTkyAvlvtX9bN
-	oaJs4QAX8HueUcISPYHPwt8o00sFAmLsm7mpOJ3wu4P1HkUccgpmrQxeEvNMwqq576zkLEELpgf
-	Yl8jvqUm6dInsC4DYFui6L2omlx+D+Cib5zsMV6Z1oj2Zd+j3CT6gHUYhaKL4NVPI2sKUdBWzQn
-	Ib67qw8/pGqNc9WCP2/F5UAAcrMA==
-X-Received: by 2002:a05:690e:140a:b0:664:deaf:b25e with SMTP id 956f58d0204a3-664f940be22mr2947968d50.0.1782814354875;
-        Tue, 30 Jun 2026 03:12:34 -0700 (PDT)
-Received: from Dev-Null-MSI ([2a0d:3344:52ac:a808:98a4:4381:be45:536f])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6650053f901sm725450d50.1.2026.06.30.03.12.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 03:12:34 -0700 (PDT)
-From: Yousef Alhouseen <alhouseenyousef@gmail.com>
-To: Petko Manolov <petkan@nucleusys.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>
-Cc: "David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yousef Alhouseen <alhouseenyousef@gmail.com>,
-	syzbot+9db6c624635564ad813c@syzkaller.appspotmail.com
-Subject: [PATCH net-next v4] net: usb: rtl8150: handle link status read failures
-Date: Tue, 30 Jun 2026 12:12:16 +0200
-Message-ID: <20260630101216.10365-1-alhouseenyousef@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ij0/X3OB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8490A1F000E9;
+	Tue, 30 Jun 2026 10:27:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782815237;
+	bh=+nYWrX07JlaFQzXJIQgj7pMrZxgun/XWbsUf+czLcVM=;
+	h=From:Subject:Date:To:Cc;
+	b=Ij0/X3OBsv649sZ8kUBK6iRv04bfxCQxZGiGivCgRzUNKGeChGY+I0CCIa9sghyEc
+	 jMrnPZauWJQqdYAqzmbKDLhMyM5mbK6fpZ4X6y/y2GfnT3G10Oxd20S9b9SR3iyQzL
+	 ll9EepMUa5oiFSwf2gryT8CzTFwIRnhbsCg7oMx7oagY3kgPlXp/cEYKGURy+Sdgdk
+	 wEjsO4KcsAMqCY9XTmrHwRKA5n/2jq1vT7paXv5V+pZK8rY999MXTwj1vFeiZCi5nK
+	 kgdApegIUZh7szoho2xgHudVWOR7H6HvaWCOEP/soHPG5jGWEviVA1xqpZoyzR+d2N
+	 Rz3nEbH++LePQ==
+From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Subject: [PATCH 0/2] USB: replace __get_free_pages() with kmalloc()
+Date: Tue, 30 Jun 2026 13:27:07 +0300
+Message-Id: <20260630-b4-usb-v1-0-8d547235c374@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPuZQ2oC/yXMsQ6DMAwE0F9BnmvJpFEGfqViiIMp7hCqGKpKi
+ H9vUsZ3ursDTIqKwdAdUOSjpmuu6G8dpCXmp6BO1eDIBQp9QPa4GyPfyaUonshPUMvvIrN+/0e
+ P8bLt/JK0tXVrcDRBLjGnpUWNcJ4/kEcGLYEAAAA=
+X-Change-ID: 20260616-b4-usb-b302cae4004d
+To: Alan Stern <stern@rowland.harvard.edu>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Mike Rapoport <rpppt@kernel.org>, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-usb@vger.kernel.org, 
+ "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+X-Mailer: b4 0.15.2
 
-set_carrier() ignores the result of the USB control transfer and tests
-the stack variable supplied as its receive buffer. If the device rejects
-or aborts the request, that variable remains uninitialized and the driver
-chooses an arbitrary carrier state.
+This is a (small) part of larger work of replacing page allocator calls
+with kmalloc.
 
-Leave the existing carrier state unchanged when the link status cannot be
-read. A transient USB error should not be treated as link loss.
+My initial intention a few month ago was to remove ugly casts [1], but then
+willy pointed out that Linus objected to something like this [2] and it
+looks like more than a decade old technical debt.
 
-Reported-by: syzbot+9db6c624635564ad813c@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=9db6c624635564ad813c
-Suggested-by: Petko Manolov <petkan@nucleusys.com>
-Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+Largely, anything that doesn't need struct page (or a memdesc in the
+future) should just use kmalloc() or kvmalloc() to allocate memory.
+kmalloc() guarantees alignment, physical contiguity and working
+virt_to_phys() and beside nicer API that returns void * on alloc and
+doesn't require to know the allocation size on free, kmalloc() provides
+better debugging capabilities than page allocator.
+
+Another thing is that touching these allocation sites gives the reviewers
+opportunity to see if a PAGE_SIZE buffer is actually needed or maybe
+another size is appropriate.
+
+For larger allocations that don't need physically contiguous memory
+kvmalloc() can be a better option that __get_free_pages() because under
+memory pressure it's is easier to allocate several order-0 pages than a
+physically contiguous chunk with the same number of pages.
+
+And last, but not least, removing needless calls to page allocator should
+help with memdesc (aka project folio) conversion. There will be way less
+places to audit to see if the user was actually using struct page.
+
+Also in git:
+https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git gfp-to-kmalloc/usb
+
+[1] https://lore.kernel.org/all/20251018093002.3660549-1-rppt@kernel.org/
+[2] https://lore.kernel.org/all/CA+55aFwp4iy4rtX2gE2WjBGFL=NxMVnoFeHqYa2j1dYOMMGqxg@mail.gmail.com/
+
 ---
-Changes in v4:
-- Target net-next and drop the Fixes tag as requested.
-- Rebase onto current net-next after the 24-hour repost interval.
+Mike Rapoport (Microsoft) (2):
+      usb: host: ohci-dbg: use kmalloc() for print buffer
+      usb: core: devices: use kmalloc() to allocate dump buffer
 
- drivers/net/usb/rtl8150.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/core/devices.c  |  7 ++++---
+ drivers/usb/host/ohci-dbg.c | 11 ++++-------
+ 2 files changed, 8 insertions(+), 10 deletions(-)
+---
+base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+change-id: 20260616-b4-usb-b302cae4004d
 
-diff --git a/drivers/net/usb/rtl8150.c b/drivers/net/usb/rtl8150.c
-index c880c95c41a5..d51e43170e03 100644
---- a/drivers/net/usb/rtl8150.c
-+++ b/drivers/net/usb/rtl8150.c
-@@ -732,7 +732,9 @@ static void set_carrier(struct net_device *netdev)
- 	rtl8150_t *dev = netdev_priv(netdev);
- 	short tmp;
- 
--	get_registers(dev, CSCR, 2, &tmp);
-+	if (get_registers(dev, CSCR, 2, &tmp))
-+		return;
-+
- 	if (tmp & CSCR_LINK_STATUS)
- 		netif_carrier_on(netdev);
- 	else
--- 
-2.54.0
+Best regards,
+--  
+Sincerely yours,
+Mike.
+
