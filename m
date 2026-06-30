@@ -1,71 +1,86 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE66E2F549F;
-	Tue, 30 Jun 2026 13:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5724192EC
+	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 14:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782827313; cv=none; b=OO32DOhX0IrNTP1qzD5m7dmGc0nQ/zDnFZqGrxawikXgxiPhOM6ipsTgI5Wm+yH/Jv4nwSOuOmEOmMLnGmYsoPbFCuoXX+MYcIFXap7ve2RKUcP6YRgcbQS0oSl2Sp3Lxb3R/406Pjk7pBteodUWEhWKKFj4K9ClJCDBro+i1IQ=
+	t=1782828975; cv=none; b=RFBlfbLsxV7cXGwNE4313+WV2uC++Pwt8Bf6cHnSRnwqLxQtEnnDLZ14XP+t6eGX0BRlTHAaMGCtQZ+hym9Y3KKRr6DoQj5CnZTBQ+Pa25veKK1tm1DF7r0pgyyexuA8fFvrvFr/lA9/9hTnAeNibOuvEp1bQHMVo3JRLdeNfiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782827313; c=relaxed/simple;
-	bh=TonebF7Ag32GOyOJMqqlwc8e8lXlquoAPTTINlV2joc=;
+	s=arc-20240116; t=1782828975; c=relaxed/simple;
+	bh=8a49eYhJBmGGJL4DTQ8ljjSVdpg2gAW44CdGcIU02lg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PbVRethvFU2CfHe37nB/lq94QgbQArrz8b494eojdCVhJZEK+px4k5/sf0WNhL0xLDR/iQANLIKcl+wM072RQK+FnmvKJlVUxs2iUwfpQeF1XkBdVUPOVcpYlUs/oJARckgjjl/hlBP+gkwybMKQKCTASBljaCA6Q+O5B2RIuiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=D0LTzYUY; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=NkFmXgvTUBldVaidcs19fIXZn3NrU4EqTtTBCbxO0rmvg0VNS0ntDy44FecYPYKfKMIoQWASjesQ+TgvT9ofOdHYwCj13BnK0Lsb1rxPGR8HARSFqZN/O6UPF8vAizYteaE5N2AXVeJ1EGwtz2U9PWvzfkh0H8luuMoFnLrmfm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oDKXMTvU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="D0LTzYUY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=/wA5uNWt6gB7JZ5iwu/IO6wZKMVB6pWC14dthf5YOGA=; b=D0LTzYUYJSQhbOHlkEmQgOV1Pr
-	rFAitysvqjixjc/kDLrZXlv16PJ7VZwrjSPFeycp5i2syZJwkCsmeuPAknZFP/nK6T827x/e5WKsy
-	GvD3efgA2XwrWhtWRz+kl63THBUOoX3TEJQbMDywpcoySg4Pdpv32s537s3LWSlQm+zg=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1weYot-009z3M-FY; Tue, 30 Jun 2026 15:48:11 +0200
-Date: Tue, 30 Jun 2026 15:48:11 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Yousef Alhouseen <alhouseenyousef@gmail.com>
-Cc: Petko Manolov <petkan@nucleusys.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+9db6c624635564ad813c@syzkaller.appspotmail.com
-Subject: Re: [PATCH net-next v4] net: usb: rtl8150: handle link status read
- failures
-Message-ID: <355409c6-0b52-4dd5-9b0f-bdb72159ade4@lunn.ch>
-References: <20260630101216.10365-1-alhouseenyousef@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oDKXMTvU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD9091F00AC4;
+	Tue, 30 Jun 2026 14:16:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1782828973;
+	bh=WHilBg0BLpUEkVELRD6upvYHW1CiOKHc070Bsmr3qD0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oDKXMTvUkXkfKTZ8qGUI5Iw4rnjTZUP16oHWtRtRgYE1Vj5tNISbcCLo/mziD15c6
+	 0UvX2VAvzqXEtSqRqXM1kgPMjVCPRoZgunRPO+mZBDBQDPApiYaKXBq5GFRgVN9NLc
+	 cJ57Lu9LFFiWEDQ9V9yKmJ+ot6QCiP3ZnJ95gW68=
+Date: Tue, 30 Jun 2026 16:14:58 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: DongliLiu <dongli.liu@outlook.com>
+Cc: linux-usb@vger.kernel.org, security@kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: Fix potential stack buffer overflow in
+ altmode registration
+Message-ID: <2026063016-choking-flint-ccad@gregkh>
+References: <KUZPR04MB8968032AEDE5FB1CCFC62D5985F72@KUZPR04MB8968.apcprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260630101216.10365-1-alhouseenyousef@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <KUZPR04MB8968032AEDE5FB1CCFC62D5985F72@KUZPR04MB8968.apcprd04.prod.outlook.com>
 
-On Tue, Jun 30, 2026 at 12:12:16PM +0200, Yousef Alhouseen wrote:
-> set_carrier() ignores the result of the USB control transfer and tests
-> the stack variable supplied as its receive buffer. If the device rejects
-> or aborts the request, that variable remains uninitialized and the driver
-> chooses an arbitrary carrier state.
+On Tue, Jun 30, 2026 at 07:33:09PM +0800, DongliLiu wrote:
+> From: DongliLiu <dongli.liu@outlook.com>
+> Date: Mon, 30 Jun 2026 19:32:00 +0800
+> Subject: [PATCH] usb: typec: ucsi: Fix potential stack buffer overflow in
+> altmode registration
+
+Odd, this shouldn't be in the email body.
+
 > 
-> Leave the existing carrier state unchanged when the link status cannot be
-> read. A transient USB error should not be treated as link loss.
+> cap.num_alt_modes is a u8 hardware register value with a range of 0-255.
+> The altmode arrays in ucsi_register_altmodes_nvidia() are fixed at
+> UCSI_MAX_ALTMODES (30) elements. Without clamping, a malicious or
+> misbehaving hardware could report more than 30 alternate modes, causing
+> a write beyond the stack-allocated array bounds.
 > 
-> Reported-by: syzbot+9db6c624635564ad813c@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=9db6c624635564ad813c
-> Suggested-by: Petko Manolov <petkan@nucleusys.com>
-> Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+> Add min_t() to clamp max_altmodes to the array size, preventing the
+> overflow.
+> 
+> Signed-off-by: DongliLiu <dongli.liu@outlook.com>
+> ---
+>  drivers/usb/typec/ucsi/ucsi.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+> index xxxxxxx..yyyyyyy 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi.c
+> @@ -xxx,yyy @@@ static int ucsi_register_altmodes_nvidia(struct
+> ucsi_connector *con)
+>      struct typec_altmode_desc alt[UCSI_MAX_ALTMODES];
+>      struct ucsi_altmode orig[UCSI_MAX_ALTMODES];
+> -    int max_altmodes = con->ucsi->cap.num_alt_modes;
+> +    int max_altmodes = min_t(int, con->ucsi->cap.num_alt_modes,
+> +                 UCSI_MAX_ALTMODES);
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Patch is line-wrapped and corrupted and can not be applied :(
 
-    Andrew
+And no need to cc: security@kernel.org for a public issue like this.
+
+thanks,
+
+greg k-h
