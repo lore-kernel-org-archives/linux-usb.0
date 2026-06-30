@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7F1425CE6
-	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 14:19:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2231042DFE6
+	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 14:19:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782829144; cv=none; b=EO1qRwtN8gWMCsiZsezxVrSH6Vs63UCJvwObdZo8Yd7bxn+9eBdKP0FKzSJjK5K2e6EI8EN80CHvetHpzgOURjb4byFkeZ5dtNtZ8cDQCLL8R0Q3UXI3W2eslY4Xek+2pA2va0Va21i60aPWSGX2jKMYVI0f1/tFgP7wI4svwBg=
+	t=1782829159; cv=none; b=Am2FGdRqHLm5C5zO7QS0c2jGoq8FWLd7AoPKc8w0BRK3wta00Gxniqp81Mm/u6+HI1KWqmSpU1SAasMtwbHpBLDsaf1DIqBc7/msL7mI69ssccbkOoxozwaHpH18BHJy/gNXCaD9VzpVzFQh+avnzh8GUy/PJlrq1aPrU4EutAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782829144; c=relaxed/simple;
-	bh=tykj47PCBA5+6osvG5nnRGpMgmvFHPUkpVNSMndoCME=;
+	s=arc-20240116; t=1782829159; c=relaxed/simple;
+	bh=RX7CD9m2hoGDAE6z1m1m2ymI9TCKmt0OG0/JF+vtUOc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s41TZuqDms0LDG6WuxkIC885JA2dWZKX0EXT63dBrwL7IPvRQZFBxPNv/M5NQ+A1ZneQNwCvO0VgY024uslyQ89aLjv1ytDy4HUpv1jCjTk+r7aXXAtCTi0N5b5HqwwqgbYSu6bNQs7ex4sj1pzO3t8P30PQShL9A4Z4kk7/FMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TqRn/d5W; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=RISnyTnjkTZbhuIjaspeEkj62JNZbgCbXCzxkFUxbnaX2LZB5FDwNyyVemGvSPnCCQYHTzl127CUiQ78HLZLTcapjRGTdBUK6KIUK/Tc/UkWSoxaigjINt1a5oNDWi+e8hjDH24Djx+YVyGsw5T7uwc6PFERumFrILbOajcmQq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=tJPxodh2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TqRn/d5W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5976D1F000E9;
-	Tue, 30 Jun 2026 14:18:59 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tJPxodh2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1BE61F000E9;
+	Tue, 30 Jun 2026 14:19:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782829141;
-	bh=TC/5NP+SJVFzZd/fng0V3XAuexTl7vmMVf/YxsS5kAI=;
+	s=korg; t=1782829156;
+	bh=KusPALpbYl+tC0/rc/vNIt1hezMUmzjJprrc8q14GV0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=TqRn/d5WfWfvrRzmfFKCIa09DgDi9lqITpRvmLMhi6y+B+dIpURIpXglhDvPSGuK+
-	 bDOwYaMsIvAvkSVGZEnMTp+L//994iEAsvglRAsPl26IqF9kNst16zBhYJPm7co18u
-	 vHBrmzKxvUp832W0ic+mqlsVLw1sCPTlj2Kfi6oI=
-Date: Tue, 30 Jun 2026 16:17:42 +0200
+	b=tJPxodh2DRQdiSlUuqyY09l8YsXbIWO/q9xPEqhevmVpLdA/ClqKH9a5ghq6prf3S
+	 prL3DmidvEospkN9HZ++MvaFl5ifXKlsryXi5BKApjB/uPKsDbKS1N+GTkAyr8jj/2
+	 oX/TLjY3mNgOY8EKcVTjtkGzlKERMsOiZl54rtPA=
+Date: Tue, 30 Jun 2026 16:17:57 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: DongliLiu <dongli.liu@outlook.com>
 Cc: linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: Fix off-by-one in connector validation
-Message-ID: <2026063017-mayflower-shuffle-9051@gregkh>
-References: <KUZPR04MB89683432655A607BE9A4838F85F72@KUZPR04MB8968.apcprd04.prod.outlook.com>
+Subject: Re: [PATCH] usb: typec: ucsi: Add bounds check for enum array index
+Message-ID: <2026063045-glacial-rifling-8211@gregkh>
+References: <KUZPR04MB896814FEFE2D859FE194F45585F72@KUZPR04MB8968.apcprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -39,20 +39,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <KUZPR04MB89683432655A607BE9A4838F85F72@KUZPR04MB8968.apcprd04.prod.outlook.com>
+In-Reply-To: <KUZPR04MB896814FEFE2D859FE194F45585F72@KUZPR04MB8968.apcprd04.prod.outlook.com>
 
-On Tue, Jun 30, 2026 at 07:30:31PM +0800, DongliLiu wrote:
+On Tue, Jun 30, 2026 at 07:31:29PM +0800, DongliLiu wrote:
 > From: DongliLiu <dongli.liu@outlook.com>
 > Date: Mon, 30 Jun 2026 19:30:00 +0800
-> Subject: [PATCH] usb: typec: ucsi: Fix off-by-one in connector validation
+> Subject: [PATCH] usb: typec: ucsi: Add bounds check for enum array index
 > 
-> UCSI_CCI_CONNECTOR() returns a 1-based connector index, while
-> num_connectors represents the total count of connectors. Using '<='
-> allows num_connectors itself as a valid index, which is off-by-one
-> since valid indices are 0 to num_connectors-1.
+> The 'sop' parameter is a C enum that can hold any integer value, not
+> just the defined enum constants. Using it directly as an array index
+> without bounds checking can lead to undefined behavior if an out-of-range
+> value is passed.
 > 
-> Change the comparison from '<=' to '<' to correctly reject the
-> out-of-bounds case.
+> Add an explicit ARRAY_SIZE() check before accessing altmode->plug[sop]
+> to ensure the index is within bounds.
 > 
 > Signed-off-by: DongliLiu <dongli.liu@outlook.com>
 > ---
@@ -63,16 +63,14 @@ On Tue, Jun 30, 2026 at 07:30:31PM +0800, DongliLiu wrote:
 > index xxxxxxx..yyyyyyy 100644
 > --- a/drivers/usb/typec/ucsi/ucsi.c
 > +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -xxx,yyy @@@ static void ucsi_notify_common(struct ucsi *ucsi, u32 cci)
+> @@ -xxx,yyy @@@ static void some_function(struct typec_altmode *altmode,
+> enum typec_plug_role sop)
 >      ...
 > 
-> -    if (UCSI_CCI_CONNECTOR(cci) <= ucsi->cap.num_connectors)
-> +    if (UCSI_CCI_CONNECTOR(cci) < ucsi->cap.num_connectors)
+> -    if (!altmode->plug[sop])
+> +    if (sop >= ARRAY_SIZE(altmode->plug) || !altmode->plug[sop])
 >          ...
+> -- 
+> 2.40.0
 
-Please actually create patches that can be applied and not use LLM tools
-without documenting it properly.
-
-thanks,
-
-greg k-h
+Same here, stop making fake patches.
