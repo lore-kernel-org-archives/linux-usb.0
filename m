@@ -1,493 +1,143 @@
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFB13B18A;
-	Tue, 30 Jun 2026 03:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B5F3B27D9
+	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 04:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782790359; cv=none; b=P8s3XkBZhWg7XaLgLfkAAskP9aBO8urOLnXub661b3C04jKl31zgI8R5qFca3g34HgSXLvgii53sKPz9VrLVmXnPyW4uNpbV7443GfeZpkfSNifniv3+mjLAT+8zp+rpMklsLPb2C71ovlX72tgSfP63oDH0ZifxjJvNb3Q7VVY=
+	t=1782793049; cv=none; b=GVWBUSXSfR2/IRA9playvYno96tJC4spoBeZT67Ew1vgfvOJFKJXlhDbjmC08Ay7TgqKjeyv1v02ElZcxXbeyxdHh0y94mILHd3vsDBOapwfmgRNdlbrQMc5w3Bcuq0YOGuyKBnb6In+7yGE5+ONUF0hWMbjyZd0ooJtmTPOLS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782790359; c=relaxed/simple;
-	bh=RsNPdydwiZjjehbQOn6ntpUtlV774pyoizI4zNMHdg0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cB6N5QGXlzOpWNOvyHoPACzcHuh1UU8qndlrzoOGunDOvm5Q3Jk15h4cz30e8GXejCGZ/St90TqBiuqdpb6EdlchZBfU60it6xB+ias4bRFtwsvt8LRZQdtD6WhTulDFdDAOhTix21OqNAhUvptoEDCODF6iL3U+DKOKyAT0Rwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=O+O3SI3e; arc=none smtp.client-ip=203.29.241.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+	s=arc-20240116; t=1782793049; c=relaxed/simple;
+	bh=8u5uZUMqhrL/gnN85tqtWF3US52t+rBo+R6AWDwO5ck=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NUW+S8E52Z/t3fdT6ZbUiPFZIK9B10uR8oWNazPhct81cPRYWo07BYiuuItWzQlRpzDwNSwL4FapMEr0UvMshVhWPPvHd5TD2vrWCeKbDgLXdoiLO5Gsj6IeX4BEYK/wUtG6SC7PN0xtNQQ2f5xWxuFjW20I95P5WGpbWS5KZa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O323CP3q; arc=none smtp.client-ip=74.125.82.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="O+O3SI3e"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O323CP3q"
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-139edc6bfc0so7642619c88.1
+        for <linux-usb@vger.kernel.org>; Mon, 29 Jun 2026 21:17:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1782789746;
-	bh=KYxfn+Lm/xaMlwg8CSTJ/RlIU6WuxqHccpEUCs+AXK8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=O+O3SI3eghA2ySjEJE7Onoh9rJ/srkVF04Jrkn2wedpQF+qjcJJaysRl+AGsj7yse
-	 fYXryoyAI2fBEw1brNrqJzKtd9pW7f3GTdzrzrCO10rOBZRwqVF+mpsv2RvzJxBeiM
-	 Q2pKYyi7zbZlgRVf/6zh7mVz9iP0R0qQN/5GbxVhyRvp3mcD3sM+cKskPO4uABq0wr
-	 8MBoXtxNo0Bvwx6VBumer0Q5UmnzXK3qtp2a1xA0qsCbJ6qGpnxFktvZgxmgO3d8Xj
-	 FVQ36oIb21zh2iba/ND6mT8np6uf0L9cSl9eKn6ju+GiIDO9vdeRT8WbQkKwz1DSRO
-	 QYSQzZVuRhLSQ==
-Received: by codeconstruct.com.au (Postfix, from userid 10000)
-	id 99705660EF; Tue, 30 Jun 2026 11:22:26 +0800 (AWST)
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-Date: Tue, 30 Jun 2026 11:21:24 +0800
-Subject: [PATCH net-next 03/12] net: mctp: usblib: Move RX transfer
- processing to a new mctp-usblib
+        d=gmail.com; s=20251104; t=1782793045; x=1783397845; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OjgHD+veL6Mrs93d7R3aSe1UX0mQg1cLxReyF2YhYPw=;
+        b=O323CP3qFts6eay/77P5Bgbp0JoTIDQIXpTbAo5xG4OQTLtykzxJcwieKuJM0e1n/J
+         4JHRHXVin4N8vfSQgj73907E9c/HawBqTLJg4mC0c571T7L6J5j/c+DJQEK1wdErE8IH
+         Ahu+GHiD/KbCy2CLZFAszbcdQ29yWRq5nj+csx5CPpWcjWtxr3/UhpY/Nwz27FaisPgt
+         2RaVmtSvHZQbDBZLPq/PrzIjlnVaj1aneagwCJSCLIsI8MuMtsUOBv81kAy1rZYAngIF
+         axj2u3IfLqnQt7MmnKbjuCC3JLd35YjvptO7+XTYwKrmmgRMa/0cv074haxzdd8MNW5x
+         GA8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782793045; x=1783397845;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OjgHD+veL6Mrs93d7R3aSe1UX0mQg1cLxReyF2YhYPw=;
+        b=GO0NFR381hfWNBERV9ZDVOnM9yQZvesG70tXJs7XWGRtDo4tMOsU+U7jw62YQCVqd7
+         AftO+v0RD3FLSEJoF8q+G5xupBMIVxNMrqImVB9caYIKlMujUwQhuEWYCbVs48PkzmdR
+         ArVMcM4Gnumm+o4quXjj5sl7lCmQ1TXFSE55VNNiL7gC38cUy0vk9a18JXHytif5d+Fe
+         +xGefc/9UpkGGrfbWzLDaO2cXsgVuM9QoaZYUOpQYy5VCIcXv3l4wNSM53xSnzyJyl9o
+         4GtVkvYNo+jqS1Xbq2+emzuLXfYy4s1uPPGAHOKO54/CTVBEoKkGSFB6qQCpYBNAZ5wd
+         +QdQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9NxTz847pp7qOGpGyMy61PTZ5eQrtfOr4Spunb/WUdprPONeTu5kRPIlnI4kb8wOZQLgFJiDhAUDs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHJvPwp+smOD1aVao1fymbujlBV7PI2UuCtPftbClKAWoZ06s3
+	QMAQ883OJtBEb+CFk+oJMhWFGqHJD6t54Drz1s3r+4quewyczXWh6gAU
+X-Gm-Gg: AfdE7cmCFjcWeWyyzvBzO7gslAWoADpnBdJGU8JXQWHwyGfiFnmQ9KnozOduhc2c74d
+	qA+XLeF2HfHtOuF1+GBkLctX6aaSKpyWYIS4kDGk16k9jVqQTslySuK/24qRbEZThElBhIvRE0i
+	8M0up72ghVF2m4dtkPa3LZSnb8c4oZ9x/6rG76Mu5xieQlBoS68r8ZZ3PBe3f2nH+12OT3def9k
+	a/HPZQ5DnCWrlMaZrpRgzJ6JElvu8v3ibmectIC80HXrKNMDBGS34vHUFK6krz78Q6wgw+3Q0xu
+	wlbC7NLFt7CGEYScHtqzN9+Xhjo8PVGnHjgYXMlq8kdxd60CeBdakdai9TjfruVUC+zR3pRs5HP
+	sE0skuTcrTnBpKsf1v7qgZq89cbdQj/ZPAqBI4pbOHC2gyHov0ClsNH4EZRzWymRXe08nOjDprK
+	U5x10zopciNXAt5/8NEv0wdcxuBL70mxAdSXIJfXIaU7k7D7OG57U3HG3O1lBoCtAH1OSQ
+X-Received: by 2002:a05:7022:fa0:b0:13b:20ad:b96a with SMTP id a92af1059eb24-13b2a1dd575mr1300904c88.50.1782793045226;
+        Mon, 29 Jun 2026 21:17:25 -0700 (PDT)
+Received: from deepanshu-kernel-hacker.. ([2405:201:682f:383f:bf30:8dca:9d63:c0de])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b2a9b425asm3891062c88.0.2026.06.29.21.17.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 21:17:24 -0700 (PDT)
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+To: castet.matthieu@free.fr,
+	stf_xl@wp.pl,
+	3chas3@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: linux-atm-general@lists.sourceforge.net,
+	netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Deepanshu Kartikey <kartikey406@gmail.com>,
+	syzbot+3d45d763d18796f97412@syzkaller.appspotmail.com
+Subject: [PATCH] usb: atm: ueagle: fix use-after-free in uea_upload_pre_firmware()
+Date: Tue, 30 Jun 2026 09:47:16 +0530
+Message-ID: <20260630041716.97102-1-kartikey406@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260630-dev-mctp-usb-1-1-v1-3-86a311fc67b7@codeconstruct.com.au>
-References: <20260630-dev-mctp-usb-1-1-v1-0-86a311fc67b7@codeconstruct.com.au>
-In-Reply-To: <20260630-dev-mctp-usb-1-1-v1-0-86a311fc67b7@codeconstruct.com.au>
-To: Matt Johnston <matt@codeconstruct.com.au>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org
-X-Mailer: b4 0.16-dev
+Content-Transfer-Encoding: 8bit
 
-The processing of USB receive transfers is common to both sides of a
-MCTP over USB transport. In order to support a future gadget driver,
-move the current host-side driver into a new common file, mctp-usblib.
+uea_load_firmware() calls request_firmware_nowait() passing a raw
+struct usb_device pointer as context, without holding a reference
+to it.
 
-This currently handles the submit-complete-packetise process of the
-receive path of the USB transport. We'll add transmit handling in an
-upcoming change.
+If the USB device is disconnected before the firmware workqueue
+fires, the usb_device and its usb_interface objects are freed while
+uea_upload_pre_firmware() is still pending on the workqueue. When
+the callback eventually runs, it accesses the freed memory causing
+a slab-use-after-free:
 
-Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
+  BUG: KASAN: slab-use-after-free in __intf_to_usbdev
+  include/linux/usb.h:752 [inline]
+  BUG: KASAN: slab-use-after-free in uea_upload_pre_firmware+0x8d/0x640
+  drivers/usb/atm/ueagle-atm.c:598
+  Read of size 8 at addr ffff88802b0710b8 by task kworker/0:2/1664
+
+Fix by calling usb_get_dev() before queuing the firmware request to
+pin the usb_device in memory for the lifetime of the async operation,
+and usb_put_dev() in the callback once it is finished with the
+pointer. On the error path where request_firmware_nowait() itself
+fails, drop the reference immediately since the callback will never
+fire.
+
+Reported-by: syzbot+3d45d763d18796f97412@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=3d45d763d18796f97412
+Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
 ---
- drivers/net/mctp/Kconfig       |  11 +++
- drivers/net/mctp/Makefile      |   1 +
- drivers/net/mctp/mctp-usb.c    | 100 +++++-------------------
- drivers/net/mctp/mctp-usblib.c | 167 +++++++++++++++++++++++++++++++++++++++++
- include/linux/usb/mctp-usb.h   |  26 +++++++
- 5 files changed, 225 insertions(+), 80 deletions(-)
+ drivers/usb/atm/ueagle-atm.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/mctp/Kconfig b/drivers/net/mctp/Kconfig
-index cf325ab0b1ef..a564a792801d 100644
---- a/drivers/net/mctp/Kconfig
-+++ b/drivers/net/mctp/Kconfig
-@@ -47,9 +47,20 @@ config MCTP_TRANSPORT_I3C
- 	  A MCTP protocol network device is created for each I3C bus
- 	  having a "mctp-controller" devicetree property.
+diff --git a/drivers/usb/atm/ueagle-atm.c b/drivers/usb/atm/ueagle-atm.c
+index d610cdcef7d0..686cc58fb89f 100644
+--- a/drivers/usb/atm/ueagle-atm.c
++++ b/drivers/usb/atm/ueagle-atm.c
+@@ -663,6 +663,7 @@ static void uea_upload_pre_firmware(const struct firmware *fw_entry,
+ 	uea_err(usb, "firmware is corrupted\n");
+ err:
+ 	release_firmware(fw_entry);
++	usb_put_dev(usb);
+ }
  
-+config MCTP_TRANSPORT_USBLIB
-+	tristate "MCTP over USB common library"
-+	depends on USB
-+	help
-+	  Common protocol handling functions for MCTP-over-USB transport
-+	  implementations, suitable for use in either host- or gadget-side
-+	  transport driver
-+
-+	  This will be automatically enabled by the transport driver.
-+
- config MCTP_TRANSPORT_USB
- 	tristate "MCTP USB transport"
- 	depends on USB
-+	select MCTP_TRANSPORT_USBLIB
- 	help
- 	  Provides a driver to access MCTP devices over USB transport,
- 	  defined by DMTF specification DSP0283.
-diff --git a/drivers/net/mctp/Makefile b/drivers/net/mctp/Makefile
-index c36006849a1e..c870b62d3f1c 100644
---- a/drivers/net/mctp/Makefile
-+++ b/drivers/net/mctp/Makefile
-@@ -2,3 +2,4 @@ obj-$(CONFIG_MCTP_SERIAL) += mctp-serial.o
- obj-$(CONFIG_MCTP_TRANSPORT_I2C) += mctp-i2c.o
- obj-$(CONFIG_MCTP_TRANSPORT_I3C) += mctp-i3c.o
- obj-$(CONFIG_MCTP_TRANSPORT_USB) += mctp-usb.o
-+obj-$(CONFIG_MCTP_TRANSPORT_USBLIB) += mctp-usblib.o
-diff --git a/drivers/net/mctp/mctp-usb.c b/drivers/net/mctp/mctp-usb.c
-index c6e36b63e87a..531b7c994afb 100644
---- a/drivers/net/mctp/mctp-usb.c
-+++ b/drivers/net/mctp/mctp-usb.c
-@@ -28,6 +28,8 @@ struct mctp_usb {
- 	u8 ep_in;
- 	u8 ep_out;
- 
-+	struct mctp_usblib_rx rx;
-+
- 	struct urb *tx_urb;
- 	struct urb *rx_urb;
- 
-@@ -125,24 +127,23 @@ static const unsigned long RX_RETRY_DELAY = HZ / 4;
- static int mctp_usb_rx_queue(struct mctp_usb *mctp_usb, gfp_t gfp)
- {
- 	unsigned long flags;
--	struct sk_buff *skb;
-+	size_t len;
-+	void *buf;
- 	int rc;
- 
--	skb = __netdev_alloc_skb(mctp_usb->netdev, MCTP_USB_1_0_XFER_SIZE, gfp);
--	if (!skb) {
--		rc = -ENOMEM;
-+	rc = mctp_usblib_rx_prepare(mctp_usb->netdev, &mctp_usb->rx,
-+				    &buf, &len, gfp);
-+	if (rc)
- 		goto err_retry;
--	}
- 
- 	usb_fill_bulk_urb(mctp_usb->rx_urb, mctp_usb->usbdev,
- 			  usb_rcvbulkpipe(mctp_usb->usbdev, mctp_usb->ep_in),
--			  skb->data, MCTP_USB_1_0_XFER_SIZE,
--			  mctp_usb_in_complete, skb);
-+			  buf, len, mctp_usb_in_complete, mctp_usb);
- 
- 	rc = usb_submit_urb(mctp_usb->rx_urb, gfp);
- 	if (rc) {
- 		netdev_dbg(mctp_usb->netdev, "rx urb submit failure: %d\n", rc);
--		kfree_skb(skb);
-+		mctp_usblib_rx_cancel(&mctp_usb->rx);
- 		if (rc == -ENOMEM)
- 			goto err_retry;
- 	}
-@@ -159,92 +160,27 @@ static int mctp_usb_rx_queue(struct mctp_usb *mctp_usb, gfp_t gfp)
- 
- static void mctp_usb_in_complete(struct urb *urb)
- {
--	struct sk_buff *skb = urb->context;
--	struct net_device *netdev = skb->dev;
--	struct mctp_usb *mctp_usb = netdev_priv(netdev);
--	struct mctp_skb_cb *cb;
--	unsigned int len;
-+	struct mctp_usb *mctp_usb = urb->context;
-+	struct net_device *netdev = mctp_usb->netdev;
- 	int status;
- 
- 	status = urb->status;
- 
- 	switch (status) {
-+	default:
-+		netdev_dbg(netdev, "unexpected rx urb status: %d\n", status);
-+		fallthrough;
- 	case -ENOENT:
- 	case -ECONNRESET:
- 	case -ESHUTDOWN:
- 	case -EPROTO:
--		kfree_skb(skb);
-+		mctp_usblib_rx_cancel(&mctp_usb->rx);
- 		return;
- 	case 0:
+ /*
+@@ -693,12 +694,14 @@ static int uea_load_firmware(struct usb_device *usb, unsigned int ver)
  		break;
--	default:
--		netdev_dbg(netdev, "unexpected rx urb status: %d\n", status);
--		kfree_skb(skb);
--		return;
  	}
  
--	len = urb->actual_length;
--	__skb_put(skb, len);
--
--	while (skb) {
--		struct sk_buff *skb2 = NULL;
--		struct mctp_usb_hdr *hdr;
--		u8 pkt_len; /* length of MCTP packet, no USB header */
--
--		skb_reset_mac_header(skb);
--		hdr = skb_pull_data(skb, sizeof(*hdr));
--		if (!hdr)
--			break;
--
--		if (be16_to_cpu(hdr->id) != MCTP_USB_DMTF_ID) {
--			netdev_dbg(netdev, "rx: invalid id %04x\n",
--				   be16_to_cpu(hdr->id));
--			break;
--		}
--
--		if (hdr->len <
--		    sizeof(struct mctp_hdr) + sizeof(struct mctp_usb_hdr)) {
--			netdev_dbg(netdev, "rx: short packet (hdr) %d\n",
--				   hdr->len);
--			break;
--		}
--
--		/* we know we have at least sizeof(struct mctp_usb_hdr) here */
--		pkt_len = hdr->len - sizeof(struct mctp_usb_hdr);
--		if (pkt_len > skb->len) {
--			netdev_dbg(netdev,
--				   "rx: short packet (xfer) %d, actual %d\n",
--				   hdr->len, skb->len);
--			break;
--		}
--
--		if (pkt_len < skb->len) {
--			/* more packets may follow - clone to a new
--			 * skb to use on the next iteration
--			 */
--			skb2 = skb_clone(skb, GFP_ATOMIC);
--			if (skb2) {
--				if (!skb_pull(skb2, pkt_len)) {
--					kfree_skb(skb2);
--					skb2 = NULL;
--				}
--			}
--			skb_trim(skb, pkt_len);
--		}
--
--		dev_dstats_rx_add(netdev, skb->len);
--
--		skb->protocol = htons(ETH_P_MCTP);
--		skb_reset_network_header(skb);
--		cb = __mctp_cb(skb);
--		cb->halen = 0;
--		netif_rx(skb);
--
--		skb = skb2;
--	}
--
--	if (skb)
--		kfree_skb(skb);
-+	mctp_usblib_rx_complete(netdev, &mctp_usb->rx, urb->actual_length);
++	usb_get_dev(usb);
+ 	ret = request_firmware_nowait(THIS_MODULE, 1, fw_name, &usb->dev,
+ 					GFP_KERNEL, usb,
+ 					uea_upload_pre_firmware);
+-	if (ret)
++	if (ret) {
+ 		uea_err(usb, "firmware %s is not available\n", fw_name);
+-	else
++		usb_put_dev(usb);
++	} else
+ 		uea_info(usb, "loading firmware %s\n", fw_name);
  
- 	mctp_usb_rx_queue(mctp_usb, GFP_ATOMIC);
- }
-@@ -341,6 +277,8 @@ static int mctp_usb_probe(struct usb_interface *intf,
- 	spin_lock_init(&dev->rx_lock);
- 	usb_set_intfdata(intf, dev);
- 
-+	mctp_usblib_rx_init(&dev->rx);
-+
- 	dev->ep_in = ep_in->bEndpointAddress;
- 	dev->ep_out = ep_out->bEndpointAddress;
- 
-@@ -362,6 +300,7 @@ static int mctp_usb_probe(struct usb_interface *intf,
- err_free_urbs:
- 	usb_free_urb(dev->tx_urb);
- 	usb_free_urb(dev->rx_urb);
-+	mctp_usblib_rx_fini(&dev->rx);
- 	free_netdev(netdev);
- 	return rc;
- }
-@@ -371,6 +310,7 @@ static void mctp_usb_disconnect(struct usb_interface *intf)
- 	struct mctp_usb *dev = usb_get_intfdata(intf);
- 
- 	mctp_unregister_netdev(dev->netdev);
-+	mctp_usblib_rx_fini(&dev->rx);
- 	usb_free_urb(dev->tx_urb);
- 	usb_free_urb(dev->rx_urb);
- 	free_netdev(dev->netdev);
-diff --git a/drivers/net/mctp/mctp-usblib.c b/drivers/net/mctp/mctp-usblib.c
-new file mode 100644
-index 000000000000..9b86eb4310ce
---- /dev/null
-+++ b/drivers/net/mctp/mctp-usblib.c
-@@ -0,0 +1,167 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * mctp-usblib.c - MCTP-over-USB (DMTF DSP0283) transport helper library
-+ *
-+ * DSP0283 is available at:
-+ * https://www.dmtf.org/sites/default/files/standards/documents/DSP0283_1.0.1.pdf
-+ *
-+ * Copyright (C) 2024-2026 Code Construct Pty Ltd
-+ */
-+
-+#include <linux/netdevice.h>
-+#include <linux/skbuff.h>
-+#include <linux/usb/mctp-usb.h>
-+#include <net/mctp.h>
-+
-+void mctp_usblib_rx_init(struct mctp_usblib_rx *rx)
-+{
-+	memset(rx, 0, sizeof(*rx));
-+}
-+EXPORT_SYMBOL_GPL(mctp_usblib_rx_init);
-+
-+void mctp_usblib_rx_fini(struct mctp_usblib_rx *rx)
-+{
-+	kfree_skb(rx->skb);
-+}
-+EXPORT_SYMBOL_GPL(mctp_usblib_rx_fini);
-+
-+/*
-+ * Prepare a transfer buffer for future completion; *bufp and *lenp will
-+ * be populated on success.
-+ */
-+int mctp_usblib_rx_prepare(struct net_device *netdev,
-+			   struct mctp_usblib_rx *rx,
-+			   void **bufp, size_t *lenp, gfp_t gfp)
-+{
-+	const unsigned int len = MCTP_USB_1_0_XFER_SIZE;
-+	struct sk_buff *skb;
-+
-+	skb = __netdev_alloc_skb(netdev, len, gfp);
-+	if (!skb)
-+		return -ENOMEM;
-+
-+	rx->skb = skb;
-+
-+	*bufp = skb_tail_pointer(skb);
-+	*lenp = skb_tailroom(skb);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(mctp_usblib_rx_prepare);
-+
-+static void mctp_usblib_rx(struct net_device *netdev, struct sk_buff *skb)
-+{
-+	struct pcpu_dstats *dstats = this_cpu_ptr(netdev->dstats);
-+	struct mctp_skb_cb *cb;
-+	unsigned long flags;
-+
-+	/* we're called from an URB completion handler, and cannot assume local
-+	 * irqs are always disabled
-+	 */
-+	flags = u64_stats_update_begin_irqsave(&dstats->syncp);
-+	u64_stats_inc(&dstats->rx_packets);
-+	u64_stats_add(&dstats->rx_bytes, skb->len + sizeof(struct mctp_usb_hdr));
-+	u64_stats_update_end_irqrestore(&dstats->syncp, flags);
-+
-+	skb_reset_mac_header(skb);
-+	skb->protocol = htons(ETH_P_MCTP);
-+	skb_reset_network_header(skb);
-+	cb = __mctp_cb(skb);
-+	cb->halen = 0;
-+	netif_rx(skb);
-+}
-+
-+/*
-+ * Receive a USB completion of @len bytes of incoming data. We will then split
-+ * this into packets and netif_rx() each. Intended to be called in atomic
-+ * contexts - ie., URB completion.
-+ *
-+ * Assumes @netdev uses dstats.
-+ */
-+int mctp_usblib_rx_complete(struct net_device *netdev,
-+			    struct mctp_usblib_rx *rx, size_t len)
-+{
-+	struct sk_buff *skb = rx->skb;
-+	int rc = 0;
-+
-+	__skb_put(skb, len);
-+
-+	while (skb) {
-+		struct sk_buff *skb2 = NULL;
-+		struct mctp_usb_hdr *hdr;
-+		/* length of MCTP packet, no USB header */
-+		u8 pkt_len;
-+
-+		skb_reset_mac_header(skb);
-+		hdr = skb_pull_data(skb, sizeof(*hdr));
-+		if (!hdr) {
-+			rc = -ENOMSG;
-+			break;
-+		}
-+
-+		if (be16_to_cpu(hdr->id) != MCTP_USB_DMTF_ID) {
-+			netdev_dbg(netdev, "rx: invalid id %04x\n",
-+				   be16_to_cpu(hdr->id));
-+			rc = -EPROTO;
-+			break;
-+		}
-+
-+		if (hdr->len <
-+		    sizeof(struct mctp_hdr) + sizeof(struct mctp_usb_hdr)) {
-+			netdev_dbg(netdev, "rx: short packet (hdr) %d\n",
-+				   hdr->len);
-+			rc = -EPROTO;
-+			break;
-+		}
-+
-+		/* we know we have at least sizeof(struct mctp_usb_hdr) here */
-+		pkt_len = hdr->len - sizeof(struct mctp_usb_hdr);
-+		if (pkt_len > skb->len) {
-+			rc = -EPROTO;
-+			netdev_dbg(netdev,
-+				   "rx: short packet (xfer) %d, actual %d\n",
-+				   hdr->len, skb->len);
-+			break;
-+		}
-+
-+		if (pkt_len < skb->len) {
-+			/* more packets may follow - clone to a new
-+			 * skb to use on the next iteration
-+			 */
-+			skb2 = skb_clone(skb, GFP_ATOMIC);
-+			if (skb2) {
-+				if (!skb_pull(skb2, pkt_len)) {
-+					dev_kfree_skb_any(skb2);
-+					skb2 = NULL;
-+				}
-+			}
-+			skb_trim(skb, pkt_len);
-+		}
-+
-+		mctp_usblib_rx(netdev, skb);
-+		skb = skb2;
-+	}
-+
-+	if (skb)
-+		dev_kfree_skb_any(skb);
-+
-+	rx->skb = NULL;
-+
-+	return rc;
-+}
-+EXPORT_SYMBOL_GPL(mctp_usblib_rx_complete);
-+
-+/*
-+ * Cancel a rx context; subsequent prepare/complete calls will not be a
-+ * continuation of any data already received.
-+ */
-+void mctp_usblib_rx_cancel(struct mctp_usblib_rx *rx)
-+{
-+	dev_kfree_skb_any(rx->skb);
-+	rx->skb = NULL;
-+}
-+EXPORT_SYMBOL_GPL(mctp_usblib_rx_cancel);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Jeremy Kerr <jk@codeconstruct.com.au>");
-+MODULE_DESCRIPTION("MCTP USB transport library");
-diff --git a/include/linux/usb/mctp-usb.h b/include/linux/usb/mctp-usb.h
-index 2bece8afd1c7..595e6af16dd0 100644
---- a/include/linux/usb/mctp-usb.h
-+++ b/include/linux/usb/mctp-usb.h
-@@ -13,6 +13,8 @@
- #ifndef __LINUX_USB_MCTP_USB_H
- #define __LINUX_USB_MCTP_USB_H
- 
-+#include <linux/netdevice.h>
-+#include <linux/skbuff.h>
- #include <linux/types.h>
- 
- struct mctp_usb_hdr {
-@@ -29,4 +31,28 @@ struct mctp_usb_hdr {
- #define MCTP_USB_1_0_MTU_MAX	(MCTP_USB_1_0_PKTLEN_MAX - sizeof(struct mctp_usb_hdr))
- #define MCTP_USB_DMTF_ID	0x1ab4
- 
-+/* mctp-usblib */
-+
-+/*
-+ * RX handle: drivers will typically create one on init, which persists for
-+ * the life of the driver. The same handle is used for progressive
-+ * prepare -> complete operations (for each incoming USB transfer), which
-+ * result in netif_rx()-ing the MCTP packets received
-+ */
-+struct mctp_usblib_rx {
-+	struct sk_buff *skb;
-+};
-+
-+void mctp_usblib_rx_init(struct mctp_usblib_rx *rx);
-+void mctp_usblib_rx_fini(struct mctp_usblib_rx *rx);
-+
-+int mctp_usblib_rx_prepare(struct net_device *netdev,
-+			   struct mctp_usblib_rx *rx,
-+			   void **bufp, size_t *lenp, gfp_t gfp);
-+
-+int mctp_usblib_rx_complete(struct net_device *netdev,
-+			    struct mctp_usblib_rx *rx, size_t len);
-+
-+void mctp_usblib_rx_cancel(struct mctp_usblib_rx *rx);
-+
- #endif /*  __LINUX_USB_MCTP_USB_H */
-
+ 	return ret;
 -- 
-2.47.3
+2.43.0
 
