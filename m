@@ -1,48 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6731926F2B0
-	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 12:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FED53F6C2D
+	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 12:26:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782821968; cv=none; b=sGdHZ+jyOlBOkF9IV0x7SFyk+XR5ArsCH13OHcAnFGHU9NOwTuyl/BdZsqEYI2jCaTOkn/UidF3/5ewfIvhE1+PKcR1ljQ7CMOJqBRp7/ODY9b/Kyg+d8b4PYjcRHF8fXsp+92p6kJAaAuhsYOaDRsd1Pg2LuoL96ZwJSCkK6YQ=
+	t=1782822374; cv=none; b=Ny+ZmrkTTpmqcWxmnp0sjRn01kyn952Zi3eHcuqUKAyl/WTZb3dKL5JpyvxeJpq9a5kBH3lC9JiZFdAMxXaOH8NWxrTQ6BlQ86Pnv5mvItQ2iW0GeV610e5wvdXbR0EDLlu7mtoz8UwLWt7slcpbyp2NkJ+443VxU7kiF2lPNRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782821968; c=relaxed/simple;
-	bh=fy2ZIA4bfqECbzSb1emW+G0BJNVaraB9oSf1dc2y1Ag=;
+	s=arc-20240116; t=1782822374; c=relaxed/simple;
+	bh=iNZdEwsKAsDKmuUkLTwjjBV6QowQJ1zKUsUe+DlegcU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Tlno8MElW+xzirZ5XgEiO0hBcE3bRx1KfvxfmZbcXkhsLdwSsPZd3+Mn0uUwdEikl9sPYeLwead7nzn3ry2kmCRcuuNnt+8A1bLpkw6lZD7JUH1PdyjJdYqJOTHy0SJMPoxbfYAxXz3Lc2S0eq0cgjJQT67oCdNqp5IZwDt7Jd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XCUHMmO5; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=AwHxBH7887lfWL5XY0HB92JxGjlfG/2+RM6IEqYDF+lflTQpwIfZE79UAX2K2bAA7B80GMRfzqPpL+Bcy7R9e5DgHrWMeWg0ySsaFoq1GtlD5soCfwS7DNf3XaZquB6wpTZLlstw0FpzB3gcegfEbB3mMWzYQps2920qrQeJobc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hwMp78is; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XCUHMmO5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782821967; x=1814357967;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=fy2ZIA4bfqECbzSb1emW+G0BJNVaraB9oSf1dc2y1Ag=;
-  b=XCUHMmO5yt2IhnUizcRom8T1JWzVcNnOMFhAs5wHxSgAMTO6TdaikMO5
-   /U5ISGUgqutgC7k1q0XxhZDrXlAwHQN+JM3A8O3kOpW1rVm18VmMbsDv+
-   ol0+jc50PGSDExUIn7YziMartPP9Hr7sOcyQiJZ4dEbQKhyruxghWjzAc
-   5YH1csmlOxpUz+CGR5iYRnXXVmqtoOU9qefiyIZZEErChHUmd6OprB0pK
-   PWdtgzTSKbl87rskSAKk9GswoBEMctDAIIkqj+tdfbQpRFlvQaRLlKJSN
-   vk/DMGRsm9gRbh5sJyumH8LTE/6rXMw3DMTbDsSgsS1Qz6DG7l618uyHQ
-   Q==;
-X-CSE-ConnectionGUID: q2b/8XB4QC6cVtRIOo9C5Q==
-X-CSE-MsgGUID: eG9uOJdtQb6X5Rl/xjTwcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83590715"
-X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
-   d="scan'208";a="83590715"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 05:19:27 -0700
-X-CSE-ConnectionGUID: /5cON3DxQNqf387muNOslQ==
-X-CSE-MsgGUID: E3WkvWqLRTCNHVV1C3ypyw==
-X-ExtLoop1: 1
-Received: from rvuia-mobl.ger.corp.intel.com (HELO [10.245.245.197]) ([10.245.245.197])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 05:19:26 -0700
-Message-ID: <0a2db9bd-027a-4810-9750-8e2041fbe32f@linux.intel.com>
-Date: Tue, 30 Jun 2026 15:19:23 +0300
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hwMp78is"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6974a6e54dbso8198043a12.2
+        for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 05:26:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1782822371; x=1783427171; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BA2X/zcRsTk5hQYuVduQ2jmFWHnaeTrwS0kSMxtBRhY=;
+        b=hwMp78ishpNWIJm342X6Zc/jOIq3cOvUliathnzfnXYRzyLW+VPTHwZBf/+6MS/2w5
+         bKFkPoZUXBPfQaz1dxTvAsTzfW51xntvHVxhh0OB5R6O02RkVJDXjdN0DPtBMr+982/x
+         LMAd38ZCAhOpqDZqP7kvl70pkVp4H5bMz1e0UL9sE9+vC2iwee8Q1ISzLXpW7WcUyUkA
+         id/bA0lmVUEqN12uY/0sPonO+UG+WGEZZQSBXKatmXNJAqUwhTPkm9l+FlCChAvgWdtT
+         ulGOb5RFTA36m4Ea4dPbvR9GX2yeRtXWY0aR9ZindtvAT6mOWUrYbhyb3xGErylAh2SU
+         ZuEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782822371; x=1783427171;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BA2X/zcRsTk5hQYuVduQ2jmFWHnaeTrwS0kSMxtBRhY=;
+        b=VKGxsQiub9YtRuFJk0OIiwLqccTFXDrrSejVN3cCojl9QENWT+Q52OKs4hoALnN5Yo
+         dDGk0mtddvs0iLF/rgvQtSHDT6MYR61jqXo/MAsVB0VoOTd+O+RcrlevkDb3qOCIt4UE
+         uFoed6/aMjD95CQSYicHpoiqrs7wfI9ssKCpQN74C4n0e3JMXKyDlGTJ4UL9qD4f0XkY
+         NWa5mvKQPOMDsVupXyjAO9VOgjhHkp6lsLaqgQiaTp4qLjLoflESAlOR0H4J3NcFl9j7
+         1hsk2Jygru4a0YpKds2qx3DtGGYJH13xeXWQqZAycwKXesx/tgilAmxV3WsoQX1dhozf
+         1HdQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpoU7mdAt1O0kBaONnSQ/87fVW3BrXSyorJnXA5jX5SqzQhrGwrBvmc5WgJHaw8RlVGXqCUHC1xxwY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfLn13yElh/J0S3l5n0iwc1jKTDbET0bQZH8RYribWziq0Ri6i
+	phIiCYRGxXeg5jIl0Sz1pO2r7qvdWxKp4PGSjOS3q6K5vCRGevvoeNg8degqSqDo7g0=
+X-Gm-Gg: AfdE7ckKaf+lmKEWSqJtG0QWx0df42rVrzYtXtrtINxqfbGaSNoq0V9C/kgadtD6zTp
+	YYrQVKDgLwsAJkW+HQCcu4EwCvk/UoJcaJDtACwhgVFIMs27iTjouMSSomFmG6KLHU1YeBcJE0E
+	nWk/vje1fSvLEWl5ptVAJdTjAdSjHKF8wtK7GgJidmdr9dRhsOdtJjR2xxhhRO4ecN98FMQZafi
+	k1dyot76cMms/IS104L2XDO5BQKrTmbEmO+2nb2/4k/FrULjQhI9lfRS8lvAYIeymeFz22ZByO7
+	kU87amhf1oeprhhtjQ+Ry4zCeZ6AL/4cC0D+uy5vdR95+50lNF3kgB1dHRrwQ/uRFG9Ps10XCLU
+	Dh1vYLx6w1F1wR6edTIdYtZTAAK2dakiexh78jhtVjVeNf4RWBWnxglKabhoPHHtKE1aZnLMuNI
+	nOWOqvyx7hssiWViTSECfjPkkLuw==
+X-Received: by 2002:a17:906:308c:b0:c12:86a3:d18c with SMTP id a640c23a62f3a-c12874224c2mr101140266b.59.1782822370707;
+        Tue, 30 Jun 2026 05:26:10 -0700 (PDT)
+Received: from [192.168.0.101] ([109.76.103.114])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1288f0d68asm115825166b.31.2026.06.30.05.26.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jun 2026 05:26:08 -0700 (PDT)
+Message-ID: <124ee5ab-f065-42b0-b8f1-3a61fd3dec59@linaro.org>
+Date: Tue, 30 Jun 2026 13:26:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -50,42 +68,73 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFT PATCH 0/3] xhci: avoid futile stop endpoint command and host
- teardown
-To: Xu Rao <raoxu@uniontech.com>
-Cc: linux-usb@vger.kernel.org, michal.pecio@gmail.com
-References: <20260629123031.142133-1-mathias.nyman@linux.intel.com>
- <31BE5DC88420567E+20260630070611.3186010-1-raoxu@uniontech.com>
+Subject: Re: [PATCH] usb: typec: qcom-pmic-typec: avoid uninit values in
+ dev_dbg() error paths
+To: Vasiliy Kovalev <kovalev@altlinux.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+References: <20260630120114.185169-1-kovalev@altlinux.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <31BE5DC88420567E+20260630070611.3186010-1-raoxu@uniontech.com>
+In-Reply-To: <20260630120114.185169-1-kovalev@altlinux.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/30/26 10:06, Xu Rao wrote:
-> Hi Mathias,
+On 30/06/2026 13:01, Vasiliy Kovalev wrote:
+> Several functions take a 'goto done' shortcut on regmap_read() (or
+> switch default) failure before assigning locals that the trailing
+> dev_dbg() then formats.
 > 
-> I tested this series on the Renesas uPD720201 xHCI controller with the
-> GenesysLogic hub and RTL8153 device behind it.
+> Initialize the affected locals at declaration.
 > 
-> The original failure is no longer reproduced. After unplugging the hub,
-> the xHCI driver no longer tears down the host, and I no longer see:
+> Found by Linux Verification Center (linuxtesting.org) with Svace static
+> analysis tool.
 > 
->    xHCI host not responding to stop endpoint command
->    xHCI host controller not responding, assume dead
+> Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC Type-C driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
+> ---
+>   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
 > 
-> The log also shows the new EP_DROP_PENDING path is used during disconnect,
-> for example cancelled TDs are invalidated directly instead of queuing a
-> futile Stop Endpoint command.
-> 
-> 
-> Tested-by: Xu Rao <raoxu@uniontech.com>
+> diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+> index bf985efe1cd6..c8379cdcb6da 100644
+> --- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+> +++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+> @@ -366,7 +366,7 @@ static int qcom_pmic_typec_port_get_cc(struct tcpc_dev *tcpc,
+>   	struct pmic_typec_port *pmic_typec_port = tcpm->pmic_typec_port;
+>   	struct device *dev = pmic_typec_port->dev;
+>   	unsigned int misc, val;
+> -	bool attached;
+> +	bool attached = false;
+>   	int ret = 0;
+>   
+>   	ret = regmap_read(pmic_typec_port->regmap,
+> @@ -461,8 +461,8 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc_dev *tcpc,
+>   	struct pmic_typec *tcpm = tcpc_to_tcpm(tcpc);
+>   	struct pmic_typec_port *pmic_typec_port = tcpm->pmic_typec_port;
+>   	struct device *dev = pmic_typec_port->dev;
+> -	unsigned int mode, currsrc;
+> -	unsigned int misc;
+> +	unsigned int mode = 0, currsrc = 0;
+> +	unsigned int misc = 0;
+>   	unsigned long flags;
+>   	int ret;
+>   
+> @@ -535,7 +535,8 @@ static int qcom_pmic_typec_port_set_vconn(struct tcpc_dev *tcpc, bool on)
+>   	struct pmic_typec *tcpm = tcpc_to_tcpm(tcpc);
+>   	struct pmic_typec_port *pmic_typec_port = tcpm->pmic_typec_port;
+>   	struct device *dev = pmic_typec_port->dev;
+> -	unsigned int orientation, misc, mask, value;
+> +	unsigned int orientation = 0, misc = 0, value = 0;
+> +	unsigned int mask;
+>   	unsigned long flags;
+>   	int ret;
+>
 
-Thanks for testing.
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-Do you think this series is enough for the Renesas uPD720201 controller issue
-and we can skip the 'Disable soft retry' patch?
-
-Thanks
-Mathias
-
+---
+bod
