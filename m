@@ -1,107 +1,667 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011011.outbound.protection.outlook.com [52.101.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136173FD15E;
-	Tue, 30 Jun 2026 10:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782815463; cv=none; b=KlZv9Keb4EDMBYFFlRQrHdgLes6wBJKe6mX9NksuBI1wxSARSUCb2koS8fm6Dz1D3O6UxU/2kUhxxgWrSVYvUkYhrexewc8Z6f6BuumSGrsB9UR5FnbIovHMwrRn5XGi9YZOjcDbQ9pWBKSb1pAPWNhqtYhgAm/0qHShYep/F50=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782815463; c=relaxed/simple;
-	bh=w2zJjc0mlqhV9a6H/3fB7R2sAl42l1ogKc/1eNMaXSE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X2dwT5ahSsvlL8yHiWnhUN2D7vh6dGU1i2vipyR9MFsjn0HZczU3oMqvUjDz8eOyXfEpwb+St3D62qzomtaNDg1+3Ckc2k9XaqkVomQYyA0w/1OFKeunqOH4cKPrboCihEaT0hM7bRz/Hg6b7N+DYRYxo0TwrJ8+a6//YhVKdP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIuAOKsX; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275DE3F8ED8;
+	Tue, 30 Jun 2026 11:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782817787; cv=fail; b=ilH4/0pNgYL1I9w3whKn2RdcpUdyWoqFg63zWLnaUFJUv/bRascTk9H5u1NKfFNfai0HbiYwSZ9VFa8fHs11IA5nzVHeJu/d97cuxth9cuSe9dEg+dydrEOPDac0qG+X/SyaXrPNwUZ3fd12o7cY8riHH+o7Q4L9GXQ/6F0eRRg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782817787; c=relaxed/simple;
+	bh=jowaim81QUNgyE6uPnR0wWr3fIu+qd/oBrJHnZZna3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=gVuuOuL8SdMMZkFSaBpkDB7sWdMnC0uzLftDE6sQLMFdlnCRierPsjhmW7XU8CjkDdcdC61NvlL7SkPFWdTfNCCpvmNO/7RkHRRgACZCLslnI+qly8/qPTQ2YIqo2VeUYIShOpV57qs5p+OhLz5fQ/LOTzE0lP/j26MdX61iR8M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=bZtiU/OT; arc=fail smtp.client-ip=52.101.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIuAOKsX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782815462; x=1814351462;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=w2zJjc0mlqhV9a6H/3fB7R2sAl42l1ogKc/1eNMaXSE=;
-  b=GIuAOKsX3m0xed+50bDqnZDBCZuK6BsykPTgiKGzpjJq4exvPukXhavc
-   OdqRGpfViV3z41jWCMtcx4h7FL+mmX7jf8guWdzglczAC58zKYJIw3gVb
-   qPEb/yZnsCx6+BPsR9S2bcypQvEX37tEyeisiLzArPhbvY4y5FZLHWc4f
-   Vd4+Zp0QGez2hj4Oq7U6NSuYblJ/YQLIUJqZWscug1sl2HeEFNJmj8Ben
-   Y5tRCd6D+lLt0OlJw6RfC+yyw6g7ApwK2xPJ28z3X/08mkOyBBBk3Lx9c
-   ss12Oi/rcPMVn4CdN6iUriDJ602+jCSeF3UCDfsKkBSSLFEXiey3mpt7C
-   w==;
-X-CSE-ConnectionGUID: 8aeNU1KSRPK1SA1/Lk3s+g==
-X-CSE-MsgGUID: /P72qIy6RDGHpHFHYXAJRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="71047624"
-X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
-   d="scan'208";a="71047624"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 03:31:01 -0700
-X-CSE-ConnectionGUID: mHXrrIjwSoKUAmocmZr96Q==
-X-CSE-MsgGUID: xExt8gUjQaO9TQulA7nw5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
-   d="scan'208";a="251825854"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO [10.245.245.197]) ([10.245.245.197])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 03:30:58 -0700
-Message-ID: <22af27b3-0595-4490-a9ab-9a7fdf4cef47@linux.intel.com>
-Date: Tue, 30 Jun 2026 13:30:54 +0300
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="bZtiU/OT"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tkVdKGScYkyayL5vpw2WGBkTfZg/cBDIJaOkleMAHdiWhTa+fUt/2AqPNS4zDBWXEoAHa+jzSLmd9+7xXYg9//ZhhkH/WOfEy9+bFGdva645z54vi1kDtvNzqwn0FsA73oTXxS4v6vOU8cujfN/7oVKxRDZQpfCp2ZRLNg2JK8vw4IJCkYyyNxWin8w9KIM7YwR1VMzLgeDLip3IoZ9ac0t9anV+cx11EJn+oViBTrYMrZSxn4UK3xNUJJGhxeF8RYgMDIWZwuUbFqencqpTiXvfRK9U5He662BT5oDFGWBiwfOC1NO+/SpWfyuUEWMOUd4T7MczeMRIOpYHu+ni6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WYWHDOfRt+/M+NJsUxigU/jpfqWW4MJZ1al+43332hs=;
+ b=cD2N3fe4I0PQxh09t2WYessw6ccu8rx+Ls2F4rDZJOTG6ymsPsSbVKa7SP5wHz9pvLV1lj/b8BMPC4R/AclRJARcQ3Uem5NDkWANxBC/Y2+0Cim+fY4m8bYPtR2lz2InGOwxiIlY1T7XHgNJB6fnfUxO4YdRcdGZFp7DU3BiI5tRFWu37o6RoVJhNY51nRq/Is6KdvbOVLmWYALTr63TOxR8apLSxliHapwWRnArIkzPQXoK17kFxvCHfq/wML7Z8g9eoqBCyxoLwYS2yC0YPuObJgqlRlhCbXK14FCmAjswIwpPixS/mL9GmwliGzXMRpBPhqPe9sYka7iSbIH2/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WYWHDOfRt+/M+NJsUxigU/jpfqWW4MJZ1al+43332hs=;
+ b=bZtiU/OTh5Tv2PGHwaRR4bcSRrsh8ebAGa9JF4wr6ivB6g5Mhn1Va3gg0CDXb7WmNg6jiJK3gaXTxtLeoZzmQVg24BnnF9TUtL/rk5JbdfBErFBHA2p6mkeUa/kKmH4iG75UqvnkC+ryH4aUsyi6x1WOFjCXS+kEe3DZHT0fJSHPD9KaHaDN4EZkCLGPTB03iMVHmqEy2Bu/ol95MVf9PCJkJnDVFhIWXX1coK59FFMuWO+wKGYCvR657M8yC7P0MQNQ0BYnJY3k3VEyHV4BdUfHZ6IGMJxc1qv0R9PIddmCDSaZT5Vf5k6SVRe0wO8gembAGisaH+lIN1q4WzvGjQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
+ by PAXPR04MB8733.eurprd04.prod.outlook.com (2603:10a6:102:21d::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.19; Tue, 30 Jun
+ 2026 11:09:41 +0000
+Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
+ ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
+ ([fe80::54e:28bf:aa85:d25d%4]) with mapi id 15.21.0159.018; Tue, 30 Jun 2026
+ 11:09:41 +0000
+Date: Tue, 30 Jun 2026 19:08:26 +0800
+From: Xu Yang <xu.yang_2@oss.nxp.com>
+To: RD Babiera <rdbabiera@google.com>
+Cc: heikki.krogerus@linux.intel.com, badhri@google.com, 
+	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: typec: tcpm: implement retry mechanism for
+ Discover Identity VDMs
+Message-ID: <5e5kztv2w37ovbjq5lka2626vpfi6x7ez52d6pdzv5cbalm2gl@r5pbb4h5ipql>
+References: <20260625215431.914380-2-rdbabiera@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260625215431.914380-2-rdbabiera@google.com>
+X-ClientProxiedBy: AS4P190CA0050.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:656::12) To PAXPR04MB9422.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b4::21)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: xhci: prevent spurious root hub resume during
- suspend
-To: Pei Xiao <xiaopei01@kylinos.cn>, mathias.nyman@intel.com,
- gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, stern@rowland.harvard.edu
-Cc: dengjie03@kylinos.cn
-References: <368829d76a12e371e09f203e14b5c80b6515c025.1782804779.git.xiaopei01@kylinos.cn>
- <4ba1dbbc-7597-4042-a443-4ffd292559de@linux.intel.com>
- <939cee9f-d4d7-4b42-8337-f765d39feb10@kylinos.cn>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <939cee9f-d4d7-4b42-8337-f765d39feb10@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|PAXPR04MB8733:EE_
+X-MS-Office365-Filtering-Correlation-Id: d450613c-3f66-41b9-ad42-08ded69814cc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|19092799006|22082099003|18002099003|11063799006|5023799004|6133799003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	8lVFOsyqbyurmN0+8jmfUM6/ER9XZTI9YTsoY1/Hbq7WEgYJifDLhz8xLUEXUEdhuLO7U5Gj+kEBNg7wByuia9DJOKEZ529//aZhE+6Bhrakj5/fCc6WKWt80fOC99fae9E3Sahne/k05UbX1Iv84uaF+qCeW8zxDdvHbe3IUDTuw/pq6WJUUMWB8cO+3jYoyl+wEB0sZoh5jO/ZiTB6U5USxsvXB/BMal1cUYEWjpsLwG3wuw1sNoBXNv1w7+PlzqXeLuPTzULN3E4hBwKxI10gVIyFTB3FHR4hr4G4axeGjKx47qs+H4q5IJnTproFKp0BbiWZv38epDAaLWN3gGoNK06WxVxUXx8QTzE3/mzPocREik0fBceOc5RVPDjMtp/c+ExiCXzlk4w95TvSkSNwZXw/PGO3bQvo1dT19pLdJiDOVr/9rU43oRIK4ZtDTE1AaYFFaXtxMYykpi5qKqeQDInmgnuFMQmmGbrc8IqVdQXtY4SLW/QkfRxUWfBSMKrYUyMoVo4IJ/3OwyhOarVJKEX1///SCO7Q+Ub0mkkMz9lebFrJMg0qpIQ9EVvvR8Et2PaiTbsNBbf6wetg2kfRfcIgZ9lR3jRX14FCOeLjC26SztbCCrNLyf+DyC5zzP/AUrSxymiN7iZ3CziiQd8JIrldYzqOUY2CJFaKP5M=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(19092799006)(22082099003)(18002099003)(11063799006)(5023799004)(6133799003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?A0OdSE4sHg7dgFqUcNwsN98DGOgemxmti3Ey99Tk64BEsh3Zm/U07Wz3syJb?=
+ =?us-ascii?Q?+YGMKhtFPI6MJetyEVVUIPehU8syaa30L0YEyWK2Sjz1MP5T/5QZohOONB79?=
+ =?us-ascii?Q?NgPvzt8eTvNvChoj7h6+OTCLf/84Mo8A938s4rzjsEfbZ6Yu2aRFnNVFdKJZ?=
+ =?us-ascii?Q?CwAo8nJPuM90hDh786+jMNJBPFU+MbjGlRA7ELqfi9/h4jbTjeorpv7UAKQa?=
+ =?us-ascii?Q?14WO8yg0afBNOH/0Cw+BYuzeDQH/Q5XZ9GAgypRiVT6xs30bZkFOQdq5RSJl?=
+ =?us-ascii?Q?RHsjAn0tKBJ579mPS4SWqiq0YgOmTmPDwSRhgcCTWDY9c6x6qOMJ2+Rk3/dg?=
+ =?us-ascii?Q?WhxU7dggAo4tz9qLsIPC4rf09awYKNmRUA2VNFzFh7aFK9dUEZVuxHkzx5zH?=
+ =?us-ascii?Q?xrlmqndAi6aInNEQ6xGUbSKBABrY7LokYguMik7yBSXWmjHQ2Cc3y4bFRYX0?=
+ =?us-ascii?Q?DU3BydPBpg5FTDSeJX9qhLHALOLkkNPxfFyzLewahUDuz2fQz+2yPgSHKRUt?=
+ =?us-ascii?Q?VmZGPSpDE7OI6jmhxhY2s3uiQ79GbaiW8beaoqWWvWbHq4nlvP5lDlZpw4U7?=
+ =?us-ascii?Q?xc+KxSVp/5/XcGQe8KZcL3y2cKqsaqkbNW7VikfasGjhqVgO/mV74JZNlT8t?=
+ =?us-ascii?Q?KrfkPP1+yQLIEY7A4djlouR7ps7r9oKIYlPM/yGotayArQ8tfJBzdWX7iQaP?=
+ =?us-ascii?Q?RepJZFmvQwDeouSrLZGkDujUJACOEgvdNRgP6vc+mebtfxqLN1i9QTkFrQzP?=
+ =?us-ascii?Q?Dcr9BPI4l6GfwUOCj3WGG4d+T2JxrT6xkYi8Iz3x4CNon/IcmbmMw0ZUwqg1?=
+ =?us-ascii?Q?Jr+Rqg1XXJE5jSXQPFIiXNEocHU9X5gUDhorhZReOOBb69hn5hkZF/0LNe0R?=
+ =?us-ascii?Q?G+HBBEmyvvkeXb9JvR9cKfIA5wCjyeLBksFg+RQk0iZa+yYfsfxjR7CN3px5?=
+ =?us-ascii?Q?EqHHlkoDITzmQCmn0yYsr5vAmYk44F10z5kisUem1b8HiD/HJia2eKhao7QK?=
+ =?us-ascii?Q?3NbrlGoCOGfvWImEaz9ItQiOF0rzjz7kEYg6B2oq3pGRtMncDtst2VyGAJzr?=
+ =?us-ascii?Q?7aThfquujO1YgcXpFO3NPVxyZdNv7XC8NU7+czcusn78FCwGNBfU62Tm/eMb?=
+ =?us-ascii?Q?LC2m2Q8/5lWMT0eSQ9DaWAue0O8fR3QHufD4+0ax3BWnqMK5hCUmjvwuUwB8?=
+ =?us-ascii?Q?0M2oAAm6IjZSWDfZo9XaKCbIN3V24JOTK871oP8eXfAuUvSJGtqPf13ocPKI?=
+ =?us-ascii?Q?o5zBASzzOvZchL/IwMn6FBDRilq92v5A/MTcc360+bXw2R/xm4PxRYg3mhrl?=
+ =?us-ascii?Q?Y9iiLqgxXcWicoRET2990R15073g6WBU6lJpn13g3wTiUoNN9eXE73LOKY+h?=
+ =?us-ascii?Q?/OsLQbWvC0xXfAktmrH2j5xU13aQ9S8dlQhbZDUhrrRk+piVic6B0vOvhmgN?=
+ =?us-ascii?Q?zJpS48q9KBnLyKUOnBzP7k0HFTOekPk0OhDLMZTKfW7Zy1gYMqJUwCCOiJ0Y?=
+ =?us-ascii?Q?4tQAL1Id0Q4189BOg2xOe0j6AVijWy0izSpxHDKEQAyl6VJN4co11NwzJW4X?=
+ =?us-ascii?Q?XxrKXUREfzdNKG3/ndeZv4sVaK+VR1A3ou3rmLSXtBxBCvqHINcjYGh02eJM?=
+ =?us-ascii?Q?O1LPshgAmXoyQ++XiCtOJhA0o6w78mKefG3TCfpiPiXVhRuaC0RmLzmyL64j?=
+ =?us-ascii?Q?kAdBEPvKFmBacYh9iQI6zG/d35e0o0jq3GK7AQ13x4s3s4ys3JOAOJEWVdAz?=
+ =?us-ascii?Q?cCrws7/fKCK4ww7lm2NpaTawnh+mG0gkFK3DW3a1UNjx26A3R4EP?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d450613c-3f66-41b9-ad42-08ded69814cc
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2026 11:09:40.8980
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: clCUgsAjleV4vQw2YA6nSJVYmYCKjQc9MW9AX0KSyTgVqNBmI7wZ7zCzjBLEf+YekcB9ekIYStbnsi3LVL7CBT+fiLdbrEMM++EOVrqA0bFAJC9ZdBDvXnur4HhzzOrR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8733
 
-On 6/30/26 11:43, Pei Xiao wrote:
+On Thu, Jun 25, 2026 at 09:54:31PM +0000, RD Babiera wrote:
+> The current mechanism for sending Discover Identity in the ready state
+> presents a flaw where tcpm_queue_vdm can collide with non interruptible
+> AMSes such as GET_SINK_CAP or VCONN_SWAP. vdm_run_state_machine will hit
+> the VDM_STATE_BUSY state, and Discover SVIDs or Discover Modes will not
+> retry.
 > 
+> This patch introduces a state machine under the enum vdm_discovery_states.
+> The tcpm_port field vdm_discover_state tracks which step of the Discover
+> Identity process has been completed.
 > 
-> 在 2026/6/30 16:10, Mathias Nyman 写道:
->> On 6/30/26 10:36, Pei Xiao wrote:
->>> handle_port_status() unconditionally resumes the root hub when
->>> hcd->state is HC_STATE_SUSPENDED, regardless of whether a device is
->>> actually attached to the port.  This can cause system suspend to fail
->>> with -EBUSY if a spurious port change event arrives on an empty port
->>> after its bus has entered suspend.
->>>
->>> Fix this by checking PORT_CONNECT in handle_port_status() before
->>> resuming the root hub.  If no device is actually present on the port,
->>> the event is spurious and should be silently ignored rather than
->>> aborting suspend.
->>
->> Doesn't this change prevent handling device disconnects on suspended
->> hosts?
->>
-> *Thank you for your reply. I’m not familiar with xHCI or these registers.
->   Can’t we tell the difference between a real unplug and a situation where
->   the device is physically still attached but portsc reports a disconnect?
+> The current TCPM implementation utilizes the send_discover and
+> send_discover_prime booleans to queue Discover Identity in the
+> aforementioned collision case. These booleans are removed in place of
+> vdm_discover_state and send_discover_work is replaced by
+> vdm_discovery_work, which runs unconditionally in the ready state.
+> When the Discovery process is complete, the port will move to the
+> VDM_DISCOVERY_COMPLETE state and vdm_discovery_work becomes a no-op.
+> When there are still Discovery VDMs to be sent, vdm_discovery_work will
+> continue based on the last received response from the port partner or
+> cable.
+> 
+> Signed-off-by: RD Babiera <rdbabiera@google.com>
+> Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
+> ---
+> Changes since v1:
+> * fixed lint error regarding vdm_discovery_state_strings declaration
+> ---
+>  drivers/usb/typec/tcpm/tcpm.c | 417 ++++++++++++++++++++++------------
+>  1 file changed, 275 insertions(+), 142 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 7ef746a90a17..ba5aafa74947 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -212,6 +212,88 @@ static const char * const tcpm_ams_str[] = {
+>  	FOREACH_AMS(GENERATE_STRING)
+>  };
+>  
+> +enum vdm_discovery_states {
+> +	/*
+> +	 * VDM_DISCOVERY_UNKNOWN: The port has not received a Discover Identity response
+> +	 * from the port partner.
+> +	 *
+> +	 * 1. The port will send Discover Identity to the partner over SOP in the SRC_READY
+> +	 *    and SNK_READY states if there is an explicit contract.
+> +	 * 2. The port will send Discover Identity to the cable over SOP' in the
+> +	 *    SRC_VDM_IDENTITY_REQUEST state if capable of doing so.
+> +	 */
+> +	VDM_DISCOVERY_UNKNOWN = 0,
+> +	/*
+> +	 * VDM_DISCOVERY_PARTNER_IDENT: The port has received a Discover Identity ACK
+> +	 * from the port partner.
+> +	 *
+> +	 * 1. The port will send Discover Identity to the cable over SOP' in the SRC_READY and
+> +	 *    SNK_READY states if it did not previously discover the cable but is capable of doing
+> +	 *    so.
+> +	 * 2. The port will send Discover SVIDs to the partner over SOP in the SRC_READY and
+> +	 *    SNK_READY states otherwise.
+> +	 */
+> +	VDM_DISCOVERY_PARTNER_IDENT,
+> +	/*
+> +	 * VDM_DISCOVERY_CABLE_IDENT: The port has received a Discover Identity ACK
+> +	 * from the cable.
+> +	 *
+> +	 * 1. The port will send Discover SVIDs to the partner over SOP.
+> +	 */
+> +	VDM_DISCOVERY_CABLE_IDENT,
+> +	/*
+> +	 * VDM_DISCOVERY_PARTNER_SVIDS: The port has received a Discover SVIDs ACK from the partner
+> +	 * for the last SVIDs supported by the partner.
+> +	 *
+> +	 * 1. The port will send Discover Modes for the first SVID over SOP if the partner supports
+> +	 *    modal operation and valid SVIDs were registered.
+> +	 * 2. The vdm_discovery_state will move to VDM_DISCOVERY_COMPLETE otherwise.
+> +	 */
+> +	VDM_DISCOVERY_PARTNER_SVIDS,
+> +	/*
+> +	 * VDM_DISCOVERY_PARTNER_MODES: The port has received a Discover Modes ACK from the partner
+> +	 * for any mode.
+> +	 *
+> +	 * 1. The port will send Discover Modes for the next SVID that has not been discovered to
+> +	 *    the port partner over SOP.
+> +	 * 2. The port will send Discover SVIDs over SOP' if the port can communicate over SOP'
+> +	 *    and the cable supports VDMs.
+> +	 * 3. The vdm_discovery_state will move to VDM_DISCOVERY_COMPLETE otherwise.
+> +	 */
+> +	VDM_DISCOVERY_PARTNER_MODES,
+> +	/*
+> +	 * VDM_DISCOVERY_CABLE_SVIDS: The port has received a Discover SVIDs ACK from the cable over
+> +	 * SOP'.
+> +	 *
+> +	 * 1. The port will send Discover Modes for the first SVID over SOP'.
+> +	 */
+> +	VDM_DISCOVERY_CABLE_SVIDS,
+> +	/*
+> +	 * VDM_DISCOVERY_CABLE_MODES: The port has received a Discover Modes ACK from the cable for
+> +	 * any mode.
+> +	 *
+> +	 * 1. The port will send Discover Modes for the next SVID that has not been discovered to
+> +	 *    the cable over SOP'.
+> +	 */
+> +	VDM_DISCOVERY_CABLE_MODES,
+> +	/*
+> +	 * VDM_DISCOVERY_COMPLETE: The port partner does not need to send a Discovery VDM to the
+> +	 * port partner or cable.
+> +	 */
+> +	VDM_DISCOVERY_COMPLETE,
+> +};
+> +
+> +static const char * const vdm_discovery_state_strings[] = {
+> +	[VDM_DISCOVERY_UNKNOWN] = "VDM_DISCOVERY_UNKNOWN",
+> +	[VDM_DISCOVERY_PARTNER_IDENT] = "VDM_DISCOVERY_PARTNER_IDENT",
+> +	[VDM_DISCOVERY_CABLE_IDENT] = "VDM_DISCOVERY_CABLE_IDENT",
+> +	[VDM_DISCOVERY_PARTNER_SVIDS] = "VDM_DISCOVERY_PARTNER_SVIDS",
+> +	[VDM_DISCOVERY_PARTNER_MODES] = "VDM_DISCOVERY_PARTNER_MODES",
+> +	[VDM_DISCOVERY_CABLE_SVIDS] = "VDM_DISCOVERY_CABLE_SVIDS",
+> +	[VDM_DISCOVERY_CABLE_MODES] = "VDM_DISCOVERY_CABLE_MODES",
+> +	[VDM_DISCOVERY_COMPLETE] = "VDM_DISCOVERY_COMPLETE",
+> +};
+> +
+>  enum vdm_states {
+>  	VDM_STATE_ERR_BUSY = -3,
+>  	VDM_STATE_ERR_SEND = -2,
+> @@ -274,7 +356,7 @@ enum frs_typec_current {
+>  #define ALTMODE_DISCOVERY_MAX	(SVID_DISCOVERY_MAX * MODE_DISCOVERY_MAX)
+>  
+>  #define GET_SINK_CAP_RETRY_MS	100
+> -#define SEND_DISCOVER_RETRY_MS	100
+> +#define SEND_DISCOVERY_VDM_RETRY_MS	100
+>  
+>  struct pd_mode_data {
+>  	int svid_index;		/* current SVID index		*/
+> @@ -483,8 +565,6 @@ struct tcpm_port {
+>  	bool vbus_source;
+>  	bool vbus_charge;
+>  
+> -	/* Set to true when Discover_Identity Command is expected to be sent in Ready states. */
+> -	bool send_discover;
+>  	bool op_vsafe5v;
+>  
+>  	int try_role;
+> @@ -510,8 +590,8 @@ struct tcpm_port {
+>  	struct kthread_work vdm_state_machine;
+>  	struct hrtimer enable_frs_timer;
+>  	struct kthread_work enable_frs;
+> -	struct hrtimer send_discover_timer;
+> -	struct kthread_work send_discover_work;
+> +	struct hrtimer vdm_discovery_timer;
+> +	struct kthread_work vdm_discovery_work;
+>  	bool state_machine_running;
+>  	/* Set to true when VDM State Machine has following actions. */
+>  	bool vdm_sm_running;
+> @@ -578,6 +658,9 @@ struct tcpm_port {
+>  
+>  	u32 bist_request;
+>  
+> +	/* VDM Discovery State to determine message sent */
+> +	enum vdm_discovery_states vdm_discovery_state;
+> +
+>  	/* PD state for Vendor Defined Messages */
+>  	enum vdm_states vdm_state;
+>  	u32 vdm_retries;
+> @@ -641,12 +724,6 @@ struct tcpm_port {
+>  	bool potential_contaminant;
+>  
+>  	/* SOP* Related Fields */
+> -	/*
+> -	 * Flag to determine if SOP' Discover Identity is available. The flag
+> -	 * is set if Discover Identity on SOP' does not immediately follow
+> -	 * Discover Identity on SOP.
+> -	 */
+> -	bool send_discover_prime;
+>  	/*
+>  	 * tx_sop_type determines which SOP* a message is being sent on.
+>  	 * For messages that are queued and not sent immediately such as in
+> @@ -771,6 +848,9 @@ static const char * const pd_rev[] = {
+>  #define tcpm_wait_for_discharge(port) \
+>  	(((port)->auto_vbus_discharge_enabled && !(port)->vbus_vsafe0v) ? PD_T_SAFE_0V : 0)
+>  
+> +#define tcpm_can_send_vdm(state) \
+> +	((state == SRC_READY || state == SNK_READY || state == SRC_VDM_IDENTITY_REQUEST))
+> +
+>  static enum tcpm_state tcpm_default_state(struct tcpm_port *port)
+>  {
+>  	if (port->port_type == TYPEC_PORT_DRP) {
+> @@ -1559,13 +1639,19 @@ static void mod_enable_frs_delayed_work(struct tcpm_port *port, unsigned int del
+>  	}
+>  }
+>  
+> -static void mod_send_discover_delayed_work(struct tcpm_port *port, unsigned int delay_ms)
+> +static void mod_vdm_discovery_cancel_delayed_work(struct tcpm_port *port)
+> +{
+> +	hrtimer_cancel(&port->vdm_discovery_timer);
+> +	kthread_cancel_work_sync(&port->vdm_discovery_work);
+> +}
+> +
+> +static void mod_vdm_discovery_delayed_work(struct tcpm_port *port, unsigned int delay_ms)
+>  {
+>  	if (delay_ms) {
+> -		hrtimer_start(&port->send_discover_timer, ms_to_ktime(delay_ms), HRTIMER_MODE_REL);
+> +		hrtimer_start(&port->vdm_discovery_timer, ms_to_ktime(delay_ms), HRTIMER_MODE_REL);
+>  	} else {
+> -		hrtimer_cancel(&port->send_discover_timer);
+> -		kthread_queue_work(port->wq, &port->send_discover_work);
+> +		hrtimer_cancel(&port->vdm_discovery_timer);
+> +		kthread_queue_work(port->wq, &port->vdm_discovery_work);
+>  	}
+>  }
+>  
+> @@ -1773,16 +1859,11 @@ static void tcpm_queue_vdm(struct tcpm_port *port, const u32 header,
+>  	WARN_ON(!mutex_is_locked(&port->lock));
+>  
+>  	/* If is sending discover_identity, handle received message first */
+> -	if (PD_VDO_SVDM(vdo_hdr) && PD_VDO_CMD(vdo_hdr) == CMD_DISCOVER_IDENT) {
+> -		if (tx_sop_type == TCPC_TX_SOP_PRIME)
+> -			port->send_discover_prime = true;
+> -		else
+> -			port->send_discover = true;
+> -		mod_send_discover_delayed_work(port, SEND_DISCOVER_RETRY_MS);
+> -	} else {
+> +	if (PD_VDO_SVDM(vdo_hdr) && PD_VDO_CMD(vdo_hdr) == CMD_DISCOVER_IDENT)
+> +		mod_vdm_discovery_delayed_work(port, SEND_DISCOVERY_VDM_RETRY_MS);
+> +	else
+>  		/* Make sure we are not still processing a previous VDM packet */
+>  		WARN_ON(port->vdm_state > VDM_STATE_DONE);
+> -	}
+>  
+>  	port->vdo_count = cnt + 1;
+>  	port->vdo_data[0] = header;
+> @@ -1805,8 +1886,7 @@ static void tcpm_queue_vdm_work(struct kthread_work *work)
+>  	struct tcpm_port *port = event->port;
+>  
+>  	mutex_lock(&port->lock);
+> -	if (port->state != SRC_READY && port->state != SNK_READY &&
+> -	    port->state != SRC_VDM_IDENTITY_REQUEST) {
+> +	if (!tcpm_can_send_vdm(port->state)) {
+>  		tcpm_log_force(port, "dropping altmode_vdm_event");
+>  		goto port_unlock;
+>  	}
+> @@ -2149,6 +2229,19 @@ static bool tcpm_cable_vdm_supported(struct tcpm_port *port)
+>  	       tcpm_can_communicate_sop_prime(port);
+>  }
+>  
+> +static void tcpm_update_vdm_discovery_state(struct tcpm_port *port,
+> +					    enum vdm_discovery_states new_state)
+> +{
+> +	enum vdm_discovery_states old_state = port->vdm_discovery_state;
+> +
+> +	if (old_state != new_state)
+> +		tcpm_log_force(port, "vdm discovery state changed [%s -> %s]",
+> +			       vdm_discovery_state_strings[old_state],
+> +			       vdm_discovery_state_strings[new_state]);
+> +
+> +	port->vdm_discovery_state = new_state;
+> +}
+> +
+>  static int tcpm_handle_discover_mode(struct tcpm_port *port, u32 *response,
+>  				     enum tcpm_transmit_type rx_sop_type,
+>  				     enum tcpm_transmit_type *response_tx_sop_type)
+> @@ -2166,6 +2259,7 @@ static int tcpm_handle_discover_mode(struct tcpm_port *port, u32 *response,
+>  			response[0] = VDO(svid, 1,
+>  					  typec_get_negotiated_svdm_version(typec),
+>  					  CMD_DISCOVER_MODES);
+> +			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_PARTNER_MODES);
+>  			return 1;
+>  		}
+>  
+> @@ -2174,10 +2268,12 @@ static int tcpm_handle_discover_mode(struct tcpm_port *port, u32 *response,
+>  			response[0] = VDO(USB_SID_PD, 1,
+>  					  typec_get_cable_svdm_version(typec),
+>  					  CMD_DISCOVER_SVID);
+> +			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_PARTNER_MODES);
+>  			return 1;
+>  		}
+>  
+>  		tcpm_register_partner_altmodes(port);
+> +		tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
+>  	} else if (rx_sop_type == TCPC_TX_SOP_PRIME) {
+>  		modep = &port->mode_data_prime;
+>  		modep->svid_index++;
+> @@ -2188,11 +2284,13 @@ static int tcpm_handle_discover_mode(struct tcpm_port *port, u32 *response,
+>  			response[0] = VDO(svid, 1,
+>  					  typec_get_cable_svdm_version(typec),
+>  					  CMD_DISCOVER_MODES);
+> +			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_CABLE_MODES);
+>  			return 1;
+>  		}
+>  
+>  		tcpm_register_plug_altmodes(port);
+>  		tcpm_register_partner_altmodes(port);
+> +		tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
+>  	}
+>  
+>  	return 0;
+> @@ -2371,18 +2469,18 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+>  						typec_cable_set_svdm_version(port->cable,
+>  									     svdm_version);
+>  				}
+> +				tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_PARTNER_IDENT);
+> +
+>  				/* 6.4.4.3.1 */
+>  				svdm_consume_identity(port, p, cnt);
+>  				/* Attempt Vconn swap, delay SOP' discovery if necessary */
+>  				if (tcpm_attempt_vconn_swap_discovery(port)) {
+> -					port->send_discover_prime = true;
+>  					port->upcoming_state = VCONN_SWAP_SEND;
+>  					ret = tcpm_ams_start(port, VCONN_SWAP);
+>  					if (!ret)
+>  						return 0;
+>  					/* Cannot perform Vconn swap */
+>  					port->upcoming_state = INVALID_STATE;
+> -					port->send_discover_prime = false;
+>  				}
+>  
+>  				/*
+> @@ -2393,7 +2491,6 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+>  				if (IS_ERR_OR_NULL(port->cable) &&
+>  				    tcpm_can_communicate_sop_prime(port)) {
+>  					*response_tx_sop_type = TCPC_TX_SOP_PRIME;
+> -					port->send_discover_prime = true;
+>  					response[0] = VDO(USB_SID_PD, 1,
+>  							  typec_get_negotiated_svdm_version(typec),
+>  							  CMD_DISCOVER_IDENT);
+> @@ -2421,6 +2518,7 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+>  					tcpm_set_state(port, SRC_SEND_CAPABILITIES, 0);
+>  					return 0;
+>  				}
+> +				tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_CABLE_IDENT);
+>  
+>  				*response_tx_sop_type = TCPC_TX_SOP;
+>  				response[0] = VDO(USB_SID_PD, 1,
+> @@ -2440,16 +2538,27 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+>  				rlen = 1;
+>  			} else {
+>  				if (rx_sop_type == TCPC_TX_SOP) {
+> +					tcpm_update_vdm_discovery_state(port,
+> +							VDM_DISCOVERY_PARTNER_SVIDS);
+>  					if (modep->nsvids && supports_modal(port)) {
+>  						response[0] = VDO(modep->svids[0], 1, svdm_version,
+>  								CMD_DISCOVER_MODES);
+>  						rlen = 1;
+> +					} else {
+> +						tcpm_update_vdm_discovery_state(port,
+> +								VDM_DISCOVERY_COMPLETE);
+>  					}
+>  				} else if (rx_sop_type == TCPC_TX_SOP_PRIME) {
+> +					tcpm_update_vdm_discovery_state(port,
+> +							VDM_DISCOVERY_CABLE_SVIDS);
+>  					if (modep_prime->nsvids) {
+>  						response[0] = VDO(modep_prime->svids[0], 1,
+>  								  svdm_version, CMD_DISCOVER_MODES);
+>  						rlen = 1;
+> +					} else {
+> +						tcpm_register_partner_altmodes(port);
+> +						tcpm_update_vdm_discovery_state(port,
+> +								VDM_DISCOVERY_COMPLETE);
+>  					}
+>  				}
+>  			}
+> @@ -2500,8 +2609,13 @@ static int tcpm_pd_svdm(struct tcpm_port *port, struct typec_altmode *adev,
+>  	case CMDT_RSP_NAK:
+>  		tcpm_ams_finish(port);
+>  		switch (cmd) {
+> +		/*
+> +		 * The cable is not allowed to respond with NAK so this must've happened over SOP
+> +		 */
+>  		case CMD_DISCOVER_IDENT:
+>  		case CMD_DISCOVER_SVID:
+> +			tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
+> +			break;
+>  		case VDO_CMD_VENDOR(0) ... VDO_CMD_VENDOR(15):
+>  			break;
+>  		case CMD_DISCOVER_MODES:
+> @@ -2681,44 +2795,6 @@ static void tcpm_handle_vdm_request(struct tcpm_port *port,
+>  		port->vdm_sm_running = false;
+>  }
+>  
+> -static void tcpm_send_vdm(struct tcpm_port *port, u32 vid, int cmd,
+> -			  const u32 *data, int count, enum tcpm_transmit_type tx_sop_type)
+> -{
+> -	int svdm_version;
+> -	u32 header;
+> -
+> -	switch (tx_sop_type) {
+> -	case TCPC_TX_SOP_PRIME:
+> -		/*
+> -		 * If the port partner is discovered, then the port partner's
+> -		 * SVDM Version will be returned
+> -		 */
+> -		svdm_version = typec_get_cable_svdm_version(port->typec_port);
+> -		if (svdm_version < 0)
+> -			svdm_version = SVDM_VER_MAX;
+> -		break;
+> -	case TCPC_TX_SOP:
+> -		svdm_version = typec_get_negotiated_svdm_version(port->typec_port);
+> -		if (svdm_version < 0)
+> -			return;
+> -		break;
+> -	default:
+> -		svdm_version = typec_get_negotiated_svdm_version(port->typec_port);
+> -		if (svdm_version < 0)
+> -			return;
+> -		break;
+> -	}
+> -
+> -	if (WARN_ON(count > VDO_MAX_SIZE - 1))
+> -		count = VDO_MAX_SIZE - 1;
+> -
+> -	/* set VDM header with VID & CMD */
+> -	header = VDO(vid, ((vid & USB_SID_PD) == USB_SID_PD) ?
+> -			1 : (PD_VDO_CMD(cmd) <= CMD_ATTENTION),
+> -			svdm_version, cmd);
+> -	tcpm_queue_vdm(port, header, data, count, tx_sop_type);
+> -}
+> -
+>  static unsigned int vdm_ready_timeout(u32 vdm_hdr)
+>  {
+>  	unsigned int timeout;
+> @@ -2764,8 +2840,7 @@ static void vdm_run_state_machine(struct tcpm_port *port)
+>  		 * if there's traffic or we're not in PDO ready state don't send
+>  		 * a VDM.
+>  		 */
+> -		if (port->state != SRC_READY && port->state != SNK_READY &&
+> -		    port->state != SRC_VDM_IDENTITY_REQUEST) {
+> +		if (!tcpm_can_send_vdm(port->state)) {
+>  			port->vdm_sm_running = false;
+>  			break;
+>  		}
+> @@ -2775,22 +2850,10 @@ static void vdm_run_state_machine(struct tcpm_port *port)
+>  			switch (PD_VDO_CMD(vdo_hdr)) {
+>  			case CMD_DISCOVER_IDENT:
+>  				res = tcpm_ams_start(port, DISCOVER_IDENTITY);
+> -				if (res == 0) {
+> -					switch (port->tx_sop_type) {
+> -					case TCPC_TX_SOP_PRIME:
+> -						port->send_discover_prime = false;
+> -						break;
+> -					case TCPC_TX_SOP:
+> -						port->send_discover = false;
+> -						break;
+> -					default:
+> -						port->send_discover = false;
+> -						break;
+> -					}
+> -				} else if (res == -EAGAIN) {
+> +				if (res == -EAGAIN) {
+>  					port->vdo_data[0] = 0;
+> -					mod_send_discover_delayed_work(port,
+> -								       SEND_DISCOVER_RETRY_MS);
+> +					mod_vdm_discovery_delayed_work(port,
+> +							SEND_DISCOVERY_VDM_RETRY_MS);
+>  				}
+>  				break;
+>  			case CMD_DISCOVER_SVID:
+> @@ -2848,6 +2911,7 @@ static void vdm_run_state_machine(struct tcpm_port *port)
+>  		 */
+>  		if (port->state == SRC_VDM_IDENTITY_REQUEST) {
+>  			tcpm_ams_finish(port);
+> +			port->vdo_data[0] = 0;
+>  			port->vdm_state = VDM_STATE_DONE;
+>  			tcpm_set_state(port, SRC_SEND_CAPABILITIES, 0);
+>  		/*
+> @@ -2864,6 +2928,7 @@ static void vdm_run_state_machine(struct tcpm_port *port)
+>  				tcpm_ams_finish(port);
+>  		} else {
+>  			tcpm_ams_finish(port);
+> +			port->vdo_data[0] = 0;
+>  			if (port->tx_sop_type == TCPC_TX_SOP)
+>  				break;
+>  			/* Handle SOP' Transmission Errors */
+> @@ -2873,11 +2938,11 @@ static void vdm_run_state_machine(struct tcpm_port *port)
+>  			 * discovery process on SOP only.
+>  			 */
+>  			case CMD_DISCOVER_IDENT:
+> -				port->vdo_data[0] = 0;
+>  				response[0] = VDO(USB_SID_PD, 1,
+>  						  typec_get_negotiated_svdm_version(
+>  									port->typec_port),
+>  						  CMD_DISCOVER_SVID);
+> +				tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_CABLE_IDENT);
+>  				tcpm_queue_vdm(port, response[0], &response[1],
+>  					       0, TCPC_TX_SOP);
+>  				break;
+> @@ -2887,9 +2952,11 @@ static void vdm_run_state_machine(struct tcpm_port *port)
+>  			 */
+>  			case CMD_DISCOVER_SVID:
+>  				tcpm_register_partner_altmodes(port);
+> +				tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
+>  				break;
+>  			case CMD_DISCOVER_MODES:
+>  				tcpm_register_partner_altmodes(port);
+> +				tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
+>  				break;
+>  			default:
+>  				break;
+> @@ -3802,7 +3869,8 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
+>  					   PD_MSG_CTRL_NOT_SUPP,
+>  					   NONE_AMS);
+>  		} else {
+> -			if (port->send_discover && port->negotiated_rev < PD_REV30) {
+> +			if (port->vdm_discovery_state == VDM_DISCOVERY_UNKNOWN &&
+> +			    port->negotiated_rev < PD_REV30) {
+>  				tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
+>  				break;
+>  			}
+> @@ -3818,7 +3886,8 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
+>  					   PD_MSG_CTRL_NOT_SUPP,
+>  					   NONE_AMS);
+>  		} else {
+> -			if (port->send_discover && port->negotiated_rev < PD_REV30) {
+> +			if (port->vdm_discovery_state == VDM_DISCOVERY_UNKNOWN &&
+> +			    port->negotiated_rev < PD_REV30) {
+>  				tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
+>  				break;
+>  			}
+> @@ -3827,7 +3896,8 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
+>  		}
+>  		break;
+>  	case PD_CTRL_VCONN_SWAP:
+> -		if (port->send_discover && port->negotiated_rev < PD_REV30) {
+> +		if (port->vdm_discovery_state == VDM_DISCOVERY_UNKNOWN &&
+> +		    port->negotiated_rev < PD_REV30) {
+>  			tcpm_queue_message(port, PD_MSG_CTRL_WAIT);
+>  			break;
+>  		}
+> @@ -4848,8 +4918,7 @@ static int tcpm_src_attach(struct tcpm_port *port)
+>  	port->partner = NULL;
+>  
+>  	port->attached = true;
+> -	port->send_discover = true;
+> -	port->send_discover_prime = false;
+> +	tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_UNKNOWN);
+>  
+>  	return 0;
+>  
+> @@ -4926,6 +4995,7 @@ static void tcpm_reset_port(struct tcpm_port *port)
+>  	port->in_ams = false;
+>  	port->ams = NONE_AMS;
+>  	port->vdm_sm_running = false;
+> +	tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_COMPLETE);
 
-Not really. In your case it really looks like a disconnect.
+And should the state be set to VDM_DISCOVERY_UNKNOWN instead? It's seems odd to
+indicate that discovery is complete immediately after a port reset.
 
-Port Status: 0x202a0
-	Disconnected
-	Disabled
-	Link: Rx Detect
-	Powered
-	Unknown port speed
-	Connect Status Change
-
-Is it only this specific device that disconnects on suspend, or can this be
-reproduced with any usb device?
-
-Thanks
-Mathias
+Thanks,
+Xu Yang
