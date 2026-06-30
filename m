@@ -1,118 +1,107 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6853F1AB6
-	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 10:30:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136173FD15E;
+	Tue, 30 Jun 2026 10:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782815458; cv=none; b=PF3vRDhklqW0sd9cIrE3BlFIbxDWVTYP9MDdiiibUUptqZnuZvOQfZdWPiBq3qGupKNz5GqQW1erdHw42cIFfFXF3e0HqkctpF5RQ/w+ce4QR9SSVLBcJkAKl7FXvPmAbIBcnTcYmsAdRjm3BmZajuJhJntoDuR+/Gi8yVY9XzI=
+	t=1782815463; cv=none; b=KlZv9Keb4EDMBYFFlRQrHdgLes6wBJKe6mX9NksuBI1wxSARSUCb2koS8fm6Dz1D3O6UxU/2kUhxxgWrSVYvUkYhrexewc8Z6f6BuumSGrsB9UR5FnbIovHMwrRn5XGi9YZOjcDbQ9pWBKSb1pAPWNhqtYhgAm/0qHShYep/F50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782815458; c=relaxed/simple;
-	bh=XvDQJvE4M7XT7qt7Y6KTCu/jIFJH2/QmiZiRcck1yNU=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=AEj/yT5kgnTl96O4vc2tyZPGMPCDvfMp7N5QVWYBT3dRF4IZMqRSWUKJ2x3cDAxNUXCVbRgmBWt9v+m0O7ZX9pJGyt7gMgEQX0F8/ahQWUF95FwDxhaFvAxf21QtoXGqUmAv0LkS2KmQOarh+0t8LrvlI9GpnFrGBxEIUIl0BM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RzDUAkFI; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782815463; c=relaxed/simple;
+	bh=w2zJjc0mlqhV9a6H/3fB7R2sAl42l1ogKc/1eNMaXSE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X2dwT5ahSsvlL8yHiWnhUN2D7vh6dGU1i2vipyR9MFsjn0HZczU3oMqvUjDz8eOyXfEpwb+St3D62qzomtaNDg1+3Ckc2k9XaqkVomQYyA0w/1OFKeunqOH4cKPrboCihEaT0hM7bRz/Hg6b7N+DYRYxo0TwrJ8+a6//YhVKdP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIuAOKsX; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RzDUAkFI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIuAOKsX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782815462; x=1814351462;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=w2zJjc0mlqhV9a6H/3fB7R2sAl42l1ogKc/1eNMaXSE=;
+  b=GIuAOKsX3m0xed+50bDqnZDBCZuK6BsykPTgiKGzpjJq4exvPukXhavc
+   OdqRGpfViV3z41jWCMtcx4h7FL+mmX7jf8guWdzglczAC58zKYJIw3gVb
+   qPEb/yZnsCx6+BPsR9S2bcypQvEX37tEyeisiLzArPhbvY4y5FZLHWc4f
+   Vd4+Zp0QGez2hj4Oq7U6NSuYblJ/YQLIUJqZWscug1sl2HeEFNJmj8Ben
+   Y5tRCd6D+lLt0OlJw6RfC+yyw6g7ApwK2xPJ28z3X/08mkOyBBBk3Lx9c
+   ss12Oi/rcPMVn4CdN6iUriDJ602+jCSeF3UCDfsKkBSSLFEXiey3mpt7C
+   w==;
+X-CSE-ConnectionGUID: 8aeNU1KSRPK1SA1/Lk3s+g==
+X-CSE-MsgGUID: /P72qIy6RDGHpHFHYXAJRw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="71047624"
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="71047624"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 03:31:01 -0700
+X-CSE-ConnectionGUID: mHXrrIjwSoKUAmocmZr96Q==
+X-CSE-MsgGUID: xExt8gUjQaO9TQulA7nw5g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
+   d="scan'208";a="251825854"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO [10.245.245.197]) ([10.245.245.197])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 03:30:58 -0700
+Message-ID: <22af27b3-0595-4490-a9ab-9a7fdf4cef47@linux.intel.com>
+Date: Tue, 30 Jun 2026 13:30:54 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782815455;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GLoCBIg3HCmpmWjUPvotZGyKOLRzdtV91re2dTJIL1o=;
-	b=RzDUAkFILWC/o/M/4TZRlATAn/JZaqIvcW27ziULpEIqBWQtET9nz+lOZaT2jk3SLc8ux2
-	JESCgvmSwCuoiuVDYobgpT2SFQ7AZ95/yceW43f0BpWEqVmHLak6IBrM+BNyh3+CF0XYX+
-	lYnk0Q8W1twJpCGSvgkJM7IOAxRGLdQ=
-Date: Tue, 30 Jun 2026 10:30:53 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Tianchu Chen" <tianchu.chen@linux.dev>
-Message-ID: <e87b8ecf4bbcf87635d144508bf35377dd5397b3@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH] net: usb: cx82310_eth: stop parsing reboot marker as
- packet
-To: "Jakub Kicinski" <kuba@kernel.org>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, linux-usb@vger.kernel.org, netdev@vger.kernel.org
-In-Reply-To: <20260629174458.6ebf647d@kernel.org>
-References: <700e16e9523d7f1299b00df75b13a3c66b6e517b@linux.dev>
- <20260629174458.6ebf647d@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: xhci: prevent spurious root hub resume during
+ suspend
+To: Pei Xiao <xiaopei01@kylinos.cn>, mathias.nyman@intel.com,
+ gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stern@rowland.harvard.edu
+Cc: dengjie03@kylinos.cn
+References: <368829d76a12e371e09f203e14b5c80b6515c025.1782804779.git.xiaopei01@kylinos.cn>
+ <4ba1dbbc-7597-4042-a443-4ffd292559de@linux.intel.com>
+ <939cee9f-d4d7-4b42-8337-f765d39feb10@kylinos.cn>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <939cee9f-d4d7-4b42-8337-f765d39feb10@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-June 30, 2026 at 8:44 AM, "Jakub Kicinski" <kuba@kernel.org mailto:kuba@k=
-ernel.org?to=3D%22Jakub%20Kicinski%22%20%3Ckuba%40kernel.org%3E > wrote:
+On 6/30/26 11:43, Pei Xiao wrote:
+> 
+> 
+> 在 2026/6/30 16:10, Mathias Nyman 写道:
+>> On 6/30/26 10:36, Pei Xiao wrote:
+>>> handle_port_status() unconditionally resumes the root hub when
+>>> hcd->state is HC_STATE_SUSPENDED, regardless of whether a device is
+>>> actually attached to the port.  This can cause system suspend to fail
+>>> with -EBUSY if a spurious port change event arrives on an empty port
+>>> after its bus has entered suspend.
+>>>
+>>> Fix this by checking PORT_CONNECT in handle_port_status() before
+>>> resuming the root hub.  If no device is actually present on the port,
+>>> the event is spurious and should be silently ignored rather than
+>>> aborting suspend.
+>>
+>> Doesn't this change prevent handling device disconnects on suspended
+>> hosts?
+>>
+> *Thank you for your reply. I’m not familiar with xHCI or these registers.
+>   Can’t we tell the difference between a real unplug and a situation where
+>   the device is physically still attached but portsc reports a disconnect?
 
->=20
->=20On Thu, 25 Jun 2026 15:32:04 +0000 Tianchu Chen wrote:
->=20
->=20>=20
->=20> From: Tianchu Chen <flynnnchen@tencent.com>
-> >=20=20
->=20>  Discovered by Atuin - Automated Vulnerability Discovery Engine.
-> >=20=20
->=20>  cx82310_rx_fixup() treats an RX length of 0xffff as a device reboo=
-t
-> >  marker and schedules work to re-enable ethernet mode, but then conti=
-nues
-> >  processing the marker as a normal packet length. This is an out-of-b=
-ounds
-> >  heap write controlled by the usb device.
-> >=20
->=20Where? Can you be more specific in the commit message? At a glance=20
->=20the accesses seem to be bound-checked with skb->len.
-> --=20
->=20pw-bot: cr
->
+Not really. In your case it really looks like a disconnect.
 
+Port Status: 0x202a0
+	Disconnected
+	Disabled
+	Link: Rx Detect
+	Powered
+	Unknown port speed
+	Connect Status Change
 
-The "len > skb->len" check bounds the source read, but the overflow is on=
- the
-destination buffer.
+Is it only this specific device that disconnects on suspend, or can this be
+reproduced with any usb device?
 
-The buggy path is:
-
-	if (len =3D=3D 0xffff) {
-		netdev_info(dev->net, "router was rebooted, re-enabling ethernet mode")=
-;
-		schedule_work(&priv->reenable_work);
-		/* <- BUG: missing return; 0xffff bypasses the oversized-length reject =
-*/
-	} else if (len > CX82310_MTU) {
-		netdev_err(dev->net, "RX packet too long: %d B\n", len);
-		return 0;
-	}
-	if (len > skb->len) {
-		dev->partial_len =3D skb->len; // skb->len is bounded by the USB transf=
-er size (4K)
-		dev->partial_rem =3D len - skb->len;
-		memcpy((void *)dev->partial_data, skb->data,
-		       dev->partial_len); /* <- TRIGGER: can copy 4K bytes into 1516-by=
-te partial_data */
-...
-...
-	}
-
-For normal oversized lengths, the len > CX82310_MTU branch rejects
-before this copy. But 0xffff is special-cased and falls through. With a
-4096-byte RX URB, after the 2-byte length header is pulled, skb->len can
-be 4094, while partial_data is allocated as dev->hard_mtu
-(CX82310_MTU + 2, 1516 bytes).
-
-So the source read is bounded by skb->len; the destination write is not.
-
-I am happy to send a v2 with this spelled out more clearly in the commit =
-message
-if needed.
-
-Best regards,
-Tianchu Chen
+Thanks
+Mathias
