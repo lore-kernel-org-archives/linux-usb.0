@@ -1,115 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 023333F39EE
-	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 13:22:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA1E406812;
+	Tue, 30 Jun 2026 13:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782825741; cv=none; b=dxs3ZF7mSAkcmDA6AzYzIiX88WAm7SjsVtpy5qr/mFzHDMmKjOVP7fj+TfSRbqPeD1vW8toBXquzNtGiiHFOkHW9h+hsROzS7a2eviDj0B2zCPbOOb4ko1c/7RbFUi3COXoGIupib2vMepk2+2aWIfY++OvQA2uq9mibeBMQDsM=
+	t=1782825993; cv=none; b=OdV8nTr2mvlOZcUhTzsCkuxcv4zJUzF+4OhZ8cNrywuceogEDWRJGgjQzbGHxsIJ900QkVbHSH8GftxtErY/zxz2WjJrlJIqJhaWC+psl+OBqUaEKO9A+ahubB4Dleum0sRohOLXh38jJSUPpcLxxCBY9pzLiNUEr2wYMVdFzuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782825741; c=relaxed/simple;
-	bh=Yu5mqQ8nw8gfVDomx+A+E2dr0aoWMwEfUHHcXE5j1Sc=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hOVw3s3ThjxTu6bW+DwtTIHLgftEHxs2S5gl1VvUU6B5jJQ+a9GKd7ryOAWNvGQVCJAYXXkYqgXuh+BYJgkV4IXyvRqBoo47jSMcG9NWSbWIpyJjoA3MPK9UqolitHGgdATn7qI7N5UXApq81xlFHBe4dM7jf6OZCPJxj8oDBWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AwMqGpzZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782825993; c=relaxed/simple;
+	bh=P+H2VKdt3H4VFRm7+/1xSBzaUNejyy46NlpKb6DPm48=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=QF3nHDqluLCziGumnF420m0EcHWIipmZW4y/QzKyKF1d8iliMZo57g7eKQXg1QZY3HKfu8hiGN1WEdpzs65Ai4hH0wRbxqjjR9rfd0S8H0Q9EGmDVVZdmgrB3k4mn36jKKH/CacdSu6B5vffzWmVR6t8jvS0icjjATNngjCM+kM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uuIjcSYW; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AwMqGpzZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8815C1F01559
-	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 13:22:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782825739;
-	bh=siJF0S+CSX6SKMbF6lhMt/C1v2E/StqLW87OFuT5mug=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=AwMqGpzZSvDnV5vSM2z0wkwmPZcuy6Z0HxhXFqaldHKlF6D4sOyHQK4L/B0fF/itF
-	 Z9C2BVuksw1mr1+6ch02R+Zz8gUAI5fDmwZjU0wGMt2h6Gvq8cC5ZOCtMOofX5R+yU
-	 1Hy/oyLq2B0fQTEZyfgl3xfrexpVhETu+CQgBxy7/99a3XMItUDuxVCBl4oiSjn1eD
-	 o38KeGOoUlFVb5zZeSXv+WtlmGXFDo9Wxn8ecfVThX04SgSmZnYMsm+XWmLmYZpjIC
-	 zdm9J6iEsk3ibRX/F7HoLCPZU+tHrUTrb8Qp73PbRYfYDyWDS2X2Ru7diIgwCebdnz
-	 9GKoHZxfVlf+A==
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aeb59d54b1so2164116e87.1
-        for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 06:22:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrjQPXZRr1KqI0XKdeezC2XUW9v0rgRWF39Xoj0l/BvSPw17zJj+9nVWb8jkxkHFFM9Y6m9F9lC4FU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUXNA3pHOarho78g7j4uPvq+soVnNHJZG6ImNU59rBB71q7Otj
-	oYtc8whZRsFKer3gnDI1nfedy2SHZLMOdeN85j+GToN5JKi4m72lkAiI5WHygyz5+Yq054dqwUh
-	QCpvrkkr2nXyCkzW0pL2QFOezChnLaZIUUWkC8alE1Q==
-X-Received: by 2002:a05:6512:8041:b0:5ad:4f1c:8e50 with SMTP id
- 2adb3069b0e04-5aebdba2f7fmr745427e87.37.1782825738263; Tue, 30 Jun 2026
- 06:22:18 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 30 Jun 2026 09:22:16 -0400
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 30 Jun 2026 09:22:16 -0400
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <263f58b418a27a2339fc2478f93234e0208b0ad9.camel@mailbox.org>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uuIjcSYW"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gqP721h9Nz9v56;
+	Tue, 30 Jun 2026 15:26:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782825982;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=P+H2VKdt3H4VFRm7+/1xSBzaUNejyy46NlpKb6DPm48=;
+	b=uuIjcSYW0OS/og0ZRHzWORPstnCuC7dh2pewdBgWL42S9kyeRlh0Op/On4/oLzbSoAVlrn
+	TJ3+AbZ6YV1a/t8SmxR6UXRIknfx4Sqxw+NsELOcvx44X1SqFqITuN6ClrGEWgt1vMPkrA
+	mKKEkNbobwGT19v1lhEd4o38MKWhU/xgAfATbEwnoinFUwNu4ut/2vjsVnor0Quvx0s3fc
+	rumAY17BouQXnd/X+tSxhDXgAoH9ZIm2uW60PBVj/TjzdpIbrhLOK3VMahhgv4cGZH0anv
+	+R/e78FeqLysvIQalWSXGyRrIBfI7MvZJVDRwN1dhwtTVe2/PxCw4/PcVcjkew==
+Message-ID: <6d1b5937df1fe002c47b226640f57fda2c0ee862.camel@mailbox.org>
+Subject: Re: [PATCH 0/4] usb: fix UAF related to dynamic ID
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: Gary Guo <gary@garyguo.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  "Rafael J. Wysocki"	 <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, Toke
+ =?ISO-8859-1?Q?H=F8iland-J=F8rgensen?=	 <toke@toke.dk>, Johan Hovold
+ <johan@kernel.org>
+Cc: linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev
+Date: Tue, 30 Jun 2026 15:26:16 +0200
+In-Reply-To: <20260630-usb_dyn_id_uaf-v1-0-160a02be5ac2@garyguo.net>
+References: <20260630-usb_dyn_id_uaf-v1-0-160a02be5ac2@garyguo.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260629-pdev-fwnode-ref-v2-0-8abe2513f96e@oss.qualcomm.com>
-	 <20260629-pdev-fwnode-ref-v2-2-8abe2513f96e@oss.qualcomm.com> <263f58b418a27a2339fc2478f93234e0208b0ad9.camel@mailbox.org>
-Date: Tue, 30 Jun 2026 09:22:16 -0400
-X-Gmail-Original-Message-ID: <CAMRc=MdQURjypSn+QjSDJfEiOMC8bbEZmZLgjpt=EquAM1Q1pw@mail.gmail.com>
-X-Gm-Features: AVVi8CeQXBZd5M2B6MhLUb095jshYyZGAJu3z11iktq0q6r491Qj_z_hr6U3W70
-Message-ID: <CAMRc=MdQURjypSn+QjSDJfEiOMC8bbEZmZLgjpt=EquAM1Q1pw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/19] driver core: platform: provide platform_device_set_of_node()
-To: Manuel Ebner <manuelebner@mailbox.org>
-Cc: brgl@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
-	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Lee Jones <lee@kernel.org>, 
-	Thierry Reding <thierry.reding@avionic-design.de>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Doug Berger <opendmb@gmail.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MBO-RS-META: wura8epi8m1s77gcizumoj8tskoa3y49
+X-MBO-RS-ID: ee80a4195932e5f6a8e
 
-On Tue, 30 Jun 2026 13:37:54 +0200, Manuel Ebner <manuelebner@mailbox.org> said:
-> On Mon, 2026-06-29 at 11:12 +0200, Bartosz Golaszewski wrote:
->> [...]
->>
->> +/**
->> + * platform_device_set_of_node - assign an OF node to device
->> + * @pdev: platform device to add the node for
->> + * @np: new device node
->> + *
->> + * Assign an OF node to this platform device. Internally keep track of the
->> + * reference count. Devices created with platform_device_alloc() must use this
->> + * function instead of assigning the node manually.
->
-> Doesn't it make sense to add a remark to the kernel doc of platform_device_alloc()?
->
-> Thanks
->  Manuel
->
->>  [...]
->
+On Tue, 2026-06-30 at 12:38 +0100, Gary Guo wrote:
+> [...]
+>=20
+> Signed-off-by: Gary Guo <gary@garyguo.net>
 
-Sure, will do in the next iteration.
+For all four patches:
+LGTM.
 
-Bart
+I guess I'm not in a position to Acked-by or Reviewed-by.
+
+ Manuel
+
+
+> ---
+> Gary Guo (4):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wifi: ath9k_htc: don't keep usb_device_id
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb: usbtmc: don't keep usb_device_id
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb: serial: spcp8x5: don't keep usb_devic=
+e_id
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb: fix UAF when probe runs concurrent to=
+ dyn ID removal
+>=20
+> =C2=A0drivers/net/wireless/ath/ath9k/hif_usb.c | 12 ++++++------
+> =C2=A0drivers/net/wireless/ath/ath9k/hif_usb.h |=C2=A0 2 +-
+> =C2=A0drivers/usb/class/usbtmc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 --
+> =C2=A0drivers/usb/core/driver.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 33 ++++++++++++++++-----=
+-----------
+> =C2=A0drivers/usb/serial/spcp8x5.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +++---
+> =C2=A0include/linux/usb.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 3 ++-
+> =C2=A06 files changed, 29 insertions(+), 29 deletions(-)
+> ---
+> base-commit: 7de6ae9e12207ec146f2f3f1e58d1a99317e88bc
+> change-id: 20260629-usb_dyn_id_uaf-9d5f415387d4
+>=20
+> Best regards,
+> --=C2=A0=20
+> Gary Guo <gary@garyguo.net>
