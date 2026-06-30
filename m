@@ -1,61 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF40392823;
-	Tue, 30 Jun 2026 09:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631CC34251B;
+	Tue, 30 Jun 2026 09:54:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782813178; cv=none; b=sPmIYrslnqUSMcd7B9QQmDWcHykqm3uAjwX1vOsvJK0lb42xVKSl70NCzYXOXoBcvAqUS84hNtNJjdjqva1qTX5yPuhOJC6YI/RwULA2xsppFoI0nczm6xKiCw7w/ZSt2SDo7kwNdQw+g+SYI1zchIzf6KcTL4/zcfOz5JwcnEw=
+	t=1782813294; cv=none; b=bbRwDNP6R2PfzcofgFhPQcgsAzRxesf1d0JcM4dEd8P/joZMQwXYqrmG4VGDvCF8uim39VTcSvxi/cjbuLKqSGUEH/cNtiJJhkvXQhlH4tCCWPpXROeByevQeGUQFgy+1gSIiyQShqryCyFdVEtLkebvw0V2vsoTOtsrSlGI46Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782813178; c=relaxed/simple;
-	bh=URimKHKK4TzlFiMj9FPPeFJAuVBNGtuyJYKG2pBd02k=;
+	s=arc-20240116; t=1782813294; c=relaxed/simple;
+	bh=yFdNZwVFhbbRd/mn/WFs5v2ropeqaVxom/v/MdhKyJ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OsRLQUo3AYYaNIWQbEsqBhHtd+2/taA13s3OWbgQL59dOmNmsQMxVYAobpBypHdE6amnuVgQV8I1y6+0hCT9idLr83iUc0b2Js2earWrrfTi6P546LfulQwvcu5kqA/g/HowFJgj3FtPvC91MfuYFDNWdNnGFZR8kC2DFCCqddQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CtQaF605; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=JM0iAcYN8QcG2os+XOpOt+IxnVJMaSxBHSot1snbuqLyx94vYTIzxW+GA64yPMd84Hki4ZnxYJD6iiwoD9it10O6qSoj65hyA9NZUi8AAVebFW2LAK+k+7MD6enyEeu0mkH1biud2yOrssaYtuGQe4M4qHRlggNnyGi9koXVYvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cVEZIkVE; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CtQaF605"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cVEZIkVE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782813177; x=1814349177;
+  t=1782813293; x=1814349293;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=URimKHKK4TzlFiMj9FPPeFJAuVBNGtuyJYKG2pBd02k=;
-  b=CtQaF605WfJtCTXLr/u/L53Ow3+bx5ObPG9JZr3tBlUbAanDDaZGE+CP
-   +fQk15bOV9SZ4TC1j0Bu2yQDucNpKF4qkJTF3j3itvh9bV677xGKzdcuh
-   8Cu/q8S+bBE2nLP4VHIXbZAnyP6FWEobRJHAq1mIRaVwV9sRXS7P6ZnST
-   WvlQm3zckWbaJ0/dk8oKUFx4g2KjL7GBSmScY7qI5s2XADQshEzEZ61K1
-   Bobd16tzHj5ab8UXe36y1nPN2UQTT1IYBjEIDsdpsCvDS1Bc9SlPrC5NZ
-   u0aXJ9GMltsG6WDRjiy8ugo1DS+e9GF6qKmhmtrthlZLBwgU5cQmCqt2W
-   Q==;
-X-CSE-ConnectionGUID: PuVdIlzBQ3CXz4thh0oQyQ==
-X-CSE-MsgGUID: +u7dOcE/QbGF53SDBotYnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="95028138"
+  bh=yFdNZwVFhbbRd/mn/WFs5v2ropeqaVxom/v/MdhKyJ0=;
+  b=cVEZIkVEdpq6T2Djax/bziwFmwx8uAoYLPmwMDLP2l2PzrzLGdY08Jc1
+   nNKtSHdhHHxVJMKQK+8RQdLZyq9Yjwm4+IoJdUgy4oUml1axJSzgLp/UR
+   ygBrt+l+0gV3AD7BKdq1L7RoV2xn7Z3/v1dNQaBk6CI+JwsnxKbcy+S0m
+   +SkpRLhMWLAq7rJa52KpFBcb3igQMrlX/clRlB7GjTv+6Ufq1WNu0ZIjg
+   oImjSK2gme4ksUF3dQY2D4SGavCzdq/8sVZVf36Vj6ndBacY00yIwwhxH
+   DI551D3z9MUW5JMRRzSkXYvFh5wPqzzHhHJsPdnDC+QCg1yhLuSEnZRr2
+   g==;
+X-CSE-ConnectionGUID: FBL/8qSFT5Cwh3LM5AK4rA==
+X-CSE-MsgGUID: Yle4gZMCSKmr6y+Dfai8Ew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="94121331"
 X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
-   d="scan'208";a="95028138"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 02:52:57 -0700
-X-CSE-ConnectionGUID: nWQAsKLURECnr1SruYehtA==
-X-CSE-MsgGUID: dcapQQyrRYC7qy7AafHwaw==
+   d="scan'208";a="94121331"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2026 02:54:52 -0700
+X-CSE-ConnectionGUID: 0hz0Ybo9T4ahdiG68gNfsA==
+X-CSE-MsgGUID: wmd5dzvtSaeoUTNv7c+DrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,233,1774335600"; 
-   d="scan'208";a="247760791"
+   d="scan'208";a="254135822"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 30 Jun 2026 02:52:55 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 30 Jun 2026 02:54:44 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id A44FD95; Tue, 30 Jun 2026 11:52:53 +0200 (CEST)
-Date: Tue, 30 Jun 2026 12:52:52 +0300
+	id 6175195; Tue, 30 Jun 2026 11:54:43 +0200 (CEST)
+Date: Tue, 30 Jun 2026 12:54:41 +0300
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Andrei Kuchynski <akuchynski@chromium.org>
-Cc: Benson Leung <bleung@chromium.org>, Jameson Thies <jthies@google.com>,
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: Xu Yang <xu.yang_2@oss.nxp.com>, Chaoyi Chen <kernel@airkyi.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] usb: typec: Add helper to check cable altmode
- support
-Message-ID: <akOR9NJau40R1FG9@kuha>
-References: <20260626142702.1941182-1-akuchynski@chromium.org>
- <20260626142702.1941182-2-akuchynski@chromium.org>
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Peter Chen <hzpeterchen@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Yubing Zhang <yubing.zhang@rock-chips.com>,
+	Frank Wang <frank.wang@rock-chips.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Amit Sunil Dhamne <amitsd@google.com>,
+	Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Peter Robinson <pbrobinson@gmail.com>,
+	Hugh Cole-Baker <sigmaris@gmail.com>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v15 1/9] drm/bridge: Implement generic USB Type-C DP HPD
+ bridge
+Message-ID: <akOSYXV7zRY4inSo@kuha>
+References: <20260304094152.92-1-kernel@airkyi.com>
+ <20260304094152.92-2-kernel@airkyi.com>
+ <erx73m2ueuvbzjteadjli6aki5by4pr3hyertkkqqoqwhaa4v3@5cstmshcercx>
+ <56c6abb8-c127-449f-9368-12f94620c2bc@rock-chips.com>
+ <k53t2soc3nxhwugncatksektig6agxfgdkogkdwbhrhu2fn2g7@auvsfrv76wxy>
+ <b2633b22-da30-4778-8e23-7b5bed9ead07@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -64,131 +96,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260626142702.1941182-2-akuchynski@chromium.org>
+In-Reply-To: <b2633b22-da30-4778-8e23-7b5bed9ead07@rock-chips.com>
 
-On Fri, Jun 26, 2026 at 02:27:00PM +0000, Andrei Kuchynski wrote:
-> Introduce typec_cable_altmode_unsupported function to evaluate whether an
-> alternate mode is restricted based on the connected cable's properties.
+> @Heikki, what do you think of the following change?
+> Should we add a new patch for this? Thanks.
 > 
-> Implement validation logic that parses the cable's identity to catch
-> incompatible setups early. Alternate modes are restricted over:
->  - cables lacking an identity header
->  - passive cables with USB 2.0 speed
->  - active cables unless they have corresponding plugs
-> 
-> The function returns false if the cable is not registered or the identifier
-> is not set.
-> 
-> Suggested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> diff --git a/drivers/usb/typec/altmodes/Kconfig b/drivers/usb/typec/altmodes/Kconfig
+> index 7867fa7c405d..f89cdf3c949b 100644
+> --- a/drivers/usb/typec/altmodes/Kconfig
+> +++ b/drivers/usb/typec/altmodes/Kconfig
+> @@ -5,6 +5,7 @@ menu "USB Type-C Alternate Mode drivers"
+>  config TYPEC_DP_ALTMODE
+>         tristate "DisplayPort Alternate Mode driver"
+>         depends on DRM
+> +       select DRM_AUX_HPD_BRIDGE 
+>         help
+>           DisplayPort USB Type-C Alternate Mode allows DisplayPort
+>           displays and adapters to be attached to the USB Type-C
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+This look good to me. Please do add the patch for this.
 
-> ---
-> Changes in V3:
-> - Extracted core verification logic into a static helper function
-> - Added an enum to handle supported, unsupported, and unknown cable states
-> 
->  drivers/usb/typec/class.c | 71 +++++++++++++++++++++++++++++++++++++++
->  include/linux/usb/typec.h |  1 +
->  2 files changed, 72 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index 0977581ad1b6e..e9f34eb14ceff 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -1429,6 +1429,77 @@ int typec_cable_is_active(struct typec_cable *cable)
->  }
->  EXPORT_SYMBOL_GPL(typec_cable_is_active);
->  
-> +enum typec_cable_altmode_support {
-> +	CABLE_SUPPORT_UNKNOWN,
-> +	CABLE_SUPPORTED,
-> +	CABLE_NOT_SUPPORTED,
-> +};
-> +
-> +static enum typec_cable_altmode_support
-> +typec_cable_check_altmode_support(struct typec_cable *cable,
-> +				  struct typec_altmode *alt)
-> +{
-> +	struct typec_altmode *plug;
-> +	u32 speed;
-> +
-> +	/*
-> +	 * Check if the cable has an e-marker, supports modal operation, and the
-> +	 * SOP' altmode nodes are created.
-> +	 */
-> +	plug = typec_altmode_get_plug(alt, TYPEC_PLUG_SOP_P);
-> +	if (plug) {
-> +		typec_altmode_put_plug(plug);
-> +		return CABLE_SUPPORTED;
-> +	}
-> +
-> +	/* The identity is not specified */
-> +	if (!cable->identity)
-> +		return CABLE_SUPPORT_UNKNOWN;
-> +
-> +	/* Non-e-marked cable */
-> +	if (!cable->identity->id_header)
-> +		return CABLE_NOT_SUPPORTED;
-> +
-> +	switch (PD_IDH_PTYPE(cable->identity->id_header)) {
-> +	case IDH_PTYPE_PCABLE:
-> +		speed = VDO_TYPEC_CABLE_SPEED(cable->identity->vdo[0]);
-> +		if (speed == CABLE_USB2_ONLY)
-> +			return CABLE_NOT_SUPPORTED;
-> +		return CABLE_SUPPORTED;
-> +	case IDH_PTYPE_ACABLE:
-> +		/*
-> +		 * Active cables must establish an SOP' communication
-> +		 * node. Since that check failed at the beginning of
-> +		 * this function, this active cable does not support
-> +		 * this specific altmode.
-> +		 */
-> +		return CABLE_NOT_SUPPORTED;
-> +	}
-> +
-> +	return CABLE_SUPPORT_UNKNOWN;
-> +}
-> +
-> +/**
-> + * typec_cable_altmode_unsupported - Check if a cable restricts altmode
-> + * @alt: The Alternate Mode to evaluate
-> + *
-> + * Returns true if the connected cable is incapable of handling the altmode.
-> + */
-> +bool typec_cable_altmode_unsupported(struct typec_altmode *alt)
-> +{
-> +	enum typec_cable_altmode_support support = CABLE_SUPPORT_UNKNOWN;
-> +	struct typec_cable *cable;
-> +
-> +	cable = typec_cable_get(typec_altmode2port(alt));
-> +	if (cable) {
-> +		support = typec_cable_check_altmode_support(cable, alt);
-> +		typec_cable_put(cable);
-> +	}
-> +
-> +	return support == CABLE_NOT_SUPPORTED;
-> +}
-> +EXPORT_SYMBOL_GPL(typec_cable_altmode_unsupported);
-> +
->  /**
->   * typec_cable_set_identity - Report result from Discover Identity command
->   * @cable: The cable updated identity values
-> diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
-> index d61ec38216fa9..10a783b738efd 100644
-> --- a/include/linux/usb/typec.h
-> +++ b/include/linux/usb/typec.h
-> @@ -337,6 +337,7 @@ void typec_unregister_cable(struct typec_cable *cable);
->  struct typec_cable *typec_cable_get(struct typec_port *port);
->  void typec_cable_put(struct typec_cable *cable);
->  int typec_cable_is_active(struct typec_cable *cable);
-> +bool typec_cable_altmode_unsupported(struct typec_altmode *alt);
->  
->  struct typec_plug *typec_register_plug(struct typec_cable *cable,
->  				       struct typec_plug_desc *desc);
-> -- 
-> 2.55.0.rc0.799.gd6f94ed593-goog
+thanks,
 
 -- 
 heikki
