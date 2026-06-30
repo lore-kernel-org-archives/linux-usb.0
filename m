@@ -1,73 +1,74 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF77E46AECC
-	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 15:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4744D33F5A2
+	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 15:56:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782834535; cv=none; b=GLjxPiLa3BzWlHk90f+qpyIvKnixWhtayt8/EmJQUWYA6lU9Wn756/c/zEI/BvSmFIvEGZqxgfm2vY2H8z0dfqOoEu+AZcIIIBsy1GOFqUudCClOpcqcrP8lX7e06/lk0plboCYpSOZ8pR1OlBvy2H59UXTOSvpi/B4qfzmkgY8=
+	t=1782835021; cv=none; b=TM9RAkSx2X0L0I7ufocte9zkszaZP2GfxYX3elM2WI9cn9dK37ufcKmee1cohiA2vlY92BnnCa9f2/1a4mE3145QrjLglUbaNA2HJJcGSM3PlR939pRh1r0Lz5HyVyfUIwRykBf+wCFc0alLIQvxsmkBXlo782npxJs3fk2aXbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782834535; c=relaxed/simple;
-	bh=+Nu8T2P5J4piOI6iPNLzOouVdCkgquRY6nHCGOeDlSI=;
+	s=arc-20240116; t=1782835021; c=relaxed/simple;
+	bh=vDxXNdeCyxRW9RH1kxdz8EefcvkrP/3R35t+X6au1+Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FFyBphMQYRQ+HgOcU6nFywXZHl8US3LrAz7AEqEnUt8avIPw1wbToJLowNmp0VwddIoXfcOO8YXfXw5zQ1aU0gpImP4Z33OFkUEXwfEk+1RYaoqq4epqr94FNTzaZyWX4WtvyRqHJzR6tFX1YAOFrqGmbyB9TIZB9o/XCC4UHpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=tR9ajE1d; arc=none smtp.client-ip=209.85.160.181
+	 Content-Type:Content-Disposition:In-Reply-To; b=bKGjM+ne8AzfQFEUT3GIXcEOU/QQstraVS51JDdrcYUiGKawsYglYiQxdgvU+bihcL3tCz6B03vXq1MOOG847yrVw2sktr7ExIk4u0wWUz57j+fYJ1pPeMhJYrOHg9ssRUMCf2+sZsqzhaIqvCaVhzPgoemhLtDQUfy4qBInZLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=G7hSxSdo; arc=none smtp.client-ip=209.85.219.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="tR9ajE1d"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51af8fda431so34921571cf.0
-        for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 08:48:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="G7hSxSdo"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-8ee88fce572so32092286d6.1
+        for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 08:56:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1782834533; x=1783439333; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1782835017; x=1783439817; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=T+E4S6GTRJ9jJ/udD9Nkt2a9cnzXt0ecKVKDowSdAYc=;
-        b=tR9ajE1dR3A5NMBnNqf4AYx7AGFybH5Dd/TrgdysOKnd5O5zwMAiarlTJ8VlOJ6pFH
-         VUtjLkB0j96oRiAgu9CbYRqj7ZkU5YRNSfbUx7DfmvWRYP/YGPm4h0HfaSKkeyOLs+a2
-         QqCtERDkuiN7FX/Nt68a4CiU8McrPG+Nd/N+h0U27tdnnk1aQJBNAp9Qy+KslS0O+MgT
-         Nh5dy0CkFSmRTLxev7JfI1XEMuFM9h4Vp3JQszQu+zos+BIGi12luxvOBPgGVEVV88/D
-         KWHo7qTq2KPhNrxKi+UBl1MjzJvTWLCbEOHZsSPCD2JEbt2jlcVxCzlyaAeAAEI1b2qa
-         EgQQ==
+        bh=5ag7vyYZ1qPpEzK4WsJQkIt1kiT2/2vAc0yWyVzCS7E=;
+        b=G7hSxSdo1J0wKODWbB+Ae7aKbgSwfAMjVHsboRRoG++vkA+JlhSXG8TmmM7NgV7oYX
+         LPfu3A21FLhPveGS+dGkg4f3R7IUUd9w03ohrURpH1NNoET2vQaWtqlEHIsVmHH9+Se0
+         v+4QdNOCXM0X0iMjpSTlrvgty/JD8BquLn7U+ZvDRFprXxT9MPeTksQdra6kRQFoXYDM
+         wqpWuuARMHXyrNI9uJzWnbde8REXcPtS6OE1vYuAo3YdIcvFNtkCMFYyw0HsepsMVsdy
+         j63lokya5OWbweOvpTKJUmr2aE+DmRtiQhnRG9GXtQZMS3Dx72CD0pl7lXwEjb/5LLim
+         1HwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782834533; x=1783439333;
+        d=1e100.net; s=20251104; t=1782835017; x=1783439817;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=T+E4S6GTRJ9jJ/udD9Nkt2a9cnzXt0ecKVKDowSdAYc=;
-        b=NZaVg1DHMauDh/pTiQTUL7Oh9cB/Uf1KQm/4b5l+CaWu+p2bhCQDdLULl9XV2G2gZ3
-         rMvxc4QFmyGpP8bNrrXQn1L/8gtR5ruuvAXyjx+NSIZnKCoOw70XBKuOerUV8e6Gq/Gm
-         iY12wjxW3atrimSz+gs/YYGklLqaViZdWNzlh3oFHf0PLwYyr20W0N5RVmgAXnYm+xtv
-         niEbv2SlXQuMfLsqsWxkemuOnFzX0mygGBrV+mfupb4REUU+DKOoBbpoV0R8NSRw/lWK
-         lRel++kG9uvINgqvmbvEbE3Z5/6uEtWlyEZHO6mHuNUTcPI3bdXVKAQ0wveS7iUqynoH
-         6V1g==
-X-Forwarded-Encrypted: i=1; AFNElJ+NeB9SLBDGSAHnjidjSzaWaLq8Wo/2mUkcDZGWsvQLtKF0FtFY/WVhYswgW6DyS0LyHuCAVZoPuuU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJ+cI3hsF+ALAPWShn0Rtb3fIZy/BExaGE4Cq2H4QU6U9fGohV
-	g06NCDcOAH9utpNtqLs6ATchF0pJ9Tbiyk/hzP80XzBDDRsPAfdi6KRhCaMXaMi6sw==
-X-Gm-Gg: AfdE7cmd5EAvjNYhlqAWDCG5N3tgS8Ygd9Oi7DSj5XmzUWAaBHv6x9RGvmi0GLsMbn3
-	A00Ameb5j0Razx/hQTGHaEV3k5BM1SHX7e0FwYIAkTFQwsdHHi3CAistSA1LvIB/A7nZR7lsmvB
-	3WblOR25begmlRvyMqkn7t/ihghz9Gq/fYTHOe5oPL7AAJxiSgM81Q7zgLuJxDLXEVi0jEhXTmK
-	GZWk3R/9a1jaeax+ibV6JYftn0kUqVWIdEzE+XYkExn9xoVS2Rl59ZBcIGPln7drgjp5RYY+kIT
-	4ByRHSlsiUyL95TCTNh3nNiAhf0O6JjnG2tkG6nUgreg8NtCCUNRfAXLvP4sfLgqzvLr78Z+zbq
-	Drl20aQon3xYyKpU9neM0mziYsYZyrlUV7nLnPqc1vAEfKMuy9BdBtROQwI9dqoHULvXv5ifLdg
-	akF6xWrENNbXVDpQ==
-X-Received: by 2002:ac8:7191:0:b0:51c:147d:9bec with SMTP id d75a77b69052e-51c147d9e47mr27863881cf.6.1782834532456;
-        Tue, 30 Jun 2026 08:48:52 -0700 (PDT)
+        bh=5ag7vyYZ1qPpEzK4WsJQkIt1kiT2/2vAc0yWyVzCS7E=;
+        b=A2KMYXhTrxzEvKDAFWw3h3DaBEyKJUjpQ1Uzk/xeOuMU7WpX1GlEcb7Dp7LL2tXtW+
+         UftB8jSjR5SCIZSRbTk3XoVVPeVrF6V0vsZtO1JhyrDWSB9fTTALgO8eUXnIG0hRASe5
+         s2LtQV/HRw3LKzcQP+Tb/LLV+PP+hpRfDTPPATGrI0KOujXaiQOKxVhDFieUcT8+bnud
+         81Z/70L+by+ibvgTN1Ns5Z1OoF0iTGU+ooCoqPyAXvgYysX9Z+vhUu01s1R/5MG2qxaI
+         yD+L23339PuV7xX8Hni9H3YEnT8C8RchgUwnvYO2fohCHuLeEghGlbuC+3t6LGcQIOVk
+         7yIg==
+X-Forwarded-Encrypted: i=1; AFNElJ/+StizkQnVRyZ0Yz2mM9NhuQe720vEhPRHbWPvqXsRgi9Rr4EqR7gSv2Wt1U0e3pnAaebSoZVyOPk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgXyWMolWFQ5C8WCsUYMQhIfnBoV0OkozIOCFU7AF72dpzO9F6
+	GjMBPgo4ucxRkORYArgbIjcRsGUU4J5GM+HG25LN3tsfgIAUSxr4Kzpk9tPJZ+EVMw==
+X-Gm-Gg: AfdE7clJjbDgL3id/dphGZYb3mOYEdq4WmJLyrvXWT8kjK3e4/y82HUKmNLrXqSJIxK
+	jxKe1+/F23wtJfeHjShSqTjL6HBJ3GTXkXJgi/cUhc0nnHRgS+uk7+Fu+I5m+vCSjYKnFUUkM9l
+	kCly84sCooAYIf+6ZqfGhCCJKnXtGHh7JUroQ+TPQpNpn8en4hp96WUoexZzqnZ74vyFs7Gt0sg
+	lCJHbnq2FHXGCjXOI4hjcw1ItSoxf59VAg4PDIyNHu/L/oSf6BVbaG1lurnL9kBpbpZPEZKaRZj
+	LHgQGqV1cic3koURuVKmKjsqrhRaFVOxooEJDiWdbZ+Ujbu9E/KSLtMU+j5Ar65zqv2ITNDp9hM
+	NaRiePhn0XlqGA+0HV00kO3sNR3YjEeXkpE3xufHPwKgCD5YbGyB8E4IOj3V0CcKcQVQ4Jg0FQ6
+	IULc5ckR/q20BSzA==
+X-Received: by 2002:a05:620a:4546:b0:92d:44b:db99 with SMTP id af79cd13be357-92e624e78d8mr671180985a.20.1782835017027;
+        Tue, 30 Jun 2026 08:56:57 -0700 (PDT)
 Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c10a265efsm21250581cf.27.2026.06.30.08.48.51
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e62371ba1sm271366685a.42.2026.06.30.08.56.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 08:48:51 -0700 (PDT)
-Date: Tue, 30 Jun 2026 11:48:49 -0400
+        Tue, 30 Jun 2026 08:56:56 -0700 (PDT)
+Date: Tue, 30 Jun 2026 11:56:54 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
-To: Dawei Feng <dawei.feng@seu.edu.cn>
-Cc: gregkh@linuxfoundation.org, linusw@kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn, zilin@seu.edu.cn, stable@vger.kernel.org
-Subject: Re: [PATCH v2] usb: free iso schedules on failed submit
-Message-ID: <667e59f6-c91f-4bcc-ae70-5fc211d9e606@rowland.harvard.edu>
-References: <20260630071419.349161-1-dawei.feng@seu.edu.cn>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mike Rapoport <rpppt@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/2] usb: host: ohci-dbg: use kmalloc() for print buffer
+Message-ID: <dfff8910-c325-4b48-bb40-eb8852b115c5@rowland.harvard.edu>
+References: <20260630-b4-usb-v1-0-8d547235c374@kernel.org>
+ <20260630-b4-usb-v1-1-8d547235c374@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -76,114 +77,85 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260630071419.349161-1-dawei.feng@seu.edu.cn>
+In-Reply-To: <20260630-b4-usb-v1-1-8d547235c374@kernel.org>
 
-On Tue, Jun 30, 2026 at 03:14:19PM +0800, Dawei Feng wrote:
-> EHCI and FOTG210 isochronous submits build an ehci_iso_sched before
-> linking the URB to the endpoint queue, and keep the staged schedule in
-> urb->hcpriv until iso_stream_schedule() and the link helpers consume it.
-> If the controller is no longer accessible, or usb_hcd_link_urb_to_ep()
-> fails, submit jumps to done_not_linked before that handoff happens and
-> leaks the staged schedule still attached to urb->hcpriv.
+On Tue, Jun 30, 2026 at 01:27:08PM +0300, Mike Rapoport (Microsoft) wrote:
+> ochi-dbg allocates buffers for formatting of various dump outputs.
 > 
-> Free the staged schedule from done_not_linked when submit fails before
-> the URB is linked and clear urb->hcpriv after the free.
+> These buffers can be allocated with kmalloc() as there's nothing special
+> about them to go directly to the page allocator.
 > 
-> The bug was first flagged by an experimental analysis tool we are
-> developing for kernel memory-management bugs while analyzing
-> v6.13-rc1. The tool is still under development and is not yet publicly
-> available. Manual inspection confirms that the bug is still
-> present in v7.1.1.
+> kmalloc() provides a better API that does not require ugly casts and
+> kfree() does not need to know the size of the freed object.
 > 
-> An x86_64 allyesconfig build showed no new warnings. As we do not have an
-> EHCI host controller with a USB isochronous device to test with, no
-> runtime testing was able to be performed.
+> Performance difference between kmalloc() and __get_free_pages() is not
+> measurable as both allocators take an object/page from a per-CPU list for
+> fast path allocations.
 > 
-> Fixes: 8de98402652c ("[PATCH] USB: Fix USB suspend/resume crasher (#2)")
-> Fixes: e9df41c5c589 ("USB: make HCDs responsible for managing endpoint queues")
-> Fixes: 7d50195f6c50 ("usb: host: Faraday fotg210-hcd driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+> For the slow path the performance is anyway determined by the amount of
+> reclaim involved rather than by what allocator is used.
+> 
+> Replace use of get_zeroed_page() with kzalloc() and free_page() with
+> kfree().
+> 
+> While on it, make kfree() calls unconditional since kfree() can be passed a
+> NULL pointer.
+
+That is not a good way of describing the last change.  The 
+"kfree(buf->page)" call may indeed pass a NULL pointer, but the fact 
+that it doesn't dereference a NULL pointer (i.e., buf) is not obvious.
+
+> Link: https://lore.kernel.org/all/635405e4-9423-4a25-a6e7-e03c8ea0bcbe@redhat.com
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 > ---
-> Changes in v2:
-> - Move negative iso_stream_schedule() cleanup to the submit failure path.
-> - Clear urb->hcpriv after iso_stream_schedule() frees the schedule for an
->   immediately completed EHCI URB.
-
-For the ehci-sched portion:
-
-Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
-
->  drivers/usb/fotg210/fotg210-hcd.c |  6 ++++--
->  drivers/usb/host/ehci-sched.c     | 11 +++++++++--
->  2 files changed, 13 insertions(+), 4 deletions(-)
+>  drivers/usb/host/ohci-dbg.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/usb/fotg210/fotg210-hcd.c b/drivers/usb/fotg210/fotg210-hcd.c
-> index 1a48329a4e08..956be5b56510 100644
-> --- a/drivers/usb/fotg210/fotg210-hcd.c
-> +++ b/drivers/usb/fotg210/fotg210-hcd.c
-> @@ -4267,8 +4267,6 @@ static int iso_stream_schedule(struct fotg210_hcd *fotg210, struct urb *urb,
+> diff --git a/drivers/usb/host/ohci-dbg.c b/drivers/usb/host/ohci-dbg.c
+> index 9e0e06bbc570..0a648a7d9136 100644
+> --- a/drivers/usb/host/ohci-dbg.c
+> +++ b/drivers/usb/host/ohci-dbg.c
+> @@ -1,4 +1,5 @@
+>  // SPDX-License-Identifier: GPL-1.0+
+> +#include <linux/slab.h>
+
+Thanks to the odd way in which ohci-hcd is built, this line is 
+completely unnecessary.  It should not be part of the patch.
+
+Alan Stern
+
+>  /*
+>   * OHCI HCD (Host Controller Driver) for USB.
+>   *
+> @@ -683,7 +684,7 @@ static int fill_buffer(struct debug_buffer *buf)
+>  	int ret;
+>  
+>  	if (!buf->page)
+> -		buf->page = (char *)get_zeroed_page(GFP_KERNEL);
+> +		buf->page = kzalloc(PAGE_SIZE, GFP_KERNEL);
+>  
+>  	if (!buf->page) {
+>  		ret = -ENOMEM;
+> @@ -729,11 +730,8 @@ static int debug_close(struct inode *inode, struct file *file)
+>  {
+>  	struct debug_buffer *buf = file->private_data;
+>  
+> -	if (buf) {
+> -		if (buf->page)
+> -			free_page((unsigned long)buf->page);
+> -		kfree(buf);
+> -	}
+> +	kfree(buf->page);
+> +	kfree(buf);
+>  
 >  	return 0;
->  
->  fail:
-> -	iso_sched_free(stream, sched);
-> -	urb->hcpriv = NULL;
->  	return status;
+>  }
+> @@ -782,4 +780,3 @@ static inline void remove_debug_files (struct ohci_hcd *ohci)
 >  }
 >  
-> @@ -4562,6 +4560,10 @@ static int itd_submit(struct fotg210_hcd *fotg210, struct urb *urb,
->  	else
->  		usb_hcd_unlink_urb_from_ep(fotg210_to_hcd(fotg210), urb);
->  done_not_linked:
-> +	if (status < 0) {
-> +		iso_sched_free(stream, urb->hcpriv);
-> +		urb->hcpriv = NULL;
-> +	}
->  	spin_unlock_irqrestore(&fotg210->lock, flags);
->  done:
->  	return status;
-> diff --git a/drivers/usb/host/ehci-sched.c b/drivers/usb/host/ehci-sched.c
-> index a241337c9af8..57d07d1c2dfa 100644
-> --- a/drivers/usb/host/ehci-sched.c
-> +++ b/drivers/usb/host/ehci-sched.c
-> @@ -1623,6 +1623,7 @@ iso_stream_schedule(
->  			status = 1;	/* and give it back immediately */
->  			iso_sched_free(stream, sched);
->  			sched = NULL;
-> +			urb->hcpriv = NULL;
->  		}
->  	}
->  	urb->error_count = skip / period;
-> @@ -1653,8 +1654,6 @@ iso_stream_schedule(
->  	return status;
->  
->   fail:
-> -	iso_sched_free(stream, sched);
-> -	urb->hcpriv = NULL;
->  	return status;
->  }
->  
-> @@ -1966,6 +1965,10 @@ static int itd_submit(struct ehci_hcd *ehci, struct urb *urb,
->  		usb_hcd_unlink_urb_from_ep(ehci_to_hcd(ehci), urb);
->  	}
->   done_not_linked:
-> +	if (status < 0) {
-> +		iso_sched_free(stream, urb->hcpriv);
-> +		urb->hcpriv = NULL;
-> +	}
->  	spin_unlock_irqrestore(&ehci->lock, flags);
->   done:
->  	return status;
-> @@ -2343,6 +2346,10 @@ static int sitd_submit(struct ehci_hcd *ehci, struct urb *urb,
->  		usb_hcd_unlink_urb_from_ep(ehci_to_hcd(ehci), urb);
->  	}
->   done_not_linked:
-> +	if (status < 0) {
-> +		iso_sched_free(stream, urb->hcpriv);
-> +		urb->hcpriv = NULL;
-> +	}
->  	spin_unlock_irqrestore(&ehci->lock, flags);
->   done:
->  	return status;
+>  /*-------------------------------------------------------------------------*/
+> -
+> 
 > -- 
-> 2.34.1
+> 2.53.0
+> 
