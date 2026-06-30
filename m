@@ -1,132 +1,136 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6433DB337
-	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 17:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782839448; cv=pass; b=ClyYRCOe+vbhoK2c4FL1I0L5K/SGCZWnicUfBEg9flj5azx59Lq2bEUG1j3oK6IxnQIefN1hBAeUSYgj0P5UTuEqcCUAxr4ewVbo1G5g4Eo8CZ2lYPXjDVLSQp/+7EuiLw3rbx5z2v90OVUzRioeCQezEBi/ivWxsyNXoLQEM7c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782839448; c=relaxed/simple;
-	bh=Q+NKeElSU3Mey9uyDYNttOsH+dbdUz4bwovoPjDwSTA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ngYltj5o1M4vJwScuz9+dk6aBR5MVBDpdgXZjqTtQ7pTvGIR1+jzB3Df4zQwynPExabByYKSrknIFSTTd/DNGcfny/FRUIZtcD6XpHRuoSxX+RHQyvC946pPcW4YGT2QLwpe60MbRCc/X0+esqyPFwfiV88FPbQhMAl9Hh9aZP0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aD0UN9K0; arc=pass smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A324A45104C
+	for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 19:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782849108; cv=none; b=Wd2a1VP5gSLMDvJw9Ey8q5mvu2NI+j6PkdFkx84K0IR6IUO4Tjaqu/xwIS8fn5wKw3XI2c9pqX5NAHR5N9WTX7dHhQCM8KYKq//bMplCW6o3eYQN5uaHwTTw6WcPsap5Rh20Kac467W6E6gX47B4fPC4TGvEXjWc+0RxHgm4T/s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782849108; c=relaxed/simple;
+	bh=IHED1bhwhaIFXZzAtTG598QDZu83K0PbPJZHuBhlpRg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SDyrSSE/g43BGKuUnFslxgN86PjZVUCsbm/O0CjrXVK6iwoNx/zer6aNO9J+hMA9s6lxGk7VJ34cUPr5zYEYTE+NokkeyU+1kmykfnHusgPtjKj0atKZ30fiUIDpbd1HOYVCAZiPpyd/sXcIkXWEziZpj96BFUTx1ERV4R1b2Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ryEmU+Ja; arc=none smtp.client-ip=74.125.82.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aD0UN9K0"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c0e124d2a21so570513066b.2
-        for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 10:10:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782839446; cv=none;
-        d=google.com; s=arc-20260327;
-        b=J12Dtm7dp56/K70uL2BSD1hUHWJpVd2wLoyPYBQqRLFdPWH3LLqzOJXc2U9bKxHaKU
-         lNANuPzy0Z2zWgi4d7BsaCtMP9gavkWiGY86ujSngnSkjWz9ZxfcXN6pKUZKK4WTJ3uX
-         tzmixfQOGKxAnHB/js6Ub4pSETWiGliz2vEiAToCIrj4QllfWbG0Vjhp8FrK1BZb+Jp0
-         UAdM9XDf4SypFWrHvBTEijfaljKz41j4pJtYI0cvSXdrKa1XFYl7mlyAdRB36HR4qa3P
-         9eiXUQjCVjrzuZe7RPPy/+vZLyb5esbgrL6Q3vDJfEUxZR5FWZSyAFeAMOW83vQVxqQn
-         PYMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=64A1s13t8IpGGSBhMh8O8eYrTFpABwP1rR+WIQ9DsoI=;
-        fh=hdZOCONepw+h9w/67dNx3sEzuiO9CszR+6LCndmuuLA=;
-        b=Qio1+GER9K5Djg1liKTR2xij/hVexbqbJU5momZ5QG2NN/3V65nl78FlYChfiI675U
-         7xcsw4QRpH/YCYiJr96oTF/m6SSpn3UXpa6epin+PFWSkSss6ow7Xs2LaYbcNzef3s7v
-         qX2x7uN5KcF5Qca9GNgWcoY/hFsblmdaQUDDz13EJePbZFbfGIif9/8Rl9byMs1N1duI
-         r3BqwY62S8C/tCGvijE0u1RCT3Al2bVe0EqF+MjqkshxjA1Ny9FFoZZoWcFWBRxpZvWz
-         ALi12RAy6voQQQ7vPCkmZbFR81u7Ppo9fCOaBnDafe6w5SKG8Issxl7+0IpKpdczKuaQ
-         ptNw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ryEmU+Ja"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-13b2b08a553so2721198c88.0
+        for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 12:51:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782839446; x=1783444246; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=64A1s13t8IpGGSBhMh8O8eYrTFpABwP1rR+WIQ9DsoI=;
-        b=aD0UN9K0I2je6VboJYEwgYK/1RyEHdtZCobpZKj1h227f+0T94gqS5Uu2Z6SxTLT/s
-         PFX1n5ScwuxOhL0q5YiTfGIy4PjNbSi9lZr348jFAwbRvO/KMTTe6v7VVTYV1YUbm9UG
-         Lj1gnmQyJjV2zBkY2fbKjQg6ZDVv3KA6l/fukd/sHKRYMV/Kn9yXshmkW9JgiYpb2+/i
-         ZlA3uU/nxcw7IDniepvYdidEtkgqB1m5UNzSZ9uN7hYKpuccCybt0uRnSSMUdf6iTlHE
-         sOrbJLR3YtoaZNa/jBiDHXnf8Mw1x9VumT1EU+4EofBM+/J9/kDQt3PDhtgvHDr2KAiA
-         m2mQ==
+        d=gmail.com; s=20251104; t=1782849107; x=1783453907; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xm0OFa+tCcoIZaTYvevqY142K/nJxOVjlT4BYE1lqx0=;
+        b=ryEmU+JajQhVp2XZlUlQCsGXwydj1otyU63z3IczPsvI60l8aqXPt1Wi0Hg+WbcVGC
+         2yw3yhPdJymW85+FElhwe0JZxJMcG5h6c2pjoP6XyO9wlJWPU1mIcJIedNrQuK3yO2AL
+         fn3olVCitoBgLM82GIQ7SjeBzxamYz/tVooRvqa9Jy4z/PvxmwSvA694VyK3o2ILN2cb
+         PzFOWLREoegzO0jof3lss02Vut5/Cd1J1gHLxAzpYLNygaL58rjizy/h3WeKhaif8o4c
+         w2C3YpRpch+7GZYHrgrGb33zoUuxAhcojZK4Ip4TlR1LYTRtthKZQn2c+EoFfm/LF7+n
+         lNQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782839446; x=1783444246;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1782849107; x=1783453907;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=64A1s13t8IpGGSBhMh8O8eYrTFpABwP1rR+WIQ9DsoI=;
-        b=GX/aRu8q5CP3EAYfFOO6j7gmG0rPu76OoHsQeLmAHmeGk/lYsrvMMWiNVinR7NeuAX
-         rbd7heaXssAjX+ESLquWG9mIExtDn5DN2y0Xk+TCHo1GOFaSZaX74aXzpSKJV8XyKcl9
-         Rnpk1cMtZvW4+LrqUhs7krAdinhs4q2Kt79fQiY64/UbIW5ADCgu1J8LAuK9+w4DsO9e
-         W6FKUIhxC8Yq66rdQzroZonM5EZScW7KI/uSW7705bg2DUexJOcGdxDcCxd26Ri8Gl6q
-         XKljPS0Y/XvzaDupKpQQew9cTUnqy/O+KdCZWTE8e5L3YvC87PUlZLyN3RYi27MoDHdI
-         E8JQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoXVd9lp+GxoJjdlJ2X0lh17YQ9FXOGUAAXO6vPzelHBl/wseBeNtXun4TQFSVi6y8QDDyMlh3xt5Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0yuc2+ekeoBxnL+ql0QejiHR+ubRZvHzx3pNhExG/9oYI4spE
-	L07ql2z+HjwF4ERgSuz36qHnNC9kXjID61uVYiRD7SmrG/ub7aZb2jLf5q7VMojFHu/ix9rF6ab
-	986fp2Rpfm1BjqtgZunyZmqVFooEVW90=
-X-Gm-Gg: AfdE7cm4IZ6RaILkW0F61lJXn42STRemozsRgAGQDVsS+X2nYnjiCBCFR3Rh9AtnBYq
-	/avnDe4eoHgeo3HanA2u0uX8Xjuc025Q/+Zy3fZLlbLIVz9aKis7/oSCvXQ5mQTZYoBzhe9covq
-	sCgB/duhlDYVsD1O99yatTCtaaLGd50yvjKfGWujyp23SQZdUDzgoA/pz1xc/HgEonhdotLwoVd
-	sKRMaa9Al3Qm1ErVlvV4yakgSrG0jxyQeh9aU74S6oq7XMzMuzh3k/eZqndYzp6nNx9do7qJYMQ
-	XN6QYbTWRYKesoJMYPdvez0+f4S158k=
-X-Received: by 2002:a17:906:6a84:b0:c12:8296:1a76 with SMTP id
- a640c23a62f3a-c12872d6ec8mr174161766b.33.1782839445331; Tue, 30 Jun 2026
- 10:10:45 -0700 (PDT)
+        bh=Xm0OFa+tCcoIZaTYvevqY142K/nJxOVjlT4BYE1lqx0=;
+        b=TcEdXouUdqUXRNDZaXV2O48ZqbuRkwXnkFY+7Qfpp+CNF/bn+4syHWA58xpYieOSbd
+         xedFmgoLV6mvOZ9T/ijGqN8esjn6dVFbHrHob/3ZwGN4qvHKkPRzbDSgeqlcDNNNnDDN
+         +waOJ+k8CdziP5ISLSvFd+OBjoyyzPY0g+KuSCdoccwFMxQZeo0ijn05zYvmST53cguC
+         xy3eCRlc0gcDf4o9ocbHjRfbX0LOSsgDWcrOssVLL5G4c9lcW1JqH8odvA24N8rOeUFt
+         50skZXyZHTOxry6F/7UAnWFNmdXNBg2qZ1sUSmx/i3K0YwFLUWMBG50wo9TEPe4bIDCg
+         AcDA==
+X-Gm-Message-State: AOJu0YzeRSwIOVt30EzrQPCUq2tDJY4ezxsb+HTknTLxUS+c0sdLf2rp
+	t6oTu+is3do+hQ3FIOt6bnkfkW8u/IFNr5YkXSTnoZ/C6wN3Lb2Sh8udSOjXh+pp
+X-Gm-Gg: AfdE7ckX/jkKQekJk62XXS0as7kRiF9ksVJ2Q3f+NLpGRY0cXX4XJctlsM0Tb2PCgZL
+	xP0GA+gEZJqlGCAArTvtyMY2yrfdHjVOezSrqlNHkKxAE4oZb4//cqFfP6P2VB3P3IHGzD3+1id
+	nVmC7gtxx8CXTBDE2kOpSgUe4rOg9ylnRjMld/iGZlOuSL5lOwovNlgG0SlKPW1BtngvleutAek
+	O+Pq38PCHU520+XyKDxoVlcceQS5CdKq6hRjRXvTymUuoo8gi++7qQy5rdcPM6bJnyfSgliDs7t
+	rmPhMzmvVW4f2oS0YoowC0tlfdevLQEdh/xoj5thvyKLUmv3hs6XTvk/lIubAtl9p1SR9nWIixh
+	0vvGRJx9o33bh0Et314MgMZbT3+b5NkCvTsPszkfdGJkWxh026Xq/EfvkabNlAR5Ntsvf4qqqNM
+	dr57ApzouLpV2ttCY2Hh51tHsmedwNhB9io6/Mm1EVw/xm3n+1mnAFb0bPCNw4XHBKx2Kw7Jhss
+	VAVvc42FQ==
+X-Received: by 2002:a05:7300:5783:b0:30c:ab97:d7ae with SMTP id 5a478bee46e88-30ee13fd797mr4091475eec.40.1782849106578;
+        Tue, 30 Jun 2026 12:51:46 -0700 (PDT)
+Received: from ryzen.lan ([2601:644:8000:7a86::e34])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30ee32519aesm10569467eec.27.2026.06.30.12.51.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 12:51:45 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] usb: fsl-mph-dr-of: add regulator support
+Date: Tue, 30 Jun 2026 12:51:44 -0700
+Message-ID: <20260630195144.88122-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260623161035.5792-1-nikhilsolanke5@gmail.com>
- <20260628231634.6752f74d.michal.pecio@gmail.com> <CAFgddh+AUNH9Ji-Qd=BKEDZWJrzPMWN20-g-htQDPSdSehZStQ@mail.gmail.com>
- <e7d49127-0215-4b29-9a2a-e1dc0d889b70@rowland.harvard.edu>
-In-Reply-To: <e7d49127-0215-4b29-9a2a-e1dc0d889b70@rowland.harvard.edu>
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Date: Tue, 30 Jun 2026 22:40:33 +0530
-X-Gm-Features: AVVi8CfKnnvidb5guFAdpaAe6CVJqAOJJ5DDmKL1Krrb-F8QVvOrevg30QCfF0c
-Message-ID: <CAFgddhLeQ1cJv-E4mYWR8cs7T2USkrEd5i=uxqkNCH2UWaQ5=g@mail.gmail.com>
-Subject: Re: [PATCH v2] usbcore: Add quirk for 255-bytes initial config read
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Michal Pecio <michal.pecio@gmail.com>, linux-usb@vger.kernel.org, 
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> There's nothing wrong with trusting the caller to do the right thing.
-> Besides, if a segfault does occur then it will be pretty obvious that
-> the caller needs to be fixed.
->
-> What would you do if buf is NULL?  Return an error code?  That won't
-> help anyone locate the bug.  Put an error message in the log?  Segfaults
-> are much more visible.
+Some devices have a GPIO that controls power to the USB bus. Add
+support for a vbus regulator to have the kernel control it automatically
+instead of having to rely on userspace.
 
-Understood. I guess my coding style is a little "too paranoid" and
-"check everything and report errors". I understood now why this may
-not always be the best approach in low level programming like kernel
-development.
+Acquire the regulator in the common probe path so that it works for
+all fsl-usb2-dr compatible controllers, not just MPC5121.
 
-Anyways, I have done all the requested changes. Here's a short summary:
-- put strings in a single line
-- copy bytes from desc to bigbuffer instead of pointer aliasing. (so
-no krealloc too)
-- change tabs to spaces in documentation
-- reworded some comments
-- drop USB_CONFIG_WINDOWS_REQ_SIZE macro
-- revert USB_DELAY_INIT to original behavior. no delay before 1st request.
+Tested on a TP-LINK WDR4900v1 by adding roughly the following
 
-Let me know if I missed any changes mentioned in previous discussions
-(or misunderstood and made unnecessary changes :') ).
+reg_power_usb: regulator {
+	compatible = "regulator-fixed";
+	regulator-name = "power_usb";
+	regulator-min-microvolt = <5000000>;
+	regulator-max-microvolt = <5000000>;
+	gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;  
+	enable-active-high;
+	regulator-boot-on;
+};
 
-> I wonder if it wouldn't make sense to split announce_device() so that
-> the first line is printed as soon as usb_new_device() starts, before
-> enumeration is attempted and possibly fails.
+uhubctl and rmmod both turn USB power off.
 
-The current patch still logs device ids upon failure in
-usb_enumerate_device(). Do you want me to implement that suggestion?
+Assisted-by: opencode:big-pickle
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ drivers/usb/host/fsl-mph-dr-of.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Thanks,
-Nikhil Solanke
+diff --git a/drivers/usb/host/fsl-mph-dr-of.c b/drivers/usb/host/fsl-mph-dr-of.c
+index 852649156b16..85b08f2f162d 100644
+--- a/drivers/usb/host/fsl-mph-dr-of.c
++++ b/drivers/usb/host/fsl-mph-dr-of.c
+@@ -14,6 +14,7 @@
+ #include <linux/clk.h>
+ #include <linux/module.h>
+ #include <linux/dma-mapping.h>
++#include <linux/regulator/consumer.h>
+ 
+ struct fsl_usb2_dev_data {
+ 	char *dr_mode;		/* controller mode */
+@@ -182,7 +183,7 @@ static int fsl_usb2_mph_dr_of_probe(struct platform_device *ofdev)
+ 	const struct fsl_usb2_platform_data *match_data;
+ 	const unsigned char *prop;
+ 	static unsigned int idx;
+-	int i;
++	int i, err;
+ 
+ 	if (!of_device_is_available(np))
+ 		return -ENODEV;
+@@ -242,6 +243,10 @@ static int fsl_usb2_mph_dr_of_probe(struct platform_device *ofdev)
+ 		}
+ 	}
+ 
++	err = devm_regulator_get_enable_optional(&ofdev->dev, "vbus");
++	if (err)
++		return dev_err_probe(&ofdev->dev, err, "failed to get vbus regulator\n");
++
+ 	for (i = 0; i < ARRAY_SIZE(dev_data->drivers); i++) {
+ 		if (!dev_data->drivers[i])
+ 			continue;
+-- 
+2.55.0
+
