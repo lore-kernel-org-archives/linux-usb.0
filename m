@@ -1,44 +1,44 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBEA4252DE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95412426401;
 	Wed,  1 Jul 2026 23:35:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782948959; cv=none; b=FhQR/4mQss+s/hjCX6rjjNkTP9klbljEAdBj83pPKgGhfp4YsH0Tf4cZx798cue9qr4ido7v7mhnB6uPa6bO9DMrOH/oieww+ppJX9HcDBZyHVF/GDYWhlrxXBJpczlyr7FrZJzcIx5cdXNrKgzRwbJJ7aqNKm0NfdCdBGDcL1Q=
+	t=1782948960; cv=none; b=GdCncr5C322UMdJHXPSV6UXiGJ+Kev+EwyDGJFv+HfWrWREuKIIkpmK+Gig9+62qDMUE0BWmaNSfaYYlDjmoQ5g6GHbE8crLIKjrBnSwB808wcaIyI6iJYHnyZcnENV8KkTOFVa/LCLekK7DJaenTsBieZOHGwaOMIYz6SIm168=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782948959; c=relaxed/simple;
-	bh=nnGI5Llfx315OSkr3KF85F4G29O47I0rAPMmwlSB0jg=;
+	s=arc-20240116; t=1782948960; c=relaxed/simple;
+	bh=pTOPEXaMpt1n4tYAVZIoeAJ2ZB+6WNJrO3nK27Dxf8E=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BPK/1njKQZsFijq9UUMkOiVz1D8/WjhX8xV2QhodECtt83LFLKJ6kaXLXRrtVAdPSPDZbD8gV+Diosl94YhLxsoMZE8UU8lrQOt0XXlZFuktbbsSQK0qSj8xHJXDS703Gp2ojAciWoxrI46leO1oCirSghZzHLd1+57u+WVGQUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=fA5gwduv; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=PumXDhC8K0x+N1oG88CrS01espqq5igqUbfbwdPRLyh3uLel6xVmdIjNjfUckbIpgas6MUcz5xnyXWo/hrK9aKaGutyWdGefaufkhDwyDUMAcNDaJ+ldW/GED2uL/PDUXilkGdzq71IZZsvRg7lf+fwqCay+RHyKAiVhbFQeymM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=P6GwtnNn; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="fA5gwduv"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="P6GwtnNn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1782948950;
-	bh=nnGI5Llfx315OSkr3KF85F4G29O47I0rAPMmwlSB0jg=;
+	s=mail; t=1782948949;
+	bh=pTOPEXaMpt1n4tYAVZIoeAJ2ZB+6WNJrO3nK27Dxf8E=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=fA5gwduv4R6PCj6Ok4lDpi6RVT1C3/7Uu/Lw1NASH9nRtG8pqN4lnk0vZ7S2RmBZt
-	 20rFSvjQVW6NHCbweNAHvZcQKrQHnpZO3PpICDPYfYwCjMmdln9MT3G/0XTohHpatE
-	 BDHk6wl6Xs8IwjZ3dbrkEeUo7m/hr+tx8uSIubtxDCJY2IIDVnU6IFHxoSc5WIij7U
-	 vJHG78Z0YHy6YgzHk3zb7aenRptWDzwb74lgouFfDDenojzQkwKpEVR4/igxDa6fKN
-	 eXUk2ffd2h0rX+1jt+trsW9F3cFZCcFMsvqDed0IT654Q1+oCo+GK8u75oKY2HmPgK
-	 tck9usm8/7wvg==
+	b=P6GwtnNn/H2WmIp0s0daN8F/3Muw3C5T1bSl/utNQG9goXKG1+xmOCnorOjkgZzVN
+	 djZs+F09UQJ4MySv0Lbu/LfIHGIgiKlst8JygDWe23lbgE20d9vopjkzYRXNbNXVfW
+	 RpMlhhnF/AHkggeehfRVw+6iafDzeIcHY3OlTRcD7+XGGr+ENDBDfJyvI084APlpuT
+	 +F3yYK8nFjey5sdyKkTqh/A8WxqvZgsSjOoeLx8g/oDs6SAhj7H4ZzARW+zEnoz8bA
+	 kHtMrZYHw6oglQiPovL6Jeyr8MNgWZB65v+RX8GM3k2d/kWC+xJh9BNFlPyTPV3Mtz
+	 IhtqIi4CCHt7g==
 Received: from jupiter.universe (unknown [100.64.1.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id C25C017E35D6;
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 80D6417E35C8;
 	Thu,  2 Jul 2026 01:35:49 +0200 (CEST)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id CA3A9480066; Thu, 02 Jul 2026 01:35:48 +0200 (CEST)
+	id BFA9348004E; Thu, 02 Jul 2026 01:35:48 +0200 (CEST)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Thu, 02 Jul 2026 01:35:58 +0200
-Subject: [PATCH v9 20/38] phy: rockchip: usbdp: Re-init the PHY on
- orientation change
+Date: Thu, 02 Jul 2026 01:35:51 +0200
+Subject: [PATCH v9 13/38] phy: rockchip: usbdp: Limit DP lane count to
+ muxed lanes
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260702-rockchip-usbdp-cleanup-v9-20-e31efbb62d2e@collabora.com>
+Message-Id: <20260702-rockchip-usbdp-cleanup-v9-13-e31efbb62d2e@collabora.com>
 References: <20260702-rockchip-usbdp-cleanup-v9-0-e31efbb62d2e@collabora.com>
 In-Reply-To: <20260702-rockchip-usbdp-cleanup-v9-0-e31efbb62d2e@collabora.com>
 To: Vinod Koul <vkoul@kernel.org>, 
@@ -63,59 +63,57 @@ Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-kernel@vger.kernel.org, kernel@collabora.com, 
  devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
- Sebastian Reichel <sebastian.reichel@collabora.com>
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Sashiko <sashiko-bot@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1257;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1284;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=nnGI5Llfx315OSkr3KF85F4G29O47I0rAPMmwlSB0jg=;
- b=kA0DAAoB2O7X88g7+poByyZiAGpFpFPInzjXhLNL4pI3uR+HYQuPhnN6adGQreWXl1Kh076J7
- okCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqRaRTAAoJENju1/PIO/qaoxMP/16M
- cEZhplt5kwN1JyGbK2tJIrSl0vOFds5VTRuaJj+JL+sT2Mkjf8D1URyLZCGjGrflfXuhm+0q21Y
- 1ALF9hDW2OB8KewwAmnpqiiQpyng8C4FUxmOgK/1sxoVbLpD2Ynn0HX6rfQX+AcSK3DL6Bxrw1Q
- trDWka1EE5c5TypxhhjjePEappHGkixSRyUTM3Sc71kC/7TcmQQOau7OLVEyw1muJeRkAzhmbTt
- zKSis51m7N+fbAmiDdUJyVbKrlcnq+1EVOug7Xiv4sV4rrb/Ze4C0J6ghw+7WXvZ/B8IFyBJmk2
- zJVDnrJ1XpFZ7+vyj5frByLbOOdAAD60dtQnblDhveeTp/qXLcCQgag5gy+XRc6WAQKdUYyU1yB
- hXLieBJEN2PgsXu9sB6tNzochL4zcV6Q+e7nRbzrzKRxQhriX2bGSBu0MPw+cVwDwzYySjvXf+n
- z9/Uoo62joG3JCYz25aqiXDL5V0chfHUQSTHtKQuL533TjqOQOMZoLAytR/VsRNmK7QckHDd4mA
- eQ2lxrPdwh7AWV+1/rRhlOLBKqPuwnjaqa7ffkX6hzk1q40xigeGT4I8HIenMtc20R4+rL7FSnC
- ZxHk5jblixl1xEl+G23XiAbhKL3l0QOWRlAE5opNarIj3kwXDbhSjH3WXu0I6yU7IFLDG4Q8Fyx
- CfDWx
+ bh=pTOPEXaMpt1n4tYAVZIoeAJ2ZB+6WNJrO3nK27Dxf8E=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpFpFMuvNJF5FcgEbmr2QBWxRNLuDAT7JKvc
+ tcflmA3fUo7eIkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqRaRTAAoJENju1/PI
+ O/qaQg4P/jJGezU/j04M299CwtpoNNYJn1kSEdk6wSCLOV3PF1cLK2p0Xopj5yVvlgCyIkrxDh3
+ GlhQOA6qw+0nh2ulnjj/ik824RwDRzMG+Wt+1Sx2mgLvZYPxwx8nmyio0nIwRoEilVR3N3UpqUo
+ mi1N8l2ZKnkpeWVtfgDWzWXDx0oC+2tZoectfhuNgW08ExJpY9IwR3l5xmOEoJZGW6BjtKsm1In
+ S4QSvYidfQ31hEltQVtqQTXR6pBvO1CUdg7+I1tiM74k59FROvFlf8PIOueL7WCBrWMaA9PW51A
+ XMnfVfC/SFFD3jhVXdKDxvV1l59xmzAhoK250ZYfGllm2EQUEuUzumV/npWI1MA0hhOF2Lyv26X
+ MylMYuOIkS+07+WKWp3GSHUDFFBwb1cmW/ba9svA1Gp/1C2SRzC4I9ZGD01PtXHBK/ouM/M4JNy
+ ixImaViVVvz2hK47EWPAZw4z+HRwiKN3WfTpCi+2CH+I9yWu1e38ZRyVcNmsWQm6aJcXifKGfaN
+ 42zn00HXY/0kQGsQLUXic6hbFt7N/kXaeBeZshqJea+YZ7Zehm32AV1z9ZnK7kiy2dbfkUCCg+t
+ 6go5+CYUS6qCSG4onsfdXOHiZhxL1r1e9Pvr61rxsoOnAybGcgmtTkv7WOxNRQb+WFqOUm0vSUk
+ nFUpB7VHao35JJeygG7Qpkw==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-Changing the cable orientation reconfigures the lane muxing, which
-requires re-initializing the PHY. Without this DP functionality
-breaks, if the cable is re-plugged with swapped orientation.
+In theory the DP controller could request 4 lanes when the PHY is
+restricted to 2 lanes as the other half is used by USB3.
 
+With the current user (DW-DP) this cannot happen, but as the check is
+cheap and users might change in the future protect things accordingly.
+Not doing so would corrupt USB3 usage by the following code configuring
+the voltages.
+
+Fixes: 2f70bbddeb45 ("phy: rockchip: add usbdp combo phy driver")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://lore.kernel.org/linux-phy/20260612165546.98E1F1F000E9@smtp.kernel.org/
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/phy/rockchip/phy-rockchip-usbdp.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/phy/rockchip/phy-rockchip-usbdp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-index 8f06bb9b1fcb..eab9e82dbfe4 100644
+index da15178d7f16..0cfd23a405cb 100644
 --- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
 +++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-@@ -626,6 +626,7 @@ static int rk_udphy_orien_sw_set(struct typec_switch_dev *sw,
- 				 enum typec_orientation orien)
+@@ -1134,6 +1134,9 @@ static int rk_udphy_dp_phy_verify_link_rate(struct rk_udphy *udphy,
+ static int rk_udphy_dp_phy_verify_lanes(struct rk_udphy *udphy,
+ 					struct phy_configure_opts_dp *dp)
  {
- 	struct rk_udphy *udphy = typec_switch_get_drvdata(sw);
-+	bool flipped = orien == TYPEC_ORIENTATION_REVERSE;
- 
- 	mutex_lock(&udphy->mutex);
- 
-@@ -637,7 +638,10 @@ static int rk_udphy_orien_sw_set(struct typec_switch_dev *sw,
- 		goto unlock_ret;
- 	}
- 
--	udphy->flip = orien == TYPEC_ORIENTATION_REVERSE;
-+	if (udphy->flip != flipped)
-+		udphy->phy_needs_reinit = true;
++	if (dp->lanes > udphy->dp_lanes)
++		return -EINVAL;
 +
-+	udphy->flip = flipped;
- 	rk_udphy_set_typec_default_mapping(udphy);
- 	rk_udphy_usb_bvalid_enable(udphy, true);
- 
+ 	switch (dp->lanes) {
+ 	case 1:
+ 	case 2:
 
 -- 
 2.53.0
