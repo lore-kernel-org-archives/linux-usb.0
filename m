@@ -1,47 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6286940E8E7
-	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 10:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00D940BCD7
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 10:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782901120; cv=none; b=ihxWAr57QdP2V205LIAaPGWDSxINGArKX4UKUcnS2TEQS4oveGG+OLW//Yft68es3AwQVzBQNGEhnD0voVafndMkpT4ZuDUMIU84/pCm2z4th38H2vFMmrmhmQIY68jLtJcbyF7H1gkPJ1qsDLfI2t8WdEKo/krGnlnVRUzB1zQ=
+	t=1782901123; cv=none; b=CFIFtVXcly9BCeplU2SFTttgEPAzmwjQ93rmABgk6FKAhuABjpA7RHChTJQ2oIt30E5ZOOh0r1Yz/ywbtoa+r07b/PCBAZVQmTSx9tXzeffBdtUUGVtNuQS/G4acCfDvg5+jdD4b7JgJLlmxXqkASBl72a+Pk2U24V15q03EPuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782901120; c=relaxed/simple;
-	bh=/VmhbYzCS6eDKZXe2njWV1zyejy53Cf7/VfGl6cwv7g=;
+	s=arc-20240116; t=1782901123; c=relaxed/simple;
+	bh=dTmqjJ1A0rx0L3Yz5VKymYbyJYy+f3YeiDTHTuNs6Ac=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DEVLX0kyP/59P8H9JXLg5r24hDJ6qE5oXMLbxKjvaNS1oiI18Ray1ZA9VT3MhXt2UkX+6WInQ3n8muv9TSWDloWxxBKLC+uOg5dlX4DXvnWhjZGUXxusTJJSKo562zoAhiuyA9ozUIjk/YueyHAAuMJEh8Gfc3/8Ym85mD0vjSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gu0XuRQr; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=T37TSwGpNQCJDqJjCE3XzKZyRU1sJj0jGSWT/2fy5zn925T0sZ5bO4s2Dc4mFyzxv6nRZ4iS3SW0bh64Kb4t7bIB72VLGJ6ksgjbRYx2iWozQbq+drd/h7b01onZt+gDgoFgMcUJjOfWb6btdo4VDxOZnceE8cEolK1XdlXxTAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aKNOVojN; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gu0XuRQr"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aKNOVojN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782901118;
+	s=mimecast20190719; t=1782901120;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rVo9xWqcp3+zcVgFIG4G4vrNjsMp5E1zzhatU2EMl58=;
-	b=gu0XuRQrDci8v5VSlGU4/N5/wMkrGnfdHiT21ZCq2VPo5t0Adh1UT6HnXz8X8dEzqlCHj5
-	A1duYym5HrVCSQWOJzjTc26JML70CqoAto0BgLyRa54wrOw/fhYLvxTiEg9tnk7p740n+S
-	0E74rJRcy7oprwNQYUfwGcrzBAVJgys=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=3K0jYSno9pP21YqICBjADCSbE+ZxELgscbZYlBI/F54=;
+	b=aKNOVojNM442gZrE54TIISg5xgxbbPkMcDMn8xOguU7z7QY9l8LIPj/sLz4M+c79OYszrC
+	ZP+iPnHC9kwSBKFrQm2Bbvl8J/NAe8c/B0JErFxG5YWK/CD0Axef04v7p2vqw6BCu5bGuc
+	V0ot5GjxfzZQp8Ks/7KIFIA2c7zBfC4=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-218-LY5cMxLqNVmUdiUTAncdXw-1; Wed,
- 01 Jul 2026 06:18:35 -0400
-X-MC-Unique: LY5cMxLqNVmUdiUTAncdXw-1
-X-Mimecast-MFC-AGG-ID: LY5cMxLqNVmUdiUTAncdXw_1782901114
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-517-7aHYyTceN7mOHTTJYLjKJQ-1; Wed,
+ 01 Jul 2026 06:18:37 -0400
+X-MC-Unique: 7aHYyTceN7mOHTTJYLjKJQ-1
+X-Mimecast-MFC-AGG-ID: 7aHYyTceN7mOHTTJYLjKJQ_1782901116
 Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BF56D1879598;
-	Wed,  1 Jul 2026 10:18:33 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5FF4A195C242;
+	Wed,  1 Jul 2026 10:18:36 +0000 (UTC)
 Received: from nixos.redhat.com (unknown [10.44.49.208])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 51AF136936;
-	Wed,  1 Jul 2026 10:18:31 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1D03D36936;
+	Wed,  1 Jul 2026 10:18:33 +0000 (UTC)
 From: Sascha Grunert <sgrunert@redhat.com>
 To: linux-usb@vger.kernel.org
 Cc: valentina.manea.m@gmail.com,
@@ -51,9 +51,9 @@ Cc: valentina.manea.m@gmail.com,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
 	Sascha Grunert <sgrunert@redhat.com>
-Subject: [PATCH 1/2] usbip: drain remaining PDU payload on rejected endpoint
-Date: Wed,  1 Jul 2026 12:18:25 +0200
-Message-ID: <20260701101826.894848-2-sgrunert@redhat.com>
+Subject: [PATCH 2/2] usbip: block SET_INTERFACE for isoc alt settings
+Date: Wed,  1 Jul 2026 12:18:26 +0200
+Message-ID: <20260701101826.894848-3-sgrunert@redhat.com>
 In-Reply-To: <20260701101826.894848-1-sgrunert@redhat.com>
 References: <20260701101826.894848-1-sgrunert@redhat.com>
 Precedence: bulk
@@ -65,100 +65,78 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-When get_pipe() returns -1, stub_recv_cmd_submit() bails out without
-reading the transfer buffer and ISO descriptors that follow the PDU
-header on the TCP stream. The next recv() parses leftover payload as a
-PDU header, desyncs the stream, and kills the connection.
+USB/IP cannot forward isochronous transfers. When the client activates
+an alt setting with isoc endpoints, the transfers fail with -EPROTO and
+the resulting usb_clear_halt cascade disconnects the device.
 
-Consume those trailing bytes before the early return so the stream
-stays in sync.
+Intercept SET_INTERFACE in tweak_set_interface_cmd() and fake success
+when the target alt setting contains isoc endpoints, keeping the device
+at alt 0.
 
-Fixes: 635f545a7e8b ("usbip: fix stub_rx: get_pipe() to validate endpoint number")
+Tested with a Turtle Beach Velocity One Flight yoke (10f5:7001)
+forwarded to a VM via USB/IP, which previously disconnect-looped every
+few seconds and now stays connected.
+
 Cc: stable@vger.kernel.org
 Signed-off-by: Sascha Grunert <sgrunert@redhat.com>
 ---
- drivers/usb/usbip/stub_rx.c | 60 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 59 insertions(+), 1 deletion(-)
+ drivers/usb/usbip/stub_rx.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
 diff --git a/drivers/usb/usbip/stub_rx.c b/drivers/usb/usbip/stub_rx.c
-index 1e9ae57..d0e3d3f 100644
+index d0e3d3f..f323b48 100644
 --- a/drivers/usb/usbip/stub_rx.c
 +++ b/drivers/usb/usbip/stub_rx.c
-@@ -461,6 +461,62 @@ static int stub_recv_xbuff(struct usbip_device *ud, struct stub_priv *priv)
+@@ -100,6 +100,28 @@ static int tweak_clear_halt_cmd(struct urb *urb)
  	return ret;
  }
  
-+/*
-+ * When get_pipe() rejects an endpoint (e.g. an isochronous endpoint that
-+ * does not exist in the current alt setting), the transfer buffer and ISO
-+ * packet descriptors that follow the PDU header on the TCP stream must
-+ * still be consumed.  Without this the next recv() interprets leftover
-+ * payload bytes as a PDU header, desynchronises the stream, and tears
-+ * down the connection.
-+ */
-+static void stub_recv_cmd_submit_drain(struct usbip_device *ud,
-+				       struct usbip_header *pdu)
++static bool altsetting_has_isoc(struct usb_device *udev, __u16 interface,
++				__u16 alternate)
 +{
-+	int bufsz, ret, np;
-+	void *buf;
++	struct usb_interface *intf;
++	struct usb_host_interface *alt;
++	int i;
 +
-+	if (pdu->base.direction == USBIP_DIR_OUT) {
-+		bufsz = pdu->u.cmd_submit.transfer_buffer_length;
-+		if (bufsz > 0) {
-+			buf = kzalloc(min_t(int, bufsz, PAGE_SIZE),
-+				      GFP_KERNEL);
-+			if (!buf) {
-+				usbip_event_add(ud, SDEV_EVENT_ERROR_MALLOC);
-+				return;
-+			}
-+			while (bufsz > 0) {
-+				int chunk = min_t(int, bufsz, PAGE_SIZE);
++	intf = usb_ifnum_to_if(udev, interface);
++	if (!intf)
++		return false;
 +
-+				ret = usbip_recv(ud->tcp_socket, buf, chunk);
-+				if (ret != chunk) {
-+					kfree(buf);
-+					usbip_event_add(ud,
-+							SDEV_EVENT_ERROR_TCP);
-+					return;
-+				}
-+				bufsz -= chunk;
-+			}
-+			kfree(buf);
-+		}
++	alt = usb_altnum_to_altsetting(intf, alternate);
++	if (!alt)
++		return false;
++
++	for (i = 0; i < alt->desc.bNumEndpoints; i++) {
++		if (usb_endpoint_xfer_isoc(&alt->endpoint[i].desc))
++			return true;
 +	}
-+
-+	np = pdu->u.cmd_submit.number_of_packets;
-+	if (np > 0 && np <= USBIP_MAX_ISO_PACKETS) {
-+		bufsz = np * sizeof(struct usbip_iso_packet_descriptor);
-+		buf = kzalloc(bufsz, GFP_KERNEL);
-+		if (!buf) {
-+			usbip_event_add(ud, SDEV_EVENT_ERROR_MALLOC);
-+			return;
-+		}
-+		ret = usbip_recv(ud->tcp_socket, buf, bufsz);
-+		kfree(buf);
-+		if (ret != bufsz) {
-+			usbip_event_add(ud, SDEV_EVENT_ERROR_TCP);
-+			return;
-+		}
-+	}
++	return false;
 +}
 +
- static void stub_recv_cmd_submit(struct stub_device *sdev,
- 				 struct usbip_header *pdu)
+ static int tweak_set_interface_cmd(struct urb *urb)
  {
-@@ -479,8 +535,10 @@ static void stub_recv_cmd_submit(struct stub_device *sdev,
- 	int ret, i;
- 	int is_tweaked;
+ 	struct usb_ctrlrequest *req;
+@@ -111,6 +133,20 @@ static int tweak_set_interface_cmd(struct urb *urb)
+ 	alternate = le16_to_cpu(req->wValue);
+ 	interface = le16_to_cpu(req->wIndex);
  
--	if (pipe == -1)
-+	if (pipe == -1) {
-+		stub_recv_cmd_submit_drain(ud, pdu);
- 		return;
++	/*
++	 * USB/IP cannot forward isochronous transfers.  If the requested
++	 * alt setting activates isochronous endpoints, pretend the switch
++	 * succeeded without touching the device.  This prevents the
++	 * cascade of failed isoc URBs that leads to a device disconnect.
++	 */
++	if (alternate != 0 && altsetting_has_isoc(urb->dev, interface,
++						  alternate)) {
++		dev_info(&urb->dev->dev,
++			 "usb_set_interface blocked: inf %u alt %u (isoc)\n",
++			 interface, alternate);
++		return 0;
 +	}
++
+ 	usbip_dbg_stub_rx("set_interface: inf %u alt %u\n",
+ 			  interface, alternate);
  
- 	/*
- 	 * Smatch reported the error case where use_sg is true and buf_len is 0.
 -- 
 2.52.0
 
