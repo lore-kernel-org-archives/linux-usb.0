@@ -1,190 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F3728C2BF;
-	Wed,  1 Jul 2026 07:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782890382; cv=none; b=WAjcHqsISO51tkATtYZCfZXjKNa5Y/VVBxwAN6ORj+Zk9qDCWNnSt8Duj/c2zvhka7Nn83fb4jD5sHHTpJpaqBhRoSufooHpKBTByvF8bLqIa6akewPa8XZfN2GlYRi+WDSPyuncB79h6mnEO7b8MBQjVZnPx7IivPFgpC7J5IY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782890382; c=relaxed/simple;
-	bh=8abE/O+clkRTidF9hyH9bxo4+jorY0wp5dpLDI2xA+8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m/sl5r8m9BH8hydwVUSFQzu9Hk6xx6KFjcwlqp5Uo5lY5wvjUzmaZEkF1FzXn8goaN8a62POZpcPnaXjnbT7HjQ/Jpq3AiEQQTPVc6khXN3hz51NLke/YJO6Oads70NNX9eABmgmX3Bta63fuObscQ2sQFiJDMf39BIfECedTMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YKWuKXYM; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCA33C1984;
+	Wed,  1 Jul 2026 08:04:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782893094; cv=pass; b=AP1OiLcNGp12qwutE16Lgoach+1w1tWLQWUtqrY/VH7Qa7CB5TbQGaFmkWTlFrQcR5T+XEynsq1lbXM5m+FU1yqtfFEw/AcTPLqVfz0h3eugjbFoEs9WIf5GZHTtTAeN9LsuhAndFNPeNAcv0Yqu+Wc0FTV+2eWdaopb9OdDLAY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782893094; c=relaxed/simple;
+	bh=RzSgtzcfemNBRW4l0erRYHjsjW991FMagcVp+y5BGdg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CEMlGKWCnC8JquGWfr0fR9phoJjEAT5wSNjQh2M+qVGSrcQ5eA+N5DaN7+Ekmej7K4ppP9Y8vkqVkRNCUWVAAdAv+LAPCLe03w/jfdc50QhGoALQsTks3qaxzNqojg/jy5e9JsanzR1+Amr2yy2YIaH7Uxp3N+hnx067Z/g7/F8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=michael.riesch@collabora.com header.b=F0yG8nQo; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YKWuKXYM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E1151F000E9;
-	Wed,  1 Jul 2026 07:19:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782890380;
-	bh=IwgQZgu8ztRblRgv67kKGDmVg+SMGouTpGnyLW+u7zY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YKWuKXYMrc+Rg/K7FpMXqB30x2gNG6H2WoDG6aMoLqNbvXlz5a/wcGFFTssRPadOw
-	 o/HxXjKj+B6XvHyzW9W8FKY/vCX68Ua11nC0lk+rlAofT46Mkgi9SFYT2eL8e4rfWm
-	 uyvNQsWYuj4SYfl6uqv5Zc9SPr5snUz1VVBvNDoc=
-Date: Wed, 1 Jul 2026 09:18:25 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: class: balance alt mode driver module
- refcount
-Message-ID: <2026070150-skies-purgatory-ad1a@gregkh>
-References: <20260701062417.15314-2-pmenzel@molgen.mpg.de>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=michael.riesch@collabora.com header.b="F0yG8nQo"
+ARC-Seal: i=1; a=rsa-sha256; t=1782892953; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=aTPEf3BqjKu6ldy2Xslnu+HCEWFE6vblrMkjVb5aeayVdGPijkyKG1LMZ6CZNLezp4ugzaVWMYco2vxL9LfHDXR2hdnbFzSDgPg8upjd9SJe1Rjm5Zsgvr4aAiXu7+iJqGDW0WJl8SIG1lR2U5JKH1fsYHzSxQW8Qfvy8d2mH8s=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1782892953; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=CWNDIk7fyUz4D/2m8OAHIVTblCwgE7WjSABB2eON9n8=; 
+	b=lamTyYNS9M6k0ALZ9lZlnurd7UG/ZXESPXWU00I5ivICDw4j4INNfn5LX3Qz3+BsPU8LTB3JEBwOk+a6HRM4V7bADRXU7UhppH+jbKrp/wCU829XSmn1tOa9BufYdJFyudT94cSNT1cfFuyD9w6AK+MciAzMUPHMLl4NQyu4VCM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=michael.riesch@collabora.com;
+	dmarc=pass header.from=<michael.riesch@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1782892953;
+	s=zohomail; d=collabora.com; i=michael.riesch@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=CWNDIk7fyUz4D/2m8OAHIVTblCwgE7WjSABB2eON9n8=;
+	b=F0yG8nQo3YbIjKWV9YHgILL1rxYz9mgW3xw/AfWH94ua+v/J8PH7nd3RXd24npaQ
+	IQR5CFW6blT7eUGRjNoFo4TdbDDuGKkWvGSfKjMCC09bfsJAMtMR+F8FIfyglywBXBh
+	wvcWiRoSQ2Xgy2B2JXi+Gxz6KCm+/vVsV2ha6qGc=
+Received: by mx.zohomail.com with SMTPS id 1782892951290681.0323311430374;
+	Wed, 1 Jul 2026 01:02:31 -0700 (PDT)
+Message-ID: <39bf50d1-a54c-41c0-bfee-ef73c293b990@collabora.com>
+Date: Wed, 1 Jul 2026 10:02:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260701062417.15314-2-pmenzel@molgen.mpg.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] arm64: dts: rockchip: Fix devices suspend freeze
+ on RK3568/RK3566
+To: Jonas Karlman <jonas@kwiboo.se>, Heiko Stuebner <heiko@sntech.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Peter Geis <pgwipeout@gmail.com>
+Cc: Diederik de Haas <diederik@cknow-tech.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20260624192726.781864-1-jonas@kwiboo.se>
+ <20260624192726.781864-3-jonas@kwiboo.se>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <20260624192726.781864-3-jonas@kwiboo.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-On Wed, Jul 01, 2026 at 08:24:16AM +0200, Paul Menzel wrote:
-> Plugging or unplugging a USB-C dock on a Dell XPS 13 9370 running v7.1.1
-> triggers a WARN splat and, on unplug, a module refcount underflow.  The
-> UCSI alt mode poll worker warns that it cannot pin the alt mode driver:
-> 
->   WARNING: drivers/usb/typec/class.c:311 at typec_altmode_update_active+0x100/0x110 [typec]
->   Workqueue: USBC000:00-con3 ucsi_poll_worker [typec_ucsi]
->   Call Trace:
->    ucsi_altmode_update_active+0x101/0x1a0 [typec_ucsi]
->    ucsi_check_altmodes+0x92/0xd0 [typec_ucsi]
->    ucsi_poll_worker+0x3a/0x110 [typec_ucsi]
-> 
-> This is neither specific to this machine nor new in v7.1.  The same two
-> splats have been collected for years by Fedora ABRT on other Dell
-> laptops: the module_put() underflow as far back as the Fedora 6.0.5
-> kernel (first seen 2022-11-06) on an XPS 13 9300, and the
-> try_module_get() warning on a Precision 7550 running the Fedora 6.14.5
-> kernel.
+Hi Jonas,
 
-Why are we trying to grab module reference counts like this?
+On 6/24/26 21:27, Jonas Karlman wrote:
+> The EHCI/OHCI controller depends on clk_usbphy1_480m being enabled, or
+> the system may freeze when registers are accessed, i.e. during suspend
+> in ohci_suspend().
+> 
+> Add the missing clk_usbphy1_480m clocks reference to EHCI/OHCI
+> controllers to ensure the clock is enabled when ECHI/OHCI registers are
+> accessed to prevent a system freeze.
+> 
+> Fixes suspend pm_test issue with EHCI/OHCI devices due to the missing
+> clk_usbphy1_480m reference and makes following pm_test modes work:
+> 
+>   echo N > /sys/module/printk/parameters/console_suspend
+> 
+>   echo devices > /sys/power/pm_test
+>   echo platform > /sys/power/pm_test
+>   echo processors > /sys/power/pm_test
+>   echo core > /sys/power/pm_test
+> 
+>   echo mem > /sys/power/state
+> 
+> Fixes: 91c4c3e06a25 ("arm64: dts: rockchip: add usb2 nodes to rk3568 device tree")
+> Fixes: 78f7186095db ("arm64: dts: rockchip: rename and sort the rk356x usb2 phy handles")
+> Tested-by: Diederik de Haas <diederik@cknow-tech.com>
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 
+Acked-by: Michael Riesch <michael.riesch@collabora.com>
 
-> On unplug the partner alt mode is torn down and the imbalance surfaces
-> as a module_put() underflow:
-> 
->   WARNING: kernel/module/main.c:957 at module_put+0x96/0xa0
->   Workqueue: events ucsi_handle_connector_change [typec_ucsi]
->   Call Trace:
->    typec_altmode_update_active+0x6f/0x110 [typec]
->    typec_remove+0x85/0x90 [typec]
->    device_release_driver_internal+0x19e/0x200
->    bus_remove_device+0xe4/0x1c0
->    device_del+0x160/0x3d0
->    ucsi_unregister_altmodes+0x49/0xb0 [typec_ucsi]
->    ucsi_unregister_partner+0x9e/0x160 [typec_ucsi]
->    ucsi_handle_connector_change+0x386/0x420 [typec_ucsi]
-> 
-> typec_altmode_update_active() pins the alt mode driver's module while a
-> partner or plug alt mode is active: it takes a reference in the enter
-> path and drops it in the exit path.  The get and put are keyed on
-> adev->dev.driver, but the alt mode driver bind/unbind is not serialised
-> against the active state transitions:
-> 
->  - If the mode is reported active while no driver is bound yet (the UCSI
->    poll worker racing ahead of asynchronous driver binding), no
->    reference is taken, but adev->active is still set.  On unbind
->    typec_remove() sees adev->active and issues an unconditional
->    module_put(), underflowing the refcount.
-> 
->  - try_module_get() can also fail when the module is already going away,
->    which the code only WARN_ON()s while still marking the mode active,
->    producing the same imbalance on the following put.
-> 
-> Both conditions are races with narrow timing windows.  The active state
-> is updated by the UCSI poll and connector-change workers, which are not
-> serialised against the asynchronous alt mode driver bind/unbind or
-> against module unload, so the imbalance only triggers on an unlucky
-> interleaving (a quick unplug/replug, or hotplug-driven module churn) and
-> is not reproducible on demand.  That matches it being seen only once on
-> the affected machine and the reports above turning up years apart.  The
-> skewed refcount is not merely cosmetic: an rmmod racing the underflow
-> can unload the alt mode driver while a mode is still active.
-> 
-> Track whether a reference is actually held in struct altmode and only
-> put it when held, so the get and put always balance and the module_put()
-> underflow can no longer occur.  Keep the WARN_ON() on a failed
-> try_module_get(): it flags the genuine oddity of entering a mode whose
-> driver module is already going away, and with the reference now tracked
-> it no longer leaves the refcount skewed for the following put.
-> 
-> Fixes: 8a37d87d72f0 ("usb: typec: Bus type for alternate modes")
-> Link: https://retrace.fedoraproject.org/faf/reports/542503/
-> Link: https://retrace.fedoraproject.org/faf/reports/1278469/
-> Assisted-by: Claude:claude-opus-4-8 [Claude Code]
-> Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
+Thanks and best regards,
+Michael
+
 > ---
->  drivers/usb/typec/bus.h   |  2 ++
->  drivers/usb/typec/class.c | 23 +++++++++++++++++++----
->  2 files changed, 21 insertions(+), 4 deletions(-)
+> v2: Collect t-b tag
+> ---
+>  arch/arm64/boot/dts/rockchip/rk356x-base.dtsi | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/usb/typec/bus.h b/drivers/usb/typec/bus.h
-> index 7df5deb1dd3a5..c3509a5e57fd0 100644
-> --- a/drivers/usb/typec/bus.h
-> +++ b/drivers/usb/typec/bus.h
-> @@ -23,6 +23,8 @@ struct altmode {
+> diff --git a/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi b/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
+> index a5832895bd39..c930a6fd6ea0 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
+> @@ -321,44 +321,44 @@ its: msi-controller@fd440000 {
+>  	};
 >  
->  	struct altmode			*partner;
->  	struct altmode			*plug[2];
-> +
-> +	bool				module_hold;
->  };
+>  	usb_host0_ehci: usb@fd800000 {
+> -		compatible = "generic-ehci";
+> +		compatible = "rockchip,rk3568-ehci", "generic-ehci";
+>  		reg = <0x0 0xfd800000 0x0 0x40000>;
+>  		interrupts = <GIC_SPI 130 IRQ_TYPE_LEVEL_HIGH>;
+>  		clocks = <&cru HCLK_USB2HOST0>, <&cru HCLK_USB2HOST0_ARB>,
+> -			 <&cru PCLK_USB>;
+> +			 <&cru PCLK_USB>, <&usb2phy1>;
+>  		phys = <&usb2phy1_otg>;
+>  		phy-names = "usb";
+>  		status = "disabled";
+>  	};
 >  
->  #define to_altmode(d) container_of(d, struct altmode, adev)
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index 0977581ad1b6e..aa7665a418b2f 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -299,16 +299,31 @@ static void typec_altmode_put_partner(struct altmode *altmode)
->   */
->  void typec_altmode_update_active(struct typec_altmode *adev, bool active)
->  {
-> +	struct altmode *alt = to_altmode(adev);
->  	char dir[6];
+>  	usb_host0_ohci: usb@fd840000 {
+> -		compatible = "generic-ohci";
+> +		compatible = "rockchip,rk3568-ohci", "generic-ohci";
+>  		reg = <0x0 0xfd840000 0x0 0x40000>;
+>  		interrupts = <GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>;
+>  		clocks = <&cru HCLK_USB2HOST0>, <&cru HCLK_USB2HOST0_ARB>,
+> -			 <&cru PCLK_USB>;
+> +			 <&cru PCLK_USB>, <&usb2phy1>;
+>  		phys = <&usb2phy1_otg>;
+>  		phy-names = "usb";
+>  		status = "disabled";
+>  	};
 >  
->  	if (adev->active == active)
->  		return;
+>  	usb_host1_ehci: usb@fd880000 {
+> -		compatible = "generic-ehci";
+> +		compatible = "rockchip,rk3568-ehci", "generic-ehci";
+>  		reg = <0x0 0xfd880000 0x0 0x40000>;
+>  		interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
+>  		clocks = <&cru HCLK_USB2HOST1>, <&cru HCLK_USB2HOST1_ARB>,
+> -			 <&cru PCLK_USB>;
+> +			 <&cru PCLK_USB>, <&usb2phy1>;
+>  		phys = <&usb2phy1_host>;
+>  		phy-names = "usb";
+>  		status = "disabled";
+>  	};
 >  
-> +	/*
-> +	 * A partner/plug alternate mode pins its driver's module while the
-> +	 * mode is active. The driver bind/unbind and the active state change
-> +	 * are not serialised: the driver may be (un)bound between the enter
-> +	 * and exit updates, and try_module_get() can fail if the module is
-> +	 * already going away. Track whether a reference is actually held so
-> +	 * the get and put always balance instead of underflowing module
-> +	 * refcounts.
-> +	 */
+>  	usb_host1_ohci: usb@fd8c0000 {
+> -		compatible = "generic-ohci";
+> +		compatible = "rockchip,rk3568-ohci", "generic-ohci";
+>  		reg = <0x0 0xfd8c0000 0x0 0x40000>;
+>  		interrupts = <GIC_SPI 134 IRQ_TYPE_LEVEL_HIGH>;
+>  		clocks = <&cru HCLK_USB2HOST1>, <&cru HCLK_USB2HOST1_ARB>,
+> -			 <&cru PCLK_USB>;
+> +			 <&cru PCLK_USB>, <&usb2phy1>;
+>  		phys = <&usb2phy1_host>;
+>  		phy-names = "usb";
+>  		status = "disabled";
 
-LLMs love to write huge comments like this.  Please don't give into them
-and just make the code obvious as to what is happening so that the
-comment blobs like this are not needed.
-
->  	if (!is_typec_port(adev->dev.parent) && adev->dev.driver) {
-> -		if (!active)
-> -			module_put(adev->dev.driver->owner);
-> -		else
-> -			WARN_ON(!try_module_get(adev->dev.driver->owner));
-> +		if (!active) {
-> +			if (alt->module_hold) {
-> +				module_put(adev->dev.driver->owner);
-> +				alt->module_hold = false;
-> +			}
-> +		} else if (!alt->module_hold) {
-> +			alt->module_hold = try_module_get(adev->dev.driver->owner);
-> +			WARN_ON(!alt->module_hold);
-> +		}
->  	}
-
-Why is the warning still kept?  That will cause boxes to reboot if this
-goes wrong, which is not a good idea.
-
-And no locking?  The new flag you added here seems odd, that feels like
-a mirror of the module reference.
-
-thanks,
-
-greg k-h
