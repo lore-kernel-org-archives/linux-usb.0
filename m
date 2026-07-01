@@ -1,116 +1,144 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A637306776
-	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 11:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782906015; cv=none; b=AhpIiQB6sET3onIYDGSs9+ZeW6JgJQneENC3DCbDjmI9cnrnfiMSPbgD+7o/3CXdt7UycHYai8OZP8TD4Q7RENDFBLmJ6exbf2Sqlnzz18cOigHybX2anFDqKmWAsLvohnH80F6VsvnHN6wA8ZDreYgk3f3quGsR4MEs9mYq88E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782906015; c=relaxed/simple;
-	bh=Re5sa46Y0/VZaCjTaqs6KcFdiUfTXL1/i5WhJPbAY0g=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=o0aeCDksV4Z1LRiYovJHznoFIhgr0XXKo/H/g1wpO0Lr0JVE0HIAsF3NttdzHkNeAgzhKcS64nkvQY4K9v3xC+LWgyUoGuqTXEczfGrgMznGOgeNHt2hUC6pYbM09lGYB99YeO0XhchEtgAHrwkhlsH7OuVWXbKXqj57W8uIMaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zeq1BMag; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D539340E8C2
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 12:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782907631; cv=pass; b=hCt8sj3Ff+7Pl83bzI/QUVEY6gZ5LSdOVZwtTaKMewP38DXhIh91eU/9Z+2900tFdVLWoZgEOswKVQeNL7pZvmcm3vql3YV6jWDUoRFmrESKSKniffQemACKgMUWa6ZknBXGHIuo/UzV+9sFpO2Kdc7jIOGLetSeCzYTrCKn9a4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782907631; c=relaxed/simple;
+	bh=9/m+39RgXBaNYdYcIO6pX/z82SuA7XEH4J+ByPOaFWM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R153X6KxQBsX0DjciCMNH50CcHCheBCSvVDDmm3QaJ7L2hERrP55wceomhzTncyrtzZbzeH/rlCTmUluL83tws5IpeRJVYPtpRRHua/eC+fr2afuI6m7tCYmafAt8V0RcpNAPEdDWw86S7jV+xyuyDWkRHhRaH66WPYiKEh0toY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PZjvqIdR; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=OFU0+raV; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zeq1BMag"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-37dedd62b90so265846a91.1
-        for <linux-usb@vger.kernel.org>; Wed, 01 Jul 2026 04:40:14 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PZjvqIdR";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="OFU0+raV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782907629;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9/m+39RgXBaNYdYcIO6pX/z82SuA7XEH4J+ByPOaFWM=;
+	b=PZjvqIdRmxPfIIp6PtOwXbEGNSuJmUhZUFOs9kUcw1WWCIK/OS6RWuQwEEEDD729yRh/0o
+	rvuB+0Pt8SN50d/im/AXvAYmW8YtGRbbLjMWH/6ufOfZKUhSiUYungFGNkbPHlV0LmtBOP
+	Cb7MbIPQhjHHUZCw3PleXBOA3jaxJPE=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-569-M-ncTYIvMF-lHXuNlcEjrQ-1; Wed, 01 Jul 2026 08:07:07 -0400
+X-MC-Unique: M-ncTYIvMF-lHXuNlcEjrQ-1
+X-Mimecast-MFC-AGG-ID: M-ncTYIvMF-lHXuNlcEjrQ_1782907626
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-37e17ec1940so599292a91.0
+        for <linux-usb@vger.kernel.org>; Wed, 01 Jul 2026 05:07:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782907626; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hjamPy5ZKC05zq73F02vAK7rCJXNvOH6z+9/0D3hJ5POO6puiPzfFpnAJ3GIK5pO87
+         5iHXXOsaWrJt1I8f0PzOIQiALkY/lVSyshA49pF4FypZvYSI+hqmzejgBp9+P4ZYkDHk
+         fcvzXADl7rE4geiCtPT6f+DI7vN31zw+I2NMIGf35ffOQbUO7SWjoT1WuarErKalPAU+
+         u4quvI9jAo4DZehrWGA6fYIGGC54x6nOfCbYRou4ou7irJPEgGcKCirhOzgBBSf+oXKM
+         qE/KPDwhBPfuVY8kYXe6ohYcoxJgYVO4U4P1MLFC8KggZS5H7o6WdxwbwlJAN78IxqfI
+         dl6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=9/m+39RgXBaNYdYcIO6pX/z82SuA7XEH4J+ByPOaFWM=;
+        fh=FgNb+gbcEiZ/20GSvx1JkspwZJVp/w0qNJYQuEIqoHs=;
+        b=HxMWy7oDO1WvgqJCiDO4oXFB5kYF10yweeUwIe0DGi9ZUBfIBn28O1g/SqnihhDl1K
+         53nyiIl4wNBX1UHPY9r+UrwZr6qV5tMrkNDzrIqREbuiTRxgAetVDza804YOKQuaQRjm
+         Mi0oc8PBHdtyXW0O7yTWhq6MO0m6yIdSmJ5g0VjxQYR8xcBXvd5QTgkNOQ2t+Tvj5xkr
+         xwp1KtxP9bV6ZFFGYW3kvb/mOEl3ln9t8B4SmrvMsZE9B3xIxAzQrw6mCUvtQudBj8BR
+         n5YtFSfS1TdE10SGUhSNBvOVd2kUXd5pnADZTPuoo62mIbCVXYM8XIGUPgV7RiWLnk8O
+         eMrg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782906013; x=1783510813; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tyFzszev+usYq40ARSSCzs6vScHOVyEQ8o7LSEdBPeA=;
-        b=Zeq1BMagXyXrIpheTCUhmTFpi681odKjO7oUFvzPo8uDISU4mYvQ0ei2lxOST8SAse
-         qspQvXVHRkddFdERTTzR2gcTYcGK5xAQKhT0cPeCTdgigj8vQ1CUaOepPdLs0krACZcU
-         JyX19Xyy4G1QqWYzOsGPBADq7bf2VBOcETrg+Bsxt1iMFXA3Gq3mO/f20V7aHRL5bjP8
-         i0N+Jct54lPBnn/lwBFLLjaJYs8NIconncmcJr2gsF92isAdArlEHhcU1eKLGo6p71b9
-         MZ22SblD4HrCJ1U4AJrbTHn33DDPtRTIUIYhi1ipSpvvRdwwJpKueBemz3wqOWRnGG2g
-         gaEg==
+        d=redhat.com; s=google; t=1782907626; x=1783512426; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=9/m+39RgXBaNYdYcIO6pX/z82SuA7XEH4J+ByPOaFWM=;
+        b=OFU0+raV7+OGyjlcHsVfQ6B+arkv0Q09N9iqEZivR4KBmSrghuRRuCFLDOhU+9VTri
+         EyF9x9Z5gq7Pu7kLL2yeJnBJ7hS3Ah8druw2Zk0WmKcb1WrLSSn8hGP7jA2p3vKuqn6H
+         T58cUi+K+onHaAB2u53CvkvX+6zvVXRraVS6qDxoXwyTpco6tS0uR4IdqIZz/8DkYnx0
+         4sDyYwuih0riJLQDP+qtVnnL/BHJoAHjd1Ci5A3ftD4X5O6jcn4xOZb/Ye6KErTIocyg
+         jn9Dz8vF0WaPkAY8hfVnnb6ngvbt3MPTLF0kjgNfm90yxn5DiCtA2olLnObyUYGnUpT4
+         UzYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782906013; x=1783510813;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1782907626; x=1783512426;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tyFzszev+usYq40ARSSCzs6vScHOVyEQ8o7LSEdBPeA=;
-        b=s2p9XOqhhCulLeJNt4gBDhmfuEOUYp7NwUiwprN4bsaWH1VsDb6uoKSJe5+mEMCJ59
-         H+yyC5N/eLJ7gu/kozbBf9lDALedtliiLy6US2t0EselQ6Z/MQhY8M1pZKIWT0Xfg2MV
-         PE+RGrgGCUig94WC22E+yXbiCePxEtTTp1Wj7CRjpbv+EGKav6Z3wrdv906tZzz+5lZk
-         GI9s/hNhPZsSVZ7U+dry2UwAUj6vZwRvElIe1AXjY9bWBzlqgCRJ+J8WGrpFrS/CP126
-         Vu591nCm3tvgAclzadaF2dzzVrJKvM+m884vm8htU9mfk9p0F+ORSLgOv/4l0fy0ZNx6
-         5oUg==
-X-Gm-Message-State: AOJu0Yyoe/myGF0vbebfKXJCDDvyxAjfERbws8hKJdw0INbZ3Z6qUMsq
-	JGZePZsAqz93m5ZpRat79gX26DHm/ONtpozcwP4T6yV99aJAZDZBluR1/Bd+
-X-Gm-Gg: AfdE7cmvhQEAZsEGs2140lVj68eB62dA6Kf7pGnG2GXKqRmlaEtRN7+63G8mle43F3p
-	PoqbDLA+8apZ+yNKrOfBoYpSnjzjVj5PmFywNDNDQgA0uP7Ol6sL+JeUCEp/rooMVKA7IqUXBMd
-	ALOWluSDSYQnRG1xN3GZqgyWWboMx1Ql6AYQYKJWCVlAgunrs0SkKeJq3l4frkgWb7ZdIJ9EI00
-	gymFP/8CeKr2kYGLCynmaDa50iIAz+V1Llu+EC1iff1bG5LxfIh4m3Iwo2K9fwZjnG9wz88D849
-	3vsA1fOeH7Sp+S+kkFKHufCDBM8nMLDT7zuZM6NIEESvA2rsZdcxdx76G2iGyzynKWc00pExy1h
-	dQptjrBE68s1dOurYo63NUjfSTBZgP/YP/q+bvDwQt1iGZTcCprP1MOAkyV/vlc1I9nJDrBfelQ
-	iu71b+Gt0RJHWAtXQzgEvKaIaddFs3+AIwm8RZNipH9mrtmekPOs7HedJ572F9tV5n3rxQDO7hX
-	vNS4AmXHmxgt1QZVBkhUuQk7D55YuTyl8oqCrC0aogg4xkReGkPCT62Av1U
-X-Received: by 2002:a17:90b:3945:b0:36b:de66:92c3 with SMTP id 98e67ed59e1d1-380695868demr4370404a91.10.1782906013540;
-        Wed, 01 Jul 2026 04:40:13 -0700 (PDT)
-Received: from localhost.localdomain ([14.5.152.27])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38095e83b6csm1776277a91.8.2026.07.01.04.40.09
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 01 Jul 2026 04:40:11 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Myeonghun Pak <mhun512@gmail.com>,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH] usb: typec: anx7411: use devm_pm_runtime_enable()
-Date: Wed,  1 Jul 2026 20:40:06 +0900
-Message-Id: <20260701114006.75738-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+        bh=9/m+39RgXBaNYdYcIO6pX/z82SuA7XEH4J+ByPOaFWM=;
+        b=bqSQC/3MuPl9eOkzSQbdf2fIqVosC5hvd/KEo6z2TF25DbQgm2A5+G6zgTgNPQBksX
+         nQRzOSFusl6BWEhWCDqVXEXPx+ZjbgzCuqRg1T/sxBSo/pMz8UXuB0MtIGNjk/JcOd2Z
+         Jxgc1+C+vimvTSI7vQzKJCqgPFYDtOsk5J097Ty+P5+RfMPUpT9/zKPMtz09mfKJt7dJ
+         ERE5f4dl8LoEtuiCJUfeRkxbDQvUU+Sldcix2y0QysCNxc5EQnPEsz6WxpDXwNVIp0JF
+         skfvUTX3SNm61p+9nh1UhHfC9Le5UsGfh91RclbPKe/BUKk+MNfd75mWBF5bRkLE/PBj
+         +c3g==
+X-Gm-Message-State: AOJu0YwAK5VCyy263KvwsjsK5pZVqcQqRnmOpTxlfXWuveEHVrEBtmlq
+	Ft+fc68FdXrCcpuVtCL7uNFG+x9ArsZ5CkSNpn4YsRLks6n00y4QpqW5UYRhMveXarVytGLcSw4
+	dkevRiQX2PayaSEjcBV14+q54N6sbSvyx3zYFVGd8wodx1zAh/nxvGgIAy3/qDlUL/zX2dpePVQ
+	iMMWHpEDZ8iOZBh44HM+guN0bdXGBkyVdyKQTnuUNvyxxh
+X-Gm-Gg: AfdE7clLrLELenjB74obAjynRFUU7ZyTqqqjRhr/ZUambqswWY72w3j6PaAPWxy/BPq
+	CPl1avVbLTThp7rTb+3wbnO1mgsVI/YfA56fXhIUGckx22m980WZKJBOzUYn+YnKvaDUwrsFro9
+	daKjhWYgCw4X3zpOcFnKSnBlj16/j2I45Ca8M3dHGHN8FCnzbaaoeJqw0UrbUivFDKX/hyfXpXV
+	0VJtqcz40QEi1AEaQyHaiMRmGQ9TBpBuGCzAbKd/m2dv/S86tyEfA==
+X-Received: by 2002:a17:90b:4acb:b0:37f:d6f3:450d with SMTP id 98e67ed59e1d1-380aa1313ecmr1402118a91.14.1782907626383;
+        Wed, 01 Jul 2026 05:07:06 -0700 (PDT)
+X-Received: by 2002:a17:90b:4acb:b0:37f:d6f3:450d with SMTP id
+ 98e67ed59e1d1-380aa1313ecmr1402085a91.14.1782907625931; Wed, 01 Jul 2026
+ 05:07:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260701101826.894848-1-sgrunert@redhat.com> <20260701101826.894848-3-sgrunert@redhat.com>
+ <2026070107-estrogen-semantic-31a4@gregkh>
+In-Reply-To: <2026070107-estrogen-semantic-31a4@gregkh>
+From: Sascha Grunert <sgrunert@redhat.com>
+Date: Wed, 1 Jul 2026 14:06:54 +0200
+X-Gm-Features: AVVi8CeRQTqgN5cj_Z4mp2mNGeXSYNgKCI3KC-weO90OjIlH9BN804MEvO8IifE
+Message-ID: <CAPre7xAbrZssWtLkVbLnEzcea5FxSZk12ZY-PpRJ4xC+w5n3Dw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] usbip: block SET_INTERFACE for isoc alt settings
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, valentina.manea.m@gmail.com, shuah@kernel.org, 
+	i@zenithal.me, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-anx7411_i2c_probe() enables runtime PM before returning successfully, but
-anx7411_i2c_remove() tears down the Type-C partner state, workqueue, dummy
-I2C device, mux, switch and port without disabling runtime PM.
+On Wed, Jul 01, 2026, Greg Kroah-Hartman wrote:
+> What commit id does this fix?
 
-Use devm_pm_runtime_enable() so runtime PM is disabled automatically on
-driver detach. Since devres action registration can fail, route that
-failure through the existing probe unwind path.
+The limitation goes back to the original import:
 
-This issue was identified during our ongoing static-analysis research while
-reviewing kernel code.
+Fixes: 4d7b5c7f8ad4 ("Staging: USB/IP: add host driver")
 
-Fixes: fe6d8a9c8e64 ("usb: typec: anx7411: Add Analogix PD ANX7411 support")
-Cc: stable@vger.kernel.org
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
- drivers/usb/typec/anx7411.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+tweak_set_interface_cmd() has always forwarded SET_INTERFACE
+unconditionally, which is fine until an alt setting with isochronous
+endpoints is activated.
 
-diff --git a/drivers/usb/typec/anx7411.c b/drivers/usb/typec/anx7411.c
-index 604868ebf422..41df115912b9 100644
---- a/drivers/usb/typec/anx7411.c
-+++ b/drivers/usb/typec/anx7411.c
-@@ -1537,7 +1537,9 @@ static int anx7411_i2c_probe(struct i2c_client *client)
- 	if (anx7411_typec_check_connection(plat))
- 		dev_err(dev, "check status\n");
- 
--	pm_runtime_enable(dev);
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		goto free_wq;
- 
- 	return 0;
- 
--- 
-2.47.1
+> Why is this not an error? And if a user sees this, what can they do
+> about it?
+>
+> > + return 0;
+>
+> Why isn't this an error?
+
+Returning 0 here means "handled" in tweak_special_requests() semantics
+(!err = 1 = tweaked), so the URB is completed with success and never
+submitted to the HCD. If we returned an error instead,
+tweak_special_requests() would return 0 (not tweaked) and the URB
+goes through to the hardware, the isoc alt setting activates, the
+transfers fail, and the device disconnects, which is the problem
+this patch is trying to prevent.
+
+You're right that the user can't act on the log message though. I'll
+change dev_info to dev_dbg in v2.
+
+Thanks,
+Sascha
 
