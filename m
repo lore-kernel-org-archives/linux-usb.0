@@ -1,153 +1,109 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3283A7F6B
-	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 20:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACC436F437
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 21:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782939205; cv=none; b=A20NJAsUJF/VJmwNDXQIi1cDwvmT+C6ODTjbEZSzbAbxeBJGsbLPyboca6jk+E3/7/qe9eMzI1KHv1X15VWjS+CEmfDwA3MWr7yaopyoUU5wem5P20WpqXJRN8TTBCEb56VXL07sOXRN8/VK/606+iRs+8ne9VK8p0m1x8d2w1g=
+	t=1782940188; cv=none; b=MeJD4/9i50eFhxU9Ahoy49pDpEmvXJDWeUwCez6alwEkG9Teh4MdRokUpBK99Ni/5FvucXJ5GkFXYquzAgKDFWK8iG1GlbWiswia4diAAD2JKxUIyo4dPb5L+7lHC5mq99pyR5NHyYTTDXovf6HRNDYNOjFe694teNfqhq8bR4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782939205; c=relaxed/simple;
-	bh=+ytVn4F8B82MF7fCTwoeLkSOK6REUhITxK2y1XWLzJ8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=E8IB18TKY4Rx8NVpcKv8YNrtp4GYkGTWbBX7gjJqZnpTM3DiAh+OscNdN6PYaDmco5wftlRFfGuPqsoTak4LTMHBibaDaOf6CLon0GCWO8S4Vu/OTRIGDBNH6D8tz/pWdfYQ7i43tqUujCIZx+BBpc8gbgPcKNR479R4D/KaJ04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CJBjvnl3; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782940188; c=relaxed/simple;
+	bh=HFIFyocoK7OyU3Xp4N9bUao+xcfzHAp6BWmKmXMaaNs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GRWMH8IsFv/H4yMj44gW7Lmk40VdhoO5Q8AHP+WfgPlWYUwo7VPXV6PSlcHOuzt1554GUvExB8faOEPqq9UbzoJ1y1Drk36uTpmH0iDu92oA79bxD6AO2fd8fZTuwTSdbxeRaEoO80mzwMxl0J77/kHTzCPtzVB1izId39q9mgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RgS6jwMm; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CJBjvnl3"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-39af87c4589so11570431fa.2
-        for <linux-usb@vger.kernel.org>; Wed, 01 Jul 2026 13:53:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782939202; x=1783544002; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JTEVuNHRith4UNmKhVedI/AI7ZCuYkzxvsw4lmOysQk=;
-        b=CJBjvnl3HjhG4mVGoRhvnR2KvXPhBDoUJgm/dJheH49tIlfqQ5AxABjfzi+1Y9USaV
-         GjCNyJH2/bgtI/JrFm6X55r0rkcqW+w1r4YOdNN4ACnRaptjEhS6m+Gq/Ewb4HUaHtfC
-         SXLs6j8csv6A4yeTwD2PpVYSC+iItImivZ4jUKCfdJ9xqAeJj+jpL9v0UXPG86is0QoB
-         qDS1xM6+fQ+qUoBDx2+XNgIBGyj9LWRHgMFFuRH+utTtR0P9zgk8YyrJz/SIb1MoTc5m
-         K2Bu4YcJA6B31JnYRBUPfOeLtNXjihMJb5ygWkVdGQCMqdlz8FNwYjHEsbIfJDOynwAn
-         2gCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782939202; x=1783544002;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JTEVuNHRith4UNmKhVedI/AI7ZCuYkzxvsw4lmOysQk=;
-        b=JRiuY+6byYNIyKGyRZBqTl1SSufOCPatrJPgPjG95cveGZJot0hRikT3cRJHFRM7kQ
-         jRCP17ghH0OrQTkS5gyXS0A2VaJ7b6nFwH8bbQ5veJIbWAupKvZ/gHcTLphr/OWO2VZZ
-         xqTFsO2uKUV7XbBXSXztsGC3s4rdcltG7tyH+7njgsKElrHOx32JQ2xcIFGQHnurJUej
-         AOEcv9iFW4hJsd0neQikncbC9dvLn9cp0zG/QaRYqhOmmD5wfI5shHqK1Fw4CW24YkVX
-         Va4mIQvMOOlAh9A0j9ny9FlqP0M1PMPE51OwUuTkfqyDUJYsMlJkmpDThLc4OyJbiRGp
-         nQmw==
-X-Gm-Message-State: AOJu0Yw0zBo4SqNqTJwJKGwflpAvOvgo209H8EHbPjoCcQ9wlZ+Y6pUi
-	QAEtTSmtoFkD0xJRVtOr48ZAb11Thhf4sRFUwKAV0nIX2NEOCcPhEzaYRenRC1lbH1w=
-X-Gm-Gg: AfdE7ckakfJiXk/ci3C/JNp6570QVVvD+5xewLFlGMy8+4wod4O3aw2gEqu4lRLRGQ7
-	EdTZJq3iZvbyr6ctrnQ2P5Q/3VWgK9WWYRReABWnAa9MV0579n1aZgY4C9KUoJ1HAlOriY3Dm2a
-	rtSC9IAxun3yeVaRMunPWBeaXVDWDWxtzSaVfiP08mtetK40ryJRu3ADaJoovq1MDik8EeRnNn8
-	4QYAgdEodGCibXZ6zEjgYpeMwb/ujx+iiowf4u8BJQW66GmRbnz2kV1jwVYPYUU4hHt6WxEbA+E
-	4/1Q5FEUxmXdBKGPhUKMVSC4/SRxLilXvYRp3yjp2dRmSU1QNYZ0j/fKFjK7/RhA9HARJf60OKG
-	hcpcXANhAnO3v6/ljqNeyB+MSmgKveeJ4eScYzAEjrylWluVuVfMosZlMzE0eggpo6uejUKJtWX
-	RMZEvVeezBnUihlp5e/RU6Jn7sR5b4VF8=
-X-Received: by 2002:a2e:a99f:0:b0:39a:e7f6:49a7 with SMTP id 38308e7fff4ca-39b340d4031mr8050511fa.28.1782939201478;
-        Wed, 01 Jul 2026 13:53:21 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:4f9:2a:1c13::2])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39b37fe594fsm2237911fa.31.2026.07.01.13.53.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Jul 2026 13:53:20 -0700 (PDT)
-From: Melbin K Mathew <mlbnkm1@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	security@kernel.org,
-	Melbin K Mathew <mlbnkm1@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: gadget: printer: fix infinite loop in printer_read()
-Date: Wed,  1 Jul 2026 22:53:20 +0200
-Message-Id: <20260701205320.227791-1-mlbnkm1@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RgS6jwMm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782940186; x=1814476186;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=HFIFyocoK7OyU3Xp4N9bUao+xcfzHAp6BWmKmXMaaNs=;
+  b=RgS6jwMmCoY6X9b17bf4klQQ3xIS3fjAQlrVj8PQdF8NA3q57dOCxtQO
+   wK47Wk4uyRe9VwL+il63DRweWYvIf4pLTKjO2WCri6Zo6R9CvykzSBxlv
+   SPDyIY8LmKPX8ScIk4MX+jlYKJ2QogKLqksLwFw9bxZ+xXBJa7lLd2ZzZ
+   tyKNSjlyuMZsyFzjbQQZDzJ5e+s59LbCLdY3c2Wj8fsXdxJfQL9GsnXpo
+   e/iUWk4pcnd7lyPrzAMnVeiliE7uKliz6EmsbKeG5+NZGSv4BmN/eCVJm
+   iJ+SVkxgKw/zrGglasLa7wd6LinuZnddQWLgAWDtNF3B5wMbgpzUsfxXz
+   w==;
+X-CSE-ConnectionGUID: P9tQGccQQeirUszW+09a4w==
+X-CSE-MsgGUID: QP7YiAF1RPecRl45NqSBXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="106481492"
+X-IronPort-AV: E=Sophos;i="6.25,142,1779174000"; 
+   d="scan'208";a="106481492"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 14:09:46 -0700
+X-CSE-ConnectionGUID: YJA93nyUTxaeBlnqAZUz7A==
+X-CSE-MsgGUID: dpl49c/FT+OHlAMZXG66Cg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,142,1779174000"; 
+   d="scan'208";a="254605799"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO [10.245.244.90]) ([10.245.244.90])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 14:09:45 -0700
+Message-ID: <577c7ba6-c638-4e73-acac-fbf6c4fb4ccc@linux.intel.com>
+Date: Thu, 2 Jul 2026 00:09:42 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: 7.1 regression bisected to "usb: core: Fix SuperSpeed root hub
+ wMaxPacketSize"
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Michal Pecio <michal.pecio@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+References: <cb287e3d-3066-4820-b464-6208b947974b@mailbox.org>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <cb287e3d-3066-4820-b464-6208b947974b@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-printer_read() uses the same variable for the requested copy size and
-the number of bytes actually copied to user space. copy_to_user()
-returns the number of bytes not copied, so when it fails to copy
-anything, the computed copied length becomes zero.
+On 7/1/26 19:02, Michel Dänzer wrote:
+> 
+> The ethernet port of a Lenovo ThinkPad USB-C Dock Gen2 connected to a ThinkPad P14s Gen 5 AMD stopped working in 7.1.
+> 
+>   ip addr show enx482ae347e7c3
+> 
+> says the interface doesn't exist. The only thing about it in dmesg is:
+> 
+>   r8152 8-1.1:1.0 enx482ae347e7c3: renamed from eth0
+> 
+> In previous kernels, dmesg had more lines about it:
+> 
+>   r8152 8-1.1:1.0 enx482ae347e7c3: renamed from eth0
+>   r8152 8-1.1:1.0 enx482ae347e7c3: carrier on
+>   r8152 8-1.1:1.0 enx482ae347e7c3: carrier off
+>   r8152 8-1.1:1.0 enx482ae347e7c3: carrier on
+> 
+> 
+> I bisected this to d1e280334b7f ("usb: core: Fix SuperSpeed root hub wMaxPacketSize"). Reverting that commit on top of 7.1.2 fixes the issue.
+> 
+> 
 
-In that case len, buf, current_rx_bytes and current_rx_buf are left
-unchanged. If RX data is available and the user buffer remains
-unwritable, the read loop can repeat indefinitely.
+Thanks for reporting this.
 
-Track the copied length separately and return -EFAULT, or the number of
-bytes already copied, if an iteration makes no progress.
+That patch limits USB3 roothub change bitmap from 4 bytes to 2 bytes, which
+should be enough for the max 15 children USB3 hubs support.
+Odd that this change impacts the usb ethernet device of that dock.
 
-Fixes: b185f01a9ab7 ("usb: gadget: printer: factor out f_printer")
-Cc: stable@vger.kernel.org
-Signed-off-by: Melbin K Mathew <mlbnkm1@gmail.com>
----
-A small userspace model/reproducer is available to maintainers on request.
+It's not an important change, and should be reverted to get things working.
+It also reveals there might be a off-by-one or similar bug in hub or xhci code.
+would be nice to get that fixed.
 
- drivers/usb/gadget/function/f_printer.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+Does the roothub have 15 USB3 ports?
 
-diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
-index e4f7828ae7..e346e4c26e 100644
---- a/drivers/usb/gadget/function/f_printer.c
-+++ b/drivers/usb/gadget/function/f_printer.c
-@@ -432,7 +432,7 @@ printer_read(struct file *fd, char __user *buf, size_t len, loff_t *ptr)
- {
- 	struct printer_dev		*dev = fd->private_data;
- 	unsigned long			flags;
--	size_t				size;
-+	size_t				size, not_copied, copied;
- 	size_t				bytes_copied;
- 	struct usb_request		*req;
- 	/* This is a pointer to the current USB rx request. */
-@@ -525,14 +525,16 @@ printer_read(struct file *fd, char __user *buf, size_t len, loff_t *ptr)
- 		else
- 			size = len;
- 
--		size -= copy_to_user(buf, current_rx_buf, size);
--		bytes_copied += size;
--		len -= size;
--		buf += size;
-+		not_copied = copy_to_user(buf, current_rx_buf, size);
-+		copied = size - not_copied;
-+
-+		bytes_copied += copied;
-+		len -= copied;
-+		buf += copied;
- 
- 		spin_lock_irqsave(&dev->lock, flags);
- 
--		/* We've disconnected or reset so return. */
-+		/* We have disconnected or reset so return. */
- 		if (dev->reset_printer) {
- 			list_add(&current_rx_req->list, &dev->rx_reqs);
- 			spin_unlock_irqrestore(&dev->lock, flags);
-@@ -543,6 +545,17 @@ printer_read(struct file *fd, char __user *buf, size_t len, loff_t *ptr)
- 		if (dev->interface < 0)
- 			goto out_disabled;
- 
-+		if (!copied) {
-+			dev->current_rx_req = current_rx_req;
-+			dev->current_rx_bytes = current_rx_bytes;
-+			dev->current_rx_buf = current_rx_buf;
-+			spin_unlock_irqrestore(&dev->lock, flags);
-+			mutex_unlock(&dev->lock_printer_io);
-+			return bytes_copied ? bytes_copied : -EFAULT;
-+		}
-+
-+		size = copied;
-+
- 		/* If we not returning all the data left in this RX request
- 		 * buffer then adjust the amount of data left in the buffer.
- 		 * Othewise if we are done with this RX request buffer then
--- 
-2.39.5
+If possible, could you share a dmesg with usbcore dynamic debug enabled
 
+mount -t debugfs none /sys/kernel/debug
+echo 'module usbcore =p' >/sys/kernel/debug/dynamic_debug/control
+<connect dock>
+dmesg
+
+Thanks
+Mathias
