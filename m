@@ -1,109 +1,153 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC133AF676;
-	Wed,  1 Jul 2026 20:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3283A7F6B
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 20:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782937976; cv=none; b=sb1vdT38c7WPOj7d1kT+aw6A8DKw+t8c9Fh1msAb90s4m6U00IuJJhzGvp0yzgms6R7fzuP2k2qzUYwQ/eLjsuPR2X5NMWw1lhZ3/N0d1kylEbJxShnVHwVSJVlb02R58azjwj54N3Kt8yxR5iZ+wi1whsysaL6L/PIugm+nHZc=
+	t=1782939205; cv=none; b=A20NJAsUJF/VJmwNDXQIi1cDwvmT+C6ODTjbEZSzbAbxeBJGsbLPyboca6jk+E3/7/qe9eMzI1KHv1X15VWjS+CEmfDwA3MWr7yaopyoUU5wem5P20WpqXJRN8TTBCEb56VXL07sOXRN8/VK/606+iRs+8ne9VK8p0m1x8d2w1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782937976; c=relaxed/simple;
-	bh=qWm9LX37sYO0MkUyQuCpsu5534nbCncHhb+IAP5U1Js=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r56dFskOLQ+9k6fE0ps1dtgx6mNbqqA+uoZyzlUjqMRvQqjvm+x0H7OPSX7ihjOEADEfMAPEaiVPq9eKwAErJjYkl7mljCd9x9EnOmmqIs3XssuMfgpMB3lxmwmdwyPl5GHVWp0R0p4/rTlHXJhW4nJm/4Wionf2JlSYnL4yzfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=xobDnYgu; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=VixF3G5A; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1782939205; c=relaxed/simple;
+	bh=+ytVn4F8B82MF7fCTwoeLkSOK6REUhITxK2y1XWLzJ8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=E8IB18TKY4Rx8NVpcKv8YNrtp4GYkGTWbBX7gjJqZnpTM3DiAh+OscNdN6PYaDmco5wftlRFfGuPqsoTak4LTMHBibaDaOf6CLon0GCWO8S4Vu/OTRIGDBNH6D8tz/pWdfYQ7i43tqUujCIZx+BBpc8gbgPcKNR479R4D/KaJ04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CJBjvnl3; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="xobDnYgu";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="VixF3G5A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1782937972;
-	bh=qWm9LX37sYO0MkUyQuCpsu5534nbCncHhb+IAP5U1Js=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=xobDnYgu9VVvQz28oygfvZJZNauh97OQZsGq2yaEVk7jLuPz/k8vhjcK4ybIOBWkO
-	 sIpK3nctIsDqNEB+2gFwrhJWfoz7ZYNoXM2TwvJzr3trMfRTqyt7OVeu4rGeJJ2Ova
-	 wwiM7Ky5z6DiKvzrMuZCLnYLF4Jga+mrAyVdTxljACRjWtGOxtdAYIysr0/uxl2aP+
-	 80ntNn8/vRQZCTWCmFNLbhZoI02TZzeZJ+tE74pL3YtD6K8o3w4a92A5h7P4CgiSgP
-	 tmXPXQRrqUCJyMub9S+bwhx5m4HDxC1zO9XW+WRcFr/c1gZiR15V5/H9YEcNib1oix
-	 /IiEiUkqlOQgg==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id AFC764936B; Wed,  1 Jul 2026 20:32:52 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1782937970;
-	bh=qWm9LX37sYO0MkUyQuCpsu5534nbCncHhb+IAP5U1Js=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VixF3G5Afzs8LmtMRESvVVPLh5hZJpCmzAIWpIOyrDwhSfWqX85GIA6c+6UGl4zFR
-	 oo5Jh0h5eDXb43T64ttlD+wGI1ksTeAO5gXS167Qw7ZEKjHLSxGMmiFn7Pum/XWbfK
-	 H5xx8+7W8ETwSQPV2u2Cyd0QAs8yipMoP0Pgx+eISi5DwWjQgHGU3GDkDiRiYXVlaQ
-	 RFASI8IwEJUdgHD8Ousut5mL5227Hxkc0/j5kRkWOS0yGzNizZAHSYZud/FV8Mtz59
-	 GI3Qhi39IEaXAjtUyAXrvKv0gcLxLJBTSPjJMBFaxzuySeQLzCNuSIsSDRDETZ19xU
-	 RGvtlfbv+aYDw==
-Received: from [IPV6:2003:c6:9f1c:3c00:add4:fa17:212c:ec8d] (p200300c69f1c3c00add4fa17212cec8d.dip0.t-ipconnect.de [IPv6:2003:c6:9f1c:3c00:add4:fa17:212c:ec8d])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 3A2304935B;
-	Wed,  1 Jul 2026 20:32:50 +0000 (UTC)
-Message-ID: <6677d82e-2b8c-4173-ba6d-6743a5059bc1@birger-koblitz.de>
-Date: Wed, 1 Jul 2026 22:32:46 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CJBjvnl3"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-39af87c4589so11570431fa.2
+        for <linux-usb@vger.kernel.org>; Wed, 01 Jul 2026 13:53:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782939202; x=1783544002; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JTEVuNHRith4UNmKhVedI/AI7ZCuYkzxvsw4lmOysQk=;
+        b=CJBjvnl3HjhG4mVGoRhvnR2KvXPhBDoUJgm/dJheH49tIlfqQ5AxABjfzi+1Y9USaV
+         GjCNyJH2/bgtI/JrFm6X55r0rkcqW+w1r4YOdNN4ACnRaptjEhS6m+Gq/Ewb4HUaHtfC
+         SXLs6j8csv6A4yeTwD2PpVYSC+iItImivZ4jUKCfdJ9xqAeJj+jpL9v0UXPG86is0QoB
+         qDS1xM6+fQ+qUoBDx2+XNgIBGyj9LWRHgMFFuRH+utTtR0P9zgk8YyrJz/SIb1MoTc5m
+         K2Bu4YcJA6B31JnYRBUPfOeLtNXjihMJb5ygWkVdGQCMqdlz8FNwYjHEsbIfJDOynwAn
+         2gCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782939202; x=1783544002;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JTEVuNHRith4UNmKhVedI/AI7ZCuYkzxvsw4lmOysQk=;
+        b=JRiuY+6byYNIyKGyRZBqTl1SSufOCPatrJPgPjG95cveGZJot0hRikT3cRJHFRM7kQ
+         jRCP17ghH0OrQTkS5gyXS0A2VaJ7b6nFwH8bbQ5veJIbWAupKvZ/gHcTLphr/OWO2VZZ
+         xqTFsO2uKUV7XbBXSXztsGC3s4rdcltG7tyH+7njgsKElrHOx32JQ2xcIFGQHnurJUej
+         AOEcv9iFW4hJsd0neQikncbC9dvLn9cp0zG/QaRYqhOmmD5wfI5shHqK1Fw4CW24YkVX
+         Va4mIQvMOOlAh9A0j9ny9FlqP0M1PMPE51OwUuTkfqyDUJYsMlJkmpDThLc4OyJbiRGp
+         nQmw==
+X-Gm-Message-State: AOJu0Yw0zBo4SqNqTJwJKGwflpAvOvgo209H8EHbPjoCcQ9wlZ+Y6pUi
+	QAEtTSmtoFkD0xJRVtOr48ZAb11Thhf4sRFUwKAV0nIX2NEOCcPhEzaYRenRC1lbH1w=
+X-Gm-Gg: AfdE7ckakfJiXk/ci3C/JNp6570QVVvD+5xewLFlGMy8+4wod4O3aw2gEqu4lRLRGQ7
+	EdTZJq3iZvbyr6ctrnQ2P5Q/3VWgK9WWYRReABWnAa9MV0579n1aZgY4C9KUoJ1HAlOriY3Dm2a
+	rtSC9IAxun3yeVaRMunPWBeaXVDWDWxtzSaVfiP08mtetK40ryJRu3ADaJoovq1MDik8EeRnNn8
+	4QYAgdEodGCibXZ6zEjgYpeMwb/ujx+iiowf4u8BJQW66GmRbnz2kV1jwVYPYUU4hHt6WxEbA+E
+	4/1Q5FEUxmXdBKGPhUKMVSC4/SRxLilXvYRp3yjp2dRmSU1QNYZ0j/fKFjK7/RhA9HARJf60OKG
+	hcpcXANhAnO3v6/ljqNeyB+MSmgKveeJ4eScYzAEjrylWluVuVfMosZlMzE0eggpo6uejUKJtWX
+	RMZEvVeezBnUihlp5e/RU6Jn7sR5b4VF8=
+X-Received: by 2002:a2e:a99f:0:b0:39a:e7f6:49a7 with SMTP id 38308e7fff4ca-39b340d4031mr8050511fa.28.1782939201478;
+        Wed, 01 Jul 2026 13:53:21 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4f9:2a:1c13::2])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39b37fe594fsm2237911fa.31.2026.07.01.13.53.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 13:53:20 -0700 (PDT)
+From: Melbin K Mathew <mlbnkm1@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	security@kernel.org,
+	Melbin K Mathew <mlbnkm1@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: gadget: printer: fix infinite loop in printer_read()
+Date: Wed,  1 Jul 2026 22:53:20 +0200
+Message-Id: <20260701205320.227791-1-mlbnkm1@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: RTL8159 firmware
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Jan Hendrik Farr <kernel@jfarr.cc>, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, hsu.chih.kai@realtek.com,
- kuba@kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, olek2@wp.pl, pabeni@redhat.com
-References: <20260505-rtl8159_net_next-v4-3-1a648a9c4d8d@birger-koblitz.de>
- <20260701171327.2916132-1-kernel@jfarr.cc>
- <5dc0e654-0bdb-422c-9049-94ee6d8867e4@birger-koblitz.de>
- <8f349e00-1710-428d-8c70-5d1b1f4d42f3@lunn.ch>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <8f349e00-1710-428d-8c70-5d1b1f4d42f3@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+printer_read() uses the same variable for the requested copy size and
+the number of bytes actually copied to user space. copy_to_user()
+returns the number of bytes not copied, so when it fails to copy
+anything, the computed copied length becomes zero.
 
+In that case len, buf, current_rx_bytes and current_rx_buf are left
+unchanged. If RX data is available and the user buffer remains
+unwritable, the read loop can repeat indefinitely.
 
-On 01/07/2026 21:29, Andrew Lunn wrote:
-> On Wed, Jul 01, 2026 at 07:24:13PM +0200, Birger Koblitz wrote:
->> Hi Jan,
->>
->> On 7/1/26 19:13, Jan Hendrik Farr wrote:
->>> Hi Birger,
->>>
->>> it looks like the firmware file rtl_nic/rtl8159-1.fw isn't in linux-firmware yet.
->>> Could you send it for people to potentially test?
->>>
->>> Jan
->>>
->> The code to create the binary firmware file is at:
->> https://gitlab.com/koblitz-rtlnic/rtlnic_fw
->> But I cannot submit the firmware itself to linux-firmware, as the sourcecode from
->> which the binary data is extracted is published by Realtek under the GPL.
-> 
-> The obvious work around is to not convert it to binary.
-> 
-> 8152.c has a clear GPL-2.0 header. So you can edit that file, extract
-> the two arrays, and it would still be GPL. You can make the firmware
-> loader in the driver parse the ASCII array as it is. It also looks
-> like you can .xz or .zst compress it, and the kernel
-> _request_firmware() will handle the decompression for you.
+Track the copied length separately and return -EFAULT, or the number of
+bytes already copied, if an iteration makes no progress.
 
-The binary firmware file that the driver currently expects has the same
-structure that is used also for the other supported chips, e.g. the
-RTL8156 which were provided by Realtek and are already in the
-rtl_nic directory of the firmware. There is a bit more information
-in those files such as a pointer to the right flash update registers
-and also version information to not update newer chips.
-Another solution would be to publish the binaries with linux-firmware
-alongside the bit of source code that creates the binaries. Firmware
-file and source-code would be licensed under the GPL.
-I still hope for a reaction from Realtek, though.
+Fixes: b185f01a9ab7 ("usb: gadget: printer: factor out f_printer")
+Cc: stable@vger.kernel.org
+Signed-off-by: Melbin K Mathew <mlbnkm1@gmail.com>
+---
+A small userspace model/reproducer is available to maintainers on request.
 
-Birger
+ drivers/usb/gadget/function/f_printer.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
+index e4f7828ae7..e346e4c26e 100644
+--- a/drivers/usb/gadget/function/f_printer.c
++++ b/drivers/usb/gadget/function/f_printer.c
+@@ -432,7 +432,7 @@ printer_read(struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+ {
+ 	struct printer_dev		*dev = fd->private_data;
+ 	unsigned long			flags;
+-	size_t				size;
++	size_t				size, not_copied, copied;
+ 	size_t				bytes_copied;
+ 	struct usb_request		*req;
+ 	/* This is a pointer to the current USB rx request. */
+@@ -525,14 +525,16 @@ printer_read(struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+ 		else
+ 			size = len;
+ 
+-		size -= copy_to_user(buf, current_rx_buf, size);
+-		bytes_copied += size;
+-		len -= size;
+-		buf += size;
++		not_copied = copy_to_user(buf, current_rx_buf, size);
++		copied = size - not_copied;
++
++		bytes_copied += copied;
++		len -= copied;
++		buf += copied;
+ 
+ 		spin_lock_irqsave(&dev->lock, flags);
+ 
+-		/* We've disconnected or reset so return. */
++		/* We have disconnected or reset so return. */
+ 		if (dev->reset_printer) {
+ 			list_add(&current_rx_req->list, &dev->rx_reqs);
+ 			spin_unlock_irqrestore(&dev->lock, flags);
+@@ -543,6 +545,17 @@ printer_read(struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+ 		if (dev->interface < 0)
+ 			goto out_disabled;
+ 
++		if (!copied) {
++			dev->current_rx_req = current_rx_req;
++			dev->current_rx_bytes = current_rx_bytes;
++			dev->current_rx_buf = current_rx_buf;
++			spin_unlock_irqrestore(&dev->lock, flags);
++			mutex_unlock(&dev->lock_printer_io);
++			return bytes_copied ? bytes_copied : -EFAULT;
++		}
++
++		size = copied;
++
+ 		/* If we not returning all the data left in this RX request
+ 		 * buffer then adjust the amount of data left in the buffer.
+ 		 * Othewise if we are done with this RX request buffer then
+-- 
+2.39.5
+
