@@ -1,119 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089A73F0AA6;
-	Wed,  1 Jul 2026 09:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF32925DB1A;
+	Wed,  1 Jul 2026 09:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782898932; cv=none; b=Wq9m8u2LkGsKXpGkTC0vjeSIH8PH1X1K6QQO6J9D3ffaE0WPWOUsyMwCK0fMMxHeOaqluw8Q4GIAOE7Dn5SoGu9VZwm52TLSJISSHvbrFseiPNoAo9mh1qSVEhzRayfwPVPaT4QibofJ9QMphyXKSi/tBHVe6wPvJZmq0pQt2to=
+	t=1782899606; cv=none; b=nRc4zidnrCaNCi/fnNutxlbo6hCKUylDYJ6SzLewCDqP9UQfoEIoo3eZZwCGQpSBDXBWngj0MmeYXcB7PES1Y4xOpOotBUBtBr9Uqi1QFghRzvV+nnGaF1hmmlUOylFWO6F1Uxv/7YVd6TJ9U+4bI4zqw57nqYsXjD0RLBpZeQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782898932; c=relaxed/simple;
-	bh=ZGwjwPbxhwWs0vTl7OH/4jwIBZgLtnEVRosMNacn0c0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JNyP531wnwmdq2iKu9YPaWr9PFXM2qf96QFuJdcyUx0JjaKON6osTeRuF3HqzSmXdAg2Dnx7kAkDMg4sulP8P6VW6ynRI9qlQb6Zyv5YOdks3KjoPo2hSLe/HOfRpKNJm3/QPFIWSJ47LnqHR2fYAIftAAWwZSSWorNazjCvFUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OIHblCl3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782899606; c=relaxed/simple;
+	bh=4yWx7+wWKll8LfStxFYdc1EZsluomfflESdjuaJGmP8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PH2TAHUESWM9W2cOakbL8UKCcy/L1jGwv/nt61tH3muDiD4BNdGoN1qmjl3FNEjgGXd7cxwR+i7kDE/LwwdnN05E1SSdldwTR3TnmcE+AR+9k7aB7wx8U9nSJrbrAdaFm+FYHQufwmu+JzEF+jCLznWvmzIp7Geif7nIIlYX4aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=k+6F003K; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OIHblCl3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E68A1F00A3F;
-	Wed,  1 Jul 2026 09:42:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782898923;
-	bh=oofkD0xPKEf9vCnFp/Y6xC9zUcU++9G9r0ci+L1ELF4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=OIHblCl3HCNczmG+b75ItOq2+mwAyrrJ/gm+hyonolZEUllMNHcUWun1Fn9vBt1Oa
-	 bvuhMy8BdS1+TAayGPVntvd8agcnyqcL5HehCJporv52MjaB0B/Bj80+Cx6JMzFy4N
-	 d+3YuFXiLEcKsZiJaq2OtbwdGF58sgXZaz1jr1Kmdg8Ez+hrAmtiSvYs1oGadrYmcE
-	 PbjHkp3H+F/NKzRhMVMVudHJFu0bxrwsi9kviFxNJbo5J9vFbOTXV4amxQE7+xzjEi
-	 st+I3icZd8s+DnofgG136KZ07LueNOA9GLc46GsUtWmaSZHqUGFejrn1aOjzFXuOem
-	 we3wjumT1HMfA==
-From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Date: Wed, 01 Jul 2026 12:41:51 +0300
-Subject: [PATCH v2 2/2] usb: core: devices: use kmalloc() to allocate dump
- buffer
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="k+6F003K"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id AC39BC5CD64;
+	Wed,  1 Jul 2026 09:53:32 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C6C4460288;
+	Wed,  1 Jul 2026 09:53:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3A4C8104C94A5;
+	Wed,  1 Jul 2026 11:53:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1782899601; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=IEWJEb3JrdbjQ+gEU1Bac3pMIwncFv4u+WEahNukHjs=;
+	b=k+6F003KBfLXoimOLdZd07YO1FK/iseBVjlu4mt6RCKoWI59xnq9L2QLghBgHWzUXbs8WA
+	rPLOt+yNpLaOWTFTDbwuPGHQBztswCxWWMyTPay4YeCXx/5qWc616eAYZBnTCcWtMDiNgX
+	+7axuyepSH2vxcOtoY8/9EKF0jpXSWzAj7Pfpcw78KqhCxi7XnNXhdwm6tU9FCedGP0rkq
+	l8te4UcTTuhT6ChSyRuBOc7Wld+YyPv9T/r3vg1IQ2GWgquxmziYUhht821vwFP2UagEjJ
+	NrJUuFH46GmDv4mx7R40W91K5MgsoADVgw7uf8VjhyHP38NhAJjyqN9YqQF4Uw==
+Message-ID: <b01b4c18-bb2d-413b-a993-4a9cf4d50549@bootlin.com>
+Date: Wed, 1 Jul 2026 11:53:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/9] ax88179_178a: Add support for AX88179A MMD access
+To: Birger Koblitz <mail@birger-koblitz.de>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260701-ax88179a-v1-0-13685df67515@birger-koblitz.de>
+ <20260701-ax88179a-v1-3-13685df67515@birger-koblitz.de>
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <20260701-ax88179a-v1-3-13685df67515@birger-koblitz.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260701-b4-usb-v2-2-272807df4b64@kernel.org>
-References: <20260701-b4-usb-v2-0-272807df4b64@kernel.org>
-In-Reply-To: <20260701-b4-usb-v2-0-272807df4b64@kernel.org>
-To: Alan Stern <stern@rowland.harvard.edu>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mike Rapoport <rpppt@kernel.org>, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, linux-usb@vger.kernel.org, 
- "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-X-Mailer: b4 0.16-dev
+X-Last-TLS-Session-Version: TLSv1.3
 
-usb_device_dump() allocates a buffer for formatting
-/sys/kernel/debug/usb/devices output text.
+Hi,
 
-This buffer can be allocated with kmalloc() as there's nothing special
-about it to go directly to the page allocator.
+On 7/1/26 07:42, Birger Koblitz wrote:
+> The AX88179A uses a much simpler Clause-45 MMD access interface,
+> make use of this interface and abstract MMD read/write operations
+> for the AX88179 and AX88179A architecture by introducing
+> ax_read_mmd() and ax_write_mmd(), which in turn call the chips'
+> respective implementation.
+> 
+> Make use of the MMD read/write functions in the link-speed and EEE
+> configuration settings via ethtool in order to support the
+> AX179A-based chips. The AX88279 supports EEE only at 1000MBit speed,
+> the other chips require full duplex.
 
-kmalloc() provides a better API that does not require ugly casts and
-kfree() does not need to know the size of the freed object.
+Please split this into smaller patches, one for the mmd accessor conversion,
+one for eee, one for the new chip support, etc.
 
-Performance difference between kmalloc() and __get_free_pages() is not
-measurable as both allocators take an object/page from a per-CPU list for
-fast path allocations.
+> 
+> Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
 
-For the slow path the performance is anyway determined by the amount of
-reclaim involved rather than by what allocator is used.
+[...]
 
-Replace use of __get_free_pages() with kmalloc() and free_pages() with
-kfree().
+> @@ -866,34 +924,63 @@ static int ax88179_set_link_ksettings(struct net_device *net,
+>  				      const struct ethtool_link_ksettings *cmd)
+>  {
+>  	struct usbnet *dev = netdev_priv(net);
+> +	struct ax88179_data *data;
+> +	int v;
+> +
+> +	data = dev->driver_priv;
+> +
+> +	/* mii_ethtool_set_link_ksettings handles unknown bits in MII_ADVERTISE
+> +	 * transparently, so for the 2.5GBit link speed of the AX_VERSION_AX88279
+> +	 * we just set up ADVERTISE_RESV before calling mii_ethtool_set_link_ksettings
+> +	 * at least for speeds < 2500
+> +	 */
 
-Link: https://lore.kernel.org/all/635405e4-9423-4a25-a6e7-e03c8ea0bcbe@redhat.com
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
----
- drivers/usb/core/devices.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ADVERTISE_RESV isn't an unknown bit, it's been added in 802.3 as ADVERTISE_XNP
+for Extended Next Page, see :
 
-diff --git a/drivers/usb/core/devices.c b/drivers/usb/core/devices.c
-index a247da73f34d..6f0354aba38b 100644
---- a/drivers/usb/core/devices.c
-+++ b/drivers/usb/core/devices.c
-@@ -37,6 +37,7 @@
-  */
- 
- #include <linux/fs.h>
-+#include <linux/slab.h>
- #include <linux/mm.h>
- #include <linux/gfp.h>
- #include <linux/usb.h>
-@@ -408,7 +409,7 @@ static ssize_t usb_device_dump(char __user **buffer, size_t *nbytes,
- 		return 0;
- 	/* allocate 2^1 pages = 8K (on i386);
- 	 * should be more than enough for one device */
--	pages_start = (char *)__get_free_pages(GFP_NOIO, 1);
-+	pages_start = kmalloc(PAGE_SIZE << 1, GFP_NOIO);
- 	if (!pages_start)
- 		return -ENOMEM;
- 
-@@ -479,7 +480,7 @@ static ssize_t usb_device_dump(char __user **buffer, size_t *nbytes,
- 		if (length > *nbytes)
- 			length = *nbytes;
- 		if (copy_to_user(*buffer, pages_start + *skip_bytes, length)) {
--			free_pages((unsigned long)pages_start, 1);
-+			kfree(pages_start);
- 			return -EFAULT;
- 		}
- 		*nbytes -= length;
-@@ -490,7 +491,7 @@ static ssize_t usb_device_dump(char __user **buffer, size_t *nbytes,
- 	} else
- 		*skip_bytes -= length;
- 
--	free_pages((unsigned long)pages_start, 1);
-+	kfree(pages_start);
- 
- 	/* Now look at all of this device's children. */
- 	usb_hub_for_each_child(usbdev, chix, childdev) {
+commit e7a62edd34b1 ("net: phy: qcom: at803x: Use the correct bit to disable extended next page")
 
--- 
-2.53.0
+we shoudln't use ADVERTISE_RESV anymore in-kernel (there are a few callsites left).
 
+As this seems to be a vendor-specific behaviour for that bit, please add a
+local #define for it in this driver, to make it clear that this is a device-specific
+value.
+
+Thanks,
+
+Maxime
