@@ -1,68 +1,94 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF2F391E51;
-	Wed,  1 Jul 2026 18:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0CDA3A544B;
+	Wed,  1 Jul 2026 18:58:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782931310; cv=none; b=Y3k00EniC6YalyjUoMpI8x6goSQLfMZFUlhy7u+akHgmEsN6k3QKDo/TvMqybKUr06Ez2uuXak7C7+2Kee83mAvX6wZfVv4BepAena1v1zIWX7ILW3Qac5+lyAofjwYgEafYfn5C/GIwfcEJ8gtbOe76gbWMSRyEtrPbmFHHBkw=
+	t=1782932289; cv=none; b=doKHbHCQIMSl7NnU18O4SDKIqffycqWKGKtX9Sgk+PL++fRfTK2W11kp6vbnlzIQUU+49O0zF0TcA944wdP1nYfXhSmrd5w2sK4KdfX0c+u1kadHVEfaqAtlw1iheBHBCY8sH+R6M/snGoRDIMjAHucqjRp9HfWLljW/9eKh4XI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782931310; c=relaxed/simple;
-	bh=fWQvVlHdtvTnBbU3mH406//UiA1TLCHxPt3hSDQR95o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XVG2R37G/HrTdSTjS+uSLQcu/wNwLIndKfw9eJ94Sdo2Keht9zAbLuUKpX6NYx1ZGMUXySiWRjAdvbOz3KHbi4/BoqUwoVEQR5MoF/kN8hNJre6s29lV6uQg2iXL5fz0IGtweDybKP3shlCmAz/JCR6WXjty5HWDsPN0eX+pwIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=2rnr7tfR; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1782932289; c=relaxed/simple;
+	bh=KUmPq7UDeHQdd/bZibt9AECBVBu3e69eV2q7/LsOgPQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SAwTp0p86YVDRBi1sGvQeorLUxsVf01RzBvND6yk/OXF1UU0N/j3+vRt1iSa+yJ0OntSahupgcnuRVp612azOqNKYl5V80P+FHLjXc62IW5zHLoXlcJTEqjlL+Zuof1HQqY9XHypG0vCPTFxH/LKZfT0dXUwO2xNJViIDDykJNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=NeF93vyT; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=BQIzUKs5; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="2rnr7tfR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=OagXRuNl2G1lDqHet7J7RIKmiUkCcPy54Z5NexpB9NA=; b=2rnr7tfRYcYSJEYvlFWR6/SjKI
-	UsmdlOQHAmkJqT20AXJg7LAZw6D7vjUgDIM1FRiw7Ov7DzXdiEhd6eiAgWUr1zBVql4yoD10PCmz2
-	VlVfmunufoHCwg9q5G8jgGh8/+0l+Cx5IiMH5HhlHiZJN2Prui4QzWml9tyli3Ach1bc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wezsR-00AE2E-Mv; Wed, 01 Jul 2026 20:41:39 +0200
-Date: Wed, 1 Jul 2026 20:41:39 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/9] ax88179_178a: Add support for ethtool pause
- parameter configuration
-Message-ID: <d4825084-f450-4951-bf26-79b8e4db8e8c@lunn.ch>
-References: <20260701-ax88179a-v1-0-13685df67515@birger-koblitz.de>
- <20260701-ax88179a-v1-5-13685df67515@birger-koblitz.de>
- <587499ee-d87e-4056-8d2a-8fda2ef3f0f1@bootlin.com>
- <947860cc-de6e-48b8-804b-e27f27b2f82c@lunn.ch>
- <d2edb164-91c8-40e4-a104-db690609cb57@birger-koblitz.de>
- <46553470-9be3-4ae0-824d-ae85441c920d@lunn.ch>
- <3cc16d45-7b6d-4fb0-8a7b-d6b4d53ab036@birger-koblitz.de>
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="NeF93vyT";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="BQIzUKs5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1782932286;
+	bh=KUmPq7UDeHQdd/bZibt9AECBVBu3e69eV2q7/LsOgPQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NeF93vyTMStdrjvMDusolZoKvu5wb65Es09boIcjBRGSNmzW82U1rT9HjgEkRCSXe
+	 eDg3ZOzP47PuBR3bwP0/oYC2yZaD9tmI6aFEGhb9Pl4pouLkELG5rjPV2Lmm/MTXnr
+	 Y9R1zzaqbI7si4ANZH3ZDoueN1RJr0nUVRyzVfCF88JIZoD4BZlVo4htbLPCWYXiz1
+	 uPesP3xEBz9klF4ND8ZHxITD18AMQGmgPyRDYR3NelBOWLQ2/QiPKXDdCMThl3IfwX
+	 HHa0vlkAGS31tZDg3wCrLgyelKdH3vmjothh2ObZp/oQJjE6/+vaK0cLlK06iMTe32
+	 H1t4Rc8lZcG5A==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id 2F9074935B; Wed,  1 Jul 2026 18:58:06 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1782932283;
+	bh=KUmPq7UDeHQdd/bZibt9AECBVBu3e69eV2q7/LsOgPQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BQIzUKs5ZL7zSH3Djp+6JKGLWccZn6J4kcxcgRf3Vmsh4HogWs/2o2uwaOi2WxU6T
+	 9EtZkL8VSzwLgPmXt3pfPLGiNhsVwAqrbsZnxZDZzoluesxOuOirXBJtY7RNtK9OEf
+	 ymuR7C5BE18BH5pWb6EWl8wB1DKhFnsqoVL/P5ZhH4b8Q1zqjsKVytmlAf/5fOhG86
+	 /dn4o3ARPi8PsHXH7MQmNKSfHnOVlCc4vP3N8s3Gs3pSiJ3+yjR4RGX2KvJViGFE96
+	 KCFx1xcOMz32PIi1R15nYprSdrtOAVsejYO7pWPelwE06DM3RAKy1vGrOBTJj36IqA
+	 riDBOocc8a/0w==
+Received: from [IPV6:2003:c6:9f1c:3c00::1c8] (p200300c69f1c3c0000000000000001c8.dip0.t-ipconnect.de [IPv6:2003:c6:9f1c:3c00::1c8])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 9948149354;
+	Wed,  1 Jul 2026 18:58:03 +0000 (UTC)
+Message-ID: <8a0e6214-1773-4c5a-a570-993b44f21740@birger-koblitz.de>
+Date: Wed, 1 Jul 2026 20:58:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3cc16d45-7b6d-4fb0-8a7b-d6b4d53ab036@birger-koblitz.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: RTL8159 firmware
+To: Jan Hendrik Farr <kernel@jfarr.cc>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ hsu.chih.kai@realtek.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org, olek2@wp.pl,
+ pabeni@redhat.com
+References: <20260505-rtl8159_net_next-v4-3-1a648a9c4d8d@birger-koblitz.de>
+ <20260701171327.2916132-1-kernel@jfarr.cc>
+ <5dc0e654-0bdb-422c-9049-94ee6d8867e4@birger-koblitz.de>
+ <akVZUQX1V-jAM06U@archlinux>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <akVZUQX1V-jAM06U@archlinux>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> So, I will give phylink a try and send a new patch version out. I am a
-> bit worried because the PHYs are real divas, getting them to survive
-> a suspend/resume cycle was a bit like herding fleas:
 
-It might be having PHY drivers helps, since it is the PHY drivers
-problem to handle suspend/resume. The code is then cleanly separated
-between drivers, and one should not effect the other.
 
-	Andrew
+On 7/1/26 20:15, Jan Hendrik Farr wrote:
+> On 01 19:24:13, Birger Koblitz wrote:
+>> Hi Jan,
+>>
+>> On 7/1/26 19:13, Jan Hendrik Farr wrote:
+>>> Hi Birger,
+>>>
+>>> it looks like the firmware file rtl_nic/rtl8159-1.fw isn't in linux-firmware yet.
+>>> Could you send it for people to potentially test?
+>>>
+>>> Jan
+>>>
+>> The code to create the binary firmware file is at:
+>> https://gitlab.com/koblitz-rtlnic/rtlnic_fw
+> 
+> I'm getting a 404.
+That was my mistake, I forgot to make the repository public. Sorry about that, first
+time using GitLab...
+Here is the link again, I hope it works now:
+https://gitlab.com/koblitz-rtlnic/rtlnic_fw
+
+Birger
