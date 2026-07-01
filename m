@@ -1,71 +1,72 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8F838E5ED
-	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 05:57:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A86F19DF4F
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 06:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782885441; cv=none; b=Kpawl/XFCIQN1wBAXHtNYCme0FYVj3uI84iE+ESV1bJJxNllnTfvIynRkAw2mD9/dSMio9RzfbuMng/EPKv+Qa/SemyGmNGWsnEozRe/lPIsOqFEIaI/nuAeb5KXNkqutGTNnR8FT6yRaQkR62xZSFT52JqkN/pkubxBZr/qr5s=
+	t=1782885704; cv=none; b=UNtlzyMSJNUp01+cWz9J2sV9MonWFl8pvt7sDkbVsg5uRNtJZS+lKA7UUbiGV1lol64W43qwLoalWPfQ7klgW2A4cQPv6Mio5fE+dZct4VtTYkGbgs6eqt/+fgyyWDj8CSFbN5GMmKTPBwL3Aqvmx/m3Dygt+j84opQVQabhQoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782885441; c=relaxed/simple;
-	bh=dedmJf9ZwxVmJPcQxh2RgOyzOdeRZYVhevEZ+/28HFI=;
+	s=arc-20240116; t=1782885704; c=relaxed/simple;
+	bh=3oeMZ6NNs7vMLHM4WilaG0v2t2tRVpTyTnDkKivbB1Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RX1Xd+J7F0HOjPgj/vQZNu3pRYmHQiirBheQkrMZcxzqwaWGEIGy7KaUCunlmbOd1XJfmtK4hv2HqzG70B9fpwVWYVVhSMDQYWI+u+UjQ73DI/6M/3zTB3EdrC9uUtdno51kUPDAwL271cnkrzcnDjaO1ciXjylnUNvX25dmYtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jkz1jXrs; arc=none smtp.client-ip=209.85.210.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=N/H3DNjF2cJ8jZ6w16RANSBWK4Tr+BCrr5WJULWcqJBX9HLPcQ8oXQrrUVo222EehtHaK1QIaZHMqS9s3KgJQIgnFTZtVdv02BrP3DE+bCHY7GQiXA9nZKf6TE41nIcmD8mDS4H5WUyQJaF646XCx62IIMCyxtKPuU57O1xjN9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=jJLafG9B; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jkz1jXrs"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-845ea8924fdso118110b3a.0
-        for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 22:57:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jJLafG9B"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ca70925c25so2637395ad.1
+        for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 23:01:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1782885440; x=1783490240; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1782885702; x=1783490502; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=p9mAbfnZQOnSuCsDelXEzDCKH4tcY1XBG1BHwxBvnCQ=;
-        b=jkz1jXrsxR+s1qn2TJt4F9RoNZVUS8ezS08PKT68CSVSl7kTxWBDzDUSZPRaVxXe14
-         7zZMG/9HsWdGVHmotmjDohtQLHjnk7L1ua4pKEPjnK667AOghYV9boxLOhkjah2k5pLy
-         OWb5HZ77G47Tc1if7UZK8CjcXNtsvrEqYTess=
+        bh=0e78plCJzUw9mtQf3K/88IdWkJoFUVq9utFQfqU+ZPU=;
+        b=jJLafG9B1CfiQIornqxu+KUsNtbIOICEg5+R9M0vh3OS5Uponag30+rtHkBH+p2sQO
+         NbknKjvjqMZxvp10RqtWA3JaHeCL3ZjlBTW+X+DPyn+x24sQggaMAme0KMzkvqkLCzex
+         ZfmFYuUZVwOG6pKZKn2MXtGonulb4rkQzD7Q8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782885440; x=1783490240;
+        d=1e100.net; s=20251104; t=1782885702; x=1783490502;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=p9mAbfnZQOnSuCsDelXEzDCKH4tcY1XBG1BHwxBvnCQ=;
-        b=LSsvQU7Cisoa10Y3fsM/yD9QWTh+X47XLXNoJejcFot6+helUcYd4a/B4cAyeB+FAF
-         BMxPpXU/SLoVNPPdxcDFFCI7PUyabII4b7I2h/fzF6HoY/hcEqXKAJGl7dpPSyPgJV0+
-         uj23Ua+XQ067dGjPZXaDSLDxEMocjb9oIfsMJO7CMhHdDJJDeBxQWEugNGn7pK9y/YR3
-         oFhmYnzIky4VpasMmS0eKjAydbreLzIocihzUr55pUojcgZMEoEVUrRB4rYhfL59BRtV
-         +HMs8GKGVYuwk5fuFrEQ7+61Wzdkb7Nr4hGxQOE8DKa6zvDR+whhkK4hpXKfebm6BNa5
-         0M+g==
-X-Forwarded-Encrypted: i=1; AFNElJ+VtWAANsgKBChcFwy1xmt/VV/PAtnsZmsVlZoYh0s3XSZPWYWFsH5egye157EiUxKPiK2eLlFCKek=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWA8OKqnY6/XlH0L8kX9NW34zE+srokysU46esQmdeDUe90izM
-	GrF46vsshS/XGs0fLMjjQO1UYuuiCMyYWxvDMp9XiG7Iasha1IKpUlih23D/0d2MPQ==
-X-Gm-Gg: AfdE7ckbjSWIbta4PKEVRH03STAJG2R4ByA81nOTY8AF/5/X/dYV5Git85rsSEWnxFb
-	UyE3VrvxNHMc0I0sL0y+Wragf6Q7NX9jGJ9phbYkjYaU/LMcy5tv6ge4t3Sn+1GiXVjew7PLUI2
-	7YCq44CugVPE6vS6bnTPpIqk3ZPBT474DTuVWXCt+YUqXCxCsoAHStuv8hCM8VldXNSmqK9cjSc
-	n0zbMeVnH9CBrJgafCmVwbcQTGULcruOrlV4HyVznXhm7WrIsJf2mTkDP9OqYRv3qtC72r0SvV3
-	8gu0I8WRyww6nMMN8wfjmLLG26z8SIqUFzrahXStmbXXAfC+wnXElVYrr2RsI+xKS8y2kEebGrQ
-	68qY00xQZc96nHJXo141Pt/Sw1L0fDdiSPFmFQ7NHANVaL+LNr/NuFz7Q16TUZMTl3IHJnXHTr4
-	fjl7LV27otRWoik7nxor9G+oXWvqhlSzajWXAZZiKVIX97NuAEy4NG
-X-Received: by 2002:a05:6a21:50e:b0:3bf:a4c9:b054 with SMTP id adf61e73a8af0-3bfed567c73mr276613637.46.1782885439597;
-        Tue, 30 Jun 2026 22:57:19 -0700 (PDT)
+        bh=0e78plCJzUw9mtQf3K/88IdWkJoFUVq9utFQfqU+ZPU=;
+        b=fVdanjO12f6roVy++nfMFlpfB9JAnkrI/IqxhRhnLi8KWB3/nPZjt/LCzRVFsuxX/1
+         10BE69UeyVg5wi2AZTbxJ7QCUBkq3ABfHnM1E1v5Mp36QktA1yyc+vdMy81q9Jt7tqtG
+         ee22UZKDZKBZVuJaXdyyhVzN/CfStfrZIz6Z+B+YcHvhJQUrQNaNUQ8/oiYdqScl6Fej
+         gpoSYIYBGyMzYwgjiSh/zb5tViD48J+x9cQrcODjI7UVgzL3AhdpWRaFvUZVuuc+BfFz
+         cQgjabuyac+nwL07p7l/zNGCcuKuexztDjR8J+gaxx0ImTvPAYupEOPe3rYNUK4s8oZW
+         waYw==
+X-Forwarded-Encrypted: i=1; AHgh+RrhFIL9trzgKihYyexbUZ7RzWXLKyduwdTqHeYtzduLQ+fuEFwVkvZQ7iGxQosPy737DVrVbiDD81g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGm4+L0qlJ5Sw0cfa2yP3LlJpegjLjfQWFi/ys+bSTfHIJbdaV
+	Z4xzeyqea+nsLjuSg5B3tN91m8MznWcclDr+1gQMN8Tcwko2ZCZgVdNMHc/zcyV9sw==
+X-Gm-Gg: AfdE7clc2Cvm2xJR7ik8X3a2g38cwRppQTXzwCwv3HHwJfYl/4+IrgWim4xDDGktyFY
+	V3zoRfXo2272zRiuYbSONrRyQX/d1ybhIMRPA4HrWXIV19IXoJ4rIhIlIxFI6VvymKPqpv8/q9V
+	SBNAsR3+voZ4gz1s/u1yfL3YH7mmEOz2UvvBCQBqWx4MdzO0ZbtQ2AWzSQwfbge+Mga9LSTOPX5
+	acOr5o2fKd7XPoq4G8WhPdtsNvc1xYOr35aH63yhNwj6at6iEGVmDG3pt5rix/Zl/G3uNw5sB5V
+	uM2iEaVSCGc4sDUTHo+qmors/9lJRGfluuCQXYnlqmAwoJQFzcnH7jPqbYtmD/+vxziIYmBeLR0
+	cmUNJH52wFEwbBeXVilZyB/wBU/ZaU02TkBYIXPpoQHnKe3t4JnjzB98MJUEL6jRxHoUV9uEygq
+	VkGXfo1d+u4+p7FmczwfqTaqqQtnXLMpkOtYUJv3KR1OCknow4CQsP
+X-Received: by 2002:a17:902:ccca:b0:2c8:1c05:16bb with SMTP id d9443c01a7336-2ca7e86b86bmr3693685ad.24.1782885702562;
+        Tue, 30 Jun 2026 23:01:42 -0700 (PDT)
 Received: from google.com ([2a00:79e0:2031:6:faee:2436:3347:c0a2])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c9bbf95b8a4sm2538629a12.18.2026.06.30.22.57.17
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca37a70c42sm26149575ad.11.2026.06.30.23.01.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 22:57:18 -0700 (PDT)
-Date: Wed, 1 Jul 2026 14:57:15 +0900
+        Tue, 30 Jun 2026 23:01:41 -0700 (PDT)
+Date: Wed, 1 Jul 2026 15:01:37 +0900
 From: Sergey Senozhatsky <senozhatsky@chromium.org>
 To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Oliver Neukum <oneukum@suse.com>, Alan Stern <stern@rowland.harvard.edu>, 
-	linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net, 
-	linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>
+Cc: Oliver Neukum <oneukum@suse.com>, 
+	Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>
 Subject: Re: [RFC PATCH] usb: storage: uas: limit consecutive device resets
  in error handling
-Message-ID: <akSqd7HkrZI78_L_@google.com>
+Message-ID: <akSsw_iDneYb_4gQ@google.com>
 References: <20260701040335.810297-1-senozhatsky@chromium.org>
  <2026070157-stench-shabby-2519@gregkh>
+ <akSqd7HkrZI78_L_@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -74,82 +75,30 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2026070157-stench-shabby-2519@gregkh>
+In-Reply-To: <akSqd7HkrZI78_L_@google.com>
 
-On (26/07/01 07:38), Greg KH wrote:
-> > +static int uas_reset_limit = 3;
-
-This obviously wanted to be 0 by default (just a side note).
-
-> > +module_param_named(reset_limit, uas_reset_limit, int, 0644);
-> > +MODULE_PARM_DESC(reset_limit, "Maximum number of consecutive device resets during error handling before failing");
+On (26/07/01 14:57), Sergey Senozhatsky wrote:
+> On (26/07/01 07:38), Greg KH wrote:
+> > > +static int uas_reset_limit = 3;
 > 
-> This is not the 1990's, we do not add module parameters for issues that
-> should be properly solved either automatically, or on a per-device
-> basis.
+> This obviously wanted to be 0 by default (just a side note).
 > 
-> There's no way that ChromeOs wants to attempt to track this module
-> parameter as a bootline config option, right?
+> > > +module_param_named(reset_limit, uas_reset_limit, int, 0644);
+> > > +MODULE_PARM_DESC(reset_limit, "Maximum number of consecutive device resets during error handling before failing");
+> > 
+> > This is not the 1990's, we do not add module parameters for issues that
+> > should be properly solved either automatically, or on a per-device
+> > basis.
+> > 
+> > There's no way that ChromeOs wants to attempt to track this module
+> > parameter as a bootline config option, right?
+> 
+> Can you please elaborate on "properly solved either automatically,
+> or on a per-device basis".  I don't know how to break that endless
+> reset loop otherwise.  I'm open to any suggestions, the patch is RFC
+> for a reason.
 
-Can you please elaborate on "properly solved either automatically,
-or on a per-device basis".  I don't know how to break that endless
-reset loop otherwise.  I'm open to any suggestions, the patch is RFC
-for a reason.
-
-That reset loop essentially panics the system (we have hung-task watchdog
-and hung-task panic enabled).  The kernel does uas_eh_device_reset_handler()
-every 30 seconds (which succeeds), while the block layer doesn't make progress
-and keeps the tasks blocked, which eventually triggers the watchdog:
-
-[..]
-<6>[ 917.070222] sd 0:0:0:0: [sda] tag#3 uas_eh_abort_handler 0 uas-tag 3 inflight: CMD IN
-<6>[ 917.070318] sd 0:0:0:0: [sda] tag#3 CDB: Read(10) 28 00 00 00 00 00 00 00 20 00
-<6>[ 917.079434] scsi host0: uas_eh_device_reset_handler start
-<6>[ 917.079994] sd 0:0:0:0: [sda] tag#1 uas_zap_pending 0 uas-tag 1 inflight: CMD
-<6>[ 917.080046] sd 0:0:0:0: [sda] tag#1 CDB: Write(10) 2a 00 00 d3 98 08 00 04 00 00
-<6>[ 917.080072] sd 0:0:0:0: [sda] tag#2 uas_zap_pending 0 uas-tag 2 inflight: CMD
-<6>[ 917.080118] sd 0:0:0:0: [sda] tag#2 CDB: Write(10) 2a 00 00 d3 9c 08 00 04 00 00
-<6>[ 917.145714] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-<6>[ 917.164988] scsi host0: uas_eh_device_reset_handler success
-<6>[ 917.165155] sd 0:0:0:0: [sda] tag#3 FAILED Result: hostbyte=DID_ERROR driverbyte=DRIVER_OK cmd_age=30s
-<6>[ 917.165210] sd 0:0:0:0: [sda] tag#3 CDB: Read(10) 28 00 00 00 00 00 00 00 20 00
-<3>[ 917.165239] I/O error, dev sda, sector 0 op 0x0:(READ) flags 0x80700 phys_seg 4 prio class 3
-<4>[ 934.971114] rq: tag=0 hctx=0 op=WRITE sector=13867016 len=524288 age=78231 ms pid=11900 comm=image_burner state=D
-<4>[ 934.971169] rq: tag=1 hctx=0 op=WRITE sector=13868040 len=524288 age=78230 ms pid=11900 comm=image_burner state=D
-<4>[ 934.971217] blk: queue stall on sda: 3 inflight, 2 stalled (threshold 60000 ms)
-<6>[ 947.276222] sd 0:0:0:0: [sda] tag#3 uas_eh_abort_handler 0 uas-tag 3 inflight: CMD IN
-<6>[ 947.276282] sd 0:0:0:0: [sda] tag#3 CDB: Read(10) 28 00 00 00 00 00 00 00 08 00
-<6>[ 947.280489] scsi host0: uas_eh_device_reset_handler start
-<6>[ 947.281255] sd 0:0:0:0: [sda] tag#0 uas_zap_pending 0 uas-tag 1 inflight: CMD
-<6>[ 947.281309] sd 0:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 00 d3 98 08 00 04 00 00
-<6>[ 947.281391] sd 0:0:0:0: [sda] tag#1 uas_zap_pending 0 uas-tag 2 inflight: CMD
-<6>[ 947.281468] sd 0:0:0:0: [sda] tag#1 CDB: Write(10) 2a 00 00 d3 9c 08 00 04 00 00
-<6>[ 947.346666] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-<6>[ 947.365031] scsi host0: uas_eh_device_reset_handler success
-<6>[ 977.479406] scsi host0: uas_eh_device_reset_handler start
-<6>[ 977.479963] sd 0:0:0:0: [sda] tag#2 uas_zap_pending 0 uas-tag 1 inflight: CMD
-<6>[ 977.480015] sd 0:0:0:0: [sda] tag#2 CDB: Write(10) 2a 00 00 d3 98 08 00 04 00 00
-<6>[ 977.480042] sd 0:0:0:0: [sda] tag#3 uas_zap_pending 0 uas-tag 2 inflight: CMD
-<6>[ 977.480089] sd 0:0:0:0: [sda] tag#3 CDB: Write(10) 2a 00 00 d3 9c 08 00 04 00 00
-<6>[ 977.480137] sd 0:0:0:0: [sda] tag#4 uas_zap_pending 0 uas-tag 3 inflight: CMD
-<6>[ 977.480166] sd 0:0:0:0: [sda] tag#4 CDB: Read(10) 28 00 00 00 00 00 00 00 08 00
-<6>[ 977.545653] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-<6>[ 977.565338] scsi host0: uas_eh_device_reset_handler success
-<3>[ 984.123394] INFO: task image_burner:11900 blocked for more than 122 seconds.
-<3>[ 984.123501] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-<6>[ 984.123517] task:image_burner state:D stack:0 pid:11900 ppid:11893 flags:0x00004002
-<6>[ 984.123577] Call Trace:
-<6>[ 984.123603] <TASK>
-<6>[ 984.123659] __schedule+0x5e8/0x14c0
-<6>[ 984.123688] ? free_unref_page_list+0x25d/0x290
-<6>[ 984.123715] ? lru_gen_update_size+0x1e3/0x220
-<6>[ 984.123763] schedule+0x5e/0xa0
-<6>[ 984.123788] io_schedule+0x47/0x70
-<6>[ 984.123814] folio_wait_bit_common+0x18a/0x270
-<6>[ 984.123863] ? __pfx_wake_page_function+0x10/0x10
-<6>[ 984.123889] folio_wait_writeback+0x35/0x90
-<6>[ 984.123937] __filemap_fdatawait_range+0x162/0x190
-<6>[ 984.123965] file_write_and_wait_range+0xa3/0x120
-<6>[ 984.124013] blkdev_fsync+0x39/0x60
-<6>[ 984.124040] __x64_sys_fdatasync+0x4c/0x90
-<6>[ 984.124067] do_syscall_64+0x6b/0xa0
+I can imagine uas_reset_limit being auto-calculated based on SCSI
+timeout (30 seconds) and HUNG_TASK_TIMEOUT (if set).  Will that
+work?  I don't know if all those timeouts can be clearly exposed
+to the UAS driver (or should they be in the first place).
