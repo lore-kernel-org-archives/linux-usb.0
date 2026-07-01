@@ -1,44 +1,44 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1771421EFB;
-	Wed,  1 Jul 2026 23:35:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987CB420E81;
+	Wed,  1 Jul 2026 23:35:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782948956; cv=none; b=dYlg3Tpmx7humRQ79qYcK4jXF0azqH7Ok9AlA4PgKw/0m76gI3yMS8tO3kz3YvmVHaHJYou/MB6urmCbYPzFpGb4z5kcjsfFfUBXJogLK/hjIda5hb084KbAbFPoh4MmQP3lqYylwqZdX0zmr6jkCBCJSgbUCR3LKEnk/DXBHF4=
+	t=1782948957; cv=none; b=tr9VdeVH8cdGbEnHCx30JV3Nd7a+dg4j2D4D6FOQnvBGPt11cUDxPdLieIHQYXXeye8CBXTy3nfhIIcfVoEx7Qs49FuOEXvtwhwgE5uRXM0OHHiREgqcaYS2I01fLV5ZCd2/1hHTdgGuNFLyd0o9ruM8ZR4hLwP+q6B9VIhmKvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782948956; c=relaxed/simple;
-	bh=+YRPJyI1V8oNPkbxLLhcwim5gCsEu0UcFX5g+tdQNU8=;
+	s=arc-20240116; t=1782948957; c=relaxed/simple;
+	bh=zEH+uUm8bgc5It+KvVL/LtXKTYllMdlDpxOaj7Ri5tU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MXuKyihl0XgcylAxRQrwXOCLebQJbe1ME/MHj+9zn6n1rVJFQm5af+W8+IKQmpgC9XMmVZ0Qeh4/JxwJONlkPIVAMkSF1beaeGMlTIXmBzwbUlcMn6I567nTxAAL6lfk3svNWAy7W3+PDgByeExYpXhsXjCv/lhmZLNAfqeFjtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QDh2xTKb; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=BXnDFMrS4bofd6fivF821LJp4QHCaCn6olM+9IWzi3pvb6KMGdOJANUPhUQBaqkkBRGMV+K4VtZtwTim3RWXrX3AmNEkjhqkYK/RYhs75YEzTk5ivLlQfw2XNWDadyfmMTlPBoT9kwIhBjTrulg80TulHc/3rNsn4y4zGN9dgcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bgRf1mSO; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QDh2xTKb"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bgRf1mSO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1782948949;
-	bh=+YRPJyI1V8oNPkbxLLhcwim5gCsEu0UcFX5g+tdQNU8=;
+	bh=zEH+uUm8bgc5It+KvVL/LtXKTYllMdlDpxOaj7Ri5tU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=QDh2xTKbPq/rwzI4ArqPloCgjYsrSvdcAJThPpyAfQLHAd9R3Y8jv9+1gLjYoq7us
-	 l+we5j9dUTx26du/MS+7Rjqah8FCw8YEMNgAkbXeu0EY9+gZ/IUUSiFvz0+npu/Yzt
-	 aCxiMnGLt6MpFD3HeXxsYEEbQKao4DvtVDhTlDZWOgHOW8dkEVY/qjVpkGtwX+TdOS
-	 dw19hmNL3ZZsuJBK+C+v0NbJBcpMQyBhdkVDlJn9wFAFFGg1DDENi53mydJXJztwgq
-	 DxDRhGtE1TRPWS928xpOq1tvIraZgehjeAzOCVbnh+JPwg7PloFQpBuQZc7FVEQaHb
-	 hyDJ6lgj6kXyw==
+	b=bgRf1mSOQbatqltA5reWhlkgv4fV9swCad1BIePQlv/SO7/vOb1FMAJsuLYlfD9HC
+	 wqQwEz98RXde8qAbfp3MEf8cBfs64Dt8BueKFg6C+qSjfpWiaogLtuwZU8jkxhKBk8
+	 BpT3Omb8uD8dkN1ZAhk677H1KIlwUoq9KHNLz+46Qs/YqNPYIi5gsXsaw/wnmU1kn5
+	 33Y2eom7YTh8mKXiE5lrmMM2FxbTpPbq9KGJJMV6ADvzZcA8mOGGsEUFiuHtKrw6IJ
+	 P1JbgrDPct+MbXZ1MsohWJSRBm9277/6ooXDNukuJfwq2bCL+jF42yJwGPNWNQnkLX
+	 sM62FJFcxHLgA==
 Received: from jupiter.universe (unknown [100.64.1.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6B55417E15A5;
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5D92F17E1583;
 	Thu,  2 Jul 2026 01:35:49 +0200 (CEST)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id B9A3A48003D; Thu, 02 Jul 2026 01:35:48 +0200 (CEST)
+	id B827548003A; Thu, 02 Jul 2026 01:35:48 +0200 (CEST)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Thu, 02 Jul 2026 01:35:47 +0200
-Subject: [PATCH v9 09/38] phy: rockchip: usbdp: Amend SSC modulation
- deviation
+Date: Thu, 02 Jul 2026 01:35:46 +0200
+Subject: [PATCH v9 08/38] phy: rockchip: usbdp: Keep clocks running on PHY
+ re-init
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260702-rockchip-usbdp-cleanup-v9-9-e31efbb62d2e@collabora.com>
+Message-Id: <20260702-rockchip-usbdp-cleanup-v9-8-e31efbb62d2e@collabora.com>
 References: <20260702-rockchip-usbdp-cleanup-v9-0-e31efbb62d2e@collabora.com>
 In-Reply-To: <20260702-rockchip-usbdp-cleanup-v9-0-e31efbb62d2e@collabora.com>
 To: Vinod Koul <vkoul@kernel.org>, 
@@ -65,73 +65,52 @@ Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>,
  devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
  Sebastian Reichel <sebastian.reichel@collabora.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1765;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1163;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=hEuJtDizS20fyTE+j+LEHbrRcnH32J1MUDI597yISUc=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpFpFOfqEVg3dFDtpeVCKDLjpfuZWiJ9ZEiW
- SH0E15gBWfF44kCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqRaRTAAoJENju1/PI
- O/qa4Z0P/jAOopK3jHpNLZwR6v954tyqH0evvyHHdyCjZbKq6lzYEukQUexNux120mXZ3EpWCwP
- DDbKZCgJmfvtMgazW1VPo3PunKo3PfuivbDGPrQG7bnnY3JC9GFvfX1xdlNU/YllFJWNxtiVPs6
- ei9ZqkQI7Gqyqazm8Es3fm/ptDQtkRomFhQ+/lQtfdc3FVlX3HhCmezL1Vjx0nP1lyHnurfToe9
- Y02hyunPII3TTciS7fFXDMWhavnPmKS676kQmxs0D9G5XRbTjubGx0SeBGTVl5U96N0f+yijknp
- hDILpdQO/NHZyVe/oa9CRfdXjTPU+SwvXJsYP7BrrvBvK4tT4rC7h1M7AKWYhsEy2M12GD2b+PK
- tbHo8cnv5/yrvxj1HtLmzUgkt54OZIEilDuHtMijO2G+NDxKE23q8+QhxZ+AwExTQ8jPhNqHT7F
- 6NVfCs8nm5s0JiBsAb4uKRqx+G4KnxqfG8TVh74Jz64RNsRtk5UyvO+A6T74RJRW7wu1Z7VCvGK
- BO2OXUWVMsdj3Sj5kP2HJOjqlFkHd13wOHhqEf6G5ij/4dSx70Sqr0ee3B4JcKkmbHXr2+6Uibg
- h72OPnFGdj91Y7skXGlB8xmO3r7EydZ7koENWV8uRX5jHqCu6ETR6BfpoFDKp7r7iJSy6JsrlIu
- 5v/v44tCd51/XF0l6sFU5yA==
+ bh=zEH+uUm8bgc5It+KvVL/LtXKTYllMdlDpxOaj7Ri5tU=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpFpFNhmOTZhvZSE6owDsWEKFbSxQSQfq9Nk
+ fH0mz/QivcX1YkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqRaRTAAoJENju1/PI
+ O/qaqpkP/1734hkjUhH27HxXQedk8ywW2otIuO3pyz4OnZsFXFyhMcmewbb2JnZoxKrO9ilGo03
+ ElnAGggGpLbTfG824YhxW7/Vd3LNBm9bDdazFO4IBvzeyQhmjr77RVWFRyMgqxsPPl23og18OnL
+ OImZ3FTBsaQPopwMNhQ5o0cc4hq3EvuRDoLIwgRXDYaPxvDhuFv3E6YtSyMX7pUzPRqQkjZRcx8
+ UuKKQlYUjMnfHYyzLOICr4dxkwpbkFPuoYgc48HVNsYvoMb3ooF/bmurzCCf02r9Xob6Hqm83Ty
+ 3Ji0yrl3jIuolb4Vsc9iTns7lfD8v4JBaz87EOJV/cmtI11IX4w73YTyu8ZgwmMrY1Yo8JhZFh7
+ Sgqm/aV6v0pxSpX4z9XLdcUumK+I3A1fsGaT/5JPKksP3sMI9MV8Xbo+7orEQqy6H0DT4j6aLcB
+ r3nZaXyoRai0ckDgc1Xn8YLvT6ty8H4KdT7aJjreojkQ8STA9vstS1LTo8+fnFIU3HoZUkFza3R
+ eHnNIx3HcxUVqYMRoRgPv8B86RgC/nEZXJ5Vo5FMED2pRhzGjGGZ/CWp5nNsFumlEPvrtPcNUOZ
+ 6qZDPVI0CtbPbFXYCDR/nHPzK3r6S6M2L+Rhj+n8zNtkdREHaRq+YUSa9icoMhad/Op1mRugLM6
+ m949+BpaKAuMqCz+EzJYvoQ==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-From: Frank Wang <frank.wang@rock-chips.com>
+When a mode change is required rk_udphy_power_on() disables
+the clocks and then calls rk_udphy_setup(), which then enables
+all the clocks again before continuing with rk_udphy_init().
 
-Move SSC modulation deviation into private config of clock
+Considering that rk_udphy_init() does assert the reset lines,
+re-enabling the clocks is just delaying things. Avoid it by
+directly calling rk_udphy_init().
 
- - 24M: 0x00d4[5:0] = 0x30
- - 26M: 0x00d4[5:0] = 0x33
-
-Signed-off-by: Frank Wang <frank.wang@rock-chips.com>
-[Taken over from rockchip's kernel tree; register 0x00d4 is not
-described in the TRM]
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/phy/rockchip/phy-rockchip-usbdp.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/phy/rockchip/phy-rockchip-usbdp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-index 2b27fd1c15d8..923279ed7d77 100644
+index 5d0e4f82de2f..2b27fd1c15d8 100644
 --- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
 +++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-@@ -350,7 +350,8 @@ static const struct reg_sequence rk_udphy_24m_refclk_cfg[] = {
- 	{0x0a64, 0xa8}, {0x1a3c, 0xd0},
- 	{0x1a44, 0xd0}, {0x1a48, 0x01},
- 	{0x1a4c, 0x0d}, {0x1a54, 0xe0},
--	{0x1a5c, 0xe0}, {0x1a64, 0xa8}
-+	{0x1a5c, 0xe0}, {0x1a64, 0xa8},
-+	{0x00d4, 0x30}
- };
+@@ -1022,8 +1022,7 @@ static int rk_udphy_power_on(struct rk_udphy *udphy, u8 mode)
+ 		if (udphy->mode == UDPHY_MODE_DP)
+ 			rk_udphy_u3_port_disable(udphy, true);
  
- static const struct reg_sequence rk_udphy_26m_refclk_cfg[] = {
-@@ -377,7 +378,7 @@ static const struct reg_sequence rk_udphy_26m_refclk_cfg[] = {
- 	{0x0c30, 0x0e}, {0x0c48, 0x06},
- 	{0x1c30, 0x0e}, {0x1c48, 0x06},
- 	{0x028c, 0x18}, {0x0af0, 0x00},
--	{0x1af0, 0x00}
-+	{0x1af0, 0x00}, {0x00d4, 0x33}
- };
- 
- static const struct reg_sequence rk_udphy_init_sequence[] = {
-@@ -412,8 +413,7 @@ static const struct reg_sequence rk_udphy_init_sequence[] = {
- 	{0x0070, 0x7d}, {0x0074, 0x68},
- 	{0x0af4, 0x1a}, {0x1af4, 0x1a},
- 	{0x0440, 0x3f}, {0x10d4, 0x08},
--	{0x20d4, 0x08}, {0x00d4, 0x30},
--	{0x0024, 0x6e},
-+	{0x20d4, 0x08}, {0x0024, 0x6e}
- };
- 
- static inline int rk_udphy_grfreg_write(struct regmap *base,
+-		rk_udphy_disable(udphy);
+-		ret = rk_udphy_setup(udphy);
++		ret = rk_udphy_init(udphy);
+ 		if (ret)
+ 			return ret;
+ 		udphy->mode_change = false;
 
 -- 
 2.53.0
