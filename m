@@ -1,113 +1,157 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D80224FA;
-	Wed,  1 Jul 2026 01:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D62233943
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 02:13:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782868233; cv=none; b=BETVQTT4uV6dlqVCsbPJNI6HcdN1Uf307JLgb+B6Bfjw+uO6R3ksMnffZ19AZJpxrUcZ4L6JPuPI86aOytFvCV7/4RLPcGPrgwFkTUE4MJZG1VEBKoGpBrZMxG4rjtUUQbHZg3YUhSHzzAgy1E7z/TUdWytRcujHwsgTC5pLJ2I=
+	t=1782871993; cv=none; b=qFPFfUTQQ4+BwuNPOqmoqkaS+EE5nZERx0Pbu/YMuyHldcm9O+KoU2DXleQuYF8ffbuYbuBih2TuEwdNVJa+qY3k6s6av/2ktd//RtOJHU3lRjWWemNbHDmKN7vbROohAwgxe2hXhl00CRORn7uaI+2g3XRLIotQb8CjfiWLR0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782868233; c=relaxed/simple;
-	bh=JYVZWnbMgS5BKePNj9/i10mqHWwOOAIdzvGHuL/3n2U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KAFTxYc0Za/PBxl5HYIAfQuIHowNksRyXgcoWgcnceUn8br738a2ZZ6kZvIvEQ3o4oUY+KERcWkRbDPLEoTs1HV8z1YZZ93PIkY6P9gq22RbNhSSGWMDR90M3Xx6V4gSXPcMypqdyqe081a7s7BUkA2fcPFtQg7XzijjZlWMKMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: a21eb9f274e911f1aa26b74ffac11d73-20260701
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:50052afd-bb5a-4976-85ea-a9b65fd63c4a,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:fb0c74e1e031128b73a9cff4f3af1e4a,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|865|898,TC:nil,Content:0
-	|15|52,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,O
-	SI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: a21eb9f274e911f1aa26b74ffac11d73-20260701
-X-User: xiaopei01@kylinos.cn
-Received: from [10.42.12.251] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <xiaopei01@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 2125352984; Wed, 01 Jul 2026 09:10:22 +0800
-Message-ID: <7fc28f24-bb3d-43de-abb5-37a41e74a7c3@kylinos.cn>
-Date: Wed, 1 Jul 2026 09:10:19 +0800
+	s=arc-20240116; t=1782871993; c=relaxed/simple;
+	bh=pfeyeSx0jbasMZ24QqZam7YXmS56pDKO/ilMo1Rtil8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=a5g/oCGTRg8ijwjUwYdCLk9OqLSlVZ1TykEHuWjpXF/FTaISGhfGTN8i3x2xIs8OIBqLfTAqyk6mUOuaBCguDWU+bcqVpRwDPT4Z1UxxbFcFo/W1u7Ves2BoZVSUN++s3yQwUZOWWfimrtxplGo3Uyc8KgOZx1KcdrAm+H18vIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=UNV+pXg8; arc=none smtp.client-ip=209.85.222.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="UNV+pXg8"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-92e6391b114so13758085a.3
+        for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 19:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1782871990; x=1783476790; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aUJnJX7YQ/geHGK5pHOPcpLdubmqLs0Ocip7u8Mfbcc=;
+        b=UNV+pXg8o9bej0qgIItNlsfofYQkUIRqLJCVfdp3L0FpczlCaQh8REdp7kU8rk1uOM
+         KF91ISpxpYRtLE+RHZxHueQVuvAHaqe5fL3OSZkxSVWRWppuwTtNibyGpQ3/i/H0LLls
+         2B4ZQJpiCBIIuodJnDE++4G3c/KhJ7Zt1Hrct0UK7EFL2rPopCKifoTrtC8Iis5585eO
+         6RQvFpRkTrzH8LQkdqQXwZ2EVaPhuYyXfx6i3wtzri1GL7t8EiJ0XljOavigCSUJkKyj
+         dRph5KV++mtNkMYpA/2PD7/lZDTKol/jRFxpgTsdjMfFhA0XDevCNexL1FSDOH0iQhUk
+         kZeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782871990; x=1783476790;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=aUJnJX7YQ/geHGK5pHOPcpLdubmqLs0Ocip7u8Mfbcc=;
+        b=dYfgWXffEdWB/8hd70dOHDzPknbNaWLYtClCngIFWgZTYd4rSws+cHZ89hygxmevq0
+         Me8jl7EAVXsAtXP+OSm6WeSzfVtGfQudVkV8LlQRjqqxleJ43+51G8y323GLJu2BZlMR
+         K08jGg/ZVftxYuN0K/dL1TQJwIGAw5EptBU3xH3D4v2xMB3fKqY/Q8NWgNR0cq3XbaSz
+         9EvfFaHdSdkXeEHcnzm93vdbHGs8JKMGHks69TtagByvCLPCfUBrWJ66R9N1WGuND3/R
+         6cRjU+W0ZD2agXfuTUM2Ot+oQpCDxwXBBkG/EEyYtHgeYkbL8H1TDLBczOLC1abWItCC
+         Yklw==
+X-Forwarded-Encrypted: i=1; AFNElJ9tap06BAsnxX5FGWlU48lOFBYb4Zy/93vtvHMPJKbMiDKxq249PAccrRtsJ/SVvqFDSLpsAJVvgKM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTRbZHmeo1iArUfifvA/4/iUGBjZTwSL9e9PkhWwrQbUE96UR9
+	24XgLt68sLIz3NVMQsVr383Q7TfNdcDIbcG38YLD/qiiMkFc9oMyTSmqZ8pHItFbu2MiY5tMQuu
+	3YH/67A==
+X-Gm-Gg: AfdE7cm+klu5r8CxrneMH8hVH4KNgVo43Z9x6yy1pwoCF4OLSsxW0Kuay1z0oTfDiMa
+	KJteN7R4+mjrDiAZUfLuAb9l9jMEwEiJ0McwdxLvQNjpGxwuPvXVPfawEzBRZQaO/LVe6RLWA7v
+	m7+X2fmCyWOMqJaPoPby1H6wenOpfwSunJOeQ8oO2IXzwlreapEqvNAoZx4qTRWPfbdKZejFgL+
+	6pwvm13N1ZdjFKlNz2eb/r2mLVyODsQ0kkJzVCXVNSb3gzsl0GC+I8Fgya03BiQBGict3LGImnA
+	CTSn8KDS63IZhbqDxg7OOx9Xhiv/NAXM19sfu6voylGSMm+SvbI7CK+mgXeFVxIVok0dCA538eP
+	vDCH0LbeBMzRy2oDVXG5JUQKTgAdJT54sPY2dVQUrEGNjbtsu5Q+Sn+nltiIWwCTm3u0t54K4pa
+	oF4h2QjH0J/UudEM0a6vAw5PQf
+X-Received: by 2002:a05:620a:414c:b0:92b:6805:917e with SMTP id af79cd13be357-92e62837015mr956498285a.70.1782871990228;
+        Tue, 30 Jun 2026 19:13:10 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e621410adsm435923885a.7.2026.06.30.19.13.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 19:13:09 -0700 (PDT)
+Date: Tue, 30 Jun 2026 22:13:06 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: =?utf-8?B?6rmA66+87ISc?= <neck3922@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzkaller@googlegroups.com
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
+ in ep_aio_cancel()
+Message-ID: <2d4a91dc-037f-4c31-8ce1-7bc840d42b0b@rowland.harvard.edu>
+References: <CAFmvuTWc880R=mw7=kixfx3Yb8u9thLHPA7D=rm6a8p9dYBBDA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: xhci: prevent spurious root hub resume during
- suspend
-To: Mathias Nyman <mathias.nyman@linux.intel.com>, mathias.nyman@intel.com,
- gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, stern@rowland.harvard.edu
-Cc: dengjie03@kylinos.cn
-References: <368829d76a12e371e09f203e14b5c80b6515c025.1782804779.git.xiaopei01@kylinos.cn>
- <4ba1dbbc-7597-4042-a443-4ffd292559de@linux.intel.com>
- <939cee9f-d4d7-4b42-8337-f765d39feb10@kylinos.cn>
- <22af27b3-0595-4490-a9ab-9a7fdf4cef47@linux.intel.com>
-From: Pei Xiao <xiaopei01@kylinos.cn>
-In-Reply-To: <22af27b3-0595-4490-a9ab-9a7fdf4cef47@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFmvuTWc880R=mw7=kixfx3Yb8u9thLHPA7D=rm6a8p9dYBBDA@mail.gmail.com>
 
+On Wed, Jul 01, 2026 at 08:08:34AM +0900, 김민서 wrote:
+> Hello,
+> 
+> I am reporting a USB gadgetfs AIO cancellation bug reproduced on upstream
+> v7.2-rc1, commit dc59e4fea9d83f03bad6bddf3fa2e52491777482, with KASAN
+> enabled. In my test environment, the reproducer repeatedly triggers a
+> KASAN null-ptr-deref/general protection fault in ep_aio_cancel(). I also
+> observed an intermittent slab-use-after-free at the same dereference site.
+> 
+> Target file:
+>   drivers/usb/gadget/legacy/inode.c
+> Subsystem: USB gadgetfs
+> Git tree: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> Git head: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> Kernel release: v7.2-rc1
+> 
+> Observed crash:
+> 
+>   KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
+>   RIP: ep_aio_cancel+0x47/0xf0 drivers/usb/gadget/legacy/inode.c:455
+> 
+> Additional intermittent UAF observation:
+> 
+>   BUG: KASAN: slab-use-after-free in ep_aio_cancel+0x25/0x90
+>   drivers/usb/gadget/legacy/inode.c:455
+> 
+> Relevant stack:
+> 
+>   ep_aio_cancel
+>   __do_sys_io_cancel
+>   __se_sys_io_cancel
+>   __x64_sys_io_cancel
+>   do_syscall_64
+>   entry_SYSCALL_64_after_hwframe
+> 
+> Root cause analysis:
+> 
+> The crash appears to involve a race between gadgetfs AIO completion and
+> AIO cancellation.
+> 
+> In drivers/usb/gadget/legacy/inode.c, ep_aio_cancel() does:
+> 
+>   struct kiocb_priv *priv = iocb->private;
+>   ...
+>   epdata = priv->epdata;
+> 
+> At the same time, ep_aio_complete() can clear fields in the same private
+> object and then free it on the completion path before setting
+> iocb->private to NULL:
+> 
+>   priv->req = NULL;
+>   priv->epdata = NULL;
+>   ...
+>   kfree(req->buf);
+>   kfree(priv->to_free);
+>   kfree(priv);
+>   iocb->private = NULL;
+> 
+> My current understanding is that completion and cancellation are not
+> effectively serialized around this lifetime transition.
+> 
+> If cancellation observes NULL after iocb->private has been cleared,
+> ep_aio_cancel() dereferences priv->epdata through a NULL priv pointer and
+> reports the null-ptr-deref.
+> 
+> If cancellation observes the old non-NULL priv pointer after completion
+> has freed it, or if completion frees priv after cancellation loads it but
+> before cancellation reads priv->epdata, the same dereference can surface
+> as a slab-use-after-free.
 
+Great!  You clearly put a lot of work into finding this problem.  How do 
+you suggest we fix it?
 
-在 2026/6/30 18:30, Mathias Nyman 写道:
-> On 6/30/26 11:43, Pei Xiao wrote:
->>
->>
->> 在 2026/6/30 16:10, Mathias Nyman 写道:
->>> On 6/30/26 10:36, Pei Xiao wrote:
->>>> handle_port_status() unconditionally resumes the root hub when
->>>> hcd->state is HC_STATE_SUSPENDED, regardless of whether a device is
->>>> actually attached to the port.  This can cause system suspend to fail
->>>> with -EBUSY if a spurious port change event arrives on an empty port
->>>> after its bus has entered suspend.
->>>>
->>>> Fix this by checking PORT_CONNECT in handle_port_status() before
->>>> resuming the root hub.  If no device is actually present on the port,
->>>> the event is spurious and should be silently ignored rather than
->>>> aborting suspend.
->>>
->>> Doesn't this change prevent handling device disconnects on suspended
->>> hosts?
->>>
->> *Thank you for your reply. I’m not familiar with xHCI or these
->> registers.
->>   Can’t we tell the difference between a real unplug and a situation
->> where
->>   the device is physically still attached but portsc reports a
->> disconnect?
->
-> Not really. In your case it really looks like a disconnect.
->
-> Port Status: 0x202a0
->     Disconnected
->     Disabled
->     Link: Rx Detect
->     Powered
->     Unknown port speed
->     Connect Status Change
->
-> Is it only this specific device that disconnects on suspend, or can
-> this be
-> reproduced with any usb device? 
->
-It's specific devices—like USB flash drives and external hard drives.
- A USB keyboard doesn't have the problem. And for the device that does 
-have the issue, if I plug it into a USB hub and then connect that hub to
-the host, 
-the issue doesn't happen either.
-
-Thanks
-Pei.
-> Thanks
-> Mathias
-
+Alan Stern
