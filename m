@@ -1,151 +1,173 @@
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD384086A
-	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 02:45:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF83C3624B8
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 04:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782873959; cv=none; b=C+cQIPHRlYT1KsG3PpBgPvJlqYhyPiGcJZpXERkeFXHq4onjGe82vpdOEPag4aFsvPaF0szlg2MAFBJrVwAp42Biueyvns4lsrRmeyYg5SszrceeTUz9MapqTsqs2Sp0W/6sQUO0bJUqgHKasDdyWFuLWwHG4wqRQCixpI/M5nw=
+	t=1782878639; cv=none; b=CA8ou+kRA3bK8LgMbIy+O7iVlSxn4tbc1uDB4VTavfrdF7+YZ3JOYq5TL568R0wXq61kLaR/92s/LzU5WKzLtHTCvYzNhqtKojR6hLjsFUeIvuTkKtAExNc3yC6sf4j2aex8Ad1hTSFzLOTnFrYDxaa383oJZDDdL6luq0TwFzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782873959; c=relaxed/simple;
-	bh=AkM2YMbS4cgrcGDPieW2Q/7KIitk4hyUSMotQdJZHd0=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=LC9iG1fVZeq9P0OJx5bQ8mdeTL37VaDIiN/70FLqMen8wqlV4hEMxz3s0I5UnBxxfWPZsLMbmfxqrsmDbzHsQaHcg0JoC6NEh7O/bc/RvPWVqzcuTXt2b94nX3TJGf5H4FmUdwzPoyYMRCcOAoYwvw2SuOrxn49Al8T88kxXKvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OL4YoBGb; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1782878639; c=relaxed/simple;
+	bh=p5NgUKZ2hv+769HgwMAjnNfNVsr0gFeP4zwmzFI1fxE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JMzFZEQi73c3qNBPlcA0ytt99GzFY73O8x218NvJFJwBJ5DnRjAtXP1zFWMl+gybBH+jjw0v0y3cW5RLdG5xtZm72lalbsWutwNw01lvkGMoEYCql356rZZxADFbpcrI9ELtQhh2lKv9Rgq736qHuWAKubfUWdvmPh+m94nG7Qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=LJqpIWCx; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OL4YoBGb"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LJqpIWCx"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2c74383c93cso1452105ad.1
+        for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 21:03:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1782878633; x=1783483433; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b+K/6nqTz+KsszBu+0AY+5reuM2Ql/csxHaZ7h5OS08=;
+        b=LJqpIWCxzoAYKbblN5NG6MiaME1e5FBkthIfNxI4HsVuK4CC9SM23OWHkAYYA2ZZQ2
+         kYHW/v8Ok54JfH5HdJsH4i8ci0gkFPNRhPUIPNrMPZGeGo7iKsBKubTgAmYcH8ZmNZUi
+         peVy3uKaX0/smSqmTBDEFyVYlkSn/OJIr2A3Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782878633; x=1783483433;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b+K/6nqTz+KsszBu+0AY+5reuM2Ql/csxHaZ7h5OS08=;
+        b=ioG6Zk9J83WM61YU8p9QKXcYiOGYqxIUkjE9P3N9diz5YsxoMcOpbw1X6skEBtVNbr
+         dpuCj3d8HFDGvPddMcK+TAUYFnpwkr0DN/+VH71bcwmpAuDTz8XxMKnc3lYIv8ybZbHB
+         DaHzxvF758veHOQfBYT5fCLu36wcQJrRhAB+YXyCxmmYJs0Ytyus7yzNgCqou7sl42WD
+         GtnP6/KACdEJqpwaBTS6q7zJKbwYI+iYTvi3+b0hEIQPtpN/Tk0Dq9D0/VTS6jhgl1hw
+         WUXeE0XxpvCpVfjgTrUkynW+Ah31wbtO8K04CQPBbwaQ1yonu4/jpc2i86rG22m5t34Q
+         1iGQ==
+X-Gm-Message-State: AOJu0Yw5MJnk9EPZjTAEvuGYY4gTGcoyF3pgpMUmRLMQ6mneYJRPCFNr
+	q5FQvJXIMJZaPRmXFh9YepoRSHlK8tfLLz67Uq/yhKOZVq23wTnPR+kwIgXHZDPOkw==
+X-Gm-Gg: AfdE7cmv7Ae+MZi6mofIvDmlEnCztQzFWYyhsaT9df9hTG00gcBM++scDKu0T45LGBy
+	p10KQj9tkQLvhcwDJRgcQR3TnW+DZl7D4rMsIA2CwH/rnWVOJecn3DwCmoQuNlMh4Z4+QkTSteJ
+	QGEQ9ngT6YA+LBBZWLtpb1fYuQLbkId6xbKbNeV8I2ZZkbP7iFhxfGckEZvJmkPqEn0Bpwewurs
+	D6Miv/o1KTNe6jYQ97IihKLZbSINW3Zxx5xmIuAOr48JP1aQr1G0RnReikOSpwWOIv8GZFAcT4F
+	toKCQagFi+KB9bYPPtETeyNPgNaWfEooYBXsIFdpYjRLJ3hzeX6KhhnCNFjaiwNhd+GLE0+/xSd
+	UQ6Bn4HtXyrhuZpuk/xS+6zs8lf56q0djD4WhyCj4NXyKZkSHo3T5FqUxB7QKLjIX16mKiRnfKJ
+	aCfWNmy1e4nKa2Pbsffd+yfGvXuAV4UlgAJDQJJFVrsIaEqilD9UPGMwut5Vn+xhaMhUfniMCzw
+	9A=
+X-Received: by 2002:a17:903:291:b0:2c1:f262:4962 with SMTP id d9443c01a7336-2ca7e6da0c0mr963905ad.20.1782878632576;
+        Tue, 30 Jun 2026 21:03:52 -0700 (PDT)
+Received: from tigerii.tok.corp.google.com ([2a00:79e0:2031:6:1379:da2f:9be6:bff2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca382bb30dsm23927835ad.68.2026.06.30.21.03.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 21:03:52 -0700 (PDT)
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Oliver Neukum <oneukum@suse.com>,
+	Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org,
+	Tomasz Figa <tfiga@chromium.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: [RFC PATCH] usb: storage: uas: limit consecutive device resets in error handling
+Date: Wed,  1 Jul 2026 13:03:21 +0900
+Message-ID: <20260701040335.810297-1-senozhatsky@chromium.org>
+X-Mailer: git-send-email 2.55.0.795.g602f6c329a-goog
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1782873955;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pGyYp8fgvM0spGaHVAVIN+LiPqSPwBtl4s6NpkpojzU=;
-	b=OL4YoBGbS7vuYSsBvGPeotMJNvKpOq0DOYLqAUBiJ9x7OuDuOTiBFJolspB+C1Rq8L26Kg
-	RI1EW/adYnx/it3Zf0waWtnQDcL7D9PeItx6Ldqgaga03Xfpha2ZdIyVxWLkGuLpz6srBo
-	nYwJ7eVCqV6H3Fn2pngiezhLkJ+6UgM=
-Date: Wed, 01 Jul 2026 02:45:49 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Tianchu Chen" <tianchu.chen@linux.dev>
-Message-ID: <eb9d8a511c83224d1af492799b551e33fca8c7d1@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH] net: usb: cx82310_eth: stop parsing reboot marker as
- packet
-To: "Jakub Kicinski" <kuba@kernel.org>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, linux-usb@vger.kernel.org, netdev@vger.kernel.org
-In-Reply-To: <20260630154255.2954c33a@kernel.org>
-References: <700e16e9523d7f1299b00df75b13a3c66b6e517b@linux.dev>
- <20260629174458.6ebf647d@kernel.org>
- <e87b8ecf4bbcf87635d144508bf35377dd5397b3@linux.dev>
- <20260630154255.2954c33a@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-July 1, 2026 at 6:42 AM, "Jakub Kicinski" <kuba@kernel.org mailto:kuba@ke=
-rnel.org?to=3D%22Jakub%20Kicinski%22%20%3Ckuba%40kernel.org%3E > wrote:
+When a UAS storage device experiences persistent wire or hardware IO
+failures, commands time out and the SCSI error handler thread invokes
+uas_eh_device_reset_handler().  If usb_reset_device() succeeds at the
+USB hub level but the underlying drive remains unresponsive, the reset
+handler returns SUCCESS. SCSI EH then requeues pending commands with
+DID_RESET (ACTION_RETRY), causing them to time out again 30 seconds
+later in an infinite loop.  This blocks block layer queues indefinitely:
 
->=20
->=20On Tue, 30 Jun 2026 10:30:53 +0000 Tianchu Chen wrote:
->=20
->=20>=20
->=20> June 30, 2026 at 8:44 AM, "Jakub Kicinski" <kuba@kernel.org mailto:=
-kuba@kernel.org?to=3D%22Jakub%20Kicinski%22%20%3Ckuba%40kernel.org%3E > w=
-rote:
-> >  On Thu, 25 Jun 2026 15:32:04 +0000 Tianchu Chen wrote:
-> >  > From: Tianchu Chen <flynnnchen@tencent.com>
-> >  >=20
->=20>  > Discovered by Atuin - Automated Vulnerability Discovery Engine.
-> >  >=20
->=20>  > cx82310_rx_fixup() treats an RX length of 0xffff as a device reb=
-oot
-> >  > marker and schedules work to re-enable ethernet mode, but then con=
-tinues
-> >  > processing the marker as a normal packet length. This is an out-of=
--bounds
-> >  > heap write controlled by the usb device.
-> >  >=20
->=20>  Where? Can you be more specific in the commit message? At a glance=
-=20
->=20>  the accesses seem to be bound-checked with skb->len.
-> >  --=20
->=20>  pw-bot: cr
-> >=20=20
->=20>=20=20
->=20>=20=20
->=20>  The "len > skb->len" check bounds the source read, but the overflo=
-w is on the
-> >  destination buffer.
-> >=20=20
->=20>  The buggy path is:
-> >=20=20
->=20>  if (len =3D=3D 0xffff) {
-> >  netdev_info(dev->net, "router was rebooted, re-enabling ethernet mod=
-e");
-> >  schedule_work(&priv->reenable_work);
-> >  /* <- BUG: missing return; 0xffff bypasses the oversized-length reje=
-ct */
-> >  } else if (len > CX82310_MTU) {
-> >  netdev_err(dev->net, "RX packet too long: %d B\n", len);
-> >  return 0;
-> >  }
-> >  if (len > skb->len) {
-> >  dev->partial_len =3D skb->len; // skb->len is bounded by the USB tra=
-nsfer size (4K)
-> >  dev->partial_rem =3D len - skb->len;
-> >  memcpy((void *)dev->partial_data, skb->data,
-> >  dev->partial_len); /* <- TRIGGER: can copy 4K bytes into 1516-byte p=
-artial_data */
-> >=20
->=20If skb->len (=3D=3D dev->partial_len) is not bound-checked to the siz=
-e
-> of dev->partial_data - aren't there more paths that could hit this
-> overflow? Are you fixing the right thing?
+[..]
+ sd 0:0:0:0: [sda] tag#4 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD
+ sd 0:0:0:0: [sda] tag#4 CDB: Write(10) 2a 00 00 d3 98 08 00 04 00 00
+ sd 0:0:0:0: [sda] tag#0 uas_eh_abort_handler 0 uas-tag 2 inflight: CMD OUT
+ sd 0:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 00 d3 9c 08 00 04 00 00
+ scsi host0: uas_eh_device_reset_handler start
+ usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
+ scsi host0: uas_eh_device_reset_handler success
+ sd 0:0:0:0: [sda] tag#3 uas_eh_abort_handler 0 uas-tag 3 inflight: CMD IN
+ sd 0:0:0:0: [sda] tag#3 CDB: Read(10) 28 00 00 00 00 00 00 00 20 00
+ scsi host0: uas_eh_device_reset_handler start
+ sd 0:0:0:0: [sda] tag#1 uas_zap_pending 0 uas-tag 1 inflight: CMD
+ sd 0:0:0:0: [sda] tag#1 CDB: Write(10) 2a 00 00 d3 98 08 00 04 00 00
+ sd 0:0:0:0: [sda] tag#2 uas_zap_pending 0 uas-tag 2 inflight: CMD
+ sd 0:0:0:0: [sda] tag#2 CDB: Write(10) 2a 00 00 d3 9c 08 00 04 00 00
+ usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
+ scsi host0: uas_eh_device_reset_handler success
+[..]
 
-Yes, skb->len and CX82310_MTU are different limits here.
+Introduce a runtime-configurable module parameter 'reset_limit' (default
+3) and track consecutive resets in devinfo->reset_cnt.  When a productive
+block layer command completes successfully (SUBMITTED_BY_BLOCK_LAYER),
+reset the counter to zero.  If consecutive resets exceed reset_limit,
+abort the loop by completing pending commands with DID_NO_CONNECT and
+returning FAILED.  This allows SCSI EH to offline the unresponsive
+device.
 
-skb->len is the amount of data received in the current USB RX URB. This
-driver sets dev->rx_urb_size to 4096, so skb->len can be much larger than
-the network frame MTU.
+Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+---
+ drivers/usb/storage/uas.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-The safety invariant for the partial_data copy is not that skb->len is
-MTU-bounded by itself. It is that, for normal frames, the code first reje=
-cts
-len > CX82310_MTU, and then reaches the partial-packet path only when
-len > skb->len. Therefore, on the normal path:
+diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+index 265162981269..a63c66c8bbad 100644
+--- a/drivers/usb/storage/uas.c
++++ b/drivers/usb/storage/uas.c
+@@ -32,6 +32,10 @@
+ 
+ #define MAX_CMNDS 256
+ 
++static int uas_reset_limit = 3;
++module_param_named(reset_limit, uas_reset_limit, int, 0644);
++MODULE_PARM_DESC(reset_limit, "Maximum number of consecutive device resets during error handling before failing");
++
+ struct uas_dev_info {
+ 	struct usb_interface *intf;
+ 	struct usb_device *udev;
+@@ -40,6 +44,7 @@ struct uas_dev_info {
+ 	struct usb_anchor data_urbs;
+ 	u64 flags;
+ 	int qdepth, resetting;
++	int reset_cnt;
+ 	unsigned cmd_pipe, status_pipe, data_in_pipe, data_out_pipe;
+ 	unsigned use_streams:1;
+ 	unsigned shutdown:1;
+@@ -255,6 +260,8 @@ static int uas_try_complete(struct scsi_cmnd *cmnd, const char *caller)
+ 		return -EBUSY;
+ 	devinfo->cmnd[cmdinfo->uas_tag - 1] = NULL;
+ 	uas_free_unsubmitted_urbs(cmnd);
++	if (cmnd->result == 0 && cmnd->submitter == SUBMITTED_BY_BLOCK_LAYER)
++		devinfo->reset_cnt = 0;
+ 	scsi_done(cmnd);
+ 	return 0;
+ }
+@@ -796,6 +803,21 @@ static int uas_eh_host_reset_handler(struct scsi_cmnd *cmnd)
+ 	usb_kill_anchored_urbs(&devinfo->cmd_urbs);
+ 	usb_kill_anchored_urbs(&devinfo->sense_urbs);
+ 	usb_kill_anchored_urbs(&devinfo->data_urbs);
++
++	spin_lock_irqsave(&devinfo->lock, flags);
++	if (uas_reset_limit > 0 && devinfo->reset_cnt >= uas_reset_limit) {
++		devinfo->resetting = 0;
++		spin_unlock_irqrestore(&devinfo->lock, flags);
++		uas_zap_pending(devinfo, DID_NO_CONNECT);
++		usb_unlock_device(udev);
++		shost_printk(KERN_ERR, sdev->host,
++			     "%s FAILED reset limit %d exceeded\n",
++			     __func__, uas_reset_limit);
++		return FAILED;
++	}
++	devinfo->reset_cnt++;
++	spin_unlock_irqrestore(&devinfo->lock, flags);
++
+ 	uas_zap_pending(devinfo, DID_RESET);
+ 
+ 	err = usb_reset_device(udev);
+-- 
+2.55.0.795.g602f6c329a-goog
 
-	skb->len < len <=3D CX82310_MTU
-
-so copying skb->len bytes into partial_data is safe, since partial_data i=
-s
-allocated as dev->hard_mtu =3D CX82310_MTU + 2.
-
-The 0xffff reboot marker is the only case that breaks that invariant:
-len =3D=3D 0xffff is handled in a separate branch, and it just bypasses t=
-he
-"len > CX82310_MTU" check entirely.
-
-So the only case that may trigger this OOB-write is len =3D=3D 0xffff, wh=
-ich is a
-reboot signal and should be skipped from being parsed as normal packet.
-
-Also, skb->len is governed by the USB RX URB size, not by the network MTU=
-;
-it is a different length limit from CX82310_MTU.
-
-I believe this addresses the concern, but please let me know if you see a=
-ny
-remaining issue and/or would prefer a v2.
-
-
-Best regards,
-Tianchu
