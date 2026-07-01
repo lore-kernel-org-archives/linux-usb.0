@@ -1,44 +1,44 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7253BA249;
-	Wed,  1 Jul 2026 23:35:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9826A420E7C;
+	Wed,  1 Jul 2026 23:35:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782948953; cv=none; b=jBzf0+2V5adoVPzCsiytAlWB1OpX/xASIB5aDUQujAbwd9cjwfXRj2NFPvTCAyJhRvq4J1pcyL8Avd1A15bvOs8mykH64RYio/y2rQfMJzz4E+HDjLChrkdN/mxL4RxaJlMhM/OmeDAHw0ph+bxqY8lcayBMTzP9q1mo1dYy604=
+	t=1782948955; cv=none; b=mAec61f2D9CpSKOLetRfZ6bax1TQcB/Q7F1r9YXguXzjc72la5UW5+cbKMTP5mjGJDSrjqxtaBKLIYVRpIjNrPsCjRs7bI7I2xnDOKcri+py9zPTPX6AW6LPoBhSoJZ9ad8gyCe+3o1wJ3ssuFz3CqPQLua9xM8f0TTe4ga5Z4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782948953; c=relaxed/simple;
-	bh=USg1ohYmbXwetA6mCilQyNqt0XA2ZTz/AW7yPMSqQVI=;
+	s=arc-20240116; t=1782948955; c=relaxed/simple;
+	bh=sJkpHjMyuCGBTTW/sZnTUenvlYuEyw8qh8/75W4WtnE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kHS2kpdct+Ovq8MLPVLYNshzLtmbqyyNxvUOxamnPiILeBj5n1aW0xVEe4bE0SZpoHPCoNpRYATl+s3syn3B+xHI1yj63dKBCgyFSWxlAjLPI8ipTr0IKIHiaiD/vneGPkNDAHoRjrczuEo3JU0/CcmHHseSt0KRus8/wC8Lq3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nbzfpwUw; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=KkKUigTMT2spU3L8p4xse50V2Qqcenik6PtV//V0L5FuOvNrQhVrlTnjREKM6N5vrDTYgIxFNuRYOmAxR8oewwIVJ+HnWkZyfgoN3NK3DBhVxz5mOuR4bg48vvWML09RIjPrfOoUDverb2SVv9Wdrqj++umNO5wY+hO6KcpPp6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=U8QIxcWX; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nbzfpwUw"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="U8QIxcWX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1782948949;
-	bh=USg1ohYmbXwetA6mCilQyNqt0XA2ZTz/AW7yPMSqQVI=;
+	bh=sJkpHjMyuCGBTTW/sZnTUenvlYuEyw8qh8/75W4WtnE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=nbzfpwUwSWDyqH9ZRNZ9BF2aeAIFQ+h8OT1Kgm9U2zM+SmyvcOULcmGcOiLk/qQAO
-	 TlKtwAluDmd38f/hCkXVlmhuff3L9V9BEUkdqFNnylpcqFC8Do0TbVlyGVgHVkTP3R
-	 hfKFHLBxWO3LlTf/M28ZV+1btLf1IBXmAGu/03TTYxMxq/2DvCE/EhLa08N0tjOZhC
-	 QXAhQX/Q3wquwqzOdAeP0RTehnG+cDQ9690PuQ+xexu4FB7SPRLuiWs22USFeT3LY+
-	 ENu1Dawrd4H+ASE66rQDvnBwBoMshKRUpKQrlDrho8nwFGaBvck8LUGHFOaV/HwOmS
-	 JtSrdW/+4G1Kg==
+	b=U8QIxcWXmRjt2nFgZjOgUSD+Qse/3frAFrNsOt4ZUSwvsYtWfynixc71r9zmrOaHo
+	 Dx+sisA5jUc8L53mjT/bTiV+Pfl2rnmPyoW+YjdluHwW9kot60v5bgQmzcLAcQH6iZ
+	 erRLhLzMinDezml2gqowoA8GpbVhHl8kTBo5dWT3Ft2VaGqaF4lB8C5mSRy+0PoZ4B
+	 U0itTTLoRdAA3G5w4crPzsjQBfc8uFh0hbGLSM81gqgR94kcsDf/P6xFIl432UOMj4
+	 zIbCByfrg3ryBAfnDj98ckJozqhDVjAXntoQ8wtum8y5Vm+VHMd3zXoYW+nKJ6zGa5
+	 7q957jukt6R2A==
 Received: from jupiter.universe (unknown [100.64.1.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 013BA17E0F44;
-	Thu,  2 Jul 2026 01:35:48 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5B9B717E1553;
+	Thu,  2 Jul 2026 01:35:49 +0200 (CEST)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id AEFC4480029; Thu, 02 Jul 2026 01:35:48 +0200 (CEST)
+	id B6A8E480038; Thu, 02 Jul 2026 01:35:48 +0200 (CEST)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Thu, 02 Jul 2026 01:35:40 +0200
-Subject: [PATCH v9 02/38] phy: rockchip: usbdp: Update mode_change after
- error handling
+Date: Thu, 02 Jul 2026 01:35:45 +0200
+Subject: [PATCH v9 07/38] phy: rockchip: usbdp: Handle
+ rk_udphy_reset_deassert_all errors in init check
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260702-rockchip-usbdp-cleanup-v9-2-e31efbb62d2e@collabora.com>
+Message-Id: <20260702-rockchip-usbdp-cleanup-v9-7-e31efbb62d2e@collabora.com>
 References: <20260702-rockchip-usbdp-cleanup-v9-0-e31efbb62d2e@collabora.com>
 In-Reply-To: <20260702-rockchip-usbdp-cleanup-v9-0-e31efbb62d2e@collabora.com>
 To: Vinod Koul <vkoul@kernel.org>, 
@@ -66,70 +66,64 @@ Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>,
  Sebastian Reichel <sebastian.reichel@collabora.com>, 
  Sashiko <sashiko-bot@kernel.org>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1789;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1517;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=USg1ohYmbXwetA6mCilQyNqt0XA2ZTz/AW7yPMSqQVI=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpFpFMq3VxFSuS4Ma1Lt152t5BdszIUcdWc+
- ZVpFAlNXfsLxIkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqRaRTAAoJENju1/PI
- O/qaDikP/3Hp0K7+8dnll+T8WVi8FuI7a6kMEpsc+LUXnFnafyiWNdrq1E0jdkJ7rZeAJb2LI1/
- 3m4BFSQiHoCJeiZbtnK1Jensg4iOO/SgEikMnGWK5jq7wKX2BkNpZ9F/VLjCDGHfBM6sTyjq3dg
- d1DCtQDa5kdDe+W9uCLz1pYwnVs1Z63BSJds+c1dPkFUtS8xphSnQmf1OFiOloIv520dq+Bp0BW
- o0l6eV4qm14UIA81QGtjvF5CK9cI7qKDPP5LxYu2JhLg8E4kaIaY5KEYsmGfkdFH1e0UmEGnigs
- xrGC5T4QDcUQ7VVeeesXoOOtrNy3TpFUJ6LoBkG1ZCTZxGGmhPBUbl8SC8N/amORr0g7PuPBAya
- KKWdnaUdmQSdNbzPhcCo6yhJHIyWxWQhd1gURJdXHXZuXly6PRlr61hrU8Fq3cSobv3juKGFxRo
- WCTPtqBQ7AUd7E3ovD4xmAx44QSY4rpwIBrlOePUOQ84nizlyv48UpYO0CRuTGo55BAkB5DdUnN
- TJ+aMbl71BDoSvL9Owo2qNT9jpe1HpVYievYCvy7i7bWYh+AXflxPoLIN/vERCAs6Tkt56i7sWv
- Qg6Ru/k+hZK/CPQu466cSuDxvGWr091tGm3vv2MjCX3QINsEXNhcVtd1SA3LABsPyGKS20u2ZKq
- 79Bzp69NQ8n3JlYMZ6zwoQA==
+ bh=sJkpHjMyuCGBTTW/sZnTUenvlYuEyw8qh8/75W4WtnE=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpFpFPrXvh6h4GZvVQ4XGt+B6pO5w2YFi/GQ
+ oy0QE5siocC2YkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqRaRTAAoJENju1/PI
+ O/qayYAP/3mQX+qsa2b4h99CO0vht9+TBZXe0q/8BGIhtpea+a/YVhFmP+a4QfzJm1H7o3Wk9Wq
+ V+YYTpLwj6siE/3wG9t98bC28oTxudrVJTF2pWK51jrj6jbuBbn57RjCxbStC5vfjRPST3Xw5Vd
+ 8sUfQYp22Vyo3X1/jFL8E0FoTbFz1rvoTznj6Ax2Kakk96mDScD3LXkX1LfoWYChRg+k7uhxVG9
+ slGyyZWbsn7Qye3HrrDyx7y9A0YMsAEZyKvGVWHXoERDhLiNLpam9v6lgfcRd31xqBoXHi9xH+p
+ HA8fVoXo2OO9LeUnbdWItdlp60O5sTidPi84ri/NgjINTKcdsA1rLlGNkodzdIxFvpxXtbpirwa
+ YaktvS2DV5GaWe3RH0L4g6hiRwkU9mWKuIgF+QbKsLGgQDqeOTtctg8RLRzc8boC5t+p1Y8rolC
+ 0gw+XnMV1R0lW4zgBGLbknf55wcb/J/tNvvK1fDv6ZSsAHpu6tpatub0qpPGzRYxvRJTCttshXp
+ yoi7ohP2Rfu2w+pJopo/lAaYNuaRUvlPSpaC0iJc+qmtr+0vHJOiBKw+buH7Nm5ZMUUB1dQdyqD
+ uI9du6dCYBHK3XD64K+jHyOAGQmyHekD+R0s/HH13l/CeJIbnVyB8sLZSLdKSvII3mAmBRj8+3d
+ HcTerCjBXjVS2cbuGw8UzLQ==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-If rk_udphy_init() or rk_udphy_setup() fails, the reinit will not be
-tried again. Fix this by only updating the variable after all potential
-errors have been handled.
-
-Note, that no errors have been seen on real hardware and failures would
-most likely be fatal and require at least a full reboot as the function
-already asserts the PHY reset lines. So this is more of a theoretical
-issue.
+Fix theoretical issue, that failure to deassert the reset lines would
+result in an SError in follow-up register access. Note, that this cannot
+happen with current code, since the Rockchip reset driver never returns
+any errors for (de)asserting reset lines.
 
 Fixes: 2f70bbddeb45 ("phy: rockchip: add usbdp combo phy driver")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/linux-phy/20260612163835.8D5471F000E9@smtp.kernel.org/
+Closes: https://sashiko.dev/#/message/20260619154903.2225A1F000E9%40smtp.kernel.org
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/phy/rockchip/phy-rockchip-usbdp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/phy/rockchip/phy-rockchip-usbdp.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-index fba35510d88c..a5ffdf7a6e76 100644
+index d73455370113..5d0e4f82de2f 100644
 --- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
 +++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-@@ -1000,15 +1000,14 @@ static int rk_udphy_power_on(struct rk_udphy *udphy, u8 mode)
+@@ -936,7 +936,9 @@ static int rk_udphy_get_initial_status(struct rk_udphy *udphy)
+ 		return ret;
  	}
  
- 	if (udphy->status == UDPHY_MODE_NONE) {
--		udphy->mode_change = false;
- 		ret = rk_udphy_setup(udphy);
- 		if (ret)
- 			return ret;
+-	rk_udphy_reset_deassert_all(udphy);
++	ret = rk_udphy_reset_deassert_all(udphy);
++	if (ret)
++		goto exit;
  
- 		if (udphy->mode & UDPHY_MODE_USB)
- 			rk_udphy_u3_port_disable(udphy, false);
--	} else if (udphy->mode_change) {
- 		udphy->mode_change = false;
-+	} else if (udphy->mode_change) {
- 		udphy->status = UDPHY_MODE_NONE;
- 		if (udphy->mode == UDPHY_MODE_DP)
- 			rk_udphy_u3_port_disable(udphy, true);
-@@ -1017,6 +1016,7 @@ static int rk_udphy_power_on(struct rk_udphy *udphy, u8 mode)
- 		ret = rk_udphy_setup(udphy);
- 		if (ret)
- 			return ret;
-+		udphy->mode_change = false;
+ 	regmap_read(udphy->pma_regmap, CMN_LANE_MUX_AND_EN_OFFSET, &value);
+ 	if (FIELD_GET(CMN_DP_LANE_MUX_ALL, value) && FIELD_GET(CMN_DP_LANE_EN_ALL, value)) {
+@@ -946,9 +948,10 @@ static int rk_udphy_get_initial_status(struct rk_udphy *udphy)
+ 		msleep(100);
  	}
  
- 	udphy->status |= mode;
++exit:
+ 	rk_udphy_disable(udphy);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int rk_udphy_parse_dt(struct rk_udphy *udphy)
 
 -- 
 2.53.0
