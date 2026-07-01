@@ -1,37 +1,67 @@
-Received: from mx4.wp.pl (mx4.wp.pl [212.77.101.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953452C11E4
-	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 21:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.77.101.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C3339934C
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 21:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782940377; cv=none; b=PI+sQMFlaIJs4cBw+D1r5ZoGk6JSdpZYkSbXRZyHV5ZJw/T0W2ZSp0/xVVT24mgw0LLDxdJMlI6W8WgDUu1wO26wMwP54+tIU+Tehb2upD1wELOOVqfZxZO0Uo1aCfSIRf4ssphu3BqGycwVrFDgarzB7EXA3T4AoPwbfc50a4Q=
+	t=1782942553; cv=none; b=sYLgei6wc9/9Mv8+N2FcciwZ9uFcVD024l3oUPXNl/NQYLMMsQ/oPnOnlboYP4xtWmma4Wjg+ye7IY/OUS7gXCY2eFb2JtbdRvlsC759j5346/NFxEuPJjs5MIRDK41adEc+c/fdqalHKBU+eioq98Se+PJmpBpGPPRGB2k4pHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782940377; c=relaxed/simple;
-	bh=8LYqQzpLG09bfqLEtTjv93/ItDF0KoR263B1JWwqryo=;
+	s=arc-20240116; t=1782942553; c=relaxed/simple;
+	bh=+RvLpdIWlkp7Qw6oqN0VEiCWZVnLi9JEW+RoRI/aOC8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hpfn9TaEiWy5MFsl6EDt3mpNB/+4Yg2EfTh3i34+oFVWs49q51PaJre2W4Prt41H4xVVQggAnJMOTfSpe3AJIfDrX2wrkU1gEiFjt6Uv6VjL5A54e87qclHjszXj7V+2DKPYc/lj4hTx3mtMZ7m87Ps6dUgTkHrCIXOU7lD44M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl; spf=pass smtp.mailfrom=wp.pl; dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b=BEw+sOu4; arc=none smtp.client-ip=212.77.101.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wp.pl
+	 In-Reply-To:Content-Type; b=KMI97vwd6zTLZTp1DHd26xwZzLJM8ll+HbH0TzTbTUudezw7MKZh5OIvIX4Hx5FmwhmD/02Nbluma+4kkYJnOpqnVlJMRqeo0VaD7YofBEbyfBKaJbHn47D22VZdjGrFFwK9ICXdyP3GHZJ/SiNjpwxqOYGot1TeLFlNVbnuzVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=leE38UQu; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b="BEw+sOu4"
-Received: (wp-smtpd smtp.wp.pl 8947 invoked from network); 1 Jul 2026 23:06:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wp.pl; s=20241105;
-          t=1782939968; bh=nxIp2ejdqDSCnNtY6qeUSmOQz7mNR1tzuNm8WC9oE+A=;
-          h=Subject:To:Cc:From;
-          b=BEw+sOu4abFD2lmkpCivxz2cYXGtPpO45S2HhDa3W8+6iqdY4ok0QP/XcBeE4WQ6n
-           iQL3Ab8zKCKIHUArI0tKsx0KUWkIzX1Rv+qPmo6GL3XBsWIGDCYV9BfWIOdjH2Sb9j
-           x4hRjpMyuEmAEyg0s3K8XLCN3NCXKGDapTH99Q6NkTT/reIQ9auDRvDRM9EsLpAkYA
-           Roo2Hwnz3bN+YuvSciIYgERN2cHfe3kBzMLXfbLCVa2GjvjPjbB3+Q3N8gxjz7e6/q
-           rc9yRzNKYzLaZDbT8wjLNf9vljuN77b8RkgNwYCCSb7qLSxkNNw0MVIZ5jfybx6lbC
-           i76e6m31it3JA==
-Received: from 83.5.235.152.ipv4.supernova.orange.pl (HELO [192.168.3.246]) (olek2@wp.pl@[83.5.235.152])
-          (envelope-sender <olek2@wp.pl>)
-          by smtp.wp.pl (WP-SMTPD) with TLS_AES_256_GCM_SHA384 encrypted SMTP
-          for <mail@birger-koblitz.de>; 1 Jul 2026 23:06:08 +0200
-Message-ID: <8c0381cc-3612-4ddf-85ed-df09bd0a9dbe@wp.pl>
-Date: Wed, 1 Jul 2026 23:06:07 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="leE38UQu"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c85c531d4a9so530477a12.2
+        for <linux-usb@vger.kernel.org>; Wed, 01 Jul 2026 14:49:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782942551; x=1783547351; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BclWnKbR9DeJaPkRvBhDEXzil7VstZzrzDQKrVM+tko=;
+        b=leE38UQufsO8PxaEr3k/XchLDnx4Ol2mNyfpo/XEa8/rlF7UTix/zTIYbJCaKpISMy
+         CoPXY+vlqbOGsTIcLXwRRp7K/SeUXLLx2A9XZon3bG6AOhdFzK0ASQ5BuTmLjUbq5K6w
+         8RJWMkbUk8I6lOwsiPRwOKoxPA9MBqr2wprrxBY0rxWrd/+laRdQA2/pYTdwBuC0FfNP
+         lHhNepeYJHuF6CxZoWkQjko2k6Fa6pyjN++6GyNaTVrtrlm+qOQpxxGYI8zmAsOzoqJ3
+         /1JqCoMM6/+K8bXMJwZnnzDRAksn2wbIat9hrY6AbaKZC9S0hPahz1QmXlwUr5ghuVh+
+         kcaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782942551; x=1783547351;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BclWnKbR9DeJaPkRvBhDEXzil7VstZzrzDQKrVM+tko=;
+        b=rY+unSSQh/3Zek2AwrsqJwwhyyWW9MmbtmKTRd/PiriSe49ooRWF9qXKCX0HsaVfzm
+         oLEQLQLARxj/b+UmqJY8ZDt3tDPKlmGjjZsaZ4RAVSH53jfY0m5eaEqNOjleZDj3E6Fx
+         utddTN5QrvTeUits2n8qNNCXL3tkXH0QfLnRlsl38mr1vx8NsQT1hJn88tv6xhocJb6+
+         A36MLaCamaPlSNR5IbEKbIie8ED522BkBXUBHH3XoSHEEBKiv92PDPtsaPEKfL4T2eXB
+         UVdGXZoj2RmgVVueVykVMJcYwtSftmmnjiwl2o0sgJkijADTsKPZ1hUlU5LUESHyN/Zb
+         sPhw==
+X-Forwarded-Encrypted: i=1; AFNElJ+AOlelWVufGED7aIoGnWErnmWi8Vqyp/FsyuSenPBpczsHqLg8jY5Tb9GsXLfrtRMz0TM2CsjSLg0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0ieiBqvXy0jCkRP6Y4rDzUqKDltU44sYQZFC2hUd8rOzC9DHH
+	H3t2gFKag/XTC0yegul2aYwEGwzfk+QcM6VJ01p7pD1NRMuzAv7NJEj92NJY+e77KA==
+X-Gm-Gg: AfdE7clldggPixo0haVUb+hT1VrNNDBuu5xYsFMEYX4rBl7FGXSDBHuXU8ijmBoij1O
+	abLYxLrp/KTVp7v8emBqjFUcnIVcTvCYSL47p+SgYGBXAvupEWa5N3dNSLSRsYKvkNvQdciEr9E
+	+CN+7YJTt87ojMMHODxDzRj7zhyKvPgDMgj1j3YcLJU94rDeVo0R/yccS/cQeBTL+P+ViHp6zU5
+	fjV1sTBiVuFqCrScV8HX5STEuxP5pFJFwpQtl/Pxjgjheii9taStN/tRcORxmP0QNcj+6K1SGng
+	PimYO7PpljwT6nu+bttaNg+rbwF4+RhyopW1cPuuORYUIdL26IwgKSsmr5meaRDkwnrHeCm+Vjl
+	jkeA9NfguA7vskpksrWKRfR97n2VBnPR72mZg0KopWu3otIRdNpeyzBnSDPuhRY0wfQNapAz6E+
+	4F6RwH/d/idUh8ilpBz1uLLbTf6h8FAgJ4ZIoHo95ytIU+XZN+QSWxbykPMrwKRsgGgTNvhRNeU
+	cLjR8tpRXlWbPKXkOK2npQSYjgATmJ9WTExyVLRV1oOJpl357v2tgMI4A==
+X-Received: by 2002:a05:6a21:4c08:b0:3bf:6e72:68f9 with SMTP id adf61e73a8af0-3bfed3e923amr3498778637.38.1782942550808;
+        Wed, 01 Jul 2026 14:49:10 -0700 (PDT)
+Received: from ?IPV6:2a00:79e0:2e7c:8:abdb:65e7:c3c7:ef4d? ([2a00:79e0:2e7c:8:abdb:65e7:c3c7:ef4d])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b3c85b345sm2195106c88.10.2026.07.01.14.49.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Jul 2026 14:49:10 -0700 (PDT)
+Message-ID: <06c52f85-cf0b-40a7-a93a-c366ced29216@google.com>
+Date: Wed, 1 Jul 2026 14:49:08 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -39,33 +69,323 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: RTL8159 firmware
-To: Birger Koblitz <mail@birger-koblitz.de>, Andrew Lunn <andrew@lunn.ch>
-Cc: Jan Hendrik Farr <kernel@jfarr.cc>, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, hsu.chih.kai@realtek.com,
- kuba@kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, pabeni@redhat.com
-References: <20260505-rtl8159_net_next-v4-3-1a648a9c4d8d@birger-koblitz.de>
- <20260701171327.2916132-1-kernel@jfarr.cc>
- <5dc0e654-0bdb-422c-9049-94ee6d8867e4@birger-koblitz.de>
- <8f349e00-1710-428d-8c70-5d1b1f4d42f3@lunn.ch>
- <6677d82e-2b8c-4173-ba6d-6743a5059bc1@birger-koblitz.de>
-Content-Language: pl
-From: Aleksander Jan Bajkowski <olek2@wp.pl>
-In-Reply-To: <6677d82e-2b8c-4173-ba6d-6743a5059bc1@birger-koblitz.de>
+Subject: Re: [PATCH v4 2/2] usb: typec: tcpm: Add support for Battery Status
+ response message
+To: Sebastian Reichel <sre@kernel.org>,
+ Badhri Jagan Sridharan <badhri@google.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans de Goede <hansg@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+ Purism Kernel Team <kernel@puri.sm>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, =?UTF-8?Q?Andr=C3=A9_Draszik?=
+ <andre.draszik@linaro.org>, Tudor Ambarus <tudor.ambarus@linaro.org>,
+ Peter Griffin <peter.griffin@linaro.org>, RD Babiera <rdbabiera@google.com>,
+ Kyle Tso <kyletso@google.com>
+References: <20260701-batt-status-v4-0-a31d97b1ae57@google.com>
+ <20260701-batt-status-v4-2-a31d97b1ae57@google.com>
+Content-Language: en-US
+From: Amit Sunil Dhamne <amitsd@google.com>
+In-Reply-To: <20260701-batt-status-v4-2-a31d97b1ae57@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-WP-MailID: fb1e7a58e08da6673ff10da37636e03b
-X-WP-AV: skaner antywirusowy Poczty Wirtualnej Polski
-X-WP-SPAM: NO 0000000 [8dPM]                               
 
-Hi Birger,
-Realtek recently released firmware for the RTL8261C[1]. I expect
-the RTL8159 has an RTL8261x PHY built in. Do you know whether
-the RTL8159 firmware consists only the PHY firmware?
 
-1. 
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/rtl_nic/rtl8261c.bin
+On 6/30/26 5:34 PM, Amit Sunil Dhamne via B4 Relay wrote:
+> From: Amit Sunil Dhamne <amitsd@google.com>
+>
+> Add support for responding to a Get_Battery_Status request with a
+> Battery_Status message. The port partner shall request the status of a
+> port's battery by providing an index in the Get_Battery_Status AMS. In
+> case of failure to identify the battery, the port shall reply with an
+> appropriate message indicating so.
+>
+> Support for Battery_Status message is required for sinks that contain
+> battery as specified in USB PD Rev3.1 v1.8
+> ("Applicability of Data Messages" section).
+>
+> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
+> Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
 
-Best regards,
-Aleksander
+Unfortunately, I forgot to add Heikki's ack [1] . In case I have to send 
+a new revision and this tcpm patch looks okay, I will add the Ack.
+
+
+[1] https://lore.kernel.org/all/aiLHSlkdw_BAO6c_@kuha/
+
+
+Thanks,
+
+Amit
+
+> ---
+>   drivers/usb/typec/tcpm/tcpm.c | 135 +++++++++++++++++++++++++++++++++++++++++-
+>   include/linux/usb/pd.h        |  29 +++++++++
+>   2 files changed, 161 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 7ef746a90a17..19daa17917a7 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -232,7 +232,8 @@ enum pd_msg_request {
+>   	PD_MSG_DATA_SINK_CAP,
+>   	PD_MSG_DATA_SOURCE_CAP,
+>   	PD_MSG_DATA_REV,
+> -	PD_MSG_EXT_SINK_CAP_EXT
+> +	PD_MSG_EXT_SINK_CAP_EXT,
+> +	PD_MSG_DATA_BATT_STATUS
+>   };
+>   
+>   enum adev_actions {
+> @@ -389,6 +390,14 @@ struct pd_timings {
+>   /* Convert microwatt to watt */
+>   #define UW_TO_W(pow)					((pow) / 1000000)
+>   
+> +/*
+> + * As per USB PD Spec Rev 3.18 (Sec. 6.5.13.11), the number of fixed batteries
+> + * that a port can be queried is restricted to 4.
+> + */
+> +#define MAX_NUM_FIXED_BATT				4
+> +
+> +#define BATTERY_PROPERTY_UNKNOWN			0xffff
+> +
+>   /*
+>    * struct pd_identifier - Contains info about PD identifiers
+>    * @vid: Vendor ID (assigned by USB-IF)
+> @@ -683,6 +692,9 @@ struct tcpm_port {
+>   
+>   	struct pd_identifier pd_ident;
+>   	struct sink_caps_ext_data sink_caps_ext;
+> +	struct power_supply **fixed_batt;
+> +	u32 fixed_batt_cnt;
+> +	u32 batt_request_id;
+>   #ifdef CONFIG_DEBUG_FS
+>   	struct dentry *dentry;
+>   	struct mutex logbuffer_lock;	/* log buffer access lock */
+> @@ -1470,6 +1482,20 @@ static int tcpm_pd_send_sink_caps(struct tcpm_port *port)
+>   	return tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
+>   }
+>   
+> +static void tcpm_get_fixed_batt(struct tcpm_port *port)
+> +{
+> +	int ret;
+> +
+> +	if (!port->self_powered || port->fixed_batt_cnt > 0)
+> +		return;
+> +
+> +	ret = power_supply_get_system_batteries(port->dev, &port->fixed_batt);
+> +	if (ret < 0)
+> +		tcpm_log(port, "Failed to get battery array, ret=%d", ret);
+> +	else
+> +		port->fixed_batt_cnt = ret;
+> +}
+> +
+>   static int tcpm_pd_send_sink_cap_ext(struct tcpm_port *port)
+>   {
+>   	u16 operating_snk_watt = port->operating_snk_mw / 1000;
+> @@ -1482,6 +1508,8 @@ static int tcpm_pd_send_sink_cap_ext(struct tcpm_port *port)
+>   	if (!port->self_powered)
+>   		data->spr_op_pdp = operating_snk_watt;
+>   
+> +	tcpm_get_fixed_batt(port);
+> +
+>   	/*
+>   	 * SPR Sink Minimum PDP indicates the minimum power required to operate
+>   	 * a sink device in its lowest level of functionality without requiring
+> @@ -1507,6 +1535,7 @@ static int tcpm_pd_send_sink_cap_ext(struct tcpm_port *port)
+>   	skedb.load_step = data->load_step;
+>   	skedb.load_char = cpu_to_le16(data->load_char);
+>   	skedb.compliance = data->compliance;
+> +	skedb.batt_info = min(port->fixed_batt_cnt, MAX_NUM_FIXED_BATT);
+>   	skedb.modes = data->modes;
+>   	skedb.spr_min_pdp = data->spr_min_pdp;
+>   	skedb.spr_op_pdp = data->spr_op_pdp;
+> @@ -1525,6 +1554,88 @@ static int tcpm_pd_send_sink_cap_ext(struct tcpm_port *port)
+>   					   port->message_id,
+>   					   data_obj_cnt,
+>   					   1 /* Denotes if ext header */));
+> +
+> +	return tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
+> +}
+> +
+> +static int tcpm_pd_send_batt_status(struct tcpm_port *port)
+> +{
+> +	u16 present_charge = BATTERY_PROPERTY_UNKNOWN;
+> +	bool batt_present = false, invalid_ref = true;
+> +	u32 batt_id = port->batt_request_id;
+> +	union power_supply_propval val;
+> +	struct power_supply *batt;
+> +	u8 charging_status = 0;
+> +	struct pd_message msg;
+> +	int ret, charge_now;
+> +	u64 energy_now;
+> +	u32 bsdo;
+> +
+> +	tcpm_get_fixed_batt(port);
+> +	memset(&msg, 0, sizeof(msg));
+> +
+> +	if (batt_id >= port->fixed_batt_cnt || batt_id >= MAX_NUM_FIXED_BATT)
+> +		goto send_status;
+> +
+> +	invalid_ref = false;
+> +	batt = port->fixed_batt[batt_id];
+> +	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_PRESENT, &val);
+> +	if (ret)
+> +		tcpm_log(port,
+> +			 "Failed to fetch power_supply_prop_present ret %d",
+> +			 ret);
+> +	else
+> +		batt_present = val.intval > 0;
+> +
+> +	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_NOW,
+> +					&val);
+> +	if (!ret) {
+> +		charge_now = val.intval;
+> +
+> +		ret = power_supply_get_property(batt,
+> +						POWER_SUPPLY_PROP_VOLTAGE_AVG,
+> +						&val);
+> +		if (!ret) {
+> +			energy_now = ((u64)charge_now * val.intval) / 1000000;
+> +
+> +			/*
+> +			 * Battery Present Charge is reported in
+> +			 * increments of 0.1WH.
+> +			 */
+> +			present_charge = (u16)UW_TO_W(energy_now * 10);
+> +		}
+> +	}
+> +
+> +	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_STATUS, &val);
+> +	if (!ret) {
+> +		switch (val.intval) {
+> +		case POWER_SUPPLY_STATUS_CHARGING:
+> +			charging_status = BSDO_BATTERY_INFO_CHARGING;
+> +			break;
+> +		case POWER_SUPPLY_STATUS_DISCHARGING:
+> +			charging_status = BSDO_BATTERY_INFO_DISCHARGING;
+> +			break;
+> +		case POWER_SUPPLY_STATUS_NOT_CHARGING:
+> +		case POWER_SUPPLY_STATUS_FULL:
+> +			charging_status = BSDO_BATTERY_INFO_IDLE;
+> +			break;
+> +		default:
+> +			charging_status = BSDO_BATTERY_INFO_RSVD;
+> +			break;
+> +		}
+> +	}
+> +
+> +send_status:
+> +
+> +	bsdo = BSDO(present_charge, charging_status, batt_present, invalid_ref);
+> +	msg.payload[0] = cpu_to_le32(bsdo);
+> +	msg.header = PD_HEADER_LE(PD_DATA_BATT_STATUS,
+> +				  port->pwr_role,
+> +				  port->data_role,
+> +				  port->negotiated_rev,
+> +				  port->message_id,
+> +				  1);
+> +
+>   	return tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
+>   }
+>   
+> @@ -3886,6 +3997,7 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
+>   {
+>   	enum pd_ext_msg_type type = pd_header_type_le(msg->header);
+>   	unsigned int data_size = pd_ext_header_data_size_le(msg->ext_msg.header);
+> +	const struct pd_chunked_ext_message_data *ext_msg = &msg->ext_msg;
+>   
+>   	/* stopping VDM state machine if interrupted by other Messages */
+>   	if (tcpm_vdm_ams(port)) {
+> @@ -3894,7 +4006,7 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
+>   		mod_vdm_delayed_work(port, 0);
+>   	}
+>   
+> -	if (!(le16_to_cpu(msg->ext_msg.header) & PD_EXT_HDR_CHUNKED)) {
+> +	if (!(le16_to_cpu(ext_msg->header) & PD_EXT_HDR_CHUNKED)) {
+>   		tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
+>   		tcpm_log(port, "Unchunked extended messages unsupported");
+>   		return;
+> @@ -3919,9 +4031,17 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
+>   					     NONE_AMS, 0);
+>   		}
+>   		break;
+> +	case PD_EXT_GET_BATT_STATUS:
+> +		if (data_size >= 1) {
+> +			port->batt_request_id = ext_msg->data[0];
+> +			tcpm_pd_handle_msg(port, PD_MSG_DATA_BATT_STATUS,
+> +					   GETTING_BATTERY_STATUS);
+> +		} else {
+> +			tcpm_set_state(port, SOFT_RESET_SEND, 0);
+> +		}
+> +		break;
+>   	case PD_EXT_SOURCE_CAP_EXT:
+>   	case PD_EXT_GET_BATT_CAP:
+> -	case PD_EXT_GET_BATT_STATUS:
+>   	case PD_EXT_BATT_CAP:
+>   	case PD_EXT_GET_MANUFACTURER_INFO:
+>   	case PD_EXT_MANUFACTURER_INFO:
+> @@ -4132,6 +4252,14 @@ static bool tcpm_send_queued_message(struct tcpm_port *port)
+>   					 ret);
+>   			tcpm_ams_finish(port);
+>   			break;
+> +		case PD_MSG_DATA_BATT_STATUS:
+> +			ret = tcpm_pd_send_batt_status(port);
+> +			if (ret)
+> +				tcpm_log(port,
+> +					 "Failed to send battery status ret=%d",
+> +					 ret);
+> +			tcpm_ams_finish(port);
+> +			break;
+>   		default:
+>   			break;
+>   		}
+> @@ -8633,6 +8761,7 @@ void tcpm_unregister_port(struct tcpm_port *port)
+>   	hrtimer_cancel(&port->vdm_state_machine_timer);
+>   	hrtimer_cancel(&port->state_machine_timer);
+>   
+> +	power_supply_put_system_batteries(port->fixed_batt, port->fixed_batt_cnt);
+>   	tcpm_reset_port(port);
+>   
+>   	tcpm_port_unregister_pd(port);
+> diff --git a/include/linux/usb/pd.h b/include/linux/usb/pd.h
+> index 337a5485af7c..afb9c2c65588 100644
+> --- a/include/linux/usb/pd.h
+> +++ b/include/linux/usb/pd.h
+> @@ -724,4 +724,33 @@ void usb_power_delivery_unlink_device(struct usb_power_delivery *pd, struct devi
+>   
+>   #endif /* CONFIG_TYPEC */
+>   
+> +/* Battery Status Data Object */
+> +#define BSDO_PRESENT_CAPACITY				GENMASK(31, 16)
+> +#define BSDO_CHG_STATUS					GENMASK(11, 10)
+> +#define BSDO_BATTERY_PRESENT				BIT(9)
+> +#define BSDO_INVALID_BATTERY_REFERENCE			BIT(8)
+> +
+> +/*
+> + * Battery Charge Status: Battery Charging Status Values as defined in
+> + * "USB PD Spec Rev3.1 Ver1.8", "Table 6-46 Battery Status Data Object (BSDO)".
+> + */
+> +#define BSDO_BATTERY_INFO_CHARGING			0x0
+> +#define BSDO_BATTERY_INFO_DISCHARGING			0x1
+> +#define BSDO_BATTERY_INFO_IDLE				0x2
+> +#define BSDO_BATTERY_INFO_RSVD				0x3
+> +
+> +/**
+> + * BSDO() - Pack data into Battery Status Data Object format.
+> + * @batt_charge: Battery's present state of charge in 0.1WH increment.
+> + * @chg_status: Battery charge status.
+> + * @batt_present: Indicates that battery is present/attached when set else absent when unset.
+> + * @invalid_ref: Indicates that an invalid battery reference was made in the Get_Battery_Status
+> + *		 request.
+> + */
+> +#define BSDO(batt_charge, chg_status, batt_present, invalid_ref)	\
+> +	((FIELD_PREP(BSDO_PRESENT_CAPACITY, batt_charge)) |		\
+> +	 (FIELD_PREP(BSDO_CHG_STATUS, chg_status)) |			\
+> +	 ((batt_present) ? BSDO_BATTERY_PRESENT : 0) |			\
+> +	 ((invalid_ref) ? BSDO_INVALID_BATTERY_REFERENCE : 0))
+> +
+>   #endif /* __LINUX_USB_PD_H */
+>
