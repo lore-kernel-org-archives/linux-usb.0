@@ -1,168 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66EF129C328;
-	Wed,  1 Jul 2026 13:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABD8239E60
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 13:52:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782911362; cv=none; b=bI0knEYmBo1MQP1gfmsWcIXJhfESM1vhFxfCelQu9mrlccKfD3suBe4PeeVJz+C7ezaXt+tpNz1U361B27vSyjySUai3Pe0t/4z7zqEWVQN4Yr/6DVdFNnGNGcsTirVt6QCBVSmTSCTDkzr9YDllb5p0KfiOhT5wFirVmVZL5k4=
+	t=1782913974; cv=none; b=siLE1cEZ4lL7VpTIJJVKzf03CfTvpqVSiWtRlsOCgW4g0ITwFATD+SWABwScZ+Vuhd/lbKTWss843EqfSru4VKBmK8hMbwB+pW7A8Hrl73WZhRszf1mfjB9q7zzzKsrW3E73mGZfcEHmaBjTFqX+VND01gwF4R0mtL4uHh0wpvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782911362; c=relaxed/simple;
-	bh=sVPulzg6dvlJF0TztIyU5HRPH5yAypF4/PhM3TE790I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CR5VZCwH2HucykgINij9Pz16g4jVdYCHNZAYQ58qpInHsYPUHZF+7Uw4/VeikCMEn/J1j8QB/W4lfSeu6itr+rQXRNGUwmeVbAweYgQ8BBXUEVoIDJ3YqQCz5v3ml0R3Mpve0DTgd1xkLWITYIuusYgmLGlgGy2wkO57XwCEQlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GGldDWVY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1782913974; c=relaxed/simple;
+	bh=VVSXIIR3px1e2hDyjuXFnL21E3+wgrQQQJP7zM5p0Cc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MoDdahzvFRLqGup/u30vAdoJ/zl86BSwcIMpvFVRmv5SteQ5/7589EUR20qadK9n11RY9wOgBBFacw0LAsIk3LESEPq3hJEfp8cEd4gQ93BeW4E8Nr1e8gIZU/NXWUsr3NbKN+YSxL8dS7eMoPWNTXUG1ymFs5x1u69laC787Hw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=QD/Ot8H8; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GGldDWVY"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EDD15C2BCB8;
-	Wed,  1 Jul 2026 13:09:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1782911362;
-	bh=sVPulzg6dvlJF0TztIyU5HRPH5yAypF4/PhM3TE790I=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=GGldDWVYO1543Zcet4g43Gelxq3yXzEUBc9UA6LaQCFhUBBQy1xojutHOdyksqbz8
-	 MuxCLaXXnaE0S6bt3ftF88Dvog82rL/NrHIDKd0/wHZTAoHjsPJsEreR9xYCpQGIL9
-	 qY9T5hSfYrNBXxFczP903JTP4NN9mAxXupgvftYCHZdGU/Xt6M8BkRPum0VasLWRQR
-	 NJteu2+90RyI7O26hBJFpKfSf05iYj6ygtePWKIjFqPSeclBqBuCiVB5O7mJeIdP2m
-	 lD3kZnTrlvnx/XrMtGsG5TeVjTg/vhJ13lSxXFF4o8IdtuF0EgSEt8XlZdrIPIBAE6
-	 MzF8jEslOIU0Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E48C3C43458;
-	Wed,  1 Jul 2026 13:09:21 +0000 (UTC)
-From: Enrico Pozzobon via B4 Relay <devnull+enrico.pozzobon.dissecto.com@kernel.org>
-Date: Wed, 01 Jul 2026 15:09:17 +0200
-Subject: [PATCH net v2] net: usb: lan78xx: disable VLAN filter in
- promiscuous mode
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="QD/Ot8H8"
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ee88fce476so6017666d6.0
+        for <linux-usb@vger.kernel.org>; Wed, 01 Jul 2026 06:52:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1782913972; x=1783518772; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=b9jTQNUhONnvzwaACiiAR+1wKZIRO/byslWAp9/FPB8=;
+        b=QD/Ot8H8b+J1nzR23ZB6mSmefh/5lUC/lIMBBWF3/8OUP5cx66iqRiKbIMRDpHAxNW
+         mBJJm9n77X3ulIYno/6ycLbu+2KfTg9mylwVzQ3PgXH6bYQLOr+AdjT92SSub84dsA0q
+         rIDmG7+E9IaPZUlp5hHsHEWNNV8U5pKu6Iqu626bJCNhXVMw2wA2hbn8teuVKR5Xv9vz
+         qlr4JMhatlQ++8H7x3S+AbzBPT3ySzkzhVsXtqknaajDx+MOWeiw5iypx8zUSCmaEflP
+         RU5+3IotssNlsI+vCHiWgl9EqD9seRV6jiK6SvqEwa/Dy6Md7/Xjh15DPCuoRljEVtvM
+         Dw0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782913972; x=1783518772;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b9jTQNUhONnvzwaACiiAR+1wKZIRO/byslWAp9/FPB8=;
+        b=hL83/6aHwJ4XuJnRs1d7AU3pQGN2rMAG9yaKOEfl/qeiwHL0F/+k+uf5sk3Ruunfqd
+         vgl2xauYzsFfACQ6X8qIaB6iEYPNuCpyT/KPHkycc5rlrYC52nr0sDwRgDpL20Aaotbv
+         8voJMrVa66rKYvLmz8+t7qW6+BTfmNPAp0QdIT0jtxAOH0VMXdP/MZLX0iw2i5FS4rMX
+         xI83umQ3y22h3ms1CQW4E+9kGGEItwYEDjZufWKtpBoPVkMKCsBEe3JHaQLEhlQONX+L
+         ClC62SkNyJn5o1JaSlXTvndldiXWjcOZHmnnBcfeQSvZGkwUogMjEP82f91mX5PJzWB4
+         Q+Eg==
+X-Forwarded-Encrypted: i=1; AHgh+RpghGAtE4pOm+taEiulIpl2YuO1E9yA2KhnPZW6q+3oK/p3in8OdN9v4/JRAIhoJd7kToSfxaX27N4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2VJmdc650i7H4Mvzo8oSDzlVFV3WzWVUnLZk2pEiVddSYUS3a
+	Og6YdsR18VPOBerTua+2JrMr+LSk8OBbwXO/NBdsaLmOCO4iMEdMmH0AwvqztpSMKQ==
+X-Gm-Gg: AfdE7cn1KcWmFumZUyf6IlxRZD2vGbg+TpNiYVN9pV4ANe6YC+ZS8CxS9p/O4d2TOWJ
+	70j6/tfDkek3gknc1RWqymKePxLDVnSWoZ18EeFZoCZaG7CwWLr0qFca2PtPhOnQC8tbnjq+v8D
+	kxlJ8GSGA+66Ff6Q+ak/8/sGpi1tLCtCSkQsEvRh+8QuE2yl9BPOrpFEkiFugvm5dDC8XRw2y44
+	R5fDn5/RMCGdZ9sPG6ANL5muRmmR7Zg5c6LHzfQ6w/A5BVkxz3Xad+ybjqp8MGVDTyrXixt52dI
+	xp1lfK4ZA/5iP8I7upyxZoQkvLm50Cfl/LhaKGBw3iW/GAxW3Ayv9nLXttWdUqJAZ9DykTy+oYQ
+	dKNXNha1pTtdITYBFbldUulTy4oWdBrlkxhCgyEpjLOgTsVfSopfuHa3QdoSjyBXgTt7U19PAJi
+	VmazZv2a10npInnCCaSqlvkQ0fF+xHZH8=
+X-Received: by 2002:a05:6214:18f:b0:8f1:8737:d794 with SMTP id 6a1803df08f44-8f3c6dc8a06mr15433756d6.16.1782913965137;
+        Wed, 01 Jul 2026 06:52:45 -0700 (PDT)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f35e88a4bfsm22400436d6.8.2026.07.01.06.52.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Jul 2026 06:52:44 -0700 (PDT)
+Date: Wed, 1 Jul 2026 09:52:42 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] usb: host: ohci-dbg: use kmalloc() for print
+ buffer
+Message-ID: <4aa114fd-ec0e-4e7c-ab9c-6e9a327b3cfa@rowland.harvard.edu>
+References: <20260701-b4-usb-v2-0-272807df4b64@kernel.org>
+ <20260701-b4-usb-v2-1-272807df4b64@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260701-lan78xx-vlan-promisc-v2-1-fe3b18066728@dissecto.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22NQQ6CMBBFr0JmbU1pDVRX3sOwKGUqNdKSDjYYw
- t0tsHU3f/L/ewsQRocEt2KBiMmRCz4HcSrA9No/kbkuZxBcVLwSkr21r9U8s5QPNsYwODJMSW2
- Vvihdo4E8HSNaN+/YB3icoDme9GlfaKYNuNV6R1OI312eyr18eCT/70klK5ltLbdXLttO2Xvni
- DIxnE0YoFnX9Qc2Xx2z0gAAAA==
-X-Change-ID: 20260623-lan78xx-vlan-promisc-83af8a48a7ec
-To: Thangaraj Samynathan <Thangaraj.S@microchip.com>, 
- Rengarajan Sundararajan <Rengarajan.S@microchip.com>, 
- UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Woojung.Huh@microchip.com
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Enrico Pozzobon <enrico.pozzobon@dissecto.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3269;
- i=enrico.pozzobon@dissecto.com; h=from:subject:message-id;
- bh=rGcMhaGh8vx4flQNrrguekcQBVNvDJ+Fjwh146Hf4xE=;
- b=owGbwMvMwMX4ocx1yy5WiZWMp9WSGLJcBes6Ff5trmPR/SewrJa5WaaFryTmc/KtZ24fUv6xq
- q3cVLWlk9GYhYGRi0FWTJHl52eBq7P6ssoWmx7UghnEygQyhYGLUwAmIt7MwXBkZ9s+3pLnph2X
- Z+c6tt6+Ei1ixXH62os0vdozEZXPP8w4IBG+8kjqVqXWMFmrF69NtNLYbKanbN+8pUD5TMzxo8r
- HK45n3zgT3n3pwpaUh16STy5b2DqwqBzgF37dZlL2bs1S8R15tQZuoaYWGnl+E1tfTOqO6dd0L4
- z8V6Epm8Tx8kemwskz7MkPZu/frSBrKrBQ+pxTie8dls4ffso5zRd1Sgvil7xosVCYK3RaVHVfy
- 1m9G4Jz5q1nvWvVxirzwTI96+P2lAdFa3ViJMIlGwqq++rWdVnkHnc+q8Cv9kvBYL96rd3GTym/
- /5+O8d1skCNcIG3I9F505vwLEVnuj091+s7pO6R5sE4YAA==
-X-Developer-Key: i=enrico.pozzobon@dissecto.com; a=openpgp;
- fpr=53D697CA0B11F68C9552A59DA3D0B3A0924EA5BB
-X-Endpoint-Received: by B4 Relay for enrico.pozzobon@dissecto.com/default
- with auth_id=836
-X-Original-From: Enrico Pozzobon <enrico.pozzobon@dissecto.com>
-Reply-To: enrico.pozzobon@dissecto.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260701-b4-usb-v2-1-272807df4b64@kernel.org>
 
-From: Enrico Pozzobon <enrico.pozzobon@dissecto.com>
+On Wed, Jul 01, 2026 at 12:41:50PM +0300, Mike Rapoport (Microsoft) wrote:
+> ochi-dbg allocates buffers for formatting of various dump outputs.
+> 
+> These buffers can be allocated with kmalloc() as there's nothing special
+> about them to go directly to the page allocator.
+> 
+> kmalloc() provides a better API that does not require ugly casts and
+> kfree() does not need to know the size of the freed object.
+> 
+> Performance difference between kmalloc() and __get_free_pages() is not
+> measurable as both allocators take an object/page from a per-CPU list for
+> fast path allocations.
+> 
+> For the slow path the performance is anyway determined by the amount of
+> reclaim involved rather than by what allocator is used.
+> 
+> Replace use of get_zeroed_page() with kzalloc() and free_page() with
+> kfree().
+> 
+> While on it, drop the NULL checks in debug_close(). buf is never NULL
+> here because all the open handlers return -ENOMEM when alloc_buffer()
+> fails, and kfree() can handle a NULL buf->page.
+> 
+> Link: https://lore.kernel.org/all/635405e4-9423-4a25-a6e7-e03c8ea0bcbe@redhat.com
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
 
-The hardware VLAN filter (RFE_CTL_VLAN_FILTER_) drops VLAN-tagged frames
-whose VID has not been registered via lan78xx_vlan_rx_add_vid(). It is
-left enabled in promiscuous mode, so packet capture (e.g. tcpdump or
-Wireshark) does not see tagged frames for unregistered VIDs.
+Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
 
-Clear the filter while the interface is promiscuous and restore it from
-NETIF_F_HW_VLAN_CTAG_FILTER otherwise. Enforce the same condition in
-lan78xx_set_features() so netdev_update_features() cannot re-enable the
-filter while promiscuous.
+Incidentally, I filtered it out of my reply this time, but on this and 
+previous submissions you have a CC: entry that says <rpppt@kernel.org>, 
+which is an invalid address (three 'p's instead of two).  Is there a 
+typo in one of your scripts or settings?  It's a little surprising that 
+you aren't constantly getting email error messages every time you send 
+something out.
 
-Fixes: 55d7de9de6c3 ("Microchip's LAN7800 family USB 2/3 to 10/100/1000 Ethernet device driver")
-Signed-off-by: Enrico Pozzobon <enrico.pozzobon@dissecto.com>
----
-Currently, on microchip lan7801, enabling promiscuous mode does not
-result in VLAN tagged packets being captured. This patch fixes this,
-forcing the RFE_CTL_VLAN_FILTER_ flag to be off when promiscuous mode is
-enabled.
----
-Changes in v2:
-- moved VLAN filter logic into lan78xx_update_vlan_filter()
-- Link to v1: https://patch.msgid.link/20260630-lan78xx-vlan-promisc-v1-1-fbf0f903bd8f@dissecto.com
+Alan Stern
 
-To: Thangaraj Samynathan <Thangaraj.S@microchip.com>
-To: Rengarajan Sundararajan <Rengarajan.S@microchip.com>
-To: UNGLinuxDriver@microchip.com
-To: Andrew Lunn <andrew+netdev@lunn.ch>
-To: "David S. Miller" <davem@davemloft.net>
-To: Eric Dumazet <edumazet@google.com>
-To: Jakub Kicinski <kuba@kernel.org>
-To: Paolo Abeni <pabeni@redhat.com>
-To: Woojung.Huh@microchip.com
-Cc: netdev@vger.kernel.org
-Cc: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- drivers/net/usb/lan78xx.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index c4cebacabcb5..cb782d81d84f 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -1499,6 +1499,17 @@ static void lan78xx_deferred_multicast_write(struct work_struct *param)
- 	return;
- }
- 
-+static void lan78xx_update_vlan_filter(struct lan78xx_priv *pdata,
-+				       struct net_device *netdev,
-+				       netdev_features_t features)
-+{
-+	if ((features & NETIF_F_HW_VLAN_CTAG_FILTER) &&
-+	    !(netdev->flags & IFF_PROMISC))
-+		pdata->rfe_ctl |= RFE_CTL_VLAN_FILTER_;
-+	else
-+		pdata->rfe_ctl &= ~RFE_CTL_VLAN_FILTER_;
-+}
-+
- static void lan78xx_set_multicast(struct net_device *netdev)
- {
- 	struct lan78xx_net *dev = netdev_priv(netdev);
-@@ -1533,6 +1544,8 @@ static void lan78xx_set_multicast(struct net_device *netdev)
- 		}
- 	}
- 
-+	lan78xx_update_vlan_filter(pdata, dev->net, dev->net->features);
-+
- 	if (netdev_mc_count(dev->net)) {
- 		struct netdev_hw_addr *ha;
- 		int i;
-@@ -3074,10 +3087,7 @@ static int lan78xx_set_features(struct net_device *netdev,
- 	else
- 		pdata->rfe_ctl &= ~RFE_CTL_VLAN_STRIP_;
- 
--	if (features & NETIF_F_HW_VLAN_CTAG_FILTER)
--		pdata->rfe_ctl |= RFE_CTL_VLAN_FILTER_;
--	else
--		pdata->rfe_ctl &= ~RFE_CTL_VLAN_FILTER_;
-+	lan78xx_update_vlan_filter(pdata, netdev, features);
- 
- 	spin_unlock_irqrestore(&pdata->rfe_ctl_lock, flags);
- 
-
----
-base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-change-id: 20260623-lan78xx-vlan-promisc-83af8a48a7ec
-
-Best regards,
---  
-Enrico Pozzobon <enrico.pozzobon@dissecto.com>
-
-
+>  drivers/usb/host/ohci-dbg.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/usb/host/ohci-dbg.c b/drivers/usb/host/ohci-dbg.c
+> index 9e0e06bbc570..23dc9eddc06c 100644
+> --- a/drivers/usb/host/ohci-dbg.c
+> +++ b/drivers/usb/host/ohci-dbg.c
+> @@ -683,7 +683,7 @@ static int fill_buffer(struct debug_buffer *buf)
+>  	int ret;
+>  
+>  	if (!buf->page)
+> -		buf->page = (char *)get_zeroed_page(GFP_KERNEL);
+> +		buf->page = kzalloc(PAGE_SIZE, GFP_KERNEL);
+>  
+>  	if (!buf->page) {
+>  		ret = -ENOMEM;
+> @@ -729,11 +729,8 @@ static int debug_close(struct inode *inode, struct file *file)
+>  {
+>  	struct debug_buffer *buf = file->private_data;
+>  
+> -	if (buf) {
+> -		if (buf->page)
+> -			free_page((unsigned long)buf->page);
+> -		kfree(buf);
+> -	}
+> +	kfree(buf->page);
+> +	kfree(buf);
+>  
+>  	return 0;
+>  }
+> 
+> -- 
+> 2.53.0
+> 
