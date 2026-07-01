@@ -1,111 +1,91 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255B63B6BE5;
-	Wed,  1 Jul 2026 20:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC133AF676;
+	Wed,  1 Jul 2026 20:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782936793; cv=none; b=Cl3K8hsHnd5YzmquaupfWuRWt0KfUQJhI3mskerFPiF/4ZROB+Qzzkyan+HWP1K4e/en438lnLnxawC3j0z2KF8kPmTCjI68NCN+ycP1x8jEeJUKv3mV8MAn90aS1GFJgP/LoGr+2h/l+kCaJ55FO9OPAbGbMR10NEKMYijJ1Zo=
+	t=1782937976; cv=none; b=sb1vdT38c7WPOj7d1kT+aw6A8DKw+t8c9Fh1msAb90s4m6U00IuJJhzGvp0yzgms6R7fzuP2k2qzUYwQ/eLjsuPR2X5NMWw1lhZ3/N0d1kylEbJxShnVHwVSJVlb02R58azjwj54N3Kt8yxR5iZ+wi1whsysaL6L/PIugm+nHZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782936793; c=relaxed/simple;
-	bh=WE2FhaknAo4n3NtD7nj6mt9tS3GXMVcPnpy5fM3zy2o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PaEZeEjiGxo/X+j0c8drrHlgt03adK+Yvv7ItyxqER48ay6NQ5WqqY2g7SQl6t6zmdFBxj8UhUtgo9W+bCYAu43lILI4XjRP148vW6QeRBnvGTgCP+zlMJBnRASJJI8/c68tx8Q+S3dzRJjC+6a25tYINCT/nkQQjqO8xNMsV5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jfarr.cc; spf=pass smtp.mailfrom=jfarr.cc; dkim=pass (2048-bit key) header.d=jfarr.cc header.i=@jfarr.cc header.b=IGnSvqBi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UxiyIjKc; arc=none smtp.client-ip=202.12.124.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jfarr.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jfarr.cc
+	s=arc-20240116; t=1782937976; c=relaxed/simple;
+	bh=qWm9LX37sYO0MkUyQuCpsu5534nbCncHhb+IAP5U1Js=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r56dFskOLQ+9k6fE0ps1dtgx6mNbqqA+uoZyzlUjqMRvQqjvm+x0H7OPSX7ihjOEADEfMAPEaiVPq9eKwAErJjYkl7mljCd9x9EnOmmqIs3XssuMfgpMB3lxmwmdwyPl5GHVWp0R0p4/rTlHXJhW4nJm/4Wionf2JlSYnL4yzfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=xobDnYgu; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=VixF3G5A; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jfarr.cc header.i=@jfarr.cc header.b="IGnSvqBi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UxiyIjKc"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 4ABA37A014D;
-	Wed,  1 Jul 2026 16:13:11 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 01 Jul 2026 16:13:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jfarr.cc; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1782936791; x=1783023191; bh=jCGHChpU12
-	9coDa9i63DYXYHGn52lbuQPOM440eWeio=; b=IGnSvqBiu5iFA2stJ1ltx2u+fk
-	Mjgc5IKsfMKdIRHcJkQSKX13FH8OC15N8Twbg9/NXpEaeV1R31e8rZlvadr5MQkJ
-	ub26s8IOjBGDwGGYJ1EmvnyPD6k0cpSMspfxzqBSZ5W8SnN37+rWY5WqFdASm3Iq
-	ZAQR4ZG3wKujREzPATBx7PVvPidf9/NDGyp/dizw/judOUGz+UK3J6GKlWicJeUG
-	vkYTro4al3TUJCqGKU32gI3vEhO327VBFedpE+/98sJlIbkXrI/cbQD3EYKwvEbG
-	BQyh8bxytND9n+5klDnFtzoC9G10cw5yOd5VH+fGAXyp0sMULV/mDp7Ryrnw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1782936791; x=1783023191; bh=jCGHChpU129coDa9i63DYXYHGn52lbuQPOM
-	440eWeio=; b=UxiyIjKcrjZ4KmUgfz67Yqvacr8zUbgOk4zXplKG98mtnCY2uDh
-	WPkqYt8FbbcX45bJnKIHXh3ehq+X+2ijKi36iFMw8nYOIj46NzTn+nJgtF+YFsm8
-	+UBnIVWlIk+tjB+1AKuoWlKs/gWE6L0bcz2Vwo76I66I6orZBN2Bxp36XZhDJSgp
-	C+MRUZn4V8lDq/Jl21xbjI6niEfI30wwbk89c6+BTYvh2v/9V+1c3c9ce27QKeD0
-	YjG51rziL7mJQsIa4DbTXjEw2jSrxsnDKa1hfsvhmaPeZ4Y52bx4RFVCpB5suJuY
-	vOhyWHuJ7iG/xFqeMoWGPzGpE0qwo6a+LLg==
-X-ME-Sender: <xms:1nRFaqCEpe7l1E0ezasOIbrZfQG7Hqt7Mq1KwEjOGa4RaTMgeMJq5g>
-    <xme:1nRFasoJIIBZ4VPtsifx5tI_iZwx6Pw7ypHH11Op5ozag0IqVvBfzyqWrfHjMBoxr
-    XsnvjywwRO9GqDKcI_4i24VOdHILSdckfEtNMWeN_dMzc3nUygZmUE>
-X-ME-Received: <xmr:1nRFatG0QFJRC90hFEOeWVp2X0QboxCum91aI86FMaYTYipBdtZBS04vyaOErcOwRWkxFXN2S9uLUAzCnSmt0c20__b->
-X-ME-Proxy-Cause: dmFkZTEZbVOxDPnjRXk9Jolm0zM8tJ376mD7n0z4jEuvXmetA6u4xgxFraMcQpBuokYgYE
-    gfKpESA7rVxOlz2JOlYChS7myFJxgDI2zarWa4P6dXCDU2sjqUWYNUB7X+sNiqANe8sz0+
-    o30hrfy951XjREWF5lI/WirjoRkD1UKo1bzTCrVuoDRmLux5I+g6mqp+ufvvffUW6b5bH8
-    E8fsXwwJ/ozU1JRVvOBQlpvpXqeraSyHhyzAaZHizi9u8yIrJwbUuehRh5nlqy3tn7brns
-    63JrH2w7a5gXrX4P8kqt4wEdc8NS7S50rzbC4TDYxPijaG2ItjjU5EOqYbUjbG3UpchBjx
-    WRXeySrNPF9iEh+NoGP504oULVAnguxO8xWTALtbdRP58DzBcgvxqIBy7TQDVg//oWcwwa
-    pgpOqCDYVlZeylbt3HtE0rgi9m7LuHfFHDzGqREkSO88Q5Nu/sIPxNHVuj0UFBU/7QHaOA
-    Wxiybh6swYZxpR6CV8WBCXf1V7dkOKsB+P16hika6/TwgB2bu4iDtZBH6wdfZ7YRLi5v+r
-    gq1poE9xRXUB1ClEc0PNdUxEPgVF4zfjmv74xOGsJoYvw+IQa6DRa97oBAAikhrEptBTcg
-    orDQB70dNqeOGlKLSiSkXmp9j6mBKPhI6vrcEwUH8qJkty3EJK90DUgqOx6Q
-X-ME-Proxy: <xmx:1nRFaotBF2kDn7We0o0raGLo7m1zT0VcHnppOsYmNLS55y1mF7NehQ>
-    <xmx:1nRFarbr3RZhoyKJEJatQFtQwy1Cbw784khpez1WQB2ctXMuchrlrg>
-    <xmx:1nRFag6AeKOYdvPN5wd9GCPspR3m05OpitIX_HXUyFqD5WUbRVbnNA>
-    <xmx:1nRFar8kLaebuUULj0nTMm4eBbOAjsAhOSXnf-WO6U6K8YfjvhLf6w>
-    <xmx:13RFajIw4OyQ_2dATO3LXpJ6RwBn3u7GWp9GdIMIuTRnhITqWO5ZrjW2>
-Feedback-ID: i01d149f8:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Jul 2026 16:13:09 -0400 (EDT)
-Date: Wed, 1 Jul 2026 22:13:07 +0200
-From: Jan Hendrik Farr <kernel@jfarr.cc>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Birger Koblitz <mail@birger-koblitz.de>, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, hsu.chih.kai@realtek.com,
-	kuba@kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, olek2@wp.pl,
-	pabeni@redhat.com
-Subject: Re: RTL8159 firmware
-Message-ID: <akV008yiRidFHu62@archlinux>
-References: <20260505-rtl8159_net_next-v4-3-1a648a9c4d8d@birger-koblitz.de>
- <20260701171327.2916132-1-kernel@jfarr.cc>
- <5dc0e654-0bdb-422c-9049-94ee6d8867e4@birger-koblitz.de>
- <8f349e00-1710-428d-8c70-5d1b1f4d42f3@lunn.ch>
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="xobDnYgu";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="VixF3G5A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1782937972;
+	bh=qWm9LX37sYO0MkUyQuCpsu5534nbCncHhb+IAP5U1Js=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=xobDnYgu9VVvQz28oygfvZJZNauh97OQZsGq2yaEVk7jLuPz/k8vhjcK4ybIOBWkO
+	 sIpK3nctIsDqNEB+2gFwrhJWfoz7ZYNoXM2TwvJzr3trMfRTqyt7OVeu4rGeJJ2Ova
+	 wwiM7Ky5z6DiKvzrMuZCLnYLF4Jga+mrAyVdTxljACRjWtGOxtdAYIysr0/uxl2aP+
+	 80ntNn8/vRQZCTWCmFNLbhZoI02TZzeZJ+tE74pL3YtD6K8o3w4a92A5h7P4CgiSgP
+	 tmXPXQRrqUCJyMub9S+bwhx5m4HDxC1zO9XW+WRcFr/c1gZiR15V5/H9YEcNib1oix
+	 /IiEiUkqlOQgg==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id AFC764936B; Wed,  1 Jul 2026 20:32:52 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1782937970;
+	bh=qWm9LX37sYO0MkUyQuCpsu5534nbCncHhb+IAP5U1Js=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=VixF3G5Afzs8LmtMRESvVVPLh5hZJpCmzAIWpIOyrDwhSfWqX85GIA6c+6UGl4zFR
+	 oo5Jh0h5eDXb43T64ttlD+wGI1ksTeAO5gXS167Qw7ZEKjHLSxGMmiFn7Pum/XWbfK
+	 H5xx8+7W8ETwSQPV2u2Cyd0QAs8yipMoP0Pgx+eISi5DwWjQgHGU3GDkDiRiYXVlaQ
+	 RFASI8IwEJUdgHD8Ousut5mL5227Hxkc0/j5kRkWOS0yGzNizZAHSYZud/FV8Mtz59
+	 GI3Qhi39IEaXAjtUyAXrvKv0gcLxLJBTSPjJMBFaxzuySeQLzCNuSIsSDRDETZ19xU
+	 RGvtlfbv+aYDw==
+Received: from [IPV6:2003:c6:9f1c:3c00:add4:fa17:212c:ec8d] (p200300c69f1c3c00add4fa17212cec8d.dip0.t-ipconnect.de [IPv6:2003:c6:9f1c:3c00:add4:fa17:212c:ec8d])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 3A2304935B;
+	Wed,  1 Jul 2026 20:32:50 +0000 (UTC)
+Message-ID: <6677d82e-2b8c-4173-ba6d-6743a5059bc1@birger-koblitz.de>
+Date: Wed, 1 Jul 2026 22:32:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: RTL8159 firmware
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Jan Hendrik Farr <kernel@jfarr.cc>, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, hsu.chih.kai@realtek.com,
+ kuba@kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, olek2@wp.pl, pabeni@redhat.com
+References: <20260505-rtl8159_net_next-v4-3-1a648a9c4d8d@birger-koblitz.de>
+ <20260701171327.2916132-1-kernel@jfarr.cc>
+ <5dc0e654-0bdb-422c-9049-94ee6d8867e4@birger-koblitz.de>
+ <8f349e00-1710-428d-8c70-5d1b1f4d42f3@lunn.ch>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
 In-Reply-To: <8f349e00-1710-428d-8c70-5d1b1f4d42f3@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 01 21:29:20, Andrew Lunn wrote:
+
+
+On 01/07/2026 21:29, Andrew Lunn wrote:
 > On Wed, Jul 01, 2026 at 07:24:13PM +0200, Birger Koblitz wrote:
-> > Hi Jan,
-> > 
-> > On 7/1/26 19:13, Jan Hendrik Farr wrote:
-> > > Hi Birger,
-> > > 
-> > > it looks like the firmware file rtl_nic/rtl8159-1.fw isn't in linux-firmware yet.
-> > > Could you send it for people to potentially test?
-> > > 
-> > > Jan
-> > > 
-> > The code to create the binary firmware file is at:
-> > https://gitlab.com/koblitz-rtlnic/rtlnic_fw
-> > But I cannot submit the firmware itself to linux-firmware, as the sourcecode from
-> > which the binary data is extracted is published by Realtek under the GPL.
+>> Hi Jan,
+>>
+>> On 7/1/26 19:13, Jan Hendrik Farr wrote:
+>>> Hi Birger,
+>>>
+>>> it looks like the firmware file rtl_nic/rtl8159-1.fw isn't in linux-firmware yet.
+>>> Could you send it for people to potentially test?
+>>>
+>>> Jan
+>>>
+>> The code to create the binary firmware file is at:
+>> https://gitlab.com/koblitz-rtlnic/rtlnic_fw
+>> But I cannot submit the firmware itself to linux-firmware, as the sourcecode from
+>> which the binary data is extracted is published by Realtek under the GPL.
 > 
 > The obvious work around is to not convert it to binary.
 > 
@@ -114,12 +94,16 @@ On 01 21:29:20, Andrew Lunn wrote:
 > loader in the driver parse the ASCII array as it is. It also looks
 > like you can .xz or .zst compress it, and the kernel
 > _request_firmware() will handle the decompression for you.
-> 
 
-Not a GPL expert, but aren't those "binary" arrays in 8152.c a GPL violation?
-Unless they created them directly. But I "highly suspect" they are
-compiled from some source. They have to provide the "preferred form for
-modification"
+The binary firmware file that the driver currently expects has the same
+structure that is used also for the other supported chips, e.g. the
+RTL8156 which were provided by Realtek and are already in the
+rtl_nic directory of the firmware. There is a bit more information
+in those files such as a pointer to the right flash update registers
+and also version information to not update newer chips.
+Another solution would be to publish the binaries with linux-firmware
+alongside the bit of source code that creates the binaries. Firmware
+file and source-code would be licensed under the GPL.
+I still hope for a reaction from Realtek, though.
 
-Jan
-
+Birger
