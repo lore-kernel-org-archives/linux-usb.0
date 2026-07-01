@@ -1,157 +1,151 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D62233943
-	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 02:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD384086A
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 02:45:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782871993; cv=none; b=qFPFfUTQQ4+BwuNPOqmoqkaS+EE5nZERx0Pbu/YMuyHldcm9O+KoU2DXleQuYF8ffbuYbuBih2TuEwdNVJa+qY3k6s6av/2ktd//RtOJHU3lRjWWemNbHDmKN7vbROohAwgxe2hXhl00CRORn7uaI+2g3XRLIotQb8CjfiWLR0o=
+	t=1782873959; cv=none; b=C+cQIPHRlYT1KsG3PpBgPvJlqYhyPiGcJZpXERkeFXHq4onjGe82vpdOEPag4aFsvPaF0szlg2MAFBJrVwAp42Biueyvns4lsrRmeyYg5SszrceeTUz9MapqTsqs2Sp0W/6sQUO0bJUqgHKasDdyWFuLWwHG4wqRQCixpI/M5nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782871993; c=relaxed/simple;
-	bh=pfeyeSx0jbasMZ24QqZam7YXmS56pDKO/ilMo1Rtil8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a5g/oCGTRg8ijwjUwYdCLk9OqLSlVZ1TykEHuWjpXF/FTaISGhfGTN8i3x2xIs8OIBqLfTAqyk6mUOuaBCguDWU+bcqVpRwDPT4Z1UxxbFcFo/W1u7Ves2BoZVSUN++s3yQwUZOWWfimrtxplGo3Uyc8KgOZx1KcdrAm+H18vIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=UNV+pXg8; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1782873959; c=relaxed/simple;
+	bh=AkM2YMbS4cgrcGDPieW2Q/7KIitk4hyUSMotQdJZHd0=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
+	 In-Reply-To:References; b=LC9iG1fVZeq9P0OJx5bQ8mdeTL37VaDIiN/70FLqMen8wqlV4hEMxz3s0I5UnBxxfWPZsLMbmfxqrsmDbzHsQaHcg0JoC6NEh7O/bc/RvPWVqzcuTXt2b94nX3TJGf5H4FmUdwzPoyYMRCcOAoYwvw2SuOrxn49Al8T88kxXKvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OL4YoBGb; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="UNV+pXg8"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-92e6391b114so13758085a.3
-        for <linux-usb@vger.kernel.org>; Tue, 30 Jun 2026 19:13:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1782871990; x=1783476790; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aUJnJX7YQ/geHGK5pHOPcpLdubmqLs0Ocip7u8Mfbcc=;
-        b=UNV+pXg8o9bej0qgIItNlsfofYQkUIRqLJCVfdp3L0FpczlCaQh8REdp7kU8rk1uOM
-         KF91ISpxpYRtLE+RHZxHueQVuvAHaqe5fL3OSZkxSVWRWppuwTtNibyGpQ3/i/H0LLls
-         2B4ZQJpiCBIIuodJnDE++4G3c/KhJ7Zt1Hrct0UK7EFL2rPopCKifoTrtC8Iis5585eO
-         6RQvFpRkTrzH8LQkdqQXwZ2EVaPhuYyXfx6i3wtzri1GL7t8EiJ0XljOavigCSUJkKyj
-         dRph5KV++mtNkMYpA/2PD7/lZDTKol/jRFxpgTsdjMfFhA0XDevCNexL1FSDOH0iQhUk
-         kZeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782871990; x=1783476790;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=aUJnJX7YQ/geHGK5pHOPcpLdubmqLs0Ocip7u8Mfbcc=;
-        b=dYfgWXffEdWB/8hd70dOHDzPknbNaWLYtClCngIFWgZTYd4rSws+cHZ89hygxmevq0
-         Me8jl7EAVXsAtXP+OSm6WeSzfVtGfQudVkV8LlQRjqqxleJ43+51G8y323GLJu2BZlMR
-         K08jGg/ZVftxYuN0K/dL1TQJwIGAw5EptBU3xH3D4v2xMB3fKqY/Q8NWgNR0cq3XbaSz
-         9EvfFaHdSdkXeEHcnzm93vdbHGs8JKMGHks69TtagByvCLPCfUBrWJ66R9N1WGuND3/R
-         6cRjU+W0ZD2agXfuTUM2Ot+oQpCDxwXBBkG/EEyYtHgeYkbL8H1TDLBczOLC1abWItCC
-         Yklw==
-X-Forwarded-Encrypted: i=1; AFNElJ9tap06BAsnxX5FGWlU48lOFBYb4Zy/93vtvHMPJKbMiDKxq249PAccrRtsJ/SVvqFDSLpsAJVvgKM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTRbZHmeo1iArUfifvA/4/iUGBjZTwSL9e9PkhWwrQbUE96UR9
-	24XgLt68sLIz3NVMQsVr383Q7TfNdcDIbcG38YLD/qiiMkFc9oMyTSmqZ8pHItFbu2MiY5tMQuu
-	3YH/67A==
-X-Gm-Gg: AfdE7cm+klu5r8CxrneMH8hVH4KNgVo43Z9x6yy1pwoCF4OLSsxW0Kuay1z0oTfDiMa
-	KJteN7R4+mjrDiAZUfLuAb9l9jMEwEiJ0McwdxLvQNjpGxwuPvXVPfawEzBRZQaO/LVe6RLWA7v
-	m7+X2fmCyWOMqJaPoPby1H6wenOpfwSunJOeQ8oO2IXzwlreapEqvNAoZx4qTRWPfbdKZejFgL+
-	6pwvm13N1ZdjFKlNz2eb/r2mLVyODsQ0kkJzVCXVNSb3gzsl0GC+I8Fgya03BiQBGict3LGImnA
-	CTSn8KDS63IZhbqDxg7OOx9Xhiv/NAXM19sfu6voylGSMm+SvbI7CK+mgXeFVxIVok0dCA538eP
-	vDCH0LbeBMzRy2oDVXG5JUQKTgAdJT54sPY2dVQUrEGNjbtsu5Q+Sn+nltiIWwCTm3u0t54K4pa
-	oF4h2QjH0J/UudEM0a6vAw5PQf
-X-Received: by 2002:a05:620a:414c:b0:92b:6805:917e with SMTP id af79cd13be357-92e62837015mr956498285a.70.1782871990228;
-        Tue, 30 Jun 2026 19:13:10 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e621410adsm435923885a.7.2026.06.30.19.13.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 19:13:09 -0700 (PDT)
-Date: Tue, 30 Jun 2026 22:13:06 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: =?utf-8?B?6rmA66+87ISc?= <neck3922@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzkaller@googlegroups.com
-Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
- in ep_aio_cancel()
-Message-ID: <2d4a91dc-037f-4c31-8ce1-7bc840d42b0b@rowland.harvard.edu>
-References: <CAFmvuTWc880R=mw7=kixfx3Yb8u9thLHPA7D=rm6a8p9dYBBDA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OL4YoBGb"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFmvuTWc880R=mw7=kixfx3Yb8u9thLHPA7D=rm6a8p9dYBBDA@mail.gmail.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1782873955;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pGyYp8fgvM0spGaHVAVIN+LiPqSPwBtl4s6NpkpojzU=;
+	b=OL4YoBGbS7vuYSsBvGPeotMJNvKpOq0DOYLqAUBiJ9x7OuDuOTiBFJolspB+C1Rq8L26Kg
+	RI1EW/adYnx/it3Zf0waWtnQDcL7D9PeItx6Ldqgaga03Xfpha2ZdIyVxWLkGuLpz6srBo
+	nYwJ7eVCqV6H3Fn2pngiezhLkJ+6UgM=
+Date: Wed, 01 Jul 2026 02:45:49 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Tianchu Chen" <tianchu.chen@linux.dev>
+Message-ID: <eb9d8a511c83224d1af492799b551e33fca8c7d1@linux.dev>
+TLS-Required: No
+Subject: Re: [PATCH] net: usb: cx82310_eth: stop parsing reboot marker as
+ packet
+To: "Jakub Kicinski" <kuba@kernel.org>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, linux-usb@vger.kernel.org, netdev@vger.kernel.org
+In-Reply-To: <20260630154255.2954c33a@kernel.org>
+References: <700e16e9523d7f1299b00df75b13a3c66b6e517b@linux.dev>
+ <20260629174458.6ebf647d@kernel.org>
+ <e87b8ecf4bbcf87635d144508bf35377dd5397b3@linux.dev>
+ <20260630154255.2954c33a@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Jul 01, 2026 at 08:08:34AM +0900, 김민서 wrote:
-> Hello,
-> 
-> I am reporting a USB gadgetfs AIO cancellation bug reproduced on upstream
-> v7.2-rc1, commit dc59e4fea9d83f03bad6bddf3fa2e52491777482, with KASAN
-> enabled. In my test environment, the reproducer repeatedly triggers a
-> KASAN null-ptr-deref/general protection fault in ep_aio_cancel(). I also
-> observed an intermittent slab-use-after-free at the same dereference site.
-> 
-> Target file:
->   drivers/usb/gadget/legacy/inode.c
-> Subsystem: USB gadgetfs
-> Git tree: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> Git head: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> Kernel release: v7.2-rc1
-> 
-> Observed crash:
-> 
->   KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
->   RIP: ep_aio_cancel+0x47/0xf0 drivers/usb/gadget/legacy/inode.c:455
-> 
-> Additional intermittent UAF observation:
-> 
->   BUG: KASAN: slab-use-after-free in ep_aio_cancel+0x25/0x90
->   drivers/usb/gadget/legacy/inode.c:455
-> 
-> Relevant stack:
-> 
->   ep_aio_cancel
->   __do_sys_io_cancel
->   __se_sys_io_cancel
->   __x64_sys_io_cancel
->   do_syscall_64
->   entry_SYSCALL_64_after_hwframe
-> 
-> Root cause analysis:
-> 
-> The crash appears to involve a race between gadgetfs AIO completion and
-> AIO cancellation.
-> 
-> In drivers/usb/gadget/legacy/inode.c, ep_aio_cancel() does:
-> 
->   struct kiocb_priv *priv = iocb->private;
->   ...
->   epdata = priv->epdata;
-> 
-> At the same time, ep_aio_complete() can clear fields in the same private
-> object and then free it on the completion path before setting
-> iocb->private to NULL:
-> 
->   priv->req = NULL;
->   priv->epdata = NULL;
->   ...
->   kfree(req->buf);
->   kfree(priv->to_free);
->   kfree(priv);
->   iocb->private = NULL;
-> 
-> My current understanding is that completion and cancellation are not
-> effectively serialized around this lifetime transition.
-> 
-> If cancellation observes NULL after iocb->private has been cleared,
-> ep_aio_cancel() dereferences priv->epdata through a NULL priv pointer and
-> reports the null-ptr-deref.
-> 
-> If cancellation observes the old non-NULL priv pointer after completion
-> has freed it, or if completion frees priv after cancellation loads it but
-> before cancellation reads priv->epdata, the same dereference can surface
-> as a slab-use-after-free.
+July 1, 2026 at 6:42 AM, "Jakub Kicinski" <kuba@kernel.org mailto:kuba@ke=
+rnel.org?to=3D%22Jakub%20Kicinski%22%20%3Ckuba%40kernel.org%3E > wrote:
 
-Great!  You clearly put a lot of work into finding this problem.  How do 
-you suggest we fix it?
+>=20
+>=20On Tue, 30 Jun 2026 10:30:53 +0000 Tianchu Chen wrote:
+>=20
+>=20>=20
+>=20> June 30, 2026 at 8:44 AM, "Jakub Kicinski" <kuba@kernel.org mailto:=
+kuba@kernel.org?to=3D%22Jakub%20Kicinski%22%20%3Ckuba%40kernel.org%3E > w=
+rote:
+> >  On Thu, 25 Jun 2026 15:32:04 +0000 Tianchu Chen wrote:
+> >  > From: Tianchu Chen <flynnnchen@tencent.com>
+> >  >=20
+>=20>  > Discovered by Atuin - Automated Vulnerability Discovery Engine.
+> >  >=20
+>=20>  > cx82310_rx_fixup() treats an RX length of 0xffff as a device reb=
+oot
+> >  > marker and schedules work to re-enable ethernet mode, but then con=
+tinues
+> >  > processing the marker as a normal packet length. This is an out-of=
+-bounds
+> >  > heap write controlled by the usb device.
+> >  >=20
+>=20>  Where? Can you be more specific in the commit message? At a glance=
+=20
+>=20>  the accesses seem to be bound-checked with skb->len.
+> >  --=20
+>=20>  pw-bot: cr
+> >=20=20
+>=20>=20=20
+>=20>=20=20
+>=20>  The "len > skb->len" check bounds the source read, but the overflo=
+w is on the
+> >  destination buffer.
+> >=20=20
+>=20>  The buggy path is:
+> >=20=20
+>=20>  if (len =3D=3D 0xffff) {
+> >  netdev_info(dev->net, "router was rebooted, re-enabling ethernet mod=
+e");
+> >  schedule_work(&priv->reenable_work);
+> >  /* <- BUG: missing return; 0xffff bypasses the oversized-length reje=
+ct */
+> >  } else if (len > CX82310_MTU) {
+> >  netdev_err(dev->net, "RX packet too long: %d B\n", len);
+> >  return 0;
+> >  }
+> >  if (len > skb->len) {
+> >  dev->partial_len =3D skb->len; // skb->len is bounded by the USB tra=
+nsfer size (4K)
+> >  dev->partial_rem =3D len - skb->len;
+> >  memcpy((void *)dev->partial_data, skb->data,
+> >  dev->partial_len); /* <- TRIGGER: can copy 4K bytes into 1516-byte p=
+artial_data */
+> >=20
+>=20If skb->len (=3D=3D dev->partial_len) is not bound-checked to the siz=
+e
+> of dev->partial_data - aren't there more paths that could hit this
+> overflow? Are you fixing the right thing?
 
-Alan Stern
+Yes, skb->len and CX82310_MTU are different limits here.
+
+skb->len is the amount of data received in the current USB RX URB. This
+driver sets dev->rx_urb_size to 4096, so skb->len can be much larger than
+the network frame MTU.
+
+The safety invariant for the partial_data copy is not that skb->len is
+MTU-bounded by itself. It is that, for normal frames, the code first reje=
+cts
+len > CX82310_MTU, and then reaches the partial-packet path only when
+len > skb->len. Therefore, on the normal path:
+
+	skb->len < len <=3D CX82310_MTU
+
+so copying skb->len bytes into partial_data is safe, since partial_data i=
+s
+allocated as dev->hard_mtu =3D CX82310_MTU + 2.
+
+The 0xffff reboot marker is the only case that breaks that invariant:
+len =3D=3D 0xffff is handled in a separate branch, and it just bypasses t=
+he
+"len > CX82310_MTU" check entirely.
+
+So the only case that may trigger this OOB-write is len =3D=3D 0xffff, wh=
+ich is a
+reboot signal and should be skipped from being parsed as normal packet.
+
+Also, skb->len is governed by the USB RX URB size, not by the network MTU=
+;
+it is a different length limit from CX82310_MTU.
+
+I believe this addresses the concern, but please let me know if you see a=
+ny
+remaining issue and/or would prefer a v2.
+
+
+Best regards,
+Tianchu
