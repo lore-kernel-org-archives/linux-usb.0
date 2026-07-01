@@ -1,50 +1,37 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mx4.wp.pl (mx4.wp.pl [212.77.101.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACC436F437
-	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 21:09:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953452C11E4
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 21:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.77.101.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782940188; cv=none; b=MeJD4/9i50eFhxU9Ahoy49pDpEmvXJDWeUwCez6alwEkG9Teh4MdRokUpBK99Ni/5FvucXJ5GkFXYquzAgKDFWK8iG1GlbWiswia4diAAD2JKxUIyo4dPb5L+7lHC5mq99pyR5NHyYTTDXovf6HRNDYNOjFe694teNfqhq8bR4Q=
+	t=1782940377; cv=none; b=PI+sQMFlaIJs4cBw+D1r5ZoGk6JSdpZYkSbXRZyHV5ZJw/T0W2ZSp0/xVVT24mgw0LLDxdJMlI6W8WgDUu1wO26wMwP54+tIU+Tehb2upD1wELOOVqfZxZO0Uo1aCfSIRf4ssphu3BqGycwVrFDgarzB7EXA3T4AoPwbfc50a4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782940188; c=relaxed/simple;
-	bh=HFIFyocoK7OyU3Xp4N9bUao+xcfzHAp6BWmKmXMaaNs=;
+	s=arc-20240116; t=1782940377; c=relaxed/simple;
+	bh=8LYqQzpLG09bfqLEtTjv93/ItDF0KoR263B1JWwqryo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GRWMH8IsFv/H4yMj44gW7Lmk40VdhoO5Q8AHP+WfgPlWYUwo7VPXV6PSlcHOuzt1554GUvExB8faOEPqq9UbzoJ1y1Drk36uTpmH0iDu92oA79bxD6AO2fd8fZTuwTSdbxeRaEoO80mzwMxl0J77/kHTzCPtzVB1izId39q9mgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RgS6jwMm; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=hpfn9TaEiWy5MFsl6EDt3mpNB/+4Yg2EfTh3i34+oFVWs49q51PaJre2W4Prt41H4xVVQggAnJMOTfSpe3AJIfDrX2wrkU1gEiFjt6Uv6VjL5A54e87qclHjszXj7V+2DKPYc/lj4hTx3mtMZ7m87Ps6dUgTkHrCIXOU7lD44M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl; spf=pass smtp.mailfrom=wp.pl; dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b=BEw+sOu4; arc=none smtp.client-ip=212.77.101.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wp.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RgS6jwMm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782940186; x=1814476186;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=HFIFyocoK7OyU3Xp4N9bUao+xcfzHAp6BWmKmXMaaNs=;
-  b=RgS6jwMmCoY6X9b17bf4klQQ3xIS3fjAQlrVj8PQdF8NA3q57dOCxtQO
-   wK47Wk4uyRe9VwL+il63DRweWYvIf4pLTKjO2WCri6Zo6R9CvykzSBxlv
-   SPDyIY8LmKPX8ScIk4MX+jlYKJ2QogKLqksLwFw9bxZ+xXBJa7lLd2ZzZ
-   tyKNSjlyuMZsyFzjbQQZDzJ5e+s59LbCLdY3c2Wj8fsXdxJfQL9GsnXpo
-   e/iUWk4pcnd7lyPrzAMnVeiliE7uKliz6EmsbKeG5+NZGSv4BmN/eCVJm
-   iJ+SVkxgKw/zrGglasLa7wd6LinuZnddQWLgAWDtNF3B5wMbgpzUsfxXz
-   w==;
-X-CSE-ConnectionGUID: P9tQGccQQeirUszW+09a4w==
-X-CSE-MsgGUID: QP7YiAF1RPecRl45NqSBXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11834"; a="106481492"
-X-IronPort-AV: E=Sophos;i="6.25,142,1779174000"; 
-   d="scan'208";a="106481492"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 14:09:46 -0700
-X-CSE-ConnectionGUID: YJA93nyUTxaeBlnqAZUz7A==
-X-CSE-MsgGUID: dpl49c/FT+OHlAMZXG66Cg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,142,1779174000"; 
-   d="scan'208";a="254605799"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO [10.245.244.90]) ([10.245.244.90])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2026 14:09:45 -0700
-Message-ID: <577c7ba6-c638-4e73-acac-fbf6c4fb4ccc@linux.intel.com>
-Date: Thu, 2 Jul 2026 00:09:42 +0300
+	dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b="BEw+sOu4"
+Received: (wp-smtpd smtp.wp.pl 8947 invoked from network); 1 Jul 2026 23:06:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wp.pl; s=20241105;
+          t=1782939968; bh=nxIp2ejdqDSCnNtY6qeUSmOQz7mNR1tzuNm8WC9oE+A=;
+          h=Subject:To:Cc:From;
+          b=BEw+sOu4abFD2lmkpCivxz2cYXGtPpO45S2HhDa3W8+6iqdY4ok0QP/XcBeE4WQ6n
+           iQL3Ab8zKCKIHUArI0tKsx0KUWkIzX1Rv+qPmo6GL3XBsWIGDCYV9BfWIOdjH2Sb9j
+           x4hRjpMyuEmAEyg0s3K8XLCN3NCXKGDapTH99Q6NkTT/reIQ9auDRvDRM9EsLpAkYA
+           Roo2Hwnz3bN+YuvSciIYgERN2cHfe3kBzMLXfbLCVa2GjvjPjbB3+Q3N8gxjz7e6/q
+           rc9yRzNKYzLaZDbT8wjLNf9vljuN77b8RkgNwYCCSb7qLSxkNNw0MVIZ5jfybx6lbC
+           i76e6m31it3JA==
+Received: from 83.5.235.152.ipv4.supernova.orange.pl (HELO [192.168.3.246]) (olek2@wp.pl@[83.5.235.152])
+          (envelope-sender <olek2@wp.pl>)
+          by smtp.wp.pl (WP-SMTPD) with TLS_AES_256_GCM_SHA384 encrypted SMTP
+          for <mail@birger-koblitz.de>; 1 Jul 2026 23:06:08 +0200
+Message-ID: <8c0381cc-3612-4ddf-85ed-df09bd0a9dbe@wp.pl>
+Date: Wed, 1 Jul 2026 23:06:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,58 +39,33 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: 7.1 regression bisected to "usb: core: Fix SuperSpeed root hub
- wMaxPacketSize"
-To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
- Michal Pecio <michal.pecio@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-References: <cb287e3d-3066-4820-b464-6208b947974b@mailbox.org>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <cb287e3d-3066-4820-b464-6208b947974b@mailbox.org>
+Subject: Re: RTL8159 firmware
+To: Birger Koblitz <mail@birger-koblitz.de>, Andrew Lunn <andrew@lunn.ch>
+Cc: Jan Hendrik Farr <kernel@jfarr.cc>, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, hsu.chih.kai@realtek.com,
+ kuba@kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, pabeni@redhat.com
+References: <20260505-rtl8159_net_next-v4-3-1a648a9c4d8d@birger-koblitz.de>
+ <20260701171327.2916132-1-kernel@jfarr.cc>
+ <5dc0e654-0bdb-422c-9049-94ee6d8867e4@birger-koblitz.de>
+ <8f349e00-1710-428d-8c70-5d1b1f4d42f3@lunn.ch>
+ <6677d82e-2b8c-4173-ba6d-6743a5059bc1@birger-koblitz.de>
+Content-Language: pl
+From: Aleksander Jan Bajkowski <olek2@wp.pl>
+In-Reply-To: <6677d82e-2b8c-4173-ba6d-6743a5059bc1@birger-koblitz.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-WP-MailID: fb1e7a58e08da6673ff10da37636e03b
+X-WP-AV: skaner antywirusowy Poczty Wirtualnej Polski
+X-WP-SPAM: NO 0000000 [8dPM]                               
 
-On 7/1/26 19:02, Michel Dänzer wrote:
-> 
-> The ethernet port of a Lenovo ThinkPad USB-C Dock Gen2 connected to a ThinkPad P14s Gen 5 AMD stopped working in 7.1.
-> 
->   ip addr show enx482ae347e7c3
-> 
-> says the interface doesn't exist. The only thing about it in dmesg is:
-> 
->   r8152 8-1.1:1.0 enx482ae347e7c3: renamed from eth0
-> 
-> In previous kernels, dmesg had more lines about it:
-> 
->   r8152 8-1.1:1.0 enx482ae347e7c3: renamed from eth0
->   r8152 8-1.1:1.0 enx482ae347e7c3: carrier on
->   r8152 8-1.1:1.0 enx482ae347e7c3: carrier off
->   r8152 8-1.1:1.0 enx482ae347e7c3: carrier on
-> 
-> 
-> I bisected this to d1e280334b7f ("usb: core: Fix SuperSpeed root hub wMaxPacketSize"). Reverting that commit on top of 7.1.2 fixes the issue.
-> 
-> 
+Hi Birger,
+Realtek recently released firmware for the RTL8261C[1]. I expect
+the RTL8159 has an RTL8261x PHY built in. Do you know whether
+the RTL8159 firmware consists only the PHY firmware?
 
-Thanks for reporting this.
+1. 
+https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/rtl_nic/rtl8261c.bin
 
-That patch limits USB3 roothub change bitmap from 4 bytes to 2 bytes, which
-should be enough for the max 15 children USB3 hubs support.
-Odd that this change impacts the usb ethernet device of that dock.
-
-It's not an important change, and should be reverted to get things working.
-It also reveals there might be a off-by-one or similar bug in hub or xhci code.
-would be nice to get that fixed.
-
-Does the roothub have 15 USB3 ports?
-
-If possible, could you share a dmesg with usbcore dynamic debug enabled
-
-mount -t debugfs none /sys/kernel/debug
-echo 'module usbcore =p' >/sys/kernel/debug/dynamic_debug/control
-<connect dock>
-dmesg
-
-Thanks
-Mathias
+Best regards,
+Aleksander
