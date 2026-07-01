@@ -1,40 +1,40 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF32925DB1A;
-	Wed,  1 Jul 2026 09:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7B73FD15E
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 10:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782899606; cv=none; b=nRc4zidnrCaNCi/fnNutxlbo6hCKUylDYJ6SzLewCDqP9UQfoEIoo3eZZwCGQpSBDXBWngj0MmeYXcB7PES1Y4xOpOotBUBtBr9Uqi1QFghRzvV+nnGaF1hmmlUOylFWO6F1Uxv/7YVd6TJ9U+4bI4zqw57nqYsXjD0RLBpZeQY=
+	t=1782900251; cv=none; b=bR+puges4Tgux45bXFifFQuswKttXlul0IfI9Xt0t3KMxFenNba8j2eD8NhVfD1IisqbeHaMmgyLBdeJX1O0UaOKSBFylErVcx59CkcYrDCIYSnpsO/2UasAogsxmEOqtBmV5vQHEsmfphxovfSy/ZULml6Ejj2feZiuhz55u8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782899606; c=relaxed/simple;
-	bh=4yWx7+wWKll8LfStxFYdc1EZsluomfflESdjuaJGmP8=;
+	s=arc-20240116; t=1782900251; c=relaxed/simple;
+	bh=LVaroLwSaEIBs/G5Lnk+N6jwRSDQX02r3wTcYNHvDd8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PH2TAHUESWM9W2cOakbL8UKCcy/L1jGwv/nt61tH3muDiD4BNdGoN1qmjl3FNEjgGXd7cxwR+i7kDE/LwwdnN05E1SSdldwTR3TnmcE+AR+9k7aB7wx8U9nSJrbrAdaFm+FYHQufwmu+JzEF+jCLznWvmzIp7Geif7nIIlYX4aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=k+6F003K; arc=none smtp.client-ip=185.171.202.116
+	 In-Reply-To:Content-Type; b=gk8RnzThTS6VyEVGkqFmq/0BNoRUPaE7rCHSzeMS+X3Sts6U8UQeLIGK/++x31v3/GCOCVMjuTXON2dHja/sznblY9P4UCcJuJ3FItpZp8DREcfFxCY08W4h3dqWhC17SFGROzrtSC0icJkMaLHiPdVqaGONVsI1yilpitq6JG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=szZmprIo; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="k+6F003K"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="szZmprIo"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id AC39BC5CD64;
-	Wed,  1 Jul 2026 09:53:32 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 46E381A0D43
+	for <linux-usb@vger.kernel.org>; Wed,  1 Jul 2026 10:04:09 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C6C4460288;
-	Wed,  1 Jul 2026 09:53:21 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3A4C8104C94A5;
-	Wed,  1 Jul 2026 11:53:18 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1325A60288;
+	Wed,  1 Jul 2026 10:04:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5AD54104C9A80;
+	Wed,  1 Jul 2026 12:04:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1782899601; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1782900248; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=IEWJEb3JrdbjQ+gEU1Bac3pMIwncFv4u+WEahNukHjs=;
-	b=k+6F003KBfLXoimOLdZd07YO1FK/iseBVjlu4mt6RCKoWI59xnq9L2QLghBgHWzUXbs8WA
-	rPLOt+yNpLaOWTFTDbwuPGHQBztswCxWWMyTPay4YeCXx/5qWc616eAYZBnTCcWtMDiNgX
-	+7axuyepSH2vxcOtoY8/9EKF0jpXSWzAj7Pfpcw78KqhCxi7XnNXhdwm6tU9FCedGP0rkq
-	l8te4UcTTuhT6ChSyRuBOc7Wld+YyPv9T/r3vg1IQ2GWgquxmziYUhht821vwFP2UagEjJ
-	NrJUuFH46GmDv4mx7R40W91K5MgsoADVgw7uf8VjhyHP38NhAJjyqN9YqQF4Uw==
-Message-ID: <b01b4c18-bb2d-413b-a993-4a9cf4d50549@bootlin.com>
-Date: Wed, 1 Jul 2026 11:53:17 +0200
+	bh=rS3XJGlccH+dLXbiW6ODSZ7p0h3tz4Kqf5bCznH1MNo=;
+	b=szZmprIodXQOQ7GtfxI63myhYLZzmv6n6+oXrtRBCkyN9mMkFV+hmR3MC4iGk5olV6+OkP
+	FzTiB99e7yITq0LBkkONbRISKrixM6g6j2bZjwnUt7oS06BaZgTHvF3q1o8unEmpOLgPnQ
+	AyXQN2Nq/My40o+Y5bcm/3aPRpNzZvNus+/dJhtbAFe+biZAoFV4BRwsCfp95hHKVwz7BK
+	btWD0B4W6JDEokWQoCkFqZMnuZZcI8YRToUDpldJulJW28+PqgMROp1xFUUlyc0KLcgpWQ
+	CMBiARhROgTmarALkP9gdE9nHxT2Ghg22cYz5g2fTyZGmhI5cQ9xG0k49olnKg==
+Message-ID: <587499ee-d87e-4056-8d2a-8fda2ef3f0f1@bootlin.com>
+Date: Wed, 1 Jul 2026 12:04:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,7 +42,8 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/9] ax88179_178a: Add support for AX88179A MMD access
+Subject: Re: [PATCH 5/9] ax88179_178a: Add support for ethtool pause parameter
+ configuration
 To: Birger Koblitz <mail@birger-koblitz.de>,
  Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
  <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
@@ -50,62 +51,93 @@ To: Birger Koblitz <mail@birger-koblitz.de>,
 Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260701-ax88179a-v1-0-13685df67515@birger-koblitz.de>
- <20260701-ax88179a-v1-3-13685df67515@birger-koblitz.de>
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+ <20260701-ax88179a-v1-5-13685df67515@birger-koblitz.de>
 Content-Language: en-US
-In-Reply-To: <20260701-ax88179a-v1-3-13685df67515@birger-koblitz.de>
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+In-Reply-To: <20260701-ax88179a-v1-5-13685df67515@birger-koblitz.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi,
+Hi
 
 On 7/1/26 07:42, Birger Koblitz wrote:
-> The AX88179A uses a much simpler Clause-45 MMD access interface,
-> make use of this interface and abstract MMD read/write operations
-> for the AX88179 and AX88179A architecture by introducing
-> ax_read_mmd() and ax_write_mmd(), which in turn call the chips'
-> respective implementation.
-> 
-> Make use of the MMD read/write functions in the link-speed and EEE
-> configuration settings via ethtool in order to support the
-> AX179A-based chips. The AX88279 supports EEE only at 1000MBit speed,
-> the other chips require full duplex.
-
-Please split this into smaller patches, one for the mmd accessor conversion,
-one for eee, one for the new chip support, etc.
-
+> The AX179A-based chips support pause parameter configuration.
+> Make it available through ethtool ops.
 > 
 > Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
-
-[...]
-
-> @@ -866,34 +924,63 @@ static int ax88179_set_link_ksettings(struct net_device *net,
->  				      const struct ethtool_link_ksettings *cmd)
->  {
->  	struct usbnet *dev = netdev_priv(net);
+> ---
+>  drivers/net/usb/ax88179_178a.c | 67 ++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 67 insertions(+)
+> 
+> diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
+> index 16528d873e804fde5dcc27659048882eee1c3eaa..586c049c6f7422a853aeae5e9372ead3a6d106c5 100644
+> --- a/drivers/net/usb/ax88179_178a.c
+> +++ b/drivers/net/usb/ax88179_178a.c
+> @@ -956,6 +956,71 @@ static int ax88179_set_link_ksettings(struct net_device *net,
+>  	return mii_ethtool_set_link_ksettings(&dev->mii, cmd);
+>  }
+>  
+> +static void ax88179a_get_pauseparam(struct net_device *net, struct ethtool_pauseparam *pause)
+> +{
+> +	struct usbnet *dev = netdev_priv(net);
 > +	struct ax88179_data *data;
-> +	int v;
+> +	u16 bmcr, lcladv, rmtadv;
+> +	u8 cap;
 > +
 > +	data = dev->driver_priv;
 > +
-> +	/* mii_ethtool_set_link_ksettings handles unknown bits in MII_ADVERTISE
-> +	 * transparently, so for the 2.5GBit link speed of the AX_VERSION_AX88279
-> +	 * we just set up ADVERTISE_RESV before calling mii_ethtool_set_link_ksettings
-> +	 * at least for speeds < 2500
-> +	 */
+> +	if (data->chip_version < AX_VERSION_AX88179A)
+> +		return;
+> +
+> +	bmcr = ax88179_mdio_read(net, dev->mii.phy_id, MII_BMCR);
+> +	lcladv = ax88179_mdio_read(net, dev->mii.phy_id, MII_ADVERTISE);
+> +	rmtadv = ax88179_mdio_read(net, dev->mii.phy_id, MII_LPA);
+> +
+> +	if (!(bmcr & BMCR_ANENABLE)) {
+> +		pause->autoneg = 0;
+> +		pause->rx_pause = 0;
+> +		pause->tx_pause = 0;
+> +		return;
+> +	}
+> +
+> +	pause->autoneg = 1;
 
-ADVERTISE_RESV isn't an unknown bit, it's been added in 802.3 as ADVERTISE_XNP
-for Extended Next Page, see :
+pause autoneg is not the same as link-wide autoneg. If link autoneg is disabled,
+you have to keep track on how pause autoneg was configured by user, so that this
+can be re-applied when link aneg gets re-enabled.
 
-commit e7a62edd34b1 ("net: phy: qcom: at803x: Use the correct bit to disable extended next page")
+The best way to have this correct is to use phylink, but for that you'd need to
+have a proper PHY driver instead of using the mii_ API here.
 
-we shoudln't use ADVERTISE_RESV anymore in-kernel (there are a few callsites left).
+> +
+> +	cap = mii_resolve_flowctrl_fdx(lcladv, rmtadv);
+> +
+> +	if (cap & FLOW_CTRL_RX)
+> +		pause->rx_pause = 1;
+> +
+> +	if (cap & FLOW_CTRL_TX)
+> +		pause->tx_pause = 1;
+> +}
+> +
+> +static int ax88179a_set_pauseparam(struct net_device *net, struct ethtool_pauseparam *pause)
+> +{
+> +	struct usbnet *dev = netdev_priv(net);
+> +	struct ax88179_data *data;
+> +	u16 old, new1, bmcr;
+> +	u8 cap = 0;
+> +
+> +	data = dev->driver_priv;
+> +
+> +	if (data->chip_version < AX_VERSION_AX88179A)
+> +		return -EOPNOTSUPP;
+> +
+> +	bmcr = ax88179_mdio_read(net, dev->mii.phy_id, MII_BMCR);
+> +	if (pause->autoneg && !(bmcr & BMCR_ANENABLE))
+> +		return -EINVAL;
 
-As this seems to be a vendor-specific behaviour for that bit, please add a
-local #define for it in this driver, to make it clear that this is a device-specific
-value.
-
-Thanks,
+As I said, pause autoneg can be on while linke autoneg is off. of course, the
+device doesn't advertise pause, but the driver needs to keep track of what's
+the pause aneg flag.
 
 Maxime
