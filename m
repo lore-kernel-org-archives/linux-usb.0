@@ -1,102 +1,111 @@
-Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D19412264;
-	Thu,  2 Jul 2026 08:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0215242B728
+	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 08:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782980048; cv=none; b=BSJAGvj6Q2JPSvqVmoMzV9i5gFKwBUKYnTVSYAUDMyckm+VLM2/d3wGxgkWu9+mqpPTAYFEcSB1SHKXFo/7YoWLwdJReT/O3hU0pWUZYpYhrHhjwWBhUr/q/BXxzwyhYHQWSfb2d+eVuqtppGZ/B9ym9KFK5zpKRVfFNEjgpAg8=
+	t=1782980507; cv=none; b=rsN1O2aGNJK93xwerZZTH8BPDf1Dtayu3tAz+DKQ4MDDhI41biY1O8V3C2gZDa6JhvYzwK+jfPoTqiCmISdi98oTPvEug6Fa83cUUgumGqbrE1Jw2yd2U5A0T9HuorguY8+TkYfPwubaEdq7vpiJS/8xvHOYMVJ2BrRmVL53rXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782980048; c=relaxed/simple;
-	bh=YTMBY3lPGCbeJZukKuC12MHH6Izf4z23FdgG5sNSVp8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HFizQZelX2kI7gjrVLCtRdE+gzuTGDZAeBXSD24PKoOkveSEUJG0hKJL+fggYsxaAI7K+NlQEjFBCAf2IZoiniYZ3/Vf/4ekjFwNtb6IjZp//vHftMEMftG3en3jzEFduH4kC95sxWtFPOBm4ywLKwMAEhZIgHVDh8SASoSlqt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=RfrZnsh2; arc=none smtp.client-ip=18.194.254.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1782980507; c=relaxed/simple;
+	bh=R4mp7V+YISkOypWb0SQxXjiw/iBRtLqjKB6U4228okw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j4nFgghguLzsx2/P1C1bWXfTDeEJ0Agb85pTF5tHW7bXuF+lryoQCl7Kg9uTEYMbh3EUaG89jZ6mPupwB5ZRiQ+Kd0WrUgQ8iRmMCH5Fk9EtQWCd2C2CK2nSiCST4o+DNtqMWUayW9a8gqEJsx36rCyo8m2zMxs1kwYUK8eQQYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kuCy1KHz; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="RfrZnsh2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1782980035;
-	bh=xZl9n4SSq0AlQ66FbM1ZQAlJ2XwNpirrFGT3JwGR14E=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=RfrZnsh2MCyncPA1hK8UygHfP6dgKFPREYZ84Z1qyi+HFgghXP1e/YHUilGXN3bjR
-	 3W/gsCflnde5U2koD5wjsk+xqeXDf76k9w1VRKlAmAuVZwERgFG6kC5pwp297jOIR3
-	 ipnOOI/4e5E0NiGqGPvcIENQgvidZhXgS/uRz2y0=
-X-QQ-mid: zesmtpgz6t1782980031tc09f6a9a
-X-QQ-Originating-IP: zbzp5YSU67vmZlEI3hTXu3J1qs8spa2cESI3CrxtNCs=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 02 Jul 2026 16:13:49 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 13717686121421522630
-EX-QQ-RecipientCnt: 4
-From: raoxu <raoxu@uniontech.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	raoxu@uniontech.com
-Subject: [RESEND PATCH] usb: typec: tcpm: fix EPR AVS APDO maximum voltage decoding
-Date: Thu,  2 Jul 2026 16:13:48 +0800
-Message-ID: <EC9C0058EE42BCB3+20260702081348.2479291-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kuCy1KHz"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2c7cfa17fedso15430135ad.3
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2026 01:21:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1782980505; x=1783585305; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jxRVo9aIbyDvvuZPFaTnF8c++ORfuni0RdSeL1BmfKU=;
+        b=kuCy1KHzHoeS2zEmb+4FSTe9q4dN8DxeqHzlrHeFiGfr6pOA4wadlZkzN2gCvijbvy
+         N+Jh5AUOz8BZjwQfwJEvHJI2CSuXfdNzBMNB9JhnNqWRRHGujDHeMIMjwVpbW4xFQ55B
+         9uAaQbKHY5tQo9lLaGdovLGaYaKNvzuamDnmo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782980505; x=1783585305;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jxRVo9aIbyDvvuZPFaTnF8c++ORfuni0RdSeL1BmfKU=;
+        b=hYmuDTJSemXGrM/OYVoFq5r09M4w/FxoyahNsS8wOYnT7wwXVA2BW9MnMhBGsI9SV0
+         NU10NZQ8qqAtpnWKp+27BONnMV5uYrmJEPnTrMloukmuHO6BEakJ+LX4M9NmZfBYE0EQ
+         2WhpSdoyuu4yd7lvCXSK+gc51wTdnN1r2aAfGXWZMcYF15DOfbBc/MjG7iY1o21aZKcz
+         feZjDBjyCa/3ZtSl9vYTeHs0myjYkdEazNx0rpbqheSDT+X98MKtemqHAyrzF9aTMNLd
+         ynQw3IVWcTn6MO80E0aA6yOnnGYzlXXNIXZj3lvxInF+T8M2gn1xI7wsRJISGed9ObWs
+         a4lQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqejTmu0z0K9Jtv5USipVNBWDwStyjelFdKrAB7tZ1ufU7L+fxqWXL7bmgj86GVfLQcNJhXwt+PHjI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRK/I8Qyiyd2XbafJZ9UFqbTZ3kmlgdktPNtv9NPHAl+5dPdt/
+	217bYMTi086e2sNOQrJ71yi8c+RNviiffqW415+JVy7Zq0Arvhn97QSSJNlnGNr3nXYkRUizclw
+	URPgLvA==
+X-Gm-Gg: AfdE7cmvftyruQmmFckVDEWLTTyShBcb7y5PNlK8rYH9PERehQIlYp9fXY/l15H2alx
+	n7kpm7lscHmVr2wQIJFNWx2HdJ3yLv+5ZwiFEW1Qgd0qzxL79SoJVEyBQpEBG3ABqDA0iLXIpvW
+	kFFPCy1uhvQV0gugV1PU4H1+tzPNmHeOAMhbjJsp+fHWgmB4uqkSe0pNTnrvPdNmM1ZnPtO4uwr
+	Tjezz17ijpW7dGgoEcUmHJNANLmmrvSYRWP5+So7bAVOwvGBEZg58/zxmLg/MLl6mF8U/S3u++d
+	LrbDCCSKq6b20zVqD3TSqQJ8V1Cej3mjqLk2qBjeM+KAYSFbv12DlZiScvUQJFDB8QLOu1ndouB
+	Hpp646mmYIudj7/vvchVpRM4IW68n3fAISCDQCGVn+2VvnUsYMZYRfnEkl4u7wjH1BlNvNEZtUR
+	D2tKrG7Gfi8qUdtwR5M7e8PGfgN9HvOhuxFmf2mdLzXtmqb4/CzMr5
+X-Received: by 2002:a17:902:d2c1:b0:2c9:aae1:a61a with SMTP id d9443c01a7336-2ca7e6bf4dcmr59316055ad.14.1782980505205;
+        Thu, 02 Jul 2026 01:21:45 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2031:6:4e88:f8c5:c424:2d65])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca9a7c397asm10090435ad.0.2026.07.02.01.21.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 01:21:44 -0700 (PDT)
+Date: Thu, 2 Jul 2026 17:21:41 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [usb-storage] [RFC PATCH] usb: storage: uas: limit consecutive
+ device resets in error handling
+Message-ID: <akYexlPJiSlhYICe@google.com>
+References: <20260701040335.810297-1-senozhatsky@chromium.org>
+ <e2599d9b-5dd9-47db-8339-f1aa825a11d6@suse.com>
+ <akXJuqvHLUpcjXIv@google.com>
+ <ea2e824c-dded-423e-a242-56b9860d3430@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MTGYztYhR5ETsuUUNScthWxf8gVkRq0xT+48DPUQUSHpmTvRdGo4y/5n
-	20WzBVXMM7Ek+5i7JwfEq9p2Hz+uJLLGjQtrvXgCKTO0+FEjssJqIeAiENSLfhyU927wnbG
-	vi2zoh3UZ+jV/WMvsp9Y7C2KavY6WqeJCSdFr/OVvnFuZChTj7k4AmsNnI6MGpJ7aBOj+Mb
-	lvWhALcub/Trv5rz2xepJt8Pfmz3EpXfhWQbZepiXHxVxarKZi0dNRseX6as2e6P28ZiLYH
-	ALGk1VQppXrQ1lmdlCeGO46H8HjdK7ZB4osREmduteADgTKyLd7/hn3/1dMgue5hx4Vo7LD
-	LGJuk3+iNT/ajeEce/Tuuo/asGPowG4AZYoHCEcZVRZB2rdrY+83nw1pxF8EuDMKf+7xiFs
-	SjTE9l2WI4NE28JFf47r1ui79dQo2roV3dCW0NLc1YcYwXcBjx+4H/vAzYLEcG41EToUho4
-	DSejhpLyjdjzvhd8v9FnQX2gFT38I/SIElQWNMCtHcMJlWF3oRFpvvDtCsdSglpmsuVeDHl
-	UFXQ5VCc4YBgHmXIDxtUIAU5jG04HOibe5BvsFsFF6FvhwM8J+CjRF1H/bVJATKDZ9bD0mC
-	MCpuhuTWH9fQqhT7MzrUzdWYS5mv9Zd8keHLxteklhYr9kS1/YQzNRNVc9XS70qpmdNqWIi
-	+GFsfrn4wb2rSn6eAaeb//T9RUhF4tYCOiHbk4OdIsQhNm7W4uWhohLCVtXtwqlRzvJ0i1C
-	n/CT0pIiDRYfHEAdmwVJAWrLOHvtvbcjn53c0wr+N1HRb+0ac+5XKZRlcQfiCh4eEzfvYSG
-	w/ANPdLlIPp9CtQ80ckhomTB9vYgRKy3JI9LjWuibwiIyYIFvyAoQ2Pb0PRgU4E9JLZEbna
-	OaeKE5Ib9r7Xbxqf2yvNdcN1g8kO1GnmE1CgFWhHYSjD3afXZRgDLPhqFodpHwx4BRnlc+9
-	CkQ92t+tRezEj5+hDYioPnCjTQrOiLlo0Un7Bq5Dj0pun5jeUhZBFk9GrGa82eBlOXkEAM7
-	ER5hMBHg/wVO7BM49SnSt7v4q8O+lZ1pmVYbofF92P/9kLnTYy+LzBRnh1b1g=
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-X-QQ-RECHKSPAM: 0
+In-Reply-To: <ea2e824c-dded-423e-a242-56b9860d3430@suse.com>
 
-From: Xu Rao <raoxu@uniontech.com>
+On (26/07/02 10:08), Oliver Neukum wrote:
+> On 02.07.26 04:25, Sergey Senozhatsky wrote:
+> 
+> > <4>[ 750.651133] rq: tag=0 hctx=0 op=WRITE sector=13860872 len=524288 age=76536 ms pid=11900 comm=image_burner state=D
+> > <4>[ 750.651205] rq: tag=1 hctx=0 op=WRITE sector=13865992 len=524288 age=76536 ms pid=11900 comm=image_burner state=D
+> > <4>[ 750.651263] rq: tag=2 hctx=0 op=WRITE sector=13863944 len=524288 age=76536 ms pid=11900 comm=image_burner state=D
+> > <4>[ 750.651320] rq: tag=3 hctx=0 op=WRITE sector=13862920 len=524288 age=76536 ms pid=11900 comm=image_burner state=D
+> > <4>[ 750.651379] rq: tag=4 hctx=0 op=WRITE sector=13861896 len=524288 age=76536 ms pid=11900 comm=image_burner state=D
+> > <4>[ 750.651437] rq: tag=5 hctx=0 op=WRITE sector=13864968 len=524288 age=76536 ms pid=11900 comm=image_burner state=D
+> 
+> [..]
+> > <4>[ 812.091136] rq: tag=0 hctx=0 op=WRITE sector=13863944 len=524288 age=137976 ms pid=11900 comm=image_burner state=D
+> > <4>[ 812.091194] rq: tag=1 hctx=0 op=WRITE sector=13862920 len=524288 age=137976 ms pid=11900 comm=image_burner state=D
+> > <4>[ 812.091242] rq: tag=2 hctx=0 op=WRITE sector=13861896 len=524288 age=137976 ms pid=11900 comm=image_burner state=D
+> > <4>[ 812.091289] rq: tag=3 hctx=0 op=WRITE sector=13860872 len=524288 age=137976 ms pid=11900 comm=image_burner state=D
+> > <4>[ 812.091335] rq: tag=4 hctx=0 op=WRITE sector=13865992 len=524288 age=137976 ms pid=11900 comm=image_burner state=D
+> > <4>[ 812.091381] rq: tag=5 hctx=0 op=WRITE sector=13864968 len=524288 age=137976 ms pid=11900 comm=image_burner state=D
+> 
+> This looks to me like the block layer keeps writing to the same sectors.
+> In other words the issue I see is with the block layer.
 
-pdo_epr_avs_apdo_max_voltage_mv() extracts the EPR AVS minimum-voltage
-field instead of the maximum-voltage field. As a result, an EPR AVS APDO
-with different minimum and maximum voltages is decoded as having
-identical limits. The currently visible effect is that
-tcpm_log_source_caps() reports a min-min voltage range.
+Oh, this is just our simple blk-mq watchdog.  Those are the same 5
+stalled requests (WRITES), it's just they got reported twice - same
+tags, same sectors, etc. they just got older (age 78k ms -> 137k ms
+since submission).
 
-Extract PDO_EPR_AVS_APDO_MAX_VOLT in the maximum-voltage accessor.
+> Do you know what triggers the error handler at the very first timeﬂ
 
-Fixes: f82890c98f3e ("tcpm: Parse and log AVS APDO")
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
----
- include/linux/usb/pd.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/include/linux/usb/pd.h b/include/linux/usb/pd.h
-index 337a5485af7c..ee360dedeaa6 100644
---- a/include/linux/usb/pd.h
-+++ b/include/linux/usb/pd.h
-@@ -493,7 +493,7 @@ static inline unsigned int pdo_epr_avs_apdo_min_voltage_mv(u32 pdo)
-
- static inline unsigned int pdo_epr_avs_apdo_max_voltage_mv(u32 pdo)
- {
--	return FIELD_GET(PDO_EPR_AVS_APDO_MIN_VOLT, pdo) * 100;
-+	return FIELD_GET(PDO_EPR_AVS_APDO_MAX_VOLT, pdo) * 100;
- }
-
- static inline unsigned int pdo_epr_avs_apdo_pdp_w(u32 pdo)
---
-2.50.1
-
+Unfortunately, no.
