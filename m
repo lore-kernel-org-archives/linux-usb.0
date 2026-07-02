@@ -1,63 +1,61 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mail-gw02.astralinux.ru (mail-gw02.astralinux.ru [93.188.205.243])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F96387566
-	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 10:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C90431E68;
+	Thu,  2 Jul 2026 10:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.188.205.243
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782987081; cv=none; b=iHqQHHQVqjTnj3eMrvtfICoew5frwjcZ4snUT+JAJM2/1ppVzSP6yyI2x/zneSmo1cy8buxDtzOqBJ1tI5VLgNm3bNy8fneP6s3cMRO1fHpiAl4UgW/LFyRyFJoM7kotT+BI6GZ5cggaT02cY7soXgeOv2GtPaKQ4CP86LGDCEI=
+	t=1782987664; cv=none; b=iBSIaJBS6UsEUcT6fkRkalTXSep5YkMcukG9GhbxPgsWRz3+ockjdM3N5yEud0KWdxXo2H7fDLkZflp+B9OUh872cQ9DXrIHs5XB5Qb8uwsIDCtn8wxH+Cv239sDKq++jdkhq1lAg5uI52PwNHrybXnWX7zbDGbITwVTiN+zqho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782987081; c=relaxed/simple;
-	bh=rm+ZYKaQ3gj/Bdb3jYZ5Gr5Oqj0jDzO8oiPzHd7Um8g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pe0Fw4S4JYy23r83NhR9qx8q8deQ8L7D9MGDN/Pzn5Flg8omaz7V0XI/ikuOfnOvAJ/wuHN77dwq+l01ZyEG1eaKSC2lOOHoZj7jbMH1C/XYxmHPt++UDH0TmpXFdpwdb1mUuyxijP+MA/FILl5p0AwK6AAIN25uzIBiwlSPJ4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PSVV+m6I; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1782987664; c=relaxed/simple;
+	bh=bzutjKBr6Z86v8mWSdu4o8FkYSFLpCB7bWGr+YlZWzA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a2+rjakNTZSb8+jp8bbkLJsW6BxLjGTBoSqZ9fvSI5BlUvESE48FQFKhuC+LMj30mTXBViIRC7Xca0hc0KaLc/hDgRUZhXyUKRCfWckjqC1ukf+uAoTNdFGUJaP3fxQc+ahsfLeZdSTmjpeBIRvF09eR5yJUk1FCi00VFaZJw2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b=pJqRIF92; arc=none smtp.client-ip=93.188.205.243
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PSVV+m6I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782987078;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XrZNxex3nITm4dFXovN1ZBHhXp+aPjsJQAiwCXDZ+X8=;
-	b=PSVV+m6IZBKT62UBc0R/ZbRyGbqyD/VuZOthTsJXqwcthQCi7ttK1kcwveReKt6ZLVVCW1
-	4fXK8wcfMf1aj1xrK89wmwbretQf9jT7jQiySk6rNQGQFdZ1A0uPwO9JbKaXiECjH3eNS/
-	i+Q8RB3GA3irNLUl48v1A15zNn+wxgE=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-348-8wPaUucOPem2ImngSXCcuQ-1; Thu,
- 02 Jul 2026 06:11:15 -0400
-X-MC-Unique: 8wPaUucOPem2ImngSXCcuQ-1
-X-Mimecast-MFC-AGG-ID: 8wPaUucOPem2ImngSXCcuQ_1782987074
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b="pJqRIF92"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
+	s=mail; t=1782987651;
+	bh=bzutjKBr6Z86v8mWSdu4o8FkYSFLpCB7bWGr+YlZWzA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pJqRIF92s0iEpinwSTJ7s+hKoHSWwC89vaSU8qnU8/UQR/hxl6urtFk+xf7EZt8d9
+	 Hf0w9mzvj3oPQaJ8MorEgWNDohXyxw+3TTRrd8dvWnl4Hvq6LjN24pzAXu58Km+1Of
+	 bi/dXFg8gqDxUo7VwjUVew+8C6CLkGn3X11BUeAHqgYwrdsnvGaUL9b9J5psTGgvNN
+	 pfAVMp2LV6OyyV112bUFBiqv94RxcxPyuXyhxqXG1GKTbLerYoqqhIkpWKA8ukDHb0
+	 ednFPZalkcmunVEkLRNgOEAECdZM++2URcRQOBWeuCqpunXqzLrb03/TMjikqP+Du3
+	 wIKsyei5whYtg==
+Received: from gca-msk-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
+	by mail-gw02.astralinux.ru (Postfix) with ESMTP id A24051F955;
+	Thu,  2 Jul 2026 13:20:51 +0300 (MSK)
+Received: from new-mail.astralinux.ru (unknown [10.205.207.13])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7902C1944F08;
-	Thu,  2 Jul 2026 10:11:13 +0000 (UTC)
-Received: from gerbillo.redhat.com (unknown [10.44.48.252])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6B7E5194510E;
-	Thu,  2 Jul 2026 10:11:10 +0000 (UTC)
-From: Paolo Abeni <pabeni@redhat.com>
-To: jk@codeconstruct.com.au
-Cc: matt@codeconstruct.com.au,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	gregkh@linuxfoundation.org,
-	netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH net-next 10/12] net: mctp: usblib: Add initial kunit tests
-Date: Thu,  2 Jul 2026 12:10:49 +0200
-Message-ID: <20260702101049.139262-1-pabeni@redhat.com>
-In-Reply-To: <20260630-dev-mctp-usb-1-1-v1-10-86a311fc67b7@codeconstruct.com.au>
-References: <20260630-dev-mctp-usb-1-1-v1-10-86a311fc67b7@codeconstruct.com.au>
+	by mail-gw02.astralinux.ru (Postfix) with ESMTPS;
+	Thu,  2 Jul 2026 13:20:49 +0300 (MSK)
+Received: from rbta-msk-lt-169874.astralinux.ru (rbta-msk-lt-169874.astralinux.ru [10.198.56.59])
+	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4grXw10s5Pzh5F;
+	Thu, 02 Jul 2026 13:20:49 +0300 (MSK)
+From: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+To: stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>,
+	Peter Chen <peter.chen@nxp.com>,
+	Pawel Laszczak <pawell@cadence.com>,
+	Roger Quadros <rogerq@ti.com>,
+	Felipe Balbi <felipe.balbi@linux.intel.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Peter Chen <peter.chen@kernel.org>,
+	Roger Quadros <rogerq@kernel.org>,
+	lvc-project@linuxtesting.org,
+	stable <stable@kernel.org>,
+	Yongchao Wu <yongchao.wu@autochips.com>
+Subject: [PATCH 5.10] usb: cdns3: gadget: fix NULL pointer dereference in ep_queue
+Date: Thu,  2 Jul 2026 13:20:17 +0300
+Message-Id: <20260702102018.48182-1-mdmitrichenko@astralinux.ru>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -65,241 +63,61 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-KSMG-AntiPhishing: NotDetected, bases: 2026/07/02 08:31:00
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Envelope-From: mdmitrichenko@astralinux.ru
+X-KSMG-AntiSpam-Info: LuaCore: 111 0.3.111 1434338e80da3ad6056aa2b487308911a6b137ca, {date_rfc_vio_soft_silent}, {Tracking_ml_letters}, {Tracking_one_susp_tld}, {Tracking_uf_ne_domains}, {Tracking_internal2}, {Tracking_from_domain_doesnt_match_to}, patch.msgid.link:7.1.1;astralinux.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;new-mail.astralinux.ru:7.1.1, FromAlignment: s
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 204205 [Jul 02 2026]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.22
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/07/02 09:59:00 #28358554
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected, bases: 2026/07/02 08:31:00
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 1
 
-From: AI Reviewer <ai@example.com>
+From: Yongchao Wu <yongchao.wu@autochips.com>
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-Full review at: https://netdev-ai.bots.linux.dev/sashiko/
+commit 7f6f127b9bc34bed35f56faf7ecb1561d6b39000 upstream.
+
+When the gadget endpoint is disabled or not yet configured, the ep->desc
+pointer can be NULL. This leads to a NULL pointer dereference when
+__cdns3_gadget_ep_queue() is called, causing a kernel crash.
+
+Add a check to return -ESHUTDOWN if ep->desc is NULL, which is the
+standard return code for unconfigured endpoints.
+
+This prevents potential crashes when ep_queue is called on endpoints
+that are not ready.
+
+Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
+Cc: stable <stable@kernel.org>
+Signed-off-by: Yongchao Wu <yongchao.wu@autochips.com>
+Acked-by: Peter Chen <peter.chen@kernel.org>
+Link: https://patch.msgid.link/20260331000407.613298-1-yongchao.wu@autochips.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
 ---
-net: mctp: usblib: Add initial kunit tests
+Backport fix for CVE-2026-31755
+ drivers/usb/cdns3/gadget.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-This commit introduces an initial set of kunit tests covering the
-mctp-usblib receive path, exercising packet extraction from incoming
-USB transfer data.
-
-> diff --git a/drivers/net/mctp/mctp-usblib-test.c b/drivers/net/mctp/mctp-usblib-test.c
-> new file mode 100644
-> index 000000000000..ac837cbb4436
-> --- /dev/null
-> +++ b/drivers/net/mctp/mctp-usblib-test.c
-> @@ -0,0 +1,330 @@
-
-[ ... ]
-
-> +static struct mctp_usblib_test_dev *mctp_usblib_test_create_dev(void)
-> +{
-> +	struct mctp_usblib_test_dev *dev;
-> +	struct net_device *ndev;
-> +	int rc;
-> +
-> +	ndev = alloc_netdev(sizeof(*dev), "mctptest%d", NET_NAME_ENUM,
-> +			    mctp_usblib_dev_setup);
-> +	if (!ndev)
-> +		return NULL;
-> +
-> +	dev = netdev_priv(ndev);
-> +	dev->ndev = ndev;
-> +	skb_queue_head_init(&dev->rx_pkts);
-> +
-> +	rc = register_netdev(ndev);
-> +	if (rc) {
-> +		free_netdev(ndev);
-> +		return NULL;
-> +	}
-> +
-> +	rcu_read_lock();
-> +	dev->mdev = __mctp_dev_get(ndev);
-> +	dev->mdev->net = mctp_default_net(dev_net(ndev));
-> +	rcu_read_unlock();
-
-[Low]
-Can __mctp_dev_get() return NULL here?  Looking at net/mctp/device.c:
-
-    struct mctp_dev *__mctp_dev_get(const struct net_device *dev)
-    {
-        struct mctp_dev *mdev = rcu_dereference(dev->mctp_ptr);
-
-        if (mdev)
-            if (!refcount_inc_not_zero(&mdev->refs))
-                return NULL;
-        return mdev;
-    }
-
-If mctp_add_dev() fails inside the NETDEV_REGISTER notifier path, mctp_ptr
-will not be installed and __mctp_dev_get() returns NULL, making the
-subsequent dev->mdev->net = ... a NULL dereference in the test kthread.
-
-> +
-> +	rtnl_lock();
-> +	dev_open(ndev, NULL);
-> +	rtnl_unlock();
-
-[Low]
-Is it intentional to ignore the return value of dev_open() here?  If
-dev_open() fails the netdev is registered but never brought up, and the
-test then proceeds against an inconsistently-initialized device.
-
-> +
-> +	return dev;
-> +}
-> +
-> +static int mctp_usblib_test_dst_output(struct mctp_dst *dst,
-> +				       struct sk_buff *skb)
-> +{
-> +	struct mctp_usblib_test_dev *dev = netdev_priv(skb->dev);
-> +
-> +	skb_queue_tail(&dev->rx_pkts, skb);
-> +
-> +	return 0;
-> +}
-> +
-> +static void mctp_usblib_test_init(struct kunit *test,
-> +				  struct mctp_usblib_test_ctx *ctx)
-> +{
-> +	struct mctp_route *rt = &ctx->rt;
-> +
-> +	ctx->dev = mctp_usblib_test_create_dev();
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->dev);
-> +
-> +	memset(rt, 0, sizeof(*rt));
-> +	rt->min = local_eid;
-> +	rt->max = local_eid;
-> +	rt->dst_type = MCTP_ROUTE_DIRECT;
-> +	rt->type = RTN_LOCAL;
-> +	rt->dev = ctx->dev->mdev;
-> +	rt->output = mctp_usblib_test_dst_output;
-> +
-> +	list_add_rcu(&ctx->rt.list, &init_net.mctp.routes);
-> +}
-
-[High]
-What happens to ctx.rt on a KUNIT_ASSERT_* failure later in the test?
-
-The ctx variable is a stack local in mctp_usblib_test_rx_single() and
-mctp_usblib_test_rx_pkt_span(), and mctp_usblib_test_init() inserts
-&ctx->rt.list into the global RCU-protected list init_net.mctp.routes:
-
-    list_add_rcu(&ctx->rt.list, &init_net.mctp.routes);
-
-KUNIT_ASSERT_* macros invoke __kunit_abort() which calls
-kunit_try_catch_throw() and ultimately kthread_exit(0), so control never
-returns to the test function:
-
-    lib/kunit/test.c: __kunit_abort()
-      -> kunit_try_catch_throw()
-        -> kthread_exit(0)
-
-When the test kthread exits, its stack is gone, leaving a list_head in
-init_net.mctp.routes that points at freed/reused stack memory.
-
-The next RCU traversal of init_net.mctp.routes (subsequent mctp test,
-mctp routing code, another kunit run) would then dereference that
-dangling pointer.
-
-The same abort path also bypasses unregister_netdev() and the
-mctp_dev_put() done by mctp_usblib_test_fini().
-
-Would using kunit_add_action() / kunit_add_action_or_reset() (or suite
-.init/.exit hooks together with kunit_kmalloc()) ensure list_del_rcu(),
-synchronize_rcu() and the netdev teardown always run, regardless of
-assertion outcome?
-
-> +
-[ ... ]
-
-> +static void mctp_usblib_test_rx_single(struct kunit *test)
-> +{
-> +	struct mctp_usblib_test_dev *dev;
-> +	struct mctp_usblib_test_ctx ctx;
-> +	struct mctp_usblib_rx rx;
-> +	struct sk_buff *skb;
-> +	size_t len;
-> +	void *buf;
-> +	int rc;
-> +
-> +	mctp_usblib_test_init(test, &ctx);
-> +	dev = ctx.dev;
-> +
-> +	mctp_usblib_rx_init(&rx, true);
-> +
-> +	rc = mctp_usblib_rx_prepare(dev->ndev, &rx, &buf, &len, GFP_KERNEL);
-> +	KUNIT_ASSERT_EQ(test, rc, 0);
-> +
-> +	mctp_usblib_test_init_pkt(buf, 8, 8);
-> +
-> +	rc = mctp_usblib_rx_complete(dev->ndev, &rx, 8);
-> +	KUNIT_ASSERT_EQ(test, rc, 0);
-> +
-> +	skb = __skb_dequeue(&dev->rx_pkts);
-> +	KUNIT_EXPECT_NOT_ERR_OR_NULL(test, skb);
-> +	KUNIT_EXPECT_EQ(test, skb->len, 4);
-> +	kfree_skb(skb);
-> +
-> +	mctp_usblib_rx_fini(&rx);
-> +	mctp_usblib_test_fini(test, &ctx);
-> +}
-> +
-[ ... ]
-
-> +static void mctp_usblib_test_rx_pkt_span(struct kunit *test)
-> +{
-> +	const struct mctp_usblib_test_pkt_span *pkt_span = test->param_value;
-> +	size_t len, xfer_len, off, xfer_off;
-> +	struct mctp_usblib_test_dev *dev;
-> +	struct mctp_usblib_test_ctx ctx;
-> +	struct mctp_usblib_rx rx;
-> +	unsigned int i;
-> +	u8 *pktbuf;
-> +	void *buf;
-> +	int rc;
-> +
-> +	mctp_usblib_test_pkt_span_validate(test, pkt_span, &len);
-> +	pktbuf = kmalloc_array(1, len, GFP_KERNEL);
-> +
-> +	/* lay out packets */
-> +	for (off = 0, i = 0; i < pkt_span->n_pkts; i++) {
-> +		len = pkt_span->pkts[i];
-> +		mctp_usblib_test_init_pkt(pktbuf + off, len, len);
-> +		off += len;
-> +	}
-
-[Low]
-Is the kmalloc_array() return value missing a NULL check?  pktbuf is
-dereferenced immediately via mctp_usblib_test_init_pkt(pktbuf + off, ...),
-so an allocation failure (including under kunit fault injection) becomes
-a NULL deref.  Would kunit_kmalloc_array() or an explicit
-KUNIT_ASSERT_NOT_NULL(test, pktbuf) be more appropriate here?
-
-> +
-[ ... ]
-
-> +	/* check received packets */
-> +	KUNIT_EXPECT_EQ(test, dev->rx_pkts.qlen, pkt_span->n_pkts);
-> +	for (i = 0; ; i++) {
-> +		struct sk_buff *skb = __skb_dequeue(&dev->rx_pkts);
-> +
-> +		if (!skb)
-> +			break;
-> +
-> +		if (i <= pkt_span->n_pkts)
-> +			KUNIT_EXPECT_EQ(test, skb->len, pkt_span->pkts[i] - 4);
-> +
-> +		kfree_skb(skb);
-> +	}
-
-[Low]
-Should this comparison be i < pkt_span->n_pkts rather than
-i <= pkt_span->n_pkts?
-
-With <=, when i == n_pkts the test reads pkts[n_pkts], which is a
-zero-initialized tail slot of pkts[6]; the expected length then
-underflows to (size_t)0 - 4 and produces a confusing diagnostic instead
-of a clean failure if the queue ever holds more SKBs than expected.
-
-> +
-[ ... ]
+diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/gadget.c
+index 61388e2089f5f..a64302acdfe6d 100644
+--- a/drivers/usb/cdns3/gadget.c
++++ b/drivers/usb/cdns3/gadget.c
+@@ -2587,6 +2587,9 @@ static int __cdns3_gadget_ep_queue(struct usb_ep *ep,
+ 	struct cdns3_request *priv_req;
+ 	int ret = 0;
+ 
++	if (!ep->desc)
++		return -ESHUTDOWN;
++
+ 	request->actual = 0;
+ 	request->status = -EINPROGRESS;
+ 	priv_req = to_cdns3_request(request);
 -- 
-This is an AI-generated review.
-
+2.47.3
