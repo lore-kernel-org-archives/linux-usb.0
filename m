@@ -1,97 +1,97 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37693161A4
-	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 18:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B166433E7D;
+	Thu,  2 Jul 2026 18:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783018009; cv=none; b=IUUVo+kFDcm2et0rstfaHnFxKIONe+RUmgXZT0QJRvkM2Rhdjh8NnGO9did4kVTheyuJu43gtaKs42Qc3AQ47Fx225IrjRrwn+xEOPXyRdYYmxZ61/pb/L40iCt7goCMzupHAmC9JZqafu8KRONRwGTQVD19iqai+vFixgBwE1I=
+	t=1783018161; cv=none; b=UAH9OVev4eG0Z9YohB1E/QTzlWY5UYWL7I4wiaGw0BnOM/Phw8VA6fBxfhsjGmefkFOsHhoeP1XcbPEqluhs+T65lMNK0h9e+RgYQ0AU/0pdiVKDENRYG37R2yJOXC0/Thjo5m5C9vcMO1YL7PGYR4ObDGyronCikhMRBieyU1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783018009; c=relaxed/simple;
-	bh=bc/Xk8McsmI3+DMbJka2c3Ec2Xspo5VMVo0hNXFZ3KU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lrUaizwXwWrlno4CUlHyQgRv6NOIo3LMF0g4nTh8L2fHVBgU7TMOHTqC6/FHSg/awdPOCqrdk0/3cT8UuVtdXZV346Dbu+7ef8CJSjLM6wb0q1UyqLYzRkHeXTvHPkGT3tydAF0SOHo+A2qdFG13DKuxCvvTDzbjuJN2lbpysV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VEPXf4K+; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783018161; c=relaxed/simple;
+	bh=V37kByLjkFBde1zEcUTpDrX8i4FT5298RhSlR/rW+24=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PrE/4hrQld2JAD+BjiW/unfnW8lKzPrthmsunZn6GUfKE2v6Odt2xggpCBWNpGj2xa+rQbOAxC955tXtV8vMgBmWfAUFB1o3tnj/EnjaBQ6dL/lW371+z3lUsSeV55eDr0D+3c103F267SU6vPmoqdLKnTiKo3XHuMQj3Mq3A7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=sQdLR4i5; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=d/jrZjOU; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VEPXf4K+"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493c19bad03so18059765e9.2
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2026 11:46:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783018006; x=1783622806; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=zTzu42wuhGDkakcEvAgGtUkHKmTIvih0X9WzMdoLMDM=;
-        b=VEPXf4K+R884/Ik36BQWRpuFMSmhiKTzqnbLwcP2led2BODOYEbF/WrdIw5OHgBFXd
-         5wrmy3hPHZm4vzAXrhz7KYGTRi7r+kEXiQ8GEE93Ha1rgpJyIK3nffTNaeQcECWw9LgC
-         omCQuocjV33v2WlBFhhMOEdq/GgZwhvJlLRGsMkJ49inZ9q0uzhHAY96fbv5s8klWoPj
-         tqNRBhBjUn+WrjEdh2H5rzJGzkLhSras+15pymd/+vry6xNvby3ekbyuRRfHcv/VM7T9
-         I94zxQXkRUMBhPnUAApiCww9YFr4Z4oahAdN1bUR10IZp7aRAcY2mjh7GnZxP9ExhxyW
-         Ro4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783018006; x=1783622806;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zTzu42wuhGDkakcEvAgGtUkHKmTIvih0X9WzMdoLMDM=;
-        b=Z0uwbyjqHJUkor2zCGPMqK7p4/iq6KyEZX+mjUG8fzSCWJLSQgW6sDQnv47K5HgxrK
-         +AGOaLDw80qfW+jJlN0YGQVmx1gwg/4+DQ24yS4lE3hJOLA+YchC1vUNhSWDf6P+WNVE
-         xPi7YJ/+aWhiFu/sljg9TqgaffaAPRkQ/WuVZ7TxLBStpmAWq9E6z73TvBeYQL6jXpwG
-         N69MmarM66SF/lvvUoYFhu25XTCWnzaYFe8c37by6vsRMnJaDJsg2Bhy0XIESSt5ma+3
-         YaDpo+vOVvcXnt9zKzDbO3DOCgqnV4HReanVt01yMFeGrI1V/bQQw4o24BybV7+Gm2e9
-         3VLg==
-X-Gm-Message-State: AOJu0Yxz8MiqvYMwlWtSdMEXr15jmmTp7Vzq/tmBpQTctqphWaHrwkzX
-	x49FAy9ih9TtyrKK1X9PwLtHjpcmNNjWS6pbzZl1ozS3EDVEfW49BynD
-X-Gm-Gg: AfdE7ckyp3BlEu7NTowlHE4UKntRP/o/AMJYE+5OX51khVbjgiKXJwBa4weMB3gHViI
-	ib/pNMN8eELSr6e/NKJnCOvB81Tcqr3HPybivhhCDNq0xz4iUQ+mdKCfBEj2+ArigRE2fZ6JKEj
-	aYMx9qkCY5yTO2pq0pSAvhGQisFUdKnBTFKZbyzlyhex2Xsz0z8czcwXmA5Z89C7fxQtyiIKtgf
-	vG70deYRKFw+d+KzgS4QOBUJBXE2CU48zHH0MnmPLNLZ91vqCmmx+AUBNyYqVE+4pqQsgOYe9Ui
-	DGXnAO2Q7tJXSiUts3bkWdjVFoy+JgRgoyJ+e1o0hGuRni5/lK7U4dC4AmYaKC4XmBNqpcFyDeQ
-	JOi5XxRLCK6voCI8bX+6fburr/0wrN/zJEMMvstpThmE/t5wIiPI+XEVN8xeSVX0Drdqk7mnWqZ
-	on6ySYoQocxroh+woWuWO2UZpY6RxO3Qcv5sH2vIZ36CevidDa0CPTthzKqUj6y/XY9Nlj+tkwk
-	jbBFvf7
-X-Received: by 2002:a7b:c38b:0:b0:493:aa24:792b with SMTP id 5b1f17b1804b1-493c2b7f3b0mr68988115e9.22.1783018006246;
-        Thu, 02 Jul 2026 11:46:46 -0700 (PDT)
-Received: from [10.128.11.240] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63172fesm120186275e9.0.2026.07.02.11.46.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jul 2026 11:46:45 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <a6d660ae-44b5-4f42-a1b6-267d42f14c4b@gmail.com>
-Date: Thu, 2 Jul 2026 19:46:44 +0100
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="sQdLR4i5";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="d/jrZjOU"
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4grmBj4GPlz9t9R;
+	Thu,  2 Jul 2026 20:49:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783018157;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Jox/xtYks7cQO9zmfTENMkbNa9E+Ifocmwm3aK7cMkA=;
+	b=sQdLR4i5RSHXlv6GA1zM5xNObCyMKKH5zSH4rjOXqDawUnSgeLXpFB6saFPAtI/aPO2DPn
+	2EdzYllAEqUbjGJtTKEVZObi9Kjfgq1yvXH0EwP7XcIS8/Zy9otDIFDNbm6/Y7GzNtEdXU
+	Br3yTzwfgwGBW1eIufIlPhQF32V1L8cWQubMY167zRu03hT4XIEFbBZ/MhA8ZgFSwWg8bo
+	k5uycYs/+EXlsfOQ73yYbmnvHG+8oSZ4+VbH8qTzuF3oPin3bKn74Hjzi3J2BFasHtruMD
+	WZyf/OnRT2tMVArc17qZy4XnH1ebpr/y7HG7/b2Xi6BkaetuZxY+IN6Q6uHbgw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="d/jrZjOU";
+	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::2 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783018156;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Jox/xtYks7cQO9zmfTENMkbNa9E+Ifocmwm3aK7cMkA=;
+	b=d/jrZjOUoe+x/4ThwPflcUy9toUEHKLlNrUmUD98o39cSFcdp1IfpoYM40qELT65jOhsz+
+	pK8yTUSGpghiwxB442m8QGcGaluHSZoBs3TEz7UPgmOQIYgpLwDlxrcqljn078kQhrYsiU
+	QEvlkBr+RMt7Pm/VSxZmW7iQPuwbFLmYGOpmjdcB7qePL/zZ+0Ug4KYp1J9vBVFoABn+sc
+	ryBoA6vIiXi0r2KMH94WegJvtX3dm5g3m11W480IAYoRSYvuuELqfxmQmME+m1CJ4bIfUn
+	eXdi3NkF0aZuuC01eLFTCqApeXPNNrK1ZtvnHWTPT6ybgcikwmXEmLFviSggag==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	Manuel Ebner <manuelebner@mailbox.org>,
+	linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH] ABI: sysfs-bus-usb: fix brace
+Date: Thu,  2 Jul 2026 20:45:02 +0200
+Message-ID: <20260702184500.208211-4-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: typec: altmodes: select DRM_AUX_HPD_BRIDGE for
- TYPEC_DP_ALTMODE
-To: Chaoyi Chen <kernel@airkyi.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Xu Yang <xu.yang_2@oss.nxp.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>
-References: <20260702022036.44-1-kernel@airkyi.com>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <20260702022036.44-1-kernel@airkyi.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 08522099e0a29c83cd5
+X-MBO-RS-META: bji9yxj1axrr1mpdbgtupsgs7erfawk6
+X-Rspamd-Queue-Id: 4grmBj4GPlz9t9R
 
-Hi Chaovi,
+Remove single ')'
 
-On 7/2/26 03:20, Chaoyi Chen wrote:
-> most likely
-> also needed
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+---
+Sorry for the noise, prior mail I messed the cc up.
 
-> +	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
+Another info: get_maintainer.pl didn't return anything
+usefull for this patch.
+Maybe you could add this file to the subsystem.
 
-Perhaps 'imply' would be more appropriate here instead of 'select'?
+ Documentation/ABI/testing/sysfs-bus-usb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-- Julian Braha
+diff --git a/Documentation/ABI/testing/sysfs-bus-usb b/Documentation/ABI/testing/sysfs-bus-usb
+index af9b653422f1..baf4bf6d32ee 100644
+--- a/Documentation/ABI/testing/sysfs-bus-usb
++++ b/Documentation/ABI/testing/sysfs-bus-usb
+@@ -293,7 +293,7 @@ Description:
+ 
+ 		Supported values are 0 - 15.
+ 		More information on how besl values map to microseconds can be found in
+-		USB 2.0 ECN Errata for Link Power Management, section 4.10)
++		USB 2.0 ECN Errata for Link Power Management, section 4.10
+ 
+ What:		/sys/bus/usb/devices/.../rx_lanes
+ Date:		March 2018
+-- 
+2.54.0
+
