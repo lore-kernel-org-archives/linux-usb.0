@@ -1,47 +1,44 @@
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.58.6])
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59213C553A;
-	Thu,  2 Jul 2026 08:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.132.58.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D19412264;
+	Thu,  2 Jul 2026 08:14:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.194.254.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782980015; cv=none; b=hJenoMBdgdm/1y4mM4vATSbfaWNxxiantFP4Z1t1+pYVd0ommIU+brderH2INYVTbHNMdznuGtZWR0+EHUeaWoRjTQ50mEZhGQ3PrAhWw6vNdiuXddPK8QhkmqzqyTbY3sMRaTkqq7HZBirG7NBmnplLSuJ0WsxEYwBqC3Lgsb0=
+	t=1782980048; cv=none; b=BSJAGvj6Q2JPSvqVmoMzV9i5gFKwBUKYnTVSYAUDMyckm+VLM2/d3wGxgkWu9+mqpPTAYFEcSB1SHKXFo/7YoWLwdJReT/O3hU0pWUZYpYhrHhjwWBhUr/q/BXxzwyhYHQWSfb2d+eVuqtppGZ/B9ym9KFK5zpKRVfFNEjgpAg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782980015; c=relaxed/simple;
-	bh=2ZcerHJBaMq2e/JMGr86nJo2ZzsoboFMfGwfCDcbVUw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GDPx99tgZ7MfhTg+7iB1ziXQ1SAu6Ghsn7GARZjXhy7wi0wk8oRqnw9zPz5VPVTE7YqzyEwumK7BJtPTJoHzd3SDlApoHoV9w+aM9qQRT3OSgf3QfGZwc7aVrc91b9O6R1oXaTCDdewgQFcfx6+OCuAbsTVYOLCVd3jSjv+PPC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=IIgj03PO; arc=none smtp.client-ip=114.132.58.6
+	s=arc-20240116; t=1782980048; c=relaxed/simple;
+	bh=YTMBY3lPGCbeJZukKuC12MHH6Izf4z23FdgG5sNSVp8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HFizQZelX2kI7gjrVLCtRdE+gzuTGDZAeBXSD24PKoOkveSEUJG0hKJL+fggYsxaAI7K+NlQEjFBCAf2IZoiniYZ3/Vf/4ekjFwNtb6IjZp//vHftMEMftG3en3jzEFduH4kC95sxWtFPOBm4ywLKwMAEhZIgHVDh8SASoSlqt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=RfrZnsh2; arc=none smtp.client-ip=18.194.254.142
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="IIgj03PO"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="RfrZnsh2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1782979972;
-	bh=bH/3ksGMfagOroq13frQLZrH/1toIP3H6hqHcfqLuAY=;
+	s=onoh2408; t=1782980035;
+	bh=xZl9n4SSq0AlQ66FbM1ZQAlJ2XwNpirrFGT3JwGR14E=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=IIgj03POA3mWC1Gr7+9pQNeMXVm8MjpmD6oS4ErSptYsU1g4CpKWvcq2VKv0xW2nS
-	 B9u2W9Kk+8NaGjny48DQDesmzaZhoJoU3vXGeHUQ11CvOOiRMZWo3b1+aAEXpzgSoe
-	 E04e75qg3SpuKgwZvdQzn7kiJ01Z1RyFZSGqVxlA=
-X-QQ-mid: zesmtpsz9t1782979957t91bfa5a4
-X-QQ-Originating-IP: iFLHnTjMURipjn2fIgcpHQSeeYeKZzBL3pmN8Xpq2yU=
+	b=RfrZnsh2MCyncPA1hK8UygHfP6dgKFPREYZ84Z1qyi+HFgghXP1e/YHUilGXN3bjR
+	 3W/gsCflnde5U2koD5wjsk+xqeXDf76k9w1VRKlAmAuVZwERgFG6kC5pwp297jOIR3
+	 ipnOOI/4e5E0NiGqGPvcIENQgvidZhXgS/uRz2y0=
+X-QQ-mid: zesmtpgz6t1782980031tc09f6a9a
+X-QQ-Originating-IP: zbzp5YSU67vmZlEI3hTXu3J1qs8spa2cESI3CrxtNCs=
 Received: from PEN202512010004 ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 02 Jul 2026 16:12:35 +0800 (CST)
+	id ; Thu, 02 Jul 2026 16:13:49 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 17426908569751530168
-EX-QQ-RecipientCnt: 7
+X-BIZMAIL-ID: 13717686121421522630
+EX-QQ-RecipientCnt: 4
 From: raoxu <raoxu@uniontech.com>
-To: valentina.manea.m@gmail.com
-Cc: shuah@kernel.org,
-	gregkh@linuxfoundation.org,
-	i@zenithal.me,
-	linux-usb@vger.kernel.org,
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	raoxu@uniontech.com
-Subject: [RESEND PATCH] usbip: vudc: fix NULL pointer dereference in vep_dequeue()
-Date: Thu,  2 Jul 2026 16:12:32 +0800
-Message-ID: <2B1E59F5E4C6B935+20260702081232.2477777-1-raoxu@uniontech.com>
+Subject: [RESEND PATCH] usb: typec: tcpm: fix EPR AVS APDO maximum voltage decoding
+Date: Thu,  2 Jul 2026 16:13:48 +0800
+Message-ID: <EC9C0058EE42BCB3+20260702081348.2479291-1-raoxu@uniontech.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -51,82 +48,55 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: Mv3l2S4IM5FYM/mM30XKbRu9zik2hnaVwjwHSBGQz14DKqz88bmm1rJ1
-	ccXpHc+DtIVLK/WlddEVYEZRH7o3ZgfNPCl9/3Qi1qXX23Jqvw2iHiFnxir6NqC1fJHuFvJ
-	BdyhIhGfo/6vBp+EsBxKlBtSsAYDDQqgT+fY6TPIeyEwHwgqhuR3X0veWu8V8GuSf6W/cAQ
-	YuSEbgTzRyqpkiqIneB8/8LY7a5j+V5SeTGhmjcDcpp8YiS+LCEoM4Tt9cGE9SUPwvlfffT
-	EmjOUe9HjUPJhaiGriUgwP4FiRl5BRE+/N8l79E6bI23Id6/F2d92WERs1u7cKTp5CuEYvR
-	rk75gWvY9TwTkyg4oPTPlWs8a9NrFQpnw4NAEvadVjVBj7FUYbSP42OLWLKHJVZIXmaaWoD
-	mhJftmEJi2YS8xTdC71WKAj7Os0uIMiLKNV9LqfSVtytfYwZBNXn1umJj/2gswDXDZz6mE6
-	0jezPpvviQPgzdrCTYZT7+mK/4pWXQdJO9PRBciBId/qgl4VR4Z6M3fSqGmYBvT5ImzU1Sg
-	XT7Nxm8o7uGSBfKkZG+qzt4Qmii1lT95WQNOt/CqbzFhjXMyr2rdclGZLC9AsOncD5MxJwl
-	cwDun8wNwwTmzp4rpMgLd+edhMv0LrNhryQ/dVxfbwScZHKmlbuRR5XW8T2WFAMdYuRVL8Y
-	NLkX2zRFbY4t7rHwbLQ/KYQeWJta0BeUgP9H3McwrUuZe/vWPp3nym/cu15VaN0i6y3CjOG
-	6B/SU4qOdYPNoh5fmvfvxRsBCTIMQpjyhPscbU+V8VAPoKqJ3hPo9uw5mbwwY+DspqR/gjL
-	QgZHVNwhVBwELDcLTwOPbfhpChDWikOAWysfElnRuyRBb2ipvETrtCG4ciNWSCy416YmVVv
-	PulWyU+tIcC7vlElkh9/jcVGZVC0a4CUrjZavVXtn4ujAWqlwnU1TsDNg39mQZYoKPjeD8+
-	eZE/l9k7YmHKSJ6x1Det6p2QWg/XwU34SVKP6lCqTk7RUSo1COxXqPiEnL2Yp/TXbPiSJN7
-	ntkjTWyxu1NhjWZjc4qNsDUdOyu+wMsHQJA2eCTg2JAUYfG5/WAhjmdnLcXn/FqggS+AcI4
-	g==
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: MTGYztYhR5ETsuUUNScthWxf8gVkRq0xT+48DPUQUSHpmTvRdGo4y/5n
+	20WzBVXMM7Ek+5i7JwfEq9p2Hz+uJLLGjQtrvXgCKTO0+FEjssJqIeAiENSLfhyU927wnbG
+	vi2zoh3UZ+jV/WMvsp9Y7C2KavY6WqeJCSdFr/OVvnFuZChTj7k4AmsNnI6MGpJ7aBOj+Mb
+	lvWhALcub/Trv5rz2xepJt8Pfmz3EpXfhWQbZepiXHxVxarKZi0dNRseX6as2e6P28ZiLYH
+	ALGk1VQppXrQ1lmdlCeGO46H8HjdK7ZB4osREmduteADgTKyLd7/hn3/1dMgue5hx4Vo7LD
+	LGJuk3+iNT/ajeEce/Tuuo/asGPowG4AZYoHCEcZVRZB2rdrY+83nw1pxF8EuDMKf+7xiFs
+	SjTE9l2WI4NE28JFf47r1ui79dQo2roV3dCW0NLc1YcYwXcBjx+4H/vAzYLEcG41EToUho4
+	DSejhpLyjdjzvhd8v9FnQX2gFT38I/SIElQWNMCtHcMJlWF3oRFpvvDtCsdSglpmsuVeDHl
+	UFXQ5VCc4YBgHmXIDxtUIAU5jG04HOibe5BvsFsFF6FvhwM8J+CjRF1H/bVJATKDZ9bD0mC
+	MCpuhuTWH9fQqhT7MzrUzdWYS5mv9Zd8keHLxteklhYr9kS1/YQzNRNVc9XS70qpmdNqWIi
+	+GFsfrn4wb2rSn6eAaeb//T9RUhF4tYCOiHbk4OdIsQhNm7W4uWhohLCVtXtwqlRzvJ0i1C
+	n/CT0pIiDRYfHEAdmwVJAWrLOHvtvbcjn53c0wr+N1HRb+0ac+5XKZRlcQfiCh4eEzfvYSG
+	w/ANPdLlIPp9CtQ80ckhomTB9vYgRKy3JI9LjWuibwiIyYIFvyAoQ2Pb0PRgU4E9JLZEbna
+	OaeKE5Ib9r7Xbxqf2yvNdcN1g8kO1GnmE1CgFWhHYSjD3afXZRgDLPhqFodpHwx4BRnlc+9
+	CkQ92t+tRezEj5+hDYioPnCjTQrOiLlo0Un7Bq5Dj0pun5jeUhZBFk9GrGa82eBlOXkEAM7
+	ER5hMBHg/wVO7BM49SnSt7v4q8O+lZ1pmVYbofF92P/9kLnTYy+LzBRnh1b1g=
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
 X-QQ-RECHKSPAM: 0
 
 From: Xu Rao <raoxu@uniontech.com>
 
-vep_alloc_request() zero-initializes struct vrequest but never assigns
-vrequest::udc. vep_dequeue() then reads that field and dereferences it
-while checking udc->driver. Consequently, any usb_ep_dequeue() call that
-reaches the vUDC dequeue operation can crash the kernel.
+pdo_epr_avs_apdo_max_voltage_mv() extracts the EPR AVS minimum-voltage
+field instead of the maximum-voltage field. As a result, an EPR AVS APDO
+with different minimum and maximum voltages is decoded as having
+identical limits. The currently visible effect is that
+tcpm_log_source_caps() reports a min-min voltage range.
 
-The endpoint passed to ->dequeue() identifies both the request queue
-being searched and the owning vUDC. Derive the controller from that
-endpoint with ep_to_vudc(), as the other endpoint operations do.
+Extract PDO_EPR_AVS_APDO_MAX_VOLT in the maximum-voltage accessor.
 
-After this change, vrequest::udc has no users. Remove the redundant
-controller backpointer.
-
-Fixes: b6a0ca111867 ("usbip: vudc: Add UDC specific ops")
+Fixes: f82890c98f3e ("tcpm: Parse and log AVS APDO")
 Signed-off-by: Xu Rao <raoxu@uniontech.com>
 ---
- drivers/usb/usbip/vudc.h     | 1 -
- drivers/usb/usbip/vudc_dev.c | 4 +---
- 2 files changed, 1 insertion(+), 4 deletions(-)
+ include/linux/usb/pd.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/usbip/vudc.h b/drivers/usb/usbip/vudc.h
-index faf61c9c6a98..5ef0e7d9b23a 100644
---- a/drivers/usb/usbip/vudc.h
-+++ b/drivers/usb/usbip/vudc.h
-@@ -38,7 +38,6 @@ struct vep {
+diff --git a/include/linux/usb/pd.h b/include/linux/usb/pd.h
+index 337a5485af7c..ee360dedeaa6 100644
+--- a/include/linux/usb/pd.h
++++ b/include/linux/usb/pd.h
+@@ -493,7 +493,7 @@ static inline unsigned int pdo_epr_avs_apdo_min_voltage_mv(u32 pdo)
 
- struct vrequest {
- 	struct usb_request req;
--	struct vudc *udc;
- 	struct list_head req_entry; /* Request queue */
- };
-
-diff --git a/drivers/usb/usbip/vudc_dev.c b/drivers/usb/usbip/vudc_dev.c
-index c5f079c5a1ea..5ef88117965d 100644
---- a/drivers/usb/usbip/vudc_dev.c
-+++ b/drivers/usb/usbip/vudc_dev.c
-@@ -333,7 +333,6 @@ static int vep_queue(struct usb_ep *_ep, struct usb_request *_req,
- static int vep_dequeue(struct usb_ep *_ep, struct usb_request *_req)
+ static inline unsigned int pdo_epr_avs_apdo_max_voltage_mv(u32 pdo)
  {
- 	struct vep *ep;
--	struct vrequest *req;
- 	struct vudc *udc;
- 	struct vrequest *lst;
- 	unsigned long flags;
-@@ -343,8 +342,7 @@ static int vep_dequeue(struct usb_ep *_ep, struct usb_request *_req)
- 		return ret;
+-	return FIELD_GET(PDO_EPR_AVS_APDO_MIN_VOLT, pdo) * 100;
++	return FIELD_GET(PDO_EPR_AVS_APDO_MAX_VOLT, pdo) * 100;
+ }
 
- 	ep = to_vep(_ep);
--	req = to_vrequest(_req);
--	udc = req->udc;
-+	udc = ep_to_vudc(ep);
-
- 	if (!udc->driver)
- 		return -ESHUTDOWN;
+ static inline unsigned int pdo_epr_avs_apdo_pdp_w(u32 pdo)
 --
 2.50.1
 
