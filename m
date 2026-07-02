@@ -1,141 +1,129 @@
-Received: from mx3.wp.pl (mx3.wp.pl [212.77.101.10])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740BF48A2BA
-	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 09:37:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.77.101.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CAB948AE0C
+	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 10:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782985038; cv=none; b=uMKyJ3JyYja/Hh3sjKnjpgUEIyUGxTVqk7X5t0yTfxDTBpH4t7Ng/HBC1xHXOjQB1c6WRrFlgQTcbdXAKX2PZDqyiWHU/bSzvlt7837egV9wFcMhQPZvl24tXdY+2lDIvZHf5w/x4lmUpjU6TwY7n8z14JDvjCAj2PWui/rLvKc=
+	t=1782986987; cv=none; b=DT0My7ve18hPrMXjetoxjQ85YkLyMz6GU+dgpyLG9L9Fr9gNqb+SsF4GgQrZ61t/rte0pRZ4KcwWyGRx5KVGp8dvQ1OppacQPyqjIVFtjruGIby+IGPL9v1J7Nm7Ytz3Nl4eT6ZcD7o72dNxq8zDfMclpj5hbuAQOTntPNAyQ1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782985038; c=relaxed/simple;
-	bh=3wUEU9rIx91HtytBtj0pECdrw8Ab1A1Bresw6piV7bA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WNzRvDjEPc84mYLqRL54MZXeB8eSlNgJx+IGgzULP6zzwzSWLZPixv+XA+DHp93IGAicZ8IGmza31uvKqxo0agNADcsa9vu9TVGUidBkvC5btbyt4uo270vApItnQkOll+CZ0imbP0wnwmy8ZWZQeLcUItFaEl1s5AD3vO0RWkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl; spf=pass smtp.mailfrom=wp.pl; dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b=t6NWmPxC; arc=none smtp.client-ip=212.77.101.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wp.pl
+	s=arc-20240116; t=1782986987; c=relaxed/simple;
+	bh=zRZEHeApxChUmVMmM+B39U2r94bmJb8pPMSAEgaqT3s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QP2d1bfKFtrogCT5QN/lLFmYVJ1NKMZj3buHrMvm/39q+ABpSGim1sA+ti1YbNLP39QnmdS8GaIWSR/B1W1zYL81CtXz/ToZCnV0PtC8ut6jJ4WSM5qvrAqW7IW0ujWJzgDUjrw4Rywd7wCvG4Oj7VSeqZkytnA/zNtR0yEJ6Wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TXsdIF1M; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b="t6NWmPxC"
-Received: (wp-smtpd smtp.wp.pl 44199 invoked from network); 2 Jul 2026 11:37:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wp.pl; s=20241105;
-          t=1782985027; bh=zkwar8iwJsP1r3aAhyZaEddZf6ajbV8tsabdNEJcjUw=;
-          h=From:To:Cc:Subject;
-          b=t6NWmPxCLKfqGe8mUnAAnf74IKaVhMS7zyWUSnn6xfLbiaV3mSEYhC4u0sAO47CE6
-           S8OfRrLyaYmoY+Eyp0VfYV6tYMyO9/6BQ5qOyHywogG33bnnkcjIg37NPuZKAxp9e+
-           OEhWNLnGZoWurjGInC4D7zqRapR03wQnj1P6/nWN2QziBQFTRccoEmZP3r06IzGKMn
-           VJ3Hg6CuEYZrE/hjDTnQaAgWBxf9i4jNi9l/Rj6nS4dT9EZRJtg9llrmHYwM7Buex/
-           +jyD5M8nJv0k3hMTcoZqme6wbVaKVbcJwamBo9JtJ9DYAsDWvkMheBgw9vphHB7RKw
-           Glhkm/R0eCnSA==
-Received: from 77-236-11-179.static.play.pl (HELO localhost) (stf_xl@wp.pl@[77.236.11.179])
-          (envelope-sender <stf_xl@wp.pl>)
-          by smtp.wp.pl (WP-SMTPD) with TLS_AES_256_GCM_SHA384 encrypted SMTP
-          for <kartikey406@gmail.com>; 2 Jul 2026 11:37:07 +0200
-Date: Thu, 2 Jul 2026 11:37:07 +0200
-From: Stanislaw Gruszka <stf_xl@wp.pl>
-To: Deepanshu Kartikey <kartikey406@gmail.com>
-Cc: castet.matthieu@free.fr, 3chas3@gmail.com, gregkh@linuxfoundation.org,
-	linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+3d45d763d18796f97412@syzkaller.appspotmail.com,
-	Mauricio Faria de Oliveira <mfo@igalia.com>
-Subject: Re: [PATCH] usb: atm: ueagle: fix use-after-free in
- uea_upload_pre_firmware()
-Message-ID: <20260702093707.GA6804@wp.pl>
-References: <20260630041716.97102-1-kartikey406@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TXsdIF1M"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782986985;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=a6Hhk+1nzIJyYPt+jQOmzFzwffhJhwBUT6f0cCcOsag=;
+	b=TXsdIF1MiKp2enCPgos3CSRPUeOfLL/D5CaEtyjffcBG//xtmB/+K2TbqOduUkvHbEJXIR
+	wRDthCwNSTHDWVoOv8de0N6yKiiAmz+kXQmwUFsxhRP7C0vi+ZhZB0+mzv/fr4AxPshbXU
+	GnWigxtgL2iy3dnnPcIlTNn+/VTdLwg=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-623-x_S1hojcPcyTy75YGeR8tA-1; Thu,
+ 02 Jul 2026 06:09:40 -0400
+X-MC-Unique: x_S1hojcPcyTy75YGeR8tA-1
+X-Mimecast-MFC-AGG-ID: x_S1hojcPcyTy75YGeR8tA_1782986978
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7A4AA18333B7;
+	Thu,  2 Jul 2026 10:09:38 +0000 (UTC)
+Received: from gerbillo.redhat.com (unknown [10.44.48.252])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4E66118007F5;
+	Thu,  2 Jul 2026 10:09:35 +0000 (UTC)
+From: Paolo Abeni <pabeni@redhat.com>
+To: jk@codeconstruct.com.au
+Cc: matt@codeconstruct.com.au,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	gregkh@linuxfoundation.org,
+	netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH net-next 03/12] net: mctp: usblib: Move RX transfer processing to a new mctp-usblib
+Date: Thu,  2 Jul 2026 12:09:21 +0200
+Message-ID: <20260702100921.138294-1-pabeni@redhat.com>
+In-Reply-To: <20260630-dev-mctp-usb-1-1-v1-3-86a311fc67b7@codeconstruct.com.au>
+References: <20260630-dev-mctp-usb-1-1-v1-3-86a311fc67b7@codeconstruct.com.au>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260630041716.97102-1-kartikey406@gmail.com>
-X-WP-MailID: 83ee2a829d4fe14e834cedbb5bc320e2
-X-WP-AV: skaner antywirusowy Poczty Wirtualnej Polski
-X-WP-SPAM: NO 0000000 [seOh]                               
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Hi, thanks for working at this,
+From: AI Reviewer <ai@example.com>
 
-On Tue, Jun 30, 2026 at 09:47:16AM +0530, Deepanshu Kartikey wrote:
-> uea_load_firmware() calls request_firmware_nowait() passing a raw
-> struct usb_device pointer as context, without holding a reference
-> to it.
-> 
-> If the USB device is disconnected before the firmware workqueue
-> fires, the usb_device and its usb_interface objects are freed while
-> uea_upload_pre_firmware() is still pending on the workqueue. When
-> the callback eventually runs, it accesses the freed memory causing
-> a slab-use-after-free:
-> 
->   BUG: KASAN: slab-use-after-free in __intf_to_usbdev
->   include/linux/usb.h:752 [inline]
->   BUG: KASAN: slab-use-after-free in uea_upload_pre_firmware+0x8d/0x640
->   drivers/usb/atm/ueagle-atm.c:598
->   Read of size 8 at addr ffff88802b0710b8 by task kworker/0:2/1664
-> 
-> Fix by calling usb_get_dev() before queuing the firmware request to
-> pin the usb_device in memory for the lifetime of the async operation,
-> and usb_put_dev() in the callback once it is finished with the
-> pointer. On the error path where request_firmware_nowait() itself
-> fails, drop the reference immediately since the callback will never
-> fire.
-> Reported-by: syzbot+3d45d763d18796f97412@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3d45d763d18796f97412
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://sashiko.dev/
+---
+net: mctp: usblib: Move RX transfer processing to a new mctp-usblib
 
-I think the problem is not lack of usb device reference.
-request_firmware_nowait() does get_device() and after fw work 
-finish - put_device().
+This commit extracts common USB receive transfer processing for MCTP into a
+new library file (mctp-usblib.c). This is intended to support both the
+current host-side driver and a future gadget driver.
 
-I suspect the issue is that syskaller corrupt descriptor such
-the below condition:
+> diff --git a/drivers/net/mctp/mctp-usblib.c b/drivers/net/mctp/mctp-usblib.c
+> new file mode 100644
+> index 0000000000000..9b86eb4310ce3
+> --- /dev/null
+> +++ b/drivers/net/mctp/mctp-usblib.c
+[ ... ]
+> +/*
+> + * Prepare a transfer buffer for future completion; *bufp and *lenp will
+> + * be populated on success.
+> + */
+> +int mctp_usblib_rx_prepare(struct net_device *netdev,
+> +			   struct mctp_usblib_rx *rx,
+> +			   void **bufp, size_t *lenp, gfp_t gfp)
+> +{
+> +	const unsigned int len = MCTP_USB_1_0_XFER_SIZE;
+> +	struct sk_buff *skb;
+> +
+> +	skb = __netdev_alloc_skb(netdev, len, gfp);
+> +	if (!skb)
+> +		return -ENOMEM;
+> +
+> +	rx->skb = skb;
+> +
+> +	*bufp = skb_tail_pointer(skb);
+> +	*lenp = skb_tailroom(skb);
 
- else if (usb->config->desc.bNumInterfaces == 1) 
+[Severity: High]
+Does assigning the full skb_tailroom() here create a risk of a USB host
+controller hang?
 
-is not met for pre-firmware device.
+Because of slab alignment and padding, skb_tailroom() often exceeds the
+exact requested allocation length (e.g., returning 640 bytes instead of
+512). If the MCTP device sends exactly a full USB High-Speed packet
+(512 bytes) and does not append a Zero Length Packet (ZLP), the USB
+host controller might not terminate the transfer since 512 is a multiple
+of wMaxPacketSize and the requested 640 bytes haven't been met.
 
-Adding Mauricio, who has setup for reproducing syskaller bugs on ueagle.
-Hopefully he can confirm the diagnostic. If it's correct, we could
-either save flag to recognize pre-firmware device, or separate driver
-probe/disconnect for pre-firmware and post-firmware, to fix the issue.
+Could this instead use the exact protocol max transfer size (e.g., passing
+the len variable instead of skb_tailroom(skb)) to ensure the controller
+completes the transfer correctly?
 
-Regards
-Stanislaw
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(mctp_usblib_rx_prepare);
+-- 
+This is an AI-generated review.
 
-> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
-> ---
->  drivers/usb/atm/ueagle-atm.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/atm/ueagle-atm.c b/drivers/usb/atm/ueagle-atm.c
-> index d610cdcef7d0..686cc58fb89f 100644
-> --- a/drivers/usb/atm/ueagle-atm.c
-> +++ b/drivers/usb/atm/ueagle-atm.c
-> @@ -663,6 +663,7 @@ static void uea_upload_pre_firmware(const struct firmware *fw_entry,
->  	uea_err(usb, "firmware is corrupted\n");
->  err:
->  	release_firmware(fw_entry);
-> +	usb_put_dev(usb);
->  }
->  
->  /*
-> @@ -693,12 +694,14 @@ static int uea_load_firmware(struct usb_device *usb, unsigned int ver)
->  		break;
->  	}
->  
-> +	usb_get_dev(usb);
->  	ret = request_firmware_nowait(THIS_MODULE, 1, fw_name, &usb->dev,
->  					GFP_KERNEL, usb,
->  					uea_upload_pre_firmware);
-> -	if (ret)
-> +	if (ret) {
->  		uea_err(usb, "firmware %s is not available\n", fw_name);
-> -	else
-> +		usb_put_dev(usb);
-> +	} else
->  		uea_info(usb, "loading firmware %s\n", fw_name);
->  
->  	return ret;
-> -- 
-> 2.43.0
-> 
