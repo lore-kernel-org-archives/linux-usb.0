@@ -1,139 +1,80 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9253F3D8132
-	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 08:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352883B52FA;
+	Thu,  2 Jul 2026 09:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782982319; cv=none; b=arFPTbj8D46h77+nEq9pWJN3ucANuBDGVZKffsUr17ULb/hnc7tpO31onJnhyok8B2lXzCIvNfX2vU7KKnV8OHJ4oAsnHnUZhlG9qzyCj5ZJKSfi8j9mFT5QI6FQIP83CEQFC4rNVqvdfKFtvCPc/hwbFibNueZFH30nZZ7DJLY=
+	t=1782983424; cv=none; b=fMuGaK8MNsKj+bUiTEXwKYSIGcXicOD0jEH3Y+OTXwj+kkCo9P//K6dzOdLepoSI7sgggOpV2LksOH69ehbg8YbHcO8eTm7a8SUyy9xgQWmtgR6iXINkslm1igknv09ONr9iAfXYUbpoRNWcOA0/XGr7whbNxkYknRizjsCvANQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782982319; c=relaxed/simple;
-	bh=R4kGJIghn1KWvkJmBEGSJwAxWo95gPNTyxhWsiXBHsg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g5o6y76FYRcF5gSpnUhfvW1kjIkgsmTb0gOqh0X5ElW3+gU9G0CojLHCX06hioYdPYwuu/pwxcZIejzbG524iglLWVam0h9Yk2O6ScFkFj62ap8Z0qRxWgsspFJ8RK9RU3VDZ3YpgJSnz/wFDD8klSLV0HJokGFODxTJU2ZBL9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I2/mLyG8; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782983424; c=relaxed/simple;
+	bh=f0HIP3us4SwozEp0bJcD/ng4r23uDIDIXGDEEW2IdFw=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=Nwiy37H45FbhTxSaCWvC/TySJlqhIVjxM9gvd48bmQNxXSj8gsAMatD4rVrI5PcJrHXMLbsucqL3tfH9nmZQxsINe5LCY/YzjhEvGTHntzQs6O+RQETQsBZUYQRNNVtVa7o5vZyrptciDFuSP3z+M+48C3IHJdK9Lpzx67e7n6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fFWMmVpC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I2/mLyG8"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493b966dd74so6473135e9.3
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2026 01:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782982317; x=1783587117; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UjJhAXUCodBRIete3KMDiKKIuJuHCvq4k2HNT0bmD+4=;
-        b=I2/mLyG8CzpUKz7ZX1R8W9OBxbJ5KwMFak4jEK416+fra5+Tv01ppCcgIiV3MkSspy
-         U/q8MuFFQjD93MElwYML89pqqWGzjL4wix+nZobq3vJ/jmxJnRoMZvhMTJ/og8MtiWxc
-         4ITSP/3lV2BS1WVIldFAbS1jFXgCH+qhSMz5PXMWKBk5fqWEC36JtMBJlHcJ/4zmNWy2
-         WJaMWbGzIACKVp9UMfASsN2olhqhVJCpMOIBeVIVI0apSEF0Qywhx3DERze5ljuRaFPR
-         scU11Y3Gayb5wy42ZCfxgCgJOTG+OQyWrvrj/t5YeyPHkJUg71dS6ZUSARHmjrQTvpzx
-         i8GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782982317; x=1783587117;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UjJhAXUCodBRIete3KMDiKKIuJuHCvq4k2HNT0bmD+4=;
-        b=IPDAGmfJNc92atzSchZ9NL7ci8oSYH/DsWXd18wV8YN9RLASDxMao2rvJJ/DFKYEKp
-         lhbVb1Y0yJsOv3s8BAUx3e2Ne/xDmMBncAUU0ZcyuzFEO1xs2iSLC5xAggF1MXYwMxyT
-         LkwNTs3UvoqG6qOALVl40bTQHenYyLR0aX2f6x7gpTMYPIo1wUUWi0kzMg538edTmJWi
-         +3LPfWIkcCVF6hEAo7YVz8JkOZFFtKm8SpTvg9jaDr3qQ+yAqVihZlvM1HhZFB+i234h
-         Ye8RPK+pIL5Fgmd2pXOxMiK7s/ygqfZF1qcP4rY6rKqY2S8mWBGT/tM7J5VudGLnTRSN
-         0BYA==
-X-Forwarded-Encrypted: i=1; AFNElJ9ZC1Zr5HkHOQqeKTex4daKU8p/uT+Ubb01JPeRyOuESpuQm9SoGI8wiyrniU3RmoOJ+oblT8G8jOU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvdgeKwDRyEjjrJPf0ucImJIqlfgahB+NIkc/D4rNJUR+viztj
-	+1H4npJaSHcKllKLSJAGU/EHTaB/4UN3nf6RyJ7I7lUQJtnuu2AfsOOo
-X-Gm-Gg: AfdE7cmhh4M6cUN+mdUCbFjqhqAyHl+0JUyPBGQDAAJOo5g+rmEs6Yg0SFER27LNyJ6
-	hiQ1m6ZqlJNaYuV3xkm/XH0D5xLzw64rYuWOH8xLTHs205zEU19tmSUv38lK7fG42js/pKNCWNZ
-	VHMwv+SETsTwKc4DCEITDeg2Ok5QKzqZdVjsRrRJ644jiQA3ItRLrMxTeV6q2+E9Fi/JnskDAMs
-	kmtVjEZ8OsH/LrAUADS+p4wE47YseIPthxLykxix57pEZa7Mefgo6sQGrhyNumS7/RRZvv3BiKU
-	JiURKyywTV/18A8SL8QIepKiDS0uQ3nIgRplZmAq9GmZOW7Vkr6byjgFK4rIezWb1JJXb+lYzbv
-	bUAY5Q9QLeT8LnR6FVz2yLvCZyR7HQSsAI8oM0bYtwx2LMW1yOIBgMWBIYwrRQykf+49DUJjWjI
-	ZDzqZBkvffWEQOg/JKDgHrCbYh
-X-Received: by 2002:a05:600c:5782:b0:493:b03c:5650 with SMTP id 5b1f17b1804b1-493c2b7f3c6mr54522455e9.19.1782982316763;
-        Thu, 02 Jul 2026 01:51:56 -0700 (PDT)
-Received: from foxbook (bgu190.neoplus.adsl.tpnet.pl. [83.28.84.190])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c635c41dsm58798305e9.5.2026.07.02.01.51.55
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Thu, 02 Jul 2026 01:51:56 -0700 (PDT)
-Date: Thu, 2 Jul 2026 10:51:52 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Subject: Re: 7.1 regression bisected to "usb: core: Fix SuperSpeed root hub
- wMaxPacketSize"
-Message-ID: <20260702105152.415afeaa.michal.pecio@gmail.com>
-In-Reply-To: <577c7ba6-c638-4e73-acac-fbf6c4fb4ccc@linux.intel.com>
-References: <cb287e3d-3066-4820-b464-6208b947974b@mailbox.org>
-	<577c7ba6-c638-4e73-acac-fbf6c4fb4ccc@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fFWMmVpC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3EE81F00A3D;
+	Thu,  2 Jul 2026 09:10:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782983422;
+	bh=Rs9tTgl5fyFLDqt1jibTXsWudB6xaSrmbkriQUZVpWY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=fFWMmVpCL9pj3uETKXxJ/vRkWx70UXN9E0XzGIdB3XirLY14URJi2rAgBJARFIkIH
+	 UF4M8YFa4CmM5H3W9G5/xAgH7Fdpbz364/QnW1nbetuUBSngzKRj/thg64COdEF8Z2
+	 d+84aa9LK0xhnzmEW2L1pHyiiS8vv2SPrgt+B/6mJ+3aCQhnxjxl6rjju61OpZ1MId
+	 rgGyd9Czc7ug0mBGsC9bTwDsY5D0/nwKGWIfabGpgE0k8UPZMhHppcRDBovc2BsjNO
+	 1iSfAvv7jVTczs75Ac74Q/e7f8pYP4ssyEV1/TOj1sZWuGq5no/Lhzoxa4xFrapLhR
+	 i28FSSG1/r/rA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 19B5B3926665;
+	Thu,  2 Jul 2026 09:10:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v4] net: usb: rtl8150: handle link status read
+ failures
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178298340589.1537313.17929196143531791690.git-patchwork-notify@kernel.org>
+Date: Thu, 02 Jul 2026 09:10:05 +0000
+References: <20260630101216.10365-1-alhouseenyousef@gmail.com>
+In-Reply-To: <20260630101216.10365-1-alhouseenyousef@gmail.com>
+To: Yousef Alhouseen <alhouseenyousef@gmail.com>
+Cc: petkan@nucleusys.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+9db6c624635564ad813c@syzkaller.appspotmail.com
 
-On Thu, 2 Jul 2026 00:09:42 +0300, Mathias Nyman wrote:
-> On 7/1/26 19:02, Michel D=C3=A4nzer wrote:
-> >=20
-> > The ethernet port of a Lenovo ThinkPad USB-C Dock Gen2 connected to
-> > a ThinkPad P14s Gen 5 AMD stopped working in 7.1.
-> >=20
-> >   ip addr show enx482ae347e7c3
-> >=20
-> > says the interface doesn't exist. The only thing about it in dmesg
-> > is:
-> >=20
-> >   r8152 8-1.1:1.0 enx482ae347e7c3: renamed from eth0
-> >=20
-> > In previous kernels, dmesg had more lines about it:
-> >=20
-> >   r8152 8-1.1:1.0 enx482ae347e7c3: renamed from eth0
-> >   r8152 8-1.1:1.0 enx482ae347e7c3: carrier on
-> >   r8152 8-1.1:1.0 enx482ae347e7c3: carrier off
-> >   r8152 8-1.1:1.0 enx482ae347e7c3: carrier on
-> >=20
-> >=20
-> > I bisected this to d1e280334b7f ("usb: core: Fix SuperSpeed root
-> > hub wMaxPacketSize"). Reverting that commit on top of 7.1.2 fixes
-> > the issue.
+Hello:
 
-Incredibly bizarre, I wonder if it's some userspace madness.
+This patch was applied to netdev/net-next.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
 
-Does this alternative patch (on top of the revert) break it too?
-https://lore.kernel.org/linux-usb/20260504111353.55ba2530.michal.pecio@gmai=
-l.com/
+On Tue, 30 Jun 2026 12:12:16 +0200 you wrote:
+> set_carrier() ignores the result of the USB control transfer and tests
+> the stack variable supplied as its receive buffer. If the device rejects
+> or aborts the request, that variable remains uninitialized and the driver
+> chooses an arbitrary carrier state.
+> 
+> Leave the existing carrier state unchanged when the link status cannot be
+> read. A transient USB error should not be treated as link loss.
+> 
+> [...]
 
-> That patch limits USB3 roothub change bitmap from 4 bytes to 2 bytes,
-> which should be enough for the max 15 children USB3 hubs support.
-> Odd that this change impacts the usb ethernet device of that dock.
+Here is the summary with links:
+  - [net-next,v4] net: usb: rtl8150: handle link status read failures
+    https://git.kernel.org/netdev/net-next/c/8c9c5b9a6896
 
-Very odd: as you said before, hub driver wouldn't support more than
-15 ports anyway, the problem occurs on port 1, and is not any obvious
-hub issue like connection event never noticed by the kernel.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-I thought that maybe writing the status change URB overflows its
-transfer buffer, but usb_hcd_poll_rh_status() seems to be handling
-such cases correctly. And xhci_hub_status_data() isn't even aware
-of URB length, so it can't be sensitive to this change.
-
-> If possible, could you share a dmesg with usbcore dynamic debug
-> enabled
->=20
-> mount -t debugfs none /sys/kernel/debug
-> echo 'module usbcore =3Dp' >/sys/kernel/debug/dynamic_debug/control
-> <connect dock>
-> dmesg
-
-If not possible, please at least post ordinary dmesg. Even if there is
-nothing more about "enx482ae347e7c3", there might be about "8-1.1:1.0".
-The snippet above is a small part of typical r8152 connection log.
-
-Regards,
-Michal
 
