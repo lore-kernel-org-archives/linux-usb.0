@@ -1,119 +1,299 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444C5318BA7
-	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 16:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD26437A83C;
+	Thu,  2 Jul 2026 17:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783010096; cv=none; b=Q43Ci9YcTtje7/GT+8hs//3jNX0KQ+JvfJtggUwHQR0V7nwIx17WrWmnYRz+/mVLmO/AG9K42bNnyef91BpXwvc7c/wcRfBNjuOyZEyy72d96RAXzKpHSsoTg0kUny0z8Patlmh+yGCrM83nT6g80I/wNSWRauo+57Zo5tX+/PU=
+	t=1783015178; cv=none; b=GYbMOfEru3hNd34AT59dRBjxsE0BBt8cjgypeVWRSxd417k9lAqc/kfY91JCw9J7dnVtK1KvtCvv4JeDWVB9Hjs3kGurtGf7FDEI8rMosVRpqo3VMrVV4ZfBWe94/D28ZlytgsWfQbQMg9mzxxi1V6FZ5MUzIjH+oQIVorECrYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783010096; c=relaxed/simple;
-	bh=Vo9F9EIvLh+3M3TnCX3YLKisUPFs6vlEtUHrCqhT3qM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OmvO8Itp1wGm9rBQ44GEJUaBLXRCMW14MoN5KpAfl5KvG4giODjADUba6Ifopi4wSut3PrBloKyMP7ehyxW7DU41lB4bwuFlHETlV5lMU2MOaeETtLycR9qgs/UjqaKwyX+dQ7svO9oEYfc2+Jiv/Vbg9oWbsrr/XNflzMvRNCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VJZHi0Jk; arc=none smtp.client-ip=80.241.56.171
+	s=arc-20240116; t=1783015178; c=relaxed/simple;
+	bh=LoyIyESVrjYzJI6SPmZ/GDfq/dL8YkCIIXoSL4OMCO8=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SoSPVSr0tODTVuaNAReJcE5E07gWAD0Jysw16hpa8b90tJook1nVftUfm/E8QeYx6P9rvekCmRmQyHK9gjIXGgV8jEOVm9sn1ZQ/24EcTmBZs+LzyWpqM/HTyExO0idsjVWmT/VbhhqKjsFmJGWSycNc0/VB7Sw3T3qQIxxgKvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uQ3t3hfE; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="VJZHi0Jk"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uQ3t3hfE"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4grjCX1R1tz9v0J;
-	Thu,  2 Jul 2026 18:34:48 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4grl5J28TKz9vC5;
+	Thu,  2 Jul 2026 19:59:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783010088;
+	t=1783015172;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tDsKjaHsLWNkHCpBGU2Yp8fOx9IGtHQiRXgsn+7Dk/4=;
-	b=VJZHi0JkkfVFRoB1+AIgOWArqxZVEbOLm5uW7B9uiTxmv1IYzIvUpwfm/0FVj5riOL6Q/J
-	yn0N9FAclJuXbDmP1S0kyBnKM8F7TSl8QRm4DMQUEVSAVR891UwxR8jBo0a+RgbBGEYR2g
-	rGmO4WBUY8KGflg5IbXoSYn6Z/31Ac+pDLCzPBmVNtXwmU2c5knrDTyUbQBwDWT66+9S8m
-	gYC56HttrFWBtC9b/7Y1Z5Hs9hSJOawDXXLywShiAvtA6dhn/G3PqycFb4oYvUUSVYzFTB
-	4lEXFGT4q8QmEB2119ELFH2y3IPP/uc45lUKItyDJX2B1j7EzLe8ggtW7UW1WA==
-Message-ID: <5885fa3b-4893-474f-9de7-c3693ce89504@mailbox.org>
-Date: Thu, 2 Jul 2026 18:34:46 +0200
+	bh=ywjV1awI0xQmL6UspABb7TRzlwiMMZxNh+Ixexv7qNE=;
+	b=uQ3t3hfEVJfu8dotfvTW9IfnzVbYviNpNmS3qT8SkfXwtRPkXb0TxkqONT81rU2xcXQJ2n
+	ieqniQpy413K35nlNRv/RH3UOE9WWlM0q/+4UFN7r//FWRHU11iQFXmVP26vYEAspCAoIo
+	kHI+w5mycA9AfhG5meu3fEq6s4hdowVRAwlJXXYRq8MX/yQcZzAk+fwmw8OQc8KshUVA/z
+	E/2nHcyAimlEOZ3jcFqPDs+Sa5FK5/+it6MWXUdZPTaHaz9TfgrgQ+4S+dJn0gF/sqBxLR
+	Wgt6HT3XtkjA/ovrNNIDCJF0zNo9NR1SS/hdnv7di6HFnl1uFru++b7EQKyoBA==
+Message-ID: <c3bd9f9134182accf7f6ab77cd07a5f15fab0fd3.camel@mailbox.org>
+Subject: Re: [PATCH net-next 1/4] net: usb: move updating filter and status
+ from cdc to usbnet
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: Oliver Neukum <oneukum@suse.com>, andrew+netdev@lunn.ch, 
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, 	shaoxul@foxmail.com, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, 	linux-kernel@vger.kernel.org
+Date: Thu, 02 Jul 2026 19:59:26 +0200
+In-Reply-To: <20260702143142.890654-2-oneukum@suse.com>
+References: <20260702143142.890654-1-oneukum@suse.com>
+	 <20260702143142.890654-2-oneukum@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: 7.1 regression bisected to "usb: core: Fix SuperSpeed root hub
- wMaxPacketSize"
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Michal Pecio <michal.pecio@gmail.com>,
- Mathias Nyman <mathias.nyman@linux.intel.com>, linux-usb@vger.kernel.org
-References: <cb287e3d-3066-4820-b464-6208b947974b@mailbox.org>
- <577c7ba6-c638-4e73-acac-fbf6c4fb4ccc@linux.intel.com>
- <20260702105152.415afeaa.michal.pecio@gmail.com>
- <80bdd3da-33c0-44b4-a1af-6aca44c1acd6@mailbox.org>
- <2026070255-rerun-unstable-a90a@gregkh>
- <ee889a90-6ef3-4546-a05c-227ed3e742a7@mailbox.org>
- <2026070243-retread-sensuous-aab2@gregkh>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: de-CH-frami, en-CA
-In-Reply-To: <2026070243-retread-sensuous-aab2@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 757ee101be8c3312b78
-X-MBO-RS-META: ydruw6hpxwq9gwfiu6gsh9azaai5tfk6
+X-MBO-RS-ID: 833862cdbbafb120f73
+X-MBO-RS-META: 9qygaxxsps7n9o5hns71g9ndcpb4rg89
 
-On 7/2/26 14:38, Greg Kroah-Hartman wrote:
-> On Thu, Jul 02, 2026 at 02:25:04PM +0200, Michel Dänzer wrote:
->> On 7/2/26 14:22, Greg Kroah-Hartman wrote:
->>> On Thu, Jul 02, 2026 at 02:20:05PM +0200, Michel Dänzer wrote:
->>>> On 7/2/26 10:51, Michal Pecio wrote:
->>>>> On Thu, 2 Jul 2026 00:09:42 +0300, Mathias Nyman wrote:
->>>>>> On 7/1/26 19:02, Michel Dänzer wrote:
->>>>>>>
->>>>>>> The ethernet port of a Lenovo ThinkPad USB-C Dock Gen2 connected to
->>>>>>> a ThinkPad P14s Gen 5 AMD stopped working in 7.1.
->>>>>>>
->>>>>>>   ip addr show enx482ae347e7c3
->>>>>>>
->>>>>>> says the interface doesn't exist. The only thing about it in dmesg
->>>>>>> is:
->>>>>>>
->>>>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: renamed from eth0
->>>>>>>
->>>>>>> In previous kernels, dmesg had more lines about it:
->>>>>>>
->>>>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: renamed from eth0
->>>>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: carrier on
->>>>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: carrier off
->>>>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: carrier on
->>>>>>>
->>>>>>>
->>>>>>> I bisected this to d1e280334b7f ("usb: core: Fix SuperSpeed root
->>>>>>> hub wMaxPacketSize"). Reverting that commit on top of 7.1.2 fixes
->>>>>>> the issue.
->>>>>
->>>>> Incredibly bizarre, I wonder if it's some userspace madness.
->>>>
->>>> That reminded me that I'm using (an older upstream version of) usbguard. Unfortunately its GUI notifications when it blocks a USB device aren't working reliably currently.
->>>>
->>>> Manually firing up its settings app revealed that it was indeed blocking the USB3 hub. Overriding it to be allowed fixed the issue with the bisected commit.
->>>>
->>>> Looks like a false alert after all, sorry for the noise, and thanks for the help.
->>>
->>> Thanks for letting us know, and this isn't the first time that usbguard
->>> has caused a problem recently.  Did we change something that broke it's
->>> functionality?
->>
->> My assumption is that this change results in usbguard considering the
->> USB3 hub a different device, so the persistent settings to allow it no
->> longer applied.
-> 
-> "different" in what way, because it is a different speed?  Why would
-> usbguard be prohibiting hubs?
+Hi,
+I have a couple suggestions for you patch. Some parts are
+weird to read - it could also be that my perception today is off.
 
-What I mean is that usbguard considers the hub two different devices with or without the bisected kernel commit. No idea what exactly makes the difference though.
+On Thu, 2026-07-02 at 16:25 +0200, Oliver Neukum wrote:
+> These helpers are used by multiple drivers and do not depend
+
+"and do not only depend on cdc core. They also depend on
+other cdc drivers."
+is this better?=20
+
+> on the rest of cdc. Leavin them in a cdc driver means that
+
+/Leavin/Leaving/
+
+> more drivers are loaded just for infrastructure, not hardware
+
+just for the support of other drivers, not their hardware.
+
+> support.
+>=20
+> Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> ---
+> =C2=A0drivers/net/usb/cdc_ether.c | 75 ----------------------------------=
+--
+> =C2=A0drivers/net/usb/usbnet.c=C2=A0=C2=A0=C2=A0 | 76 +++++++++++++++++++=
+++++++++++++++++++
+> =C2=A02 files changed, 76 insertions(+), 75 deletions(-)
+>=20
+> diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
+> index a0a5740590b9..b4df32e18461 100644
+> --- a/drivers/net/usb/cdc_ether.c
+> +++ b/drivers/net/usb/cdc_ether.c
+> @@ -63,35 +63,6 @@ static const u8 mbm_guid[16] =3D {
+> =C2=A0	0xa6, 0x07, 0xc0, 0xff, 0xcb, 0x7e, 0x39, 0x2a,
+> =C2=A0};
+> =C2=A0
+> -void usbnet_cdc_update_filter(struct usbnet *dev)
+> -{
+> -	struct net_device	*net =3D dev->net;
+> -
+> -	u16 cdc_filter =3D USB_CDC_PACKET_TYPE_DIRECTED
+> -			| USB_CDC_PACKET_TYPE_BROADCAST;
+> -
+> -	/* filtering on the device is an optional feature and not worth
+> -	 * the hassle so we just roughly care about snooping and if any
+> -	 * multicast is requested, we take every multicast
+> -	 */
+> -	if (net->flags & IFF_PROMISC)
+> -		cdc_filter |=3D USB_CDC_PACKET_TYPE_PROMISCUOUS;
+> -	if (!netdev_mc_empty(net) || (net->flags & IFF_ALLMULTI))
+> -		cdc_filter |=3D USB_CDC_PACKET_TYPE_ALL_MULTICAST;
+> -
+> -	usb_control_msg(dev->udev,
+> -			usb_sndctrlpipe(dev->udev, 0),
+> -			USB_CDC_SET_ETHERNET_PACKET_FILTER,
+> -			USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> -			cdc_filter,
+> -			dev->intf->cur_altsetting->desc.bInterfaceNumber,
+> -			NULL,
+> -			0,
+> -			USB_CTRL_SET_TIMEOUT
+> -		);
+> -}
+> -EXPORT_SYMBOL_GPL(usbnet_cdc_update_filter);
+> -
+> =C2=A0/* We need to override usbnet_*_link_ksettings in bind() */
+> =C2=A0static const struct ethtool_ops cdc_ether_ethtool_ops =3D {
+> =C2=A0	.get_link		=3D usbnet_get_link,
+> @@ -400,52 +371,6 @@ EXPORT_SYMBOL_GPL(usbnet_cdc_unbind);
+> =C2=A0 * (by Brad Hards) talked with, with more functionality.
+> =C2=A0 */
+> =C2=A0
+> -static void speed_change(struct usbnet *dev, __le32 *speeds)
+> -{
+> -	dev->tx_speed =3D __le32_to_cpu(speeds[0]);
+> -	dev->rx_speed =3D __le32_to_cpu(speeds[1]);
+> -}
+> -
+> -void usbnet_cdc_status(struct usbnet *dev, struct urb *urb)
+> -{
+> -	struct usb_cdc_notification	*event;
+> -
+> -	if (urb->actual_length < sizeof(*event))
+> -		return;
+> -
+> -	/* SPEED_CHANGE can get split into two 8-byte packets */
+> -	if (test_and_clear_bit(EVENT_STS_SPLIT, &dev->flags)) {
+> -		speed_change(dev, (__le32 *) urb->transfer_buffer);
+> -		return;
+> -	}
+> -
+> -	event =3D urb->transfer_buffer;
+> -	switch (event->bNotificationType) {
+> -	case USB_CDC_NOTIFY_NETWORK_CONNECTION:
+> -		netif_dbg(dev, timer, dev->net, "CDC: carrier %s\n",
+> -			=C2=A0 event->wValue ? "on" : "off");
+> -		if (netif_carrier_ok(dev->net) !=3D !!event->wValue)
+> -			usbnet_link_change(dev, !!event->wValue, 0);
+> -		break;
+> -	case USB_CDC_NOTIFY_SPEED_CHANGE:	/* tx/rx rates */
+> -		netif_dbg(dev, timer, dev->net, "CDC: speed change (len %d)\n",
+> -			=C2=A0 urb->actual_length);
+> -		if (urb->actual_length !=3D (sizeof(*event) + 8))
+> -			set_bit(EVENT_STS_SPLIT, &dev->flags);
+> -		else
+> -			speed_change(dev, (__le32 *) &event[1]);
+> -		break;
+> -	/* USB_CDC_NOTIFY_RESPONSE_AVAILABLE can happen too (e.g. RNDIS),
+> -	 * but there are no standard formats for the response data.
+> -	 */
+> -	default:
+> -		netdev_err(dev->net, "CDC: unexpected notification %02x!\n",
+> -			=C2=A0=C2=A0 event->bNotificationType);
+> -		break;
+> -	}
+> -}
+> -EXPORT_SYMBOL_GPL(usbnet_cdc_status);
+> -
+> =C2=A0int usbnet_cdc_bind(struct usbnet *dev, struct usb_interface *intf)
+> =C2=A0{
+> =C2=A0	int				status;
+> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+> index 25518635b7b7..5544af1f4aa5 100644
+> --- a/drivers/net/usb/usbnet.c
+> +++ b/drivers/net/usb/usbnet.c
+> @@ -22,6 +22,7 @@
+> =C2=A0#include <linux/init.h>
+> =C2=A0#include <linux/netdevice.h>
+> =C2=A0#include <linux/etherdevice.h>
+> +#include <linux/usb/cdc.h>
+
+why do you put it there?
+it could be alphabetical instead.
+
+> =C2=A0#include <linux/ctype.h>
+> =C2=A0#include <linux/ethtool.h>
+> =C2=A0#include <linux/workqueue.h>
+> @@ -2271,6 +2272,81 @@ int usbnet_write_cmd_async(struct usbnet *dev, u8 =
+cmd, u8
+> reqtype,
+> =C2=A0
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL_GPL(usbnet_write_cmd_async);
+> +
+> +void usbnet_cdc_update_filter(struct usbnet *dev)
+> +{
+> +	struct net_device	*net =3D dev->net;
+> +
+> +	u16 cdc_filter =3D USB_CDC_PACKET_TYPE_DIRECTED
+> +			| USB_CDC_PACKET_TYPE_BROADCAST;
+> +
+Multi-line-comments in coding-style:
+	/*
+	 * filtering on ..
+> +	/* filtering on the device is an optional feature and not worth
+> +	 * the hassle so we just roughly care about snooping and if any
+> +	 * multicast is requested, we take every multicast
+				 , we take that multicast.
+also that's a pretty long sentence.
 
 
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
+
+> +	 */
+> +	if (net->flags & IFF_PROMISC)
+> +		cdc_filter |=3D USB_CDC_PACKET_TYPE_PROMISCUOUS;
+> +	if (!netdev_mc_empty(net) || (net->flags & IFF_ALLMULTI))
+> +		cdc_filter |=3D USB_CDC_PACKET_TYPE_ALL_MULTICAST;
+> +
+> +	usb_control_msg(dev->udev,
+> +			usb_sndctrlpipe(dev->udev, 0),
+> +			USB_CDC_SET_ETHERNET_PACKET_FILTER,
+> +			USB_TYPE_CLASS | USB_RECIP_INTERFACE,
+> +			cdc_filter,
+> +			dev->intf->cur_altsetting->desc.bInterfaceNumber,
+> +			NULL,
+> +			0,
+> +			USB_CTRL_SET_TIMEOUT
+> +		);
+> +}
+> +EXPORT_SYMBOL_GPL(usbnet_cdc_update_filter);
+> +
+> +static void speed_change(struct usbnet *dev, __le32 *speeds)
+> +{
+> +	dev->tx_speed =3D __le32_to_cpu(speeds[0]);
+> +	dev->rx_speed =3D __le32_to_cpu(speeds[1]);
+> +}
+> +
+> +void usbnet_cdc_status(struct usbnet *dev, struct urb *urb)
+> +{
+> +	struct usb_cdc_notification	*event;
+> +
+> +	if (urb->actual_length < sizeof(*event))
+> +		return;
+> +
+> +	/* SPEED_CHANGE can get split into two 8-byte packets */
+> +	if (test_and_clear_bit(EVENT_STS_SPLIT, &dev->flags)) {
+> +		speed_change(dev, (__le32 *)urb->transfer_buffer);
+> +		return;
+> +	}
+> +
+> +	event =3D urb->transfer_buffer;
+> +	switch (event->bNotificationType) {
+> +	case USB_CDC_NOTIFY_NETWORK_CONNECTION:
+> +		netif_dbg(dev, timer, dev->net, "CDC: carrier %s\n",
+> +			=C2=A0 event->wValue ? "on" : "off");
+> +		if (netif_carrier_ok(dev->net) !=3D !!event->wValue)
+> +			usbnet_link_change(dev, !!event->wValue, 0);
+> +		break;
+> +	case USB_CDC_NOTIFY_SPEED_CHANGE:	/* tx/rx rates */
+> +		netif_dbg(dev, timer, dev->net, "CDC: speed change (len %d)\n",
+> +			=C2=A0 urb->actual_length);
+> +		if (urb->actual_length !=3D (sizeof(*event) + 8))
+> +			set_bit(EVENT_STS_SPLIT, &dev->flags);
+> +		else
+> +			speed_change(dev, (__le32 *)&event[1]);
+> +		break;
+
+	/*
+	 * USB ..
+> +	/* USB_CDC_NOTIFY_RESPONSE_AVAILABLE can happen too (e.g. RNDIS),
+> +	 * but there are no standard formats for the response data.
+> +	 */
+> +	default:
+> +		netdev_err(dev->net, "CDC: unexpected notification %02x!\n",
+> +			=C2=A0=C2=A0 event->bNotificationType);
+> +		break;
+> +	}
+> +}
+> +EXPORT_SYMBOL_GPL(usbnet_cdc_status);
+> =C2=A0/*-----------------------------------------------------------------=
+--------*/
+> =C2=A0
+> =C2=A0static int __init usbnet_init(void)
+
+You can add my=20
+Reviewed-by: Manuel Ebner <manuelebner@mailbox.org>
+
+Thanks
+ Manuel
