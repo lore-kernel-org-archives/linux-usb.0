@@ -1,37 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2692D63E5;
-	Thu,  2 Jul 2026 08:44:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C28390CB2;
+	Thu,  2 Jul 2026 08:44:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782981846; cv=none; b=QJdTmkyKq3oVBv2oTjIPIrQa20Fii1a0WHLVBTWFB49AbC+zQjQuM7TE82ay2u0SJr8v8mzS2FXdp2Iq2oAvIwL4zdM2gJ9R/6txv05z+N+mqNij53DNTfGIqse86zFYq+UqGaBsS7PGQ8Q4QkpP0F3jqwXXoZ15glo4hIW/kTo=
+	t=1782981856; cv=none; b=Pxn1PIQ1uUMGgSVQSeSKdswYZKlcgPcSCIKIcSwFSu/pMZonfDLLoGQ2swFt8D80XsM8/QAZFsREEcnm24+PxpqG3IkvMcSMSAWTvg2CUwNFrcRCKkLn9kJ9F7fPzKi84VuwrVeFOgGReuzr1mPZpMqoOHKt++8UfKB/NSqFL7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782981846; c=relaxed/simple;
-	bh=14RBW8/yPCk/o2gEVZiPjRnmJgg/F9+K4MTUYB3kZ0g=;
+	s=arc-20240116; t=1782981856; c=relaxed/simple;
+	bh=SE1C9WnXfq1yGqFsuERXBWiAsH6wb/L1v/aobyb+D2E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SP/c4jwHkeXtWwGt2hkZB1uPCR3pO9SjeU0XYvQISiK8DSPeANdLnhvAIq9jmQxcn0JK3WFy/PEkqOVEw4o9bIYPxvbZtJo9BpD6+kb5Ty8f+MAAHiDq9taO0V9FDzx0rpZGvrKE6OETSdD0oRz6uejZakNKO9tGmI15wY2zpfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xdcMoAZQ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=NLoVN6aTmziCztvH+nuRtQZjz/nczAWWZ+sApNcx0cl5w2XX0YE8jQwWTUYP8lx++8Gaez7pi+xhWTSMjHcyW6xKGmnA+6B6+0nk5QZdKtSTFH7HVW0B1fp9MNg2f3R6MIGmExZTNXSUfnsZTrDEl7hHp2BexM7uqXZSSi7beL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=skjYoUQl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xdcMoAZQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F0D71F000E9;
-	Thu,  2 Jul 2026 08:44:02 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="skjYoUQl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F398F1F00A3A;
+	Thu,  2 Jul 2026 08:44:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782981845;
-	bh=dIgPXpzZod6oGiMN7QycB15PSODxpO90zhSh9YZNJKs=;
+	s=korg; t=1782981855;
+	bh=bgVkVZ5Jc3vRTS62e8pc8LUw20X3T2TnPqQwY+9Idko=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=xdcMoAZQwatGmyngmHq6MZIlYhkWh5hHh+YD+h/8OxeM/g0kGQYO/yyEpwzEG48HA
-	 z6glwxQ5+8hpc+byTXe+UeLyxEyTdb3rE1tIWpsLvwjVmibu3W3op6af2bIjcnxoMq
-	 KqSDl7OLWYLr1iUGyNoD5920l6BskGW8uDxPcC9A=
-Date: Thu, 2 Jul 2026 10:38:25 +0200
+	b=skjYoUQlhSa1B8y+JYoYf3bmaqKrY1eSjJSNzBQemA6gBn7kCfmMVsugfbGOKJIeJ
+	 r/5xpxLeOaPR10+yacQ1J4PVG0fpL3dE3nq4BU1QuBWJBjoVMoOlelXZaqQX2ns1Ai
+	 RgL/LTnEI+9dlfC79H7gFuhgZSwGzG5uZrXvh72E=
+Date: Thu, 2 Jul 2026 10:39:00 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: raoxu <raoxu@uniontech.com>
-Cc: valentina.manea.m@gmail.com, shuah@kernel.org, i@zenithal.me,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RESEND PATCH] usbip: vudc: fix NULL pointer dereference in
- vep_dequeue()
-Message-ID: <2026070215-parted-cloak-7fb0@gregkh>
-References: <2B1E59F5E4C6B935+20260702081232.2477777-1-raoxu@uniontech.com>
+Cc: mathias.nyman@linux.intel.com, sakari.ailus@linux.intel.com,
+	michal.pecio@gmail.com, johannes.bruederl@gmail.com,
+	kees@kernel.org, dengjie03@kylinos.cn, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RESEND PATCH] usb: core: config: fix SS companion log for
+ interrupt endpoints
+Message-ID: <2026070248-fleshy-activity-1a33@gregkh>
+References: <E4E3CED70BF44FF8+20260702081104.2476004-1-raoxu@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,29 +42,29 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2B1E59F5E4C6B935+20260702081232.2477777-1-raoxu@uniontech.com>
+In-Reply-To: <E4E3CED70BF44FF8+20260702081104.2476004-1-raoxu@uniontech.com>
 
-On Thu, Jul 02, 2026 at 04:12:32PM +0800, raoxu wrote:
+On Thu, Jul 02, 2026 at 04:11:04PM +0800, raoxu wrote:
 > From: Xu Rao <raoxu@uniontech.com>
 > 
-> vep_alloc_request() zero-initializes struct vrequest but never assigns
-> vrequest::udc. vep_dequeue() then reads that field and dereferences it
-> while checking udc->driver. Consequently, any usb_ep_dequeue() call that
-> reaches the vUDC dequeue operation can crash the kernel.
+> usb_parse_ss_endpoint_companion() clears bmAttributes when it is
+> non-zero for control or interrupt endpoints.
 > 
-> The endpoint passed to ->dequeue() identifies both the request queue
-> being searched and the owning vUDC. Derive the controller from that
-> endpoint with ep_to_vudc(), as the other endpoint operations do.
+> The diagnostic message reports Control for control endpoints and Bulk
+> for the other branch. However, the other branch can only be an
+> interrupt endpoint because bulk endpoints are handled by the following
+> else-if branch.
 > 
-> After this change, vrequest::udc has no users. Remove the redundant
-> controller backpointer.
+> Report the endpoint type as Interrupt instead of Bulk to avoid
+> misleading descriptor diagnostics.
 > 
-> Fixes: b6a0ca111867 ("usbip: vudc: Add UDC specific ops")
 > Signed-off-by: Xu Rao <raoxu@uniontech.com>
 > ---
->  drivers/usb/usbip/vudc.h     | 1 -
->  drivers/usb/usbip/vudc_dev.c | 4 +---
->  2 files changed, 1 insertion(+), 4 deletions(-)
+>  drivers/usb/core/config.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Why is this a RESEND?
+Why is this RESEND?  Always say so below the --- line.
 
+thanks,
+
+greg k-h
