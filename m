@@ -1,105 +1,124 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC03C317173
-	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 19:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3E33D093A
+	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 22:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783019644; cv=none; b=R4jmUbW4g6Gf674mHadJamllWon+y1gY9XqZiRtbtEG4DxJLWjH7N8RghpJdZsuH2C13QBNXaRG1ekgqBHJuhzNCvBzKdKSxle3Ce1gp7dTAjwhK9G4oatNxGWb0MZRqsth/OvSJPTnav+VxNDiTUC0k1W8BKSDKXJukaIt+tHw=
+	t=1783031977; cv=none; b=o2z56ba3KhbhBKJGNzrTZx3s85arkP/pFVfGt00zwbTP0Qox7kb82OATs6aYbXrDxjWktkDzsb0CtedABKNm+YEMS2NJl4lvAG306sVWRF25oWBGBnMf2Ws+0jwkliVqru9/k0IHV+rkOlP5lzVvwhQXyH3wMY1WpFnNbeX2wa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783019644; c=relaxed/simple;
-	bh=W8ivqy79EFzNA2Ezx20CfLZ6HP4m2lPjNmQN4QglcI0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D7CG1j41wUFYo7HMiCVxQbopIPWluyu3f1JjLmFVaWIyBC09ye1yuK6GlauNvrVGJJfY/xfk4D8c8Vs2SRnszJZpKll2zuC0oQp4tPs6CxeKvKQgGjToLzV1iLjY9rRgnG4O+PhW20touqYwaTYprgA7pxqW9vm1BvQZjt6AdVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p0kOaBLi; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783031977; c=relaxed/simple;
+	bh=jUEFO2dYlrUsHq/npRyqqQfPXBIu9PI/KDflitAC56U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UnLt+Jbs9SFWpdMn6cbCb2fClLMENjAzW0Fa3WO/l7cr0nfXkBFOmm8vpni9tve8HD+nYzXGDS/W4nyKBk2I4U8JkRkUPD7ssS5OAUa38zqMguwjfuwajbxuu/EAaLsRuhV51avdl+dKQaGqIo5arRsLTlVabeNk1opTyv14KFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=fY8f0CR1; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p0kOaBLi"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8ef7b7651ecso7215376d6.1
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2026 12:14:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="fY8f0CR1"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so16197965e9.0
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2026 15:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783019642; x=1783624442; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VgXZ8nPMmK/Y7f5cDka+f0jwbicN2i3iuL4UpZ5H8qM=;
-        b=p0kOaBLi3DhG9nq938bKI89qYaXN4r4FRlRPQHUhvckIxrAxtvKcOWhw+257bweQyD
-         eUzcdcQ/7+xfmzboBl5qZVoZFIBKqOcWmgsr97f/GZt6GMF4OrfOznKXdWUF2+qtrqMS
-         sz+2MVOgtpFAp4rfMu2MJVvG24XckFxpyWC/WNqX8tF6Uok/+xMCZ1rwzF7WRzSo5tw/
-         5ih62YDdsXNFvFjsEbC+rHfIAFXbZIy6Q6fSlqcLHoihG9jksDRqUC69kunSd4y1FYw9
-         5xjEywqY1akcXGOf62zfl4a8wquCd/J0hlk6sIKjwh/BJkFu+YPsi0uItoii8zIC+lNZ
-         rOPg==
+        d=baylibre.com; s=google; t=1783031969; x=1783636769; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jUEFO2dYlrUsHq/npRyqqQfPXBIu9PI/KDflitAC56U=;
+        b=fY8f0CR18Nr4Lr5ltWqWyO+UKisUH+DPeTY3TFNHpAuvo9/aDWdcDLalh8qcEcon47
+         Kt0J3oMRFyn7bkwPYMywUg2BAr3rckUUrqLt5KV37CScCa8RNdiJKgvlTi5rtqVw6VMe
+         vnPuberaUAM1Nz7vZK9BoIxr7IyzE2eb6dBIOdrxS1iI6s+Y+9bVxsxWLZAvikvKZbuV
+         JV2zJXbtxn8orgs9NOu2+YcGHfCeamhjAKZhG6mW/u9ythRGSGnmyRlKNSqRKOr1kyNF
+         byc9qsBCuq2wMwhe5+smmmH6DE8L4pTLxLrdeWvkKGKgCx1XbCz2/Xp5VHLUjzGlBRMW
+         Nt7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783019642; x=1783624442;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VgXZ8nPMmK/Y7f5cDka+f0jwbicN2i3iuL4UpZ5H8qM=;
-        b=E8AECmqQB32kVFbu9g703eDdZ3sBZBwnBCBimFirYDSKrwsnLhnpM9cbCJ2w0JPM63
-         03+yxzigfXPSN4VfZbmCB9gR+9m0sDQNUpZkRBloIkcaMoXrry5BSh69PPxc3gK3SVgD
-         /7NVN5bdPz480xb3hS0P0rp5j07cS+xgGbo6kj2f+X+ywO3Bjga1cyhRJhmKowJ4r2s6
-         kGxvnDxypVaImwrK75VXikhfxebtOEUBLVZjzkkLUSpHO0lej6W24/LV9DiRck2GkGcW
-         FfjFK+MqSjFq8yHRbSkruHxf2Za9kfLVCdi+XR8cEAWVFxs2U3lnfN/D2KdEB7duGlE2
-         GgbA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq0tdQRph43DapbfoiNwThynsa/6ZVPuZ3LNlt1VvPDL7eSVcmCuId40r5BHhpTooZf80NYUmf9tJc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywg7gpUfLA3S1oRh61V1AqL1cOGdvKQ08Eq0mhpjhKml+1SrnkI
-	ve0X2+osocBMfCb5+9Jb890vHZmdFPu6s+/EOePzrh3/XQhsCLtKpW7b
-X-Gm-Gg: AfdE7cniWEl8KzbDMhf1L4PvsOx7XmULIjRcRmUXvDsjL3p6JKn5QOvCTYm9EvPdsUd
-	tasLBRGXgNQuMAbqlhZ+BiTfDgM0PNuVCtjDrmgVoNsfKF95XnP8nM9snc2ery9yc4maaUH6MBN
-	vRL5bLSd/39cxsxGm9S1eUt0yAdRhcV/uH4IOuHbe2NNy7dtUyhkfSt2eEWfGED5VSrXzKu2Jrj
-	nI4kJUQVr/dn9wGIrP1V6lcmrBeDZSqB0dqM59iO9Mn7IEJq5qbPihmxTu74z3NvXrM5EaBiPAd
-	45wK4Sy667710CMif7o/IW8bAbzBEzWewR8yJ/XEI25f4gqqYvvgZdrkG+3yhtnfTMhyWjG3yYk
-	LaEik0hJkDX0hddgwnnladD50XgAAT3cOwdBwzzV/Y9200hwvozi7VglLrhE3b/0cSC/Zv7MjRq
-	pRX49brL+pDDkxDqQb/H0PxlRpd7vrpKiYx5t/4bXm3VsBJd1Hn6vz
-X-Received: by 2002:a05:6214:300f:b0:8f1:505c:1d2d with SMTP id 6a1803df08f44-8f5bce7c7camr16033426d6.14.1783019641478;
-        Thu, 02 Jul 2026 12:14:01 -0700 (PDT)
-Received: from i4-l-hqh5357-03.ad.psu.edu ([130.203.139.71])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8f4724bab9esm32580696d6.42.2026.07.02.12.14.01
+        d=1e100.net; s=20251104; t=1783031969; x=1783636769;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jUEFO2dYlrUsHq/npRyqqQfPXBIu9PI/KDflitAC56U=;
+        b=Hj8ZOSk15nFCcrRhOMlOp4xJ3HpMPEwdE2ySjuSAZgzSP1wZW0bYe7DvWxctMfSaSK
+         4MqwY5vUkl/F27KqI+0SoM5RMQqGtv9GN+8HoPs9hwMxVDhL13U2pIlijN83mFwoEMAQ
+         wL9/KgHwWGE+Bv8tsc6xIZ4M7qnpD4bK0F/G5u4HaEsJln65rJ03nrtvCSBRLC6bp7VL
+         Qf437qGjKcBvSUOUQGxirtqXVEsBIClWfox03ge7BLwcoLB/Jwv5MdHDJ8q/a37sfjJL
+         TdZpdQgCoBDtzpIvvnvYdwUyJF4eJzPgN1/xBrwZpOjV5zm/LJVWyP3+Swr8L+MV/AqV
+         994g==
+X-Forwarded-Encrypted: i=1; AFNElJ9oxZjm+qBW3QTQVpCw8cdxbGHahGmM8Cy5tTCA3jnSVF+LQcfNxG2SiDV6xD8tc+nqGAHjETIP9OE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQipbmqaVyWe31llH3TtEekdZPw2d4pehE4Zk8+C0usdCDR3BL
+	+K+1JsyhDtSfHc1c/meNj8j7tPsWFVSHmihuUxBvP/j94a/SKB6zuW1ZwS56xxUO0PE=
+X-Gm-Gg: AfdE7clzKGRb96z5zLGpxkX2iDcHDFOtFJVEYChTZpj4gzYNih/+d3iadCBP1T4nGXB
+	dmPNW2zeJNXg9I+9mfFekljXZM8/3LAqNF2GIRLT3m/bP8ZsHMDraAbG3HuYG2yRYfbikYgObp2
+	04Jzyteb7Rnu7Vf+m8FMTOYNFcUHJHWQRG5buwnoNhG3Lx6Zo63J/bkiuzk9qIPURBEOMtodbfU
+	hMQ2PK0dYsh3NcId94P+EOm4IeBYJhWVGBTqK5kbk72XKvufRKjywfcDjVTnEGkbyodyx0kWS9k
+	HIclo2iv6bNP50w/CQgjcpFlyeKfGnhMdWy0CxHvdVc9OALDmr3Lwu08z44xrHnLx4hG5mQYRCg
+	q6IjxwTTAHqXbJ63kkzMEZHviwqQHOUPACeAlZbFXNt2/Lc0VeA0FbQrq/AX090yHRNVM8k0JWy
+	g7zITmWFWiBvjWA7EpvQ==
+X-Received: by 2002:a05:600c:6692:b0:493:bb6b:5bda with SMTP id 5b1f17b1804b1-493c2b983b8mr111151595e9.29.1783031969110;
+        Thu, 02 Jul 2026 15:39:29 -0700 (PDT)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-493c635c41dsm155275235e9.5.2026.07.02.15.39.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 12:14:01 -0700 (PDT)
-From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-Subject: [PATCH] usb: typec: class: drop PD lookup reference
-Date: Thu,  2 Jul 2026 15:13:29 -0400
-Message-ID: <20260702191329.2648043-1-shuangpeng.kernel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 02 Jul 2026 15:39:27 -0700 (PDT)
+Date: Fri, 3 Jul 2026 00:38:18 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-usb@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] USB: gadget: fsl-udc: fix dev_printk() device
+Message-ID: <akbmlZKNiF2z90F-@monoceros>
+References: <20260702141536.90887-1-johan@kernel.org>
+ <20260702141536.90887-4-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nulx3wvnaf5kt2p5"
+Content-Disposition: inline
+In-Reply-To: <20260702141536.90887-4-johan@kernel.org>
 
-usb_power_delivery_find() wraps class_find_device_by_name(). That helper
-returns a device reference that must be released by the caller.
 
-select_usb_power_delivery_store() only needs this reference while calling
-the pd_set callback. Drop it once the callback returns. Otherwise the sysfs
-write can pin the selected USB Power Delivery object and prevent it from
-being released on unregister.
+--nulx3wvnaf5kt2p5
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 3/4] USB: gadget: fsl-udc: fix dev_printk() device
+MIME-Version: 1.0
 
-Fixes: a7cff92f0635 ("usb: typec: USB Power Delivery helpers for ports and partners")
-Signed-off-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
----
- drivers/usb/typec/class.c | 1 +
- 1 file changed, 1 insertion(+)
+Hello Johan,
 
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 0977581ad1b6..0595e8cb83aa 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -1619,6 +1619,7 @@ static ssize_t select_usb_power_delivery_store(struct device *dev,
- 		return -EINVAL;
- 
- 	ret = port->ops->pd_set(port, pd);
-+	put_device(&pd->dev);
- 	if (ret)
- 		return ret;
- 
--- 
-2.43.0
+On Thu, Jul 02, 2026 at 04:15:35PM +0200, Johan Hovold wrote:
+> A change replacing custom printk() macros with dev_printk() incorrectly
+> used the gadget struct device instead of the controller struct device
+> (including for messages printed before the gadget device name has been
+> initialised).
+>=20
+> Switch to using the controller platform device with dev_printk() so that
+> the controller device and driver names are included in log messages as
+> expected.
 
+I don't know about "expected", because before 6025f20f16c2 the affected
+device wasn't included in the message at all. But I agree that using the
+not yet initialized device isn't nice, so:
+
+Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+
+Thanks
+Uwe
+
+--nulx3wvnaf5kt2p5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpG6FYACgkQj4D7WH0S
+/k4wnQgAgH+bRzd/g47MZIWPVDUm/GIRllQkmHGQpbbPtH1l42O12kHnutcWShhF
+29ExqURXwq7jY9SaSKB0Eoiv7kVto2Y0I3VVL9qTWA9icwCt1KRzjXjyxrMSWxwe
+OgBxCb+cTzVfSM3D2ZXbP3ZqY3BVoxLc1M4aAlfO0G6lwaGJ2tWmaOxRR5P3n+le
+f4GuNJP9DVvSw5TSyY4vUliDPLwN5g3MLfeYEcpaqDav4eW1bPKTpC7itWX2jdTY
+6iTNkWRxiEYLn/VbmPca1SusZ4ViA/0hHIIjJDD6BNYm6IyzaCq37abkiI9w0z6e
+hfxRl+hHKTWLLbm2i2JNy6Cznx4DaQ==
+=JsLz
+-----END PGP SIGNATURE-----
+
+--nulx3wvnaf5kt2p5--
