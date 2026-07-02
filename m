@@ -1,75 +1,44 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E68747ECF4
-	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 14:32:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698103D9548;
+	Thu,  2 Jul 2026 14:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783002745; cv=none; b=gVlgb9yKjNb3qasx7m2M6fw9Yy+rZEo/ThYgOJwXuhaiuNKhWhc3pzIdCxKsG7ofZc02LrAjqTOgrvg4dw1erfiTTU7YfaX3U9gEis2j9HiMMObPx3h33J48M8bNYYkW0HEvHITU1jeKQ3GcwHiSY5/AzI/wvVmN2by0NCAgDfs=
+	t=1783004049; cv=none; b=fq8JR2KNmrzXSQfdKqy+EcYnWpgbPoeARFHsK6KYalPGBZCq2CWTdAgZd/+90Mrr08UO0xLFi4yPjkEK9eZgBl1g3HIO9a19/Xv2xD5MHCqnxdI0j7NIqpXkFWObfmFLvgPvj2l0n0AnWqCqUXoiygFiKiMoHxDkruR4KXWzjyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783002745; c=relaxed/simple;
-	bh=p5LEF0TpeuJUKX9WSanvmmAQejWqAwoFRjpWjPdXn3s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nXF8Ft9X6xu+WTVO3ckxH56JJeaoyrHKHVKJG0GAq3/BMpGJnXY8EmvSH7TdrjBwx3y1ZQZafVM0KJWL6RwsQjl93o3HJJRpEZLpSkZDsYjAVc7UIK1HRQkazoN55iZMGHvNeJN/5NUYM1yl0Yp9zBJXAWEMb2OpOWE50Et5FSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=G0eei6P5; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=G0eei6P5; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1783004049; c=relaxed/simple;
+	bh=AlDnnrSumvQ0JUayuwWhX4lgLQINoDGTcc0ugi/Lfas=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DKAv2wQFAgQXQ1PBOaEStaG/qjry6yLRsXSbgFf7Z9pAEJEZgPlO9B9c3a2mote7ogMUQv6IWBB119Xesr5Rn+e5iW7dfGIFPT6/B6Nn1plV+B9do+Nx//uUQ4sUlfVOXYJBgcL+jS8OsOC0OcA91Uch/tlI8SKmF0SKZ6hWjyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=np3DLADc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="G0eei6P5";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="G0eei6P5"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0972F75DB9;
-	Thu,  2 Jul 2026 14:31:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1783002709; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Enu0+TkL5+FOi84prkYHDpdzqlXme7u+bi/VxlIaI6M=;
-	b=G0eei6P534pl2JlQdhqV2KYe6Q44BNp6VHV6cnQ9Jzqi5c+8CP/sWcCykfsNWBkK1CKbpx
-	6vsXg7k6bOTkIhMoe9KaxhLiTm9lvUPkf9Lcm8JuQcr2CBTLeh7jVhMTDdW7N5Hu2M6cE/
-	l2lPkbOch4+zGwNG6h33kqiMXUrzZI4=
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1783002709; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Enu0+TkL5+FOi84prkYHDpdzqlXme7u+bi/VxlIaI6M=;
-	b=G0eei6P534pl2JlQdhqV2KYe6Q44BNp6VHV6cnQ9Jzqi5c+8CP/sWcCykfsNWBkK1CKbpx
-	6vsXg7k6bOTkIhMoe9KaxhLiTm9lvUPkf9Lcm8JuQcr2CBTLeh7jVhMTDdW7N5Hu2M6cE/
-	l2lPkbOch4+zGwNG6h33kqiMXUrzZI4=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C40DD779AA;
-	Thu,  2 Jul 2026 14:31:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8GfdLlR2Rmr0MwAAD6G6ig
-	(envelope-from <oneukum@suse.com>); Thu, 02 Jul 2026 14:31:48 +0000
-From: Oliver Neukum <oneukum@suse.com>
-To: andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	shaoxul@foxmail.com,
-	netdev@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="np3DLADc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF2F81F000E9;
+	Thu,  2 Jul 2026 14:54:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783004048;
+	bh=4D5Pfza9ye25/7h+SlhjH9CFxEdzdfjUrz/QKfasyh0=;
+	h=From:To:Cc:Subject:Date;
+	b=np3DLADcUNID+B/3g9XO+CYdxV5YDyZN61vqId4JgZfV9eWMNpNCVOK+RGaxa82o8
+	 fePwahT6+PlJGhylFY5ec/VBaMSKZ9psjO/7yzUoATYkor4bIpC9R0w5HDOpVfuoAH
+	 nlUfuHPQsPbPkbOzfqb6fXAQ8P9vURPUAdgJaFCR5EVqu3QXkdK+ZAEkFC6QP6uX+d
+	 HZuvENtVsCQuMrQCINywbyauqBgV5SyRS1xS31ByWcFmY0jo7wuMlt2Qn3FAOh9Pu7
+	 ToOgajzsM7aq8b2g7lIgbIKQxTVz5r0jR2nuKFfNmKwwi/ABe9YEE+Td5HBYz3xKm1
+	 SU5PcuS5fjcTQ==
+Received: from johan by xi.lan with local (Exim 4.99.3)
+	(envelope-from <johan@kernel.org>)
+	id 1wfInl-00000000SUi-2my5;
+	Thu, 02 Jul 2026 16:54:05 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Rob Herring <robh@kernel.org>,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH net-next 4/4] net: usb: use cdc_state in struct usbnet
-Date: Thu,  2 Jul 2026 16:25:33 +0200
-Message-ID: <20260702143142.890654-5-oneukum@suse.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260702143142.890654-1-oneukum@suse.com>
-References: <20260702143142.890654-1-oneukum@suse.com>
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>
+Subject: [PATCH] USB: gadget: stop propagating controller OF nodes
+Date: Thu,  2 Jul 2026 16:53:50 +0200
+Message-ID: <20260702145350.109509-1-johan@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -77,108 +46,113 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -5.30
-X-Spamd-Result: default: False [-5.30 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[netdev];
-	FROM_EQ_ENVFROM(0.00)[];
-	FREEMAIL_TO(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,foxmail.com,vger.kernel.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.com:mid];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[foxmail.com]
-X-Spam-Level: 
 
-Remove private copies as now a central state can be used.
+Some UDC drivers propagate the controller OF node to the gadget device
+but there are no (and has never been any) users of this as the
+devicetree binding and composite driver support was never merged. [1]
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Drop the unused and incomplete support for OF node propagation which if
+ever needed should be handled by UDC core.
+
+Note that this also avoids probe failures when reusing an OF node that
+describe resources like pinctrl that are managed by driver core (cf.
+commit 48ed32482c41 ("usb: gadget: aspeed: Fix probe regression")).
+
+Link: https://lore.kernel.org/all/1340720833-781-1-git-send-email-aletes.xgr@gmail.com/ [1]
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/net/usb/cdc_ether.c  | 9 +++------
- drivers/net/usb/rndis_host.c | 6 +++---
- 2 files changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-index e688fb99c61d..76ad4ffa950a 100644
---- a/drivers/net/usb/cdc_ether.c
-+++ b/drivers/net/usb/cdc_ether.c
-@@ -85,7 +85,7 @@ int usbnet_generic_cdc_bind(struct usbnet *dev, struct usb_interface *intf)
- 	u8				*buf = intf->cur_altsetting->extra;
- 	int				len = intf->cur_altsetting->extralen;
- 	struct usb_interface_descriptor	*d;
--	struct cdc_state		*info = (void *) &dev->data;
-+	struct cdc_state		*info = &dev->cdc;
- 	int				status = -ENODEV;
- 	int				rndis;
- 	bool				android_rndis_quirk = false;
-@@ -336,7 +336,7 @@ EXPORT_SYMBOL_GPL(usbnet_ether_cdc_bind);
+This was something I stumbled over when fixing a couple of gadget device
+name leaks. This one applies on top of those fixes:
+
+	https://lore.kernel.org/all/20260702141536.90887-1-johan@kernel.org/
+
+Johan
+
+
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c | 2 --
+ drivers/usb/gadget/udc/aspeed_udc.c      | 1 -
+ drivers/usb/gadget/udc/at91_udc.c        | 1 -
+ drivers/usb/gadget/udc/bcm63xx_udc.c     | 1 -
+ drivers/usb/gadget/udc/fsl_udc_core.c    | 3 ---
+ drivers/usb/gadget/udc/lpc32xx_udc.c     | 1 -
+ 6 files changed, 9 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+index 8b9449d16324..0dccdbfd6aef 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+@@ -592,8 +592,6 @@ int ast_vhub_init_dev(struct ast_vhub *vhub, unsigned int idx)
+ 	else
+ 		d->gadget.max_speed = USB_SPEED_HIGH;
+ 	d->gadget.speed = USB_SPEED_UNKNOWN;
+-	d->gadget.dev.of_node = vhub->pdev->dev.of_node;
+-	dev_set_of_node_reused(&d->gadget.dev);
  
- void usbnet_cdc_unbind(struct usbnet *dev, struct usb_interface *intf)
- {
--	struct cdc_state		*info = (void *) &dev->data;
-+	struct cdc_state		*info = &dev->cdc;
- 	struct usb_driver		*driver = driver_of(intf);
+ 	rc = usb_add_gadget_udc(d->port_dev, &d->gadget);
+ 	if (rc != 0)
+diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
+index 75f9c831b21a..09776a5e224f 100644
+--- a/drivers/usb/gadget/udc/aspeed_udc.c
++++ b/drivers/usb/gadget/udc/aspeed_udc.c
+@@ -1299,7 +1299,6 @@ static int ast_udc_start(struct usb_gadget *gadget,
  
- 	/* combined interface - nothing  to do */
-@@ -374,10 +374,7 @@ EXPORT_SYMBOL_GPL(usbnet_cdc_unbind);
- int usbnet_cdc_bind(struct usbnet *dev, struct usb_interface *intf)
- {
- 	int				status;
--	struct cdc_state		*info = (void *) &dev->data;
+ 	UDC_DBG(udc, "\n");
+ 	udc->driver = driver;
+-	udc->gadget.dev.of_node = udc->pdev->dev.of_node;
+ 
+ 	for (i = 0; i < AST_UDC_NUM_ENDPOINTS; i++) {
+ 		ep = &udc->ep[i];
+diff --git a/drivers/usb/gadget/udc/at91_udc.c b/drivers/usb/gadget/udc/at91_udc.c
+index 5aa360ba4f03..de8083986942 100644
+--- a/drivers/usb/gadget/udc/at91_udc.c
++++ b/drivers/usb/gadget/udc/at91_udc.c
+@@ -1558,7 +1558,6 @@ static int at91_start(struct usb_gadget *gadget,
+ 
+ 	udc = container_of(gadget, struct at91_udc, gadget);
+ 	udc->driver = driver;
+-	udc->gadget.dev.of_node = udc->pdev->dev.of_node;
+ 	udc->enabled = 1;
+ 	udc->gadget.is_selfpowered = 1;
+ 
+diff --git a/drivers/usb/gadget/udc/bcm63xx_udc.c b/drivers/usb/gadget/udc/bcm63xx_udc.c
+index c4f9ea45bdbb..ba91b1ebbf57 100644
+--- a/drivers/usb/gadget/udc/bcm63xx_udc.c
++++ b/drivers/usb/gadget/udc/bcm63xx_udc.c
+@@ -1830,7 +1830,6 @@ static int bcm63xx_udc_start(struct usb_gadget *gadget,
+ 	bcm63xx_select_phy_mode(udc, true);
+ 
+ 	udc->driver = driver;
+-	udc->gadget.dev.of_node = udc->dev->of_node;
+ 
+ 	spin_unlock_irqrestore(&udc->lock, flags);
+ 
+diff --git a/drivers/usb/gadget/udc/fsl_udc_core.c b/drivers/usb/gadget/udc/fsl_udc_core.c
+index 20392409afb1..878d70b55530 100644
+--- a/drivers/usb/gadget/udc/fsl_udc_core.c
++++ b/drivers/usb/gadget/udc/fsl_udc_core.c
+@@ -2465,9 +2465,6 @@ static int fsl_udc_probe(struct platform_device *pdev)
+ 	udc_controller->gadget.speed = USB_SPEED_UNKNOWN;
+ 	udc_controller->gadget.name = driver_name;
+ 
+-	/* Setup gadget.dev and register with kernel */
+-	udc_controller->gadget.dev.of_node = pdev->dev.of_node;
 -
--	BUILD_BUG_ON((sizeof(((struct usbnet *)0)->data)
--			< sizeof(struct cdc_state)));
-+	struct cdc_state		*info = &dev->cdc;
+ 	if (!IS_ERR_OR_NULL(udc_controller->transceiver))
+ 		udc_controller->gadget.is_otg = 1;
  
- 	status = usbnet_ether_cdc_bind(dev, intf);
- 	if (status < 0)
-diff --git a/drivers/net/usb/rndis_host.c b/drivers/net/usb/rndis_host.c
-index 5e39d05a2d7b..d539654687c3 100644
---- a/drivers/net/usb/rndis_host.c
-+++ b/drivers/net/usb/rndis_host.c
-@@ -57,7 +57,7 @@ EXPORT_SYMBOL_GPL(rndis_status);
- static void rndis_msg_indicate(struct usbnet *dev, struct rndis_indicate *msg,
- 				int buflen)
- {
--	struct cdc_state *info = (void *)&dev->data;
-+	struct cdc_state *info = &dev->cdc;
- 	struct device *udev = &info->control->dev;
+diff --git a/drivers/usb/gadget/udc/lpc32xx_udc.c b/drivers/usb/gadget/udc/lpc32xx_udc.c
+index 044c31869cfb..35cf44025559 100644
+--- a/drivers/usb/gadget/udc/lpc32xx_udc.c
++++ b/drivers/usb/gadget/udc/lpc32xx_udc.c
+@@ -2889,7 +2889,6 @@ static int lpc32xx_start(struct usb_gadget *gadget,
+ 	}
  
- 	if (dev->driver_info->indication) {
-@@ -90,7 +90,7 @@ static void rndis_msg_indicate(struct usbnet *dev, struct rndis_indicate *msg,
-  */
- int rndis_command(struct usbnet *dev, struct rndis_msg_hdr *buf, int buflen)
- {
--	struct cdc_state	*info = (void *) &dev->data;
-+	struct cdc_state	*info = &dev->cdc;
- 	struct usb_cdc_notification notification;
- 	int			master_ifnum;
- 	int			retval;
-@@ -290,7 +290,7 @@ generic_rndis_bind(struct usbnet *dev, struct usb_interface *intf, int flags)
- {
- 	int			retval;
- 	struct net_device	*net = dev->net;
--	struct cdc_state	*info = (void *) &dev->data;
-+	struct cdc_state	*info = &dev->cdc;
- 	union {
- 		void			*buf;
- 		struct rndis_msg_hdr	*header;
+ 	udc->driver = driver;
+-	udc->gadget.dev.of_node = udc->dev->of_node;
+ 	udc->enabled = 1;
+ 	udc->gadget.is_selfpowered = 1;
+ 	udc->vbus = 0;
 -- 
-2.54.0
+2.53.0
 
