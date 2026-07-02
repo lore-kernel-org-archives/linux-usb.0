@@ -1,123 +1,173 @@
-Received: from mail-gw02.astralinux.ru (mail-gw02.astralinux.ru [93.188.205.243])
+Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C90431E68;
-	Thu,  2 Jul 2026 10:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.188.205.243
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4EA3C1F54;
+	Thu,  2 Jul 2026 11:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782987664; cv=none; b=iBSIaJBS6UsEUcT6fkRkalTXSep5YkMcukG9GhbxPgsWRz3+ockjdM3N5yEud0KWdxXo2H7fDLkZflp+B9OUh872cQ9DXrIHs5XB5Qb8uwsIDCtn8wxH+Cv239sDKq++jdkhq1lAg5uI52PwNHrybXnWX7zbDGbITwVTiN+zqho=
+	t=1782992181; cv=none; b=o7c1lnKF/uPsG/yNjh9NusHd5JR7r5ih2f+qNfXJ6+x83TNX2LmPz3dNQTQdTCMOD26rr2JuY5YYgwLSjcg5EYoi6Qq1UqIkka6H61Fhb9zFiEnt/iO2J9hk3S7tRbP2xZBfn4dF+mBh1eaIpAhbkitvLeUfg4vLGVCM7clRwgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782987664; c=relaxed/simple;
-	bh=bzutjKBr6Z86v8mWSdu4o8FkYSFLpCB7bWGr+YlZWzA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a2+rjakNTZSb8+jp8bbkLJsW6BxLjGTBoSqZ9fvSI5BlUvESE48FQFKhuC+LMj30mTXBViIRC7Xca0hc0KaLc/hDgRUZhXyUKRCfWckjqC1ukf+uAoTNdFGUJaP3fxQc+ahsfLeZdSTmjpeBIRvF09eR5yJUk1FCi00VFaZJw2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b=pJqRIF92; arc=none smtp.client-ip=93.188.205.243
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
+	s=arc-20240116; t=1782992181; c=relaxed/simple;
+	bh=WBsZvj1YrnX58paoW/oC3TjZ0/Gv4u7ilYA7XgCMMMw=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=MnK4DFxvB3IwSlrIdz9XMyIc3LWC2/hORPtfccC3Fxnnvu12+Jo/cmPtwout0/BVnHXjobXKbutDxeTuDdStP9V86WKlLm5TR21S6hpHwv7qCCSY640MehIc1P/tXTtxdiAyJ2i1MFTJxbhW1QX46zkeWcR8FUVy11hMiqY1Tb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=hpqU/3DM; arc=none smtp.client-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b="pJqRIF92"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
-	s=mail; t=1782987651;
-	bh=bzutjKBr6Z86v8mWSdu4o8FkYSFLpCB7bWGr+YlZWzA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=pJqRIF92s0iEpinwSTJ7s+hKoHSWwC89vaSU8qnU8/UQR/hxl6urtFk+xf7EZt8d9
-	 Hf0w9mzvj3oPQaJ8MorEgWNDohXyxw+3TTRrd8dvWnl4Hvq6LjN24pzAXu58Km+1Of
-	 bi/dXFg8gqDxUo7VwjUVew+8C6CLkGn3X11BUeAHqgYwrdsnvGaUL9b9J5psTGgvNN
-	 pfAVMp2LV6OyyV112bUFBiqv94RxcxPyuXyhxqXG1GKTbLerYoqqhIkpWKA8ukDHb0
-	 ednFPZalkcmunVEkLRNgOEAECdZM++2URcRQOBWeuCqpunXqzLrb03/TMjikqP+Du3
-	 wIKsyei5whYtg==
-Received: from gca-msk-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
-	by mail-gw02.astralinux.ru (Postfix) with ESMTP id A24051F955;
-	Thu,  2 Jul 2026 13:20:51 +0300 (MSK)
-Received: from new-mail.astralinux.ru (unknown [10.205.207.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail-gw02.astralinux.ru (Postfix) with ESMTPS;
-	Thu,  2 Jul 2026 13:20:49 +0300 (MSK)
-Received: from rbta-msk-lt-169874.astralinux.ru (rbta-msk-lt-169874.astralinux.ru [10.198.56.59])
-	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4grXw10s5Pzh5F;
-	Thu, 02 Jul 2026 13:20:49 +0300 (MSK)
-From: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>,
-	Peter Chen <peter.chen@nxp.com>,
-	Pawel Laszczak <pawell@cadence.com>,
-	Roger Quadros <rogerq@ti.com>,
-	Felipe Balbi <felipe.balbi@linux.intel.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Peter Chen <peter.chen@kernel.org>,
-	Roger Quadros <rogerq@kernel.org>,
-	lvc-project@linuxtesting.org,
-	stable <stable@kernel.org>,
-	Yongchao Wu <yongchao.wu@autochips.com>
-Subject: [PATCH 5.10] usb: cdns3: gadget: fix NULL pointer dereference in ep_queue
-Date: Thu,  2 Jul 2026 13:20:17 +0300
-Message-Id: <20260702102018.48182-1-mdmitrichenko@astralinux.ru>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="hpqU/3DM"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 18A6BA47CD;
+	Thu,  2 Jul 2026 13:36:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
+	t=1782992175; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=j6ZsQauM6gIautaKWkv5Fv+2Mz2AdmTwz4GLhRe+aUc=;
+	b=hpqU/3DMkCZCsAsjBZI3GxR2NCPAAiTnokDwocmGf1poIdcqxEiz7nqpfEgkL4SpBfFbJ1
+	j565OgfUzUjczyl1/RC/Iv1kWXVhZIL0Ye8rOtKCkItf9J9jTAd/f9vWC3iKjEQleYUizs
+	ugeeJzaATWnuLko+8OlmTMIEa5NlX7CcbJuOlMKMmWQGdnJ6puHGF86zHz1VOU44ZstNJv
+	d6VF7T3RelbZxH8LAQFK/WShQpqjcveSevoeHoHD7yHfH+N8GdX3nFcNvB+9kc7oIPxpmP
+	kX/FFLwBfkUuUt32vpIr9QCBd6R+imD3mMQyNXxSByphMKascWAMCHtVMoxWrA==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-KSMG-AntiPhishing: NotDetected, bases: 2026/07/02 08:31:00
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Envelope-From: mdmitrichenko@astralinux.ru
-X-KSMG-AntiSpam-Info: LuaCore: 111 0.3.111 1434338e80da3ad6056aa2b487308911a6b137ca, {date_rfc_vio_soft_silent}, {Tracking_ml_letters}, {Tracking_one_susp_tld}, {Tracking_uf_ne_domains}, {Tracking_internal2}, {Tracking_from_domain_doesnt_match_to}, patch.msgid.link:7.1.1;astralinux.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;new-mail.astralinux.ru:7.1.1, FromAlignment: s
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 204205 [Jul 02 2026]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.22
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/07/02 09:59:00 #28358554
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected, bases: 2026/07/02 08:31:00
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 1
+Date: Thu, 02 Jul 2026 13:36:13 +0200
+From: Nicolai Buchwitz <nb@tipi-net.de>
+To: enrico.pozzobon@dissecto.com
+Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>, Rengarajan
+ Sundararajan <Rengarajan.S@microchip.com>, UNGLinuxDriver@microchip.com,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Woojung.Huh@microchip.com, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v2] net: usb: lan78xx: disable VLAN filter in
+ promiscuous mode
+In-Reply-To: <20260701-lan78xx-vlan-promisc-v2-1-fe3b18066728@dissecto.com>
+References: <20260701-lan78xx-vlan-promisc-v2-1-fe3b18066728@dissecto.com>
+Message-ID: <aef78533a81c88a362885c24928a7c60@tipi-net.de>
+X-Sender: nb@tipi-net.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: Yongchao Wu <yongchao.wu@autochips.com>
+Hi Enrico
 
-commit 7f6f127b9bc34bed35f56faf7ecb1561d6b39000 upstream.
+On 1.7.2026 15:09, Enrico Pozzobon via B4 Relay wrote:
+> From: Enrico Pozzobon <enrico.pozzobon@dissecto.com>
+> 
+> The hardware VLAN filter (RFE_CTL_VLAN_FILTER_) drops VLAN-tagged 
+> frames
+> whose VID has not been registered via lan78xx_vlan_rx_add_vid(). It is
+> left enabled in promiscuous mode, so packet capture (e.g. tcpdump or
+> Wireshark) does not see tagged frames for unregistered VIDs.
+> 
+> Clear the filter while the interface is promiscuous and restore it from
+> NETIF_F_HW_VLAN_CTAG_FILTER otherwise. Enforce the same condition in
+> lan78xx_set_features() so netdev_update_features() cannot re-enable the
+> filter while promiscuous.
+> 
+> Fixes: 55d7de9de6c3 ("Microchip's LAN7800 family USB 2/3 to 10/100/1000 
+> Ethernet device driver")
+> Signed-off-by: Enrico Pozzobon <enrico.pozzobon@dissecto.com>
+> ---
+> Currently, on microchip lan7801, enabling promiscuous mode does not
+> result in VLAN tagged packets being captured. This patch fixes this,
+> forcing the RFE_CTL_VLAN_FILTER_ flag to be off when promiscuous mode 
+> is
+> enabled.
+> ---
+> Changes in v2:
+> - moved VLAN filter logic into lan78xx_update_vlan_filter()
+> - Link to v1: 
+> https://patch.msgid.link/20260630-lan78xx-vlan-promisc-v1-1-fbf0f903bd8f@dissecto.com
+> 
+> To: Thangaraj Samynathan <Thangaraj.S@microchip.com>
+> To: Rengarajan Sundararajan <Rengarajan.S@microchip.com>
+> To: UNGLinuxDriver@microchip.com
+> To: Andrew Lunn <andrew+netdev@lunn.ch>
+> To: "David S. Miller" <davem@davemloft.net>
+> To: Eric Dumazet <edumazet@google.com>
+> To: Jakub Kicinski <kuba@kernel.org>
+> To: Paolo Abeni <pabeni@redhat.com>
+> To: Woojung.Huh@microchip.com
+> Cc: netdev@vger.kernel.org
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> ---
+>  drivers/net/usb/lan78xx.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+> index c4cebacabcb5..cb782d81d84f 100644
+> --- a/drivers/net/usb/lan78xx.c
+> +++ b/drivers/net/usb/lan78xx.c
+> @@ -1499,6 +1499,17 @@ static void 
+> lan78xx_deferred_multicast_write(struct work_struct *param)
+>  	return;
+>  }
+> 
+> +static void lan78xx_update_vlan_filter(struct lan78xx_priv *pdata,
+> +				       struct net_device *netdev,
+> +				       netdev_features_t features)
+> +{
+> +	if ((features & NETIF_F_HW_VLAN_CTAG_FILTER) &&
+> +	    !(netdev->flags & IFF_PROMISC))
+> +		pdata->rfe_ctl |= RFE_CTL_VLAN_FILTER_;
+> +	else
+> +		pdata->rfe_ctl &= ~RFE_CTL_VLAN_FILTER_;
+> +}
+> +
+>  static void lan78xx_set_multicast(struct net_device *netdev)
+>  {
+>  	struct lan78xx_net *dev = netdev_priv(netdev);
+> @@ -1533,6 +1544,8 @@ static void lan78xx_set_multicast(struct 
+> net_device *netdev)
+>  		}
+>  	}
+> 
+> +	lan78xx_update_vlan_filter(pdata, dev->net, dev->net->features);
+> +
+>  	if (netdev_mc_count(dev->net)) {
+>  		struct netdev_hw_addr *ha;
+>  		int i;
+> @@ -3074,10 +3087,7 @@ static int lan78xx_set_features(struct 
+> net_device *netdev,
+>  	else
+>  		pdata->rfe_ctl &= ~RFE_CTL_VLAN_STRIP_;
+> 
+> -	if (features & NETIF_F_HW_VLAN_CTAG_FILTER)
+> -		pdata->rfe_ctl |= RFE_CTL_VLAN_FILTER_;
+> -	else
+> -		pdata->rfe_ctl &= ~RFE_CTL_VLAN_FILTER_;
+> +	lan78xx_update_vlan_filter(pdata, netdev, features);
+> 
+>  	spin_unlock_irqrestore(&pdata->rfe_ctl_lock, flags);
+> 
+> 
+> ---
+> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> change-id: 20260623-lan78xx-vlan-promisc-83af8a48a7ec
+> 
+> Best regards,
+> --
+> Enrico Pozzobon <enrico.pozzobon@dissecto.com>
 
-When the gadget endpoint is disabled or not yet configured, the ep->desc
-pointer can be NULL. This leads to a NULL pointer dereference when
-__cdns3_gadget_ep_queue() is called, causing a kernel crash.
+AFAIU the findings from Sashiko [1] on v1 are either false positives or 
+pre-existing
+issues unrelated to this change, so LGTM.
 
-Add a check to return -ESHUTDOWN if ep->desc is NULL, which is the
-standard return code for unconfigured endpoints.
+@Thangaraj / maintainers:
+The mails to Rengarajan are bouncing since a few series - does the 
+MAINTAINERS entry need an update?
 
-This prevents potential crashes when ep_queue is called on endpoints
-that are not ready.
+Reviewed-by: Nicolai Buchwitz <nb@tipi-net.de>
 
-Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
-Cc: stable <stable@kernel.org>
-Signed-off-by: Yongchao Wu <yongchao.wu@autochips.com>
-Acked-by: Peter Chen <peter.chen@kernel.org>
-Link: https://patch.msgid.link/20260331000407.613298-1-yongchao.wu@autochips.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
----
-Backport fix for CVE-2026-31755
- drivers/usb/cdns3/gadget.c | 3 +++
- 1 file changed, 3 insertions(+)
+[1] 
+https://sashiko.dev/#/patchset/20260630-lan78xx-vlan-promisc-v1-1-fbf0f903bd8f%40dissecto.com
 
-diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/gadget.c
-index 61388e2089f5f..a64302acdfe6d 100644
---- a/drivers/usb/cdns3/gadget.c
-+++ b/drivers/usb/cdns3/gadget.c
-@@ -2587,6 +2587,9 @@ static int __cdns3_gadget_ep_queue(struct usb_ep *ep,
- 	struct cdns3_request *priv_req;
- 	int ret = 0;
- 
-+	if (!ep->desc)
-+		return -ESHUTDOWN;
-+
- 	request->actual = 0;
- 	request->status = -EINPROGRESS;
- 	priv_req = to_cdns3_request(request);
--- 
-2.47.3
+Thanks
+Nicolai
