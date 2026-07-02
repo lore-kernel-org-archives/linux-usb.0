@@ -1,89 +1,60 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D9B33F5A3;
-	Thu,  2 Jul 2026 18:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F09E35AC1B;
+	Thu,  2 Jul 2026 18:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783015243; cv=none; b=Tn4Sq0kF3kKgJnAi/QSpCwFZznhYtwRluSqTmQv0gSy8Ro3jggFsEcBe95NpFxciHEBzypCLd8uOXw8AjhTLFT0sr9ySCPb4BKrfauZKhqdhx0EVYrOQZ1RosI7Y5yFe2fCtM0XsdyhTBK4/FF/fMT39NfYAXFTnhoLFAs4AQiU=
+	t=1783016164; cv=none; b=Es4cUqQxrX7Bf49/rD5mLRBWcKGOsJsYj+wcrOODEekZOT4/P/SaFTBz6YMwjk3sK8rbhiCTcMSkthIkvgkL8ffx8zL1VMzgM5VBXCuAiU4Ng8LpZdhNwD7FciLwViplbZIG3vdTzMJhSvczhmDuAXsSCnSQKT0sVhNIOmAx8t8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783015243; c=relaxed/simple;
-	bh=81uAQatl5Nl0YNAIsvEn3//lHmBMS9i4BFnmP8wt9LY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fl6s0ZUTSbL0lR8U6LBScvW7VDv6fj/8dpicV3cRitQXzszyUPqdROxIzv7VBgVvcXFw6NREVgOzX6gcbYo97+o+N3CIbjPsjvXQrOKNKehUC+35gZ2UnGpeqGukFoMe6hMBF1L+B/OzKxkdb7YhCaTP1hlGdboflWF95Qrg+CY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=Eskz2zrs; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	s=arc-20240116; t=1783016164; c=relaxed/simple;
+	bh=LFvbGG8e4RDOCrVe8X6kQOiiTYRB7+xbDmzgPNCW8Js=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dw22d0QEOthaLT37WdHR1fzmovrgR+uOFA/4zU1h+YccDdIWCY+geu9xWe0K0E9gseN9Ty2hN2SaYGu6mjY9+MWxyZxrjjg80WCTyayJZ2rXZT6YKbhjZR/ZFFhjcRHoOwtjdzaBDIaHXkRQWfih6aTnMG5UhQlMvwWRYyz+P4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4cVrgA+f; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="Eskz2zrs"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=xebSVH9btvoOA5wd7jjkFogUQ3KfJvU2qpvSEydg5Yc=; b=Eskz2zrsAbkrle95IzFL6WFPYp
-	vzn1wrAtXWwesXNsY8DQ6r1kiiuT9A9+DV5hhILJE/ps4aaDJ1Gi8+h6lU54Qr0wxF50SUu3ar2R4
-	dIKbvO1KKyEoyJvW7xVkbL+GZnKjEewoBjNGrWgvVKLEjKxQq10zMdcZC02VOjJgIIPlZIb1N8Hiu
-	JzXUv1WAgEfK6+Xf8Cbeceqzcxfkk03qW43BZ5Qmx15pzN5Q9LO0B6/awajLOwQoCONl9bsdrNS5e
-	jOJ/VamA0aB47VHoHD566MtaJ3gdB6MrwoSTmgUl8X5o7VYBZWgWzxwsFHNZxGd6AIlrfGUqsgaDW
-	B+rHYTrQ==;
-From: Heiko Stuebner <heiko@sntech.de>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonas Karlman <jonas@kwiboo.se>
-Cc: Diederik de Haas <diederik@cknow-tech.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-usb@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Jonas Karlman <jonas@kwiboo.se>
-Subject:
- Re: [PATCH v2 0/2] rockchip: Fix devices suspend freeze on RK3568/RK3566
-Date: Thu, 02 Jul 2026 20:00:32 +0200
-Message-ID: <9647226.A5hrfCrGMc@phil>
-In-Reply-To: <20260624192726.781864-1-jonas@kwiboo.se>
-References: <20260624192726.781864-1-jonas@kwiboo.se>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4cVrgA+f"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=LI6AQYqAXXfUGAx8sXzR8t6YKhCEMxoGaSCmbpo2oFY=; b=4cVrgA+fm4JS9rc+29oYYvOEc/
+	Cyb67qQhlJDwBY3sdXCePDZfNJHJR7PnvIzA84C4PNvFYXI3tUn15VnGuyBiGF12/AtMKJIE6L2l2
+	B6I/9VVSamFMdRRj6XqwzA/hkEBk6dylWiYW7bC4cISr7g1kdRG51U/7NWjPISEqW9y8=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wfLx0-00APrj-Vm; Thu, 02 Jul 2026 20:15:50 +0200
+Date: Thu, 2 Jul 2026 20:15:50 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, shaoxul@foxmail.com,
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 0/4] net: usb: move exported code to usbnet
+Message-ID: <ea92d680-39f6-4dde-b558-4008ffbee587@lunn.ch>
+References: <20260702143142.890654-1-oneukum@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260702143142.890654-1-oneukum@suse.com>
 
-Hi Jonas,
+On Thu, Jul 02, 2026 at 04:25:29PM +0200, Oliver Neukum wrote:
+> Some drivers are reusing common code originating in other drivers.
+> This means that two drivers need to be loaded for one device.
 
-Am Mittwoch, 24. Juni 2026, 21:27:23 Mitteleurop=C3=A4ische Sommerzeit schr=
-ieb Jonas Karlman:
-> This series fixes a system freeze during suspend in ohci_suspend() due
-> to clk_usbphy1_480m not being enabled when EHCI/OHCI registers are
-> accessed on e.g. a Raxa ROCK 3C board.
->=20
-> Following pm_test modes work on my ROCK 3C with the missing usbphy clk
-> refs added:
->=20
->   echo N > /sys/module/printk/parameters/console_suspend
->=20
->   echo devices > /sys/power/pm_test
->   echo platform > /sys/power/pm_test
->   echo processors > /sys/power/pm_test
->   echo core > /sys/power/pm_test
->=20
->   echo mem > /sys/power/state
->=20
-> Changes in v2:
-> - Include rockchip,rk3588-ehci in the EHCI constraint
-> - Make clocks prop required for EHCI and OHCI
-> - Collect t-b tag
->=20
-> Jonas Karlman (2):
->   dt-bindings: usb: Add Rockchip RK3568 compatible for EHCI and OHCI
+Maybe consider using 'framework' or 'library', rather than driver,
+when referring to the shared code?
 
-it seems I wasn't in Cc for the first patch, so can't know if and when
-that gets/got applied.
+I tend to think of a driver as the leaf node which probes based on
+enumeration of a bus. But usbnet.c itself is never probed.
 
-Also I think I remember Greg preferring not having to split apart patch
-series', so I think the binding patch might be better off standing alone.
-
-
-Heiko
-
-
-
+	Andrew
