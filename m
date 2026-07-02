@@ -1,45 +1,46 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010015.outbound.protection.outlook.com [52.101.201.15])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011037.outbound.protection.outlook.com [40.93.194.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5EC34389D;
-	Thu,  2 Jul 2026 19:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE293370AD8;
+	Thu,  2 Jul 2026 19:06:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783019179; cv=fail; b=BkIrKRKizUsP9xKcMlM7U2JOUy7E/lJmGrlwYPlq0n5udcG+3hFG8FxvAvod+MDLkiQZu5tSlC1nvyCbe48MWO9b9K5PX3ixAl8C/HuqHO2OAuoY7rYsfunx+35bGLqFEgLz6LvBonYGWCgzbJ2VU1iGlhbRGvyK71mmx+iixew=
+	t=1783019180; cv=fail; b=F7LeXJUdh+oixI6UcN9v2JJm2S6bQ3plSt6o/eTn8pCNklNqAyxp9MjhCwWZtXsOY8v50G8U0oHx8zlnkrIdIb7k5zUXHp9KAf6lcRm8uFio+NEqiTmFEYJFPZKuwMlFL472jx5Lqr/fC4PzZQSZhma//fyruJM2keogkkbwD/Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783019179; c=relaxed/simple;
-	bh=2RlmAQY4HpNwxFcQjvSuqwqBT8h5AAXBMnXgm3R2WM8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gnXt0k9ErMA//R7uYQ/J0LRt6q92/SFpdT+oBiylc1v9fd3uCDI2w1uhxYu+D2h8yI3beDc/l2rnhhcNyOA0D1tXjaxSOZgexkU3e1ktGjXUuxEiw8RYQsX8tthOyIU9PhE1/DxgZ6PwF5btz6AttbXCTBm934uubxY9Nx5qpMw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=j9dBWLgq; arc=fail smtp.client-ip=52.101.201.15
+	s=arc-20240116; t=1783019180; c=relaxed/simple;
+	bh=tsMPBo23xxhbKGat4woqCeN1sOQLcJbC/mLY+jq/L2Y=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WCIllXs8mMR6VKWyp+xkrIs/TSj5B4B8BmZ0WSt9i/80tINhOZ4vwXMNxiJODnkyv8T89KP6czSGYTwJq9vgvt8A2UVBTbqGF2a31SyGSgy0jKgR5WLNsDoWu+v/V5vOfFWna8xvs/4jBpu+uLAezPO9HCtpzOJIAXQdqv8xE7o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Q9oHwSWr; arc=fail smtp.client-ip=40.93.194.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="j9dBWLgq"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Q9oHwSWr"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QMKCTJSBrsP5pFrZxpB3ODMQVp9BvE+w5Gl+oU+biZrVuzy6aQ1q0SOqAXPA5mPuYho/FekWL70J1VOX0vjToPqcIfHkpjWJdHc0uMfeJc6Gf57Jb5uw6rbTQlzwfK087m0Fuqm3YZ7h6dc3C6ZRO8JZOwxcfgj5vpau5W5Nd97fNAvO5p6Ivlv/NTTHBwEq6frh8dKTXSK7dca1EbyQBHifdjly6Nc0P3txqgcBJu7kZXEP+xWgcnlXGEY4K/Vpr5liqLkuyUBmt5Z8CHk1wenHD12VPZhjcDIMo0VsLk/d7aPKg3bn86hMdZm+f7XwBaodXyzysj+AXq0ylsM3WA==
+ b=kGHh8Xq/ZXcWmwAMpUheMoEaEF+llEffagIeWFcmz0JDIPW3D0C8gprAtT3lxL+AOlSDwVLmLnJz7r2rZV/qQpLE6dE3rTqXkdo41t7WZ9aurVGrMvaWMdD/VjEtHEe2/duwJvQvyuw/2ayg+8EybEFQw/sN9b0/h6KwqZnjfe2Cyel+Z7OJoRd4S0BSu9iI7OWxTqh0w3WjF1kTG3yI9g0837cGDxchQYFOijsrDERssrIjIcH0eQLRpHb4pwHJqqCEbXN6Q6kqE+cMfpOJoGmBMy0gcpYYLoWbvzwy6oj/LLKMMZBouvhfeYLPdnPiYb428ldvx/Wpc2z8jWF3uQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GFhpPicHCbehJYoR5Xb9CzVNmuzsmxpLBLRDcq7TtjE=;
- b=ZX+A0rgQTfuNxRHBTGm5MnWmmHxaZpSz/+jXJCNxj4kQP/JpEaBa80FnY1GlhpvbTMGSytA1bAPHbUdRKDui4s8NuGfTCCoKty5QbjAkRlVOxJWFyPjiQoIw94nR0YHZFXhFZAk/gv3t11q64tBrOvNGIJpm1v9hDhQKw0v0UW3HIPU0sI7owS8C/bs5gOtM8NAu1jCnIt+WCqvDN46lqbo5zq4FcrlQQlMzunV2NVjc67+e85slpO1ckzkJRWkTWIgBz4N+2LAoaP+m2cTPDR/Hs+ZBB/UeDFkREkaRe8WLKcNJ1I9NRP9yoh1mByrxXCOl2r1U0Q59m61Jrpd+Mg==
+ bh=br/ksa2TbXOT6kH5KyrreROfrIIVvKSKBQ/fkl03N7A=;
+ b=D1w9w/HMYaR9g2An/F0zQsgMh+87kUqq4gmM2GzCr5OLsYXVew58ums9yh8u+ogaRWcF4KRKhzKMIXCWazeCQhQ7hfZanj1BhOWDMP6XxMg54yrVBwwuLUD5tWFf+90JhCsVnA8+s5xBgPKkNkoIeorB6aaLZSsbx2UhY7BT7ts2mEzGPLcPBoL52fUJtC4Mu5nhAsM6imQNfVQq2LeGLgvN8lNKDcO1BXoEI/nE6pT7BtN7wn8Z2I4lmE8dlxrNmL7hOSP4/vmxiUwmL46zPVKSVFOTFHQJ9I++n0cuNxTvaX9a7KWgmEt+oJOIvO6y8Io2FH1K25HHwxMoOVFsFQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GFhpPicHCbehJYoR5Xb9CzVNmuzsmxpLBLRDcq7TtjE=;
- b=j9dBWLgqdgj68hdsscaR5e3Ej1yHeAoAzl5iGvYorOzuqa8nUXRoHtgNt734fL1kTglyXsmtDIS5uAfLaiuSfYOjC/2teXOHgnQgk3M7H5NlcLFajNs0sV0l66TsmSBLnzPYqKtKKExk/MiNXbuvMy4e86mKsenCiUMhKg/MmKk=
-Received: from SJ0PR05CA0182.namprd05.prod.outlook.com (2603:10b6:a03:330::7)
- by CH0PR12MB8508.namprd12.prod.outlook.com (2603:10b6:610:18c::10) with
+ bh=br/ksa2TbXOT6kH5KyrreROfrIIVvKSKBQ/fkl03N7A=;
+ b=Q9oHwSWrRQs+16lNPWE0mTx1rP1QWuHm5lavE9Wipjj3fQ95nCxmc1NtFspwH569qoAy+pE/zP/OnmGjEF/ENeqaIQ18KWb4z4BFbqoSPpDrmJa2qfTBxkQetmycp7/UDVcfGXNOmThglsA3ABe4tawjso4grFX5//G66TFvKb8=
+Received: from SJ0PR03CA0259.namprd03.prod.outlook.com (2603:10b6:a03:3a0::24)
+ by SA1PR12MB6847.namprd12.prod.outlook.com (2603:10b6:806:25e::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Thu, 2 Jul
- 2026 19:06:09 +0000
-Received: from SJ1PEPF00001CE6.namprd03.prod.outlook.com
- (2603:10b6:a03:330:cafe::79) by SJ0PR05CA0182.outlook.office365.com
- (2603:10b6:a03:330::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.8 via Frontend Transport; Thu, 2
- Jul 2026 19:06:09 +0000
+ 2026 19:06:12 +0000
+Received: from SJ1PEPF00001CEB.namprd03.prod.outlook.com
+ (2603:10b6:a03:3a0:cafe::f) by SJ0PR03CA0259.outlook.office365.com
+ (2603:10b6:a03:3a0::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.10 via Frontend Transport; Thu, 2
+ Jul 2026 19:06:12 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -47,30 +48,32 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
 Received: from satlexmb08.amd.com (165.204.84.17) by
- SJ1PEPF00001CE6.mail.protection.outlook.com (10.167.242.22) with Microsoft
+ SJ1PEPF00001CEB.mail.protection.outlook.com (10.167.242.27) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.181.6 via Frontend Transport; Thu, 2 Jul 2026 19:06:09 +0000
+ 15.21.181.6 via Frontend Transport; Thu, 2 Jul 2026 19:06:12 +0000
 Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Thu, 2 Jul
- 2026 14:06:09 -0500
+ 2026 14:06:11 -0500
 Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb09.amd.com
  (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Thu, 2 Jul
- 2026 12:06:08 -0700
+ 2026 12:06:11 -0700
 Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb08.amd.com
  (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.41 via Frontend
- Transport; Thu, 2 Jul 2026 14:06:06 -0500
+ Transport; Thu, 2 Jul 2026 14:06:09 -0500
 From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
 To: <gregkh@linuxfoundation.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
 	<conor+dt@kernel.org>, <heikki.krogerus@linux.intel.com>
 CC: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, Radhey Shyam Pandey
 	<radhey.shyam.pandey@amd.com>
-Subject: [PATCH v2 0/3] usb: typec: tipd: add TPS66993 support
-Date: Fri, 3 Jul 2026 00:35:24 +0530
-Message-ID: <20260702190527.1820671-1-radhey.shyam.pandey@amd.com>
+Subject: [PATCH v2 1/3] dt-bindings: usb: ti,tps6598x: add TPS66993 compatible
+Date: Fri, 3 Jul 2026 00:35:25 +0530
+Message-ID: <20260702190527.1820671-2-radhey.shyam.pandey@amd.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260702190527.1820671-1-radhey.shyam.pandey@amd.com>
+References: <20260702190527.1820671-1-radhey.shyam.pandey@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -81,69 +84,78 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE6:EE_|CH0PR12MB8508:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf2c230b-899a-49f2-d41e-08ded86cf9d7
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CEB:EE_|SA1PR12MB6847:EE_
+X-MS-Office365-Filtering-Correlation-Id: 28d85b53-00f0-4125-6ea0-08ded86cfb84
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|376014|1800799024|23010399003|11063799006|56012099006|3023799007|18002099003;
+	BCL:0;ARA:13230040|23010399003|36860700016|82310400026|1800799024|376014|13003099007|3023799007|11063799006|56012099006|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	wAtuB4Ply8sspF4riMm8SG1i+0t8AzHSlJXp0/QcciyXJNyVWayr2nGej2RSusJBP35oMn5w+KWPzUIWpBJ3OxjWrHU1DfXK5q4x2Qb347QgZjqnklkYCuslnXOXHHEpqI+9xcF9REqcsM/5qVWjE/J9qk4q0y4aZ0AMumTK6uVnp25l3kp3G+TI2OyuTEbDbSfO0Dh4dvdZOycpGoSgqRs1/4WytirQ+TLiyBSMzzpTM6tZ7Xb61yRf9yovg/33nVcRdvdB97bK7KFL1YkTV4gcCDHsYjPAOQJ3WNSWQ42YbpCLvvaW428vi3qVRudJk8AvGvyZ+NzLaBEUPoSy2o+KKN8q+pvRsm/YGwOY+dTEH/n+g2mPfxv3cURlclfRbVvpU/wzVL6KwPygLxMcGK9NcUKD2MWRyg0bTfZByuCtC7EYEIoH+AaZlGYdg7YaoWvTycVNGnm4otmp6hZpwyvi9vIsNgK47AqTTuP1ytzKHrbQWup0uhwzxatz82MUDPsDvghZQvmitQK01lRhSlHAUgJ9+whJ0u5u/+Ft+4FTFsTvxR5vNmWXbJyoaxNOwtKQA2H9hEG51VN8IYKEuaHMpQgHB3iB82HUUWrNuFGviWeUZgyY5tSr0nZ0LGGQxWDUKEOOO0ltfYTnm7YNR77ZHTmSLl93KUChrp6oCm73jX/5ycB7SNfz2BEtWyePCwUAtTRrdDVWm/B6DzwvBg==
+	hAOAGdqCosVoz+NUqLU0SJ6jhrtUbKdSXEx3GH6ptcxVFrv85wQNVhnHgQA8lKh0NMjLW0pmhASM8sBVgWpYYPIwzDRDhFeAe50TdSDDjDXNycqCGei2VqoZjN/0/tZ9jEhVaGvXagLde/sHRocQTNbykOsBJ/guGtC6OP8sD1mev+vA/IoLCG9ga+JxUZ3NItvvLL/yo5YFTldcrv3GLVW8Clyy+kJZ3RvKaIKEs3z02bLPApW7HIsWumFSSjCkrs+mjgXTXla4hiakEYXnle/8Nwuwu1r/dmf03Rwa7USVVvRTJ8sMy20tBMdvmn8Ezm88YUNUz3ZiVC1HTo5nXOJhcmAXOPn57pPHYjJKwN0FUnxULZdDRwxzFgoiPCSTqBfy6iN4mDa3Q3BohiRgZOG2e4uSmqp2J4rwP9WZPad7B038WcRz4cZ/g37p1jSsqEpJSjaY5cI/CR/rtNEwkUqJfjYk4I/uVoNRDoOlQU2NO5p8ecaX8BeFotmLK6d1c4WQTYpPpm+owutAPpEzOc9O9p5UG+jjsNket3h2KEidZXGObixvRQNz69dcvIQFBbzPNLFti+bX8ePSwAsoQitFZdHedUiLkgupKmi4iqWl7cQ6gEv4vEB9l9/JTjStD3zOpMX+GfVuxiM1JsAfSQ==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(376014)(1800799024)(23010399003)(11063799006)(56012099006)(3023799007)(18002099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(82310400026)(1800799024)(376014)(13003099007)(3023799007)(11063799006)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	dc32LgpePuVtaxOKVVcXvAb1DhWbxaDfSznz7siUYJXJ5F0H+P6r/6S/P7Nc2Vyl8Il+L+EzJkkUNne3XgwBGRTrbLbrczrcZoMFNkv6YHc79BZRXUJ8WJ1ZtvfTKYhR/Xw2fYZFe5osDVC7t3gI/2knuSS7lhBUH8oH02MyGykmFXjHJlyGZUcRP63+UoZ+m0EzWMHcwDBj9eJElbj2UHTiaqRuS/uEAFJU9CjMdWIsQbfAnzNTpLEEnBN9zc9FcA4SmTN9Gh47dRSWeNk3Bvrr3d4iam/V7Wn2ovGunXq7gC5mP41KM20mBDza/p6gx8mCrBSEoVkx9GzmYpOz8DblX3KpVIxOr62nhxjZipxlyO+uWUS5tTeIH+GTH9Gl0U6nKkKsgDFRwM7IiHnlAnjvhzb03LE0fM2fW4bPh5Ods5bqTPLBfo+J7ozU7TqJ
+	XplP5J4z1EOB+9d0gtmQdeRA4bUbLvowhJecPUhhYDmLScM8LUXKgXByb2Sq53JQbTm1Havp4Bwk6tKIechxRwwkI7Ekij9eIwEyj/FONFf/WRXJ5t5tobQSyrolf+8jdgOLLSWAX3CtsJcCN2SsbV8ogycE/b6Zae3+q/66lCo87EejhJDqWPj9ufvEytM/ErFziRLSxeGNrtH6Qsp9X9I8ACSYlEhfy6ZmSLA4MPpfL0/MqasUZbtRxO+CNZMuxok4/K5LPx/rYpSe3FuVPNNE1xgRTz3qQ/4KTUUQ9xHXr3WNBtvPJRkYsLDk6MJ5bZT71JMQ5KkQDOn7q0RjyjDRBWBefYmk8H0scpPnExoWZ2XSEKDRIU4k62PePaX1nKUJ8M/TyzOm9q5QYYoQU8AatWTM/R0isBS2qjiIORv55iqutpmAvXvfd+9+KF4o
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 19:06:09.1631
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2026 19:06:12.0285
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf2c230b-899a-49f2-d41e-08ded86cf9d7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28d85b53-00f0-4125-6ea0-08ded86cfb84
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00001CE6.namprd03.prod.outlook.com
+	SJ1PEPF00001CEB.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8508
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6847
 
-This series adds support for the Texas Instruments TPS66993 USB
-Type-C / USB PD controller to the tipd driver.
+Add a ti,tps66993 compatible to explicitly identify TPS66993 devices.
+The TPS66993 is not host-interface compatible with TPS6598x, so a distinct
+compatible is required.
 
-The TPS66993 is used on the AMD Versal AI Edge Gen 2 VEK385
-Evaluation Kit as the USB PD DRP controller for the MMI USB
-interface, handling CC signaling, connection detection, PD
-negotiation, and power/data role swapping. Although the register
-interface is largely shared with TPS6598x, the device is not
-host-interface compatible and therefore needs its own
-"ti,tps66993" compatible.
+On the AMD/Xilinx VEK385 Evaluation Board, the Texas Instruments TPS66993
+acts as the USB Type-C/USB PD DRP controller for the MMI USB interface,
+handling CC signaling, connection detection, PD negotiation and power/data
+role swapping.
 
-Changes in this series:
-- Document the "ti,tps66993" compatible in the existing
-  ti,tps6598x binding.
-- Introduce a read_power_status() callback in tipd_data so
-  variants can override how power status is obtained without
-  changing TPS6598x, CD321x, or TPS25750 behavior.
-- Add TPS66993 support.
-
+Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+---
 Changes for v2:
-- Use specific device compatible string as suggested by Krzysztof.
-- add TPS66993 driver support.
+- Rename the compatible to match the exact device (ti,tps66993) and in
+  commit mention the usage of TPS66993 chip on VEK385 Evaluation Board.
+---
+ Documentation/devicetree/bindings/usb/ti,tps6598x.yaml | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Depends on (submitted separately):
-[PATCH v3 0/3] usb: typec: tipd: improve probe diagnostics and POWER_STATUS handling
-https://lore.kernel.org/all/20260618074745.629638-1-radhey.shyam.pandey@amd.com
-
-Radhey Shyam Pandey (3):
-  dt-bindings: usb: ti,tps6598x: add TPS66993 compatible
-  usb: typec: tipd: add read_power_status callback to tipd_data
-  usb: typec: tipd: add TPS66993 support
-
- .../devicetree/bindings/usb/ti,tps6598x.yaml  |  6 +-
- drivers/usb/typec/tipd/core.c                 | 77 +++++++++++++++++--
- 2 files changed, 75 insertions(+), 8 deletions(-)
-
-
-base-commit: 4f441960e691d37c880d2cc004de06bb5b6bd5e4
+diff --git a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
+index 1745e28b3110..2c589e9e712e 100644
+--- a/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
++++ b/Documentation/devicetree/bindings/usb/ti,tps6598x.yaml
+@@ -4,13 +4,14 @@
+ $id: http://devicetree.org/schemas/usb/ti,tps6598x.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+-title: Texas Instruments 6598x Type-C Port Switch and Power Delivery controller
++title: Texas Instruments Type-C port switch and USB Power Delivery controllers
+ 
+ maintainers:
+   - Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+ 
+ description: |
+-  Texas Instruments 6598x Type-C Port Switch and Power Delivery controller
++  Texas Instruments 6598x and 66993 Type-C Port Switch and Power Delivery
++  controller.
+ 
+   A variant of this controller known as Apple CD321x or Apple ACE is also
+   present on hardware with Apple SoCs such as the M1.
+@@ -19,6 +20,7 @@ properties:
+   compatible:
+     enum:
+       - ti,tps6598x
++      - ti,tps66993
+       - apple,cd321x
+       - ti,tps25750
+ 
 -- 
 2.43.0
 
