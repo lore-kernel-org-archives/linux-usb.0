@@ -1,299 +1,89 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD26437A83C;
-	Thu,  2 Jul 2026 17:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D9B33F5A3;
+	Thu,  2 Jul 2026 18:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783015178; cv=none; b=GYbMOfEru3hNd34AT59dRBjxsE0BBt8cjgypeVWRSxd417k9lAqc/kfY91JCw9J7dnVtK1KvtCvv4JeDWVB9Hjs3kGurtGf7FDEI8rMosVRpqo3VMrVV4ZfBWe94/D28ZlytgsWfQbQMg9mzxxi1V6FZ5MUzIjH+oQIVorECrYg=
+	t=1783015243; cv=none; b=Tn4Sq0kF3kKgJnAi/QSpCwFZznhYtwRluSqTmQv0gSy8Ro3jggFsEcBe95NpFxciHEBzypCLd8uOXw8AjhTLFT0sr9ySCPb4BKrfauZKhqdhx0EVYrOQZ1RosI7Y5yFe2fCtM0XsdyhTBK4/FF/fMT39NfYAXFTnhoLFAs4AQiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783015178; c=relaxed/simple;
-	bh=LoyIyESVrjYzJI6SPmZ/GDfq/dL8YkCIIXoSL4OMCO8=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SoSPVSr0tODTVuaNAReJcE5E07gWAD0Jysw16hpa8b90tJook1nVftUfm/E8QeYx6P9rvekCmRmQyHK9gjIXGgV8jEOVm9sn1ZQ/24EcTmBZs+LzyWpqM/HTyExO0idsjVWmT/VbhhqKjsFmJGWSycNc0/VB7Sw3T3qQIxxgKvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uQ3t3hfE; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1783015243; c=relaxed/simple;
+	bh=81uAQatl5Nl0YNAIsvEn3//lHmBMS9i4BFnmP8wt9LY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fl6s0ZUTSbL0lR8U6LBScvW7VDv6fj/8dpicV3cRitQXzszyUPqdROxIzv7VBgVvcXFw6NREVgOzX6gcbYo97+o+N3CIbjPsjvXQrOKNKehUC+35gZ2UnGpeqGukFoMe6hMBF1L+B/OzKxkdb7YhCaTP1hlGdboflWF95Qrg+CY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=Eskz2zrs; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uQ3t3hfE"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4grl5J28TKz9vC5;
-	Thu,  2 Jul 2026 19:59:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783015172;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ywjV1awI0xQmL6UspABb7TRzlwiMMZxNh+Ixexv7qNE=;
-	b=uQ3t3hfEVJfu8dotfvTW9IfnzVbYviNpNmS3qT8SkfXwtRPkXb0TxkqONT81rU2xcXQJ2n
-	ieqniQpy413K35nlNRv/RH3UOE9WWlM0q/+4UFN7r//FWRHU11iQFXmVP26vYEAspCAoIo
-	kHI+w5mycA9AfhG5meu3fEq6s4hdowVRAwlJXXYRq8MX/yQcZzAk+fwmw8OQc8KshUVA/z
-	E/2nHcyAimlEOZ3jcFqPDs+Sa5FK5/+it6MWXUdZPTaHaz9TfgrgQ+4S+dJn0gF/sqBxLR
-	Wgt6HT3XtkjA/ovrNNIDCJF0zNo9NR1SS/hdnv7di6HFnl1uFru++b7EQKyoBA==
-Message-ID: <c3bd9f9134182accf7f6ab77cd07a5f15fab0fd3.camel@mailbox.org>
-Subject: Re: [PATCH net-next 1/4] net: usb: move updating filter and status
- from cdc to usbnet
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: Oliver Neukum <oneukum@suse.com>, andrew+netdev@lunn.ch, 
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, 	shaoxul@foxmail.com, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, 	linux-kernel@vger.kernel.org
-Date: Thu, 02 Jul 2026 19:59:26 +0200
-In-Reply-To: <20260702143142.890654-2-oneukum@suse.com>
-References: <20260702143142.890654-1-oneukum@suse.com>
-	 <20260702143142.890654-2-oneukum@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="Eskz2zrs"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=xebSVH9btvoOA5wd7jjkFogUQ3KfJvU2qpvSEydg5Yc=; b=Eskz2zrsAbkrle95IzFL6WFPYp
+	vzn1wrAtXWwesXNsY8DQ6r1kiiuT9A9+DV5hhILJE/ps4aaDJ1Gi8+h6lU54Qr0wxF50SUu3ar2R4
+	dIKbvO1KKyEoyJvW7xVkbL+GZnKjEewoBjNGrWgvVKLEjKxQq10zMdcZC02VOjJgIIPlZIb1N8Hiu
+	JzXUv1WAgEfK6+Xf8Cbeceqzcxfkk03qW43BZ5Qmx15pzN5Q9LO0B6/awajLOwQoCONl9bsdrNS5e
+	jOJ/VamA0aB47VHoHD566MtaJ3gdB6MrwoSTmgUl8X5o7VYBZWgWzxwsFHNZxGd6AIlrfGUqsgaDW
+	B+rHYTrQ==;
+From: Heiko Stuebner <heiko@sntech.de>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonas Karlman <jonas@kwiboo.se>
+Cc: Diederik de Haas <diederik@cknow-tech.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Jonas Karlman <jonas@kwiboo.se>
+Subject:
+ Re: [PATCH v2 0/2] rockchip: Fix devices suspend freeze on RK3568/RK3566
+Date: Thu, 02 Jul 2026 20:00:32 +0200
+Message-ID: <9647226.A5hrfCrGMc@phil>
+In-Reply-To: <20260624192726.781864-1-jonas@kwiboo.se>
+References: <20260624192726.781864-1-jonas@kwiboo.se>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: 833862cdbbafb120f73
-X-MBO-RS-META: 9qygaxxsps7n9o5hns71g9ndcpb4rg89
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi,
-I have a couple suggestions for you patch. Some parts are
-weird to read - it could also be that my perception today is off.
+Hi Jonas,
 
-On Thu, 2026-07-02 at 16:25 +0200, Oliver Neukum wrote:
-> These helpers are used by multiple drivers and do not depend
-
-"and do not only depend on cdc core. They also depend on
-other cdc drivers."
-is this better?=20
-
-> on the rest of cdc. Leavin them in a cdc driver means that
-
-/Leavin/Leaving/
-
-> more drivers are loaded just for infrastructure, not hardware
-
-just for the support of other drivers, not their hardware.
-
-> support.
+Am Mittwoch, 24. Juni 2026, 21:27:23 Mitteleurop=C3=A4ische Sommerzeit schr=
+ieb Jonas Karlman:
+> This series fixes a system freeze during suspend in ohci_suspend() due
+> to clk_usbphy1_480m not being enabled when EHCI/OHCI registers are
+> accessed on e.g. a Raxa ROCK 3C board.
 >=20
-> Signed-off-by: Oliver Neukum <oneukum@suse.com>
-> ---
-> =C2=A0drivers/net/usb/cdc_ether.c | 75 ----------------------------------=
---
-> =C2=A0drivers/net/usb/usbnet.c=C2=A0=C2=A0=C2=A0 | 76 +++++++++++++++++++=
-++++++++++++++++++
-> =C2=A02 files changed, 76 insertions(+), 75 deletions(-)
+> Following pm_test modes work on my ROCK 3C with the missing usbphy clk
+> refs added:
 >=20
-> diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-> index a0a5740590b9..b4df32e18461 100644
-> --- a/drivers/net/usb/cdc_ether.c
-> +++ b/drivers/net/usb/cdc_ether.c
-> @@ -63,35 +63,6 @@ static const u8 mbm_guid[16] =3D {
-> =C2=A0	0xa6, 0x07, 0xc0, 0xff, 0xcb, 0x7e, 0x39, 0x2a,
-> =C2=A0};
-> =C2=A0
-> -void usbnet_cdc_update_filter(struct usbnet *dev)
-> -{
-> -	struct net_device	*net =3D dev->net;
-> -
-> -	u16 cdc_filter =3D USB_CDC_PACKET_TYPE_DIRECTED
-> -			| USB_CDC_PACKET_TYPE_BROADCAST;
-> -
-> -	/* filtering on the device is an optional feature and not worth
-> -	 * the hassle so we just roughly care about snooping and if any
-> -	 * multicast is requested, we take every multicast
-> -	 */
-> -	if (net->flags & IFF_PROMISC)
-> -		cdc_filter |=3D USB_CDC_PACKET_TYPE_PROMISCUOUS;
-> -	if (!netdev_mc_empty(net) || (net->flags & IFF_ALLMULTI))
-> -		cdc_filter |=3D USB_CDC_PACKET_TYPE_ALL_MULTICAST;
-> -
-> -	usb_control_msg(dev->udev,
-> -			usb_sndctrlpipe(dev->udev, 0),
-> -			USB_CDC_SET_ETHERNET_PACKET_FILTER,
-> -			USB_TYPE_CLASS | USB_RECIP_INTERFACE,
-> -			cdc_filter,
-> -			dev->intf->cur_altsetting->desc.bInterfaceNumber,
-> -			NULL,
-> -			0,
-> -			USB_CTRL_SET_TIMEOUT
-> -		);
-> -}
-> -EXPORT_SYMBOL_GPL(usbnet_cdc_update_filter);
-> -
-> =C2=A0/* We need to override usbnet_*_link_ksettings in bind() */
-> =C2=A0static const struct ethtool_ops cdc_ether_ethtool_ops =3D {
-> =C2=A0	.get_link		=3D usbnet_get_link,
-> @@ -400,52 +371,6 @@ EXPORT_SYMBOL_GPL(usbnet_cdc_unbind);
-> =C2=A0 * (by Brad Hards) talked with, with more functionality.
-> =C2=A0 */
-> =C2=A0
-> -static void speed_change(struct usbnet *dev, __le32 *speeds)
-> -{
-> -	dev->tx_speed =3D __le32_to_cpu(speeds[0]);
-> -	dev->rx_speed =3D __le32_to_cpu(speeds[1]);
-> -}
-> -
-> -void usbnet_cdc_status(struct usbnet *dev, struct urb *urb)
-> -{
-> -	struct usb_cdc_notification	*event;
-> -
-> -	if (urb->actual_length < sizeof(*event))
-> -		return;
-> -
-> -	/* SPEED_CHANGE can get split into two 8-byte packets */
-> -	if (test_and_clear_bit(EVENT_STS_SPLIT, &dev->flags)) {
-> -		speed_change(dev, (__le32 *) urb->transfer_buffer);
-> -		return;
-> -	}
-> -
-> -	event =3D urb->transfer_buffer;
-> -	switch (event->bNotificationType) {
-> -	case USB_CDC_NOTIFY_NETWORK_CONNECTION:
-> -		netif_dbg(dev, timer, dev->net, "CDC: carrier %s\n",
-> -			=C2=A0 event->wValue ? "on" : "off");
-> -		if (netif_carrier_ok(dev->net) !=3D !!event->wValue)
-> -			usbnet_link_change(dev, !!event->wValue, 0);
-> -		break;
-> -	case USB_CDC_NOTIFY_SPEED_CHANGE:	/* tx/rx rates */
-> -		netif_dbg(dev, timer, dev->net, "CDC: speed change (len %d)\n",
-> -			=C2=A0 urb->actual_length);
-> -		if (urb->actual_length !=3D (sizeof(*event) + 8))
-> -			set_bit(EVENT_STS_SPLIT, &dev->flags);
-> -		else
-> -			speed_change(dev, (__le32 *) &event[1]);
-> -		break;
-> -	/* USB_CDC_NOTIFY_RESPONSE_AVAILABLE can happen too (e.g. RNDIS),
-> -	 * but there are no standard formats for the response data.
-> -	 */
-> -	default:
-> -		netdev_err(dev->net, "CDC: unexpected notification %02x!\n",
-> -			=C2=A0=C2=A0 event->bNotificationType);
-> -		break;
-> -	}
-> -}
-> -EXPORT_SYMBOL_GPL(usbnet_cdc_status);
-> -
-> =C2=A0int usbnet_cdc_bind(struct usbnet *dev, struct usb_interface *intf)
-> =C2=A0{
-> =C2=A0	int				status;
-> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-> index 25518635b7b7..5544af1f4aa5 100644
-> --- a/drivers/net/usb/usbnet.c
-> +++ b/drivers/net/usb/usbnet.c
-> @@ -22,6 +22,7 @@
-> =C2=A0#include <linux/init.h>
-> =C2=A0#include <linux/netdevice.h>
-> =C2=A0#include <linux/etherdevice.h>
-> +#include <linux/usb/cdc.h>
+>   echo N > /sys/module/printk/parameters/console_suspend
+>=20
+>   echo devices > /sys/power/pm_test
+>   echo platform > /sys/power/pm_test
+>   echo processors > /sys/power/pm_test
+>   echo core > /sys/power/pm_test
+>=20
+>   echo mem > /sys/power/state
+>=20
+> Changes in v2:
+> - Include rockchip,rk3588-ehci in the EHCI constraint
+> - Make clocks prop required for EHCI and OHCI
+> - Collect t-b tag
+>=20
+> Jonas Karlman (2):
+>   dt-bindings: usb: Add Rockchip RK3568 compatible for EHCI and OHCI
 
-why do you put it there?
-it could be alphabetical instead.
+it seems I wasn't in Cc for the first patch, so can't know if and when
+that gets/got applied.
 
-> =C2=A0#include <linux/ctype.h>
-> =C2=A0#include <linux/ethtool.h>
-> =C2=A0#include <linux/workqueue.h>
-> @@ -2271,6 +2272,81 @@ int usbnet_write_cmd_async(struct usbnet *dev, u8 =
-cmd, u8
-> reqtype,
-> =C2=A0
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL_GPL(usbnet_write_cmd_async);
-> +
-> +void usbnet_cdc_update_filter(struct usbnet *dev)
-> +{
-> +	struct net_device	*net =3D dev->net;
-> +
-> +	u16 cdc_filter =3D USB_CDC_PACKET_TYPE_DIRECTED
-> +			| USB_CDC_PACKET_TYPE_BROADCAST;
-> +
-Multi-line-comments in coding-style:
-	/*
-	 * filtering on ..
-> +	/* filtering on the device is an optional feature and not worth
-> +	 * the hassle so we just roughly care about snooping and if any
-> +	 * multicast is requested, we take every multicast
-				 , we take that multicast.
-also that's a pretty long sentence.
+Also I think I remember Greg preferring not having to split apart patch
+series', so I think the binding patch might be better off standing alone.
+
+
+Heiko
 
 
 
-> +	 */
-> +	if (net->flags & IFF_PROMISC)
-> +		cdc_filter |=3D USB_CDC_PACKET_TYPE_PROMISCUOUS;
-> +	if (!netdev_mc_empty(net) || (net->flags & IFF_ALLMULTI))
-> +		cdc_filter |=3D USB_CDC_PACKET_TYPE_ALL_MULTICAST;
-> +
-> +	usb_control_msg(dev->udev,
-> +			usb_sndctrlpipe(dev->udev, 0),
-> +			USB_CDC_SET_ETHERNET_PACKET_FILTER,
-> +			USB_TYPE_CLASS | USB_RECIP_INTERFACE,
-> +			cdc_filter,
-> +			dev->intf->cur_altsetting->desc.bInterfaceNumber,
-> +			NULL,
-> +			0,
-> +			USB_CTRL_SET_TIMEOUT
-> +		);
-> +}
-> +EXPORT_SYMBOL_GPL(usbnet_cdc_update_filter);
-> +
-> +static void speed_change(struct usbnet *dev, __le32 *speeds)
-> +{
-> +	dev->tx_speed =3D __le32_to_cpu(speeds[0]);
-> +	dev->rx_speed =3D __le32_to_cpu(speeds[1]);
-> +}
-> +
-> +void usbnet_cdc_status(struct usbnet *dev, struct urb *urb)
-> +{
-> +	struct usb_cdc_notification	*event;
-> +
-> +	if (urb->actual_length < sizeof(*event))
-> +		return;
-> +
-> +	/* SPEED_CHANGE can get split into two 8-byte packets */
-> +	if (test_and_clear_bit(EVENT_STS_SPLIT, &dev->flags)) {
-> +		speed_change(dev, (__le32 *)urb->transfer_buffer);
-> +		return;
-> +	}
-> +
-> +	event =3D urb->transfer_buffer;
-> +	switch (event->bNotificationType) {
-> +	case USB_CDC_NOTIFY_NETWORK_CONNECTION:
-> +		netif_dbg(dev, timer, dev->net, "CDC: carrier %s\n",
-> +			=C2=A0 event->wValue ? "on" : "off");
-> +		if (netif_carrier_ok(dev->net) !=3D !!event->wValue)
-> +			usbnet_link_change(dev, !!event->wValue, 0);
-> +		break;
-> +	case USB_CDC_NOTIFY_SPEED_CHANGE:	/* tx/rx rates */
-> +		netif_dbg(dev, timer, dev->net, "CDC: speed change (len %d)\n",
-> +			=C2=A0 urb->actual_length);
-> +		if (urb->actual_length !=3D (sizeof(*event) + 8))
-> +			set_bit(EVENT_STS_SPLIT, &dev->flags);
-> +		else
-> +			speed_change(dev, (__le32 *)&event[1]);
-> +		break;
-
-	/*
-	 * USB ..
-> +	/* USB_CDC_NOTIFY_RESPONSE_AVAILABLE can happen too (e.g. RNDIS),
-> +	 * but there are no standard formats for the response data.
-> +	 */
-> +	default:
-> +		netdev_err(dev->net, "CDC: unexpected notification %02x!\n",
-> +			=C2=A0=C2=A0 event->bNotificationType);
-> +		break;
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(usbnet_cdc_status);
-> =C2=A0/*-----------------------------------------------------------------=
---------*/
-> =C2=A0
-> =C2=A0static int __init usbnet_init(void)
-
-You can add my=20
-Reviewed-by: Manuel Ebner <manuelebner@mailbox.org>
-
-Thanks
- Manuel
