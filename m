@@ -1,35 +1,54 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352883B52FA;
-	Thu,  2 Jul 2026 09:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB46D42A796;
+	Thu,  2 Jul 2026 09:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782983424; cv=none; b=fMuGaK8MNsKj+bUiTEXwKYSIGcXicOD0jEH3Y+OTXwj+kkCo9P//K6dzOdLepoSI7sgggOpV2LksOH69ehbg8YbHcO8eTm7a8SUyy9xgQWmtgR6iXINkslm1igknv09ONr9iAfXYUbpoRNWcOA0/XGr7whbNxkYknRizjsCvANQ=
+	t=1782984406; cv=none; b=eFLAtHJmQzvyacfYC7oWJQk2r4dZgOZqkxNGyHh3Ai8qwq18lFePgXU9Oq951GUZ7u8n6LnLmALh/Heb24t55oaPT1Qou+LewlFc1WVOBCKqQBOTOxo6nNSo/Lir4OljHchcHQIReN+tOM+iqJ1Hu2fUmFFDlxalHTobOKdA2v8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782983424; c=relaxed/simple;
-	bh=f0HIP3us4SwozEp0bJcD/ng4r23uDIDIXGDEEW2IdFw=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Nwiy37H45FbhTxSaCWvC/TySJlqhIVjxM9gvd48bmQNxXSj8gsAMatD4rVrI5PcJrHXMLbsucqL3tfH9nmZQxsINe5LCY/YzjhEvGTHntzQs6O+RQETQsBZUYQRNNVtVa7o5vZyrptciDFuSP3z+M+48C3IHJdK9Lpzx67e7n6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fFWMmVpC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782984406; c=relaxed/simple;
+	bh=SH0mqJ9vH1f8Pl2ccuvrNyDSZLmcdOIF+XBGWxL6UYE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KPaTItc15Na1Ypz6k5JCfe37ZDjpDukfpa505oRh1aP3XBBAfbRALANAa8a0LKPUTS0PfkCoDCIlIDVjEM+merxTuXwbmeTTYIZ592bOFR9Eky46r1jzym1eQOU/qDV8ulrNSOB0oBrcWVzgF/PwQMm5Ted/JxorFnEak7DR7HI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=WdfZwyTY; arc=none smtp.client-ip=54.207.19.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fFWMmVpC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3EE81F00A3D;
-	Thu,  2 Jul 2026 09:10:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782983422;
-	bh=Rs9tTgl5fyFLDqt1jibTXsWudB6xaSrmbkriQUZVpWY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=fFWMmVpCL9pj3uETKXxJ/vRkWx70UXN9E0XzGIdB3XirLY14URJi2rAgBJARFIkIH
-	 UF4M8YFa4CmM5H3W9G5/xAgH7Fdpbz364/QnW1nbetuUBSngzKRj/thg64COdEF8Z2
-	 d+84aa9LK0xhnzmEW2L1pHyiiS8vv2SPrgt+B/6mJ+3aCQhnxjxl6rjju61OpZ1MId
-	 rgGyd9Czc7ug0mBGsC9bTwDsY5D0/nwKGWIfabGpgE0k8UPZMhHppcRDBovc2BsjNO
-	 1iSfAvv7jVTczs75Ac74Q/e7f8pYP4ssyEV1/TOj1sZWuGq5no/Lhzoxa4xFrapLhR
-	 i28FSSG1/r/rA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 19B5B3926665;
-	Thu,  2 Jul 2026 09:10:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="WdfZwyTY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1782984342;
+	bh=SH0mqJ9vH1f8Pl2ccuvrNyDSZLmcdOIF+XBGWxL6UYE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=WdfZwyTY5DBtc05PJddVbMdDhFwQ681uH0XzBN9xhdAVwWXxvyRW62lz0HZgLuSwe
+	 uvRqwMbZZ1esQHOGByf4akyFiwbVGH7hm43f4n67l1sojoRJOGwCJf0iSpNbj7UbDL
+	 YDqdVQZztopEUKb89oGTKqEYiOIBoDeRoFCKYJqA=
+X-QQ-mid: zesmtpsz6t1782984325t625558ea
+X-QQ-Originating-IP: 1qBLAIMWBijlnzf4u0pB/kG8l/6lYt/MtNorGCYQk3M=
+Received: from PEN202512010004 ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 02 Jul 2026 17:25:22 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 12114830115753114258
+EX-QQ-RecipientCnt: 10
+From: raoxu <raoxu@uniontech.com>
+To: gregkh@linuxfoundation.org
+Cc: dengjie03@kylinos.cn,
+	johannes.bruederl@gmail.com,
+	kees@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	mathias.nyman@linux.intel.com,
+	michal.pecio@gmail.com,
+	raoxu@uniontech.com,
+	sakari.ailus@linux.intel.com
+Subject: Re: [RESEND PATCH] USB: core: report interrupt endpoint correctly in companion descriptor diagnostic
+Date: Thu,  2 Jul 2026 17:25:22 +0800
+Message-ID: <4081671DBB747A4D+20260702092522.2565194-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <2026070248-fleshy-activity-1a33@gregkh>
+References: <2026070248-fleshy-activity-1a33@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -37,44 +56,37 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v4] net: usb: rtl8150: handle link status read
- failures
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178298340589.1537313.17929196143531791690.git-patchwork-notify@kernel.org>
-Date: Thu, 02 Jul 2026 09:10:05 +0000
-References: <20260630101216.10365-1-alhouseenyousef@gmail.com>
-In-Reply-To: <20260630101216.10365-1-alhouseenyousef@gmail.com>
-To: Yousef Alhouseen <alhouseenyousef@gmail.com>
-Cc: petkan@nucleusys.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- syzbot+9db6c624635564ad813c@syzkaller.appspotmail.com
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: NFQMG86uACrUn6XkGZGlC4ouP721Qo4kBT3Wy51zMhWrFlWpSZp2WQKT
+	XLFA+Xw2CVQakkR1YZHK9v72mxlSwSloQeCeZcNmNe1wh7Y1NUX3EzJe/l0ebPWeuMEqPER
+	0I96iQcB6srLtxjnXp9FEFiYhi0ITdagyFxYicDgQ2NXK/ggEj9J+BJgtupdz2nzBMoUPUR
+	X/bjRnPCOQ4XU9/4Mn/9CKJm6SAaDj3ggdZzTv59g0W7x8iJwoSiIabi+Ub3oefYlNOELfj
+	57QDLE8Vggg2qimPDr+Mq6kFttYDq0qiw1mIG2fV3JG9I3MtIrambHGRkLgycbad2QyjNS9
+	QkusDIsNnQGdGhsW1UFB1AWBICq+ezCU2LTedugCfAlJ2QveyTCKU4ix3YwaQzgSO7+9lIH
+	5QaJJjIcK+guzuvepiOwFpaNoY0PW/xN579zv67jrloaecNsg1TN6XiKCKtYoyHmLWoIqv5
+	xdUkQ1rOECT/9Ua2X7N4ULxeQNpqra97aEeh9JQsZqX8FF7AJ9Zj2v5u9sq6tGJbbvWHUxk
+	EOKYwyzCefQrxT0czl6uysB9hUFtDeOlX6TRW8TAOIntbyJIqKFYVq6y4X6qD4DRNtyRh/K
+	YuDDJUymU82GgNn96n9dLfRuxw12IuInefkA2q0GHFNudlSyVG3vlPhdXWUwpwnSbpFwVlc
+	5Ky7IMh7y6kJzULwmD9iUwWYspnluoBR289XqgcnIic66OEeQLaVjkUOuo9G2e5yyGPNLke
+	DmlHaJhLwzox8sUpj+eGq/eNgm9WqIYKWvS7Rv//KSFz44C2hxgcA0t7uuSGV+HVv74umTq
+	qYDjXoB+XA2Ob8gz13jsDPVMQTszhW4UWQSy5RWE1ab9mbSGAIil36a7971o976LS4RTKap
+	xVmqiUETMZpbigOD/G8HLYCEpnLPNfpt9498g+OXMWFd8oDJiTNUOG1OdSlvQQb25P3qn8D
+	6tsRhuKqe3Tqyzb2/0Q27cb9f8NnE8QjSjEEZnFWZCaOFJiluznPLjmbmjzGe+gCFjp3Yu8
+	/olnTTiQHAtRPDT2s+LTanPSB8uUpyqEthy0M+TmcC5qH6pF67Qmad8vooXR96uuzoMLC5L
+	w==
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+X-QQ-RECHKSPAM: 0
 
-Hello:
+Hi Greg,
 
-This patch was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+The original submission received an Acked-by, but it was not picked up.
+I resent the unchanged patch to bring it back to attention.
 
-On Tue, 30 Jun 2026 12:12:16 +0200 you wrote:
-> set_carrier() ignores the result of the USB control transfer and tests
-> the stack variable supplied as its receive buffer. If the device rejects
-> or aborts the request, that variable remains uninitialized and the driver
-> chooses an arbitrary carrier state.
-> 
-> Leave the existing carrier state unchanged when the link status cannot be
-> read. A transient USB error should not be treated as link loss.
-> 
-> [...]
+Sorry, I should have stated the reason below the --- line.
 
-Here is the summary with links:
-  - [net-next,v4] net: usb: rtl8150: handle link status read failures
-    https://git.kernel.org/netdev/net-next/c/8c9c5b9a6896
+Ack reply:
+https://lore.kernel.org/linux-usb/077ba20b-9677-4812-a083-b5216281611e@linux.intel.com/
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Thanks,
+Xu Rao
