@@ -1,36 +1,57 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6904EA389
-	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 14:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E68747ECF4
+	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 14:32:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783002736; cv=none; b=SyZmsL2JV4YJ4Dp/nJKQBPDBelK2LxGiRTv6fmPyDTp1NYGJ1oEV9QToLO1b8h5Nnqutz92nflAHcId7VUTY+jSM2mF/bc6BgqRZdq1U1wkmNRCrHBkVzVmf4WIRemIEyiNymos8AAxz/DKhDV7FpP7z9i+ezzWxyy/C8YUVl4M=
+	t=1783002745; cv=none; b=gVlgb9yKjNb3qasx7m2M6fw9Yy+rZEo/ThYgOJwXuhaiuNKhWhc3pzIdCxKsG7ofZc02LrAjqTOgrvg4dw1erfiTTU7YfaX3U9gEis2j9HiMMObPx3h33J48M8bNYYkW0HEvHITU1jeKQ3GcwHiSY5/AzI/wvVmN2by0NCAgDfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783002736; c=relaxed/simple;
-	bh=TI+0xEHx7IAyZpFyPjoF578Rp/ZB4jeXBDDBMNNPvgM=;
+	s=arc-20240116; t=1783002745; c=relaxed/simple;
+	bh=p5LEF0TpeuJUKX9WSanvmmAQejWqAwoFRjpWjPdXn3s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KY2utvkDaNnlr3txAsTJD42Bt/KVG8azHqOs1dlXuyO6R3ixOny/bCWTB39R/bkCOpRcCWc5Ia0MBWREFdPUe0xXJOkRjsUuuII3K9vOvGh12oIDTEybeKozzPMQn608eOCSvYqViwGwrpq4Wr2cdL4EYIxU7HuCuAo9oSH544Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version; b=nXF8Ft9X6xu+WTVO3ckxH56JJeaoyrHKHVKJG0GAq3/BMpGJnXY8EmvSH7TdrjBwx3y1ZQZafVM0KJWL6RwsQjl93o3HJJRpEZLpSkZDsYjAVc7UIK1HRQkazoN55iZMGHvNeJN/5NUYM1yl0Yp9zBJXAWEMb2OpOWE50Et5FSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=G0eei6P5; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=G0eei6P5; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="G0eei6P5";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="G0eei6P5"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8363775EA2;
-	Thu,  2 Jul 2026 14:31:48 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0972F75DB9;
+	Thu,  2 Jul 2026 14:31:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1783002709; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Enu0+TkL5+FOi84prkYHDpdzqlXme7u+bi/VxlIaI6M=;
+	b=G0eei6P534pl2JlQdhqV2KYe6Q44BNp6VHV6cnQ9Jzqi5c+8CP/sWcCykfsNWBkK1CKbpx
+	6vsXg7k6bOTkIhMoe9KaxhLiTm9lvUPkf9Lcm8JuQcr2CBTLeh7jVhMTDdW7N5Hu2M6cE/
+	l2lPkbOch4+zGwNG6h33kqiMXUrzZI4=
 Authentication-Results: smtp-out2.suse.de;
 	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1783002709; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Enu0+TkL5+FOi84prkYHDpdzqlXme7u+bi/VxlIaI6M=;
+	b=G0eei6P534pl2JlQdhqV2KYe6Q44BNp6VHV6cnQ9Jzqi5c+8CP/sWcCykfsNWBkK1CKbpx
+	6vsXg7k6bOTkIhMoe9KaxhLiTm9lvUPkf9Lcm8JuQcr2CBTLeh7jVhMTDdW7N5Hu2M6cE/
+	l2lPkbOch4+zGwNG6h33kqiMXUrzZI4=
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4AD7B779AA;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C40DD779AA;
 	Thu,  2 Jul 2026 14:31:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WJZBEVR2Rmr0MwAAD6G6ig
+	id 8GfdLlR2Rmr0MwAAD6G6ig
 	(envelope-from <oneukum@suse.com>); Thu, 02 Jul 2026 14:31:48 +0000
 From: Oliver Neukum <oneukum@suse.com>
 To: andrew+netdev@lunn.ch,
@@ -43,9 +64,9 @@ To: andrew+netdev@lunn.ch,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH net-next 2/4] net: usb: centralize usbnet_cdc_zte_rx_fixup in usbnet
-Date: Thu,  2 Jul 2026 16:25:31 +0200
-Message-ID: <20260702143142.890654-3-oneukum@suse.com>
+Subject: [PATCH net-next 4/4] net: usb: use cdc_state in struct usbnet
+Date: Thu,  2 Jul 2026 16:25:33 +0200
+Message-ID: <20260702143142.890654-5-oneukum@suse.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260702143142.890654-1-oneukum@suse.com>
 References: <20260702143142.890654-1-oneukum@suse.com>
@@ -56,91 +77,108 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Queue-Id: 8363775EA2
 X-Spam-Flag: NO
-X-Spam-Score: -4.00
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
+X-Spam-Score: -5.30
+X-Spamd-Result: default: False [-5.30 / 50.00];
 	REPLY(-4.00)[];
-	TAGGED_RCPT(0.00)[netdev]
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[netdev];
+	FROM_EQ_ENVFROM(0.00)[];
+	FREEMAIL_TO(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,foxmail.com,vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.com:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[foxmail.com]
+X-Spam-Level: 
 
-This helper is used by multiple drivers using usbnet.
-It is better to be provided by usbnet than one of them.
+Remove private copies as now a central state can be used.
 
 Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/net/usb/cdc_ether.c | 19 -------------------
- drivers/net/usb/usbnet.c    | 19 +++++++++++++++++++
- 2 files changed, 19 insertions(+), 19 deletions(-)
+ drivers/net/usb/cdc_ether.c  | 9 +++------
+ drivers/net/usb/rndis_host.c | 6 +++---
+ 2 files changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-index b4df32e18461..e688fb99c61d 100644
+index e688fb99c61d..76ad4ffa950a 100644
 --- a/drivers/net/usb/cdc_ether.c
 +++ b/drivers/net/usb/cdc_ether.c
-@@ -404,25 +404,6 @@ static int usbnet_cdc_zte_bind(struct usbnet *dev, struct usb_interface *intf)
- 	return status;
- }
+@@ -85,7 +85,7 @@ int usbnet_generic_cdc_bind(struct usbnet *dev, struct usb_interface *intf)
+ 	u8				*buf = intf->cur_altsetting->extra;
+ 	int				len = intf->cur_altsetting->extralen;
+ 	struct usb_interface_descriptor	*d;
+-	struct cdc_state		*info = (void *) &dev->data;
++	struct cdc_state		*info = &dev->cdc;
+ 	int				status = -ENODEV;
+ 	int				rndis;
+ 	bool				android_rndis_quirk = false;
+@@ -336,7 +336,7 @@ EXPORT_SYMBOL_GPL(usbnet_ether_cdc_bind);
  
--/* Make sure packets have correct destination MAC address
-- *
-- * A firmware bug observed on some devices (ZTE MF823/831/910) is that the
-- * device sends packets with a static, bogus, random MAC address (event if
-- * device MAC address has been updated). Always set MAC address to that of the
-- * device.
-- */
--int usbnet_cdc_zte_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
--{
--	if (skb->len < ETH_HLEN || !(skb->data[0] & 0x02))
--		return 1;
--
--	skb_reset_mac_header(skb);
--	ether_addr_copy(eth_hdr(skb)->h_dest, dev->net->dev_addr);
--
--	return 1;
--}
--EXPORT_SYMBOL_GPL(usbnet_cdc_zte_rx_fixup);
--
- /* Ensure correct link state
-  *
-  * Some devices (ZTE MF823/831/910) export two carrier on notifications when
-diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index 5544af1f4aa5..7beea6d0e731 100644
---- a/drivers/net/usb/usbnet.c
-+++ b/drivers/net/usb/usbnet.c
-@@ -2347,6 +2347,25 @@ void usbnet_cdc_status(struct usbnet *dev, struct urb *urb)
- 	}
- }
- EXPORT_SYMBOL_GPL(usbnet_cdc_status);
-+
-+/* Make sure packets have correct destination MAC address
-+ *
-+ * A firmware bug observed on some devices (ZTE MF823/831/910) is that the
-+ * device sends packets with a static, bogus, random MAC address (event if
-+ * device MAC address has been updated). Always set MAC address to that of the
-+ * device.
-+ */
-+int usbnet_cdc_zte_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
-+{
-+	if (skb->len < ETH_HLEN || !(skb->data[0] & 0x02))
-+		return 1;
-+
-+	skb_reset_mac_header(skb);
-+	ether_addr_copy(eth_hdr(skb)->h_dest, dev->net->dev_addr);
-+
-+	return 1;
-+}
-+EXPORT_SYMBOL_GPL(usbnet_cdc_zte_rx_fixup);
- /*-------------------------------------------------------------------------*/
+ void usbnet_cdc_unbind(struct usbnet *dev, struct usb_interface *intf)
+ {
+-	struct cdc_state		*info = (void *) &dev->data;
++	struct cdc_state		*info = &dev->cdc;
+ 	struct usb_driver		*driver = driver_of(intf);
  
- static int __init usbnet_init(void)
+ 	/* combined interface - nothing  to do */
+@@ -374,10 +374,7 @@ EXPORT_SYMBOL_GPL(usbnet_cdc_unbind);
+ int usbnet_cdc_bind(struct usbnet *dev, struct usb_interface *intf)
+ {
+ 	int				status;
+-	struct cdc_state		*info = (void *) &dev->data;
+-
+-	BUILD_BUG_ON((sizeof(((struct usbnet *)0)->data)
+-			< sizeof(struct cdc_state)));
++	struct cdc_state		*info = &dev->cdc;
+ 
+ 	status = usbnet_ether_cdc_bind(dev, intf);
+ 	if (status < 0)
+diff --git a/drivers/net/usb/rndis_host.c b/drivers/net/usb/rndis_host.c
+index 5e39d05a2d7b..d539654687c3 100644
+--- a/drivers/net/usb/rndis_host.c
++++ b/drivers/net/usb/rndis_host.c
+@@ -57,7 +57,7 @@ EXPORT_SYMBOL_GPL(rndis_status);
+ static void rndis_msg_indicate(struct usbnet *dev, struct rndis_indicate *msg,
+ 				int buflen)
+ {
+-	struct cdc_state *info = (void *)&dev->data;
++	struct cdc_state *info = &dev->cdc;
+ 	struct device *udev = &info->control->dev;
+ 
+ 	if (dev->driver_info->indication) {
+@@ -90,7 +90,7 @@ static void rndis_msg_indicate(struct usbnet *dev, struct rndis_indicate *msg,
+  */
+ int rndis_command(struct usbnet *dev, struct rndis_msg_hdr *buf, int buflen)
+ {
+-	struct cdc_state	*info = (void *) &dev->data;
++	struct cdc_state	*info = &dev->cdc;
+ 	struct usb_cdc_notification notification;
+ 	int			master_ifnum;
+ 	int			retval;
+@@ -290,7 +290,7 @@ generic_rndis_bind(struct usbnet *dev, struct usb_interface *intf, int flags)
+ {
+ 	int			retval;
+ 	struct net_device	*net = dev->net;
+-	struct cdc_state	*info = (void *) &dev->data;
++	struct cdc_state	*info = &dev->cdc;
+ 	union {
+ 		void			*buf;
+ 		struct rndis_msg_hdr	*header;
 -- 
 2.54.0
 
