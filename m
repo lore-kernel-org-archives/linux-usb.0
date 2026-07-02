@@ -1,102 +1,284 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C1F33893D
-	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 12:38:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F07647DFB2;
+	Thu,  2 Jul 2026 12:42:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782995883; cv=none; b=DPZDKQ29JcCqSEKL2TjYaHkVqNhyu6s3ia5AyEv0R50w5ykdn2W+e6Sfoh7fyurvRRIRj0SqSsLUdTBCEwTRljeUhp6IbwT6kG4r22vV1ZYIdo2PkxgcnCheu+XM4tgo0tb6ql4IQNcMuPArZRh7PEYRFOsFJHcFVtub8ykX7Dk=
+	t=1782996133; cv=none; b=YBgMnMees8klbZB361eOufYP9a0fQXKfS3+e+UuyKdeKGlxQnjqnKsfewQqnM8UOX4BticG6bNgL5PMUHdxdrq3inJIR6YC1p5r1uBsOJum2eF11UnNd2hN9msSQb+W8Pyw1fUlq/V3rs4jEVPhbUI6lKLMXzypGRskWYAbjL6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782995883; c=relaxed/simple;
-	bh=fI/kg1j3QsJj/0vMDoXx3etTN/la7/+DE5ipR2ZjLDU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lLmu2qAYVVPgtwvTeAlgdcRUvJHkYAAVnOY4bJBcQ3zYAagQ9sueNipVVSiDBkaDEa83lt3gPht0OgqEPyDawXqTitKRTrGxaghbWR+kViB1320uqxnBz53xrS8bL77tUPOeYUG98VKBiy71gNSTrTb4LeFW8TZySiC2o3Vo3Rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lWlQoFSw; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782996133; c=relaxed/simple;
+	bh=GhGY2uJlPlxapIVd2591Q8ZB/UGIi44eagOQNiP6pbQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WmVrNbE1VvflO7M00Jp10Xco+dOx6dRQ2v6/OccOqV6ieGsirRq4W/L81wRUL11eitGqjYXBLvzVXcdFsp4RNOHM2+om1FA+jatq51oG2h01eEy1znZILZQKT7F/lIcI5bKzXo1i4XEVXSOe9+rBySbxVWsVQ7z3pOrrZd5hyLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RmRB+8p/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lWlQoFSw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 679F21F000E9;
-	Thu,  2 Jul 2026 12:38:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782995881;
-	bh=cKJJbAarMlL5ji0pQixfSwCuKY7yoCt123pmPCfbVJw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lWlQoFSwuUx9YO8Qiw1MdXjFPLzWwwbOhtipgiLAJ19tcgp1dlniS1so0upg1Tjav
-	 VZWCSXC9rwFxkFCzMbs2IbGF1Ep74PI10zFplvCu21ggOo+Dm1zUl72EJ+1y1AomNS
-	 adeltlNWy2M1CBC0tAcklT/InlNkqs0px1wftuO0=
-Date: Thu, 2 Jul 2026 14:38:12 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>
-Cc: Michal Pecio <michal.pecio@gmail.com>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>,
-	linux-usb@vger.kernel.org
-Subject: Re: 7.1 regression bisected to "usb: core: Fix SuperSpeed root hub
- wMaxPacketSize"
-Message-ID: <2026070243-retread-sensuous-aab2@gregkh>
-References: <cb287e3d-3066-4820-b464-6208b947974b@mailbox.org>
- <577c7ba6-c638-4e73-acac-fbf6c4fb4ccc@linux.intel.com>
- <20260702105152.415afeaa.michal.pecio@gmail.com>
- <80bdd3da-33c0-44b4-a1af-6aca44c1acd6@mailbox.org>
- <2026070255-rerun-unstable-a90a@gregkh>
- <ee889a90-6ef3-4546-a05c-227ed3e742a7@mailbox.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RmRB+8p/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CECD1F00A3A;
+	Thu,  2 Jul 2026 12:42:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782996132;
+	bh=j4TUqQ9a83KckGoDbJG7Jsv1SNP3jjBNDc9CRHtia2g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RmRB+8p/aHlHF6f+RB2xKZ9qKdJgmm+qVKRYbBQg5FDjh+u+1s8ySofHq0+fKn18N
+	 WQ0wThJI1QeeZYSt1ETq+52XYa/sYcBrayKXF61sZldB6i3Smr/YCkh8LxObJnZaWn
+	 hZ3s+8Zf0XhhL8AQKA7rlYJ2G0RQEKUUm76GyPbr+UHqoaIuPXkhO4ImFUBjsGYrbW
+	 H+6h00k6LC8+iufOHZN4rBjMqDDchk6ikqW3q2m26wrsQ+L5ePXtpoQQFmLZYjPguC
+	 On1gyRYkVqOHTLXSU1B6Q1eR6qyQChbsPTKRNenT06TSfZ0vVvQ8XNXSalFOMywZOj
+	 CqsqulV1Mwupw==
+Message-ID: <9bbe1461-a731-4cbc-89db-2ff0866bd3d7@kernel.org>
+Date: Thu, 2 Jul 2026 14:42:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ee889a90-6ef3-4546-a05c-227ed3e742a7@mailbox.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/2] power: supply: Add helpers to get and put arrays
+ of power supply handles
+To: amitsd@google.com, Sebastian Reichel <sre@kernel.org>,
+ Badhri Jagan Sridharan <badhri@google.com>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+ Purism Kernel Team <kernel@puri.sm>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, =?UTF-8?Q?Andr=C3=A9_Draszik?=
+ <andre.draszik@linaro.org>, Tudor Ambarus <tudor.ambarus@linaro.org>,
+ Peter Griffin <peter.griffin@linaro.org>, RD Babiera <rdbabiera@google.com>,
+ Kyle Tso <kyletso@google.com>
+References: <20260701-batt-status-v4-0-a31d97b1ae57@google.com>
+ <20260701-batt-status-v4-1-a31d97b1ae57@google.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20260701-batt-status-v4-1-a31d97b1ae57@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 02, 2026 at 02:25:04PM +0200, Michel Dänzer wrote:
-> On 7/2/26 14:22, Greg Kroah-Hartman wrote:
-> > On Thu, Jul 02, 2026 at 02:20:05PM +0200, Michel Dänzer wrote:
-> >> On 7/2/26 10:51, Michal Pecio wrote:
-> >>> On Thu, 2 Jul 2026 00:09:42 +0300, Mathias Nyman wrote:
-> >>>> On 7/1/26 19:02, Michel Dänzer wrote:
-> >>>>>
-> >>>>> The ethernet port of a Lenovo ThinkPad USB-C Dock Gen2 connected to
-> >>>>> a ThinkPad P14s Gen 5 AMD stopped working in 7.1.
-> >>>>>
-> >>>>>   ip addr show enx482ae347e7c3
-> >>>>>
-> >>>>> says the interface doesn't exist. The only thing about it in dmesg
-> >>>>> is:
-> >>>>>
-> >>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: renamed from eth0
-> >>>>>
-> >>>>> In previous kernels, dmesg had more lines about it:
-> >>>>>
-> >>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: renamed from eth0
-> >>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: carrier on
-> >>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: carrier off
-> >>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: carrier on
-> >>>>>
-> >>>>>
-> >>>>> I bisected this to d1e280334b7f ("usb: core: Fix SuperSpeed root
-> >>>>> hub wMaxPacketSize"). Reverting that commit on top of 7.1.2 fixes
-> >>>>> the issue.
-> >>>
-> >>> Incredibly bizarre, I wonder if it's some userspace madness.
-> >>
-> >> That reminded me that I'm using (an older upstream version of) usbguard. Unfortunately its GUI notifications when it blocks a USB device aren't working reliably currently.
-> >>
-> >> Manually firing up its settings app revealed that it was indeed blocking the USB3 hub. Overriding it to be allowed fixed the issue with the bisected commit.
-> >>
-> >> Looks like a false alert after all, sorry for the noise, and thanks for the help.
-> > 
-> > Thanks for letting us know, and this isn't the first time that usbguard
-> > has caused a problem recently.  Did we change something that broke it's
-> > functionality?
+Hi,
+
+On 1-Jul-26 02:34, Amit Sunil Dhamne via B4 Relay wrote:
+> From: Amit Sunil Dhamne <amitsd@google.com>
 > 
-> My assumption is that this change results in usbguard considering the
-> USB3 hub a different device, so the persistent settings to allow it no
-> longer applied.
+> Add power_supply_get_system_batteries() to allow drivers to obtain
+> a list of registered battery type power supply references in the
+> system. Also add power_supply_put_system_batteries() to perform
+> cleanup after the former function is called.
+> 
+> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
 
-"different" in what way, because it is a different speed?  Why would
-usbguard be prohibiting hubs?
+Thanks, patch looks good to me:
 
-thanks,
+Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
 
-greg k-h
+Regards,
+
+Hans
+
+
+
+> ---
+>  drivers/power/supply/power_supply_core.c | 153 +++++++++++++++++++++++++++++++
+>  include/linux/power_supply.h             |  15 +++
+>  2 files changed, 168 insertions(+)
+> 
+> diff --git a/drivers/power/supply/power_supply_core.c b/drivers/power/supply/power_supply_core.c
+> index 2532e221b2e1..70f35f64cc72 100644
+> --- a/drivers/power/supply/power_supply_core.c
+> +++ b/drivers/power/supply/power_supply_core.c
+> @@ -477,6 +477,159 @@ struct power_supply *power_supply_get_by_name(const char *name)
+>  }
+>  EXPORT_SYMBOL_GPL(power_supply_get_by_name);
+>  
+> +static bool power_supply_is_system_battery(struct power_supply *psy)
+> +{
+> +	union power_supply_propval val;
+> +
+> +	if (psy->desc->type != POWER_SUPPLY_TYPE_BATTERY)
+> +		return false;
+> +
+> +	if (!power_supply_get_property_direct(psy, POWER_SUPPLY_PROP_SCOPE,
+> +					      &val))
+> +		if (val.intval == POWER_SUPPLY_SCOPE_DEVICE)
+> +			return false;
+> +
+> +	return true;
+> +}
+> +
+> +static int __power_supply_get_num_system_batteries(struct power_supply *epsy,
+> +						   void *data)
+> +{
+> +	int *count = data;
+> +
+> +	if (power_supply_is_system_battery(epsy))
+> +		(*count)++;
+> +
+> +	return 0;
+> +}
+> +
+> +static int power_supply_get_num_system_batteries(struct device *dev)
+> +{
+> +	int ret, count = 0;
+> +
+> +	ret = power_supply_for_each_psy(&count,
+> +					__power_supply_get_num_system_batteries);
+> +
+> +	dev_dbg(dev, "%s: count: %d ret %d\n", __func__, count, ret);
+> +
+> +	if (ret)
+> +		return ret;
+> +
+> +	return count;
+> +}
+> +
+> +struct psy_get_supplies_data {
+> +	int cnt;
+> +	int size;
+> +	struct power_supply **psys;
+> +};
+> +
+> +static int
+> +__power_supply_populate_system_batteries_array(struct power_supply *epsy,
+> +					       void *_data)
+> +{
+> +	struct psy_get_supplies_data *data = _data;
+> +
+> +	if (power_supply_is_system_battery(epsy)) {
+> +		if (data->size <= data->cnt)
+> +			return -EOVERFLOW;
+> +
+> +		get_device(&epsy->dev);
+> +		data->psys[data->cnt] = epsy;
+> +		atomic_inc(&epsy->use_cnt);
+> +		data->cnt++;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +power_supply_populate_system_batteries_array(struct device *dev, int size,
+> +					     struct power_supply **batteries)
+> +{
+> +	int ret;
+> +
+> +	struct psy_get_supplies_data data = {
+> +		.cnt = 0,
+> +		.size = size,
+> +		.psys = batteries,
+> +	};
+> +
+> +	ret = power_supply_for_each_psy(&data,
+> +					__power_supply_populate_system_batteries_array);
+> +
+> +	dev_dbg(dev, "%s Found %d batteries with array size %d ret %d\n",
+> +		__func__, data.cnt, data.size, ret);
+> +
+> +	if (ret < 0 || !data.cnt) {
+> +		power_supply_put_system_batteries(batteries, data.cnt);
+> +		return ret;
+> +	}
+> +
+> +	return data.cnt;
+> +}
+> +
+> +/**
+> + * power_supply_get_system_batteries() - Fetches references to battery type
+> + *                                       power supplies in the system.
+> + * @dev: Pointer to device requesting the power supply refs.
+> + * @psys: Pointer to an array of power supply refs.
+> + *
+> + * Helper function to get handles to battery type power supplies in the system.
+> + * If acquiring a ref to a power supply fails, then the search for battery type
+> + * power supplies will abort and the acquired power supply references will be
+> + * released.
+> + *
+> + * Return: Indicates the number of battery type power supplies returned on
+> + * success or a negative error code on failure.
+> + *
+> + * Call power_supply_put_system_batteries() after use to cleanup resources.
+> + */
+> +int __must_check power_supply_get_system_batteries(struct device *dev,
+> +						   struct power_supply ***psys)
+> +{
+> +	int ret;
+> +
+> +	if (!psys)
+> +		return -EINVAL;
+> +
+> +	ret = power_supply_get_num_system_batteries(dev);
+> +	if (ret <= 0) {
+> +		*psys = NULL;
+> +		return ret;
+> +	}
+> +
+> +	*psys = kzalloc_objs(**psys, ret);
+> +	if (!*psys)
+> +		return -ENOMEM;
+> +
+> +	ret = power_supply_populate_system_batteries_array(dev, ret, *psys);
+> +	if (ret <= 0)
+> +		*psys = NULL;
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(power_supply_get_system_batteries);
+> +
+> +/**
+> + * power_supply_put_system_batteries() - Cleanup resources allocated by
+> + *                                       power_supply_get_system_batteries()
+> + * @psys: Array of power supply references to release and free.
+> + * @count: Number of elements in the array.
+> + */
+> +void power_supply_put_system_batteries(struct power_supply **psys, int count)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < count; i++) {
+> +		if (psys[i])
+> +			power_supply_put(psys[i]);
+> +	}
+> +
+> +	kfree(psys);
+> +}
+> +EXPORT_SYMBOL_GPL(power_supply_put_system_batteries);
+> +
+>  /**
+>   * power_supply_put() - Drop reference obtained with power_supply_get_by_name
+>   * @psy: Reference to put
+> diff --git a/include/linux/power_supply.h b/include/linux/power_supply.h
+> index 7a5e4c3242a0..9167a33d074b 100644
+> --- a/include/linux/power_supply.h
+> +++ b/include/linux/power_supply.h
+> @@ -806,11 +806,26 @@ extern int power_supply_reg_notifier(struct notifier_block *nb);
+>  extern void power_supply_unreg_notifier(struct notifier_block *nb);
+>  #if IS_ENABLED(CONFIG_POWER_SUPPLY)
+>  extern struct power_supply *power_supply_get_by_name(const char *name);
+> +extern int __must_check power_supply_get_system_batteries(struct device *dev,
+> +							  struct power_supply ***psys);
+> +extern void power_supply_put_system_batteries(struct power_supply **psys, int count);
+>  extern void power_supply_put(struct power_supply *psy);
+>  #else
+>  static inline void power_supply_put(struct power_supply *psy) {}
+>  static inline struct power_supply *power_supply_get_by_name(const char *name)
+>  { return NULL; }
+> +static inline int __must_check power_supply_get_system_batteries(struct device *dev,
+> +								 struct power_supply ***psys)
+> +{
+> +	if (psys)
+> +		*psys = NULL;
+> +	return 0;
+> +}
+> +
+> +static inline void power_supply_put_system_batteries(struct power_supply **psys,
+> +						     int count)
+> +{
+> +}
+>  #endif
+>  extern struct power_supply *power_supply_get_by_reference(struct fwnode_handle *fwnode,
+>  							  const char *property);
+> 
+
