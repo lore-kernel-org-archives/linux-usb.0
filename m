@@ -1,158 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F272625A359;
-	Thu,  2 Jul 2026 05:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E4D39D6CC
+	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 07:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782971394; cv=none; b=dkHrHeiizueRhvjYDhI6L1Z4aqsUQN6mzNaEXU1TrHmIQTQnGFAide8vEmd13CFfDB/Uzk0Ycsvp5bmPlLVYbDfenoePL/flkLUwTwiVUft8sx8KVmXZvTDVzZnl5tMXP9HwczGgPUiHsmUl2qxiaMhIKoiEM6f/kbiPOpvUUgE=
+	t=1782977918; cv=none; b=Yc/khnZ+iCvKyMp9uzAsKroQm8K5H3rQ2LWeP6zfilupMKVebJfnhsAeI/tEvC28vs+HW0W7GbAa7pgevRxUe7kY3lFsyMkUx5qoRpIagZlnz2r22Ff50kKu4l0r164p3aspajQV2fTFsIiEwT5b3aG+QfBj8uXCOTIkzL8z6hI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782971394; c=relaxed/simple;
-	bh=EDRUuh+6zXkDC6bSO+pBJ53xZRIngJO7/7EDLI3npoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qD6kOfEdMJZtUcyhuT2uxET/1Qb5WZL+EYlap0M+bRAr0V+hi76OxOSrCxq2DvK/8caK3K4zJH2YeNGWd3vKHVqFq5HHkO9NH+XUuQgN8iAdKPlQU4AvuAz4BaubyBNP4KQrxQIJxZ1iIf8rhCRZrcRDhth1kfdXX1l72IMenRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qxOXo+km; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782977918; c=relaxed/simple;
+	bh=DdLjUC1ksuo+PVzG3yADpMg7xDZKtpZfVtK9cx+fcI0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Em/pYFr+CkeHuo5xd/Njni8dUqX6/7vwP4zh2jZrlCBe4rw4tspto5L4CfOkxZ/1iIlaUZeuNIeoG7PdjvPNCR0vhsug/6tA+GqNsIrtHHIsMBSjYahh0inwAkpSG5H5GMqbdHYYaH1PccqUKtyuHRnp3eQb89tVcpBiJd4pjrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BV018Qxe; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qxOXo+km"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36E3C1F000E9;
-	Thu,  2 Jul 2026 05:49:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782971391;
-	bh=drONu/zGq5+g6bv2cU4LDpfbDiQn6v9A3/zW6m6HwB0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=qxOXo+kmK1OVnezmS7rtaUvG47J+JQthmu+aN+B5Pu6M+TgeC4tsxCUAxxUEqt1Kz
-	 kclJV29CPXVXxG9ncm+BY5trqi19+rl5vcCsaArGK0qdJSPAqjHgJDBFxtHXBGdhhK
-	 WK0V/2vnsj7p41NMX8BEvvD326CieOfQJlASyj9k=
-Date: Thu, 2 Jul 2026 07:50:02 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: AceLan Kao <acelan.kao@canonical.com>
-Cc: Xu Yang <xu.yang_2@nxp.com>, Sean Rhodes <sean@starlabs.systems>,
-	Kees Cook <kees@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: core: port: Deattach Type-C connector on component
- unbind
-Message-ID: <2026070208-catapult-customize-7da3@gregkh>
-References: <20260611071201.1235545-1-acelan.kao@canonical.com>
- <CAMz9Wg_X5D=T4evVOi+pns_x=gD43RA8ZURvk9eyYVBF+OE33Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BV018Qxe"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4745492ed3aso908889f8f.1
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2026 00:38:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782977915; x=1783582715; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k+eqRtwOb4f8aCqe1mEHXBn99q8o4sBYVGzbWmzuP10=;
+        b=BV018QxeEXIfBas2KL/xdTtJqXoWWriDanZZ4iJX997qalMvcQiqzP1vRBTbmzJ6M1
+         A2AoDO+ze0OX5y0Jix4VuVGnpsUXakv6MgT/GQ5BOobpuzHBTV39ovrniCk8U+8xBJ3y
+         D8XMiaDUCMJdsiXEmZSQQaKUmdbCjAWmKdwgRzTwiPZ0TMh92IzRLwnsqQvTRFTZYPdt
+         BghKH7W7WvCpIMt2xZ7stfr67IV7TcnJCmwizWGumZQ7lxZnjLTymyeW7Gj+rd0BVTli
+         HZb1F1UCjPZbOt30UldGwXrO2MLa0e6/yLHjj0I8YjgHI76eHAHK/LulyX8s0gyL7/oZ
+         CFHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782977915; x=1783582715;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k+eqRtwOb4f8aCqe1mEHXBn99q8o4sBYVGzbWmzuP10=;
+        b=OLBOORC7as5aWHio5kzXBTV754m0/v1Nrnlw7wkpj2Jpk5NQ6gidgjhyank4xTDIax
+         BynRqWh/PFh0d9XJiWEr4kY3dG9yR2Rc+juY1Qvb3WIrsklz+O8aBx2OgbUSFixkCRlu
+         hbUeqBaY1tDC48Of3mX2kWPBZQR+z8fUFuu5EJQZ6KM8ZpAkYbSTqd3rF1ZQuUmPSE5/
+         WhU5HGk5zt+nAQ4dCKcc8uhFjrgnmLS6MV6WvqIIWQvcoqAw3JN768dmX5CJatU//Cm3
+         up4L30BjUMewCZfAzs3WckuihYy8QUUEbIpdESw/Xf5JgToLJbVIoPgNlRzqw3bHf7od
+         tKrQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoePyEQyJ8vPMcBJ5yFd9S+YTlYq+8y6DDjz0W6KALEwTftqi1nGofDiERYUCsy5MzadolEOIdvu4I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCedQH4jKGHka7HFELeaeN+E7woorb2l7Ipdhh40CkMND0DfCU
+	PPIowZKHt3HATxtDnSZ90UtvOYyaMCeCUJrnL7UwcboD7PB5tA6zY1A3
+X-Gm-Gg: AfdE7cmyv306wLnviiwOpE4HGIoYVpTNG8Lb9ER/PuRonPT9OpttTl0c1TM1vu2J7g1
+	H5TvMeSl/OZ8MNsmIr4iEd/6pFe/H0j/IVmaMGMGoOCMeu3E5QQ3vgWXH9Ur5SrnQtAn839rDWC
+	cjwvw+VHFlwEMvVd3Zk1lx8jV/Hcaqlly+xqObeAecQ9DUjxmj1Sr4GwbBX/wkzeU5fT+mv4gts
+	RZAxApHclDIS0ejEME/qUy7UHEpj0ggkuoQr1b0oTy2mgV1ToC2V+2Gl5+F8uLx1nEL0Ssg+2vX
+	dF8Rsr53kXLulkalJpQ21+PZ6gz1BT6pp6WSskLssnl7WbWQYZ0CHYn4AXj9rFTe14VCim68s5G
+	WJ0xlvIX6VcehtdyKvDfR0/9XiPtjDus2biUCH4QM5aRVvM9gPoHVLGysNl9nGnLn44C6uoqODh
+	9cF5xY4SCIKphkK2Qabn9ZZl74+ayLBYy9VlzBhw==
+X-Received: by 2002:a05:6000:607:b0:461:9950:da50 with SMTP id ffacd0b85a97d-477574b0300mr7823320f8f.11.1782977914687;
+        Thu, 02 Jul 2026 00:38:34 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:23c4:a702:d301:8d97:896e:a65c:20e3])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477de3dd0b1sm6331170f8f.35.2026.07.02.00.38.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 00:38:34 -0700 (PDT)
+From: Biju <biju.das.au@gmail.com>
+X-Google-Original-From: Biju <biju.das.jz@bp.renesas.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Fan Wu <fanwu01@zju.edu.cn>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] usb: renesas_usbhs: Fix power-off ordering on unbind
+Date: Thu,  2 Jul 2026 08:38:29 +0100
+Message-ID: <20260702073832.175047-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMz9Wg_X5D=T4evVOi+pns_x=gD43RA8ZURvk9eyYVBF+OE33Q@mail.gmail.com>
 
-On Thu, Jul 02, 2026 at 10:26:39AM +0800, AceLan Kao wrote:
-> Chia-Lin Kao (AceLan) <acelan.kao@canonical.com> 於 2026年6月11日週四 下午3:12寫道：
-> >
-> > connector_unbind() is the mirror of connector_bind(), but it is missing
-> > the symmetric call to typec_deattach() that connector_bind() makes via:
-> >
-> >     if (port_dev->child)
-> >         typec_attach(port_dev->connector, &port_dev->child->dev);
-> >
-> > When a Thunderbolt dock is unplugged, two teardown paths race:
-> >
-> > 1. The component framework calls connector_unbind() first, which sets
-> >    port_dev->connector = NULL without calling typec_deattach().  This
-> >    leaves port->usb2_dev/port->usb3_dev in struct typec_port pointing at
-> >    the USB device that is about to be freed.
-> >
-> > 2. usb_disconnect() then calls typec_deattach(port_dev->connector, ...),
-> >    but port_dev->connector is already NULL, so the call is a no-op and
-> >    port->usb2_dev is never cleared.
-> >
-> > 3. Concurrently, UCSI detects a PD partner-disconnect event and calls
-> >    typec_unregister_partner(), which reads port->usb2_dev (now a dangling
-> >    pointer to freed memory) and passes it to typec_partner_unlink_device()
-> >    -> sysfs_remove_link() -> dev_name() on the freed device, corrupting
-> >    the typec/UCSI partner state.
-> >
-> > This corruption leaves the Thunderbolt tunnel in an inconsistent state on
-> > the next dock hot-plug.  On affected hardware the dock's I225/igc NIC fails
-> > to enumerate: AER fires a slot reset while the igc driver is still
-> > initialising ("PCIe link lost"), and the subsequent igc_reset attempt hits
-> > igc_rd32 on an already-detached device:
-> >
-> >     igc 0000:2e:00.0 eth0: PCIe link lost, device now detached
-> >     igc: Failed to read reg 0x0!
-> >     WARNING: CPU: 9 PID: 129 at drivers/net/ethernet/intel/igc/igc_main.c:7005
-> >              igc_rd32+0xa4/0xc0 [igc]
-> >     Call Trace:
-> >      igc_disable_pcie_master+0x16/0xa0 [igc]
-> >      igc_reset_hw_base+0x14/0x170 [igc]
-> >      igc_reset+0x63/0x110 [igc]
-> >      igc_io_slot_reset+0x9e/0xd0 [igc]
-> >      report_slot_reset+0x5d/0xc0
-> >      pcie_do_recovery+0x209/0x400
-> >      aer_isr_one_error_type+0x235/0x430
-> >      aer_isr+0x4e/0x80
-> >      irq_thread+0xf4/0x1f0
-> >
-> > 4. UCSI later handles the PD partner-disconnect and calls
-> >    typec_unregister_partner(), which still sees the stale port->usb2_dev
-> >    and tries to remove its sysfs link a second time:
-> >
-> >    kernfs: can not remove 'typec', no directory
-> >    WARNING: CPU: 6 PID: 55 at fs/kernfs/dir.c:1706 kernfs_remove_by_name_ns+0xe9/0xf0
-> >    Workqueue: events ucsi_handle_connector_change [typec_ucsi]
-> >    Call Trace:
-> >     sysfs_remove_link+0x19/0x50
-> >     typec_unregister_partner+0x6e/0x120 [typec]
-> >     ucsi_unregister_partner+0x107/0x150 [typec_ucsi]
-> >     ucsi_handle_connector_change+0x3ec/0x490 [typec_ucsi]
-> >     process_one_work+0x18e/0x3e0
-> >     worker_thread+0x2e3/0x420
-> >     kthread+0x10a/0x230
-> >     ret_from_fork+0x121/0x140
-> >     ret_from_fork_asm+0x1a/0x30
-> >
-> >    With worse timing the same stale pointer is dereferenced after the
-> >    backing memory is freed, turning the warning into a use-after-free.
-> >
-> > Fix the asymmetry: call typec_deattach() before clearing
-> > port_dev->connector, matching what connector_bind() does on the bind side.
-> > typec_partner_deattach() is already protected by port->partner_link_lock,
-> > so it serialises safely with the concurrent typec_unregister_partner() path.
-> >
-> > Fixes: 11110783f5ea ("usb: Inform the USB Type-C class about enumerated devices")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
-> > ---
-> >  drivers/usb/core/port.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-> > index b1364f0c384ce..b4452b665f591 100644
-> > --- a/drivers/usb/core/port.c
-> > +++ b/drivers/usb/core/port.c
-> > @@ -740,6 +740,8 @@ static void connector_unbind(struct device *dev, struct device *connector, void
-> >
-> >         sysfs_remove_link(&connector->kobj, dev_name(dev));
-> >         sysfs_remove_link(&dev->kobj, "connector");
-> > +       if (port_dev->child)
-> > +               typec_deattach(port_dev->connector, &port_dev->child->dev);
-> >         port_dev->connector = NULL;
-> >  }
-> >
-> > --
-> > 2.53.0
-> >
-> 
-> Hi,
-> 
-> Just a gentle ping, please help to review this path.
+From: Biju Das <biju.das.jz@bp.renesas.com>
 
-It was the merge window :(
+Move the usbhsc_power_ctrl() call to before hardware_exit() and
+reset_control_assert() in usbhs_remove(), so the PHY is powered off
+while priv->phy is still valid, rather than after hardware_exit()
+has already cleared it.
 
-Also, if you wish to have patches merged quicker, please provide review
-comments on other patches while you wait, what is preventing that from
-happening here?
+Fixes: eb9ac779830b ("usb: renesas_usbhs: Fix synchronous external abort on unbind")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+---
+v1->v2:
+ * Moved reset_control_assert() to avoid synchronous abort
+   during unbind.
+ * Updated commit description
+---
+ drivers/usb/renesas_usbhs/common.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-thanks,
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index 8c93bde4b816..51d3035f82be 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -813,9 +813,6 @@ static void usbhs_remove(struct platform_device *pdev)
+ 
+ 	flush_delayed_work(&priv->notify_hotplug_work);
+ 
+-	usbhs_platform_call(priv, hardware_exit, pdev);
+-	reset_control_assert(priv->rsts);
+-
+ 	/*
+ 	 * Explicitly free the IRQ to ensure the interrupt handler is
+ 	 * disabled and synchronized before freeing resources.
+@@ -832,6 +829,9 @@ static void usbhs_remove(struct platform_device *pdev)
+ 	if (!usbhs_get_dparam(priv, runtime_pwctrl))
+ 		usbhsc_power_ctrl(priv, 0);
+ 
++	usbhs_platform_call(priv, hardware_exit, pdev);
++	reset_control_assert(priv->rsts);
++
+ 	usbhsc_clk_put(priv);
+ 	pm_runtime_disable(&pdev->dev);
+ }
+-- 
+2.43.0
 
-greg k-h
