@@ -1,158 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698103D9548;
-	Thu,  2 Jul 2026 14:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 444C5318BA7
+	for <linux-usb@vger.kernel.org>; Thu,  2 Jul 2026 16:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783004049; cv=none; b=fq8JR2KNmrzXSQfdKqy+EcYnWpgbPoeARFHsK6KYalPGBZCq2CWTdAgZd/+90Mrr08UO0xLFi4yPjkEK9eZgBl1g3HIO9a19/Xv2xD5MHCqnxdI0j7NIqpXkFWObfmFLvgPvj2l0n0AnWqCqUXoiygFiKiMoHxDkruR4KXWzjyg=
+	t=1783010096; cv=none; b=Q43Ci9YcTtje7/GT+8hs//3jNX0KQ+JvfJtggUwHQR0V7nwIx17WrWmnYRz+/mVLmO/AG9K42bNnyef91BpXwvc7c/wcRfBNjuOyZEyy72d96RAXzKpHSsoTg0kUny0z8Patlmh+yGCrM83nT6g80I/wNSWRauo+57Zo5tX+/PU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783004049; c=relaxed/simple;
-	bh=AlDnnrSumvQ0JUayuwWhX4lgLQINoDGTcc0ugi/Lfas=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DKAv2wQFAgQXQ1PBOaEStaG/qjry6yLRsXSbgFf7Z9pAEJEZgPlO9B9c3a2mote7ogMUQv6IWBB119Xesr5Rn+e5iW7dfGIFPT6/B6Nn1plV+B9do+Nx//uUQ4sUlfVOXYJBgcL+jS8OsOC0OcA91Uch/tlI8SKmF0SKZ6hWjyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=np3DLADc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783010096; c=relaxed/simple;
+	bh=Vo9F9EIvLh+3M3TnCX3YLKisUPFs6vlEtUHrCqhT3qM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OmvO8Itp1wGm9rBQ44GEJUaBLXRCMW14MoN5KpAfl5KvG4giODjADUba6Ifopi4wSut3PrBloKyMP7ehyxW7DU41lB4bwuFlHETlV5lMU2MOaeETtLycR9qgs/UjqaKwyX+dQ7svO9oEYfc2+Jiv/Vbg9oWbsrr/XNflzMvRNCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VJZHi0Jk; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="np3DLADc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF2F81F000E9;
-	Thu,  2 Jul 2026 14:54:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783004048;
-	bh=4D5Pfza9ye25/7h+SlhjH9CFxEdzdfjUrz/QKfasyh0=;
-	h=From:To:Cc:Subject:Date;
-	b=np3DLADcUNID+B/3g9XO+CYdxV5YDyZN61vqId4JgZfV9eWMNpNCVOK+RGaxa82o8
-	 fePwahT6+PlJGhylFY5ec/VBaMSKZ9psjO/7yzUoATYkor4bIpC9R0w5HDOpVfuoAH
-	 nlUfuHPQsPbPkbOzfqb6fXAQ8P9vURPUAdgJaFCR5EVqu3QXkdK+ZAEkFC6QP6uX+d
-	 HZuvENtVsCQuMrQCINywbyauqBgV5SyRS1xS31ByWcFmY0jo7wuMlt2Qn3FAOh9Pu7
-	 ToOgajzsM7aq8b2g7lIgbIKQxTVz5r0jR2nuKFfNmKwwi/ABe9YEE+Td5HBYz3xKm1
-	 SU5PcuS5fjcTQ==
-Received: from johan by xi.lan with local (Exim 4.99.3)
-	(envelope-from <johan@kernel.org>)
-	id 1wfInl-00000000SUi-2my5;
-	Thu, 02 Jul 2026 16:54:05 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Rob Herring <robh@kernel.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>
-Subject: [PATCH] USB: gadget: stop propagating controller OF nodes
-Date: Thu,  2 Jul 2026 16:53:50 +0200
-Message-ID: <20260702145350.109509-1-johan@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="VJZHi0Jk"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4grjCX1R1tz9v0J;
+	Thu,  2 Jul 2026 18:34:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783010088;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tDsKjaHsLWNkHCpBGU2Yp8fOx9IGtHQiRXgsn+7Dk/4=;
+	b=VJZHi0JkkfVFRoB1+AIgOWArqxZVEbOLm5uW7B9uiTxmv1IYzIvUpwfm/0FVj5riOL6Q/J
+	yn0N9FAclJuXbDmP1S0kyBnKM8F7TSl8QRm4DMQUEVSAVR891UwxR8jBo0a+RgbBGEYR2g
+	rGmO4WBUY8KGflg5IbXoSYn6Z/31Ac+pDLCzPBmVNtXwmU2c5knrDTyUbQBwDWT66+9S8m
+	gYC56HttrFWBtC9b/7Y1Z5Hs9hSJOawDXXLywShiAvtA6dhn/G3PqycFb4oYvUUSVYzFTB
+	4lEXFGT4q8QmEB2119ELFH2y3IPP/uc45lUKItyDJX2B1j7EzLe8ggtW7UW1WA==
+Message-ID: <5885fa3b-4893-474f-9de7-c3693ce89504@mailbox.org>
+Date: Thu, 2 Jul 2026 18:34:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: 7.1 regression bisected to "usb: core: Fix SuperSpeed root hub
+ wMaxPacketSize"
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Michal Pecio <michal.pecio@gmail.com>,
+ Mathias Nyman <mathias.nyman@linux.intel.com>, linux-usb@vger.kernel.org
+References: <cb287e3d-3066-4820-b464-6208b947974b@mailbox.org>
+ <577c7ba6-c638-4e73-acac-fbf6c4fb4ccc@linux.intel.com>
+ <20260702105152.415afeaa.michal.pecio@gmail.com>
+ <80bdd3da-33c0-44b4-a1af-6aca44c1acd6@mailbox.org>
+ <2026070255-rerun-unstable-a90a@gregkh>
+ <ee889a90-6ef3-4546-a05c-227ed3e742a7@mailbox.org>
+ <2026070243-retread-sensuous-aab2@gregkh>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: de-CH-frami, en-CA
+In-Reply-To: <2026070243-retread-sensuous-aab2@gregkh>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 757ee101be8c3312b78
+X-MBO-RS-META: ydruw6hpxwq9gwfiu6gsh9azaai5tfk6
 
-Some UDC drivers propagate the controller OF node to the gadget device
-but there are no (and has never been any) users of this as the
-devicetree binding and composite driver support was never merged. [1]
+On 7/2/26 14:38, Greg Kroah-Hartman wrote:
+> On Thu, Jul 02, 2026 at 02:25:04PM +0200, Michel Dänzer wrote:
+>> On 7/2/26 14:22, Greg Kroah-Hartman wrote:
+>>> On Thu, Jul 02, 2026 at 02:20:05PM +0200, Michel Dänzer wrote:
+>>>> On 7/2/26 10:51, Michal Pecio wrote:
+>>>>> On Thu, 2 Jul 2026 00:09:42 +0300, Mathias Nyman wrote:
+>>>>>> On 7/1/26 19:02, Michel Dänzer wrote:
+>>>>>>>
+>>>>>>> The ethernet port of a Lenovo ThinkPad USB-C Dock Gen2 connected to
+>>>>>>> a ThinkPad P14s Gen 5 AMD stopped working in 7.1.
+>>>>>>>
+>>>>>>>   ip addr show enx482ae347e7c3
+>>>>>>>
+>>>>>>> says the interface doesn't exist. The only thing about it in dmesg
+>>>>>>> is:
+>>>>>>>
+>>>>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: renamed from eth0
+>>>>>>>
+>>>>>>> In previous kernels, dmesg had more lines about it:
+>>>>>>>
+>>>>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: renamed from eth0
+>>>>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: carrier on
+>>>>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: carrier off
+>>>>>>>   r8152 8-1.1:1.0 enx482ae347e7c3: carrier on
+>>>>>>>
+>>>>>>>
+>>>>>>> I bisected this to d1e280334b7f ("usb: core: Fix SuperSpeed root
+>>>>>>> hub wMaxPacketSize"). Reverting that commit on top of 7.1.2 fixes
+>>>>>>> the issue.
+>>>>>
+>>>>> Incredibly bizarre, I wonder if it's some userspace madness.
+>>>>
+>>>> That reminded me that I'm using (an older upstream version of) usbguard. Unfortunately its GUI notifications when it blocks a USB device aren't working reliably currently.
+>>>>
+>>>> Manually firing up its settings app revealed that it was indeed blocking the USB3 hub. Overriding it to be allowed fixed the issue with the bisected commit.
+>>>>
+>>>> Looks like a false alert after all, sorry for the noise, and thanks for the help.
+>>>
+>>> Thanks for letting us know, and this isn't the first time that usbguard
+>>> has caused a problem recently.  Did we change something that broke it's
+>>> functionality?
+>>
+>> My assumption is that this change results in usbguard considering the
+>> USB3 hub a different device, so the persistent settings to allow it no
+>> longer applied.
+> 
+> "different" in what way, because it is a different speed?  Why would
+> usbguard be prohibiting hubs?
 
-Drop the unused and incomplete support for OF node propagation which if
-ever needed should be handled by UDC core.
-
-Note that this also avoids probe failures when reusing an OF node that
-describe resources like pinctrl that are managed by driver core (cf.
-commit 48ed32482c41 ("usb: gadget: aspeed: Fix probe regression")).
-
-Link: https://lore.kernel.org/all/1340720833-781-1-git-send-email-aletes.xgr@gmail.com/ [1]
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
-
-This was something I stumbled over when fixing a couple of gadget device
-name leaks. This one applies on top of those fixes:
-
-	https://lore.kernel.org/all/20260702141536.90887-1-johan@kernel.org/
-
-Johan
+What I mean is that usbguard considers the hub two different devices with or without the bisected kernel commit. No idea what exactly makes the difference though.
 
 
- drivers/usb/gadget/udc/aspeed-vhub/dev.c | 2 --
- drivers/usb/gadget/udc/aspeed_udc.c      | 1 -
- drivers/usb/gadget/udc/at91_udc.c        | 1 -
- drivers/usb/gadget/udc/bcm63xx_udc.c     | 1 -
- drivers/usb/gadget/udc/fsl_udc_core.c    | 3 ---
- drivers/usb/gadget/udc/lpc32xx_udc.c     | 1 -
- 6 files changed, 9 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-index 8b9449d16324..0dccdbfd6aef 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-@@ -592,8 +592,6 @@ int ast_vhub_init_dev(struct ast_vhub *vhub, unsigned int idx)
- 	else
- 		d->gadget.max_speed = USB_SPEED_HIGH;
- 	d->gadget.speed = USB_SPEED_UNKNOWN;
--	d->gadget.dev.of_node = vhub->pdev->dev.of_node;
--	dev_set_of_node_reused(&d->gadget.dev);
- 
- 	rc = usb_add_gadget_udc(d->port_dev, &d->gadget);
- 	if (rc != 0)
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index 75f9c831b21a..09776a5e224f 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -1299,7 +1299,6 @@ static int ast_udc_start(struct usb_gadget *gadget,
- 
- 	UDC_DBG(udc, "\n");
- 	udc->driver = driver;
--	udc->gadget.dev.of_node = udc->pdev->dev.of_node;
- 
- 	for (i = 0; i < AST_UDC_NUM_ENDPOINTS; i++) {
- 		ep = &udc->ep[i];
-diff --git a/drivers/usb/gadget/udc/at91_udc.c b/drivers/usb/gadget/udc/at91_udc.c
-index 5aa360ba4f03..de8083986942 100644
---- a/drivers/usb/gadget/udc/at91_udc.c
-+++ b/drivers/usb/gadget/udc/at91_udc.c
-@@ -1558,7 +1558,6 @@ static int at91_start(struct usb_gadget *gadget,
- 
- 	udc = container_of(gadget, struct at91_udc, gadget);
- 	udc->driver = driver;
--	udc->gadget.dev.of_node = udc->pdev->dev.of_node;
- 	udc->enabled = 1;
- 	udc->gadget.is_selfpowered = 1;
- 
-diff --git a/drivers/usb/gadget/udc/bcm63xx_udc.c b/drivers/usb/gadget/udc/bcm63xx_udc.c
-index c4f9ea45bdbb..ba91b1ebbf57 100644
---- a/drivers/usb/gadget/udc/bcm63xx_udc.c
-+++ b/drivers/usb/gadget/udc/bcm63xx_udc.c
-@@ -1830,7 +1830,6 @@ static int bcm63xx_udc_start(struct usb_gadget *gadget,
- 	bcm63xx_select_phy_mode(udc, true);
- 
- 	udc->driver = driver;
--	udc->gadget.dev.of_node = udc->dev->of_node;
- 
- 	spin_unlock_irqrestore(&udc->lock, flags);
- 
-diff --git a/drivers/usb/gadget/udc/fsl_udc_core.c b/drivers/usb/gadget/udc/fsl_udc_core.c
-index 20392409afb1..878d70b55530 100644
---- a/drivers/usb/gadget/udc/fsl_udc_core.c
-+++ b/drivers/usb/gadget/udc/fsl_udc_core.c
-@@ -2465,9 +2465,6 @@ static int fsl_udc_probe(struct platform_device *pdev)
- 	udc_controller->gadget.speed = USB_SPEED_UNKNOWN;
- 	udc_controller->gadget.name = driver_name;
- 
--	/* Setup gadget.dev and register with kernel */
--	udc_controller->gadget.dev.of_node = pdev->dev.of_node;
--
- 	if (!IS_ERR_OR_NULL(udc_controller->transceiver))
- 		udc_controller->gadget.is_otg = 1;
- 
-diff --git a/drivers/usb/gadget/udc/lpc32xx_udc.c b/drivers/usb/gadget/udc/lpc32xx_udc.c
-index 044c31869cfb..35cf44025559 100644
---- a/drivers/usb/gadget/udc/lpc32xx_udc.c
-+++ b/drivers/usb/gadget/udc/lpc32xx_udc.c
-@@ -2889,7 +2889,6 @@ static int lpc32xx_start(struct usb_gadget *gadget,
- 	}
- 
- 	udc->driver = driver;
--	udc->gadget.dev.of_node = udc->dev->of_node;
- 	udc->enabled = 1;
- 	udc->gadget.is_selfpowered = 1;
- 	udc->vbus = 0;
 -- 
-2.53.0
-
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
