@@ -1,75 +1,178 @@
-Received: from mail-m19731105.qiye.163.com (mail-m19731105.qiye.163.com [220.197.31.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021E51D6BB;
-	Fri,  3 Jul 2026 01:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040C32B9A4
+	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 03:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783043491; cv=none; b=J/Kmkt+FW82t5xQ/7HeIQMhuFJ4BdyQM8Q9oaWzOyS/Ij6rZq1TbN+H9Uon3h1NrdKdvCERJyHHI7LT6lF2Tx3Adc+0MUvzKjOUSv8lvJdzCJMIcgtZerjYR0HbSImGvCX9TumNVB6YaF3kVXHgoRj18b4Vrk2KfjQF9RyU/H1A=
+	t=1783047632; cv=none; b=shzdc9Lg5VLShUtFpgl7JPlxqxuL9l7iu/jmCsLY/QQCYEVjWB3Mo2KcCA41cc3j2roWc+p8sVGpD9mgQEQxGt/LhnsM4BeaAtpXV2mr+S+JcTDVCIdAjxENjH1fDU2pdNz0VOvNaAoYxEvS+gwfDJtib/zbWv0eqsDNZLvYRA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783043491; c=relaxed/simple;
-	bh=kvdJlBNsRcIQVwqRaGkHlFc6XNlOELzgEKGdG7cC3Fw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gFZvA0Sc6jrcCRKXEOH5ytJQSjBzlKZcW8P7Am2odrVwMZINCkz9b5vb4e0vUzwy9hCv8FAKXjQp9ATAmubeqBr/+n2glsHr/2tmi6vKjm1F6OfMWoXh1m85C7JARaZRdQAK4BYhalJi1x0TQZ0KW9mfKHLqr9+xvtNdhecfcN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=kxPS793/; arc=none smtp.client-ip=220.197.31.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1783047632; c=relaxed/simple;
+	bh=YbefWu8Ry1o3My54IHLiyN6HrpYSH3usHhH401cToDQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TARKZ2ysDVFiGu7W9yTzXEPY30uWcOyfbMRV1/NC2n2TQeY0kHD1xc2O+VOg1+XC7Xn6G0Es31IKhKZToUOdNj7OVi/dKJmTc8YdzEaM/8Jx1t15LNXyMH3yZHZIt352CVsed2AKH0FiMSrzRREREsFHBSdRlQE0I2gl/SLnzr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=pAW4G7Um; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fireburn.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="kxPS793/"
-Received: from [172.16.12.90] (unknown [61.154.14.86])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 44b98791c;
-	Fri, 3 Jul 2026 09:36:04 +0800 (GMT+08:00)
-Message-ID: <49bff117-e1a4-4d46-84c8-1b6a0eb1eac0@rock-chips.com>
-Date: Fri, 3 Jul 2026 09:36:01 +0800
+	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="pAW4G7Um"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47122683cf3so59979f8f.0
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2026 20:00:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1783047629; x=1783652429; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Idvq8z1PjIJi27rMuy55USC2VdX6WAO3FloueAZbU+Q=;
+        b=pAW4G7Um2uDJiBuybAW8IwgmOiFoagpeI3WfIBm2TebQmch1YU3aOH9WzLfnSAKH7w
+         XAKs40bhCrarB/iZ8vy98JxRh9xUkmHFhEClkUrYyEzBd6vvPw4Nun8rjlAFhE1ZFWoK
+         6Jxr4b9HtKV8gZT22L5qjI4KdMJiCyqRq2+kHbipJJBac4Wj1MoZ4V48teWaFmw89jiI
+         Gjw0affWRM/niM3UZXU97KjndAexh/ao6b7efz2ldCcVPS1htGYzV9Mp5lSmsKXeDGcP
+         jr3+G5HVUSFnG94nTh9PT/nkE2Qn2URgnPNj2ISsE0WxLDpneQOWMFYrdltL/k2KqcqD
+         lraw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783047629; x=1783652429;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Idvq8z1PjIJi27rMuy55USC2VdX6WAO3FloueAZbU+Q=;
+        b=i8g/Oo241TuTFJ00FvgHQD4elpoMfLqUi3BoqvHL5YBe/0AQFwp6anU4ilwZARmK7J
+         EvRSk3IqANmJw/Oj4naTGV3FA+Tc83Pl4mZdgo4N9aG0lNkvwOZ4ej36IOEEZuiRPFlE
+         fztM5IOlbo3ns30vGgJ6JtOp7UC/jjY2MH0ncokX7HQ5EVvi6EInPdxgjXQzL9ImgqaL
+         90z/1VWGlnN/wmTLyajXVSqfs36Upt4/Yp+M3zgEird3ECz4FmC8YdigHlHvNqU3zu1q
+         /hh6MgYJbEi3gOSe/+VSOJGeDxh7X9CLoB0u5mxHvsANDPRdzm1viotjula+r7ffsXxR
+         vShg==
+X-Gm-Message-State: AOJu0YxMuvyo3UUWsBaTvm5k6JAScTAd3n8DwvyAVpLECAIlwQvaylK0
+	0xBwvPYLsLP4hgqKaM56dwmBvAD3XEB+YjF54Kyqdx9KUL910EmY/p6MmY4VxLDTyw==
+X-Gm-Gg: AfdE7ckFV/KLL5qJMfT/XnylSKJcJNQbBq1hpa76WqY/4SxbQYP1nkOl3TPo7ZKW+KQ
+	kHuPIr5CAU/I6EHGudZd8QZF4rCnujUbrPIhBcfN2XwhMT07zPlFr6f6DSj8/ORy9CHo+d6l+8/
+	sJN7twxT8Rz9BBAuPX0HjVLCW7DmknT7jJSHIDm167ENEpQ1qBaGxlxabF3d761QPxb34As221d
+	OTH1ia4+LAdxsmvAmrDZGgHm2QDe7JBCXJReMgc4AUIkj3karhOYqD8NaC229Qzos2ZjgfFW4qv
+	EDb58XYRUROTkuGavcd3kukp/rLDZr053QvHpGu7LxvkqpecvpV38nvaEojhfoISfBSHuo9I3WU
+	uzV5lzq4axZhN5sDtxs4b0P2U8pw7P4sPCuUceKb3HiKzFXq+flsFsFZf7kAKQbpaWOrnqwSB7U
+	LeMViqL+qZFIi3CCh2EJwMqAHXDI8oj5E1Llwpw2TfiClSMJEjIkNqyGv1rjMnT6VZUt4=
+X-Received: by 2002:a05:6000:1846:b0:478:2698:72f4 with SMTP id ffacd0b85a97d-478269873f5mr8171349f8f.45.1783047629209;
+        Thu, 02 Jul 2026 20:00:29 -0700 (PDT)
+Received: from axion.fireburn.co.uk ([137.220.119.72])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477db8a44d7sm13128569f8f.9.2026.07.02.20.00.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 20:00:28 -0700 (PDT)
+From: Mike Lothian <mike@fireburn.co.uk>
+To: rust-for-linux@vger.kernel.org
+Cc: linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	linux-kernel@vger.kernel.org,
+	Mike Lothian <mike@fireburn.co.uk>
+Subject: [RFC PATCH v2 00/11] rust: usb: synchronous + asynchronous bulk/control transfers + helpers
+Date: Fri,  3 Jul 2026 04:00:04 +0100
+Message-ID: <20260703030020.2694-1-mike@fireburn.co.uk>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260617145946.1894-1-mike@fireburn.co.uk>
+References: <20260617145946.1894-1-mike@fireburn.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: typec: altmodes: select DRM_AUX_HPD_BRIDGE for
- TYPEC_DP_ALTMODE
-To: Julian Braha <julianbraha@gmail.com>, Chaoyi Chen <kernel@airkyi.com>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Xu Yang <xu.yang_2@oss.nxp.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260702022036.44-1-kernel@airkyi.com>
- <a6d660ae-44b5-4f42-a1b6-267d42f14c4b@gmail.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <a6d660ae-44b5-4f42-a1b6-267d42f14c4b@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9f259e5ff103a7kunmfb422583452fd9
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaHkMeVk9LSE5JSk5JSx9ITFYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlNSlVKTk9VSk9VQ01ZV1kWGg8SFR0UWUFZT0tIVUpLSU
-	9PT0hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=kxPS793/WFZk+d13GO7wNYWyqvnh690rsjeZTSnUHcn8d/qtxMgLpZ/jEGK3KCvsIAcZh27uE8d/cIUeir4VmdVGLUeYxzJISOQ9NHPjHGIa+yrUUIx+vOIDMrH8ZAUaLtkiXrQFeYa4KgV+etXAUTJG7K7tZfrkPzciiFAzJi0=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=3dQXESvAkAHvXMyUWuvW7indmh8vNbuDcU6V90FIbjo=;
-	h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
 
-Hello Julian,
+This is v2 of the USB transfer bindings, rebased onto current drm-next
+(no functional change from the version prepared but never sent after
+v1's review -- see "Changes since v1" below for what that review fixed).
+It adds the synchronous transfer primitives a driver needs at bring-up
+to the Rust USB abstraction (rust/kernel/usb.rs), which currently lets
+a driver bind a device (probe/disconnect) but provides no way to move
+data, so any real driver still has to drop to C:
 
-On 7/3/2026 2:46 AM, Julian Braha wrote:
-> Hi Chaovi,
-> 
-> On 7/2/26 03:20, Chaoyi Chen wrote:
->> most likely
->> also needed
-> 
->> +	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
-> 
-> Perhaps 'imply' would be more appropriate here instead of 'select'?
-> 
+  1/11  bulk_send() / bulk_recv()        over usb_bulk_msg()
+  2/11  control_send() / control_recv()  over usb_control_msg_send()/_recv()
+  3/11  set_interface()                  over usb_set_interface()
+  4/11  Interface::number()              bInterfaceNumber accessor
+  5/11  clear_halt()                     over usb_clear_halt()
+  6/11  interrupt_recv()                 over usb_interrupt_msg()
+  7/11  reset_configuration()            over usb_reset_configuration()
+  8/11  bulk_in_queue() / BulkInQueue    persistently-queued async bulk IN
+  9/11  bulk_out_queue() / BulkOutQueue  pipelined async bulk OUT
+ 10/11  Device private + transfers gated on Interface<Bound>
+ 11/11  let drivers choose the transfer allocation flags
 
-Will fix in v2. Thank you!
+usb::Device is kept private; the transfer methods are exposed on
+usb::Interface<Bound> so a transfer cannot be issued before the
+interface's device is bound to the driver. Each method documents its
+blocking/sleeping context, timeouts are taken as a Delta, transfer
+lengths are range-checked into the C int types, and every FFI call
+carries a SAFETY comment. All the transfer methods take the endpoint's
+bEndpointAddress as it appears in the descriptor (e.g. 0x84) and use
+its low four bits as the endpoint number, so the convention is uniform
+across bulk_send/bulk_recv, interrupt_recv and clear_halt.
 
--- 
-Best, 
-Chaoyi
+DMA-buffer handling: bulk_send/bulk_recv/interrupt_recv copy through an
+internally-allocated bounce buffer, so any &[u8]/&mut [u8] is accepted
+rather than pushing an unenforced DMA-capable-memory precondition onto
+callers. Patch 11 lets the caller choose the allocation flags for that
+bounce (GFP_KERNEL normally, GFP_NOIO/GFP_NOFS from a reset/resume or
+error-handling path) instead of hardcoding GFP_KERNEL, per Oliver
+Neukum's v1 review.
 
+Patches 8 and 9 add the asynchronous URB path (usb_submit_urb) for
+endpoints where the per-transfer device-ACK round-trip of the
+synchronous calls is too costly. bulk_in_queue() keeps depth IN URBs
+perpetually posted and hands each completion to BulkInQueue::recv();
+bulk_out_queue() pipelines OUT URBs submit-and-reap so a back-to-back
+burst is not serialised.
+
+The additions were developed for an out-of-tree in-kernel Rust
+DisplayLink DL3 dock driver, but are generic and not driver-specific.
+Each patch builds on its own, so the tree stays bisectable; the full
+series builds in-tree on drm-next (LLVM/Rust) with no new warnings.
+
+The consumer is the in-kernel Rust DisplayLink DL3 dock driver, posted
+alongside as drm/vino ("[RFC PATCH v2 00/6] drm/vino: DisplayLink DL3
+dock driver"). Source:
+  https://github.com/FireBurn/vino-scripts
+  https://github.com/FireBurn/linux/tree/vino
+  https://gitlab.freedesktop.org/FireBurn/linux/-/tree/vino
+
+Changes since v1:
+ - Keep usb::Device private (it was made public in v1); expose the
+   transfer methods on usb::Interface<Bound> instead, so they cannot be
+   called before the device is bound. New patch 10. (Danilo Krummrich)
+ - Interface::as_bound() lets a driver that defers transfers to a work
+   item reach the bound transfer surface, with a flush-before-unbind
+   contract.
+ - Drivers now choose the transfer allocation flags instead of a
+   hardcoded GFP_KERNEL. New patch 11. (Oliver Neukum)
+ - Rebased onto current drm-next; no other functional change.
+
+Mike Lothian (11):
+  rust: usb: add synchronous bulk transfer support
+  rust: usb: add synchronous control transfer support
+  rust: usb: add usb::Device::set_interface()
+  rust: usb: add usb::Interface::number()
+  rust: usb: add usb::Device::clear_halt()
+  rust: usb: add usb::Device::interrupt_recv()
+  rust: usb: add usb::Device::reset_configuration()
+  rust: usb: add an asynchronous persistently-queued bulk IN reader
+  rust: usb: add an asynchronous pipelined bulk OUT queue
+  rust: usb: keep usb::Device private and gate transfers on
+    Interface<Bound>
+  rust: usb: let drivers choose the transfer allocation flags
+
+ rust/helpers/usb.c |  35 ++
+ rust/kernel/usb.rs | 845 ++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 869 insertions(+), 11 deletions(-)
+
+--
+2.55.0
