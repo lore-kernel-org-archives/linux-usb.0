@@ -1,87 +1,96 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E74F3233E8;
-	Fri,  3 Jul 2026 04:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18972369D63;
+	Fri,  3 Jul 2026 05:48:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783054063; cv=none; b=CrH1PP7zpExB2Jdpklw1iKrhvnYODArH1OHDb+nRWmfHGtTvMfY5CHJ6VES75HzEacWnJI0+2Kfte8y+uBZoM22vhkZf50PttgaOzOiqYrTpSklfov3ha0JXkvLjpJNbgHrdoQGix6JFWUG/7JTeu15DXUt3bOY0buOlzv1G4Xk=
+	t=1783057689; cv=none; b=F7LkP91Y8dmiBQrf9ECp1Vx0Rpy6BmfSZ66A6P2VQgcK7MBNtGQlteu5q7oj+YzFNInJRTOO9L4mTUnnjWYINqMaroVPxAtVc5+5YYA9F2riOy416zlRkkXWYrieotCThtm4k/y8EoxsHKnGZv9BBpZ21ehEj1y2y6ntKWZrQ2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783054063; c=relaxed/simple;
-	bh=kt9LCCk1s44Bp5KJST04IwgwK73sg3CMSHFPJ0xPsxU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kWXIXXWr9xyZzUvXx72LImi0poaa+Hw8zgdMsgDsFCNPy+PNjEL2WYigOhzItMhIQ36OaoDdIhEZmkTLV5iURPoe7D3K7see7Ydf4RE6i3ixFReOAQcZty+YJKKpcp4Z8z84dQdvNxqj41TCYGCS5s/Vjld6uivKbvDoTq/LpAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=sGQVrFip; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=sGQVrFip; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1783057689; c=relaxed/simple;
+	bh=LQZc4rIna5P6w5GjBtRUSMmbad/eKzzcgHBBcPUi+a8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=FZs1/QU4EHSle4Q2opJIbYNUQiRBMs+1tx4Z4hNpF7Cw1qMwk4K1DnXe0BWeG+qZ1ocaBG3R5YLwEPJ6pr3xV3eQ1kdMrtrkbUN19nPavwD+iGnEBNPYOjcZwHJDkP4vx/31jk7nyVPnBx+le7GA13LIt9DdcJ+0I0LzznVVfow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=iM//2fm0; arc=none smtp.client-ip=203.29.241.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="sGQVrFip";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="sGQVrFip"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1783054042;
-	bh=kt9LCCk1s44Bp5KJST04IwgwK73sg3CMSHFPJ0xPsxU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sGQVrFiplneSXUNjWiv94bGAIFOr3uBem1HK7pa47ATqCVIM45q9uI5vDMaqEIcT1
-	 +czrG6lWIkTAzBcG2vPKNSoFnQtmoeEixEPBU8ThjgvqH6nyX5K7HkrkZX2+kbUu2e
-	 9g23UvoylGIjQtFjCjBECFxFyMCPJOaJ2nGmBkdDeNspGJRAKG7azIsdBsVNXqunLl
-	 7uWUWYfDyb6Ta1vFy27nEKk8w71fLwGwr0E4JGEbI+UcAkQ0K/zbwRhYh3n84c38VA
-	 4g1g4yyT0Y1MNZKbibVkI50krOmQnrPE8dIZSHwPS1mEelf2Rnx6xqAIu48wqh6H97
-	 fRx8Fb45mSPfg==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id C2B34493C2; Fri,  3 Jul 2026 04:47:22 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1783054042;
-	bh=kt9LCCk1s44Bp5KJST04IwgwK73sg3CMSHFPJ0xPsxU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sGQVrFiplneSXUNjWiv94bGAIFOr3uBem1HK7pa47ATqCVIM45q9uI5vDMaqEIcT1
-	 +czrG6lWIkTAzBcG2vPKNSoFnQtmoeEixEPBU8ThjgvqH6nyX5K7HkrkZX2+kbUu2e
-	 9g23UvoylGIjQtFjCjBECFxFyMCPJOaJ2nGmBkdDeNspGJRAKG7azIsdBsVNXqunLl
-	 7uWUWYfDyb6Ta1vFy27nEKk8w71fLwGwr0E4JGEbI+UcAkQ0K/zbwRhYh3n84c38VA
-	 4g1g4yyT0Y1MNZKbibVkI50krOmQnrPE8dIZSHwPS1mEelf2Rnx6xqAIu48wqh6H97
-	 fRx8Fb45mSPfg==
-Received: from [IPV6:2003:c6:9f1c:3c00:1327:6f6f:388d:c5cc] (p200300c69f1c3c0013276f6f388dc5cc.dip0.t-ipconnect.de [IPv6:2003:c6:9f1c:3c00:1327:6f6f:388d:c5cc])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 5DF12493B2;
-	Fri,  3 Jul 2026 04:47:21 +0000 (UTC)
-Message-ID: <b836d445-10b8-46a7-8e95-9af66b6b70c2@birger-koblitz.de>
-Date: Fri, 3 Jul 2026 06:47:18 +0200
+	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="iM//2fm0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1783057670;
+	bh=3vAgljkxOZKzaYntzYofEQoz0xcOMVn5Ns3RtQoLP38=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=iM//2fm0Hby4xanoisrXHGgfLJ8rdTLTJi2Vz04L8g6w87GFucs36e1/MH+kWjz71
+	 6qyCPLjBIA1b0Msyxv7hI9enhw9jbe5oTTWxuYKYAu3yNEBKi6XV9TB7uNGNGva4EW
+	 l4JdByfOBYI2KXJJ3lxfeb5v79IhrcWkqg1XqG2iL6d/WBTeUWxFk4D4Jc8W8KUrRF
+	 JuTRb8H0vDNx/BsrT+GnYfzqXf5vfB+hB5vKdY/kSwkzFUzhBJjXI4xahR1YSEaGyJ
+	 CeyA1Xu4+xZ5vTkpozBm9zmZzU0REYAopTkdvYf5rnZVK8N+OcUIirggFDdx8tPoXV
+	 Sx/U57PV3G0KQ==
+Received: by codeconstruct.com.au (Postfix, from userid 10000)
+	id 5279B6628A; Fri,  3 Jul 2026 13:47:50 +0800 (AWST)
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+Date: Fri, 03 Jul 2026 13:47:22 +0800
+Subject: [PATCH net-next v2 02/12] net: mctp: usb: Use packet-length max
+ for maximum packet-size check
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: RTL8159 firmware
-To: Aleksander Jan Bajkowski <olek2@wp.pl>, Andrew Lunn <andrew@lunn.ch>
-Cc: Jan Hendrik Farr <kernel@jfarr.cc>, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, hsu.chih.kai@realtek.com,
- kuba@kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, pabeni@redhat.com
-References: <20260505-rtl8159_net_next-v4-3-1a648a9c4d8d@birger-koblitz.de>
- <20260701171327.2916132-1-kernel@jfarr.cc>
- <5dc0e654-0bdb-422c-9049-94ee6d8867e4@birger-koblitz.de>
- <8f349e00-1710-428d-8c70-5d1b1f4d42f3@lunn.ch>
- <6677d82e-2b8c-4173-ba6d-6743a5059bc1@birger-koblitz.de>
- <8c0381cc-3612-4ddf-85ed-df09bd0a9dbe@wp.pl>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <8c0381cc-3612-4ddf-85ed-df09bd0a9dbe@wp.pl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260703-dev-mctp-usb-1-1-v2-2-60367b861b33@codeconstruct.com.au>
+References: <20260703-dev-mctp-usb-1-1-v2-0-60367b861b33@codeconstruct.com.au>
+In-Reply-To: <20260703-dev-mctp-usb-1-1-v2-0-60367b861b33@codeconstruct.com.au>
+To: Matt Johnston <matt@codeconstruct.com.au>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org
+X-Mailer: b4 0.16-dev
 
-On 01/07/2026 23:06, Aleksander Jan Bajkowski wrote:
-> Hi Birger,
-> Realtek recently released firmware for the RTL8261C[1]. I expect
-> the RTL8159 has an RTL8261x PHY built in. Do you know whether
-> the RTL8159 firmware consists only the PHY firmware?
-> 
-> 1. https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/rtl_nic/rtl8261c.bin
-I tried to analyze the FW with my own tool and it is not in the same
-format as the one used by the r8152 driver. Dumping strings also
-does not show any discernible other type of headers. Also the length
-is not right, it is by a factor of 3 too large. So, I do not believe
-that this is the solution.
+The max packet size is smaller than the max transfer size, as we only
+have a u8 length field in the transport header.
 
-Birger
+Add a define for the maximum representable length, and use that for our
+check. Use this for the MTU maximum calculation too.
+
+Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
+---
+ drivers/net/mctp/mctp-usb.c  | 2 +-
+ include/linux/usb/mctp-usb.h | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/mctp/mctp-usb.c b/drivers/net/mctp/mctp-usb.c
+index 545eff06322c..c6e36b63e87a 100644
+--- a/drivers/net/mctp/mctp-usb.c
++++ b/drivers/net/mctp/mctp-usb.c
+@@ -76,7 +76,7 @@ static netdev_tx_t mctp_usb_start_xmit(struct sk_buff *skb,
+ 
+ 	plen = skb->len;
+ 
+-	if (plen + sizeof(*hdr) > MCTP_USB_1_0_XFER_SIZE)
++	if (plen + sizeof(*hdr) > MCTP_USB_1_0_PKTLEN_MAX)
+ 		goto err_drop;
+ 
+ 	rc = skb_cow_head(skb, sizeof(*hdr));
+diff --git a/include/linux/usb/mctp-usb.h b/include/linux/usb/mctp-usb.h
+index 47e2e3931d63..2bece8afd1c7 100644
+--- a/include/linux/usb/mctp-usb.h
++++ b/include/linux/usb/mctp-usb.h
+@@ -25,7 +25,8 @@ struct mctp_usb_hdr {
+ #define MCTP_USB_1_0_XFER_SIZE	512
+ #define MCTP_USB_BTU		68
+ #define MCTP_USB_MTU_MIN	MCTP_USB_BTU
+-#define MCTP_USB_1_0_MTU_MAX	(U8_MAX - sizeof(struct mctp_usb_hdr))
++#define MCTP_USB_1_0_PKTLEN_MAX	U8_MAX
++#define MCTP_USB_1_0_MTU_MAX	(MCTP_USB_1_0_PKTLEN_MAX - sizeof(struct mctp_usb_hdr))
+ #define MCTP_USB_DMTF_ID	0x1ab4
+ 
+ #endif /*  __LINUX_USB_MCTP_USB_H */
+
+-- 
+2.47.3
 
