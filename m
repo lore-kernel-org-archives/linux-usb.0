@@ -1,63 +1,62 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62DD277C9E
-	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 03:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FCD21D9A5F
+	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 03:00:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783047657; cv=none; b=sJpgLR8VIW8lwhUZFqBVx43awBQtdYeHCaIWZ5e89S+FVNSuZpGT3GVUeWSkq9FGt0dN3cxsbLps8FnIAX0NZrDbrXp6UkNFAgdyPeFa+pNgCITt/ANSeIbtfUofLfsrUucwrpUMCJIEalqiU1hNFjhhJ0KvfpyyNAdUelqat1w=
+	t=1783047658; cv=none; b=WieTOGO2y3z65DzHBgDW7nVouhFEs7frWJSlqmyZGQjwMw5S7fJcuD8AzUABDkiyhHbfuPl7xXCxs0k8W6AUUm8kPIeJw/9hAudpPD/eusP9OH/bP1IUGJVGuE4H1Azk8trQiT+xm2/8BtG60AZSTjvLNpRsYtPzsxlPp6FRGmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783047657; c=relaxed/simple;
-	bh=8LVhBo2T7BTsl0fsGC8udf8w8n1qiuJizusICzWjqjw=;
+	s=arc-20240116; t=1783047658; c=relaxed/simple;
+	bh=aCC4q/ul6R6V+JxntXyLk1yBb3Ole6vI5dzaz+cOBTA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jr5KwFIFa/2D5ueu6mShAiGF7xEr1Prye+wBRMkk+DJTuWvICGU/hBlEvHjjnN6yDBFnQU8Dy2j5NY2u6yYXThx52S8ZHFAz/uYEohmZfyWLXqWcDpJHLNBQDKRYZWVfDjbySjHwXq7pg5zHJq4dTcLhGS6nj/k7HapMgkRPttc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=B+s3/+4d; arc=none smtp.client-ip=209.85.221.54
+	 MIME-Version:Content-Type; b=m+pA0SdRcad64nRy2JeGiuxtWa6RHqdzpzdBHW89Qn7IsmFCKvbGl+I2arO5TYeKfgXw2Up/r+jqU4oA4T1bc3N/I5vRfSRGgt7savOm/2wDFZ3RexT0/hYsIHqDQpFTy8M4JAC5AW3A9Svk0fl/1daoOmDkow9bNVZAbSQpqN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=TPFj+2hp; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fireburn.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="B+s3/+4d"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4763b0c1dcdso105583f8f.2
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2026 20:00:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="TPFj+2hp"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493c19bad03so410975e9.2
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2026 20:00:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1783047647; x=1783652447; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=7LHUu/yCCTdJ2WalGExcdxSMqsYpWWRCtKfTbZ2Ax8Q=;
-        b=B+s3/+4djZsBXEh+b6EPkSJedyBTmcdyc/1CJjRi3xTYUuam2C9LdZMWmGhh2wmVCD
-         GOZ2DRJtvVrm5zmlzvgMXkfa9s1qtbFnik5K+xFMbWBfgNj+dbAs2HjHZR+oLoVKIUSj
-         daQmpiT77Woh6A9ayE2K481hEnVqNwepznmyqVY06BygItZ27T18zpS6raszusXoBr7z
-         9L7SqcYqQivVNQky4GIOlFhUPELrTRuPuTyOq2jt6H815zkCvYvCPsHxt1soxb/WxOne
-         O8/G7u2CCA2gjeHRSRodviqkVTYsmtSHzscVjMBJh2WH+FA/q7ftQp+/+VkwWcLEd5RS
-         BPkQ==
+        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1783047651; x=1783652451; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZsZ4yoLHgQH5Efxe8E/7tqABE1F1gZe/Y3PpKR4M7ck=;
+        b=TPFj+2hpRSRL++l580BsyA0ZTHqb0/raezsK5zOxt6aV36embzExRB6XafR8/IlDPU
+         NqDdCyDZ1XaKQbLuz6E3dTxzxuTeXPkyn91VfO7rxakBnxftX5+TQWYq/h2haV4wnWTx
+         V2tVMQsI8vIceabD0yIiCMJ8NmjVDeyG8trRuek0Mog5cviAyzeaHYQsygIyXw/LsfBn
+         ihkOxDE2BD1KsM8VOrYa41HPL06kjAMnlC+chOSDmv2p4I4peQhdnDEfuEioOV330yjF
+         nc/3JVP5+nszkCp9qHoPC017r+FDCQYVquZ5o1diQt7dRiDHt+A3MtbPUjF0O85wLB2v
+         jZ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783047647; x=1783652447;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7LHUu/yCCTdJ2WalGExcdxSMqsYpWWRCtKfTbZ2Ax8Q=;
-        b=Yb0EjqPtz326mRlDaBYoaOHObXM1EDFj3bn/y1dG7/T3Leicy+Q1/fusZfh37N95L+
-         PPaOs2QBSDWQysU11DUWW2/8GePf33ola8664mRpo4uVbcSkYVRiosiOzjiUn7j3+FoF
-         +IgteQ9GK4mD82IYGUqlZC42PjOLLJv4LuSSTWBvOhGmVmjTe5Ij8rUZWuNtT1xscdNK
-         EjZeQg7IBTtyebYMRL8MolzMEFVdUuaoxVz8BAM+o2082spavLAQgxda5Qr417uqnA8/
-         U2HN6jMc5lkL2pfrU51rikk3Y+Sz4DlcaQAwMPV5fytWu6d0VN2WDVTuBOYiJPGswJrX
-         jMZw==
-X-Gm-Message-State: AOJu0YyQ9HPpEQaaVxBw2szo9/sZ6LRcq4TmlZ+oGm4Z2eLnv1RlHoHt
-	SyA7hwrv9Yy80XvP2GeKCtaGJbKxH0zwOXZA0zodbKUMWhv4fECxTb5aPwvZBvb+DQ==
-X-Gm-Gg: AfdE7ck7DD/bNtE8l4XYL2jJ6v9TddRTs1bvKHO1unUEmaC++i35sZCZ11ARSjxX0fb
-	mE7b0GKYjIKF1TDEXiECtSfOAVWfaeOwsDya7jRHYN7Z8IpPiybNP4U+8Np2gtSwLwCV5aICEAr
-	sxgJpBgFr6xl1PiPCUfGVMxH4e+xBFVXd4op42JkZPT0bdo+Um+lzjR05f4pxaiROldjtQgyLNr
-	D2eqMrRCJeJ5XbZHvUlBj98MGzk5MRIoj0WfaeaNjJ8QYXCMfYFT7ZfLRLVKFwJhymTOg4XgAVM
-	7jP6YL1iPuwHXCaYMQvn9OvBkH3jQXqMahorGCtkDlNbGy0kX6+gUd+F8o+uHvUpxiF+0AM7UP1
-	KQph/7O08jV2t0XxCL4NOiLZOwFVIhEROKT2GhBAZtJXxuTBqts6opWpFVauxZgWAezD+lDmd/9
-	FarcZGw5Wj0HkdLatk0Zgci4sN1MATPq3vOVQxsX4V2zVYS6un6Pn7lY5O
-X-Received: by 2002:a5d:6f1c:0:b0:478:6c1:6e34 with SMTP id ffacd0b85a97d-47806c17142mr8918741f8f.13.1783047646961;
-        Thu, 02 Jul 2026 20:00:46 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783047651; x=1783652451;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZsZ4yoLHgQH5Efxe8E/7tqABE1F1gZe/Y3PpKR4M7ck=;
+        b=tNC1b+wwJhdYkP6Ta2PAHW7MskctVW5+oGah6CkSntDFZ3ppbQpsjRRvh3r6mvxVRZ
+         q9TSjv50ChSyuhjISPrUO46voUJhPkVAacViT4gS4qnuavTxCyCvZrxVXG1Olo6fetNo
+         fwqMWf54N04J1Bj4pm1zLcR9KxosqOU8XVic5RuDHIrjb4MHbLeP90VPr/pdWr6xSxIV
+         sF/3KsljECU/eAb28VipdhHDlY49J9CQYjuOqmmbz3NGLTqpMF/X9Nh1w7Qv+xwTQrcH
+         FN3R1z/Avl7UcRE7ED+ZX7pkCx9szB+6erMqBJjfveZ1/IxPzyAatSt0KlAW/kZpqtuc
+         eIYA==
+X-Gm-Message-State: AOJu0YylPVsHY+hHYYBZrQ0w4/UBmVw0ZZ4EpZ6MKNGQGiluh5KlqbGA
+	9HNsb+iV91M6mw8UqQLVvu7Ubvq9dJ3RibQGzO7j+drWwAzjT+jWZRaN9yyE5TGq/w==
+X-Gm-Gg: AfdE7ckQcOEp/xp+jfMuaCLd2Lwfg6NUmZ5jto5AkLqicBk0jZhsAk6ISfzYAZFUMY4
+	m5/iDMegx0ncLgW5GIcGTM/Oxxo8IwUR1/R3Nxhd91TvcsEsN13W8Rhw/7bvXCKYIYDjScnomvR
+	PCvldRT7qCSBsUrOniUH/840dz8GECe82pNt07Owom/RXu4GDlphyHQjPwxAO0B0P8JOOyE0jIS
+	M6yaKMppI9LqQ5E2BM3xDeIzSQnQh4uJ5AuhvOptjp02vl043/+wPXmDhBb6NX3eDeRb/gfwfNs
+	gbpEWtx02yPXy2cpa7AplUFDs4znoa0vM2UWOz9aHPbmyLrHR7wSezAXOIPdpWTIXJq2IczKd+s
+	xuJtbE0W+yAJ5k4kKXklsIr2AXYB8cFBRS44kwQJIzORDvMR4URXCbaS3s6UVdHdDSNixytPOFT
+	YSYvgXPYxJDZjFN8CNSBPMHcmrS3hR54WLoe5eyDAfZ0zXYthAxdDXiN5Fjvka6ZncDQw=
+X-Received: by 2002:a05:600c:6d8c:b0:492:68f5:6b30 with SMTP id 5b1f17b1804b1-493c2b57006mr81105875e9.17.1783047650780;
+        Thu, 02 Jul 2026 20:00:50 -0700 (PDT)
 Received: from axion.fireburn.co.uk ([137.220.119.72])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477db8a44d7sm13128569f8f.9.2026.07.02.20.00.43
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477db8a44d7sm13128569f8f.9.2026.07.02.20.00.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 20:00:45 -0700 (PDT)
+        Thu, 02 Jul 2026 20:00:49 -0700 (PDT)
 From: Mike Lothian <mike@fireburn.co.uk>
 To: rust-for-linux@vger.kernel.org
 Cc: linux-usb@vger.kernel.org,
@@ -75,9 +74,9 @@ Cc: linux-usb@vger.kernel.org,
 	Alexandre Courbot <acourbot@nvidia.com>,
 	linux-kernel@vger.kernel.org,
 	Mike Lothian <mike@fireburn.co.uk>
-Subject: [RFC PATCH v2 08/11] rust: usb: add an asynchronous persistently-queued bulk IN reader
-Date: Fri,  3 Jul 2026 04:00:12 +0100
-Message-ID: <20260703030020.2694-9-mike@fireburn.co.uk>
+Subject: [RFC PATCH v2 10/11] rust: usb: keep usb::Device private and gate transfers on Interface<Bound>
+Date: Fri,  3 Jul 2026 04:00:14 +0100
+Message-ID: <20260703030020.2694-11-mike@fireburn.co.uk>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260703030020.2694-1-mike@fireburn.co.uk>
 References: <20260617145946.1894-1-mike@fireburn.co.uk>
@@ -91,279 +90,294 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-`usb::Device::bulk_recv()` posts a single URB for the duration of the
-call, leaving the IN endpoint un-posted between calls. A device that
-pushes a large reply while the host is blocked on an OUT transfer can
-then stall the bus in a FIFO deadlock.
+Address the v1 RFC review (Danilo Krummrich):
 
-Add `usb::Device::bulk_in_queue()`, which allocates `depth` URBs (each
-with its own kmalloc'd DMA buffer) and submits them all up front, keeping
-`depth` IN transfers continuously posted to the device -- the
-always-pending-IN behaviour of a libusb async event loop. The returned
-`BulkInQueue::recv()` waits for the next completion, copies it out, and
-immediately re-submits that URB so the endpoint stays posted. Completion
-callbacks run in interrupt context and do nothing but signal a per-URB
-completion; all data handling and re-submission happen in process
-context, so no IRQ-context locking is required. `Drop` cancels every URB
-(`usb_kill_urb`) and only then frees them and releases the device
-reference.
+ - Do not make `usb::Device` public. Writing a `usb::Interface` driver should
+   not require naming the underlying `usb::Device` (cf. commit 22d693e45d4a
+   ("rust: usb: keep usb::Device private for now")), so the struct is
+   private again and the device-wide transfer operations are exposed on
+   the interface.
 
-The URBs are filled with `usb_fill_bulk_urb()` and re-armed with
-`reinit_completion()`, both reached through `rust_helper_` shims since
-they are static inlines; the queue owns its URBs for its whole lifetime
-in a fixed slot pool, so teardown kills them directly rather than via a
-`usb_anchor` (whose group-wait primitive does not fit the per-completion
-delivery this reader needs).
+ - Gate the transfer methods (`bulk_send`/`bulk_recv`/`interrupt_recv`/
+   `control_send`/`control_recv`/`set_interface`/`reset_configuration`/
+   `clear_halt`/`bulk_in_queue`/`bulk_out_queue`) on `Interface<Bound>`, so a
+   transfer cannot be issued before the interface's device is bound to the
+   driver. Each forwards to the (now private) `Device` helper.
 
-This is consumed by the Vino DisplayLink DL3 driver, whose EP84
-control-plane endpoint must stay drained concurrently with the
-OUT-direction handshake bursts.
+ - Add `Interface::as_bound()` for drivers that keep a refcounted
+   `ARef<Interface>` and perform transfers from a deferred context (a work
+   item), with a safety contract requiring the work be flushed before unbind.
 
 Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
 Assisted-by: Claude:claude-opus-4-8 [Claude-Code]
 ---
- rust/helpers/usb.c |  17 ++++
- rust/kernel/usb.rs | 193 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 210 insertions(+)
+ rust/kernel/usb.rs | 162 +++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 140 insertions(+), 22 deletions(-)
 
-diff --git a/rust/helpers/usb.c b/rust/helpers/usb.c
-index ac7b30334882..1501f5438e43 100644
---- a/rust/helpers/usb.c
-+++ b/rust/helpers/usb.c
-@@ -1,5 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- 
-+#include <linux/completion.h>
- #include <linux/usb.h>
- 
- __rust_helper struct usb_device *
-@@ -8,6 +9,22 @@ rust_helper_interface_to_usbdev(struct usb_interface *intf)
- 	return interface_to_usbdev(intf);
- }
- 
-+__rust_helper void
-+rust_helper_usb_fill_bulk_urb(struct urb *urb, struct usb_device *dev,
-+			      unsigned int pipe, void *transfer_buffer,
-+			      int buffer_length, usb_complete_t complete_fn,
-+			      void *context)
-+{
-+	usb_fill_bulk_urb(urb, dev, pipe, transfer_buffer, buffer_length,
-+			  complete_fn, context);
-+}
-+
-+__rust_helper void
-+rust_helper_reinit_completion(struct completion *x)
-+{
-+	reinit_completion(x);
-+}
-+
- __rust_helper unsigned int
- rust_helper_usb_sndbulkpipe(struct usb_device *dev, unsigned int endpoint)
- {
 diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
-index 5dc5b496b970..d77cda9ac15d 100644
+index 6c49de422b30..1fcaf34433cc 100644
 --- a/rust/kernel/usb.rs
 +++ b/rust/kernel/usb.rs
-@@ -714,6 +714,199 @@ pub fn reset_configuration(&self) -> Result {
-         // host-side endpoint state for this device.
-         to_result(unsafe { bindings::usb_reset_configuration(self.as_raw()) })
+@@ -368,6 +368,130 @@ pub fn number(&self) -> u8 {
+             (*altsetting).desc.bInterfaceNumber
+         }
      }
 +
-+    /// Opens a persistently-queued asynchronous bulk IN reader on `endpoint`.
++    /// Returns a [`Bound`](device::Bound)-context view of this interface, on which
++    /// the device-wide transfer operations (`bulk_send`, `control_recv`, …) become
++    /// callable.
 +    ///
-+    /// Allocates `depth` URBs, each with its own `buf_len`-byte DMA buffer, and submits
-+    /// them all up front. The host controller then keeps `depth` IN transfers posted to
-+    /// the device continuously — matching the always-pending-IN behaviour of a libusb
-+    /// async event loop, and unlike the synchronous [`bulk_recv`] which posts a single
-+    /// URB only for the duration of each call (leaving the IN endpoint un-posted between
-+    /// calls — a window in which a device that pushes a large reply while the host is
-+    /// blocked sending an OUT can stall the bus in a FIFO deadlock).
++    /// During `probe()` the interface is already available in a bound context
++    /// ([`Core`](device::Core) dereferences to [`Bound`](device::Bound)), so this
++    /// is only needed by drivers that keep a refcounted [`ARef<Interface>`] and
++    /// perform transfers from a deferred context (e.g. a work item).
 +    ///
-+    /// Completion callbacks run in interrupt context but do nothing except signal a
-+    /// per-URB completion; all data handling and re-submission happen in process context
-+    /// inside [`BulkInQueue::recv`], so no IRQ-context locking is required.
++    /// # Safety
 +    ///
-+    /// Must be called from process (sleepable) context. `endpoint` is the bulk endpoint
-+    /// number (low nibble of the address, e.g. `4` for `0x84`).
++    /// The caller must ensure the interface stays bound to this driver for the
++    /// entire lifetime of the returned reference — for example by cancelling and
++    /// flushing any such deferred work in `disconnect()`. Issuing a transfer on an
++    /// unbound interface is undefined behaviour.
 +    ///
-+    /// [`bulk_recv`]: Self::bulk_recv
-+    /// [`BulkInQueue::recv`]: BulkInQueue::recv
++    /// [`ARef<Interface>`]: crate::sync::aref::ARef
++    pub unsafe fn as_bound(&self) -> &Interface<device::Bound> {
++        // SAFETY: `Interface<Ctx>` is `#[repr(transparent)]` over the same
++        // `Opaque<usb_interface>` regardless of the `Ctx` marker, so this cast only
++        // changes the zero-sized context type; the caller upholds boundness.
++        unsafe { &*(self as *const Self as *const Interface<device::Bound>) }
++    }
++}
++
++/// Device-wide USB transfer operations, exposed only on a [`Bound`](device::Bound)
++/// interface so a transfer cannot be issued before the interface's device is bound
++/// to this driver. Each method forwards to the (sleeping) USB core helper for the
++/// interface's [`struct usb_device`]; all must be called from process context.
++impl Interface<device::Bound> {
++    fn device(&self) -> &Device {
++        // SAFETY: `self.as_raw()` is a valid `struct usb_interface` by the type
++        // invariant; `interface_to_usbdev()` returns its valid `struct usb_device`,
++        // and `Device` is `#[repr(transparent)]` over `Opaque<usb_device>`. The
++        // borrow is tied to `&self`, which keeps the interface (and device) alive.
++        let usb_dev = unsafe { bindings::interface_to_usbdev(self.as_raw()) };
++        // SAFETY: `usb_dev` is a valid `struct usb_device` pointer (see above).
++        unsafe { &*(usb_dev.cast::<Device>()) }
++    }
++
++    /// Clears a halt/stall on bulk `endpoint` (both the device-side stall and the
++    /// host-side data toggle). The direction is taken from bit 7 of the endpoint
++    /// address, so it works for IN and OUT endpoints. Sleeps.
++    pub fn clear_halt(&self, endpoint: u8) -> Result {
++        self.device().clear_halt(endpoint)
++    }
++
++    /// Issues a synchronous bulk OUT transfer of `data` to `endpoint`, returning
++    /// the number of bytes transferred. `data` must be DMA-capable. Sleeps.
++    pub fn bulk_send(&self, endpoint: u8, data: &[u8], timeout: Delta) -> Result<usize> {
++        self.device().bulk_send(endpoint, data, timeout)
++    }
++
++    /// Issues a synchronous bulk IN transfer into `data`, returning the number of
++    /// bytes received. `data` must be DMA-capable. Sleeps.
++    pub fn bulk_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> Result<usize> {
++        self.device().bulk_recv(endpoint, data, timeout)
++    }
++
++    /// Issues a synchronous interrupt IN transfer into `data`, returning the number
++    /// of bytes received. `data` must be DMA-capable. Sleeps.
++    pub fn interrupt_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> Result<usize> {
++        self.device().interrupt_recv(endpoint, data, timeout)
++    }
++
++    /// Issues a synchronous control OUT transfer on the default control endpoint.
++    /// The buffer is copied internally, so `data` need not be DMA-capable. Sleeps.
++    pub fn control_send(
++        &self,
++        request: u8,
++        request_type: u8,
++        value: u16,
++        index: u16,
++        data: &[u8],
++        timeout: Delta,
++    ) -> Result {
++        self.device()
++            .control_send(request, request_type, value, index, data, timeout)
++    }
++
++    /// Issues a synchronous control IN transfer on the default control endpoint,
++    /// filling `data` with exactly `data.len()` bytes. Sleeps.
++    pub fn control_recv(
++        &self,
++        request: u8,
++        request_type: u8,
++        value: u16,
++        index: u16,
++        data: &mut [u8],
++        timeout: Delta,
++    ) -> Result {
++        self.device()
++            .control_recv(request, request_type, value, index, data, timeout)
++    }
++
++    /// Selects alternate setting `alternate` of interface `interface`
++    /// (`SET_INTERFACE`). Sleeps.
++    pub fn set_interface(&self, interface: u8, alternate: u8) -> Result {
++        self.device().set_interface(interface, alternate)
++    }
++
++    /// Re-issues `SET_CONFIGURATION` for the current configuration, resetting all
++    /// endpoint data toggles without re-enumerating the device. Sleeps.
++    pub fn reset_configuration(&self) -> Result {
++        self.device().reset_configuration()
++    }
++
++    /// Opens a persistently-queued asynchronous bulk IN reader on `endpoint`
++    /// ([`BulkInQueue`]). Must be called from process context.
 +    pub fn bulk_in_queue(&self, endpoint: u8, depth: usize, buf_len: usize) -> Result<BulkInQueue> {
-+        let dev = self.as_raw();
-+
-+        // SAFETY: `dev` is a valid `struct usb_device` by the type invariant; take a
-+        // refcount so the device outlives the queue (released in `BulkInQueue::drop`).
-+        unsafe { bindings::usb_get_dev(dev) };
-+
-+        // SAFETY: `dev` is valid by the type invariant.
-+        let pipe = unsafe { bindings::usb_rcvbulkpipe(dev, endpoint.into()) };
-+
-+        // Build the queue first so that on any early error its `Drop` cleans up whatever
-+        // has been allocated/submitted so far (and releases the device refcount).
-+        let mut q = BulkInQueue {
-+            dev: NonNull::new(dev).ok_or(ENODEV)?,
-+            slots: KVec::with_capacity(depth, GFP_KERNEL)?,
-+            cursor: 0,
-+        };
-+
-+        for _ in 0..depth {
-+            // DMA-capable IN buffer (kmalloc-backed `KVec`; contents are overwritten by
-+            // the device, so zero-fill is just to establish `len == buf_len`).
-+            let mut buf = KVec::from_elem(0u8, buf_len, GFP_KERNEL)?;
-+
-+            // Per-URB completion, signaled by the IRQ-context callback. Heap-allocated so
-+            // its address is stable for the lifetime the URB references it via `context`.
-+            let done: KBox<Opaque<bindings::completion>> =
-+                KBox::new(Opaque::uninit(), GFP_KERNEL)?;
-+            // SAFETY: `done.get()` is a valid, uninitialized `struct completion`.
-+            unsafe { bindings::init_completion(done.get()) };
-+
-+            // SAFETY: standard URB allocation; returns NULL on OOM.
-+            let urb = unsafe { bindings::usb_alloc_urb(0, bindings::GFP_KERNEL) };
-+            let urb = NonNull::new(urb).ok_or(ENOMEM)?;
-+
-+            // Fill the URB as a bulk IN transfer. `done` is the per-URB completion the
-+            // callback signals; `buf`/`done` outlive the URB (owned by the slot below).
-+            // SAFETY: `urb` is a freshly-allocated URB; `dev`, `buf` and `done` are valid
-+            // and outlive it.
-+            unsafe {
-+                bindings::usb_fill_bulk_urb(
-+                    urb.as_ptr(),
-+                    dev,
-+                    pipe,
-+                    buf.as_mut_ptr().cast(),
-+                    buf_len.try_into()?,
-+                    Some(bulk_in_complete),
-+                    done.get().cast(),
-+                );
-+            }
-+
-+            q.slots.push(UrbSlot { urb, buf, done }, GFP_KERNEL)?;
-+        }
-+
-+        // Submit every URB. On failure, `q`'s Drop kills/frees the already-submitted ones.
-+        for slot in q.slots.iter() {
-+            // SAFETY: `slot.urb` is a valid, filled URB; submitting transfers ownership of
-+            // the buffer to the controller until completion.
-+            to_result(unsafe {
-+                bindings::usb_submit_urb(slot.urb.as_ptr(), bindings::GFP_KERNEL)
-+            })?;
-+        }
-+
-+        Ok(q)
++        self.device().bulk_in_queue(endpoint, depth, buf_len)
 +    }
-+}
 +
-+/// One slot of a [`BulkInQueue`]: a URB, its DMA buffer, and the completion the URB's
-+/// callback signals. The buffer and completion outlive the URB's submission; both are
-+/// freed only after the URB is killed in [`BulkInQueue::drop`].
-+struct UrbSlot {
-+    urb: NonNull<bindings::urb>,
-+    buf: KVec<u8>,
-+    done: KBox<Opaque<bindings::completion>>,
-+}
-+
-+/// A persistently-queued asynchronous bulk IN reader. See [`Device::bulk_in_queue`].
-+///
-+/// Keeps `depth` IN URBs posted to the device at all times: [`recv`] waits for the next
-+/// one to complete, copies its data out, and immediately re-submits it, so at least
-+/// `depth - 1` transfers stay outstanding while one is being serviced.
-+///
-+/// [`recv`]: BulkInQueue::recv
-+pub struct BulkInQueue {
-+    dev: NonNull<bindings::usb_device>,
-+    slots: KVec<UrbSlot>,
-+    cursor: usize,
-+}
-+
-+impl BulkInQueue {
-+    /// Waits up to `timeout` for the next queued IN transfer and copies up to `out.len()`
-+    /// bytes of it into `out`.
-+    ///
-+    /// Returns `Ok(Some(n))` when a transfer completed (`n` bytes copied; the URB is
-+    /// re-submitted before returning so the endpoint stays posted), `Ok(None)` on timeout
-+    /// (the URB is left outstanding — call again to keep waiting on it), or `Err` if the
-+    /// completed transfer carried an error status (the URB is still re-submitted).
-+    ///
-+    /// Must be called from process (sleepable) context.
-+    pub fn recv(&mut self, out: &mut [u8], timeout: Delta) -> Result<Option<usize>> {
-+        let i = self.cursor;
-+        let jiffies = unsafe {
-+            bindings::__msecs_to_jiffies(timeout.as_millis().try_into().unwrap_or(u32::MAX))
-+        };
-+
-+        let slot = &self.slots[i];
-+
-+        // SAFETY: `slot.done` is a valid, initialized completion.
-+        let remaining = unsafe { bindings::wait_for_completion_timeout(slot.done.get(), jiffies) };
-+        if remaining == 0 {
-+            // Timed out: the URB is still outstanding (posted). Leave it; the caller can
-+            // retry and we keep waiting on the same slot.
-+            return Ok(None);
-+        }
-+
-+        let urb = slot.urb.as_ptr();
-+        // SAFETY: the completion fired, so the controller is done with this URB; reading
-+        // its result fields and buffer is now race-free until we re-submit below.
-+        let status = unsafe { (*urb).status };
-+        let len = unsafe { (*urb).actual_length } as usize;
-+        let n = core::cmp::min(len, out.len());
-+        out[..n].copy_from_slice(&slot.buf[..n]);
-+
-+        // Re-arm: reset the completion (the URB is not outstanding right now, so nothing
-+        // races this) and re-submit to keep the endpoint posted.
-+        // SAFETY: `slot.done` is a valid, initialized completion.
-+        unsafe { bindings::reinit_completion(slot.done.get()) };
-+        // SAFETY: `urb` is valid and not currently submitted.
-+        let rc = unsafe { bindings::usb_submit_urb(urb, bindings::GFP_KERNEL) };
-+
-+        self.cursor = (i + 1) % self.slots.len();
-+
-+        to_result(rc)?;
-+        if status != 0 {
-+            return Err(Error::from_errno(status));
-+        }
-+        Ok(Some(n))
++    /// Opens an asynchronous, pipelined bulk OUT writer on `endpoint`
++    /// ([`BulkOutQueue`]). Must be called from process context.
++    pub fn bulk_out_queue(
++        &self,
++        endpoint: u8,
++        depth: usize,
++        buf_len: usize,
++    ) -> Result<BulkOutQueue> {
++        self.device().bulk_out_queue(endpoint, depth, buf_len)
 +    }
-+}
-+
-+impl Drop for BulkInQueue {
-+    fn drop(&mut self) {
-+        // Cancel every URB first (waits for any in-flight completion callback to finish),
-+        // THEN free them. Only after this do the slots' buffers/completions get dropped
-+        // (struct fields drop after this body), so nothing the controller could touch is
-+        // freed while a URB is still live.
-+        for slot in self.slots.iter() {
-+            // SAFETY: `slot.urb` is a valid URB allocated by `usb_alloc_urb`.
-+            unsafe { bindings::usb_kill_urb(slot.urb.as_ptr()) };
-+        }
-+        for slot in self.slots.iter() {
-+            // SAFETY: `slot.urb` is a valid, now-cancelled URB; freeing drops the
-+            // allocation's reference.
-+            unsafe { bindings::usb_free_urb(slot.urb.as_ptr()) };
-+        }
-+        // SAFETY: balances the `usb_get_dev` taken in `bulk_in_queue`.
-+        unsafe { bindings::usb_put_dev(self.dev.as_ptr()) };
-+    }
-+}
-+
-+/// URB completion callback (interrupt context). Does nothing but signal the per-URB
-+/// completion whose pointer was stored in `urb->context`; all data handling and
-+/// re-submission happen in process context in [`BulkInQueue::recv`].
-+///
-+/// # Safety
-+///
-+/// `urb` must be a valid URB whose `context` is a live `struct completion` (guaranteed by
-+/// construction in [`Device::bulk_in_queue`]).
-+unsafe extern "C" fn bulk_in_complete(urb: *mut bindings::urb) {
-+    // SAFETY: by construction `context` points to a live, initialized `struct completion`
-+    // that outlives the URB.
-+    let done = unsafe { (*urb).context } as *mut bindings::completion;
-+    // SAFETY: `done` is a valid completion; `complete()` is safe from interrupt context.
-+    unsafe { bindings::complete(done) };
  }
  
- // SAFETY: `Device` is a transparent wrapper of a type that doesn't depend on `Device`'s generic
+ // SAFETY: `usb::Interface` is a transparent wrapper of `struct usb_interface`.
+@@ -392,17 +516,6 @@ fn as_ref(&self) -> &device::Device<Ctx> {
+     }
+ }
+ 
+-impl<Ctx: device::DeviceContext> AsRef<Device> for Interface<Ctx> {
+-    fn as_ref(&self) -> &Device {
+-        // SAFETY: `self.as_raw()` is valid by the type invariants.
+-        let usb_dev = unsafe { bindings::interface_to_usbdev(self.as_raw()) };
+-
+-        // SAFETY: For a valid `struct usb_interface` pointer, the above call to
+-        // `interface_to_usbdev()` guarantees to return a valid pointer to a `struct usb_device`.
+-        unsafe { &*(usb_dev.cast()) }
+-    }
+-}
+-
+ // SAFETY: Instances of `Interface` are always reference-counted.
+ unsafe impl AlwaysRefCounted for Interface {
+     fn inc_ref(&self) {
+@@ -431,6 +544,11 @@ unsafe impl Sync for Interface {}
+ /// The implementation abstracts the usage of a C [`struct usb_device`] passed in
+ /// from the C side.
+ ///
++/// It is kept private to this module: a `usb::Interface` driver should never need
++/// to name the underlying `usb::Device`. The device-wide transfer operations are
++/// instead exposed on [`Interface<Bound>`](Interface), which proves the interface
++/// (and thus its device) is bound to this driver for the duration of the call.
++///
+ /// # Invariants
+ ///
+ /// A [`Device`] instance represents a valid [`struct usb_device`] created by the C portion of the
+@@ -438,7 +556,7 @@ unsafe impl Sync for Interface {}
+ ///
+ /// [`struct usb_device`]: https://www.kernel.org/doc/html/latest/driver-api/usb/usb.html#c.usb_device
+ #[repr(transparent)]
+-pub struct Device<Ctx: device::DeviceContext = device::Normal>(
++struct Device<Ctx: device::DeviceContext = device::Normal>(
+     Opaque<bindings::usb_device>,
+     PhantomData<Ctx>,
+ );
+@@ -454,7 +572,7 @@ fn as_raw(&self) -> *mut bindings::usb_device {
+     /// address (`USB_DIR_IN`), so this works for both bulk IN and bulk OUT endpoints.
+     /// Must be called from process context (it sleeps). Needed e.g. when another
+     /// driver left a streaming endpoint stalled.
+-    pub fn clear_halt(&self, endpoint: u8) -> Result {
++    pub(crate) fn clear_halt(&self, endpoint: u8) -> Result {
+         // `usb_clear_halt()` must be given a pipe whose direction matches the endpoint:
+         // it issues CLEAR_FEATURE to that endpoint address and resets the matching data
+         // toggle. Build an IN or OUT pipe from the `USB_DIR_IN` bit of the address;
+@@ -491,7 +609,7 @@ pub fn clear_halt(&self, endpoint: u8) -> Result {
+     /// not arrange DMA-capable storage themselves.
+     ///
+     /// [`usb_bulk_msg()`]: https://docs.kernel.org/driver-api/usb/usb.html#c.usb_bulk_msg
+-    pub fn bulk_send(&self, endpoint: u8, data: &[u8], timeout: Delta) -> Result<usize> {
++    pub(crate) fn bulk_send(&self, endpoint: u8, data: &[u8], timeout: Delta) -> Result<usize> {
+         let mut actual: kernel::ffi::c_int = 0;
+ 
+         // `usb_bulk_msg()` requires a DMA-capable buffer; `data` may live on the
+@@ -537,7 +655,7 @@ pub fn bulk_send(&self, endpoint: u8, data: &[u8], timeout: Delta) -> Result<usi
+     /// `data` may be any slice.
+     ///
+     /// [`usb_bulk_msg()`]: https://docs.kernel.org/driver-api/usb/usb.html#c.usb_bulk_msg
+-    pub fn bulk_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> Result<usize> {
++    pub(crate) fn bulk_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> Result<usize> {
+         let mut actual: kernel::ffi::c_int = 0;
+ 
+         // `usb_bulk_msg()` requires a DMA-capable buffer; receive into a kmalloc'd
+@@ -579,7 +697,7 @@ pub fn bulk_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> Result
+     /// milliseconds; a [`Delta`] of zero, or any non-zero value below 1 ms, waits indefinitely.
+     ///
+     /// [`bulk_recv`]: Self::bulk_recv
+-    pub fn interrupt_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> Result<usize> {
++    pub(crate) fn interrupt_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> Result<usize> {
+         let mut actual: kernel::ffi::c_int = 0;
+ 
+         // `usb_interrupt_msg()` requires a DMA-capable buffer; receive into a kmalloc'd
+@@ -623,7 +741,7 @@ pub fn interrupt_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> R
+     /// non-zero value below 1 ms — waits indefinitely.
+     ///
+     /// [`usb_control_msg_send()`]: https://docs.kernel.org/driver-api/usb/usb.html#c.usb_control_msg_send
+-    pub fn control_send(
++    pub(crate) fn control_send(
+         &self,
+         request: u8,
+         request_type: u8,
+@@ -658,7 +776,7 @@ pub fn control_send(
+     /// rules are as for [`Device::control_send`].
+     ///
+     /// [`usb_control_msg_recv()`]: https://docs.kernel.org/driver-api/usb/usb.html#c.usb_control_msg_recv
+-    pub fn control_recv(
++    pub(crate) fn control_recv(
+         &self,
+         request: u8,
+         request_type: u8,
+@@ -691,7 +809,7 @@ pub fn control_recv(
+     /// a blocking, sleeping call and must only be invoked from process context.
+     ///
+     /// [`usb_set_interface()`]: https://docs.kernel.org/driver-api/usb/usb.html#c.usb_set_interface
+-    pub fn set_interface(&self, interface: u8, alternate: u8) -> Result {
++    pub(crate) fn set_interface(&self, interface: u8, alternate: u8) -> Result {
+         // SAFETY: `self.as_raw()` is a valid `struct usb_device` by the type invariant.
+         to_result(unsafe {
+             bindings::usb_set_interface(self.as_raw(), interface.into(), alternate.into())
+@@ -708,7 +826,7 @@ pub fn set_interface(&self, interface: u8, alternate: u8) -> Result {
+     /// drivers that are mid-transfer.
+     ///
+     /// [`usb_reset_configuration()`]: https://docs.kernel.org/driver-api/usb/usb.html#c.usb_reset_configuration
+-    pub fn reset_configuration(&self) -> Result {
++    pub(crate) fn reset_configuration(&self) -> Result {
+         // SAFETY: `self.as_raw()` is a valid `struct usb_device` by the type invariant;
+         // `usb_reset_configuration()` only re-issues SET_CONFIGURATION and updates the
+         // host-side endpoint state for this device.
+@@ -734,7 +852,7 @@ pub fn reset_configuration(&self) -> Result {
+     ///
+     /// [`bulk_recv`]: Self::bulk_recv
+     /// [`BulkInQueue::recv`]: BulkInQueue::recv
+-    pub fn bulk_in_queue(&self, endpoint: u8, depth: usize, buf_len: usize) -> Result<BulkInQueue> {
++    pub(crate) fn bulk_in_queue(&self, endpoint: u8, depth: usize, buf_len: usize) -> Result<BulkInQueue> {
+         let dev = self.as_raw();
+ 
+         // SAFETY: `dev` is a valid `struct usb_device` by the type invariant; take a
+@@ -818,7 +936,7 @@ pub fn bulk_in_queue(&self, endpoint: u8, depth: usize, buf_len: usize) -> Resul
+     /// [`bulk_in_queue`]: Self::bulk_in_queue
+     /// [`bulk_send`]: Self::bulk_send
+     /// [`send`]: BulkOutQueue::send
+-    pub fn bulk_out_queue(
++    pub(crate) fn bulk_out_queue(
+         &self,
+         endpoint: u8,
+         depth: usize,
 -- 
 2.55.0
 
