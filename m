@@ -1,153 +1,85 @@
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3F9348C46
-	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 08:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555D3320A37;
+	Fri,  3 Jul 2026 08:51:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783067873; cv=none; b=pJayX/F5yHOZS/1ELx7gnCI2JzNIlxgkZGWaIDl2qfMg+e48MnjvHiIY40hrAbAuSsWPMMSbJuejrDGFp3/4youmM/aCI36qLQFbdgbo3wX6FZhv/QOy6CrQjkoS0mypm+12LsOC74wlqbV0hCCgaHzHf2j4ebnsF9vnhPFvrm8=
+	t=1783068697; cv=none; b=imrRdi+o26kWlSCed3Wpdh8v24fvi3Tk+xNH2oKdSxwpt1TRvVo8CUowv8s7XtiZCnRvjKX2asjKgZ5NBjaPLo2zcxnigvUz7MrU1EkbIWydO59DkLdxo5lzm5XGcRDoUlXK5EhMY/jUlSS6FEtZYpv8zfabumAK8HrOluAqn8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783067873; c=relaxed/simple;
-	bh=WY+/I3PCWDW0D7KQP7ETeSQTyPJIDlAn3sHacC1niIM=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=fSfFLc1f82YWtO7kPXl172yeARHQjGKp5DUpXCoNj/pg+sQqD8parierW43RxgKsNWZGhuqWaFeyPvRtNGEcYJLZrmcD6WbRfz9OePXNL62O6juXLk6TheIUTGd58zgBUYvEErlZt7tTaB7vKk75KlbvVElswY+tbaJGHZ5k3rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sonalipradhan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SjMBQ5Fd; arc=none smtp.client-ip=209.85.215.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sonalipradhan.bounces.google.com
+	s=arc-20240116; t=1783068697; c=relaxed/simple;
+	bh=+kPkGRJTyRHSRsga3AJgW8qbNxbcX3V4vDfoEXuOduI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dh3pNz77+FIeQ6wZzqogKlbiORebsGEPYbuaZcK8i1GFgKqFJlsNNhQe2wg4zj+c2zwD6UiGq+0R1dRSD1cpMqyNKFhqzGMGgNb6Ekw9S5yKcUWvOB0zsBJ/V6lxJuO9KZHzYZfmDGaYw9DzIKLEzbW7XTYjfCsZAP+sZsnd7fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PZIg7V5D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SjMBQ5Fd"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c89956023dbso571633a12.0
-        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2026 01:37:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783067872; x=1783672672; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bMJVyVv7LxWaCV6bTjHr7ZvWMrD8Vg6RvcBWgEOqFjo=;
-        b=SjMBQ5Fd92TVJbzyPnZmseuTNNV50oaXO7iObJsr/ov7AZOeoCgUo2lm2UGsc0axZw
-         dpyoArVsvZl72oYrZoytk7OxlbvvgFrqmNsMbXn/3k8Sqfo6+KNfj1HO/ZJMgwMtESVw
-         KvG8ELkDW/8zWK7xtXXTedMOBH15ZIAmRy+n99690vnpePvJ3wQ1KRRZXD8IXeLVeMqL
-         ghEorbgC7BgFkerfLIA/Pap/qgrxl10fP4XJn4lWIUZmoUooNKk3dckdcLh+bFYD1ejW
-         m7ZlGvPHc97fp4TEwCOMDq0dEK8+UiU1lJF3cK1o1Aw/Z27pZL1QGd1QZOHEfQygRoTc
-         +Bvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783067872; x=1783672672;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bMJVyVv7LxWaCV6bTjHr7ZvWMrD8Vg6RvcBWgEOqFjo=;
-        b=FenGRrEvOwMVMsChDySP4BjQJzuw2ahC6Gvkw8xCHaaHHoZ7HLzEddVccbZSLSvOH9
-         th3OaAXt30YYqyNOF0gAvySL3Ap2oKiUMgf1k7IW5sp1DzQ67dSGzwH/WnLclH2tBjpb
-         VUmGQDsDmuV6JRh1GGOyBRI8Sv7AldQYJ3wpAUFp1vnXzMHPtRKjV/PbdYctFsH50RqI
-         DzAl52R4zHPLZFH+Ci830na0M9LigueT+sjFmXvO/wc4ehpeiBxOoNy7qhfLi1Pgu6ux
-         tCHEi1RoGrARs6nV+dXhh+hej+JUDPovm35akyq6cWHi2PY2yxgn6341amN0YavgwHnH
-         ZYJQ==
-X-Gm-Message-State: AOJu0YzTaplc5flaXoTTH57pYCwIzG9t/o8JyPBmrtwnhc2tfJIazpLr
-	LBzvCWIygMR6U3lDc8XrTjU2O2waYonckB6XRr/cINuf8hqKjw/YP3ZUkTDMlDku9z+sb9tiPej
-	W+ifcRJRCSjlG/YNJUY8vZ6I8+uD/qrfkpw==
-X-Received: from pjxu11.prod.google.com ([2002:a17:90a:db4b:b0:381:ef4:4373])
- (user=sonalipradhan job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90a:d44f:b0:37f:133a:3e07 with SMTP id 98e67ed59e1d1-380aa0fc88cmr10298423a91.2.1783067871532;
- Fri, 03 Jul 2026 01:37:51 -0700 (PDT)
-Date: Fri,  3 Jul 2026 08:37:24 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PZIg7V5D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AA371F000E9;
+	Fri,  3 Jul 2026 08:51:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783068696;
+	bh=+4Xj5ScbfscfRMohc/Cvnm4y3yYOSCSOmYSBSnSss90=;
+	h=Date:From:To:Cc:Subject;
+	b=PZIg7V5DmgLzbc0LUUeyd9lH9NYI8AqEvAM5+fbiBnemcMZIqSiUTHjgXxAf326H6
+	 aSnEjR/qalx6vAUB5G+46nvxniQiK+TJ4jYGOraCiY2JRTQbYcxKZDAxNmOS1JHlCs
+	 l8VomAI/9RzafpOTevZ4JNePVtaWfujJ70jjWMCNtcJ32DpAU/lYCLK10pyoO9YsW6
+	 Jj0uDNIY/URZzFMS9jUn01qrLmKQpbNzh9zJXDn8G7hqSC9ILU9B5Whvh+GLz2Gkun
+	 n6CcCGp3jJkf0Ka3KNpggkQV5DaUA+LNEiNGLI3JJY5D8BZMaanuzn8P0CUsv7vq5X
+	 9MIM0xLBKtvgQ==
+Received: from johan by xi.lan with local (Exim 4.99.3)
+	(envelope-from <johan@kernel.org>)
+	id 1wfZcT-00000000YUE-2ifM;
+	Fri, 03 Jul 2026 10:51:33 +0200
+Date: Fri, 3 Jul 2026 10:51:33 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] USB serial fixes for 7.2-rc2
+Message-ID: <akd4FQzHuMKG7qQ1@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
-Message-ID: <20260703083725.1903850-1-sonalipradhan@google.com>
-Subject: [PATCH] usb: gadget: f_ncm: validate datagram bounds in ncm_unwrap_ntb()
-From: Sonali Pradhan <sonalipradhan@google.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Kuen-Han Tsai <khtsai@google.com>, 
-	"=?UTF-8?q?Maciej=20=C5=BBenczykowski?=" <maze@google.com>, raub camaioni <raubcameo@gmail.com>, Kees Cook <kees@kernel.org>, 
-	Krishna Kurapati <quic_kriskura@quicinc.com>, Brooke Basile <brookebasile@gmail.com>, 
-	Felipe Balbi <balbi@kernel.org>, stable@vger.kernel.org, 
-	Sonali Pradhan <sonalipradhan@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When unpacking host-supplied NTBs, ncm_unwrap_ntb() checks datagram length
-against frame_max but does not verify that the datagram fits within the
-declared block length. Additionally, when decoding multiple NTBs from a
-single socket buffer, subsequent block lengths are not checked against the
-actual remaining buffer data.
+The following changes since commit ab9de95c9cf952332ab79453b4b5d1bfca8e514f:
 
-With these checks missing, a malicious USB host can specify datagram
-offsets and lengths that point beyond the block, or supply secondary NTB
-headers declaring lengths larger than the buffer. skb_put_data() then
-copies adjacent kernel memory from skb_shared_info into the network skb.
+  Merge tag 'rust-7.2-2' of git://git.kernel.org/pub/scm/linux/kernel/git/ojeda/linux (2026-06-24 15:11:08 -0700)
 
-Fix this by verifying that sufficient buffer space remains for the NTB
-header before parsing, handling zero-length block declarations, ensuring
-that block lengths never exceed the remaining buffer space, and verifying
-that each datagram payload stays strictly within the block boundary.
+are available in the Git repository at:
 
-Fixes: 427694cfaafa ("usb: gadget: ncm: Handle decoding of multiple NTB's in unwrap call")
-Fixes: 2b74b0a04d3e ("USB: gadget: f_ncm: add bounds checks to ncm_unwrap_ntb()")
-Cc: stable@vger.kernel.org
-Assisted-by: Jetski:Gemini-2.5-Pro
-Signed-off-by: Sonali Pradhan <sonalipradhan@google.com>
----
- drivers/usb/gadget/function/f_ncm.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+  https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-7.2-rc2
 
-diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/function/f_ncm.c
-index c5bf8a448d64..64eabda2f546 100644
---- a/drivers/usb/gadget/function/f_ncm.c
-+++ b/drivers/usb/gadget/function/f_ncm.c
-@@ -1189,6 +1189,10 @@ static int ncm_unwrap_ntb(struct gether *port,
- 	frame_max = ncm_opts->max_segment_size;
- 
- parse_ntb:
-+	if (to_process < (int)opts->nth_size) {
-+		INFO(port->func.config->cdev, "Packet too small for headers\n");
-+		goto err;
-+	}
- 	tmp = (__le16 *)ntb_ptr;
- 
- 	/* dwSignature */
-@@ -1209,8 +1213,12 @@ static int ncm_unwrap_ntb(struct gether *port,
- 	tmp++; /* skip wSequence */
- 
- 	block_len = get_ncm(&tmp, opts->block_length);
-+	if (block_len == 0)
-+		block_len = to_process;
-+
- 	/* (d)wBlockLength */
--	if ((block_len < opts->nth_size + opts->ndp_size) || (block_len > ntb_max)) {
-+	if ((block_len < opts->nth_size + opts->ndp_size) || (block_len > ntb_max) ||
-+			(block_len > to_process)) {
- 		INFO(port->func.config->cdev, "Bad block length: %#X\n", block_len);
- 		goto err;
- 	}
-@@ -1273,7 +1281,7 @@ static int ncm_unwrap_ntb(struct gether *port,
- 			index = index2;
- 			/* wDatagramIndex[0] */
- 			if ((index < opts->nth_size) ||
--					(index > block_len - opts->dpe_size)) {
-+					(index > block_len)) {
- 				INFO(port->func.config->cdev,
- 				     "Bad index: %#X\n", index);
- 				goto err;
-@@ -1285,7 +1293,8 @@ static int ncm_unwrap_ntb(struct gether *port,
- 			 * ethernet hdr + crc or larger than max frame size
- 			 */
- 			if ((dg_len < 14 + crc_len) ||
--					(dg_len > frame_max)) {
-+					(dg_len > frame_max) ||
-+					(dg_len > block_len - index)) {
- 				INFO(port->func.config->cdev,
- 				     "Bad dgram length: %#X\n", dg_len);
- 				goto err;
-@@ -1310,7 +1319,7 @@ static int ncm_unwrap_ntb(struct gether *port,
- 			dg_len2 = get_ncm(&tmp, opts->dgram_item_len);
- 
- 			/* wDatagramIndex[1] */
--			if (index2 > block_len - opts->dpe_size) {
-+			if (index2 > block_len) {
- 				INFO(port->func.config->cdev,
- 				     "Bad index: %#X\n", index2);
- 				goto err;
--- 
-2.55.0.rc0.799.gd6f94ed593-goog
+for you to fetch changes up to 6bfc8d01ac4068eced509f8fc74d0cd205e4dcec:
 
+  USB: serial: keyspan_pda: fix information leak (2026-06-30 10:36:06 +0200)
+
+----------------------------------------------------------------
+USB serial fixes for 7.2-rc2
+
+Here is a fix for an information leak in the keyspan_pda driver and
+three fixes for digi_acceleport addressing stuck rx if a port is closed
+while throttled, a hard lockup on disconnect and write buffer
+corruption.
+
+Included are also some new modem device ids.
+
+All have been in linux-next for a few days with no reported issues.
+
+----------------------------------------------------------------
+Fabio Porcedda (1):
+      USB: serial: option: add Telit Cinterion FE990D50 compositions
+
+Johan Hovold (4):
+      USB: serial: digi_acceleport: fix write buffer corruption
+      USB: serial: digi_acceleport: fix hard lockup on disconnect
+      USB: serial: digi_acceleport: fix broken rx after throttle
+      USB: serial: keyspan_pda: fix information leak
+
+ drivers/usb/serial/digi_acceleport.c | 43 +++++++++++++++++++++++++++---------
+ drivers/usb/serial/keyspan_pda.c     |  2 +-
+ drivers/usb/serial/option.c          | 16 ++++++++++++++
+ 3 files changed, 50 insertions(+), 11 deletions(-)
