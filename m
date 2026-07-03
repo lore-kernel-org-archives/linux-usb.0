@@ -1,60 +1,40 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF042BF3D7
-	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 16:30:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FF2220687;
+	Fri,  3 Jul 2026 16:46:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783096230; cv=none; b=HdJRcqW+81M/tV0+CWbaSKc6geAhlGypBE/ydOMtVBwGHNzekKtvhA22diqZ0RfQm3z8W+YxnmtN8SjcojIQoSnL4izL4nqm98qPbMnCNu1//5ReT0S/SIWcygESA5MLD6/n4+dqENjz8D0HyFbHMhPRdh1p5kBhDqh++1jOhEw=
+	t=1783097182; cv=none; b=t/jM8/Y60NTzSYbkgF/J55/w9lSzrWXSUeoMyYmP2fRUVEmsBlX0eiqmFDYwFohIH7ZZQqeCdYYwpUo/oQ+GoSarzuFJipVzzZU1ZYQfFQB1UAYsquz61e7Lbisl8P+nVW9XsNLcpiuPQJ3tG5zkSNU11OK1lC2zS0Yq7gu+cJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783096230; c=relaxed/simple;
-	bh=0CRYoHs8wvBuD03IsbtP2Ve9yh2Pqll95uV9IxaOdkI=;
+	s=arc-20240116; t=1783097182; c=relaxed/simple;
+	bh=Xx/AJXxYPYdMvfbc9uMV7pZ0Ruy1B+NaGJFWqCwhDjM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TgU398uxy+9yXbYMc0x7E08+N/1RXK7n3WqTdRJH+ASYW6J5hjKmQRZoEgt++YF62NcxjDHEqsh1IZc6cG6kiG+Dlde1FkvKE6Fgwdm6BDvo4zgniWP/ZedBHTltB8U0qN0tgsBO0dxEXC+3sv3pfYiLj33+iVkORo66KTEDgDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QccyT9qr; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=hBY4YGnjwZThIxsdS0wXASuPKaC4/SnxjAv2cqGamzN2uouNuHEFxpPx3lChmyJwYKE4tdMI/gvIa2kiosn0l4d0DZ4dZDnM/WFtmo+o/lZkoZ5zN5VMcC3FKDkGx4f8M584sURaCW3w9bfVsi3macbalgsjofDrX20zQqhkP3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=RiXl7Zd6; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QccyT9qr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783096227;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3gLsJtFn7ODOWcrCk2NOJF+bI1kcWS9SdZ5UbnYHxbw=;
-	b=QccyT9qrtzqY0OvtYAGboHKdYzZpLFk+s4MywJovwxiD7FxtGtMzOe/8WXLt6OqnHCY5wa
-	VERo8luyp2G8YXOi0dAPKLf52/229CpKguVgW6/FlhYtZ5XYaRFXJm/apCBRrckSq0dtI3
-	GJiefA7R1WtVyER8j8897V4iIEqTbXo=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-683-SpeF33BxMLiQ5-iPZ0QsyA-1; Fri,
- 03 Jul 2026 12:30:24 -0400
-X-MC-Unique: SpeF33BxMLiQ5-iPZ0QsyA-1
-X-Mimecast-MFC-AGG-ID: SpeF33BxMLiQ5-iPZ0QsyA_1783096223
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2FDE619772D5;
-	Fri,  3 Jul 2026 16:30:22 +0000 (UTC)
-Received: from fedora (unknown [10.44.32.112])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id D073C1971E7E;
-	Fri,  3 Jul 2026 16:30:16 +0000 (UTC)
-Received: by fedora (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Fri,  3 Jul 2026 18:30:21 +0200 (CEST)
-Date: Fri, 3 Jul 2026 18:30:15 +0200
-From: Oleg Nesterov <oleg@redhat.com>
-To: syzbot <syzbot+0255c92c72505dcacba6@syzkaller.appspotmail.com>
-Cc: bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, mhiramat@kernel.org, mingo@redhat.com,
-	peterz@infradead.org, syzkaller-bugs@googlegroups.com,
-	tglx@kernel.org, x86@kernel.org
-Subject: Re: [syzbot] [trace?] [usb?] general protection fault in mas_start
- (2)
-Message-ID: <akfjlzQoBFW9qnGp@redhat.com>
-References: <6a47dd16.6912059f.e0473.000e.GAE@google.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="RiXl7Zd6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=OaYuKQygyMpMiERKDul0ExGBtJ0ROe+TDzmtRkadt+o=; b=RiXl7Zd6rJypQW8MMYpkXwLua+
+	C9MzO2Wq2Ki0yArakfh240q76DhTPThnEhfI761d2kQ6spO2dSKKSMzTJtj5MgXLv0YZa09u/vVok
+	fknszntth3ryKCoycIr7HK4EtKUB4aXsp7ir0ZNFYnfYlYqfin7XeNxlwERs5KJ42s5U=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wfh1s-00AZsQ-7Z; Fri, 03 Jul 2026 18:46:16 +0200
+Date: Fri, 3 Jul 2026 18:46:16 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Hanson Wang <hanson.wang@ugreen.com>
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, oneukum@suse.com
+Subject: Re: [PATCH 1/1] net: usb: aqc111: fix set_mac_address return value
+ for bonding
+Message-ID: <43a0904c-de59-4b40-b186-edd130f6c0cb@lunn.ch>
+References: <20260703073936.462231-1-hanson.wang@ugreen.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -63,37 +43,40 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6a47dd16.6912059f.e0473.000e.GAE@google.com>
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+In-Reply-To: <20260703073936.462231-1-hanson.wang@ugreen.com>
 
-On 07/03, syzbot wrote:
->
-> Hello,
->
-> syzbot found the following issue on:
->
-> HEAD commit:    dc59e4fea9d8 Linux 7.2-rc1
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=12610e1c580000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3c3d59be33cf7e9a
-> dashboard link: https://syzkaller.appspot.com/bug?extid=0255c92c72505dcacba6
-> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=143f8261580000
->
-> Downloadable assets:
-> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-dc59e4fe.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/9ee1f0ea24f2/vmlinux-dc59e4fe.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/729e963a1370/bzImage-dc59e4fe.xz
->
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+0255c92c72505dcacba6@syzkaller.appspotmail.com
+On Fri, Jul 03, 2026 at 03:39:36PM +0800, Hanson Wang wrote:
+> aqc111_set_mac_addr() returns the result of aqc111_write_cmd() on
+> success. That function wraps usb_control_msg(), which returns the
+> number of bytes transferred (6 for ETH_ALEN) rather than zero.
+> 
+> Bonding calls ndo_set_mac_address() when enslaving an interface and
+> treats any non-zero return value as failure.
 
-...
+It is not just bonding which has problems:
 
-> If the report is a duplicate of another one, reply with:
-> #syz dup: exact-subject-of-another-report
+int netif_set_mac_address(struct net_device *dev, struct sockaddr_storage *ss,
+			  struct netlink_ext_ack *extack)
+{
+	const struct net_device_ops *ops = dev->netdev_ops;
+	int err;
 
-#syz dup: [syzbot] [trace?] general protection fault in mtree_load
+	if (!ops->ndo_set_mac_address)
+		return -EOPNOTSUPP;
+	if (ss->ss_family != dev->type)
+		return -EINVAL;
+	if (!netif_device_present(dev))
+		return -ENODEV;
+	err = netif_pre_changeaddr_notify(dev, ss->__data, extack);
+	if (err)
+		return err;
+	if (memcmp(dev->dev_addr, ss->__data, dev->addr_len)) {
+		err = ops->ndo_set_mac_address(dev, ss);
+		if (err)
+			return err;
 
-Oleg.
+Could you take a quick look at all USB ethernet drivers, and see if
+this bug exists in other drivers. If one driver has it wrong, it could
+well be more have it wrong.
 
+     Andrew
