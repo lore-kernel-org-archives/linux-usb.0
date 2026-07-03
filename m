@@ -1,72 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE2927A47F;
-	Fri,  3 Jul 2026 04:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E74F3233E8;
+	Fri,  3 Jul 2026 04:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783051644; cv=none; b=O+qug34lb+R6G6oCdFt4Lh2+gVSOloIDIoNIWAGXWzjG5HFEOkIdJ/41QorAOEokjGKD236UMENIu62LGVC3p/OaCmaBuBwPHl1zRgIZOCMS35pkUk8vwQCrptox5fV84jDnexOTAjNwUj2+pKTQC0aQcEGftat9o29xwpfElOY=
+	t=1783054063; cv=none; b=CrH1PP7zpExB2Jdpklw1iKrhvnYODArH1OHDb+nRWmfHGtTvMfY5CHJ6VES75HzEacWnJI0+2Kfte8y+uBZoM22vhkZf50PttgaOzOiqYrTpSklfov3ha0JXkvLjpJNbgHrdoQGix6JFWUG/7JTeu15DXUt3bOY0buOlzv1G4Xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783051644; c=relaxed/simple;
-	bh=8JFptKc5F1Mtqu5EgsatieyuDF4OD9UTfmykO8s11wo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y3x7MhCs3F7hTx0WYEekowjvknIO6k2efSzUhv15Gf/VkL3dBgsomDFgj20QXB4Z5dYXwpyQvqPn5LYeCi+La+27lE6ygZD5O8bioMpEqWL+YvU4kE15dBxxo4EHXQpOgYR1ZGWSRXLtiFj5I/FTG05GrApOKSWXcoQrzMiJ56A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UJVLSJwM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783054063; c=relaxed/simple;
+	bh=kt9LCCk1s44Bp5KJST04IwgwK73sg3CMSHFPJ0xPsxU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kWXIXXWr9xyZzUvXx72LImi0poaa+Hw8zgdMsgDsFCNPy+PNjEL2WYigOhzItMhIQ36OaoDdIhEZmkTLV5iURPoe7D3K7see7Ydf4RE6i3ixFReOAQcZty+YJKKpcp4Z8z84dQdvNxqj41TCYGCS5s/Vjld6uivKbvDoTq/LpAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=sGQVrFip; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=sGQVrFip; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UJVLSJwM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054B61F00A3D;
-	Fri,  3 Jul 2026 04:07:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783051633;
-	bh=Tq3FGAxT2PbVeWRTb1xowyXXk6WxyiKSyiEU9oJBico=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=UJVLSJwMwLi0BtqUqqelFCmJ2L1eD4eM1AVRbNVMrvKURAEv7Qjn9Qu4snWGpVZRj
-	 lCBo1uxfbiYPuxu6G+hdcKOlDf22ygQ2XFhL5rqOJ7jCxAmKC95W9+yFn2CRT36iTr
-	 eALt9s47J0or3qVGNlQaq7cXWzbD48yEtft8YIsOr7ZnskHfr6iNPSsJ+P062NYk7d
-	 UqVyFcOKp/rjUrmE0KBJdlU6xpB3Z/ynGKyPX7XL5MJ+Auk/5lIh3ZNVmbhW8PMSU4
-	 z7xW2whT4rRm5ve2VxVNKEW4DkCTUdCXmoi0HaDn2KtZWqECRysSTk+dY/9wkk57Rm
-	 dpx9BsDB3Sx6w==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sasha Levin <sashal@kernel.org>,
-	Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>,
-	Peter Chen <peter.chen@nxp.com>,
-	Pawel Laszczak <pawell@cadence.com>,
-	Roger Quadros <rogerq@ti.com>,
-	Felipe Balbi <felipe.balbi@linux.intel.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Peter Chen <peter.chen@kernel.org>,
-	Roger Quadros <rogerq@kernel.org>,
-	lvc-project@linuxtesting.org,
-	stable <stable@kernel.org>,
-	Yongchao Wu <yongchao.wu@autochips.com>
-Subject: Re: [PATCH 5.10] usb: cdns3: gadget: fix NULL pointer dereference in ep_queue
-Date: Fri,  3 Jul 2026 00:07:00 -0400
-Message-ID: <stable-reply-usb-cdns3-ep-queue-510-20260702192533@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260702102018.48182-1-mdmitrichenko@astralinux.ru>
-References: <20260702102018.48182-1-mdmitrichenko@astralinux.ru>
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="sGQVrFip";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="sGQVrFip"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1783054042;
+	bh=kt9LCCk1s44Bp5KJST04IwgwK73sg3CMSHFPJ0xPsxU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sGQVrFiplneSXUNjWiv94bGAIFOr3uBem1HK7pa47ATqCVIM45q9uI5vDMaqEIcT1
+	 +czrG6lWIkTAzBcG2vPKNSoFnQtmoeEixEPBU8ThjgvqH6nyX5K7HkrkZX2+kbUu2e
+	 9g23UvoylGIjQtFjCjBECFxFyMCPJOaJ2nGmBkdDeNspGJRAKG7azIsdBsVNXqunLl
+	 7uWUWYfDyb6Ta1vFy27nEKk8w71fLwGwr0E4JGEbI+UcAkQ0K/zbwRhYh3n84c38VA
+	 4g1g4yyT0Y1MNZKbibVkI50krOmQnrPE8dIZSHwPS1mEelf2Rnx6xqAIu48wqh6H97
+	 fRx8Fb45mSPfg==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id C2B34493C2; Fri,  3 Jul 2026 04:47:22 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1783054042;
+	bh=kt9LCCk1s44Bp5KJST04IwgwK73sg3CMSHFPJ0xPsxU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sGQVrFiplneSXUNjWiv94bGAIFOr3uBem1HK7pa47ATqCVIM45q9uI5vDMaqEIcT1
+	 +czrG6lWIkTAzBcG2vPKNSoFnQtmoeEixEPBU8ThjgvqH6nyX5K7HkrkZX2+kbUu2e
+	 9g23UvoylGIjQtFjCjBECFxFyMCPJOaJ2nGmBkdDeNspGJRAKG7azIsdBsVNXqunLl
+	 7uWUWYfDyb6Ta1vFy27nEKk8w71fLwGwr0E4JGEbI+UcAkQ0K/zbwRhYh3n84c38VA
+	 4g1g4yyT0Y1MNZKbibVkI50krOmQnrPE8dIZSHwPS1mEelf2Rnx6xqAIu48wqh6H97
+	 fRx8Fb45mSPfg==
+Received: from [IPV6:2003:c6:9f1c:3c00:1327:6f6f:388d:c5cc] (p200300c69f1c3c0013276f6f388dc5cc.dip0.t-ipconnect.de [IPv6:2003:c6:9f1c:3c00:1327:6f6f:388d:c5cc])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 5DF12493B2;
+	Fri,  3 Jul 2026 04:47:21 +0000 (UTC)
+Message-ID: <b836d445-10b8-46a7-8e95-9af66b6b70c2@birger-koblitz.de>
+Date: Fri, 3 Jul 2026 06:47:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: RTL8159 firmware
+To: Aleksander Jan Bajkowski <olek2@wp.pl>, Andrew Lunn <andrew@lunn.ch>
+Cc: Jan Hendrik Farr <kernel@jfarr.cc>, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, hsu.chih.kai@realtek.com,
+ kuba@kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, pabeni@redhat.com
+References: <20260505-rtl8159_net_next-v4-3-1a648a9c4d8d@birger-koblitz.de>
+ <20260701171327.2916132-1-kernel@jfarr.cc>
+ <5dc0e654-0bdb-422c-9049-94ee6d8867e4@birger-koblitz.de>
+ <8f349e00-1710-428d-8c70-5d1b1f4d42f3@lunn.ch>
+ <6677d82e-2b8c-4173-ba6d-6743a5059bc1@birger-koblitz.de>
+ <8c0381cc-3612-4ddf-85ed-df09bd0a9dbe@wp.pl>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <8c0381cc-3612-4ddf-85ed-df09bd0a9dbe@wp.pl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 02, 2026 at 01:20:17PM +0300, Mikhail Dmitrichenko wrote:
-> From: Yongchao Wu <yongchao.wu@autochips.com>
->
-> commit 7f6f127b9bc34bed35f56faf7ecb1561d6b39000 upstream.
->
-> When the gadget endpoint is disabled or not yet configured, the ep->desc
-> pointer can be NULL. This leads to a NULL pointer dereference when
-> __cdns3_gadget_ep_queue() is called, causing a kernel crash.
+On 01/07/2026 23:06, Aleksander Jan Bajkowski wrote:
+> Hi Birger,
+> Realtek recently released firmware for the RTL8261C[1]. I expect
+> the RTL8159 has an RTL8261x PHY built in. Do you know whether
+> the RTL8159 firmware consists only the PHY firmware?
+> 
+> 1. https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/rtl_nic/rtl8261c.bin
+I tried to analyze the FW with my own tool and it is not in the same
+format as the one used by the r8152 driver. Dumping strings also
+does not show any discernible other type of headers. Also the length
+is not right, it is by a factor of 3 too large. So, I do not believe
+that this is the solution.
 
-Queued up for 5.10.y, thanks!
+Birger
 
--- 
-Thanks,
-Sasha
