@@ -1,127 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1F73955F9;
-	Fri,  3 Jul 2026 12:04:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBA03CF21A
+	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 12:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783080296; cv=none; b=IKjW7WuR59YmNWd2Whk356JKeE/rmWAgrKX71QVE7vDc/h5md4IFYWw9+joWT8ajJOfVfvSwmi2iHUhp7/Eo+jqk7UvfkjVigYNtQi71wf4cwrsylwpvpg38PKss3abntXbKTtEsIA/zNyRJmGTaBPuURi8vHnIq1weDrQpmmwY=
+	t=1783080299; cv=none; b=VH0vYDFHEmk3S8K9u57X93AQxVhmBUkWbmbvc1iGpsIvxF0BAiQz20wqK3B2JaSoVUIZi99ohtlm/LgBU5aHwQGWegFuqRuOiwgCRyw5xASyNueyu0AzSDPhb0yffqjbV8Awg7UgIAUxOQPGeezDl4o1Gq5M6Y8AfI/MGe4PKT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783080296; c=relaxed/simple;
-	bh=zT943j/0ckAaxNWmkwKXLFV1By2z7RpNfvSZ3vlmhwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PGhJcW+4sEmYegTtgI8xobkhFT3qabmVMwGMo4MkQGczsB1Lj7ugNtPTD+JLD85t9ORcLB7JD7HZ3GjuJxPRSrp3Aa83PYoVYyJQfoxos48W6uepiX5t9T5QYThtfrP5h0QunSEV0GXRFfAMTSRwVlfDAIuBHqNd3T4JshOnSaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=isqoo6sg; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783080299; c=relaxed/simple;
+	bh=56Siyovl6VI/xXaoNR4iTACjQL+X7tU79OlaOV6Kjeg=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fj0TycQOghQfdVvgtRrZlqmIX63zTaPXToBAoonkFw0/Oe9V1/60/nUDxRVqLCdJEo6+3cw5ra148KW3yrg1f/64Or3GaX4IYFDRpcPoQerngbDDiVQz/ePjsBjrp8EPDB+zXzNkIW6r/EW9LKXKLVEThPH1I5jNCWKUFb2T1sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R43BrsCk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="isqoo6sg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783080295; x=1814616295;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zT943j/0ckAaxNWmkwKXLFV1By2z7RpNfvSZ3vlmhwQ=;
-  b=isqoo6sgvsUN6V58Oy5Iq9PxDNFNnhsmfMHinjZEAi4eHlvjZJfHNbMK
-   kAFlAcPGv1VQIVlZ7eKdGEsKdbq90gPWaI7Vj6oI5NmtQbYja7VD06KM8
-   gvwYgSu9+oV7ciQvswiOMyhm3kIwKIn0GE8lBl6KKhJkqrSAQU5l7mNQ0
-   2Ur2v1iJnJlRBEL7EmasS8nhToqW5omy1ZLf+zFG5g8CeK0hwR1DtaU37
-   A8SRf2rAImOQMKGCLHNIDmsHZ1ef25fOXJyWd0OdJNRiMyF73k9Z+CcpS
-   PU8BnK7Toca9Bt6gSaYz7meatTaDGY5FLUam4ogaU8szNn8i2Far3fZUx
-   Q==;
-X-CSE-ConnectionGUID: i+L58dt0RKOTF0FULPekyg==
-X-CSE-MsgGUID: 1YwR+NUyTQimMdMqCX9juQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="101254749"
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="101254749"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 05:04:54 -0700
-X-CSE-ConnectionGUID: 9GY13TqhTvOyfjmZ4dtX+g==
-X-CSE-MsgGUID: /2FiK+QeTDyJylfL9sbmPA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="276306599"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Jul 2026 05:04:51 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 42B5F98; Fri, 03 Jul 2026 14:04:50 +0200 (CEST)
-Date: Fri, 3 Jul 2026 15:04:48 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Vasiliy Kovalev <kovalev@altlinux.org>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-Subject: Re: [PATCH] usb: typec: qcom-pmic-typec: avoid uninit values in
- dev_dbg() error paths
-Message-ID: <akelYJEXIZmP5Spx@kuha>
-References: <20260630120114.185169-1-kovalev@altlinux.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R43BrsCk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC4211F00A3D
+	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 12:04:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783080296;
+	bh=lYt6V9Jnqt8R/CJJl+keIMNvwfnVSgPAem6i+B/iGB0=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=R43BrsCkCyKD/cc1XKL6zqzw3XTY2TUpQl7n0q5JuLJdVZNi18xkae1IcOWb2pmP2
+	 illl8oyL+0cRX0a1cWPr+392XOPXDshG8txXXgvS94Pp4A+9wQYLOQOlDuarGUYpNa
+	 JJfDmLgE6juRr8ofDcXTnOfq2Z9ENufPlYGG+yOG/Imcaimd0ivaN3esJXMdFhYPFQ
+	 Bexmo1mq6eIpDnf3bjJSY/SnYCDQOQxQEIeP3Qte3g+4Mh/Byg7UCDdPPnWPgQA3wM
+	 A4JVLQ0D5sW6yI4X5kTy2RCb8QmLJC/zsYvs7mMibj9jUM++lMCCkhqezmnfaIVnt/
+	 F5x0ONb5FeqHA==
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-39af6402933so4320221fa.2
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2026 05:04:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RoSn0s9iR7NpTGMcRdQtVaxfASGThmWC9Hjbfs0yNyAL+7b/dJDyY76EiXBG2UrGKFdq1xHWoQ7mTY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeUhgVhc5dw+qN4X6+8pLPmEJj55xrZDdPQdDsMvYCo9UlnfBD
+	vY4pCFR+kGeEiKTomimj/5OunhPXT9w5sGVyWKK1ZOvtPgGs8r5Li1/ZUpncKLKKmXpgiDqAAqG
+	96wlpcMQVsT+LSaGHJLwN20AkOgjb0sn5baMVRIqcUA==
+X-Received: by 2002:a2e:beaa:0:b0:39b:32b3:b31f with SMTP id
+ 38308e7fff4ca-39b36dbe62amr23176871fa.5.1783080295099; Fri, 03 Jul 2026
+ 05:04:55 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 3 Jul 2026 07:04:53 -0500
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 3 Jul 2026 07:04:53 -0500
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260703110317.1283411-3-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260630120114.185169-1-kovalev@altlinux.org>
+References: <20260703110317.1283411-1-wenst@chromium.org> <20260703110317.1283411-3-wenst@chromium.org>
+Date: Fri, 3 Jul 2026 07:04:53 -0500
+X-Gmail-Original-Message-ID: <CAMRc=Mc7TzwLS1Kbyd9OwXPJcHk-39kxgfagxxCCbKYK8QG0Vg@mail.gmail.com>
+X-Gm-Features: AVVi8CfmsSUQO2IQlOpABcTwLAPK-fQZLHJJwpMHDg07kXLzC1jeLanLhSp6ZO4
+Message-ID: <CAMRc=Mc7TzwLS1Kbyd9OwXPJcHk-39kxgfagxxCCbKYK8QG0Vg@mail.gmail.com>
+Subject: Re: [PATCH v3 02/13] device property: Add fwnode_graph_get_next_port_endpoint()
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 30, 2026 at 03:01:14PM +0300, Vasiliy Kovalev wrote:
-> Several functions take a 'goto done' shortcut on regmap_read() (or
-> switch default) failure before assigning locals that the trailing
-> dev_dbg() then formats.
-> 
-> Initialize the affected locals at declaration.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with Svace static
-> analysis tool.
-> 
-> Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC Type-C driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
-
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
+On Fri, 3 Jul 2026 13:03:03 +0200, Chen-Yu Tsai <wenst@chromium.org> said:
+> Due to design constraints of the power sequencing API, the consumer
+> must first be sure that the other side is actually a provider, or it
+> will continually get -EPROBE_DEFER when requesting the power
+> sequencing descriptor.
+>
+> In the upcoming USB power sequencing integration, the USB hub driver
+> first needs to check whether a graph connection exists, and whether
+> the other side of the connection is a supported connector type. The
+> USB port is tied to a "port" firmware node, and this new helper will
+> be used to get the endpoint under the known "port" firmware node.
+>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 > ---
->  drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-> index bf985efe1cd6..c8379cdcb6da 100644
-> --- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-> +++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-> @@ -366,7 +366,7 @@ static int qcom_pmic_typec_port_get_cc(struct tcpc_dev *tcpc,
->  	struct pmic_typec_port *pmic_typec_port = tcpm->pmic_typec_port;
->  	struct device *dev = pmic_typec_port->dev;
->  	unsigned int misc, val;
-> -	bool attached;
-> +	bool attached = false;
->  	int ret = 0;
->  
->  	ret = regmap_read(pmic_typec_port->regmap,
-> @@ -461,8 +461,8 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc_dev *tcpc,
->  	struct pmic_typec *tcpm = tcpc_to_tcpm(tcpc);
->  	struct pmic_typec_port *pmic_typec_port = tcpm->pmic_typec_port;
->  	struct device *dev = pmic_typec_port->dev;
-> -	unsigned int mode, currsrc;
-> -	unsigned int misc;
-> +	unsigned int mode = 0, currsrc = 0;
-> +	unsigned int misc = 0;
->  	unsigned long flags;
->  	int ret;
->  
-> @@ -535,7 +535,8 @@ static int qcom_pmic_typec_port_set_vconn(struct tcpc_dev *tcpc, bool on)
->  	struct pmic_typec *tcpm = tcpc_to_tcpm(tcpc);
->  	struct pmic_typec_port *pmic_typec_port = tcpm->pmic_typec_port;
->  	struct device *dev = pmic_typec_port->dev;
-> -	unsigned int orientation, misc, mask, value;
-> +	unsigned int orientation = 0, misc = 0, value = 0;
-> +	unsigned int mask;
->  	unsigned long flags;
->  	int ret;
->  
-> -- 
-> 2.50.1
+> Changes since v2:
+> - Dropped unused |ep| variable
+> - Rewrote as do {} while()
+> - Dropped WARN() use
+> ---
+>  drivers/base/property.c  | 25 +++++++++++++++++++++++++
+>  include/linux/property.h |  2 ++
+>  2 files changed, 27 insertions(+)
+>
+> diff --git a/drivers/base/property.c b/drivers/base/property.c
+> index 3e3e19ef66a9..7e7ad3635806 100644
+> --- a/drivers/base/property.c
+> +++ b/drivers/base/property.c
+> @@ -1099,6 +1099,31 @@ int fwnode_irq_get_byname(const struct fwnode_handle *fwnode, const char *name)
+>  }
+>  EXPORT_SYMBOL(fwnode_irq_get_byname);
+>
+> +/**
+> + * fwnode_graph_get_next_port_endpoint - Get next endpoint firmware node in port
+> + * @port: Pointer to the target port firmware node
+> + * @prev: Previous endpoint node or %NULL to get the first
+> + *
+> + * The caller is responsible for calling fwnode_handle_put() on the returned
+> + * fwnode pointer. Note that this function also puts a reference to @prev
+> + * unconditionally.
+> + *
+> + * Return: an endpoint firmware node pointer or %NULL if no more endpoints
 
--- 
-heikki
+I think the correct keyword is Returns: followed by a newline.
+
+> + * are available.
+> + */
+> +struct fwnode_handle *fwnode_graph_get_next_port_endpoint(const struct fwnode_handle *port,
+> +							  struct fwnode_handle *prev)
+> +{
+> +	do {
+> +		prev = fwnode_get_next_child_node(port, prev);
+> +		if (fwnode_name_eq(prev, "endpoint"))
+> +			break;
+> +	} while (prev);
+> +
+> +	return prev;
+> +}
+> +EXPORT_SYMBOL_GPL(fwnode_graph_get_next_port_endpoint);
+> +
+>  /**
+>   * fwnode_graph_get_next_endpoint - Get next endpoint firmware node
+>   * @fwnode: Pointer to the parent firmware node
+> diff --git a/include/linux/property.h b/include/linux/property.h
+> index e04901c0bd8f..931e703393cb 100644
+> --- a/include/linux/property.h
+> +++ b/include/linux/property.h
+> @@ -506,6 +506,8 @@ int fwnode_get_phy_mode(const struct fwnode_handle *fwnode);
+>  void __iomem *fwnode_iomap(struct fwnode_handle *fwnode, int index);
+>
+>  struct fwnode_handle *fwnode_graph_get_port_by_id(struct fwnode_handle *fwnode, u32 id);
+> +struct fwnode_handle *fwnode_graph_get_next_port_endpoint(
+> +	const struct fwnode_handle *port, struct fwnode_handle *prev);
+>  struct fwnode_handle *fwnode_graph_get_next_endpoint(
+>  	const struct fwnode_handle *fwnode, struct fwnode_handle *prev);
+>  struct fwnode_handle *
+> --
+> 2.55.0.rc0.799.gd6f94ed593-goog
+>
+>
+
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
