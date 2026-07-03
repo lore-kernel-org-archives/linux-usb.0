@@ -1,110 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9853DE427;
-	Fri,  3 Jul 2026 13:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688FD371056;
+	Fri,  3 Jul 2026 13:33:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783085462; cv=none; b=uMdk2CiArBFgxaa0rRw4HW35Fmw/MAO2KNBGo22tC/wJn8DOhtowlWc1A5hqNXxgO33gFuxvalRTLeUd9VvSlBxKLgqdQOCkgwU5/aHMHdPrN1/DH2s9QU8kVKPoraA85iJiWW3rzyZ/CNCMZ3liMqGJSavBb/wjcGIJu89XbyY=
+	t=1783085597; cv=none; b=EGUIF4vSlqSOzI42bk38olpp4bWJXFFumBsDkGLVZx0lCr+CqVePfLRNKaL808JwoyUpuRgfyYqENcO92GdqP7XhhASHsqIqCbXsmOTSrc0rdzxzuVkBGbjyxtCARLxaKbOdeDO0bap+ULQm/3uFNfJfYZJb14YTJ1pwaQ9hepc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783085462; c=relaxed/simple;
-	bh=gKe6hk6lBjYOJ6jL6ZoKAesazuaoRsI2yH9UamlZy+I=;
+	s=arc-20240116; t=1783085597; c=relaxed/simple;
+	bh=5lQMIgp/+YLQE+iCJ6k4UQOQ5oRotS7kaMpyjTjYKPI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ez0VT5xA4UhSJRbua+w0GQdfhMbH/ao5T3K13JTwx5IcXxpG8WaA4BuMkOQWwrs5tTBnEF9GKOL5XOsLQcLBUQ1typ7I+Tn1MQOdtlC4b0vqksYke9UyHYwSiIb8rOL1crv5uhAm+6GbGlrgjWXwsIayZTGXgbPCh9zAJ41ljyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3/G5KrL; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=jz8a02g9o8lJ7PddFB2fJkMF2gDoS5Bvawb8Cs5KWrmsi2XpFicAv/usdIdR/GjdAfRR4FV16DOHAa8RwcA2Gp4dSCn+HvJshjahYiSgbLKmqk9ZdlapJsq3mzUTZdcE7yz8eDjYaNSRshft6Obl59YrIWk1yUDkR5dap3BHrjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IRHs5NNR; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3/G5KrL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IRHs5NNR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783085460; x=1814621460;
+  t=1783085597; x=1814621597;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gKe6hk6lBjYOJ6jL6ZoKAesazuaoRsI2yH9UamlZy+I=;
-  b=T3/G5KrLXGZGY5knDZOde4SAJG3IHfHZ8U6qCd13pSZD9bwdkBb2fsM5
-   FWd+o+akq5bJPeNRW/+Er4onlvu2w9XRtzH4WlbwUyvrv0Iq9jsuRQbr+
-   TSeDXXo4XRvuKHqCvFK4HRh1L0iq0GJSCD27xfs+6JnS7scIkD/ocOjle
-   YkrJsLQbACiDiw/vkhQflcgt6mS5zY9QBUxlxi/7kSHF7DQU02h6+jmWh
-   eAeUGWC6JR/8F6+7ig0MusIVcymJrxenoDeCa565a8PL/eIKIfbe5hqtw
-   wPWSyQJIX2PYM7OQN1rdr+3BlkuKzak5/u7hUSJkzTy7yyPidEmxZqpM8
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=5lQMIgp/+YLQE+iCJ6k4UQOQ5oRotS7kaMpyjTjYKPI=;
+  b=IRHs5NNRS/SsSgY5AVVYA71TXSsgCYmizw13HhOyXbJIzbsZ4dDS63jS
+   EHtgmvrt14SlQjgC0YCnRl4S32n7RaseROPfVCROQ1YkqQU4a0gUQbrfw
+   tvd1O1FB3dIqU5KeBVD4GutuIYMfDdBVypJGqEgnwfxMUxprkVPq5TWbC
+   1FJExmzFGl2heUdTDh/vpXinAYmNOd1nQU0c9ft4rCpvZug8NipBhQW3Y
+   V9R1/qJs0igeKSJlLZPmwxGBGbbei67KhZIAfj1SzJM5ujyOedJ9dXjq5
+   itUAdmggJeS5t8aPvqdYvCfPtiJavoeYwesjPIxHSapG9jlMPN8oSDUu0
    w==;
-X-CSE-ConnectionGUID: 8wRXe/KVROeO++6XXAEuhA==
-X-CSE-MsgGUID: 2sd7ntkbRJCCwIyEMbsBxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="82826617"
+X-CSE-ConnectionGUID: 1Ne5GxcfSdSFg0PF+UFR1w==
+X-CSE-MsgGUID: 3NBGSkStS/qlu8mL/aMrHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11835"; a="86388923"
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="82826617"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 06:30:59 -0700
-X-CSE-ConnectionGUID: AVTweVgOQTOFwyNb1VEiIQ==
-X-CSE-MsgGUID: ZkhNDscaTZayckMaH6NG3A==
+   d="scan'208";a="86388923"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 06:33:16 -0700
+X-CSE-ConnectionGUID: U3qX0QxHQa6ijso6F6Apgg==
+X-CSE-MsgGUID: 1Fo2kkbCS/OM0FqlPZExfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="251395198"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa006.jf.intel.com with ESMTP; 03 Jul 2026 06:30:58 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 58CF395; Fri, 03 Jul 2026 15:30:56 +0200 (CEST)
-Date: Fri, 3 Jul 2026 16:30:54 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Myeonghun Pak <mhun512@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Ijae Kim <ae878000@gmail.com>
-Subject: Re: [PATCH] usb: typec: anx7411: use devm_pm_runtime_enable()
-Message-ID: <ake5jtHU9ob6zA5C@kuha>
-References: <20260701114006.75738-1-mhun512@gmail.com>
+   d="scan'208";a="248667297"
+Received: from carterle-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.80])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 06:33:10 -0700
+Date: Fri, 3 Jul 2026 16:33:08 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v3 06/13] usb: hub: Pass |struct usb_port*| to
+ usb_port_is_power_on()
+Message-ID: <ake6FNy83LLtCs3b@ashevche-desk.local>
+References: <20260703110317.1283411-1-wenst@chromium.org>
+ <20260703110317.1283411-7-wenst@chromium.org>
+ <ake09vk4fEv1D9QC@ashevche-desk.local>
+ <CAGXv+5GNucSXrhL=YxarSJHD2ezzYDK3EovFu-zy012KgZ+ZBg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260701114006.75738-1-mhun512@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGXv+5GNucSXrhL=YxarSJHD2ezzYDK3EovFu-zy012KgZ+ZBg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Jul 01, 2026 at 08:40:06PM +0900, Myeonghun Pak wrote:
-> anx7411_i2c_probe() enables runtime PM before returning successfully, but
-> anx7411_i2c_remove() tears down the Type-C partner state, workqueue, dummy
-> I2C device, mux, switch and port without disabling runtime PM.
+On Fri, Jul 03, 2026 at 09:17:16PM +0800, Chen-Yu Tsai wrote:
+> On Fri, Jul 3, 2026 at 9:11 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > On Fri, Jul 03, 2026 at 07:03:07PM +0800, Chen-Yu Tsai wrote:
+> > > usb_port_is_power_on() currently takes |struct usb_hub*|, but only needs
+> > > it to tell if the hub/port is SuperSpeed or not.
+> > >
+> > > In a subsequent change, usb_port_is_power_on() needs access to a pwrseq
+> > > state tracking field in |struct usb_port|. Either structure can be used
+> > > to identify whether a port/hub is SuperSpeed or not, as the field in
+> > > |struct usb_port| is inherited from the hub:
+> > >
+> > >     port->is_superspeed = hub_is_superspeed(hub)
+> > >
+> > > Replace usb_port_is_power_on()'s |struct usb_hub*| parameter with
+> > > |struct usb_port*| so a subsequent change can use it.
+> >
+> > At a brief look this will be the only function that takes usb_port
+> > instead of usb_hub in the entire hub.h (I don't count container_of()
+> > as a function). With that being said I would rather see it to be moved
+> > to port.c altogether (yes, it's more invasive change, but looks more
+> > consistent).  I would even dare to move struct usb_port (and container_of()
+> > accompanied with that) and this function to port.h. This might require
+> > a separate patch, though.
 > 
-> Use devm_pm_runtime_enable() so runtime PM is disabled automatically on
-> driver detach. Since devres action registration can fail, route that
-> failure through the existing probe unwind path.
-> 
-> This issue was identified during our ongoing static-analysis research while
-> reviewing kernel code.
-> 
-> Fixes: fe6d8a9c8e64 ("usb: typec: anx7411: Add Analogix PD ANX7411 support")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Ijae Kim <ae878000@gmail.com>
-> Signed-off-by: Ijae Kim <ae878000@gmail.com>
-> Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+> I agree with the reasoning, especially given the function name. However
+> I wonder if it would cause problems given the linking order. I'll give
+> it a try nevertheless and report back.
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Thanks!
 
-> ---
->  drivers/usb/typec/anx7411.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/typec/anx7411.c b/drivers/usb/typec/anx7411.c
-> index 604868ebf422..41df115912b9 100644
-> --- a/drivers/usb/typec/anx7411.c
-> +++ b/drivers/usb/typec/anx7411.c
-> @@ -1537,7 +1537,9 @@ static int anx7411_i2c_probe(struct i2c_client *client)
->  	if (anx7411_typec_check_connection(plat))
->  		dev_err(dev, "check status\n");
->  
-> -	pm_runtime_enable(dev);
-> +	ret = devm_pm_runtime_enable(dev);
-> +	if (ret)
-> +		goto free_wq;
->  
->  	return 0;
->  
-> -- 
-> 2.47.1
+In case it won't fly (but I still think it's better to split), can you at least
+group usb_port APIs and struct? Means moving the proto closer to that struct
+usb_port followed by container_of().
+
+> > Perhaps something like: 1) "move struct usb_port and associated APIs to port.h";
+> > 2) "...this patch...".
 
 -- 
-heikki
+With Best Regards,
+Andy Shevchenko
+
+
