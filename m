@@ -1,126 +1,111 @@
-Received: from out203-205-221-240.mail.qq.com (out203-205-221-240.mail.qq.com [203.205.221.240])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5680631353B
-	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 03:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.240
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E853019D8AC
+	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 04:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783050573; cv=none; b=rws9uaXfWdHv/0bmmg9BJUAV7+j/3MZV2Nwh2ktxIGApkEy2aLtv/8/JQwyoweoTek+vX+mKhBJG4o1TdQj2SjCj2E4EOMELND9aH9APAne0ZIr/YiGyr9G0hj/2kolCS1vI13hyX8x1SufBUKtkzxre/C1b3lqnBmxzkD5YBCo=
+	t=1783051238; cv=none; b=vAtMjyuZUmiXJ+9Sbe3aOPP47nZRNYIFjyw6sc4/0LrBS6L45SZkIHAunJclcJQ1ldtrMQ6klzAyQ8Gx6Z5Psnp/i+4B0t0Ki6tFRN91uNj41FO3tbYcO6CpdlCiF8R9GEUb/d5ixiEWz5xn+HiHjIzXsHkeayWLS9IVrVDFtrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783050573; c=relaxed/simple;
-	bh=5t65MXid+RD2DOQv5r5SM+Q+fTxjyfJDgQ/BjUrxzcw=;
-	h=From:To:Cc:Subject:Mime-Version:Content-Type:Date:Message-ID; b=hdogiFKzA078O3DGBt0ZDsukSgYhezYM44CR0sa7PSsTcSbsklyOQHNFd8FhRhKZnpVFdO+my8Gkmh+Iu3UJkPlb22JzoMzL8hKDzG8MzbbBe+ojC/V+VXbn208Bi1GeQ53RKGETnu7jBG6eSSkoL1JwQtm6g1S8daZInoWsmWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vip.qq.com; spf=pass smtp.mailfrom=vip.qq.com; dkim=pass (1024-bit key) header.d=vip.qq.com header.i=@vip.qq.com header.b=DG5y5TgE; arc=none smtp.client-ip=203.205.221.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vip.qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vip.qq.com
+	s=arc-20240116; t=1783051238; c=relaxed/simple;
+	bh=17GXzsmHrOAmH8NZwdJdXiQEi9UNFsmzz79r7E9QVsc=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=bTiIL+IkNdGQBlDU05bMV02ZmQBZDwep1UqBGRFUMTPzeqT4wuHdgc+FELF9AjP36kREBrE0EhBek4tJVmY/yF7V3BZ6hG4KjqeThzbyC3vvONVIeThl7isQ2dZw+3yrwOV0Sc8LEHPFcX53sMxBLSiJAtrChcSrrdzCTEEPsG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XpDqwZX8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=vip.qq.com header.i=@vip.qq.com header.b="DG5y5TgE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vip.qq.com;
-	s=s201512; t=1783050561;
-	bh=5t65MXid+RD2DOQv5r5SM+Q+fTxjyfJDgQ/BjUrxzcw=;
-	h=From:To:Cc:Subject:Date;
-	b=DG5y5TgEU4g8fFX0fv2ShaTC0PrzhSEVW9bT8GMfDc+ROYq0vAvHGVl48kmg0jGE+
-	 kOZGEzNWfLMVgmWzxNGbanrYzIDn06MhqHQK2JXm22q99LhPZX8yNH6CNZdgcBMskI
-	 iQUuKXChjzdIKwjcewuU95hmWlcYRGaSsWzQqKHM=
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-QQ-XMAILINFO: OKgh2S50mKQezq67TtxuUmGGgslzi5HMXCTyPTyUT8jRA6MZKSshAP+MWk2TLu
-	 sb82k2gsNUzhyooDveYkgoANP8DdQoExaWSHs9pOFIv1txC7Gmb5fuAH2eN4wOjeNiB5lmm8znfEl
-	 EboSAVKg2aXZ+vDXV0/WwEix+K5K0LCLg2Vu6otuQEbdZURUCPktT5hEwt1P1riPSOeHlTfh/uIXE
-	 ppIvI1wQK5noGdTMuB5kWcJ+bAuKqfGYNvTwbhHhbXuo1FBAmjOTWLF/E6NbK5wpt55TvGOwNJqqs
-	 Lht05zsbSniI8GLqHWJ0JpiGfmrTZ59Bnix5BbJreba0wfWgWlbENJ63wFS8aBio/egnvVDoi4HGA
-	 w+DHBiPvhAEL5GQnZPjP94yJM/mWW3WV+D2ZWR/R8RxL6T/JjJz5ezdjVv2O6HJBy2SKueBUcuRqE
-	 fwsdjAea+swEno9ZLHtE0rPmQsGECd9fegUF0U9UxfIivASXbZGneXHwCoT/wrs1K9pZGPYv3x/RK
-	 VnuCbv6nBTi36hOI2qL0Plz8AEQ/2z4A81PIuC4406rlUjxHV9Ky6VS/VlGpq++likDZ0Y78f4U3U
-	 acZqeL/+XoJjW+yAc/0S/DoAJ0mLhLbuZqcu+S3qLU/ps1IUlXCrfdrrYR+lczuY05aeqJYmiZG17
-	 1KjmpyrlBf1o0HgO527V0HrGa69FThw6AE0WfmIiEgxgpyUjbxucWqnltDnvg+rpfse8jYAE5m+lQ
-	 5XRG2doQ7vQyTAhfpYTKH/+Vkp3HkpsXLkFnRsKvTaXSM/pB6YxH9CN/MrxRi0AAHH0Y256rLKCHr
-	 NEOvSs9+P4cd9dxE6gJfXdkCpfrFRIsEzt+KhHlMKTHtm7b4UUSjFEp7qJYAERlYKvRjmfT67HWCg
-	 TgF7PSAqfcpg2seAHb+nSr7c8qItS58B50KSofCBgE/AOTA6sr4dYbmmnMXwbT2do0Q+S7kfWUog3
-	 cseNqx1PIYRouVgFytXaXjAIiz69T+GjaFl6trYGzfRLTDrq+Vvgo39jRjkl8w2nicM1ttDXMv3cI
-	 EdcZzb4CGEm7OvL0UlMTzMabS5A==
-From: "=?utf-8?B?TmVv?=" <liqys@vip.qq.com>
-To: "=?utf-8?B?bGludXgtdXNi?=" <linux-usb@vger.kernel.org>
-Cc: "=?utf-8?B?YW5kcmVhcy5ub2V2ZXI=?=" <andreas.noever@gmail.com>, "=?utf-8?B?d2VzdGVyaQ==?=" <westeri@kernel.org>, "=?utf-8?B?WWVoZXprZWxTaEI=?=" <YehezkelShB@gmail.com>
-Subject: =?utf-8?B?W1BBVENIIFJGQ10gdGh1bmRlcmJvbHQ6IEFkZCBK?=
- =?utf-8?B?SEw5NTgwIEJhcmxvdyBSaWRnZSAoVEI1KSBJQ00g?=
- =?utf-8?B?c3VwcG9ydCDigJQgaG9zdF9yZXNldCB0aW1lb3V0?=
- =?utf-8?B?IGJsb2NraW5nIFBDSWUgdHVubmVsaW5n?=
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XpDqwZX8"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A6A9DC2BCB8
+	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 04:00:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1783051236;
+	bh=17GXzsmHrOAmH8NZwdJdXiQEi9UNFsmzz79r7E9QVsc=;
+	h=From:To:Subject:Date:From;
+	b=XpDqwZX8qNoG6jQ1anlaW2tjdePJE2MJa7CYSxq9Pf45qGkk2vmBJ3gAyIIoWjebp
+	 UDMTCTHH6vBnAuG7yE4krPrLLIFuDJxC03QFD71e67kEHD+Tg1X9KVoQWz1lnOgj7L
+	 Mf8Ki9co7GrC0lekBalpWE4rEANm0L6ZJhEI1qS5BmFePXLtZ6uw+F5Rs0DvQXzNR0
+	 KWx08lpZkIY1uY+XsA2ZB7ydN3gl/GP5K4DIRpUjJtJsRS55MTM3uzHkbfw1ndzUPH
+	 vmgx/zF5jAHHKszHaTuSu6zV3bkEZ/A2nuIibijgViMp9OkKuCQlQX0jPYLdpP6S2a
+	 y+YzdaxihW/aQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 42C68C3279F; Fri,  3 Jul 2026 04:00:36 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221716] New: JHL9580 Barlow Ridge TB5: host_reset timeout, PCIe
+ tunneling broken
+Date: Fri, 03 Jul 2026 04:00:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: liqysir@qq.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-221716-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Fri, 3 Jul 2026 11:49:20 +0800
-X-Priority: 3
-Message-ID: <tencent_B67BF923C66EC476F99F9C250FDA68D3B205@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-X-QQ-mid: xmsezb41-0t1783050560t2uhkkyi4
+MIME-Version: 1.0
 
-SGkgbWFpbnRhaW5lcnMsCgoKSkhMOTU4MCBCYXJsb3cgUmlkZ2UgKDgwODY6NTc4MCBicmlk
-Z2UsIDgwODY6NTc4MSBOSEkpLCBJbnRlbCdzIGZpcnN0ClRodW5kZXJib2x0IDUgLyBVU0I0
-IHYyIGhvc3QgY29udHJvbGxlciwgaGFzIGluY29tcGxldGUgc3VwcG9ydCBpbiB0aGUKa2Vy
-bmVsIHRocm91Z2ggdjcuMi1yYzEuIFRoZSBob3N0IHJvdXRlciByZXNldCB0aW1lcyBvdXQg
-YW5kIFBDSWUKdHVubmVsaW5nIGlzIG5vbi1mdW5jdGlvbmFsLCBtYWtpbmcgZUdQVSB1c2Ug
-aW1wb3NzaWJsZS4KCgo9PT0gUHJvYmxlbSBTdW1tYXJ5ID09PQoKCjEuIGdldF91cHN0cmVh
-bV9wb3J0KCkgaW4gaWNtLmMgZG9lcyBub3QgcmVjb2duaXplIEJhcmxvdyBSaWRnZSBicmlk
-Z2UKwqAgwqAoMHg1NzgwKS4gTmVpdGhlciBkb2VzIGljbV9wcm9iZSgpIGhhbmRsZSB0aGUg
-TkhJICgweDU3ODEpLgoKCjIuIFdpdGggdGhlc2UgZml4ZWQsIGljbV9maXJtd2FyZV9yZXNl
-dCgpIOKGkiBwY2llMmNpb193cml0ZSgpIHRpbWVzIG91dArCoCDCoCgtMTEwKSBvbiBCYXJs
-b3cgUmlkZ2UuIE5laXRoZXIgaWNtX2FyX2Npb19yZXNldCAoMHg1MC9CSVQoOSkpIG5vcgrC
-oCDCoGljbV90cl9jaW9fcmVzZXQgKDB4Nzc3L0JJVCgxKSkgd29yay4KCgozLiBXaXRob3V0
-IElDTSBmaXJtd2FyZSBydW5uaW5nLCBSRUdfRldfU1RTICgweDM5OTQ0KSBpcyByZWFkLW9u
-bHkgYW5kCsKgIMKgd3JpdGVzIGFyZSBzaWxlbnRseSBpZ25vcmVkLiBVU0IzIHR1bm5lbGlu
-ZyB3b3JrcyAoWEhDSSBwYXNzLXRocm91Z2gpCsKgIMKgYnV0IFBDSWUgdHVubmVscyBhcmUg
-bmV2ZXIgZXN0YWJsaXNoZWQuCgoKNC4gRXZlbiB3aXRoIHNvZnR3YXJlIENNICh0Yl9hY3Bp
-X2lzX25hdGl2ZSgpPTEpLCBVU0I0IHBvcnRzIHNob3cKwqAgwqAibGluazogbm9uZSIgYW5k
-IHRoZSBlR1BVIEdQVSBuZXZlciBhcHBlYXJzIGluIGxzcGNpLgoKCj09PSBIYXJkd2FyZSA9
-PT0KCgrCoCBIb3N0OiBNU0kgTVMtMTVNMyAoRTE1TTNJTVMuMTE3IEJJT1MsIDIwMjYtMDQt
-MTcpCsKgIENQVTogSW50ZWwgQXJyb3cgTGFrZS1IWCBVbHRyYSA5IDI3NUhYCsKgIFRCNTog
-SW50ZWwgSkhMOTU4MCBCYXJsb3cgUmlkZ2UgWzgwODY6NTc4MF0vWzgwODY6NTc4MV0gKHJl
-diA4NCkKwqAgZUdQVTogR0lHQUJZVEUgQU9SVVMgUlRYNTA5MCBBSSBCT1ggKFVTQjQpCsKg
-IE9TOiBVYnVudHUgMjYuMDQsIGtlcm5lbCA3LjAuMC0yNyAoc2FtZSBpc3N1ZSBvbiA3LjAu
-MC0yMikKCgo9PT0gUGF0Y2ggQXR0ZW1wdGVkICh3b3JrcyB1cCB0byBmaXJtd2FyZSBzdGFy
-dCkgPT09CgoKLS0tIGEvZHJpdmVycy90aHVuZGVyYm9sdC9pY20uYworKysgYi9kcml2ZXJz
-L3RodW5kZXJib2x0L2ljbS5jCkBAIGdldF91cHN0cmVhbV9wb3J0KCk6CivigILigILigILi
-gILigIJjYXNlIDB4NTc4MDogLyogSkhMOTU4MCBCYXJsb3cgUmlkZ2UgSG9zdCBCcmlkZ2Ug
-Ki8KCgpAQCBpY21fcHJvYmUoKToKK+KAguKAguKAguKAguKAgmNhc2UgMHg1NzgxOiAvKiBK
-SEw5NTgwIEJhcmxvdyBSaWRnZSBOSEkgKi8KK+KAguKAguKAguKAguKAguKAguKAguKAguKA
-guKAguKAgmljbS0+bWF4X2Jvb3RfYWNsID0gSUNNX0FSX1BSRUJPT1RfQUNMX0VOVFJJRVM7
-CivigILigILigILigILigILigILigILigILigILigILigIJpY20tPmNhbl91cGdyYWRlX252
-bSA9ICF4ODZfYXBwbGVfbWFjaGluZTsKK+KAguKAguKAguKAguKAguKAguKAguKAguKAguKA
-guKAgmljbS0+aXNfc3VwcG9ydGVkID0gaWNtX2FyX2lzX3N1cHBvcnRlZDsKK+KAguKAguKA
-guKAguKAguKAguKAguKAguKAguKAguKAgmljbS0+Y2lvX3Jlc2V0ID0gaWNtX2FyX2Npb19y
-ZXNldDsKK+KAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAgmljbS0+Z2V0X21vZGUg
-PSBpY21fYXJfZ2V0X21vZGU7CivigILigILigILigILigILigILigILigILigILigILigIJp
-Y20tPmdldF9yb3V0ZSA9IGljbV9hcl9nZXRfcm91dGU7CivigILigILigILigILigILigILi
-gILigILigILigILigIJpY20tPnNhdmVfZGV2aWNlcyA9IGljbV9mcl9zYXZlX2RldmljZXM7
-CivigILigILigILigILigILigILigILigILigILigILigIJpY20tPmRyaXZlcl9yZWFkeSA9
-IGljbV9hcl9kcml2ZXJfcmVhZHk7CivigILigILigILigILigILigILigILigILigILigILi
-gIJpY20tPmRldmljZV9jb25uZWN0ZWQgPSBpY21fZnJfZGV2aWNlX2Nvbm5lY3RlZDsKK+KA
-guKAguKAguKAguKAguKAguKAguKAguKAguKAguKAgmljbS0+ZGV2aWNlX2Rpc2Nvbm5lY3Rl
-ZCA9IGljbV9mcl9kZXZpY2VfZGlzY29ubmVjdGVkOwor4oCC4oCC4oCC4oCC4oCC4oCC4oCC
-4oCC4oCC4oCC4oCCaWNtLT54ZG9tYWluX2Nvbm5lY3RlZCA9IGljbV9mcl94ZG9tYWluX2Nv
-bm5lY3RlZDsKK+KAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAgmljbS0+eGRvbWFp
-bl9kaXNjb25uZWN0ZWQgPSBpY21fZnJfeGRvbWFpbl9kaXNjb25uZWN0ZWQ7CivigILigILi
-gILigILigILigILigILigILigILigILigIJ0Yi0+Y21fb3BzID0gJmljbV9hcl9vcHM7Civi
-gILigILigILigILigILigILigILigILigILigILigIJicmVhazsKCgpSZXN1bHQ6IGljbV9w
-cm9iZSBzdWNjZWVkcywgZmlybXdhcmVfc3RhcnQgYmVnaW5zLCBidXQKaWNtX2Zpcm13YXJl
-X3Jlc2V0IOKGkiBwY2llMmNpb193cml0ZSB0aW1lcyBvdXQuCgoKPT09IGRtZXNnID09PQoK
-CsKgIHRodW5kZXJib2x0IDAwMDA6MDQ6MDAuMDogdGltZW91dCByZXNldHRpbmcgaG9zdCBy
-b3V0ZXIKwqAgKFJFR19SRVNFVCBIUlIgcmVtYWlucyAweDAxIGluZGVmaW5pdGVseTsgZXh0
-ZW5kZWQgdG8gNTAwMG1zLCBubyBjaGFuZ2UpCgoKPT09IFF1ZXN0aW9ucyA9PT0KCgoxLiBX
-aGF0IGlzIHRoZSBjb3JyZWN0IENJTyByZXNldCBzZXF1ZW5jZSBmb3IgQmFybG93IFJpZGdl
-PwoyLiBJcyB0aGUgSUNNIGZpcm13YXJlIGludGVyZmFjZSBkaWZmZXJlbnQgZnJvbSBBbHBp
-bmUvVGl0YW4gUmlkZ2U/CjMuIEFyZSB0aGVyZSBwbGFucyB0byBhZGQgbmF0aXZlIEJhcmxv
-dyBSaWRnZSBzdXBwb3J0IHRvIGljbS5jPwo0LiBTaG91bGQgQmFybG93IFJpZGdlIHVzZSBz
-b2Z0d2FyZSBDTSBleGNsdXNpdmVseSAoc2tpcCBJQ00pPwoKCkZ1bGwgZGlhZ25vc3RpYyBs
-b2dzLCBsc3BjaSwgYW5kIEFDUEkgRFNEVCBleGNlcnB0IGF2YWlsYWJsZSBvbiByZXF1ZXN0
-LgpUZXN0IGhhcmR3YXJlIGF2YWlsYWJsZSBmb3IgYW55IHByb3Bvc2VkIHBhdGNoZXMuCgoK
-VGhhbmsgeW91LAoJCk5lbwpsaXF5c0B2aXAucXEuY29tCgo=
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221716
 
+            Bug ID: 221716
+           Summary: JHL9580 Barlow Ridge TB5: host_reset timeout, PCIe
+                    tunneling broken
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: liqysir@qq.com
+        Regression: No
+
+JHL9580 Barlow Ridge (8086:5780/5781) Thunderbolt 5 / USB4 v2 host
+    controller has incomplete Linux support through v7.2-rc1.
+
+    Symptoms:
+    - host_reset times out (REG_RESET HRR stays 0x01, even with 5000ms time=
+out)
+    - REG_FW_STS is read-only (0x00000000), ICM firmware cannot start
+    - USB3 tunneling works (XHCI pass-through), PCIe tunneling broken
+    - eGPU GPU never appears in lspci
+
+    Tested: kernel 7.0.0-22, 7.0.0-27, 7.1.2 =E2=80=94 all same issue.
+    Hardware: MSI MS-15M3 (Arrow Lake-HX Ultra 9 275HX) + GIGABYTE AORUS
+RTX5090 AI BOX.
+
+    Root causes identified:
+    1. get_upstream_port() in icm.c does not recognize 0x5780
+    2. icm_probe() has no case for 0x5781
+    3. icm_firmware_reset() =E2=86=92 pcie2cio_write() times out on Barlow =
+Ridge
+
+    Patch attempted (adds 0x5780/0x5781 to icm.c) =E2=80=94 icm_probe succe=
+eds but
+    CIO reset times out. Correct Barlow Ridge CIO reset sequence needed.
+
+    Full diagnosis email sent to linux-usb@vger.kernel.org.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
