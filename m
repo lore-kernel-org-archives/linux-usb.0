@@ -1,34 +1,81 @@
-Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99624388885;
-	Fri,  3 Jul 2026 11:14:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BCD73CEB8D;
+	Fri,  3 Jul 2026 12:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783077273; cv=none; b=KBdLmOBcOOT2iwrjqY9FCT+k3qxwYQVdgQmMDjgCSigemYTr45y0r0nbCAFAlOJ1JAnEjrU86EVo6H9jeAvFlZRfPCQcGkA1mI4N6ORFhMxrLU3C2EusA+xsCrHBTGHspve8YpjqThveuG6jCN01mGcu+9JaA8GegUBl5UT4ePk=
+	t=1783080133; cv=none; b=c/HiYXlUss9qF6OozypHtS27OHh8xBQGXUKT6nCOfN7wzRXt3noHivlD83w+ZH3B/Sezn03GcLG2XD7JE6t8M5j0F7OEb3ZzHMdDjpS9dEx4tCPyi06NNkziSybb+OH4xEdcr8zJ41ph2bGS2sbJsoulo6sdc4BhiAZZj1l7IEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783077273; c=relaxed/simple;
-	bh=eDHiRT/+1z97fz+HUcT6oVSr58/vj67tduOemkH4s9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lKyLew5Mg8ck6n6OoRNIrqufjtMEsfJrR2xaZ8mDtSebS56nGN/fILjOJfztUwW6tKhmRI4pRCOKNualZCvTlx1o7LhUthuloViKTwEaByqtwTHADBH1o4IDPX8DJa3kB7jnBAzXJAvDydsp9Ajj7v0mpe9jKHmwE8Lzh029aEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
-Received: from abreu.molgen.mpg.de (g42.guest.molgen.mpg.de [141.14.220.42])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: pmenzel)
-	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 3BCE34C2C37F00;
-	Fri, 03 Jul 2026 13:08:10 +0200 (CEST)
-From: Paul Menzel <pmenzel@molgen.mpg.de>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Paul Menzel <pmenzel@molgen.mpg.de>,
-	linux-usb@vger.kernel.org,
+	s=arc-20240116; t=1783080133; c=relaxed/simple;
+	bh=QBXmSR8CbCv0iJTrF7jkCvXfukfcP20q4e/48osmbbU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZirjMW2Fq0OK3kghTCt9/1ci5F06hte8cC4D4teU7dPrJjRtJYKfL8bq0n9JCO/A8PfIeJlyXVUvr6QVo/w5DiH0nh4Ei7LatjZ4KzHs/AcCmgE8yxuMKU27OEbtbjevEVhG9WNK7S7Bm27DA0sRIlyAeDaWXTEcwHMQlr4NWKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foobox.net; spf=pass smtp.mailfrom=foobox.net; dkim=pass (2048-bit key) header.d=foobox.net header.i=@foobox.net header.b=Ky0z36in; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gEPSGz/O; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foobox.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foobox.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=foobox.net header.i=@foobox.net header.b="Ky0z36in";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gEPSGz/O"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id DA4C07A0070;
+	Fri,  3 Jul 2026 08:02:09 -0400 (EDT)
+Received: from phl-frontend-01 ([10.202.2.160])
+  by phl-compute-03.internal (MEProxy); Fri, 03 Jul 2026 08:02:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foobox.net; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm1; t=1783080129; x=1783166529; bh=xDv+XiFyxT+QQ6gO6SDKh
+	yosjGdK9Jxsfr4Th7O2vO0=; b=Ky0z36inf7DiRvEW8Zynqh+TpvdF0xYv/8HfA
+	hANYE1wsdOsPvaylqI1eToQXxVpGU+3OarhugcWlllIqx9qEhO1KGIZg5XhWUWfQ
+	kfNtJjhaEMXAod8Yy5CRU0l0G3AyrvWnvYflxCu3mpTmizqh3s7bEHSFUlOKYE85
+	Nr7/byemGZzMbF/EH08dvZwEx6xnlnkL8TA36iY14Q2Uxp6gmO2XAm8RqAcVybQC
+	i8lD5lKj7knT6tgqHulOpUOrFZJpGH7ElTmnvd4xiENOG1L/S8iRuC7mewS4pkN7
+	r6gFhwfct9pTh0vCkpraqm1pmCiNLIcX8RHaLK1bweawC2S0Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1783080129; x=1783166529; bh=xDv+XiFyxT+QQ6gO6SDKhyosjGdK9Jxsfr4
+	Th7O2vO0=; b=gEPSGz/OEmMnIwBaHKd4fY9SN7DgMvxE0oIiK3SmqqezxHl3pPz
+	D6jfTmXkAC9rV6fz7kdP104VfhXCb3QEep8harrrBl3maiYjJyb0IHlk79j0RglT
+	aE0Y57KvPc7pshg/tCmG0933j+UJRtVI/8D2g50aQEEbUswhDz6DvqkXXkaiShVo
+	JwR8CHe4FPPKpDsK4uPZSsFmK2cdl1CwX+L9dr6N/N7lzmGGfpP7Cd9piZPSK9n2
+	X2NcBEdKdiBxvuRYROXjAxLPpzaBz1nWBp6ymomiVRTxxP9uxqMyq2M4Q3hVWIKG
+	9qPHyWCimIQN9wbP780DCU9SkcZoO4yiyNw==
+X-ME-Sender: <xms:waRHavCJL7jXPnnJDzb1TswTZoFF_q-CsvQ5S1z5vACCxVLWOkR6Xw>
+    <xme:waRHamPJGvpvvUmhb4Lwqvn_sSiQ5xUr4SyaTA8KwlSUKKkE5awYgoZWY994JrgO6
+    sdhJ7ssZ7a_E3Gpd4pxNWadxAgs8OOmshg7sW4J6_EWdDCW3mNfdQ>
+X-ME-Received: <xmr:waRHaoyFT1eUWs_X4mburBIxqQkIUMK3c6zt7TYkbNWA-brkA9oprkj_WU53pYL2qhQF9OH0bYf_x-oB5aURl4tsrgYT0QeHOtpujinP4Ig>
+X-ME-Proxy-Cause: dmFkZTGzpG+XoiW/tvA/e4kfbsnqtVJJ0ypEeYOA3PNTdJOwWh1qJE7A9/q4MLUfz+B4h4
+    yS3+QL2eCy7Lq/11P0B+yfJk0Cv0Kjwr0mfSg/hE0qQKTD6zB3xqsACKSBDwskLMxsOgQI
+    09+9+aFJuVZNx4a/AYd/f0Xm2bzvrxs1O/wjPaSZjCZ6S+U7e2qkfKFhv/cJ586bFOByQR
+    JPWZEIcJlOt362ssLjFv2Fv85sAhbZdJreBsm44QUwkxRHdCiDjz5RhIQ5cV47G19Zq98h
+    oE+f9s1KPzAaTe4eB1b9dDEoDCvXtlaJ2aOdPIZ5YtoQHYaSrN4ULEQJIeA6Qn5ipaNZaA
+    toEj2EmOTajz9EfrbJAk6l3J8oRVlbapMTQ9svCD8e9CTD0iEUHGMhIKSgvHjpUhPznJ3Q
+    8jHiQ1bAVaQlvwUbChrhiqegWuAuww+qafZEaaqVUQhrZOusX1pEACz7kstHQeo2xCXIe1
+    du7HvB//TdP9S2Ueo5k4zqRJKs0FOPUfPMmMAVYm+mPhNbadgGeSy8Hxlf/KsulCBhRqDQ
+    cSKWZXYlIPmfdgFZsOXXzx0y9DRWApIYAAEX+2//YH2zjKm1PufJ5pX9WJS76hsDMzHT7S
+    0yif9QoTA+Amx/uifMpSj/NYigCRWunnvQf8txazN/8A9yALuRbP6liE27Gw
+X-ME-Proxy: <xmx:waRHamUENXYAazrDUN7q-R8netZtpbjfM5nL_Ey6B5kyz6JRqDpPTg>
+    <xmx:waRHaqP4ew1rWxOZYZ-aWWOaqp0tgO4wsJlbBmMbMq4EuOJRxrTYnQ>
+    <xmx:waRHaoBK2D2H6Fv6bkkSNgOgvbb-vnnzf8THpkJ5-LstPTPJ8-GeLA>
+    <xmx:waRHand2k-mPjEkqX7PjwuTyZJkV-PqXhnlkK2cKuhx3QefgSLuzUA>
+    <xmx:waRHaj9vS9rMmjKSqmklVatuvJ3wEzHW2-Yf_7s-EReUYNC56FPHXBW8>
+Feedback-ID: i7f494978:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 Jul 2026 08:02:06 -0400 (EDT)
+From: Ihor Matushchak <ihor.matushchak@foobox.net>
+To: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: typec: ucsi: cancel pending work on system suspend
-Date: Fri,  3 Jul 2026 13:07:37 +0200
-Message-ID: <20260703110738.8457-2-pmenzel@molgen.mpg.de>
+Cc: Peter Chen <peter.chen@kernel.org>,
+	Pawel Laszczak <pawell@cadence.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ihor Matushchak <ihor.matushchak@foobox.net>
+Subject: [PATCH] usb: cdns3: plat: fix a typo in cdns3_plat_probe()
+Date: Fri,  3 Jul 2026 14:01:36 +0200
+Message-ID: <20260703120136.19852-1-ihor.matushchak@foobox.net>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -38,115 +85,32 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On a Dell XPS 13 9360 (BIOS 2.21.0), entering system suspend (deep/S3)
-races a pending UCSI connector-change worker against the ACPI EC teardown.
-The worker evaluates the UCSI _DSM (GET_CONNECTOR_STATUS), whose AML
-accesses the Embedded Controller. By that point the ACPI EC has already
-been stopped for suspend, so the EC address space handler rejects the
-access with AE_BAD_PARAMETER, aborting the AML and failing the connector
-query:
+Fixes typos in dev_err_probe(): 'cdn3,usb*-phy' -> 'cdns3,usb*-phy'.
 
-    [22314.689495] ACPI: EC: interrupt blocked
-    [22314.711981] ACPI: PM: Preparing to enter system sleep state S3
-    [22314.743260] ACPI: EC: event blocked
-    [22314.743265] ACPI: EC: EC stopped
-    [22314.743267] ACPI: PM: Saving platform NVS memory
-    [22314.744241] ACPI Error: AE_BAD_PARAMETER, Returned by Handler for [EmbeddedControl] (20260408/evregion-303)
-    [22314.744432] ACPI Error: Aborting method \_SB.PCI0.LPCB.ECDV.ECW1 due to previous error (AE_BAD_PARAMETER) (20260408/psparse-543)
-    [22314.744673] ACPI Error: Aborting method \ECWB due to previous error (AE_BAD_PARAMETER) (20260408/psparse-543)
-    [22314.745201] ACPI Error: Aborting method \_SB.UBTC._DSM due to previous error (AE_BAD_PARAMETER) (20260408/psparse-543)
-    [22314.745394] ACPI: \_SB_.UBTC: failed to evaluate _DSM c298836f-a47c-e411-ad36-631042b5008f rev:1 func:1 (0x1001)
-    [22314.745414] ucsi_acpi USBC000:00: ucsi_acpi_dsm: failed to evaluate _DSM 1
-    [22314.745424] ucsi_acpi USBC000:00: ucsi_handle_connector_change: GET_CONNECTOR_STATUS failed (-5)
-
-ucsi_acpi implements a resume callback but no suspend callback, so nothing
-cancels the connector-change work before the firmware/EC is torn down.
-
-Add a `ucsi_suspend()` core helper that cancels the pending init and
-connector-change work, and wire it into ucsi_acpi's PM ops. The connector
-state is re-read on resume by `ucsi_resume()`, so cancelling the work loses
-nothing.
-
-Fixes: 4e3a50293c2b ("usb: typec: ucsi: acpi: Implement resume callback")
-Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
-Assisted-by: Claude Opus 4.8
+Signed-off-by: Ihor Matushchak <ihor.matushchak@foobox.net>
 ---
- drivers/usb/typec/ucsi/ucsi.c      | 20 ++++++++++++++++++++
- drivers/usb/typec/ucsi/ucsi.h      |  1 +
- drivers/usb/typec/ucsi/ucsi_acpi.c | 10 +++++++++-
- 3 files changed, 30 insertions(+), 1 deletion(-)
+ drivers/usb/cdns3/cdns3-plat.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 92166a3725b16..6a6723e8fb127 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -2017,6 +2017,26 @@ static void ucsi_resume_work(struct work_struct *work)
- 	}
- }
+diff --git a/drivers/usb/cdns3/cdns3-plat.c b/drivers/usb/cdns3/cdns3-plat.c
+index bb5405460035..e3f32c3e9535 100644
+--- a/drivers/usb/cdns3/cdns3-plat.c
++++ b/drivers/usb/cdns3/cdns3-plat.c
+@@ -147,12 +147,12 @@ static int cdns3_plat_probe(struct platform_device *pdev)
+ 	cdns->usb2_phy = devm_phy_optional_get(dev, "cdns3,usb2-phy");
+ 	if (IS_ERR(cdns->usb2_phy))
+ 		return dev_err_probe(dev, PTR_ERR(cdns->usb2_phy),
+-				     "Failed to get cdn3,usb2-phy\n");
++				     "Failed to get cdns3,usb2-phy\n");
  
-+int ucsi_suspend(struct ucsi *ucsi)
-+{
-+	int i;
-+
-+	/*
-+	 * Cancel pending work so it cannot access the firmware after the ACPI
-+	 * EC is stopped for suspend; state is re-read on resume.
-+	 */
-+	cancel_delayed_work_sync(&ucsi->work);
-+
-+	if (!ucsi->connector)
-+		return 0;
-+
-+	for (i = 0; i < ucsi->cap.num_connectors; i++)
-+		cancel_work_sync(&ucsi->connector[i].work);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(ucsi_suspend);
-+
- int ucsi_resume(struct ucsi *ucsi)
- {
- 	if (ucsi->connector)
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index 325ed1e5ca804..6e1608d88ec3d 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -582,6 +582,7 @@ int ucsi_write_message_out_command(struct ucsi *ucsi, u64 command,
- 				   void *msg_out, size_t msg_out_size);
+ 	cdns->usb3_phy = devm_phy_optional_get(dev, "cdns3,usb3-phy");
+ 	if (IS_ERR(cdns->usb3_phy))
+ 		return dev_err_probe(dev, PTR_ERR(cdns->usb3_phy),
+-				     "Failed to get cdn3,usb3-phy\n");
++				     "Failed to get cdns3,usb3-phy\n");
  
- void ucsi_altmode_update_active(struct ucsi_connector *con);
-+int ucsi_suspend(struct ucsi *ucsi);
- int ucsi_resume(struct ucsi *ucsi);
- 
- void ucsi_notify_common(struct ucsi *ucsi, u32 cci);
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index 60b12961e1a47..18286d3e9cc59 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -263,6 +263,13 @@ static void ucsi_acpi_remove(struct platform_device *pdev)
- 				   ucsi_acpi_notify);
- }
- 
-+static int ucsi_acpi_suspend(struct device *dev)
-+{
-+	struct ucsi_acpi *ua = dev_get_drvdata(dev);
-+
-+	return ucsi_suspend(ua->ucsi);
-+}
-+
- static int ucsi_acpi_resume(struct device *dev)
- {
- 	struct ucsi_acpi *ua = dev_get_drvdata(dev);
-@@ -270,7 +277,8 @@ static int ucsi_acpi_resume(struct device *dev)
- 	return ucsi_resume(ua->ucsi);
- }
- 
--static DEFINE_SIMPLE_DEV_PM_OPS(ucsi_acpi_pm_ops, NULL, ucsi_acpi_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(ucsi_acpi_pm_ops, ucsi_acpi_suspend,
-+				ucsi_acpi_resume);
- 
- static const struct acpi_device_id ucsi_acpi_match[] = {
- 	{ "PNP0CA0", 0 },
+ 	ret = phy_init(cdns->usb2_phy);
+ 	if (ret)
 -- 
-2.54.0
+2.53.0
 
