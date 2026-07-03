@@ -1,200 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94988233939
-	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 16:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D3830F92E;
+	Fri,  3 Jul 2026 18:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783097340; cv=none; b=ZR39DsDt/V3xsKeXIWYkNrgpoTt4QpvlxedXGVsmg4jl5DvlnJ7VwfBR7ylU7xtITL10TMtC5VDEKSEZ6GwoI381vC2obY7d/5SDqeDqL7untzYizHSHCQ2cVbyx843wqS/xNw4UgYp1H7hezWp8H5+j6Tgoyc+MuOySwhE6vnA=
+	t=1783102416; cv=none; b=Eyn0aOLhD53NTzGVlF6L2vTpbGRpO3ex0vA59RD+nyDxVg9GYNGIW8ZkrjXWzSV5qjEWeAGVxT/hspKbm0tqFQqDseDDcSPJaaEmFEXQ8AL7owc6rXv3w/gQHmRWV8VQpYtNOL7CqDEXzV9QFmb8G7uswzdJMh3fVTbNYlO3lfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783097340; c=relaxed/simple;
-	bh=91MbmVvKWFm2Ng7MD89+haPWOwx3a/XRl3LTah2aL4w=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Te2r5SdOVUUOXLdq3kdCAC6z6fIWXSHWPO5bl2bJilDEyAFGFwtCn0Evo8QzbuCDqQEVXxFO2mIMOFqx46noWE2L05Dez4laqLcWeTBu0tupYZdGKTAQHVooFHs8CozANY5Es1bl0D9mygHEFcaDMmP6nVv55aLRBcwVRO48diY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f08EljTC; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1783102416; c=relaxed/simple;
+	bh=ou2OeHe9NiTPGYgMcRzTUBwKmURTgL5/azZ1wBtlGvM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=WexmY6yybRA0WHpXiDb97FXsI4j7sU79+XvpzHUbnFgrCVggh9dYB72r3aHKp0vSyAr271viyKPsPlQMPT70378Jg5mun2xVp5aUeWeUsFGXvu4FaEdm8gejihSBN5dpMo73BAmNUSs/Sx5jHSIo6ji3db4r0l8g6gpTG8U0NX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MH07THUh; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f08EljTC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783097339; x=1814633339;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=91MbmVvKWFm2Ng7MD89+haPWOwx3a/XRl3LTah2aL4w=;
-  b=f08EljTCxsq5FWDjxglpu/4cOerby6SQ42PpdXRotvI4BUJKVoWZTqvU
-   ft+RvIy2vslKGu59aslCyqrdzaeDgtr/heZYOzOJgZqbb9/WKWWr+Wr9A
-   2TAkuIyvaS/ir2FIfqiSDUibl/Cebi4PFn9Hf9FzJvKWAE//MhyzsXGnc
-   Y5uOi535phIPeN/NIJQxX0m6j2KDxWtfC2gSonQfeH2hL5BVbtvIej1YC
-   S/arIABzPAeRRt7QBuLCMa/+XTAo0R/mZnGsyZWP54jamr1C2G8CgJ/+/
-   +sxNiKOlTJR5dJGaW+ITYVZx++9wN6pDJ3PsHgcwDa1CRYLzbh5VlIhz9
-   g==;
-X-CSE-ConnectionGUID: jPVdwPhJRJGBv/t9Zb7/tw==
-X-CSE-MsgGUID: ElzQIubESPWbFbigF2tIQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11836"; a="94210444"
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="94210444"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 09:48:58 -0700
-X-CSE-ConnectionGUID: sn28lwtkS3usX1IfwMiXsw==
-X-CSE-MsgGUID: u43qSb30QcKPvXNOED5gng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,145,1779174000"; 
-   d="scan'208";a="277478086"
-Received: from aborzesz-mobl3.igk.intel.com ([10.237.140.166])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2026 09:48:56 -0700
-Message-ID: <e488a87aa3bf3e7dc53e8b9b2533ee8c6760a86a.camel@linux.intel.com>
-Subject: Re: [PATCH RFC] thunderbolt: Add JHL9580 Barlow Ridge (TB5) ICM
- support =?UTF-8?Q?=E2=80=94?= host_reset timeout blocking PCIe tunneling
-From: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
-To: Neo <liqys@vip.qq.com>, linux-usb <linux-usb@vger.kernel.org>
-Cc: "andreas.noever" <andreas.noever@gmail.com>, westeri
- <westeri@kernel.org>,  YehezkelShB <YehezkelShB@gmail.com>
-Date: Fri, 03 Jul 2026 18:48:54 +0200
-In-Reply-To: <tencent_B67BF923C66EC476F99F9C250FDA68D3B205@qq.com>
-References: <tencent_B67BF923C66EC476F99F9C250FDA68D3B205@qq.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MH07THUh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1783102413;
+	bh=ou2OeHe9NiTPGYgMcRzTUBwKmURTgL5/azZ1wBtlGvM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=MH07THUhUs7SvDVQHOL3pFfgOkOEbcqChlo6RygIxx8ot0zOmK3q2VRYJHXPwAMNb
+	 XGHY/kMscTUwCN2KzwcbJrekgghosDEDBoZ1/i7wzgdlKt2beIAq3adIFzXTnD2tVt
+	 zOfXsQ1PcjJLpb9xigGHNiZciK+WCE7J5z91iqzMHFhlo8oeEN3L+W8GS1/rdCNV75
+	 yyTgfnHd/AAJ+6MVuHTHhOg4gbA8uuTxTLx3p+KqSq8iv/PyGbscTgXT07Zsj3aoKF
+	 /8SlgutXOn3Gt9nHk9yTUf95RE/pQaIJSgwCMwoykU4DobUxVnIJZbz5nimLkVD2rk
+	 SsGZXShJwobFw==
+Received: from jupiter.universe (unknown [100.64.1.62])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id C579517E1006;
+	Fri,  3 Jul 2026 20:13:32 +0200 (CEST)
+Received: by jupiter.universe (Postfix, from userid 1000)
+	id 7D50648002F; Fri, 03 Jul 2026 20:13:32 +0200 (CEST)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+Date: Fri, 03 Jul 2026 20:13:19 +0200
+Subject: [PATCH v10 03/36] phy: rockchip: usbdp: Do not lose USB3 PHY
+ status
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260703-rockchip-usbdp-cleanup-v10-3-a392711ca8a9@collabora.com>
+References: <20260703-rockchip-usbdp-cleanup-v10-0-a392711ca8a9@collabora.com>
+In-Reply-To: <20260703-rockchip-usbdp-cleanup-v10-0-a392711ca8a9@collabora.com>
+To: Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Frank Wang <frank.wang@rock-chips.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Yubing Zhang <yubing.zhang@rock-chips.com>, 
+ Alexey Charkov <alchark@flipper.net>, linux-phy@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, kernel@collabora.com, 
+ devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1409;
+ i=sebastian.reichel@collabora.com; h=from:subject:message-id;
+ bh=ou2OeHe9NiTPGYgMcRzTUBwKmURTgL5/azZ1wBtlGvM=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpH+8t/DdYlmTMIp6xxMySosmRXJYiswxuj2
+ Zj8ckaWM3uTsIkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqR/vLAAoJENju1/PI
+ O/qaL+oP/jmlJP3yOdSPrKrMnR2aBkqYZa0FdQEU8gxCJLy7T8BQT11561d8QJejZymgSmtCBHV
+ hRJMbJUdTUN0L7Bg88uRK+vhgX6JXljF/qCElguVc9wgksg5lTpFL4ys/PFrIi7RNZTpuS4/SUA
+ PEZqcyI5W3g2yq/hPeJngTeqgZbb5pn7JtWFFyBTN1d5EaXwjT0V1uxlBA2Y00WjdA9pJ+57uM+
+ gdPZXZx4FUrqgiS1fCGeUpG/MyjzIeZyh3mUSmFmwbaIkuPXyfXKh0Ydl1nPvhHdvTsBe4S4m7h
+ XCdMXhac+juNcRQ9us7a/C+SHQIPpvcPnY8JjyniXXYRhOdCi7IDKsqRrwt9vJ/zG3c0R/l3pp5
+ b+sWCvHtTlU64jA11U2YHmiduGVx6xlvNYf+UTnGJKP/GW2KO9y0zH/EKuLDP7pc6OKSCyjuZct
+ Tn8q4Kdg2/G9GDHDf/YyxhpC2+BOrk3tx3J6UvEJC1bGKjmtaxicdC5X7U2Op3RgfgzeT+Na20Z
+ q9cjDPxLLAIAmFTQ9bNUd8h0AD4F0JPkJCwkdygl8Y8iulSuG0H4CdB+swJ/vuegYPeyDMcjP0m
+ nwuyE5WB/4PS5j1j6NPL/OXucM66npC0CkniuWHIdMGyNb9uWtBJCs1NJdxxbzLC9LVDRaeYh60
+ xmlx+D+fromNlF68pDVos8Q==
+X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
+ fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-Hi,
+By default (i.e. without manually enabling runtime PM) DWC3 requests the
+USB3 PHY once and keeps it enabled all the time. When DisplayPort is
+being requested later on, a mode change is needed. This re-initializes
+the PHY. During re-initialization the status variable has incorrectly
+been cleared, which means the tracking information for USB3 is lost.
 
-Please send full dmesg with 'thunderbolt.dyndbg=3D+p' parameter in linux
-command line.
+This is not an immediate problem, since the DP side keeps the PHY
+enabled. But once DP is toggled off, the whole PHY will be disabled.
+This is a problem, because the USB side still needs it powered.
 
-Firmware Connection Manager (ICM) is not used with Barlow Ridge, only
-software CM.
+Fix things by not clearing the status flags.
 
-On Fri, 2026-07-03 at 11:49 +0800, Neo wrote:
-> Hi maintainers,
->=20
->=20
-> JHL9580 Barlow Ridge (8086:5780 bridge, 8086:5781 NHI), Intel's first
-> Thunderbolt 5 / USB4 v2 host controller, has incomplete support in
-> the
-> kernel through v7.2-rc1. The host router reset times out and PCIe
-> tunneling is non-functional, making eGPU use impossible.
->=20
->=20
-> =3D=3D=3D Problem Summary =3D=3D=3D
->=20
->=20
-> 1. get_upstream_port() in icm.c does not recognize Barlow Ridge
-> bridge
-> =C2=A0 =C2=A0(0x5780). Neither does icm_probe() handle the NHI (0x5781).
->=20
->=20
-> 2. With these fixed, icm_firmware_reset() =E2=86=92 pcie2cio_write() time=
-s
-> out
-> =C2=A0 =C2=A0(-110) on Barlow Ridge. Neither icm_ar_cio_reset (0x50/BIT(9=
-)) nor
-> =C2=A0 =C2=A0icm_tr_cio_reset (0x777/BIT(1)) work.
->=20
->=20
-> 3. Without ICM firmware running, REG_FW_STS (0x39944) is read-only
-> and
-> =C2=A0 =C2=A0writes are silently ignored. USB3 tunneling works (XHCI pass=
--
-> through)
-> =C2=A0 =C2=A0but PCIe tunnels are never established.
->=20
->=20
-> 4. Even with software CM (tb_acpi_is_native()=3D1), USB4 ports show
-> =C2=A0 =C2=A0"link: none" and the eGPU GPU never appears in lspci.
->=20
->=20
-> =3D=3D=3D Hardware =3D=3D=3D
->=20
->=20
-> =C2=A0 Host: MSI MS-15M3 (E15M3IMS.117 BIOS, 2026-04-17)
-> =C2=A0 CPU: Intel Arrow Lake-HX Ultra 9 275HX
-> =C2=A0 TB5: Intel JHL9580 Barlow Ridge [8086:5780]/[8086:5781] (rev 84)
-> =C2=A0 eGPU: GIGABYTE AORUS RTX5090 AI BOX (USB4)
-> =C2=A0 OS: Ubuntu 26.04, kernel 7.0.0-27 (same issue on 7.0.0-22)
->=20
->=20
-> =3D=3D=3D Patch Attempted (works up to firmware start) =3D=3D=3D
->=20
->=20
-> --- a/drivers/thunderbolt/icm.c
-> +++ b/drivers/thunderbolt/icm.c
-> @@ get_upstream_port():
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82case 0x5780: /* JHL9580 Bar=
-low Ridge Host Bridge */
->=20
->=20
-> @@ icm_probe():
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82case 0x5781: /* JHL9580 Bar=
-low Ridge NHI */
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82icm->max_boot_acl =3D ICM_AR_PREBOOT_ACL_ENTRIES=
-;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82icm->can_upgrade_nvm =3D !x86_apple_machine;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82icm->is_supported =3D icm_ar_is_supported;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82icm->cio_reset =3D icm_ar_cio_reset;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82icm->get_mode =3D icm_ar_get_mode;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82icm->get_route =3D icm_ar_get_route;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82icm->save_devices =3D icm_fr_save_devices;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82icm->driver_ready =3D icm_ar_driver_ready;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82icm->device_connected =3D icm_fr_device_connecte=
-d;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82icm->device_disconnected =3D icm_fr_device_disco=
-nnected;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82icm->xdomain_connected =3D icm_fr_xdomain_connec=
-ted;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82icm->xdomain_disconnected =3D icm_fr_xdomain_dis=
-connected;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82tb->cm_ops =3D &icm_ar_ops;
-> +=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=E2=80=82=
-=E2=80=82=E2=80=82=E2=80=82break;
->=20
->=20
-> Result: icm_probe succeeds, firmware_start begins, but
-> icm_firmware_reset =E2=86=92 pcie2cio_write times out.
->=20
->=20
-> =3D=3D=3D dmesg =3D=3D=3D
->=20
->=20
-> =C2=A0 thunderbolt 0000:04:00.0: timeout resetting host router
-> =C2=A0 (REG_RESET HRR remains 0x01 indefinitely; extended to 5000ms, no
-> change)
->=20
->=20
-> =3D=3D=3D Questions =3D=3D=3D
->=20
->=20
-> 1. What is the correct CIO reset sequence for Barlow Ridge?
-> 2. Is the ICM firmware interface different from Alpine/Titan Ridge?
-> 3. Are there plans to add native Barlow Ridge support to icm.c?
-> 4. Should Barlow Ridge use software CM exclusively (skip ICM)?
->=20
->=20
-> Full diagnostic logs, lspci, and ACPI DSDT excerpt available on
-> request.
-> Test hardware available for any proposed patches.
->=20
->=20
-> Thank you,
-> =09
-> Neo
-> liqys@vip.qq.com
+Fixes: 2f70bbddeb45 ("phy: rockchip: add usbdp combo phy driver")
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+ drivers/phy/rockchip/phy-rockchip-usbdp.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
+index a5ffdf7a6e76..12dfdd470a78 100644
+--- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
++++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
+@@ -1008,7 +1008,6 @@ static int rk_udphy_power_on(struct rk_udphy *udphy, u8 mode)
+ 			rk_udphy_u3_port_disable(udphy, false);
+ 		udphy->mode_change = false;
+ 	} else if (udphy->mode_change) {
+-		udphy->status = UDPHY_MODE_NONE;
+ 		if (udphy->mode == UDPHY_MODE_DP)
+ 			rk_udphy_u3_port_disable(udphy, true);
+ 
+
+-- 
+2.53.0
+
