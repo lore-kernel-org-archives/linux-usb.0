@@ -1,78 +1,138 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F6545039;
-	Fri,  3 Jul 2026 06:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68ECF388E76;
+	Fri,  3 Jul 2026 07:03:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783060224; cv=none; b=db4XCdCy5yNo+h03S4iqG8FauvbYvSWiB5DBi/s/7zmm3lZnM7YQILndzVuw7fhwsIh+jgIda+11I3d+wq0g5+nswD9iTUclgs1I9owb6HFaiO0rse8Nt4GoTkY7DoQ3o3HfjRtG6uxwScuEhplq1Mx80JWNO0wvUcMM0m/wdf8=
+	t=1783062201; cv=none; b=WKA+qWAOx1nftpZ5TBN/n5phnqGoG1Gp74rSGJ1SJT55z0b48QIk/Vw4VkxTFFa97s1OQXCOB+jgEdsreMB0EDHmRWIuBPWwv4AYcqbgDD9OI8GcCV0L7ZVMNj31ZV1MlBLstQbbbS9/IIdXpSCnwAuuNRgKLXHn7Xh4VNchxiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783060224; c=relaxed/simple;
-	bh=qHVWz9a9qHi1kznZy40KgMD6Gz+Qk0Nhid1bNn1ki04=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Dkyds2k+ncXy2Yph3IemdLQjnQWH7y4DMOJUHT6Ez6O0r8IbTac027HZeY3qYrrtKSilyqvhdsY94nPO2h2nUltEPURu3L9eXGujGKQjcvZ1Vt7tRif+v40KM54TrFKOURy3Mmbjw+CLumzAfHbLB87pHwAiYtczRL5HSGGzsCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YFjcm4RE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783062201; c=relaxed/simple;
+	bh=JkFPjoxFTMur+37gMHh4PR+51kpVZe+/gkS9HFC0MBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YBw7jh5A4xQMFtW8oChYTCT9HVpS6+0mLYzgkZIVmmezsh0n6ovVed/zh772VrTtOYPSbUxy86jCrp+joyexHjtY1qcOQkVnf/iSIyvMf/vf0/WgPT3Qy63+4gYE+qYuad9kWJdCk2oBGeDqPSVWy8dcQ8GChjJpEnuJ3M+11Yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RThat20e; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YFjcm4RE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6D861F000E9;
-	Fri,  3 Jul 2026 06:30:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RThat20e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9B701F000E9;
+	Fri,  3 Jul 2026 07:03:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783060222;
-	bh=aSYWmxj1Ti9dl2kQB9GNGQQQVUGnqQ77vIa1gpjIXzE=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=YFjcm4REEXcvFzwbfORBk430XASBcFLw8Kx/0gddFGKhtU3O9f+C/osFUpGMBizbH
-	 Rv/vjD7w3Sn8NCm6tuHfN+c5cw4L2SLFVoKptNDWd3QxEm6pkgLpsgzgUZw5dZ/ASw
-	 67+cEXvIIQarpPXLLbaGpKCEk3EcBWBkgAByl6lrNQbZOxc84x9gtnWqq2SreND3Ht
-	 uyx7YfXGiIU1agy56zXNVZzEmp3xY7GJdyEugtfAJI/t5XkdgGqB1SxQ5KYLzIJE9t
-	 60d061RfVv8akf34wSOhjpb69XFaGcxovYAsO7HYPdJl+kAq/XjsoLbgoE08jul44U
-	 hjTDtKiJKl4dw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 9391E393878E;
-	Fri,  3 Jul 2026 06:30:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1783062200;
+	bh=MwBqIbO+uyjhlDw6NVMbMyFvEcq7NmoGtHQejj+SLFE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RThat20ehjTOHl5OwssmV69gEmG2XtNagHpxRhIW8AXKQf+43a/DDdjyRAjwavYaK
+	 sSiZ3DoLLFpWSxZgn8uuWfduaLLCcp92C8ZCacx1Tb0xIuOpaXzkriE1Rw3ylL7sqm
+	 oSeccmmcQcjR5FOWhItZRdGpi4O0vqKu/KMl2QBVwoBI4Iu69M2i9HjV57S2/8jkZe
+	 UTiqaAiDHA+d0LD8ro1C2olBk94i2sC7AJjwKmc6Kv6SssgN7rmOSNm6V5lSFsB393
+	 jpwKD3r2xJaSuScEMETJ8jzGqQOh4e8f/aOC8vHuJl7EGV8XROmTAOFd+x2xMuDLqI
+	 awTcwR3SHtLWA==
+Date: Fri, 3 Jul 2026 00:03:18 -0700
+From: Peter Chen <peter.chen@kernel.org>
+To: Melbin K Mathew <mlbnkm1@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, security@kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: printer: fix infinite loop in printer_read()
+Message-ID: <akdetq0h1ECpbZXp@hu-petche-lv.qualcomm.com>
+References: <20260701205320.227791-1-mlbnkm1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net v2] net: usb: net1080: validate packet_len before
- pad-byte
- access in rx_fixup
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178306020539.2481588.14914753209820717165.git-patchwork-notify@kernel.org>
-Date: Fri, 03 Jul 2026 06:30:05 +0000
-References: <20260630045121.1565324-1-xmei5@asu.edu>
-In-Reply-To: <20260630045121.1565324-1-xmei5@asu.edu>
-To: Xiang Mei <xmei5@asu.edu>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, bestswngs@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260701205320.227791-1-mlbnkm1@gmail.com>
 
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Mon, 29 Jun 2026 21:51:21 -0700 you wrote:
-> For an even packet_len, net1080_rx_fixup() reads the pad byte at
-> skb->data[packet_len] before the skb->len != packet_len check further
-> down, and packet_len is only bounded against NC_MAX_PACKET. A malicious
-> NetChip 1080 device can send a short frame advertising a large even
-> packet_len (e.g. 0x4000), so the pad-byte read lands past the end of the
-> skb:
+On 26-07-01 22:53:20, Melbin K Mathew wrote:
+> printer_read() uses the same variable for the requested copy size and
+> the number of bytes actually copied to user space. copy_to_user()
+> returns the number of bytes not copied, so when it fails to copy
+> anything, the computed copied length becomes zero.
 > 
-> [...]
+> In that case len, buf, current_rx_bytes and current_rx_buf are left
+> unchanged. If RX data is available and the user buffer remains
+> unwritable, the read loop can repeat indefinitely.
+> 
+> Track the copied length separately and return -EFAULT, or the number of
+> bytes already copied, if an iteration makes no progress.
+> 
+> Fixes: b185f01a9ab7 ("usb: gadget: printer: factor out f_printer")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Melbin K Mathew <mlbnkm1@gmail.com>
+> ---
+> A small userspace model/reproducer is available to maintainers on request.
+> 
+>  drivers/usb/gadget/function/f_printer.c | 25 +++++++++++++++++++------
+>  1 file changed, 19 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
+> index e4f7828ae7..e346e4c26e 100644
+> --- a/drivers/usb/gadget/function/f_printer.c
+> +++ b/drivers/usb/gadget/function/f_printer.c
+> @@ -432,7 +432,7 @@ printer_read(struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+>  {
+>  	struct printer_dev		*dev = fd->private_data;
+>  	unsigned long			flags;
+> -	size_t				size;
+> +	size_t				size, not_copied, copied;
+>  	size_t				bytes_copied;
+>  	struct usb_request		*req;
+>  	/* This is a pointer to the current USB rx request. */
+> @@ -525,14 +525,16 @@ printer_read(struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+>  		else
+>  			size = len;
+>  
+> -		size -= copy_to_user(buf, current_rx_buf, size);
+> -		bytes_copied += size;
+> -		len -= size;
+> -		buf += size;
+> +		not_copied = copy_to_user(buf, current_rx_buf, size);
+> +		copied = size - not_copied;
+> +
+> +		bytes_copied += copied;
+> +		len -= copied;
+> +		buf += copied;
+>  
+>  		spin_lock_irqsave(&dev->lock, flags);
+>  
+> -		/* We've disconnected or reset so return. */
+> +		/* We have disconnected or reset so return. */
 
-Here is the summary with links:
-  - [net,v2] net: usb: net1080: validate packet_len before pad-byte access in rx_fixup
-    https://git.kernel.org/netdev/net/c/03f384bc0cb8
+Since it is a bug-fix, and goes to stable tree, drop this un-related change.
+Otherwise:
+Reviewed-by: Peter Chen <peter.chen@kernel.org>
 
-You are awesome, thank you!
+Peter
+
+>  		if (dev->reset_printer) {
+>  			list_add(&current_rx_req->list, &dev->rx_reqs);
+>  			spin_unlock_irqrestore(&dev->lock, flags);
+> @@ -543,6 +545,17 @@ printer_read(struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+>  		if (dev->interface < 0)
+>  			goto out_disabled;
+>  
+> +		if (!copied) {
+> +			dev->current_rx_req = current_rx_req;
+> +			dev->current_rx_bytes = current_rx_bytes;
+> +			dev->current_rx_buf = current_rx_buf;
+> +			spin_unlock_irqrestore(&dev->lock, flags);
+> +			mutex_unlock(&dev->lock_printer_io);
+> +			return bytes_copied ? bytes_copied : -EFAULT;
+> +		}
+> +
+> +		size = copied;
+> +
+>  		/* If we not returning all the data left in this RX request
+>  		 * buffer then adjust the amount of data left in the buffer.
+>  		 * Othewise if we are done with this RX request buffer then
+> -- 
+> 2.39.5
+> 
+> 
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
 
-
+Thanks,
+Peter Chen
