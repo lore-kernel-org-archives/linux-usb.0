@@ -1,279 +1,126 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-240.mail.qq.com (out203-205-221-240.mail.qq.com [203.205.221.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B983422B8DF
-	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 03:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5680631353B
+	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 03:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.240
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783047659; cv=none; b=gIjA+hGz1pCrL/5est5ZNiVKJVjyKh3fH0m9H58QQscLdZjCqKttLO5TSgiB2fIvUhqbY6AIydKzxIpZC3YMVwLO7zcavdHT7akdWmsXehqisZR8qsHzF8vXXD3lEKNFquRwXe80Nr+jXLet1dZqsj9LrlEKFyNkxoJGW6SG2yk=
+	t=1783050573; cv=none; b=rws9uaXfWdHv/0bmmg9BJUAV7+j/3MZV2Nwh2ktxIGApkEy2aLtv/8/JQwyoweoTek+vX+mKhBJG4o1TdQj2SjCj2E4EOMELND9aH9APAne0ZIr/YiGyr9G0hj/2kolCS1vI13hyX8x1SufBUKtkzxre/C1b3lqnBmxzkD5YBCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783047659; c=relaxed/simple;
-	bh=d4fMzcnolsL0fVjexV5Y1nPWxOzkutk7Dr5FSKpIyWE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UVbiGDoaPBvxKam+I0HTeWizF9Fs4OnJnPEToYyf8+rWBg9VxaPMknXbeVakho0xq+k027DGmd7MOlCL/4bZPoue0tUVD9fwfGbGJ7VtjQbEzHHFuMX4THDxoYtxhd73fLTypiSD7M0p+9eQxWyvnWkZlVbhXSehdhkuwqNYuDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=mMeAEBQz; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fireburn.co.uk
+	s=arc-20240116; t=1783050573; c=relaxed/simple;
+	bh=5t65MXid+RD2DOQv5r5SM+Q+fTxjyfJDgQ/BjUrxzcw=;
+	h=From:To:Cc:Subject:Mime-Version:Content-Type:Date:Message-ID; b=hdogiFKzA078O3DGBt0ZDsukSgYhezYM44CR0sa7PSsTcSbsklyOQHNFd8FhRhKZnpVFdO+my8Gkmh+Iu3UJkPlb22JzoMzL8hKDzG8MzbbBe+ojC/V+VXbn208Bi1GeQ53RKGETnu7jBG6eSSkoL1JwQtm6g1S8daZInoWsmWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vip.qq.com; spf=pass smtp.mailfrom=vip.qq.com; dkim=pass (1024-bit key) header.d=vip.qq.com header.i=@vip.qq.com header.b=DG5y5TgE; arc=none smtp.client-ip=203.205.221.240
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vip.qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vip.qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="mMeAEBQz"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4763b0c1dcdso105652f8f.2
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2026 20:00:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1783047653; x=1783652453; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vDtlzI1o9QHG1A0Yg5fgxyLBaQWwHYWiJZWSyWk212Q=;
-        b=mMeAEBQzjtjHB5OYYsYP/YeuBukEzvX5DB8nTM8zGQg+eO0h1D/dUBxYTvrg5yjU9s
-         vTHpTIo0e4aeF6NRRUzgVi9m9WNcauBBLVBHSkVWgAgbymT69c6KH+S67b4+ULsCl9Vs
-         M9It5mH2o3paEGDUwVpb+/cjFSH21Wly6IvlPu9TDQ0sikNG+FbvUqIjcQtcQDnaXP1T
-         X3wTQCV0MfYAT29EI2U31mppmK6/Pa1Oh6+ThrQH++nfSuIb6A/Ra2ziC/j5hPSspwgk
-         Orh+1TZV3aKKuq+FQ3ieOPZpWaY5X0OgL4xtv/Nw5QL76+mRWDgE2lcCSyumyljQVEKW
-         cxXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783047653; x=1783652453;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vDtlzI1o9QHG1A0Yg5fgxyLBaQWwHYWiJZWSyWk212Q=;
-        b=cxhNG+ZcVHy2aLQ/XB6hlfqiT9KLyLnSzKyFpsj0cbQ+/sUNtfIBxuwbD3DLMuNvSB
-         oY5edNms3Kdn9FQHHUAwJIrs8JUd/2Jor0U19S0nDsTe8zEkDT1IrRETdavlnIhFXYZ/
-         2p6RhWLCD+Yy9ziMAT8Mr/3K1K78X/8k548q1o+MWaUVucf8an3CwJtNMTY74l4FUI4/
-         mum8ZxHOz+3xePnR56AhXCnsG4fXAfC66h1+WCbN6Le8YncD7LBDcma8DeJ9mTExMsGZ
-         RTqtD0cTl4RdPOZShBDcFidNWkHpkFApUqosSv7rLK4r350hLOnhT4yPzVaEp1mjvV04
-         Cq5w==
-X-Gm-Message-State: AOJu0YwDPomjw74j3Xpq+NyPbF2U3mXLKFTo475ydbSqUzwZ24OeOe6m
-	Q+mnkTeW+GytgUOtRwCruzXiQvQe5nAUq+qOz1r8ji31Y85nvIPXrptA+7ApdzIP9Q==
-X-Gm-Gg: AfdE7cnx0Zne8bBm7WDn4Ic2Z9g3G1okO/5oV8MDmFzwqm9ytyyrdiUoRueV5zB568d
-	5uIE1i0+TkcPAD4iVWfAcJlAd5fm6OUBb6DG29BAT2fsxqCHUc2w732Hee3Xw8jsNHlDkmRvQ2/
-	D0sO+kdMmw8eXM7bFP4WJucP9S8Ej9z6y4vTg5kdTulcdunWqlw4ly3eyAO+1ddkKAJIiuJGZe7
-	YSCVrK6yi4LVHIbfEJyBysPjbuoIqeFY8bMOYXEUZFpjmj3lqBqrqrLEnyyxvwRLEowdtiP8YR1
-	EqiQ5ROtw0EX4zVDmBEVYk6+Z0Ujd62O0f8JlYXY+O2hDFitjs63R3TQ1d2LD4eJSqg+cT0UInf
-	ktPfz67jgUpMXWVLh0p09rNtwdpNKnSBgxj6/BJYPi9GiWmEQgXcwy89aKo2DHkmw45DS2JbZuI
-	Ms8wLrSFszV73W8UOqJCu0K0738W3I9rtd1LZ9+61OEG+BjKWUd0LPVqforRWNdKk62n0=
-X-Received: by 2002:a05:6000:2605:b0:46e:6201:5d56 with SMTP id ffacd0b85a97d-477b34b0307mr10270374f8f.7.1783047653144;
-        Thu, 02 Jul 2026 20:00:53 -0700 (PDT)
-Received: from axion.fireburn.co.uk ([137.220.119.72])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477db8a44d7sm13128569f8f.9.2026.07.02.20.00.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 20:00:52 -0700 (PDT)
-From: Mike Lothian <mike@fireburn.co.uk>
-To: rust-for-linux@vger.kernel.org
-Cc: linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	linux-kernel@vger.kernel.org,
-	Mike Lothian <mike@fireburn.co.uk>
-Subject: [RFC PATCH v2 11/11] rust: usb: let drivers choose the transfer allocation flags
-Date: Fri,  3 Jul 2026 04:00:15 +0100
-Message-ID: <20260703030020.2694-12-mike@fireburn.co.uk>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260703030020.2694-1-mike@fireburn.co.uk>
-References: <20260617145946.1894-1-mike@fireburn.co.uk>
- <20260703030020.2694-1-mike@fireburn.co.uk>
+	dkim=pass (1024-bit key) header.d=vip.qq.com header.i=@vip.qq.com header.b="DG5y5TgE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vip.qq.com;
+	s=s201512; t=1783050561;
+	bh=5t65MXid+RD2DOQv5r5SM+Q+fTxjyfJDgQ/BjUrxzcw=;
+	h=From:To:Cc:Subject:Date;
+	b=DG5y5TgEU4g8fFX0fv2ShaTC0PrzhSEVW9bT8GMfDc+ROYq0vAvHGVl48kmg0jGE+
+	 kOZGEzNWfLMVgmWzxNGbanrYzIDn06MhqHQK2JXm22q99LhPZX8yNH6CNZdgcBMskI
+	 iQUuKXChjzdIKwjcewuU95hmWlcYRGaSsWzQqKHM=
+X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
+X-QQ-XMAILINFO: OKgh2S50mKQezq67TtxuUmGGgslzi5HMXCTyPTyUT8jRA6MZKSshAP+MWk2TLu
+	 sb82k2gsNUzhyooDveYkgoANP8DdQoExaWSHs9pOFIv1txC7Gmb5fuAH2eN4wOjeNiB5lmm8znfEl
+	 EboSAVKg2aXZ+vDXV0/WwEix+K5K0LCLg2Vu6otuQEbdZURUCPktT5hEwt1P1riPSOeHlTfh/uIXE
+	 ppIvI1wQK5noGdTMuB5kWcJ+bAuKqfGYNvTwbhHhbXuo1FBAmjOTWLF/E6NbK5wpt55TvGOwNJqqs
+	 Lht05zsbSniI8GLqHWJ0JpiGfmrTZ59Bnix5BbJreba0wfWgWlbENJ63wFS8aBio/egnvVDoi4HGA
+	 w+DHBiPvhAEL5GQnZPjP94yJM/mWW3WV+D2ZWR/R8RxL6T/JjJz5ezdjVv2O6HJBy2SKueBUcuRqE
+	 fwsdjAea+swEno9ZLHtE0rPmQsGECd9fegUF0U9UxfIivASXbZGneXHwCoT/wrs1K9pZGPYv3x/RK
+	 VnuCbv6nBTi36hOI2qL0Plz8AEQ/2z4A81PIuC4406rlUjxHV9Ky6VS/VlGpq++likDZ0Y78f4U3U
+	 acZqeL/+XoJjW+yAc/0S/DoAJ0mLhLbuZqcu+S3qLU/ps1IUlXCrfdrrYR+lczuY05aeqJYmiZG17
+	 1KjmpyrlBf1o0HgO527V0HrGa69FThw6AE0WfmIiEgxgpyUjbxucWqnltDnvg+rpfse8jYAE5m+lQ
+	 5XRG2doQ7vQyTAhfpYTKH/+Vkp3HkpsXLkFnRsKvTaXSM/pB6YxH9CN/MrxRi0AAHH0Y256rLKCHr
+	 NEOvSs9+P4cd9dxE6gJfXdkCpfrFRIsEzt+KhHlMKTHtm7b4UUSjFEp7qJYAERlYKvRjmfT67HWCg
+	 TgF7PSAqfcpg2seAHb+nSr7c8qItS58B50KSofCBgE/AOTA6sr4dYbmmnMXwbT2do0Q+S7kfWUog3
+	 cseNqx1PIYRouVgFytXaXjAIiz69T+GjaFl6trYGzfRLTDrq+Vvgo39jRjkl8w2nicM1ttDXMv3cI
+	 EdcZzb4CGEm7OvL0UlMTzMabS5A==
+From: "=?utf-8?B?TmVv?=" <liqys@vip.qq.com>
+To: "=?utf-8?B?bGludXgtdXNi?=" <linux-usb@vger.kernel.org>
+Cc: "=?utf-8?B?YW5kcmVhcy5ub2V2ZXI=?=" <andreas.noever@gmail.com>, "=?utf-8?B?d2VzdGVyaQ==?=" <westeri@kernel.org>, "=?utf-8?B?WWVoZXprZWxTaEI=?=" <YehezkelShB@gmail.com>
+Subject: =?utf-8?B?W1BBVENIIFJGQ10gdGh1bmRlcmJvbHQ6IEFkZCBK?=
+ =?utf-8?B?SEw5NTgwIEJhcmxvdyBSaWRnZSAoVEI1KSBJQ00g?=
+ =?utf-8?B?c3VwcG9ydCDigJQgaG9zdF9yZXNldCB0aW1lb3V0?=
+ =?utf-8?B?IGJsb2NraW5nIFBDSWUgdHVubmVsaW5n?=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
+Date: Fri, 3 Jul 2026 11:49:20 +0800
+X-Priority: 3
+Message-ID: <tencent_B67BF923C66EC476F99F9C250FDA68D3B205@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+X-QQ-mid: xmsezb41-0t1783050560t2uhkkyi4
 
-Oliver Neukum review of the synchronous transfer bindings: a USB driver must be able to
-specify GFP_KERNEL vs GFP_NOIO/GFP_NOFS (USB shares error handling and power management
-across a device's interfaces, so allocations on reset/resume/error paths must not recurse
-into I/O). Thread a `gfp: Flags` parameter through bulk_send/bulk_recv/interrupt_recv/
-control_send/control_recv (both the Interface wrappers and the Device impls) instead of
-hardcoding GFP_KERNEL.
-
-Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
-Assisted-by: Claude:claude-opus-4-8 [Claude-Code]
----
- rust/kernel/usb.rs | 59 +++++++++++++++++++++++++++++++++-------------
- 1 file changed, 42 insertions(+), 17 deletions(-)
-
-diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
-index 1fcaf34433cc..d39ba6246090 100644
---- a/rust/kernel/usb.rs
-+++ b/rust/kernel/usb.rs
-@@ -17,6 +17,7 @@
-         from_result,
-         to_result, //
-     },
-+    alloc::Flags,
-     prelude::*,
-     sync::aref::AlwaysRefCounted,
-     time::Delta,
-@@ -418,24 +419,40 @@ pub fn clear_halt(&self, endpoint: u8) -> Result {
- 
-     /// Issues a synchronous bulk OUT transfer of `data` to `endpoint`, returning
-     /// the number of bytes transferred. `data` must be DMA-capable. Sleeps.
--    pub fn bulk_send(&self, endpoint: u8, data: &[u8], timeout: Delta) -> Result<usize> {
--        self.device().bulk_send(endpoint, data, timeout)
-+    ///
-+    /// `gfp` selects the allocation flags for this transfer's buffers: pass `GFP_KERNEL`
-+    /// normally, or `GFP_NOIO`/`GFP_NOFS` when called from a reset/resume or error-handling
-+    /// path (USB shares error handling and PM across a device's interfaces).
-+    pub fn bulk_send(&self, endpoint: u8, data: &[u8], timeout: Delta, gfp: Flags) -> Result<usize> {
-+        self.device().bulk_send(endpoint, data, timeout, gfp)
-     }
- 
-     /// Issues a synchronous bulk IN transfer into `data`, returning the number of
-     /// bytes received. `data` must be DMA-capable. Sleeps.
--    pub fn bulk_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> Result<usize> {
--        self.device().bulk_recv(endpoint, data, timeout)
-+    ///
-+    /// `gfp` selects the allocation flags for this transfer's buffers: pass `GFP_KERNEL`
-+    /// normally, or `GFP_NOIO`/`GFP_NOFS` when called from a reset/resume or error-handling
-+    /// path (USB shares error handling and PM across a device's interfaces).
-+    pub fn bulk_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta, gfp: Flags) -> Result<usize> {
-+        self.device().bulk_recv(endpoint, data, timeout, gfp)
-     }
- 
-     /// Issues a synchronous interrupt IN transfer into `data`, returning the number
-     /// of bytes received. `data` must be DMA-capable. Sleeps.
--    pub fn interrupt_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> Result<usize> {
--        self.device().interrupt_recv(endpoint, data, timeout)
-+    ///
-+    /// `gfp` selects the allocation flags for this transfer's buffers: pass `GFP_KERNEL`
-+    /// normally, or `GFP_NOIO`/`GFP_NOFS` when called from a reset/resume or error-handling
-+    /// path (USB shares error handling and PM across a device's interfaces).
-+    pub fn interrupt_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta, gfp: Flags) -> Result<usize> {
-+        self.device().interrupt_recv(endpoint, data, timeout, gfp)
-     }
- 
-     /// Issues a synchronous control OUT transfer on the default control endpoint.
-     /// The buffer is copied internally, so `data` need not be DMA-capable. Sleeps.
-+    ///
-+    /// `gfp` selects the allocation flags for this transfer's buffers: pass `GFP_KERNEL`
-+    /// normally, or `GFP_NOIO`/`GFP_NOFS` when called from a reset/resume or error-handling
-+    /// path (USB shares error handling and PM across a device's interfaces).
-     pub fn control_send(
-         &self,
-         request: u8,
-@@ -444,13 +461,18 @@ pub fn control_send(
-         index: u16,
-         data: &[u8],
-         timeout: Delta,
-+        gfp: Flags,
-     ) -> Result {
-         self.device()
--            .control_send(request, request_type, value, index, data, timeout)
-+            .control_send(request, request_type, value, index, data, timeout, gfp)
-     }
- 
-     /// Issues a synchronous control IN transfer on the default control endpoint,
-     /// filling `data` with exactly `data.len()` bytes. Sleeps.
-+    ///
-+    /// `gfp` selects the allocation flags for this transfer's buffers: pass `GFP_KERNEL`
-+    /// normally, or `GFP_NOIO`/`GFP_NOFS` when called from a reset/resume or error-handling
-+    /// path (USB shares error handling and PM across a device's interfaces).
-     pub fn control_recv(
-         &self,
-         request: u8,
-@@ -459,9 +481,10 @@ pub fn control_recv(
-         index: u16,
-         data: &mut [u8],
-         timeout: Delta,
-+        gfp: Flags,
-     ) -> Result {
-         self.device()
--            .control_recv(request, request_type, value, index, data, timeout)
-+            .control_recv(request, request_type, value, index, data, timeout, gfp)
-     }
- 
-     /// Selects alternate setting `alternate` of interface `interface`
-@@ -609,13 +632,13 @@ pub(crate) fn clear_halt(&self, endpoint: u8) -> Result {
-     /// not arrange DMA-capable storage themselves.
-     ///
-     /// [`usb_bulk_msg()`]: https://docs.kernel.org/driver-api/usb/usb.html#c.usb_bulk_msg
--    pub(crate) fn bulk_send(&self, endpoint: u8, data: &[u8], timeout: Delta) -> Result<usize> {
-+    pub(crate) fn bulk_send(&self, endpoint: u8, data: &[u8], timeout: Delta, gfp: Flags) -> Result<usize> {
-         let mut actual: kernel::ffi::c_int = 0;
- 
-         // `usb_bulk_msg()` requires a DMA-capable buffer; `data` may live on the
-         // stack or in `.rodata`, so copy it into a kmalloc'd bounce buffer.
--        let mut buf = KVec::with_capacity(data.len(), GFP_KERNEL)?;
--        buf.extend_from_slice(data, GFP_KERNEL)?;
-+        let mut buf = KVec::with_capacity(data.len(), gfp)?;
-+        buf.extend_from_slice(data, gfp)?;
- 
-         // SAFETY: `self.as_raw()` is a valid `struct usb_device` by the type invariant.
-         let pipe = unsafe { bindings::usb_sndbulkpipe(self.as_raw(), endpoint.into()) };
-@@ -655,12 +678,12 @@ pub(crate) fn bulk_send(&self, endpoint: u8, data: &[u8], timeout: Delta) -> Res
-     /// `data` may be any slice.
-     ///
-     /// [`usb_bulk_msg()`]: https://docs.kernel.org/driver-api/usb/usb.html#c.usb_bulk_msg
--    pub(crate) fn bulk_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> Result<usize> {
-+    pub(crate) fn bulk_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta, gfp: Flags) -> Result<usize> {
-         let mut actual: kernel::ffi::c_int = 0;
- 
-         // `usb_bulk_msg()` requires a DMA-capable buffer; receive into a kmalloc'd
-         // bounce buffer and copy out, so `data` need not be DMA-capable itself.
--        let mut buf = KVec::from_elem(0u8, data.len(), GFP_KERNEL)?;
-+        let mut buf = KVec::from_elem(0u8, data.len(), gfp)?;
- 
-         // SAFETY: `self.as_raw()` is a valid `struct usb_device` by the type invariant.
-         let pipe = unsafe { bindings::usb_rcvbulkpipe(self.as_raw(), endpoint.into()) };
-@@ -697,12 +720,12 @@ pub(crate) fn bulk_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) ->
-     /// milliseconds; a [`Delta`] of zero, or any non-zero value below 1 ms, waits indefinitely.
-     ///
-     /// [`bulk_recv`]: Self::bulk_recv
--    pub(crate) fn interrupt_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> Result<usize> {
-+    pub(crate) fn interrupt_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta, gfp: Flags) -> Result<usize> {
-         let mut actual: kernel::ffi::c_int = 0;
- 
-         // `usb_interrupt_msg()` requires a DMA-capable buffer; receive into a kmalloc'd
-         // bounce buffer and copy out, so `data` need not be DMA-capable itself.
--        let mut buf = KVec::from_elem(0u8, data.len(), GFP_KERNEL)?;
-+        let mut buf = KVec::from_elem(0u8, data.len(), gfp)?;
- 
-         // SAFETY: `self.as_raw()` is a valid `struct usb_device` by the type invariant.
-         let pipe = unsafe { bindings::usb_rcvintpipe(self.as_raw(), endpoint.into()) };
-@@ -749,6 +772,7 @@ pub(crate) fn control_send(
-         index: u16,
-         data: &[u8],
-         timeout: Delta,
-+        gfp: Flags,
-     ) -> Result {
-         // SAFETY: `self.as_raw()` is valid by the type invariant; `data` is valid for
-         // reads of `data.len()` bytes; `usb_control_msg_send()` copies the buffer.
-@@ -763,7 +787,7 @@ pub(crate) fn control_send(
-                 data.as_ptr().cast::<kernel::ffi::c_void>(),
-                 data.len().try_into()?,
-                 timeout.as_millis().try_into()?,
--                bindings::GFP_KERNEL,
-+                gfp.as_raw(),
-             )
-         })
-     }
-@@ -784,6 +808,7 @@ pub(crate) fn control_recv(
-         index: u16,
-         data: &mut [u8],
-         timeout: Delta,
-+        gfp: Flags,
-     ) -> Result {
-         // SAFETY: `self.as_raw()` is valid by the type invariant; `data` is valid for
-         // writes of `data.len()` bytes; `usb_control_msg_recv()` copies into the buffer.
-@@ -798,7 +823,7 @@ pub(crate) fn control_recv(
-                 data.as_mut_ptr().cast::<kernel::ffi::c_void>(),
-                 data.len().try_into()?,
-                 timeout.as_millis().try_into()?,
--                bindings::GFP_KERNEL,
-+                gfp.as_raw(),
-             )
-         })
-     }
--- 
-2.55.0
+SGkgbWFpbnRhaW5lcnMsCgoKSkhMOTU4MCBCYXJsb3cgUmlkZ2UgKDgwODY6NTc4MCBicmlk
+Z2UsIDgwODY6NTc4MSBOSEkpLCBJbnRlbCdzIGZpcnN0ClRodW5kZXJib2x0IDUgLyBVU0I0
+IHYyIGhvc3QgY29udHJvbGxlciwgaGFzIGluY29tcGxldGUgc3VwcG9ydCBpbiB0aGUKa2Vy
+bmVsIHRocm91Z2ggdjcuMi1yYzEuIFRoZSBob3N0IHJvdXRlciByZXNldCB0aW1lcyBvdXQg
+YW5kIFBDSWUKdHVubmVsaW5nIGlzIG5vbi1mdW5jdGlvbmFsLCBtYWtpbmcgZUdQVSB1c2Ug
+aW1wb3NzaWJsZS4KCgo9PT0gUHJvYmxlbSBTdW1tYXJ5ID09PQoKCjEuIGdldF91cHN0cmVh
+bV9wb3J0KCkgaW4gaWNtLmMgZG9lcyBub3QgcmVjb2duaXplIEJhcmxvdyBSaWRnZSBicmlk
+Z2UKwqAgwqAoMHg1NzgwKS4gTmVpdGhlciBkb2VzIGljbV9wcm9iZSgpIGhhbmRsZSB0aGUg
+TkhJICgweDU3ODEpLgoKCjIuIFdpdGggdGhlc2UgZml4ZWQsIGljbV9maXJtd2FyZV9yZXNl
+dCgpIOKGkiBwY2llMmNpb193cml0ZSgpIHRpbWVzIG91dArCoCDCoCgtMTEwKSBvbiBCYXJs
+b3cgUmlkZ2UuIE5laXRoZXIgaWNtX2FyX2Npb19yZXNldCAoMHg1MC9CSVQoOSkpIG5vcgrC
+oCDCoGljbV90cl9jaW9fcmVzZXQgKDB4Nzc3L0JJVCgxKSkgd29yay4KCgozLiBXaXRob3V0
+IElDTSBmaXJtd2FyZSBydW5uaW5nLCBSRUdfRldfU1RTICgweDM5OTQ0KSBpcyByZWFkLW9u
+bHkgYW5kCsKgIMKgd3JpdGVzIGFyZSBzaWxlbnRseSBpZ25vcmVkLiBVU0IzIHR1bm5lbGlu
+ZyB3b3JrcyAoWEhDSSBwYXNzLXRocm91Z2gpCsKgIMKgYnV0IFBDSWUgdHVubmVscyBhcmUg
+bmV2ZXIgZXN0YWJsaXNoZWQuCgoKNC4gRXZlbiB3aXRoIHNvZnR3YXJlIENNICh0Yl9hY3Bp
+X2lzX25hdGl2ZSgpPTEpLCBVU0I0IHBvcnRzIHNob3cKwqAgwqAibGluazogbm9uZSIgYW5k
+IHRoZSBlR1BVIEdQVSBuZXZlciBhcHBlYXJzIGluIGxzcGNpLgoKCj09PSBIYXJkd2FyZSA9
+PT0KCgrCoCBIb3N0OiBNU0kgTVMtMTVNMyAoRTE1TTNJTVMuMTE3IEJJT1MsIDIwMjYtMDQt
+MTcpCsKgIENQVTogSW50ZWwgQXJyb3cgTGFrZS1IWCBVbHRyYSA5IDI3NUhYCsKgIFRCNTog
+SW50ZWwgSkhMOTU4MCBCYXJsb3cgUmlkZ2UgWzgwODY6NTc4MF0vWzgwODY6NTc4MV0gKHJl
+diA4NCkKwqAgZUdQVTogR0lHQUJZVEUgQU9SVVMgUlRYNTA5MCBBSSBCT1ggKFVTQjQpCsKg
+IE9TOiBVYnVudHUgMjYuMDQsIGtlcm5lbCA3LjAuMC0yNyAoc2FtZSBpc3N1ZSBvbiA3LjAu
+MC0yMikKCgo9PT0gUGF0Y2ggQXR0ZW1wdGVkICh3b3JrcyB1cCB0byBmaXJtd2FyZSBzdGFy
+dCkgPT09CgoKLS0tIGEvZHJpdmVycy90aHVuZGVyYm9sdC9pY20uYworKysgYi9kcml2ZXJz
+L3RodW5kZXJib2x0L2ljbS5jCkBAIGdldF91cHN0cmVhbV9wb3J0KCk6CivigILigILigILi
+gILigIJjYXNlIDB4NTc4MDogLyogSkhMOTU4MCBCYXJsb3cgUmlkZ2UgSG9zdCBCcmlkZ2Ug
+Ki8KCgpAQCBpY21fcHJvYmUoKToKK+KAguKAguKAguKAguKAgmNhc2UgMHg1NzgxOiAvKiBK
+SEw5NTgwIEJhcmxvdyBSaWRnZSBOSEkgKi8KK+KAguKAguKAguKAguKAguKAguKAguKAguKA
+guKAguKAgmljbS0+bWF4X2Jvb3RfYWNsID0gSUNNX0FSX1BSRUJPT1RfQUNMX0VOVFJJRVM7
+CivigILigILigILigILigILigILigILigILigILigILigIJpY20tPmNhbl91cGdyYWRlX252
+bSA9ICF4ODZfYXBwbGVfbWFjaGluZTsKK+KAguKAguKAguKAguKAguKAguKAguKAguKAguKA
+guKAgmljbS0+aXNfc3VwcG9ydGVkID0gaWNtX2FyX2lzX3N1cHBvcnRlZDsKK+KAguKAguKA
+guKAguKAguKAguKAguKAguKAguKAguKAgmljbS0+Y2lvX3Jlc2V0ID0gaWNtX2FyX2Npb19y
+ZXNldDsKK+KAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAgmljbS0+Z2V0X21vZGUg
+PSBpY21fYXJfZ2V0X21vZGU7CivigILigILigILigILigILigILigILigILigILigILigIJp
+Y20tPmdldF9yb3V0ZSA9IGljbV9hcl9nZXRfcm91dGU7CivigILigILigILigILigILigILi
+gILigILigILigILigIJpY20tPnNhdmVfZGV2aWNlcyA9IGljbV9mcl9zYXZlX2RldmljZXM7
+CivigILigILigILigILigILigILigILigILigILigILigIJpY20tPmRyaXZlcl9yZWFkeSA9
+IGljbV9hcl9kcml2ZXJfcmVhZHk7CivigILigILigILigILigILigILigILigILigILigILi
+gIJpY20tPmRldmljZV9jb25uZWN0ZWQgPSBpY21fZnJfZGV2aWNlX2Nvbm5lY3RlZDsKK+KA
+guKAguKAguKAguKAguKAguKAguKAguKAguKAguKAgmljbS0+ZGV2aWNlX2Rpc2Nvbm5lY3Rl
+ZCA9IGljbV9mcl9kZXZpY2VfZGlzY29ubmVjdGVkOwor4oCC4oCC4oCC4oCC4oCC4oCC4oCC
+4oCC4oCC4oCC4oCCaWNtLT54ZG9tYWluX2Nvbm5lY3RlZCA9IGljbV9mcl94ZG9tYWluX2Nv
+bm5lY3RlZDsKK+KAguKAguKAguKAguKAguKAguKAguKAguKAguKAguKAgmljbS0+eGRvbWFp
+bl9kaXNjb25uZWN0ZWQgPSBpY21fZnJfeGRvbWFpbl9kaXNjb25uZWN0ZWQ7CivigILigILi
+gILigILigILigILigILigILigILigILigIJ0Yi0+Y21fb3BzID0gJmljbV9hcl9vcHM7Civi
+gILigILigILigILigILigILigILigILigILigILigIJicmVhazsKCgpSZXN1bHQ6IGljbV9w
+cm9iZSBzdWNjZWVkcywgZmlybXdhcmVfc3RhcnQgYmVnaW5zLCBidXQKaWNtX2Zpcm13YXJl
+X3Jlc2V0IOKGkiBwY2llMmNpb193cml0ZSB0aW1lcyBvdXQuCgoKPT09IGRtZXNnID09PQoK
+CsKgIHRodW5kZXJib2x0IDAwMDA6MDQ6MDAuMDogdGltZW91dCByZXNldHRpbmcgaG9zdCBy
+b3V0ZXIKwqAgKFJFR19SRVNFVCBIUlIgcmVtYWlucyAweDAxIGluZGVmaW5pdGVseTsgZXh0
+ZW5kZWQgdG8gNTAwMG1zLCBubyBjaGFuZ2UpCgoKPT09IFF1ZXN0aW9ucyA9PT0KCgoxLiBX
+aGF0IGlzIHRoZSBjb3JyZWN0IENJTyByZXNldCBzZXF1ZW5jZSBmb3IgQmFybG93IFJpZGdl
+PwoyLiBJcyB0aGUgSUNNIGZpcm13YXJlIGludGVyZmFjZSBkaWZmZXJlbnQgZnJvbSBBbHBp
+bmUvVGl0YW4gUmlkZ2U/CjMuIEFyZSB0aGVyZSBwbGFucyB0byBhZGQgbmF0aXZlIEJhcmxv
+dyBSaWRnZSBzdXBwb3J0IHRvIGljbS5jPwo0LiBTaG91bGQgQmFybG93IFJpZGdlIHVzZSBz
+b2Z0d2FyZSBDTSBleGNsdXNpdmVseSAoc2tpcCBJQ00pPwoKCkZ1bGwgZGlhZ25vc3RpYyBs
+b2dzLCBsc3BjaSwgYW5kIEFDUEkgRFNEVCBleGNlcnB0IGF2YWlsYWJsZSBvbiByZXF1ZXN0
+LgpUZXN0IGhhcmR3YXJlIGF2YWlsYWJsZSBmb3IgYW55IHByb3Bvc2VkIHBhdGNoZXMuCgoK
+VGhhbmsgeW91LAoJCk5lbwpsaXF5c0B2aXAucXEuY29tCgo=
 
