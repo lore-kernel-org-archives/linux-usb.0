@@ -1,44 +1,44 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3FA3242CA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D36A3242BD;
 	Fri,  3 Jul 2026 18:13:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783102420; cv=none; b=UFpjcSsvwzHb0QxBUXsIOaA6Gaw5zz4AqInfMqanIvjUN+NXjWw3uzJadsPSHL9A6HPU8DZliLG6s2rik+QJsp+UJdlp8YZRKIiXs9C5hbTHc+RrRbPnF9IInrhOiAbfgZCe7HvijsNMzYOp1aYmDO+35tLb3Jn91+wRSEqTbRQ=
+	t=1783102420; cv=none; b=rhi62UX9VcuElzEqM4bmUVjWGNMBSOt5oMfEuha30sztxFVJMZWQ4TXHk1Ek/p6IWdcVnjm4MQ5UmTp+Ha/CQtT2GI/kmCJ/+jeXrx4lifzUzceOqz59NREgcxziirJ76fetPcHqFL6FxFNs1CWBNk0xUFjVmR6xyGac2VYlg6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783102420; c=relaxed/simple;
-	bh=gjt94yB7OMQ1kbenpTWsg4rbaygeNwSXNZrsMwALuYQ=;
+	bh=Cc0K4Dr4eJL0SNbtq8hAs+EI1LLSLgYhEuv3ZarCDYw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CqnRKEMZ2RmAl66Oveqj56aU2l49LQgA0pGZUWnXLKGeD5iplELeArn+kVk+grM9pyDWSBfHtHNxW8pz4wHfsfc5JZ1mEBMyzHwQsrAg+HUt5HfywlDXaQlEeDw14ZFYI6FLNDs7PJ+1nxWJZ9Ew8KBGulNR49NukDkxiV0VtIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JL3oC9IX; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=RNCEfMKL37aQvufQocop1lhzfg4RxSI/6HpU2vIur3F4I+9oYKIN8nt2tu1DpTLdzejSZc5C8I775I3FUq4VCKORrswZiE8s1ymKv8LkGvgdld2quxGy9tls8cJzdxj3uQomXurlzsgDh8rDhW/kRGWx1HATsDI3FCmYBGzQqT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=E2i19wjl; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JL3oC9IX"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="E2i19wjl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1783102413;
-	bh=gjt94yB7OMQ1kbenpTWsg4rbaygeNwSXNZrsMwALuYQ=;
+	bh=Cc0K4Dr4eJL0SNbtq8hAs+EI1LLSLgYhEuv3ZarCDYw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JL3oC9IXXMSi3atxGXKazwNKJ1CRZ5svJR9xV8gVtjb5M3ExS1KptJ6Sx4Kpd9cCU
-	 qtV7I8k72OAKKmt/s36Rj808VYrnJKdZdjM4h5YCoFBfkSKmceJflF4nsif1QepK8g
-	 rI6n5tK1eFWOHTcN1HCmsuzYUitj8jevkQFEbommHAKKXstRtvUEU73a9WtPAFa655
-	 FS4sBV5LFYKY8UHpbdVB9lF1Qmd1PfqczN52BX/ymmwODclfpUwG5vAnDMbsh3yfoY
-	 TBkmNV/d5NN34fRSN08s5OLmWCm29z/bWuHKlNRfurGDxSnbPoBX4sughKDTaZKbh5
-	 SBP72T0V99LjA==
+	b=E2i19wjlq2rsoIHEcnaueaJ/K4dtyshIlXrw+t3C6oboXazurasIunErt+g92oqa2
+	 a1tw5z5qncspPhAc2Q1U01vVj0J2JDXNoz0rOBc+0uC3qyIah2+1o2dfLoWDb2HHsP
+	 EJy+Sd14zNRBysk12vV2z1/oEV6ncB3KRKJzsL7O3JE+3Pot9Qk5uv6VzcCguQwK8N
+	 j+qiwsQuT8oVgFSFtECtYyEwDz7jHgZiDc9354a0EaKOMnFMQpM1W72OnG570b5azF
+	 KOm5l6leJ+mioe61/GG1M5UQ4CKA1x8WqR1Hu9bV28fg6QzcbC8coVBzCOsD+HNpZQ
+	 Yq6OM9sHU09tA==
 Received: from jupiter.universe (unknown [100.64.1.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 221A017E1123;
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2EAFE17E128F;
 	Fri,  3 Jul 2026 20:13:33 +0200 (CEST)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id 80563480031; Fri, 03 Jul 2026 20:13:32 +0200 (CEST)
+	id 84D8C48003A; Fri, 03 Jul 2026 20:13:32 +0200 (CEST)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Fri, 03 Jul 2026 20:13:21 +0200
-Subject: [PATCH v10 05/36] phy: rockchip: usbdp: Handle missing clock-names
- DT property gracefully
+Date: Fri, 03 Jul 2026 20:13:24 +0200
+Subject: [PATCH v10 08/36] phy: rockchip: usbdp: Amend SSC modulation
+ deviation
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260703-rockchip-usbdp-cleanup-v10-5-a392711ca8a9@collabora.com>
+Message-Id: <20260703-rockchip-usbdp-cleanup-v10-8-a392711ca8a9@collabora.com>
 References: <20260703-rockchip-usbdp-cleanup-v10-0-a392711ca8a9@collabora.com>
 In-Reply-To: <20260703-rockchip-usbdp-cleanup-v10-0-a392711ca8a9@collabora.com>
 To: Vinod Koul <vkoul@kernel.org>, 
@@ -64,56 +64,75 @@ Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-kernel@vger.kernel.org, kernel@collabora.com, 
  devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Sashiko <sashiko-bot@kernel.org>
+ Sebastian Reichel <sebastian.reichel@collabora.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1302;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1765;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=gjt94yB7OMQ1kbenpTWsg4rbaygeNwSXNZrsMwALuYQ=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpH+8tyg707WYxG+xVW2Xv12fOU8M6kcmUo3
- ZikGel4WMA5IIkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqR/vLAAoJENju1/PI
- O/qat9EP+waNNc8Ls6igELDg6nTIpAWqTNlG/hFv9CeVwLdtQ/3nAEIo2TVQsoaLADf+YdVBDlc
- M0eXlDDuMZIb0VSIUEqhVuRaj2ri6oEKZLFY2QHDmznhKBFmu8LcwB4UqM1GyeuuTudjqqYpsNi
- uTqeZKF5HNcIldOXGbyS1HUkGhnuGmlcb/zhUtDR+ed5BhZOmY8V772dEuNORY6W8f/9cWt4Ekv
- 8UcUY5RSgc/zygQozt8kAXG9ViRdyeeTvnHm+qQJl+QV66IKrZdiPPUzTqcJu2ViAYvTRX3Z2yX
- 3PxuHTBD33ciSD7KUXedr9MFCRKM38qMvg4/Ta7mxvqdNwo+dtXGuoQh0eOzh+eWTIBUDj6juPC
- 5G/Z6T3zxvNEeJO6xlT8WYHJ7y6Mempq0F1B1U0aU++sXdh5xmfmYzmfC5is/ldCaEpooenbykp
- CV1Rj4nGavT+jvoB/rsz+KfaYbsxdhOngO6f/XTrTmiy2lOGYNH4I1ZjRgA0hreHZZY514peojK
- NrpDzsPgBpwGRtAi6gfvu/AHy3EoT4cySwMn4bnW73RyTPSukYgBopj7rn2QQeeESYac6PpYphW
- VpfuZ/Wjm2QpKV8/rltlWQZhWI1lK8P49ZXMOa9K4gSvQlrlh+QVapQt7oUQh0KiFY1/XsJ6sq1
- kJGYszwkRMXhqCS6AOVgrxw==
+ bh=lqHOLnlRChaCaNvIuz6SialOxFJNoEYQ3ZMsuUuJrVw=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpH+8s80/lf8jG4Uams+DOnBXJ9ATr3wING5
+ plqkQ9ECJGJ4YkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqR/vLAAoJENju1/PI
+ O/qay+0P/3/QN6PVkC3GO+3GojamuYzFiLSjHu4KnD2KF7tC47ZVUFetM5TyvS7lD0a3t5KlbP4
+ lIKNDLrU3T9bdRUtc9a9ajhj2XeSMfTjr0AK0LzQDvnNzxyNVXxd/OqkwrVBvnixkVmBHlSljzt
+ 0Nu0zp7buY9P5GqeurdjWgeEpW9B/KsUIySPLA8EEAf1kPckgaLDAKqjFwEjIfZo3Rbx5gmDk8s
+ PwRkycTuDVFn9hg988E3enhYs88hw2vrlvGu3Q9HTVCsmUoOQwswLu9gr+RmXjWCe153ZMpKoOc
+ S97LxFIi/eKyK4Em7OSxu/y4Esh5p6NPBojwQZhVvqnZePUW8wVoDC+z6b3Oll+08aY13thWDF0
+ +wOQrlZrjJPudq3DeGAkflVVvyHgBeJK96s2506yx6hQ5JiXgv5xtInhObRl8No6bp7oWwkDr+m
+ 9kfUiydlvYOx5SA0wGOpy0a6YAqz3lG+9mwF4FWDpVM65vyHtgHukz87C7aTryxtQz9VEIlR5ea
+ NW+TFzDLP8gQV790MuyxVeDvlfD5c6Q9ALVkdJf7i409BvH+YKQlY73Vy3/LvKvUXHcPZMmoSer
+ Y/9vBC3/otNwUy8lbKr/UvaS/6YII3zYmvRrS5eqc1sxq4MM1L+PAg6/L4+Im5aezKi6ZvWZaQs
+ j7bEfnqY+zTnYCHq4b4g0xw==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-The rk_udphy_clk_init() function would currently try to do a strncmp for
-a NULL pointer, if DT specifies 'clocks' property, but no 'clock-names'
-property. Fix this by making sure the clock has an id string set.
+From: Frank Wang <frank.wang@rock-chips.com>
 
-Note that DT binding requires setting clock-names, so this is only a
-problem when booting a non-compliant device tree.
+Move SSC modulation deviation into private config of clock
 
-Fixes: 2f70bbddeb45 ("phy: rockchip: add usbdp combo phy driver")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/message/20260619154349.071321F000E9%40smtp.kernel.org
+ - 24M: 0x00d4[5:0] = 0x30
+ - 26M: 0x00d4[5:0] = 0x33
+
+Signed-off-by: Frank Wang <frank.wang@rock-chips.com>
+[Taken over from rockchip's kernel tree; register 0x00d4 is not
+described in the TRM]
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/phy/rockchip/phy-rockchip-usbdp.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/phy/rockchip/phy-rockchip-usbdp.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-index 2845a012eafc..3fc8222fcaec 100644
+index e3f5a26c876a..cb6acadfbccf 100644
 --- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
 +++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-@@ -432,6 +432,9 @@ static int rk_udphy_clk_init(struct rk_udphy *udphy, struct device *dev)
+@@ -350,7 +350,8 @@ static const struct reg_sequence rk_udphy_24m_refclk_cfg[] = {
+ 	{0x0a64, 0xa8}, {0x1a3c, 0xd0},
+ 	{0x1a44, 0xd0}, {0x1a48, 0x01},
+ 	{0x1a4c, 0x0d}, {0x1a54, 0xe0},
+-	{0x1a5c, 0xe0}, {0x1a64, 0xa8}
++	{0x1a5c, 0xe0}, {0x1a64, 0xa8},
++	{0x00d4, 0x30}
+ };
  
- 	/* used for configure phy reference clock frequency */
- 	for (i = 0; i < udphy->num_clks; i++) {
-+		if (!udphy->clks[i].id)
-+			continue;
-+
- 		if (!strncmp(udphy->clks[i].id, "refclk", 6)) {
- 			udphy->refclk = udphy->clks[i].clk;
- 			break;
+ static const struct reg_sequence rk_udphy_26m_refclk_cfg[] = {
+@@ -377,7 +378,7 @@ static const struct reg_sequence rk_udphy_26m_refclk_cfg[] = {
+ 	{0x0c30, 0x0e}, {0x0c48, 0x06},
+ 	{0x1c30, 0x0e}, {0x1c48, 0x06},
+ 	{0x028c, 0x18}, {0x0af0, 0x00},
+-	{0x1af0, 0x00}
++	{0x1af0, 0x00}, {0x00d4, 0x33}
+ };
+ 
+ static const struct reg_sequence rk_udphy_init_sequence[] = {
+@@ -412,8 +413,7 @@ static const struct reg_sequence rk_udphy_init_sequence[] = {
+ 	{0x0070, 0x7d}, {0x0074, 0x68},
+ 	{0x0af4, 0x1a}, {0x1af4, 0x1a},
+ 	{0x0440, 0x3f}, {0x10d4, 0x08},
+-	{0x20d4, 0x08}, {0x00d4, 0x30},
+-	{0x0024, 0x6e},
++	{0x20d4, 0x08}, {0x0024, 0x6e}
+ };
+ 
+ static inline int rk_udphy_grfreg_write(struct regmap *base,
 
 -- 
 2.53.0
