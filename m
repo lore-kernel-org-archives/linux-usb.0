@@ -1,62 +1,63 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F93A282F05
-	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 03:00:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0F61D9A5F
+	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 03:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783047636; cv=none; b=eGoegaahugGciso/cvUYFhxVwnyEVI2IEbt1ZfOWlDEgHFb96r9rx5nHSQQCX/to9p8obomcOWgCKF9YzEgh/c5Q/ZoxX6ck4sy/ev6ko9ytxUmPhDqQdv5mEXKx442B9RgAUq8qy1WJJtdjUdSeUYro9qX/Adnz0lcQzXpd83g=
+	t=1783047642; cv=none; b=QA6BVwPqicawkdzKvtHD38M3QFrrfd3He0qlWEfO9GvzNwZBIKY9U49Lc7UHnvJkA/WFIdEy0CDj7mRnrVzF8N0+vJF3cON/d9cxGzw2Aeyi39ROoB5cU4H0XLcjDFw6wRnFZYyMQP6K7n0oEiNUHJ+lk/GrjQ8IDsD4mTpQIbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783047636; c=relaxed/simple;
-	bh=hMaccDZ5PDEOPlCNJEKZtNPTuhPH7brCBjKysP98eZA=;
+	s=arc-20240116; t=1783047642; c=relaxed/simple;
+	bh=fRVxTWmWKyJ/dlHFPAIT3qfu7Qi7JrOMUPD+ztEjoew=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hPhZ/l6Z1CTW2dvoiDgSmDn8lSoJdJRlm7Lr6a+LOG3mmTrFDdFkVhSe+TUpPsTdSnRHj3IgecMhbfImdLWGAgL1pXpSXmTMVWJO60bRM+iG6hA+iGSzF2cAYUmeMhnZEBfItxmrTB83dDcqL4kPA6FctmGv8FSoI8TcXlrogoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=JWL3EDyT; arc=none smtp.client-ip=209.85.221.54
+	 MIME-Version; b=DEZK1bo1H1CxP3DQTskef013wrP0QIgnkp67bI7+Z0KQDWteN3GIaMwyvNpdIdowB1mcnyAnQIqHbeU4ggJRgnpps03GkCl/2m+7MHCL70+c3fuob+p48Iv/oM8e54u2/CveLFkFpLB8vlubj5gnCOJ+eCnMJRvy/3hMV5eOMGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk; spf=none smtp.mailfrom=fireburn.co.uk; dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b=JrzzfYKp; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fireburn.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="JWL3EDyT"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-45fd464d51fso37879f8f.3
-        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2026 20:00:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fireburn-co-uk.20251104.gappssmtp.com header.i=@fireburn-co-uk.20251104.gappssmtp.com header.b="JrzzfYKp"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493bc8fda98so521125e9.0
+        for <linux-usb@vger.kernel.org>; Thu, 02 Jul 2026 20:00:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1783047633; x=1783652433; darn=vger.kernel.org;
+        d=fireburn-co-uk.20251104.gappssmtp.com; s=20251104; t=1783047635; x=1783652435; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=egKj4uT+V4gDIJo4dQH6sgJyRIpRRkWAoTv3WOeDq9c=;
-        b=JWL3EDyT//x21Y97BlZR1XIBB5KYPHpgeNP7U3ZnvNtGw+HNh3/Ya/bwUnItI60Qy4
-         70a2ZfqwbtIsX1dMHaP9Y0aFqLEpjUKdVOBY7LUUT3yFh8Fs54nDRLCM0eTVHTXsMub0
-         4UL+uF9aCfXnqeMm71afCucbwHSbel6rAUMwpZ1neJCdv7J91ws5RENRnIpAyO+IH+bX
-         Mz4fTokCTlB8aethknr3oJV5F2Yz/oN0nLNBzagtsMkPJS/Xu9t2V9BqsUxu16fp+3fn
-         D59RCHLMXfCDasbNChgyqOmDSvJQ7kh4HtgRIyEOE3i+Lksu/3uwR6iLH7rzgefSaJFX
-         Hoag==
+         :message-id:reply-to:content-type;
+        bh=4jZ6/ZhLN9pWf6x+Z/4DuLuOEjzAKiEmsSW7t+CJTno=;
+        b=JrzzfYKpHtqPA2Ty/Pp3X24MYkQT8c8a6pBCxdiTaGQx8YpqTW+9si83Bguef9S61g
+         +A2IuWLTFEVnhPt4XTyzlZlNYFAhs8u0pMCi+7kWOChwfh4Ke+qVdISVgp1Kr3JZMh4V
+         wxigEpZAYSh1qpBSJQ8ygtnbUopo5Odw7OgTNOTxh9i5btVaWDOZLJ8YVicog32JWV5I
+         X0fM/2efW9Al0yNO4JSSA2t+ZnjVMc5iFu6fhZ7JthORkwrvnlHENEkUE/1YqvVCyARs
+         ywl//lNpMsO+0PDFEd0uDTqHVYcTLHBO7x/oqjgIh8DU/WMSVnqYgR2WMmd5kyjqRd7r
+         HAxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783047633; x=1783652433;
+        d=1e100.net; s=20251104; t=1783047635; x=1783652435;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=egKj4uT+V4gDIJo4dQH6sgJyRIpRRkWAoTv3WOeDq9c=;
-        b=MQB1aniMPrHd35MQl5PDjkTuS57gvCpf8U058BtXEuHO3VhqmhHrmuurYFi2XDcQvM
-         6nbvf3hcbuvqFmQsBVBodjmWepSg1ZDexKHQKg5gyNV1aNLc11ErTVoMjG2+PkW2UJa6
-         dg8TqATSK54U+7Y1rlVWJyfu1NJpMBviyhULpKiP4Hcmvn37y/Mp1JxF2uKj2PDgqKpd
-         F63/SWv8DZA7zgOxSlsf3YHL4sDA7cIvlaoqEIldubZPy9nlIRW25jjr316fxXhuiAJH
-         G/hX7Wxid805cdE8y4+QIJvcsu8NVUb6A5MeuCvPk34Pc9huivelwve8VW/nVqQc/6+F
-         LZrg==
-X-Gm-Message-State: AOJu0YzJJUJY6mijLhPv+kMnNvGSgKF1JTahTDAnxl3O1OCwMT6PskbE
-	Maw76o8kbq70s0/3jqYFlUOoWxnm88V3mOMyz6JjZa0IB0qPrjKB7CzXIr1jnjey7g==
-X-Gm-Gg: AfdE7ckRYX3PCwoVFnkqspVtIjMa32QrT7e7lPJWPepkCo0lc4OuIfpCHLMfJVnEcjy
-	SUleVaCwS0lJ+b6ejvPBWoURDNUJ+6VCBpBQRjp+LCkH2hjxMyVPEbYLxw+yZHkV7/UF9Ol7uFR
-	4tCfHguR7AuaMA9a672ClZo/vOpR/Su2nGTLe5dyVE08ctnWCKDhtArmK5DDoLZ9X6QV6ADTWTb
-	baGIdQKiumVugOGjjDLgifSaILrCvyJUURW/OrdUPMZJqBFd5MpFAFGUzmtD3B1+AO5YE5z2KUd
-	HjXSeQ8/+g14aGANCIA1sfvBLqz5Gk8hO49nPW2OgSD3nV6V76rIqLERjdxJQFXtMRHjgZsLL3+
-	pPsvHqYY3iJdRnK0b8+J2rOkPSIVEKFWYDhJaXuHJ6yEKp4Qgp7pY486widIKXbHaxTorfXOr36
-	IMlTdDsHFQFwyH5JjULvh7RZPTJehqA/h78ZifQNZ65CzTFJtkyonNduwm
-X-Received: by 2002:a05:6000:230f:b0:474:57f0:49f8 with SMTP id ffacd0b85a97d-477573bbd26mr12113057f8f.4.1783047632906;
-        Thu, 02 Jul 2026 20:00:32 -0700 (PDT)
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4jZ6/ZhLN9pWf6x+Z/4DuLuOEjzAKiEmsSW7t+CJTno=;
+        b=qa2BdbJIgCtt1VtvANgPA56sqYCHeWYJv0mFGz4HvQnZ3uUrHtILa+DwUxMVcSm7Ge
+         DRRCBBhJHDQhRaZt+W3RcX3VmwL1vI5Vo8xlQ6rK0EFnci9SNcnPUUk88HaiRZfhL2XL
+         j40UTnJlfxgFAUpRvcOjviR/guDin7LdwODKa2IWifUSpjItMVsMDBs7xwIrwHa0mLJD
+         bJLfceNvD0Chh31rtGIxuHm89WoM+YSM67TZAVLSOchTDCngrSUtgxB1xBQNzJFpOlWl
+         6NuKn9Wmbm6IU20+i9EggtUG3wL/iprkGvUsuwaqoi1jJJP+7uEH79Qu9V2hVkRhd04H
+         SwlQ==
+X-Gm-Message-State: AOJu0YzVira3Z9WwVqDn06FPhDcm4nYwvrLihVuejix4LrjiXA4XRpQ4
+	4b5raavlB6iYrFvbelmqqnchl8pbQB6AEwe1QeyppAxDY0w8l6MKXWk8WYt2g+OtDkDMnRWBwgk
+	51AGNCSrz
+X-Gm-Gg: AfdE7cmOA0HVfmFdTOyUuy0pTvGu2VH8u+B1/12rl07AHy7IcK7B7afK4c2+yAkh8H1
+	3jowwkL+HXToNWOW+s7Bv9qU+l9PXJ9XhloKcKJXF+KLE9p1UlUL2entd+PiDIzAJ4lfRC10L+v
+	sKuN+xZjDy2UH6osJWfZA/O8/v6+hP7q1zKtUDTPnj42c3j2r1uGRjBgBlV4jddJXdfxDcXBogz
+	ha5JoDAqUqGxts/N+8G7xx3s+/nR/hd/Js7L3X568NDpf5YwmfwXO8fdcaTc7Wk3lAX1VGX3M+K
+	JrpoaPrvGDRGWl9n899cTfd9OODDrCoM60BBo3bA8DJRqtJU5XH4DZD9KxU9mSFi9KGv+O0k+Yq
+	Wn/5YYFhAyvefFo4o5ZMA7SttFHF9NScIVtxsnOi5HZJufq77Gn+IePVgrdprYoFlPWT6WIQXCB
+	n4fnlydJj/Wxr2r9AhfwizQy/fTBOXPs+RfAIG6DJ1DeNbQdEdcxZRu6tn
+X-Received: by 2002:a05:600d:108:10b0:493:c337:db19 with SMTP id 5b1f17b1804b1-493c3cdf959mr88703925e9.17.1783047635243;
+        Thu, 02 Jul 2026 20:00:35 -0700 (PDT)
 Received: from axion.fireburn.co.uk ([137.220.119.72])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477db8a44d7sm13128569f8f.9.2026.07.02.20.00.31
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-477db8a44d7sm13128569f8f.9.2026.07.02.20.00.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 20:00:32 -0700 (PDT)
+        Thu, 02 Jul 2026 20:00:33 -0700 (PDT)
 From: Mike Lothian <mike@fireburn.co.uk>
 To: rust-for-linux@vger.kernel.org
 Cc: linux-usb@vger.kernel.org,
@@ -74,9 +75,9 @@ Cc: linux-usb@vger.kernel.org,
 	Alexandre Courbot <acourbot@nvidia.com>,
 	linux-kernel@vger.kernel.org,
 	Mike Lothian <mike@fireburn.co.uk>
-Subject: [RFC PATCH v2 02/11] rust: usb: add synchronous control transfer support
-Date: Fri,  3 Jul 2026 04:00:06 +0100
-Message-ID: <20260703030020.2694-3-mike@fireburn.co.uk>
+Subject: [RFC PATCH v2 03/11] rust: usb: add usb::Device::set_interface()
+Date: Fri,  3 Jul 2026 04:00:07 +0100
+Message-ID: <20260703030020.2694-4-mike@fireburn.co.uk>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260703030020.2694-1-mike@fireburn.co.uk>
 References: <20260617145946.1894-1-mike@fireburn.co.uk>
@@ -87,111 +88,38 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Building on the bulk transfer support, add synchronous control IN/OUT
-transfers on the default control endpoint (pipe 0) as safe methods on
-`usb::Device`.
-
-`control_send()` and `control_recv()` wrap `usb_control_msg_send()` and
-`usb_control_msg_recv()`. The `bRequest`, `bmRequestType`, `wValue` and
-`wIndex` setup fields are taken as arguments; `wLength` is the buffer
-length. Both copy the buffer internally, so unlike the bulk path the
-caller's buffer need not be DMA-capable. They block and sleep, so must be
-called from process context; the timeout is a `Delta` (zero waits
-indefinitely).
-
-This is what a driver needs for the standard control-request preamble at
-device bring-up before bulk traffic begins.
+Add a safe wrapper over `usb_set_interface()` (the standard SET_INTERFACE
+request) so a Rust driver can select an interface's alternate setting
+during bring-up. It blocks and sleeps, so it must be called from process
+context only.
 
 Signed-off-by: Mike Lothian <mike@fireburn.co.uk>
 Assisted-by: Claude:claude-opus-4-8 [Claude-Code]
 ---
- rust/kernel/usb.rs | 75 ++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 75 insertions(+)
+ rust/kernel/usb.rs | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
-index c9acadb2deaf..e1fb50fd6997 100644
+index e1fb50fd6997..73637e3467f1 100644
 --- a/rust/kernel/usb.rs
 +++ b/rust/kernel/usb.rs
-@@ -530,6 +530,81 @@ pub fn bulk_recv(&self, endpoint: u8, data: &mut [u8], timeout: Delta) -> Result
-         data[..n].copy_from_slice(&buf[..n]);
-         Ok(n)
+@@ -605,6 +605,19 @@ pub fn control_recv(
+             )
+         })
      }
 +
-+    /// Issues a synchronous control OUT transfer on the default control endpoint.
++    /// Selects alternate setting `alternate` of interface `interface`.
 +    ///
-+    /// Wraps [`usb_control_msg_send()`]; `request`, `request_type`, `value` and
-+    /// `index` are the `bRequest`, `bmRequestType`, `wValue` and `wIndex` setup
-+    /// fields. `data` is the payload (`wLength` is its length).
++    /// Wraps [`usb_set_interface()`] (the standard `SET_INTERFACE` request). This is
++    /// a blocking, sleeping call and must only be invoked from process context.
 +    ///
-+    /// This is a blocking, sleeping call and must only be invoked from process
-+    /// context. Unlike the bulk path, the buffer is copied internally, so `data`
-+    /// need not reside in DMA-capable memory. `timeout` is the maximum time to
-+    /// wait, rounded down to whole milliseconds; a [`Delta`] of zero — or any
-+    /// non-zero value below 1 ms — waits indefinitely.
-+    ///
-+    /// [`usb_control_msg_send()`]: https://docs.kernel.org/driver-api/usb/usb.html#c.usb_control_msg_send
-+    pub fn control_send(
-+        &self,
-+        request: u8,
-+        request_type: u8,
-+        value: u16,
-+        index: u16,
-+        data: &[u8],
-+        timeout: Delta,
-+    ) -> Result {
-+        // SAFETY: `self.as_raw()` is valid by the type invariant; `data` is valid for
-+        // reads of `data.len()` bytes; `usb_control_msg_send()` copies the buffer.
++    /// [`usb_set_interface()`]: https://docs.kernel.org/driver-api/usb/usb.html#c.usb_set_interface
++    pub fn set_interface(&self, interface: u8, alternate: u8) -> Result {
++        // SAFETY: `self.as_raw()` is a valid `struct usb_device` by the type invariant.
 +        to_result(unsafe {
-+            bindings::usb_control_msg_send(
-+                self.as_raw(),
-+                0,
-+                request,
-+                request_type,
-+                value,
-+                index,
-+                data.as_ptr().cast::<kernel::ffi::c_void>(),
-+                data.len().try_into()?,
-+                timeout.as_millis().try_into()?,
-+                bindings::GFP_KERNEL,
-+            )
-+        })
-+    }
-+
-+    /// Issues a synchronous control IN transfer on the default control endpoint,
-+    /// filling `data` with exactly `data.len()` bytes.
-+    ///
-+    /// Wraps [`usb_control_msg_recv()`], which fails the transfer if the device
-+    /// returns fewer than `data.len()` bytes. The setup fields and context/buffer
-+    /// rules are as for [`Device::control_send`].
-+    ///
-+    /// [`usb_control_msg_recv()`]: https://docs.kernel.org/driver-api/usb/usb.html#c.usb_control_msg_recv
-+    pub fn control_recv(
-+        &self,
-+        request: u8,
-+        request_type: u8,
-+        value: u16,
-+        index: u16,
-+        data: &mut [u8],
-+        timeout: Delta,
-+    ) -> Result {
-+        // SAFETY: `self.as_raw()` is valid by the type invariant; `data` is valid for
-+        // writes of `data.len()` bytes; `usb_control_msg_recv()` copies into the buffer.
-+        to_result(unsafe {
-+            bindings::usb_control_msg_recv(
-+                self.as_raw(),
-+                0,
-+                request,
-+                request_type,
-+                value,
-+                index,
-+                data.as_mut_ptr().cast::<kernel::ffi::c_void>(),
-+                data.len().try_into()?,
-+                timeout.as_millis().try_into()?,
-+                bindings::GFP_KERNEL,
-+            )
++            bindings::usb_set_interface(self.as_raw(), interface.into(), alternate.into())
 +        })
 +    }
  }
