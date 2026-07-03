@@ -1,98 +1,99 @@
-Received: from imap5.colo.codethink.co.uk (imap5.colo.codethink.co.uk [78.40.148.171])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8400C30566B;
-	Fri,  3 Jul 2026 16:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.40.148.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAF042BF3D7
+	for <linux-usb@vger.kernel.org>; Fri,  3 Jul 2026 16:30:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783095649; cv=none; b=CzVnD3fIktOdqDY/VAtpk0IuWkgLVWBc9qaw7c+6aC+VTPFonpG66KKNTjA4PFo/FtburTrU+JbL1olsSIcuOG1HO6wZhBsd+nuwAmwFq5QIaLfUePsL16qsFpmaEhDsBfOfB12C/H4K7phluC88UecKOvHdf8Ze37xkKOxFT3k=
+	t=1783096230; cv=none; b=HdJRcqW+81M/tV0+CWbaSKc6geAhlGypBE/ydOMtVBwGHNzekKtvhA22diqZ0RfQm3z8W+YxnmtN8SjcojIQoSnL4izL4nqm98qPbMnCNu1//5ReT0S/SIWcygESA5MLD6/n4+dqENjz8D0HyFbHMhPRdh1p5kBhDqh++1jOhEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783095649; c=relaxed/simple;
-	bh=5Ig7x9QjI4E0g0IAN+5+HQ1qq2uftffRoOtxlMzoGro=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cLwq2khKdRpr7Kq/g8Y0IFPBTvnVdv1X8qekGSmACusqrDXKSdrkLMhKgqZAt1DfvuNh2OLVMGiSH9B1XcwI+XK32VYBZaA6dj4LTLFd+HjAZEZA4dJkXj8eWyzIc1p1Vz19/9lzbCTP4W8wRIkABH/xwJdTfvLUoTOi7Ue4yMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.com; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=4UaWB/Qa; arc=none smtp.client-ip=78.40.148.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.com
+	s=arc-20240116; t=1783096230; c=relaxed/simple;
+	bh=0CRYoHs8wvBuD03IsbtP2Ve9yh2Pqll95uV9IxaOdkI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TgU398uxy+9yXbYMc0x7E08+N/1RXK7n3WqTdRJH+ASYW6J5hjKmQRZoEgt++YF62NcxjDHEqsh1IZc6cG6kiG+Dlde1FkvKE6Fgwdm6BDvo4zgniWP/ZedBHTltB8U0qN0tgsBO0dxEXC+3sv3pfYiLj33+iVkORo66KTEDgDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QccyT9qr; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="4UaWB/Qa"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codethink.co.uk; s=imap5-20230908; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
-	References; bh=FqqNgpG8o9iNHH/2qyTihbTjyulck/NgMRLDkQ1mc1Q=; b=4UaWB/Qa+Ba4Z4
-	VZ8VUkK3s0tReK9UBLtTnbEh7ozRhMT7qlkn0VCCsEO6xF644BvIa/ludwA+1aEtJvuyx7K3J/vYW
-	aTl6u95a9in4k54W8831jNFOF8uW9FlER5ln9IHVWp9BNAOXAP65kBS1BhnqwQgvaCtvtp9DKzSSe
-	voYCBaERp6sF0kVzxuTxhW1HrpYW1Ce/jr18jXV3X5dwCYzclU9lozOGfEU2LFb/eSF5wjxJ2OxBI
-	g7GnNBPwXN95EqQxqUUSCJ+Vhp12AD/YD8P9CyUpJr7I//p/SPohy+Lp3qbEnl0VdOEvUD+N5vhIR
-	nTjP6FML3I0aHMbkr9fw==;
-Received: from [167.98.27.226] (helo=rainbowdash)
-	by imap5.colo.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
-	id 1wfgd1-00Af4t-3K; Fri, 03 Jul 2026 17:20:35 +0100
-Received: from ben by rainbowdash with local (Exim 4.99.4)
-	(envelope-from <ben@rainbowdash>)
-	id 1wfgd0-0000000BwnE-3OUy;
-	Fri, 03 Jul 2026 17:20:34 +0100
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Ben Dooks <ben.dooks@codethink.co.uk>,
-	stable@kernel.org
-Subject: [PATCH v3] usb: dwc3: fix dwc3_readl() and dwc3_writel() calls in dwc3_ulpi_setup()
-Date: Fri,  3 Jul 2026 17:20:33 +0100
-Message-Id: <20260703162033.2847599-1-ben.dooks@codethink.co.uk>
-X-Mailer: git-send-email 2.37.2.352.g3c44437643
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QccyT9qr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1783096227;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3gLsJtFn7ODOWcrCk2NOJF+bI1kcWS9SdZ5UbnYHxbw=;
+	b=QccyT9qrtzqY0OvtYAGboHKdYzZpLFk+s4MywJovwxiD7FxtGtMzOe/8WXLt6OqnHCY5wa
+	VERo8luyp2G8YXOi0dAPKLf52/229CpKguVgW6/FlhYtZ5XYaRFXJm/apCBRrckSq0dtI3
+	GJiefA7R1WtVyER8j8897V4iIEqTbXo=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-683-SpeF33BxMLiQ5-iPZ0QsyA-1; Fri,
+ 03 Jul 2026 12:30:24 -0400
+X-MC-Unique: SpeF33BxMLiQ5-iPZ0QsyA-1
+X-Mimecast-MFC-AGG-ID: SpeF33BxMLiQ5-iPZ0QsyA_1783096223
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2FDE619772D5;
+	Fri,  3 Jul 2026 16:30:22 +0000 (UTC)
+Received: from fedora (unknown [10.44.32.112])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with SMTP id D073C1971E7E;
+	Fri,  3 Jul 2026 16:30:16 +0000 (UTC)
+Received: by fedora (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Fri,  3 Jul 2026 18:30:21 +0200 (CEST)
+Date: Fri, 3 Jul 2026 18:30:15 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: syzbot <syzbot+0255c92c72505dcacba6@syzkaller.appspotmail.com>
+Cc: bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, mhiramat@kernel.org, mingo@redhat.com,
+	peterz@infradead.org, syzkaller-bugs@googlegroups.com,
+	tglx@kernel.org, x86@kernel.org
+Subject: Re: [syzbot] [trace?] [usb?] general protection fault in mas_start
+ (2)
+Message-ID: <akfjlzQoBFW9qnGp@redhat.com>
+References: <6a47dd16.6912059f.e0473.000e.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: srv_ts003@codethink.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6a47dd16.6912059f.e0473.000e.GAE@google.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-The dwc3_ulpi_setup() calls the register read and write calls with
-dwc3->regs when both these calls take the dwc3 structure directly.
+On 07/03, syzbot wrote:
+>
+> Hello,
+>
+> syzbot found the following issue on:
+>
+> HEAD commit:    dc59e4fea9d8 Linux 7.2-rc1
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=12610e1c580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=3c3d59be33cf7e9a
+> dashboard link: https://syzkaller.appspot.com/bug?extid=0255c92c72505dcacba6
+> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=143f8261580000
+>
+> Downloadable assets:
+> disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-dc59e4fe.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/9ee1f0ea24f2/vmlinux-dc59e4fe.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/729e963a1370/bzImage-dc59e4fe.xz
+>
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+0255c92c72505dcacba6@syzkaller.appspotmail.com
 
-Chnage these two calls to fix the following sparse warning, and
-possibly a nasty bug in the dwc3_ulpi_setup() code:
+...
 
-drivers/usb/dwc3/core.c:796:45: warning: incorrect type in argument 1 (different address spaces)
-drivers/usb/dwc3/core.c:796:45:    expected struct dwc3 *dwc
-drivers/usb/dwc3/core.c:796:45:    got void [noderef] __iomem *regs
-drivers/usb/dwc3/core.c:798:40: warning: incorrect type in argument 1 (different address spaces)
-drivers/usb/dwc3/core.c:798:40:    expected struct dwc3 *dwc
-drivers/usb/dwc3/core.c:798:40:    got void [noderef] __iomem *regs
+> If the report is a duplicate of another one, reply with:
+> #syz dup: exact-subject-of-another-report
 
-Cc: stable@kernel.org
-Fixes: 9accc68b1cf0 ("usb: dwc3: Add dwc pointer to dwc3_readl/writel")
-Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
----
-v2:
-  add fixes and cc to stable
-v3:
-  fixed the fixes: tag to point to correct commit
----
- drivers/usb/dwc3/core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+#syz dup: [syzbot] [trace?] general protection fault in mtree_load
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 517aa7f1486d..ceb49f2f8004 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -789,9 +789,9 @@ static void dwc3_ulpi_setup(struct dwc3 *dwc)
- 
- 	if (dwc->enable_usb2_transceiver_delay) {
- 		for (index = 0; index < dwc->num_usb2_ports; index++) {
--			reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(index));
-+			reg = dwc3_readl(dwc, DWC3_GUSB2PHYCFG(index));
- 			reg |= DWC3_GUSB2PHYCFG_XCVRDLY;
--			dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(index), reg);
-+			dwc3_writel(dwc, DWC3_GUSB2PHYCFG(index), reg);
- 		}
- 	}
- }
--- 
-2.37.2.352.g3c44437643
+Oleg.
 
