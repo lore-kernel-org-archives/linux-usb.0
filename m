@@ -1,65 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com [54.207.22.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0DC352010;
-	Fri,  3 Jul 2026 07:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35239344D9D;
+	Fri,  3 Jul 2026 07:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.22.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783064275; cv=none; b=YxJAf2Uoj2J2FzV71Au/s7OL5wa/l9PuWmrsEi3/SoED0Vn55IuDKGTjcIxG50l/WLThWdvj8ygKI9fsGAw1O/91Luq1I4aaQM8VdGgkSWHLo1jTqpQ/YBiIFcM1oDRoTZr7K0x5q78NY/M+sOktHteCtRVBrG8x40K15645iYw=
+	t=1783064422; cv=none; b=E+GaCjLRUghMI9Svyz7z2k2gcU5nOoYH1NzLPztmyhwckoXPqbXy+wSus/nnQrJmKduwxsUPFd/P/Hs06yCzTEp17vBsfCQXN9JS4imj4Ka3tBuphZQvMlqPCBV0B46CSWeWowZJPw15kYRRLZcAsAg1/Ev+gdcqSXkBrIVShyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783064275; c=relaxed/simple;
-	bh=/zEdjDHHDOZlLYDj/HrAahZZ9YvreIDGoxRLp/b3nmc=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=GGt190/paI8ppa/vkzHoMhH7vj2FjlLiaXho3tJL5WVg+G9SXLyGzNhzqYKDWN612x/NqkfDqn6C2ZwYBAI8jS6tntZXySna6YiIwTVs5HetdDAF9U92csY1UroNZY6Uv2F/rjXxmyTey+B1E/TlUjzhDIX3grldEVFXVJsqP4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E7fzZHQj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783064422; c=relaxed/simple;
+	bh=/j5QKa5a42hpwXjlK0+xiXYqS/TjeX5QSZyYY2qzhic=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kE96FBnDYxqFiFLOfo2hI1MDkJKyutMCVGqz6MFLLvBBqW052eDYNmJGIlDuV7T7ppNKHaEIyY4BWwXodDSw1hkWmiPkdobSsTfB/OsWJBWKqo35eM4qjAYHj2mOQiFLHt89A79usTPqBScnBhNmyITtftXgLzW+v/zr/2rXEqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ugreen.com; spf=pass smtp.mailfrom=ugreen.com; dkim=pass (1024-bit key) header.d=ugreen.com header.i=@ugreen.com header.b=PVa6QyZZ; arc=none smtp.client-ip=54.207.22.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ugreen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ugreen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E7fzZHQj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69951F00A3D;
-	Fri,  3 Jul 2026 07:37:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783064274;
-	bh=BNjc89ZTwEE6sAh5F09SyQEpJODWyJuS+YsA1L114gk=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=E7fzZHQjHbuqRbfY5w8N/zq/LIGZMJY1SK41CeUUib7CZ4WxWm5MqtADiZytRVf8k
-	 B6AmxstGKgmn9k/gnWEMrYU/U8prhEH9/KBSrez2/6+NEuF1ehCnCime+EeHT7H/Vc
-	 3uPHNJ7e7l0I0rxnW+Hr072aIgsDpQNOHShnhFE32hDNXp6obtBsRggP9gjJ9qOPxF
-	 gm5mTrJ5kP99/8S/EVRiBrZq6SeYg8SxwOWKk+cApIcZjDHtKLqJQAQJJvgyCJU9Xh
-	 uvtmeyMNf/xe4qOOa2+jWsvz9DD00nDyID+u4LEyyFtC11nrDHmkAIGykMv8cZ9zSV
-	 H59njUBru/Yjw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56D2B39389CB;
-	Fri,  3 Jul 2026 07:37:38 +0000 (UTC)
-Subject: Re: [GIT PULL] Split <linux/mod_devicetable.h> in per subsystem headers
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <akdIS8mW2IubUWQh@monoceros>
-References: <akdIS8mW2IubUWQh@monoceros>
-X-PR-Tracked-List-Id: <devicetree.vger.kernel.org>
-X-PR-Tracked-Message-Id: <akdIS8mW2IubUWQh@monoceros>
-X-PR-Tracked-Remote: https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git tags/device-id-rework
-X-PR-Tracked-Commit-Id: 995832b2cebe6969d1b42635db698803ee31294d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: d2c9a99135da931377240942d44f3dea104cedb8
-Message-Id: <178306425679.2510133.17664517627067155845.pr-tracker-bot@kernel.org>
-Date: Fri, 03 Jul 2026 07:37:36 +0000
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Raag Jadav <raag.jadav@intel.com>, Sohil Mehta <sohil.mehta@intel.com>, Dave Hansen <dave.hansen@linux.intel.com>, Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, linux-kernel@vger.kernel.org, Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Heiko Stuebner <heiko@sntech.de>, linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Dani
- lo Krummrich <dakr@kernel.org>, driver-core@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Pei Xiao <xiaopei01@kylinos.cn>, Shashank Balaji <shashank.mahadasyam@sony.com>, Ben Horgan <ben.horgan@arm.com>, Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org, Nikita Kravets <teackot@gmail.com>, Hans de Goede <hansg@kernel.org>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org, linux-i2c@vger.kernel.org, Daniel Scally <dan.scally@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Tianrui Zhao <zhaotianrui@loongson.cn>, Bibo Mao <maobibo@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, kvm@vger.kernel.org, loongarch@lists.linux.dev, Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Brown <broonie@ker
- nel.org>, Takashi Sakamoto <o-takashi@sakamocchi.jp>, Wolfram Sang <wsa+renesas@sang-engineering.com>
+	dkim=pass (1024-bit key) header.d=ugreen.com header.i=@ugreen.com header.b="PVa6QyZZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ugreen.com;
+	s=pkvm2402; t=1783064396;
+	bh=NKFOf46eVmeGr5qC2Q6DRjQ0t0abDc8lrwh59/fJJbo=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=PVa6QyZZwbQqM0NJ3PEdnNg20/glReEoz61/FLKZ1MpupLGHhSHFvEFrTxFuIbHRt
+	 ZKGf0kMCnu+DHJDJTG00O6dqwwCTmpn089oJTc48d0OP8cGxZsyOEpx81rLW1ZPVaG
+	 CRmOPUVo1THlOjv2UAKMOaDzPAO8dHeixtVpZNrQ=
+X-QQ-mid: esmtpgz13t1783064392t03d3e1e8
+X-QQ-Originating-IP: Yu2uLObz51XsQIdBMiFmhIGN14vHEQGmz72VlPaufIY=
+Received: from exmail.qq.com ( [103.17.240.69])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 03 Jul 2026 15:39:39 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 14934850749113018607
+EX-QQ-RecipientCnt: 4
+From: Hanson Wang <hanson.wang@ugreen.com>
+To: netdev@vger.kernel.org
+Cc: linux-usb@vger.kernel.org,
+	oneukum@suse.com,
+	Hanson Wang <hanson.wang@ugreen.com>
+Subject: [PATCH 1/1] net: usb: aqc111: fix set_mac_address return value for bonding
+Date: Fri,  3 Jul 2026 15:39:36 +0800
+Message-Id: <20260703073936.462231-1-hanson.wang@ugreen.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:ugreen.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: MBlb9jzPUvXQpk6ffg4rqAIn1G0/1Ufa/rSgGHlQeyEsdcrp7D5GnmCn
+	3ZYJa1cE3kYgXJOg7DOjev1bnJwA7+S2LgTFxUFWD2F6N5PHOFzNLwtaptbA+39DF4/L3ax
+	0yNEbTgXriKqANJDNG+v35tCQKOr63E0Jhxpk4sveYqTYHK3wp5Xjynvre0gkDaiojvYGXk
+	I6fY8wvhlF3zcWIcXXriRJquxuP7B9qQ0ang0zBsgjI7GJI/ClpMfOSARFdyynkwnk+4tFs
+	BGpw4WOlmBHogSgNH3ofI9ZKGary2K8mA2hOTDDVL+BqLoLTQ8dMB7xNYQxCXiurqYHVO2w
+	PFd9nQw2VpcbgmUqvrUCqE677EK1TMMvQy0o3eHPd2el+uG3CleJoYwCNPY/+vYWAX7WEU4
+	JGhI5Cv1kssRIK/BAr8IbEmLbWY4LdtiwAZ+m4eCy2CHbwpeuhgzNDtv4i9hwm4w7y7y4aL
+	sPzB702+iLwEJtu+G6Bb1CroJaEIHqd36Fn1jPRfV0OUPjSMVCh3U5oEj+ECwSfqesZwaTk
+	BOQ0JYir5Hr/i2OzMMja4cNlen4c0fl512jI3EszJ64zsLOUvDadO0rTLcyxGWjiDYcZPEx
+	EKh1JnzFgEKitRZDGhHTGDTrBnJVOwPP0kq95A6OCOjhc+vQywMxrx2Eo2xrWdQ2hC/eodA
+	rRNnRm8e6tzeiKlxd8a5LLuPulswcUNrbdY1gcCAtWh7h0sUfjHjX3OACMfzuy7GdectFAf
+	Di7ghyFCjTo2HcvdNHR6xYVkbqq+EXo+2/FsqhKify76fXV2vrHXjh7+NvgqsIlP4vnPRZv
+	wjKzCQDqFOFfPBzjDDfzexjTjO+ZemLv1EbgFLxdiTJX2GrNiiEOnuddrM5KPiJEGNXpeTz
+	wjQ4aVlCC8xOBsrHP5YsHIN1ExR6XgxW8NoacRLjaA3DvuV5BUY26wkBx70sszbFITC7FoE
+	C9Ocy8jH2Sv3DmlIJwE28qzd7kB5ti2KmmPL6Jq57Cyb59bUb3NtqmPeyn0CoanCXK5l0OZ
+	VqR+bjepUkST2pKEEOzVNK8WXcoUjGvkmNA2gmNom8qHiooSW96QMFLfhiq9I=
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+X-QQ-RECHKSPAM: 0
 
-The pull request you sent on Fri, 3 Jul 2026 08:04:04 +0200:
+aqc111_set_mac_addr() returns the result of aqc111_write_cmd() on
+success. That function wraps usb_control_msg(), which returns the
+number of bytes transferred (6 for ETH_ALEN) rather than zero.
 
-> https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git tags/device-id-rework
+Bonding calls ndo_set_mac_address() when enslaving an interface and
+treats any non-zero return value as failure.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/d2c9a99135da931377240942d44f3dea104cedb8
+Return 0 on success and propagate negative error codes on failure.
 
-Thank you!
+Signed-off-by: Hanson Wang <hanson.wang@ugreen.com>
+---
+ drivers/net/usb/aqc111.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/net/usb/aqc111.c b/drivers/net/usb/aqc111.c
+index dd53f413c38f..da5b74637ee2 100644
+--- a/drivers/net/usb/aqc111.c
++++ b/drivers/net/usb/aqc111.c
+@@ -471,8 +471,12 @@ static int aqc111_set_mac_addr(struct net_device *net, void *p)
+ 		return ret;
+ 
+ 	/* Set the MAC address */
+-	return aqc111_write_cmd(dev, AQ_ACCESS_MAC, SFR_NODE_ID, ETH_ALEN,
+-				ETH_ALEN, net->dev_addr);
++	ret = aqc111_write_cmd(dev, AQ_ACCESS_MAC, SFR_NODE_ID, ETH_ALEN,
++			        ETH_ALEN, net->dev_addr);
++	if (ret < 0)
++		return ret;
++
++	return 0;
+ }
+ 
+ static int aqc111_vlan_rx_kill_vid(struct net_device *net,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.34.1
+
