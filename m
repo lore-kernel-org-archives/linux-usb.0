@@ -1,107 +1,157 @@
-Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBC038F240;
-	Sat,  4 Jul 2026 08:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783154632; cv=none; b=cFlQiNpBUTqNTooMhBR4/ksKnDmtGcfJ4Tzers4nt1VOzGWzChApWPwVJOhKgN//qyPVe3QqUJYuI9l93JThSwn5yze1ZNjfZOp3phYv7XR3MJ6tf/hfOiva7+bz6rthzMx0gcbdOycmf8OT8c/BKGXw+KeXXiVhBQd4nWs/IYc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783154632; c=relaxed/simple;
-	bh=qQEraKButsEB17QaARuJkvQEX9Psmgo4SyUVgEIXKwc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aLwmYbUjau/AV5z6/lcGu4oX9/qZEv2zYnWGMgVf/WRuLUHDwE19VZ3nfoN9/VKVKcvjZbe/BbXCeVXTgbEAo7FDZZopHmELExDVQkINNPl7gAi8qK1XK3nT8lTjTnHTvii/0G6PbDn4ywc/HCwG94FA0joQRswnNRbaWbAQ8Bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ugreen.com; spf=pass smtp.mailfrom=ugreen.com; dkim=pass (1024-bit key) header.d=ugreen.com header.i=@ugreen.com header.b=dOwx+Zki; arc=none smtp.client-ip=54.207.19.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ugreen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ugreen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA93D84039
+	for <linux-usb@vger.kernel.org>; Sat,  4 Jul 2026 09:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783158129; cv=pass; b=jVXNTsl+nO17cnvVbz0SsR7WKY3v+GvdOm/J7G273X9dD8ZZs+3gPvc4KKfEpdLDP3LIJqrBiiFN4aeaDQflUOsYZQ/7nd5qsHJrV0JSrZbOTXCFy2CgmkqbFiX8snXYHw3bTISB6paMP6fyMi2qZWwhrjE1/3yPq/gVc7js2AE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783158129; c=relaxed/simple;
+	bh=UtHBNbPTCphQFj0SX3N0foFrXQDKzxU4CzUEENyHOvU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HKvYeTbCrxKkd5iSgmGAM7vrNHntR6IIIZ9XIN1/IsaP6B3p3eX6AoRjxLl7uwEJ+aTrvRttml8mdc5lP/DakoAY0fzi6Q3aoxps7pG3gbDDJL1px2XcdThk+PzuHphAEefvj6QHOkkpLJgl+KTt2C7YBS+vnHRraNH+Y45int4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S1tQ2YWs; arc=pass smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ugreen.com header.i=@ugreen.com header.b="dOwx+Zki"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ugreen.com;
-	s=pkvm2402; t=1783154594;
-	bh=CNH7cJsDc+JC7+eiD+qEhLe1GmbbW50fNARWvPtR46k=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=dOwx+ZkiuNInhnKjuypDX9hhRrXrBGlRrKQ2HSXh1aAwRlFrzjvbgvv4F0HbaiWSC
-	 eNVgrQhH5fSPGMIm0amQgbLg5Ac0EJvFCFJTR13SXp74ZZH/tPrTiEe7Yl2VXIR7yV
-	 Ad3t/fUJa74wTXIJfgkyT2tW9aYG1he7bLijdjvU=
-X-QQ-mid: esmtpgz10t1783154589t4efead20
-X-QQ-Originating-IP: ny2Tx68rWjwWeM2TN54kyg0OpROsi16NMTAYZqJTiqQ=
-Received: from exmail.qq.com ( [103.17.240.69])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sat, 04 Jul 2026 16:42:58 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 5595461346446072083
-From: Hanson Wang <hanson.wang@ugreen.com>
-To: netdev@vger.kernel.org
-Cc: andrew@lunn.ch,
-	linux-usb@vger.kernel.org,
-	oneukum@suse.com
-Subject: Re: [PATCH 1/1] net: usb: aqc111: fix set_mac_address return value for bonding
-Date: Sat,  4 Jul 2026 16:42:58 +0800
-Message-Id: <20260704084258.3513069-1-hanson.wang@ugreen.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <43a0904c-de59-4b40-b186-edd130f6c0cb@lunn.ch>
-References: <43a0904c-de59-4b40-b186-edd130f6c0cb@lunn.ch> <20260703073936.462231-1-hanson.wang@ugreen.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S1tQ2YWs"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-474560436c3so1345238f8f.0
+        for <linux-usb@vger.kernel.org>; Sat, 04 Jul 2026 02:42:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783158126; cv=none;
+        d=google.com; s=arc-20260327;
+        b=j4ImS81RR4mvnvacFe/Fvu5GcTTZ/5QbHnakfphNuKV4GGtWpZ5+5j99IDfxb9PjvT
+         RsVygNakggSc+tx/nhFSjCDcYSK8ZT1p460gV73/4w8osc5mhuzcd50TJz46eFZlrIUN
+         DUCzwEVi/0we/55J0TaHohKCD1mDwFzBhlmlSgWSDtsbUXZE0P1+iygO4WoI6rsqpj3i
+         UIaU4aWsX70lCwAJKmIdJd9fGS5qTMMuUEPd4dPjRm7/z+sK5Y9pF/U9Lfmyeffefo+z
+         SA1QmQA1vausPWJUjEv8EzzusyPff2M4dV8kd8fHjGwUWk7w7HiWwf68ucnZEF6MjdSQ
+         Zusw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dgl9SnPS5R/2hzJihBF22S7J+OhnwsimNuEJHRQD6tg=;
+        fh=nYrndWauy13tYg57Pd7+bvouqpKtuJIaduW7TC3Dlis=;
+        b=mXUJO48sN7kBJRHH5cr4CIk3YSmti34s74S8CqGLUHrShHnjohQY8DRgh0Sd4Zd55y
+         y9HdddPs+V+5HTsbgS+SIdbrp6P1meriY0ah0kpwDAvjyyWVzok5X610kWR9aPo6fp8b
+         UqS+nwipZbtHSbYNVsXUefBoAYzWn/ZKAlSgiOVo3aQYW5TBrWOY9MFJ0Jyjew1or1RR
+         tnJiQmUihczukTbzAEyYGTRG4ydT1uqZrIbMCUtOeMrz18FNLue94pvi4ZBvXCt1LP0y
+         krFhZFTSxNOP0ASebUhBvD3LVf1ByPXZOhjr6vtyI0NRgGsumhS65FuWA2mlbR8XJ/AP
+         ebMQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783158126; x=1783762926; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dgl9SnPS5R/2hzJihBF22S7J+OhnwsimNuEJHRQD6tg=;
+        b=S1tQ2YWscWTQtHj77Urh7qe6Ql+0GSmEnp/ZyJG5cKuY/tePlGaItuwytX//3xqaQb
+         zVxiAm9Wqh+EvvBBPGopuw2k2xPYb0AM22+l8I4Dlwrd+SAmIq/Uqbusu1MlYd7DhWb1
+         WbO6x538C9HUdUUdjYxDHhn4dZt2s0qUcfV0zLDDlrKSetC3IaB9APE96k48Rk7xqnu2
+         RZTlw9u6+LxP/b4LsNqLvj0cr/zLBgey7qUzoj8PKEXPoqjzF26/EzqSIzEc4L/O6la2
+         KhMPYuYm3TdwXLZAlmg7ZYseC1mM6lP8KkbLS/Bw+2UQ4ItR75fBHT1RUi9smMRrnNsg
+         itzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783158126; x=1783762926;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dgl9SnPS5R/2hzJihBF22S7J+OhnwsimNuEJHRQD6tg=;
+        b=eMjdjLQ+nUgNpTS0KkNy7gppHI1NFwA0Zh1aXd6yhB8WK9RPmbXLiklM3MT+WzLBnk
+         qbmL4vvK7BPqyb0Fzl0VQVawhRLwsPd/MF8GsjGrhS5MfkW5nhwMoDphGYLnffzpZPxn
+         LxCtJbgueaXpj7XRDBJOEDuJBkYNYZV2MyjT/zGLOuR6vcN3T9e2q84g32qzccXhDAfX
+         k21gveSi6rugVzGIXqnQqJJ0KUDMXb7VQB4aGxMrYhC87q+TA104fu/V8vGPqVv04WRi
+         S2YldpUirCz7+9DnX0wRatwCP5lSRzDH+uB5yUy/Mqb37pnEMTMaSJb8p4MBdDpDaTiV
+         ux1Q==
+X-Forwarded-Encrypted: i=1; AHgh+RovfPWQLpxVZkPcMz2Lzw3U8MosDEsnvo/RjhNFWe485g+qjTunw5tyZLkg2fMjMk1GV8yGq4L+AYg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3/c6xM3YKS4rzppC+zP2Vux53d6jRcWDAYVMjPT0vjJGO57pN
+	yOrsMxcZB2gZ+mgaCeuGy/0V0XKD1lTmqI3RDHRMr8s/ltmwlxnSDMunS/yqdhrsYSkGe/jr7Ik
+	Xgt+Ez7mJu+o0gs1VFVQWzrz6GkrGO7Y=
+X-Gm-Gg: AfdE7cnKJIa/3hddxT7xWpQlvfWqwGXoc0PXZYOnKi0BVSzBFXOPgsCN+yarXDAqlXQ
+	u+hpQiwhQz8iwrvGha8qkM5/F7pqiC1Qq975oU/H4UbaTCS6ZS3uEFmFd9JoGmnEISfO+PdvSEA
+	/7kkXPRfx9d8cBOTxmtVyE14kgijVr44pQxfGGNt3h2D27DSoY8bgZ/Wi+7VxmfXf5u1c+Ng4ov
+	tn7GnjoJB2DXPSsUc1t2UTArOPtagkeI/XKcMRVX+eIJRtP6PwQy18dvGUHrx1jhug12rvI
+X-Received: by 2002:adf:f5c5:0:b0:475:f0d1:eb5a with SMTP id
+ ffacd0b85a97d-47aace8f2b8mr2340042f8f.53.1783158125998; Sat, 04 Jul 2026
+ 02:42:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:ugreen.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: OYMEOeTae7ml/GOoCOZQyYv3nILgleh1tbqel6CNn9Es3LX2l9LHGeif
-	eQ6mS51vTD9bE4xO1D1ngFzF6+p53CRplKKxSUsBjsxMsB1/9SGZl5+jBroybWvxjAy1O78
-	HUADetGJ9+YxWuKnUDPGslfdcPllIF9QfUFsGVnl1i4PLqh0iM5FkHzOMZ98WaKChRp8KC5
-	rJfJPx70TPuh7vJEWNM298MTqEqhNrAs2PW6UUz2qnESVxU2Rn88lsYuHm5teC8THhoWPyS
-	4fQ4CncUbJSMjPlxJZ9Fp3jnjtNaUgnjtX9UNf5rbfx8N1Xekni6itoGgQfHwcp60rxc0Vd
-	wHH1EbGQmXxMaasFVGo6li39b3l/Kiq8b2iQbZan+4gRXNyaJWvo/WEstDXXTGo220wLhO6
-	R5vRUrU34lP7kA4mjJ/kyiOKwsNwtU1tzfevaKHZtvHLQrEICpyMUPuPnCRcue9tH39v7XV
-	0CYvzPO4x8ru5htd0rYPG0IFdqay6jp92ca46FWj/dB2eH73t9c7SthPA7ft54WJQaoB6SI
-	8ufoFlxxl24AQaSDsv9AWXRI11zYPnu6PC+q+L9NX0kJbODXnlHf63Akeq2x7JXBc96Isto
-	2Sp/X3W9Gp7F9s061H+b1LhBSBQdubYBakzOWVPM+NXag2JVJ7zkljuK4JqL5mmEoqjPwd1
-	L7WK8ihBCIfv7jJhEgm1U5HNkmaxrX+dC+GwY7zZh1Tkc2GrpI7Ve4JfPeksmOtVLCCjBfy
-	mWpteP8ChNVQIeuGPnLSYbzlPtuGyxdhfYca/9avO7NbeCQkK5zYhRK0BPIJNTHuhLafQhu
-	NXAMeiHGIyDZMo4DTB1wj+BAzyMoUNyVAl1YEq5+lRxOYWQFJN4IL+H7NuYsEo9GvFp/63l
-	vA2j+PwBli5YoEz24592NowLv99HEBWR48EHYkVSRFF/zpPzL3lqhQOQKKeOmP3clEmKgfE
-	aBcx6HTqeCvsIGduWNPYUA6HMx61lSp5abW7XozsSNd28tI/tQoYMtSmPToVgukCba/Neps
-	TupgdLBgYbUSdYP+/7HhyQdOvEsrs=
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-X-QQ-RECHKSPAM: 0
+References: <20260604105059.18750-1-andyshrk@163.com> <aiLHBIYmexWvmlha@kuha>
+In-Reply-To: <aiLHBIYmexWvmlha@kuha>
+From: Andy Yan <andyshrk@gmail.com>
+Date: Sat, 4 Jul 2026 17:41:53 +0800
+X-Gm-Features: AVVi8Cdw8CdNzAsOvZRCnluiLNAz8yOFdlvEQSUljumZpqX21iKSDZAeyXm8gN0
+Message-ID: <CANbgqAT+B34JNMCnVBg4kk1X_0PX+nFmSgLY6qytRfJ7jnfsaQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: typec: tcpm: Fix VDM type for Enter Mode commands
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Andy Yan <andyshrk@163.com>, gregkh@linuxfoundation.org, badhri@google.com, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Andrew,
+Hello=EF=BC=8C
 
-Thanks for the review. You are right that this is not bonding-specific -
-any caller of ndo_set_mac_address() (including netif_set_mac_address()
-and "ip link set address") expects 0 on success and treats any non-zero
-return value as failure.
+Heikki Krogerus <heikki.krogerus@linux.intel.com> =E4=BA=8E2026=E5=B9=B46=
+=E6=9C=885=E6=97=A5=E5=91=A8=E4=BA=94 20:58=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Thu, Jun 04, 2026 at 06:50:24PM +0800, Andy Yan wrote:
+> > VDO() second parameter is VDM type (bit 15): 1 for SVDM, 0 for UVDM.
+> > Using 'vdo ? 2 : 1' corrupts SVID low bit when vdo is non-NULL
+> > (2 << 15 =3D BIT(16)). Enter Mode is always SVDM, hardcode to 1.
+> >
+> > Fixes: 8face9aa57c8 ("usb: typec: Add parameter for the VDO to typec_al=
+tmode_enter()")
+> > Signed-off-by: Andy Yan <andyshrk@163.com>
+>
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-I audited all drivers under drivers/net/usb/ that implement a custom
-ndo_set_mac_address callback:
 
-  aqc111.c        - BUG: returns usb_control_msg byte count (6) [this patch]
-  ax88179_178a.c  - OK: returns 0 after ax_write_cmd()
-  asix_common.c   - OK: returns 0 (async write to hardware)
-  ch397.c         - OK: returns 0
-  dm9601.c        - OK: returns 0 (async write)
-  lan78xx.c       - OK: returns 0
-  mcs7830.c       - OK: returns 0
-  qmi_wwan.c      - OK: returns 0
-  r8152.c/r8157.c - OK: returns 0 on success (via usb_autopm_get_interface)
-  rtl8150.c       - OK: returns 0
-  sr9700.c        - OK: returns 0 (async write)
-  sr9800.c        - OK: returns 0 (async write)
+  Gentle ping....
+  Which maintainer can take this patch ?
 
-Drivers that use eth_mac_addr as ndo_set_mac_address (smsc95xx,
-smsc75xx, cdc_ncm, rndis, pegasus, usbnet default, etc.) always
-return 0 from the netdev op.
 
-As far as I can tell, aqc111 is the only driver that directly returns
-the result of a USB control write without normalizing success to 0.
-
-Please let me know if you would like any further changes to this patch.
-
-Best regards,
-Hanson Wang
+>
+> > ---
+> >
+> >  drivers/usb/typec/tcpm/tcpm.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcp=
+m.c
+> > index 55fee96d3342a..3674e1cdde57b 100644
+> > --- a/drivers/usb/typec/tcpm/tcpm.c
+> > +++ b/drivers/usb/typec/tcpm/tcpm.c
+> > @@ -3061,7 +3061,7 @@ static int tcpm_altmode_enter(struct typec_altmod=
+e *altmode, u32 *vdo)
+> >       if (svdm_version < 0)
+> >               return svdm_version;
+> >
+> > -     header =3D VDO(altmode->svid, vdo ? 2 : 1, svdm_version, CMD_ENTE=
+R_MODE);
+> > +     header =3D VDO(altmode->svid, 1, svdm_version, CMD_ENTER_MODE);
+> >       header |=3D VDO_OPOS(altmode->mode);
+> >
+> >       return tcpm_queue_vdm_unlocked(port, header, vdo, vdo ? 1 : 0, TC=
+PC_TX_SOP);
+> > @@ -3109,7 +3109,7 @@ static int tcpm_cable_altmode_enter(struct typec_=
+altmode *altmode, enum typec_pl
+> >       if (svdm_version < 0)
+> >               return svdm_version;
+> >
+> > -     header =3D VDO(altmode->svid, vdo ? 2 : 1, svdm_version, CMD_ENTE=
+R_MODE);
+> > +     header =3D VDO(altmode->svid, 1, svdm_version, CMD_ENTER_MODE);
+> >       header |=3D VDO_OPOS(altmode->mode);
+> >
+> >       return tcpm_queue_vdm_unlocked(port, header, vdo, vdo ? 1 : 0, TC=
+PC_TX_SOP_PRIME);
+> > --
+> > 2.43.0
+>
+> --
+> heikki
+>
