@@ -1,76 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD7F20DD51;
-	Sat,  4 Jul 2026 11:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BAC13B2FD1;
+	Sat,  4 Jul 2026 12:47:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783163334; cv=none; b=ty/Ly2pbBf86dQ9g7dweKJt6eLWv4jlZbUg8noUSHXJpVZJi7zbb+ftBdW1n640LtNckp53tqJ/4A/HPHaS1rTbLq9cyOV15Gbb5l/8UMuZVS0i/7YV1XgbgNIfx7S80L8wTSMoWiFiOOxxCvDhF43gStGksu4Lo3sMfDmPfF/o=
+	t=1783169254; cv=none; b=pnlGLF8FHyn2BCsYwSLvQp+ArCOTaraErcogczkP5U7zBHCj7bAg/5CXZZlLtdUJWBmKA/OUDafmAAFabvbGFb9VaZqDslO4/EKf0LOA2H4Aou8FmikCA+fUIODSaCmghjBLnbRSY50cZToDacb5ggDOpfBSb7MyOVMtwtxLUTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783163334; c=relaxed/simple;
-	bh=VU6VA02RS3vKXI4o5byLiWhcrDoIq0/oZH4Dz7QM+fc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OnD/1WPGuv3cM5Jwp9nRL3LcbjQKYnjsng4yACBkvUo3haScQE/oI3OEupr/Mz3JlsEOcYnf/ac9Bzp1Lo9UvG8PXp7Pvsx6lrsRp/Ir/BoiEMYpFTt4LWFfteSi4k3MSAKJ8eW/4Pd+BRXSTBqBurTZAEz6dox2dKMV+Zcr86I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rx2S0Yl6; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rx2S0Yl6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE91A1F000E9;
-	Sat,  4 Jul 2026 11:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783163333;
-	bh=Bcb7aBNE2M/04KEIu+7Ft1wTVtvmBSyY4Pb5rAj2zvg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=rx2S0Yl6orsVSZkZuOx9by0EfIWc3+OtC14YhconSjHOGtqaTHI4r+amocF1TlqBA
-	 P63VE9Ntky7zDU/gzO5/T7d2onxd71antU1O3ij6TkEbnG5o9Utwb6czYJnlLxlxF6
-	 hgykVR6NYcDZK0XTVDWaqU5V03lJXSfXqKTvcD4Y=
-Date: Sat, 4 Jul 2026 13:09:02 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Andy Yan <andyshrk@gmail.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Andy Yan <andyshrk@163.com>, badhri@google.com,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: tcpm: Fix VDM type for Enter Mode commands
-Message-ID: <2026070408-elude-patronage-9295@gregkh>
-References: <20260604105059.18750-1-andyshrk@163.com>
- <aiLHBIYmexWvmlha@kuha>
- <CANbgqAT+B34JNMCnVBg4kk1X_0PX+nFmSgLY6qytRfJ7jnfsaQ@mail.gmail.com>
+	s=arc-20240116; t=1783169254; c=relaxed/simple;
+	bh=Nz0KD4SNmjzV2N89UmFep4U/9xUMq0W3pUhRZQgArSA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bDPVjJlp+c3F9AcgSUBsr49uJpdkd0PZlByHtVV/NSZMy91DLtJZ8hjbT26zfVgyMWUus078LHLyhJSPfxJMyXBVCJTFH3cAWzSWT8Aji/sSzxc9efulYwiQN1NrsDWTVl6dMbwqufj5nwr0RgOKDHf0gBe3WP1Y/e6LRW1fPyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [111.196.245.140])
+	by APP-03 (Coremail) with SMTP id rQCowAB3Zq3UAElqpF_WFg--.11658S2;
+	Sat, 04 Jul 2026 20:47:16 +0800 (CST)
+From: Pengpeng Hou <pengpeng@iscas.ac.cn>
+To: Romain Gantois <romain.gantois@bootlin.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: typec: mux: tusb1046: add missing MODULE_DEVICE_TABLE()
+Date: Sat,  4 Jul 2026 20:47:14 +0800
+Message-ID: <20260704124714.18404-1-pengpeng@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANbgqAT+B34JNMCnVBg4kk1X_0PX+nFmSgLY6qytRfJ7jnfsaQ@mail.gmail.com>
+X-CM-TRANSID:rQCowAB3Zq3UAElqpF_WFg--.11658S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtr45uw1rurW7Aw4DuryrtFb_yoWDZwb_CF
+	ykWF9xXr1kCr9Ygr1rKrs3Zry0kw18WF1kGFyvqwsYk3W3tF13ZFWDWFZ8Jw1DJF47JF98
+	Zr4DXr18Cr4agjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbx8FF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
+	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
+	v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_
+	Gr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdYxBIdaVFxhVjvjDU0xZFpf9x0JUQ18
+	PUUUUU=
+X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-On Sat, Jul 04, 2026 at 05:41:53PM +0800, Andy Yan wrote:
-> Hello，
-> 
-> Heikki Krogerus <heikki.krogerus@linux.intel.com> 于2026年6月5日周五 20:58写道：
-> >
-> > On Thu, Jun 04, 2026 at 06:50:24PM +0800, Andy Yan wrote:
-> > > VDO() second parameter is VDM type (bit 15): 1 for SVDM, 0 for UVDM.
-> > > Using 'vdo ? 2 : 1' corrupts SVID low bit when vdo is non-NULL
-> > > (2 << 15 = BIT(16)). Enter Mode is always SVDM, hardcode to 1.
-> > >
-> > > Fixes: 8face9aa57c8 ("usb: typec: Add parameter for the VDO to typec_altmode_enter()")
-> > > Signed-off-by: Andy Yan <andyshrk@163.com>
-> >
-> > Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> 
-> 
->   Gentle ping....
->   Which maintainer can take this patch ?
+The driver has an OF match table wired to .of_match_table, but does
+not export the table with MODULE_DEVICE_TABLE().
 
-Please relax, it was just reviewed yesterday.  There is obviously no
-rush here as it wasn't tagged for stable backports, so it will show up
-in the 7.3 kernel release, right?
+Add the missing MODULE_DEVICE_TABLE(of, ...) entry so module alias
+information is generated for OF based module autoloading.
 
-And as always, if you want patches to get accepted sooner, help out in
-reviews to reduce our load.
+This is a source-level fix.  It does not claim dynamic hardware
+reproduction; the evidence is the driver-owned match table, its use by
+the platform driver, and the missing module alias publication.
 
-thanks,
+Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+---
+ drivers/usb/typec/mux/tusb1046.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-greg k-h
+diff --git a/drivers/usb/typec/mux/tusb1046.c b/drivers/usb/typec/mux/tusb1046.c
+index d6e1289a4945..34ef81f75693 100644
+--- a/drivers/usb/typec/mux/tusb1046.c
++++ b/drivers/usb/typec/mux/tusb1046.c
+@@ -178,6 +178,7 @@ static const struct of_device_id tusb1046_match_table[] = {
+ 	{.compatible = "ti,tusb1046"},
+ 	{},
+ };
++MODULE_DEVICE_TABLE(of, tusb1046_match_table);
+ 
+ static struct i2c_driver tusb1046_driver = {
+ 	.driver = {
+
