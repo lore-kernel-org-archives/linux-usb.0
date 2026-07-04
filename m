@@ -1,189 +1,158 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31D71367285;
-	Fri,  3 Jul 2026 23:37:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04BD3594A
+	for <linux-usb@vger.kernel.org>; Sat,  4 Jul 2026 00:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783121866; cv=none; b=Hqkoobcdg3OFhk+cywCzlySyJ8oCEAvlT7GSzLY2lrLcHwDCa9dyCtzKi/AYOUeca/DuoKZzZUtGsFrFSam1Xu01J2WQF/TpK3MpLf1Z9vMVakbvj2gp3TitGhuKI9xQOTiN+d1immDkdYweIx3q/0xe4WEEEWJZgtZBXBXSFO8=
+	t=1783123305; cv=none; b=AtSq7lMG92PBe2q70aVbYQC/dq2uzH9NoDBwdul6ZIdJdfMNOo8mJzQym5ROqkbWtcxjjdZM5NGxKRHsV2u26h2AnaWO0SxpP9UFN7L071U6OcEV1+45nswhU1YVgI3JqKn/4E3dezH6ej5DZ5azQcdMiJiTjj+2dtuZqbnTL/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783121866; c=relaxed/simple;
-	bh=G7gzcG3rzvZ1DYbgPbCbgoSM7OjypvE9b+sVoXF/5IE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KsgY3rrUBgMrStcOv61e4JeEJwvLNmyqVWeuLZrSPPGknewXhvHTe/QQutNSvJokedIyuhFglHmMwBCEDDMHrv12Ww1jUs+PrK9+vrPt8+BRy16/yGO3CbXpDBO61trIEncV2I8dgWymmtp/vX0BtI0voEhN6JGBtElPWRv5V5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZP4lN1bj; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1783123305; c=relaxed/simple;
+	bh=1hgoD/IDOXH1vzUGVqFb9ZBGpf0yUjB+5Uh0JCZ+/8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eqqGBlKfHK1pPxkKe6VY9cvZtb0qTJPjVpe/etesixhzJNZARTkIzVxIjpPRJ+fpYmNZbKip+UmfTQRGW0Wn7NKHe3Ia8bPtpKDQUBESqIzmlMR+Ez62YB3GDxnTh+eOKSSxAZsDmJs1LpIi3kDVf0mM+iW/KUmY7yrB4WT6fI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aj6tkJ+C; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MhWs8x7c; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZP4lN1bj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1783121858;
-	bh=G7gzcG3rzvZ1DYbgPbCbgoSM7OjypvE9b+sVoXF/5IE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ZP4lN1bj+8hYWEAWvPIqTpmzkSohPOET4GIpsy3Nnsbdc0jcsnlo9uKJuzafgdCib
-	 D1OnMsU+n/wdQ0CufbLTFZ7zC/guYma9026jdNeGfkmAFXIcu5v8Jwz8cNr04x5pz4
-	 Ng1BMjHtYTPej4L/3upCq6LaJ2uSoiND8zOrGtaPaTk7H+fwIE2UrL74p0LQrR+62q
-	 Ib4R3QW+X+LWzYn64NSoPDjEqHw8u7f1d7RkCTm+q5NIGZvcVR7FsJcu4/bDvmX5wN
-	 LKZu6Ublb2aq5+ESXESx6j1L0osSWgEeCuTV9kqjxXPT2i7QTJMTTPola/GH8ayFdT
-	 Vg1LLQ3L2T0aQ==
-Received: from jupiter.universe (unknown [100.64.1.62])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9F3D117E110D;
-	Sat,  4 Jul 2026 01:37:38 +0200 (CEST)
-Received: by jupiter.universe (Postfix, from userid 1000)
-	id AFE0848007B; Fri, 03 Jul 2026 20:13:32 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Fri, 03 Jul 2026 20:13:52 +0200
-Subject: [PATCH v10 36/36] phy: rockchip: usbdp: Add USB-C state without DP
- enabled
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aj6tkJ+C";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MhWs8x7c"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 663KPa2R837944
+	for <linux-usb@vger.kernel.org>; Sat, 4 Jul 2026 00:01:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=QQ1NaaNFJ8PFY1ShSI3u30+m
+	GGXt3cQTpsIVBKABYcI=; b=aj6tkJ+CnAjtbiEG0jLWSCJIEr4rGF/Ci31o3vUn
+	Uofvyifup3YZQRvJrqne9nmT808Rflu7GZNkXZrQvlJ2eOTtcBQrpUB3oicCeW1k
+	oDGoM5gFRrbipWzQZKzGJlQAcrtPA3HLTcII1ltpH9f8CUMJUxlmzqW/TjupySfo
+	toiYOkAqvwQv0XQN6H/uz5hs1Qqq9BgKl9wtGXMkv4sJOfoaGwZ157lsKvGjQ3Ok
+	k9JezHXtJC7TXQAmDE0fgNiNlCnb0sPXKR7tj52NeDExI7FamL/nYWXcEzbRSHe6
+	iGhSZSpVlhgim9AL5d8EJWhcFIUQ1Oo73j/EMDJp3/NEYA==
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f68jyu4ph-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Sat, 04 Jul 2026 00:01:43 +0000 (GMT)
+Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-5bd7f21101aso1190989e0c.1
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2026 17:01:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1783123303; x=1783728103; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QQ1NaaNFJ8PFY1ShSI3u30+mGGXt3cQTpsIVBKABYcI=;
+        b=MhWs8x7cLODN6ulr3fy/WAzHGdPJU9KSPxMSlYoX7RKlMcLseSrcgqUtaw+KN5R7He
+         bPenfWkzO1TUkmKNNCQM/rlkXHYE2S8CgtGQCbXPxdH5038ChWKhkOr26kWwzpthtv4Y
+         CMnFugMe1+WDK0T4A8fGSU3dwTZApaFXauM4rbnXu9ZtdTAHoncXDUGwJD0CugFqetEB
+         Utgx41LI33Co+EjcJsp/3FdiEv4ZfyNdNryfuN0EPlGIJfbqyRq0KUo3wCFcohVPY1cQ
+         AHguyQkMJl8/uY23wUDMU00Nvq8PsdMUR0SylsBi04H1Yf+5PpIna9GYOAgsf0EQqKyX
+         zrSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783123303; x=1783728103;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QQ1NaaNFJ8PFY1ShSI3u30+mGGXt3cQTpsIVBKABYcI=;
+        b=VNtmo3Tzck9YO80OxamWywkSP5yu25ujg0MYu8v/CmGJaYp/r1blnn4ftsKqui5zKs
+         hyqMrhHprvVdYTzjzDxumZHP1bzOQrKufcG08LkF3LZKokPvR1J+6maA6r82YSO+EL01
+         51t6zDK3xgrpmrbJ8vVAH+RsgVzbIRAIYz0RLfuIfYJYPjnZrZty+xvi16TJyJFf1L4l
+         Ih9+G9g6As4QoCqVob+/DUI8hAZRyFkTYnEa4kMjAT1Y7M2Yy25GSSrEx2sHt/j32mlA
+         9+8eYvAPjqH/7oSS2Ys/lv8IrDWdakdwoNqnh7XP2J8VeTPjZNqn0L/ixlTyuo7209CZ
+         N24w==
+X-Forwarded-Encrypted: i=1; AHgh+Ro1oN3vAXqZEluKhmtVD41mLxCUUTRJkM6FPEaL+b69Yho7NjT19fLjwTBzrZqC8ZMxgpUER9g7crg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRRrwuD96L6g3ImPvauvBUortya7zdGN01pOaKhPPza8K20Gxg
+	ZWlw1XSOl5z3zudQHinmdjvb2ANEONihZz/88J9U+ve5X7eOmsQiZ54jG4v4ActC/Nk1Sl29fAH
+	nxGOTLiJO/nnn1IWAZ+9GqZmhlp/tqR7Z3PrXXAIFSS1d+XPmclbrL4/4r3tR8io=
+X-Gm-Gg: AfdE7cmW9hRtWO2fMibQD3mqQizjEn1+//0KoLAoO+d0telj/ZEO1r1hpvLQMh5r5hF
+	7xuAK7WfDrVO4vxTsI0sX5+bXvhXVIlCCLnnqLmu61ninapmN5Bj3z/1Iau2dUNtb6nEnyCCGSw
+	jt244IDovwL7QU2LITsM8+FoYzwMHkOQZxr/7K25REdSjrsCA8sU8osooVMJD30OjA/VPkEYCzB
+	1/w1rvYjbey54kRFCzCXeAr3VKH/MsRY1lMc93Fd5weGs8LGhnRvJUpgjWWfmRDg691wbHbDOLL
+	nbFqS6h73K65NzJKzv9UA8dURyAargSz3QHGDTfzRJaIgkelpNGnoQPv0LjjlX/Aik33Ph0eQNO
+	rjgKESPZ7QaU/IeynZbjyUVvWJrbEUjk3FeRuP3oVcelVAeJYAZlLXWibj8OrnWcft41wkgPa9S
+	nTjz3tbpQl1SG02iRE6UjPT1Io
+X-Received: by 2002:a05:6122:d15:b0:5bd:fc20:1fc3 with SMTP id 71dfb90a1353d-5be101c9647mr651875e0c.4.1783123302813;
+        Fri, 03 Jul 2026 17:01:42 -0700 (PDT)
+X-Received: by 2002:a05:6122:d15:b0:5bd:fc20:1fc3 with SMTP id 71dfb90a1353d-5be101c9647mr651766e0c.4.1783123302203;
+        Fri, 03 Jul 2026 17:01:42 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aed13bb7dbsm854661e87.45.2026.07.03.17.01.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jul 2026 17:01:39 -0700 (PDT)
+Date: Sat, 4 Jul 2026 03:01:36 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>,
+        Elson Serrao <elson.serrao@oss.qualcomm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+        Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/9] dt-bindings: soc: qcom: eud: Add per-path child
+ nodes for UTMI routing
+Message-ID: <ur3haudwnsvg2vpdwrsea5ik665xxafsuz3iznvjctw6algz2i@amy37zfoumoe>
+References: <20260501170635.2641748-1-elson.serrao@oss.qualcomm.com>
+ <20260501170635.2641748-2-elson.serrao@oss.qualcomm.com>
+ <20260703-manipulative-mauve-centipede-f8c95e@quoll>
+ <2105eecd-b2e1-48b0-9795-ddffa8e43937@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260703-rockchip-usbdp-cleanup-v10-36-a392711ca8a9@collabora.com>
-References: <20260703-rockchip-usbdp-cleanup-v10-0-a392711ca8a9@collabora.com>
-In-Reply-To: <20260703-rockchip-usbdp-cleanup-v10-0-a392711ca8a9@collabora.com>
-To: Vinod Koul <vkoul@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Heiko Stuebner <heiko@sntech.de>, Frank Wang <frank.wang@rock-chips.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>, 
- Yubing Zhang <yubing.zhang@rock-chips.com>, 
- Alexey Charkov <alchark@flipper.net>, linux-phy@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, kernel@collabora.com, 
- devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
- Sebastian Reichel <sebastian.reichel@collabora.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3174;
- i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=G7gzcG3rzvZ1DYbgPbCbgoSM7OjypvE9b+sVoXF/5IE=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpH+8zbxfmKN1paMYtxH3d56yQLucHxOrbiK
- Y5zMHCyKaGsVokCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqR/vMAAoJENju1/PI
- O/qaPgoP/3Sui93m6nwMcEs9T1XcVeTBBej0nS8mA6Ti4/276gXGiT5iOLKn1p8cBAv6dTmFgmB
- FMfXYDT4+KSzWSdwcqAoKUjMCaU9veaUytf3GQOoRssSH+F/1kFBswQbW/0r2vi0Bw1/2IQuvgh
- 5A294DPEJb+/fcI0l1z9agAIiY01MPAaXyqKShsz+8xC127zSM9HTlbWM9HQ5dc2iGUWDnBMoMf
- k5YmXd2kaGOSOyxkkw+abNvpmDzu/poP9/qedubBd1/r5Yu9Hesa9bghdfmXkwaSnXD+ws94wfQ
- AxJutIqWnRgNoVIrNJzRMgqBgDNe6Y/gwPawwnfQLX7pMFn4ms+PCvwDZBOmtjPiLNaYFzK2oi5
- uRZqg6ZUpBPGVAFMjnksF8yZfaQfw5fd7UHPjnFH5Go+SXhxq5fmGJfnFqGNdkxaIFL9EIxPqHa
- fXeihD+GOId4cghRq/S2aJoPJmBfBm9VXArgVotsGII1235R/5H0xEYNksyMBdy8XrlfI58GU0y
- ipMD2UkRWX2lGaoNnrMIhggzde0QhW/ap3VwywDO88Z/GEtkGxk5N+9YMBuTJkWFaW1A76AAz5L
- jou/0YE18O1MVAtX8o97sGsP2628CgJsOigDKTRjS5YglJknOCnsTffyJzjp6dJAzAhTSMkABDO
- kpXSQqWNepJEkhw/ByskqYQ==
-X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
- fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2105eecd-b2e1-48b0-9795-ddffa8e43937@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAzMDI0MyBTYWx0ZWRfX8fc3kz9C45iv
+ aubvGZXnsRS35Makj9wJcQlQ80/Q6qqHQ1ib09mCZPvEOMiKedKWOsy6xFkZ1h3dgMFVX7YkdK3
+ pzaEXh7887WSlfxySG45bUR5IGVmZ4/V+XA1wSGSdaQ9YOroos94wzI+MoyXEOC1zz55iPa0ORu
+ xKa9cKQFTeG1Rh3rBv2RJ2GAnr0LOBY3ojOmm00kqCviGWcKAmFNfsYqxlTlFBonJ4Vb+VXDWaw
+ kQaRDQ8pY6ZsXRDkud1y49nogKMo45Y009lbwKVyiZmlxMsj79Xo//IeoFkoiUaUcRmG5E7KpTR
+ fJ5XC9RqHHeHJdF6djwpGct3wWgIG7dyYbArO1rBtYdKoF1oFJ+xMTtSOzVIN/J7PZB7gV17ikt
+ Ma+ihrVrBUc215UuztY4SOB8ehL5KdsgABWvkt/zlSKEOiKIo/w4AcokhAoWEHOKeWdmjJCzdFu
+ t/3zjf03TNIo2fzVtBw==
+X-Proofpoint-GUID: -1PlzGVPoX-AiaU_Nqjow0u6caDoRNl4
+X-Authority-Analysis: v=2.4 cv=QbFWeMbv c=1 sm=1 tr=0 ts=6a484d67 cx=c_pps
+ a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=mYtunGRVIO_ZSpXlA2wA:9
+ a=CjuIK1q_8ugA:10 a=hhpmQAJR8DioWGSBphRh:22
+X-Proofpoint-ORIG-GUID: -1PlzGVPoX-AiaU_Nqjow0u6caDoRNl4
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAzMDI0MyBTYWx0ZWRfX3rfBieOZL8/x
+ afqCCZ16MtC1A0/GdyzMggNX028KILrS0aufL/dct+o4IjEv9h1OcUJl5oK/nM4LOGVsYfA4pfc
+ t8MCmpVsQUnt6lVF9KvovZRJS6MlL0s=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-03_04,2026-07-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 phishscore=0 malwarescore=0 suspectscore=0 clxscore=1015
+ bulkscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607030243
 
-The driver currently only differs between 4 lanes DP mode or combined DP
-+ USB3 mode. This makes sense from a lane routing point of view, as the
-hardware only has 2 lanes of USB3.
+On Fri, Jul 03, 2026 at 10:56:19AM +0200, Konrad Dybcio wrote:
+> On 7/3/26 9:45 AM, Krzysztof Kozlowski wrote:
+> > On Fri, May 01, 2026 at 10:06:27AM -0700, Elson Serrao wrote:
+> >> The Qualcomm Embedded USB Debugger (EUD) can intercept one or two
+> >> independent High-Speed UTMI paths, depending on the SoC configuration.
+> >> Each path is distinct, with its own connector/controller connection
+> >> and role-dependent UTMI routing.
+> > 
+> > You miss SoC specific compatibles in the patch. Binding describes ONLY
+> > SC7280 but you claim here it depends on SoC (not sure what is a
+> > "configuration" of a SoC).
+> 
+> The hardware configuration - some (older) SoCs don't support muxing
+> to another port. The binding only says 7280 today, but after some
+> version of this series lands, we'll wire it up on basically
+> everything that came out in the past 10 years
 
-But adding a separate state for USB-only helps with power management,
-since we always power up all PHY parts according to the current hardware
-setup to avoid data stream interruptions. Even if some lanes are muxed
-to the DP controller there is no need to keep the DP side enabled if
-something without DP AltMode is plugged into USB-C.
-
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- drivers/phy/rockchip/phy-rockchip-usbdp.c | 58 ++++++++++++++++++-------------
- 1 file changed, 34 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-index 6eacbea6839a..fcf9b3de7ba8 100644
---- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
-+++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-@@ -580,32 +580,14 @@ static void rk_udphy_dp_lane_enable(struct rk_udphy *udphy, int dp_lanes)
- 				   CMN_DP_CMN_RSTN, FIELD_PREP(CMN_DP_CMN_RSTN, 0x0));
- }
- 
--static void rk_udphy_mode_set(struct rk_udphy *udphy, u8 hw_mode)
-+static void rk_udphy_set_lane_mux(struct rk_udphy *udphy)
- {
--	if (udphy->hw_mode == hw_mode)
--		return;
--
--	udphy->phy_needs_reinit = true;
--	udphy->hw_mode = hw_mode;
--}
--
--static void rk_udphy_set_typec_state(struct rk_udphy *udphy, unsigned long state)
--{
--	u8 hw_mode;
--
--	switch (state) {
--	case TYPEC_DP_STATE_C:
--	case TYPEC_DP_STATE_E:
-+	if (udphy->dp_lanes == 4) {
- 		udphy->lane_mux_sel[0] = PHY_LANE_MUX_DP;
- 		udphy->lane_mux_sel[1] = PHY_LANE_MUX_DP;
- 		udphy->lane_mux_sel[2] = PHY_LANE_MUX_DP;
- 		udphy->lane_mux_sel[3] = PHY_LANE_MUX_DP;
--		hw_mode = UDPHY_MODE_DP;
--		udphy->dp_lanes = 4;
--		break;
--
--	case TYPEC_DP_STATE_D:
--	default:
-+	} else {
- 		if (udphy->flip) {
- 			udphy->lane_mux_sel[0] = PHY_LANE_MUX_DP;
- 			udphy->lane_mux_sel[1] = PHY_LANE_MUX_DP;
-@@ -617,12 +599,40 @@ static void rk_udphy_set_typec_state(struct rk_udphy *udphy, unsigned long state
- 			udphy->lane_mux_sel[2] = PHY_LANE_MUX_DP;
- 			udphy->lane_mux_sel[3] = PHY_LANE_MUX_DP;
- 		}
--		hw_mode = UDPHY_MODE_DP_USB;
--		udphy->dp_lanes = 2;
-+	}
-+}
-+
-+static void rk_udphy_mode_set(struct rk_udphy *udphy, u8 hw_mode, u8 dp_lanes)
-+{
-+	if (udphy->hw_mode == hw_mode && udphy->dp_lanes == dp_lanes)
-+		return;
-+
-+	udphy->phy_needs_reinit = true;
-+	udphy->hw_mode = hw_mode;
-+	udphy->dp_lanes = dp_lanes;
-+
-+	rk_udphy_set_lane_mux(udphy);
-+}
-+
-+static void rk_udphy_set_typec_state(struct rk_udphy *udphy, unsigned long state)
-+{
-+	switch (state) {
-+	case TYPEC_DP_STATE_C:
-+	case TYPEC_DP_STATE_E:
-+		rk_udphy_mode_set(udphy, UDPHY_MODE_DP, 4);
-+		break;
-+
-+	case TYPEC_DP_STATE_D:
-+		rk_udphy_mode_set(udphy, UDPHY_MODE_DP_USB, 2);
-+		break;
-+
-+	case TYPEC_STATE_SAFE:
-+	case TYPEC_STATE_USB:
-+	default:
-+		rk_udphy_mode_set(udphy, UDPHY_MODE_USB, 0);
- 		break;
- 	}
- 
--	rk_udphy_mode_set(udphy, hw_mode);
- }
- 
- static void rk_udphy_set_typec_default_mapping(struct rk_udphy *udphy)
+Yes, but I'd also prefer to see exact words / platforms / references
+rather than vague "depending on the SoC configuration".
 
 -- 
-2.53.0
-
+With best wishes
+Dmitry
