@@ -1,88 +1,86 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04BD3594A
-	for <linux-usb@vger.kernel.org>; Sat,  4 Jul 2026 00:01:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F34DDC5
+	for <linux-usb@vger.kernel.org>; Sat,  4 Jul 2026 00:05:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783123305; cv=none; b=AtSq7lMG92PBe2q70aVbYQC/dq2uzH9NoDBwdul6ZIdJdfMNOo8mJzQym5ROqkbWtcxjjdZM5NGxKRHsV2u26h2AnaWO0SxpP9UFN7L071U6OcEV1+45nswhU1YVgI3JqKn/4E3dezH6ej5DZ5azQcdMiJiTjj+2dtuZqbnTL/4=
+	t=1783123548; cv=none; b=ErevuDnpDE3nZorO2doPNa6xaxmxHiyPCwTsBm08vOmyrxq71/TKboxcYkuslXsMUlxWC1v83VJGRdcNrHDi6JD71bduKyqzYCGP4ErAMM/mmBttOb6Csrusa055i6vd3a/Wh73UAgyEfqFmrg0yEXjTUIIQAmmsVjTOiOLIoQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783123305; c=relaxed/simple;
-	bh=1hgoD/IDOXH1vzUGVqFb9ZBGpf0yUjB+5Uh0JCZ+/8E=;
+	s=arc-20240116; t=1783123548; c=relaxed/simple;
+	bh=HN5m/Ky6KNrB4KekaPSsiduEjRfi7N8uh7rqA+cNKXM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eqqGBlKfHK1pPxkKe6VY9cvZtb0qTJPjVpe/etesixhzJNZARTkIzVxIjpPRJ+fpYmNZbKip+UmfTQRGW0Wn7NKHe3Ia8bPtpKDQUBESqIzmlMR+Ez62YB3GDxnTh+eOKSSxAZsDmJs1LpIi3kDVf0mM+iW/KUmY7yrB4WT6fI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aj6tkJ+C; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MhWs8x7c; arc=none smtp.client-ip=205.220.168.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=GnO1caQSh3X15cr53hERi9r/JCVA5FTW882IhHMkz5n/ct/gKebSKsOjvHvC53ej1qyv8FJMj/TQQL+/Tk3medCK7JHx9PGIRVvkmboESqn/H4EJwCqWe26H0nGM9MKGClRswD6ci94HaeV3fDj/iJn4VsEevxFzT6tm3zqa1H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cUlmcldW; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=G/w157fn; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aj6tkJ+C";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MhWs8x7c"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cUlmcldW";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="G/w157fn"
 Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 663KPa2R837944
-	for <linux-usb@vger.kernel.org>; Sat, 4 Jul 2026 00:01:44 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 663KPZvw837911
+	for <linux-usb@vger.kernel.org>; Sat, 4 Jul 2026 00:05:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=QQ1NaaNFJ8PFY1ShSI3u30+m
-	GGXt3cQTpsIVBKABYcI=; b=aj6tkJ+CnAjtbiEG0jLWSCJIEr4rGF/Ci31o3vUn
-	Uofvyifup3YZQRvJrqne9nmT808Rflu7GZNkXZrQvlJ2eOTtcBQrpUB3oicCeW1k
-	oDGoM5gFRrbipWzQZKzGJlQAcrtPA3HLTcII1ltpH9f8CUMJUxlmzqW/TjupySfo
-	toiYOkAqvwQv0XQN6H/uz5hs1Qqq9BgKl9wtGXMkv4sJOfoaGwZ157lsKvGjQ3Ok
-	k9JezHXtJC7TXQAmDE0fgNiNlCnb0sPXKR7tj52NeDExI7FamL/nYWXcEzbRSHe6
-	iGhSZSpVlhgim9AL5d8EJWhcFIUQ1Oo73j/EMDJp3/NEYA==
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f68jyu4ph-1
+	:references:subject:to; s=qcppdkim1; bh=kHuhyQoLRKepVYyh4wYVN/ur
+	TsPJeX0lcSSiDWnFmtk=; b=cUlmcldWNjC6I14+UZW7DjVLenDeTVTZxGNA+J7a
+	2UJyL6OsjBNtIWKAPKqw1HJMbuCeoWps9IzlqzX2kp7/PJgvR4q8OyrVCZHBrWYO
+	rTNvItIVVhWsabVqe8gfJ7qErz+H6fTLgjbCFLMiLgiFroJ8urWVp+NnwFjWHfir
+	IlZnXs1Fd+Ihkv83yvQo/y2xZwU0ql28/kP4n5y2MiPzFx4iZHZWwXN5LewnZpTw
+	03A0bzqUGCRE9Hhpdq69V2+7z4VdAwhp47d05GGetBdCPHE4L9Z9QIPo8rWByZ0I
+	Xbg6IyP0QCc4I06SmUngtv7vLlE/dT9gKLZut4a2DxWsjQ==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f68jyu511-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Sat, 04 Jul 2026 00:01:43 +0000 (GMT)
-Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-5bd7f21101aso1190989e0c.1
-        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2026 17:01:43 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Sat, 04 Jul 2026 00:05:46 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-92e538afe65so104418685a.3
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jul 2026 17:05:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783123303; x=1783728103; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1783123546; x=1783728346; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QQ1NaaNFJ8PFY1ShSI3u30+mGGXt3cQTpsIVBKABYcI=;
-        b=MhWs8x7cLODN6ulr3fy/WAzHGdPJU9KSPxMSlYoX7RKlMcLseSrcgqUtaw+KN5R7He
-         bPenfWkzO1TUkmKNNCQM/rlkXHYE2S8CgtGQCbXPxdH5038ChWKhkOr26kWwzpthtv4Y
-         CMnFugMe1+WDK0T4A8fGSU3dwTZApaFXauM4rbnXu9ZtdTAHoncXDUGwJD0CugFqetEB
-         Utgx41LI33Co+EjcJsp/3FdiEv4ZfyNdNryfuN0EPlGIJfbqyRq0KUo3wCFcohVPY1cQ
-         AHguyQkMJl8/uY23wUDMU00Nvq8PsdMUR0SylsBi04H1Yf+5PpIna9GYOAgsf0EQqKyX
-         zrSQ==
+        bh=kHuhyQoLRKepVYyh4wYVN/urTsPJeX0lcSSiDWnFmtk=;
+        b=G/w157fnjuqpwr2zBE4ckAq/x1lMaQD5MIsF/F7293zzuCcLskRcuE4L6n2IyWEhHY
+         D/cT9BcKDVgaV6G2INOYG+2QcbwXfYLUtMILRfZ1pheE8UgYpUaBUzaanFlwv2C/Xk10
+         3t9je6wYo7uGzZWhX0GRqeXOXP/o8A2jru7tKJTNKUcU1HAc2790KAR6fmfCOAUnazHa
+         0hGnojeOQ6BkkU+fyZaq2zHqleP8Mteiq6a1AUdW/OnjDrRgRLFPi5oMMoI9VeJxH2Vh
+         qikd+DST81SmsheuJ2mb6i+Gub3wOT6yZAjuT37VlSSiLoqjLuoAFjwoGVV0ndYxHj4r
+         m2JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783123303; x=1783728103;
+        d=1e100.net; s=20251104; t=1783123546; x=1783728346;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=QQ1NaaNFJ8PFY1ShSI3u30+mGGXt3cQTpsIVBKABYcI=;
-        b=VNtmo3Tzck9YO80OxamWywkSP5yu25ujg0MYu8v/CmGJaYp/r1blnn4ftsKqui5zKs
-         hyqMrhHprvVdYTzjzDxumZHP1bzOQrKufcG08LkF3LZKokPvR1J+6maA6r82YSO+EL01
-         51t6zDK3xgrpmrbJ8vVAH+RsgVzbIRAIYz0RLfuIfYJYPjnZrZty+xvi16TJyJFf1L4l
-         Ih9+G9g6As4QoCqVob+/DUI8hAZRyFkTYnEa4kMjAT1Y7M2Yy25GSSrEx2sHt/j32mlA
-         9+8eYvAPjqH/7oSS2Ys/lv8IrDWdakdwoNqnh7XP2J8VeTPjZNqn0L/ixlTyuo7209CZ
-         N24w==
-X-Forwarded-Encrypted: i=1; AHgh+Ro1oN3vAXqZEluKhmtVD41mLxCUUTRJkM6FPEaL+b69Yho7NjT19fLjwTBzrZqC8ZMxgpUER9g7crg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRRrwuD96L6g3ImPvauvBUortya7zdGN01pOaKhPPza8K20Gxg
-	ZWlw1XSOl5z3zudQHinmdjvb2ANEONihZz/88J9U+ve5X7eOmsQiZ54jG4v4ActC/Nk1Sl29fAH
-	nxGOTLiJO/nnn1IWAZ+9GqZmhlp/tqR7Z3PrXXAIFSS1d+XPmclbrL4/4r3tR8io=
-X-Gm-Gg: AfdE7cmW9hRtWO2fMibQD3mqQizjEn1+//0KoLAoO+d0telj/ZEO1r1hpvLQMh5r5hF
-	7xuAK7WfDrVO4vxTsI0sX5+bXvhXVIlCCLnnqLmu61ninapmN5Bj3z/1Iau2dUNtb6nEnyCCGSw
-	jt244IDovwL7QU2LITsM8+FoYzwMHkOQZxr/7K25REdSjrsCA8sU8osooVMJD30OjA/VPkEYCzB
-	1/w1rvYjbey54kRFCzCXeAr3VKH/MsRY1lMc93Fd5weGs8LGhnRvJUpgjWWfmRDg691wbHbDOLL
-	nbFqS6h73K65NzJKzv9UA8dURyAargSz3QHGDTfzRJaIgkelpNGnoQPv0LjjlX/Aik33Ph0eQNO
-	rjgKESPZ7QaU/IeynZbjyUVvWJrbEUjk3FeRuP3oVcelVAeJYAZlLXWibj8OrnWcft41wkgPa9S
-	nTjz3tbpQl1SG02iRE6UjPT1Io
-X-Received: by 2002:a05:6122:d15:b0:5bd:fc20:1fc3 with SMTP id 71dfb90a1353d-5be101c9647mr651875e0c.4.1783123302813;
-        Fri, 03 Jul 2026 17:01:42 -0700 (PDT)
-X-Received: by 2002:a05:6122:d15:b0:5bd:fc20:1fc3 with SMTP id 71dfb90a1353d-5be101c9647mr651766e0c.4.1783123302203;
-        Fri, 03 Jul 2026 17:01:42 -0700 (PDT)
+        bh=kHuhyQoLRKepVYyh4wYVN/urTsPJeX0lcSSiDWnFmtk=;
+        b=pYksWftueC7f9VNhZOO3C1dCq0P/p7ZD69hsSgMSAXcVbliq4q34NpyJqOnXEGKNlI
+         yD5QP94upe+S26OMKDfH7TJU5aBRGEs4FM4KuY8eQ3Q87I7IU6cb+S9nucQ/rZRzt4wx
+         bZ2Rp4oSoMKx4+Qu9f3niORsOa+OTDUHuvWcda6yF8v8LuMgC0KQoYlG8PnKCBy59wH9
+         pqoxLDBNoyJxcI0EToo2vnaFSSkrYunJrm7schb+ATb7VtU8LBiM69cSAAHDhOqobNS2
+         zbiaAi55eawgHC5vi4ZYBybo580s6cUQPa/ctPQkAlvPqxe1TIowD6+VWD/wS6hcBhAP
+         IdZw==
+X-Forwarded-Encrypted: i=1; AFNElJ9LqUEy1j9vS7qIuXBN2es25cbnkJlXvtl5G1Zwo6qhM3S2Q+fp94I2GCUmb1UB1s5tUBPmhNfb8+k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0it4wclCAn+AeTL5yAHV2/mp2/28IeDApoNcAqkPuK0QLt7oV
+	hXaJ3EWkD6zLMcMSYmgOHuc0+6x0WLV1XtdAnnqpIcQyT1gnObwQ7b6VFh2RMKVmiR3FBg6c9Re
+	Jiq+rG840JldpvZfeeJDDwYv4Cb9smk+PnUzfYzjAMHIxT+JWV7e5keHTskG6wJE=
+X-Gm-Gg: AfdE7ckA3L71LibRIcdHDtwYbczTYtKeEOORUJDgMcSX44uta1mf27IAxPcBU0vbyxI
+	s5kzkWymE6Zd202ZJF81mVDkzBoADTH4WIxvTfNkUSfDs3+Imy4UOiriOFkUlynRr85zM9lD42R
+	85ROnyxQlxnFu+c+3I4Oa4NIMXROJPzPI/FLTvSm+1PoOZkJrA9tQFp53XqOjJgUabkZfrJsL29
+	4ScZmj2Hd6g+Z/j3YU780pTaXQz6ZDbpEOHvWJHJakJ/dYWJtBZF1L74f72fkqPXb9btTO92Xed
+	9ResEHWeRedyOXX7adHLrXtEn56QDv6AUVAQo3C+2QwbRkuZAM2+CD2hX/L33kuJQ+vUtdV6uAW
+	2QtIafvaSjTJjPA86TOaxIyTnnZgpnMzZpPGbg7z2LDHIiOo5YFcq0BZm0RTvJrxZ2al8Bi1emy
+	nOEGGkcWiLlRUuCM2gSXGsiAAU
+X-Received: by 2002:a05:620a:1723:b0:92e:6e55:cc66 with SMTP id af79cd13be357-92e9a4c58b6mr227038685a.47.1783123545572;
+        Fri, 03 Jul 2026 17:05:45 -0700 (PDT)
+X-Received: by 2002:a05:620a:1723:b0:92e:6e55:cc66 with SMTP id af79cd13be357-92e9a4c58b6mr227035185a.47.1783123545010;
+        Fri, 03 Jul 2026 17:05:45 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aed13bb7dbsm854661e87.45.2026.07.03.17.01.38
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aed1377096sm843872e87.25.2026.07.03.17.05.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 17:01:39 -0700 (PDT)
-Date: Sat, 4 Jul 2026 03:01:36 +0300
+        Fri, 03 Jul 2026 17:05:42 -0700 (PDT)
+Date: Sat, 4 Jul 2026 03:05:39 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-        Elson Serrao <elson.serrao@oss.qualcomm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
+To: Elson Serrao <elson.serrao@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Konrad Dybcio <konradybcio@kernel.org>,
         Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -92,11 +90,9 @@ Cc: Krzysztof Kozlowski <krzk@kernel.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v4 1/9] dt-bindings: soc: qcom: eud: Add per-path child
  nodes for UTMI routing
-Message-ID: <ur3haudwnsvg2vpdwrsea5ik665xxafsuz3iznvjctw6algz2i@amy37zfoumoe>
+Message-ID: <cwc6a2d4fasizfe54f6yvpgzkczbygjzkcoo4jlnn6tjaw3pei@m3py42bcnooc>
 References: <20260501170635.2641748-1-elson.serrao@oss.qualcomm.com>
  <20260501170635.2641748-2-elson.serrao@oss.qualcomm.com>
- <20260703-manipulative-mauve-centipede-f8c95e@quoll>
- <2105eecd-b2e1-48b0-9795-ddffa8e43937@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -105,25 +101,25 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2105eecd-b2e1-48b0-9795-ddffa8e43937@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAzMDI0MyBTYWx0ZWRfX8fc3kz9C45iv
- aubvGZXnsRS35Makj9wJcQlQ80/Q6qqHQ1ib09mCZPvEOMiKedKWOsy6xFkZ1h3dgMFVX7YkdK3
- pzaEXh7887WSlfxySG45bUR5IGVmZ4/V+XA1wSGSdaQ9YOroos94wzI+MoyXEOC1zz55iPa0ORu
- xKa9cKQFTeG1Rh3rBv2RJ2GAnr0LOBY3ojOmm00kqCviGWcKAmFNfsYqxlTlFBonJ4Vb+VXDWaw
- kQaRDQ8pY6ZsXRDkud1y49nogKMo45Y009lbwKVyiZmlxMsj79Xo//IeoFkoiUaUcRmG5E7KpTR
- fJ5XC9RqHHeHJdF6djwpGct3wWgIG7dyYbArO1rBtYdKoF1oFJ+xMTtSOzVIN/J7PZB7gV17ikt
- Ma+ihrVrBUc215UuztY4SOB8ehL5KdsgABWvkt/zlSKEOiKIo/w4AcokhAoWEHOKeWdmjJCzdFu
- t/3zjf03TNIo2fzVtBw==
-X-Proofpoint-GUID: -1PlzGVPoX-AiaU_Nqjow0u6caDoRNl4
-X-Authority-Analysis: v=2.4 cv=QbFWeMbv c=1 sm=1 tr=0 ts=6a484d67 cx=c_pps
- a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+In-Reply-To: <20260501170635.2641748-2-elson.serrao@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzAzMDI0MyBTYWx0ZWRfXzdj7+yNQ2yM5
+ TFWVBZ5pwMY6na2oLK2lIcQfmm7dfJPua3pJV4rs0ycaLV1QukUO3WSqyAoXdNhfkgxPxdYeCBb
+ 20jC9xSpvDILJWn/30zPbTQQqNIPVXFg0HAJEr3/RI0ZHaFfQP9NbF3K+bV8jXVENH2YU/4SUDY
+ 9FEWsGGifPT/kfsD0yBbP3SDdHMaiYC9F+BnigSNaN2foEtiA7A+6I0BW875jrcvsqSXdIzgHwV
+ CPI54zO2LCaFQW4jLKtgkwOAlHt2zz12GojDTZm8NG8SH+VUXVQ2ROdbFMNbY7GSYQSOm0xgK0d
+ p+dxykN0liTfu1H7j/NwxRrxN1TiB0cI8e55rIZ/Eboy8YLVgyx64nBeaCokBAiM4USSIFdlJFO
+ BBIKyDMG+qb8iTy+aEQeP3GxFBCAaC8Mz9XyVL7ayEelWS8G+6hOQjqwJYQCf+6an2mTlwN7bl/
+ PZbeuZI/VgJ0TYf4OIA==
+X-Proofpoint-GUID: cS95QWomEABtMC_F4EPUmkXPSqm6Jbqe
+X-Authority-Analysis: v=2.4 cv=QbFWeMbv c=1 sm=1 tr=0 ts=6a484e5a cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=mYtunGRVIO_ZSpXlA2wA:9
- a=CjuIK1q_8ugA:10 a=hhpmQAJR8DioWGSBphRh:22
-X-Proofpoint-ORIG-GUID: -1PlzGVPoX-AiaU_Nqjow0u6caDoRNl4
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAzMDI0MyBTYWx0ZWRfX3rfBieOZL8/x
- afqCCZ16MtC1A0/GdyzMggNX028KILrS0aufL/dct+o4IjEv9h1OcUJl5oK/nM4LOGVsYfA4pfc
- t8MCmpVsQUnt6lVF9KvovZRJS6MlL0s=
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
+ a=9O-rVQOD5xMnlwKyy4QA:9 a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: cS95QWomEABtMC_F4EPUmkXPSqm6Jbqe
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzAzMDI0MyBTYWx0ZWRfX6FPkixN20rLH
+ K7MZFcBJrcl250zn0lKaMmp20ycV897SbDWRPW14gYezQBCmxhO9ZyoBgqiV1mQDhzSOD5mYE22
+ t6J1wnBt5rhzn3qwEx20ZBco23kQpjc=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-07-03_04,2026-07-03_01,2025-10-01_01
@@ -133,25 +129,115 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607030243
 
-On Fri, Jul 03, 2026 at 10:56:19AM +0200, Konrad Dybcio wrote:
-> On 7/3/26 9:45 AM, Krzysztof Kozlowski wrote:
-> > On Fri, May 01, 2026 at 10:06:27AM -0700, Elson Serrao wrote:
-> >> The Qualcomm Embedded USB Debugger (EUD) can intercept one or two
-> >> independent High-Speed UTMI paths, depending on the SoC configuration.
-> >> Each path is distinct, with its own connector/controller connection
-> >> and role-dependent UTMI routing.
-> > 
-> > You miss SoC specific compatibles in the patch. Binding describes ONLY
-> > SC7280 but you claim here it depends on SoC (not sure what is a
-> > "configuration" of a SoC).
+On Fri, May 01, 2026 at 10:06:27AM -0700, Elson Serrao wrote:
+> The Qualcomm Embedded USB Debugger (EUD) can intercept one or two
+> independent High-Speed UTMI paths, depending on the SoC configuration.
+> Each path is distinct, with its own connector/controller connection
+> and role-dependent UTMI routing.
 > 
-> The hardware configuration - some (older) SoCs don't support muxing
-> to another port. The binding only says 7280 today, but after some
-> version of this series lands, we'll wire it up on basically
-> everything that came out in the past 10 years
+> Because the EUD sits between the USB connector and the USB controller,
+> it must relay role changes across the UTMI path. In device role, the
+> EUD inserts its internal hub into the path to enable debug
+> functionality. In host role, the path remains directly connected
+> between the PHY and the USB controller, bypassing the EUD hub. These
+> hardware constraints require per-path role awareness, as UTMI path
+> roles may differ.
+> 
+> The existing binding models only a single UTMI path and assumes a
+> uniform routing model. While sufficient for simple device-role-only
+> configurations, this representation does not accurately describe EUD
+> hardware when role switching and/or multiple UTMI paths are involved.
+> 
+> To address this limitation, per-path child nodes are introduced to
+> describe individual UTMI paths through the EUD. Each path includes its
+> own ports description, allowing controller and connector associations,
+> as well as role-aware routing.
+> 
+> Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
+> ---
+>  .../bindings/soc/qcom/qcom,eud.yaml           | 55 ++++++++++++++++++-
+>  1 file changed, 54 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
+> index 84218636c0d8..21f75038a81c 100644
+> --- a/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
+> +++ b/Documentation/devicetree/bindings/soc/qcom/qcom,eud.yaml
+> @@ -45,10 +45,63 @@ properties:
+>          $ref: /schemas/graph.yaml#/properties/port
+>          description: This port is to be attached to the type C connector.
+>  
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^eud-path@[0-1]$":
+> +    type: object
+> +    description:
+> +      Represents one High-Speed UTMI path that EUD intercepts. Use eud-path nodes
+> +      to associate role-switching behavior with specific port connections, allowing
+> +      EUD to manage role transitions independently for each UTMI path.
+> +
+> +    properties:
+> +      reg:
+> +        maxItems: 1
+> +        description: Path number
+> +
+> +      usb-role-switch:
+> +        type: boolean
+> +        description:
+> +          Indicates that EUD should act as a role switch for this path.
+> +          In device role, debug mode inserts the EUD hub into the UTMI path. In
+> +          host role, the EUD hub is bypassed and UTMI traffic flows directly
+> +          between the PHY and the USB controller.
+> +
+> +      ports:
+> +        $ref: /schemas/graph.yaml#/properties/ports
+> +        description:
+> +          These ports are to be attached to the endpoint of the USB controller node
+> +          and USB connector node.
+> +
+> +        properties:
+> +          port@0:
+> +            $ref: /schemas/graph.yaml#/properties/port
+> +            description: This port is to be attached to the USB controller.
+> +
+> +          port@1:
+> +            $ref: /schemas/graph.yaml#/properties/port
+> +            description: This port is to be attached to the USB connector.
+> +
+> +    required:
+> +      - reg
+> +      - ports
+> +
+> +    additionalProperties: false
+> +
+>  required:
+>    - compatible
+>    - reg
+> -  - ports
+> +
+> +oneOf:
+> +  - required:
+> +      - ports
+> +  - required:
+> +      - eud-path@0
 
-Yes, but I'd also prefer to see exact words / platforms / references
-rather than vague "depending on the SoC configuration".
+Do we really need a separate eud-path node? It doesn't represent any
+particular part of the EUD device. Can we simply add more ports to the
+ports list?
+
+For example:
+
+ports {
+	port@0 { endpoint { remote-endpoint = <&usb0_host>; }; };
+	port@1 { endpoint { remote-endpoint = <&connector0; }; };
+	port@2 { endpoint { remote-endpoint = <&usb1_host>; }; };
+	port@3 { endpoint { remote-endpoint = <&connector1; }; };
+};
+
 
 -- 
 With best wishes
