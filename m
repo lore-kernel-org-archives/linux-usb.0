@@ -1,120 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECC12BDC05
-	for <linux-usb@vger.kernel.org>; Sat,  4 Jul 2026 15:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8BF3BCD2A
+	for <linux-usb@vger.kernel.org>; Sat,  4 Jul 2026 23:15:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783179682; cv=none; b=SMx/mbQvLmE3Z02t5jwyYhfDuQ3uZXS/VSObS022B2lNTWqnYOPfnyf/NBajf+xFdrSutGRb4lZcaSfdXUYQbamYr5xlrtvOk3v8gy0VoBHRpEgy6hX0s7s5eLXiLSCnl6YXqI/LW6oYKcTP7/891nHwujWxiCEnMur8mInxrXg=
+	t=1783206912; cv=none; b=fWr6BPf6+nzKJEK18XeP4lhH2uKK9KhlNMHJxjzNTQY57FATTu5msyQTwRhs1TGto558yROp3OcuY5SPcZmxMhylKHKr1OdZ9AOGd1mFuUlb1ZfV+HlZ4I61blYW2H/PAbn1mytppx/iia4yPT+RTslni2v8CYssS1jil78Q5IQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783179682; c=relaxed/simple;
-	bh=U2BJ4hyZ4vmu49pJ/9WMoarCrT1xyw02QDfQb648v6o=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=m2Mpe6f5U4EB5nmkLpV5X+8GlViyrtAfxrDzN7Ngdc3gg2/zGbXvOyeJMTv7lzrLduuPwrPhNC0uY3XCy9myQ54nHSDMeh56OplyqDn3hPPJznj+ggCL1yFTDFEQhJrwvq+SVSXwk3iQBgOigM10GiS4Ipd915a+eR18rPhye/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CwMMXsmx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1783206912; c=relaxed/simple;
+	bh=e2BPamJm7+oCvVkOZXZ7WWzDD6bJtBXALaaIxF5F7ig=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ws4s2PnshTStScGTN+xtnM/UI636QWHyJLkf4s6Ofu1lf/SMwEu7n7fqR/Fixn0t5ZSsMjy0B+xapvyEf5suKZL+wJehPqu+49H0WUSIPpIwskfruAqR7rZC8ptjXRwMbjguPx1CioOsAzyCrKCp9uDxD4nKsV9MPc6QE+g2tnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ay6V5xgf; arc=none smtp.client-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CwMMXsmx"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 00AD8C19425
-	for <linux-usb@vger.kernel.org>; Sat,  4 Jul 2026 15:41:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1783179682;
-	bh=U2BJ4hyZ4vmu49pJ/9WMoarCrT1xyw02QDfQb648v6o=;
-	h=From:To:Subject:Date:From;
-	b=CwMMXsmxuIvY44fFez0nWB5QCUqil4QstAfRXG/MgMu3onEC7uX/REGnyds7pZXZ1
-	 PiB5cReTjowDJLI1S0d10asdZCbAsYLqW/ryBVk/+tlC/9oWCDT+Wj1eHDvpg6jz8A
-	 vJ7EHoprevyuaggA9DqxwI5tMdOPgCG7x6jPy8NTF1jXe3BW887rYNz0bwuwwAEGiY
-	 0aexw8m1eQqwxNkIduLSQTDFZFrDenG8Hv0rDV7kaWvUIzjJfD7ulm9JvkOmzb3Ap9
-	 5HtzVrXls/dBYUDbYZmb1vCIAksaOtVnnQIPEEGfi8kNsnIKM4Q3gHJehhvTmMpogL
-	 Jx8wtlDW7ohBw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id D1CB9C4160E; Sat,  4 Jul 2026 15:41:21 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221721] New: prom21-xhci does not allow to use USB keyboard in
- plymouth
-Date: Sat, 04 Jul 2026 15:41:21 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: marx.tomasz@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression attachments.created
-Message-ID: <bug-221721-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ay6V5xgf"
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-92e99ef0902so50756285a.2
+        for <linux-usb@vger.kernel.org>; Sat, 04 Jul 2026 16:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783206908; x=1783811708; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KMpBVokVvC5Invbvqmg58wmiCwFqIiE4NTIeLL0hDKo=;
+        b=Ay6V5xgfXffFyf/x7ugdMzpTXbbQ79FB0b4qPW73ULS64HTgYJCgZV4oop0Q6QS89z
+         356zNjp6qgYHD9YTFmgnHygODEXtFw0SJlzQ6aPmAMOjBdyadN8nLuY8niF52rGEdFgn
+         EmW02I+6llNC8DXh/RqpLYPQn+vp0/gO+Tfkx/2FjUTW6v6QXIsME03EcDPOrGjRaXaA
+         KmcB3/FiBIIavxie6Yz1K54U1ogiK41p8592oIdP+LOocXrQIDldt+JjAUCmoqU/J8L6
+         taQnc50kgbwY8Xx4fMz34Lr1tE8nTiyuCfSUxIV+PHrtkMyjlP+N5m11bScMKa9RpIKS
+         xQiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783206908; x=1783811708;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KMpBVokVvC5Invbvqmg58wmiCwFqIiE4NTIeLL0hDKo=;
+        b=Tj297ZQGAchZZ+yILMrP87XqLyZPy0UCeNnsIgplT5Y9yRLVU67pNff3fiwUd51vzx
+         YtBFaD8rO++d4coK+7Cblgyiyd1l90hfmIZv2jIJf2juV2tgpyxLCYHs6jsbqrl8TNN9
+         T8hNsFHU03csYhwYCYB4iIpt0HlfGMgcUv/pk9OX4dKVBSMNopNDQ8C5D6/qHOCk2NGK
+         KTw/608FWI9mn/OmNfe4O7Pr66pCJq8n56HabinFPZ9irFwjSQBpkppAYDlxINmAWJrp
+         IwNQWZN8or8Wy0q5HJn8EJzKx0Kne49gWbVoVVP42LRbMPPfc8rgIIrMHxOxdIeWNnY7
+         6JHw==
+X-Forwarded-Encrypted: i=1; AFNElJ8oYVA7i/QR9SeZU3jEFnoNVq+/bvhgqo8qJRu8qDFPs3oWyk4BdmAy9ciG6E76AXAgqtU3QKJcbuE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeMB2UfK6Gmn53dDrh1vYapEFDjofgPxX5xKG5d6mrYUGk3iBB
+	nCT+m0zjaokR9LTRQGVSwT0w4BWIx1u2gWcqFg3PSjMuEHy6GChmaice3lvlxg==
+X-Gm-Gg: AfdE7cm41VeWGVvtUQhT5MetPvF1n4ipExHOJlvWf98AubKRuBauxGwLJ8HuWTrdUlg
+	1fHIhVDcT3+WO8Sobr/FE1AOPswGCJbkbtEwJH/5YAr25JvqELG+mQ/CkZyxfl86HoJROv3WFBX
+	hV8P/dc3eLGvYauY9NMh40Bd6JUJtRYkb+FOEthsZVHIOZc1MUzbl/87YKs/hj2rO6bmuq5Y2if
+	bXZbKz+b9B3+c66OFoSKThgYh9YTV4+JOSD0yYgisVvT/APXtL6KqXuLwQPMnVQuxNIuPdf6yqP
+	mmGm7vSUqsiSACbdgQP4yreYj57lsyWM/CXRBVKnLnafpxohS+/wndMczt0FLg003I8GHaWMBmC
+	9UIvay7aEIbbJepV6M0ZRUIQtvwjoFrW7fcdTQ2QFiiA2lLfyDDLSRu7a4/3evvjsLms3KR31wv
+	KByT/5DODlhE6WeiEcRHr+pGf1WloKn+ykt+BYmXkbkiDZH+jTY6LB
+X-Received: by 2002:a05:620a:1708:b0:92e:6858:2ed1 with SMTP id af79cd13be357-92e9a4cb049mr704080685a.53.1783206908591;
+        Sat, 04 Jul 2026 16:15:08 -0700 (PDT)
+Received: from i4-l-hqh5357-03.ad.psu.edu ([130.203.139.71])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90c92662sm500407385a.30.2026.07.04.16.15.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jul 2026 16:15:08 -0700 (PDT)
+From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+To: heikki.krogerus@linux.intel.com
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+Subject: [PATCH v2] usb: typec: class: drop PD lookup reference
+Date: Sat,  4 Jul 2026 19:14:36 -0400
+Message-ID: <20260704231436.4060902-1-shuangpeng.kernel@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221721
+usb_power_delivery_find() wraps class_find_device_by_name(). That helper
+returns a device reference that must be released by the caller.
 
-            Bug ID: 221721
-           Summary: prom21-xhci does not allow to use USB keyboard in
-                    plymouth
-           Product: Drivers
-           Version: 2.5
-          Hardware: AMD
-                OS: Linux
-            Status: NEW
-          Severity: low
-          Priority: P3
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: marx.tomasz@gmail.com
-        Regression: No
+select_usb_power_delivery_store() only needs this reference while calling
+the pd_set callback. Drop it once the callback returns. Otherwise the sysfs
+write can pin the selected USB Power Delivery object and prevent it from
+being released on unregister.
 
-Created attachment 310416
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310416&action=3Dedit
-output of "sudo lsusb -v"
+Fixes: a7cff92f0635 ("usb: typec: USB Power Delivery helpers for ports and partners")
+Cc: stable@vger.kernel.org
+Signed-off-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+---
+v2:
+- Cc stable@vger.kernel.org as requested.
 
-Hi,
+ drivers/usb/typec/class.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-After update to 7.2-rc1 I was unable to type in LUKS password in plymouth. I
-tried both of my USB keyboards, but both of them just briefly lit up the LE=
-Ds
-and then seemed to turn off. Bisection pointed to
-
-commit 364f4a55c661641c02c86a849f0608d8fc3c0006
-Merge: e4b4bfaa5090 1c2b66a7d725
-Author: Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Mon Jun 22 12:09:47 2026 -0700
-
-    Merge tag 'usb-7.2-rc1' of
-git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb
-
-and then
-
-commit 9e896b4a48c4e815956d28961448041c80ad5a19 (HEAD)
-Author: Jihong Min <hurryman2212@gmail.com>
-Date:   Tue May 19 09:07:31 2026 +0900
-
-    usb: xhci-pci: add AMD Promontory 21 PCI glue
-
-After setting SENSORS_PROM21_XHCI=3Dn and compiling kernel again, I'm able =
-to use
-my PC normally.
-
-CPU: AMD Ryzen 9 9900X
-Motherboard: X870I AORUS PRO ICE
-Output of "lsusb -v" provided in attachment.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 0977581ad1b6..0595e8cb83aa 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -1619,6 +1619,7 @@ static ssize_t select_usb_power_delivery_store(struct device *dev,
+ 		return -EINVAL;
+ 
+ 	ret = port->ops->pd_set(port, pd);
++	put_device(&pd->dev);
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+2.43.0
