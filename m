@@ -1,129 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpbgbr1.qq.com (smtpbgbr1.qq.com [54.207.19.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76601891A9;
-	Sat,  4 Jul 2026 07:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBC038F240;
+	Sat,  4 Jul 2026 08:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.207.19.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783148451; cv=none; b=a8fUbOaojQ1MzPUZqYWuIXivity6sex3NQ60+Hp9w1ECaWAqHh4FHsoA+5zTi29pkNEoAxbz3SVsFHtyQnLGQeuD5i0NK+3wME2kG13R3W8sAKJgN5FSZeIxsYFgk+8axe07ZKZesp/1/pcXh8rriyRKX/gxlKOEzxg6MgKlsD4=
+	t=1783154632; cv=none; b=cFlQiNpBUTqNTooMhBR4/ksKnDmtGcfJ4Tzers4nt1VOzGWzChApWPwVJOhKgN//qyPVe3QqUJYuI9l93JThSwn5yze1ZNjfZOp3phYv7XR3MJ6tf/hfOiva7+bz6rthzMx0gcbdOycmf8OT8c/BKGXw+KeXXiVhBQd4nWs/IYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783148451; c=relaxed/simple;
-	bh=uXthKJNDIrFcG8T1vak4YAthJgX+Gh1tOHaQgBEnJoQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=of7mO0KHJ036+yLblBJhNZml4NhxYXfO5iv5exIw+CZvNpsb/PYFBAjSMtq/1unIQEHeUJXtqbkLV1NB/paYnoGzDNJxkJAb1fUnolafVQyyrzvfs5NlvYJwHsNzXJgd614BUiZNIR5RNTiXZKYOo7tuE0a2jJWiUfFWGYjYEIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nEs17KFK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783154632; c=relaxed/simple;
+	bh=qQEraKButsEB17QaARuJkvQEX9Psmgo4SyUVgEIXKwc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aLwmYbUjau/AV5z6/lcGu4oX9/qZEv2zYnWGMgVf/WRuLUHDwE19VZ3nfoN9/VKVKcvjZbe/BbXCeVXTgbEAo7FDZZopHmELExDVQkINNPl7gAi8qK1XK3nT8lTjTnHTvii/0G6PbDn4ywc/HCwG94FA0joQRswnNRbaWbAQ8Bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ugreen.com; spf=pass smtp.mailfrom=ugreen.com; dkim=pass (1024-bit key) header.d=ugreen.com header.i=@ugreen.com header.b=dOwx+Zki; arc=none smtp.client-ip=54.207.19.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ugreen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ugreen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nEs17KFK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B44581F000E9;
-	Sat,  4 Jul 2026 07:00:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783148450;
-	bh=RJC+XQeELETUPyjnwpcY8zcOLDj9UTxIfmWmwbg3m6w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nEs17KFKNgAb3DVsVFOKVW51YKnUq3sbjthtuF8aMa8GIoTqgDYpB9gjOvBIHAFwV
-	 Wg/S2DYwNnBfpMyJ3SYJW/eUuPtpHVCBf+qPq875CalmL/2pbB/6oYe0RnMfnPireO
-	 a4Yj3LSlUJMbUnAeYH0fwmFosKXsjSGNVqG7bN+s=
-Date: Sat, 4 Jul 2026 08:59:34 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Paul Menzel <pmenzel@molgen.mpg.de>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: typec: class: do not pin the alt mode driver
- module
-Message-ID: <2026070405-clumsy-dyslexic-17ae@gregkh>
-References: <20260701102831.34954-2-pmenzel@molgen.mpg.de>
- <ake1nru1TZS_lQ2O@kuha>
- <e9a01bf6-7c7f-4cdf-9eff-0cfa5f45ff7d@molgen.mpg.de>
+	dkim=pass (1024-bit key) header.d=ugreen.com header.i=@ugreen.com header.b="dOwx+Zki"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ugreen.com;
+	s=pkvm2402; t=1783154594;
+	bh=CNH7cJsDc+JC7+eiD+qEhLe1GmbbW50fNARWvPtR46k=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=dOwx+ZkiuNInhnKjuypDX9hhRrXrBGlRrKQ2HSXh1aAwRlFrzjvbgvv4F0HbaiWSC
+	 eNVgrQhH5fSPGMIm0amQgbLg5Ac0EJvFCFJTR13SXp74ZZH/tPrTiEe7Yl2VXIR7yV
+	 Ad3t/fUJa74wTXIJfgkyT2tW9aYG1he7bLijdjvU=
+X-QQ-mid: esmtpgz10t1783154589t4efead20
+X-QQ-Originating-IP: ny2Tx68rWjwWeM2TN54kyg0OpROsi16NMTAYZqJTiqQ=
+Received: from exmail.qq.com ( [103.17.240.69])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sat, 04 Jul 2026 16:42:58 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 5595461346446072083
+From: Hanson Wang <hanson.wang@ugreen.com>
+To: netdev@vger.kernel.org
+Cc: andrew@lunn.ch,
+	linux-usb@vger.kernel.org,
+	oneukum@suse.com
+Subject: Re: [PATCH 1/1] net: usb: aqc111: fix set_mac_address return value for bonding
+Date: Sat,  4 Jul 2026 16:42:58 +0800
+Message-Id: <20260704084258.3513069-1-hanson.wang@ugreen.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <43a0904c-de59-4b40-b186-edd130f6c0cb@lunn.ch>
+References: <43a0904c-de59-4b40-b186-edd130f6c0cb@lunn.ch> <20260703073936.462231-1-hanson.wang@ugreen.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e9a01bf6-7c7f-4cdf-9eff-0cfa5f45ff7d@molgen.mpg.de>
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:ugreen.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: OYMEOeTae7ml/GOoCOZQyYv3nILgleh1tbqel6CNn9Es3LX2l9LHGeif
+	eQ6mS51vTD9bE4xO1D1ngFzF6+p53CRplKKxSUsBjsxMsB1/9SGZl5+jBroybWvxjAy1O78
+	HUADetGJ9+YxWuKnUDPGslfdcPllIF9QfUFsGVnl1i4PLqh0iM5FkHzOMZ98WaKChRp8KC5
+	rJfJPx70TPuh7vJEWNM298MTqEqhNrAs2PW6UUz2qnESVxU2Rn88lsYuHm5teC8THhoWPyS
+	4fQ4CncUbJSMjPlxJZ9Fp3jnjtNaUgnjtX9UNf5rbfx8N1Xekni6itoGgQfHwcp60rxc0Vd
+	wHH1EbGQmXxMaasFVGo6li39b3l/Kiq8b2iQbZan+4gRXNyaJWvo/WEstDXXTGo220wLhO6
+	R5vRUrU34lP7kA4mjJ/kyiOKwsNwtU1tzfevaKHZtvHLQrEICpyMUPuPnCRcue9tH39v7XV
+	0CYvzPO4x8ru5htd0rYPG0IFdqay6jp92ca46FWj/dB2eH73t9c7SthPA7ft54WJQaoB6SI
+	8ufoFlxxl24AQaSDsv9AWXRI11zYPnu6PC+q+L9NX0kJbODXnlHf63Akeq2x7JXBc96Isto
+	2Sp/X3W9Gp7F9s061H+b1LhBSBQdubYBakzOWVPM+NXag2JVJ7zkljuK4JqL5mmEoqjPwd1
+	L7WK8ihBCIfv7jJhEgm1U5HNkmaxrX+dC+GwY7zZh1Tkc2GrpI7Ve4JfPeksmOtVLCCjBfy
+	mWpteP8ChNVQIeuGPnLSYbzlPtuGyxdhfYca/9avO7NbeCQkK5zYhRK0BPIJNTHuhLafQhu
+	NXAMeiHGIyDZMo4DTB1wj+BAzyMoUNyVAl1YEq5+lRxOYWQFJN4IL+H7NuYsEo9GvFp/63l
+	vA2j+PwBli5YoEz24592NowLv99HEBWR48EHYkVSRFF/zpPzL3lqhQOQKKeOmP3clEmKgfE
+	aBcx6HTqeCvsIGduWNPYUA6HMx61lSp5abW7XozsSNd28tI/tQoYMtSmPToVgukCba/Neps
+	TupgdLBgYbUSdYP+/7HhyQdOvEsrs=
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+X-QQ-RECHKSPAM: 0
 
-On Fri, Jul 03, 2026 at 11:29:39PM +0200, Paul Menzel wrote:
-> Dear Heikki,
-> 
-> 
-> Thank you for your reply.
-> 
-> Am 03.07.26 um 15:14 schrieb Heikki Krogerus:
-> 
-> > On Wed, Jul 01, 2026 at 12:28:26PM +0200, Paul Menzel wrote:
-> > > Plugging or unplugging a USB-C dock on a Dell XPS 13 9370 running v7.1.1
-> > > triggers a WARN splat and, on unplug, a module refcount underflow:
-> > > 
-> > >      WARNING: drivers/usb/typec/class.c:311 at typec_altmode_update_active+0x100/0x110 [typec]
-> > >      Workqueue: USBC000:00-con3 ucsi_poll_worker [typec_ucsi]
-> > >      Call Trace:
-> > >       ucsi_altmode_update_active+0x101/0x1a0 [typec_ucsi]
-> > >       ucsi_check_altmodes+0x92/0xd0 [typec_ucsi]
-> > >       ucsi_poll_worker+0x3a/0x110 [typec_ucsi]
-> > >      WARNING: kernel/module/main.c:957 at module_put+0x96/0xa0
-> > >      Workqueue: events ucsi_handle_connector_change [typec_ucsi]
-> > >      Call Trace:
-> > >       typec_altmode_update_active+0x6f/0x110 [typec]
-> > >       typec_remove+0x85/0x90 [typec]
-> > >       device_release_driver_internal+0x19e/0x200
-> > >       ucsi_unregister_altmodes+0x49/0xb0 [typec_ucsi]
-> > >       ucsi_unregister_partner+0x9e/0x160 [typec_ucsi]
-> > >       ucsi_handle_connector_change+0x386/0x420 [typec_ucsi]
-> > > 
-> > > For a partner or plug alt mode, typec_altmode_update_active() takes a
-> > > reference on the bound alt mode driver's module when the mode is entered
-> > > and drops it when the mode is exited, to keep the driver from being
-> > > unloaded while a mode is active.
-> > > 
-> > > That reference counting is unbalanced.  The get and put are keyed on
-> > > adev->dev.driver, but the alt mode driver bind/unbind runs asynchronously
-> > > and is not serialised against the active state changes issued by the UCSI
-> > > poll and connector-change workers.  If the mode is reported active before
-> > > the driver has bound, no reference is taken but adev->active is set, and
-> > > the module_put() on unbind then underflows the refcount.  try_module_get()
-> > > can also fail when the module is already going away.  These are the splats
-> > > above, seen for years via Fedora ABRT on several Dell laptops.
-> > > 
-> > > The pin is not needed.  When the alt mode driver is unbound—including
-> > > on module unload, which unbinds first—typec_remove() puts the mode back
-> > > into TYPEC_STATE_SAFE, clears adev->active and adev->ops, and the driver's
-> > > own remove callback drains its work (cancel_work_sync() in
-> > > dp_altmode_remove()).  The mode is torn down cleanly without the extra
-> > > module reference; all it ever bought was making rmmod of an alt mode
-> > > driver fail with -EBUSY while a mode happened to be active.
-> > > 
-> > > Drop the module get/put instead of trying to balance it.
-> > 
-> > It looks like there is a bug in the UCSI driver. Before we go anywhere
-> > with this one, please provide a fix for the UCSI driver where you make
-> > sure that the reference count always gets balanced. Let's not hide
-> > that issue with this patch before that.
-> > 
-> > As a side note, and as background, almost all Dell laptops seem to
-> > have issues with EC firmware not generating all the UCSI events that
-> > it should. That's why the "poll worker" was added to the UCSI driver
-> > in the first place. The Dell laptops just don't report all the
-> > connector state changes, especially related to alternate modes.
-> > 
-> > Dell should have been informed about the issue, but especially with
-> > the older laptop's, I guess they are not willing to make any changes
-> > anymore.
-> 
-> Unfortunately, I am not expert enough with USB and the code, so I am taking
-> the easy route, and just paste what Claude Opus 4.8 came up with:
+Hi Andrew,
 
-Please note, if you take the "easy route" then we can also do that and
-just ignore the patch :)
+Thanks for the review. You are right that this is not bonding-specific -
+any caller of ndo_set_mac_address() (including netif_set_mac_address()
+and "ip link set address") expects 0 on success and treats any non-zero
+return value as failure.
 
-You need to be able to understand the changes submitted as you are
-responsible for it, not a tool, as it can never be held responsible.
-It's ok to use these tools for development, but you can't offload
-understanding and responsibility to them, as that way just hurts
-everyone involved (i.e. you, us, and our users.)
+I audited all drivers under drivers/net/usb/ that implement a custom
+ndo_set_mac_address callback:
 
-thanks,
+  aqc111.c        - BUG: returns usb_control_msg byte count (6) [this patch]
+  ax88179_178a.c  - OK: returns 0 after ax_write_cmd()
+  asix_common.c   - OK: returns 0 (async write to hardware)
+  ch397.c         - OK: returns 0
+  dm9601.c        - OK: returns 0 (async write)
+  lan78xx.c       - OK: returns 0
+  mcs7830.c       - OK: returns 0
+  qmi_wwan.c      - OK: returns 0
+  r8152.c/r8157.c - OK: returns 0 on success (via usb_autopm_get_interface)
+  rtl8150.c       - OK: returns 0
+  sr9700.c        - OK: returns 0 (async write)
+  sr9800.c        - OK: returns 0 (async write)
 
-greg k-h
+Drivers that use eth_mac_addr as ndo_set_mac_address (smsc95xx,
+smsc75xx, cdc_ncm, rndis, pegasus, usbnet default, etc.) always
+return 0 from the netdev op.
+
+As far as I can tell, aqc111 is the only driver that directly returns
+the result of a USB control write without normalizing success to 0.
+
+Please let me know if you would like any further changes to this patch.
+
+Best regards,
+Hanson Wang
