@@ -1,242 +1,200 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F013B6352
-	for <linux-usb@vger.kernel.org>; Sat,  4 Jul 2026 12:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783169728; cv=none; b=jSTpdEWp5dW5jJetwCS4eDk/PxX1B8G8WjhexvrAmf4NcZp+5WddF94hBKBhIqFyPj7ik+OKNZfGusxst43KmO/JidA46hCGASmyWcw7fC6rHvaiGTV8lDjuYmjdeMS0wk+7irIPb8GX+mX2wo1YOIPS6rEnx7D6NHTM8MS98ew=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783169728; c=relaxed/simple;
-	bh=7Ti4birx9ZhBE8tHz/XlcHdoOwrE9eEoweTUNZOgVMc=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=Y2P/vbuf/8b5GytXtvEnO7wL8pfDoieKW850MH6vcekCBBtC3bJNWTrFWBgj/Us+PqGjyWsck2k17qdwxTFK9XNfPlBYqJYBSH+Itz3j3sK3hDOVzs925MQPrqvftCos3httCxnfeyL0ulZqvrheRmDWIbSixn8H6VOg6ahisQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iqsewdgc; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4E63A7826
+	for <linux-usb@vger.kernel.org>; Sat,  4 Jul 2026 12:57:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783169860; cv=pass; b=K/JBOoBmPmHglHhKa4fnuZSBgXhaS7kPlu8Dds04o7wpa5NCG2znoTb5Atq3W2xheHd30v1l3P7E9gRbXTyDq64C+mToX5mj5/P1Ia8Lekwq1q/J5s8jJpq7I086cIYpZJrb1fCboitlRtKiU9AkMq3QzP5fwqICEy4nKoeYi9M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783169860; c=relaxed/simple;
+	bh=ne9M7ihYYYmOajHK0Ot1X8HArFBEeOh79pG2s6pnrUE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HP1faGgAV2TWmkSRH8GDnpuPI5UoOkOj6OU6bQUBhkJu+Pn7zQ102B9zsPxQr0COVs69dDhm+9pF8/gYv8VMvmMR45XsPHjwPLbOvOCklX8Bd8ruV/UKgNGqM5Bind3U41aF5Kle9rqJmXffvu6PuQ5+Y0+0A/Nzlt95QTJXLEc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dbALc1jb; arc=pass smtp.client-ip=74.125.224.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iqsewdgc"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-84592b55832so1217518b3a.3
-        for <linux-usb@vger.kernel.org>; Sat, 04 Jul 2026 05:55:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dbALc1jb"
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-664ce3000e6so1149697d50.0
+        for <linux-usb@vger.kernel.org>; Sat, 04 Jul 2026 05:57:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783169856; cv=none;
+        d=google.com; s=arc-20260327;
+        b=XlbfNhXz9uv9RcMCnEcwv76GVwlfUrUK6LUT9pt33NLHTSt4JOCFf+gU745zY31Azy
+         lRJqg1v/H+GZB1Ui0NAwyPGAJvXNVqN0MBAj3FtBfCM9+XR9k4KQFL94dRe0rMX+LY5S
+         OVGcPSufA1PRBM9FanVbkuMPH8INs6SsQNGUO6hS3o7tO966IvcKSdK+AkSwtGYWlLrW
+         sjTWp71NF2oq5te1fAreaAUuPAb4LFm4uEtsfYyF0vSj0IEBtDRDpmUJ+CwULcPoOl4G
+         xFOuE5OVM3VZlHXc5eAT2KX/8fz2dUQa98mf0coEHVxDXD4/f7/4lK9DnqVF6xpl9JTq
+         UG9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=7cb0zGubZ0KRFnA+0LoKJjJxiuxX2jqdR54QQ8w86ww=;
+        fh=ZS3U4QhGTAo9DqV4YumaZVKVg26Vow9UtSiM2PUvkmg=;
+        b=ZPKz7g+B3Ua5a8pobzS7KvZ3gc/Jx/R+Zq+XBISqtYskHXlowHqIhAq640FFSGUsom
+         275JQJUiSuS2AmwJwo5phRn5NpibYny3XmzQ2qKfHoVXwuDZ2FlQB5XFLNOAOJgnsYzA
+         jV0QkXf1LSvUHwXhOHsFdqtsWMI1a0Wad0FzmEni/CagUomS/EgpVmtEdkVOhgaHGsE5
+         Z+VMfn4Ix0ajl+q1ktwckYWi5aJmXOEKjKMvCWzRRJYaaEL1CElLDobtQyu1V3wov+Nl
+         5gsSJFqHFq/97adb1nXuPcWD4mJzZ/N/bapYSotn0hOsJf0mclfeupn6RcnlhNB8bMnG
+         pjOw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783169709; x=1783774509; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MS3BIkzvEU3uW1zM8eJb13sdee+BvNhbNdXbN75EOwQ=;
-        b=IqsewdgclUdNe0fWbDXc9YpZm+Q/dHKQpbveYHfVKHwOP+cgXGRY3HJrKq0rN2GFtc
-         rPTNemGyEAnMdd3lHLf2WIIhxySNNoG10LYWU5Tivjp4JWJG6wV+wMGbI9WrP3+fiydo
-         B7p+Ax73wU4WPrGb3+MjN68Jvq1aGoVsD4U2ddzRMnNdTIFNNHpNjHdph/vYnuinfk97
-         ZU3NEYkjvciiGicK2WXfzkB6XJIVmBHq5g7LWKN/sl/z1aOiud9SbqBSuRnRsAklg4bX
-         b8kbW3kGU2Q+OdXNt1vWGQIn3edTBxFtkbu97EeveWWcIMtPXa2OENLbPr9trAGYYJZf
-         Ogqw==
+        d=gmail.com; s=20251104; t=1783169856; x=1783774656; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7cb0zGubZ0KRFnA+0LoKJjJxiuxX2jqdR54QQ8w86ww=;
+        b=dbALc1jbcfag0uXs/126T+gnlxr1OoDvgmzgjwtNxjTCcZxyTzwOmB/O4sQpNYSyXa
+         3WlyyHYC1IQ6Ym0jUR8uc74fS2hB+Z/pGDhZQ1U9+VlCjcGMsr2Q4MFRcbLfnEKHvzL0
+         wCsbyE6QIsEMiSNIuu/ADojiBFQSbOi2iSGziKoTstAJq4w656g/6YvNbT35MHnPyeRN
+         OZoQ6xtjyMvQYAQreK3XRt/w6j1MIzC8yoXRubuHVU8ewO4y6csvrSzss81I+t94wh/Y
+         3zC2z9VFqqAFKm8usTot+J+uh8E/cUQTHDdv7crj0E65oYgspDUeKiWZPH8niaxK3uc6
+         UsFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783169709; x=1783774509;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MS3BIkzvEU3uW1zM8eJb13sdee+BvNhbNdXbN75EOwQ=;
-        b=kxcpBxRxjbL858C9vNtLYPCc3cRCOfgYRY5o+L6JxkTcgKppr+aRP3+IJqbtp57vFr
-         393FuvWAQpSbRpy9mhcpLzrWTj65MsUAQ+xzKPOEz7qdUqkMtPsjH8CzletoeNQFvpve
-         IjFHmEokhfV8zivx46aYPHMC75iXSfcOOrtG9TYfGpNzIx42y5W3bPaYvgXZvi3o3FKy
-         u+Yi3bt/vaRLZsBltEOyLsM4hiqrU+C5aguQbsIkLH78COOXLm1vxrftGRA4XIoImpAl
-         krDZQ3R5T4+dIsNMwj8ISpPWKRZQc3aTUYWgPRqyP2DGGDs7dr0pXQjjThUU7t0lE+IQ
-         xm/w==
-X-Forwarded-Encrypted: i=1; AFNElJ9PKqwvRTrRepepstipUDmnRSLnVJJwkMKX0ldKfZs99h5AEPiBibJgPDZRhx8EllvH/qCVRLe56io=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzv2PNdcqA5/yNJB/qxcZBmEQUkRFZik78xo1WGjE+aaLRu0CIv
-	gfYTid1rY6wNM8a+a+LmTVBk8LZ8+/4UmYz12MjGBoazj5JtjdOV7PRQ
-X-Gm-Gg: AfdE7clHVAfYT4mrGz90Qf/MPoBwtL8txyKwmi1WuEuyP6CwoOMAqOrfktGaakHwXxM
-	oIIIjhJwhHQtbShjp5XFcpgP05mton9W7oQlEkzgrSoTJzZVoUR93oKjSZoKnPQ4d5FcbRlyJTB
-	a23oOVs0AfL5zigroXjgBFcunRIeRhQXN/IS0kCWlRHxE5R/wvTCchvDtzTwIpfV6Ws2YxD08Gc
-	QiAtwCYGSyyJ7cfQ7mlxYo6DMqM2p5+udk1WUusc8xyCAmSlL01Lg/Ng5tNPgan+Lc6OOvolHBz
-	byeIx1WvkB7nZjEMr2qYz7O77QCt1nlV6A3D9Nkp27wJFTFPaCPo93wNzZ04vu16f/0BKH7TrJC
-	ueb558e3iSQv2njPro5cftxAb3h2IWb1xXsYUuXD7rcRyf0pMBEVwy0maw66SXmXEtgsLf1VL5e
-	drRA==
-X-Received: by 2002:a05:6a00:22c7:b0:845:48be:b046 with SMTP id d2e1a72fcca58-847f6f1025fmr3033740b3a.36.1783169709364;
-        Sat, 04 Jul 2026 05:55:09 -0700 (PDT)
-Received: from lgs.. ([118.193.39.24])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6b95c89sm1262976b3a.15.2026.07.04.05.55.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Jul 2026 05:55:08 -0700 (PDT)
-From: Guangshuo Li <lgs201920130244@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiasheng Jiang <jiashengjiangcool@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	Mike Christie <michael.christie@oracle.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Guangshuo Li <lgs201920130244@gmail.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] usb: gadget: f_tcm: fix remaining nexus NULL dereferences
-Date: Sat,  4 Jul 2026 20:54:59 +0800
-Message-ID: <20260704125459.4008712-1-lgs201920130244@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1783169856; x=1783774656;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=7cb0zGubZ0KRFnA+0LoKJjJxiuxX2jqdR54QQ8w86ww=;
+        b=lhJjyX+9lAkPwVGgqa+181e96//2E7QnULyiuSF33hcDT0DO1shzjxlv557nLKv5Aj
+         C5cTDfcFw+Za79DtcC0Y+iUzYqZHTJOyYQNOlsVKVvVlscSfVPMzvPk1lNU7wcDby8Oo
+         oIX08GTtBetVJWG/lRDU6t8RtUQJGfY60Ht5kGa31lMQf7AoisMtDcfgMOC/jfse5Q2C
+         iuDmmIR8bueMhcBNreVi5QpPrVV3klvT0nBbd97PdWg4gUeP778vCxIizB3lId9AyXGe
+         qrsBUqTiiu7JGQhaREB91vH9MFLcEdbbCp7NwTnLPVYZvM5quJB9EVFn4CfxTKxph80z
+         +PQQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqHjdSvXj6xMvJvnlMZU4OE/maQor9alHYtIYtDOm5ngQ4EzISTbpuyZDT1DmBF1Ez2B+XZ4PW8gyo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzR6JMCFFXDG5Ctbg6E+ffitsB2Dku8ZDQpBJFo8BCuTjJ7M7Yc
+	U2yyDH47XvUVxv5XXijBqNAf/fF6Uyresurxns9c46E6W1q465JXiK3NFG2ajUnmEI4P+ZzCoZc
+	60qzfERO5/xX6OR2F/38yGkqjRNodgBoUrKpsjJDDuw==
+X-Gm-Gg: AfdE7cmYH/JEztWPbo+N8zyMEmMybaoGeNrr892TPA4ReuKgpePZh0gDE500RfwDxe2
+	TJhTcDYHpdDr/TebYsloX3uLgXKblEchyKi4/U/mMnSbS29gNxtqt0aRqibiSZywePdnRBYq4S4
+	AHYPCghpp3kOTt7CWsC4jjy0roKagEl3bC63r06qYqwEacHtDIWvGtwXbNX/DuEMA5JDCR9tUTm
+	ViQICHViOFrkEOGxLNwHWmyyNy7e2nXTUpC/0MeEppotzB4+DJHZ3hR45LG5Eu0UdgEILLiTA==
+X-Received: by 2002:a05:690e:148b:b0:664:e430:cb92 with SMTP id
+ 956f58d0204a3-66652f2903amr2900631d50.38.1783169855698; Sat, 04 Jul 2026
+ 05:57:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260604123929.1427579-1-lgs201920130244@gmail.com> <aj8YyBVR90FGSki2@vbox>
+In-Reply-To: <aj8YyBVR90FGSki2@vbox>
+From: Guangshuo Li <lgs201920130244@gmail.com>
+Date: Sat, 4 Jul 2026 20:57:25 +0800
+X-Gm-Features: AVVi8CcBp-gG66LpuDbfy_XpTX52zQKVmH1rOSHT7BDNE_-HYTMKFXAl4EBZOfI
+Message-ID: <CANUHTR-yxFDtdSDNiOoYbM4358_5CS2ywpGz3eODv_SZz50vPw@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: f_tcm: fix remaining nexus NULL dereferences
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiasheng Jiang <jiashengjiangcool@gmail.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Mike Christie <michael.christie@oracle.com>, 
+	Kees Cook <kees@kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The previous nexus NULL-dereference fix added checks to the normal
-command submission paths, but two UASP paths still dereference
-tpg->tpg_nexus without checking it first.
+Hi Thinh,
 
-A TASK MANAGEMENT request reaches usbg_submit_tmr(), which fetches
-tvn_se_sess directly from tpg->tpg_nexus. The RC_OVERLAPPED_TAG path in
-usbg_cmd_work() does the same before walking sess_cmd_map for the active
-command with the same tag.
+Thanks for the review.
 
-If userspace drops the nexus after the command is queued, these paths can
-observe a NULL tpg_nexus and crash before they can ignore the command like
-the already-fixed command paths do.
+On Sat, 27 Jun 2026 at 08:32, Thinh Nguyen <Thinh.Nguyen@synopsys.com> wrote:
+>
+> On Thu, Jun 04, 2026, Guangshuo Li wrote:
+> > The previous nexus NULL-dereference fix added checks to the normal
+> > command submission paths, but two UASP paths still dereference
+> > tpg->tpg_nexus without checking it first.
+> >
+> > A TASK MANAGEMENT request reaches usbg_submit_tmr(), which fetches
+> > tvn_se_sess directly from tpg->tpg_nexus. The RC_OVERLAPPED_TAG path in
+> > usbg_cmd_work() does the same before walking sess_cmd_map for the active
+> > command with the same tag.
+> >
+> > If userspace drops the nexus after the command is queued, these paths can
+> > observe a NULL tpg_nexus and crash before they can ignore the command like
+> > the already-fixed command paths do.
+> >
+> > Check tpg_nexus in both remaining paths and use the checked local nexus
+> > before dereferencing tvn_se_sess.
+> >
+> > Fixes: b9fde5073553 ("usb: gadget: f_tcm: Fix NULL pointer dereferences in nexus handling")
+> > Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+> > ---
+> >  drivers/usb/gadget/function/f_tcm.c | 22 ++++++++++++++++++++--
+> >  1 file changed, 20 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
+> > index 34d9f49e9987..1717fdd1c466 100644
+> > --- a/drivers/usb/gadget/function/f_tcm.c
+> > +++ b/drivers/usb/gadget/function/f_tcm.c
+> > @@ -1188,12 +1188,21 @@ static void usbg_aborted_task(struct se_cmd *se_cmd);
+> >
+> >  static void usbg_submit_tmr(struct usbg_cmd *cmd)
+> >  {
+> > +     struct tcm_usbg_nexus *tv_nexus;
+> >       struct se_session *se_sess;
+> >       struct se_cmd *se_cmd;
+> >       int flags = TARGET_SCF_ACK_KREF;
+> >
+> >       se_cmd = &cmd->se_cmd;
+> > -     se_sess = cmd->fu->tpg->tpg_nexus->tvn_se_sess;
+> > +     tv_nexus = cmd->fu->tpg->tpg_nexus;
+> > +     if (!tv_nexus) {
+> > +             struct usb_gadget *gadget = fuas_to_gadget(cmd->fu);
+> > +
+> > +             dev_err(&gadget->dev, "Missing nexus for TMR, ignoring command\n");
+>
+> This is called after usbg_get_cmd(). We need to cleanup the
+> sbitmap_queue and the hash (sbitmap_queue_clear and hash_del) before
+> returning.
+>
+> > +             return;
+> > +     }
+> > +
+> > +     se_sess = tv_nexus->tvn_se_sess;
+> >
+> >       target_submit_tmr(se_cmd, se_sess,
+> >                         cmd->response_iu.add_response_info,
+> > @@ -1271,12 +1280,21 @@ static void usbg_cmd_work(struct work_struct *work)
+> >  skip:
+> >       if (cmd->tmr_rsp == RC_OVERLAPPED_TAG) {
+> >               struct f_uas *fu = cmd->fu;
+> > +             struct tcm_usbg_nexus *tv_nexus;
+> >               struct se_session *se_sess;
+> >               struct uas_stream *stream = NULL;
+> >               struct hlist_node *tmp;
+> >               struct usbg_cmd *active_cmd = NULL;
+> >
+> > -             se_sess = cmd->fu->tpg->tpg_nexus->tvn_se_sess;
+> > +             tv_nexus = fu->tpg->tpg_nexus;
+> > +             if (!tv_nexus) {
+>
+> Same here. Also check for other if (!tv_nexus) checks.
+>
+> Maybe we need a helper function to do this cleanup?
+>
+> Thanks,
+> Thinh
+>
+> > +                     struct usb_gadget *gadget = fuas_to_gadget(fu);
+> > +
+> > +                     dev_err(&gadget->dev, "Missing nexus for overlapped tag, ignoring command\n");
+> > +                     return;
+> > +             }
+> > +
+> > +             se_sess = tv_nexus->tvn_se_sess;
+> >
+> >               hash_for_each_possible_safe(fu->stream_hash, stream, tmp, node, cmd->tag) {
+> >                       int i = stream - &fu->stream[0];
+> > --
+> > 2.43.0
+> >
 
-Commands that reach the workqueue have already been allocated from the
-session tag pool by usbg_get_cmd(), and UASP commands may have been
-inserted into the stream hash. Clean up those resources before returning
-from nexus-missing paths.
+I have sent v2 to clean up the session tag pool and stream hash before
+returning from the nexus-missing paths. I also stored the session
+pointer in struct usbg_cmd so the cleanup path does not need to
+dereference tpg_nexus after it becomes NULL.
 
-Store the session pointer in struct usbg_cmd so the cleanup path does not
-need to dereference tpg_nexus after it becomes NULL.
-
-Fixes: b9fde5073553 ("usb: gadget: f_tcm: Fix NULL pointer dereferences in nexus handling")
-Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
----
-v2:
-  - Clean up the session tag pool and stream hash before returning from
-    nexus-missing paths, as suggested by Thinh.
-  - Store the session pointer in struct usbg_cmd so the cleanup path does
-    not need to dereference tpg_nexus after it becomes NULL.
-
- drivers/usb/gadget/function/f_tcm.c | 48 ++++++++++++++++++++++++++---
- drivers/usb/gadget/function/tcm.h   |  1 +
- 2 files changed, 45 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-index 34d9f49e9987..89f9b3c97209 100644
---- a/drivers/usb/gadget/function/f_tcm.c
-+++ b/drivers/usb/gadget/function/f_tcm.c
-@@ -725,7 +725,7 @@ static void uasp_status_data_cmpl(struct usb_ep *ep, struct usb_request *req)
- 		    cmd->tmr_rsp != RC_RESPONSE_UNKNOWN) {
- 			struct se_session *se_sess;
- 
--			se_sess = fu->tpg->tpg_nexus->tvn_se_sess;
-+			se_sess = cmd->se_sess;
- 			sbitmap_queue_clear(&se_sess->sess_tag_pool,
- 					    cmd->se_cmd.map_tag,
- 					    cmd->se_cmd.map_cpu);
-@@ -1186,14 +1186,41 @@ static int usbg_send_read_response(struct se_cmd *se_cmd)
- 
- static void usbg_aborted_task(struct se_cmd *se_cmd);
- 
-+static void usbg_cleanup_queued_cmd(struct usbg_cmd *cmd)
-+{
-+	struct se_session *se_sess = cmd->se_sess;
-+
-+	if (cmd->fu->flags & USBG_IS_UAS) {
-+		struct uas_stream *stream;
-+
-+		stream = &cmd->fu->stream[cmd->se_cmd.map_tag];
-+		if (hash_hashed(&stream->node))
-+			hash_del(&stream->node);
-+	}
-+
-+	sbitmap_queue_clear(&se_sess->sess_tag_pool,
-+			    cmd->se_cmd.map_tag,
-+			    cmd->se_cmd.map_cpu);
-+}
-+
- static void usbg_submit_tmr(struct usbg_cmd *cmd)
- {
-+	struct tcm_usbg_nexus *tv_nexus;
- 	struct se_session *se_sess;
- 	struct se_cmd *se_cmd;
- 	int flags = TARGET_SCF_ACK_KREF;
- 
- 	se_cmd = &cmd->se_cmd;
--	se_sess = cmd->fu->tpg->tpg_nexus->tvn_se_sess;
-+	tv_nexus = cmd->fu->tpg->tpg_nexus;
-+	if (!tv_nexus) {
-+		struct usb_gadget *gadget = fuas_to_gadget(cmd->fu);
-+
-+		dev_err(&gadget->dev, "Missing nexus for TMR, ignoring command\n");
-+		usbg_cleanup_queued_cmd(cmd);
-+		return;
-+	}
-+
-+	se_sess = tv_nexus->tvn_se_sess;
- 
- 	target_submit_tmr(se_cmd, se_sess,
- 			  cmd->response_iu.add_response_info,
-@@ -1226,6 +1253,7 @@ static void usbg_submit_cmd(struct usbg_cmd *cmd)
- 		struct usb_gadget *gadget = fuas_to_gadget(cmd->fu);
- 
- 		dev_err(&gadget->dev, "Missing nexus, ignoring command\n");
-+		usbg_cleanup_queued_cmd(cmd);
- 		return;
- 	}
- 
-@@ -1271,12 +1299,22 @@ static void usbg_cmd_work(struct work_struct *work)
- skip:
- 	if (cmd->tmr_rsp == RC_OVERLAPPED_TAG) {
- 		struct f_uas *fu = cmd->fu;
-+		struct tcm_usbg_nexus *tv_nexus;
- 		struct se_session *se_sess;
- 		struct uas_stream *stream = NULL;
- 		struct hlist_node *tmp;
- 		struct usbg_cmd *active_cmd = NULL;
- 
--		se_sess = cmd->fu->tpg->tpg_nexus->tvn_se_sess;
-+		tv_nexus = fu->tpg->tpg_nexus;
-+		if (!tv_nexus) {
-+			struct usb_gadget *gadget = fuas_to_gadget(fu);
-+
-+			dev_err(&gadget->dev, "Missing nexus for overlapped tag, ignoring command\n");
-+			usbg_cleanup_queued_cmd(cmd);
-+			return;
-+		}
-+
-+		se_sess = tv_nexus->tvn_se_sess;
- 
- 		hash_for_each_possible_safe(fu->stream_hash, stream, tmp, node, cmd->tag) {
- 			int i = stream - &fu->stream[0];
-@@ -1357,6 +1395,7 @@ static struct usbg_cmd *usbg_get_cmd(struct f_uas *fu,
- 	cmd->se_cmd.map_cpu = cpu;
- 	cmd->se_cmd.cpuid = cpu;
- 	cmd->se_cmd.tag = cmd->tag = scsi_tag;
-+	cmd->se_sess = se_sess;
- 	cmd->fu = fu;
- 
- 	return cmd;
-@@ -1413,7 +1452,7 @@ static int usbg_submit_command(struct f_uas *fu, struct usb_request *req)
- 		struct se_session *se_sess;
- 		int i = stream - &fu->stream[0];
- 
--		se_sess = cmd->fu->tpg->tpg_nexus->tvn_se_sess;
-+		se_sess = tv_nexus->tvn_se_sess;
- 		active_cmd = &((struct usbg_cmd *)se_sess->sess_cmd_map)[i];
- 
- 		if (active_cmd->tag == scsi_tag) {
-@@ -1494,6 +1533,7 @@ static void bot_cmd_work(struct work_struct *work)
- 		struct usb_gadget *gadget = fuas_to_gadget(cmd->fu);
- 
- 		dev_err(&gadget->dev, "Missing nexus, ignoring command\n");
-+		usbg_cleanup_queued_cmd(cmd);
- 		return;
- 	}
- 
-diff --git a/drivers/usb/gadget/function/tcm.h b/drivers/usb/gadget/function/tcm.h
-index 009974d81d66..1ae1f8383bd0 100644
---- a/drivers/usb/gadget/function/tcm.h
-+++ b/drivers/usb/gadget/function/tcm.h
-@@ -73,6 +73,7 @@ struct usbg_cmd {
- 	struct work_struct work;
- 	int unpacked_lun;
- 	struct se_cmd se_cmd;
-+	struct se_session *se_sess;
- 	void *data_buf; /* used if no sg support available */
- 	struct f_uas *fu;
- 	struct kref ref;
--- 
-2.43.0
-
+Thanks,
+Guangshuo
