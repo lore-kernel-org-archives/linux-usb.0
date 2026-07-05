@@ -1,118 +1,119 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185DC2309AA
-	for <linux-usb@vger.kernel.org>; Sun,  5 Jul 2026 08:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48002BD5A8
+	for <linux-usb@vger.kernel.org>; Sun,  5 Jul 2026 09:14:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783241985; cv=none; b=si5dyCF/84lk0vzX78DqL4fRay+fBQDycOG4gVsXXZoeZinjvbkvOkqXrCxdSG3H2QIFMQAhb1F96bkUJ8nhR6as65WctTOQzBmW0tWG9q2qwCBxkA2CEcTKEQXjbJM8wEC20NNgJhOwB2ztvYODWaNYKXz6gCRc1sJY+iRweCU=
+	t=1783242872; cv=none; b=roO9rbAlbddtLdD05SEjXW0cXFSygYI5J5IZR9Qyi1b1CVtxZoZbOzl+IEXTE/rJFgXJ+dmwm/9W3QnbBW2Tawsu8s+wevngCxZFZLIGvQddfg/s/W8ENlWMZsV9rIiYgooecuEgexlOoEu3IbbqKGDaVdjyjfGyQTjtA44gRPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783241985; c=relaxed/simple;
-	bh=U5LrNIxOgFZ/598tnzagzSlsJRukUp2B0aVS8vEH1A0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n9OxK61LvZihS8oZv/ipfC3h5w23kY3RsfZg3CuXIM7tUenKHA28LL8z6EbHpHBYaU0065w5POfHhXKTaru8CIdHcB5DTj8wKFQjJESRBRdVdFnECbyKoiLGgDPGBNdA7nlMnMjQ4TRlj6nChA51EMgLHxCf8Q+q4v8lEFvMc2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LROZUPnb; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1783242872; c=relaxed/simple;
+	bh=97MuJ7f+ic8uPc7AIBf0dHxydppiGKw022sKqKsKEgk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lSXh0pCefu0a+qs4KmLYzATEN/S9iMVgbM/7FC4Ga+12Ct34plMYz7oriQ7s7tJlXssi1HzGa2mt8i1BSVBpSbwPHIzQZ74NSUQcDJTiRzGq2IbCNAZBvPhYAR7AstNyTJSJw6INyoYCKUdmfewAXAj3QIcAGF/JXO6pc/qnS3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DM+rijJy; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LROZUPnb"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47362928f65so1956256f8f.2
-        for <linux-usb@vger.kernel.org>; Sun, 05 Jul 2026 01:59:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DM+rijJy"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cc84e77e78so2575345ad.2
+        for <linux-usb@vger.kernel.org>; Sun, 05 Jul 2026 02:14:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783241982; x=1783846782; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HX0UGAN7HhoFOH0Vfo0qTeB0ju+/AOy9gmlZ/JKILKk=;
-        b=LROZUPnbnzvhF1Y20TF9wvMVVen90rulSnUXnE2aAKNzCpgRlMDYn8s8/khhhiq3UL
-         PMmyHAsAB/2rskIy5o87bpdU1UkAW2cr6yRUl1Q0wmIk1a/T1K2Axfs/MrziIRttkFN7
-         9dWILzTxT8VuSRG0PQmfu0m2UCL1jNqObiFK9BdZhTDfQVBiUsSa1Bygbjlol/APWkFr
-         Cg15u7O8J2ppNGbgLf/EGU1+5cAGQFW2Gn1ko9969MeIFBVXyHrr3rYEbQd7DkqmpeUs
-         kWkKiTyrTPyZvEHqJ//sNjjg+eXvVcbuYqjwqljryiaFR31bxqWWWb6MC8g7XkSFTNru
-         ayTQ==
+        d=gmail.com; s=20251104; t=1783242870; x=1783847670; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=z1NsTEE3ehjkH33SSz+73WgxvLlmUtSGRdlF6FJ50lg=;
+        b=DM+rijJyyFfaYhMRcpzKdI6NXNquCtl9zzsjRlIbhrtdcVF53kqJK0MGZ4+We+byAk
+         KvWJvWMytE3Cj05GLLwAxOtAOmJrmWeQdubwStwTOgXU/KWjsDC7H6xCL28CQOgOf8u4
+         zIRkiL1KbATkZ7U+PwyX+as+y9IYD3C0cEdMFggLqZCauXd9NOCfx+QTwXW0kO7dQLDa
+         hDd4WnlWMc9LvjGdQj/WHP7xlgSIR+ey97My0iLPf0dXYj7yKGy3ZM+pol8Nkk2H9Ha3
+         8vOYNKfPSaOlqVwyYaHQXv5vfVmwU81/u0QqPWbBUqmRRMk183MjykDDLLBpbax2xG0H
+         gkMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783241982; x=1783846782;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HX0UGAN7HhoFOH0Vfo0qTeB0ju+/AOy9gmlZ/JKILKk=;
-        b=o6LM0Q1UGj4IRg71FddgZLy/jBnqbjH6toq7TDGu3t65OLdXwI4oyOThsoLF8ZS0hK
-         SmVum1w9oFSJ6c5ZN1M1U312RSXclldgNKnA9fLCS0VWwPESE3bEoHPt3nOjm+b25MjP
-         NUOjJrwk1C9HQsLlsYUkQVplTbpC8ecXMPQLv/pe/ONjGiLZngeUQHkIfw7SOuF6EspQ
-         9kuKEtereugoqhKzSu8OsufPaUUPV5jalEuikh8OVWSBZmDJLkkq0pje6bW0DJQAiDe3
-         WiReN599Dw7VBIBq4FfwDQa6I9vmwcvGNRAoe1xV/P8vHCf5DNIyTPJ0ujkoCgxptScj
-         knqw==
-X-Forwarded-Encrypted: i=1; AHgh+Rq0G9a1sFXRAQGYZcqb2POfTplZ9619b3C4K0S4HKArZBbR5XiChmGJbcnLWoeZP5VGoyxp4hji3Ck=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNC/ZGYDmN4f+2FQyTGj/r4qU19VmKVGm4pSAj57i/OM94sbdF
-	5CYfwgGyTo6Mt/dvXbyPbd6iWjPuOPY9WHfU98PrBvtlbt/fupwjawoLQ00SVw==
-X-Gm-Gg: AfdE7clf5D2+naMaokMK8JM359HsNkNM2KsMJcygUsT7lw+5yqsDZWpHNeUkoXAvQ/T
-	n9g2txinL4GW7GkQ1uOhBhj8WEu58RVERu03FhxKnrEXm1WKFAl66OPbM9RN86WZ+aitRw0DCPS
-	SxzLNAyeH7q3yaUn8e6mhR2N5pdGWyO+jEimAtazN7qg2mT3WzmhSjk5qJ3p9/PWZ/0xK17sm2f
-	G4ON8SK7NjQy+op902IEjpdpZVoRi5vLcrnxU/KHStB6H0/gRGdvL73ANX5gW8fhxvNiTeflYL8
-	F8XxB0sZ1CRkNZYqSMtrqbFrLwsObVFkJdSYGDpTEGANY2OeErLtjoqlHml+2Vfqi5NKOsNGgX2
-	rS0BndHKaBcW/LiN4rD3NVz83SedlkjDAeI9qhFeXK4QdYuCd2ftMR46n5WaFlE4NNmCLWxLppf
-	1O6BO91RPYXh/DZAn6htas0eHs
-X-Received: by 2002:a05:6000:29d4:b0:474:6301:3e3d with SMTP id ffacd0b85a97d-47aabb4d052mr4525411f8f.11.1783241982378;
-        Sun, 05 Jul 2026 01:59:42 -0700 (PDT)
-Received: from foxbook (bgu190.neoplus.adsl.tpnet.pl. [83.28.84.190])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0f214d2sm14522801f8f.33.2026.07.05.01.59.41
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 05 Jul 2026 01:59:42 -0700 (PDT)
-Date: Sun, 5 Jul 2026 10:59:38 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Michel =?UTF-8?B?RMOkbnplcg==?= <michel.daenzer@mailbox.org>, Mathias
- Nyman <mathias.nyman@linux.intel.com>, linux-usb@vger.kernel.org
-Subject: Re: 7.1 regression bisected to "usb: core: Fix SuperSpeed root hub
- wMaxPacketSize"
-Message-ID: <20260705105938.797e87ac.michal.pecio@gmail.com>
-In-Reply-To: <2026070255-rerun-unstable-a90a@gregkh>
-References: <cb287e3d-3066-4820-b464-6208b947974b@mailbox.org>
-	<577c7ba6-c638-4e73-acac-fbf6c4fb4ccc@linux.intel.com>
-	<20260702105152.415afeaa.michal.pecio@gmail.com>
-	<80bdd3da-33c0-44b4-a1af-6aca44c1acd6@mailbox.org>
-	<2026070255-rerun-unstable-a90a@gregkh>
+        d=1e100.net; s=20251104; t=1783242870; x=1783847670;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z1NsTEE3ehjkH33SSz+73WgxvLlmUtSGRdlF6FJ50lg=;
+        b=iZBNITtgyEuaPbhvEFEHlfeXhS6B/APllScGfu74aC6wckKjJbUW0d552BhT7YWkAA
+         e4h8eP9W5wq+bJ5dX+Mx/AQkBFHO67biPG4nJQ4B9hzO59Ya709tpIbycNWLRZVUPtau
+         LQcUipc9Z2CXubPuU+VOmUlSn1qePslR0Zfsc/CBCUCnfvQtgxXm5DR3otpu9pj6J1Sp
+         cHaNi6rfV/+k5mkYKcC2bIAZLb5tCiDrtU12u2kyr0TnmK65iRcMhy0Q0aHdTinAYobI
+         TU3qa9LuT85kcRak/MuFHvK/lDn1ZImjRwqpa9AF7q+nBw5NJV+PMiIeFOdd+/Nuv5J6
+         DGjw==
+X-Forwarded-Encrypted: i=1; AHgh+Rqr7HUAQitpHATluIdkELWmpSr4bzbxuHpnHln07HD2w4lwpi1ER8Ie9RIvyTqqY6Ar02n2aysJy30=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYpbuq1+QIV+t3SOLGXSDVi28owJ1a0lvd7sAU7zGZ0namo6GN
+	yrSkWJplqGmR6KEwg+jGAgUV1jWrmqMP9IHufm1WTTtpccEb7qa+NJR5
+X-Gm-Gg: AfdE7ckoX3LAVxsUWlq+bHBZsIJm7c0fP/k4mEUUV6pbjL4atRij09jFjLHQYn6YwYg
+	XnwctGrsczOnN/EHR8SbCCRMUx6oFjsIGsbHagVOZViXsr1fNlSfDOow2AF/KZ1WmWL67rC+eCq
+	Z++jarRRu+FoA3MZxp1qPluKeZProWKd0BdbSeN2wmkbWViCSO9Agsy2qdxpL+amXkwLQeybk63
+	wMTDt+PFzvZZBo2eJAXRm24AcAKlhTeV+WEKW4/qOSoSvw8EUh5yedKpsv2tM5cvvOruGFIAA8s
+	1+4XLkXmhglYRIdP6eq4FfWnsnc9DiF2v8MkcJ8WB8LxDBjdFJ3qrQe3C3NOtSGvVYAj8dln4hf
+	SKvpjapUnET9e/BHX0/+IrkK5WoXdW6sx9+gwy8VPozQeeKFjb1Yl8AC43h9tqD32JUcO3uRiGm
+	l3eAeTWVQg/kemtQ==
+X-Received: by 2002:a17:903:120e:b0:2c9:97a8:8c17 with SMTP id d9443c01a7336-2cbb9ee3835mr58177745ad.42.1783242870253;
+        Sun, 05 Jul 2026 02:14:30 -0700 (PDT)
+Received: from lgs.. ([152.32.214.178])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad712706esm32368965ad.20.2026.07.05.02.14.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Jul 2026 02:14:29 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Bin Liu <b-liu@ti.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	linux-usb@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Guangshuo Li <lgs201920130244@gmail.com>
+Subject: [PATCH] usb: musb: omap2430: Do not put borrowed of_node in probe
+Date: Sun,  5 Jul 2026 17:14:11 +0800
+Message-ID: <20260705091411.282560-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2 Jul 2026 14:22:25 +0200, Greg Kroah-Hartman wrote:
-> On Thu, Jul 02, 2026 at 02:20:05PM +0200, Michel D=C3=A4nzer wrote:
-> > That reminded me that I'm using (an older upstream version of)
-> > usbguard. Unfortunately its GUI notifications when it blocks a USB
-> > device aren't working reliably currently.
-> >=20
-> > Manually firing up its settings app revealed that it was indeed
-> > blocking the USB3 hub. Overriding it to be allowed fixed the issue
-> > with the bisected commit.
-> >=20
-> > Looks like a false alert after all, sorry for the noise, and thanks
-> > for the help. =20
->=20
-> Thanks for letting us know, and this isn't the first time that
-> usbguard has caused a problem recently.  Did we change something that
-> broke it's functionality?
+omap2430_probe() stores pdev->dev.of_node in a local np variable. This is
+a borrowed pointer and the probe function does not take a reference to
+it.
 
-A few weeks ago we corrected a small inconsistency in USB 3.0 root hub
-descriptors to avoid some warnings. That's the bisected patch.
+The success and error paths nevertheless call of_node_put(np). This drops
+a reference that is owned by the platform device, and can leave
+pdev->dev.of_node with an unbalanced reference count.
 
-Apparently, usbguard can be configured to reject all devices except for
-a list of descriptor hashes. Not sure if there are other whitelisting
-options besides hashes? Using this method for root hubs seems to bring
-no security benefit (you trust the kernel, right?), only trouble.
+Do not put the borrowed platform device node from omap2430_probe().
+References taken for the child MUSB device are handled by the device core,
+and the ctrl-module phandle reference is still released separately.
 
-Now, these systems require user action to authorize the new descriptor.
-Otherwise, usbguard runs amok and disables USB 3.0 root hubs with all
-children, AFAIU.
+Fixes: e194ce048f5a ("usb: musb: omap2430: Fix use-after-free in omap2430_probe()")
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+---
+ drivers/usb/musb/omap2430.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Or is there more to it and the issue is somehow magically specific to
-Lenovo USB docks? Both affected users complained about such docks, but
-maybe they are simply the only USB devices used by usbguard users :)
+diff --git a/drivers/usb/musb/omap2430.c b/drivers/usb/musb/omap2430.c
+index 333ab79f0ca9..6e749faac33c 100644
+--- a/drivers/usb/musb/omap2430.c
++++ b/drivers/usb/musb/omap2430.c
+@@ -454,7 +454,6 @@ static int omap2430_probe(struct platform_device *pdev)
+ 		dev_err(&pdev->dev, "failed to register musb device\n");
+ 		goto err_disable_rpm;
+ 	}
+-	of_node_put(np);
+ 
+ 	return 0;
+ 
+@@ -464,7 +463,6 @@ static int omap2430_probe(struct platform_device *pdev)
+ 	if (!IS_ERR(glue->control_otghs))
+ 		put_device(glue->control_otghs);
+ err_put_musb:
+-	of_node_put(np);
+ 	platform_device_put(musb);
+ 
+ 	return ret;
+-- 
+2.43.0
 
-Regards,
-Michal
