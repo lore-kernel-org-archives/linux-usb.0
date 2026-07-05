@@ -1,91 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B491E98E3;
-	Sun,  5 Jul 2026 09:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A891D36B044
+	for <linux-usb@vger.kernel.org>; Sun,  5 Jul 2026 10:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783244585; cv=none; b=e2UqFpvBFI2gbf9dbeErSCQjk3WFQF3Mxnh80Ejc7iIXj53/NiSUMcgPXTJ71ZnBKunQPfWwOMJyabb+veu59Kuezj0F3tVXdgTsGOKMhgsxTvPavy7nAyuwAdyuDgTH7KQDGop9niIat3b0oR2WTGx39BXYOsRhgsa5tTT6LkU=
+	t=1783246309; cv=none; b=hOAVP9d+so1nopLyzcXPUOVdpgWUZRaT1yaim85YWmG1TEgYyLo9olr2ovpneHJtF/lvHysNc95UNR5husX3lk8EMvxnJ226o5pHiwvyzRQIUW/3t8DXg2iJ9S2IuLzr5/9x/uiqlaiy5WCx5H0fqqN9M+9PUbMCvxYCJYmRNfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783244585; c=relaxed/simple;
-	bh=2t/AyoMpmP6sqJg77ZdBErJTPgeXsgk2qepa+x8qLiw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O4l2AcnBzQgYMlvi34d+c/4zeZIDix1a5BmU5Kv5A8XBkRNO5PkyAm9g6ddfERhoit9j1rzt4EZS8c9z0mlsqhGGNR0Y4DlGSdFnr9N3Mx3YkyhHq/ViTymiok5hhJ9HRNEaX+LD/axfGhnBTa34ks7Isatp9gq8EIreVY3c4Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUQtXevh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783246309; c=relaxed/simple;
+	bh=HgQBLMYlETgEts4XuKc3uT48Of1lWTJacp4ZvSc5w/s=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Zl3PvmcPGzD9XO3AXyXBYAz30ei5JuPNoQqRjZMIRlayqBVsUdmM9oGadDLMQl9jH7i7ddMOyPj8Tx9iCyn2YlZMBKc12Q1hjvA1y2+ngykcPqnkUkv8K4NyQl8jh6CC6xqkR6UtgWMmBq4SXfdihs4uRjd5WoJ12nzlYuyafCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lDjK33Ep; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUQtXevh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D1EB1F000E9;
-	Sun,  5 Jul 2026 09:43:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783244584;
-	bh=dsyrHL7oxH+rFy0BGzwR2ub9eQ0OD8OJoWa48oeALqQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mUQtXevhy8s3LQcF3BAkcUi3LxRGrAs0KPtq3+NhdepMB7mtyV3kfZN0aQL/IjLxJ
-	 6RAull5oOdcedpdnZwMkRQYjevKR2aeJy7/Zg55AVqPEOrTabTunzMyAtkLhZFO+AJ
-	 yAu+/RK0xRvDqOCzwCk5Hnb+jeKqmRs+jgS05j2UcHKdef38WaZO7ZRC/jU3yU4DNe
-	 BjY3zKFrXn1sM+TYsIjBxdL4lSM8y7Cw9W0Xk4PJmvoO09invbXzxmBPxwKYTBHMW7
-	 PhP0Sp0+k7xr1CWLtGPf4KrXcUasfXYcWeavofl1W6LAghuh6g/w/QrnJNsaQpvOAv
-	 YAX5CnGGpf2OA==
-Date: Sun, 5 Jul 2026 11:43:00 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH v3 09/13] dt-bindings: usb: mediatek,mtk-xhci: Switch to
- ports for USB connections
-Message-ID: <20260705-miraculous-mini-gibbon-d6cb6a@quoll>
-References: <20260703110317.1283411-1-wenst@chromium.org>
- <20260703110317.1283411-10-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lDjK33Ep"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 49502C2BCF5
+	for <linux-usb@vger.kernel.org>; Sun,  5 Jul 2026 10:11:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1783246309;
+	bh=HgQBLMYlETgEts4XuKc3uT48Of1lWTJacp4ZvSc5w/s=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=lDjK33Epm5g9CPxmHCO56zn3vol5I5fAgBaGdfqH16rOFeOKGzCsarvJ+utrNrbfk
+	 T77G3lQfozuX94JZ9CWOf6zCRYb80haVbMQEG2Dy2qGeFnfNne2IE64HlAxVKH+w5q
+	 rjvspx4HZBO5DjVTmow0JZVEWiVFFqre+um7Uj+0082mWnKdrUxR62CT7T2szQJQln
+	 ROupKIy1caWu/s8JfpS8rVwkC+47UYJY2kNZpG5jYNETN1wwLkFIWCcZerCmGszJBE
+	 bicua6q5mh0qRa04RIYQSGo99MI5olGMKIK3/xQJ9xk1cG3VzxdJRqW4Tr4oPhHbpo
+	 p8hb3mRwwugvQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 38287C433E1; Sun,  5 Jul 2026 10:11:49 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221721] prom21-xhci does not allow to use USB keyboard in
+ plymouth
+Date: Sun, 05 Jul 2026 10:11:49 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221721-208809-FsCoRD2Cv0@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221721-208809@https.bugzilla.kernel.org/>
+References: <bug-221721-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260703110317.1283411-10-wenst@chromium.org>
 
-On Fri, Jul 03, 2026 at 07:03:10PM +0800, Chen-Yu Tsai wrote:
-> This reverts commit 454a1e3cd36c113341d7b71e8e691c6e47ab4a8a.
-> 
-> MediaTek's XHCI implementation supports both USB 2.0 High Speed (HS)
-> and USB 3.x Super Speed (SS). The block can also be synthesized with
-> either HS-only capability or HS+SS capability. The SSUSB controller
-> handles the device or gadget mode. Saying that SSUSB handles the HS
-> portion is wrong.
-> 
-> For example, on the MT8195, the first two instances support both HS and
-> SS, while the latter two instances support only HS.
-> 
-> Switch to a "ports" sub-node for describing USB connections. Port 1 is
-> Super Speed if the controller is SS-capable, otherwise it is High Speed.
-> Port 2 is High Speed if SS-capable. This port mapping scheme directly
-> matches what the hardware returns in its capability registers.
-> 
-> Fixes: 454a1e3cd36c ("dt-bindings: usb: mediatek,mtk-xhci: Add port for SuperSpeed EP")
-> Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Changes since v1:
-> - Squashed DT binding revert and addition together
-> - Dropped reviewed-by from Bartosz
-> ---
->  .../bindings/usb/mediatek,mtk-xhci.yaml         | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221721
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+--- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
+Jihong Min is not on this bug tracker.
 
-Best regards,
-Krzysztof
+Please send to LKML and CC them.
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
