@@ -1,63 +1,63 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5945438475
-	for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2026 22:36:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230DB43C7D4
+	for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2026 22:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783377400; cv=none; b=sbszEWz0J49CepMGTjlGgYBXkd/TZTqIrA28Vm1On8KA/urfu9Jb07gWU4MpRybdkEHqHnTTMFX1QT2sVvf09YVYfVkSRUhsAWl1BtiC9pF980bmyOs1HZMcz76eMaXHns+at1lgvpiwA7sLpGxA9BGTPt9QMfjSX4zCYd/AAhk=
+	t=1783377401; cv=none; b=DgZBZY6j1+vTby6W0d/IyZnR7fMSUvrMZikq0NiH6Gf64B9HusEQe/2UvvyB4WYTqeWtwhx1WSe3c2p1E2XVlcGqf+KuIClvKewR8nO5zUKRzwROKukOAayUOy5KGCgHWVkYCTIxFiqk0FoD2fFhf79Xz11/5pl+jKR1x4t1jHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783377400; c=relaxed/simple;
-	bh=xV+HM88fLX3+DMVVR/NRocPTWh+YHaROvjT1IwX4bTY=;
+	s=arc-20240116; t=1783377401; c=relaxed/simple;
+	bh=3lEQOV9gLIocLyxFFO4qWO2gAmosjVOkhnDdhCdkh2k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fRy9u2plNIKUrWMwzeC9Fs+9G6CON5d04A10FncMj3X+HYm8LDup1B2ik6k4sIadSXDu1/VpRwqozOVjP9TovD3bYY1s9PJiLFEVl7VzZqob6xSpcsUylDZeAVIxRRCDNhufs9aFCGtvKyAd2SBws2A2RCniZmLciAej0ZbBuZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HIZg8zVq; arc=none smtp.client-ip=209.85.221.46
+	 MIME-Version; b=R2c22DQwqAuFt6gygota0u3QJWkm45ZNMdHpxe81GAWPmXQ1ZzhgKNuChxtnG1e1u9VjIZY24gVNlNTIbBZiepPb0BY+SlSNjKph81khUrt9OKjJyyMBTrLEJwYyQKD1Me6FjfgQwps6JmE7hiu/3lbs332HejCdTstWOT4UQJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V50kAaUf; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HIZg8zVq"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4703bc0a99aso1936549f8f.3
-        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2026 15:36:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V50kAaUf"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47ddf7b09aaso1107038f8f.3
+        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2026 15:36:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783377397; x=1783982197; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1783377398; x=1783982198; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yAJbvFky4pXbE6G3CrtVZQ+RGiAcp1hVwbCEVyEV8E0=;
-        b=HIZg8zVqqE+wu662cMSih7rFJIqE57z6DT6nSpvNkXQFcH9Retg4yBCjCXWVybAX6j
-         JKsBsYq3qJ/06m8wBklngOpoDKndjo5FAHZAqOKiWFODKNoEcqtyBcwG0/AXUjQyGxWh
-         zRk4d08+ieyN30VjScX4i59KOhERWFiKKSE/8ZfMuCPzVXIUUSdPKf1KPhr//ooeNtiC
-         AVHIl/XLut9LHi63pITN+/eVgc83mfeU8uOd7+3zfjeqz+FRYQZnwi7J+5OAEEkVi6+X
-         /yEp0ix6B1aXgGlA36JJDmKzgfmodWXmu1/xjo9ggamacvNLY7BK7SIjuCLm16NRC90t
-         O3EQ==
+        bh=xqBkhvyelySc3loJx/J76CZgVdNYoTTPG8StLA3hSFU=;
+        b=V50kAaUfSL+XK/GMa0hd8g0npeCpLmz1YDRVNIWWPAhXGLB9AMCT+dJg9mRrSrwSJa
+         3YHPFxHWYXOCJIrOj/VN1rfDKi4vefBx8rcGUJgxDkwLdk3mJArX2ppycxTKCO4BxQ9f
+         9TVtWd2FzKttmcNqkbRY3sznvJt2Pj3hfBpPNcEMxu1//voob6rypfDtXXa0mogmw35V
+         TUBWApRECrqgkq33sAyE9DvQum85HK5ZW1ePCmmA9Mjt4Lj0ZRB3o5gZISPCWemDwyIp
+         FxBML0HXB5pvpnoHx7kJHAn6Ffp0rDtwF2/gkXBhXATiqoDIPiweZlQfinCjHSvFKAfV
+         Q0rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783377397; x=1783982197;
+        d=1e100.net; s=20251104; t=1783377398; x=1783982198;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=yAJbvFky4pXbE6G3CrtVZQ+RGiAcp1hVwbCEVyEV8E0=;
-        b=KnCstYXbNL6g1I8ovC8T8AAosBkWWaJTOFw4LorPXwiJ0N31LVxTM/h9t1OdlNu91/
-         bHYdoKY/ScQURxuNZcGOtEHz3qlsXMpGCiGwVRiPJzEITmatymHl4Sk+CACqraqdWp9v
-         yfY5hQY83qZM3vU7oVfO3ZqWn1hcE0T9IG5KKGJG7rJsNZb/LAf5CpAuMCGJ7xfaslFm
-         kLJBMsNSgYEpcWG8A0jLRRXpKd1Oksrptfr3QEmQLzXdgIs/3YJxO8+XWPMVTIcm9QlE
-         6OnAaKziGx20+hBbuYZhR3WIWo3AYwKRGfOuOHALiP+JsHj5nADKRQ5qixyyP6jhSqD+
-         PcqA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro2Z8osWnDy4SLzDp+8khBUohneCc4jvfZVWuLUdk5nUDWR662MkjKDrTtjubzxca6wH97xS5c4Sas=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAs0X1UXZ3Ua1el3rqx7VsN3GA9OrpN4qTmVn0q+A8rD9CFjtA
-	zI2YY061fpFl/3UsjcBkK+Z3ZOvmwXw6jRkLqFVB2yHFg9JAofqrg4aU
-X-Gm-Gg: AfdE7cnb8MoZfcnlMgsrAvnLz9mhyk89K36bk4hOIG2NEY5pMfusT/Dl4R+iDpShZoV
-	wY9fzAYZrAm1PVaeAT+Q9nU7OEpRc4U9av7jFGDFUPcgvnYjBf3irMCWPE+SqP/2LEJVoe2lYuv
-	TCcfRBpEXtT/YT/6i+yoXvTevTiGNyzDcokF50cfrSdtEpOvF5QJtyklFeD2cEZH6d4Z2Gki6RB
-	8k09LTwYb1vQ8d4LmQBtwK1dvjFNaspq9QWNsWvPnDSlPgRNTvIYcGvq5FjccLugubqog6oBnrP
-	R/xXVaxU7+WjxKcnxDnI5kmY2BLf+gLEYexfHc9YsAcRxrMu4qJrqRsHw4u6w9tjae4XDFCCIav
-	Izpdde0oDdDueEJvEohaxBGLRtOEQXj6dYvYYNTjVAh/uDEYLgNXzvXc9Vq8sFeav4FjqzTNDPs
-	ctw6+t2YPm75Zm7saCv+iO67nZuYGVjlf32Oc+CHhOfux5CqQ+QkvtKSW+de6UIA==
-X-Received: by 2002:adf:f043:0:b0:475:cd6f:720a with SMTP id ffacd0b85a97d-47de666af65mr1504971f8f.1.1783377397013;
-        Mon, 06 Jul 2026 15:36:37 -0700 (PDT)
+        bh=xqBkhvyelySc3loJx/J76CZgVdNYoTTPG8StLA3hSFU=;
+        b=AnmMw+zj6yE5vTEvB+GtD4FDSgZ6gIZAuTNW4E0Ysw8LqmFpBZxYIdTNFsEa/hR1lH
+         LpM/XQFEehR+vo9x+Z8c4JrxzFP5SQ1tOLvRTTezBLSLgU1HXnfTDT+r8E4lt1H2FgpA
+         Z7onlV9Kx1LG8x5Sr6n6L6LszlH4WgAChoYLp079Lp5T6Eb3VsHYBJ89qMcFXmJn0e7P
+         q8wovn2Hud3GJDIe4Ce+cYpd73tPGsSgUZCbE/EnrTtchCjWKtXMpTAUBxUkKKbW2IL4
+         MiLl0rwIY5K7k4Xvfewe3ASoiBUGjLAq4mOYJ2RD7R2VcjXIZrLj889TFidQ2TF/EFwF
+         H0ug==
+X-Forwarded-Encrypted: i=1; AHgh+RodLcHySZ/euqFq22zQVNXfTw10i3EsKKhiRA4Sr0z3seaslO2oJ6X+5xC5nK0xup4fyoBiiuKs/Xc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxz+LslT3NaIwujYQpX8E6396nanlfciUzpfrRCSsGKmiJM+uEN
+	+7jGOlhnVroURURVFYJvhgg08pv7ZGOWFz/Mr3ewKHR+7C4EELbfS8PF
+X-Gm-Gg: AfdE7cmOaVbOwub4Ozzdm52AF+jDYgxxzrPxi4lh6lfRVUPjpAWtKvbt5t1xnHjA51g
+	FUg1BjuKQEDoxhEUszfDMVKMg5sKAsnEXMIDmcafZo9CpvPAE2ug2vPHOuu0SnYuIhk0m1dD6YH
+	gB4r1OEBD/J+aOMmkNu3HeMNOIOs/0VfqOdnIYqLGV9QEZWmd4QsYo7mgKTSdvQDjTFpEDsvxQU
+	02QMtqmUUxVHKlaU5DRKIT32DCCEDD1opGDN7EGA4S7lRFgiKDOWMQ1GEVgV+uCwVQQ0KokkRu9
+	3s6elTGaWnoyp+5wb5XLeWp1uueMOFZetvp/9mhe+Ce5Y/wRAwZ27E6Tll3DMoXtbBSLClYk+vl
+	xS4jtesoH86HOyqBIH8w9pkgarQBXNWrqLPau/DCEE8b6xZJhUlt9L22eB3Fcn4nvY404nfC1uO
+	zBeVrkO/K5vtEbBSSsXWrM/KpdgYJpjxJeAlt3Orwhv3mikMenH0RtKwBEbDdKSg==
+X-Received: by 2002:a5d:6382:0:b0:462:fdf2:3a50 with SMTP id ffacd0b85a97d-47de66a309emr1878338f8f.32.1783377398441;
+        Mon, 06 Jul 2026 15:36:38 -0700 (PDT)
 Received: from turbine.fritz.box (p5785b224.dip0.t-ipconnect.de. [87.133.178.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d6da9sm27491387f8f.12.2026.07.06.15.36.34
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d6da9sm27491387f8f.12.2026.07.06.15.36.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2026 15:36:35 -0700 (PDT)
+        Mon, 06 Jul 2026 15:36:37 -0700 (PDT)
 From: Andreas Zdziarstek <andreas.zdziarstek@gmail.com>
 To: Vinod Koul <vkoul@kernel.org>,
 	Neil Armstrong <neil.armstrong@linaro.org>
@@ -76,9 +76,9 @@ Cc: Heiko Stuebner <heiko@sntech.de>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Andreas Zdziarstek <andreas.zdziarstek@gmail.com>
-Subject: [RFC PATCH v1 1/2] phy: rockchip: inno-usb2: keep peripheral-only OTG port active
-Date: Tue,  7 Jul 2026 00:36:26 +0200
-Message-ID: <20260706223627.113814-2-andreas.zdziarstek@gmail.com>
+Subject: [RFC PATCH v1 2/2] arm64: dts: rockchip: fix gadget hot-plug on ODROID-M1S micro-USB
+Date: Tue,  7 Jul 2026 00:36:27 +0200
+Message-ID: <20260706223627.113814-3-andreas.zdziarstek@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260706223627.113814-1-andreas.zdziarstek@gmail.com>
 References: <20260706223627.113814-1-andreas.zdziarstek@gmail.com>
@@ -90,101 +90,49 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The OTG state machine autonomously suspends the OTG port whenever it
-decides no usable VBUS session is present. On the initial sample after
-init, when a dedicated charger is detected, on peripheral disconnect
-and on host-session end. It calls rockchip_usb2phy_power_off()
-directly, underneath the USB controller.
+Referencing the vcc5v0_usb2_otg switch as phy-supply of the OTG port
+makes the phy core enable it as soon as the USB controller powers the
+PHY, so the board permanently drives its own 5 V onto the micro-USB
+connector's VBUS pin. That blinds the PHY's session detection: VBUSDET
+(fed from connector VBUS through the on-board 10k/15k divider) is
+always high, no bvalid edge can ever occur on plug or unplug, and the
+OTG state machine never wakes from its initial state. A USB gadget
+only enumerates if the cable is already attached at power-on. It also
+back-drives 5 V against the host port.
 
-For a dr_mode="peripheral" port this kills the USB gadget on any boot
-without an attached cable. The state machine suspends the port shortly
-after init, resulting in "failed to enable ep0out", ep0 start transfer
-returns -EINVAL). The gadget remains unrecoverable in user space
-afterwards.
+The inno-usb2 driver has no role-managed VBUS supply support, and the
+practical use of this port is as the board's USB device/download port.
+Separate Type-A ports are available for host functions.
 
-Skip the state machine's autonomous power-offs when the port is
-peripheral-only. VBUS detection, extcon signalling and charger
-detection are unaffected, and controller-initiated power management
-via phy_power_on()/phy_power_off() keeps working.
+Drop the phy-supply so the port never sources VBUS and pin the
+controller to dr_mode="peripheral" to match that.
 
+Fixes: 10dc64fe0f98 ("arm64: dts: rockchip: Add Hardkernel ODROID-M1S")
 Signed-off-by: Andreas Zdziarstek <andreas.zdziarstek@gmail.com>
 ---
- drivers/phy/rockchip/phy-rockchip-inno-usb2.c | 27 +++++++++++++++----
- 1 file changed, 22 insertions(+), 5 deletions(-)
+ arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-inno-usb2.c b/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
-index 7d8a533f24ae..9b138b7aaeb8 100644
---- a/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
-+++ b/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
-@@ -670,6 +670,23 @@ static const struct phy_ops rockchip_usb2phy_ops = {
- 	.owner		= THIS_MODULE,
+diff --git a/arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts b/arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts
+index 33bc5249d729..d9d4a31373a0 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3566-odroid-m1s.dts
+@@ -602,6 +602,7 @@ &usb_host0_ohci {
  };
  
-+/*
-+ * Autonomous power-off from the OTG state machine or charger detection.
-+ *
-+ * A peripheral-only port shouldn't be power-gated behind the controller's
-+ * back. If the gadget (re)binds while the PHY is suspended, the
-+ * controller's ep0 setup fails and the gadget stays dead even when a VBUS
-+ * session appears later. Keep the phy active on peripheral ports for
-+ * correct connection detection.
-+ */
-+static void rockchip_usb2phy_sm_power_off(struct rockchip_usb2phy_port *rport)
-+{
-+	if (rport->mode == USB_DR_MODE_PERIPHERAL)
-+		return;
-+
-+	rockchip_usb2phy_power_off(rport->phy);
-+}
-+
- static void rockchip_usb2phy_otg_sm_work(struct work_struct *work)
- {
- 	struct rockchip_usb2phy_port *rport =
-@@ -693,7 +710,7 @@ static void rockchip_usb2phy_otg_sm_work(struct work_struct *work)
- 	case OTG_STATE_UNDEFINED:
- 		rport->state = OTG_STATE_B_IDLE;
- 		if (!vbus_attach)
--			rockchip_usb2phy_power_off(rport->phy);
-+			rockchip_usb2phy_sm_power_off(rport);
- 		fallthrough;
- 	case OTG_STATE_B_IDLE:
- 		if (extcon_get_state(rphy->edev, EXTCON_USB_HOST) > 0) {
-@@ -719,7 +736,7 @@ static void rockchip_usb2phy_otg_sm_work(struct work_struct *work)
- 					break;
- 				case POWER_SUPPLY_TYPE_USB_DCP:
- 					dev_dbg(&rport->phy->dev, "dcp cable is connected\n");
--					rockchip_usb2phy_power_off(rport->phy);
-+					rockchip_usb2phy_sm_power_off(rport);
- 					notify_charger = true;
- 					sch_work = true;
- 					cable = EXTCON_CHG_USB_DCP;
-@@ -765,7 +782,7 @@ static void rockchip_usb2phy_otg_sm_work(struct work_struct *work)
- 			rphy->chg_type = POWER_SUPPLY_TYPE_UNKNOWN;
- 			rport->state = OTG_STATE_B_IDLE;
- 			delay = 0;
--			rockchip_usb2phy_power_off(rport->phy);
-+			rockchip_usb2phy_sm_power_off(rport);
- 		}
- 		sch_work = true;
- 		break;
-@@ -773,7 +790,7 @@ static void rockchip_usb2phy_otg_sm_work(struct work_struct *work)
- 		if (extcon_get_state(rphy->edev, EXTCON_USB_HOST) == 0) {
- 			dev_dbg(&rport->phy->dev, "usb otg host disconnect\n");
- 			rport->state = OTG_STATE_B_IDLE;
--			rockchip_usb2phy_power_off(rport->phy);
-+			rockchip_usb2phy_sm_power_off(rport);
- 		}
- 		break;
- 	default:
-@@ -838,7 +855,7 @@ static void rockchip_chg_detect_work(struct work_struct *work)
- 	switch (rphy->chg_state) {
- 	case USB_CHG_STATE_UNDEFINED:
- 		if (!rport->suspended && !vbus_attach)
--			rockchip_usb2phy_power_off(rport->phy);
-+			rockchip_usb2phy_sm_power_off(rport);
- 		/* put the controller in non-driving mode */
- 		if (!vbus_attach)
- 			property_enable(rphy->grf, &rphy->phy_cfg->chg_det.opmode, false);
+ &usb_host0_xhci {
++	dr_mode = "peripheral";
+ 	status = "okay";
+ };
+ 
+@@ -627,7 +628,6 @@ &usb2phy0_host {
+ };
+ 
+ &usb2phy0_otg {
+-	phy-supply = <&vcc5v0_usb2_otg>;
+ 	status = "okay";
+ };
+ 
 -- 
 2.53.0
 
