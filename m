@@ -1,573 +1,196 @@
-Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E361E16F27F
-	for <linux-usb@vger.kernel.org>; Sun,  5 Jul 2026 19:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.208
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783279834; cv=none; b=Qi2+sFsdSYsMei3FWMEXVaO7+k3tfZGIUkoNaESnD8fbA8xQ4E1v1HViALW02ssHQ4+Bh5+co6byxoLQbcVYSMDSYgiZ+6u6GFusMv15uPu0IlbYgRntR8r1k50ZFwOanRPgHNlbAC90HwkhxPsSfT7FuonKNqKTz/9ItQGC2lE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783279834; c=relaxed/simple;
-	bh=uSIAwpK/+9XxHymQpXgFJB87PMqywG6NFybVM3NNlag=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=DA5R93IfmnfwZN8FyUst4Gp6S28Dv7pSRDaOd9TopL7cpk8huZ1yHtCLM487y+s0dt1tgtoYVvCUgy/rnA8c6c4ZOrwBN3lx8oA67xxC4lUBRQpo+pCONiwGqvmwblCWhZQjbEuoBBcYPRauVwGy7GoO1YKN0xdP9bUf5XgNGV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-489677a16bbso1484673b6e.0
-        for <linux-usb@vger.kernel.org>; Sun, 05 Jul 2026 12:30:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08BA13B7AE
+	for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2026 01:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783300705; cv=pass; b=EJA1TNIxsC9TBDM6KR6/KDXqgc1Q2jHKwTI+PENbMzlPz9p4bIZpNrhC7ANNL7ItW6eMwc4ckbSCQdd3pxVu2RlBFh68K2OIQ9HNxvUGC/JP43XuGlattnBS0zw9Fkhr027Ep/3vBx7hZz40KrBZ35O/FnbH05KyU/xkiRDBWP4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783300705; c=relaxed/simple;
+	bh=eBG3n95Fye6RARoF48yKpMhQF54Rjqu3sElpJo2l/Pk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pbZrQEJCV6s3lr5fikY627Mr3n0QfgdFoVz16mJO0gNGIV3EJ7HtUhVXve/lluhvNQM/jOCam9HnM1VAqfxTrvzf8ZA4SEF0p+CJLLA0mdpsvx/xbMAvu/s2+WW3ai1DFGqTXxDQBsn5xUvs5OpdIvVOK9uLieFfsEPxC3b2pAk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rYfFb0p3; arc=pass smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rYfFb0p3"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8f2509d6becso31777696d6.2
+        for <linux-usb@vger.kernel.org>; Sun, 05 Jul 2026 18:18:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783300702; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Wu32utRcKRllwCI3C1qHMHJaIh/Fq0/1jhOECjVAg/aOygIS7felcg9LzqRb/DWVjo
+         QM4KiB+QWU6O4nHsMqhLA8f1Qx4c9q10cKu81TIG5e3pTEJA7m+Iw4ZGczb2adJGFudx
+         K5UADa3W4HgGFElHl19k+iPtPq/Smh3AJhV+fL7XDRaxJIB6BDlUz6LLu30y4vaT5Yfh
+         ZWPHDzxB519emqYTxEOq/M2+5p16tTzGcM36cem2W3rHwFkJA+F8QdWQDNGb6F5vgQvz
+         /Rc+xTpz6vR1MGu8TjKXoHetu1bwGIYee13nMfqCEwIJJHcn/8WdYM40yNag9Aq02liP
+         2xcA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=9Q/7dzmb2RbalFeqSGaqB4uD1Bc6/02dawHxYmYH+jk=;
+        fh=NvoRvCUELQDV0JTFOBBbrhhe3RCW2Ug4vSW1q/AbH2E=;
+        b=cA9YOaiZi05iOx7o8PieZYWBlFh282j+dMRVdN1zBBoVXSvy2Oe0Ze7YP97Yro+TpY
+         TLkx1RabV+hi1GIUki3XoCXcnmS1EC3jPN7clwCgq2Za7JvaCQhv39mKcTB4dVJ5B5Sx
+         mZQ9t5TKf54nXInc0P96To/mk6yUBTCUdSb7nR1wcEiQJbN92ftJ0dHdch58pSSoUCPq
+         Fn9Arsu0Qkx3WUKJU/wphLPfZLu3Egtkgtsx+hjFVCizcgNmLKkQUOa7wvpgPYFYUPSe
+         ys9hdtk+fvVnV+yR/igwA1lrJ6gYBKKbA1hUu5q9GmNEF06vS78+06v8aYa801WNXyy+
+         bxFA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783300702; x=1783905502; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9Q/7dzmb2RbalFeqSGaqB4uD1Bc6/02dawHxYmYH+jk=;
+        b=rYfFb0p3slf/XuH5WWT5sz1DLRlyclVRIcLM5vER/fYXNjAh6CRSKz6q468WaIHKLf
+         L3SYASKLE+n14/FhZeB7KZ02IZTybr7YFRSh/iAX01U7qCA2Y7QwxGXrwQPHsPxD53z/
+         dW3nvHO59wQYEZBx6OKa7VMJnt5AUcMMVDydQVs9TJ4Rn6P4HIaealHJBuxWXwnZmPKC
+         519ZWWdf4wY25OjMhz9PyKndQX4/CTWofpBFY8lmVa0fjK+jHJnjPvoC4Fo93FVajP38
+         Qf8N0yMaFRqwmS8f44xyWAC2D0cP6Fipi+ggaqANZCy0zV9yFHNPPXDmWHJgG0UX0B+/
+         IJ5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783279831; x=1783884631;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=bip8J7nGH4EOQWWiUG/nfgdNAtMJIbhnVnhhcbv4l+A=;
-        b=GasYSAQJ5TK7D9q6yFxN8OdcwX8aLy+sGTKAT4xwTotddFOuxJOhJ4/NNEPDA4VMbC
-         w5Yc7u6ZnxnxSdxeyw6Js1Ub75qA1nlFkmS2hIvJxVsSQdsNs+a9FaYiSb0LTzXyOP0g
-         ewTGhyPDQ2vaDS235mNovvmI2scr9i24Z5SeRfloaVqSBW/gHThbtklVuFGqjItqRUd1
-         eskmwR2umnuxxocRbC1B0iDb9cF8PG33HbaRn9XPflyTVulBHrF6UIhx4xQOybQz6wJV
-         xbWlTDYf90Sng2HXgIAogumTL6MWDWnyevC+/nee2ngB0/FiGNA+cqW+gshwGKfOMxyk
-         9QIA==
-X-Forwarded-Encrypted: i=1; AFNElJ93lo62kNmaVffb02zL/XmwUti4QrhaneE/cyRCTXBAJGXCBPwaPD0CcBkjvd0XUptFUjyMO6jEYYQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz21eB+ENHsL+y/GSTiRPosPHU2U3righXq+tGrsd7YXWL/1X0c
-	lKYzITbIsMQLDD9I7fXl2kzgCf+UY4jmEWtfwhAMqFkwZzGZXOr8RXZ7biDvPCaDslqEpmCusDO
-	z2PdRX4kojDiw8AnqBBycPlUQl2xagbe308Ag+txXyf9/uKSvt6o9sjoFObI=
+        d=1e100.net; s=20251104; t=1783300702; x=1783905502;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9Q/7dzmb2RbalFeqSGaqB4uD1Bc6/02dawHxYmYH+jk=;
+        b=SkWW90BMq9+llbU5muba3wAtUV3GURFYiXYJF8U+tC/Bjsh2m5Bne2S9xbGJAX1eRI
+         +B0PI+ocT6f70uFAa6b9L45ytFu1KZBIl02Aw+O+5qO4z7kI2UgQhPh4d47akFHQ7n4e
+         zo3FbNKVfk9MkSRUu84qwC+yHuFpK5VSoc88jKvHYdegcEEW1bL+U7kvXcV4Sp+05W6B
+         LBAmGiNixzX6jiXa/m92FOhJ/cfOhxjQiMWg3bi+8t9KbEIhnilTrMVwqq9PxzMJuKee
+         3NouPfmkmAktYt3KbMPccgB54qn7sOKBdLb5Nkajw1GuSwIQJKBMoHAx8Ig8g2YP2B9j
+         Ufwg==
+X-Forwarded-Encrypted: i=1; AHgh+Rotqhh9yvpVwq4n1l8rJraH6VssVPLroCBlaqMGAZWFJLugaQVtfz4VHVKVDt6xuoEYhky8++1y5ek=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQOeV2F8P2uqbUk/c8mf8gB2R8OWhXSh5nv47JZAMG0cVW2F9E
+	6Ikh8giGVUyzcDxput8piSfQNxMqToZynS4IX57Oh8stjf8pYHqf1kD3Z1Xt1or7vgdxgyFFClm
+	E268s9UFDGcmw83seDhakknEUm3nCHXfTcjdqXO8=
+X-Gm-Gg: AfdE7ck40QHMDrrIvRxVaV4vYYmbECMPkKjavKaB+vZty7JIb1q/iB8OGS4H0QdAGj4
+	fdX60Hy5+xMz2j4Sm9HJwMdJ1rV1r7IDQIGvQp7qopbhqK6xJdec0mOKtqqoJZ45Baz+MJksMsk
+	rNDFaXu0KjjC62HeEduv2KAGaSuccu2abtr18Xha2KGeUX8TNq68T85GcKVZ3gf78AQumwBgvf4
+	6cLp0RscNABs6cg69DOxej4KxKvNaQAzcAWmFfvuTx1qjmcmGHaMAVGTFz8IIPKrH+Hmn94
+X-Received: by 2002:ad4:4ee5:0:b0:8ef:ea2a:2728 with SMTP id
+ 6a1803df08f44-8f74a42150cmr139722286d6.19.1783300702505; Sun, 05 Jul 2026
+ 18:18:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:159d:b0:48f:ba75:4d86 with SMTP id
- 5614622812f47-499bbe34820mr6130476b6e.32.1783279830996; Sun, 05 Jul 2026
- 12:30:30 -0700 (PDT)
-Date: Sun, 05 Jul 2026 12:30:30 -0700
-In-Reply-To: <69e31ea7.050a0220.24bfd3.0002.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a4ab0d6.b42ede87.8bd1.0012.GAE@google.com>
-Subject: Re: [syzbot] [input?] [usb?] INFO: task hung in devres_release_group (2)
-From: syzbot <syzbot+d789904ff97c2f3dac88@syzkaller.appspotmail.com>
-To: anna-maria@linutronix.de, frederic@kernel.org, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com, tglx@kernel.org
+References: <CAFmvuTWc880R=mw7=kixfx3Yb8u9thLHPA7D=rm6a8p9dYBBDA@mail.gmail.com>
+ <2d4a91dc-037f-4c31-8ce1-7bc840d42b0b@rowland.harvard.edu>
+ <CAFmvuTWq7TKZaj6R9JJzWhwe1WB1FanZ17T1-TFL1g2wsUBZ4w@mail.gmail.com> <8067503d-1c0d-4319-adbd-225a03e16ea3@rowland.harvard.edu>
+In-Reply-To: <8067503d-1c0d-4319-adbd-225a03e16ea3@rowland.harvard.edu>
+From: =?UTF-8?B?6rmA66+87ISc?= <neck3922@gmail.com>
+Date: Mon, 6 Jul 2026 10:18:11 +0900
+X-Gm-Features: AVVi8CdZ6rwMNoWMTcUhXm-JqlZY0zWhuCPKJZI8UDBaQ5yLb5vPcUxKcjSf8a8
+Message-ID: <CAFmvuTUEg8fr8pY91WpEk=CxHuackJfr0c2c4jxexNy9wkiS0A@mail.gmail.com>
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF in ep_aio_cancel()
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-syzbot has found a reproducer for the following issue on:
+Hi Alan,
 
-HEAD commit:    2b763db0c276 Add linux-next specific files for 20260703
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=129e3b39580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3c288f117a992ca4
-dashboard link: https://syzkaller.appspot.com/bug?extid=d789904ff97c2f3dac88
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=169e3b39580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=119e3b39580000
+Thank you, that makes sense.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/8089f1fba297/disk-2b763db0.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/97090b3387c9/vmlinux-2b763db0.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/48e3e98867f8/bzImage-2b763db0.xz
+> Also, NULL checks don't fix races (cancel vs. complete).
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+d789904ff97c2f3dac88@syzkaller.appspotmail.com
+Agreed. A NULL check alone would likely only address the repeated
+NULL-deref symptom, not the stale non-NULL priv case.
 
-INFO: task kworker/0:2:200 blocked for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:kworker/0:2     state:D stack:21496 pid:200   tgid:200   ppid:2      task_flags:0x4288060 flags:0x00080000
-Workqueue: usb_hub_wq hub_event
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5510 [inline]
- __schedule+0x1709/0x5530 kernel/sched/core.c:7231
- __schedule_loop kernel/sched/core.c:7308 [inline]
- schedule+0x164/0x2b0 kernel/sched/core.c:7323
- schedule_timeout+0xc0/0x2c0 kernel/time/sleep_timeout.c:75
- do_wait_for_common kernel/sched/completion.c:100 [inline]
- __wait_for_common kernel/sched/completion.c:121 [inline]
- wait_for_common kernel/sched/completion.c:132 [inline]
- wait_for_completion+0x2ca/0x5e0 kernel/sched/completion.c:153
- i2c_del_adapter+0x281/0x430 drivers/i2c/i2c-core-base.c:1840
- release_nodes drivers/base/devres.c:546 [inline]
- devres_release_group+0x264/0x360 drivers/base/devres.c:739
- hid_device_remove+0x11c/0x1d0 drivers/hid/hid-core.c:2897
- device_remove drivers/base/dd.c:616 [inline]
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x48b/0x880 drivers/base/dd.c:1372
- bus_remove_device+0x449/0x560 drivers/base/bus.c:664
- device_del+0x528/0x8f0 drivers/base/core.c:3961
- hid_remove_device drivers/hid/hid-core.c:3078 [inline]
- hid_destroy_device+0x6b/0x1b0 drivers/hid/hid-core.c:3100
- usbhid_disconnect+0x9f/0xc0 drivers/hid/usbhid/hid-core.c:1479
- usb_unbind_interface+0x295/0x9f0 drivers/usb/core/driver.c:458
- device_remove drivers/base/dd.c:618 [inline]
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x4f5/0x880 drivers/base/dd.c:1372
- bus_remove_device+0x449/0x560 drivers/base/bus.c:664
- device_del+0x528/0x8f0 drivers/base/core.c:3961
- usb_disable_device+0x3d4/0x8d0 drivers/usb/core/message.c:1478
- usb_disconnect+0x32d/0x990 drivers/usb/core/hub.c:2345
- hub_port_connect drivers/usb/core/hub.c:5407 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x1bb7/0x4cf0 drivers/usb/core/hub.c:5953
- process_one_work+0xaaf/0x1480 kernel/workqueue.c:3379
- process_scheduled_works kernel/workqueue.c:3462 [inline]
- worker_thread+0xb05/0x10d0 kernel/workqueue.c:3543
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-INFO: task syz.3.113:6124 blocked for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz.3.113       state:D stack:24712 pid:6124  tgid:6124  ppid:5776   task_flags:0x400040 flags:0x00080002
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5510 [inline]
- __schedule+0x1709/0x5530 kernel/sched/core.c:7231
- __schedule_loop kernel/sched/core.c:7308 [inline]
- rt_mutex_schedule+0x76/0xf0 kernel/sched/core.c:7604
- rt_mutex_slowlock_block+0x55c/0x680 kernel/locking/rtmutex.c:1670
- __rt_mutex_slowlock kernel/locking/rtmutex.c:1747 [inline]
- __rt_mutex_slowlock_locked kernel/locking/rtmutex.c:1787 [inline]
- rt_mutex_slowlock+0x2d4/0x780 kernel/locking/rtmutex.c:1827
- __rt_mutex_lock kernel/locking/rtmutex.c:1842 [inline]
- __mutex_lock_common kernel/locking/rtmutex_api.c:560 [inline]
- mutex_lock_nested+0x168/0x1d0 kernel/locking/rtmutex_api.c:578
- device_lock include/linux/device.h:1104 [inline]
- usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
- chrdev_open+0x4dc/0x600 fs/char_dev.c:411
- do_dentry_open+0x849/0x1420 fs/open.c:947
- vfs_open+0x3b/0x350 fs/open.c:1052
- do_open fs/namei.c:4694 [inline]
- path_openat+0x2e64/0x3850 fs/namei.c:4857
- do_file_open+0x23e/0x4a0 fs/namei.c:4886
- do_sys_openat2+0x115/0x200 fs/open.c:1368
- do_sys_open fs/open.c:1374 [inline]
- __do_sys_openat fs/open.c:1390 [inline]
- __se_sys_openat fs/open.c:1385 [inline]
- __x64_sys_openat+0x138/0x170 fs/open.c:1385
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f6b1e81e68e
-RSP: 002b:00007fff96046768 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 000055558f391500 RCX: 00007f6b1e81e68e
-RDX: 000000000000a401 RSI: 00007fff96046840 RDI: ffffffffffffff9c
-RBP: 00007fff96046840 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: cccccccccccccccd
-R13: 00007f6b1eae5fac R14: 00007f6b1eae5fa0 R15: 00007f6b1eae5fa0
- </TASK>
-INFO: task syz.4.114:6125 blocked for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz.4.114       state:D stack:24712 pid:6125  tgid:6125  ppid:5777   task_flags:0x400040 flags:0x00080002
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5510 [inline]
- __schedule+0x1709/0x5530 kernel/sched/core.c:7231
- __schedule_loop kernel/sched/core.c:7308 [inline]
- rt_mutex_schedule+0x76/0xf0 kernel/sched/core.c:7604
- rt_mutex_slowlock_block+0x55c/0x680 kernel/locking/rtmutex.c:1670
- __rt_mutex_slowlock kernel/locking/rtmutex.c:1747 [inline]
- __rt_mutex_slowlock_locked kernel/locking/rtmutex.c:1787 [inline]
- rt_mutex_slowlock+0x2d4/0x780 kernel/locking/rtmutex.c:1827
- __rt_mutex_lock kernel/locking/rtmutex.c:1842 [inline]
- __mutex_lock_common kernel/locking/rtmutex_api.c:560 [inline]
- mutex_lock_nested+0x168/0x1d0 kernel/locking/rtmutex_api.c:578
- device_lock include/linux/device.h:1104 [inline]
- usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
- chrdev_open+0x4dc/0x600 fs/char_dev.c:411
- do_dentry_open+0x849/0x1420 fs/open.c:947
- vfs_open+0x3b/0x350 fs/open.c:1052
- do_open fs/namei.c:4694 [inline]
- path_openat+0x2e64/0x3850 fs/namei.c:4857
- do_file_open+0x23e/0x4a0 fs/namei.c:4886
- do_sys_openat2+0x115/0x200 fs/open.c:1368
- do_sys_open fs/open.c:1374 [inline]
- __do_sys_openat fs/open.c:1390 [inline]
- __se_sys_openat fs/open.c:1385 [inline]
- __x64_sys_openat+0x138/0x170 fs/open.c:1385
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f23e29fe68e
-RSP: 002b:00007ffd83e58858 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00005555860fe500 RCX: 00007f23e29fe68e
-RDX: 000000000000a401 RSI: 00007ffd83e58930 RDI: ffffffffffffff9c
-RBP: 00007ffd83e58930 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: cccccccccccccccd
-R13: 00007f23e2cc5fac R14: 00007f23e2cc5fa0 R15: 00007f23e2cc5fa0
- </TASK>
-INFO: task syz.2.115:6126 blocked for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz.2.115       state:D stack:24712 pid:6126  tgid:6126  ppid:5770   task_flags:0x400040 flags:0x00080002
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5510 [inline]
- __schedule+0x1709/0x5530 kernel/sched/core.c:7231
- __schedule_loop kernel/sched/core.c:7308 [inline]
- rt_mutex_schedule+0x76/0xf0 kernel/sched/core.c:7604
- rt_mutex_slowlock_block+0x55c/0x680 kernel/locking/rtmutex.c:1670
- __rt_mutex_slowlock kernel/locking/rtmutex.c:1747 [inline]
- __rt_mutex_slowlock_locked kernel/locking/rtmutex.c:1787 [inline]
- rt_mutex_slowlock+0x2d4/0x780 kernel/locking/rtmutex.c:1827
- __rt_mutex_lock kernel/locking/rtmutex.c:1842 [inline]
- __mutex_lock_common kernel/locking/rtmutex_api.c:560 [inline]
- mutex_lock_nested+0x168/0x1d0 kernel/locking/rtmutex_api.c:578
- device_lock include/linux/device.h:1104 [inline]
- usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
- chrdev_open+0x4dc/0x600 fs/char_dev.c:411
- do_dentry_open+0x849/0x1420 fs/open.c:947
- vfs_open+0x3b/0x350 fs/open.c:1052
- do_open fs/namei.c:4694 [inline]
- path_openat+0x2e64/0x3850 fs/namei.c:4857
- do_file_open+0x23e/0x4a0 fs/namei.c:4886
- do_sys_openat2+0x115/0x200 fs/open.c:1368
- do_sys_open fs/open.c:1374 [inline]
- __do_sys_openat fs/open.c:1390 [inline]
- __se_sys_openat fs/open.c:1385 [inline]
- __x64_sys_openat+0x138/0x170 fs/open.c:1385
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f807aa2e68e
-RSP: 002b:00007ffe18ae0728 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 0000555582e4d500 RCX: 00007f807aa2e68e
-RDX: 000000000000a401 RSI: 00007ffe18ae0800 RDI: ffffffffffffff9c
-RBP: 00007ffe18ae0800 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: cccccccccccccccd
-R13: 00007f807acf5fac R14: 00007f807acf5fa0 R15: 00007f807acf5fa0
- </TASK>
-INFO: task syz.1.116:6127 blocked for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:syz.1.116       state:D stack:24712 pid:6127  tgid:6127  ppid:5774   task_flags:0x400040 flags:0x00080002
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5510 [inline]
- __schedule+0x1709/0x5530 kernel/sched/core.c:7231
- __schedule_loop kernel/sched/core.c:7308 [inline]
- rt_mutex_schedule+0x76/0xf0 kernel/sched/core.c:7604
- rt_mutex_slowlock_block+0x55c/0x680 kernel/locking/rtmutex.c:1670
- __rt_mutex_slowlock kernel/locking/rtmutex.c:1747 [inline]
- __rt_mutex_slowlock_locked kernel/locking/rtmutex.c:1787 [inline]
- rt_mutex_slowlock+0x2d4/0x780 kernel/locking/rtmutex.c:1827
- __rt_mutex_lock kernel/locking/rtmutex.c:1842 [inline]
- __mutex_lock_common kernel/locking/rtmutex_api.c:560 [inline]
- mutex_lock_nested+0x168/0x1d0 kernel/locking/rtmutex_api.c:578
- device_lock include/linux/device.h:1104 [inline]
- usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
- chrdev_open+0x4dc/0x600 fs/char_dev.c:411
- do_dentry_open+0x849/0x1420 fs/open.c:947
- vfs_open+0x3b/0x350 fs/open.c:1052
- do_open fs/namei.c:4694 [inline]
- path_openat+0x2e64/0x3850 fs/namei.c:4857
- do_file_open+0x23e/0x4a0 fs/namei.c:4886
- do_sys_openat2+0x115/0x200 fs/open.c:1368
- do_sys_open fs/open.c:1374 [inline]
- __do_sys_openat fs/open.c:1390 [inline]
- __se_sys_openat fs/open.c:1385 [inline]
- __x64_sys_openat+0x138/0x170 fs/open.c:1385
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f0c6723e68e
-RSP: 002b:00007ffd2928b0e8 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 000055555f817500 RCX: 00007f0c6723e68e
-RDX: 000000000000a401 RSI: 00007ffd2928b1c0 RDI: ffffffffffffff9c
-RBP: 00007ffd2928b1c0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: cccccccccccccccd
-R13: 00007f0c67505fac R14: 00007f0c67505fa0 R15: 00007f0c67505fa0
- </TASK>
+> Serialization seems like the best
+> solution (provided you can guarantee that it won't cause a deadlock).
 
-Showing all locks held in the system:
-1 lock held by khungtaskd/39:
- #0: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x2e/0x180 kernel/locking/lockdep.c:6821
-7 locks held by kworker/u8:5/69:
- #0: ffff88813fe5c138 ((wq_completion)events_unbound){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffff88813fe5c138 ((wq_completion)events_unbound){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffff88813fe5c138 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #1: ffffc9000154fc60 ((work_completion)(&(&nsim_dev->trap_data->trap_report_dw)->work)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #1: ffffc9000154fc60 ((work_completion)(&(&nsim_dev->trap_data->trap_report_dw)->work)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #1: ffffc9000154fc60 ((work_completion)(&(&nsim_dev->trap_data->trap_report_dw)->work)){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #2: ffff88806d354310 (&devlink->lock_key#28){+.+.}-{4:4}, at: nsim_dev_trap_report_work+0x57/0xcb0 drivers/net/netdevsim/dev.c:909
- #3: ffff88807ff3f920 (&nsim_trap_data->trap_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
- #3: ffff88807ff3f920 (&nsim_trap_data->trap_lock){+.+.}-{3:3}, at: nsim_dev_trap_report drivers/net/netdevsim/dev.c:862 [inline]
- #3: ffff88807ff3f920 (&nsim_trap_data->trap_lock){+.+.}-{3:3}, at: nsim_dev_trap_report_work+0x1e0/0xcb0 drivers/net/netdevsim/dev.c:922
- #4: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #4: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #4: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
- #4: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1e0/0x400 kernel/locking/spinlock_rt.c:57
- #5: ffffffff8e0592e0 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x3c/0x420 kernel/softirq.c:163
- #6: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: __local_bh_disable_ip+0x3c/0x420 kernel/softirq.c:163
-6 locks held by kworker/0:2/200:
- #0: ffff888021ee5538 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffff888021ee5538 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffff888021ee5538 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #1: ffffc900039dfc60 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #1: ffffc900039dfc60 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #1: ffffc900039dfc60 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #2: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #2: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: hub_event+0x187/0x4cf0 drivers/usb/core/hub.c:5899
- #3: ffff88801f6b4210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #3: ffff88801f6b4210 (&dev->mutex){....}-{4:4}, at: usb_disconnect+0xe3/0x990 drivers/usb/core/hub.c:2336
- #4: ffff888021afb1d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #4: ffff888021afb1d8 (&dev->mutex){....}-{4:4}, at: __device_driver_lock drivers/base/dd.c:1171 [inline]
- #4: ffff888021afb1d8 (&dev->mutex){....}-{4:4}, at: device_release_driver_internal+0xb9/0x880 drivers/base/dd.c:1369
- #5: ffff888043dcda90 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #5: ffff888043dcda90 (&dev->mutex){....}-{4:4}, at: __device_driver_lock drivers/base/dd.c:1171 [inline]
- #5: ffff888043dcda90 (&dev->mutex){....}-{4:4}, at: device_release_driver_internal+0xb9/0x880 drivers/base/dd.c:1369
-2 locks held by kworker/u8:11/1173:
- #0: ffff888032b53938 ((wq_completion)bat_events){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffff888032b53938 ((wq_completion)bat_events){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffff888032b53938 ((wq_completion)bat_events){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #1: ffffc9000630fc60 ((work_completion)(&(&bat_priv->tt.work)->work)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #1: ffffc9000630fc60 ((work_completion)(&(&bat_priv->tt.work)->work)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #1: ffffc9000630fc60 ((work_completion)(&(&bat_priv->tt.work)->work)){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
-6 locks held by kworker/u8:16/4350:
- #0: ffff88813fe5c138 ((wq_completion)events_unbound){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffff88813fe5c138 ((wq_completion)events_unbound){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffff88813fe5c138 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #1: ffffc9000e78fc60 ((work_completion)(&(&nsim_dev->trap_data->trap_report_dw)->work)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #1: ffffc9000e78fc60 ((work_completion)(&(&nsim_dev->trap_data->trap_report_dw)->work)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #1: ffffc9000e78fc60 ((work_completion)(&(&nsim_dev->trap_data->trap_report_dw)->work)){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #2: ffff88802f5da310 (&devlink->lock_key#23){+.+.}-{4:4}, at: nsim_dev_trap_report_work+0x57/0xcb0 drivers/net/netdevsim/dev.c:909
- #3: ffff888079055520 (&nsim_trap_data->trap_lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
- #3: ffff888079055520 (&nsim_trap_data->trap_lock){+.+.}-{3:3}, at: nsim_dev_trap_report drivers/net/netdevsim/dev.c:862 [inline]
- #3: ffff888079055520 (&nsim_trap_data->trap_lock){+.+.}-{3:3}, at: nsim_dev_trap_report_work+0x1e0/0xcb0 drivers/net/netdevsim/dev.c:922
- #4: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #4: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #4: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
- #4: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1e0/0x400 kernel/locking/spinlock_rt.c:57
- #5: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #5: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #5: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: class_rcu_constructor include/linux/rcupdate.h:1183 [inline]
- #5: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: unwind_next_frame+0x8f/0x2550 arch/x86/kernel/unwind_orc.c:495
-2 locks held by kworker/u8:19/4406:
- #0: ffff88813fe5c138 ((wq_completion)events_unbound){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffff88813fe5c138 ((wq_completion)events_unbound){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffff88813fe5c138 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #1: ffffc9000e3cfc60 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #1: ffffc9000e3cfc60 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #1: ffffc9000e3cfc60 ((work_completion)(&sub_info->work)){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
-2 locks held by getty/5359:
- #0: ffff8880327e20a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
- #1: ffffc90003cc62e0 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x460/0x1360 drivers/tty/n_tty.c:2211
-1 lock held by kworker/0:3/5747:
- #0: ffff88808326f938 ((wq_completion)wg-crypt-wg0#28){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffff88808326f938 ((wq_completion)wg-crypt-wg0#28){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffff88808326f938 ((wq_completion)wg-crypt-wg0#28){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
-2 locks held by kworker/1:10/6020:
- #0: ffff888079480d38 ((wq_completion)wg-crypt-wg2#28){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffff888079480d38 ((wq_completion)wg-crypt-wg2#28){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffff888079480d38 ((wq_completion)wg-crypt-wg2#28){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #1: ffffc900015afc60 ((work_completion)(&peer->transmit_packet_work)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #1: ffffc900015afc60 ((work_completion)(&peer->transmit_packet_work)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #1: ffffc900015afc60 ((work_completion)(&peer->transmit_packet_work)){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
-9 locks held by kworker/0:8/6023:
- #0: ffff888079480d38 ((wq_completion)wg-crypt-wg2#28){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffff888079480d38 ((wq_completion)wg-crypt-wg2#28){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffff888079480d38 ((wq_completion)wg-crypt-wg2#28){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #1: ffffc9000157fc60 ((work_completion)(&peer->transmit_packet_work)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #1: ffffc9000157fc60 ((work_completion)(&peer->transmit_packet_work)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #1: ffffc9000157fc60 ((work_completion)(&peer->transmit_packet_work)){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #2: ffffffff8e0592e0 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x3c/0x420 kernel/softirq.c:163
- #3: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: __local_bh_disable_ip+0x3c/0x420 kernel/softirq.c:163
- #4: ffff88806681b790 (&peer->endpoint_lock){++..}-{3:3}, at: read_lock_bh include/linux/rwlock_rt.h:45 [inline]
- #4: ffff88806681b790 (&peer->endpoint_lock){++..}-{3:3}, at: wg_socket_send_skb_to_peer+0x6e/0x200 drivers/net/wireguard/socket.c:172
- #5: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #5: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #5: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rt_read_lock+0x277/0x4b0 kernel/locking/spinlock_rt.c:251
- #6: ffffffff8e0592e0 (local_bh){.+.+}-{1:3}, at: __local_bh_disable_ip+0x3c/0x420 kernel/softirq.c:163
- #7: ffffffff8e1c3820 (rcu_read_lock_bh){....}-{1:3}, at: local_bh_disable include/linux/bottom_half.h:20 [inline]
- #7: ffffffff8e1c3820 (rcu_read_lock_bh){....}-{1:3}, at: rcu_read_lock_bh include/linux/rcupdate.h:893 [inline]
- #7: ffffffff8e1c3820 (rcu_read_lock_bh){....}-{1:3}, at: send4+0x217/0xec0 drivers/net/wireguard/socket.c:38
- #8: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #8: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #8: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: __rt_spin_lock kernel/locking/spinlock_rt.c:50 [inline]
- #8: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rt_spin_lock+0x1e0/0x400 kernel/locking/spinlock_rt.c:57
-3 locks held by kworker/0:10/6027:
- #0: ffff88813fe1b938 ((wq_completion)events){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffff88813fe1b938 ((wq_completion)events){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffff88813fe1b938 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #1: ffffc900042bfc60 ((work_completion)(&data->fib_event_work)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #1: ffffc900042bfc60 ((work_completion)(&data->fib_event_work)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #1: ffffc900042bfc60 ((work_completion)(&data->fib_event_work)){+.+.}-{0:0}, at: process_one_work+0x7fd/0x1480 kernel/workqueue.c:3344
- #2: ffff88802b13a280 (&data->fib_lock){+.+.}-{4:4}, at: nsim_fib_event_work+0x222/0x3e0 drivers/net/netdevsim/fib.c:1490
-1 lock held by syz.3.113/6124:
- #0: ffff88823bf64210 (&dev->mutex
-){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
-){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.4.114/6125:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.2.115/6126:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.1.116/6127:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.6.123/6301:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.5.122/6302:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.7.125/6306:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.8.126/6307:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.9.135/6427:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.3.136/6442:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.4.138/6470:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.1.139/6472:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.2.147/6530:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.5.149/6598:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.6.151/6636:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.7.153/6640:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.8.159/6689:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.9.162/6754:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.3.164/6825:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.4.165/6832:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.1.169/6851:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.2.173/6887:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.5.177/6981:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.6.178/7018:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.7.181/7044:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-1 lock held by syz.8.183/7061:
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
- #0: ffff88823bf64210 (&dev->mutex){....}-{4:4}, at: usbdev_open+0x151/0x790 drivers/usb/core/devio.c:1054
-5 locks held by syz-executor/7068:
- #0: ffffffff8f61d3a0 (cb_lock){++++}-{4:4}, at: genl_rcv+0x19/0x40 net/netlink/genetlink.c:1217
- #1: ffffffff8f61d1b8 (genl_mutex){+.+.}-{4:4}, at: genl_lock net/netlink/genetlink.c:35 [inline]
- #1: ffffffff8f61d1b8 (genl_mutex){+.+.}-{4:4}, at: genl_op_lock net/netlink/genetlink.c:60 [inline]
- #1: ffffffff8f61d1b8 (genl_mutex){+.+.}-{4:4}, at: genl_rcv_msg+0x10b/0x7a0 net/netlink/genetlink.c:1208
- #2: ffffffff8f5ac2f8 (rtnl_mutex){+.+.}-{4:4}, at: wiphy_register+0x1faf/0x2ff0 net/wireless/core.c:1154
- #3: ffff8880868c08d8 (&rdev->wiphy.mtx){+.+.}-{4:4}, at: wiphy_lock include/net/cfg80211.h:6868 [inline]
- #3: ffff8880868c08d8 (&rdev->wiphy.mtx){+.+.}-{4:4}, at: wiphy_register+0x1fb9/0x2ff0 net/wireless/core.c:1155
- #4: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #4: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #4: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: class_rcu_constructor include/linux/rcupdate.h:1183 [inline]
- #4: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: unwind_next_frame+0x8f/0x2550 arch/x86/kernel/unwind_orc.c:495
-2 locks held by modprobe/7113:
- #0: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffffffff8e1c37c0 (rcu_read_lock){....}-{1:3}, at: fast_dput+0x1e/0x670 fs/dcache.c:938
- #1: ffff8880339095b0 (&lockref->lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock_rt.h:45 [inline]
- #1: ffff8880339095b0 (&lockref->lock){+.+.}-{3:3}, at: fast_dput+0x29c/0x670 fs/dcache.c:947
+That makes sense to me. Locking changes in this path could affect USB
+request completion, AIO completion, and callback/deadlock interactions, so
+I do not think it would be appropriate for me to send a locking patch
+myself without first being confident about the deadlock implications.
 
-=============================================
+> Maybe because at that point in the code there is no way to know whether
+> epdata and epdata->dev are valid pointers?
 
-NMI backtrace for cpu 0
-CPU: 0 UID: 0 PID: 39 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- nmi_cpu_backtrace+0x274/0x2d0 lib/nmi_backtrace.c:122
- nmi_trigger_cpumask_backtrace+0x17a/0x380 lib/nmi_backtrace.c:65
- trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
- __sys_info lib/sys_info.c:157 [inline]
- sys_info+0x135/0x170 lib/sys_info.c:165
- check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
- watchdog+0xfd7/0x1030 kernel/hung_task.c:561
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Sending NMI from CPU 0 to CPUs 1:
-NMI backtrace for cpu 1
-CPU: 1 UID: 0 PID: 4958 Comm: klogd Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
-RIP: 0010:__list_del include/linux/list.h:227 [inline]
-RIP: 0010:__list_del_entry include/linux/list.h:249 [inline]
-RIP: 0010:list_move include/linux/list.h:329 [inline]
-RIP: 0010:set_next_task_fair+0xce9/0x10b0 kernel/sched/fair.c:15171
-Code: c1 e8 03 80 3c 28 00 74 08 4c 89 e7 e8 b0 ff 99 00 4d 89 34 24 4c 89 f0 48 c1 e8 03 80 3c 28 00 74 08 4c 89 f7 e8 97 ff 99 00 <4d> 89 2e 4c 8b 64 24 08 4d 89 fd 49 c1 ed 03 41 80 7c 2d 00 00 74
-RSP: 0018:ffffc90003a6f5b0 EFLAGS: 00000046
-RAX: 1ffff110170e78a6 RBX: ffff888036f51fd8 RCX: dffffc0000000000
-RDX: ffff888036f51fe8 RSI: ffff888036f51f80 RDI: ffff888036f51fe0
-RBP: dffffc0000000000 R08: ffffffff8faf37f7 R09: 1ffffffff1f5e6fe
-R10: dffffc0000000000 R11: fffffbfff1f5e6ff R12: ffff888034e8bee0
-R13: ffff888034e8bed8 R14: ffff8880b873c530 R15: ffff8880b873c530
-FS:  00007f76e13e8c80(0000) GS:ffff888125d49000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007effe5be7e9c CR3: 00000000374a8000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- put_prev_set_next_task kernel/sched/sched.h:2787 [inline]
- __pick_next_task+0x215/0x3c0 kernel/sched/core.c:6149
- pick_next_task kernel/sched/core.c:-1 [inline]
- __schedule+0x861/0x5530 kernel/sched/core.c:7146
- __schedule_loop kernel/sched/core.c:7308 [inline]
- schedule+0x164/0x2b0 kernel/sched/core.c:7323
- schedule_timeout+0xc0/0x2c0 kernel/time/sleep_timeout.c:75
- unix_wait_for_peer+0x1f5/0x2f0 net/unix/af_unix.c:1615
- unix_dgram_sendmsg+0xaf4/0x17b0 net/unix/af_unix.c:2251
- sock_sendmsg_nosec+0x13a/0x180 net/socket.c:810
- __sock_sendmsg net/socket.c:825 [inline]
- __sys_sendto+0x41e/0x5d0 net/socket.c:2292
- __do_sys_sendto net/socket.c:2299 [inline]
- __se_sys_sendto net/socket.c:2295 [inline]
- __x64_sys_sendto+0xde/0x100 net/socket.c:2295
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f76e1538407
-Code: 48 89 fa 4c 89 df e8 38 aa 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-RSP: 002b:00007ffe12658f20 EFLAGS: 00000202 ORIG_RAX: 000000000000002c
-RAX: ffffffffffffffda RBX: 00007f76e13e8c80 RCX: 00007f76e1538407
-RDX: 0000000000000048 RSI: 00007ffe12659060 RDI: 0000000000000003
-RBP: 00007ffe12659490 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000004000 R11: 0000000000000202 R12: 00007ffe126594a8
-R13: 00007ffe12659060 R14: 000000000000002d R15: 00007ffe12659060
- </TASK>
+Yes, I see that concern. Simply restoring the commented-out spin_lock() in
+ep_aio_cancel() does not look obviously safe to me either: ep_aio_cancel()
+would first have to rely on iocb->private (the priv pointer) in order to
+reach epdata and epdata->dev, and holding epdata->dev->lock around
+usb_ep_dequeue() could have problematic interactions with the completion
+path, since ep_aio_complete() appears to use the same lock.
 
+I can help validate candidate fixes under KASAN against the reproducer and
+the intermittent UAF variant. I can also build a lockdep-enabled kernel and
+run the reproducer against candidate fixes if that would be useful.
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+The clearest conclusion I can draw is still the lifetime invariant:
+ep_aio_cancel() should not be able to use iocb->private as a
+struct kiocb_priv pointer after the completion path has cleared
+iocb->private or freed the underlying struct kiocb_priv. I would be happy
+to test any candidate fix or approach you think would be worth trying.
+
+Best regards,
+Minseo Kim
+
+2026=EB=85=84 7=EC=9B=94 2=EC=9D=BC (=EB=AA=A9) =EC=98=A4=ED=9B=84 11:22, A=
+lan Stern <stern@rowland.harvard.edu>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> On Thu, Jul 02, 2026 at 05:08:17PM +0900, =EA=B9=80=EB=AF=BC=EC=84=9C wro=
+te:
+> > Hi Alan,
+> >
+> > Thank you for taking a look.
+> >
+> > I do not want to over-specify the exact fix, but my tentative view from
+> > the reproducer runs and code inspection is that the key invariant is th=
+at
+> > struct kiocb_priv should either remain valid while it can still be reac=
+hed
+> > by ep_aio_cancel() for the same iocb, or it should be made unreachable =
+from
+> > the cancel path in a synchronized way.
+> >
+> > In the immediate completion path I am looking at, ep_aio_complete()
+> > appears to clear fields in priv and then free priv before iocb->private=
+ is
+> > set to NULL and before iocb->ki_complete() runs. Meanwhile ep_aio_cance=
+l()
+> > reads iocb->private and immediately dereferences priv->epdata.
+> >
+> > That seems to explain both symptoms I observed: a NULL-deref if
+> > iocb->private is already NULL, and a UAF if cancellation observes a sta=
+le
+> > non-NULL priv pointer.
+> >
+> > I may be missing some ordering guarantee in the AIO core, but from the
+> > reproducer this is the window that seems relevant. So I think a NULL ch=
+eck
+> > in ep_aio_cancel() would likely handle the repeated NULL-deref symptom,
+> > but may not address the stale non-NULL case. A safer direction might be=
+ to
+> > ensure sufficient serialization or lifetime ordering around iocb->priva=
+te /
+> > struct kiocb_priv, so that either priv remains valid for the cancel
+> > callback, or cancellation is already unreachable before priv is freed f=
+or
+> > that iocb.
+>
+> Also, NULL checks don't fix races (cancel vs. complete).
+>
+> It's hard to make lifetime ordering work when you don't know whether the
+> aio transfer will ever be cancelled.  Serialization seems like the best
+> solution (provided you can guarantee that it won't cause a deadlock).
+>
+> However, I believe there is a valid reason why the spinlock calls in
+> ep_aio_cancel() are commented out, although I don't remember what it is.
+> Maybe because at that point in the code there is no way to know whether
+> epdata and epdata->dev are valid pointers?
+>
+> Anyway, it would be good if you could figure out a solution and write a
+> patch to implement it.  Perhaps a single global spinlock to protect all
+> the aio pathways (or all those for a particular gadget) would work.
+>
+> Alan Stern
