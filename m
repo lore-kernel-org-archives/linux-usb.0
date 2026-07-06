@@ -1,159 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 291B23F6C4F;
-	Mon,  6 Jul 2026 16:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905F03AA4E7;
+	Mon,  6 Jul 2026 17:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783353660; cv=none; b=j1WBbY86atO8GC5tQ3EdLmCIZSk3DwH/ABrJrWpTjTnS2BIVLWRHM4MhB0MoK6hT/ZWpH/LHHj0+dOIAxY/JRhURpjZGD+bWnI2OXeMnwxnRZcjwbisaj7hRxnCy+PeNQWO/Eb8hML2MJ9Pt2tKh+XL9J6isHetMs3wIL+Ws04I=
+	t=1783358805; cv=none; b=Lkfg0e9cfwdYTczR+onuEotRl/oeq2oKiR/bzAIU2C3uEJfs19tCBBUVvZwJ/z6xHmOY4Z9b8vCtq79Y9Fng84yda0pcwOzD1qfD917/bY3a8RF3oMfp4jGQ19ILY7Ud9RZ3RYz8wSpZfmeJHxY7C/JVh4MeRIa7wC8RbYIBABY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783353660; c=relaxed/simple;
-	bh=CNeXdCq4YUYr/jn29WXp0/HYvFmsD6R6iES7V1e2kXU=;
+	s=arc-20240116; t=1783358805; c=relaxed/simple;
+	bh=7IM4zAo6wp30fIKOD7ytq7OyqjlyWEMupcdMTPpFk2c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sIFfLOBp2AZabJk3TQQVwmI/CG7L1zPiynmwNDeyyiwyAvS8mHxVge7uJFhc/tT8CVs8DK0uwAImVGsUzvh01i5MTRNY7MVEvwgJIa5E132RWR3rxzT4h69TNltw5EfE+7Wj0IlpTAkOspXlm7104gCk8PwSaBneZWu2tpb7C2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bbIegzf4; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=dgVPf43xcAN5wHmAYmQGcLYzttDmEYxOQwX55SFSZwIYNZaesgjZo8WJf/U4wKrPyQaFZeNRap/jzwDmAyy5UpSUhc1u9Cr9R5UYR6B7IwRklz2IOUhuW00j9swVhTlqSlL9daBjrlhJArvLxmC+0KMzoGLc0eJt1MTZNVB4RYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nCLYqWUv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bbIegzf4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783353659; x=1814889659;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=CNeXdCq4YUYr/jn29WXp0/HYvFmsD6R6iES7V1e2kXU=;
-  b=bbIegzf4MGsxr9qRTE6ii1PNH7LpAdrOiLg2dNgpBfZ49GOVcXGLsLLz
-   fJVtvR6LW6dQBSsRBsG+IEanPUWIvezt1ntUPlkmRlqrJeQ7agbBbpMla
-   DXga+wuNuw6gA8yPMydm9lTj1+KMNgSbgBZe+7fEqp7+3SbLDAiWtG/VB
-   nMTF6pzkLtA3ySEbznXpjEyHQVsYlZFr2hu1JmxFKtb0RtshvIWhjye07
-   GNHuUzI/9ngxym3DbM9Knf0zQ/k6OLCnrWelxzxRoMOn6lBbB0sO+Tbd+
-   l2N6xtPfg8Yjl1ECV8lZuLiWPRC3iL2+XYEe0KAff209dd1xsPZhxDG4P
-   Q==;
-X-CSE-ConnectionGUID: ltA6oE6/TuaOL3y4o5xIrg==
-X-CSE-MsgGUID: iiWqcV4iSpWT/wpn4b8Pcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="95370638"
-X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="95370638"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 09:00:57 -0700
-X-CSE-ConnectionGUID: W+MT9vknQx+rEQ4fdWnATQ==
-X-CSE-MsgGUID: kJ90HQUOT+izFt8uG3wJzQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
-   d="scan'208";a="250408991"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.48])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 09:00:52 -0700
-Date: Mon, 6 Jul 2026 19:00:49 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nCLYqWUv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 160F11F000E9;
+	Mon,  6 Jul 2026 17:26:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783358804;
+	bh=6Q0tvr2GvB7IdKSisCRev74pEI09lUCKAJRHUpFa0u0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nCLYqWUvGJM2k6XDnnND9naY7BS0FeW4Fu5CyITqesk4/FYtYFs2v+CdsAT/O073Y
+	 GtZ8t7rZu7alxOIECS486DbL4kafAvJYppDKfefXQcxPJWSm50Z5xEB87XflCdnqI0
+	 dI9I5Vp+VbNytWapWIsBYtTNmQpIQ3PSkrb5u0vxywEuxj1U2BwNjyu/B89xGJdNtD
+	 G/Odw4daeVaAAUZb5GsfrnhN7yZ/7dsR9qtpRXxY65g9kYlYkQBfw49iWquOtCkMjk
+	 tJfNZXyAVgeg0oDBCZxb/20tfctRWrUO672g92oAd9zuNBOetu0kFzrqAf+966bE2y
+	 VRCYCAEaqRrlQ==
+Date: Mon, 6 Jul 2026 18:26:30 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Manuel Ebner <manuelebner@mailbox.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Lee Jones <lee@kernel.org>,
+	Thierry Reding <thierry.reding@avionic-design.de>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Vinod Koul <vkoul@kernel.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
 	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH v3 06/13] usb: hub: Pass |struct usb_port*| to
- usb_port_is_power_on()
-Message-ID: <akvRMcGnUPxE3sxR@ashevche-desk.local>
-References: <20260703110317.1283411-1-wenst@chromium.org>
- <20260703110317.1283411-7-wenst@chromium.org>
- <ake09vk4fEv1D9QC@ashevche-desk.local>
- <CAGXv+5GNucSXrhL=YxarSJHD2ezzYDK3EovFu-zy012KgZ+ZBg@mail.gmail.com>
- <ake6FNy83LLtCs3b@ashevche-desk.local>
- <CAGXv+5EgpizA3Pc8ScNuChPhvFKWd5F6dxB-wT4-7EwabE-9dQ@mail.gmail.com>
+	Saravana Kannan <saravanak@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Peter Chen <peter.chen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, mfd@lists.linux.dev
+Subject: Re: [PATCH v3 02/20] driver core: platform: provide
+ platform_device_set_of_node()
+Message-ID: <e40d0bd0-0e3d-4c01-bffc-8e0075213c45@sirena.org.uk>
+References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
+ <20260706-pdev-fwnode-ref-v3-2-1ff028e33779@oss.qualcomm.com>
+ <fbc50f89e0c3bb148656a3b8d96974f591576dec.camel@mailbox.org>
+ <akvOo2EeERLYPh72@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="FWksib/oYWGW6VVm"
+Content-Disposition: inline
+In-Reply-To: <akvOo2EeERLYPh72@ashevche-desk.local>
+X-Cookie: Did I do an INCORRECT THING??
+
+
+--FWksib/oYWGW6VVm
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXv+5EgpizA3Pc8ScNuChPhvFKWd5F6dxB-wT4-7EwabE-9dQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 06, 2026 at 07:08:07PM +0800, Chen-Yu Tsai wrote:
-> On Fri, Jul 3, 2026 at 9:33 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Fri, Jul 03, 2026 at 09:17:16PM +0800, Chen-Yu Tsai wrote:
-> > > On Fri, Jul 3, 2026 at 9:11 PM Andy Shevchenko
-> > > <andriy.shevchenko@linux.intel.com> wrote:
-> > > > On Fri, Jul 03, 2026 at 07:03:07PM +0800, Chen-Yu Tsai wrote:
+On Mon, Jul 06, 2026 at 06:49:55PM +0300, Andy Shevchenko wrote:
+> On Mon, Jul 06, 2026 at 04:39:00PM +0200, Manuel Ebner wrote:
+> > On Mon, 2026-07-06 at 14:44 +0200, Bartosz Golaszewski wrote:
 
-...
+> > I removed Mark Brown <broonie@opensource.wolfsonmicro.com> from recipie=
+nts because:
+> > =E2=80=9CRCPT TO <broonie@opensource.wolfsonmicro.com> failed:
+> > <broonie@opensource.wolfsonmicro.com>: Recipient address rejected: Doma=
+in not found=E2=80=9D.
 
-> > > > At a brief look this will be the only function that takes usb_port
-> > > > instead of usb_hub in the entire hub.h (I don't count container_of()
-> > > > as a function). With that being said I would rather see it to be moved
-> > > > to port.c altogether (yes, it's more invasive change, but looks more
-> > > > consistent).  I would even dare to move struct usb_port (and container_of()
-> > > > accompanied with that) and this function to port.h. This might require
-> > > > a separate patch, though.
-> > >
-> > > I agree with the reasoning, especially given the function name. However
-> > > I wonder if it would cause problems given the linking order. I'll give
-> > > it a try nevertheless and report back.
-> >
-> > Thanks!
-> >
-> > In case it won't fly (but I still think it's better to split), can you at least
-> > group usb_port APIs and struct? Means moving the proto closer to that struct
-> > usb_port followed by container_of().
-> 
-> Looks like it works out fine. port.o is linked in after hub.o, so moving
-> the function from the latter to the former doesn't cause issues. One might
-> even say that it is the correct thing to do.
+> Perhaps he needs to send a patch to update .mailmap?
+> Cc'ed to Mark.
 
-That's what I say! :-)
+If it's for something that old I can't imagine I actually care.  If it's
+important enough I'm sure someone can work out how to get hold of me.
 
-> > > > Perhaps something like: 1) "move struct usb_port and associated APIs to port.h";
-> > > > 2) "...this patch...".
-> 
-> There are still some left in hub.c:
-> 
-> static void usb_lock_port(struct usb_port *port_dev)
-> static void usb_unlock_port(struct usb_port *port_dev)
-> static void port_over_current_notify(struct usb_port *port_dev)
+--FWksib/oYWGW6VVm
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> static void hub_usb3_port_prepare_disable(struct usb_hub *hub,
->                                           struct usb_port *port_dev)
+-----BEGIN PGP SIGNATURE-----
 
-This one takes hub as well.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpL5UUACgkQJNaLcl1U
+h9D67gf9GIugTh4PUXTgcv4IEO00hqfPt914zzGolWrW61nvCfBK/txok59PvoKw
+vaWiJIxtHNcqLXDHoH9/3oPWkqxrKq0RGWEX19nr124zN/T2SihiMa5RjzAr4UAG
+G9JAS2GOF29xF1Ml9KH8x5l5WduP6RUHVJqKK9vuJFpCloREcnnpMQVxJVgKEKpI
+TrKQpiKRZtTm5InBsTccxeXVDL2+bhnLHZaD4LbIziWok/tCyYnCw9VEJ/iUb7PJ
+bFLwu3JxUS7p7Kr/hStWapPyxi5fyw+V/ZQ8u+J5GE8g493f9A3rBarS4fJCZi8e
+cIRN6GhgNtdUL6L3p77EqAzlsDTheA==
+=WSwF
+-----END PGP SIGNATURE-----
 
-> These are used only in hub.c and moving them probably makes things
-> messier?
-
-Perhaps better naming to each (kinda moving to usb hub namespace)?
-
-> OOTH, the following bits are in port.c but declared in hub.h:
-> 
-> int usb_hub_create_port_device(struct usb_hub *hub,
->          int port1);
-> void usb_hub_remove_port_device(struct usb_hub *hub,
->          int port1);
-> 
-> Any preferences for these while we're reorganizing the code?
-
-These ones would be good to be in hub.c if there is no circular dependencies or
-alike.
-
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+--FWksib/oYWGW6VVm--
