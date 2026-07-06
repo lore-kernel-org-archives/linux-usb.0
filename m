@@ -1,394 +1,240 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B54A37BE6B
-	for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2026 02:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FBE035839C;
+	Mon,  6 Jul 2026 03:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783305274; cv=none; b=m8Nznquisw61GSjWnQkMtKZJNUwV2kFEgXzKfuU8N5q7MtiEq1sADbSmx64OrDIaepx7BfjMj0up++VNfRdo7S9WYJe+4UuTfTeUIz3eXmQW77J+G3P3Yc07PpU0l1yPB03okM998Q8PgImfT6cdJYQ2AIUIGKRhEsM3MNnN6qA=
+	t=1783308723; cv=none; b=TTsSpMezr6njG94PjwdaMVHmwYpRoO9fVNLeAA/iz8/LS1LNnZmHe79q7rP8QDssWLkmsQEXhr9gpcLwUts16Cq4w9N33QH2WB+BlH/Tlu6gSxdFDp0JfIxraj5/bTSxk6ht6qT+VmLZCQwNi4yABkL0vvJ77piEQJ5r+KHTEOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783305274; c=relaxed/simple;
-	bh=xbjRMkNGPECBgsu/RZfPwVAMcP55xrrmtO7Mp0dDW0c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sIOmQeOOsUNmbCbQ5ay/hkmjvLAMe/y/3IdU2e1Z76x29HGiWvCW/CnL3inAuWL3rYptaQzmW7hEMlRm5o9mVGuzHdIBAJnl30veBinq9M5ImHy0dxum6oFixqF9qJgqUzMNa/bXqUtaiI4iNICkabelddKrL4rKN1BVMi+NV2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qyaMSYDq; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=reject dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783308723; c=relaxed/simple;
+	bh=GBaSpkX/ZWZ8FKBzWzRYdMKpcyVa+GFYiM6rKv2byGY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=maeKFvRBhg1Vyee+9JaB6WNW9L6vKPGCXfKG0tPeRyZD7ygQXgKMeogCyrBDEhiWCi9dzC2GmdNoz6RLX1UoSq3gxgQddzCf/L9sGnVTrnGaZy/K5kzbS95msoVLalqZPI6JnRrWxJB3AqpSrEMcrg5q6ru5MkwhTjIT4UA0xhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S4LLoTMg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qyaMSYDq"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-37defb2f231so1566574a91.2
-        for <linux-usb@vger.kernel.org>; Sun, 05 Jul 2026 19:34:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783305272; x=1783910072; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=AFE6KBj48J8En06uzIFl9aARbJTjyJE0UbbwkKFSi/o=;
-        b=qyaMSYDqToDq6C8qQUBzPAcqGy1mMLXfgPJL1K1uDn4Ng3CH+//4M9IqEe7078oSF0
-         1UVmEBk2UAzHzGTtSi77STfgzOE6UdCp2RgiT/3UW4QWT4+y8aDEU19A0yKm9waJIXmt
-         a7uUTWkKIadgSoAsX9h5Oj+ilslsBhXBgfncVfszbz92ZC7Eb+yVGE5Zc8RkRmQZSVx0
-         dGCRCNWrY8M31OmhCfDFSAwTSTBAmbIS20x5x8KJzVN3MafMDw96WmU6otqilQDZTwu3
-         tgMe4IPmqaEu6H84covwv2FqTXHjU9uAiFqmwu0ScXjJ86NKHiZyIWKdXX0Cm2nrK9eZ
-         iOsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783305272; x=1783910072;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AFE6KBj48J8En06uzIFl9aARbJTjyJE0UbbwkKFSi/o=;
-        b=McUhoLQw675nF0NlCj4n5xdCLf+VHqa7tNmnfPa0lhec7GGHPKwAWP+JyEcj1Gjvz+
-         LlmxSbSi8fgsYvWdyxlg9n/Vha6rCJop/qE/LCph+dMxDUCG8Z+pAzQ9cWQc2iBl8Szi
-         yrq/CD306mK6+PVRshAbbSwLqeEHpVPNB/IcHqNRI6cUsgO4rekNHaiyDTUw984qQ8VG
-         pq9ZQaPMM7Kx/Qez2/sA/i0DCCTSxBqJpmR0L1fN4e7+t2xPG2h8JJPlJaObin61GtO0
-         j1UwXmpCUkmWCj/vzpo30RWguJQZ3nRD1DCnVSud7KRgh32+EFLt0tlRNGNmFwYo8jRd
-         VcmQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoUgq1n7R/xw17gC9ziVIYLIUIuZiaJuLjvVqY1A7mwU4ur3dK1hNRopCfxH8tiuyyLvkxcYKCMoJQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzM+rnRMlIkCv2Sf1E0WdEDaTzxGPm80xns/DyFHpBxlG4YuZ/W
-	qr0a1nNFR63faSidTgY+nHbITtvGygNxpe5IzP+KnaDVtR6vt+jVoYlpjd0LQMGu
-X-Gm-Gg: AfdE7ckIM7jCMy5ATUgUC71NyrLQXK3xb5AJ5TdjURsRzGguGGWD8zDeEdYLIVQR2Yi
-	3FWzf2kPLKXIC7sfkjvdmLRtvLiP+/3WGA361d86cSh60VDQZ3gw09vhf8lagEwREqPyiV4BXmn
-	2GgIcCDAM99F0ZCBxESC9oo2BNqr51kGh/EbJc8PszOkzvun9CDELvaiAD/882O5EK1gSJacStG
-	uyV+NvDaVMDinfAFhyCRnKyCH7/WRbc3zHdQxXnZ72B2AG4Qezsj8Wxn/VykauIugtZhFsZoj4d
-	6z/TXd0OowLHlBhziC8Y6UfEVeNLyp+aeej2DvNKMs8atvk1mqtdqo9lFaE7cQwkfxs1igyIgV5
-	07L4At7GAS1Q+iItsPexQ+fx2n270wyj0FvqmW32jsfYaljwFvm7o1oKOEvhnLTV4ISZSAdwddc
-	Lakxp95qNm/hCyiVaIO75nkluvhWKOkPMhUF+bCnx6NZ1jQPQQQWdT7EhztG+mTSBe6n/j
-X-Received: by 2002:a17:90b:3909:b0:381:cef1:11ac with SMTP id 98e67ed59e1d1-382807a9c73mr7966603a91.10.1783305271660;
-        Sun, 05 Jul 2026 19:34:31 -0700 (PDT)
-Received: from acelan-Precision-5480 (211-75-139-220.hinet-ip.hinet.net. [211.75.139.220])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38127adeab8sm4061060a91.2.2026.07.05.19.34.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 19:34:30 -0700 (PDT)
-Sender: AceLan Kao <acelan@gmail.com>
-From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-To: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Mario Limonciello <superm1@kernel.org>
-Cc: Yo-Jung Leo Lin <Leo.Lin@amd.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC][PATCH] thunderbolt: Quiesce AMD NHI during suspend
-Date: Mon,  6 Jul 2026 10:34:21 +0800
-Message-ID: <20260706023422.3647320-1-acelan.kao@canonical.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S4LLoTMg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E2551F000E9;
+	Mon,  6 Jul 2026 03:32:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783308722;
+	bh=pgK1AhmGSy4aon6P61BNRyRaQlwaG8JpQ/TTXfTW+so=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=S4LLoTMgX5Frd4+I3ALkC1K+q2wrqr+SFmn19E3s7YcZK7/SkSaBaJFuezpe2CKwn
+	 68jnToZBcuz1mFPuMLF7YiVruGQdKS4bnpjVA/l9ufvCrUJcN44+7ca3oENHeEIY2W
+	 EXcRf54OV3/K/ClX8U2MT74Sle858zHULjxXt4PbTNKeG3BvY2E3O6ooRTuZjJfqKw
+	 wdudwo2M27+Yb134Ps/A/QvwuZTWDIyN5sXERbi+jrchqo9p/V2hwZMzejIktBo9SM
+	 i2nzN2W54jSfwuasY/DoU6fuWELExMREWxnUr4bF5Mpikf93WNAwHRGS/UUr7/ctGf
+	 jjU7GfEaiCVHw==
+Date: Sun, 5 Jul 2026 20:32:00 -0700
+From: Peter Chen <peter.chen@kernel.org>
+To: Elson Serrao <elson.serrao@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 4/9] usb: misc: qcom_eud: add per-path role switch
+ support
+Message-ID: <akshsA2VuKEoq796@hu-petche-lv.qualcomm.com>
+References: <20260501170635.2641748-1-elson.serrao@oss.qualcomm.com>
+ <20260501170635.2641748-5-elson.serrao@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260501170635.2641748-5-elson.serrao@oss.qualcomm.com>
 
-On some AMD USB4 systems, resuming from system suspend with a
-Thunderbolt dock in the picture hard-hangs the machine very early in the
-resume path, before the Thunderbolt driver gets a chance to rescan and
-re-establish the topology. It is a PCIe bus wedge: the system never
-reaches the point where the thunderbolt module could recover the dock,
-and the kernel journal does not persist past "PM: suspend entry
-(s2idle)".
+On 26-05-01 10:06:30, Elson Serrao wrote:
+> The EUD hardware can support multiple High-Speed USB paths, each connected
+> to different USB controllers. The current implementation uses a single
+> chip-level role switch, which cannot properly handle multi-path
+> configurations where each path needs independent role management. Since
+> EUD is physically present between the USB connector and the controller,
+> it should also relay the role change requests from the connector.
+> 
+> Restructure the driver to support per-path role switches and remove the
+> chip-level role switch. Additionally, as EUD need not modify the USB
+> role upon enabling, remove the unnecessary role switch call from
+> enable_eud().
+> 
+> Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
+> ---
+>  drivers/usb/misc/qcom_eud.c | 89 +++++++++++++++++++++++++++++--------
+>  1 file changed, 70 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/usb/misc/qcom_eud.c b/drivers/usb/misc/qcom_eud.c
+> index a624c44d5d59..7fbb74bf1599 100644
+> --- a/drivers/usb/misc/qcom_eud.c
+> +++ b/drivers/usb/misc/qcom_eud.c
+> @@ -44,12 +44,15 @@ static const char * const eud_port_names[] = {
+>  struct eud_path {
+>  	struct eud_chip		*chip;
+>  	struct phy		*phy;
+> +	struct usb_role_switch	*controller_sw;
+> +	struct usb_role_switch	*eud_sw;
+> +	enum usb_role		curr_role;
+> +	char			name[16];
+>  	u8			num;
+>  };
+>  
+>  struct eud_chip {
+>  	struct device			*dev;
+> -	struct usb_role_switch		*role_sw;
+>  	void __iomem			*base;
+>  	struct eud_path			*paths[EUD_MAX_PORTS];
+>  	phys_addr_t			mode_mgr;
+> @@ -123,7 +126,7 @@ static int enable_eud(struct eud_chip *priv)
+>  	writel(EUD_INT_VBUS | EUD_INT_SAFE_MODE,
+>  			priv->base + EUD_REG_INT1_EN_MASK);
+>  
+> -	return usb_role_switch_set_role(priv->role_sw, USB_ROLE_DEVICE);
+> +	return 0;
+>  }
+>  
+>  static int disable_eud(struct eud_chip *priv)
+> @@ -274,12 +277,15 @@ static irqreturn_t handle_eud_irq(int irq, void *data)
+>  static irqreturn_t handle_eud_irq_thread(int irq, void *data)
+>  {
+>  	struct eud_chip *chip = data;
+> +	struct eud_path *path;
+>  	int ret;
+>  
+> +	path = chip->paths[chip->port_idx];
+> +
+>  	if (chip->usb_attached)
+> -		ret = usb_role_switch_set_role(chip->role_sw, USB_ROLE_DEVICE);
+> +		ret = usb_role_switch_set_role(path->controller_sw, USB_ROLE_DEVICE);
+>  	else
+> -		ret = usb_role_switch_set_role(chip->role_sw, USB_ROLE_HOST);
+> +		ret = usb_role_switch_set_role(path->controller_sw, USB_ROLE_HOST);
+>  	if (ret)
+>  		dev_err(chip->dev, "failed to set role switch\n");
+>  
+> @@ -290,15 +296,36 @@ static irqreturn_t handle_eud_irq_thread(int irq, void *data)
+>  	return IRQ_HANDLED;
+>  }
+>  
+> -static void eud_role_switch_release(void *data)
+> +static int eud_role_switch_set(struct usb_role_switch *sw, enum usb_role role)
+>  {
+> -	struct eud_chip *chip = data;
+> +	struct eud_path *path = usb_role_switch_get_drvdata(sw);
+> +	int ret;
+> +
+> +	/* Forward the role request to the USB controller */
+> +	ret = usb_role_switch_set_role(path->controller_sw, role);
+> +	if (ret) {
+> +		dev_err(path->chip->dev, "failed to set role %s for port %u: %d\n",
+> +			usb_role_string(role), path->num, ret);
+> +		return ret;
+> +	}
+>  
+> -	usb_role_switch_put(chip->role_sw);
+> +	path->curr_role = role;
+> +
+> +	return 0;
+> +}
+> +
+> +static void eud_path_role_switch_release(void *data)
+> +{
+> +	struct eud_path *path = data;
+> +
+> +	usb_role_switch_unregister(path->eud_sw);
+> +	usb_role_switch_put(path->controller_sw);
+>  }
+>  
+>  static int eud_init_path(struct eud_chip *chip, struct device_node *np)
+>  {
+> +	struct usb_role_switch_desc role_sw_desc;
 
-Reproduce:
+Should role_sw_desc be zero-initialized here? Otherwise, some entries
+of path->eud_sw are uncertain after calling usb_role_switch_register?
 
-  1. Affected platform: an AMD USB4 host with the thunderbolt driver
-     bound to its NHI PCI functions. Observed on a Dell Pro 14 Plus
-     (PB14255, AMD Phoenix) which exposes two USB4 NHI functions
-     (0000:c6:00.5 and 0000:c6:00.6).
+Peter
 
-  2. Put the system into s2idle (Low Power S0 Idle / Modern Standby)
-     with no dock attached.
+> +	struct usb_role_switch *sw;
+>  	struct device_node *controller_node;
+>  	struct eud_path *path;
+>  	u32 path_num;
+> @@ -331,11 +358,44 @@ static int eud_init_path(struct eud_chip *chip, struct device_node *np)
+>  				     "failed to get controller node for path %u\n", path_num);
+>  
+>  	path->phy = devm_of_phy_get_by_index(chip->dev, controller_node, 0);
+> -	of_node_put(controller_node);
+> -
+> -	if (IS_ERR(path->phy))
+> +	if (IS_ERR(path->phy)) {
+> +		of_node_put(controller_node);
+>  		return dev_err_probe(chip->dev, PTR_ERR(path->phy),
+>  				     "failed to get PHY for path %d\n", path_num);
+> +	}
+> +
+> +	path->curr_role = USB_ROLE_NONE;
+> +
+> +	/* Fetch controller role switch if it is role switch capable */
+> +	if (of_property_read_bool(controller_node, "usb-role-switch")) {
+> +		sw = usb_role_switch_find_by_fwnode(of_fwnode_handle(controller_node));
+> +		if (!sw) {
+> +			of_node_put(controller_node);
+> +			return dev_err_probe(chip->dev, -EPROBE_DEFER,
+> +					     "Failed to get controller role switch for path %d\n",
+> +					     path_num);
+> +		}
+> +		path->controller_sw = sw;
+> +	}
+> +
+> +	of_node_put(controller_node);
+> +
+> +	role_sw_desc.fwnode = of_fwnode_handle(np);
+> +	role_sw_desc.set = eud_role_switch_set;
+> +	role_sw_desc.driver_data = path;
+> +	snprintf(path->name, sizeof(path->name), "eud-path%u", path_num);
+> +	role_sw_desc.name = path->name;
+> +
+> +	path->eud_sw = usb_role_switch_register(chip->dev, &role_sw_desc);
+> +	if (IS_ERR(path->eud_sw)) {
+> +		usb_role_switch_put(path->controller_sw);
+> +		return dev_err_probe(chip->dev, PTR_ERR(path->eud_sw),
+> +				     "Failed to register EUD role switch for path %d\n", path_num);
+> +	}
+> +
+> +	ret = devm_add_action_or_reset(chip->dev, eud_path_role_switch_release, path);
+> +	if (ret)
+> +		return ret;
+>  
+>  	chip->paths[path_num] = path;
+>  
+> @@ -365,15 +425,6 @@ static int eud_probe(struct platform_device *pdev)
+>  	if (!chip->paths[0])
+>  		return dev_err_probe(chip->dev, -ENODEV, "primary path not found\n");
+>  
+> -	chip->role_sw = usb_role_switch_get(&pdev->dev);
+> -	if (IS_ERR(chip->role_sw))
+> -		return dev_err_probe(chip->dev, PTR_ERR(chip->role_sw),
+> -					"failed to get role switch\n");
+> -
+> -	ret = devm_add_action_or_reset(chip->dev, eud_role_switch_release, chip);
+> -	if (ret)
+> -		return ret;
+> -
+>  	chip->base = devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(chip->base))
+>  		return PTR_ERR(chip->base);
+> -- 
+> 2.34.1
+> 
+> 
 
-  3. While the system is suspended, plug in a Dell SD25TB4 Thunderbolt 4
-     dock (Goshen Ridge). The plug event wakes the system, and the dock's
-     downstream PCIe bridges are enumerated behind the AMD USB4 PCIe
-     tunnel during the resume.
-
-  4. The machine hard-hangs during the noirq resume phase, before the
-     thunderbolt driver re-establishes the topology. The Dell power
-     indicator flashes the "3A5W" code (3 amber + 5 white lights).
-
-  Removing the trigger makes resume reliable: unbinding the two NHI PCI
-  functions, or unloading the thunderbolt module, before suspend both
-  avoid the hang completely. The difference in those cases is the PCI
-  state the core restores for the driver-bound NHI on resume.
-
-EC team findings (from the platform EC log):
-
-The EC/PD/dock side is healthy across the failing cycle, which points
-the finger at the host resume path rather than the dock:
-
-  - Modern Standby entry and resume are seen on the EC side; the dock
-    plug interrupt during MS is handled and the full power sequence
-    recovers (SLP_S3# okay, PLTRST# received, U8-U20 sequence completed).
-
-  - The EC-to-dock DDM command exchange fully succeeds: all CMsd/CMgd
-    transactions return success (device type, TBT cable type, dock
-    module config for USB/TBT/Audio/LAN).
-
-  - PD/Type-C renegotiation is normal (power contracts up to 95W/100W);
-    no persistent protocol error appears in the log.
-
-  - The only suspicious symptom is host-side: the EC repeatedly logs
-    PmSt_Timeout_Count while waiting for the BIOS/host to consume the
-    wake (PWRB pressed) event. That indicates the host resume path is
-    late or stuck, not an EC-to-dock transport failure. The Dell "3A5W"
-    diagnostic LED code (3 amber + 5 white) maps in the EC code to an
-    SLP_S3#/PLTRST#/RUNPWROK failure indication.
-
-Root cause:
-
-With the driver bound, the PCI core restores the saved NHI config space
-during the noirq resume phase, including PCI_COMMAND with memory space
-and bus mastering enabled. This is the same phase in which the core
-restores the config space of the tunneled PCI bridges and whatever sits
-behind them (the dock). If the AMD host router is made active (memory +
-bus mastering) while the downstream USB4 PCIe tunnel to the dock is still
-being restored and is not yet ready, the host interface starts bus
-activity toward a not-yet-ready endpoint and the PCIe hierarchy wedges.
-
-This matches the workarounds: unbinding the NHI or unloading the module
-means the core does not restore an active NHI over the tunnel during
-noirq, and the hang disappears. Several Thunderbolt-side attempts did not
-help (returning early from nhi_resume_noirq(), disabling host-router wake
-flags, adding an unconditional delay before tunnel activation), which is
-why the actionable boundary is the PCI PM state of the driver-bound AMD
-NHI rather than a later Thunderbolt protocol step. We do not have
-visibility into what the host router does internally in that window; that
-uncertainty is the main reason for sending this as an RFC (see open
-questions below).
-
-What this patch does:
-
-Add a QUIRK_QUIESCE_ON_SUSPEND quirk, currently set for all AMD USB4 host
-routers (matched by vendor AMD + USB4 PCI class), and:
-
-  - clear PCI_COMMAND_MEMORY and PCI_COMMAND_MASTER before the PCI core
-    saves the NHI config space in runtime and system suspend, so the NHI
-    is restored inactive on resume;
-
-  - keep the NHI quiescent across nhi_resume_noirq() (return early without
-    touching the controller), so it stays inactive while the core
-    restores the tunneled bridges and the dock;
-
-  - once the whole system has resumed, re-enable memory space and bus
-    mastering and bring the domain back up from the PM complete callback
-    via tb_domain_resume_noirq(), and from nhi_runtime_resume() for the
-    runtime PM path.
-
-The result is that Thunderbolt/USB4 stays functional after resume instead
-of the machine hanging or the tunnels staying down until the module is
-reloaded.
-
-Test results:
-
-Tested on the Dell Pro 14 Plus (PB14255, AMD Phoenix, two USB4 host
-routers) with the Dell SD25TB4 dock. Without the patch, the sequence
-above hard-hangs during resume. With the patch, repeated suspend/resume
-cycles with the dock connected complete cleanly with no hang. After
-resume the NHI PCI_COMMAND reads back with MEMORY|MASTER set again, and
-the dock's downstream USB devices re-enumerate, confirming the USB tunnel
-is restored and the domain is functional.
-
-Caveats observed while the NHI is quiescent across noirq: config space
-reads to the host router time out and TMU configuration restore fails
-during that window; the controller and domain are fully brought back in
-nhi_complete(). The DP tunnel restore path was not exercised in this
-test, as no external display was driven through the dock during the
-tested cycle.
-
-Open questions for RFC discussion:
-
-  1. Root cause: what does the AMD host router actually do when it is
-     restored with memory + bus mastering enabled during noirq while the
-     downstream tunnel is not ready? Is this an expected ordering
-     constraint, a firmware behavior, or a hardware erratum?
-
-  2. Scope: the quirk currently matches all AMD USB4 host routers by
-     class. Which parts are actually affected? Should this be narrowed
-     (e.g. by DMI or specific device IDs) instead of applied to all AMD
-     USB4?
-
-  3. Mechanism: is clearing both PCI_COMMAND_MEMORY and PCI_COMMAND_MASTER
-     the right lever, or would clearing bus mastering alone suffice and be
-     less invasive? Is poking PCI_COMMAND directly acceptable in the NHI
-     driver, or should this move into a PCI backend op / PCI quirk?
-
-Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
----
- drivers/thunderbolt/nhi.c | 78 +++++++++++++++++++++++++++++++++++++--
- drivers/thunderbolt/nhi.h |  5 ++-
- drivers/thunderbolt/pci.c |  8 ++++
- 3 files changed, 85 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index 698fb124d529..787185c745ae 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -16,6 +16,7 @@
- #include <linux/interrupt.h>
- #include <linux/iommu.h>
- #include <linux/module.h>
-+#include <linux/pci.h>
- #include <linux/delay.h>
- #include <linux/property.h>
- #include <linux/string_choices.h>
-@@ -40,6 +41,31 @@ static bool host_reset = true;
- module_param(host_reset, bool, 0444);
- MODULE_PARM_DESC(host_reset, "reset USB4 host router (default: true)");
- 
-+static bool nhi_quirk_quiesce_on_suspend(const struct tb_nhi *nhi)
-+{
-+	return nhi->quirks & QUIRK_QUIESCE_ON_SUSPEND;
-+}
-+
-+static void nhi_disable_pci_mem_master(struct tb_nhi *nhi)
-+{
-+	struct pci_dev *pdev = to_pci_dev(nhi->dev);
-+	u16 cmd;
-+
-+	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-+	cmd &= ~(PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER);
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+}
-+
-+static void nhi_enable_pci_mem_master(struct tb_nhi *nhi)
-+{
-+	struct pci_dev *pdev = to_pci_dev(nhi->dev);
-+	u16 cmd;
-+
-+	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
-+	cmd |= PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER;
-+	pci_write_config_word(pdev, PCI_COMMAND, cmd);
-+}
-+
- static int ring_interrupt_index(const struct tb_ring *ring)
- {
- 	int bit = ring->hop;
-@@ -988,6 +1014,9 @@ static int __nhi_suspend_noirq(struct device *dev, bool wakeup)
- 			return ret;
- 	}
- 
-+	if (nhi_quirk_quiesce_on_suspend(nhi))
-+		nhi_disable_pci_mem_master(nhi);
-+
- 	return 0;
- }
- 
-@@ -1038,6 +1067,18 @@ static int nhi_resume_noirq(struct device *dev)
- 	struct tb_nhi *nhi = tb->nhi;
- 	int ret;
- 
-+	/*
-+	 * If the NHI was quiesced on suspend keep it quiescent (bus
-+	 * mastering and memory access disabled) across the noirq phase.
-+	 * The PCI core restores the config space of the tunneled PCI
-+	 * bridges and anything behind them (e.g. a dock) here; letting the
-+	 * AMD host router become active now can wedge the PCIe bus before
-+	 * the dock side is ready. The controller and domain are brought
-+	 * back up in nhi_complete() once the whole system has resumed.
-+	 */
-+	if (nhi_quirk_quiesce_on_suspend(nhi))
-+		return 0;
-+
- 	/*
- 	 * Check that the device is still there. It may be that the user
- 	 * unplugged last device which causes the host controller to go
-@@ -1064,16 +1105,33 @@ static int nhi_suspend(struct device *dev)
- static void nhi_complete(struct device *dev)
- {
- 	struct tb *tb = dev_get_drvdata(dev);
-+	struct tb_nhi *nhi = tb->nhi;
- 
- 	/*
- 	 * If we were runtime suspended when system suspend started,
- 	 * schedule runtime resume now. It should bring the domain back
--	 * to functional state.
-+	 * to functional state (and undo the quiesce, if any, via
-+	 * nhi_runtime_resume()).
- 	 */
--	if (pm_runtime_suspended(dev))
-+	if (pm_runtime_suspended(dev)) {
- 		pm_runtime_resume(dev);
--	else
--		tb_domain_complete(tb);
-+		return;
-+	}
-+
-+	/*
-+	 * A quiesced NHI (see __nhi_suspend_noirq()) was intentionally
-+	 * left with bus mastering and memory access disabled and its
-+	 * domain was not resumed in nhi_resume_noirq(). Now that the whole
-+	 * system has resumed and the PCI core has finished restoring the
-+	 * tunneled bridges, re-enable the controller and bring the domain
-+	 * back up so Thunderbolt/USB4 keeps working after resume.
-+	 */
-+	if (nhi_quirk_quiesce_on_suspend(nhi)) {
-+		nhi_enable_pci_mem_master(nhi);
-+		tb_domain_resume_noirq(tb);
-+	}
-+
-+	tb_domain_complete(tb);
- }
- 
- static int nhi_runtime_suspend(struct device *dev)
-@@ -1091,6 +1149,10 @@ static int nhi_runtime_suspend(struct device *dev)
- 		if (ret)
- 			return ret;
- 	}
-+
-+	if (nhi_quirk_quiesce_on_suspend(nhi))
-+		nhi_disable_pci_mem_master(nhi);
-+
- 	return 0;
- }
- 
-@@ -1100,6 +1162,14 @@ static int nhi_runtime_resume(struct device *dev)
- 	struct tb_nhi *nhi = tb->nhi;
- 	int ret;
- 
-+	/*
-+	 * The NHI is quiesced (bus mastering and memory access disabled)
-+	 * across runtime suspend as well; re-enable it before resuming the
-+	 * domain.
-+	 */
-+	if (nhi_quirk_quiesce_on_suspend(nhi))
-+		nhi_enable_pci_mem_master(nhi);
-+
- 	if (nhi->ops->runtime_resume) {
- 		ret = nhi->ops->runtime_resume(nhi);
- 		if (ret)
-diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
-index d488eadadfce..c8b973150434 100644
---- a/drivers/thunderbolt/nhi.h
-+++ b/drivers/thunderbolt/nhi.h
-@@ -119,8 +119,9 @@ struct tb_nhi_ops {
- #define PCI_CLASS_SERIAL_USB_USB4			0x0c0340
- 
- /* Host interface quirks */
--#define QUIRK_AUTO_CLEAR_INT	BIT(0)
--#define QUIRK_E2E		BIT(1)
-+#define QUIRK_AUTO_CLEAR_INT		BIT(0)
-+#define QUIRK_E2E			BIT(1)
-+#define QUIRK_QUIESCE_ON_SUSPEND	BIT(2)
- 
- /*
-  * Minimal number of vectors when we use MSI-X. Two for control channel
-diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
-index dbb6badda867..4cf8107f1ce8 100644
---- a/drivers/thunderbolt/pci.c
-+++ b/drivers/thunderbolt/pci.c
-@@ -43,6 +43,14 @@ static void nhi_pci_check_quirks(struct tb_nhi_pci *nhi_pci)
- 	struct tb_nhi *nhi = &nhi_pci->nhi;
- 	struct pci_dev *pdev = to_pci_dev(nhi->dev);
- 
-+	/*
-+	 * AMD USB4 host routers may otherwise become active too early during
-+	 * resume after the PCI core restores the saved COMMAND register.
-+	 */
-+	if (pdev->vendor == PCI_VENDOR_ID_AMD &&
-+	    pdev->class == PCI_CLASS_SERIAL_USB_USB4)
-+		nhi->quirks |= QUIRK_QUIESCE_ON_SUSPEND;
-+
- 	if (pdev->vendor == PCI_VENDOR_ID_INTEL) {
- 		/*
- 		 * Intel hardware supports auto clear of the interrupt
 -- 
-2.53.0
 
+Thanks,
+Peter Chen
