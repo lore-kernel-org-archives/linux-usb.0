@@ -1,104 +1,150 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA941430CE1
-	for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2026 09:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A033E37F010
+	for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2026 10:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783331272; cv=none; b=Fg/kEhvff7ilGg60hwE/FUz0bRwLjOrwE1BhtbkHjUmC8tcp/mgiYvps/QNBJnG2V7eXobOy7fLzGqZvXSg3Y0JG1PZdltwebMiYAIHUT7xR37JwJ/Dvn+IbryYAFhRT1Ji+WjNj5C2YXNAMS1dKGI3JdqIUAKKu3janDvwILi4=
+	t=1783332763; cv=none; b=bZYuIavhbkMZJUQI4jnGTJqNfwwGQ9W6xsLE5t2DcsTVfPv0XyEK1NA3bDYp71NpeonCQjfBpkash6aBjV7UUDZvMcBxpMsXOxNLasoCFhK/uEBHmqDmzWopjPcBv9EPZj2otmppOygoq8IpjbVD2igvJJaVD8rkmIQ29EGKQa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783331272; c=relaxed/simple;
-	bh=D2BNJPxvq5thXA3AEMfHup29jkERlBHJxKYnRI3a8uo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u72SYhDczyDDVKMHJiArdZxLB+QbXsf2MY8P9/gSoMqO++YqM2MiQZChPHBcKJCIHRxbGnJF9Bx64g/SUxrGgZQQnRCoQNbie5UIA2WHzE02n8x1HopFHIsI4nZHppacYt39UMszMOIKprQApJQ8HQFVfEoX8YfGzGqOo1qLYDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=FkzL7q9p; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1783332763; c=relaxed/simple;
+	bh=Td4o8heeZk0DnQ8mv67J0Hk3GdFf6dmD1Z4b65a9lqg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ENu+bNepTQH8hPxTpiVDS96stdcDbBvO+iwDzBQH2Tce1Fud1zWolVtW3xxngqlOCdC+jm+3+3hYkz7e7IkOUWL31gOSR5Snf7tRtC8XBy8QiPalRgzwNWTxbhCudzYDfMYLZrH8dkmAJBM/Xag+KxEGtEa1Hex5DVSInoGn6do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Qvm8nFZZ; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="FkzL7q9p"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-493b779003fso13716295e9.3
-        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2026 02:47:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Qvm8nFZZ"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4703bc0a99aso1517505f8f.3
+        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2026 03:12:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1783331266; x=1783936066; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4hhuJuMJe9nSKrMMzfJ8+GyPLHWWUVbJ5xDdEwOzMhg=;
-        b=FkzL7q9pCclLkErL25OIB8+uIJOo85bbjUoGfDi7qYVf5D+Y5+CYK/8vWtxkkEJnIO
-         0WgVNoNxWPNNaWTq09nIoyT7YuYrMu/PxMeRVoa2r1RTqpMigmcr/6HTyxKy/SFJUsXF
-         Mc4hxGo90HwESHIPaf5fvs3g7gycwZ1BXYJMfdjLCAKy4p1zsRaMMV46oNFpwScujsJy
-         K3xdcGM3XiaX/YLJkq8r8NNevb97GS+yYIddc9IoVaAZ7Wkln0YblyZwv2ntPfBO0Lpt
-         tjNhbb3GofaQknRly6AdvZwAfeHv0W8DopcOPaP+tmuNAMi7A53cr7ius3vtjYhvyzVe
-         eTNQ==
+        d=suse.com; s=google; t=1783332760; x=1783937560; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Mkbc+c0C8PgJHhl5zgZ77lqma+6a8EipNiJ5zSuJCo4=;
+        b=Qvm8nFZZU7uAFkf0tZVQiAZP+oEEXiaK9kHVay7nGaO5zbja7CCCwhImJkEpFCGKaO
+         tYWrJjLT8wYrvaEMevEwIOqjilqjVFXc4438qT4nZuekpSIVo7fxKdAcsTtgHfA5wwwl
+         9vTCBhLvarnTPoaCAkQnM78ISUZEkcOk4m+c2LgakaY+ZsqrQ4/4EP7wH8k4m2/NZRMx
+         qGrWwMLmLPxJl4dh4LqLaotCff9ICGSw8jLMDDUgt3IRhb7HjsYhAwniJk7s2P0smQNv
+         0+zRTJ3GOePdY6bjFBWv64AU/IdUxrjl17vqICWcg7rw8J2SKJYddFlnY50m7AO03ZW1
+         bZ2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783331266; x=1783936066;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4hhuJuMJe9nSKrMMzfJ8+GyPLHWWUVbJ5xDdEwOzMhg=;
-        b=J7pxmWSBiwMdnIQ0xMtzTeH67oU5NDsVa2gMdOnTmmNwv8qjy4SNqf4iAZLNQPQho8
-         tcybRHm+JWUNF86jZalF/bXXAl+bT7asYUDGilCxeiuqAhCxzcOlBsyih4hW+qebUoyO
-         /bAlysD9H1U8AOxykFOHL0IWgbMTMq1elB4gbjztEpd6d5mHVVwbvOnYUAjLVBShcRPJ
-         m3vAqirBwTJ5/WKN5OnUzQOR7dbCscB8gaSzFyxw2amnOjxbiKkYkto4y1c/gPP0EJ5T
-         FgqtkG4keUT7QOTgtTEcy8P5sD5Tsy7TzNUo2Dh4eO7yCj7ZOp9cPcjDqZS2pHvmiEtC
-         Ww4Q==
-X-Gm-Message-State: AOJu0Ywkk3DBjlaCbeD+A4rLpLA/5d/N3um1E/TpnBGg7MpJKVoIsMdF
-	8SC/e9qvLRbWEAeqKTy1e3dopMsbNdOJK0ikBDPrMlBoBwstchQQ8sZyrQyJS4RWOiM=
-X-Gm-Gg: AfdE7clIoSUMV2F6F3Y4UafCiMSAoshvaxivIW9zMf70g+dfqNtGcD5HWyXQAjHgYl0
-	2lepeVC0hvcjg6Sn7WnR8tbNizJgZygzzDPjnKnYVmObbj1dENukrxc1rkxE1Q1l8MMWJ1dG1WV
-	CRTUYUf0OVsdel3GdIStpP4zwPWG4FQekvoD5RN7kEZ1gBZ1++0hMSTTG6FIoz3zpedYGBBZd13
-	srum//h+Wp4iD0MAaX7PpQLqZAPleCj5Oso4dq6Palvi6bjAoos6lOl6uAghOBYnTvR28x4oK3S
-	DsXvdUEo4pLLNdoILxy5giDUe1Ma9JuAGkXHMQZ3s/ivJJ4LAWXH7kVHiBHV5uZNxzj3qDr3+af
-	ix+cfboBAmKms12py7oZSqiNkRFUcq0wJDqrbzjAUeUUkptYtSRRSJCNasdzbC0mRUlK6RJCouJ
-	QLmhDSUc3lHaGUKxM5TdJwQhdjw41jlFamDDoZryAq2glQgoFzDaYZDzU=
-X-Received: by 2002:a05:600c:8b6e:b0:492:66fb:5dc5 with SMTP id 5b1f17b1804b1-493d11f326fmr107259495e9.24.1783331266628;
-        Mon, 06 Jul 2026 02:47:46 -0700 (PDT)
-Received: from ?IPV6:2001:a61:136f:7201:4a82:7cef:c61f:a3f3? ([2001:a61:136f:7201:4a82:7cef:c61f:a3f3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493ccdab27dsm253380765e9.4.2026.07.06.02.47.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jul 2026 02:47:46 -0700 (PDT)
-Message-ID: <d53a6525-55bd-495d-91eb-4537f804a74c@suse.com>
-Date: Mon, 6 Jul 2026 11:47:45 +0200
+        d=1e100.net; s=20251104; t=1783332760; x=1783937560;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Mkbc+c0C8PgJHhl5zgZ77lqma+6a8EipNiJ5zSuJCo4=;
+        b=hdwHabVK0pKYbBA0qoxM2ZRmX0xAFf2kx1eMqTM6WHnHQDatyJsa2wiHQlWaTtOhSb
+         r0vX+Or8yMuAHwK5uMoKZ9hm1gAgqL7nEAT7hDCjh5rrJ7jiKPbocaQ3Wuf4cyfVmLUi
+         eyFyfPumIzrVXh1NCqrqmXjTS5u5G6WcsUGlZyymXFCqGtoS8kRqCYjg35OjdC1pR/6X
+         BHHF4VFLwj5SQadUBWxCVFCgMDu7CsbTVDw0/yI9cuCvsJg3wCXufRJkhmTGLRw81G7M
+         9J2/68/CEONgAhes2vIn+mYukytYBGVaeNFVNEU4wir4pg0gJoT4/U2HneH5w44fNbWs
+         jWgQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq162BUiPhr6oohRMce5dmx6iwyXxmRpuuDlzv/z1+XFCJ7aABLUeJ8TAzKw7pwJxLCnXf0/tEwhj0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJKqkkt84FERCBxYQRwXGgv5tT2iNYg05XN6H1p2BhxziARJC/
+	tkB2JZMK6z5Bkk0Hc8vBFTPnFH7MNC194cZKR2pmTzvqpL6mb/xRcVwOLQ+q2YJgKW2vwx4C64a
+	D7IZoXmY=
+X-Gm-Gg: AfdE7cnVooqHg5na+twygxgyfCKAuk0xzCetiC6huYllhp3BzHWOsvcHxxQzVItUTn8
+	GG/UK3uivfTHQHRt8yvlv0j0BmzyH836LiwlMWqaV8OIrYWXoeOsJcGAcoGcGej1KYDZJ7KNpKI
+	emYLgpysPzP35bzNs6zM2PYdcjM84NOUSiHMAJGeuPM+/3rme0KEF9ZRvThw79A42Hi1581io/0
+	wA/luJ34IXJmy46jq9PlomB/OcKBwSreXQM7X4zImkSw7wePTAqJvJtxU13t4H6dwxOfzbNXLAL
+	PEJr6UUNgKPfxrZPza1lWoPjf+rH7uZ5r8DMHiSfwqazn8dB24bfpGL4/b+gGlUn3b05IUE12nB
+	eMmIRJ1Bse5HOIvIh71ESLWPB7LmgziH63wPIJqHtAAoLY6BKdIiUW5oZCwatgMcbOvHaSZRTuI
+	dnWNaapU1EuC3tvURETYd9uCkLy0Gn+DNsJtdN
+X-Received: by 2002:a05:6000:4301:b0:475:1583:a414 with SMTP id ffacd0b85a97d-47aab29e5abmr10709384f8f.31.1783332759943;
+        Mon, 06 Jul 2026 03:12:39 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9de1d8f1sm23412049f8f.3.2026.07.06.03.12.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jul 2026 03:12:39 -0700 (PDT)
+From: Marco Crivellari <marco.crivellari@suse.com>
+To: linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Cc: Tejun Heo <tj@kernel.org>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v4] usb: typec: ucsi: Move long delayed work on system_dfl_long_wq
+Date: Mon,  6 Jul 2026 12:12:28 +0200
+Message-ID: <20260706101228.135833-1-marco.crivellari@suse.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 11/11] rust: usb: let drivers choose the transfer
- allocation flags
-To: Mike Lothian <mike@fireburn.co.uk>, rust-for-linux@vger.kernel.org
-Cc: linux-usb@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Daniel Almeida <daniel.almeida@collabora.com>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>, linux-kernel@vger.kernel.org
-References: <20260617145946.1894-1-mike@fireburn.co.uk>
- <20260703030020.2694-1-mike@fireburn.co.uk>
- <20260703030020.2694-12-mike@fireburn.co.uk>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20260703030020.2694-12-mike@fireburn.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Currently the code enqueue work items using {queue|mod}_delayed_work(),
+using system_long_wq. This workqueue should be used when long works are
+expected and it is a per-cpu workqueue.
 
+The function(s) end up calling __queue_delayed_work(), which set a global
+timer that could fire anywhere, enqueuing the work where the timer fired.
 
-On 03.07.26 05:00, Mike Lothian wrote:
-> Oliver Neukum review of the synchronous transfer bindings: a USB driver must be able to
-> specify GFP_KERNEL vs GFP_NOIO/GFP_NOFS (USB shares error handling and power management
-> across a device's interfaces, so allocations on reset/resume/error paths must not recurse
-> into I/O). Thread a `gfp: Flags` parameter through bulk_send/bulk_recv/interrupt_recv/
-> control_send/control_recv (both the Interface wrappers and the Device impls) instead of
-> hardcoding GFP_KERNEL.
+Unbound works could benefit from scheduler task placement, to optimize
+performance and power consumption. Long work shouldn't stick to a single
+CPU.
 
-Sorry,  I did not read this befor replying to teh first patch.
+Recently, a new unbound workqueue specific for long running work has
+been added:
 
-	REgards
-		Oliver
+    c116737e972e ("workqueue: Add system_dfl_long_wq for long unbound works")
+
+Since the workqueue work doesn't rely on per-cpu variables, there is no
+obvious reason that justify the use of a per-cpu workqueue. So change
+system_long_wq with system_dfl_long_wq so that the work may benefit from
+scheduler task placement.
+
+Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+Changes in v4:
+- rebased on v7.2-rc2
+
+Link to v3: https://lore.kernel.org/all/20260525074857.30816-1-marco.crivellari@suse.com/
+
+Changes in v3:
+- Removed RFC prefix from patch subject
+
+Link to v2: https://lore.kernel.org/all/20260508143853.330151-1-marco.crivellari@suse.com/
+
+Changes in v2:
+- Fixed a wrong change regarding system_long_wq used by queue_work() instead of queue_delayed_work()
+
+Link to v1: https://lore.kernel.org/all/20260507142726.331206-1-marco.crivellari@suse.com/
+
+ drivers/usb/typec/ucsi/ucsi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 92166a3725b1..881b44663c30 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -2040,7 +2040,7 @@ static void ucsi_init_work(struct work_struct *work)
+ 			return;
+ 		}
+ 
+-		queue_delayed_work(system_long_wq, &ucsi->work,
++		queue_delayed_work(system_dfl_long_wq, &ucsi->work,
+ 				   UCSI_ROLE_SWITCH_INTERVAL);
+ 	}
+ }
+@@ -2164,7 +2164,7 @@ int ucsi_register(struct ucsi *ucsi)
+ 		UCSI_BCD_GET_MINOR(ucsi->version),
+ 		UCSI_BCD_GET_SUBMINOR(ucsi->version));
+ 
+-	queue_delayed_work(system_long_wq, &ucsi->work, 0);
++	queue_delayed_work(system_dfl_long_wq, &ucsi->work, 0);
+ 
+ 	ucsi_debugfs_register(ucsi);
+ 	return 0;
+-- 
+2.54.0
 
