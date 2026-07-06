@@ -1,290 +1,210 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370EB3FADF6;
-	Mon,  6 Jul 2026 06:38:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CB13B6BF5;
+	Mon,  6 Jul 2026 06:47:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783319931; cv=none; b=L2FnOxoR7uON4Qmfwoy8J7ePLJYy8q4bJO1HCzo9zTVsweDBFxbdyWryV/eEYnNTSZ3mQVF3hj+9bwZEAOgYxsGJrd/FGqtBR2cZHg+okjwsn85PdNV/ihxvWFuYhI31yw5nov8RzanOYY5WQNtFkZRKPoF7N3jyXTFUoI9JsMc=
+	t=1783320430; cv=none; b=qEJfj8ZQumIGImeqA0OxZa2bD/1gUSt5gdVPxu+937YqDkTbN6JfqvvUzcyVio9jQwIYEnUA1w1NXXcJ6x0SFlMWGSRWYEluynxFs1rs1Uj2dVqKAnY4hMId9q4c5rMqXA4h0viKtCgzeogWbRVb29nfGZW/oOm4S9sZt2bkwe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783319931; c=relaxed/simple;
-	bh=qPVhDvIRUyEoIcOLDhi/aPVJoftWUtMyOPlDpBoQXkk=;
+	s=arc-20240116; t=1783320430; c=relaxed/simple;
+	bh=WSIsdQU2pyRhmfyLF78HeRoVTASfckInwwfvFWy/22Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fQSeZufqBmAl2qWi5Vu73gg4MP9E/hMiyn/JbmBR4ylU/I68A55ypKmpyywAlw//R/9VMHTFjBTS23ggr1ZrORzPCPyMxSimH12vuL/rX6BazaQZ8k/9TVZ1+shRpFk5YTv/Cuey1Ru9XOguj8+KORoCxcBaysfBzT9jlok41zI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Uwgd81sB; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kBgwxuz/iAYY5Nn40LMGQxkh6/5i76q4Xyg0k3ugdqpiGjVlu2bE4Tb5WucgCk2iSjK6NiVc3m38go4lUQqcmzyeh3X6Hn9XFx31nlsEKNrTRVa6eMgegQ0WauA1dqvCe0ePm7WLnQybtnP/NOm6ttznV36Q05v93hHY9X6MPkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZuHbbIBz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Uwgd81sB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A10B01F00A3A;
-	Mon,  6 Jul 2026 06:38:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783319917;
-	bh=El/jXc9nOcxjBGkPQzB98ds54D+ZGmIFy8nYp/Sat7g=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZuHbbIBz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19E451F000E9;
+	Mon,  6 Jul 2026 06:46:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783320418;
+	bh=QqNfUex+j9ATVz44P9ndccUhO6+rl3jS0mJdu5yrkL0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Uwgd81sBwoxrVqS+Q/Jno3eu2hYcPeempzvem6bi9df3/9SKrpnIZCUu0wQoEfHu8
-	 NjgGC3WW8QeDEw9GGUaYJacJuTcr897tem7eo4WRtdL08mWgjwoE8LeafqammvrjFO
-	 E29IypQvAylFzF+I4M0jeHvMX5EeCh8CjdFSJpds=
-Date: Mon, 6 Jul 2026 08:37:21 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: AceLan Kao <acelan.kao@canonical.com>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Kuen-Han Tsai <khtsai@google.com>, Ingo Molnar <mingo@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Kees Cook <kees@kernel.org>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Chenyuan Yang <chenyuan0y@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] USB: hub: call ACPI _PRR reset during port power-cycle
- on enumeration failure
-Message-ID: <2026070612-customer-blitz-3e90@gregkh>
-References: <20260326011708.1128840-1-acelan.kao@canonical.com>
- <2026070349-unwound-cavalier-fb60@gregkh>
- <CAFv23Q=jtz9fYH7zY+ByCOiA_KGNoyCkUh=FJBssqu7D_O0K1w@mail.gmail.com>
+	b=ZuHbbIBzWsqc2Zsub+rf39Agvmp/xQQwDHQDQkWpif+FQ6DSTBSQb8fQdcZ4YVALZ
+	 Q0eI9olDdxilLj2GZ1VkZpubFCIpmRGCrU9UCdj1O3/xaWNBkSbkG26MbS7oCxdaV+
+	 /vatAhKvzwcwYM9Mdkk5dQqJ55Y78OHpknSxjVvseG3+ZD691IS85/ubJbi4BnOrkw
+	 LE4d2odZHJlLDf3GcaCE0GZSQr+uxZbbmzvCG+Ecz6yhc4CLGp53526hSusFRzYon8
+	 ju+uxzZLpZ9zUinuk29elh8p/AaY7Yb8ld9hxcUGWpHZ3BEPCfHlZHE1Er/K4sA1h1
+	 mfpbBRO6JJ3Lg==
+Date: Sun, 5 Jul 2026 23:46:56 -0700
+From: Peter Chen <peter.chen@kernel.org>
+To: Elson Serrao <elson.serrao@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 6/9] usb: misc: qcom_eud: add host mode coordination
+Message-ID: <aktPYAddL-5efK9i@hu-petche-lv.qualcomm.com>
+References: <20260501170635.2641748-1-elson.serrao@oss.qualcomm.com>
+ <20260501170635.2641748-7-elson.serrao@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFv23Q=jtz9fYH7zY+ByCOiA_KGNoyCkUh=FJBssqu7D_O0K1w@mail.gmail.com>
+In-Reply-To: <20260501170635.2641748-7-elson.serrao@oss.qualcomm.com>
 
-On Mon, Jul 06, 2026 at 01:04:19PM +0800, AceLan Kao wrote:
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> 於 2026年7月3日週五 下午5:43寫道：
-> >
-> > On Thu, Mar 26, 2026 at 09:17:08AM +0800, Chia-Lin Kao (AceLan) wrote:
-> > > Some USB-connected devices (e.g. MT7925 Bluetooth on Dell laptops) expose
-> > > their hardware reset line via an ACPI Power Resource for Reset (_PRR)
-> > > rather than relying solely on VBUS cycling for recovery.  When the reset
-> > > GPIO gets stuck low the device stops responding on USB; a VBUS power-cycle
-> > > alone cannot recover it because the chip remains in reset regardless of
-> > > VBUS state.
-> > >
-> > > Add usb_acpi_port_prr_reset() in usb-acpi.c that, given a hub device and
-> > > one-based port number, looks up the port's ACPI companion handle, evaluates
-> > > _PRR to obtain the power-resource reference, and then calls _RST on that
-> > > reference to toggle the reset line.  The function is a no-op if the port
-> > > has no ACPI handle or no _PRR method, so it is safe to call unconditionally
-> > > for every port.
-> > >
-> > > Wire it into hub_port_connect() during the mid-retry VBUS power-cycle
-> > > (at (PORT_INIT_TRIES-1)/2 iterations), calling usb_acpi_port_prr_reset()
-> > > *after* VBUS goes off and *before* VBUS comes back on.  The ordering is
-> > > critical: on the tested hardware the ACPI _RST method (MBTR._RST) drives
-> > > BT_RST low for 200 ms then high again.  If _RST is called after VBUS is
-> > > already restored the GPIO pulse races with device enumeration starting on
-> > > the live bus; the device begins asserting USB signals while still held in
-> > > reset and enumeration fails.  Performing the reset while the port is
-> > > de-powered ensures the GPIO pulse completes fully before the device is
-> > > given power and time to initialise.
-> > >
-> > > After VBUS is restored, add an msleep(100) conditional on _PRR._RST having
-> > > succeeded.  USB 2.0 spec §7.1.7.3 (Fig. 7-29) mandates a minimum of 100 ms
-> > > between VBUS power-on and the first reset signalling for power settling.
-> > > On root hubs, hub_power_on_good_delay() returns bPwrOn2PwrGood * 2 with
-> > > no minimum floor; on the tested xHCI root hub bPwrOn2PwrGood = 10, yielding
-> > > only 20 ms — well below the spec minimum.  (External hubs already enforce
-> > > a 100 ms minimum via hub_power_on_good_delay().)  When _PRR._RST has been
-> > > exercised the device must also complete its full power-on sequence (GPIO
-> > > de-assertion, internal oscillator start, firmware load) before USB
-> > > enumeration begins.  The 100 ms sleep enforces the spec minimum and gives
-> > > the device adequate settling time.
-> > >
-> > > Tested on a Dell laptop with MT7925 Bluetooth (idVendor=0489,
-> > > idProduct=e139) whose BT_RST GPIO was stuck low.  With this fix the
-> > > device recovers autonomously at boot without requiring a G3
-> > > (mechanical power-off) cycle.  The relevant dmesg sequence:
-> > >
-> > >   [    1.448491] usb 3-10: new high-speed USB device number 4 using xhci_hcd
-> > >   [    6.813942] usb 3-10: device descriptor read/64, error -110
-> > >   [   22.685978] usb 3-10: device descriptor read/64, error -110
-> > >   [   22.901715] usb 3-10: new high-speed USB device number 5 using xhci_hcd
-> > >   [   28.317963] usb 3-10: device descriptor read/64, error -110
-> > >   [   44.189949] usb 3-10: device descriptor read/64, error -110
-> > >   [   44.294065] usb usb3-port10: attempt power cycle
-> > >   [   44.872709] usb 3-10: new high-speed USB device number 6 using xhci_hcd
-> > >   [   44.888293] usb 3-10: New USB device found, idVendor=0489, idProduct=e139, bcdDevice= 1.00
-> > >   [   44.888318] usb 3-10: Manufacturer: MediaTek Inc.
-> > >
-> > > Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
-> > > ---
-> > >  drivers/usb/core/hub.c      | 14 ++++++++
-> > >  drivers/usb/core/usb-acpi.c | 68 +++++++++++++++++++++++++++++++++++++
-> > >  drivers/usb/core/usb.h      |  3 ++
-> > >  3 files changed, 85 insertions(+)
-> > >
-> > > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> > > index 24960ba9caa91..1740e96f73cc6 100644
-> > > --- a/drivers/usb/core/hub.c
-> > > +++ b/drivers/usb/core/hub.c
-> > > @@ -5603,11 +5603,25 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
-> > >
-> > >               /* When halfway through our retry count, power-cycle the port */
-> > >               if (i == (PORT_INIT_TRIES - 1) / 2) {
-> > > +                     int prr_reset;
-> > > +
-> > >                       dev_info(&port_dev->dev, "attempt power cycle\n");
-> > >                       usb_hub_set_port_power(hdev, hub, port1, false);
-> > >                       msleep(2 * hub_power_on_good_delay(hub));
-> > > +                     prr_reset = usb_acpi_port_prr_reset(hdev, port1);
-> > >                       usb_hub_set_port_power(hdev, hub, port1, true);
-> > >                       msleep(hub_power_on_good_delay(hub));
-> > > +                     /*
-> > > +                      * USB 2.0 spec §7.1.7.3 requires at least 100 ms
-> > > +                      * between VBUS power-on and the first reset for power
-> > > +                      * settling.  hub_power_on_good_delay() on an xHCI root
-> > > +                      * hub returns bPwrOn2PwrGood * 2 with no minimum floor,
-> > > +                      * which can be as little as 20 ms.  When _PRR _RST was
-> > > +                      * also exercised the device must complete its power-on
-> > > +                      * sequence before enumeration; enforce the spec minimum.
-> > > +                      */
-> > > +                     if (prr_reset == 0)
-> > > +                             msleep(100);
-> > >               }
-> > >       }
-> > >       if (hub->hdev->parent ||
-> > > diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
-> > > index 489dbdc96f94a..ee62e3fd8e3a1 100644
-> > > --- a/drivers/usb/core/usb-acpi.c
-> > > +++ b/drivers/usb/core/usb-acpi.c
-> > > @@ -142,6 +142,74 @@ int usb_acpi_set_power_state(struct usb_device *hdev, int index, bool enable)
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(usb_acpi_set_power_state);
-> > >
-> > > +/**
-> > > + * usb_acpi_port_prr_reset - issue an ACPI _PRR reset on a hub port
-> > > + * @hdev: USB device belonging to the usb hub
-> > > + * @port1: port number (one-based)
-> > > + *
-> > > + * Some devices expose their hardware reset line via an ACPI Power Resource for
-> > > + * Reset (_PRR).  When such a device fails to enumerate (e.g. because the reset
-> > > + * GPIO is stuck low), the USB power-cycle alone is not enough; the firmware
-> > > + * reset path must also be exercised.
-> > > + *
-> > > + * This function evaluates _PRR on the port's ACPI companion to obtain the
-> > > + * power-resource reference and then calls _RST on that resource to toggle the
-> > > + * reset line.  It is intended to be called alongside the mid-retry VBUS
-> > > + * power-cycle already performed by hub_port_connect().
-> > > + *
-> > > + * Returns 0 on success, -ENODEV if the port has no ACPI handle or no _PRR
-> > > + * method, or a negative error code on failure.
-> > > + */
-> > > +int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1)
-> > > +{
-> > > +     acpi_handle port_handle;
-> > > +     struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-> > > +     union acpi_object *pkg, *ref;
-> > > +     acpi_status status;
-> > > +     int ret = 0;
-> > > +
-> > > +     port_handle = usb_get_hub_port_acpi_handle(hdev, port1);
-> > > +     if (!port_handle)
-> > > +             return -ENODEV;
-> > > +
-> > > +     if (!acpi_has_method(port_handle, "_PRR"))
-> > > +             return -ENODEV;
-> > > +
-> > > +     status = acpi_evaluate_object(port_handle, "_PRR", NULL, &buffer);
-> > > +     if (ACPI_FAILURE(status)) {
-> > > +             dev_dbg(&hdev->dev, "port%d: _PRR evaluation failed: %s\n",
-> > > +                     port1, acpi_format_exception(status));
-> > > +             return -ENODEV;
-> > > +     }
-> > > +
-> > > +     pkg = buffer.pointer;
-> > > +     if (!pkg || pkg->type != ACPI_TYPE_PACKAGE || pkg->package.count < 1) {
-> > > +             dev_dbg(&hdev->dev, "port%d: _PRR returned unexpected object\n",
-> > > +                     port1);
-> > > +             ret = -EINVAL;
-> > > +             goto out;
-> > > +     }
-> > > +
-> > > +     ref = &pkg->package.elements[0];
-> > > +     if (ref->type != ACPI_TYPE_LOCAL_REFERENCE || !ref->reference.handle) {
-> > > +             dev_dbg(&hdev->dev, "port%d: _PRR element is not a reference\n",
-> > > +                     port1);
-> > > +             ret = -EINVAL;
-> > > +             goto out;
-> > > +     }
-> > > +
-> > > +     status = acpi_evaluate_object(ref->reference.handle, "_RST", NULL, NULL);
-> > > +     if (ACPI_FAILURE(status)) {
-> > > +             dev_dbg(&hdev->dev, "port%d: _RST evaluation failed: %s\n",
-> > > +                     port1, acpi_format_exception(status));
-> > > +             ret = -EIO;
-> > > +     }
-> > > +
-> > > +out:
-> > > +     kfree(buffer.pointer);
-> > > +     return ret;
-> > > +}
-> > > +
-> > >  /**
-> > >   * usb_acpi_add_usb4_devlink - add device link to USB4 Host Interface for tunneled USB3 devices
-> > >   *
-> > > diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-> > > index a9b37aeb515be..4d3dc3bd881b2 100644
-> > > --- a/drivers/usb/core/usb.h
-> > > +++ b/drivers/usb/core/usb.h
-> > > @@ -211,7 +211,10 @@ extern int usb_acpi_register(void);
-> > >  extern void usb_acpi_unregister(void);
-> > >  extern acpi_handle usb_get_hub_port_acpi_handle(struct usb_device *hdev,
-> > >       int port1);
-> > > +extern int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1);
-> > >  #else
-> > >  static inline int usb_acpi_register(void) { return 0; };
-> > >  static inline void usb_acpi_unregister(void) { };
-> > > +static inline int usb_acpi_port_prr_reset(struct usb_device *hdev,
-> > > +                                       int port1) { return -ENODEV; }
-> > >  #endif
-> > > --
-> > > 2.53.0
-> > >
-> > >
-> >
-> > Please see the review comments at:
-> >         https://sashiko.dev/#/patchset/20260326011708.1128840-1-acelan.kao@canonical.com
+On 26-05-01 10:06:32, Elson Serrao wrote:
+> EUD functions by presenting itself as a USB device to the host PC for
+> debugging, making it incompatible with USB host mode configurations.
+> Enabling EUD while in host mode can also cause the USB controller to
+> misbehave, as the EUD hub supports only a single upstream-facing port.
 > 
-> Thanks Greg.
+> Handle the following scenarios to prevent these conflicts:
+> 1. Prevent the user from enabling EUD via sysfs when the USB port is in
+>    host mode.
+> 2. Automatically disable EUD when the USB port switches to host mode,
+>    and re-enable it when exiting host mode.
 > 
-> Went through the sashiko review. The single finding claims
-> usb_acpi_port_prr_reset() should iterate every element of the _PRR
-> package and call _RST on each. That's based on a misreading of _PRR.
+> This ensures consistent state management without creating conflicts
+> between the EUD debug hub and the USB controller.
 > 
-> Per ACPI 6.4 §7.3.26 (_PRR, Power Resource for Reset):
+> Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
+> ---
+>  drivers/usb/misc/qcom_eud.c | 65 ++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 64 insertions(+), 1 deletion(-)
 > 
->   "This object evaluates to a single reference to a power resource. ...
->    Return Value: A single element Package containing a Reference to the
->    power reset resource."
-> 
-> _PRR is a fixed single-element package, not a variable-length list.
-> ACPICA encodes this in acpredef.h as ACPI_PTYPE1_FIXED with 1 reference
-> (as opposed to _PR0/_PR1/_PR2/_PR3, which are ACPI_PTYPE1_VAR reference
-> lists -- I suspect that's the source of the confusion). The "reset must
-> affect all ACPI-described devices that reference it" wording in the _RST
-> description refers to the devices sharing that one power resource, not to
-> multiple resources in the package.
-> 
-> The two existing in-tree _PRR/_RST users take elements[0] and call _RST
-> on it exactly as this patch does:
-> 
->   - drivers/bluetooth/btintel.c: btintel_acpi_reset_method()
->   - drivers/net/.../iwlwifi/pcie/gen1_2/trans.c: iwl_trans_pcie_call_reset()
-> 
-> Both are in fact stricter -- they reject package.count != 1, whereas I
-> accept count >= 1 and use the first element. Happy to tighten my check
-> from "< 1" to "!= 1" to match that precedent and make the single-element
-> invariant explicit, but there's no functional issue here.
+> diff --git a/drivers/usb/misc/qcom_eud.c b/drivers/usb/misc/qcom_eud.c
+> index f656ffc8818a..4734b6307a85 100644
+> --- a/drivers/usb/misc/qcom_eud.c
+> +++ b/drivers/usb/misc/qcom_eud.c
+> @@ -55,12 +55,15 @@ struct eud_chip {
+>  	struct device			*dev;
+>  	void __iomem			*base;
+>  	struct eud_path			*paths[EUD_MAX_PORTS];
+> +	/* serializes EUD control operations */
+> +	struct mutex			state_lock;
+>  	phys_addr_t			mode_mgr;
+>  	unsigned int			int_status;
+>  	int				irq;
+>  	bool				enabled;
+>  	bool				usb_attached;
+>  	bool				phy_enabled;
+> +	bool				eud_disabled_for_host;
 
-This is going to require a review from the ACPI maintainer that this is
-the correct thing to be doing, no matter which way it ends up.  So
-please submit a new version and cc: those developers (and tighten up
-your cc: list as well to only those that are relevant.)
+Could just use below two conditions for EUD enable/disable judgement:
 
-thanks,
+Enable:
+(path->curr_role == USB_ROLE_DEVICE) && (chip->enabled == true)
 
-greg k-h
+Disable:
+(path->curr_role != USB_ROLE_DEVICE) || (chip->enabled == false)
+
+Peter
+
+>  	u8				port_idx;
+>  };
+>  
+> @@ -156,17 +159,43 @@ static ssize_t enable_store(struct device *dev,
+>  		const char *buf, size_t count)
+>  {
+>  	struct eud_chip *chip = dev_get_drvdata(dev);
+> +	struct eud_path *path;
+>  	bool enable;
+>  	int ret;
+>  
+>  	if (kstrtobool(buf, &enable))
+>  		return -EINVAL;
+>  
+> +	guard(mutex)(&chip->state_lock);
+> +
+>  	/* Skip operation if already in desired state */
+>  	if (chip->enabled == enable)
+>  		return count;
+>  
+> +	/*
+> +	 * Handle double-disable scenario: User is disabling EUD that was already
+> +	 * disabled due to host mode. Since the hardware is already disabled, we
+> +	 * only need to clear the host-disabled flag to prevent unwanted re-enabling
+> +	 * when exiting host mode. This respects the user's explicit disable request.
+> +	 */
+> +	if (!enable && chip->eud_disabled_for_host) {
+> +		chip->eud_disabled_for_host = false;
+> +		chip->enabled = false;
+> +		return count;
+> +	}
+> +
+>  	if (enable) {
+> +		/*
+> +		 * EUD functions by presenting itself as a USB device to the host PC for
+> +		 * debugging, making it incompatible with USB host mode configuration.
+> +		 * Prevent enabling EUD in this configuration to avoid hardware conflicts.
+> +		 */
+> +		path = chip->paths[chip->port_idx];
+> +		if (path->curr_role == USB_ROLE_HOST) {
+> +			dev_err(chip->dev, "cannot enable EUD: USB port is in host mode\n");
+> +			return -EBUSY;
+> +		}
+> +
+>  		ret = enable_eud(chip);
+>  		if (ret) {
+>  			dev_err(chip->dev, "failed to enable eud\n");
+> @@ -308,9 +337,41 @@ static irqreturn_t handle_eud_irq_thread(int irq, void *data)
+>  static int eud_role_switch_set(struct usb_role_switch *sw, enum usb_role role)
+>  {
+>  	struct eud_path *path = usb_role_switch_get_drvdata(sw);
+> +	struct eud_chip *chip = path->chip;
+>  	int ret;
+>  
+> -	/* Forward the role request to the USB controller */
+> +	guard(mutex)(&chip->state_lock);
+> +
+> +	/*
+> +	 * EUD must be disabled when USB operates in host mode. EUD functions by
+> +	 * presenting itself as a USB device to the host PC for debugging, making
+> +	 * it incompatible with host mode configuration.
+> +	 *
+> +	 * chip->enabled preserves user's sysfs configuration and is not modified
+> +	 * during host mode transitions to maintain user intent.
+> +	 */
+> +
+> +	/* Only act if EUD is enabled and this is the active path */
+> +	if (chip->enabled && path->num == chip->port_idx) {
+> +		if (role == USB_ROLE_HOST && !chip->eud_disabled_for_host) {
+> +			ret = disable_eud(chip);
+> +			if (ret) {
+> +				dev_err(chip->dev, "failed to disable EUD for host mode: %d\n",
+> +					ret);
+> +				return ret;
+> +			}
+> +			chip->eud_disabled_for_host = true;
+> +		} else if (role != USB_ROLE_HOST && chip->eud_disabled_for_host) {
+> +			ret = enable_eud(chip);
+> +			if (ret) {
+> +				dev_err(chip->dev, "failed to re-enable EUD after host mode: %d\n",
+> +					ret);
+> +				return ret;
+> +			}
+> +			chip->eud_disabled_for_host = false;
+> +		}
+> +	}
+> +
+>  	ret = usb_role_switch_set_role(path->controller_sw, role);
+>  	if (ret) {
+>  		dev_err(path->chip->dev, "failed to set role %s for port %u: %d\n",
+> @@ -424,6 +485,8 @@ static int eud_probe(struct platform_device *pdev)
+>  
+>  	chip->dev = &pdev->dev;
+>  
+> +	mutex_init(&chip->state_lock);
+> +
+>  	for_each_child_of_node_scoped(np, child) {
+>  		ret = eud_init_path(chip, child);
+>  		if (ret)
+> -- 
+> 2.34.1
+> 
+> 
+
+-- 
+
+Thanks,
+Peter Chen
