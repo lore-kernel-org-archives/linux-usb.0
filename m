@@ -1,131 +1,130 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C942D3815D2
-	for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2026 15:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521AE309EE2;
+	Mon,  6 Jul 2026 15:50:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783350670; cv=none; b=JaUpH+kigSpmnR409UR9oz8TANCH6ULSlsDWTAGcHnOp9BU21pPpqL7DJivTIizhsTETWYs+4gioDJKi43iyRXMZwtTYhl/zXvJfa4ihc/I0GlCcH7UMHVhmitV1T6fpGot5idvw2Da5m1YDe4yugWPia2awkRBysmUakGEEvbM=
+	t=1783353034; cv=none; b=SP564uf+QxMZssvFri+SoJ7uuDne+t/OmXVIwXiCZiqPO2WIpCu8WLeJBHWN6LEOQaN4Ao1Gs54oiS1/MlRwp4m4whSlouoYNK8J9bNV+ZYX5gA9xkr3cAM9psU+ChQfPeN1slmuTsVXZD6uDb27CAYLp4cWFp2cuz/+rJ4lyZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783350670; c=relaxed/simple;
-	bh=DC8hbtn49OkRdhMEpTeVtkgA5St46LFuImCP51O/Z7c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FPfsIQ4KNhYA26dDwdZ0Gt1L2vL/AGJxMry6ByeaBd0sbzNJeOpzQd3ar6OROKHbPd+NiCdpGOkYNYofP03c50z09g5vlbgJT0Eva/R6MauSuFtOQIWN74dstVQb+/uY7xZ88r54hFRrwqTySvFJuP1kO7+WmINcTfSjH4toemw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=byTTlJHJ; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783353034; c=relaxed/simple;
+	bh=of6d9n1ZVp2VvNBWbeQxrIvJaxz8Dqo4F/lZHKvIDzs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mC9Q5JKFMLaaEQt/Tw7REXPIGQUdtkcX5Xi/qGfjLHVj+d0S1IkkUHqeKS/Kv/ISPCpJCLMRjfsED3LO+Uw3hJOu0znZy6xP8pkMUeV718NAPVCTAU1LqdgHO/hTJxZgDc0lJcjd4IeFYlwxJNugG3IdwNKrjK8Q+LVw2KI0jDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FVBVZkkO; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="byTTlJHJ"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2caea3f742bso42887855ad.0
-        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2026 08:11:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783350668; x=1783955468; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YvJnbKtZ9JQUQxlIoTBWahfF5cHSq4G8K3OUqqfWB8Q=;
-        b=byTTlJHJRNARRkFIETilzDPcAeEQBQdYdEGbm1zWeCz246q6JVUmemJSmgUxHJ1HYV
-         L/DJWoQ+4BmB8YBclr6iQ6hA7IcfGSCKs0YKbOi4Yh8k5lFDeFAWBjIhSxMFWGaSxQEb
-         juPtqICSIHXkyY6wdB4rrR51y6jIdMPHBwaT8v+YE/Leo7SEWm8xC+NC5T4bOvG1Eha5
-         0zdjUg1JAQXbVVtYDgYyIhtmDGJZj0cPtNZssSZEYs+HjHFZ7CVoukcq6SodL8AXw6cw
-         +irZhR7m4Prv+8sQzl2vTiAtzRiImqaI4TY4uap+4shgjJFPX/bZR4MTZfmDM3kOJKhQ
-         rgUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783350668; x=1783955468;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YvJnbKtZ9JQUQxlIoTBWahfF5cHSq4G8K3OUqqfWB8Q=;
-        b=AXZqw1a5xK0Lsw3jS2oy37Gd+wRSEKs38XcuthjBqgoqZVFE7ZiXdtLGA5tgcyEviY
-         qh3ehpgHYS+4WBHQGQ9XPm6vTCuGlXfkYS6FbqL++qPcC6eIa3cOeHLIomrphDx/ZwRi
-         RBsyfhp4PX40ba43h/3nFNpd7uSNBPR+rk8UlTKhm8o/ZNLof9RFVGMC370v/NgZS/fo
-         LYES+1FRzwsoTkm0VI/RJoF1uVNSi9VHZLR9ncVVa0UhueMLlqddecrhIxRnoj0iLqXr
-         13gj4/zWsCZLNlx54yCQv1HlY97tfrZzW5IPPtDjTXkhYIv3PmLrs4+Za9MnPgrFT4oh
-         NSIg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro+1UEMJH6WYZMOEv9KpDLasVEhG6hjE0a5oNnKP3n52w1mWKyF3+Wnv7LrUGEIoC+02VKMleGthq0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxV/rbvUPz8svkh/BrYUBmAeDm4f9thbDXFoFl3nPJ2Y4LN3ZKb
-	6o3Ze5S/25eJ+XVIIQKX8B+kHNSsfzOb3r4hzypU/+ZyRUtygwuswHZSoRMA
-X-Gm-Gg: AfdE7cn2/y08uOpZOVS0bJOZqz1u/mR7bchMrhYNzPuIGSe8e7IqxYygzgv8iUzJFxu
-	cz+u+iI4/aVEotpIJFrK79m2Q0zHx1KpCIud/XuGuLz8U56RWO+irfi1b1vX05P7ihHLccz0cqL
-	doj1SaNls0LK6assU53zOS/yZaFE+9z2RthS/EpLCMd3x3N1GrZrfKXUQong6ZpcS9FLgTsjgKI
-	p6cJuD0V0/r2DkyxQj5137sRpxN0087cRfwzJUKPHFlaBP0MYxF3yYeTW10mp1PVXU2F1tOg0rH
-	qfA7NoY1GbUqPn5k4uB5hTvQGQ4p3fCXxl0cZvNiOyPtLvGT2/af+GBqflTYTIGOy2nw4s3vka3
-	QkEii4GiaWCAktNcwwWCtqIvkfQ79tH4n7j7yhAUDvhqMG74AKeeYTtQDdvQyqIAlkBrpA9XXo3
-	ITaWgDexUv6dBt4n3QbBHGq01lT+5RC4sDpQD1T/GF98H0mN+gmjQqxqduAHOduSEZo1MTnvJjT
-	l48H0PUyG6RP++Y5PV6VPSL1680y5ZW4GUZ8qBRv6VebO/PDA==
-X-Received: by 2002:a17:902:d4c1:b0:2c9:97a8:8c1b with SMTP id d9443c01a7336-2ccbf183a00mr9819105ad.46.1783350668084;
-        Mon, 06 Jul 2026 08:11:08 -0700 (PDT)
-Received: from localhost.localdomain ([14.5.152.27])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad78a9f83sm52218885ad.83.2026.07.06.08.11.05
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 06 Jul 2026 08:11:07 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Oliver Neukum <oneukum@suse.com>,
-	Alex Henrie <alexhenrie24@gmail.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Myeonghun Pak <mhun512@gmail.com>,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH v2] USB: misc: uss720: unregister parport on probe failure
-Date: Tue,  7 Jul 2026 00:10:49 +0900
-Message-Id: <20260706151049.63470-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FVBVZkkO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783353034; x=1814889034;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=of6d9n1ZVp2VvNBWbeQxrIvJaxz8Dqo4F/lZHKvIDzs=;
+  b=FVBVZkkO81v97qwqgXdQoZ5BtTEZSn8hptdpl5+zhp69DG8Wc7HTqCA0
+   Iua/lgzHUpOHNX2O5GBppmUYF1PiPf69sOaB8Ow4GlK1ag6lLh9zEg8pF
+   3VKtX/orEhXlCgZIM6AVkaFJHxZaFunveVf1rFI+fQqXnttQ54x0cVXY3
+   PlohclVweXpZXa4qC4hRMfljkSLzo1HoC+VphEFD4spHrYIS29LmWh30o
+   NBG1HLrivq2LD58UeKk3qVdcS1nUHVpnKz1s+8OtrxC2NoD4y3qJ8HZ/f
+   mX/u9zXsoPrcTEQjyYz7zOPXp9EpFEYt2ZjDbFgjEYiqZ9otPaMD0rKrP
+   Q==;
+X-CSE-ConnectionGUID: 8j/Cz05nRiy7iG5juUwfJg==
+X-CSE-MsgGUID: 6WJR7CnASM+iSX97cI0Y7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="101408853"
+X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
+   d="scan'208";a="101408853"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 08:50:32 -0700
+X-CSE-ConnectionGUID: NvB5N+KWQv+u1kUJ01a6bg==
+X-CSE-MsgGUID: ST8IrUj4Qs29+PTwG4IXGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
+   d="scan'208";a="283836189"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.48])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2026 08:50:18 -0700
+Date: Mon, 6 Jul 2026 18:49:55 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Manuel Ebner <manuelebner@mailbox.org>, Mark Brown <broonie@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Lee Jones <lee@kernel.org>,
+	Thierry Reding <thierry.reding@avionic-design.de>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Peter Chen <peter.chen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, mfd@lists.linux.dev
+Subject: Re: [PATCH v3 02/20] driver core: platform: provide
+ platform_device_set_of_node()
+Message-ID: <akvOo2EeERLYPh72@ashevche-desk.local>
+References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
+ <20260706-pdev-fwnode-ref-v3-2-1ff028e33779@oss.qualcomm.com>
+ <fbc50f89e0c3bb148656a3b8d96974f591576dec.camel@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <fbc50f89e0c3bb148656a3b8d96974f591576dec.camel@mailbox.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-uss720_probe() registers a parport before reading the 1284 register used
-to detect unsupported Belkin F5U002 adapters. If get_1284_register()
-fails, the error path drops the driver private data and the USB device
-reference, but leaves the parport device registered.
+On Mon, Jul 06, 2026 at 04:39:00PM +0200, Manuel Ebner wrote:
+> On Mon, 2026-07-06 at 14:44 +0200, Bartosz Golaszewski wrote:
 
-Leaving the port registered is more than a private allocation leak:
-parport_register_port() has already reserved a parport number and
-registered the parport bus device, while pp->private_data still points at
-the private data that the common error path is about to release.
+> I removed Mark Brown <broonie@opensource.wolfsonmicro.com> from recipients because:
+> “RCPT TO <broonie@opensource.wolfsonmicro.com> failed:
+> <broonie@opensource.wolfsonmicro.com>: Recipient address rejected: Domain not found”.
 
-Undo the pre-announce registration in the get_1284_register() failure
-branch before jumping to the common private-data cleanup path. Clear
-priv->pp first, matching the disconnect path and avoiding a stale pointer
-in the private data.
+Perhaps he needs to send a patch to update .mailmap?
+Cc'ed to Mark.
 
-This issue was identified during our ongoing static-analysis research while
-reviewing kernel code.
-
-Fixes: 3295f1b866bf ("usb: misc: uss720: check for incompatible versions of the Belkin F5U002")
-Cc: stable@vger.kernel.org
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
-Changes in v2:
-- Move the parport cleanup to the get_1284_register() failure branch,
-  as suggested by Alex.
-- Clarify the visible stale registered-port effect.
-
- drivers/usb/misc/uss720.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/misc/uss720.c b/drivers/usb/misc/uss720.c
-index a8af7615b1..bd099cd8c5 100644
---- a/drivers/usb/misc/uss720.c
-+++ b/drivers/usb/misc/uss720.c
-@@ -735,8 +735,11 @@ static int uss720_probe(struct usb_interface *intf,
- 	 * here. */
- 	ret = get_1284_register(pp, 0, &reg, GFP_KERNEL);
- 	dev_dbg(&intf->dev, "reg: %7ph\n", priv->reg);
--	if (ret < 0)
-+	if (ret < 0) {
-+		priv->pp = NULL;
-+		parport_del_port(pp);
- 		goto probe_abort;
-+	}
- 
- 	ret = usb_find_last_int_in_endpoint(interface, &epd);
- 	if (!ret) {
 -- 
-2.47.1
+With Best Regards,
+Andy Shevchenko
+
+
