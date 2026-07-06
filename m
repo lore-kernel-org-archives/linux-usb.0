@@ -1,148 +1,107 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CC3388360
-	for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2026 14:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA56637C0EC;
+	Mon,  6 Jul 2026 15:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783349602; cv=none; b=fF34pdL4pfDgUPEBDUzR25b7OtaHUbfo6PKBrUy5eYSGZrkprJT7XgQ3Sb6f1L3pF5cPLCvdpvFcGuTDVZ6YpNrSp7QF5iNyNfOnOz2VQwStsex0cYAff5K1PWTN0qv6hgOfgYnDLEHV0A1lpPdNrGJTDThr4sc5lYiOvE2nsn0=
+	t=1783350408; cv=none; b=gt+xIJSdldHpFwyxbbkUcyLPzKntAB+fBenhD7v+fBCQo0Ily/76625y1rY8aFDCLR+cBBM3oWy+y6HWvjwn/8sv6dEFILDH6sB3MnSFXz2mtNWuxwC7Icc2BWPLaeT4/DLSK6ClDKcQof0o/Uh9YHAqmzC67+BVkw3teGOU4b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783349602; c=relaxed/simple;
-	bh=I7jiCCDGbaeKX4aqFPomBZzfK4RxHyb7e1Vpt7EJh6o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a3vCMkPutiJNtWaHlI2CUfQvF2E1fbPUJZD/sjLO690rH+u+/RI53kFyzzeeuWdDkZolbsGTqehCKz5LovOoap/pV94SfGm5nwZRLd8AxXcbcrlZhAwTKHxZmum+IEb62b8naV10P/cehK/EB1ve7GDzsUTTmD/EjeOCLVwwVVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aIFkc6Kd; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783350408; c=relaxed/simple;
+	bh=gMB0gtTMqL2ZMVwjs5sXDPpPxgv1lBphzfkLjZBJRZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iUuL8+npTD/oW3Ap0j6BoPJAJ53vmfNVdTMdNXvVcEo0yAZU6iisGjexRF8s/FdlQLiNmv5GQQZUUAaxvWYepemy8hP2ReTSQbajalTilNUaqcdyY6qGFJ2phfsnF8w3W/I+Bp0p4sY9dXzovyTSE6knxZ7rnQlyxoDEdfEmmq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=iFSd+Lp8; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aIFkc6Kd"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2caced6038eso33925925ad.0
-        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2026 07:53:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783349599; x=1783954399; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xjunpqkgIb0eNkxRiAQe6rJNL+GYWOS6QsHJM94fNqk=;
-        b=aIFkc6Kd081dLm0BQuIMvfxcTcvw19msqe1htsCGOtwbRPC3w/ujAbCIJPeg9ZR6/w
-         1x+WEeFZYBe8kDft1BorZ4pPQZuqyzzDJL9WR3p6uKWsHEXlPuShNUCJajMowiACsHBI
-         YscyhoViSGnq8Xm11pNdIZHkk+wxSWG9B3EIkxfUDmavsAQYVTQ1OfPipkRUUydh+772
-         EbKziyfHoSU28GSHYP39yy4nIYMk2sUd51e+W4cA/TEu7ZQy2P8Y/chy/7W6L7k+cFrH
-         bgddTnGNzF+OwKGbaDU5VizJNGv2PeJMkV0XtuAOCDwHx3cBQ8TCFmjxu/QIQ0eCyHPW
-         6acw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783349599; x=1783954399;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xjunpqkgIb0eNkxRiAQe6rJNL+GYWOS6QsHJM94fNqk=;
-        b=PFUq+bVtXg1a+XaU9V803JTfiHPX7sTwtW55eW5DRdfaKUBYWX+rwn6TZc+x8FQF//
-         zEmN22bE20sg0ne4EtPuf0hpB88XU270A/eZFs1rPKQuitpNPzlyKYLt0WOt3E+lR0QV
-         ufYrhuEReO+ZPxBhPb/nV2m5wc8G854etO/7uZFANztA8a6OrdOnuPut2NH+xmrEPE2K
-         1CeMOT0zeZ3c7LVW1r3J73H4YoSsU5szWBSSauqQ4bOP0H4flZMo4BIXV0FkC9iNeHXE
-         4ByjpxNpCDB77Mu/yNVQ4P8H6Ke77b+tCbbzDYWcEbCH643nAxZk3553aX20J/hk9YqQ
-         YRbw==
-X-Gm-Message-State: AOJu0Ywt3bHWlcJ+YCJ1FI5fiFT3KYU4WOY8lqK8xRrOtTQG6/3Jaflv
-	+gjPlHYyX3VQsbXWHuRSMRk2DaogasrZRojfJ68pg1g+vAeiXKdMinfyeRvJ
-X-Gm-Gg: AfdE7cnOryTfhxJagUs5wjSGPqBSYpV2Cb6x+JtSpO+jMVxqrvXbb7xyVFQ6wYT1MF4
-	tJRjT0Amcq7SCiPCZAHUmqhGSKzP6A4zgy27NP8UIWbF7jAzRQz2k+rTggYCoeibUb+Unl4Xv5w
-	kt9zUI++rOg1e4mngYpNaYTQe24FUUT9n0AJxyQwbmLALFtcQsQKLvKG4YJqJGQnAO76zXbS+gg
-	hIb9jL4hXbpmFsndJQE8DmEVuRLbHFRA6rPkHEeNN3DBMtdM5WrShTcKWKWVuNLvUft9ZTJXzu1
-	5JIvWmFQVHQa+o7ycFMbQrb9Tzycq7d4/Os4HK3syk8dE5pDO3ziRpUaN6RN6G8ryFdJHucPQ/j
-	DaHav4kLPwP/REBogYQP58bRA/4yg9n+OS5p8vwaL09PNghX1bE11GYxVqM6BqIcl584NS7xMQd
-	OIDYDroXTq53WCCJGRG28Vrfl5hqdmjbRnvDJHm0MYf4bnoRGg3jTQIcNN+uKdTjnlUAZA2RsYh
-	OCAXNZI25iCVYcm+Oqmj0DRyqh7u4TGX9Q/AVnl3UcseBwP6Q==
-X-Received: by 2002:a17:902:e84d:b0:2ca:11ee:b007 with SMTP id d9443c01a7336-2ccbd7d2b45mr9877485ad.18.1783349598915;
-        Mon, 06 Jul 2026 07:53:18 -0700 (PDT)
-Received: from localhost.localdomain ([14.5.152.27])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad7765810sm52217695ad.53.2026.07.06.07.53.16
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 06 Jul 2026 07:53:18 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Myeonghun Pak <mhun512@gmail.com>,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH v2] usb: typec: tcpci_rt1711h: unregister TCPCI port with devres
-Date: Mon,  6 Jul 2026 23:53:12 +0900
-Message-Id: <20260706145312.37260-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="iFSd+Lp8"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=7T9lKLBCurJx7NULGnJPFkaWnZSHCHAuJLKjzAT+Hl0=; b=iFSd+Lp8lGBOZ23doP8kq/0DEl
+	x8P7JgYPLYwXYdN4e8q02nbnhWfvhQMt8Zk9h1/kwtFdY/+2/wYifu6J6lyX/XscKIV7YLhHvRlRY
+	2n0+Cs9vjNAWOt9wAMScq5Je1AzNYNV8NJ/PSe/7pWKmuZ8ofj04LPmEpi/Hqf7U4MAs=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wgku3-00B0e7-BF; Mon, 06 Jul 2026 17:06:35 +0200
+Date: Mon, 6 Jul 2026 17:06:35 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Kees Cook <kees@kernel.org>, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] net: usb: cx82310_eth: bound partial receive continuation
+Message-ID: <8ed2790f-05ab-4c6b-9982-e92a08c6c99d@lunn.ch>
+References: <20260705083609.23977-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260705083609.23977-1-pengpeng@iscas.ac.cn>
 
-rt1711h_probe() registers the TCPCI port before requesting the interrupt
-and enabling alert interrupts. If either of those later steps fails, the
-probe function returns without unregistering the TCPCI port. The explicit
-unregister currently only happens from the remove callback.
+On Sun, Jul 05, 2026 at 04:36:09PM +0800, Pengpeng Hou wrote:
+> cx82310_rx_fixup() completes a packet that started in the previous URB
+> by copying dev->partial_rem bytes from the current skb. It then pulls
+> the same continuation extent, rounded up to an even byte count. The code
+> does not first prove that the current skb contains that continuation.
+> 
+> Add a fail-closed bound check before the copy and pull. If the
+> continuation is shorter than the pending packet state expects, drop that
+> pending partial packet before returning so later URBs are not consumed as
+> stale continuation bytes. This keeps the existing cross-URB packet
+> model, but avoids consuming bytes that are not present in the current
+> skb.
 
-Register a devres action immediately after tcpci_register_port() succeeds,
-so tcpci_unregister_port() runs on later probe failures and on driver
-detach. Drop the remove callback to avoid unregistering the same port
-twice.
+Please take a read of:
 
-This issue was identified during our ongoing static-analysis research while
-reviewing kernel code.
+https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
 
-Fixes: 302c570bf36e ("usb: typec: tcpci_rt1711h: avoid screaming irq causing boot hangs")
-Cc: stable@vger.kernel.org
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
-v2:
-- Add Cc: stable@vger.kernel.org.
+The Subject: line is wrong.
 
- drivers/usb/typec/tcpm/tcpci_rt1711h.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+How has this been tested? 
 
-diff --git a/drivers/usb/typec/tcpm/tcpci_rt1711h.c b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-index a8726da6fc71..20037ef130ca 100644
---- a/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-+++ b/drivers/usb/typec/tcpm/tcpci_rt1711h.c
-@@ -298,2 +298,4 @@
-+static void rt1711h_unregister_tcpci_port(void *tcpci);
-+
- static int rt1711h_probe(struct i2c_client *client)
- {
-@@ -339,7 +341,11 @@ static int rt1711h_probe(struct i2c_client *client)
- 	chip->tcpci = tcpci_register_port(chip->dev, &chip->data);
- 	if (IS_ERR_OR_NULL(chip->tcpci))
- 		return PTR_ERR(chip->tcpci);
-+
-+	ret = devm_add_action_or_reset(chip->dev, rt1711h_unregister_tcpci_port, chip->tcpci);
-+	if (ret)
-+		return ret;
- 
- 	ret = devm_request_threaded_irq(chip->dev, client->irq, NULL,
- 					rt1711h_irq,
- 					IRQF_ONESHOT | IRQF_TRIGGER_LOW,
-@@ -357,11 +363,9 @@ static int rt1711h_probe(struct i2c_client *client)
- 	return 0;
- }
- 
--static void rt1711h_remove(struct i2c_client *client)
-+static void rt1711h_unregister_tcpci_port(void *tcpci)
- {
--	struct rt1711h_chip *chip = i2c_get_clientdata(client);
--
--	tcpci_unregister_port(chip->tcpci);
-+	tcpci_unregister_port(tcpci);
- }
- 
- static const struct rt1711h_chip_info rt1711h = {
-@@ -394,7 +396,6 @@ static struct i2c_driver rt1711h_i2c_driver = {
- 		.of_match_table = rt1711h_of_match,
- 	},
- 	.probe = rt1711h_probe,
--	.remove = rt1711h_remove,
- 	.id_table = rt1711h_id,
- };
- module_i2c_driver(rt1711h_i2c_driver);
--- 
-2.47.1
+>  static int cx82310_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+>  {
+> -	int len;
+> +	int len, pull_len;
+>  	struct sk_buff *skb2;
+>  	struct cx82310_priv *priv = dev->driver_priv;
+
+Although the reverse christmas tree is already broken here, you should
+try to keep with it, and put the new line at the end.
+
+>  
+> @@ -251,6 +251,13 @@
+>  	 * end of that packet at the beginning.
+>  	 */
+>  	if (dev->partial_rem) {
+> +		pull_len = (dev->partial_rem + 1) & ~1;
+> +		if (skb->len < pull_len) {
+> +			dev->partial_len = 0;
+> +			dev->partial_rem = 0;
+> +			return 0;
+> +		}
+> +
+>  		len = dev->partial_len + dev->partial_rem;
+>  		skb2 = alloc_skb(len, GFP_ATOMIC);
+>  		if (!skb2)
+> @@ -261,7 +265,7 @@
+>  		memcpy(skb2->data + dev->partial_len, skb->data,
+>  		       dev->partial_rem);
+>  		usbnet_skb_return(dev, skb2);
+> -		skb_pull(skb, (dev->partial_rem + 1) & ~1);
+> +		skb_pull(skb, pull_len);
+>  		dev->partial_rem = 0;
+>  		if (skb->len < 2)
+>  			return 1;
+> 
