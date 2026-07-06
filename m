@@ -1,185 +1,268 @@
-Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA4E3EDAB3
-	for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2026 11:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B1534B1A3
+	for <linux-usb@vger.kernel.org>; Mon,  6 Jul 2026 11:13:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.168.131
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783336102; cv=pass; b=tUc5lNHGHSX3la/lnfrJwBaIuBvsw7xfUBAMIwsJfkjVy41tpKTP6shGzwaPl1dNYtq+O4NCkoksxy2TCugJer1Ndop2rf6IEOMYs882fhkls3NfAE4N146bsS47eoyN60fZgOzeyTn6YABOquhk0zqvIZKZcQE/QYNuiNBq0eY=
+	t=1783336420; cv=pass; b=c0xd7lViwo4jmIU0mXajJmzSqmIgYfC1h1t0qsmyghJQKJxhzZhkiPmGFUq92ExDmemRB9vRGRxBl1uAO0MQ6aC8uUWpkCSOvypW5laUK40OXNEh9SeCl3vabky1sOt87XhVxgc8eAUoc5wYDn3bU+HqNzOgsDDpFpMOXGDuV9k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783336102; c=relaxed/simple;
-	bh=4F/mamksgE6M36asyjHLz+r3WuYlAy4EjSD04V58GmU=;
+	s=arc-20240116; t=1783336420; c=relaxed/simple;
+	bh=AMCaSbh/ZiqHcWXlH0T/N0BidhH/YkSSvYBbWqurz70=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qkadgPpFOslO06UEN8Nv2svMW0HSiZ9HVyVzAnJhQOo06X+sCZevQujYJSenZDvxPcSFYYyXUyRZJvwi77x1+FBFmJZF/CNBMpFqBUo/TvKs+ogX0E9sgCt2tNUOlX7vJ9g8+OJyT9IH+JsvgA0PsgiSZyksNsB4oj86TiuK6EA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=VK26Hj31; arc=pass smtp.client-ip=74.125.224.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 To:Cc:Content-Type; b=Ult7Zio8WrQY0lnstnnb3OXSy7vP/q4kNy7wB1B36B3Uj1ZjIhJ5oYH5d+QnXeK+0Ma5i4gqy14PX7/qcXD5Mru6VsiJGHhyGa1jOGb+xKhMItnV/iTQ5Imk4ygbaEXmYqo/w3fU+PyYRShT4jfOr0MXJNuN6dyqUSxFMTqKKeg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=J7KKlWg1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=iZss/6WX; arc=pass smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="VK26Hj31"
-Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-6675db463b9so840093d50.3
-        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2026 04:08:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783336099; cv=none;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="J7KKlWg1";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iZss/6WX"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 666AxFLo401636
+	for <linux-usb@vger.kernel.org>; Mon, 6 Jul 2026 11:13:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	l037eqxWT6mwjPQfRW2ZRLSIaMTwxnyZwM1ZzxP5Rcg=; b=J7KKlWg1FpZqTMOA
+	6VVbJPSD0S+eftlD40Wlu2MgLMrRtuKhF1aGAuSv0vXwdARcLGfzmMWm2OPeH6GV
+	fd6gNGkpqZgnR99QVKnVxN+MjOoQXer9Ixa6xQo9odmWGWIIcyhhSnLqn4nlGWIm
+	bsNqKt2SX5FTwyEMurjmNj0/bjnUS8XN7VxxG3rC03/FjUdX0fVJipXW2xY7+a4O
+	LFpOP+nFkN4wlRJhM+nIN1ym66tmR3ekkLHfnaPVgacOK/2c+m8AZ9XiKHgRpu3r
+	jxYKfrQaVRMkxQ/jOGkDtG66bgnYAImejHGZ3tjEZjjrdjQrAHqUMK6JYomxlsNX
+	OVBh2Q==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f8a3gr9uj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2026 11:13:36 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-8f39a46efd9so44378956d6.1
+        for <linux-usb@vger.kernel.org>; Mon, 06 Jul 2026 04:13:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783336416; cv=none;
         d=google.com; s=arc-20260327;
-        b=VXTOSjQ3cuuMWRVPXKbvEJ1370HFTAEDEzOSiwGMRJZoE46IqSUiri3xUK3Wm+pK54
-         Kv2gm3FGtK8QP0z9yf/S4BTONjMOxhhvy4IiwFVMi2igQvysCmctJS6u5Ztm2lCNW0ec
-         16mOY42Ac/oB2g29YbDCoDjix18ohLAEosl9YL6Tqh25OePpzE8jm2EQmhNn6lyneZ1R
-         DLhIR9UH7KJ83pRu8vjj0OFQ6wrmnk6TesfxsrV6CIwWNOQAzZ/XF5etLx4XIC6/r1OX
-         dcuEnbnvkCU84r/khtSViDioVEmc5jfUFC+Ivf4zOmwcZ5KHZbdqarWgYmAajI7PPgUQ
-         bwDA==
+        b=C9IdsRZ8RNIvHXSf9zXTpqVml9kYSyUi5Gis638uPz3fAZgPs2KElhqJZ4f8kgZCLB
+         aCvgyEMKg/dD8QkpDgXZJkT8/lhS3cVORuDntkde2SOEgAYukF82XfzXsaVqeWnrUbfg
+         I8X5kQBE0RNH4YBd43deGvUJgBrPjSt3oT1DRw/Dj3zDjzzW+BCwhHfA4VR4jK8vvsf8
+         0K3t24tvyQfhCfj74E2RzgklpWK+iImE2w9MW0p3RkldN1Py/ylxDfFu+7wKWvyLVHZb
+         kiehqGpcYug8jtZYIkiSj/mWlIKmi7wEZ25Orwx3wJvKzun2pc0NLKuio9l83mNmfBbL
+         /lFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=SIs5mr1YlXuHrRAWD0Cvvhp1KPf82E28pNtyAHr0i7A=;
-        fh=nbKm3rZ1w1PQjL6zYZuAqkH1w63ypzWMUiFkH2bJ4Mg=;
-        b=KjkiA4w4GebmULwEH862amWmQ4EPTpDoXl6QTJMmYfOEJnip3/6LR+eAkaPpbfbryR
-         tPRiK7JlfK4roEonfGz+Bcjfn6RXuMnXdmmK5ZJMVWQxkjYry3769BJwn00bai47wlp7
-         M/NudzvWqg+hduKhnhqc0z3fnc//oh8a4i5kNL7BsJvI9EvpEQe+lv7xDBWH1N6+QCu1
-         RAA2r/+gRCbQvBqa29+v9PkzyJEhdtoPRXuhafB6Qh44mOtIBNKZpjPzx0VfCCJHQtBu
-         BgCktxxqNyRxPPCjZs4nH1IGjHw6/1AkQVLf8FqoxGRBJiIAQ83odv8Z8U/t2zON2Jxi
-         LpXg==;
+        bh=l037eqxWT6mwjPQfRW2ZRLSIaMTwxnyZwM1ZzxP5Rcg=;
+        fh=KTGOPNiSkvkvnbYPlB9BDQRPlJSsl3fDRWStj7S092U=;
+        b=mX87/KUSvP04SuArVv6TQwk4EH/CWR2kx7oeh4k95dszr5qGSQDe4buudQIkHkPIwM
+         pJKnd+IGlxOrkyOw72YpdY05g464xEjhnlKQw6oIof9T9zai0g2qFnXAR2a4vw/BnrT2
+         Z/qYJ5HDFVcKcxJ77uAW/A+pfYl7j7qt4ZvlyWxtbPMwQ0rE1snaFFK+F3ca9AqeZrET
+         H5kP4mBOPNcrD7FnurQt/mXjurApD5xuMh9diydCLZruTXILeoqbSDhLuAQsfWV86E/Q
+         e5UnsV/YBQgsQV2Qu5NVkK8lMrb7fH6Lca9noNIP/Kh/nQmPb7BYEEA43pdiJgBaSCuE
+         PP/Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1783336099; x=1783940899; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=SIs5mr1YlXuHrRAWD0Cvvhp1KPf82E28pNtyAHr0i7A=;
-        b=VK26Hj31UayrVs/4ulgCbhVpWYBWmOwQVZ1cZulYxavWOit5dV5tCoKEG/g9vtbHcq
-         jhq50FZ57MBVX950hnpmnOE0FU+iWtFgnmz5tmrHk7jVAY81/sx7woV1a6TxIltEifKE
-         kYm0CCbgjBlkFhMAdJOKvmmF1T8y4EHhE9Dcc=
+        d=oss.qualcomm.com; s=google; t=1783336416; x=1783941216; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l037eqxWT6mwjPQfRW2ZRLSIaMTwxnyZwM1ZzxP5Rcg=;
+        b=iZss/6WXffmPUuqJLQcthojQyINo/MkboYO2xxgucuV8CKqDg//QcCAp0dcMZEcpsV
+         NSmGsAosy/2Kcvz9qf+sFdamG6uTpcdZ32AxsjP2xMaQRN2Jsn/dhn6XbBgem20w0BSa
+         0tVOSzPNm1qoBl9rG4Wpa9ZbGooGhjGVtowWe5058J5vS7HV4Y5WjIsBZ2tmBGOL3kOq
+         sEuyipmNPzdD8a1RUt2IYEZHXMmrWjDesDA+T2SgpQtexAdejjo58bCwbmj4ACFPDOtV
+         LcYpk6LR97+hAiyvTVjeqT03pgUZWPjzVzN9Yj1/vvO9jLCsAEhLfgrQc39dyR/uRbXW
+         O64g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783336099; x=1783940899;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SIs5mr1YlXuHrRAWD0Cvvhp1KPf82E28pNtyAHr0i7A=;
-        b=qAW58Ds/oojvARLIRpFqmeJDoOva0V8WrBoUmJbPoRpRf4Rs8Y0QYX8bF8ylnDzTdd
-         fKgB1xlG4+Gwkarhuj8gnvMcuxL0aizlkBlGOcTU5B0tfkt4A93IJPFupA7MyLqjfMvx
-         asyEmHVBUWmzQa/bhvPo6Kqwdldm1e34qnpBGDeUw6Q5+1rKHF6zgesi0C3VB0fw7uTq
-         Ld9/N+zAC65DeLyD1W/vmrUa1uzeM1cjEdjL/VLoKWs7nOzd6JXo1pam1ztPG03cegpV
-         A3q9vH1q7wgxX3wBkLDkI9cMQsFbmPFVVF43sXFwx+6K/FDN7WaroIw/y3Ol0WrpieBc
-         kcxQ==
-X-Forwarded-Encrypted: i=1; AHgh+RodyXTG57VtHwxScx43/JbqsbIjBsUpPG7JQEWgc1sKMteZc9/Be+pfG8D173vJMb3Pt+jvB1QvfYc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaC1JyYbUp80J26iShujg02avnkD3hf2MfCNYFAEXl9Rss5Pkd
-	1wc5RZjyOzywKp05k+asg6LDQRgJOqd+Twq0xTKGtEl68H+forrXF94gNzo4lmur6ATvAXDnImC
-	2B1emjBKltUpJjjORdopr7IbasstrxsJFoZt8WRfpwAl9oLweOcRhyw==
-X-Gm-Gg: AfdE7cmAy+RykVF+7WBctxQxu72Yfm7lHdbZ2uLPG7oRvlZFVxuZ1tb9ni9vuNQCQLc
-	TC73HlouuzDFCBTyyuFMk8eQRzz1bIBOmm+jkHVCEhObyuBg0KuNj4lkgZhg/GmY6tU+N7pFe6l
-	iL61gT/VVk5oR9pDbuCMNX3lMzvY/2n1kjjUUv9Gq+Hoqhl74OxQ7olUAq7+psXeKP5WR0IvvhU
-	Hyt0dEpeG6KCCayDdU3kqMDo9s/A5Ja+wKmdKPtaI9pNxaDEHRPKqMev3tY+vGdrjU/6GjK4u6+
-	cgvEWo7gfyM3xGgZs9iA6cx6qSQ=
-X-Received: by 2002:a53:d016:0:b0:664:c436:e525 with SMTP id
- 956f58d0204a3-6677fd49ec4mr103596d50.58.1783336099517; Mon, 06 Jul 2026
- 04:08:19 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783336416; x=1783941216;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=l037eqxWT6mwjPQfRW2ZRLSIaMTwxnyZwM1ZzxP5Rcg=;
+        b=TfC1qQiZCX8EVwqlY1GRkuFXAEruhUmShxIgIv+H392M5VZWJeOx/k2WGO1/uYlLf4
+         HmlQmpyzE0j1Qxd55GE5M+dfv8wkD/1Qq7QdEQzZJhFk/jF+8gC6ZslTR28lCHhmuoK6
+         L3sTYvkMEe7Dchx+bbPFYEEwoNbI3ynt6qgC6uUbRTcqQnaK+Wdn7b4Ze6oo/GSWo5kj
+         xlk80B0gsr/KSbOW79I+r8y1OBOsXEuanU9l2SvT5TnCw0Cgjp3JPtTiNcJQ3/8dbhFH
+         +AciqwNaG1zspVU1r0nl8kAxc8oWybRd/06ot7NxAIo3uyg1mSr4fei3wLcpT1LGQhGx
+         tmlw==
+X-Forwarded-Encrypted: i=1; AHgh+RqKGIj0uJYnCQ19ZoO6pXUvNqw5DIfC9VCY4iVfembt3ZV7tsWx0HumSs5mEEzluilYLW+3QpRrS+o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEFCd96SYxu+EZZSfNy/miFtGA/Do7tPdTiJkqtZVVJaQQAfLJ
+	TIXKD5S927+eubdVVewXpPgOSYFTCZf6Mldx0RsN7YwOrTJ10xidaonMJOiyTgwexw7PMcTu4oO
+	eXJ6CWOXojj9tklz1KfTcp17vl1p9waMe9LPSZQd3036/T1SOnA2rTGv8+TUOiYWM1xHwAilBJQ
+	Wn/cph751yyWe9C/EE2iPcq4oAOY0+bTcynZp8Sg==
+X-Gm-Gg: AfdE7ckc03QwgshWcsamuOlO4T+ZnI9gY4D3I1sWJqmB3bq5UyMybl5y5simxgHR2bP
+	d1t4nDDl/CxTQejpNvHgN72bRpek1bllthI8pD4hjqjCMvZ40TEK9zC0JbMQzggCZtVJOfJeTt7
+	zjCDSHasAKmSJjrRmStmLWquEhT7LBv94lM2Tg9P+hxe62rF4VXVfeNFMlzaZeV1Cv9NL+
+X-Received: by 2002:a05:6214:2e41:b0:8f0:ae2d:c7c7 with SMTP id 6a1803df08f44-8fc96d4e67dmr2225146d6.11.1783336415765;
+        Mon, 06 Jul 2026 04:13:35 -0700 (PDT)
+X-Received: by 2002:a05:6214:2e41:b0:8f0:ae2d:c7c7 with SMTP id
+ 6a1803df08f44-8fc96d4e67dmr2224686d6.11.1783336415323; Mon, 06 Jul 2026
+ 04:13:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260703110317.1283411-1-wenst@chromium.org> <20260703110317.1283411-7-wenst@chromium.org>
- <ake09vk4fEv1D9QC@ashevche-desk.local> <CAGXv+5GNucSXrhL=YxarSJHD2ezzYDK3EovFu-zy012KgZ+ZBg@mail.gmail.com>
- <ake6FNy83LLtCs3b@ashevche-desk.local>
-In-Reply-To: <ake6FNy83LLtCs3b@ashevche-desk.local>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Mon, 6 Jul 2026 19:08:07 +0800
-X-Gm-Features: AVVi8CcaHXwr5vK-Mk50Hl5ytWXCTbNUaYqO2byI6p2Q5_6clKTL9yyyDNsH5MY
-Message-ID: <CAGXv+5EgpizA3Pc8ScNuChPhvFKWd5F6dxB-wT4-7EwabE-9dQ@mail.gmail.com>
-Subject: Re: [PATCH v3 06/13] usb: hub: Pass |struct usb_port*| to usb_port_is_power_on()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+References: <cover.1778672403.git.sean@starlabs.systems>
+In-Reply-To: <cover.1778672403.git.sean@starlabs.systems>
+From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Date: Mon, 6 Jul 2026 13:13:24 +0200
+X-Gm-Features: AVVi8CeFFePxuRywRmMqlwf5mHGqRwyyFqQVpM6X4lLYh8vyhVbRDqfzazGMANI
+Message-ID: <CAPx+jO9t8Hr5Tcozi0Gs+sUMUuzrxQ8US3qS-+mZGXs_8WzU5g@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/2] mmc: rtsx_usb_sdmmc: qualify card-detect on tray readers
+To: Sean Rhodes <sean@starlabs.systems>
+Cc: Ulf Hansson <ulfh@kernel.org>, Ricky Wu <ricky_wu@realtek.com>,
+        Avri Altman <avri.altman@sandisk.com>,
+        Jisheng Zhang <jszhang@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Dan Carpenter <error27@gmail.com>,
+        Binbin Zhou <zhoubinbin@loongson.cn>, linux-mmc@vger.kernel.org,
+        Huacai Chen <chenhuacai@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, arnd@arndb.de,
+        ulf.hansson@linaro.org, adrian.hunter@intel.com, rogerable@realtek.com,
+        matthew.schwartz@linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: kLaeUPbggMNmJOz_9I7BniepJe5MOD23
+X-Proofpoint-ORIG-GUID: kLaeUPbggMNmJOz_9I7BniepJe5MOD23
+X-Authority-Analysis: v=2.4 cv=CPYamxrD c=1 sm=1 tr=0 ts=6a4b8de0 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=Um2Pa8k9VHT-vaBCBUpS:22 a=lDt4X5A2n95T_cetI-kA:9 a=QEXdDO2ut3YA:10
+ a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDExMyBTYWx0ZWRfX765gghSlW7SN
+ Rh0+7BcvbBs7+1o6W1HYcYXC3Nl4EZhV9cZSxn4kJFUvsssirk6Y4tjkSppS57gHw+XbO5Mzf4M
+ jio9lWBX8bLfAQapdeG98jbr6oCMxg3ifJGRUj/yvrzBd845JKAdTV7lepJ3PW96cSTcTZLQX3v
+ bmsJbLcVv+Aj2L9xEeQpAu0m5aG+LpnsLXLDkfReOt9GUEDRNCsBjcOqKbf43klw01fmb6lZz2A
+ zYnK1Cmpw63swvQkz19OJmHY222LXTKxscxAK78iyNc7HmvW25EfUybKVDp+T9eQOKPnc9KdgIX
+ CFfP9i6gbvYvcy90fgYBxloKOVo8eerBRwI4Xgbd4AhEO871V2htDAyzZ41uW7AmX03vV0pNMlj
+ J5xwiGScPkHJXyYJ8TC41q0sd6H6V6CFKG6kPPBS3RqXnp5/27y3M7OLZpN9h3BCp08g1QP6qDq
+ 91CEHC3WMQYOnGu3Tsw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDExMyBTYWx0ZWRfX6fZRGHyAqWZN
+ j14Vg4sGxa7nGujnu+N+5K6rY815RdNqe+Jqeny9CY45ErsHUGBy6CzOk9VMabKs3J+Jho4feg0
+ tlJs7mXWhgz2wR4ApUR3lKqwZ/zF1+o=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-06_01,2026-07-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ malwarescore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060113
 
-On Fri, Jul 3, 2026 at 9:33=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Wed, May 13, 2026 at 1:40=E2=80=AFPM Sean Rhodes <sean@starlabs.systems>=
+ wrote:
 >
-> On Fri, Jul 03, 2026 at 09:17:16PM +0800, Chen-Yu Tsai wrote:
-> > On Fri, Jul 3, 2026 at 9:11=E2=80=AFPM Andy Shevchenko
-> > <andriy.shevchenko@linux.intel.com> wrote:
-> > >
-> > > On Fri, Jul 03, 2026 at 07:03:07PM +0800, Chen-Yu Tsai wrote:
-> > > > usb_port_is_power_on() currently takes |struct usb_hub*|, but only =
-needs
-> > > > it to tell if the hub/port is SuperSpeed or not.
-> > > >
-> > > > In a subsequent change, usb_port_is_power_on() needs access to a pw=
-rseq
-> > > > state tracking field in |struct usb_port|. Either structure can be =
-used
-> > > > to identify whether a port/hub is SuperSpeed or not, as the field i=
-n
-> > > > |struct usb_port| is inherited from the hub:
-> > > >
-> > > >     port->is_superspeed =3D hub_is_superspeed(hub)
-> > > >
-> > > > Replace usb_port_is_power_on()'s |struct usb_hub*| parameter with
-> > > > |struct usb_port*| so a subsequent change can use it.
-> > >
-> > > At a brief look this will be the only function that takes usb_port
-> > > instead of usb_hub in the entire hub.h (I don't count container_of()
-> > > as a function). With that being said I would rather see it to be move=
+> Hi Uffe, USB/cardreader folks,
+>
+> Uffe suggested sending this as an RFC and adding the USB/cardreader side,
+> because this may need input on where the media qualification should live.
+>
+> I previously sent an RFC for the USB/cardreader runtime-PM side of this
+> problem. That did not get USB/cardreader-side guidance on the detect
+> layering question; the only substantive feedback was that the MMC child
+> should already own runtime PM for a real inserted card. I have since
+> retested that, and it is correct: with real media inserted,
+> rtsx_usb_sdmmc holds runtime_usage=3D1 and the USB parent remains active
+> through runtime_active_kids=3D1.
+>
+> The remaining failure is narrower: empty tray only. Raw SD_CD remains
+> asserted, the MMC core repeatedly probes non-existent media, and the
+> runtime-PM hierarchy does not settle.
+>
+> This is an RFC for the Realtek RTS5129 tray-reader false-detect issue.
+>
+> Short version: on these machines, raw SD_CD is not a reliable "card is
+> present" signal. It is asserted when the tray is inserted, even if the tr=
+ay
+> contains no SD card.
+>
+> That means the current driver reports card-present to the MMC core for an
+> empty tray. The MMC core then does what it should do: it tries to initial=
+ize
+> a card. The commands time out, no mmcblk device is created, but because
+> SD_CD remains asserted the detect path is entered again. In practice this
+> keeps rtsx_usb_sdmmc runtime-active and prevents the USB parent from
+> autosuspending.
+>
+> I retested this on an RTS5129 reader:
+>
+>   - tray removed: no mmcblk device, rtsx_usb_sdmmc suspends, USB parent
+>     suspends
+>   - empty tray inserted: no mmcblk device, repeated CMD0/CMD8/CMD55/CMD1
+>     probe loop, rtsx_usb_sdmmc remains active, USB parent remains active
+>   - tray + SD card: mmcblk0 appears and reads correctly; the MMC child
+>     holds runtime PM as expected
+>
+> The old Realtek rts5139 staging driver did not treat raw tray/CD state as
+> sufficient. It qualified insertion by checking whether media actually
+> responded before reporting a card present. That approach works on this
+> hardware, and avoids papering over the issue in runtime PM.
+>
+> I know the previous version put the validation directly in ->get_cd(), an=
 d
-> > > to port.c altogether (yes, it's more invasive change, but looks more
-> > > consistent).  I would even dare to move struct usb_port (and containe=
-r_of()
-> > > accompanied with that) and this function to port.h. This might requir=
-e
-> > > a separate patch, though.
-> >
-> > I agree with the reasoning, especially given the function name. However
-> > I wonder if it would cause problems given the linking order. I'll give
-> > it a try nevertheless and report back.
+> the objection was that MMC command probing does not belong there. I'm not
+> trying to ignore that feedback. The question for this RFC is the layering=
+:
 >
-> Thanks!
+>   - if the only exposed hardware bit is "tray inserted", not "card presen=
+t",
+>     where should the Realtek-specific media qualification live?
+
+It depends on what the media qualification must consist of.
+
+>   - is an rts5139-style qualification acceptable in rtsx_usb_sdmmc if it =
+is
+>     kept out of the generic MMC core?
+
+We can certainly add some specific hacks to the rtsx_usb_sdmmc for
+this, but I think we should be able to do it without having to
+build/send all the corresponding mmc commands directly in the driver.
+In principle we should be able to rely on the mmc_rescan() work to do
+this for us, in one way or the other.
+
+A part that is still a bit unclear to me, is how we should handle the
+card detect when the tray is/gets inserted. Is it possible to
+insert/remove a card to the tray when the tray is already inserted -
+or does the tray need to be removed (and inserted again) to allow
+this?
+
+>   - or should the USB/cardreader parent expose a qualified media-present
+>     state to the SD/MMC child?
+
+Is there a way for the USB card reader driver to figure out if there
+is a "card present"?
+
+I thought all it could do was to signal whether the tray is inserted or not=
+? No?
+
 >
-> In case it won't fly (but I still think it's better to split), can you at=
- least
-> group usb_port APIs and struct? Means moving the proto closer to that str=
-uct
-> usb_port followed by container_of().
+> This is intentionally copied to linux-usb and the char/misc/cardreader
+> maintainers, not just linux-mmc, because one possible answer is that the
+> USB/cardreader parent should expose a qualified media-present state rathe=
+r
+> than having rtsx_usb_sdmmc compensate for raw SD_CD.
+>
+> Patch 2 keeps the validation path in a known initial electrical state by
+> starting SD power-up at 3.3V, matching the old Realtek rts5139 driver. It=
+ is
+> included because the validation sequence must not inherit a previous 1.8V
+> state.
+>
+> I have deliberately left the SDR/UHS rate patches out of this RFC. They a=
+re
+> separate capability work and just make this harder to review. This series=
+ is
+> only about making tray card-detect correct and stopping the empty-tray de=
+tect
+> loop.
+>
+> Thanks,
+> Sean
+>
+> Sean Rhodes (2):
+>   mmc: rtsx_usb_sdmmc: avoid false card-detect on tray readers
+>   mmc: rtsx_usb_sdmmc: start card power-up at 3.3V
+>
+>  drivers/mmc/host/rtsx_usb_sdmmc.c | 161 ++++++++++++++++++++++++++++--
+>  1 file changed, 153 insertions(+), 8 deletions(-)
 
-Looks like it works out fine. port.o is linked in after hub.o, so moving
-the function from the latter to the former doesn't cause issues. One might
-even say that it is the correct thing to do.
-
-> > > Perhaps something like: 1) "move struct usb_port and associated APIs =
-to port.h";
-> > > 2) "...this patch...".
-
-There are still some left in hub.c:
-
-static void usb_lock_port(struct usb_port *port_dev)
-static void usb_unlock_port(struct usb_port *port_dev)
-static void port_over_current_notify(struct usb_port *port_dev)
-static void hub_usb3_port_prepare_disable(struct usb_hub *hub,
-                                          struct usb_port *port_dev)
-
-These are used only in hub.c and moving them probably makes things
-messier?
-
-OOTH, the following bits are in port.c but declared in hub.h:
-
-int usb_hub_create_port_device(struct usb_hub *hub,
-         int port1);
-void usb_hub_remove_port_device(struct usb_hub *hub,
-         int port1);
-
-Any preferences for these while we're reorganizing the code?
-
-
-ChenYu
+Kind regards
+Uffe
