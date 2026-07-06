@@ -1,83 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8621130B529;
-	Mon,  6 Jul 2026 07:07:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC300390601;
+	Mon,  6 Jul 2026 07:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783321646; cv=none; b=H0wJHJxwz/2UE2E3y8mbHi63Bc+SLJCkTChJII1jwbZqhuYHySY//kNESeZnO5nc0L3IJEXkYux9Lg2l2OdLKbZg/sz/GIJxy+rYJla7VZTfFwR+ywObIEHVCOVwx66Zl7aiW8Uz7nICIOSPGlmx5Ks/htjPppF28nQB4OV2mps=
+	t=1783323478; cv=none; b=i2ykQOkrj6tDmd9YZwZ6e/U5uRr1sj9C17maCTZRaa2cwqS/O0EsRyN+AGxfBbQ3heZTRNWdYBlDVkbAASUUzIFhDzEWbZ5Ja186DXoJrNs1MkezUJ/VI5TVRnMNJCnknJn7bYjH5tSZ92EajDBabU6Mt0YEZqPGyLwo5G4QMNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783321646; c=relaxed/simple;
-	bh=mPdLGEvbcabL1ldHQnRh3rVH1sYbh3NqqOHQ/s7vJhg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CS5EhkJ6ekX3aDTBwgbtTYqIKXsoAvs2fH/6gDw3hRl8FZk8yf9QLLpQcfRNskT7jM5+ZmTA/bdgSTWCa1PR8QffPJVryBUsjYUjVZRNja/fImsgNCEvZpljomk0hDwAvY+mWj/OuxBdXziiceWhP9XkShqEIRCKqNDfCSzm2CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gikjg/zV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783323478; c=relaxed/simple;
+	bh=20A73vdEONIy5JWHXr9kWR/u5wj95ToK4efgy2vdkhg=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=O5o6W4E8hfHIaE3uSYdKe3d8mx0kj9hDSAps9dUcUl+ras2YUAL+QybmZAkG4zRtt3yfUbtLY9whezjLLw/HkArN9jbWrY0Z4QNhELZaX+IUpoN7OAhkR32c1mP9iB/w7oy4CuXMchgrmuiAJneDJRyU3mE2rkR2dvBH5bzci3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=DSct+Jbp; arc=none smtp.client-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gikjg/zV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 939CE1F00A3A;
-	Mon,  6 Jul 2026 07:07:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783321639;
-	bh=5/hcGctvwNPjPi5bBpjoXQsAdlYMzCbg/9xVDjdzAIw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Gikjg/zVMqPx+4a5lHquUZ0ASxJvMKy6H1WKgXyrF4kji8uRwnllLKL2OyXITeCD9
-	 /aryLly9mBRIYAvR+1UCw+kHqCep+1JYty6ub4ZOIs6NhVviZ8VDeA6jd3ZjUVJ6lC
-	 1XXKk0pRwEU/Irc9B+Awz1dgz12gzPm/fOoQvcoWo8tj6UIQpfA5ebH1VwNuraMNoV
-	 AvGjOLgc5N9bvsYu/LLj7liJfTwnqskzWuyetc8iZ7M/bbF29EVQSPzzveUZRhcVHz
-	 s7iM1LBOBcGktqpvbGuw6a8vaHla38MS56M+nTe4uSOD/8yvxRyAOBl9leMQF2TbLZ
-	 qIiqmzMh+34KQ==
-Received: from johan by xi.lan with local (Exim 4.99.4)
-	(envelope-from <johan@kernel.org>)
-	id 1wgdQD-00000001dVL-260A;
-	Mon, 06 Jul 2026 09:07:17 +0200
-Date: Mon, 6 Jul 2026 09:07:17 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Guangshuo Li <lgs201920130244@gmail.com>
-Cc: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wentao Liang <vulab@iscas.ac.cn>, linux-usb@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: musb: omap2430: Do not put borrowed of_node in probe
-Message-ID: <aktUJSxhLBtlWoFF@hovoldconsulting.com>
-References: <20260705091411.282560-1-lgs201920130244@gmail.com>
+	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="DSct+Jbp"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 54AFCA47D1;
+	Mon,  6 Jul 2026 09:37:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
+	t=1783323454; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=H6MBwffKglOdwU9xmhITOS3FmLemPf9dOlV7coi/cww=;
+	b=DSct+JbpKMoW0zk8aEp1PYTyopkuD7CgqitP/kD/B0SPcjcDSS3L9KzpTn69t8fT32odf8
+	1cP5l4ScRnNrruUXN5QlTAdZHhwa2nXfLny0FiIDpXaaCm2hRvg98ED4hSOnrhogOxdmkg
+	PemSS9FaZ84u5UYTXzqRvkI4YcIlwJ+Z/XSuUMEITFx6oLMCuXyLI5lWuhOQgIcET/7yR9
+	6u0JJUE/iRaWSbuI1b6DgD6hM78Ir5kpYFNmGXs3e/7i4zuPTdD8YlDABZyc5mh9yJXN93
+	WAE/UtHrOByaozcbdGN0SerDYzOkKHDCe/gheuplb3Kbt2MLooxaK3RMw2dgFQ==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260705091411.282560-1-lgs201920130244@gmail.com>
+Date: Mon, 06 Jul 2026 09:37:32 +0200
+From: Nicolai Buchwitz <nb@tipi-net.de>
+To: enrico.pozzobon@dissecto.com
+Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>, Rengarajan
+ Sundararajan <Rengarajan.S@microchip.com>, UNGLinuxDriver@microchip.com,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Woojung.Huh@microchip.com, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v3] net: usb: lan78xx: disable VLAN filter in
+ promiscuous mode
+In-Reply-To: <20260701-lan78xx-vlan-promisc-v3-1-232266d32743@dissecto.com>
+References: <20260701-lan78xx-vlan-promisc-v3-1-232266d32743@dissecto.com>
+Message-ID: <71cdcc54320d7b44af327d9e5537b373@tipi-net.de>
+X-Sender: nb@tipi-net.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Sun, Jul 05, 2026 at 05:14:11PM +0800, Guangshuo Li wrote:
-> omap2430_probe() stores pdev->dev.of_node in a local np variable. This is
-> a borrowed pointer and the probe function does not take a reference to
-> it.
+On 1.7.2026 16:47, Enrico Pozzobon via B4 Relay wrote:
+> From: Enrico Pozzobon <enrico.pozzobon@dissecto.com>
 > 
-> The success and error paths nevertheless call of_node_put(np). This drops
-> a reference that is owned by the platform device, and can leave
-> pdev->dev.of_node with an unbalanced reference count.
+> The hardware VLAN filter (RFE_CTL_VLAN_FILTER_) drops VLAN-tagged 
+> frames
+> whose VID has not been registered via lan78xx_vlan_rx_add_vid(). It is
+> left enabled in promiscuous mode, so packet capture (e.g. tcpdump or
+> Wireshark) does not see tagged frames for unregistered VIDs.
 > 
-> Do not put the borrowed platform device node from omap2430_probe().
-> References taken for the child MUSB device are handled by the device core,
-> and the ctrl-module phandle reference is still released separately.
+> Clear the filter while the interface is promiscuous and restore it from
+> NETIF_F_HW_VLAN_CTAG_FILTER otherwise. Enforce the same condition in
+> lan78xx_set_features() so netdev_update_features() cannot re-enable the
+> filter while promiscuous.
 > 
-> Fixes: e194ce048f5a ("usb: musb: omap2430: Fix use-after-free in omap2430_probe()")
+> Fixes: 55d7de9de6c3 ("Microchip's LAN7800 family USB 2/3 to 10/100/1000 
+> Ethernet device driver")
+> Signed-off-by: Enrico Pozzobon <enrico.pozzobon@dissecto.com>
+> ---
+> Currently, on microchip lan7801, enabling promiscuous mode does not
+> result in VLAN tagged packets being captured. This patch fixes this,
+> forcing the RFE_CTL_VLAN_FILTER_ flag to be off when promiscuous mode 
+> is
+> enabled.
+> ---
+> Changes in v3:
+> - EDITME: describe what is new in this series revision.
+> - EDITME: use bulletpoints and terse descriptions.
+> - Link to v2: 
+> https://patch.msgid.link/20260701-lan78xx-vlan-promisc-v2-1-fe3b18066728@dissecto.com
+> 
+> Changes in v2:
+> - moved VLAN filter logic into lan78xx_update_vlan_filter()
+> - Link to v1: 
+> https://patch.msgid.link/20260630-lan78xx-vlan-promisc-v1-1-fbf0f903bd8f@dissecto.com
+> 
+> To: Thangaraj Samynathan <Thangaraj.S@microchip.com>
+> To: Rengarajan Sundararajan <Rengarajan.S@microchip.com>
+> To: UNGLinuxDriver@microchip.com
+> To: Andrew Lunn <andrew+netdev@lunn.ch>
+> To: "David S. Miller" <davem@davemloft.net>
+> To: Eric Dumazet <edumazet@google.com>
+> To: Jakub Kicinski <kuba@kernel.org>
+> To: Paolo Abeni <pabeni@redhat.com>
+> To: Woojung.Huh@microchip.com
+> Cc: netdev@vger.kernel.org
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> ---
+>  drivers/net/usb/lan78xx.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+> index c4cebacabcb5..cb782d81d84f 100644
+> --- a/drivers/net/usb/lan78xx.c
+> +++ b/drivers/net/usb/lan78xx.c
+> @@ -1499,6 +1499,17 @@ static void 
+> lan78xx_deferred_multicast_write(struct work_struct *param)
+>  	return;
+>  }
+> 
+> +static void lan78xx_update_vlan_filter(struct lan78xx_priv *pdata,
+> +				       struct net_device *netdev,
+> +				       netdev_features_t features)
+> +{
+> +	if ((features & NETIF_F_HW_VLAN_CTAG_FILTER) &&
+> +	    !(netdev->flags & IFF_PROMISC))
+> +		pdata->rfe_ctl |= RFE_CTL_VLAN_FILTER_;
+> +	else
+> +		pdata->rfe_ctl &= ~RFE_CTL_VLAN_FILTER_;
+> +}
+> +
+>  static void lan78xx_set_multicast(struct net_device *netdev)
+>  {
+>  	struct lan78xx_net *dev = netdev_priv(netdev);
+> @@ -1533,6 +1544,8 @@ static void lan78xx_set_multicast(struct 
+> net_device *netdev)
+>  		}
+>  	}
+> 
+> +	lan78xx_update_vlan_filter(pdata, dev->net, dev->net->features);
+> +
+>  	if (netdev_mc_count(dev->net)) {
+>  		struct netdev_hw_addr *ha;
+>  		int i;
+> @@ -3074,10 +3087,7 @@ static int lan78xx_set_features(struct 
+> net_device *netdev,
+>  	else
+>  		pdata->rfe_ctl &= ~RFE_CTL_VLAN_STRIP_;
+> 
+> -	if (features & NETIF_F_HW_VLAN_CTAG_FILTER)
+> -		pdata->rfe_ctl |= RFE_CTL_VLAN_FILTER_;
+> -	else
+> -		pdata->rfe_ctl &= ~RFE_CTL_VLAN_FILTER_;
+> +	lan78xx_update_vlan_filter(pdata, netdev, features);
+> 
+>  	spin_unlock_irqrestore(&pdata->rfe_ctl_lock, flags);
+> 
+> 
+> ---
+> base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
+> change-id: 20260623-lan78xx-vlan-promisc-83af8a48a7ec
+> 
+> Best regards,
+> --
+> Enrico Pozzobon <enrico.pozzobon@dissecto.com>
 
-This was not the commit that introduced the issue. This should be:
+v2 is marked superseded in patchwork, so FWIW
 
-Fixes: ffbe2feac59b ("usb: musb: omap2430: Fix probe regression for missing resources")
+Reviewed-by: Nicolai Buchwitz <nb@tipi-net.de>
 
-and this should be backported to stable as well:
-
-Cc: stable@vger.kernel.org
-
-> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
-
-And again, how are you finding these issues? Still no LLM involved?
-
-With the above fixed:
-
-Reviewed-by: Johan Hovold <johan@kernel.org>
-
-Johan
+Thanks
+Nicolai
