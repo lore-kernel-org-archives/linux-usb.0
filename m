@@ -1,157 +1,290 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A008A3DD536;
-	Mon,  6 Jul 2026 06:29:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370EB3FADF6;
+	Mon,  6 Jul 2026 06:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783319355; cv=none; b=njL2aOM3w96I00EKmrvxbk702uDPNmL2HMkgMhRiuzvpZ9J+n0A/VeaMn/oGiX6HqJkinZzlMzoqt1X0P+SEtZbSlHGwR3bY9dFfp3MKXrWsNRXQNJ4G5zM7EPHNsVusZ5lEdyMfe43h6+GnIDzrYiznRPZPcbvWx+/pPlxtxd8=
+	t=1783319931; cv=none; b=L2FnOxoR7uON4Qmfwoy8J7ePLJYy8q4bJO1HCzo9zTVsweDBFxbdyWryV/eEYnNTSZ3mQVF3hj+9bwZEAOgYxsGJrd/FGqtBR2cZHg+okjwsn85PdNV/ihxvWFuYhI31yw5nov8RzanOYY5WQNtFkZRKPoF7N3jyXTFUoI9JsMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783319355; c=relaxed/simple;
-	bh=Jfb2fhUnJHvJozEGMpZ0vKLRGPAh0VFsp4j1GBbH0cQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kL+t6/2P8X/+tXBWWSIXq5EkvxycVgw/QqizXZSWy+nZAIOO6InWkOJvQyGUP4uUOvgTu7wzJMQvMB51w3198Ae9YGp0kQRIQLEdQCZG1wVNqpJhP0Tdk3kgECa93LI4XG/O+13E1/GoXcNvMjyiMIXOKwBSZILx8T0VLJrWSd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=tUeDE/MT; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=x0OMHnTB; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1783319931; c=relaxed/simple;
+	bh=qPVhDvIRUyEoIcOLDhi/aPVJoftWUtMyOPlDpBoQXkk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fQSeZufqBmAl2qWi5Vu73gg4MP9E/hMiyn/JbmBR4ylU/I68A55ypKmpyywAlw//R/9VMHTFjBTS23ggr1ZrORzPCPyMxSimH12vuL/rX6BazaQZ8k/9TVZ1+shRpFk5YTv/Cuey1Ru9XOguj8+KORoCxcBaysfBzT9jlok41zI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Uwgd81sB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="tUeDE/MT";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="x0OMHnTB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1783319338;
-	bh=Jfb2fhUnJHvJozEGMpZ0vKLRGPAh0VFsp4j1GBbH0cQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tUeDE/MT9ULG8WhqQNqWcfKlClmBLLbB8Nuushfd4wd2FrpHbh/p6g1448Sxc/hPb
-	 nK5GhC7FUBcq5Ds4qtanuxivKWeOSX8oYlTGDumi5KcSFhuDaFBAX2a8Wd/bE7arYH
-	 uh3t28ouY8VmPThtaIffEr3ziU7bOSxOId1dXM8YJms0Eg680pLioT1/e8osvTMEdB
-	 zwG3lTiFVSjhhPClP7AXF1nE3Bm2NbxOjF/6IgNUH7vFgpJ0gaYYWIBH9QyFT8Xz3G
-	 gp2zXn6N7Tzf911juLUxifZGxel3RoAoPgxMjL0JH0ItFykao6GXWmkEAjv9DW5Hzg
-	 GY7onGjyxG/CQ==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 3A7CD3F36F; Mon,  6 Jul 2026 06:28:58 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1783319337;
-	bh=Jfb2fhUnJHvJozEGMpZ0vKLRGPAh0VFsp4j1GBbH0cQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=x0OMHnTBLjscgw0NOHc/8Ha2qwkmgPkj/ZQIoodovq2485kGSF7GJJ/G6HCTsUppw
-	 vfz0itPMPhyOIFMj4G3gPcCJbBszEEMfdifjjoqe5V7dARPmGmY65qOSErxjy99rjw
-	 U2dPZfaR3EluJd/MSVjkTCFGpX+NTlXl+GkroWOB37wsvTEhdbfhg1gmlt+WnOZKuH
-	 BeLizbUWpsjY6KzdzFpRFEDRf1IPUdJOq0bZWL+dq9/X/09vjC2Gs4qcgpxbSpIwJw
-	 ilKpkL0FAwxImozbMc3SXpPjQ0gI6e6uFVKXrdOM7gKfZDsnAK4my9QJmtj12M8B4q
-	 eQnq45AgtHrBA==
-Received: from [IPV6:2003:c6:9f1c:3c00:c446:95cc:f2ac:d401] (p200300c69f1c3c00c44695ccf2acd401.dip0.t-ipconnect.de [IPv6:2003:c6:9f1c:3c00:c446:95cc:f2ac:d401])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 193D93F338;
-	Mon,  6 Jul 2026 06:28:57 +0000 (UTC)
-Message-ID: <833f79c1-39be-4c04-bc4f-3ec7a983ab56@birger-koblitz.de>
-Date: Mon, 6 Jul 2026 08:28:56 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Uwgd81sB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A10B01F00A3A;
+	Mon,  6 Jul 2026 06:38:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1783319917;
+	bh=El/jXc9nOcxjBGkPQzB98ds54D+ZGmIFy8nYp/Sat7g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Uwgd81sBwoxrVqS+Q/Jno3eu2hYcPeempzvem6bi9df3/9SKrpnIZCUu0wQoEfHu8
+	 NjgGC3WW8QeDEw9GGUaYJacJuTcr897tem7eo4WRtdL08mWgjwoE8LeafqammvrjFO
+	 E29IypQvAylFzF+I4M0jeHvMX5EeCh8CjdFSJpds=
+Date: Mon, 6 Jul 2026 08:37:21 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: AceLan Kao <acelan.kao@canonical.com>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Kuen-Han Tsai <khtsai@google.com>, Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Kees Cook <kees@kernel.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Chenyuan Yang <chenyuan0y@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: hub: call ACPI _PRR reset during port power-cycle
+ on enumeration failure
+Message-ID: <2026070612-customer-blitz-3e90@gregkh>
+References: <20260326011708.1128840-1-acelan.kao@canonical.com>
+ <2026070349-unwound-cavalier-fb60@gregkh>
+ <CAFv23Q=jtz9fYH7zY+ByCOiA_KGNoyCkUh=FJBssqu7D_O0K1w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/9] ax88179_178a: Add support for ethtool pause parameter
- configuration
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260701-ax88179a-v1-0-13685df67515@birger-koblitz.de>
- <20260701-ax88179a-v1-5-13685df67515@birger-koblitz.de>
- <587499ee-d87e-4056-8d2a-8fda2ef3f0f1@bootlin.com>
- <947860cc-de6e-48b8-804b-e27f27b2f82c@lunn.ch>
- <d2edb164-91c8-40e4-a104-db690609cb57@birger-koblitz.de>
- <46553470-9be3-4ae0-824d-ae85441c920d@lunn.ch>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <46553470-9be3-4ae0-824d-ae85441c920d@lunn.ch>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFv23Q=jtz9fYH7zY+ByCOiA_KGNoyCkUh=FJBssqu7D_O0K1w@mail.gmail.com>
 
-
-
-On 7/1/26 19:05, Andrew Lunn wrote:
-> On Wed, Jul 01, 2026 at 06:22:31PM +0200, Birger Koblitz wrote:
->> Hi Andrew,
->>
->> thanks for reviewing this patch-series! I will answer to the other questions later,
->> so that the answers stay together. But it is probably best if I give this answer
->> immediately:
->> On 7/1/26 17:08, Andrew Lunn wrote:
->>>>> +static void ax88179a_get_pauseparam(struct net_device *net, struct ethtool_pauseparam *pause)
->>>>> +	if (!(bmcr & BMCR_ANENABLE)) {
->>>>> +		pause->autoneg = 0;
->>>>> +		pause->rx_pause = 0;
->>>>> +		pause->tx_pause = 0;
->>>> The best way to have this correct is to use phylink, but for that you'd need to
->>>> have a proper PHY driver instead of using the mii_ API here.
->>>
->>> I said the some to one of the other patches.
->>>
->>> Do we know what PHYs are being used? Can register 2 and 3 be read to
->>> get the PHY IDs?
->>>
->>> 	Andrew
->>
->> I tested
->>    id1 = ax88179_mdio_read(dev->net, dev->mii.phy_id, MII_PHYSID1);
->>    id2 = ax88179_mdio_read(dev->net, dev->mii.phy_id, MII_PHYSID2);
->>
->> and got:
+On Mon, Jul 06, 2026 at 01:04:19PM +0800, AceLan Kao wrote:
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> 於 2026年7月3日週五 下午5:43寫道：
+> >
+> > On Thu, Mar 26, 2026 at 09:17:08AM +0800, Chia-Lin Kao (AceLan) wrote:
+> > > Some USB-connected devices (e.g. MT7925 Bluetooth on Dell laptops) expose
+> > > their hardware reset line via an ACPI Power Resource for Reset (_PRR)
+> > > rather than relying solely on VBUS cycling for recovery.  When the reset
+> > > GPIO gets stuck low the device stops responding on USB; a VBUS power-cycle
+> > > alone cannot recover it because the chip remains in reset regardless of
+> > > VBUS state.
+> > >
+> > > Add usb_acpi_port_prr_reset() in usb-acpi.c that, given a hub device and
+> > > one-based port number, looks up the port's ACPI companion handle, evaluates
+> > > _PRR to obtain the power-resource reference, and then calls _RST on that
+> > > reference to toggle the reset line.  The function is a no-op if the port
+> > > has no ACPI handle or no _PRR method, so it is safe to call unconditionally
+> > > for every port.
+> > >
+> > > Wire it into hub_port_connect() during the mid-retry VBUS power-cycle
+> > > (at (PORT_INIT_TRIES-1)/2 iterations), calling usb_acpi_port_prr_reset()
+> > > *after* VBUS goes off and *before* VBUS comes back on.  The ordering is
+> > > critical: on the tested hardware the ACPI _RST method (MBTR._RST) drives
+> > > BT_RST low for 200 ms then high again.  If _RST is called after VBUS is
+> > > already restored the GPIO pulse races with device enumeration starting on
+> > > the live bus; the device begins asserting USB signals while still held in
+> > > reset and enumeration fails.  Performing the reset while the port is
+> > > de-powered ensures the GPIO pulse completes fully before the device is
+> > > given power and time to initialise.
+> > >
+> > > After VBUS is restored, add an msleep(100) conditional on _PRR._RST having
+> > > succeeded.  USB 2.0 spec §7.1.7.3 (Fig. 7-29) mandates a minimum of 100 ms
+> > > between VBUS power-on and the first reset signalling for power settling.
+> > > On root hubs, hub_power_on_good_delay() returns bPwrOn2PwrGood * 2 with
+> > > no minimum floor; on the tested xHCI root hub bPwrOn2PwrGood = 10, yielding
+> > > only 20 ms — well below the spec minimum.  (External hubs already enforce
+> > > a 100 ms minimum via hub_power_on_good_delay().)  When _PRR._RST has been
+> > > exercised the device must also complete its full power-on sequence (GPIO
+> > > de-assertion, internal oscillator start, firmware load) before USB
+> > > enumeration begins.  The 100 ms sleep enforces the spec minimum and gives
+> > > the device adequate settling time.
+> > >
+> > > Tested on a Dell laptop with MT7925 Bluetooth (idVendor=0489,
+> > > idProduct=e139) whose BT_RST GPIO was stuck low.  With this fix the
+> > > device recovers autonomously at boot without requiring a G3
+> > > (mechanical power-off) cycle.  The relevant dmesg sequence:
+> > >
+> > >   [    1.448491] usb 3-10: new high-speed USB device number 4 using xhci_hcd
+> > >   [    6.813942] usb 3-10: device descriptor read/64, error -110
+> > >   [   22.685978] usb 3-10: device descriptor read/64, error -110
+> > >   [   22.901715] usb 3-10: new high-speed USB device number 5 using xhci_hcd
+> > >   [   28.317963] usb 3-10: device descriptor read/64, error -110
+> > >   [   44.189949] usb 3-10: device descriptor read/64, error -110
+> > >   [   44.294065] usb usb3-port10: attempt power cycle
+> > >   [   44.872709] usb 3-10: new high-speed USB device number 6 using xhci_hcd
+> > >   [   44.888293] usb 3-10: New USB device found, idVendor=0489, idProduct=e139, bcdDevice= 1.00
+> > >   [   44.888318] usb 3-10: Manufacturer: MediaTek Inc.
+> > >
+> > > Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+> > > ---
+> > >  drivers/usb/core/hub.c      | 14 ++++++++
+> > >  drivers/usb/core/usb-acpi.c | 68 +++++++++++++++++++++++++++++++++++++
+> > >  drivers/usb/core/usb.h      |  3 ++
+> > >  3 files changed, 85 insertions(+)
+> > >
+> > > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> > > index 24960ba9caa91..1740e96f73cc6 100644
+> > > --- a/drivers/usb/core/hub.c
+> > > +++ b/drivers/usb/core/hub.c
+> > > @@ -5603,11 +5603,25 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
+> > >
+> > >               /* When halfway through our retry count, power-cycle the port */
+> > >               if (i == (PORT_INIT_TRIES - 1) / 2) {
+> > > +                     int prr_reset;
+> > > +
+> > >                       dev_info(&port_dev->dev, "attempt power cycle\n");
+> > >                       usb_hub_set_port_power(hdev, hub, port1, false);
+> > >                       msleep(2 * hub_power_on_good_delay(hub));
+> > > +                     prr_reset = usb_acpi_port_prr_reset(hdev, port1);
+> > >                       usb_hub_set_port_power(hdev, hub, port1, true);
+> > >                       msleep(hub_power_on_good_delay(hub));
+> > > +                     /*
+> > > +                      * USB 2.0 spec §7.1.7.3 requires at least 100 ms
+> > > +                      * between VBUS power-on and the first reset for power
+> > > +                      * settling.  hub_power_on_good_delay() on an xHCI root
+> > > +                      * hub returns bPwrOn2PwrGood * 2 with no minimum floor,
+> > > +                      * which can be as little as 20 ms.  When _PRR _RST was
+> > > +                      * also exercised the device must complete its power-on
+> > > +                      * sequence before enumeration; enforce the spec minimum.
+> > > +                      */
+> > > +                     if (prr_reset == 0)
+> > > +                             msleep(100);
+> > >               }
+> > >       }
+> > >       if (hub->hdev->parent ||
+> > > diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
+> > > index 489dbdc96f94a..ee62e3fd8e3a1 100644
+> > > --- a/drivers/usb/core/usb-acpi.c
+> > > +++ b/drivers/usb/core/usb-acpi.c
+> > > @@ -142,6 +142,74 @@ int usb_acpi_set_power_state(struct usb_device *hdev, int index, bool enable)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(usb_acpi_set_power_state);
+> > >
+> > > +/**
+> > > + * usb_acpi_port_prr_reset - issue an ACPI _PRR reset on a hub port
+> > > + * @hdev: USB device belonging to the usb hub
+> > > + * @port1: port number (one-based)
+> > > + *
+> > > + * Some devices expose their hardware reset line via an ACPI Power Resource for
+> > > + * Reset (_PRR).  When such a device fails to enumerate (e.g. because the reset
+> > > + * GPIO is stuck low), the USB power-cycle alone is not enough; the firmware
+> > > + * reset path must also be exercised.
+> > > + *
+> > > + * This function evaluates _PRR on the port's ACPI companion to obtain the
+> > > + * power-resource reference and then calls _RST on that resource to toggle the
+> > > + * reset line.  It is intended to be called alongside the mid-retry VBUS
+> > > + * power-cycle already performed by hub_port_connect().
+> > > + *
+> > > + * Returns 0 on success, -ENODEV if the port has no ACPI handle or no _PRR
+> > > + * method, or a negative error code on failure.
+> > > + */
+> > > +int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1)
+> > > +{
+> > > +     acpi_handle port_handle;
+> > > +     struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+> > > +     union acpi_object *pkg, *ref;
+> > > +     acpi_status status;
+> > > +     int ret = 0;
+> > > +
+> > > +     port_handle = usb_get_hub_port_acpi_handle(hdev, port1);
+> > > +     if (!port_handle)
+> > > +             return -ENODEV;
+> > > +
+> > > +     if (!acpi_has_method(port_handle, "_PRR"))
+> > > +             return -ENODEV;
+> > > +
+> > > +     status = acpi_evaluate_object(port_handle, "_PRR", NULL, &buffer);
+> > > +     if (ACPI_FAILURE(status)) {
+> > > +             dev_dbg(&hdev->dev, "port%d: _PRR evaluation failed: %s\n",
+> > > +                     port1, acpi_format_exception(status));
+> > > +             return -ENODEV;
+> > > +     }
+> > > +
+> > > +     pkg = buffer.pointer;
+> > > +     if (!pkg || pkg->type != ACPI_TYPE_PACKAGE || pkg->package.count < 1) {
+> > > +             dev_dbg(&hdev->dev, "port%d: _PRR returned unexpected object\n",
+> > > +                     port1);
+> > > +             ret = -EINVAL;
+> > > +             goto out;
+> > > +     }
+> > > +
+> > > +     ref = &pkg->package.elements[0];
+> > > +     if (ref->type != ACPI_TYPE_LOCAL_REFERENCE || !ref->reference.handle) {
+> > > +             dev_dbg(&hdev->dev, "port%d: _PRR element is not a reference\n",
+> > > +                     port1);
+> > > +             ret = -EINVAL;
+> > > +             goto out;
+> > > +     }
+> > > +
+> > > +     status = acpi_evaluate_object(ref->reference.handle, "_RST", NULL, NULL);
+> > > +     if (ACPI_FAILURE(status)) {
+> > > +             dev_dbg(&hdev->dev, "port%d: _RST evaluation failed: %s\n",
+> > > +                     port1, acpi_format_exception(status));
+> > > +             ret = -EIO;
+> > > +     }
+> > > +
+> > > +out:
+> > > +     kfree(buffer.pointer);
+> > > +     return ret;
+> > > +}
+> > > +
+> > >  /**
+> > >   * usb_acpi_add_usb4_devlink - add device link to USB4 Host Interface for tunneled USB3 devices
+> > >   *
+> > > diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
+> > > index a9b37aeb515be..4d3dc3bd881b2 100644
+> > > --- a/drivers/usb/core/usb.h
+> > > +++ b/drivers/usb/core/usb.h
+> > > @@ -211,7 +211,10 @@ extern int usb_acpi_register(void);
+> > >  extern void usb_acpi_unregister(void);
+> > >  extern acpi_handle usb_get_hub_port_acpi_handle(struct usb_device *hdev,
+> > >       int port1);
+> > > +extern int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1);
+> > >  #else
+> > >  static inline int usb_acpi_register(void) { return 0; };
+> > >  static inline void usb_acpi_unregister(void) { };
+> > > +static inline int usb_acpi_port_prr_reset(struct usb_device *hdev,
+> > > +                                       int port1) { return -ENODEV; }
+> > >  #endif
+> > > --
+> > > 2.53.0
+> > >
+> > >
+> >
+> > Please see the review comments at:
+> >         https://sashiko.dev/#/patchset/20260326011708.1128840-1-acelan.kao@canonical.com
 > 
-> Thanks for these numbers.
+> Thanks Greg.
 > 
->> Renkforce AX88179A: ID1 7c9f, ID2 7061
->> Delock AX88279  ID1 03a2, ID2 a411
+> Went through the sashiko review. The single finding claims
+> usb_acpi_port_prr_reset() should iterate every element of the _PRR
+> package and call _RST on each. That's based on a misreading of _PRR.
 > 
-> air_en8811h.c:#define EN8811H_PHY_ID		0x03a2a411
+> Per ACPI 6.4 §7.3.26 (_PRR, Power Resource for Reset):
 > 
->> UGreen AX88772D ID1 e65b, ID2 2c61
->> TP-Link AX88179A ID1 e65b, ID2 2c61
+>   "This object evaluates to a single reference to a power resource. ...
+>    Return Value: A single element Package containing a Reference to the
+>    power reset resource."
 > 
-> The two ID registers contain part of an OUI, but it has some bits
-> missing. So it is not so easy to look it up.
+> _PRR is a fixed single-element package, not a variable-length list.
+> ACPICA encodes this in acpredef.h as ACPI_PTYPE1_FIXED with 1 reference
+> (as opposed to _PR0/_PR1/_PR2/_PR3, which are ACPI_PTYPE1_VAR reference
+> lists -- I suspect that's the source of the confusion). The "reset must
+> affect all ACPI-described devices that reference it" wording in the _RST
+> description refers to the devices sharing that one power resource, not to
+> multiple resources in the package.
 > 
-> However, anything using the MII framework basically assumes a very
-> simple PHY and only looks at the 802.3 defined registers. So the
-> genphy generic PHY driver might be sufficient for when there is not a
-> specific driver. At lot depends on how much extra code there is
-> accessing the PHY registers in the driver.
-I started converting the driver to phylink, but hit rock-bottom. There definitely is
-an Airoha EN8811H as IP-core in the AX88279, which is clear from the PHY-ID and quirks
-such as only Full-Duplex and ANEG being supported by the phy, but the firmware is
-completely different, leading to different register content. The most striking example
-is that the 2.5GBit advertising bit in the firmware for the AX88279 abuses the
-ADVERTISE_RESV bit of the MII_ADVERTISE register, but in the EN8811H this is the
-standard bit in the 10GBit advertising register. There is no firmware needed for the
-PHY in the AX88279. The EN8811H mechanism for vendor register access is using a so-called
-buckpbus using phy-register reads/writes for access, whereas similar vendor registers
-of the AX88279 are just standard AX88279 registers, also to avoid USB-transfers.
-The pbuckbus logic is not implemented in the AX88279 firmware, but in any case a
-vendor register read for the EN8811H would need 5 URBs, where as the AX88279 just needs
-1. The vendor registers also have very different content, for example the WoL bits
-are entirely different.
+> The two existing in-tree _PRR/_RST users take elements[0] and call _RST
+> on it exactly as this patch does:
+> 
+>   - drivers/bluetooth/btintel.c: btintel_acpi_reset_method()
+>   - drivers/net/.../iwlwifi/pcie/gen1_2/trans.c: iwl_trans_pcie_call_reset()
+> 
+> Both are in fact stricter -- they reject package.count != 1, whereas I
+> accept count >= 1 and use the first element. Happy to tighten my check
+> from "< 1" to "!= 1" to match that precedent and make the single-element
+> invariant explicit, but there's no functional issue here.
 
-I am also relatively sure that the PHY in the AX88179a/b is an Airoha AN8801, but
-again the firmware is so different it looks like a completely different chip with
-regards to registers. Again it uses the pbuckbus to access the vendor registers,
-which is not implemented in the AX88179a firmware.
+This is going to require a review from the ACPI maintainer that this is
+the correct thing to be doing, no matter which way it ends up.  So
+please submit a new version and cc: those developers (and tighten up
+your cc: list as well to only those that are relevant.)
 
-Changing the behaviour of the EN8811H driver to also accept the firmware of the
-AX88279 IP-core implementation does not appear to make sense, it would be cleaner
-to add a separate driver, but that would not work from the phylink-logic as it would
-grab the same PHY-IDs.
+thanks,
 
-I could simulate the EN8811H firmware in the ax88179_178a.c driver, but I guess that
-would beat the purpose, plus it would cost quite an overhead in URBs.
-
-For me the way ahead is to stick with the simple MII-driver and just make sure that
-features such as pause configuration are properly implemented. Please tell me if that
-makes sense or there are better ways.
-
-Birger
+greg k-h
