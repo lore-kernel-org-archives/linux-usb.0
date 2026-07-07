@@ -1,85 +1,66 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A48392C52
-	for <linux-usb@vger.kernel.org>; Tue,  7 Jul 2026 09:11:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F503939D2
+	for <linux-usb@vger.kernel.org>; Tue,  7 Jul 2026 09:24:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783415502; cv=none; b=QVHAnSlOIvHdPHPfmSqLFcjrmuHFB4945lKMvX4uOaIm1NFrzk8vAGJ5aoR8n8p78McEVr9elJOX6vDkQwD/VKplqV3A4Y8rCgkXHTvUQILqcU7rmZzmrN4BE2zptqcUT2OL+SlW257QYSpjNDNlMpjRTH4KfYhSA+BIb9iLmCk=
+	t=1783416266; cv=none; b=XNQU5PevV0wnbHo+cpTvqfEgEOqojZtB7CBJXL0tfjFbYA2QOxcGBQWXmu3qDYoXiJy+pbLkYJEI9CsIgIum0eTqAN8ghNRbMxzlvWl3iKM9yuEOMW1ZOuV96UrV/VjCT/pQYqt6H68M8XFZrRYkBwarEntp45KrwO/M1pjw8uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783415502; c=relaxed/simple;
-	bh=ZMbwppaEOt+Q4DVo9jrvDNtl/WKltKL0JxXqxucsSjY=;
+	s=arc-20240116; t=1783416266; c=relaxed/simple;
+	bh=ZVtJ4KbMUVJNK2/wadQxyFFqB6KL45hueHArSxTZRWE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LGjOiicehiamcc2GpYKv2sW4TpPTzXWfq5EegQYWb2csmjLPbRDflHGchNGA6aKSORkhfdV1UbImm6yT0VojSpux+QRQbFj0hrK8i2meK0+h0n5Ws9QAa+JylojojlHstVREldpPXfqW++fB9jYzcpAs0RdXKMV/OBXtnZkS1OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e3uKYJ5p; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=aYTo3t/Z; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=coWcKqjIgUAlfx7Ssl4XPfJSNkVxCpzIc5HY0XS0AQuVzt6mXV0O/dzeghwy4j1TbmmvHjdBIDUbDUVNrER1KlUXJWdIL31jzA5HbBfjfqFs9lUYAC1VIEnrcvgyK2G13CLj9vSpfkUhdqqyszo1IRKpTDVF0EKplhcz2TctwTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P+ny1llv; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e3uKYJ5p";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="aYTo3t/Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783415498;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z5RnetOGjoSbZBofYUofFjQ2y5JiYAZXkRIu1Tnosi0=;
-	b=e3uKYJ5pnJn8nP6FWU+PP8f/2SczpTCqeXQuHdY2N6qFH8Z0WErkRTAlpHMR9Y7uZ3wZOM
-	Elv/JGimMuCsk40C88q9ENSG/kAZmJsLnZM5s57JtQ5aB85l9Z/pgid/dvw2lYGteOQNHa
-	DDSd+ex7h7Go50nOLxNTLIEbqa1pJ+0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-ug9MXTWrOaSEVLFWEAhhLQ-1; Tue, 07 Jul 2026 05:11:37 -0400
-X-MC-Unique: ug9MXTWrOaSEVLFWEAhhLQ-1
-X-Mimecast-MFC-AGG-ID: ug9MXTWrOaSEVLFWEAhhLQ_1783415496
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4926fa2cb17so4006255e9.1
-        for <linux-usb@vger.kernel.org>; Tue, 07 Jul 2026 02:11:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P+ny1llv"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cc73e322dbso24008785ad.1
+        for <linux-usb@vger.kernel.org>; Tue, 07 Jul 2026 02:24:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1783415496; x=1784020296; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
+        d=gmail.com; s=20251104; t=1783416264; x=1784021064; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=z5RnetOGjoSbZBofYUofFjQ2y5JiYAZXkRIu1Tnosi0=;
-        b=aYTo3t/Z0oRS1+kuh7AMzcuR+wrejQ5ToSRvmcOzkyMZCCmCBKvOZRMAkNNp5O0jTl
-         yu64Q9tu4RITZoOqj0ec4Tw/KnwYIXJoCz5Zcmwg2eEm6njbpLZyAME/EPB/R/EuHzAl
-         dkwsHyhN0j6OviCFx0g0rO862McvbRx7fhiXnavosT2UCwbQWMTdqeIRQNfUb2F/H0z6
-         ec05rh6x8hUNez1csf9ytvhFvLu8lBXy7IWtuom3nRU6JS93IH9YHTb6NodFaM/7V452
-         qmFpSVpP67yTAiN4M0IS3n9sBQOoxRqGRbRp95X4d5oxLU9Qh/nKldugiqLanw+pAAyB
-         JcxQ==
+        bh=LZMpYi0CMP8lLmjFdusnU2dVbBcxO0l5zFZNeINryrw=;
+        b=P+ny1llvoYyxdUFjKvkZ1HXoQp4xSO9ECacYFXdJJUaZyJ6KErctwuwJ4oY5dsgDrg
+         l3RjSYxat6Kpl62IfQEygI53XfzsQc/ixF06Sw4GTokUw700FkNAcgSfz1CJV4+rj7yy
+         d1IWkXHSwJtIGwe+vSvXLxNThyKtPmTqOBel/0nGVfzm4/6lWIniIy2+KUWxNlYpEm/S
+         xABRtkGSG9/lZ5GrwQ2p7i4bvBKnXJDpI2nrxMbYHWlaxy9NYuiQxG/zmJWVDSxrx0OY
+         1BR+CPAnjSLyJ+cJAaZWvgVJVu7lZn33ONCXmA/2bzeAhTo6vOd3Cju03Ws79WFNw9tD
+         YERA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783415496; x=1784020296;
-        h=content-transfer-encoding:in-reply-to:content-language:from
+        d=1e100.net; s=20251104; t=1783416264; x=1784021064;
+        h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=z5RnetOGjoSbZBofYUofFjQ2y5JiYAZXkRIu1Tnosi0=;
-        b=T2JNr0GpEsBVy6xoCZmQpBBlpn9TmCmXhtTZEeesru6WlIMEKlfevMijAhek091GAO
-         CnpFf4xg3kfwLnYIyZdf6cch+WKuOCuHckI1WJguToUp0ForVW3DSISv0jGFxsAMDKPG
-         GmI19TWgL8V9ZFsAnN3U6dtyu/ZJ9VK/EqrChMJNzN2mIhNo8gLNnaBdshEgTDzLMZIx
-         vgj0iEbYQgwbFcU1YwZY5+8d6P4kW/lszFHO8yYAbcImtQCEDnvnUpqW/Ly+3bTpSSSr
-         pbVEYaWw1B7aAr6mR1OzYFGmSWzIAqe8WblXG3dMqMg2PkatcSOJsC4q/24imkRUoIrG
-         q36g==
-X-Gm-Message-State: AOJu0Yx1YZePtagYLrFf4OJKcf/8HY4+JQd/R37NfE59TFfZLbWQHW8o
-	V940XfefNd+kgDcaU09kulXhP7sR7FjD5Wug5LofRMM/scA6lAVeht+2CiM17iRI9ycl9/8G8st
-	yZ2V8ZB9bHZPSs9UrjX2ivxUwD4rjmhUKH+IcNiTt3ywM5jJeqelBpzBspJStaA==
-X-Gm-Gg: AfdE7clmq+Vk+mA9q3oklnUY2Hzot4F3FxcYnIGU8WA2Dn+cGFSmlRdg9W6cIodWSQN
-	mKAsliVqwkkHJbqmSl9oCfkQOF55V1L+qLrTZ95iQXS25sgseU4o84df9SRvwuVdHDY5CTG2qMR
-	Hs0DLOjiN92S/3UJbK5ASS3rIzZOutyyNYBZJfBw2Zc0wLjJrYByEAiwUz0RlQ+leyQgiN75QDD
-	pXmyb5Pk7gPgwDJegu/LuiLORL3gkJPcT5Zi9iCj4Y3PKEV+fMddN5F556xyDgr79hoTxRelqNN
-	p/U0PcBEdxuO8NFKBsaQF3Kxx/V/qsF1okUBYghDoK79Rp/s+aZHtmGtYvZ5b736aKb02PEcMGS
-	49UF9706C+njCsCEYyTRSLThQsyILVwP4M6yQGjT53+8WAXZ8V9JIWwdy4S+4gfgl9aW/Ni7jmO
-	K8RnvrGAp0fRKJ
-X-Received: by 2002:a05:600c:4853:b0:492:2fc8:21f2 with SMTP id 5b1f17b1804b1-493e1012c27mr11908685e9.8.1783415493847;
-        Tue, 07 Jul 2026 02:11:33 -0700 (PDT)
-X-Received: by 2002:a05:600c:4853:b0:492:2fc8:21f2 with SMTP id 5b1f17b1804b1-493e1012c27mr11908505e9.8.1783415493425;
-        Tue, 07 Jul 2026 02:11:33 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:5521:6b10:58fd:68f:7756:389d? ([2a0d:3344:5521:6b10:58fd:68f:7756:389d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa0a558easm32340161f8f.27.2026.07.07.02.11.32
+        bh=LZMpYi0CMP8lLmjFdusnU2dVbBcxO0l5zFZNeINryrw=;
+        b=sBC4dE8GivXOHsHYl5MQ+0nHdWvi3MzjG4JZUfxgcnCQPER3FST3iPAlw536K5YyFm
+         BiwjovTirCtL21+NGIwEBg9DE2xEkJVvfLOaQ4yKWxSJPCEuXP6kEc6X6WblFsk8txr2
+         zb8rzanO4gg9tBYlw9tN4rkcVij8pFgEpzQr/SfpesJ9V0CekXcCvK4jEvYatmXYtRkH
+         Bk2Z2lcn7TZJ6LLvbRyuejG2UxdUHP+Z78K20/pZ0lSJvA7jIFVrwupPgh+9n4A/l8T5
+         Ynj/MK5srZtCz13QHFyh6P8+nIFMCsKCdk0GpvmhLq4JxQ/hiwyobxpCP2jRTL7iLy9G
+         a83Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrSZBUA/ZjYpMHqs+E4kSWsuY8semGKandrMelW7RwxbU6Jmp81AvkUyI0qHwVG3fijFhgeimTYhjA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyI1IJGByEjLk+EBe98MhIlKaFObHrzBbksCnwPubDhvyZM4gmg
+	om5w7uRIjYcMWj+t5guhPFbV6fpcsWvlWxjprXqRLJdjgKLd7d9fBa3UdGkE3g==
+X-Gm-Gg: AfdE7cnB384qZwf7lDOMZd3A2VSigYNYvAliquaA1v5Bt1wzCtXLposAnK18fwBemFy
+	udvoD9+h/FmWU6DXkmzhREcQLOxV/4kBGMv94V7H6ruQB3DQ4y9QmNjVL27cKyxKyczPzH40eB/
+	yAy7cN654TIDNBwpAkgHggDBy6F9Dsua0UrsP1sGGb9L6PBajYvjeZsvlVCvlgwZxdZFAt3To79
+	MK5Ood//nWY5EPuRDWGC2WUrUfrsL1e/d94x3xL8MQ2v2oicds5+1eHkyM++eUp2j5PoS8+EyWO
+	XprZHtW1Tc14d7CKzI4Rxhj5EObT2ZNCL5t1GG3COSOZS5Le57sfjouep6TX2kF2gguleM3H1xO
+	09MwRoSMhCh/1yrHF4NVYpiGE9UZ3Vz0K9EaxuyzErru6s0ODnpryWpjhBjcbCaJB8QxvXDU9sp
+	OUG+EYkHEeiGg2qtIgIL281g==
+X-Received: by 2002:a17:902:d4c1:b0:2c6:9f6a:9f6f with SMTP id d9443c01a7336-2ccbed27822mr42950775ad.28.1783416264276;
+        Tue, 07 Jul 2026 02:24:24 -0700 (PDT)
+Received: from [192.168.89.2] ([175.235.236.90])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bdb9a3sm8473225ad.13.2026.07.07.02.24.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Jul 2026 02:11:32 -0700 (PDT)
-Message-ID: <0b75cedb-691f-44ca-891c-d42d5cd24fd2@redhat.com>
-Date: Tue, 7 Jul 2026 11:11:31 +0200
+        Tue, 07 Jul 2026 02:24:23 -0700 (PDT)
+Message-ID: <6c25fe1e-6a57-42d2-8be1-efd41892ae72@gmail.com>
+Date: Tue, 7 Jul 2026 18:24:21 +0900
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -87,299 +68,116 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/9] ax88179_178a: Add HW support for AX179A-based chips
-To: Birger Koblitz <mail@birger-koblitz.de>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260701-ax88179a-v1-0-13685df67515@birger-koblitz.de>
- <20260701-ax88179a-v1-2-13685df67515@birger-koblitz.de>
-From: Paolo Abeni <pabeni@redhat.com>
+Subject: Re: [Bug 221721] New: prom21-xhci does not allow to use USB keyboard
+ in plymouth
+To: Thorsten Leemhuis <regressions@leemhuis.info>
+Cc: bugzilla-daemon@kernel.org,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ linux-usb@vger.kernel.org, marx.tomasz@gmail.com
+References: <bug-221721-208809@https.bugzilla.kernel.org/>
+ <328d3158-8086-4de7-a96e-7c2a514e3018@leemhuis.info>
 Content-Language: en-US
-In-Reply-To: <20260701-ax88179a-v1-2-13685df67515@birger-koblitz.de>
+From: Jihong Min <hurryman2212@gmail.com>
+In-Reply-To: <328d3158-8086-4de7-a96e-7c2a514e3018@leemhuis.info>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 7/1/26 7:42 AM, Birger Koblitz wrote:
->  static int ax88179_reset(struct usbnet *dev)
->  {
-> -	u8 buf[5];
-> -	u16 *tmp16;
-> -	u8 *tmp;
->  	struct ax88179_data *ax179_data = dev->driver_priv;
->  	struct ethtool_keee eee_data;
-> +	u16 *tmp16;
-> +	u8 buf[5];
-> +	u8 *tmp;
->  
->  	tmp16 = (u16 *)buf;
->  	tmp = (u8 *)buf;
->  
->  	/* Power up ethernet PHY */
-> -	*tmp16 = 0;
-> -	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_PHYPWR_RSTCTL, 2, 2, tmp16);
-> +	if (ax179_data->chip_version < AX_VERSION_AX88179A) {
-> +		*tmp16 = 0;
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_PHYPWR_RSTCTL, 2, 2, tmp16);
->  
-> -	*tmp16 = AX_PHYPWR_RSTCTL_IPRL;
-> -	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_PHYPWR_RSTCTL, 2, 2, tmp16);
-> -	msleep(500);
-> +		*tmp16 = AX_PHYPWR_RSTCTL_IPRL;
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_PHYPWR_RSTCTL, 2, 2, tmp16);
-> +		msleep(500);
->  
-> -	*tmp = AX_CLK_SELECT_ACS | AX_CLK_SELECT_BCS;
-> -	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_CLK_SELECT, 1, 1, tmp);
-> -	msleep(200);
-> +		*tmp = AX_CLK_SELECT_ACS | AX_CLK_SELECT_BCS;
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_CLK_SELECT, 1, 1, tmp);
-> +		msleep(200);
-> +	} else {
-> +		*tmp = AX_PHY_POWER;
-> +		ax88179_write_cmd(dev, AX88179A_PHY_POWER, 0, 0, 1, tmp);
-> +		msleep(250);
-> +	}
-> +
-> +	if (ax179_data->chip_version == AX_VERSION_AX88279) {
-> +		*tmp16 = ax88179_mdio_read(dev->net, dev->mii.phy_id, MII_ADVERTISE);
-> +		*tmp16 &= ~(ADVERTISE_10FULL | ADVERTISE_10HALF);
-> +		*tmp16 |= ADVERTISE_RESV; /* Advertise 2.5GBit link */
-> +		ax88179_mdio_write(dev->net, dev->mii.phy_id, MII_ADVERTISE, *tmp16);
-> +	}
->  
->  	/* Ethernet PHY Auto Detach*/
->  	ax88179_auto_detach(dev);
->  
-> +	if (ax179_data->chip_version >= AX_VERSION_AX88179A) {
-> +		*tmp = AX_MAC_EFF_EN;
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_MAC_BULK_OUT_CTRL, 1, 1, tmp);
-> +
-> +		*tmp16 = 0;
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, 2, tmp16);
-> +
-> +		*tmp = 0x04;
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_PAUSE_WATERLVL_LOW, 1, 1, tmp);
-> +		*tmp = 0x10;
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_PAUSE_WATERLVL_HIGH, 1, 1, tmp);
-> +
-> +		*tmp = 0;
-> +		if (dev->net->features & NETIF_F_HW_VLAN_CTAG_FILTER)
-> +			*tmp |= AX_VLAN_CONTROL_VFE;
+Hi,
 
-Does not build successfully:
+One of the very first thing discussed during the review process of
+prom21-xhci commits was about correct loading of the module during
+initramfs stage.
 
-../drivers/net/usb/ax88179_178a.c: In function ‘ax88179_reset’:
-../drivers/net/usb/ax88179_178a.c:2376:33: error: ‘AX_VLAN_CONTROL_VFE’
-undeclared (first use in this function)
- 2376 |                         *tmp |= AX_VLAN_CONTROL_VFE;
-
-Full log here:
-
-https://netdev-ctrl.bots.linux.dev/logs/build/1119419/14655119/build_32bit/stderr
-
-Side process note: the patch series shoudl include the target tree
-('net-next' in this case).
-
-/P
+It was mainly about writing correct dependencies in Kconfig for USB host
+controller build.
 
 
-> +		if (dev->net->features & NETIF_F_HW_VLAN_CTAG_RX)
-> +			*tmp |= AX_VLAN_CONTROL_VSO;
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL, 1, 1, tmp);
-> +
-> +		*tmp = 0xff;
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_MAC_BM_INT_MASK, 1, 1, tmp);
-> +
-> +		*tmp = 0;
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_MAC_BM_RX_DMA_CTL, 1, 1, tmp);
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_MAC_BM_TX_DMA_CTL, 1, 1, tmp);
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_MAC_ARC_CTRL, 1, 1, tmp);
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_MAC_SWP_CTRL, 1, 1, tmp);
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_MAC_TX_HDR_CKSUM, 1, 1, tmp);
-> +	}
-> +
->  	/* Read MAC address from DTB or asix chip */
->  	ax88179_get_mac_addr(dev);
->  	memcpy(dev->net->perm_addr, dev->net->dev_addr, ETH_ALEN);
->  
->  	/* RX bulk configuration */
-> -	memcpy(tmp, &AX88179_BULKIN_SIZE[0], 5);
-> -	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_RX_BULKIN_QCTRL, 5, 5, tmp);
-> -
-> -	dev->rx_urb_size = 1024 * 20;
-> -
-> -	*tmp = 0x34;
-> -	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_PAUSE_WATERLVL_HIGH, 1, 1, tmp);
-> -
-> -	*tmp = 0x52;
-> -	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_PAUSE_WATERLVL_LOW, 1, 1, tmp);
-> +	if (ax179_data->chip_version < AX_VERSION_AX88179A) {
-> +		memcpy(tmp, &AX88179_BULKIN_SIZE[0], 5);
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_RX_BULKIN_QCTRL, 5, 5, tmp);
-> +		*tmp = 0x34;
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_PAUSE_WATERLVL_LOW, 1, 1, tmp);
-> +
-> +		*tmp = 0x52;
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_PAUSE_WATERLVL_HIGH,
-> +				  1, 1, tmp);
-> +		dev->rx_urb_size = 1024 * 20;
-> +	} else {
-> +		/* The Bulk-Register configuration for the AX88179A is done in
-> +		 * ax88179a_link_reset(), once the link is up for a given link and USB-speed.
-> +		 */
-> +		if (ax179_data->is_ax88772d)
-> +			dev->rx_urb_size = 1024 * 24;
-> +		else
-> +			dev->rx_urb_size = 1024 * 48;
-> +	}
->  
->  	/* Enable checksum offload */
->  	*tmp = AX_RXCOE_IP | AX_RXCOE_TCP | AX_RXCOE_UDP |
->  	       AX_RXCOE_TCPV6 | AX_RXCOE_UDPV6;
->  	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_RXCOE_CTL, 1, 1, tmp);
-> +	ax179_data->rx_checksum = 1;
->  
->  	*tmp = AX_TXCOE_IP | AX_TXCOE_TCP | AX_TXCOE_UDP |
->  	       AX_TXCOE_TCPV6 | AX_TXCOE_UDPV6;
->  	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_TXCOE_CTL, 1, 1, tmp);
->  
->  	/* Configure RX control register => start operation */
-> -	*tmp16 = AX_RX_CTL_DROPCRCERR | AX_RX_CTL_IPE | AX_RX_CTL_START |
-> -		 AX_RX_CTL_AP | AX_RX_CTL_AMALL | AX_RX_CTL_AB;
-> -	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, 2, tmp16);
-> -
-> -	*tmp = AX_MONITOR_MODE_PMETYPE | AX_MONITOR_MODE_PMEPOL |
-> -	       AX_MONITOR_MODE_RWMP;
-> +	ax179_data->rxctl = AX_RX_CTL_DROPCRCERR | AX_RX_CTL_START |
-> +			    AX_RX_CTL_AP | AX_RX_CTL_AMALL | AX_RX_CTL_AB;
-> +	if (ax179_data->ip_align)
-> +		ax179_data->rxctl |= AX_RX_CTL_IPE;
-> +	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, 2, &ax179_data->rxctl);
-> +
-> +	if (ax179_data->chip_version < AX_VERSION_AX88179A)
-> +		*tmp = AX_MONITOR_MODE_PMETYPE | AX_MONITOR_MODE_PMEPOL | AX_MONITOR_MODE_RWMP;
-> +	else
-> +		*tmp = AX_MONITOR_MODE_RWMP;
->  	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MONITOR_MOD, 1, 1, tmp);
->  
->  	/* Configure default medium type => giga */
->  	*tmp16 = AX_MEDIUM_RECEIVE_EN | AX_MEDIUM_TXFLOW_CTRLEN |
-> -		 AX_MEDIUM_RXFLOW_CTRLEN | AX_MEDIUM_FULL_DUPLEX |
-> -		 AX_MEDIUM_GIGAMODE;
-> -	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
-> -			  2, 2, tmp16);
-> +		 AX_MEDIUM_RXFLOW_CTRLEN | AX_MEDIUM_FULL_DUPLEX;
-> +	if (!ax179_data->is_ax88772d)
-> +		*tmp16 |= AX_MEDIUM_GIGAMODE;
-> +	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, 2, tmp16);
->  
->  	/* Check if WoL is supported */
->  	ax179_data->wol_supported = 0;
-> @@ -1653,7 +2450,11 @@ static int ax88179_reset(struct usbnet *dev)
->  			     1, 1, &tmp) > 0)
->  		ax179_data->wol_supported = WAKE_MAGIC | WAKE_PHY;
->  
-> -	ax88179_led_setting(dev);
-> +	/* For chips starting with AX88179A, LEDS are configured by the adapter
-> +	 * firmware directly from EEPROM/EFUSE values
-> +	 */
-> +	if (ax179_data->chip_version < AX_VERSION_AX88179A)
-> +		ax88179_led_setting(dev);
->  
->  	ax179_data->eee_enabled = 0;
->  	ax179_data->eee_active = 0;
-> @@ -1706,6 +2507,24 @@ static int ax88179_stop(struct usbnet *dev)
->  	return 0;
->  }
->  
-> +static int ax88179a_stop(struct usbnet *dev)
-> +{
-> +	u16 reg16;
-> +	u8 reg8;
-> +
-> +	ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, 2, &reg16);
-> +	reg16 &= ~AX_MEDIUM_RECEIVE_EN;
-> +	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, 2, &reg16);
-> +
-> +	reg16 = 0;
-> +	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, 2, &reg16);
-> +
-> +	reg8 = 0;
-> +	ax88179_read_cmd(dev, AX88179A_PHY_POWER, 0, 0, 1, &reg8);
-> +
-> +	return 0;
-> +}
-> +
->  static const struct driver_info ax88179_info = {
->  	.description = "ASIX AX88179 USB 3.0 Gigabit Ethernet",
->  	.bind = ax88179_bind,
-> @@ -1732,6 +2551,45 @@ static const struct driver_info ax88178a_info = {
->  	.tx_fixup = ax88179_tx_fixup,
->  };
->  
-> +static const struct driver_info ax88179a_info = {
-> +	.description = "ASIX AX88179A USB 3.2 Gigabit Ethernet",
-> +	.bind = ax88179a_bind,
-> +	.unbind = ax88179a_unbind,
-> +	.status = ax88179_status,
-> +	.link_reset = ax88179a_link_reset,
-> +	.reset = ax88179_reset,
-> +	.stop = ax88179a_stop,
-> +	.flags = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET | FLAG_AVOID_UNLINK_URBS,
-> +	.rx_fixup = ax88179a_rx_fixup,
-> +	.tx_fixup = ax88179a_tx_fixup,
-> +};
-> +
-> +static const struct driver_info ax88772d_info = {
-> +	.description = "ASIX AX88772D/E USB 2.0 Fast Ethernet",
-> +	.bind = ax88179a_bind,
-> +	.unbind = ax88179a_unbind,
-> +	.status = ax88179_status,
-> +	.link_reset = ax88179a_link_reset,
-> +	.reset = ax88179_reset,
-> +	.stop = ax88179a_stop,
-> +	.flags = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET | FLAG_AVOID_UNLINK_URBS,
-> +	.rx_fixup = ax88179a_rx_fixup,
-> +	.tx_fixup = ax88179a_tx_fixup,
-> +};
-> +
-> +static const struct driver_info ax88279_info = {
-> +	.description = "ASIX AX88279 USB 3.2 2.5Gigabit Ethernet",
-> +	.bind = ax88179a_bind,
-> +	.unbind = ax88179a_unbind,
-> +	.status = ax88179_status,
-> +	.link_reset = ax88179a_link_reset,
-> +	.reset = ax88179_reset,
-> +	.stop = ax88179a_stop,
-> +	.flags = FLAG_ETHER | FLAG_FRAMING_AX | FLAG_MULTI_PACKET | FLAG_AVOID_UNLINK_URBS,
-> +	.rx_fixup = ax88179a_rx_fixup,
-> +	.tx_fixup = ax88179a_tx_fixup,
-> +};
-> +
->  static const struct driver_info cypress_GX3_info = {
->  	.description = "Cypress GX3 SuperSpeed to Gigabit Ethernet Controller",
->  	.bind = ax88179_bind,
-> @@ -1877,6 +2735,18 @@ static const struct driver_info at_umc2000sp_info = {
->  
->  static const struct usb_device_id products[] = {
->  {
-> +	/* ASIX AX88179A/B USB 3.2 Gigabit Ethernet */
-> +	USB_DEVICE_VER(0x0b95, 0x1790, 0x0200, 0x0200),
-> +	.driver_info = (unsigned long)&ax88179a_info,
-> +}, {
-> +	/* ASIX AX88772D USB 2.0 100Mbit Ethernet */
-> +	USB_DEVICE_VER(0x0b95, 0x1790, 0x0300, 0x0300),
-> +	.driver_info = (unsigned long)&ax88772d_info,
-> +}, {
-> +	/* ASIX AX88279 USB 3.2 2.5GBit Ethernet */
-> +	USB_DEVICE_VER(0x0b95, 0x1790, 0x0400, 0x0400),
-> +	.driver_info = (unsigned long)&ax88279_info,
-> +}, {
->  	/* ASIX AX88179 10/100/1000 */
->  	USB_DEVICE_AND_INTERFACE_INFO(0x0b95, 0x1790, 0xff, 0xff, 0),
->  	.driver_info = (unsigned long)&ax88179_info,
+
+config USB_XHCI_PCI_PROM21
+	tristate
+	depends on USB_XHCI_PCI
+	default USB_XHCI_PCI if SENSORS_PROM21_XHCI != n
+	select AUXILIARY_BUS
+
+
+
+Maybe it was not enough? Can you perhaps check whether both xhci_pci and
+xhci_pci_prom21 are loaded at the plymouth stage?
+
+I also do use OPAL LUKS with dracut, but my setup uses TPM2 to auto
+unlock it. I will check the manual keyboard input during dracut
+initramfs LUKS unlock stage.
+
+
+Sincerely,
+Jihong Min
+
+
+On 7/7/26 17:03, Thorsten Leemhuis wrote:
+> [Switching to email, hope this will work]
+> 
+> Jihong Min, it seems a recent change of yours is causing trouble. See
+> below for details.
+> 
+> Side note, but not my area of expertise, so feel free to ignore this, as
+> I might be sending people in the wrong direction and it's just a hunch
+> anyway: wonder if this is another of those situations where the driver
+> needs to be in the initramfs. Tomasz, did you have SENSORS_PROM21_XHCI=m
+> when things were broken? And if yes: have you tried if adding it to the
+> initramfs or setting SENSORS_PROM21_XHCI=y helps?
+> 
+> Ciao, Thorsten
+> 
+> On 7/4/26 17:41, bugzilla-daemon@kernel.org wrote:
+>> https://bugzilla.kernel.org/show_bug.cgi?id=221721
+>>
+>>             Bug ID: 221721
+>>            Summary: prom21-xhci does not allow to use USB keyboard in
+>>                     plymouth
+>>            Product: Drivers
+>>            Version: 2.5
+>>           Hardware: AMD
+>>                 OS: Linux
+>>             Status: NEW
+>>           Severity: low
+>>           Priority: P3
+>>          Component: USB
+>>           Assignee: drivers_usb@kernel-bugs.kernel.org
+>>           Reporter: marx.tomasz@gmail.com
+>>         Regression: No
+>>
+>> Created attachment 310416
+>>   --> https://bugzilla.kernel.org/attachment.cgi?id=310416&action=edit
+>> output of "sudo lsusb -v"
+>>
+>> Hi,
+>>
+>> After update to 7.2-rc1 I was unable to type in LUKS password in plymouth. I
+>> tried both of my USB keyboards, but both of them just briefly lit up the LEDs
+>> and then seemed to turn off. Bisection pointed to
+>>
+>> commit 364f4a55c661641c02c86a849f0608d8fc3c0006
+>> Merge: e4b4bfaa5090 1c2b66a7d725
+>> Author: Linus Torvalds <torvalds@linux-foundation.org>
+>> Date:   Mon Jun 22 12:09:47 2026 -0700
+>>
+>>     Merge tag 'usb-7.2-rc1' of
+>> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb
+>>
+>> and then
+>>
+>> commit 9e896b4a48c4e815956d28961448041c80ad5a19 (HEAD)
+>> Author: Jihong Min <hurryman2212@gmail.com>
+>> Date:   Tue May 19 09:07:31 2026 +0900
+>>
+>>     usb: xhci-pci: add AMD Promontory 21 PCI glue
+>>
+>> After setting SENSORS_PROM21_XHCI=n and compiling kernel again, I'm able to use
+>> my PC normally.
+>>
+>> CPU: AMD Ryzen 9 9900X
+>> Motherboard: X870I AORUS PRO ICE
+>> Output of "lsusb -v" provided in attachment.
+>>
 > 
 
