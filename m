@@ -1,164 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3542F8EA5
-	for <linux-usb@vger.kernel.org>; Tue,  7 Jul 2026 09:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454053F58E6;
+	Tue,  7 Jul 2026 11:20:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783418044; cv=none; b=f2pKeg8tk18rRj6QmzDWlgF0B/stFIh6+tdFUYh7JJH0nivsp+yWk1VBqyxMwpewm7SC1Isr/xAQkXdwRed6uWQxnYHWC9u/JuMwqnE6JDUsyZ5X1cgLzAiNHQ3dRdId8Ebr775RKAaKObr0KnGhqoeb+nRhIBYQcf7alTkMMz0=
+	t=1783423227; cv=none; b=nBgC0Suw75kgJsu0N1sjiE4cwojsQBx9KwK1XCek+7JKaeSMav85xWFaJzn5A4OceTuis/GTg5oV8q//X9HI74/a8C3PkS4ANlAQBqgKCYmlgsf4Q/i9+6jbcTvzRcFqS+WI4A6CVnXAb6gEVs0Dkw9DJhPxfOAUfwDaaCZoEws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783418044; c=relaxed/simple;
-	bh=QK5vZAAuclo8x8fWz1w0TLTQ5EKJJrVPe059hVNGmHQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gFTCwN82V22FoxuVHT++1fvrZNH9VljduSeX+HIubgPzvEqL+GKNk2n0ueXPT+p4kqMQ2al4yCHcgyVJjHCvim23smxpRLogsD3H6zRQdNJLMbxEbjnvCc6jvWnjXqWYx9h8lM7Mvb1s3IqxDarIZPac0qtSQpgv6sAxgLEpYf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gsLZcsh3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1783423227; c=relaxed/simple;
+	bh=xcb/lYqIKXK1vUGxwYDaeE3NG/6v6Sfe2CEeH3RLIuI=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=PlD574hZqdurK8j08rz/dqBDZRsNl3EgWQoQDSWSZabBZ8cDkHarNWoNHmK94o9nuf4BSlfTtspUaQJrBcNlOIkss8MeoiCWcpHg+Adsz83QmtmFbSfWziA8uXenX5lc/YpD7uza0OwbQyhRtwQOgcMh/1vaqm8WsH3kYMlMYuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jbxpbKjw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gsLZcsh3"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2E2A0C2BCC9
-	for <linux-usb@vger.kernel.org>; Tue,  7 Jul 2026 09:54:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1783418044;
-	bh=QK5vZAAuclo8x8fWz1w0TLTQ5EKJJrVPe059hVNGmHQ=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=gsLZcsh3soLokFxRpWfFQQBkz3xadKlFMkhmRzVECQjwSdvbqXio1a2LjhmKr0Y1/
-	 oShG6y6Zm3J7wIiylOgR4Yb7Q0eG4K1UCgBkWzPgT8E8f65ysTMrDPHqu/o7ajhyYX
-	 /CMPrIdBEijGVNJIOr51co5+JWYUlDycrX8bLVAsi44JzZzF18LNdfo3LXJ5JrSwh4
-	 FddEMPFmeecrH38Y3iy89REHYHlRlQKAjh8YCEYWWf1UQoyblmtubJE6RMFSe2d/zo
-	 jvO7mlS+/NzTqpnWCqZn2jnayNWt5COSI9LSg5jxLO9TeVWt77f89jZ7YctQU6LC2Z
-	 ZxVib9Bnz7mMw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 110D0C41616; Tue,  7 Jul 2026 09:54:04 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221721] prom21-xhci does not allow to use USB keyboard in
- plymouth
-Date: Tue, 07 Jul 2026 09:54:03 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: hurryman2212@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221721-208809-Pnqou0iCT2@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221721-208809@https.bugzilla.kernel.org/>
-References: <bug-221721-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jbxpbKjw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A3631F000E9;
+	Tue,  7 Jul 2026 11:20:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783423226;
+	bh=HC1CiGl3Dfh6Ra3ZH1WZbs+vEPwTQRbaXlOvtAdG00E=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=jbxpbKjwm/4fYDVHIMVXGz86C+O6obKIKX17WRhr8yli0nqgSaZWqWQd/9mmadAmP
+	 CiW2W8l392A215x9Cm7fsZBCTr15Qgm8MhWUxhOR3SUCyuxuacYBfQ9bp/6MljLHWa
+	 EIBQI/sGCXf2lgYUs30T9gXkmZeXc3yYEiVGZKfyKcjpQTbgTdnvqj8Nhb3fqk1j7y
+	 e3Zon3s8QHfgmYLlaPRTC+5b3WT/rIFN05i4b1PnN8YHxtoZVurckgn8vKU8fljqwJ
+	 MOEPWFlM6Z7jU6sjJoH+mAyrtfUt3M4ZU7nONQHWlPRfHotgV4nvEDHwyP5BkS2sYX
+	 U1++OQdjOjLIQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 5691C3925479;
+	Tue,  7 Jul 2026 11:20:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v3] net: usb: lan78xx: disable VLAN filter in
+ promiscuous mode
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178342320589.1506559.9026475494202161606.git-patchwork-notify@kernel.org>
+Date: Tue, 07 Jul 2026 11:20:05 +0000
+References: <20260701-lan78xx-vlan-promisc-v3-1-232266d32743@dissecto.com>
+In-Reply-To: <20260701-lan78xx-vlan-promisc-v3-1-232266d32743@dissecto.com>
+To: Enrico Pozzobon <enrico.pozzobon@dissecto.com>
+Cc: Thangaraj.S@microchip.com, Rengarajan.S@microchip.com,
+ UNGLinuxDriver@microchip.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ Woojung.Huh@microchip.com, netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221721
+Hello:
 
---- Comment #4 from hurryman2212@gmail.com ---
-With a little more of thinking, I think this happens due to the
-initramfs building tool not including xhci-pci-prom21.ko when
-xhci-pci.ko is built with the Kconfig where USB_XHCI_PCI_PROM21 was enabled.
+This patch was applied to netdev/net.git (main)
+by Paolo Abeni <pabeni@redhat.com>:
 
-Can you check your initramfs file for whether it holds
-xhci-pci-prom21.ko correctly, or not?
+On Wed, 01 Jul 2026 16:47:23 +0200 you wrote:
+> From: Enrico Pozzobon <enrico.pozzobon@dissecto.com>
+> 
+> The hardware VLAN filter (RFE_CTL_VLAN_FILTER_) drops VLAN-tagged frames
+> whose VID has not been registered via lan78xx_vlan_rx_add_vid(). It is
+> left enabled in promiscuous mode, so packet capture (e.g. tcpdump or
+> Wireshark) does not see tagged frames for unregistered VIDs.
+> 
+> [...]
 
-For example, with dracut, you can do something like:
-cat <<'EOF' | sudo tee /etc/dracut.conf.d/10-xhci-pci-prom21.conf
-# PROM21 xHCI PCI glue is needed before root/LUKS unlock when xhci-pci
-is modular.
-force_drivers+=3D" xhci-pci-prom21 "
-EOF
+Here is the summary with links:
+  - [net,v3] net: usb: lan78xx: disable VLAN filter in promiscuous mode
+    https://git.kernel.org/netdev/net/c/60444706aa17
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-Sincerely,
-Jihong Min
-
-
-On 7/7/26 17:03, Thorsten Leemhuis wrote:
-> [Switching to email, hope this will work]
->=20
-> Jihong Min, it seems a recent change of yours is causing trouble. See
-> below for details.
->=20
-> Side note, but not my area of expertise, so feel free to ignore this, as
-> I might be sending people in the wrong direction and it's just a hunch
-> anyway: wonder if this is another of those situations where the driver
-> needs to be in the initramfs. Tomasz, did you have SENSORS_PROM21_XHCI=3Dm
-> when things were broken? And if yes: have you tried if adding it to the
-> initramfs or setting SENSORS_PROM21_XHCI=3Dy helps?
->=20
-> Ciao, Thorsten
->=20
-> On 7/4/26 17:41, bugzilla-daemon@kernel.org wrote:
->> https://bugzilla.kernel.org/show_bug.cgi?id=3D221721
->>
->>             Bug ID: 221721
->>            Summary: prom21-xhci does not allow to use USB keyboard in
->>                     plymouth
->>            Product: Drivers
->>            Version: 2.5
->>           Hardware: AMD
->>                 OS: Linux
->>             Status: NEW
->>           Severity: low
->>           Priority: P3
->>          Component: USB
->>           Assignee: drivers_usb@kernel-bugs.kernel.org
->>           Reporter: marx.tomasz@gmail.com
->>         Regression: No
->>
->> Created attachment 310416
->>   --> https://bugzilla.kernel.org/attachment.cgi?id=3D310416&action=3Ded=
-it
->> output of "sudo lsusb -v"
->>
->> Hi,
->>
->> After update to 7.2-rc1 I was unable to type in LUKS password in plymout=
-h. I
->> tried both of my USB keyboards, but both of them just briefly lit up the
->> LEDs
->> and then seemed to turn off. Bisection pointed to
->>
->> commit 364f4a55c661641c02c86a849f0608d8fc3c0006
->> Merge: e4b4bfaa5090 1c2b66a7d725
->> Author: Linus Torvalds <torvalds@linux-foundation.org>
->> Date:   Mon Jun 22 12:09:47 2026 -0700
->>
->>     Merge tag 'usb-7.2-rc1' of
->> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb
->>
->> and then
->>
->> commit 9e896b4a48c4e815956d28961448041c80ad5a19 (HEAD)
->> Author: Jihong Min <hurryman2212@gmail.com>
->> Date:   Tue May 19 09:07:31 2026 +0900
->>
->>     usb: xhci-pci: add AMD Promontory 21 PCI glue
->>
->> After setting SENSORS_PROM21_XHCI=3Dn and compiling kernel again, I'm ab=
-le to
->> use
->> my PC normally.
->>
->> CPU: AMD Ryzen 9 9900X
->> Motherboard: X870I AORUS PRO ICE
->> Output of "lsusb -v" provided in attachment.
->>
->
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
