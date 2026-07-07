@@ -1,71 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8824329E117
-	for <linux-usb@vger.kernel.org>; Tue,  7 Jul 2026 08:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1016279907
+	for <linux-usb@vger.kernel.org>; Tue,  7 Jul 2026 08:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.63.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783411451; cv=none; b=oNi4UplnJbc/CTndv5hIGnrQCxJow5gHmv2m6neIeNaDnTmX4VPSbhO8JaY70Mg0JL6Z4YA+dlBolSxsQed6Ho7peba3jAfdIx8+0/AmJ5kvb96YF1ZVZFLxNBWapXXbQIyTB5cGslMDnJqdWtwkC7TZM4FT51Lb8Z2PX9oBHkA=
+	t=1783411451; cv=none; b=Rb8hG7Rj0nAU+AGY2F8XK/CzVNwhJ5NrzbzWYJTx7soO5Ykltj4xuqBm7L7JtRkQrfhQQcX/zvP4+G8dCos8C/Dig+OY1Fhyh+GuKbEbGtsMM98ujilKKNwUNXxnaG7tzMAx3UEsKVEwf9yDVcUowVKQdDcGbvBHd1P939ZtmSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783411451; c=relaxed/simple;
-	bh=wwhh8z1296p5ARq/K8uQsVS4peQ9mtbDpLCwiCyRiUg=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Q7nBGxyu0pD7Hb5NwIU7ZYRsQ/raV7jJB/bDOPUxjIVYJ9wpqekgNqUeu5YJ4wq/jOPvERPee0QRGWbcM5iRR0z6sKol1B5az9GiCpdgbkmHHPNTbwLhQff6/taWEfo/gq9UUMWNQcnRG9CQN6hJdrEkBq1xmGErJ0/pIE9yusc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sPhccyTo; arc=none smtp.client-ip=10.30.226.201
+	bh=CJB6p/jrp17XXif1kiZ2OVex7QJd/AtIwCvuustGcdc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:Cc:
+	 In-Reply-To:Content-Type; b=clpFJlUofQKQS8f45jI9QYgDviQdld5g4jrr3ACSX79+rcKPP3dyaL8k0ZYmzCNAkQhflTh0rzAbaL/zIsdMbNTr4W0DZz8QdEZCwUu1KbMykdtBqqKhLiQ1MBT+spKvb6BosHz23a2yp/x2u8X8KX8acoojYAWUX6UF0uH6Dv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=Rwd7Ifh1; arc=none smtp.client-ip=188.68.63.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sPhccyTo"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0C302C2BCC9
-	for <linux-usb@vger.kernel.org>; Tue,  7 Jul 2026 08:04:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1783411451;
-	bh=wwhh8z1296p5ARq/K8uQsVS4peQ9mtbDpLCwiCyRiUg=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=sPhccyToWxcU5tFO3m40yTzdbq3jAUfHF7fDLbp+mS4oJTZ328lzPmJ4r+w7YWmSN
-	 R91knAy3qx3006qDR41DmjU1oVamwjgxcaYvJa5i2PtAVV4pdSyUyiMpzA1zJsEL0+
-	 7Lz6fbPD4fN7H6rZuT+VCv1AmmjjqONB6rEyINi88Yfkr7rWtv+NiuuzsyhNpEzccp
-	 McDEFgSlHZZmKdJ0P7fEX6NZUPbqRQ+aFFBhxlZdBcXtcOdDgaLxF+HdwVzlzCOQeR
-	 qL5N7fFuOPPP99/UM6sB0uhGP8/KStVbMrrsSzWIJ2fBNrb/zes+DpKRaxw5j5Dpan
-	 N8qRQyIepDKVA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id E6F81C41616; Tue,  7 Jul 2026 08:04:10 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221721] prom21-xhci does not allow to use USB keyboard in
- plymouth
-Date: Tue, 07 Jul 2026 08:04:10 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: regressions@leemhuis.info
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221721-208809-wvIaCpVmIG@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221721-208809@https.bugzilla.kernel.org/>
-References: <bug-221721-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="Rwd7Ifh1"
+Received: from mors-relay-8202.netcup.net (localhost [127.0.0.1])
+	by mors-relay-8202.netcup.net (Postfix) with ESMTPS id 4gvYdr3BV1z3wkl;
+	Tue,  7 Jul 2026 10:04:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1783411440;
+	bh=CJB6p/jrp17XXif1kiZ2OVex7QJd/AtIwCvuustGcdc=;
+	h=Date:Subject:To:References:From:Cc:In-Reply-To:From;
+	b=Rwd7Ifh1h/QrbBfB7mAKfFzhW4N2Ef7UyTfHhlGknDErd4OBsfqoxWqp+asDfpN4A
+	 +h29ChEpKrW+3Oimh9FF1OTtxiU4bMxqE2mvAuW8JFp+NmCRorssxzSMAbc3z0VNYa
+	 enwP81TZSwnxkp/blM2471L9+1QbHn4WjYAYBXPYQHNtBq96lp2MWwT4lC9lWnxzvZ
+	 mxvhkxBDS6lGifwmWiPVolS5iet3uip1MD8XkOhbDTwuggvpTFZXm2QG6LFVu2T/1f
+	 UkZxM5kc0uwIkYvjB7e7fdbaNGB2l8ZlAHa+rmHrQrP9tBbISOfs9M4+ziMfwFK5I8
+	 daMXcrgnJxcBQ==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-8202.netcup.net (Postfix) with ESMTPS id 4gvYdr2VJjz3rNw;
+	Tue,  7 Jul 2026 10:04:00 +0200 (CEST)
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4gvYdq4JCHz8sZw;
+	Tue,  7 Jul 2026 10:03:59 +0200 (CEST)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id DAF0F60387;
+	Tue,  7 Jul 2026 10:03:58 +0200 (CEST)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <328d3158-8086-4de7-a96e-7c2a514e3018@leemhuis.info>
+Date: Tue, 7 Jul 2026 10:03:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Bug 221721] New: prom21-xhci does not allow to use USB keyboard
+ in plymouth
+To: Jihong Min <hurryman2212@gmail.com>
+References: <bug-221721-208809@https.bugzilla.kernel.org/>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+Cc: bugzilla-daemon@kernel.org,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ linux-usb@vger.kernel.org, marx.tomasz@gmail.com
+In-Reply-To: <bug-221721-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: <178341143919.3915223.7207324741735735933@mxe9fb.netcup.net>
+X-NC-CID: uNilS+ficIVJxyJIGnIIa8hp9UUBhW/WPUiu2/lR+aIALjo+isY=
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221721
-
---- Comment #2 from The Linux kernel's regression tracker (Thorsten Leemhui=
-s) (regressions@leemhuis.info) ---
 [Switching to email, hope this will work]
 
 Jihong Min, it seems a recent change of yours is causing trouble. See
@@ -74,15 +76,15 @@ below for details.
 Side note, but not my area of expertise, so feel free to ignore this, as
 I might be sending people in the wrong direction and it's just a hunch
 anyway: wonder if this is another of those situations where the driver
-needs to be in the initramfs. Tomasz, did you have SENSORS_PROM21_XHCI=3Dm
+needs to be in the initramfs. Tomasz, did you have SENSORS_PROM21_XHCI=m
 when things were broken? And if yes: have you tried if adding it to the
-initramfs or setting SENSORS_PROM21_XHCI=3Dy helps?
+initramfs or setting SENSORS_PROM21_XHCI=y helps?
 
 Ciao, Thorsten
 
 On 7/4/26 17:41, bugzilla-daemon@kernel.org wrote:
-> https://bugzilla.kernel.org/show_bug.cgi?id=3D221721
->=20
+> https://bugzilla.kernel.org/show_bug.cgi?id=221721
+> 
 >             Bug ID: 221721
 >            Summary: prom21-xhci does not allow to use USB keyboard in
 >                     plymouth
@@ -97,47 +99,38 @@ On 7/4/26 17:41, bugzilla-daemon@kernel.org wrote:
 >           Assignee: drivers_usb@kernel-bugs.kernel.org
 >           Reporter: marx.tomasz@gmail.com
 >         Regression: No
->=20
+> 
 > Created attachment 310416
->   --> https://bugzilla.kernel.org/attachment.cgi?id=3D310416&action=3Dedit
+>   --> https://bugzilla.kernel.org/attachment.cgi?id=310416&action=edit
 > output of "sudo lsusb -v"
->=20
+> 
 > Hi,
->=20
-> After update to 7.2-rc1 I was unable to type in LUKS password in plymouth=
-. I
-> tried both of my USB keyboards, but both of them just briefly lit up the =
-LEDs
+> 
+> After update to 7.2-rc1 I was unable to type in LUKS password in plymouth. I
+> tried both of my USB keyboards, but both of them just briefly lit up the LEDs
 > and then seemed to turn off. Bisection pointed to
->=20
+> 
 > commit 364f4a55c661641c02c86a849f0608d8fc3c0006
 > Merge: e4b4bfaa5090 1c2b66a7d725
 > Author: Linus Torvalds <torvalds@linux-foundation.org>
 > Date:   Mon Jun 22 12:09:47 2026 -0700
->=20
+> 
 >     Merge tag 'usb-7.2-rc1' of
 > git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb
->=20
+> 
 > and then
->=20
+> 
 > commit 9e896b4a48c4e815956d28961448041c80ad5a19 (HEAD)
 > Author: Jihong Min <hurryman2212@gmail.com>
 > Date:   Tue May 19 09:07:31 2026 +0900
->=20
+> 
 >     usb: xhci-pci: add AMD Promontory 21 PCI glue
->=20
-> After setting SENSORS_PROM21_XHCI=3Dn and compiling kernel again, I'm abl=
-e to
-> use
+> 
+> After setting SENSORS_PROM21_XHCI=n and compiling kernel again, I'm able to use
 > my PC normally.
->=20
+> 
 > CPU: AMD Ryzen 9 9900X
 > Motherboard: X870I AORUS PRO ICE
 > Output of "lsusb -v" provided in attachment.
->
+> 
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
