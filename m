@@ -1,72 +1,245 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F9B3F23C5;
-	Tue,  7 Jul 2026 13:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095D242317C
+	for <linux-usb@vger.kernel.org>; Tue,  7 Jul 2026 14:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783431698; cv=none; b=VxEXUuxXPT8bwTIl+Ab1r8i/b83ZUqeB4G3hs79PhT5206029Zku23hcJFAvSgz66XcjOaWbkZ5edBwlBdKoqMwbGqFkRxAEPjfEqTCMwGhgPruqzCJyCR2qnA2/5Cnx7/jZAlfyWV6F1GVdkZiGTn6GzkJ9YLo5ahtBM2HKY4U=
+	t=1783433868; cv=none; b=n7UM+L2p/TfruedGSIhTjm+4hRt7TwcbKh7LOHbmxAxvh59UfJqfSo9Ulx5pr/D0ZIZzZcJ0QSvzlBY3YVqAUrK6NwuKlRREjhVo6JTkp3n65a0GWwdHQ9mMsI3/nha/G8kgLUBYqAJw9TC6exFNDdobJFMT2L0mjeWI5194hag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783431698; c=relaxed/simple;
-	bh=Q8bZHt7yJ+qnecwmMvVMWaD1rJjvWnisLULY4A4dVgo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iBovhx/ZotK9uLegLGk/0sT/HdVNE56/1cFNpvCb4jZHfSoHYpHrB12wuORfyelS+rg37/rdypN0biPy8nQ/IY+83ypDURpxvRfuxeZAkRnyIWlwmI3W8rjj5/K+is0Ib8XenejJ2vE7oQY85lxyCoKFDuGTAB1N/qiW1qfAj5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L6RLv5oa; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783433868; c=relaxed/simple;
+	bh=JNRMrbb5OEze61V+JypFOazAcSxi7/13i/xrfkhYpUI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jhASBGu3v6hHvAbFtY4PR8b5Qu5jjpmiQGD+hhtJzKJv8iWmbZvYtgISKd7CgrJFieYEhiCwmeRJWChMzi4uRNUNoKiaIPHuOZRU8ftzcnLbh4BjweY8H1R3W38lPnEkfcYxBDaopqm242q03sGUXiQvnF+yQNIqajhff9FuwwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MIXsec/a; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L6RLv5oa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE74E1F000E9;
-	Tue,  7 Jul 2026 13:41:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783431696;
-	bh=bBAfp/1WTjfXkIXmaMektccP3AUgen/qc3sIQcub5vg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=L6RLv5oae/GlbVM6EYEtzsV9gqOUqvIJWoGIE98a2DdQvknAOzsyPGZddYbOUK52i
-	 rBVz61LGnWjQWhah+Wtqx91WphWRQvAPOQkW/M9APuFZuZRhnv8vLK4WMWYowF1eKs
-	 g0sTD7nNUpPn5jBUh36uh5+UmrYcJvtoNroBp7g8IsY1Z7tUaoGExPcX4yKNiF5RfS
-	 Oxn2i/vEarvAHnn0Nme6i+cqPKmFcHVJADCmNUztm7Cdiq2T8nmj+NK04cLRSGEZdo
-	 6E7IZdnuPRvfVQovGpzi2WuwPwpSSlh3HxkqdwICYdefbhMQ1oofZNUGNcc2mwyaZL
-	 w6as4tFkpYf+Q==
-Message-ID: <25951ecd-53e1-439e-92a2-8de3ff471d8a@kernel.org>
-Date: Tue, 7 Jul 2026 15:41:31 +0200
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MIXsec/a"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-698bf053053so6296330a12.3
+        for <linux-usb@vger.kernel.org>; Tue, 07 Jul 2026 07:17:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1783433861; x=1784038661; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FHI2Oy1d15fEP4M9liye51QpOZL8T3aeN/VQtQoMGgQ=;
+        b=MIXsec/aVbobYu/Uf9o86l7StzmlDAOuk/H/lELvIfJjPT4xU0xZ5b3Uo4zqD2x9hr
+         qRp/p25n2EzvQRi2wxuwZRpqvBstTuZ00l4nGeBxkWnNRR/iLILxX9jmFZMaxYZZ7miV
+         qFaP3kSH//FU3hktZt+aGuYxtG0076WkUzPAQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783433861; x=1784038661;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FHI2Oy1d15fEP4M9liye51QpOZL8T3aeN/VQtQoMGgQ=;
+        b=n3EAESKnlxQ7jBnETyh0iq9YATYvbHiOt3PMuUQ51UdCKCxce8CP9m6o0RXAk6tcGv
+         NjGPEaFdD5p+f6GmWSEyKZTg6r2lEtmTi+LOSn5BGtd4brZSOwnzRS7nbH3Km0BhjBpB
+         vMUyinXx+oWW+M5x23/5hpxWGFd8h7yfVvhBwwXpFIJ5Qjmw1nGCWExCMMMTzE8OfgvU
+         5q7QKGZHRDNkkwUlBzUkF4pWjb/h1psncYo+Ok93NB9iV1n80chn+DLDshaskn8bhYc8
+         2jKYms/yujLH5qvnrk/L2vFO7dPTy4rzTcdGPVD7I5YJXwFWdbF0ww6AtxLbUOkpWCbV
+         rXKA==
+X-Forwarded-Encrypted: i=1; AHgh+Roblp7VPEIPwonKGXyun/7xefIRtH5Ymaj2noUJOchpZmV2eXZwCo8EGlPfflDzA1peMB3NGePSRf4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwN7PjoxGPuhk4pXm7cBUtQhf0VPdjC57K211mlLetWZx6Y0uIT
+	3Z+USQH1w/DFw2oqI2ZBfdnXRWLn1R3TN6sLMi/lPPc/bnpMP2vMOQ2KPV0d1UIo2w==
+X-Gm-Gg: AfdE7cmZBWcmsXOhH95VZz8/aAUV3CnxkV1nG4zlfY+4MnmDhedRL5U7PRPc9FmX1FF
+	wfjAd4qggPHrAhO8sXmUtC0RNb3sT9XTLFYWl1DX4q1fqVaz8BRTGO/zpJ62qMq3f8clomzmP3j
+	9q7ArywQhDnyUMNqZIzcTtmMgSEX1YziQMtptUefeZrcZXxoPs+layLJJM5aQHAAQapHPKfDKP3
+	xpym5TbsAEkeVH/SAHRjDc1f/wmM1Ek2d+//esEcpk+/B7Sd/hQ6jZXo36/fL/lT8SOUnNNXRep
+	gYOUHiKxs13jNtHB8A+iGZ58NfTHQzzaiCvzdfHOyH9SfW1sSe4tel6RP7NHmYmRaJU71d9pgbo
+	M6IPCJt+8fN3BkYmhk7BLgiaAMJdl0GUj6GprXDPD/xzTaJXnzKXhqLREDudBnoNd8d+J+pPPgY
+	oxDHFKBoscRmv3ShLX2c7jwDudmbroMdDZkAFIyk9lwwknKpDZYO5J2Y9oT2Ynt0i38IktLZ/6D
+	1GrwBZXAg==
+X-Received: by 2002:a17:907:d301:b0:c12:c936:86f6 with SMTP id a640c23a62f3a-c15a676c68amr319735666b.12.1783433861112;
+        Tue, 07 Jul 2026 07:17:41 -0700 (PDT)
+Received: from akuchynski.c.googlers.com.com (12.127.147.34.bc.googleusercontent.com. [34.147.127.12])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ad882342sm144491666b.28.2026.07.07.07.17.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 07:17:40 -0700 (PDT)
+From: Andrei Kuchynski <akuchynski@chromium.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Jameson Thies <jthies@google.com>,
+	Benson Leung <bleung@chromium.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Hsin-Te Yuan <yuanhsinte@chromium.org>,
+	Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>,
+	Linyu Yuan <quic_linyyuan@quicinc.com>,
+	Jack Pham <quic_jackp@quicinc.com>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: typec: ucsi: Fix race condition and ordering in port unregistration
+Date: Tue,  7 Jul 2026 14:17:36 +0000
+Message-ID: <20260707141736.1635698-1-akuchynski@chromium.org>
+X-Mailer: git-send-email 2.55.0.rc2.803.g1fd1e6609c-goog
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 7/7] usb: fix UAF when probe runs concurrent to dyn ID
- removal
-To: Gary Guo <gary@garyguo.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- =?UTF-8?Q?Toke_H=C3=B8iland-J=C3=B8rgensen?= <toke@toke.dk>,
- Johan Hovold <johan@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Petko Manolov <petkan@nucleusys.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Chas Williams <3chas3@gmail.com>, Alan Stern <stern@rowland.harvard.edu>,
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
- linux-wireless@vger.kernel.org, linux-media@vger.kernel.org,
- linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
- usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org
-References: <20260707-usb_dyn_id_uaf-v2-0-632dcf3adfba@garyguo.net>
- <20260707-usb_dyn_id_uaf-v2-7-632dcf3adfba@garyguo.net>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20260707-usb_dyn_id_uaf-v2-7-632dcf3adfba@garyguo.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 7/7/26 2:26 PM, Gary Guo wrote:
-> Dynamic IDs are only guaranteed to be valid when usb_dynids_lock is held,
-> as remove_id_store can free the node. Thus, make a copy in
-> usb_probe_interface. Clarify the documentation that the id parameter is
-> only valid during the probe.
-> 
-> USB serial has the same pattern, but it does not need fixing as the IDs
-> cannot be removed via sysfs.
-> 
-> Fixes: 0c7a2b72746a ("USB: add remove_id sysfs attr for usb drivers")
-> Signed-off-by: Gary Guo <gary@garyguo.net>
-Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+A synchronization issue exists during port unregistration where pending
+partner work items can race against workqueue destruction, leading to
+use-after-free conditions:
+
+  cros_ec_ucsi cros_ec_ucsi.3.auto: error -ETIMEDOUT: PPM init failed
+  BUG: kernel NULL pointer dereference, address: 0000000000000000
+  RIP: 0010:__queue_work+0x83/0x4a0
+  Call Trace:
+    <IRQ>
+    __cfi_delayed_work_timer_fn+0x10/0x10
+    run_timer_softirq+0x3b6/0xbd0
+    sched_clock_cpu+0xc/0x110
+    irq_exit_rcu+0x18d/0x330
+    fred_sysvec_apic_timer_interrupt+0x5e/0x80
+
+Fix this by ensuring strict ordering and proper serialization during
+teardown:
+
+1. Move ucsi_unregister_partner() to the beginning of the teardown
+sequence and protect it under the connector mutex lock.
+2. Ensure all pending partner tasks are explicitly flushed and finished
+before the workqueue is destroyed.
+3. Switch from mod_delayed_work() to a cancel_delayed_work() and
+queue_delayed_work() sequence. This guarantees that items currently marked
+as pending won't be scheduled an additional time, preventing a double
+release of resources which leads to the following crash:
+
+  Oops: general protection fault, probably for non-canonical address
+    0xdead000000000122: 0000 [#1] SMP NOPTI
+  Workqueue: cros_ec_ucsi.3.auto-con2 ucsi_poll_worker
+  RIP: 0010:ucsi_poll_worker+0x65/0x1e0
+  Call Trace:
+  <TASK>
+    process_scheduled_works+0x218/0x6d0
+    worker_thread+0x188/0x3f0
+    __cfi_worker_thread+0x10/0x10
+    kthread+0x226/0x2a0
+
+To ensure these rules are applied identically across both the normal
+teardown and the ucsi_init() error paths, consolidate the cleanup logic
+into a new helper, ucsi_unregister_port().
+
+Cc: stable@vger.kernel.org
+Fixes: b9aa02ca39a4 ("usb: typec: ucsi: Add polling mechanism for partner tasks like alt mode checking")
+Fixes: b13abcb7ddd8 ("usb: typec: ucsi: Fix NULL pointer access")
+Fixes: fac4b8633fd6 ("usb: ucsi: Ensure connector delayed work items are flushed")
+Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+---
+ drivers/usb/typec/ucsi/ucsi.c | 82 +++++++++++++++++------------------
+ 1 file changed, 39 insertions(+), 43 deletions(-)
+
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 92166a3725b16..d9668ed7c80ea 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -1845,6 +1845,42 @@ static int ucsi_register_port(struct ucsi *ucsi, struct ucsi_connector *con)
+ 	return ret;
+ }
+ 
++static void ucsi_unregister_port(struct ucsi_connector *con)
++{
++	struct ucsi_work *uwork;
++
++	if (con->wq) {
++		mutex_lock(&con->lock);
++		ucsi_unregister_partner(con);
++		/*
++		 * queue delayed items immediately so they can execute
++		 * and free themselves before the wq is destroyed
++		 */
++		list_for_each_entry(uwork, &con->partner_tasks, node) {
++			if (cancel_delayed_work(&uwork->work))
++				queue_delayed_work(con->wq, &uwork->work, 0);
++		}
++		mutex_unlock(&con->lock);
++
++		destroy_workqueue(con->wq);
++		con->wq = NULL;
++	} else {
++		ucsi_unregister_partner(con);
++	}
++
++	ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
++	ucsi_unregister_port_psy(con);
++
++	usb_power_delivery_unregister_capabilities(con->port_sink_caps);
++	con->port_sink_caps = NULL;
++	usb_power_delivery_unregister_capabilities(con->port_source_caps);
++	con->port_source_caps = NULL;
++	usb_power_delivery_unregister(con->pd);
++	con->pd = NULL;
++	typec_unregister_port(con->port);
++	con->port = NULL;
++}
++
+ static u64 ucsi_get_supported_notifications(struct ucsi *ucsi)
+ {
+ 	u16 features = ucsi->cap.features;
+@@ -1971,22 +2007,8 @@ static int ucsi_init(struct ucsi *ucsi)
+ 	for (i = 0; i < ucsi->cap.num_connectors; i++)
+ 		lockdep_unregister_key(&connector[i].lock_key);
+ 
+-	for (con = connector; con->port; con++) {
+-		if (con->wq)
+-			destroy_workqueue(con->wq);
+-		ucsi_unregister_partner(con);
+-		ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
+-		ucsi_unregister_port_psy(con);
+-
+-		usb_power_delivery_unregister_capabilities(con->port_sink_caps);
+-		con->port_sink_caps = NULL;
+-		usb_power_delivery_unregister_capabilities(con->port_source_caps);
+-		con->port_source_caps = NULL;
+-		usb_power_delivery_unregister(con->pd);
+-		con->pd = NULL;
+-		typec_unregister_port(con->port);
+-		con->port = NULL;
+-	}
++	for (con = connector; con->port; con++)
++		ucsi_unregister_port(con);
+ 	kfree(connector);
+ err_reset:
+ 	memset(&ucsi->cap, 0, sizeof(ucsi->cap));
+@@ -2194,33 +2216,7 @@ void ucsi_unregister(struct ucsi *ucsi)
+ 
+ 	for (i = 0; i < ucsi->cap.num_connectors; i++) {
+ 		cancel_work_sync(&ucsi->connector[i].work);
+-
+-		if (ucsi->connector[i].wq) {
+-			struct ucsi_work *uwork;
+-
+-			mutex_lock(&ucsi->connector[i].lock);
+-			/*
+-			 * queue delayed items immediately so they can execute
+-			 * and free themselves before the wq is destroyed
+-			 */
+-			list_for_each_entry(uwork, &ucsi->connector[i].partner_tasks, node)
+-				mod_delayed_work(ucsi->connector[i].wq, &uwork->work, 0);
+-			mutex_unlock(&ucsi->connector[i].lock);
+-			destroy_workqueue(ucsi->connector[i].wq);
+-		}
+-
+-		ucsi_unregister_partner(&ucsi->connector[i]);
+-		ucsi_unregister_altmodes(&ucsi->connector[i],
+-					 UCSI_RECIPIENT_CON);
+-		ucsi_unregister_port_psy(&ucsi->connector[i]);
+-
+-		usb_power_delivery_unregister_capabilities(ucsi->connector[i].port_sink_caps);
+-		ucsi->connector[i].port_sink_caps = NULL;
+-		usb_power_delivery_unregister_capabilities(ucsi->connector[i].port_source_caps);
+-		ucsi->connector[i].port_source_caps = NULL;
+-		usb_power_delivery_unregister(ucsi->connector[i].pd);
+-		ucsi->connector[i].pd = NULL;
+-		typec_unregister_port(ucsi->connector[i].port);
++		ucsi_unregister_port(&ucsi->connector[i]);
+ 		lockdep_unregister_key(&ucsi->connector[i].lock_key);
+ 	}
+ 
+-- 
+2.55.0.rc2.803.g1fd1e6609c-goog
+
