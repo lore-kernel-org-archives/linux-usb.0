@@ -1,54 +1,81 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mta-232b.oxsus-vadesecure.net (mta-232b.oxsus-vadesecure.net [15.204.3.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F7A313E36;
-	Tue,  7 Jul 2026 01:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A9014A60F
+	for <linux-usb@vger.kernel.org>; Tue,  7 Jul 2026 03:23:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=15.204.3.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783388823; cv=none; b=p3Kzr3QOSoe25jjio/J91UwvO0moXhIu/HJMetG81YevpmHbuH/yh9gZtQ084l1yUPFrHgyoPH44v6JmvlXUuBQ57rMUK3QcXivSKjuOb3NLp+H01bIsGUUEIbCfo4HZjq+/I1jyqSNFcqtRSaqDSV/sEs0GDl1t2JIgB1Snolc=
+	t=1783394601; cv=none; b=ARlz2lhT7/vum9FJE5evxK1HMtnGoAhz/g87PeBAf4Wqy4S4FlgJWR2tiQ9MJm2SGYWJV9b/tWcbBA3cF/ZY8CEehyGQWaPTu7RiaqRGm1C2zcP87NCmPc5LirN1XqfFz0M7iWeJWzLnDkDR+RvegCHrq8Z6wo+BVQI3nNN7tLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783388823; c=relaxed/simple;
-	bh=bGAaGSbTeVj15Vx8VmsXITVKJKxbdj6+naUJp9y/L4M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dYGZ17RFWunqv8a+mrCZqFfP+sEqMzS6BzrIeQIprBdo6OZRYDcMhAuO8HCy9idEqQokejdnPlvTBSPHK8hbFujYec4w20cWs53yxOfqny6PJ/VIBlmq313dIFqtwGPvWjYCWXCf7/TtddG2ArUp94lvNHlgm9vc6u4MMS/unSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from 0002-sr9700-pw-bot-cr.eml (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowACnAdWKWkxqB2xOFw--.39499S2;
-	Tue, 07 Jul 2026 09:46:50 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Ethan Nelson-Moore <enelsonmoore@gmail.com>, Peter Korsgaard <peter@korsgaard.com>, Simon Horman <horms@kernel.org>, linux-usb@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] net: usb: sr9700: validate receive packet extent
-Date: Tue, 07 Jul 2026 09:45:12 +0800
-Message-ID: <20260707-pwbot-cr-02-sr9700-pengpeng@iscas.ac.cn>
-In-Reply-To: <f4490acc-e922-431f-a37e-31189cfac304@lunn.ch>
-References: <20260705083724.24494-1-pengpeng@iscas.ac.cn> <f4490acc-e922-431f-a37e-31189cfac304@lunn.ch>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	s=arc-20240116; t=1783394601; c=relaxed/simple;
+	bh=fs876EjrSl9Y/9TyRzBhwj2+6PXx2FviauhGlYLZS+4=;
+	h=From:To:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=UZnblMzKBztJWJ21+NvhIeM0bvTSEhQfQXrircuyY6kCVcQIaHSxOGIpREagLb18K8qXCrpl8OpkI304PUysyaIJmH9F3u3Lr8v/WWy+Wtl5Ng1FwUonJMcotAFs7PXzazMpdMS1qZsso27EHHik17vw0q8bObLqM1idFL/CkCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=synergy.org; spf=pass smtp.mailfrom=synergy.org; dkim=pass (2048-bit key) header.d=oxsus-vadesecure.net header.i=@oxsus-vadesecure.net header.b=fvQuU0dF; arc=none smtp.client-ip=15.204.3.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=synergy.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synergy.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=oxsus-vadesecure.net header.i=@oxsus-vadesecure.net header.b="fvQuU0dF"
+Authentication-Results: oxsus-vadesecure.net;
+ auth=pass smtp.auth=4@316323 smtp.mailfrom=dave@synergy.org;
+DKIM-Signature: v=1; a=rsa-sha256; bh=KzIZhMIqVW/B+k++/NXrmclufHdAKrSWAmBkNF
+ GYY9g=; c=relaxed/relaxed; d=oxsus-vadesecure.net; h=from:reply-to:
+ subject:date:to:cc:resent-date:resent-from:resent-to:resent-cc:
+ in-reply-to:references:list-id:list-help:list-unsubscribe:
+ list-unsubscribe-post:list-subscribe:list-post:list-owner:list-archive;
+ q=dns/txt; s=dkim-202410-rsa2048; t=1783393686; x=1783998486; b=fvQuU0d
+ FMBcnixnU1uegkbOjsqBCkiWQfgobhozpcEswCzL0j0hTZgDTlEbYjfFLVoypm68ki7bpeg
+ ckgRYeieJUfx9/8gTxXgMVkY1kTYoNkG5OD8ajmN/9Ii6D056PDcGAzRv74NNj9QpeOFvju
+ Js6EhKklhEJd1z+pGTnWC32hqXEvOyaDEHLL6xMhxzYOUnqfn3vqIme04YvSlavBDI4duNV
+ KJe24Pwzj81SBKjllfYG+AsDUGKh7tllB5uZCEqOo5X9kKJSmCKapyEcDmdkG8y+Byg0fS7
+ hRJOIZq/LRNC6pEF8oqBer6WmrbtZk3oEwp5aTScwFVTq2vMaUQ==
+Received: from proxy-6 ([174.165.77.67])
+ by oxsus2nmtao02p.internal.vadesecure.com with ngmta
+ id 44942575-18bfe31b919f4b3c; Tue, 07 Jul 2026 03:08:05 +0000
+From: <dave@synergy.org>
+To: <linux-usb@vger.kernel.org>
+References: 
+In-Reply-To: 
+Subject: USB Keypad
+Date: Mon, 6 Jul 2026 20:08:01 -0700
+Message-ID: <002001dd0dbd$d4269020$7c73b060$@synergy.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:zQCowACnAdWKWkxqB2xOFw--.39499S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYy7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
-	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
-	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8I
-	cVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z2
-	80aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
-	64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8Jw
-	Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7
-	M4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwI
-	xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
-	Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
-	IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k2
-	6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUTOJ5UUUUU=
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQM8UGBGXKfLag7g/Fp4z2LqhLbr+LOi2g2w
+Content-Language: en-us
 
-pw-bot: cr
+Excuse me. I have never sent e-mail to the Linux Kernel mailing list before.
+In reading the protocol, I think I should have sent my message to this one,
+instead.
+
+Hello,
+	I am working on a mobile device based on Raspberry Pi OS. I am using
+a USB keypad to navigate the UI of my device. I have purchased 2 models. One
+has 19 keys and the other has a few more. I've implemented the user-space
+code to read() the input device. Things are generally working fine. But I
+have one issue. On both models the keycodes I receive are not unique across
+all keys. On one, the key labeled INS and the one labeled 0 both send the
+same code. On the second one, the mapping is even more bizarre. It has
+duplicated Num Locks and other keys, as well. The number keys are always
+readable as such, but the other non-number keys can be aliased.
+	My question is simple: is there something I need to do to change the
+mode of the keypad to send unique codes? Perhaps an ioctl()? I do not know
+the HID spec. I wonder what pressing the Num Lock key causes an OS (like
+Windows) or X11 to do to change keypad modes. Is there a document or website
+I can read that discusses this?
+	Thank you,
+	David
+
+
+
+
+
 
