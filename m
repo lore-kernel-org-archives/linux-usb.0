@@ -1,117 +1,183 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B69388862
-	for <linux-usb@vger.kernel.org>; Tue,  7 Jul 2026 19:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BAD3D5C3C
+	for <linux-usb@vger.kernel.org>; Tue,  7 Jul 2026 22:20:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783452510; cv=none; b=hk3j5Za/ZRfUFIEnUZGuqYKSr2LbIsI0KlqzEmiVx/jmfDX6u+J1BlFJ4QeUsSfA/5d2H6HA0OxfWFrUky+PsQKFlLnbwnSy9abM/xeO8kICs2Scf6fFx5OvVLUX8/+1IXRxvE1upstDEK+jQK/V3wrjHql1A5k3MA39RhUUoe8=
+	t=1783462802; cv=none; b=jLmcvMAlYqhAio+hNh0oVa2Xlol4QemujIoFHoGR5HcrEzzNkQYNnu9nLSexqiIQ8Nobg4fK8dhCjLxH5mZ03dgeWXyZVuiBSwVV8UI3l7uKQ+QcXTEbj/GrMcQtdl/5EcvKLz5a7rTQn1D40cp+39jF6y/boSsMbBGeuSMG1p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783452510; c=relaxed/simple;
-	bh=C8SUS9rN/lC7p6FgPS2AFsAiCQ6ELesgArbmvrVC5a4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SuQbaGc7DBEhxdCxQl9wydnONoFJBXHUBTHkpPn2zM/41JtIGr3BWDc2fEBzdmWqI62t/ZQ317xduJRXRYw4y63X0yn+Rk9bbUxz/0Vc6W08x4p/tMMxl/UlSUB4BzZzAFBPUTK1ZcoYo67e1lvx/0tllM1IjU040uVOZ3JKOTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=U+YLijZU; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1783462802; c=relaxed/simple;
+	bh=frBgeJaIAR17/Qfijmu+ULcqVkAmYosEXyunoPucIGo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=QULw5NSqe3RuXDOq3uKGobMuFchkzT1mZ/ysid2uGlwD7UXFGXAjrAzTbbUwsNFv5DQ51wxlO4fPnIO+tDCN5fYPfwKEvhEqP6ZyoKEjsvKlm7oH1/lpFZheWZg2d4NXfvVN9VPni84+4pUVSe/0BahoWOUL//Q9wpbQbWCn5Vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EiikkTbK; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="U+YLijZU"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-51c5382806fso34535011cf.2
-        for <linux-usb@vger.kernel.org>; Tue, 07 Jul 2026 12:28:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EiikkTbK"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cacd69a9c0so762945ad.1
+        for <linux-usb@vger.kernel.org>; Tue, 07 Jul 2026 15:20:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1783452507; x=1784057307; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=aZeJiM8uPeoU8abopElz8F7bRV5qReALT830utommKE=;
-        b=U+YLijZUPKZYDB0/nw/Ss9oNP44INaAMkbhAa0z492xxkZObNaec033Ct/WaQ0awR7
-         t5jzR77l9EXQ5TVpsRgEFwvB/qYokFhFis5lQCq1kIBIB+enZwlHs4LCJ/5sU05yQuUu
-         FArpHF6ZBOqh6VWylAhdx5zDWC8GajQdpUJUCshF//QAyv4X3CfzT17o3sZ1/K4HlZNt
-         uAEcNh5jq0lYeZka3vh9/dB7u0hQ1Iaej44c2Fa+UDpWvvRa+n4h0rQSd/d0Zeq8Av30
-         oKuoNzptjls4AeKoyjcxHsZMlSrSVwxT7dRX2ZEZ+D386Zw6vtOZ8Zkek1YqwXBIUDBc
-         X6lw==
+        d=gmail.com; s=20251104; t=1783462800; x=1784067600; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=y+WwbKpOYSnyAyf6gFYLcLjARJ2PtI2beb2eDL2zlr0=;
+        b=EiikkTbKM5sXcy/ET38cWInzOKXgH6aPhrcvBhdKGRrptNxQYLZ3/v3QCGAQ6LcVaB
+         9W01NmXaDEYgKjgc0IinK4+dz+joBKkCPaHcDFjQPm2LaF5H2Hjm7e/XJojRYqL/tLmt
+         Zj4O6gTONgxa5j+h+8y2T9cBoAi0ZGEO2iLbrtJIhEFT8+Fg5jtcAWqndgHikCbebruf
+         jxRxYsA+hb6unWuh2Y1HyNoEcNvC5JKVx5uTnYrfH5EfqqYkQV7rUqpbRKPHEH+ajU46
+         UMGnUJMHVwgv2g/PMLNe8vdOt5vCz7Ze264/AW7iOLv47qYYkYFzPNkJjihVRMICqjeI
+         QJrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783452507; x=1784057307;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aZeJiM8uPeoU8abopElz8F7bRV5qReALT830utommKE=;
-        b=orOS+gMLaZxv1RYWLIeOI+93MHihxb2ODr9iq0guT6fdRhdXPyA0aY/sURa0tjagaS
-         GaZ2Fa8KNBW+yQsU0zEqMunMT9OV//irs7b1LK663XPnydCPJ80MsK+4B5+AjddeDWTu
-         ZL1Mde3dFEqjqrOLtzELJsZtWgg5oIlpn861ZLwxvHu6EG0EVpT44aQNF9EMkinIeyRR
-         f+jFGy0HeJSpRoWvLcNUgqPRJz+8X33keCVYulONYTwiMg8xaL3GGltnC21YYZJTelbS
-         ibnjkDcQNraxz6rwFbNz798wWGh3bFEOVzcU7Dfh83cMkKpwgDgBgDzGZqYMZ7MLcX8V
-         Q7wQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr5MQ6HjLdN+hPde3B7h7EPPYk7kVoNv2MG35gkt/9BmfIgqmqgQ8F+E/y8shg6TOa79/LsjwTTLDw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDS04mW7T+7gzDNSBsZezwZZhaO/6ZVzOoE/008PsMtxX3mdMS
-	MwEs7oXmynr7fPRZKObfgHRZSG8drcoBcZT82+SV1lmE2ysCZ0g/D04bhcj2yjY+oA==
-X-Gm-Gg: AfdE7clv0kJfWzl74cfPdzYEGH/NxzcNWR0JmXLtPnauSpxiLdLH/ANfeXCra5D+dYA
-	8m0VdF5kDjDJSrMcvF19TPFsf2Yx/8GOWycI9FeQC4SzCVanzh/Z7zfkkA183P33+Ls3MWJQu6a
-	jROPVaevnCiIzp5s/UlgPU4BSUQEiqXp49Er/i4jeFNgRiSOnRNAbua6Ypkpcb6t6pLTFByrmO7
-	vgNs8emz7UhMJLNDf5PWYhan6VnPC9p6yZzChGnYEqUwwjTyEmYV/knDNAHrTiSGvGa3+AcsoSm
-	UOB4I9HumgtKiZNsdCTuLA+xG7RcvOnzApqgkzdFZqASjcYAU2/1hqRkcNbFIbb2BrvhKhMiW/4
-	9uUUI97ErlejqDxYag3RsZqzKtN0mm+M/51DJmXbcHPuoz2Nm9bbBESpiTi6u1VyLA5Mhm73bNP
-	qXlZMz+Uygj1MaTcY6Z/RUiTted8sQXFYa42vaxkH5JZ+tp2juVuuZp6JW
-X-Received: by 2002:a05:622a:4c:b0:51c:7b12:1211 with SMTP id d75a77b69052e-51c7b1217femr40594011cf.79.1783452506837;
-        Tue, 07 Jul 2026 12:28:26 -0700 (PDT)
-Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51c41abe756sm130112661cf.6.2026.07.07.12.28.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 12:28:26 -0700 (PDT)
-Date: Tue, 7 Jul 2026 15:28:24 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: syzbot <syzbot+e69c25cf38a53d0cf64c@syzkaller.appspotmail.com>
-Cc: gregkh@linuxfoundation.org, hdanton@sina.com,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [usb?] BUG: corrupted list in usb_hcd_link_urb_to_ep (5)
-Message-ID: <b46728e0-f6ef-40e4-932b-70b9e55905ea@rowland.harvard.edu>
-References: <bc26a2a1-64ec-4ae1-a7ba-2caf94785e74@rowland.harvard.edu>
- <6a4d50ad.c76b52dc.34afef.000f.GAE@google.com>
+        d=1e100.net; s=20251104; t=1783462800; x=1784067600;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=y+WwbKpOYSnyAyf6gFYLcLjARJ2PtI2beb2eDL2zlr0=;
+        b=dOZTUey56VtVYbXnY3+tEt/JWqZHq6DrU0PQ4Rz0B1POcj5NQ/eDFEY6CtIk2Of2VA
+         wGnoidfq/Cr3O6fKWvoI/e+tbIqtuNf46ke9jbM6tqzJRWaZvT7/GdQ3KYBnAjNKCXRd
+         VuWG5ERmebxpLlh1CbcrjnOJcTF2qB2iOG+HLQhkvM2rlcJv5/UQVweWERzhrWEZ6ynQ
+         PhnWIkijIuDUU/9/t0TmHD+adZW+Ffxu5x1yk+AFQZbcZK5UcmmAmwHNJvhmzi8fMH7x
+         w3Ia2Nx+Toa1cTEbiO6GhUNB4JWs8M908HyyNapnI8SnIeczv2oLelhVXswQb/ua3UY+
+         j+Og==
+X-Forwarded-Encrypted: i=1; AHgh+Ro1W8dJnXd2ftMNzxnvcgnE/dGK37H+4n2Pu3Lv77SM91C80A3kZgkKZPiY2BolvIuLRCBt5La9+Zw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+cPVJsj7C2tbjWNpfSycacdlKul3qDtX8H0yIH4tSnhYJs1yy
+	G0CwJo4aYnDz04/jpgngu07JqmcZC574kHDyd/Ivv7amk0hDt+UzCxyLIvfNog==
+X-Gm-Gg: AfdE7cnyu+w/SW21BwCd15lt1pXN9nDHQH3G/WaaR/yZH+K01hXUOD/prnjdYJT87R2
+	aFqgg9ahi9MT/5Azekz9g2o06MfohKw6DfxJnjkffXrQcVmtGm1Tc1aQRkXU/y0ngEQYnYb8Aye
+	e/uA+gXCbS43QZE7LP7rLlk24lUu1XV/25z7DLdWREYDlCj0xkXbaBiEplea1FxUIu5SXbwVl3I
+	hzjBDtD5fVNSDoq5e2Mj5DA4wMtwiZZXIuActzoENxrH81PXEAh0mWaLaLkxXc2FaKznjOCOIVD
+	ccY+KMe/yg0p0FX90rcxD5PM+YlqHdF6ixTQtIHIAjLtIJVhqgFTKQpJzTQyAs9JFEm+w9TJ8AR
+	VAgACOKmzN6V7YaLhP0gSDqnzt8Nui2h8GOxzlUisgZqEdoe9zTKWx69PNw6iRW6mH0AgpLGq4L
+	VYMCL1V+Pj3lL8SjuvqiMhTg==
+X-Received: by 2002:a17:902:cf10:b0:2ca:b300:43b7 with SMTP id d9443c01a7336-2ccbe3f1a73mr63797925ad.4.1783462800142;
+        Tue, 07 Jul 2026 15:20:00 -0700 (PDT)
+Received: from [192.168.89.2] ([175.235.236.90])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d3d952sm18087585ad.61.2026.07.07.15.19.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Jul 2026 15:19:59 -0700 (PDT)
+Message-ID: <f7f1662d-6472-49e3-8489-fe7d8ecebe08@gmail.com>
+Date: Wed, 8 Jul 2026 07:19:57 +0900
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a4d50ad.c76b52dc.34afef.000f.GAE@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Bug 221721] New: prom21-xhci does not allow to use USB keyboard
+ in plymouth
+From: Jihong Min <hurryman2212@gmail.com>
+To: Thorsten Leemhuis <regressions@leemhuis.info>
+Cc: bugzilla-daemon@kernel.org,
+ Linux kernel regressions list <regressions@lists.linux.dev>,
+ linux-usb@vger.kernel.org, marx.tomasz@gmail.com
+References: <bug-221721-208809@https.bugzilla.kernel.org/>
+ <328d3158-8086-4de7-a96e-7c2a514e3018@leemhuis.info>
+ <620721eb-2b0e-4279-81e2-420996195206@gmail.com>
+Content-Language: en-US
+In-Reply-To: <620721eb-2b0e-4279-81e2-420996195206@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 07, 2026 at 12:17:01PM -0700, syzbot wrote:
-> Hello,
+Hi,
+
+PR for Dracut-ng is now submitted:
+https://github.com/dracut-ng/dracut/pull/2491
+
+
+Sincerely,
+Jihong Min
+
+On 7/7/26 18:53, Jihong Min wrote:
+> With a little more of thinking, I think this happens due to the
+> initramfs building tool not including xhci-pci-prom21.ko when
+> xhci-pci.ko is built with the Kconfig where USB_XHCI_PCI_PROM21 was enabled.
 > 
-> syzbot has tested the proposed patch but the reproducer is still triggering an issue:
-> lost connection to test machine
+> Can you check your initramfs file for whether it holds
+> xhci-pci-prom21.ko correctly, or not?
+> 
+> For example, with dracut, you can do something like:
+> cat <<'EOF' | sudo tee /etc/dracut.conf.d/10-xhci-pci-prom21.conf
+> # PROM21 xHCI PCI glue is needed before root/LUKS unlock when xhci-pci
+> is modular.
+> force_drivers+=" xhci-pci-prom21 "
+> EOF
 > 
 > 
+> Sincerely,
+> Jihong Min
 > 
-> Tested on:
 > 
-> commit:         2b763db0 Add linux-next specific files for 20260703
-> git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-> console output: https://syzkaller.appspot.com/x/log.txt?x=15586b39580000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=bc069df559a09463
-> dashboard link: https://syzkaller.appspot.com/bug?extid=e69c25cf38a53d0cf64c
-> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-> patch:          https://syzkaller.appspot.com/x/patch.diff?x=13aef31e580000
+> On 7/7/26 17:03, Thorsten Leemhuis wrote:
+>> [Switching to email, hope this will work]
+>>
+>> Jihong Min, it seems a recent change of yours is causing trouble. See
+>> below for details.
+>>
+>> Side note, but not my area of expertise, so feel free to ignore this, as
+>> I might be sending people in the wrong direction and it's just a hunch
+>> anyway: wonder if this is another of those situations where the driver
+>> needs to be in the initramfs. Tomasz, did you have SENSORS_PROM21_XHCI=m
+>> when things were broken? And if yes: have you tried if adding it to the
+>> initramfs or setting SENSORS_PROM21_XHCI=y helps?
+>>
+>> Ciao, Thorsten
+>>
+>> On 7/4/26 17:41, bugzilla-daemon@kernel.org wrote:
+>>> https://bugzilla.kernel.org/show_bug.cgi?id=221721
+>>>
+>>>             Bug ID: 221721
+>>>            Summary: prom21-xhci does not allow to use USB keyboard in
+>>>                     plymouth
+>>>            Product: Drivers
+>>>            Version: 2.5
+>>>           Hardware: AMD
+>>>                 OS: Linux
+>>>             Status: NEW
+>>>           Severity: low
+>>>           Priority: P3
+>>>          Component: USB
+>>>           Assignee: drivers_usb@kernel-bugs.kernel.org
+>>>           Reporter: marx.tomasz@gmail.com
+>>>         Regression: No
+>>>
+>>> Created attachment 310416
+>>>   --> https://bugzilla.kernel.org/attachment.cgi?id=310416&action=edit
+>>> output of "sudo lsusb -v"
+>>>
+>>> Hi,
+>>>
+>>> After update to 7.2-rc1 I was unable to type in LUKS password in plymouth. I
+>>> tried both of my USB keyboards, but both of them just briefly lit up the LEDs
+>>> and then seemed to turn off. Bisection pointed to
+>>>
+>>> commit 364f4a55c661641c02c86a849f0608d8fc3c0006
+>>> Merge: e4b4bfaa5090 1c2b66a7d725
+>>> Author: Linus Torvalds <torvalds@linux-foundation.org>
+>>> Date:   Mon Jun 22 12:09:47 2026 -0700
+>>>
+>>>     Merge tag 'usb-7.2-rc1' of
+>>> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb
+>>>
+>>> and then
+>>>
+>>> commit 9e896b4a48c4e815956d28961448041c80ad5a19 (HEAD)
+>>> Author: Jihong Min <hurryman2212@gmail.com>
+>>> Date:   Tue May 19 09:07:31 2026 +0900
+>>>
+>>>     usb: xhci-pci: add AMD Promontory 21 PCI glue
+>>>
+>>> After setting SENSORS_PROM21_XHCI=n and compiling kernel again, I'm able to use
+>>> my PC normally.
+>>>
+>>> CPU: AMD Ryzen 9 9900X
+>>> Motherboard: X870I AORUS PRO ICE
+>>> Output of "lsusb -v" provided in attachment.
+>>>
+>>
 > 
 
-The console output says, in its entirety:
-
------------------------------------------------------------------------------
-
-ci-upstream-rust-kasan-gce-test-job/strace-static-x86_64 -e \!wait4,clock_nanosleep,nanosleep -s 100 -x -f ci-upstream-rust-kasan-gce-test-job/syz-execprog -executor=ci-upstream-rust-kasan-gce-test-job/syz-executor -arch=amd64 -sandbox=none -procs=4 -repeat=0 -threaded=true -collide=false -optional=slowdown=1:sandbox_arg=0:type=gce ci-upstream-rust-kasan-gce-test-job/syzkaller4044572343
-
-<...>
-Warning: Permanently added '10.128.0.74' (ED25519) to the list of known hosts.
-FATAL: kernel too old
-[  132.897272][ T1336] ieee802154 phy0 wpan0: encryption failed: -22
-[  132.897384][ T1336] ieee802154 phy1 wpan1: encryption failed: -22
-
------------------------------------------------------------------------------
-
-What can I do about this?
-
-Alan Stern
