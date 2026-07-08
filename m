@@ -1,216 +1,185 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011011.outbound.protection.outlook.com [40.107.130.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A00884D8D86;
-	Wed,  8 Jul 2026 18:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783536022; cv=none; b=GF53qLtfhVs6H47qIfMiJThq/D7eLv+saiHTwJHn5Phrsvt4vYHN86WRJz4NJwq4r9tuVn4lR25WIq7DtpMt7XJikX+WFaCCjFvWUKkwFf944KCHCAMJjjiAPFav1DxeUYKez/OYapfU0rWZRwl9mDLNdpEqZ2orDwQ9+yAjqm0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783536022; c=relaxed/simple;
-	bh=CAHOASJFkvHTG3BGUywT9taqG/e3JFGDRjy/E+wj0B4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=u1zTnFqX7Hi+rLCzAL3O0Jd0N2VlH/Z/BhET4g8bxu9lZUIqOOZOQBkEMglFtfqCI7B7MVRg2R7yB16A5yCfwRFPdx7gkkQD8VYjUOBmIAKzY0KWD0bGI1Id09LmQvx+QyzWDzT4rQW76EkfdPudwm9aAbdUlZDQA9I7kTHK43k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=oOj3ob1H; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=ltQf5sRG; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36363221540;
+	Wed,  8 Jul 2026 20:54:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783544072; cv=fail; b=oqK2/p9yPThxHBLHAhNRyCrwV8y0pxoQTkL00aqSqNomMhojAJZZxbgF/p/8hJ+LWb8VP7WL3rvAM3JzKCzgx0G0XAB3wRFO0AqSAj1UnGibC05P4vsHXnHiVViSq47JUiMVJ3fAbf6KsF9bbQATQcR3YG2qH19l4Loru5ujDAk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783544072; c=relaxed/simple;
+	bh=+o7hAL2uP3AOsbg2sdb5XJuS54psBGNd9i2gcBlc4BU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ug7229KgrBeKLtZa8d9YEIpb8Q7EUA6pX4N50u0a21atPHvnB5gu1w5R+cLu9pI8RNi5EUrDVYW3NsMCbrAgi5v9Yxf7wWHdz4FqjR/W5EGY/oHtoP1AA5nXAMbpfS2nNB0PkAaE64NeLiODoS97xbiMZ4XPlOaEHgULfyHYIBM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=e+RALxUk; arc=fail smtp.client-ip=40.107.130.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="oOj3ob1H";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="ltQf5sRG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1783536015;
-	bh=CAHOASJFkvHTG3BGUywT9taqG/e3JFGDRjy/E+wj0B4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=oOj3ob1HHLrVKH80uX1Iaa3IfQpvQ9Tk0Qck2B5kDQMff/fz6RkTFto0/v8uDKG1T
-	 5h34kmv7mKp4BBu/UTne842LG469xkX0aTi5Ov1rnA3cGDRaGXwNUk4/6ish+V2sjG
-	 9Fwcq4+P3NdSTE4wVv2yxzdlw5xFQGCwQAd9vmqjUJmbGKPLdSiNtMNTtiej9F4D+O
-	 YdExBHl//TsMRokepVKkOsJGyCAzpQFgwU9z69L8yDNQMCiO/ot9Pj5GwwIVEKNs2k
-	 85/LhxURQ11SMS6Z1+YiUQphyIvByu3VyBVnrtz/G4W6N2GLie9GrL7cywmzXzyEz6
-	 l6mJE+fkpxewA==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 197EC493DD; Wed,  8 Jul 2026 18:40:15 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1783536007;
-	bh=CAHOASJFkvHTG3BGUywT9taqG/e3JFGDRjy/E+wj0B4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ltQf5sRG6Q6VjjCFYkQsWrwMb8KmdaOkExkL4zBx6e6n0zTd4hhvjoCzgOFgJCfhH
-	 976J2Si+ixMRoIK4eLVG1i3y7zvrPd+rwhSs+WTIQVuGmTtpk/qxbSgl8bNwIdtcN6
-	 R6vbKu2lWblJIN8VEj19TYIcXd3sLZWJoT0raIFoG+E0NZDH9jQ2lo8oFkVqWx8/s/
-	 LWqFFUy0b/Fggci56sbErDBCQvI0F/yZt3dQVgDt+fCvi1p9ZNf83FAB6nbI6BjIoV
-	 ZaiX0WVcRaUDGebmSWfm86tmm4I/4hizEvJF8T6nSJJ91J2hPS+CX5MxCXgGdgu5TI
-	 xxRs9tE6CRIOw==
-Received: from DebianDesktop.lan (p200300c69f1c3c00b7612fd38ae89dbd.dip0.t-ipconnect.de [IPv6:2003:c6:9f1c:3c00:b761:2fd3:8ae8:9dbd])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 0FD9F493ED;
-	Wed,  8 Jul 2026 18:40:07 +0000 (UTC)
-From: Birger Koblitz <mail@birger-koblitz.de>
-Date: Wed, 08 Jul 2026 20:39:17 +0200
-Subject: [PATCH net-next v2 11/12] ax88179_178a: Add support for
- AX88179A/772D/279 EEPROM access
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="e+RALxUk"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tboGjilayQxrnQbtPq2qfOlglqnEVMTmmUj9T0unw7MtjAcDK2PGHHggdhdwGkaUNHy0ZbI4BBpbDbR8XV8FsXz51/pZHRrepoJnXlNZ8JtmZLJCRblfQpZUs2+O7nanORBJaNKlieDNU5TXjtycu+gGgih7Y/Yc74AnbrEz5V6oNEhHXjGOeEDWM8jo9JaprFPVZ/62XCg1s1ke35/m1cCq8fbKIjvBvfCW+yeZdAXfib4m1GYslP5FrCwabG9zxBH5Iwwvu8Dq0I0PmcsZGMsE1WV6zs/SRR7SoOH6+7x+OJRbdT+w7buDAdDoIEXALM0MstZb6bSwQuDygk+jxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oLYQuECkyPAhV5czjVtHkk5gQQE+eR93pF6VTnv2mOo=;
+ b=TspK4slI2gJ0Dyf5/Q6Veudw2e9jQ6QHhbGpLy1E4LoIBF0hW4XYzOSr6WHBNL5iTTeZ8JHWd6WT9tdKPJlAlw9pxeTFXeXwF0DEqzeAWr0p7ky/JUlXMND0/2j1SD9tWikwz36C85XXa4VOww7CJuE1D5DNaLZcv1XC+jFS1Zm2a3jgMxxa1aHMurZP1ZnggrfBmqgPZDwDO4jjPAlglEuptiRJ+FdC2lUSCXDVdZMbjFpmrreuPuiRvgyNAi1LrJmYAx+kzQHMxgE5te0ySWpGGE8+PCgVWpY6swRX8cpxhbUdgj4VZp39wzTnM1iO3AntBERNunBAJX99wbXUkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oLYQuECkyPAhV5czjVtHkk5gQQE+eR93pF6VTnv2mOo=;
+ b=e+RALxUkc3dnc57fruhYqN9E471CgHGrNkJuzYfGx2VBYQW2bec6+Lu6WRc1b5tka/gWtPOTWRcPjdrIBrHG930BgzvJJtFzRkmAnU9WuveiPhNisMSC5ha0b85dMSXW9Kj1BDyUmxPFFJ0xqCmy95WwhGo3qW1vilJWUzIxSdzOCFGnPZZvpL9x1DSMjyHJp/l52Oqh3eg7LZ5onGWax6LRryCY/Om72hueo3CMk/bBQb2C52cK/ax8WQeps0zsdEtRckzekDk24M7oVKRjdyP0SlAs/qgqG6WNlZK0GMCKpfPS1L1SkovVGAyQGwSO1BF9FMvhLJtf5JzUdRLHMg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by AM9PR04MB8323.eurprd04.prod.outlook.com (2603:10a6:20b:3e5::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.15; Wed, 8 Jul
+ 2026 20:54:13 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0159.007; Wed, 8 Jul 2026
+ 20:54:13 +0000
+Date: Wed, 8 Jul 2026 15:54:03 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Xu Yang <xu.yang_2@oss.nxp.com>, kees@kernel.org,
+	christophe.jaillet@wanadoo.fr, xu.yang_2@nxp.com,
+	hataegu0826@gmail.com, balbi@ti.com, andrzej.p@samsung.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev
+Subject: Re: [PATCH] usb: gadget: f_uac1_legacy: fix inverted NULL check
+ after kstrndup()
+Message-ID: <ak64635tgUj3MPEx@SMW015318>
+References: <20260625113154.1954813-1-xu.yang_2@oss.nxp.com>
+ <2026070831-peso-aluminum-df0c@gregkh>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2026070831-peso-aluminum-df0c@gregkh>
+X-ClientProxiedBy: PH0PR07CA0076.namprd07.prod.outlook.com
+ (2603:10b6:510:f::21) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260708-ax88179a-v2-11-0800fedb2e16@birger-koblitz.de>
-References: <20260708-ax88179a-v2-0-0800fedb2e16@birger-koblitz.de>
-In-Reply-To: <20260708-ax88179a-v2-0-0800fedb2e16@birger-koblitz.de>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Birger Koblitz <mail@birger-koblitz.de>
-X-Mailer: b4 0.14.2
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|AM9PR04MB8323:EE_
+X-MS-Office365-Filtering-Correlation-Id: 441775da-0d1c-4ad4-f807-08dedd3310c8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|19092799006|366016|1800799024|22082099003|18002099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	eANsyPF+EtkOMPVCZEoT+/o2t8AOsbdd86MiAgPQk1gyYEhHAHmcapgTiyCZfbXtlhotttuzS0vI7YvOoi/LdySKhkVl2wHrz5fZrOM/mNooayFrSDE096JdsVHQbPLvyCPJp00t7WsnWzHKFQ4Bh6kf6phgXNqOm6qbH7iMGJ83WSOCTw70jdhLa62Y5JqnH3GjaKBm7PeG883Za0agnYbxObwg3gz/JvSB3xEbYOfSycMWhW3kXn0G8W3sMWafL4wxVWSePpb/ulLr5DdQNJwbc82IAPqNdGeGKu+HlxGJBzuBcLwfkay4VrjWMHBh7MrIOvOlBJ4ttkKbhpqmbloEpkMhGGIVhjn1TZoiYqLEjjALjhd0gIT5S4zgMx7IJo1wt/erJHFOcU3SChxtVzBvqyd9cd/6JVHMcsyN8EQZ9vbZvBBAksEG59N88r9KrsS95Zb1XXC5E26KPiaOg307o6uPOmuTz0PWLgQzQRA7MAsWhmP7eiCwJCruF1QImX0drb028PfrwV6XWVUnKsHh49divK7U45gApz/rfeEs4Qfv6thi9xlBDhgOaRMQ4OyJWmMSxf2HnpHi08FD8TiwBk3/x3R5iqFkcM1wajcSiErrpKValRZQEhtzN0ZIuav20k2XHE6mNX2bUI7AG329fJtKP/9K9ziadbKgfKQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(19092799006)(366016)(1800799024)(22082099003)(18002099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZkdoN1FEUVNva2hydCtaaitYVVEyQncwc2xRYlU0UnlJbSs3ZlRpVFRudWVx?=
+ =?utf-8?B?QmI3M0I3emlGSFdTRStoRDgxOWJqMDRnQWVoTkxjMFVoczBjNVloeGhQVWFG?=
+ =?utf-8?B?QURydGptQzYwSm1DWXpqSDFsbHpRMEJyS1kvNlQyWDZXbUFOMmk2VmlsaVBx?=
+ =?utf-8?B?N3NkOWVRZTRMUWh5KzdHNmkzUm0rUlQ4bTk2enVIRkE1Z0laY20raFhaTGl3?=
+ =?utf-8?B?M2diSGJ1TXdCWjcxK0MrQ25sekF4SXpUUE1UZ0JkTDYyWHAvWXJoRE9Lelhz?=
+ =?utf-8?B?NkE5RTRHMTJUUXdFY21yTFNUakZNL3VUY2NRNVFKMnllajRlMVhtKzJ2MC9L?=
+ =?utf-8?B?dWdOZFFHV3FHQjF5WTg5KzFidXdKSFY2NlBMdTZoZ051MXI4MVpOb3VPRkx2?=
+ =?utf-8?B?VkE3MkN5MUx6Z1dHSm9aY2NIYUE4REF6L0Nma1E1TUMycHpsdHVwOXM4V3VF?=
+ =?utf-8?B?MVhHQVAwY3hMc2VvMGlNNXlaVTlGb29TVWJBQ2RjbCtOTEgrTGcxMXNIQnpZ?=
+ =?utf-8?B?SStJYTREaXVrNStXeVltVERKQWI0bFFEdEducVc4eW1BcVRoV1I0dUw3OTRv?=
+ =?utf-8?B?NFRabFBhdVBMRDUyZGhveWsvbmVRRm9Vekt6clVIVk43dHlyNUUzM2R4VzN2?=
+ =?utf-8?B?MjY2OXM2c1JnM0dzaDlITUNpZWdWY2p6U2lKZ1hLL0R5Y2NUQ2N5ZjBvMTBn?=
+ =?utf-8?B?NXlCaXdRSzlEaGJuNThsR2ovWlNITHc0ZFg5Q0I3eWZNNUY5aHZoMVBPdFJL?=
+ =?utf-8?B?WWRUYUIzT3pJenE1SThDNjJzU3FveVRVdjlYYXlhMmtNV09vb2JxeXdtOFNh?=
+ =?utf-8?B?OS93cy9aY21hOStCeHNTTEszK0Z0MDczRXg4ZDZIcmVzYzF3aWh0cjBJS3U1?=
+ =?utf-8?B?eFBGcWlvOE9IQUhJOWt4d1p2bUNsL2RlelhVY2JwL21qMjRxVDRIMWd6K2Vi?=
+ =?utf-8?B?OFJpYjVDa3JSQlJObE1WQWVTYzBqN2NEK0VGRnN5VGVVeFhLZ0pHWjhBbHJs?=
+ =?utf-8?B?Sktzb0MzY3M2MlZmeEFDbVJvZzBmdElRSTZydDFaK3RpWXZLc0VUK1pnQVhS?=
+ =?utf-8?B?VnZoSjJTTnc1YjJxMWpraERUMFc0Z1BMK3U1a05wcUxzd04wQys0YVF4UlUv?=
+ =?utf-8?B?VzdwMHZzR1BkcFBmUDRSNEptYmIvR0taOFNJL1lyZExzK2VHeXVOQ2NnNk0r?=
+ =?utf-8?B?YXl5bnNTUnNqWGVRRkVSaUVNVWluUW5WMHR4WExad2orOWZRRXd1aWR2b2VB?=
+ =?utf-8?B?YlJtem91SkkybXNYa0RBYXVqKzRDeElCSGZBUGh6Q3RSZHJhbUlaNk1oRWQ2?=
+ =?utf-8?B?anhBS1RuVWlZN1Y1ajZCVmNqVHYrN1BBZHIxbDIxeHFjRGwwVXhVcGRNOWYw?=
+ =?utf-8?B?WDdnbHY4ekRSSUdXUkh3RlBVc2VBQlIvcHJ6V2N0MW9BTkx0Z3pPRGplQWJY?=
+ =?utf-8?B?STdwb0EydzhWVE1Dc0lFN01KSERnVFdQN05aaFR5OTZOb0xhbzJuQkRmeElX?=
+ =?utf-8?B?OVVhRGp4NlprRW9hNlhkczdUa1FPWnp1dnhTelJLaXc0TVF4eDJ6Z1ppMjBP?=
+ =?utf-8?B?QmxReWVpcndSbThRSUJtUmcyUGhWaEZXZ1FPMmcxM2xEd1dxL1pCZXZmME5R?=
+ =?utf-8?B?MGtRUlNzeUU5aHB5aUw4ZndNbUo4aUFvMmhkM0FRN0RYT3ZMTVN0TFJvQ0dh?=
+ =?utf-8?B?UkJXTVcvTnRlQXNQend0dEF4L240eVl2WTNTSlRrVmFQMGFYSkdxQ0Jtb1Ay?=
+ =?utf-8?B?WVFPbWg2eGNMNmdYc1hjd2xEdVhNNk1JazhSMW8xWFlJa0dwcGlnem5UR1NM?=
+ =?utf-8?B?MGNiQzhPclpCRlZQUExYV2U5ajVUREJLUGJWdHQ4MXJQODM5bzQxeDVGdWYy?=
+ =?utf-8?B?TDQ2YUhrV0ZFa2R0dnE5YXRBQlg0THhFYWRoSnloWjFiZ0JzdVNGZWIzcnhZ?=
+ =?utf-8?B?WE9JZjBkeGVONk5CUFRpYlQrQkR4MitkZEs3c0NBdG9QWm16MzdvQ1V3QVRI?=
+ =?utf-8?B?TUFXZGFoWVhEK2N0SklhY21OckxnZTJ1VmZXQjZzMWx5SWRFNnUzNGxHSmNi?=
+ =?utf-8?B?dE1Ga01lS3hzR25tKzNrZm04eVJZcFVybmJYZ2VMVFd5NjJxZjJFblFlaElY?=
+ =?utf-8?B?a0hsYWZWM2RidlY4a1l3ZzVyR0dmOW5mQ3Y2MlVydkh5UlQ4RnZPczZNclp1?=
+ =?utf-8?B?U055Qnl1K20wZEQybVZ5anZoUzV3ejk1RGx0ajFGQVV1OEVWVHo0WVIzNUUv?=
+ =?utf-8?B?a1RSZ1B1WUhJOHdFdUZvWjlUYUV2L3VYUlF3Z3l2bFRHcUNXNnEzajkyY3Fp?=
+ =?utf-8?B?TUFlMWdqYXVIa2U5RWtOQ0xVY0psTXB4YlBrdm1Wai8vTmg2bjdZMm1PUmt1?=
+ =?utf-8?Q?1yKVLTCspOvNs2lD4pPKUCbiwrw/JT+TGFoQp?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 441775da-0d1c-4ad4-f807-08dedd3310c8
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2026 20:54:13.1884
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wm0fIiKyBwsSK+PgiXt3IuL8NDaa4U3YKOeA0zztHiUOWkS3bdZxpgcEkVcMT9LvkplzjrlbSfY/Be/CwATILIcBj7SWa/MUdVdTmPuq+3vhVtes5mqjHB4EE75tesoN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8323
 
-The AX88179A/772D devices have 32 efuses with 20 bytes each,
-which can be randomly programmed. The AX88279 has 16K FLASH.
+On Wed, Jul 08, 2026 at 05:05:03PM +0200, Greg KH wrote:
+> On Thu, Jun 25, 2026 at 07:31:54PM +0800, Xu Yang wrote:
+> > From: Xu Yang <xu.yang_2@nxp.com>
+> >
+> > kstrndup() returns NULL on allocation failure. The condition was
+> > checking 'if (tmp)' to detect failure, but this is inverted — it
+> > would treat a successful allocation as an error and return -ENOMEM
+> > while leaking the string, and proceed with a NULL pointer on failure.
+> >
+> > Fix by changing the condition to 'if (!tmp)'.
+> >
+> > Fixes: 0854611a19ae ("usb: gadget: f_uac1: add configfs support")
+> > Cc: stable@vger.kernel.org
+> > Assisted-by: Claude:claude-sonnet-4-6
+> > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> > ---
+> >  drivers/usb/gadget/function/f_uac1_legacy.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/usb/gadget/function/f_uac1_legacy.c b/drivers/usb/gadget/function/f_uac1_legacy.c
+> > index 5d201a2e30e7..e9f2632ce785 100644
+> > --- a/drivers/usb/gadget/function/f_uac1_legacy.c
+> > +++ b/drivers/usb/gadget/function/f_uac1_legacy.c
+> > @@ -914,7 +914,7 @@ static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
+> >  		goto end;						\
+> >  									\
+> >  	tmp = kstrndup(page, len, GFP_KERNEL);				\
+> > -	if (tmp) {							\
+> > +	if (!tmp) {							\
+> >  		ret = -ENOMEM;						\
+> >  		goto end;						\
+> >  	}								\
+> > --
+> > 2.34.1
+> >
+> >
+>
+> So this has never worked?  How has no one ever noticed that in the
+> decade this has been in the kernel?  Does that mean that no one uses
+> this file/driver and we can just remove it?
 
-Provide ethtool read capability for these devices. However,
-no write access is provided.
+I think just no one use sys interface to change name.
 
-Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
----
- drivers/net/usb/ax88179_178a.c | 75 +++++++++++++++++++++++++++++++++---------
- 1 file changed, 59 insertions(+), 16 deletions(-)
+Frank
 
-diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
-index 31e0ec1c15b455b8810f73d4d8ae9a5b5b05f9a2..3972eff910ca766cd6e2cca0431ca50a2b02dd2b 100644
---- a/drivers/net/usb/ax88179_178a.c
-+++ b/drivers/net/usb/ax88179_178a.c
-@@ -17,6 +17,8 @@
- 
- #define AX88179_PHY_ID				0x03
- #define AX_EEPROM_LEN				0x100
-+#define AX88279_EEPROM_LEN			0x4000
-+#define AX88179A_EEPROM_LEN			(32 * 20)
- #define AX88179_EEPROM_MAGIC			0x17900b95
- #define AX_MCAST_FLTSIZE			8
- #define AX_MAX_MCAST				64
-@@ -37,8 +39,11 @@
- #define AX_FW_MODE				0x08
- #define AX_GPHY_CTL				0x0F
- #define AX88179A_FLASH_READ			0x21
-+#define AX88179A_FLASH_WEN			0x22
-+#define AX88179A_FLASH_WDIS			0x23
- #define AX88179A_FLASH_WRITE			0x24
- #define AX88179A_PHY_CLAUSE45			0x27
-+#define AX88179A_FLASH_ERASE_SECTION		0x28
- #define AX88179A_ACCESS_BL			0x2A
- #define AX88179A_PHY_POWER			0x31
- #define AX88179A_AUTODETACH			0xC0
-@@ -805,41 +810,74 @@ ax88179_set_wol(struct net_device *net, struct ethtool_wolinfo *wolinfo)
- 
- static int ax88179_get_eeprom_len(struct net_device *net)
- {
--	return AX_EEPROM_LEN;
-+	struct usbnet *dev = netdev_priv(net);
-+	struct ax88179_data *ax179_data;
-+
-+	ax179_data = dev->driver_priv;
-+
-+	if (ax179_data->chip_version < AX_VERSION_AX88179A)
-+		return AX_EEPROM_LEN;
-+	else if (ax179_data->chip_version >= AX_VERSION_AX88279)
-+		return AX88279_EEPROM_LEN;
-+	else
-+		return AX88179A_EEPROM_LEN;
- }
- 
--static int
--ax88179_get_eeprom(struct net_device *net, struct ethtool_eeprom *eeprom,
--		   u8 *data)
-+static void
-+ax88179_eeprom_access_params(struct ax88179_data *ax179_data, int i, u16 *value, u16 *idx)
-+{
-+	/* AX88179 has a word-addressable EEPROM
-+	 * AX88179A uses EFUSES with 20 bytes length
-+	 * AX88279 has an EEPROM addressable in 256 byte blocks
-+	 */
-+	if (ax179_data->chip_version < AX_VERSION_AX88179A) {
-+		*value = i;
-+		*idx = 1;
-+	} else if (ax179_data->chip_version >= AX_VERSION_AX88279) {
-+		*value = (i * ax179_data->eeprom_block) >> 16;
-+		*idx = (i * ax179_data->eeprom_block) & 0xffff;
-+	} else {
-+		*value = i << 4;
-+		*idx = 0;
-+	}
-+}
-+
-+static int ax88179_get_eeprom(struct net_device *net, struct ethtool_eeprom *eeprom, u8 *data)
- {
- 	struct usbnet *dev = netdev_priv(net);
--	u16 *eeprom_buff;
--	int first_word, last_word;
--	int i, ret;
-+	struct ax88179_data *ax179_data;
-+	int first, last, i, ret;
-+	u8 *eeprom_buff;
-+
-+	ax179_data = dev->driver_priv;
- 
- 	if (eeprom->len == 0)
- 		return -EINVAL;
- 
- 	eeprom->magic = AX88179_EEPROM_MAGIC;
- 
--	first_word = eeprom->offset >> 1;
--	last_word = (eeprom->offset + eeprom->len - 1) >> 1;
--	eeprom_buff = kmalloc_array(last_word - first_word + 1, sizeof(u16),
--				    GFP_KERNEL);
-+	first = eeprom->offset / ax179_data->eeprom_block;
-+	last = (eeprom->offset + eeprom->len - 1) / ax179_data->eeprom_block;
-+
-+	eeprom_buff = kzalloc((last - first + 1) * ax179_data->eeprom_block, GFP_KERNEL);
- 	if (!eeprom_buff)
- 		return -ENOMEM;
- 
--	/* ax88179/178A returns 2 bytes from eeprom on read */
--	for (i = first_word; i <= last_word; i++) {
--		ret = __ax88179_read_cmd(dev, AX_ACCESS_EEPROM, i, 1, 2,
--					 &eeprom_buff[i - first_word]);
-+	for (i = first; i <= last; i++) {
-+		u16 value, idx;
-+
-+		ax88179_eeprom_access_params(ax179_data, i, &value, &idx);
-+		ret = __ax88179_read_cmd(dev, ax179_data->eeprom_read_cmd,
-+					 value, idx, ax179_data->eeprom_block,
-+					 eeprom_buff + (i - first) * ax179_data->eeprom_block);
-+
- 		if (ret < 0) {
- 			kfree(eeprom_buff);
- 			return -EIO;
- 		}
- 	}
- 
--	memcpy(data, (u8 *)eeprom_buff + (eeprom->offset & 1), eeprom->len);
-+	memcpy(data, eeprom_buff + eeprom->offset % ax179_data->eeprom_block, eeprom->len);
- 	kfree(eeprom_buff);
- 	return 0;
- }
-@@ -849,12 +887,17 @@ ax88179_set_eeprom(struct net_device *net, struct ethtool_eeprom *eeprom,
- 		   u8 *data)
- {
- 	struct usbnet *dev = netdev_priv(net);
-+	struct ax88179_data *ax179_data;
- 	u16 *eeprom_buff;
- 	int first_word;
- 	int last_word;
- 	int ret;
- 	int i;
- 
-+	ax179_data = dev->driver_priv;
-+	if (ax179_data->chip_version >= AX_VERSION_AX88179A)
-+		return -EOPNOTSUPP;
-+
- 	netdev_dbg(net, "write EEPROM len %d, offset %d, magic 0x%x\n",
- 		   eeprom->len, eeprom->offset, eeprom->magic);
- 
-
--- 
-2.47.3
-
+>
+> thanks,
+>
+> greg k-h
+>
