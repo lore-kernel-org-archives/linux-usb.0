@@ -1,158 +1,190 @@
-Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A595540BCDE
-	for <linux-usb@vger.kernel.org>; Wed,  8 Jul 2026 14:11:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266494CA285
+	for <linux-usb@vger.kernel.org>; Wed,  8 Jul 2026 14:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783519891; cv=none; b=rg0SK8jzp+VeuC3wxy8EBQ8D3c7JbKrVPQhPMzqqomOEgdesnYd//HBWAhZxD7N+Bzbj7LRM8X7xOgywNt+ghsY8DxEU7ooImaxjgpDaW27TSeEz+YPoKGC1aFiYmU1oHEn4VvGUFVflT+KaKS7NNQTxWOMiqx9Jd6xzv0SRnVE=
+	t=1783520548; cv=none; b=CjxO+y8wiHXTT3+R6w+fkzOdmgmJKRydJq5YBZ2wsyndkSyypwe+QpRJ+2ybhVnxNFpDAnRsEqnhIXS624Gp4C7KiKwwZOtWf9NaBd1rTU5AZNPfsTP6ueYHQeB0S+T2UkuOpCB7s4d7/s0jyBA/wFtVYkccYiZTklba3VYIYS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783519891; c=relaxed/simple;
-	bh=+7C7np2bvzfHKHSBoOdMNA3KvnuEmxCpForLSNF0Jqo=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=gXeJnw+N27+rRVLGQgiXi/981bTP4a0u+rM1iBoFuOWNxKl+qGU6awCDZCsVna7MtZAuJuxbar0r+bDFzoX7iiWaRDRKl03dSeWd1Y/35bRR+i8/QxmAs8aObej9+rJy4iwSf7lGrQNUrieoIXUJIs2FXfZG6W6K8Y8a9zfo1nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-49226201eb8so544523b6e.1
-        for <linux-usb@vger.kernel.org>; Wed, 08 Jul 2026 07:11:29 -0700 (PDT)
+	s=arc-20240116; t=1783520548; c=relaxed/simple;
+	bh=h0QO5XdJUfQMex0aeEVpwEZ4dEANRoqUqIHrPbxQTVU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qCRF8UhVABaLtGCb17ZwISTU/QjfFEsH66/59+sKSZFZSsKBJjxr09yGMJjs3/r5jNwEtL407AzajlORCTU7JjFR7bucR1H8q8soS7Ix1W6/BGm1x5IMiA1T+ebaD++l18zltLjR7X0GIgnj4WfWnWL2w6bFBIeusk0A9VUdcqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=gwRVwaRB; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="gwRVwaRB"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-92e65e18969so53225185a.1
+        for <linux-usb@vger.kernel.org>; Wed, 08 Jul 2026 07:22:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1783520543; x=1784125343; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=JnfWEXBlBehbKveVFUNwsB1lliCmv111qtv5cAgi0xc=;
+        b=gwRVwaRBbdyrM3YkCtJ0IqQnCkAVwI42iqxjJysvfk0vckqkKIe3QU/osam7ex0RP3
+         h+A+6NqwQmOqyt66mPZedwpybV+QLRNt6m+MnQ+qVUWBt45hGz8pdyHo6mTKuVz0z2T0
+         JHy4/y7VfB2oLSj7FOtK7cdOJ8U/o6Y/FP02wNYtcdGXBS4BrAebZyzmMV03QofqZx4q
+         y0UPjYdBgrR5uwpiLb2ugSe+CiqbB2Gp7X8sDcA8Ao8Z+fXWCDBnum2WTvnNavBGYs4/
+         urMYrwiDPxUrMDz5BSeuiFJYuxYSuSosOWmt4kF9n71uAfvRJVbxRKTg3UgEr7iGBzuC
+         qhEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783519888; x=1784124688;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20251104; t=1783520543; x=1784125343;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=U9Xofox6Gj+24irZTw3dgn6Pa41AaL0ee+c7iWLXraI=;
-        b=F1PL5SIRIrII5zcxOPnDkxBi3pvq0MZOq7DKEcFnF02XKGgLn7IR1V9Ah4pNO3IVzO
-         xcDVbFDp7t2/7W+JkTO4EoqI6DfLmNynWAMkS9Agef/Oc49cABZ40H7RzI/mWfZ22qmp
-         4adOkJIX+xOdlpqN+Yi50EEybiJPnpqROAd6lfbveD06CNydlK/28HP8OnmXZPRGbinZ
-         zV8UEkrCWlzP2nJZqvLxmdUGqrqD1tszQieZ8K9tv1hRwS4Kn+EFCaUSlu39YgoiaBv+
-         zEELDEXoXuxMbV4DyjTiX4cTAzGcHSFj2hYbPTjpMyjVd92utI0lsEAbIGtd+575SgLs
-         8CQQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8Nei4OrLQNz8+VFDFU+f/NX0ZEWu2d1OEmP+yahD2D8qJBMbDfSNDIu1UXo2+HsNmdB12uqdsPD04=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyG4BETaQ/unMY1QRYapXPQlwQ8UH2bZNBa0X551HOA+tgw7X+P
-	trkrokOTSJif0JW1PPHXONOWB2nKOU6B2xLsKiaQ86k1VnZgxR3NUXzHipuZHf93ZaPbaZ9CjxM
-	gN/YLRVmkc32WH4hCmbDfm0rAtBATwtTWwI9F2KUunXaCgSTF1K76uNJiCDQ=
+        bh=JnfWEXBlBehbKveVFUNwsB1lliCmv111qtv5cAgi0xc=;
+        b=XsV1iZQXdjGYoYmXh3uFcyUnwE4BjIT9odnTn5EiPlfMFdkGFRNaR2a/pPKfRbRuol
+         Gh/WFMajy1jpDPAqtM6uOMnZy1P3hAa1Mrp0wK3KSmiKORGB8zMqXPXJdXqy9gF7JunG
+         NfuVn4jojM3lp2VlQjFf+5bbLhkyxBRIyz8am2mJbjvXlKgvkDfZHp77fK2jG8HRGdV4
+         u07oB9u2TD4XDNMdxtTIEqZ9whNliJwpilnLHFKlZSZWUooSuo8InYz7TS7XCtPh4M9d
+         YsOm/GeI0qQqytYsS7xhD2IHJgJAnCZwXQBfEVVlfZr0ZsJoqs1X66x2zphZqQOA0QB1
+         gGlQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp3NwkpXzfWfKrEjPyc4TpUHyPgz22sKP4ARWwWZOkl8EzpBlPQ1l+PCoxWg4h4iUkmy6gcTTJuSho=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFIoW8ZO85JPAxEfufJHHD2RRgSCanjkSfoACGbgKmwss3EDEx
+	1jxQmfWljAd9q3E+STs0snf9UxISGw0E5SqZig6pPxG+HjgGa3RDW4PjVOq4Q+E/u+pxF34szpM
+	tOyU2qg==
+X-Gm-Gg: AfdE7cn04KHO1zCRw8cHxkjIElC9oyHd94+zvE17AVWb2DtwgDzSPzac0mz2U//k87k
+	vb93ZZvBYpaLHwqd4ZB7YshABO3XG4Zxsh33XwfujdwH3Ng1Cm2xmQr0m1aIQztHO7Sfm+uQ2eh
+	a7YFjfUPlT2ftGW1jr+MGgL0FXVH3kMjvQXi3VSfwISRC4pBLyrM6/TTQ+jpBMnGPl79s9nxNDZ
+	nIkQr3/bI1nvdCZ6koY6mV/kSnnin5gYMgFPms1jI/RC9ybWxLkb+Ue1xFv9/GbhkKHOgm58hLV
+	ufn7LsWsCbfL7pCX6rMVKHtqch2GkjDzu0/CPL/Xr52Z+zSXFW0inWUdmPcItxaGS70Y8l9Sr/a
+	DUSzaasBN1F/I8KNaJwmYadEmEHcIJcRyNprCLq0Rfk1zE4/fTZSR0t1Et+fnJl3hGSYjn35/CQ
+	7f0P5cOZ/00nYs1A==
+X-Received: by 2002:a05:620a:1b97:b0:92e:5c59:f364 with SMTP id af79cd13be357-92ecea3a713mr286605285a.34.1783520542744;
+        Wed, 08 Jul 2026 07:22:22 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e9095e780sm1428986785a.0.2026.07.08.07.22.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jul 2026 07:22:22 -0700 (PDT)
+Date: Wed, 8 Jul 2026 10:22:19 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: syzbot <syzbot+e69c25cf38a53d0cf64c@syzkaller.appspotmail.com>
+Cc: gregkh@linuxfoundation.org, hdanton@sina.com,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [usb?] BUG: corrupted list in usb_hcd_link_urb_to_ep (5)
+Message-ID: <61ad2e9f-d4c6-4879-9b36-afbfada101be@rowland.harvard.edu>
+References: <69038243.a70a0220.5b2ed.0048.GAE@google.com>
+ <6a4a30a1.7b9523b0.16a4a.000b.GAE@google.com>
+ <bc26a2a1-64ec-4ae1-a7ba-2caf94785e74@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3384:b0:495:ebd3:ea52 with SMTP id
- 5614622812f47-4a201cf888emr2227805b6e.2.1783519888490; Wed, 08 Jul 2026
- 07:11:28 -0700 (PDT)
-Date: Wed, 08 Jul 2026 07:11:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a4e5a90.57639fcc.86d58.0015.GAE@google.com>
-Subject: [syzbot] [media?] WARNING in smsusb_stop_streaming (2)
-From: syzbot <syzbot+0927fcf047387215ed98@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bc26a2a1-64ec-4ae1-a7ba-2caf94785e74@rowland.harvard.edu>
 
-Hello,
+On Sun, Jul 05, 2026 at 03:23:29AM -0700, syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
+> 
+> HEAD commit:    2b763db0c276 Add linux-next specific files for 20260703
+> git tree:       linux-next
+> console output: https://syzkaller.appspot.com/x/log.txt?x=11f96ffe580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=bc069df559a09463
+> dashboard link: https://syzkaller.appspot.com/bug?extid=e69c25cf38a53d0cf64c
+> compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14a9dffe580000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=103d8b1c580000
 
-syzbot found the following issue on:
+Second try for this patch.  Maybe the current -rc will work better
+than linux-next.
 
-HEAD commit:    dc59e4fea9d8 Linux 7.2-rc1
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=142f6e6e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6ec4d592e55f7960
-dashboard link: https://syzkaller.appspot.com/bug?extid=0927fcf047387215ed98
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+Alan Stern
 
-Unfortunately, I don't have any reproducer for this issue yet.
+#syz test: upstream v7.2-rc2
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/8540695a33d7/disk-dc59e4fe.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/e144bb9cdc33/vmlinux-dc59e4fe.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6e3051bf9301/bzImage-dc59e4fe.xz
+Index: usb-devel/drivers/input/misc/cm109.c
+===================================================================
+--- usb-devel.orig/drivers/input/misc/cm109.c
++++ usb-devel/drivers/input/misc/cm109.c
+@@ -349,10 +349,14 @@ static void cm109_submit_buzz_toggle(str
+ 		dev->ctl_data->byte[HID_OR0] &= ~BUZZER_ON;
+ 
+ 	error = usb_submit_urb(dev->urb_ctl, GFP_ATOMIC);
+-	if (error)
++	if (error) {
+ 		dev_err(&dev->intf->dev,
+ 			"%s: usb_submit_urb (urb_ctl) failed %d\n",
+ 			__func__, error);
++	} else {
++		dev->ctl_urb_pending = 1;
++		dev->buzzer_pending = 0;
++	}
+ }
+ 
+ static void cm109_submit_ctl(struct cm109_dev *dev)
+@@ -361,9 +365,7 @@ static void cm109_submit_ctl(struct cm10
+ 
+ 	guard(spinlock_irqsave)(&dev->ctl_submit_lock);
+ 
+-	dev->irq_urb_pending = 0;
+-
+-	if (unlikely(dev->shutdown))
++	if (unlikely(dev->shutdown) || dev->ctl_urb_pending)
+ 		return;
+ 
+ 	if (dev->buzzer_state)
+@@ -374,14 +376,15 @@ static void cm109_submit_ctl(struct cm10
+ 	dev->ctl_data->byte[HID_OR1] = dev->keybit;
+ 	dev->ctl_data->byte[HID_OR2] = dev->keybit;
+ 
+-	dev->buzzer_pending = 0;
+-	dev->ctl_urb_pending = 1;
+-
+ 	error = usb_submit_urb(dev->urb_ctl, GFP_ATOMIC);
+-	if (error)
++	if (error) {
+ 		dev_err(&dev->intf->dev,
+ 			"%s: usb_submit_urb (urb_ctl) failed %d\n",
+ 			__func__, error);
++	} else {
++		dev->ctl_urb_pending = 1;
++		dev->buzzer_pending = 0;
++	}
+ }
+ 
+ /*
+@@ -428,6 +431,7 @@ static void cm109_urb_irq_callback(struc
+ 	}
+ 
+  out:
++	dev->irq_urb_pending = 0;
+ 	cm109_submit_ctl(dev);
+ }
+ 
+@@ -458,17 +462,16 @@ static void cm109_urb_ctl_callback(struc
+ 		return;
+ 
+ 	if (dev->buzzer_pending || status) {
+-		dev->buzzer_pending = 0;
+-		dev->ctl_urb_pending = 1;
+ 		cm109_submit_buzz_toggle(dev);
+ 	} else if (likely(!dev->irq_urb_pending)) {
+ 		/* ask for key data */
+-		dev->irq_urb_pending = 1;
+ 		error = usb_submit_urb(dev->urb_irq, GFP_ATOMIC);
+ 		if (error)
+ 			dev_err(&dev->intf->dev,
+ 				"%s: usb_submit_urb (urb_irq) failed %d\n",
+ 				__func__, error);
++		else
++			dev->irq_urb_pending = 1;
+ 	}
+ }
+ 
+@@ -480,7 +483,6 @@ static void cm109_toggle_buzzer_async(st
+ 		/* URB completion will resubmit */
+ 		dev->buzzer_pending = 1;
+ 	} else {
+-		dev->ctl_urb_pending = 1;
+ 		cm109_submit_buzz_toggle(dev);
+ 	}
+ }
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0927fcf047387215ed98@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-data & WORK_STRUCT_PWQ
-WARNING: kernel/workqueue.c:4351 at __flush_work+0xb75/0xcb0 kernel/workqueue.c:4351, CPU#0: kworker/0:0/9
-Modules linked in:
-CPU: 0 UID: 0 PID: 9 Comm: kworker/0:0 Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:__flush_work+0xb75/0xcb0 kernel/workqueue.c:4351
-Code: 01 e8 bf d3 11 00 e9 bf fd ff ff 48 8b 7c 24 18 e8 00 5f 9e 00 e9 f7 f6 ff ff e8 f6 5e 9e 00 e9 09 fa ff ff e8 fc 03 36 00 90 <0f> 0b 90 e9 38 fc ff ff e8 0e 5f 9e 00 e9 2d fb ff ff 48 89 df e8
-RSP: 0018:ffffc9000009ebd0 EFLAGS: 00010246
-RAX: 0000000000100000 RBX: ffff8881000ba405 RCX: ffffc9000fb4e000
-RDX: 0000000000100000 RSI: ffffffff817e05c4 RDI: ffff888101afda00
-RBP: 0000000000000004 R08: 0000000000000007 R09: 0000000000000000
-R10: 0000000000000004 R11: 0000000000000000 R12: ffffffff817dff1a
-R13: ffff88810006b000 R14: 0000000000000001 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff888268640000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f57d5145d58 CR3: 000000011669a000 CR4: 00000000003506f0
-Call Trace:
- <TASK>
- __cancel_work_sync kernel/workqueue.c:4494 [inline]
- cancel_work_sync+0xd1/0xf0 kernel/workqueue.c:4531
- smsusb_stop_streaming+0xaa/0x210 drivers/media/usb/siano/smsusb.c:183
- smsusb_term_device+0x8f/0x200 drivers/media/usb/siano/smsusb.c:345
- smsusb_init_device+0xb4e/0xbb0 drivers/media/usb/siano/smsusb.c:497
- smsusb_probe+0xd7f/0xe1f drivers/media/usb/siano/smsusb.c:575
- usb_probe_interface+0x303/0x8f0 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3772
- usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
- usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
- usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:291
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3772
- usb_new_device.cold+0x685/0x115c drivers/usb/core/hub.c:2695
- hub_port_connect drivers/usb/core/hub.c:5567 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x314d/0x4af0 drivers/usb/core/hub.c:5953
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
