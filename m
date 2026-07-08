@@ -1,108 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757973E7BC7
-	for <linux-usb@vger.kernel.org>; Wed,  8 Jul 2026 07:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57EAB367F31;
+	Wed,  8 Jul 2026 09:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783496592; cv=none; b=Rh7o7SEorNKJc/yKjZUrVhu4MaxWUFW2/+G5uaddvjmAK0qbXTnAP8drDtBSjhyjp+kNo5fmzTkZbuBdeGEioX1N3Wo0HLxkyNUyzzISVvn7EFCTMpjNIFYyXfxTOC3jffIDwuaFP6eCEz2/F4rhsDnibwVQE8U0eLaFFPYWbSU=
+	t=1783504734; cv=none; b=QxV65LIINM5TdofTCsIvQL2+GDzWhkOUT9XNl78rT2YMAmpVFln4Waj5DgpIiq6cVTAFkrB5ViPFiIBlUOALuilNpWL/ksQ6222zgEmpj5FHIAovaywdgTwVZZ/VUWRbZo7nHLDLqIhb8ne6KUcb3TmKuL747B94jpI6dUydIAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783496592; c=relaxed/simple;
-	bh=wqspe9peDUDf7Lj0Ckvg+Ou41duj870AZXBlowe/bLA=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jkr42pnMrE6lT4Yqr+fI06Bap4Cd17M+kARBNfmw09LNPUwaybLas9aFk4SrX76bdJe/ELFdb62Inqnx+CQ7hPVP3RI0KG/mNmzfNCT1vtIyP5PBZGe1qySJl9d0JPRogUfKAifmHGlUfvqoh7Gv3rO/RFVcNSHa6VoAW8u4fyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UdVixJQY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783504734; c=relaxed/simple;
+	bh=51W4xMdGTfZYWKyMifoJl4D3DqRiZkIHs+NR3TyhtOQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=GMjSrpt372hQSHY+IHycFDL3ywENoBNCqINAsWUEoXjB4LLuFihMQ64qhfMuhC5j2pTiTmr9RmAub6YXu+IZpedpSNl2Nhemx3+DnE/WvM1529Iwk4r/ICNNzSF9BdU9jPI+0eXmeHU/6aX5L49NGQbYQmzL/vraBbmMOEL4duo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=ah9iWdcU; arc=none smtp.client-ip=203.29.241.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UdVixJQY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5265F1F00ACF
-	for <linux-usb@vger.kernel.org>; Wed,  8 Jul 2026 07:43:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783496582;
-	bh=wqspe9peDUDf7Lj0Ckvg+Ou41duj870AZXBlowe/bLA=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=UdVixJQYfC8sGwm2LkLtOuhdj8rGXYZvhM/nEvj78/GfwKlgApbA2mM7v4TKCDBtM
-	 TkD+j6IdxnEthYn0jShnTGRcHvUl3uWT0ZDhmk6v26dbgga280PtMUZDwzHv6zk6w9
-	 Yi8sszDGyw24AvoZisXpI7QNHqYDfzKTPKFdZGUiCUBuP3uOnWP2zicuVvIaA40jxJ
-	 EVB46mt6atPqufA0m9s4aa5bEOsisUWJKTjqkHfv44JLBSqWrvCACa81iSvV/e8lQX
-	 OTmHzverjKM3OU5lQEPWgn0fZKvlavTlsO4QonPQHPIENoNkOtr3nIiF1feGEE3W9d
-	 dt2lpEp1ZXFPw==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5aeae771c49so466630e87.3
-        for <linux-usb@vger.kernel.org>; Wed, 08 Jul 2026 00:43:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrNp5NaiktUKb4IcXhdxSt0igx/c/LPPQj3KQrcKGPvmPneCkwG9kiDm0HTxPI/Zu/LOQ7zYOtG4ag=@vger.kernel.org
-X-Gm-Message-State: AOJu0YznTfgmORNy/iwOfvgneVeYPwdhjBEY1/OaUZNQraAtg2u5Af7M
-	SP1CAFMEjxszN0A4KmpBbAw5HvbjFBX2pNqv4lU70JT9UslQFJMVILatdkhxBZX81axHkEL4SA0
-	Lo9l6svYtJjZSg7rxU+DU3ZEL73zZ8TyA8E3AnfgM3Q==
-X-Received: by 2002:a05:6512:3a8:b0:5ae:a9eb:c5c3 with SMTP id
- 2adb3069b0e04-5b011478162mr274920e87.61.1783496580641; Wed, 08 Jul 2026
- 00:43:00 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 8 Jul 2026 00:42:58 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 8 Jul 2026 00:42:58 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <ak0jyUbNonSRiP_g@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="ah9iWdcU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=codeconstruct.com.au; s=2022a; t=1783504724;
+	bh=BT/RZYYVoc0gCsHBOMp+tg5rBdH6JU85lu53knTMkyA=;
+	h=From:Subject:Date:To:Cc;
+	b=ah9iWdcU3o3UPWSOVby5Jp3y/pDo1jmSmMgy9x6ezXMdYXfVANYTStNEJs/+ivFQ/
+	 gqijkUSQ0pbCYKryvi7j2ZqhohwRuV/Z8Gt4qc3Xj9/Cie5TwrZemwkcOBDS1zhNe+
+	 qJthO5MQykWScyFkr6Ve7AAiBTEOR2hmEygd+gywkT0TwK2EheO9BNF0mcODtr290q
+	 aH45cYVTAOBFvZRZv921j4QrLwWzQAXpaz6iuslCq8rdRh/Xl9RJf4Smo0JGT0DUlU
+	 QIN1Ex7ksjBeajvRRb0jrooc9qStapZe3d6mGvXbYp9qL/Il4PLiT1yD/K0u0+ffBA
+	 HZheIwpHhkQzw==
+Received: by codeconstruct.com.au (Postfix, from userid 10000)
+	id 71CE266526; Wed,  8 Jul 2026 17:58:44 +0800 (AWST)
+From: Jeremy Kerr <jk@codeconstruct.com.au>
+Subject: [PATCH net-next v3 00/12] net: mctp: usb: Add support for
+ MCTP-over-USB v1.1
+Date: Wed, 08 Jul 2026 17:58:31 +0800
+Message-Id: <20260708-dev-mctp-usb-1-1-v3-0-9e710155cdbf@codeconstruct.com.au>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
- <20260706-pdev-fwnode-ref-v3-5-1ff028e33779@oss.qualcomm.com> <ak0jyUbNonSRiP_g@ashevche-desk.local>
-Date: Wed, 8 Jul 2026 00:42:58 -0700
-X-Gmail-Original-Message-ID: <CAMRc=Md7-XMBKpdPuZ4=epfTn6F-PXKJBZNPGuz5xbVy58BHsg@mail.gmail.com>
-X-Gm-Features: AVVi8Cc97SNnhCE85729H_fOi3Wx8wY1APMX-PhjHPSFVtKB-jxewFEQvchpN2c
-Message-ID: <CAMRc=Md7-XMBKpdPuZ4=epfTn6F-PXKJBZNPGuz5xbVy58BHsg@mail.gmail.com>
-Subject: Re: [PATCH v3 05/20] driver core: update kerneldoc for platform_device_alloc()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Lee Jones <lee@kernel.org>, Mark Brown <broonie@opensource.wolfsonmicro.com>, 
-	Thierry Reding <thierry.reding@avionic-design.de>, 
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Srinivas Kandagatla <srini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Vinod Koul <vkoul@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
-	Andi Shyti <andi.shyti@kernel.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Doug Berger <opendmb@gmail.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Ulf Hansson <ulfh@kernel.org>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Matthew Brost <matthew.brost@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Peter Chen <peter.chen@kernel.org>, 
-	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Maximilian Luz <luzmaximilian@gmail.com>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, 
-	driver-core@lists.linux.dev, devicetree@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-pm@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, intel-xe@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, 
-	linux-mips@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	mfd@lists.linux.dev, Manuel Ebner <manuelebner@mailbox.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEcfTmoC/3WOyw6CMBBFf4V0bUlLsRBX/odxAe0gNaHFvoIh/
+ LsFTFyomdXNzD1nZuTAKnDolM3IQlROGZ0CO2RI9I2+AVYyZVSQghNOSiwh4kH4EQfXYpqGd7I
+ +lo2kDGqUaqOFTk0b8oI0eKxh8ui6b1xo7yD8SnzfWniEZPV7YT3rlfPGPreXIt0wu52Rb3ukm
+ OCaN4zSTvCqrc7CSBBGO2+D8LkwQ96ETR+LD6si7AerSCxOWMLUnLaM/WEty/ICmhiO2zgBAAA
+ =
+X-Change-ID: 20260604-dev-mctp-usb-1-1-6fd854ad13e8
+To: Matt Johnston <matt@codeconstruct.com.au>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org
+X-Mailer: b4 0.16-dev
 
-On Tue, 7 Jul 2026 18:05:29 +0200, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> said:
-> On Mon, Jul 06, 2026 at 02:44:17PM +0200, Bartosz Golaszewski wrote:
->> Users of platform_device_alloc() + platform_device_add() must not modify
->> certain fields of the dynamically created platform device object. Update
->> the kernel doc to say which fields are affected and which functions to
->> use.
->
-> Consider using __private checker attribute for them as well. It will make
-> sparse scream.
->
+Version 1.1.0 of DSP0283 (MCTP over USB transport binding) has been
+released, this patch series updates our current v1.0.1 support for the
+changes in v1.1.x.
 
-Sure but let's leave it for another series.
+The major change in v1.1 is the introduction of "packet spanning" mode,
+where a single MCTP packet may be split over multiple USB packets
+(themselves forming a single USB bulk transfer). This relaxes the
+requirement for USB high-speed mode, as we can now send MCTP packets
+contained over multiple 64-byte full-speed USB bulk transfers, and gives
+us an increase in the maximum MCTP packet size - we now have 13 bits of
+packet length (previously 8) in the transport header.
 
-Bart
+Handling packet spanning introduces some complexity in the transmit and
+receive paths, as we lose some constraints on where packet boundaries
+may correspond to USB transfer boundaries, and may need to retain state
+across separate transfers. To contain this complexity, we introduce a
+new library for the transfer packing- and unpacking implementations,
+"mctp-usblib". The host driver is a consumer of this library, and a
+future gadget driver can use the same implementations. We can now also
+implement tests on the API boundary of the library.
+
+The series implements an incremental shift to mctp-usblib, then
+implements packet spanning mode in the new library. We have a few
+changes to prepare for this, in altering a few constants and
+behaviours as v1.0-specific. Once packet spanning is implemented in
+mctp-usblib, we enable it in the host-side driver.
+
+To: Matt Johnston <matt@codeconstruct.com.au>
+To: Andrew Lunn <andrew+netdev@lunn.ch>
+To: "David S. Miller" <davem@davemloft.net>
+To: Eric Dumazet <edumazet@google.com>
+To: Jakub Kicinski <kuba@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: netdev@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
+
+Changes in v3:
+- split rx urb status handling to a separate change, handle stalls
+- merge tx anchor usage into initial usblib implementation
+- add skb drop reasons
+- prevent unnecessary skb reallocation
+- Link to v2: https://patch.msgid.link/20260703-dev-mctp-usb-1-1-v2-0-60367b861b33@codeconstruct.com.au
+
+Changes in v2:
+- address sashiko reviews:
+  - rx mac_header correction
+  - rx/tx stats fixes
+  - limit non-spanned packets (where we have no ZLP) to max size
+  - handle transient rx urb error status
+  - set skb_drop_reasons
+  - kunit early-exit cleanups, take rntl lock where needed
+- rework tx_qmem locking and anchor handling (we don't need to unanchor
+  on completion)
+- Link to v1: https://patch.msgid.link/20260630-dev-mctp-usb-1-1-v1-0-86a311fc67b7@codeconstruct.com.au
+
+---
+Jeremy Kerr (12):
+      net: mctp: usb: Include version indicator in max packet size defines
+      net: mctp: usb: Use packet-length max for maximum packet-size check
+      net: mctp: usblib: Move RX transfer processing to a new mctp-usblib
+      net: mctp: usb: Improve IN endpoint status handling
+      net: mctp: usblib: Move TX transfer processing to mctp-usblib
+      net: mctp: usblib: Add support for multi-packet transmit
+      net: mctp: usb: Accommodate DSP0283 v1.1 header format
+      net: mctp: usblib: Implement receive-side packet spanning
+      net: mctp: usblib: Implement transmit-side packet spanning
+      net: mctp: usblib: Add initial kunit tests
+      net: mctp: usb: enable v1.1 packet spanning
+      net: mctp: usb: Allow multiple urbs in flight
+
+ drivers/net/mctp/Kconfig            |  16 +
+ drivers/net/mctp/Makefile           |   1 +
+ drivers/net/mctp/mctp-usb.c         | 315 +++++++++---------
+ drivers/net/mctp/mctp-usblib-test.c | 410 ++++++++++++++++++++++++
+ drivers/net/mctp/mctp-usblib.c      | 616 ++++++++++++++++++++++++++++++++++++
+ include/linux/usb/mctp-usb.h        |  88 +++++-
+ 6 files changed, 1297 insertions(+), 149 deletions(-)
+---
+base-commit: b85966adbf5de0668a815c6e3527f87e0c387fb4
+change-id: 20260604-dev-mctp-usb-1-1-6fd854ad13e8
+
+Best regards,
+--  
+Jeremy Kerr <jk@codeconstruct.com.au>
+
