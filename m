@@ -1,78 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FB2426EAE;
-	Wed,  8 Jul 2026 12:11:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0579242B731;
+	Wed,  8 Jul 2026 12:31:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783512713; cv=none; b=a2uD5+Hnzna4cFh7t8WjwpFKrhGCqF5b0/3o4F2PidLvmLPn58R9x1WsPO/dL2x9O/r2llN1ygFuJ4zH4st8Zb13NG6cnuE5hW/zQFqQNKoSktmSJ+cxxEK7lzafHq+/s41ID3M1X9ZfTY+Tvko+qUSNQKoqgqly9IVojXxWBA8=
+	t=1783513895; cv=none; b=ALxXf59Pxf0+Yi4KcOcu9tA9eOS4iM6IqD9YinQ3TQf4N8jxA3dUYfeZH6OQll16pxSa3SNIBE2VvWOa4Q1sYTGzFjDc7D6Fkq9QYdwz8ZceNygdWGTAk6WpNkwDyLDW87ogX7tKefzsZEGj8kMNsmGwQhMz2wMCRuHjGLRWlW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783512713; c=relaxed/simple;
-	bh=YuVg/A8nzbR1vzy0BVnG94qB5k4N0tm9uyq1MkxAyOQ=;
+	s=arc-20240116; t=1783513895; c=relaxed/simple;
+	bh=UlPvk90QVcpFdhgogM/aLjPtfKdOO0nheO89hp3m5wg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kxMoj2Vd82KZZDVYe0gqoXhZiud8JvAZf+45PD7/YlpX9bwdhmv8G9REbNq3ir8p2U1atuadVRUs86JUzaRCjSTIL5m5rGQlQC6r9dfJjECQqeqdcG0GFciCyv39DW0a+QuS0Jy0nR8b9U0ytBm7JKlX3GP5F6p6Ye0UHvIZylI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CqNufpfn; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=QwUcKtW8iqjI6EKZOQJ4IensMEu1b0lMUIrv6IqtW3Chk/j7LEMz7xnxgdr+7CGkhEBlolQPeJH1fkJo7yhEvgpFg+Pfsos4/Zd6ftOQA91b7bZC+ebkQZKYSNifo5zw7xMOk+QOlR1R+7KTATyr9jeAeE1mjArvk3rYFnqpzmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=g2YVLFV3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CqNufpfn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6E561F00A3A;
-	Wed,  8 Jul 2026 12:11:51 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g2YVLFV3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EBAA1F000E9;
+	Wed,  8 Jul 2026 12:31:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783512712;
-	bh=lOEKoGrPdbGEP0PG5ifUz/gaynrGE8HN3ZFwVGtxRxc=;
+	s=korg; t=1783513893;
+	bh=VaUyrtBS5v3BjuBJgu1WRh8Ed/syGoAzR+MvI982N2c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CqNufpfnknqItvJjJ/nWpdJ9HwB93gO/jZGcvgTJRPJRaqJNiLsUPUV+JI4F3+pGE
-	 i/aara5ISG8l9oHCAJ+w2q+rEKks9YbySyDVx6RFEA587F+z+OCXfxemdBF4zy0zl7
-	 bN4yK/9FcrB388W9BP8qbrwtNNzBNL0F6n6jduyA=
-Date: Wed, 8 Jul 2026 14:10:35 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: =?iso-8859-1?Q?Nicol=E1s?= Antinori <nico.antinori.7@gmail.com>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Benno Lossin <lossin@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Boqun Feng <boqun@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] usb: rust: Use pin_init::zeroed for usb_device_id
- initialization
-Message-ID: <2026070828-sedan-unisexual-b1d6@gregkh>
-References: <20260625224927.404258-1-nico.antinori.7@gmail.com>
- <CANiq72mx1EDo4EYLUMN63_MtScJjobbPH3QCZ50oJCnZ9vc27g@mail.gmail.com>
+	b=g2YVLFV3hMEyQk0Y7+nucRiVAb1I8zdIV7pY4BhIX/21ENNQKSpdDKCw2HvqIrdGt
+	 KMUycY06k5G64LMUd+ElCBG4mAyze+JkxTkIR59V0zGhRAMnzwZ8Gyi6lruEZaFj+Z
+	 sJoe4M6k1QJFyCDjzwPwH4rpsJHeYXr9Y32Gusqg=
+Date: Wed, 8 Jul 2026 14:30:16 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: raoxu <raoxu@uniontech.com>
+Cc: sakari.ailus@linux.intel.com, mathias.nyman@linux.intel.com,
+	katieeliu@tencent.com, johannes.bruederl@gmail.com, kees@kernel.org,
+	dengjie03@kylinos.cn, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: core: config: fix SS companion log for interrupt
+ endpoints
+Message-ID: <2026070808-bagpipe-clapped-a369@gregkh>
+References: <85BCDBC1F65453B0+20260603062536.517734-1-raoxu@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72mx1EDo4EYLUMN63_MtScJjobbPH3QCZ50oJCnZ9vc27g@mail.gmail.com>
+In-Reply-To: <85BCDBC1F65453B0+20260603062536.517734-1-raoxu@uniontech.com>
 
-On Sun, Jun 28, 2026 at 12:08:56PM +0200, Miguel Ojeda wrote:
-> On Fri, Jun 26, 2026 at 12:50 AM Nicolás Antinori
-> <nico.antinori.7@gmail.com> wrote:
-> >
-> > All types in `bindings` implement `Zeroable` if they can. This enables
-> > using `pin_init::zeroed()` for `usb_device_id` initialization instead
-> > of relying on `..unsafe { MaybeUninit::zeroed().assume_init() }`.
-> >
-> > This change improves readability and removes unnecessary unsafe blocks.
-> >
-> > Link: https://github.com/Rust-for-Linux/linux/issues/1189
-> > Suggested-by: Benno Lossin <lossin@kernel.org>
-> > Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
+On Wed, Jun 03, 2026 at 02:25:35PM +0800, raoxu wrote:
+> From: Xu Rao <raoxu@uniontech.com>
 > 
-> Looks fine -- if needed I can pick it up via `rust-next`.
+> usb_parse_ss_endpoint_companion() clears bmAttributes when it is
+> non-zero for control or interrupt endpoints.
+> 
+> The diagnostic message reports Control for control endpoints and Bulk
+> for the other branch. However, the other branch can only be an
+> interrupt endpoint because bulk endpoints are handled by the following
+> else-if branch.
+> 
+> Report the endpoint type as Interrupt instead of Bulk to avoid
+> misleading descriptor diagnostics.
+> 
+> Signed-off-by: Xu Rao <raoxu@uniontech.com>
+> ---
+>  drivers/usb/core/config.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'll take it, thanks.
-
-greg k-h
+Does not apply to the usb-testing tree :(
