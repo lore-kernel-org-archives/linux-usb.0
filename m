@@ -1,75 +1,77 @@
-Received: from fhigh-a2-smtp.messagingengine.com (fhigh-a2-smtp.messagingengine.com [103.168.172.153])
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063423939A6;
-	Wed,  8 Jul 2026 11:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E98893CB8E6;
+	Wed,  8 Jul 2026 11:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783508960; cv=none; b=MLoxuaxw7ZAEVjHgt9T243j30tNT5+Ua82Ne0w9mskVkWNA9YW3/MAUZPdDQ9qJ0UuRICJQ167Ecf0DSkbb3ftgnj1UoM5EHd0eINznVmQGdVWKMghvjR9WO/YfEihgZHtFL2VX3Y/mJUb83RhyhavgPvURw5/H/6olepx4SEvE=
+	t=1783508961; cv=none; b=Ci9GH1QwkwOKi9SqeOcSXiBGAl478ZmBAPRSRi5vyPM+RAwU0XLQYOV5VXpm/BMi5bQr62eV7TBtXGBKMZUTYwPQwvuNZYzbPmv3i7il53wCjrqvdZnb7XXqq93JOKuU75mt8vzYLq+TvUxQH5QzVNIbWoSrArEGhVUHn+Q8Cjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783508960; c=relaxed/simple;
-	bh=MhHo9XSFsIKLsBWQktlhIERkysg7r9KBiGVCZTezemQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=WC26M+3NbahcUXQBumyzoPwkl1bNAE3Q3EI8pp0P8cNMLtt8Yw6UvUToEel0T3zJcygrffaFr8TQpw6yy/FNBh2oI6ov/pemLQTZEqm6H3k+wqbvha6ktJF1UFcorcsuqeCD3YEKI+yjDTeWmXWxHo3E2LMrYOFCb8dE+Lxnmus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=t8kzCSIt; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nGGizKph; arc=none smtp.client-ip=103.168.172.153
+	s=arc-20240116; t=1783508961; c=relaxed/simple;
+	bh=qSnpeiV9iw337dLNPTsKq3J4jDomRf+T26wV9gNUbcs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=fuCim8ALSrS03WWbcHYu6O39kVTeTlrvDf9IZX52zm+R4xV7nG4MwahB4dX9LPsOsISomEiFu/TfWzw8O406paTa2mPkqDhuiTMRl4RAMQ0weOSKdRTEiWCow6lRkMdqqulGbl7347dCTacQMsmLWlj16+GDN4sMaEIufg917Ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=P23QHUzu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oqfYpH5r; arc=none smtp.client-ip=103.168.172.145
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="t8kzCSIt";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nGGizKph"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 7E35E140008C;
-	Wed,  8 Jul 2026 07:09:15 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="P23QHUzu";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oqfYpH5r"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 9E6A4EC0125;
+	Wed,  8 Jul 2026 07:09:16 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 08 Jul 2026 07:09:15 -0400
+  by phl-compute-04.internal (MEProxy); Wed, 08 Jul 2026 07:09:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1783508955; x=1783595355; bh=k4
-	xHGSFJhM4nXzWbcLXLhccPhr4UBUQKQQNK0Eb90Co=; b=t8kzCSItFwYxlgy1Rh
-	uyXluKS4Wv+zwmIJdafK6FprJn/fnpR939q/6GO126ZfnYsu96RGLwbHW7C+idZJ
-	5H3aHhsHcrnaw9Zc4wmgfJFzonIU8WSIQvktTesRh9Sj0KYjpeTsP0ifis0+v2Ed
-	QkHCBCQkv3Ll/WaWJZWNc8BrvxnsokK4aa9oP01j/qZHzYJM/6XdK+JjILFTmJPU
-	xFfz783jFCBzvoBH969lVNgOU823hftpbOaC0fYzcUXd/k1UF4WMsErWMruYuhGP
-	xfI9TLE1g2NFXS3TfBnmqVcwCy294MEa4kl80fuqvHueCbbMpCji/HKaAUPtvj6F
-	M7LQ==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1783508956;
+	 x=1783595356; bh=ywKLHS1ya2Tp16JTNI1vjeftQff6ooYldMkRKhITw0o=; b=
+	P23QHUzuR2ihkB+OhY6nr5zwQLVyfhKlDtNxJnbKCNpZXEXH8qlmTRZWZy2VxgFu
+	wcAzVY9Rl/SzGhTvZS1GbQHzm75z92eEJeaVhAM4p3jdpBwXfKOfbPD1232q9KBV
+	efK55oya4OwSg4x61apT0Vv2dCto6TcTRCSA2eOkTu7I59lSZsacDkz4g0vaFwi6
+	Qmbs6h12RaUutZOphqaH3S+tYZnkCVjVY+DYqDuOi6L6KlSovES4gB0GFPlLx1OX
+	63f62/M84UUQ2vAsmIf28+8+3Jg0rjp3Avd6Bpw9iMarDXGTEQEEmhTLrcHHwCOi
+	hOdM+KcUv1hxelgGrpOyHQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1783508955; x=1783595355; bh=k4xHGSFJhM4nXzWbcLXLhccPhr4U
-	BUQKQQNK0Eb90Co=; b=nGGizKph1uKEpY2p+rQPvq7WLqnrkTUUQau4ao9hmXtM
-	xd/Q35/rxUCpunAz0wHDtmTjeaLbzT4f4U6KvyHLVxQymID56/D2uDQEi80nsbND
-	lkgawbV+FfrhcUuNPvENdUDrf7cGgKd3JTOqDLStDbF4NUI4hkWUhU6CUAvsbKuT
-	aMtea4E2NEKOS2Jv0fFZmlKH59L7yvXGmeVVXcjcPMruWPS1/OJOUogW63YLijoe
-	+GnrlLd1Nv/ShVf9bY0oaxkHnG/likWQBE6aXP5xVVrghL3T2IBlaXJ9azDIBR5d
-	Gt0961DGyhX7whepUG25yAyWl7n/lL2IidgummuG+w==
-X-ME-Sender: <xms:2y9OarmlrvbI3UaNTH9DQCcua-ss7bxLF57qiFp9zj0jH2rVzhfBpw>
-    <xme:2y9OasrT7P4mQZmfayWZvrlE-KNLm5vFba_JR1MNhnCfZY9cp76Sl10TNeZfNH76-
-    5VdsH_JpBEszY7aMvs6Umb9nsC4lF6-DbYX52xxc_VjcoxEWA_E>
-X-ME-Received: <xmr:2y9OasHelmj0ZryLAmQRJ3gciFk647VehTI-eGtsjYfx65MAcAcBzaDXEI6qMHsBDL0ljbaPurOT0TytVKloQc89lFjtQSXw6A>
-X-ME-Proxy-Cause: dmFkZTGRbKh8/gKTkV8kspX35pUtWO9CURH+A+hnUS5U1uCLlOZnIObprhAqWt1eG9f5cL
-    BfKDlFte2ti3JJYE+ZuDunu/mkTIIfN2bfgzsq3daG/UKG1gL55pp5FkHNI5KsVPyWmz5t
-    cik6wswENaajXguSbO5jUFXBh+Ius6cGmZNqSLr5yucSn0wwstGml0wJPkKiXHsL4uw9I8
-    7fFyKi2v+TsV3V3bkGKw90s26vDgxREZ0huDLkz46zHdTRdjbgTZH+vE1w1QvwQfbuLCdH
-    3mnAsz+EJyAMSL0yZps3c+gGhpCql3k1B+H7UAdAM+A1Q2sFrUkVtjCTqag6ZV0EUgQbdb
-    nqV0AZTlVwkTFNK5qLtldVCTKCetOvKu3Ud0T8f9Bm4eDHyKuZVHULU9RS1gCYB0aWe6Eo
-    orrwXKYRCTvaEu7Fpy+k7378geIZvMhW0vQvRwS1g7PIWWU/eGavGUSmYpiytvhypz5Q30
-    bIDmo2zkYxaOfliFOmcmHGCVZ6xCLe3FqVGe6+0GfuUPYo4uv3B4wk97dTY7J9yOSELTBA
-    PkqmIwILua6SVS0a3erQ5p8gx9xAsXxf7cmTO6TOmxBZQOKKtOakCF7tzd9Atj6tLJvSHW
-    FDrdkiktpX4TDSEnxhZf/ZyPFGS+JVDDlMOLVwcE3VN3rTbNjpoQO140lwLQ
-X-ME-Proxy: <xmx:2y9OagyM4BrLmh70pigSn1d8MLWo3H8_xVD_iPyOwol5DPXI9qpdSw>
-    <xmx:2y9Oapp8aTr4DnLZ7JLxE74TUSql_2Phc3RIzSZlRGwHzWhaYdmdAg>
-    <xmx:2y9OaihQASoCtQ7yjdmhQEe8bbzOvdZLgjQp4bHqsdehOvAjIRmFYw>
-    <xmx:2y9OauijhUjC9lX3AfAbYqC68XR1wQwraxAg1QM2mYVq3YR657w5Nw>
-    <xmx:2y9OaqgGXQ_NbxRyC5p5Qs9zNk7kA0cHreCshaUmYXSIISH8diw-l_eO>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783508956; x=
+	1783595356; bh=ywKLHS1ya2Tp16JTNI1vjeftQff6ooYldMkRKhITw0o=; b=o
+	qfYpH5rlOFJl7msDZUMOsZMhm03kzMljzSukADVxlRWE0K6aBEBRLe9ql9PzzkMe
+	exTcpwcvyQFvIAyn2KQAqktosdCyXM10yyb9TRRY0SQadI4rpTdwqy6FdlJ3fSmO
+	ttDm53Ujf3SF4tRjE7BLJXSPgVcFgentkAbre+n9Rolx4MKgPxARBzCoioGgRaq+
+	ggU/Gj5YgASD9n8rIrl9urt/Z8vSpcNlSTlkvcED8nvg3ePY6WS49FGgfpxmlcKR
+	kRr2hm8Y5P7ROTiZYT6hgjuYX90AZFeTQe0KsI0BHZbJwejRje3ws7v79UtrImNR
+	gfXYz/5bG4vXIVGsAP3SA==
+X-ME-Sender: <xms:3C9OavfCQC2fndoGCnKSmNEwBVNqqpaFGOrYGhlSlUE1oI_69E3YRg>
+    <xme:3C9OajD7kDp8XULICaHfCCQ2k67054IRXcNFsgPYBIn0rCxEWLhDOivjyEl59Vh2X
+    fEKBbGfph0YIPrMIY-3KAjtkunjJwrpvuADrihrBOL8yXs5w_8>
+X-ME-Received: <xmr:3C9Oai9J6Q7YsE3lMMQ6W5PjVlwUs-ZnJjBg2R6YY4YU7w8R4maVRzZNMynOF0rRWeJ1Gfn40IhrIjCYkEPatWes2rO9woBpcg>
+X-ME-Proxy-Cause: dmFkZTE1aCyK7zBLmWB5Sqkbbd0SSm1kpYulWaxJJ7KzlQp89Lfi/lwEOllrTRuMRchqSc
+    I2eSYjRWK/dURgyadGvaWKd0zFhRbdOZMfJ4R9C5sspgkt7AdXbZb0A18C2iOHgi0aLPRG
+    gaEIfBf587q8NdigtEY8HXuStLNZUq6DgP2VZg5oUdpxt6xQbS6DhIJ8l9+3alfRRzNJ1K
+    0+tM5+QpfEtqdn8tbu6p7zHspX9q7J+e6l9ZlCvewqJaozpBEHww71/3o3U/+7OlWFQsb+
+    52vC6DvnLYeQKXrV+7bJx509rx+CC4AW0gJPPeFfExXRSE8Nb61SGUHi9vQJTf7iSWJaP7
+    7vWhuVGx0D6pQyUqFtEg/kakYXifdkiICcXJxiETGioBGr98y8UbXFOq7TZQdZDlNKpjin
+    KXOjOA7c90afYu1t9rRPN5d/t/F+Nuz8Wt3vmxf1+xfimUCNCpfRdwOGLaPXxYSqnMPSdL
+    Ldu8cWJ2Gks74Gfy9lcvUVXrIbRNLvfoEersthGKG0A5ku57XDlC0aXU55CMzxYPGXVfLl
+    TqsQ3omyEnkvaQN0jDBbnQhs0XnhyE2CVuSYHNWZcmK9lKjj89VMPYpD7aBF6O6MEy7l8Y
+    RiGroNBbAN7oG3oog0TdQkElduoJ4fq0OUz7hVEFGKx8Dl042Z0G9ZUayRFw
+X-ME-Proxy: <xmx:3C9OauKw_njeiTcDhl-7loifMtDdGiFAuUSayiB6pGNP6Va_Ybg_LQ>
+    <xmx:3C9Oarhvn-tYWIvkuvIARFYEt20AhhEeTT2c4hjuoqmwZ0bxQzBoQw>
+    <xmx:3C9Oau7HDjrgXXenXrfehOVK9ZER0KjEaI2god5mLQnrINsHhrL5KA>
+    <xmx:3C9OajaHZVbqgC8r47avUvZFY-IHo4Tg_TnbzLFBgfJIZG_TdytLSg>
+    <xmx:3C9Oaqakp11DJWhPRmFbOI0Isr_IDPE9Bm4Kr34oVZcWAxyLVWidIanc>
 Feedback-ID: i1d2843be:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 8 Jul 2026 07:09:14 -0400 (EDT)
+ 8 Jul 2026 07:09:15 -0400 (EDT)
 From: Griffin Kroah-Hartman <griffin@kroah.com>
-Subject: [PATCH 0/2] Error checking in rndis
-Date: Wed, 08 Jul 2026 13:08:57 +0200
-Message-Id: <20260708-usb-gadget-rndis-v1-0-e77e026dcc6a@kroah.com>
+Date: Wed, 08 Jul 2026 13:08:58 +0200
+Subject: [PATCH 1/2] usb: gadget: function: rndis: add length check to
+ response query
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,38 +80,72 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMPQ6DMAxA4asgz1gKKX/qVVAHnJhghlDFUFVC3
- J3Qjt/w3gHKSVjhWRyQ+CMqa8yoygLcPMbAKD4brLGt6UyPuxKG0QfeMEUvitQbR/Sguuks5Oy
- deJLvbzm8/tadFnbb/YHzvACCbZTAdAAAAA==
-X-Change-ID: 20260708-usb-gadget-rndis-b80cbb3b4572
+Message-Id: <20260708-usb-gadget-rndis-v1-1-e77e026dcc6a@kroah.com>
+References: <20260708-usb-gadget-rndis-v1-0-e77e026dcc6a@kroah.com>
+In-Reply-To: <20260708-usb-gadget-rndis-v1-0-e77e026dcc6a@kroah.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Griffin Kroah-Hartman <griffin@kroah.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783508953; l=633;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783508953; l=1927;
  i=griffin@kroah.com; s=20260706; h=from:subject:message-id;
- bh=MhHo9XSFsIKLsBWQktlhIERkysg7r9KBiGVCZTezemQ=;
- b=Plo5pNCGxq/IrZgdROyJDX7+2gecgkxB4gs3joRixXqt2siaiTy5JvYgEAn3LjNFyjRkQ9zKA
- Jya81pHGZqsDT3VRerSigEoeodlqL215PMcggd3acM92rWnhz6tt5c/
+ bh=qSnpeiV9iw337dLNPTsKq3J4jDomRf+T26wV9gNUbcs=;
+ b=lMNmgBsaqunPDcsHkjeROBNaGeQZbLFAWJ7o4YvDDxPCczblSnB+9eXxWe6itWtRMKiFAUNyj
+ ZHKxo/VvFt7BvJ7s4mFctuBrwgwrEgkfqZFYskS1jv6Ry1zqnDcTuct
 X-Developer-Key: i=griffin@kroah.com; a=ed25519;
  pk=Hy1TuVHERdQhLAWwjmxLFNtGj7eEEjaZWPXehAlic5M=
 
-Small patch series for two changes in
-drivers/usb/gadget/function/rndis.c, both related to error checking.
+Add variable representations for BufLength and BufOffset in
+rndis_query_response(), and perform a length check on them.
 
+This is identical to how rndis_set_response() handles these parameters.
+
+Assisted-by: gkh_clanker_2000
 Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
 ---
-Griffin Kroah-Hartman (2):
-      usb: gadget: function: rndis: add length check to response query
-      usb: gadget: function: rndis: add length check for header
+ drivers/usb/gadget/function/rndis.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
- drivers/usb/gadget/function/rndis.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
----
-base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
-change-id: 20260708-usb-gadget-rndis-b80cbb3b4572
+diff --git a/drivers/usb/gadget/function/rndis.c b/drivers/usb/gadget/function/rndis.c
+index 3da54a7d7aba..fe2018ff071a 100644
+--- a/drivers/usb/gadget/function/rndis.c
++++ b/drivers/usb/gadget/function/rndis.c
+@@ -591,6 +591,7 @@ static int rndis_init_response(struct rndis_params *params,
+ static int rndis_query_response(struct rndis_params *params,
+ 				rndis_query_msg_type *buf)
+ {
++	u32 BufLength, BufOffset;
+ 	rndis_query_cmplt_type *resp;
+ 	rndis_resp_t *r;
+ 
+@@ -598,6 +599,13 @@ static int rndis_query_response(struct rndis_params *params,
+ 	if (!params->dev)
+ 		return -ENOTSUPP;
+ 
++	BufLength = le32_to_cpu(buf->InformationBufferLength);
++	BufOffset = le32_to_cpu(buf->InformationBufferOffset);
++	if ((BufLength > RNDIS_MAX_TOTAL_SIZE) ||
++	    (BufOffset > RNDIS_MAX_TOTAL_SIZE) ||
++	    (BufOffset + 8 >= RNDIS_MAX_TOTAL_SIZE))
++		return -EINVAL;
++
+ 	/*
+ 	 * we need more memory:
+ 	 * gen_ndis_query_resp expects enough space for
+@@ -614,10 +622,8 @@ static int rndis_query_response(struct rndis_params *params,
+ 	resp->RequestID = buf->RequestID; /* Still LE in msg buffer */
+ 
+ 	if (gen_ndis_query_resp(params, le32_to_cpu(buf->OID),
+-			le32_to_cpu(buf->InformationBufferOffset)
+-					+ 8 + (u8 *)buf,
+-			le32_to_cpu(buf->InformationBufferLength),
+-			r)) {
++				BufOffset + 8 + (u8 *)buf,
++				BufLength, r)) {
+ 		/* OID not supported */
+ 		resp->Status = cpu_to_le32(RNDIS_STATUS_NOT_SUPPORTED);
+ 		resp->MessageLength = cpu_to_le32(sizeof *resp);
 
-Best regards,
---  
-Griffin Kroah-Hartman <griffin@kroah.com>
+-- 
+2.55.0
 
