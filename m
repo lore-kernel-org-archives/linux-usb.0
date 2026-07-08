@@ -1,93 +1,93 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726B43ED3CD
-	for <linux-usb@vger.kernel.org>; Wed,  8 Jul 2026 22:24:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4152F3C19
+	for <linux-usb@vger.kernel.org>; Wed,  8 Jul 2026 22:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783549443; cv=pass; b=S9A0o8VbVcyIDYJSZoY8I1xPrCEjAtOSvOLeWJ8ua9RCIjoDKxYQBAeHBX0zUBUzlyJpNrvM9wvFfjknnw+yRBNxufvhzhMOgEeNddDe1SN9FRUiYR9cWrkBVXIj4z2kiAPbsfo9xlkerFW2l+wdgOnLxDoj6LqWz7dJL9kdGGk=
+	t=1783549915; cv=pass; b=qTsFaELfQYcuILdfIlV8KSfOUa35fFAzfdvde7TxF/dLHvrbNQ31gTdBzGa8heNapkVjx+k+4NjetBbUdEZWueBGTbpfVvljxuwV18JGuw6LtQEldYhqnF/HY5v/E1MqakZRK8Jeglbw6wNVLyFweUPH6p4pK7s+pnJUt2mmsKo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783549443; c=relaxed/simple;
-	bh=jdg3T50er9MytSv9eMEBOZEkYT0CDQly6E6qnqaXQL0=;
+	s=arc-20240116; t=1783549915; c=relaxed/simple;
+	bh=M3NYpKurYy+y9G1Ij7agkc7OHcEYpD8U4cPynmWykzM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YpupnfZhB4XcZ1zi2VPCwAXPVQxyNwVTgyS9SvpmYTkf8YOGoH8T0pbhQcMcqSd+a4ex64vXEAhVx6sAbiUWIXgAfao5gxn45U1e1DfT/EIACLVvdrmImDMS++6j7OiTiClCtLpOODuKhnx6rZ1wY9jDGI2VkpDmfItEjbI0i7U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=af1yaPsI; arc=pass smtp.client-ip=209.85.161.46
+	 To:Cc:Content-Type; b=k8gP09UTPAxULf1ux9ExPfLzvYXWJkpu/ekHpv+LJZS/+uNS/CT3qp1B9lAFkUPTaTL9LDs88MgSsmsOIl0FEEED+RIlBlZEvCpUqbJYnSW4nXMtIwArUS0B2EYSWw9aTemKc6DvaZ87HjKsR15B32ihQ9Kgq9IoA3iSIfouqdE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NPKSiLPr; arc=pass smtp.client-ip=209.85.161.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="af1yaPsI"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-6a31c05e1f7so76582eaf.0
-        for <linux-usb@vger.kernel.org>; Wed, 08 Jul 2026 15:24:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783549441; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NPKSiLPr"
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6a354eea06dso624155eaf.3
+        for <linux-usb@vger.kernel.org>; Wed, 08 Jul 2026 15:31:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783549913; cv=none;
         d=google.com; s=arc-20260327;
-        b=LDYkvIRMpC60sul506iyccK4s1MbaTRO9tZ1BBcuiyQccK3dFtob4ihEFt0uGbKwBt
-         kLttjtQ99opvNFziGxFnVfxqWhweBUPsN3SnN2o5tD59h9FnYsNPjybfBGvtNX/tSdfr
-         QlUwEknO0YwAO/eFUVCsI4vmMU3hnbb3u/SupzwwmFLraRoC4r+a5+mQxY98UBLeoMgt
-         5VzJ5vcE1BlwvhvCSAjNMLzhbVBmjz8XOIyWY+oPTwUVOrvhGDtrvijRNxjWLTcF4pqX
-         Zimts+nZKjPdP6MJZ/gl3lf4HSIDoUwryaFrUNNLQpsRFodAJ3pwf/bO3HGb4W/WaCUH
-         mJ2A==
+        b=Kq4sh9xVonI35Ag6B4z4LBK/zw6xBCdM0AOsLNitVcNPNhyZjkcPi42dkhnf5C7aCs
+         KBZtCfucdFo4PRqtrPLdhL5+UXqgay9XT+UqRXy+Eb1W3/VOwZfas9CeX6aAElSJSJ1i
+         etNfCIBibzmpGVnMGF3Nnzqa+VgV2rEF/qyntPj84P5yJFRls61UWhg5hvG0Y+Agywcx
+         WWVl/PEICHFC+hs48KQGZtfE2eQD97EF8zNKmm5TYTQBLjNcA+PuIlfIBeZVibRDIq+C
+         bmxUZFaBwEJ69f+0xHcovgKzosjQPi0e5Z8W588bVpJ3FA3F6GdZnOgX++eZG3KmxNHu
+         2CVQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=jdg3T50er9MytSv9eMEBOZEkYT0CDQly6E6qnqaXQL0=;
-        fh=xOcN8z9DFk3fil40k97DDrfgAMvMoVegFadmfN3iN/4=;
-        b=R8VUiF3MTzapAtk8G667ZaRonhVgvnAGuPXv4qT6calzBi8tI0tgwioedTW9V6skFe
-         ymt43xWNxxbrXasfiod1x0I1laLHhNY44iSlk7RgEMavOyuPeS/XxPX/vU4cHLcVbzti
-         dnc0AsFcyAJO2qQC5wxnWHWtgxbxsTfn+HPVECjQqqFjowql4UKeG7c2gBqs8usFOxQX
-         qY4gHlL4onn2jV5OHZ0wGQeYV+TFOyeNALNi8+fjoPA70pb+z9nyYsQe0Z6M686XWSBa
-         vluMAJB6k4lzwpWTG0jPZFeyhUu7kLM6Vp+iMBYRcuhHHtt96oi52l3IDatCCHTbCfKG
-         m5Rw==;
+        bh=M3NYpKurYy+y9G1Ij7agkc7OHcEYpD8U4cPynmWykzM=;
+        fh=neBTqblr5kwIKkaCJz6UjW9eZ5dOv+b1ivOriK6Dtfg=;
+        b=EJJfxShGTIsbK4Sudh2rY6thWVWgH2by1HrG0E59c2ayZvS39vk1g6v7snwyEn4WJj
+         zD5D09l6GQ/i2Uh4bGaW4fv9YQiFMSgIC8L55RmjCH2njEezLz4NJHLx2Q/lhONNrtch
+         pJCB6MOFUJTxerq+9LQw7F7pTfhIzdSPl//VZiBJXKQTIf6LZCzWROmFR/RPRD0Lp2Pq
+         b5RYwmWf97idgLS5vIyKzCdI7xB7Z2G5Zj7ad8ObwEzNJBguV0eDesbPRfGZRKxHpeVl
+         GNjRxlbmVFSHwFNUQgzstg2JH2O7rzmIEfWTwyQ9grwQJflpxPKXfaUr4ygInvud/0Fm
+         UF6Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1783549441; x=1784154241; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1783549913; x=1784154713; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=jdg3T50er9MytSv9eMEBOZEkYT0CDQly6E6qnqaXQL0=;
-        b=af1yaPsIwe2vJhfRqW1CJycnPTi7dWlPGc7HrzcvB7gP8jS21FZ6atYdAEzE29err8
-         NYvmxJqfv9Wy9QabWtNWsQ3lmCBgOWxopk02NmpaHJmpcSbI9iDWnX5QIudv9v2eAyKF
-         gxg7afDoLhNj78b82nYAkFPqna7vHLFXu6OqmJMJ06UlOOjCwFzQwoBnB7SAkilUr3PI
-         fyF8t3JasGzREuLHselKIL7hUUCQhqxp/crKISCmwlcSxnQoiyfzF4R/gCjUhyUHafAb
-         whcnpFaPoklQk41a9jk2K+o32GLq4BbHCJO0VjlEkN6lnEcPQfHH83OJFGYqyGb93HrJ
-         uXew==
+        bh=M3NYpKurYy+y9G1Ij7agkc7OHcEYpD8U4cPynmWykzM=;
+        b=NPKSiLPr5nn3FI/q0u6ayPVVGux2kxEVA4dn7pPNTDMtD7kENjUD5w4dq937wkcHrK
+         RGPfea2ZRqHHYi15XQUjKgyEbHwVZVYCxIbOUkc+bOiNMUrkpNB19UT//brNPFlRtgn/
+         9bjfXlZ21dSRJ30UX6HpoPcykWPEZ9SD3AUQFvQ+CAkmluzC8MTFff8JBs7Lp8yOWfZD
+         cj3L2A8wM5kb07+q8aEK01p1t0r1m0tFNTaluzPngn9OaD8zdcTbe/eXiuIMQH+HgXQK
+         HG8DphRAATGsDfc83zjQLDQd7ncxi0i1Ryq3GyzwEDC3UQuBoH+DUgw5tFp0i1jc4YwZ
+         rBTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783549441; x=1784154241;
+        d=1e100.net; s=20251104; t=1783549913; x=1784154713;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=jdg3T50er9MytSv9eMEBOZEkYT0CDQly6E6qnqaXQL0=;
-        b=Dhb61t40fj3vwJGSKSbzn9PLq33LT9Qs3wNfTmD6nc5/D0FDUeP5xyMr5j8jiO8aUq
-         WSOImvzUKZN0mkFb6dwv59NvaXS2vf1QRZACUMRpAyA3RVmdUF5/3W4cm35ueTcmx2N2
-         2EoDGE5d2zaC230Uwts3RYgoe0FDrP6CBGSVJ9vSkAFef+YdBGym+mlKIYa+zn9VDodA
-         GGsgaCz+irZS2w6+t3PPcNPL9HkYSvWsl6fcpGIUS/cxl5EdaTdowAfqc1rXfVXGSGpC
-         omBo8yPHh2GrKZMHw/BfLXiaxcIcl164KXR3zhdPAuaauxKq5fGnb1GBLyTccWEGO2cM
-         Pyog==
-X-Forwarded-Encrypted: i=1; AFNElJ9lVV128oZXh9yOqsLKFucRYG1ArEg4dXuvP28rY+XggJvpMtg8nqoLfO40/S/5/T2w62CbHgj7qLU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyciyAIl9xq/zTW0FqMMEIR8PBml2bKJ+BAlwYa6JvoxSXRW8Jf
-	ugHqO9SkdH56YU4THAwDSJujby8G8rHuTLkx2Xg1ZdsaAKhmnfewqMHe/g6J0KrLagqLePSlds3
-	qtTRSQTeCAsOuvPxo434/FTutcV4AIHNAqsNTbK5i+M6SsbC/Sr7cvmINfcU=
-X-Gm-Gg: AfdE7cnX06sGB4L+8Kpz16Nw87JJAY/MWFkKpZdZyCN3e+TAvvdnSArkGalY0DcPGyG
-	8PUmmwrVF2ocxA2EmKqZHHlVayVWG9IKK8mav4doD5Xo/xQ8OuPea2EiK6+b41KecsPwcClsOpC
-	nRdn+2NZ19OQxgsYro0hOEbcUKu3FbFdrmu41PIy8embGlqzVDOeicvisu/1KvTNI2LPteOOZN+
-	xkHedRRetiyGScNf7APi6jZP2CGys7naH45Ff1q0rq2325KVNAiM4PDHg9jFv+Lv8U8dR6rfkIr
-	6sasO2uAwJvAr0oEf4pQ1q/EeAVjFeAaGItXdQ==
-X-Received: by 2002:a05:6820:55c7:10b0:6a3:71a9:4476 with SMTP id
- 006d021491bc7-6a371a9637fmr1517212eaf.58.1783549441041; Wed, 08 Jul 2026
- 15:24:01 -0700 (PDT)
+        bh=M3NYpKurYy+y9G1Ij7agkc7OHcEYpD8U4cPynmWykzM=;
+        b=hIk8aznW6K36mR2TBrK7pSoN9UVW9YmqboVm7d9VQJBiRlNnQBjPfrvMnqaCYvm4EK
+         uyCSnHfCKk9iePRaUfkUU3qhG38h3OFXfHVEtVd06VwujEEFr7Oqgew/G2jMl8UCe1MC
+         TGtaFkv5MCRDdF9PcRJzizV9qKZGp+ov3lCnbdPb/9Ddi489wpmZBVzOjqHP8FSymDwk
+         Y6CuNnYQeFeI8cOAOCnGWI6r9NJWtON1yCKr6xmnj1FXCJq5fRFr41m9NHhNBiCUxDuE
+         VAb+afWtB1rYYT0LKvIfPWyLdpRpe2sH7OufTLN0HHQCgMOaxP8sjA4TThlNOnEZDB/b
+         Fjyw==
+X-Forwarded-Encrypted: i=1; AFNElJ96A8Zpe1EjvhaImFVyEhk5aatQTPHQwIeXemMoHlRNxPA3E8eaAPL4k5ERB+2F6+JrMgGScV7e/Ak=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXDKDIE80SNCNwXjIKDkrkIh8XUEvN6SGrIVOaUGeIMUwafXVe
+	cy4f4PJBqRl260/gqD5fj2E3asTucKsXDJTTU0vdCyRpmFKTRqNKcGSpTI7LnhA4jnvDpSSNBM3
+	aVEEN9vZsNEUQeajGiynVANgAz/ZBrrHio0YvGJEf
+X-Gm-Gg: AfdE7ckYPYntMRFuJAKTVBc1ePyNiiAl1R1UltKU1PesYdeN+Lr7LKoDtD2SW9VbjKV
+	Wu5FEFRK82s3etsdoaqcH/4jzhmyNBlbVWHfkb7wtLKFPp0Lt2nNmXk+zM9i4IdunNTrp2ZmYGy
+	6VNYncRKSfCFgmXg9NP4qae3iF2+1KJAMCuLhfIdj1r6WE1uH5Tx/jsRvw5AwYoda8Kyu9ENYZs
+	y4C7I5nDriKpTl9NkUmwoSgEUIXmktun2n2i4ivw0w1HWNmBOzpyfHma712R7AABb1r6wE8HiCQ
+	7UNR5BDOZhMj4g6HwOh6Ps178QY=
+X-Received: by 2002:a05:6820:2014:b0:6a3:14f3:3cd8 with SMTP id
+ 006d021491bc7-6a36da20005mr2883115eaf.52.1783549912430; Wed, 08 Jul 2026
+ 15:31:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260625215431.914380-2-rdbabiera@google.com> <uwxhwziw25earfgsn55zikihnv6b4g4cesxlccrei2opk5exmn@a5wu4h5sg35b>
-In-Reply-To: <uwxhwziw25earfgsn55zikihnv6b4g4cesxlccrei2opk5exmn@a5wu4h5sg35b>
+References: <20260625215431.914380-2-rdbabiera@google.com> <5e5kztv2w37ovbjq5lka2626vpfi6x7ez52d6pdzv5cbalm2gl@r5pbb4h5ipql>
+In-Reply-To: <5e5kztv2w37ovbjq5lka2626vpfi6x7ez52d6pdzv5cbalm2gl@r5pbb4h5ipql>
 From: RD Babiera <rdbabiera@google.com>
-Date: Wed, 8 Jul 2026 15:23:50 -0700
-X-Gm-Features: AVVi8CfISawD2ORKS9kSIV_JowWKqBthGnRIBLkwk_Fzc7WU1566eZTKqkbyKGw
-Message-ID: <CALzBnUEBtoiW1+hBBxkvpp4+8f-3uVyg3+4LKX8ezTg6zeOfTw@mail.gmail.com>
+Date: Wed, 8 Jul 2026 15:31:41 -0700
+X-Gm-Features: AVVi8CebUxuZuoV2BKvMbEBaNqCylnMyEh4OLfQBGOjTq1A1rSTD8RMcB_arl28
+Message-ID: <CALzBnUHieLG-NT4bcVhSF2Ked_u2j7dvvhJ3VEwQmwNnxxkVaA@mail.gmail.com>
 Subject: Re: [PATCH v2] usb: typec: tcpm: implement retry mechanism for
  Discover Identity VDMs
 To: Xu Yang <xu.yang_2@oss.nxp.com>
@@ -97,35 +97,15 @@ Cc: heikki.krogerus@linux.intel.com, badhri@google.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 30, 2026 at 2:45=E2=80=AFAM Xu Yang <xu.yang_2@oss.nxp.com> wro=
+On Tue, Jun 30, 2026 at 4:09=E2=80=AFAM Xu Yang <xu.yang_2@oss.nxp.com> wro=
 te:
+> And should the state be set to VDM_DISCOVERY_UNKNOWN instead? It's seems =
+odd to
+> indicate that discovery is complete immediately after a port reset.
 
-Thanks for the feedback Xu, and apologies for the small delay here.
-
-> Can we utilize FOREACH_VDM_DISCOVERY() just like tcpm_state does?
-> Then you don't need to write them again.
-
-Makes sense, will add to next version.
-
-> >
-> > +
->
-> You add a blank line here.
-
-Thanks for the catch here.
-
-> I see a loop: SRC_VDM_IDENTITY_REQUEST -> SRC_SEND_CAPABILITIES -> SRC_VD=
-M_IDENTITY_REQUEST.
-> The tcpm should go to SRC_VDM_IDENTITY_REQUEST state only once here, righ=
-t?
-
-Interweaving SRC_VDM_IDENTITY_REQUEST between retries of
-SRC_SEND_CAPABILITIES was intentional
-when SRC_VDM_IDENTITY_REQUEST was implemented for SOP' in order to
-pass USBDP Compliance Test
-timing requirements. This is consistent with the current
-implementation, do correct me if you're experiencing
-otherwise though.
+It's fine to set to VDM_DISCOVERY_UNKNOWN and cancel any remaining
+work identical to
+how HARD_RESET handles the state. I'll add this in the next version.
 
 Best,
 RD
