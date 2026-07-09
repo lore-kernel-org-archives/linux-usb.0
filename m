@@ -1,262 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA332ED872
-	for <linux-usb@vger.kernel.org>; Thu,  9 Jul 2026 01:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 422C923372C;
+	Thu,  9 Jul 2026 02:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783560283; cv=none; b=g+pYSegxgXgq6VUZTwZx3H9TpyNksyPCiqY+L+7bApUOHtT0/ipeTDBHESO8xLyqPS/Fg0XZxhFa8Bo2PQ2TfwSbWujCtUjwELO3zq3ei7wL6RMDzUBPTum0VUpEXjjghKclgmiRnlv+CmNWfMQL0bGcecq5gXlhQKJsn2cnKcE=
+	t=1783563019; cv=none; b=e3oPPCaYJHlQmvaZ1yG0kNuexciLA+mT+dKhUtf9dN/ULWnN2VyNZGBJTWVZlkkNsH+ReQuJM8zfNJiOJZHStTISUN9oM/XatXLVDFqEpyvS9TWL7/1zXkiZoI4J3p62VdGlcsPLTm4DbWSDzn4mkWIG8VEZgv6ewX3FpSVND1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783560283; c=relaxed/simple;
-	bh=vClfzsOII8vVyIoOm8bwN4uW/Hq/HjkZ1R7YgXoD+kw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=egAsVS1DG4lFm9otGhf7MKYEuQawoOY1szZflf81i8VrgCFmvWu7lScnvoiI3oiYVesu9pP13SI0HNjp1L/CGJUzSQEkGE/5MQfpJZi6LB/k/TQrF31I9XChrtU7J69cqUEbfV9hYNpQov8jzAP0+xc/wr2kMN74ljDTuR3937A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XnonuKNE; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XnonuKNE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783560282; x=1815096282;
-  h=date:from:to:cc:subject:message-id;
-  bh=vClfzsOII8vVyIoOm8bwN4uW/Hq/HjkZ1R7YgXoD+kw=;
-  b=XnonuKNEF5ekhwHIYTEpiKTFJEbPwqDFXwd/LWx65dk049NyG1q8gmss
-   GVbpBBYkTg8FIiP836eRmtGy1AgKqfDoh2TEPDox2+5xwv3ziNyjbn12F
-   SeHYa+Z8dM5KUl5wZi5cmGlDE5DtxQUeD/MuED4dEmAHMmvmxgI+z6kM9
-   lTpryhqr2j2xkxUT2jclu8k8CCFfm0SRqNiV3nZ3QyWTUN/+gpX833JyM
-   aMrO2w/agOjHG1IkOB+BgkpqhsI2DF965OwCX2SsjhK74wVBGKTsL3S+d
-   zHu6PRIpLTanALRmcnJWBI5zMDoqIZPk/07ObMxcZNfHGeKFaGGDwGavm
-   g==;
-X-CSE-ConnectionGUID: OecFhmrgRD+JGQKDqKEZuA==
-X-CSE-MsgGUID: yDG47ep0S7+lnqMwKYAo5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94882466"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="94882466"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2026 18:24:41 -0700
-X-CSE-ConnectionGUID: NebyT7spRIyZrC1D17XCNg==
-X-CSE-MsgGUID: +0/B5dVpSsefF6F5g1c27Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="250456629"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 08 Jul 2026 18:24:39 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1whdVF-00000000H82-0pps;
-	Thu, 09 Jul 2026 01:24:37 +0000
-Date: Thu, 09 Jul 2026 09:24:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- 62481c92444386d46b3c4a9c3dbcd4917f07d138
-Message-ID: <202607090954.d5F5JMW1-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1783563019; c=relaxed/simple;
+	bh=lXyXLrytxq7ArsnEBb++7RlPZXueMIxfOwHWnZu6PHo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oWsVHFJjt8KuKfks8Gnz7txjw/hnDaeab+A8w/LLOExMsnvcGZIegDoittOzx/bi39RDyAQqBNwQ9bD0OkAESG+9zBrbvQDab7P6AVXX2D4DxZvvxoXlNgPTNz8DPC/GnS2wv81pUpAYg5UBXaJXmro3/Ei7Xr+4p0v+SpoWVHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wCHYab4Ak9qBiQnAA--.18725S3;
+	Thu, 09 Jul 2026 10:10:01 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app3 (Coremail) with SMTP id zS_KCgB3j3H3Ak9qrHL9Ag--.45230S2;
+	Thu, 09 Jul 2026 10:09:59 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: linux-usb@vger.kernel.org
+Cc: justin.chen@broadcom.com,
+	alcooperx@gmail.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Fan Wu <fanwu01@zju.edu.cn>
+Subject: [PATCH] usb: gadget: udc: bdc: free IRQ and drain func_wake_notify before teardown
+Date: Thu,  9 Jul 2026 02:09:04 +0000
+Message-Id: <20260709020904.502611-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zS_KCgB3j3H3Ak9qrHL9Ag--.45230S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?qMGwGwXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnZPoDCNGYdHSfuFmYJL54WMq5c+i0O8igAObd+Q232Q+nzvPp05mxCkU+wCDDdQvJKvb
+	YU/xT30XeCW318FgvOup9E6mavGmQbzmcFsnzP86
+X-Coremail-Antispam: 1Uk129KBj93XoWxGF4fJw1rtF1UAryxKryDurX_yoW7Jrykpa
+	y5CFWqkrW8Xr97tF1a9r4UZF4rArZ7GrW093yIqay3Arn8JrW5Jr4rJ3WS9F4rJFW8Jw42
+	kF4kX39avr90kFcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Gb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
+	JrUvcSsGvfC2KfnxnUUI43ZEXa7IU85l1PUUUUU==
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: 62481c92444386d46b3c4a9c3dbcd4917f07d138  ABI: sysfs-bus-usb: fix brace
+The Broadcom BDC UDC driver registers its IRQ handler with
+devm_request_irq() in bdc_udc_init(), so the IRQ is released by devm
+only after bdc_remove() returns.  devm releases resources in reverse
+LIFO order, but bdc_remove() runs bdc_udc_exit() and bdc_hw_exit() ->
+bdc_mem_free() manually before returning: bdc_udc_exit() tears down
+individual endpoint objects via bdc_free_ep(), while bdc_hw_exit() ->
+bdc_mem_free() frees and NULLs the DMA-coherent status-report ring
+(bdc->srr.sr_bds) and kfree()s bdc->bdc_ep_array.  Both happen while
+the IRQ handler (bdc_udc_interrupt, requested with IRQF_SHARED)
+remains deliverable in the window up to the post-remove devm
+free_irq().
 
-elapsed time: 767m
+On receipt of a shared interrupt in that window, bdc_udc_interrupt()
+dereferences bdc->srr.sr_bds[bdc->srr.dqp_index] (NULL or freed DMA)
+and dispatches sr_handler callbacks that index into bdc_ep_array,
+causing a NULL-deref or use-after-free.
 
-configs tested: 185
-configs skipped: 2
+The same window affects the delayed_work bdc->func_wake_notify, which is
+armed from the IRQ handler via bdc_sr_uspc() -> handle_link_state_change()
+-> schedule_delayed_work() and may self-rearm from its own callback
+bdc_func_wake_timer().  No cancel exists anywhere in the driver, so a
+queued work item that fires after bdc_remove() returns and the bdc
+structure is devm-freed dereferences freed memory.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Replace devm_request_irq() with request_irq() and add an explicit
+free_irq(bdc->irq, bdc) in bdc_remove().  Clear BDC_GIE before
+free_irq() to stop the device from asserting interrupts, then
+free_irq() drains any in-flight handler, then cancel_delayed_work_sync()
+drains the func_wake_notify delayed work.  This ordering ensures the
+IRQ handler and delayed work cannot interfere with the subsequent
+endpoint and DMA teardown in bdc_udc_exit() and bdc_hw_exit().  Wire the
+matching free_irq() into the bdc_udc_init() error path so the IRQ is
+released on probe failure, and route the bdc_init_ep() failure through
+err0 instead of returning directly.
 
-tested configs:
-alpha                             allnoconfig    gcc-16.1.0
-alpha                            allyesconfig    gcc-16.1.0
-alpha                               defconfig    gcc-16.1.0
-arc                              allmodconfig    clang-23
-arc                              allmodconfig    gcc-16.1.0
-arc                               allnoconfig    gcc-16.1.0
-arc                              allyesconfig    clang-23
-arc                              allyesconfig    gcc-16.1.0
-arc                                 defconfig    gcc-16.1.0
-arc                        nsim_700_defconfig    gcc-16.1.0
-arc                   randconfig-001-20260709    gcc-8.5.0
-arc                   randconfig-002-20260709    gcc-8.5.0
-arm                               allnoconfig    gcc-16.1.0
-arm                              allyesconfig    clang-23
-arm                              allyesconfig    gcc-16.1.0
-arm                                 defconfig    gcc-16.1.0
-arm                   randconfig-001-20260709    gcc-8.5.0
-arm                   randconfig-002-20260709    gcc-8.5.0
-arm                   randconfig-003-20260709    gcc-8.5.0
-arm                   randconfig-004-20260709    gcc-8.5.0
-arm64                            allmodconfig    clang-23
-arm64                             allnoconfig    gcc-16.1.0
-arm64                               defconfig    gcc-16.1.0
-arm64                 randconfig-001-20260709    gcc-16.1.0
-arm64                 randconfig-002-20260709    gcc-16.1.0
-arm64                 randconfig-003-20260709    gcc-16.1.0
-arm64                 randconfig-004-20260709    gcc-16.1.0
-csky                             allmodconfig    gcc-16.1.0
-csky                              allnoconfig    gcc-16.1.0
-csky                                defconfig    gcc-16.1.0
-csky                  randconfig-001-20260709    gcc-16.1.0
-csky                  randconfig-002-20260709    gcc-16.1.0
-hexagon                          allmodconfig    clang-23
-hexagon                          allmodconfig    gcc-16.1.0
-hexagon                           allnoconfig    gcc-16.1.0
-hexagon                             defconfig    gcc-16.1.0
-hexagon               randconfig-001-20260709    clang-18
-hexagon               randconfig-002-20260709    clang-18
-i386                             allmodconfig    clang-22
-i386                             allmodconfig    gcc-14
-i386                              allnoconfig    gcc-16.1.0
-i386                             allyesconfig    clang-22
-i386                             allyesconfig    gcc-14
-i386        buildonly-randconfig-001-20260709    gcc-14
-i386        buildonly-randconfig-002-20260709    gcc-14
-i386        buildonly-randconfig-003-20260709    gcc-14
-i386        buildonly-randconfig-004-20260709    gcc-14
-i386        buildonly-randconfig-005-20260709    gcc-14
-i386        buildonly-randconfig-006-20260709    gcc-14
-i386                                defconfig    gcc-16.1.0
-i386                  randconfig-001-20260709    gcc-14
-i386                  randconfig-002-20260709    gcc-14
-i386                  randconfig-003-20260709    gcc-14
-i386                  randconfig-004-20260709    gcc-14
-i386                  randconfig-005-20260709    gcc-14
-i386                  randconfig-006-20260709    gcc-14
-i386                  randconfig-007-20260709    gcc-14
-i386                  randconfig-011-20260709    gcc-14
-i386                  randconfig-012-20260709    gcc-14
-i386                  randconfig-013-20260709    gcc-14
-i386                  randconfig-014-20260709    gcc-14
-i386                  randconfig-015-20260709    gcc-14
-i386                  randconfig-016-20260709    gcc-14
-i386                  randconfig-017-20260709    gcc-14
-loongarch                        allmodconfig    clang-19
-loongarch                        allmodconfig    clang-23
-loongarch                         allnoconfig    gcc-16.1.0
-loongarch                           defconfig    clang-23
-loongarch             randconfig-001-20260709    clang-18
-loongarch             randconfig-002-20260709    clang-18
-m68k                             allmodconfig    gcc-16.1.0
-m68k                              allnoconfig    gcc-16.1.0
-m68k                             allyesconfig    clang-23
-m68k                             allyesconfig    gcc-16.1.0
-m68k                                defconfig    clang-23
-microblaze                        allnoconfig    gcc-16.1.0
-microblaze                       allyesconfig    gcc-16.1.0
-microblaze                          defconfig    clang-23
-mips                             allmodconfig    gcc-16.1.0
-mips                              allnoconfig    gcc-16.1.0
-mips                             allyesconfig    gcc-16.1.0
-nios2                            allmodconfig    clang-20
-nios2                            allmodconfig    gcc-11.5.0
-nios2                             allnoconfig    clang-23
-nios2                               defconfig    clang-23
-nios2                 randconfig-001-20260709    clang-18
-nios2                 randconfig-002-20260709    clang-18
-openrisc                         allmodconfig    clang-20
-openrisc                         allmodconfig    gcc-16.1.0
-openrisc                          allnoconfig    clang-23
-openrisc                            defconfig    gcc-16.1.0
-parisc                           allmodconfig    gcc-16.1.0
-parisc                            allnoconfig    clang-23
-parisc                           allyesconfig    clang-17
-parisc                           allyesconfig    gcc-16.1.0
-parisc                              defconfig    gcc-16.1.0
-parisc                randconfig-001-20260709    clang-23
-parisc                randconfig-002-20260709    clang-23
-parisc64                            defconfig    clang-23
-powerpc                          allmodconfig    gcc-16.1.0
-powerpc                           allnoconfig    clang-23
-powerpc                   microwatt_defconfig    gcc-16.1.0
-powerpc               randconfig-001-20260709    clang-23
-powerpc               randconfig-002-20260709    clang-23
-powerpc                     tqm8555_defconfig    gcc-16.1.0
-powerpc64             randconfig-001-20260709    clang-23
-powerpc64             randconfig-002-20260709    clang-23
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    clang-23
-riscv                            allyesconfig    clang-23
-riscv                               defconfig    gcc-16.1.0
-riscv                 randconfig-001-20260709    clang-22
-riscv                 randconfig-002-20260709    clang-22
-s390                             allmodconfig    clang-17
-s390                             allmodconfig    clang-23
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-16.1.0
-s390                                defconfig    gcc-16.1.0
-s390                  randconfig-001-20260709    clang-22
-s390                  randconfig-002-20260709    clang-22
-sh                               allmodconfig    gcc-16.1.0
-sh                                allnoconfig    clang-23
-sh                               allyesconfig    clang-17
-sh                               allyesconfig    gcc-16.1.0
-sh                                  defconfig    gcc-14
-sh                    randconfig-001-20260709    clang-22
-sh                    randconfig-002-20260709    clang-22
-sparc                             allnoconfig    clang-23
-sparc                               defconfig    gcc-16.1.0
-sparc                 randconfig-001-20260709    gcc-8.5.0
-sparc                 randconfig-002-20260709    gcc-8.5.0
-sparc64                          allmodconfig    clang-20
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260709    gcc-8.5.0
-sparc64               randconfig-002-20260709    gcc-8.5.0
-um                               allmodconfig    clang-17
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-14
-um                               allyesconfig    gcc-16.1.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260709    gcc-8.5.0
-um                    randconfig-002-20260709    gcc-8.5.0
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-22
-x86_64                            allnoconfig    clang-23
-x86_64                           allyesconfig    clang-22
-x86_64      buildonly-randconfig-001-20260709    clang-22
-x86_64      buildonly-randconfig-002-20260709    clang-22
-x86_64      buildonly-randconfig-003-20260709    clang-22
-x86_64      buildonly-randconfig-004-20260709    clang-22
-x86_64      buildonly-randconfig-005-20260709    clang-22
-x86_64      buildonly-randconfig-006-20260709    clang-22
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-22
-x86_64                randconfig-001-20260709    gcc-14
-x86_64                randconfig-002-20260709    gcc-14
-x86_64                randconfig-003-20260709    gcc-14
-x86_64                randconfig-004-20260709    gcc-14
-x86_64                randconfig-005-20260709    gcc-14
-x86_64                randconfig-006-20260709    gcc-14
-x86_64                randconfig-011-20260709    gcc-14
-x86_64                randconfig-012-20260709    gcc-14
-x86_64                randconfig-013-20260709    gcc-14
-x86_64                randconfig-014-20260709    gcc-14
-x86_64                randconfig-015-20260709    gcc-14
-x86_64                randconfig-016-20260709    gcc-14
-x86_64                randconfig-071-20260709    clang-22
-x86_64                randconfig-072-20260709    clang-22
-x86_64                randconfig-073-20260709    clang-22
-x86_64                randconfig-074-20260709    clang-22
-x86_64                randconfig-075-20260709    clang-22
-x86_64                randconfig-076-20260709    clang-22
-x86_64                               rhel-9.4    clang-22
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-22
-x86_64                    rhel-9.4-kselftests    clang-22
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-22
-xtensa                            allnoconfig    clang-23
-xtensa                           allyesconfig    clang-20
-xtensa                           allyesconfig    gcc-16.1.0
-xtensa                randconfig-001-20260709    gcc-8.5.0
-xtensa                randconfig-002-20260709    gcc-8.5.0
+This issue was found by an in-house static analysis tool.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Fixes: efed421a94e6 ("usb: gadget: Add UDC driver for Broadcom USB3.0 device controller IP BDC")
+Cc: stable@vger.kernel.org
+Assisted-by: Codex:gpt-5.5
+Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+---
+ drivers/usb/gadget/udc/bdc/bdc_core.c | 20 ++++++++++++++++++++
+ drivers/usb/gadget/udc/bdc/bdc_udc.c  |  7 ++++---
+ 2 files changed, 24 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/bdc/bdc_core.c b/drivers/usb/gadget/udc/bdc/bdc_core.c
+index 438201dc9..a8dbaef54 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc_core.c
++++ b/drivers/usb/gadget/udc/bdc/bdc_core.c
+@@ -585,9 +585,29 @@ static int bdc_probe(struct platform_device *pdev)
+ static void bdc_remove(struct platform_device *pdev)
+ {
+ 	struct bdc *bdc;
++	unsigned long flags;
++	u32 temp;
+ 
+ 	bdc  = platform_get_drvdata(pdev);
+ 	dev_dbg(bdc->dev, "%s ()\n", __func__);
++	/*
++	 * Disable the device interrupt source before freeing the IRQ:
++	 * clear BDC_GIE so the controller stops asserting interrupts,
++	 * then free_irq drains any in-flight handler.
++	 */
++	spin_lock_irqsave(&bdc->lock, flags);
++	temp = bdc_readl(bdc->regs, BDC_BDCSC);
++	temp &= ~BDC_GIE;
++	bdc_writel(bdc->regs, BDC_BDCSC, temp);
++	spin_unlock_irqrestore(&bdc->lock, flags);
++	free_irq(bdc->irq, bdc);
++	/*
++	 * Drain func_wake_notify after free_irq: the IRQ handler arms this
++	 * delayed_work via bdc_sr_uspc -> handle_link_state_change ->
++	 * schedule_delayed_work (self-rearmed in bdc_func_wake_timer), so
++	 * the IRQ must be released first to prevent re-arm after cancel.
++	 */
++	cancel_delayed_work_sync(&bdc->func_wake_notify);
+ 	bdc_udc_exit(bdc);
+ 	bdc_hw_exit(bdc);
+ 	bdc_phy_exit(bdc);
+diff --git a/drivers/usb/gadget/udc/bdc/bdc_udc.c b/drivers/usb/gadget/udc/bdc/bdc_udc.c
+index 23826fd7a..7a12219ed 100644
+--- a/drivers/usb/gadget/udc/bdc/bdc_udc.c
++++ b/drivers/usb/gadget/udc/bdc/bdc_udc.c
+@@ -530,8 +530,8 @@ int bdc_udc_init(struct bdc *bdc)
+ 
+ 
+ 	bdc->gadget.name = BRCM_BDC_NAME;
+-	ret = devm_request_irq(bdc->dev, bdc->irq, bdc_udc_interrupt,
+-				IRQF_SHARED, BRCM_BDC_NAME, bdc);
++	ret = request_irq(bdc->irq, bdc_udc_interrupt, IRQF_SHARED,
++			  BRCM_BDC_NAME, bdc);
+ 	if (ret) {
+ 		dev_err(bdc->dev,
+ 			"failed to request irq #%d %d\n",
+@@ -542,7 +542,7 @@ int bdc_udc_init(struct bdc *bdc)
+ 	ret = bdc_init_ep(bdc);
+ 	if (ret) {
+ 		dev_err(bdc->dev, "bdc init ep fail: %d\n", ret);
+-		return ret;
++		goto err0;
+ 	}
+ 
+ 	ret = usb_add_gadget_udc(bdc->dev, &bdc->gadget);
+@@ -571,6 +571,7 @@ int bdc_udc_init(struct bdc *bdc)
+ err1:
+ 	usb_del_gadget_udc(&bdc->gadget);
+ err0:
++	free_irq(bdc->irq, bdc);
+ 	bdc_free_ep(bdc);
+ 
+ 	return ret;
+-- 
+2.34.1
+
