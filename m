@@ -1,88 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 268A31D5160;
-	Thu,  9 Jul 2026 05:31:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4293E47B;
+	Thu,  9 Jul 2026 05:33:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783575121; cv=none; b=Rm/IJmhTMbEQhh7jIfWx93Oi5RsWJ3Px0nM+j9ZNGx/KZojcLRkI0aVeLZGqi7JdW4M0egE1JNoLsH3n8mt/OEUX2FcMsOnBtHzmJ5VJwJpXu/OqWBR46xWPHgRLWz8lNN6c7QuayGZDfpXEoXdRzeAb5Ef+ZPOI1/RCIg4CW5s=
+	t=1783575188; cv=none; b=EAIIIV/sMLNel7C9wv61OuxR3x6mnxjnwfcfKRs7z35NIS5R4hK/zAWUxemY96Xip6quFgIaFKqtUgt6ohYCogpKdQqN4APMI3QeXuMQllSoKIri4GQeVLyALHbxWeo6KCYACwEROIG9e/I9pVHwU8o5cCFldyBAU788oL9oDEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783575121; c=relaxed/simple;
-	bh=+NKYW+OZIkRbhkdw08isua0mJANjWaWq6VHnTM1iuHI=;
+	s=arc-20240116; t=1783575188; c=relaxed/simple;
+	bh=dEB7NpNEAwaFV11hKPo9q1Kuk2WAIFjuldgYRvwUPl0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HmovCpUG/QmHMbnONsU9VuZchDSob+hvinB3gBUlndwUalrtcEYJhcnKSXRxD0D/KYT+4faThEzUNP69OGCF5cdxBbXfRB6G/7kylPaEEp/HTVTR/nvmSDeu+50JXUzHt8nCvg0o20zj8Kkuwe9E0K57gPaPjGACf1cqnwatVKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pNgzauon; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=PfkUDtLvqwurvYERcxGFd6JFV4dJfJ/TQV5Y3cvIUe9/ElfbIr/p3Ux0b2SwS79iCBG16Nb+AScfs7OfzrwDl33NtsqQZcISmawYVYs/s+RzpYx0v39RfNymIxfYxuyPq0f7bp6xosJSLSNmTHCwY8xXgTyLmfky3ZhnfrBMNRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IBMm959g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pNgzauon"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29B751F000E9;
-	Thu,  9 Jul 2026 05:31:59 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IBMm959g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 992801F000E9;
+	Thu,  9 Jul 2026 05:33:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783575119;
-	bh=uXqjvzpfwDvNZNWKf5RAkNhavD2Al1NFh+VmHZ2j2eU=;
+	s=korg; t=1783575187;
+	bh=xeP49zf1w0gTwqolkCaocObyBkxqCco+Hzh4w8rsnOI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=pNgzauonGv9Xl1ykkdCohg8oYmOkJEbgHjxFovM07ITVmZ3ZTNDbDCLFg1yZstNOL
-	 cREnwpXANP0H72A/laAwknzNFPyLW6hTzduoPsqeDRkbG2OWegGpOC9/tJ+CuVSfuX
-	 GRG2J/S8DUR/Qg3PH2blPij2KfM15i8Eq2aPI7tU=
-Date: Thu, 9 Jul 2026 07:31:56 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Julian Braha <julianbraha@gmail.com>,
-	Xu Yang <xu.yang_2@oss.nxp.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Chaoyi Chen <kernel@airkyi.com>
-Subject: Re: [PATCH v2] usb: typec: altmodes: select DRM_AUX_HPD_BRIDGE for
- TYPEC_DP_ALTMODE
-Message-ID: <2026070936-apostle-carton-c097@gregkh>
-References: <20260705065832.184-1-kernel@airkyi.com>
- <2026070830-tattle-corporal-6fcc@gregkh>
- <f0316f09-e78c-495b-8ca9-c7d4fdde3d75@rock-chips.com>
+	b=IBMm959gelwhn17rIU12/wczRgh8z1kWb0FWJiN/BALc86TuiOhjvYO3YiumpzfU5
+	 4gTWjMYxe88acDiv+XYCcRSbyTGaG7Gx8LvgJ6zVj72H4KrcvQqxPoCfn9/qthzqM0
+	 i3G6yFYi1P2wlRf9a8WHEcXJIyIwZzaCPoWQP0F0=
+Date: Thu, 9 Jul 2026 07:33:03 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: Xu Yang <xu.yang_2@oss.nxp.com>, kees@kernel.org,
+	christophe.jaillet@wanadoo.fr, xu.yang_2@nxp.com,
+	hataegu0826@gmail.com, balbi@ti.com, andrzej.p@samsung.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev
+Subject: Re: [PATCH] usb: gadget: f_uac1_legacy: fix inverted NULL check
+ after kstrndup()
+Message-ID: <2026070922-density-onto-3ce6@gregkh>
+References: <20260625113154.1954813-1-xu.yang_2@oss.nxp.com>
+ <2026070831-peso-aluminum-df0c@gregkh>
+ <ak64635tgUj3MPEx@SMW015318>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f0316f09-e78c-495b-8ca9-c7d4fdde3d75@rock-chips.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ak64635tgUj3MPEx@SMW015318>
 
-On Thu, Jul 09, 2026 at 11:00:43AM +0800, Chaoyi Chen wrote:
-> Hello Greg,
-> 
-> On 7/8/2026 7:51 PM, Greg Kroah-Hartman wrote:
-> > On Sun, Jul 05, 2026 at 02:58:32PM +0800, Chaoyi Chen wrote:
-> >> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> >>
-> >> When TYPEC_DP_ALTMODE is enabled, DRM_AUX_HPD_BRIDGE is most likely
-> >> also needed for embedded platforms. Select it when available.
-> >>
-> >> Suggested-by: Xu Yang <xu.yang_2@oss.nxp.com>
-> >> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-> >> ---
-> >>  drivers/usb/typec/altmodes/Kconfig | 1 +
-> >>  1 file changed, 1 insertion(+)
-> >>
-> >> diff --git a/drivers/usb/typec/altmodes/Kconfig b/drivers/usb/typec/altmodes/Kconfig
-> >> index 7867fa7c405d..1f35b253d6b8 100644
-> >> --- a/drivers/usb/typec/altmodes/Kconfig
-> >> +++ b/drivers/usb/typec/altmodes/Kconfig
-> >> @@ -5,6 +5,7 @@ menu "USB Type-C Alternate Mode drivers"
-> >>  config TYPEC_DP_ALTMODE
-> >>  	tristate "DisplayPort Alternate Mode driver"
-> >>  	depends on DRM
-> >> +	imply DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
-> > 
-> > I hate "imply", as this just makes things more complex.  Either this is
-> > a dependency or not, right?  Why not fix that?
+On Wed, Jul 08, 2026 at 03:54:03PM -0500, Frank Li wrote:
+> On Wed, Jul 08, 2026 at 05:05:03PM +0200, Greg KH wrote:
+> > On Thu, Jun 25, 2026 at 07:31:54PM +0800, Xu Yang wrote:
+> > > From: Xu Yang <xu.yang_2@nxp.com>
+> > >
+> > > kstrndup() returns NULL on allocation failure. The condition was
+> > > checking 'if (tmp)' to detect failure, but this is inverted — it
+> > > would treat a successful allocation as an error and return -ENOMEM
+> > > while leaking the string, and proceed with a NULL pointer on failure.
+> > >
+> > > Fix by changing the condition to 'if (!tmp)'.
+> > >
+> > > Fixes: 0854611a19ae ("usb: gadget: f_uac1: add configfs support")
+> > > Cc: stable@vger.kernel.org
+> > > Assisted-by: Claude:claude-sonnet-4-6
+> > > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> > > ---
+> > >  drivers/usb/gadget/function/f_uac1_legacy.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/usb/gadget/function/f_uac1_legacy.c b/drivers/usb/gadget/function/f_uac1_legacy.c
+> > > index 5d201a2e30e7..e9f2632ce785 100644
+> > > --- a/drivers/usb/gadget/function/f_uac1_legacy.c
+> > > +++ b/drivers/usb/gadget/function/f_uac1_legacy.c
+> > > @@ -914,7 +914,7 @@ static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
+> > >  		goto end;						\
+> > >  									\
+> > >  	tmp = kstrndup(page, len, GFP_KERNEL);				\
+> > > -	if (tmp) {							\
+> > > +	if (!tmp) {							\
+> > >  		ret = -ENOMEM;						\
+> > >  		goto end;						\
+> > >  	}								\
+> > > --
+> > > 2.34.1
+> > >
+> > >
 > >
+> > So this has never worked?  How has no one ever noticed that in the
+> > decade this has been in the kernel?  Does that mean that no one uses
+> > this file/driver and we can just remove it?
 > 
-> Perhaps we can just use the v1 content directly? 
-> Hopefully that's already simple enough.
-> 
-> https://lore.kernel.org/all/20260702022036.44-1-kernel@airkyi.com/
+> I think just no one use sys interface to change name.
 
-Maybe, send it as a v3 and see if the maintainers of those drivers
-agree?
+So it can just be removed?  Please submit a patch to do that instead.
+
+Ideally this whole file can be removed, does anyone still use it?
 
 thanks,
 
