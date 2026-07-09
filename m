@@ -1,100 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4293E47B;
-	Thu,  9 Jul 2026 05:33:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510D639B4BB;
+	Thu,  9 Jul 2026 05:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783575188; cv=none; b=EAIIIV/sMLNel7C9wv61OuxR3x6mnxjnwfcfKRs7z35NIS5R4hK/zAWUxemY96Xip6quFgIaFKqtUgt6ohYCogpKdQqN4APMI3QeXuMQllSoKIri4GQeVLyALHbxWeo6KCYACwEROIG9e/I9pVHwU8o5cCFldyBAU788oL9oDEE=
+	t=1783575281; cv=none; b=tNfRI94bkUaBXnRhML5Ybit5ysqUWLT5lWo1Jm3QuSitxMyxkloJ0YrX9412qIe43UGIKG4hU1lGQCMN6S8ux5TFsqfBdKYJB8krBas2b6fFaThDLxo07Eql2JIT3TP4lSgyb4TapryBxOqbdWhCUH4hTlLLspa9WWq34GPD+IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783575188; c=relaxed/simple;
-	bh=dEB7NpNEAwaFV11hKPo9q1Kuk2WAIFjuldgYRvwUPl0=;
+	s=arc-20240116; t=1783575281; c=relaxed/simple;
+	bh=GzP71OMvc18R3VEhUTwEhddp1rTippgSGNUYk7obif4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PfkUDtLvqwurvYERcxGFd6JFV4dJfJ/TQV5Y3cvIUe9/ElfbIr/p3Ux0b2SwS79iCBG16Nb+AScfs7OfzrwDl33NtsqQZcISmawYVYs/s+RzpYx0v39RfNymIxfYxuyPq0f7bp6xosJSLSNmTHCwY8xXgTyLmfky3ZhnfrBMNRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IBMm959g; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=IDTI/LvRZaT4Sn8sXMPF32TOkFgj119UDJ24g0DtLWCLLzNqJdH4dSMSEtQf0c91OVNOXcjl4Ce7/bH6rDo1z5VOyytqi3T2+lfdG7w2Ue9kiImyx6N2EwKfO3oIu5jKV/f45PRR0R6lYZ5EwUkGyK9ZBt5gfDjekLccnoVEomU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zWSqzdvn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IBMm959g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 992801F000E9;
-	Thu,  9 Jul 2026 05:33:06 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zWSqzdvn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DFF31F000E9;
+	Thu,  9 Jul 2026 05:34:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783575187;
-	bh=xeP49zf1w0gTwqolkCaocObyBkxqCco+Hzh4w8rsnOI=;
+	s=korg; t=1783575279;
+	bh=Ds/08QqvEFzHQ0j+OYuOGcJzgn+30pGBQS5EC4FqNfU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IBMm959gelwhn17rIU12/wczRgh8z1kWb0FWJiN/BALc86TuiOhjvYO3YiumpzfU5
-	 4gTWjMYxe88acDiv+XYCcRSbyTGaG7Gx8LvgJ6zVj72H4KrcvQqxPoCfn9/qthzqM0
-	 i3G6yFYi1P2wlRf9a8WHEcXJIyIwZzaCPoWQP0F0=
-Date: Thu, 9 Jul 2026 07:33:03 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Frank Li <Frank.li@oss.nxp.com>
-Cc: Xu Yang <xu.yang_2@oss.nxp.com>, kees@kernel.org,
-	christophe.jaillet@wanadoo.fr, xu.yang_2@nxp.com,
-	hataegu0826@gmail.com, balbi@ti.com, andrzej.p@samsung.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev
-Subject: Re: [PATCH] usb: gadget: f_uac1_legacy: fix inverted NULL check
- after kstrndup()
-Message-ID: <2026070922-density-onto-3ce6@gregkh>
-References: <20260625113154.1954813-1-xu.yang_2@oss.nxp.com>
- <2026070831-peso-aluminum-df0c@gregkh>
- <ak64635tgUj3MPEx@SMW015318>
+	b=zWSqzdvn/1xzfOTsmgOOC+HkFS+Fo5JnjTattxSBPUbzGWPP5rIVAPwsuF3992DMB
+	 A52H1RdH0DYO8gsUCyL4SSbPV1YGb1sWos5k33xbd0JXn2dvNqYTahqNgEFVf3oruJ
+	 Xgo8sqsxlFU3aOTP1Uai+Ek6+0aAFI+9aXSBqMGw=
+Date: Thu, 9 Jul 2026 07:34:36 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Griffin Kroah-Hartman <griffin@kroah.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] usb: gadget: function: rndis: add length check to
+ response query
+Message-ID: <2026070900-sudden-tapestry-195d@gregkh>
+References: <20260708-usb-gadget-rndis-v1-0-e77e026dcc6a@kroah.com>
+ <20260708-usb-gadget-rndis-v1-1-e77e026dcc6a@kroah.com>
+ <232723a0-328f-4929-9525-d5f00d498636@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ak64635tgUj3MPEx@SMW015318>
+In-Reply-To: <232723a0-328f-4929-9525-d5f00d498636@suse.com>
 
-On Wed, Jul 08, 2026 at 03:54:03PM -0500, Frank Li wrote:
-> On Wed, Jul 08, 2026 at 05:05:03PM +0200, Greg KH wrote:
-> > On Thu, Jun 25, 2026 at 07:31:54PM +0800, Xu Yang wrote:
-> > > From: Xu Yang <xu.yang_2@nxp.com>
-> > >
-> > > kstrndup() returns NULL on allocation failure. The condition was
-> > > checking 'if (tmp)' to detect failure, but this is inverted — it
-> > > would treat a successful allocation as an error and return -ENOMEM
-> > > while leaking the string, and proceed with a NULL pointer on failure.
-> > >
-> > > Fix by changing the condition to 'if (!tmp)'.
-> > >
-> > > Fixes: 0854611a19ae ("usb: gadget: f_uac1: add configfs support")
-> > > Cc: stable@vger.kernel.org
-> > > Assisted-by: Claude:claude-sonnet-4-6
-> > > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
-> > > ---
-> > >  drivers/usb/gadget/function/f_uac1_legacy.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/usb/gadget/function/f_uac1_legacy.c b/drivers/usb/gadget/function/f_uac1_legacy.c
-> > > index 5d201a2e30e7..e9f2632ce785 100644
-> > > --- a/drivers/usb/gadget/function/f_uac1_legacy.c
-> > > +++ b/drivers/usb/gadget/function/f_uac1_legacy.c
-> > > @@ -914,7 +914,7 @@ static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
-> > >  		goto end;						\
-> > >  									\
-> > >  	tmp = kstrndup(page, len, GFP_KERNEL);				\
-> > > -	if (tmp) {							\
-> > > +	if (!tmp) {							\
-> > >  		ret = -ENOMEM;						\
-> > >  		goto end;						\
-> > >  	}								\
-> > > --
-> > > 2.34.1
-> > >
-> > >
-> >
-> > So this has never worked?  How has no one ever noticed that in the
-> > decade this has been in the kernel?  Does that mean that no one uses
-> > this file/driver and we can just remove it?
+On Wed, Jul 08, 2026 at 06:24:16PM +0200, Oliver Neukum wrote:
+> Hi,
 > 
-> I think just no one use sys interface to change name.
+> On 08.07.26 13:08, Griffin Kroah-Hartman wrote:
+> > @@ -598,6 +599,13 @@ static int rndis_query_response(struct rndis_params *params,
+> >   	if (!params->dev)
+> >   		return -ENOTSUPP;
+> > +	BufLength = le32_to_cpu(buf->InformationBufferLength);
+> > +	BufOffset = le32_to_cpu(buf->InformationBufferOffset);
+> > +	if ((BufLength > RNDIS_MAX_TOTAL_SIZE) ||
+> > +	    (BufOffset > RNDIS_MAX_TOTAL_SIZE) ||
+> > +	    (BufOffset + 8 >= RNDIS_MAX_TOTAL_SIZE))
+> 
+> Wouldn't those last two lines be more efficiently done with:
+> 
+> BufOffset >= RNDIS_MAX_TOTAL_SIZE - 8
 
-So it can just be removed?  Please submit a patch to do that instead.
-
-Ideally this whole file can be removed, does anyone still use it?
+Probably, but doesn't the compiler turn them into the same result?
+Also, rndis_set_response() has this same check, so at least everything
+is consistent :)
 
 thanks,
 
