@@ -1,80 +1,81 @@
-Received: from air.basealt.ru (air.basealt.ru [193.43.8.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E8C4071EB;
-	Thu,  9 Jul 2026 09:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.43.8.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31183FD13E
+	for <linux-usb@vger.kernel.org>; Thu,  9 Jul 2026 09:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783588729; cv=none; b=Rq8ePi4RhdmgUdm3ppn9vwvQ7ttKzwY4tZ2nr3+L4DbD65Qwq2YxgOJs3kzJQxd/bCWvn6oDMLGHpvvi3EY00RX6PLQDbO0CXxVeb56bF4MzNOe5z6negDND/ZMl7xrKTVSRXzh9ViL2J7N9XKnyqa9wU1d7qpCvALdRzIdW8UM=
+	t=1783590804; cv=none; b=pl7t1JoKlkPiEtWEmYKaS2zct7XzUikztUwdWCk4vW39zeeUp83H4jRviKDAZKn4wlgJnMd6xs9P9rPWv1Uul/24Kzw+7R5TpB/5Bi6LIw08xbpgOzkJcgJggNog7pa3EhZvfQoMK9b2cG6mngb3Iaeu4NJ1MZKp0v8IEWkwdRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783588729; c=relaxed/simple;
-	bh=slLK38pHbzNTsj9MnKVxVXmVDZGcbDycNKHrtCjgZlE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sVB13boWLltMioIoE+fdPaAlrPaQpauAVa6+m7Rg5RHzuL30B0A9pd7AFCS6AKATVXlVHVn4RAfQix/U042coOPOzsEQXdRgH5mCnq9Ji8H64atzLLyJGW4n1u0/Qm9BRbx90akTcSwUqrqDBBB1rCJDuiXhNU16kBt2/dx43xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=193.43.8.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: from altlinux.malta.altlinux.ru (obninsk.basealt.ru [217.15.195.17])
-	(Authenticated sender: kovalevvv)
-	by air.basealt.ru (Postfix) with ESMTPSA id D06F123381;
-	Thu,  9 Jul 2026 12:18:35 +0300 (MSK)
-From: Vasiliy Kovalev <kovalev@altlinux.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Michal Nazarewicz <m.nazarewicz@samsung.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	kovalev@altlinux.org
-Subject: [PATCH] usb: gadget: f_fs: use __GFP_NOWARN for user-controlled buffer allocation
-Date: Thu,  9 Jul 2026 12:18:35 +0300
-Message-Id: <20260709091835.259708-1-kovalev@altlinux.org>
-X-Mailer: git-send-email 2.33.8
+	s=arc-20240116; t=1783590804; c=relaxed/simple;
+	bh=EFA1pQeZZ3wTnjSg3iyWnXHDPpzOQGkpu/ianpCUL1c=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jSJcPv3DwrWI/lXCP/2aFmMhDwwYfHlVefB6MF/psOMV87r9fhNHK17DgbQXIEw22ZYi51xA9bspIJdeF7vHARfpp4/sGxfZlqpi/ektnnHfHJN2KV8XFa7hI5psl/o89yQDdCUG9oW01uPtQuVsgfmFwKokFr7JLj16CzzEERQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MpX1O92f; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MpX1O92f"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 82831C2BCF6
+	for <linux-usb@vger.kernel.org>; Thu,  9 Jul 2026 09:53:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1783590803;
+	bh=EFA1pQeZZ3wTnjSg3iyWnXHDPpzOQGkpu/ianpCUL1c=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=MpX1O92fXXb6FSOdTLPPBEjRHrbu0p4xTNeSYHricKO2SAIlY6uBpPyzZzOB7hm2o
+	 ocTsKM12cZADdbXWACffzHo821xACesVwt8rkElIAvWBQNr7p0prRMO2YVdhUlmRcL
+	 JAUhIfbrI3SWfxPSGiCywyzdmV1bUi4bFpSoi+laJ364sI0LzyCkgWBKNDMD0lL8nk
+	 eaVVi8fFZ27numWZk6iXKuoukmOQoTrx2qLcogKbGtqyNd4C8qd2clw4cx4hGSydzk
+	 KSiTwa1cAWCcycdi98dPe37OSgHMz7wEkATmUni8dVdNEgy875OWpftJkOXGgqR6zo
+	 HBS/suT7pt2pQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 6C9F8C3279F; Thu,  9 Jul 2026 09:53:23 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221073] xHCI host controller dies on resume from s2idle on AMD
+ Strix Halo [1022:1587]
+Date: Thu, 09 Jul 2026 09:53:23 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michal.pecio@gmail.com
+X-Bugzilla-Status: NEEDINFO
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221073-208809-8wclvqN2Wx@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221073-208809@https.bugzilla.kernel.org/>
+References: <bug-221073-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-ffs_alloc_buffer() passes iov_iter_count() of a userspace read(2) or
-write(2) buffer directly to kmalloc() when the UDC does not support
-scatter-gather (gadget->sg_supported == false). There is no upper
-bound imposed on data_len before it reaches kmalloc().
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221073
 
-If a userspace program issues a read/write large enough that the
-resulting order exceeds the page allocator's MAX_PAGE_ORDER, kmalloc()
-routes to the page allocator which triggers a WARN_ON_ONCE before
-returning NULL. The allocation failure is already handled correctly
-via -ENOMEM in ffs_epfile_io(), so the WARN carries no additional
-diagnostic value. On systems booted with panic_on_warn=1 this WARN
-becomes fatal.
+--- Comment #48 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
+Note: such testing can be automated with the rtcwake utility.
 
-Use __GFP_NOWARN so oversized allocations quietly fall back to
--ENOMEM, matching the existing error path.
+Interesting result, does it mean that this platform is capable of putting x=
+HCI
+into D3cold even in s2idle?
 
-Found by Linux Verification Center (linuxtesting.org) with Svace static
-analysis tool.
+What about PCI runtime PM then? Any chance that bug 221103 has the same cau=
+se?
 
-Fixes: ddf8abd25994 ("USB: f_fs: the FunctionFS driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
----
- drivers/usb/gadget/function/f_fs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--=20
+You may reply to this email to add a comment.
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 44218be1e676..e44b441b844b 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -843,7 +843,7 @@ static inline void *ffs_alloc_buffer(struct ffs_io_data *io_data,
- 	if (io_data->use_sg)
- 		return ffs_build_sg_list(&io_data->sgt, data_len);
- 
--	return kmalloc(data_len, GFP_KERNEL);
-+	return kmalloc(data_len, GFP_KERNEL | __GFP_NOWARN);
- }
- 
- static inline void ffs_free_buffer(struct ffs_io_data *io_data)
--- 
-2.50.1
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
