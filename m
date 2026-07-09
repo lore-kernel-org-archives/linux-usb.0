@@ -1,48 +1,86 @@
-Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net [60.251.196.230])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCBE3F39F5;
-	Thu,  9 Jul 2026 08:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.251.196.230
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A253FFAD3
+	for <linux-usb@vger.kernel.org>; Thu,  9 Jul 2026 08:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783586305; cv=none; b=TzUQuKatfpPmF5rSjSiEG7DNQDup1Ue8sw4RevfTeMfNVVoCfHGta+uUmkhG4Z4I8f/MVRW5OrJeasnH2RXWQhRr7xiTCL20vtwqxCen5tYMzzSkWbt4MTuQhkYW3zwu8EL9CQPlJOZtQFrdwrqxld6OSjDgEsV7yFEJEpbuF4Q=
+	t=1783587176; cv=none; b=hF5ejNGn8WPS/rHYZQOmcvHCgY7HuTH3HmSbIthe1ZGt6qWH5fxF3o0sEceAgvVhOUJWOMHcjPam/vAvRtH2C0+jA6haJNEb6anaQRHgFxxq6lK8cOFA58p+uz5dWDYExbaEA43cS70BqDveFCV7lNEmqwRDkgpxurS8CiODSZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783586305; c=relaxed/simple;
-	bh=9o+LYMvJ5wTINY6vywTmDSKEfqklmtFKkqmFQK7irC0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=Ks6A96Tk17o1FlBM5Qk98/ClOTUDlxVThgGdkM7Kah71Oc0VkajSzgjP0XlTwbVqA16pCmdO3x2VXdR+ES1ON/LpedQqF2XmIoQ6SnQ2jjh0e36QrRx1e/4xR0Av8i+GpYqobAsxm3Q3JrlDus1cRE2p6Pg2ejsN7Dnv8z28gy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw; spf=pass smtp.mailfrom=ite.com.tw; dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b=hcsSZroH; arc=none smtp.client-ip=60.251.196.230
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ite.com.tw
+	s=arc-20240116; t=1783587176; c=relaxed/simple;
+	bh=XYBIxNqxFlq7OZ5a4J4tYbrJYzcu3v+1g3fbH6mCKdQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=tC64S+RULywkVvLa0+r4tEwHGySvOZG2hKxeh9hcw8zhSEkm99zkfIX4LuEU3qKbrqyzidExqCjFWTctnl820O4CvIWf13r4b4izD0+LbVX0bYgGeLI9hETSFom+K4kXUEe8eEVHedZvfSjomfaSMsala3sBypAoptBwmWU90Mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=EfDw+euk; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fGyMRwMd; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b="hcsSZroH"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="EfDw+euk";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fGyMRwMd"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 669619ER933373
+	for <linux-usb@vger.kernel.org>; Thu, 9 Jul 2026 08:52:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=KA8OKDkI5NrQUgJQohCBN+
+	QBBA4N92j/ePJqgTem5V0=; b=EfDw+eukyxyjSBy6yicqy8j1xLVJAkpSqVzXBI
+	3oM23Pil3inMDkpYdLS9mOv6H1Aardrc9rrlbR0r425c2vvYRCpTRkFXXbzG+R4H
+	RUta10frVzJEfS70ak07VTuEyj2eqGi80EMWDBZpnWQN9upe/wxGpQJQNh0YYD/4
+	8lnHMHZYxnlxMR/CIM151j8aq4Rl/5AkpPap+zT+iCxzuMb6SY34CMpzZJNGqDn4
+	bb4tzpPO2o79twuQllHPwsMf6Npxp3lln4ZvsbzRxJCD9s8LyaI/cvb8uefrfqZo
+	7WjzreV9NyKXNTY6NNJhirY5kWmXu5Qj8AKvSeC48a/I+z6g==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f9ug6jt5a-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 09 Jul 2026 08:52:51 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3810960140eso3196584a91.2
+        for <linux-usb@vger.kernel.org>; Thu, 09 Jul 2026 01:52:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=ite.com.tw; s=dkim;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=dl0sTBLRcsvu2kwdX88tZmgP8RojEdTSEm5X+P/uvkk=;
-  b=hcsSZroH9jNZgkONg9vjB6Qi1lYVG0Lj7OLWxaE4a1YI5WYob/zdSNBt
-   p6sON8G2ZzjcLkpdTGEzHaNRfEF/KVTbwyfIsaoBpqPTH3ntGdoGpGfBJ
-   SFyTomm2g7KbyHPe63kjNfieia+DEh5XIYazYqVKVBBQmlCX5PYUDsXlD
-   eIOTqQ8MUrKCoS6StysPgPyYXnM91R0WrEuF9MUQ0Irt+wILjTPGtEkLF
-   D8/elCNG9+UuWpsz+RMVzzffQR0bXLBsdzKw15Tgk9BaK/X5hptIB3qqy
-   PG4f8d5n1yLax6NVgHdwB+cYvLsBS6yPEdgnknYgTCkmpHuzHQjUrRUa8
-   Q==;
-X-CSE-ConnectionGUID: wVRz5ltPSISofCGq77huaQ==
-X-CSE-MsgGUID: Nkfy+ZoZSseQLnpBdNHjfQ==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
-  by ironport.ite.com.tw with ESMTP; 09 Jul 2026 16:34:55 +0800
-Received: from hscmail1.internal.ite.com.tw (HSCMAIL1.internal.ite.com.tw [192.168.35.58])
-	by mse.ite.com.tw with ESMTP id 6698Ymf9046663;
-	Thu, 9 Jul 2026 16:34:48 +0800 (+08)
-	(envelope-from amber.kao@ite.com.tw)
-Received: from [127.0.1.1] (192.168.37.107) by HSCMAIL1.internal.ite.com.tw
- (192.168.35.58) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Thu, 9 Jul
- 2026 16:34:46 +0800
-From: Amber Kao <amber.kao@ite.com.tw>
-Date: Fri, 10 Jul 2026 00:34:42 +0800
-Subject: [PATCH v2 1/2] dt-bindings: usb: Add ITE IT885x support
+        d=oss.qualcomm.com; s=google; t=1783587171; x=1784191971; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=KA8OKDkI5NrQUgJQohCBN+QBBA4N92j/ePJqgTem5V0=;
+        b=fGyMRwMddP0WEzVpJamHXwzF3tYSpVEa7P40ynJRBdIUW/zpol3EeAZX56+3DeOV/D
+         mVfEny9KLSuvb/5+/bVNXnZWUF7G64S/YlRUBgfb0NJ4QEeVAckEFkruqPArrDwK8/ZT
+         mOgEg+wMrvfOf3TzOw4rKD9PpHpxhC4BhvvW1VCYY/nVKrN8423nQD0i4I6Ral6hUpjl
+         6mJl5Ff/Mn9GwGglc8OUytP4HUAbdcJ+A0ZEMgpACTOVHXjgXdoquvg2JhVpG1axNDJs
+         L75lHxWKMBMfOTVSdhZiDrJEqGgu3awgw7xCEO8zpyitHOidi0/PIzh0Jwa08qUr7o3g
+         EkAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783587171; x=1784191971;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=KA8OKDkI5NrQUgJQohCBN+QBBA4N92j/ePJqgTem5V0=;
+        b=IHelBws/kObqGdLcxOcJup2nA7nECLCf4G0e6Ols4IRIZkl6AkMgOGqkLTi9Ca7N4O
+         PRfmlcHS4/ZGapWUTbYQntZHQNKsV1WQmmqpXqpvJMz2uEfdJWnWHTKEZumTWs3Sss0k
+         AndJkKoKV/WEeHrqC4L6lOLbjCKduPiWXJ9ByVTCZh3KVZjg7TSVuLOKf0t+b8szXi5U
+         6gIPHsi9FYt7cce4SGXa/UbhmUE2bK1VyIBRuu9I03jejXXJUTwPGtc0KX68D/0NuIpR
+         yeXiGT6TO/mqJFXa7kfTFMrrWJNpzBJ9qvIAWMnaLIUuKu+ktaBrU0fRO1JfQxVcrMBW
+         n5sg==
+X-Forwarded-Encrypted: i=1; AHgh+RpjM3eLI/DRie9BZYRCRZ6BiikoaZfoWBbgQWdXxHKDZhxLRYAGeCbhnAzmHA8sSHUT8r8uR28xZmw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmSh5q8+JFSpARQj/IannNWp6zQBFGkzClNfTZtFuag4uSAwqz
+	asDZrGVkuEpUnPF6s4NE4CA7/LBz0xF6ajQpXGRew6vYwlPi3ZTzoE8vqZCkznDf6eTOr0ySrrZ
+	vItXrg/90jvrGBhQYYl3V3wGQo4EfZro2hSqm/MG36mwrjT7OyajEsYqSE2jOGh0=
+X-Gm-Gg: AfdE7ck+hkj4MDwqxpwInZ2BVGfHg3vmyufBPR+6IzPIpWaUq4++Fr1F/fUTZvcDzqI
+	nOaKh+csBr5aLBFqV7PEyMmvTE2kSBdqgDdu2x4AcFPmXnvoCTB8JAbaaLdoT2j7b8k/rNl+OZA
+	wJ8VCJ+jqM/AgJT/Yto7XqTCa8VJJKGr0nxUN/bjA31pX3PQrEGRF3RB1+HOtdkLv5SnsZEvMZD
+	vcTFQJzZUg5ZQbA1DXzKmfXAvOd1iH91afH3kPwu/Xk6bDUEAcoxYs8HWp/W1JAB/NHttJCGG0g
+	doOCKED+5jgMThMqEQ70bEzc9ZgAQYuRNdlgKs3/Mz1sRadmV9hsOWhfmhs3hJNxTTFggIUyeHd
+	1UxJyG5F/hlPUOTHJr3UwH/YmaPnkK4I0cRJHuFeMNCqrzLxjATaBCWtHcCXL6oY+LEf2ZxYuoS
+	XHd66U
+X-Received: by 2002:a17:90b:39cd:b0:37e:2005:6509 with SMTP id 98e67ed59e1d1-3893fe5b9dbmr7084993a91.3.1783587170661;
+        Thu, 09 Jul 2026 01:52:50 -0700 (PDT)
+X-Received: by 2002:a17:90b:39cd:b0:37e:2005:6509 with SMTP id 98e67ed59e1d1-3893fe5b9dbmr7084947a91.3.1783587169972;
+        Thu, 09 Jul 2026 01:52:49 -0700 (PDT)
+Received: from hu-kriskura-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38a5574c36dsm822771a91.6.2026.07.09.01.52.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 01:52:49 -0700 (PDT)
+From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Subject: [PATCH v4 0/2] Modify interrupt handling for eUSB2 Phy targets
+Date: Thu, 09 Jul 2026 14:22:35 +0530
+Message-Id: <20260709-eusb2-interrupt-handling-v5-v4-0-d4f993925608@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -51,185 +89,111 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260710-ucsi-itepd-feature-v2-1-41943fd5df38@ite.com.tw>
-References: <20260710-ucsi-itepd-feature-v2-0-41943fd5df38@ite.com.tw>
-In-Reply-To: <20260710-ucsi-itepd-feature-v2-0-41943fd5df38@ite.com.tw>
-To: Jeson Yang <jeson.yang@ite.com.tw>, Yaode Fang <Yaode.Fang@ite.com.tw>,
-        Bling Chiang <Bling.Chiang@ite.com.tw>,
-        Doreen Lin <doreen.lin@ite.com.tw>, Eric Su <Eric.Su@ite.com.tw>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
+X-B4-Tracking: v=1; b=H4sIAFNhT2oC/yXMQQrCMBBA0auUWTsQQqLWq4iLpJnWEYllJimF0
+ rsb6/LB52+gJEwKt24DoYWVP7nBnToYniFPhJyawRp7NhfTI1WNFjkXEqlzwRalN+cJF48puD5
+ En3y4OmiHWWjk9bjfH39rjS8aym8J+/4FG1EyzX8AAAA=
+X-Change-ID: 20260709-eusb2-interrupt-handling-v5-da49ab5d5a84
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh@kernel.org>,
-        Krzysztof
- Kozlowski <krzk+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Heikki
- Krogerus <heikki.krogerus@linux.intel.com>
-CC: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Amber Kao <amber.kao@ite.com.tw>
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 X-Mailer: b4 0.15.2
-X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
- HSCMAIL1.internal.ite.com.tw (192.168.35.58)
-X-TM-SNTS-SMTP:
-	5EA805916C6A947DF9A92BF8E94E8E317E595490D18120358E8F26845D8ADA832002:8
-X-MAIL:mse.ite.com.tw 6698Ymf9046663
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783587165; l=2145;
+ i=krishna.kurapati@oss.qualcomm.com; s=20260707; h=from:subject:message-id;
+ bh=XYBIxNqxFlq7OZ5a4J4tYbrJYzcu3v+1g3fbH6mCKdQ=;
+ b=k0BLqybWUhl4RLc8NcIyvSa0hWFcpwp/Dm3Fpd/XbfLBDF1LTyxZO3VIRkMzernvGzGsmjAq9
+ hIJw5M7Py7lB0qKQ/cyEQOpvjeqSqhXjJrnPFcxoQwfugo+bnxNBy4r
+X-Developer-Key: i=krishna.kurapati@oss.qualcomm.com; a=ed25519;
+ pk=6PmiuwGCdov3wRO+bdmRlRxRtmJyDKz3ED57LLPVgds=
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA5MDA4MyBTYWx0ZWRfX3KNV1neWeIk7
+ N9vFKY117rtjOIUKfOQoan1KcdNw523O+trtRdIsQM/T8JsvACgG/0Y+Us1KmnldSmcSaO4Szbm
+ XOzxcMj2h9Oayie0tj8tYN0DWacjmI0=
+X-Proofpoint-GUID: FD0f1JlZy38wdHL-2-HGB0w7udOKh3Xn
+X-Authority-Analysis: v=2.4 cv=cL3QdFeN c=1 sm=1 tr=0 ts=6a4f6163 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=hOquEkmrNNFKbTobP-QA:9 a=QEXdDO2ut3YA:10
+ a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-ORIG-GUID: FD0f1JlZy38wdHL-2-HGB0w7udOKh3Xn
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA5MDA4MyBTYWx0ZWRfX7+lU/FJMOxbF
+ aX8oG+1SnVgJW7thxngDgHJGPlPhadSK/o7d9jmH8NQXKxy/t8uDsF7C2pzlksgKSfm1KHCP1s0
+ d4MVQnMvtTAPcXVMQiwIxCrUWa5QKPQRq82geTVhpu54bmMT7gzJr9KLmD1RlkPAFs20QViVV4H
+ MGu88lOCrVqxGjYVt3mcFdEaTgOpbQM0keP9tOQ2MPnjYsnM1cLh+7ujvXZNig6/sDR9k48DOht
+ oqmz2XiHkJ9BLT8QLq0NZIHOITC9J6zEqLVpk0On09M3HiQ10+0xR+iuv88uibsJ/1dm5dYH5fO
+ v9YxEdVig3o1SfcYtJr0l6iugWHYf8Ysk2AwAC/BNi8RamtlXIGIW9bYJUT4JEi3ICIMw8M9NH8
+ nCImKcIUPf/xXDo039RSK3l0ZZLwoPxycdV319O9UqbQUmsk3JiF1Jc0+WK11sG7oM+Aju8nA9q
+ Wcb7F81csVre/xT/zfA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-09_01,2026-07-08_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 suspectscore=0 adultscore=0 spamscore=0
+ phishscore=0 bulkscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607090083
 
-Add device tree binding documentation for the ITE IT885x. The ITE
-IT885x is an I2C-based USB Type-C Power Delivery (PD) controller.
+eUSB2 targets handle wakeup interrupts differently depending on device
+speed when operating in host mode.
 
-v1 -> v2:
-- Per Conor/Sashiko: dropped the redundant `gpios` property, the
-  interrupt line is already described via `interrupts`
-- Per Conor: renamed example node from `itepd@40` to `typec@40`
+According to the eUSB2 specification, remote wakeup signaling in host
+mode is detected via different data-line assertions based on the
+connected device speed.
 
-Cc: Yaode Fang <Yaode.Fang@ite.com.tw>
-Cc: Jeson Yang <jeson.yang@ite.com.tw>
-Cc: Bling Chiang <Bling.Chiang@ite.com.tw>
-Cc: Eric Su <Eric.Su@ite.com.tw>
-Cc: Doreen Lin <doreen.lin@ite.com.tw>
-Signed-off-by: Amber Kao <amber.kao@ite.com.tw>
+When a low-speed device is connected, the host repeater drives eD+ to
+logic '1' upon detecting a K-state on the USB lines during remote wakeup
+(eUSB2 specification, Section 5.5.14).
+
+When a full-speed or high-speed device is connected, the host repeater
+drives eD- to logic '1' upon detecting a K-state on the USB line during
+remote wakeup (eUSB2 specification, Sections 5.5.15 and 5.5.18).
+
+Since the eUSB2 PHY's "DP" and "DM" interrupt lines monitor the eD+ and
+eD- line states, configure the wakeup interrupts accordingly
+
+Add new property to dt-binding indicating that the USB controller on SoC
+has eUSB2 Phys or not.
+
+Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+---
+Changes in v4:
+- Moved to using binding approach as suggested by Thinh
+
+Link to v3:
+https://lore.kernel.org/all/20260511094422.3561509-1-krishna.kurapati@oss.qualcomm.com/
+
+Changes in v3:
+- Removed multiple glymur-dwc3-mp pdata entries
+- Replaced use of ternary operators with if-else
+
+Link to v2:
+https://lore.kernel.org/all/20260505194242.1947891-1-krishna.kurapati@oss.qualcomm.com/
+
+Changes in v2:
+- Updated commit message
+- added supported eUSB2 targets
+
+Link to v1:
+https://lore.kernel.org/all/20260502095616.666938-1-krishna.kurapati@oss.qualcomm.com/
 
 ---
-v1: https://lore.kernel.org/all/20260615-ucsi-itepd-feature-v1-0-a826cfd0df6a@ite.com.tw/
+Krishna Kurapati (2):
+      dt-bindings: qcom,snps-dwc3: Add property indicating presence of eUSB2 phy
+      usb: dwc3: qcom: Modify interrupt handling for eUSB2 Phy targets
+
+ .../devicetree/bindings/usb/qcom,snps-dwc3.yaml    |  7 ++++
+ drivers/usb/dwc3/dwc3-qcom.c                       | 40 ++++++++++++++++------
+ 2 files changed, 37 insertions(+), 10 deletions(-)
 ---
- .../devicetree/bindings/usb/ite,itepd-it885x.yaml  | 105 +++++++++++++++++++++
- MAINTAINERS                                        |  11 +++
- 2 files changed, 116 insertions(+)
+base-commit: 62481c92444386d46b3c4a9c3dbcd4917f07d138
+change-id: 20260709-eusb2-interrupt-handling-v5-da49ab5d5a84
 
-diff --git a/Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml b/Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml
-new file mode 100644
-index 000000000000..0a292a8e72cd
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml
-@@ -0,0 +1,105 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/ite,itepd-it885x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ITE IT885x USB Type-C Power Delivery Controller
-+
-+maintainers:
-+  - Jeson Yang <jeson.yang@ite.com.tw>
-+
-+description:
-+  The ITE IT885x is an I2C-based USB Type-C Power Delivery (PD) controller.
-+
-+properties:
-+  compatible:
-+    const: ite,itepd-it885x
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  wakeup-source: true
-+
-+  pinctrl-names:
-+    minItems: 1
-+
-+  pinctrl-0: true
-+
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+patternProperties:
-+  "^connector(@[0-9a-f]+)?$":
-+    $ref: /schemas/connector/usb-connector.yaml#
-+    unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        typec@40 {
-+            compatible = "ite,itepd-it885x";
-+            reg = <0x40>;
-+            interrupts-extended = <&tlmm 129 IRQ_TYPE_EDGE_FALLING>;
-+            wakeup-source;
-+
-+            pinctrl-names = "default";
-+            pinctrl-0 = <&itepd_int_default>;
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            connector@0 {
-+                compatible = "usb-c-connector";
-+                reg = <0>;
-+                label = "USB-C";
-+                power-role = "dual";
-+                data-role = "dual";
-+
-+                ports {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+
-+                    port@0 {
-+                        reg = <0>;
-+                        endpoint {
-+                            remote-endpoint = <&eud_con>;
-+                        };
-+                    };
-+
-+                    port@1 {
-+                        reg = <1>;
-+                        endpoint {
-+                            remote-endpoint = <&redriver_ss_out>;
-+                        };
-+                    };
-+
-+                    port@2 {
-+                        reg = <2>;
-+                        endpoint {
-+                            remote-endpoint = <&fsa4480_sbu_mux>;
-+                        };
-+                    };
-+                };
-+            };
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 461a3eed6129..1b03fa3aa060 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13720,6 +13720,17 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
- F:	drivers/gpu/drm/bridge/ite-it66121.c
- 
-+ITE IT885x TYPE-C PD CONTROLLER DRIVER
-+M:	Jeson Yang <jeson.yang@ite.com.tw>
-+M:	Amber Kao <amber.kao@ite.com.tw>
-+R:	Yaode Fang <Yaode.Fang@ite.com.tw>
-+R:	Bling Chiang <Bling.Chiang@ite.com.tw>
-+R:	Doreen Lin <doreen.lin@ite.com.tw>
-+R:	Eric Su <Eric.Su@ite.com.tw>
-+L:	linux-usb@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/usb/ite,itepd-it885x.yaml
-+
- IVTV VIDEO4LINUX DRIVER
- M:	Andy Walls <awalls@md.metrocast.net>
- L:	linux-media@vger.kernel.org
-
--- 
-2.53.0
+Best regards,
+--  
+Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 
