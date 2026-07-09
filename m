@@ -1,126 +1,108 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405FE400DE1;
-	Thu,  9 Jul 2026 12:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C0F42314E;
+	Thu,  9 Jul 2026 12:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783600373; cv=none; b=AFY1T37pkmPjFJLdmK6C7ADd2C3aRAvS9buRJ6YecHM/LSRz+jVYLv2ju49CpjiIj2apHQALF5FKekZwzbAz3oltkAQ2PkIpPu3T/VAV2b4Za/snzB2Rqq4Uei7Lg2ee9SrEMB/K1flSk8sgUnNBO4tXRe8kJW94VJnavBfqC9E=
+	t=1783600662; cv=none; b=UUQDIqqjOdP/nzvnWWBpo6AXNb2b1rPS5jv84M0Pq3Tq1vm39F5WH9CAQ2CUbOjcTwTyoX2/YMFZxiNlMPfgVT6Y6FYQDCtF1wPfI7QsyoKRS9lBTO0GAbzCu8bc1aHneGTgzx8E2owVyISVP9Kj7+8fnj1EASPTVJY8Rs55sck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783600373; c=relaxed/simple;
-	bh=iG3oDWkpdroazOyP4u0SloMlo4lovTKomb7hmNhAbIY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RBljg9IJI1av2dktSV7igwMs4Ax5simhhWyBpW7D1Ek7MvaS1Zm72lFWZTAj+YD6iVoJBZaw50d9hRjfhbPnabft4GGkcuW1DnVJVcHjWZiN+MYwj0MhZA9+6HavoS4qxKllCfx4aaWS819EGVLiy5sjDGqT/omwx4d8i8wfdvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-03 (Coremail) with SMTP id rQCowADXu+LolE9q+wxEFw--.6599S2;
-	Thu, 09 Jul 2026 20:32:40 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Pengyu Luo <mitltlatltl@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH v3] usb: typec: ucsi: gaokun: unwind notifier on UCSI register failure
-Date: Thu,  9 Jul 2026 20:32:39 +0800
-Message-ID: <20260709123239.62930-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1783600662; c=relaxed/simple;
+	bh=9mUEh7JJ5Hj7d4HF8ZuDZfLWSNamwgKa9yDJtW4exD4=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=IVHCwOeF3SwvReUjJZhk9u4kPiF7NKUrDYu9nWYRGPQLKRhNPm4ippKFWBirDki20KSSFxm968hBsgQ5j+wSxBSODTHLH2oDTcPaBtQ3ZmksVx0Q7AqzxJoPzdQvZDXAK+GOiIKXxF5S9Q7T9P6jPicFzZ4py6vyH95ccQx0mpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=U/DlZ5eu; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="U/DlZ5eu"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gwvcd4bk6zMlHs;
+	Thu, 09 Jul 2026 14:37:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1783600657;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9w3MuQ9hO1ow5wjopkcgpcnT5W91hwq/FqCJiEnl/U8=;
+	b=U/DlZ5euG11Bh810Iznq69BjcVMDkoFkm+C96W3oeQBilkHk8oNAFTBo6S0w3hXt1L1W1J
+	Qha2BmaIkGP+3knXFrk0+Qd7XUY+SdYpHHIOW5vEZXL66FeVNQPybYn8X5wmKy2gTIv7F4
+	nFe/mIiRWExsZLzW1hdtHp8t4IKbpFZpD9DfVsCYLb92IdyOwjIgxOsxm2LJU09sB5nsmC
+	53FPIW1gvDPniB+ElxG2hxKDRaRSHvsSLKcAz5nVEtFRfADKrSRxdyYkFdyAIjNQ59ZSCa
+	ngRXngGHcExvfhPcM/XusDRpW2kUKAfPm6fjd8eScRxwOyVXsQPW81HxAwewtA==
+Message-ID: <0a0721d511c10414cb6a6e53f1bb33698ada963e.camel@mailbox.org>
+Subject: Re: [PATCHv2 net-next 1/7] net: usb: centralize
+ usbnet_cdc_zte_rx_fixup in usbnet
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: Oliver Neukum <oneukum@suse.com>, andrew+netdev@lunn.ch, 
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, 	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Thu, 09 Jul 2026 14:37:32 +0200
+In-Reply-To: <20260709120116.1423033-1-oneukum@suse.com>
+References: <20260709120116.1423033-1-oneukum@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowADXu+LolE9q+wxEFw--.6599S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxuryrKw4DAF4UCF4DWryxuFg_yoW5Grykp3
-	9Ik3ySgrWUXr47uanxXF15AFy5WFyxtrW7AFy7X34F9rs0vry8Z3yxtFWFqFy8GrW0kFy7
-	Zr4jy3yUuryqyr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkm14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
-	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-	IxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfUehL0UUUUU
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+X-MBO-RS-ID: 1bc4835a57a33a462e4
+X-MBO-RS-META: 5zy76esrfprzhha86d1riy6nno75xab5
 
-gaokun_ucsi_register_worker() registers the EC notifier before calling
-ucsi_register(). If ucsi_register() fails, the worker currently only logs
-the error and leaves the notifier registered. Later EC events can then
-call into an unpublished UCSI instance.
+On Thu, 2026-07-09 at 14:01 +0200, Oliver Neukum wrote:
 
-The remove path also unconditionally unregisters both the EC notifier and
-the UCSI device even if the delayed worker failed before both publication
-steps completed.
+I guess a couple suggestions got lost, that's ok.
 
-Unregister the notifier immediately when ucsi_register() fails, and track
-only the fully published state. The remove path then tears down the pair
-only if both publication steps completed.
+> This helper is used by multiple drivers using usbnet.
+> It is better to be provided by usbnet than one of them.
+>=20
+> Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> ---
+>=20
+> v2:
+> - spelling issues
+> - issue with lost synchronization with SPLIT packets
+>=20
+> =C2=A0drivers/net/usb/cdc_ether.c | 19 -------------------
+> =C2=A0drivers/net/usb/usbnet.c=C2=A0=C2=A0=C2=A0 | 19 +++++++++++++++++++
+> =C2=A02 files changed, 19 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
+> index b4df32e18461..e688fb99c61d 100644
+> --- a/drivers/net/usb/cdc_ether.c
+> +++ b/drivers/net/usb/cdc_ether.c
+> @@ -404,25 +404,6 @@ static int usbnet_cdc_zte_bind(struct usbnet *dev, s=
+truct
+> usb_interface *intf)
+> =C2=A0	return status;
+> =C2=A0}
+> =C2=A0
+> -/* Make sure packets have correct destination MAC address
 
-Fixes: 00327d7f2c8c ("usb: typec: ucsi: add Huawei Matebook E Go ucsi driver")
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Reviewed-by: Pengyu Luo <mitltlatltl@gmail.com>
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
----
-Changes since v2:
-- rebase onto v7.2-rc2, which now releases per-port typec_mux handles in
-  the remove path
-- add the collected Reviewed-by tags
-- add the Fixes tag after checking the introducing commit
-- no hardware test was performed
+Make sure packets have the correct destination MAC address
 
- drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+> - *
+> - * A firmware bug observed on some devices (ZTE MF823/831/910) is that t=
+he
+> - * device sends packets with a static, bogus, random MAC address (event =
+if
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c b/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
-index ad669d2..24e859a 100644
---- a/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
-+++ b/drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c
-@@ -103,6 +103,7 @@ struct gaokun_ucsi {
- 	struct notifier_block nb;
- 	u16 version;
- 	u8 num_ports;
-+	bool registered;
- };
- 
- /* -------------------------------------------------------------------------- */
-@@ -482,8 +483,13 @@ static void gaokun_ucsi_register_worker(struct work_struct *work)
- 	}
- 
- 	ret = ucsi_register(ucsi);
--	if (ret)
-+	if (ret) {
- 		dev_err_probe(ucsi->dev, ret, "ucsi register failed\n");
-+		gaokun_ec_unregister_notify(uec->ec, &uec->nb);
-+		return;
-+	}
-+
-+	uec->registered = true;
- }
- 
- static int gaokun_ucsi_probe(struct auxiliary_device *adev,
-@@ -528,8 +534,11 @@ static void gaokun_ucsi_remove(struct auxiliary_device *adev)
- 	int i;
- 
- 	disable_delayed_work_sync(&uec->work);
--	gaokun_ec_unregister_notify(uec->ec, &uec->nb);
--	ucsi_unregister(uec->ucsi);
-+	if (uec->registered) {
-+		gaokun_ec_unregister_notify(uec->ec, &uec->nb);
-+		ucsi_unregister(uec->ucsi);
-+	}
-+
- 	for (i = 0; i < uec->num_ports; ++i)
- 		typec_mux_put(uec->ports[i].typec_mux);
- 
--- 
-2.50.1 (Apple Git-155)
+ (even if the device ...
 
+> - * device MAC address has been updated). Always set MAC address to that =
+of the
+> - * device.
+
+Always set the MAC address to the one of your device.
+
+Thanks
+ Manuel
+
+> [...]
