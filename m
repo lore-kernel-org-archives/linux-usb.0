@@ -1,84 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35A81E1A3D
-	for <linux-usb@vger.kernel.org>; Thu,  9 Jul 2026 14:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC61D329E6A
+	for <linux-usb@vger.kernel.org>; Thu,  9 Jul 2026 14:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783606687; cv=none; b=jySbaiLpPn+bKjt2te7Tn3bQF+UXM7jl/BKrv7gtfdfCH9wlEPyswzdpxE+R3QZ5H+eCycqjPcPdR4OUZG6AosvcZKdsB5cEd3QL5cnN7uzAB+bjJR2F6AynY1ItI7q+9PkIz5QepyJf2veTY43ynYH12ymjBFzUXC+JzFdQiUY=
+	t=1783607442; cv=none; b=p9tuVVqOeSHeWsK2tJFitXijD1lYPOHgPA9NwlwfnxKP92miSq3XvM6c06J2tfr7UNFsrOZj1sG4vDLvqesMjr0nkBCZSeyWtc6ClOeNOG+FyE72lKgeZ2mNNdic2Hwt+9eLqCv8ryaeue+YMBgatOzaH9noPew5rK8qIeW1f4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783606687; c=relaxed/simple;
-	bh=+k4tqqPK2Mt2Ukpo2bDKp6dzsqQ4g2tr5LKoT0wlF/g=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=kD4/mmV5OG4OcVYU7sGBRxHrKIMyjABkt8lYzAw2MPpxnppo12jQn/3kZJXJwLl05fWwVrpDpxQbApH/kLmIx90pCV7ghOx4bgjPU19oZEvrNFNZwKpTZmYOgMA/AJSHbGIwEP8P7kf0bQMhbLKbGLWEZ7iJLLBWgqS9pFyEXYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HEkDAOKq; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783607442; c=relaxed/simple;
+	bh=Uk1paIY8euqKKlETQZ8oULEMJ7HstW0bVetbSs+wtjk=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iprJUblRJIlFqnTqEWxcYxrRawU8A87SMJlo9cH30DTxys69rjPKgN86lW59R43sK/IIBStswk1br9tToj1PS8jBLo6zKXssAZJtbSBlUfj1rkfyl+svAtIz0Q3/nTNH7BdJ6ofkLPnzfkm7YeY2ubEiJchz0nrF43lGaT1frmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RPN0dW6P; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HEkDAOKq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783606685; x=1815142685;
-  h=date:from:to:cc:subject:message-id;
-  bh=+k4tqqPK2Mt2Ukpo2bDKp6dzsqQ4g2tr5LKoT0wlF/g=;
-  b=HEkDAOKqz6+65HisvLDGZW+/snf5NLHZLmOy2xHQS7y1tApgTWcY0VvK
-   Wy2svO2bWkXDK8OBguRaI9NCxkqdpWqwXmfJ9oXBF6x0OWzHO0pSTqONS
-   PzsEe3+9/LCz1huipHyl74IuIv/mcVg6GD0LG/SwAzuaUsa5HLtWpR66E
-   UD4eQBHHOheXnYUjd77KMZ31VXvHhYCVJV6XhpJRTyYJUgNNDh5lvEYFc
-   nfz4+Ga2jYCr/MHzq2SndQ9IDq5cpIL+Hivu7UA8Zw6l7e0sN79A5n8kv
-   f45tCtFIMdSa03BQ9fSC3UEuwiE6QDKrpPJJCpqBAEam0s4wyIwGWnWP3
-   g==;
-X-CSE-ConnectionGUID: UNPEne1jQUC8/m10N32ceg==
-X-CSE-MsgGUID: lYqpD4N7TteArYnSa4/LVw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95802518"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="95802518"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 07:18:05 -0700
-X-CSE-ConnectionGUID: 0OKB/MgZS+imGOzIKdKvYA==
-X-CSE-MsgGUID: 4mjox98sTd2O1Q6krgYShg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="250611506"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Jul 2026 07:18:03 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1whpZY-00000000HkO-0AMq;
-	Thu, 09 Jul 2026 14:17:54 +0000
-Date: Thu, 09 Jul 2026 22:17:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amit Sunil Dhamne <amitsd@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- Badhri Jagan Sridharan <badhri@google.com>
-Subject: [usb:usb-testing 23/28] tcpm.c:undefined reference to
- `__udivdi3'
-Message-ID: <202607092212.lINETdSF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RPN0dW6P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A80D21F00A3D
+	for <linux-usb@vger.kernel.org>; Thu,  9 Jul 2026 14:30:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783607440;
+	bh=Uk1paIY8euqKKlETQZ8oULEMJ7HstW0bVetbSs+wtjk=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=RPN0dW6PuazA0DKoZ2ps2OmJJ3t8w5Z4d769XH0gGOekHGK+UzxclezCPCuebxz0R
+	 bMiCG7stnBWSKK4KUw/HHvytQteBYxb+DQedgiF5NOEq6xYCQGMoMr6OQ6NunZSUj3
+	 gFsFhFyPU5SmiSGn1//yco5O2nFhuWD9OB73iL+0vl7qWkOcly5jCzj2aYNKbxUes4
+	 DFuEg/5c3MgF0iAnb9feN4f+m3Pdd3yHZRP6C+15w4+uew5Vd7hj9VcqvuRYoG55t7
+	 oUXGEPZouC4ZQ26OQFMOeB/ZIRmXJwSRzWJ4QVdO8UrF3KX8I95kFTNqSv4NjKxBrN
+	 y39JW28REyEXg==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aeb5e85378so1128453e87.1
+        for <linux-usb@vger.kernel.org>; Thu, 09 Jul 2026 07:30:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrWNqQOFDTr6g5nxN5jyseru+Uv80ocuOcK1KNGH3SI5c3bybEyrrP9ZOF8xPgutlgEcQqH9UDRXew=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwdlDiGG0f8USsykzdd8Xh5Gh+SvPefuVWz/Xiw9DZ2i9xwe7n
+	ln/b30YkpSAxlxQBhEMv1TVG+KpdQof3Zsc6Kq7Q+0/vFWh4jFKJ2Y2/Edx4zfAn0OWNvtXkSoU
+	fYKcChzEEV58cH1k/BQzMbDhIDsyq9oKRZBDskhS8fg==
+X-Received: by 2002:a05:6512:1415:b0:5ae:b88c:3ff2 with SMTP id
+ 2adb3069b0e04-5b0114afdadmr1759669e87.51.1783607439457; Thu, 09 Jul 2026
+ 07:30:39 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 9 Jul 2026 07:30:36 -0700
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 9 Jul 2026 07:30:36 -0700
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260709095726.704448-7-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260709095726.704448-1-wenst@chromium.org> <20260709095726.704448-7-wenst@chromium.org>
+Date: Thu, 9 Jul 2026 07:30:36 -0700
+X-Gmail-Original-Message-ID: <CAMRc=Mfx1qoHWs08xOqNzmp3+RroPXQF1ps0Q_bu+17DWz0eWw@mail.gmail.com>
+X-Gm-Features: AVVi8CcTCqwQAcyQVn3vmM3d_PiKCDTxzoT6aStAZSp__o8inJgUu4b7eftjDFw
+Message-ID: <CAMRc=Mfx1qoHWs08xOqNzmp3+RroPXQF1ps0Q_bu+17DWz0eWw@mail.gmail.com>
+Subject: Re: [PATCH v4 06/14] usb: core: Move struct usb_port and related APIs
+ to port.h
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-head:   472ce6621e371aafc03c0704d1d940f51d8159db
-commit: b3c9b6925ca2e02ef2fd77d0aa5e0ca6b2a67f5a [23/28] usb: typec: tcpm: Add support for Battery Status response message
-config: i386-buildonly-randconfig-005 (https://download.01.org/0day-ci/archive/20260709/202607092212.lINETdSF-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607092212.lINETdSF-lkp@intel.com/reproduce)
+On Thu, 9 Jul 2026 11:57:11 +0200, Chen-Yu Tsai <wenst@chromium.org> said:
+> |struct usb_port| and its matching container_of() macro should live in
+> its own port.h, matching the split we have for .c files.
+>
+> Move them as described. Also move usb_port_is_power_on(), since in the
+> next change its |struct usb_hub *| parameter will be changed to
+> |struct usb_port *|, and becomes a non-static function that only
+> references |struct usb_port|.
+>
+> port.h is only included from hub.h, as a subsequent patch will directly
+> use fields from |struct usb_port| in a static inline helper in hub.h.
+> The USB internal headers don't have header guards to help with this.
+>
+> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607092212.lINETdSF-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld: drivers/usb/typec/tcpm/tcpm.o: in function `tcpm_pd_send_batt_status.constprop.0':
->> tcpm.c:(.text+0x6743): undefined reference to `__udivdi3'
->> ld: tcpm.c:(.text+0x6764): undefined reference to `__udivdi3'
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
