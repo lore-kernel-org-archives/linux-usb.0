@@ -1,143 +1,84 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3EE32D43C
-	for <linux-usb@vger.kernel.org>; Thu,  9 Jul 2026 13:57:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35A81E1A3D
+	for <linux-usb@vger.kernel.org>; Thu,  9 Jul 2026 14:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783605424; cv=none; b=ihVmJ5DRNjbTlas/b5X2oQpK3qw5/gALvWuQ1jc0XZ6K2yrjygrt/laDVm2a+AlydvHMAXMp2HYQj4o1EYWz9CndDuPkO3FM0Wb5pfMcuha09WlxzQvIfDj+eLaBeFTl7a6BHIDJ16NOQU6KVzd8mgn7W8HuM6l6hCtNL6PBv+c=
+	t=1783606687; cv=none; b=jySbaiLpPn+bKjt2te7Tn3bQF+UXM7jl/BKrv7gtfdfCH9wlEPyswzdpxE+R3QZ5H+eCycqjPcPdR4OUZG6AosvcZKdsB5cEd3QL5cnN7uzAB+bjJR2F6AynY1ItI7q+9PkIz5QepyJf2veTY43ynYH12ymjBFzUXC+JzFdQiUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783605424; c=relaxed/simple;
-	bh=K5fH2IKrnfPEIkySIrvu/rBHR4F+hmoycCCFpOEaZ0g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=XX/or/aF9eVG5vR87yqVJ6oJt5bGR3iEoXmIqDTAEjs4p3kjzEQetuufxT2XfLwLM9nz/VnNheKuq0FViVcejPKOcF5J9xYOV67TpV0Lk5R1JwGsMtIUunpkYNrQu6mV5wWntJdsIqz3s2mOEbhbJxintBhDZ8BSuzoH0Og9Nek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MYtfZzOk; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=LIaDsQXP; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1783606687; c=relaxed/simple;
+	bh=+k4tqqPK2Mt2Ukpo2bDKp6dzsqQ4g2tr5LKoT0wlF/g=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=kD4/mmV5OG4OcVYU7sGBRxHrKIMyjABkt8lYzAw2MPpxnppo12jQn/3kZJXJwLl05fWwVrpDpxQbApH/kLmIx90pCV7ghOx4bgjPU19oZEvrNFNZwKpTZmYOgMA/AJSHbGIwEP8P7kf0bQMhbLKbGLWEZ7iJLLBWgqS9pFyEXYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HEkDAOKq; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MYtfZzOk";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="LIaDsQXP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1783605421;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cANH06pZ/zI+QIWpTjNeANK2N/N1qkbVAiixYLvi4Ts=;
-	b=MYtfZzOkVPZDixB2S9vMbbcxXAf8wGob04ZlnAey9cHY+UapIcNvLFkTYhBK/5jFHj6o1u
-	qKKKwyyT0v1YiqypCEdUIrtKapO8YsPh3ooy2uVKiqx+CnOV4k1qekHbnfvPrK7GChFrGE
-	y6c68p0q0xhnM67qD+MeXlnzcIDo9ek=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-12--kPo-1yQP6K1aCEvt40ZjA-1; Thu, 09 Jul 2026 09:56:59 -0400
-X-MC-Unique: -kPo-1yQP6K1aCEvt40ZjA-1
-X-Mimecast-MFC-AGG-ID: -kPo-1yQP6K1aCEvt40ZjA_1783605419
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-476608a9fefso734125f8f.1
-        for <linux-usb@vger.kernel.org>; Thu, 09 Jul 2026 06:56:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1783605419; x=1784210219; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cANH06pZ/zI+QIWpTjNeANK2N/N1qkbVAiixYLvi4Ts=;
-        b=LIaDsQXP2mW71crkWDv+NCPeMxIZzukCABVBiLyxuH/HVFB/AFlEajvYElBZS623CN
-         m0iK3Yu4EzajQaKxm4lH+AhCeo7LgQzhlgsdRz6r0/tSY8irsg9Noh1egyeUpOgvNdWf
-         EMnmjv0TjUc9bWVupzdZyCu/nXvlNlnZHEKL2OIS7H96WBQ6h6e5WE3+RPjm4o9Ywy0C
-         /w+kVIA8ZFubt2aCAMYRT5IX0Qgx2kfJg1MAJhTGkPcQwKCCLKPLg0Jq+Azq+5js6E58
-         1WsTEn9cf8UQoEsN5FmIkyAWuwbQfwvrcPazSN15uaMIv2GwgPVDqx0zMQEdnWqGRV8S
-         yfiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783605419; x=1784210219;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cANH06pZ/zI+QIWpTjNeANK2N/N1qkbVAiixYLvi4Ts=;
-        b=cgrOtV60qUwOdfK4Dwg00tsdMbav4toHwJxQnEOp+6VmyvxDpF5/YqcDg17U3PhmVt
-         z5UMXVmuEezXTJBT/MhPydm02Qq73XAP3KF6xHWOZK++3Fg/SMvbZiJAh7YJzC+DZJZg
-         /Q7izSi5clzStYRdlD0/VElSzb8sqItFbmBw+Q15i3foMx5OzyVnARnOo95FPjczh56k
-         fjgVMPMuSH8e5SZyazVhRgFa0y7OuLqoDeDNH53jLFGOSInRgDAkN5bBCnReDSfbXxSD
-         to+vfwW0etYBDSPvSqKaGeyt1+cQJQEnnq+YZ/64BNd/gJZO3FwttzQoZy57nEyIWY6l
-         ye6Q==
-X-Forwarded-Encrypted: i=1; AHgh+Ro0S7k+EchyqDG9tvUooHK0/ImoS6eVTILM0VXLLA3RRVfheHCfLObuOdL4lhSh2n2ZFeZ5dg7inuc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJvJ6Jb+rPXQeXOdf2r+VSn9Wszxt4g+caew8f/9vfVdR3/X4Y
-	sG/f2xHUWzIXcVn3gBWgTcrlxGe1wGEtonK85B2D78Q4KlTiEi5sd8bc89wTwv8Vx3oqU9moZMR
-	xmx1p6ShNcZhXnQZPK0TY7Z5hGFjapD/7xjkpVUmzsGIr9rIe9HMfXQhTEURR0A==
-X-Gm-Gg: AfdE7cmLwHM4qxaaydwSBHpiy1eou3EDISpkfOKzlCHaKTEsX7AirYsUcuRU5vOVPqy
-	oVV3woJAy3b7xaGriW03au3MFyx0ohHq5DiWIZjVVL6HrdEB3VhfEZhissDC4ohz7MRv6wY83+p
-	hG2RoKbKPTkBUzuDB+wlrxKvs0sruA3IucGm2PF2vQ3mSvgFGEDoIwSRrS49cXbTE3vvJSD0U2t
-	QSKp1y/q1jOHvzV9ClIRiS0G52Vwl5eLhd3zwbf/E6uC4RbdWiYBcr/yEJI5WZNuqheTzCGI4QC
-	/TKuFsmOLuRYwIbPr5Z5dhWHJqk0v4DYFSsAZrJ577toAVuJLKxogF8T+7WjlzVJ/Os5c9fTwgc
-	JeHKKhQj9VbbRft8EisC34GvhqtXrSa4E10X0lik0DiMoQLJCCiNhsf1RWYqVwfnxFm3jZ5XKdn
-	XTInNjD2TkqJ47
-X-Received: by 2002:a05:6000:4711:b0:474:c3a5:4132 with SMTP id ffacd0b85a97d-47df754a4admr3518324f8f.9.1783605418675;
-        Thu, 09 Jul 2026 06:56:58 -0700 (PDT)
-X-Received: by 2002:a05:6000:4711:b0:474:c3a5:4132 with SMTP id ffacd0b85a97d-47df754a4admr3518275f8f.9.1783605418184;
-        Thu, 09 Jul 2026 06:56:58 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:5521:6b10:58fd:68f:7756:389d? ([2a0d:3344:5521:6b10:58fd:68f:7756:389d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa09608d4sm53167952f8f.25.2026.07.09.06.56.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Jul 2026 06:56:57 -0700 (PDT)
-Message-ID: <56be707f-3f3e-4e5f-8379-3305c864c9d4@redhat.com>
-Date: Thu, 9 Jul 2026 15:56:55 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HEkDAOKq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783606685; x=1815142685;
+  h=date:from:to:cc:subject:message-id;
+  bh=+k4tqqPK2Mt2Ukpo2bDKp6dzsqQ4g2tr5LKoT0wlF/g=;
+  b=HEkDAOKqz6+65HisvLDGZW+/snf5NLHZLmOy2xHQS7y1tApgTWcY0VvK
+   Wy2svO2bWkXDK8OBguRaI9NCxkqdpWqwXmfJ9oXBF6x0OWzHO0pSTqONS
+   PzsEe3+9/LCz1huipHyl74IuIv/mcVg6GD0LG/SwAzuaUsa5HLtWpR66E
+   UD4eQBHHOheXnYUjd77KMZ31VXvHhYCVJV6XhpJRTyYJUgNNDh5lvEYFc
+   nfz4+Ga2jYCr/MHzq2SndQ9IDq5cpIL+Hivu7UA8Zw6l7e0sN79A5n8kv
+   f45tCtFIMdSa03BQ9fSC3UEuwiE6QDKrpPJJCpqBAEam0s4wyIwGWnWP3
+   g==;
+X-CSE-ConnectionGUID: UNPEne1jQUC8/m10N32ceg==
+X-CSE-MsgGUID: lYqpD4N7TteArYnSa4/LVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="95802518"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="95802518"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2026 07:18:05 -0700
+X-CSE-ConnectionGUID: 0OKB/MgZS+imGOzIKdKvYA==
+X-CSE-MsgGUID: 4mjox98sTd2O1Q6krgYShg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="250611506"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 09 Jul 2026 07:18:03 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1whpZY-00000000HkO-0AMq;
+	Thu, 09 Jul 2026 14:17:54 +0000
+Date: Thu, 09 Jul 2026 22:17:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amit Sunil Dhamne <amitsd@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ Badhri Jagan Sridharan <badhri@google.com>
+Subject: [usb:usb-testing 23/28] tcpm.c:undefined reference to
+ `__udivdi3'
+Message-ID: <202607092212.lINETdSF-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 2/4] net: usb: centralize usbnet_cdc_zte_rx_fixup
- in usbnet
-To: Oliver Neukum <oneukum@suse.com>, Manuel Ebner <manuelebner@mailbox.org>,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, shaoxul@foxmail.com, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260702143142.890654-1-oneukum@suse.com>
- <20260702143142.890654-3-oneukum@suse.com>
- <ebfe837b7d4ef61442822105c3d71ca306106c14.camel@mailbox.org>
- <cbb51e43-ad79-4b6f-b38b-3ec2221de814@suse.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <cbb51e43-ad79-4b6f-b38b-3ec2221de814@suse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-On 7/6/26 2:00 PM, Oliver Neukum wrote:
-> On 02.07.26 20:19, Manuel Ebner wrote:
->> On Thu, 2026-07-02 at 16:25 +0200, Oliver Neukum wrote:
-> 
->>>
->>> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
->>> index 5544af1f4aa5..7beea6d0e731 100644
->>> --- a/drivers/net/usb/usbnet.c
->>> +++ b/drivers/net/usb/usbnet.c
->>> @@ -2347,6 +2347,25 @@ void usbnet_cdc_status(struct usbnet *dev, struct urb *urb)
->>>   	}
->>>   }
->>>   EXPORT_SYMBOL_GPL(usbnet_cdc_status);
->>> +
->>> +/* Make sure packets have correct destination MAC address
->>     /*
->>      * Make sure packets have the correct destination MAC address
-> 
-> This sort of puts me into a conundrum. Does networking code use
-> the short style of comments or not? The documentation says that it does.
-> I am fine either way, but I need a clear rule.
-Networking code used to require
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+head:   472ce6621e371aafc03c0704d1d940f51d8159db
+commit: b3c9b6925ca2e02ef2fd77d0aa5e0ca6b2a67f5a [23/28] usb: typec: tcpm: Add support for Battery Status response message
+config: i386-buildonly-randconfig-005 (https://download.01.org/0day-ci/archive/20260709/202607092212.lINETdSF-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260709/202607092212.lINETdSF-lkp@intel.com/reproduce)
 
-/* for
- * multiline comments
- */
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607092212.lINETdSF-lkp@intel.com/
 
-but somewhat recently we switched to accept also the more common
+All errors (new ones prefixed by >>):
 
-/*
- * multiline comment
- */
+   ld: drivers/usb/typec/tcpm/tcpm.o: in function `tcpm_pd_send_batt_status.constprop.0':
+>> tcpm.c:(.text+0x6743): undefined reference to `__udivdi3'
+>> ld: tcpm.c:(.text+0x6764): undefined reference to `__udivdi3'
 
-Checkpatch accepts both; it's not a deal breaker either ways.
-
-/P
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
