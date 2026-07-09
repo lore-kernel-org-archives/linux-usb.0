@@ -1,152 +1,152 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013007.outbound.protection.outlook.com [40.107.159.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696B03C1402;
-	Thu,  9 Jul 2026 19:04:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783623886; cv=none; b=WBjRWWJOmm0e6zxFK3p+4jAAwxtcSermttxJ8galfp0dgF5FCVDYcaDmNe2KuH9HrjJqsv/wO9SYe+BVCPpS3eM5RGKrSuINQeXhK/EF99TKneHwieh2zTJMXvqnnTz2S3tXed1WXhsLIgCyXCCx9O6at1cqqQuz5dJbrUQwUG8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783623886; c=relaxed/simple;
-	bh=7Gn2bgHmTSxV6xutTkSH7htCrYJzZ15Cj8a02NsjqyY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KXvLEcPjlE0Wi+MRDpGE2fniaBSC6XO1YVnDuEEj6Pk2S8h5gOl62FSpZbOj7XJgtmpeSq94c4VnC9F7LYVqNJYb7K+Y6K/UG/BP83eOyn+yDXSKRgBof3auhQchOK/eHKwx9/omkEs/0kE2xpHM0XmmGCloGDdzHo/S2ArNhPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=EDWuukOO; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA664499B0;
+	Thu,  9 Jul 2026 20:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783630423; cv=fail; b=rubX9GPp/ZhTHoivH9+A2t42GUM0xwt0kZ6Dj/Jcu+dpo2e9kTtbsoHeD6Yb+fUxutMKRP+OAlG84YWbiQE+ekzy0pSeNNUoiHdc++lihdxcaUvu2DNv9C6CQyn8ddTtEkBfZH+7FtWZwvFjR7aLY14szHwtmlSO0II25R2afuk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783630423; c=relaxed/simple;
+	bh=U0jEj8mRNxNrsbSf9W6vbsf9YSVF/M8IY+ctG+4NvbU=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=F+wmyAvolFUFJQBS0hy1Rz5AOrsKAFbpsbwdf2rEosD5IQeVS2f1dARE4ZUtj4iJ5WQqmEOR2CNnErR1CVCIjdZ/JzyCKSanaDOpqSKNPJfsz4sxdJnMw9hHP4x7C1cKqQi2QqvGCxZmFfosZWNuKnRINo7Xe2PsESf/LUcXPBc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=AYwO+L/2; arc=fail smtp.client-ip=40.107.159.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EDWuukOO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1783623874;
-	bh=7Gn2bgHmTSxV6xutTkSH7htCrYJzZ15Cj8a02NsjqyY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=EDWuukOOrOGBfJ8OGqRQQXZkYUtCSvolYPxDaTWrM3nfTjPH7rpDzxF5xyxsT5Qwz
-	 W61Iofr6sKbGiCK6+eTOJOMtdA4tMVa0zXbNru2rfOu1T/opuMTgQIxJe3VsRIchn4
-	 vCWqRIj7xHwQM/TnKZxO/HenHvpAOLnErV/pgk6jKJjpXYaaBDCEzWk2yxhJO38shg
-	 /ofoaqn2L1M7mtJglSNSelZAkxlMZguIoodJ3El49pBqhn7yQO7W6eYw3wp/8rRAuO
-	 oOsTonsfIKyXpMJE2szVy+X28G+X/NoRfFcxw+Xg/kDZX6ECL13rwUHQxC1AUaGl9p
-	 pJkilXszVvYdQ==
-Received: from jupiter.universe (unknown [100.64.1.62])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519)
-	(No client certificate requested)
-	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B173017E0EFE;
-	Thu, 09 Jul 2026 21:04:34 +0200 (CEST)
-Received: by jupiter.universe (Postfix, from userid 1000)
-	id CB1F748006E; Thu, 09 Jul 2026 21:02:29 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Thu, 09 Jul 2026 21:02:50 +0200
-Subject: [PATCH v11 27/36] phy: rockchip: usbdp: Handle
- rk_udphy_reset_deassert errors
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="AYwO+L/2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xWURINYU/a/KYOgdiJvAGhStH0PBw2HIHVknGBalWzV9UZR8OiZI0YFJLyFlWc7JPSbWTyl/RqtIp6NHDGCXtMLQz8YVJqHD6LhP/FJleGI4tWbyFevmTE6ftyYc2I9H6zdzpAeVCz0afOg0ASDNBwCREIIBn/5lZMh6NFcDGuEe07GEokkjkQYC+Q7OVsCFmZmJHYf/I42dmZNWPb1t+5xDtDL1Q3qPwJj/6/EFDdrRUwKpyhMbHsGWKZcy/VuZYIdyCZ6UQovqVanRxs0p9WLOmseRYG5OA6d7pAZzz+d0v47jUORpdwr5qFnnWuDZJ44IupfKXhw+h6B7OhFi3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/L0k5jb6GIDrMfgjDBIKG03t9dXY2nr5u55XktXtM38=;
+ b=QIGoSG6BrqcB2qAJWjIZ1kyj7BRmdnvn1WCe7Vqt4AujR2Sck/WcvXqlqFyjVUp6IuTZcrhvy8wlveqyxc2ildiZiMIpRluOTidOMZWOb0D+rMEIBQR8+Tszn3ZZJChL88bKqp0E9WyRA8YhETPCJ84SInv1MBWovY6y9V/clDm+LL/EY+vIuLmiGDZGGx6XP3qViFGzO/WMlTjkUL/kE6Zin9FjZ25FaCdZZo7E8dp5aZSnXZimNT+tIyUySe1VLn6+aG0M11N3vNPrgNiW/CwIkUSTVzYqO1qj4cGXhul6bAMWEkDPPCgW1gkwtQ2cHCZ+ZmGNGHIpnVuhEiQF/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/L0k5jb6GIDrMfgjDBIKG03t9dXY2nr5u55XktXtM38=;
+ b=AYwO+L/2mp+uqRV3x+K698/DmLuO64Lv4B9eb+2tiUNal1okvJ8TinFqagvZc1UOrdIvSmBTrmgTlMnRNf8j4foaG4KJ0GLJEG8zWGrxOv/GxOiNBPnDjrsaoybQ3GUshu0vCBpbbotr8A1J9nqLe9j2gRMJnPWHb+HdbtEccuJncWtz1wMHashi42l95lCRueYZx+uRIhYduC7JmuB+ybKXc4/bAHH6MRACxvCR+pe/tzyw05sfvGoh9kAJjE7BLFv01MD12RUZEONEZ9tIpY+/XHEAEcRxCdl9V70O5rl7z1T33X6uJkhlJoZ+yRhXAlYe/BSBUeHMYCfrRDNjQg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by VI1PR04MB9857.eurprd04.prod.outlook.com (2603:10a6:800:1d4::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Thu, 9 Jul 2026
+ 20:53:39 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0159.007; Thu, 9 Jul 2026
+ 20:53:37 +0000
+From: Frank.Li@oss.nxp.com
+To: Peter Chen <peter.chen@kernel.org>,
+	Pawel Laszczak <pawell@cadence.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-usb@vger.kernel.org (open list:CADENCE USB3 DRD IP DRIVER),
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
+	linux-kernel@vger.kernel.org (open list)
+Cc: imx@lists.linux.dev,
+	Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH 1/1] dt-bindings: usb: cdns3: allow iommus property
+Date: Thu,  9 Jul 2026 16:53:30 -0400
+Message-ID: <20260709205331.636449-1-Frank.Li@oss.nxp.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PH8P220CA0031.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:348::14) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260709-rockchip-usbdp-cleanup-v11-27-a149ac60f76c@collabora.com>
-References: <20260709-rockchip-usbdp-cleanup-v11-0-a149ac60f76c@collabora.com>
-In-Reply-To: <20260709-rockchip-usbdp-cleanup-v11-0-a149ac60f76c@collabora.com>
-To: Vinod Koul <vkoul@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Heiko Stuebner <heiko@sntech.de>, Frank Wang <frank.wang@rock-chips.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>, 
- Yubing Zhang <yubing.zhang@rock-chips.com>, 
- Alexey Charkov <alchark@flipper.net>, linux-phy@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, kernel@collabora.com, 
- devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Sashiko <sashiko-bot@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2365;
- i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=7Gn2bgHmTSxV6xutTkSH7htCrYJzZ15Cj8a02NsjqyY=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpP8EUAH4gGxpalHZhZLnUOiVLc6NvF0Y2Wr
- M0Mzq8ATsRnZIkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqT/BFAAoJENju1/PI
- O/qaPsUQAJtkZbnPQCn8wCIVPttwZZidJxl+BTnLHtLLTZrLx21B4UmbQmpm61gn9pa57u5leTO
- pm7doKVeLeyyr3blKSHdpe1Jc5kmohIEIwGD3AJujcAHcCd21uQd+LV2MKl2W3F9E1t1a6pIl6j
- hZB3HYKxvkGY46cvZMTglvwUJtlDxklyNLfV6xSBXaId5xXLPiLT888VFcz97rGHamnbXv1iqWB
- B6E2o77n6PJlwArVI/gsJjlEbQvD4ATOcW8KdNYnvw6PT0ph5GbDyLnnzJxlOMPi2wqC6SKHRq3
- L13GigF4G2ZI1NfooGB5wUZKVPJhPlHZkMM331omQdR7OdJajyQAxX0IZj40fVFvnV/SoRwUQi1
- kkt7tVrvo/hGcU2L/MSnqlQBNr2wUullwCpnYbVKmVMICB8OggI5eOe0zCwqb25SV5wlsXbhiEq
- B7cfLofc8ZN2fsWKUikDkrNEMFvfHlHbazTknhRuezFXpUY06FzMs2iNLDXd8UkTGCDDwq17vTa
- WXZMfoOa+wYaXPyUNSVu0KMDdhW1AW3dgf/KAUvD0gjZCAb/UqdJHwpyysSgxe9krODdu2aSfRS
- IlS5Ud1rzdpZ4EOvQIbDt6VWkxcWxjUjYgoYWjqJYz7aPaPhOGqIm1HfTJ4jwIoSKjTh8G0MxcN
- LkqjqUYxkGMtxxr9sJT8f+Q==
-X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
- fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|VI1PR04MB9857:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3405c90b-77df-47d9-5d28-08deddfc2632
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|19092799006|366016|7416014|376014|1800799024|18002099003|56012099006|11063799006|3023799007|921020;
+X-Microsoft-Antispam-Message-Info:
+	hKlsJ6nV58QREFJyj51WY7CvOU0oIitnN6tu7rH6ZdYXDautqHtlriGgTQxxzH9JaX2MTO1rkMttcgiUMtJ0/K055q/XjAf8p0xKch6F8uqlQvF8c3leGLfGD3YdHvchCp4lyPaz3MHKYFqA/3PN/pngRFxDEV1x2G+P1u2S2nfW0/FaBqTKIvWmahQr0b0fvOfsWhhCOhFVHCLtJkULC8ogxuQi6KnhrZu+fNXIrJqcLmKDFb3vD7RQ/kgxbd7kzGpANg4FC7DsXl4xaeLr7ZVzYqcw2hVzNDwVaodqLcdJeZvJu9NlSiNjchF4Z9DPTUo/uaV16JXiZifB6AwXER5rAImnN/RJ3/gmgk3x8YYDd4rndwD8A1UW3i/3MwjxIkoF0Csg7lu46lOOeyFekormJiTe/pUvyLbEOPXa9p/LQFKEWxxPPRljgjYRaFzePHFu3a40Dg41EkxGBPtx2htBUTUaJa/7oImpVdsKC/hxkPz5rXrAJVBxcpQ7fumgSJ/ywpg+E71CaLdfe4onP8xpzmqXTQIQAjOuUIRU/RCvhBGHcnnh/DF0HObWe3gX/Kie/2tEGW5tuTYbgM9h4VZTQlRdr3pM53/aNY5iZctYijLLtVJZ31N+Bfy6i3aa4qZjWWGFX7dD0mE23M3vopxm6AaI3y/e6gNYvfP8Wmqlzh35XtkqJd4JrMTL6vpygSMFFP1kLrgitqrqHTyNXw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(19092799006)(366016)(7416014)(376014)(1800799024)(18002099003)(56012099006)(11063799006)(3023799007)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?GlmXBAVsuPOS5pSn+qe8+kVjwmXGDwZ6ZWTrnZiB9QjyesvKawPY1LnlgP3D?=
+ =?us-ascii?Q?qjW7Fq+sTH3X/8a1RFb2OCTwQyqKpDwqwve87Xznr4a3i+CnWV/ANKsLzfC/?=
+ =?us-ascii?Q?4VeUywCW+ZnL1XcMgBTGgpVI7G3jxH6lwekH3vSU3wa2fjnh/pP71hX1uOiA?=
+ =?us-ascii?Q?uBV5NxBvq56oZ64qirDnT/QiMU2LS6sbkCj3GIvmyXCW8V4b0WhAgHdmaZWq?=
+ =?us-ascii?Q?Bk6JnRgaRNu9tzoxliRkDJ9P9tQbu5kNAYuAaVB9PmBMN5aXT7rBSvMrOLPz?=
+ =?us-ascii?Q?0fdLDXgwY57d1v/X3UjLgBV0916jM8ShCS8ianIGCzmgrHrcUUb+X+/ajzrb?=
+ =?us-ascii?Q?pMo6RNqz2ErjIeEu7OyHLqcfaoqXKkl0qemvdn+noGz7bNUbvwjlIybpVIiq?=
+ =?us-ascii?Q?GS1wY90Kd8KdHZMJQUQDFsI23Df8aqt5aKAHPxC66r2wSqQou//PrTLiyuMg?=
+ =?us-ascii?Q?Ghhnz1W+Z4FcGBwHiKsyYhWlHph+IOVdE87n7W7NUXQK88y8OLyjtwqI1y+i?=
+ =?us-ascii?Q?nhJAuZo7ZfSvR9PCMfa5BzmO0rXRXZsJMVO0HvOGlZ++GeON6iNydUEojSTv?=
+ =?us-ascii?Q?Ey9PwlwfANojmVuK9XsNkgNYevirZSpePCqQiqhkns9e+219VrriPv2NPSEL?=
+ =?us-ascii?Q?laNRMevXhCAuAkbRANg0bpnpizlZS8hg+1YOI2k8eMlYk+AxYwn5d1Fc/cr+?=
+ =?us-ascii?Q?oaavurHLytSoV0CLiAG/KBE366eLNFIC9vpmIRyCxSM2VL+bRGPOHGfyOn+O?=
+ =?us-ascii?Q?VJIX+Tf9nbd+cy8Mq1VJoRhfHU0k2lSShrVKoSGzI3agkOQNjwN+I8VPSZL7?=
+ =?us-ascii?Q?HkjEfh940tLT+UVF2y52lacxS8WVJpLsfJJ6g7NaWv9uso9icDmCX9wcezsn?=
+ =?us-ascii?Q?8g2EcZ7f1wzFbU8xJupeoV7sdtUSsCKI6/o8P8gzgkueBKKY46MUZXKFgYpu?=
+ =?us-ascii?Q?HrAUwxzHtnVwsaZZpSB00HxZTiLOW+wfx5hP3ScLCrh+I6TDX7R1k/s+fT7o?=
+ =?us-ascii?Q?YvFAmQPcgYRgVlHa5a+ORlPc651sHiZjW34bgkO4yZ2NqRrxvhEgnDXcTXwj?=
+ =?us-ascii?Q?xOyM1wbBGZ7qU74BC53o/YmDNEnZCw6eBvcYm23b0/Y+9e6xXFjoZpr1dz1E?=
+ =?us-ascii?Q?/f/JwPCYx3jYQLfCbpRu9bEcds9txaMVY1RnYD+Ady+WdlXIDOp3fEa8nU9c?=
+ =?us-ascii?Q?iAlztutCHDWVQ+Psj1Vg2zbYVFFp4R65Z9e7R90vtmmQnnwYLpiHp9q6dXP4?=
+ =?us-ascii?Q?5ngjpW+tnDa9ReNeSoaQAuX3nlF7CnfBy+u/409gJGn6LfGop56S+KzdOe+v?=
+ =?us-ascii?Q?cxLBMV3brza5+qv7XQzBP/gGYrc79nZUZTZgstjl5ZCa1gQjiCvMEaLh+zJh?=
+ =?us-ascii?Q?F2nM5sQPOIMmqfVQOkH17UK52t0qzFWaC/snHrawJkJ2FaWv5ODdFDRgJspX?=
+ =?us-ascii?Q?n7eu16Fq6tyvnL+Z1lKDuRWBeICpGnkrstqtO/lLhn5jAqLI3ZCbIRbQquD5?=
+ =?us-ascii?Q?hm6OE+fwpqw8GJiLnaGgh6Ox6GlMYltojnShKjLHfT4Lx1WnDXgU+whNJ6A+?=
+ =?us-ascii?Q?9ys7unx0405QIipIJ/O1spi+fkRNZroewN1caHWZR9lmvEwKfiMjwrhhJQqh?=
+ =?us-ascii?Q?on3fPpsU3RkcePg6Gneit2i2Txfo67DxqVqcQKc+x/xmV6CZzAqXGukTvP+T?=
+ =?us-ascii?Q?/MkN+YZgw2JI2acaVWx8jiqq/6nm0jqwx76WyitCIK0P+x/QpBCCU8Eq9nCk?=
+ =?us-ascii?Q?805aEdEg8vI4Q2dRb52f6d3zUw1fX0ahRGQbl4WNfB6uu3r4tN6T?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3405c90b-77df-47d9-5d28-08deddfc2632
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 20:53:37.7668
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GrEYsG85kxqlm1u8MrBFRzlGrjZANgWpezm6feEZuDucf1pQif66ZwJIThxn0nYzOSh+hOaLDBQ8/FD7W3Z+JCDGaEKBJpGSc0i0Q8dJz6XkMIgxufNCM31pLWgfzl4h
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB9857
 
-Handle rk_udphy_reset_deassert returning errors to avoid theoretical
-(Rockchip reset controller driver does not return errors) SError.
+From: Frank Li <Frank.Li@nxp.com>
 
-Fixes: 2f70bbddeb45 ("phy: rockchip: add usbdp combo phy driver")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/message/20260626211151.2332F1F000E9%40smtp.kernel.org
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+Some SoC such as i.MX8QM have iommu support. Add optional property iommus.
+
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
- drivers/phy/rockchip/phy-rockchip-usbdp.c | 25 +++++++++++++++++++------
- 1 file changed, 19 insertions(+), 6 deletions(-)
+ Documentation/devicetree/bindings/usb/cdns,usb3.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-index 9e77513643a3..c645fea67c4d 100644
---- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
-+++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-@@ -803,8 +803,12 @@ static int rk_udphy_init(struct rk_udphy *udphy)
- 	/* Step 1: power on pma and deassert apb rstn */
- 	rk_udphy_grfreg_write(udphy->udphygrf, &cfg->grfcfg.low_pwrn, true);
+diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+index e8082c5c05a25..c14a88aad31e7 100644
+--- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
++++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
+@@ -50,6 +50,9 @@ properties:
+       - const: otg
+       - const: wakeup
  
--	rk_udphy_reset_deassert(udphy, "pma_apb");
--	rk_udphy_reset_deassert(udphy, "pcs_apb");
-+	ret = rk_udphy_reset_deassert(udphy, "pma_apb");
-+	if (ret)
-+		goto assert_resets;
-+	ret = rk_udphy_reset_deassert(udphy, "pcs_apb");
-+	if (ret)
-+		goto assert_resets;
- 
- 	/* Step 2: set init sequence and phy refclk */
- 	ret = regmap_multi_reg_write(udphy->pma_regmap, rk_udphy_init_sequence,
-@@ -830,8 +834,11 @@ static int rk_udphy_init(struct rk_udphy *udphy)
- 			   FIELD_PREP(CMN_DP_LANE_EN_ALL, 0));
- 
- 	/* Step 4: deassert init rstn and wait for 200ns from datasheet */
--	if (udphy->mode & UDPHY_MODE_USB)
--		rk_udphy_reset_deassert(udphy, "init");
-+	if (udphy->mode & UDPHY_MODE_USB) {
-+		ret = rk_udphy_reset_deassert(udphy, "init");
-+		if (ret)
-+			goto assert_resets;
-+	}
- 
- 	if (udphy->mode & UDPHY_MODE_DP) {
- 		regmap_update_bits(udphy->pma_regmap, CMN_DP_RSTN_OFFSET,
-@@ -843,8 +850,14 @@ static int rk_udphy_init(struct rk_udphy *udphy)
- 
- 	/*  Step 5: deassert cmn/lane rstn */
- 	if (udphy->mode & UDPHY_MODE_USB) {
--		rk_udphy_reset_deassert(udphy, "cmn");
--		rk_udphy_reset_deassert(udphy, "lane");
-+		ret = rk_udphy_reset_deassert(udphy, "cmn");
-+		if (ret)
-+			goto assert_resets;
++  iommus:
++    maxItems: 1
 +
-+		ret = rk_udphy_reset_deassert(udphy, "lane");
-+		if (ret)
-+			goto assert_resets;
-+
- 	}
- 
- 	/*  Step 6: wait for lock done of pll */
-
+   port:
+     $ref: /schemas/graph.yaml#/properties/port
+     description:
 -- 
-2.53.0
+2.43.0
 
