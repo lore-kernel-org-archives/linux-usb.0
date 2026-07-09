@@ -1,152 +1,159 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013007.outbound.protection.outlook.com [40.107.159.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA664499B0;
-	Thu,  9 Jul 2026 20:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783630423; cv=fail; b=rubX9GPp/ZhTHoivH9+A2t42GUM0xwt0kZ6Dj/Jcu+dpo2e9kTtbsoHeD6Yb+fUxutMKRP+OAlG84YWbiQE+ekzy0pSeNNUoiHdc++lihdxcaUvu2DNv9C6CQyn8ddTtEkBfZH+7FtWZwvFjR7aLY14szHwtmlSO0II25R2afuk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783630423; c=relaxed/simple;
-	bh=U0jEj8mRNxNrsbSf9W6vbsf9YSVF/M8IY+ctG+4NvbU=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=F+wmyAvolFUFJQBS0hy1Rz5AOrsKAFbpsbwdf2rEosD5IQeVS2f1dARE4ZUtj4iJ5WQqmEOR2CNnErR1CVCIjdZ/JzyCKSanaDOpqSKNPJfsz4sxdJnMw9hHP4x7C1cKqQi2QqvGCxZmFfosZWNuKnRINo7Xe2PsESf/LUcXPBc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=AYwO+L/2; arc=fail smtp.client-ip=40.107.159.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB4A3E0098
+	for <linux-usb@vger.kernel.org>; Thu,  9 Jul 2026 20:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783630589; cv=none; b=uucFH2P7shAkCPG8ms4K1k5aoOzRgrHU6ZyJPfNtIO35YOW6NaC997qdeefgtUn2cqMEH5mm1r0QRMqkLBKGsaoEEKQs8REi36SM8laTx/WCFE3TpuEOksX1rs9DlMBTnfXJo87Uk7O1IS/8qDeBvqUkitdr84oZDhxDjRjhry4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783630589; c=relaxed/simple;
+	bh=3j4syLrTH3ss+LT1uFL+xIlIo+tKkPs2LMGlAzDqXgU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=scuxxaxNr5seJDXy94lnqDEVQIbgb7i+HJp7vE7HUhBN1Me0fpH1b341ryV3SNCgGU9901YmftaFXSA6v9EAouLtYkG6QgFl991/Wz8I/pECxSLR834sJN0z43Wtdtht+AgK3lvilbHMN2ZMlid5NSWV2wgXj22yobGGidjmZV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ECXp4Z38; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="AYwO+L/2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xWURINYU/a/KYOgdiJvAGhStH0PBw2HIHVknGBalWzV9UZR8OiZI0YFJLyFlWc7JPSbWTyl/RqtIp6NHDGCXtMLQz8YVJqHD6LhP/FJleGI4tWbyFevmTE6ftyYc2I9H6zdzpAeVCz0afOg0ASDNBwCREIIBn/5lZMh6NFcDGuEe07GEokkjkQYC+Q7OVsCFmZmJHYf/I42dmZNWPb1t+5xDtDL1Q3qPwJj/6/EFDdrRUwKpyhMbHsGWKZcy/VuZYIdyCZ6UQovqVanRxs0p9WLOmseRYG5OA6d7pAZzz+d0v47jUORpdwr5qFnnWuDZJ44IupfKXhw+h6B7OhFi3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/L0k5jb6GIDrMfgjDBIKG03t9dXY2nr5u55XktXtM38=;
- b=QIGoSG6BrqcB2qAJWjIZ1kyj7BRmdnvn1WCe7Vqt4AujR2Sck/WcvXqlqFyjVUp6IuTZcrhvy8wlveqyxc2ildiZiMIpRluOTidOMZWOb0D+rMEIBQR8+Tszn3ZZJChL88bKqp0E9WyRA8YhETPCJ84SInv1MBWovY6y9V/clDm+LL/EY+vIuLmiGDZGGx6XP3qViFGzO/WMlTjkUL/kE6Zin9FjZ25FaCdZZo7E8dp5aZSnXZimNT+tIyUySe1VLn6+aG0M11N3vNPrgNiW/CwIkUSTVzYqO1qj4cGXhul6bAMWEkDPPCgW1gkwtQ2cHCZ+ZmGNGHIpnVuhEiQF/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/L0k5jb6GIDrMfgjDBIKG03t9dXY2nr5u55XktXtM38=;
- b=AYwO+L/2mp+uqRV3x+K698/DmLuO64Lv4B9eb+2tiUNal1okvJ8TinFqagvZc1UOrdIvSmBTrmgTlMnRNf8j4foaG4KJ0GLJEG8zWGrxOv/GxOiNBPnDjrsaoybQ3GUshu0vCBpbbotr8A1J9nqLe9j2gRMJnPWHb+HdbtEccuJncWtz1wMHashi42l95lCRueYZx+uRIhYduC7JmuB+ybKXc4/bAHH6MRACxvCR+pe/tzyw05sfvGoh9kAJjE7BLFv01MD12RUZEONEZ9tIpY+/XHEAEcRxCdl9V70O5rl7z1T33X6uJkhlJoZ+yRhXAlYe/BSBUeHMYCfrRDNjQg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by VI1PR04MB9857.eurprd04.prod.outlook.com (2603:10a6:800:1d4::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.8; Thu, 9 Jul 2026
- 20:53:39 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0159.007; Thu, 9 Jul 2026
- 20:53:37 +0000
-From: Frank.Li@oss.nxp.com
-To: Peter Chen <peter.chen@kernel.org>,
-	Pawel Laszczak <pawell@cadence.com>,
-	Roger Quadros <rogerq@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-usb@vger.kernel.org (open list:CADENCE USB3 DRD IP DRIVER),
-	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
-	linux-kernel@vger.kernel.org (open list)
-Cc: imx@lists.linux.dev,
-	Frank Li <Frank.Li@nxp.com>
-Subject: [PATCH 1/1] dt-bindings: usb: cdns3: allow iommus property
-Date: Thu,  9 Jul 2026 16:53:30 -0400
-Message-ID: <20260709205331.636449-1-Frank.Li@oss.nxp.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PH8P220CA0031.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:348::14) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ECXp4Z38"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47d6c634f45so194174f8f.3
+        for <linux-usb@vger.kernel.org>; Thu, 09 Jul 2026 13:56:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783630586; x=1784235386; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FyQ2SYryPffIKXgX/hPe6feFKCE/nZgCPpWlF8Eq6IM=;
+        b=ECXp4Z38357s8n3YE3StUPVwlIm8EOi8+0zbJD2MCl4ucPQpK0bdeUpYOYUSn1y5FW
+         xy5/XsNWdXVvElOKSoAMZJ9AZmV0meLuQfm9b2NJWbxelCaXs/8VcsiXalU/XbqjmbTJ
+         sgsthA0PS3lw8VkRnG8LHZ0toWj1VW/G1h+q/TEDeH2w2LfUgF8OIJQwQyMaaDajg27N
+         pMQXvjxF9E6OQKGm+GH1nIdHNyI9HEyWJ8X5//YoP1dGbruz4S1KDG0Qb3u9/KdBdyIP
+         Vh8cxJhEMRFl1GFLIhXcuN44SB8RuiKt8xwLEkeb6KXZ+O0ArDiiROMCs5sXh8oF7+7G
+         V1SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783630586; x=1784235386;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FyQ2SYryPffIKXgX/hPe6feFKCE/nZgCPpWlF8Eq6IM=;
+        b=UkdXNCeiUwZEFYwEg6WbFW+6efPx0ev20V3jBaLozVra1mKubz+Ox6S3AJqzWabmo3
+         g1PSA9gAq4whAzwKygQRVHgIitCTxqOMxuSmJb5OKtmkEQCa9CIc6urAFsFZQK6u8wSW
+         vC1OKBBa4POaPhb3Zna5cCnxYuwDRB0ActOHI2O5oVYhfQgOKCHmtuJ0oc8HZ+tWNet/
+         2ySegHYDbtsfYN4VhXA2pQpcLzBJsMb9CyNKNrjhMK9hX3Py8Qdsx9rYGYhrFfhY38mH
+         2alFAEuo/pab717cPLY90nIxqH7eSiRnULDAmo2TeT4DIzW2Yb33HVEUVx8J0o5/nMdh
+         BpmA==
+X-Forwarded-Encrypted: i=1; AHgh+RoUY7kEsy9896mGpeNmAhpK3M8CuwHTzbD2Hvw1ZFySVmOrsp6QrS+UkYn1mCj6pb9GNBVIPoCvnjQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvviHTpHa0/QLef/A+85X/6rxEDKBjPaaaXWGYplxGY6qT/2gB
+	DjPIg73InnUU1EmMXaNeShqHXfi8NgpdgnJYxt+ml0mFGyif7TkqHpWb
+X-Gm-Gg: AfdE7cmpToBHKtTqgbJiw/alqni1LPGwQQWDTYk7P2AvbnNtQw2uaWJ+esz4BCcgFx+
+	3DYAi8AyNeKv9qBNOylXrhWYO6tz9Mtq1IQewxvShnrCOmhGLB54Jc015Kmuqh//K75k9J3Liv9
+	Raw8F0utbZzwSHOlZuN3fPjImm+eyhi0XOwXmkwDXgpl3+o5DxxYFdFbXag56aMf0WGpRVNg/+e
+	+vzeZMoL2ZbHFFuPRM/t1l6bD8A4gDjYkFNFQJG5yTWgxDjDSYkag14Wr5WfTniKUkjQ6wU3eCP
+	7IEHY8ABH4V5E9hddqhSaq1YRrfXGjgm7CT3oO/YVX+W/16SZUahORZG/8/MRQF7VFwWHS0Dabz
+	O+bJEGYGuY0xYwdaeRsP8+wA1N0P+UUS2gYHvnWkZtju4sAvmV16y3LXJOzpJpryvmrIokqfulH
+	vgHYZwd0TELrMvyTDpIX34Q2QXUkW3nrdFwjjvZ7qPQWsAva08ZAXHd4AosmDHYCpQ0TqN/OBvL
+	Jmr0jGqAhOiLeKa/OfAPjnI/y5sHo/Np7/RjjbP
+X-Received: by 2002:a05:6000:24c5:b0:46e:8f0e:2f02 with SMTP id ffacd0b85a97d-47df075e410mr9661610f8f.33.1783630585822;
+        Thu, 09 Jul 2026 13:56:25 -0700 (PDT)
+Received: from DESKTOP-O40ECIK (108.228-30-62.static.virginmediabusiness.co.uk. [62.30.228.108])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47aa039b0cesm55210785f8f.22.2026.07.09.13.56.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2026 13:56:25 -0700 (PDT)
+From: Melbin K Mathew <mlbnkm1@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Peter Chen <peter.chen@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] usb: gadget: printer: fix infinite loop in printer_read()
+Date: Thu,  9 Jul 2026 21:56:22 +0100
+Message-ID: <20260709205622.55700-1-mlbnkm1@gmail.com>
+X-Mailer: git-send-email 2.52.0.windows.1
+In-Reply-To: <20260703075429.302687-1-mlbnkm1@gmail.com>
+References: <20260703075429.302687-1-mlbnkm1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|VI1PR04MB9857:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3405c90b-77df-47d9-5d28-08deddfc2632
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|19092799006|366016|7416014|376014|1800799024|18002099003|56012099006|11063799006|3023799007|921020;
-X-Microsoft-Antispam-Message-Info:
-	hKlsJ6nV58QREFJyj51WY7CvOU0oIitnN6tu7rH6ZdYXDautqHtlriGgTQxxzH9JaX2MTO1rkMttcgiUMtJ0/K055q/XjAf8p0xKch6F8uqlQvF8c3leGLfGD3YdHvchCp4lyPaz3MHKYFqA/3PN/pngRFxDEV1x2G+P1u2S2nfW0/FaBqTKIvWmahQr0b0fvOfsWhhCOhFVHCLtJkULC8ogxuQi6KnhrZu+fNXIrJqcLmKDFb3vD7RQ/kgxbd7kzGpANg4FC7DsXl4xaeLr7ZVzYqcw2hVzNDwVaodqLcdJeZvJu9NlSiNjchF4Z9DPTUo/uaV16JXiZifB6AwXER5rAImnN/RJ3/gmgk3x8YYDd4rndwD8A1UW3i/3MwjxIkoF0Csg7lu46lOOeyFekormJiTe/pUvyLbEOPXa9p/LQFKEWxxPPRljgjYRaFzePHFu3a40Dg41EkxGBPtx2htBUTUaJa/7oImpVdsKC/hxkPz5rXrAJVBxcpQ7fumgSJ/ywpg+E71CaLdfe4onP8xpzmqXTQIQAjOuUIRU/RCvhBGHcnnh/DF0HObWe3gX/Kie/2tEGW5tuTYbgM9h4VZTQlRdr3pM53/aNY5iZctYijLLtVJZ31N+Bfy6i3aa4qZjWWGFX7dD0mE23M3vopxm6AaI3y/e6gNYvfP8Wmqlzh35XtkqJd4JrMTL6vpygSMFFP1kLrgitqrqHTyNXw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(19092799006)(366016)(7416014)(376014)(1800799024)(18002099003)(56012099006)(11063799006)(3023799007)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?GlmXBAVsuPOS5pSn+qe8+kVjwmXGDwZ6ZWTrnZiB9QjyesvKawPY1LnlgP3D?=
- =?us-ascii?Q?qjW7Fq+sTH3X/8a1RFb2OCTwQyqKpDwqwve87Xznr4a3i+CnWV/ANKsLzfC/?=
- =?us-ascii?Q?4VeUywCW+ZnL1XcMgBTGgpVI7G3jxH6lwekH3vSU3wa2fjnh/pP71hX1uOiA?=
- =?us-ascii?Q?uBV5NxBvq56oZ64qirDnT/QiMU2LS6sbkCj3GIvmyXCW8V4b0WhAgHdmaZWq?=
- =?us-ascii?Q?Bk6JnRgaRNu9tzoxliRkDJ9P9tQbu5kNAYuAaVB9PmBMN5aXT7rBSvMrOLPz?=
- =?us-ascii?Q?0fdLDXgwY57d1v/X3UjLgBV0916jM8ShCS8ianIGCzmgrHrcUUb+X+/ajzrb?=
- =?us-ascii?Q?pMo6RNqz2ErjIeEu7OyHLqcfaoqXKkl0qemvdn+noGz7bNUbvwjlIybpVIiq?=
- =?us-ascii?Q?GS1wY90Kd8KdHZMJQUQDFsI23Df8aqt5aKAHPxC66r2wSqQou//PrTLiyuMg?=
- =?us-ascii?Q?Ghhnz1W+Z4FcGBwHiKsyYhWlHph+IOVdE87n7W7NUXQK88y8OLyjtwqI1y+i?=
- =?us-ascii?Q?nhJAuZo7ZfSvR9PCMfa5BzmO0rXRXZsJMVO0HvOGlZ++GeON6iNydUEojSTv?=
- =?us-ascii?Q?Ey9PwlwfANojmVuK9XsNkgNYevirZSpePCqQiqhkns9e+219VrriPv2NPSEL?=
- =?us-ascii?Q?laNRMevXhCAuAkbRANg0bpnpizlZS8hg+1YOI2k8eMlYk+AxYwn5d1Fc/cr+?=
- =?us-ascii?Q?oaavurHLytSoV0CLiAG/KBE366eLNFIC9vpmIRyCxSM2VL+bRGPOHGfyOn+O?=
- =?us-ascii?Q?VJIX+Tf9nbd+cy8Mq1VJoRhfHU0k2lSShrVKoSGzI3agkOQNjwN+I8VPSZL7?=
- =?us-ascii?Q?HkjEfh940tLT+UVF2y52lacxS8WVJpLsfJJ6g7NaWv9uso9icDmCX9wcezsn?=
- =?us-ascii?Q?8g2EcZ7f1wzFbU8xJupeoV7sdtUSsCKI6/o8P8gzgkueBKKY46MUZXKFgYpu?=
- =?us-ascii?Q?HrAUwxzHtnVwsaZZpSB00HxZTiLOW+wfx5hP3ScLCrh+I6TDX7R1k/s+fT7o?=
- =?us-ascii?Q?YvFAmQPcgYRgVlHa5a+ORlPc651sHiZjW34bgkO4yZ2NqRrxvhEgnDXcTXwj?=
- =?us-ascii?Q?xOyM1wbBGZ7qU74BC53o/YmDNEnZCw6eBvcYm23b0/Y+9e6xXFjoZpr1dz1E?=
- =?us-ascii?Q?/f/JwPCYx3jYQLfCbpRu9bEcds9txaMVY1RnYD+Ady+WdlXIDOp3fEa8nU9c?=
- =?us-ascii?Q?iAlztutCHDWVQ+Psj1Vg2zbYVFFp4R65Z9e7R90vtmmQnnwYLpiHp9q6dXP4?=
- =?us-ascii?Q?5ngjpW+tnDa9ReNeSoaQAuX3nlF7CnfBy+u/409gJGn6LfGop56S+KzdOe+v?=
- =?us-ascii?Q?cxLBMV3brza5+qv7XQzBP/gGYrc79nZUZTZgstjl5ZCa1gQjiCvMEaLh+zJh?=
- =?us-ascii?Q?F2nM5sQPOIMmqfVQOkH17UK52t0qzFWaC/snHrawJkJ2FaWv5ODdFDRgJspX?=
- =?us-ascii?Q?n7eu16Fq6tyvnL+Z1lKDuRWBeICpGnkrstqtO/lLhn5jAqLI3ZCbIRbQquD5?=
- =?us-ascii?Q?hm6OE+fwpqw8GJiLnaGgh6Ox6GlMYltojnShKjLHfT4Lx1WnDXgU+whNJ6A+?=
- =?us-ascii?Q?9ys7unx0405QIipIJ/O1spi+fkRNZroewN1caHWZR9lmvEwKfiMjwrhhJQqh?=
- =?us-ascii?Q?on3fPpsU3RkcePg6Gneit2i2Txfo67DxqVqcQKc+x/xmV6CZzAqXGukTvP+T?=
- =?us-ascii?Q?/MkN+YZgw2JI2acaVWx8jiqq/6nm0jqwx76WyitCIK0P+x/QpBCCU8Eq9nCk?=
- =?us-ascii?Q?805aEdEg8vI4Q2dRb52f6d3zUw1fX0ahRGQbl4WNfB6uu3r4tN6T?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3405c90b-77df-47d9-5d28-08deddfc2632
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2026 20:53:37.7668
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GrEYsG85kxqlm1u8MrBFRzlGrjZANgWpezm6feEZuDucf1pQif66ZwJIThxn0nYzOSh+hOaLDBQ8/FD7W3Z+JCDGaEKBJpGSc0i0Q8dJz6XkMIgxufNCM31pLWgfzl4h
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB9857
+Content-Transfer-Encoding: 8bit
 
-From: Frank Li <Frank.Li@nxp.com>
+printer_read() uses the same variable for the requested copy size and
+the number of bytes actually copied to user space. copy_to_user()
+returns the number of bytes not copied, so when it fails to copy
+anything, the computed copied length becomes zero.
 
-Some SoC such as i.MX8QM have iommu support. Add optional property iommus.
+In that case len, buf, current_rx_bytes and current_rx_buf are left
+unchanged. If RX data is available and the user buffer remains
+unwritable, the read loop can repeat indefinitely.
 
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
+Track the copied length separately and return -EFAULT, or the number of
+bytes already copied, if an iteration makes no progress.
+
+Fixes: b185f01a9ab7 ("usb: gadget: printer: factor out f_printer")
+Cc: stable@vger.kernel.org
+Reviewed-by: Peter Chen <peter.chen@kernel.org>
+Signed-off-by: Melbin K Mathew <mlbnkm1@gmail.com>
 ---
- Documentation/devicetree/bindings/usb/cdns,usb3.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+Changes in v3:
+- Regenerate the patch to fix the corrupted v2 diff.
 
-diff --git a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-index e8082c5c05a25..c14a88aad31e7 100644
---- a/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-+++ b/Documentation/devicetree/bindings/usb/cdns,usb3.yaml
-@@ -50,6 +50,9 @@ properties:
-       - const: otg
-       - const: wakeup
+Changes in v2:
+- Drop unrelated comment wording change.
+- Add Reviewed-by tag from Peter Chen.
+
+ drivers/usb/gadget/function/f_printer.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
+index e4f7828ae75d..a22e2a6ea14b 100644
+--- a/drivers/usb/gadget/function/f_printer.c
++++ b/drivers/usb/gadget/function/f_printer.c
+@@ -432,7 +432,7 @@ printer_read(struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+ {
+ 	struct printer_dev		*dev = fd->private_data;
+ 	unsigned long			flags;
+-	size_t				size;
++	size_t				size, not_copied, copied;
+ 	size_t				bytes_copied;
+ 	struct usb_request		*req;
+ 	/* This is a pointer to the current USB rx request. */
+@@ -525,10 +525,12 @@ printer_read(struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+ 		else
+ 			size = len;
  
-+  iommus:
-+    maxItems: 1
+-		size -= copy_to_user(buf, current_rx_buf, size);
+-		bytes_copied += size;
+-		len -= size;
+-		buf += size;
++		not_copied = copy_to_user(buf, current_rx_buf, size);
++		copied = size - not_copied;
 +
-   port:
-     $ref: /schemas/graph.yaml#/properties/port
-     description:
++		bytes_copied += copied;
++		len -= copied;
++		buf += copied;
+ 
+ 		spin_lock_irqsave(&dev->lock, flags);
+ 
+@@ -543,6 +545,17 @@ printer_read(struct file *fd, char __user *buf, size_t len, loff_t *ptr)
+ 		if (dev->interface < 0)
+ 			goto out_disabled;
+ 
++		if (!copied) {
++			dev->current_rx_req = current_rx_req;
++			dev->current_rx_bytes = current_rx_bytes;
++			dev->current_rx_buf = current_rx_buf;
++			spin_unlock_irqrestore(&dev->lock, flags);
++			mutex_unlock(&dev->lock_printer_io);
++			return bytes_copied ? bytes_copied : -EFAULT;
++		}
++
++		size = copied;
++
+ 		/* If we not returning all the data left in this RX request
+ 		 * buffer then adjust the amount of data left in the buffer.
+ 		 * Othewise if we are done with this RX request buffer then
 -- 
 2.43.0
 
