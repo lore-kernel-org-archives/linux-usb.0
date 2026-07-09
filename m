@@ -1,80 +1,98 @@
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Received: from mail-m49212.qiye.163.com (mail-m49212.qiye.163.com [45.254.49.212])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C191A681B;
-	Thu,  9 Jul 2026 03:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF72D3D3B3;
+	Thu,  9 Jul 2026 04:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.212
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783566774; cv=none; b=Xfcjm2N8eNvDKYZzrpux/3oncPxucCl/PR4aj/X+AiPgaiMRZvkQljJambQtgrqEeJ0PUIsI9cZ3ah/iOpeXtv6siUdNgH676mnFv4gvhdb8SQQLqbqpUo9mOnem33leFsDuX2rTdKkZWyI8od8APUwvMOPE+BMpqKHWvUCjV1Q=
+	t=1783570596; cv=none; b=JSoQx7qDwS9k7ng6Ek0jkk+rIb1kr36YYy/v+Kyj5IFYtYYDJOmjNDZuJtjI4kgRh5VC5GGrTBy75xdkLm5NMqxCAqwP+R+CHXZhx7kTh8y8ZqNtq13oRXXOKSdDHYEGtQigTHAPl4YINofFXPDZrnTIEmPcCdVIU3bx730+hbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783566774; c=relaxed/simple;
-	bh=Py1ascRdEQCaAhvnW0cwmGQqqd9p0/llQq263Fch4Cs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Jr7I9wjc5WOY/Ub0e/VkycycqgMg9a6FSIvE7DpOt3dGYlOT3TlkwR5e+K5JIdtufmBTX5da4vVeqkCes8tF7tnwIS9uJhoqvT2XdUK8TjlhoPR3rYnum9w/i+N5MiXD/bnujmM2rkFnbwxQBIc5ObPj0gpfIsO7r+/c9qQyiAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=DTd+yNxI; arc=none smtp.client-ip=203.29.241.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+	s=arc-20240116; t=1783570596; c=relaxed/simple;
+	bh=7hD12oWxTNxMGVxJW7KdkczaG0Buol2uSSDVgMYS1V0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t8Bl+ufQeljNGiV6jyIQ873Mbm+EbB99+TZWuVpMzRqF22huaDUDf/XTjFrfTSUi/j0fkRie7Qj9lZTRWE1GGYeQUg+00++sXNv42tJzYq7tyITnYlpf9az2TsUyLSflv50ahruB6ukosXH5IX4wGQJccVvX6O8ItO5hBHUVjl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=LWkv9UHp; arc=none smtp.client-ip=45.254.49.212
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="DTd+yNxI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1783566771;
-	bh=Py1ascRdEQCaAhvnW0cwmGQqqd9p0/llQq263Fch4Cs=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=DTd+yNxIx+wW37HF0K6xYv/L/RO4C53gp2auksXCFiYATZ4+HoMrIlG1Hk7isJMrc
-	 jRx2FtzhhOpl92Me3UmW+VJgfJC/3lZ1QSjqYewo9vRLBqzQpsVr8juc/stgPCqzlC
-	 ihnbWwv3ygBi4ZVuNF8Erw+pJ4VLZ0XnaKWvI4cZcJ7GKtRwfqJ1FaZwMVUc/TTbq2
-	 MWkoqwb4Cs5tjDDx4z2+GhZKMIpUfXCF+cQmCDtjbQHr1iVnmVjDJdSCNb0D17gWxf
-	 Hqd4tphCP0N4vXsJh97UEbpEUEcKwoPrzPY1fWnYXz+W25bKVQD3crlJv7AdD36q3Z
-	 fwKZT9JAWgwmg==
-Received: from [192.168.72.161] (210-10-213-150.per.static-ipl.aapt.com.au [210.10.213.150])
-	by mail.codeconstruct.com.au (Postfix) with ESMTPSA id 888F866358;
-	Thu,  9 Jul 2026 11:12:49 +0800 (AWST)
-Message-ID: <aa92796bc2dce8098c5e8174b163f1949a748c58.camel@codeconstruct.com.au>
-Subject: Re: [PATCH net-next v3 04/12] net: mctp: usb: Improve IN endpoint
- status handling
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-To: Oliver Neukum <oneukum@suse.com>, Matt Johnston
- <matt@codeconstruct.com.au>,  Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org
-Date: Thu, 09 Jul 2026 11:12:49 +0800
-In-Reply-To: <2a0bacab-951a-48b2-8263-bad3088a29b7@suse.com>
-References: 
-	<20260708-dev-mctp-usb-1-1-v3-0-9e710155cdbf@codeconstruct.com.au>
-	 <20260708-dev-mctp-usb-1-1-v3-4-9e710155cdbf@codeconstruct.com.au>
-	 <2a0bacab-951a-48b2-8263-bad3088a29b7@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2+deb12u1 
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="LWkv9UHp"
+Received: from [127.0.0.1] (unknown [61.154.14.86])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 458316113;
+	Thu, 9 Jul 2026 11:00:45 +0800 (GMT+08:00)
+Message-ID: <f0316f09-e78c-495b-8ca9-c7d4fdde3d75@rock-chips.com>
+Date: Thu, 9 Jul 2026 11:00:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] usb: typec: altmodes: select DRM_AUX_HPD_BRIDGE for
+ TYPEC_DP_ALTMODE
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Julian Braha <julianbraha@gmail.com>, Xu Yang <xu.yang_2@oss.nxp.com>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Chaoyi Chen <kernel@airkyi.com>
+References: <20260705065832.184-1-kernel@airkyi.com>
+ <2026070830-tattle-corporal-6fcc@gregkh>
+Content-Language: en-US
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <2026070830-tattle-corporal-6fcc@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-HM-Tid: 0a9f44d2117803a7kunm67ab04a9159782
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaQhoYVkgaSh9KS0pDGEIeTVYVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlNSlVKTk9VSk9VQ01ZV1kWGg8SFR0UWUFZT0tIVUpLSE
+	pKQkxVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=LWkv9UHpemTmW7z8RWmboEYt1AYxn+E4xnPh1BHBSoAHaoqnZSwb/LAeIrOjcWLLY09pfSPv0oEUZSxXLGJ8TGUUsQKwFkgSS9xmfaXhWGbchRqmsz1sGPn0dcFkcB4mOfQUvL8gC3iYoZXN+UTwkWL5e+UnuqPxYY7V3E1Xpfw=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=eTHLCri6NVonZFITbaCpUIOJYDszyTae3Bs0i9ejkuk=;
+	h=date:mime-version:subject:message-id:from;
 
-Hi Oliver,
-Thanks for taking a look.
+Hello Greg,
 
+On 7/8/2026 7:51 PM, Greg Kroah-Hartman wrote:
+> On Sun, Jul 05, 2026 at 02:58:32PM +0800, Chaoyi Chen wrote:
+>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>>
+>> When TYPEC_DP_ALTMODE is enabled, DRM_AUX_HPD_BRIDGE is most likely
+>> also needed for embedded platforms. Select it when available.
+>>
+>> Suggested-by: Xu Yang <xu.yang_2@oss.nxp.com>
+>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>> ---
+>>  drivers/usb/typec/altmodes/Kconfig | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/drivers/usb/typec/altmodes/Kconfig b/drivers/usb/typec/altmodes/Kconfig
+>> index 7867fa7c405d..1f35b253d6b8 100644
+>> --- a/drivers/usb/typec/altmodes/Kconfig
+>> +++ b/drivers/usb/typec/altmodes/Kconfig
+>> @@ -5,6 +5,7 @@ menu "USB Type-C Alternate Mode drivers"
+>>  config TYPEC_DP_ALTMODE
+>>  	tristate "DisplayPort Alternate Mode driver"
+>>  	depends on DRM
+>> +	imply DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
+> 
+> I hate "imply", as this just makes things more complex.  Either this is
+> a dependency or not, right?  Why not fix that?
+>
 
+Perhaps we can just use the v1 content directly? 
+Hopefully that's already simple enough.
 
-> What allows the assumption that mctp_usb_open() does not race
-> with error handling? What happens if the device is still stalled?
+https://lore.kernel.org/all/20260702022036.44-1-kernel@airkyi.com/
 
-When ndo_open is called, we know that the delayed rx work (which
-performs the usb_clear_halt) has been quiesced, so aren't racing with
-the actual recovery.
+> thanks,
+> 
+> greg k-h
+> 
+> 
 
-The device may still be stalled; that should be okay though, as we'll
-detect that through the subsequent IN urb submission, which will re-set
-->clear halt and schedule the rx work to do the clear.
-
-Unless I have missed a case there?
-
-Cheers,
-
-
-Jeremy
-
+-- 
+Best, 
+Chaoyi
