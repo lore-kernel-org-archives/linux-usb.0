@@ -1,137 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315203F54DD;
-	Fri, 10 Jul 2026 12:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783685329; cv=none; b=D+whY46jW3rrVQKp4k43dK2untdLnFs9tjCH0wBJLQLa5RqL5tzf2KRa892cvVpaMoAcs9ShUsIu8gT1UgEAzzGjc6GnCAp5Lb9o+1mmcIsrvj84fhL/ETHtYwQRDLVXoDQhgLRryjaNAfazAjvsJuJof8s7/7fP+FMCA5HxIfc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783685329; c=relaxed/simple;
-	bh=KyUG5kxcreVEYKHZB9sbcDpNVdD9NPuLy0cq/Y4XGes=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hPFeyZWkIGh+blR6O1FPpwmwptxzdNYagEZ5d4av8FaQO0KDZj/9NnUPz7rSU+VdrN7NhcjgUlRe9yfZV4rWgtyoI2TLGG+JYf5V/s3vFS5s/soiuLolak7kqIVR8v2KywTsq7DacZA4bJOkzRRJnSr9N6mTm9/0kcZLce/H0dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Vo0O6UI6; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA00408607
+	for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 12:31:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783686662; cv=pass; b=YvtpgEKJpuU4e483WkCNgopez5BSUtYrm/GdGm9nRUe082H8WHzWJ24WxmIZJNP72qwepE/Tpi4hx4tommufgmj0T1Cyo7tTNnoeGvU91IAyKjDaewmG/TMSq+gfJZ3Izns2Eg4fXzL0BtRRTrDgvlDSqaspfXhboxO8yoDtzKc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783686662; c=relaxed/simple;
+	bh=g913i+oQvvtqC9h1n3cGJjtuEZz8Iv7MTU2C+iwcFLg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X6n2GRIyK0kxM9mLR78iKu2SdkR5j7zwwDVQ+ekDwdWHPzOq2/wArMCOKb+9ZYssqJk+BAPWjGXwL2FKeA+b4OPiAVyhh29dGEm3MzqwrUFE0owzKqApgl4E3EJwmxsQ0HiGNgKarnYi86tE2MOomUuj6hTgZiievtvWPjWY224=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ai1bIYuz; arc=pass smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Vo0O6UI6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02B5D1F000E9;
-	Fri, 10 Jul 2026 12:08:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783685327;
-	bh=hKXVaY4pvzXF0DTi5PsRgZDNYnOewnDAIVksiSk+weg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Vo0O6UI6tlXkw70wVEdUQEWW//hMh6zTJywnktib0C5FMEMvvxkfZFTr73frfzKvp
-	 al80t2ZNngkuBry7bMS9zNzmmXYC969dWSUdj5McEqcglWY4l689gjtJk07VlzhQIz
-	 VGXg9askrhybgI4+MBAARgkRyuYG7LEPZRVzTY3s=
-Date: Fri, 10 Jul 2026 14:08:43 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH v4 05/14] usb: hub: Associate port@ fwnode with USB port
- device
-Message-ID: <2026071025-diffused-jersey-0d94@gregkh>
-References: <20260709095726.704448-1-wenst@chromium.org>
- <20260709095726.704448-6-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ai1bIYuz"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-493bd302c91so254745e9.3
+        for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 05:31:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783686659; cv=none;
+        d=google.com; s=arc-20260327;
+        b=cL3bDC4z/rh/VoAmVePpF6e5ez2xKagIvEVYqg8JRSrRbA+hqOwETwqj/KD/sNxPn1
+         FnI+BieO3rBi5RrKGy4gRIYpU2Ci32VRgEwxooQueCdOFiB97wspYznB6AmOZEU8n0lK
+         nwi0SpOCNuEMGgljTXJ3H25P5w9X5ncPA9yKkeog6gyuEamQlqV3Dnyw4tRfo8ezyGjW
+         y2rviW8oNDFhLJpH4oOsl4D6AqapZc22PUILXylSGZAm2I7+A8YZo3S2BrPyZmT2+yLc
+         0NSZAvFn16P/zl5U5nfWdgohVIvn2zVBwwp0zsFWQOTb5QG/lqoqW+h/XmSD9j+eSaXR
+         sBFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=g913i+oQvvtqC9h1n3cGJjtuEZz8Iv7MTU2C+iwcFLg=;
+        fh=MuAJJVQ3ratrip6Zegq5Hko0jUk0MbbA8Xv9Y3k+1Jw=;
+        b=BtwOhgOL5TEi6aePZPH7x08w8qsZ0DX5ovRMx44jnQ5JNn5Qvzu8q1EI+OKa9oxOIP
+         Z2WvPLgdUKsl47HyQpriKEQ1N2WP5YqclTfMCSL0ewMeAZYXZOTpeZDZJ+bli51Y2utD
+         +U2YoJAvGPWfzMgrgCPVlQYOeDvLYKZD/AbpklmD6VRTGVNw5ze/YbBmdWfOt68iRYvZ
+         TCg+wCzxWVlt/tnMPg5mGH5bLy2OwzO8J1aVPNWQD0O1BNRjZ5axLi1oLHkPphbuFrZj
+         BrrWhlQ6pJN/YAjpHxok9m6ztdjqdo2AYNB7itTlMyeUoP0GoZ9m7csoULqTwuIQyPg+
+         yw9w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783686659; x=1784291459; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=g913i+oQvvtqC9h1n3cGJjtuEZz8Iv7MTU2C+iwcFLg=;
+        b=Ai1bIYuzHXJ/0V4sxyJ1AhH9DmHNDGonm6FFoASZhzO/n39Bh6S7rxWa166nTYlwWJ
+         DV5QZcwMf8/9SM7FwIK8/Bdq4w8m4M95EgczgK2Uce0Unwfi9+jfQLZdr3RWH8PUqsQ4
+         I750mM9n9hWrHODXPE3MDS7bdzA2rFcZRaB2qf16/B3/n8hCYSdjjvQq8juoxkroe1LW
+         7cFK40XlpCRgVJQe6kR2K+LwyniTx2lCjJNNgzhJznIByAfTUXxm0xuzvIxjwvJi6R8W
+         qyo9u9Bv+Sw084hDwJggoDO3R9gJ07v0VjT8KVnhmg4rvLOMdcRaKR3aLUYqSESiK6YT
+         efSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783686659; x=1784291459;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=g913i+oQvvtqC9h1n3cGJjtuEZz8Iv7MTU2C+iwcFLg=;
+        b=IuB84qwrP9K1ODO4ULLYddRgr5JDlFtlgo05TNiOSAul0Kfi2XxiftAqrvmI3MJXhK
+         vPq87laj+dlKfgShupRyVKD07yb7upFclzGtq6bsZGAFB9ZXhn90QCCoNhr14mNftl5M
+         LkgbphhWWETdvpbik0wtim1DkDMOMCnIiofmycJndp2f55Ij+n+DYdE2t88z4aQ7Kd1h
+         8nW1sLHJFwnLcFJcFXuPXcpPiSnqXR3sxt6Y1lUqDbupbXQwaK6CFVPHnqd6mdvJI/SO
+         6CNo+EQCJjjOSw1r/7tWRJ+HgjCD3affs6p0+CzhjhNYKTY8v9z8u5FTK4iYF9twb0If
+         o5+g==
+X-Gm-Message-State: AOJu0YxroASal922nhxZ0GoB7Mu+jFZGoE3gbdJ6d1X7Xe9rve4vkx6o
+	S/6GC9GMb5HIN33ZvcD20bSU9ViWIa7GcsUFodf+b5rRydgCM5lGijQHbJZ1SA/8fjolsjF56QA
+	qi066v2xU+zdpQ359tRvuEkxLREfDe2qoC/k=
+X-Gm-Gg: AfdE7clJH6KYxgmjzDA0gDTeFzvXIjx4qVZHD71ZFQVJAu1eFDfbNx/b7eqMXAtrZVj
+	FCjZVvnNkBYyIQ4dTKFOCjVNI9KyzdDaA9GTp0v97KpjsQ3Q3N8x+TrheSyFUwq0JQVTF9Xo1q7
+	lbB3Vt37aKwvV7/4Bti5Xxlxw1I4srOR9QXqZXh/wgwGwgFje5sYbB89c0XsYoq0ceJ03kTaCBH
+	38LPhxaMk0XiB+FoUfl0cLvrBIWhPwE4quTql6ADHLP8I+kpZ01umwVg951rJE+WfEe5dxJ
+X-Received: by 2002:a05:600c:3543:b0:490:846d:4edf with SMTP id
+ 5b1f17b1804b1-493ea511ca8mr48471455e9.1.1783686659184; Fri, 10 Jul 2026
+ 05:30:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260709095726.704448-6-wenst@chromium.org>
+References: <CADvEaBJnc49dyCNTbe8ys4G4HhEKpMFyjm7xE74evxFodYFb-g@mail.gmail.com>
+ <2026071024-zit-pretender-1bb8@gregkh>
+In-Reply-To: <2026071024-zit-pretender-1bb8@gregkh>
+From: Trabajos Iafast <trabajosiafast@gmail.com>
+Date: Fri, 10 Jul 2026 07:30:47 -0500
+X-Gm-Features: AUfX_myL0h_e2RZ3nLDhlf61_XlwhWq9yrQ6z5rfAUgG4KkZ6HyidBqBrKeaZmg
+Message-ID: <CADvEaBKxsMx2nATKsuNB7fovPewfiuY-dqiwXtmohLNpZ_pWgA@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_UCSI=3A_no_connector_change_events_for_connector_2?=
+	=?UTF-8?Q?_on_Lenovo_Legion_Pro_7_16IAX10H_=28Arrow_Lake=2DHX=29_=E2=80=94_port_fu?=
+	=?UTF-8?Q?nctional_in_Windows?=
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, heikki.krogerus@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 09, 2026 at 05:57:10PM +0800, Chen-Yu Tsai wrote:
-> When a USB hub port is connected to a connector in a firmware node
-> graph, the port itself has a node in the graph.
-> 
-> Associate the port's firmware node with the USB port's device,
-> usb_port::dev. This is used in later changes for the M.2 slot power
-> sequencing provider to match against the requesting port.
-> 
-> To avoid potential conflicts with ACPI firmware nodes and then causing
-> power management issues, only assign the firmware node if the hub's
-> firmware node is not an ACPI firmware node.
-> 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Changes since v3:
-> - Added missing fwnode_handle_put()
-> 
-> Changes since v2:
-> - Skip assignment if hub firmware node is ACPI node
-> ---
->  drivers/usb/core/port.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-> index b1364f0c384c..e8fb2acd77be 100644
-> --- a/drivers/usb/core/port.c
-> +++ b/drivers/usb/core/port.c
-> @@ -7,6 +7,7 @@
->   * Author: Lan Tianyu <tianyu.lan@intel.com>
->   */
->  
-> +#include <linux/acpi.h>
->  #include <linux/kstrtox.h>
->  #include <linux/slab.h>
->  #include <linux/string_choices.h>
-> @@ -358,6 +359,11 @@ static void usb_port_device_release(struct device *dev)
->  {
->  	struct usb_port *port_dev = to_usb_port(dev);
->  
-> +	/*
-> +	 * At this point ACPI nodes and swnodes have been removed by
-> +	 * device_platform_notify_remove() in device_del().
-> +	 */
-> +	fwnode_handle_put(dev_fwnode(dev));
->  	kfree(port_dev->req);
->  	kfree(port_dev);
->  }
-> @@ -780,6 +786,13 @@ int usb_hub_create_port_device(struct usb_hub *hub, int port1)
->  	port_dev->dev.driver = &usb_port_driver;
->  	dev_set_name(&port_dev->dev, "%s-port%d", dev_name(&hub->hdev->dev),
->  			port1);
-> +	/*
-> +	 * ACPI FW nodes are associated later when device_register() happens.
-> +	 * Skip assigning one here to avoid potential conflicts.
-> +	 */
-> +	if (!is_acpi_node(dev_fwnode(&hdev->dev)))
-> +		device_set_node(&port_dev->dev,
-> +				fwnode_graph_get_port_by_id(dev_fwnode(&hdev->dev), port1));
->  	mutex_init(&port_dev->status_lock);
->  	retval = device_register(&port_dev->dev);
->  	if (retval) {
-> @@ -852,6 +865,7 @@ int usb_hub_create_port_device(struct usb_hub *hub, int port1)
->  
->  void usb_hub_remove_port_device(struct usb_hub *hub, int port1)
->  {
-> +	struct usb_device *hdev = hub->hdev;
->  	struct usb_port *port_dev = hub->ports[port1 - 1];
->  	struct usb_port *peer;
+Tested with mainline 7.1.3 (Ubuntu mainline PPA build,
+7.1.3-070103-generic). The behavior is identical to 6.17: -
+port1-partner is enumerated at boot, but number_of_alternate_modes
+stays 0 - usb4_port3 still has no "connector" symlink (only
+link/power/uevent) - dmesg shows bindings for typec port0 only: typec
+port0: bound usb2-port1 (ops connector_ops) typec port0: bound
+usb4_port1 (ops connector_ops [thunderbolt]) typec port0: bound
+usb3-port1 (ops connector_ops) Nothing for port1. - udevadm monitor
+(subsystem typec) shows change events only for port0/port0-partner on
+plug/unplug. Plugging/unplugging on the affected port generates no
+events at all. One additional observation: with 7.1.3 booted without
+any GPU driver (NVIDIA DKMS does not build against it), the monitor
+attached to the affected port actually displays the boot framebuffer.
+The firmware/BIOS sets up the DP tunnel at boot (Lenovo logo is shown
+on that monitor), so the hardware path is fully functional. The
+display is lost once a kernel GPU driver takes over, and since the
+UCSI/typec side never manages that connector, it is never
+re-established. Happy to test any patches.
 
-Is this last variable addition not needed here?  It's not used.
-
-thanks,
-
-greg k-h
+Best regards, Kerly
