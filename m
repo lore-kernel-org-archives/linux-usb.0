@@ -1,37 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AAC25B0B9
-	for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 14:01:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C349221D3E4;
+	Fri, 10 Jul 2026 14:09:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783692086; cv=none; b=QOBq7rsezbVeVW7/xiEceAHNFxEB2EBKOG/+H2aNkAS1+MGvbzW9OtpZTZrcj5xifSnF4EUnVRaosnMa+F0kZQFqwUos+ZQAq7TJ84U4QY8FPQ85GrthRHeZjd8s7WQ7f7U/bpL2z0ostWI5/fFXwkZgal/txGrcFF3mJRN39rU=
+	t=1783692595; cv=none; b=rArj6CV8zmGKEd2KEMM3QjBXRXRz48DKrJ5LQPT+K2oAJVNoCWATGUzox2l54Bq/RwEZiXAVRSJgRY6aXrWgg6nYfCNtdZ+6Y9HHVZbRtnL6JKjeSut+iJHmU3AxqrT+9psMipjXaSioywBwPCn5LMQJeiQ49/ONpGUxkavFgHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783692086; c=relaxed/simple;
-	bh=KQ4bKsrc/xK1yeeXuK06Qp80BYbK3OO9EfBduyj7sE0=;
+	s=arc-20240116; t=1783692595; c=relaxed/simple;
+	bh=JMhdtMOLaUHWXqPIXTzBNMeZuvaIhZXyYL/o5sxmfz4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mZPWM0cHAoWvOuom1LKs9dm1IFJKVZbu5tliw05Xe68XOWvwzK7X0yXJJ8ff6NeTvay/NN44mLuy/BSkKeC0x3fcmV9FBujCQTCbi6aHUC7AQjQCUsBefJh0SG7O3paV4fEDm95kYdOOU67Ptqu/IGWsCbel9fLx59Exm0+Yd3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=spLPQFX8; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ET7QZ2lPgo2Irw7+T/cf+sarPdA+1JVvm1kSlqHZpXOxHYZdeJM0fLrb3B6jf/9IkEAc/28VaBeynhgy2Z9NsVx/7HoZGr6y+ZcarB+p8MLOeaV5svY1SQ2qQE86VhlWiYXqj4+EwGy5Us9aMHcEnZ0qXmixTUNDRkGYp4Sq0Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kgmiif0J; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="spLPQFX8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A9401F000E9;
-	Fri, 10 Jul 2026 14:01:24 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kgmiif0J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E7411F000E9;
+	Fri, 10 Jul 2026 14:09:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783692084;
-	bh=fqw2ZT7Xbye+cU8YqbJ0k/lcNr9ZCyosy+wOdTWbsgo=;
+	s=korg; t=1783692593;
+	bh=h1xi3IKQjbdJ53JCv2L+jzRlcSu7ApiSTvfpodjcvtk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=spLPQFX84f7AdDXLGwn6A7t2J54Lre5a7sTzDLNAUa/1/9ntt7qSQ/5t8ush/rSAB
-	 TktXWUZD5YuNhr17v3/nQdLfiDVGqk3NvWbZedFd8iI+TPC7r+5qiZtgE1lykALttH
-	 W0y+0GBjNSwC5fbO3qXqqxix7/KzWaMIBVVkpZ50=
-Date: Fri, 10 Jul 2026 16:01:20 +0200
+	b=kgmiif0JKq2HSeSzJ7OofwRSlUD94iS3uEV1tKQ943E0Dw5HJBa/NodJ+UjhAlKNH
+	 FGbXFGZ+JEAXY3Dr+tF4ssnWwH8WP2JApHQJxCeAynEVTGBtdWPwSFCDmJ7/fOYkFW
+	 Kncg2+p1T/D/wvPa/3glV7KVkw5wq6sn17XSngyM=
+Date: Fri, 10 Jul 2026 16:09:16 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Zhenghang Xiao <kipreyyy@gmail.com>
-Cc: Paul Cercueil <paul@crapouillou.net>, security@kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH usb-gadget] usb: gadget: f_fs: clear stale priv->req/ep
- on DMA-BUF transfer completion
-Message-ID: <2026071030-skedaddle-camisole-6295@gregkh>
-References: <20260523152739.66340-1-kipreyyy@gmail.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Lee Jones <lee@kernel.org>,
+	Mark Brown <broonie@opensource.wolfsonmicro.com>,
+	Thierry Reding <thierry.reding@avionic-design.de>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Doug Berger <opendmb@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ulf Hansson <ulfh@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Peter Chen <peter.chen@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>, Bin Liu <b-liu@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>, brgl@kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org,
+	driver-core@lists.linux.dev, devicetree@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-i2c@vger.kernel.org,
+	iommu@lists.linux.dev, linux-pm@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org, linux-mips@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, mfd@lists.linux.dev,
+	stable@vger.kernel.org, Manuel Ebner <manuelebner@mailbox.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Konrad Dybcio <konradybcio@kernel.org>
+Subject: Re: [PATCH v3 00/20] driver core: count references of the platform
+ device's fwnode, not OF node
+Message-ID: <2026071001-limelight-stoppable-d7cb@gregkh>
+References: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,55 +90,42 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260523152739.66340-1-kipreyyy@gmail.com>
+In-Reply-To: <20260706-pdev-fwnode-ref-v3-0-1ff028e33779@oss.qualcomm.com>
 
-On Sat, May 23, 2026 at 11:27:39PM +0800, Zhenghang Xiao wrote:
-> ffs_epfile_dmabuf_io_complete() frees the usb_request via
-> usb_ep_free_request() but never clears priv->req or priv->ep. When the
-> host later triggers endpoint disable (via SET_INTERFACE, disconnect, or
-> gadget unbind), the completion fires and frees req, leaving priv->req as
-> a dangling pointer. A subsequent close() or FUNCTIONFS_DMABUF_DETACH
-> ioctl then passes the stale pointer to usb_ep_dequeue(), resulting in a
-> use-after-free on the freed kmalloc-128 object.
+On Mon, Jul 06, 2026 at 02:44:12PM +0200, Bartosz Golaszewski wrote:
+> Platform device core provides helper interfaces for dealing with
+> dynamically created platform devices. Most users should use
+> platform_device_register_full() which encapsulates most of the
+> operations but some modules will want to use the split approach of
+> calling platform_device_alloc() + platform_device_add() separately for
+> various reasons.
 > 
-> Walk back from req->context to the ffs_dma_fence and its priv, then
-> clear priv->req and priv->ep before freeing the request. The cleanup
-> paths in ffs_epfile_release() and ffs_dmabuf_detach() already check for
-> NULL under eps_lock before calling usb_ep_dequeue().
+> With many platform devices now using dynamic software nodes as their
+> primary firmware nodes and with the platform device interface being
+> extended to also better cover the use-cases of secondary software nodes,
+> I believe it makes sense to switch to counting the references of all
+> kinds of firmware nodes.
 > 
-> Fixes: 7b07a2a7ca02 ("usb: gadget: functionfs: Add DMABUF import interface")
-> Signed-off-by: Zhenghang Xiao <kipreyyy@gmail.com>
-> ---
->  drivers/usb/gadget/function/f_fs.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+> To that end, I identified all users of platform_device_alloc() that also
+> assign dev.of_node or dev.fwnode manually. I noticed five cases where
+> the references are not increased as they should (patches 1-5 fix these
+> users) and provided three new functions in platform_device.h that now
+> become the preferred interfaces for assigning firmware nodes to dynamic
+> platform devices (in line with platform_device_add_data(),
+> platform_device_add_resources(), etc.). The bulk of the patches in this
+> series are small driver conversions to port all users to going through
+> the new functions that now encapsulate the refcount logic. With that
+> done, the final patch seamlessly switches to counting the references of
+> all firmware node types.
 > 
-> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-> index 002c3441bea3..88d3e89c21b7 100644
-> --- a/drivers/usb/gadget/function/f_fs.c
-> +++ b/drivers/usb/gadget/function/f_fs.c
-> @@ -1413,8 +1413,13 @@ static void ffs_dmabuf_signal_done(struct ffs_dma_fence *dma_fence, int ret)
->  static void ffs_epfile_dmabuf_io_complete(struct usb_ep *ep,
->  					  struct usb_request *req)
->  {
-> +	struct ffs_dma_fence *fence = req->context;
-> +	struct ffs_dmabuf_priv *priv = fence->priv;
-> +
->  	pr_vdebug("FFS: DMABUF transfer complete, status=%d\n", req->status);
-> -	ffs_dmabuf_signal_done(req->context, req->status);
-> +	ffs_dmabuf_signal_done(fence, req->status);
-> +	priv->req = NULL;
-> +	priv->ep = NULL;
->  	usb_ep_free_request(ep, req);
->  }
->  
-> -- 
-> 2.50.1 (Apple Git-155)
+> This effort is prerequisite of removing platform_device_release_full()
+> and unifying the release path for dynamic platform devices using
+> unmanaged software nodes.
 > 
-> 
+> Merging strategy: The entire series should go through the driver core
+> tree, possibly with an immutable branch provided to solve any potential
+> conflicts though these are rather unlikely.
 
-Does not apply to the latest usb-linus tree, are you sure this is still
-an issue on the latest release?
-
-thanks,
+I've added this to the driver-core-testing branch now, thanks!
 
 greg k-h
