@@ -1,140 +1,91 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38994343F8
-	for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 14:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783694854; cv=pass; b=mymJKIh+EaLY35SpTJgoHht36iZ38ztpb6aQjJ1Vv48E+272+VE6Xv7bT2EDxRUz3szHa+vRymfsJj5LlsY6njEzxRzXmMmoYfmNBgwn4R/JThFd0E414niXIx00bJQp0lBEkRB8hxWd2ZyWhm/zFDKL0j91skvMRng4QGtMLq0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783694854; c=relaxed/simple;
-	bh=zabicP6eVPWDN2T8J0PZJhWGVA3hOxGzJLXt4l6oEKQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fx+MF+bOpL7QI0STrEqLH5r17zZeloe7pCwOhlu5LRQgh7ttXe6T8s3HgWto/+3E8B9w2HbVxQs1Wf3II1cC44WjmMHkZzGY/+cjkBpqDjCF0TWYkmLP9P07WyRdQlSLlqtw9yMlli0sQ14bE+hhal+opJi+fIiKXIuO8bZyuXU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xb5fs/v+; arc=pass smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0CA282F1E;
+	Fri, 10 Jul 2026 14:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.203.114
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783695307; cv=none; b=hDo88ZDpq6rrhw9tV4lI4a7x+Qt0yoOe9RN51FUTK0RpJl9zfAgDZpVTkUoXoia0kElPTG6R+5FdA3KUQLSm86Wk4k3u8+GDIGqJ+jE/gbLeK/gUrNEQSYN0YUjAQI0jHEdduzoDgPw5fLf2QEDAM5Q4DM6SUBqIdufxi7r8nQA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783695307; c=relaxed/simple;
+	bh=4AH2D3gpdm6UmM2L8mvjn1bEL8FcmHEVYw2OVl8ltIw=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=sgaWbDFL8j+xhyIS0ajp8HqEkXCwJ9VPFmPn254MT9ZA77hzBvSNH2ZzokCuftrOJhIF8OusXKPlPPLE/kZJVFR58lnk/MO4pE3NTY06pDN/wsXWUXFh40zp/8xTY9vNKcXByAIlJTJq7j8kQ1GbGEAbp36NCY36pWEJgCOZTnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.com; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=LiAqBHKm; arc=none smtp.client-ip=188.40.203.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xb5fs/v+"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c160d8760e0so7075666b.0
-        for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 07:47:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783694851; cv=none;
-        d=google.com; s=arc-20260327;
-        b=fzbhZ5b80ldZ6eYg1Oq6uGzB4kVbwZKdiCF42A7ZTsOuFDyUefopN0WF5EiISCQVmd
-         II2MRE9C5tqwvoKJyqEAiBEDZYEziM5LhVPiEDH1juWgIKZbCi5wKEm/axgovioKaXIX
-         Yw7iWn90p4ESr9cEJ5wYqxbcOi3PZuGnUzCuH0jY6qVp4sdg4HqcYBJKJX5tjMWfq3Cj
-         JRwZQrnMgNopu78tdO5NapzM02ZNkv+A565uqUCuMJUJ12iGYbmT4PuJzr1qqWhtCKBK
-         IB7n8u+zpgySDbomWuqPOMumHYVAZyDRZ8s58AgEEVaSvruKAe9/GTgMRjRqnlj9gddi
-         +hcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=zabicP6eVPWDN2T8J0PZJhWGVA3hOxGzJLXt4l6oEKQ=;
-        fh=MuAJJVQ3ratrip6Zegq5Hko0jUk0MbbA8Xv9Y3k+1Jw=;
-        b=r4DsmoE5AQW5kLhDuP/Rx+Hxb96xuYUN8Ir6hRXdKzA2z3H9i/cik/77VvQpGUgIgw
-         vkZnZ7CKcZw/aR7Vjfr8cCzpWSBWT413zAS44zqJ+DZIJFZOjfHbXCo7lE9+4jbus9fa
-         yi/N6eRC7hkjbUUsQX8ziZ7l2NdgHGjzr/tLmwNBFWQYxMGZQsFppVCx5CLJHgn0dqAj
-         HJ26OrbtgOJ1Kj0fYZhFF83LaUrTIlST9nmEZ031cictHfRKiFRkpMo2PywKqzMcQeHM
-         YCc1CkTI74oeMYJ6WGRJHlODUtI3sNqv735SgDn9km0Z57EsnJY4xrJ+ZcNzTkXGUSD4
-         b1PQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783694851; x=1784299651; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zabicP6eVPWDN2T8J0PZJhWGVA3hOxGzJLXt4l6oEKQ=;
-        b=Xb5fs/v+LApQCv229iNmSS30ydUoXQWeRPMZon+cXfQFsJvtJv+gKgx4F69Fx+tQoS
-         Yi8YwVY5tvKlU9d2U54LQUXqUSBYXECscMLXV6HWDr/lpep63D/FIxjjEV137JjPqBjk
-         j5boNUgPlm1pUvW0Yr8+u7mBdyGhi3Xfd1mH/NFDngLHbclgNS4uDymKKeELqyuk30iP
-         sUsnILdUSvk0D8QeEBwFU+u8PeIYxDaPyplspNhlJSOQJiDoM7ODZ3GB1FngJfiMjTNC
-         79UJbdvadUYsPRVeEPJskXPH9D/4ps4ZBB+45JzU9Oaxio/KYmnn4eWvoocyRy2lHq6e
-         CV2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783694851; x=1784299651;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zabicP6eVPWDN2T8J0PZJhWGVA3hOxGzJLXt4l6oEKQ=;
-        b=L8KoEQBjDt8mHX6Pra1/+IxUIMDXzSnBGkDXWIgsOxyqU2YAxoLdE/IQSn3mSoQMse
-         LFm6j/05Fqna4RlSwbqMW5q/gE1pCwEMRS9wNLF8xvPvfdRd63YbzqXGW6TrAH0h2e2+
-         VT0L9Ndh55VxrQJXuhsloko0XyAw+05uljCeMc4pu/HWgtPoltd1UXU/2YG1YyVFP7vx
-         fS4vGISNzWPHmS/wu7Gw6YQkpbuIQcsSifxCRDTaKzB1zuzSKkYLgeS16qqt3DMGE2JJ
-         /9jF+7JdEUExxt7yUi9Y/wJwp2ZAFGgjKiJUSUCYoxg+Nk3hGADpuKYf7WbnDlr5LHq7
-         HdGg==
-X-Gm-Message-State: AOJu0YyEYvfhjQz8HLHBA6IsYVtBHU6fnIpdpO2I+FX8SInLpLrlACVf
-	lwmQsmv/e7y4OCpR7mSCNRCf7oqP/mKNoCDi0BH7z/AbM2lCrVRGOT/JDUAf8Ot5Wi1ySloeUPq
-	KW3OkTIt6sViBKn/gTKATjWVx5LrrIA==
-X-Gm-Gg: AfdE7cmeXU3tICvdLf2xqJRILbCieZ+q5zmbINSmu9XESqQRaZKpyCFlvT79a7hvvQL
-	UJ2UiYYy3w36p9lblrA+C8+8lbNiMuG9bQXYe+zyG5/3Az1PbStRWWYYX32ugXphxdpj+FANXX4
-	5gC+nn9xR8p96ZDHNmHgiDRsbImO9/1Mf7xOBc5HgI3swmso7IDjOByFr0iBGHGBsnXxdlUfOg3
-	X8RD1zvRwPPLITlnisoXcFlb7x1GBvPD+28lLDLqn3yMVnl2s34goCChmkoqIHjmv4JPvhSt/E1
-	4CSmcnk=
-X-Received: by 2002:a17:906:e16:b0:c15:f656:d582 with SMTP id
- a640c23a62f3a-c15f656df3cmr87044166b.6.1783694850659; Fri, 10 Jul 2026
- 07:47:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="LiAqBHKm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:To:From:Reply-To:Cc:In-Reply-To:
+	References; bh=x7mOm99J//u5hdfKIsfSMxz48i6E4IuSCHegRQaKclE=; b=LiAqBHKmy37XwS
+	8XsrAlwBhnnKmjauSyjefoD6RVZQ6mXccJFplSTdwZ0aU9jU8VnubI3WfEdE+MN2QcFWobJulVxnc
+	3sBxJwrmBrXB4xQeMT+arnzyWazIypOy0l3XaUiczEkPHCcx81r7uXwbqn8qP2nIV0N6m+rSvp5Hg
+	ir1CnZvnD0ut2uoQhfmqCnpJk5f6NWPbiWBpZbEr2sPde8sSScKevJblRJ7akvilSK6v+PUQTh97w
+	u3V68WMBFiSOS4+gUMwqEtY14ZVOWwdnR8ROlFRIACjv6vCoFLo3tKdyKa875vrpkG4A73LnvheU5
+	dkEW4oYaE/pXyUduGsnQ==;
+Received: from [167.98.27.226] (helo=rainbowdash)
+	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+	id 1wiCco-00326z-HE; Fri, 10 Jul 2026 15:54:46 +0100
+Received: from ben by rainbowdash with local (Exim 4.99.4)
+	(envelope-from <ben@rainbowdash>)
+	id 1wiCco-000000026Zb-0O4E;
+	Fri, 10 Jul 2026 15:54:46 +0100
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Michael Bommarito <michael.bommarito@gmail.com>,
+	Sam Day <me@samcday.com>,
+	Kees Cook <kees@kernel.org>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] usb: gadget: f_fs: fix __le16 of wMaxPacketSize
+Date: Fri, 10 Jul 2026 15:54:30 +0100
+Message-Id: <20260710145430.501893-1-ben.dooks@codethink.co.uk>
+X-Mailer: git-send-email 2.37.2.352.g3c44437643
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CADvEaBJnc49dyCNTbe8ys4G4HhEKpMFyjm7xE74evxFodYFb-g@mail.gmail.com>
- <2026071024-zit-pretender-1bb8@gregkh> <CADvEaBKxsMx2nATKsuNB7fovPewfiuY-dqiwXtmohLNpZ_pWgA@mail.gmail.com>
-In-Reply-To: <CADvEaBKxsMx2nATKsuNB7fovPewfiuY-dqiwXtmohLNpZ_pWgA@mail.gmail.com>
-From: Trabajos Iafast <trabajosiafast@gmail.com>
-Date: Fri, 10 Jul 2026 09:47:18 -0500
-X-Gm-Features: AVVi8CekQLCn55nT2xNIJTuk-CXt8N67iDUs1kjK03LzZ2SL51EGT9eGAsvAlbw
-Message-ID: <CADvEaBLNF6fuD83mneDp+fSVLzGya8yrrudRhgZKRU+YCky3Vw@mail.gmail.com>
-Subject: =?UTF-8?Q?Re=3A_UCSI=3A_no_connector_change_events_for_connector_2?=
-	=?UTF-8?Q?_on_Lenovo_Legion_Pro_7_16IAX10H_=28Arrow_Lake=2DHX=29_=E2=80=94_port_fu?=
-	=?UTF-8?Q?nctional_in_Windows?=
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, heikki.krogerus@linux.intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Sender: srv_ts003@codethink.com
 
-Tested with mainline 7.1.3 (Ubuntu mainline PPA build,
-7.1.3-070103-generic). The behavior is identical to 6.17: -
-port1-partner is enumerated at boot, but number_of_alternate_modes
-stays 0 - usb4_port3 still has no "connector" symlink (only
-link/power/uevent) - dmesg shows bindings for typec port0 only: typec
-port0: bound usb2-port1 (ops connector_ops) typec port0: bound
-usb4_port1 (ops connector_ops [thunderbolt]) typec port0: bound
-usb3-port1 (ops connector_ops) Nothing for port1. - udevadm monitor
-(subsystem typec) shows change events only for port0/port0-partner on
-plug/unplug. Plugging/unplugging on the affected port generates no
-events at all. One additional observation: with 7.1.3 booted without
-any GPU driver (the NVIDIA DKMS module does not build against it), the
-monitor attached to the affected port actually displays the boot
-framebuffer. The firmware sets up the DP tunnel at boot (the Lenovo
-logo is shown on that monitor), so the hardware path is fully
-functional. The display is lost once a kernel GPU driver takes over,
-and since the UCSI/typec side never manages that connector, it is
-never re-established. Happy to test any patches. Best regards, Kerly
+The wMaxPacketSize is __le16 type, fix the sparse warnings by changing
+the type.
 
-On Fri, Jul 10, 2026 at 7:30=E2=80=AFAM Trabajos Iafast
-<trabajosiafast@gmail.com> wrote:
->
-> Tested with mainline 7.1.3 (Ubuntu mainline PPA build,
-> 7.1.3-070103-generic). The behavior is identical to 6.17: -
-> port1-partner is enumerated at boot, but number_of_alternate_modes
-> stays 0 - usb4_port3 still has no "connector" symlink (only
-> link/power/uevent) - dmesg shows bindings for typec port0 only: typec
-> port0: bound usb2-port1 (ops connector_ops) typec port0: bound
-> usb4_port1 (ops connector_ops [thunderbolt]) typec port0: bound
-> usb3-port1 (ops connector_ops) Nothing for port1. - udevadm monitor
-> (subsystem typec) shows change events only for port0/port0-partner on
-> plug/unplug. Plugging/unplugging on the affected port generates no
-> events at all. One additional observation: with 7.1.3 booted without
-> any GPU driver (NVIDIA DKMS does not build against it), the monitor
-> attached to the affected port actually displays the boot framebuffer.
-> The firmware/BIOS sets up the DP tunnel at boot (Lenovo logo is shown
-> on that monitor), so the hardware path is fully functional. The
-> display is lost once a kernel GPU driver takes over, and since the
-> UCSI/typec side never manages that connector, it is never
-> re-established. Happy to test any patches.
->
-> Best regards, Kerly
+Fixes the following sparse warnings:
+drivers/usb/gadget/function/f_fs.c:3346:32: warning: incorrect type in assignment (different base types)
+drivers/usb/gadget/function/f_fs.c:3346:32:    expected unsigned short [usertype] wMaxPacketSize
+drivers/usb/gadget/function/f_fs.c:3346:32:    got restricted __le16 [usertype] wMaxPacketSize
+drivers/usb/gadget/function/f_fs.c:3371:36: warning: incorrect type in assignment (different base types)
+drivers/usb/gadget/function/f_fs.c:3371:36:    expected restricted __le16 [usertype] wMaxPacketSize
+drivers/usb/gadget/function/f_fs.c:3371:36:    got unsigned short [usertype] wMaxPacketSize
+
+Fixes: dcc03cef0fd8 ("usb: gadget: f_fs: preserve wMaxPacketSize across  usb_ep_autoconfig() call")
+Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+---
+v2:
+  - add fixes tag and reword commit message
+---
+ drivers/usb/gadget/function/f_fs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 75912ce6ab55..35d885178b52 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -3332,7 +3332,7 @@ static int __ffs_func_bind_do_descs(enum ffs_entity_type type, u8 *valuep,
+ 		struct usb_request *req;
+ 		struct usb_ep *ep;
+ 		u8 bEndpointAddress;
+-		u16 wMaxPacketSize;
++		__le16 wMaxPacketSize;
+ 
+ 		/*
+ 		 * We back up bEndpointAddress because autoconfig overwrites
+-- 
+2.37.2.352.g3c44437643
+
