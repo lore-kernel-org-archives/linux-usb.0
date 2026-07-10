@@ -1,44 +1,43 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EAAA36A365;
-	Fri, 10 Jul 2026 16:46:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A487743F4A7;
+	Fri, 10 Jul 2026 16:46:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783701988; cv=none; b=a/xaRV45UU4+HOhf54b9UTKVgWeCDNbVOJWD23M4IPf9VkxZHdOb9ayMSmY16ou7SEg+AeJMnO3IFUwh0O3aJPg7zEng/7tXRz8f0ZxtRH7CHcNuJoXJMVrvNxD13hjqAmqpGNyDo3oHxEBg1RjZFmjrK09zgHvSsPUYknY6hGU=
+	t=1783701994; cv=none; b=PqfHXkbq43QE1mb9VgbTU/Pr3mbwAJXLVpqeBeWSCn5ESSV6Ko46BEzw5ABzs7Stf0/qm7W4uAsgs6ne0x15SjzljIsSBgRgcGieUS+etm1yztPytbUeiNyWdSRK9IDK1pobV9/1T+Uig+/z4dJIjWkbF8MCC20MbeLcPUXFzuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783701988; c=relaxed/simple;
-	bh=gjt94yB7OMQ1kbenpTWsg4rbaygeNwSXNZrsMwALuYQ=;
+	s=arc-20240116; t=1783701994; c=relaxed/simple;
+	bh=JEzDlofvAuUDkbxOysD5mFj1UY3uEY+FfXEJ0lIXwmg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=l3qsbXQopY4PI+Th0HIQ8W00fskyybEazPW9xS4ARhtMabICe1cEm02OrcTUBkWaieH1sYiT7x9583jZ15TuXy035x+YL9IxhJQuyOtQQotTLNKRimRpOVoFDgXzOhwbjtKj8IElPaqNd+k/d2O9EKtUxnl7IC63i0is3VLcfXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JqyTaoFd; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=bW2Q18JL2aDDM7/KAQu5mh8G81ZumKIXIuGDFeShC7re0Iu6Dwc7USf2X3YaLbbav7SPt3Q5z/O54o6abeW1ZMUrdMhMlHBqQqzSGxnw1Kqnnzayqvem69poKkA5bfooQvx/le2q+EiBF3WgGbU6On91PgptQDLo+4BsZ1KBAi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=U8g2Mj+f; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JqyTaoFd"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="U8g2Mj+f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1783701978;
-	bh=gjt94yB7OMQ1kbenpTWsg4rbaygeNwSXNZrsMwALuYQ=;
+	s=mail; t=1783701979;
+	bh=JEzDlofvAuUDkbxOysD5mFj1UY3uEY+FfXEJ0lIXwmg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JqyTaoFd+mlc/cn9VMI9Wttow2ObHIHPukiUrsNhkj+BFjFAN5tHj+LjuPhk5m4Va
-	 h9JJ+btty6yT8rS2rDkTOcSd4gdVPoty4tAUeWPYSMkUKiZ4Gp5XZa9ozBVsaQfW9r
-	 h1vQmEScJdh0m9l0D/qsx0cXRMlHRz9CcCw3kq06I6QPhSheOknZVD5q0M+TGFUV5S
-	 1/fg6hvrjRnCYX57vjgQDh3FUeYCKDgVyxdTfgPcjQaU9aZ6xHHseaM2Vv/H/4mQkk
-	 YTRlayEBeE82XldkwOsNVzBM8i+ralbYxd2fH3CgU4Q3G0RJS3JSF2tmrQh8Eode5h
-	 N0kU+5TBbX47A==
+	b=U8g2Mj+f1FZitaV5pScXtnHTG7ZNY9qYA+zyaVkHXcdHHRrgmZipcGdDixmjMGo9J
+	 bmc5z8e56PMn2/nK9mMJ+Ru+NzsyWZFNjn5zasTbHGIDAyGfAxP6neIGO/isTMxp/n
+	 ESUrSgKVmrG4ICCWwZ3QRhxy2LpZcW3UdlHV7ptWi8VVHMJiQXH7wGaHC5xVoeDEOa
+	 NFBllvHJ808ctGZwF+7ZDFJuncm7OUqG23U01xRdIum9bxBDK/4a8lTyyt9q4ostN9
+	 x7bAz+kn1jCKggd/5WKY/85OaFNI14aoD51O8Hfcc6GCmrCoQxpJuVcAQsgglI6x7K
+	 w6o61yu3ggxfg==
 Received: from jupiter.universe (unknown [100.64.1.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519)
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 798C517E0EF3;
-	Fri, 10 Jul 2026 18:46:18 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1F98017E127A;
+	Fri, 10 Jul 2026 18:46:19 +0200 (CEST)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id E2748480031; Fri, 10 Jul 2026 18:46:17 +0200 (CEST)
+	id 0ED7748006D; Fri, 10 Jul 2026 18:46:18 +0200 (CEST)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Fri, 10 Jul 2026 18:44:43 +0200
-Subject: [PATCH v12 05/36] phy: rockchip: usbdp: Handle missing clock-names
- DT property gracefully
+Date: Fri, 10 Jul 2026 18:45:04 +0200
+Subject: [PATCH v12 26/36] phy: rockchip: usbdp: Avoid xHCI SErrors
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,7 +46,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-rockchip-usbdp-cleanup-v12-5-8b41a9a9bef0@collabora.com>
+Message-Id: <20260710-rockchip-usbdp-cleanup-v12-26-8b41a9a9bef0@collabora.com>
 References: <20260710-rockchip-usbdp-cleanup-v12-0-8b41a9a9bef0@collabora.com>
 In-Reply-To: <20260710-rockchip-usbdp-cleanup-v12-0-8b41a9a9bef0@collabora.com>
 To: Vinod Koul <vkoul@kernel.org>, 
@@ -64,56 +63,75 @@ Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-kernel@vger.kernel.org, kernel@collabora.com, 
  devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Sashiko <sashiko-bot@kernel.org>
+ Sebastian Reichel <sebastian.reichel@collabora.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1302;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1963;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=gjt94yB7OMQ1kbenpTWsg4rbaygeNwSXNZrsMwALuYQ=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpRIdjsPCaJlc+z5dSBjtjq7bN6bho0S+VeM
- DXYsyxGqpNcB4kCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqUSHYAAoJENju1/PI
- O/qaEL4P/3dJv/u35phqgsrJeDDE84FYklkPbBWSOAcYSYLvpfO1AMCs1vLnM3l88r8o2dVsbif
- 3008tKUuq3uSr25g2d4Des2XD7n5wuS6LO6rgvE4AtxxK2WoaT/GExr32F1lUtvwMQqXSzUlnvZ
- hJGm7szS5+T7qr9LKBD8a00hLKZRJLapomIqCuGJON95u8b9lkgQQP35ONXT2dxYYALDOsA8Lht
- 0rip85XoYCu8E/0cQO/8wwVVoEZxMl71uVC8z+/v2eUNaAOSmjljdoAKUcolYfO3ku0H+cAbnml
- 8Bvy/TiS+jAGa/VMLGUD1ftrWynmRGhDLqcJH8lTOtWga71rRtgYqsv3sjoJviZlHKrY3wNTqhq
- ZtmBPzjqUtKnB2n3xWBEqk5TH7QVBW7PduYhvuYA4qB0TfPNBfavkqrtHPTocClvVTAMxcLAPb2
- HZKiHja8CWeS9kAki68hWJU5jZFI2kvCoEhIl9dGD6gBhl0xi/OTTD2UljZcme0ejamC2E3VNqr
- dYY5C+be5HbV2CeZj4Z45jiMgvFIy2WSIVWeQgjWW01rjuS5rRdelWhUMswFwOeOMyHj0YilScC
- UIfzt8XnHTU6PLfOD3figYo8ZVgoXv5j4PW+jSdxhlLAuP250LENsWFrYubPSM9jWCWr7xVOV25
- J2DD4iGTNEXpQ5F5tNMkvbg==
+ bh=JEzDlofvAuUDkbxOysD5mFj1UY3uEY+FfXEJ0lIXwmg=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpRIdnmuK2Hp8wMpumqAEsjEu40uZWt0IHM+
+ JE797gyAXISRokCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqUSHZAAoJENju1/PI
+ O/qa2iEQAIlsYPItJFo798GBS5QVmJq96VPvRVoNfXyGbNXifYZUj/w9zzV0ybrjzMSThSD/TPm
+ zQnCZfVEmrxdHSw8Ii1ZowTFFksBIgpphsnLs2rfGIMgSGpxaQ0hmyIIYMAgUvb6/OJ2o01fBnu
+ fvUGviICa2bFZ3ptymKlvYNjeWFmmS/2DXahXSOYmscaK9Ifbp5b1qd/ousF/eGWUNULJLn2DrM
+ 74alvkI6Xb62+uhz4b+p7I3nx0HgMZUw7IA3N2jIqfdmvlX6SitCB+fho+X0y/6aKiuysRhNrMO
+ 5YO1AQs3MV8zyljzzH0MxZjp0vCzAZHyHNnFYeo8UoIr5ukTTVIIhoTO8ppjbPLvslSxXyeaKq+
+ vDcwZtoLCIxCn97asfKPasrVeFIha3H/l7LFo++xxrlhePKek+mpC35svVFkKru+79++GkW/TDJ
+ ryzV13pwyO1MsEmrHhwk5Uvp4M17hEBo2URSenO6cUMfVE2BjlO+ndE7M5Czv8eWWw4H9OIuCKo
+ wgOGJcRVjga8erlEbo8njMl92xtS2Om+bFOAKx18MtwpZatsRPJUUDjxqRMvjzPiPx5AQbadwoQ
+ oxj5PDj2lkthV1zhSw8LwK0HKcF0sPZ3JvGtwYTEwlCrQPEfURskX+EGIP3Z3+lI30EEdtOo61B
+ wgNeoYtt9PPg9cKpx2nY4Zw==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-The rk_udphy_clk_init() function would currently try to do a strncmp for
-a NULL pointer, if DT specifies 'clocks' property, but no 'clock-names'
-property. Fix this by making sure the clock has an id string set.
+The USBDP PHY provides the PIPE clock to the USB3 controller, which
+means the PHY must be fully running when anything tries to access
+the xHCI registers.
 
-Note that DT binding requires setting clock-names, so this is only a
-problem when booting a non-compliant device tree.
+When switching between USB3-only, USB3 + DP and DP-only mode, the
+PHY must be re-initialized resulting in a short period of the PHY
+being disabled. If the DWC3 driver decides to access the xHCI at
+this point the system will fail with an SError.
+
+This patch avoids the problems by disabling the USB3 port before
+re-initializing it. This does a couple of things:
+
+- forces phystatus to 0 from GRF (not from PHY)
+- switches PIPE clock source from PHY to UTMI (safe fallback clock)
+- num_u3_port=0
+
+The last part will be ignored, as DWC3 already probed, but the
+clock re-routing will avoid the SError. There is a small delay
+afterwards to make sure the mux happened. The datasheet gives
+no hints how long it takes, so delay time is a guess.
 
 Fixes: 2f70bbddeb45 ("phy: rockchip: add usbdp combo phy driver")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/message/20260619154349.071321F000E9%40smtp.kernel.org
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- drivers/phy/rockchip/phy-rockchip-usbdp.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/phy/rockchip/phy-rockchip-usbdp.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-index 2845a012eafc..3fc8222fcaec 100644
+index edee27933d89..ff768e5b43ca 100644
 --- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
 +++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-@@ -432,6 +432,9 @@ static int rk_udphy_clk_init(struct rk_udphy *udphy, struct device *dev)
+@@ -1000,12 +1000,15 @@ static int rk_udphy_power_on(struct rk_udphy *udphy, u8 mode)
+ 			rk_udphy_u3_port_disable(udphy, false);
+ 		udphy->phy_needs_reinit = false;
+ 	} else if (udphy->phy_needs_reinit) {
+-		if (udphy->mode == UDPHY_MODE_DP)
+-			rk_udphy_u3_port_disable(udphy, true);
++		rk_udphy_u3_port_disable(udphy, true);
++		udelay(10);
  
- 	/* used for configure phy reference clock frequency */
- 	for (i = 0; i < udphy->num_clks; i++) {
-+		if (!udphy->clks[i].id)
-+			continue;
+ 		ret = rk_udphy_init(udphy);
+ 		if (ret)
+ 			return ret;
 +
- 		if (!strncmp(udphy->clks[i].id, "refclk", 6)) {
- 			udphy->refclk = udphy->clks[i].clk;
- 			break;
++		if (udphy->mode & UDPHY_MODE_USB)
++			rk_udphy_u3_port_disable(udphy, false);
+ 		udphy->phy_needs_reinit = false;
+ 	}
+ 
 
 -- 
 2.53.0
