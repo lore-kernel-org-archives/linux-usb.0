@@ -1,145 +1,97 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B67419302
-	for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 11:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783682729; cv=pass; b=guq74pG6Q1ByxaM96mulwAfI4XZs0UqtRMQ94vZtqPXJHz4Xh8Id754BR7oowt75USsBp+NI+d2MPYCpJrO3ToS81TWwWfMLvd2HUvdeQYUt0caV0Qyhth4GImHlHfnVmpWbMbZk93qpFgbAxDd1AQNNHchTkFDzRSks4RQ5n6A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783682729; c=relaxed/simple;
-	bh=a41howGgbsWC9o4SKSYzlb88s9e2x1q7i4JrOoChpj0=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=bh7rH9bZ8jGqdVqb9wgL82HsHtl5ug960yJX8AagkdpXnkauGZmyUtTE2GOWY8CZ0ljZg0mC0tzuSYM/T8jK/EHAvcUeTlsq/T73b/Lrw78Z0gq7/HUut3i2aBZldkL8+mpiJD+5kjVZIP+99NrnmEQSb5tyuWHr6GoFMwcgKf0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=phfeK+jf; arc=pass smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F7C4195BE
+	for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 11:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783683351; cv=none; b=Sn3s9kTVujcR94I/bloKPzNjpcv16VAUdvnYnHbfZTu2v1J8SZWZoF6iCeYRL8PrnT5lYrcEk6/hnxjW0WFVLQKVUyPaG70LCWdpn3fVpjzS6R6CyJqcALlPX4LXyfHpOpvMmZYChsYicANlKhr/Mu6oaQTDPlZn8/rs7/eQfS8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783683351; c=relaxed/simple;
+	bh=4pksEl7hMLsBYG9ZkoLxK/BecZCy0PswewcYkqaTKsE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VIpsfFCUHIQPtVOBMez0Xoo8izp8VGjm5x4+IcGX036Z2UrSzh6DxqEp+d/EkEwQ7FOL7vVlVIw0rfIQ7jAMoZZrTJ7sQS5nGPG++PEBrpaz16tTsCrC3nDpxSUsSCspNkfWnH1K593dNwYKAQdt3nc27epviKqOYamSBi2EoK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="phfeK+jf"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c160d8760e0so3990866b.0
-        for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 04:25:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783682720; cv=none;
-        d=google.com; s=arc-20260327;
-        b=CIYQue6r5XY7qjbO6unbTN55dc3AjIhys5pRv+DcOh6lIyKlQEo78WLmECuFKphxnp
-         JUPpg8CItujqmSXUJF30MH+1ILhXm0JJYLz7TO+qSsrr2/zAyxj2iNNs7uE7kHJgPF8+
-         TpM6IpN7csHlZ8/QN/QqzuiSABglqHGljj5p5Jv4p51Pgvyquzq/YV1ZoFUYi4O/zlFC
-         JCmZ71J7fwnJkg+8yrA39Ck/KM+qLpjO2Vk3feE7wFok2kvU/XPldyXMNBIXfkbIVSiZ
-         r3xNVH4mP9Y5a62ggWu6bmkKVYtRZDUeZL+CIMKTqXI07FE0UfYledT2+KB9eQD+HqrB
-         3sHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=lBPAJJ670r8RPq60lvSyS4rhJVcLfGTo/ShXwPeFcFs=;
-        fh=HXYDs94KzwTSsUf1O3tCI1GSm/xkj2EYYWY1hO6y3Vo=;
-        b=Eyqby32fdVc4Dqv0PNVKdFD4SLIHfb3heJA+C1gPt+6sYk/mFX3vTa0VKAsBN+xSgd
-         dSLu+EguuwQXPsP4kMvxDANQAlGmX9phQWquHH/oLk3pCrzuhMsr97vkGTI3rb7jiQgO
-         rn4aYAqmSHY/8QzCmTvdo4crtzC56UcqgISJ8t4ddHQ9IvMH59SRkegAOLV6dcHjjj15
-         BB4CyRgfNK6gDP/FxfwYBihe7uQ6MmirG3vyoLGP/nY9b5ubsnlcb6CrPtz2WN8qXIdY
-         NEfwTs4/JN0EAJkgK6npTBHiS6uUln6196HCbVGzMkvofBP7RDi2CKzOHOWbE2Pvsobp
-         1cTA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783682720; x=1784287520; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lBPAJJ670r8RPq60lvSyS4rhJVcLfGTo/ShXwPeFcFs=;
-        b=phfeK+jfhdsnPdNQCSchCw1wkoiKv/nZFqYBtPq75J2irN5/CQLE/OY0ieDcxm8u1a
-         SreirZbQ84INZmx0cJ7S36biUDNnxTSg6XOWfLGzp3NA/kKTv4jQOk9XnCpGrX43uRu+
-         Oh+2+3sfnTjtL6RVTBVuE6f0tUV8Gm9eAR7wv2JDznW3DMiftVu1b8O5iQ0ygGgdRqYX
-         hVvC6Nv33GegaV8knvDCgJPep7x5mBio4FFhei84/aIICxOYZLOKnTX4FAjs9E7T7nps
-         IKQjo+nhKnGDJfS3s/PndhHZM2fIOet0OUmnsg/A9HlZPU66yMcwI6zBkpr7hCajIwPK
-         b9WA==
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5bfa99f8ef8so386982e0c.0
+        for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 04:35:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783682720; x=1784287520;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=lBPAJJ670r8RPq60lvSyS4rhJVcLfGTo/ShXwPeFcFs=;
-        b=QyTw4zZoewqHBa8oMGVaIQXDAEWMv+Wy6nl7UJnJLbsIK3R9tgiUnfPw3igWjcUM+2
-         RxLd3DZD143WVUiP/kZgUvI2S4d42+MjLR+th41fqz99pi78sbMx3XWspZOHJeEKqWUm
-         3brLhhr6kv51QDebp8Sq8w2oiJ1XvSAZGRxAzlIhgUQSVnrCp08rD30XQB0ATQTLaq6E
-         JuJ40N74cDMJzL5r5XnMVcWqy5HO5ZXu0Id3Gw5QTclzldmcLVBCu35j2mJEXY59XhV3
-         UPhQGjePtYLE8Vai903eTWS2/Xr5uku+D2ldpK7CDWmVNcId1iN10VG+ojvSzmx0MEwp
-         +/jg==
-X-Gm-Message-State: AOJu0Yz21wHlrObcIQHzOeOt1A6VqrfAt3YxhLEDc463jIA2OakWdmxr
-	VAghxBfU2qfR/renFUlD/ZCEb3vuu0NMkErvhED7LdyMkoFv2EpiNJwjOOpanq4fJpg1b8Ud+CT
-	Q0kZkZ3xbb/GP9t8ImeM9ShLboNsigyj8q3I=
-X-Gm-Gg: AfdE7cm6QlHrFArTCy90NR3Yq4DDCJQJLSlwHyqkuRjKt/EegIRMKhX5NegwFWYYa+J
-	sOok+I1PYjwDaDNblg5ZSTeXv9lVZY7tqG65eA0YQkNoJ165fIdqB1ZrilViu7rjywEfgX6aj8z
-	4cELtkgy9dbLADXsFpxv3R8DqFdthwe/h+rBo1JRHD0TIDd77OEkRAnLBdJvtpQFTJML1DIWl64
-	rzH78zWcDD9MfUWwdAFREbEDtDt1cr9SiEQp6KzlbRkoLF269qjZCVsn9ST6Zw1H+zMwcoh
-X-Received: by 2002:a05:6402:3507:b0:697:5664:4c12 with SMTP id
- 4fb4d7f45d1cf-69b8e3bf634mr1987738a12.3.1783682719527; Fri, 10 Jul 2026
- 04:25:19 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783683341; x=1784288141;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=OJD6tiSjIPreQ8N2oNzf0qaDxzfObFILUs5bMv8F2lc=;
+        b=hW/RMu0J65CQ21n21ZfZ+mPM2cbkPLdUtdFsWWJQMXdn806N2iVaiCOtp/MeiIk6Ou
+         DXjP4xPjcbvF7kWxAVWEdHkyOq5uDhkiqOqsjnq+n4u460pi0P5sysv7b/novQKU9WUJ
+         AQ7zuskX6bc34h4p9bSxxfWf1SnnEx37dYpD30rK11iiu0gUm3eQIT+z8boxtLLb/Nzl
+         amzInscOz4rvSpbefsfvZoazUqQ8anZUSXMurn9RtMJDyNPtJaA+zjYP6kvsNZgwtT/z
+         Zd00tK2EdZxlPPOW1UZnmmxYuvuSrde0kTRG1Sk0KzxnFYo0QWxGISJmScfH51+mel5l
+         bjYg==
+X-Forwarded-Encrypted: i=1; AHgh+RovF0ELoVep+DxO7Uh2Nqp8aN58CTlnklRcflHJ3bOcmxBGJ1V8DwbcU6hWCp4eE8r/Nu4GQfRFtGY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyk6i3p2vUEWvWn2t4AWinwcNOn8oHiVIp2Y2eQjarIcSRD86r2
+	RK8TxDAfI9YX7ZnhiLC0ahVPBwNohw+dYkvhBjBzrZmGn8rCf+6TLPutSgbmG/Rd/Hw=
+X-Gm-Gg: AfdE7cklvAaXpKCJIcbQ3jrtZGIWv9eMCXcQNmKxolpcc1q34wA2hwjazOyJEA7ddeT
+	Rw+8G3ciHZmpcgVYijCdQFiIw0aOm1ypT535rboBzUE0dR9zJD/Eplb0taLB40bha/evZkpg06E
+	vaygVWeyHDP2KFEKZPNzRoQd/3jBFXQxtIfjxYt9ZPWetJ2BMdoQzCJuiX0VSQ3u1/im/EBl8Un
+	1LWPZAIYYnICcOUijHcpFRcBnqSkM2vHBoIALZbYajM4IWYoi1q5nrb4KRdqSZi3etTl6/JibaV
+	KxCXEQDd4hymxNbD2e7VijiOOpPuSOybTUK39ZrINoR3rvI+RWmZZe9UZygAM2wOEtojQzuZyvq
+	5sMvaI51upmlkhXW2BI4pw36hI5Jz4Ro8FpCRTidmVbFQlkFcrQynXn7+G7P/XhJHnehgOQSNcQ
+	MW6iOPu3w5EiN6hwb/1xmejJRss8PP4+kWJIzUijq4Rk5ODC0Vvw==
+X-Received: by 2002:a05:6122:218e:b0:5bd:8dd8:146e with SMTP id 71dfb90a1353d-5bfa5452ff8mr1519828e0c.4.1783683341328;
+        Fri, 10 Jul 2026 04:35:41 -0700 (PDT)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bfba710bd9sm30167e0c.12.2026.07.10.04.35.40
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jul 2026 04:35:40 -0700 (PDT)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-971de219a85so354498241.0
+        for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 04:35:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RpIt65JxIdLnP6HycOlofEn01h+MVzmUPq2Ix0k34N7WUhNSCJVIyMbUUv7QHksxojdx1uJTkS5gNk=@vger.kernel.org
+X-Received: by 2002:a05:6102:8195:10b0:737:edda:e7d7 with SMTP id
+ ada2fe7eead31-7450c6bee37mr1282524137.1.1783683340215; Fri, 10 Jul 2026
+ 04:35:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Trabajos Iafast <trabajosiafast@gmail.com>
-Date: Fri, 10 Jul 2026 06:25:08 -0500
-X-Gm-Features: AVVi8Cfg6V5zsK3Q-2F08yLPpf5IvBkG-TtOz5jeJuYURWjBuYmYToeONk8-LtI
-Message-ID: <CADvEaBJnc49dyCNTbe8ys4G4HhEKpMFyjm7xE74evxFodYFb-g@mail.gmail.com>
-Subject: =?UTF-8?Q?UCSI=3A_no_connector_change_events_for_connector_2_on_?=
-	=?UTF-8?Q?Lenovo_Legion_Pro_7_16IAX10H_=28Arrow_Lake=2DHX=29_=E2=80=94_port_functi?=
-	=?UTF-8?Q?onal_in_Windows?=
-To: linux-usb@vger.kernel.org
-Cc: heikki.krogerus@linux.intel.com
+References: <20260707145135.247565-1-biju.das.jz@bp.renesas.com> <20260707145135.247565-2-biju.das.jz@bp.renesas.com>
+In-Reply-To: <20260707145135.247565-2-biju.das.jz@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 10 Jul 2026 13:35:29 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXh4LZ8yFyca2EXSq34P0+OgxLyA2J7O6OhZD1PPVanhg@mail.gmail.com>
+X-Gm-Features: AUfX_mx1HkmTEWvYMocI1aNW_zjBk9JHXgCAqkMrY6has8ck0rJ6O0h4yvq4kRE
+Message-ID: <CAMuHMdXh4LZ8yFyca2EXSq34P0+OgxLyA2J7O6OhZD1PPVanhg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: usb: renesas,usbhs: Document RZ/G3L SoC
+To: Biju <biju.das.au@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Tue, 7 Jul 2026 at 16:51, Biju <biju.das.au@gmail.com> wrote:
+> From: Biju Das <biju.das.jz@bp.renesas.com>
+>
+> The USBHS IP block on RZ/G3L SoC is identitcal to the one found on the
+> RZ/G3S device. Document the RZ/G3L USBHS IP block.
+>
+> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 
-I'd like to report a UCSI issue on a Lenovo Legion Pro 7 16IAX10H
-(model 83F5), Intel Core Ultra 9 275HX (Arrow Lake-HX), where one of
-the two side-mounted USB-C ports is non-functional under Linux (no DP
-Alt Mode, no data, no hotplug detection), while working fully under
-Windows 11 on the same machine (dual boot).
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-System:
-- Kernel: 6.17.0-35-generic (Ubuntu 24.04.4)
-- BIOS/EC: Q7CN78WW (latest, issue also present on Q7CN33WW)
-- USB4 silicon: Intel Gen14, 8087:7ec2, firmware 15.1
-- Secure Boot: disabled
+Gr{oetje,eeting}s,
 
-Symptoms:
-- /sys/class/typec shows port0 and port1. port0 works fully.
-- port1 gets a partner device enumerated at boot (PD 3.0,
-  supports_usb_power_delivery: yes) but number_of_alternate_modes
-  stays 0 and usb_power_delivery_revision reads 0.0.
-- No typec uevents are ever generated for port1 on plug/unplug
-  (verified with udevadm monitor; port0 generates remove/add/change
-  normally).
-- typec port1 never binds to usb4_port3; the "connector" symlink
-  under domain0/0-0/usb4_port3 is missing (port0 <-> usb4_port1
-  binds correctly).
-- dmesg is completely silent: no ucsi/PPM errors at all.
+                        Geert
 
-UCSI debugfs probing (/sys/kernel/debug/usb/ucsi/USBC000:00):
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-GET_CAPABILITY:
-  0x01300300012000020000040200000144
-  -> bNumConnectors = 2 (both connectors are exposed to the OS)
-
-GET_CONNECTOR_STATUS connector 1 (working):
-  0x01300300012000011304b12c405b4000
-GET_CONNECTOR_STATUS connector 2 (broken):
-  0x01300300012000011304b12c405b0000
-
-The responses are identical except the Connector Status Change
-field: 0x4000 (Connect Change) on connector 1, 0x0000 on connector 2,
-with a monitor attached to both ports. The EC appears to report
-connector 2's status when polled but never raises connection change
-events for it, so the event-driven ucsi driver never processes the
-port. Windows 11 (Microsoft UCSI connection manager, driver
-10.0.26100.8521) handles the same port without issues, DP Alt Mode
-included.
-
-Ruled out: BIOS/EC update to latest (Q7CN78WW), EC power drain,
-thunderbolt module reload, PCI remove/rescan of the USB4 NHI,
-ucsi_acpi/typec_ucsi reload (port1 never rebinds), kernels 6.14 and
-6.17. No retimer firmware available via LVFS for this model.
-
-Happy to provide acpidump, full sysfs dumps, or test patches.
-
-Best regards,
-Kerly Cervantes
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
