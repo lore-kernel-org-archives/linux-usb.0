@@ -1,97 +1,62 @@
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F7C4195BE
-	for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 11:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C62426693
+	for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 11:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783683351; cv=none; b=Sn3s9kTVujcR94I/bloKPzNjpcv16VAUdvnYnHbfZTu2v1J8SZWZoF6iCeYRL8PrnT5lYrcEk6/hnxjW0WFVLQKVUyPaG70LCWdpn3fVpjzS6R6CyJqcALlPX4LXyfHpOpvMmZYChsYicANlKhr/Mu6oaQTDPlZn8/rs7/eQfS8=
+	t=1783684792; cv=none; b=W0sh1lw2/F9H57CSwC5sioLyzlPlvFyF+n5UYLHPAVplkEAcbUOu2/alDHiUfLjBVOfpmSwbuKIgDEaEd/L38I/MYGuoeOoaLaj9jT56xXVCKtQ37tKqohyYRKpttJs5ox5YUpwq7OEpz1p6NuhZjt/kqeqjex87dFs6/ya190A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783683351; c=relaxed/simple;
-	bh=4pksEl7hMLsBYG9ZkoLxK/BecZCy0PswewcYkqaTKsE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VIpsfFCUHIQPtVOBMez0Xoo8izp8VGjm5x4+IcGX036Z2UrSzh6DxqEp+d/EkEwQ7FOL7vVlVIw0rfIQ7jAMoZZrTJ7sQS5nGPG++PEBrpaz16tTsCrC3nDpxSUsSCspNkfWnH1K593dNwYKAQdt3nc27epviKqOYamSBi2EoK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5bfa99f8ef8so386982e0c.0
-        for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 04:35:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783683341; x=1784288141;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=OJD6tiSjIPreQ8N2oNzf0qaDxzfObFILUs5bMv8F2lc=;
-        b=hW/RMu0J65CQ21n21ZfZ+mPM2cbkPLdUtdFsWWJQMXdn806N2iVaiCOtp/MeiIk6Ou
-         DXjP4xPjcbvF7kWxAVWEdHkyOq5uDhkiqOqsjnq+n4u460pi0P5sysv7b/novQKU9WUJ
-         AQ7zuskX6bc34h4p9bSxxfWf1SnnEx37dYpD30rK11iiu0gUm3eQIT+z8boxtLLb/Nzl
-         amzInscOz4rvSpbefsfvZoazUqQ8anZUSXMurn9RtMJDyNPtJaA+zjYP6kvsNZgwtT/z
-         Zd00tK2EdZxlPPOW1UZnmmxYuvuSrde0kTRG1Sk0KzxnFYo0QWxGISJmScfH51+mel5l
-         bjYg==
-X-Forwarded-Encrypted: i=1; AHgh+RovF0ELoVep+DxO7Uh2Nqp8aN58CTlnklRcflHJ3bOcmxBGJ1V8DwbcU6hWCp4eE8r/Nu4GQfRFtGY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyk6i3p2vUEWvWn2t4AWinwcNOn8oHiVIp2Y2eQjarIcSRD86r2
-	RK8TxDAfI9YX7ZnhiLC0ahVPBwNohw+dYkvhBjBzrZmGn8rCf+6TLPutSgbmG/Rd/Hw=
-X-Gm-Gg: AfdE7cklvAaXpKCJIcbQ3jrtZGIWv9eMCXcQNmKxolpcc1q34wA2hwjazOyJEA7ddeT
-	Rw+8G3ciHZmpcgVYijCdQFiIw0aOm1ypT535rboBzUE0dR9zJD/Eplb0taLB40bha/evZkpg06E
-	vaygVWeyHDP2KFEKZPNzRoQd/3jBFXQxtIfjxYt9ZPWetJ2BMdoQzCJuiX0VSQ3u1/im/EBl8Un
-	1LWPZAIYYnICcOUijHcpFRcBnqSkM2vHBoIALZbYajM4IWYoi1q5nrb4KRdqSZi3etTl6/JibaV
-	KxCXEQDd4hymxNbD2e7VijiOOpPuSOybTUK39ZrINoR3rvI+RWmZZe9UZygAM2wOEtojQzuZyvq
-	5sMvaI51upmlkhXW2BI4pw36hI5Jz4Ro8FpCRTidmVbFQlkFcrQynXn7+G7P/XhJHnehgOQSNcQ
-	MW6iOPu3w5EiN6hwb/1xmejJRss8PP4+kWJIzUijq4Rk5ODC0Vvw==
-X-Received: by 2002:a05:6122:218e:b0:5bd:8dd8:146e with SMTP id 71dfb90a1353d-5bfa5452ff8mr1519828e0c.4.1783683341328;
-        Fri, 10 Jul 2026 04:35:41 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bfba710bd9sm30167e0c.12.2026.07.10.04.35.40
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jul 2026 04:35:40 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-971de219a85so354498241.0
-        for <linux-usb@vger.kernel.org>; Fri, 10 Jul 2026 04:35:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpIt65JxIdLnP6HycOlofEn01h+MVzmUPq2Ix0k34N7WUhNSCJVIyMbUUv7QHksxojdx1uJTkS5gNk=@vger.kernel.org
-X-Received: by 2002:a05:6102:8195:10b0:737:edda:e7d7 with SMTP id
- ada2fe7eead31-7450c6bee37mr1282524137.1.1783683340215; Fri, 10 Jul 2026
- 04:35:40 -0700 (PDT)
+	s=arc-20240116; t=1783684792; c=relaxed/simple;
+	bh=64/Ao4+W2gWE9MoXAH5L7UH8K/AlS9+Fe5ID0rtoExA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I3OnTBBBdxJRmYR8ZPBM9ve0gDxe2FpLrplpersmSDnuJspvTjYpQEVoKYfjyMZpy2Rof4nrTEIiX4Bd24ZUyAR58OJo1XOV1F3nUva901WDl6xQXEmemGR+Go5pDqGEnff5OlIksmtRt6ZmTMIR2aooVDCZInAm/ZKWkBWV69E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GfrYooE2; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GfrYooE2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 754F01F000E9;
+	Fri, 10 Jul 2026 11:59:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1783684790;
+	bh=jL105cwMhNyw7WYfISTxJidZXDhMZjhNWesn3VczNEE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=GfrYooE2bi7Hq9Hx0DmTvreXH+j3NbwFXI1P7H+66bh5LhU8Rn8CUgU+dgdz5RiDc
+	 jkFmg9Trl9nYqpdF/gsbIFzy/sEJscgogFYvVJQbQxqUp+TbBCODrKGNj1b+AJNpGJ
+	 s2WMkGGHghx/8yNLlsbW+klOnE9L4r1DBm+k1vQk=
+Date: Fri, 10 Jul 2026 13:59:46 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Trabajos Iafast <trabajosiafast@gmail.com>
+Cc: linux-usb@vger.kernel.org, heikki.krogerus@linux.intel.com
+Subject: Re: UCSI: no connector change =?utf-8?Q?ev?=
+ =?utf-8?Q?ents_for_connector_2_on_Lenovo_Legion_Pro_7_16IAX10H_=28Arrow_L?=
+ =?utf-8?B?YWtlLUhYKSDigJQ=?= port functional in Windows
+Message-ID: <2026071024-zit-pretender-1bb8@gregkh>
+References: <CADvEaBJnc49dyCNTbe8ys4G4HhEKpMFyjm7xE74evxFodYFb-g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707145135.247565-1-biju.das.jz@bp.renesas.com> <20260707145135.247565-2-biju.das.jz@bp.renesas.com>
-In-Reply-To: <20260707145135.247565-2-biju.das.jz@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 10 Jul 2026 13:35:29 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXh4LZ8yFyca2EXSq34P0+OgxLyA2J7O6OhZD1PPVanhg@mail.gmail.com>
-X-Gm-Features: AUfX_mx1HkmTEWvYMocI1aNW_zjBk9JHXgCAqkMrY6has8ck0rJ6O0h4yvq4kRE
-Message-ID: <CAMuHMdXh4LZ8yFyca2EXSq34P0+OgxLyA2J7O6OhZD1PPVanhg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: usb: renesas,usbhs: Document RZ/G3L SoC
-To: Biju <biju.das.au@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CADvEaBJnc49dyCNTbe8ys4G4HhEKpMFyjm7xE74evxFodYFb-g@mail.gmail.com>
 
-On Tue, 7 Jul 2026 at 16:51, Biju <biju.das.au@gmail.com> wrote:
-> From: Biju Das <biju.das.jz@bp.renesas.com>
->
-> The USBHS IP block on RZ/G3L SoC is identitcal to the one found on the
-> RZ/G3S device. Document the RZ/G3L USBHS IP block.
->
-> Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
+On Fri, Jul 10, 2026 at 06:25:08AM -0500, Trabajos Iafast wrote:
+> Hi,
+> 
+> I'd like to report a UCSI issue on a Lenovo Legion Pro 7 16IAX10H
+> (model 83F5), Intel Core Ultra 9 275HX (Arrow Lake-HX), where one of
+> the two side-mounted USB-C ports is non-functional under Linux (no DP
+> Alt Mode, no data, no hotplug detection), while working fully under
+> Windows 11 on the same machine (dual boot).
+> 
+> System:
+> - Kernel: 6.17.0-35-generic (Ubuntu 24.04.4)
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+That is a very old and obsolete kernel, can you try the latest 7.1.3
+kernel release instead?
 
-Gr{oetje,eeting}s,
+thanks,
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+greg k-h
