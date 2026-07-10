@@ -1,183 +1,129 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7E743F8B4;
-	Fri, 10 Jul 2026 16:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFF2367B73;
+	Fri, 10 Jul 2026 17:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783701999; cv=none; b=FlN6yKQ74955wQvFem00jnowo9ujN4xAyxpSo2sih9NC19mk7/YE/pNdUePUarjfYVLZwmByOHFyS158MCx8tyaQ1JeCx0GzDZp7kdjBwvpXSQrw2EGmCGLrjfbdF1gqGZFks0irMi7bfc5EZ+p2RZPC3uM+tCn6Losy1Z59wE4=
+	t=1783703700; cv=none; b=DKgrtJ7CPu3Tmgm7KP0+PLsmHJD3PIcrNhws8s3HLmcxgafM0O2QTnh/jfxMGlpjS5wTxDroIAiXCU74UY3cikUfUpoeyy+/KP4u5nGNAjSjvNSXCavkGfyXfkWx3HaGy+VnBzZ+7uZqLPKSnOXJxmAwfyjzYH3Iw12+Wj57H2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783701999; c=relaxed/simple;
-	bh=1EpS3VBx4qH9faH0FA9d8/B9FiHgliXdwRmJBhi8wWg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=W3bBfxH/mIMeF7BPvbsvad6gVvHi0mquYppdfcFCY1QXXxv7Izim7acrlqUgy+fq+jI6FeiPa1WOYgx/sJe6cnS7SSrLY0r6fDWAFHDgrgYSsI/oHefGIYXs2VkDjWMLBbnWwoGYyqFEFDg4xvUGK5XjgH8QS8Vh/lQ7eLmwwBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VWFTQ/xs; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1783703700; c=relaxed/simple;
+	bh=UEk58ujqPzAcbcK00uYPo/5tSzpIGjm8wEJduX8C9Vc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I7U5KMI+YYtsSsBssjzzNax85g1QXYkiKOOEEng+g6SECTyRCyMiKNGKxVZhkvuwXbOInvZuudKAl5cwE1H+K99IGjnQNZEpyL8zFT0h0xrJUd7RleFrAt97WcNEGOT7GSECbbIQK/LEb2Nq9gKS5fWzS1sJ4t33EvoIuAmEBU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lu6DwVRs; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VWFTQ/xs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1783701979;
-	bh=1EpS3VBx4qH9faH0FA9d8/B9FiHgliXdwRmJBhi8wWg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=VWFTQ/xsZbKE64ED1G6SR58NwgmX1LF/ZreKTBeQeJOmNgK6sdtsBJP6Psub4o9/A
-	 KQir3UbTgjjXhPZ+WLgLM5NAgjQ1hMc7LW5QbaJLBZo2acKYnt7ynAS0bPNwEBXZu3
-	 SZGpnFsm4JarFBQkZeil7xotr+FfWvC1z4jJZiirg/LtK6rbzPTi89Zj/xqI2Fe0VW
-	 bcHj4hsDrTbVuupyKYWxsZWrzmwTHqZ9tLwPUaSTslcG4kHR1mQbAL+E8cKHAdbVNc
-	 R0lAQlZSAvyaiiNIPDWwwuRHyilW7Wt/gaGl+IUvvBiP/HQ4ymSbr1so7idcLHAGi+
-	 t5OlpJlhWGXNQ==
-Received: from jupiter.universe (unknown [100.64.1.62])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519)
-	(No client certificate requested)
-	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 14AD317E1078;
-	Fri, 10 Jul 2026 18:46:19 +0200 (CEST)
-Received: by jupiter.universe (Postfix, from userid 1000)
-	id 0D31148006B; Fri, 10 Jul 2026 18:46:18 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Fri, 10 Jul 2026 18:45:03 +0200
-Subject: [PATCH v12 25/36] phy: rockchip: usbdp: Add some extra debug
- messages
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lu6DwVRs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783703697; x=1815239697;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UEk58ujqPzAcbcK00uYPo/5tSzpIGjm8wEJduX8C9Vc=;
+  b=lu6DwVRsDf+IPlO3Cu6qxaTwV37FziTB0zwzcw3m4qcKrnU+5j040Qch
+   UhFHSMDSdPHdebq7QXYnrc5LjNezWN8w/IpUeqgszxLeeJYELDd9DhAlL
+   g5zdkWJ14/QdQxByKVQl2z7H5DETSnvaBnnvIT75J4dqf/wXy/5HyGTX7
+   N76MZc3W55FZSOt4qU6Xx4QpjA5IHA9VHaM3cteB0rSBKL8/JUT/tHr/D
+   HAGNN6vTGu+0wNScx3tTbEJjYdscJNNwuvS21anPcWcGXIQQY4LFaycro
+   jKzSDNydL/WoBkVO6dCjlw9sQ7oJ1SPPBomucjJauzLAfbnSVHjT636AC
+   Q==;
+X-CSE-ConnectionGUID: uk3prhlfRkmiUdqBKPUw0A==
+X-CSE-MsgGUID: 8ApdRMraSw2DpP/kAmT75Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="101956419"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="101956419"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2026 10:14:56 -0700
+X-CSE-ConnectionGUID: OazDl0iMTjSvv5VarzvHHw==
+X-CSE-MsgGUID: Ojf6J2zMTtql3uXyy2Jdgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="255592851"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 10 Jul 2026 10:14:54 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wiEoN-00000000J9v-1u6M;
+	Fri, 10 Jul 2026 17:14:51 +0000
+Date: Sat, 11 Jul 2026 01:14:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, Dmitry Baryshkov <lumag@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Deepak Kumar Singh <deepak.singh@oss.qualcomm.com>,
+	Kamal Wadhwa <kamal.wadhwa@oss.qualcomm.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>
+Subject: Re: [PATCH] usb: typec: ucsi: ucsi_glink: Prevent suspend during
+ UCSI notification handling
+Message-ID: <202607110115.YSVz17MH-lkp@intel.com>
+References: <20260710-ucsi_glink_wakeup-v1-1-7d97ea628d92@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260710-rockchip-usbdp-cleanup-v12-25-8b41a9a9bef0@collabora.com>
-References: <20260710-rockchip-usbdp-cleanup-v12-0-8b41a9a9bef0@collabora.com>
-In-Reply-To: <20260710-rockchip-usbdp-cleanup-v12-0-8b41a9a9bef0@collabora.com>
-To: Vinod Koul <vkoul@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Heiko Stuebner <heiko@sntech.de>, Frank Wang <frank.wang@rock-chips.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>, 
- Yubing Zhang <yubing.zhang@rock-chips.com>, 
- Alexey Charkov <alchark@flipper.net>, linux-phy@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, kernel@collabora.com, 
- devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
- Sebastian Reichel <sebastian.reichel@collabora.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3232;
- i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=1EpS3VBx4qH9faH0FA9d8/B9FiHgliXdwRmJBhi8wWg=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpRIdlqnRV+IsDAf6xvarg8hGQOK2KftzJ7W
- GUkvUO7YlluTYkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqUSHZAAoJENju1/PI
- O/qaI/UP/iLziTTNurHIqWA9Wb1mlq3j42vH0Iy83ORfb88bJLHWv32798MpCWFzYbk2lxypzib
- 1b/NUxHvabkGOyB+09yyOV+l4ojuQ7UlR3rHrYo6GKeu/YiylurOt4uKBZFoW2xb3y/z//qvC8m
- EWWmPItimNwvoUVUFspcIgy8MecPwGwJovEShyxYm8+eTrU6uL92XaAkSyHwV6MZMPCbp9PjVkT
- kLJmyZlS1TXs+FjUn7akTTV8vnpLxhVc0E/q442+BKUsfuWvRRekxCePl2jRduF3pBxJ+xHWpqj
- cX0ULA3OYh83QY875YAIKnHxL5XEH9hTy3T2fO035A7cG0DRWqCpuTLxb+X5Gc7WUa3iAN61/NK
- L4XEeQNzI+XQ7fBo0G3PQePoKl2ZzzbyaVpp+1BOyLrp86478PrHfuMInY9Xt5Qm6Hj9FYfNJKH
- ijcdxFB0kCU6pQQCT7lma91J83iG/88SBRv6o+W79TskOUsR9TpIJ4/9739Yjm5jz87i0oBXnEL
- PtR0kQMFpsWM6aG1yzt9F9hyzxMQPAf7iXss8cMHO5QjED8CsgykvQb+ctDEf8xn7b6p38zSMwd
- Xo20c1nf9BhYEReMquFUDUHjvSesbmHTTGq3a6CaU2OFc3S9uFZ3rxyM8rE5n/SZ32L0OECVRV9
- HQuDlGYnFBq6gz9K+Ha86YA==
-X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
- fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260710-ucsi_glink_wakeup-v1-1-7d97ea628d92@oss.qualcomm.com>
 
-It's useful to log PHY reinit to ease debugging issues around
-USB-C hotplugging.
+Hi Jishnu,
 
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
----
- drivers/phy/rockchip/phy-rockchip-usbdp.c | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-index cd79c5da566a..edee27933d89 100644
---- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
-+++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
-@@ -24,6 +24,7 @@
- #include <linux/property.h>
- #include <linux/regmap.h>
- #include <linux/reset.h>
-+#include <linux/string_choices.h>
- #include <linux/usb/ch9.h>
- #include <linux/usb/typec_dp.h>
- #include <linux/usb/typec_mux.h>
-@@ -462,6 +463,8 @@ static int rk_udphy_reset_deassert(struct rk_udphy *udphy, char *name)
- 			return reset_control_deassert(list[idx].rstc);
- 	}
- 
-+	dev_err(udphy->dev, "failed to de-assert missing reset line: %s\n", name);
-+
- 	return -EINVAL;
- }
- 
-@@ -488,6 +491,8 @@ static void rk_udphy_u3_port_disable(struct rk_udphy *udphy, u8 disable)
- 	const struct rk_udphy_cfg *cfg = udphy->cfgs;
- 	const struct rk_udphy_grf_reg *preg;
- 
-+	dev_dbg(udphy->dev, "USB3 port %s\n", str_on_off(!disable));
-+
- 	preg = udphy->id ? &cfg->grfcfg.usb3otg1_cfg : &cfg->grfcfg.usb3otg0_cfg;
- 	rk_udphy_grfreg_write(udphy->usbgrf, preg, disable);
- }
-@@ -662,8 +667,10 @@ static int rk_udphy_orien_sw_set(struct typec_switch_dev *sw,
- 		return 0;
- 	}
- 
--	if (udphy->flip != flipped)
-+	if (udphy->flip != flipped) {
-+		dev_dbg(udphy->dev, "cable orientation changed, PHY re-init required.\n");
- 		udphy->phy_needs_reinit = true;
-+	}
- 
- 	udphy->flip = flipped;
- 	rk_udphy_set_typec_default_mapping(udphy);
-@@ -781,6 +788,11 @@ static int rk_udphy_init(struct rk_udphy *udphy)
- 	const struct rk_udphy_cfg *cfg = udphy->cfgs;
- 	int ret;
- 
-+	dev_dbg(udphy->dev, "reinit PHY with USB3=%s and DP=%s (%u lanes) flipped=%s\n",
-+		str_on_off(udphy->mode & UDPHY_MODE_USB),
-+		str_on_off(udphy->mode & UDPHY_MODE_DP),
-+		udphy->dp_lanes, str_yes_no(udphy->flip));
-+
- 	rk_udphy_reset_assert_all(udphy);
- 	usleep_range(10000, 11000);
- 
-@@ -851,6 +863,8 @@ static int rk_udphy_setup(struct rk_udphy *udphy)
- {
- 	int ret;
- 
-+	dev_dbg(udphy->dev, "enable PHY\n");
-+
- 	ret = clk_bulk_prepare_enable(udphy->num_clks, udphy->clks);
- 	if (ret) {
- 		dev_err(udphy->dev, "failed to enable clk\n");
-@@ -869,6 +883,7 @@ static int rk_udphy_setup(struct rk_udphy *udphy)
- 
- static void rk_udphy_disable(struct rk_udphy *udphy)
- {
-+	dev_dbg(udphy->dev, "disable PHY\n");
- 	clk_bulk_disable_unprepare(udphy->num_clks, udphy->clks);
- 	rk_udphy_reset_assert_all(udphy);
- }
-@@ -1310,8 +1325,12 @@ static int rk_udphy_typec_mux_set(struct typec_mux_dev *mux,
- 	struct rk_udphy *udphy = typec_mux_get_drvdata(mux);
- 
- 	/* Ignore mux events not involving USB or DP */
--	if (!rk_udphy_is_supported_mode(state))
-+	if (!rk_udphy_is_supported_mode(state)) {
-+		dev_dbg(udphy->dev, "ignore mux event with mode=%lu\n", state->mode);
- 		return 0;
-+	}
-+
-+	dev_dbg(udphy->dev, "new mode: %lu\n", state->mode);
- 
- 	guard(mutex)(&udphy->mutex);
- 
+[auto build test ERROR on 2cb6eac064c8334418a76999468f68696a8dfe71]
 
--- 
-2.53.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jishnu-Prakash/usb-typec-ucsi-ucsi_glink-Prevent-suspend-during-UCSI-notification-handling/20260710-182232
+base:   2cb6eac064c8334418a76999468f68696a8dfe71
+patch link:    https://lore.kernel.org/r/20260710-ucsi_glink_wakeup-v1-1-7d97ea628d92%40oss.qualcomm.com
+patch subject: [PATCH] usb: typec: ucsi: ucsi_glink: Prevent suspend during UCSI notification handling
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260711/202607110115.YSVz17MH-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607110115.YSVz17MH-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607110115.YSVz17MH-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/usb/typec/ucsi/ucsi_glink.c: In function 'pmic_glink_ucsi_callback':
+>> drivers/usb/typec/ucsi/ucsi_glink.c:352:53: error: 'struct dev_pm_info' has no member named 'wakeup'; did you mean 'can_wakeup'?
+     352 |                 pm_wakeup_ws_event(ucsi->dev->power.wakeup,
+         |                                                     ^~~~~~
+         |                                                     can_wakeup
+
+
+vim +352 drivers/usb/typec/ucsi/ucsi_glink.c
+
+   338	
+   339	static void pmic_glink_ucsi_callback(const void *data, size_t len, void *priv)
+   340	{
+   341		struct pmic_glink_ucsi *ucsi = priv;
+   342		const struct pmic_glink_hdr *hdr = data;
+   343	
+   344		switch (le32_to_cpu(hdr->opcode)) {
+   345		case UC_UCSI_READ_BUF_REQ:
+   346			pmic_glink_ucsi_read_ack(ucsi, data, len);
+   347			break;
+   348		case UC_UCSI_WRITE_BUF_REQ:
+   349			pmic_glink_ucsi_write_ack(ucsi, data, len);
+   350			break;
+   351		case UC_UCSI_USBC_NOTIFY_IND:
+ > 352			pm_wakeup_ws_event(ucsi->dev->power.wakeup,
+   353					   UCSI_GLINK_WAKEUP_TIMEOUT_MS, true);
+   354			schedule_work(&ucsi->notify_work);
+   355			break;
+   356		}
+   357	}
+   358	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
