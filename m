@@ -1,109 +1,139 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECC2264A9D
-	for <linux-usb@vger.kernel.org>; Sat, 11 Jul 2026 17:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783790699; cv=pass; b=T1RWout1Qdp+bCYVYV+fVIAPP+K+1WvHPOU4CfcjKV90vdLYFiD40W86jv+HR/ex0RZJrT/nEYmoDGm2H/RdOO7ofJPtJ7bBNBkQ0xCqi1BXtFV4fBZ2zDsMA7JsprnE3fP8vfeJ7giURM3k/OmT0Y96MFkTlkxH+O3x+MK8PQg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783790699; c=relaxed/simple;
-	bh=RZHwXCkPObDZWHsFmUY17YKiANGD8a5ypK1o8yRr5q8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=BeCI9mvp6fLIa5/R7f4Xuacat9ofGymYl1obLn2RBx+5XJl6XKfIRPnYKTxAJNM9Tyu7idG3Kkk/GWMidAXCSk1mEtC3SfFgTUxSSmPBxTa6bLqWf9zx/ihZVC1lPEgiUf84n5PeM3XyaYux3SxKiPIE40GOoq1Js8wdj7EVkHY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c0KesZWC; arc=pass smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AD125393E
+	for <linux-usb@vger.kernel.org>; Sat, 11 Jul 2026 17:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783791418; cv=none; b=hxrdH6hJICgFdFiHddpYtD0co/DbBbcHep/uLvvW+yAWQF2qaKVfZP9zSCLIXII52jfbOcuKChKdjib2LxCpr277UU7ejzoxC7ENwopZjnvv89i2f6Y+HMqCc+c+7s8aBts/j4w2xf5TOsSvDyJoBdB4xyT33GuDSm0El+zOqCg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783791418; c=relaxed/simple;
+	bh=jbfHrlAjkv5OnUm/u91dXhvA8JlKqFlHyF3b08FCsHU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WZ/pXc85kc3ZQ9WQtV1sMqQzeZUDAZs1nvU+GpqDE6ZRBLnmkkJAms1R5/YOq8IhM3+elziGDP1VIwi0hTbxwkjau+x/hQJF/oq1VSM3o0P7GIaHLhPdyHk/ZV7MX/a4d606PLoL/9NbCWryd7DepiPWFfYdpyJ1cPZhHqYgORI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pxWixwJb; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c0KesZWC"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-92eafc94c9cso102729085a.0
-        for <linux-usb@vger.kernel.org>; Sat, 11 Jul 2026 10:24:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783790697; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XzXoRPNTnx6bpZNKsj2HgZjAUNbXL5C07Isd8V8dyyA0gXfd0keZVc9plCRmV2EBsU
-         7KWIXDon691HBFdPsNIdKKmJJgHw0kukoldh/b+KfR6Uu6pRYuLwekkJBuH9+3nKwmv2
-         TtGxW2oBEePrtQ1+h+gR21hQCLV751WWzGenCgKO2H3erud0r1VP4eUrxfreklbvtAwZ
-         sOIxENcSrQjXBFVIy54j6kMmoBWG86FD3N6oK8ZQgPO+Yr5+nvMGQ6V/ssZT0h+SdMQL
-         DLoe9COouVhrcjOHu9oFowR/Btfe9nsLXNh9Cp347JmYO2zcFe7QJ6KjMKb1ZjKajrKQ
-         I/5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :dkim-signature;
-        bh=RZHwXCkPObDZWHsFmUY17YKiANGD8a5ypK1o8yRr5q8=;
-        fh=dIJPMt4ucRauxS4YhUb7eesL2BOl5FqnTC0srGljeMI=;
-        b=FxKN7Gey2pCkvn3ZES/x2XcGlvKrT3oIuXmYF0vsQ/7qXgntppJ/nnHfk86WQyPuhb
-         4SSEr72A7QiX4F0Ywit01EoisP8JSi0b3u9UYPLGOBAdZ0c73fKX1V1aCzBx+8rWywUT
-         Pqwt91xjE6+oqa0uQElrQZ+wmXLQaVyrb05LcuNAt3mjXkWtMjbHSA+8V63w8/PuYhCW
-         bp0HLq+QzIDxZPd1bctj3Mh8avCcT2y8H+Hn8jHlWYlPfmHopzs9XtKkeKisLf+7fi4t
-         8ullpnXOFaqE7BrJrxvHHqtG2u5ePkIqJADcsbenG6mGZemaO+SEO/ICYdIG8fFAZ38F
-         tCRQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pxWixwJb"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c1600d040e4so248140866b.1
+        for <linux-usb@vger.kernel.org>; Sat, 11 Jul 2026 10:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783790697; x=1784395497; darn=vger.kernel.org;
-        h=content-type:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=RZHwXCkPObDZWHsFmUY17YKiANGD8a5ypK1o8yRr5q8=;
-        b=c0KesZWCzUw1bGPntoESfsVYW23LLtlr3qnPq/p2oM6lmFKhfhIabUlTDxPG2A+97b
-         h1hAIxkTUI8/zsVb1hQDgwhxELMXRaAHqtNE6FcWJYHdKyZJEv9FroHL7g7zMLtR3wAH
-         It9J5ab8t6KOAWBHNRjMgmSH09GqxPPgOd3M1UFcPX1XBqpJvYyhsFzcwy6KvhIDEBLe
-         hodF1YazXXqP/7ORiWUFHCUQF4SK5GlHYcWm5KdaMoAl+Ns+FtWNt9i6NSV7XTSill+5
-         XCL3YBCHa/snjC7QODvpXqnVulODF3jcRT4OgikvWTF3HfV0g+Kjmn5f2xxk7TMXr0GH
-         IojQ==
+        d=gmail.com; s=20251104; t=1783791416; x=1784396216; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=wca6Q2ByJhx9cqNK7zsckufMd/P/6VmwN01iQ4whYvk=;
+        b=pxWixwJb8qAClZbcu9RUph+iwIFqRFJSTP9eH7nvOPsT9ulzOQJ+6J9OM8JbBZnNWs
+         9oFQuuuH/qBlWR6KCCB5IXtFNS62RwGG6851YqLj+aNgGKAaT7XV9+raGwO08JaLwba2
+         mT9vzIbd7IdDyQ/ZbeL96PZBMsjKjfd3uu2xwSBvtIcmTtJjdeTU58qF2Hcr81vQl0I5
+         fEhDpUpLRODFSZv5mm64zbBaNsPDw/BBkb2c1mXrZdxGo92TCm4EKSEndTL/Fkjl+a4G
+         mWvZ3ryqfIg0aydKw01hCxvUkQl52RTuPE06enXRjVq0/UWkOIfh+clCTfrX9cWycHb+
+         7U8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783790697; x=1784395497;
-        h=content-type:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RZHwXCkPObDZWHsFmUY17YKiANGD8a5ypK1o8yRr5q8=;
-        b=J5/V9JCrAzopiMfWt9NxFbx3SwW1Q2Y2/x3trc5/p0YO+RIEj77zDIExvls1IrIBr+
-         3yWsfaceB9KVF30NSjKXOEsAWR1Qiw0gWlnZZ1RvgzBDrQC7PFSMRrsQDItVGkCageYz
-         mLZwaSrmg6zCqhUf+HeCLjwq9bKQE8kmMuDzYjNn1H67sTzvH52fuDjua6CvbQ20/t6C
-         pjVc2IF1gRNZcsCeQI0k10lpVWs7Lwqk4BtVPvNUKbtqAanwfqFZEYUFt5E9Wp5x9IuB
-         uff4XS2U4d2TZ+A16ECeSFPBSrHtAiXrwvkkVrXebHgvTdrVgbgco+qAlsuVodxrtuXk
-         3KxQ==
-X-Gm-Message-State: AOJu0YxCoxseREUxgtDzkPf4htnKigLm4LaJmbx5agtrN2D/kY/fEjIN
-	trcmQs0sf5I9T74sRJ+l09hUMH9j1+NIzHVC0eKDUPJ7poHgv3Cj/c6sFZkTEDCf8dqaBXmq0+4
-	zPWwTtfLk3NRBCPI8HrecHWvuxb0iA5gt8/864NKoNiZE
-X-Gm-Gg: AfdE7clZRdyRBXxE1JS6V1sO4ow+ufx8noSvywMkCO/I6lqz5otHcrO5QWG6OkTVRWA
-	iIyMB/I7mH/30ZNJp8F+WSx0WyYOKSfZAhX85mHZiFx3jPKISGhSYMCWOaX/Z10GX4v/ncdMKTk
-	wwEbFAAbK2XMmwuJOMgyv1tgT+1Y/2aF2gtIQpDadl+NFLpnPi9vVly6ZM1tSLBrpnsBo3wdlYd
-	OX4/YCQ9zDVVQeuwa+QmNdI3ZDaFkCrG8yYYiWFdY5C1osgXm3/n/A78Z9v1TuOcGyOSWpPXS+M
-	owH1ELkOHLHg6ybL2F8nERBa4+nmWKE=
-X-Received: by 2002:a05:620a:c55:b0:92e:c117:5ee5 with SMTP id
- af79cd13be357-92ef2c618a5mr388631885a.81.1783790696843; Sat, 11 Jul 2026
- 10:24:56 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783791416; x=1784396216;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=wca6Q2ByJhx9cqNK7zsckufMd/P/6VmwN01iQ4whYvk=;
+        b=P1Tk/l/gIU+2EObsGoAoLP+pO4E5Jm1gq4Z7c4BqvnGi6ciEG16PvsZAcH+vH6yCdu
+         3uUJcDayFpaJFzkTlM2fb6i4wIDOoCJ1rW5R1IwAXkbzqcJ1A51EU7VRbd8RE65f4OHK
+         J8r66Ny027PUUV6Tf2sNe3gz7TCE/EJhrMdqTHTPngSuguyKRCjC8CVZfNtX5VqOERW2
+         7hya9L57zD0NmsAk9I9nMJ6klVr6P6+Bd+0aTyLXEUW+VYimDxKRvqXS5DowNUxFpunM
+         HJMhVa75zCD1Slijz7w3P8Eoc3kd4LAY2M1/zgeG1kSpea4B5Of3A+UKKSg8SzC4ZFdm
+         MRpw==
+X-Gm-Message-State: AOJu0Yyf97GY2j0zXXmTBaK+vVKYKDvF5Eoe4HXxjvkT80gId84GR4RY
+	f988awNb5kDyI2k90TK/8oLW4Y7GcTtl0obYK1e82Dsda3xkob182sp5
+X-Gm-Gg: AfdE7cmnAvlv4fHuRZYbQH0HkUvC5l3TJTAXJlTnEGRbkknD9lclEPjOvMsujXQEt2k
+	e71/ogzzn6u3CbWMoGUtpJpgb/l7XBXX0M+Tz+EAGiQHgG8FF8GOTnDFKRpJdMUJYgiXtGzvObv
+	OTSFAhBxaFXG5sE/YuLH0nYhkaeRj2L30MtwCUB4Ocz9myD6VAgy9YDLYOvfzFkV2f4Dw3VrRjy
+	+OfTEQ9EVI1K5xfyKIMfDx+DiYmSKIwHOKYp466HQ/V9nIfu00gdlZ/pieAvbo1Zo8UBSF0X6yz
+	uzxnq4H/N1qfa+88u6m5dzCqW93t4iPYBSmBWgo8EGRMb6N9mzkFh5O4JmZ/ocRJBoaP6wp6FZx
+	CxhaYHnHGh/pxklGnOsJktoChTsq29baFE3WC730ozczj/Mw9H6su/AxdfY9zy8HZ3wr+6RgOAl
+	x8U8cCrrc3zg==
+X-Received: by 2002:a17:906:f59d:b0:c12:c15f:217c with SMTP id a640c23a62f3a-c15fe781f44mr354962466b.16.1783791415460;
+        Sat, 11 Jul 2026 10:36:55 -0700 (PDT)
+Received: from [127.0.0.1] ([4.180.183.241])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15f7137225sm294459566b.53.2026.07.11.10.36.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Jul 2026 10:36:53 -0700 (PDT)
+From: Tim Pambor <timpambor@gmail.com>
+Date: Sat, 11 Jul 2026 17:36:30 +0000
+Subject: [PATCH] USB: serial: ftdi_sio: add support for E+H FXA291
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAPE_3zK2XtehxUKiYfsfbVWMa8gHAXq8p+ptm9Cjoi+gjEkKdg@mail.gmail.com>
-In-Reply-To: <CAPE_3zK2XtehxUKiYfsfbVWMa8gHAXq8p+ptm9Cjoi+gjEkKdg@mail.gmail.com>
-From: Keshav Verma <iganschel@gmail.com>
-Date: Sat, 11 Jul 2026 22:54:44 +0530
-X-Gm-Features: AVVi8Ce47hXzOGjRCBAcalQRNWpuikSVge1X-LsiztbPGdWt60Bi7_jYhR19P0M
-Message-ID: <CAPE_3z+aWAPt0qrHmy_A3dLaovT+RY6F1iWhTYwGiNJWZHchHA@mail.gmail.com>
-Subject: Re: Question about patches for usb/c67x00
-To: linux-usb@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260711-fxa291-v1-1-cbd0b2652a9f@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAB1/UmoC/yXMQQ5AMBCF4avIrDVpR5C6ilhUTRkLpEUk0rsrl
+ l/yv3dDIM8UoMlu8HRy4HVJUHkGdjLLSIKHZECJlayVEu4yqJVAKrVE1K4qJKR48+T4+o7a7nc
+ 4+pns/q4hxgekcIIPagAAAA==
+X-Change-ID: 20260711-fxa291-2e590229f630
+To: Johan Hovold <johan@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Tim Pambor <timpambor@gmail.com>, stable@vger.kernel.org
+X-Mailer: b4 0.15.2
 
-sorry about the HTML mail.
+The Commubox FXA291 by Endress+Hauser AG is a USB serial converter
+based on FT232B which is used to communicate with field devices.
 
-re: Question about patches for usb/c67x00
+It enumerates using the FTDI vendor ID and a custom PID.
 
-Hey,
+usb 1-9: New USB device found, idVendor=0403, idProduct=e510, bcdDevice= 4.00
+usb 1-9: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+usb 1-9: Product: FXA291
+usb 1-9: Manufacturer: Endress+Hauser
+usb 1-9: SerialNumber: 00000000
+ftdi_sio 1-9:1.0: FTDI USB Serial Device converter detected
+usb 1-9: Detected FT232B
+usb 1-9: FTDI USB Serial Device converter now attached to ttyUSB0
 
-I was looking around at Cypress related usb drivers and came across
-usb/c67x00. I noticed the driver is currently orphaned, so I wasn't
-sure if there was anyone else I should be CC'ing.
+Signed-off-by: Tim Pambor <timpambor@gmail.com>
+Cc: stable@vger.kernel.org
+---
+ drivers/usb/serial/ftdi_sio.c     | 2 ++
+ drivers/usb/serial/ftdi_sio_ids.h | 5 +++++
+ 2 files changed, 7 insertions(+)
 
-Since it's fairly old and doesn't seem to be much active, I wanted to
-ask whether you'd still be intrested in patches for things like error
-handling and code refactoring.
+diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
+index 88dd32da82c2b..c6ffa23bcc8f7 100644
+--- a/drivers/usb/serial/ftdi_sio.c
++++ b/drivers/usb/serial/ftdi_sio.c
+@@ -1072,6 +1072,8 @@ static const struct usb_device_id id_table_combined[] = {
+ 	{ USB_DEVICE_INTERFACE_NUMBER(ALTERA_VID, ALTERA_UB3_602E_PID, 3) },
+ 	/* Abacus Electrics */
+ 	{ USB_DEVICE(FTDI_VID, ABACUS_OPTICAL_PROBE_PID) },
++	/* Endress+Hauser AG devices */
++	{ USB_DEVICE(FTDI_VID, FTDI_EH_FXA291_PID) },
+ 	{ }					/* Terminating entry */
+ };
+ 
+diff --git a/drivers/usb/serial/ftdi_sio_ids.h b/drivers/usb/serial/ftdi_sio_ids.h
+index 6c76cfebfd0e4..968e6ea3177f7 100644
+--- a/drivers/usb/serial/ftdi_sio_ids.h
++++ b/drivers/usb/serial/ftdi_sio_ids.h
+@@ -617,6 +617,11 @@
+ #define FTDI_CUSTOMWARE_MINIPLEX2WI_PID	0xfd4a	/* MiniPlex-2Wi */
+ #define FTDI_CUSTOMWARE_MINIPLEX3_PID	0xfd4b	/* MiniPlex-3 series */
+ 
++/*
++ * Endress+Hauser AG product ids (FTDI_VID)
++ */
++#define FTDI_EH_FXA291_PID	0xE510
++
+ 
+ /********************************/
+ /** third-party VID/PID combos **/
 
-Thanks,
-Keshav Verma
+---
+base-commit: 8cdeaa50eae8dad34885515f62559ee83e7e8dda
+change-id: 20260711-fxa291-2e590229f630
+
+Best regards,
+--  
+Tim Pambor <timpambor@gmail.com>
+
