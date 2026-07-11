@@ -1,123 +1,108 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17C8228136F
-	for <linux-usb@vger.kernel.org>; Sat, 11 Jul 2026 14:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956912D595B
+	for <linux-usb@vger.kernel.org>; Sat, 11 Jul 2026 15:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783781375; cv=none; b=c0oXYK5eFnefti4uC4VP5Qul+zUf8UYmo2EZzBd5sWduCWHfo3yk2fDDB4S6K5bW8r0sefv8mreTkHxjBBZd/NST/eN1XqIl11VfRMgjQP65cu9LnhkcFsY5l+Sjj3rCTeGHipHwusG3JLO0hyxvHLd2iCxqPxy0BTt77ZYctc8=
+	t=1783782604; cv=none; b=sBfpCehYITG+awE20/Cx5iDmkytf5fvQ4ESr8XdMNxihgVxjdqZ7X1FOOiuAbNlDjCHcODuXKOuUlv28/O+mBnN51muE5mt50pr8lX1Qv6ZW0mQrFok4GGHM+GLq3BkVN66ErXc1IqUeb7eHzQyRGSpHVyxTqcuulFMKmmRWUoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783781375; c=relaxed/simple;
-	bh=fm0yQ7z4cnq8Psghzyj7Wh2yTahtrMVPopS+qH6d5fc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l3Xt2BEfkN+pDI8CDJIcDNtUM4Me4lylELuqNEFC99SF0FMe3Mqz0ONx2f34IsGIcWddJ0eGrqOf2U2qeCwl4KxdUzXmpzuRi7R11uElGQBmPYHPU20SYa6RJCpY7uCKMxd40NuzdT7tzomzLteDy/62GgNnRJzVuxk4Jesi9FE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtQR2QiL; arc=none smtp.client-ip=209.85.214.172
+	s=arc-20240116; t=1783782604; c=relaxed/simple;
+	bh=GFEitaZtSI0of6G/HotnOpYkEfurTRmThEFPcqgfBZU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OMSinaNW+utFjp0m6r/A20nSzhoM2wnBqH+ppzLXpANGUruXTXdJWGatzvqw5x4FsnsFcljVqpT1SXKedN9aH73wfPijI5W2Q0jw0chnYHRzGJJelnZw3xmYz8AncIeDMXA2WtGO/zbypeCnemiVhN6an6Ni+5ja2xp3wYoPtnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TlKPO8TJ; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtQR2QiL"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cae1a3a744so12388345ad.3
-        for <linux-usb@vger.kernel.org>; Sat, 11 Jul 2026 07:49:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TlKPO8TJ"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-493c19bad03so15699985e9.2
+        for <linux-usb@vger.kernel.org>; Sat, 11 Jul 2026 08:10:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783781373; x=1784386173; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=F8dbFaTe/STEdFp6CIG1R/5lJi6txXpb8oJ97mPl3Po=;
-        b=FtQR2QiLg2lkrLahVnpplmZttMLrN5PNdTxazbiyHPTfWwxsyrfR/3OvUvgBjiozGp
-         Mnn2mTXmBwMcU3NHwnuPPdozVpTiM2TTaUlVYgWavhsDtvSojPwTad8RNTk6MB/Z/jbk
-         9QyZbP/EJYh6DTtQbXJZrcKy1MGaYbSY5blO6k9dabtu30q3ej/1kmX2ewBBA1xvLjBI
-         q426BlZjd/tiQGRYmDMKNjBUDIRQOLtub4OdaLzlkq1MPez8e5J44YRstPHgF5sITb5K
-         ve56wicjVPAfDGh7mX8DwZx1PdtSxjbLjUqk2JwUJF1Y2Gd9CDMbJMe8jN9YjjoQ5xVD
-         3iQg==
+        d=gmail.com; s=20251104; t=1783782601; x=1784387401; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GFEitaZtSI0of6G/HotnOpYkEfurTRmThEFPcqgfBZU=;
+        b=TlKPO8TJBkmfo5vopxBT4m1YtiDyiP+ASJKkje6/j9kBZVbEuDONkHYHIvHr7QijAE
+         5dorHivyUV1L5NuVh9l7vXO4Zshc8sTRntsnXDBMtHVhTlwM+XbhVXy6NYe/a/QlLxVq
+         o9koNnKz6cyPaRLLCH1xbG0lHPyenIiCmuJDNeEWsNbyUYRFriEtpJo3vO5EI3vmBBtf
+         l0TMOXyAQHHdCx2cnEbAfSUk0PkXPrAvKSFb9DCCz0I8PAqjwst4kLeWjlX02oRKsvxh
+         UhJCikoR7WiYbe3iQXqS728J0DCzymFYWf03cCKgPDiEdV2IGzOK7bNcCQ79gmHBD0Zy
+         GSJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783781373; x=1784386173;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=F8dbFaTe/STEdFp6CIG1R/5lJi6txXpb8oJ97mPl3Po=;
-        b=Pr/wmhtiqqJIoN30SvigtcEMaLQB6garZTTEiDQIsry0ZLR2FcnYtTQfRRX5HVpjXN
-         gUKj4dYgt4seD1VN5D7dlKFVIp0SKFIRmZwcYgMdVb4SgC7of75pnt+JOX3aofD0ni5L
-         zr0zU0ujsZHSERJ7XrLNcmTQihFrD22GNIJus4p/9tKqksjYQ6ndZVRNtDyEHup4Grol
-         NrNdbm1M6gKzDocLON0Qsz3YHUOsgWfy6aPRUkoPMcQHjGe0p1d1ZzwN1hM7iQ7jhfLc
-         26zL1p5jE3BoK1pslvmsC1SOhkrIJowxjwYrDOSLpJx6VtFenUOeO5dFosOTpAE0yo26
-         k87A==
-X-Gm-Message-State: AOJu0YzA+6GPRVE5t1oD0jzzHTu31sftvlxSsL1CznVxYs8L44AXiXIQ
-	RkqAp5lY+2RLmF51ERCwENH687Su/IuncFYcwMufmC+zR8sbP1jrlbqs
-X-Gm-Gg: AfdE7cnd+5n9Ida7oUnyfl9HHKtrCEfKF6aGPF6HghP3wzfPVWMSNAl/tBGFdDTI7t0
-	SSxPLccWFFHkvMt4qrdhZeSAEQQVrGmOpG0z1X5HbTxqNGMecrxZbx9RxwkRD6dCeVrA1bjpw9c
-	CR//ZzZ/JfbyNE11J5oKYCW0hjgsPuzo/3Xv5jHXkiHiL9dSs4ZROT8hmh5jgQnOz8PlYL7JdpB
-	t7rzroXDgliE0xC+ZR+iLKo2aBRcvCiGer2YVjJQHYz8PZXtECD+O4CmSn/YB0lIf1Dwko5MF4/
-	z3Qg6yLa737AywVPcttwFZ5mX5zhpKvRkFVBMtQByB2QlqQSaFrESFF3Zw2gdUrQQCWja+UG3Cw
-	JS+6kUPEjTWQS7MfCBpO7oVtzyVaPUJ8nrFMsEGXuWb/HOjxjnE7PJgvNmb7A4AP9K4hNfVFJIC
-	ljVxlXeAR6a/x6j7G2yPxVuOGh2edsQHRB
-X-Received: by 2002:a17:902:e785:b0:2c7:f2c6:89e0 with SMTP id d9443c01a7336-2ce9e7941c5mr33965035ad.4.1783781373215;
-        Sat, 11 Jul 2026 07:49:33 -0700 (PDT)
-Received: from localhost.localdomain ([2409:8a55:d1c4:9324:e872:b3bd:74cf:7935])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d1edb0sm73632475ad.53.2026.07.11.07.49.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 07:49:32 -0700 (PDT)
-From: Yuhong Cheng <ceohunk@gmail.com>
-To: castet.matthieu@free.fr,
-	stf_xl@wp.pl
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yuhong Cheng <ceohunk@gmail.com>,
-	syzbot+3d45d763d18796f97412@syzkaller.appspotmail.com
-Subject: [PATCH] usb: atm: ueagle-atm: fix use-after-free in uea_upload_pre_firmware
-Date: Sat, 11 Jul 2026 22:49:18 +0800
-Message-ID: <20260711144918.402-1-ceohunk@gmail.com>
-X-Mailer: git-send-email 2.46.0.windows.1
-In-Reply-To: <6a42df07.854d4ab9.360e1d.000d.GAE@google.com>
-References: <6a42df07.854d4ab9.360e1d.000d.GAE@google.com>
+        d=1e100.net; s=20251104; t=1783782601; x=1784387401;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=GFEitaZtSI0of6G/HotnOpYkEfurTRmThEFPcqgfBZU=;
+        b=Z1VWq+D/CnqxTfZ9c+OTjRCDSKx20nBiz6Tz7mEoqrh0s+4AccKgYY3b25oHd0MZ4M
+         R5u6xkn99mwSHvkC9iqkdEQ/QIwDi2O24pm0yQlCAdYMhPRUv9eVx5I+a59zTcEbaOBs
+         vl9EbsA8EX3hQQmi5PcoDgeTIOlk//S2di5owTnpW/G4jgXaoprcwUpz9UXdRCDTVGZS
+         PyFJNAQ0UWMbjbnsGyLCNzWYwqsSMcSzkUaTeb3cZ4aUQ+1tJ2fdS9pJcJudCSs0QDnG
+         CNEFYGW2YF6VaV9E2V9SS61Z++VG0DUY0um9cNqQpBuKZIGxtzY9cMtUPMPK3LLQQ9+n
+         xFHA==
+X-Gm-Message-State: AOJu0Yx3QZNZEAZNmi6R9wHGZG9kqAduXTKUOWscUjspT60jKLNe0de2
+	z9Y1ygn3AgJ97h7qfoaaSbwJItB8xIB5lYrQnk4ZX6sfvXKazdS19WQ+
+X-Gm-Gg: AfdE7cnjCUxg9AE2bI1yzP2O/KomjS/pG+ONvhQ0+cehBZ6gPQBa5JgroqO4Squ/Zdk
+	D1HJ8Pu0ggZwDugRsUPE35uHdgqbu86qplLVFi2WTirDd7C2azPqiMMLfqXxpVIJWJUsKWpCGiS
+	Eqbyc6orOPG/VoqZqM6oZgi5XfyHxuSOtzr3NR6eGhpcsEd2wwwxyNuShXPjZVtMicNy70lVc19
+	ykLZcILDi+VrOlxEIHW+dEl0KONLR6CEt7T0QXh/ANragbjYiMeAFPd8gDcBHXV5oaxRLALkGAe
+	548f3EHdqB0mulcNQ5zkHtpDZxp1PKlNMJn5skoEi5J8T2cuHeEilFrM4iZu6JBYW8dMTdvhLKm
+	rwKGFEg/upGFg19vEWWQgvmk/AGgj1XiY27DLN36GL4lyHkaFe1EhtGYDOJ3kbTkmGkg1b0btta
+	xQcdigW4FL1NTFmts6Jj5kYdvwCaLa1y5kMPmFO1MzWG+nzFAUhyNesTY0OZqr/xuOv6mhCSLtj
+	i8/9KaI
+X-Received: by 2002:a05:600c:1d0a:b0:493:e460:1f6 with SMTP id 5b1f17b1804b1-493f8784930mr25830905e9.0.1783782600610;
+        Sat, 11 Jul 2026 08:10:00 -0700 (PDT)
+Received: from [10.128.11.240] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493f86556acsm58653585e9.1.2026.07.11.08.09.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Jul 2026 08:10:00 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <1705e4f2-a0a3-4be0-a033-eacc1d54fcc7@gmail.com>
+Date: Sat, 11 Jul 2026 16:09:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: musb: fix dead select of USB_MUSB_DUAL_ROLE
+To: Arnd Bergmann <arnd@arndb.de>, Bin Liu <b-liu@ti.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ conor.dooley@microchip.com, daire.mcnamara@microchip.com,
+ valentina.fernandezalanis@microchip.com,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, claudiu.beznea@microchip.com,
+ Jassi Brar <jassisinghbrar@gmail.com>, a.zummo@towertech.it,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, wsa@kernel.org,
+ ben.dooks@codethink.co.uk, heinrich.schuchardt@canonical.com
+References: <20260711130349.592545-1-julianbraha@gmail.com>
+ <f4ef4d30-51de-4b58-807a-0fed243b2fe4@app.fastmail.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <f4ef4d30-51de-4b58-807a-0fed243b2fe4@app.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-syzbot reported a slab-use-after-free read in uea_upload_pre_firmware. This is because the usb_device is passed as context to request_firmware_nowait but its reference count is not incremented. Thus, if the USB device is disconnected before the firmware load completes, the callback accesses a freed usb_device.
+Hi Arnd,
 
-Fix this by taking a reference with usb_get_dev() before calling request_firmware_nowait() and releasing it with usb_put_dev() in the completion callback or if the request fails to start.
+On 7/11/26 15:39, Arnd Bergmann wrote:
+> Good catch, but I wonder if this is actually a real dependency
+> at all. What would happen if you just remove the 'select' line
+> here and build a polarfire kernel that only supports
+> host or gadget mode but not dual-role?
 
-Reported-by: syzbot+3d45d763d18796f97412@syzkaller.appspotmail.com
----
- drivers/usb/atm/ueagle-atm.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+The kernel builds just fine for me with USB_MUSB_POLARFIRE_SOC=y and
+USB_MUSB_DUAL_ROLE=n
 
-diff --git a/drivers/usb/atm/ueagle-atm.c b/drivers/usb/atm/ueagle-atm.c
-index d610cdcef..eaf2f2d3a 100644
---- a/drivers/usb/atm/ueagle-atm.c
-+++ b/drivers/usb/atm/ueagle-atm.c
-@@ -663,6 +663,7 @@ static void uea_upload_pre_firmware(const struct firmware *fw_entry,
- 	uea_err(usb, "firmware is corrupted\n");
- err:
- 	release_firmware(fw_entry);
-+	usb_put_dev(usb);
- }
- 
- /*
-@@ -693,13 +694,16 @@ static int uea_load_firmware(struct usb_device *usb, unsigned int ver)
- 		break;
- 	}
- 
-+	usb_get_dev(usb);
- 	ret = request_firmware_nowait(THIS_MODULE, 1, fw_name, &usb->dev,
- 					GFP_KERNEL, usb,
- 					uea_upload_pre_firmware);
--	if (ret)
-+	if (ret) {
- 		uea_err(usb, "firmware %s is not available\n", fw_name);
--	else
-+		usb_put_dev(usb);
-+	} else {
- 		uea_info(usb, "loading firmware %s\n", fw_name);
-+	}
- 
- 	return ret;
- }
--- 
-2.46.0.windows.1
+But I don't have this hardware so I don't know what would happen at
+runtime.
 
+I've CC'd more people involved in patches to this config option.
+
+- Julian Braha
