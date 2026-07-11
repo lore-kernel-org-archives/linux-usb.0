@@ -1,124 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE35E3B2FED
-	for <linux-usb@vger.kernel.org>; Sat, 11 Jul 2026 12:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C302DF6E9
+	for <linux-usb@vger.kernel.org>; Sat, 11 Jul 2026 13:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783774138; cv=none; b=ObqYECHpEe/hhKGUhOEWX0FSqQVbZDbmCzsRNy5LNfzXctyHsJfmqGMUtTDG3s5sQCbK91jR2Un5v9c2XZEfCdgrqQgWqsGOB2hRfnPMTws+UQrqTa9odLWXIdRNvDBVHoPYYBtKeK0zqN7cEXYeXOfHZRa7JPdTbDez/abY2XE=
+	t=1783775036; cv=none; b=jRUTAPvXHGJruOJYudXJ4AO/p7VO6icx+GezV2sP+yyGZ3jaYsXgElOvpSqaaY8JvNUlRlbgDrvkfGhLkgzd+HwW0UTjOXO1JdSEwh4h2dOIRCDUvfyhXsRyHdXDzwz6maRSJ3KDpE2iQtqF5nVhc3FVaVvGnDTIXqTUxnzvQUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783774138; c=relaxed/simple;
-	bh=xoBbv3OifO/aCckBQJUrA3vQoiFhFecUYd4ZIoAFwTw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pv5RwI00kCfQiVaZCALyurLlOSV3dXMAv5HJEOaTta13wOYHBuozxhbj2yU4wfBZAOUhdVIrl15zIsw8J1bJKSLpHMMIfZy9h1XUsOpOoHTqR6J/ABAuqMQcAPkPcGy8BgHyXzbL5vO4zzqfIgCQmdQThLQETnSD2/kPhYa2rks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VvXIwy3y; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783775036; c=relaxed/simple;
+	bh=OLzgpu1tZ9PtLVYftNagb8/uH/C3WWzEvjLtfdmx5iE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YazW0A3UNBsmFjajoVy1/is5t86NYeBKpIqsC/PngAqwltOlyX0HFvS9O4RYh5QqOptYe78S4l65JkM1QuAIRixst3JI6uIFr5vHixeT1Nuo8AGlIUA++238dZL291C4vLRrMmoIryJCsuDhwRW4yEDfsJ4k2yuHWJVXeNjDguU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jHdpR0sG; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VvXIwy3y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783774137; x=1815310137;
-  h=date:from:to:cc:subject:message-id;
-  bh=xoBbv3OifO/aCckBQJUrA3vQoiFhFecUYd4ZIoAFwTw=;
-  b=VvXIwy3yIrr2pNsFyN5Am2qtnykJdGIp+WSyWkFc7M2mkzhwGVtLQDIG
-   1Tc5WLfJJdxzox0Q1WXOtPG9vHkAua8r/O7QX43m+ypt89504LMJ/iZdz
-   ypLlONpfBaiDnDFGVs8crVI3vznGA+sE5c+JGC+SmCbwiHomg6Bks9ZLL
-   wkIVI2d/Nvn7stfBaDuTM6WJFk5DALB4RqdncTFxZvcgPvDNTzmV0bsr2
-   3QiE5XX6AtbNC8G1VSYU80lhJno8MHljVFsvRRH7RhlbNOZXiyerOBpS8
-   zoU3EHkJJ53g5Hb82dCSBDEYVit2XZnCURT6fCF3w0bWTXKMw8xg0pW4w
-   w==;
-X-CSE-ConnectionGUID: QUVFYppeS2CUJIRP4jzYGA==
-X-CSE-MsgGUID: FV5I/RVMTr2d0tj7TvDUsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="94807642"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="94807642"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2026 05:48:57 -0700
-X-CSE-ConnectionGUID: o20dK1EISTmUh/kRKturzA==
-X-CSE-MsgGUID: eAinuB6sREuKYxduDqo2mQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="250707349"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 11 Jul 2026 05:48:55 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wiX8T-00000000K3g-3Iw9;
-	Sat, 11 Jul 2026 12:48:50 +0000
-Date: Sat, 11 Jul 2026 20:47:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Elson Serrao <elson.serrao@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Subject: [usb:usb-next 23/66] drivers/usb/dwc3/core.c:2501: undefined
- reference to `power_supply_unreg_notifier'
-Message-ID: <202607112037.tVbaUKOJ-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jHdpR0sG"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-493f2e39e81so6696015e9.2
+        for <linux-usb@vger.kernel.org>; Sat, 11 Jul 2026 06:03:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783775033; x=1784379833; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=l1tQiLCOsNZmwMbEn9d8godlFevlQ5fjRrw82uOwbdQ=;
+        b=jHdpR0sG365ss98GVkA768/G+xiC68j8p0G3aSQB3UPIxg4wypbIdC5JjCf4R2vbtb
+         pA2C1nHTFGBmj2GBlyYYqGWyLXNl6D//HvpHlqniIY8IyQgsfhZTSUVMEwQsQiAK/UV0
+         5hfvaYNQBowLfKO4YYRvnSnuQ+oEmT27l7nly0A5Ul9aB6YaiBGIqpPTU1IR5uCzUTPW
+         O2R2vIhBt89B3JPAMdVTZxbbRO16ZXKqdZ9MDPjIMl7Yva7pUioJNIKcgfDpvsY7Plo0
+         qAJaTkhq6vapInENyRqxId/2+NQaEZ4dM6QdIKUJlMIhUl58bJe8jlY4wPAoqbG2bhHH
+         8+1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783775033; x=1784379833;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=l1tQiLCOsNZmwMbEn9d8godlFevlQ5fjRrw82uOwbdQ=;
+        b=Wlkbx7sPcuY2DH4mMfA8yFnBqTgRgD9A/H5TPk5zmyxFJNls2VTI/jLdEamYGHvdZc
+         +sFSpeVJs/FAlu9iajJeAQLHgH97W+xIABKWKDK1hLx/5Hqd8ISC6aRJ3GO6B2ch4cxp
+         9nC+ZuTuG9WhH+NgmDG2EMlCn8WiPWDuiHItDwehY4DT8MuPNftZzjGOGiCdVAsdKavk
+         LeQay3s4N2N6LtvuJNbnbi+AVhBxF7DqY7jGpprezzpppN35a08ixZBrd5QY81huIyHN
+         b1dczeIsQZwtGv+qtUcX6Yj5h1M9wOgS4ZXY35cUOoeLqMLpnbua+1gy95uMncx8nzG/
+         qV7Q==
+X-Forwarded-Encrypted: i=1; AHgh+RqFQb9Btx3NAleVbd7E0H62ZJUU0uiFs8pkRJslOCb7FrYN28O87ZQgeYC6YgJFj27aGrShJrj15Ro=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnDTMUZZtCJLTtSEQOQfveWULOaXZsjM5HtB8pPtPI57kurcvN
+	Sw101OIPq616WQfi3wryvd8/T78xWAhvW9SHaCdiecLy66m7KW72CiJb
+X-Gm-Gg: AfdE7cm2O0n8sPnhXuQoFeid9wy0DwNR3IrkW8Gf8PT/Jqumb1R09by+uYRBrdVAUUS
+	ubOnMUpBquO827ganS0q2V7234AHRpv4/7a+gnBgux/dJQ+5VooEpXJkqahG0QQx2EALzhokyOW
+	M5GDsQsSkqItAbDs7E/zFU5rG11IoX5IBtgtrhByv7Q5IARcMTDflGo8F60bBcs9ispi5UUjlgh
+	RSBwCd+BUNmBCmrajjwMP23nB4AI4O+zyzvOnSqvBMlwE7yCmlHEJCUygKZM46yzqv+fCNH1BDc
+	ZGFU9/46XG67YmXmDsAVpgs1gX448zgX+nplA3UARQEvEM/0OF36MZzgJ0EebMeq+4Frx5MH8wf
+	t8ZgbmrQ9Qa3Wt5iq0YAsa+UmHrdcqdoY0br30eu2j0R8dTnRuAQhcS6aX0rRJWOJI8nfFipAcH
+	u8mvdHlxX3ZHk8WooBUn6K5d7511b2JUIiH+opo/n+AcdbLid056R01RurUeGRX38dsa3eL9KXK
+	0duzeWAl25k6DM=
+X-Received: by 2002:a05:600c:6592:b0:493:bc4a:fb55 with SMTP id 5b1f17b1804b1-493f883d859mr23928025e9.38.1783775032510;
+        Sat, 11 Jul 2026 06:03:52 -0700 (PDT)
+Received: from nixos-office (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6ccaf1sm375141585e9.2.2026.07.11.06.03.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 11 Jul 2026 06:03:51 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+From: Julian Braha <julianbraha@gmail.com>
+To: b-liu@ti.com,
+	gregkh@linuxfoundation.org
+Cc: arnd@arndb.de,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Julian Braha <julianbraha@gmail.com>
+Subject: [PATCH] usb: musb: fix dead select of USB_MUSB_DUAL_ROLE
+Date: Sat, 11 Jul 2026 14:03:49 +0100
+Message-ID: <20260711130349.592545-1-julianbraha@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
-head:   1db5c6b0b9834aee2f14e39764becfcc29d09ccf
-commit: 7c87ef27af79b3f905aed2edf9f60ce2a75d38e3 [23/66] usb: dwc3: avoid probe deferral when USB power supply is not available
-config: parisc-randconfig-001-20260710 (https://download.01.org/0day-ci/archive/20260711/202607112037.tVbaUKOJ-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260711/202607112037.tVbaUKOJ-lkp@intel.com/reproduce)
+'select' does not work on config options in a 'choice', so currently it is
+possible to enable USB_MUSB_POLARFIRE_SOC without USB_MUSB_DUAL_ROLE.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607112037.tVbaUKOJ-lkp@intel.com/
+Replace 'select' with 'depends on'.
 
-All errors (new ones prefixed by >>):
+This dead select was found by kconfirm, a static analysis tool for Kconfig.
 
-   hppa-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_core_remove':
->> drivers/usb/dwc3/core.c:2501: undefined reference to `power_supply_unreg_notifier'
-   hppa-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_get_usb_power_supply':
->> drivers/usb/dwc3/core.c:2245: undefined reference to `power_supply_reg_notifier'
-   hppa-linux-ld: drivers/usb/dwc3/core.o: in function `dwc3_core_probe':
-   drivers/usb/dwc3/core.c:2443: undefined reference to `power_supply_unreg_notifier'
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
+---
+ drivers/usb/musb/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/usb/musb/Kconfig b/drivers/usb/musb/Kconfig
+index f56929267eaa..f8ff2366f59f 100644
+--- a/drivers/usb/musb/Kconfig
++++ b/drivers/usb/musb/Kconfig
+@@ -116,7 +116,7 @@ config USB_MUSB_POLARFIRE_SOC
+ 	tristate "Microchip PolarFire SoC platforms"
+ 	depends on ARCH_MICROCHIP_POLARFIRE || COMPILE_TEST
+ 	depends on NOP_USB_XCEIV
+-	select USB_MUSB_DUAL_ROLE
++	depends on USB_MUSB_DUAL_ROLE
+ 	help
+ 	  Say Y here to enable support for USB on Microchip's PolarFire SoC.
+ 
+-- 
+2.54.0
 
-vim +2501 drivers/usb/dwc3/core.c
-
-  2476	
-  2477	void dwc3_core_remove(struct dwc3 *dwc)
-  2478	{
-  2479		pm_runtime_get_sync(dwc->dev);
-  2480	
-  2481		dwc3_core_exit_mode(dwc);
-  2482		dwc3_debugfs_exit(dwc);
-  2483	
-  2484		dwc3_core_exit(dwc);
-  2485		dwc3_ulpi_exit(dwc);
-  2486	
-  2487		pm_runtime_allow(dwc->dev);
-  2488		pm_runtime_disable(dwc->dev);
-  2489		pm_runtime_dont_use_autosuspend(dwc->dev);
-  2490		pm_runtime_put_noidle(dwc->dev);
-  2491		/*
-  2492		 * HACK: Clear the driver data, which is currently accessed by parent
-  2493		 * glue drivers, before allowing the parent to suspend.
-  2494		 */
-  2495		dev_set_drvdata(dwc->dev, NULL);
-  2496		pm_runtime_set_suspended(dwc->dev);
-  2497	
-  2498		dwc3_free_event_buffers(dwc);
-  2499	
-  2500		if (dwc->psy_nb.notifier_call)
-> 2501			power_supply_unreg_notifier(&dwc->psy_nb);
-  2502	
-  2503		if (dwc->usb_psy) {
-  2504			cancel_work_sync(&dwc->vbus_draw_work);
-  2505			power_supply_put(dwc->usb_psy);
-  2506		}
-  2507	}
-  2508	EXPORT_SYMBOL_GPL(dwc3_core_remove);
-  2509	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
