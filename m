@@ -1,86 +1,68 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f0.google.com (mail-yx2-f0.google.com [74.125.224.128])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7046064
-	for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 17:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5B52C21FF
+	for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 21:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783878531; cv=none; b=lAaG0r32kN/gSJFYNpiOjMCZpdyDjSlkANffIs9BvpBBcGXRqwcQiG11pDgPRh3eSnK4Wl4qO8jmZDhKDHRg4YXWwa1049WbaERpvHpqb5K6pwVJ+tBKhogVlwtSCxlVfGsNSGVIDkXZxTvTHqQqwsJ1oqFvVJHnsPdBC23EcLc=
+	t=1783890550; cv=none; b=k7DG+bHhV995QBwv6y/Hj0Z4wGb5NvrBDcphRwp2/LvGLCMhVoeVDrkMb3mJ6pBGyl+IKE2HtcarPFsz/UtyD4NY2rT5Ad0Sq57UcHmRGoeld1CBRJeqFQ8HPXlxoVk3sh08LltvlBntuZYNypQekaMQeXCCXovq3SRTo+sRbvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783878531; c=relaxed/simple;
-	bh=VJcjUXbtX3f4WSQdzSuuHqAJhBkkCn09H/VEJXL+J0M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=JdtoWVS9GfYLStT4PlSJTDY9U7n9WhdsCYgIg+VtlpZdgedJieOnh+rrYL8BBomK3nOGqFmmoBj480HpEvEKJK/NHyf5rAAqDFGW0EXlro7L4wytffgwX5zRs1D2q6368b2IY6K8coCkYiZaPscjS87lqHt6bOZdWRBayqnCE5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bPHzvXwW; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NX/Lygjt; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1783890550; c=relaxed/simple;
+	bh=bFE/JWW9TAkcpUmzVOdNJc9U2Zqimvu4ws4jMJRFwcE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=N82FMeng/jKRT+APIc3Pc/Z2L37bdfD2zFqDMIqLLd2HLsZEdwNNXryE9agssE7w5CHXzRWAEy6gD7gem3CzEZjJusMrv1z2HOU/aJA00psJoKTn/aggnQySkVJUCU3xw1c2sVGvGMbclakSsc7TeZzUTm6GQdH5UA+E4GIPBk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pkNq13xK; arc=none smtp.client-ip=74.125.224.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bPHzvXwW";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NX/Lygjt"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66CGrWoc3215766
-	for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 17:48:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=uLI6dtiwQ0bBLx8SDV3mto
-	Bn+506m8hldEGF6Ztdkm0=; b=bPHzvXwWiaAKVPDv4ta2X8s+7mZHmGqHl1mNAW
-	sNuFOsZt6vXR5ArVIUJGgLE/npraVV56Puf0N5SahII4H61d+Hivg7w9Z8lYYzHp
-	kwO1OIkhVGTwxK8K5Cze9irDIoVpFjnIU3RlUosxEL56+8TQjnRQldu9SakfIOP5
-	rwFLAfU/gLdpj7miQUeJMwqqkiirpdDDIeZI+ymrx+nmacoYC3xjAhK5mDvt8mJK
-	wJu62x7NmW2gSPJweNaPeAnhvEII2T/Br0PXPH+A2AGHRFMyLW1FidB+QQqiMiew
-	iypx92G7eB+nh0TkZf2UCx8L3aHRDiSGRHPt1jHKVWi5RR1A==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fbeafb71n-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 17:48:49 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c9667280edeso3286562a12.2
-        for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 10:48:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pkNq13xK"
+Received: by mail-yx2-f0.google.com with SMTP id 956f58d0204a3-66282525fe1so1726545d50.1
+        for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 14:09:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783878529; x=1784483329; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20251104; t=1783890547; x=1784495347; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=uLI6dtiwQ0bBLx8SDV3mtoBn+506m8hldEGF6Ztdkm0=;
-        b=NX/LygjtITSMRU8iAYCDoXIaCR3VoyfLMBP7R5SlpZtJBoUUnVoXX2sEcvegZBn0G/
-         ixzfPj1Z4ZevW455Q9wrqVNgAmTFqpOiAQPES7OK8/MYaEXW6hFcRQLM8anF3V4eodE/
-         fCHkRN2cuWkIXmHYBz36NXmuV0KX2KU82LfKC0+vx+LSciq2SZpVhYvuAy2gWcvWzrFe
-         nDbTLR5RDHJ7HNhJRqroZRlVkprez/9McBLKpQSB9WfGpFAdWTOl8iZgPXBVTOENxB6W
-         KQi+vF4ewQC6kRK1P5ZysC5N+YyrTiXDf5ayg5aVZmpjkJv3MUZlnpUx89xO6wU+fpZ+
-         6eBA==
+        bh=1kr4dGY6ek9n+czCQ3eQcMwxF8cQoVhvIzP5bcZmOvM=;
+        b=pkNq13xKCyfvQ/MVNn3pflQJBIKqLDtrHk48ISzSaCgOhBug1ewZbfM1YDDw+OgEf2
+         iWdlmXpBY9kmgn9YgFa2Gh4a6MnuwTcP7u9e5gmqEKkgb3cqsmUBRAcVARrtKW8VDb1I
+         S1oMtGHezwwTH2Q9XdL7L4iaESlAt4DTW4hJ4Dzr56vZmcEHXvqPksk47CWzzsYkVJyv
+         mxJK739cJQJzqSjRawbaxCHqWJ7jw+evTJCYFGcz8c/6L6XK+y9Nn9vW7TWhJ36cxMIM
+         0EglwZYOcx9zBz0/GNZqr6IvQhmBpnZyGDC3wq+AuYlnR+ENDxODHTOQ6/0ovAJV5gij
+         DruA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783878529; x=1784483329;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=uLI6dtiwQ0bBLx8SDV3mtoBn+506m8hldEGF6Ztdkm0=;
-        b=N6Lb/GfcorHPQxDZeoQV/SfJiWAdWsP3mjYGy2cjwrfERKJ8orSQyyMufjkXAX29nj
-         TtdrDCkoMuNpGOXan3D+q14TjZJD8vzwJD8cwPpM5nnEznUK7804ovGYKNnHCRcVInAz
-         EY6mbRpkY9uCpSONj9y4olvNPeoZCScnkDOdWikSU98qvzh7w5+ZnNnm6rB25NDt5CgD
-         4BAML0s32A/4B69ckJm+lMW9MJCdwRGDzh3IQG/hMW3fxFPldt88HIJxMHoiwYLOaCRV
-         73kBsdRdn3R8Qd4+dCbYOg3k1iQrD/CwAJkoF9iFPO6xATt/n197zIu6lr+XkVgwIP07
-         OeEg==
-X-Forwarded-Encrypted: i=1; AHgh+RqRSUrLq/WwgC4JSKTcEeoMtYO8SS6749AQ24cRFnrXtsLoVUxgPgfDRxRo4vhU9Rd3S5pwkyPkG7E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNUW5MDeR8pn0q1wPzh/1+blftCOSuHYhrB648caouq1qAV9SX
-	3DL3SwTx1qj3pqIfrugg09HpWlrKtgqYZRd+F6a+298SkwzezLhon2a7TpG5RjDKxBSPYxF5zw1
-	FmuC2jXPsJTqIZ54UeBK3wTEFvd/0kT4dKGXYSBl9PPARux3ThctTrjHwjMoop8joI51NaY8=
-X-Gm-Gg: AfdE7cl48SBvRqr3owBdOU6k/NxySzxBILyxL5TVgTzNA8psHWiDm0B9XDxDW7bNDhP
-	k44xXRME/s/cRGK59KfI9wRdP295afhAQG1k+PNiqLeyagWbYG4E3i56as2eB8fCsJnsGfbWY70
-	Q7kOOEQpwzjAE8YdZcAJSDdA57T6FD8+EuiPMOpv48jsgqD76/iiAOxBpYAoW9JSScGRY/ECTJD
-	SB8rh+OyrIALY4r2UUGgabM/daYZbdmMdl+N1a/vztmE6j26SLWr7by8jSH5nx8iunRxVylckUZ
-	6yEb0HFlViB5cNSwryt7i5A/gTg9qiQeTYUkgXpqGCx6e74c7H/TbQY2iJg9fnwE6ZuH+z4TzFp
-	+guNoCd5Sx7q+m83qUcJgIRXO3Y3d+8URfGt6oAAgRIY8mwK/wQsckdTSeLD/hOnJZS2ft5yIn8
-	508r6s
-X-Received: by 2002:a05:6a21:e584:b0:3b4:8880:2089 with SMTP id adf61e73a8af0-3c110a47008mr6050713637.16.1783878528660;
-        Sun, 12 Jul 2026 10:48:48 -0700 (PDT)
-X-Received: by 2002:a05:6a21:e584:b0:3b4:8880:2089 with SMTP id adf61e73a8af0-3c110a47008mr6050699637.16.1783878528239;
-        Sun, 12 Jul 2026 10:48:48 -0700 (PDT)
-Received: from hu-kriskura-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b987fc629sm10369954c88.0.2026.07.12.10.48.44
+        d=1e100.net; s=20251104; t=1783890547; x=1784495347;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1kr4dGY6ek9n+czCQ3eQcMwxF8cQoVhvIzP5bcZmOvM=;
+        b=pNINBhQ0NwlI9k7uCw9yIuqsSskinWrknklFSQeTmtTYIAOLGqSY5rrYOeO12FjqT3
+         ykCA7eOZJ5r/GeweYqzNoJtuOwNRZnRJI5BnAzBrs4mHr5OGFEm2C6IqUUjqi5aea58Q
+         UTDt9mQwiCtpxEzBdcJIppwaJks3pGuXScxcNRnSNw5rEM33mr7/x7yjwO3tRDkHj5nx
+         LGU0YfW0dZPsg1j/psrJpJNw9FdtsvSaQmmhRWXyoJt2MmrW+TKvnQet9yCHYIBvpILU
+         6nhqw+pf3M0Uce2KFezoTzZtvjXwg2gOvEfnrquay8gzUIHU6XzxEnpf3WNxJ349y6GF
+         syoQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rpm/pO2vnnVCgoVHcFbM0cJPzDWWHrjv9WvPvlL6/WeDPQlswc3cYSB9EWwNWNdpLbPxfJYZUz+XiU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywi9IhK9sfZodAO7V/4bx3tHYcjSL/tpKKInYzi4xAJOvX62oAc
+	lm9ziA1o79KT8Do7SulcDkLbQAvR6LDliKYI9mN2AKdyXr6h1WKdxAji
+X-Gm-Gg: AfdE7cmcAGMq7cnzMOhLMkintimyKZx38Z9MTgW18VMKd9Qpe7agBVnHiL7Pavld/P+
+	p4Ls7QyW+6zrIRCckXB4bcI/cOo85ESFVWBSy3zmaetI5T8KwM4KGfebHdVd7PT693f5IIRoRjD
+	x8pqTvqBQDKfJA71UaKskXk4wbH77JuOTYpYmtvLIiel5VRvMcQSdH4o/05ArJyXQjXLh6Kq4+q
+	7QtkBmvDjTkResJZmM3u4Lj3BUN4QqEp0JlImKzHzYGcC7ECDobx8zVsig93V1Sh0M9G0tHmtFa
+	ZUy/DZ2sn5+spv/g4YU0wdmIY32TKDLxz/J3TrUt/4XDX6R46uAK4jynS2yixU7Jk/UWe5p2jE7
+	mcR8Z3OjMYokK4iu7pKXTDdhzhNGhQUVKMQinhqDyhgNpkBFHxG6xp7s20d+5sX7r28SjwiKy+B
+	a2oX1KvqBTOZc8cfav8wjl4NZa05RTbplX5MpcrdLcqHce3Gqn87KQPFqJj8homve/VfwB3w==
+X-Received: by 2002:a05:690c:2605:b0:80c:ff94:e87c with SMTP id 00721157ae682-81e901090dfmr57952367b3.44.1783890547511;
+        Sun, 12 Jul 2026 14:09:07 -0700 (PDT)
+Received: from [127.0.0.2] (76-234-45-214.lightspeed.cicril.sbcglobal.net. [76.234.45.214])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6be9834dsm99737387b3.9.2026.07.12.14.09.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 10:48:47 -0700 (PDT)
-From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-Date: Sun, 12 Jul 2026 23:18:35 +0530
-Subject: [PATCH] dt-binding: qcom,snps-dwc3: Add Maili compatible to
- supported device list
+        Sun, 12 Jul 2026 14:09:07 -0700 (PDT)
+From: Colin Braun <colinbrauncl@gmail.com>
+X-Google-Original-From: Colin Braun <colin.braun.cl@gmail.com>
+Subject: [RFC PATCH 0/4] rust: usb: add usb request block abstractions and
+ a user
+Date: Sun, 12 Jul 2026 16:07:57 -0500
+Message-Id: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -89,97 +71,106 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260712-maili-usb-dwc3-binding-v1-1-fd6697fa1e21@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIAHLTU2oC/yXMQQ6CMBBG4auQWTtJKSjBqxgXTDvib7SajigJ4
- e5WXX6L9xYyzVCjfbVQ1hcM91RQbyoK5yGNyojF5J3fua72fBtwBU8mHN+hYUGKSCP3wcdWOtd
- vG6ESP7KeMP/Gh+PfNslFw/N7o3X9AFp4o1F6AAAA
-X-Change-ID: 20260712-maili-usb-dwc3-binding-9c2d4b70953b
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAC0CVGoC/yXMQQqEMAyF4atI1hNou6jgVWQWbU01LnRIqgyId
+ 7fq8oP3/gOUhEmhaw4Q2ll5XSrsp4E0hWUk5KEanHHetNbhJhFD1CIhlbrF3aJxJvg2W59yhnr
+ 8CWX+P9H++1q3OFMqdwnO8wKgSIC2dgAAAA==
+X-Change-ID: 20260712-urb-abstraction-v1-020a67f16cff
+To: Miguel Ojeda <ojeda@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Alan Stern <stern@rowland.harvard.edu>, 
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ linux-usb@vger.kernel.org, linux-media@vger.kernel.org, 
+ Colin Braun <colin.braun.cl@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783878524; l=1581;
- i=krishna.kurapati@oss.qualcomm.com; s=20260707; h=from:subject:message-id;
- bh=VJcjUXbtX3f4WSQdzSuuHqAJhBkkCn09H/VEJXL+J0M=;
- b=kinRlM8Q7KyFXC9K6ofEAUKJd+qvlawCj0u78m9N4+eSav+8r9Lm5D5HhISbJqmQiXoDsRsu9
- CqMxIbUPN+OBWwPTsH3Xr7Rh5m8YuLLtcWXehZNfC3gqmEFIEcaIUS2
-X-Developer-Key: i=krishna.kurapati@oss.qualcomm.com; a=ed25519;
- pk=6PmiuwGCdov3wRO+bdmRlRxRtmJyDKz3ED57LLPVgds=
-X-Proofpoint-ORIG-GUID: A648bOtjNuMWs_fiKI-5rlPqMwM3SHoX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzEyMDE5MSBTYWx0ZWRfX75KAKx4NmDu4
- zPSNJNh86npfXQXtybBYaMlHwI0mrWZK5YDpyDG4eyW3TGGg/PwTTpm9PDzQn220WTbrF/gQyR9
- Kl7EZwl+el9HyNbt5RcIkIX2db8qMU919AwF4l+HIZKhAiQW0vAOnY7JVrqSXyx5AfktHPVswfJ
- E01IW8gC4F+Jqsu7fFHZ2Du6t/QS5+1xrXpubCmBiMmVIx8NtqfAL8VHMw020VhoEslXzBa4HQw
- Vn6SfkF3Xw9SO3B3glIHWCWxR78OgJlDkduskhLIWPtvkq7dw1Pu0BqRYrbXH3ohN4YG2SYIP3l
- WtFnr4OidKNSQxDHTjcPFQG0h/nD96CPyZ1tBU2cEcI7xoqPDJqQIFRTNOM9k5f/Wky/fWJvmfF
- IjfdGpiwAdxggpZOhWSgl/OWTs6sjy4Udu7BAuIK4DWeEMBIseD7q31DhiJ1slPVM8BX6RljY5i
- e3ZNzg+TRHPMJjQZA2g==
-X-Authority-Analysis: v=2.4 cv=O5MJeh9W c=1 sm=1 tr=0 ts=6a53d381 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=EUspDBNiAAAA:8 a=-cuiU98Imdfp90X4gAkA:9 a=QEXdDO2ut3YA:10
- a=bFCP_H2QrGi7Okbo017w:22
-X-Proofpoint-GUID: A648bOtjNuMWs_fiKI-5rlPqMwM3SHoX
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzEyMDE5MSBTYWx0ZWRfX7DDgEhxjbqzE
- fwnjtZfBelU18mqc32c7kvppkb+qm9EYkihq9DChqiuiLaNOt+mrcDodlrZOQlgf9SzIdYcJ5HA
- j8cWqLFC+ED1he0YSs9fsDFCmqJIejU=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-12_06,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
- adultscore=0 impostorscore=0 suspectscore=0 priorityscore=1501 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607120191
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783890545; l=3122;
+ i=colin.braun.cl@gmail.com; s=20260630; h=from:subject:message-id;
+ bh=bFE/JWW9TAkcpUmzVOdNJc9U2Zqimvu4ws4jMJRFwcE=;
+ b=aqEoR5ebo1/QQ/Rm6VEYTSCX5E60MN/CL5zIQdHKdjL54xZXUZCkk7TZT1E591D+0VJ8cl6aA
+ LC57ADqqnGHBiP/zetpJB+loUSSDscTfQc7/Lt8/rY+IYrjLXZKWDHG
+X-Developer-Key: i=colin.braun.cl@gmail.com; a=ed25519;
+ pk=DJ5DDAbTXtW6OgSgetK6R1PUfhtCNSvSayX3Je17ZAY=
 
-Add Maili compatible to supported device list. Maili has one SuperSpeed
-USB controller.
+This series introduces initial abstractions to allow for the
+implementation of USB drivers in Rust.
 
-Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+This is an RFC to demonstrate a rough idea on how the USB abstractions
+needed to create drivers in Rust could be implemented.
+
+The series is broken up into 4 parts:
+
+1. USB chapter 9 standard descriptors and constants - Exposes the
+   necessary structs and constants from include/uapi/linux/usb/ch9.h as
+   a new ch9 submodule.
+
+2. Interface and endpoint abstractions - Wraps the relevant C structs
+   and functions defined in include/linux/usb.h, allowing drivers to
+   safely query and configure interfaces and their endpoints.
+
+3. USB Request Block (URB) abstractions - Creates a safe wrapper around
+   the C `struct urb` to allow Rust drivers to communicate with devices.
+
+4. An initial user of the new abstractions - A driver for the GV-USB2
+   composite-usb video capture device.
+
+Patch 3 is the bulk and core of this series. By their asynchronous
+nature, creating a safe URB abstraction for drivers to use is tricky.
+The goals of the URB abstraction are:
+
+1. No `unsafe` needed in driver code. This means providing a way for a
+   driver to safely access private data sent with the URB.
+2. Drivers are forced to handle the URB status in their completion
+   callback before accessing the URB data.
+3. Dropping an URB ensures it is not in-flight and frees its resources.
+4. The URB can be safely resubmitted from the completion callback.
+
+The patch elaborates on how these goals are achieved in more detail.
+
+Although the URB abstractions do not include immediate support for bulk
+or interrupt URBs, I believe it creates a foundation conducive to
+future, safe abstractions for them.
+
+Patch 4 is first user of these USB abstractions. The initial
+implementation is very much bare-bones, only exposing audio data via
+debugfs. It is based on the in-tree STK1160 driver and an old,
+out-of-tree driver written by Isaac Lozano [1].
+
+[1] https://github.com/Isaac-Lozano/GV-USB2-Driver
+
+Signed-off-by: Colin Braun <colin.braun.cl@gmail.com>
 ---
- Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+Colin Braun (4):
+      rust: usb: add USB ch9 standard descriptors and constants
+      rust: usb: add usb host interface and endpoint abstractions
+      rust: usb: add urb abstraction with control and isochronous support
+      media: add gv-usb2 audio capture driver
 
-diff --git a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
-index 932d7aea43c5..9eec07dd33de 100644
---- a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
-@@ -37,6 +37,7 @@ properties:
-           - qcom,ipq8074-dwc3
-           - qcom,ipq9574-dwc3
-           - qcom,kaanapali-dwc3
-+          - qcom,maili-dwc3
-           - qcom,milos-dwc3
-           - qcom,msm8953-dwc3
-           - qcom,msm8994-dwc3
-@@ -208,6 +209,7 @@ allOf:
-               - qcom,ipq5424-dwc3
-               - qcom,ipq9574-dwc3
-               - qcom,kaanapali-dwc3
-+              - qcom,maili-dwc3
-               - qcom,msm8953-dwc3
-               - qcom,msm8996-dwc3
-               - qcom,msm8998-dwc3
-@@ -546,6 +548,7 @@ allOf:
-               - qcom,ipq4019-dwc3
-               - qcom,ipq8064-dwc3
-               - qcom,kaanapali-dwc3
-+              - qcom,maili-dwc3
-               - qcom,qcs615-dwc3
-               - qcom,qcs8300-dwc3
-               - qcom,qdu1000-dwc3
-
+ drivers/media/usb/Kconfig            |   1 +
+ drivers/media/usb/Makefile           |   1 +
+ drivers/media/usb/gv-usb2/Kconfig    |   9 +
+ drivers/media/usb/gv-usb2/Makefile   |   1 +
+ drivers/media/usb/gv-usb2/driver.rs  | 361 ++++++++++++++
+ drivers/media/usb/gv-usb2/gv_usb2.rs |  16 +
+ drivers/media/usb/gv-usb2/regs.rs    |  25 +
+ include/linux/usb.h                  |   4 +
+ rust/kernel/usb.rs                   | 905 ++++++++++++++++++++++++++++++++++-
+ rust/kernel/usb/ch9.rs               | 295 ++++++++++++
+ 10 files changed, 1613 insertions(+), 5 deletions(-)
 ---
-base-commit: 1db5c6b0b9834aee2f14e39764becfcc29d09ccf
-change-id: 20260712-maili-usb-dwc3-binding-9c2d4b70953b
+base-commit: 30e873dd61b044092dbc657c7c67a5d19adfd933
+change-id: 20260712-urb-abstraction-v1-020a67f16cff
 
 Best regards,
 --  
-Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Colin Braun <colin.braun.cl@gmail.com>
 
