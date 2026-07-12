@@ -1,162 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FFBE56A
-	for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 16:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4FA7364E98
+	for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 17:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783872177; cv=none; b=QEWifaMxKjctQt+AqJVC5fc7reykb3aKsWQE4LvWWgi0ccbWmNdM3En7Iu0ta+IWQhTaILCvph41Wx2m2R7SuWpriDGwPlqtBzRxSrPsAZcmv1rs88hBChbnVuz4jh3mKqB2bSQHkIDF2i5/4BjfQpnzZgLPyu2PhcF0KTv0DZY=
+	t=1783875641; cv=none; b=kdWTHr0JRsdHcnThm5BBpXEaML/pSkyOfjLhz1aSh+iXGEAeLtzHa2QPpiTJK/dt3QmfoSEEj9RIK55geBW0Bo6Oo4WqVo2IgJva3u1oASbDfEmxYjm6r88eGcEGs66hHM6EgH11tyeeUGpas0vjIadSih7el2mWaF+xJr3GPi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783872177; c=relaxed/simple;
-	bh=YBfbZlfQWPBbTUn9LaLDtUvVrc3O4G/EG+rT/9WyQpI=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MZzhDScHbZ1oDr8+3OYfVw5Om/q9DPnmfaPG9JZEIkPhQojZokZ3o5Dh6qCrYYyiI/IhJYBLLC3GgH+ET4qPsqpMYU5r36ILabbm67tJz3086WPVWo9a3sAadIesZlFeL5exJQLQfEBjzPRGverrVf8bpKfwWadLdZJ/VjxM4RE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e/ysXJFS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1783875641; c=relaxed/simple;
+	bh=/gh2oI/rhVZqMAzhUzsYKqioJWGzuqDMFDGofGOqRnc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JnQmVuiJ0C/XJqrV0LJut0oG+w5/l7kFYwlL86c/H4Z/kssxpIIlfv/Pk/O1NHsF8WvygRIis/rc6GhBaDDWztLbfqp255QPTCscqZoRO+asq8TEyWCC3mvSXNcC0giKtbqFxxif8YXFgZ4trmxdBSFqrfMzHnJZ51lufukljPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=GH3U4I96; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e/ysXJFS"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4D7ADC2BCF4
-	for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 16:02:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1783872177;
-	bh=YBfbZlfQWPBbTUn9LaLDtUvVrc3O4G/EG+rT/9WyQpI=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=e/ysXJFSEFaF/WKOiYlkQyAZDFhSwjrtHrYW09040YKaPxCiUU6+lLQb6lGwnpE2G
-	 eNmyPABDvn0cc7XP6xwcUMCsXhwhWevI/iHpsRpiO8dhBYG+yYh+3Roc/YJuzW2g7o
-	 9NnQM4kS0S1u2WqyGKHK4/QBqqEAlojqn1ydaWXyM4IsbWRyZQ/sAobP5Awkzu+dAJ
-	 t+h1TO7V18URXzR0DjsJlXhZSD44iBTG4kv48Vc/SrW31kS7COVJp99ZdNlYFZSHo1
-	 cGqdqywuuPmtEZyyy3WCWTnCAx1n4JODj8csT+YxE14Dk8l+ZxFBwQoqKL2uCcCncw
-	 sgyFe1HEfWGkg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 37FFEC53BC7; Sun, 12 Jul 2026 16:02:57 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221073] xHCI host controller dies on resume from s2idle on AMD
- Strix Halo [1022:1587]
-Date: Sun, 12 Jul 2026 16:02:56 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: david.c.hubbard@gmail.com
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221073-208809-3ZcBkNpymG@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221073-208809@https.bugzilla.kernel.org/>
-References: <bug-221073-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="GH3U4I96"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=U4
+	+pUgiExEUL+gjw1u62dhG26bzlo9VX9Xi7I9X30m8=; b=GH3U4I96SMDClbigAv
+	YUV962dlWnSFZ9uWQe36R/JCbT1RK8Jrpl5qO+3UMU+49F06Nj75ZkNyK5ZC8wac
+	uZJA8mDG4gbKvP2787eZt4Rjtar7IRU1etMxCSEWYSWjSWDMVSm/GyR5tnUFXujy
+	0Qvk9jhUAR0Jyi5rNGUtemBfg=
+Received: from pc.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wAXgJIeyFNqCkxiIQ--.5997S2;
+	Mon, 13 Jul 2026 01:00:15 +0800 (CST)
+From: Jiale Yao <yaojiale02@163.com>
+To: johan@kernel.org
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	Jiale Yao <yaojiale02@163.com>
+Subject: [PATCH] usb: serial: fix slab out-of-bounds read in interrupt URB callback
+Date: Mon, 13 Jul 2026 01:00:12 +0800
+Message-Id: <20260712170012.3503601-1-yaojiale02@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wAXgJIeyFNqCkxiIQ--.5997S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Ww1fKFy8tw1UXw1DArWUJwb_yoW8Wr4rpr
+	ZxKayjvrs8XrW7Xw13AF1fAryrAw4kXa42g392v3yFvrnxJr1Fva43tFyFva4xCF93XF1q
+	vr4qya1xu39rAw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRb6p9UUUUU=
+X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbC7x+o4mpTyB-9TgAA3n
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221073
+The interrupt URB buffer is allocated in setup_port_interrupt_in() based
+on the endpoint's wMaxPacketSize:
 
---- Comment #51 from David Hubbard (david.c.hubbard@gmail.com) ---
-(In reply to Alexander F from comment #50)
-> Unfortunately it still failed. First on the 2nd cycle, then on the 8th.
+    buffer_size = usb_endpoint_maxp(epd);
+    port->interrupt_in_buffer = kmalloc(buffer_size, GFP_KERNEL);
 
-I also got a failure now, after more cycles of testing the patched kernel:
+When a USB device declares wMaxPacketSize = 8 on its interrupt IN
+endpoint, the buffer is allocated from kmalloc-8 cache (exactly 8 bytes).
 
-[ 1213.160470] ACPI: EC: interrupt blocked
-[300397.315230] ACPI: EC: interrupt unblocked
-[300398.002554] [drm] PCIE GART of 512M enabled (table at 0x000000800090000=
-0).
-[300398.002615] amdgpu 0000:c2:00.0: amdgpu: SMU is resuming...
-[300398.008114] nvme nvme0: 32/0/0 default/read/poll queues
-[300398.026094] amdgpu 0000:c2:00.0: amdgpu: SMU is resumed successfully!
-[300398.053810] xhci_hcd 0000:c2:00.4: Port resume timed out, port 1-1:
-0x400e03
-[300398.104761] EDID block 1 (tag 0x80) checksum is invalid, remainder is 1=
-91
-[300398.107810] amdgpu 0000:c2:00.0: [drm] detect_link_and_local_sink:
-manufacturer_id =3D 6904, product_id =3D 26A4, serial_number =3D 21BB1,
-manufacture_week =3D 26, manufacture_year =3D 19, display_name =3D ASUS VW2=
-66H,
-speaker_flag =3D 0, audio_mode_count =3D 0
-[300398.148104] [HW_LINK_TRAINING]:enable_link entered
-[300398.148105] [HW_LINK_TRAINING]:link disabled
-[300398.148106] [HW_LINK_TRAINING]:enable_link_hdmi entered
-[300398.182298] amdgpu 0000:c2:00.0: amdgpu: ring gfx_0.0.0 uses VM inv eng=
- 0
-on hub 0
-[300398.182305] amdgpu 0000:c2:00.0: amdgpu: ring comp_1.0.0 uses VM inv en=
-g 1
-on hub 0
-[300398.182306] amdgpu 0000:c2:00.0: amdgpu: ring comp_1.1.0 uses VM inv en=
-g 4
-on hub 0
-[300398.182307] amdgpu 0000:c2:00.0: amdgpu: ring comp_1.2.0 uses VM inv en=
-g 6
-on hub 0
-[300398.182308] amdgpu 0000:c2:00.0: amdgpu: ring comp_1.3.0 uses VM inv en=
-g 7
-on hub 0
-[300398.182309] amdgpu 0000:c2:00.0: amdgpu: ring comp_1.0.1 uses VM inv en=
-g 8
-on hub 0
-[300398.182309] amdgpu 0000:c2:00.0: amdgpu: ring comp_1.1.1 uses VM inv en=
-g 9
-on hub 0
-[300398.182310] amdgpu 0000:c2:00.0: amdgpu: ring comp_1.2.1 uses VM inv en=
-g 10
-on hub 0
-[300398.182311] amdgpu 0000:c2:00.0: amdgpu: ring comp_1.3.1 uses VM inv en=
-g 11
-on hub 0
-[300398.182312] amdgpu 0000:c2:00.0: amdgpu: ring sdma0 uses VM inv eng 12 =
-on
-hub 0
-[300398.182312] amdgpu 0000:c2:00.0: amdgpu: ring vcn_unified_0 uses VM inv=
- eng
-0 on hub 8
-[300398.182313] amdgpu 0000:c2:00.0: amdgpu: ring vcn_unified_1 uses VM inv=
- eng
-1 on hub 8
-[300398.182314] amdgpu 0000:c2:00.0: amdgpu: ring jpeg_dec_0 uses VM inv en=
-g 4
-on hub 8
-[300398.182315] amdgpu 0000:c2:00.0: amdgpu: ring jpeg_dec_1 uses VM inv en=
-g 6
-on hub 8
-[300398.182316] amdgpu 0000:c2:00.0: amdgpu: ring mes_kiq_3.1.0 uses VM inv=
- eng
-13 on hub 0
-[300398.182316] amdgpu 0000:c2:00.0: amdgpu: ring vpe uses VM inv eng 7 on =
-hub
-8
-[300408.195596] xhci_hcd 0000:c2:00.4: xHCI host not responding to stop
-endpoint command
-[300408.211433] xhci_hcd 0000:c2:00.4: xHCI host controller not responding,
-assume dead
-[300408.211448] xhci_hcd 0000:c2:00.4: HC died; cleaning up
-[300408.211785] usb 2-1: PM: dpm_run_callback(): usb_dev_resume returns -22
-[300408.211810] usb 2-1: PM: failed to resume async: error -22
-[300408.216609] OOM killer enabled.
-[300408.216612] Restarting tasks: Starting
-[300408.216696] usb 2-1.2: USB disconnect, device number 3
-[300408.216712] usb 2-1: USB disconnect, device number 2
-[300408.216760] usb 1-1: USB disconnect, device number 2
-[300408.216768] usb 1-1.2: USB disconnect, device number 3
-[300408.216771] usb 1-1.2.3: USB disconnect, device number 4
-[300408.217523] Restarting tasks: Done
-[300408.217569] random: crng reseeded on system resumption
-[300408.217614] PM: suspend exit
+If the device sends a short packet (actual_length < wMaxPacketSize),
+the URB completes with status == 0 and the callback proceeds to read:
 
---=20
-You may reply to this email to add a comment.
+    data[sizeof(struct usb_ctrlrequest)]
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+which evaluates to data[8], accessing 1 byte beyond the allocated 8-byte
+buffer. This results in a slab out-of-bounds read.
+
+Fix this by adding a bounds check before accessing data[8], ensuring that
+the actual length is sufficient to contain a full USB control request
+header.
+
+Signed-off-by: Jiale Yao <yaojiale02@163.com>
+---
+ drivers/usb/serial/option.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index 4c4009b8a46d..4aae54e1eacf 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -2672,6 +2672,13 @@ static void option_instat_callback(struct urb *urb)
+ 			dev_dbg(dev, "%s: NULL req_pkt\n", __func__);
+ 			return;
+ 		}
++
++		if (urb->actual_length < sizeof(struct usb_ctrlrequest) + 1) {
++			dev_dbg(dev, "%s: short interrupt transfer: %d bytes\n",
++				__func__, urb->actual_length);
++			return;
++		}
++
+ 		if ((req_pkt->bRequestType == 0xA1) &&
+ 				(req_pkt->bRequest == 0x20)) {
+ 			int old_dcd_state;
+-- 
+2.34.1
+
