@@ -1,63 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFB03A7D7A;
-	Sun, 12 Jul 2026 12:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3753631B833
+	for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 15:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783859301; cv=none; b=F9ZIZinGWyLJiJd6hxJO7yhktgJVbqA7Ny2f5d1yxnJq6WocWHXk7DX3ZdMB3CGBRwaUs1iPUJMdiK2tsteXdFL3fi2Zr93Dxo7oAf9YsTNPMEWOV7bkQ75I5VWw9sfetVvbFGyOxuQxm2cg6tda4YFBzrcgW7YH4JbffTZsLFA=
+	t=1783869820; cv=none; b=tRG/MHKkmWEkxjQmigRCcR9a5423ydA9wJj378au9Jbt0F/wnZPoT+/Vhvs7hxAkeKRfNWOWZQ7cV6ilAhNhz43GxWE7eicdUrhs7do9Oaq9FMkK/3ITW56J++Nx9qBsSi6feoIznm0HHpRdRHmb6+Sz0Dy31bJFpNnpw8DPfQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783859301; c=relaxed/simple;
-	bh=zBuoHJgyKjwMTn3GawD77iFOVO6xlqE976aNZ+y/hoc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VZXbMKBQfb1ny2OiMDMzn3HmzOrsWGGN5QoQ+LT5aW664x2wCUinnMmZGHqbKO9oZeVICBL58zLQvFL7NGddfwC0+iNt017E52+z3mpnbgMLvw2fvI/7SIliXfdR+YFV77kFvibP1PJEJtaGLgJuwCLrXcJuR54hvdq95GGK5HE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O00M2lDi; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783869820; c=relaxed/simple;
+	bh=a32gyje3VNhuaBNzcg4W07Eaci0uG04Sw+Bq4aMt2wY=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CXSZJl3ZepCqGECZskj+bXwKbeDWz1zp/cKX6OXn5mOFhFLQdnfZYsEJ6rugRg61fKsO8MYVmHHX2NnMVAfEtosVP3JLOCYNfk4rAKSrTqnDymyAf9gaeGYSNzbG+fEg6tYONTJXk8dV8lxgGI4e7MczG//ekEfEA7pi6BVcFaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QYz+n5VI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O00M2lDi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94C281F000E9;
-	Sun, 12 Jul 2026 12:28:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783859300;
-	bh=Su0f0fOvCgbDlKnlSpfTJomGI+pCMm3O57CCfD3OJFo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=O00M2lDih+AwYIjL+yrW85IYDF9mo8bCqaRp1M4tfrFBMT6ZmAXMHbw/rHT+uzEZI
-	 ZX9bx6S0TW8aitDiCvMrPqKr3u7TPIRDlMjDFPpMbPwJmdwYokPDHWl/WkNHBeP/Na
-	 NLkvvGt42Nyd1EdVs591cKlOcPP2YrytxYj/W+fRj7SlGWUeqt4g3vPNrID5waUAZT
-	 g4g9vS53rb5XF8iAwhTFgyd7v6d2ifQALd/5YtcmEmEc1sDLeo9TGkfUoiCbVAEvMb
-	 nYHSGWGXIO3Q2r6iFuPYCBMPHC+a2JRfpMWm10r0dYjCEcggp7+oXOrC+K2WjCk2Yi
-	 +VVvS7AeQA5eQ==
-Date: Sun, 12 Jul 2026 14:28:16 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] dt-bindings: usb: qcom,snps-dwc3: Add Shikra
- compatible
-Message-ID: <20260712-fantastic-emu-of-fruition-ba5bfa@quoll>
-References: <20260711-usb-shikra-v4-v4-1-9d59b9d9aff7@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QYz+n5VI"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B728EC2BCFA
+	for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 15:23:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1783869819;
+	bh=a32gyje3VNhuaBNzcg4W07Eaci0uG04Sw+Bq4aMt2wY=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=QYz+n5VIFYX7U4vJLKOcnU52jBSmtTlIf7ZMWYIvHF20azCopgg0PDhXE6urbDtCh
+	 Mkm9y2nyJhLXTiBZlvuL+W8Gxifv2L4poxTHAbs1y717PcnAMR0iF13NRrD1YuSJmL
+	 fiNqnKx9v4fdPwcZv9FyICbiE65kVkaLwEmvyAvunQDGIjfKCYX7lvODO5oA7+oF1W
+	 mPmfUaa1txQMhQlGFdeRPE1xw9UAndxaxw7GtH9zIzwZ/avpn/eV7ovYT6gDw6HY2B
+	 meCXPCYAE69iIf2s+BSIPhNZqcMEkk+QJHX7Nw67o8Uapgq/foccZr0HPbb7Z/tXIX
+	 TKIrU0YmjY/Rg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id A1A79C41613; Sun, 12 Jul 2026 15:23:39 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221073] xHCI host controller dies on resume from s2idle on AMD
+ Strix Halo [1022:1587]
+Date: Sun, 12 Jul 2026 15:23:39 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: superveridical@gmail.com
+X-Bugzilla-Status: NEEDINFO
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221073-208809-CEGjiu3jc7@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221073-208809@https.bugzilla.kernel.org/>
+References: <bug-221073-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260711-usb-shikra-v4-v4-1-9d59b9d9aff7@oss.qualcomm.com>
 
-On Sat, Jul 11, 2026 at 11:33:01PM +0530, Krishna Kurapati wrote:
-> Introduce the compatible definition for Shikra QCOM SNPS DWC3. Shikra SoC
-> has two usb controllers and the secondary controller is high-speed only
-> capable.
-> 
-> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-> ---
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221073
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+--- Comment #50 from Alexander F (superveridical@gmail.com) ---
+Kernel version: 7.1.3 (Gentoo vanilla-sources, localmodconfig from 6.19.6)
+linux-firmware version: 20260110
+BIOS: 311 (haven't changed, no new versions)
+All other software: haven't changed
 
-Best regards,
-Krzysztof
+First I established the failure rate baseline on the new version of the ker=
+nel.
+Got "HC died" on the following number of sleep cycles with reboots in-betwe=
+en:
+2,2,15,3,10,10.=20
 
+I used this command for testing:
+
+while true; do sleep 5; rtcwake -m freeze -s 7; if dmesg | grep -q "HC died=
+";
+then break; fi; done;=20
+
+The patch didn't apply cleanly to this version, so I had to tweak this part
+manually:
+
+1357    /* Mandatory transition delays; see PCI PM 1.2. */
+1358    if (state =3D=3D PCI_D3hot)
+1359            pci_dev_d3hot_sleep(dev);
+1360    else if (state =3D=3D PCI_D2)
+1361            udelay(PCI_PM_D2_DELAY);
+
+Unfortunately it still failed. First on the 2nd cycle, then on the 8th.
+
+I can update firmware / other things if needed.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
