@@ -1,68 +1,70 @@
 Received: from mail-yx2-f0.google.com (mail-yx2-f0.google.com [74.125.224.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5B52C21FF
-	for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 21:09:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161893655C4
+	for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 21:09:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783890550; cv=none; b=k7DG+bHhV995QBwv6y/Hj0Z4wGb5NvrBDcphRwp2/LvGLCMhVoeVDrkMb3mJ6pBGyl+IKE2HtcarPFsz/UtyD4NY2rT5Ad0Sq57UcHmRGoeld1CBRJeqFQ8HPXlxoVk3sh08LltvlBntuZYNypQekaMQeXCCXovq3SRTo+sRbvA=
+	t=1783890552; cv=none; b=FAXpYRNud6tYmezSToh/vn+yLkasC18IDeIL6Cscd1nvCDx2dq3QqWh7eN5lrBvtZhcsJcNbOXyoSZ6qyMP6G4sfH1oILQI+uDSfR+bitA6NKVkLomV5ACU3mB0lDinP7yqZ2sxGEaN2udpWEivXA1GMKTVRHREwRo25D1GdGMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783890550; c=relaxed/simple;
-	bh=bFE/JWW9TAkcpUmzVOdNJc9U2Zqimvu4ws4jMJRFwcE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=N82FMeng/jKRT+APIc3Pc/Z2L37bdfD2zFqDMIqLLd2HLsZEdwNNXryE9agssE7w5CHXzRWAEy6gD7gem3CzEZjJusMrv1z2HOU/aJA00psJoKTn/aggnQySkVJUCU3xw1c2sVGvGMbclakSsc7TeZzUTm6GQdH5UA+E4GIPBk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pkNq13xK; arc=none smtp.client-ip=74.125.224.128
+	s=arc-20240116; t=1783890552; c=relaxed/simple;
+	bh=wt+tB9y390TcpLxqDw+hREzmpPjKqG33LQ5CkHM9iQo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=rIU303RbC1bkkkFuRHIEneU4w6sWE/VLXijZmtc6WwEqPvgOIgS2nbeFwUZBDA4NRh45s3TAdT59J1lenf7RhZVdHMkktFM4E6iZiRIrzlESfDoMqOwCoIGmj0UVHsoiKRuZR05X8KrQniXH8jGe5dAn81UYBtQsdfNBURzbqeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MYqt7GiO; arc=none smtp.client-ip=74.125.224.128
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pkNq13xK"
-Received: by mail-yx2-f0.google.com with SMTP id 956f58d0204a3-66282525fe1so1726545d50.1
-        for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 14:09:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MYqt7GiO"
+Received: by mail-yx2-f0.google.com with SMTP id 00721157ae682-81e7a64294cso4811347b3.1
+        for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 14:09:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783890547; x=1784495347; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=1kr4dGY6ek9n+czCQ3eQcMwxF8cQoVhvIzP5bcZmOvM=;
-        b=pkNq13xKCyfvQ/MVNn3pflQJBIKqLDtrHk48ISzSaCgOhBug1ewZbfM1YDDw+OgEf2
-         iWdlmXpBY9kmgn9YgFa2Gh4a6MnuwTcP7u9e5gmqEKkgb3cqsmUBRAcVARrtKW8VDb1I
-         S1oMtGHezwwTH2Q9XdL7L4iaESlAt4DTW4hJ4Dzr56vZmcEHXvqPksk47CWzzsYkVJyv
-         mxJK739cJQJzqSjRawbaxCHqWJ7jw+evTJCYFGcz8c/6L6XK+y9Nn9vW7TWhJ36cxMIM
-         0EglwZYOcx9zBz0/GNZqr6IvQhmBpnZyGDC3wq+AuYlnR+ENDxODHTOQ6/0ovAJV5gij
-         DruA==
+        d=gmail.com; s=20251104; t=1783890549; x=1784495349; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qgFTptXx85PWXDmKZTTKsGUVnhLFqzTUqDOgVugKp74=;
+        b=MYqt7GiOk1UeAEx8+wfrNjly8837ljNvO/eoS/Rdv5KvJXgt7urgp53BqmPYtGT0CH
+         2Syhe8xvCHw26J26sV0RWEJYswXehTWSUNCaMrD7H7znDwe29Jsb9/F0SPXrsxWn7mwR
+         YTPh92mE7Rff/nFmv2+pTPHnwL3D90w7fWfbJl1N/Ia88ZxEjXIH8g9UvqBnZWk2d36n
+         3c/gXvqsprhMULlc5zrLWqenyOpE1hy0V+UeotNnwo1ytriAa6Ns1Nl15ubhWo/lKuPT
+         /KVWYy7y5Agpv+kHySKW2tTlq/hf+JMXEEZow0+Efg1QFLTTfoW6GT4v5fonf5Ves3SU
+         LFSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783890547; x=1784495347;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=1kr4dGY6ek9n+czCQ3eQcMwxF8cQoVhvIzP5bcZmOvM=;
-        b=pNINBhQ0NwlI9k7uCw9yIuqsSskinWrknklFSQeTmtTYIAOLGqSY5rrYOeO12FjqT3
-         ykCA7eOZJ5r/GeweYqzNoJtuOwNRZnRJI5BnAzBrs4mHr5OGFEm2C6IqUUjqi5aea58Q
-         UTDt9mQwiCtpxEzBdcJIppwaJks3pGuXScxcNRnSNw5rEM33mr7/x7yjwO3tRDkHj5nx
-         LGU0YfW0dZPsg1j/psrJpJNw9FdtsvSaQmmhRWXyoJt2MmrW+TKvnQet9yCHYIBvpILU
-         6nhqw+pf3M0Uce2KFezoTzZtvjXwg2gOvEfnrquay8gzUIHU6XzxEnpf3WNxJ349y6GF
-         syoQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rpm/pO2vnnVCgoVHcFbM0cJPzDWWHrjv9WvPvlL6/WeDPQlswc3cYSB9EWwNWNdpLbPxfJYZUz+XiU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi9IhK9sfZodAO7V/4bx3tHYcjSL/tpKKInYzi4xAJOvX62oAc
-	lm9ziA1o79KT8Do7SulcDkLbQAvR6LDliKYI9mN2AKdyXr6h1WKdxAji
-X-Gm-Gg: AfdE7cmcAGMq7cnzMOhLMkintimyKZx38Z9MTgW18VMKd9Qpe7agBVnHiL7Pavld/P+
-	p4Ls7QyW+6zrIRCckXB4bcI/cOo85ESFVWBSy3zmaetI5T8KwM4KGfebHdVd7PT693f5IIRoRjD
-	x8pqTvqBQDKfJA71UaKskXk4wbH77JuOTYpYmtvLIiel5VRvMcQSdH4o/05ArJyXQjXLh6Kq4+q
-	7QtkBmvDjTkResJZmM3u4Lj3BUN4QqEp0JlImKzHzYGcC7ECDobx8zVsig93V1Sh0M9G0tHmtFa
-	ZUy/DZ2sn5+spv/g4YU0wdmIY32TKDLxz/J3TrUt/4XDX6R46uAK4jynS2yixU7Jk/UWe5p2jE7
-	mcR8Z3OjMYokK4iu7pKXTDdhzhNGhQUVKMQinhqDyhgNpkBFHxG6xp7s20d+5sX7r28SjwiKy+B
-	a2oX1KvqBTOZc8cfav8wjl4NZa05RTbplX5MpcrdLcqHce3Gqn87KQPFqJj8homve/VfwB3w==
-X-Received: by 2002:a05:690c:2605:b0:80c:ff94:e87c with SMTP id 00721157ae682-81e901090dfmr57952367b3.44.1783890547511;
-        Sun, 12 Jul 2026 14:09:07 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783890549; x=1784495349;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qgFTptXx85PWXDmKZTTKsGUVnhLFqzTUqDOgVugKp74=;
+        b=gi3YbUFKyhBohKa2oI5hp3lGr06TYT8FfTwzNLXmCcl2Nd5CUpe2iUIO/15RstVDge
+         rktysY3szejfe/MfHj3V5locjPxl4C958sI3NSN79vHQGPQVInEeecbueaQX71qYEMKV
+         Ko3z636jS2wLuR9JTehCzAluatqIsyG8FVu7czDWFP2Dx2qs/kbbckKgY4G9Aku8OFew
+         7pEiiE/RExbAfethsDVSW22Ii2+HFBXnJHA136fukemKRd0lp4o6JBFYcekBNkMbcaoZ
+         UHxBRJ3apJbi1TyqCkETXNTQyDQI+gnMPE1Fje94HCcsXCyVw4UNlVRBCs8nZ9dzf35S
+         VaFQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqBoJ7ylMaxqFlrKheiItQsSQlDZZQPePtt7QrCXF2Dt5/evrb7PSfL44aKg9k2j+9dEeM8VOGeTBA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysrX0IU3zsUVwyukzk1hhT2IQIm8Lsvzn+SB6iT1dFA5Gd7FjG
+	2b1/igBgaGbnzDWAd40szKXDPXYMiZwI/u8fm5hRZz+C7/Vlx7uJteDe
+X-Gm-Gg: AfdE7cl0MvMAgqbVLJpdgV5YL097E0XEMGsE8LaZcratqz4bNq3jbFYAHAO96kWs7Is
+	knQ/Aj3OcCc6gJyHpkoX0c0xTEUvVne1J3CoTM06EJOvfIBIJ9m0C48kwo4dw61StvwZTG9WdEe
+	7arXVluyFpUanhrkeiBGbn068zH0fot3Xuojb187PEYZhGVQ/vxWX5w+b4Cg4ZmfcQy+44xx83s
+	mSAlf01/E+vPZjkjv+RJM9iF6RgwORKA2oOslB/rop1PG5ExsW5hGCnkd2n1YqqzlEEVKp9bI/4
+	mi8Xze3YyTojeVmtbiHcM0ynnECyZW4gsj1WwTICxG4AI3a2wrRq5hmbq9KBWFn/uzhxFSyDcC5
+	X4kU+VWQ2EbcDERXJiX4/8ZY7ldpuQ4hila1deQJa9P0JT+6KRUlgGqB8O+GX5fGPxfZMEpXyra
+	aUBTfKTdgerh3s5im/NUWWRNCDva8QYoh+/ryLd/I2FF8Zy5D1FL+V8et+ZysRrBEe/gI8tq2QA
+	zuXhGE/
+X-Received: by 2002:a05:690c:c16:b0:81d:2254:8504 with SMTP id 00721157ae682-81e9016d68emr50666257b3.56.1783890549094;
+        Sun, 12 Jul 2026 14:09:09 -0700 (PDT)
 Received: from [127.0.0.2] (76-234-45-214.lightspeed.cicril.sbcglobal.net. [76.234.45.214])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6be9834dsm99737387b3.9.2026.07.12.14.09.05
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6be9834dsm99737387b3.9.2026.07.12.14.09.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 14:09:07 -0700 (PDT)
+        Sun, 12 Jul 2026 14:09:08 -0700 (PDT)
 From: Colin Braun <colinbrauncl@gmail.com>
 X-Google-Original-From: Colin Braun <colin.braun.cl@gmail.com>
-Subject: [RFC PATCH 0/4] rust: usb: add usb request block abstractions and
- a user
-Date: Sun, 12 Jul 2026 16:07:57 -0500
-Message-Id: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
+Date: Sun, 12 Jul 2026 16:07:58 -0500
+Subject: [RFC PATCH 1/4] rust: usb: add USB ch9 standard descriptors and
+ constants
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -70,11 +72,10 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAC0CVGoC/yXMQQqEMAyF4atI1hNou6jgVWQWbU01LnRIqgyId
- 7fq8oP3/gOUhEmhaw4Q2ll5XSrsp4E0hWUk5KEanHHetNbhJhFD1CIhlbrF3aJxJvg2W59yhnr
- 8CWX+P9H++1q3OFMqdwnO8wKgSIC2dgAAAA==
-X-Change-ID: 20260712-urb-abstraction-v1-020a67f16cff
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260712-urb-abstraction-v1-v1-1-9fa011634ead@gmail.com>
+References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
+In-Reply-To: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
 To: Miguel Ojeda <ojeda@kernel.org>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
@@ -93,84 +94,343 @@ Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
  linux-usb@vger.kernel.org, linux-media@vger.kernel.org, 
  Colin Braun <colin.braun.cl@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783890545; l=3122;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783890545; l=10602;
  i=colin.braun.cl@gmail.com; s=20260630; h=from:subject:message-id;
- bh=bFE/JWW9TAkcpUmzVOdNJc9U2Zqimvu4ws4jMJRFwcE=;
- b=aqEoR5ebo1/QQ/Rm6VEYTSCX5E60MN/CL5zIQdHKdjL54xZXUZCkk7TZT1E591D+0VJ8cl6aA
- LC57ADqqnGHBiP/zetpJB+loUSSDscTfQc7/Lt8/rY+IYrjLXZKWDHG
+ bh=wt+tB9y390TcpLxqDw+hREzmpPjKqG33LQ5CkHM9iQo=;
+ b=0EGedI4jFhW8LW7B5X37qUv2IHDeUccyF/02Lw1xsp8e3A5oQNs1UZtnvFo2c2f3wP5Tc7Kfk
+ PyUgtbsl48QB4XI686nMZuc0Hi/yIEz0kWlt7AZJd14o71gI5TI4cm7
 X-Developer-Key: i=colin.braun.cl@gmail.com; a=ed25519;
  pk=DJ5DDAbTXtW6OgSgetK6R1PUfhtCNSvSayX3Je17ZAY=
 
-This series introduces initial abstractions to allow for the
-implementation of USB drivers in Rust.
+Add a new module for USB chapter 9 structs and constants.
 
-This is an RFC to demonstrate a rough idea on how the USB abstractions
-needed to create drivers in Rust could be implemented.
+The goal of this patch is to provide safe Rust wrappers around the C
+types from include/uapi/linux/usb/ch9.h.
 
-The series is broken up into 4 parts:
-
-1. USB chapter 9 standard descriptors and constants - Exposes the
-   necessary structs and constants from include/uapi/linux/usb/ch9.h as
-   a new ch9 submodule.
-
-2. Interface and endpoint abstractions - Wraps the relevant C structs
-   and functions defined in include/linux/usb.h, allowing drivers to
-   safely query and configure interfaces and their endpoints.
-
-3. USB Request Block (URB) abstractions - Creates a safe wrapper around
-   the C `struct urb` to allow Rust drivers to communicate with devices.
-
-4. An initial user of the new abstractions - A driver for the GV-USB2
-   composite-usb video capture device.
-
-Patch 3 is the bulk and core of this series. By their asynchronous
-nature, creating a safe URB abstraction for drivers to use is tricky.
-The goals of the URB abstraction are:
-
-1. No `unsafe` needed in driver code. This means providing a way for a
-   driver to safely access private data sent with the URB.
-2. Drivers are forced to handle the URB status in their completion
-   callback before accessing the URB data.
-3. Dropping an URB ensures it is not in-flight and frees its resources.
-4. The URB can be safely resubmitted from the completion callback.
-
-The patch elaborates on how these goals are achieved in more detail.
-
-Although the URB abstractions do not include immediate support for bulk
-or interrupt URBs, I believe it creates a foundation conducive to
-future, safe abstractions for them.
-
-Patch 4 is first user of these USB abstractions. The initial
-implementation is very much bare-bones, only exposing audio data via
-debugfs. It is based on the in-tree STK1160 driver and an old,
-out-of-tree driver written by Isaac Lozano [1].
-
-[1] https://github.com/Isaac-Lozano/GV-USB2-Driver
+These are needed by drivers and other USB abstractions (interfaces,
+endpoints, URBs, etc.).
 
 Signed-off-by: Colin Braun <colin.braun.cl@gmail.com>
 ---
-Colin Braun (4):
-      rust: usb: add USB ch9 standard descriptors and constants
-      rust: usb: add usb host interface and endpoint abstractions
-      rust: usb: add urb abstraction with control and isochronous support
-      media: add gv-usb2 audio capture driver
+ rust/kernel/usb.rs     |   2 +
+ rust/kernel/usb/ch9.rs | 295 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 297 insertions(+)
 
- drivers/media/usb/Kconfig            |   1 +
- drivers/media/usb/Makefile           |   1 +
- drivers/media/usb/gv-usb2/Kconfig    |   9 +
- drivers/media/usb/gv-usb2/Makefile   |   1 +
- drivers/media/usb/gv-usb2/driver.rs  | 361 ++++++++++++++
- drivers/media/usb/gv-usb2/gv_usb2.rs |  16 +
- drivers/media/usb/gv-usb2/regs.rs    |  25 +
- include/linux/usb.h                  |   4 +
- rust/kernel/usb.rs                   | 905 ++++++++++++++++++++++++++++++++++-
- rust/kernel/usb/ch9.rs               | 295 ++++++++++++
- 10 files changed, 1613 insertions(+), 5 deletions(-)
----
-base-commit: 30e873dd61b044092dbc657c7c67a5d19adfd933
-change-id: 20260712-urb-abstraction-v1-020a67f16cff
+diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
+index 7aff0c82d0af..3ae9c05cd32a 100644
+--- a/rust/kernel/usb.rs
++++ b/rust/kernel/usb.rs
+@@ -31,6 +31,8 @@
+     ptr::NonNull,
+ };
+ 
++pub mod ch9;
++
+ /// An adapter for the registration of USB drivers.
+ pub struct Adapter<T: Driver>(T);
+ 
+diff --git a/rust/kernel/usb/ch9.rs b/rust/kernel/usb/ch9.rs
+new file mode 100644
+index 000000000000..f451b7273731
+--- /dev/null
++++ b/rust/kernel/usb/ch9.rs
+@@ -0,0 +1,295 @@
++// SPDX-License-Identifier: GPL-2.0
++
++//! Abstractions for USB chapter 9.
++//!
++//! C header: [`include/linux/usb/ch9.h`](srctree/include/linux/usb/ch9.h)
++
++use crate::fmt;
++
++/// USB interface class code.
++#[derive(Debug, Clone, Copy, PartialEq, Eq)]
++#[repr(transparent)]
++pub struct InterfaceClass(u8);
++
++impl InterfaceClass {
++    /// Create an [`InterfaceClass`] from a raw `u8` class code.
++    pub const fn from_raw(class: u8) -> Self {
++        Self(class)
++    }
++
++    /// Get the raw `u8` class code value.
++    pub const fn as_raw(self) -> u8 {
++        self.0
++    }
++}
++
++macro_rules! define_all_usb_classes {
++    (
++        $($variant:ident = $binding:expr,)+
++    ) => {
++        impl InterfaceClass {
++            $(
++                #[allow(missing_docs)]
++                pub const $variant: Self = Self($binding as u8);
++            )+
++        }
++
++        impl fmt::Display for InterfaceClass {
++            fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
++                match self {
++                    $(
++                        &Self::$variant => write!(f, stringify!($variant)),
++                    )+
++                    _ => <Self as fmt::Debug>::fmt(self, f),
++                }
++            }
++        }
++    };
++}
++
++define_all_usb_classes! {
++    PER_INTERFACE           = bindings::USB_CLASS_PER_INTERFACE,
++    AUDIO                   = bindings::USB_CLASS_AUDIO,
++    COMM                    = bindings::USB_CLASS_COMM,
++    HID                     = bindings::USB_CLASS_HID,
++    PHYSICAL                = bindings::USB_CLASS_PHYSICAL,
++    STILL_IMAGE             = bindings::USB_CLASS_STILL_IMAGE,
++    PRINTER                 = bindings::USB_CLASS_PRINTER,
++    MASS_STORAGE            = bindings::USB_CLASS_MASS_STORAGE,
++    HUB                     = bindings::USB_CLASS_HUB,
++    CDC_DATA                = bindings::USB_CLASS_CDC_DATA,
++    CSCID                   = bindings::USB_CLASS_CSCID,
++    CONTENT_SEC             = bindings::USB_CLASS_CONTENT_SEC,
++    VIDEO                   = bindings::USB_CLASS_VIDEO,
++    WIRELESS_CONTROLLER     = bindings::USB_CLASS_WIRELESS_CONTROLLER,
++    PERSONAL_HEALTHCARE     = bindings::USB_CLASS_PERSONAL_HEALTHCARE,
++    AUDIO_VIDEO             = bindings::USB_CLASS_AUDIO_VIDEO,
++    BILLBOARD               = bindings::USB_CLASS_BILLBOARD,
++    USB_TYPE_C_BRIDGE       = bindings::USB_CLASS_USB_TYPE_C_BRIDGE,
++    MCTP                    = bindings::USB_CLASS_MCTP,
++    MISC                    = bindings::USB_CLASS_MISC,
++    APP_SPEC                = bindings::USB_CLASS_APP_SPEC,
++    VENDOR_SPEC             = bindings::USB_CLASS_VENDOR_SPEC,
++}
++
++/// USB interface descriptor.
++///
++/// Wraps the C `struct usb_interface_descriptor` defined in
++/// `include/uapi/linux/usb/ch9.h`. Corresponds to USB 2.0 spec §9.6.5,
++/// table 9-12.
++#[repr(transparent)]
++pub struct InterfaceDescriptor(bindings::usb_interface_descriptor);
++
++impl InterfaceDescriptor {
++    /// Returns the size of this descriptor in bytes.
++    #[allow(non_snake_case)]
++    pub fn bLength(&self) -> u8 {
++        self.0.bLength
++    }
++
++    /// Returns the descriptor type (`USB_DT_INTERFACE`).
++    #[allow(non_snake_case)]
++    pub fn bDescriptorType(&self) -> u8 {
++        self.0.bDescriptorType
++    }
++
++    /// Returns the interface number (zero-based).
++    #[allow(non_snake_case)]
++    pub fn bInterfaceNumber(&self) -> u8 {
++        self.0.bInterfaceNumber
++    }
++
++    /// Returns the alternate setting number.
++    #[allow(non_snake_case)]
++    pub fn bAlternateSetting(&self) -> u8 {
++        self.0.bAlternateSetting
++    }
++
++    /// Returns the number of endpoints used by this interface (excluding
++    /// the default control endpoint).
++    #[allow(non_snake_case)]
++    pub fn bNumEndpoints(&self) -> u8 {
++        self.0.bNumEndpoints
++    }
++
++    /// Returns the interface class code.
++    #[allow(non_snake_case)]
++    pub fn bInterfaceClass(&self) -> InterfaceClass {
++        InterfaceClass(self.0.bInterfaceClass)
++    }
++
++    /// Returns the interface subclass code.
++    #[allow(non_snake_case)]
++    pub fn bInterfaceSubClass(&self) -> u8 {
++        self.0.bInterfaceSubClass
++    }
++
++    /// Returns the interface protocol code.
++    #[allow(non_snake_case)]
++    pub fn bInterfaceProtocol(&self) -> u8 {
++        self.0.bInterfaceProtocol
++    }
++
++    /// Returns the index of the string descriptor describing this
++    /// interface.
++    #[allow(non_snake_case)]
++    pub fn iInterface(&self) -> u8 {
++        self.0.iInterface
++    }
++}
++
++/// USB endpoint descriptor.
++///
++/// Wraps the C `struct usb_endpoint_descriptor` defined in
++/// `include/uapi/linux/usb/ch9.h`. Corresponds to USB 2.0 spec §9.6.6,
++/// table 9-13.
++#[repr(transparent)]
++pub struct EndpointDescriptor(bindings::usb_endpoint_descriptor);
++
++impl EndpointDescriptor {
++    /// Returns the endpoint address (direction + endpoint number).
++    #[allow(non_snake_case)]
++    pub fn bEndpointAddress(&self) -> u8 {
++        self.0.bEndpointAddress
++    }
++
++    /// Returns the endpoint attributes (transfer type).
++    #[allow(non_snake_case)]
++    pub fn bmAttributes(&self) -> u8 {
++        self.0.bmAttributes
++    }
++
++    /// Returns the maximum packet size for this endpoint.
++    #[allow(non_snake_case)]
++    pub fn wMaxPacketSize(&self) -> u16 {
++        self.0.wMaxPacketSize
++    }
++
++    /// Returns the interval for isochronous/interrupt endpoints.
++    #[allow(non_snake_case)]
++    pub fn bInterval(&self) -> u8 {
++        self.0.bInterval
++    }
++}
++
++/// USB control request (SETUP packet).
++///
++/// Wraps the C `struct usb_ctrlrequest` defined in
++/// `include/uapi/linux/usb/ch9.h`. Corresponds to USB 2.0 spec §9.3,
++/// table 9-2.
++#[repr(transparent)]
++pub struct CtrlRequest(bindings::usb_ctrlrequest);
++
++impl CtrlRequest {
++    /// Creates a new control request from its constituent fields.
++    pub const fn new(
++        requesttype: RequestType,
++        request: u8,
++        value: u16,
++        index: u16,
++        length: u16,
++    ) -> Self {
++        Self(bindings::usb_ctrlrequest {
++            bRequestType: requesttype.0,
++            bRequest: request,
++            wValue: value.to_le(),
++            wIndex: index.to_le(),
++            wLength: length.to_le(),
++        })
++    }
++
++    /// Returns the data-transfer direction encoded in the setup packet.
++    pub fn direction(&self) -> Direction {
++        if self.requesttype() & Direction::In as u8 == 0 {
++            Direction::Out
++        } else {
++            Direction::In
++        }
++    }
++
++    /// Returns the `bRequestType` field.
++    pub fn requesttype(&self) -> u8 {
++        self.0.bRequestType
++    }
++
++    /// Returns the `bRequest` field.
++    pub fn request(&self) -> u8 {
++        self.0.bRequest
++    }
++
++    /// Returns the `wValue` field (native endian).
++    pub fn value(&self) -> u16 {
++        u16::from_le(self.0.wValue)
++    }
++
++    /// Returns the `wIndex` field (native endian).
++    pub fn index(&self) -> u16 {
++        u16::from_le(self.0.wIndex)
++    }
++
++    /// Returns the `wLength` field (native endian).
++    pub fn length(&self) -> u16 {
++        u16::from_le(self.0.wLength)
++    }
++}
++
++/// USB data transfer direction for a control request.
++///
++/// Used in the `bRequestType` field of a SETUP packet
++/// (USB 2.0 spec §9.3, table 9-2).
++#[derive(Debug, Clone, Copy, PartialEq, Eq)]
++#[repr(u8)]
++pub enum Direction {
++    /// Host-to-device.
++    Out = bindings::USB_DIR_OUT as u8,
++    /// Device-to-host.
++    In = bindings::USB_DIR_IN as u8,
++}
++
++/// USB request type for a control request.
++///
++/// Used in the `bmRequestType` field of a SETUP packet to distinguish
++/// standard, class, and vendor-specific requests.
++#[derive(Debug, Clone, Copy, PartialEq, Eq)]
++#[repr(u8)]
++pub enum Type {
++    /// Standard request defined by the USB specification.
++    Standard = bindings::USB_TYPE_STANDARD as u8,
++    /// Class-specific request defined by a USB class specification.
++    Class = bindings::USB_TYPE_CLASS as u8,
++    /// Vendor-specific request.
++    Vendor = bindings::USB_TYPE_VENDOR as u8,
++    /// Reserved for future use.
++    Reserved = bindings::USB_TYPE_RESERVED as u8,
++}
++
++/// USB setup packet request type (`bmRequestType`).
++///
++/// Encodes the direction, type, and recipient of a control request.
++pub struct RequestType(u8);
++
++/// USB request recipient for a control request.
++///
++/// Used in the `bmRequestType` field of a SETUP packet.
++#[derive(Debug, Clone, Copy, PartialEq, Eq)]
++#[repr(u8)]
++pub enum Recipient {
++    /// Recipient is the device.
++    Device = bindings::USB_RECIP_DEVICE as u8,
++    /// Recipient is an interface.
++    Interface = bindings::USB_RECIP_INTERFACE as u8,
++    /// Recipient is an endpoint.
++    Endpoint = bindings::USB_RECIP_ENDPOINT as u8,
++    /// None of the above.
++    Other = bindings::USB_RECIP_OTHER as u8,
++}
++
++impl RequestType {
++    /// Creates a [`RequestType`] from a direction, type, and recipient.
++    ///
++    /// The three fields are packed into a single `u8` per the USB
++    /// specification (USB 2.0 spec §9.3, table 9-2).
++    pub const fn new(dir: Direction, r#type: Type, recipient: Recipient) -> Self {
++        Self(dir as u8 | r#type as u8 | recipient as u8)
++    }
++}
 
-Best regards,
---  
-Colin Braun <colin.braun.cl@gmail.com>
+-- 
+2.54.0
 
