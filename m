@@ -1,129 +1,140 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23ED93ECBD2
-	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 11:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783943243; cv=none; b=Yw5K89/dDEW8dDow5FHTjo0IEI9iDoudvhUJA2n6bzGFWQfBMPhbdoPPq7X7ri7K59Cns/m1NtaT4XGlBm8Ndo9O783dD6/BN7wej7zWXIVOmvBs7r/4VS7I/PETZCA6jHrHjM0eBkWpXhGXxoMc8+iJvYvfgFnlpbBV80l1LSo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783943243; c=relaxed/simple;
-	bh=2PYYlcQqLMp9ZyJlbZOu82v9vXV7Vz57pJlWzajpaQA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EYzxzlquv85+mCsawf2M1MRqLcn73Bjh/qSU7qcxrrdwhlEk5mP1Cr/Y30Np4T/nrNsPpYbOU/cjEtPrOLTDRtFePsriakjveF6GxF+CPIoI6U7xvi9yByGE6uzXS5+W+ZUah2pVftCjLIJN25gXcOP5qotWzHfqpkdAWFHmNJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OnV4iBuD; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D77C3EF0A0
+	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 11:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783943330; cv=pass; b=kU/jmWvvYVZoBvYDw3OW0eOLhdLuE6+jrP+/sMWvUEDTo2XieBQGl2LkiLp5RGWZMc3SbM8sYiZ3Wk4MMqPmAf5hXKogJ/K3qlJpvrHK4DzNYbTQmstTeMkVi2LH17L3BWHj+Qk4HH2RYwYy2uSs7t22YTBxNmyxaGREawlv3lI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783943330; c=relaxed/simple;
+	bh=1injv9Rl4NBM+B+HS0THOHMdNObE2wuHjPT90v0vu7M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=peJL8ATVVl1sfaAbxJk69zRUya0k1QHmRoNPoZ6dyDmsKBaiDMd3MgkBhlFabQFIpvyFmpN3tOdUV8bQckUq8gP7Vb0g/h0g0RjGw9BC0Jf7DtYb/QEcRtdwSZcRs/pYxf8mazv8kcfr39D32RHwKUUyf7D+2qU03E97AMo1rdo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JkNn7rPf; arc=pass smtp.client-ip=74.125.224.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OnV4iBuD"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so32977645ad.1
-        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 04:47:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JkNn7rPf"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-66493875766so5012867d50.0
+        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 04:48:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783943319; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sDP31ZymZs2P5oVFPyZ2KB4dXZl4mIZO9HQeJZ+VWOUpUKaw9cSVRNkVX10gzHBeLF
+         29ePOkwiB5PBYTsIYWe9bUjCZzgRaUGHPsQmbZOz0DMbPyfjrxL9rASln8s5RMS653JD
+         4JKAsh3Ti3xgwsKJxoSMeJvZW9fFKXucYPYt3hJRb0ng5sfCc1TYoUBRXNoGEALdmRHf
+         s4KBCWLPnRRKDk0vZX8dEJfdRRg1MaqqXO66v/RyOjsI9mBfbxBsEx5BOecComZGSztn
+         oZcz4qfjnm5M+9wW6777kRwk33DpgV3EEYkF07wv7Q+CNhWKRHrEQLYGmehhRtOzFhQ3
+         BBLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=mEG+/O0PcIT4+oFeruk11rdD0Dcqs/l4Kgd6A6lmTpE=;
+        fh=tU1aIqh6kpShQrfcqeZXaDG9N9huAr6Bc7UNDE8+vZg=;
+        b=hkNUv7vxT8GBD4nBx1ElctSmjMmY/kCxuhLACsTTcFjVIauN023HD5CvVfjSrOJkyR
+         UY8kCXWETANoHh+3riIe7QkMr2XqYfzEjqiDa64jSwefzpe+R3B1V3l0TzVaH0o/BCst
+         WFRNyOVhrc95xCFOiiMwAM2f/aHgttsEwwTQVPe+tIgQgOKXY1YbIPLXzOKH5fvCblI2
+         nbv3tFLqPFfvXS5XwvZsy/ibfXCg1h0v9nr2Zychwxk2dERMZYpF04f2nK8/iEoaytBy
+         GlKDS4ETU+eTlkOCMPp1FQrLvvH/SpxAPnVsSb8F5PQxWoLQAuospRObKqvjKRiKR2+y
+         MQkA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783943242; x=1784548042; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gUfgeiYLj2n8Lc+2ZjQf7Ijb1oRUUAQYlVMDWkCBke4=;
-        b=OnV4iBuD6vqmyda6BKuAYbiz5O3cYerXGCh4v4RcNbhkOmIGOPY32Oc5pWhQVfAozI
-         EPzb3IOxP+7n9QgTgTt+6xt6XgaQAMjcaqezxGIwcE2RGQ3hrHuUTMCM8wiLoajgDKOn
-         /BKWCJrEAmCTv0rt/4GghFbz4jy3NMc3fPmeSPSFJ2kWCCRxQFuDSvHTAC7Tig3KV5/X
-         vjHkrQ6SdXzrz1wm7k4myX+mVkwRErqi4mdiRSj4c2l9PEO2nt6w/dEiOhSBhtaUGYdg
-         4GQePgOP5u4nl1y3AiGkk+i9ouHSrPO1skwSv7M20sn3yhg/ew102pSCfoA73fpQnXxM
-         PV8w==
+        d=gmail.com; s=20251104; t=1783943319; x=1784548119; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mEG+/O0PcIT4+oFeruk11rdD0Dcqs/l4Kgd6A6lmTpE=;
+        b=JkNn7rPfgPxTCW4E0iUBIdWrmz6QeOs6vsYk12goTq3d3i3/LR9C0knwtDA47SrqGx
+         d4fPq0UGpkoJvj/14VcrZnwmHXho3zXJ/iO8arbj3cNS1AiF3XZgn5pkA0oQktPSAXnM
+         LVn2PElwu4PMid9JWd9y8CCJbBuAJ9jwgj1Denci6vgPv8qJ/jcw6CBAHClgvRHLMmwX
+         GIsBCNcgMj3nPrU7KuEiksSxOorpTTqxfWXpalXDCWA6IAupJPaiWNClQdnO5mJ1xCcz
+         Ms9ppJ++C4GnAw26EliPrsozhir2/9YpsGhphQyOSJSTucDOhSG3m1JRRuZUhcbujur3
+         dyoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783943242; x=1784548042;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gUfgeiYLj2n8Lc+2ZjQf7Ijb1oRUUAQYlVMDWkCBke4=;
-        b=NKLp+6t3eDT+LSt4IIlWomZpZb1kGOzh1Up1qryKwfbbMFLIp2HC7uzphthPrumtPV
-         A+uPyT2scX+kPRwk5rEO1RDEzxJaXHdEsBJ11eIBl8KqT3WtMZJUDIN8E6zWeB/aLDCy
-         mx4favBFUqbGPKvuoCX+Zcmy3b6O6lzZjNwQ2m3owL/wWoy+PEMh7YPrXIW9FN/uMcA4
-         DhZBTJrTqMzV7j7WZX6D0ZHpCEYcTh/rORuY1VMdGKEMQ8BT0K5M6DSsRn6YKFwJDHAf
-         gMcpGcAUznYmaDGhzx6PrKVMVDrruzCUi0SLoZ52v19AoOpJv3eUc7Ss2XWlYpvhltmZ
-         uwTw==
-X-Forwarded-Encrypted: i=1; AHgh+Rqhuk7gOfWhb1YHPNfRUoBQiT0Kqtrlx8QyDwnZ5rnLOJWA9VIJ776QOa6DKgwRWKMgcpU4M4gvyoM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdKUaiDOz36otbPiheVw7jZOcmaNi6cnJdzHuWUUaiAEPSjkfV
-	HCtoW5hJ33FmucPW21WSkPJ+MgVyqP3C4eSym4ufnJtGQjAa3bEnrOa7
-X-Gm-Gg: AfdE7cmETLS1RxjOu/bCSOtyhDiIlnFk7t9fyCsxXxNqSGAmiQXbrSU01OwzO+HECpg
-	UQPB+H1tU+tEsZPCTrutqlt2V51oXeok8iiWkRANSD5U5wB8rip8cdrXqlWiPlB80Kvu15bGTMh
-	skGoku5DO8a+fRfn+gGXd7Qm+1f2N10L4cahrGTKQzpYxp6zUrFLXXNgx2KRqxbMf6AZPbQG6YW
-	QfmbsqsnEAXswNFZwHjlrdaVx0ug/RW65xc0FXBcsA/7BsZgHFBuGT9QkkztIitAEx1HezjSOkX
-	TXhdj13HzIoUfUsQ39xcL8Mi84vsu20cSdPMAqrVZh7ZouRSsksx4zn0/dltuTnJ89S0IaEuheY
-	aZFhmkbm+408S3Lg4HQy2H+FhUVRyCNI6tmBDd6jnumtNijv4+7lK2twRnX+CsEv4zgRpqXncJN
-	Rrkm6+eG23uw==
-X-Received: by 2002:a17:903:2a88:b0:2cc:6018:f030 with SMTP id d9443c01a7336-2ce9e9b2507mr83806345ad.14.1783943241572;
-        Mon, 13 Jul 2026 04:47:21 -0700 (PDT)
-Received: from lgs.. ([101.76.249.46])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc99cc5aasm98328125ad.0.2026.07.13.04.47.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 04:47:21 -0700 (PDT)
-From: Guangshuo Li <lgs201920130244@gmail.com>
-To: Bin Liu <b-liu@ti.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tony Lindgren <tony@atomide.com>,
-	linux-usb@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Guangshuo Li <lgs201920130244@gmail.com>,
-	stable@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>
-Subject: [PATCH v2] usb: musb: omap2430: Do not put borrowed of_node in probe
-Date: Mon, 13 Jul 2026 19:47:11 +0800
-Message-ID: <20260713114711.955253-1-lgs201920130244@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1783943319; x=1784548119;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=mEG+/O0PcIT4+oFeruk11rdD0Dcqs/l4Kgd6A6lmTpE=;
+        b=YZQrKpCurIhB/eWF+vZrCRdSm9qUoFqiLf0EwTgF0AoRHLs0r2w5Fobvc8RuAnmbC3
+         5a+PKPg5nLe2iE+/h0yHoBuc6Q5V2yds1QuY6gOu2j5e9BBcg9usY8qepkqkJVO8GKHA
+         X2AqdJmwZ3o8VoRbKJG7yMSp2Jpjwv5yQqiSjKxpv6mE4N7qtMYN0EgSREITummkC4O0
+         gXHCs0qdQJlGqZdsNDJeZqRl8lo3WQiRIxAcFu22WqKN3JR9r5W9ND4FXBGLFZTYfyeD
+         WLpqEoYfgjcXCooB2mPWXuvP6ls4Zxrbq1hRaSvebF2c/EUdxOswRclhX5Vs7g9sowC3
+         1wVg==
+X-Forwarded-Encrypted: i=1; AHgh+RocnSB13b00aQPFhKgldUEIRqgCld+/Qk4yzAlHJgwih9A4X3u6TprZ+uvPN41VIJx6ktOpIU2vUDY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSutXmuiA54HIA7BIwOJX4BNxzlwPQxanLE1Idjiu0iNCVmYF0
+	SfiVz9UIxYazz9k7szgjcxAFtqLOnMwvk5LOfZThYcgRptQCWLfOWzIbagD17ZBkX9+AET9Usst
+	cPAntqnYx5G9/76npS5iudSGtmPBRXcY=
+X-Gm-Gg: AfdE7cn35puPGGRamdf9qrbX5AaQpN09o3FscLz/sZU22ODtmqkKgBlgZHIZSO3MnQ4
+	nSGjz0HNWS7UAzxN+LrE9UoLj7pEw/e/OmkvlLzK4mgxDzm71LTKnCJpelTTQlvRgubEqAYybfy
+	AhidgGRy6hq4ZA+wIddB3XoE7YvmOmCFSbTCUUB2jP9kSXs0ppGBKMPr4a2Az9FouAWDtVsirZc
+	yBwkCG4qe6y9kLM4tdeiCE7zHne1Sfj1NwNhW2m7fFgiJZrU1aV53WemXCaI7WTT2YUFonaLUgD
+	5c9a84kVnQ==
+X-Received: by 2002:a05:690e:4144:b0:667:e3b3:264b with SMTP id
+ 956f58d0204a3-667e3b35f5emr4355142d50.40.1783943319427; Mon, 13 Jul 2026
+ 04:48:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260705091411.282560-1-lgs201920130244@gmail.com> <aktUJSxhLBtlWoFF@hovoldconsulting.com>
+In-Reply-To: <aktUJSxhLBtlWoFF@hovoldconsulting.com>
+From: Guangshuo Li <lgs201920130244@gmail.com>
+Date: Mon, 13 Jul 2026 19:48:27 +0800
+X-Gm-Features: AVVi8CdjFXPB-eUHcBXigPqZjUktfJXA8GDMtbaIq76RLFAQWKb9JIcqJBuLKuA
+Message-ID: <CANUHTR9dRbRcAA4fB+uTZVWwzr3T8S5cg2x838D7t5j7yL0g6A@mail.gmail.com>
+Subject: Re: [PATCH] usb: musb: omap2430: Do not put borrowed of_node in probe
+To: Johan Hovold <johan@kernel.org>
+Cc: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Wentao Liang <vulab@iscas.ac.cn>, linux-usb@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-omap2430_probe() stores pdev->dev.of_node in a local np variable. This is
-a borrowed pointer and the probe function does not take a reference to
-it.
+Hi Johan,
 
-The success and error paths nevertheless call of_node_put(np). This drops
-a reference that is owned by the platform device, and can leave
-pdev->dev.of_node with an unbalanced reference count.
+Thanks for the correction and review.
 
-Do not put the borrowed platform device node from omap2430_probe().
-References taken for the child MUSB device are handled by the device core,
-and the ctrl-module phandle reference is still released separately.
+On Mon, 6 Jul 2026 at 15:07, Johan Hovold <johan@kernel.org> wrote:
+>
+> On Sun, Jul 05, 2026 at 05:14:11PM +0800, Guangshuo Li wrote:
+> > omap2430_probe() stores pdev->dev.of_node in a local np variable. This is
+> > a borrowed pointer and the probe function does not take a reference to
+> > it.
+> >
+> > The success and error paths nevertheless call of_node_put(np). This drops
+> > a reference that is owned by the platform device, and can leave
+> > pdev->dev.of_node with an unbalanced reference count.
+> >
+> > Do not put the borrowed platform device node from omap2430_probe().
+> > References taken for the child MUSB device are handled by the device core,
+> > and the ctrl-module phandle reference is still released separately.
+> >
+> > Fixes: e194ce048f5a ("usb: musb: omap2430: Fix use-after-free in omap2430_probe()")
+>
+> This was not the commit that introduced the issue. This should be:
+>
+> Fixes: ffbe2feac59b ("usb: musb: omap2430: Fix probe regression for missing resources")
+>
+> and this should be backported to stable as well:
+>
+> Cc: stable@vger.kernel.org
+>
+> > Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+>
+> And again, how are you finding these issues? Still no LLM involved?
+>
+> With the above fixed:
+>
+> Reviewed-by: Johan Hovold <johan@kernel.org>
+>
+> Johan
 
-Fixes: ffbe2feac59b ("usb: musb: omap2430: Fix probe regression for missing resources")
-Cc: stable@vger.kernel.org
-Reviewed-by: Johan Hovold <johan@kernel.org>
-Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
----
-v2:
-  - Correct the Fixes tag.
-  - Add Cc stable.
-  - Add Reviewed-by tag from Johan Hovold.
-  - No code changes.
+I will fix the Fixes tag and add the stable Cc in v2.  And I found
+this issue through manual code auditing.
 
- drivers/usb/musb/omap2430.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/usb/musb/omap2430.c b/drivers/usb/musb/omap2430.c
-index 333ab79f0ca9..6e749faac33c 100644
---- a/drivers/usb/musb/omap2430.c
-+++ b/drivers/usb/musb/omap2430.c
-@@ -454,7 +454,6 @@ static int omap2430_probe(struct platform_device *pdev)
- 		dev_err(&pdev->dev, "failed to register musb device\n");
- 		goto err_disable_rpm;
- 	}
--	of_node_put(np);
- 
- 	return 0;
- 
-@@ -464,7 +463,6 @@ static int omap2430_probe(struct platform_device *pdev)
- 	if (!IS_ERR(glue->control_otghs))
- 		put_device(glue->control_otghs);
- err_put_musb:
--	of_node_put(np);
- 	platform_device_put(musb);
- 
- 	return ret;
--- 
-2.43.0
-
+Thanks,
+Guangshuo
