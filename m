@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873642DC32C;
-	Mon, 13 Jul 2026 07:29:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD3478F3A;
+	Mon, 13 Jul 2026 07:52:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783927748; cv=none; b=lIWsCghrDQ/OrNKLvYk0/lKFp1ujjNQu+ErDdrVdL5bV+AKgZ9tRwogO5kE3KV0K29j2Vkt5tYZXpY09bKCwVLOtu4VdPI4vhEGxoLxKxc+Ai+SKzoD3h10nx1g6lUwndobPAS0kXj5cVrMuBqpaWmfRW5qLQia1w3KX93pivCk=
+	t=1783929121; cv=none; b=qturnTuRHMQLqTJwfZMsNkfcYw+tzAYdRG0EDQndnNg+irXr0i7VdnIKoDHBZ2KRwKQzSsCXF0pLyf1GGVyApCQ6oZqdME1lPdaK+YfWckqkAiqWv+UT3aAE+2os+ICrQSInT76Dqj1dX+Ko5elLoP59aYiiUK2+s34GyhJth/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783927748; c=relaxed/simple;
-	bh=QZryj75baiRfBnWWWhy/q/bDFrIOd6fvuO2IJHZefNI=;
+	s=arc-20240116; t=1783929121; c=relaxed/simple;
+	bh=N5UgyXYij1BjJXL8F2sLcW5rO/6DFfwZK6soBWzpi2g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=imb5tLhnSGztUO95xMP8nZ7HQOJZMhHYA1ySLMfvrgueLbez2E9KzFaGbP3BEyiK1Zg7m/o6a/GmP8wnuakj1WRtPyOlDd5UHx8d/1FA9kOwhbx0AASPxAcQtHvBKRXhqhiH70RK135Tz6JP4HEWSqGvSLsDMqVQKoTL61a4rJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WSNCksPf; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=avZtohD+9rk3fMwQFUymT2P9WUN1+kYiELTwC08K+R8pK9XpBmUxkdBH18EIDomYKq1fud4mRsWsV073F60MMrBVy8uc5gKNiksK3jwdIMpwO7KT9Q+/5MBV1yQ6I6hCQvKrImVge8Y8+LxifooO+ZbSw35uvX1uRlPb2Dp/BZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fun0OeHf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WSNCksPf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 338851F000E9;
-	Mon, 13 Jul 2026 07:29:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fun0OeHf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 934381F000E9;
+	Mon, 13 Jul 2026 07:51:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783927747;
-	bh=q1A9eF+k7sM0DhedSIhGHmF2na9e3afM7t2StqoDgjg=;
+	s=k20260515; t=1783929120;
+	bh=td12MSWMVfirqIyWvoYyv4DJRQWRMElWGYTnstghCDc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WSNCksPffc72LeGiYWYJ5h8jlyuGi28/AgqtGJaxw/JzVRYkwsZhGyThTKq2xvLf2
-	 II7+wxPobG9kNz/f1vVReib1wFu0Jfj2lXkZXgg+MLu7F01ZNjsmjuPDHHWJus+2qa
-	 d0/SFBh6nxnOfSU/Ahitextzxyad1fOI/Edwq0PZyjB6nhH/5H/6S2Axme1vahGgIu
-	 VYvinLy99dbhvnUEEDVHJXpN9uLGWDORShVyo+kqK25IO8VpguDBEvxrpnOLJv8v80
-	 2OLlI0wyycsD5YCuFmNJXox3Ytk/gpdQnmCAUnNGtm9SUesQAG+uAKNvs257yP2x+O
-	 Rm5H0WU3o8I+Q==
-Date: Mon, 13 Jul 2026 09:29:03 +0200
+	b=Fun0OeHfrNcP0OhxCb0ccs3/D8FZ0diYxfPQAoLINaQvby5ffHo2dO2d7JFwOTdxU
+	 GxEysQ2E7kG1cCoovuYHgagr0Wx6JxTJio1wn4XsrCXZ2/HZiQlgWg7ni/QIIt36uq
+	 CAv1rlEUz3Fx7mBYXZDvXDT8vhvbcH5BiysNwY2X8lCSv5f+tC79SQNbERSw7d8oSa
+	 LAv+pEfoLvI7mQdkX5c1lZLAWRImqeZ0OvH9Dkx1Y7HQt8hREPiPnPQGOd9Cao7i39
+	 Fj1ZkgZDmKXINPUKhbCVu0x7ldFnF0YItcxmBr5llUiBie0y3XFpgx+c9tG/PnrEDg
+	 2ZmHAvefG6KiQ==
+Date: Mon, 13 Jul 2026 09:51:56 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Frank.Li@oss.nxp.com
-Cc: Peter Chen <peter.chen@kernel.org>, 
-	Pawel Laszczak <pawell@cadence.com>, Roger Quadros <rogerq@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"open list:CADENCE USB3 DRD IP DRIVER" <linux-usb@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev, 
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH 1/1] dt-bindings: usb: cdns3: allow iommus property
-Message-ID: <20260713-chubby-honeybee-of-excitement-1af4a0@quoll>
-References: <20260709205331.636449-1-Frank.Li@oss.nxp.com>
+To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-binding: qcom,snps-dwc3: Add Maili compatible to
+ supported device list
+Message-ID: <20260713-adaptable-tough-seal-902a80@quoll>
+References: <20260712-maili-usb-dwc3-binding-v1-1-fd6697fa1e21@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,17 +46,18 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260709205331.636449-1-Frank.Li@oss.nxp.com>
+In-Reply-To: <20260712-maili-usb-dwc3-binding-v1-1-fd6697fa1e21@oss.qualcomm.com>
 
-On Thu, Jul 09, 2026 at 04:53:30PM -0400, Frank.Li@oss.nxp.com wrote:
-> From: Frank Li <Frank.Li@nxp.com>
+On Sun, Jul 12, 2026 at 11:18:35PM +0530, Krishna Kurapati wrote:
+> Add Maili compatible to supported device list. Maili has one SuperSpeed
+> USB controller.
 > 
-> Some SoC such as i.MX8QM have iommu support. Add optional property iommus.
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 > ---
+>  Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
