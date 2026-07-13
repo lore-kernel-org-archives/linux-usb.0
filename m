@@ -1,127 +1,170 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C9C3B52E4
-	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 08:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391483B95E3;
+	Mon, 13 Jul 2026 08:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783931676; cv=none; b=gTsRWb6ic00/hL7pfIjH+37TtuTK5eNrzZ8gyWWcKsQfYzfx7cj0YvTNuXcq245Xs9XwhcSnkFETVS3EMGxqAysgTYNu9gn2wIPwxIDyidPsUgA5AiukPpcDbDPul05pFMP+5lCC4M0qxoDm4MaH+49ARZyfrFdhJrQKsA/yBTI=
+	t=1783931924; cv=none; b=Wu4By6c8gx6TNGA/4zb1gr0R1tHXq4+f6JUQrorRXrX0uN0c4bLKhCvQ7WDaevpHIOdN7WJ+DYH9agTc2ro80zZ2KPjR26Y1k+gi19bNkgVCff0vOqwPLep2G0cwR+WFs5cwqXGnKxds8toVsYzGn4+VTIdWb2Tt6ZvN/LOnojo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783931676; c=relaxed/simple;
-	bh=3jgcZ8o1zrd+LpKWxHjCs1BSQBs4rt/MQMxp0Sktki8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dnbvD4hXCRvnO+Z2+hXPEeXro+z2YQp13OuHjOxHv1MTgVeFOCG4qIdzKzupi2RVq9CTZ4q+o4vCmxYZDQuY5RyZ9UgJ1Wy6xlMvuPJhjJrN9zJ8M2pXS374xK2KQzG2WkYpIpy/loWcONXfzlU5O/OsPp9rEcEpKkyZcDCA2jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g1N7gdG5; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1783931924; c=relaxed/simple;
+	bh=7cG6S9MhJ9zpLCdtXLh+U+02pOf6Oc0GG7FGEZS8UsQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p1gZKmWfvNeh5rrh4Jdi8WOBB1NXxfENCWeGzS9CzC4ia5cVOKWQP6Z06BINv2sZIyy1O4t1YOXJZTaCjI+DqFxrV02yXsJVqzqENDHfqZ/tPKq6bv97sdLOc7eohlopnUYTTSoMOIC7a8fu9DefIMOqVVwStcEKK8GPHStj64I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dc0FA8+i; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g1N7gdG5"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c15bf399d3bso340437066b.2
-        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 01:34:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1783931665; x=1784536465; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rA2cjAX9vtTnvbyes1SFxozVo0D/ypmsrdhxlEKadJ0=;
-        b=g1N7gdG5TO6piVXwgT+v/2SSwDsDtEZFcAgITK9TccgOMvjyWModQhcnSRt2S3ErsT
-         ac+m1sKjhc1gCQhMpyv5p3gKicYVZ8dhFdRzMuZY99m2hqwGWrQCglWllZdBjiJFMsKH
-         r3bJZ89RxZ2ySeWytLcVxZKNzRrEcHqk3ad56gdlhuAqwoPzRxvbkc77SZfX79sBJ3zk
-         uVG+WrHlaVSGNIMlK6mFseSRJCknlfqbO4PE7QLuNs60ufoVykVYYnbKVcJg5dsSap+M
-         cq8gpcs29onVJKXDdjTG5nssyeDIRlPi6C1Lh4/G9lNQSxCNCqRydT0aJ5L6J+fo+fGE
-         TSsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783931665; x=1784536465;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rA2cjAX9vtTnvbyes1SFxozVo0D/ypmsrdhxlEKadJ0=;
-        b=kSCLupP0XXSZoV/q7XjkM3EmXyt0o7FLsc78q7LZ7Vb+7HEzuVZYIU5IgADYtXxy9T
-         1o9EYg9dLdw9jn5E1vp2gYWC5Ttg/NRvg1PwkKS4N2OdjTm8uXv4qVz7QU/1V0fE+n4g
-         e1yR94HTQqAXKYo/TKoL4U7CpzZl8zMbooCewmUnsBNXJgCexXuArlavTXKmmAFDnL5T
-         yiupECD8ZLHAGX/W4ZV90SMYZqy3T9DlxIl2zZ0zuVBl8nxzGEGdJN8U+UJTtcYydt7I
-         Jxv9QrSrYvY/yBCrxkAEwAl+BchECFmqSO3J18lkT6N4cTvybedYfmPiNWFbagdsqBVw
-         wVYg==
-X-Forwarded-Encrypted: i=1; AHgh+Rpu3opdwHdGce7RkSWZ9uO+c6LS4yatdq2/45rlFpVrD97eztcZLi9ePqBTTpOU/cmi2/4x2JxyHXU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLGJLgXOtatf71To1cBB4PWxifBPwryxEeO/WNnj4lkv/b0pbz
-	oqRfmT24C3H+ar+dSCb9BHmLuCiVEAZrcj33b82sZYwvO/OEl93Un7n9nN5CSoJcU24=
-X-Gm-Gg: AfdE7claGwkcVS+5LSETfw5qTrP2dBuLJuIk4CFjKkzgQfX0sNomxsHO5URNbQFyIHn
-	IJRNVN5J0fATzWLmUi+3ncAwhPpHDPNgH9pOkyoEX/5wtT4yWBJa4CrVJ0a1zr8Wd1eKvGGLhvW
-	7lKLakaVJ83jVylPgI2PFYpHXdoKsKiXk1yBt0s12g7anvj7IIdznFbrqy+P8QwAjjHaGz59+ZG
-	4RGGuzK2NDEmyNYq7ekAfFcxTXO9tOTUODqCtGyDEthmfdzhGPYI4KQiLXBHFtOofg5GqdWdCYN
-	E/vd/9nFtnvQivwRlh/dY6Smvlta6QvzzMh5Jx1OcCitCwR6JSV9YaTuNMeBwVTFP5UTxTMGAjt
-	TqedXZXAHlTn5oJCJwJfBGCnW6oVxosL53Qq9pvsU3DUBhrLMLzQiYmJ/GL1tgjsfrru5/Aaolb
-	fRKt9c9huUlZyuBfY0FHVgPT4=
-X-Received: by 2002:a17:907:1c89:b0:c12:a16f:6867 with SMTP id a640c23a62f3a-c161e8b0271mr353954366b.26.1783931664621;
-        Mon, 13 Jul 2026 01:34:24 -0700 (PDT)
-Received: from [192.168.0.101] ([109.77.2.191])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ad82279csm979905366b.13.2026.07.13.01.34.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jul 2026 01:34:24 -0700 (PDT)
-Message-ID: <a205f7ee-7894-4d6d-a752-b10b036b6c36@linaro.org>
-Date: Mon, 13 Jul 2026 09:34:22 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dc0FA8+i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783931921; x=1815467921;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7cG6S9MhJ9zpLCdtXLh+U+02pOf6Oc0GG7FGEZS8UsQ=;
+  b=dc0FA8+i75mos2nVBzr0Pvigx85aSnIBPY4IV5ScHmbK0gcWOvRSTOi9
+   7vFgwvcN04TyjnOSl30/Ad9osXWWnyIkpLEQbVIxtYReMTcLH2W+OElHm
+   CGj0K5MlfPPzlV3eJdWTwuFiQRJelCMYx+0EoMCk0/6J6/uuGO+Nv8tMw
+   rYCnYh4e79FGH7hbo6kjxq+q1iWsDJ/5c5Mc6Y2f5p2Z2aBTcIwSrOi5j
+   d0r9+SJF1na3idCUnxV41iqiUGK2SlYws6zM1mAJTRLxTvYyDtVaNnXLz
+   GBaewYPj7+u+9BenLD0/ClL2sBrWwran49YZDBci8PqrUZIgtFoTGga6Q
+   g==;
+X-CSE-ConnectionGUID: u01NKof1Si2LemS9TuKRWQ==
+X-CSE-MsgGUID: Fk4iecAGQ2qHokt55LPfIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84553774"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="84553774"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 01:38:38 -0700
+X-CSE-ConnectionGUID: EpACcAe2TPKYJlezxOimTw==
+X-CSE-MsgGUID: bmWZIMFjSl6luiVI2oJmqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="285579055"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa002.jf.intel.com with ESMTP; 13 Jul 2026 01:38:37 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 3CD9195; Mon, 13 Jul 2026 10:38:35 +0200 (CEST)
+Date: Mon, 13 Jul 2026 11:38:33 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Xu Yang <xu.yang_2@nxp.com>, Sean Rhodes <sean@starlabs.systems>,
+	Kees Cook <kees@kernel.org>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: core: port: Deattach Type-C connector on component
+ unbind
+Message-ID: <alSkCazrPX8U_9t4@kuha>
+References: <20260611071201.1235545-1-acelan.kao@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: typec: tcpm: qcom: initialize currsrc explicitly
-To: "Alexey V. Vissarionov" <gremlin@altlinux.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Casey Connolly <casey.connolly@linaro.org>, linux-arm-msm@vger.kernel.org,
- linux-usb@vger.kernel.org, lvc-project@linuxtesting.org
-References: <20260713080631.GB1275@altlinux.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-GB
-In-Reply-To: <20260713080631.GB1275@altlinux.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260611071201.1235545-1-acelan.kao@canonical.com>
 
-On 13/07/2026 09:06, Alexey V. Vissarionov wrote:
-> When regmap_read() fails, the execution goes to done: label, where
-> currsrc is passed to rp_sel_to_name() and used as an index after a
-> proper check. However, to make this situation easier to notice, an
-> explicit initialization of currsrc with obviously impossible value
-> is suggested. Alas, we can't simply use zero value here because it
-> means TYPEC_SRC_RP_SEL_80UA.
+On Thu, Jun 11, 2026 at 03:12:01PM +0800, Chia-Lin Kao (AceLan) wrote:
+> connector_unbind() is the mirror of connector_bind(), but it is missing
+> the symmetric call to typec_deattach() that connector_bind() makes via:
 > 
-> Found by ALT Linux Team (altlinux.org) and Linux Verification Center
-> (linuxtesting.org) using SVACE.
+>     if (port_dev->child)
+>         typec_attach(port_dev->connector, &port_dev->child->dev);
 > 
-> Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC Type-C driver")
-> Signed-off-by: Alexey V. Vissarionov <gremlin@altlinux.org>
+> When a Thunderbolt dock is unplugged, two teardown paths race:
+> 
+> 1. The component framework calls connector_unbind() first, which sets
+>    port_dev->connector = NULL without calling typec_deattach().  This
+>    leaves port->usb2_dev/port->usb3_dev in struct typec_port pointing at
+>    the USB device that is about to be freed.
+> 
+> 2. usb_disconnect() then calls typec_deattach(port_dev->connector, ...),
+>    but port_dev->connector is already NULL, so the call is a no-op and
+>    port->usb2_dev is never cleared.
+> 
+> 3. Concurrently, UCSI detects a PD partner-disconnect event and calls
+>    typec_unregister_partner(), which reads port->usb2_dev (now a dangling
+>    pointer to freed memory) and passes it to typec_partner_unlink_device()
+>    -> sysfs_remove_link() -> dev_name() on the freed device, corrupting
+>    the typec/UCSI partner state.
+> 
+> This corruption leaves the Thunderbolt tunnel in an inconsistent state on
+> the next dock hot-plug.  On affected hardware the dock's I225/igc NIC fails
+> to enumerate: AER fires a slot reset while the igc driver is still
+> initialising ("PCIe link lost"), and the subsequent igc_reset attempt hits
+> igc_rd32 on an already-detached device:
+> 
+>     igc 0000:2e:00.0 eth0: PCIe link lost, device now detached
+>     igc: Failed to read reg 0x0!
+>     WARNING: CPU: 9 PID: 129 at drivers/net/ethernet/intel/igc/igc_main.c:7005
+>              igc_rd32+0xa4/0xc0 [igc]
+>     Call Trace:
+>      igc_disable_pcie_master+0x16/0xa0 [igc]
+>      igc_reset_hw_base+0x14/0x170 [igc]
+>      igc_reset+0x63/0x110 [igc]
+>      igc_io_slot_reset+0x9e/0xd0 [igc]
+>      report_slot_reset+0x5d/0xc0
+>      pcie_do_recovery+0x209/0x400
+>      aer_isr_one_error_type+0x235/0x430
+>      aer_isr+0x4e/0x80
+>      irq_thread+0xf4/0x1f0
+> 
+> 4. UCSI later handles the PD partner-disconnect and calls
+>    typec_unregister_partner(), which still sees the stale port->usb2_dev
+>    and tries to remove its sysfs link a second time:
+> 
+>    kernfs: can not remove 'typec', no directory
+>    WARNING: CPU: 6 PID: 55 at fs/kernfs/dir.c:1706 kernfs_remove_by_name_ns+0xe9/0xf0
+>    Workqueue: events ucsi_handle_connector_change [typec_ucsi]
+>    Call Trace:
+>     sysfs_remove_link+0x19/0x50
+>     typec_unregister_partner+0x6e/0x120 [typec]
+>     ucsi_unregister_partner+0x107/0x150 [typec_ucsi]
+>     ucsi_handle_connector_change+0x3ec/0x490 [typec_ucsi]
+>     process_one_work+0x18e/0x3e0
+>     worker_thread+0x2e3/0x420
+>     kthread+0x10a/0x230
+>     ret_from_fork+0x121/0x140
+>     ret_from_fork_asm+0x1a/0x30
+> 
+>    With worse timing the same stale pointer is dereferenced after the
+>    backing memory is freed, turning the warning into a use-after-free.
+> 
+> Fix the asymmetry: call typec_deattach() before clearing
+> port_dev->connector, matching what connector_bind() does on the bind side.
+> typec_partner_deattach() is already protected by port->partner_link_lock,
+> so it serialises safely with the concurrent typec_unregister_partner() path.
+> 
+> Fixes: 11110783f5ea ("usb: Inform the USB Type-C class about enumerated devices")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+
+FWIW:
+
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
 > ---
->   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/usb/core/port.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-> index bf985efe1cd6bea4..d7cb69cf6044841b 100644
-> --- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-> +++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-> @@ -461,8 +461,8 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc_dev *tcpc,
->   	struct pmic_typec *tcpm = tcpc_to_tcpm(tcpc);
->   	struct pmic_typec_port *pmic_typec_port = tcpm->pmic_typec_port;
->   	struct device *dev = pmic_typec_port->dev;
-> -	unsigned int mode, currsrc;
-> -	unsigned int misc;
-> +	unsigned int currsrc = 0xFF; /* error, easy to notice in the log */
-> +	unsigned int mode, misc;
->   	unsigned long flags;
->   	int ret;
->   
+> diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+> index b1364f0c384ce..b4452b665f591 100644
+> --- a/drivers/usb/core/port.c
+> +++ b/drivers/usb/core/port.c
+> @@ -740,6 +740,8 @@ static void connector_unbind(struct device *dev, struct device *connector, void
+>  
+>  	sysfs_remove_link(&connector->kobj, dev_name(dev));
+>  	sysfs_remove_link(&dev->kobj, "connector");
+> +	if (port_dev->child)
+> +		typec_deattach(port_dev->connector, &port_dev->child->dev);
+>  	port_dev->connector = NULL;
+>  }
+>  
+> -- 
+> 2.53.0
 > 
-> 
 
-This patch makes sense but doesn't require a Fixes: tag.
-
-With that changed.
-
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-
----
-bod
+-- 
+heikki
