@@ -1,124 +1,114 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97CF26F29C
-	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 05:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA84E2EEE84
+	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 06:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783921108; cv=none; b=nTsvWmEaMAf75OVL8vrRdgy1KtgPka6E8NayhuveslmWqs8BEL+Anry4sYlftW5tL/K1gEgTZ+gUpYWxziXQ41H2gONfDhIdn0OUG2lwZNGk0gYf5wVnp2SBwRa0aUfxhNeGWKiCCGrb9w/S8IMVNkaKwhltYupzsAYMqmXv09c=
+	t=1783922448; cv=none; b=FDKaHKo4xtBFIVTSzl5uCpI/PYcn+QVIF+5Byhvn+22kgZ8fKpaOfr5GHRyYZLz+CEKEpAohxcGEveGyG6sr+Db2gxtMVaf+cHLek1uPnYhljJ3KbE307u7+U+KADf2IKqeEB6yztAX5MzDLa5WP/XYjpyYJi+PMoKC3+Lfv7xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783921108; c=relaxed/simple;
-	bh=eauprXwXHzSDmMa8lR/3cLb7PNmC7AfAZ0kFs8RPt+E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OQM1V/8vdAhGFTiljBzbeyqLSOUI2JsOiy1Q4kefXqZQlDCG3nczEJfPrabJCIK8H70RGFbG6nY2Myvx843KDCxoxtGRMqGKPEVxe70TprT4shIZOA4PAQNjw8shpFQ3hBk+/wzl0hY6S54ExiFQqAz/9KfHFZG/nSV3QZNkknA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cJbCh6ED; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783922448; c=relaxed/simple;
+	bh=g+a0+7BfCqz6+H+IF2BS65T82QsOsnmjLYw0Sr0IqwY=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FGzr7d5ktgybZRpNr4vkBGyak6UxDTYsm8NKP+rujH9EHtc1DBPglchQYciIAIe66HWKBcuOKhKvfoew9baZfKsjqbbsXcEFvKUybzjycsznr1BoWo95hqZyU2ZBZ5a06XCT2qr2/TZm6ZnLDBG4t43su4lnbA0oyypNy221s3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZRPWH+2w; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cJbCh6ED"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-84864086bfeso2706131b3a.1
-        for <linux-usb@vger.kernel.org>; Sun, 12 Jul 2026 22:38:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783921107; x=1784525907; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ivIVSVi0tei/ccOpIZ9e7O0axGdkjSgdrLeU2t78Aik=;
-        b=cJbCh6EDCQog2mHYuj+NYerBKQFOpfkJs7rLExyfifiER2REhdqaDSJojN5FaLbqrF
-         NhM0oCxw3DGQHMYshUsr6swHS4nzkWJwOjuEBC5O14UWsR56HetcNxd1HVTypIP2fk3n
-         3gljmi5Hw5FRKNutKinPDhz8+SOn1JbYAM8NTvfYl/ZUfYwTWi9oGrE0l9aN96YagqJd
-         JPgcEqkzTJDtD9GG5NOwdZ2R6RTiIfKdHdZC1CTPVncZo8PEsVAS0Yd6kn2IkGSqWfDa
-         //HBmKbBOFMlATU6VN+wpkXPqbx7kUGY351Qh6qYAiUaVO7tN++RT19XZbKcI5VzTKZk
-         HY+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783921107; x=1784525907;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ivIVSVi0tei/ccOpIZ9e7O0axGdkjSgdrLeU2t78Aik=;
-        b=oD8DRajneFqXwKuDuA8KnyBz4GXbL4swFG36dAU4bQCMfHnsIMXKDAWRidm4w6JVLa
-         xquQI3emXu5ideUe42RZWfC03i/tjpeY7/KWCBdgz2eZuTLgCGyAdVbWCGcYBHE4fl+H
-         K46I0Fz0QT+iw9GWPSjtZ9z0b9OKssoYzIbzorI/w4in4gVmoKf7q9dsa1PyaQ/8vPml
-         NjSB1A1QPZPNCOY87OxrlXcYsCPU1aD5Odhg6FK4eROenW36glUDTCRb/6MiwRkpqsGU
-         tTjyGHieOa6Z7Iinig61ng1bGe9enXOpi9O3bwvneDh+ZcBoZchoVSJbDcQCeDId51rj
-         ErfQ==
-X-Gm-Message-State: AOJu0YyC8FED7NnPvcE8nl/cdYhF0k1g5Y0bs8akm9hIV0Yz7JWT2M46
-	BGT7XsbhvMvZFoKp2EOSbAkmzxmc25gyWFPuqGOyBergDL1jiN8h97joAl0C+8kDQBE=
-X-Gm-Gg: AfdE7ckLhY/8P7FWdCB2Ej+kLVjwrdEF1ufsy96R3oDjEm/PxO20FmOBzW0ea9DW9jX
-	ZZaHC9p1laK77GS0+fHlsLBUcN0WggCa1X69BhFEtQ3n0251YUkpRTBktdMdT3JErv3UM6+xFKC
-	pSoISlWB8QfrqxMdeigWkdJe5MeU9cMEX8CJ6X2Kwyhg6OCwDMFkmhOohbB199bLt43ki7+/tlI
-	VashFiIfKem1yrTk8Bkf/DCxzOI1bXTtS4hWU3dY+vM6KrKk0gieSAUSjWOyZzOHUVPtEgAzvRW
-	1t+ki7nPmasH2S2w1D2icSi1cuM2XayIM8nVkkXYGPLeSEfGETCX/zI5vFjzM7Oma5ehJ+62QMi
-	+pUsYdJvL/UHW0eF8IYIQn2lPbte4Fd5UoAJqCi/mPaZQcy+ehOMWWUba0cTX8sNk9DUgvTWtlK
-	QPTVerXR5lYHytErcT+/4hQggH8UTIKB9J34EhuA+x0Oq25eVZlyu2C0MFdRvhChhf/dCZhfkF1
-	NNea5NL3z0kktNR6JcDgm88ySmu6Y1MGn0lBYkku/YNE1TqyaqWF7lz+0Fu0hg+vvoaUzJo03d9
-	wOrH2FHUoo9cNZoFO7P3o3DS9ARAOPg4l/UiAvenK9M9Ck5BfWv5qiIgYNlhsYCalxqU3Ys29MB
-	rC/OQp9dzqe3inQ+9eDYH/GUAOPDxiCu6YQs=
-X-Received: by 2002:a05:6a21:6f13:b0:3b4:b340:411d with SMTP id adf61e73a8af0-3c1108b5fe1mr8860026637.24.1783921106934;
-        Sun, 12 Jul 2026 22:38:26 -0700 (PDT)
-Received: from HEXER.localdomain ([175.157.29.69])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-313b4b97661sm32915270eec.7.2026.07.12.22.38.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 22:38:26 -0700 (PDT)
-From: Kanishka De Silva <kpskanna1915@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kanishka De Silva <kpskanna1915@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: adutux: fix unlocked read_buffer_length write in adu_open()
-Date: Mon, 13 Jul 2026 11:07:37 +0530
-Message-ID: <20260713053737.912-1-kpskanna1915@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2026071358-illusion-basics-1146@gregkh>
-References: <2026071358-illusion-basics-1146@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZRPWH+2w"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 42853C2BCFA
+	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 06:00:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1783922448;
+	bh=g+a0+7BfCqz6+H+IF2BS65T82QsOsnmjLYw0Sr0IqwY=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=ZRPWH+2wicBPRE6BLH2UGEPF3EjKV1EO8cgzYrdSp06TZ/d+4cm0bPkRAOqUhHbps
+	 31IHR1w31IQGtmWEpwtHWxSi9g4V58tqEfNrfIrw9DaMDbDXr5LhyXQ5DawKgVw0VW
+	 FEFwt6eYohTBxJxVG6WsfvCrm2vcEqk2YrxRDSWgZogt+EFleGmtjLUxVQZeS4nIRK
+	 xIfsZHDWNOALbLhy40f4P2Q9VUVCTgxB1/d19C+la2tR8aL8varf4c1oW9MmYhvYTX
+	 uNKR2GTp9YxNAghAOQecBIT0MpU8b8kArGZ+Gm1pHOVC6K4uIqcPqMM3Xa3zHGLFe+
+	 XOF3xGUIQI6ww==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 2740FC53BC7; Mon, 13 Jul 2026 06:00:48 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221073] xHCI host controller dies on resume from s2idle on AMD
+ Strix Halo [1022:1587]
+Date: Mon, 13 Jul 2026 06:00:47 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: superveridical@gmail.com
+X-Bugzilla-Status: NEEDINFO
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-221073-208809-WqKbN4DLCR@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221073-208809@https.bugzilla.kernel.org/>
+References: <bug-221073-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-adu_open() clears dev->read_buffer_length while holding only
-adutux_mutex, but every other path that touches this field
-(adu_interrupt_in_callback() and adu_read()) correctly holds
-dev->buflock, per the locking scheme documented at the top of
-this file. This is a data race: an IRQ callback incrementing
-read_buffer_length concurrently with adu_open() clearing it can
-have its update silently lost, corrupting buffer state.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221073
 
-Take buflock around the reset to bring adu_open() in line with
-the documented locking contract.
+--- Comment #53 from Alexander F (superveridical@gmail.com) ---
+Created attachment 310441
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310441&action=3Dedit
+Power dependency patch attempt klog
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Kanishka De Silva <kpskanna1915@gmail.com>
----
- drivers/usb/misc/adutux.c | 3 +++
- 1 file changed, 3 insertions(+)
+For reasons that are unknown to me, the flags variable here
 
-diff --git a/drivers/usb/misc/adutux.c b/drivers/usb/misc/adutux.c
-index 369d0d2..606ef91 100644
---- a/drivers/usb/misc/adutux.c
-+++ b/drivers/usb/misc/adutux.c
-@@ -228,6 +228,7 @@ static int adu_open(struct inode *inode, struct file *file)
- {
- 	struct adu_device *dev = NULL;
- 	struct usb_interface *interface;
-+	unsigned long flags;
- 	int subminor;
- 	int retval;
- 
-@@ -265,7 +266,9 @@ static int adu_open(struct inode *inode, struct file *file)
- 	file->private_data = dev;
- 
- 	/* initialize in direction */
-+	spin_lock_irqsave(&dev->buflock, flags);
- 	dev->read_buffer_length = 0;
-+	spin_unlock_irqrestore(&dev->buflock, flags);
- 
- 	/* fixup first read by having urb waiting for it */
- 	usb_fill_int_urb(dev->interrupt_in_urb, dev->udev,
--- 
-2.43.0
+2572    if (flags & AMD_IS_APU)
+2573            amdgpu_setup_apu_usb_power_dep(adev);
 
+doesn't have the appropriate bits set, so the code doesn't get executed at =
+all.
+
+To discover this I instrumented the code with the two pirintks, one just be=
+fore
+the if with the dump of the flags, one inside the function before the while
+loop.
+
+2379         printk(KERN_INFO "OLOLOLOLOLOLOL 2\n");
+
+2561         unsigned long testt =3D AMD_IS_APU;
+2562
+2563         printk(KERN_INFO "LALALALALALALA 1 flags:%*pbl AMD_IS_APU: %*p=
+bl
+\n", 64, &flags, 64, &testt);
+
+The flags are indeed different:
+
+Jul 13 08:29:36 rescue-flow kernel: LALALALALALALA 1 flags:2,5 AMD_IS_APU: =
+17=20
+
+Then I commented the offending if out, the second printk appeared in the lo=
+gs,
+but nothing from the loop got printed.
+
+Just in case I supplied klog with debug turned on.
+
+I reverted the previous patch btw. I'm pretty sure AMD is my APU, and 3d
+acceleration works nominally(checked with firefox/shadertoy and amdgpu_top)=
+. If
+it's some misconfiguration on my part(for example my kernel config), please
+provide further instructions.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
