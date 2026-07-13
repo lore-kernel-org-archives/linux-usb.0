@@ -1,75 +1,73 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D4433555F
-	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 16:13:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B2833A9CF
+	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 16:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783959190; cv=none; b=adFG4Vf1DFYmJaQzt3DUIpLiDu/J6w4M7+MVMoF0Vb0ChY8mndwsLCEU2xRwNOPRfqLIlMS0gJH7bYwbhnBcu7AjFbQ9MsghHmtvxjiVimgVGkQ/w35ATVrZ8EvOJDlncaUQnF1VFi3jGzSPDQL9RAdctqDMtIyEwt2x+Jn68+4=
+	t=1783959262; cv=none; b=avAX11ecErVm5L3kZt0ETeM2d4liwKkrAXeYpDKZSprRrKgteh2QIa4rjLtDGmvwuqyoGnse5OkwpgS2KilgSHpTdcujtVyIMiKfkLBmYLXQwbVja9X/OEJpNxEVDSihByQFqRtAxUkNBQxEhJO6nEsMEU7AmumhImCuulU9Nmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783959190; c=relaxed/simple;
-	bh=rUwgXzraRM+d0ge5jq2ksOOJxib8hk1KfqshReW3oh4=;
+	s=arc-20240116; t=1783959262; c=relaxed/simple;
+	bh=nwuGqCHgMsCGDUJPIXmY0MQaWK6jRBkrd+rdVRXyMnw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fUkKr6i0wF6G6ahc0pycaa3K2Pw4B8ZzjhigdUsqqqiCzs7Rl4JstMZql5c/Bz9ddqLGNo/GuPxUItwDwNjdV+EirzOm52a83kcJj+6XSSl8OD829YmNCs8o9J+RXddtaCxCo3AjnxwQab7lLYR/DQ1GvWtkYYsInXbsIvfVdmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=JC/gwANm; arc=none smtp.client-ip=209.85.160.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=U1xbwRrsU/DM80jT2UbRwDoumv93Bsh7s8t4f7MHyj9DCabCZtLsY5WHJj3Ewqp1d55I+tPYzicu18FWChmyC4q1weTbnnlXhDOo8NsHtubmETda2tmSJOPlbggABrg4hqZh6F7pV8aZft72se//mc7demCaG6anVA6yxdzlPc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=fSioZGFk; arc=none smtp.client-ip=209.85.219.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="JC/gwANm"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-51c0a81d286so292111cf.1
-        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 09:13:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="fSioZGFk"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-8eefd0c5f59so337036d6.3
+        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 09:14:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1783959188; x=1784563988; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1783959258; x=1784564058; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=tiKCSwRT3ewjDC3bd2cnerh5LEDNothtgTeQCFuh0b8=;
-        b=JC/gwANmUWHjEGH8aYdgtHpgHOFc74yN1utIkjYtmFlOFBQg+MkqaXnaXoBqZDDNbm
-         bEUPholq5CkV+gQT6TyFRzvI20Sb15uoGMgYL6gdfnlY9t8RiOjvoFH7CDELPtsUCT4Z
-         rip+R46g9578/yBHMPCupLsSELySv2zGPoFl03WroBFjgnrjrvCZwTC0/hJB+zPW2Fw7
-         HZHgdld4OcL9UX0OiG1MX6F5knvQ1BHGrmGO+0bqgac6f9LPZN5rQRD1gqYj4eobgNxW
-         FFmFdbCAIanA0Oos1A84mR+2nC4JGniDVqh3Dm1yGCxycm8c0uZHzHWRpdfI6iv92siR
-         wB/Q==
+        bh=/d2Idp6BTNkSX+qivMXTGkH1W2PCTAvfUz9lK6HNcko=;
+        b=fSioZGFkcWTOMbtwD+Iwmqpk8FqOIrQkjkSJx7QvGnoNBFNBFf5qzx2OEX/eKCP7gN
+         dVbyCiOT1bY9+7UKX0SFaxOTGv8JvS9tFZOnRG3K/eg2EonNs9U34+JtrQyfJIYob9/S
+         6cTwJImDlox+SgEH/VvOjCQO4FUiGZSBhbsGGEbjZ7G4jpyj1Ad8e6zswSLjDAnIm9wR
+         Qs/lL73HbWNooBdJ4MFCRWcM5UdGHNRysgPIpRd9ORkQq5AU5qPurt2rnlSRhr5pqesr
+         fJySNTmI85bGaO8mzXAimZog48FVXd6KoHHkvwEhXrnhsOwi/fZIxQ8C39IOiv0SuVGs
+         VWGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783959188; x=1784563988;
+        d=1e100.net; s=20251104; t=1783959258; x=1784564058;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=tiKCSwRT3ewjDC3bd2cnerh5LEDNothtgTeQCFuh0b8=;
-        b=SsqqWcluqz7lK7YkPNx9Pr5f4ozJ4G+Q+ZvCpRiKc8NIlckoz2GsY2cMMlGQ5GWOLo
-         IkYPBms6BEuin6n05VaNlD5+eMnkc+5nOJYisSDnxK18+O+tE8roUZ/eTdUGpPdxV9++
-         ym5NO4fqN+yYIXe+bkgG5+tt/XdbJcigu3D1GiTSKciWRRMyahwex3i424cViGyGt65d
-         YWYTroUZUdMjd4FchH1tx86camHlYFuRqt/N3Yee9KE0okFedtfSTXA8rd7YI9pWfbx9
-         PMDpIqq1ALA/UnEAz56HHQfBI43lBE//5Qa9n8Gpzi+lLri9V6JNBgrBU1aqGNZHYaYi
-         XxoQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpnGMkrj93GPKhhTeNXhsoSfiBYDZ2T7dGQHj+qS2NEur2RYwEanfLjlQI0gErWDSPrBes1PigYVgc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0CuMhZHa36ly7WXinamp8PUJEVQDhlur43u5/2zXjL0b17UmF
-	9pBfO2zg2dRyE/WB41h/JS3acTHUm6vM2zqp5RJ7vAsOMz+DcIJKjqc7rJKTV8WNDYv0W1/jmR/
-	B1R8lYg==
-X-Gm-Gg: AfdE7ckC01aev2pXwf9myUY16UJdGkQ6/jSlAyQFfrRP3UOjeecs6NcqLOHiP48mR6u
-	sNLq0vR6Lcjlc7FWd50fQtH/AFYTXvwf0ZMdS4X0WSHo8mpY6wA3rnkI1xwyIqeYjerq1kE3FtS
-	P9IC7r2RhYx7eam7MAlllTPKTpaJoK31nCT25uNarfMLXbCFSYiRvx0UbxkKLfMekrdYmkspVXA
-	ZkhwR421MyIr06D9ik++JVzXvsM3q26+NTmkWYxboAB2r3xg1UeyPgezuZi3v2LlD9obbnYIfXu
-	gDiHiuk9s9mwJ36LjguCZyhWk2n7jTOJDDnAPekuLbDR8diUyJUblukxXu9Xdd8+YkF6ka+eOxK
-	h8kmBv1FGY+y7UxsquqFlP8QkJUsEg51iVrJM3WC+UHwmHKuN5gG/Bt2iYSEGkScc4IGU7A66Nq
-	vUbi3+0kfizoVjMVhH/LqD4ix68Ps3LhAbbgl+CoAifOnVooojdmzJlYPk
-X-Received: by 2002:a05:622a:1f88:b0:51c:fdd:f040 with SMTP id d75a77b69052e-51cbf8df184mr97462181cf.21.1783959187478;
-        Mon, 13 Jul 2026 09:13:07 -0700 (PDT)
+        bh=/d2Idp6BTNkSX+qivMXTGkH1W2PCTAvfUz9lK6HNcko=;
+        b=bs8XB13rr0TKnEv0/jUQRAjC3t5zF4+cEzmTIQS7nVPl6ncyfT/lk+oiAoFonE/Lcz
+         dSDajJ6U4zIRJqdJ3KFt6Suh0QyeesqmZ4ScYU0pCgMij6ED8PF9Gw/92jI2jevbAvxm
+         lRQcGAYcmCilcCmjsYxtjww1aeiWbS7eqtm0O5+dOUz+F7XCO+8YgnU8HaceG3wIJK9o
+         99XEjkTsSnTRFvkG6dfyU6XjbPxZGcMHRaMgJy2ECBoqRW8t3AuKEdUIo0zoTghgVMzE
+         iMK826cykKkcipAB3nbUPIyfewA01gng4zRR3kWjEjlqVLEr8A2l2B9OJH/Fa83SU3as
+         TO7w==
+X-Forwarded-Encrypted: i=1; AHgh+Rpa9Zi6W+MbmQbWf3iyd1CCabGAQHmUpXKaYEoqp4siZfBKb1ymK7r8By0czVFqR+CfnHU5x3+eLqE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9QFpZYaiI7RdJkWyGb67oQ0ATsrTobO/nDOf+AvTlwzWmKRQG
+	/zMc9s0UaRGBYAjYWTm+TvrRIXCFefACpBSWRl6RbYo9DPDof4wPKiG+jSGPQucQdw==
+X-Gm-Gg: AfdE7cnto6uUwRfHl3mAC7a/DXtrX4SbFJjO5/e9xA7RV4Y+KSHancC79XMn0dFsWow
+	QggCeaB5OaZ6ELkXB0iexu/4tRqCCFuSDubaTNMUzdi8sXpi0/UlAQfv6P1Gwk1lj1ayK5HsJSL
+	krNqF567kiyET1KBkiSA6BtwW0EULcFDaRTAwd8gq3h7jRNqwmbK0cE6SC8pWJkMRgj4ewRwifj
+	3x0KEZfGE+WAYDIwTNxEMG9OS+qYubieFTZF7lDLgj3FVU0PDBjTcnjiVaYnyLAr0InIPplSCng
+	q5NmWHrfixxe1Q8fXjyLhTRGCdFfv+8W69PcFIOd6gM9CBeUTGQm6B2HLn18KhO2EDM0iVaBcO1
+	A90GJY+863AZMSQF+h/9GgJ6gfBD7BwKF3Z1sLnGeruKPKF6h69oRsxUt6X66sdYi/NXQPMkXmo
+	9L+N0tIDGFHESrxRDjTt+Sm1QwIODBNvMj5QpCS8S08USYCA1PtWDdGE5o
+X-Received: by 2002:a05:6214:448c:b0:8ef:60f2:5b52 with SMTP id 6a1803df08f44-90401584a34mr113402366d6.37.1783959257852;
+        Mon, 13 Jul 2026 09:14:17 -0700 (PDT)
 Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51caaf5f61csm87555791cf.22.2026.07.13.09.13.06
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd50e10f4sm131941746d6.1.2026.07.13.09.14.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 09:13:06 -0700 (PDT)
-Date: Mon, 13 Jul 2026 12:13:04 -0400
+        Mon, 13 Jul 2026 09:14:17 -0700 (PDT)
+Date: Mon, 13 Jul 2026 12:14:15 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
 To: Griffin Kroah-Hartman <griffin@kroah.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] usb: core: strengthen size check in
- usb_parse_interface()
-Message-ID: <b2498cb4-61f7-429a-920a-e27ecd7986e4@rowland.harvard.edu>
+Subject: Re: [PATCH 1/3] usb: core: Add size check to find_next_descriptor()
+Message-ID: <7965c2fb-5615-4978-aeca-c31da3302368@rowland.harvard.edu>
 References: <20260713-usb_core_patches_1-v1-0-7721c2b33f53@kroah.com>
- <20260713-usb_core_patches_1-v1-2-7721c2b33f53@kroah.com>
+ <20260713-usb_core_patches_1-v1-1-7721c2b33f53@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,43 +76,37 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260713-usb_core_patches_1-v1-2-7721c2b33f53@kroah.com>
+In-Reply-To: <20260713-usb_core_patches_1-v1-1-7721c2b33f53@kroah.com>
 
-On Mon, Jul 13, 2026 at 05:43:52PM +0200, Griffin Kroah-Hartman wrote:
-> Change the size check from size > 0 to size >= sizeof(struct
-> usb_descriptor_header) in usb_parse_interface().  This prevents a
-> malicious device from utilizing trailing bytes to incur an OOB read.
+On Mon, Jul 13, 2026 at 05:43:51PM +0200, Griffin Kroah-Hartman wrote:
+> Add a size check for the descriptor header in find_next_descriptor().
+> This prevents a scenario where h->blength = 0, causing the while loop to
+> spin forever.
 
-No, because usb_parse_configuration() has already performed this check.  
-A malicious device can't avoid that earlier check, and so we don't need 
-to do it again.
-
-> This matches the size check in usb_parse_configuration() as well.
-
-Right.  There's no point in doing the same size check twice.
+Just as before, this check has already been performed by 
+usb_parse_configuration().  It doesn't need to be performed again.
 
 Alan Stern
 
-> 
 > Assisted-by: gkh_clanker_t1000
 > Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
 > ---
->  drivers/usb/core/config.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/usb/core/config.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
 > diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-> index 17c93e95945f..91a51cedc1b8 100644
+> index 45e20c6d76c0..17c93e95945f 100644
 > --- a/drivers/usb/core/config.c
 > +++ b/drivers/usb/core/config.c
-> @@ -623,7 +623,7 @@ static int usb_parse_interface(struct device *ddev, int cfgno,
->  
->  	/* Parse all the endpoint descriptors */
->  	n = 0;
-> -	while (size > 0) {
-> +	while (size >= sizeof(struct usb_descriptor_header)) {
->  		if (((struct usb_descriptor_header *) buffer)->bDescriptorType
->  		     == USB_DT_INTERFACE)
+> @@ -29,6 +29,8 @@ static int find_next_descriptor(unsigned char *buffer, int size,
+>  	/* Find the next descriptor of type dt1 or dt2 */
+>  	while (size > 0) {
+>  		h = (struct usb_descriptor_header *) buffer;
+> +		if (h->bLength < sizeof(struct usb_descriptor_header))
+> +			break;
+>  		if (h->bDescriptorType == dt1 || h->bDescriptorType == dt2)
 >  			break;
+>  		buffer += h->bLength;
 > 
 > -- 
 > 2.55.0
