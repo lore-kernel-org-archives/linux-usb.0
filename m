@@ -1,68 +1,72 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD0C3F6C39
-	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 12:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE473F23BB
+	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 12:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783945339; cv=none; b=ckkBVmESfdVIVxAa7bQMVbTkoBK1AMQe0NJU0PHOv7NpG2U1YNhZElfKCnjgTkdAaEG5uvSpjmZLnqz2L0XMONKipqU/1JEuPl/zbWfS/bSIVQKdQmsAwhpZoPZNf3t7nLPvoarIYeOQ88AHcphK2sajCeXkbABufOoOJWHZE+M=
+	t=1783945341; cv=none; b=qEpD7XMDzvRU2wf4DjIwFRhqew8ouTTMYcbJmmHNXIs9HflIK4K4l1bVeUcL8pyRHcgE+8Y+OdfkeP+K5PUQH/tjIRX2Ajnkv0DNDs5O3W9EVS3tH9zRpxPMeG2FSxI/HDAidwv2xixaBJOhYVrPVON/QoXHx3yR6NXmcj8dSbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783945339; c=relaxed/simple;
-	bh=i9revy8VLWe78K5LwwdNyDtoNiNQUm0Tl8IJOkz5m7M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CKA6FvCbUuOpGVS5oOZkJrmLL1M6hQDhtUJCJXM7vr9aiqnpus84DZ02d9vxzU9dYielk34wuLNHFAxNj0ah/np2ed9FpyUpRS4SzweaNtownPladtrm9CcLSsqIO+ePxnwtWwW00OrAdWef5yV+K4DCrx2+CRmL40xHuNy8Jc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=aB5LYk2W; arc=none smtp.client-ip=209.85.210.174
+	s=arc-20240116; t=1783945341; c=relaxed/simple;
+	bh=CC1I8A0g5ryeTNIPYNRkfYT1ctp/4W6LumSH2gdkO7E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jF5UevTn9/768eG9Lqut8bRr5jYcBnme9Ym9c3d2itQRq86pJoMypqPI6mu3OF9dXDbNO/BoijsFm2gnXMLVBAvY42HFfnP5HBsq64guxVp9snv6usVqOim9dBoDG9ANcWPocbEEC6qWVtfUAyx9821VsprOKGvcfY/sKfaNyQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=Zb7i/LhY; arc=none smtp.client-ip=209.85.215.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="aB5LYk2W"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-848882fdb18so2175353b3a.0
-        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 05:22:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="Zb7i/LhY"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c89636920a3so1591171a12.1
+        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 05:22:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thingy.jp; s=google; t=1783945337; x=1784550137; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9c9AJztkG4yGnpdMUHH4Rn3KSbRLamlzTpskyxVmLgU=;
-        b=aB5LYk2WGNReKmF2qBfiJIJ2pG4Vqw4cB9Y9v6xYnkPQlsDNpX0RRQoVSQyNd3Ue0K
-         SFA+1QbV1pTgogfBjO/LTQ9/82sgEcIuVbWmEO5HaAzQu0FlQzZ/pviUDVtiZbWEuKiO
-         swZheZeY/xM1K5dRCQIUGx3Og/hCKGvJygZ5c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783945337; x=1784550137;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=thingy.jp; s=google; t=1783945339; x=1784550139; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9c9AJztkG4yGnpdMUHH4Rn3KSbRLamlzTpskyxVmLgU=;
-        b=Z1vqDCHzmoecOmq5gWnR5lFT45IgRoYqxAR5S6NT1TXPYy0kt0xuPOhjKbXGWFo9rx
-         YUJ2M9J6HW2ccjka7oIrsipFk3EHlQIBYMbztGmDqgDGVcVCeWh/2gS2oOnvFyLkQABt
-         A+ZEZy6ZyDL7p5/9HhJPrg3ZMOS3MiZbzEjT7up0+YmC4Zsr1o1fKqhqUiAWqlGmRlQO
-         BsSL8kEoOyZodGMbADE8OFydl+DWcHOcuPQW+Nl7eLLqrWM2U3Q9MS0GCA6N4l1Hg17U
-         16CLxPKoER1DzNxmpcBCEGzmpMm9ZgWl/Ff7qe8o+7fyMzW0KFPb3iFTc61CfRngM/cu
-         wZ1w==
-X-Gm-Message-State: AOJu0YwwmqLdMtO4+6+M7uKvSmeb8MO6R1gFUx1JGTa30NviCJXKfDpZ
-	hEQ4jQoljmjAsORdU6BIAU6wC6REweP7NxNvCOhLL2JkdMQsHkx6LUMQfRxG2WP3uGw=
-X-Gm-Gg: AfdE7ckeoJZRRJz4JJK/yS0fYDHaG8lPl2Hd0sPpamkB1FkYoMCZml+HmAJwJKdL7N9
-	h1sVcngm7wTL0sMhdercd5GrqM+zznDvbMVONrfOwp4UkzB/HaF6choGAZRXUwB/FhUh8Nqiei9
-	wnqXqpmvI3fZLFxiJ8H8kmqdaFbhHdYOrGE4M7vWZ0AjEU5q7y655wk8T842dQAopU4c6Lzopbq
-	vRN8BoW7TCkP3zM/XO2NDSy2Q7D+geETX/MeDvfWpPB1FmCCFzAVTkX+FSOw+lqMFT8sO5YPqqJ
-	z4WTjKChom5dNbOBZKYz28vKuSvR5aNfgBnLLiIEdqBP9q/wQZaGkQVHF/Pr4t4WEajEeU9zaOY
-	kX+M3/KKeaEMeETH1jmV8oY+n4aDqTUuM9vPcG1NEa26cWuGXUljFYin8C+kTQTTVtD85ocOfF2
-	uZsJLWZUvedN83wv7hjiD+3nDFEQ==
-X-Received: by 2002:a05:6a00:3388:b0:848:420a:9cd5 with SMTP id d2e1a72fcca58-8488974a28amr8798261b3a.53.1783945337436;
-        Mon, 13 Jul 2026 05:22:17 -0700 (PDT)
+        bh=Q7vlwcyYZljM0igSykkOYX1j9W69gTakFBnqtWeMcKU=;
+        b=Zb7i/LhY7m2Jyj0d6dOQao/k4S2lfxFRN7745PpW9CeEwevxqFUOpW9fmjCl/QdpY4
+         HqWXYvshxzFhy0aHtgGY133Ca+nxxZH2KFYTxqrF1gLIy8ERJHX5fSU+bF5HIr1oVNuq
+         oZZL+iu0baTBUVnGFkKbVd0rAw3IcijJlFfxk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783945339; x=1784550139;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Q7vlwcyYZljM0igSykkOYX1j9W69gTakFBnqtWeMcKU=;
+        b=LTR9PNs1Opls0oAuRNpQApskbCFX+nkCE6bVg1brZsXJAZTx8n/DiNWB+3Tkn5/pBT
+         6Pt/VaypUUHko6bnx+cQprsmtp27Pr9aExF3t20h0YuAvCo6r+tC+LAOybZ8q7uaQlTI
+         K7mJMyXLWPKWkMH1KAz94dDcgqBcugn8GqBnE2qEJRGUMDKirXPgRRMdRxVFooqUP9Gy
+         vMSQ2Yv8DDCrXRXjC0jv19wO213ZabhrPwCSBiZZO3u9iVvGy+N7GBEN4QKHIfPaS/oG
+         zLb4a3r0uoMLcnnnL9LIY3aIK8VqZJNcBD2LUTbi4FPMh0WmjYD+f71tfKVBACzlxxzt
+         hwVA==
+X-Gm-Message-State: AOJu0YyhOss1l7S+ssQlhkGeh9a4PNoawX3ASvBd/jQ7oEnV7fBwA5nl
+	4QGV3YB6crVQba+Npu6BZiSHKf/vCEOFR2T6VqNCsX9C2mtVD4yxAWcHcKPphWEPov0=
+X-Gm-Gg: AfdE7cnvEdHTYazuy3VnCwI4viMU9hVRVsMgWRmoe0ZJLZi8jJV/eim8HTbZL5q1vf1
+	tgqw2IZ5g5V0y9AldrBdi7/C2xDgAH7WUxXpr3izC25Ntsea+GFK4HXYGq+YfujcYwx2jTYL275
+	pQ3npbgpsankCxZbn2YMY1JjYgTwtuI94SdVVcDuqZzt6MNPK29DLvmyNjG/paOe7SDL3Mel+E1
+	rOY0GtIVD4pRklC8Bn7NJq6XWXhom7nu87tmP7ZbJggbZmAFsQw8DJVf+Gx8KUxnVVUZUKvmlzh
+	wM+bMa4gNoxYV3/C/DY5Gze+sATWUr2P2x6klQV4R6t93cEQo1HoQqQ2pOVjT4Fnpd2KuTx+Llv
+	fmuQzRu1cm+0n6Zjl85VGSPBNQbacxDjhoncZdC1T5A+HD95jFFTu0Ni674cGwZ1cV5tcaocAXn
+	WyzeOI/sPUELK+LjPo27kzr3MCbQ==
+X-Received: by 2002:a05:6a20:9190:b0:3bf:79d6:f063 with SMTP id adf61e73a8af0-3c110b2642amr9523074637.43.1783945339191;
+        Mon, 13 Jul 2026 05:22:19 -0700 (PDT)
 Received: from kinako.work.home.arpa ([2400:4162:2428:2ffe:a973:53e4:1a28:8545])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-ca5b3b251eesm8126216a12.31.2026.07.13.05.22.15
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-ca5b3b251eesm8126216a12.31.2026.07.13.05.22.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 05:22:16 -0700 (PDT)
+        Mon, 13 Jul 2026 05:22:18 -0700 (PDT)
 From: Daniel Palmer <daniel@thingy.jp>
 To: peter.chen@kernel.org,
 	gregkh@linuxfoundation.org,
 	stern@rowland.harvard.edu
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Daniel Palmer <daniel@thingy.jp>
-Subject: [RFC PATCH 0/2] usb: ehci: Allow ehci accessors to be overridden.
-Date: Mon, 13 Jul 2026 21:22:03 +0900
-Message-ID: <20260713122205.1350933-1-daniel@thingy.jp>
+	Daniel Palmer <daniel@0x0f.com>
+Subject: [RFC PATCH 1/2] usb: ehci: Add option to override ehci_readl()/ehci_writel()
+Date: Mon, 13 Jul 2026 21:22:04 +0900
+Message-ID: <20260713122205.1350933-2-daniel@thingy.jp>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260713122205.1350933-1-daniel@thingy.jp>
+References: <20260713122205.1350933-1-daniel@thingy.jp>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -71,37 +75,81 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the kernel tree at the moment there is a driver for fotg210.
-There was, I think, at some point a driver for the host only
-version of this too. With a few tweaks the host part can actually
-just use the ehci driver and a bunch of code can be dropped.
+From: Daniel Palmer <daniel@0x0f.com>
 
-The weird ARM SoCs I have been trying to mainline have the host
-only version of this IP and have been running with a modified
-version of the normal ehci driver for years.
+There are EHCI-like hosts, like fotg210, out there that should
+be able to use the shared ehci code but can't because they need
+to override some parts of the ehci code to work properly.
 
-To use the ehci driver we need to be able to override the accessors
-for the registers, override the standard locations of a few of them
-and hardcode values for some things that are not needed.
+Let ehci_readl() and ehci_writel() be overridden first.
+This allows the ehci code to be used with hosts that need
+to do special dances when accessing their registers.
 
-Before I clean up and send the rest of this I wanted to show
-how I did the overriding of the accessors and how it cleans up the
-hack that is already in there. If this way of doing it is acceptable
-I'll clean up the whole thing and send it.
+The change is hidden behind a boolean kconfig option
+so that the extra function pointer NULL check and call
+only happens when a broken controller is enabled.
 
-The benefit of this is that we should be able to drop one mangled
-copy of the ehci driver.
+Signed-off-by: Daniel Palmer <daniel@0x0f.com>
+---
+ drivers/usb/host/Kconfig |  3 +++
+ drivers/usb/host/ehci.h  | 16 ++++++++++++++++
+ 2 files changed, 19 insertions(+)
 
-Daniel Palmer (2):
-  usb: ehci: Add option to override ehci_readl()/ehci_writel()
-  usb: chipidea: use the generic ehci_writel override for i.MX28
-
- drivers/usb/chipidea/Kconfig |  1 +
- drivers/usb/chipidea/host.c  | 17 ++++++++++++++++-
- drivers/usb/host/Kconfig     |  3 +++
- drivers/usb/host/ehci.h      | 31 ++++++++++++++++---------------
- 4 files changed, 36 insertions(+), 16 deletions(-)
-
+diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
+index b3b1ec696bf5..8c88354e91e5 100644
+--- a/drivers/usb/host/Kconfig
++++ b/drivers/usb/host/Kconfig
+@@ -362,6 +362,9 @@ config USB_OCTEON_EHCI
+ 	  USB 2.0 device support.  All CN6XXX based chips with USB are
+ 	  supported.
+ 
++config HAVE_BROKEN_EHCI_HCD
++	bool
++
+ endif # USB_EHCI_HCD
+ 
+ config USB_OXU210HP_HCD
+diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
+index d7a3c8d13f6b..f592cc26e494 100644
+--- a/drivers/usb/host/ehci.h
++++ b/drivers/usb/host/ehci.h
+@@ -258,6 +258,14 @@ struct ehci_hcd {			/* one per controller */
+ 						/* us budgeted per uframe */
+ 	struct list_head	tt_list;
+ 
++#ifdef CONFIG_HAVE_BROKEN_EHCI_HCD
++	/* Overrides to fix up broken implementations */
++	/* Broken IO */
++	void (*ehci_writel)(const struct ehci_hcd *ehci,
++			    const unsigned int val, __u32 __iomem *regs);
++	unsigned int (*ehci_readl)(const struct ehci_hcd *ehci, __u32 __iomem *regs);
++#endif
++
+ 	/* platform-specific data -- must come last */
+ 	unsigned long		priv[] __aligned(sizeof(s64));
+ };
+@@ -762,6 +770,10 @@ static inline unsigned int ehci_readl(const struct ehci_hcd *ehci,
+ 		readl_be(regs) :
+ 		readl(regs);
+ #else
++#ifdef CONFIG_HAVE_BROKEN_EHCI_HCD
++	if (ehci->ehci_readl)
++		return ehci->ehci_readl(ehci, regs);
++#endif
+ 	return readl(regs);
+ #endif
+ }
+@@ -788,6 +800,10 @@ static inline void ehci_writel(const struct ehci_hcd *ehci,
+ #else
+ 	if (ehci->imx28_write_fix)
+ 		imx28_ehci_writel(val, regs);
++#ifdef CONFIG_HAVE_BROKEN_EHCI_HCD
++	else if (ehci->ehci_writel)
++		ehci->ehci_writel(ehci, val, regs);
++#endif
+ 	else
+ 		writel(val, regs);
+ #endif
 -- 
 2.53.0
 
