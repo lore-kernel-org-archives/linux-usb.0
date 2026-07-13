@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E9732AD3C
-	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 09:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5FF3BC69C;
+	Mon, 13 Jul 2026 09:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783936016; cv=none; b=JLo9Ek0tNEzOKNQz7CooIb5xkfXGSSxJLP+t18SkGEUDQmRkThHVtv+V8MDdSfhUsgkB6UAE0oUHmu4q2c+Q5j197NdnzdFWQF3z/2OXlZ3SqXPA2ckc+IuGYuYbFAXDd5B1YDvGe8ddZpbwV0uIjXcdtPyfkxpxcCkNstd3UA0=
+	t=1783936447; cv=none; b=hGMvNB+oWz3439M24Cl18Es+rQURF+m7DPnbRo2zt/NWeyBZaLofXXm2y5fEORwQMCaP7mt5/pGOJ4vN2eeKIJ1VG0ScTmGhAgxcwOYlbaBIheAu/HSeZ0usq6CMbISlpYbfIUcZd/2OaKwQ88P1zfWvAY6GRHKjAaQ6GEa0Yew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783936016; c=relaxed/simple;
-	bh=5Pa0XqwqgmJo6i0Jbzy0FAKT8mr7rZ+VEG/73tkmUmU=;
+	s=arc-20240116; t=1783936447; c=relaxed/simple;
+	bh=PE28TTtme+Oo86aLo1BQXrXbX3VISjzNf72tIeKZb3g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lrOoaSHKHabRCnPVuUHnaaR3aZQeGMnQZv/mNQDz6GgR9sILIxStUDJMxGgF0NM5cAUmKcfqkxGD8CMGEpneSY2HvZ0I/ZKBZCTSEbXdSoEeO/zyARqfwBZ5njqZ9HGjxXwAnWHYE94mHWJ0s+hwrUw26vD6XffpA56btZVu9oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ho2Lr01C; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=k/HdJQ+/UUl3J4Wq7NxkKw4dHez+ln+eHYOxqCkvMpdcvtxbYxftJUtZMNXIlXf/8T/ymnsZW+usoe8n2CO+Jb13zsDGLq4SgiFfY0f0jHb84BM9giFvk7Q6Gdzb/Kf1WbPAnoiwY715VGdO9+VTv1ZmneWXTtMKnKD/XcppP+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gn3D4hHi; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ho2Lr01C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gn3D4hHi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783936015; x=1815472015;
+  t=1783936445; x=1815472445;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5Pa0XqwqgmJo6i0Jbzy0FAKT8mr7rZ+VEG/73tkmUmU=;
-  b=Ho2Lr01CZx/GtPCzy6Rn4pJ84AoyQJFO4F2t6bw57hhv2WOfUzStgdTh
-   95zGOA6zQgEkluwUYuq9ssXej/tpUzwWdNcLKhu9jNxEcH0PTZriiMWZd
-   d7i+ziVa9f94KddC9MbhlV2IYSraaNS7KizxBcYV6MfcBjsNPtsd4+yiM
-   Ni1ES3mVxg6MbWbincAhwQto1iYTJ7BSjPqmkFKjjOqmkKRofa7J3O4OF
-   AJ2E+4JzH0TdHtfiuRfJqS6jCL9nWRPc+slfrhJZveVDENypMGB/QGvyz
-   om27zpbWnQs+BBU7uvck52K/Q55qw2popI8Rk4vUZ2Tpf+i+W7n9dJ5kM
+  bh=PE28TTtme+Oo86aLo1BQXrXbX3VISjzNf72tIeKZb3g=;
+  b=gn3D4hHiU1g3RTqsFM7OLqKuLPxAr018mZDG9MhR37psBgseOKaWH+IN
+   5H4tbS+byu+3yy+XIdzqn1GHc0/LhZ29NdcrQTRCTH1C6oVWDKr7qKBdV
+   WJDzGJHiKYIBJ+25eYCv3fzwSoRqWUkZRUSYS/9Gbtbz1RGsoxyDCQaUh
+   s+3mTl6+o2yPa6RG7AuebKwEd9Q56Jty2piM7Yq8+bKp8N/GftX2meS9h
+   oZFeTlk2kgQ1wBJ387TReWWDkabNt59u570H0EBf3YdGbvtlAkDT4uFeC
+   WUsdKzxn20Db23HbWi64CBhfc4iSmZTy7h0GixsvrM7DBNXykIjOjWFyV
    Q==;
-X-CSE-ConnectionGUID: b76WuXOpRWONfnJhrmx9Mg==
-X-CSE-MsgGUID: kv3ZqnvXSDWJRgmSk7g5Vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="87084772"
+X-CSE-ConnectionGUID: ompysha/TmKBn+tRLgoQjQ==
+X-CSE-MsgGUID: 0EIGSl1ERkatZdUc1hh1IQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="84657665"
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="87084772"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 02:46:55 -0700
-X-CSE-ConnectionGUID: Yfo9gl0nRTShV4JSD/+ZWA==
-X-CSE-MsgGUID: U5yN8zxPTrSB0meZjh6XvA==
+   d="scan'208";a="84657665"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 02:54:05 -0700
+X-CSE-ConnectionGUID: 3jXurlDxTeCcZdw7O+YlvQ==
+X-CSE-MsgGUID: W1EhK4eVRryQcppJA1+FeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="278764222"
+   d="scan'208";a="249144205"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Jul 2026 02:46:53 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 13 Jul 2026 02:54:02 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 16A3D95; Mon, 13 Jul 2026 11:46:53 +0200 (CEST)
-Date: Mon, 13 Jul 2026 12:46:51 +0300
+	id AA8D995; Mon, 13 Jul 2026 11:54:00 +0200 (CEST)
+Date: Mon, 13 Jul 2026 12:53:59 +0300
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Trabajos Iafast <trabajosiafast@gmail.com>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: UCSI: no connector change =?utf-8?Q?ev?=
- =?utf-8?Q?ents_for_connector_2_on_Lenovo_Legion_Pro_7_16IAX10H_=28Arrow_L?=
- =?utf-8?B?YWtlLUhYKSDigJQ=?= port functional in Windows
-Message-ID: <alS0C6GaKLf0sVpF@kuha>
-References: <CADvEaBJnc49dyCNTbe8ys4G4HhEKpMFyjm7xE74evxFodYFb-g@mail.gmail.com>
+To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Johan Hovold <johan@kernel.org>, Jameson Thies <jthies@google.com>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Hsin-Te Yuan <yuanhsinte@chromium.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 1/3] usb: typec: ucsi: Detect and skip duplicate
+ altmodes from buggy firmware
+Message-ID: <alS1tywaoP_0ECVl@kuha>
+References: <20260713084323.287516-1-acelan.kao@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -62,69 +67,234 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CADvEaBJnc49dyCNTbe8ys4G4HhEKpMFyjm7xE74evxFodYFb-g@mail.gmail.com>
+In-Reply-To: <20260713084323.287516-1-acelan.kao@canonical.com>
 
-On Fri, Jul 10, 2026 at 06:25:08AM -0500, Trabajos Iafast wrote:
-> Hi,
+On Mon, Jul 13, 2026 at 04:43:21PM +0800, Chia-Lin Kao (AceLan) wrote:
+> Some firmware implementations incorrectly return the same altmode
+> multiple times at different offsets when queried via
+> UCSI_GET_ALTERNATE_MODES.  This causes sysfs duplicate filename errors
+> and kernel call traces when the driver attempts to register the same
+> altmode twice:
 > 
-> I'd like to report a UCSI issue on a Lenovo Legion Pro 7 16IAX10H
-> (model 83F5), Intel Core Ultra 9 275HX (Arrow Lake-HX), where one of
-> the two side-mounted USB-C ports is non-functional under Linux (no DP
-> Alt Mode, no data, no hotplug detection), while working fully under
-> Windows 11 on the same machine (dual boot).
+>   sysfs: cannot create duplicate filename '/devices/.../typec/port0/port0.0/partner'
+>   typec-thunderbolt port0-partner.1: failed to create symlinks
+>   typec-thunderbolt port0-partner.1: probe with driver typec-thunderbolt failed with error -17
 > 
-> System:
-> - Kernel: 6.17.0-35-generic (Ubuntu 24.04.4)
-> - BIOS/EC: Q7CN78WW (latest, issue also present on Q7CN33WW)
-> - USB4 silicon: Intel Gen14, 8087:7ec2, firmware 15.1
-> - Secure Boot: disabled
+> The matching rules differ by recipient:
 > 
-> Symptoms:
-> - /sys/class/typec shows port0 and port1. port0 works fully.
-> - port1 gets a partner device enumerated at boot (PD 3.0,
->   supports_usb_power_delivery: yes) but number_of_alternate_modes
->   stays 0 and usb_power_delivery_revision reads 0.0.
-> - No typec uevents are ever generated for port1 on plug/unplug
->   (verified with udevadm monitor; port0 generates remove/add/change
->   normally).
-> - typec port1 never binds to usb4_port3; the "connector" symlink
->   under domain0/0-0/usb4_port3 is missing (port0 <-> usb4_port1
->   binds correctly).
-> - dmesg is completely silent: no ucsi/PPM errors at all.
+>   - UCSI_RECIPIENT_CON (port) and UCSI_RECIPIENT_SOP_P (plug):
+>     Two altmodes with identical SVID and VDO are byte-for-byte
+>     duplicates and the second has no observable function, so drop it.
 > 
-> UCSI debugfs probing (/sys/kernel/debug/usb/ucsi/USBC000:00):
+>   - UCSI_RECIPIENT_SOP (partner):
+>     The typec class binds each partner altmode to a port altmode of
+>     the same SVID via altmode_match()/device_find_child(), which
+>     returns the first port altmode with a matching SVID.  If the
+>     partner advertises more altmodes for SVID X than the port
+>     advertises, the surplus partner altmode(s) collapse onto an
+>     already-paired port altmode and trigger the
+>     "duplicate filename .../partner" sysfs error during
+>     typec_altmode_create_links().  Use the port-side altmode count for
+>     SVID X as the authoritative cap and reject any partner altmode
+>     that would exceed it.  This preserves legitimate multi-Mode
+>     partner altmodes (vendor SVIDs that the port really does
+>     advertise more than once) while filtering the firmware-generated
+>     duplicates that have no port counterpart, and is therefore
+>     stricter than a plain SVID+VDO comparison (which still admits the
+>     Thunderbolt case where firmware reports the same SVID twice with
+>     different VDOs) without being over-broad like a plain SVID match
+>     (which would falsely drop legitimate vendor multi-Mode entries).
 > 
-> GET_CAPABILITY:
->   0x01300300012000020000040200000144
->   -> bNumConnectors = 2 (both connectors are exposed to the OS)
+> If a duplicate is detected, skip it and emit a clean warning instead
+> of generating a kernel call trace:
 > 
-> GET_CONNECTOR_STATUS connector 1 (working):
->   0x01300300012000011304b12c405b4000
-> GET_CONNECTOR_STATUS connector 2 (broken):
->   0x01300300012000011304b12c405b0000
+>   ucsi_acpi USBC000:00: con2: Firmware bug: duplicate partner altmode SVID 0x8087 at offset 1, ignoring.
+>   ucsi_acpi USBC000:00: con2: VDO mismatch: 0x8087a043 vs 0x00000001
 > 
-> The responses are identical except the Connector Status Change
-> field: 0x4000 (Connect Change) on connector 1, 0x0000 on connector 2,
-> with a monitor attached to both ports. The EC appears to report
-> connector 2's status when polled but never raises connection change
-> events for it, so the event-driven ucsi driver never processes the
-> port. Windows 11 (Microsoft UCSI connection manager, driver
-> 10.0.26100.8521) handles the same port without issues, DP Alt Mode
-> included.
+> The duplicate detection logic lives in a reusable helper
+> ucsi_altmode_is_duplicate() and is invoked from
+> ucsi_register_altmodes().  It applies to all three recipient types:
+> partner (SOP), port (CON), and plug (SOP_P) altmodes.
 > 
-> Ruled out: BIOS/EC update to latest (Q7CN78WW), EC power drain,
-> thunderbolt module reload, PCI remove/rescan of the USB4 NHI,
-> ucsi_acpi/typec_ucsi reload (port1 never rebinds), kernels 6.14 and
-> 6.17. No retimer firmware available via LVFS for this model.
-> 
-> Happy to provide acpidump, full sysfs dumps, or test patches.
+> Fixes: a79f16efcd00 ("usb: typec: ucsi: Add support for the partner USB Modes")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
 
-I'm seeing this mail in my inbox three times?
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-In any case, like I said before, please contact lenovo. The FW really
-has to report the connector changes.
-
-Thanks,
+> --
+> v7. - Rephrase the warning message ", ignoring." to ", ignoring but
+>       please contact the BIOS vendor to fix this issue."
+> v6. - New helper ucsi_altmode_count_svid() counts altmodes with a given
+>       SVID in any of the per-connector altmode arrays.
+>     - ucsi_altmode_is_duplicate() for UCSI_RECIPIENT_SOP no longer asks
+>       "have I seen this SVID before". It now checks whether
+>       partner_count_for(svid) >= port_count_for(svid) and rejects only the
+>       surplus.
+>     - For UCSI_RECIPIENT_CON and UCSI_RECIPIENT_SOP_P, behavior is
+>       unchanged: still SVID+VDO exact-dup match.
+>     - Commit message rewritten to spell out the per-recipient rules and
+>       why partner needs the cardinality cap (avoids both the SVID-only
+>       false positives that hurt the legitimate Dell 0x413c case and the
+>       SVID+VDO false negatives that let the Thunderbolt 0x8087 firmware
+>       bug through).
+> ---
+>  drivers/usb/typec/ucsi/ucsi.c | 132 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 132 insertions(+)
+> 
+> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+> index 642acc09d861..b9343bf67357 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi.c
+> @@ -550,6 +550,129 @@ static int ucsi_register_altmode(struct ucsi_connector *con,
+>  	return ret;
+>  }
+>  
+> +static void ucsi_dump_duplicate_altmode(struct ucsi_connector *con,
+> +					u8 recipient, u16 svid,
+> +					u32 existing_vdo, u32 new_vdo,
+> +					int offset)
+> +{
+> +	static const char * const recipient_names[] = {
+> +		[UCSI_RECIPIENT_CON]    = "port",
+> +		[UCSI_RECIPIENT_SOP]    = "partner",
+> +		[UCSI_RECIPIENT_SOP_P]  = "plug",
+> +		[UCSI_RECIPIENT_SOP_PP] = "cable plug prime",
+> +	};
+> +
+> +	dev_warn(con->ucsi->dev,
+> +		 "con%d: Firmware bug: duplicate %s altmode SVID 0x%04x at offset %d, ignoring but please contact the BIOS vendor to fix this issue.\n",
+> +		 con->num, recipient_names[recipient], svid, offset);
+> +
+> +	if (existing_vdo != new_vdo)
+> +		dev_warn(con->ucsi->dev,
+> +			 "con%d: VDO mismatch: 0x%08x vs 0x%08x\n",
+> +			 con->num, existing_vdo, new_vdo);
+> +}
+> +
+> +/* Count altmodes in @altmodes that advertise @svid. */
+> +static int ucsi_altmode_count_svid(struct typec_altmode **altmodes, u16 svid)
+> +{
+> +	int count = 0;
+> +	int k;
+> +
+> +	for (k = 0; k < UCSI_MAX_ALTMODES; k++) {
+> +		if (!altmodes[k])
+> +			break;
+> +		if (altmodes[k]->svid == svid)
+> +			count++;
+> +	}
+> +
+> +	return count;
+> +}
+> +
+> +/*
+> + * Check if an altmode is a duplicate. Some firmware implementations
+> + * incorrectly return the same altmode multiple times, causing sysfs errors.
+> + * Returns true if the altmode should be skipped.
+> + *
+> + * The matching rules differ by recipient:
+> + *
+> + *   - UCSI_RECIPIENT_CON (port) and UCSI_RECIPIENT_SOP_P (plug):
+> + *     Two altmodes with identical SVID and VDO are byte-for-byte duplicates
+> + *     and the second has no observable function. Drop them.
+> + *
+> + *   - UCSI_RECIPIENT_SOP (partner):
+> + *     The typec class binds each partner altmode to a port altmode of the
+> + *     same SVID via altmode_match()/device_find_child(), which returns the
+> + *     first port altmode with a matching SVID. If the partner advertises
+> + *     more altmodes for SVID X than the port advertises, the surplus
+> + *     partner altmode(s) collapse onto an already-paired port altmode and
+> + *     trigger a "duplicate filename .../partner" sysfs error during
+> + *     typec_altmode_create_links(). Use the port-side altmode count for
+> + *     SVID X as the authoritative cap and reject any partner altmode that
+> + *     would exceed it. This preserves legitimate multi-Mode partner
+> + *     altmodes (e.g. vendor SVIDs that the port really does advertise
+> + *     twice) while filtering the firmware-generated duplicates that have
+> + *     no port counterpart.
+> + */
+> +static bool ucsi_altmode_is_duplicate(struct ucsi_connector *con, u8 recipient,
+> +				      const struct ucsi_altmode *alt_batch, int batch_idx,
+> +				      u16 svid, u32 vdo, int offset)
+> +{
+> +	struct typec_altmode **altmodes;
+> +	int port_count, partner_count;
+> +	int k;
+> +
+> +	/* Check for duplicates within the current batch first */
+> +	for (k = 0; k < batch_idx; k++) {
+> +		if (alt_batch[k].svid == svid && alt_batch[k].mid == vdo) {
+> +			ucsi_dump_duplicate_altmode(con, recipient, svid,
+> +						    vdo, vdo, offset);
+> +			return true;
+> +		}
+> +	}
+> +
+> +	switch (recipient) {
+> +	case UCSI_RECIPIENT_SOP:
+> +		/*
+> +		 * Cap partner altmodes per SVID by the port-side count:
+> +		 * any further partner altmode for that SVID would alias an
+> +		 * already-paired port altmode and break typec sysfs.
+> +		 */
+> +		port_count = ucsi_altmode_count_svid(con->port_altmode, svid);
+> +		partner_count = ucsi_altmode_count_svid(con->partner_altmode,
+> +							svid);
+> +		if (port_count && partner_count >= port_count) {
+> +			ucsi_dump_duplicate_altmode(con, recipient, svid,
+> +						    con->partner_altmode[partner_count - 1]->vdo,
+> +						    vdo, offset);
+> +			return true;
+> +		}
+> +		return false;
+> +	case UCSI_RECIPIENT_CON:
+> +		altmodes = con->port_altmode;
+> +		break;
+> +	case UCSI_RECIPIENT_SOP_P:
+> +		altmodes = con->plug_altmode;
+> +		break;
+> +	default:
+> +		return false;
+> +	}
+> +
+> +	/* CON and SOP_P: drop only exact SVID+VDO duplicates. */
+> +	for (k = 0; k < UCSI_MAX_ALTMODES; k++) {
+> +		if (!altmodes[k])
+> +			break;
+> +
+> +		if (altmodes[k]->svid != svid || altmodes[k]->vdo != vdo)
+> +			continue;
+> +
+> +		ucsi_dump_duplicate_altmode(con, recipient, svid,
+> +					    altmodes[k]->vdo, vdo, offset);
+> +		return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+>  static int
+>  ucsi_register_altmodes_nvidia(struct ucsi_connector *con, u8 recipient)
+>  {
+> @@ -674,6 +797,15 @@ static int ucsi_register_altmodes(struct ucsi_connector *con, u8 recipient)
+>  			if (!alt[j].svid)
+>  				return 0;
+>  
+> +			/*
+> +			 * Check for duplicates in current batch and already
+> +			 * registered altmodes. Skip if duplicate found.
+> +			 */
+> +			if (ucsi_altmode_is_duplicate(con, recipient, alt, j,
+> +						      alt[j].svid, alt[j].mid,
+> +						      i - num + j))
+> +				continue;
+> +
+>  			memset(&desc, 0, sizeof(desc));
+>  			desc.vdo = alt[j].mid;
+>  			desc.svid = alt[j].svid;
+> -- 
+> 2.53.0
+> 
 
 -- 
 heikki
