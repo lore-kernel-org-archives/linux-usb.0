@@ -1,114 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA84E2EEE84
-	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 06:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1822EEE84;
+	Mon, 13 Jul 2026 06:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.203.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783922448; cv=none; b=FDKaHKo4xtBFIVTSzl5uCpI/PYcn+QVIF+5Byhvn+22kgZ8fKpaOfr5GHRyYZLz+CEKEpAohxcGEveGyG6sr+Db2gxtMVaf+cHLek1uPnYhljJ3KbE307u7+U+KADf2IKqeEB6yztAX5MzDLa5WP/XYjpyYJi+PMoKC3+Lfv7xk=
+	t=1783922452; cv=none; b=oHnRkoOKAxzOi+RIssmaixZdVywcTWQXm/eBk8x2QUeLTWX0GUHWvsUjjamvzNZ/bTw045YdhGe3vEjXrbfgaUmb91E5QJhVij+fN5gIS1WHrz9tJIUGiMMbe6WCI+HNyGZauYuLOjJ4TNGEgaTQHiCoFYJENNChAC+HilPT3IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783922448; c=relaxed/simple;
-	bh=g+a0+7BfCqz6+H+IF2BS65T82QsOsnmjLYw0Sr0IqwY=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FGzr7d5ktgybZRpNr4vkBGyak6UxDTYsm8NKP+rujH9EHtc1DBPglchQYciIAIe66HWKBcuOKhKvfoew9baZfKsjqbbsXcEFvKUybzjycsznr1BoWo95hqZyU2ZBZ5a06XCT2qr2/TZm6ZnLDBG4t43su4lnbA0oyypNy221s3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZRPWH+2w; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1783922452; c=relaxed/simple;
+	bh=cQpCH7NudmK8sP2giPII58DAJ9CPPxEK6Lh3hE+lAls=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KoFlBzhHL44DSECPR1RxxW9IRD1X5rzszwMuziQvcrN6QFnxDNXb8+q9OWFfrqfReUHxGsjzxB1NNU3UtCGFOfQC56z2lGgyoms45AeZ0tSep7EURKN2QCEKLykTyIbtK+gS5EzdzR0D8OufT27ee+gecWKQDVQIR/hGx1VgSDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.co.uk; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=lptO3yGm; arc=none smtp.client-ip=188.40.203.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZRPWH+2w"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 42853C2BCFA
-	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 06:00:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1783922448;
-	bh=g+a0+7BfCqz6+H+IF2BS65T82QsOsnmjLYw0Sr0IqwY=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=ZRPWH+2wicBPRE6BLH2UGEPF3EjKV1EO8cgzYrdSp06TZ/d+4cm0bPkRAOqUhHbps
-	 31IHR1w31IQGtmWEpwtHWxSi9g4V58tqEfNrfIrw9DaMDbDXr5LhyXQ5DawKgVw0VW
-	 FEFwt6eYohTBxJxVG6WsfvCrm2vcEqk2YrxRDSWgZogt+EFleGmtjLUxVQZeS4nIRK
-	 xIfsZHDWNOALbLhy40f4P2Q9VUVCTgxB1/d19C+la2tR8aL8varf4c1oW9MmYhvYTX
-	 uNKR2GTp9YxNAghAOQecBIT0MpU8b8kArGZ+Gm1pHOVC6K4uIqcPqMM3Xa3zHGLFe+
-	 XOF3xGUIQI6ww==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 2740FC53BC7; Mon, 13 Jul 2026 06:00:48 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221073] xHCI host controller dies on resume from s2idle on AMD
- Strix Halo [1022:1587]
-Date: Mon, 13 Jul 2026 06:00:47 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: superveridical@gmail.com
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-221073-208809-WqKbN4DLCR@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221073-208809@https.bugzilla.kernel.org/>
-References: <bug-221073-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="lptO3yGm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Reply-To; bh=ItJB/AGXSCgmLb3Qfmy3RWKFLT/jJOgpEikImlXbow8=; b=lptO3yGmzHEu28Hm
+	C6nZcpyHEHtkVUGbP38xDSlQZLONl7OziKMUcYp2D3yrPHmQ8lUJfVkInxDQphz4AnRu6Fq+PXe13
+	991f9cIclvCg2uGzHM96g7hq+dKBCxqrlWIgIQt5SU2+F4g9ZiUgt9lFXDIhjBEU5zYNkwMLLxkaW
+	AAtgEobdRnNAj+fNeH1Snxcdil7uwrn+kE+gmJ2PnB6KCHc/vJ5hFB8A85tFam6yIlYsjgNl63Dlh
+	zPX1c5KLzLHTh+Df5JnjGI2dTPGBk2HcAyLRaVslZDT96zRD1fssnVotLueQizHNxPSxJTgDuM40a
+	RPtnAgAy2p/Qb2KaVA==;
+Received: from [167.98.27.226] (helo=[10.35.6.194])
+	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+	id 1wj9iR-0063V0-I7; Mon, 13 Jul 2026 07:00:31 +0100
+Message-ID: <9f7cbd43-16e1-495e-8f56-9bce8fa5e437@codethink.co.uk>
+Date: Mon, 13 Jul 2026 07:00:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] usb: gadget: f_fs: fix __le16 of wMaxPacketSize
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>,
+ Michael Bommarito <michael.bommarito@gmail.com>, Sam Day <me@samcday.com>,
+ Kees Cook <kees@kernel.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260710145430.501893-1-ben.dooks@codethink.co.uk>
+ <2026071124-gracious-spry-9b7b@gregkh>
+Content-Language: en-GB
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+In-Reply-To: <2026071124-gracious-spry-9b7b@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Sender: ben.dooks@codethink.co.uk
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221073
+On 11/07/2026 06:09, Greg Kroah-Hartman wrote:
+> On Fri, Jul 10, 2026 at 03:54:30PM +0100, Ben Dooks wrote:
+>> The wMaxPacketSize is __le16 type, fix the sparse warnings by changing
+>> the type.
+>>
+>> Fixes the following sparse warnings:
+>> drivers/usb/gadget/function/f_fs.c:3346:32: warning: incorrect type in assignment (different base types)
+>> drivers/usb/gadget/function/f_fs.c:3346:32:    expected unsigned short [usertype] wMaxPacketSize
+>> drivers/usb/gadget/function/f_fs.c:3346:32:    got restricted __le16 [usertype] wMaxPacketSize
+>> drivers/usb/gadget/function/f_fs.c:3371:36: warning: incorrect type in assignment (different base types)
+>> drivers/usb/gadget/function/f_fs.c:3371:36:    expected restricted __le16 [usertype] wMaxPacketSize
+>> drivers/usb/gadget/function/f_fs.c:3371:36:    got unsigned short [usertype] wMaxPacketSize
+>>
+>> Fixes: dcc03cef0fd8 ("usb: gadget: f_fs: preserve wMaxPacketSize across  usb_ep_autoconfig() call")
+> 
+> This isn't a valid git id :(
 
---- Comment #53 from Alexander F (superveridical@gmail.com) ---
-Created attachment 310441
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310441&action=3Dedit
-Power dependency patch attempt klog
+Looks like the b got dropped off the front during copy.
 
-For reasons that are unknown to me, the flags variable here
+Fixes: bdcc03cef0fd8 ("usb: gadget: f_fs: preserve wMaxPacketSize across 
+  usb_ep_autoconfig() call")
 
-2572    if (flags & AMD_IS_APU)
-2573            amdgpu_setup_apu_usb_power_dep(adev);
+commit bdcc03cef0fd8abc6eaeec6ac47e54ae8f8c625f
+Author: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Date:   Thu Jan 31 15:53:40 2019 +0100
 
-doesn't have the appropriate bits set, so the code doesn't get executed at =
-all.
+     usb: gadget: f_fs: preserve wMaxPacketSize across 
+usb_ep_autoconfig() call
 
-To discover this I instrumented the code with the two pirintks, one just be=
-fore
-the if with the dump of the flags, one inside the function before the while
-loop.
+     usb_ep_autoconfig() treats the passed descriptor as if it were an fs
+     descriptor. In particular, for bulk endpoints, it clips wMaxPacketSize
+     to 64. This patch preserves the original value.
 
-2379         printk(KERN_INFO "OLOLOLOLOLOLOL 2\n");
+     Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+     Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
 
-2561         unsigned long testt =3D AMD_IS_APU;
-2562
-2563         printk(KERN_INFO "LALALALALALALA 1 flags:%*pbl AMD_IS_APU: %*p=
-bl
-\n", 64, &flags, 64, &testt);
 
-The flags are indeed different:
 
-Jul 13 08:29:36 rescue-flow kernel: LALALALALALALA 1 flags:2,5 AMD_IS_APU: =
-17=20
+-- 
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
 
-Then I commented the offending if out, the second printk appeared in the lo=
-gs,
-but nothing from the loop got printed.
-
-Just in case I supplied klog with debug turned on.
-
-I reverted the previous patch btw. I'm pretty sure AMD is my APU, and 3d
-acceleration works nominally(checked with firefox/shadertoy and amdgpu_top)=
-. If
-it's some misconfiguration on my part(for example my kernel config), please
-provide further instructions.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+https://www.codethink.co.uk/privacy.html
