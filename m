@@ -1,37 +1,34 @@
 Received: from air.basealt.ru (air.basealt.ru [193.43.8.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D6F273D77;
-	Mon, 13 Jul 2026 18:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C723537CD;
+	Mon, 13 Jul 2026 18:25:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.43.8.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783966987; cv=none; b=mIpAd0JKoMAixm6helamx8d+tz6Np1i29AjYAiclbWt8EGYqF65LwtqXhnBfXNDZI1JJEaKjFnnq106VhdCy3ZBfYC7aHKGHp7NLY/fU7moKJKH9oRCDIklrwYrGA9Yn1jyvChghYKj1QOOuMDvt5SACOf7Wo7BesfZWkUwbtx8=
+	t=1783967105; cv=none; b=E98Ga/kWR/zxoLLy7Y5Dy6XgmenfvvyfFa6JzktiwdaNzmZY9sgEO5QWUzBmkDXEzpHY1x4+4zIJLrim9oeRUr3Gon7rnQpaYGw2JUYDH8nWLkx0O0NKtczGFTXafKte2wkgTCarfIJ/3MBW0xkzTtRrvZNtWrcEMkxq+iArarI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783966987; c=relaxed/simple;
-	bh=Zn4gdLOfhoOee0jEfGwXihAwW7drfLS1Wj0xCLzHM40=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O1ba79IPVrsH/FVHNTgkdu2uF96PibpskromiV8dnLowLYNtYn5OsjcIxY1nh9DBX8lLWWLgU62rrqrpETyGJHimX9tZqGhdwEYCczPD5ITywOsfFBCILsVHpHGKczQSYNhyZuhpLSZSG2vbETFR1RjVoPhKjnxWwwWAq4fAwK0=
+	s=arc-20240116; t=1783967105; c=relaxed/simple;
+	bh=OX/McDO1qPytlQlVUz0pVIuCo1NendmpnWnZRv7aBFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IytuJsKcFTd7CfJXjDGF3BQCGPF7W+t2pBZCS9SQ8YWdEEDIlqdwzpVjStfWkCg3srD+SA+mEqC4uN5k65OLYvTbcRTlaJxzOD0dlLl+HBjcJX6CN2qLYD168xVumfn1Gb0KNJrpuIRGR3BHpkeMQbxFQNC4qOKM7V2PLYaFZEE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=basealt.ru; arc=none smtp.client-ip=193.43.8.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=basealt.ru
 Received: from localhost (broadband-46-242-4-129.ip.moscow.rt.ru [46.242.4.129])
 	(Authenticated sender: gremlin)
-	by air.basealt.ru (Postfix) with ESMTPSA id 6E84C23370;
-	Mon, 13 Jul 2026 21:22:58 +0300 (MSK)
-Date: Mon, 13 Jul 2026 21:22:57 +0300
+	by air.basealt.ru (Postfix) with ESMTPSA id 80D2A23370;
+	Mon, 13 Jul 2026 21:25:00 +0300 (MSK)
+Date: Mon, 13 Jul 2026 21:25:00 +0300
 From: "Alexey V. Vissarionov" <gremlin@altlinux.org>
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: "Alexey V. Vissarionov" <gremlin@altlinux.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+Cc: gremlin@altlinux.org, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Guenter Roeck <linux@roeck-us.net>,
 	Casey Connolly <casey.connolly@linaro.org>,
 	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
 	lvc-project@linuxtesting.org
-Subject: Re: [PATCH] usb: typec: tcpm: qcom: initialize currsrc explicitly
-Message-ID: <20260713182257.GA22956@altlinux.org>
-References: <20260713080631.GB1275@altlinux.org>
- <a205f7ee-7894-4d6d-a752-b10b036b6c36@linaro.org>
+Subject: [PATCH v1] usb: typec: tcpm: qcom: initialize currsrc explicitly
+Message-ID: <20260713182500.GB22956@altlinux.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,27 +38,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=koi8-r
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a205f7ee-7894-4d6d-a752-b10b036b6c36@linaro.org>
 
-Good ${greeting_time}!
+When regmap_read() fails, the execution goes to done: label, where
+currsrc is passed to rp_sel_to_name() and used as an index after a
+proper check. However, to make this situation easier to notice, an
+explicit initialization of currsrc with obviously impossible value
+is suggested. Alas, we can't simply use zero value here because it
+means TYPEC_SRC_RP_SEL_80UA.
 
-On 2026-07-13 09:34:22 +0100, Bryan O'Donoghue wrote:
+Found by ALT Linux Team (altlinux.org) and Linux Verification Center
+(linuxtesting.org) using SVACE.
 
- > On 13/07/2026 09:06, Alexey V. Vissarionov wrote:
- >> When regmap_read() fails, the execution goes to done: label,
- >> where currsrc is passed to rp_sel_to_name() and used as an
- >> index after a proper check. However, to make this situation
- >> easier to notice, an explicit initialization of currsrc with
- >> obviously impossible value is suggested.
- >> [...]
- >> Fixes: a4422ff22142 ("usb: typec: qcom: Add Qualcomm PMIC
- >> Type-C driver")
- >> Signed-off-by: Alexey V. Vissarionov <gremlin@altlinux.org>
- > This patch makes sense but doesn't require a Fixes: tag.
- > With that changed.
- > Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Signed-off-by: Alexey V. Vissarionov <gremlin@altlinux.org>
+---
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-ACK. Updated patch follows.
+diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+index bf985efe1cd6bea4..d7cb69cf6044841b 100644
+--- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
++++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+@@ -461,8 +461,8 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc_dev *tcpc,
+ 	struct pmic_typec *tcpm = tcpc_to_tcpm(tcpc);
+ 	struct pmic_typec_port *pmic_typec_port = tcpm->pmic_typec_port;
+ 	struct device *dev = pmic_typec_port->dev;
+-	unsigned int mode, currsrc;
+-	unsigned int misc;
++	unsigned int currsrc = 0xFF; /* error, easy to notice in the log */
++	unsigned int mode, misc;
+ 	unsigned long flags;
+ 	int ret;
+ 
 
 
 -- 
