@@ -1,107 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFBB3FE645;
-	Mon, 13 Jul 2026 12:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD0C3F6C39
+	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 12:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783944190; cv=none; b=msNW3k+R57Yd/R2dL7G+Il8MTT4pQ7+kVCVickB7Ig6XO8CyCURxDkN+eNOnizmiNwRBZHQz5DbSZSMmiQXuHfvgpL/MUSGrsvKgdAfywGostSaaCs0m2TuxsTTHzRu0Ll0aOrDP1dvSJmIReK97BSZHxeDS/t8erTbjEyxFeaw=
+	t=1783945339; cv=none; b=ckkBVmESfdVIVxAa7bQMVbTkoBK1AMQe0NJU0PHOv7NpG2U1YNhZElfKCnjgTkdAaEG5uvSpjmZLnqz2L0XMONKipqU/1JEuPl/zbWfS/bSIVQKdQmsAwhpZoPZNf3t7nLPvoarIYeOQ88AHcphK2sajCeXkbABufOoOJWHZE+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783944190; c=relaxed/simple;
-	bh=Uzu3PqqrhA7ignfKumRUHkPu2I4MtrI8j0BiJqLklRo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BMVb8roGVXpmWSOKPNKVkhJhTKg6y6uJIAaj3EhiDFUXcdm9dePpkzdCQLaw5G6ZmRLmFwrg0eVCPs6JZCaZsQZAeSG39GzeV/WJt7o07xr/UKwEILW3RXseuSVA79gEQCoVNzn79hPWbwXWMJM5Y+T4GEC9rcOA82+63eXeoRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SQe8kqwb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783945339; c=relaxed/simple;
+	bh=i9revy8VLWe78K5LwwdNyDtoNiNQUm0Tl8IJOkz5m7M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CKA6FvCbUuOpGVS5oOZkJrmLL1M6hQDhtUJCJXM7vr9aiqnpus84DZ02d9vxzU9dYielk34wuLNHFAxNj0ah/np2ed9FpyUpRS4SzweaNtownPladtrm9CcLSsqIO+ePxnwtWwW00OrAdWef5yV+K4DCrx2+CRmL40xHuNy8Jc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=aB5LYk2W; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SQe8kqwb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 500621F000E9;
-	Mon, 13 Jul 2026 12:03:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783944188;
-	bh=n+Q8pIAemSzcUgx6BLEuKGum0XzSJ4wmPKWNEfSNwQc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SQe8kqwb5mumTbOPmpJMUz/rFj3b6/PRAjBCMbLK3qo2pphoawWyBwT74Cg7VcFWB
-	 vvhOxTdG061jvzCk51kPH0e0DI4ZEsM1sGtg0AiWMImAsKfQhh/s51RYNYQiyY5/3S
-	 VXbFfRkszmm404A+8ln21oCEsazHHlQ//8/mMxhs=
-Date: Mon, 13 Jul 2026 14:03:03 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Kanishka De Silva <kpskanna1915@gmail.com>
-Cc: Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: adutux: take buflock when resetting
- read_buffer_length in adu_open()
-Message-ID: <2026071330-amendment-glamour-b6e4@gregkh>
-References: <CAKJ0_Ldatt+6_q_Sudg8nCnJLz5Vc8eihK9O6mwKh7tKBZm8iw@mail.gmail.com>
- <20260713075616.1625-1-kpskanna1915@gmail.com>
+	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="aB5LYk2W"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-848882fdb18so2175353b3a.0
+        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 05:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thingy.jp; s=google; t=1783945337; x=1784550137; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9c9AJztkG4yGnpdMUHH4Rn3KSbRLamlzTpskyxVmLgU=;
+        b=aB5LYk2WGNReKmF2qBfiJIJ2pG4Vqw4cB9Y9v6xYnkPQlsDNpX0RRQoVSQyNd3Ue0K
+         SFA+1QbV1pTgogfBjO/LTQ9/82sgEcIuVbWmEO5HaAzQu0FlQzZ/pviUDVtiZbWEuKiO
+         swZheZeY/xM1K5dRCQIUGx3Og/hCKGvJygZ5c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783945337; x=1784550137;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9c9AJztkG4yGnpdMUHH4Rn3KSbRLamlzTpskyxVmLgU=;
+        b=Z1vqDCHzmoecOmq5gWnR5lFT45IgRoYqxAR5S6NT1TXPYy0kt0xuPOhjKbXGWFo9rx
+         YUJ2M9J6HW2ccjka7oIrsipFk3EHlQIBYMbztGmDqgDGVcVCeWh/2gS2oOnvFyLkQABt
+         A+ZEZy6ZyDL7p5/9HhJPrg3ZMOS3MiZbzEjT7up0+YmC4Zsr1o1fKqhqUiAWqlGmRlQO
+         BsSL8kEoOyZodGMbADE8OFydl+DWcHOcuPQW+Nl7eLLqrWM2U3Q9MS0GCA6N4l1Hg17U
+         16CLxPKoER1DzNxmpcBCEGzmpMm9ZgWl/Ff7qe8o+7fyMzW0KFPb3iFTc61CfRngM/cu
+         wZ1w==
+X-Gm-Message-State: AOJu0YwwmqLdMtO4+6+M7uKvSmeb8MO6R1gFUx1JGTa30NviCJXKfDpZ
+	hEQ4jQoljmjAsORdU6BIAU6wC6REweP7NxNvCOhLL2JkdMQsHkx6LUMQfRxG2WP3uGw=
+X-Gm-Gg: AfdE7ckeoJZRRJz4JJK/yS0fYDHaG8lPl2Hd0sPpamkB1FkYoMCZml+HmAJwJKdL7N9
+	h1sVcngm7wTL0sMhdercd5GrqM+zznDvbMVONrfOwp4UkzB/HaF6choGAZRXUwB/FhUh8Nqiei9
+	wnqXqpmvI3fZLFxiJ8H8kmqdaFbhHdYOrGE4M7vWZ0AjEU5q7y655wk8T842dQAopU4c6Lzopbq
+	vRN8BoW7TCkP3zM/XO2NDSy2Q7D+geETX/MeDvfWpPB1FmCCFzAVTkX+FSOw+lqMFT8sO5YPqqJ
+	z4WTjKChom5dNbOBZKYz28vKuSvR5aNfgBnLLiIEdqBP9q/wQZaGkQVHF/Pr4t4WEajEeU9zaOY
+	kX+M3/KKeaEMeETH1jmV8oY+n4aDqTUuM9vPcG1NEa26cWuGXUljFYin8C+kTQTTVtD85ocOfF2
+	uZsJLWZUvedN83wv7hjiD+3nDFEQ==
+X-Received: by 2002:a05:6a00:3388:b0:848:420a:9cd5 with SMTP id d2e1a72fcca58-8488974a28amr8798261b3a.53.1783945337436;
+        Mon, 13 Jul 2026 05:22:17 -0700 (PDT)
+Received: from kinako.work.home.arpa ([2400:4162:2428:2ffe:a973:53e4:1a28:8545])
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-ca5b3b251eesm8126216a12.31.2026.07.13.05.22.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2026 05:22:16 -0700 (PDT)
+From: Daniel Palmer <daniel@thingy.jp>
+To: peter.chen@kernel.org,
+	gregkh@linuxfoundation.org,
+	stern@rowland.harvard.edu
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Daniel Palmer <daniel@thingy.jp>
+Subject: [RFC PATCH 0/2] usb: ehci: Allow ehci accessors to be overridden.
+Date: Mon, 13 Jul 2026 21:22:03 +0900
+Message-ID: <20260713122205.1350933-1-daniel@thingy.jp>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260713075616.1625-1-kpskanna1915@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jul 13, 2026 at 01:26:16PM +0530, Kanishka De Silva wrote:
-> dev->read_buffer_length is otherwise only ever touched under
-> dev->buflock (by adu_interrupt_in_callback() and adu_read()), per the
-> locking scheme documented in the comment above struct adu_device.
-> adu_open() resets it to 0 without holding buflock.
-> 
-> In the current code this is not a reachable race. adu_open() and
-> adu_release() are fully serialized by adutux_mutex, and
-> adu_release_internal() calls usb_kill_urb() (via
-> adu_abort_transfers()) before that mutex is dropped, which blocks
-> until any in-flight adu_interrupt_in_callback() has returned. The
-> write in adu_open() also precedes the urb (re)submission in program
-> order, so the callback cannot observe or race with it there either.
-> 
-> This change brings the assignment under buflock purely so the
-> field's locking is locally consistent with the driver's documented
-> scheme, making the invariant easy to verify without having to reason
-> across adu_open(), adu_release_internal(), and usb_kill_urb()'s
-> blocking semantics. No behavioral or functional change intended.
-> 
-> v2:
->  - Retitled and reframed from "fix unlocked read_buffer_length write
->    in adu_open() (data race)" to a lock-discipline consistency
->    change. Discussion on the RFC (with Oliver Neukum) established
->    that adutux_mutex serialization plus usb_kill_urb()'s blocking
->    semantics rule out any runtime-reachable race here, so this is
->    no longer presented as a bugfix. (Oliver Neukum, Greg
->    Kroah-Hartman)
+In the kernel tree at the moment there is a driver for fotg210.
+There was, I think, at some point a driver for the host only
+version of this too. With a few tweaks the host part can actually
+just use the ehci driver and a bunch of code can be dropped.
 
-Version info goes below the --- line please.
+The weird ARM SoCs I have been trying to mainline have the host
+only version of this IP and have been running with a modified
+version of the normal ehci driver for years.
 
-> 
-> Signed-off-by: Kanishka De Silva <kpskanna1915@gmail.com>
-> ---
->  drivers/usb/misc/adutux.c | 3 ++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/misc/adutux.c b/drivers/usb/misc/adutux.c
-> index 1111111..2222222 100644
-> --- a/drivers/usb/misc/adutux.c
-> +++ b/drivers/usb/misc/adutux.c
-> @@ -337,7 +337,8 @@ static int adu_open(struct inode *inode, struct file *file)
->  	file->private_data = dev;
->  
->  	/* initialize in direction */
-> -	dev->read_buffer_length = 0;
-> +	spin_lock_irq(&dev->buflock);
-> +	dev->read_buffer_length = 0;
-> +	spin_unlock_irq(&dev->buflock);
+To use the ehci driver we need to be able to override the accessors
+for the registers, override the standard locations of a few of them
+and hardcode values for some things that are not needed.
 
-This makes no sense, the single write here isn't going to need a lock,
-it can't "tear" and if someone else is doing something with it it can
-change right after the lock is released, right?
+Before I clean up and send the rest of this I wanted to show
+how I did the overriding of the accessors and how it cleans up the
+hack that is already in there. If this way of doing it is acceptable
+I'll clean up the whole thing and send it.
 
-So what exactly is this supposed to be "fixing"?
+The benefit of this is that we should be able to drop one mangled
+copy of the ehci driver.
 
-Ah, your changelog says "not really fixing anything", so then it's not
-needed at all, so why add this at all?
+Daniel Palmer (2):
+  usb: ehci: Add option to override ehci_readl()/ehci_writel()
+  usb: chipidea: use the generic ehci_writel override for i.MX28
 
-thanks,
+ drivers/usb/chipidea/Kconfig |  1 +
+ drivers/usb/chipidea/host.c  | 17 ++++++++++++++++-
+ drivers/usb/host/Kconfig     |  3 +++
+ drivers/usb/host/ehci.h      | 31 ++++++++++++++++---------------
+ 4 files changed, 36 insertions(+), 16 deletions(-)
 
-greg k-h
+-- 
+2.53.0
+
