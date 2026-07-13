@@ -1,106 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC653E4500
-	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 10:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B889385D6C;
+	Mon, 13 Jul 2026 11:12:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783939747; cv=none; b=GuSx6ExTisMwshWzfNmcAWrvw0mCCEYAB7s2eRdyb7EhN6a/Eq8gw0ylQH+EYi4g65Jcf9BY2ls+1gdfXq/gFpBHArlTyQ+STxOFwLBIrzPGUJfO/ifUYFqy73T4op+/kATjBBDtfAB6gjn4dOZUF47DBu3t77yK+KuqLNE94JY=
+	t=1783941160; cv=none; b=STlZUBb58HnHNL4Owd7H5I8+r0TsJ3wptJra2WsWSgEWBuDvoEd9ADZ2mDNp9n2R2mLL2EhNrsW6FBzGllQdKmXEt0z1ga3DAkaYM3BdbzO/4SYdYZzY48wdZ1mHnvdMs6lebqPRLcbU2ANzycLwmOmpzyzCOCgATNuRQTueL+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783939747; c=relaxed/simple;
-	bh=dYmjwq5xVY6Zxm7viTCpKNJRwyQ51K2OaGIV6zLipKs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=idLe1NECYwNEZ1+krJzQRwmAKoKOl6R55yIPhhvpJx4B+9omfZ48QAR6JRpv7gaFANjId+vKXD6ZJXidpbFQhDi7i1Xq26faDGBv+dHNDbqYA7xyzN1FvknHTamQPM4pwHTeATDwiQzSp9k3Rh+jwV4h/Ls9o/J+9UWvYjfecUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZKmLYANy; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1783941160; c=relaxed/simple;
+	bh=zzMt6c4IrEDxrQ0gOf5Jyjlrkqcm2LRwTZccZACl8R4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EdaZaCYWqSLvUP1PC8P4jXdeov2nqZ2acs3gzg98nzwf5LggMRzcGXhdefF6UpyBpjwZRWYu9w2QehE0NGZ3qkVG/cVaPO6QgNAat8gZqKLc+kGqyahsyx0gWhhwVc5572n6PbH3Lc0j79/2xiKijIlmeOSKU7MakZGY2MvEOCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LMDpN4mj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZKmLYANy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783939746; x=1815475746;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=dYmjwq5xVY6Zxm7viTCpKNJRwyQ51K2OaGIV6zLipKs=;
-  b=ZKmLYANymcpT+avbrk2DgIauRyCznAjQs2OHqtbsqoCU0sf987bWKoD4
-   qZodXwYNBP133t96S/XyVdzWFzThtPyR8YsBWVUf9aQ80eAr05tpPKPao
-   isq5cmMaaMlFiBoGzpn2ZgNUGnmbM/Hu5MhIEe+TP021YoKsJHDUK2Pbg
-   82eoqr0kmFBy23floyvMNMI6rpYwLqmfKFh1D/yntUBhJi+NGI/5AueRB
-   z+WunymIsydoSm/CTRp99bxpwOQs9eT4HBAe245bFUkkNrXG2ZZAsIzRb
-   lnN4t1FYwm90RAkCXWXAGQcmJ4/RSsJt1kX7N0mlrSmsJcnxKVeSOfBX3
-   g==;
-X-CSE-ConnectionGUID: XQryZ43eRTyNq1tk2aSTxQ==
-X-CSE-MsgGUID: sxL3LoDmR0i7N1ISsgt/dw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="96057047"
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="96057047"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 03:48:52 -0700
-X-CSE-ConnectionGUID: RwlovIfZS9SyXeXuq+n+Ig==
-X-CSE-MsgGUID: 45Z71cB6Q4yVGPi+Zxi/CQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
-   d="scan'208";a="279928990"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Jul 2026 03:48:51 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1058)
-	id 86E9099; Mon, 13 Jul 2026 12:48:50 +0200 (CEST)
-From: Niklas Neronin <niklas.neronin@linux.intel.com>
-To: mathias.nyman@linux.intel.com
-Cc: linux-usb@vger.kernel.org,
-	Niklas Neronin <niklas.neronin@linux.intel.com>
-Subject: [PATCH 21/22] usb: xhci: move struct 'xhci_port' specific macro
-Date: Mon, 13 Jul 2026 12:47:35 +0200
-Message-ID: <20260713104738.629612-22-niklas.neronin@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260713104738.629612-1-niklas.neronin@linux.intel.com>
-References: <20260713104738.629612-1-niklas.neronin@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LMDpN4mj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A8F41F000E9;
+	Mon, 13 Jul 2026 11:12:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783941157;
+	bh=+itPATlxhTbhN7l81/OGgYUotwlHoDMlh3YsBI1rLuY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LMDpN4mjsABMx6a9b/8YHkgELyGWi8x5/IMBb/CpNiZVulzJzrRippKl5PEtGhVKB
+	 L4qC2SKg4U6zbAcGfQ60SWArIjNtPvq09E9h00HVQdmEaG9H3lfq0C0tdP82ZlSy8V
+	 Y6H2SkWIwhgSCcMAP4xH9Fq/Nu5R3qxPvxNKZ7VSAwE+S38laXRoF79GGhQHkdVYzr
+	 pM826rvmwjDDLl6/+a63D12osQUmRy+kOH6FBkFhe+h6H40shlEywP/AjuMfXmf4lC
+	 6+CkOSb+zUPiGBXo2sv4wfK+E1jmFaHOnCfO9iMh6Mh0bjIkad2JIyOWfCRPZL84C5
+	 U4/RNS9v3sF7g==
+Date: Mon, 13 Jul 2026 13:12:28 +0200
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: vkoul@kernel.org, Ronak Raheja <ronak.raheja@oss.qualcomm.com>
+Cc: krzk+dt@kernel.org, conor+dt@kernel.org, robh@kernel.org, 
+	neil.armstrong@linaro.org, gregkh@linuxfoundation.org, dmitry.baryshkov@oss.qualcomm.com, 
+	konrad.dybcio@oss.qualcomm.com, abel.vesa@oss.qualcomm.com, wesley.cheng@oss.qualcomm.com, 
+	krzysztof.kozlowski@oss.qualcomm.com, linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] phy: qcom: Introduce USB support for Hawi
+Message-ID: <chf57j2dkhhjzigpguldadfld5utepa4sxwbo7fjxk5nq37bhp@yci5agzh46ly>
+References: <20260508213234.4643-1-ronak.raheja@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260508213234.4643-1-ronak.raheja@oss.qualcomm.com>
 
-This macro is not for a USB Port Register, rather specific macro for
-struct 'xhci_port'. Because xhci-port.h contains only xHCI specification
-macros, move 'DUPLICATE_ENTRY' macro out of xhci-port.h.
+On Fri, May 08, 2026 at 02:32:30PM -0700, Ronak Raheja wrote:
+> This series adds USB PHY support for the Hawi SoC. It documents the
+> QMP USB3-DP combo PHY and M31 eUSB2 PHY bindings, adds the Hawi
+> compatible to the DWC3 USB binding, and adds the PHY initialization
+> sequences to the qmp-combo driver.
+> 
 
-Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
----
- drivers/usb/host/xhci-port.h | 3 ---
- drivers/usb/host/xhci.h      | 3 +++
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Vinod, does this series look good to you?
 
-diff --git a/drivers/usb/host/xhci-port.h b/drivers/usb/host/xhci-port.h
-index 7ec67924cace..f190fd9b720a 100644
---- a/drivers/usb/host/xhci-port.h
-+++ b/drivers/usb/host/xhci-port.h
-@@ -131,9 +131,6 @@
- /* Writing 1 sets the bit, writing 0 clears the bit. */
- #define	PORTSC_RW_BITS		(PORT_LWS)
- 
--/* We mark duplicate entries with -1 */
--#define DUPLICATE_ENTRY ((u8)(-1))
--
- /* USB3 Port Power Management Status and Control (PORTPMSC) 5.4.9.1 */
- /*
-  * bits 7:0 - U1 Timeout, inactivity timer value for transitions into U1.
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 2d74b643aa11..ff0d2546bc0e 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1483,6 +1483,9 @@ struct xhci_port_cap {
- 	u32			protocol_caps;
- };
- 
-+/* We mark duplicate 'hcd_portnum' entries with -1 */
-+#define DUPLICATE_ENTRY ((u8)(-1))
-+
- struct xhci_port {
- 	struct xhci_port_regs __iomem	*port_reg;
- 	int			hw_portnum;
+- Mani
+
+> ---
+> Changes in v3:
+> - Fix missing version tag in individual patch subjects
+> - Link to v2: https://lore.kernel.org/all/20260427214217.2735240-1-ronak.raheja@oss.qualcomm.com
+> 
+> Changes in v2:
+> - Clarify in the QMP PHY binding commit message why Hawi needs a
+>   dedicated compatible string vs previous targets
+> - Remove stray blank line in hawi_usb3_rx_tbl
+> - Link to v1: https://lore.kernel.org/all/20260425070002.348733-1-ronak.raheja@oss.qualcomm.com/
+> 
+> Ronak Raheja (4):
+>   dt-bindings: phy: qcom,sc8280xp-qmp-usb43dp-phy: Add Hawi QMP PHY
+>   dt-bindings: phy: qcom,m31-eusb2-phy: Document M31 eUSB2 PHY for Hawi
+>   dt-bindings: usb: qcom,snps-dwc3: Add Hawi compatible
+>   phy: qualcomm: qmp-combo: Add support for Hawi SoC
+> 
+>  .../bindings/phy/qcom,m31-eusb2-phy.yaml      |   1 +
+>  .../phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml    |   2 +
+>  .../bindings/usb/qcom,snps-dwc3.yaml          |   3 +
+>  .../phy/qualcomm/phy-qcom-qmp-com-aon-v10.h   |  15 ++
+>  drivers/phy/qualcomm/phy-qcom-qmp-combo.c     | 231 +++++++++++++++++-
+>  .../phy/qualcomm/phy-qcom-qmp-dp-phy-v10.h    |  15 ++
+>  .../phy/qualcomm/phy-qcom-qmp-pcs-aon-v10.h   |  13 +
+>  .../phy/qualcomm/phy-qcom-qmp-pcs-usb-v10.h   |  19 ++
+>  drivers/phy/qualcomm/phy-qcom-qmp-pcs-v10.h   |  34 +++
+>  .../qualcomm/phy-qcom-qmp-qserdes-com-v10.h   |  89 +++++++
+>  .../qualcomm/phy-qcom-qmp-qserdes-txrx-v10.h  |  89 +++++++
+>  drivers/phy/qualcomm/phy-qcom-qmp.h           |   5 +
+>  12 files changed, 512 insertions(+), 4 deletions(-)
+>  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-com-aon-v10.h
+>  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-dp-phy-v10.h
+>  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-pcs-aon-v10.h
+>  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-pcs-usb-v10.h
+>  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-pcs-v10.h
+>  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-qserdes-com-v10.h
+>  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v10.h
+> 
+> -- 
+> 2.34.1
+> 
+
 -- 
-2.50.1
-
+மணிவண்ணன் சதாசிவம்
