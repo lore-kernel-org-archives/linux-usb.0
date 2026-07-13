@@ -1,105 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B889385D6C;
-	Mon, 13 Jul 2026 11:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23ED93ECBD2
+	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 11:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783941160; cv=none; b=STlZUBb58HnHNL4Owd7H5I8+r0TsJ3wptJra2WsWSgEWBuDvoEd9ADZ2mDNp9n2R2mLL2EhNrsW6FBzGllQdKmXEt0z1ga3DAkaYM3BdbzO/4SYdYZzY48wdZ1mHnvdMs6lebqPRLcbU2ANzycLwmOmpzyzCOCgATNuRQTueL+g=
+	t=1783943243; cv=none; b=Yw5K89/dDEW8dDow5FHTjo0IEI9iDoudvhUJA2n6bzGFWQfBMPhbdoPPq7X7ri7K59Cns/m1NtaT4XGlBm8Ndo9O783dD6/BN7wej7zWXIVOmvBs7r/4VS7I/PETZCA6jHrHjM0eBkWpXhGXxoMc8+iJvYvfgFnlpbBV80l1LSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783941160; c=relaxed/simple;
-	bh=zzMt6c4IrEDxrQ0gOf5Jyjlrkqcm2LRwTZccZACl8R4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EdaZaCYWqSLvUP1PC8P4jXdeov2nqZ2acs3gzg98nzwf5LggMRzcGXhdefF6UpyBpjwZRWYu9w2QehE0NGZ3qkVG/cVaPO6QgNAat8gZqKLc+kGqyahsyx0gWhhwVc5572n6PbH3Lc0j79/2xiKijIlmeOSKU7MakZGY2MvEOCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LMDpN4mj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783943243; c=relaxed/simple;
+	bh=2PYYlcQqLMp9ZyJlbZOu82v9vXV7Vz57pJlWzajpaQA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EYzxzlquv85+mCsawf2M1MRqLcn73Bjh/qSU7qcxrrdwhlEk5mP1Cr/Y30Np4T/nrNsPpYbOU/cjEtPrOLTDRtFePsriakjveF6GxF+CPIoI6U7xvi9yByGE6uzXS5+W+ZUah2pVftCjLIJN25gXcOP5qotWzHfqpkdAWFHmNJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OnV4iBuD; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LMDpN4mj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A8F41F000E9;
-	Mon, 13 Jul 2026 11:12:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783941157;
-	bh=+itPATlxhTbhN7l81/OGgYUotwlHoDMlh3YsBI1rLuY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LMDpN4mjsABMx6a9b/8YHkgELyGWi8x5/IMBb/CpNiZVulzJzrRippKl5PEtGhVKB
-	 L4qC2SKg4U6zbAcGfQ60SWArIjNtPvq09E9h00HVQdmEaG9H3lfq0C0tdP82ZlSy8V
-	 Y6H2SkWIwhgSCcMAP4xH9Fq/Nu5R3qxPvxNKZ7VSAwE+S38laXRoF79GGhQHkdVYzr
-	 pM826rvmwjDDLl6/+a63D12osQUmRy+kOH6FBkFhe+h6H40shlEywP/AjuMfXmf4lC
-	 6+CkOSb+zUPiGBXo2sv4wfK+E1jmFaHOnCfO9iMh6Mh0bjIkad2JIyOWfCRPZL84C5
-	 U4/RNS9v3sF7g==
-Date: Mon, 13 Jul 2026 13:12:28 +0200
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: vkoul@kernel.org, Ronak Raheja <ronak.raheja@oss.qualcomm.com>
-Cc: krzk+dt@kernel.org, conor+dt@kernel.org, robh@kernel.org, 
-	neil.armstrong@linaro.org, gregkh@linuxfoundation.org, dmitry.baryshkov@oss.qualcomm.com, 
-	konrad.dybcio@oss.qualcomm.com, abel.vesa@oss.qualcomm.com, wesley.cheng@oss.qualcomm.com, 
-	krzysztof.kozlowski@oss.qualcomm.com, linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] phy: qcom: Introduce USB support for Hawi
-Message-ID: <chf57j2dkhhjzigpguldadfld5utepa4sxwbo7fjxk5nq37bhp@yci5agzh46ly>
-References: <20260508213234.4643-1-ronak.raheja@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OnV4iBuD"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so32977645ad.1
+        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 04:47:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783943242; x=1784548042; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gUfgeiYLj2n8Lc+2ZjQf7Ijb1oRUUAQYlVMDWkCBke4=;
+        b=OnV4iBuD6vqmyda6BKuAYbiz5O3cYerXGCh4v4RcNbhkOmIGOPY32Oc5pWhQVfAozI
+         EPzb3IOxP+7n9QgTgTt+6xt6XgaQAMjcaqezxGIwcE2RGQ3hrHuUTMCM8wiLoajgDKOn
+         /BKWCJrEAmCTv0rt/4GghFbz4jy3NMc3fPmeSPSFJ2kWCCRxQFuDSvHTAC7Tig3KV5/X
+         vjHkrQ6SdXzrz1wm7k4myX+mVkwRErqi4mdiRSj4c2l9PEO2nt6w/dEiOhSBhtaUGYdg
+         4GQePgOP5u4nl1y3AiGkk+i9ouHSrPO1skwSv7M20sn3yhg/ew102pSCfoA73fpQnXxM
+         PV8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783943242; x=1784548042;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gUfgeiYLj2n8Lc+2ZjQf7Ijb1oRUUAQYlVMDWkCBke4=;
+        b=NKLp+6t3eDT+LSt4IIlWomZpZb1kGOzh1Up1qryKwfbbMFLIp2HC7uzphthPrumtPV
+         A+uPyT2scX+kPRwk5rEO1RDEzxJaXHdEsBJ11eIBl8KqT3WtMZJUDIN8E6zWeB/aLDCy
+         mx4favBFUqbGPKvuoCX+Zcmy3b6O6lzZjNwQ2m3owL/wWoy+PEMh7YPrXIW9FN/uMcA4
+         DhZBTJrTqMzV7j7WZX6D0ZHpCEYcTh/rORuY1VMdGKEMQ8BT0K5M6DSsRn6YKFwJDHAf
+         gMcpGcAUznYmaDGhzx6PrKVMVDrruzCUi0SLoZ52v19AoOpJv3eUc7Ss2XWlYpvhltmZ
+         uwTw==
+X-Forwarded-Encrypted: i=1; AHgh+Rqhuk7gOfWhb1YHPNfRUoBQiT0Kqtrlx8QyDwnZ5rnLOJWA9VIJ776QOa6DKgwRWKMgcpU4M4gvyoM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdKUaiDOz36otbPiheVw7jZOcmaNi6cnJdzHuWUUaiAEPSjkfV
+	HCtoW5hJ33FmucPW21WSkPJ+MgVyqP3C4eSym4ufnJtGQjAa3bEnrOa7
+X-Gm-Gg: AfdE7cmETLS1RxjOu/bCSOtyhDiIlnFk7t9fyCsxXxNqSGAmiQXbrSU01OwzO+HECpg
+	UQPB+H1tU+tEsZPCTrutqlt2V51oXeok8iiWkRANSD5U5wB8rip8cdrXqlWiPlB80Kvu15bGTMh
+	skGoku5DO8a+fRfn+gGXd7Qm+1f2N10L4cahrGTKQzpYxp6zUrFLXXNgx2KRqxbMf6AZPbQG6YW
+	QfmbsqsnEAXswNFZwHjlrdaVx0ug/RW65xc0FXBcsA/7BsZgHFBuGT9QkkztIitAEx1HezjSOkX
+	TXhdj13HzIoUfUsQ39xcL8Mi84vsu20cSdPMAqrVZh7ZouRSsksx4zn0/dltuTnJ89S0IaEuheY
+	aZFhmkbm+408S3Lg4HQy2H+FhUVRyCNI6tmBDd6jnumtNijv4+7lK2twRnX+CsEv4zgRpqXncJN
+	Rrkm6+eG23uw==
+X-Received: by 2002:a17:903:2a88:b0:2cc:6018:f030 with SMTP id d9443c01a7336-2ce9e9b2507mr83806345ad.14.1783943241572;
+        Mon, 13 Jul 2026 04:47:21 -0700 (PDT)
+Received: from lgs.. ([101.76.249.46])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc99cc5aasm98328125ad.0.2026.07.13.04.47.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2026 04:47:21 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Bin Liu <b-liu@ti.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tony Lindgren <tony@atomide.com>,
+	linux-usb@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Guangshuo Li <lgs201920130244@gmail.com>,
+	stable@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>
+Subject: [PATCH v2] usb: musb: omap2430: Do not put borrowed of_node in probe
+Date: Mon, 13 Jul 2026 19:47:11 +0800
+Message-ID: <20260713114711.955253-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260508213234.4643-1-ronak.raheja@oss.qualcomm.com>
 
-On Fri, May 08, 2026 at 02:32:30PM -0700, Ronak Raheja wrote:
-> This series adds USB PHY support for the Hawi SoC. It documents the
-> QMP USB3-DP combo PHY and M31 eUSB2 PHY bindings, adds the Hawi
-> compatible to the DWC3 USB binding, and adds the PHY initialization
-> sequences to the qmp-combo driver.
-> 
+omap2430_probe() stores pdev->dev.of_node in a local np variable. This is
+a borrowed pointer and the probe function does not take a reference to
+it.
 
-Vinod, does this series look good to you?
+The success and error paths nevertheless call of_node_put(np). This drops
+a reference that is owned by the platform device, and can leave
+pdev->dev.of_node with an unbalanced reference count.
 
-- Mani
+Do not put the borrowed platform device node from omap2430_probe().
+References taken for the child MUSB device are handled by the device core,
+and the ctrl-module phandle reference is still released separately.
 
-> ---
-> Changes in v3:
-> - Fix missing version tag in individual patch subjects
-> - Link to v2: https://lore.kernel.org/all/20260427214217.2735240-1-ronak.raheja@oss.qualcomm.com
-> 
-> Changes in v2:
-> - Clarify in the QMP PHY binding commit message why Hawi needs a
->   dedicated compatible string vs previous targets
-> - Remove stray blank line in hawi_usb3_rx_tbl
-> - Link to v1: https://lore.kernel.org/all/20260425070002.348733-1-ronak.raheja@oss.qualcomm.com/
-> 
-> Ronak Raheja (4):
->   dt-bindings: phy: qcom,sc8280xp-qmp-usb43dp-phy: Add Hawi QMP PHY
->   dt-bindings: phy: qcom,m31-eusb2-phy: Document M31 eUSB2 PHY for Hawi
->   dt-bindings: usb: qcom,snps-dwc3: Add Hawi compatible
->   phy: qualcomm: qmp-combo: Add support for Hawi SoC
-> 
->  .../bindings/phy/qcom,m31-eusb2-phy.yaml      |   1 +
->  .../phy/qcom,sc8280xp-qmp-usb43dp-phy.yaml    |   2 +
->  .../bindings/usb/qcom,snps-dwc3.yaml          |   3 +
->  .../phy/qualcomm/phy-qcom-qmp-com-aon-v10.h   |  15 ++
->  drivers/phy/qualcomm/phy-qcom-qmp-combo.c     | 231 +++++++++++++++++-
->  .../phy/qualcomm/phy-qcom-qmp-dp-phy-v10.h    |  15 ++
->  .../phy/qualcomm/phy-qcom-qmp-pcs-aon-v10.h   |  13 +
->  .../phy/qualcomm/phy-qcom-qmp-pcs-usb-v10.h   |  19 ++
->  drivers/phy/qualcomm/phy-qcom-qmp-pcs-v10.h   |  34 +++
->  .../qualcomm/phy-qcom-qmp-qserdes-com-v10.h   |  89 +++++++
->  .../qualcomm/phy-qcom-qmp-qserdes-txrx-v10.h  |  89 +++++++
->  drivers/phy/qualcomm/phy-qcom-qmp.h           |   5 +
->  12 files changed, 512 insertions(+), 4 deletions(-)
->  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-com-aon-v10.h
->  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-dp-phy-v10.h
->  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-pcs-aon-v10.h
->  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-pcs-usb-v10.h
->  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-pcs-v10.h
->  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-qserdes-com-v10.h
->  create mode 100644 drivers/phy/qualcomm/phy-qcom-qmp-qserdes-txrx-v10.h
-> 
-> -- 
-> 2.34.1
-> 
+Fixes: ffbe2feac59b ("usb: musb: omap2430: Fix probe regression for missing resources")
+Cc: stable@vger.kernel.org
+Reviewed-by: Johan Hovold <johan@kernel.org>
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+---
+v2:
+  - Correct the Fixes tag.
+  - Add Cc stable.
+  - Add Reviewed-by tag from Johan Hovold.
+  - No code changes.
 
+ drivers/usb/musb/omap2430.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/usb/musb/omap2430.c b/drivers/usb/musb/omap2430.c
+index 333ab79f0ca9..6e749faac33c 100644
+--- a/drivers/usb/musb/omap2430.c
++++ b/drivers/usb/musb/omap2430.c
+@@ -454,7 +454,6 @@ static int omap2430_probe(struct platform_device *pdev)
+ 		dev_err(&pdev->dev, "failed to register musb device\n");
+ 		goto err_disable_rpm;
+ 	}
+-	of_node_put(np);
+ 
+ 	return 0;
+ 
+@@ -464,7 +463,6 @@ static int omap2430_probe(struct platform_device *pdev)
+ 	if (!IS_ERR(glue->control_otghs))
+ 		put_device(glue->control_otghs);
+ err_put_musb:
+-	of_node_put(np);
+ 	platform_device_put(musb);
+ 
+ 	return ret;
 -- 
-மணிவண்ணன் சதாசிவம்
+2.43.0
+
