@@ -1,94 +1,79 @@
-Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161E737BE93;
-	Mon, 13 Jul 2026 12:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.203.114
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAA3416D13
+	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 13:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783945724; cv=none; b=H8b7OEBzgsBhTuhrX1yGNwMbXneeySa+3xn351xV6QfdeGM3jgaIEXHo7hlimP0WGhpu66a0hiLLas/QOjzz+nBvLjIY6VIvttf2tyMRUYRGUVWRft3AkejwglF4XrfcItRJWF2BUST1F731VEqFnF6PzAna7APseXdCzu93W8g=
+	t=1783947992; cv=none; b=OANVyPUsYf2+yZw3oavzBknMBUYUrfKKlgssCtHv2ajoAQTF1ax1ruYnX18IQLDRBYNrKQ6xCPVj+AgxKzzjgtq65aPbtMwRT0s1teBkoro4WT0PgTelEWzXRp5Mhrc9yj/+7/LUDPwNJK0KZABnJQgV3ndzOM28vgH6JZVgvN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783945724; c=relaxed/simple;
-	bh=x8YYLwffgpYPKYANXa4Nn7hLKgjwYP2KvWp6M6FdTKQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aJD/STGrD3EO7oRQEB+W5YhHljKZXgAOvyCouCm4zjJZlW5a3VaWB3xWszdluZI7JcFbn/5LgoWZ+sAhpzctskS50K5vqZKEPhzarP/VLebPVCzDKRx8n5q0ZnZE2UlVIMEXfZtVJxJAFSVkbamlQKZ+eT4O1PerURJJms7qj1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.com; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=NMHaGRhJ; arc=none smtp.client-ip=188.40.203.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.com
+	s=arc-20240116; t=1783947992; c=relaxed/simple;
+	bh=6tTXQIyqyCF03Q84o0pVln392CLXc6q2nw4AAzJusnY=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=JTIOoq2qPjeu3mE9T+xUVO7UjpD5Ezk09hDyYv8PpNqEKXdkHsN29XIPwFrUkx08oq1P2pA1SoLM/AqROP7GITDXNnsiZrgl3eIT3vPUf/bTQ1D15Ncp8lpkDo1Z3PE4URsAoQHN5ELzL/vW8O0t/exRX9VOSaR2UQdNUXSYFQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JamR2cpy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="NMHaGRhJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
-	References; bh=TsyKjXZn+ctIT7sE13BOuXpqo/nsJHJbuuT8ejPDUFU=; b=NMHaGRhJ/NP38p
-	r+Xaj5094ruu9xhjQWUh5bVFLj5miUlKSa+u21i/X3//Uo34hniPqT1GYnZK50jnoJJxaU9gj6bxp
-	mfCK/QyKXWYRd9TiSboUvlGN0R1h6qBUpPs1+CMYIJmuK7bzjKivgn2pKLDlAb+EvWmp+JfxlsFbM
-	QWN6C10xN1xdnFDGw4sE8D3JLX+Co9BsQBw0tLZMUuY43TsjhqnQILLwEoULxfAamoNfoYkmZcwiU
-	E5ekhJ9yWibVR2tpGl6RzKXKOt2kyFbqT7BpYGkflPB7OytzIKVrXywZ5NwlORq5prXqI+2LShGYa
-	uOYfyL9DnF+9kl/dqIQA==;
-Received: from [167.98.27.226] (helo=rainbowdash)
-	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
-	id 1wjFlo-006T6G-Om; Mon, 13 Jul 2026 13:28:24 +0100
-Received: from ben by rainbowdash with local (Exim 4.99.4)
-	(envelope-from <ben@rainbowdash>)
-	id 1wjFlo-00000005aLK-1ZGt;
-	Mon, 13 Jul 2026 13:28:24 +0100
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Neill Kapron <nkapron@google.com>,
-	Sam Day <me@samcday.com>,
-	Michael Bommarito <michael.bommarito@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Ben Dooks <ben.dooks@codethink.co.uk>
-Subject: [PATCH v3] usb: gadget: f_fs: fix __le16 of wMaxPacketSize
-Date: Mon, 13 Jul 2026 13:28:22 +0100
-Message-Id: <20260713122822.1331334-1-ben.dooks@codethink.co.uk>
-X-Mailer: git-send-email 2.37.2.352.g3c44437643
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JamR2cpy"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3F947C2BCFA
+	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 13:06:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1783947992;
+	bh=6tTXQIyqyCF03Q84o0pVln392CLXc6q2nw4AAzJusnY=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=JamR2cpyPMOxGCgTJC6GzrvYeieKuwb9s+RjgH6iVTx264kD0We58SdLKTLNvD4me
+	 2pUBgBYF+Cm/WyoP8MU3/KqvUjAYc4JyIFbQW3DS0vXMLx6udXSPmDBLGOxnCsA/va
+	 QeiSe8osOvdRo7eJgFw43X74zaYOZukgEichby3egPHFZ1XXxtrF33HlZNjP0cSGwb
+	 ewp5jP6gKmN5k7mlxRZU22vWTqxvaqb7v5gj3L6WBL7bDO0B9HMlcO/sYk9ajopfha
+	 Y1kN6sjlmZgwGKXYcZo8KE6urdhiA3hKEg1/zdgQAkBAlnv6MBNcY/7OzSZGIxvdKN
+	 03ypKmVcOjKYQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 303D3C41612; Mon, 13 Jul 2026 13:06:32 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221073] xHCI host controller dies on resume from s2idle on AMD
+ Strix Halo [1022:1587]
+Date: Mon, 13 Jul 2026 13:06:31 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mario.limonciello@amd.com
+X-Bugzilla-Status: NEEDINFO
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221073-208809-iZvSvNvDB2@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221073-208809@https.bugzilla.kernel.org/>
+References: <bug-221073-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: srv_ts003@codethink.com
 
-The wMaxPacketSize is __le16 type, fix the sparse warnings by changing
-the type.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221073
 
-Fixes the following sparse warnings:
-drivers/usb/gadget/function/f_fs.c:3346:32: warning: incorrect type in assignment (different base types)
-drivers/usb/gadget/function/f_fs.c:3346:32:    expected unsigned short [usertype] wMaxPacketSize
-drivers/usb/gadget/function/f_fs.c:3346:32:    got restricted __le16 [usertype] wMaxPacketSize
-drivers/usb/gadget/function/f_fs.c:3371:36: warning: incorrect type in assignment (different base types)
-drivers/usb/gadget/function/f_fs.c:3371:36:    expected restricted __le16 [usertype] wMaxPacketSize
-drivers/usb/gadget/function/f_fs.c:3371:36:    got unsigned short [usertype] wMaxPacketSize
+--- Comment #54 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
+Sorry about the typo.  It should have been:
 
-Fixes: bdcc03cef0fd8 ("usb: gadget: f_fs: preserve wMaxPacketSize across  usb_ep_autoconfig() call")
-Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
----
-v2:
-  - add fixes tag and reword commit message
-v3:
-  - fix mis-copied git-id for the fixes
----
- drivers/usb/gadget/function/f_fs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+        if (adev->flags & AMD_IS_APU)
+                amdgpu_setup_apu_usb_power_dep(adev);
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 44218be1e676..68114278a150 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -3335,7 +3335,7 @@ static int __ffs_func_bind_do_descs(enum ffs_entity_type type, u8 *valuep,
- 		struct usb_request *req;
- 		struct usb_ep *ep;
- 		u8 bEndpointAddress;
--		u16 wMaxPacketSize;
-+		__le16 wMaxPacketSize;
- 
- 		/*
- 		 * We back up bEndpointAddress because autoconfig overwrites
--- 
-2.37.2.352.g3c44437643
+I'll post an updated patch shortly.
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
