@@ -1,77 +1,83 @@
-Received: from air.basealt.ru (air.basealt.ru [193.43.8.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C723537CD;
-	Mon, 13 Jul 2026 18:25:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.43.8.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4822E8DEB
+	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 18:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783967105; cv=none; b=E98Ga/kWR/zxoLLy7Y5Dy6XgmenfvvyfFa6JzktiwdaNzmZY9sgEO5QWUzBmkDXEzpHY1x4+4zIJLrim9oeRUr3Gon7rnQpaYGw2JUYDH8nWLkx0O0NKtczGFTXafKte2wkgTCarfIJ/3MBW0xkzTtRrvZNtWrcEMkxq+iArarI=
+	t=1783967400; cv=none; b=gRoAEg3Sa2zYBOHyndU9Yi52M+K7Q7PgmGHuwKei0IrIW3P9CFHj41N9hH/tIslOFxqolbEEUbj5hFiSKxdGWBtBgRoDMtUur9YW1qGjZr8b7fZDiU0BvuqQFF83OMpY0T1T5B7lysznF4+vfTQes16QmRR8LQmy98bmtgnyrQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783967105; c=relaxed/simple;
-	bh=OX/McDO1qPytlQlVUz0pVIuCo1NendmpnWnZRv7aBFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IytuJsKcFTd7CfJXjDGF3BQCGPF7W+t2pBZCS9SQ8YWdEEDIlqdwzpVjStfWkCg3srD+SA+mEqC4uN5k65OLYvTbcRTlaJxzOD0dlLl+HBjcJX6CN2qLYD168xVumfn1Gb0KNJrpuIRGR3BHpkeMQbxFQNC4qOKM7V2PLYaFZEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=basealt.ru; arc=none smtp.client-ip=193.43.8.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=basealt.ru
-Received: from localhost (broadband-46-242-4-129.ip.moscow.rt.ru [46.242.4.129])
-	(Authenticated sender: gremlin)
-	by air.basealt.ru (Postfix) with ESMTPSA id 80D2A23370;
-	Mon, 13 Jul 2026 21:25:00 +0300 (MSK)
-Date: Mon, 13 Jul 2026 21:25:00 +0300
-From: "Alexey V. Vissarionov" <gremlin@altlinux.org>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: gremlin@altlinux.org, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Casey Connolly <casey.connolly@linaro.org>,
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH v1] usb: typec: tcpm: qcom: initialize currsrc explicitly
-Message-ID: <20260713182500.GB22956@altlinux.org>
+	s=arc-20240116; t=1783967400; c=relaxed/simple;
+	bh=WgtYSdkndr1LVqwVRg+ySQ/DhHfyA8Zq9uxFkO7pz5o=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=uj3mnGo2wTXqTZTonpf0GqVjkymlyhsD6yxgERzxU1StCDzgbKhtAdtw1HGvA8xZGju/UX9PA9NeQxfxFt9dfGrzOhOMZswXnUTuKbkW5wKx3Y9RqLkRvb3grvGfJRSB0FJAGYcHqqASILznC4LP9wf67gq8e8ob/muCGZZvqhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f5XBoTeH; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f5XBoTeH"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 379DEC2BCB8
+	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 18:30:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1783967400;
+	bh=WgtYSdkndr1LVqwVRg+ySQ/DhHfyA8Zq9uxFkO7pz5o=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=f5XBoTeHR9U3CYNWHEK94iypBi7ukYlPbmXFSohKMV8RrIUHM1RCGP2cZvuuMiwKJ
+	 xyQz66b0L9f5vbs/U2ghCCDeXdUVn8d4EC97yItpnplO7Fgsqh7fXT6fMpBBmc4pLg
+	 2z3L4blfYkXfssOdfx5BRxyIw4Bx2EuUHrGZopoZmzBUTsH0d4hHZxJMCHGAavIv6U
+	 jT5ZIfQljul/J6/1/GjKCwA0Yb4wM/n0t3lrPrCKtw5JHt8dYHg89MWczSBY5EbFur
+	 gymVXA9Rkpqn2mXI2BDj/QSywSw+sANrF72X6qHFwUBHca8g4f7iY5q4SBT6T3RyKc
+	 2aOv0iOsSu0MQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 233A2C4160E; Mon, 13 Jul 2026 18:30:00 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221073] xHCI host controller dies on resume from s2idle on AMD
+ Strix Halo [1022:1587]
+Date: Mon, 13 Jul 2026 18:29:59 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mario.limonciello@amd.com
+X-Bugzilla-Status: NEEDINFO
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.isobsolete attachments.created
+Message-ID: <bug-221073-208809-pkPP7FLHFi@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221073-208809@https.bugzilla.kernel.org/>
+References: <bug-221073-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=koi8-r
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-When regmap_read() fails, the execution goes to done: label, where
-currsrc is passed to rp_sel_to_name() and used as an index after a
-proper check. However, to make this situation easier to notice, an
-explicit initialization of currsrc with obviously impossible value
-is suggested. Alas, we can't simply use zero value here because it
-means TYPEC_SRC_RP_SEL_80UA.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221073
 
-Found by ALT Linux Team (altlinux.org) and Linux Verification Center
-(linuxtesting.org) using SVACE.
+Mario Limonciello (AMD) (mario.limonciello@amd.com) changed:
 
-Signed-off-by: Alexey V. Vissarionov <gremlin@altlinux.org>
----
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+ Attachment #310442|0                           |1
+        is obsolete|                            |
 
-diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-index bf985efe1cd6bea4..d7cb69cf6044841b 100644
---- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-+++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-@@ -461,8 +461,8 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc_dev *tcpc,
- 	struct pmic_typec *tcpm = tcpc_to_tcpm(tcpc);
- 	struct pmic_typec_port *pmic_typec_port = tcpm->pmic_typec_port;
- 	struct device *dev = pmic_typec_port->dev;
--	unsigned int mode, currsrc;
--	unsigned int misc;
-+	unsigned int currsrc = 0xFF; /* error, easy to notice in the log */
-+	unsigned int mode, misc;
- 	unsigned long flags;
- 	int ret;
- 
+--- Comment #56 from Mario Limonciello (AMD) (mario.limonciello@amd.com) ---
+Created attachment 310446
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310446&action=3Dedit
+possible workaround patch (v3)
 
+--=20
+You may reply to this email to add a comment.
 
--- 
-Alexey V. Vissarionov
-gremlin נעי altlinux פ‏כ org; +vii-cmiii-ccxxix-lxxix-xlii
-GPG: 0D92F19E1C0DC36E27F61A29CD17E2B43D879005 @ hkp://keys.gnupg.net
+You are receiving this mail because:
+You are watching the assignee of the bug.=
