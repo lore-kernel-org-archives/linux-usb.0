@@ -1,190 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B345863B9;
-	Mon, 13 Jul 2026 06:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB245383304;
+	Mon, 13 Jul 2026 06:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783924027; cv=none; b=Voav6fSTD5jmGL+yHXHgXHqchwuT245IkEWIkka47gNyoUC6wfnYFSPrW3yqfB8hoXDAf2W9J0NoKyuXVlGX3eLsuqSk/1SqEa8utoyHBHYVuew84YIR6hKlxWpt0FEJRiolgrVn+Cd37lVIM8W2LNLjiKRn5sbDY2pS2YTLZD4=
+	t=1783924030; cv=none; b=DUjc8jClOAqSsv+M2OwTM8/BCDp4RKCveGVM9//+T5xzPB1I+3nGHJ0d5RJ6cC1zVBw5s38bCOUJQuNTnWN7sMcEDkQP33ZcMn0docOJxsLsecBE1lPIBuzYDxLImXxrz7w4ri3CbdIQkWOEyew3jmbHoofBqHsrzd4TNGKaL0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783924027; c=relaxed/simple;
-	bh=B7OjmiraTpJiGItRI7tVkbOD0fmA509CxKxIDx1KxFU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lvo9WI2xZX6s8g3C1c+pfzhMKBM8ZyX6jvD7HEOC32aNOpW5K74ERw5We3a52Azdq2ZC6nCZ/RdI79v7QdwkLoWGHC0Q+OVqjDu3EBVwZbqZgtQN9gVfiR0tZMOfSQwutXCDL/zOfv2inq+gQy8ZpnHo3ZcO6MaUK5EzHngESoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tka99AQX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783924030; c=relaxed/simple;
+	bh=+RQGLV4zhDuG51vcmZx0FaoywI8PQdG317MUi7dmbRc=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=MzQU//ot4kJlXHTilmW4L6acSbFzlyRS1MXLF/f09fn0alBSM2c7dXpQKEV8R+P8KoB0bdD3TPgm/FL9vDKOJXOy9oDs21QcQbc6xD38KKZ7S/kGMhtOmCgzNP919uXWPasc/+jfy34S4C2f0PvXg1LVvukOhwUu8ThNC5s16TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=KWjWy8Va; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TROl/648; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tka99AQX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 169A61F000E9;
-	Mon, 13 Jul 2026 06:27:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783924026;
-	bh=pImptldIHl5+8AWxqCqfjS2sSYB2Zs2oA3iRfqTWyBI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Tka99AQXx3i4K3jasBpkL1oilqzsgh/cTa22V1fcxvMIwK6/QkvhPXxYC1TWcxoF6
-	 JNaEhNfVGB9OVf6hXDUuFWBRZa5vcuOW90un8JI6A1YBgC6MitWLcTahflkYWSsS2Z
-	 gEJjxWAgLBMVFe7cM8jvQ4oNoTSdlNbZ8p/c3j8o62wFQiWGkZa48dN2j1lpKH8QYZ
-	 fceVSB6mOhiqNzLH+CId24kbLIjLRCAKuGIHbBjarO7c1X5q9pcAoQdyye2eaahKjH
-	 CR1N3fYGXQcq5MeOyGcZuBe4uwPmYvyfw4ErzZ84RPgyHEbmXH+HdpJR0dq2y/FpBk
-	 Q4SmSO5amGlZA==
-Message-ID: <b60b4d96-ea67-44d0-a627-c50ef0ed8615@kernel.org>
-Date: Mon, 13 Jul 2026 08:26:59 +0200
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="KWjWy8Va";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="TROl/648"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id E179AEC016E;
+	Mon, 13 Jul 2026 02:27:07 -0400 (EDT)
+Received: from phl-imap-05 ([10.202.2.95])
+  by phl-compute-04.internal (MEProxy); Mon, 13 Jul 2026 02:27:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1783924027;
+	 x=1784010427; bh=I6YCZ6vuksZR3ELl0DY6RqLSRhwM4Nalt4vVw4MrW0w=; b=
+	KWjWy8Va63NU+mfj4WEy12H5swnMhZ5G0pfOZzk3LlnvegqgGaV+6Vak5LKmLBv6
+	D/zVbo145q+DFE6IKQUoIX4R0cs5ITOgfgQuuC4esOeroxKD6mFqiXsq45gYdLwo
+	GUuvUnGHvdDMDxNgt0hUyo0gzEDJHP/jQOK8hfmW/L4Fik7sJrO243qA67hZjufL
+	ZrmbVBSAjH/JboQfIurK2xOjqzf3hti3CsbBX7RBH1TJ0jROKmaiDlo5kMebeb1+
+	eTeym4HuzTivch9PmOMW7zfT/ZLV8nh5nJqavdFkwGco+pm9MA5SgoZBV5oTE3F7
+	Zlr8bO4Sf0Uc00I0JH1Quw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783924027; x=
+	1784010427; bh=I6YCZ6vuksZR3ELl0DY6RqLSRhwM4Nalt4vVw4MrW0w=; b=T
+	ROl/648AUENEBwAU54BIHJlElJYt0kcRRVre1vvXSM3w/24pEPJ4rA+XXOIiCA3o
+	JDLghkgEh3bIIotAfY0ScaOc6Y95LnQ9qfhnqqueTSc5QyUWtAGB/qEfJJft8r9q
+	aloRKq1eCyAb61GIoi5Uqf6VFJj9AEu/S0OAKZgIoimRN2U3TpP+vvcdIYUovtSv
+	txPEACJy6rzjcK8sz07GuwW+kT5GLMQ6ZXEVf7fr1s1HwSgeAMbKH01us4k1js7G
+	Kn6P6fB488qKSsCs3a1AYY1xifHjAC89xecx/yV/U5aAtZe7NAHhQFaGEE3D0JHk
+	RRNWHlwNGLe363v9YquOQ==
+X-ME-Sender: <xms:OoVUaj-vAj-LZB_k7leutDqw70bECF6jBzAhWloupBLuaVdWJIlFjg>
+    <xme:OoVUaqgLOkmtCrD2AdESqBUehtD25GxB-nxNICIfCCq5NY-IB1InR9CtJDx7B_cdY
+    v0-8Sq3D3kwNwwRLpYMUadT6FLNqUkQHBqVq-ZEdLGXETuCloNcfJA>
+X-ME-Proxy-Cause: dmFkZTGEorj3kLX+ESWdgTZ+4cvZ8dknoR5VnTO3QmaIDjJU4OiuUNm+ZEn5mflW8AzpyM
+    eREjlj19XdPcBsirJxBoL13Wx3QiAWftesRUpm//vBoN68+rxop4Xsq3z3u7Bx/NqKToFj
+    2pwAgEtvbcoXSGHdI1Btrk+yA4rUCLOmqJW46GO9uMp+ppTTJcQcGh6Frr8u/mEc/x9ncN
+    BaZzghQi7MY0gTzvbT1CcZ9GQtnCwUkSL9j5qA2tvySuUR+Nfj8QRIkXRU4gNnMZ7e6CyK
+    fHLJH8ixVQX/2SVRPH9mKuA/SNDKKyIz9+Q+5fwKWhf70h2pGqXhqxFaoiwrTVb833OJjz
+    jsk97cZQvQczJVkfCVOSaflPMlZ58eaS27uNp0NMfj8OfYFYvXhEUIrW+1qaqRVuvlXJCi
+    oY/hDRKcziWqAr6Jq2xLwnpShgKFkMHqBv3DKR4aykMPKlbRxYrypR+6q4f6z0yH9Oy2kr
+    qypnlXBueKh6oGN4HfOOyThBmxHWYxQ8fNfjm9XsDJyscFToopx/rE3Ku6NRg9+qoriRMf
+    vPdYoi2V6hO4Wh2UYs1DVQG9bSNUGNRWl1RIXV1ylFeDSBznmjb1H734a5VimKFZwYN7ZX
+    3oefPM4IdHPmJRf4avoLbuGiYkKCg1TC4fJsuIA1Jd9d2VEJUqd3McT4tBVQ
+X-ME-Proxy: <xmx:OoVUahhpaS6gom3m--_RetmOd_Ng8aNqSFSTY-zyiECp8LbvtrRVTg>
+    <xmx:OoVUauzqlcYNNCymnBlsHKCoQ4DhMkrvUplVMkuJfikV2z7SgFPNvw>
+    <xmx:OoVUavwtFMO_46NWD0kYTiOTj-rldHmwBKLVjoc3iYJ1jqW-YzVE3w>
+    <xmx:OoVUaoqTUn-Um1-sMEJSEH28oF25muMEwrDhaElRluQTsFIMyE2v4Q>
+    <xmx:O4VUauBvCuBpV-voH_xYTksPueHGTmV_YLMfWyxlibb9Tt_y9rQjUWOH>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 90EF31820082; Mon, 13 Jul 2026 02:27:06 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] dt-bindings: qcom,snps-dwc3: Add property
- indicating presence of eUSB2 phy
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>,
- "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20260709-eusb2-interrupt-handling-v5-v4-0-d4f993925608@oss.qualcomm.com>
- <20260709-eusb2-interrupt-handling-v5-v4-1-d4f993925608@oss.qualcomm.com>
- <d742u7jrpm7gdoljgiwkfexc47qhprwoibk6fadpm3qilbdpgi@jrkbrwfmqmrp>
- <alBOC18CpkGDhM2m@vbox> <20260710-warping-resolute-wasp-e4b8ce@quoll>
- <7a099224-ea95-40ec-b279-f8834f261e23@kernel.org> <alFTxg0HLyke0gCK@vbox>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <alFTxg0HLyke0gCK@vbox>
-Content-Type: text/plain; charset=UTF-8
+X-ThreadId: AwADi15u6ulk
+Date: Mon, 13 Jul 2026 08:26:46 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Conor Dooley" <conor@kernel.org>, "Julian Braha" <julianbraha@gmail.com>
+Cc: "Bin Liu" <b-liu@ti.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Conor.Dooley" <conor.dooley@microchip.com>,
+ "Daire McNamara" <daire.mcnamara@microchip.com>,
+ valentina.fernandezalanis@microchip.com,
+ "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>,
+ "Claudiu Beznea" <claudiu.beznea@microchip.com>,
+ "Jassi Brar" <jassisinghbrar@gmail.com>,
+ "Alessandro Zummo" <a.zummo@towertech.it>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Wolfram Sang" <wsa@kernel.org>, "Ben Dooks" <ben.dooks@codethink.co.uk>,
+ "Heinrich Schuchardt" <heinrich.schuchardt@canonical.com>
+Message-Id: <e771f4d0-a442-4a02-9ea8-4d6078d74bd8@app.fastmail.com>
+In-Reply-To: <20260712-parole-stoning-d7e66a0961a8@spud>
+References: <20260711130349.592545-1-julianbraha@gmail.com>
+ <f4ef4d30-51de-4b58-807a-0fed243b2fe4@app.fastmail.com>
+ <1705e4f2-a0a3-4be0-a033-eacc1d54fcc7@gmail.com>
+ <20260712-parole-stoning-d7e66a0961a8@spud>
+Subject: Re: [PATCH] usb: musb: fix dead select of USB_MUSB_DUAL_ROLE
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On 10/07/2026 23:02, Thinh Nguyen wrote:
-> On Fri, Jul 10, 2026, Krzysztof Kozlowski wrote:
->> On 10/07/2026 09:16, Krzysztof Kozlowski wrote:
->>> On Fri, Jul 10, 2026 at 01:52:45AM +0000, Thinh Nguyen wrote:
->>>> On Thu, Jul 09, 2026, Dmitry Baryshkov wrote:
->>>>> On Thu, Jul 09, 2026 at 02:22:36PM +0530, Krishna Kurapati wrote:
->>>>>> Add property "qcom,has-eusb2-phy" to indicate whether the SoC has eUSB2 phy
->>>>>> or not. This is used to modify dp/dm interrupts during host mode suspend.
->>>>>>
->>>>>> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
->>>>>> ---
->>>>>>  Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml | 7 +++++++
->>>>>>  1 file changed, 7 insertions(+)
->>>>>>
->>>>>> diff --git a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
->>>>>> index 8201656b41ed..0c6a839be82f 100644
->>>>>> --- a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
->>>>>> +++ b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
->>>>>> @@ -152,6 +152,13 @@ properties:
->>>>>>        HS/FS/LS modes are supported.
->>>>>>      type: boolean
->>>>>>  
->>>>>> +  qcom,has-eusb2-phy:
->>>>>> +    description:
->>>>>> +      If present, it indicates that the controller is working with eUSB2
->>>>>> +      phy. This property is used to modify dp/dm interrupt configurations
->>>>>> +      while entering suspend.
->>>>>> +    type: boolean
->>>>>
->>>>> I still have exactly the same concern. This information is already
->>>>> present in the DT.
->>>>>
->>>>
->>>> Could you clarify what you mean by "this information is already present
->>>> in the DT"? Are you suggesting we use the dwc3 node's compatible string
->>>> to infer the phy type?
->>>>
->>>> The dwc3 glue compatible describes the controller, not the phy. They are
->>>> separate IP blocks. A board variant could reuse the same dwc3 compatible
->>>> with a different phy attached, making that inference silently wrong.
->>>>
->>>> The phy type is described somewhere else in the DT (in the phy node
->>>> itself), referenced via the phy's phandle on the dwc3 core child node.
->>>> We could walk that phandle and check whether the phy node's compatible
->>>> contains "eusb2". However, that relies on a naming convention that isn't
->>>> enforced anywhere. All current eusb2 phy compatibles happen to follow it
->>>> (qcom,sm8550-snps-eusb2-phy, qcom,sm8750-m31-eusb2-phy,
->>>> samsung,exynos2200-eusb2-phy, etc.), but a future phy driver could break
->>>
->>> You have a fixed/finite list of phys which needs something special, so
->>> that information as Dmitry said is in DT already.
-> 
-> Are you referring to a fixed list of eusb2 phy compatibles, or a fixed
-> list of dwc3 node compatibles?
+On Sun, Jul 12, 2026, at 23:56, Conor Dooley wrote:
+> On Sat, Jul 11, 2026 at 04:09:58PM +0100, Julian Braha wrote:
+>> On 7/11/26 15:39, Arnd Bergmann wrote:
+>> > Good catch, but I wonder if this is actually a real dependency
+>> > at all. What would happen if you just remove the 'select' line
+>> > here and build a polarfire kernel that only supports
+>> > host or gadget mode but not dual-role?
+>> 
+>> The kernel builds just fine for me with USB_MUSB_POLARFIRE_SOC=y and
+>> USB_MUSB_DUAL_ROLE=n
+>> 
+> This is the setup I've been using in my development environment for
+> (probably) years.
+>
+> Probably the select should just be deleted.
 
-The phys.
+Ok, so it was probably just a misguided attempt to pick the most
+useful configuration by default.
 
-> 
-> Either way, the list is not fixed. New eusb2 SoC variants are added
-> regularly, and there are already 12 eusb2 phy compatible strings in the
+Julian, can you send a new patch to just drop the line?
 
-It is fixed. You have 12 compatible strings, so it is strictly defined.
-
-> DT bindings but only 3 in the PHY driver of_match tables, they don't
-> land at the same time. As for what information is already in DT, I've
-> addressed this above and in my earlier response.
-> 
->>>
->>> Anyway, the commit msg and property field have insufficient description
->>> of actual hardware problem being represented by this property, so it
->>> looks way too much as SW policy.
-> 
-> That's fair feedback to raise with Krishna.
-> 
->>
->>
->> And Dmitry already said this at v3.
-> 
-> And I've already responded to his comment in v3:
-> https://lore.kernel.org/linux-usb/ahjYwJtiMsm0BcCh@vbox/
-
-It does not change the fact that type of phy is implied by compatible,
-thus you do not get a new property.
-
-
-Best regards,
-Krzysztof
+        Arnd
