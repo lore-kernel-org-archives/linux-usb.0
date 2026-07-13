@@ -1,75 +1,76 @@
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D98338D6B8;
-	Mon, 13 Jul 2026 15:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00972340410;
+	Mon, 13 Jul 2026 15:44:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783957484; cv=none; b=cIzX7MfNG18EnQb9jhclve7gwoi9xON1xxHdHzbl+2yVGx6Y8FRREaViJnFO4w1IzQxiHEjvTacjEeH1G/sGhb53weNrcKwfyiEyHoQRh1ZxmWWviJB3+5FLuwlkIwfo5DUcVV6thAEczu56LaIopvRXnspeI9m4SRSQQjreCa0=
+	t=1783957487; cv=none; b=qce+mDuEzzr98EP9OcQXZ5LQ13ADSqzshs0xr+dy22MXboKBDCi3LoEuSzHBHpSCtAK5fmVettQalsA71dzyZa4Go62pHDWZp+UyVBZsuDY5xu99OCZRc6+jwTdHih95co9Gd8/kZlmwxpDkJapynkNebs6uRf3Ni/7GxY8uM74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783957484; c=relaxed/simple;
-	bh=vWUbaBwsplVgWupnIAu2K9+jTRYPRmZ8Z27CrYGM7Sw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bkYs/ZYtcq7N3/rq01ohGbVmCiEdowk3OL5bDY9D6EhDYzVbokzNOCBD1hrRJN7vP/7tsHGvgaIJ9BCccEhPXRzoRKLA3LAwLFRNWqD0HlJyWnw2EBw5rH9wtfF1L8mNtV1ytDz3FsSASolh/qbDMYGckf3FMCzvMdd3SUiNEqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=Q4oMf/1f; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rNMe/gGZ; arc=none smtp.client-ip=103.168.172.158
+	s=arc-20240116; t=1783957487; c=relaxed/simple;
+	bh=i2CZTUXEQ3hou/RGOkSypfDwEldYfuj/m1E4ty+SM5Q=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=fJgzEq82XZDPGKB6w7QF8+RAGJGAvC2DgMTgcHr4I2wRmC2q/WVRAwM92HQC9AjnGBxw5M5CZIdPmxOWCXQIBb31n8bSEGI41u7EtjkfFMfrAuiXSSt7mjPgHpGFsLAz1cbs/C1RyIZRENIXUwAITJPhbSIlFD/6F/96nlTOtTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=pPUDON79; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lQzi46iX; arc=none smtp.client-ip=103.168.172.147
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="Q4oMf/1f";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rNMe/gGZ"
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 7BC3D140018A;
-	Mon, 13 Jul 2026 11:44:38 -0400 (EDT)
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="pPUDON79";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lQzi46iX"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 554D2EC0084;
+	Mon, 13 Jul 2026 11:44:42 -0400 (EDT)
 Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Mon, 13 Jul 2026 11:44:38 -0400
+  by phl-compute-05.internal (MEProxy); Mon, 13 Jul 2026 11:44:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
 	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1783957478; x=1784043878; bh=Sc
-	KjDVJYPIYyftsmkuduBGYV0v+zkoRZBTWycjoAcYI=; b=Q4oMf/1f4XSsspmMLP
-	Jci0i5m1TUxp3g09TfhVId+AtBgffjQxDJGiAvMIf/l5OUOE1sqtWC/UmMcPmrYv
-	LgM6Ie/e86Yvc1rXLMfwHbAiPxsSp9dUn936ccLge73KzUTuZFFY0KGvuM3xhn91
-	vhRETqVeWAIkh58tS0E9SXwp0UKdY+hrQVFl3bscb5IFyhu2pTJmsTuYox/W66g5
-	OKwdTHozkzsel5jtKN7faXjVK1m5grYzN/NBJ2WgnnyJ+utl84eYXED3nmDRTanI
-	zRefbzPwS8PKGKv2Bn2VoLVXrKMHhxOllufyJqAxSudQ2Z7SOPGzqOyE2ddUccDj
-	GTOw==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1783957482;
+	 x=1784043882; bh=kk3oo+cn7S549tlbg/+iWEtaXESiNMv/FlPnN5HZBUI=; b=
+	pPUDON7968WWx8qw8R/ihERPndX/LfOI4lAI2XvoYcwi0qLGZBabTYaiY40kVPJT
+	W7uNVMep+buX2wtMub5c5w3KhIZa0htpE+TKgZ/4eGIw8Ur6bH2e++Hq2XfQurUc
+	ltthzGBMXrP7M3CFDH72rEr4YrLvOMwymrG3B0HaM2i/WTmyaE1o/+ehBg7h+Xds
+	U3MHy878OWRwHiajQRB0c6O5m7Ba4l0A3t7K+GbrVmhWoK5JG0EcuU2QWfVmmP/S
+	G1LUVDLY0NwPxQrrjWyYpipbhP6UZDwylGdEkTuAwfTnh+1QwZA1Uyyj5uhzxJnt
+	A6lp1elKeSXPEDNZliTbLw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1783957478; x=1784043878; bh=ScKjDVJYPIYyftsmkuduBGYV0v+z
-	koRZBTWycjoAcYI=; b=rNMe/gGZRE4gLJGn0LP5OJiu6cm6ywSEli8WcFRztfzB
-	tJJAw+woV1Qz3NKCRbq8vjVEa4wSJcINWjFZi8IWqjlifOQNtnMDvf0NCMGN/vtn
-	hllNJCoZSO4i//Sav4cL2o+6an1+/4FPWgsWaoU9+LkKZ2MXnPjQYE1eBf1QTU6c
-	dFBMKaq9MsnFmGDsH9i4BQb9B46Vj001RghCrMPji7uEhhCgwB/2o0eLWHqC+j2P
-	3o7YunzacMYdlUwClHZQLyfMrpJlcx1XlMB0SYx2xJfnyITMQzWwcSZKPjMg66wA
-	r5YOmYfkpyj/sh4iUnZuMqojwMvWRHcenpl3YIEMXA==
-X-ME-Sender: <xms:5gdVao1609XHBcFcJJTUHp7CAxDMyaUPv9Kova_Tkm7Bkm5j9l35Kg>
-    <xme:5gdVag7qQSSDXrryLSXsLLkEu1v6-VMJYl9Ybm40Y5pIB4zS7ODGP3CWlHmTma53q
-    aN5J6PYpf-7D7Yi5_xfJNqATlA7z3RCBYxckZ3U90yqlgJnjEw>
-X-ME-Received: <xmr:5gdVarVxgj4Pkg-W4SpisxY6Bgc-WN9bSFgh2ZbV18mM7xh4q0w9XPIqpFV9sis_d05b4lR0U3qCT9PfIBXS6g5oWudDIcnpfA>
-X-ME-Proxy-Cause: dmFkZTErh1t8EuJ/lsM2UYf5an2irZMDT90ZPmrULPzOIHSFV+sG41ajxekDPE3oWyZDow
-    gyx+kjAq5WJl02qTdf3ive64PMmj5ReODbfEsZYhbr6/fC2EcA0JXw4O/qllvr0ONLFp7N
-    hstl5Hrr/pin3Lay6e+VCdivmMMtY1VeEPDBrxjHMhcOv+lGK4kuPpfVQrICULhaFyuF1e
-    6pumbz6LZJ/pzx/HCRhtuIdfQEKUgtY3iDhROOKc+BsHPeluZ6AziNc201GBBsuaUmuYm5
-    A3cJEWXZglHwM3b0b45USBdHCvhmuVCZ6SUm/wKOY6ySUOuK8XKdQxNeJ4dvSUtAPtSWPg
-    KGsWYWAvXbOCjYI4y3bJJx2fA/mVaflmQBk2vNV7jLCzt0+9zxxN2ZqiMDjmCvCB4kKT8L
-    NekhaMYcXIaQB1Ghb5FQsgdKQ8+pfDDk0OjaVK0KxuuxeB2VZBP2QZ0jsjdU4OsSPSyQDl
-    FXyDii6Z2Ka3ckR03JQdVl3nz1FPc9es4ivHaKbp7m5XGab+Kz67LlSJVEP03rpWQ9msxO
-    M6JJczCtueRWa0ZxYH3WZzmOJdkr/P6V091X9paxSnw+iZ3w5DTrOSFWwYvNi4R28+ADdg
-    Uo/1mbdSoHP2G91G9wvuA4iXdmIEsA4AZnzl3kquijarvr6CszA07LaFyJrw
-X-ME-Proxy: <xmx:5gdVavBVJedw0YTG3U9HLJeGTdFYY5kDZG1T6vZdyGce4Mz7D66X5A>
-    <xmx:5gdVaq5KRtfi6EdLhm_3xhpUhDlZwunxWPQcD0uhsvtzpZY9EuxtKA>
-    <xmx:5gdVaqwGm6cTzgx4qJu2kcRP3v1knMHuRgCcug5lFl40lGkYxqtRlg>
-    <xmx:5gdVahzyopZEAtdHedS8T6ab_vQ0e1uT3w1M4fui0XCJ55ArwzMvtQ>
-    <xmx:5gdVavxbZH75xIUTbBTc6SJD2wlCgGPk6ZIsFuFOqFRFkr-_wGOdZj59>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1783957482; x=
+	1784043882; bh=kk3oo+cn7S549tlbg/+iWEtaXESiNMv/FlPnN5HZBUI=; b=l
+	Qzi46iXTv5KQ9OEGZDv27II+NmoPFbc1gXwBxhjABwuvoW7QbjePYFKqVaRzgU3k
+	AHRADZw+fcE+bO4Joa9Uz6dYbOr68r3QoX22aphbw4CxneQ1VxSSDszslfMNlin6
+	XAWuNCqhJbkqid7UyOWDIC301mJT9Xn9FGT5pBL1Ui0IBPjzKREVvSfcI4kyP9do
+	0Jex7Pg/yNmtcqPnDERG79Ik4ZFPIVFOusjh6Oh+X+O25uOCDN0dCqUe24P4C3Hv
+	AC4YO4NoB4L0FE5MNrU9tFpkeBwgg/rZUQ8i2XTDj7o4tYOkh4d45Di9x5+XYDAD
+	BGtHMnCqzV/rbnpxPNpgw==
+X-ME-Sender: <xms:6gdVagz7wvV822m1IJHYYqI9VqVvNYk6yO-7Pcw65RDWnK2CUo3KVw>
+    <xme:6gdVaiG6wYFNk0ivxjeqTsWIBjqEyBPrwf4UmsK2nKH8B_v4xc8cBACpt7Nn8JY6K
+    jYD1tvt4H6zKucqEWjvPCDM_ga7GsqyeQS2sjJtwRKaQUfsY7o>
+X-ME-Received: <xmr:6gdVaswbYy5L5-Q3hGbrKbhRAu3zjXlsd6vIdmWDI5rEanhpCUNagsMGKh2PKpOBQL5uKYleMoI2TmaivUAxEywyhFFb8Q3Cxg>
+X-ME-Proxy-Cause: dmFkZTFY6lH9UbikzGGF+9sTo8UnYKIW62Rg0AFuhhMRxe07csUQLwTQQfvo4sy375h/2V
+    Zr/B98moAMOnyZQc0VbUs8/0nQgbxv8BFVIvKwhho5KTzQkAcyd0Vd3LLCSLohNBSMvv3f
+    nNZzs+RUmFJ7N3+Jh74cJuWWmgOlbSSRIKuYu4y1cGYLGe8hfMD3YhSXQ9elcHbZpvhVwq
+    CnVsURCx4qbz6b3Fevycl3cZxx/tUTnzwkeDlYUn+08SoZotEhtT3huicw7MBejLP2aKkV
+    +4GdT2B09kBadJKQMqneWwJoWrlcm0YoXzzK/QlifjeAGuPHj1XuxvYzd+OYapojrw3aJJ
+    fbzelQ4YHTAOZuuPQPJXpl4JuHr9O22drgWPOdlsHUBGziw0haqErzX1vcUbnvbuBb49U3
+    IvT0eUzg2gYtqG+xHZmFsJI0JzucybiJZKNaEyfXmA6G+3U9iyj/ByhVIbi7wM1rpiHeBL
+    a+55DuZM+uItLFBOh5yjhyxKisNn3GROC6wUqg2XkRv6LmJVDVwRXCIy2j3T/sDLPunUv7
+    +BIeQAnRq5HqDAKXSTxsG6mXNvBkMk8osMLKhhfZlxgYatuFuWT/yt6PesYiHl7FyFAebx
+    4Wu187Oeu6ed1KMH5dlOXt16KC5Rd2xA7pF/N410TQlnNE2jKAluxlm5HqFA
+X-ME-Proxy: <xmx:6gdVartr0qE_C24p9Bgq8D_IGHvqVOreynMnlDxupsqRA_9konIibg>
+    <xmx:6gdVah30sPUMq0Ibkioy9anv0PEKDb2j11fcr2FC9Fy_Co78cS1Krw>
+    <xmx:6gdVau_kkuPUVr9Jwwk83n4o0__TF2F4uGz4pwRweIBETuC0Ernspg>
+    <xmx:6gdVaqPGoNBxgMZ8hK1f-pV6oL0lJKSPpZCnl-O3GCOnDnyEn753nQ>
+    <xmx:6gdVatvo9Hw2YTCdXLOkXpitUIENUU-vM5r9b8L7QRbgtlKqGGxnRaza>
 Feedback-ID: i1d2843be:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Jul 2026 11:44:34 -0400 (EDT)
+ 13 Jul 2026 11:44:38 -0400 (EDT)
 From: Griffin Kroah-Hartman <griffin@kroah.com>
-Subject: [PATCH 0/3] USB core defense "hardening" changes
-Date: Mon, 13 Jul 2026 17:43:50 +0200
-Message-Id: <20260713-usb_core_patches_1-v1-0-7721c2b33f53@kroah.com>
+Date: Mon, 13 Jul 2026 17:43:51 +0200
+Subject: [PATCH 1/3] usb: core: Add size check to find_next_descriptor()
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,40 +79,45 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMyw6CMBBG4Vchs7YJrReIr2JMw4w/MiyAdIoxI
- by7VZff4pyNDElhdK02Snip6TwV+ENFMnTTE04fxRTqcKkbf3SrcZQ5IS5dlgEWvWtPCD03fGY
- BlXBJ6PX9m97uf9vKIyR/T7TvHwiFfFV2AAAA
-X-Change-ID: 20260713-usb_core_patches_1-84e2fb7b5bce
+Message-Id: <20260713-usb_core_patches_1-v1-1-7721c2b33f53@kroah.com>
+References: <20260713-usb_core_patches_1-v1-0-7721c2b33f53@kroah.com>
+In-Reply-To: <20260713-usb_core_patches_1-v1-0-7721c2b33f53@kroah.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Griffin Kroah-Hartman <griffin@kroah.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783957473; l=715;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783957473; l=899;
  i=griffin@kroah.com; s=20260706; h=from:subject:message-id;
- bh=vWUbaBwsplVgWupnIAu2K9+jTRYPRmZ8Z27CrYGM7Sw=;
- b=g2eaVFj0169boaW7KVNF5w32tpAETpUgQdtup+UOzR/TCjdR+qNdVK0ESgvhbaooxD4WXVo89
- 5Gqok3+hOVrC48wrCcP65tqPaQYwalF54mroFbI3w8MXTu3dIYprXlV
+ bh=i2CZTUXEQ3hou/RGOkSypfDwEldYfuj/m1E4ty+SM5Q=;
+ b=RUrgy1yMo0i72Ua1qWrrKQOULEuhroZkV0dOBWGqDGyJw7DO3lhTHZtxCGcQh8DqAoHfxGEbu
+ Y4jqFzgRNyKBQwSTrztUwCeTjcgtlQEipkyxffs9SjPvKE8ppwC5C7c
 X-Developer-Key: i=griffin@kroah.com; a=ed25519;
  pk=Hy1TuVHERdQhLAWwjmxLFNtGj7eEEjaZWPXehAlic5M=
 
-A small collection of USB patches to protect against broken usb
-descriptors and a fix for a potential race condition in the hub driver.
+Add a size check for the descriptor header in find_next_descriptor().
+This prevents a scenario where h->blength = 0, causing the while loop to
+spin forever.
 
+Assisted-by: gkh_clanker_t1000
 Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
 ---
-Griffin Kroah-Hartman (3):
-      usb: core: Add size check to find_next_descriptor()
-      usb: core: strengthen size check in usb_parse_interface()
-      usb: core: Add lock to usb_wakeup_notification()
+ drivers/usb/core/config.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
- drivers/usb/core/config.c | 4 +++-
- drivers/usb/core/hub.c    | 3 +++
- 2 files changed, 6 insertions(+), 1 deletion(-)
----
-base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
-change-id: 20260713-usb_core_patches_1-84e2fb7b5bce
+diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
+index 45e20c6d76c0..17c93e95945f 100644
+--- a/drivers/usb/core/config.c
++++ b/drivers/usb/core/config.c
+@@ -29,6 +29,8 @@ static int find_next_descriptor(unsigned char *buffer, int size,
+ 	/* Find the next descriptor of type dt1 or dt2 */
+ 	while (size > 0) {
+ 		h = (struct usb_descriptor_header *) buffer;
++		if (h->bLength < sizeof(struct usb_descriptor_header))
++			break;
+ 		if (h->bDescriptorType == dt1 || h->bDescriptorType == dt2)
+ 			break;
+ 		buffer += h->bLength;
 
-Best regards,
---  
-Griffin Kroah-Hartman <griffin@kroah.com>
+-- 
+2.55.0
 
