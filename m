@@ -1,140 +1,190 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.lysator.liu.se (mail.lysator.liu.se [130.236.254.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D77C3EF0A0
-	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 11:48:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783943330; cv=pass; b=kU/jmWvvYVZoBvYDw3OW0eOLhdLuE6+jrP+/sMWvUEDTo2XieBQGl2LkiLp5RGWZMc3SbM8sYiZ3Wk4MMqPmAf5hXKogJ/K3qlJpvrHK4DzNYbTQmstTeMkVi2LH17L3BWHj+Qk4HH2RYwYy2uSs7t22YTBxNmyxaGREawlv3lI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783943330; c=relaxed/simple;
-	bh=1injv9Rl4NBM+B+HS0THOHMdNObE2wuHjPT90v0vu7M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=peJL8ATVVl1sfaAbxJk69zRUya0k1QHmRoNPoZ6dyDmsKBaiDMd3MgkBhlFabQFIpvyFmpN3tOdUV8bQckUq8gP7Vb0g/h0g0RjGw9BC0Jf7DtYb/QEcRtdwSZcRs/pYxf8mazv8kcfr39D32RHwKUUyf7D+2qU03E97AMo1rdo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JkNn7rPf; arc=pass smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EA83EB7E5;
+	Mon, 13 Jul 2026 11:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.236.254.3
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783943855; cv=none; b=CQxzqnA0NqP24I8VhGS+zg9VHnnUFnqe5vvfYtN5QCQ2j5eAKCPW+ZD9+PXQPG59uvdJei527ZBr70vcz3KiS7ItGLhGURZ2z8LnzFR+ZILMhw3XvP6dOJ1KqRdT53YHhm87r4W7mV2j3KuHNEviuBzz2GaPRNy7GKqt52O03oc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783943855; c=relaxed/simple;
+	bh=ZU9f5XQcfOha9tsafysQKKY+BbVKCPTIcqlTdjCJdHc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=S2xHn+O7AySIgt7Wd13DqhtuZrjBWIr4NAmnotJYWx0Ioa+3rW/oduaDdEu2Pg58ogwS8dH+YMiW55PZsDcJtUJGJq334uNmvCWZkQ1dJKxOO1gd9jeKAIkorPpQxj9I33LdsZfiggrJQL31udIEGl4e62zn1gbNgsmmXg+l+8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lysator.liu.se; spf=pass smtp.mailfrom=lysator.liu.se; dkim=pass (2048-bit key) header.d=lysator.liu.se header.i=@lysator.liu.se header.b=eP0SQK4N; dkim=pass (2048-bit key) header.d=lysator.liu.se header.i=@lysator.liu.se header.b=eP0SQK4N; dkim=pass (2048-bit key) header.d=lysator.liu.se header.i=@lysator.liu.se header.b=tBP9qD8X; arc=none smtp.client-ip=130.236.254.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lysator.liu.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lysator.liu.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JkNn7rPf"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-66493875766so5012867d50.0
-        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 04:48:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783943319; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sDP31ZymZs2P5oVFPyZ2KB4dXZl4mIZO9HQeJZ+VWOUpUKaw9cSVRNkVX10gzHBeLF
-         29ePOkwiB5PBYTsIYWe9bUjCZzgRaUGHPsQmbZOz0DMbPyfjrxL9rASln8s5RMS653JD
-         4JKAsh3Ti3xgwsKJxoSMeJvZW9fFKXucYPYt3hJRb0ng5sfCc1TYoUBRXNoGEALdmRHf
-         s4KBCWLPnRRKDk0vZX8dEJfdRRg1MaqqXO66v/RyOjsI9mBfbxBsEx5BOecComZGSztn
-         oZcz4qfjnm5M+9wW6777kRwk33DpgV3EEYkF07wv7Q+CNhWKRHrEQLYGmehhRtOzFhQ3
-         BBLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=mEG+/O0PcIT4+oFeruk11rdD0Dcqs/l4Kgd6A6lmTpE=;
-        fh=tU1aIqh6kpShQrfcqeZXaDG9N9huAr6Bc7UNDE8+vZg=;
-        b=hkNUv7vxT8GBD4nBx1ElctSmjMmY/kCxuhLACsTTcFjVIauN023HD5CvVfjSrOJkyR
-         UY8kCXWETANoHh+3riIe7QkMr2XqYfzEjqiDa64jSwefzpe+R3B1V3l0TzVaH0o/BCst
-         WFRNyOVhrc95xCFOiiMwAM2f/aHgttsEwwTQVPe+tIgQgOKXY1YbIPLXzOKH5fvCblI2
-         nbv3tFLqPFfvXS5XwvZsy/ibfXCg1h0v9nr2Zychwxk2dERMZYpF04f2nK8/iEoaytBy
-         GlKDS4ETU+eTlkOCMPp1FQrLvvH/SpxAPnVsSb8F5PQxWoLQAuospRObKqvjKRiKR2+y
-         MQkA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783943319; x=1784548119; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mEG+/O0PcIT4+oFeruk11rdD0Dcqs/l4Kgd6A6lmTpE=;
-        b=JkNn7rPfgPxTCW4E0iUBIdWrmz6QeOs6vsYk12goTq3d3i3/LR9C0knwtDA47SrqGx
-         d4fPq0UGpkoJvj/14VcrZnwmHXho3zXJ/iO8arbj3cNS1AiF3XZgn5pkA0oQktPSAXnM
-         LVn2PElwu4PMid9JWd9y8CCJbBuAJ9jwgj1Denci6vgPv8qJ/jcw6CBAHClgvRHLMmwX
-         GIsBCNcgMj3nPrU7KuEiksSxOorpTTqxfWXpalXDCWA6IAupJPaiWNClQdnO5mJ1xCcz
-         Ms9ppJ++C4GnAw26EliPrsozhir2/9YpsGhphQyOSJSTucDOhSG3m1JRRuZUhcbujur3
-         dyoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783943319; x=1784548119;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=mEG+/O0PcIT4+oFeruk11rdD0Dcqs/l4Kgd6A6lmTpE=;
-        b=YZQrKpCurIhB/eWF+vZrCRdSm9qUoFqiLf0EwTgF0AoRHLs0r2w5Fobvc8RuAnmbC3
-         5a+PKPg5nLe2iE+/h0yHoBuc6Q5V2yds1QuY6gOu2j5e9BBcg9usY8qepkqkJVO8GKHA
-         X2AqdJmwZ3o8VoRbKJG7yMSp2Jpjwv5yQqiSjKxpv6mE4N7qtMYN0EgSREITummkC4O0
-         gXHCs0qdQJlGqZdsNDJeZqRl8lo3WQiRIxAcFu22WqKN3JR9r5W9ND4FXBGLFZTYfyeD
-         WLpqEoYfgjcXCooB2mPWXuvP6ls4Zxrbq1hRaSvebF2c/EUdxOswRclhX5Vs7g9sowC3
-         1wVg==
-X-Forwarded-Encrypted: i=1; AHgh+RocnSB13b00aQPFhKgldUEIRqgCld+/Qk4yzAlHJgwih9A4X3u6TprZ+uvPN41VIJx6ktOpIU2vUDY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSutXmuiA54HIA7BIwOJX4BNxzlwPQxanLE1Idjiu0iNCVmYF0
-	SfiVz9UIxYazz9k7szgjcxAFtqLOnMwvk5LOfZThYcgRptQCWLfOWzIbagD17ZBkX9+AET9Usst
-	cPAntqnYx5G9/76npS5iudSGtmPBRXcY=
-X-Gm-Gg: AfdE7cn35puPGGRamdf9qrbX5AaQpN09o3FscLz/sZU22ODtmqkKgBlgZHIZSO3MnQ4
-	nSGjz0HNWS7UAzxN+LrE9UoLj7pEw/e/OmkvlLzK4mgxDzm71LTKnCJpelTTQlvRgubEqAYybfy
-	AhidgGRy6hq4ZA+wIddB3XoE7YvmOmCFSbTCUUB2jP9kSXs0ppGBKMPr4a2Az9FouAWDtVsirZc
-	yBwkCG4qe6y9kLM4tdeiCE7zHne1Sfj1NwNhW2m7fFgiJZrU1aV53WemXCaI7WTT2YUFonaLUgD
-	5c9a84kVnQ==
-X-Received: by 2002:a05:690e:4144:b0:667:e3b3:264b with SMTP id
- 956f58d0204a3-667e3b35f5emr4355142d50.40.1783943319427; Mon, 13 Jul 2026
- 04:48:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lysator.liu.se header.i=@lysator.liu.se header.b="eP0SQK4N";
+	dkim=pass (2048-bit key) header.d=lysator.liu.se header.i=@lysator.liu.se header.b="eP0SQK4N";
+	dkim=pass (2048-bit key) header.d=lysator.liu.se header.i=@lysator.liu.se header.b="tBP9qD8X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lysator.liu.se;
+	s=2026; t=1783943841;
+	bh=ZU9f5XQcfOha9tsafysQKKY+BbVKCPTIcqlTdjCJdHc=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=eP0SQK4NrY74ZX5zlx/KwwdYyE2G/8poMBqqsYoS9tPi1RKxIjtnrjPUoiCA+Q5iA
+	 vFznL+nZ+wGAZrfHeEU4m4hA9UTu4pEx6ilGNnP+VnZ59gDhiWmGBIA261Ua29NkNs
+	 tgEmKcKTX2hMe/bXGsqXOOwzi2IN0e6i+1nE7deJUbZmfhon0rwEtoTXkioudsbNPw
+	 4qbCOy+5rK9Gpzmo6c7JXmf9ndxNv6o2xkPeOYviDTyIeXuDz5Cs1ioZHWWwBlnHHG
+	 /w7C2LqUyxwgwXiI/kLetGmJh/AWvZsS7XKNvLKy7WFkn1P0OE/dG5n8kjFROxB7TJ
+	 UYtZ16Ajcz0Xw==
+Received: from mail.lysator.liu.se (localhost [127.0.0.1])
+	by mail.lysator.liu.se (Postfix) with ESMTP id 5BD8145D0;
+	Mon, 13 Jul 2026 13:57:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lysator.liu.se;
+	s=2026; t=1783943841;
+	bh=ZU9f5XQcfOha9tsafysQKKY+BbVKCPTIcqlTdjCJdHc=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=eP0SQK4NrY74ZX5zlx/KwwdYyE2G/8poMBqqsYoS9tPi1RKxIjtnrjPUoiCA+Q5iA
+	 vFznL+nZ+wGAZrfHeEU4m4hA9UTu4pEx6ilGNnP+VnZ59gDhiWmGBIA261Ua29NkNs
+	 tgEmKcKTX2hMe/bXGsqXOOwzi2IN0e6i+1nE7deJUbZmfhon0rwEtoTXkioudsbNPw
+	 4qbCOy+5rK9Gpzmo6c7JXmf9ndxNv6o2xkPeOYviDTyIeXuDz5Cs1ioZHWWwBlnHHG
+	 /w7C2LqUyxwgwXiI/kLetGmJh/AWvZsS7XKNvLKy7WFkn1P0OE/dG5n8kjFROxB7TJ
+	 UYtZ16Ajcz0Xw==
+Received: by mail.lysator.liu.se (Postfix, from userid 1004)
+	id 3EC074698; Mon, 13 Jul 2026 13:57:21 +0200 (CEST)
+X-Spam-Level: 
+X-Spam-Score: -1.1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=lysator.liu.se;
+	s=2026; t=1783943829;
+	bh=ZU9f5XQcfOha9tsafysQKKY+BbVKCPTIcqlTdjCJdHc=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=tBP9qD8X/xsXZ7egKwzKFvcjlUpLAIm1KgxB8b2b/QLhFDWGuOsaaNyA9AaX0h4EP
+	 UT2xTKBrUdwJ/uHPjdWfTqK0UgegGwGKDuLWoa8qiMNmxxKHEMA9HhBig1pp5ohAjX
+	 ZI/fDbfZ/PXP7cP49ifkTiFpUxlBKg38sdJlmDSBipXM++nfWkFQRfFkeqkLQyc7bx
+	 m+f1FvpSIm0o1JV9aJcwLQX8dUa/Xdwqevi/LKyHPDmfPXQ0CFyn7k19/mxEZu9W/X
+	 A9NB0oaVGN8c5fFzWE1e2YV54kMlbioLeCyOmyKxNO/NUCXCFkQTvjQuhFWkI4UuLv
+	 L4FRdHuEGTiAw==
+Received: from [192.168.2.172] (81-225-28-11-no2391.tbcn.telia.com [81.225.28.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by mail.lysator.liu.se (Postfix) with ESMTPSA id B019F45B4;
+	Mon, 13 Jul 2026 13:57:02 +0200 (CEST)
+Message-ID: <744e6181-ad21-4632-b293-5bf6c1e9fc2e@lysator.liu.se>
+Date: Mon, 13 Jul 2026 13:57:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260705091411.282560-1-lgs201920130244@gmail.com> <aktUJSxhLBtlWoFF@hovoldconsulting.com>
-In-Reply-To: <aktUJSxhLBtlWoFF@hovoldconsulting.com>
-From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Mon, 13 Jul 2026 19:48:27 +0800
-X-Gm-Features: AVVi8CdjFXPB-eUHcBXigPqZjUktfJXA8GDMtbaIq76RLFAQWKb9JIcqJBuLKuA
-Message-ID: <CANUHTR9dRbRcAA4fB+uTZVWwzr3T8S5cg2x838D7t5j7yL0g6A@mail.gmail.com>
-Subject: Re: [PATCH] usb: musb: omap2430: Do not put borrowed of_node in probe
-To: Johan Hovold <johan@kernel.org>
-Cc: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Wentao Liang <vulab@iscas.ac.cn>, linux-usb@vger.kernel.org, linux-omap@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] dt-bindings: Drop incorrect usage of double '::'
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Peter Griffin <peter.griffin@linaro.org>,
+ Alim Akhtar <alim.akhtar@samsung.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Chanwoo Choi <cw00.choi@samsung.com>,
+ Sam Protsenko <semen.protsenko@linaro.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
+ <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Andi Shyti
+ <andi.shyti@kernel.org>, Georgi Djakov <djakov@kernel.org>,
+ Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulfh@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Linus Walleij <linusw@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Sebastian Reichel <sre@kernel.org>,
+ Javier Martinez Canillas <javier@dowhile0.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
+ Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Jonathan Marek <jonathan@marek.ca>,
+ Taniya Das <quic_tdas@quicinc.com>, Robert Marko <robimarko@gmail.com>,
+ Christian Marangi <ansuelsmth@gmail.com>,
+ Stephan Gerhold <stephan@gerhold.net>,
+ Adam Skladowski <a_skl39@protonmail.com>,
+ Sireesh Kodali <sireeshkodali@protonmail.com>,
+ Barnabas Czeman <barnabas.czeman@mainlining.org>,
+ Imran Shaik <quic_imrashai@quicinc.com>,
+ Sricharan Ramabadhran <quic_srichara@quicinc.com>,
+ Anusha Rao <quic_anusha@quicinc.com>, Luo Jie <quic_luoj@quicinc.com>,
+ Tomasz Figa <tomasz.figa@gmail.com>, Chanho Park
+ <chanho61.park@samsung.com>, Sunyeal Hong <sunyeal.hong@samsung.com>,
+ Shin Son <shin.son@samsung.com>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Jaehoon Chung <jh80.chung@samsung.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Alina Yu
+ <alina_yu@richtek.com>, Andy Gross <agross@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Wesley Cheng <quic_wcheng@quicinc.com>, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-leds@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org
+References: <20260622101606.485961-3-krzysztof.kozlowski@oss.qualcomm.com>
+ <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
+Content-Language: en-US, sv-SE
+From: Peter Rosin <peda@lysator.liu.se>
+In-Reply-To: <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-Hi Johan,
+On 2026-06-22 12:16, Krzysztof Kozlowski wrote:
+> There is no use of double colon '::' in YAML. OTOH, the literal style
+> block, e.g. using '|' treats all characters as content [1] therefore
+> single use of ':' in descriptions is perfectly fine, whenever '|' is
+> used.
+> 
+> Cleanup existing code, so the confusing style won't be re-used in new
+> contributions.
+> 
+> Link: https://yaml.org/spec/1.2.2/#literal-style [1]
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> ---
+> 
+> Intention for this patch is to go via Rob's tree.
+> ---
 
-Thanks for the correction and review.
 
-On Mon, 6 Jul 2026 at 15:07, Johan Hovold <johan@kernel.org> wrote:
->
-> On Sun, Jul 05, 2026 at 05:14:11PM +0800, Guangshuo Li wrote:
-> > omap2430_probe() stores pdev->dev.of_node in a local np variable. This is
-> > a borrowed pointer and the probe function does not take a reference to
-> > it.
-> >
-> > The success and error paths nevertheless call of_node_put(np). This drops
-> > a reference that is owned by the platform device, and can leave
-> > pdev->dev.of_node with an unbalanced reference count.
-> >
-> > Do not put the borrowed platform device node from omap2430_probe().
-> > References taken for the child MUSB device are handled by the device core,
-> > and the ctrl-module phandle reference is still released separately.
-> >
-> > Fixes: e194ce048f5a ("usb: musb: omap2430: Fix use-after-free in omap2430_probe()")
->
-> This was not the commit that introduced the issue. This should be:
->
-> Fixes: ffbe2feac59b ("usb: musb: omap2430: Fix probe regression for missing resources")
->
-> and this should be backported to stable as well:
->
-> Cc: stable@vger.kernel.org
->
-> > Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
->
-> And again, how are you finding these issues? Still no LLM involved?
->
-> With the above fixed:
->
-> Reviewed-by: Johan Hovold <johan@kernel.org>
->
-> Johan
 
-I will fix the Fixes tag and add the stable Cc in v2.  And I found
-this issue through manual code auditing.
+> diff --git a/Documentation/devicetree/bindings/mux/mux-consumer.yaml b/Documentation/devicetree/bindings/mux/mux-consumer.yaml
+> index 9e2d78a78e40..769243a2bf04 100644
+> --- a/Documentation/devicetree/bindings/mux/mux-consumer.yaml
+> +++ b/Documentation/devicetree/bindings/mux/mux-consumer.yaml
+> @@ -13,8 +13,8 @@ description: |
+>     Mux controller consumers should specify a list of mux controllers that they
+>     want to use with a property containing a 'mux-ctrl-list':
+>   
+> -    mux-ctrl-list ::= <single-mux-ctrl> [mux-ctrl-list]
+> -    single-mux-ctrl ::= <mux-ctrl-phandle> [mux-ctrl-specifier]
+> +    mux-ctrl-list := <single-mux-ctrl> [mux-ctrl-list]
+> +    single-mux-ctrl := <mux-ctrl-phandle> [mux-ctrl-specifier]
+>       mux-ctrl-phandle : phandle to mux controller node
+>       mux-ctrl-specifier : array of #mux-control-cells specifying the
+>                            given mux controller (controller specific)
+This change does not match the others? I do not think ::= is some kind
+of malformed YAML that has crept into a literal block. Instead, I think
+it is syntax inspired from BNF or something such. IIRC, it was once
+adapted from
+Documentation/devicetree/bindings/pwm/pwm.txt
 
-Thanks,
-Guangshuo
+Or, I am missing something...
+
+Cheers,
+Peter
