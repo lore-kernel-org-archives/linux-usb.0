@@ -1,98 +1,120 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F1C37AA99
-	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 10:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B6533F58E
+	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 10:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783939461; cv=none; b=hfL35xZbshnSwFozJuZ9T0ZmCdum8Frl2vRwv7pNQ7PgIGyp8ENPHtS386aPRlgEBcuZ9j/PxErrl94yTXU0bYJYW8qwuluPe+MhgMEUN57kMNMfce0MsOMfhdyQQhnqLIdX0PE5poh83XRdD2VNUiERpIyd14awu7q+eMfOW3c=
+	t=1783939717; cv=none; b=ETTHG+BFgCpRlP7mf99kZuKT0bW8E9Lqzjdt8DYcn63l1ceYKnEFs4dnqlK3dcckEX2pqyCDLbUX2byMhm+sRCDPw0Fl6EYPJCBQ3JZuRdqnhvEs3T8yWn77Vrt++m/+z0Wdtr6zy2GxGW6477/sYhzVtz5LTpeEZxTnPTJ3Tck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783939461; c=relaxed/simple;
-	bh=ql1aixtFHgHagK456QoyfJb17civZ6SYqHliyTlFutE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KpRSgHGVWvIveE1onNLcw4Iz09bBq9Um3pf2qidIaTY//vZh0pL901b7DghFtYxpAqMiAbCrLNcDFaNTZro9aWGqqtCJMCuSwW1TXtO58ryiEjyePHKisnh9ODctxz0CKO/4RzNzzXusYw7mZdUoahkZNdw8h4LPYFtHfdZFNo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=C8NnTdFo; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1783939717; c=relaxed/simple;
+	bh=46glTv9hB18vLvfKee/7idUPk7Web0iiiYEwVKvQMYA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tZB8O49AFlL9HGJCuY72FmFzGgpMdM0o3jfNGzGtrTIVpuwMMeI/9wR4th9HYQwHsPCfG83d+jmrTYQbh11kprp2N9WGwVnSu/3qHS6+sMBkzhUWqdvMMzqwn+88qy+UyEk2E6V2kWta+JxkmX2rQzLbO5hAHv7xfa97ihcMYAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TFT1XsEm; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="C8NnTdFo"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-493c19bad03so26891705e9.2
-        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 03:44:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1783939458; x=1784544258; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=m73LA9kiESl6YEbNksXXgLixqGiLLHdAkwhmEVZ3prs=;
-        b=C8NnTdFoazUJ34f3BwwlaxwBziYWZ97TlM4FC8SGpNdyDWGb8gNXcbyKPO7m5fYna6
-         RSbjhgs0wiyHdeYBS7rVw8BEFsmt8jYT+eFEuNNcUcJ74xr3VCgk2ceSqN5e0zwPe0h3
-         CxqsDrjiWAziGe6pIcs8GEjg3/tkWEZ591fJ3Fw5c4c4jgI6XfMrc3rxP0s9EC8ej6iq
-         yTFe3+bmMz/hDIPBTc3Fj/W03E8Mq+byFLk1xC/gnlRTW8NIEx253XMnXPNdBFEqMR/h
-         9xop+UT5N1SpTT6OUYE0rExJ9XcZTcO8eiMWElt+7yqIbNAbBVMkQV+eAXhS0oFXRl6F
-         Ugsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783939458; x=1784544258;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=m73LA9kiESl6YEbNksXXgLixqGiLLHdAkwhmEVZ3prs=;
-        b=ZPTcXK0RKZ25Nc7nWL0HAQKNTafBVvHUM7HfcuusLD+UG0UUxk+zrvOwwcYSyVF4UA
-         J0wjjiJ+iFKeM/nlc43vksmWj53P0JjbxTyGhsozTsJm640llwFlQ/WGdSx4Nk/RoR8K
-         5AKiTuK5v9zcj7vYvrYvcIDhHfWLvGrWdZZLcNEPQJEGZ9EzgAgDYfq2Rjgm0X6PIX0/
-         oigKD8S3v56qc14D93Vl+BUiDQ1L2jaBoZ2VzJkPXt35zsVU441Poz4dffAi+Hh1Nyxh
-         seKNU/wROm5+KQ6ZTW5X5zFwCz+WH8JRPC8rG3u+Lex4v/ONfLgsvtq/MZUkHq8EefUF
-         F9gg==
-X-Forwarded-Encrypted: i=1; AHgh+RoUOQ0s0jtjLFbtTyYWNfKmO/pHk8P2xorDHR6smeC3C5wLNQ027gzly36AoWqNsODAcZ9ghxcZE3Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyt9bxmy6nIeYxeC3e+WIMr8pSIgqL9d1spY8VwMEBomNcJnpj4
-	TW+h/UdYu6FjdpIyueVs1hIcTMudwvxbkPmdKh1uduX26ULOwUIjoT43SLYpNH6humPpJVeFAUu
-	14Hd7Mws=
-X-Gm-Gg: AfdE7clfY7fFyFHBExgp8tN1HnAJKUv1LZXCQFsaQvMWzP/T12QGiJLAKVdfNYjvxXL
-	IKUuJtv4JWbOiSMFh4E3d0cKVP8FkhMoSeJwZ1dfuRZdsVJ41ujic1X8razBIAPnj7E7IYnsQ0+
-	WtsAX60Qgm7F2K15m55+u8jH7rE19MxBoJaAdyxziVnXgkCVw63bgUuiLmFs/n07DpP72rDMHf2
-	IJSXLVVPlcQl1IZMglAcMd/FEH330awFIj5J33lG/GuBGjlKNog/mh1YdRmgF+D6Rbqn1unRSzP
-	iJ0JNO7D7FfrAA8TsGE5IKNWJo1mejlHymodcaQuTKBr6heEqI4CGEkv8GwvBkA23KDJDnGQcu/
-	CUPjmKDLNfj3KmdGEJ237etHwAwmXH4zdGGwCzP1fqq6mHGVW8TjmTmwj/vGEagrsp/gtlwzZE1
-	qEzy9wpHw+ekwAAV8SEXxxL75Xw5LslC+AnL9HwVd+PyotoCfUuw==
-X-Received: by 2002:a05:600c:5490:b0:493:d2b1:48c8 with SMTP id 5b1f17b1804b1-493f883a6b6mr83661905e9.33.1783939458096;
-        Mon, 13 Jul 2026 03:44:18 -0700 (PDT)
-Received: from ?IPV6:2001:a61:13ba:f01:2ca8:b242:796e:b61? ([2001:a61:13ba:f01:2ca8:b242:796e:b61])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb74835esm380749975e9.14.2026.07.13.03.44.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Jul 2026 03:44:17 -0700 (PDT)
-Message-ID: <b775e3e1-af60-4291-a875-7185dc29769d@suse.com>
-Date: Mon, 13 Jul 2026 12:44:17 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TFT1XsEm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783939715; x=1815475715;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=46glTv9hB18vLvfKee/7idUPk7Web0iiiYEwVKvQMYA=;
+  b=TFT1XsEmMZOJPZJTk5MuRSG5+UfhlCk+Mfy8rq0nk4QMoOpVXJ8oWWEm
+   Rtue6ofl/uszFhjoR0A0LFfO94SELM8/yd8N4glC4lYb0XKcyrgLXZ58Q
+   v3ZhrSvdmL+vqSV85aF/dZyXs0mWj8nEIBZ9FyuF2uroxj2evNsCdjUrN
+   8Zeo8QS5Ha5PZP8nFXA0a6jT1MUC0LTxUXUBi4G4A3FufYbpmZVUFQ5lV
+   +8oly5CTuJCHAB6KeHsBHEoTzQLnHjTSHbdFkF9eimP4UHoj7hQAJ2FTB
+   GaESw9r9SbXdK19eNTT8Zb/7716RfDszHcJf7V3GgGdX6gpPe+5Uu2js/
+   g==;
+X-CSE-ConnectionGUID: PmnBmTtBQ/WKQLT1JQjKTw==
+X-CSE-MsgGUID: uZOeVRScTCiffl87GWO6AA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="96056999"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="96056999"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2026 03:48:33 -0700
+X-CSE-ConnectionGUID: A1xLmkvLTf2axuQmJDRXBw==
+X-CSE-MsgGUID: /WZ608pwSWW6isRUQmoLYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="279928966"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa001.fm.intel.com with ESMTP; 13 Jul 2026 03:48:32 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1058)
+	id 5B38895; Mon, 13 Jul 2026 12:48:31 +0200 (CEST)
+From: Niklas Neronin <niklas.neronin@linux.intel.com>
+To: mathias.nyman@linux.intel.com
+Cc: linux-usb@vger.kernel.org,
+	Niklas Neronin <niklas.neronin@linux.intel.com>
+Subject: [PATCH 00/22] usb: xhci: rework xHCI Port macros
+Date: Mon, 13 Jul 2026 12:47:14 +0200
+Message-ID: <20260713104738.629612-1-niklas.neronin@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: serial: fix slab out-of-bounds read in interrupt URB
- callback
-To: Johan Hovold <johan@kernel.org>, Greg KH <gregkh@linuxfoundation.org>
-Cc: Jiale Yao <yaojiale02@163.com>, linux-usb@vger.kernel.org
-References: <20260712170012.3503601-1-yaojiale02@163.com>
- <2026071325-onward-sabotage-13e8@gregkh>
- <alS3pmrV-FwEsVvA@hovoldconsulting.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <alS3pmrV-FwEsVvA@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 13.07.26 12:02, Johan Hovold wrote:
+Rework xhci-port.h to standardize how USB Port register macros are
+defined and used.
 
-> But looking at this again, the check should be split in two: one for the
-> struct usb_ctrlrequest header and one for the modem signal state (inside
-> the conditional).
+Field macros are restricted to describing bit masks only, while the common
+FIELD_* helpers are used to extract, set, and update field values.
+This removes custom helpers and consolidates bitfield handling into a
+single, well-established mechanism.
 
-Not just should be. It must be.
-Doing the same check for both cases means that any of the, presumably
-allowed, messages the driver does not care about will terminate communication.
+Other changes include:
+- Renaming macros to follow the xHCI specification.
+- Relocating USB Port macros to xhci-port.h
+- Updating bit field comments and format.
+- Adding missing bit/macros.
 
-	Regards
-		Oliver
+Why are there 22 patches when many make similar changes?
+  The series is intentionally split to make review easier by keeping each
+  patch focused and manageable. If preferred, the patches can be combined
+  after review without issues.
+
+Niklas Neronin (22):
+  usb: xhci: replace bit shifts with the BIT() macro in xhci-port.h
+  usb: xhci: rework Port Speed macros
+  usb: xhci: rework Port Link State macros
+  usb: xhci: rework Port Indicator Control macro
+  usb: xhci: rework USB3 PORTPMSC macros
+  usb: xhci: rework USB2 PORTPMSC macros
+  usb: xhci: rework USB3 PORTLI macros
+  usb: xhci: rework USB2 PORTLI macros
+  usb: xhci: rework USB3 PORTHLPMC macros
+  usb: xhci: rework USB2 PORTHLPMC macros
+  usb: xhci: update port register bitfield comments for consistency
+  usb: xhci: rename port register macros to xHCI spec abbreviations
+  usb: xhci: replace magic numbers with Port macros
+  usb: xhci: update PORTSC aggregate macros
+  usb: xhci: consolidate PORTSC RW1CS bit macros
+  usb: xhci: relocate all port register macros to xhci-port.h
+  usb: xhci: preserve RW bits in xhci_port_state_to_neutral()
+  usb: xhci: improve xhci_port_missing_cas_quirk()
+  usb: xhci: use neutral helper when resuming ports
+  usb: xhci: remove redundant PORTSC ops in xhci_hub_control()
+  usb: xhci: move struct 'xhci_port' specific macro
+  usb: xhci: rename 'temp' PORTSC variables to 'portcs'
+
+ drivers/usb/dwc3/host.c         |   2 +-
+ drivers/usb/early/xhci-dbc.c    |   4 +-
+ drivers/usb/host/xhci-debugfs.c |  24 ++-
+ drivers/usb/host/xhci-hub.c     | 360 ++++++++++++++------------------
+ drivers/usb/host/xhci-pci.c     |   4 +-
+ drivers/usb/host/xhci-port.h    | 302 +++++++++++++++------------
+ drivers/usb/host/xhci-ring.c    |  23 +-
+ drivers/usb/host/xhci-tegra.c   |  24 ++-
+ drivers/usb/host/xhci.c         |  35 ++--
+ drivers/usb/host/xhci.h         |  68 +++---
+ 10 files changed, 430 insertions(+), 416 deletions(-)
+
+-- 
+2.50.1
 
