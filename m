@@ -1,72 +1,50 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from imap4.hz.codethink.co.uk (imap4.hz.codethink.co.uk [188.40.203.114])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0012D4071C5
-	for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 12:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161E737BE93;
+	Mon, 13 Jul 2026 12:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.203.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783945344; cv=none; b=YDY1/i7rsYx9swTg70VOPq5pmYCT7mrOheLyXyNQUbJ5r0mDa22gOqoe/dMcoHNr++TN8pOH+yxqFsIDgeGDlxMaLUFhS821cdHbbhMf48R77ldCzT2gZp9FCJ/+CXDaPLE7YCn4YHkkBDsfC2YVIqYyUj1MX80VEQpq7SXUKpc=
+	t=1783945724; cv=none; b=H8b7OEBzgsBhTuhrX1yGNwMbXneeySa+3xn351xV6QfdeGM3jgaIEXHo7hlimP0WGhpu66a0hiLLas/QOjzz+nBvLjIY6VIvttf2tyMRUYRGUVWRft3AkejwglF4XrfcItRJWF2BUST1F731VEqFnF6PzAna7APseXdCzu93W8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783945344; c=relaxed/simple;
-	bh=eoJTAmX9AWXfkTF4kLIHT8w3C6GUQLelCr2YllhbyRo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O/8VfnwAgGl68jlRwdDrKq3jvS9XjCRaVYwiD8HP5BtltaNMRl4+udwnf7QRceOnv39DVEpUffpkc08pQXYGgU0GKnX9CUDuo1bEg5mEUhjvvZJ4iyXh4QrtLn0jbtZQizzcb5xDYLWpCkN6CMk1Of1oe73qHaMQvjhf+uP0Gck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=JDSYCe1H; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
+	s=arc-20240116; t=1783945724; c=relaxed/simple;
+	bh=x8YYLwffgpYPKYANXa4Nn7hLKgjwYP2KvWp6M6FdTKQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aJD/STGrD3EO7oRQEB+W5YhHljKZXgAOvyCouCm4zjJZlW5a3VaWB3xWszdluZI7JcFbn/5LgoWZ+sAhpzctskS50K5vqZKEPhzarP/VLebPVCzDKRx8n5q0ZnZE2UlVIMEXfZtVJxJAFSVkbamlQKZ+eT4O1PerURJJms7qj1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk; spf=pass smtp.mailfrom=codethink.com; dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b=NMHaGRhJ; arc=none smtp.client-ip=188.40.203.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=codethink.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codethink.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="JDSYCe1H"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cc7e86e7aeso27427135ad.2
-        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 05:22:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thingy.jp; s=google; t=1783945341; x=1784550141; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kRr+JXgQmTo2U7vmzb7T4qvb4h5XSF+nEYAqLJoq5Zs=;
-        b=JDSYCe1HPPzZAof3gDwkQtVU9wLKZBDRmLdX2k2MvtXAU9T37c9zOxZtgK+CD4AFo8
-         6OKtYrQT7TS9JvrK2LTB2iW2Bww6GSgTPom2CcVC9GlIKseJJ867eVr2OLmJm6dYfBuu
-         vVUztEnj8n8JD/JLsi0UiCLZPYRXx14nP82v4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783945341; x=1784550141;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kRr+JXgQmTo2U7vmzb7T4qvb4h5XSF+nEYAqLJoq5Zs=;
-        b=GFdwMhsorV8EqAWTg+IpJqwvbeZNy+MGZTtBp/d385lJmRaYlSNTsKoOx/RVds0qgd
-         dtNZHebdQEUxOTaoszuWkM8bV/aQUqhLzTSK3LXyPCM8LW1C9SN6wkR/WFDtWtmXWU/p
-         N165KTVpm+OAvpyNxLF9ZqUHZ0lfOvzdJfwTQV0tENJCl7RKxPyGj1GknGWOdpvLpjRY
-         AJ/z+lZLLC6h44bs4FSMg4gLjRDfG25HcWOM974ufqjxSrsGCBJVCnz8kE9TgNhCglIb
-         2/BKvNK/ixzHUYFpk+MXqwTThzvwKTarHRnElptXIoSlzHWb4+g7YoDRfOaqZnS5h0Vc
-         GTqA==
-X-Gm-Message-State: AOJu0Yxm1TB59yUuYR3EjQZXDPss7G/B8JKuswBzlR0kiBo5yeWWh0Sd
-	Wj9xMZ7vQwFcFk1vHx5m0T3Jl/8Znfc739zZdTFvvcvIErjN9hRXn8FpB3rO74crSa8=
-X-Gm-Gg: AfdE7cnL0AFIDtPKLaISSrWKdAhz9WsSkWtCqR48gnMaJqiHlwWS1C1z9kGxADIB3Cy
-	EagAzrJdib61Au4sN6LggmHCrPHugeANi7O4l1+QRLLw3Z5JAXVEfbfY+sPUUm2nsD38A51cfCX
-	w0XS390kMKWlxLT8X/vcziTncyko4A7Wb/kTwF9OEugKY2+gpy+ksm3gTyfAaq9PCixvSeclrvX
-	6bGvgFfO+GqGf4oik0j5BF+fea4ayDAL9PC8qQe3MCmpgLbkeApPYS3/1AaPyJcoEraY1JhKIht
-	dUp3TJjPsJXLfhcV4dqCAyKxATIDpIxRJSJBa2XbS41HJY1yTIPeL6V4WRxR6ezGSPDrh8SH5mM
-	sSZdRgWA/HBr3NDVgq+jlBpZDrvBbue0USOs4GacIbDaLM9Ekc6PYJhbw+lQw9mXRcbMOUA9iZC
-	KgS94VE9ucm8QjBU89NY1XVvMXUw==
-X-Received: by 2002:a05:6a20:9595:b0:3b4:7eb0:47aa with SMTP id adf61e73a8af0-3c1108c1ef5mr9418636637.25.1783945341167;
-        Mon, 13 Jul 2026 05:22:21 -0700 (PDT)
-Received: from kinako.work.home.arpa ([2400:4162:2428:2ffe:a973:53e4:1a28:8545])
-        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-ca5b3b251eesm8126216a12.31.2026.07.13.05.22.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 05:22:20 -0700 (PDT)
-From: Daniel Palmer <daniel@thingy.jp>
-To: peter.chen@kernel.org,
-	gregkh@linuxfoundation.org,
-	stern@rowland.harvard.edu
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Daniel Palmer <daniel@0x0f.com>
-Subject: [RFC PATCH 2/2] usb: chipidea: use the generic ehci_writel override for i.MX28
-Date: Mon, 13 Jul 2026 21:22:05 +0900
-Message-ID: <20260713122205.1350933-3-daniel@thingy.jp>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260713122205.1350933-1-daniel@thingy.jp>
-References: <20260713122205.1350933-1-daniel@thingy.jp>
+	dkim=pass (2048-bit key) header.d=codethink.co.uk header.i=@codethink.co.uk header.b="NMHaGRhJ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codethink.co.uk; s=imap4-20230908; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:In-Reply-To:
+	References; bh=TsyKjXZn+ctIT7sE13BOuXpqo/nsJHJbuuT8ejPDUFU=; b=NMHaGRhJ/NP38p
+	r+Xaj5094ruu9xhjQWUh5bVFLj5miUlKSa+u21i/X3//Uo34hniPqT1GYnZK50jnoJJxaU9gj6bxp
+	mfCK/QyKXWYRd9TiSboUvlGN0R1h6qBUpPs1+CMYIJmuK7bzjKivgn2pKLDlAb+EvWmp+JfxlsFbM
+	QWN6C10xN1xdnFDGw4sE8D3JLX+Co9BsQBw0tLZMUuY43TsjhqnQILLwEoULxfAamoNfoYkmZcwiU
+	E5ekhJ9yWibVR2tpGl6RzKXKOt2kyFbqT7BpYGkflPB7OytzIKVrXywZ5NwlORq5prXqI+2LShGYa
+	uOYfyL9DnF+9kl/dqIQA==;
+Received: from [167.98.27.226] (helo=rainbowdash)
+	by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+	id 1wjFlo-006T6G-Om; Mon, 13 Jul 2026 13:28:24 +0100
+Received: from ben by rainbowdash with local (Exim 4.99.4)
+	(envelope-from <ben@rainbowdash>)
+	id 1wjFlo-00000005aLK-1ZGt;
+	Mon, 13 Jul 2026 13:28:24 +0100
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Neill Kapron <nkapron@google.com>,
+	Sam Day <me@samcday.com>,
+	Michael Bommarito <michael.bommarito@gmail.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Ben Dooks <ben.dooks@codethink.co.uk>
+Subject: [PATCH v3] usb: gadget: f_fs: fix __le16 of wMaxPacketSize
+Date: Mon, 13 Jul 2026 13:28:22 +0100
+Message-Id: <20260713122822.1331334-1-ben.dooks@codethink.co.uk>
+X-Mailer: git-send-email 2.37.2.352.g3c44437643
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -74,119 +52,43 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: srv_ts003@codethink.com
 
-From: Daniel Palmer <daniel@0x0f.com>
+The wMaxPacketSize is __le16 type, fix the sparse warnings by changing
+the type.
 
-The EHCI core carries an imx28_write_fix flag baked into ehci_writel()
-that special-cases the i.MX28's need for a swp instruction when writing
-the EHCI registers.
+Fixes the following sparse warnings:
+drivers/usb/gadget/function/f_fs.c:3346:32: warning: incorrect type in assignment (different base types)
+drivers/usb/gadget/function/f_fs.c:3346:32:    expected unsigned short [usertype] wMaxPacketSize
+drivers/usb/gadget/function/f_fs.c:3346:32:    got restricted __le16 [usertype] wMaxPacketSize
+drivers/usb/gadget/function/f_fs.c:3371:36: warning: incorrect type in assignment (different base types)
+drivers/usb/gadget/function/f_fs.c:3371:36:    expected restricted __le16 [usertype] wMaxPacketSize
+drivers/usb/gadget/function/f_fs.c:3371:36:    got unsigned short [usertype] wMaxPacketSize
 
-Now that the EHCI core provides a generic ehci_writel override hook,
-convert the chipidea host glue to install its own writel via that hook
-and drop the i.MX28 special case from the core, keeping ehci_writel()
-free of SoC-specific knowledge.
-
-Signed-off-by: Daniel Palmer <daniel@0x0f.com>
+Fixes: bdcc03cef0fd8 ("usb: gadget: f_fs: preserve wMaxPacketSize across  usb_ep_autoconfig() call")
+Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
 ---
- drivers/usb/chipidea/Kconfig |  1 +
- drivers/usb/chipidea/host.c  | 17 ++++++++++++++++-
- drivers/usb/host/ehci.h      | 19 ++-----------------
- 3 files changed, 19 insertions(+), 18 deletions(-)
+v2:
+  - add fixes tag and reword commit message
+v3:
+  - fix mis-copied git-id for the fixes
+---
+ drivers/usb/gadget/function/f_fs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/chipidea/Kconfig b/drivers/usb/chipidea/Kconfig
-index bab45bc62361..5bada84943e2 100644
---- a/drivers/usb/chipidea/Kconfig
-+++ b/drivers/usb/chipidea/Kconfig
-@@ -29,6 +29,7 @@ config USB_CHIPIDEA_HOST
- 	bool "ChipIdea host controller"
- 	depends on USB_EHCI_HCD
- 	select USB_EHCI_ROOT_HUB_TT
-+	select HAVE_BROKEN_EHCI_HCD if SOC_IMX28
- 	help
- 	  Say Y here to enable host controller functionality of the
- 	  ChipIdea driver.
-diff --git a/drivers/usb/chipidea/host.c b/drivers/usb/chipidea/host.c
-index ced6076a8248..820bdea5da12 100644
---- a/drivers/usb/chipidea/host.c
-+++ b/drivers/usb/chipidea/host.c
-@@ -117,6 +117,18 @@ static irqreturn_t host_irq(struct ci_hdrc *ci)
- 	return usb_hcd_irq(ci->irq, ci->hcd);
- }
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 44218be1e676..68114278a150 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -3335,7 +3335,7 @@ static int __ffs_func_bind_do_descs(enum ffs_entity_type type, u8 *valuep,
+ 		struct usb_request *req;
+ 		struct usb_ep *ep;
+ 		u8 bEndpointAddress;
+-		u16 wMaxPacketSize;
++		__le16 wMaxPacketSize;
  
-+#ifdef CONFIG_SOC_IMX28
-+/*
-+ * The i.MX28 needs a swp instruction rather than a normal write to the
-+ * EHCI registers; provide it through the generic ehci_writel override.
-+ */
-+static void ci_hdrc_ehci_writel(const struct ehci_hcd *ehci,
-+				const unsigned int val, __u32 __iomem *regs)
-+{
-+	asm("swp %0, %0, [%1]" : : "r"(val), "r"(regs));
-+}
-+#endif
-+
- static int host_start(struct ci_hdrc *ci)
- {
- 	struct usb_hcd *hcd;
-@@ -150,7 +162,10 @@ static int host_start(struct ci_hdrc *ci)
- 	ehci->caps = ci->hw_bank.cap;
- 	ehci->has_hostpc = ci->hw_bank.lpm;
- 	ehci->has_tdi_phy_lpm = ci->hw_bank.lpm;
--	ehci->imx28_write_fix = ci->imx28_write_fix;
-+#ifdef CONFIG_SOC_IMX28
-+	if (ci->imx28_write_fix)
-+		ehci->ehci_writel = ci_hdrc_ehci_writel;
-+#endif
- 	ehci->has_ci_pec_bug = ci->has_portsc_pec_bug;
- 
- 	priv = (struct ehci_ci_priv *)ehci->priv;
-diff --git a/drivers/usb/host/ehci.h b/drivers/usb/host/ehci.h
-index f592cc26e494..616b01314bfe 100644
---- a/drivers/usb/host/ehci.h
-+++ b/drivers/usb/host/ehci.h
-@@ -218,7 +218,6 @@ struct ehci_hcd {			/* one per controller */
- 	unsigned		has_synopsys_hc_bug:1; /* Synopsys HC */
- 	unsigned		frame_index_bug:1; /* MosChip (AKA NetMos) */
- 	unsigned		need_oc_pp_cycle:1; /* MPC834X port power */
--	unsigned		imx28_write_fix:1; /* For Freescale i.MX28 */
- 	unsigned		spurious_oc:1;
- 	unsigned		is_aspeed:1;
- 	unsigned		zx_wakeup_clear_needed:1;
-@@ -778,18 +777,6 @@ static inline unsigned int ehci_readl(const struct ehci_hcd *ehci,
- #endif
- }
- 
--#ifdef CONFIG_SOC_IMX28
--static inline void imx28_ehci_writel(const unsigned int val,
--		volatile __u32 __iomem *addr)
--{
--	__asm__ ("swp %0, %0, [%1]" : : "r"(val), "r"(addr));
--}
--#else
--static inline void imx28_ehci_writel(const unsigned int val,
--		volatile __u32 __iomem *addr)
--{
--}
--#endif
- static inline void ehci_writel(const struct ehci_hcd *ehci,
- 		const unsigned int val, __u32 __iomem *regs)
- {
-@@ -798,13 +785,11 @@ static inline void ehci_writel(const struct ehci_hcd *ehci,
- 		writel_be(val, regs) :
- 		writel(val, regs);
- #else
--	if (ehci->imx28_write_fix)
--		imx28_ehci_writel(val, regs);
- #ifdef CONFIG_HAVE_BROKEN_EHCI_HCD
--	else if (ehci->ehci_writel)
-+	if (ehci->ehci_writel)
- 		ehci->ehci_writel(ehci, val, regs);
--#endif
- 	else
-+#endif
- 		writel(val, regs);
- #endif
- }
+ 		/*
+ 		 * We back up bEndpointAddress because autoconfig overwrites
 -- 
-2.53.0
+2.37.2.352.g3c44437643
 
