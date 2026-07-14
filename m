@@ -1,141 +1,237 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5DD35DA6A;
-	Tue, 14 Jul 2026 09:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926D343D50E
+	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 09:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784019887; cv=none; b=NjrTlFvh0DJvDzMUXzAw14xtQiysS+lyRgIVN/Aw3W9xfKXu9gGII6N7jxLJt/jeXHMHX+7ZEGKli2kCuSXfB/wFCWPbaT50MJHw5GfFoXsmQdPhmzxSZaiQO6PzAUhAmGwIgJEvT6T+hFzKIfXfv2mOWgneWJ7/Hhv7poA9co8=
+	t=1784021192; cv=none; b=ZIbDOQOy1EW7rgr2sfUDp1DCMpAZ+ePbrE4f6q9HrWB4W53vgwU5ymuFvDYrW8O0BgASLrcZ9UO5DpO6BfgRsL4Ag3s4u+2cZGgWWspvZbQePSix2CXv+1u+RFaJsMK8lUi8dGRkhHds2JXvmVlI3OMwN+hzUl7M2aolZo62bwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784019887; c=relaxed/simple;
-	bh=ylzHjsLzK6cMZGsKY08p6FMxVHIa+S2aRrwI9Ece4/M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=KxzraVkRdjD7hf20t2BNGgBV81J94kC9sRn750lg3TjdWWlQZg5kV5hySZ7+sRhMiZ3QjbIysE+NcYORB0TyVx773NdnjwBbTVkV/HamHfSuYpeLdI0WudyLFZT67BXCNXBo+LC4TAppGy0+5ZTu+srEji2LeOmD5oskdmL7oXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=ZBAcl8pf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=l7im9idv; arc=none smtp.client-ip=202.12.124.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1784021192; c=relaxed/simple;
+	bh=uk44179nBHQ0R0LbB6H0UBTLnb1nykhwAc8C7JE3Ef0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ecor1TQMxtzAl/zgmtUl80Pz2OhG3OBijH40jQZr3ONYOjOlRSHoDP6IK8BFR+57mz7jYBSwlNSwAT5JkkHnJhR3PQhbXnCtVsY+tZ4F3KF1H25fSFHbwByYlfm9hherqoa8ATFVOTnHp+BhSqBw5bTu7bXPvQ3uWZLqT0ur3mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=G6Asaj16; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="ZBAcl8pf";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="l7im9idv"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 9ECCD7A0088;
-	Tue, 14 Jul 2026 05:04:44 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Tue, 14 Jul 2026 05:04:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm2; t=1784019884; x=1784106284; bh=2s
-	LSVYI03CpTXilUYn0RpctehYGq0LsCKn4y0t2Uok4=; b=ZBAcl8pf1pQIodPRlC
-	9Lj2K32t79FA2jwBRlRRtv8HLXM+rvXQps+pxbeK6JvRBV6LmtIfgp3vqCjZUbC3
-	gIaSSwOJplbGYM0XJ57UQ+f3CH1OlgnaJcMIt01TUWCdo2zHaAnM6CBJ0NuOiURb
-	xVWK3kaVBRSL3yvaKkOVP31kcJvoKwL4nrT2yXRg7sTYiqt70ORrKR3yIaC/CdHI
-	0DBoJFon54Eo/9HeDt3hpItvKLybQyfg3iuSOIamEZc1J05bTBK0EsBAEgsN72vZ
-	MiyuMLS7+wGrTxPrQiFn4MOdrrOSDBGX+PXBZK9ENFNEA+6MkN6epTkW3Vz2sxZF
-	Y2pw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1784019884; x=1784106284; bh=2sLSVYI03CpTXilUYn0RpctehYGq
-	0LsCKn4y0t2Uok4=; b=l7im9idvSLDTpvsA7ZQanAKem7reWWXBAHEhvnSMQUaT
-	yrkLH+EAYbUWypUoTDBkeV+rwisSNFnU6khTsedoLux7QD1AIS7OUifFle581ouR
-	pDVBfS+7BQF6tWo5n4bQuTTUjNkWDi34BjmeGjpplcQzPO1rbB0bBzEgdFkEYA1Z
-	Y6W5oq6ol2y9+lIjQAKhAov3IOKQtUYXB2U88S00YcfI9kmnpzte8rqxsjJo/scd
-	NPqPmroLvHctM//jWoCWxJEbMFDzs+QA4V7sAabNlSw7iEscBr20pY6KGSWflxpy
-	1VbZXhyRwX0qsD4CHXCNagy8v4XBeuzBxVsD0idNwA==
-X-ME-Sender: <xms:rPtVahsGZxRsePGTs_0a3jrwDNkfipI18TLhQuyl4L88Cv_mzQMLOg>
-    <xme:rPtVaoTpXSOP_t9Xn7qZmK-PEnyYJ6NTam00Y4F3NGI_K9C3f7nAE5de2xGap9ZNm
-    SK5lpuCbOScNhml5opl6kGCKFm4LJk6RXujVQiPcqNvoSCywvI>
-X-ME-Received: <xmr:rPtVavM6utmB__IMWU8DaeFqII-ASGKHXiRgDUuQFJYGP4un--bdyiNJHEECwuq9Zl99I6sJiDy_P2vPMuhZ8QQYJflSPrEgVQ>
-X-ME-Proxy-Cause: dmFkZTGWt2kMDcT9Ml0yZk7g3SeR7ghelk+LeHnGVdfLCDaVSYOyu4phwe/acRdeqkQ7mt
-    C7BOOOyGSPpF/bo9+Czsgp9ve3SbAF1hanEUJQ8DQcvPhpCzn081TDR9vWB4Tg1g5IBt2/
-    YjBs7bnk1SpOGJMn2zDZtCHYwuXEYEHzdw8c0oxaKzT+4HErUYWgQf0CgcqrLtY3tVogfV
-    m6+TJM7JZcaCqWIpQ749EnG3/D64J+KWUdq9Jn+z/WA4zExnIPRCvY7cuYKdSlV7Nr3INi
-    yB+c1Xent9/yV0ezLSfzW9Z9W8z79h5z45qTacAg1l8NgkFu8XUSaDeEpLRWV9zGdYPrMO
-    UTec3JoBz1GK0CSU+j1ACvMkI1zIVVAyaUiwWp717gtPj0zDkoW1SglJt4nqrPZvHCHbCv
-    nB2FqkjW7SMFrgekEhQlHzjsPt/AP8CCDu+BcQ93Qk9/yDVuqe9UkNRPR9Cr4iFhUhcASt
-    wZxflTdSxT1myzhfymj9Veqeom6zkXpB9m9GNK0BcpfO3NmHiib4xzs+zl41RcMZ91yR47
-    Eah0c2LxXgvGaJOWLSv9LVxVQ6DwN5AiCqXufQc+OR+S1RDiQP2ldEol9n0GOBzAESnQXN
-    Niu9Ra2tQUV8BcP5WeMsWSF/fYjg6H6u8qg9+tlpAautY5KNynr7Ecz9iOEA
-X-ME-Proxy: <xmx:rPtVala522W_9FZnn_CoJBOKE9uKt-ZJuNZLXMdjyhc7PWcyeNeKAQ>
-    <xmx:rPtVahxBRL7ZwrJIlelZtiTi-_15wFXY9c8EBzUCuAzApArEHu67Bw>
-    <xmx:rPtVaoLHi75UxGg7KnbKB9XY5cQtjcCEpGFafaKi9s1rskuMlSZntw>
-    <xmx:rPtVajpRrQHqx-0K2cZae54nezYAQRSa81C-kbCWCleYa-rrpIGVeA>
-    <xmx:rPtVakpKnGdDTHkYkSieE4e8ZV7lo78XHkTvkXeQ6PocH708JbBqu4xv>
-Feedback-ID: i1d2843be:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Jul 2026 05:04:43 -0400 (EDT)
-From: Griffin Kroah-Hartman <griffin@kroah.com>
-Date: Tue, 14 Jul 2026 11:04:33 +0200
-Subject: [PATCH] usb: core: Strengthen error handling in hub_hub_status()
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="G6Asaj16"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47f3b39f2a1so510162f8f.2
+        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 02:26:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1784021189; x=1784625989; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GHRW4UOdyW8Ouh0luSp6xuWXdsWRjaIjBrR+ZbVhoo8=;
+        b=G6Asaj16adtmQA3dfmnS4q/2xcZo4q/bc9fOBZMWcFDs9fAMuGJKcZWUbG0099G25g
+         t2ZZIlETgU4lp4sq7zr2hOk6tua6AdIKpuf83dKdRgt3/7ZovTmI6jsq9T8SOTqJQiJx
+         RfvpKo0P4jKKXJKIasGTMwY9S3M8rwQM4PnkT5MA8hWmjmiZQwft6YlQipCYpI2/2o2c
+         +mVMQGsLA7u9PJFczb9ewrSsZwVjwaVNEULWzcKSMqkkIKvOEX0gmbmjI98T2mqH78r2
+         FINNSAqHw9Ph3xEvgBvAuhyReo6wGNT6fcVYN5lNyAllnR8GjoOwbQG5zpkqrBHUXVLE
+         dqPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784021189; x=1784625989;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GHRW4UOdyW8Ouh0luSp6xuWXdsWRjaIjBrR+ZbVhoo8=;
+        b=gbjUecx77Wur8vQTF8Gq+0pbdtvHgDbZLVuoQg0WjMhDVgsHyEQJX0kiLqsTfKlori
+         X9b8mYNyL/uYMzz6ui1nlMb0czc+Hm8Ewd55Xr/NU/G2IkuncvFpZ0NWjjhnh1hIZKGt
+         z07eIU5+gf56/9BvHtQES51XOrX6TK4gRcXrCAJggmQP6ChdYsRAkJnPjur+AHxcW664
+         6PBG+M0YofzPITcFXWAICM66ScYnXlNaThahWX2+F7jwv5ONCFVqBb7Z/JnTuVKudEzK
+         eNYdoNxqmEJvTGyrc2gs5TjUw8LKsnxPNbo8G2otXYSAciSc93FplT+fjvuPMPj358CW
+         ihnQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpD/avVPnqp+4AiK6shx3locjfwKK1dbq3DqwF+6GP/PIUbb4HJ9m5fBt2dgwDqBTlD4gRIWRXtud8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoPJBYW08Kimv2nFMMeEtxInGFFakMJxObNiInj0kgrGrnl9Cx
+	7hc7vVTXMb2hG5XUtv4OBQ7CL3qQbFDjQS0WaFc/P2ZTMHk23nwLGeC638btBHbMUJo=
+X-Gm-Gg: AfdE7ckmPuFyVxMlBgN06tGNQkLnIsvIRwWngN+xke8Xz8v0FHf7pSxpJwv+W5IQEx0
+	MEw7Dm11/cqQDe5uc6S92NQoOMXFYCfolLiTM/UQPSnxDwL0yfMi/5kgRNZ1Libzkl5F0Wk1SRa
+	jl4jQ8acTwkEWA5fpj7S8XL6lWeYjg+GLOXl1td9hKr3BPHep9FHP1GDNOVDVSJGDWzi2BUeLq2
+	qVsZIZRg12iVpYXNN7KFIxzxUfxRtg9SqdLlXCkbB211U0fEf3XrZNoMVLtulE1YunpG5xYUVZb
+	R6Copc3Vcyh1WHazFMu0aqpJqmLxz3OiijwVGzJEXr3zPpsTovc5RySeFLBMudTq1VUQrmLMzXd
+	K3Fh3x5MOJhqgr+fTWwVQI7K1XuuqFdnNdPrJ4UrRJws1BlAGHuRJiFmULwd9TM83N8fi2lip2U
+	1r+YyHcl9aWkGCpX2RAi3IHcCxAVO1D9/dH4wgAJCw64log/9ZqkRST4s=
+X-Received: by 2002:a05:600c:c2:b0:493:f442:3dd4 with SMTP id 5b1f17b1804b1-493f883befcmr89458285e9.39.1784021188734;
+        Tue, 14 Jul 2026 02:26:28 -0700 (PDT)
+Received: from ?IPV6:2001:a61:13c3:1c01:3157:c849:4aaa:fa65? ([2001:a61:13c3:1c01:3157:c849:4aaa:fa65])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4950a2f635dsm63848015e9.12.2026.07.14.02.26.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jul 2026 02:26:28 -0700 (PDT)
+Message-ID: <7e6ebb5b-8ce0-4114-85d6-98cd11a3ad81@suse.com>
+Date: Tue, 14 Jul 2026 11:26:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/4] rust: usb: add usb host interface and endpoint
+ abstractions
+To: Danilo Krummrich <dakr@kernel.org>, Colin Braun <colinbrauncl@gmail.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
+ <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Alan Stern <stern@rowland.harvard.edu>,
+ Mathias Nyman <mathias.nyman@intel.com>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-media@vger.kernel.org, Colin Braun <colin.braun.cl@gmail.com>
+References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
+ <20260712-urb-abstraction-v1-v1-2-9fa011634ead@gmail.com>
+ <DJXH4JLX4CES.11S3IZ1V2FTHF@kernel.org> <alVEUR0JrF1ga3S8@pendragon>
+ <DJXPS0HY54SU.3JEDTA04V8HJ0@kernel.org>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <DJXPS0HY54SU.3JEDTA04V8HJ0@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260714-usb_core_patches_2-v1-1-4229a368a633@kroah.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBG4avIrA2YVCr2KkVCJv7qdKGS0VIQ7
- 97ULr/FewcpkkDpURyU8BaVZc6wZUFxCvMII302ucrdq8bWZlf2cUnwa9jiBPXOhBu47S033IJ
- yuCYM8rmmz+5v3fmFuP1OdJ5f7A7G7HYAAAA=
-X-Change-ID: 20260714-usb_core_patches_2-a3eb9d1b7b9e
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Griffin Kroah-Hartman <griffin@kroah.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784019882; l=1449;
- i=griffin@kroah.com; s=20260706; h=from:subject:message-id;
- bh=ylzHjsLzK6cMZGsKY08p6FMxVHIa+S2aRrwI9Ece4/M=;
- b=bbmDMFSg9KXFxmpP8eY/nYCM6LVPsZaZErXemXAcQ7ROeUWs4uPXfE8J8G12yn0VhYBrfPFnq
- Rbs1QjLZ/5yAr9WGmBoM9HrStERn4n+yIZKa6HqNGwG14/3I6i25PGd
-X-Developer-Key: i=griffin@kroah.com; a=ed25519;
- pk=Hy1TuVHERdQhLAWwjmxLFNtGj7eEEjaZWPXehAlic5M=
 
-Add additional error handling after the call to get_hub_status() in
-hub_hub_status().
+On 13.07.26 22:09, Danilo Krummrich wrote:
+> On Mon Jul 13, 2026 at 10:03 PM CEST, Colin Braun wrote:
+>> On Mon, Jul 13, 2026 at 03:22:33PM +0200, Danilo Krummrich wrote:
+>>> (Cc: Oliver)
+>>>
+>>> On Sun Jul 12, 2026 at 11:07 PM CEST, Colin Braun wrote:
 
-get_hub_status() uses usb_control_msg() which does not verify that the
-message is the correct length, substituting it for
-usb_control_msg_recv() would also solve this issue but increase memory
-allocations.
+[..]
 
-Instead, error handling is copied from the method used in
-hub_ext_port_status(), which shares the same flow of logic as
-hub_hub_status().
+>>> An URB requires either usb::Interface<Bound> or, for a USB device driver,
+>>> usb::Device<Bound>. But since we can't derive usb::Device<Bound> from
+>>> usb::Interface<Bound> a simple forwarding helper does the trick.
+>>
+>> That makes sense, thank you for pointing this out. I should have taken a
+>> look at the git log for that line to try to understand its background.
+>>
+>> I'll remove the usb::Device<device::Bound>::set_interface() and
+>> usb::Device<device::Bound>::control_msg() implementations in my next
+>> revision (since they will no longer be used) and just implement them on
+>> usb::Interface<device::Bound>.
+> 
+> I'd keep them unsafely on usb::Device and then safely expose forwarding via
+> usb::Device<Bound> and usb::Interface<Bound> once required.
 
-Assisted-by: gkh_clanker_t1000
-Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
----
- drivers/usb/core/hub.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 5262e11c12cd..0d2166b8923a 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -991,10 +991,12 @@ static int hub_hub_status(struct usb_hub *hub,
- 
- 	mutex_lock(&hub->status_mutex);
- 	ret = get_hub_status(hub->hdev, &hub->status->hub);
--	if (ret < 0) {
-+	if (ret < sizeof(hub->status->hub)) {
- 		if (ret != -ENODEV)
- 			dev_err(hub->intfdev,
- 				"%s failed (err = %d)\n", __func__, ret);
-+		if (ret >= 0)
-+			ret = -EIO;
- 	} else {
- 		*status = le16_to_cpu(hub->status->hub.wHubStatus);
- 		*change = le16_to_cpu(hub->status->hub.wHubChange);
+you are making me think that the fundamental assumptions of the USB
+layer are ill documented. If you find this to be the case, please tell
+me what should be improved and I'll see what I can do.
 
----
-base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
-change-id: 20260714-usb_core_patches_2-a3eb9d1b7b9e
+Very well, this will be a bit longer, because I'll try to explain:
+For now, there is exactly one device driver, named "generic" (yes,
+imaginative). However, its behavior in that regard is rather fundamental,
+so if another driver were ever to be written, its drivers would not
+be normal interface drivers.
 
-Best regards,
---  
-Griffin Kroah-Hartman <griffin@kroah.com>
+In principle the chain goes as such:
+
+Device -> Configuration -> Interfaces
+
+The dependencies are in that order. You can have a configuration without
+interfaces and a device without configurations (it would be useless, but
+it is within spec)
+The life times are limited in the same way. An interface never lives
+longer than its configuration and a configuration does not live longer
+than its device.
+
+This is controlled by code in drivers/usb/core/generic.c
+
+int usb_generic_driver_probe(struct usb_device *udev)
+{
+         int err, c;
+
+         /* Choose and set the configuration.  This registers the interfaces
+          * with the driver core and lets interface drivers bind to them.
+          */
+         if (udev->authorized == 0)
+                 dev_info(&udev->dev, "Device is not authorized for usage\n");
+         else {
+                 c = usb_choose_configuration(udev);
+                 if (c >= 0) {
+                         err = usb_set_configuration(udev, c);
+
+This is the usual way a configuration is created. [You need not worry about
+the other ways. They also call usb_set_configuration().]
+
+Also important for this discussion is that this cannot fail:
+
+                         if (err && err != -ENODEV) {
+                                 dev_err(&udev->dev, "can't set config #%d, error %d\n",
+                                         c, err);
+                                 /* This need not be fatal.  The user can try to
+                                  * set other configurations. */
+                         }
+                 }
+         }
+         /* USB device state == configured ... usable */
+         usb_notify_add_device(udev);
+
+         return 0;
+}
+
+A configuration is destroyed by usb_set_configuration(). This
+is used in disconnect:
+
+void usb_generic_driver_disconnect(struct usb_device *udev)
+{
+         usb_notify_remove_device(udev);
+
+         /* if this is only an unbind, not a physical disconnect, then
+          * unconfigure the device */
+         if (udev->actconfig)
+                 usb_set_configuration(udev, -1);
+}
+
+( -1 means without replacement)
+
+You can see that there is no way a configuration and thereby its interfaces
+can last longer than its device.
+
+An interface driver is allowed to talk to two sets of endpoints
+
+1. endpoints associated with interfaces it has claimed, accepted or is probed for
+2. endpoint 0 of the device whose interfaces it has claimed, accepted or is probed for
+
+(Please do not ask about cdc-wdm)
+
+That does _not_ mean that a driver can communicate to them at all times. Communication
+is limited as follows:
+
+Communication may begin when
+
+1. probe() is called
+2. usb_claim_interface() returns without error
+3. resume() is called
+4. reset_resume() is called
+5. post_reset() is called
+
+Communication must cease
+
+1. before disconnect() returns
+2. before suspend() returns
+3. before pre_reset() returns
+4. before probe() is exited with an error return
+
+The only exception to that is that you may schedule a reset.
+
+I hope this makes things a bit clearer. Please ask questions
+if anything is unclear. I'd be happy to help.
+This area may be a bit murky because only the states of devices
+are named and documented. There simply is no data structure
+equivalent to the binding of a driver and an interface, hence
+we cannot just give interfaces a state.
+
+	Regards
+		Oliver
+
+
 
