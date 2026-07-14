@@ -1,125 +1,175 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46853FAE0C
-	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 08:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEB93F4100;
+	Tue, 14 Jul 2026 09:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784017616; cv=none; b=b9ZUqG/gOE0XG+VCxa2/I39ahI70wgxv0uOYte4zY4n8IGtGrZ4plGUyVqq0GRTGrc1TQN4xUzYJhFQbFcWXuFQ87arWHW9yE7vpb/qaAmxOjn6ueAoTQ2pLwcDnCJh4lyvHwO2t+IgfGO6ujhpynUzg/VQ2L/kdaByIBJM5G74=
+	t=1784019746; cv=none; b=XrnU5gpi1Yy1O2hADhN0FBoSSpiTb9EgEQjzx2489+EcFKoNzHjcM/ctNPhppZwYbc7eZdrzMbNrZNDdFfTywe+6d9QoSW1JAz3hJRLCd0Q1IqUqqF/K0pBn2tR9Qh6Oze4NrsYJ3cwuVbbWevqFwR7RZNG6cRG3ZssPyAHLpao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784017616; c=relaxed/simple;
-	bh=Pc4VB1+Ef6bvrAi1wEOfOEDmY36YwvKLAzSlaQGE4RU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p5SqYGMMngShwxvOqF6nBJKXttE05m1SDqJNj/JYjgLKmBjrTcTtdNWN/L6NKm8dwRqo6ceSib+IVJeaFMRom/MQ8YNrbb74A3y7YDX3BHCwWgeJ6g2HSKBKyGYFJrFl6bkvQJMrnAp/iFsdgwenC297ibqVPpXDPcdTYUzyywA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DDc2iS6Z; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DDc2iS6Z"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-698ae09e356so5414121a12.2
-        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 01:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1784017608; x=1784622408; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2cBb0PIK05nLQLX8d8JBI3hyZwFcNaF0BlltgJKRbuY=;
-        b=DDc2iS6ZaDSjQz0XA8xSbLZRrsQoRr0n43jeDbgg4jzkify8WnZkE+XEwGt5CdFtM7
-         WjOrvyYJcrU2rsXTX0/VpYXiOWfI/Heez9q7P4qhKeiCdQC+RAR4X2PDOq90tAYET1ZL
-         yHiQVJE6ddgeYHm7ZoainVwLUD4i1f9JiOHlDmR/ErO0mH6gNd2r//x6W+Hd0nB9GZQt
-         O0xjnViYK9zm3dE5KNk9z2AfgoSeg9g4N2PqzSJJvsn82Yw0BSe8B6tNZ575B4QW3Vzc
-         sw2uYMFrsEF12t/i5X1g49lHsy+sp0Beu//hWjFgXLf1Q+b0+K10q0QGRayg/5kj78xu
-         vwtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784017608; x=1784622408;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2cBb0PIK05nLQLX8d8JBI3hyZwFcNaF0BlltgJKRbuY=;
-        b=GXOSnKaz9EprMu8l8okbPp5yQo0afdhDAGYbYZT7oEW75D3plOeLzpR4GUCDV3aMbP
-         GVsHZ+Mc6M7XCT8K8GUPrwyoHVnFwEH9VGGMCouQGkEWLRR7BsYknSg3XQwrvOeYe4aE
-         T4LUUJyZ2PXoL3j50ba52PQW+rg0CzyJnjOKptd6+AR8gpLEDqnpvZA95i5vlqeZeykK
-         X6CHpX3K2oxwSkx6H10Hi25iOy4A47is5Zx4JCsoYFFinHYfdZG9qflg1jPMPhQc36Tf
-         w66T/GjJaRvWiNUcoxJr9AaWEMtCb4zOThBaoyuPFltt/TidvO0OCEFLglfU/PPqQQdY
-         0lGA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp5dUgb2MtTkBFbjyj6xxJ9L0bixP+Fl51F/YUsWZ0L72+RV26VYCiex+uDdZQOPNcAQIXdPFSNk7w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7XjULay9SbkgQMyYhHDCUzCMGrCxlC1tuPXXz6/RPrf/bWkAt
-	C4jPsEYTnGk8Hi94egsh1ON3YozBRvF7tKeciqaKOB3lfuifhqs7XjGi8mpFG2sISrQ=
-X-Gm-Gg: AfdE7cn9LHzd1lA0cq/MIJ0BOMxzY2A7yoeBL+Z2/p9KjlNlLeRVxX3d45TDE+Rsrw6
-	gcIdaDMYmjrx5mpOOOgROMdvTbQumJTg1rvKAr9aEvJyzuht60sowYfnJoPbQnh1R1B7SivDYK2
-	hD01DwL2igOp92+64HBNZpGIfTBo1WNswcuItKmrqJ1bWoQbu9zfbfLNWVikRVescxvCOqngaFy
-	rzBxPSes8OmS1eiKks0AGEOTC4G1eqzRbhthzRaItX/m5yeROTCfXX6ol8it7TOlENdojsPTxuq
-	P2npoQZLY8MKxQHH5YwjB4svnaikB2tl+pAQV3gpKDNQYsiOHFzXMCZ7iE/cTE+dXPhOtjKZ48h
-	sGNMWP63V4ayJO3BuW5vVB0fSHmDHLE3EXw70y8FLsTx5RYFFWvtkJihK30ia1XUav1w6oqxfPX
-	2E88RBgBu4sSju7VefAgd8BUXiM6NpW80FpX57
-X-Received: by 2002:a05:6402:3513:b0:698:b899:d1 with SMTP id 4fb4d7f45d1cf-69cd6c0cc84mr541837a12.0.1784017607422;
-        Tue, 14 Jul 2026 01:26:47 -0700 (PDT)
-Received: from [192.168.0.167] ([109.76.117.126])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69cd28a298asm972902a12.13.2026.07.14.01.26.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jul 2026 01:26:46 -0700 (PDT)
-Message-ID: <3c8c0777-99e3-4dd1-b235-f3d32643efca@linaro.org>
-Date: Tue, 14 Jul 2026 09:26:45 +0100
+	s=arc-20240116; t=1784019746; c=relaxed/simple;
+	bh=vv1a7frgyIT9kiGn8P7iuYRwupOlQtBBXrJCYLfcmv0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L7EI/RMT4TOoym36yDYSABdF1IJAcQN0bNUUIE2Bi4JKf+FsTiNXBZPs3W6yvzAOD06pP+CIMosmAqsgcnZmDI6wa4bEuLUiBu07v+qUSILS7nwJYU4+rE1/dZh93h9sKw60s0L0wSDG2ZwCo3+DOLILQqqvSqM7+uxEHzaJGuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: b65dedba7f6211f1aa26b74ffac11d73-20260714
+X-CID-CACHE: Type:Local,Time:202607141654+08,HitQuantity:1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:5988cbf7-d9ff-48c7-85ce-e627f6b8aee5,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:e7bac3a,CLOUDID:cb1c2a9e8f3e2726e6e658f5b4278199,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|136|850|865|898,TC:nil,Content:0|15|
+	50,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,
+	OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: b65dedba7f6211f1aa26b74ffac11d73-20260714
+X-User: dengjie03@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <dengjie03@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1184876177; Tue, 14 Jul 2026 17:02:16 +0800
+From: Jie Deng <dengjie03@kylinos.cn>
+To: mathias.nyman@intel.com
+Cc: linux-usb@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	Jie Deng <dengjie03@kylinos.cn>
+Subject: [PATCH] usb: xhci: Restore MSI/MSI-X reinitialization on resume for RESET_ON_RESUME hosts
+Date: Tue, 14 Jul 2026 17:02:10 +0800
+Message-Id: <20260714090210.1201964-1-dengjie03@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] usb: typec: tcpm: qcom: initialize currsrc explicitly
-To: "Alexey V. Vissarionov" <gremlin@altlinux.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Guenter Roeck <linux@roeck-us.net>,
- Casey Connolly <casey.connolly@linaro.org>, linux-arm-msm@vger.kernel.org,
- linux-usb@vger.kernel.org, lvc-project@linuxtesting.org
-References: <O53N7pugg1-s76jrwoKAhbBDXR8MpaQcpeBZ-yXGvX_N496X72YHCZC4tzar29CKo0MGFft9Ctcq-p5za2l7cg==@protonmail.internalid>
- <20260713182500.GB22956@altlinux.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-GB
-In-Reply-To: <20260713182500.GB22956@altlinux.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 13/07/2026 19:25, Alexey V. Vissarionov wrote:
-> When regmap_read() fails, the execution goes to done: label, where
-> currsrc is passed to rp_sel_to_name() and used as an index after a
-> proper check. However, to make this situation easier to notice, an
-> explicit initialization of currsrc with obviously impossible value
-> is suggested. Alas, we can't simply use zero value here because it
-> means TYPEC_SRC_RP_SEL_80UA.
-> 
-> Found by ALT Linux Team (altlinux.org) and Linux Verification Center
-> (linuxtesting.org) using SVACE.
-> 
-> Signed-off-by: Alexey V. Vissarionov <gremlin@altlinux.org>
-> ---
->   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-> index bf985efe1cd6bea4..d7cb69cf6044841b 100644
-> --- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-> +++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
-> @@ -461,8 +461,8 @@ static int qcom_pmic_typec_port_set_cc(struct tcpc_dev *tcpc,
->   	struct pmic_typec *tcpm = tcpc_to_tcpm(tcpc);
->   	struct pmic_typec_port *pmic_typec_port = tcpm->pmic_typec_port;
->   	struct device *dev = pmic_typec_port->dev;
-> -	unsigned int mode, currsrc;
-> -	unsigned int misc;
-> +	unsigned int currsrc = 0xFF; /* error, easy to notice in the log */
-> +	unsigned int mode, misc;
->   	unsigned long flags;
->   	int ret;
-> 
-> 
-> 
-> --
-> Alexey V. Vissarionov
-> gremlin ПРИ altlinux ТЧК org; +vii-cmiii-ccxxix-lxxix-xlii
-> GPG: 0D92F19E1C0DC36E27F61A29CD17E2B43D879005 @ hkp://keys.gnupg.net
-> 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Commit 944e7deb4238 ("xhci: Avoid PCI MSI/MSIX interrupt
+reinitialization at resume") moved MSI/MSI-X setup out of xhci_run()
+into a PCI-specific xhci_pci_run() that is only invoked at probe time,
+and removed the xhci_cleanup_msix() call from xhci_resume().
+
+The rationale (avoid redundant MSI reconfiguration on every resume) is
+sound for controllers that preserve state across suspend.  It is however
+*harmful* for controllers carrying XHCI_RESET_ON_RESUME: those hosts are
+fully reset on every S3 resume, and on some of them (e.g. ASMedia 3042)
+the MSI/MSI-X delivery path is no longer functional after the controller
+reset + D3->D0 transition.  Because the MSI vectors are now kept around
+unchanged across resume, the first post-resume command-completion event
+(ENABLE_SLOT) is delivered to a stale MSI channel and never reaches the
+CPU, which surfaces as:
+  xhci_hcd 0000:05:00.0: Error while assigning device slot ID: Command Aborted
+  xhci_hcd 0000:05:00.0: Max number of devices this xHCI host supports is 127.
+  usb 1-2: device not accepting address 3, error -22
+  xhci_hcd 0000:05:00.0: Error while assigning device slot ID: Command Aborted
+  xhci_hcd 0000:05:00.0: Max number of devices this xHCI host supports is 127.
+  usb 1-2: device not accepting address 3, error -22
+  xhci_hcd 0000:05:00.0: Error while assigning device slot ID: Command Aborted
+  xhci_hcd 0000:05:00.0: Max number of devices this xHCI host supports is 127.
+  usb 2-2: device not accepting address 3, error -22
+
+Up to v6.3 the resume reset path did xhci_cleanup_msix() and, through
+xhci_run() -> xhci_try_enable_msi(), re-allocated the vectors, which
+incidentally re-armed the MSI delivery path and masked the hardware
+issue.  Work it around by restoring that behaviour, but only for hosts
+marked XHCI_RESET_ON_RESUME and only for PCI devices (platform/RCAR
+hosts using the same quirk must not be touched).
+
+Fix: 944e7deb4238 ("xhci: Avoid PCI MSI/MSIX interrupt reinitialization at resume")
+Signed-off-by: Jie Deng <dengjie03@kylinos.cn>
+---
+ drivers/usb/host/xhci-pci.c |  6 ++++--
+ drivers/usb/host/xhci.c     | 19 +++++++++++++++++++
+ drivers/usb/host/xhci.h     |  2 ++
+ 3 files changed, 25 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 6b3fcba44b08..77b3215c95f3 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -126,7 +126,7 @@ static void xhci_msix_sync_irqs(struct xhci_hcd *xhci)
+ }
+ 
+ /* Legacy IRQ is freed by usb_remove_hcd() or usb_hcd_pci_shutdown() */
+-static void xhci_cleanup_msix(struct xhci_hcd *xhci)
++void xhci_cleanup_msix(struct xhci_hcd *xhci)
+ {
+ 	struct usb_hcd *hcd = xhci_to_hcd(xhci);
+ 	struct pci_dev *pdev = to_pci_dev(hcd->self.controller);
+@@ -138,9 +138,10 @@ static void xhci_cleanup_msix(struct xhci_hcd *xhci)
+ 	pci_free_irq_vectors(pdev);
+ 	hcd->msix_enabled = 0;
+ }
++EXPORT_SYMBOL_GPL(xhci_cleanup_msix);
+ 
+ /* Try enabling MSI-X with MSI and legacy IRQ as fallback */
+-static int xhci_try_enable_msi(struct usb_hcd *hcd)
++int xhci_try_enable_msi(struct usb_hcd *hcd)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(hcd->self.controller);
+ 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+@@ -207,6 +208,7 @@ static int xhci_try_enable_msi(struct usb_hcd *hcd)
+ 	hcd->irq = pdev->irq;
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(xhci_try_enable_msi);
+ 
+ static int xhci_pci_run(struct usb_hcd *hcd)
+ {
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 091c82ca8ee2..7dd3afcf6b2e 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1190,10 +1190,29 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
+ 		xhci_for_each_ring_seg(xhci->cmd_ring->first_seg, seg)
+ 			memset(seg->trbs, 0, sizeof(union xhci_trb) * TRBS_PER_SEGMENT);
+ 
++		/* XHCI_RESET_ON_RESUME hosts are fully reset on every resume.
++		 * On some of them (e.g. ASMedia 3042) the MSI/MSI-X delivery
++		 * path is no longer valid after the reset + D3->D0 cycle, so
++		 * tear the vectors down here and let xhci_try_enable_msi()
++		 * re-allocate them below, matching pre-6.4 behaviour.
++		 */
++		if (xhci->quirks & XHCI_RESET_ON_RESUME)
++			xhci_cleanup_msix(xhci);
++
+ 		xhci_debugfs_exit(xhci);
+ 
+ 		xhci_init(hcd);
+ 
++		/* Re-arm the MSI/MSI-X delivery path for RESET_ON_RESUME PCI
++		 * hosts. xhci_run() no longer does this (it was moved to the
++		 * probe-only xhci_pci_run()), and the stale vectors left over
++		 * from before suspend cannot carry the first post-resume
++		 * command-completion event on affected hardware.
++		 */
++		if ((xhci->quirks & XHCI_RESET_ON_RESUME) &&
++		    dev_is_pci(hcd->self.controller))
++			xhci_try_enable_msi(hcd);
++
+ 		/*
+ 		 * USB core calls the PCI reinit and start functions twice:
+ 		 * first with the primary HCD, and then with the secondary HCD.
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 2d3941b5e1e3..a72ebfbb634a 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1903,6 +1903,8 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume);
+ 
+ irqreturn_t xhci_irq(struct usb_hcd *hcd);
+ irqreturn_t xhci_msi_irq(int irq, void *hcd);
++void xhci_cleanup_msix(struct xhci_hcd *xhci);
++int xhci_try_enable_msi(struct usb_hcd *hcd);
+ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev);
+ int xhci_alloc_tt_info(struct xhci_hcd *xhci,
+ 		struct xhci_virt_device *virt_dev,
+-- 
+2.25.1
+
