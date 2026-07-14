@@ -1,81 +1,309 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784603F4845;
-	Tue, 14 Jul 2026 22:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA62423E96;
+	Tue, 14 Jul 2026 23:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784069946; cv=none; b=G2dYkjqz0KyowDqxFCHoUngGNjDRVqO0GypFLzd4G/CnOyPmG8hS4yKQ3haWIYMR8czweyL4IcQlTr11z9cwxSB+HRL9kHPrKUts3Id4dRrEmzi33kG8peJ6SAsfEnHaeBRwC9TewlIh2Oqfr70aBzunGc64fTQnhH5281wXbNQ=
+	t=1784070558; cv=none; b=rUJLQf3bkoxTsNKbYf+vtxi+WsHITegkiqM/IiuGJUtNgRFYChMbU8KWm6yj6o/NbH++ZWdhHFHInfgj/vYiZ42joAJ6j5IiDF5lGdpzgY428t6zVhy1jswrnPwRILeYAue5vW4kRNs7qOtb8qwA8kK9c8qxjyvaaJ12NsGTdr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784069946; c=relaxed/simple;
-	bh=ObZoVd2SwZYresup1lwKlWSID/z/WIjFQF4i38oTNeU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KC7sGg3cG14JzE8QQ4f3i+70xVDf5sTxoO94ihRdQxa8GIJBROA6TlMSyFxUguRYZfNdGgOiy94h0QSvOiQNarXz01BTY25hXfkTNBya1EP2l2q4gCi8Q7Hi2VFX4ye3k7GNBhE2AS1KGofuyDJT1nMB6iVIJ4FZrvdFzO0GTlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=DDDXwBD0; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1784070558; c=relaxed/simple;
+	bh=d3Zkpg6ooIi1Dl3ywQQRqHKHopgFBoj8kq9jOt0J++A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=KfcxGxTYB6c3pW7QYy52OAy37154xd9mWI7HG1AsuQwDNqauDTZK3D4UF/Cf90y3gjB15iYq9VbC1R4i3pwzjHNhJLcHId3wnGGOHEtzrsZ+g1Bw7Fr32njOeCueYvC8iGt7WpBVU3Tn126BuzW5fd+YpJtSJGZrJJgzrWCDiaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qz/rIuKV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="DDDXwBD0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=dDha+UlnDaRCdEuunWk1hNBn1iZPMTj7RkzDoOo3PI4=; b=DDDXwBD0J557i+mXqxjGNHaUyF
-	JUJH14Jlh1CtG8a46tTlslzRJvkiW1kDORhTz7gekeT9ItYNGUhFLZup/uCEKmYRi6V04LkU2cxzb
-	c2es6Tkycr5GEuOlrt/W2uTk2QwaIvlI0fWRf+GcW4OZHvC47q+QaLMT//rXR2OD3MUQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wjm5S-00CGQz-SU; Wed, 15 Jul 2026 00:58:50 +0200
-Date: Wed, 15 Jul 2026 00:58:50 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 02/12] ax88179_178a: Add HW support for
- AX179A-based chips
-Message-ID: <1f858852-8e8e-4cff-bbdc-eb6751f44ca5@lunn.ch>
-References: <20260708-ax88179a-v2-0-0800fedb2e16@birger-koblitz.de>
- <20260708-ax88179a-v2-2-0800fedb2e16@birger-koblitz.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qz/rIuKV"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 32C59C2BCB8;
+	Tue, 14 Jul 2026 23:09:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784070558;
+	bh=d3Zkpg6ooIi1Dl3ywQQRqHKHopgFBoj8kq9jOt0J++A=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=qz/rIuKVt9VgUzltP7KqeQzoNKPLeO0pn3KZo0oKMSLmKz8h9m0saAkpph0DuotOY
+	 5fcW1l5zY+4+tCnCmCIvf3qJgogoicpoJxChgCDC2UEQ9U5+P69h6Xh6aV6C1MW/V9
+	 +kSuj+pRvd3Ks3ab8B7Aw8s/rEAjVM2F+4fGCFWL9UvFP7afPD+ZfgekPIYJTKFYfG
+	 hje3Us++zeZgM+pXl5EJrfDjklpIf9QLva7TqZ/Fl7xla6FNBfdhC5Ijd80q3E/LGZ
+	 CrNjpkcJA5EyirdF0A1pPbSPyJLUxqJo5kZSFKWjVJ/8rIwB+5f9UFQbDESZTsWXJj
+	 nVzxbmGSgWecg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 203EAC44507;
+	Tue, 14 Jul 2026 23:09:18 +0000 (UTC)
+From: Amit Sunil Dhamne via B4 Relay <devnull+amitsd.google.com@kernel.org>
+Date: Tue, 14 Jul 2026 23:06:47 +0000
+Subject: [PATCH] usb: typec: tcpm: Add support for Battery Cap response
+ message
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260708-ax88179a-v2-2-0800fedb2e16@birger-koblitz.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260714-batt-caps-upstream-v1-1-c86f0a7fbbda@google.com>
+X-B4-Tracking: v=1; b=H4sIAAfBVmoC/0XMSw7CIBSF4a00jCXhIVS7FdMB93JRBn0ItDFpu
+ nexHTj8T3K+jWVKkTLrmo0lWmOO01hDXhqGLzc+iUdfmymhrGjllYMrhaObM1/mXBK5gZs2KAS
+ 6EXnN6nFOFOLnQB/92YneS7XLOf7prjlgI+QJ5+LKkrm0YFsrUQDIbjU/FFwmjtMwxNI1grSBO
+ 1hCEQKiIaURfK17MGiVct5oBUazft+/2wLvs+MAAAA=
+X-Change-ID: 20260714-batt-caps-upstream-57f2cbe8eed3
+To: Badhri Jagan Sridharan <badhri@google.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kyle Tso <kyletso@google.com>, RD Babiera <rdbabiera@google.com>, 
+ Amit Sunil Dhamne <amitsd@google.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784070557; l=7924;
+ i=amitsd@google.com; s=20241031; h=from:subject:message-id;
+ bh=Pd+vfdxONEvemhiZz0c9A9V4n9jluqOyO39dTwdDP0c=;
+ b=9n+caiMryAdKHXcSCaxDIBfxtzqrPZcMIZ3EDm7Mpi1Nk7eEcXp1BD10k3q8YsyEYWOSCX3wP
+ F2DmJWDgiPcB7leWtkAeKUtcBIw0BO9+yeH0wBUhe/30vY6vVBRPMal
+X-Developer-Key: i=amitsd@google.com; a=ed25519;
+ pk=wD+XZSST4dmnNZf62/lqJpLm7fiyT8iv462zmQ3H6bI=
+X-Endpoint-Received: by B4 Relay for amitsd@google.com/20241031 with
+ auth_id=262
+X-Original-From: Amit Sunil Dhamne <amitsd@google.com>
+Reply-To: amitsd@google.com
 
-> +	/* Initialize MII structure */
-> +	dev->mii.dev = dev->net;
-> +	dev->mii.mdio_read = ax88179_mdio_read;
-> +	dev->mii.mdio_write = ax88179_mdio_write;
-> +	dev->mii.phy_id_mask = 0xff;
-> +	dev->mii.reg_num_mask = 0xff;
-> +	dev->mii.phy_id = 0x03;
-> +	if (!ax179_data->is_ax88772d)
-> +		dev->mii.supports_gmii = 1;
+From: Amit Sunil Dhamne <amitsd@google.com>
 
-O.K, so you are keeping going.
+Add support for responding to Get_Battery_Cap (extended) request with a
+a Battery_Capabilities (extended) msg. The requester will request
+Battery Cap for a specific battery using an index in Get_Battery_Cap. In
+case of failure to identify battery, TCPM shall reply with an
+appropriate message indicating so.
 
-I still think mii has to die, and you need to swap to phylink.
+As the Battery Cap Data Block size is 9 Bytes (lesser than
+MaxExtendedMsgChunkLen of 26B), only a single chunk is required to
+complete the AMS.
 
-It is a bit ugly, but there is a way around the PHYs having a totally
-different API, despite the same ID register values.
+Support for Battery_Capabilities message is required for sinks that
+contain battery as specified in USB PD Rev3.1 v1.8
+("Applicability of Data Messages" section).
 
-Some generation of Marvel Ethernet switches set the OUI part of the
-PHY ID register, but left the product part as 0. They even documented
-this was intentional. We worked around it by trapping reads to
-registers 2 and 3, and filling in the missing information, using an ID
-from the marvel range which was not in use. We could then make the
-Marvell PHY driver do the right thing.
+Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
+Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
+---
+This patch depends on the series [1].
 
-You can do the same here. Intercept the reads to registers 2 and 3,
-and return a different ID. You can then extend the PHY driver.
+[1] https://lore.kernel.org/all/20260714-batt-status-v5-0-9de4aa900b69@google.com/
+---
+ drivers/usb/typec/tcpm/tcpm.c | 108 +++++++++++++++++++++++++++++++++++++-----
+ include/linux/usb/pd.h        |  22 +++++++++
+ 2 files changed, 117 insertions(+), 13 deletions(-)
 
-    Andrew
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index cd33ee131ebd..393266dd55f8 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -234,7 +234,8 @@ enum pd_msg_request {
+ 	PD_MSG_DATA_SOURCE_CAP,
+ 	PD_MSG_DATA_REV,
+ 	PD_MSG_EXT_SINK_CAP_EXT,
+-	PD_MSG_DATA_BATT_STATUS
++	PD_MSG_DATA_BATT_STATUS,
++	PD_MSG_EXT_BATT_CAP,
+ };
+ 
+ enum adev_actions {
+@@ -1559,6 +1560,14 @@ static int tcpm_pd_send_sink_cap_ext(struct tcpm_port *port)
+ 	return tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
+ }
+ 
++static u16 tcpm_charge_to_energy(int charge, int voltage)
++{
++	u64 energy = div_u64((u64)charge * voltage, 1000000);
++
++	/* Battery telemetry is reported in increments of 0.1Wh */
++	return (u16)UW_TO_W(energy * 10);
++}
++
+ static int tcpm_pd_send_batt_status(struct tcpm_port *port)
+ {
+ 	u16 present_charge = BATTERY_PROPERTY_UNKNOWN;
+@@ -1569,7 +1578,6 @@ static int tcpm_pd_send_batt_status(struct tcpm_port *port)
+ 	u8 charging_status = 0;
+ 	struct pd_message msg;
+ 	int ret, charge_now;
+-	u64 energy_now;
+ 	u32 bsdo;
+ 
+ 	tcpm_get_fixed_batt(port);
+@@ -1595,16 +1603,9 @@ static int tcpm_pd_send_batt_status(struct tcpm_port *port)
+ 		ret = power_supply_get_property(batt,
+ 						POWER_SUPPLY_PROP_VOLTAGE_AVG,
+ 						&val);
+-		if (!ret) {
+-			energy_now = div_u64((u64)charge_now * val.intval,
+-					     1000000);
+-
+-			/*
+-			 * Battery Present Charge is reported in
+-			 * increments of 0.1WH.
+-			 */
+-			present_charge = (u16)UW_TO_W(energy_now * 10);
+-		}
++		if (!ret)
++			present_charge = tcpm_charge_to_energy(charge_now,
++							       val.intval);
+ 	}
+ 
+ 	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_STATUS, &val);
+@@ -1640,6 +1641,71 @@ static int tcpm_pd_send_batt_status(struct tcpm_port *port)
+ 	return tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
+ }
+ 
++static int tcpm_pd_send_batt_cap(struct tcpm_port *port)
++{
++	u16 design_cap = BATTERY_PROPERTY_UNKNOWN;
++	u16 charge_cap = BATTERY_PROPERTY_UNKNOWN;
++	u32 batt_id = port->batt_request_id;
++	union power_supply_propval val;
++	struct batt_cap_ext_msg bcdb;
++	struct power_supply *batt;
++	bool invalid_ref = true;
++	struct pd_message msg;
++	u8 data_obj_cnt;
++	int ret, vol;
++
++	tcpm_get_fixed_batt(port);
++	memset(&msg, 0, sizeof(msg));
++
++	if (batt_id >= port->fixed_batt_cnt || batt_id >= MAX_NUM_FIXED_BATT)
++		goto send_cap;
++
++	invalid_ref = false;
++	batt = port->fixed_batt[batt_id];
++	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_VOLTAGE_AVG,
++					&val);
++	if (!ret) {
++		vol = val.intval;
++		ret = power_supply_get_property(batt,
++						POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN,
++						&val);
++		if (!ret)
++			design_cap = tcpm_charge_to_energy(val.intval, vol);
++
++		ret = power_supply_get_property(batt,
++						POWER_SUPPLY_PROP_CHARGE_FULL,
++						&val);
++		if (!ret)
++			charge_cap = tcpm_charge_to_energy(val.intval, vol);
++	}
++
++send_cap:
++
++	/*
++	 * As per the USB PD Rev3.1 v1.8 spec, if a battery VID (assigned by the
++	 * USB-IF) does not exist or an invalid battery reference is made by the
++	 * requestor, then set the VID field to 0xffff. If the VID field is
++	 * 0xffff, set the PID field to 0.
++	 */
++	bcdb.vid = BATTERY_PROPERTY_UNKNOWN;
++	bcdb.pid = 0;
++	bcdb.batt_design_cap = cpu_to_le16(design_cap);
++	bcdb.batt_last_chg_cap = cpu_to_le16(charge_cap);
++	bcdb.batt_type = invalid_ref ? BATT_CAP_BATT_TYPE_INVALID_REF : 0;
++	memcpy(msg.ext_msg.data, &bcdb, sizeof(bcdb));
++	msg.ext_msg.header = PD_EXT_HDR_LE(sizeof(bcdb),
++					   0, /* Denotes if request chunk */
++					   0, /* Chunk number */
++					   1  /* Chunked */);
++
++	data_obj_cnt = count_chunked_data_objs(sizeof(bcdb));
++	msg.header = PD_HEADER_EXT_LE(PD_EXT_BATT_CAP, port->pwr_role,
++				      port->data_role, port->negotiated_rev,
++				      port->message_id, data_obj_cnt);
++
++	return tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
++}
++
+ static void mod_tcpm_delayed_work(struct tcpm_port *port, unsigned int delay_ms)
+ {
+ 	if (delay_ms) {
+@@ -4041,8 +4107,16 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
+ 			tcpm_set_state(port, SOFT_RESET_SEND, 0);
+ 		}
+ 		break;
+-	case PD_EXT_SOURCE_CAP_EXT:
+ 	case PD_EXT_GET_BATT_CAP:
++		if (data_size >= 1) {
++			port->batt_request_id = ext_msg->data[0];
++			tcpm_pd_handle_msg(port, PD_MSG_EXT_BATT_CAP,
++					   GETTING_BATTERY_CAPABILITIES);
++		} else {
++			tcpm_set_state(port, SOFT_RESET_SEND, 0);
++		}
++		break;
++	case PD_EXT_SOURCE_CAP_EXT:
+ 	case PD_EXT_BATT_CAP:
+ 	case PD_EXT_GET_MANUFACTURER_INFO:
+ 	case PD_EXT_MANUFACTURER_INFO:
+@@ -4261,6 +4335,14 @@ static bool tcpm_send_queued_message(struct tcpm_port *port)
+ 					 ret);
+ 			tcpm_ams_finish(port);
+ 			break;
++		case PD_MSG_EXT_BATT_CAP:
++			ret = tcpm_pd_send_batt_cap(port);
++			if (ret)
++				tcpm_log(port,
++					 "Failed to send battery cap ret=%d",
++					 ret);
++			tcpm_ams_finish(port);
++			break;
+ 		default:
+ 			break;
+ 		}
+diff --git a/include/linux/usb/pd.h b/include/linux/usb/pd.h
+index afb9c2c65588..10ff4af7dedc 100644
+--- a/include/linux/usb/pd.h
++++ b/include/linux/usb/pd.h
+@@ -106,6 +106,9 @@ enum pd_ext_msg_type {
+ #define PD_HEADER_LE(type, pwr, data, rev, id, cnt) \
+ 	cpu_to_le16(PD_HEADER((type), (pwr), (data), (rev), (id), (cnt), (0)))
+ 
++#define PD_HEADER_EXT_LE(type, pwr, data, rev, id, cnt) \
++	cpu_to_le16(PD_HEADER((type), (pwr), (data), (rev), (id), (cnt), (1)))
++
+ static inline unsigned int pd_header_cnt(u16 header)
+ {
+ 	return (header >> PD_HEADER_CNT_SHIFT) & PD_HEADER_CNT_MASK;
+@@ -219,6 +222,25 @@ static inline u8 count_chunked_data_objs(u32 size)
+ 	return ((size / 4) + (size % 4 ? 1 : 0));
+ }
+ 
++/**
++ * batt_cap_ext_msg - Battery capability extended PD message
++ * @vid: Battery Vendor ID (assigned by USB-IF)
++ * @pid: Battery Product ID (assigned by battery or device vendor)
++ * @batt_design_cap: Battery design capacity in 0.1Wh
++ * @batt_last_chg_cap: Battery last full charge capacity in 0.1Wh
++ * @batt_type: Battery Type. bit0 when set indicates invalid battery reference.
++ *             Rest of the bits are reserved.
++ */
++struct batt_cap_ext_msg {
++	__le16 vid;
++	__le16 pid;
++	__le16 batt_design_cap;
++	__le16 batt_last_chg_cap;
++	u8 batt_type;
++} __packed;
++
++#define BATT_CAP_BATT_TYPE_INVALID_REF BIT(0)
++
+ /* Sink Caps Extended Data Block Version */
+ #define SKEDB_VER_1_0				1
+ 
+
+---
+base-commit: 0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
+change-id: 20260714-batt-caps-upstream-57f2cbe8eed3
+prerequisite-change-id: 20260501-batt-status-16b6761c0bb1:v5
+prerequisite-patch-id: 39dd78a0bb18e681fcd8efb01b6879dbeb881a3a
+prerequisite-patch-id: 621fa71ad856f4b3246ec480ab17f8089b082932
+
+Best regards,
+-- 
+Amit Sunil Dhamne <amitsd@google.com>
+
+
