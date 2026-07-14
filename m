@@ -1,168 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EAC46AEE0;
-	Tue, 14 Jul 2026 13:05:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CB2466B4B
+	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 13:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784034323; cv=none; b=TcQWv+r06Gj829RIuuY0miOMALuKU+VlfAL2eV0ZVgbtk8GGHlJJax5wmxanb3WIdDz56YeWzF0WsYINYU4t0C+649sU4nllPwJrabHxnDRXMRyZ0ggrJr0/SVEaUBygBoI3s9KusrbqTQUSMEt5N+venZCkVkzt5FgOJeuNOQY=
+	t=1784034705; cv=none; b=gXuOZRaq770FRpFeFs2VNF23ig2i66d28JzbyVP/emkKef3EtOkrQBewvd6eLOLZbilVLjAhIriBWnc/07H65PY+HJV8NAlOmzZNKn+w3vgxvKafHHlidBHbhINmdua+vF3pwiR8B9jTOUkljWXptL2D+PxEbbdE3cvuO4z+0Xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784034323; c=relaxed/simple;
-	bh=I7wEKHsf2R2pDc9KJje/OSCZvG41Dp/KsYtJEHVdnMs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=k3dgRiF8YQ260yJYgGTS5FWw2Kz4XN/elqJB5jjcfqZU1PEY7yfgor4Qt7ruu1bTxeQdO9EeBDbLvDmm/s4AgBFdvY55t8CYSk2kt6OtF0qNaB7nncAtNMKtDAG16Cu5a4S29zEY6IPCrLAZKjH+aJRY21tJonNZzv0jTVr2y2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=COCqk8yy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784034705; c=relaxed/simple;
+	bh=t5jlailmoSg0o95YvconMa0D6LkFqXkCDbwK0SA6mRQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hkb6hjGgAQ1eGKwfSx/YP/vGmMUQmz/JgRqic76LjnZgHG1OAY8nupfrTKFU+D7G92HkyNQoVws1xAmHeTAls2LF9LS1exS13EXHGo7rslBOjm+OWJb2/upAJGaHD+3mQMAW3gegVem5bvF/np/QC3AsdC/hgkeEdGRK7moC6g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K7jdTcr7; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="COCqk8yy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3EBF1F00A3D;
-	Tue, 14 Jul 2026 13:05:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784034322;
-	bh=Wbj6QDXg19S0b+wBbjbuJhWZrQ4U/U4cwe80Uim8/Nc=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=COCqk8yyHxuJEN9djlQCTBh1IOHnxAtOtM7s2b6RdmnnTWMojnCSpQIfMqwRwYfHP
-	 B0UOy3ZkXmNxGTNJ3MvwP3FVsxqSpWc/eLDKHRwuuAvjkaKRWWaojT06mkzVkPZgA1
-	 h4mqw18yCbo6A7lmCWrEWECM69YSLHZibj6CIUQRN0s3jhEOJmuUPe66HUxQVkgoKR
-	 RNu+OsP1oeQLsWmdvn0Yx5ak7ZbUDft+r+GbBdHvh1FhBIuNZtqqyCXtoX+8TuqHCy
-	 x/XqK+fknZYwEiGKKJ5C5Qa+XxR7u6xQu0aqbNslIWJ7JqpQs+XyJxOInB9/xJdl5s
-	 e7F3bSOmsq71Q==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K7jdTcr7"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-ca7c1176317so3094637a12.1
+        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 06:11:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784034704; x=1784639504; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4IDhD7lLpbvIs++Q2m/ckYg/Y1HMP201u/uWbOCEuBE=;
+        b=K7jdTcr79vg+dnuVNNxDpq5IJPsqYQxelEooQm+J+IFjokVULPoPq2xrm8KzXKSXy6
+         7B8W69c3oC3V1lj6aZdprnLtOH13kZ/F9tOqaPxY4ludtgaEkGUH38pZBM5CsXRdl7oD
+         8i5Ae4dvXbrDXYWBOysvy3Z+/XAbM6/DQPg0pF/vY849VAnd3B1IirKjJDrk8Rp/tEoa
+         R4D+U0sh7rkmPPUlLQye+fIP0kaw79XBR2Og9fs/0FNZ4q4Oj1UJgqY7NUafHJzyE0Bx
+         3XFDJCp/GQmG3d9+igUz+4AhBOKZrMqT2/Jln/NA26+Zkthafj1TBp+ytBXBD2hOzzLp
+         Wdgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784034704; x=1784639504;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4IDhD7lLpbvIs++Q2m/ckYg/Y1HMP201u/uWbOCEuBE=;
+        b=JUo67dzx2DCei3FMxpYCrmVgjT24S2hFM0VlkKF+GSE4F8tZxq+TagssOfKXhz68cF
+         ZOyytU41zdU4Ed5VApyk2XMDKafwdQTg/Gfh/i2OeD3BnEPnVgYcPou1o5ROHC3Wbh90
+         130/KvC2jpKCfSVUcOddDgQMtVzplAGxxRSBT8VUvgAdsb2+T7vmri61r0GjzrLycXNr
+         cekb2g1vWA9E30qPLpY6kEiU65CqH9J9eXYQa1RiloWWq3PrbBaXErXIWgZWZ+IiLlAx
+         x/ncbQLEfyXhsPr63IEgT4/Gpuoa8NRYHe83b9iXvqvhq8QhfFdxL792i16Rct4xjck8
+         HRgQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rp4lB02FeNlQu1hoOHS0ZLtEzU2k0YxMFWwJnAENpHPfaZVsb+9nYhzCIMpqa0lz/wFv++V2QfglqI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7muE754Kz/t26jilj/BXWt/TpL4+M4p3s4Q4IICtJXgTEaFXR
+	fviErFvPICpJUyljdMCfy6NuXo0+b7XT/NFV8QQ2G9xB33h7D7me3iWbQ9/unRERtro=
+X-Gm-Gg: AfdE7ck3ejNdKa4lakDyd78pdA6u+Lk/9Vz95UFZxcJfx06ULR7z7T8Lu3uyjGWIuBi
+	oxeSgRawHNZsdQw/CbLMXMa3Avqw6BTaYwmQGkpdzjaSJZPfA8i6z16lI9DtpkffED7IfuRI07B
+	/zahd+2q6VgdjN9yBbpJOd9tg0QQ9jW7ZuhkXcTFPE3d88XencWwLmIV4v5IaJhRPVAEnMfhuJn
+	Y2Rl9sWVA2VwpUlffAsj52U9xSjQS36QEjhAxEA+6slgZKE06WmnmZuXN7rLcV11tF2kkylwpwE
+	ymnKwNlvFTTSpGx0SsRB64AhqAF4RgWKYtEBYvuorqumlOzMbKCGn5jRjHvpwlvr+lf8vZfgcoi
+	FONG/gZq4OtgoEZWpVWgLKdy/MxQGBP8TjZNVukXfVmZ5yII+1lAyh1wYeMP8yZc5ErGw+vgi/x
+	qxcXFiQ5buSFcd4oF7qEDN
+X-Received: by 2002:a05:6a21:b98:b0:3c1:c6e:9360 with SMTP id adf61e73a8af0-3c1104e16b2mr15388171637.32.1784034703752;
+        Tue, 14 Jul 2026 06:11:43 -0700 (PDT)
+Received: from [192.168.55.196] ([218.49.81.87])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cabc7b2aa4bsm4057645a12.10.2026.07.14.06.11.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jul 2026 06:11:43 -0700 (PDT)
+Message-ID: <6ff946e1-5aaf-4212-84e7-295deb91372f@gmail.com>
+Date: Tue, 14 Jul 2026 22:11:41 +0900
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 14 Jul 2026 15:05:16 +0200
-Message-Id: <DJYBDUMUQ43T.3Q4ZG0FL76QH3@kernel.org>
-Cc: "Colin Braun" <colinbrauncl@gmail.com>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
- <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Mauro Carvalho Chehab"
- <mchehab@kernel.org>, "Alan Stern" <stern@rowland.harvard.edu>, "Mathias
- Nyman" <mathias.nyman@intel.com>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <linux-media@vger.kernel.org>, "Colin Braun" <colin.braun.cl@gmail.com>
-To: "Oliver Neukum" <oneukum@suse.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [RFC PATCH 2/4] rust: usb: add usb host interface and endpoint
- abstractions
-References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
- <20260712-urb-abstraction-v1-v1-2-9fa011634ead@gmail.com>
- <DJXH4JLX4CES.11S3IZ1V2FTHF@kernel.org> <alVEUR0JrF1ga3S8@pendragon>
- <DJXPS0HY54SU.3JEDTA04V8HJ0@kernel.org>
- <7e6ebb5b-8ce0-4114-85d6-98cd11a3ad81@suse.com>
-In-Reply-To: <7e6ebb5b-8ce0-4114-85d6-98cd11a3ad81@suse.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] USB: serial: io_edgeport: cap received transmit
+ credits
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260714104230.893968-1-shpark061104@gmail.com>
+ <2026071451-perennial-salad-1068@gregkh>
+Content-Language: en-US
+From: Sunho Park <shpark061104@gmail.com>
+In-Reply-To: <2026071451-perennial-salad-1068@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue Jul 14, 2026 at 11:26 AM CEST, Oliver Neukum wrote:
-> You can see that there is no way a configuration and thereby its interfac=
-es
-> can last longer than its device.
+On 7/14/26 21:19, Greg Kroah-Hartman wrote:
+> Please slow down and don't send patches right after each other.  There
+> might have been other review comments...
 
-So, what you're saying is that, in the generic case, there is a guarantee t=
-hat
-if a usb_interface is bound to a usb_driver, then the usb_interface's paren=
-t
-usb_device is also bound to a usb_device_driver.
+I apologize for sending patches too quickly. I'm fairly new to the
+process, and I'll allow enough time for review in future contributions.
 
-But the relevant question is whether this always holds. In a previous discu=
-ssion
-[1] Alan explained that it currently doesn't hold.
-
-Note that I'm not looking at this from a USB topology perspective, but from=
- a
-driver model perspective. All I'm saying is that usb::Device<Bound> from th=
-e
-driver model side means "it is guaranteed that the usb_device is bound to a
-usb_device_driver" and therefore can implement functions that rely on this
-invariant.
-
-Analogously, usb::Interface<Bound> means that the usb_interface is bound to=
- a
-usb_driver. So, if we want to be able to derive usb::Device<Bound> from
-usb::Interface<Bound> it must always be guaranteed that this holds, not jus=
-t in
-the most common case.
-
-As for the question whether it should be
-
-	let dev =3D intf.device();
-	dev.bulk_recv();
-
-or
-
-	intf.bulk_recv();
-
-the former does not work if we can't uphold the guarantee that
-usb::Device<Bound> follows from usb::Interface<Bound>; at least not without=
- an
-additional type state wrapper.
-
-However, I don't see why we don't want to have the helper regardless. A
-usb_driver primarily deals with the usb_interface device, so that makes per=
-fect
-sense from a driver model perspective: The "device" a usb_driver deals with=
- is
-the usb_interface.
-
-I think our main disconnect comes from the fact that you see this from a US=
-B
-stack topology point of view, whereas I see it from a driver model topology
-point of view.
-
-From the driver core perspective a usb_interface is just another device tha=
-t
-happens to have a usb_device parent. Lifecycle wise any device resources
-requested by a usb_driver are tied to the lifetime of the usb_interface bei=
-ng
-bound to the usb_driver.
-
-The semantic relationship of a usb_interface and a usb_device is a USB subs=
-ystem
-implementation detail, but it doesn't change the core lifecycle and ownersh=
-ip
-rules as far as the driver model is concerned.
-
-That said, the question of having or not having those helpers is "bikeshedd=
-ing"
-about USB topology vs. driver model perspective and either seems reasonable
-IMHO. However, it has a correctness implication, as giving out
-usb::Device<Bound> from usb::Interface<Bound> would currently be unsound as=
- by
-[1]; deriving usb::Device<Core> from usb::Interface<Core> is never correct,=
- as
-it implies being in the scope of a device lock protected bus callback.
-
-> There simply is no data structure equivalent to the binding of a driver a=
-nd an
-> interface,
-
-I don't know what you mean by this.
-
-> hence we cannot just give interfaces a state.
-
-Of course we can, and we have to. As mentioned above, from a driver core
-perspective a usb_interface is just another device, with an own struct devi=
-ce it
-embedds, its own device lock and its own driver structure (struct usb_drive=
-r) it
-can be bound to.
-
-The device types states match exactly this. For instance the 'Core' context
-represents a device that is given out in a bus callback while the device lo=
-ck is
-held, such that we can restrict methods that require this scope to this con=
-text.
-
-The same goes for the 'Bound' device context state. In the case of usb_inte=
-rface
-it means that the usb_interface is bound to the usb_driver.
-
-[1] https://lore.kernel.org/all/0ff2a825-1115-426a-a6f9-df544cd0c5fc@rowlan=
-d.harvard.edu/
+Thanks,
+Sunho
