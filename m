@@ -1,175 +1,141 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EEB93F4100;
-	Tue, 14 Jul 2026 09:02:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5DD35DA6A;
+	Tue, 14 Jul 2026 09:04:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784019746; cv=none; b=XrnU5gpi1Yy1O2hADhN0FBoSSpiTb9EgEQjzx2489+EcFKoNzHjcM/ctNPhppZwYbc7eZdrzMbNrZNDdFfTywe+6d9QoSW1JAz3hJRLCd0Q1IqUqqF/K0pBn2tR9Qh6Oze4NrsYJ3cwuVbbWevqFwR7RZNG6cRG3ZssPyAHLpao=
+	t=1784019887; cv=none; b=NjrTlFvh0DJvDzMUXzAw14xtQiysS+lyRgIVN/Aw3W9xfKXu9gGII6N7jxLJt/jeXHMHX+7ZEGKli2kCuSXfB/wFCWPbaT50MJHw5GfFoXsmQdPhmzxSZaiQO6PzAUhAmGwIgJEvT6T+hFzKIfXfv2mOWgneWJ7/Hhv7poA9co8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784019746; c=relaxed/simple;
-	bh=vv1a7frgyIT9kiGn8P7iuYRwupOlQtBBXrJCYLfcmv0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L7EI/RMT4TOoym36yDYSABdF1IJAcQN0bNUUIE2Bi4JKf+FsTiNXBZPs3W6yvzAOD06pP+CIMosmAqsgcnZmDI6wa4bEuLUiBu07v+qUSILS7nwJYU4+rE1/dZh93h9sKw60s0L0wSDG2ZwCo3+DOLILQqqvSqM7+uxEHzaJGuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: b65dedba7f6211f1aa26b74ffac11d73-20260714
-X-CID-CACHE: Type:Local,Time:202607141654+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:5988cbf7-d9ff-48c7-85ce-e627f6b8aee5,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:e7bac3a,CLOUDID:cb1c2a9e8f3e2726e6e658f5b4278199,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102|136|850|865|898,TC:nil,Content:0|15|
-	50,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,
-	OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: b65dedba7f6211f1aa26b74ffac11d73-20260714
-X-User: dengjie03@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <dengjie03@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1184876177; Tue, 14 Jul 2026 17:02:16 +0800
-From: Jie Deng <dengjie03@kylinos.cn>
-To: mathias.nyman@intel.com
-Cc: linux-usb@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	Jie Deng <dengjie03@kylinos.cn>
-Subject: [PATCH] usb: xhci: Restore MSI/MSI-X reinitialization on resume for RESET_ON_RESUME hosts
-Date: Tue, 14 Jul 2026 17:02:10 +0800
-Message-Id: <20260714090210.1201964-1-dengjie03@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1784019887; c=relaxed/simple;
+	bh=ylzHjsLzK6cMZGsKY08p6FMxVHIa+S2aRrwI9Ece4/M=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=KxzraVkRdjD7hf20t2BNGgBV81J94kC9sRn750lg3TjdWWlQZg5kV5hySZ7+sRhMiZ3QjbIysE+NcYORB0TyVx773NdnjwBbTVkV/HamHfSuYpeLdI0WudyLFZT67BXCNXBo+LC4TAppGy0+5ZTu+srEji2LeOmD5oskdmL7oXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=ZBAcl8pf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=l7im9idv; arc=none smtp.client-ip=202.12.124.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="ZBAcl8pf";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="l7im9idv"
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 9ECCD7A0088;
+	Tue, 14 Jul 2026 05:04:44 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Tue, 14 Jul 2026 05:04:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1784019884; x=1784106284; bh=2s
+	LSVYI03CpTXilUYn0RpctehYGq0LsCKn4y0t2Uok4=; b=ZBAcl8pf1pQIodPRlC
+	9Lj2K32t79FA2jwBRlRRtv8HLXM+rvXQps+pxbeK6JvRBV6LmtIfgp3vqCjZUbC3
+	gIaSSwOJplbGYM0XJ57UQ+f3CH1OlgnaJcMIt01TUWCdo2zHaAnM6CBJ0NuOiURb
+	xVWK3kaVBRSL3yvaKkOVP31kcJvoKwL4nrT2yXRg7sTYiqt70ORrKR3yIaC/CdHI
+	0DBoJFon54Eo/9HeDt3hpItvKLybQyfg3iuSOIamEZc1J05bTBK0EsBAEgsN72vZ
+	MiyuMLS7+wGrTxPrQiFn4MOdrrOSDBGX+PXBZK9ENFNEA+6MkN6epTkW3Vz2sxZF
+	Y2pw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1784019884; x=1784106284; bh=2sLSVYI03CpTXilUYn0RpctehYGq
+	0LsCKn4y0t2Uok4=; b=l7im9idvSLDTpvsA7ZQanAKem7reWWXBAHEhvnSMQUaT
+	yrkLH+EAYbUWypUoTDBkeV+rwisSNFnU6khTsedoLux7QD1AIS7OUifFle581ouR
+	pDVBfS+7BQF6tWo5n4bQuTTUjNkWDi34BjmeGjpplcQzPO1rbB0bBzEgdFkEYA1Z
+	Y6W5oq6ol2y9+lIjQAKhAov3IOKQtUYXB2U88S00YcfI9kmnpzte8rqxsjJo/scd
+	NPqPmroLvHctM//jWoCWxJEbMFDzs+QA4V7sAabNlSw7iEscBr20pY6KGSWflxpy
+	1VbZXhyRwX0qsD4CHXCNagy8v4XBeuzBxVsD0idNwA==
+X-ME-Sender: <xms:rPtVahsGZxRsePGTs_0a3jrwDNkfipI18TLhQuyl4L88Cv_mzQMLOg>
+    <xme:rPtVaoTpXSOP_t9Xn7qZmK-PEnyYJ6NTam00Y4F3NGI_K9C3f7nAE5de2xGap9ZNm
+    SK5lpuCbOScNhml5opl6kGCKFm4LJk6RXujVQiPcqNvoSCywvI>
+X-ME-Received: <xmr:rPtVavM6utmB__IMWU8DaeFqII-ASGKHXiRgDUuQFJYGP4un--bdyiNJHEECwuq9Zl99I6sJiDy_P2vPMuhZ8QQYJflSPrEgVQ>
+X-ME-Proxy-Cause: dmFkZTGWt2kMDcT9Ml0yZk7g3SeR7ghelk+LeHnGVdfLCDaVSYOyu4phwe/acRdeqkQ7mt
+    C7BOOOyGSPpF/bo9+Czsgp9ve3SbAF1hanEUJQ8DQcvPhpCzn081TDR9vWB4Tg1g5IBt2/
+    YjBs7bnk1SpOGJMn2zDZtCHYwuXEYEHzdw8c0oxaKzT+4HErUYWgQf0CgcqrLtY3tVogfV
+    m6+TJM7JZcaCqWIpQ749EnG3/D64J+KWUdq9Jn+z/WA4zExnIPRCvY7cuYKdSlV7Nr3INi
+    yB+c1Xent9/yV0ezLSfzW9Z9W8z79h5z45qTacAg1l8NgkFu8XUSaDeEpLRWV9zGdYPrMO
+    UTec3JoBz1GK0CSU+j1ACvMkI1zIVVAyaUiwWp717gtPj0zDkoW1SglJt4nqrPZvHCHbCv
+    nB2FqkjW7SMFrgekEhQlHzjsPt/AP8CCDu+BcQ93Qk9/yDVuqe9UkNRPR9Cr4iFhUhcASt
+    wZxflTdSxT1myzhfymj9Veqeom6zkXpB9m9GNK0BcpfO3NmHiib4xzs+zl41RcMZ91yR47
+    Eah0c2LxXgvGaJOWLSv9LVxVQ6DwN5AiCqXufQc+OR+S1RDiQP2ldEol9n0GOBzAESnQXN
+    Niu9Ra2tQUV8BcP5WeMsWSF/fYjg6H6u8qg9+tlpAautY5KNynr7Ecz9iOEA
+X-ME-Proxy: <xmx:rPtVala522W_9FZnn_CoJBOKE9uKt-ZJuNZLXMdjyhc7PWcyeNeKAQ>
+    <xmx:rPtVahxBRL7ZwrJIlelZtiTi-_15wFXY9c8EBzUCuAzApArEHu67Bw>
+    <xmx:rPtVaoLHi75UxGg7KnbKB9XY5cQtjcCEpGFafaKi9s1rskuMlSZntw>
+    <xmx:rPtVajpRrQHqx-0K2cZae54nezYAQRSa81C-kbCWCleYa-rrpIGVeA>
+    <xmx:rPtVakpKnGdDTHkYkSieE4e8ZV7lo78XHkTvkXeQ6PocH708JbBqu4xv>
+Feedback-ID: i1d2843be:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 14 Jul 2026 05:04:43 -0400 (EDT)
+From: Griffin Kroah-Hartman <griffin@kroah.com>
+Date: Tue, 14 Jul 2026 11:04:33 +0200
+Subject: [PATCH] usb: core: Strengthen error handling in hub_hub_status()
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260714-usb_core_patches_2-v1-1-4229a368a633@kroah.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBG4avIrA2YVCr2KkVCJv7qdKGS0VIQ7
+ 97ULr/FewcpkkDpURyU8BaVZc6wZUFxCvMII302ucrdq8bWZlf2cUnwa9jiBPXOhBu47S033IJ
+ yuCYM8rmmz+5v3fmFuP1OdJ5f7A7G7HYAAAA=
+X-Change-ID: 20260714-usb_core_patches_2-a3eb9d1b7b9e
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Griffin Kroah-Hartman <griffin@kroah.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784019882; l=1449;
+ i=griffin@kroah.com; s=20260706; h=from:subject:message-id;
+ bh=ylzHjsLzK6cMZGsKY08p6FMxVHIa+S2aRrwI9Ece4/M=;
+ b=bbmDMFSg9KXFxmpP8eY/nYCM6LVPsZaZErXemXAcQ7ROeUWs4uPXfE8J8G12yn0VhYBrfPFnq
+ Rbs1QjLZ/5yAr9WGmBoM9HrStERn4n+yIZKa6HqNGwG14/3I6i25PGd
+X-Developer-Key: i=griffin@kroah.com; a=ed25519;
+ pk=Hy1TuVHERdQhLAWwjmxLFNtGj7eEEjaZWPXehAlic5M=
 
-Commit 944e7deb4238 ("xhci: Avoid PCI MSI/MSIX interrupt
-reinitialization at resume") moved MSI/MSI-X setup out of xhci_run()
-into a PCI-specific xhci_pci_run() that is only invoked at probe time,
-and removed the xhci_cleanup_msix() call from xhci_resume().
+Add additional error handling after the call to get_hub_status() in
+hub_hub_status().
 
-The rationale (avoid redundant MSI reconfiguration on every resume) is
-sound for controllers that preserve state across suspend.  It is however
-*harmful* for controllers carrying XHCI_RESET_ON_RESUME: those hosts are
-fully reset on every S3 resume, and on some of them (e.g. ASMedia 3042)
-the MSI/MSI-X delivery path is no longer functional after the controller
-reset + D3->D0 transition.  Because the MSI vectors are now kept around
-unchanged across resume, the first post-resume command-completion event
-(ENABLE_SLOT) is delivered to a stale MSI channel and never reaches the
-CPU, which surfaces as:
-  xhci_hcd 0000:05:00.0: Error while assigning device slot ID: Command Aborted
-  xhci_hcd 0000:05:00.0: Max number of devices this xHCI host supports is 127.
-  usb 1-2: device not accepting address 3, error -22
-  xhci_hcd 0000:05:00.0: Error while assigning device slot ID: Command Aborted
-  xhci_hcd 0000:05:00.0: Max number of devices this xHCI host supports is 127.
-  usb 1-2: device not accepting address 3, error -22
-  xhci_hcd 0000:05:00.0: Error while assigning device slot ID: Command Aborted
-  xhci_hcd 0000:05:00.0: Max number of devices this xHCI host supports is 127.
-  usb 2-2: device not accepting address 3, error -22
+get_hub_status() uses usb_control_msg() which does not verify that the
+message is the correct length, substituting it for
+usb_control_msg_recv() would also solve this issue but increase memory
+allocations.
 
-Up to v6.3 the resume reset path did xhci_cleanup_msix() and, through
-xhci_run() -> xhci_try_enable_msi(), re-allocated the vectors, which
-incidentally re-armed the MSI delivery path and masked the hardware
-issue.  Work it around by restoring that behaviour, but only for hosts
-marked XHCI_RESET_ON_RESUME and only for PCI devices (platform/RCAR
-hosts using the same quirk must not be touched).
+Instead, error handling is copied from the method used in
+hub_ext_port_status(), which shares the same flow of logic as
+hub_hub_status().
 
-Fix: 944e7deb4238 ("xhci: Avoid PCI MSI/MSIX interrupt reinitialization at resume")
-Signed-off-by: Jie Deng <dengjie03@kylinos.cn>
+Assisted-by: gkh_clanker_t1000
+Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
 ---
- drivers/usb/host/xhci-pci.c |  6 ++++--
- drivers/usb/host/xhci.c     | 19 +++++++++++++++++++
- drivers/usb/host/xhci.h     |  2 ++
- 3 files changed, 25 insertions(+), 2 deletions(-)
+ drivers/usb/core/hub.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 6b3fcba44b08..77b3215c95f3 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -126,7 +126,7 @@ static void xhci_msix_sync_irqs(struct xhci_hcd *xhci)
- }
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 5262e11c12cd..0d2166b8923a 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -991,10 +991,12 @@ static int hub_hub_status(struct usb_hub *hub,
  
- /* Legacy IRQ is freed by usb_remove_hcd() or usb_hcd_pci_shutdown() */
--static void xhci_cleanup_msix(struct xhci_hcd *xhci)
-+void xhci_cleanup_msix(struct xhci_hcd *xhci)
- {
- 	struct usb_hcd *hcd = xhci_to_hcd(xhci);
- 	struct pci_dev *pdev = to_pci_dev(hcd->self.controller);
-@@ -138,9 +138,10 @@ static void xhci_cleanup_msix(struct xhci_hcd *xhci)
- 	pci_free_irq_vectors(pdev);
- 	hcd->msix_enabled = 0;
- }
-+EXPORT_SYMBOL_GPL(xhci_cleanup_msix);
- 
- /* Try enabling MSI-X with MSI and legacy IRQ as fallback */
--static int xhci_try_enable_msi(struct usb_hcd *hcd)
-+int xhci_try_enable_msi(struct usb_hcd *hcd)
- {
- 	struct pci_dev *pdev = to_pci_dev(hcd->self.controller);
- 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
-@@ -207,6 +208,7 @@ static int xhci_try_enable_msi(struct usb_hcd *hcd)
- 	hcd->irq = pdev->irq;
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(xhci_try_enable_msi);
- 
- static int xhci_pci_run(struct usb_hcd *hcd)
- {
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 091c82ca8ee2..7dd3afcf6b2e 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1190,10 +1190,29 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
- 		xhci_for_each_ring_seg(xhci->cmd_ring->first_seg, seg)
- 			memset(seg->trbs, 0, sizeof(union xhci_trb) * TRBS_PER_SEGMENT);
- 
-+		/* XHCI_RESET_ON_RESUME hosts are fully reset on every resume.
-+		 * On some of them (e.g. ASMedia 3042) the MSI/MSI-X delivery
-+		 * path is no longer valid after the reset + D3->D0 cycle, so
-+		 * tear the vectors down here and let xhci_try_enable_msi()
-+		 * re-allocate them below, matching pre-6.4 behaviour.
-+		 */
-+		if (xhci->quirks & XHCI_RESET_ON_RESUME)
-+			xhci_cleanup_msix(xhci);
-+
- 		xhci_debugfs_exit(xhci);
- 
- 		xhci_init(hcd);
- 
-+		/* Re-arm the MSI/MSI-X delivery path for RESET_ON_RESUME PCI
-+		 * hosts. xhci_run() no longer does this (it was moved to the
-+		 * probe-only xhci_pci_run()), and the stale vectors left over
-+		 * from before suspend cannot carry the first post-resume
-+		 * command-completion event on affected hardware.
-+		 */
-+		if ((xhci->quirks & XHCI_RESET_ON_RESUME) &&
-+		    dev_is_pci(hcd->self.controller))
-+			xhci_try_enable_msi(hcd);
-+
- 		/*
- 		 * USB core calls the PCI reinit and start functions twice:
- 		 * first with the primary HCD, and then with the secondary HCD.
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 2d3941b5e1e3..a72ebfbb634a 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1903,6 +1903,8 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume);
- 
- irqreturn_t xhci_irq(struct usb_hcd *hcd);
- irqreturn_t xhci_msi_irq(int irq, void *hcd);
-+void xhci_cleanup_msix(struct xhci_hcd *xhci);
-+int xhci_try_enable_msi(struct usb_hcd *hcd);
- int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev);
- int xhci_alloc_tt_info(struct xhci_hcd *xhci,
- 		struct xhci_virt_device *virt_dev,
--- 
-2.25.1
+ 	mutex_lock(&hub->status_mutex);
+ 	ret = get_hub_status(hub->hdev, &hub->status->hub);
+-	if (ret < 0) {
++	if (ret < sizeof(hub->status->hub)) {
+ 		if (ret != -ENODEV)
+ 			dev_err(hub->intfdev,
+ 				"%s failed (err = %d)\n", __func__, ret);
++		if (ret >= 0)
++			ret = -EIO;
+ 	} else {
+ 		*status = le16_to_cpu(hub->status->hub.wHubStatus);
+ 		*change = le16_to_cpu(hub->status->hub.wHubChange);
+
+---
+base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+change-id: 20260714-usb_core_patches_2-a3eb9d1b7b9e
+
+Best regards,
+--  
+Griffin Kroah-Hartman <griffin@kroah.com>
 
