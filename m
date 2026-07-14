@@ -1,111 +1,80 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1B233A381D
-	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 03:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7333812FE
+	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 03:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783999208; cv=none; b=l1mH7cP2HEil5/926UsA8Vn2/S4WDOE8wf/JaBqO9DkKEYtVJ77WtBN4xdfs5uE1wfuvKtrznF7ioPniIINPcb27PkT283vZh/g0H6osr9xrN6ztN93LhS9YY10smJvWjOfpxEBUygBoUaXzY4FzAejEdtNUz7ykfMqQpe3FT7I=
+	t=1783999433; cv=none; b=tJbILrWxlLdEO5CNDAZpE2DJNat5n2neoDn59cZZK5kC9p44Tm2TC5Q8qVrcGljhhM6YdRNYeBgjQp637mG/Mi+nS/eoA8ddyBbXr38s1/LehnVcqDwXQ2EbYXtQTLz7NNgXjMi/o6MoMJ4hU5PcfxMacCpo1/NJH3g22lqDLZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783999208; c=relaxed/simple;
-	bh=+/S22kMW7/+loIW+zeguuEGkg/5tPuwQR//oJwuZZDc=;
+	s=arc-20240116; t=1783999433; c=relaxed/simple;
+	bh=qYPzZw//X7QsB/k1CgCQAPLqWKDLf0h5ACNsF6pQivc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DLHIJY7Ilt8ukRXHTUx/3fUEJKtbkKheUaayap071KCrpfnoneIhvYxqydQTr/dzeFY7XDTAodKY1jaUH7bycjCD4LC4GTJYlW60YTautEDefIf6xxH6+7hlcB01g46f9uHjD+yW4xrmciUZzfhVNjzZXaT6eL2q277topNINNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=VMwPAdvv; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AWyOggLB; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=A9ST8wk9PTl5VF5IgMRhhokkc1h8LGW57sz0hOYHB5kKVYgf+RzAynnKyBkhWMn4YjzMePBcIpGB7mTohPh0OICGtSgaVgibkmtsQWJGqEu7/qN1qp/IFOJo7+hrX3Zb6qVgcbUMhvpa9jrhM6CM8ID5TDDQ1UumgHM+yW6VdJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=ttonz4Ki; arc=none smtp.client-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="VMwPAdvv";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AWyOggLB"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66E38Rq53303190
-	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 03:20:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=k1pfnEfNlNBd0jQCJ7S2U+7u
-	jH/MbH8zaxCRpzdA+NA=; b=VMwPAdvvVMfJ+AsseZ0Nu/0saPAXow4gekEybIYD
-	+YtfmrktsBe4i1yQnvvMLSgqA3rVI+MeeurYBLeSkxZsH8G8mkWr+ROveFA8g07Y
-	bvziEsgIkmZj+gUh1TEsXNkq17A1yvHAtG199iB8l/Jp+kh+FGjqPRH3X0STSp9X
-	N959GfKaFgMdLr3CRqOeZqeFSWIL0AqU5cY3+1OyxDg5rh2BvYxk0IMk+ep2rbjz
-	Z15EhMM8rjqgtNkRkSinzK1jDLScPzHk1+FoiBe9Uhvx3W1FRey1T0u1L12AN6Qw
-	Q0Xl8vogrK58XkVkL7gHR6eF1GuCVX8T5qepb4HKOpFxlA==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fd44p1q2n-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 03:20:06 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-caf5fa127d4so802602a12.0
-        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 20:20:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="ttonz4Ki"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-92e55b62640so227328385a.0
+        for <linux-usb@vger.kernel.org>; Mon, 13 Jul 2026 20:23:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1783999205; x=1784604005; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1783999429; x=1784604229; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=k1pfnEfNlNBd0jQCJ7S2U+7ujH/MbH8zaxCRpzdA+NA=;
-        b=AWyOggLBxkza49SU/mqHXt4XY9swP2ZZj2mQrVGR7QoywUaRYrGISMs9Sy8d+px3kv
-         OdGW+TehAYTo/i2iUrP+zoH9DitDUk8cm8a3l//d53CrXhSNve1GTxlx/ZL9QO9XXWRG
-         UY5UxAveAFfM0yx2ruaCJfQxTE+8bb4HS8fn87oOTboo3fYdr01OOsHkZSb7GtUHBBoT
-         eDS2qoCwiDuzg4b/7INdtn/7Egsa/VkmKCChWMc6kfaDZNI5N3h8E2LGcxUkNduxdWsH
-         Cf+Gvrw+A1wrTNLrMKwuB0ExsZTUIwkt0WKCF21o5LLB7D5vXKZDxQagNmiFCfc08tWt
-         mHdA==
+        bh=N8lQpf0Ws7P8SqZGnBZf5+Hdd5mZTbzgyIda3MBUihM=;
+        b=ttonz4KiVvlawd423yaiexkXwPHQ42nOZIoM1kg/OL3nr3ZfROg596KYMVD6oiW6ZI
+         okZbF93umaz7xpnc90Dcy9dkPP1P/VyL2WlNtcexUHYcS4v+l44oC/5AU+0/oEh6pK+N
+         CxK+ZpcyVNCMyoFElVJd4PfcovBd8ajdRCCeQeUJB9jBc9nIawrYyHvABFEIbvFELuks
+         w/ZI7bv5K7O1BmpXSindEVZKJEAhD3t6KgHATdbPVA2Y2gp8HiuKWswlTjYhg3t+Fkz4
+         K6gyvQoSbSEBR2WhGfXpU6MeK7CbBkJr9q+tzSAUa6fpUf2IA5mblyKhBId6lYMFP/9l
+         0Y8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783999205; x=1784604005;
+        d=1e100.net; s=20251104; t=1783999429; x=1784604229;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=k1pfnEfNlNBd0jQCJ7S2U+7ujH/MbH8zaxCRpzdA+NA=;
-        b=d91Hjd0vwXuJ+HZeaEyyzb7+wkgJK+NMecbZpkyPvoJFmclJ81B2rhBPUtJC7Ow88Z
-         zPP3nugURunulFIARaiN25w8bJfMWd2FcZR2WFhPXIa+ATQsf8w5Bx62U1dIAY/9H+51
-         94/ZsHKVE53ERf0I9Fwd3eVCaOonkX4tgv6aqQrP3Db8O7mQs9DntSVGj5dACysiNBu5
-         xIdP0VaAlQp470Uii1jazfn/I5IBYDoHvr+w0YraQMsEOy1vlHwTauSC5hvx/33PmB/F
-         fniymRs842GWPVfbAJUGJgbruDLtVkniNYrdzGMewk661099kbVD/le4y6jOfFtVl2bg
-         JS4g==
-X-Forwarded-Encrypted: i=1; AHgh+RoCVQ6dQ6NXEX9WVV98hcgmOPh0ZBNCf3jh3m1rpLpW+2mhkYd8+splVUltk1hsHcy9D/s1A7tTCVg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzC+9WypLC4XbI6Q9jlHaRQE/hk6B5tAPq38KgqgvIZJA4z2POA
-	k6IwCrU0QhUyHf4Yc4l3xoFMOe1WnrPptiuqNK1V2NxNBy0MhrNZVP7W1tlm1/1CtiuqtCByLIW
-	muedQjCN43/FlaEq/XjD3RX4WkidKLRpd/8k/bV9brg7QKdBXKbd9mUdoEGtV170=
-X-Gm-Gg: AfdE7clIJMCB3dWm+9/AAPoEUAZ7SczpWTV9QRvM300lXkkheqanRoa3T+E1f42zwk6
-	xBhO1EHN6mR0W1IL0SPLJgPiSuOZaMMxvr/w/hjyvmCy6VW0532nJWDi7/UDI6RScZQ/roJF276
-	gk5IlY5wz+gA6/AGp8A0YxITvVE1jcXeW25851/FPAf71PKBe4vz6gadrLTYzwFCYQUuxsoNb7T
-	ENad6FwZqI+zv90FnhjkgAVEICudU6fpbIc2QMLrmbDgKDIuYLtlEyRBe3g7aSPDFFPjT6ifEnE
-	iHe6yXMgxozHlxXCU8DJa3iUGSS/J9WODAkWBPlhaZ/jecai2c7m5wrx3vRglFGD3r8+Ytxbxk6
-	ylhvLw5J4RjO4gAasyT2BsHMv1g01Ub7nu9kKiM6UR0rwMZR3GxcTYG3DFcX0
-X-Received: by 2002:a05:6a20:d81b:b0:3bf:7081:934b with SMTP id adf61e73a8af0-3c110163ecbmr13341077637.26.1783999205433;
-        Mon, 13 Jul 2026 20:20:05 -0700 (PDT)
-X-Received: by 2002:a05:6a20:d81b:b0:3bf:7081:934b with SMTP id adf61e73a8af0-3c110163ecbmr13341043637.26.1783999204930;
-        Mon, 13 Jul 2026 20:20:04 -0700 (PDT)
-Received: from hu-petche-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3117462f5c7sm81154981eec.0.2026.07.13.20.20.04
+        bh=N8lQpf0Ws7P8SqZGnBZf5+Hdd5mZTbzgyIda3MBUihM=;
+        b=g55j9uxhU3L6sm3tdvmxHcfGpfA6eWlZCJ1mR+H2Y7tQSAeSihIN0wzBHOkI+3xnFm
+         eYtLtq1IuL1nUCxLWDKIowKKehq5vagJkBPqPmdmt1/QuGTDhMgFpbwHkhOfaaazk7Ct
+         CXaE5CeB+d8o7TIeVOQFQiCXlIxhAVCyj4ojktG36t0OzpwsKbbYp3KSXdErx60KBHw6
+         kHHS5ErXefmmjirfWT6r1Q/25VKAd/bplNLoMI+4TN4tGykazJpSlhx5u7AeE9yvlTAz
+         SGXlHK42syuZ3M3bsWobOUoH333z5M1p32DfYbCkOIouSiG0UaxxaVuZqoI1HxxU/o/g
+         bx5w==
+X-Forwarded-Encrypted: i=1; AHgh+Ro1PBj2o89fN+vJ36TpdeO50GfVZQ7OA+MqlLJftOsEmoW8i7X+8BVzBIaktORljRyF2ZMLiXX8AYc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzq8risW2eVUpfcE6ODrCU1fhCQ3LIACYBqR71bYsie0qOufxhW
+	Y4aV6Oj/6p0oKg5B2Wxb8j7/0qcKYqXQsRfvSg1/CpEYJFdrIv+UxVfoANQ3xyMtrA==
+X-Gm-Gg: AfdE7cm9xufXN6a6TEISMYZRaobqof+J343hamc1R2tQSanxCwPJYyK4oSS/SDeY+RG
+	8Vp3QCEM6bXngLuUo0aGN0MK1XEOJLtt1sqNCS9L/YDBFvvUZltBLxGKlPLoANXkVuQebyo5tUQ
+	U14OHXGz5lZ9EDfDHsbFZsksyy6EHarqd1X3l8NAEMoJ+5lO9douZbVjjZQNkp77DKszvuUmGsp
+	YcQf/YZ5Fx7xvGMmuDK9iJ/xcS4O2NNfWVC2yH6rT8xeml4hOsyQ3Tl8n7MFh8gxdzUR68pGzus
+	YA5wDi4YBKEk29uGOWP47jFNKPrnZ8KT/qoqqlryKIvxZKhKs5G1mnFCHW0FS/b1rL0Ky3q8aHo
+	Gzui2kWn4UMGcHGhNXu8ZkXYpINPLNh45dK3Njcp111DWXGOLlhs81XsMgPdHt0cAWt8Aqi95eu
+	k0gm7+Z5lO/5Shjlj/R6mD3P4i
+X-Received: by 2002:a05:620a:444b:b0:92f:1d0:871c with SMTP id af79cd13be357-92f01d0878dmr772577585a.75.1783999429351;
+        Mon, 13 Jul 2026 20:23:49 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5b93387sm1440309685a.16.2026.07.13.20.23.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 20:20:04 -0700 (PDT)
-Date: Mon, 13 Jul 2026 20:20:02 -0700
-From: Peter Chen <peter.chen@oss.qualcomm.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 1/2] dt-bindings: qcom,snps-dwc3: Add property
- indicating presence of eUSB2 phy
-Message-ID: <alWq4jAGPTINnpxD@hu-petche-lv.qualcomm.com>
-References: <20260709-eusb2-interrupt-handling-v5-v4-0-d4f993925608@oss.qualcomm.com>
- <20260709-eusb2-interrupt-handling-v5-v4-1-d4f993925608@oss.qualcomm.com>
- <d742u7jrpm7gdoljgiwkfexc47qhprwoibk6fadpm3qilbdpgi@jrkbrwfmqmrp>
- <alBOC18CpkGDhM2m@vbox>
- <20260710-warping-resolute-wasp-e4b8ce@quoll>
- <7a099224-ea95-40ec-b279-f8834f261e23@kernel.org>
- <alFTxg0HLyke0gCK@vbox>
- <b60b4d96-ea67-44d0-a627-c50ef0ed8615@kernel.org>
- <alSRvWY2LWp8OeOr@hu-petche-lv.qualcomm.com>
- <alV0_DHvBFpzDumP@vbox>
+        Mon, 13 Jul 2026 20:23:48 -0700 (PDT)
+Date: Mon, 13 Jul 2026 23:23:45 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Minseo Kim <neck3922@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzkaller@googlegroups.com
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
+ in ep_aio_cancel()
+Message-ID: <a7f9d958-7f9d-40eb-89ea-56094f60c075@rowland.harvard.edu>
+References: <CAFmvuTWc880R=mw7=kixfx3Yb8u9thLHPA7D=rm6a8p9dYBBDA@mail.gmail.com>
+ <2d4a91dc-037f-4c31-8ce1-7bc840d42b0b@rowland.harvard.edu>
+ <CAFmvuTWq7TKZaj6R9JJzWhwe1WB1FanZ17T1-TFL1g2wsUBZ4w@mail.gmail.com>
+ <8067503d-1c0d-4319-adbd-225a03e16ea3@rowland.harvard.edu>
+ <CAFmvuTUEg8fr8pY91WpEk=CxHuackJfr0c2c4jxexNy9wkiS0A@mail.gmail.com>
+ <a5e0e32a-7e49-4112-bcbc-92da449eb303@rowland.harvard.edu>
+ <CAFmvuTXQbqbt3qxqUXitzboZhiMxAC7aaOqAtyZXs+QtJvAjBg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -114,89 +83,259 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <alV0_DHvBFpzDumP@vbox>
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE0MDAzMSBTYWx0ZWRfX46mzaCnQPbsQ
- DMdERBJoNCmlrPOU7QbXgAl9ksbnxIpB8sIv4ytte9vDw7uhy6BbIMHFgH3OT9KtvXquX1x/Rmr
- eXAVXUQjiNf2qfBpTST5WBy+Y74wO2g=
-X-Proofpoint-GUID: acutFyRYt1C63cP2EZ_2hnRuyTv9rAnV
-X-Proofpoint-ORIG-GUID: acutFyRYt1C63cP2EZ_2hnRuyTv9rAnV
-X-Authority-Analysis: v=2.4 cv=BZroFLt2 c=1 sm=1 tr=0 ts=6a55aae6 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=VwQbUJbxAAAA:8 a=G0XHSz-fAAAA:8 a=9s4_ODXOAMUL3Z7cIVoA:9 a=CjuIK1q_8ugA:10
- a=3WC7DwWrALyhR5TkjVHa:22 a=9GzJQMQvVMogKS571uVa:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE0MDAzMSBTYWx0ZWRfX7R1S9dPmhM4S
- jecvFFLiHzcw8etwHdZ7xckPNnzA9jwPSGo0mTbxLlUbaXu8rIPnkQ3igrmR+u1arLJGVmvIgdW
- ydGH8Cx4nNQO9nYH9tAcst6oL0yYY686U2n+HAE9mwC/UWzo0o/9I+P4jbAIRjU8jqSQ4aeaFPD
- c7wA+9XXI+/5QWeNGAGSgHTVy8IoDqyFzuKC+LYEA+JdRvcwS7gzOiq5Jopw/pXjijO+gn4H1vp
- 8exVVqnH1WUyhoqkSbjwXiFVnTbW03c+ji7B3ZQLVuCOL2oZZMkfhOVgxM1+Vzh51Wo8pu0bmE3
- 4pWfYfE2rs8DqcpYTvZ+0qwCZVEaJcePrWypW/BEX/4CdgLDJI0CzcVrfVut974+xigfghFGoh7
- fSTE9RAecqymd/JleQ1DkOe2GKe22D/MdqiUrKafD/Uke1jzMx5q9ldxKVWM1ym/wvpb8mlGVAZ
- B87nxNzdtDpsPh89Wiw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-14_01,2026-07-10_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0 suspectscore=0 bulkscore=0 priorityscore=1501
- malwarescore=0 impostorscore=0 lowpriorityscore=0 adultscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607140031
+In-Reply-To: <CAFmvuTXQbqbt3qxqUXitzboZhiMxAC7aaOqAtyZXs+QtJvAjBg@mail.gmail.com>
 
-On 26-07-13 23:41:14, Thinh Nguyen wrote:
-> On Mon, Jul 13, 2026, Peter Chen wrote:
-> > On 26-07-13 08:26:59, Krzysztof Kozlowski wrote:
-> > > >> And Dmitry already said this at v3.
-> > > > 
-> > > > And I've already responded to his comment in v3:
-> > > > https://urldefense.com/v3/__https://lore.kernel.org/linux-usb/ahjYwJtiMsm0BcCh@vbox/__;!!A4F2R9G_pg!YksJ0tPtRth9ez8t0GB_WaxH3ynx3ya8M8aFIyKfYpApRC_79Ig93CqE2MKcrGJ6O6t_Dl3RD1zftrnxhdtcfoW7hgep8w$ 
-> > > 
-> > > It does not change the fact that type of phy is implied by compatible,
-> > > thus you do not get a new property.
-> > > 
-> > > 
-> > 
-> > For USB2 PHY, it has property "phy_type" already, it could extend support
-> > list to eUSB2 like below, dwc3 qcom glue layer could call of_usb_get_phy_mode
-> > or re-use dwc3->hsphy_mode depends on where it needs to use.
-> > 
-> > diff --git a/drivers/usb/phy/of.c b/drivers/usb/phy/of.c
-> > index 1ab134f45d67..5cbf17d493ad 100644
-> > --- a/drivers/usb/phy/of.c
-> > +++ b/drivers/usb/phy/of.c
-> > @@ -16,6 +16,7 @@ static const char *const usbphy_modes[] = {
-> >  	[USBPHY_INTERFACE_MODE_ULPI]	= "ulpi",
-> >  	[USBPHY_INTERFACE_MODE_SERIAL]	= "serial",
-> >  	[USBPHY_INTERFACE_MODE_HSIC]	= "hsic",
-> > +	[USBPHY_INTERFACE_MODE_EUSB2]	= "eusb2",
-> >  };
-> > 
-> > 
+On Tue, Jul 14, 2026 at 03:47:55AM +0900, Minseo Kim wrote:
+> Hi Alan,
 > 
-> eusb2 uses utmi, so it doesn't fit here as a separate mode.
+> Thank you very much for taking the time to prepare this patch. I applied
+> the patch as posted in your message to upstream v7.2-rc1, commit
+> dc59e4fea9d83f03bad6bddf3fa2e52491777482.
 > 
+> I repeatedly tested the proposed patch with the original null-ptr-deref
+> and UAF reproducers, as well as several reduced variants. During those
+> tests, I did not observe either of the original signatures.
 
-Hi Thinh
+That's good progress.
 
-Yes, eUSB2 is based on UTMI Parallel mode, but it has dedicated
-Physical Layer Supplement [1], eg at CH2.4, it lists eUSB2 PHY
-Features.
-
-
-> To go this route properly, we'd need to introduce a new phy type
-> attribute in the phy framework, which will be a bigger change that may
-> impact more than this driver.
+> While continuing the tests, I observed a new null-ptr-deref in
+> ep_aio_cancel() on the kernel with the proposed patch applied. It appears
+> to be associated with the initialization window in ep_aio(). Running the
+> reproducer without command-line arguments triggered:
 > 
+>   KASAN: null-ptr-deref in range [0x0000000000000028-0x000000000000002f]
+>   RIP: ep_aio_cancel+0xd0/0x2d0
+>   drivers/usb/gadget/legacy/inode.c:473
+> 
+> The corresponding source statement is:
+> 
+>   ep = epdata->ep;
+> 
+> where epdata is NULL. The faulting task has UID 1000.
+> 
+> One detail that may be relevant is the initialization order in ep_aio().
+> iocb->private is assigned and kiocb_set_cancel_fn() registers the
+> cancellation callback before priv->epdata is initialized. Because priv is
+> zero-initialized and AIO_REQ_RUNNING is the zero-valued enumerator in the
+> proposed patch, the state check can treat priv as RUNNING before the
+> explicit state assignment. The observed crash is consistent with
+> cancellation reaching this initialization window, because priv->epdata
+> was NULL at the fault.
 
-It is not at generic PHY framework, it is just for USB PHY dedicated.
+In the patch below, I moved the kiocb_set_cancel_fn() call down to after 
+all the other initialization.  That ought to take care of the problem.   
+But I admit, I don't understand how the I/O can be cancelled before 
+ep_aio() returns.
 
-I do not see big changes, it only needs to change above files and related
-dt-binding files, and other users may leverage it if the controller
-has special sequence or settings for eUSB2.
+> I also ran the reproducer on a LOCKDEP-enabled build. LOCKDEP reported the
+> following possible circular locking dependency involving the newly added
+> aio_lock:
+> 
+>   &ctx->ctx_lock -> aio_lock -> &dev->lock#2 -> &ctx->ctx_lock
+> 
+> The cycle appears to arise because io_cancel() calls ep_aio_cancel() while
+> holding ctx->ctx_lock, and ep_aio_cancel() then acquires aio_lock. In the
+> other direction, the patched completion path holds aio_lock and dev->lock
+> while calling iocb->ki_complete(). In this path, the completion callback
+> is aio_complete_rw(), which can acquire ctx->ctx_lock.
+> 
+> The reported cycle involving aio_lock appears specific to the proposed
+> patch, since aio_lock is newly introduced there.
+
+In the new patch I removed the dev->lock accesses in ep_aio_cancel() and 
+moved the iocb->ko_complete() call outside the scope of aio_lock in 
+ep_aio_complete().  This should break the locking cycles.
+
+There's still a potential race: unbind against ep_aio_cancel or 
+ep_user_copy_work.  That would be a difficult race to trigger; you'd 
+have to unbind the gadgetfs driver just as an aio request was 
+completing or being cancelled.
+
+> I wanted to share these observations in case they are useful. Please let
+> me know if I have misunderstood any part of the initialization or locking
+> sequence.
+
+No, I think you've done a great job of assimilating this complex 
+information.  Let me know how the new patch works out.
+
+Alan Stern
 
 
-[1] https://usb.org/sites/default/files/eUSB2_1p2_20211217.pdf
--- 
+---
+ drivers/usb/gadget/legacy/inode.c |   92 +++++++++++++++++++++++++++++---------
+ 1 file changed, 72 insertions(+), 20 deletions(-)
 
-Thanks,
-Peter Chen
+Index: usb-devel/drivers/usb/gadget/legacy/inode.c
+===================================================================
+--- usb-devel.orig/drivers/usb/gadget/legacy/inode.c
++++ usb-devel/drivers/usb/gadget/legacy/inode.c
+@@ -236,6 +236,8 @@ static void put_ep (struct ep_data *data
+ static const char *CHIP;
+ static DEFINE_MUTEX(sb_mutex);		/* Serialize superblock operations */
+ 
++static DEFINE_SPINLOCK(aio_lock);	/* Protect aio cancellation info */
++
+ /*----------------------------------------------------------------------*/
+ 
+ /* NOTE:  don't use dev_printk calls before binding to the gadget
+@@ -433,6 +435,13 @@ static long ep_ioctl(struct file *fd, un
+ 
+ /* ASYNCHRONOUS ENDPOINT I/O OPERATIONS (bulk/intr/iso) */
+ 
++enum aio_req_state {
++	AIO_REQ_RUNNING,
++	AIO_REQ_CANCELLING,
++	AIO_REQ_CANCELLED,
++	AIO_REQ_COMPLETED,
++};
++
+ struct kiocb_priv {
+ 	struct usb_request	*req;
+ 	struct ep_data		*epdata;
+@@ -443,24 +452,48 @@ struct kiocb_priv {
+ 	struct iov_iter		to;
+ 	const void		*to_free;
+ 	unsigned		actual;
++	enum aio_req_state	aio_state;
+ };
+ 
+ static int ep_aio_cancel(struct kiocb *iocb)
+ {
+-	struct kiocb_priv	*priv = iocb->private;
++	struct kiocb_priv	*priv;
+ 	struct ep_data		*epdata;
+-	int			value;
++	struct usb_ep		*ep;
++	struct dev_data		*dev;
++	int			value = -EINVAL;
++
++	spin_lock_irq(&aio_lock);
++	priv = iocb->private;
++	if (!priv || priv->aio_state != AIO_REQ_RUNNING)
++		goto Done;	/* Already completed or cancelled */
+ 
+-	local_irq_disable();
++	priv->aio_state = AIO_REQ_CANCELLING;
+ 	epdata = priv->epdata;
+-	// spin_lock(&epdata->dev->lock);
+-	if (likely(epdata && epdata->ep && priv->req))
+-		value = usb_ep_dequeue (epdata->ep, priv->req);
+-	else
+-		value = -EINVAL;
+-	// spin_unlock(&epdata->dev->lock);
+-	local_irq_enable();
++	ep = epdata->ep;
++	dev = epdata->dev;
++	spin_unlock_irq(&aio_lock);
++
++	value = usb_ep_dequeue(ep, priv->req);
++
++	/*
++	 * priv->req is freed by the first stage of completion or the
++	 * second stage of cancellation, whichever is last.
++	 * priv itself is freed by the final stage of completion or
++	 * the second stage of cancellation, whichever is last.
++	 */
++	spin_lock_irq(&aio_lock);
++	if (priv->aio_state == AIO_REQ_CANCELLING) {
++		/* Completion is not yet finished */
++		priv->aio_state = AIO_REQ_CANCELLED;
++	} else {
++		/* Must be AIO_REQ_COMPLETED so completion is finished */
++		usb_ep_free_request(ep, priv->req);
++		kfree(priv);
++	}
+ 
++ Done:
++	spin_unlock_irq(&aio_lock);
+ 	return value;
+ }
+ 
+@@ -482,7 +515,13 @@ static void ep_user_copy_worker(struct w
+ 
+ 	kfree(priv->buf);
+ 	kfree(priv->to_free);
+-	kfree(priv);
++
++	spin_lock_irq(&aio_lock);
++	if (priv->aio_state == AIO_REQ_CANCELLING)
++		priv->aio_state = AIO_REQ_COMPLETED;
++	else
++		kfree(priv);	/* Not cancelled or cancellation is finished */
++	spin_unlock_irq(&aio_lock);
+ }
+ 
+ static void ep_aio_complete(struct usb_ep *ep, struct usb_request *req)
+@@ -490,11 +529,16 @@ static void ep_aio_complete(struct usb_e
+ 	struct kiocb		*iocb = req->context;
+ 	struct kiocb_priv	*priv = iocb->private;
+ 	struct ep_data		*epdata = priv->epdata;
++	bool			cancelling;
++	size_t			ret;
++
++	/* lock against cancellation */
++	spin_lock(&aio_lock);
++	cancelling = (priv->aio_state == AIO_REQ_CANCELLING);
+ 
+-	/* lock against disconnect (and ideally, cancel) */
++	/* lock against unbind */
+ 	spin_lock(&epdata->dev->lock);
+-	priv->req = NULL;
+-	priv->epdata = NULL;
++	iocb->private = NULL;		/* Prevent future cancellation */
+ 
+ 	/* if this was a write or a read returning no data then we
+ 	 * don't need to copy anything to userspace, so we can
+@@ -503,11 +547,17 @@ static void ep_aio_complete(struct usb_e
+ 	if (priv->to_free == NULL || unlikely(req->actual == 0)) {
+ 		kfree(req->buf);
+ 		kfree(priv->to_free);
+-		kfree(priv);
+-		iocb->private = NULL;
+-		iocb->ki_complete(iocb,
+-				req->actual ? req->actual : (long)req->status);
++		if (cancelling)	/* Cancellation started, not yet finished */
++			priv->aio_state = AIO_REQ_COMPLETED;
++		else		/* Not cancelled or cancellation is finished */
++			kfree(priv);
++		ret = req->actual;
++		if (ret == 0)
++			ret = req->status;
++		spin_unlock(&aio_lock);		/* Cancel now may free req */
++		iocb->ki_complete(iocb, ret);
+ 	} else {
++		spin_unlock(&aio_lock);
+ 		/* ep_copy_to_user() won't report both; we hide some faults */
+ 		if (unlikely(0 != req->status))
+ 			DBG(epdata->dev, "%s fault %d len %d\n",
+@@ -519,7 +569,8 @@ static void ep_aio_complete(struct usb_e
+ 		schedule_work(&priv->work);
+ 	}
+ 
+-	usb_ep_free_request(ep, req);
++	if (!cancelling)	/* Not cancelled or cancellation is finished */
++		usb_ep_free_request(ep, req);
+ 	spin_unlock(&epdata->dev->lock);
+ 	put_ep(epdata);
+ }
+@@ -536,11 +587,11 @@ static ssize_t ep_aio(struct kiocb *iocb
+ 	iocb->private = priv;
+ 	priv->iocb = iocb;
+ 
+-	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
+ 	get_ep(epdata);
+ 	priv->epdata = epdata;
+ 	priv->actual = 0;
+ 	priv->mm = current->mm; /* mm teardown waits for iocbs in exit_aio() */
++	priv->aio_state = AIO_REQ_RUNNING;
+ 
+ 	/* each kiocb is coupled to one usb_request, but we can't
+ 	 * allocate or submit those if the host disconnected.
+@@ -566,6 +617,7 @@ static ssize_t ep_aio(struct kiocb *iocb
+ 		goto fail;
+ 	}
+ 	spin_unlock_irq(&epdata->dev->lock);
++	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
+ 	return -EIOCBQUEUED;
+ 
+ fail:
