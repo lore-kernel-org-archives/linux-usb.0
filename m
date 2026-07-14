@@ -1,159 +1,166 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62803D7D65
-	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 18:25:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784053536; cv=none; b=Ui9T7+Ty1ylFqEeg6PrnT2zKZ0C9Jnt2ePtjF2DmUknEwJ/zmHABAagfmvBRqg4dfi1Ken0XXwZ8Ar6I4QMKNbwXM9zrnu7IwxE+Cbt/vWIIGx/h7mFe1+sVw3p+XneD8gSC74fqnCzF6L2CqxVsggcIwbKgAT/iR3q9THRtmsQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784053536; c=relaxed/simple;
-	bh=GUQiZVnvyblyYmPUnGk7w9kozmaRu3795r/F+XDtpdE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ubdObEvPs8SqgYihpSQ/VfEWrBjzoryie+wuaBac7YThEM12/bnvxfcNRmcV40BNtxKtUUFTBShtfFWKnZ+uVfdAba5DdXH1arQkAUu06D2bq0b1u7GlGKsHvYLAVRrs8HPKj+i0ElqUOYJ8jKac9oDAFUs1ak1dWkiHLQgXXAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=AyDctlib; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6CED328B7F
+	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 18:26:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784053581; cv=pass; b=k/oUL6BMJfVGatSle+Qr84eBywlEzBv5H22X4echXoC3Q0cTlTYUaeHda3aPjfD8u6OS1qSgO4a93eb7lYfq3foi0NIB6S8PH/5T1+RMed7P6g2D5sBalaRJA50eAS+vm6svSCLTMBYVNsfA/DFDzmEdibGghh1IUC6c5C1BOqs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784053581; c=relaxed/simple;
+	bh=CWq1ibkcj9NeNh3SlSdPZImkJeUrte+X5SZJ2CDVQ0k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rcufGUaM3NI+tl/CkBiE6f8aanIAOu5h4m13YtNadYPj9QRu+WuZjtkVkwmGfTmErLZJRaq29EeE3QvU7JwGkcLbaB3B2W2Zr+AaasQK1lf979V6DdiS/S36khCsn7L4j6nSJAa6rtxyEGo43vXjIelSoy/4MQCa9HPss6zOVGU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QQB1NvnQ; arc=pass smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="AyDctlib"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493f4638f4aso11038535e9.3
-        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 11:25:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QQB1NvnQ"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-384c94c9423so449874a91.2
+        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 11:26:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784053578; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ePnYkyI/zltP0a1fl+L+BazPI6AHxTZ7TAQ/JKgS05lGKapJd1Ih2z+27oAU5+z1fA
+         dpXKqwG3bp54Kk1Jlv9SwHL7BkrZbyKEzIBUSLyXkodGGHl2wnHnYJlvLYlKkPwlq9YP
+         MSGpSTDJ2XvDb+zTZ80oKD3g20iJvBT1lVZNh+Dw2VsqHjDZz8NuptEghfghCBg67l/a
+         FgtGTXsGHRIgbYqmuoGBXjBw2ShNN7a7amK8KAx9D7mkOiGawhDQirc9+1tLl+pyxh0t
+         pvs6pUW0pNE2N53ij7EGkdK3jvSD59A84bEjNAES6TLUaKbbfwPEQVy9aT2VB6ickNpO
+         YInw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HzKy/eaLdYaHeQ6eLLxXRwAK/vEaoF/CDff/5uZfOBw=;
+        fh=TPMmNcgLSn1sssEbBG6F/6UpZmuYGm497due7a/iO3A=;
+        b=dkuHnVWzbaHpcGds3wMqOcvL+FoJ3Tf9PVeLZhmb/CnGikFOM3cZI6T2LqyyF6GH4x
+         oVmiZnhj3et2ic0dzKoRAeI4to1MNK/fspnn4cF/jYg957529MBE81P8CQUuZoWckQum
+         2RZeQ1Ck+Q+wT0pd1lWlobYjtpslN4oYegC5H3lkHtrQQtnopghMf1a6Y3Ip97OrWu2P
+         /xuhmcQLaTyZiBnZ2oBfJEEy8AANmVSQnYSexAHJBUTy3Bz2KgNfCmoFknc6XSVEj2OQ
+         +8hZ/78DOBB7l2FvKJ1x+PJ9HSHNJf9Ug/ULJOMcT4Ps2dHarvKaYwgt2Ic67TMO2kit
+         7xGw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1784053528; x=1784658328; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2cRBijGnW1MWHAmm7rN0D7TcOhmMrBvTuTtZRZ3u9v0=;
-        b=AyDctlibyhMErq4akXpL9kUEhmumtBLkMnmt4QMS58Vi6NHTiaSkabLcPy6CDk33AQ
-         GAqaAohXBsakbpNHX3BBOe+RUaOeXkppTXGFy8XCROjn9I8yFYZ3JpmJEdo3XvkBxOtZ
-         htmFgdN0IqfzYBWx6N01a8oSJdw7/xQt8E7nq0swcsD3FEb0q6Beu0bGGlKMzA2diiW5
-         KGQolyd+mWxpxaSFZttV648hQbAw2QpD0OVaflIQE9NpQ/4SVK4GxY58fe3VuFpnnK+P
-         Lm1jOBeUEPcMqEdBNhf/47aJKoXboyODoKl1I4Mx85fFoDpUt1rAeJs5cOECny+cpyww
-         gIJA==
+        d=gmail.com; s=20251104; t=1784053578; x=1784658378; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HzKy/eaLdYaHeQ6eLLxXRwAK/vEaoF/CDff/5uZfOBw=;
+        b=QQB1NvnQWvdbgi0UvEE7cRhOhcNhdmTpbpPaPej1CMzbRBCApW9+vuZYpTIgnuoLpm
+         ZXf68huGVIIlynGNN1f7ddRhhTu2NwH6yvwRbe3EllcBkpFXVGR/QrPj7FhFAg/wHNl0
+         /9LGWKzytVSm+6zhnkhldnMNsIW7/LB08YaFA2JrskCgp/ePqVLSq61f4XTpAmlAl1ey
+         LPqmBEHSUwpSq/c/H8z1soR/AR0xy+nRkaGxqj23r1CSLQyDI/i3eh/ChGSlrFz88iuT
+         XQ6VhVppO3zlMkgRsoT582J28buRblJGemfiCRLRlm5o0gvEKiSYH5w9W16qelSTFCbH
+         4hew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784053528; x=1784658328;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2cRBijGnW1MWHAmm7rN0D7TcOhmMrBvTuTtZRZ3u9v0=;
-        b=dLoAGufBvWstjKwUTdhMxyvZzyyKuVy7YzhLwpxnCYmjuISmT9cxFYjq71emxW4yZh
-         u+po2Up38UEEUGQB0LrSMqDidzbrxQROyKBg3gwiFovWQ/owzEsS+2k+ijnNdjmd4FU+
-         B0T34uBIV70eUUiXhYIrrSr9bcsmqdqOGfOsZx3pW3G7YTmISzoaPY10yWIGGdH1iSps
-         EGJg7lTc6HLBvPOjL+gbUENake+SPzqUjHDg2m00LJGCzqNqLvAER+c/16q1d+hFxlwr
-         BTZXcImscKUSB56YU764//5NOEyZkGUAocCBpQ+wOx2x8EkVXqPwcUk7Pq+moZo+9Let
-         GA3A==
-X-Gm-Message-State: AOJu0YyDDo+NAtPLcu7HOuvgSMPZMFPxXCgfSF5p98MyoDMyUxv71VVs
-	h+OvCMDqpFhGUZzErp2Nng8mRj7xAm6Mfh5WbHip152Pa6UrdbCIB+y2IxQVrSMWl4k=
-X-Gm-Gg: AfdE7cn7rWZra07EnzBCAN2kim8vjgybFgNM7rVZDTANFufyGQj2u2GsJWtXq9JOxza
-	wgpFFTvYurRW1/Iex5pmMD3xXx4jtkITITPTHih+THLjUonWo2gRiZxanN5caSUGQaiZ39LqOWY
-	2LOXVzd5tNb5dtEj9XWGSkwkdZN+yPWF/VFeYmHqFSJSAVHJYXEBuo7mT5BfqtVjCxToqRB8Ebe
-	4lGCGzDHm5dqRQwC10rAHJ/ltRZfOFA6qTYLo2VXJP8/i93ugW3ZC84LBnAXhPx0FBoH9VjJk/a
-	FacLj9o4+xNzw6YGOv4GLEXztzFce62c8hkarmGnVHRt5uC5SN8EasHUOoQjizMXQa41gk3MtyW
-	VhGgAT/tIuUjTohReIge2oMcRwYye2ehe2J85XD+225Qszu0CGLHxsbmHVPCmbg4ifnOpxBvTyx
-	FaLaWbFlxb7FXSoIADMEIAidTMjtb5Pdni/A8BP92q4rtYCzsQsim/dQj2RZbN3JgiiQ==
-X-Received: by 2002:a05:600c:c4a2:b0:493:a438:7f98 with SMTP id 5b1f17b1804b1-493fd45f96bmr130187945e9.18.1784053528076;
-        Tue, 14 Jul 2026 11:25:28 -0700 (PDT)
-Received: from ?IPV6:2001:a61:13c3:1c01:3157:c849:4aaa:fa65? ([2001:a61:13c3:1c01:3157:c849:4aaa:fa65])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4950871d1bdsm92527485e9.1.2026.07.14.11.25.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jul 2026 11:25:27 -0700 (PDT)
-Message-ID: <4e7abb00-f0ab-4008-a0bf-5ccd90102aca@suse.com>
-Date: Tue, 14 Jul 2026 20:25:27 +0200
+        d=1e100.net; s=20251104; t=1784053578; x=1784658378;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HzKy/eaLdYaHeQ6eLLxXRwAK/vEaoF/CDff/5uZfOBw=;
+        b=ZwolZKemChVFFGBoJFv57nsdRcI+wRtYFRyQ48p5PB0tiLmVYSlH2M8T41TcAWQbAJ
+         160HJHERq47SL5zGpnffhzFtt5+Z38uuV3r0fyFL9MgsOSCDuVAbf3dMpH1Eee6HEGpW
+         iiMPjkWl8M5N3pPwecdGf5Qehh+npBP6BtIjwVyTNYu3n+7nkr8QhR6U3vBd+BpkT6bY
+         GBXOj4fZZL7PpjHSy/K69a2/Byci0WajLifSSxLzvQQHHJ7/XuwY56so4tiI8zD3q8NQ
+         A6+Td4OCLPUEHndkTwXcoL60SBYuBr8ermgJFn5hrMvGDF1/QEEx6nn5inimjWCtkamm
+         TOJw==
+X-Forwarded-Encrypted: i=1; AHgh+RpwswnUNEAhDCTZSuCKIMwZTq1r+9OsY1g0llJagfK/CX7aEOwPts1ZWCfb/JVbqOC8sVGQ8uxXl3o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLAiKJzbx/rGhYpEpf0CKQ2BJUDRAI1WEk+XZHkVNfmCVjdw0T
+	i5EKFOs73UQZQAaaSuFaE0xRZ7UqlIOc4yWN+btZ1pWvVm/ulEZfZS//OIh8owKag6fSzpMOwjp
+	FoOeRKqu6Fvy8IMNj+0AYtxCVOAZ0U1E=
+X-Gm-Gg: AfdE7cnZn7ejNaMmjBb16gy+s0QX5BKd3E3F1lwpClxlVOgBkgcKhNJZ2bJnAdG0QpQ
+	gdeGeOn8OjHi0SC9ddY60w2vpmigMDmzNEQxgvCIVWPwwcA7ODLnCLJyTz/bb1u9BZyGrTYs1rF
+	uFBHiwRXO/NPWAYHi5ny/TvdNAKQPp/XE50bhYK8GKSYA7vF7p/r5KmM4PfmCYJ65AAoLwJgvwB
+	IU/0/1OajrdXxucPtBn3kJhs26Cz+jnAFRjqiOSC79QQlpwh8+jRtdEUs5MedaVq+JBsVLuqYaH
+	4l6WJJo8w3gxMGy5n/cipe5LNuP/Y3LBho9Mn9iwMUQHeipvhhRanBn3YxwX2SmCgNhB6g+s5Fg
+	e9t5hvQFYuFGc
+X-Received: by 2002:a17:90a:d408:b0:381:2d9a:447b with SMTP id
+ 98e67ed59e1d1-38dc7b31c40mr11110380a91.4.1784053577592; Tue, 14 Jul 2026
+ 11:26:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] USB: serial: sierra: fix slab out-of-bounds read in
- sierra_instat_callback
-To: Jay Vadayath <jkrshnmenon@gmail.com>, gregkh@linuxfoundation.org,
- johan@kernel.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Lukas Dresel <lukas@artiphishell.com>
-References: <https://lore.kernel.org/all/2026071453-reminder-ageless-dcea@gregkh/>
- <20260714181142.10976-1-jkrshnmenon@gmail.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20260714181142.10976-1-jkrshnmenon@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
+ <20260712-urb-abstraction-v1-v1-2-9fa011634ead@gmail.com> <DJXH4JLX4CES.11S3IZ1V2FTHF@kernel.org>
+ <alVEUR0JrF1ga3S8@pendragon> <DJXPS0HY54SU.3JEDTA04V8HJ0@kernel.org>
+ <7e6ebb5b-8ce0-4114-85d6-98cd11a3ad81@suse.com> <DJYBDUMUQ43T.3Q4ZG0FL76QH3@kernel.org>
+ <fe12ec76-0f2a-48bd-8fd5-9b94b2600718@rowland.harvard.edu>
+In-Reply-To: <fe12ec76-0f2a-48bd-8fd5-9b94b2600718@rowland.harvard.edu>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 14 Jul 2026 20:26:03 +0200
+X-Gm-Features: AUfX_mz_aRz7cY4MbeNoQZxVf8UF06_0oMEjEGVSK_wjJBa5PsYJvfIZ139w0Fw
+Message-ID: <CANiq72khD4Uj69eVd2eGUYnhdEVyka6g7kQgv7-CfMTyv4a9DQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/4] rust: usb: add usb host interface and endpoint abstractions
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Danilo Krummrich <dakr@kernel.org>, Oliver Neukum <oneukum@suse.com>, 
+	Colin Braun <colinbrauncl@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Boqun Feng <boqun@kernel.org>, 
+	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Tamir Duberstein <tamird@kernel.org>, 
+	Alexandre Courbot <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Mathias Nyman <mathias.nyman@intel.com>, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-media@vger.kernel.org, 
+	Colin Braun <colin.braun.cl@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 14.07.26 20:11, Jay Vadayath wrote:
-> The interrupt-in URB buffer is allocated based on the endpoint's
-> wMaxPacketSize. A device declaring wMaxPacketSize == 8 gets an 8-byte
-> buffer from kmalloc-8. When such a device delivers a short packet,
-> sierra_instat_callback() still dereferences transfer_buffer as struct
-> usb_ctrlrequest and reads a further byte at data[sizeof(*req_pkt)], one
-> byte past the end of the allocation.
-> 
-> Reject the URB when fewer than sizeof(struct usb_ctrlrequest) + 1 bytes
-> were received.
-> 
-> Cc: stable@vger.kernel.org
-> Reported-by: Jay Vadayath <jkrshnmenon@gmail.com>
-> Reported-by: Lukas Dresel <lukas@artiphishell.com>
-> Signed-off-by: Jay Vadayath <jkrshnmenon@gmail.com>
+On Tue, Jul 14, 2026 at 6:26=E2=80=AFPM Alan Stern <stern@rowland.harvard.e=
+du> wrote:
+>
+> I'm aware that Rust has separate types for pointers that may be NULL and
+> pointers that cannot be NULL.  Putting that into the language helps
+> prevent a lot of bugs.  How would making the language be aware of
+> whether a device is bound to a driver be similarly useful?
 
-Nacked-by: Oliver Neukum <oneukum@suse.com>
+Generally speaking, different types can implement different methods,
+which allows one to restrict what functions can be called in certain
+cases, which prevents bugs.
 
-> +
-> +		if (urb->actual_length < sizeof(struct usb_ctrlrequest) + 1) {
-> +			dev_dbg(&port->dev, "%s: short interrupt transfer: %d bytes\n",
-> +				__func__, urb->actual_length);
-> +			return;
-> +		}
+Similarly, having different types allow one to put different
+invariants on them, like the non-NULL you mention [*]. In turn, that
+allows one to design APIs that require callers to pass the proof they
+have the right type.
 
-I am sorry, but you cannot do this. Not here.
+That is, even if something may be exactly the same underlying data
+structure, the types being different allows to disambiguate this.
 
-> +
->   		if ((req_pkt->bRequestType == 0xA1) &&
->   				(req_pkt->bRequest == 0x20)) {
+Otherwise, you may need to check or assume those facts, without
+compiler support. In some cases, if those facts could lead to UB, then
+it means one's API may need to be `unsafe` instead of a safe
+abstraction, which make them more cumbersome and "dangerous" to use
+for callers.
 
-This is the test you need to check how long the reply needs to be.
+So, for instance,
 
-If we look at the full evaluation of the package from the driver we have:
+  https://rust.docs.kernel.org/kernel/device/struct.Bound.html
 
-                 }
-                 if ((req_pkt->bRequestType == 0xA1) &&
-                                 (req_pkt->bRequest == 0x20)) {
-                         int old_dcd_state;
-                         unsigned char signals = *((unsigned char *)
-                                         urb->transfer_buffer +
-                                         sizeof(struct usb_ctrlrequest));
+says
 
-                         dev_dbg(&port->dev, "%s: signal x%x\n", __func__,
-                                 signals);
+  Some APIs, such as `dma::Coherent` or `Devres` rely on the `Device`
+to be bound, which can be proven with the `Bound` device context.
 
-                         old_dcd_state = portdata->dcd_state;
-                         portdata->cts_state = 1;
-                         portdata->dcd_state = ((signals & 0x01) ? 1 : 0);
-                         portdata->dsr_state = ((signals & 0x02) ? 1 : 0);
-                         portdata->ri_state = ((signals & 0x08) ? 1 : 0);
+And indeed there are methods that require such a `&Device<Bound>` like:
 
-                         if (old_dcd_state && !portdata->dcd_state)
-                                 tty_port_tty_hangup(&port->port, true);
-                 } else {
-                         dev_dbg(&port->dev, "%s: type %x req %x\n",
-                                 __func__, req_pkt->bRequestType,
-                                 req_pkt->bRequest);
-                 }
+  https://rust.docs.kernel.org/kernel/devres/struct.Devres.html#method.new
 
-In this branch:
+Then the person implementing a safe abstraction can actually rely on
+the fact that it knows those facts to argue certain things -- the
+compiler will check it. For instance, that a call to the C side will
+not introduce UB. But you can use this to argue for other things,
+unrelated to UB, like making correctness arguments.
 
-                 if ((req_pkt->bRequestType == 0xA1) &&
-                                 (req_pkt->bRequest == 0x20)) {
+I hope that clarifies a bit and serves as context for the rest of the
+discussion.
 
-replies must be at least sizeof(struct usb_ctrlrequest) + 1 long.
-But in the else branch a length of sizeof(struct usb_ctrlrequest) will do,
-because they do not evaluate the signal.
+[*] By the way, Rust's references guarantee way more than just not
+being NULL! Not being NULL is just the "easy case" which ones can
+dynamically check in other languages anyway.
 
-In other words, you stop processing messages if a message the driver does not
-care about, but is valid under the specification arrives. That breaks the driver.
-
-	Regards
-		Oliver
-
+Cheers,
+Miguel
