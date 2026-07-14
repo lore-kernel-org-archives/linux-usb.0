@@ -1,209 +1,120 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB7D445ADE
-	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 19:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6A141DE13;
+	Tue, 14 Jul 2026 19:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784057135; cv=none; b=TiPi4+MAD8bfAs3/pEFOVAjm/q8pflgeWC29uERSKeY/iBvyO1/CoKt2m0i6xRUp/P381u1yfVNdGaFVptGdK7wgtKTnHamI9GFWob/D9uGZimZg7qosgCXusXsHGKBdRoD0qK12TT4z5eYUe3bpxXLwqzZvgnePiakwxtd7XVw=
+	t=1784057174; cv=none; b=WI4ua2MWYTrnuXHxoOqpOZhGqdWGxCbPbl7BJUijAd9rooM9VDMzvF9bZY6ZSKWyG0qWNJqMa4ljJ+uyzzDXb1CBXlH7zRxJ2F5WOn4c5+mTk5DJGthe0VqAld+Rb+okOZKxPZhUHR7/S+jFqt9u/HFVmZTpU9/ec3J9N27Ko6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784057135; c=relaxed/simple;
-	bh=QWcvV6fVT9UEcqdWIGyKil73iXH+THrW/6k3NvPhvvs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q1kwstkZGcgFwDcv2KrheS8NtV60LFnx41vrlRAi1eZA94aXcYaJSINPtfubjfmcry26C1rKLXLUpjCcLL6DKT46fRJLdVhqQBw59GgcM99q9A/vY6t2v5c6UPr6R6w1dyRZFZUM+EqBDq8n1V2HSOcu8YWiZi2vtt6qmBRZGxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=mthvv0VS; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1784057174; c=relaxed/simple;
+	bh=ou2OeHe9NiTPGYgMcRzTUBwKmURTgL5/azZ1wBtlGvM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=VJqSYmhGdp6e5axdc822Jdolvui7DMCbZNwTvo3H5OBFOCrDjab60oJf3FkYndoZLFz/WIYqhhaRUQekIXHU0CZ451JDtTA0Z5rY36g39jwCUO/5MQKOSBmbtYGPXcgUtlQhls3V72MtagXoCTH2/FoWE9TD0T+kTRBntT5d0VU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gHNbOAYp; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="mthvv0VS"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8ee88fce572so19262816d6.1
-        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 12:25:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1784057133; x=1784661933; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DeJjtlrM066xLR7BVtiJMoEVf129H/GMCvG48B6bMZE=;
-        b=mthvv0VSZtOmJXCIdzItz3eZ96HVR66gOOSOsZmLNvB9/UWVXdRvIP9jUFhX5whgla
-         X5VQZcrJDuqyiypTZP1ZZECwc7vff4D4C1zZD03vBm5/B8ekcp7eY9fBAsfInvu7SW+L
-         EglXHJXylaL6+ZgU1N7v73DNzckhGc2C6NDYASfzUdftrNQcKcmll/lS5YYb19vTjvwz
-         bh/BirHPIzbTTRhgXEXLPhiCL4bj0cUJgCMmm3AEnsQXvTx6yPgRUxJbu8VoypBIGBQ/
-         jBS/S9sEuBJGCPsXBvAC3+snc8+51zQ4KK3dfBCr4yp+DDqdaGYUFtJ9glOixqk66HSp
-         KpMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784057133; x=1784661933;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DeJjtlrM066xLR7BVtiJMoEVf129H/GMCvG48B6bMZE=;
-        b=jFNDyb0SHgIjfCvxynDucBz1gSEWpjfkOZBsVB4INxHmMdJukPLGL+/VhP9bh+I7At
-         3MGSr+XbZLs2da9aA6K4NHHMJm3FSvVwNYHD9O/3FRTmCvnqzSFV4ZngcAlBRx+JjYeK
-         CBsPVrtfZTGE0S8/u6GJGalZFdjBM0IoakXOxQ7OC/+WLylKlPn9xS5bFIIhboy08Jd/
-         DVUDCfKETbgMO/TlS/MwKUDUd2b1chtI1aFcakI2hUAdOa3GL3XabfrmnPu+D1GOWCM7
-         bHM5XV4KHCLZuVMs52rjP3UG3XyeNesa2Nlomte/JPVkBNE+cvVmBWzZLfyCYe+QYU3N
-         DwQA==
-X-Forwarded-Encrypted: i=1; AHgh+RpddA3689gztNHCT+k9wDlszM2sji4NymWhBmm1BcrY447UlycP15wp3V/jP5O4d2+l6WbxOcCeOl0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2LZqUYarWf4gZHo0yrq2psk1eMlOPAcOmfUm+AhKO2e/33PtG
-	pqlMUY/xjxJcz+GWpnBZxY1/0SOqIeZxQRfRAA6zczLW6h9ty0QAJthxkwFZgKNFpw==
-X-Gm-Gg: AfdE7cnauZZfl10pDruIp0WiP2bu1oeBTE4LOiqA7xB6yrGIqyDpv/Ce05fvWyKa2kl
-	9B2ckDmzLSR7r1MHgYSCdZ+EWUKtTsJxqS5Dfj43GIiGZsJrw+ZBILbgqFnyGdeR8Wbc/bz05pe
-	RCSDJWWXJj3YdkoD+ibquu8Dn3JE/oi3deRl8p2XQjL52JNPS2v1SFU4bcVORkL07e6iVwafz3/
-	7P2NcmGR+zSh9eWrOevDXMsAxSL802xxDZUv5wNU+QmgqwNGYYGlka+Vp6aAGOTaLb+YUM5a97C
-	9lZQWAJVc52jNhFDY/N3yEGceFuv/mRcBXjVw8IJIpkeAupZ8I5lMk6dk+YdOd8M4Uj/8lvmVhe
-	Ncqrao0baa0W6gF2XJYcxSXS21MV6FvK1gLHpmZ4urkgf3xYvj/nvXT80yxTqfiRtTvYOugTp3w
-	XneiD5XcmYWaqo4/DpvItjXuMQ
-X-Received: by 2002:a05:6214:1303:b0:8ef:7fd6:11db with SMTP id 6a1803df08f44-90403d5658bmr171597896d6.51.1784057115041;
-        Tue, 14 Jul 2026 12:25:15 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd248e666sm174996326d6.0.2026.07.14.12.25.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 12:25:14 -0700 (PDT)
-Date: Tue, 14 Jul 2026 15:25:10 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Oliver Neukum <oneukum@suse.com>, Colin Braun <colinbrauncl@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-	Colin Braun <colin.braun.cl@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	driver-core@lists.linux.dev
-Subject: Re: [RFC PATCH 2/4] rust: usb: add usb host interface and endpoint
- abstractions
-Message-ID: <a6809829-b7f8-4181-9965-0668fe95d133@rowland.harvard.edu>
-References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
- <20260712-urb-abstraction-v1-v1-2-9fa011634ead@gmail.com>
- <DJXH4JLX4CES.11S3IZ1V2FTHF@kernel.org>
- <alVEUR0JrF1ga3S8@pendragon>
- <DJXPS0HY54SU.3JEDTA04V8HJ0@kernel.org>
- <7e6ebb5b-8ce0-4114-85d6-98cd11a3ad81@suse.com>
- <DJYBDUMUQ43T.3Q4ZG0FL76QH3@kernel.org>
- <fe12ec76-0f2a-48bd-8fd5-9b94b2600718@rowland.harvard.edu>
- <DJYHI6W0VJ73.NP4QFGU57J50@kernel.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gHNbOAYp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1784057169;
+	bh=ou2OeHe9NiTPGYgMcRzTUBwKmURTgL5/azZ1wBtlGvM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=gHNbOAYpLNeJMIX8AB67rtX0qgJArQ+D5DKBQu8GLMn+hOrcgF0xwbMhSMRVtWsnA
+	 J/hvXxHb2y5LvWJUX0UZFGV8jhheOgFPd3YHLoCQlk4h1xuE+Cxe1gh54RM5erWAN1
+	 7JZpdeekW3jeKLce4F/+7DB10MyBSQdF7POlIzITc6ho1GNo/abroEZZMeVcB0Rtte
+	 tZrT3lGcxoI6netTqokfVn4GzpyfYTP9tWUfoGSjBjH19Ifhz71YSuHh7owwYPcvnf
+	 yxbaLd5tp1yM10faVvJMAYD0nVljFfZsAIWuxp9gsjv4/2z3kcTz5Swl2S92mEzVjw
+	 8s0C6IpNmGXLg==
+Received: from jupiter.universe (unknown [100.64.1.62])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sre)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2538D17E0B89;
+	Tue, 14 Jul 2026 21:26:09 +0200 (CEST)
+Received: by jupiter.universe (Postfix, from userid 1000)
+	id CFD2D48002F; Tue, 14 Jul 2026 21:26:08 +0200 (CEST)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+Date: Tue, 14 Jul 2026 21:26:04 +0200
+Subject: [PATCH v13 03/35] phy: rockchip: usbdp: Do not lose USB3 PHY
+ status
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DJYHI6W0VJ73.NP4QFGU57J50@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260714-rockchip-usbdp-cleanup-v13-3-6cb3e769d4c5@collabora.com>
+References: <20260714-rockchip-usbdp-cleanup-v13-0-6cb3e769d4c5@collabora.com>
+In-Reply-To: <20260714-rockchip-usbdp-cleanup-v13-0-6cb3e769d4c5@collabora.com>
+To: Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Frank Wang <frank.wang@rock-chips.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Yubing Zhang <yubing.zhang@rock-chips.com>, 
+ Alexey Charkov <alchark@flipper.net>, linux-phy@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, kernel@collabora.com, 
+ devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1409;
+ i=sebastian.reichel@collabora.com; h=from:subject:message-id;
+ bh=ou2OeHe9NiTPGYgMcRzTUBwKmURTgL5/azZ1wBtlGvM=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGpWjU/N+pqThOWKKerejsXTJvqKMa89XLKeY
+ o53vbzDkztdJokCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJqVo1PAAoJENju1/PI
+ O/qaoPYP/0M8Z8VgKSRwjex2OTUq917XYXZ7RdTjMZ0Ik7ZF5EM8whNXlWfREoCv6688qYuStSj
+ I4BzMuuLXxJFbkYriSqopaY4635z/8DwtRkUZKsV9sNGX1CgszSV/HPzWs18/bpyyR69rxMExu2
+ 1v4FD9QDinQ2Dl0BiBbecQJZvnvhzQ/4iyqwxqOVau5TpEeNum7ZLnXxTsNAXm7Dz7jXvf6FqC7
+ 1hgZsW3j/+E7GsxXDbnIra+qcFfncmqBe8TYE7laUIl1HnFS4NbJJVlp2k8JI7EQ9aPW5kE2BIy
+ uOhrGtAV7nALkbedghmXb884u/RZUsxr70DDCESjaNxYATRajqX6+g2LmAWPOrbFfAdD2nNWjFR
+ M9vIGzq7MkBxSjs0N3b9BTzHvwBOlH5yuWJsI6UUEM1RBOizOSudAtTifDTdp4zm0t0RY+ggAHF
+ 1R8EFBFGRi5euOQqHdkNG7JIOeQTnMjb+ojWUiAMxpM8WzKz/ff43TralA6H1mdbpFAaamUcY09
+ IOrx4KhJsMlRl5sSNWK1p9RMQfLQk6Sg6dReV69VJCIKe4mZdz1GItmhr3snG1fdlfMNlAAQyja
+ guAaqYN1qWA2H78ng8E6XmsCuJfyEMXkq/fWtAfXysLAesz7dDXKosF7b70LbYP+Hd9TpEtko8+
+ 4E0cmZ26DuGVQ+cxVsvo0Hw==
+X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
+ fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-On Tue, Jul 14, 2026 at 07:53:03PM +0200, Danilo Krummrich wrote:
-> (Cc: driver-core)
-> 
-> On Tue Jul 14, 2026 at 6:26 PM CEST, Alan Stern wrote:
-> > I don't see why Rust needs to distinguish between a USB device that is 
-> > bound and one that is unbound.  There isn't much you can do with one 
-> > that can't be done with the other.
-> 
-> It has nothing to do with Rust, those driver lifecycle rules exist regardless
-> and they are present universally, including in C.
-> 
-> The only difference is that in C all the responsibility to enforce them is
-> usually on the driver -- e.g. by creating, destroying and calling things in the
-> correct order in probe() and remove() -- and a lot of drivers have bugs in this
-> regard as a consequence.
-> 
-> With Rust we can enforce those rules with the help of the type system at compile
-> time; device context states are a part of that.
+By default (i.e. without manually enabling runtime PM) DWC3 requests the
+USB3 PHY once and keeps it enabled all the time. When DisplayPort is
+being requested later on, a mode change is needed. This re-initializes
+the PHY. During re-initialization the status variable has incorrectly
+been cleared, which means the tracking information for USB3 is lost.
 
-I don't really understand how that would work.  For example, suppose you 
-have an object whose type represents an unbound USB interface (I forget 
-what you are calling this).  Then a driver is probed and binds to the 
-interface.  What happens to the object?  Is it somehow destroyed and 
-replaced by a new object of a different type, representing a bound 
-interface?  Or does the object remain unchanged but you create a new 
-reference to it, of the new type?
+This is not an immediate problem, since the DP side keeps the PHY
+enabled. But once DP is toggled off, the whole PHY will be disabled.
+This is a problem, because the USB side still needs it powered.
 
-Also, what happens while the binding or unbinding procedure is underway, 
-so the interface is, so to speak, partially bound?  The USB stack does 
-actually take notice of this; see the definition of enum 
-usb_interface_condition in include/linux/usb.h.
+Fix things by not clearing the status flags.
 
-> > Similarly, I don't see why Rust needs to distinguish between an 
-> > interface that is bound and one that isn't.
-> >
-> > Even from the point of view of the device core, a device that is bound 
-> > to a driver is the same kind of data structure as one that isn't bound; 
-> > the only difference is whether the ->driver pointer is set.
-> 
-> This is a huge understatement.
-> 
-> The state of a device being bound to a driver defines which entity (i.e. which
-> driver) is in charge of operating the underlying device, and thus defines who
-> owns the device (associated) resources.
+Fixes: 2f70bbddeb45 ("phy: rockchip: add usbdp combo phy driver")
+Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+---
+ drivers/phy/rockchip/phy-rockchip-usbdp.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-That's not how I would describe it.  When a device is bound to a driver, 
-the driver is allowed to create and use associated resource; when the 
-device is not bound, no such resources should exist.
+diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
+index a5ffdf7a6e76..12dfdd470a78 100644
+--- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
++++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
+@@ -1008,7 +1008,6 @@ static int rk_udphy_power_on(struct rk_udphy *udphy, u8 mode)
+ 			rk_udphy_u3_port_disable(udphy, false);
+ 		udphy->mode_change = false;
+ 	} else if (udphy->mode_change) {
+-		udphy->status = UDPHY_MODE_NONE;
+ 		if (udphy->mode == UDPHY_MODE_DP)
+ 			rk_udphy_u3_port_disable(udphy, true);
+ 
 
-> Many APIs rely on this, as in they only guarantee valid behavior when called
-> from a scope where the device is guaranteed to be bound to a driver, or IOW
-> where a driver can prove that it actually operates the device.
+-- 
+2.53.0
 
-I can't think of many APIs like that in the USB stack.  One that springs 
-to mind is encapsulated by checkintf() and check_ctrlrecip() in 
-core/devio.c, but those are the exception rather than the rule.
-
-> Drivers must only acquire device resources when they are actually bound to the
-> corresponding device, and must hand them back before the device is unbound. The
-> devres API, for instance, exists for this fundamental reason.
-
-How would having separate types for bound and unbound interfaces enable 
-Rust to recognize that a driver had not destroyed back a resource in its 
-unbind callback?
-
-> For instance, we can't have drivers manage IRQs, mess with I/O memory, program
-> IOMMU page tables (e.g. through DMA APIs), etc. for devices they are not bound
-> to and hence are not allowed to operate (anymore).
-> 
-> Those device resources all have a lifetime that is tied to the lifetime of the
-> device being bound to a driver.
-> 
-> Consequently, any asynchronous scopes such as IOCTLs from class device
-> registrations, IRQs, work queued on workqueues, etc. must all be synchronized in
-> some way such that those asynchronous scopes do not access device resources that
-> have already been destroyed on driver unbind.
-
-That is certainly true.  But I don't see how it can be enforced at 
-compile time.
-
-> Or in other words, they must be synchronized against the "bound" scope, which is
-> exactly what the Device<Bound> type state in Rust represents.
-> 
-> So, again, all those lifetime rules around the driver lifecycle exist
-> universally, it's just that in Rust we enforce them through the type system.
-
-How do you enforce through the type system that, for example, a 
-workqueue item has completed?
-
-> For instance, tying it back to USB, we don't want that a usb_driver still messes
-> with a usb_interface, e.g. initiating transfers after it has been unbound from
-> the interface and hence must not operate it anymore. This can easily happen if
-> e.g. a class device registration is not properly synchronized and the driver
-> still receives IOCTLs after driver unbind. In Rust we know through the "Bound"
-> type state which scope provides the guarantee that the device is still bound,
-> such that mistakes like this become impossible.
-
-How can you pass types around to different control threads with somewhat 
-arbitrary synchronization schemes managed at runtime, all while not 
-allowing a typed reference to exist beyond its lifetime?  This seems 
-very similar to the "pointer zap" problem in C/C++, which as far as I 
-know, has no real solution.
-
-Alan Stern
