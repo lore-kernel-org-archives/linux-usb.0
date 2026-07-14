@@ -1,129 +1,159 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0D93CF1FC
-	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 18:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62803D7D65
+	for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 18:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784052709; cv=none; b=UVZOSym7ek6EPrLEHbMH8eCJ0iElnzRcr11ZiOl/iK+e54aChu1Dcp6cvY21alQ21w9IDMLAXNj5Zt9q54BCCjZiS9tacGoOZAiQTJKmnvP6o/xqxtPtia9uy5cBfR8WV5LFGwQ4EudrsTrvEAIfqd1o9J81H0I8UGGbseFx9e4=
+	t=1784053536; cv=none; b=Ui9T7+Ty1ylFqEeg6PrnT2zKZ0C9Jnt2ePtjF2DmUknEwJ/zmHABAagfmvBRqg4dfi1Ken0XXwZ8Ar6I4QMKNbwXM9zrnu7IwxE+Cbt/vWIIGx/h7mFe1+sVw3p+XneD8gSC74fqnCzF6L2CqxVsggcIwbKgAT/iR3q9THRtmsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784052709; c=relaxed/simple;
-	bh=hBsP5eEDHNHagwaJe9v18Ny2Nwb2L1p/CxMZ7iJOKHQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i0FNkwm/fqqPFizkHT516XVvkpEoZufJyWJtGr/oYVc50HBHdmSUC1rrILQq4X4b9v9krkDdgtfQR9j7hEuMgOEMeWljIJEm5Mq9nMtj48HLj6OhCfmeHreKgAsYXFGiqhMzKzUSRYkkqPoQik0c51GPRsGMbMdo/AYfKydE8q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XtCFLlhN; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784053536; c=relaxed/simple;
+	bh=GUQiZVnvyblyYmPUnGk7w9kozmaRu3795r/F+XDtpdE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ubdObEvPs8SqgYihpSQ/VfEWrBjzoryie+wuaBac7YThEM12/bnvxfcNRmcV40BNtxKtUUFTBShtfFWKnZ+uVfdAba5DdXH1arQkAUu06D2bq0b1u7GlGKsHvYLAVRrs8HPKj+i0ElqUOYJ8jKac9oDAFUs1ak1dWkiHLQgXXAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=AyDctlib; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XtCFLlhN"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso1439563a91.2
-        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 11:11:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="AyDctlib"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493f4638f4aso11038535e9.3
+        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 11:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784052708; x=1784657508; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SRXfPs9aJXVj7efeegqyZcry94icAjp1/Aq1dXdDufk=;
-        b=XtCFLlhNJaxLgrqIWjkZsJSg6Mwqc5pYdVeqLpJwzjyF4BZMuTacLHH2SWoSQhfabJ
-         rsGI6u1fEtWRBpYNL9xhd60+IEl17PUYDCG9CmJg/0lWW/9ltgra9TfHWYjQ3eoH0d6p
-         XLMIPNwfbUSxK9Tz+hrMJU/lmO4SLmhMYL4RDSlTx7M4ifMY3oA+aAy3shclSyz2mh9G
-         o3u2wSCV0bfr5pun09UrBwDhVwGRUFCH8KVLcAp5FH4p8rKHoyTf0U3bDM/3EoAuBlsZ
-         RSnExGQJtS8jMtYYP9XxrZMPTwSCaKs6FSV05AL2bY+myPTuGLQnwn+HG/olC74uqRI3
-         yjKQ==
+        d=suse.com; s=google; t=1784053528; x=1784658328; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2cRBijGnW1MWHAmm7rN0D7TcOhmMrBvTuTtZRZ3u9v0=;
+        b=AyDctlibyhMErq4akXpL9kUEhmumtBLkMnmt4QMS58Vi6NHTiaSkabLcPy6CDk33AQ
+         GAqaAohXBsakbpNHX3BBOe+RUaOeXkppTXGFy8XCROjn9I8yFYZ3JpmJEdo3XvkBxOtZ
+         htmFgdN0IqfzYBWx6N01a8oSJdw7/xQt8E7nq0swcsD3FEb0q6Beu0bGGlKMzA2diiW5
+         KGQolyd+mWxpxaSFZttV648hQbAw2QpD0OVaflIQE9NpQ/4SVK4GxY58fe3VuFpnnK+P
+         Lm1jOBeUEPcMqEdBNhf/47aJKoXboyODoKl1I4Mx85fFoDpUt1rAeJs5cOECny+cpyww
+         gIJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784052708; x=1784657508;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SRXfPs9aJXVj7efeegqyZcry94icAjp1/Aq1dXdDufk=;
-        b=ULszPiLoZrkuERIJCxT+zJ9/ENmpsdmS0tA8vhw2klPgbgxDNT6mlv8y9zb+OJYq64
-         lfr2EYLz63X6xnxurRHzutihZ8zpKa2a14qz4C1//7JHoSitW7DlORxRTb0H9CXLbZIx
-         JkprK4btqLvWuyYswtVULItx9HtpUTa6p8dWvoCoMyeOq1IMJ+N1wqc1YJ51BBs5/HfP
-         zELPJ7XbjxgLdiRGAig0ISSs+lZ7i+DjDtaLeLAMPlbSZnl+aeDgATZ37mLn1NfJxFfN
-         S6cpTGr2j/4ADR8yXVysnJTd6ZW2S+JWHOPRNk208nKbG7B4xgpAbDOSqagsDma5o9sV
-         QZmg==
-X-Gm-Message-State: AOJu0YxRo7DdsxBHOLGfjfvxsC8MJtQLvo2gSwyfmbGPSjgBExtkiFkU
-	89fpE4BeKgCjefTSim3rJuEgtBEt+WJaIKvJNLHNWHfgKwpLtVkb2c+a
-X-Gm-Gg: AfdE7cmk28CiZtRWQsTonAIWjO5jjaR93maVYCK+Kas4VGA9NNkOYAdHZnpiOoclm9W
-	GX1fDb+fPcrU3a5Hkz0uWzNhEkt5zSVvq+mfgCUqPxr5EmMOcMo0QYHergw0HpKH2XYmANeBOUS
-	IkHBbvsw6mvtANl8227WaFnePwvzdg2Z7cDsXakfjzoCpNpzIqwxDNlc2kK6QnviTmxPBgLF6fo
-	SuJw/fA1SyLl4WlcniW9Vbjaxj8R63CJaAOgyXJbeFJuYxuibuhXYA/WBvQzQRyGAMgSR2ieC8o
-	+U9GwlWQAP61xqLdEB8IzELxNpnJe3jhrwkwzA52m2jbOwNUm4MPM+sPfCmtPqyZuwbD91MSl/o
-	DlDxj8VwQxCSz5KAZhyPIUjyUelqqoyTeZ/bukjeCs26tTW0ohl7ZwWdTeFmcx7h/9yy/hL+Wep
-	sALG+BBBMNo8qvJgv2
-X-Received: by 2002:a17:90b:4990:b0:366:52fe:e749 with SMTP id 98e67ed59e1d1-38dc73beb6dmr14747011a91.5.1784052707688;
-        Tue, 14 Jul 2026 11:11:47 -0700 (PDT)
-Received: from nixos ([2001:579:62a8:47:3869:b665:31a3:e072])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3118ee6080dsm62416288eec.17.2026.07.14.11.11.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 11:11:47 -0700 (PDT)
-From: Jay Vadayath <jkrshnmenon@gmail.com>
-To: gregkh@linuxfoundation.org,
-	johan@kernel.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jay Vadayath <jkrshnmenon@gmail.com>,
-	stable@vger.kernel.org,
-	Lukas Dresel <lukas@artiphishell.com>
-Subject: [PATCH] USB: serial: sierra: fix slab out-of-bounds read in sierra_instat_callback
-Date: Tue, 14 Jul 2026 11:11:42 -0700
-Message-ID: <20260714181142.10976-1-jkrshnmenon@gmail.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <https://lore.kernel.org/all/2026071453-reminder-ageless-dcea@gregkh/>
-References: <https://lore.kernel.org/all/2026071453-reminder-ageless-dcea@gregkh/>
+        d=1e100.net; s=20251104; t=1784053528; x=1784658328;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2cRBijGnW1MWHAmm7rN0D7TcOhmMrBvTuTtZRZ3u9v0=;
+        b=dLoAGufBvWstjKwUTdhMxyvZzyyKuVy7YzhLwpxnCYmjuISmT9cxFYjq71emxW4yZh
+         u+po2Up38UEEUGQB0LrSMqDidzbrxQROyKBg3gwiFovWQ/owzEsS+2k+ijnNdjmd4FU+
+         B0T34uBIV70eUUiXhYIrrSr9bcsmqdqOGfOsZx3pW3G7YTmISzoaPY10yWIGGdH1iSps
+         EGJg7lTc6HLBvPOjL+gbUENake+SPzqUjHDg2m00LJGCzqNqLvAER+c/16q1d+hFxlwr
+         BTZXcImscKUSB56YU764//5NOEyZkGUAocCBpQ+wOx2x8EkVXqPwcUk7Pq+moZo+9Let
+         GA3A==
+X-Gm-Message-State: AOJu0YyDDo+NAtPLcu7HOuvgSMPZMFPxXCgfSF5p98MyoDMyUxv71VVs
+	h+OvCMDqpFhGUZzErp2Nng8mRj7xAm6Mfh5WbHip152Pa6UrdbCIB+y2IxQVrSMWl4k=
+X-Gm-Gg: AfdE7cn7rWZra07EnzBCAN2kim8vjgybFgNM7rVZDTANFufyGQj2u2GsJWtXq9JOxza
+	wgpFFTvYurRW1/Iex5pmMD3xXx4jtkITITPTHih+THLjUonWo2gRiZxanN5caSUGQaiZ39LqOWY
+	2LOXVzd5tNb5dtEj9XWGSkwkdZN+yPWF/VFeYmHqFSJSAVHJYXEBuo7mT5BfqtVjCxToqRB8Ebe
+	4lGCGzDHm5dqRQwC10rAHJ/ltRZfOFA6qTYLo2VXJP8/i93ugW3ZC84LBnAXhPx0FBoH9VjJk/a
+	FacLj9o4+xNzw6YGOv4GLEXztzFce62c8hkarmGnVHRt5uC5SN8EasHUOoQjizMXQa41gk3MtyW
+	VhGgAT/tIuUjTohReIge2oMcRwYye2ehe2J85XD+225Qszu0CGLHxsbmHVPCmbg4ifnOpxBvTyx
+	FaLaWbFlxb7FXSoIADMEIAidTMjtb5Pdni/A8BP92q4rtYCzsQsim/dQj2RZbN3JgiiQ==
+X-Received: by 2002:a05:600c:c4a2:b0:493:a438:7f98 with SMTP id 5b1f17b1804b1-493fd45f96bmr130187945e9.18.1784053528076;
+        Tue, 14 Jul 2026 11:25:28 -0700 (PDT)
+Received: from ?IPV6:2001:a61:13c3:1c01:3157:c849:4aaa:fa65? ([2001:a61:13c3:1c01:3157:c849:4aaa:fa65])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4950871d1bdsm92527485e9.1.2026.07.14.11.25.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jul 2026 11:25:27 -0700 (PDT)
+Message-ID: <4e7abb00-f0ab-4008-a0bf-5ccd90102aca@suse.com>
+Date: Tue, 14 Jul 2026 20:25:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] USB: serial: sierra: fix slab out-of-bounds read in
+ sierra_instat_callback
+To: Jay Vadayath <jkrshnmenon@gmail.com>, gregkh@linuxfoundation.org,
+ johan@kernel.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Lukas Dresel <lukas@artiphishell.com>
+References: <https://lore.kernel.org/all/2026071453-reminder-ageless-dcea@gregkh/>
+ <20260714181142.10976-1-jkrshnmenon@gmail.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20260714181142.10976-1-jkrshnmenon@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The interrupt-in URB buffer is allocated based on the endpoint's
-wMaxPacketSize. A device declaring wMaxPacketSize == 8 gets an 8-byte
-buffer from kmalloc-8. When such a device delivers a short packet,
-sierra_instat_callback() still dereferences transfer_buffer as struct
-usb_ctrlrequest and reads a further byte at data[sizeof(*req_pkt)], one
-byte past the end of the allocation.
+On 14.07.26 20:11, Jay Vadayath wrote:
+> The interrupt-in URB buffer is allocated based on the endpoint's
+> wMaxPacketSize. A device declaring wMaxPacketSize == 8 gets an 8-byte
+> buffer from kmalloc-8. When such a device delivers a short packet,
+> sierra_instat_callback() still dereferences transfer_buffer as struct
+> usb_ctrlrequest and reads a further byte at data[sizeof(*req_pkt)], one
+> byte past the end of the allocation.
+> 
+> Reject the URB when fewer than sizeof(struct usb_ctrlrequest) + 1 bytes
+> were received.
+> 
+> Cc: stable@vger.kernel.org
+> Reported-by: Jay Vadayath <jkrshnmenon@gmail.com>
+> Reported-by: Lukas Dresel <lukas@artiphishell.com>
+> Signed-off-by: Jay Vadayath <jkrshnmenon@gmail.com>
 
-Reject the URB when fewer than sizeof(struct usb_ctrlrequest) + 1 bytes
-were received.
+Nacked-by: Oliver Neukum <oneukum@suse.com>
 
-Cc: stable@vger.kernel.org
-Reported-by: Jay Vadayath <jkrshnmenon@gmail.com>
-Reported-by: Lukas Dresel <lukas@artiphishell.com>
-Signed-off-by: Jay Vadayath <jkrshnmenon@gmail.com>
----
-Apologies for the wall of text in the original mail. I wanted to include
-the artifacts inline so the bug could be independently verified. Just the
-patch this time.
+> +
+> +		if (urb->actual_length < sizeof(struct usb_ctrlrequest) + 1) {
+> +			dev_dbg(&port->dev, "%s: short interrupt transfer: %d bytes\n",
+> +				__func__, urb->actual_length);
+> +			return;
+> +		}
 
-Same shape of fix as Jiale Yao's option.c patch:
-https://lore.kernel.org/all/20260712170012.3503601-1-yaojiale02@163.com/
+I am sorry, but you cannot do this. Not here.
 
-Tested with the reproducer against v7.2-rc3. The KASAN splat does not
-appear with the patch applied.
+> +
+>   		if ((req_pkt->bRequestType == 0xA1) &&
+>   				(req_pkt->bRequest == 0x20)) {
 
- drivers/usb/serial/sierra.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+This is the test you need to check how long the reply needs to be.
 
-diff --git a/drivers/usb/serial/sierra.c b/drivers/usb/serial/sierra.c
-index 6e443aacae07..4c6e7120695e 100644
---- a/drivers/usb/serial/sierra.c
-+++ b/drivers/usb/serial/sierra.c
-@@ -575,6 +575,13 @@ static void sierra_instat_callback(struct urb *urb)
- 				__func__);
- 			return;
- 		}
-+
-+		if (urb->actual_length < sizeof(struct usb_ctrlrequest) + 1) {
-+			dev_dbg(&port->dev, "%s: short interrupt transfer: %d bytes\n",
-+				__func__, urb->actual_length);
-+			return;
-+		}
-+
- 		if ((req_pkt->bRequestType == 0xA1) &&
- 				(req_pkt->bRequest == 0x20)) {
- 			int old_dcd_state;
---
-2.51.2
+If we look at the full evaluation of the package from the driver we have:
+
+                 }
+                 if ((req_pkt->bRequestType == 0xA1) &&
+                                 (req_pkt->bRequest == 0x20)) {
+                         int old_dcd_state;
+                         unsigned char signals = *((unsigned char *)
+                                         urb->transfer_buffer +
+                                         sizeof(struct usb_ctrlrequest));
+
+                         dev_dbg(&port->dev, "%s: signal x%x\n", __func__,
+                                 signals);
+
+                         old_dcd_state = portdata->dcd_state;
+                         portdata->cts_state = 1;
+                         portdata->dcd_state = ((signals & 0x01) ? 1 : 0);
+                         portdata->dsr_state = ((signals & 0x02) ? 1 : 0);
+                         portdata->ri_state = ((signals & 0x08) ? 1 : 0);
+
+                         if (old_dcd_state && !portdata->dcd_state)
+                                 tty_port_tty_hangup(&port->port, true);
+                 } else {
+                         dev_dbg(&port->dev, "%s: type %x req %x\n",
+                                 __func__, req_pkt->bRequestType,
+                                 req_pkt->bRequest);
+                 }
+
+In this branch:
+
+                 if ((req_pkt->bRequestType == 0xA1) &&
+                                 (req_pkt->bRequest == 0x20)) {
+
+replies must be at least sizeof(struct usb_ctrlrequest) + 1 long.
+But in the else branch a length of sizeof(struct usb_ctrlrequest) will do,
+because they do not evaluate the signal.
+
+In other words, you stop processing messages if a message the driver does not
+care about, but is valid under the specification arrives. That breaks the driver.
+
+	Regards
+		Oliver
+
