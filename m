@@ -1,133 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF89430CC4;
-	Wed, 15 Jul 2026 09:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1121A3C3450
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 09:58:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784107896; cv=none; b=KI+vxvz2aOQehz7IW8PsGv72F1wQHx20xahSulmIfsS/m+DNg/tKW6nrRtpRcmxuVBRO3YBquKCXxRgsrGUhKrAHMJTfjlSFSC4/F0fS2553nWfcb0rwe8NUjdDHNC/a27PfvlMaSDWUVPgQlIhApyJEgpjqQtZUrafdcN4bUJM=
+	t=1784109495; cv=none; b=QF5S5Pz02hdm4CBCg/2EQxcazkLDOFWCXpHNvTgON2NcoHhlbiYGJU0IQrNvByIDyurLU2wbNx6CKWZzwY01puiNP8UXpxrRSpZo+itefLdJqTW+rpuzwWTqEQG/H2q+HofhdMb6UWiVIG6qPTlIYG9bkGD9HEY39c8JQigQ/4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784107896; c=relaxed/simple;
-	bh=k4Mxr2b2uXcaPiH3l9mMz8keQUEPR+TLeMo54YK8SQg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZjmNEcoIawaTeOVGwX+qRJ7LfyNDi9BGZTpvHvUO/UBO7uLybAC3T3pB5jmXw9lYaZLIYRuMHX8WkcXYlDnU7FQwdz+wnFQ6Ggofn4WOPyoSwOrZ78Sc7yL7+s+vGydbK+AQGM0VfGlr/Y72BIrkKx+Dv27Z0l2QTnIpnqx4wWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JBT8cc0+; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1784109495; c=relaxed/simple;
+	bh=eu/DTRyAd3ctyUkGms/b9eysJ/qFhgx/TcHRNsFcw4Q=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=DUverlGzZNgqSRXM+6CbfYTEoCCgtsGBWXz83vXrP/14quPBKojPNrfPQXMr4pFun8TuVTZYNbXehD50xPdgwHAos63PnpGzpPhmsrg65QWZ5zynCYD6bh+r8X6/2qjI57Kvl29vfnMNRVlV8wkOmFYXfgbNy8IIwyeK8heFp2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=korsgaard.com; spf=pass smtp.mailfrom=korsgaard.com; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=bRE0o0dl; arc=none smtp.client-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=korsgaard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korsgaard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JBT8cc0+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784107891; x=1815643891;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=k4Mxr2b2uXcaPiH3l9mMz8keQUEPR+TLeMo54YK8SQg=;
-  b=JBT8cc0+MGyymQ1W7X4DBNeNGOoVi0Uy81MBS3lOHht4S/rW+qqGYKal
-   ThJi5Lz1r1URxFHoTNrypsJOekCHyojgOCpDlYCucraEqf5fr8sFJ94NB
-   NFr0joiwasXM+Tsa2GHuvfUikbUC0Ayxn8c0fvN+DpIePAZGUKGOLF/UO
-   vKPINT02Ij/2zDhul5lJ37BwTPxFBNeIM6kAAhFQy5UgxDzqjB0dll7kW
-   Kc66BfTFxGuE0UixzGC8frXAKwFS7ZCqzzThsnB43Oj/7YFn8USXaB6zt
-   yqy9A3C1CR2q8ghdtIUaPHHKyzSZbHKJIRePtKLWXZKPHsTTss9OnT9jj
-   g==;
-X-CSE-ConnectionGUID: R3VZmNryRTiSxdQ2vGldmA==
-X-CSE-MsgGUID: qnZMFrhLSKKNWQljNgxr2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="84621796"
-X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
-   d="scan'208";a="84621796"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 02:31:27 -0700
-X-CSE-ConnectionGUID: C6gWwrZiQoSdjr4Qi+bgqQ==
-X-CSE-MsgGUID: rexS2BC5TTm8ipg2rVuMgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
-   d="scan'208";a="255007837"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.129])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 02:31:22 -0700
-Date: Wed, 15 Jul 2026 12:31:19 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH v5 07/16] usb: core: Move struct usb_port and related
- APIs to port.h
-Message-ID: <aldTZ3ni4Uk3eTO8@ashevche-desk.local>
-References: <20260715085348.3457359-1-wenst@chromium.org>
- <20260715085348.3457359-8-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="bRE0o0dl"
+DKIM-Signature: a=rsa-sha256; b=bRE0o0dl2Dmy34M3RSRuprEpB+PkUDpuwnXOzbdBfUzjbefpUWu4ceLsdoeHArt79qKQsdP4WLXPP09zSOpLHTp0QkNFy8fapMPd061zH1+dZonKeYYqVWgKIt4t+Ky4c+6/Ie37e/WE0h+viSc4cn07XoNb0T89acKrnxvTQztXBiz4VAiyJNIIapYrdBT9gm4z5SrAWmSi3AffRq7L0+Z6VhrmV6p2vuXD3wnMNg3B62MCuda1F43itj7/OK5tD25WcM0CktB9OI8EFeLMaArNqUMoykurJnlQ7jNAZlg6ALFSInMPQFM1cSMlzSjpx+rB2jeCcNFCrQ+Wk3WllA==; s=purelymail1; d=purelymail.com; v=1; bh=eu/DTRyAd3ctyUkGms/b9eysJ/qFhgx/TcHRNsFcw4Q=; h=Feedback-ID:Received:Received:From:To:Subject:Date;
+Feedback-ID: 21632:4007:null:purelymail
+X-Pm-Original-To: linux-usb@vger.kernel.org
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 79204510;
+          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+          Wed, 15 Jul 2026 09:57:53 +0000 (UTC)
+Received: from peko by dell.be.48ers.dk with local (Exim 4.98.2)
+	(envelope-from <peter@korsgaard.com>)
+	id 1wjwNE-00000000ArY-2ga3;
+	Wed, 15 Jul 2026 11:57:52 +0200
+From: Peter Korsgaard <peter@korsgaard.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Ming Qing <a0yami@mailbox.org>,  linux-usb@vger.kernel.org,
+  julian@jusst.de,  Pavel Hofman <pavel.hofman@ivitera.com>,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] usb: gadget: f_uac2: fix memory leak in
+ UAC2_RATE_ATTRIBUTE store
+In-Reply-To: <2026071044-goggles-preview-5a9c@gregkh> (Greg KH's message of
+	"Fri, 10 Jul 2026 14:56:59 +0200")
+References: <20260609091957.2716984-1-peter@korsgaard.com>
+	<87zf0xmpfv.fsf@dell.be.48ers.dk>
+	<6564238.328878.1781520721949@app.mailbox.org>
+	<2026071044-goggles-preview-5a9c@gregkh>
+Date: Wed, 15 Jul 2026 11:57:52 +0200
+Message-ID: <87ldbc7exr.fsf@dell.be.48ers.dk>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260715085348.3457359-8-wenst@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain
 
-On Wed, Jul 15, 2026 at 04:53:37PM +0800, Chen-Yu Tsai wrote:
-> |struct usb_port| and its matching container_of() macro should live in
-> its own port.h, matching the split we have for .c files.
-> 
-> Move them as described. Also move usb_port_is_power_on(), since in the
-> next change its |struct usb_hub *| parameter will be changed to
-> |struct usb_port *|, and becomes a non-static function that only
-> references |struct usb_port|.
-> 
-> port.h is only included from hub.h, as a subsequent patch will directly
-> use fields from |struct usb_port| in a static inline helper in hub.h.
-> The USB internal headers don't have header guards to help with this.
-> 
-> Also drop 'extern' from the header declaration of usb_port_is_power_on().
-> This is not needed in modern C.
+>>>>> "Greg" == Greg KH <gregkh@linuxfoundation.org> writes:
 
-...
+ > On Mon, Jun 15, 2026 at 06:52:01PM +0800, Ming Qing wrote:
+ >> On Sun, Jun 14, 2026 at 5:39 PM +0800, Peter Korsgaard wrote:
+ >> > FYI, I see the same issue is also fixed in the recently proposed
+ >> > "[PATCH] usb: gadget: uac: validate rate list length before storing"
+ >> > 
+ >> > https://lore.kernel.org/linux-usb/20260519143319.147494-1-a0yami@mailbox.org/
+ >> 
+ >> Yes, that includes the same buffer lifetime fix. I'm happy to split
+ >> it up if that makes it easier to pick.
+ >> 
 
-> +struct usb_port {
-> +	struct usb_device *child;
-> +	struct device dev;
-> +	struct usb_dev_state *port_owner;
-> +	struct usb_port *peer;
-> +	struct typec_connector *connector;
-> +	struct dev_pm_qos_request *req;
-> +	enum usb_port_connect_type connect_type;
-> +	enum usb_device_state state;
-> +	struct kernfs_node *state_kn;
-> +	usb_port_location_t location;
-> +	struct mutex status_lock;
-> +	u32 over_current_count;
-> +	u8 portnum;
-> +	u32 quirks;
-> +	unsigned int early_stop:1;
-> +	unsigned int ignore_event:1;
-> +	unsigned int is_superspeed:1;
-> +	unsigned int usb3_lpm_u1_permit:1;
-> +	unsigned int usb3_lpm_u2_permit:1;
-> +};
+ > Please do, I just took that one now and this series does not apply.
 
-A side note for the future development (no need to change anything here
-right now). It might be that the layout is suboptimal and `pahole` might
-propose a better one.
+With "usb: gadget: uac: validate rate list length before storing"
+applied, these two patches are afaik no longer needed as that patch also
+fixes the same leak.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Bye, Peter Korsgaard
