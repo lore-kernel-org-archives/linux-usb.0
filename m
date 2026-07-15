@@ -1,113 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAE2F434E5F
-	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 12:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120FD3D953D
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 12:18:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784117431; cv=none; b=aM/SbbnDyc4d4DctukpVJokSSFZxyAgfNc10SAsKf3nscwvcn8zZSt6kLsXYwNVK7ZKEhh9/IEnBfm/RVgJVcDKZCOVB6xGkCSL87nQFFYzGdxmCusuTcwVQEqRSY2i+hb1SLk3GTqAoqPWUw1aqqn6W0+JLHrkywKu8x0v7sho=
+	t=1784117924; cv=none; b=HBhRXT048B6Lu+8ymFeU6ub8ttw+AOn+V+Gkfs/jjQthffKgJlEpOYUL/TfEkPHD77gTVI/+wtIOddX4CprvhR2yGdruvlkrLfEua3m8F5LRNAzgJstwDI8zgqrHdnouComjrwWIo4Sou6HQ8NeUhnF+7Pip5s4SVnIFXUCtfOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784117431; c=relaxed/simple;
-	bh=PYNLDHGO6ov8H5x5qqX5IZL4rw+a3BqAyT9tBi7RhC4=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rJpvhtFgu/cyBapjOkI5B2akZgqnmeilcFvV38csPogO3Tj44LsHn1HoyU63srPlESrNQeGVmVc06FgTweTjsXazTYy6lIFhooNIg/wRl1+pexTdEFdLhgk3Z/TkOsO+CyJm8cbZEkHh9vVKmtt1DxuHdE7zPpcEI2f0kqbQHWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q84hagRT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784117924; c=relaxed/simple;
+	bh=OyKdifc9oTAwXhJYfWgEe5xHS+L45ctUVIgWY5scJtU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XF5qw4SQCm3LYfK0Ir5ihUAEFunvUuz/+xsS0bp9YxMs4FXmrfMuwWTk4Tity7k2pwYAaADXdJbQpihSst1T9wGbsZv861Edl4xgTirBr2PsKw1ZXDaHg9PCZbdQbNjAYVrzxFvUxX01Mt51OUvHGWFZKVngiGmDNQj+xu2pIKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XgkCoFFO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q84hagRT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C5861F00AC4
-	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 12:10:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XgkCoFFO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 983EE1F000E9;
+	Wed, 15 Jul 2026 12:18:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784117429;
-	bh=DMCjy06zEXDnbWum2gCuxx6nJG7pOKzGSJuwH+iOivg=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=Q84hagRT5mPR6Sg5DtuRlLw+qHQbfE0zv769VXXV9fdXQpiVBljonlJJa72YMpf7y
-	 iYZKdHDeOLn8CpItSXEjn1bhf/D4qCsfnSPEa7/PTcNChMqAhAqIRMVv6IPYnjTWNf
-	 f6fX48BpqcIK+ON+887Wu4FNF344byUQrM0B06tKW0vZac2Mc7MOJY+3WBJGIbOU+Y
-	 s+XfEqlz2dR3TJcJ/wfD5eHKBMjk+CX2g65Qv7jgY9vFpJ/lCvVHcRqKIqgqNj8AG2
-	 O0InDdM9pynSkxccpuvAM61EcsTe+9yFBOyTSh9Ps6BNkic3e+7+aR0leWcj1IPoJc
-	 1hyWYWU7Tv3Eg==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5aeae771c49so6208431e87.3
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 05:10:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RpGmfYBt8D/F5ppu4RspsZIsGsS0TDccsHRbKawSHf7+/XIC70Qq2jGmwn/DIz6hBezM0O23sP8JLw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzacSsA0gBpyd6bSoN7V+VyW9pVx0SxgYTVw27iEhVfxC8A9XZD
-	j9tBtxjYNuOx7poE0+s+K7soYsy72jvv423YNdy6Ww8V6yk9pwRira1UVBCqhpkGkL97VkSPmkD
-	ad6x7GJ/aea3lrknHAxNb2AHzfGoR/w5kffW017BJpQ==
-X-Received: by 2002:a05:6512:2507:b0:5ae:bcf8:e7d0 with SMTP id
- 2adb3069b0e04-5b15d7baf00mr578542e87.55.1784117428284; Wed, 15 Jul 2026
- 05:10:28 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 15 Jul 2026 12:10:26 +0000
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 15 Jul 2026 12:10:26 +0000
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <aldS3qTympJuVXYj@ashevche-desk.local>
+	s=k20260515; t=1784117922;
+	bh=sj1QvAl6lcs0/fAJLPzbbSVAKNVgPV7WhJueE2Ib5hE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XgkCoFFOh532ZfuTZuzc7186WUkEBGeTknGLdXrMKN1HJwT4y9TEBwWHck9FNOGqx
+	 eg6jL4hLh1FUB9MOMpMGHNd/XxEUmTvRKse7PYUKFwF87XJVBvvwQRgzZUFTghWsgU
+	 0IIt+TruUrUD9PViMRwkdMff/kgzWcghXf54XS4QCl6w77yRnnwEmUUXCd7BiMBQpA
+	 L4aKsBNM2HhncnmLg4xmWu+67S1/IfPOB+atDray81JAoGwiZ0rVrvjZwqyghbiFpC
+	 SFbl0dfcdRidy2JlBrb4iEN5lw5IisP9seHbsSBJVZuWhagBEEo8dop+CBf4oAHsKt
+	 vZccs36YGtVvQ==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1wjyZU-00000005xCg-123c;
+	Wed, 15 Jul 2026 14:18:40 +0200
+Date: Wed, 15 Jul 2026 14:18:40 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: gregkh@linuxfoundation.org, jkrshnmenon@gmail.com,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: serial: sierra: deal with insufficiently long
+ notifications
+Message-ID: <ald6oCb3Y2lLvJJ7@hovoldconsulting.com>
+References: <20260714183305.1331363-1-oneukum@suse.com>
+ <alc1KYBzqiOWUx4u@hovoldconsulting.com>
+ <a410147d-29f7-427d-a8cd-bff0397f1988@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260715085348.3457359-1-wenst@chromium.org> <20260715085348.3457359-4-wenst@chromium.org>
- <aldS3qTympJuVXYj@ashevche-desk.local>
-Date: Wed, 15 Jul 2026 12:10:26 +0000
-X-Gmail-Original-Message-ID: <CAMRc=MfHmejks83bPfe3fKzAzFySGXk2GHMA9oZdMQj0f44eTA@mail.gmail.com>
-X-Gm-Features: AUfX_mxpntQH8Qnw3cJ2vX6VfUBu9N4HciM9BCR-9eipAChzpXbQ2rXlvYEnYl8
-Message-ID: <CAMRc=MfHmejks83bPfe3fKzAzFySGXk2GHMA9oZdMQj0f44eTA@mail.gmail.com>
-Subject: Re: [PATCH v5 03/16] power: sequencing: Add pwrseq_power_is_on()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Chen-Yu Tsai <wenst@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a410147d-29f7-427d-a8cd-bff0397f1988@suse.com>
 
-On Wed, 15 Jul 2026 11:29:02 +0200, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> said:
-> On Wed, Jul 15, 2026 at 04:53:33PM +0800, Chen-Yu Tsai wrote:
->> The power sequencing consumer API already does power on state tracking
->> internally. Expose the state to consumers through pwrseq_power_is_on()
->> so that they don't have to reimplement it locally.
->
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->
-> ...
->
->> +/**
->> + * pwrseq_power_is_on() - Queries the last requested state of the power sequencer.
->> + * @desc: Descriptor referencing the power sequencer.
->> + *
->> + * This returns the last requested state of the power sequencer.
->> + *
->> + * Returns:
->> + * On success, 1 for on or desc is NULL (optional) and 0 for off;
->> + * negative error number on failure.
->
-> I would rephrase it a bit.
->
->  * On success, 1 for on and 0 for off; negative error number on failure.
->  * If desc is NULL (means optional) return 1.
->
-> And this rises a question: why 1? Shouldn't it be some "unknown" state?
-> (But since Bart Acked this, this doesn't prevent the patch to go, you
->  got my tag above.)
->
+On Wed, Jul 15, 2026 at 12:05:10PM +0200, Oliver Neukum wrote:
+> 
+> 
+> On 15.07.26 09:22, Johan Hovold wrote:
+>   
+> >>   	/* Resubmit urb so we continue receiving IRQ data */
+> >>   	if (status != -ESHUTDOWN && status != -ENOENT) {
+> >> +skip_too_short:
+> > 
+> > And please move the label before the conditional and rename it after
+> 
+> That really makes no sense. If we encounter a short packet
+> the status must be good. We wouldn't be allowed to look
+> at the packet in the first place if that weren't the case.
 
-No, this is good feedback. Maybe we should prefer an enum like so:
+It makes the code cleaner by not adding labels inside a conditional.
 
-enum pwrseq_state {
-	PWRSEQ_POWER_UNKNOWN,
-	PWRSEQ_POWER_ON,
-	PWRSEQ_POWER_OFF
-};
+And we don't care about that extra status check in the theoretical case
+that a malicious device ever sends a short message.
 
-Bart
+Johan
