@@ -1,283 +1,215 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67908757EA;
-	Wed, 15 Jul 2026 05:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02335283FCE
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 05:34:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784093602; cv=none; b=QhpMsf93G+uy/Xb+hznkU2RwGJFeBh5kNp1QYyUhSgBEVSvrGZDT1MsO1Xpj5Olxapv8DuII8jdMmg9oP7lK7jmwqRII9qNyE7XKy4EpUbjttgWTPEUFr4iFQaCa362n4YkggwA2ouIPBSDNMdlU9+3tiMKWZKsMfN33R8baKx4=
+	t=1784093665; cv=none; b=YCDNYzAXSVFqReVy+8CKVyzqKgNYp5OWeQCzpt7BfbQ+LPdRpKXS3j5E40P3Q5ZpMLqt7XOsEihE9/uJCaW4uJkIkAIc1O2d4SME+JNPB2AvletEd4NURDQXaQY0Rn8LVE/OCW2OwoZbgbvQD2NHszxMb6BeTNkqDjYfGXEIjGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784093602; c=relaxed/simple;
-	bh=XYgakFKwsRTNmmzAVAmkVmR0AIruII9xqKBuP/xoqMs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mj3X3ca4lRdExbZ8KT8gHjRH7H7BvG8UIyJWQWQd/ZKmXqJQ/OKj5bkz/6syqxLwtMj+KO4wGsW94cPm6a7IHkWbQfJ2K6mUZQqOMrkbf1yOLVB6LihRISZhxj2PbwPpcCSakVT5rm1raBzt3a1fYrR2HQGAb9oHb0a5kXlCuuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bKfISOvW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784093665; c=relaxed/simple;
+	bh=zxczRmFlgL80bpV/DYtMF+mlbt4jOVvndkOtJVGbW94=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EdN7l3llSxsH9eCXmFjoSsFZTDl/yWD4Sy1WLF1SYTo1HaY9PMSJoVwbzbrMnxRJ93SsQ52lN0yYk+Zb4DjWEFs6blFVqyuekAw+Ai8ONX4WlvU6gWadZp6zSVYK5jD3HnxSLLRomyKsrvOGZZJz4glovPj0vjbeCmO93XvZ94I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F4SsJSBa; arc=none smtp.client-ip=209.85.219.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bKfISOvW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85F5C1F000E9;
-	Wed, 15 Jul 2026 05:33:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784093601;
-	bh=ub1dSpkN7bCGP5dpQmCwxrc51eS+OQh0ansOg9qf4KQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bKfISOvW60NwonJtPahJyj1/ExU1nq+pM1YOCfIJ+CyDZ425UOZMpsUjsbjYOCkvK
-	 wp3yf4jUuSrqwMm6NcxAkhU8AerAlscNVN7k0UjvmDK6TitqVo3peeN4C0XtUfuIi+
-	 cgwP77mRYngypVHVkDd2a8pgXw8BqTetZxnwtRd6TUWQVW0rWeAQdYGkH4z7m4KlvM
-	 Vf0/QbkXalkMWFT4Of0FFHx/XxIDkVw2NMyS/y5ZT8ZgsUwYznyNx3icEI6YPc57jW
-	 QNcws48lXstLBWPYHzM1SYIc38B1G4PZR5CXilI3DnrC3eLHmLHkAwRvdviJxX1apJ
-	 OJqL83VanFxGQ==
-Date: Tue, 14 Jul 2026 22:33:19 -0700
-From: Peter Chen <peter.chen@kernel.org>
-To: Elson Serrao <elson.serrao@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/9] usb: misc: qcom_eud: add per-path High-Speed PHY
- control
-Message-ID: <alcbn1qCJa7hjeug@hu-petche-lv.qualcomm.com>
-References: <20260501170635.2641748-1-elson.serrao@oss.qualcomm.com>
- <20260501170635.2641748-4-elson.serrao@oss.qualcomm.com>
- <aktKpIXVnJeydgCE@hu-petche-lv.qualcomm.com>
- <4ffd0645-dc50-4157-b63b-5e93fd7520a7@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F4SsJSBa"
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8efef6533aaso17492996d6.0
+        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 22:34:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784093662; x=1784698462; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qjHH+FMkakpyFDgNWCbAnIusGPkRsb+vc761IxBrtvA=;
+        b=F4SsJSBawelW6PWaH7d+OmZeNohJb4QWM2PfipiFmcx5DlRJKT2F5BvKLoSGud9ZKP
+         P4alw6j8JzdHhucD7ox9U6lCNC3KM9/EBLdgz3zp2T561Qg2icJq3fnqSbkqp206FYuM
+         EepdhopCfByyc53qzLdM0f+Pwk1Jmh2YyiaVLx3Gwf/9bc4GqfAtmk2Q2CecVTAVcaDe
+         g9yIs39vk7aErHHGNSumnhSwsnl8O2jJZsNXXT3VkDCbFEekTfewh9dI2kw0A5TenR45
+         x2R+gOrsUnlbaoTIh/A/WulBR4/AzEpGyl87TB+qtYKK89aAYs9+INRBKzbHAuPBi5qc
+         e3gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784093662; x=1784698462;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qjHH+FMkakpyFDgNWCbAnIusGPkRsb+vc761IxBrtvA=;
+        b=q/wDcKSHKnMci6kQ/IvZzqqJUx9IkuDSel9H3iVgm+BuSGelIBRLjdNUCTVQd4/HvI
+         hTwdZdaOWUsivGzcTVxEU/d/vp0fQ56LzFBsgSi2zZB6nSIBZ2Iy5ZeLUKZxp8kNNM6W
+         NP9IqCt4zC6yTDW1102wsQR22gRxZIVT6kfeWWuCJdlDNSUM+Tn1zh46gmW0LqwRKDEF
+         k5zQycxotHg9y6Lnx9Or2KoJL1AqtJJow5sjObUQ/YzPJ9aWrqhU1rRCp5cz8AVTeUhn
+         FCbJYpXOfCAq0xMp8quHb4kUho3x7stgrFSwzNUh515Oq809JYYD+1cXBUmytmteg0Vd
+         9Osg==
+X-Forwarded-Encrypted: i=1; AHgh+RpnykcUFJSBLf0vIOpbEiFTYYsufHxdRwsD5DwLeQhVcxVv25wkVqUboG0aDyLKk2e7VYakbQkcy+M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+AKuNhszI1JUGUxgkFB92kgT6cf5tWkmF2qeGetS+rhzhsysy
+	jdSSysWGoedll3HSmSGvLM1vyJ0COAHjR1hNFMPukUVJ46crjEXWce5+
+X-Gm-Gg: AfdE7cnSBHkuHCtuthdP2X+16Qgks6TUPItJWxSn2b2r8arMXgtbHLPlwX7bFCs27pQ
+	gfdmATIjkfXyhFB1ZG2l/SC9MUStVYTz6u4J7QlCEGV4F/EYadPCXO98fs05/0Ydgq4FD//cBPo
+	VzYaCa/8oauBoEuf9cs9519/hJCkkpwU5ccKHb+F6vgUfX4huTE3o3K9eceCISpdnT+YL0wPxX6
+	HaZEZWxjzh2J3I7zcKhyDkSLJ5HP/ArQ95nT1maa2en7Lvc+Fqe/ZxSbP+nXIvvRLt1IjGVp91k
+	O0YbfjJBWsmRSDWWYKEr0OSL54URzbOcmYnDsKsdcApTd1TtKwQr4Y2v0PfPjeF5GnVq4qhlPgA
+	PJ2USFr8acx00jwUsA8+QEsQEPHijm2tTxsARpTEiUGMiihQ+fIsCy4379w7uFJIp/CUvaMVf9x
+	Drf22pss1yLAABaaT0A1K/Ei9oKPNgePRuGuRZLe4VL1xBmlJIW9LTLjA=
+X-Received: by 2002:a05:6214:3992:b0:8ee:a2f3:af32 with SMTP id 6a1803df08f44-90401578bb0mr198230206d6.38.1784093661755;
+        Tue, 14 Jul 2026 22:34:21 -0700 (PDT)
+Received: from [198.18.0.1] ([48.45.163.146])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ffd82e8ffdsm190584646d6.37.2026.07.14.22.34.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Jul 2026 22:34:20 -0700 (PDT)
+Message-ID: <15e5b802-b43a-44c5-97b6-a599f28bdee4@gmail.com>
+Date: Wed, 15 Jul 2026 01:34:13 -0400
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4ffd0645-dc50-4157-b63b-5e93fd7520a7@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: gadget: dummy_hcd: prevent fifo_req reuse during
+ giveback
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+ bigeasy@linutronix.de, eeodqql09@gmail.com, kees@kernel.org,
+ surban@surban.net, linux-kernel@vger.kernel.org,
+ syzkaller-bugs@googlegroups.com, stable@vger.kernel.org
+References: <20260714064829.172098-1-wangjinchao600@gmail.com>
+ <c7de3923-1f68-46f9-986e-33899dce112c@rowland.harvard.edu>
+Content-Language: en-US
+From: Jinchao Wang <wangjinchao600@gmail.com>
+In-Reply-To: <c7de3923-1f68-46f9-986e-33899dce112c@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 26-07-14 17:32:34, Elson Serrao wrote:
+On 7/14/2026 5:13 PM, Alan Stern wrote:
+> On Tue, Jul 14, 2026 at 02:48:29PM +0800, Jinchao Wang wrote:
+>> dummy_hcd embeds a single shared usb_request (dum->fifo_req) that the
+>> "emulated single-request FIFO" fast-path in dummy_queue() reuses for
+>> small IN transfers: it copies the caller's request into it
+>> (req->req = *_req) and queues it, treating list_empty(&fifo_req.queue)
+>> as "the slot is free".
+>>
+>> The completion side (dummy_timer/transfer/nuke/dummy_dequeue) follows
+>> the standard pattern: list_del_init(&req->queue) unlinks the request,
+>> then the lock is dropped and usb_gadget_giveback_request() invokes
+>> req->complete().  But list_del_init() makes fifo_req.queue look empty
+>> *before* the completion callback returns, so a concurrent dummy_queue()
+>> on another CPU sees the slot as free, reuses fifo_req and runs
+>> req->req = *_req -- overwriting req->complete while dummy_timer is
+>> mid-calling it.  The indirect call then jumps to a clobbered pointer,
+>> causing a general protection fault / page fault in dummy_timer
+>> (syzkaller extid faf3a6cf579fc65591ca).  The clobbering write is an
+>> in-bounds memcpy on a live shared object, so KASAN cannot flag it.
+>>
+>> Add a fifo_req_busy bit, set across the lockless giveback window via a
+>> dummy_giveback() helper used at all four gadget-request giveback sites,
+>> and require !fifo_req_busy in the FIFO fast-path guard so the shared
+>> slot cannot be reused until its completion callback has returned.
+>>
+>> Reported-by: syzbot+faf3a6cf579fc65591ca@syzkaller.appspotmail.com
+>> Closes: https://syzkaller.appspot.com/bug?extid=faf3a6cf579fc65591ca
+>> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Jinchao Wang <wangjinchao600@gmail.com>
 > 
-> 
-> On 7/5/2026 11:26 PM, Peter Chen wrote:
-> > On 26-05-01 10:06:29, Elson Serrao wrote:
-> >> EUD hardware can support multiple High-Speed USB paths, each routed
-> >> through its own PHY. The active path is selected in hardware via the
-> >> EUD_PORT_SEL register. As a High-Speed hub, EUD requires access to
-> >> the High-Speed PHY associated with the active path. To support this
-> >> multi-path capability, the driver must manage PHY resources on a
-> >> per-path basis, ensuring that the PHY for the currently selected
-> >> path is properly initialized and powered.
-> >>
-> >> This patch restructures the driver to implement per-path PHY management.
-> >> The driver now powers the appropriate PHY based on the selected and
-> >> enabled UTMI path, ensuring correct operation when EUD is enabled.
-> >>
-> >> Historically, EUD appeared to work on single-path systems because the
-> >> USB controller kept the PHY initialized. However, EUD is designed to
-> >> operate independently of the USB controller and therefore requires
-> >> explicit PHY control for proper operation.
-> 
-> [...]
-> 
-> >> +};
-> >> +
-> >>  struct eud_chip {
-> >>  	struct device			*dev;
-> >>  	struct usb_role_switch		*role_sw;
-> >>  	void __iomem			*base;
-> >> +	struct eud_path			*paths[EUD_MAX_PORTS];
-> >>  	phys_addr_t			mode_mgr;
-> >>  	unsigned int			int_status;
-> >>  	int				irq;
-> >>  	bool				enabled;
-> >>  	bool				usb_attached;
-> >> +	bool				phy_enabled;
-> > 
-> > There is already a 'enabled' flag, could be leveraged or still need
-> > a new 'phy_enabled' flag?
-> > 
-> enabled reflects the user's sysfs intent, while phy_enabled tracks the
-> actual PHY power state. These need to stay independent because a later
-> patch in this series ("add host mode coordination") disables/re-enables
-> the PHY on host-mode role transitions without touching chip->enabled, so
-> as to preserve the user's original sysfs setting across the transition.
-> 
+> Wow!  I'm impressed.  How did you figure this out?
 
-Thanks for explaining, I have no other questions.
+With a hardware watchpoint: I armed one on the victim field
+(req->complete, at arg2+56 of usb_gadget_giveback_request) only while
+usb_gadget_giveback_request() was running, and it caught the writing
+memcpy with a full stack - usb_ep_queue <- raw_process_ep_io <-
+raw_ioctl - on the same request that crashed an instant later.
 
-Reviewed-by: Peter Chen <peter.chen@kernel.org>
+The watchpoint setup came from a small tool I am working on; I posted
+it as an RFC in case it is useful to others:
 
-Peter
-> Thanks,
-> Elson
+https://lore.kernel.org/all/20260714182243.10687-1-wangjinchao600@gmail.com/
+
 > 
-> u8				port_idx;
-> >>  };
-> >>  
-> >> +static int eud_phy_enable(struct eud_chip *chip)
-> >> +{
-> >> +	struct phy *phy;
-> >> +	int ret;
-> >> +
-> >> +	if (chip->phy_enabled)
-> >> +		return 0;
-> >> +
-> >> +	phy = chip->paths[chip->port_idx]->phy;
-> >> +
-> >> +	ret = phy_init(phy);
-> >> +	if (ret) {
-> >> +		dev_err(chip->dev, "Failed to initialize USB2 PHY for port %u: %d\n",
-> >> +			chip->port_idx, ret);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	ret = phy_power_on(phy);
-> >> +	if (ret) {
-> >> +		dev_err(chip->dev, "Failed to power on USB2 PHY for port %u: %d\n",
-> >> +			chip->port_idx, ret);
-> >> +		phy_exit(phy);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >> +	chip->phy_enabled = true;
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static void eud_phy_disable(struct eud_chip *chip)
-> >> +{
-> >> +	struct phy *phy;
-> >> +
-> >> +	if (!chip->phy_enabled)
-> >> +		return;
-> >> +
-> >> +	phy = chip->paths[chip->port_idx]->phy;
-> >> +
-> >> +	phy_power_off(phy);
-> >> +	phy_exit(phy);
-> >> +	chip->phy_enabled = false;
-> >> +}
-> >> +
-> >>  static int enable_eud(struct eud_chip *priv)
-> >>  {
-> >>  	int ret;
-> >>  
-> >> -	ret = qcom_scm_io_writel(priv->mode_mgr + EUD_REG_EUD_EN2, 1);
-> >> +	ret = eud_phy_enable(priv);
-> >>  	if (ret)
-> >>  		return ret;
-> >>  
-> >> +	ret = qcom_scm_io_writel(priv->mode_mgr + EUD_REG_EUD_EN2, 1);
-> >> +	if (ret) {
-> >> +		eud_phy_disable(priv);
-> >> +		return ret;
-> >> +	}
-> >> +
-> >>  	writel(EUD_ENABLE, priv->base + EUD_REG_CSR_EUD_EN);
-> >>  	writel(EUD_INT_VBUS | EUD_INT_SAFE_MODE,
-> >>  			priv->base + EUD_REG_INT1_EN_MASK);
-> >> @@ -75,6 +135,8 @@ static int disable_eud(struct eud_chip *priv)
-> >>  		return ret;
-> >>  
-> >>  	writel(0, priv->base + EUD_REG_CSR_EUD_EN);
-> >> +	eud_phy_disable(priv);
-> >> +
-> >>  	return 0;
-> >>  }
-> >>  
-> >> @@ -130,6 +192,12 @@ static ssize_t port_store(struct device *dev, struct device_attribute *attr,
-> >>  	if (port < 0)
-> >>  		return port;
-> >>  
-> >> +	/* Check if the corresponding path is available */
-> >> +	if (!chip->paths[port]) {
-> >> +		dev_err(chip->dev, "EUD not supported on selected port\n");
-> >> +		return -EOPNOTSUPP;
-> >> +	}
-> >> +
-> >>  	/* Port selection must be done before enabling EUD */
-> >>  	if (chip->enabled) {
-> >>  		dev_err(chip->dev, "Cannot change port while EUD is enabled\n");
-> >> @@ -229,8 +297,54 @@ static void eud_role_switch_release(void *data)
-> >>  	usb_role_switch_put(chip->role_sw);
-> >>  }
-> >>  
-> >> +static int eud_init_path(struct eud_chip *chip, struct device_node *np)
-> >> +{
-> >> +	struct device_node *controller_node;
-> >> +	struct eud_path *path;
-> >> +	u32 path_num;
-> >> +	int ret;
-> >> +
-> >> +	ret = of_property_read_u32(np, "reg", &path_num);
-> >> +	if (ret) {
-> >> +		/* Legacy DT uses 'ports' node without 'reg' property; treat as path 0 */
-> >> +		if (of_node_name_eq(np, "ports"))
-> >> +			path_num = 0;
-> >> +		else
-> >> +			return dev_err_probe(chip->dev, ret, "unexpected child node '%s'\n",
-> >> +					     np->name);
-> >> +	}
-> >> +
-> >> +	if (path_num >= EUD_MAX_PORTS)
-> >> +		return dev_err_probe(chip->dev, -EINVAL, "invalid path number: %u (max %d)\n",
-> >> +				     path_num, EUD_MAX_PORTS - 1);
-> >> +
-> >> +	path = devm_kzalloc(chip->dev, sizeof(*path), GFP_KERNEL);
-> >> +	if (!path)
-> >> +		return -ENOMEM;
-> >> +
-> >> +	path->chip = chip;
-> >> +	path->num = path_num;
-> >> +
-> >> +	controller_node = of_graph_get_remote_node(np, 0, -1);
-> >> +	if (!controller_node)
-> >> +		return dev_err_probe(chip->dev, -ENODEV,
-> >> +				     "failed to get controller node for path %u\n", path_num);
-> >> +
-> >> +	path->phy = devm_of_phy_get_by_index(chip->dev, controller_node, 0);
-> >> +	of_node_put(controller_node);
-> >> +
-> >> +	if (IS_ERR(path->phy))
-> >> +		return dev_err_probe(chip->dev, PTR_ERR(path->phy),
-> >> +				     "failed to get PHY for path %d\n", path_num);
-> >> +
-> >> +	chip->paths[path_num] = path;
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >>  static int eud_probe(struct platform_device *pdev)
-> >>  {
-> >> +	struct device_node *np = pdev->dev.of_node;
-> >>  	struct eud_chip *chip;
-> >>  	struct resource *res;
-> >>  	int ret;
-> >> @@ -241,6 +355,16 @@ static int eud_probe(struct platform_device *pdev)
-> >>  
-> >>  	chip->dev = &pdev->dev;
-> >>  
-> >> +	for_each_child_of_node_scoped(np, child) {
-> >> +		ret = eud_init_path(chip, child);
-> >> +		if (ret)
-> >> +			return ret;
-> >> +	}
-> >> +
-> >> +	/* Primary path is mandatory. Secondary is optional */
-> >> +	if (!chip->paths[0])
-> >> +		return dev_err_probe(chip->dev, -ENODEV, "primary path not found\n");
-> >> +
-> >>  	chip->role_sw = usb_role_switch_get(&pdev->dev);
-> >>  	if (IS_ERR(chip->role_sw))
-> >>  		return dev_err_probe(chip->dev, PTR_ERR(chip->role_sw),
-> >> -- 
-> >> 2.34.1
-> >>
-> >>
-> > 
+>> ---
+>>  drivers/usb/gadget/udc/dummy_hcd.c | 40 +++++++++++++++++++++---------
+>>  1 file changed, 28 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
+>> index f47903461ed5..fce3c3ba7a63 100644
+>> --- a/drivers/usb/gadget/udc/dummy_hcd.c
+>> +++ b/drivers/usb/gadget/udc/dummy_hcd.c
+>> @@ -278,6 +278,7 @@ struct dummy {
+>>  	unsigned			ints_enabled:1;
+>>  	unsigned			udc_suspended:1;
+>>  	unsigned			pullup:1;
+>> +	unsigned			fifo_req_busy:1;
+>>  
+>>  	/*
+>>  	 * HOST side support
+>> @@ -330,6 +331,28 @@ static inline struct dummy *gadget_dev_to_dummy(struct device *dev)
+>>  /* DEVICE/GADGET SIDE UTILITY ROUTINES */
+>>  
+>>  /* called with spinlock held */
 > 
+> That comment line is supposed to come immediately before nuke().  Your 
+> new code got inserted below the comment instead of above it.
 
--- 
+Right, will fix in v2.
+
+> 
+>> +/*
+>> + * Give back a gadget request with dum->lock dropped around the callback.
+>> + * If @req is the shared fifo_req, mark it busy across the callback so
+>> + * dummy_queue()'s FIFO fast-path (keyed on list_empty(&fifo_req.queue))
+>> + * cannot reuse it mid-giveback: list_del_init() already made the queue look
+>> + * empty, but the request is in flight until the completion callback returns.
+>> + * Caller holds dum->lock and has already done list_del_init() + status.
+>> + */
+>> +static void dummy_giveback(struct dummy *dum, struct usb_ep *_ep,
+>> +			   struct dummy_request *req)
+>> +{
+>> +	bool fifo = req == &dum->fifo_req;
+>> +
+>> +	if (fifo)
+>> +		dum->fifo_req_busy = 1;
+> 
+> Don't set the new flag here...
+> 
+>> +	spin_unlock(&dum->lock);
+>> +	usb_gadget_giveback_request(_ep, &req->req);
+>> +	spin_lock(&dum->lock);
+>> +	if (fifo)
+>> +		dum->fifo_req_busy = 0;
+>> +}
+>> +
+>>  static void nuke(struct dummy *dum, struct dummy_ep *ep)
+>>  {
+>>  	while (!list_empty(&ep->queue)) {
+> 
+>> @@ -729,6 +750,7 @@ static int dummy_queue(struct usb_ep *_ep, struct usb_request *_req,
+>>  	/* implement an emulated single-request FIFO */
+>>  	if (ep->desc && (ep->desc->bEndpointAddress & USB_DIR_IN) &&
+>>  			list_empty(&dum->fifo_req.queue) &&
+>> +			!dum->fifo_req_busy &&
+>>  			list_empty(&ep->queue) &&
+>>  			_req->length <= FIFO_SIZE) {
+>>  		req = &dum->fifo_req;
+> 
+> Set it here instead, so the flag is set during the entire time that 
+> dum->fifo_req is in use.  As a bonus, you can then remove the 
+> list_empty(&dum->fifo_req.queue) test above.
+
+Indeed better - the flag then covers the whole lifetime of the shared
+request instead of just the giveback window. Will do in v2, with the
+list_empty() test removed.
+ 
+
+> Otherwise this seems fine.
+
+Thanks for the review, v2 shortly.
 
 Thanks,
-Peter Chen
+Jinchao
+
+> 
+> Alan Stern
+
