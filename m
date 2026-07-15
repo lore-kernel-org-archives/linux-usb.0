@@ -1,189 +1,136 @@
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt [193.136.128.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8BD2EEE6C;
-	Wed, 15 Jul 2026 13:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.136.128.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D82335E1B1
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 14:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784122756; cv=none; b=bfdfKwpwiKGSPW7DPza5gm8NMpUs77PCnRM7eJSfqWBMHmNkX5QAkCOZh2TvRRU48B8LG/7rLLIN9clP0rZUpNQyqbGeZaAIipyJdgqgQ0ExXMC6nhQ3u7jxRcFvTzX0LEly07F2ZGBShArvw9ASa1XB7vnuoAca4k4chOyw+JQ=
+	t=1784124538; cv=none; b=a/+TRr/Ks4Hajn9f9wr7keAEMhHhyvSIvl1H6CuHqKdASRAMEM076ABcjMqYqGfuXb0RJkIvhRVOD+PsK0q3JUgkszr3EMNsQCjFRh9SGE7kUPGzIylyAS2woYjAoziUlia1QKdTSU3h4jdGjFFPYus39v0tyCwz7hP+/yiz6mI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784122756; c=relaxed/simple;
-	bh=FnjkN4wrlyrE9ZAdS7T6K0qnvOIgeOrDIqoKdywNYRA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=boeQAduh51ZpvlOe47HW0yeGYkxrFTt9YPfjUAh1YPvzVCclIW7uCQDTWlw1wuIUhmg970biEEdg0sBzNEcQf6hGARDDJZdvfpsDOdQWyBkmF1YXVxszVFYqOeI7XfXb04G6sdFi2OPqWohEEZ813xGgFBm4slwVr0BSa71ED/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ist.utl.pt; spf=pass smtp.mailfrom=ist.utl.pt; dkim=pass (1024-bit key) header.d=ist.utl.pt header.i=@ist.utl.pt header.b=EWL2DI41; arc=none smtp.client-ip=193.136.128.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ist.utl.pt
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ist.utl.pt
+	s=arc-20240116; t=1784124538; c=relaxed/simple;
+	bh=hSrIL8+lNY/4KD5mtJFwazvIfq5l4ujPKmcJYdtksXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lPVV52w4BGSJbk6lfFn76fgq87sLOrB+NH5wqVBScRAcQGJA+1zQJYaxGQGMUVQLXWpEYobHO74cE+07BAtJYhoXHCrLoTdkIEX6lD5hflHcxayrDIr01yLvn+4s6Dh2ZNpDFSAeg9wZbVztJq+IHmUxWB1PRQ/W9TDwh8LgvlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=TWRs5eW2; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ist.utl.pt header.i=@ist.utl.pt header.b="EWL2DI41"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 880DC63ED9DF;
-	Wed, 15 Jul 2026 14:39:07 +0100 (WEST)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id ZHSoy87quYK9; Wed, 15 Jul 2026 14:39:05 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
-	by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 2E28D63AABBB;
-	Wed, 15 Jul 2026 14:39:05 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ist.utl.pt; s=mail;
-	t=1784122745;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=t/AvaP22Dr1pHkIy684z2z9HLfMCh35QW4IURtA2t5Y=;
-	b=EWL2DI41rEy4U9eRemo1ghygHrvneDsejQe5RGtS+ETiDn58oAsrwwgRr6ox8xhrpRvs5X
-	yIHIjVji9ZHdMK8rVB70yDqazRizqrPJ68XZzkrNdYeolcwDGbJ/YAyDpGmpnx5IZ29ci6
-	T1l3ZCOmtDu319eYby53WAvqxGPSAwU=
-Received: from jcmfernandes-desktop.tail184b8c.ts.net (unknown [IPv6:2a01:14:8051:c010:9cf8:681b:7723:92e4])
-	(Authenticated sender: ist157885)
-	by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id BAE383601AF;
-	Wed, 15 Jul 2026 14:39:04 +0100 (WEST)
-From: =?UTF-8?q?Jo=C3=A3o=20Moreira=20Fernandes?= <joao.fernandes@ist.utl.pt>
-To: Valentina Manea <valentina.manea.m@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hongren Zheng <i@zenithal.me>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Jo=C3=A3o=20Moreira=20Fernandes?= <joao.fernandes@ist.utl.pt>
-Subject: [PATCH] usbip: flush the event handler in usbip_stop_eh() to fix use-after-free
-Date: Wed, 15 Jul 2026 14:38:55 +0100
-Message-ID: <20260715133855.2312018-1-joao.fernandes@ist.utl.pt>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="TWRs5eW2"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-92e5d50b0dbso151957285a.1
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 07:08:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1784124534; x=1784729334; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=fm9zVnT/HaOn6qwGl6UkfHJH+1hbjrQLInoKlkRDo7M=;
+        b=TWRs5eW22LpoO4Ev6HGe6pAce4O5QalJfXeLmtxYIwHoiEqmzz765LByEnKEhzuPGe
+         oMYIL+Y0elAmsH8VE664pjSBWjt3sNnQSXoAtJNiH+7ix9FmqGxu1GDT8yGRPYRtKW6h
+         hcckazwLfr3+yP7tHwBq+CwGp8s/9Z+Hr5D6PmwCqg7Mb08GwGGRZ3eEJdejGH5OS1Tx
+         s+D51e93adtA00ZHnV8SXWsYMm+6kpOHhANJNqZPSqnBloar60wm1wcxHcqaNMw84YRi
+         XFH8a38RufIyv/Qe+Uk5CtCABtL4V9ljCyRX1MLZMHZe3fwyQL4grgbdDaIHHqHPuRPy
+         nBMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784124534; x=1784729334;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fm9zVnT/HaOn6qwGl6UkfHJH+1hbjrQLInoKlkRDo7M=;
+        b=JHVNR20mYqHtpBxRDyqaJFzLSb+G8fE2f1xcV+uppwyelEUEGAC/h/5B4G9Cf1gOkb
+         BtnaoT7QRUrkhJnuT3tUVi5xlTzGl6tdAZG3IIU5nwPDSvTbnVmoddBGmiHUbyV9CQA+
+         iYTgOIPyBetxZTanSSIqQLDwGQ8DNu0pDV8zE5uDezENas9ouIhGU+9XbTN6HP665NAv
+         DaSd/22hZSzcEItrQEq4z4WRlOV1jEcFsG8/1rv6IKhm2+pA6zFDsSrRPNWggImt8VUp
+         hgHmr75ZL2TXT+AFYFQm55n3F+GNQHvBGYU1s26dImlK0RYO3C6lXo98iaetQFS9dB3L
+         AGNA==
+X-Forwarded-Encrypted: i=1; AHgh+RqLkzQFiRwSgXtT+E55BmIfTh/2xGdpS7mp+LGCqkui7OBNYucXDT7qDitJ12pooDslEWvLP5aqShY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYtcWHtlFtwS3F2WqtOBZeaRPfvDX1d2Y6vXmBZYCLTwu4NmPH
+	nTlXNoVLQL4IjItw5Z+WbagxMFEydpJapBW4bBdWIfFKzv06u/ViL9rJTs6VdkJ8zQ==
+X-Gm-Gg: AfdE7ckSTsUFWIKWo0IMfp0D6XaP3BTT2oDd/RcV/cWTN+DicNNDIgFjhwxOWgolKSs
+	KSlSa4icruCU7tqYgpQtW+lJOVhiNroKQ//No2zSn1r9Sdqj0a9cOWHtdThAUMNtnz2/x/R9FZs
+	NH28UYh7G1boQi4dwveqSKG6h9jeXf7gHuhI1JWlpbPXZSC7aWESUZe42VsbBILQB9IC31fIRk0
+	SSvD4TyOrFBn2lYGcGYLyvg3JMhh3bYBpyf4o5b9uXYixRRnzviCtuNuCCCjCG+zCUr1AO64D7J
+	fZ8/z9sO6Zp8PgSD7H1iJoZg5crjh+3ZKwsSGBQF6Ap4oy7JUcw6rvVEQF5j4bN1Bc8cCnKAi44
+	8nQimPmYNhn3m0bMTrXp03fD2a1g4pB3YZwdp6cEOupyFAx3xAgxeE21jmooWOLDFheACQTJnDy
+	gqenV9QbqFC5yFfFaG4K6THiszjv1oH9g=
+X-Received: by 2002:a05:620a:ac05:b0:930:9fdd:bb63 with SMTP id af79cd13be357-9309fddd6camr50852985a.51.1784124534003;
+        Wed, 15 Jul 2026 07:08:54 -0700 (PDT)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-92ee5d30f38sm1668042485a.34.2026.07.15.07.08.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jul 2026 07:08:53 -0700 (PDT)
+Date: Wed, 15 Jul 2026 10:08:40 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Huang Wei <huangwei@kylinos.cn>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
+	Ai Chao <aichao@kylinos.cn>
+Subject: Re: [PATCH] USB: storage: add NO_ATA_1X quirk for Longmai USB Key
+Message-ID: <8e249b49-1fcb-49ec-95b1-c569b0b90437@rowland.harvard.edu>
+References: <20260715084530.2375253-1-huangwei@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260715084530.2375253-1-huangwei@kylinos.cn>
 
-usbip_stop_eh() is used by the stub, vhci and vudc sides to wait for the
-event handler to finish with a usbip_device before the caller tears it
-down.  It waits only on the event bitmask:
+On Wed, Jul 15, 2026 at 04:45:30PM +0800, Huang Wei wrote:
+> The Longmai Technologies USB Key (0x04b4:0xb708) advertises itself as a
+> SCSI/Bulk-only mass storage device but does not correctly handle ATA
+> pass-through commands. When such a command (ATA_12 or ATA_16) is sent to
+> the device it fails to respond and the transfer eventually times out,
+> leaving the device unusable.
+> 
+> Add an unusual_devs entry for this device that sets the US_FL_NO_ATA_1X
+> flag, so usb-storage short-circuits ATA pass-through commands and returns
+> INVALID COMMAND OPERATION CODE (0x20 0x05 0x24 0x00) instead of forwarding
+> them to the device.
+> 
+> Information about the device in /sys/kernel/debug/usb/devices:
+> 
+> T:  Bus=02 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#= 12 Spd=480  MxCh= 0
+> D:  Ver= 2.00 Cls=00(>ifc ) Sub=06 Prot=50 MxPS=64 #Cfgs=  1
+> P:  Vendor=04b4 ProdID=b708 Rev= 1.00
+> S:  Manufacturer=Longmai Technologies
+> S:  Product=USB Key
+> C:* #Ifs= 1 Cfg#= 1 Atr=80 MxPwr=100mA
+> I:* If#= 0 Alt= 0 #EPs= 2 Cls=08(stor.) Sub=06 Prot=50 Driver=usb-storage
+> E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> 
+> Reported-by: Ai Chao <aichao@kylinos.cn>
+> Signed-off-by: Huang Wei <huangwei@kylinos.cn>
+> ---
+>  drivers/usb/storage/unusual_devs.h | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
+> index cb03d3615614..ef77ab6fd42f 100644
+> --- a/drivers/usb/storage/unusual_devs.h
+> +++ b/drivers/usb/storage/unusual_devs.h
+> @@ -2379,6 +2379,13 @@ UNUSUAL_DEV( 0xed10, 0x7636, 0x0001, 0x0001,
+>  		"Digital MP3 Audio Player",
+>  		USB_SC_DEVICE, USB_PR_DEVICE, NULL, US_FL_NOT_LOCKABLE ),
+>  
+> +/* Reported by Ai Chao <aichao@kylinos.cn> */
+> +UNUSUAL_DEV(  0x04b4, 0xb708, 0x0000, 0xffff,
+> +		"Longmai Technologies",
+> +		"USB Key",
+> +		USB_SC_SCSI, USB_PR_BULK, NULL,
+> +		US_FL_NO_ATA_1X),
+> +
 
-	wait_event_interruptible(ud->eh_waitq, !(ud->event & ~USBIP_EH_BYE));
+According to the comments at the start of the file, entries should be 
+sorted by VendorID, then ProductID.
 
-but event_handler() clears those bits with unset_event() *before* its
-final dereferences of ud:
+Alan Stern
 
-	if (ud->event & USBIP_EH_SHUTDOWN) {
-		ud->eh_ops.shutdown(ud);
-		unset_event(ud, USBIP_EH_SHUTDOWN);   /* wait may now return */
-	}
-	...
-	mutex_unlock(&ud->sysfs_lock);            /* still touches ud */
-	wake_up(&ud->eh_waitq);                   /* still touches ud */
-
-Once the last non-BYE bit is cleared the waiter can wake and the caller
-proceeds to free ud.  For the stub side, stub_disconnect() ->
-shutdown_busid() calls usbip_stop_eh() and then stub_device_free() frees
-the stub_device that embeds ud, while event_handler() is still executing
-mutex_unlock(&ud->sysfs_lock) and wake_up(&ud->eh_waitq), and may still
-mutex_lock(&ud->sysfs_lock) on a second queued event for the same ud.
-The result is a use-after-free in the usbip_event workqueue.
-
-It is readily triggered by a reverse/exported-device teardown that
-unbinds usbip-host while the importer is still attached: the socket EOF
-queues SDEV_EVENT_ERROR_TCP (SHUTDOWN|RESET) from the stub_rx thread at
-the same moment stub_disconnect() queues SDEV_EVENT_REMOVED
-(SHUTDOWN|BYE), so the handler re-runs shutdown/reset on ud in the exact
-window where it is being freed.
-
-Reproduced under KASAN on v6.12.95 (usbip built as vhci_hcd importer and
-usbip-host exporter on two separate VMs).  The freed object is the
-stub_device, freed by the unbind write and then read by the event
-workqueue:
-
-  BUG: KASAN: slab-use-after-free in event_handler+0x2ba/0x3a0
-  Read of size 8 at addr ffff888005cc6058 by task kworker/u8:5/63
-  Workqueue: usbip_event event_handler
-  Call Trace:
-   event_handler+0x2ba/0x3a0
-   process_one_work+0x5c2/0xfd0
-   worker_thread+0x49d/0xb00
-   kthread+0x246/0x300
-
-  Allocated by task 1657:
-   stub_probe+0xf0/0xb00
-   usb_probe_device+0xaa/0x2e0
-   bind_store+0xce/0x140
-   vfs_write+0x87c/0xd70
-
-  Freed by task 1660:
-   kfree+0x1a4/0x3a0
-   stub_disconnect+0x21e/0x340
-   usb_unbind_device+0x6b/0x170
-   device_release_driver_internal+0x384/0x550
-   unbind_store+0xdb/0xf0
-   vfs_write+0x87c/0xd70
-
-The same run produced 37 KASAN splats against the one freed object,
-reached through every place the handler still touches ud after clearing
-the event bits: mutex_lock() on ud->sysfs_lock, the eh_waitq wake
-(__wake_up_common / finish_wait / prepare_to_wait_event), and
-stub_shutdown_connection() called from event_handler().
-
-Waiting on the event bits cannot close the window, because the handler's
-last accesses to ud are inherently after the bit is cleared.  Instead,
-flush the event work in usbip_stop_eh() so the handler has fully returned
-before the caller is allowed to free ud.  Every *_EVENT_REMOVED sets
-USBIP_EH_BYE, after which usbip_event_add() no longer queues new work for
-that ud, so flush_work() only has to wait out the in-flight run.  Guard
-the flush with usbip_in_eh() so it is skipped in the (stub reset) path
-that runs from the handler itself, and move the usbip_work declaration
-above usbip_stop_eh() so it is in scope.  None of the three usbip_stop_eh()
-callers hold ud->sysfs_lock, so flushing the worker (which takes it)
-cannot deadlock.
-
-With the patch applied, the same KASAN reproducer runs the teardown
-suite repeatedly with zero KASAN reports.
-
-Fixes: 363eaa3a450a ("usbip: synchronize event handler with sysfs code paths")
-Cc: stable@vger.kernel.org
-Signed-off-by: João Moreira Fernandes <joao.fernandes@ist.utl.pt>
-Assisted-by: Claude:claude-opus-4-8
----
- drivers/usb/usbip/usbip_event.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/usbip/usbip_event.c b/drivers/usb/usbip/usbip_event.c
-index 0e00c2d000f8..675fa2beeefd 100644
---- a/drivers/usb/usbip/usbip_event.c
-+++ b/drivers/usb/usbip/usbip_event.c
-@@ -97,6 +97,8 @@ static void event_handler(struct work_struct *work)
- 	}
- }
- 
-+static DECLARE_WORK(usbip_work, event_handler);
-+
- int usbip_start_eh(struct usbip_device *ud)
- {
- 	init_waitqueue_head(&ud->eh_waitq);
-@@ -116,6 +118,14 @@ void usbip_stop_eh(struct usbip_device *ud)
- 		usbip_dbg_eh("usbip_eh waiting completion %lx\n", pending);
- 
- 	wait_event_interruptible(ud->eh_waitq, !(ud->event & ~USBIP_EH_BYE));
-+
-+	/*
-+	 * The wait only tracks ud->event, which event_handler() clears before
-+	 * its last dereferences of ud; flush so it cannot touch freed memory.
-+	 */
-+	if (!usbip_in_eh(current))
-+		flush_work(&usbip_work);
-+
- 	usbip_dbg_eh("usbip_eh has stopped\n");
- }
- EXPORT_SYMBOL_GPL(usbip_stop_eh);
-@@ -123,7 +133,6 @@ EXPORT_SYMBOL_GPL(usbip_stop_eh);
- #define WORK_QUEUE_NAME "usbip_event"
- 
- static struct workqueue_struct *usbip_queue;
--static DECLARE_WORK(usbip_work, event_handler);
- 
- int usbip_init_eh(void)
- {
--- 
-2.54.0
-
+>  /* Unusual uas devices */
+>  #if IS_ENABLED(CONFIG_USB_UAS)
+>  #include "unusual_uas.h"
+> -- 
+> 2.25.1
