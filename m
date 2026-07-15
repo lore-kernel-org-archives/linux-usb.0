@@ -1,157 +1,99 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A5C3ED3A6
-	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 09:08:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDCB3ECBDA;
+	Wed, 15 Jul 2026 09:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784106513; cv=none; b=aJr9EW2BfqJGVd33EjgV94GdzlXpXuVcU+rD1o5WXxZ9FsaQq7KSFty35JkrBSq0DOQRh9kjj/WbcEdO0z1r1vZauZyN+mx2C+QnOLkXxqkvM0Y2O7tdXCvXEBV0BIX1ou9driDrv4KMiTwmS8pSQYU0um2a3lLFT7MFdmEaztY=
+	t=1784106673; cv=none; b=csgsIBcQPaEfarsblqLOZPu2HHOKIqHyeQd13ZLWYfn/nwiuVsN1JcEx1298v7RC50mYgFkTZUnblPp60tCIanenr8H7DIzQlDhqRbqE7AeMTvNp+sska84yiZ9+G7cyXGB6CTLTtp7KYLI6B5SJT+g+Fmc0kfE3WHT4xaDYfYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784106513; c=relaxed/simple;
-	bh=OuIFKmN/aUS9qKViC8PcpXUW7K5Q6qLNVjDEbyQINhk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Enbqu5R+XekwnKrHgl+KlLXgsZB9StrY9BS9jx4O2TRMS7sxPUA1FsIsIxUFOmy9y3GjUK9dShHpvK2UeXKuNpaO6W3nzM6nd3HOvxPr4ukBfqAnS5nBXJyOJqlgGSgy8OvnkvFjQ0iJaQlR3GBSbkqW4FmIqIoPWZo1rlVKykI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=HuV88fLH; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ZkAPtULj; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1784106673; c=relaxed/simple;
+	bh=jliDADGCLmkXxXJ784OiVvMm1uOKkWyQ+k6fHfNWlms=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OR+OhJGMBZQxsY0fkZYvhEw8cp/ZnQbQteVSPrkT8DrOlzgvEWvHiRA1vTM0+teJFLMubcyvyWQ9vqT5UaUNzN7irD7OYho7EXgYUObcqj3et7kWAkTDBXapz/koNuRK2V+xHgVC79Y+FkrpsDrRChHh4Fbi1ydyEvX11RqD3sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cc5w23vV; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="HuV88fLH";
-	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ZkAPtULj"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7858F3DF7;
-	Wed, 15 Jul 2026 09:08:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1784106504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=At07cF4mO3yraHCmmZmo/4Sa4i3cUGInN4IbHuPzrdA=;
-	b=HuV88fLH+MPa0ED/DUd489wwK7sjy/nwx9bVklR2jDXpNWaOO7SLkF6ovTOFN+MzAsl5l+
-	H2irQW15DMARZ1vTecJCJsLLHCHwFAmaVyZB0mswWwDgPcK74/ztJqVcWrgb1n6GRly5cj
-	5EyvVLgvigVQrUi9AX/g6QqwppNcEIE=
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.com header.s=susede1 header.b=ZkAPtULj
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1784106503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=At07cF4mO3yraHCmmZmo/4Sa4i3cUGInN4IbHuPzrdA=;
-	b=ZkAPtULjZV+kGh7s4GB+z4w+B1m88LCUIRr0CN9S/VXQ/9QY8YlLMNELw8SHwmTcSUpXLV
-	VN9nCJeh2VdRkOGlXjduvKzUHJiJ5ro+MqljbTdni0mbm5n9VdgdTzGJTq3UmYYlJIJKTC
-	dT7J+ndca4C+X+DOkuQDSAeJCqGsBo8=
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5168C779AD;
-	Wed, 15 Jul 2026 09:08:23 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vqDXEgdOV2r8BgAAD6G6ig
-	(envelope-from <oneukum@suse.com>); Wed, 15 Jul 2026 09:08:23 +0000
-From: Oliver Neukum <oneukum@suse.com>
-To: gregkh@linuxfoundation.org,
-	johan@kernel.org,
-	jkrshnmenon@gmail.com,
-	linux-usb@vger.kernel.org
-Cc: Oliver Neukum <oneukum@suse.com>,
-	Lukas Dresel <lukas@artiphishell.com>
-Subject: [PATCHv2] usb: serial: sierra: deal with insufficiently long notifications
-Date: Wed, 15 Jul 2026 11:04:32 +0200
-Message-ID: <20260715090821.1364583-1-oneukum@suse.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cc5w23vV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784106671; x=1815642671;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jliDADGCLmkXxXJ784OiVvMm1uOKkWyQ+k6fHfNWlms=;
+  b=cc5w23vVUC3e8YykRLOfWYSdu0HwCIBtJxvuXBaX0wHkGE/HQOGAuDGx
+   G/U+6Y6kzxNhnmtQutBy9xxBn2+luxgkwaxgfJlB77GKP2tYKgOBhH+Gb
+   h8ITkE8qvrOlB4+I7i8idF/GIMz4hrq9CFUnaCZMdZylD2lkqsKsfHu+U
+   GhqPWg8y4GtRBsekiNJfc7yjhAlc4UUKl6QOb7VFZuJOer7mb0Tj3M+4y
+   LKyZOgnhNH21kzN1aDIjv+KFZnxI7+Azg8rRCS4xMo8pyC0bJmbayH+fZ
+   lcnIqxljrG8xlfcWZkQ/7+COoQgfJobwdx9Wms5/b6rzJ358lslx4kgU5
+   A==;
+X-CSE-ConnectionGUID: y5eIdXIlT+uAcrdIpijmHw==
+X-CSE-MsgGUID: RUlpE2XoQxaLPcy7pBMl6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="96106101"
+X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
+   d="scan'208";a="96106101"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 02:11:10 -0700
+X-CSE-ConnectionGUID: HlUvXl7zTAay9OsRhPH9+g==
+X-CSE-MsgGUID: mm+NVqUFTFGtw1BU54676A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
+   d="scan'208";a="255617959"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.129])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 02:11:06 -0700
+Date: Wed, 15 Jul 2026 12:11:02 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>
+Subject: Re: [PATCH v5 04/16] usb: hub: Use assign_bit() in
+ usb_hub_set_port_power()
+Message-ID: <aldOpuACh_FAainj@ashevche-desk.local>
+References: <20260715085348.3457359-1-wenst@chromium.org>
+ <20260715085348.3457359-5-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 7858F3DF7
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.com:s=susede1];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[linuxfoundation.org,kernel.org,gmail.com,vger.kernel.org];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.com:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:dkim,suse.com:email,suse.com:mid];
-	DWL_DNSWL_BLOCKED(0.00)[suse.com:dkim];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260715085348.3457359-5-wenst@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-A malicious device can send too short messages which
-would cause the driver to read beyond the part of the buffer
-holding valid data.
-Ignore too short packets.
+On Wed, Jul 15, 2026 at 04:53:34PM +0800, Chen-Yu Tsai wrote:
+> usb_hub_set_port_power() open-codes assign_bit(). Just use the
+> assign_bit() macro instead. This makes subsequent additions to
+> usb_hub_set_port_power() easier to read.
+> 
+> This change does not introduce any functional changes.
 
-Fixes: 033a3fb980b04 ("USB: Sierra Wireless driver update")
-Reported-by: Jay Vadayath <jkrshnmenon@gmail.com>
-Reported-by: Lukas Dresel <lukas@artiphishell.com>
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
+Yes, it's a pure cleanup.
 
-v2:
-- fixed description and added reporters and fixes tag
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
- drivers/usb/serial/sierra.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/serial/sierra.c b/drivers/usb/serial/sierra.c
-index 6e443aacae07..f50833055360 100644
---- a/drivers/usb/serial/sierra.c
-+++ b/drivers/usb/serial/sierra.c
-@@ -575,10 +575,19 @@ static void sierra_instat_callback(struct urb *urb)
- 				__func__);
- 			return;
- 		}
-+
-+		if (urb->actual_length < sizeof(struct usb_ctrlrequest))
-+			goto skip_too_short;
-+
- 		if ((req_pkt->bRequestType == 0xA1) &&
- 				(req_pkt->bRequest == 0x20)) {
- 			int old_dcd_state;
--			unsigned char signals = *((unsigned char *)
-+			unsigned char signals;
-+
-+			if (urb->actual_length < sizeof(struct usb_ctrlrequest) + 1)
-+				goto skip_too_short;
-+
-+			signals = *((unsigned char *)
- 					urb->transfer_buffer +
- 					sizeof(struct usb_ctrlrequest));
- 
-@@ -603,6 +612,7 @@ static void sierra_instat_callback(struct urb *urb)
- 
- 	/* Resubmit urb so we continue receiving IRQ data */
- 	if (status != -ESHUTDOWN && status != -ENOENT) {
-+skip_too_short:
- 		usb_mark_last_busy(serial->dev);
- 		err = usb_submit_urb(urb, GFP_ATOMIC);
- 		if (err && err != -EPERM)
 -- 
-2.55.0
+With Best Regards,
+Andy Shevchenko
+
 
