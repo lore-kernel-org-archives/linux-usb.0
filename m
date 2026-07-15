@@ -1,179 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18A4477E20;
-	Wed, 15 Jul 2026 12:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65AB40EB83
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 12:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784118583; cv=none; b=kEai+ZbgItCg1wRqVvTWYk5KoW4lXroiYbjiHPXNcUvEQlgK0o5uqQme0T8b+V0+fppwudfFTnB/ga0c9ZjgeX1+nXn0v0Aii937KzKlBG5+kr+K0J4EogW9X0UREJaFa+oHASWj4xEOXQ6s48K3duLIlW3S9wAD/qb/ucPx1sk=
+	t=1784120325; cv=none; b=I5SazRCo+yepT7u9BDUZc3AqrvghBh826dc67n+PotvaS1pYSUy4kypSktzpDsYfDai9v0b1xFsw9Q82cXPRmLhm/OOoLzGqyfUsziKcPc9E1KRJjqwKyJpv0YYTTrKYRHV3Hy0rbgy6sVHoXDMBaVsYnbyeuwOMgAc0/s2keq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784118583; c=relaxed/simple;
-	bh=M+DeZNYtVFijMr9sVI0AKk3cvYjTLkp9K1SQqftT9Lo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=M2+HzUQXORx30NDmHI6nX/flJdjWEiCuLGbNp1NbcNIoeYhNqEETfE+KUF/Uv9d54cJ/g36ZYaEU53CWFC1me4pKO4KscsD2I3pegYP450kEC5fD9uE4sZ8DX0QqZESuh0VURc3Q6CxtChxauBXPgkFW7/cAIZslDTTx/tkAzv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hFaCfo7g; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784120325; c=relaxed/simple;
+	bh=iJ+GhOuTAuqPkm0iRF0A4iS23vfSr4FjgVWthrGBgIc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UwAui0FhQWCLXlgd9TpH+5je/kC/obKbjWb1Vu+FixDuF+eL0T2tKqnGVg17Zocs97r1FGAQ5s9aeZo+l5hXaPPPLVejN4fRyvMjGt/aYpmN4uML0RggByfTLch1HJlywnYNp58wkjCIVcMDhTU8SUDV805IRerjiJHtprIHSsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ru0nybpc; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=b+Rup+d6; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hFaCfo7g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 587711F00A3D;
-	Wed, 15 Jul 2026 12:29:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784118578;
-	bh=aZDRmiIYrAsJWc/tq0zsj4nbBxE27yyULfglV3K1Pgo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=hFaCfo7gAaoMH2ChuItfw8gnK+IEbRaA269mpEB1HGxFMFVMh00WIM/Ga2tdZzzqj
-	 0REuiVXakCy+YU6h5+PWVFyXElQ4OfXxbm1uOKglxyDYLQwTJ8GsCycPg+Zvy5nE1f
-	 TGCIeTI6WfUCGNEROp9cFFVlQf7LM2BggXxY2K3DpG94MDzxb25AwCYyULYmHX8me+
-	 Ceahyx7fYYCxKJpQI/fVwObTc1Aa91U7yLC8jdp+hKhqvuieBbhmn81or7lgnfA9/a
-	 I8M7Id3pHr/UH3FhuI3ZcjXI+QJg7+kESjviEID8PGxlNSMf6CxhuySSxqAlaFZKJy
-	 BrqpUkPstj7Dw==
-From: Konrad Dybcio <konradybcio@kernel.org>
-Date: Wed, 15 Jul 2026 14:29:20 +0200
-Subject: [PATCH v2 4/4] usb: dwc3: Notify XHCI core of tunneled status
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ru0nybpc";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="b+Rup+d6"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66FBdUW83697872
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 12:58:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	MkDqf6gLiwvri0Nfl+pFZPlM5YAWBQzYzpIcydMooR4=; b=Ru0nybpcQ8bWe0Xa
+	K/+agdXNJJFO9WwMVBK8p8p7GDDeJALmyTXF71BQITzIeBfpyuqOURa8Z9eYqBng
+	E8BT8b9kV2MSzoM2EJ7/bi27dTMpRzAWMjGdH/Js5iAtAXXIlug4Eh0Z15jzqBC2
+	O/FCnSWpHgo+g6l+jTtMzoGFYMLGQTXNgLzLGpjgWO3iqMM9EJW4tMsp5xYmCDaq
+	wX7rfov2d/z5IAMnep7G/cy1TGmJoZajL8vwrwMyNudeV6gEateb5Se7ZZVM682B
+	6/KCmIW7YWRrMPLhexKGIwA+OeNExYpftPTFgLnsJhk5g1XGxPjA/G8JJf9+1JnW
+	5NQZLQ==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fe03vjcfd-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 12:58:42 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-51bfa45b280so12677081cf.3
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 05:58:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1784120322; x=1784725122; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MkDqf6gLiwvri0Nfl+pFZPlM5YAWBQzYzpIcydMooR4=;
+        b=b+Rup+d6aLPDIfGYIRdurR6ff087lTP0VM0YavVrluMann+pNbcxjunFvRhUBBDCY3
+         wnp8mnTLv/X672BDlfrPPj1YV8Xl2RJXek0w7Hh46cu1UtS1NcKtm3RoT5py6qBf5uSc
+         5I/Cm6phuKfdaWYLFh4ad3mZtkrTR8AFkqtdEmheJ8zKklDVsVtnfMI173mrhoYh7znP
+         n44/mXZm1gOzQUKIQ+FCl6wvdOlUO2VQj9eIldW96SPb9ESkvJLivkQ3ST/cbCjjvshV
+         6ksHLIGHkbXzywdd99AoVJuCS283gCNclZk70vwkmQsCgpoPNtHjXdCnFqIMgk3g3K0C
+         ctHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784120322; x=1784725122;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MkDqf6gLiwvri0Nfl+pFZPlM5YAWBQzYzpIcydMooR4=;
+        b=S7gf3n0ygUkfKtWg3k1k+8bq3Ixvfd0J72cV27o6Ela1R9oUynchxWYqnr7I7YKwjE
+         C9J0U7UMkvJ1YklS1O9uC5QDYO4WUphlE+zZM9X0VX78VHISCHCa+5NuHnM/JGo3YZZu
+         8flrP7Mul1rFNpZYhZ64ahWveYbOyZjGco9y+lSnI7VyTq5UzgaLpNb8+hF3YPn4McsA
+         LJvkBqHfq5ux9aY6PZ/vNRYSyDejpYlIvTG/QsmY9gJbsbrlpSDd1Qu3SYk5dg0+W1Yo
+         LsCFtCbE0kivBuvM7wj9h05z8iDOjV4xKUSvOmOUpZM63g89dsqQMH9XZ9I3gkmtQZ34
+         ummw==
+X-Gm-Message-State: AOJu0YyfVPxqqX3N8Mo6dwKbIi3Rn5o6JcXHhYownJaRJSH43A10wKTe
+	g6UOvcfDaQcvPkeaVgIVFrSe8xpIVtgrcSpK7cY5fJIJAf9BEJU5Z6nlgdxfLyQEy2ogYV8KDaA
+	47C4X7VSMTWBb5jcqXSRXKSrvPeQXzIq579igR0UCHPCAgkof03szJ0/vxeB26HFX0cI+o30=
+X-Gm-Gg: AfdE7ckKIJEZTg4dOsfKy23Q5rN/zAspFHoq5GxbWbMnNi3o8s7ZtB2HqAn3ndluOO9
+	o5Q/9F8Yl2iry50n1PeCjn6BQlylNax1wHK9eNAopMHEZXKMEkOJ/0k0LoXAdoZ2qbUqFifxAR7
+	inFp4tOYzqE2SWXNiw8PdKGMUT+PHhe+IfT4vIZpYDodJCySXbdjs39jJ1ZTDWqTmnI5OH1INc2
+	XaRml6IWK5doduxs66Ozwdk7PnXkdBChvvQFNgSjLYNxac+kPRESWchDW0cM4bTSXieZ9zJHRkx
+	hFF7WT2s1s8cynAo3Om/YDFXn05jUAb8TFqXv107y3CflPPrwOdhESDLrof7sBcO+lhR9xoAfbo
+	Zi1C9oHHBhBGw1pqjAoZKrhaTu1S/c6QwLuA=
+X-Received: by 2002:a05:622a:58e:b0:51a:8c9b:64a5 with SMTP id d75a77b69052e-51cbf360791mr126694661cf.9.1784120321734;
+        Wed, 15 Jul 2026 05:58:41 -0700 (PDT)
+X-Received: by 2002:a05:622a:58e:b0:51a:8c9b:64a5 with SMTP id d75a77b69052e-51cbf360791mr126694141cf.9.1784120321062;
+        Wed, 15 Jul 2026 05:58:41 -0700 (PDT)
+Received: from [192.168.120.193] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c16871264c5sm22347066b.2.2026.07.15.05.58.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jul 2026 05:58:40 -0700 (PDT)
+Message-ID: <42b1c982-410f-44f9-84ec-40d042bef1cb@oss.qualcomm.com>
+Date: Wed, 15 Jul 2026 14:58:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260715-topic-dwc3_tunneling_state-v2-4-026487a08119@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] DWC3 link tunneling state reporting
+To: Konrad Dybcio <konradybcio@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        usb4-upstream@oss.qualcomm.com,
+        Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Sven Peter <sven@kernel.org>
 References: <20260715-topic-dwc3_tunneling_state-v2-0-026487a08119@oss.qualcomm.com>
-In-Reply-To: <20260715-topic-dwc3_tunneling_state-v2-0-026487a08119@oss.qualcomm.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Mathias Nyman <mathias.nyman@intel.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- usb4-upstream@oss.qualcomm.com, 
- Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>, 
- Mika Westerberg <mika.westerberg@linux.intel.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784118563; l=4045;
- i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
- bh=AGj6u9AXpospOYKXeoL025M2oc1PyYSQ8GLfsF9oCvs=;
- b=OtqKhsIwY4zTyT/cUSFmHcxpuSz1s5Bqa6i0TmLO0+7quk8oO+lvckTOt7jzpoywVpiqF7Uqs
- dvreG8bIYFIAYCZ2zxKdZMeld2xheuAUQr8jrGqPLiTwPplY8VZI3nK
-X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
- pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
-
+Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260715-topic-dwc3_tunneling_state-v2-0-026487a08119@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=Ife3n2qa c=1 sm=1 tr=0 ts=6a578402 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=NEAV23lmAAAA:8 a=bC-a23v3AAAA:8 a=EUspDBNiAAAA:8 a=NmLephZMgBtApVba378A:9
+ a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22 a=FO4_E8m0qiDe52t0p3_H:22
+X-Proofpoint-ORIG-GUID: iaTKGn5DhkuYtt_uii1Fx25FhVvjaECG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE1MDEyOSBTYWx0ZWRfX1XQQ2YV/qqwk
+ ZWHYKU5QMPrEMxpetZxRo4U7cvt0N9qbj+kgCKIE0q9ABrC5R5iDRQfn3ZXrZxEE35gmjmegr3C
+ 5fEI3JbazY/7WdMdCyasdAdYmDd6iGO4yta7l6t3GDg3WHKpIatME3oUTx+XqHS67Tk2bi0+5ta
+ USAUUkMYCnsR2IDcuvL9HVBhTKgUCINEP+s53z4UwyknkyT9j6VKyKF4HccteoTAHNH4/9vv9qk
+ qayxsfErXQqZBDtp3Bbx5rSNA1694RQci8z68qUGqN/mZ7fPTt0E/iiD5HU0kZYh4INIsT40N5J
+ KEwI5y7AMhLjldoc07YqXkAgvHCfrbJWZG3BVdCiy9lmPzu12I08a4OHiT0s6lnlZo8USOD9dxh
+ A2UTjuAZm7twAHjeCGF9G+Fn00WGmUt6hNvU4ZItg8WFDPkplfDGcU7gTEoVjTNl50raBasfHUq
+ S21FEU2XmKxhuCLN22w==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE1MDEyOSBTYWx0ZWRfX7hMWRV1IMyzi
+ 6i4IXMdv1Yqbm8o8VYm0Zd+DPAVs2dKKfuAbEpGaYdG27lri2PaIVaBu/rVXux426bC/6ExUqiA
+ HWR4Pvyh/IcwVPbjyU8TrqzacWrE5BY=
+X-Proofpoint-GUID: iaTKGn5DhkuYtt_uii1Fx25FhVvjaECG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-15_02,2026-07-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0
+ impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607150129
 
-The Thunderbolt framework relies on the USB core to create device links
-for tunneled ports, so that the USB3 controller is only kept
-runtime-resumed for the duration of the tunneling. This depends on
-first knowing whether a connection is tunneled or native.
+On 7/15/26 2:29 PM, 'Konrad Dybcio' via USB4 - Upstream wrote:
+> Currently, retrieving the tunneled/native state of a running port is
+> only possible on Intel XHCI hosts. This series extends that to CIO-
+> capable DWC31 controllers (see [1]).
+> 
+> Note that this patchset only results in the correct udev->tunnel_mode
+> value being assigned. Creating the device links (which requires this
+> information) between the USB4 router and the USB3 controller does not
+> currently take place on DT-based platforms, but that will be amended
+> in a follow-up patchset.
+> 
+> Tested on a Qualcomm X1E80100 CRD board, with a (currently) out-of-tree
+> set of drivers.
+> 
+> [1] I'm not entirely sure about the DWC version range (particularly
+>     wrt DWC32 and newer), so I limited it to a reasonable subset. I'll
+>     happily amend that.
+> 
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> ---
+> Changes in v2:
+> - Add handling for XHCI v1.2's USB3 tunneling and PORTSC.TM for
+>   platforms that advertise it (!!! UNTESTED !!!, I have no access to
+>   HW that exposes this)
+> - Prefer the aforementioned cap over custom implementations
+> - Bail out of the DWC3-specific check if `usb4-host-interface` device
+>   property is absent - hence this now depends on:
+>   https://github.com/devicetree-org/dt-schema/pull/196
+> 
+> - Link to v1: https://patch.msgid.link/20260505-topic-dwc3_tunneling_state-v1-0-4aaa6c3c14cb@oss.qualcomm.com
 
-Add the logic to handle that for DWC3 controllers.
++Cc Sven sorry, I forgot to include you..
 
-Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
----
- drivers/usb/dwc3/core.c | 16 ++++++++++++++++
- drivers/usb/dwc3/core.h | 18 ++++++++++++++++++
- drivers/usb/dwc3/host.c | 12 ++++++++++++
- 3 files changed, 46 insertions(+)
-
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index fd5c2cd36c59..6ee6fce4c927 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -162,6 +162,22 @@ void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode, bool ignore_susphy)
- }
- EXPORT_SYMBOL_GPL(dwc3_set_prtcap);
- 
-+enum usb_link_tunnel_mode dwc3_link_tunnel_mode(struct dwc3 *dwc, u8 port)
-+{
-+	/* Prior versions had no CIO support */
-+	if (!DWC3_VER_IS_WITHIN(DWC31, 191A, ANY))
-+		return USB_LINK_NATIVE;
-+
-+	/* Not all DWC3 instances have CIO HW, trust the platform firmware */
-+	if (!device_property_present(dwc->dev, "usb4-host-interface"))
-+		return USB_LINK_NATIVE;
-+
-+	if (dwc3_readl(dwc, DWC3_CIOCTRL(port)) & DWC3_CIOCTRL_CIO_EN)
-+		return USB_LINK_TUNNELED;
-+
-+	return USB_LINK_NATIVE;
-+}
-+
- static void __dwc3_set_mode(struct work_struct *work)
- {
- 	struct dwc3 *dwc = work_to_dwc(work);
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 608daeb7ef10..decc51cd6505 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -179,6 +179,11 @@
- #define DWC3_OEVTEN		0xcc0C
- #define DWC3_OSTS		0xcc10
- 
-+/* CIO regs */
-+#define DWC3_CIO_BASE(n)	(0xcd20 + ((n) * 0x30))
-+#define DWC3_CIOCTRL(n)		(DWC3_CIO_BASE(n) + 0x00)
-+#define DWC3_CIOCTRL_CIO_EN	BIT(0)
-+
- #define DWC3_LLUCTL(n)		(0xd024 + ((n) * 0x80))
- 
- /* Bit fields */
-@@ -1314,6 +1319,7 @@ struct dwc3 {
- #define DWC31_REVISION_170A	0x3137302a
- #define DWC31_REVISION_180A	0x3138302a
- #define DWC31_REVISION_190A	0x3139302a
-+#define DWC31_REVISION_191A	0x3139312a
- #define DWC31_REVISION_200A	0x3230302a
- 
- #define DWC32_REVISION_ANY	0x0
-@@ -1658,11 +1664,23 @@ static inline void dwc3_pre_run_stop(struct dwc3 *dwc, bool is_on)
- #if IS_ENABLED(CONFIG_USB_DWC3_HOST) || IS_ENABLED(CONFIG_USB_DWC3_DUAL_ROLE)
- int dwc3_host_init(struct dwc3 *dwc);
- void dwc3_host_exit(struct dwc3 *dwc);
-+
-+/**
-+ * dwc3_link_tunnel_mode - Check whether the link is tunneled over TBT/USB4
-+ * @dwc: Pointer to DWC3 controller context
-+ * @port: 0-based port index
-+ *
-+ * Returns: USB_LINK_TUNNELED if tunneled, USB_LINK_NATIVE if not, or
-+ *          when the controller does not have USB4 capabilities.
-+ */
-+enum usb_link_tunnel_mode dwc3_link_tunnel_mode(struct dwc3 *dwc, u8 port);
- #else
- static inline int dwc3_host_init(struct dwc3 *dwc)
- { return 0; }
- static inline void dwc3_host_exit(struct dwc3 *dwc)
- { }
-+static inline enum usb_link_tunnel_mode dwc3_link_tunnel_mode(struct dwc3 *dwc, u8 port)
-+{ return USB_LINK_UNKNOWN; }
- #endif
- 
- #if IS_ENABLED(CONFIG_USB_DWC3_GADGET) || IS_ENABLED(CONFIG_USB_DWC3_DUAL_ROLE)
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index 96b588bd08cd..eb03b079696e 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -77,8 +77,20 @@ static void dwc3_xhci_plat_start(struct usb_hcd *hcd)
- 	dwc3_enable_susphy(dwc, true);
- }
- 
-+static enum usb_link_tunnel_mode dwc3_xhci_tunnel_mode(struct usb_hcd *hcd, int portnum)
-+{
-+	struct platform_device *pdev;
-+	struct dwc3 *dwc;
-+
-+	pdev = to_platform_device(hcd->self.controller);
-+	dwc = dev_get_drvdata(pdev->dev.parent);
-+
-+	return dwc3_link_tunnel_mode(dwc, portnum);
-+}
-+
- static const struct xhci_plat_priv dwc3_xhci_plat_quirk = {
- 	.plat_start = dwc3_xhci_plat_start,
-+	.tunnel_mode = dwc3_xhci_tunnel_mode,
- };
- 
- static void dwc3_host_fill_xhci_irq_res(struct dwc3 *dwc,
-
--- 
-2.55.0
-
+Konrad
