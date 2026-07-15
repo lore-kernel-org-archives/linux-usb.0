@@ -1,169 +1,159 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65AB40EB83
-	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 12:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287BD466B69;
+	Wed, 15 Jul 2026 13:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784120325; cv=none; b=I5SazRCo+yepT7u9BDUZc3AqrvghBh826dc67n+PotvaS1pYSUy4kypSktzpDsYfDai9v0b1xFsw9Q82cXPRmLhm/OOoLzGqyfUsziKcPc9E1KRJjqwKyJpv0YYTTrKYRHV3Hy0rbgy6sVHoXDMBaVsYnbyeuwOMgAc0/s2keq8=
+	t=1784121932; cv=none; b=dG7BDTaKyDJZu4lH6lX2I8Yfw3whN/RudO/O3uk4HnHUV5tj9Zj8ymR8GiHj1xFpi/mqYDN+yLbk/RGo+y0Jyrd0VWAQBvtbhWcGWQNED+7miG2HaYWN4ZSHYzclW7IVlWZiU8V5i/6kcXmrQtcj4+/Og9jdedYCo3KDV9lMb78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784120325; c=relaxed/simple;
-	bh=iJ+GhOuTAuqPkm0iRF0A4iS23vfSr4FjgVWthrGBgIc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UwAui0FhQWCLXlgd9TpH+5je/kC/obKbjWb1Vu+FixDuF+eL0T2tKqnGVg17Zocs97r1FGAQ5s9aeZo+l5hXaPPPLVejN4fRyvMjGt/aYpmN4uML0RggByfTLch1HJlywnYNp58wkjCIVcMDhTU8SUDV805IRerjiJHtprIHSsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ru0nybpc; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=b+Rup+d6; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1784121932; c=relaxed/simple;
+	bh=FoJio/rVwDwRIkKJBPFy4VQTYHNnMkd8RIsGPHmXYtU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=llqLdWayjYGjdbbIWjlS4W8NkRrS6lJOifaX0mMIlBDJH4bzYtVN19sUlNwyZQrGpI4N8bHwiyur/5tWCggMVG+oZDYmFUXTzjQ3gCPoRLBgGrS744DtFUpAQZJZ++/6L43uoPn0+NJO/HeJo7vi+l9BborKh5liAldCGR1rVws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dcZDUBLj; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ru0nybpc";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="b+Rup+d6"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66FBdUW83697872
-	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 12:58:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	MkDqf6gLiwvri0Nfl+pFZPlM5YAWBQzYzpIcydMooR4=; b=Ru0nybpcQ8bWe0Xa
-	K/+agdXNJJFO9WwMVBK8p8p7GDDeJALmyTXF71BQITzIeBfpyuqOURa8Z9eYqBng
-	E8BT8b9kV2MSzoM2EJ7/bi27dTMpRzAWMjGdH/Js5iAtAXXIlug4Eh0Z15jzqBC2
-	O/FCnSWpHgo+g6l+jTtMzoGFYMLGQTXNgLzLGpjgWO3iqMM9EJW4tMsp5xYmCDaq
-	wX7rfov2d/z5IAMnep7G/cy1TGmJoZajL8vwrwMyNudeV6gEateb5Se7ZZVM682B
-	6/KCmIW7YWRrMPLhexKGIwA+OeNExYpftPTFgLnsJhk5g1XGxPjA/G8JJf9+1JnW
-	5NQZLQ==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fe03vjcfd-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 12:58:42 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-51bfa45b280so12677081cf.3
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 05:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784120322; x=1784725122; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MkDqf6gLiwvri0Nfl+pFZPlM5YAWBQzYzpIcydMooR4=;
-        b=b+Rup+d6aLPDIfGYIRdurR6ff087lTP0VM0YavVrluMann+pNbcxjunFvRhUBBDCY3
-         wnp8mnTLv/X672BDlfrPPj1YV8Xl2RJXek0w7Hh46cu1UtS1NcKtm3RoT5py6qBf5uSc
-         5I/Cm6phuKfdaWYLFh4ad3mZtkrTR8AFkqtdEmheJ8zKklDVsVtnfMI173mrhoYh7znP
-         n44/mXZm1gOzQUKIQ+FCl6wvdOlUO2VQj9eIldW96SPb9ESkvJLivkQ3ST/cbCjjvshV
-         6ksHLIGHkbXzywdd99AoVJuCS283gCNclZk70vwkmQsCgpoPNtHjXdCnFqIMgk3g3K0C
-         ctHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784120322; x=1784725122;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MkDqf6gLiwvri0Nfl+pFZPlM5YAWBQzYzpIcydMooR4=;
-        b=S7gf3n0ygUkfKtWg3k1k+8bq3Ixvfd0J72cV27o6Ela1R9oUynchxWYqnr7I7YKwjE
-         C9J0U7UMkvJ1YklS1O9uC5QDYO4WUphlE+zZM9X0VX78VHISCHCa+5NuHnM/JGo3YZZu
-         8flrP7Mul1rFNpZYhZ64ahWveYbOyZjGco9y+lSnI7VyTq5UzgaLpNb8+hF3YPn4McsA
-         LJvkBqHfq5ux9aY6PZ/vNRYSyDejpYlIvTG/QsmY9gJbsbrlpSDd1Qu3SYk5dg0+W1Yo
-         LsCFtCbE0kivBuvM7wj9h05z8iDOjV4xKUSvOmOUpZM63g89dsqQMH9XZ9I3gkmtQZ34
-         ummw==
-X-Gm-Message-State: AOJu0YyfVPxqqX3N8Mo6dwKbIi3Rn5o6JcXHhYownJaRJSH43A10wKTe
-	g6UOvcfDaQcvPkeaVgIVFrSe8xpIVtgrcSpK7cY5fJIJAf9BEJU5Z6nlgdxfLyQEy2ogYV8KDaA
-	47C4X7VSMTWBb5jcqXSRXKSrvPeQXzIq579igR0UCHPCAgkof03szJ0/vxeB26HFX0cI+o30=
-X-Gm-Gg: AfdE7ckKIJEZTg4dOsfKy23Q5rN/zAspFHoq5GxbWbMnNi3o8s7ZtB2HqAn3ndluOO9
-	o5Q/9F8Yl2iry50n1PeCjn6BQlylNax1wHK9eNAopMHEZXKMEkOJ/0k0LoXAdoZ2qbUqFifxAR7
-	inFp4tOYzqE2SWXNiw8PdKGMUT+PHhe+IfT4vIZpYDodJCySXbdjs39jJ1ZTDWqTmnI5OH1INc2
-	XaRml6IWK5doduxs66Ozwdk7PnXkdBChvvQFNgSjLYNxac+kPRESWchDW0cM4bTSXieZ9zJHRkx
-	hFF7WT2s1s8cynAo3Om/YDFXn05jUAb8TFqXv107y3CflPPrwOdhESDLrof7sBcO+lhR9xoAfbo
-	Zi1C9oHHBhBGw1pqjAoZKrhaTu1S/c6QwLuA=
-X-Received: by 2002:a05:622a:58e:b0:51a:8c9b:64a5 with SMTP id d75a77b69052e-51cbf360791mr126694661cf.9.1784120321734;
-        Wed, 15 Jul 2026 05:58:41 -0700 (PDT)
-X-Received: by 2002:a05:622a:58e:b0:51a:8c9b:64a5 with SMTP id d75a77b69052e-51cbf360791mr126694141cf.9.1784120321062;
-        Wed, 15 Jul 2026 05:58:41 -0700 (PDT)
-Received: from [192.168.120.193] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c16871264c5sm22347066b.2.2026.07.15.05.58.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jul 2026 05:58:40 -0700 (PDT)
-Message-ID: <42b1c982-410f-44f9-84ec-40d042bef1cb@oss.qualcomm.com>
-Date: Wed, 15 Jul 2026 14:58:37 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dcZDUBLj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784121930; x=1815657930;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FoJio/rVwDwRIkKJBPFy4VQTYHNnMkd8RIsGPHmXYtU=;
+  b=dcZDUBLjBET2LBgl9MBETb6uRVSr0B1SAZfslxjV1n4Yq/CRbY75+nUG
+   DntZv9ryf6K/xzzhKho6CkwYiBTQDqdTKsyBzpcTXUFlMdoy6AFYwcsTe
+   gxGPKF4vz7MScLE3e/AIjy4C3xk/tO2u+8rd8SKn3frKK1AYPlrpwDbdo
+   zLeI7AwUt0vjUoZ6pnCFT69Sv2qvj9C59RziTdvDcwxt6H4Dsc9dYexPI
+   EcE9rTGTRIuAF1nzES9xO2JMUXGZNSkgrmONlPuD2YCgaxA4wGHUx8R+q
+   VZOyO8CyNYc9TnWicEhsCoY14JXPaRRlpGqi2t+Rplkb54xHr+GvDvIpO
+   w==;
+X-CSE-ConnectionGUID: +JV7sRnZTvePQG64/plk/Q==
+X-CSE-MsgGUID: KMDB1qPmQ3Cewoz9f8B0cQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="88661388"
+X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
+   d="scan'208";a="88661388"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 06:25:28 -0700
+X-CSE-ConnectionGUID: 9Wz6tj6iT3aKtxwO1JLjGw==
+X-CSE-MsgGUID: 7GiJrNRMTn+eeKAn9h7sFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,165,1779174000"; 
+   d="scan'208";a="258139844"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.129])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2026 06:25:22 -0700
+Date: Wed, 15 Jul 2026 16:25:20 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v5 10/16] usb: hub: Power on connected M.2 E-key
+ connectors with power sequencing API
+Message-ID: <aleKQKH2V-ck-SX6@ashevche-desk.local>
+References: <20260715085348.3457359-1-wenst@chromium.org>
+ <20260715085348.3457359-11-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] DWC3 link tunneling state reporting
-To: Konrad Dybcio <konradybcio@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        usb4-upstream@oss.qualcomm.com,
-        Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Sven Peter <sven@kernel.org>
-References: <20260715-topic-dwc3_tunneling_state-v2-0-026487a08119@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260715-topic-dwc3_tunneling_state-v2-0-026487a08119@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Ife3n2qa c=1 sm=1 tr=0 ts=6a578402 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=NEAV23lmAAAA:8 a=bC-a23v3AAAA:8 a=EUspDBNiAAAA:8 a=NmLephZMgBtApVba378A:9
- a=QEXdDO2ut3YA:10 a=dawVfQjAaf238kedN5IG:22 a=FO4_E8m0qiDe52t0p3_H:22
-X-Proofpoint-ORIG-GUID: iaTKGn5DhkuYtt_uii1Fx25FhVvjaECG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE1MDEyOSBTYWx0ZWRfX1XQQ2YV/qqwk
- ZWHYKU5QMPrEMxpetZxRo4U7cvt0N9qbj+kgCKIE0q9ABrC5R5iDRQfn3ZXrZxEE35gmjmegr3C
- 5fEI3JbazY/7WdMdCyasdAdYmDd6iGO4yta7l6t3GDg3WHKpIatME3oUTx+XqHS67Tk2bi0+5ta
- USAUUkMYCnsR2IDcuvL9HVBhTKgUCINEP+s53z4UwyknkyT9j6VKyKF4HccteoTAHNH4/9vv9qk
- qayxsfErXQqZBDtp3Bbx5rSNA1694RQci8z68qUGqN/mZ7fPTt0E/iiD5HU0kZYh4INIsT40N5J
- KEwI5y7AMhLjldoc07YqXkAgvHCfrbJWZG3BVdCiy9lmPzu12I08a4OHiT0s6lnlZo8USOD9dxh
- A2UTjuAZm7twAHjeCGF9G+Fn00WGmUt6hNvU4ZItg8WFDPkplfDGcU7gTEoVjTNl50raBasfHUq
- S21FEU2XmKxhuCLN22w==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE1MDEyOSBTYWx0ZWRfX7hMWRV1IMyzi
- 6i4IXMdv1Yqbm8o8VYm0Zd+DPAVs2dKKfuAbEpGaYdG27lri2PaIVaBu/rVXux426bC/6ExUqiA
- HWR4Pvyh/IcwVPbjyU8TrqzacWrE5BY=
-X-Proofpoint-GUID: iaTKGn5DhkuYtt_uii1Fx25FhVvjaECG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-15_02,2026-07-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0
- impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607150129
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260715085348.3457359-11-wenst@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 7/15/26 2:29 PM, 'Konrad Dybcio' via USB4 - Upstream wrote:
-> Currently, retrieving the tunneled/native state of a running port is
-> only possible on Intel XHCI hosts. This series extends that to CIO-
-> capable DWC31 controllers (see [1]).
+On Wed, Jul 15, 2026 at 04:53:40PM +0800, Chen-Yu Tsai wrote:
+> The new M.2 E-key connector can have a USB connection. For the USB device
+> on this connector to work, its power must be enabled and the W_DISABLE2#
+> signal deasserted. The connector driver handles this and provides a
+> toggle over the power sequencing API.
 > 
-> Note that this patchset only results in the correct udev->tunnel_mode
-> value being assigned. Creating the device links (which requires this
-> information) between the USB4 router and the USB3 controller does not
-> currently take place on DT-based platforms, but that will be amended
-> in a follow-up patchset.
+> This feature currently only supports a directly connected (no mux in
+> between) M.2 E-key connector. Existing USB connector types are not
+> covered. The USB A connector was recently added to the onboard devices
+> driver. USB B connectors have historically been managed by the USB
+> gadget or dual-role device controller drivers. USB C connectors are
+> handled by TCPM drivers.
 > 
-> Tested on a Qualcomm X1E80100 CRD board, with a (currently) out-of-tree
-> set of drivers.
+> The power sequencing API does not know whether a power sequence provider
+> is not needed or not available yet, so we only request it for connectors
+> that we know need it, which at this time is just the E-key connector.
 > 
-> [1] I'm not entirely sure about the DWC version range (particularly
->     wrt DWC32 and newer), so I limited it to a reasonable subset. I'll
->     happily amend that.
+> On the USB side, the port firmware node (if present) is tied to the
+> usb_port device. This device is used to acquire the power sequencing
+> descriptor. This allows the provider to tell the different ports on one
+> hub apart.
 > 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> ---
-> Changes in v2:
-> - Add handling for XHCI v1.2's USB3 tunneling and PORTSC.TM for
->   platforms that advertise it (!!! UNTESTED !!!, I have no access to
->   HW that exposes this)
-> - Prefer the aforementioned cap over custom implementations
-> - Bail out of the DWC3-specific check if `usb4-host-interface` device
->   property is absent - hence this now depends on:
->   https://github.com/devicetree-org/dt-schema/pull/196
+> This feature is not implemented in the onboard USB devices driver. The
+> power sequencing API expects the consumer device to make the request,
+> but there is no device node to instantiate a platform device to tie
+> the driver to. The connector is not a child node of the USB host or
+> hub, and the graph connection is from a USB port to the connector.
+> And the connector itself already has a driver.
 > 
-> - Link to v1: https://patch.msgid.link/20260505-topic-dwc3_tunneling_state-v1-0-4aaa6c3c14cb@oss.qualcomm.com
+> Power sequencing is not directly enabled in the connector driver as
+> that would completely decouple the timing of it from the USB subsystem.
+> It would not be possible for the USB subsystem to toggle the power
+> for a power cycle or to disable the port.
 
-+Cc Sven sorry, I forgot to include you..
+...
 
-Konrad
+> static void usb_port_device_release(struct device *dev)
+
+>  	fwnode_handle_put(dev_fwnode(dev));
+> +	/* usb_hub_create_port_device() could leave an error value */
+> +	if (!IS_ERR(port_dev->pwrseq))
+> +		pwrseq_put(port_dev->pwrseq);
+
+Hmm... I would rather make pwrseq_put() NULL and error pointer-aware, so
+it will be no-op in such cases. But I think Bart has his own opinion about
+this.
+
+>  	kfree(port_dev->req);
+>  	kfree(port_dev);
+>  }
+
+>  		put_device(&port_dev->dev);
+> +		hub->ports[port1 - 1] = NULL;
+>  		return retval;
+>  	}
+
+...
+
+> int usb_hub_create_port_device(struct usb_hub *hub, int port1)
+
+> +	port_dev->pwrseq = usb_hub_port_pwrseq_get(port_dev);
+> +	if (IS_ERR(port_dev->pwrseq)) {
+> +		retval = dev_err_probe(&port_dev->dev, PTR_ERR(port_dev->pwrseq),
+> +				       "failed to get power sequencing descriptor\n");
+> +		goto err_put_kn;
+
+OTOH, how pwrseq can be non-NULL and at the same time port be created?
+
+> +	}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
