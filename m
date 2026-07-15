@@ -1,92 +1,64 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D173E3D813A
-	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 08:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A5C3ED3A6
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 09:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784105741; cv=none; b=Hf8r8P/Xgy/cPByVr88P76y5J2FyUpk8dbdtTyQuU9bvIbnAr3GsVrtTZXnATASOlq03Tm4LL7IGj8wXLt7GItRLI6Y6J+W1qq8bFHx/MoteT/ChgrhelbjyU5bwxiMqapgEJDOxofYqyQndP1576A9p1dk5eX2IjzrGg3p1LP0=
+	t=1784106513; cv=none; b=aJr9EW2BfqJGVd33EjgV94GdzlXpXuVcU+rD1o5WXxZ9FsaQq7KSFty35JkrBSq0DOQRh9kjj/WbcEdO0z1r1vZauZyN+mx2C+QnOLkXxqkvM0Y2O7tdXCvXEBV0BIX1ou9driDrv4KMiTwmS8pSQYU0um2a3lLFT7MFdmEaztY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784105741; c=relaxed/simple;
-	bh=YJyU75cpPuviW3DeoVCtVsycwY35EMz4CrOCdWp2v74=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nz2Gv260Tilivq6TZjW1JCcEzcOb+punAWO632JD9rrOqHoIxHCk5zZS6MqeA0kXDqaDGVIPWyMYLlWhdvlLaRrA2kRgC4qR11gly1Lcgzk9A1mtd6PuVFCP++emU+X8qa9T1ywttf0Zn/4EACgqrMqyT+r2NFHAcSglI6pu8Jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OVszIwLS; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1784106513; c=relaxed/simple;
+	bh=OuIFKmN/aUS9qKViC8PcpXUW7K5Q6qLNVjDEbyQINhk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Enbqu5R+XekwnKrHgl+KlLXgsZB9StrY9BS9jx4O2TRMS7sxPUA1FsIsIxUFOmy9y3GjUK9dShHpvK2UeXKuNpaO6W3nzM6nd3HOvxPr4ukBfqAnS5nBXJyOJqlgGSgy8OvnkvFjQ0iJaQlR3GBSbkqW4FmIqIoPWZo1rlVKykI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=HuV88fLH; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=ZkAPtULj; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OVszIwLS"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-848882fdb18so1898310b3a.0
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 01:55:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1784105733; x=1784710533; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fzcA9TG2yqej8iZO6JRem4wjlVQiv9Z5qdYjer6rUOE=;
-        b=OVszIwLS7H8jiqE+d2DA2xPOT8UD7FSvMFhYDyZYT7/CL1w2FW4FSln6Z6V63NeATU
-         R/fFeOrvCXNGaIKFMIOAnuZpho1aiq2jCYiY5ZRKWQshFQv2EQUWDDKgpBCNwPI9CnD0
-         F/DTNpxO9rBgMZHeVDybxLXFqlVr1VIEwVCxQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784105733; x=1784710533;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fzcA9TG2yqej8iZO6JRem4wjlVQiv9Z5qdYjer6rUOE=;
-        b=e7uQklv4XLG9pheIKgp4WderUCofeQoiUncEB1nU81KIPjasusW5ErimzsmZmDm90L
-         pBpWz5vc4cK2yKKmviytvQBfP88rsMrmL+yAXVs55Aou/gmFcIDNwAZ9mA7YB1UPdA1h
-         +sG9Zw9nZS35SCbkaV2xtap6qsQB88TE6RuIwTvuJnq2pNng4lnbkRbnwNAIfYAE155y
-         Yr1ijKAFWocABp0wY1v7sfxTr7jdZ1mkRYRh/039z944iveg4/2O+UiGHsQIQYuTCFXS
-         yBMXoRt2dZVLxRcZYlCl1plsMkzcotJl2CiqxvSUqYQ/0CCcyR+00Y+eSSlqJ3KgCRbr
-         GRIQ==
-X-Forwarded-Encrypted: i=1; AHgh+RppFcgq7lJa92Ofwb9wf04F4qNuaymeCZ3LcJJGgYaBVujgFCt7l3yn1JSPgt5d13lrbYsIra1KFBg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKdqWRQK9cP4LuV8ztI3O8sRsR8H/t63V52mUiSVysMLM194Gx
-	OKogziW1NPE0udmMTMpAwI7bwzuWxSKHcQKxn7WKelmadAbVnSfy3JvjQNI3VJMu3A==
-X-Gm-Gg: AfdE7cn740ZJ3lpXpaoF5sVuspfaRuAIe7veoI1T3L40jgwn/VP+gw7Eyw74WCYMLxT
-	JnwX5DBytYbdA2l5RZyQUN/1a811i/JcenVRl7XoymmPaOMKrVEcEyftzugQ+K2S4+XZhyca+uh
-	SUnQg9p0Xx7X+cP33reFQn4POrpkXCXauEWFtF8BSfucEiyTtNvqxrOAGlrR5nppf+dUjhnwPIz
-	0BLDLd9ffKBXxbRakzutEbnnY+W1lLLsaMzvmhTJ+L5wT+nvKXI8v8cKt8AWXEe+KUvmy1NWu75
-	wSUePd0DEVwFwT23pghkfsLGZNJ9IkSv4fCWzAHCR1EvdmOrWzsim2KdpPPFK9UdPYtqUNEsjvB
-	g+qIa0IXfHWP3Orzv0paru0hE1s2mWMVjsNqbtKGvqE4jpfPEvJA1RXJqeqj0WmTwGh48WjG7cE
-	XjknHxdSoDOPcEf3M6DZAgpKeuhzR41dXrAnwKC+qVPhTY16go/RTSXNpa56qEzGhjF1Xeng==
-X-Received: by 2002:a05:6a00:368d:b0:848:56ff:6ced with SMTP id d2e1a72fcca58-84a6723d613mr1884956b3a.8.1784105733495;
-        Wed, 15 Jul 2026 01:55:33 -0700 (PDT)
-Received: from wenstp920.tpe.corp.google.com ([2a00:79e0:201d:8:47d7:4aa5:a6f8:2279])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f819117sm2757491b3a.59.2026.07.15.01.55.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 01:55:33 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Wei Deng <wei.deng@oss.qualcomm.com>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH v5 16/16] arm64: dts: mediatek: mt8188-geralt: Add WiFi/BT as M.2 E-key slot
-Date: Wed, 15 Jul 2026 16:53:46 +0800
-Message-ID: <20260715085348.3457359-17-wenst@chromium.org>
-X-Mailer: git-send-email 2.55.0.141.g00534a21ce-goog
-In-Reply-To: <20260715085348.3457359-1-wenst@chromium.org>
-References: <20260715085348.3457359-1-wenst@chromium.org>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="HuV88fLH";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="ZkAPtULj"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7858F3DF7;
+	Wed, 15 Jul 2026 09:08:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1784106504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=At07cF4mO3yraHCmmZmo/4Sa4i3cUGInN4IbHuPzrdA=;
+	b=HuV88fLH+MPa0ED/DUd489wwK7sjy/nwx9bVklR2jDXpNWaOO7SLkF6ovTOFN+MzAsl5l+
+	H2irQW15DMARZ1vTecJCJsLLHCHwFAmaVyZB0mswWwDgPcK74/ztJqVcWrgb1n6GRly5cj
+	5EyvVLgvigVQrUi9AX/g6QqwppNcEIE=
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.com header.s=susede1 header.b=ZkAPtULj
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1784106503; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=At07cF4mO3yraHCmmZmo/4Sa4i3cUGInN4IbHuPzrdA=;
+	b=ZkAPtULjZV+kGh7s4GB+z4w+B1m88LCUIRr0CN9S/VXQ/9QY8YlLMNELw8SHwmTcSUpXLV
+	VN9nCJeh2VdRkOGlXjduvKzUHJiJ5ro+MqljbTdni0mbm5n9VdgdTzGJTq3UmYYlJIJKTC
+	dT7J+ndca4C+X+DOkuQDSAeJCqGsBo8=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5168C779AD;
+	Wed, 15 Jul 2026 09:08:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vqDXEgdOV2r8BgAAD6G6ig
+	(envelope-from <oneukum@suse.com>); Wed, 15 Jul 2026 09:08:23 +0000
+From: Oliver Neukum <oneukum@suse.com>
+To: gregkh@linuxfoundation.org,
+	johan@kernel.org,
+	jkrshnmenon@gmail.com,
+	linux-usb@vger.kernel.org
+Cc: Oliver Neukum <oneukum@suse.com>,
+	Lukas Dresel <lukas@artiphishell.com>
+Subject: [PATCHv2] usb: serial: sierra: deal with insufficiently long notifications
+Date: Wed, 15 Jul 2026 11:04:32 +0200
+Message-ID: <20260715090821.1364583-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -94,184 +66,92 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 7858F3DF7
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=susede1];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[linuxfoundation.org,kernel.org,gmail.com,vger.kernel.org];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.com:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:dkim,suse.com:email,suse.com:mid];
+	DWL_DNSWL_BLOCKED(0.00)[suse.com:dkim];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 
-The MT8188 Geralt design features a chip-on-board WiFi/BT solution. This
-is a M.2 E-key WiFi/BT board layout directly inserted into the mainboard
-design. The connections to the rest of the board are almost the same as
-if it were a separate M.2 card. The only addition is the PMU_EN pin on
-the chip; on M.2 cards this would be tied to the primary power source.
+A malicious device can send too short messages which
+would cause the driver to read beyond the part of the buffer
+holding valid data.
+Ignore too short packets.
 
-Model the chip-on-board WiFi/BT solution as a M.2 E-key slot with PCIe,
-USB and auxiliary signals. The PMU_EN pin, which enables the internal
-power controls and regulators, is modeled as a regulator fed by the
-pp3300_wlan regulator. Since power sequencing is now correctly modeled
-using the M.2 E-key slot, drop the "regulator-always-on" property one
-pp3300_wlan regulator. Also drop the comment in xhci2 saying "MT7921's
-power is controlled by PCIe".
-
-Also drop the voltage range on the pp3300_wlan regulator. This
-"regulator" is just a load switch and does not provide any regulation.
-
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+Fixes: 033a3fb980b04 ("USB: Sierra Wireless driver update")
+Reported-by: Jay Vadayath <jkrshnmenon@gmail.com>
+Reported-by: Lukas Dresel <lukas@artiphishell.com>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
-Changes since v2:
-- Drop default GPIO output state from kill pins pinconfig
----
- .../boot/dts/mediatek/mt8188-geralt.dtsi      | 92 ++++++++++++++++++-
- 1 file changed, 88 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi b/arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi
-index dee946309121..73b5c0fdeae6 100644
---- a/arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8188-geralt.dtsi
-@@ -88,13 +88,11 @@ pp3300_z1: regulator-pp3300-z1 {
- 	pp3300_wlan: regulator-pp3300-wlan {
- 		compatible = "regulator-fixed";
- 		regulator-name = "pp3300_wlan";
--		regulator-always-on;
--		regulator-min-microvolt = <3300000>;
--		regulator-max-microvolt = <3300000>;
- 		enable-active-high;
- 		gpio = <&pio 12 GPIO_ACTIVE_HIGH>;
- 		pinctrl-0 = <&wlan_en>;
- 		pinctrl-names = "default";
-+		/* load switch */
- 		vin-supply = <&pp3300_z1>;
- 	};
+v2:
+- fixed description and added reporters and fixes tag
+
+ drivers/usb/serial/sierra.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/serial/sierra.c b/drivers/usb/serial/sierra.c
+index 6e443aacae07..f50833055360 100644
+--- a/drivers/usb/serial/sierra.c
++++ b/drivers/usb/serial/sierra.c
+@@ -575,10 +575,19 @@ static void sierra_instat_callback(struct urb *urb)
+ 				__func__);
+ 			return;
+ 		}
++
++		if (urb->actual_length < sizeof(struct usb_ctrlrequest))
++			goto skip_too_short;
++
+ 		if ((req_pkt->bRequestType == 0xA1) &&
+ 				(req_pkt->bRequest == 0x20)) {
+ 			int old_dcd_state;
+-			unsigned char signals = *((unsigned char *)
++			unsigned char signals;
++
++			if (urb->actual_length < sizeof(struct usb_ctrlrequest) + 1)
++				goto skip_too_short;
++
++			signals = *((unsigned char *)
+ 					urb->transfer_buffer +
+ 					sizeof(struct usb_ctrlrequest));
  
-@@ -161,6 +159,17 @@ ppvar_mipi_disp_avee: regulator-ppvar-mipi-disp-avee {
- 		vin-supply = <&pp5000_z1>;
- 	};
+@@ -603,6 +612,7 @@ static void sierra_instat_callback(struct urb *urb)
  
-+	/* PMU_EN pin controls internal regulators and power sequence */
-+	wlan_pmu: regulator-wlan-pmu {
-+		compatible = "regulator-fixed";
-+		regulator-name = "wlan-pmu";
-+		enable-active-high;
-+		gpio = <&pio 145 GPIO_ACTIVE_HIGH>;
-+		pinctrl-0 = <&wlan_pmu_en>;
-+		pinctrl-names = "default";
-+		vin-supply = <&pp3300_wlan>;
-+	};
-+
- 	reserved_memory: reserved-memory {
- 		#address-cells = <2>;
- 		#size-cells = <2>;
-@@ -195,6 +204,39 @@ adsp_dma_mem: memory@61000000 {
- 			no-map;
- 		};
- 	};
-+
-+	wifi-bt-connector {
-+		compatible = "pcie-m2-e-connector";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&m2_e_key_kill_pins>;
-+		vpcie1v8-supply = <&mt6359_vcn18_ldo_reg>;
-+		vpcie3v3-supply = <&wlan_pmu>;
-+		w-disable1-gpios = <&pio 13 GPIO_ACTIVE_LOW>;
-+		w-disable2-gpios = <&pio 14 GPIO_ACTIVE_LOW>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			/* PCIe for WiFi */
-+			port@0 {
-+				reg = <0>;
-+
-+				wifi_ep: endpoint {
-+					remote-endpoint = <&pcie_ep>;
-+				};
-+			};
-+
-+			/* USB for Bluetooth */
-+			port@2 {
-+				reg = <2>;
-+
-+				bt_ep: endpoint {
-+					remote-endpoint = <&usb2_ep>;
-+				};
-+			};
-+		};
-+	};
- };
- 
- &adsp {
-@@ -659,6 +701,22 @@ &pcie {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pcie_pins>;
- 	status = "okay";
-+
-+	pcie@0 {
-+		compatible = "pciclass,0604";
-+		reg = <0 0 0 0 0>;
-+		device_type = "pci";
-+		num-lanes = <1>;
-+		#address-cells = <3>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		port {
-+			pcie_ep: endpoint {
-+				remote-endpoint = <&wifi_ep>;
-+			};
-+		};
-+	};
- };
- 
- &pciephy {
-@@ -1002,6 +1060,13 @@ pins-bus {
- 		};
- 	};
- 
-+	m2_e_key_kill_pins: m2-e-key-kill-pins {
-+		pins-kill {
-+			pinmux = <PINMUX_GPIO13__FUNC_B_GPIO13>,
-+				 <PINMUX_GPIO14__FUNC_B_GPIO14>;
-+		};
-+	};
-+
- 	mipi_disp_avdd_en: mipi-disp-avdd-en-pins {
- 		pins-en-ppvar-mipi-disp {
- 			pinmux = <PINMUX_GPIO3__FUNC_B_GPIO3>;
-@@ -1174,6 +1239,13 @@ pins-bus {
- 		};
- 	};
- 
-+	wlan_pmu_en: wlan-pmu-en-pins {
-+		pins-wlan-pmu-en {
-+			pinmux = <PINMUX_GPIO145__FUNC_B_GPIO145>;
-+			output-low;
-+		};
-+	};
-+
- 	wlan_en: wlan-en-pins {
- 		pins-en-pp3300-wlan {
- 			pinmux = <PINMUX_GPIO12__FUNC_B_GPIO12>;
-@@ -1417,10 +1489,22 @@ vdosys1_ep_ext: endpoint@1 {
- };
- 
- &xhci2 {
--	/* no power supply since MT7921's power is controlled by PCIe */
- 	/* MT7921's USB BT has issues with USB2 LPM */
- 	usb2-lpm-disable;
- 	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			usb2_ep: endpoint {
-+				remote-endpoint = <&bt_ep>;
-+			};
-+		};
-+	};
- };
- 
- #include <arm/cros-ec-keyboard.dtsi>
+ 	/* Resubmit urb so we continue receiving IRQ data */
+ 	if (status != -ESHUTDOWN && status != -ENOENT) {
++skip_too_short:
+ 		usb_mark_last_busy(serial->dev);
+ 		err = usb_submit_urb(urb, GFP_ATOMIC);
+ 		if (err && err != -EPERM)
 -- 
-2.55.0.795.g602f6c329a-goog
+2.55.0
 
