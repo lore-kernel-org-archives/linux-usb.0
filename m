@@ -1,101 +1,168 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail.amicon.ru (unknown [77.108.111.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5FD367F45;
-	Wed, 15 Jul 2026 14:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C883168EF;
+	Wed, 15 Jul 2026 14:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.108.111.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784124879; cv=none; b=rZG8/CJyj87enNyv+JBsWyMAqjyDZr1Za6OteAKFY0xxjR6pOFNDbVIgRSlrZfKsni1JKbpPhEIgXzBuNHJ0vE2KRHm9o8LH5UABtZhGExiVuE6zYaxEBvEmAckBxoFUTb91PsnpLb4JXFt6i7i1kG2q/f7Y6mDXbSv+71og3x4=
+	t=1784125307; cv=none; b=snNrea5/TAbSLBI3nho4jdWyXTFJLdF3hp3EwlgqhzfKylFmM+tlqBfQ5HtjF9qS53lF9lWeR02gSIVor+XXNMCwf9KWT1D7dLKxww0kMCg65K/ZIEytf2ObUMPjRyKWIDThunhqsM7nF0Rd+PowyRgyEy+2vrsO7vCRfbCErYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784124879; c=relaxed/simple;
-	bh=MY+Weu3OElAh2SzxqR/XCg+ldoSXv3wpuINQxF3bKaE=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=MsLrAplzm70VtCDm6xuoKl5ziH2F4HrX1GHsNzMCVmfeL5JuQlLEwbN+iT4xjnYF2jYrHFM4I9gsLi4adybEWYN2oMlTDwMRzvGlbZFB+jC5PEpsJbor7m576c3McVyWZRdrOiPyYL15wxd+uyPl9Vcb5ixl3gBic5JSmTMH9Uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from 0004-musb-da8xx-v2.eml (unknown [111.196.245.140])
-	by APP-03 (Coremail) with SMTP id rQCowAAXI0HKlVdqF0ACAA--.2591S2;
-	Wed, 15 Jul 2026 22:14:34 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH v2] usb: musb: da8xx: depopulate OF children on teardown
-Date: Wed, 15 Jul 2026 21:57:50 +0800
-Message-ID: <20260715135916.24417-4-pengpeng@iscas.ac.cn>
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1784125307; c=relaxed/simple;
+	bh=Ulh1L7OIP8S74pGsecLVG0Xaujdj1gvA3lNFjPc1a+U=;
+	h=Content-Type:From:To:CC:Subject:Date:Message-ID:MIME-Version; b=PL7QD/8zxP9vhvL2llEkz8wTtCjGQPT+k3rEGGwTJjn+LuoQhvxJKb/DlY7hW6xtIo5ED0d798tWRX970F9iSF1LR0O/RwhM7oo8/tTSmQhrJPfwV97HEfrkfoiWybV0NZCZiTcmv5MURPJabOqWmcQtQ8GEIe5LPDqX0OytrNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amicon.ru; spf=pass smtp.mailfrom=amicon.ru; dkim=pass (2048-bit key) header.d=amicon.ru header.i=@amicon.ru header.b=F7abuiDs; arc=none smtp.client-ip=77.108.111.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amicon.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amicon.ru
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=amicon.ru header.i=@amicon.ru header.b="F7abuiDs"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; d=amicon.ru; s=mail; c=simple/simple;
+	t=1784125298; h=from:subject:to:date:message-id;
+	bh=Ulh1L7OIP8S74pGsecLVG0Xaujdj1gvA3lNFjPc1a+U=;
+	b=F7abuiDsILQc3IEyQybo+ORUwrfy155fbzyiDuFR7Ov8d78lZE4tnMcXKWgBqjEZAyG7CfTB9Kz
+	+ZBU057agqrczu017IhmdnxJvQjMtJi9fpv5yaA7Ro6as2/bOkzWtQDiHe1HOr7lg52hpCvD19uu6
+	blXoytLMxVLony+xffsT0eNroR1FQZ5g5WVIoL0Tl/9X+kO+JgjK73WXRcWtEu+ACgAgghS900Vxf
+	Zv4JJeEjwxMzuCVnBIZvVzEq6SKMEpzALSdtDx0LcmaSyv+p6U8H2iB7OWFH3ek/AhgJ+qjSzMfh/
+	Bqd9yCRdHB0JjKMtnE9M1qMOmPR8fRxSWeLg==
+Received: from dish.amicon.lan (172.16.30.10) by mail.amicon.lan
+ (192.168.0.59) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.27; Wed, 15 Jul
+ 2026 17:21:38 +0300
+From: Daniil Iskhakov <dish@amicon.ru>
+To: Johan Hovold <johan@kernel.org>
+CC: Agalakov Daniil <ade@amicon.ru>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>, Roman Razov
+	<rrv@amicon.ru>, Daniil Iskhakov <dish@amicon.ru>
+Subject: [PATCH RESEND] USB: serial: mos7720: fix actual baud rate not reported back to TTY
+Date: Wed, 15 Jul 2026 17:22:32 +0300
+Message-ID: <20260715142234.53046-1-dish@amicon.ru>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:rQCowAAXI0HKlVdqF0ACAA--.2591S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ar4rGrWDJF4UXrWDKr4kZwb_yoW8Ary3pr
-	WUWa4xKr4q9F4Yg3y8Gw45ua43K3WfK340kryxGw1Fv3y3XFy8WFZ5JFW0vFsrAFyrCa15
-	trs8Jaykua98uFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkv14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r126r1D
-	MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
-	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0E
-	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JV
-	WxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAI
-	cVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUDpnQUUUUU=
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+X-ClientProxiedBy: mail.amicon.lan (192.168.0.59) To mail.amicon.lan
+ (192.168.0.59)
 
-da8xx_probe() populates OF child devices before registering the MUSB
-platform device. If the later MUSB device registration fails, those
-children remain registered. The remove path also leaves the populated
-children behind.
+From: Agalakov Daniil <ade@amicon.ru>
 
-Depopulate the children when MUSB device registration fails and after
-unregistering the MUSB device during remove.
+The calc_baud_rate_divisor() function computes a divisor from the
+requested baud rate using integer arithmetic, which means the actual
+hardware baud rate may differ from the requested one. Previously this
+rounded value was never propagated back to the TTY layer, so
+tty_encode_baud_rate() was called with the requested rate rather than
+the actual one.
 
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Change baudrate parameters in calc_baud_rate_divisor() and
+send_cmd_write_baud_rate() to pointers so the actual resulting baud
+rate can be written back to the caller. Update *baudrate with the
+computed value (230400 / custom) after divisor calculation.
+
+In change_port_settings(), pass &baud to send_cmd_write_baud_rate()
+and guard tty_encode_baud_rate() with a status check, so the TTY is
+only updated on success and receives the true hardware baud rate.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
+
+Fixes: 65d063ab21fe ("USB: mos7720: clean up termios")
+Signed-off-by: Agalakov Daniil <ade@amicon.ru>
+Co-developed-by: Daniil Iskhakov <dish@amicon.ru>
+Signed-off-by: Daniil Iskhakov <dish@amicon.ru>
 ---
-Changes since v1: https://lore.kernel.org/all/20260616005819.11232-1-pengpeng@iscas.ac.cn/
-- keep the existing of_platform_populate() error unwind target, so both
-  labels remain used and the patch does not introduce an unused-label
-  warning
-- limit the commit message to paths where population has succeeded
----
- drivers/usb/musb/da8xx.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/usb/serial/mos7720.c | 29 ++++++++++++++---------------
+ 1 file changed, 14 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/usb/musb/da8xx.c b/drivers/usb/musb/da8xx.c
-index 4209f43..0c098a4 100644
---- a/drivers/usb/musb/da8xx.c
-+++ b/drivers/usb/musb/da8xx.c
-@@ -577,11 +577,13 @@ static int da8xx_probe(struct platform_device *pdev)
- 	ret = PTR_ERR_OR_ZERO(glue->musb);
- 	if (ret) {
- 		dev_err(&pdev->dev, "failed to register musb device: %d\n", ret);
--		goto err_unregister_phy;
-+		goto err_depopulate;
+diff --git a/drivers/usb/serial/mos7720.c b/drivers/usb/serial/mos7720.c
+index 94459408e7fb..1052217edf26 100644
+--- a/drivers/usb/serial/mos7720.c
++++ b/drivers/usb/serial/mos7720.c
+@@ -1264,9 +1264,9 @@ static const struct divisor_table_entry divisor_table[] = {
+ /*****************************************************************************
+  * calc_baud_rate_divisor
+  *	this function calculates the proper baud rate divisor for the specified
+- *	baud rate.
++ *	baud rate and updates the baudrate parameter with the actual value.
+  *****************************************************************************/
+-static int calc_baud_rate_divisor(struct usb_serial_port *port, int baudrate, int *divisor)
++static int calc_baud_rate_divisor(struct usb_serial_port *port, int *baudrate, int *divisor)
+ {
+ 	int i;
+ 	__u16 custom;
+@@ -1274,10 +1274,10 @@ static int calc_baud_rate_divisor(struct usb_serial_port *port, int baudrate, in
+ 	__u16 round;
+ 
+ 
+-	dev_dbg(&port->dev, "%s - %d\n", __func__, baudrate);
++	dev_dbg(&port->dev, "%s - %d\n", __func__, *baudrate);
+ 
+ 	for (i = 0; i < ARRAY_SIZE(divisor_table); i++) {
+-		if (divisor_table[i].baudrate == baudrate) {
++		if (divisor_table[i].baudrate == *baudrate) {
+ 			*divisor = divisor_table[i].divisor;
+ 			return 0;
+ 		}
+@@ -1285,18 +1285,19 @@ static int calc_baud_rate_divisor(struct usb_serial_port *port, int baudrate, in
+ 
+ 	/* After trying for all the standard baud rates    *
+ 	 * Try calculating the divisor for this baud rate  */
+-	if (baudrate > 75 &&  baudrate < 230400) {
++	if (*baudrate > 75 && *baudrate < 230400) {
+ 		/* get the divisor */
+-		custom = (__u16)(230400L  / baudrate);
++		custom = (__u16)(230400L  / *baudrate);
+ 
+ 		/* Check for round off */
+-		round1 = (__u16)(2304000L / baudrate);
++		round1 = (__u16)(2304000L / *baudrate);
+ 		round = (__u16)(round1 - (custom * 10));
+ 		if (round > 4)
+ 			custom++;
+ 		*divisor = custom;
++		*baudrate = 230400L / custom;
+ 
+-		dev_dbg(&port->dev, "Baud %d = %d\n", baudrate, custom);
++		dev_dbg(&port->dev, "Baud %d = %d\n", *baudrate, custom);
+ 		return 0;
  	}
  
- 	return 0;
+@@ -1307,10 +1308,10 @@ static int calc_baud_rate_divisor(struct usb_serial_port *port, int baudrate, in
+ /*
+  * send_cmd_write_baud_rate
+  *	this function sends the proper command to change the baud rate of the
+- *	specified port.
++ *	specified port and updates the baudrate parameter with the actual value.
+  */
+ static int send_cmd_write_baud_rate(struct moschip_port *mos7720_port,
+-				    int baudrate)
++				    int *baudrate)
+ {
+ 	struct usb_serial_port *port;
+ 	struct usb_serial *serial;
+@@ -1325,7 +1326,7 @@ static int send_cmd_write_baud_rate(struct moschip_port *mos7720_port,
+ 	serial = port->serial;
  
-+err_depopulate:
-+	of_platform_depopulate(&pdev->dev);
- err_unregister_phy:
- 	usb_phy_generic_unregister(glue->usb_phy);
- 	return ret;
-@@ -592,6 +594,7 @@ static void da8xx_remove(struct platform_device *pdev)
- 	struct da8xx_glue		*glue = platform_get_drvdata(pdev);
+ 	number = port->port_number;
+-	dev_dbg(&port->dev, "%s - baud = %d\n", __func__, baudrate);
++	dev_dbg(&port->dev, "%s - baud = %d\n", __func__, *baudrate);
  
- 	platform_device_unregister(glue->musb);
-+	of_platform_depopulate(&pdev->dev);
- 	usb_phy_generic_unregister(glue->usb_phy);
- }
+ 	/* Calculate the Divisor */
+ 	status = calc_baud_rate_divisor(port, baudrate, &divisor);
+@@ -1474,10 +1475,8 @@ static void change_port_settings(struct tty_struct *tty,
+ 	}
  
+ 	dev_dbg(&port->dev, "%s - baud rate = %d\n", __func__, baud);
+-	status = send_cmd_write_baud_rate(mos7720_port, baud);
+-	/* FIXME: needs to write actual resulting baud back not just
+-	   blindly do so */
+-	if (cflag & CBAUD)
++	status = send_cmd_write_baud_rate(mos7720_port, &baud);
++	if (!status && (cflag & CBAUD))
+ 		tty_encode_baud_rate(tty, baud, baud);
+ 	/* Enable Interrupts */
+ 	write_mos_reg(serial, port_number, MOS7720_IER, 0x0c);
 -- 
-2.50.1 (Apple Git-155)
-
-
+2.51.0
