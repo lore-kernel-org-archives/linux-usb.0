@@ -1,138 +1,194 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF4F25776;
-	Wed, 15 Jul 2026 02:36:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784082995; cv=pass; b=VUh5E+Kpx/fv9SZKW3E1uhfv7iQyoDnopBlKT+SebV4u6rpSQhlA57l3JAET9affkY9GhJ+8rMTeGsXoJ8AmkRFybCMOR/0ZiREfMZjjsyzwU48KUem3OFKUM+Gm0eFAW/ZcXS9HE5IYZyZbqYnJ8OlXnwA2LLFecHqvw+vQnd0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784082995; c=relaxed/simple;
-	bh=CCCoBKWdYOZIqsZgs6d6JT73LJGIMyFaB4POVbHF6tk=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=bXoNkeJ6PbSl8Xmgws+pb50BCFv67/zdY5Za5omn2Mp2kiiB3eNMwI+SmjSFTyOQ6m+f9tvl+6nnVzzPRraadBvBzJlMCWkIGrDnl5UlD1TxCtZI8MNO1NhuwY4BtdW3ZcLyZRCQRYwOigXXG05XSx6tMmDajWMSt4hspY5zL7Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=X40AoUZd; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA92A3B27C6
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 03:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784086683; cv=none; b=OUmO+ai63tRx1xrrAZjFLfkbBa6mma/Z5sO3V26EHW3hmMzbh/TbmS7pFRKHOo1EHf7sqk3hWG3XZjvI+wgxny1AM0N9hL6+qE9wvDE1xmqlLT2AzbZMLNAAtSrRCYZTYuLhPLnel4BBn6Q43l9MazblUwkj1RZSIlxs4vMxRk0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784086683; c=relaxed/simple;
+	bh=oyFkWMNa9fRt7sFWFB01ejvmlxQL3Rm6WRjhlInZEk0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uziXSen3HTgFXSK33YgNwBOvS3i+5HcC+wGIaXC92nVo1PT6yMc3js10X61WDl2KiDm5PXfTAMm2DvgHcaeazO21M4vTdA18nTjgKn0NUDaFZTYloWxB/pyqKSF6FHBTHCH0Jdj7y7wx8cWToO+/V8gMYQ0lgibbB+ZBUnLOxPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cS85yIjy; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XLMUqEQj; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="X40AoUZd"
-ARC-Seal: i=1; a=rsa-sha256; t=1784082971; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=EDMJI5+Zxodtl29AzYLlxHF57BTQIVOnpBYHfLqeaaKfm4KN402UVrwnQ6z58zUD2cfzR6Wo+K5qm2Wf8H614lVlHMBRPYDVKK0836cBgOFPhh4/I/xSjNlPDZUsVBcjCCtb+9sbR/75Stjze82gUR2pQ3S0Vce85fjNrmEX7xc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1784082971; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=CCCoBKWdYOZIqsZgs6d6JT73LJGIMyFaB4POVbHF6tk=; 
-	b=UEmXXmSGthgKtaAlykKaIpMraEpboC50k978gJBOQSgrS8SrLOW7jGGaoJdmweOk3iTqAzNsp9arabgrxuHnPXQa2VEbYH6IrKa4kSDUkvHlFWn/1XrK2uvDSoWAZIF4+1t2LvPv8+D9iLIZrNDmDfIEx/x6xxGWAaE+1k27Uo0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784082971;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=CCCoBKWdYOZIqsZgs6d6JT73LJGIMyFaB4POVbHF6tk=;
-	b=X40AoUZdJrMD6AA+fIConpeuYtY+IfQs3BgFWVGlwjjTTigymnkm/P4FHOq4GOYZ
-	UIY/qPO7nlqzKY25ii63TsxVQuV7aHoiTU1NiqGDF/3153D4MhYihznqgM6Na0F8752
-	6vmttJ+ULPVtsj7fJ+eanxiJT0uKI1wq06qu95Mw=
-Received: by mx.zohomail.com with SMTPS id 1784082969609978.1531201799045;
-	Tue, 14 Jul 2026 19:36:09 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cS85yIjy";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XLMUqEQj"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66F0I5vF2222801
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 03:37:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=7e9IbSuaSjhO5SzNL0GuiEie
+	GTLyIZc7yOYtJCBxBik=; b=cS85yIjyVOXE4H8ASxvmvqe8Xyd934MpiEl4tqFw
+	qasjj9YLFaF9bGV+QO8BOOu0DUtBanN/pRvWRj4ycXEizGSD5To4DV2n3s0OoSYj
+	lMpo9dFlp3wRVUo+oKeL7LFKHpYanJNpJ17PaofJO+9LZ76lelElo0poTWMHZfBb
+	jHvgXXm1w+KELX+wv0VPFlcvpal2N7WO47dSntGSmt6zH1Ycs7Bj/r0y7N/iOLBO
+	leDl5LMjTvOGrfXJtQ8LbKABcreP+AVCLjrfH4zFOoHszzJB/SeNcfQe+XMALvug
+	aa5xuG/rErcXEgZE8YvqB0MQeKNW8C2H+ZxogUQOCwSv9g==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fdnnuttc1-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 03:37:54 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38e095fd889so3359221a91.2
+        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 20:37:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1784086673; x=1784691473; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7e9IbSuaSjhO5SzNL0GuiEieGTLyIZc7yOYtJCBxBik=;
+        b=XLMUqEQjTRFieV/WsbxC5KiDImZDklqKeOIL308oUetVT0ABf8cKw8N3VpyFNflHUs
+         qRiCeaNpB6gMAhwB1GI8l4IdNEjjKiiPHed4kaDXToiY4e2Tj5f4nVpVIt+i8StBjkfQ
+         osm/vmB9mhnGFvVhHhwNC5cpdGVeYeoXOC0CgMVIENBjglCH67L7kQ9+k39h9nLyV7G4
+         M0nrR0TPlrXFmkiDHolSAXV5OJ/1GJieMrH+HozsDKUOQofPdUqrR6orL1JSpaQTjg+Y
+         XMj2TXzpbMFPtJxnUMfWIpIyArYmkzgplxe5WzaRxlznc2Ocba1uYLgn3WGGbi3FV3Jl
+         Nkrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784086673; x=1784691473;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7e9IbSuaSjhO5SzNL0GuiEieGTLyIZc7yOYtJCBxBik=;
+        b=hV8Vj0+v5S6X+bjlVN/8KOuTU2kM68wdzsYf9p+xAVfAQ67wpHu0cFVmF8ED9XMVUx
+         xCZa+HciYQmzKnBvdIIl/YXtw1XWuqvqLQGpCc0Xmj41J9oJaA3/M/72tdlwvw1irwWU
+         j8iDDTnvUUOSJBiekb9siwiOYuhusai1oFUKToUMWBXFuYicubeeypVdfYp+crEJADHQ
+         2CwzU0tVvx/8yUzf/zg7xigcPvPJa6bXOf9A39K3VwgvtSzqv9BkNulMylHuC38frgs6
+         YZURvDyjf24wL70txTX4163a5CguIxaqFNmF5dZhsnXI8c+EslPPfywHTXTVErfnH4tV
+         2QnQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr9PCjgbDb7LS0YAlHTMQXWGscuTUipmJs/JUaw2AguzkV3B8qFPWVzIPtaZoFbVaEz0jHjuY+39N8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKA54Iu6mOSx6eQeDmF7KzmRdg033i/Zl06QToqFVIHoIkvKVc
+	fzRgvwqmaTwoR123NV9UXR2JxuSM3qEDgllJ5aoGNXFYVKfUzdWtaFBduBn3agOjOlBlWoKLEbR
+	j/OUqJTrSt4y0S6lHRb0l+UlzuQX2qFTWUHxw4TZu0CA4pC1dzrWk5N2ocYWQqAE=
+X-Gm-Gg: AfdE7cnZpmVMvrDxoK2WgPtveemgA26nejiicCteReXTrxgBknbPMKDzGittKUmc6ec
+	k5mh1AauCn96UsIljThPKMOWQ5sGUg0t9AlzBwiQFc2in5CivuWoe6GXu/OGwZbv0bXn0cxtEnf
+	kwf7k2GhU6wwu4+TYj53xcb666UmE/jlhil4R0XbL36CsCOuX+o20PqpkYXHyWzCw2UX+BQVcav
+	x1I2g6SVdoK9xEMo/8v5k4MZCcIDZj/jRGMDsONU14onpp2uXrfvAFw3ml3q7yo4RHDfrwsa3Z1
+	pniLveK4tOsqpaoClvGqnotV/EUZ7WuCvmS5fWSGv5apmgk1BLn7LAuuG09SKrkS/G9yXU9rtYg
+	tVrbdVUC+QNv7P2XJ+p38Bvnj1KrkASmhCq6MHhH4dEwDOfJHqfVZmjnYYKMh
+X-Received: by 2002:a17:90b:390f:b0:381:939e:adf0 with SMTP id 98e67ed59e1d1-38dc7752a8dmr13926715a91.31.1784086673450;
+        Tue, 14 Jul 2026 20:37:53 -0700 (PDT)
+X-Received: by 2002:a17:90b:390f:b0:381:939e:adf0 with SMTP id 98e67ed59e1d1-38dc7752a8dmr13926691a91.31.1784086673026;
+        Tue, 14 Jul 2026 20:37:53 -0700 (PDT)
+Received: from hu-petche-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-313b0240570sm53899311eec.28.2026.07.14.20.37.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jul 2026 20:37:52 -0700 (PDT)
+Date: Tue, 14 Jul 2026 20:37:50 -0700
+From: Peter Chen <peter.chen@oss.qualcomm.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 1/2] dt-bindings: qcom,snps-dwc3: Add property
+ indicating presence of eUSB2 phy
+Message-ID: <alcAjvLJCz9D9X3p@hu-petche-lv.qualcomm.com>
+References: <d742u7jrpm7gdoljgiwkfexc47qhprwoibk6fadpm3qilbdpgi@jrkbrwfmqmrp>
+ <alBOC18CpkGDhM2m@vbox>
+ <20260710-warping-resolute-wasp-e4b8ce@quoll>
+ <7a099224-ea95-40ec-b279-f8834f261e23@kernel.org>
+ <alFTxg0HLyke0gCK@vbox>
+ <b60b4d96-ea67-44d0-a627-c50ef0ed8615@kernel.org>
+ <alSRvWY2LWp8OeOr@hu-petche-lv.qualcomm.com>
+ <alV0_DHvBFpzDumP@vbox>
+ <alWq4jAGPTINnpxD@hu-petche-lv.qualcomm.com>
+ <albAccNnsI12AIUo@vbox>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [RFC PATCH 0/4] rust: usb: add usb request block abstractions and
- a user
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <alVGanOux7SJ5dpM@pendragon>
-Date: Tue, 14 Jul 2026 23:35:50 -0300
-Cc: Miguel Ojeda <ojeda@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Alan Stern <stern@rowland.harvard.edu>,
- Mathias Nyman <mathias.nyman@intel.com>,
- linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org,
- linux-usb@vger.kernel.org,
- linux-media@vger.kernel.org,
- Colin Braun <colin.braun.cl@gmail.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <0CCB6F69-1336-4254-AE1A-5DDC63BCA7B1@collabora.com>
-References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
- <1E924102-5CC7-427A-9FD0-3B15BA1BEAEB@collabora.com>
- <alVGanOux7SJ5dpM@pendragon>
-To: Colin Braun <colinbrauncl@gmail.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <albAccNnsI12AIUo@vbox>
+X-Proofpoint-ORIG-GUID: D1eDIohL4dsLl0TjLDpYSzsURmzgoT0h
+X-Authority-Analysis: v=2.4 cv=E+v9Y6dl c=1 sm=1 tr=0 ts=6a570092 cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=1QtRUzTFQfe48BcbiroA:9 a=CjuIK1q_8ugA:10 a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE1MDAyOSBTYWx0ZWRfX8gj5cFWrzFmX
+ iTuS++vxecT+shyYvM0rx4poEsbcdnHYjlN/IbQ0G7/fdaubDd+AsG0Ub4h/Vq9eDtJaTbjN+Ho
+ aTAdfPkQilpu4KXqAojm5p8iHUy+PCxKlk3h2Z2HrZy6lf+XXpyVTEjvn03c0ZOnuIgi+cq1RQj
+ bGzJs+/RueQ9zFgROVErDOvlQ/i4u4iNUvukyKSA2mgx8+xiNHpqpB566LZcHBUcw8pixfPP8TM
+ PFY2aRdhCRFEVdod5f03f2H78XYl868r35BNh/HAmNE1GUhIEKICYk5BMIIZrDCIK0jDsujAC2S
+ AtwoR1nVlNVcxRSJ+cO+vvhOdpp4uAvkWt6v2aCLyvkupw7UW2/sUZeEUFjTRmc2wYufEOeN+Ua
+ 62a+y6Qi/XBQU4hixSfqMUKnafPLptjrIRe1x97T36qgAwdHjtLNvl63ahbDARf7XC7rNr3UV6o
+ AJDfPu1IIU+Ngk94fag==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE1MDAyOSBTYWx0ZWRfX41ySLw+SVY3X
+ VSYs28QTBx7jH7N99ScWrG2xlWZ0xfIpJk802aEiXv+TU01EuQ2vmmnowp6Wsfu6Ht9ePqfgaSD
+ wmlovPcwWZ4PVTwhR/44df+ZybzhJ5w=
+X-Proofpoint-GUID: D1eDIohL4dsLl0TjLDpYSzsURmzgoT0h
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-15_01,2026-07-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0
+ adultscore=0 clxscore=1015 bulkscore=0 phishscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607150029
 
-Hi Colin,
+On 26-07-14 23:23:01, Thinh Nguyen wrote:
+> On Mon, Jul 13, 2026, Peter Chen wrote:
+> > 
+> > Yes, eUSB2 is based on UTMI Parallel mode, but it has dedicated
+> > Physical Layer Supplement [1], eg at CH2.4, it lists eUSB2 PHY
+> > Features.
+> > 
+> > 
+> > > To go this route properly, we'd need to introduce a new phy type
+> > > attribute in the phy framework, which will be a bigger change that may
+> > > impact more than this driver.
+> > > 
+> > 
+> > It is not at generic PHY framework, it is just for USB PHY dedicated.
+> > 
+> > I do not see big changes, it only needs to change above files and related
+> > dt-binding files, and other users may leverage it if the controller
+> > has special sequence or settings for eUSB2.
+> > 
+> 
+> The usbphy_modes describes the interface between the controller and the
+> phy. eusb2 still uses utmi, so adding eusb2 there is sematically
+> incorrect. If we introduce the eusb2 mode there, we'd have to audit dwc3
+> and every other driver that uses usbphy_modes to handle the new mode
+> correctly.
+> 
+> That said, I have no objection to adding a new phy type for eusb2. I
+> just want to note it is a bigger change relative to adding a boolean
+> property to the DT binding.
+> 
 
-> On 13 Jul 2026, at 17:32, Colin Braun <colinbrauncl@gmail.com> wrote:
->=20
-> On Mon, Jul 13, 2026 at 10:53:53AM -0300, Daniel Almeida wrote:
->>=20
->> Have you talked to the media people about adding a Rust driver?
->>=20
->=20
-> I have not. I was actually wondering if this belongs in
-> drivers/staging/media, given how much work still needs to be done for =
-it
-> to support basic functionality. I had seen some v4l2 Rust abstraction
-> work done but not merged in, so I had hoped this could eventually be a
+Hi Thinh,
 
-Yep, I was behind this for a few years, in a few different ways.
+Only the new user for adding phy_type="eusb2" at dts needs to check the
+controller logic, and this is what the user needs to do that check the
+new added device tree property logic at the driver.
 
-> user of that work. Still trying to get a lay of the land, this is my
-> first attempt at contributing to the kernel.
->=20
+So, it will not affect current user for phy_type, and I checked the dwc3
+core, it does not need to change code for new phy type.
 
-I=E2=80=99m cc=E2=80=99ing my colleague Nicolas. He was at the media =
-summit this year
-discussing a topic somewhat related to Rust.
+Currently, it is only benefit for qcom platform, but eusb2 (uesb2v2 later)
+is the common USB2 mode, other users may leverage for this new phy type.
 
-IIUC, the consensus is unfavorable for Rust media drivers at the moment. =
-They
-are waiting for more progress on gcc-rs before allowing it, as clang =
-does not
-fit some of their infrastructure.
+Krzysztof and Dmitry, do you agree we use existed device tree property
+for this feature? 
 
-This doesn't have to discourage you from this work, though. Last I spoke =
-to
-Greg, I think he was OK with having enough infrastructure to build a =
-Rust
-version of usb-skeleton.c. You could perhaps work on that? I never =
-really found
-the time to, but I can chime in with reviews. It's always nice to =
-onboard new people :)
+-- 
 
-As Danilo pointed out, there is a competing implementation, though that =
-seems
-to be completely AI-generated, IIRC. Perhaps Mike would be interested in
-letting you take it over? It's already a lot of work on their plate to =
-do
-hardware RE + KMS + usb, so you could work together instead.
-
-Just a suggestion, of course.
-
--- Daniel
-
-
-
-
-
-
+Thanks,
+Peter Chen
