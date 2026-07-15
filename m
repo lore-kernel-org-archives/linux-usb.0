@@ -1,218 +1,448 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B226139CCFC
-	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 05:38:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F0739CCFB
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 05:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784093910; cv=none; b=EQ8RrzPEziD3CCGEvZj/Cqe6pMpCCKhPCe2o2BOggi+dz7AVly564I4pcAz4KGBgEcmyE7nr73hIl1WKSV/GBtzF7EwxYMXcAd8FOjCx7MlUaBk7fsFvQ7p67R70M9IO0thN136aTq0+rB2Plt2CV2u1RLZfV+3Duu9O0bNDh4U=
+	t=1784094137; cv=none; b=BophvgETLOj1L7ckCPNz+KrVWwhSZzSGqdCHyjtBJhyW6LgfdgkbBFRy82DpjHxkImQ5SnmdU5lphLWp23Z7L9yPYouXr40I2XWI37XrWxF2o0Be41KF/57pAsMQj5SSCrJz/e3eVqGyPWj5fHCDAo2wa7a8atw1mAmVKWsAqAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784093910; c=relaxed/simple;
-	bh=i3/b9t7IlZg8KXkmOMXMHUx3N5cuv2mcPJfMFSHaElk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GIfnzj9EPhIQEixy3n+uIAF/z4qWNnrtiljgQTbQhHeUdOax2OfFEi2lFTmXdhCUOdgPQGYDkvhbv0zZ268MRZwNgc563/LjRA4xh/+q+S/gqOo2dM1VgdZXZai4043mf11BlyHqZAebhIYlceYVBruhyz4zYWPj4Zj9D4gi1NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kNbG5je2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=d5nCbF94; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1784094137; c=relaxed/simple;
+	bh=85UZwvIciebdEmkRr+SYKRdArqBYvs2guw8hT4ysxoU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GtgWcaeud2DrmmID7UUqUhwYFGrnj9V3hBOC3zm7FCenOF0RTuzaMX9Msd/tU+NFZbt0YRMByXn5RBYuVt1XIjvXBSF7sN1nXhX5+PKzjpwdC8GyEZOqAifHvAy2bFWFGqpwGXct9YFanpTcJ3331emm342VWdIt7ac6e/y38aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b=ltpRfCJC; arc=none smtp.client-ip=185.125.188.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kNbG5je2";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="d5nCbF94"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66F3lHuD2621111
-	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 05:38:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	covuqpyp9O+Jd+SJApZyarU+kXKaweFVvywrnTyrtdM=; b=kNbG5je2M9021Jl7
-	805Y52gTi9m3iLyQOHaYYyqnSv4+iz+DcJDIFouVe9/fY7ZC1W+0T7cgyQ9BlaSi
-	w1w7KqrfwIZIjCYH4aBnEWz3s/C+RX0qgNObDhwaO3jMPz1fMvGvTspPnnwvNiQx
-	0IWxiLI3kXyasDYXu044+A6SWzbNgd9g75gb0c9vZg8tcbA3yg739R0gqJV1rtQw
-	35l1hXy7JwlTG14rWRgqu/7e2RlOaEUMZS8PmSpgmzfKvMqPkuySLWTkSmJAEuMd
-	kTKWnGS3Y5iJnmrAIvh1+q+DPPpy4YU7BKqTnV1qIjnc6Xm9GiSS4bROKgUS3yXx
-	V5Z6MA==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fe03vgqq1-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 05:38:27 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-848568a6f62so9048622b3a.0
-        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 22:38:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784093907; x=1784698707; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=covuqpyp9O+Jd+SJApZyarU+kXKaweFVvywrnTyrtdM=;
-        b=d5nCbF94oHGZByIABiJVpgPNxoPy7kfU/mViUHQNJPBpWazB1tJpJ0WSf0RYtQOIq7
-         37ihGcj+S+gdaFo1BZ/hRtKusMUuKydyfVyK0iWznKADyZtphgHlD+V05LuByICUOfCz
-         MPt7quEZr02uvO9Wq/XAGxtoZK0sGghWxdIrFgXeTs5smwIP5faB8alKuAzM7mr6vmvh
-         tSuZbrG8n3WXDfDY0r1xNLG2MfP724BnsdMBjTtweyikhW8MW5YtwRLJEol/sfuJv7M2
-         nKsLJd/q3jpW4xudshU29U6uTdPL+h7f+P+OFC6hiN60F+v2qYhYxq31Oa+QFAMGaZHH
-         GMNw==
+	dkim=pass (4096-bit key) header.d=canonical.com header.i=@canonical.com header.b="ltpRfCJC"
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id B209A3F608
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 05:42:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20251003; t=1784094132;
+	bh=uoBIPK0phEJaHsN6vT8ceqwYpwfQfLNrm6g9qxxe21o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:In-Reply-To;
+	b=ltpRfCJC6ciG7/wBA5N1sYX5msb7wAGfXPYDqbmMYdd82syxYBuXWuUjrKBorS2C8
+	 taWGGVSFJlWB2W+RqAL22Ve6g5ktInLg1NRDNq1PadZPeHJ36vNoLyak343xthi0b3
+	 0lznSh9dJFbSTpRAk0/yijPxuviOp6/kVcOMMV2V6Mnx649Z5H0o+6dXPDbqpV0skR
+	 2qDh5UCmAxEf2NcY2L+UvMmdbLLcR2QRiZ/z/eG/h+JuKZHLl8Z4IHNxVm03ky0OCu
+	 TgUni2FpcrP2DiC4J4jM4F5p/yvIb+rxvGHtSejnwoHvDrI5xORyBWcE6m4EJ2rp+w
+	 WM7u0Ze0gFeWMzeESEH2Y1xeEGkOlmmgA3y4ToHnlChboRewVbb/rHkEzBrxpbMgCa
+	 +b/2v5foqmlhSXeuMTS2+oVJrGuJM89RT8D9z4oWtRUOgMgcU6Hkx77+B5+y137x3n
+	 8vtCA0r+IxUMhnNBIgP8LCj0BFAYIvLk4a05AhXD8J6A1ST1Al11YGwt3aoCxH+kz5
+	 aH6STRbbjgOOuPS0jh9WgIE3mLs9/aQyTQ1kHxbIsTGN6Zek5xWy8m59CJS9XtS512
+	 HXW0XckpH5nfRhubUeqEgiHN3YQIgEVaEjaxvmbzI7pvdd4zPOOtQpsKtKT3jgM6lM
+	 iA+yPsSrFHB/YbsbvqL3VoLQ=
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-c890bac374eso13075500a12.1
+        for <linux-usb@vger.kernel.org>; Tue, 14 Jul 2026 22:42:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784093907; x=1784698707;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=covuqpyp9O+Jd+SJApZyarU+kXKaweFVvywrnTyrtdM=;
-        b=B78rZ+cPUxVshlBmEBCgqZZ7GPGA62lktkrPPcWHRfUv5E77bgph3bPyRk4tIAnPkP
-         y54r+6W8tzqPgBR/8grh2hu1qFPmgak7l7naPIXD0tDbPn1pRY7LI26EBape4oebBbcC
-         ANNLMrH6QzCsYzLX1IhdGpM6JODQdAbcT/p+W84mIT577uqL5aDG7S837BWv3pHZGzKr
-         wCZTNmQtfNWslyfyfxSt09gBscsHX0xInZK3P98dgNSnrl4J6N69F/dgXquEla+LSmVP
-         NaRZGXN8Fsysq3hxuJq/ShC+UjvF7gteDiaK+hM/PFuz5A+7jOpAYYDQHUk/rctb0B5S
-         yFIA==
-X-Forwarded-Encrypted: i=1; AHgh+RoHjUbZydux3FVWa4O7jRpo0qgwNY9k8sjJsjyqYDhWP1n6zc8+Nw6qGD0dQL6YWIUDGcxdfGoaghw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJLNohyf1QfpmfUZ0dpFlGfM7AwjxZOIS3SELYr5CiyRq8nj1E
-	NTaqULadIhMGlvFOHFChjQi9+DGTHLxsw/UOKB3HJ3G/AiCWP7+ryG2kdOeO3oyYRZvPZegeNfr
-	VK8oTSKMpIkxHg6A8mnU+fM26zYnMjJk1XWRwcfY6pv9ivxTrH0zM9i+zV4in5U8=
-X-Gm-Gg: AfdE7cnERiDiijs1uf84IdiQhKBLprV2QDOfMPbjUEE6FSSv2pHH52V7QwMCcnckZAL
-	V9KgVVkIaMVOfMxd+am+UevdsuXgCyrV/tCKulki6yRNP0By/hOPS7qnE2Xe6dSeqtPZxqBwUcL
-	eJOuXazqwAb/BZNA/qXapbITugiLgQawp8y2fZlMd4XEr+hkFeqscXcsUTUhTfUYkSswvSCWupz
-	CuPlPKZv+DcN8Aavj11yhEPS3RAXyVIPtSTkskE6ka8L3VEoyZUdH124OL9RkSoqntjWKyKbfIG
-	x+C+fznVnTl6lehAEfx6wQv+xjB/SEf4H+5jbqK0IQb1jKj5XAc1HJ439VQVX+Q4YgrJTlWOyy2
-	2RD08yCqcb8aeguYKJxzFWNDwY7wRtIsSxWEmQz4wH3+rLv4xA/bWhxrEhddZ9pPCUOQqERkN1o
-	iTbVw=
-X-Received: by 2002:a05:6a00:3d4d:b0:84a:2a88:fbd3 with SMTP id d2e1a72fcca58-84a55624dc2mr5302054b3a.20.1784093906515;
-        Tue, 14 Jul 2026 22:38:26 -0700 (PDT)
-X-Received: by 2002:a05:6a00:3d4d:b0:84a:2a88:fbd3 with SMTP id d2e1a72fcca58-84a55624dc2mr5302034b3a.20.1784093906014;
-        Tue, 14 Jul 2026 22:38:26 -0700 (PDT)
-Received: from [10.217.219.121] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84a4f7dadefsm2420750b3a.45.2026.07.14.22.38.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Jul 2026 22:38:25 -0700 (PDT)
-Message-ID: <ff5e00be-dba6-4597-b2bf-288147cbf60e@oss.qualcomm.com>
-Date: Wed, 15 Jul 2026 11:08:20 +0530
+        d=1e100.net; s=20251104; t=1784094131; x=1784698931;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=uoBIPK0phEJaHsN6vT8ceqwYpwfQfLNrm6g9qxxe21o=;
+        b=q5nn8DOEPfMu/yRVMVJ9MVfpO0kGCZZASdJG+EdRQNjKW5oFwFghz3Dpuv/8/nIq5k
+         REz+9KMCogaG8KfcQDiKC1RW7zZPeyVg5mhUNAPxz+0m6Ruhehe8Ip4p+ydxGHkenOZ/
+         j3ol03t52CzgpM88UmZH0+GCMbz88nvNUb0RC8fEEngjIl3tBz8E7voNJIPsYOnGyksi
+         jBRhC7pamOrQPvpt7jjEjp6P0YD50ZNGYluLdt1HE1S8D47WwnI1a8kQbIuuGr671ojJ
+         B1x9wyHe0+3aU56/Ru5Vy6UQMvkoeo2p/qO43F3RN+YwxzZFEJvxMCtMKeeGLfbUCBOZ
+         WdjQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rqf2a6sgipa4QtOlA7PqEn7s5Ms/BR38XfiVYEh82PmQ7os1XOkGGdzE5TPOzHk1HhLZ+kue6bdTt0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUVpT+rdei62aO3uiA5R5qsjMfhzAA/iuTuKlpGOmZIU231i3b
+	lSHHCH/nb6jJq83NUWUSo6aW7EbtUXlx1hUiOMF98pmVpH6S+YdACXT17zUwzTYivu5Higbg9/a
+	+dOJPMVoMD+78E6+VgD4EdOIfeYS12gto0wVoEH7FwBTzCntqNYZjGezEsG+v6NQhEY1W6YkQeJ
+	NOBQ==
+X-Gm-Gg: AfdE7ck3wxkK2bQlfm13lkZJorRni6b2eMXA+OzFy+SGZ3QwwWoVSx4UvVsbVoCSpSh
+	jOL579vc8Tjx06LTPuTZRt2gBWg4C0NhBVkrUbKyBLql7TnUS3ungsCrOBY3vNoxkKCAUI/h7xO
+	+lWomxQ5+++mSiEpDj3H0JLUB2TVMaZ9/1SK6g6LpEPRLFt+LBGvy6nGYELwCNCGmb74B0S66vA
+	85bPyrXvx/rk6iYrFjpc1BGYKwkEom2e8cNIxBxhsuuFu/sK7/UB3m6ZHvzBpS49+QT8eK8MaWY
+	U/zlMGLJXWlwvCEaVXyoKgnrNAwM8MbbTqgnOHvMDL/ZZ+ryPI9snrBOCplTwatOJMvM7I6dMQT
+	5B/cs4ro/fD+q8kyKZH50xs04I3OGmSOZEadQ0qJpsMVaZRoRpdTFg++5+n7mK0YeDE8=
+X-Received: by 2002:a05:6a20:a10b:b0:3c1:d78:6458 with SMTP id adf61e73a8af0-3c36c345708mr1531952637.44.1784094130697;
+        Tue, 14 Jul 2026 22:42:10 -0700 (PDT)
+X-Received: by 2002:a05:6a20:a10b:b0:3c1:d78:6458 with SMTP id adf61e73a8af0-3c36c345708mr1531926637.44.1784094130222;
+        Tue, 14 Jul 2026 22:42:10 -0700 (PDT)
+Received: from acelan-Precision-5480 (211-75-139-220.hinet-ip.hinet.net. [211.75.139.220])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31174ac14f2sm93260262eec.27.2026.07.14.22.42.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jul 2026 22:42:09 -0700 (PDT)
+Date: Wed, 15 Jul 2026 13:42:03 +0800
+From: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: Andreas Noever <andreas.noever@gmail.com>, 
+	Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>, 
+	Yo-Jung Leo Lin <Leo.Lin@amd.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	"S, Sanath" <sanath.s@amd.com>, "Natikar, Basavaraj" <basavaraj.natikar@amd.com>, 
+	"open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>
+Subject: Re: [RFC][PATCH] thunderbolt: Quiesce AMD NHI during suspend
+Message-ID: <alccavxbVnZGtVU5@acelan-Precision-5480>
+Mail-Followup-To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>, 
+	Mario Limonciello <superm1@kernel.org>, Andreas Noever <andreas.noever@gmail.com>, 
+	Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>, 
+	Yo-Jung Leo Lin <Leo.Lin@amd.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	"S, Sanath" <sanath.s@amd.com>, "Natikar, Basavaraj" <basavaraj.natikar@amd.com>, 
+	"open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>
+References: <20260706023422.3647320-1-acelan.kao@canonical.com>
+ <2ff2d9b9-12fb-4908-8738-2498b2927571@kernel.org>
+ <albapl82ioSBPbp6@acelan-Precision-5480>
+ <e78152a9-c6d3-47d9-8657-f5efc2fe69f7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] dt-bindings: qcom,snps-dwc3: Add property
- indicating presence of eUSB2 phy
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Peter Chen <peter.chen@oss.qualcomm.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20260709-eusb2-interrupt-handling-v5-v4-1-d4f993925608@oss.qualcomm.com>
- <d742u7jrpm7gdoljgiwkfexc47qhprwoibk6fadpm3qilbdpgi@jrkbrwfmqmrp>
- <alBOC18CpkGDhM2m@vbox> <20260710-warping-resolute-wasp-e4b8ce@quoll>
- <7a099224-ea95-40ec-b279-f8834f261e23@kernel.org> <alFTxg0HLyke0gCK@vbox>
- <b60b4d96-ea67-44d0-a627-c50ef0ed8615@kernel.org>
- <alSRvWY2LWp8OeOr@hu-petche-lv.qualcomm.com> <alV0_DHvBFpzDumP@vbox>
- <alWq4jAGPTINnpxD@hu-petche-lv.qualcomm.com> <albAccNnsI12AIUo@vbox>
-Content-Language: en-US
-From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-In-Reply-To: <albAccNnsI12AIUo@vbox>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Ife3n2qa c=1 sm=1 tr=0 ts=6a571cd3 cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=VwQbUJbxAAAA:8 a=jzwohxEhcxs_Eh9CruUA:9 a=QEXdDO2ut3YA:10
- a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-ORIG-GUID: NlWDhk9Vhg78gIehQ95FycgtLeU23J0A
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE1MDA1MSBTYWx0ZWRfX2bB6tvyzMj8v
- Uhd6KF/qD4g9oicerBbmMVRcvXZFpFkEe0djhc60nvsIljcD0I/pLHK3a+1BEAbtYrjaGIxGhTl
- 61unP4EZNhAGZVIt45e7SU4rCb09OsQHT1dCgDweU+Ogc5btxghvpOIExRb7UTbU0yXtS1KCbaR
- vG98rUxUygTAO8cQ7QfV8R2nuhwuG2+PsC2wUGWdWocN3XUF6tcyfgzXJa4n6qeHkX7KiUY6FkZ
- C2DKXyu0jti1IkQSqukhl0SiQ8h1baG9RtAIK0hB6Cl2oSKTzI3KlTvmRQfwtqs4Z7SwrOOgrWT
- j5iu+W7EdX2gBmb4kHGmuOINLD32/+VO+nVwOXTv6EVMC4lqIJK0AQLgTXq92afiHA2y1L6J1ZC
- aYywvg9Ym7yYoikcbAWKgmhUp+4zsSqxDHrNJqAqIGan0jwWkfqh0f7LTDu7pslHbvLkQ0USVLE
- phlyLK0tgBP3e71yALQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE1MDA1MSBTYWx0ZWRfXwhBQl3rbnq6Z
- +xoshsVf1ZvZx1arhXLoKrdR+uW0TPPEv+eajhSrn3NuFF02jhY6YNNX5EyvGFe1545vSvYonm2
- c+9Eg44U6WIZ5jq2u7Zap+uzaJuRaGM=
-X-Proofpoint-GUID: NlWDhk9Vhg78gIehQ95FycgtLeU23J0A
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-15_02,2026-07-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 bulkscore=0 clxscore=1015 adultscore=0
- impostorscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607150051
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e78152a9-c6d3-47d9-8657-f5efc2fe69f7@kernel.org>
 
+On Tue, Jul 14, 2026 at 08:05:04PM -0500, Mario Limonciello wrote:
+> On 7/14/26 20:01, Chia-Lin Kao (AceLan) wrote:
+> > On Wed, Jul 08, 2026 at 10:34:54AM -0500, Mario Limonciello wrote:
+> > > ++ linux-pci
+> > > ++ Sanath && Basavaraj
+> > >
+> > > On 7/5/26 21:34, Chia-Lin Kao (AceLan) wrote:
+> > > > On some AMD USB4 systems, resuming from system suspend with a
+> > > > Thunderbolt dock in the picture hard-hangs the machine very early in the
+> > > > resume path, before the Thunderbolt driver gets a chance to rescan and
+> > > > re-establish the topology. It is a PCIe bus wedge: the system never
+> > > > reaches the point where the thunderbolt module could recover the dock,
+> > > > and the kernel journal does not persist past "PM: suspend entry
+> > > > (s2idle)".
+> > > >
+> > > > Reproduce:
+> > > >
+> > > >     1. Affected platform: an AMD USB4 host with the thunderbolt driver
+> > > >        bound to its NHI PCI functions. Observed on a Dell Pro 14 Plus
+> > > >        (PB14255, AMD Phoenix) which exposes two USB4 NHI functions
+> > > >        (0000:c6:00.5 and 0000:c6:00.6).
+> > > >
+> > > >     2. Put the system into s2idle (Low Power S0 Idle / Modern Standby)
+> > > >        with no dock attached.
+> > > >
+> > > >     3. While the system is suspended, plug in a Dell SD25TB4 Thunderbolt 4
+> > > >        dock (Goshen Ridge). The plug event wakes the system, and the dock's
+> > > >        downstream PCIe bridges are enumerated behind the AMD USB4 PCIe
+> > > >        tunnel during the resume.
+> > > >
+> > > >     4. The machine hard-hangs during the noirq resume phase, before the
+> > > >        thunderbolt driver re-establishes the topology. The Dell power
+> > > >        indicator flashes the "3A5W" code (3 amber + 5 white lights).
+> > > >
+> > > >     Removing the trigger makes resume reliable: unbinding the two NHI PCI
+> > > >     functions, or unloading the thunderbolt module, before suspend both
+> > > >     avoid the hang completely. The difference in those cases is the PCI
+> > > >     state the core restores for the driver-bound NHI on resume.
+> > > >
+> > > > EC team findings (from the platform EC log):
+> > > >
+> > > > The EC/PD/dock side is healthy across the failing cycle, which points
+> > > > the finger at the host resume path rather than the dock:
+> > > >
+> > > >     - Modern Standby entry and resume are seen on the EC side; the dock
+> > > >       plug interrupt during MS is handled and the full power sequence
+> > > >       recovers (SLP_S3# okay, PLTRST# received, U8-U20 sequence completed).
+> > > >
+> > > >     - The EC-to-dock DDM command exchange fully succeeds: all CMsd/CMgd
+> > > >       transactions return success (device type, TBT cable type, dock
+> > > >       module config for USB/TBT/Audio/LAN).
+> > > >
+> > > >     - PD/Type-C renegotiation is normal (power contracts up to 95W/100W);
+> > > >       no persistent protocol error appears in the log.
+> > > >
+> > > >     - The only suspicious symptom is host-side: the EC repeatedly logs
+> > > >       PmSt_Timeout_Count while waiting for the BIOS/host to consume the
+> > > >       wake (PWRB pressed) event. That indicates the host resume path is
+> > > >       late or stuck, not an EC-to-dock transport failure. The Dell "3A5W"
+> > > >       diagnostic LED code (3 amber + 5 white) maps in the EC code to an
+> > > >       SLP_S3#/PLTRST#/RUNPWROK failure indication.
+> > > >
+> > > > Root cause:
+> > > >
+> > > > With the driver bound, the PCI core restores the saved NHI config space
+> > > > during the noirq resume phase, including PCI_COMMAND with memory space
+> > > > and bus mastering enabled. This is the same phase in which the core
+> > > > restores the config space of the tunneled PCI bridges and whatever sits
+> > > > behind them (the dock). If the AMD host router is made active (memory +
+> > > > bus mastering) while the downstream USB4 PCIe tunnel to the dock is still
+> > > > being restored and is not yet ready, the host interface starts bus
+> > > > activity toward a not-yet-ready endpoint and the PCIe hierarchy wedges.
+> > > >
+> > > > This matches the workarounds: unbinding the NHI or unloading the module
+> > > > means the core does not restore an active NHI over the tunnel during
+> > > > noirq, and the hang disappears. Several Thunderbolt-side attempts did not
+> > > > help (returning early from nhi_resume_noirq(), disabling host-router wake
+> > > > flags, adding an unconditional delay before tunnel activation), which is
+> > > > why the actionable boundary is the PCI PM state of the driver-bound AMD
+> > > > NHI rather than a later Thunderbolt protocol step. We do not have
+> > > > visibility into what the host router does internally in that window; that
+> > > > uncertainty is the main reason for sending this as an RFC (see open
+> > > > questions below).
+> > > >
+> > > > What this patch does:
+> > > >
+> > > > Add a QUIRK_QUIESCE_ON_SUSPEND quirk, currently set for all AMD USB4 host
+> > > > routers (matched by vendor AMD + USB4 PCI class), and:
+> > > >
+> > > >     - clear PCI_COMMAND_MEMORY and PCI_COMMAND_MASTER before the PCI core
+> > > >       saves the NHI config space in runtime and system suspend, so the NHI
+> > > >       is restored inactive on resume;
+> > > >
+> > > >     - keep the NHI quiescent across nhi_resume_noirq() (return early without
+> > > >       touching the controller), so it stays inactive while the core
+> > > >       restores the tunneled bridges and the dock;
+> > > >
+> > > >     - once the whole system has resumed, re-enable memory space and bus
+> > > >       mastering and bring the domain back up from the PM complete callback
+> > > >       via tb_domain_resume_noirq(), and from nhi_runtime_resume() for the
+> > > >       runtime PM path.
+> > > >
+> > > > The result is that Thunderbolt/USB4 stays functional after resume instead
+> > > > of the machine hanging or the tunnels staying down until the module is
+> > > > reloaded.
+> > > >
+> > > > Test results:
+> > > >
+> > > > Tested on the Dell Pro 14 Plus (PB14255, AMD Phoenix, two USB4 host
+> > > > routers) with the Dell SD25TB4 dock. Without the patch, the sequence
+> > > > above hard-hangs during resume. With the patch, repeated suspend/resume
+> > > > cycles with the dock connected complete cleanly with no hang. After
+> > > > resume the NHI PCI_COMMAND reads back with MEMORY|MASTER set again, and
+> > > > the dock's downstream USB devices re-enumerate, confirming the USB tunnel
+> > > > is restored and the domain is functional.
+> > > >
+> > > > Caveats observed while the NHI is quiescent across noirq: config space
+> > > > reads to the host router time out and TMU configuration restore fails
+> > > > during that window; the controller and domain are fully brought back in
+> > > > nhi_complete(). The DP tunnel restore path was not exercised in this
+> > > > test, as no external display was driven through the dock during the
+> > > > tested cycle.
+> > > >
+> > > > Open questions for RFC discussion:
+> > > >
+> > > >     1. Root cause: what does the AMD host router actually do when it is
+> > > >        restored with memory + bus mastering enabled during noirq while the
+> > > >        downstream tunnel is not ready? Is this an expected ordering
+> > > >        constraint, a firmware behavior, or a hardware erratum?
+> > > >
+> > > >     2. Scope: the quirk currently matches all AMD USB4 host routers by
+> > > >        class. Which parts are actually affected? Should this be narrowed
+> > > >        (e.g. by DMI or specific device IDs) instead of applied to all AMD
+> > > >        USB4?
+> > > >
+> > > >     3. Mechanism: is clearing both PCI_COMMAND_MEMORY and PCI_COMMAND_MASTER
+> > > >        the right lever, or would clearing bus mastering alone suffice and be
+> > > >        less invasive? Is poking PCI_COMMAND directly acceptable in the NHI
+> > > >        driver, or should this move into a PCI backend op / PCI quirk?
+> > > >
+> > > > Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+> > >
+> > > I have no idea why I didn't receive this patch in my mailbox - I'm obviously
+> > > CC'ed.  But I checked my spam and it's not there either.
+> > >
+> > > But anyway, I am wondering if the real issue here is that we're accessing
+> > > the hardware before it's ready.  If you can readily reproduce the issue, can
+> > > you try this series to see if it helps?
+> > >
+> > > https://lore.kernel.org/linux-pci/20260708152650.536604-1-mario.limonciello@amd.com/
+> > No, this patch doesn't work.
+> > I applied this patch on top of the latest mainline kernel
+> > 58717b2a1365 ("Merge tag 'sound-7.2-rc4' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound")
+> > and the power indicator shows 3 amber and 5 white lights after
+> > plugging in the tbt dock during suspend.
+> >
+>
+> Thanks for checking.  That code ended up not helping the original issue it
+> was for, a different solution for that issue is being provided.
+>
+> But I'm wondering, is this issue you're working on something to do with
+> pm_async?  Could you turn that off and see if it improves anything?
+1. echo 0 | sudo /sys/power/pm_async
+2. sudo systemctl suspend
+3. plug in the tbt dock
+4. power indicator shows 3A5W lights and hard hang
 
+>
+> Any chance you can get UART output from the system using a debug board over
+> suspend/resume in case there is a panic happening that doesn't flush to
+> NVME?
+No, there is no UART port on the machine for debugging.
 
-On 7/15/2026 4:53 AM, Thinh Nguyen wrote:
-> On Mon, Jul 13, 2026, Peter Chen wrote:
->> On 26-07-13 23:41:14, Thinh Nguyen wrote:
->>> On Mon, Jul 13, 2026, Peter Chen wrote:
->>>> On 26-07-13 08:26:59, Krzysztof Kozlowski wrote:
->>>>>>> And Dmitry already said this at v3.
->>>>>>
->>>>>> And I've already responded to his comment in v3:
->>>>>> https://urldefense.com/v3/__https://lore.kernel.org/linux-usb/ahjYwJtiMsm0BcCh@vbox/__;!!A4F2R9G_pg!YksJ0tPtRth9ez8t0GB_WaxH3ynx3ya8M8aFIyKfYpApRC_79Ig93CqE2MKcrGJ6O6t_Dl3RD1zftrnxhdtcfoW7hgep8w$
->>>>>
->>>>> It does not change the fact that type of phy is implied by compatible,
->>>>> thus you do not get a new property.
->>>>>
->>>>>
->>>>
->>>> For USB2 PHY, it has property "phy_type" already, it could extend support
->>>> list to eUSB2 like below, dwc3 qcom glue layer could call of_usb_get_phy_mode
->>>> or re-use dwc3->hsphy_mode depends on where it needs to use.
->>>>
->>>> diff --git a/drivers/usb/phy/of.c b/drivers/usb/phy/of.c
->>>> index 1ab134f45d67..5cbf17d493ad 100644
->>>> --- a/drivers/usb/phy/of.c
->>>> +++ b/drivers/usb/phy/of.c
->>>> @@ -16,6 +16,7 @@ static const char *const usbphy_modes[] = {
->>>>   	[USBPHY_INTERFACE_MODE_ULPI]	= "ulpi",
->>>>   	[USBPHY_INTERFACE_MODE_SERIAL]	= "serial",
->>>>   	[USBPHY_INTERFACE_MODE_HSIC]	= "hsic",
->>>> +	[USBPHY_INTERFACE_MODE_EUSB2]	= "eusb2",
->>>>   };
->>>>
->>>>
->>>
->>> eusb2 uses utmi, so it doesn't fit here as a separate mode.
->>>
->>
->> Hi Thinh
->>
->> Yes, eUSB2 is based on UTMI Parallel mode, but it has dedicated
->> Physical Layer Supplement [1], eg at CH2.4, it lists eUSB2 PHY
->> Features.
->>
->>
->>> To go this route properly, we'd need to introduce a new phy type
->>> attribute in the phy framework, which will be a bigger change that may
->>> impact more than this driver.
->>>
->>
->> It is not at generic PHY framework, it is just for USB PHY dedicated.
->>
->> I do not see big changes, it only needs to change above files and related
->> dt-binding files, and other users may leverage it if the controller
->> has special sequence or settings for eUSB2.
->>
-> 
-> The usbphy_modes describes the interface between the controller and the
-> phy. eusb2 still uses utmi, so adding eusb2 there is sematically
-> incorrect. If we introduce the eusb2 mode there, we'd have to audit dwc3
-> and every other driver that uses usbphy_modes to handle the new mode
-> correctly.
-
-Hi Thinh,
-
-I don't think any existing drivers need to be modified after adding 
-this. If anyone wants to use the newly added enum for any eusb2 specific 
-purpose, they can do so in a diff change/patch I guess.
-
-Regards,
-Krishna,
+>
+> > >
+> > > > ---
+> > > >    drivers/thunderbolt/nhi.c | 78 +++++++++++++++++++++++++++++++++++++--
+> > > >    drivers/thunderbolt/nhi.h |  5 ++-
+> > > >    drivers/thunderbolt/pci.c |  8 ++++
+> > > >    3 files changed, 85 insertions(+), 6 deletions(-)
+> > > >
+> > > > diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+> > > > index 698fb124d529..787185c745ae 100644
+> > > > --- a/drivers/thunderbolt/nhi.c
+> > > > +++ b/drivers/thunderbolt/nhi.c
+> > > > @@ -16,6 +16,7 @@
+> > > >    #include <linux/interrupt.h>
+> > > >    #include <linux/iommu.h>
+> > > >    #include <linux/module.h>
+> > > > +#include <linux/pci.h>
+> > > >    #include <linux/delay.h>
+> > > >    #include <linux/property.h>
+> > > >    #include <linux/string_choices.h>
+> > > > @@ -40,6 +41,31 @@ static bool host_reset = true;
+> > > >    module_param(host_reset, bool, 0444);
+> > > >    MODULE_PARM_DESC(host_reset, "reset USB4 host router (default: true)");
+> > > > +static bool nhi_quirk_quiesce_on_suspend(const struct tb_nhi *nhi)
+> > > > +{
+> > > > +	return nhi->quirks & QUIRK_QUIESCE_ON_SUSPEND;
+> > > > +}
+> > > > +
+> > > > +static void nhi_disable_pci_mem_master(struct tb_nhi *nhi)
+> > > > +{
+> > > > +	struct pci_dev *pdev = to_pci_dev(nhi->dev);
+> > > > +	u16 cmd;
+> > > > +
+> > > > +	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+> > > > +	cmd &= ~(PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER);
+> > > > +	pci_write_config_word(pdev, PCI_COMMAND, cmd);
+> > > > +}
+> > > > +
+> > > > +static void nhi_enable_pci_mem_master(struct tb_nhi *nhi)
+> > > > +{
+> > > > +	struct pci_dev *pdev = to_pci_dev(nhi->dev);
+> > > > +	u16 cmd;
+> > > > +
+> > > > +	pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+> > > > +	cmd |= PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER;
+> > > > +	pci_write_config_word(pdev, PCI_COMMAND, cmd);
+> > > > +}
+> > > > +
+> > > >    static int ring_interrupt_index(const struct tb_ring *ring)
+> > > >    {
+> > > >    	int bit = ring->hop;
+> > > > @@ -988,6 +1014,9 @@ static int __nhi_suspend_noirq(struct device *dev, bool wakeup)
+> > > >    			return ret;
+> > > >    	}
+> > > > +	if (nhi_quirk_quiesce_on_suspend(nhi))
+> > > > +		nhi_disable_pci_mem_master(nhi);
+> > > > +
+> > > >    	return 0;
+> > > >    }
+> > > > @@ -1038,6 +1067,18 @@ static int nhi_resume_noirq(struct device *dev)
+> > > >    	struct tb_nhi *nhi = tb->nhi;
+> > > >    	int ret;
+> > > > +	/*
+> > > > +	 * If the NHI was quiesced on suspend keep it quiescent (bus
+> > > > +	 * mastering and memory access disabled) across the noirq phase.
+> > > > +	 * The PCI core restores the config space of the tunneled PCI
+> > > > +	 * bridges and anything behind them (e.g. a dock) here; letting the
+> > > > +	 * AMD host router become active now can wedge the PCIe bus before
+> > > > +	 * the dock side is ready. The controller and domain are brought
+> > > > +	 * back up in nhi_complete() once the whole system has resumed.
+> > > > +	 */
+> > > > +	if (nhi_quirk_quiesce_on_suspend(nhi))
+> > > > +		return 0;
+> > > > +
+> > > >    	/*
+> > > >    	 * Check that the device is still there. It may be that the user
+> > > >    	 * unplugged last device which causes the host controller to go
+> > > > @@ -1064,16 +1105,33 @@ static int nhi_suspend(struct device *dev)
+> > > >    static void nhi_complete(struct device *dev)
+> > > >    {
+> > > >    	struct tb *tb = dev_get_drvdata(dev);
+> > > > +	struct tb_nhi *nhi = tb->nhi;
+> > > >    	/*
+> > > >    	 * If we were runtime suspended when system suspend started,
+> > > >    	 * schedule runtime resume now. It should bring the domain back
+> > > > -	 * to functional state.
+> > > > +	 * to functional state (and undo the quiesce, if any, via
+> > > > +	 * nhi_runtime_resume()).
+> > > >    	 */
+> > > > -	if (pm_runtime_suspended(dev))
+> > > > +	if (pm_runtime_suspended(dev)) {
+> > > >    		pm_runtime_resume(dev);
+> > > > -	else
+> > > > -		tb_domain_complete(tb);
+> > > > +		return;
+> > > > +	}
+> > > > +
+> > > > +	/*
+> > > > +	 * A quiesced NHI (see __nhi_suspend_noirq()) was intentionally
+> > > > +	 * left with bus mastering and memory access disabled and its
+> > > > +	 * domain was not resumed in nhi_resume_noirq(). Now that the whole
+> > > > +	 * system has resumed and the PCI core has finished restoring the
+> > > > +	 * tunneled bridges, re-enable the controller and bring the domain
+> > > > +	 * back up so Thunderbolt/USB4 keeps working after resume.
+> > > > +	 */
+> > > > +	if (nhi_quirk_quiesce_on_suspend(nhi)) {
+> > > > +		nhi_enable_pci_mem_master(nhi);
+> > > > +		tb_domain_resume_noirq(tb);
+> > > > +	}
+> > > > +
+> > > > +	tb_domain_complete(tb);
+> > > >    }
+> > > >    static int nhi_runtime_suspend(struct device *dev)
+> > > > @@ -1091,6 +1149,10 @@ static int nhi_runtime_suspend(struct device *dev)
+> > > >    		if (ret)
+> > > >    			return ret;
+> > > >    	}
+> > > > +
+> > > > +	if (nhi_quirk_quiesce_on_suspend(nhi))
+> > > > +		nhi_disable_pci_mem_master(nhi);
+> > > > +
+> > > >    	return 0;
+> > > >    }
+> > > > @@ -1100,6 +1162,14 @@ static int nhi_runtime_resume(struct device *dev)
+> > > >    	struct tb_nhi *nhi = tb->nhi;
+> > > >    	int ret;
+> > > > +	/*
+> > > > +	 * The NHI is quiesced (bus mastering and memory access disabled)
+> > > > +	 * across runtime suspend as well; re-enable it before resuming the
+> > > > +	 * domain.
+> > > > +	 */
+> > > > +	if (nhi_quirk_quiesce_on_suspend(nhi))
+> > > > +		nhi_enable_pci_mem_master(nhi);
+> > > > +
+> > > >    	if (nhi->ops->runtime_resume) {
+> > > >    		ret = nhi->ops->runtime_resume(nhi);
+> > > >    		if (ret)
+> > > > diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
+> > > > index d488eadadfce..c8b973150434 100644
+> > > > --- a/drivers/thunderbolt/nhi.h
+> > > > +++ b/drivers/thunderbolt/nhi.h
+> > > > @@ -119,8 +119,9 @@ struct tb_nhi_ops {
+> > > >    #define PCI_CLASS_SERIAL_USB_USB4			0x0c0340
+> > > >    /* Host interface quirks */
+> > > > -#define QUIRK_AUTO_CLEAR_INT	BIT(0)
+> > > > -#define QUIRK_E2E		BIT(1)
+> > > > +#define QUIRK_AUTO_CLEAR_INT		BIT(0)
+> > > > +#define QUIRK_E2E			BIT(1)
+> > > > +#define QUIRK_QUIESCE_ON_SUSPEND	BIT(2)
+> > > >    /*
+> > > >     * Minimal number of vectors when we use MSI-X. Two for control channel
+> > > > diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
+> > > > index dbb6badda867..4cf8107f1ce8 100644
+> > > > --- a/drivers/thunderbolt/pci.c
+> > > > +++ b/drivers/thunderbolt/pci.c
+> > > > @@ -43,6 +43,14 @@ static void nhi_pci_check_quirks(struct tb_nhi_pci *nhi_pci)
+> > > >    	struct tb_nhi *nhi = &nhi_pci->nhi;
+> > > >    	struct pci_dev *pdev = to_pci_dev(nhi->dev);
+> > > > +	/*
+> > > > +	 * AMD USB4 host routers may otherwise become active too early during
+> > > > +	 * resume after the PCI core restores the saved COMMAND register.
+> > > > +	 */
+> > > > +	if (pdev->vendor == PCI_VENDOR_ID_AMD &&
+> > > > +	    pdev->class == PCI_CLASS_SERIAL_USB_USB4)
+> > > > +		nhi->quirks |= QUIRK_QUIESCE_ON_SUSPEND;
+> > > > +
+> > > >    	if (pdev->vendor == PCI_VENDOR_ID_INTEL) {
+> > > >    		/*
+> > > >    		 * Intel hardware supports auto clear of the interrupt
+> > >
+>
