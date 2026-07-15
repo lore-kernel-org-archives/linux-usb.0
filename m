@@ -1,285 +1,648 @@
-Received: from mx0b-00230701.pphosted.com (mx0b-00230701.pphosted.com [148.163.158.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA31432E69;
-	Tue, 14 Jul 2026 23:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.158.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784071396; cv=fail; b=euSssMNw37Bu1AHXZmnbDo4+BquSPZNjqtSkhY5Noolrvkgf16c798Umzx/nh3qSrtAnZFuOUr41SCVT3/kDved6k5auFKkZQPqPeDrY+w4RFEguprwK9B78YFTCda6X2RzR6zacDQI41rHS942uU3AEqmqYLmigl+Ym6q/Gyus=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784071396; c=relaxed/simple;
-	bh=J5DsFTzNIJOfTdyQpnoBh6z9JgKMWX9vDwTixlt6qec=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=A/8zlztGNRLzjous+e1MSO4C60pnLS8U7lDtG+rgMQ27dJvcYuaKbwqlefBWIFjPO+uSxUXlJ0Zd4r3pGYSQTmk5k/DExHGQeNd1fuT3DiCXqJy5dP1ncYWxNcqIqGGXdWvvrmHaVrJmTmgGTXlYHypqZmUePzBK7GbyKxf8e8E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com; spf=pass smtp.mailfrom=synopsys.com; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=CbRR1vsV; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=SZBOxKZj; dkim=fail (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=S2lzzGAG reason="signature verification failed"; arc=fail smtp.client-ip=148.163.158.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700B11AAE17;
+	Wed, 15 Jul 2026 00:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784075237; cv=none; b=nFl4Q5SM6TIaRxZIPIYrTF22MOjqqJ+dpQKTjeKvp9RCXDRlb1QPFoNEr1cUYYcju9ZHEz5YAyPXXiyUT88AOY3MTsuUfx39XS+hvu4tXNrCKN1cY2CiQMUqxiTrKMSX1gApjrBfrrMyzu6n3Mimyud8G2DLBYO8H7XnyOO6JFE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784075237; c=relaxed/simple;
+	bh=WQF/g0Ub6QIAneJVPIEDsZ2OoW8izXG1C3aJGA/G1I8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=pL0A9noCQaSi5jvIJgVu+SBbsybGR0trxGOhT89YRSHKaotYHBG+7DmSSs9Nr4cn9Abp5Uctx2XNGes5suUBK+FcW0b4ccSFios+FvB4Wi8qe5EaTAeU9G9Y8+A7t3tN7o8M8tvw1VrQs7zPkRzTFLbK/P3X2E+WWcOyQsOsrP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Atc8W/mF; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="CbRR1vsV";
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="SZBOxKZj";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="S2lzzGAG"
-Received: from pps.filterd (m0297265.ppops.net [127.0.0.1])
-	by mx0a-00230701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66EJ0KMp062435;
-	Tue, 14 Jul 2026 16:23:08 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
-	cc:content-id:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	pfptdkimsnps; bh=J5DsFTzNIJOfTdyQpnoBh6z9JgKMWX9vDwTixlt6qec=; b=
-	CbRR1vsV/+JDiMubP0QotBleuTBdsX/Qd7D7J57dhwYyFAuEPXbEG2RottO/rwc2
-	/l3a1XGpXVZk7sKoWaBWrBh0LFM82Pu4dKF5YVEqBjEJ9HNxzESfPJ731PKVhRI6
-	JIFOBEtXDiWtixbLND8y1z0hX6w+sGAdu5az1mDrGIQLbvgNma+/I/pcsdFmg1Ek
-	t7m1ojgXD1yHFi51CDwsQ1irh9kaDZ7Qpg1RX5bx9xsawdRuIX1oj1wgbyTnlALb
-	HM23M7cNYbTFsFWD7XJW+9boGvkr47tfijCv7Y9D+b8JL26WXSfzEGgqMG9rKc44
-	TVusc8z6BPgrmu1HcjSybw==
-Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.73.133])
-	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 4fdqdxuky2-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 14 Jul 2026 16:23:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1784071387; bh=J5DsFTzNIJOfTdyQpnoBh6z9JgKMWX9vDwTixlt6qec=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=SZBOxKZjeYxMtpXSSKQ0YjvnHCF+gl9J0GWvBP8ykaNj0F9ITSYPQJPNv5zAVVRKR
-	 j78T71gC4H1XDb+mN+npS+7OoayokVQWJS8Fzq4RYURY2GOKoX9gzK37VBCJvSbIWr
-	 OzbhVJQwDzpKcWSrE3neCfd5DPfgbAc6CYU8pWpYlr8UsL/gPO++9lcUayqqRG/0bB
-	 TQHjYcOuEAENRfAw6utc5VhwfzQkx+hQT0xMDO5WK8+cw2NwtGWpgmUtB5wfu/FQQV
-	 G/AvU2fqKVr9qVDsMKurndOvaRhJW6HdjTObrt4sdUK3vRxgLWSdFcHJtNwLQIpigH
-	 cwF9fKCEv6xrw==
-Received: from mailhost.synopsys.com (badc-mailhost3.synopsys.com [10.192.0.81])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
-	 client-signature RSA-PSS (2048 bits))
-	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 6729F4012F;
-	Tue, 14 Jul 2026 23:23:07 +0000 (UTC)
-Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com [10.4.161.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
-	 client-signature RSA-PSS (2048 bits))
-	(Client CN "o365relay-in.synopsys.com", Issuer "Sectigo Public Server Authentication CA OV R36" (not verified))
-	by mailhost.synopsys.com (Postfix) with ESMTPS id 9861FA0068;
-	Tue, 14 Jul 2026 23:23:06 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
-	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=S2lzzGAG;
-	dkim-atps=neutral
-Received: from DM5PR08CU004.outbound.protection.outlook.com (mail-dm5pr08cu00406.outbound.protection.outlook.com [40.93.13.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
-	(Client CN "mail.protection.outlook.com", Issuer "DigiCert SHA2 Secure Server CA" (verified OK))
-	by o365relay-in.synopsys.com (Postfix) with ESMTPS id BBEB2401F9;
-	Tue, 14 Jul 2026 23:23:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Eo6cFYMbmq43ezG+zZ6AgbpPG6/7Yv+ydilZyDuZQbVnz/7tGCFNmi78WNNYNVMja97zQ15+87y7ic20ImWrwCKdIYZljztxlJGCo5H8bqh3webSVzRCZFoYDqbRWhsVxYL8E5VziN2Sce+1JQbcff+eXMvW0nv7NhMUiS8uEm8v5PMjr/76l0IFGNFAP1iFBjAD3Uz4O5sUFkHSGtVb8hOecp5s8jOKj7VS1u8Vg7NMYXWvoOnasEpaiZjgI4px2M48hyikl6Mf9quLReYQxG/8obX4fvRz2xmwCQub64d7xACXSHiCiVhlDkx14i4Hnj6pEzAM6Z5kwX5ZzexVsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J5DsFTzNIJOfTdyQpnoBh6z9JgKMWX9vDwTixlt6qec=;
- b=kzekoj8KJ+e/CydzPeAf/KTdE9UqGfErFJoyIYMNW2talor5jKYVvX6OQEwAVwtHIs2e7TmOoy/6SdYAixRnpqk9vXoClQgRBJfwkR1bgr3TtFx6zfEc0ztsfwpSfpMB8boaFnZ3JS8bRc9DS0qI9ZpN99zTFqpB90BqnbqDPdTNZZy03ZV0wZ923uxHQR65f2KnHbLEsKAeomlkfW9h+ofHf/uOHcwt2cIrC1DfPuQYyrIgfmpTd2bj5iJJV4i87exxuj6Ma1KICMWJbeBNKxrUs+8QGJiX3mQkpg+XP1y79zPLX5U39vvh91hF8VUpxaPUrGx4RC94LTyiE2XgrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J5DsFTzNIJOfTdyQpnoBh6z9JgKMWX9vDwTixlt6qec=;
- b=S2lzzGAGTdKTj5Zu59tgnwnodlp2+FrhFyTX8Oh8vs1SwewpDb2o++nGOS4sIjyIF2lBIjmb/RlF0HTkTXq6328dua8nkc2RdRWb7f2SaXHjJND6Tpmll6+CuI4nYG5dPKVzn9rCxXLiWMvVz9/H6pNy9w8zltMbYNwsBXL1Irc=
-Received: from PH0PR12MB7486.namprd12.prod.outlook.com (2603:10b6:510:1e9::6)
- by DS4PR12MB9745.namprd12.prod.outlook.com (2603:10b6:8:2a9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.10; Tue, 14 Jul
- 2026 23:23:02 +0000
-Received: from PH0PR12MB7486.namprd12.prod.outlook.com
- ([fe80::7df9:b25e:9216:f109]) by PH0PR12MB7486.namprd12.prod.outlook.com
- ([fe80::7df9:b25e:9216:f109%6]) with mapi id 15.21.0223.008; Tue, 14 Jul 2026
- 23:23:02 +0000
-X-SNPS-Relay: synopsys.com
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-To: Peter Chen <peter.chen@oss.qualcomm.com>
-CC: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 1/2] dt-bindings: qcom,snps-dwc3: Add property
- indicating presence of eUSB2 phy
-Thread-Topic: [PATCH v4 1/2] dt-bindings: qcom,snps-dwc3: Add property
- indicating presence of eUSB2 phy
-Thread-Index:
- AQHdD4BaC5hZxDAhAEKCnMd1KCZXEbZlNA8AgADKiICAAFp+AIAAALcAgADmBwCAA8JjgIAADvOAgAESBICAAD0jAIABUBoA
-Date: Tue, 14 Jul 2026 23:23:01 +0000
-Message-ID: <albAccNnsI12AIUo@vbox>
-References:
- <20260709-eusb2-interrupt-handling-v5-v4-1-d4f993925608@oss.qualcomm.com>
- <d742u7jrpm7gdoljgiwkfexc47qhprwoibk6fadpm3qilbdpgi@jrkbrwfmqmrp>
- <alBOC18CpkGDhM2m@vbox> <20260710-warping-resolute-wasp-e4b8ce@quoll>
- <7a099224-ea95-40ec-b279-f8834f261e23@kernel.org> <alFTxg0HLyke0gCK@vbox>
- <b60b4d96-ea67-44d0-a627-c50ef0ed8615@kernel.org>
- <alSRvWY2LWp8OeOr@hu-petche-lv.qualcomm.com> <alV0_DHvBFpzDumP@vbox>
- <alWq4jAGPTINnpxD@hu-petche-lv.qualcomm.com>
-In-Reply-To: <alWq4jAGPTINnpxD@hu-petche-lv.qualcomm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR12MB7486:EE_|DS4PR12MB9745:EE_
-x-ms-office365-filtering-correlation-id: 742f3aa0-4d93-44ce-2410-08dee1fed976
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|18002099003|22082099003|4143699003|11063799006|56012099006|38070700021;
-x-microsoft-antispam-message-info:
- NDcB9xnxGZbo190hICjmTbu35SGvt1ivrpXIv4FSmbVmIyU9vXCSuQUf1MIIITU5v1b4zFXmLg5O7c/Ft+0Re6YxDHxWOBCNfmeLXGvTb1rRIgY3LtwWLUbOQKO7HbMzsiDZZnS+Hml1xnRkUm0rk3hM/cc/OxL53b4PmRhIpUnJNLWodEZIeftBZtByJgqNjJVdvxL3UlOw0nXZXd+75s5SqhKeNH8ekrcDEaf5ynp6BYOLKeg1l9JYqH4/LZuY9m29MuIpAWO2JA9UysUVy7B7weNp2xd+aFNcEeiVaW12spsofuJ7LbtqIIQnhJXPuDXZEfmbo2eowtnW28U9dJ32l9GTAxiD8lOWG912b35gMl0u3ZuBGCx+nm5Anza5A1VwtHHuDxGHSE4p3TzXV+L/x0rfRvu02EZh4AV6upGKiVWBKm7QvlZuphM0AO/xeAjI5ujpAyHcWXsct8zISBQTRqLzotgpNt1L9Kr79Wra7+2LYvSpr0xOJjV9ChcdkqApdnt46H7hxsQqU0t83Z5XMJAO3uoDf8V5YIV8MzOeHsvgGx91FTrfMEdOcJrT6J3B3tZ2jKsq8EcUp43Kd/ZttTbRtH2tAfY1H+DKL+iAFYbTS6a5GO9m6Yd2E/JDFFyThDvWb9iLc7eLwhqLDqY72y1IAFXzF0stT5m3/+Kf0akg97QmkoRwFMA2rqrkvNX8Yk4QK4+HPUXDjOpBmDQElgd1qkimEvLT6gRbBAU=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB7486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(18002099003)(22082099003)(4143699003)(11063799006)(56012099006)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?TmR1c2FzL2RPYnRBRlJUYlZBTGx5bERKNkcwZEszemQwejhyMFhockIxQUtq?=
- =?utf-8?B?Q3FQWkVSVkN0WW5sZHBVeW52T0RRVFdjN1hqcUx6M0JWK2JYNW85ci9jdy9Y?=
- =?utf-8?B?azA0NzZRS2s0dTdFbElOem5TK3ZqRkNqaURXbUxTNVlKSjNaQjR5TEFsYldB?=
- =?utf-8?B?OS8yYm13ZHd3M05xT2F1aTB6bUtCNnI3VExyMlpwdkRNTDFDNGJHMktEcktR?=
- =?utf-8?B?T3BMMGlmd3FSWFFjZXlnSDkrR0R1eVF1UWZMS1hoT0hUNzltQjlkTG16UUFw?=
- =?utf-8?B?ZUVyWXBsMW9oZisrbzZvbnRMS1BYQ2tYbG15YUpNN2dWYkMzU0N5b094UG9L?=
- =?utf-8?B?d1ZmNGlvZlRhNGhtS1M3YmRCejkreFluaFFUNFlZS2lVU0dGcVU4SUFYenNH?=
- =?utf-8?B?WlVqcUhiR3ZkaEtjVklQSVZlcjVLTy9GdFR3TjJSWU1jQ2tLWHJsbG0zSXBZ?=
- =?utf-8?B?bTdycUNMTUphdkErTlVsanlpazFseTlPaFBvSndCaEVzZXFOWEJBRWZrOHhV?=
- =?utf-8?B?djhkSTlaOUNjcmlaS2hnamplOHhzR3IvL0NJMk8wN2sreG90TmVJVTFNMmN6?=
- =?utf-8?B?UTZpUTJhWHVKWEQyVGFZbTQ5Yy9EUHNaQzkvT2ZJUzl4L054TGx6VERtUUhk?=
- =?utf-8?B?RHNGVWVxYWhxQXloSXcrLy9TYm1EcC9Mam95UjF4YlNmZG9Od1krU3FMcFBV?=
- =?utf-8?B?dGhmUFdIOWtSOVJWMVRFUGgxUnkyMEI0NlAzNGlsUE1BTWhnU0FNeEgyUUw3?=
- =?utf-8?B?ZTBvcTJCRzZtSlFkaXAvSllJWjA0K3ZKODdYRXNIQ3k4SS90SzlJeTVwTUVa?=
- =?utf-8?B?bi9kSlErQW1xZFJPWm00QXdrT0dwdWpzdEIvV2dUMlVxOVR5ckJqUk9tdUdF?=
- =?utf-8?B?L2pqdDlUUGFlL2NtUzdOUVVIRzNWTlhaZXg4cXJzUTNXaUdtcjdKWVg2MGVW?=
- =?utf-8?B?QkJHSkg0LzlqOHg1THVBb01OdGZYMURtWXpRWXhtQ1lhL2dtNTQ5MWF4dWZJ?=
- =?utf-8?B?YVAzclBCczNaYk9YYTZYbEFiamlud3lBL3JkSjdEYjRIVjNRZ1pZUFdMSjRO?=
- =?utf-8?B?OTVtalhLSUlKVHJoRkRVQndrOFhnMEhZWHdlUU9kb29UYzg3WEpmVVNBb2pa?=
- =?utf-8?B?RlhDK0dNZ2l1V3craGlrMlVQUnVIZWVCQTRlZ3VqNy9lb3VLRnBCNGd5T3Fu?=
- =?utf-8?B?aFRTUFJ6ZDMvSnBsdXZxRzAzVVdlSytCd0IxT1lWcXdZUXBualhDU0RheGcv?=
- =?utf-8?B?MkIwbU9qZ1MrSzRNQjNWMlR0NzkyYlNLenZNT3NRaXU0YTBRM2dtVTZuaERz?=
- =?utf-8?B?N29MYSs5dHdCMkdhazUvTVptdEpHWU5iakdmSzBSTDIwZXl2ck40dDVVdDlo?=
- =?utf-8?B?M2tyN295d3IycGtncEVtY1JET1Z6NFpKYU84Szd2K1poMTBmazlWbitnRDhm?=
- =?utf-8?B?WSsydUc4V09uOFNmVEhZdHdQVXBicUVYOVlhN0xFOFI0OERjcVBOUlNUSC9E?=
- =?utf-8?B?RVZOaEErZnlpR3NjZXN2b0dDZjg2U2J5eGVzVGN6cXgwbHVaL2JzRXhNWkE4?=
- =?utf-8?B?aUZLaEtpUDFmT29UZG56M0FGRFhsTGJ0N3B0ZWdLU01lalNaZm9QemRVRWRY?=
- =?utf-8?B?aklJSDJ1ekpyUXRLTDhLQXlIaXNrVzM0QTBabkdoR1ZoMjBOTVpSYmN0eGhx?=
- =?utf-8?B?eXk3SGlPdlQyVFpEYTI1Z3VrWWc3VFpVZEdwSjh5ZDMxdlgyRlU0dWZWS2Jn?=
- =?utf-8?B?OXhYdnhyRmZQTHRuVy94NThlMnFBRzNBUnh0NW13dFV0S0lyOThSVU9oVkdJ?=
- =?utf-8?B?ejlmR240cmpjU1k1OXNrSUZxRHVobmQxSGl0bXMxMHZNVjNlbTVJcFVrZnFC?=
- =?utf-8?B?SGFrT1VsNkUyWFFmemxHSksxU25aZXZTaFBmOHA1OTBWTXFHVkd1d05aMzFF?=
- =?utf-8?B?VUdlOGVhUG92UysrdFVSOHVyWmtUN2tVOTFnR0VrY0hxTlVxS3lER21sbTNj?=
- =?utf-8?B?Z1FMUHVyUGhsZVNCd0MxbVg2dm5JWTNRWUNZU21OK0Q3NWFNMHlTejh5QkdS?=
- =?utf-8?B?WmVOaUJZTjYvOHZhWkJTMnl5eGQvM0NTTkVCanA0NW83L0gyTzhnTkNhV2Iv?=
- =?utf-8?B?QjhnNTNVdGdUK0lsNFJRM0daVFZXQld0WWRCcm9kQjF5bWdyZ3BrMXlqUXhC?=
- =?utf-8?B?RE9PUHJJdVZMUEd6SDdNWHNaL055a095dm5mRFBZUjhoaC8zclh3UXNHMWtm?=
- =?utf-8?B?RmpGR3hSdFhBQjdBdGp5YXdmYllWKy9YaW5rcExvYjNCN0ZhVVljcDB5MWN3?=
- =?utf-8?B?VzVqZW9za21HVGxEUUdQcVpjY2Z5Z0JHZ2ZHbHgyMGJhclhHRkoyUT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9DD54695D1F1B64186C12937A25B8BAD@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Atc8W/mF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B61A1F000E9;
+	Wed, 15 Jul 2026 00:27:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784075235;
+	bh=YnKdpSVNbBNw2d+E5IMYSn3WATsVf3xChkFAnCOzXd0=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=Atc8W/mFUsO+P/qwGvR+WgSu99Qx3rWw3iGFzic+pUllmKaPiSeQgQWqPsZksXHUe
+	 9kezYaIzK0b0uhcXKuaHlC69C1x/g8DAQ1K0SO1NZ/TEMmPS8bd9eohJUFinV8AOZS
+	 R3T4K2H+EooGti9Jv/dNuHxxm5v6FM55Uolxr+s1+o3NA23dg8dM6ilGUAnFQOwjJ1
+	 UyK6lAj+rDLjjB1/1dCW95pJ+81Jy2dtPJVvJmHm/R4C7dRMEAGyoa1TJJ5z5Pnh2d
+	 88icBCMr74TOrvWgjASBNfWVhDP1AqK57xwtzblEvmoqQzRBapAdZU6yxzZ4w571C+
+	 75UZpWRB94BeQ==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	bNdKZD6sRB0SQuPxDb9j0DtvW8GdFZ9LDxD16LMbuI3EwiyMwrbr1G9pVSiSVzAIe3bwvEPNrokLa1FAmaVkyz5qYmlAhtumjbt5wZqYTM0jqgaGJx9gME1+0deBb4bcbaiLWWiF33rip83gjuns7Yr1b5D3MUWQrJ+DSlslwgykufzdMm/HvYchsiG8cVkSka/x5a/VdQPZVA+8XRyx24vkq1WphqoLPVm8KmhgmHKIIte486wmAlZlrJgziMs/9KoUgT6OLa7fsD9yAQCkKhB2JHM1oL7ZmZ7Is75s1ghiVSWq3RFioV7vrpx/5NQHTZThmm4rfUc6jfP5/t9LRA==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	vzT4b1DXuffdSY+qmOdNa1ISU3DAD58StEvyZ0jBQoZOfYGUI7DGV6xif5fcJ3Fj4+N9VyqpOYxNPEPYmajd51R/7Xtak7YgJ2JpRB4lOfNVbk3nwiV7NzOVHElB9YrMUEpB312M9lsA4Pa70WHWBvQrUuR5Z25VhNVWUUyQrPIynmWWGLl412OQ06DA/UhDMwbpgRdNNB7+qNPow/j7N/Iry1XIXd6NZP2pL/pZT9CXYVah28rnI8AwSYr4sRtKs6i6dB+iAtnRRwGyCAY6iehCSZYZ7NCmo3XTg8ygJTvw8sGVe9vmBAQvEeBw7ZdQlGkVpdaFjTZloJMBez4UbEB7wGpvwb29lLecVYgOB7IfOjll1BERy76JC1DDaoTwJ7IwWi9EhfFRWfdtFv5LxqanmUFxNyGukQkGnn+Pl8BiB3HRSN8G5saDwFE6OjZcvAnxqq/+zbdeU8swxxGbHVsvZv8bOvzwH1M8C8HmW15E1jV52m8oquJBTWkrfXftw1utu3Ji3bKCuw1qKEt5J6KK43gbGFlzU4jHJ8eNgbeZcOHuk6UqaWDAXbJ3zmGxyjEUW3Uu+8xikjttmPgzvNztIBoQCYX35LjJh8pro9R78oF4g0gsAd0ka5Uq+JE3n0F+7Wh+d9Io7/lLfe6ogQ==
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB7486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 742f3aa0-4d93-44ce-2410-08dee1fed976
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jul 2026 23:23:01.8947
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qEXJtfMLkgtC0RHGPDYbmt43MTrXJE3GLWom4BmILj7r9075IJhHDrYElE5gbnEZJpSC8eYI0zu3QiNFc1HwWA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR12MB9745
-X-Proofpoint-ORIG-GUID: zfHmzTuEUMWaYVysMExWaDijk1qF2O5d
-X-Authority-Analysis: v=2.4 cv=JLELdcKb c=1 sm=1 tr=0 ts=6a56c4dc cx=c_pps
- a=8EbXvwLXkpGsT4ql/pYRAw==:117 a=8EbXvwLXkpGsT4ql/pYRAw==:17
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=qPHU084jO2kA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=tU_645BZ7FZt8VqRJtHG:22 a=-4-sGo8i1FcW4KD7_GeR:22
- a=VwQbUJbxAAAA:8 a=LzQjF4crdsTkk4_jFxkA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE0MDI0MSBTYWx0ZWRfX6WShcBnFjxwB
- jeV1S7qGwl/ZLvY+CRC+TbCVoFAtqRIAnU8tWvQr+TyFSfV+klZm9h7OmS/q8hjK2EXYVgpPRQs
- bOewyawGYqkKiPq0vvF276HGhOA4oHqTBsAR1P1HhpgpAyOWqlvsjiTL4T1iycktF5vG2KpVVy3
- JUpn+5rzXWQvwv3zRmTt2qj/0CFbD0HLhHsHuiYpf1rHJfnXbANIXVXNXZu5/roNhVreku0wt4r
- +oy9i9dXX8sqA5c11IuGOk+nNzbW+6IXqwt34sJJTderPZpH3TiaFs5d9uMYLrkIEyEMG9jaRt8
- cVtfAPVVZLkpZHzLdNMAgtQRmeeME08cPPw+B3nF+1FtRzDhWSV8oyhDVjQggytpyOP2RIywP/b
- VhsaAoDdgAnS4kJhptbknLrEQpo7XfMzB22nd0vTOSpSZ7J6sWGpENgRKYVhuS0wSkvv0Pfv3JQ
- /9HttnzqPEpi6WfNvZg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE0MDI0MSBTYWx0ZWRfX+w7R0Ip1BP+F
- zpo1hUmMqYdflsrg3TFucGQ38c1Qab9S428PZ6+6lJOmfFkl7yFZcvJXTZqFizAp2aVbvVwmmJ6
- 1QaDd2MxpWMP+bb1ZCnpHukadcUfp0U=
-X-Proofpoint-GUID: zfHmzTuEUMWaYVysMExWaDijk1qF2O5d
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-14_05,2026-07-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam
- policy=outbound_active_cloned score=0 impostorscore=0 phishscore=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 spamscore=0 malwarescore=0
- bulkscore=0 clxscore=1015 suspectscore=0 classifier=typeunknown authscore=0
- authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.22.0-2606150000 definitions=main-2607140241
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 15 Jul 2026 02:27:08 +0200
+Message-Id: <DJYPVXEKX4I3.LITS0PZKHBJ1@kernel.org>
+Subject: Re: [RFC PATCH 2/4] rust: usb: add usb host interface and endpoint
+ abstractions
+Cc: "Oliver Neukum" <oneukum@suse.com>, "Colin Braun"
+ <colinbrauncl@gmail.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
+ <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, "Mathias Nyman" <mathias.nyman@intel.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-usb@vger.kernel.org>, <linux-media@vger.kernel.org>, "Colin Braun"
+ <colin.braun.cl@gmail.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ <driver-core@lists.linux.dev>
+To: "Alan Stern" <stern@rowland.harvard.edu>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260712-urb-abstraction-v1-v1-0-9fa011634ead@gmail.com>
+ <20260712-urb-abstraction-v1-v1-2-9fa011634ead@gmail.com>
+ <DJXH4JLX4CES.11S3IZ1V2FTHF@kernel.org> <alVEUR0JrF1ga3S8@pendragon>
+ <DJXPS0HY54SU.3JEDTA04V8HJ0@kernel.org>
+ <7e6ebb5b-8ce0-4114-85d6-98cd11a3ad81@suse.com>
+ <DJYBDUMUQ43T.3Q4ZG0FL76QH3@kernel.org>
+ <fe12ec76-0f2a-48bd-8fd5-9b94b2600718@rowland.harvard.edu>
+ <DJYHI6W0VJ73.NP4QFGU57J50@kernel.org>
+ <a6809829-b7f8-4181-9965-0668fe95d133@rowland.harvard.edu>
+In-Reply-To: <a6809829-b7f8-4181-9965-0668fe95d133@rowland.harvard.edu>
 
-T24gTW9uLCBKdWwgMTMsIDIwMjYsIFBldGVyIENoZW4gd3JvdGU6DQo+IE9uIDI2LTA3LTEzIDIz
-OjQxOjE0LCBUaGluaCBOZ3V5ZW4gd3JvdGU6DQo+ID4gT24gTW9uLCBKdWwgMTMsIDIwMjYsIFBl
-dGVyIENoZW4gd3JvdGU6DQo+ID4gPiBPbiAyNi0wNy0xMyAwODoyNjo1OSwgS3J6eXN6dG9mIEtv
-emxvd3NraSB3cm90ZToNCj4gPiA+ID4gPj4gQW5kIERtaXRyeSBhbHJlYWR5IHNhaWQgdGhpcyBh
-dCB2My4NCj4gPiA+ID4gPiANCj4gPiA+ID4gPiBBbmQgSSd2ZSBhbHJlYWR5IHJlc3BvbmRlZCB0
-byBoaXMgY29tbWVudCBpbiB2MzoNCj4gPiA+ID4gPiBodHRwczovL3VybGRlZmVuc2UuY29tL3Yz
-L19faHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtdXNiL2Foall3SnRpTXNtMEJjQ2hAdmJv
-eC9fXzshIUE0RjJSOUdfcGchWWtzSjB0UHRSdGg5ZXo4dDBHQl9XYXhIM3lueDN5YThNOGFGSXlL
-ZllwQXBSQ183OUlnOTNDcUUyTUtjckdKNk82dF9EbDNSRDF6ZnRybnhoZHRjZm9XN2hnZXA4dyQg
-DQo+ID4gPiA+IA0KPiA+ID4gPiBJdCBkb2VzIG5vdCBjaGFuZ2UgdGhlIGZhY3QgdGhhdCB0eXBl
-IG9mIHBoeSBpcyBpbXBsaWVkIGJ5IGNvbXBhdGlibGUsDQo+ID4gPiA+IHRodXMgeW91IGRvIG5v
-dCBnZXQgYSBuZXcgcHJvcGVydHkuDQo+ID4gPiA+IA0KPiA+ID4gPiANCj4gPiA+IA0KPiA+ID4g
-Rm9yIFVTQjIgUEhZLCBpdCBoYXMgcHJvcGVydHkgInBoeV90eXBlIiBhbHJlYWR5LCBpdCBjb3Vs
-ZCBleHRlbmQgc3VwcG9ydA0KPiA+ID4gbGlzdCB0byBlVVNCMiBsaWtlIGJlbG93LCBkd2MzIHFj
-b20gZ2x1ZSBsYXllciBjb3VsZCBjYWxsIG9mX3VzYl9nZXRfcGh5X21vZGUNCj4gPiA+IG9yIHJl
-LXVzZSBkd2MzLT5oc3BoeV9tb2RlIGRlcGVuZHMgb24gd2hlcmUgaXQgbmVlZHMgdG8gdXNlLg0K
-PiA+ID4gDQo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvcGh5L29mLmMgYi9kcml2ZXJz
-L3VzYi9waHkvb2YuYw0KPiA+ID4gaW5kZXggMWFiMTM0ZjQ1ZDY3Li41Y2JmMTdkNDkzYWQgMTAw
-NjQ0DQo+ID4gPiAtLS0gYS9kcml2ZXJzL3VzYi9waHkvb2YuYw0KPiA+ID4gKysrIGIvZHJpdmVy
-cy91c2IvcGh5L29mLmMNCj4gPiA+IEBAIC0xNiw2ICsxNiw3IEBAIHN0YXRpYyBjb25zdCBjaGFy
-ICpjb25zdCB1c2JwaHlfbW9kZXNbXSA9IHsNCj4gPiA+ICAJW1VTQlBIWV9JTlRFUkZBQ0VfTU9E
-RV9VTFBJXQk9ICJ1bHBpIiwNCj4gPiA+ICAJW1VTQlBIWV9JTlRFUkZBQ0VfTU9ERV9TRVJJQUxd
-CT0gInNlcmlhbCIsDQo+ID4gPiAgCVtVU0JQSFlfSU5URVJGQUNFX01PREVfSFNJQ10JPSAiaHNp
-YyIsDQo+ID4gPiArCVtVU0JQSFlfSU5URVJGQUNFX01PREVfRVVTQjJdCT0gImV1c2IyIiwNCj4g
-PiA+ICB9Ow0KPiA+ID4gDQo+ID4gPiANCj4gPiANCj4gPiBldXNiMiB1c2VzIHV0bWksIHNvIGl0
-IGRvZXNuJ3QgZml0IGhlcmUgYXMgYSBzZXBhcmF0ZSBtb2RlLg0KPiA+IA0KPiANCj4gSGkgVGhp
-bmgNCj4gDQo+IFllcywgZVVTQjIgaXMgYmFzZWQgb24gVVRNSSBQYXJhbGxlbCBtb2RlLCBidXQg
-aXQgaGFzIGRlZGljYXRlZA0KPiBQaHlzaWNhbCBMYXllciBTdXBwbGVtZW50IFsxXSwgZWcgYXQg
-Q0gyLjQsIGl0IGxpc3RzIGVVU0IyIFBIWQ0KPiBGZWF0dXJlcy4NCj4gDQo+IA0KPiA+IFRvIGdv
-IHRoaXMgcm91dGUgcHJvcGVybHksIHdlJ2QgbmVlZCB0byBpbnRyb2R1Y2UgYSBuZXcgcGh5IHR5
-cGUNCj4gPiBhdHRyaWJ1dGUgaW4gdGhlIHBoeSBmcmFtZXdvcmssIHdoaWNoIHdpbGwgYmUgYSBi
-aWdnZXIgY2hhbmdlIHRoYXQgbWF5DQo+ID4gaW1wYWN0IG1vcmUgdGhhbiB0aGlzIGRyaXZlci4N
-Cj4gPiANCj4gDQo+IEl0IGlzIG5vdCBhdCBnZW5lcmljIFBIWSBmcmFtZXdvcmssIGl0IGlzIGp1
-c3QgZm9yIFVTQiBQSFkgZGVkaWNhdGVkLg0KPiANCj4gSSBkbyBub3Qgc2VlIGJpZyBjaGFuZ2Vz
-LCBpdCBvbmx5IG5lZWRzIHRvIGNoYW5nZSBhYm92ZSBmaWxlcyBhbmQgcmVsYXRlZA0KPiBkdC1i
-aW5kaW5nIGZpbGVzLCBhbmQgb3RoZXIgdXNlcnMgbWF5IGxldmVyYWdlIGl0IGlmIHRoZSBjb250
-cm9sbGVyDQo+IGhhcyBzcGVjaWFsIHNlcXVlbmNlIG9yIHNldHRpbmdzIGZvciBlVVNCMi4NCj4g
-DQoNClRoZSB1c2JwaHlfbW9kZXMgZGVzY3JpYmVzIHRoZSBpbnRlcmZhY2UgYmV0d2VlbiB0aGUg
-Y29udHJvbGxlciBhbmQgdGhlDQpwaHkuIGV1c2IyIHN0aWxsIHVzZXMgdXRtaSwgc28gYWRkaW5n
-IGV1c2IyIHRoZXJlIGlzIHNlbWF0aWNhbGx5DQppbmNvcnJlY3QuIElmIHdlIGludHJvZHVjZSB0
-aGUgZXVzYjIgbW9kZSB0aGVyZSwgd2UnZCBoYXZlIHRvIGF1ZGl0IGR3YzMNCmFuZCBldmVyeSBv
-dGhlciBkcml2ZXIgdGhhdCB1c2VzIHVzYnBoeV9tb2RlcyB0byBoYW5kbGUgdGhlIG5ldyBtb2Rl
-DQpjb3JyZWN0bHkuDQoNClRoYXQgc2FpZCwgSSBoYXZlIG5vIG9iamVjdGlvbiB0byBhZGRpbmcg
-YSBuZXcgcGh5IHR5cGUgZm9yIGV1c2IyLiBJDQpqdXN0IHdhbnQgdG8gbm90ZSBpdCBpcyBhIGJp
-Z2dlciBjaGFuZ2UgcmVsYXRpdmUgdG8gYWRkaW5nIGEgYm9vbGVhbg0KcHJvcGVydHkgdG8gdGhl
-IERUIGJpbmRpbmcuDQoNClRoYW5rcywNClRoaW5o
+On Tue Jul 14, 2026 at 9:25 PM CEST, Alan Stern wrote:
+> On Tue, Jul 14, 2026 at 07:53:03PM +0200, Danilo Krummrich wrote:
+>> (Cc: driver-core)
+>>=20
+>> On Tue Jul 14, 2026 at 6:26 PM CEST, Alan Stern wrote:
+>> > I don't see why Rust needs to distinguish between a USB device that is=
+=20
+>> > bound and one that is unbound.  There isn't much you can do with one=
+=20
+>> > that can't be done with the other.
+>>=20
+>> It has nothing to do with Rust, those driver lifecycle rules exist regar=
+dless
+>> and they are present universally, including in C.
+>>=20
+>> The only difference is that in C all the responsibility to enforce them =
+is
+>> usually on the driver -- e.g. by creating, destroying and calling things=
+ in the
+>> correct order in probe() and remove() -- and a lot of drivers have bugs =
+in this
+>> regard as a consequence.
+>>=20
+>> With Rust we can enforce those rules with the help of the type system at=
+ compile
+>> time; device context states are a part of that.
+>
+> I don't really understand how that would work.  For example, suppose you=
+=20
+> have an object whose type represents an unbound USB interface (I forget=
+=20
+> what you are calling this).  Then a driver is probed and binds to the=20
+> interface.  What happens to the object?  Is it somehow destroyed and=20
+> replaced by a new object of a different type, representing a bound=20
+> interface?  Or does the object remain unchanged but you create a new=20
+> reference to it, of the new type?
+
+The usb::Interface struct definition looks like this:
+
+	#[repr(transparent)]
+	pub struct Interface<Ctx: device::DeviceContext =3D device::Normal>(
+	    Opaque<bindings::usb_interface>,
+	    PhantomData<Ctx>,
+	);
+
+It is a transparent wrapper around a struct usb_interface, which means it i=
+s
+layout compatible, i.e. in memory is has the exact same representation as s=
+truct
+usb_interface.
+
+The default type state is "Normal", so usb::Interface actually means
+usb::Interface<Normal>, which means "a USB interface without any additional
+guarantees".
+
+When we receive a pointer of a struct usb_interface from C, we can (unsafel=
+y)
+create any transparent wrapper type of it as a "Rust reference" [1], e.g.
+
+	extern "C" fn probe_callback(
+	    intf: *mut bindings::usb_interface,
+	    id: *const bindings::usb_device_id,
+	) -> kernel::ffi::c_int {
+	    // `intf` is of type `&usb::Interface`.
+	    let intf =3D  unsafe { &*intf.cast::<usb::Interface>() };
+=09
+	    // `intf` is of type `&usb::Interface<Bound>`.
+	    let intf =3D  unsafe { &*intf.cast::<usb::Interface<Bound>>() };
+=09
+	    // `intf` is of type `&usb::Interface<Core<'_>>`.
+	    let intf =3D  unsafe { &*intf.cast::<usb::Interface<Core<'_>>>() };
+
+	    ...
+	}
+
+In memory they are all identical, but for the compiler they now carry diffe=
+rent
+type information.
+
+When we now e.g. call the driver's Rust probe() function, we pass the struc=
+t
+usb_interface pointer as &'bound usb::Interface<Core<'_>>.
+
+The 'Core' type state only lives for the duration of probe() and indicates =
+that
+we are in a bus callback where the device lock of struct usb_interface is h=
+eld,
+which means that we can implement methods that require the device lock of s=
+truct
+usb_interface to be held for usb::Interface<Core> only, so they are not
+available for e.g. usb::Interface or usb::Interface<Bound>.
+
+&'bound usb::Interface<Core<'_>> dereferences (see [2]) to &'bound
+usb::Interface<Bound>, as the 'Core' type state implies 'Bound'.
+
+Let's have a look at &'bound usb::Interface<Bound> as it becomes relevant l=
+ater
+on.
+
+The '&' indicates a reference [1], which can be roughly described as a poin=
+ter
+with additional guarantees that are tracked by the compiler. One of those i=
+s the
+lifetime of the pointer, which in my example is explicitly named as 'bound.
+
+[1] https://doc.rust-lang.org/reference/types/pointer.html#references--and-=
+mut
+[2] https://doc.rust-lang.org/std/ops/trait.Deref.html
+
+> Also, what happens while the binding or unbinding procedure is underway,=
+=20
+> so the interface is, so to speak, partially bound?  The USB stack does=20
+> actually take notice of this; see the definition of enum=20
+> usb_interface_condition in include/linux/usb.h.
+
+The driver core doesn't make this distinction in the direction of driver AP=
+Is.
+The 'Bound' type state goes from call_driver_probe() until device_remove() =
+has
+finished.
+
+The exact point doesn't really matter to drivers, for them 'Bound' begins w=
+ith
+their probe() callback and ends with the destructor of their bus device pri=
+vate
+data.
+
+The enum usb_interface_condition seems to me like an approach to synchroniz=
+e the
+initialization and teardown sequence of interfaces in regards to their pare=
+nt
+device within the USB core code, but it isn't driver facing.
+
+>> > Similarly, I don't see why Rust needs to distinguish between an=20
+>> > interface that is bound and one that isn't.
+>> >
+>> > Even from the point of view of the device core, a device that is bound=
+=20
+>> > to a driver is the same kind of data structure as one that isn't bound=
+;=20
+>> > the only difference is whether the ->driver pointer is set.
+>>=20
+>> This is a huge understatement.
+>>=20
+>> The state of a device being bound to a driver defines which entity (i.e.=
+ which
+>> driver) is in charge of operating the underlying device, and thus define=
+s who
+>> owns the device (associated) resources.
+>
+> That's not how I would describe it.  When a device is bound to a driver,=
+=20
+> the driver is allowed to create and use associated resource; when the=20
+> device is not bound, no such resources should exist.
+
+I think we are basically saying the same thing; no driver bound to the devi=
+ce
+means no one "owns" the device and hence no one operates it or manages (its=
+)
+resources.
+
+>> Many APIs rely on this, as in they only guarantee valid behavior when ca=
+lled
+>> from a scope where the device is guaranteed to be bound to a driver, or =
+IOW
+>> where a driver can prove that it actually operates the device.
+>
+> I can't think of many APIs like that in the USB stack.  One that springs=
+=20
+> to mind is encapsulated by checkintf() and check_ctrlrecip() in=20
+> core/devio.c, but those are the exception rather than the rule.
+
+It's not only the USB specific APIs, a usb::Interface<Bound> would also giv=
+e you
+the underlying, embedded struct device as Device<Bound>, which you need for
+various APIs to operate.
+
+For instance, requesting DMA coherent memory that has IOMMU mappings requir=
+es a
+Device<Bound>, the same goes for SGTable mappings.
+
+Another example are class device registrations and workqueues. I will give =
+an
+example how that looks like in Rust, but you can think of it similar to API=
+s
+like devm_work_autocancel() and devm_iio_device_register().
+
+Those APIs require the device embedding the core struct device to be bound =
+to a
+driver (and so does the Rust Devres API).
+
+For USB specifically, you want to require the 'Bound' device state for anyt=
+hing
+that operates the device in a way that only a driver should do that is, wel=
+l,
+bound to the device. For instance, any methods that perform I/O operations =
+(e.g.
+usb_submit_urb(), which AFAIK implies DMA mappings too) with the device sho=
+uld
+be implemented for the 'Bound' type state only.
+
+IOW, drivers should be restricted from having DMA mappings for a device and
+performing I/O with the device outside the scope between probe() and remove=
+().
+
+>> Drivers must only acquire device resources when they are actually bound =
+to the
+>> corresponding device, and must hand them back before the device is unbou=
+nd. The
+>> devres API, for instance, exists for this fundamental reason.
+>
+> How would having separate types for bound and unbound interfaces enable=
+=20
+> Rust to recognize that a driver had not destroyed back a resource in its=
+=20
+> unbind callback?
+
+The abstract answer is that together with the Rust compiler's ownership and
+lifetime tracking we can represent relationships such as "A lives at least =
+as
+long as B", "A does not outlive B", etc.
+
+I will sketch up a concrete example below.
+
+>> For instance, we can't have drivers manage IRQs, mess with I/O memory, p=
+rogram
+>> IOMMU page tables (e.g. through DMA APIs), etc. for devices they are not=
+ bound
+>> to and hence are not allowed to operate (anymore).
+>>=20
+>> Those device resources all have a lifetime that is tied to the lifetime =
+of the
+>> device being bound to a driver.
+>>=20
+>> Consequently, any asynchronous scopes such as IOCTLs from class device
+>> registrations, IRQs, work queued on workqueues, etc. must all be synchro=
+nized in
+>> some way such that those asynchronous scopes do not access device resour=
+ces that
+>> have already been destroyed on driver unbind.
+>
+> That is certainly true.  But I don't see how it can be enforced at=20
+> compile time.
+
+(I'll try to explain the mechanics below; a lot of this requires deep
+familiarity with Rust's ownership and lifetime system, so I'll try to keep =
+it
+approachable while still being precise enough to be useful. Also note that =
+I'm
+simplifying a few details for the same reason. As mentioned, I will also tr=
+y to
+sketch up a concrete example driver below.)
+
+Let's assume we are in probe() of a Rust driver, then we will eventually ha=
+ve a
+
+	&'bound usb::Interface<Bound>
+
+i.e. a reference to a bound USB interface with the lifetime 'bound.
+
+When we now try to create a class device registration, let's say a DRM devi=
+ce
+registration, it looks like this:
+
+	// `dev` is the embedded `struct device` as `&'bound Device<Bound>`.
+	let dev =3D intf.as_ref();
+
+	// `drm`:  The DRM device.
+	// `data`: Private data that lives as long as the DRM device is
+	//         registered.
+	let reg =3D drm::Registration::new(dev, drm, data)?
+
+What happens is that `reg` captures the lifetime of `dev`, i.e. 'bound and =
+the
+compiler will now ensure that `reg` can't outlive 'bound.
+
+The same goes for the private data `data`; it also captures this lifetime, =
+so
+you can store a &'bound usb::Interface<Bound> within `data`.
+
+Now, we finally need to store `reg` somewhere before probe() ends, otherwis=
+e it
+will go out of scope and be destroyed right away, which would be useless.
+
+The only place where it can go is the bus device private data, i.e. the pri=
+vate
+data of the usb::Interface.
+
+Technically, this is returned as an initializer by probe(), but that's just=
+ an
+implementation detail. The relevant part is that since we control the signa=
+ture
+of probe(), i.e.
+
+	fn probe<'bound>(
+	    adev: &'bound auxiliary::Device<Core<'_>>,
+	    _info: &'bound Self::IdInfo,
+	) -> impl PinInit<Self::Data<'bound>, Error> + 'bound {
+	    ...
+	}
+
+we can define that the return value captures this lifetime too. So, this is=
+ the
+only place where this data can go, and since the driver core controls the
+lifetime of the returned private data, the driver core will ensure that it =
+is
+destroyed when the driver is unbound.
+
+When we now receive an IOCTL from the DRM class device you will get your `d=
+ata`
+back, which contains your original &'bound usb::Interface<Bound>.
+
+And the reason you can get your &'bound usb::Interface<Bound> is because th=
+e
+drm::Registration ties itself to the 'bound lifetime and guarantees that on=
+ce it
+is destroyed no more IOCTLs can hit the driver.
+
+You can now apply the same pattern to any other registration kind of thing.
+IRQs, workqueues, work items, etc.
+
+Of course there are also primitives that do not tie their lifetime to the '=
+bound
+lifetime and just exist as long as a driver wants them to exist, but those =
+can't
+capture any types that capture the 'bound lifetime themselves.
+
+For instance, the compiler will not allow you to pass a
+
+	&'bound usb::Interface<Bound>
+
+to
+
+	workqueue::system().enqueue();
+
+instead you'd need to pass it to a Rust equivalent of devm_work_autocancel(=
+) for
+the compiler to accept it.
+
+>> Or in other words, they must be synchronized against the "bound" scope, =
+which is
+>> exactly what the Device<Bound> type state in Rust represents.
+>>=20
+>> So, again, all those lifetime rules around the driver lifecycle exist
+>> universally, it's just that in Rust we enforce them through the type sys=
+tem.
+>
+> How do you enforce through the type system that, for example, a=20
+> workqueue item has completed?
+
+Like I mentioned above, if you look for the code, please see [1]. But the t=
+rick
+is the same, it captures the 'bound lifetime and the destructor, which call=
+s
+destroy_workqueue() which will wait for pending work.
+
+[1] https://lore.kernel.org/all/20260617144645.253444-2-work@onurozkan.dev/
+
+>> For instance, tying it back to USB, we don't want that a usb_driver stil=
+l messes
+>> with a usb_interface, e.g. initiating transfers after it has been unboun=
+d from
+>> the interface and hence must not operate it anymore. This can easily hap=
+pen if
+>> e.g. a class device registration is not properly synchronized and the dr=
+iver
+>> still receives IOCTLs after driver unbind. In Rust we know through the "=
+Bound"
+>> type state which scope provides the guarantee that the device is still b=
+ound,
+>> such that mistakes like this become impossible.
+>
+> How can you pass types around to different control threads with somewhat=
+=20
+> arbitrary synchronization schemes managed at runtime, all while not=20
+> allowing a typed reference to exist beyond its lifetime?
+
+Here's the example I promised, to keep it simple I will just use
+platform::Device, MMIO and an IRQ handler, but the concept applies universa=
+lly.
+
+Please see the inline comments for additional explanation.
+
+Note that in addition the approach does also remove the typical ordering
+pitfalls we have in C driver's probe() functions by modelling them as real =
+data
+dependencies the compiler can actually check.
+
+```
+const REGS_SIZE: usize =3D 0x1000;
+
+// Common infrastructure to define types for registers.
+register! {
+    STATUS(u32) @ 0x00 {
+        31:0 pending;
+    }
+
+    ACK(u32) @ 0x04 {
+        31:0 clear;
+    }
+
+    CONTROL(u32) @ 0x08 {
+        0:0 enable;
+        1:1 irq_enable;
+    }
+}
+
+// Custom impl block for the `ACK` register.
+impl ACK {
+    fn from_status(status: STATUS) -> Self {
+        Self::from(status.pending().get())
+    }
+}
+
+// The IRQ handler, which captures the `'bound` lifetime. We use `'irq` as =
+a
+// name to indicate that it might live shorter, but in any case it can't li=
+ve
+// longer than `'bound`, which is ensured by the `irq::Registration`
+// constructor.
+//
+// The only thing we store in the `irq::Registration` is the `iomem`, so we=
+ can
+// perform I/O. Note that `ExclusiveIoMem` also captures a lifetime as a de=
+vice
+// resource, i.e. it can't outlive `'bound` either.
+struct IrqHandler<'irq> {
+    iomem: &'irq ExclusiveIoMem<'irq, REGS_SIZE>,
+    // Not used for anything other than printing, but you get the idea.
+    pdev: &'irq platform::Device<Bound>,
+}
+
+// The implementation of the IRQ handler.
+impl irq::Handler for IrqHandler<'_> {
+    fn handle(&self) -> IrqReturn {
+        let status =3D self.iomem.read(STATUS);
+
+        if status.pending() =3D=3D 0 {
+            return IrqReturn::None;
+        }
+        self.iomem.write_reg(ACK::from_status(status));
+
+        dev_info!(self.pdev, "I must not print from hard IRQs.\n");
+        IrqReturn::Handled
+    }
+}
+
+// The bus device private data structure, which captures the `'bound` lifet=
+ime.
+// It lives exactly as long as the driver is bound to the device.
+//
+// Both `iomem` and the IRQ registration `_irq` live until the driver is
+// unbound from the device.
+//
+// When `irq::Registration` is destroyed no more IRQs can fire.
+#[pin_data(PinnedDrop)]
+struct SampleData<'bound> {
+    #[pin]
+    _irq: irq::Registration<'bound, IrqHandler<'bound>>,
+    iomem: ExclusiveIoMem<'bound, REGS_SIZE>,
+}
+
+// The `Drop` implementation (destructor) of the bus device private data.
+//
+// This is pretty much equivalent to remove(); all resources such as `iomem=
+`
+// and `_irq` are cleaned up automatically through their `Drop` implementat=
+ion.
+#[pinned_drop]
+impl PinnedDrop for SampleData<'_> {
+    fn drop(self: Pin<&mut Self>) {
+        self.iomem.write_reg(CONTROL::zeroed());
+    }
+}
+
+struct SampleDriver;
+
+// The implementation of the platform::Driver, some type information, ID ta=
+ble,
+// bus callbacks, etc.
+impl platform::Driver for SampleDriver {
+    // The type of the device ID data; we don't have any hence the unit typ=
+e
+    // (think of it as void).
+    type IdInfo =3D ();
+
+    // The type of the driver's bus device private data.
+    type Data<'bound> =3D SampleData<'bound>;
+
+    // ID tables, we don't have any in this example.
+    const OF_ID_TABLE: Option<kernel::of::IdTable<Self::IdInfo>> =3D None;
+    const ACPI_ID_TABLE: Option<kernel::acpi::IdTable<Self::IdInfo>> =3D No=
+ne;
+
+    // The probe() function. The pin-init syntax may be a bit confusing, bu=
+t
+    // going into pin-init details is a bit out of scope.
+    //
+    // Think of it as something that captures a recipe of how memory of a
+    // certain type (`SampleData` in this case) has to be initialized to be
+    // valid.
+    fn probe<'bound>(
+        pdev: &'bound platform::Device<Core<'_>>,
+        _info: Option<&'bound Self::IdInfo>,
+    ) -> impl PinInit<Self::Data<'bound>, Error> + 'bound {
+        // We create and return an initializer for `SampleData`.
+        try_pin_init!(SampleData {
+            // We initialize the first field `iomem`; the `platform::Device=
+`
+            // provides a method on `platform::Device<Bound>` which `pdev`
+            // dereferences to as it has the `Core` device context.
+            //
+            // iomap_exclusive_sized() captures the lifetime of `pdev` and
+            // stores it in `iomem`. The only place this can live in is pro=
+be()
+            // and this initializer; the driver core takes care that the
+            // constructed `SampleData` can't outlive `'bound`.
+            iomem: pdev
+                .io_request_by_index(0)
+                .ok_or(ENODEV)?
+                .iomap_exclusive_sized::<REGS_SIZE>()?,
+
+            // Similar to `iomem`, request_irq_by_index() requires a
+            // `platform::Device<Bound>` and captures the `'bound` lifetime=
+ for
+            // both `IrqHandler` and the returned `irq::Registration`.
+            //
+            // Note that the `IrqHandler` stores a reference to `iomem`, th=
+is is
+            // only possible as pin-init will take care that the field has
+            // actually been initialized previously and is dropped after th=
+e
+            // `IrqHandler` is dropped.
+            //
+            // It becomes impossible to get the order wrong and accidentall=
+y
+            // register the IRQ before `iomem`; it can't happen that an IRQ
+            // fires before `iomem` is initialized.
+            //
+            // The reason I use future tense is because pin-init doesn't do=
+ that
+            // yet; people are working on it. There are other options to do=
+ this
+            // safely (e.g. with reference counts, etc.), but this is the o=
+ne
+            // with zero overhead we are heading towards.
+            _irq <- pdev.request_irq_by_index(
+                        Flags::SHARED,
+                        0,
+                        c"sample-irq",
+                        IrqHandler { iomem: &iomem, pdev: pdev }),
+
+            // This initializes absolutely nothing, but pin-init allows us =
+to
+            // execute arbitrary code in our recipe. So, now that everythin=
+g
+            // else is initialized, enable the controller.
+            _: {
+                let ctrl =3D CONTROL::zeroed().with_enable(true).with_irq_e=
+nable(true);
+                iomem.write_reg(ctrl);
+            },
+        })
+    }
+}
+
+kernel::module_platform_driver! {
+    type: SampleDriver,
+    name: "rust_driver_sample",
+    authors: ["Danilo Krummrich"],
+    description: "Sample Driver",
+    license: "GPL v2",
+}
+```
+
+I also plan to give a talk about this at Kernel Recipes [1] where I go into
+details and try to give some comparison between C and Rust code.
+
+[1] https://kernel-recipes.org/en/2026/schedule/enforcing-device-driver-lif=
+ecycle-rules-at-compile-time/
