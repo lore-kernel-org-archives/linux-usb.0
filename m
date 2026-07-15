@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AED388E4E;
-	Wed, 15 Jul 2026 07:21:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99A63C141A
+	for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 07:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784100111; cv=none; b=SNXVg3AT22mglwTRUs8s+UuyRzCneTthV5IwCbTZQ8FsrfwxrBb7wn+Pc/5HEpx46kJwpOR59FAAZOBD4voVtZs1TncJEDXs0VxG3IFk02JRGowwpqb/OeBh1Vo6wj8odre0+ljZ0rbY8m5khzh2R15ReEaMtvRPvyR9aUA1tCc=
+	t=1784100147; cv=none; b=AHYtcroTG1z6A9/ot1ULLdZ+Ix7cK3lAs04UZBuz1ov+J1GQ4AdvKl2UtnnlZbKoN8FBbmlAKyeEp5yC7gQaj59Kupth2e4ilGqDDP1kzYkPJoFwRGTNjhCxRShNeIVxyWdyfgHdtExseVMnAG/rE+28FIk2z5bMpi7FoTa9Vug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784100111; c=relaxed/simple;
-	bh=jS96YH0bZi/WtaKu5ZDmok216M+wjpPqA7kQlqgoRu0=;
+	s=arc-20240116; t=1784100147; c=relaxed/simple;
+	bh=NU+tpEA8y67yYIcJHDVGGSb0LqQF2n+vZpEY19y0Zcg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lg83LqJsjKWlofLTv/h19c/D8tCT7C1Q8Mt0awkRnBRdINd/aG1DyyjEYKTJiE6n6hzBIIYckZYENiA3CgVovMVC/eve4tT2++bDmNqPJloT8oUF2HGfWTx8jCCC9E6XwzmePQs5Q+islNVS5HfzviyzrzYG/cOP8pHpzbh8WAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jZ8G28HK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=tZ4GcPwsQnvW7rpeRTdlW21JEY37oSciPOavYVaDBSgzGgYfOb7dQDeCWlK5Qpm+GjGldXb1TGAdywoNkAMTL4n9XVV4AqERBpTYHlG+5D17CAGG+q4XzKaoEv839rLGeJVltJzILx40HuGrrh15EBEe7D9+wtmJP2WZFk60AAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ft9F8Fgq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jZ8G28HK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D07C1F000E9;
-	Wed, 15 Jul 2026 07:21:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ft9F8Fgq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4362D1F000E9;
+	Wed, 15 Jul 2026 07:22:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784100101;
-	bh=9DEO/UkyHXQgX2K9xSDM2cD4QOShsMKToetq8ep2wOM=;
+	s=k20260515; t=1784100139;
+	bh=cTeZZmaeR41ODLVMMj5mV4Jbn4kNf9OiVhYEjsdWxjI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jZ8G28HKC0EEddCyswVGU0Q+Z2ZgME3nsfBxCrUX8QIs2EK+R/dB/aVfUnZ53+Uvz
-	 E2IOURCugd0/GCEAuI7adXbZTdNYs9uk/viiMBbFNKUlCo6MOiVc5VLLszcrVs6Bjg
-	 FJWv45OVttIjlWXZZNvkVnQemSCAFhGqcPqAcUVb8y0OG3WB+IWnX1cb7Blm8iBEHk
-	 F+H2b4rSzo8quLyOm9z3k3qnOclJU9QGzv0tyIWoEc/Sba59H9sfTRsSZlCqSV0pH1
-	 1p6jjtj+0vowmC0iuoNPtR69pQjq0PgVwnRj5+gpJnuogk5vzliQRqlq/LxjPvr9HS
-	 lw6d4bIcuKhkQ==
+	b=Ft9F8FgqT6hOq+riTIkogOzcXk7FF0udCjSnRwqJSqA2vpD+wvosUzaKWtCX3qHpw
+	 draU6xmWNOwvNht5dsT6S5vhmLGgdLiOv8AiRbwRq8mVlflckjhM8v2YCPg7zRnuXS
+	 P+WYkENRArFWRe9E05hMqoQgMuWfCoCD7i5TqlnB1P8oFSKWd4d+862IBQ72EyY4/L
+	 VQOhklFNJts6R4npUuoxXYfg85Zm8DxnKFkdVnU/F53jHgb9iT9ndHoUOPYmC2wjYH
+	 NOdGRek4jVNCRkp+sKVLjdYmgdXFpCifmOiFkRkp+OqA5yqP2uOq/Zrb3jPIR1cydT
+	 R17tDU/5W/gFQ==
 Received: from johan by xi.lan with local (Exim 4.99.4)
 	(envelope-from <johan@kernel.org>)
-	id 1wjtw2-00000005pmJ-1bF5;
-	Wed, 15 Jul 2026 09:21:38 +0200
-Date: Wed, 15 Jul 2026 09:21:38 +0200
+	id 1wjtwf-00000005pmv-12C9;
+	Wed, 15 Jul 2026 09:22:17 +0200
+Date: Wed, 15 Jul 2026 09:22:17 +0200
 From: Johan Hovold <johan@kernel.org>
-To: Jay Vadayath <jkrshnmenon@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Lukas Dresel <lukas@artiphishell.com>
-Subject: Re: [PATCH] USB: serial: sierra: fix slab out-of-bounds read in
- sierra_instat_callback
-Message-ID: <alc1AjhB3v4M1sDH@hovoldconsulting.com>
-References: <https://lore.kernel.org/all/2026071453-reminder-ageless-dcea@gregkh/>
- <20260714181142.10976-1-jkrshnmenon@gmail.com>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: gregkh@linuxfoundation.org, jkrshnmenon@gmail.com,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: serial: sierra: deal with insufficiently long
+ notifications
+Message-ID: <alc1KYBzqiOWUx4u@hovoldconsulting.com>
+References: <20260714183305.1331363-1-oneukum@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -49,47 +47,63 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260714181142.10976-1-jkrshnmenon@gmail.com>
+In-Reply-To: <20260714183305.1331363-1-oneukum@suse.com>
 
-On Tue, Jul 14, 2026 at 11:11:42AM -0700, Jay Vadayath wrote:
-> The interrupt-in URB buffer is allocated based on the endpoint's
-> wMaxPacketSize. A device declaring wMaxPacketSize == 8 gets an 8-byte
-> buffer from kmalloc-8. When such a device delivers a short packet,
-> sierra_instat_callback() still dereferences transfer_buffer as struct
-> usb_ctrlrequest and reads a further byte at data[sizeof(*req_pkt)], one
-> byte past the end of the allocation.
-> 
-> Reject the URB when fewer than sizeof(struct usb_ctrlrequest) + 1 bytes
-> were received.
-> 
+On Tue, Jul 14, 2026 at 08:33:05PM +0200, Oliver Neukum wrote:
+> A malicious device can send too short messages which
+> would cause the driver to overflow the buffer and hit
 
-Fixes tag missing.
+"overflow" makes it sounds like memory corruption but this is just a
+potential 1-byte read beyond the buffer (or of stale data inside the
+buffer).
 
-> Cc: stable@vger.kernel.org
-> Reported-by: Jay Vadayath <jkrshnmenon@gmail.com>
+> stale data in their interpretation.
+> Ignore too short packets.
 
-You shouldn't add a Reported-by for your own patches.
+Even if this was found by an LLM it was still reported to use by a
+person so please add a Reported-by and Link tag along with a Fixes tag.
 
-> Reported-by: Lukas Dresel <lukas@artiphishell.com>
-
-Where was this reported?
-
-> Signed-off-by: Jay Vadayath <jkrshnmenon@gmail.com>
-
-You also need to mention that you used an LLM to find, write the commit
-message, test and/or fix this issue as documented here:
-
-	Documentation/process/generated-content.rst
-	Documentation/process/coding-assistants.rst
-
+> Signed-off-by: Oliver Neukum <oneukum@suse.com>
 > ---
-> Apologies for the wall of text in the original mail. I wanted to include
-> the artifacts inline so the bug could be independently verified. Just the
-> patch this time.
+>  drivers/usb/serial/sierra.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
 > 
-> Same shape of fix as Jiale Yao's option.c patch:
-> https://lore.kernel.org/all/20260712170012.3503601-1-yaojiale02@163.com/
+> diff --git a/drivers/usb/serial/sierra.c b/drivers/usb/serial/sierra.c
+> index 6e443aacae07..f50833055360 100644
+> --- a/drivers/usb/serial/sierra.c
+> +++ b/drivers/usb/serial/sierra.c
+> @@ -575,10 +575,19 @@ static void sierra_instat_callback(struct urb *urb)
+>  				__func__);
+>  			return;
+>  		}
+> +
+> +		if (urb->actual_length < sizeof(struct usb_ctrlrequest))
+> +			goto skip_too_short;
+> +
+>  		if ((req_pkt->bRequestType == 0xA1) &&
+>  				(req_pkt->bRequest == 0x20)) {
+>  			int old_dcd_state;
+> -			unsigned char signals = *((unsigned char *)
+> +			unsigned char signals;
+> +
+> +			if (urb->actual_length < sizeof(struct usb_ctrlrequest) + 1)
+> +				goto skip_too_short;
+> +
+> +			signals = *((unsigned char *)
+>  					urb->transfer_buffer +
+>  					sizeof(struct usb_ctrlrequest));
+>  
+> @@ -603,6 +612,7 @@ static void sierra_instat_callback(struct urb *urb)
+>  
+>  	/* Resubmit urb so we continue receiving IRQ data */
+>  	if (status != -ESHUTDOWN && status != -ENOENT) {
+> +skip_too_short:
 
-And as I and Oliver pointed out in that thread, that fix is not correct.
+And please move the label before the conditional and rename it after
+what it does (e.g. "out_resubmit" or just "resubmit").
+
+>  		usb_mark_last_busy(serial->dev);
+>  		err = usb_submit_urb(urb, GFP_ATOMIC);
+>  		if (err && err != -EPERM)
 
 Johan
