@@ -1,416 +1,145 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012047.outbound.protection.outlook.com [40.107.75.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A32E2DF137
-	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 13:41:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4ADA424D48;
+	Thu, 16 Jul 2026 13:48:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784209285; cv=pass; b=GYjYv2CPMk7CRDhBnfgKmLGT+/YLrFUtKNeFm6ZWaIlRf8r3IgryVuaZGutol0D9rxgeIn1/w9aWs7z5MrjSPQMo5NTOPCrsQkj7r2dw2vxbFX1AQklP47Xh6iCmlD81yek/5tLbKheCxbDsLCzT++bjVdB06DgnrTER+I5+uSY=
+	t=1784209708; cv=fail; b=sJziEanThDvfsweTYCkPKZWbu4aL+nH6F+kUGdHhusB0l3FFrFM840Frak/niblecwZkiFSSMaE4Fkrrqgf3YeUhQNShuQ+ZSMZuQPt/CmmhUiV7rNY52xm8OGUTjjkLOWgAL5eo9btQcF19IN0/IE+ziKCeg2CvFqwXdF8at8U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784209285; c=relaxed/simple;
-	bh=EepGMJPmx2sUPUYENAOYnYwb7PS2xaiv2Phkk0I971A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q5hMeMBw/Jim0AsPKGFZV65P+uWWNv0CgsxRyX65IUwTbnpMKU2Giof8r1nIK9J2kR2HLAV+2Qo6QhZ4WcQbco3OhsW7ZFhWxufuw/H5s8U7ecbrFzuZ4CJUsfoV0pVZ907IKOPWqJzNgUiZM84Q4NhUXDe6cIU5qACNVRxQa7E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Qs5zNfQa; arc=pass smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1784209708; c=relaxed/simple;
+	bh=MfDU+hn/giTSIqnSjbEeg8Z846QRZBYYW7/O7ShOuf8=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=qhrus/Ubli2GCHx1kNU384Bo3s177POHcG1+OvVyt2MLscHc185eQRSJmx8vjjXH4QqaksHhzO+xiaEQ7rX1GAvDQuOAWXXV0b7pNQPG4TzBeDUyNOZnZ8iP54UPf9cX6QFne8YQ8undKo6XnuvSkggFasd1PLwptdk8X9wbAvA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=QmnUR+Nf; arc=fail smtp.client-ip=40.107.75.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Qs5zNfQa"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-848479c9bd5so2643428b3a.3
-        for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 06:41:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784209282; cv=none;
-        d=google.com; s=arc-20260327;
-        b=f1sryt1EMj/LNSxBaKHq1zpoZvWSRvpdnxx8aoE4o5UMWNsGmtHPHDg7qOLLIvnX9P
-         tVXnlk1hew9facwk0r4INv/Hi7UmxcKPVBRpxNqrxN8a0GZnNUSL8rKe0DxH4YX7FSnT
-         xLWW+0umxad+oU286hqwoUddRgJgsVH8Qw7wUArBa10a7jPM+fKBFy+l8I0r3/CfoBPR
-         AONuwLsCVgx52bdo2zrWQYs6ffS+Lsa2zGRJev6IEwe6z2I+I+lSvLjE4sDtwW7rARob
-         Jmmp7a24MWIYQrblAqnSkPGEp1G+7x7ChZ7x9/8o15NhLsTPW80fBz51CrWlvipfuYkQ
-         RKIQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=UO+1Ub2gEDTvSkINUm04pmTYANpmfVUv5kODIL+G7n4=;
-        fh=F1etMPXF0jC/kUJCdeLX5T77EjOHu5ylYq7mGN8uqGY=;
-        b=int/PsEE9Yqx4dSk7KIAoZXuGt2ifumZPRH6YhPwqNlB2IMzeZQA9fRo8IQ/OcaX+C
-         kjw7Y4l6WnnwVm1aniw9Izu43G/xiAwclFVEugGUVqJkelaodkETXXUDXaMrasEEXyuA
-         iRveO0RmTxzfW6AeLLj2Z+eeQ7NBKpTewCoYA9K12vf8YMvExi/pUwBHZSr74CccornH
-         /v8zXdNb+qITLVH9WtoC1unkU4ir4Zv9a245HgfjfYfHVptpMGinPWSZaC1Ro9clOyki
-         4fLJAsNFpY48Le1WAGsiOsBPbEQgpfFQcclJZI0AEhYjgzClfprRzefRw3vE0NZXUJ62
-         OzAg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1784209282; x=1784814082; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=UO+1Ub2gEDTvSkINUm04pmTYANpmfVUv5kODIL+G7n4=;
-        b=Qs5zNfQa/aJdjKM2vl83FcFMCOG3Mnlr8RRhmRWVdfnl7C59V4RrKbVrmp3r2kgQFd
-         VaDdbYAQL4rfuc2u1X4eNrgJj5D81Zyh6hPUS0ClL7sBEhqWVQKubod8fAk37BgCxiRr
-         lWJlueNZq/MLsGoWEut2VG/t2BbV2ABjvMTAc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784209282; x=1784814082;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UO+1Ub2gEDTvSkINUm04pmTYANpmfVUv5kODIL+G7n4=;
-        b=bQreFPmajse1VmefOTK0t5nQuCfNzSpX1dgo7ygrwUk/3/+IH7Qu6N7DNIkXvoM6Bk
-         O9Ei3lalXvvkwEdsuvMqihzODp6SLNvQgaGovYWwQ8zJHWqyyulVk4XzCTfyviviEbAh
-         4WX0iufL4hMW+m+6L5SZD90xj5fxA/8MzMxa6YuMmIIVwmzUviJxuVdoSH61G+GxsDl1
-         ATL++1B30bGzthx+ApUvQ8qDeFNxbKq8SaML1fBlaD+stb3VuMhg7HvIsCFO1zHm4K6j
-         sfvHZq4T8jgkchRrDmEdNUpMLAZE/1f8dFcFaC3CQ4pzq2E9FEDGS8ltnjbsKjVDZYKv
-         6yiQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrHuiWR8KUvL4pjxYDjzTtIWWPS7LG5gHXkzWV6RxkE13sYCChLRAE9wd7lM3E+vQJMJ+H35rC8nmk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwUV3t6B603T0kqUbiisF8pU10fBXfdTxWQko//woQXsiMu07t
-	iy/CSqZB3FcSJQHkqcbhSmPerENMnLPqKsx4hV8ZD2fbCBSTS0eev8rd2EuWYxJDafRrBOclyG9
-	6YSIkJ/V+pFpefLRPVCeufE4WJLDU4AuTF3V+axF4
-X-Gm-Gg: AfdE7cmsFCbrzWpqTP0PwKPDUpOm3IkjnoSUgNz9dNTS0TuLye1tGbWnj3fkT5iZJl2
-	e62qp+xNd1l0fCpTuFztOJ60RyceiRPmrA7HCQtPEujeD9nsg5Xlx8ZUlk0ZoUnovgjjkO8mhES
-	TDbGQ7yojWDPyeLlKWJ9kk9fTpqYh5vNoCcSIo+U2HA7HnDawfvnnbZt9zo4ruTJsBaJeZTvccd
-	i9Ikvaxi+F+01d8nDIdCOOaLLCRDR/ZpMrP5t4sGE/IX5o+S1rGxTuWO2v4EcFGq1slpeTlu0Ky
-	B7QiTEhwSauetAsGY/6Y5XprcMY=
-X-Received: by 2002:a05:6a00:2d9e:b0:848:2e53:3f63 with SMTP id
- d2e1a72fcca58-84889711f4bmr19471625b3a.21.1784209282437; Thu, 16 Jul 2026
- 06:41:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="QmnUR+Nf"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eiwfZJniKYuMZLFyo0x4SPTVX1rWhP4vVSS7KPwz6Hg2ibq5Mb6c1iAEKtYkVYMnfu5led/92tj+I5Qne9MghXCkOTFXkrPLT/bdtCsfocxGLj4rTiXszhVKkCKe9phLGEKA7jpIaiPnhycVSE0fraLBUADAaD1GeD4DplAhKTddrAAI42sRFZTyjGLtkADj4fbkP9wTdZKEk4Rg+ruwscQvuEp5BYaiKjlArsYc49taXsGYLryxQacAg3gtq1ryHGPYMstipR+CrFjKdlwl3Lx5pjg1uezSe6AthozN9WBRMpxAmx+N1wv7CNPR+i/p48W2NkFfk2eDhpfheh33mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1McUmP3EmE3Bfv6YvMbSEzaqSuEfZRYZ3yn4cyKfoNg=;
+ b=k1amBzvCepvwK2imZ+zqfr8DVXunb2AVNOXYxUD9e+6Gsgtz7IRm55Oz8oSmoo/aJuz9BxYCyUB3MP0E+mnsK2fwQxOIEvHYhnmhOUPCxBFJLTUBKsj8AVruzGR68UOk4RTNWoPCuQpgi8KQ3QB1D9uYKQVtT+uIsRBbcE/XijdJV1LC/I3P7FiyQLW+iAym1E5Dw03Mx/zDWrnZnK3G+pPPt/SM6yDjH1fUETOO3lmjjHgrKgT7V+3ZyIfrHYQO4T7bgZua0EGSEIhWJE8o7nEy6cIoaz70N2ipoYqeFMnTiaCPJpQlrOFt3hsUXpk4uA9aubip7v/uBQo7Wz6gxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1McUmP3EmE3Bfv6YvMbSEzaqSuEfZRYZ3yn4cyKfoNg=;
+ b=QmnUR+Nf78De+VJlyKWn0qjOLX1ORM/n14KBXY2x8NlOP59qSy/wF7fqExHFENhBFOHGP0CJm9TsFCSyAGgqFJqWPiQ51mW+T2A+ZvUsN58Q1m04MAcAjwh7PvLDaWJZU8N+qgAZbr4YE6IW3X84lsq2Dl+xIg8X0CGmQoJbhj2f5tq2oi69tHc1ge8ns3x5mTqEYtyBwEVpuL4dBcJYkbdWN5FVPXvPSxuULLPQNSFeQ6GC9trexogh2IrLg8jSjoMD9JR966j6D/z3COnghUHmqVKgW2qd1bIE7Uib5PTp55oXx5dI9adeK9y8TpHobq812DhcnFtotIdoFrbluQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB5832.apcprd06.prod.outlook.com (2603:1096:101:c8::12)
+ by OSQPR06MB7278.apcprd06.prod.outlook.com (2603:1096:604:29c::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.11; Thu, 16 Jul
+ 2026 13:48:09 +0000
+Received: from SEZPR06MB5832.apcprd06.prod.outlook.com
+ ([fe80::f98:5e32:4ccb:d07b]) by SEZPR06MB5832.apcprd06.prod.outlook.com
+ ([fe80::f98:5e32:4ccb:d07b%6]) with mapi id 15.21.0223.011; Thu, 16 Jul 2026
+ 13:48:08 +0000
+From: Pan Chuang <panchuang@vivo.com>
+To: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	linux-usb@vger.kernel.org (open list:THUNDERBOLT DRIVER),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Pan Chuang <panchuang@vivo.com>
+Subject: [PATCH] thunderbolt: Remove redundant dev_err_probe()
+Date: Thu, 16 Jul 2026 21:47:59 +0800
+Message-Id: <20260716134759.49371-1-panchuang@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TY4P301CA0123.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:37e::6) To SEZPR06MB5832.apcprd06.prod.outlook.com
+ (2603:1096:101:c8::12)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707141736.1635698-1-akuchynski@chromium.org>
- <22064276-6c56-411a-9f20-6917ceeb865f@intel.com> <CAMMMRMduSMniMrixGuq=m=00nUvzXQpySE86TpmvfNQtAChB=w@mail.gmail.com>
- <868cab1f-f581-4a01-a9ea-b2fa1a7a2831@intel.com>
-In-Reply-To: <868cab1f-f581-4a01-a9ea-b2fa1a7a2831@intel.com>
-From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Thu, 16 Jul 2026 15:41:11 +0200
-X-Gm-Features: AUfX_mz_IwM2nglp571SeZXVZm3Hv4_jxpWy24QKgJoVDr4KCF4EjNbeACVpK-U
-Message-ID: <CAMMMRMdZciCCmfOv0_PhX_VfPtXdMEwNe-CXOLWRSmFYBAEL7Q@mail.gmail.com>
-Subject: Re: REGRESSION: [PATCH] usb: typec: ucsi: Fix race condition and
- ordering in port unregistration
-To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Jameson Thies <jthies@google.com>, 
-	Benson Leung <bleung@chromium.org>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
-	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Pooja Katiyar <pooja.katiyar@intel.com>, 
-	Johan Hovold <johan@kernel.org>, Hsin-Te Yuan <yuanhsinte@chromium.org>, 
-	Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>, Linyu Yuan <quic_linyyuan@quicinc.com>, 
-	Jack Pham <quic_jackp@quicinc.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB5832:EE_|OSQPR06MB7278:EE_
+X-MS-Office365-Filtering-Correlation-Id: 489c536b-7bd5-4349-3874-08dee340dea2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|52116014|366016|1800799024|38350700014|6133799003|56012099006|11063799006|10067099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	8sV/M04js7Z0q/omnNeou6oWWdY4VGEGjyaawyWoms9Sd2g5wKz866fSAgdjRilkuxOgvd90tiO23tZPT5+yfscKRpAgAycW07XAoAtljDeuDJG6SJN1qBKWItxoCCi7W0RrBGZNYEwFU8e97lj4+lm+OClJfyP+p1axOIQOjEXUKEtqw4BR0225zA8UFjtx18uy9fY9lYGEWCxfA2YGLDmKp4UmSCrXdl52+C7zAYqw7gcVw76dgX3YVgpwFLifzexV2RvsEb8Ck0o+VSZnc13Mcojgmsn0z4lcjU6bPTWHOr4YsYIWHlmUdhieKFbv+t2WjIdmIYgikuDPu/F63eNDA0tEnhZZ4X0g+Akwl/8AIO0q1GVQ+9ivyycDsTBoehY/rC92ZvYh5B8XVjg8Wyb1FulPx8ORlMgsDvZb7wt6Q4uJIOxGDola9BzmtnTjWboeg7C24g2A4pYXCU3zq+TQhEuRmsTCSQCECVANR6qXs9rXqHLKC6WKSpdtrmNXr98pogKaYIeClDRx2Unvr78sG3U/YbQuKNk3RXpkNLsT7BCryuQJHB4tctAKx6Cb3Id2iym9Vygj7VAeXpEIpSzocARBiUH/rRYp3wx6+/amY0+mC7oLefjwWP49/3abbqbIVTePnbqqnXpMR5sh0oaTW1ZsMep/YVsVZTi3Oyx6wjw/05+lIMxkytw82FflJbrVA30OCVTPN2ejU4Z0nkWzTwjX4j2AHYt8rrYOsVQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5832.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(52116014)(366016)(1800799024)(38350700014)(6133799003)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?loTrox+vCUxb2jJ56QA3n1cfNVWuKvNB4yMvfx1j5K2GFMWerOER5Am0HSSs?=
+ =?us-ascii?Q?o+2m8EmeIdIKpc6l4SMMSEe4kkJWZwZdHgvOdWxnaOnJo9o6yRIUYcGnPKqu?=
+ =?us-ascii?Q?mU4CqKZIN1mDKOF+eDdEQ8Vx51yMjeW8t8CBqMikOxsCX/E8G9TzI0UCA/Yr?=
+ =?us-ascii?Q?+8uZ5HkOgG60RIcOq8qJjcJvljQDNsZQjMg/6BC3zJXwS9VY0hLEVmJWxpWQ?=
+ =?us-ascii?Q?P8q55Ex66Sa1nwNdA8SqHztv71osqW7Cj4ZSC17VAqo8/gEgmqkTzg/EUbUG?=
+ =?us-ascii?Q?+LMSPU86AAl2ykG9yFJHA5Qfgi/N017g7GcaRDJ+URXRV4+tbqA+kmEcVRir?=
+ =?us-ascii?Q?np0g4wmyUyMgHjmZizcX0grOwropyb1v2x91K3AhZ4lO4t/OQZJYH/f8rAH7?=
+ =?us-ascii?Q?FvPCyxppF8q6G2ST5q1mykvvGTj+TBfKSehvz2UrVnES6QwO7OgRSttHKCVG?=
+ =?us-ascii?Q?FBDCNJyLtIsygQypbItGL6tMe/CowoXWDqdTKS09P6aEuSKe+RLbV0m+XH0v?=
+ =?us-ascii?Q?AcxSK29YgG2/ldXBguiRAKqGLLsCgVrsjC171w/dD3g13SRTDN6Q29OenOKf?=
+ =?us-ascii?Q?Uh41iQT1FaKMeAKhnFmxv3Zzm45nm2xVIgLcV8iHDtMzH+rCOirvcCBP0XvX?=
+ =?us-ascii?Q?sM3LEKWulYpu7oURLafDRFjxlMZKw3lGBO8mWONjcKXDT1pMkQ2I22g1rVkF?=
+ =?us-ascii?Q?xbRJBsAdgoZ1rkxl6Sh9U79pYNEa7BraNQ5JbjVQMbKVsJba+WTh2FIICmLl?=
+ =?us-ascii?Q?cyXuNpwaHO4xhJNMqZYGoWLqW161St/J61mhKpiAKlrK0k/B/9+41aKESt1o?=
+ =?us-ascii?Q?11yzqw0eIF4jFH5lH7bTQSRAm/ThSfdZ6gdkeh/yfqQkP+rJmYzXVVLW8TNw?=
+ =?us-ascii?Q?w3Mm+cr7PKFlKhZToIYVJDZ4BXW3iNh5HrqoN+IeYbaQ+4PJkngvmWl6+3i0?=
+ =?us-ascii?Q?MZ/idBn/4FFICHS/fbMU3GI0yaVb/CcogrruuDQm8LgNtQ1P3yHDdmIbAIle?=
+ =?us-ascii?Q?jN6KanuqfnzU7XX3i/cKTYRjmVzPjICvPPtj4ejWwmDV9/d0gcd4tIoTzNxv?=
+ =?us-ascii?Q?lqrKRD48G2QA+Isx4RP5H4pxBBPX/8vcQc66npYStYtkk/72Hg4ZFDBXtErO?=
+ =?us-ascii?Q?8H2c6VspfvB+Wv3hYxhZRqauROfk5bOmHDZNbATJsWIj0T2U700hNLXnmMJ/?=
+ =?us-ascii?Q?Ph5wnjxoPved8d3jBrupmRvnVQwRtn9iw6Y0vfYMHWn9MuUgRSwz2w+hJXa9?=
+ =?us-ascii?Q?fv66N0QkJZFwwI92xRCmoctqQPPm5PnfYf/RKTy58Yia4MmhL2X7ju8Q2NiB?=
+ =?us-ascii?Q?aVrTKCDEGC9ZHRsOW2535pDkEOGubv1fSlhqcD6FvMS3YJYf5I1XTl4xWa2b?=
+ =?us-ascii?Q?8nTyYo58QBerTRrX63ODXWsp83j7Gm1zxRZEJn/xE7JTnjCPsEZptHgenwiT?=
+ =?us-ascii?Q?1f+2FraKYTzEcFzWXttymZ+8duUhRcbIIe8nluwslcTOveLFMstZmKBmH6mW?=
+ =?us-ascii?Q?17LHPu0iwF0yIpPWv5Qpg1J7shmEX2nGp/+Ox6UJouD9wYthysJI3ykmPrnV?=
+ =?us-ascii?Q?lyaT8C7wdXidcLxksQNcGogJAG9g+MEoCNW4gcW9bOlaW4x2z7yfeinX4ORq?=
+ =?us-ascii?Q?+kL5lj9kF8Tw6WYsCzFjAeWWln3qDuagTz9Z8dpGd2dybEcZeyNrR2iy5CZu?=
+ =?us-ascii?Q?isSqQseQ0qBoB6OP2fH+LcYa7lwbVGmP6Hw3REO6PNxLy3iDDPBcrPUzT4Vf?=
+ =?us-ascii?Q?fi7LQJHiZQ=3D=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 489c536b-7bd5-4349-3874-08dee340dea2
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5832.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 13:48:08.8211
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: si+EECMYSgXYkvuUio6WrzvoQLQUnS9Dwsph8YVafcHou4WalWOZ/SvPd/ToA9Jeudij0FURsiYmWJbPziGy3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSQPR06MB7278
 
-On Thu, Jul 16, 2026 at 3:23=E2=80=AFPM Borah, Chaitanya Kumar
-<chaitanya.kumar.borah@intel.com> wrote:
->
->
->
-> On 7/16/2026 2:45 PM, Andrei Kuchynski wrote:
-> > On Thu, Jul 16, 2026 at 10:28=E2=80=AFAM Borah, Chaitanya Kumar
-> > <chaitanya.kumar.borah@intel.com> wrote:
-> >>
-> >> Hello Andrei,
-> >>
-> >> On 7/7/2026 7:47 PM, Andrei Kuchynski wrote:
-> >>> A synchronization issue exists during port unregistration where pendi=
-ng
-> >>> partner work items can race against workqueue destruction, leading to
-> >>> use-after-free conditions:
-> >>>
-> >>>     cros_ec_ucsi cros_ec_ucsi.3.auto: error -ETIMEDOUT: PPM init fail=
-ed
-> >>>     BUG: kernel NULL pointer dereference, address: 0000000000000000
-> >>>     RIP: 0010:__queue_work+0x83/0x4a0
-> >>>     Call Trace:
-> >>>       <IRQ>
-> >>>       __cfi_delayed_work_timer_fn+0x10/0x10
-> >>>       run_timer_softirq+0x3b6/0xbd0
-> >>>       sched_clock_cpu+0xc/0x110
-> >>>       irq_exit_rcu+0x18d/0x330
-> >>>       fred_sysvec_apic_timer_interrupt+0x5e/0x80
-> >>>
-> >>> Fix this by ensuring strict ordering and proper serialization during
-> >>> teardown:
-> >>>
-> >>> 1. Move ucsi_unregister_partner() to the beginning of the teardown
-> >>> sequence and protect it under the connector mutex lock.
-> >>> 2. Ensure all pending partner tasks are explicitly flushed and finish=
-ed
-> >>> before the workqueue is destroyed.
-> >>> 3. Switch from mod_delayed_work() to a cancel_delayed_work() and
-> >>> queue_delayed_work() sequence. This guarantees that items currently m=
-arked
-> >>> as pending won't be scheduled an additional time, preventing a double
-> >>> release of resources which leads to the following crash:
-> >>>
-> >>>     Oops: general protection fault, probably for non-canonical addres=
-s
-> >>>       0xdead000000000122: 0000 [#1] SMP NOPTI
-> >>>     Workqueue: cros_ec_ucsi.3.auto-con2 ucsi_poll_worker
-> >>>     RIP: 0010:ucsi_poll_worker+0x65/0x1e0
-> >>>     Call Trace:
-> >>>     <TASK>
-> >>>       process_scheduled_works+0x218/0x6d0
-> >>>       worker_thread+0x188/0x3f0
-> >>>       __cfi_worker_thread+0x10/0x10
-> >>>       kthread+0x226/0x2a0
-> >>>
-> >>> To ensure these rules are applied identically across both the normal
-> >>> teardown and the ucsi_init() error paths, consolidate the cleanup log=
-ic
-> >>> into a new helper, ucsi_unregister_port().
-> >>
-> >>
-> >> This seems to be causing regression in our linux-next CI. [1]
-> >>
-> >> <6>[   18.008557] ------------[ cut here ]------------
-> >> <4>[   18.013166] DEBUG_LOCKS_WARN_ON(1)
-> >> <4>[   18.013167] WARNING: kernel/locking/lockdep.c:238 at
-> >> __lock_acquire+0xa59/0x2750, CPU#1: kworker/u89:1/172
-> >> ...
-> >> <4>[   18.159950] Hardware name: Intel Corporation Meteor Lake Client
-> >> Platform/MTL-P DDR5 SODIMM SBS RVP, BIOS
-> >> MTLPFWI1.R00.3471.D89.2401091901 01/09/2024
-> >> <4>[   18.173125] Workqueue: events_dfl_long ucsi_init_work [typec_ucs=
-i]
-> >> <4>[   18.179257] RIP: 0010:__lock_acquire+0xa60/0x2750
-> >> <4>[   18.183927] Code: 44 8b 5d a8 85 c0 0f 84 98 fd ff ff 44 8b 35 0=
-7
-> >> 0b 72 02 45 85 f6 0f 85 88 fd ff ff 48 8d 3d 27 25 73 02 48 c7 c6 1b 5=
-1
-> >> 27 83 <67> 48 0f b9 3a 31 c0 44 8b 5d a8 44 8b 4d b0 e9 c6 f7 ff ff 31=
- d2
-> >> ...
-> >> <4>[   18.263886] PKRU: 55555554
-> >> <4>[   18.266583] Call Trace:
-> >> <4>[   18.269014]  <TASK>
-> >> <4>[   18.271110]  ? mark_held_locks+0x46/0x90
-> >> <4>[   18.275007]  lock_acquire+0xd9/0x2e0
-> >> <4>[   18.278562]  ? ucsi_unregister_port+0x36/0x140 [typec_ucsi]
-> >> <4>[   18.284096]  __mutex_lock+0xb2/0x1020
-> >> <4>[   18.287735]  ? ucsi_unregister_port+0x36/0x140 [typec_ucsi]
-> >> <4>[   18.293265]  ? ucsi_unregister_port+0x36/0x140 [typec_ucsi]
-> >> <4>[   18.298797]  ? synchronize_rcu_expedited+0x2b2/0x300
-> >> <4>[   18.303724]  ? __pfx_autoremove_wake_function+0x10/0x10
-> >> <4>[   18.308912]  mutex_lock_nested+0x1b/0x30
-> >> <4>[   18.312806]  ? mutex_lock_nested+0x1b/0x30
-> >> <4>[   18.316878]  ucsi_unregister_port+0x36/0x140 [typec_ucsi]
-> >> <4>[   18.322238]  ucsi_init_work+0x66d/0xc10 [typec_ucsi]
-> >> <4>[   18.327167]  process_one_work+0x2ad/0x8b0
-> >> <4>[   18.331158]  worker_thread+0x200/0x3f0
-> >> <4>[   18.334886]  ? __pfx_worker_thread+0x10/0x10
-> >> <4>[   18.339128]  kthread+0x10d/0x150
-> >> <4>[   18.342339]  ? __pfx_kthread+0x10/0x10
-> >> <4>[   18.346067]  ret_from_fork+0x3bd/0x470
-> >> <4>[   18.349795]  ? __pfx_kthread+0x10/0x10
-> >> <4>[   18.353522]  ret_from_fork_asm+0x1a/0x30
-> >> <4>[   18.357420]  </TASK>
-> >>
-> >> Detailed log can be seen found in [2]
-> >>
-> >> We confirmed that reverting the patch solves the issue.
-> >>
-> >> Could you please check why the patch causes this regression and provid=
-e
-> >> a fix if necessary?
-> >>
-> >> Regards
-> >> Chaitanya
-> >>
-> >> [1] https://intel-gfx-ci.01.org/tree/linux-next/combined-alt.html?
-> >> [2]
-> >> https://intel-gfx-ci.01.org/tree/linux-next/next-20260714/bat-mtlp-9/b=
-oot0.txt
-> >>
-> >> -- Bisect Logs --
-> >>
-> >> git bisect start
-> >> # status: waiting for both good and bad commits
-> >> # good: [5f1b513690edf51727e6928b97705b6437f9a98e] Merge remote-tracki=
-ng
-> >> branch 'spi/for-7.3' into spi-next
-> >> git bisect good 5f1b513690edf51727e6928b97705b6437f9a98e
-> >> # status: waiting for bad commit, 1 good commit known
-> >> # bad: [49362394dad7df66c274c867a271394c10ca2bb8] Add linux-next
-> >> specific files for 20260713
-> >> git bisect bad 49362394dad7df66c274c867a271394c10ca2bb8
-> >> # bad: [dffddeb046466ed57038295bde28b42b7506a12b] Merge branch
-> >> 'nand/next' of https://git.kernel.org/pub/scm/linux/kernel/git/mtd/lin=
-ux.git
-> >> git bisect bad dffddeb046466ed57038295bde28b42b7506a12b
-> >> # bad: [d154d0766bf3fe830e1bf98fb2d8648294a4a8da] Merge branch
-> >> 'for-next' of
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/khilman/linux-omap.git
-> >> git bisect bad d154d0766bf3fe830e1bf98fb2d8648294a4a8da
-> >> # bad: [671b0fd929bec9ebf863cb376baf9b9d1226a510] Merge branch 'master=
-'
-> >> of https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git
-> >> git bisect bad 671b0fd929bec9ebf863cb376baf9b9d1226a510
-> >> # good: [f4fb100039e96211609dfc44fb24b9e4a8a0f2f9] Merge tag
-> >> 's390-7.2-4' of git://git.kernel.org/pub/scm/linux/kernel/git/s390/lin=
-ux
-> >> git bisect good f4fb100039e96211609dfc44fb24b9e4a8a0f2f9
-> >> # good: [c296d513e034df93ddb230ad1c7a118d6b58750c] Merge branch
-> >> 'arm/fixes' of https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc=
-.git
-> >> git bisect good c296d513e034df93ddb230ad1c7a118d6b58750c
-> >> # good: [de53c0a584f08f31eb957f8c849a59fb33b27fa8] Merge branch 'for-r=
-c'
-> >> of https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git
-> >> git bisect good de53c0a584f08f31eb957f8c849a59fb33b27fa8
-> >> # bad: [a6969de5a038bc08a948ada52bd7199a8dfa6cec] Merge branch
-> >> 'usb-linus' of
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-> >> git bisect bad a6969de5a038bc08a948ada52bd7199a8dfa6cec
-> >> # good: [15eab2dd63a97587405ab6bfaad9728d5b35b5fe] Merge tag
-> >> 'asoc-fix-v7.2-rc2' of
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound into for=
--linus
-> >> git bisect good 15eab2dd63a97587405ab6bfaad9728d5b35b5fe
-> >> # bad: [c2e819be6a5c7f34344926b4bd7e3dfca58cf48a] usb: gadget: printer=
-:
-> >> fix infinite loop in printer_read()
-> >> git bisect bad c2e819be6a5c7f34344926b4bd7e3dfca58cf48a
-> >> # good: [29a142d3e8b35ebc9e0bcc78f4bc26c9b6a9ac0b] USB: gadget:
-> >> snps-udc: fix device name leak on probe failure
-> >> git bisect good 29a142d3e8b35ebc9e0bcc78f4bc26c9b6a9ac0b
-> >> # good: [1febec7e47cdcd01f43fb0211094e3010474666e] usb: gadget: f_ncm:
-> >> validate datagram bounds in ncm_unwrap_ntb()
-> >> git bisect good 1febec7e47cdcd01f43fb0211094e3010474666e
-> >> # bad: [0583f2fbf8f86ae3a0ce054f96783dd83e65d9bb] usb: gadget: udc: bd=
-c:
-> >> free IRQ and drain func_wake_notify before teardown
-> >> git bisect bad 0583f2fbf8f86ae3a0ce054f96783dd83e65d9bb
-> >> # bad: [7aa7d4bf9d3fa9a6a47b640ad103ab433b7ff261] usb: typec: ucsi: Fi=
-x
-> >> race condition and ordering in port unregistration
-> >> git bisect bad 7aa7d4bf9d3fa9a6a47b640ad103ab433b7ff261
-> >> # first bad commit: [7aa7d4bf9d3fa9a6a47b640ad103ab433b7ff261] usb:
-> >> typec: ucsi: Fix race condition and ordering in port unregistration
-> >>>
-> >>> Cc: stable@vger.kernel.org
-> >>> Fixes: b9aa02ca39a4 ("usb: typec: ucsi: Add polling mechanism for par=
-tner tasks like alt mode checking")
-> >>> Fixes: b13abcb7ddd8 ("usb: typec: ucsi: Fix NULL pointer access")
-> >>> Fixes: fac4b8633fd6 ("usb: ucsi: Ensure connector delayed work items =
-are flushed")
-> >>> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> >>> ---
-> >>>    drivers/usb/typec/ucsi/ucsi.c | 82 +++++++++++++++++--------------=
-----
-> >>>    1 file changed, 39 insertions(+), 43 deletions(-)
-> >>>
-> >>> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/u=
-csi.c
-> >>> index 92166a3725b16..d9668ed7c80ea 100644
-> >>> --- a/drivers/usb/typec/ucsi/ucsi.c
-> >>> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> >>> @@ -1845,6 +1845,42 @@ static int ucsi_register_port(struct ucsi *ucs=
-i, struct ucsi_connector *con)
-> >>>        return ret;
-> >>>    }
-> >>>
-> >>> +static void ucsi_unregister_port(struct ucsi_connector *con)
-> >>> +{
-> >>> +     struct ucsi_work *uwork;
-> >>> +
-> >>> +     if (con->wq) {
-> >>> +             mutex_lock(&con->lock);
-> >>> +             ucsi_unregister_partner(con);
-> >>> +             /*
-> >>> +              * queue delayed items immediately so they can execute
-> >>> +              * and free themselves before the wq is destroyed
-> >>> +              */
-> >>> +             list_for_each_entry(uwork, &con->partner_tasks, node) {
-> >>> +                     if (cancel_delayed_work(&uwork->work))
-> >>> +                             queue_delayed_work(con->wq, &uwork->wor=
-k, 0);
-> >>> +             }
-> >>> +             mutex_unlock(&con->lock);
-> >>> +
-> >>> +             destroy_workqueue(con->wq);
-> >>> +             con->wq =3D NULL;
-> >>> +     } else {
-> >>> +             ucsi_unregister_partner(con);
-> >>> +     }
-> >>> +
-> >>> +     ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
-> >>> +     ucsi_unregister_port_psy(con);
-> >>> +
-> >>> +     usb_power_delivery_unregister_capabilities(con->port_sink_caps)=
-;
-> >>> +     con->port_sink_caps =3D NULL;
-> >>> +     usb_power_delivery_unregister_capabilities(con->port_source_cap=
-s);
-> >>> +     con->port_source_caps =3D NULL;
-> >>> +     usb_power_delivery_unregister(con->pd);
-> >>> +     con->pd =3D NULL;
-> >>> +     typec_unregister_port(con->port);
-> >>> +     con->port =3D NULL;
-> >>> +}
-> >>> +
-> >>>    static u64 ucsi_get_supported_notifications(struct ucsi *ucsi)
-> >>>    {
-> >>>        u16 features =3D ucsi->cap.features;
-> >>> @@ -1971,22 +2007,8 @@ static int ucsi_init(struct ucsi *ucsi)
-> >>>        for (i =3D 0; i < ucsi->cap.num_connectors; i++)
-> >>>                lockdep_unregister_key(&connector[i].lock_key);
-> >>>
-> >>> -     for (con =3D connector; con->port; con++) {
-> >>> -             if (con->wq)
-> >>> -                     destroy_workqueue(con->wq);
-> >>> -             ucsi_unregister_partner(con);
-> >>> -             ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
-> >>> -             ucsi_unregister_port_psy(con);
-> >>> -
-> >>> -             usb_power_delivery_unregister_capabilities(con->port_si=
-nk_caps);
-> >>> -             con->port_sink_caps =3D NULL;
-> >>> -             usb_power_delivery_unregister_capabilities(con->port_so=
-urce_caps);
-> >>> -             con->port_source_caps =3D NULL;
-> >>> -             usb_power_delivery_unregister(con->pd);
-> >>> -             con->pd =3D NULL;
-> >>> -             typec_unregister_port(con->port);
-> >>> -             con->port =3D NULL;
-> >>> -     }
-> >>> +     for (con =3D connector; con->port; con++)
-> >>> +             ucsi_unregister_port(con);
-> >
-> > Hi Chaitanya,
-> > Thank you for spotting this!
-> >
-> > Could you verify if calling lockdep_unregister_key(&connector[i].lock_k=
-ey)
-> > after ucsi_unregister_port(con) resolves the issue?
-> >
-> >       for (con =3D connector; con->port; con++)
-> >              ucsi_unregister_port(con);
-> >       for (i =3D 0; i < ucsi->cap.num_connectors; i++)
-> >                 lockdep_unregister_key(&connector[i].lock_key);
-> >
-> > I will also try testing this on my side.
->
-> Thank you Andrei for the patch. It seems to work for us.
->
+Since commit 55b48e23f5c4 ("genirq/devres: Add error handling in
+devm_request_*_irq()"), devm_request_irq() automatically logs
+detailed error messages on failure. Remove the now-redundant
+driver-specific dev_err_probe() calls.
 
-Hi Chaitanya,
+Signed-off-by: Pan Chuang <panchuang@vivo.com>
+---
+ drivers/thunderbolt/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for the testing!
-I will prepare a fix or maybe V2 of this patch.
+diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
+index dbb6badda867..89ae429d4cd5 100644
+--- a/drivers/thunderbolt/pci.c
++++ b/drivers/thunderbolt/pci.c
+@@ -139,7 +139,7 @@ static int nhi_pci_init_msi(struct tb_nhi *nhi)
+ 		res = devm_request_irq(&pdev->dev, irq, nhi_msi,
+ 				       IRQF_NO_SUSPEND, "thunderbolt", nhi);
+ 		if (res)
+-			return dev_err_probe(dev, res, "request_irq failed, aborting\n");
++			return res;
+ 	}
+ 
+ 	return 0;
+-- 
+2.34.1
 
-Could you please share your configuration details? Specifically, do you
-have any of the following enabled?
-CONFIG_DEBUG_LOCKDEP
-CONFIG_LOCK_STAT
-CONFIG_LOCKDEP_SMALL
-CONFIG_DEBUG_LOCKDEP
-CONFIG_PROVE_LOCKING
-
-I am still  not able to reproduce it.
-
-Thanks,
-Andrei
