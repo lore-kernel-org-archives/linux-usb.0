@@ -1,145 +1,142 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012047.outbound.protection.outlook.com [40.107.75.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4ADA424D48;
-	Thu, 16 Jul 2026 13:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784209708; cv=fail; b=sJziEanThDvfsweTYCkPKZWbu4aL+nH6F+kUGdHhusB0l3FFrFM840Frak/niblecwZkiFSSMaE4Fkrrqgf3YeUhQNShuQ+ZSMZuQPt/CmmhUiV7rNY52xm8OGUTjjkLOWgAL5eo9btQcF19IN0/IE+ziKCeg2CvFqwXdF8at8U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784209708; c=relaxed/simple;
-	bh=MfDU+hn/giTSIqnSjbEeg8Z846QRZBYYW7/O7ShOuf8=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=qhrus/Ubli2GCHx1kNU384Bo3s177POHcG1+OvVyt2MLscHc185eQRSJmx8vjjXH4QqaksHhzO+xiaEQ7rX1GAvDQuOAWXXV0b7pNQPG4TzBeDUyNOZnZ8iP54UPf9cX6QFne8YQ8undKo6XnuvSkggFasd1PLwptdk8X9wbAvA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=QmnUR+Nf; arc=fail smtp.client-ip=40.107.75.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A6C3D522F
+	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 13:50:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784209808; cv=none; b=LTUSdSQfblqPgT+kYMPRdT5ZxpQTC5xlwSun0eRjY4EBwg2NjPpZR+uN8kdcFLZo1chcrYnDDR8OEoq18709LOCJF6GmLbGpc+pYHcL77pLBB0kiILfL7gK7M0k/mVU4d/ShC+17+v62vxK8ygGx6GaDexXPzWPKMMtWK/hv0Lo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784209808; c=relaxed/simple;
+	bh=aL+R0damZiB7sA0jotIpouwuYqTFvSqemReY+3b2sqM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oeJN9BxyzwyTR8vNK0EycfCLL3lXwYGW5/zpS6P7YdMhl/fUAL79zhbuWuEaNPjiAb3uiHko1mzvi2Dxxh/cDwhDEwSLKRMVtpVqgApVyU6Vty/JGj6zuGC82glkDfXHOIcp2zmjctFi0NG9mwi2I4ghJg3lSqV0b6IMd2Dfxz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=WBaM0mLu; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="QmnUR+Nf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eiwfZJniKYuMZLFyo0x4SPTVX1rWhP4vVSS7KPwz6Hg2ibq5Mb6c1iAEKtYkVYMnfu5led/92tj+I5Qne9MghXCkOTFXkrPLT/bdtCsfocxGLj4rTiXszhVKkCKe9phLGEKA7jpIaiPnhycVSE0fraLBUADAaD1GeD4DplAhKTddrAAI42sRFZTyjGLtkADj4fbkP9wTdZKEk4Rg+ruwscQvuEp5BYaiKjlArsYc49taXsGYLryxQacAg3gtq1ryHGPYMstipR+CrFjKdlwl3Lx5pjg1uezSe6AthozN9WBRMpxAmx+N1wv7CNPR+i/p48W2NkFfk2eDhpfheh33mg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1McUmP3EmE3Bfv6YvMbSEzaqSuEfZRYZ3yn4cyKfoNg=;
- b=k1amBzvCepvwK2imZ+zqfr8DVXunb2AVNOXYxUD9e+6Gsgtz7IRm55Oz8oSmoo/aJuz9BxYCyUB3MP0E+mnsK2fwQxOIEvHYhnmhOUPCxBFJLTUBKsj8AVruzGR68UOk4RTNWoPCuQpgi8KQ3QB1D9uYKQVtT+uIsRBbcE/XijdJV1LC/I3P7FiyQLW+iAym1E5Dw03Mx/zDWrnZnK3G+pPPt/SM6yDjH1fUETOO3lmjjHgrKgT7V+3ZyIfrHYQO4T7bgZua0EGSEIhWJE8o7nEy6cIoaz70N2ipoYqeFMnTiaCPJpQlrOFt3hsUXpk4uA9aubip7v/uBQo7Wz6gxQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1McUmP3EmE3Bfv6YvMbSEzaqSuEfZRYZ3yn4cyKfoNg=;
- b=QmnUR+Nf78De+VJlyKWn0qjOLX1ORM/n14KBXY2x8NlOP59qSy/wF7fqExHFENhBFOHGP0CJm9TsFCSyAGgqFJqWPiQ51mW+T2A+ZvUsN58Q1m04MAcAjwh7PvLDaWJZU8N+qgAZbr4YE6IW3X84lsq2Dl+xIg8X0CGmQoJbhj2f5tq2oi69tHc1ge8ns3x5mTqEYtyBwEVpuL4dBcJYkbdWN5FVPXvPSxuULLPQNSFeQ6GC9trexogh2IrLg8jSjoMD9JR966j6D/z3COnghUHmqVKgW2qd1bIE7Uib5PTp55oXx5dI9adeK9y8TpHobq812DhcnFtotIdoFrbluQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5832.apcprd06.prod.outlook.com (2603:1096:101:c8::12)
- by OSQPR06MB7278.apcprd06.prod.outlook.com (2603:1096:604:29c::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.11; Thu, 16 Jul
- 2026 13:48:09 +0000
-Received: from SEZPR06MB5832.apcprd06.prod.outlook.com
- ([fe80::f98:5e32:4ccb:d07b]) by SEZPR06MB5832.apcprd06.prod.outlook.com
- ([fe80::f98:5e32:4ccb:d07b%6]) with mapi id 15.21.0223.011; Thu, 16 Jul 2026
- 13:48:08 +0000
-From: Pan Chuang <panchuang@vivo.com>
-To: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	linux-usb@vger.kernel.org (open list:THUNDERBOLT DRIVER),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Pan Chuang <panchuang@vivo.com>
-Subject: [PATCH] thunderbolt: Remove redundant dev_err_probe()
-Date: Thu, 16 Jul 2026 21:47:59 +0800
-Message-Id: <20260716134759.49371-1-panchuang@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TY4P301CA0123.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:37e::6) To SEZPR06MB5832.apcprd06.prod.outlook.com
- (2603:1096:101:c8::12)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="WBaM0mLu"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-51c05dcdf49so72160181cf.0
+        for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 06:50:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1784209804; x=1784814604; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Io4XoahyhiQbR4jRUatAVwYbSwLWV1P3tyDhT2e/cns=;
+        b=WBaM0mLuTvj9uCLwZ7y9HNE59sOqbLC6i0h+Ep3IGPsgVB/yPoNegc2G3jyugVDDLo
+         iOoZdN/69yDwFj0LV7rkcSxC9DTfRjVwjyBC3Le6c8VWJ03IXA6pwMYm0f/ZyC+INk5R
+         7ews0B6ntiINOwhBUQANAGymXAFdkplvQSovTuxNyc4Z6aX8oyxwNKWVt91Dt00snHpf
+         /DyKsAIF0oWC2mZ41WE7AR9dRjjU5lxWPJ/FvAGeeRTFRyPDrK6215d0kPaslHbH3jad
+         gh9DvwbIUUxoCkzcBDnLLNuhjHaU4E9KhFElcJeLm9aiii8CjCrvf4HfB7+Xj4wDhv0g
+         R3XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784209804; x=1784814604;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Io4XoahyhiQbR4jRUatAVwYbSwLWV1P3tyDhT2e/cns=;
+        b=T+TpjBm7ezZHpMpegarJF6juxlJfjUduEb/oEvptjwaENLvB702UwdOozYDq4BIUce
+         Q29txv1j4rwA90lWWVcgAu93UbwPcU1jezVIypvqqZG9afEOsDN1DAsHHUMikniH/q9W
+         /8IOXuBO9QPUvD/jGvmgFz2K1X/HoMFPUDc/LuJY7QEdk1I1vFfywSvfhvUfOJQTG8nl
+         Up6YhzlZuK+9+eFnZGKlOOVRZkK1bhxrfARlOla/KL/dXKdOd+UiAJuv435rCBAmY75L
+         vkTij97CH3SpijMGsgIVNWv3afE9xWzK3OCtXfgmfBtFjJwPRpRpYbBoCneZXvOI4BtC
+         jzNA==
+X-Forwarded-Encrypted: i=1; AHgh+RoorbWZKHGfSU0B2V/IEWcQhgudwhXPX6ouBaObSh2etihynxCt9QtYNtmj4dZM5b0YJrO+sYyjCag=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCr705fyMidIPnenb8XQYlOU4zikOk5mw8/MQ45LWndXaSPaRh
+	h1twrEPtLx8qqd8+j24lDjguwnNRLEB2A5MR6QGRWzvzePR1rD53siMVL8gPk03HLQ==
+X-Gm-Gg: AfdE7clOQhD4ipj+1R2RWs3rQvrjM+gziq//cM1sqYoiR7OExAjhyp5tDamIlUEdpdD
+	Q8aLBij77IH82OqoC3wsA9MmmbpO9oegG3rS+IjvgGu7xlGINdDbeBLmKqOfsN9hvgOOqwDXgXF
+	XIcTaPvqlYz8AXLMOxHb0arQ4qDyIvMNq52s1C5gRSEk9uabrbLyYPyHONo2QsuipXLwKuM5Ayk
+	PPWFtLZz+Gu1uEmL9pXMx08GuwZlJfIoQnWzL4CGQ8U6t1W9DF5482P8qf70T3p6LGxZRDx2tLq
+	s6UlVFRx7riqo0ncCjRf/wX5OajNFKZvEaR6A1/4zFEUAUcdG3UgXCKL1AmLCD+D0FNNCHkvHb0
+	XfhuLW+OXYhDcqzfl/YNtw4pLzcFsUnVX3UQ+w6E7sRwzUwtlggfY7yxln/+iPwwRMjsR7YxmbO
+	uYrcvrIve0PB+of9hINR3Z
+X-Received: by 2002:a05:622a:1789:b0:517:b68a:8d84 with SMTP id d75a77b69052e-51e4f0a7558mr74319031cf.56.1784209803445;
+        Thu, 16 Jul 2026 06:50:03 -0700 (PDT)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51caaf671e2sm154058111cf.25.2026.07.16.06.50.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 06:50:02 -0700 (PDT)
+Date: Thu, 16 Jul 2026 09:50:01 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Huang Wei <huangwei@kylinos.cn>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
+	Ai Chao <aichao@kylinos.cn>
+Subject: Re: [usb-storage] [PATCH v2] USB: storage: add NO_ATA_1X quirk for
+ Longmai USB Key
+Message-ID: <5851b0ab-840b-4c5f-9566-44c5a202850a@rowland.harvard.edu>
+References: <20260716033341.2830872-1-huangwei@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5832:EE_|OSQPR06MB7278:EE_
-X-MS-Office365-Filtering-Correlation-Id: 489c536b-7bd5-4349-3874-08dee340dea2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|52116014|366016|1800799024|38350700014|6133799003|56012099006|11063799006|10067099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	8sV/M04js7Z0q/omnNeou6oWWdY4VGEGjyaawyWoms9Sd2g5wKz866fSAgdjRilkuxOgvd90tiO23tZPT5+yfscKRpAgAycW07XAoAtljDeuDJG6SJN1qBKWItxoCCi7W0RrBGZNYEwFU8e97lj4+lm+OClJfyP+p1axOIQOjEXUKEtqw4BR0225zA8UFjtx18uy9fY9lYGEWCxfA2YGLDmKp4UmSCrXdl52+C7zAYqw7gcVw76dgX3YVgpwFLifzexV2RvsEb8Ck0o+VSZnc13Mcojgmsn0z4lcjU6bPTWHOr4YsYIWHlmUdhieKFbv+t2WjIdmIYgikuDPu/F63eNDA0tEnhZZ4X0g+Akwl/8AIO0q1GVQ+9ivyycDsTBoehY/rC92ZvYh5B8XVjg8Wyb1FulPx8ORlMgsDvZb7wt6Q4uJIOxGDola9BzmtnTjWboeg7C24g2A4pYXCU3zq+TQhEuRmsTCSQCECVANR6qXs9rXqHLKC6WKSpdtrmNXr98pogKaYIeClDRx2Unvr78sG3U/YbQuKNk3RXpkNLsT7BCryuQJHB4tctAKx6Cb3Id2iym9Vygj7VAeXpEIpSzocARBiUH/rRYp3wx6+/amY0+mC7oLefjwWP49/3abbqbIVTePnbqqnXpMR5sh0oaTW1ZsMep/YVsVZTi3Oyx6wjw/05+lIMxkytw82FflJbrVA30OCVTPN2ejU4Z0nkWzTwjX4j2AHYt8rrYOsVQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5832.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(52116014)(366016)(1800799024)(38350700014)(6133799003)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?loTrox+vCUxb2jJ56QA3n1cfNVWuKvNB4yMvfx1j5K2GFMWerOER5Am0HSSs?=
- =?us-ascii?Q?o+2m8EmeIdIKpc6l4SMMSEe4kkJWZwZdHgvOdWxnaOnJo9o6yRIUYcGnPKqu?=
- =?us-ascii?Q?mU4CqKZIN1mDKOF+eDdEQ8Vx51yMjeW8t8CBqMikOxsCX/E8G9TzI0UCA/Yr?=
- =?us-ascii?Q?+8uZ5HkOgG60RIcOq8qJjcJvljQDNsZQjMg/6BC3zJXwS9VY0hLEVmJWxpWQ?=
- =?us-ascii?Q?P8q55Ex66Sa1nwNdA8SqHztv71osqW7Cj4ZSC17VAqo8/gEgmqkTzg/EUbUG?=
- =?us-ascii?Q?+LMSPU86AAl2ykG9yFJHA5Qfgi/N017g7GcaRDJ+URXRV4+tbqA+kmEcVRir?=
- =?us-ascii?Q?np0g4wmyUyMgHjmZizcX0grOwropyb1v2x91K3AhZ4lO4t/OQZJYH/f8rAH7?=
- =?us-ascii?Q?FvPCyxppF8q6G2ST5q1mykvvGTj+TBfKSehvz2UrVnES6QwO7OgRSttHKCVG?=
- =?us-ascii?Q?FBDCNJyLtIsygQypbItGL6tMe/CowoXWDqdTKS09P6aEuSKe+RLbV0m+XH0v?=
- =?us-ascii?Q?AcxSK29YgG2/ldXBguiRAKqGLLsCgVrsjC171w/dD3g13SRTDN6Q29OenOKf?=
- =?us-ascii?Q?Uh41iQT1FaKMeAKhnFmxv3Zzm45nm2xVIgLcV8iHDtMzH+rCOirvcCBP0XvX?=
- =?us-ascii?Q?sM3LEKWulYpu7oURLafDRFjxlMZKw3lGBO8mWONjcKXDT1pMkQ2I22g1rVkF?=
- =?us-ascii?Q?xbRJBsAdgoZ1rkxl6Sh9U79pYNEa7BraNQ5JbjVQMbKVsJba+WTh2FIICmLl?=
- =?us-ascii?Q?cyXuNpwaHO4xhJNMqZYGoWLqW161St/J61mhKpiAKlrK0k/B/9+41aKESt1o?=
- =?us-ascii?Q?11yzqw0eIF4jFH5lH7bTQSRAm/ThSfdZ6gdkeh/yfqQkP+rJmYzXVVLW8TNw?=
- =?us-ascii?Q?w3Mm+cr7PKFlKhZToIYVJDZ4BXW3iNh5HrqoN+IeYbaQ+4PJkngvmWl6+3i0?=
- =?us-ascii?Q?MZ/idBn/4FFICHS/fbMU3GI0yaVb/CcogrruuDQm8LgNtQ1P3yHDdmIbAIle?=
- =?us-ascii?Q?jN6KanuqfnzU7XX3i/cKTYRjmVzPjICvPPtj4ejWwmDV9/d0gcd4tIoTzNxv?=
- =?us-ascii?Q?lqrKRD48G2QA+Isx4RP5H4pxBBPX/8vcQc66npYStYtkk/72Hg4ZFDBXtErO?=
- =?us-ascii?Q?8H2c6VspfvB+Wv3hYxhZRqauROfk5bOmHDZNbATJsWIj0T2U700hNLXnmMJ/?=
- =?us-ascii?Q?Ph5wnjxoPved8d3jBrupmRvnVQwRtn9iw6Y0vfYMHWn9MuUgRSwz2w+hJXa9?=
- =?us-ascii?Q?fv66N0QkJZFwwI92xRCmoctqQPPm5PnfYf/RKTy58Yia4MmhL2X7ju8Q2NiB?=
- =?us-ascii?Q?aVrTKCDEGC9ZHRsOW2535pDkEOGubv1fSlhqcD6FvMS3YJYf5I1XTl4xWa2b?=
- =?us-ascii?Q?8nTyYo58QBerTRrX63ODXWsp83j7Gm1zxRZEJn/xE7JTnjCPsEZptHgenwiT?=
- =?us-ascii?Q?1f+2FraKYTzEcFzWXttymZ+8duUhRcbIIe8nluwslcTOveLFMstZmKBmH6mW?=
- =?us-ascii?Q?17LHPu0iwF0yIpPWv5Qpg1J7shmEX2nGp/+Ox6UJouD9wYthysJI3ykmPrnV?=
- =?us-ascii?Q?lyaT8C7wdXidcLxksQNcGogJAG9g+MEoCNW4gcW9bOlaW4x2z7yfeinX4ORq?=
- =?us-ascii?Q?+kL5lj9kF8Tw6WYsCzFjAeWWln3qDuagTz9Z8dpGd2dybEcZeyNrR2iy5CZu?=
- =?us-ascii?Q?isSqQseQ0qBoB6OP2fH+LcYa7lwbVGmP6Hw3REO6PNxLy3iDDPBcrPUzT4Vf?=
- =?us-ascii?Q?fi7LQJHiZQ=3D=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 489c536b-7bd5-4349-3874-08dee340dea2
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5832.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 13:48:08.8211
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: si+EECMYSgXYkvuUio6WrzvoQLQUnS9Dwsph8YVafcHou4WalWOZ/SvPd/ToA9Jeudij0FURsiYmWJbPziGy3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSQPR06MB7278
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260716033341.2830872-1-huangwei@kylinos.cn>
 
-Since commit 55b48e23f5c4 ("genirq/devres: Add error handling in
-devm_request_*_irq()"), devm_request_irq() automatically logs
-detailed error messages on failure. Remove the now-redundant
-driver-specific dev_err_probe() calls.
+On Thu, Jul 16, 2026 at 11:33:41AM +0800, Huang Wei wrote:
+> The Longmai Technologies USB Key (0x04b4:0xb708) advertises itself as a
+> SCSI/Bulk-only mass storage device but does not correctly handle ATA
+> pass-through commands. When such a command (ATA_12 or ATA_16) is sent to
+> the device it fails to respond and the transfer eventually times out,
+> leaving the device unusable.
+> 
+> Add an unusual_devs entry for this device that sets the US_FL_NO_ATA_1X
+> flag, so usb-storage short-circuits ATA pass-through commands and returns
+> INVALID COMMAND OPERATION CODE (0x20 0x05 0x24 0x00) instead of forwarding
+> them to the device.
+> 
+> Information about the device in /sys/kernel/debug/usb/devices:
+> 
+> T:  Bus=02 Lev=01 Prnt=01 Port=01 Cnt=01 Dev#= 12 Spd=480  MxCh= 0
+> D:  Ver= 2.00 Cls=00(>ifc ) Sub=06 Prot=50 MxPS=64 #Cfgs=  1
+> P:  Vendor=04b4 ProdID=b708 Rev= 1.00
+> S:  Manufacturer=Longmai Technologies
+> S:  Product=USB Key
+> C:* #Ifs= 1 Cfg#= 1 Atr=80 MxPwr=100mA
+> I:* If#= 0 Alt= 0 #EPs= 2 Cls=08(stor.) Sub=06 Prot=50 Driver=usb-storage
+> E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> 
+> Reported-by: Ai Chao <aichao@kylinos.cn>
+> Signed-off-by: Huang Wei <huangwei@kylinos.cn>
+> ---
+> change for v2
+> - Update the sorting of VID and PID.
+> ---
 
-Signed-off-by: Pan Chuang <panchuang@vivo.com>
----
- drivers/thunderbolt/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
-index dbb6badda867..89ae429d4cd5 100644
---- a/drivers/thunderbolt/pci.c
-+++ b/drivers/thunderbolt/pci.c
-@@ -139,7 +139,7 @@ static int nhi_pci_init_msi(struct tb_nhi *nhi)
- 		res = devm_request_irq(&pdev->dev, irq, nhi_msi,
- 				       IRQF_NO_SUSPEND, "thunderbolt", nhi);
- 		if (res)
--			return dev_err_probe(dev, res, "request_irq failed, aborting\n");
-+			return res;
- 	}
- 
- 	return 0;
--- 
-2.34.1
-
+>  drivers/usb/storage/unusual_devs.h | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
+> index 255968f9ca42..ac22fa318734 100644
+> --- a/drivers/usb/storage/unusual_devs.h
+> +++ b/drivers/usb/storage/unusual_devs.h
+> @@ -395,6 +395,13 @@ UNUSUAL_DEV(  0x04b3, 0x4001, 0x0110, 0x0110,
+>  		USB_SC_DEVICE, USB_PR_CB, NULL,
+>  		US_FL_MAX_SECTORS_MIN),
+>  
+> +/* Reported by Ai Chao <aichao@kylinos.cn> */
+> +UNUSUAL_DEV(  0x04b4, 0xb708, 0x0000, 0xffff,
+> +		"Longmai Technologies",
+> +		"USB Key",
+> +		USB_SC_SCSI, USB_PR_BULK, NULL,
+> +		US_FL_NO_ATA_1X),
+> +
+>  /*
+>   * Reported by Simon Levitt <simon@whattf.com>
+>   * This entry needs Sub and Proto fields
+> -- 
+> 2.25.1
+> 
+> -- 
+> You received this message because you are subscribed to the Google Groups "USB Mass Storage on Linux" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to usb-storage+unsubscribe@lists.one-eyed-alien.net.
+> To view this discussion visit https://groups.google.com/a/lists.one-eyed-alien.net/d/msgid/usb-storage/20260716033341.2830872-1-huangwei%40kylinos.cn.
