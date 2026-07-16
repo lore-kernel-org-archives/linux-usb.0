@@ -1,314 +1,371 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4117E3F4102;
-	Thu, 16 Jul 2026 08:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784191667; cv=none; b=rMSyJlnA21R4XWHCiu3dQzR5cMpx0T1E9A5vCx4QL9FnBqaYlgi5UsG2RqI5XDiTeA+PhSk8vFtmRn53BBEhuQJE8JRGP0g/5MvWNttU8D1gEu3T0b95SeLJW5LkErZFaGFg/sEkrBIe6qoGCt+89Yyzg8Ia/IxoLAfg3X/xpxk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784191667; c=relaxed/simple;
-	bh=dJ19Vs5X33elAUzaPvg+3KzLayEPIKOhIPUAn4FCpiQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=us7AlqYAuwEsD/nPeZPe4slTyObmVK2BJvyL5a2iQViSDDls1RffzJs3xBl1kuoe9/OR2dfMRci16YBFk7+0GzgEwlTV1/vpbzX9uEF1DzDOsaZtq0sI8Kxhb9C9GVnh+5CoPjIt0zlfh8nX7Iltd09mt7IhD6MAyTFX2F7lq+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mMvpN/Za; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C443C09FF
+	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 09:16:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784193371; cv=pass; b=j19aCBf2pb9gUjVO1ySKKD6oadbKDg0pPQ1e4UTvFTGJZPQjhWql0riEBQzNZ5VwSjNDEdxmkGT6aRlSYmjbupR8JL6+UMXXQcNNEUSCb9KPj5V2bq7ro0b2cJ5xAn2+b/01imAuVvEYI6PmUV1b7RWAku+m1fpxQ1mLSjl/D8g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784193371; c=relaxed/simple;
+	bh=u6JEI69xZGq2CpSU2bm8ILr7/gPuk6rKdjLoCMG3MfU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PPPLUyk8plxnshXIMBuFO9yIFBWysEJvXAOjeO3IsuhviQK2ErWDdHNEd8HA+OC3N1olyFALqzEvmF/l+BVzHp1DvLX9yAmBxH1mInP3tiYSu7OJ9qoUisELPOtzL4w6sGeJwAJt17gDr7iAqnWEx5Bs05/oZ/7wOpTpB6kDmdk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Wt16vwY1; arc=pass smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mMvpN/Za"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784191663; x=1815727663;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dJ19Vs5X33elAUzaPvg+3KzLayEPIKOhIPUAn4FCpiQ=;
-  b=mMvpN/ZafKMVtd5WPJw0INFoP6RsLE8eX5QhmNfWhb+kPH2mku9YZNGG
-   Zz0Y91PPMCu2K9rEE46TTY863uN20RFWCZThcTbtv4iLgtNpuotoQMhPn
-   hoUAU4gPoR689e5f5NKNAlI34sZ8dtL1IOePaAoZ3GE5PBUynRoS2Nnqq
-   +jgGcqrypbWuyKpo2g8mrb0qrWyGzFuXYJ/A3YULp2MHTjW7GQKVUPtKR
-   0rYch9VLugRLUkIKqrinkOf4e7vPBI1j36PX48l6lprliuts8BCDTmpIL
-   5rElzUA70Kq44P3GmTwOwOfk9iEnzVjbbG0Abh9bi+xWVNWFLZ06XnW5a
-   Q==;
-X-CSE-ConnectionGUID: mgpyNiAHQm6PqcaMAuyO0Q==
-X-CSE-MsgGUID: ZkSw0tGMQ5+/cAzbfG0amg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11847"; a="102272312"
-X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="102272312"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 01:47:42 -0700
-X-CSE-ConnectionGUID: 0eVUMx89S92mfEVsaqI9cQ==
-X-CSE-MsgGUID: sBYOhixfQJ2jBnhjdf14rA==
-X-ExtLoop1: 1
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Jul 2026 01:47:40 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 117AA95; Thu, 16 Jul 2026 10:47:39 +0200 (CEST)
-Date: Thu, 16 Jul 2026 11:47:37 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: amitsd@google.com
-Cc: Badhri Jagan Sridharan <badhri@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Kyle Tso <kyletso@google.com>, RD Babiera <rdbabiera@google.com>
-Subject: Re: [PATCH] usb: typec: tcpm: Add support for Battery Cap response
- message
-Message-ID: <aliaqQzLVVRyBhFO@kuha>
-References: <20260714-batt-caps-upstream-v1-1-c86f0a7fbbda@google.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Wt16vwY1"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-848479c9bd5so2468319b3a.3
+        for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 02:16:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784193368; cv=none;
+        d=google.com; s=arc-20260327;
+        b=T1OgeywnKsm7IzBHrPIqB0rgC+KhI0GjewpZmI6cR3N2yOeaJAg3zeElPlZEu5Ykzd
+         nl0ewoId+MJwBwEy8d2yGIn58r28ZpT51B/djCDTtxhMil19c+sHIlCjbkRDF6zXOL8/
+         /NNbcC/z+jGd8/w3cSBtsQzOsOZniiZY1hjf/RxlDOjaHZE0kVYW1KJfTt6cTHERPB4R
+         ktIG4Jode78KhRRJXNSkEZPiAn/PoCtmuon10K97jIIU5fq68eWJH4xFSo7qiO00x4kp
+         xbK85tb0TumeKmV1/ZuXmTRlTHevJ3fxf3oBtZBmn1JT9kBNvUm+pkJWgplKIQNWAASW
+         APZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=N3Aj4n5hxVSal6GClm3WYMDJDzMMqX/C9M6A6jZSm1c=;
+        fh=PdYkEamhPZIBIwZKg7LmMIV55rb2UyawvEM4Eqk1GDg=;
+        b=NvU/mD9VbxpS9B99LMcKwJ35eGmj7jLy94xSSY8QtuSnxSQyZQKCR9+4QNbSvaf03E
+         rwUGkthqyFB8kc9gIQ+CtVHGzUGk36rqxL0jHNBBiUaetbhvzP+AOEPEgZu8hVRkQ8Iv
+         JC9nF9z4lj+pzh51/3V3ltVgVJC5hxa7xH6rp8HIRJPup7Ni3s8O8tPIDZ59UXHJ0zBw
+         3a13I3bBQXXDOphkNDblJ9+ULMNwoSAAfhDhtzaiS5B9YyZbwwWQqQbLRKZJm+XbjC60
+         POo7XJaJ9PHvspSUGmT9WOw2wgtv9XLwZ1lkKMAISkDS9GN3T6ISpMqSHqxd3zCmXVi1
+         R92A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1784193368; x=1784798168; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=N3Aj4n5hxVSal6GClm3WYMDJDzMMqX/C9M6A6jZSm1c=;
+        b=Wt16vwY14CmqBqwXAz0C/3Xib4H/dwwWACUcoiVtpJwvGBxs7qAZZ94wAw9Cr6/RRK
+         K0kYRsPzrU4Jz6g/MndWjM1DzIl6nWWGC29aI3uZS41C6qVEB4kmK32tf3q/NwIeJfk9
+         jtle/wM27AOfrIiI6G996QAflcsqwG9vSOyLc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784193368; x=1784798168;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=N3Aj4n5hxVSal6GClm3WYMDJDzMMqX/C9M6A6jZSm1c=;
+        b=PC8pwn8yPVClmIepKdHRCEN720B3ivEZ4Ji79koBt+Yn8CW/yZen0COoWNW9nzUc9R
+         2se6F9GQCcJDN332tfMKk9mK8Ult2f1yZHHCiA/FaD35YuRuYYFQAwuufT1I+RO9DAYY
+         vaE9FFzd8LjftnISH/B4ZH1+o/0tb2EABcm+y2i8JkqtJUPIEQwiedx6AATZDjrvqf3w
+         MzeHyIV8ygDneogAEZuSEBkHYg846amYcTUOyO/DBmNRkHply9hhXiAXyGSn++54r3vg
+         2PV0F6hOhpPaGTSAFEkR4mIRwMfI8JC2HOE4yn+38uAWxWh73unB9Q9+5FvGBkDEG1wI
+         ygbw==
+X-Forwarded-Encrypted: i=1; AHgh+RpMhcavJ9K/+itH3Q4TFiF12JehD083fzidRr5QT4oSuCmHH5OzQ8kihiVWCtvF9JY35j1AVPQRVn4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCZqDSpVs5SD12cxjL2AAohu3LMuPtDvPXhQUJ2mF20gdwdbrj
+	nWIIv4INbfEQ5iVW2tk3Fhuu+W4YyeFyuGQkxd7GhW3rDKBZYg9f1o+VhaMiNmvn32Jli1eZx6D
+	cBE892hORwXe4j5eHO3EwSG3CQYjZ3oqJlU/+62LeP1mEgGlD2No=
+X-Gm-Gg: AfdE7ckm1jZqh9cL8qqViXQXQWN11x22KVKRDiT3txB7DFJZvigMFvSd8F5j4/WJmWM
+	O+f62ScOwRoOB57DsXnNeFv0+Gzl3qqThZ3+82fHdTcXwXbbZzlpMXuMMrPsqNfnHGlEnmw2ypM
+	gsUW8ceEdrkp8jHwtDTFV3WxeWPxb8tn4QWPZQuCsrrJ3UASdmuEi1Xc/QdT/BHUQZlvGAUVYbq
+	giDkuxnXVW2B+48FN2t8q5cuUaMSeM89QfsY+h35jR87uknGUmszk4PtZ6+q8XDNppqjJSOZpFO
+	Ut0/08WQ2B0xBeNg
+X-Received: by 2002:a05:6a00:a229:b0:848:53c7:b927 with SMTP id
+ d2e1a72fcca58-848898824c6mr20424018b3a.76.1784193368555; Thu, 16 Jul 2026
+ 02:16:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260714-batt-caps-upstream-v1-1-c86f0a7fbbda@google.com>
+References: <20260707141736.1635698-1-akuchynski@chromium.org> <22064276-6c56-411a-9f20-6917ceeb865f@intel.com>
+In-Reply-To: <22064276-6c56-411a-9f20-6917ceeb865f@intel.com>
+From: Andrei Kuchynski <akuchynski@chromium.org>
+Date: Thu, 16 Jul 2026 11:15:55 +0200
+X-Gm-Features: AUfX_mzp-_dtH-UipridEtAFINWR6sMaF9la0gNmY9FR86uyrNcL32L4dUU3zN4
+Message-ID: <CAMMMRMduSMniMrixGuq=m=00nUvzXQpySE86TpmvfNQtAChB=w@mail.gmail.com>
+Subject: Re: REGRESSION: [PATCH] usb: typec: ucsi: Fix race condition and
+ ordering in port unregistration
+To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Jameson Thies <jthies@google.com>, 
+	Benson Leung <bleung@chromium.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
+	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Pooja Katiyar <pooja.katiyar@intel.com>, 
+	Johan Hovold <johan@kernel.org>, Hsin-Te Yuan <yuanhsinte@chromium.org>, 
+	Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>, Linyu Yuan <quic_linyyuan@quicinc.com>, 
+	Jack Pham <quic_jackp@quicinc.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 14, 2026 at 11:06:47PM +0000, Amit Sunil Dhamne via B4 Relay wrote:
-> From: Amit Sunil Dhamne <amitsd@google.com>
-> 
-> Add support for responding to Get_Battery_Cap (extended) request with a
-> a Battery_Capabilities (extended) msg. The requester will request
-> Battery Cap for a specific battery using an index in Get_Battery_Cap. In
-> case of failure to identify battery, TCPM shall reply with an
-> appropriate message indicating so.
-> 
-> As the Battery Cap Data Block size is 9 Bytes (lesser than
-> MaxExtendedMsgChunkLen of 26B), only a single chunk is required to
-> complete the AMS.
-> 
-> Support for Battery_Capabilities message is required for sinks that
-> contain battery as specified in USB PD Rev3.1 v1.8
-> ("Applicability of Data Messages" section).
-> 
-> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
-> Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
+On Thu, Jul 16, 2026 at 10:28=E2=80=AFAM Borah, Chaitanya Kumar
+<chaitanya.kumar.borah@intel.com> wrote:
+>
+> Hello Andrei,
+>
+> On 7/7/2026 7:47 PM, Andrei Kuchynski wrote:
+> > A synchronization issue exists during port unregistration where pending
+> > partner work items can race against workqueue destruction, leading to
+> > use-after-free conditions:
+> >
+> >    cros_ec_ucsi cros_ec_ucsi.3.auto: error -ETIMEDOUT: PPM init failed
+> >    BUG: kernel NULL pointer dereference, address: 0000000000000000
+> >    RIP: 0010:__queue_work+0x83/0x4a0
+> >    Call Trace:
+> >      <IRQ>
+> >      __cfi_delayed_work_timer_fn+0x10/0x10
+> >      run_timer_softirq+0x3b6/0xbd0
+> >      sched_clock_cpu+0xc/0x110
+> >      irq_exit_rcu+0x18d/0x330
+> >      fred_sysvec_apic_timer_interrupt+0x5e/0x80
+> >
+> > Fix this by ensuring strict ordering and proper serialization during
+> > teardown:
+> >
+> > 1. Move ucsi_unregister_partner() to the beginning of the teardown
+> > sequence and protect it under the connector mutex lock.
+> > 2. Ensure all pending partner tasks are explicitly flushed and finished
+> > before the workqueue is destroyed.
+> > 3. Switch from mod_delayed_work() to a cancel_delayed_work() and
+> > queue_delayed_work() sequence. This guarantees that items currently mar=
+ked
+> > as pending won't be scheduled an additional time, preventing a double
+> > release of resources which leads to the following crash:
+> >
+> >    Oops: general protection fault, probably for non-canonical address
+> >      0xdead000000000122: 0000 [#1] SMP NOPTI
+> >    Workqueue: cros_ec_ucsi.3.auto-con2 ucsi_poll_worker
+> >    RIP: 0010:ucsi_poll_worker+0x65/0x1e0
+> >    Call Trace:
+> >    <TASK>
+> >      process_scheduled_works+0x218/0x6d0
+> >      worker_thread+0x188/0x3f0
+> >      __cfi_worker_thread+0x10/0x10
+> >      kthread+0x226/0x2a0
+> >
+> > To ensure these rules are applied identically across both the normal
+> > teardown and the ucsi_init() error paths, consolidate the cleanup logic
+> > into a new helper, ucsi_unregister_port().
+>
+>
+> This seems to be causing regression in our linux-next CI. [1]
+>
+> <6>[   18.008557] ------------[ cut here ]------------
+> <4>[   18.013166] DEBUG_LOCKS_WARN_ON(1)
+> <4>[   18.013167] WARNING: kernel/locking/lockdep.c:238 at
+> __lock_acquire+0xa59/0x2750, CPU#1: kworker/u89:1/172
+> ...
+> <4>[   18.159950] Hardware name: Intel Corporation Meteor Lake Client
+> Platform/MTL-P DDR5 SODIMM SBS RVP, BIOS
+> MTLPFWI1.R00.3471.D89.2401091901 01/09/2024
+> <4>[   18.173125] Workqueue: events_dfl_long ucsi_init_work [typec_ucsi]
+> <4>[   18.179257] RIP: 0010:__lock_acquire+0xa60/0x2750
+> <4>[   18.183927] Code: 44 8b 5d a8 85 c0 0f 84 98 fd ff ff 44 8b 35 07
+> 0b 72 02 45 85 f6 0f 85 88 fd ff ff 48 8d 3d 27 25 73 02 48 c7 c6 1b 51
+> 27 83 <67> 48 0f b9 3a 31 c0 44 8b 5d a8 44 8b 4d b0 e9 c6 f7 ff ff 31 d2
+> ...
+> <4>[   18.263886] PKRU: 55555554
+> <4>[   18.266583] Call Trace:
+> <4>[   18.269014]  <TASK>
+> <4>[   18.271110]  ? mark_held_locks+0x46/0x90
+> <4>[   18.275007]  lock_acquire+0xd9/0x2e0
+> <4>[   18.278562]  ? ucsi_unregister_port+0x36/0x140 [typec_ucsi]
+> <4>[   18.284096]  __mutex_lock+0xb2/0x1020
+> <4>[   18.287735]  ? ucsi_unregister_port+0x36/0x140 [typec_ucsi]
+> <4>[   18.293265]  ? ucsi_unregister_port+0x36/0x140 [typec_ucsi]
+> <4>[   18.298797]  ? synchronize_rcu_expedited+0x2b2/0x300
+> <4>[   18.303724]  ? __pfx_autoremove_wake_function+0x10/0x10
+> <4>[   18.308912]  mutex_lock_nested+0x1b/0x30
+> <4>[   18.312806]  ? mutex_lock_nested+0x1b/0x30
+> <4>[   18.316878]  ucsi_unregister_port+0x36/0x140 [typec_ucsi]
+> <4>[   18.322238]  ucsi_init_work+0x66d/0xc10 [typec_ucsi]
+> <4>[   18.327167]  process_one_work+0x2ad/0x8b0
+> <4>[   18.331158]  worker_thread+0x200/0x3f0
+> <4>[   18.334886]  ? __pfx_worker_thread+0x10/0x10
+> <4>[   18.339128]  kthread+0x10d/0x150
+> <4>[   18.342339]  ? __pfx_kthread+0x10/0x10
+> <4>[   18.346067]  ret_from_fork+0x3bd/0x470
+> <4>[   18.349795]  ? __pfx_kthread+0x10/0x10
+> <4>[   18.353522]  ret_from_fork_asm+0x1a/0x30
+> <4>[   18.357420]  </TASK>
+>
+> Detailed log can be seen found in [2]
+>
+> We confirmed that reverting the patch solves the issue.
+>
+> Could you please check why the patch causes this regression and provide
+> a fix if necessary?
+>
+> Regards
+> Chaitanya
+>
+> [1] https://intel-gfx-ci.01.org/tree/linux-next/combined-alt.html?
+> [2]
+> https://intel-gfx-ci.01.org/tree/linux-next/next-20260714/bat-mtlp-9/boot=
+0.txt
+>
+> -- Bisect Logs --
+>
+> git bisect start
+> # status: waiting for both good and bad commits
+> # good: [5f1b513690edf51727e6928b97705b6437f9a98e] Merge remote-tracking
+> branch 'spi/for-7.3' into spi-next
+> git bisect good 5f1b513690edf51727e6928b97705b6437f9a98e
+> # status: waiting for bad commit, 1 good commit known
+> # bad: [49362394dad7df66c274c867a271394c10ca2bb8] Add linux-next
+> specific files for 20260713
+> git bisect bad 49362394dad7df66c274c867a271394c10ca2bb8
+> # bad: [dffddeb046466ed57038295bde28b42b7506a12b] Merge branch
+> 'nand/next' of https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.=
+git
+> git bisect bad dffddeb046466ed57038295bde28b42b7506a12b
+> # bad: [d154d0766bf3fe830e1bf98fb2d8648294a4a8da] Merge branch
+> 'for-next' of
+> https://git.kernel.org/pub/scm/linux/kernel/git/khilman/linux-omap.git
+> git bisect bad d154d0766bf3fe830e1bf98fb2d8648294a4a8da
+> # bad: [671b0fd929bec9ebf863cb376baf9b9d1226a510] Merge branch 'master'
+> of https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git
+> git bisect bad 671b0fd929bec9ebf863cb376baf9b9d1226a510
+> # good: [f4fb100039e96211609dfc44fb24b9e4a8a0f2f9] Merge tag
+> 's390-7.2-4' of git://git.kernel.org/pub/scm/linux/kernel/git/s390/linux
+> git bisect good f4fb100039e96211609dfc44fb24b9e4a8a0f2f9
+> # good: [c296d513e034df93ddb230ad1c7a118d6b58750c] Merge branch
+> 'arm/fixes' of https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.gi=
+t
+> git bisect good c296d513e034df93ddb230ad1c7a118d6b58750c
+> # good: [de53c0a584f08f31eb957f8c849a59fb33b27fa8] Merge branch 'for-rc'
+> of https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git
+> git bisect good de53c0a584f08f31eb957f8c849a59fb33b27fa8
+> # bad: [a6969de5a038bc08a948ada52bd7199a8dfa6cec] Merge branch
+> 'usb-linus' of
+> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
+> git bisect bad a6969de5a038bc08a948ada52bd7199a8dfa6cec
+> # good: [15eab2dd63a97587405ab6bfaad9728d5b35b5fe] Merge tag
+> 'asoc-fix-v7.2-rc2' of
+> https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound into for-li=
+nus
+> git bisect good 15eab2dd63a97587405ab6bfaad9728d5b35b5fe
+> # bad: [c2e819be6a5c7f34344926b4bd7e3dfca58cf48a] usb: gadget: printer:
+> fix infinite loop in printer_read()
+> git bisect bad c2e819be6a5c7f34344926b4bd7e3dfca58cf48a
+> # good: [29a142d3e8b35ebc9e0bcc78f4bc26c9b6a9ac0b] USB: gadget:
+> snps-udc: fix device name leak on probe failure
+> git bisect good 29a142d3e8b35ebc9e0bcc78f4bc26c9b6a9ac0b
+> # good: [1febec7e47cdcd01f43fb0211094e3010474666e] usb: gadget: f_ncm:
+> validate datagram bounds in ncm_unwrap_ntb()
+> git bisect good 1febec7e47cdcd01f43fb0211094e3010474666e
+> # bad: [0583f2fbf8f86ae3a0ce054f96783dd83e65d9bb] usb: gadget: udc: bdc:
+> free IRQ and drain func_wake_notify before teardown
+> git bisect bad 0583f2fbf8f86ae3a0ce054f96783dd83e65d9bb
+> # bad: [7aa7d4bf9d3fa9a6a47b640ad103ab433b7ff261] usb: typec: ucsi: Fix
+> race condition and ordering in port unregistration
+> git bisect bad 7aa7d4bf9d3fa9a6a47b640ad103ab433b7ff261
+> # first bad commit: [7aa7d4bf9d3fa9a6a47b640ad103ab433b7ff261] usb:
+> typec: ucsi: Fix race condition and ordering in port unregistration
+> >
+> > Cc: stable@vger.kernel.org
+> > Fixes: b9aa02ca39a4 ("usb: typec: ucsi: Add polling mechanism for partn=
+er tasks like alt mode checking")
+> > Fixes: b13abcb7ddd8 ("usb: typec: ucsi: Fix NULL pointer access")
+> > Fixes: fac4b8633fd6 ("usb: ucsi: Ensure connector delayed work items ar=
+e flushed")
+> > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> > ---
+> >   drivers/usb/typec/ucsi/ucsi.c | 82 +++++++++++++++++-----------------=
+-
+> >   1 file changed, 39 insertions(+), 43 deletions(-)
+> >
+> > diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucs=
+i.c
+> > index 92166a3725b16..d9668ed7c80ea 100644
+> > --- a/drivers/usb/typec/ucsi/ucsi.c
+> > +++ b/drivers/usb/typec/ucsi/ucsi.c
+> > @@ -1845,6 +1845,42 @@ static int ucsi_register_port(struct ucsi *ucsi,=
+ struct ucsi_connector *con)
+> >       return ret;
+> >   }
+> >
+> > +static void ucsi_unregister_port(struct ucsi_connector *con)
+> > +{
+> > +     struct ucsi_work *uwork;
+> > +
+> > +     if (con->wq) {
+> > +             mutex_lock(&con->lock);
+> > +             ucsi_unregister_partner(con);
+> > +             /*
+> > +              * queue delayed items immediately so they can execute
+> > +              * and free themselves before the wq is destroyed
+> > +              */
+> > +             list_for_each_entry(uwork, &con->partner_tasks, node) {
+> > +                     if (cancel_delayed_work(&uwork->work))
+> > +                             queue_delayed_work(con->wq, &uwork->work,=
+ 0);
+> > +             }
+> > +             mutex_unlock(&con->lock);
+> > +
+> > +             destroy_workqueue(con->wq);
+> > +             con->wq =3D NULL;
+> > +     } else {
+> > +             ucsi_unregister_partner(con);
+> > +     }
+> > +
+> > +     ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
+> > +     ucsi_unregister_port_psy(con);
+> > +
+> > +     usb_power_delivery_unregister_capabilities(con->port_sink_caps);
+> > +     con->port_sink_caps =3D NULL;
+> > +     usb_power_delivery_unregister_capabilities(con->port_source_caps)=
+;
+> > +     con->port_source_caps =3D NULL;
+> > +     usb_power_delivery_unregister(con->pd);
+> > +     con->pd =3D NULL;
+> > +     typec_unregister_port(con->port);
+> > +     con->port =3D NULL;
+> > +}
+> > +
+> >   static u64 ucsi_get_supported_notifications(struct ucsi *ucsi)
+> >   {
+> >       u16 features =3D ucsi->cap.features;
+> > @@ -1971,22 +2007,8 @@ static int ucsi_init(struct ucsi *ucsi)
+> >       for (i =3D 0; i < ucsi->cap.num_connectors; i++)
+> >               lockdep_unregister_key(&connector[i].lock_key);
+> >
+> > -     for (con =3D connector; con->port; con++) {
+> > -             if (con->wq)
+> > -                     destroy_workqueue(con->wq);
+> > -             ucsi_unregister_partner(con);
+> > -             ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
+> > -             ucsi_unregister_port_psy(con);
+> > -
+> > -             usb_power_delivery_unregister_capabilities(con->port_sink=
+_caps);
+> > -             con->port_sink_caps =3D NULL;
+> > -             usb_power_delivery_unregister_capabilities(con->port_sour=
+ce_caps);
+> > -             con->port_source_caps =3D NULL;
+> > -             usb_power_delivery_unregister(con->pd);
+> > -             con->pd =3D NULL;
+> > -             typec_unregister_port(con->port);
+> > -             con->port =3D NULL;
+> > -     }
+> > +     for (con =3D connector; con->port; con++)
+> > +             ucsi_unregister_port(con);
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Hi Chaitanya,
+Thank you for spotting this!
 
-> ---
-> This patch depends on the series [1].
-> 
-> [1] https://lore.kernel.org/all/20260714-batt-status-v5-0-9de4aa900b69@google.com/
-> ---
->  drivers/usb/typec/tcpm/tcpm.c | 108 +++++++++++++++++++++++++++++++++++++-----
->  include/linux/usb/pd.h        |  22 +++++++++
->  2 files changed, 117 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index cd33ee131ebd..393266dd55f8 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -234,7 +234,8 @@ enum pd_msg_request {
->  	PD_MSG_DATA_SOURCE_CAP,
->  	PD_MSG_DATA_REV,
->  	PD_MSG_EXT_SINK_CAP_EXT,
-> -	PD_MSG_DATA_BATT_STATUS
-> +	PD_MSG_DATA_BATT_STATUS,
-> +	PD_MSG_EXT_BATT_CAP,
->  };
->  
->  enum adev_actions {
-> @@ -1559,6 +1560,14 @@ static int tcpm_pd_send_sink_cap_ext(struct tcpm_port *port)
->  	return tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
->  }
->  
-> +static u16 tcpm_charge_to_energy(int charge, int voltage)
-> +{
-> +	u64 energy = div_u64((u64)charge * voltage, 1000000);
-> +
-> +	/* Battery telemetry is reported in increments of 0.1Wh */
-> +	return (u16)UW_TO_W(energy * 10);
-> +}
-> +
->  static int tcpm_pd_send_batt_status(struct tcpm_port *port)
->  {
->  	u16 present_charge = BATTERY_PROPERTY_UNKNOWN;
-> @@ -1569,7 +1578,6 @@ static int tcpm_pd_send_batt_status(struct tcpm_port *port)
->  	u8 charging_status = 0;
->  	struct pd_message msg;
->  	int ret, charge_now;
-> -	u64 energy_now;
->  	u32 bsdo;
->  
->  	tcpm_get_fixed_batt(port);
-> @@ -1595,16 +1603,9 @@ static int tcpm_pd_send_batt_status(struct tcpm_port *port)
->  		ret = power_supply_get_property(batt,
->  						POWER_SUPPLY_PROP_VOLTAGE_AVG,
->  						&val);
-> -		if (!ret) {
-> -			energy_now = div_u64((u64)charge_now * val.intval,
-> -					     1000000);
-> -
-> -			/*
-> -			 * Battery Present Charge is reported in
-> -			 * increments of 0.1WH.
-> -			 */
-> -			present_charge = (u16)UW_TO_W(energy_now * 10);
-> -		}
-> +		if (!ret)
-> +			present_charge = tcpm_charge_to_energy(charge_now,
-> +							       val.intval);
->  	}
->  
->  	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_STATUS, &val);
-> @@ -1640,6 +1641,71 @@ static int tcpm_pd_send_batt_status(struct tcpm_port *port)
->  	return tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
->  }
->  
-> +static int tcpm_pd_send_batt_cap(struct tcpm_port *port)
-> +{
-> +	u16 design_cap = BATTERY_PROPERTY_UNKNOWN;
-> +	u16 charge_cap = BATTERY_PROPERTY_UNKNOWN;
-> +	u32 batt_id = port->batt_request_id;
-> +	union power_supply_propval val;
-> +	struct batt_cap_ext_msg bcdb;
-> +	struct power_supply *batt;
-> +	bool invalid_ref = true;
-> +	struct pd_message msg;
-> +	u8 data_obj_cnt;
-> +	int ret, vol;
-> +
-> +	tcpm_get_fixed_batt(port);
-> +	memset(&msg, 0, sizeof(msg));
-> +
-> +	if (batt_id >= port->fixed_batt_cnt || batt_id >= MAX_NUM_FIXED_BATT)
-> +		goto send_cap;
-> +
-> +	invalid_ref = false;
-> +	batt = port->fixed_batt[batt_id];
-> +	ret = power_supply_get_property(batt, POWER_SUPPLY_PROP_VOLTAGE_AVG,
-> +					&val);
-> +	if (!ret) {
-> +		vol = val.intval;
-> +		ret = power_supply_get_property(batt,
-> +						POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN,
-> +						&val);
-> +		if (!ret)
-> +			design_cap = tcpm_charge_to_energy(val.intval, vol);
-> +
-> +		ret = power_supply_get_property(batt,
-> +						POWER_SUPPLY_PROP_CHARGE_FULL,
-> +						&val);
-> +		if (!ret)
-> +			charge_cap = tcpm_charge_to_energy(val.intval, vol);
-> +	}
-> +
-> +send_cap:
-> +
-> +	/*
-> +	 * As per the USB PD Rev3.1 v1.8 spec, if a battery VID (assigned by the
-> +	 * USB-IF) does not exist or an invalid battery reference is made by the
-> +	 * requestor, then set the VID field to 0xffff. If the VID field is
-> +	 * 0xffff, set the PID field to 0.
-> +	 */
-> +	bcdb.vid = BATTERY_PROPERTY_UNKNOWN;
-> +	bcdb.pid = 0;
-> +	bcdb.batt_design_cap = cpu_to_le16(design_cap);
-> +	bcdb.batt_last_chg_cap = cpu_to_le16(charge_cap);
-> +	bcdb.batt_type = invalid_ref ? BATT_CAP_BATT_TYPE_INVALID_REF : 0;
-> +	memcpy(msg.ext_msg.data, &bcdb, sizeof(bcdb));
-> +	msg.ext_msg.header = PD_EXT_HDR_LE(sizeof(bcdb),
-> +					   0, /* Denotes if request chunk */
-> +					   0, /* Chunk number */
-> +					   1  /* Chunked */);
-> +
-> +	data_obj_cnt = count_chunked_data_objs(sizeof(bcdb));
-> +	msg.header = PD_HEADER_EXT_LE(PD_EXT_BATT_CAP, port->pwr_role,
-> +				      port->data_role, port->negotiated_rev,
-> +				      port->message_id, data_obj_cnt);
-> +
-> +	return tcpm_pd_transmit(port, TCPC_TX_SOP, &msg);
-> +}
-> +
->  static void mod_tcpm_delayed_work(struct tcpm_port *port, unsigned int delay_ms)
->  {
->  	if (delay_ms) {
-> @@ -4041,8 +4107,16 @@ static void tcpm_pd_ext_msg_request(struct tcpm_port *port,
->  			tcpm_set_state(port, SOFT_RESET_SEND, 0);
->  		}
->  		break;
-> -	case PD_EXT_SOURCE_CAP_EXT:
->  	case PD_EXT_GET_BATT_CAP:
-> +		if (data_size >= 1) {
-> +			port->batt_request_id = ext_msg->data[0];
-> +			tcpm_pd_handle_msg(port, PD_MSG_EXT_BATT_CAP,
-> +					   GETTING_BATTERY_CAPABILITIES);
-> +		} else {
-> +			tcpm_set_state(port, SOFT_RESET_SEND, 0);
-> +		}
-> +		break;
-> +	case PD_EXT_SOURCE_CAP_EXT:
->  	case PD_EXT_BATT_CAP:
->  	case PD_EXT_GET_MANUFACTURER_INFO:
->  	case PD_EXT_MANUFACTURER_INFO:
-> @@ -4261,6 +4335,14 @@ static bool tcpm_send_queued_message(struct tcpm_port *port)
->  					 ret);
->  			tcpm_ams_finish(port);
->  			break;
-> +		case PD_MSG_EXT_BATT_CAP:
-> +			ret = tcpm_pd_send_batt_cap(port);
-> +			if (ret)
-> +				tcpm_log(port,
-> +					 "Failed to send battery cap ret=%d",
-> +					 ret);
-> +			tcpm_ams_finish(port);
-> +			break;
->  		default:
->  			break;
->  		}
-> diff --git a/include/linux/usb/pd.h b/include/linux/usb/pd.h
-> index afb9c2c65588..10ff4af7dedc 100644
-> --- a/include/linux/usb/pd.h
-> +++ b/include/linux/usb/pd.h
-> @@ -106,6 +106,9 @@ enum pd_ext_msg_type {
->  #define PD_HEADER_LE(type, pwr, data, rev, id, cnt) \
->  	cpu_to_le16(PD_HEADER((type), (pwr), (data), (rev), (id), (cnt), (0)))
->  
-> +#define PD_HEADER_EXT_LE(type, pwr, data, rev, id, cnt) \
-> +	cpu_to_le16(PD_HEADER((type), (pwr), (data), (rev), (id), (cnt), (1)))
-> +
->  static inline unsigned int pd_header_cnt(u16 header)
->  {
->  	return (header >> PD_HEADER_CNT_SHIFT) & PD_HEADER_CNT_MASK;
-> @@ -219,6 +222,25 @@ static inline u8 count_chunked_data_objs(u32 size)
->  	return ((size / 4) + (size % 4 ? 1 : 0));
->  }
->  
-> +/**
-> + * batt_cap_ext_msg - Battery capability extended PD message
-> + * @vid: Battery Vendor ID (assigned by USB-IF)
-> + * @pid: Battery Product ID (assigned by battery or device vendor)
-> + * @batt_design_cap: Battery design capacity in 0.1Wh
-> + * @batt_last_chg_cap: Battery last full charge capacity in 0.1Wh
-> + * @batt_type: Battery Type. bit0 when set indicates invalid battery reference.
-> + *             Rest of the bits are reserved.
-> + */
-> +struct batt_cap_ext_msg {
-> +	__le16 vid;
-> +	__le16 pid;
-> +	__le16 batt_design_cap;
-> +	__le16 batt_last_chg_cap;
-> +	u8 batt_type;
-> +} __packed;
-> +
-> +#define BATT_CAP_BATT_TYPE_INVALID_REF BIT(0)
-> +
->  /* Sink Caps Extended Data Block Version */
->  #define SKEDB_VER_1_0				1
->  
-> 
-> ---
-> base-commit: 0e35b9b6ec0ffcc5e23cbdec09f5c622ad532b53
-> change-id: 20260714-batt-caps-upstream-57f2cbe8eed3
-> prerequisite-change-id: 20260501-batt-status-16b6761c0bb1:v5
-> prerequisite-patch-id: 39dd78a0bb18e681fcd8efb01b6879dbeb881a3a
-> prerequisite-patch-id: 621fa71ad856f4b3246ec480ab17f8089b082932
-> 
-> Best regards,
-> -- 
-> Amit Sunil Dhamne <amitsd@google.com>
-> 
+Could you verify if calling lockdep_unregister_key(&connector[i].lock_key)
+after ucsi_unregister_port(con) resolves the issue?
 
--- 
-heikki
+     for (con =3D connector; con->port; con++)
+            ucsi_unregister_port(con);
+     for (i =3D 0; i < ucsi->cap.num_connectors; i++)
+               lockdep_unregister_key(&connector[i].lock_key);
+
+I will also try testing this on my side.
+
+Thanks,
+Andrei
