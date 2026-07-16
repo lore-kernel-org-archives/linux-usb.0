@@ -1,110 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from server.c3server.com (server.c3server.com [62.146.174.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A9B3016E1;
-	Thu, 16 Jul 2026 19:18:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A780332E72F;
+	Thu, 16 Jul 2026 20:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.146.174.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784229497; cv=none; b=RRid2NcTZskay+JLyRXzpwySKT4so/okrMVNd8rH4qna1pqY0NeScBYTcst3wctIXy+q67eY9qw8kbv9bugKV/ipQsWBsv4RwZtxyWV82mWtuQrzGCj2PaCzGUX71buH33BVeTubaGe5yWtDheMOqcNBjW4seaPiE8gTRIXZ8EI=
+	t=1784232536; cv=none; b=hyz9xLReJh9HW58a3i9mkKXLktBuTApI4yIBx4wzHlW24jhC2D6sEMjpXTIqnXoLww86gN0Gian8thPpyU/TNgN1ZHaEq/w3D24/ZygCesZ2j2ne7OE6Zrz3seoUbN1L2a7dmsIPyLZTrvzlL3DNZKmqvI+j3N0Wt0Z9POuk2xE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784229497; c=relaxed/simple;
-	bh=9hGdsbCTkZ7KSRTrLF/K6PtcT7p+1U1ItNmWf+JSwc0=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=jpFZO9/MNm8WGFnsk7epNf+sV3ul6xa9u/7sqjW5tXVed3E3XRfw17V9PY1X1g8ZgictU0WdjXjq60jJ6TN2Mp3GZh34KCTXh5oydFPhsaZd5EMiu/X7dMaE/Px7V7qS9R/DxSdMxBmH0BVBP4RQI6g/6AIXTMIyUZ9tp1Orkp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I3GQPr0k; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784232536; c=relaxed/simple;
+	bh=h+SqBrHv5m4BUG+NOSX70CN5EBP+9gHc83tKbv3Eqr8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YxYdEnjdr4DK9SNJ2kDs1Kv6kn3t/0Kb+pPVXTZWlH3AXfzSgRVo6KAivxejpqvAk+KfiJ+PD1pD7HqQZ0Ux0LNAINZuVpnGc2d+WbNhCSpUnztn4g4t/15FRopHRkec6TsePVotBI9huWgA6Vl6LUXYkjJIsNx4grxzquc/X1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cusimano.com; spf=pass smtp.mailfrom=cusimano.com; dkim=pass (2048-bit key) header.d=cusimano.com header.i=@cusimano.com header.b=tWljXkdL; arc=none smtp.client-ip=62.146.174.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cusimano.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cusimano.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I3GQPr0k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 190FA1F000E9;
-	Thu, 16 Jul 2026 19:18:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784229496;
-	bh=mm3gd88M8vHvfDbkay5kKqa4Pt+DlNaxfY+bDClihtg=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=I3GQPr0kiybSyrJWe6zFu1hn/2Oi7ybH+Xllp0AZgCxCxtguf99L5TtUBCO7GqeGC
-	 oPQow+GJffWyt0RQ3HflSGICSMR/H6eSgmfxcTLBFGV2wH3Z4WKK3FuLIbwImGvV/l
-	 567+2xoZleLdCeeErvz7topxq9fo+m2NFlp+moZK8Qz1sKQVlxnOIuQtezVSdQvJs8
-	 QBgtsZcgmOXEfkPpllJ0h+62qI61Vn0tzV5bGj2Vt6nmD0+dxOdKB6zYVOf/vl24Co
-	 VhoGT5cKW/TorfHex+N4kkyQTcShb+vZibcozlgaxBBTdFsSlxoQ52xkgrqCfRuexM
-	 mkXK6GvaHXY4A==
+	dkim=pass (2048-bit key) header.d=cusimano.com header.i=@cusimano.com header.b="tWljXkdL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=cusimano.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=8J42jkaKB4YPTPJkBWA3h3FqBphCcGwStjUpFB53J+8=; b=tWljXkdLsooTMN8L2J3z9hew1X
+	6uoR92msyeQJlgQXPlBfVSpHa9IiN+BUg7qN8TPhkUL6Lh/gzZbzMcfxdMkoJ8Mp9FI+rtd2i1bhq
+	wnV4ufwmFA2TDbsO/Tg0u++wXp8pTik1eWUhAwKLNiSJAvokk+Miq7HNQI640IevXUaZUSNKTYpFp
+	NxRLPPmSf9l1taauDjwJHCVxNnXwcyZ1y1vv/8tX4B5MV4ub4Gww9fivZulVFFmwQV011fRV2Tmrk
+	zVeANTnNRpMM3iz3sgHH9gsC3UYFSAkxjZnMe/M6e/z5z9155OrYb0VvioUHISBiKpSvv5dDOKOdT
+	LFFwvZtw==;
+Received: from pool-99-241-84-127.cpe.net.cable.rogers.com ([99.241.84.127]:58161 helo=DAVIDCUSIMAF817)
+	by server.c3server.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.99.4)
+	(envelope-from <david@cusimano.com>)
+	id 1wkRNL-000000002GN-2LsO;
+	Thu, 16 Jul 2026 12:04:03 -0700
+From: "David Cusimano" <david@cusimano.com>
+To: <linux-usb@vger.kernel.org>
+Cc: <linux-kernel@vger.kernel.org>,
+	<gregkh@linuxfoundation.org>
+Subject: [PATCH] usb: storage: make ndecimals unsigned in parse_delay_str()
+Date: Thu, 16 Jul 2026 15:04:00 -0400
+Message-ID: <!&!AAAAAAAAAAAYAAAAAAAAAEFiSgvv3ohCnt1JqVKYCoXCgAAAEAAAAJls7O2uSQ9AogvVUySzVk4BAAAAAA==@cusimano.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 16 Jul 2026 21:18:05 +0200
-Message-Id: <DK08KE2A3M7K.3OQDFZB94SMFC@kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
- <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, "FUJITA Tomonori"
- <fujita.tomonori@gmail.com>, "David Airlie" <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, "Abdiel
- Janulgue" <abdiel.janulgue@gmail.com>, "Robin Murphy"
- <robin.murphy@arm.com>, "Dave Ertman" <david.m.ertman@intel.com>, "Ira
- Weiny" <iweiny@kernel.org>, "Leon Romanovsky" <leon@kernel.org>, "Len
- Brown" <lenb@kernel.org>, "Saravana Kannan" <saravanak@kernel.org>, "Drew
- Fustini" <fustini@kernel.org>, "Guo Ren" <guoren@kernel.org>, "Fu Wei"
- <wefu@redhat.com>, <driver-core@lists.linux.dev>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <netdev@vger.kernel.org>, <nova-gpu@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <linux-pci@vger.kernel.org>,
- <linux-acpi@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
- <linux-usb@vger.kernel.org>
-To: "Gary Guo" <gary@garyguo.net>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Viresh Kumar" <viresh.kumar@linaro.org>, =?utf-8?q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, "Michal Wilczynski" <m.wilczynski@samsung.com>,
- "Igor Korotin" <igor.korotin@linux.dev>, "Rob Herring" <robh@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 00/11] rust: driver: use pointers instead of indices
- for ID info
-References: <20260629-id_info-v2-0-56fccbe9c5ef@garyguo.net>
-In-Reply-To: <20260629-id_info-v2-0-56fccbe9c5ef@garyguo.net>
+MIME-Version: 1.0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: Ad0VTx4KMkRo1fR7RUmbAVPpqqEgoA==
+Content-Language: en-us
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server.c3server.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - cusimano.com
+X-Get-Message-Sender-Via: server.c3server.com: authenticated_id: david@cusimano.com
+X-Authenticated-Sender: server.c3server.com: david@cusimano.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-On Mon Jun 29, 2026 at 2:39 PM CEST, Gary Guo wrote:
->  MAINTAINERS                           |   1 -
->  drivers/acpi/bus.c                    |   6 +-
->  drivers/cpufreq/rcpufreq_dt.rs        |   1 -
->  drivers/gpu/drm/nova/driver.rs        |   1 -
->  drivers/gpu/drm/tyr/driver.rs         |   1 -
->  drivers/gpu/nova-core/driver.rs       |   3 +-
->  drivers/pwm/pwm_th1520.rs             |   1 -
->  include/acpi/acpi_bus.h               |  11 --
->  rust/helpers/acpi.c                   |  16 ---
->  rust/helpers/helpers.c                |   1 -
->  rust/kernel/acpi.rs                   |  14 +--
->  rust/kernel/auxiliary.rs              |  18 +--
->  rust/kernel/device_id.rs              | 207 +++++++++++++++++++---------=
-------
->  rust/kernel/driver.rs                 | 137 ++--------------------
->  rust/kernel/i2c.rs                    |  26 ++---
->  rust/kernel/net/phy.rs                |  66 +----------
->  rust/kernel/of.rs                     |  14 +--
->  rust/kernel/pci.rs                    |  25 ++--
->  rust/kernel/platform.rs               |   5 +-
->  rust/kernel/usb.rs                    |  24 ++--
->  samples/rust/rust_debugfs.rs          |   1 -
->  samples/rust/rust_dma.rs              |   3 +-
->  samples/rust/rust_driver_auxiliary.rs |   4 +-
->  samples/rust/rust_driver_i2c.rs       |   3 -
->  samples/rust/rust_driver_pci.rs       |  11 +-
->  samples/rust/rust_driver_platform.rs  |   2 -
->  samples/rust/rust_driver_usb.rs       |   3 +-
->  samples/rust/rust_i2c_client.rs       |   2 -
->  samples/rust/rust_soc.rs              |   2 -
->  29 files changed, 178 insertions(+), 431 deletions(-)
+From 73039aaf92449baf12dd4f774164cab4b9987a5c Mon Sep 17 00:00:00 2001
+From: David Cusimano <david@cusimano.com>
+Date: Thu, 16 Jul 2026 14:04:29 -0400
+Subject: [PATCH] usb: storage: make ndecimals unsigned in parse_delay_str()
 
-I plan to pick this up soon. Please let me know in case there are any conce=
-rns
-from the acpi, i2c, of, net or usb side of things.
+The ndecimals parameter controls how many decimal places are added when the
+expected suffix is missing. It is never used as a signed quantity, so make
+it
+unsigned to better reflect its intended semantics.
 
-Thanks,
-Danilo
+Signed-off-by: David Cusimano <david@cusimano.com>
+---
+ drivers/usb/storage/usb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/storage/usb.c b/drivers/usb/storage/usb.c
+index 064c7fc8e..c5bfedce7 100644
+--- a/drivers/usb/storage/usb.c
++++ b/drivers/usb/storage/usb.c
+@@ -83,7 +83,7 @@ static unsigned int delay_use = 1 * MSEC_PER_SEC;
+  *
+  * Returns 0 on success, a negative error code otherwise.
+  */
+-static int parse_delay_str(const char *str, int ndecimals, const char
+*suffix,
++static int parse_delay_str(const char *str, unsigned int ndecimals, const
+char *suffix,
+            unsigned int *val)
+ {
+    int n, n2, l;
+-- 
+2.50.1 (Apple Git-155)
+
