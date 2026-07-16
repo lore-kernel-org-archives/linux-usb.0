@@ -1,128 +1,122 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB43B387341;
-	Thu, 16 Jul 2026 15:42:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2011D435F
+	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 16:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784216561; cv=none; b=FKgI86lZW8XjqLiuKt796Z1Rnx4bsn7iL39tLiY8IKPvVH6uhcfOBzbhIvTo/Ci7h+xJ3U03jkudbMnPSst2jg+9f0WJQKkZt0ph18pozVmBNawiqbO2G3UtbuGLOj+UJDR/psnbpN0cpNg1UMJJsnOsUhJXfAbpPnxctd0ifqU=
+	t=1784219172; cv=none; b=JeRwM7AxfYhIrHQmmqqesna+CqJyHBUGpBv0YToHuOZDZDCOEujCjkHxrpCGczJJPwq1xADG70Z90f8rtU9vhbMnUtjAXeA7mx1bpu4xvdyA+nH2G45nbbCwVMblqTneqIcQR+MOxiYgvkRE/eDiBZEX9d1M5pUsNz9YL1twy6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784216561; c=relaxed/simple;
-	bh=/TN+5AyNuEVk0jXJG0NcT4h6hYsmHtjpSAOdqISDC5M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dwOxemhy6Zk3d2wDdXFHbc8FsnKNqdt3KyA0r8LzalIXi9RDSfSeH5FMkRFOXJZL3jLI4l/CTKvcVnZ6ssYmFN+BG4B4leR1KfoUah/gdld2075WEhqn8uOC6idQHwJEWqqBZdFeDW3AAvuMxuQM255z0piLEOn0WL2APX5k66Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=qVhkBrbC; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1784219172; c=relaxed/simple;
+	bh=6UjOpLoiTqjxpbdQbd2A57wfXPBDMq4W0FIuUl8XBgg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ubcgJyOwT4ZwE5rWhqghl09X13ba4Xv5qQrfhjzqdpMbnkK70nJ79QG7CcMLOZ1YzaZpch62SF7s0VsS0hgr3aIRgSgWtVCK0bwKjFfF7JAp74Mu8H8NPXFBqnQCH+5EcfQZpp3rEWRaC+mMduNpwlnxHJcNk7qiLWgEAaVPDr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marmottus.net; spf=pass smtp.mailfrom=marmottus.net; dkim=pass (2048-bit key) header.d=marmottus.net header.i=@marmottus.net header.b=G9T5ZRMj; arc=none smtp.client-ip=217.70.178.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marmottus.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marmottus.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="qVhkBrbC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=EPu+Tbo9Y05KfihPlkG+qRgkWK4cT5jrnAK4ukGO2/M=; b=qVhkBrbCRECP4dbYVFgsJ/DhSm
-	ZAhM4eRIEVQQIQBtoW6AxHUY5GhGbRyc46HM6Blbb45hNpgRwY/YP7UtKP9FyCPvGgFenxiR1BWLa
-	ZDKUVxPcSsaTRa69Irq+dE+bq4ESH2jq+c8I3MLwho7Kxe9VtMLVwiLZlnxpBljYPTWk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wkOEF-00CZS4-Ml; Thu, 16 Jul 2026 17:42:27 +0200
-Date: Thu, 16 Jul 2026 17:42:27 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 02/12] ax88179_178a: Add HW support for
- AX179A-based chips
-Message-ID: <713954ed-6d7f-4de2-9d2e-3d0af0f2db1c@lunn.ch>
-References: <20260708-ax88179a-v2-0-0800fedb2e16@birger-koblitz.de>
- <20260708-ax88179a-v2-2-0800fedb2e16@birger-koblitz.de>
- <1f858852-8e8e-4cff-bbdc-eb6751f44ca5@lunn.ch>
- <de0bfcdc-01d4-4683-97e1-16c0466023ef@birger-koblitz.de>
+	dkim=pass (2048-bit key) header.d=marmottus.net header.i=@marmottus.net header.b="G9T5ZRMj"
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id 6FA4558394E
+	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 14:49:58 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5D24B3ECBD;
+	Thu, 16 Jul 2026 14:49:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marmottus.net;
+	s=gm1; t=1784213390;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1e5MyV+BDvAi+IpMnHGOXZFyKYnOTR1TcI7u3G1HFks=;
+	b=G9T5ZRMj9nolHu5eeh+FjgTEUzkFnqOLVwGGXlEs28zVuzCsMPsbqB9P0647ACBga58LTx
+	EwlnjzkGSANYfnN6X5da5C4cIG1+TdpNdnT7b5zYs0owOcP27YWCfFZSsp8gZ5sJIuWi82
+	Pvd4mBO2mH/rxU0BxkQC3N+zv6zZGVak5osLaG+hnMNgfthu4gL6JvB+Nl7I4d+CGshdrq
+	EsvNf5PS5Le56djpYBVaYt08LFtmZtfBjoLQt9MZO6IVPMZquThXIZaX09NuP2sPvHVvSn
+	vndoXy64ee/yHsmfWT0V3+dJIkSQojCQE7WpzKRLhzvrpzLFCRXoBqzAkeyxHw==
+From: =?UTF-8?q?Arthur=20Cr=C3=A9pin=20Leblond?= <arthur@marmottus.net>
+To: linux-usb@vger.kernel.org
+Cc: =?utf-8?q?Arthur=20Cr=C3=A9pin=20Leblond?= <arthur@marmottus.net>,
+	Ben Hoff <hoff.benjamin.k@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] usb: gadget: f_hid: convert polling interval from ms to bInterval units
+Date: Thu, 16 Jul 2026 16:49:21 +0200
+Message-ID: <20260716144921.1120265-1-arthur@marmottus.net>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <de0bfcdc-01d4-4683-97e1-16c0466023ef@birger-koblitz.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: arthur@marmottus.net
+X-GND-Cause: dmFkZTEsTcrkYX4hDffVcxPcuRleDdf/8Tbwur6u0Og01YG8JbMHTDqyWZlgb9sj92BAxu+qYxApENjJG7Ffo1VlEqBtyg9KCG+ePq4divIrtb5EMsVvU5lKUTYSx8+rAByUY8weLhfsK2FIe7jw5xj2qirBLB7R++1pTJG+ivuKGxs/tg0UIQNWVyC5OHlXo8CkrXiVmgHHf/r43XM0paqXTTvAAiXw/N/r+qG0nHOYu15ohLOS+v+v4MVt7XvMypRrwPjZwDKnMM0hMFreEuok2wBnzzihylbEKPFs8ERJ259SW69yufb/WzHQ9CEbFXd1LgWG6vT/3z87ydXnAl4+QEtVL0ZrFRwZAHvmVim98gTYlng0WFShF6qiMMyIPb/jp+2LF7uLavwaPkD/7T/HS3ofeYX9BfHvsqEHmsaixt4Zag1BTUADxHbIW4kydRP9ETTd0U8no77vdsLMdDJtm4WAOOqwrwf8mDUGvR6B40IrV7jS83hO3/RkDW56B1EJr1PRjUUeSH8CkFeymhY6v7gtyoWAUoyEaSKM/c/zfN4TKk4MLS8CO/4j88oQsfFbwZMpQX2fgy1yxKPhvGL0Wr4vqbqO93gDrcyE9712DihU3tWzB732NtMESxCLY4a+StXnK/PzX/R23t9yNbBaEH2DPeqa3BZpJDTqbBulYjdqAw
+X-GND-State: clean
+X-GND-Score: -100
 
-> A comment on phylink and USB-Ethernet NICs, though. Grepping for phylink
-> in drivers/net/usb shows only 2 drivers that use phylink: asix_devices (the
-> antiquated one using the 772A-PHYs) and lan789xx, which is also rather old.
-> There are more than 30 drivers there, so that makes < 7% phylink usage vs 93% mii.
+The HID polling interval is different depending on the USB speed.
 
-Most USB dongles are old. There might be new variant, but generally,
-that only means adding new VID:PID to a table and they work.
+- Full speed: the units are milliseconds (1-255)
+- High/Super speed: the units are micro-frames of 0.125ms
 
-phylink becomes interesting is with speeds > 1G and enabling more
-features of the PHY, like EEE. Because mii is so old, it only supports
-speeds up to 1G. It also requires that PHY stick to the 802.3 C22
-registers, and don't really have an vendor registers. There is no
-concept of a PHY driver for mii, so there is nowhere to put per PHY
-code.
+Exposing directly the bInterval means that the user needs to know
+which speed is currently in use and has to convert it accordingly
+themselves.
 
-For a totally new USB-ethernet driver, i would strongly push back on
-mii and want to see phylink. For the existing drivers, there is little
-i can do, i don't have the hardware. Converting to phylink would
-however be a good project for a newbie, if they have the hardware, and
-what to really learn something, rather than all the AI driven
-theoretical bug fix patches we are getting at the moment.
+The solution is to expose the interval in units of milliseconds and
+do the conversion in the driver.
 
-You are in the space in between. It is not a fully new driver, but you
-are doing speeds > 1G. And you are looking at lots of features and
-need vendor registers, so per PHY code.
+Cc: Ben Hoff <hoff.benjamin.k@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Arthur Crépin Leblond <arthur@marmottus.net>
+---
+ Documentation/ABI/testing/configfs-usb-gadget-hid | 10 ++++++++++
+ drivers/usb/gadget/function/f_hid.c               |  8 ++++----
+ 2 files changed, 14 insertions(+), 4 deletions(-)
 
-I have another idea to throw out there, and it might be a bad idea. I
-will let you think about it. Split the current driver into two. Make a
-library out of all the code handling packets. Leave the mii code in
-the actual driver. Then add a new driver, making use of the library
-for moving packets around, but using phylink for PHY management. You
-can add the new VID:PID to this new driver. This has the advantage of
-reducing the risk of regressing the old devices you don't have. Also,
-we can put out a request for test, see if anybody has the older
-hardware, and ask them to try testing with the VID:PID added to the
-new driver. We might be able to slowly migrate them to the phylink
-driver.
+diff --git a/Documentation/ABI/testing/configfs-usb-gadget-hid b/Documentation/ABI/testing/configfs-usb-gadget-hid
+index 748705c4cb58..006d479b7428 100644
+--- a/Documentation/ABI/testing/configfs-usb-gadget-hid
++++ b/Documentation/ABI/testing/configfs-usb-gadget-hid
+@@ -11,3 +11,13 @@ Description:
+ 		report_length	HID report length
+ 		subclass	HID device subclass to use
+ 		=============	============================================
++
++What:		/config/usb-gadget/gadget/functions/hid.name/interval
++Date:		Jul 2026
++KernelVersion:	7.2
++Description:
++		The polling interval for the HID endpoint(s), expressed in
++		milliseconds in the range 1-255.
++
++		The value is speed-independent: the driver converts it to the
++		appropriate bInterval.
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+index 3c6b43d06a6d..49548a96c1e8 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -1211,8 +1211,8 @@ static int hidg_bind(struct usb_configuration *c, struct usb_function *f)
+ 		hidg_ss_in_ep_desc.bInterval = 4;
+ 	} else {
+ 		hidg_fs_in_ep_desc.bInterval = hidg->interval;
+-		hidg_hs_in_ep_desc.bInterval = hidg->interval;
+-		hidg_ss_in_ep_desc.bInterval = hidg->interval;
++		hidg_hs_in_ep_desc.bInterval = USB_MS_TO_HS_INTERVAL(hidg->interval);
++		hidg_ss_in_ep_desc.bInterval = USB_MS_TO_HS_INTERVAL(hidg->interval);
+ 	}
+ 
+ 	hidg_ss_out_comp_desc.wBytesPerInterval =
+@@ -1245,8 +1245,8 @@ static int hidg_bind(struct usb_configuration *c, struct usb_function *f)
+ 			hidg_ss_out_ep_desc.bInterval = 4;
+ 		} else {
+ 			hidg_fs_out_ep_desc.bInterval = hidg->interval;
+-			hidg_hs_out_ep_desc.bInterval = hidg->interval;
+-			hidg_ss_out_ep_desc.bInterval = hidg->interval;
++			hidg_hs_out_ep_desc.bInterval = USB_MS_TO_HS_INTERVAL(hidg->interval);
++			hidg_ss_out_ep_desc.bInterval = USB_MS_TO_HS_INTERVAL(hidg->interval);
+ 		}
+ 		status = usb_assign_descriptors(f,
+ 			    hidg_fs_descriptors_intout,
+-- 
+2.55.0
 
-> And at least for the 179A-based controllers it is clear that there is an
-> advantage not to use phylink: When the link changes, the controller sends out
-> an interrupt URB, that has everything in there to set up the link. No need to
-> do costly USB requests to query the PHY.
-
-How costly? You need to balance cost with frequency. If this is
-something that happens once a day, when the machine is booted in the
-morning, does it actually cost anything? And think about all the non
-USB NICs, which do need to use a number of MDIO operations to find out
-the state of the PHY. Nobody seems to complain about that.
-
-> In fact, the proprietary driver
-> works hard to not talk to the PHY at all. A good example is WoL, which is in
-> principle a PHY configuration issue. For setting that up, the driver actually
-> never talks to the PHY, everything necessary is done by the controller's
-> firmware. For USB Ethernet controllers it makes a lot of sense to abstract the
-> PHY away and rely only on controller commands that concurrently configure MAC and
-> PHY to reduce USB transfers.
-
-I somewhat agree with you, if you can totally abstract the PHY, so a
-PHY driver is not needed. Yet the driver code you posted has lots of
-code dealing with the PHY. So it is clearly is not abstracted
-away. Such abstractions do occur, with firmware driving the hardware,
-look at many of the intel NICs, and most PCIe cards with speeds >
-1G. They often only expose a MAC interface to Linux and everything
-below that is hidden away in firmware.
-
-> Looking into the Realtek PHY driver code, what is done there appears to duplicate
-> the code in r8152.
-
-And other reason to use the Linux PHY driver, no code duplication. And
-there might be some freebies, like cable testing just works, it is
-possible to control the LEDs, etc.
-
-	Andrew
