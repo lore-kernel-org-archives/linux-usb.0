@@ -1,371 +1,229 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C443C09FF
-	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 09:16:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3D93B95F6
+	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 09:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784193371; cv=pass; b=j19aCBf2pb9gUjVO1ySKKD6oadbKDg0pPQ1e4UTvFTGJZPQjhWql0riEBQzNZ5VwSjNDEdxmkGT6aRlSYmjbupR8JL6+UMXXQcNNEUSCb9KPj5V2bq7ro0b2cJ5xAn2+b/01imAuVvEYI6PmUV1b7RWAku+m1fpxQ1mLSjl/D8g=
+	t=1784194773; cv=pass; b=i/OMC0oWZwRPOgcHLj6WJFxoVsP2r1g7y6hVEAqNMXGVN+tEQiW9nTHVhmOIIzE+lDjrTNkV8hp8xLEEKU6diXOV0XeVLp+jQIdwgIzBmo4NiK1I5bbFWRIM192cVOXs3OItktFLyWFJy14kJxCsv5eoSQan2zxyrsUQcKxCkN0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784193371; c=relaxed/simple;
-	bh=u6JEI69xZGq2CpSU2bm8ILr7/gPuk6rKdjLoCMG3MfU=;
+	s=arc-20240116; t=1784194773; c=relaxed/simple;
+	bh=r+ToMI4+W+lt99JNWQfbUojCN1C49muMQY3/rKthzsg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PPPLUyk8plxnshXIMBuFO9yIFBWysEJvXAOjeO3IsuhviQK2ErWDdHNEd8HA+OC3N1olyFALqzEvmF/l+BVzHp1DvLX9yAmBxH1mInP3tiYSu7OJ9qoUisELPOtzL4w6sGeJwAJt17gDr7iAqnWEx5Bs05/oZ/7wOpTpB6kDmdk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Wt16vwY1; arc=pass smtp.client-ip=209.85.210.170
+	 To:Cc:Content-Type; b=txwcd0oj+KwK/IqVrrAHLvwhWEJ8M0931G7vaUYef7BYiQ4HErgYyDimGn/1FY1zTeenNKIejOCKwjlOMcsG2VCYtH7UP7DHBATeLPV9PMmUP2HrD+AAbAbjacalHy9UsDZXA3pH+C91o/SLYDD3wc63SgOCYDjxaQTXF1TYglg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lLFwUY7j; arc=pass smtp.client-ip=74.125.224.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Wt16vwY1"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-848479c9bd5so2468319b3a.3
-        for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 02:16:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784193368; cv=none;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lLFwUY7j"
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-66804667af2so2663971d50.0
+        for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 02:39:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784194770; cv=none;
         d=google.com; s=arc-20260327;
-        b=T1OgeywnKsm7IzBHrPIqB0rgC+KhI0GjewpZmI6cR3N2yOeaJAg3zeElPlZEu5Ykzd
-         nl0ewoId+MJwBwEy8d2yGIn58r28ZpT51B/djCDTtxhMil19c+sHIlCjbkRDF6zXOL8/
-         /NNbcC/z+jGd8/w3cSBtsQzOsOZniiZY1hjf/RxlDOjaHZE0kVYW1KJfTt6cTHERPB4R
-         ktIG4Jode78KhRRJXNSkEZPiAn/PoCtmuon10K97jIIU5fq68eWJH4xFSo7qiO00x4kp
-         xbK85tb0TumeKmV1/ZuXmTRlTHevJ3fxf3oBtZBmn1JT9kBNvUm+pkJWgplKIQNWAASW
-         APZA==
+        b=Gk1JI0fOHTZQvSEDiy9Ty13jtKx3J09ld915ebE6MeWwnAPFlEo53X4IFLwxY0uvSA
+         65i6TOb3n9t1TZMkmPp5kYkeaDPs6EO2knsozpytzE9Nyn9R9kB8o8YJMTf05JBPRjDS
+         Q51TuFCD03/SyfoJaTNnotTSW6nJ4mjNoZdF13RbOIp9VUlw3LCDs08hrFsp+BZlvJBw
+         xBTUlW5xGe5uVozqFN8oXGFPExM7398VOtNj5JOeC9oNRmPiWpxyO3mIa4er5DIbHej1
+         oe7wvMH8y4h1m76tU1aN+vikogKVFYwPXUL7vOwJjqT7kMcUXbfcW5/ZQE3RjkBx2N4Z
+         KF4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=N3Aj4n5hxVSal6GClm3WYMDJDzMMqX/C9M6A6jZSm1c=;
-        fh=PdYkEamhPZIBIwZKg7LmMIV55rb2UyawvEM4Eqk1GDg=;
-        b=NvU/mD9VbxpS9B99LMcKwJ35eGmj7jLy94xSSY8QtuSnxSQyZQKCR9+4QNbSvaf03E
-         rwUGkthqyFB8kc9gIQ+CtVHGzUGk36rqxL0jHNBBiUaetbhvzP+AOEPEgZu8hVRkQ8Iv
-         JC9nF9z4lj+pzh51/3V3ltVgVJC5hxa7xH6rp8HIRJPup7Ni3s8O8tPIDZ59UXHJ0zBw
-         3a13I3bBQXXDOphkNDblJ9+ULMNwoSAAfhDhtzaiS5B9YyZbwwWQqQbLRKZJm+XbjC60
-         POo7XJaJ9PHvspSUGmT9WOw2wgtv9XLwZ1lkKMAISkDS9GN3T6ISpMqSHqxd3zCmXVi1
-         R92A==;
+        bh=0CHRQwxG2g8NAYPuVqgPl5XkBCDxSDwrk5H6G4V1gVk=;
+        fh=7cv37JcNyLve9rIH+yiX66ykFJt14KdZOdYR22f63h4=;
+        b=FLkiA+6uTwF3Sg8oEIVpq0qoJzyIMfhyhf7dS+mMrSm3ylnK9BPN5SjgZENtxikBE2
+         KMQc8SL7A+ySKVdqFZXg5woQp4m1s35sxRS0eUsV2pLfDKnHOOEXBDkuKRdnHeIBzv1o
+         ljjeVbmGbTJ/zacbZ/wMvDrTHVIb06OCXgVCEDbaDrJbM+AfZiFgWS6LO1ZQF5/c/sF1
+         r5g7JOBGhkkJGDobJQc3gIM2efbtO12u7slrB4mhBAqsAHYxDPHnlga97XCSeUsSy83C
+         uhHR3Ru2W/LLS3TM4zeOsKIRG/McySTST8ZmSKcdHyhyeBc0eYUbikq6Jpcy1kWdRPpV
+         siGA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1784193368; x=1784798168; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1784194770; x=1784799570; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=N3Aj4n5hxVSal6GClm3WYMDJDzMMqX/C9M6A6jZSm1c=;
-        b=Wt16vwY14CmqBqwXAz0C/3Xib4H/dwwWACUcoiVtpJwvGBxs7qAZZ94wAw9Cr6/RRK
-         K0kYRsPzrU4Jz6g/MndWjM1DzIl6nWWGC29aI3uZS41C6qVEB4kmK32tf3q/NwIeJfk9
-         jtle/wM27AOfrIiI6G996QAflcsqwG9vSOyLc=
+        bh=0CHRQwxG2g8NAYPuVqgPl5XkBCDxSDwrk5H6G4V1gVk=;
+        b=lLFwUY7jZl2FL45dDxrvV5aO08cC7FDULMDS/c29i2SPhEtMixURAkz+FMyJsK6m+u
+         KQQHMp6R/FPVBTm3LBVoP7iTukPr4FkKJrm1ssy/+7F9E9C8ScpfbaTIXNP414YLiDFC
+         EUEx5ovG3IaPQ3BeSCr+kKTeIyiyVTR7Lz0M4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784193368; x=1784798168;
+        d=1e100.net; s=20251104; t=1784194770; x=1784799570;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=N3Aj4n5hxVSal6GClm3WYMDJDzMMqX/C9M6A6jZSm1c=;
-        b=PC8pwn8yPVClmIepKdHRCEN720B3ivEZ4Ji79koBt+Yn8CW/yZen0COoWNW9nzUc9R
-         2se6F9GQCcJDN332tfMKk9mK8Ult2f1yZHHCiA/FaD35YuRuYYFQAwuufT1I+RO9DAYY
-         vaE9FFzd8LjftnISH/B4ZH1+o/0tb2EABcm+y2i8JkqtJUPIEQwiedx6AATZDjrvqf3w
-         MzeHyIV8ygDneogAEZuSEBkHYg846amYcTUOyO/DBmNRkHply9hhXiAXyGSn++54r3vg
-         2PV0F6hOhpPaGTSAFEkR4mIRwMfI8JC2HOE4yn+38uAWxWh73unB9Q9+5FvGBkDEG1wI
-         ygbw==
-X-Forwarded-Encrypted: i=1; AHgh+RpMhcavJ9K/+itH3Q4TFiF12JehD083fzidRr5QT4oSuCmHH5OzQ8kihiVWCtvF9JY35j1AVPQRVn4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCZqDSpVs5SD12cxjL2AAohu3LMuPtDvPXhQUJ2mF20gdwdbrj
-	nWIIv4INbfEQ5iVW2tk3Fhuu+W4YyeFyuGQkxd7GhW3rDKBZYg9f1o+VhaMiNmvn32Jli1eZx6D
-	cBE892hORwXe4j5eHO3EwSG3CQYjZ3oqJlU/+62LeP1mEgGlD2No=
-X-Gm-Gg: AfdE7ckm1jZqh9cL8qqViXQXQWN11x22KVKRDiT3txB7DFJZvigMFvSd8F5j4/WJmWM
-	O+f62ScOwRoOB57DsXnNeFv0+Gzl3qqThZ3+82fHdTcXwXbbZzlpMXuMMrPsqNfnHGlEnmw2ypM
-	gsUW8ceEdrkp8jHwtDTFV3WxeWPxb8tn4QWPZQuCsrrJ3UASdmuEi1Xc/QdT/BHUQZlvGAUVYbq
-	giDkuxnXVW2B+48FN2t8q5cuUaMSeM89QfsY+h35jR87uknGUmszk4PtZ6+q8XDNppqjJSOZpFO
-	Ut0/08WQ2B0xBeNg
-X-Received: by 2002:a05:6a00:a229:b0:848:53c7:b927 with SMTP id
- d2e1a72fcca58-848898824c6mr20424018b3a.76.1784193368555; Thu, 16 Jul 2026
- 02:16:08 -0700 (PDT)
+        bh=0CHRQwxG2g8NAYPuVqgPl5XkBCDxSDwrk5H6G4V1gVk=;
+        b=HhQt2QH5JLMLNYM/UQCSItyT74e8SM9oKIedl/q28gT3fAZpvWmkz574dsDWLZ+E3f
+         Cxl4sdeyb4B1/e1ofbsF9gUt5ZK7XcBnJIGklGrF5ysEv4voOzy2O2fEARHnHBrDww6T
+         pgflzQkfhLr5xL7NFir25uxRuZglGL3eHXAHxyXM08MrcQ/Y1WxMa24ZDaDmlNzafV/i
+         hwGJaJ4XfuYHiEH8PQTVpdZUrqjP4dUTqhbs1OnsNaalG+pUL38JViBCr9eJTDyZlFNM
+         zJa1OMRqj3matyHJZpDRomghNWgA1+JytXuX7wW6o+7AyCr9wLt5ur7PGUysXUwNOf9l
+         2oXg==
+X-Forwarded-Encrypted: i=1; AHgh+RpM5wyUQILhGdZnA4ifnDWQafcRqZnQ7j0g5DjN/dFUliiA87BY3Ovgll+m04vPhy+H9ch+aOB6tqo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4JfDOh7lWEvlzOpteZ8cinTYBPm9PMeenawVV4bS3ROsr04To
+	T9wuAjIV/qM2upxUFfZqxEEgEXaqWzbQuMRHgdYkAKQswm7NglYmzIQ8Ou9wN2l5B8FHGE/7bXz
+	RSstRCXg9YttlH8D8/vnGyMUVdQVknbMccxZVMtkiM0WlBPiwDFQ=
+X-Gm-Gg: AfdE7ckBESrpK8YxVw9yMUpfUQMqPosCaNinCyKAyRLqr9kDzA7fxnBuQYB4vw2+Qp9
+	zeEaBbkgm/PPE+phSWOhEgna5p4QH7i/4UIjn4SKzMskDWRmxP1JkmYMf5iM01lNfP8Xsp0pIi9
+	HmvJ/bCzTKcFwAVMmIq41TA4WFdnDGwfUymHsZESpeDaMomEGGQudn93lXOw3mfD9U/LpzcK+Wj
+	ZoawCAtxxEeg99WN+TokJlsHZ1jWXYi59tLR3h2DooCltRtQd/Hdu/E0UdYbvEO54T+dV6RieOQ
+	CVGK3UZpRowvdz/+
+X-Received: by 2002:a53:c80e:0:b0:667:bb38:d969 with SMTP id
+ 956f58d0204a3-667d7b0060amr9599454d50.16.1784194770410; Thu, 16 Jul 2026
+ 02:39:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260707141736.1635698-1-akuchynski@chromium.org> <22064276-6c56-411a-9f20-6917ceeb865f@intel.com>
-In-Reply-To: <22064276-6c56-411a-9f20-6917ceeb865f@intel.com>
-From: Andrei Kuchynski <akuchynski@chromium.org>
-Date: Thu, 16 Jul 2026 11:15:55 +0200
-X-Gm-Features: AUfX_mzp-_dtH-UipridEtAFINWR6sMaF9la0gNmY9FR86uyrNcL32L4dUU3zN4
-Message-ID: <CAMMMRMduSMniMrixGuq=m=00nUvzXQpySE86TpmvfNQtAChB=w@mail.gmail.com>
-Subject: Re: REGRESSION: [PATCH] usb: typec: ucsi: Fix race condition and
- ordering in port unregistration
-To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Jameson Thies <jthies@google.com>, 
-	Benson Leung <bleung@chromium.org>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
-	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>, Pooja Katiyar <pooja.katiyar@intel.com>, 
-	Johan Hovold <johan@kernel.org>, Hsin-Te Yuan <yuanhsinte@chromium.org>, 
-	Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>, Linyu Yuan <quic_linyyuan@quicinc.com>, 
-	Jack Pham <quic_jackp@quicinc.com>, stable@vger.kernel.org
+References: <20260715085348.3457359-1-wenst@chromium.org> <20260715085348.3457359-4-wenst@chromium.org>
+ <aldS3qTympJuVXYj@ashevche-desk.local> <CAMRc=MfHmejks83bPfe3fKzAzFySGXk2GHMA9oZdMQj0f44eTA@mail.gmail.com>
+ <CAGXv+5HGjGTrqqzJrpiQhLrCn3C6H20LXq3niPnoujQLOwgqPw@mail.gmail.com> <CAMRc=Mefxn81d0VUwmQgwFtffkL1=Er_1VQZCbC1Sa-Qph4t1w@mail.gmail.com>
+In-Reply-To: <CAMRc=Mefxn81d0VUwmQgwFtffkL1=Er_1VQZCbC1Sa-Qph4t1w@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 16 Jul 2026 17:39:19 +0800
+X-Gm-Features: AUfX_mzbe7WMgo0cPdR-Yi-m3qfqJETc7DH9Y1NWKQqSMqgCgHS_ReKsQ1v2DI0
+Message-ID: <CAGXv+5G0Ffrh-8UohJuGPQ0e7KGpy11=X7t1JtDYLTJ_tZgMCA@mail.gmail.com>
+Subject: Re: [PATCH v5 03/16] power: sequencing: Add pwrseq_power_is_on()
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
+	Alan Stern <stern@rowland.harvard.edu>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 16, 2026 at 10:28=E2=80=AFAM Borah, Chaitanya Kumar
-<chaitanya.kumar.borah@intel.com> wrote:
+On Thu, Jul 16, 2026 at 4:14=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.or=
+g> wrote:
 >
-> Hello Andrei,
->
-> On 7/7/2026 7:47 PM, Andrei Kuchynski wrote:
-> > A synchronization issue exists during port unregistration where pending
-> > partner work items can race against workqueue destruction, leading to
-> > use-after-free conditions:
+> On Thu, 16 Jul 2026 06:59:01 +0200, Chen-Yu Tsai <wenst@chromium.org> sai=
+d:
+> > On Wed, Jul 15, 2026 at 8:10=E2=80=AFPM Bartosz Golaszewski <brgl@kerne=
+l.org> wrote:
+> >>
+> >> On Wed, 15 Jul 2026 11:29:02 +0200, Andy Shevchenko
+> >> <andriy.shevchenko@linux.intel.com> said:
+> >> > On Wed, Jul 15, 2026 at 04:53:33PM +0800, Chen-Yu Tsai wrote:
+> >> >> The power sequencing consumer API already does power on state track=
+ing
+> >> >> internally. Expose the state to consumers through pwrseq_power_is_o=
+n()
+> >> >> so that they don't have to reimplement it locally.
+> >> >
+> >> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> >> >
+> >> > ...
+> >> >
+> >> >> +/**
+> >> >> + * pwrseq_power_is_on() - Queries the last requested state of the =
+power sequencer.
+> >> >> + * @desc: Descriptor referencing the power sequencer.
+> >> >> + *
+> >> >> + * This returns the last requested state of the power sequencer.
+> >> >> + *
+> >> >> + * Returns:
+> >> >> + * On success, 1 for on or desc is NULL (optional) and 0 for off;
+> >> >> + * negative error number on failure.
+> >> >
+> >> > I would rephrase it a bit.
+> >> >
+> >> >  * On success, 1 for on and 0 for off; negative error number on fail=
+ure.
+> >> >  * If desc is NULL (means optional) return 1.
+> >> >
+> >> > And this rises a question: why 1? Shouldn't it be some "unknown" sta=
+te?
+> >> > (But since Bart Acked this, this doesn't prevent the patch to go, yo=
+u
+> >> >  got my tag above.)
+> >> >
+> >>
+> >> No, this is good feedback. Maybe we should prefer an enum like so:
+> >>
+> >> enum pwrseq_state {
+> >>         PWRSEQ_POWER_UNKNOWN,
+> >>         PWRSEQ_POWER_ON,
+> >>         PWRSEQ_POWER_OFF
+> >> };
 > >
-> >    cros_ec_ucsi cros_ec_ucsi.3.auto: error -ETIMEDOUT: PPM init failed
-> >    BUG: kernel NULL pointer dereference, address: 0000000000000000
-> >    RIP: 0010:__queue_work+0x83/0x4a0
-> >    Call Trace:
-> >      <IRQ>
-> >      __cfi_delayed_work_timer_fn+0x10/0x10
-> >      run_timer_softirq+0x3b6/0xbd0
-> >      sched_clock_cpu+0xc/0x110
-> >      irq_exit_rcu+0x18d/0x330
-> >      fred_sysvec_apic_timer_interrupt+0x5e/0x80
+> > Well I think the crux of it is whether the API considers the descriptor
+> > optional. The power on/off functions suggest that is the case.
 > >
-> > Fix this by ensuring strict ordering and proper serialization during
-> > teardown:
-> >
-> > 1. Move ucsi_unregister_partner() to the beginning of the teardown
-> > sequence and protect it under the connector mutex lock.
-> > 2. Ensure all pending partner tasks are explicitly flushed and finished
-> > before the workqueue is destroyed.
-> > 3. Switch from mod_delayed_work() to a cancel_delayed_work() and
-> > queue_delayed_work() sequence. This guarantees that items currently mar=
-ked
-> > as pending won't be scheduled an additional time, preventing a double
-> > release of resources which leads to the following crash:
-> >
-> >    Oops: general protection fault, probably for non-canonical address
-> >      0xdead000000000122: 0000 [#1] SMP NOPTI
-> >    Workqueue: cros_ec_ucsi.3.auto-con2 ucsi_poll_worker
-> >    RIP: 0010:ucsi_poll_worker+0x65/0x1e0
-> >    Call Trace:
-> >    <TASK>
-> >      process_scheduled_works+0x218/0x6d0
-> >      worker_thread+0x188/0x3f0
-> >      __cfi_worker_thread+0x10/0x10
-> >      kthread+0x226/0x2a0
-> >
-> > To ensure these rules are applied identically across both the normal
-> > teardown and the ucsi_init() error paths, consolidate the cleanup logic
-> > into a new helper, ucsi_unregister_port().
 >
->
-> This seems to be causing regression in our linux-next CI. [1]
->
-> <6>[   18.008557] ------------[ cut here ]------------
-> <4>[   18.013166] DEBUG_LOCKS_WARN_ON(1)
-> <4>[   18.013167] WARNING: kernel/locking/lockdep.c:238 at
-> __lock_acquire+0xa59/0x2750, CPU#1: kworker/u89:1/172
-> ...
-> <4>[   18.159950] Hardware name: Intel Corporation Meteor Lake Client
-> Platform/MTL-P DDR5 SODIMM SBS RVP, BIOS
-> MTLPFWI1.R00.3471.D89.2401091901 01/09/2024
-> <4>[   18.173125] Workqueue: events_dfl_long ucsi_init_work [typec_ucsi]
-> <4>[   18.179257] RIP: 0010:__lock_acquire+0xa60/0x2750
-> <4>[   18.183927] Code: 44 8b 5d a8 85 c0 0f 84 98 fd ff ff 44 8b 35 07
-> 0b 72 02 45 85 f6 0f 85 88 fd ff ff 48 8d 3d 27 25 73 02 48 c7 c6 1b 51
-> 27 83 <67> 48 0f b9 3a 31 c0 44 8b 5d a8 44 8b 4d b0 e9 c6 f7 ff ff 31 d2
-> ...
-> <4>[   18.263886] PKRU: 55555554
-> <4>[   18.266583] Call Trace:
-> <4>[   18.269014]  <TASK>
-> <4>[   18.271110]  ? mark_held_locks+0x46/0x90
-> <4>[   18.275007]  lock_acquire+0xd9/0x2e0
-> <4>[   18.278562]  ? ucsi_unregister_port+0x36/0x140 [typec_ucsi]
-> <4>[   18.284096]  __mutex_lock+0xb2/0x1020
-> <4>[   18.287735]  ? ucsi_unregister_port+0x36/0x140 [typec_ucsi]
-> <4>[   18.293265]  ? ucsi_unregister_port+0x36/0x140 [typec_ucsi]
-> <4>[   18.298797]  ? synchronize_rcu_expedited+0x2b2/0x300
-> <4>[   18.303724]  ? __pfx_autoremove_wake_function+0x10/0x10
-> <4>[   18.308912]  mutex_lock_nested+0x1b/0x30
-> <4>[   18.312806]  ? mutex_lock_nested+0x1b/0x30
-> <4>[   18.316878]  ucsi_unregister_port+0x36/0x140 [typec_ucsi]
-> <4>[   18.322238]  ucsi_init_work+0x66d/0xc10 [typec_ucsi]
-> <4>[   18.327167]  process_one_work+0x2ad/0x8b0
-> <4>[   18.331158]  worker_thread+0x200/0x3f0
-> <4>[   18.334886]  ? __pfx_worker_thread+0x10/0x10
-> <4>[   18.339128]  kthread+0x10d/0x150
-> <4>[   18.342339]  ? __pfx_kthread+0x10/0x10
-> <4>[   18.346067]  ret_from_fork+0x3bd/0x470
-> <4>[   18.349795]  ? __pfx_kthread+0x10/0x10
-> <4>[   18.353522]  ret_from_fork_asm+0x1a/0x30
-> <4>[   18.357420]  </TASK>
->
-> Detailed log can be seen found in [2]
->
-> We confirmed that reverting the patch solves the issue.
->
-> Could you please check why the patch causes this regression and provide
-> a fix if necessary?
->
-> Regards
-> Chaitanya
->
-> [1] https://intel-gfx-ci.01.org/tree/linux-next/combined-alt.html?
-> [2]
-> https://intel-gfx-ci.01.org/tree/linux-next/next-20260714/bat-mtlp-9/boot=
-0.txt
->
-> -- Bisect Logs --
->
-> git bisect start
-> # status: waiting for both good and bad commits
-> # good: [5f1b513690edf51727e6928b97705b6437f9a98e] Merge remote-tracking
-> branch 'spi/for-7.3' into spi-next
-> git bisect good 5f1b513690edf51727e6928b97705b6437f9a98e
-> # status: waiting for bad commit, 1 good commit known
-> # bad: [49362394dad7df66c274c867a271394c10ca2bb8] Add linux-next
-> specific files for 20260713
-> git bisect bad 49362394dad7df66c274c867a271394c10ca2bb8
-> # bad: [dffddeb046466ed57038295bde28b42b7506a12b] Merge branch
-> 'nand/next' of https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.=
-git
-> git bisect bad dffddeb046466ed57038295bde28b42b7506a12b
-> # bad: [d154d0766bf3fe830e1bf98fb2d8648294a4a8da] Merge branch
-> 'for-next' of
-> https://git.kernel.org/pub/scm/linux/kernel/git/khilman/linux-omap.git
-> git bisect bad d154d0766bf3fe830e1bf98fb2d8648294a4a8da
-> # bad: [671b0fd929bec9ebf863cb376baf9b9d1226a510] Merge branch 'master'
-> of https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git
-> git bisect bad 671b0fd929bec9ebf863cb376baf9b9d1226a510
-> # good: [f4fb100039e96211609dfc44fb24b9e4a8a0f2f9] Merge tag
-> 's390-7.2-4' of git://git.kernel.org/pub/scm/linux/kernel/git/s390/linux
-> git bisect good f4fb100039e96211609dfc44fb24b9e4a8a0f2f9
-> # good: [c296d513e034df93ddb230ad1c7a118d6b58750c] Merge branch
-> 'arm/fixes' of https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.gi=
-t
-> git bisect good c296d513e034df93ddb230ad1c7a118d6b58750c
-> # good: [de53c0a584f08f31eb957f8c849a59fb33b27fa8] Merge branch 'for-rc'
-> of https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git
-> git bisect good de53c0a584f08f31eb957f8c849a59fb33b27fa8
-> # bad: [a6969de5a038bc08a948ada52bd7199a8dfa6cec] Merge branch
-> 'usb-linus' of
-> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-> git bisect bad a6969de5a038bc08a948ada52bd7199a8dfa6cec
-> # good: [15eab2dd63a97587405ab6bfaad9728d5b35b5fe] Merge tag
-> 'asoc-fix-v7.2-rc2' of
-> https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound into for-li=
-nus
-> git bisect good 15eab2dd63a97587405ab6bfaad9728d5b35b5fe
-> # bad: [c2e819be6a5c7f34344926b4bd7e3dfca58cf48a] usb: gadget: printer:
-> fix infinite loop in printer_read()
-> git bisect bad c2e819be6a5c7f34344926b4bd7e3dfca58cf48a
-> # good: [29a142d3e8b35ebc9e0bcc78f4bc26c9b6a9ac0b] USB: gadget:
-> snps-udc: fix device name leak on probe failure
-> git bisect good 29a142d3e8b35ebc9e0bcc78f4bc26c9b6a9ac0b
-> # good: [1febec7e47cdcd01f43fb0211094e3010474666e] usb: gadget: f_ncm:
-> validate datagram bounds in ncm_unwrap_ntb()
-> git bisect good 1febec7e47cdcd01f43fb0211094e3010474666e
-> # bad: [0583f2fbf8f86ae3a0ce054f96783dd83e65d9bb] usb: gadget: udc: bdc:
-> free IRQ and drain func_wake_notify before teardown
-> git bisect bad 0583f2fbf8f86ae3a0ce054f96783dd83e65d9bb
-> # bad: [7aa7d4bf9d3fa9a6a47b640ad103ab433b7ff261] usb: typec: ucsi: Fix
-> race condition and ordering in port unregistration
-> git bisect bad 7aa7d4bf9d3fa9a6a47b640ad103ab433b7ff261
-> # first bad commit: [7aa7d4bf9d3fa9a6a47b640ad103ab433b7ff261] usb:
-> typec: ucsi: Fix race condition and ordering in port unregistration
-> >
-> > Cc: stable@vger.kernel.org
-> > Fixes: b9aa02ca39a4 ("usb: typec: ucsi: Add polling mechanism for partn=
-er tasks like alt mode checking")
-> > Fixes: b13abcb7ddd8 ("usb: typec: ucsi: Fix NULL pointer access")
-> > Fixes: fac4b8633fd6 ("usb: ucsi: Ensure connector delayed work items ar=
-e flushed")
-> > Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
-> > ---
-> >   drivers/usb/typec/ucsi/ucsi.c | 82 +++++++++++++++++-----------------=
--
-> >   1 file changed, 39 insertions(+), 43 deletions(-)
-> >
-> > diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucs=
-i.c
-> > index 92166a3725b16..d9668ed7c80ea 100644
-> > --- a/drivers/usb/typec/ucsi/ucsi.c
-> > +++ b/drivers/usb/typec/ucsi/ucsi.c
-> > @@ -1845,6 +1845,42 @@ static int ucsi_register_port(struct ucsi *ucsi,=
- struct ucsi_connector *con)
-> >       return ret;
-> >   }
-> >
-> > +static void ucsi_unregister_port(struct ucsi_connector *con)
-> > +{
-> > +     struct ucsi_work *uwork;
-> > +
-> > +     if (con->wq) {
-> > +             mutex_lock(&con->lock);
-> > +             ucsi_unregister_partner(con);
-> > +             /*
-> > +              * queue delayed items immediately so they can execute
-> > +              * and free themselves before the wq is destroyed
-> > +              */
-> > +             list_for_each_entry(uwork, &con->partner_tasks, node) {
-> > +                     if (cancel_delayed_work(&uwork->work))
-> > +                             queue_delayed_work(con->wq, &uwork->work,=
- 0);
-> > +             }
-> > +             mutex_unlock(&con->lock);
-> > +
-> > +             destroy_workqueue(con->wq);
-> > +             con->wq =3D NULL;
-> > +     } else {
-> > +             ucsi_unregister_partner(con);
-> > +     }
-> > +
-> > +     ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
-> > +     ucsi_unregister_port_psy(con);
-> > +
-> > +     usb_power_delivery_unregister_capabilities(con->port_sink_caps);
-> > +     con->port_sink_caps =3D NULL;
-> > +     usb_power_delivery_unregister_capabilities(con->port_source_caps)=
-;
-> > +     con->port_source_caps =3D NULL;
-> > +     usb_power_delivery_unregister(con->pd);
-> > +     con->pd =3D NULL;
-> > +     typec_unregister_port(con->port);
-> > +     con->port =3D NULL;
-> > +}
-> > +
-> >   static u64 ucsi_get_supported_notifications(struct ucsi *ucsi)
-> >   {
-> >       u16 features =3D ucsi->cap.features;
-> > @@ -1971,22 +2007,8 @@ static int ucsi_init(struct ucsi *ucsi)
-> >       for (i =3D 0; i < ucsi->cap.num_connectors; i++)
-> >               lockdep_unregister_key(&connector[i].lock_key);
-> >
-> > -     for (con =3D connector; con->port; con++) {
-> > -             if (con->wq)
-> > -                     destroy_workqueue(con->wq);
-> > -             ucsi_unregister_partner(con);
-> > -             ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
-> > -             ucsi_unregister_port_psy(con);
-> > -
-> > -             usb_power_delivery_unregister_capabilities(con->port_sink=
-_caps);
-> > -             con->port_sink_caps =3D NULL;
-> > -             usb_power_delivery_unregister_capabilities(con->port_sour=
-ce_caps);
-> > -             con->port_source_caps =3D NULL;
-> > -             usb_power_delivery_unregister(con->pd);
-> > -             con->pd =3D NULL;
-> > -             typec_unregister_port(con->port);
-> > -             con->port =3D NULL;
-> > -     }
-> > +     for (con =3D connector; con->port; con++)
-> > +             ucsi_unregister_port(con);
+> True. That may be an inconsistency of the API contract on my part. There'=
+s no
+> such thing as an optional variant of pwrseq_get() so perhaps pwrseq_power=
+_on()
+> and pwrseq_power_off() should be converted to returning -EINVAL on NULL
+> descriptor.
 
-Hi Chaitanya,
-Thank you for spotting this!
+OK. I guess the other resource subsystems allowed it more as a convenience
+to consumers.
 
-Could you verify if calling lockdep_unregister_key(&connector[i].lock_key)
-after ucsi_unregister_port(con) resolves the issue?
+> > I modeled this on reset_control_status(). I believe the rationale is th=
+at
+> > if the reset control or pwrseq is optional, then either there is some
+> > other mechanism to deal with the reset (GPIO) or pwrseq (GPIO + regulat=
+or),
+> > or it's always on and operational.
+> >
+> > In such cases and the rare case where one has to query the state, the
+> > queries are possibly chained together and I think it makes sense to
+> > assume the "operational" state as the fallback.
+> >
+> > If this returns an enum, then I think the previous approach of returnin=
+g
+> > an error value for an invalid descriptor is better. One doesn't need to
+> > learn a new set of return values.
+> >
+> > I'm fine either way. I would just move the checks over to the consumer
+> > side. But I think the principles guiding the overall API design is
+> > something you need to provide:
+> >
+> >   - Is the descriptor optional? What should the action functions
+> >     (power on / off , or query status) return when NULL is given?
+> >   - Is the subsystem optional? Should the stub functions besides
+> >     pwrseq_get() return 0 instead of -ENOSYS?
+> >
+> > Right now the API feels like the descriptor is optional but the
+> > subsystem is not. One has to add IS_ENABLED(CONFIG_POWER_SEQUENCING)
+> > around the consumer API to make it an optional feature.
+> >
+>
+> There's one more use-case where the power state trully can be *unknown*.
+> Please look at the proposed new function from Loic[1]. Here we deal with
+> targets over which linux has no direct power control even though it may s=
+till
+> control some of its dependencies. This is where an UNKNOWN state may make
+> sense.
+>
+> This is where I also floated an idea of renaming pwrseq_power_on/off() to
+> pwrseq_vote_on/off() for better clarity of their purpose.
 
-     for (con =3D connector; con->port; con++)
-            ucsi_unregister_port(con);
-     for (i =3D 0; i < ucsi->cap.num_connectors; i++)
-               lockdep_unregister_key(&connector[i].lock_key);
+OK. Would it make sense to revert to returning -EINVAL if the descriptor
+is NULL now, and then add a different error return value if !controllable
+in the future?
 
-I will also try testing this on my side.
 
-Thanks,
-Andrei
+Thanks
+ChenYu
+
+> Thanks,
+> Bartosz
+>
+> [1] https://lore.kernel.org/all/20260710-monza-wireless-v3-3-46253587af64=
+@oss.qualcomm.com/
