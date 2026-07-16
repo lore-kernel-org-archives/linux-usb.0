@@ -1,280 +1,176 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013039.outbound.protection.outlook.com [52.101.72.39])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9664A17A305;
-	Thu, 16 Jul 2026 14:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784213631; cv=fail; b=bB999aAr8+9kc4HOBy3uyrhy7mQzMbBoR6MveLB/jea6sa51kPy7TPZVCVRuNnr8Lw3Yof18zIl256EGYOj2V9a2ZPFlSfucKtJV4ae94xEqPPlTmnZaCu06QlQ7PfVgcXVwCtvXUyZv98ozzpKMueNYmJrrr0mm/YyfEFiJFjI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784213631; c=relaxed/simple;
-	bh=DmINRXBJX5X2rnL71B+MJGc+kEsRn1COeGEBeQiW+s8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=BJJT4xWycBlFyIiK72LVrLMAXBdjkEdVd4FsYLdbLuk0aHA28z/kcyrjRb1zJJ9NP68c52UcqR2j5Im1XTwS08M2CQOy3DqAO6dQvqIGfmUx3k7kuvKeyCqjlXcb9R1vW6zeeiyDfVQ5AbRLz7GwERjRebed9xpO+QxJbpSdvM4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=tpPz/nYC; arc=fail smtp.client-ip=52.101.72.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986F93ACA4C;
+	Thu, 16 Jul 2026 15:03:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784214225; cv=none; b=cL/GoN1V0pkvV5WmW1eeLe4tnP+tySyMDc1/ZhhjECG1txq4/hTR/eAU9z/6PeUlwrWoSv27NIr+hPkbjxyRWHGnwDxcgRVuo6yJ1zrRmKyCvd9Ne86trb2hzviEvaSN2xbGvvtYfp4Pdk4uf+Z2FiETjDEymMs5uQSg+OaaB8A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784214225; c=relaxed/simple;
+	bh=qq+VdI/9klQNjOHl3y1LbQQxSp4ObtXo54lV0dv8Yrg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fzElxXOonnx2cFQDmFnWenTVGnv7NURpKNsER6AGIOHUgyKW+iTHK2S9PIn6dNLd19LGQnPcMyYXxmFnwuizt0Wl5kj1UY4wrdp1DxpgiSmI0BOc/tvmsdmjoVDR6TYWGpmd6bcJBQ1jY8PRL7NNvLl+jvQQsCz0hnzJIecPfOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=lHX/Myvd; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=JISOUZ4g; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="tpPz/nYC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=slUZFuYrqiHlOboIqjqTfVePhhVkEk93s5mo8w64hR1IIceV/oJcT5RSGeo6H0l9bVEvKnXp5WOR/XjakV3EJgs3VtuZ25GpqURQlgh0a6n8nBzLrUibswRf5CHB1Y96xVhCizhEdW7l801BiorDG9xp9N700svY4rlajBGVSqc+aCIyGf9s8Umtgq129oMkorWQwzllYj4sYVBaJvm6SqmdcW22zlTqtmTsoRPSmBbCAwTUCroVY8mvPkeaxiP0iVuiW2kXQx15xSane6fS4qc07wFTbLRdw0IAASRLCxn86OOvvW3VvpoU092g0z4BH60TAITWJFda35wFF9UTdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/5lZaiq1BbVuBHRQA3N5wO8RIUNsBoa9m7nhfY6TJ/c=;
- b=lhHunU+b3HVwtV8B5kT9sO5zrrgrfSjtrFAcJTLkAZf3f0kbWa03UMyTnj2zf+EdH9x4SqWwk4dJ2jYV/LyIJ1zbBsEit5nFsovajQox1gyaGzHBqq/z8bD3128QIcRBH4psd3Ry1u01B7BTUn61Dq9aSQXnN3I1Fd50WA0FBpTh6FQ9xtTtRDQKPbFlMDycVbrCKRDxgq9WaX+eo8ErxxWu1321vrIuztvFimjzw/+J64uj/pU0AzRFG/vncXlo5r/r+qnhl7GGWMtdptG/s9CMiwMyPNy1faM9MTOgQPxI6KoaGufkT3YrKSmztNO8fqhcsUakqknH5zB9gMFSDA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/5lZaiq1BbVuBHRQA3N5wO8RIUNsBoa9m7nhfY6TJ/c=;
- b=tpPz/nYCYfefNe4cbw/eGLhQO6QH1/ON6/qZTFsUj4IF69ZKGaQvOQrzd6X9lEpXdSJnC0r1673ortSB5P54poT1eP0pY3nYyWmOAJPi8ZAFehPuU5L2GF40JD12nhaLVAKwadoz1lBIMksxrj+EnYepFjYeu/ldUYcR4WaAqk0fQhYm+6Cu4e5sqmjydYkyjjfmE3oV1Bem5orAMIpVeUscQrnA195jy2UcpArTv2t3zxmHfol2cnwpQdSmxP2Z+RVDHMl+qiKSd9qC6LjUHsKBjHSwQV9IhFXpXHm1+ZxB9rWZTYB/SGRtqJBDuro9d/gYYxycE9cuKSgAqommQA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by PA4PR04MB9317.eurprd04.prod.outlook.com (2603:10a6:102:2a4::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.9; Thu, 16 Jul
- 2026 14:53:42 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0223.011; Thu, 16 Jul 2026
- 14:53:42 +0000
-Date: Thu, 16 Jul 2026 09:53:33 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: Xu Yang <xu.yang_2@oss.nxp.com>
-Cc: gregkh@linuxfoundation.org, christophe.jaillet@wanadoo.fr,
-	kees@kernel.org, hataegu0826@gmail.com, andrzej.p@samsung.com,
-	balbi@ti.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev
-Subject: Re: [PATCH v2] usb: gadget: f_uac1_legacy: remove broken string
- configfs attributes
-Message-ID: <aljwbddQlYPS_k2I@SMW015318>
-References: <20260713060845.3759673-1-xu.yang_2@oss.nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260713060845.3759673-1-xu.yang_2@oss.nxp.com>
-X-ClientProxiedBy: PH7P220CA0006.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:510:326::12) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="lHX/Myvd";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="JISOUZ4g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1784213656;
+	bh=qq+VdI/9klQNjOHl3y1LbQQxSp4ObtXo54lV0dv8Yrg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=lHX/MyvdoCM99kLTkPtBIB+iIhx3/mmJjoZZAFuJslxPpXbJ4EA2K9BAiIPAOwktH
+	 s9nGrnU8R5Hy73HRK40aRtp/dWNgo/sRSFONYNUPINqJratK7Ysf99kCPVQv0RTd2R
+	 pOD1qlIPr2B8dtZMpw1ZyBcLIaCbq0sbXN6+d8fF/3HvBLCoQaFyuQsHqOv1CNTF2J
+	 WDUCBQfPy8bT2nD4o/OWaqir+Uu2WFtzWbdpuuhq7FGdyHozx5qTX25kz14Al2jWBR
+	 fxXi2OhMWzKvHmbx/h7UJ923/hvi0gTw5wMyIjywLxExv3vmQqDM0xtgwBmVxMWGRv
+	 +AafBIUo9G+7A==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id EBC6D48A5A; Thu, 16 Jul 2026 14:54:16 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1784213654;
+	bh=qq+VdI/9klQNjOHl3y1LbQQxSp4ObtXo54lV0dv8Yrg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JISOUZ4gSwfzIeCssWjyNP3aiJ2jp9+Y1szY5tBuGmxwKoVoi0z4vEJee7cG+yYOd
+	 xpETcCt3sR0A1vsgabf0opGCjvYP4MrQtljdfxe+IVUDKCYO9HYo2mt/65j5HJHFAm
+	 ik0z+8QiwFP2sw27VNMVZgoJ9ojxUWiIOngP+YmmfqImcZf9iAaql0diN+k1cRqtTE
+	 tucoOMqpZ/vJjmBlW8RTmKoZgxxgY+weL3eLDossRIn1+RYLa6jdxcGKnQ1zBVrFqd
+	 EO9ppTyIb2WDtLa6ZVRvIP1cqdFbfmCS+mRzqLjJWdZps5TQsmbX+SErhxx217YfwO
+	 SyXfqKzo2o6QQ==
+Received: from [IPV6:2003:c6:9f1c:3c00:bbfc:bbca:ccd8:f82e] (p200300c69f1c3c00bbfcbbcaccd8f82e.dip0.t-ipconnect.de [IPv6:2003:c6:9f1c:3c00:bbfc:bbca:ccd8:f82e])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id F3BA648A41;
+	Thu, 16 Jul 2026 14:54:13 +0000 (UTC)
+Message-ID: <de0bfcdc-01d4-4683-97e1-16c0466023ef@birger-koblitz.de>
+Date: Thu, 16 Jul 2026 16:54:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PA4PR04MB9317:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5166a45a-9e15-4814-6f35-08dee34a073c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|19092799006|366016|376014|10067099003|18002099003|22082099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	aEZs/+XVMIOJr7NSW61i10QcSNO59LPLp/DJr0i5IFknks5d0GL+dt5CDZxsPRQnE4uHu/f6rQUbxGCSG1Ot3lYmBOzkPebnFpfGm0Pxkc6rRqz2hQaUBvzZk8fuUuSn6S2be2EHxfB1b47ovLae+0L6xa1nMqvg9yFRPaEVWUa5EG8pvyxaKGvk9oWeGg/d2MkHlaJ86UCStsif6TxVZA0pZ0E3DuYX+liI7j36urLHeb5f+GJtRz0Y/J5DIDP5Yr94aTJpvbAnoJFB/A7WrrumpTPXoHJHUU6LKvC+2d90JPOaHIAMo7GKv9t/6zwI1dmPo5/LHm7J9kvTaMLC+lye+gh92bfmTUDVYKu85U+R5vJJsUoDuTp1Yq9oJb5nq/QtyQ7gXFhEy62KlzasQBtxYk0VS8mYweUPb2uGyN5YNQsrPiHWAtdkIx5fX50/fnDbUoLTf8LOi6p9pXPdFChBZk3PhlWWG6Bos0vHpQZANYgS9YB0YeTRPh+ebSHSG1L+SBLXgosWn8ww/ALCJTOWTDyHPL0+EWgdpiBIPpv1WcdgZHi09W6nhlRsY0wS4DMiwJuz5/2jfxdYXMFK65jjBAiMEpaxMC8wqgPP0SmtmUpBp7bZqR95Us8fzXOPlNCfDsPZklDqzU3zCGrgOjnigIAqWhG5Fry584Yh/1M=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(19092799006)(366016)(376014)(10067099003)(18002099003)(22082099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?t4JZBZ5/pdPfT8MPPacY/5kxJLA0D2Rfiy9pvRntbSluUZQtDckCBDikn3Wx?=
- =?us-ascii?Q?Ga6E6r9Hjd7b+CUPSo12hm93rAMm3/THNxlU9yeGsHHNs2Z4Eog8Wysdts6i?=
- =?us-ascii?Q?QOEaeLWHewl0zDqsHddWF48X4A0+ucbPWIMvSBrtyTBCx0jdD4UYTGBeIxzs?=
- =?us-ascii?Q?nnlZQXbnmQT9XWD0Je/52p1c8WvxUz89v/DopgnR6/00nHzQTOdzSrv4h+Xf?=
- =?us-ascii?Q?juWLZkaVO0BfRDMV/U/MnNP+ghueAkHHm7Nxa6NXG5uv/CGwOi9MhrchxaAV?=
- =?us-ascii?Q?VCaNuookZBxUHjTFTjL7EFoS27KUVwtkLXyask9zESHVWGLg8iWLXWUHFu9b?=
- =?us-ascii?Q?af/TNjwVSJ5mNDQPuRUVAtz7tiRupmI2qSaC5q1YoqlQ7lGvX7naTbQ7wWlc?=
- =?us-ascii?Q?EDMGKmTh053LZ3f9A9wBZuAPAMHjefWU5zCEZmHLZNZ3SgUc/kt897tnUIQw?=
- =?us-ascii?Q?cP6emjjXYXvpAF4ppa2xegxxhcHmk1enb6VRhAs39LTYq98UM3JPMcVYgXFP?=
- =?us-ascii?Q?t2Fl5E2lRB+0LkcgrrRJ0dJ1GRYFkRMga9mHZgbqP1JrSgNw04RrhcN4isx3?=
- =?us-ascii?Q?cpT8Bk9H1TJZicQXhB2VvoRkdvolhen3ucgrzVKdOa2rgZZRL6RwfLdl9vh3?=
- =?us-ascii?Q?v7owvs/yHZGD2iFdCZnh1YdzriS1oDCYnPb5n9kh2VAGTIu2pnYlLLZQ6tNj?=
- =?us-ascii?Q?QVvoTo/RwI/q+5hd4p5m8xJ+yieNSu9cn4UvUCP1s0kzL4V7vw6uw+ZWsvJm?=
- =?us-ascii?Q?k0TjZeKZWblpEHw1wEx45qBoCLiSszA9C0NGILqPF5AFoIHmbBiWbFBE4FiN?=
- =?us-ascii?Q?eN4NxL+wcu8Mbj6u+XGPdpAku31fr6IuvObTRpP6WaVzIHf/07mJGWJ2VEUz?=
- =?us-ascii?Q?UTC8+e7ArshGSawfRmP7k9AWwf21nUSqKJih9b2H8JJsHqUt2KdncactFIHa?=
- =?us-ascii?Q?vDqsyNMh10QVQNkTF5Y603cDMTL7ydrajqIgZ1pKO4271ccuWesNc6QIHg8w?=
- =?us-ascii?Q?xgeLjitmTpk5EF8BCt4E/CFByszgWZN4mGT2mr3fTdwGnQB9oLi6un/BmjRd?=
- =?us-ascii?Q?Xc9rbRHt7WDBx4uJT6owYTPN6y8y+bZYff7mNuyljNLBwbLl9N+cDDCgHkOo?=
- =?us-ascii?Q?kn74D7mpsMOr5kOcG696CZC16E934VijJo06yEgU724SPUpgfeKZZUXKDRZy?=
- =?us-ascii?Q?N8Gs7x4l4mVs3u3ZqDEFq0kTgv6hAnPau0WZ4v0Y53U6pN0xkW+NkOkTrlCj?=
- =?us-ascii?Q?XRWTZiyC9/jayU6LEPEFzKmGUEQ04VFJVI4rtYAYkBosVW+Rn/w8RHJiI8mz?=
- =?us-ascii?Q?aCeUrpogh8eiOpa+RYC4ZMdrmyvybME4/nUrVEgupRM+ISIObxtfhr+lyeZY?=
- =?us-ascii?Q?+cohp+qBj7yGx+iF41qTcb2HA9F71JTHOPqAac2O0Vl/qBTLkG2DxTn685wU?=
- =?us-ascii?Q?MdQyaRePpHQ9wVdIgI4JF0NvAOk+/8JzgfBn2jL3Mxkjcl4oDd0ea8R3mAsV?=
- =?us-ascii?Q?S8JoYUcmB95xIA0mHmlhLb02l8TygoWMo3K0br54026f7HRO6MQi85RZiFQy?=
- =?us-ascii?Q?LJa7amDGz7HKifstH9s8Ss7sor//HVDts3yoajGAVEn/6jM7GgcRhrqdGkG7?=
- =?us-ascii?Q?KQXgM4HJfdb49Nagm+QqRsvNOOcdWHDNjy0vHoyDx2RxziR/RIekcN9OMToh?=
- =?us-ascii?Q?syzLq+N80FU6fkHmuNINYLbHWCuxIpLwDrM8ugIj5eUCN5E99hfBBkkxC91C?=
- =?us-ascii?Q?nS+IuC6bQQAx0lnlgsV2hwq8DKlLYYlY3HNShYYvrytPmkwQkwjM?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5166a45a-9e15-4814-6f35-08dee34a073c
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 14:53:42.4958
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ikDUvC9bv6ceGCkCvWkTLV30b3vYuXccxlJnxSJhuZz4FMhenGZp6MMlj+y8deZ199T9t+obswicRziiQV6HulQs+P689Uw72d7kvFypoUzAxH7fbQVprUgY2cxFy/Vn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9317
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 02/12] ax88179_178a: Add HW support for
+ AX179A-based chips
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260708-ax88179a-v2-0-0800fedb2e16@birger-koblitz.de>
+ <20260708-ax88179a-v2-2-0800fedb2e16@birger-koblitz.de>
+ <1f858852-8e8e-4cff-bbdc-eb6751f44ca5@lunn.ch>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <1f858852-8e8e-4cff-bbdc-eb6751f44ca5@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jul 13, 2026 at 02:08:45PM +0800, Xu Yang wrote:
-> From: Xu Yang <xu.yang_2@nxp.com>
->
-> The UAC1_STR_ATTRIBUTE macro defines configfs show/store handlers for
-> the fn_play, fn_cap, and fn_cntl string options. The store function
-> contains an inverted null check on the kstrndup() return value.
->
-> This means every write attempt returns -ENOMEM on success and
-> dereferences a NULL pointer on allocation failure. The attributes
-> have been broken and unused for many years.
->
-> Remove the UAC1_STR_ATTRIBUTE macro and the three attributes it
-> generated. The internal defaults (FILE_PCM_PLAYBACK, FILE_PCM_CAPTURE,
-> FILE_CONTROL) set in f_audio_alloc_inst() are unaffected.
->
-> Fixes: 0854611a19ae ("usb: gadget: f_uac1: add configfs support")
-> Link: https://lore.kernel.org/linux-usb/20260625113154.1954813-1-xu.yang_2@oss.nxp.com/
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Assisted-by: Claude:claude-sonnet-4.6
-> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
->
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+On 7/15/26 00:58, Andrew Lunn wrote:
+>> +	/* Initialize MII structure */
+>> +	dev->mii.dev = dev->net;
+>> +	dev->mii.mdio_read = ax88179_mdio_read;
+>> +	dev->mii.mdio_write = ax88179_mdio_write;
+>> +	dev->mii.phy_id_mask = 0xff;
+>> +	dev->mii.reg_num_mask = 0xff;
+>> +	dev->mii.phy_id = 0x03;
+>> +	if (!ax179_data->is_ax88772d)
+>> +		dev->mii.supports_gmii = 1;
+> 
+> O.K, so you are keeping going.
+> 
+> I still think mii has to die, and you need to swap to phylink.
+O.K. you have me convinced to try harder. Especially with the suggestion
+to create own PHY-IDs for these embedded PHYs it looks doable and not
+too ugly.
 
-> ---
-> Changes in v2:
->  - Remove fn_play, fn_cap, and fn_cntl in gadget-testing.rst
->  - Remove fn_*_alloc variable
-> ---
->  .../testing/configfs-usb-gadget-uac1_legacy   |  3 -
->  Documentation/usb/gadget-testing.rst          |  3 -
->  drivers/usb/gadget/function/f_uac1_legacy.c   | 56 -------------------
->  drivers/usb/gadget/function/u_uac1_legacy.h   |  3 -
->  4 files changed, 65 deletions(-)
->
-> diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uac1_legacy b/Documentation/ABI/testing/configfs-usb-gadget-uac1_legacy
-> index b2eaefd9bc49..6a681d219f43 100644
-> --- a/Documentation/ABI/testing/configfs-usb-gadget-uac1_legacy
-> +++ b/Documentation/ABI/testing/configfs-usb-gadget-uac1_legacy
-> @@ -5,8 +5,5 @@ Description:
->  		The attributes:
->
->  		audio_buf_size - audio buffer size
-> -		fn_cap - capture pcm device file name
-> -		fn_cntl - control device file name
-> -		fn_play - playback pcm device file name
->  		req_buf_size - ISO OUT endpoint request buffer size
->  		req_count - ISO OUT endpoint request count
-> diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-> index a6e8292f320a..4921e5307d49 100644
-> --- a/Documentation/usb/gadget-testing.rst
-> +++ b/Documentation/usb/gadget-testing.rst
-> @@ -714,9 +714,6 @@ The uac1 function provides these attributes in its function directory:
->
->  	=============== ====================================
->  	audio_buf_size	audio buffer size
-> -	fn_cap		capture pcm device file name
-> -	fn_cntl		control device file name
-> -	fn_play		playback pcm device file name
->  	req_buf_size	ISO OUT endpoint request buffer size
->  	req_count	ISO OUT endpoint request count
->  	=============== ====================================
-> diff --git a/drivers/usb/gadget/function/f_uac1_legacy.c b/drivers/usb/gadget/function/f_uac1_legacy.c
-> index 5d201a2e30e7..3f52099a4fdd 100644
-> --- a/drivers/usb/gadget/function/f_uac1_legacy.c
-> +++ b/drivers/usb/gadget/function/f_uac1_legacy.c
-> @@ -888,60 +888,10 @@ UAC1_INT_ATTRIBUTE(req_buf_size);
->  UAC1_INT_ATTRIBUTE(req_count);
->  UAC1_INT_ATTRIBUTE(audio_buf_size);
->
-> -#define UAC1_STR_ATTRIBUTE(name)					\
-> -static ssize_t f_uac1_opts_##name##_show(struct config_item *item,	\
-> -					 char *page)			\
-> -{									\
-> -	struct f_uac1_legacy_opts *opts = to_f_uac1_opts(item);		\
-> -	int result;							\
-> -									\
-> -	mutex_lock(&opts->lock);					\
-> -	result = sprintf(page, "%s\n", opts->name);			\
-> -	mutex_unlock(&opts->lock);					\
-> -									\
-> -	return result;							\
-> -}									\
-> -									\
-> -static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
-> -					  const char *page, size_t len)	\
-> -{									\
-> -	struct f_uac1_legacy_opts *opts = to_f_uac1_opts(item);		\
-> -	int ret = -EBUSY;						\
-> -	char *tmp;							\
-> -									\
-> -	mutex_lock(&opts->lock);					\
-> -	if (opts->refcnt)						\
-> -		goto end;						\
-> -									\
-> -	tmp = kstrndup(page, len, GFP_KERNEL);				\
-> -	if (tmp) {							\
-> -		ret = -ENOMEM;						\
-> -		goto end;						\
-> -	}								\
-> -	if (opts->name##_alloc)						\
-> -		kfree(opts->name);					\
-> -	opts->name##_alloc = true;					\
-> -	opts->name = tmp;						\
-> -	ret = len;							\
-> -									\
-> -end:									\
-> -	mutex_unlock(&opts->lock);					\
-> -	return ret;							\
-> -}									\
-> -									\
-> -CONFIGFS_ATTR(f_uac1_opts_, name)
-> -
-> -UAC1_STR_ATTRIBUTE(fn_play);
-> -UAC1_STR_ATTRIBUTE(fn_cap);
-> -UAC1_STR_ATTRIBUTE(fn_cntl);
-> -
->  static struct configfs_attribute *f_uac1_attrs[] = {
->  	&f_uac1_opts_attr_req_buf_size,
->  	&f_uac1_opts_attr_req_count,
->  	&f_uac1_opts_attr_audio_buf_size,
-> -	&f_uac1_opts_attr_fn_play,
-> -	&f_uac1_opts_attr_fn_cap,
-> -	&f_uac1_opts_attr_fn_cntl,
->  	NULL,
->  };
->
-> @@ -956,12 +906,6 @@ static void f_audio_free_inst(struct usb_function_instance *f)
->  	struct f_uac1_legacy_opts *opts;
->
->  	opts = container_of(f, struct f_uac1_legacy_opts, func_inst);
-> -	if (opts->fn_play_alloc)
-> -		kfree(opts->fn_play);
-> -	if (opts->fn_cap_alloc)
-> -		kfree(opts->fn_cap);
-> -	if (opts->fn_cntl_alloc)
-> -		kfree(opts->fn_cntl);
->  	kfree(opts);
->  }
->
-> diff --git a/drivers/usb/gadget/function/u_uac1_legacy.h b/drivers/usb/gadget/function/u_uac1_legacy.h
-> index b5df9bcbbeba..b9ddae550ff3 100644
-> --- a/drivers/usb/gadget/function/u_uac1_legacy.h
-> +++ b/drivers/usb/gadget/function/u_uac1_legacy.h
-> @@ -62,9 +62,6 @@ struct f_uac1_legacy_opts {
->  	char				*fn_cap;
->  	char				*fn_cntl;
->  	unsigned			bound:1;
-> -	unsigned			fn_play_alloc:1;
-> -	unsigned			fn_cap_alloc:1;
-> -	unsigned			fn_cntl_alloc:1;
->  	struct mutex			lock;
->  	int				refcnt;
->  };
-> --
-> 2.34.1
->
->
+> 
+> It is a bit ugly, but there is a way around the PHYs having a totally
+> different API, despite the same ID register values.
+> 
+> Some generation of Marvel Ethernet switches set the OUI part of the
+> PHY ID register, but left the product part as 0. They even documented
+> this was intentional. We worked around it by trapping reads to
+> registers 2 and 3, and filling in the missing information, using an ID
+> from the marvel range which was not in use. We could then make the
+> Marvell PHY driver do the right thing.
+> 
+> You can do the same here. Intercept the reads to registers 2 and 3,
+> and return a different ID. You can then extend the PHY driver.
+> 
+Doing that and seems to work. I will be cluttering ASIX's own PHY-ID space
+with vendor part 0x3b, see the ax88796b PHY driver which already provides support
+for the 772A, 772B and 772C PHYs. So I will add there the 772D/E and 179A and 279.
+This seems safe, since ASIX appears to have stopped selling (discrete) PHYs. At
+least I am no longer able to find any references to PHYs built by them. It
+also appears appropriate since with the firmware they are using the PHYs are more
+ASIX PHYs than whatever other PHY IP-core they may have been.
+
+It will take a bit of time to convert the code, though, and I will submit that
+then as v3.
+
+A comment on phylink and USB-Ethernet NICs, though. Grepping for phylink
+in drivers/net/usb shows only 2 drivers that use phylink: asix_devices (the
+antiquated one using the 772A-PHYs) and lan789xx, which is also rather old.
+There are more than 30 drivers there, so that makes < 7% phylink usage vs 93% mii.
+
+And at least for the 179A-based controllers it is clear that there is an
+advantage not to use phylink: When the link changes, the controller sends out
+an interrupt URB, that has everything in there to set up the link. No need to
+do costly USB requests to query the PHY. In fact, the proprietary driver
+works hard to not talk to the PHY at all. A good example is WoL, which is in
+principle a PHY configuration issue. For setting that up, the driver actually
+never talks to the PHY, everything necessary is done by the controller's
+firmware. For USB Ethernet controllers it makes a lot of sense to abstract the
+PHY away and rely only on controller commands that concurrently configure MAC and
+PHY to reduce USB transfers.
+
+On the bright side, it appears possible to convert also the r8152 driver to phylink:
+The RTL8157-based USB controllers have:
+[10848.976063] usb 2-1: New USB device found, idVendor=0bda, idProduct=8157, bcdDevice=30.00
+[10848.976068] usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=7
+[10848.976071] usb 2-1: Product: USB 10/100/1G/2.5G/5G LAN
+[10848.976074] usb 2-1: Manufacturer: Realtek
+[10884.829998] r8152 2-1:1.0: PHY REG 2: 001c
+[10884.830079] r8152 2-1:1.0: PHY REG 3: c862
+rg finds:
+#define RTL_8251B                           0x001cc862
+
+RTL8159:
+10970.521382] usb 2-1: New USB device found, idVendor=0bda, idProduct=815a, bcdDevice=30.00
+[10970.521386] usb 2-1: New USB device strings: Mfr=1, Product=2, SerialNumber=7
+[10970.521389] usb 2-1: Product: USB 10/100/1G/2.5G/5G/10G LAN
+[10970.521391] usb 2-1: Manufacturer: Realtek
+[10970.797123] r8152 2-1:1.0: PHY REG 2: 001c
+[10970.797207] r8152 2-1:1.0: PHY REG 3: c890
+#define RTL_8261C                           0x001cc890
+
+RTL8156:
+[11299.622636] usb 2-4: New USB device found, idVendor=0bda, idProduct=8156, bcdDevice=31.04
+[11299.622641] usb 2-4: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[11299.622644] usb 2-4: Product: USB 10/100/1G/2.5G LAN
+[11299.622647] usb 2-4: Manufacturer: Realtek
+[11299.882412] r8152 2-4:1.0: PHY REG 2: 001c
+[11299.882467] r8152 2-4:1.0: PHY REG 3: c840
+#define RTL_8221B                           0x001cc840
+
+RTL8153b:
+[11498.161341] usb 2-4: New USB device found, idVendor=0bda, idProduct=8153, bcdDevice=31.00
+[11498.161348] usb 2-4: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[11498.161350] usb 2-4: Product: USB 10/100/1000 LAN
+[11498.161352] usb 2-4: Manufacturer: Realtek
+[11810.891092] r8152 2-4:1.0: PHY REG 2: 001c
+[11810.891138] r8152 2-4:1.0: PHY REG 3: c800
+#define RTL_GENERIC_PHYID                   0x001cc800
+
+Looking into the Realtek PHY driver code, what is done there appears to duplicate
+the code in r8152.
+
+
+Cheers,
+   Birger
+
