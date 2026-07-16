@@ -1,110 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011064.outbound.protection.outlook.com [52.101.70.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F09E41F371
-	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 12:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784205602; cv=none; b=eEZcV7xvziPohXBKufzVvrH/ue1W+qGxCFZ3TBwx52RW9lPccDBvxfhV0J276djNFPlUXAZcpoZYs48THsLMl6SuyNnoDZMh1EuxjBCQAUJKXRqCj1I9/kLGWYWvhrt/ZtQxf84S0xplSTSBmOv0w1e5uBUQemcfDqtqjQJ9Hc8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784205602; c=relaxed/simple;
-	bh=OxlN32iU+dZZDeFlRrMUjrZz0IkcNsY0YbDQ0qDA3v0=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GszJDGbXGMUih3tkiDJalsHQ/URAtpGl8XRXsYzTIyVp+zE1zVH6B5gJFIojFJwwSmgmYbQkEDiZnq5a9dQcZTT3jjokicTjpyltseWhX/pay1LrTQGLwmFV49oUXrCt/cqVXJpx3jEdiZxdNXPUOydphD/CmnBfrEQ6eSYhiAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WqpCPouG; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D28414A0F;
+	Thu, 16 Jul 2026 12:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784205791; cv=fail; b=r6H60wluQY6qiKYu/s+L9RBPAGWRKYKchrZbJng+3AER64QypTlrolOj5b1X6pZicDjZkA1aEsRYHnRzampjYYsh82/3vfE+SB+MsMjSgtG0GFij3vzQdqYkCUJ1p2K/GoK1n+9YpooHlb6+yPzemfsM5zLulVEwiDUXIIjxj10=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784205791; c=relaxed/simple;
+	bh=uE/z1abLVCxTRDUI5r5QhNa+5B//f6+UVb/KMK8rgT0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=sZ6vrJQOazffg1SmqSDOFlQlxYP/E+oVcxTFIhmpKghn7reB58uC7xmS1cGyQnYqERKHrWO3Awf+cboHiQHNoxFtO6HjeYy3OQo9qbKl6K7nJGroyjeMvVh7O2LFr+KQX+OXTBhwR6+r6pLCe8RDB0dwPbasqSEKs5NvkE5HfFA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=KuFLD+4f; arc=fail smtp.client-ip=52.101.70.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WqpCPouG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E75B1F00ADF
-	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 12:39:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784205598;
-	bh=OxlN32iU+dZZDeFlRrMUjrZz0IkcNsY0YbDQ0qDA3v0=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=WqpCPouGxXPy6ueFZIiDKndTIcSseLdOW8zJnpgFBSNSoDdKIk/7PbT66hpvii8lF
-	 xpGFkHf70LHbzODC2JX/8bknW9AW6hST0M5fCOTn22Ej91WlStU4IXndhEeMkjZpiS
-	 FuzbYk7mi+RMgrPZJDIL+OOZfj6dhWIPtZW/Bw3DIguFX3YILXjlr/Om6RgxEe0+5g
-	 OvRqs4AzBAP4e4J4WGePbTy/doO1ETuJXTc3TJDSwkcxYHhoOYotCja1Rjwwj2npSn
-	 eieU4XXRFGXQiZnP2TA5NVDbGO824HC76MjX7lmsIRls38P0dfhkCaGZfjVgAgftPm
-	 g6IOG5Nv4SVbw==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aec201b582so6428440e87.1
-        for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 05:39:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rr+vF+yoG/74c/PuTEusoHBsdIgP2rTyyW1327+XaZqhePF0WWv24fSLR0g2CgAIlx+cAGk9wAe9kY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUXOfPiPlfWcdDfhfo8j4WjBKPCNuYBy8tKrDbSGwRl5HSo1TA
-	hwALfFVdpzuiMW4KqbiC+tm4mSXDNSFcRpyy8VYkQ/T/yXCYMQmxVwc77CguCJAy6ogCvEx/wXQ
-	g82psoEef/gjeGeTpWeOhax07e/CjydHlB6T6n0fo9Q==
-X-Received: by 2002:a05:6512:4045:20b0:5b0:2176:69f6 with SMTP id
- 2adb3069b0e04-5b15d7a50b0mr1154487e87.37.1784205597254; Thu, 16 Jul 2026
- 05:39:57 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 16 Jul 2026 05:39:55 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 16 Jul 2026 05:39:55 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <CAGXv+5G0Ffrh-8UohJuGPQ0e7KGpy11=X7t1JtDYLTJ_tZgMCA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="KuFLD+4f"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fUVsOm06nEOJTuaO2CiNarO4jF8SmY2BJNRH3lDGmaZFvsaZJzjhig++U+aaNv8+63C2oyG2eBkO7uLQgHOcQGLCgZf1TGJ7ImecETtQDy/S6Ihbh4dAo6BeUS43eqZpcaH1AOyIiHUztRJGD94snNR75YaBOi0Suih2Xgeyf+5/wSQuqJNwPPP05aljxhQt4UAM7uS9Spcv0/3H+zDYe886TI8sNh4t+Ined5AW/LxgniKukc5CGmo8EhGJgooWSgyn9je3iu3liKH1J455prsok5DYiLdycsCTf+yleiiYGFUMp6VdUG1wJbDIlp+tCkA0kcbUA01Z5dIiRIOXTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Iv44gTJtzfzm+50jzNKS9Hjn8NyE4asMflHOQsFPwUs=;
+ b=jxteGK0JVErxaUs/nhDTLm10pHwrNP+Dt687Y/DRIcGZUyus+NGTcVroKI/PMLzCZbMt3LkdiLjmTHNsWFXPyakkc0UPpumW7BauYL0N/Pba6fJE03CyMKDmBAQOa+PJYYTu9RwjPOMPnGYmK3CKxP6qtCoKEiPj/imU/19b7OGa/nGOJwQkmHGwm3ZsHUPn0N+NqUQJT/hr5YXaO6xvu04QirMcsKRIzL2EbROWQlVcvXWkSj4T+R/OdSO7gHm8a3N3XLPHVH5OWYkCfOxpu1ks9wcbHGFsnyKRzrCVc0cCvJIAAPRbn7VP5TzNXinZuhlfQcb6qBgJmh9mpVX4nA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Iv44gTJtzfzm+50jzNKS9Hjn8NyE4asMflHOQsFPwUs=;
+ b=KuFLD+4f5C3C56kU/oNYkFuzQ32DopDf2VqyOKuld2Rs8JKuJ8RE0gLNMXkOioAdtz3NFPrbhx36ydrfcc8nHuBSadn6WlZFHY+uAEjy7Zwf8jBFzOmRR7phhFnCegx2+mSr64xzLWzDhfDKhQM8ESAuHrGi+bEfpbI5nuP+geh0z1jTJKSSl4KwGkAkh80pbylDAnufEir7Y2HvZZmGT9I95vbJwPj16zRXgN+eZpRgLHTh/AmeIuwYpez7ZF3cWZXi35D6ITEuguyV1uuH1fvPScFWyUot281GbhJywu1ODHMcqnQFBaxbGQYmRDYi3NvPyKDBIXNzdbnv5aJxOA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by DU4PR04MB10741.eurprd04.prod.outlook.com (2603:10a6:10:581::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.9; Thu, 16 Jul
+ 2026 12:43:07 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0223.011; Thu, 16 Jul 2026
+ 12:43:07 +0000
+Date: Thu, 16 Jul 2026 07:42:59 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Xu Yang <xu.yang_2@oss.nxp.com>
+Cc: peter.chen@kernel.org, gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, jun.li@nxp.com
+Subject: Re: [PATCH] usb: chipidea: fix usage_count leak when
+ autosuspend_delay is negative
+Message-ID: <aljR05aAspEK-ksA@SMW015318>
+References: <20260716104126.2763454-1-xu.yang_2@oss.nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260716104126.2763454-1-xu.yang_2@oss.nxp.com>
+X-ClientProxiedBy: PH8P221CA0061.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:510:349::17) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260715085348.3457359-1-wenst@chromium.org> <20260715085348.3457359-4-wenst@chromium.org>
- <aldS3qTympJuVXYj@ashevche-desk.local> <CAMRc=MfHmejks83bPfe3fKzAzFySGXk2GHMA9oZdMQj0f44eTA@mail.gmail.com>
- <CAGXv+5HGjGTrqqzJrpiQhLrCn3C6H20LXq3niPnoujQLOwgqPw@mail.gmail.com>
- <CAMRc=Mefxn81d0VUwmQgwFtffkL1=Er_1VQZCbC1Sa-Qph4t1w@mail.gmail.com> <CAGXv+5G0Ffrh-8UohJuGPQ0e7KGpy11=X7t1JtDYLTJ_tZgMCA@mail.gmail.com>
-Date: Thu, 16 Jul 2026 05:39:55 -0700
-X-Gmail-Original-Message-ID: <CAMRc=Mcpu+k-zbY0bDf8q3_9o3qNsrt6uNCao5j3qQLnbjHYAQ@mail.gmail.com>
-X-Gm-Features: AUfX_mzb6SG6AJl8tXyuIguJLZaf_DB4m_xujG-Tq3VPuMJuPnQWayz1ClA2bP8
-Message-ID: <CAMRc=Mcpu+k-zbY0bDf8q3_9o3qNsrt6uNCao5j3qQLnbjHYAQ@mail.gmail.com>
-Subject: Re: [PATCH v5 03/16] power: sequencing: Add pwrseq_power_is_on()
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|DU4PR04MB10741:EE_
+X-MS-Office365-Filtering-Correlation-Id: c152dcd1-ef04-4ff6-c586-08dee337c901
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|23010399003|19092799006|1800799024|366016|56012099006|11063799006|22082099003|18002099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	Gb8vQLE3iGY27oniKbjmHGg1GAgPIP5OsAO5ppiWEgN8ET9QA8ZSKt4gzqd4KZspxigttedJCfpYSxSyOhN1CQiFgD5wtCl014UymsAqyMy021Cd00GbKGFGfgCkz9CgBTNdUJOJQlldXV2Mb8TnnPcgU0/uHsOEs6gxJs+thH0SuGCtFz4J9t2XmsSrHPXMmk64ymYNvWjtd7nOHawdDCql/gpyewSYwWJ6ix1q7gGxiksYC4lGJj8h1BLfbCFEOp4eqekvWjIpyIyKEV2VmVKx11FXYKcokAVzPsEk+JscZPPCrXnV5r1FMOIkr+2VE5/UhPP0c7+gadV1IdcXkdaWjFS2oCUmAdvHEarVGUtQA+x38r0oQEnHlWWrE0p9wOqOc2UyG9YQ2j7y8mNpQk5CEum/+OQwMMHEcxGidEKSqJbHlShf0UGiR6NHlf6sy11dOnoq3oYgm+HnBFQX5Xp6qWlpk6O1nZ4l0jr8jLNjgc5R/KMgdpFaE+ZE0twQ4F6kW0xEVPPTVd0dTCKEFbxXv7ilgKJddGCmThZQJDaHrwb8K9v7P6r1R4Y9lqq+4rC9bmImri4+wzepbCcbaTLbKr3TTWiXVol1Wogy5Vfg3Hvo180dEWTqIxtLFYX+Evdy6Qlfug7cmwzWaSvMzP+vqEPKEqlT60x2Y3brOjg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(19092799006)(1800799024)(366016)(56012099006)(11063799006)(22082099003)(18002099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?zQss5Gm817kk3K+LV7FgWX7xW9fmxwd4x7Q0rvCumH5NPEivYGtHp7vWWZ4z?=
+ =?us-ascii?Q?mmSE6scoH6FD5gGmcShLaIWgRw3S5k2jUqTYwxSmGcKrpX1PbNq8lW6EqJWY?=
+ =?us-ascii?Q?5r706yDibzYUatmX2dk+Od/+Zd4UdMrui656a92qoE0yqisGxIBHj4Y+TTa2?=
+ =?us-ascii?Q?hE11cNLgwAnPQE7D95eCLO8PiyUHINhWrAALpk+23BFgk1wwiL7sQNeB5Ep4?=
+ =?us-ascii?Q?UGBzZu2fXFawDhg7xhQ3PBx4NNxbgfjC5wN2mTVsImovWbzdkPDlifbJf2JI?=
+ =?us-ascii?Q?VBzCa8gY9ALw7Ho4ZxUM9TPs0fOn1QzZGPIhmZzZJC8Mrep8oTtq6PIEli0L?=
+ =?us-ascii?Q?4Ip3pPUhHQHe4B5uZB0YqsBYsAjEfRU1W6TxYp9lTHoS0zcH3gYyi8bbRUSt?=
+ =?us-ascii?Q?pMEv1uMWxGCUltorJjTWwdiGZSi86TW8RZCMmzAKWRkoZhrCc15KYFUw0I4B?=
+ =?us-ascii?Q?hoHxk3UaHzTVavqbeoIAtKsL7HgABH1FRhHoqx7d5pwGzN4CF/Sx+2fnvTKW?=
+ =?us-ascii?Q?/nn6ghAkBifQyr3EnFAvs8QnmqeGl6vvpiANqXw/5kZp4PK8foijutcxTtWS?=
+ =?us-ascii?Q?tpV6l5sbMkrieRxyHu7q9/a/7Y50ZjEEWhW8fz8yWNGLKt/PvO1ZSkQHczUz?=
+ =?us-ascii?Q?TV4WgGX/1nheWUSnvt90rI+iHUA5UghV31DU+klgFmEXDKcH3i/8L8vk4kaw?=
+ =?us-ascii?Q?j0dnfvO5rJd3lVBBfDu6oK1Pp9J0pPU9mdsyDMIBmRsEvHXHZVyrvpaAe/7M?=
+ =?us-ascii?Q?NPyCucNBGxoZ+J6n7sGDjZ8wW59u+nCOxLDlt/I7yJExlTupsm/RhiTUhdXz?=
+ =?us-ascii?Q?1YUrSxcXP/UjieT1XhtV1bIeXEMZ9dJ+njtYBGY5OaQnnCljaCdiJa9+XERw?=
+ =?us-ascii?Q?pC5fA849VdYqiH7bI/Z7K4fT+U3YnLWHwIA8JOwrw6cfYbJkZOuFe0QlKTxX?=
+ =?us-ascii?Q?qM1pIMZmPj6GWYzgaH0RZWREgm5CUr0D22Hx+ePNvuuizAiRdkA0xzf2sRBJ?=
+ =?us-ascii?Q?YX1xKnCY//3nXskoE3zPN4QLmPMTqi2EOSdSkLibZ9F1ayMd/QCp1cls26Xg?=
+ =?us-ascii?Q?kE7EvKDCrG2QJ12KhOO1gBqFVfwleqYLochroNCUeSUV+FtwxLwIDhO5yBmI?=
+ =?us-ascii?Q?bSznq7vJGS3h+z74Wy6IwlH8ko0hJ+iI4Uuwg44DtXCYVGQdkljPv2jH/3su?=
+ =?us-ascii?Q?TSMRW8CphxtS4I4NagrtSezkq+spld6cUbZk2/Wma56uIQhgzqhuqMLXIHTb?=
+ =?us-ascii?Q?e2rrS7oPboqBEmlQFQh73uQtvCnkU6ESOUSAx5SbT7GjsbvyRtiz9KVjiPJE?=
+ =?us-ascii?Q?Ads9eQYS5LAJzhaAfo7Xx8tb2P2YUUfSSt0K4v8KBoN4qUNrY6fZqdewNe/5?=
+ =?us-ascii?Q?ZIKSZX2IlFGdTi/z3WCp7oBgYTVYzaS1imbHRpRFDlduDr/FI7hYDTVKSWvJ?=
+ =?us-ascii?Q?5v5JaG8hD+WhkcsOoXPxKQ11NtDXwsRRVdw0pIUa71sSdmOu4XEaqAwyp5mD?=
+ =?us-ascii?Q?JtJ+MX4s79oYiaIr+WC8BT3dVjzex0MKDjfmphLahhLX7tSX1Dw8TQvO0NWN?=
+ =?us-ascii?Q?bO/VV6dBzRsv6tL5iuzuBGBm1h7DfcpGODhx91mygZnr27c2ARmVkvgkVcIz?=
+ =?us-ascii?Q?MWhB/5dIqvm3TIltDh3XJGyCn7e3FkBSAp1YqHn7hJvS0VKw33Qik2BWSOdD?=
+ =?us-ascii?Q?7I0/t75Nga/5l1qyORNzKylsZLboDndskVuAjLGcbyHvaDSQ0bnuPEyRZDHO?=
+ =?us-ascii?Q?9B0JW+7dkfGjR99dQ45bATuKVgPTbA9rB79ESao8RmcQn/IIPLtB?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c152dcd1-ef04-4ff6-c586-08dee337c901
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 12:43:07.2010
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9VGjw3l6vJa7N4Q/gBZtiuVTE0RczonJ49w1V+9GAYvp0UCsvWyKK0IZHh0C2C7eQ6OZsyPoWPXZZFLtxwMGWDVpe43urF8J6Vkbu78cKaw7Irm6vrFG9ip7ha3ITZFs
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10741
 
-On Thu, 16 Jul 2026 11:39:19 +0200, Chen-Yu Tsai <wenst@chromium.org> said:
-> On Thu, Jul 16, 2026 at 4:14=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.=
-org> wrote:
->>
-
-...
-
->>
->> There's one more use-case where the power state trully can be *unknown*.
->> Please look at the proposed new function from Loic[1]. Here we deal with
->> targets over which linux has no direct power control even though it may =
-still
->> control some of its dependencies. This is where an UNKNOWN state may mak=
-e
->> sense.
->>
->> This is where I also floated an idea of renaming pwrseq_power_on/off() t=
-o
->> pwrseq_vote_on/off() for better clarity of their purpose.
+On Thu, Jul 16, 2026 at 06:41:26PM +0800, Xu Yang wrote:
+> From: Xu Yang <xu.yang_2@nxp.com>
 >
-> OK. Would it make sense to revert to returning -EINVAL if the descriptor
-> is NULL now, and then add a different error return value if !controllable
-> in the future?
+> The probe() calls pm_runtime_use_autosuspend(), but remove() does not call
+> pm_runtime_dont_use_autosuspend(). This can lead to a usage_count leak if
+> autosuspend_delay is set to a negative value.
 >
+> The pm_runtime_use_autosuspend() also notes that it's important to undo
+> this with pm_runtime_dont_use_autosuspend() at driver exit time.
+>
+> Fixes: 1f874edcb731 ("usb: chipidea: add runtime power management support")
+> Assisted-by: Claude:claude-sonnet-4.6
+> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> ---
 
-I don't think the latter part is needed. A non-controllable pwrseq descript=
-or
-is still a valid object and has an address pointing to it. Returning -EINVA=
-L
-on NULL descriptors is probably all we need.
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-Bart
+>  drivers/usb/chipidea/core.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/usb/chipidea/core.c b/drivers/usb/chipidea/core.c
+> index 7edc512cc37d..3461dd763a6e 100644
+> --- a/drivers/usb/chipidea/core.c
+> +++ b/drivers/usb/chipidea/core.c
+> @@ -1250,6 +1250,7 @@ static void ci_hdrc_remove(struct platform_device *pdev)
+>  		usb_role_switch_unregister(ci->role_switch);
+>
+>  	if (ci->supports_runtime_pm) {
+> +		pm_runtime_dont_use_autosuspend(&pdev->dev);
+>  		pm_runtime_get_sync(&pdev->dev);
+>  		pm_runtime_disable(&pdev->dev);
+>  		pm_runtime_put_noidle(&pdev->dev);
+> --
+> 2.34.1
+>
+>
