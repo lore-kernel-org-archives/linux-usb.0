@@ -1,65 +1,61 @@
-Received: from CP3P284CU006.outbound.protection.outlook.com (mail-brazilsouthazon11022092.outbound.protection.outlook.com [40.107.203.92])
+Received: from CP4P284CU005.outbound.protection.outlook.com (mail-brazilsouthazon11021084.outbound.protection.outlook.com [40.107.202.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B17400973;
-	Thu, 16 Jul 2026 14:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.203.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27DC0305692;
+	Thu, 16 Jul 2026 14:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.202.84
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784210417; cv=fail; b=WX2LYHX1UXSpRuwMTsPthMV/VCeyUX4v0oMBRISsREEqIOOBCxOYltvKC49YhQgmQ4R2JqkuZR0OtKyaVIjztJh/9mWlls0hgEJ12C868kJOh4CVLRbUvz5L8Ohly5HbFcgZE0gQo/wTgXNfBzcrQp2aZiA3vnGbCDMiH/DD3nQ=
+	t=1784211948; cv=fail; b=pn7caJSlLic8QX77QqYD1AdVovcaCRuEuqCBwbymofJrMz39GeeL/jnlOjhEyobPJu68vL7CxUeK07u/1xHWwP5c5l281F6RY0S428guiE3jcqADRQGE4mJ2yCjOicS4i1AdOvmqiRJLteREjEW6iGFkvgO5QSexRQFUIqmCA5Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784210417; c=relaxed/simple;
-	bh=sROLPiQ3W2+tbWZpEodM7TL308q/q+1nCKUdKoL/avA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=DJ2lb9f2O12LAxeiXJ+ed3HwmIYMpUJ4pcnu2Q8P9qRQPgO5Y0jzIWFNPcpmk3I+cbvnXOB6s9xEBodeR0pqZgxTh1D9Y8Oi5EBZykNhCg34BC4qfJe9rvbJCRwcw1QDPfExKen1fEIB1ccbMjEgUftZm1xBSvjLOmXGaEWUJb8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lumal21.com.br; spf=pass smtp.mailfrom=lumal21.com.br; dkim=pass (2048-bit key) header.d=lumal21.com.br header.i=@lumal21.com.br header.b=Fo7lo2X8; arc=fail smtp.client-ip=40.107.203.92
+	s=arc-20240116; t=1784211948; c=relaxed/simple;
+	bh=vLUjOMQKDuz9xs8irplIRVymVbt6VKW2q7g7YeevrIk=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=eX2aKp8ZRFQRdtfyNsm07h1Eloyb100sP7qB4dV1k7nt5ftqOL8yNFGrY8nXqFv3VatA3jCsmFsWYVWWyxH4961zXdKfyQFVImKlZ/hLtcdKFKFODVNakWWkac3LCqrzmZ0Bx/QsJn9UCTCrn3X3N9sZewk/WyZX+XF/PJTmSIw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lumal21.com.br; spf=pass smtp.mailfrom=lumal21.com.br; dkim=pass (2048-bit key) header.d=lumal21.com.br header.i=@lumal21.com.br header.b=RnZo5D3q; arc=fail smtp.client-ip=40.107.202.84
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lumal21.com.br
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lumal21.com.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lumal21.com.br header.i=@lumal21.com.br header.b="Fo7lo2X8"
+	dkim=pass (2048-bit key) header.d=lumal21.com.br header.i=@lumal21.com.br header.b="RnZo5D3q"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lG9tEFiEh5s2d6CHobL5vNiEbL569GBu3rCm9YkD3REMgI2YnFA9EWtUjyN0H4tIGYVcXnrf2ms2BZY8An0fmDfBu1/WPeHe4MK9HJoYfyX7zyJLcyfT7kg0dVqNxClOLN+gDZf91EC+zkdyNhdw68dJaRxyvATTjqTqiZqnQVGCDmLWFQOuPo/ens2XG+qJCxPlBDYHiIpyLihGDHWGyxXAsQJL4RzbR5RijVDyG4ePQkKkKe4rbojDyCKUv/T2AFzgzqlK09nSyNgcxsXz2Y7eF43ast0RaI3Xd/kd5ztjkdSqF7UjKbE/fnEpLkbiegMlpI5Hweh4Fpx+emNJ1A==
+ b=a3geYGYQ28gM94brOTHVPJa9Tb+da7NXAjK0+bvXirHrl9xxPL8IszeZm0ra9hNHmnGdCrrpyxUnHAUOovmBwLqMjbAjxwgJvulD6nq3itBSulkGCObmXam2RYMzlYUUN5r3guaWI/LuRL/9ZwQmd3d84b5LO9R00vRLiKosmGy6DltFP+Qv3W+6YwQxaHGsr0rdJUc1+hGcC6NLRR0YEPNgkkCnOAxTkbvusI08TFpfjF0hcB+fovOppGlKElFt0zL8vjvfF76QspMWqq4OTTWu5ezumwdt7u2Dby4T++sYFcuICMbBqw3iTGEOGx0nnIB1QyqBpIz4dsaMfwPLMw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RENbblpBIH6khdVZKJo9EtJk8FDrovns9rjx0lAhrP0=;
- b=X+BMAB321TFpeS3uM8ygPoQdfY92ZTSZkl8oDKxS7AXJUKw0R52GaJ4oWsy1F9wLdbulCYSsYasMuoTDE4k3R6yrEOHwV5x7FEAmgl8QBHXCRRhj4tl+aSPo+CELvpmiJK3lMC97gwneAlNQ3SN3eCEzTsTOImXL6uQiVRJj1h2Dhv60E0zTymBXNGBQG8+Uicssr7uR/mpHjP78AHq6ENJeJnUUoEZSVAnaLmKGCPdUsZUGsI11d6EnrdqU2js/hKCkNNsfyAEFqqPsQSyc2oqZaFgpFsZo3utRgpWefKt0Nxno/8F5egzNa1sDjnTEo4zq7nRsBwNuTiC6XC2Psg==
+ bh=M09hIoay5+uSJDdI3yDEXAf8gtQJeTz49JpGzW+wff0=;
+ b=UYp2sDBYLNRxb4BVa5byvo2FaIw6q1w664y7E5mFEbjEsxSufXL50+Gk0KGtE52mkmLM6vayDW1WXft7AaXNANJFrMj8zumxVrdtKaq7Snso172ugCuVGDeBtCU0ceYsmK9pvvpTN91VAmioO0F751zbeQlK+OrjmU64FZBvvN+FvcNhZq24ECO71NJKgtvQdLaIVyeElZoJrcuTtCvXcED54n5U0eMhR7f0LY3zr/V/YUwCUnPDhczpVUItABBRWuOeR5MO/rSfjV56XdR81jany+/Ivu+LjfRr0d3GCWxCxq4xS9nvpGEnP4ox9oBXMP2CTiMgH0F4gFbiXQtD0w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=lumal21.com.br; dmarc=pass action=none
  header.from=lumal21.com.br; dkim=pass header.d=lumal21.com.br; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lumal21.com.br;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RENbblpBIH6khdVZKJo9EtJk8FDrovns9rjx0lAhrP0=;
- b=Fo7lo2X80dBX0s5Nm9WOy98ajpuMkxqQ326BZ4oWsXq4djBz3NS6FQm2N/YyFpUMJccSopDDVoU/xoKYo/EAJGQiH5JIH8xncacF+DwJfY6JsiGiQ8JRMyXxFC4Ba2fOlwk6P+783JyKXbChF2UWHEY0jiH5+L/ljZ4r+Ef8X1ixfnJomfj7OtelYwG2S51mjiz0S8aOBMddOVZhArkmBsbdYb5NFYznuWhSF7drcJK0rUk0uckTj/+CUzxpdCzKZtFK7MmMx8qsZKNeeMlkWxy7ZgPc/GPaEqJgh8lmU4CzUF+vWrbVxP636csWrVIPVP59un2R6O3MuSe5Qy9YEw==
+ bh=M09hIoay5+uSJDdI3yDEXAf8gtQJeTz49JpGzW+wff0=;
+ b=RnZo5D3qm7zupXRb8qgk+pKrC8IPXVUs0GSzM92FYwZdZ8k+rc/vbA1zKy0+TTYaK6REjblsT2bEVdBEACNELayf3bLjqOcAgPw0Opis9EmuuoZOTuYE41Q9H5jqzvYSyaSc/tJBgHAGS9+PYbGjOHWTXzNCzOxwVY5SN9QL8+i3/huXtzT8+bgiLVXxglPQpv5o2/b9inQiou7LbnPmppdXEmaBpmsMnqrcrQCPzhx2Nz19nDld2UOnYqavRSCnwkxzxTVYdcdCBshxRpwf3W0YLuoB5a0qzGpm2jB/0S6ceDjWCQNM+Dfzx0msKar31gz+4isnxLqxOrf4mmJplA==
 Received: from CP4P284MB2402.BRAP284.PROD.OUTLOOK.COM (2603:10d6:103:2aa::9)
- by CP9P284MB4054.BRAP284.PROD.OUTLOOK.COM (2603:10d6:103:374::18) with
+ by RI1P284MB3505.BRAP284.PROD.OUTLOOK.COM (2603:10d6:10:15f::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Thu, 16 Jul
- 2026 14:00:09 +0000
+ 2026 14:25:40 +0000
 Received: from CP4P284MB2402.BRAP284.PROD.OUTLOOK.COM
  ([fe80::7b77:a104:ca62:b600]) by CP4P284MB2402.BRAP284.PROD.OUTLOOK.COM
  ([fe80::7b77:a104:ca62:b600%6]) with mapi id 15.21.0223.011; Thu, 16 Jul 2026
- 14:00:09 +0000
+ 14:25:40 +0000
 From: Lucas Martins Alves <lucas.alves@lumal21.com.br>
 To: "b-liu@ti.com" <b-liu@ti.com>, "gregkh@linuxfoundation.org"
 	<gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org"
 	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "lucas.alves@autotrac.com.br"
-	<lucas.alves@autotrac.com.br>, Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman
+	<linux-kernel@vger.kernel.org>, Lucas Martins Alves
+	<lucas.alves@lumal21.com.br>, Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman
 	<gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org"
 	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
 	<linux-kernel@vger.kernel.org>
-CC: Lucas Martins Alves <lucas.alves@autotrac.com.br>
-Subject: [PATCH v2 2/2] usb: musb: gadget: fix MUSB_DEVCTL race condition in
- set_vbus
-Thread-Topic: [PATCH v2 2/2] usb: musb: gadget: fix MUSB_DEVCTL race condition
- in set_vbus
-Thread-Index: AQHdFStpcQHvigBb+U6qWJ+LplhGOw==
-Date: Thu, 16 Jul 2026 14:00:09 +0000
-Message-ID: <20260716135957.474145-2-lucas.alves@lumal21.com.br>
-References: <20260716121922.404506-1-lucas.alves@lumal21.com.br>
- <20260716135957.474145-1-lucas.alves@lumal21.com.br>
-In-Reply-To: <20260716135957.474145-1-lucas.alves@lumal21.com.br>
+CC: Lucas Martins Alves <lucas.alves@lumal21.com.br>
+Subject: [PATCH v3 1/2] usb: musb: dsps: implement vbus_status and set_vbus
+ platform ops
+Thread-Topic: [PATCH v3 1/2] usb: musb: dsps: implement vbus_status and
+ set_vbus platform ops
+Thread-Index: AQHdFS76n5wvWdD4kk6SK1SwhCqY2g==
+Date: Thu, 16 Jul 2026 14:25:40 +0000
+Message-ID: <20260716142516.510574-1-lucas.alves@lumal21.com.br>
 Accept-Language: pt-BR, en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -68,49 +64,49 @@ x-mailer: git-send-email 2.53.0
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=lumal21.com.br;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CP4P284MB2402:EE_|CP9P284MB4054:EE_
-x-ms-office365-filtering-correlation-id: e0a2ec9f-ab32-4f4f-f916-08dee3428c36
+x-ms-traffictypediagnostic: CP4P284MB2402:EE_|RI1P284MB3505:EE_
+x-ms-office365-filtering-correlation-id: 254d42aa-f11d-4d56-6aad-08dee3461ce6
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|38070700021|6133799003|5023799004|11063799006|56012099006|10067099003|4143699003|18002099003|22082099003;
+ BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|38070700021|11063799006|10067099003|56012099006|18002099003;
 x-microsoft-antispam-message-info:
- YmC0gbNrvHmuxK+Rl57xcFlQ+ds7c3vs5K0jihJKp++O6nPlIfWdsWVHnMXKpf0VZkHqC1BJ8ul88UxVM3ggQo0y1LRzX6EQMLq3nj0Slx0f1dprkTlzca4np4qJSjmn+3rY4lE6bHpq8q1jSo/pwS0qKzLBMmMxUqkjGlSXJX3Giz/4Lwq6xsj4mdrV7i3z7E46opcUavpdYRx9vWUBrg3Sa39RQv20CvI7za3kQQesc9kg9SMQk/gpZZs2wZd+XPcwE2hHWMa0B3jh9OK50pe6bq6JjTq0GDa78PJDfbrQHRZCcDyO0ix8pvX8IUSo34o+uV3ZOeg3GgAmjrOaxN55+XNdfbFdz4W+6FJRw+uPZ1BZj6ZS4n0q9s8Y3a45UYHl9HW/BisuqdFQdEJgSbHLoQzzWRZLG9b3lwSJ8X9MofdNYShGt4z5q1h/t2oVFkj11EWBQQlXza8XsFJzAmBXPmA0dcj6R9/NuLfsC9c9L+JGgtqTzrtrDY9uyEqFcX0tJyQEaLxfU7VcvcidAfM00WkmfxnW/B568u4c8MfaJRMAHh0RmcOqs2ORq9kLKGThu8E1R3Rq30VZ5JiYndR6A/MfbAbwcLJ8p069sdrUA6/GgzjSzlat979df/q47Ji9d9cMUH6Hqth1ALjoLQfxLz6Lq4p+8gC9AwvTaCGZLe1NXjjWZxy75Jh8Gy7XaNtplcXCxWnUaXn7sWHDGpLh83awJYv0cR1Rqv27a6U=
+ pf3TehyrQMouq1wl/DJ2rwBEWnxc4gYhknAfvwFDDbPAya0wCmzygW9xr28F4bP0QAuHsuPbPbEXeOjBJX5w4rOM5xQLR5UffTS6tSXTM0VU9ByAYsXLyZNuqblzfjfvydzSs8k6LEwgWFXq6P0qm8aWxBrcBeZCibESt9lKg6Gd0cBIbw0bVCEW0oXu3BZmymlzH2XXFfyZ39XUzmmB0iBy5x37Fx+RI80Y5ZLvC3k2PSAXlwpSwhYOoDRRvNYvxkSYOvTykiXHGUjchD0JyCiQviwKVKnAEEBvPRk3I2HuHJwdJuSCon+GaLFex8NMDLexbXPUITx89NhRNVUUjyQOSPvozsEdbSWxKjJzCkj+7y9ESU5nIUSD/r9SrxuU6ftBzxSOTHbwysNoUbRdrt/AGhXRyWABO2g3jNEnQBIjUyoIaVbMVxdE5oaL4DMcx2biTcO731wF7dmQp4xfxGyCpRv8BDv7/GOPyRk1d9pzX/GfDZ5sd5AnVpfMFBv0DXZyQ5qP8lNd5bHsdInvNl/k1ode4zFwMESJi22IRw2ZHfZFPyF6szA5DpMiT/JAqqbLFs70WpwQ87jQhR85bhzHtE3MMlcrZ2ZnL8Z8Y+MqhxyX420vYMgxLoaqdG8IJdenS+CNMv34lRRffvrJruV5/bZhzJdNfpbXE5evYwfIdZzfPUsAc7P3YoTpPjnLPAY4BB4jzTVp9lTYm+65smf4dmkxgbH49RApTgM2XTw=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CP4P284MB2402.BRAP284.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(38070700021)(6133799003)(5023799004)(11063799006)(56012099006)(10067099003)(4143699003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CP4P284MB2402.BRAP284.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(38070700021)(11063799006)(10067099003)(56012099006)(18002099003);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?kJnWQOPWzN9DC2FKHA82acLGyEznZ32hKtyPyJYH7XFMJXXgY1d1iBeUN4?=
- =?iso-8859-1?Q?vtzC5pDYqxz8OtgQ/kAnfbGuwn6oGEP0fBPqlapB+yihhsGBvZzrxYQ49d?=
- =?iso-8859-1?Q?9knIF0ty6g8yBRqU6/5ZMEMaqoSrXa2jZ6oB/AQlX4a5UPdaYC4+BH8cLv?=
- =?iso-8859-1?Q?ddRJl3fpw6bZPCEz3Po8y6r7KmNxosH3rzG/vq9tJNKbM2mR8oqXlN+3pT?=
- =?iso-8859-1?Q?A+juroFNPrNte7zvkHZ7zvXv7vA3TTQNspDKPMHSH9wFiC78KsSTRdqRdQ?=
- =?iso-8859-1?Q?QImohA3mldyp/nFN3Z75lRpAIQYP8LPuEStz7XjSMAXeVi7+szryf3qAvE?=
- =?iso-8859-1?Q?6hdxS3+sJ1WxlAin0s3azCNx0Cibn50U2yCnNsftRJLduaqVpqCJ2jy8hL?=
- =?iso-8859-1?Q?bkxtnEN2LF6lzwyVwxiofO63pTvuA+XXFDKWNFWihoEgNmB0XC6cSOQHWC?=
- =?iso-8859-1?Q?Gq7xAg2TbKkasVkm0oxyGuTPa1FpHa1i9duSH8nf3YqRFejowc7j1WBzjk?=
- =?iso-8859-1?Q?9xDH36pR9in6sg2jg+t+XfRPNxuvLnQb3m5vR+A5qwT64jSzGZCn0X876s?=
- =?iso-8859-1?Q?ERqgMgBSSUITjPZoBBU1rMX83mf3AADerx1wLiVZCNRI9G6kbp/kzehSH9?=
- =?iso-8859-1?Q?YDSCejIWOrl6NYA+U6pdKYVOJD02iylqo+vSEONW3aC7qkeo86TtnwNFy/?=
- =?iso-8859-1?Q?W/5bPsO7HfV/IzbwaCsq9402AOjJbbs4IlV2INjGASJ6m5FpdjhzBBSlmj?=
- =?iso-8859-1?Q?NuMN6qZk6I34d/t99Uhwy9rRRT69/pISANFr+tmHFQlJOW2pg3r4X3BxpW?=
- =?iso-8859-1?Q?HEhMQMHLlQBgxZgzjNc9EDPsUwGsxEctldP2mbbOJV5rai7YFKAkMlE4PH?=
- =?iso-8859-1?Q?W5rsUsxXuaI2hu4z2k5PTWDvOGUmcGf7m+x0oCmnCxbQ6UMmLnNv78LUAw?=
- =?iso-8859-1?Q?L9bcl+r/wga5tu+8J2BNOvSZXivtna54WfCNmpxazwkyr8OmnR+2SDaHFL?=
- =?iso-8859-1?Q?X/OT6TJOnoHQDsWm/O7QV5pSwknv6RdpgMO8+JL1XQMB/fKj6T046XYOkh?=
- =?iso-8859-1?Q?/ONRuojfNYz6myXrT8bOpPT/QUBKtMykk7REPNnboBvGQfApyEFxiYNXZq?=
- =?iso-8859-1?Q?k+Kexme1TP68VARemGELn7roezVtfozcI8b9ZXXyMBKyobRD6loPj6QeU1?=
- =?iso-8859-1?Q?DTD+3sTZ4cFO24pNhZQ6/6UhMUAQ/9sVQYzX/mGQvktQQ3AOzhQ5lLUs30?=
- =?iso-8859-1?Q?YV1IMrDRq580WK3X1LcPKV23a7qt19u93STSJGnwDVWbW1xj4slmF0kzpz?=
- =?iso-8859-1?Q?nNreHyRP31daar0nri2jd+LGaUw1p9pEEDV8+HPde/Dyj078dfa+UJl0Br?=
- =?iso-8859-1?Q?O0wM8qNYksuOgA44T0vURTi1EG29B9s3Us8y4Z8f7GZPN5Y60+6q62fDr/?=
- =?iso-8859-1?Q?FbPFxuYMWrn/3IlAqdOU/BVOMqro0UwCsocfSX1v0rLsYJpBfYJPPx7I3l?=
- =?iso-8859-1?Q?ULPviHRqVs7tG3AsLS0Z5LcnvPCQnUEhGI8+3vDtZSYvknIqd6O9VHvSh7?=
- =?iso-8859-1?Q?Sn25sk0sQOr9qdhhzeeDZpzu6YBHj3lx1JiOmj1ybbL96Wy5EbpxkU7i9V?=
- =?iso-8859-1?Q?nz4HD4e2iuQpK6LHO9G39wOlB3J61hJy6qtakV70pgHNc7S91yj7s5cLCx?=
- =?iso-8859-1?Q?JzWM+rpuHBl3rAMagsVuAGG7gkpqzAMudfuPvzKZQFtFF9xgeS5Ls9AA84?=
- =?iso-8859-1?Q?hUTsSkIR+T/JAPkddTMpux1DO58PMFjcWsrr91dBzvFMVbWZdaU7t0YdCI?=
- =?iso-8859-1?Q?Mq9FT71e2w=3D=3D?=
+ =?iso-8859-1?Q?TD4jam2f0LCeGhpMCEPJOQmmFfIxXl/9X10Ww3a7cxjmgJ3sEH+vEUXvuq?=
+ =?iso-8859-1?Q?8jXjjV6/EwhKidyCmL8szRhUDnKShgwWNu/nHUyNWAX0dVrdNRX7tNEfln?=
+ =?iso-8859-1?Q?qODwk10ID8iScFDpXuiZR/2uRcoOnzziPDf9DFK74RoCe5o7cHBxQt0ffP?=
+ =?iso-8859-1?Q?LSwm6uoFeePOs8pvw/L+l2X9KgfMPwCKGXhWL4l59Nsm/t31isf9wtI+kZ?=
+ =?iso-8859-1?Q?+ZWcu6H5iVyvEdGe80SLbv3uh7ulRJygvT1PYl3s+SuYt3yepxhxeOOY9A?=
+ =?iso-8859-1?Q?tB/dBVmCaSuyraTG/jHLctp1tDAUnxU+USIbTVxYIH0oJIW5ppjAivHeau?=
+ =?iso-8859-1?Q?B3Sc//Ae7hlxQro/Uc9GFbM4VDzGSXaSkDSR3tO91SyFz6hCatRf1WNZcL?=
+ =?iso-8859-1?Q?xS4QLD0ntJstMNzSxErbDjGHQAMtxgcOJ0hYw+FLg1Wn5HIBgPoeCItUpK?=
+ =?iso-8859-1?Q?k8Dxe2oWB4XJ6aBDZ8FNfG5sQFElT3phX+hkjBjobm0FxGlzEyn2lFboo2?=
+ =?iso-8859-1?Q?AqpwCKnJeRGKWKfo0Mxr+gIipEpUlMbXnL93+FBv/Du6jqB8Uc8peFQnbP?=
+ =?iso-8859-1?Q?rrWILxb+FqAAuwB9ezt0JCC+y66XZ1WLWi7j+/q9oIud6lWE0EWQmZmmT2?=
+ =?iso-8859-1?Q?XKffED5qwwRObSkrPvAvI5YqJvxuVzc8C290Kdr5TIYsPvpYRrSrJlj/s5?=
+ =?iso-8859-1?Q?I1R60vsUJQAe+fJNfUwBiIbEnz3EiNy6oqpqvuxYNVJRGadmnJRrglkkQy?=
+ =?iso-8859-1?Q?rVPOFymgWLfXLLJAtSbQjgDmQhMiK/eAcpWWND6SgdwPrj6LbWoGZ8V4ud?=
+ =?iso-8859-1?Q?3LJJpBQfcu3r2CtWSklEfkKLtDmzG/jKc2+vxFEq/4NMo+l7EY+WDSa9Mf?=
+ =?iso-8859-1?Q?H23LqplnsPG+mYvICfUaaIKQJCYY9D+55w6hB2dOZXg9FwGsKKG7KU+D6Y?=
+ =?iso-8859-1?Q?fyTuteaBY6RC2x7Ty/nBLUSVTwWQmrz/3oio4brI2fQCPlP10dvnAX+EjO?=
+ =?iso-8859-1?Q?ax0eKG8QmuJ+IUO5lJxq+ze9irPAsnMGxJuDMxGwj+KlZlViwi52WaU4qN?=
+ =?iso-8859-1?Q?O6v2Goc8UcwVRDlPCF5iXgFFH/tU3J3UwFOeE4h/rhpgo4TkozZNN7aDgZ?=
+ =?iso-8859-1?Q?Yfn0BQzJXF4uWA2RQp6Ndo0O8bgT/v1Nb56CkQTiGGObkVatjSl38Ahalh?=
+ =?iso-8859-1?Q?FRzhIaUsgfO4csp4QmxGOQuLT6Ul4+VvOESdnlSr7G+K9AEL7ME0KX/sTa?=
+ =?iso-8859-1?Q?283OxDhqik4LQLk1NPL393Ktek6Nr4nUTsatt6CoapR0VsJdOWe3mAQTc8?=
+ =?iso-8859-1?Q?GzQVgYjpwsl7hJUZ1VehVoQPRric6adBkvbH/n+qIKm271wu/H72MVUuXe?=
+ =?iso-8859-1?Q?JBEfmFIQmixjVOKeEn/BA4YBuff0LeA7/eXO4D/gLWXHfa9HnIGlbuEF3T?=
+ =?iso-8859-1?Q?iTooTkOnox4DSCF8IWwfjTqW8M10IkDZ8yyW25wZtDx1CWXY+RahWxS66Q?=
+ =?iso-8859-1?Q?ET+dkj7wSxpxAeOyU7E/23uiYTeUGzSchDHsSAem9rCThSr6BsFZgpLqWk?=
+ =?iso-8859-1?Q?U10Q1gA9fMKscqXrGxb74r8yBObs8qUU1gL4yy/J5cpFCG8uQqoMu6erfB?=
+ =?iso-8859-1?Q?ueR4dznqNWduYtoC6I1o1kxi8FPBzOMTWWsiXaYhbb/9WtvE6mGXpoBwpP?=
+ =?iso-8859-1?Q?YgcJjBW8wZT3V80/nRqLqEWOXtusRNTHxI2NryclkDpJt3G2uiSnOpfsCj?=
+ =?iso-8859-1?Q?xVCF8jZ+72x3D5RINMGFgM/4JvPonBFUtInL7dnvXyIowz9JPlHIhMReJM?=
+ =?iso-8859-1?Q?dtv005vNiw=3D=3D?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -122,56 +118,93 @@ MIME-Version: 1.0
 X-OriginatorOrg: lumal21.com.br
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: CP4P284MB2402.BRAP284.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0a2ec9f-ab32-4f4f-f916-08dee3428c36
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2026 14:00:09.2912
+X-MS-Exchange-CrossTenant-Network-Message-Id: 254d42aa-f11d-4d56-6aad-08dee3461ce6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2026 14:25:40.4765
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 99055dd4-6575-473d-944c-c3b1a5a6649e
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: a2YDAnShvUkNBZ0MEon9WsENPMrUiU6i7FoPcjMvTlnZ2k8y3+BGdJhpQnE66eddN6fUNQZ/N1YdF4hKyFcedTLao+zS40O0SbSvPN2nnHU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CP9P284MB4054
+X-MS-Exchange-CrossTenant-userprincipalname: ZZ+5bMWbbzOvtEKL91WawueRk0Bdgve+KqG+YXM9YWfKg6CnD8BsCToXpe0cegR6LR0qVUMMZqRbMuOkrpsBAIyhVD1zkLP786s4kFKDk0A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: RI1P284MB3505
 
-From: Lucas Martins Alves <lucas.alves@autotrac.com.br>=0A=
+From: Lucas Martins Alves <lucas.alves@lumal21.com.br>=0A=
 =0A=
-During gadget initialization, musb_gadget_start() releases musb->lock,=0A=
-enables interrupts via musb_start(), and then invokes=0A=
-musb_platform_set_vbus(musb, 1) in a lockless context.=0A=
+The DSPS glue layer (used on TI AM335x SoCs) was missing implementations=0A=
+for the vbus_status and set_vbus platform ops defined in struct=0A=
+musb_platform_ops.=0A=
 =0A=
-If musb_interrupt() fires concurrently, it will take musb->lock and=0A=
-modify MUSB_DEVCTL. Those changes could be silently overwritten when=0A=
-the callback writes back the stale cached devctl value, causing state=0A=
-corruption due to the unlocked read-modify-write race condition.=0A=
+Add dsps_musb_vbus_status() to report VBUS presence by reading the VBUS=0A=
+field of MUSB_DEVCTL, and dsps_musb_set_vbus() to drive the SESSION bit=0A=
+on MUSB_DEVCTL, enabling or disabling the USB session.=0A=
 =0A=
-Fix this by acquiring musb->lock before calling musb_platform_set_vbus()=0A=
-in musb_gadget_start(). This ensures the register operation is atomic=0A=
-with respect to concurrent interrupt handlers, preventing the RMW race=0A=
-condition while avoiding deadlock scenarios where this function is called=
+Register both callbacks in dsps_ops to allow the MUSB core to control=0A=
+VBUS on AM335x-based platforms. This enables the USB core to perform a=0A=
+VBUS power cycle as a recovery mechanism when a USB error condition is=0A=
+detected, and also allows userspace to control VBUS state via the=0A=
+standard USB sysfs interface.=0A=
 =0A=
-from interrupt context (which already holds the lock).=0A=
-=0A=
-Signed-off-by: Lucas Martins Alves <lucas.alves@autotrac.com.br>=0A=
+Signed-off-by: Lucas Martins Alves <lucas.alves@lumal21.com.br>=0A=
 ---=0A=
- drivers/usb/musb/musb_gadget.c | 5 ++++-=0A=
- 1 file changed, 4 insertions(+), 1 deletion(-)=0A=
+v1 -> v2:=0A=
+- remove musb_root_disconnect() from set_vbus path=0A=
+- adjust context->devctl copy/update handling=0A=
 =0A=
-diff --git a/drivers/usb/musb/musb_gadget.c b/drivers/usb/musb/musb_gadget.=
-c=0A=
-index 016d3f3fc1e0..8eca252423e9 100644=0A=
---- a/drivers/usb/musb/musb_gadget.c=0A=
-+++ b/drivers/usb/musb/musb_gadget.c=0A=
-@@ -1857,8 +1857,11 @@ static int musb_gadget_start(struct usb_gadget *g,=
+v2 -> v3:=0A=
+- fix patch description text=0A=
+- fix devctl usage in set_vbus path=0A=
+---=0A=
+ drivers/usb/musb/musb_dsps.c | 30 ++++++++++++++++++++++++++++++=0A=
+ 1 file changed, 30 insertions(+)=0A=
 =0A=
- 	 * handles power budgeting ... this way also=0A=
- 	 * ensures HdrcStart is indirectly called.=0A=
- 	 */=0A=
--	if (musb->xceiv && musb->xceiv->last_event =3D=3D USB_EVENT_ID)=0A=
-+	if (musb->xceiv && musb->xceiv->last_event =3D=3D USB_EVENT_ID) {=0A=
-+		spin_lock_irqsave(&musb->lock, flags);=0A=
- 		musb_platform_set_vbus(musb, 1);=0A=
-+		spin_unlock_irqrestore(&musb->lock, flags);=0A=
-+	}=0A=
+diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c=0A=
+index e3935f18dd56..e3dc2b6dc9b0 100644=0A=
+--- a/drivers/usb/musb/musb_dsps.c=0A=
++++ b/drivers/usb/musb/musb_dsps.c=0A=
+@@ -618,6 +618,34 @@ static int dsps_musb_recover(struct musb *musb)=0A=
+ 	return session_restart ? 0 : -EPIPE;=0A=
+ }=0A=
  =0A=
- 	pm_runtime_put_autosuspend(musb->controller);=0A=
++static int dsps_musb_vbus_status(struct musb *musb)=0A=
++{=0A=
++	u8 devctl =3D musb_readb(musb->mregs, MUSB_DEVCTL);=0A=
++=0A=
++	return (devctl & MUSB_DEVCTL_VBUS) =3D=3D MUSB_DEVCTL_VBUS;=0A=
++}=0A=
++=0A=
++static void dsps_musb_set_vbus(struct musb *musb, int is_on)=0A=
++{=0A=
++	u8 devctl;=0A=
++=0A=
++	devctl =3D musb_readb(musb->mregs, MUSB_DEVCTL);=0A=
++=0A=
++	if (is_on) {=0A=
++		devctl |=3D MUSB_DEVCTL_SESSION;=0A=
++	} else {=0A=
++		/* Since we drop the session to turn off vbus, the connection cannot sur=
+vive */=0A=
++		if( musb->port1_status & USB_PORT_STAT_CONNECTION )=0A=
++			musb->port1_status |=3D (USB_PORT_STAT_C_CONNECTION << 16);=0A=
++		musb->port1_status &=3D ~( USB_PORT_STAT_CONNECTION |=0A=
++			                     USB_PORT_STAT_HIGH_SPEED |=0A=
++								 USB_PORT_STAT_LOW_SPEED );=0A=
++		devctl &=3D ~MUSB_DEVCTL_SESSION;=0A=
++	}=0A=
++=0A=
++	musb_writeb(musb->mregs, MUSB_DEVCTL, devctl);=0A=
++}=0A=
++=0A=
+ /* Similar to am35x, dm81xx support only 32-bit read operation */=0A=
+ static void dsps_read_fifo32(struct musb_hw_ep *hw_ep, u16 len, u8 *dst)=
+=0A=
+ {=0A=
+@@ -702,6 +730,8 @@ static struct musb_platform_ops dsps_ops =3D {=0A=
+ =0A=
+ 	.set_mode	=3D dsps_musb_set_mode,=0A=
+ 	.recover	=3D dsps_musb_recover,=0A=
++	.vbus_status	=3D dsps_musb_vbus_status,=0A=
++	.set_vbus	=3D dsps_musb_set_vbus,=0A=
+ 	.clear_ep_rxintr =3D dsps_musb_clear_ep_rxintr,=0A=
+ };=0A=
  =0A=
 -- =0A=
 2.53.0=0A=
