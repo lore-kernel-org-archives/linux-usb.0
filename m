@@ -1,100 +1,250 @@
-Received: from mail-m15596.qiye.163.com (mail-m15596.qiye.163.com [101.71.155.96])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6E432F748;
-	Thu, 16 Jul 2026 10:47:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.96
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784198876; cv=none; b=S3AVL6ADFnk9iJBbe+S2dg5oODI+icWQC6CP2lLqVlaDHQ/wO37F7SfFz3sVWDFNMiITjWDiE4ke3bCb2XXSMiFwSRNifOxW0Usk1h6HdyO8z6GrRwZmbrPMWTWo8nfJ2HYFomVWrukBYXoYZZcQ0f+OZaT0VauDR/pQZcddfJo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784198876; c=relaxed/simple;
-	bh=mHdQZ4FgDvLZfFORUIe1L+AKEPPKIUtp/1N2bVG3G/0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IpVR/fcK2NOtkOanowK7GqLH5f0sjQiN9klYamef+p0uitotaUdZXXzQUDL37D68DtYh88S5DGZ7nEDUMYvt+tvxB5tgAwmsd1ExvH7tkYLI2P61owQdzLj2EAwWV9n2MsEmfAJY9/D7jZ1Prz97AiEaCtP3sp/PfUhpXk/2ZOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=FDMJI7YM; arc=none smtp.client-ip=101.71.155.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0214D2749ED
+	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 10:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784199256; cv=pass; b=dxfqnrZ0JfnpZ2RPwvShTjf4GHn9gxvtMBJ3FnJSqGRz58pwCnk20OdojIBVu87l2satSCXfS/IEOLyqR7DVndR0IFqjQ4BhHNXmbOhhLxjEXKE66U/LLn7HB8fP+QpzTxk4SUOjx+SfAvl7V1b/gJqFpwxKUn1HdgKgQ0Z3izA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784199256; c=relaxed/simple;
+	bh=3j/moiupjcRobjxa4ND+wmxO9Q9vks2r/SEqOUGkRGs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pYUes6TGVhfalS83h1f1gAnbgwe199gGrhbTNCGIDtJiUtXWHKxKbOzbiUXvscMBGnJPC8+fSUq4pyeaTGdhhgrjaudOb1V0JvSFGCYnxEGqmiV2cMwzXSVnvj3DO6ZAEe73cKfkWXzMLLx6vNWoY1qhwuJnTHsCHgsam05VNHU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=f6SqFLJM; arc=pass smtp.client-ip=74.125.224.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="FDMJI7YM"
-Received: from [172.16.12.33] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 465f3be24;
-	Thu, 16 Jul 2026 10:51:03 +0800 (GMT+08:00)
-Message-ID: <ae33b62b-a207-4f4d-991a-08e003b36abe@rock-chips.com>
-Date: Thu, 16 Jul 2026 10:50:55 +0800
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="f6SqFLJM"
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-664db84f074so9514367d50.0
+        for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 03:54:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784199253; cv=none;
+        d=google.com; s=arc-20260327;
+        b=A0cHB0HLAJFWRDZTR4oAnxVgJpXFyq6S3xwcvTw/Nyf82xWs/xKLN88Zc5fs00IwSP
+         JtU0MGHCgHhz1vVtieqCr/MoEYHRPX2c9QtLRtmaNzgzt85WKhiNp3QEmY4J4+Ib3qCV
+         OecwxZvm3Mmuk9tpYqLLEv4PnA0fqd+GTG6VgsUgbL5gUYaBwSfgOe5MrOkSYEg9bbQ0
+         BAsUJROyL4DAePjy3gxC4Ww+X5tyMYIqqI31nItZkh+BUK8EJbu9L8Yn8hPjKHs+0qDB
+         Q3wTMinnq177t4zq4E1CtRYxckbLJ25mDJbF0XaR8WyFGik4Xg0l/QlS5w696VqpnUjd
+         fFqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ye5TWESdXypHFnrQA4hoOjMY+BQZKzclNsOPs6Xfx3c=;
+        fh=zEov1kMTAPJxfuXqbrP3oW3pENUM+7od3ud1rmEQHLc=;
+        b=Ij+1SinItxP4xtdM20j9XCKkySdiajB6JVFqEqm7dKhWHIHYw6MWaIOSQgp2y4JEqQ
+         FFZGDps2ZzwtWbPJU7ln8Xf0ndWTRoREv88WLUWXsn3KJpJJjSGwRdJG84P/wPcQojJd
+         yjLnTiZaEfgKve35cZHbtNERjkEVW5nsHCZGYSyGpEqcc8N1poK0VM4qs0J4W9VdD0CR
+         g/263bOBnzzpsuKjUMZY7n7fE518j8hx+C1YmUJbMHwy6qGsSBLncx20o7w8Beto22e2
+         1qt8VueqkIBV0hZCiH/w9f22OY5EeiaOxeqZw6xQeqzqGwT4LCZKBdxjDLUJeNz86XbW
+         lwDQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1784199253; x=1784804053; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ye5TWESdXypHFnrQA4hoOjMY+BQZKzclNsOPs6Xfx3c=;
+        b=f6SqFLJMBNv2J9+tN/SD+Mr0yiaGb7JzeUKkBHV6RygNbuQRQ+NCsySqqILI9W7nIw
+         x6RX3bYWzZ3ddMN6lpYiMZp6cYmrxXGOs2ZgTnKPiAbfnXEessYVbPaPRRRdKua5cQKr
+         eigeNCk5drspqqnuGpUZCzI9t8ifNG6qq4nV0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784199253; x=1784804053;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ye5TWESdXypHFnrQA4hoOjMY+BQZKzclNsOPs6Xfx3c=;
+        b=hHIzWeCUNk6qgICohl7Dq/PNhoqsOs2Ee4kLZvrV2kXtDoTI5XFzKRd1XNHqs5J0Zv
+         +/Jgw7p+PWueBfhBpS/ZngGHDFK7zZObuq2kQR3wl4fmj0muMhhlvN9ByEyQkx34CDG8
+         4oO/UqLfRCQO2GAqdaAAPNkGwXmTOACt21RfQ5sO/vLJc1RXiTQs+RzheefsEl+h7ubD
+         x+9n52fNqaxDhtNAjXOV+VoIMEN/TCsijNsWFohvGJ/MyamANBiL6Y21D+gF0823XL/I
+         w+0X5nDkJgkocS1S7mMOTrUdcJwWS/71N3oYMtWHXCroIHZo8cYutVyEP6VrmfZUAgug
+         Ju0A==
+X-Forwarded-Encrypted: i=1; AHgh+RpCDODplQdph/wwOsNsEqX0TqYtoKUCRx/bx7MZA6GFjKBuETmTGbfL3RntyL7T23pbKAsDE39Ohz4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDIGa/TtVOsSy4rJMlZNL1bXDm1QYFVjJjJo5XKELsnzezsenF
+	Gr/6P+XzRFbvypXI8P3QmncPPq3M6Tlkyb5767xk9BMGom52njIDOPIblwT6YImJ24HjY0LXSjf
+	B3GKt2ETl62ULGhMHveCf/fGgKgnl2UN7+01qT+26
+X-Gm-Gg: AfdE7cnsBZh2gmn12X2x/gMjwG71Y1DnbADzU8dZ2mrrfxBt/c611F+U7lCFJ+fj8c+
+	UsawNbapkJP9e21/VCOU9C4VwejrE5yKCQFS5E0O3XgukVnwswMB9Vf240bZ9GIEdDDV7rDjmuO
+	7S2EDYwENeWD/HFgt4SBD0aaHBNlMAihxRBCi0HrjSaQDxNAdBMem2LpV5XewXhiB7BqcefbHKk
+	Lh8cRFR+ST/l6UgwpZAYDVcNzn9XDvtBfeWuvhyE4R6dhMLTb+OLIxApZ2nDOzqFlRw6KdcQOTz
+	tuRkfM95y9k5XBye3Rqip3f+CvU=
+X-Received: by 2002:a53:bb82:0:b0:667:d905:3ff9 with SMTP id
+ 956f58d0204a3-66813443847mr3043941d50.88.1784199252963; Thu, 16 Jul 2026
+ 03:54:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 00/35] phy: rockchip: usbdp: Clean up the mess
-Content-Language: en-US
-To: Sebastian Reichel <sebastian.reichel@collabora.com>,
- Andy Yan <andy.yan@rock-chips.com>, William Wu <william.wu@rock-chips.com>,
- Heiko Stuebner <heiko@sntech.de>, Vinod Koul <vkoul@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Alexey Charkov <alchark@flipper.net>, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com, devicetree@vger.kernel.org,
- Sashiko <sashiko-bot@kernel.org>, linux-usb@vger.kernel.org,
- linux-phy@lists.infradead.org, wmc@rock-chips.com
-References: <20260714-rockchip-usbdp-cleanup-v13-0-6cb3e769d4c5@collabora.com>
- <alfM6dFBovHMaYn2@venus>
-From: Frank Wang <frank.wang@rock-chips.com>
-In-Reply-To: <alfM6dFBovHMaYn2@venus>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0a9f68d5b30109d8kunmfd1a7f0d1e28fa
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1kYFggdWUFKV1ktWUFJV1kPCRoVCBIfWUFZQhpKQlZPHh1MHUhCSU
-	5KS0JWFRQJFhoXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0
-	tIVUpLSU9PT0hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=FDMJI7YMtrsEAYHSUTOBUg7CbM/exOlB4gdt+De0hvJiq4tmKbIdtfxYHzM36rbp/zvX9TjlLDNJVEkQggt6bEkamKvD97Qn4aLDazDqIr4DvOZLOQxoz1FqxrS9Ce1o6EcU5I9VLqD0LodEemf0s/JMzUCUa9IRYckKajsUUtY=; c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
-	bh=6YZoRqw4V646mfHPwBC40d1B2IIwaKjX06C/hegVfHI=;
-	h=date:mime-version:subject:message-id:from;
+References: <20260715085348.3457359-1-wenst@chromium.org> <20260715085348.3457359-11-wenst@chromium.org>
+ <20260715092814.21C6C1F00A3A@smtp.kernel.org>
+In-Reply-To: <20260715092814.21C6C1F00A3A@smtp.kernel.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 16 Jul 2026 18:54:00 +0800
+X-Gm-Features: AUfX_mxnCgjcslak5RN3FLmB9cGAZkDHT2GeqTyJ6cvjjM1YOC7J0D8IvenEsBs
+Message-ID: <CAGXv+5HM2ojf_+bbybfaNi5-TLC876-DRudnvQnOxMzHEpux8g@mail.gmail.com>
+Subject: Re: [PATCH v5 10/16] usb: hub: Power on connected M.2 E-key
+ connectors with power sequencing API
+To: sashiko-reviews@lists.linux.dev
+Cc: devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sebastian,
+On Wed, Jul 15, 2026 at 5:28=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+>
+> Thank you for your contribution! Sashiko AI review found 2 potential issu=
+e(s) to consider:
+> - [High] Concurrent sysfs `disable` read or write can dereference an `ERR=
+_PTR` if `usb_hub_port_pwrseq_get()` fails.
+> - [High] usb_hub_set_port_power() accesses the dynamically allocated hub-=
+>ports array, which can be freed concurrently by hub_disconnect().
+> --
+>
+> --- Patch [10]: [PATCH v5 10/16] usb: hub: Power on connected M.2 E-key c=
+onnectors with power sequencing API ---
+> commit e0346a1be7fb5d1254f3498bb6d857dd5db5a9d7
+> Author: Chen-Yu Tsai <wenst@chromium.org>
+> Subject: usb: hub: Power on connected M.2 E-key connectors with power seq=
+uencing API
+>
+> This patch integrates the power sequencing API with USB ports to support =
+M.2
+> E-key connectors. It manages power sequencing during port creation, remov=
+al,
+> and power state changes.
+>
+> > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> > index 10f15b40fcc55..298fb68c6afc7 100644
+> > --- a/drivers/usb/core/hub.c
+> > +++ b/drivers/usb/core/hub.c
+>
+> [ ... ]
+>
+> > @@ -887,15 +898,22 @@ int usb_hub_set_port_power(struct usb_device *hde=
+v, struct usb_hub *hub,
+> >                          int port1, bool set)
+> >  {
+> > +     struct usb_port *pwrseq_port =3D hub->ports[port1 - 1];
+>
+> [Severity: High]
+> Can this code trigger a use-after-free on the hub->ports array?
+>
+> The sysfs disable_store callback uses sysfs_break_active_protection()
+> to avoid deadlocks, meaning it prevents device_unregister() from waiting
+> for the callback to finish.
+>
+> If hub_probe() fails and triggers hub_disconnect() concurrently,
+> hub_disconnect() will call device_unregister() which returns immediately.
+> Then hub_disconnect() unconditionally frees the hub->ports array:
+>
+> hub_disconnect() {
+>     ...
+>     kfree(hub->ports);
+> }
+>
+> Meanwhile, disable_store() can continue and call usb_hub_set_port_power()=
+,
+> which now accesses the freed hub->ports array. Prior to this change,
+> usb_hub_set_port_power() only accessed inline fields of the refcounted
+> hub struct.
+>
+> Is there a way to safely access the port here without racing against the =
+array
+> being freed?
 
-On 2026/7/16 2:24, Sebastian Reichel wrote:
-> Hi,
-> 
-> I've gone through the Sashiko feedback for v13 and I do not plan
-> to submit a v14 for Sashiko feedback at this point. The issues
-> it reported in v13 are either fixed in later patches - especially
-> all those "pre-existing problems" - or do not apply.
-> 
-> The series fixes a massive amount of problems in the USBDP driver
-> and unblocks USB-C DP AltMode at the same point. It would be good if
-> we get this into 7.3, so that the DRM series is unblocked for 7.4
-> allowing users to have USB-C DP AltMode in 2027.
-> 
+Before calling usb_hub_set_port_power(), disable_store() already goes
+through many steps to acquire the hub device, acquire the device lock,
+check if the hub is going through the disconnect process. AFAICT there
+is no race.
 
-One thought I had was whether you've considered splitting this patch series into several smaller, targeted series, for
-instance, one covering code optimizations, and separate series for distinct groups of bug fixes. This would keep each
-series lean and easier for maintainers to review.
+This review comment in a previous iteration led me to try to rewrite
+parts of the patch in various ways. Maybe it's missing the broader
+context from the existing code?
+
+> > +     int ret;
+> >
+> > +     ret =3D usb_hub_set_port_pwrseq(pwrseq_port, set);
+> > +     if (ret)
+> > +             return ret;
+>
+> [ ... ]
+>
+> > diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+> > index 19913ad3598b3..430fc90232502 100644
+> > --- a/drivers/usb/core/port.c
+> > +++ b/drivers/usb/core/port.c
+>
+> [ ... ]
+>
+> > @@ -831,6 +879,13 @@ int usb_hub_create_port_device(struct usb_hub *hub=
+, int port1)
+> >               goto err_put_kn;
+> >       }
+> >
+> > +     port_dev->pwrseq =3D usb_hub_port_pwrseq_get(port_dev);
+> > +     if (IS_ERR(port_dev->pwrseq)) {
+> > +             retval =3D dev_err_probe(&port_dev->dev, PTR_ERR(port_dev=
+->pwrseq),
+> > +                                    "failed to get power sequencing de=
+scriptor\n");
+> > +             goto err_put_kn;
+> > +     }
+>
+> [Severity: High]
+> Could this temporarily expose an ERR_PTR to concurrent sysfs operations?
+>
+> The port device is registered earlier in this function via device_registe=
+r(),
+> exposing its sysfs attributes (like disable) before usb_hub_port_pwrseq_g=
+et()
+> is called.
+>
+> If acquiring the power sequencer fails and returns an ERR_PTR,
+> port_dev->pwrseq will hold this ERR_PTR. Because sysfs unregistration wai=
+ts
+> for active callbacks on the error path, a concurrent read or write to the
+> disable attribute could access port_dev->pwrseq while it holds an error v=
+alue.
+>
+> This ERR_PTR would then be passed to usb_port_is_power_on() or
+> usb_hub_set_port_pwrseq(), which call the power sequencer APIs:
+>
+> static int usb_hub_set_port_pwrseq(struct usb_port *port, bool on)
+> {
+>     if (!IS_ENABLED(CONFIG_POWER_SEQUENCING))
+>         return 0;
+>
+>     if (on)
+>         return pwrseq_power_on(port->pwrseq);
+>     return pwrseq_power_off(port->pwrseq);
+> }
+>
+> Since the pwrseq_power_* APIs do not check for ERR_PTR, would this cause
+> a panic when dereferencing the pointer?
+
+Similar to the other comment, the sysfs callbacks try to acquire the hub
+device and its lock, and then checks the whether the hub is being
+disconnected before even proceeding to read out the status. The hub
+device lock is held for the entirety of the probe function, which
+encompasses the creation of the USB port devices and hub_disconnect()
+in the failure path.
+
+So I believe such an issue can't happen.
 
 
-> My proposed merge strategy is to route everything through the PHY
-> subsystem as the changes in the DWC3 driver are not very complex
-> (purely additions), so a merge conflict should be easy to solve.
-> 
+ChenYu
 
-On the dwc3 core changes, based on Rockchip's internal testing and experience, runtime suspend does not kick in as
-intended during hotplug events. The dwc3 core uses a default autosuspend delay of 5 seconds (defined as
-DWC3_DEFAULT_AUTOSUSPEND_DELAY). I think we can try to make this parameter configurable via device tree properties, as
-this approach would result in a smaller, less invasive change overall.
-
-
-Best regards,
-Frank
-
-> Greetings,
-> 
-> -- Sebastian
+> > +
+> >       retval =3D component_add(&port_dev->dev, &connector_ops);
+> >       if (retval) {
+> >               dev_warn(&port_dev->dev, "failed to add component\n");
+>
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260715085348.34=
+57359-1-wenst@chromium.org?part=3D10
