@@ -1,180 +1,280 @@
-Received: from CP4P284CU005.outbound.protection.outlook.com (mail-brazilsouthazon11021084.outbound.protection.outlook.com [40.107.202.84])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013039.outbound.protection.outlook.com [52.101.72.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C058429CDD;
-	Thu, 16 Jul 2026 14:25:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.202.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9664A17A305;
+	Thu, 16 Jul 2026 14:53:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.39
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784211950; cv=fail; b=E6HzzZPYTfstZHqd6iInIEF8W4RLZzRxaATxuen8L7Dm12D0iEi/zGs6vg4Kdju8CteFNrAmteE/+8Ur9XThbjeqltSzFtZqOh3tQAM5wviT1t0XWlJFBlAGSQNEC4yZRc94EMVBSEcdfSffprPvB1Es9+V2DWI74b3X5bimKOY=
+	t=1784213631; cv=fail; b=bB999aAr8+9kc4HOBy3uyrhy7mQzMbBoR6MveLB/jea6sa51kPy7TPZVCVRuNnr8Lw3Yof18zIl256EGYOj2V9a2ZPFlSfucKtJV4ae94xEqPPlTmnZaCu06QlQ7PfVgcXVwCtvXUyZv98ozzpKMueNYmJrrr0mm/YyfEFiJFjI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784211950; c=relaxed/simple;
-	bh=924Qlfet6g9D28tNT37XBjRHg3hmJ6rzcYsTGTpm6Hc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=UmjJ/akjGMdth0o/jw5tnfNBaoB7Tu0L1eLTb75Hj6HPjNmv/SlzMZp5V4//aXdqqpItRDvWIwg8QNbZ8jxqQSyjTAW6aAtGqNzB53Lch8u8D0Tc6Es6u1C+i/xqQRyvbefZ2KUtOgPJXAOOLowVyX51bgdhvOhMw7VtSx8WwrU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lumal21.com.br; spf=pass smtp.mailfrom=lumal21.com.br; dkim=pass (2048-bit key) header.d=lumal21.com.br header.i=@lumal21.com.br header.b=aX6G2DyL; arc=fail smtp.client-ip=40.107.202.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lumal21.com.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lumal21.com.br
+	s=arc-20240116; t=1784213631; c=relaxed/simple;
+	bh=DmINRXBJX5X2rnL71B+MJGc+kEsRn1COeGEBeQiW+s8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=BJJT4xWycBlFyIiK72LVrLMAXBdjkEdVd4FsYLdbLuk0aHA28z/kcyrjRb1zJJ9NP68c52UcqR2j5Im1XTwS08M2CQOy3DqAO6dQvqIGfmUx3k7kuvKeyCqjlXcb9R1vW6zeeiyDfVQ5AbRLz7GwERjRebed9xpO+QxJbpSdvM4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=tpPz/nYC; arc=fail smtp.client-ip=52.101.72.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lumal21.com.br header.i=@lumal21.com.br header.b="aX6G2DyL"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="tpPz/nYC"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gCUTdboZ3fk5H69Vrf5GEwWiWJqlqoU/0+5xMM48e8bvFoFzBWzz915DungEUDzpDXjsKoKaq30JJMmw4RtOhvVzIViv4lRrWxPvlTu++U2eSZlwxdeYJLE07lfhxltlvbeKtoNuiTWet7sTnc/ZMPN3HusCC7eIGK0HdaWJZpDKU+ykIAm4/o3yY0VwX9BWKBr0fhCGJ5EoaYUEjKRGE6nsrg0o2iCCQ4/4P3i0OA5W+FnTwA3yl6e3AZq9SkeTC74Uvlmac4bAhB4P3DiRBqEClfhLDruT7MKVYZ6BkQV1jlnHZ5Glbut/niQSBqx/enpph+RjkEA30l1KkXaxCg==
+ b=slUZFuYrqiHlOboIqjqTfVePhhVkEk93s5mo8w64hR1IIceV/oJcT5RSGeo6H0l9bVEvKnXp5WOR/XjakV3EJgs3VtuZ25GpqURQlgh0a6n8nBzLrUibswRf5CHB1Y96xVhCizhEdW7l801BiorDG9xp9N700svY4rlajBGVSqc+aCIyGf9s8Umtgq129oMkorWQwzllYj4sYVBaJvm6SqmdcW22zlTqtmTsoRPSmBbCAwTUCroVY8mvPkeaxiP0iVuiW2kXQx15xSane6fS4qc07wFTbLRdw0IAASRLCxn86OOvvW3VvpoU092g0z4BH60TAITWJFda35wFF9UTdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0FxOBYFj3OnNc6bxdxgKq47pgjan4bvyr6d1Pywaafc=;
- b=pZHcHfV/tf1PDYgK8A5+sJ+arjv7Qm3jJcGhqF6V7EnMpBqnc6M0AswKD76YlhZBnZAx6JCHVXQE5alyP1+MGgGmuhVX5GHqzHSBgGhE0WybatPO/sJ2IwUJKLRa+BJGlu0Ab3IGvPF9Q04DjtgJ9krbiPG5uuO7Y3hxIhrX1IkQBPUFYNQ5IXebIp1skE8C2eQcOT79rVCH33CBGYvyFqN/zmqyAvVUqnMIVtqTNpNiJCoA1H9FY223wNpyBwGJLRc1+3OJqe14M7Y/kJqAm5BGanITSlRS/P43WF7vXLo9bU5+P1PEzjWzHApxfTGNNue2Tbmo6f06E0jdT3M45Q==
+ bh=/5lZaiq1BbVuBHRQA3N5wO8RIUNsBoa9m7nhfY6TJ/c=;
+ b=lhHunU+b3HVwtV8B5kT9sO5zrrgrfSjtrFAcJTLkAZf3f0kbWa03UMyTnj2zf+EdH9x4SqWwk4dJ2jYV/LyIJ1zbBsEit5nFsovajQox1gyaGzHBqq/z8bD3128QIcRBH4psd3Ry1u01B7BTUn61Dq9aSQXnN3I1Fd50WA0FBpTh6FQ9xtTtRDQKPbFlMDycVbrCKRDxgq9WaX+eo8ErxxWu1321vrIuztvFimjzw/+J64uj/pU0AzRFG/vncXlo5r/r+qnhl7GGWMtdptG/s9CMiwMyPNy1faM9MTOgQPxI6KoaGufkT3YrKSmztNO8fqhcsUakqknH5zB9gMFSDA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=lumal21.com.br; dmarc=pass action=none
- header.from=lumal21.com.br; dkim=pass header.d=lumal21.com.br; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lumal21.com.br;
- s=selector1;
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0FxOBYFj3OnNc6bxdxgKq47pgjan4bvyr6d1Pywaafc=;
- b=aX6G2DyLmDDBBInXMMlEKS0RD6J8VDZ0mwkStgUYvcjMr1RSxiwwLb9rzeiVk56SbYodwrR95+qVM63oHFH5GSAZ5lcQqrUO68Yj2NeXixJyhSY6fO8bZxwB1iQvbQ1cDlTUbF0XJT8PxMnfcq4vQsiICt8k4iVtbndXFIbS4Ge6h3xnCvOqPPppl8pa7dmTZ0qsRzFCUPag6LyO2pgaIC4MB/Om6/1DE76opz2FVAeEjfKArTH4do8/YXCRgqS2H8aYmu8YoME3JsVveEazZ2s7kxKIXtPediLj/x4jxXXWaQpba5XoKYOW1UmcoYkaOgpT40/JLijD2QurLY7mcw==
-Received: from CP4P284MB2402.BRAP284.PROD.OUTLOOK.COM (2603:10d6:103:2aa::9)
- by RI1P284MB3505.BRAP284.PROD.OUTLOOK.COM (2603:10d6:10:15f::16) with
+ bh=/5lZaiq1BbVuBHRQA3N5wO8RIUNsBoa9m7nhfY6TJ/c=;
+ b=tpPz/nYCYfefNe4cbw/eGLhQO6QH1/ON6/qZTFsUj4IF69ZKGaQvOQrzd6X9lEpXdSJnC0r1673ortSB5P54poT1eP0pY3nYyWmOAJPi8ZAFehPuU5L2GF40JD12nhaLVAKwadoz1lBIMksxrj+EnYepFjYeu/ldUYcR4WaAqk0fQhYm+6Cu4e5sqmjydYkyjjfmE3oV1Bem5orAMIpVeUscQrnA195jy2UcpArTv2t3zxmHfol2cnwpQdSmxP2Z+RVDHMl+qiKSd9qC6LjUHsKBjHSwQV9IhFXpXHm1+ZxB9rWZTYB/SGRtqJBDuro9d/gYYxycE9cuKSgAqommQA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by PA4PR04MB9317.eurprd04.prod.outlook.com (2603:10a6:102:2a4::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Thu, 16 Jul
- 2026 14:25:46 +0000
-Received: from CP4P284MB2402.BRAP284.PROD.OUTLOOK.COM
- ([fe80::7b77:a104:ca62:b600]) by CP4P284MB2402.BRAP284.PROD.OUTLOOK.COM
- ([fe80::7b77:a104:ca62:b600%6]) with mapi id 15.21.0223.011; Thu, 16 Jul 2026
- 14:25:46 +0000
-From: Lucas Martins Alves <lucas.alves@lumal21.com.br>
-To: "b-liu@ti.com" <b-liu@ti.com>, "gregkh@linuxfoundation.org"
-	<gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Lucas Martins Alves
-	<lucas.alves@lumal21.com.br>, Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-CC: Lucas Martins Alves <lucas.alves@lumal21.com.br>
-Subject: [PATCH v3 2/2] usb: musb: gadget: fix MUSB_DEVCTL race condition in
- set_vbus
-Thread-Topic: [PATCH v3 2/2] usb: musb: gadget: fix MUSB_DEVCTL race condition
- in set_vbus
-Thread-Index: AQHdFS79MU08ZO7Ank6oJgFHIOVwfg==
-Date: Thu, 16 Jul 2026 14:25:45 +0000
-Message-ID: <20260716142516.510574-2-lucas.alves@lumal21.com.br>
-References: <20260716142516.510574-1-lucas.alves@lumal21.com.br>
-In-Reply-To: <20260716142516.510574-1-lucas.alves@lumal21.com.br>
-Accept-Language: pt-BR, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-mailer: git-send-email 2.53.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=lumal21.com.br;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CP4P284MB2402:EE_|RI1P284MB3505:EE_
-x-ms-office365-filtering-correlation-id: a76ebac9-a63f-4e95-ea5a-08dee3462038
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|38070700021|6133799003|5023799004|11063799006|10067099003|56012099006|22082099003|18002099003;
-x-microsoft-antispam-message-info:
- f7NAIpVpzg7F6TzyKmbCU4pRqWnCJ1H+M/9h1xT5dWrsm9tY/dF/blAoeECA8xIUWQMFk3x2FHro5ioqQUEbI7naW5wVAeqcj7mnLaLW9pVqV4bQlZ/jPuuKSfsiJQd5q6LT+UJJ7EylrzNTyRq13k/xkv3gfrxCAqV865ggdlGub4oGTQ3DZOEnJvb9k1/idVvk9qwILww6kboxNUVSTu1SxlbtaQF5dr7BfOgR7CL/8OeUmGYBpXWVa4OepyxZK8dh/E4ILG12GSgTD3ahNuhDVxYeEUQ96B4z3LN89INNWw3Rn+fknv4GurXHJqsUiQutue9PTHBS8vmuHhKjEYCW6yNvp7MISur2vSXOvdW+9/PEvgK0Pyj61smKndD1/Srvzv5RqYeFgu0gYAG00mZCzXnGZsdwvIirTaBhFNp97GDk0piR12ymaVHmKtBGhV1OINr1IYF7ptXfl7xf/GiDipQVv+VftUxB5ji4onEr0RL95jkWouxmnBCPgHn5Ayhzk8Iv4l5k729UMK87UDPdprrYWPAQnsFaDmHnqxq0k3AtGX/C1yawZKF3VK2PWkPbRIWxp3xhqOsZDN8Y3ALt3NNL20C41p2ostXad2RCuGY96m6z6ku17+5vpPiXqStsJ3bo/PgVUIu4/PNc2rSt7hOaBdZqEvl0ITseEKSt29mwKn7Gx/+uCgY/pAWNno4zvBjRelAaFFqjrPFQclD8nvjPRyM85CES1pfiICU=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CP4P284MB2402.BRAP284.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(38070700021)(6133799003)(5023799004)(11063799006)(10067099003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?9/wPJztelbXbwpBNAtUGZqg/iJbBpgZWt1d9cSnVJ6m+ATiJd6Y/ZPZJcH?=
- =?iso-8859-1?Q?HhbTf4G8HE1O8c5iNFCWw9e7DIxylvuGgzNTAJ2sWllftS866oW7Bw7X1q?=
- =?iso-8859-1?Q?Lp+P+O6TWQYp9iiIO4bgAHv/qfIFwP61FpKOBzWkdPFTRXt0QprgrkZV0i?=
- =?iso-8859-1?Q?tkOHduT7AcmxsxEgtyEUKcfAA8f3khIVGcORSwzm3C6ax8Dne3p6bEQkYv?=
- =?iso-8859-1?Q?3TUVN6alfaBnct5Jf+o2fyqbmd/Q8Bzo5haH5uQkkg24QJ9fMwoqXOGC1U?=
- =?iso-8859-1?Q?O9sARchBX/yDBPLy4EvL3m4v/DklRU53m84XgHEZD5+RezvSWYOgOlyceM?=
- =?iso-8859-1?Q?dskjObkGbJP5WFKqTOlfFn0cpJ4V7rD1TBJcOKpvWc9kIMATpBdW9tlWL0?=
- =?iso-8859-1?Q?YMcyEgAQ2LSb7YpGf9KkhrakGRceZK+JWdqNgF22Nqil6jo/17CCQ0IdEs?=
- =?iso-8859-1?Q?X9kXijdsNHtdpwVDxfVOVjKUf7oKPalS9nmbINtMOH8pC2uGzW0aUQwBje?=
- =?iso-8859-1?Q?VYO1USubYnoWQMxsoPvddp4jJY/uy0nmT+sIp+mMDAfpKOkukxvZaGEYNf?=
- =?iso-8859-1?Q?fIdJ7YKPdRBEBXQUsKCC36FDnO3Ir1znre2eUVJW2MLCXjlZkN8qYPBEM0?=
- =?iso-8859-1?Q?jdqJi7nvaakKfQTJ7hrG+EeyaERti/V4KI0rC1yyfhykkbgo8d0DOKtGdv?=
- =?iso-8859-1?Q?l3cEJuEJaP+O9cneICFXhrxEGs0ZPNmhtePiP2h760BCM/MnNztcVjHH5C?=
- =?iso-8859-1?Q?QrWV1DJFK4e7f7teKQP51PMHITwU6MKEqLf7RZCa3jVobcS5c0znMDOsUi?=
- =?iso-8859-1?Q?GE+Lgss7nQcPVRkIKfe8SRCgnnNyxTvi0ykELzJG+j2htR6l2BrfF/S71H?=
- =?iso-8859-1?Q?L7UuVAAvT0uQ3bEePPnM6nRewSsWK/MF5nYwtZCwrE7V9PIoQpowkwncMa?=
- =?iso-8859-1?Q?sT4T6JHSw9pbbCOp+xM5hgemQcZkWUsCJH3FrGBy9WBKpJno+BfBd8joFE?=
- =?iso-8859-1?Q?1/f2JiUggtasqGK1apbWhA00um7MalEaFS0MuDcnUN4+RzGFA/9PmTpx7L?=
- =?iso-8859-1?Q?ehviBuzdGzWX5wv+x3o7TAx0CT6UQLemw5gRTBNZtoLamDR8RCzU4xeZCI?=
- =?iso-8859-1?Q?5gg39PM/l9Jujh0XyziM96nKza9B6MfI2doxPG32gAS0+2BDfc8ZfaO+R4?=
- =?iso-8859-1?Q?rfl5D9bSqKhtLbB+lWFL2yOwjf55xn78JaL644iTIqv0wzYuVbtgRrVqem?=
- =?iso-8859-1?Q?9QAloh186xJrYOB9LhrWC6zJBW6uFHA3vKql9LyocB00OdGE7ZVzQ5cOo+?=
- =?iso-8859-1?Q?CrWSdjwXOKOUke+jcJtIXbXhN1mAJ4GaRz13mxA82gJL9Je8Y8hHdI5xDy?=
- =?iso-8859-1?Q?tVfOIrtF7ipC1W6Tk9aIttoFg3rloM/rObpM7+C4Rmo0d7t06Kr+e0eiTu?=
- =?iso-8859-1?Q?nn5A97rhKXJa2yoWvsicZDg44Ee2kkIAP8YWn106UBu1kTb5fE42zoa4xC?=
- =?iso-8859-1?Q?gjhwSNtbtBEHOpOZ+6Yyj2DaPljBCbJRoN/gaXOfbcREMz7zP9eyjrTO3w?=
- =?iso-8859-1?Q?xUiTid/3bdNHp1BlwgZcWnSPoMdazGFUqwQzUDdvp+NyiImxHoXgtVEhI5?=
- =?iso-8859-1?Q?dQ2ga4eK3mvW7O8B7Mpg2WL7YgQh/YN3pseainXPaTIQAD6fdoW6I3AEDJ?=
- =?iso-8859-1?Q?i3R0m2cmk1EZwyJRg87+1LaiuCULjPQhR4wpTCUog3rqLftD+se3ABf0te?=
- =?iso-8859-1?Q?TKRaCLPlRCrRYOPXEU7Gpq1qNx2iHpsvdGkfSpv5G9IyF2XiGB98yC8WBd?=
- =?iso-8859-1?Q?tiz9VtIBxA=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.9; Thu, 16 Jul
+ 2026 14:53:42 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0223.011; Thu, 16 Jul 2026
+ 14:53:42 +0000
+Date: Thu, 16 Jul 2026 09:53:33 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Xu Yang <xu.yang_2@oss.nxp.com>
+Cc: gregkh@linuxfoundation.org, christophe.jaillet@wanadoo.fr,
+	kees@kernel.org, hataegu0826@gmail.com, andrzej.p@samsung.com,
+	balbi@ti.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev
+Subject: Re: [PATCH v2] usb: gadget: f_uac1_legacy: remove broken string
+ configfs attributes
+Message-ID: <aljwbddQlYPS_k2I@SMW015318>
+References: <20260713060845.3759673-1-xu.yang_2@oss.nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260713060845.3759673-1-xu.yang_2@oss.nxp.com>
+X-ClientProxiedBy: PH7P220CA0006.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:326::12) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: lumal21.com.br
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PA4PR04MB9317:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5166a45a-9e15-4814-6f35-08dee34a073c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|1800799024|19092799006|366016|376014|10067099003|18002099003|22082099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	aEZs/+XVMIOJr7NSW61i10QcSNO59LPLp/DJr0i5IFknks5d0GL+dt5CDZxsPRQnE4uHu/f6rQUbxGCSG1Ot3lYmBOzkPebnFpfGm0Pxkc6rRqz2hQaUBvzZk8fuUuSn6S2be2EHxfB1b47ovLae+0L6xa1nMqvg9yFRPaEVWUa5EG8pvyxaKGvk9oWeGg/d2MkHlaJ86UCStsif6TxVZA0pZ0E3DuYX+liI7j36urLHeb5f+GJtRz0Y/J5DIDP5Yr94aTJpvbAnoJFB/A7WrrumpTPXoHJHUU6LKvC+2d90JPOaHIAMo7GKv9t/6zwI1dmPo5/LHm7J9kvTaMLC+lye+gh92bfmTUDVYKu85U+R5vJJsUoDuTp1Yq9oJb5nq/QtyQ7gXFhEy62KlzasQBtxYk0VS8mYweUPb2uGyN5YNQsrPiHWAtdkIx5fX50/fnDbUoLTf8LOi6p9pXPdFChBZk3PhlWWG6Bos0vHpQZANYgS9YB0YeTRPh+ebSHSG1L+SBLXgosWn8ww/ALCJTOWTDyHPL0+EWgdpiBIPpv1WcdgZHi09W6nhlRsY0wS4DMiwJuz5/2jfxdYXMFK65jjBAiMEpaxMC8wqgPP0SmtmUpBp7bZqR95Us8fzXOPlNCfDsPZklDqzU3zCGrgOjnigIAqWhG5Fry584Yh/1M=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(19092799006)(366016)(376014)(10067099003)(18002099003)(22082099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?t4JZBZ5/pdPfT8MPPacY/5kxJLA0D2Rfiy9pvRntbSluUZQtDckCBDikn3Wx?=
+ =?us-ascii?Q?Ga6E6r9Hjd7b+CUPSo12hm93rAMm3/THNxlU9yeGsHHNs2Z4Eog8Wysdts6i?=
+ =?us-ascii?Q?QOEaeLWHewl0zDqsHddWF48X4A0+ucbPWIMvSBrtyTBCx0jdD4UYTGBeIxzs?=
+ =?us-ascii?Q?nnlZQXbnmQT9XWD0Je/52p1c8WvxUz89v/DopgnR6/00nHzQTOdzSrv4h+Xf?=
+ =?us-ascii?Q?juWLZkaVO0BfRDMV/U/MnNP+ghueAkHHm7Nxa6NXG5uv/CGwOi9MhrchxaAV?=
+ =?us-ascii?Q?VCaNuookZBxUHjTFTjL7EFoS27KUVwtkLXyask9zESHVWGLg8iWLXWUHFu9b?=
+ =?us-ascii?Q?af/TNjwVSJ5mNDQPuRUVAtz7tiRupmI2qSaC5q1YoqlQ7lGvX7naTbQ7wWlc?=
+ =?us-ascii?Q?EDMGKmTh053LZ3f9A9wBZuAPAMHjefWU5zCEZmHLZNZ3SgUc/kt897tnUIQw?=
+ =?us-ascii?Q?cP6emjjXYXvpAF4ppa2xegxxhcHmk1enb6VRhAs39LTYq98UM3JPMcVYgXFP?=
+ =?us-ascii?Q?t2Fl5E2lRB+0LkcgrrRJ0dJ1GRYFkRMga9mHZgbqP1JrSgNw04RrhcN4isx3?=
+ =?us-ascii?Q?cpT8Bk9H1TJZicQXhB2VvoRkdvolhen3ucgrzVKdOa2rgZZRL6RwfLdl9vh3?=
+ =?us-ascii?Q?v7owvs/yHZGD2iFdCZnh1YdzriS1oDCYnPb5n9kh2VAGTIu2pnYlLLZQ6tNj?=
+ =?us-ascii?Q?QVvoTo/RwI/q+5hd4p5m8xJ+yieNSu9cn4UvUCP1s0kzL4V7vw6uw+ZWsvJm?=
+ =?us-ascii?Q?k0TjZeKZWblpEHw1wEx45qBoCLiSszA9C0NGILqPF5AFoIHmbBiWbFBE4FiN?=
+ =?us-ascii?Q?eN4NxL+wcu8Mbj6u+XGPdpAku31fr6IuvObTRpP6WaVzIHf/07mJGWJ2VEUz?=
+ =?us-ascii?Q?UTC8+e7ArshGSawfRmP7k9AWwf21nUSqKJih9b2H8JJsHqUt2KdncactFIHa?=
+ =?us-ascii?Q?vDqsyNMh10QVQNkTF5Y603cDMTL7ydrajqIgZ1pKO4271ccuWesNc6QIHg8w?=
+ =?us-ascii?Q?xgeLjitmTpk5EF8BCt4E/CFByszgWZN4mGT2mr3fTdwGnQB9oLi6un/BmjRd?=
+ =?us-ascii?Q?Xc9rbRHt7WDBx4uJT6owYTPN6y8y+bZYff7mNuyljNLBwbLl9N+cDDCgHkOo?=
+ =?us-ascii?Q?kn74D7mpsMOr5kOcG696CZC16E934VijJo06yEgU724SPUpgfeKZZUXKDRZy?=
+ =?us-ascii?Q?N8Gs7x4l4mVs3u3ZqDEFq0kTgv6hAnPau0WZ4v0Y53U6pN0xkW+NkOkTrlCj?=
+ =?us-ascii?Q?XRWTZiyC9/jayU6LEPEFzKmGUEQ04VFJVI4rtYAYkBosVW+Rn/w8RHJiI8mz?=
+ =?us-ascii?Q?aCeUrpogh8eiOpa+RYC4ZMdrmyvybME4/nUrVEgupRM+ISIObxtfhr+lyeZY?=
+ =?us-ascii?Q?+cohp+qBj7yGx+iF41qTcb2HA9F71JTHOPqAac2O0Vl/qBTLkG2DxTn685wU?=
+ =?us-ascii?Q?MdQyaRePpHQ9wVdIgI4JF0NvAOk+/8JzgfBn2jL3Mxkjcl4oDd0ea8R3mAsV?=
+ =?us-ascii?Q?S8JoYUcmB95xIA0mHmlhLb02l8TygoWMo3K0br54026f7HRO6MQi85RZiFQy?=
+ =?us-ascii?Q?LJa7amDGz7HKifstH9s8Ss7sor//HVDts3yoajGAVEn/6jM7GgcRhrqdGkG7?=
+ =?us-ascii?Q?KQXgM4HJfdb49Nagm+QqRsvNOOcdWHDNjy0vHoyDx2RxziR/RIekcN9OMToh?=
+ =?us-ascii?Q?syzLq+N80FU6fkHmuNINYLbHWCuxIpLwDrM8ugIj5eUCN5E99hfBBkkxC91C?=
+ =?us-ascii?Q?nS+IuC6bQQAx0lnlgsV2hwq8DKlLYYlY3HNShYYvrytPmkwQkwjM?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5166a45a-9e15-4814-6f35-08dee34a073c
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CP4P284MB2402.BRAP284.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: a76ebac9-a63f-4e95-ea5a-08dee3462038
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2026 14:25:46.0408
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 14:53:42.4958
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 99055dd4-6575-473d-944c-c3b1a5a6649e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NVYhv+O+xaGOlUIOyc8LDQZWHRKNQASSzFlW28HBNdyaGVEDwqjT4gqnlmNGFjoa6nnxmFUdbdLKgZUiMQxSf+XfJD7eZnvNsLKvZX0DudY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: RI1P284MB3505
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ikDUvC9bv6ceGCkCvWkTLV30b3vYuXccxlJnxSJhuZz4FMhenGZp6MMlj+y8deZ199T9t+obswicRziiQV6HulQs+P689Uw72d7kvFypoUzAxH7fbQVprUgY2cxFy/Vn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9317
 
-From: Lucas Martins Alves <lucas.alves@lumal21.com.br>=0A=
-=0A=
-During gadget initialization, musb_gadget_start() releases musb->lock,=0A=
-enables interrupts via musb_start(), and then invokes=0A=
-musb_platform_set_vbus(musb, 1) in a lockless context.=0A=
-=0A=
-If musb_interrupt() fires concurrently, it will take musb->lock and=0A=
-modify MUSB_DEVCTL. Those changes could be silently overwritten when=0A=
-the callback writes back the stale cached devctl value, causing state=0A=
-corruption due to the unlocked read-modify-write race condition.=0A=
-=0A=
-Fix this by acquiring musb->lock before calling musb_platform_set_vbus()=0A=
-in musb_gadget_start(). This ensures the register operation is atomic=0A=
-with respect to concurrent interrupt handlers, preventing the RMW race=0A=
-condition while avoiding deadlock scenarios where this function is called=
-=0A=
-from interrupt context (which already holds the lock).=0A=
-=0A=
-Signed-off-by: Lucas Martins Alves <lucas.alves@lumal21.com.br>=0A=
----=0A=
-v2 -> v3=0A=
-- No changes=0A=
----=0A=
- drivers/usb/musb/musb_gadget.c | 5 ++++-=0A=
- 1 file changed, 4 insertions(+), 1 deletion(-)=0A=
-=0A=
-diff --git a/drivers/usb/musb/musb_gadget.c b/drivers/usb/musb/musb_gadget.=
-c=0A=
-index 016d3f3fc1e0..8eca252423e9 100644=0A=
---- a/drivers/usb/musb/musb_gadget.c=0A=
-+++ b/drivers/usb/musb/musb_gadget.c=0A=
-@@ -1857,8 +1857,11 @@ static int musb_gadget_start(struct usb_gadget *g,=
-=0A=
- 	 * handles power budgeting ... this way also=0A=
- 	 * ensures HdrcStart is indirectly called.=0A=
- 	 */=0A=
--	if (musb->xceiv && musb->xceiv->last_event =3D=3D USB_EVENT_ID)=0A=
-+	if (musb->xceiv && musb->xceiv->last_event =3D=3D USB_EVENT_ID) {=0A=
-+		spin_lock_irqsave(&musb->lock, flags);=0A=
- 		musb_platform_set_vbus(musb, 1);=0A=
-+		spin_unlock_irqrestore(&musb->lock, flags);=0A=
-+	}=0A=
- =0A=
- 	pm_runtime_put_autosuspend(musb->controller);=0A=
- =0A=
--- =0A=
-2.53.0=0A=
-=0A=
+On Mon, Jul 13, 2026 at 02:08:45PM +0800, Xu Yang wrote:
+> From: Xu Yang <xu.yang_2@nxp.com>
+>
+> The UAC1_STR_ATTRIBUTE macro defines configfs show/store handlers for
+> the fn_play, fn_cap, and fn_cntl string options. The store function
+> contains an inverted null check on the kstrndup() return value.
+>
+> This means every write attempt returns -ENOMEM on success and
+> dereferences a NULL pointer on allocation failure. The attributes
+> have been broken and unused for many years.
+>
+> Remove the UAC1_STR_ATTRIBUTE macro and the three attributes it
+> generated. The internal defaults (FILE_PCM_PLAYBACK, FILE_PCM_CAPTURE,
+> FILE_CONTROL) set in f_audio_alloc_inst() are unaffected.
+>
+> Fixes: 0854611a19ae ("usb: gadget: f_uac1: add configfs support")
+> Link: https://lore.kernel.org/linux-usb/20260625113154.1954813-1-xu.yang_2@oss.nxp.com/
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Assisted-by: Claude:claude-sonnet-4.6
+> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+>
+
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+
+> ---
+> Changes in v2:
+>  - Remove fn_play, fn_cap, and fn_cntl in gadget-testing.rst
+>  - Remove fn_*_alloc variable
+> ---
+>  .../testing/configfs-usb-gadget-uac1_legacy   |  3 -
+>  Documentation/usb/gadget-testing.rst          |  3 -
+>  drivers/usb/gadget/function/f_uac1_legacy.c   | 56 -------------------
+>  drivers/usb/gadget/function/u_uac1_legacy.h   |  3 -
+>  4 files changed, 65 deletions(-)
+>
+> diff --git a/Documentation/ABI/testing/configfs-usb-gadget-uac1_legacy b/Documentation/ABI/testing/configfs-usb-gadget-uac1_legacy
+> index b2eaefd9bc49..6a681d219f43 100644
+> --- a/Documentation/ABI/testing/configfs-usb-gadget-uac1_legacy
+> +++ b/Documentation/ABI/testing/configfs-usb-gadget-uac1_legacy
+> @@ -5,8 +5,5 @@ Description:
+>  		The attributes:
+>
+>  		audio_buf_size - audio buffer size
+> -		fn_cap - capture pcm device file name
+> -		fn_cntl - control device file name
+> -		fn_play - playback pcm device file name
+>  		req_buf_size - ISO OUT endpoint request buffer size
+>  		req_count - ISO OUT endpoint request count
+> diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
+> index a6e8292f320a..4921e5307d49 100644
+> --- a/Documentation/usb/gadget-testing.rst
+> +++ b/Documentation/usb/gadget-testing.rst
+> @@ -714,9 +714,6 @@ The uac1 function provides these attributes in its function directory:
+>
+>  	=============== ====================================
+>  	audio_buf_size	audio buffer size
+> -	fn_cap		capture pcm device file name
+> -	fn_cntl		control device file name
+> -	fn_play		playback pcm device file name
+>  	req_buf_size	ISO OUT endpoint request buffer size
+>  	req_count	ISO OUT endpoint request count
+>  	=============== ====================================
+> diff --git a/drivers/usb/gadget/function/f_uac1_legacy.c b/drivers/usb/gadget/function/f_uac1_legacy.c
+> index 5d201a2e30e7..3f52099a4fdd 100644
+> --- a/drivers/usb/gadget/function/f_uac1_legacy.c
+> +++ b/drivers/usb/gadget/function/f_uac1_legacy.c
+> @@ -888,60 +888,10 @@ UAC1_INT_ATTRIBUTE(req_buf_size);
+>  UAC1_INT_ATTRIBUTE(req_count);
+>  UAC1_INT_ATTRIBUTE(audio_buf_size);
+>
+> -#define UAC1_STR_ATTRIBUTE(name)					\
+> -static ssize_t f_uac1_opts_##name##_show(struct config_item *item,	\
+> -					 char *page)			\
+> -{									\
+> -	struct f_uac1_legacy_opts *opts = to_f_uac1_opts(item);		\
+> -	int result;							\
+> -									\
+> -	mutex_lock(&opts->lock);					\
+> -	result = sprintf(page, "%s\n", opts->name);			\
+> -	mutex_unlock(&opts->lock);					\
+> -									\
+> -	return result;							\
+> -}									\
+> -									\
+> -static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
+> -					  const char *page, size_t len)	\
+> -{									\
+> -	struct f_uac1_legacy_opts *opts = to_f_uac1_opts(item);		\
+> -	int ret = -EBUSY;						\
+> -	char *tmp;							\
+> -									\
+> -	mutex_lock(&opts->lock);					\
+> -	if (opts->refcnt)						\
+> -		goto end;						\
+> -									\
+> -	tmp = kstrndup(page, len, GFP_KERNEL);				\
+> -	if (tmp) {							\
+> -		ret = -ENOMEM;						\
+> -		goto end;						\
+> -	}								\
+> -	if (opts->name##_alloc)						\
+> -		kfree(opts->name);					\
+> -	opts->name##_alloc = true;					\
+> -	opts->name = tmp;						\
+> -	ret = len;							\
+> -									\
+> -end:									\
+> -	mutex_unlock(&opts->lock);					\
+> -	return ret;							\
+> -}									\
+> -									\
+> -CONFIGFS_ATTR(f_uac1_opts_, name)
+> -
+> -UAC1_STR_ATTRIBUTE(fn_play);
+> -UAC1_STR_ATTRIBUTE(fn_cap);
+> -UAC1_STR_ATTRIBUTE(fn_cntl);
+> -
+>  static struct configfs_attribute *f_uac1_attrs[] = {
+>  	&f_uac1_opts_attr_req_buf_size,
+>  	&f_uac1_opts_attr_req_count,
+>  	&f_uac1_opts_attr_audio_buf_size,
+> -	&f_uac1_opts_attr_fn_play,
+> -	&f_uac1_opts_attr_fn_cap,
+> -	&f_uac1_opts_attr_fn_cntl,
+>  	NULL,
+>  };
+>
+> @@ -956,12 +906,6 @@ static void f_audio_free_inst(struct usb_function_instance *f)
+>  	struct f_uac1_legacy_opts *opts;
+>
+>  	opts = container_of(f, struct f_uac1_legacy_opts, func_inst);
+> -	if (opts->fn_play_alloc)
+> -		kfree(opts->fn_play);
+> -	if (opts->fn_cap_alloc)
+> -		kfree(opts->fn_cap);
+> -	if (opts->fn_cntl_alloc)
+> -		kfree(opts->fn_cntl);
+>  	kfree(opts);
+>  }
+>
+> diff --git a/drivers/usb/gadget/function/u_uac1_legacy.h b/drivers/usb/gadget/function/u_uac1_legacy.h
+> index b5df9bcbbeba..b9ddae550ff3 100644
+> --- a/drivers/usb/gadget/function/u_uac1_legacy.h
+> +++ b/drivers/usb/gadget/function/u_uac1_legacy.h
+> @@ -62,9 +62,6 @@ struct f_uac1_legacy_opts {
+>  	char				*fn_cap;
+>  	char				*fn_cntl;
+>  	unsigned			bound:1;
+> -	unsigned			fn_play_alloc:1;
+> -	unsigned			fn_cap_alloc:1;
+> -	unsigned			fn_cntl_alloc:1;
+>  	struct mutex			lock;
+>  	int				refcnt;
+>  };
+> --
+> 2.34.1
+>
+>
