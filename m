@@ -1,234 +1,177 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243BC36F90A
-	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 04:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784175167; cv=none; b=p+vn5Bm17xOpUuPGbgq2YAu7LWCyYdAHRP/o1XFFqupqcjN1tPb4E/gp8MRnljstAny/OJQXw7WMPBEPqR0EGx3wiQEebddz6ZYcsS6LRWx+Z+qNl1dOF81i6CBCC9xLhr8m1hKUIoMVbERv0Ymm847fguB1PGeCuZiCiOWCTRk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784175167; c=relaxed/simple;
-	bh=/dyoMv/UYdVyyF+qnuzKPqZMYCQmEci40zFu3E4B9JM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jWgCdcFFP4RSUUk1++3MxZfr6uogg1iZAVKx1cG4QYzlfigGpDP+Vyniqn4dz7AI6/0FYpJ+bcdT/s9qUVKkzdQzLYSzfD/mc0WtZNoIbxs2o8I0/Qhn++dhTiAy02U0eDChsfa0Uzt6HJthYsbotktYNmH9RHMI8Ol4KKgA2+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jykNlWKB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ir2vz1nh; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE9B13D53C
+	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 04:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784176309; cv=pass; b=WTKHf7AMD/F7KtR+kVj37ToD1Hzub3Y/vdOlIFMHnHctBn5Jz9z9aYLwNaAHAAzM7V4mXN+YoC7txXsBfaodJ+jlxgjpq4JEzEMJE9s+dpz45bGx6hBulndEhSNxccLrUt3apELApBPsOyAF+Uwa6ZYMgYbHwf5jmLVmYf1lk/c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784176309; c=relaxed/simple;
+	bh=nhYyNn6r73D9XtB76IT5BMo5NhG30UFFcOOZMpuXDho=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=M6pyQr0cyLioqIJixavDVqIcKD+pm9LtdiqrTrwuC3Xnkgf8JbKf1/ETweNcPT3dkn80koXUrQy/5VNBkzsy/fyUJEp3ICkZ6g4m9CUFf6zsNArLoTfAHVuERM7M3OL4FMRN+e6Nnv809MrfiZB0EwtFfFfLPzyuhvBNG2qm7B0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BbIlmPiT; arc=pass smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jykNlWKB";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ir2vz1nh"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66G3wQ5R1451774
-	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 04:12:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	kuDvcNYhRq9zIu+xk0S4V0i28EaJt8kIw2n7KS87xsE=; b=jykNlWKB5KbBs7uc
-	6YQRvf1ywfb02A/rnPVHuhmetYNCkunKhCJzOITXSIjqa2qDgboilF6TgsY4toVK
-	brgEKHaQ5fKs/yS7e9pkcQsGx5RSdNpczTlbJ/mIyANPlZQAS2KFldHcwL4J1tTj
-	pmXxyLba75Bu+SwEJbLt7pnNlmYNVXVnKwEqp6JZqTnqHKuaEVi4hqjveXplY3QC
-	CTSMoiB8EhffslFm/CCNmOT9BRdXFpq8p0MjeotuGTAtgH5LkroUELrRpS2utgpy
-	Fw+UkhW2KLmIKr6Y6oo5IS3hivy/pNETe+KWon5x5LnzsLwOzR00B3d5YeXtZv2h
-	m4Y3vw==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fecnyah1u-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 04:12:43 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-38127ae6b99so223082a91.1
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 21:12:43 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BbIlmPiT"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-81ea0b7d137so53457827b3.2
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jul 2026 21:31:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784176307; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Nl4olDPEYvTBzgy9Td7/oB5Q1mS20kEKA5XnnJx7vw68kiDuVmdxVC5HKhIyUiw0fY
+         H4u4tpj99WI+8+sg7EURyRmfdxIF5q9MNlNDhWT9/MPa+GlBdh+MyfxhT3EtNukLlMmr
+         DuKIO6CnZjxMPjAl9mUgNrC0AQBogVigTvWe2ypSjZ6MiprjzTtMeOR6BM1GecnYt9i/
+         drajzXq9R7+86GgE/waC3cUoeOvaEHdFJJlDtqKV0AP0JfMESAKuJnUlhXOVWMxLtrCH
+         RukLGjWEnw4qaS1tR922bzmxtCQvAN+yefRUCc6v5bRaS8a/hdImpr3P3AtaE0UOMyRJ
+         4WdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cWTekTqlq1/95QNv5fW/dcyHl3msvMXWSc0NTUyJpNA=;
+        fh=lvyUYgvtDAjB0udUwGcnSNy1OcXlaTc+hMNO4LOxuNs=;
+        b=QzU2dtSszI03G06EgQwymNiMnBsqqYo3qdTBZ17BgfS2avS5okPuYFzQECx9ihjgZV
+         N1UsMSHLj5w4s9h6gbhwBLQIa+6E/CjHHJBCspjFpg9vmnSAZkYkULeVCXbgUVIdFHui
+         Qrxvcsdrcr8nGhgT5q/SvfxXdNMoQqdTah0vGCBh9CKNdzRxusE2hNyqZZOsP4dYqIVU
+         KWh2IKzq38W+voxtvxjz/fuTGZ9Fgta++si0GEXEnKWGg3op29Q1Mzno8CqkuIe64fzo
+         09FSJwcZn7IDZ+E3bhQwRKWIGls4wYOKYL3zmRyo7cpENjcsWM/sbjNkORjNYIbfJJzG
+         svpQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784175163; x=1784779963; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kuDvcNYhRq9zIu+xk0S4V0i28EaJt8kIw2n7KS87xsE=;
-        b=ir2vz1nh2wm8gpf/0Um9e2wKZxFEafeIszn4xQ0FgvER9miob2swpgRoIuT2mzqb+Q
-         wUJhe2c2e7rpC/z9GWdNT4aKULiQAQcDsFLp1tNSkWfPDvElIHuKdpQF4+WEPOnLXYV4
-         8aKByVMZ+Sd25TYljy6qLXswRrYvffXHfCudNWjjlAtGjui0Kg9xNn5IF4khfQW6R8AX
-         b9OuheN1ViJAduVFZ6OtB71DI9jD0OOV+n9bvJzAU/U54zqC3oJLUnuE9xyY1AliwVYy
-         NbGY2Xbp9vp7t9qOUbjg5DywX8Uei2FJJG2MXDv+sz5ocC+adzyXaBbhzOkA/N4AvgmW
-         ddQg==
+        d=chromium.org; s=google; t=1784176307; x=1784781107; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cWTekTqlq1/95QNv5fW/dcyHl3msvMXWSc0NTUyJpNA=;
+        b=BbIlmPiThl4qtC2ZN7JQZl+L2ZooPvu5YEwEDvQfZB+ebI+hS/c29Vq0ahKfNxgu3H
+         Y2dKQR08UIvbW04KcyCZxX8NOGetwY5g3XdreHta5FewJNT1+6IGkqv4QqXcQKnXrya3
+         CREYMhgoOS0wLEmkqgUzYoB3Kjlg3MA3uZjMk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784175163; x=1784779963;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kuDvcNYhRq9zIu+xk0S4V0i28EaJt8kIw2n7KS87xsE=;
-        b=YkgE8iOsZdFjHe/nS+LHsuHO7Ui6hwpt+vFjl1LOzgs3lzhqmav/miuIgjeTjbIP9/
-         DCSLxL1DFI7W9ZQUqNIaWJvuFshTEwZA5Vbemas5JTIXGplRPjXhGMM9Mmaw1uZCRRrH
-         NWrLDE0wuwJIwhKazNVFMpk4hgZLrMbZT3kMiT8Fa2+VAazb/J0YABq233yvh9z2ZbyA
-         Kks08+L3GCg2lsPBj42DPRFzQiEf9q458ayvAN4fxjG3+h9aEF49g8mWUUtcg4cXP5WJ
-         77K25Vfd/N5OwVmlnQO1mCm9i6lQQDjzsJLG3PIbSD1t3MyjEsCK7C2WyYhq6o1aEd9L
-         yw7g==
-X-Forwarded-Encrypted: i=1; AHgh+RooT5iY2tphOvizBPQjuX5LahaB2dl6k3JxeO/66btip0ZqpQyjoyer+tf2fc0PKSJ/TdbACF/oAqg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNwfrcYrDFzABXXkbRJfw2IMxy/yKxVSGXEx4wcua7k+rePkMN
-	RJhfZFanGXS4VR0Zt0kyYv4huoURRIHstjjqdvKUnCsLJkOLBmegeSLJt53VHAnuebwXaK2p39j
-	IK3pakguf89SZDeD0uVx2jSVV4UWgZYAJHa/ff0naikZ3MHDyvPO50Vqe1VI6Wsg=
-X-Gm-Gg: AfdE7cm3emWqGKcUBh0Rv44ev67K3YtBLXUd5tJ+fQlWD2xyvOZ6YnH5U3S6ELhC6iq
-	5ZY6L6NcD7CI3awOzyoinoym+oFCreSvudH9oZ2Lc6yvaIPXY1DBHjALwp5BV3r7QSeDbSU+bnG
-	EtQCD2RyWrt644PN7/fg2emGuo+lq5yD68wcbtdhDZzaJPycUqaxpiZ+4kQEI5LfK23vDnwrato
-	zIua4vP/D8WlALg5VIgaCKVN+KJXhrgbcbUK3AxOdMvM+tE9GWprZmlNsHjoTGL1PxGLyGjSOkk
-	yXRNWCFpzOLLNXzbwJXiMEs/iVseVE1kgh77FWhkzasj97Fq08Ae9LXmE/4OHrJOwHkbYjH3OZx
-	ba+wHLapeVNnfbmHp6TeZxlY3orYBOzdJfMr/7NvWFT3GSqDSwqzroFddPLbd3vpKcxwP
-X-Received: by 2002:a17:90b:17ce:b0:38d:9eda:fa04 with SMTP id 98e67ed59e1d1-38e3d134073mr1049437a91.2.1784175162888;
-        Wed, 15 Jul 2026 21:12:42 -0700 (PDT)
-X-Received: by 2002:a17:90b:17ce:b0:38d:9eda:fa04 with SMTP id 98e67ed59e1d1-38e3d134073mr1049402a91.2.1784175162366;
-        Wed, 15 Jul 2026 21:12:42 -0700 (PDT)
-Received: from [10.217.219.121] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3140e545bb7sm5558475eec.3.2026.07.15.21.12.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Jul 2026 21:12:41 -0700 (PDT)
-Message-ID: <b697c933-4556-404a-95f3-2a347a83e390@oss.qualcomm.com>
-Date: Thu, 16 Jul 2026 09:42:35 +0530
+        d=1e100.net; s=20251104; t=1784176307; x=1784781107;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cWTekTqlq1/95QNv5fW/dcyHl3msvMXWSc0NTUyJpNA=;
+        b=iqxHFjd2Ejt4J2wgN82JYga88LY+XgsJz+0WKSIdgAoggw4eFkG/tuumpLLSwJYgvT
+         jecK+/I2XhpzSLdmK6N8S/WHTqBvsGfj6CxEr/pDpFlKgcvcY3D6gkJcvzkhLy3CB6uM
+         NvJSSqit4cBSDLkppz/QkhJC8vgL70+WKxRM+89gnqQsj4FuPp6EfG8FDeuNtmbK9jCj
+         uNdg7Y16gc6nkFN8dxm5WD5KMBKCFVeqQVV2u2gCb8YU13HfGKmiCzSNeMJXevtvnCU3
+         EKC1zVRgzf0NaHVPfgOsdV1UYVGGWBHUKlv1j90D/rSkB9CWk0p+PuulJpJg2MMhQNRm
+         fWMg==
+X-Forwarded-Encrypted: i=1; AHgh+RqFQmiX1NKwjiq6QeYHhT7cav8gvyK8gvQWyEL7f0WUAFosvluKjGVa7+n7FBT9/BZSBCeK2QCRE6A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfQyFDhWQSoqM+maIRp9ybUGDct5O4/gzawqlBl9SGgEcZe7wZ
+	rRyjuj3HmwqO9/8foTYkcx1nSs93H8odaocEvufoNnrROBWh3QihPNHqTUzEofh5DYFyP9tJXmG
+	6prDlffeJjoS+H5LK1Xpjujm6Xhr9G8iigYJuBeB8
+X-Gm-Gg: AfdE7ckshDO95xG0koVOHcT3DopO3XqldGsJXnQyZ1a8XOXWF7XjuLO9RkvKTybN8Pz
+	woPOnVOuZCTvVerc3t8YyZI8N2EH3+hFvhR7Wk9QhOWdJ6iL+JPat7Swi51i/hstgqj1OQ5M+Ls
+	HyXD4GmukCWKiz0+E4d8pFzAXDJ7K+MfigGTh53+EtAEkVSKAOVnXQHxNUYmcyBf5OPmTODUapq
+	1ZgpIrNR8jQsYE3WyGx7If3O5HrUUfYggqEveA0mag+9uHnuRZf7+G9gtQpRvCOp7MNYDFMqu8i
+	x1LahpgR71idNbxb
+X-Received: by 2002:a05:690e:1c0d:b0:668:19ff:7eff with SMTP id
+ 956f58d0204a3-66819ff937dmr2943635d50.38.1784176307120; Wed, 15 Jul 2026
+ 21:31:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] dt-bindings: qcom,snps-dwc3: Add property
- indicating presence of eUSB2 phy
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Peter Chen <peter.chen@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <alBOC18CpkGDhM2m@vbox>
- <20260710-warping-resolute-wasp-e4b8ce@quoll>
- <7a099224-ea95-40ec-b279-f8834f261e23@kernel.org> <alFTxg0HLyke0gCK@vbox>
- <b60b4d96-ea67-44d0-a627-c50ef0ed8615@kernel.org>
- <alSRvWY2LWp8OeOr@hu-petche-lv.qualcomm.com> <alV0_DHvBFpzDumP@vbox>
- <alWq4jAGPTINnpxD@hu-petche-lv.qualcomm.com> <albAccNnsI12AIUo@vbox>
- <ff5e00be-dba6-4597-b2bf-288147cbf60e@oss.qualcomm.com>
- <algTE3PyJVxLdFq6@vbox>
-Content-Language: en-US
-From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-In-Reply-To: <algTE3PyJVxLdFq6@vbox>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE2MDAzOCBTYWx0ZWRfX1+glNb99NZUi
- fngwR4fVplbFpkJcYauHAHzvjO375TsPxcLW8E+WLFmJHFJK4mAwPqwtDZHa7rnNQz9UQxQhviQ
- 7sJKnEsWmkW/uckdi8oMBW7a2rfW+/o=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE2MDAzOCBTYWx0ZWRfXzcsJ5G/1B5N0
- HUkrVNAec/A03VSTShzD/hRAUeXLmj7ZcIprZL2hRb5cRQ288ZbW13kx99c+0OJAgG65hYMt64Q
- Qf7LEG9KYJ5zfAwG6ELieYaS5vLODtVgP+n54s4V8Ski6bZixdby+VCErcYtGHQ2dCGGPpBRU8D
- M5YhZgwZRF9cpd8nz+tAhaaL4Sfp9tzaPMQF3dZaFLiE2I7iIqUpa0RTMX1yc1d9X9fAqi6864u
- CozioyJ68dMu9UtfO6sC5wr9T/xd/7bV/c2jO9E8zUogAenCWH8mL8r2zw/dZLXr2Olb+eD90lC
- 9ZbG721SIxZupNVTSrLeCuI6FyMwpFegD1nngFLmzF6n7GjHy7LvF475aVC4IWnfdAQ0fDZDgKV
- kPKI+3+Jgb0o64XF24RmsEpptTR58RnW+yc77F8+/U0NZWSnMlAwxKyR4y2gAhM5DgttxNwe+Q+
- X/xZuJZDwuZPsW6LoHg==
-X-Proofpoint-ORIG-GUID: 3aKDJn2hHuVtfrmo6ITKsF2M7qer0BXz
-X-Authority-Analysis: v=2.4 cv=Lt2iDHdc c=1 sm=1 tr=0 ts=6a585a3b cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=08YGO8N92OaCWiTnn_kA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-GUID: 3aKDJn2hHuVtfrmo6ITKsF2M7qer0BXz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-16_02,2026-07-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- malwarescore=0 adultscore=0 spamscore=0 suspectscore=0 clxscore=1015
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2607160038
+References: <20260715085348.3457359-1-wenst@chromium.org> <20260715085348.3457359-7-wenst@chromium.org>
+ <aldQ5odptfmK5aCw@ashevche-desk.local>
+In-Reply-To: <aldQ5odptfmK5aCw@ashevche-desk.local>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 16 Jul 2026 12:31:36 +0800
+X-Gm-Features: AUfX_mzQbv55XMQ4uR8jO2hQgRvrbYnVnLlttvP6FASpWrSMQxMLCCNzy4VYT9I
+Message-ID: <CAGXv+5FAHZP-u1ZyWSUkUrOx7R5-YgBs5y9V4mGTycyrJG3UKA@mail.gmail.com>
+Subject: Re: [PATCH v5 06/16] usb: hub: Associate port@ fwnode with USB port device
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Daniel Scally <djrscally@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org, 
+	driver-core@lists.linux.dev, linux-pm@vger.kernel.org, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Manivannan Sadhasivam <mani@kernel.org>, 
+	Alan Stern <stern@rowland.harvard.edu>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Jul 15, 2026 at 5:20=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Wed, Jul 15, 2026 at 04:53:36PM +0800, Chen-Yu Tsai wrote:
+> > When a USB hub port is connected to a connector in a firmware node
+> > graph, the port itself has a node in the graph.
+> >
+> > Associate the port's firmware node with the USB port's device,
+> > usb_port::dev. This is used in later changes for the M.2 slot power
+> > sequencing provider to match against the requesting port.
+> >
+> > To avoid potential conflicts with ACPI firmware nodes and then causing
+> > power management issues, only assign the firmware node if the hub's
+> > firmware node is not an ACPI firmware node.
+>
+> ...
+>
+> > int usb_hub_create_port_device(struct usb_hub *hub, int port1)
+>
+> What about adding
+>
+>         struct fwnode_handle *fwnode =3D dev_fwnode(&hdev->dev);
+>
+> to the top of the function, and...
+>
+> >       port_dev->dev.driver =3D &usb_port_driver;
+> >       dev_set_name(&port_dev->dev, "%s-port%d", dev_name(&hub->hdev->de=
+v),
+> >                       port1);
+> > +     /*
+> > +      * ACPI FW nodes are associated later when device_register() happ=
+ens.
+> > +      * Skip assigning one here to avoid potential conflicts.
+> > +      */
+> > +     if (!is_acpi_node(dev_fwnode(&hdev->dev)))
+> > +             device_set_node(&port_dev->dev,
+> > +                             fwnode_graph_get_port_by_id(dev_fwnode(&h=
+dev->dev), port1,
+> > +                                                         FWNODE_GRAPH_=
+DEVICE_DISABLED));
+>
+> ...shorten this a bit to
 
+Makes sense.
 
-On 7/16/2026 4:49 AM, Thinh Nguyen wrote:
-> On Wed, Jul 15, 2026, Krishna Kurapati wrote:
->>
->>
->> On 7/15/2026 4:53 AM, Thinh Nguyen wrote:
->>> On Mon, Jul 13, 2026, Peter Chen wrote:
->>>> On 26-07-13 23:41:14, Thinh Nguyen wrote:
->>>>> On Mon, Jul 13, 2026, Peter Chen wrote:
->>>>>> On 26-07-13 08:26:59, Krzysztof Kozlowski wrote:
->>>>>>>>> And Dmitry already said this at v3.
->>>>>>>>
->>>>>>>> And I've already responded to his comment in v3:
->>>>>>>> https://urldefense.com/v3/__https://lore.kernel.org/linux-usb/ahjYwJtiMsm0BcCh@vbox/__;!!A4F2R9G_pg!YksJ0tPtRth9ez8t0GB_WaxH3ynx3ya8M8aFIyKfYpApRC_79Ig93CqE2MKcrGJ6O6t_Dl3RD1zftrnxhdtcfoW7hgep8w$
->>>>>>>
->>>>>>> It does not change the fact that type of phy is implied by compatible,
->>>>>>> thus you do not get a new property.
->>>>>>>
->>>>>>>
->>>>>>
->>>>>> For USB2 PHY, it has property "phy_type" already, it could extend support
->>>>>> list to eUSB2 like below, dwc3 qcom glue layer could call of_usb_get_phy_mode
->>>>>> or re-use dwc3->hsphy_mode depends on where it needs to use.
->>>>>>
->>>>>> diff --git a/drivers/usb/phy/of.c b/drivers/usb/phy/of.c
->>>>>> index 1ab134f45d67..5cbf17d493ad 100644
->>>>>> --- a/drivers/usb/phy/of.c
->>>>>> +++ b/drivers/usb/phy/of.c
->>>>>> @@ -16,6 +16,7 @@ static const char *const usbphy_modes[] = {
->>>>>>    	[USBPHY_INTERFACE_MODE_ULPI]	= "ulpi",
->>>>>>    	[USBPHY_INTERFACE_MODE_SERIAL]	= "serial",
->>>>>>    	[USBPHY_INTERFACE_MODE_HSIC]	= "hsic",
->>>>>> +	[USBPHY_INTERFACE_MODE_EUSB2]	= "eusb2",
->>>>>>    };
->>>>>>
->>>>>>
->>>>>
->>>>> eusb2 uses utmi, so it doesn't fit here as a separate mode.
->>>>>
->>>>
->>>> Hi Thinh
->>>>
->>>> Yes, eUSB2 is based on UTMI Parallel mode, but it has dedicated
->>>> Physical Layer Supplement [1], eg at CH2.4, it lists eUSB2 PHY
->>>> Features.
->>>>
->>>>
->>>>> To go this route properly, we'd need to introduce a new phy type
->>>>> attribute in the phy framework, which will be a bigger change that may
->>>>> impact more than this driver.
->>>>>
->>>>
->>>> It is not at generic PHY framework, it is just for USB PHY dedicated.
->>>>
->>>> I do not see big changes, it only needs to change above files and related
->>>> dt-binding files, and other users may leverage it if the controller
->>>> has special sequence or settings for eUSB2.
->>>>
->>>
->>> The usbphy_modes describes the interface between the controller and the
->>> phy. eusb2 still uses utmi, so adding eusb2 there is sematically
->>> incorrect. If we introduce the eusb2 mode there, we'd have to audit dwc3
->>> and every other driver that uses usbphy_modes to handle the new mode
->>> correctly.
->>
->> Hi Thinh,
->>
->> I don't think any existing drivers need to be modified after adding this. If
->> anyone wants to use the newly added enum for any eusb2 specific purpose,
->> they can do so in a diff change/patch I guess.
->>
-> 
-> At minimum, dwc3 needs to be reviewed and updated for dwc->hsphy_mode
-> check when configuring GUSB2PHYCFG. Regardless, phy type should not be a
-> usbphy_modes enum as I noted above.
-> 
-We can just add the enum for eusb2 in of.c as pointed by Peter in [1], 
-read that in dwc3-qcom.c and use it during suspend resume for interrupt 
-handling and to modify the DWC3_GUSB2PHYCFG_EUSB2OPMODE bit once we are 
-modifying it in core.
+>         if (!is_acpi_node(fwnode)) {
+>                 struct fwnode_handle *ep;
+>
+>                 ep =3D fwnode_graph_get_port_by_id(fwnode, port1, FWNODE_=
+GRAPH_DEVICE_DISABLED);
+>
+> // Is NULL or error pointer is fine here to be set as fwnode in port devi=
+ce?
+> // Perhaps add a comment?
 
-[1]: https://lore.kernel.org/all/alhDjZ0gJZq_7G6z@hu-petche-lv.qualcomm.com/
+fwnode_graph_get_port_by_id returns NULL, but not error pointers.
+And passing NULL to device_set_node() basically erases the current
+associated node (which is NULL anyway, since we just created the
+device) so it's a no-op. I'll add a comment.
 
-Regards,
-Krishna,
+ChenYu
+
+>                 device_set_node(&port_dev->dev, ep);
+>         }
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
