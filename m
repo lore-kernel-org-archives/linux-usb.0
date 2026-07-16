@@ -1,147 +1,242 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011023.outbound.protection.outlook.com [40.93.194.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719D0376BD1;
-	Thu, 16 Jul 2026 17:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784223262; cv=none; b=JQrxQxg8YaKSy1skrSViAx/H5imArOjz9+P6+b7MFYbkSDyl6Cwxlg6gz4cRsQ+kP2OpBduUtLZelwfuxW4Qi+YK+p1xa2vLM7KWQSgZssyzGQWeuZJgXSHG5uk81kLXUkZzXJurvn5SRjZbFbO8RD6UINaH3GYDhx/TQBGaFHs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784223262; c=relaxed/simple;
-	bh=LdUVk/NYwiBLxejC3EguQWO9elJf87/PL/iYCAtTcfo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jjhTAbm9TWjHy+LZaaT5LLS6mbmpqZ0pKVPkZC5tZvA2iTPW+/fSKvQdmnv5nu5UnsaogLvjsaFBhi3ml403bS9XHdbeM6O5YR1zdjEpVp1D9cLSC2hJzhGjbYRFrR9sDhScJ2a/XswVU23cCJ0G5AV4fZlRy+alXmTQvNpzn0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mKgCzg6D; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7F43370EB;
+	Thu, 16 Jul 2026 18:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.23
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784226742; cv=fail; b=KmkvsVXBfXD3GkV729GoIDkkm3m4DDisz4ETjTMSJqxLhVHh7uuC3lpLIEgwbYnnRibh+e2e98js+7Rz10yWjHu4xKYAwTfshEioKa5xoje4iEY7HqFReilSOfSARolY0QaGtp8QiAQCTTPFoTsAkbY/nINpT5CqOM3jg8wS4/w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784226742; c=relaxed/simple;
+	bh=8z+FtkbhIbsighVpxgMWs/Y7RCEngDzujnj/0HTIr+4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=prDtcouu/L/dxklI2y6mZiuzMVLPE/zU9DEqwMyRV5/s5mkwIKicL+4jpXS/C6n4GjjwlVcppedDq8dugMjAxGFn3kMQmo7P0JEFKD6D+yHlhBun4KyAdngk9YdSh+fHH7fEk0kRH64JgrcLZOBrj9kg+FAKnEQDMQKo9tYHRMw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4cp9YA7x; arc=fail smtp.client-ip=40.93.194.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKgCzg6D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784223260; x=1815759260;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=LdUVk/NYwiBLxejC3EguQWO9elJf87/PL/iYCAtTcfo=;
-  b=mKgCzg6DcKtyYDsHoeqsXbHDrViEp97nshLRTEah6+ewLEyMLNM711NM
-   vxNmN3yNxHsYsatOLZb3KF4ZKWpd+urNWxCzNbEE6WJfHNle3bdSGWyyz
-   jmicErUrYh2TDFisdE001Q6pKH7DNGKxrtnnFvmVZwCOrm/jKOwYZlE/M
-   2/UFGnh83NoX38556M7jC3rLuUGfog+xELfHvCwVtcOs7GziXPQK+pCkc
-   k70kHQdYxrPzNFlP1N7dbXVLho3Odlxak0OtH4hVhIdlPpTdnwCayLEIG
-   w/FVpeOJdA0Hs0h7uyUWkIFaMICrmU512F1FGAgbnYHA4+uNJXjd51Mh6
-   g==;
-X-CSE-ConnectionGUID: 1tWHmOtvT6qN278eTUd8tQ==
-X-CSE-MsgGUID: NMDcAI4qR82H+tq4V8y9Vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="85009567"
-X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="85009567"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 10:34:19 -0700
-X-CSE-ConnectionGUID: G088pS9JRWCNCTzsqTnKsA==
-X-CSE-MsgGUID: jHS8gdqYTkewW49IH6KeVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
-   d="scan'208";a="260157517"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.26])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 10:34:14 -0700
-Date: Thu, 16 Jul 2026 20:34:11 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Wei Deng <wei.deng@oss.qualcomm.com>, linux-acpi@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: Re: [PATCH v5 10/16] usb: hub: Power on connected M.2 E-key
- connectors with power sequencing API
-Message-ID: <alkWE-bQ9gGIXIJj@ashevche-desk.local>
-References: <20260715085348.3457359-1-wenst@chromium.org>
- <20260715085348.3457359-11-wenst@chromium.org>
- <aleKQKH2V-ck-SX6@ashevche-desk.local>
- <CAGXv+5Ed9Cn-NeHiXJ58er7NJs1P2ZUMrjqYac-gSky-TNV8Lw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4cp9YA7x"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FiDPuNjUmTip0PsSZ+q/jonZTG8/IZiuWRp/eeyKUEFTGdJN7XJ6yKye3OaP/IoVFXQm53fX97N5pF34juHV4Ktr1VwD9j+ihXELLsaR9ScxSAkpwF3/mTBHQgd/IZUIIGoVsRNl4Xc/70kNEmnTCOXO6esbyp4rc1MF84QPLf0IZPRhyP/+jizdYiDY1q/jDpDhPFCScAbnZGFX+ew3wSKEVtWWZH+TEbESXOy+BqFJU320DlEFISdVbmiMarp3OTpWcxjvmf/qGx2+Ws4bXyPzFZ3vhR+IOblUP+WI621l/moI0IBjtphc5afDacO530YYBcc1hRcWJfnqRsQfIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=d0yb5RkZj2d8C30xxnOo5QuUTJ8Vp9bu7MZ6egJkJZY=;
+ b=kbf3spxchAaT0m3Xk1uad/d6tMaGcZcFeKgfRNY5H3OC2KquNY1ecVsqY8mO4DXEcS6tFIMoRp2/m0fJfrT1rLzE/1c0K75TnTtFZ2zGNbpuk7UYNViUj+Mdze183zj3id3rYwmYUV+4xYYaeG3vRJ6BsfnxA/BqAx9cEgiTllLe6OHtoQuwoBQjVJ2g4xV2FY2Ci/0SuE7lasdrYtQfxM8mgeCkM+WnOT8YGwrTNwU7genHLyntqa59tIKAFKUjj2+iR+NRYT97ZR2mg/A56YDx8txBIPRJvfiheFLGgTcqb7z3Y3a6FnjUwP5cUB8XgzUZG2SIo/VoUlXXOps+NA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=d0yb5RkZj2d8C30xxnOo5QuUTJ8Vp9bu7MZ6egJkJZY=;
+ b=4cp9YA7xrwIxG1xf85QPLKX3ICdLrZemoW9IYyEPY7SDVPKgzmJwC4naPtiTxE7KrnTaX5XDd4zViXLH+alB6vTnVE2Jo5OI5od0Yu5JZSXa84D/CYxLJRlDwpB982kZ1aw01QMxhg3p+1XpVKn6z5y6bgjqUcw/GLxsI89uRuo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB6914.namprd12.prod.outlook.com (2603:10b6:510:1cb::21)
+ by CH3PR12MB8935.namprd12.prod.outlook.com (2603:10b6:610:169::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Thu, 16 Jul
+ 2026 18:32:03 +0000
+Received: from PH8PR12MB6914.namprd12.prod.outlook.com
+ ([fe80::2893:177a:72b0:6000]) by PH8PR12MB6914.namprd12.prod.outlook.com
+ ([fe80::2893:177a:72b0:6000%6]) with mapi id 15.21.0223.008; Thu, 16 Jul 2026
+ 18:32:02 +0000
+Message-ID: <bc7c80ab-4604-45d3-862e-6b7d0a2ea723@amd.com>
+Date: Thu, 16 Jul 2026 13:31:58 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] thunderbolt: Defer DP tunnel teardown until display
+ driver is ready
+Content-Language: en-US
+To: An Wu <an.wu@canonical.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: andreas.noever@gmail.com, michael.jamet@intel.com, YehezkelShB@gmail.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Anthony Wong <anthony.wong@canonical.com>
+References: <20260527064121.173952-1-an.wu@canonical.com>
+ <20260527064121.173952-2-an.wu@canonical.com>
+ <20260527071445.GB3102@black.igk.intel.com>
+ <CAO4Mv0Y-zAZKCQTvOAb+AS-iMh1Fa97f+BqaLTdDocBWm-_B7w@mail.gmail.com>
+ <20260528102934.GH3102@black.igk.intel.com>
+ <CAO4Mv0aUjtc66AkPmsRyEFTiV5etNNXoBqocMyKpOfS7uKTVKQ@mail.gmail.com>
+ <CAO4Mv0ZbazqxzM9Sjd9=7YzMzZs6w54SLkhq+NtragOau5-eAA@mail.gmail.com>
+ <20260601070439.GO3102@black.igk.intel.com>
+ <CAO4Mv0bnSd8Vm1raj5bnUqywkuKNjtM-W6zPr0dzGJDKwi0ZNQ@mail.gmail.com>
+ <CAO4Mv0YdUm_36fJWrvqtGDp6nsQHJFteh_TKFjM31Exygj2-4w@mail.gmail.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <CAO4Mv0YdUm_36fJWrvqtGDp6nsQHJFteh_TKFjM31Exygj2-4w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA1P222CA0173.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:3c3::16) To PH8PR12MB6914.namprd12.prod.outlook.com
+ (2603:10b6:510:1cb::21)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAGXv+5Ed9Cn-NeHiXJ58er7NJs1P2ZUMrjqYac-gSky-TNV8Lw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB6914:EE_|CH3PR12MB8935:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66b1df93-8421-4d56-163b-08dee36886d5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|5023799004|11063799006|56012099006|6133799003|4143699003|18002099003|22082099003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	Iz25fiuh82kfTkSIsSlEzuCt9Zok022w86ALeK4LkSnaSw4pQSxNnIy/VT5KEPAOx6k20VPoNE8A3pF73N3cm+YXZ712960L7oz1nABrOi/qN/aNNYNLzODlOF6tw0aR/Qtb9oAOIt7ktQreE93VNd8N+WMhdlRB6YXZ2r61Rw71dVSHC2df2NgLfuHPH0wQ6AUkrpXu+hgbOxWxQlFtoJFngsdNWj3ZJKWCjQRHZhOl78QpTaUxhvEBR532W+ZOZQ8+3pk6d+hL29A/Xk4kbPPSqeMhENjCOQ4ArHQobIkQFGXy4jWz/PWP9YA19PjAEjWrAcBqY9LM3co1XQSvlJotPk0kMIVZFE+J4tetoNRdgTmkxwlQssdqy4tOQyH7z3Te6XGl4DnHRl4YaiKArLM3w2g6eV0m/TaZlXxgHUiPgFv8X9Vi7+XujIDlT51agD2hi5CqbhkpETI39bIjuJw0Vlmj9sqVnqtwgbEoWQ67Ucrr1knfGIfHs09+b5dPRqc7D4adfpAGHxN3kT0bF1xj1YfbVLOj2eAP8UaRBKQMQvvwHgQcYctIC+JfnY5dPMd03rLbAgww5s3UdV+mH3hmJ2R2vpHkvwr+6cA07tcHsaQU2icWC2aTW9NT3OCz0ToDEoejdToD2Vx343BBa61ha7RFLbjoeHCBb0MvrrM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB6914.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(5023799004)(11063799006)(56012099006)(6133799003)(4143699003)(18002099003)(22082099003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZGljMmFYRHpjWXFEL05RYituMzlDYTlBWUdXT3doMVNtQjBYZWNRd1pzY3kw?=
+ =?utf-8?B?U2VGL25CRXdLVnRGMWljMHBBa1I0RXFlUXRDcENjeTl4RXF5K1ppUTRlM0dO?=
+ =?utf-8?B?dGJGZURVUWp0M3ozcjNkQWMwcTJDYjdpTHNlM2p0cmlSTWg4a1lRZ3pRRGt3?=
+ =?utf-8?B?RzQzbW9aR3U3MGV5UUhRc0pNRGM2dkJ5b3Q4dUcrdnB5WGtJUTVqV0Z3ZHdZ?=
+ =?utf-8?B?MW9SK2Z1WXJIOVNoaXJzTHpnS0x5TWRTRXNLWVhlY2JsamFnaFhFNnV0Wktk?=
+ =?utf-8?B?Tys5Y3hyaUwxdS9KUHlCMzZWK2dmRTJEemgzUHRNQ0hOYVdPdHVxdVl3Wm5h?=
+ =?utf-8?B?TWRMZXNNaUNNS0VqeUZVa0xFbThUWldkNEZ4bFZsZ0dOZFJ2ZFZHS2d2cE9B?=
+ =?utf-8?B?TUdKbjc2RVBLM2FNQ0o4amlZQmRvRHRFeU1Yb2E2Z0MycnFpUyt6aGt3d21C?=
+ =?utf-8?B?bzZzczExR1BMeWxBWWV3ck92YUdZZGdaYTlpL3V3Z3R1QkxGR1B1MDFGckFu?=
+ =?utf-8?B?K2ZNMnJXcWVBVHliMDgzdkVxS3Jia21HN0lCblJOOUJ3TXlYOWJja0tGUWxq?=
+ =?utf-8?B?YldtRGNGdWt2NlZpRi9WNkFzSWlSR1RtVEMvM3AveHl6dU9CRmpieHdTWTJN?=
+ =?utf-8?B?MHhUNWlGeXQwWUpsQWxYMVFPcnNvRlFmVHU2dHZUYUJOWXZPajRsN0dTd1Yv?=
+ =?utf-8?B?ZUMrQnV5czk5UlZLZHhiSlZSQmMzVEJ6V2VjblhRdXNGLzA4Ti8rMWV1VG9i?=
+ =?utf-8?B?dXl1ZENTYzR5MVFBSjF1ZEhkdzhDRlk4M3psR2ZuNFdza2RMOC8wQ25jS25G?=
+ =?utf-8?B?eVBXaENnbGtIYWtnY2NKczJCNmUya21va3BYblhDWFdzdk5YRTNSZU05aDRH?=
+ =?utf-8?B?V2gyUVVMU3JnZUJXRWQwS0VLZXpFVlNyRFNoYnUvdWxISGQ4Z00rZTZtaElU?=
+ =?utf-8?B?dkxqVlUzQThoL1M5VFRHNGJXZ1dqSXdWd1J4S3pDSk1oREh1SzVkeFBhOVRl?=
+ =?utf-8?B?R3RhR3VKSTB1YVlUT0kxVkRXREVMUHVCNldlUmlwSUVweEIyTXp6TllvYlQ1?=
+ =?utf-8?B?WDZnM1JPYjQ1WTgyZFZwMnNyLzVCR0k0LzExS1NGcTYvMDBiSStwUDdhTEZZ?=
+ =?utf-8?B?V2F1MjU2YzVHMU90TG9IdDJMSnQrMWxrVFVLbTNIL2s1S2lDYnJSVW9aVTR0?=
+ =?utf-8?B?d0U4NFBlQjgvWm5lemlDSjBQVE51R1lmVnFBQlJuOW9ocnNJeXlQMXdjUjRv?=
+ =?utf-8?B?VDNpMysyVE9WK0p4U2VXZGFGTk53eksrM2o5NUFiMFg4YzNhQ2RSSDc4SmhE?=
+ =?utf-8?B?OFR1VTNNSytjTUltT1hNU3ZnSEYwNmRsWVhZWjBJWmQvSzRyK3p0dW41U0M3?=
+ =?utf-8?B?L0laMVgwcmNhSzBERTh1a1N1WkFnMlAwcmYwaXBlcGtkK1BzdUZZeEZxUXFW?=
+ =?utf-8?B?ZVpCLzg2a1RYQ2FSbHp1TkFPaGt5ME1GVkswdzB4eVFubzdHQzlaUmJDMmQ1?=
+ =?utf-8?B?c1dvSHlieitjWTdZTERHRVBUZHY4WWxkSll3QnIraFRBUUdLUkVyNElhaGdq?=
+ =?utf-8?B?OWI0Z3R4M1psLzh4cTQydlZlY3JqS2V5Y2plUC9MNkt4c21YS2dvTjd0NU9n?=
+ =?utf-8?B?d3UxSWVrYVF3UEVGMDdBS3AxQmI3S0hMZ0l1N1FVaERkakhmSXVyaXJXdFhC?=
+ =?utf-8?B?SlByVmNMSHZQNnErN3JtN2FVakUxOU01SVpjQmdhUkpUMDQxNTAyczlLcWtW?=
+ =?utf-8?B?dlRoTlZQZzdtOWdMU3RLb3E3ZEZYckc4T25GVURrdHZtbW5NWEk4cy96S2tj?=
+ =?utf-8?B?eVJPNHVkWW84S3ovZSthTC93eFZHa1VWWXFCVHc0OGFvc2tySGtxWmRGVWJP?=
+ =?utf-8?B?N0VjNURZQzlUOHhvMEJKN3RiTldLN3luN250YXo5UEcydXFteTR3d0ZuZThi?=
+ =?utf-8?B?dWt6aG5vQnZveUkzOGhDR1JlVXpmbUZVYnBlN202R0o4d3B2bjg0QXJPQ1F4?=
+ =?utf-8?B?U1l4S2dtK0ordUdZUk5rVktsMWVsbUZuaVJ0d1ZNZmhVTG5iUlkrSmdHekVE?=
+ =?utf-8?B?NndpMFE2QUhZcWNCZkg2alBhT0JLK01aV05jQ0pWMmlZa0ZSL3MyY2dpTVZz?=
+ =?utf-8?B?QWoyZTN6ZkY4dTlSZi9XZStoWGFlSE5YaTdoSVh5ZjAyc2xoNUNqRksyTjZj?=
+ =?utf-8?B?Z3RVOWNaR0NhWmRmeVZJVUJKdnBnRUVVTjBHYjNnMHA3SzE4YnkxcnEzQ012?=
+ =?utf-8?B?bVg3K09sZVNybVp6U1JSWlRlOTVMM3M4WTJTNW1PZzRLQUl0aVF5WEVzQko4?=
+ =?utf-8?B?SUVCVXlyYWVHNFF3WHNYdWdteDRxb3JmL3BKTDdPOExXb1VVeklFQT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66b1df93-8421-4d56-163b-08dee36886d5
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB6914.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2026 18:32:02.1657
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KvWFFt9NmmVduiDn4UDF4xWqS2C/GSJrKx5aCFkUbT4J+EhNm1ckMzicWEVbJi0Pll0bdQbVMem9j8zcuh+W3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8935
 
-On Thu, Jul 16, 2026 at 06:02:38PM +0800, Chen-Yu Tsai wrote:
-> On Wed, Jul 15, 2026 at 9:25 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Wed, Jul 15, 2026 at 04:53:40PM +0800, Chen-Yu Tsai wrote:
+Hi,
 
-...
+I had a few thoughts while reading this thread I wanted to share.
 
+1) Ubuntu builds the initramfs locally with dracut.
 
-> > >       fwnode_handle_put(dev_fwnode(dev));
-> > > +     /* usb_hub_create_port_device() could leave an error value */
-> > > +     if (!IS_ERR(port_dev->pwrseq))
-> > > +             pwrseq_put(port_dev->pwrseq);
-> >
-> > Hmm... I would rather make pwrseq_put() NULL and error pointer-aware, so
-> > it will be no-op in such cases. But I think Bart has his own opinion about
-> > this.
-> >
-> > >       kfree(port_dev->req);
-> > >       kfree(port_dev);
-> > >  }
-> >
-> > >               put_device(&port_dev->dev);
-> > > +             hub->ports[port1 - 1] = NULL;
-> > >               return retval;
-> > >       }
+It should be possible to know at the time of building the initramfs 
+which hardware is actually on the system and only include the modules 
+you need to avoid this issue.
 
-...
+For example if you're on an I+N system you can avoid amdgpu and if 
+you're on a pure I system you could avoid nouveau and amdgpu.  Does that 
+help the size concerns for the initramfs?
 
-> > > int usb_hub_create_port_device(struct usb_hub *hub, int port1)
-> >
-> > > +     port_dev->pwrseq = usb_hub_port_pwrseq_get(port_dev);
-> > > +     if (IS_ERR(port_dev->pwrseq)) {
-> > > +             retval = dev_err_probe(&port_dev->dev, PTR_ERR(port_dev->pwrseq),
-> > > +                                    "failed to get power sequencing descriptor\n");
-> > > +             goto err_put_kn;
-> >
-> > OTOH, how pwrseq can be non-NULL and at the same time port be created?
+2) Do you really need thunderbolt.ko in the initramfs for keyboards and 
+the like to work?
+
+I don't think so.  I thought x86 UEFI laptops have a pre-OS connection 
+manager that will remain resident until the OS connection manager takes 
+over.  I know this is the case for AMD, and I think this also applies to 
+Intel.
+
+3) Are you including boltd in the initramfs?
+
+If not; you have a secondary problem you might not realize that defeats 
+your entire goal of having USB keyboard connected to a dock working 
+during LUKS.
+
+If the keyboard is connected to a USB3 controller behind a TBT3 
+controller the USB4 router topology gets reset when thunderbolt.ko 
+loads.  This is because the firmware often doesn't reserve enough memory 
+for hotpluggable PCIe devices.  Linux resets it and assigns enough 
+memory for this to work.  This is the same thing that Windows does.
+
+Well after that reset happens the TBT3 device won't be authorized 
+meaning any PCIe topology behind it isn't authorized.  At runtime this 
+is solved by boltd checking that the IOMMU is enabled (and was enabled 
+Pre-BOO) in order to authorize the topology.
+
+I've raised something about this in the past, but AFAICT no one in 
+Ubuntu looked at it.
+
+https://bugs.launchpad.net/ubuntu/+source/initramfs-tools/+bug/2078573
+
+4) This patch may have been dropped upstream, but I still see it 
+included in Ubuntu's kernel.
+
+https://lists.ubuntu.com/archives/kernel-team/2026-June/168287.html
+
+What happens with NPI hardware that doesn't have a display driver ready? 
+  It seems like this is going to cause thunderbolt.ko to infinitely 
+reschedule work looking for one, wasting CPU cycles and otherwise 
+blocking CPU low power states.
+
+Thus I don't think this is very good tech debt to adopt in Ubuntu's 
+kernel when there are other technical solutions available to consider.
+
+On 6/5/26 05:16, An Wu wrote:
+> Hi Mika
+>      After further consideration, we've decided to drop this patch and
+> probably to note it as limitation. Really appreciate your patience and
+> sorry for the noise.
 > 
-> I assume by non-NULL you mean returning an error?
+> BR
+>      An
 > 
-> device_register(&port_dev->dev) is called some lines above this.
+> On Mon, Jun 1, 2026 at 4:18 PM An Wu <an.wu@canonical.com> wrote:
+>>
+>> Hi Mika
+>>      We tried putting graphic modules into initramfs and the size
+>> increased from 56 MB to over 200 MB. We will discuss with the team the
+>> possibility of fixing this in userspace and follow up once we have a
+>> clearer picture.
+>> Really appreciate your time and patience.
+>>
+>> BR
+>>      An
+>>
+>> On Mon, Jun 1, 2026 at 3:04 PM Mika Westerberg
+>> <mika.westerberg@linux.intel.com> wrote:
+>>>
+>>> Hi,
+>>>
+>>> On Mon, Jun 01, 2026 at 02:50:21PM +0800, An Wu wrote:
+>>>> Hi Mika
+>>>>
+>>>> Another approach I considered is using register_module_notifier() to
+>>>> detect when a display driver module is loaded, then retrigger the DP
+>>>> tunnel setup. However, since struct module does not carry any device
+>>>> class or subsystem metadata, there is no generic way to identify
+>>>> whether a loaded module is a display driver. We would need to maintain
+>>>> a hardcoded list of known GPU module names (i915, xe, amdgpu, etc.),
+>>>> which is fragile and not scalable.
+>>>
+>>> Indeed. Perhaps not to try to solve this in the kernel and instead do this
+>>> in userspace?
+>>>
+>>> Have you actually measured how much initramfs size "increases" if you do
+>>> include the relevant graphics drivers and their dependencies?
 > 
-> usb_port is weird in that usb_hub_create_port_device() does a bunch
-> of stuff that is normally done in a driver's probe function. However
-> usb_port's driver is just a stub driver add for userspace compatibility
-> reasons. See commit d99f6b4130877 ("usb: rename usb_port device objects").
-> 
-> So at this point the usb_port device has been added to the driver model.
-> Or we can just zero out port_dev->pwrseq instead? I guess that is cleaner
-> than having some weird check in the release function.
-
-So, why do we need to assign the error pointer to the field directly then?
-Make a local variable and assign it if and only if there is no error pointer
-in it. Would it work?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
 
