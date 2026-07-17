@@ -1,198 +1,163 @@
-Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023143.outbound.protection.outlook.com [52.101.127.143])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9141532C924;
-	Fri, 17 Jul 2026 06:39:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.143
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784270360; cv=fail; b=Rkfa2at6FB7Q4luCShj2wLv4hCvOMOWd/YJAFw8VcmbB/n76btf55VfGeUeLM6urClWjinf6U3dbLT2+bAiwgkis9HYV7bAwr33BTeABX+JakDj2VqpXOoZX2eVTziHJafFpef3WNwFHD5rPkI8cEwX3dWySvYBt099mUp6ItXo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784270360; c=relaxed/simple;
-	bh=omm1qTW1pslleerv583CLvILFcm/A+lyRom5df0SXT8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=WGDA9XsoJwhL0KctJ4zJbRPo6yUJqOF8Y3l8WccC2llRgpRPQeFUGXTrFBvf3KkfGZb8f3Z0XypL6n2pn8l+nPOvxEtrv2ovyVAHRt8Ra4ShIvN6r/ybgxWG0rmSLpcMArMJUYkbOF0SzF37CxnGe+GdAJ6YvA4ozHOu0r4fMAY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ftdichip.com; spf=pass smtp.mailfrom=ftdichip.com; dkim=pass (2048-bit key) header.d=ftdichip.com header.i=@ftdichip.com header.b=RTT6+WOR; arc=fail smtp.client-ip=52.101.127.143
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ftdichip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ftdichip.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633293CF1E3
+	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 08:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784275643; cv=none; b=k4sTc0efY7N8Epg60cWwviUzN7syZSGsvYINmVeoji0ygNYAY02c98cqLdqjjaDnDOaL+Ivp87O7cM3YDrGJBPPasAV9i8MdmO0GvcJcyVBa/oJ7xoJ43N3k+YARybuDyL97LSBwLrUGfRNIjA5NBJhxB7xZYOgd7j8G7+/QFXQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784275643; c=relaxed/simple;
+	bh=L+2PIl9c91cGPKqFh5rawFvpSlD16Mcp4ipH690q0yU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NMeHxiet6WEl1umC+JEk22JS3n02GWQ6kycmqUD23PQFmrfQy8k/ro0iEeVd/rUJXv0ShRInZBmm22k0UArDvkCMxa5EaQd87uMGY8Os+NMMCbwSANLMoDYRetijbjKfqs3C2xpPp2RxSxQ5JKuzufRmdA5gm7VvNtZNbDr7Ocs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cVq0Iacr; arc=none smtp.client-ip=209.85.161.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ftdichip.com header.i=@ftdichip.com header.b="RTT6+WOR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IwgsSZIBz+0ehUh6zZ1csIG5aXTceilt3SB1QTKSh8U62UPhuJjTMFFi3YizWy/2gc8r0O5ffoTZscJBxHmgoYbypxTJcB5uao59x25eiMGq8YC4MYki8jIISx20yXnvmL5/odEF8WMfYMMbh06spbHFKtBskO6/0do1NwTBg51ZQjlRS8suZSuoLonr2M3ormgU8VoTwjOCaHpDN9HsqLTIBcEXucAkYg17NbJiGT4XnFMxV1sEAaxV7zICMgrpMfFtEu8eAjDhB8TTP9yIWiimiK0jyWQROE+EkIr2T0KSmRmUIl8+fiu7kJJhT/oxKis48YQLTXdNRNHhj5f9+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LGaGe/yN31skuMk0t86faRbJ1LTYV6L9a5oe3oMtLvQ=;
- b=BQrX4+cpMjUi4sn3SNa58icLNvcWITSsowcGONRiEonAzsOKwFzQm1dpWKPLptoTQrQVn2/eeH6tbRk6gHAWZ48JJmOBiQq8D9WZBS/mRfBQPM1srcFIiVVBXT+73lJ11pFMkxWEYgJQaiaUb4nKCzg60J+E3XZEmBpCQko57X7m+LZdHjeomFFjyWySIf50optxQakhbX8XbzbnMAwkm9zoJU9x4DCU4EFWdOBa0zegI8YWDb6cpKaPb6ttxZlfmz/WFnfTdEIynhikrhKyofT2sFy9I1NnlhJjfZ3ER2MWSLCAUpqyQPOVq5thUkvmwQLfuOeg6KEm8gfih4ghnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ftdichip.com; dmarc=pass action=none header.from=ftdichip.com;
- dkim=pass header.d=ftdichip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ftdichip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LGaGe/yN31skuMk0t86faRbJ1LTYV6L9a5oe3oMtLvQ=;
- b=RTT6+WORio0ry6mkQJ+EsQZ7ZGUlHqHJMQFe80mIJxQ4KcbtQMQaOkLrlaQNBbjm8borsbibGG+Yf1qNuorDPEGBkwwEhFpRCVKtA9A3/QfDgZO2TAkQAPjYpu0tOlBRXo5Mh8zDeT5rQKFMLS+F04Pt77nPZ8aVxa2cBVlWcmaYyijzGcn56x+r7QVh6lbM0Ve5mdKv/LYwdTZ9kCmoyDA1xYSLesjj4tqKPFePGIY2Acvi9dS49kVSe0TMLFkEWDXth2fuu1jqRtbLaG4rbl/IPmxK+PmTMOPE9/178SSDeWDa82yE95ZJE9bviNA1gj7lkfUJ5RYVvfkGl+YVEQ==
-Received: from SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
- (2603:1096:f:fff6::45e) by SG2PPFF5F77FF35.apcprd01.prod.exchangelabs.com
- (2603:1096:f:fff6::461) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Fri, 17 Jul
- 2026 06:39:01 +0000
-Received: from SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
- ([fe80::e65f:ac00:2342:9108]) by
- SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
- ([fe80::e65f:ac00:2342:9108%4]) with mapi id 15.21.0223.011; Fri, 17 Jul 2026
- 06:39:01 +0000
-From: "Chinna Mopurigari Naveen Kumar Reddy (FTDI-SG)"
-	<naveen.reddy@ftdichip.com>
-To: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>
-CC: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Arun Pappan
- (FTDI-SG)" <arun.pappan@ftdichip.com>
-Subject: RE: [PATCH v3 0/2] USB: serial: ftdi_sio: latency_timer reliability
- fixes
-Thread-Topic: [PATCH v3 0/2] USB: serial: ftdi_sio: latency_timer reliability
- fixes
-Thread-Index: AQHdAubJbOU4PdQPDUmk7+vSnQKjMrZxZ1xg
-Date: Fri, 17 Jul 2026 06:39:01 +0000
-Message-ID:
- <SG2PPFE985372F00C4E87C6D63D98D9B5FFEFC62@SG2PPFE985372F0.apcprd01.prod.exchangelabs.com>
-References: <cover.1782121274.git.naveen.reddy@ftdichip.com>
- <cover.1782201674.git.naveen.reddy@ftdichip.com>
-In-Reply-To: <cover.1782201674.git.naveen.reddy@ftdichip.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=ftdichip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SG2PPFE985372F0:EE_|SG2PPFF5F77FF35:EE_
-x-ms-office365-filtering-correlation-id: 01b38d7c-1f1d-403f-7474-08dee3ce16a0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|23010399003|376014|366016|10067099003|6133799003|22082099003|18002099003|38070700021|3023799007|4143699003|56012099006;
-x-microsoft-antispam-message-info:
- LnLtHkTbIwibQf+V5tRhRmGHe9oOiPcSdXZpdXqSSeFu5UeT/sGiago+SduaDuNT9Uf4rBFPv2e0KtLwLvrO2yvYEs74empZFRXNLfxuRD13DKfIK6rGfR7iRwIk8EJOa+jk5/h3pogLNWr6JGovE9EiKxvcjP9mqN1v3+Af8KGlawTzJw3qOHEn6Q1pZ9iVnC0x6+4d3EvTymXEuoobHrHhX/UT9PSY1CVWBpmUcVflHXttIV9LhKdhfltlRyE0haUaik4RDagVKkWJmh1137fenWC3gWwpDN/hbzzRj34/Qi5nTHnDUWeq0N0/1QfDyc71SUaeSzIyJyLGFzgKxMghcc3ESurFBlOUqpApFhtZjuWjdObxc3iz6+rTWwBNGZQtkGYGJ1fqFLkjKwaCdwaIkre97OTUX4Lh3j9WhCI8NzOCev9wKXDbqjPJeY39m2tjNsra5Vl171yVQwLUTcL+KgXLveWN3BdbYHOcAVbpOmmSgS5VqtcTn4ZShJ9JOw1Z5Ey2oRmkCDpV/k3BeDMAV5RpKFJVdPNKnMETnX68URHovfy9J5dKTeuq7e5qIvAnXOEIjMjcSvxp3fKy2Lha+aTEpBTDUxot4nmR1T8CYQ8uC6CFmMSGa1rlSa7lFq78NX0IQlottW6lVvLIzQILKNKkxXF+pOJx9QVtu7MAm0nejTqnKDZpFSBkkAiy+PWv785p/n1+kfy46nBB13rNIqm9r6V2meuuOm7/i5g=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PPFE985372F0.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(366016)(10067099003)(6133799003)(22082099003)(18002099003)(38070700021)(3023799007)(4143699003)(56012099006);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?kUv1fbB9uUwGGOmJQ0cvq9O/whcrUjog46BdMlgMOPxUnIcuqozdvs0f6HOw?=
- =?us-ascii?Q?HvNt3hUIBw4uOrkmjjszTWTSeSZEfCrAnZvS3N+GfyLaa9qm1pH1FsET7gWs?=
- =?us-ascii?Q?8G36ly6tLOD+dOuLQgjNlgIDWU+AbcMNBupJ5+Udfs3UBsl0ojWn25mLKTY3?=
- =?us-ascii?Q?jvfo1UAKXSRFP4Kahg4TkmqPCDCDeSl9CTTkudRp2WFh0kNsAc8zt/KKXqrB?=
- =?us-ascii?Q?27WDrXvpG0dL5iQiPG8x0+RoGnfIRn4aOOBI+i6aTS2O8C6Vye5gHmmrlkFQ?=
- =?us-ascii?Q?iobu4S/rV+WqwBq5e83ws5f9tfkjDhcimYi6+t33yoheIP549mwwRmIZXHCE?=
- =?us-ascii?Q?t59+Ga3TcbmIVOrYunx7JsUi8GuC48E7vw26oEyWCRys1p2kOFhWLNO9ZJpH?=
- =?us-ascii?Q?cVGe0FfCH3iYVO90E0P9+uFwZm+Q0xU3nysuEjhiNxZaY3FgTlVGuuWisNzd?=
- =?us-ascii?Q?5nxk0xRZzi8hYwrK9gDe9vm+Mc3oADr7BgY1AARuOc/EOm9ONsHtQrom1PId?=
- =?us-ascii?Q?iWhLAUrw7TuFq0UTwqK5OxZabuErpwkdqypoxQzAavoCCGI5go7ywhCiadj7?=
- =?us-ascii?Q?FypqCuBf/32seZUyXUlBHMsmSCzlGFSRxxZte5/o7cP50rD3hRTEFg3MaVUC?=
- =?us-ascii?Q?4aVPmDiEoaJ4Caix+92Kwc4c6UJ9vAcdPLJ+hwnKTJOnbnP/jRSE6AUgluPN?=
- =?us-ascii?Q?289QzFuY+7zcX4mnkAYCg0dTjkUxyRabb2lFqHngIKxpJ5dNBLUQNhqrv4kE?=
- =?us-ascii?Q?wSBJt4giwVxzSp4fh3WXjNH38LGqk5/DWG2qlgIi3R9QAiuJ4/4xiylD+18f?=
- =?us-ascii?Q?2bYAmKJjQd02OJcbE1yTpWmAZu0QbVZzesuODPtBXINuSPeQr81rzUcc9/dT?=
- =?us-ascii?Q?k2C9chOxVS1b5JGR7xhlSyJ7IyhYHDvzT/uyHzgX6lVMqfISDrCTC0dhOqkh?=
- =?us-ascii?Q?6oVCbSq72eMvTvVf+YcJCt5GtKAjT9tviHYZusBrWKMw9sSqb8Gz5LoB3Z9y?=
- =?us-ascii?Q?cWMMIfNbStxEKM/TXWeoo75vUW7Su25qRbNMTQex5gcFuvlv9XzrYVDXykSM?=
- =?us-ascii?Q?xM80CpvrWocD3H5HHqMQxMv02nc1L9XC3ESoq7r17rOaMzSTYUfx5O/SJ8X9?=
- =?us-ascii?Q?ebgOo3ZBp1nRTV56x8Vu3uaByllCY6C9D8E4/o5fbSgSP3yEGN4YU/j/9U2p?=
- =?us-ascii?Q?cAEjT+hbRbA4j0UZVrxsK6OB4BUCKaYfOAvD6kHTGnUM0SaO0MIocwPyVugz?=
- =?us-ascii?Q?JxPmaX3PpOlEEqk1/tVqZwiwCOpb1Ms8LhGaUyY8jx7bMIVsK/zS4VQzh+5y?=
- =?us-ascii?Q?60FpiYqI7M3bdB/nJdhmoYdFETNWzpqox8dDeF6gsmfLcvb2/33xO2JkKpDX?=
- =?us-ascii?Q?/hsoE+J5yHSpvk6tlnmt028KW3B2UKm05nFV1ZVeSpxrxUsnpJDPSxhktsGf?=
- =?us-ascii?Q?YQP8sVBMZeOLaUaPKS060KRXzOkMUY39dibS3+uwiymPltdx/XE3WPykLXc9?=
- =?us-ascii?Q?yU+YXgN47Ip0KE9lYuo1Slhl/ZM3ctnsXBTrBRcZiXDO7B9zkbsQzbdlgXRG?=
- =?us-ascii?Q?08RL03ClfGeLqrdwelY53NjTqUm1xWmaqqiK5aJX1hwKiK01H4acE2aQ70Lz?=
- =?us-ascii?Q?UrAzF6aVMOKaH5y5UZ1k2RCnk0Kl/suftXU8cprlGJaNkbzF4BDiwY/NFma5?=
- =?us-ascii?Q?i3Xu2Js3BiA3Cg/dICL25i7YMnwCLe6Z4CVc89VK9SzvyziQFd6Eb3FV8xgE?=
- =?us-ascii?Q?0rjAVP3KSQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cVq0Iacr"
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6a37e8b3725so2567770eaf.3
+        for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 01:07:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784275641; x=1784880441; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=bUD8b/O4I8LwhV5Q1VRQ5q+jG0xHp0fGcr6yD3Cz0hU=;
+        b=cVq0IacrErL/Zb/LfUZklGwsbXFjfjXseBYZkhQJ4m5/Xe5NpHOQg8o9Y3QG6tCvju
+         y3AD6G2lIEIFutgEbWFlitiL9MdeKo9yvslvPpIbCLS5fROPD4ogYYF3YarxE648aKTR
+         SW7p0FFvzN8Ua1udnJ3f6tEsZzQtomGgB0pSqpEssfTkI6gPfzCbM55gUoSTWP4WKKm4
+         QccO2h08jRuxXfEpjrnQqygIucaqk4hFzlw4FALuT/torxoN6lu/ZtUVNxoONzCl1gX4
+         u+9RIWppcUa+pUOJvqwPLff/4np+mLAAdVJTZNk6XnXcB4r/OgwAGw3Vfrmg0xNIzOCX
+         f+ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784275641; x=1784880441;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=bUD8b/O4I8LwhV5Q1VRQ5q+jG0xHp0fGcr6yD3Cz0hU=;
+        b=nnH/CUXLVxJERORizaO01Q4linyugY+2fbUxLnM66GkdL+MJYGjaEPzelkbb1mtugW
+         tOzhzB4y0qKtnAe4OI+i35WwkEZ+TJFmjs51yu6Urb7ew2g9DLDqwFV+ejpTTRa6SMSC
+         ac1Iyf5Uf7BleVUIJylAQxz9DF9VoSUVRWGhCJXZi0QAJG94GH8TUWGU/JxBmONz0JnL
+         xvQ/+Y24jhD3SHz8sOByPbxdWKQ6eqX0ftiKbllTumzQWz20dB1gf/PhRzLQtUIkPoD6
+         aNIxrG+mg0s7/wjSxLy+nyBmh54OovrYydN5bpRUPiEPa7oC8A4QbdlKrEMyNizEJaC/
+         97hQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrqHInY+ML5Vu2C8m2Dj5QvBwbL8Bzy419dtxrEoucfAR7pDPi8YIj33QyU27sf0TgqehVw35QarG0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YybbQSzfEHxnuPrJX+iA0fZ00MRmEWrtbP8TuUoqFh5CmmpJXU9
+	2G2mtx/gx/11dMbiMmk/DZpZJKSAkM9dGNu+y8gwUw1u+XveX1JYmyl7
+X-Gm-Gg: AfdE7ckKgZZOgc6ilCwn0CIaoeoh4vHDLs87dyp6GD3Ha8KVE0ipCBj3s88R8UPBU0W
+	G9L7WJd120Z+bgeM0p+ttnE/3gFL33KHMKGfwKt4tJFhl+pPh+pw5bIwhJulnUoRDoxrC9NB1QS
+	1DwT95YBkLl3Hsz/o39CuHzBTAVTQ3+tfZaREO7/Okd/GID2DkM6BUN6tci/24IwDCHuhA4377J
+	sYdUtvlQWYKq01qNl1iYzxvjiCpK1LpyJcM8yNDavcxPoyy8MM8C6Z0d7T5VJigNQtH0HF/3q2C
+	w5G7SvE+0TAVM3txx3GJbIHBwimBlnSmwwlOm3khtxfvnV75JdHl/lB1Gff6YwfV4+JcXUSSIxh
+	XyyNqu8Cv3TI77DwA4c86nLmMaw5QHLDX4GPQIxFskNU7sWIs0mZYFgJsNmcRPP+w3DVoZUmD+G
+	Unr1sEcqvaUEDa
+X-Received: by 2002:a05:6820:1523:b0:6a3:f5e9:8e45 with SMTP id 006d021491bc7-6a53669164emr611027eaf.1.1784275640951;
+        Fri, 17 Jul 2026 01:07:20 -0700 (PDT)
+Received: from capidev ([2806:264:548c:900d:4433:c2f3:888d:435c])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4568da4ab47sm923890fac.0.2026.07.17.01.07.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 01:07:20 -0700 (PDT)
+From: Diego Fernando Mancera Gomez <diegomancera.dev@gmail.com>
+To: Matthieu CASTET <castet.matthieu@free.fr>,
+	Stanislaw Gruszka <stf_xl@wp.pl>
+Cc: Chas Williams <3chas3@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauricio Faria de Oliveira <mfo@igalia.com>,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org,
+	Diego Fernando Mancera Gomez <diegomancera.dev@gmail.com>,
+	syzbot+e62a973f8322b3bbe3ac@syzkaller.appspotmail.com
+Subject: [PATCH] usb: atm: ueagle-atm: reject descriptors that confuse probe and disconnect
+Date: Fri, 17 Jul 2026 02:07:04 -0600
+Message-ID: <20260717080704.1264-1-diegomancera.dev@gmail.com>
+X-Mailer: git-send-email 2.54.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: ftdichip.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SG2PPFE985372F0.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01b38d7c-1f1d-403f-7474-08dee3ce16a0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2026 06:39:01.4996
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c2456335-1328-47c5-82f2-1fe6783d7182
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: z7DJymq7gjbR0fUVy8g5OvDFculxXJJDOxc8VLOvO1ZvQZ1slnkDkWVABq2C2Kg26pFVqb6RUyPsD89qeRDXjfrsxhUZcMAG0y3cCSZ3PCs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PPFF5F77FF35
+Content-Transfer-Encoding: 8bit
+X-Antivirus: Norton (VPS 260717-0, 16/7/2026), Outbound message
+X-Antivirus-Status: Clean
 
-Hi Johan and Greg,=20
+uea_probe() distinguishes a pre-firmware device from a post-firmware one
+using the USB id (UEA_IS_PREFIRM()), and stores a different object as the
+interface data in each case: a 'struct completion' for a pre-firmware
+device (to be waited on in .disconnect()), or a 'struct usbatm_data' for a
+post-firmware one.
 
-A gentle ping on this v3 series - any feedback would be appreciated. Happy =
-to respin if needed.
+uea_disconnect() instead tells the two apart by the number of interfaces
+of the active configuration (a pre-firmware device exposes a single
+interface, ADI930 has 2 and eagle has 3), and casts the interface data
+accordingly.
 
+Because the two handlers use different criteria, a crafted device that
+advertises a pre-firmware id together with a multi-interface descriptor
+(or a post-firmware id with a single interface) makes them disagree: the
+small 'struct completion' stored by uea_probe() is then passed to
+usbatm_usb_disconnect(), which casts it to 'struct usbatm_data' and takes
+instance->serialize, reading past the end of the allocation:
 
-Thanks and Regards
-Naveen=20
+  BUG: KASAN: slab-out-of-bounds in __mutex_lock+0x152a/0x1b80
+  Read of size 8 at addr ffff8880470e2c60 by task kworker/1:2/982
+  ...
+   __mutex_lock+0x152a/0x1b80
+   usbatm_usb_disconnect+0x70/0x820
+   uea_disconnect+0x133/0x2c0
+   usb_unbind_interface+0x1dd/0x9e0
+  ...
+  which belongs to the cache kmalloc-96 of size 96
+  The buggy address is located 0 bytes to the right of
+   allocated 96-byte region [ffff8880470e2c00, ffff8880470e2c60)
 
+Reject such inconsistent descriptors in uea_probe() so that both handlers
+always make the same pre/post-firmware decision.
 
------Original Message-----
-From: Chinna Mopurigari Naveen Kumar Reddy (FTDI-SG)=20
-Sent: Tuesday, 23 June 2026 4:04 pm
-To: Johan Hovold <johan@kernel.org>; Greg Kroah-Hartman <gregkh@linuxfounda=
-tion.org>
-Cc: linux-usb@vger.kernel.org; linux-kernel@vger.kernel.org; Arun Pappan (F=
-TDI-SG) <arun.pappan@ftdichip.com>
-Subject: [PATCH v3 0/2] USB: serial: ftdi_sio: latency_timer reliability fi=
-xes
+Reported-by: syzbot+e62a973f8322b3bbe3ac@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=e62a973f8322b3bbe3ac
+Fixes: e2674dfbed8a ("usb: atm: ueagle-atm: wait for pre-firmware load in .disconnect()")
+Signed-off-by: Diego Fernando Mancera Gomez <diegomancera.dev@gmail.com>
+---
+ drivers/usb/atm/ueagle-atm.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-Two independent correctness fixes for ftdi_sio:
-
-  1. Retry transient errors (-ETIMEDOUT / -EPIPE / -EPROTO) on
-     chip-side control transfers so that a single transient USB hiccup
-     under bus load does not fail an otherwise-healthy one-shot
-     configuration (e.g. a latency_timer sysfs write) back to
-     userspace as -EIO.
-
-  2. Make an explicit sysfs write to latency_timer authoritative so
-     that a userspace write is not silently clamped to 1 by the
-     ASYNC_LOW_LATENCY tty flag left set by an earlier TIOCSSERIAL
-     (setserial(8), libftdi, certain tcsetattr paths).
-
-Changes since v2:
-  - patch 2/2: lower the override notice from dev_info() to dev_dbg()
-    so the driver stays quiet in normal operation (Greg Kroah-Hartman).
-
-Changes since v1:
-  - Dropped the urb_defer_timer_ns and low_latency_defer_ns
-    module-parameter patches, which addressed DMA-channel starvation on
-    a host controller that does not enforce DMA-channel fairness.  As
-    Greg Kroah-Hartman noted, that belongs in the host controller
-    driver, not as a per-driver workaround in ftdi_sio.
-  - Dropped the per-port low_latency sysfs attribute and its
-    serialisation fix, which depended on the hrtimer infrastructure
-    introduced by the dropped patch and have no standalone purpose
-    without it.
-
-Earlier postings:
-  [v1] https://lore.kernel.org/linux-usb/cover.1781744946.git.naveen.reddy@=
-ftdichip.com/
-  [v2] https://lore.kernel.org/linux-usb/cover.1782121274.git.naveen.reddy@=
-ftdichip.com/
-
-Chinna Mopurigari Naveen Kumar Reddy (2):
-  USB: serial: ftdi_sio: retry transient errors on chip-side control
-    transfers
-  USB: serial: ftdi_sio: make explicit latency_timer sysfs write
-    authoritative
-
- drivers/usb/serial/ftdi_sio.c | 65 +++++++++++++++++++++++++++++++----
- 1 file changed, 58 insertions(+), 7 deletions(-)
-
-
-base-commit: ba3e43a9e601636f5edb54e259a74f96ca3b8fd8
---=20
+diff --git a/drivers/usb/atm/ueagle-atm.c b/drivers/usb/atm/ueagle-atm.c
+index 4e71ed679a76..4266a0cb7e3b 100644
+--- a/drivers/usb/atm/ueagle-atm.c
++++ b/drivers/usb/atm/ueagle-atm.c
+@@ -2549,6 +2549,7 @@ static struct usbatm_driver uea_usbatm_driver = {
+ static int uea_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ {
+ 	struct usb_device *usb = interface_to_usbdev(intf);
++	bool single_iface = usb->config->desc.bNumInterfaces == 1;
+ 	int ret;
+ 
+ 	uea_dbg(usb, "ADSL device found with vid (%#X) pid (%#X) Rev (%#X): %s\n",
+@@ -2557,6 +2558,22 @@ static int uea_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 		le16_to_cpu(usb->descriptor.bcdDevice),
+ 		chip_name[UEA_CHIP_VERSION(id)]);
+ 
++	/*
++	 * uea_probe() decides between the pre-firmware and post-firmware case
++	 * from the USB id and stores a different object as interface data in
++	 * each case: a struct completion for a pre-firmware device, a struct
++	 * usbatm_data for a post-firmware one. uea_disconnect() instead tells
++	 * the two apart by the number of interfaces (a pre-firmware device
++	 * exposes a single interface, ADI930 has 2 and eagle has 3). A crafted
++	 * device advertising a pre-firmware id together with a multi-interface
++	 * descriptor (or the other way around) makes the two disagree, so that
++	 * usbatm_usb_disconnect() treats the small completion object as a
++	 * struct usbatm_data and reads out of bounds. Reject such inconsistent
++	 * descriptors so both paths make the same decision.
++	 */
++	if (UEA_IS_PREFIRM(id) != single_iface)
++		return -ENODEV;
++
+ 	usb_reset_device(usb);
+ 
+ 	if (UEA_IS_PREFIRM(id)) {
+-- 
 2.43.0
 
