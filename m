@@ -1,267 +1,74 @@
-Received: from ironport.ite.com.tw (219-87-157-213.static.tfn.net.tw [219.87.157.213])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0A43EB0E5;
-	Fri, 17 Jul 2026 10:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=219.87.157.213
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA383C5523;
+	Fri, 17 Jul 2026 10:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784282570; cv=none; b=CDyJs+LcYFmeLbxR6LSBZrHwjibFEX2a/ez2HuYizr/9RbWUD2xxNbx6R7xIv3vYjbjfMwW07qq7dT9v+BhbUmmcqrZc/APHzoJ8a+GK/PVirrx/inIIzN6MBiaCo7QI4Mnx1o27axahVt1fqifDzUJtCXuXmrLXBorDPS5RGVo=
+	t=1784283387; cv=none; b=fBwyvwm8FUw0nGH+Xy+pV+MTsTlND3OjDsm510p4LD+01y7lyddFbJ/aNd1e57dm+5AIWCTlhSZClpCVjUnXkBnSp1NEN98uXFN/lY8+zkauk61TTgNSClvJQCQif/y5K6hlcrW4ybgxGwllYkKuMcDJFLpgAQcOLXFu4Opr4JA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784282570; c=relaxed/simple;
-	bh=qRbuU1fJONUFcXhwsNls3CqW9F1neg4PzJBapUH/D9Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=SKfNVpktMhP32ESPGQ8NKBKtaDHM7N8+SIM0vjvhIiDkS4tiPMGcWuZvFf8KWjAJs9e0jqfrSKwyBxDExXcxHcdnrKz471l22Nt2HwsAyp9AoktE/ECRJiFx2o9mOOwPjiT1rvwN+os/rgTm9inBjiHOSGi0AOgmQ191YA0ioTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw; spf=pass smtp.mailfrom=ite.com.tw; dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b=akia1yoW; arc=none smtp.client-ip=219.87.157.213
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ite.com.tw
+	s=arc-20240116; t=1784283387; c=relaxed/simple;
+	bh=BdhS9yvmn5Yq/YaENAWVpoirpRgw3bQiq47TSTob03c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jH310bDGX6Ag+FvZvQ2I2pkeQiYIYcrD7S/Bvw2kRPT1h1cPslSW1/P9x0jZDt/IbZtLIqc6/OZwJh1CbduQv3401nWd7hwwzE2mcarPIfv1/P90xLdzqt1e2Ne3oERAHgTPkkVcOmoJ895oFr1pIJoTyFOadjBBctqlc0TvnHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yC/Qv8Zo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b="akia1yoW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=ite.com.tw; s=dkim;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=LR4WdiBTr8AybkBsMPgR38RfaV4nk2T6g/AEoefKEsw=;
-  b=akia1yoW0CigY/SfnO3hQjJbR0TLAq+3gzqHaPsWhox1yfDyRC+WX2Mk
-   Rjxx1Oaz9J6WABVz+4eBHb7pen7AzUwtS+/P8uqEmik00QEm+LfZ3nNOb
-   JjU37OdiWo+2g0BiXYTwQuStOHW/P5xln1ne+djE2m4F5BjJEWH96I6fy
-   MMz+F3DDRCuvsXnJjhBahN1R1X3BnM/16WAHGzggWstyJCV5i4PwMCKad
-   a02UYtro7QMMEwVcAi6fLTxE+HkraQR9iZvvthuZ4EzxvzpaV4VlkCas1
-   b2sbhcWvzlU4GVcO3vdtsNvWDBjrivVKxrxwPBWA5nE4F2MwSyDju/cEq
-   g==;
-X-CSE-ConnectionGUID: DvZuyMllSPCvlqQlXPr66w==
-X-CSE-MsgGUID: kiJ5WEOjSWONzsw6fDWUKA==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
-  by ironport.ite.com.tw with ESMTP; 17 Jul 2026 17:59:23 +0800
-Received: from hscmail1.internal.ite.com.tw (HSCMAIL1.internal.ite.com.tw [192.168.35.58])
-	by mse.ite.com.tw with ESMTP id 66H9xEuE095317;
-	Fri, 17 Jul 2026 17:59:14 +0800 (+08)
-	(envelope-from amber.kao@ite.com.tw)
-Received: from [127.0.1.1] (192.168.37.107) by HSCMAIL1.internal.ite.com.tw
- (192.168.35.58) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Fri, 17 Jul
- 2026 17:59:12 +0800
-From: Amber Kao <amber.kao@ite.com.tw>
-Date: Fri, 17 Jul 2026 17:59:49 +0800
-Subject: [PATCH v4 1/2] dt-bindings: usb: Add ITE IT8851/IT8853 Type-C PD
- controllers
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yC/Qv8Zo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7369C1F00A3A;
+	Fri, 17 Jul 2026 10:16:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1784283380;
+	bh=Z10+3eYhKXZYs/JisbiOPFbJ8g1kFgXTyiMYwOnxBAo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=yC/Qv8ZobEpVBWOjzNZLKl+X/A48reChO1gFYRqnBHiU93uBNIK7GyIr7IJKXMv0J
+	 /JaLkt1Vs3VDR9DHdc1VBaTnaWHO8i4OZKor9Nsp3RLvvFEKFbvw0LRFLVn1EvoUvp
+	 V1z5lGFgFHYQgH12z2IdcVL5sbx28569c7GZoFpE=
+Date: Fri, 17 Jul 2026 12:16:13 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Jameson Thies <jthies@google.com>,
+	Benson Leung <bleung@chromium.org>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Johan Hovold <johan@kernel.org>,
+	Hsin-Te Yuan <yuanhsinte@chromium.org>,
+	Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>,
+	Jack Pham <quic_jackp@quicinc.com>,
+	"Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: Correct teardown ordering in
+ ucsi_init() error path
+Message-ID: <2026071705-vertigo-retorted-ea53@gregkh>
+References: <20260717095006.101389-1-akuchynski@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260717-ucsi-itepd-v4-1-f3ba5addd0df@ite.com.tw>
-References: <20260717-ucsi-itepd-v4-0-f3ba5addd0df@ite.com.tw>
-In-Reply-To: <20260717-ucsi-itepd-v4-0-f3ba5addd0df@ite.com.tw>
-To: Jeson Yang <jeson.yang@ite.com.tw>, Yaode Fang <Yaode.Fang@ite.com.tw>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Amber Kao <amber.kao@ite.com.tw>,
-        Bling
- Chiang <Bling.Chiang@ite.com.tw>, Eric Su <Eric.Su@ite.com.tw>,
-        Doreen Lin
-	<doreen.lin@ite.com.tw>
-X-Mailer: b4 0.15.2
-X-ClientProxiedBy: TPEMAIL1.internal.ite.com.tw (192.168.15.58) To
- HSCMAIL1.internal.ite.com.tw (192.168.35.58)
-X-TM-SNTS-SMTP:
-	99561AA220601B9EE1261A8CC89F853DE619C57C64E1D819E72BAC1760A6C9D42002:8
-X-MAIL:mse.ite.com.tw 66H9xEuE095317
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260717095006.101389-1-akuchynski@chromium.org>
 
-Add device tree binding for the ITE IT8851 and IT8853 I2C-based USB
-Type-C Power Delivery controllers.
-The IT8851 supports one Type-C port; the IT8853 is the two-port variant
-sharing the same interface.
+On Fri, Jul 17, 2026 at 09:50:06AM +0000, Andrei Kuchynski wrote:
+> The commit 7aa7d4bf9d3f ("usb: typec: ucsi: Fix race condition and
+> ordering in port unregistration") consolidated port teardown into the
+> ucsi_unregister_port() helper. However, it introduced an ordering problem
+> in the ucsi_init() error path.
+> 
+> Fix this by ensuring ucsi_unregister_port() is called before we unregister
+> their corresponding lockdep keys.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 7aa7d4bf9d3f ("usb: typec: ucsi: Fix race condition and ordering in port unregistration")
+> Link: https://lore.kernel.org/all/22064276-6c56-411a-9f20-6917ceeb865f@intel.com/
+> Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+> ---
+>  drivers/usb/typec/ucsi/ucsi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Add a MAINTAINERS entry for the binding.
-
-Cc: Yaode Fang <Yaode.Fang@ite.com.tw>
-Cc: Jeson Yang <jeson.yang@ite.com.tw>
-Cc: Bling Chiang <Bling.Chiang@ite.com.tw>
-Cc: Eric Su <Eric.Su@ite.com.tw>
-Cc: Doreen Lin <doreen.lin@ite.com.tw>
-Signed-off-by: Amber Kao <amber.kao@ite.com.tw>
----
- .../devicetree/bindings/usb/ite,it8851.yaml        | 142 +++++++++++++++++++++
- MAINTAINERS                                        |   8 ++
- 2 files changed, 150 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/usb/ite,it8851.yaml b/Documentation/devicetree/bindings/usb/ite,it8851.yaml
-new file mode 100644
-index 000000000000..97c1e5490518
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/ite,it8851.yaml
-@@ -0,0 +1,142 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/ite,it8851.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: ITE IT8851/IT8853 USB Type-C Power Delivery Controller
-+
-+maintainers:
-+  - Jeson Yang <jeson.yang@ite.com.tw>
-+
-+description:
-+  The ITE IT8851 is an I2C-based USB Type-C Power Delivery (PD) controller
-+  supporting one Type-C port.
-+  The IT8853 is the two-port variant sharing the same programming interface.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - ite,it8851
-+      - ite,it8853
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  wakeup-source: true
-+
-+  '#address-cells':
-+    const: 1
-+
-+  '#size-cells':
-+    const: 0
-+
-+patternProperties:
-+  "^connector@[01]$":
-+    $ref: /schemas/connector/usb-connector.yaml#
-+    unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: ite,it8851
-+    then:
-+      properties:
-+        connector@1: false
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        typec@40 {
-+            compatible = "ite,it8853";
-+            reg = <0x40>;
-+            interrupts-extended = <&tlmm 129 IRQ_TYPE_EDGE_FALLING>;
-+            wakeup-source;
-+
-+            #address-cells = <1>;
-+            #size-cells = <0>;
-+
-+            connector@0 {
-+                compatible = "usb-c-connector";
-+                reg = <0>;
-+                label = "USB-C-0";
-+                power-role = "dual";
-+                data-role = "dual";
-+
-+                ports {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+
-+                    port@0 {
-+                        reg = <0>;
-+                        endpoint {
-+                            remote-endpoint = <&eud_con>;
-+                        };
-+                    };
-+
-+                    port@1 {
-+                        reg = <1>;
-+                        endpoint {
-+                            remote-endpoint = <&redriver_ss_out>;
-+                        };
-+                    };
-+
-+                    port@2 {
-+                        reg = <2>;
-+                        endpoint {
-+                            remote-endpoint = <&fsa4480_sbu_mux>;
-+                        };
-+                    };
-+                };
-+            };
-+
-+            connector@1 {
-+                compatible = "usb-c-connector";
-+                reg = <1>;
-+                label = "USB-C-1";
-+                power-role = "dual";
-+                data-role = "dual";
-+
-+                ports {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+
-+                    port@0 {
-+                        reg = <0>;
-+                        endpoint {
-+                          remote-endpoint = <&usb1_hs_con>;
-+                        };
-+                    };
-+                    port@1 {
-+                        reg = <1>;
-+                        endpoint {
-+                          remote-endpoint = <&redriver1_ss_out>;
-+                        };
-+                    };
-+                    port@2 {
-+                        reg = <2>;
-+                        endpoint {
-+                          remote-endpoint = <&sbu_mux1>;
-+                        };
-+                    };
-+                };
-+            };
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 461a3eed6129..ec0eeea79b9e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13720,6 +13720,14 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/bridge/ite,it66121.yaml
- F:	drivers/gpu/drm/bridge/ite-it66121.c
- 
-+ITE IT8851 TYPE-C PD CONTROLLER DRIVER
-+M:	Amber Kao <amber.kao@ite.com.tw>
-+R:	Jeson Yang <jeson.yang@ite.com.tw>
-+R:	Yaode Fang <Yaode.Fang@ite.com.tw>
-+L:	linux-usb@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/usb/ite,it8851.yaml
-+
- IVTV VIDEO4LINUX DRIVER
- M:	Andy Walls <awalls@md.metrocast.net>
- L:	linux-media@vger.kernel.org
-
--- 
-2.53.0
+You forgot a reported-by: tag :(
 
