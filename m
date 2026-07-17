@@ -1,39 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B213DE422;
-	Fri, 17 Jul 2026 09:41:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885FC390608;
+	Fri, 17 Jul 2026 09:44:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784281307; cv=none; b=j7vGwVTI37fdkODPt+7fOu6AiFtXK54nzvVeHW7g75iVouPMvm9tYSxvrmHNT2cNGFC45aX+CMfEIA/RxUlxspcSSmqR0Bf+PF9KCUykE0bMceBo9aUdIyQvv6REle2bc3efCEPJfo3uFe66V7QOD7HwAcN511nyONYwiyY2d/k=
+	t=1784281473; cv=none; b=gGQYruGb7TGfA2CfKAOUoi9HBoVExe3mrqHcXeMlzTHo1uvAaJmnmHS5G3S1wZBi+6obsPkG3tjbfMVSSxT588OAzWn48JY8dS6h2CWWFpmkwu2h0yyAZ7XqPgkj3bXTgkKVuZtU2TENPor3rIbwFmfL0wDoIR2j1F4Jci2a9UE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784281307; c=relaxed/simple;
-	bh=GV0zviMoOu8Vm1gSwn+SpP2lAjWz6TnrvYNSO74hTaQ=;
+	s=arc-20240116; t=1784281473; c=relaxed/simple;
+	bh=RYTe/Y7cbJt76CkVJwaNuVI41mBRB7u6vYdx2C2BXZo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cFmMz+NU0Bp0ynWRQeLi7FOkOJ9rh3gTdRph5Zfb40KQsKARH0wXEGFOHCNQRYQz/TTN9Kwp4BJYmHfqTOmM6NvcBfNW6M0/KC1tH2Ux/I+wmk4+se9ud59c7BucQ1ENRtfqW1HmqORQfSmZ/UnnYDowEM3qoEPVOOmXV9YqwNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wq3K8De4; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=XkaTpas/581hVy/U8tICh/DUMu6+xZsXBzzXNdrzSG6TgP0KFZp7o4OpilALp4NfJZb1TGridTFubVud3kKNxWC2X8Cq+J6zX0Q+KvjgZs8VxaCdO83epR0B2QT0IZPp3ITXeduVZGHqkzjc1DfXoBvaEd9FssKnSXGc6FVd8PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ts3xZ1/h; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wq3K8De4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B77001F000E9;
-	Fri, 17 Jul 2026 09:41:41 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ts3xZ1/h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B0541F000E9;
+	Fri, 17 Jul 2026 09:44:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1784281302;
-	bh=guPbzmrU4iS3rprn5iaP2GTAPMra4tLZXicDrTJ2iSE=;
+	s=korg; t=1784281470;
+	bh=Iekj/UdlANyeEnC+k/Eca69pjw7NEMFAk99gzlJO46Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=wq3K8De4ZF5ZNXxn7loXDKQ00nFtu4k5gnp6xbseG2ldVvx8bScir4oPurp/CAKEf
-	 jKi1HiLzPQfF86zkIywnmASBbwc7Cjgcw/rIar+C4N9X+xInHOeSz8dtwPzjl5cjSB
-	 Vl7U/MziJQ4QEcioNSOfgEP2QHWliCuZVBrhwDCk=
-Date: Fri, 17 Jul 2026 11:41:34 +0200
-From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To: Lucas Martins Alves <lucas.alves@lumal21.com.br>
-Cc: "b-liu@ti.com" <b-liu@ti.com>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4] usb: musb: dsps: implement vbus_status and set_vbus
- platform ops
-Message-ID: <2026071708-tamale-regroup-2a9a@gregkh>
-References: <20260716142516.510574-1-lucas.alves@lumal21.com.br>
- <20260716170551.566933-1-lucas.alves@lumal21.com.br>
+	b=Ts3xZ1/hAcKeM/8UEFYwmdpdjPegSsXDTDOV7r0drYDmmQMzErM5kT87bbTJoCfZV
+	 VCOB0mFqoiOZ1Vzeh94nZCVM3pwVgmiz8dCQNqAXGUKi7lkx9A5UJhvx5Vk2g6enot
+	 ZCYM9i4rGL6J01m23zXooNovUCAzyv+n6C/qF6oM=
+Date: Fri, 17 Jul 2026 11:44:23 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: Bin Liu <b-liu@ti.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: musb: da8xx: depopulate OF children on teardown
+Message-ID: <2026071745-award-affair-a332@gregkh>
+References: <20260715135916.24417-4-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,43 +39,59 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260716170551.566933-1-lucas.alves@lumal21.com.br>
+In-Reply-To: <20260715135916.24417-4-pengpeng@iscas.ac.cn>
 
-On Thu, Jul 16, 2026 at 05:05:54PM +0000, Lucas Martins Alves wrote:
-> From: Lucas Martins Alves <lucas.alves@lumal21.com.br>
+On Wed, Jul 15, 2026 at 09:57:50PM +0800, Pengpeng Hou wrote:
+> da8xx_probe() populates OF child devices before registering the MUSB
+> platform device. If the later MUSB device registration fails, those
+> children remain registered. The remove path also leaves the populated
+> children behind.
 > 
-> The DSPS glue layer (used on TI AM335x SoCs) was missing implementations
-> for the vbus_status and set_vbus platform ops defined in struct
-> musb_platform_ops.
+> Depopulate the children when MUSB device registration fails and after
+> unregistering the MUSB device during remove.
 > 
-> Add dsps_musb_vbus_status() to report VBUS presence by reading the VBUS
-> field of MUSB_DEVCTL, and dsps_musb_set_vbus() to drive the SESSION bit
-> on MUSB_DEVCTL, enabling or disabling the USB session.
-> 
-> Register both callbacks in dsps_ops to allow the MUSB core to control
-> VBUS on AM335x-based platforms. This enables the USB core to perform a
-> VBUS power cycle as a recovery mechanism when a USB error condition is
-> detected, and also allows userspace to control VBUS state via the
-> standard USB sysfs interface.
-> 
-> Signed-off-by: Lucas Martins Alves <lucas.alves@lumal21.com.br>
+> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 > ---
-> v1 -> v2:
-> - remove musb_root_disconnect() from set_vbus path
-> - adjust context->devctl copy/update handling
-> 
-> v2 -> v3:
-> - fix patch description text
-> - fix devctl usage in set_vbus path
+> Changes since v1: https://lore.kernel.org/all/20260616005819.11232-1-pengpeng@iscas.ac.cn/
+> - keep the existing of_platform_populate() error unwind target, so both
+>   labels remain used and the patch does not introduce an unused-label
+>   warning
+> - limit the commit message to paths where population has succeeded
 > ---
->  drivers/usb/musb/musb_dsps.c | 32 ++++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
+>  drivers/usb/musb/da8xx.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/musb/da8xx.c b/drivers/usb/musb/da8xx.c
+> index 4209f43..0c098a4 100644
+> --- a/drivers/usb/musb/da8xx.c
+> +++ b/drivers/usb/musb/da8xx.c
+> @@ -577,11 +577,13 @@ static int da8xx_probe(struct platform_device *pdev)
+>  	ret = PTR_ERR_OR_ZERO(glue->musb);
+>  	if (ret) {
+>  		dev_err(&pdev->dev, "failed to register musb device: %d\n", ret);
+> -		goto err_unregister_phy;
+> +		goto err_depopulate;
+>  	}
+>  
+>  	return 0;
+>  
+> +err_depopulate:
+> +	of_platform_depopulate(&pdev->dev);
+>  err_unregister_phy:
+>  	usb_phy_generic_unregister(glue->usb_phy);
+>  	return ret;
+> @@ -592,6 +594,7 @@ static void da8xx_remove(struct platform_device *pdev)
+>  	struct da8xx_glue		*glue = platform_get_drvdata(pdev);
+>  
+>  	platform_device_unregister(glue->musb);
+> +	of_platform_depopulate(&pdev->dev);
 
-I'm confused, what about patch 2?
+This implies that this has always been a bug for the normal remove path?
+How has this never shown up anywhere?
 
-THis series is all intermixed, can you start a new thread, and send just
-what you want reviewed/accepted here?  I'm lost...
+So shouldn't this be 2 different patches, there are 2 different bugs
+here, right?
 
 thanks,
 
-gre k-h
+greg k-h
