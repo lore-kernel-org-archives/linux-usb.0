@@ -1,93 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A5F3E5EFE;
-	Fri, 17 Jul 2026 09:48:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4379E390992
+	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 09:50:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784281736; cv=none; b=o+yMFi/fHbIZvWUHDvJMKPkpsP9zJJU+gGFOPAEz2EnLPoqFQQhVO0lbQmZJKpvbTPDiUVteHuvyvSXTmFyZBl4q7iA0MxM11SWLcmgyz/vMB2Wtw2JUH92m3lWM4R5ymXkEKDNjjI9M5Km1ZccUrfOIdkz6RWZjpDUCXcIadd4=
+	t=1784281815; cv=none; b=Or8xHIul59f2DRNuZptZLOQrFyS/dyo5SAFjoXULbQq0JfrgjsLa8/jPxdCxAZgKOfpZLBFBMDhd7+etFGmy5C/ngOpuL6n82tViQ/29Aqf7xJQZ/jbbofXeC3GdIAtqZBQMt1F7lFqyj/mOXXjAsUyOFehY++VvhcQLSJzHTrw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784281736; c=relaxed/simple;
-	bh=iqpwM0vKXNxtX2iX2L4J+wT058uiUWYX/hFd7MUbD0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F3F3xKGvYwpwtgyN9r7DfnQy1bYqo3taZQJhUUYgDhE+y5dofNFxrcK9iOHjfpRWVwYkatpWYYq8RWqwzguPfrfRdMq5bCH2TQi1gsd+T6kmW3UoPTM/TjkFC6bmfmjSTaXHluADTaUYUE9P0p5RaqJVDMmJ6O0AlH0Tioumz6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=a2mOb6O6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784281815; c=relaxed/simple;
+	bh=bC7YpT9ESxLDoMaxGzhIMZGdoE+f+WJ4LDC/7lWaePg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NwpsCTAplf5rT8u+tTAUbMtM6Ik7Nx1LMYhROo0krLi/NIRam8rDQvCkhGnGz4SLGLEGtIshUwqSIUsnBOMBd5Fc3Nq+ZboZTISxWcGiXlXkMFC1l0MA5tfVymJdure2s+FVSL/gMV+RYdyZ84ujPFoF6BBeVVPOS6nR2njSjvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CIycSEun; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="a2mOb6O6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C49BF1F000E9;
-	Fri, 17 Jul 2026 09:48:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1784281734;
-	bh=4cqu0rkeLeh6LKa9vAmpoU7rjBhCPn8cvqECvRDDhTw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=a2mOb6O6L11bHXYBU3nbfWYvAuIzy0v/FgGEEWBvktzHHxw1XyteG3ZgCkvmJtwmn
-	 Y6E2CLsj8LcrvUWRf4ZH36/g/NENRUr+nOCRFLN1D46InNz/Pp0E8aLlOfi/07xE8U
-	 aZmMdaE6JaiNF2PSSC95L/fGtSxDC25i2+fDyvvo=
-Date: Fri, 17 Jul 2026 11:48:46 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Griffin Kroah-Hartman <griffin@kroah.com>, linux-usb@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CIycSEun"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c15b33f7b23so1119251566b.3
+        for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 02:50:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1784281812; x=1784886612; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XD7Me5uj2XvXnDB/uQ2zJQ6z1KlcR/0Xv0ZRoQSvNBo=;
+        b=CIycSEun7g2E/pqxQKSbpWYjWeRUoH3RuEfvH3hPpQCAFgfoOkHkGHycrz/GT4aiH+
+         ZzvEzFbx4lBOwg//HR2L+VAShq2adJ6LmCVggKt46Ie4Cr9HAJyW2jE8dBm5chGPwb7m
+         7bAdpMk4HC7qu34mbJYxgJ083zzcvkmWNB/G8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784281812; x=1784886612;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XD7Me5uj2XvXnDB/uQ2zJQ6z1KlcR/0Xv0ZRoQSvNBo=;
+        b=VlmgasqYWiU62QRMmcNxyXb/sGqkKGTJPBe29kVYWv6qIbKKmIkfPHv2aKA1VF/7bV
+         ylTHK7/DvfnTyyDtVpaeZLLVNGoTflFk2r+SWeKCM6JCQXpX8lGpfC3almABvkHQ4LBT
+         O04l15cSQdndhjaTVDzHNrFcx8pXjSurjBM5kLedvpHlJXWZf/TCtXEWUBMlcESXoT8j
+         X75g/idQzeLSsrn9QeFFM/v2IFOkvtS0wVzo42mqouVPyKYk4owsW1jjR7BEcdzEchmE
+         Qx7omieROcDJHTcHK5Y/LyX7X0eroii53/baaKYHFAzp63DhSIJmAtRmt/6gewmpqqp0
+         HP7A==
+X-Forwarded-Encrypted: i=1; AHgh+RqGpqIIOxMgQdrqjEyCcGZND4QxkQfCxyUAFL6yZHO4Fbrw7Efth2oHesy7x0j3XIdobc4l3JjWsEk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzo3n4BXOsALW+ICWs60y5klHYKuiS1aOG3FarCcgAE2u2aW8GK
+	eMJnUSS7lgFgk9JoaTf//3FWQoAfMKRqpYh2Vq7lPXQJubZf3Hy6zpDCwm5qWWemVA==
+X-Gm-Gg: AfdE7clU45Rn9+MczV5sNe27/2eLPHpbhEHLuTTOvECqSuASeAKv1pSygod7Ct2LLdu
+	o+lU9ECusIWTgoMlQ2BG42WXOxuwrhOLn2V5u6vzvSR8xhFOiAotg7HPqo360XJ/F7Y7hW0KeAa
+	1D/t0DqfJanTQQdJIr4QZmMTqqvl6DD+ACyFYtya2uilBQgb2tNFyziZCbUeuCxI5GagabEBbrk
+	xI/gYGtMkBxQvgjyC3qxK/btqAYwfHKGT5tFDMeAimeT96shZWx1xT5uYDapUTlHXZr5DOmCKdQ
+	GrYqBPGNciMkoKHJl4RpPYXlNRwKJfSav10rwSPc7ST2YyRclxoluoqAKId01n6Phj/TMPOv0gb
+	FEW46zn8UsJmvMrQge2cuoqNcFkc9VVmPwF/h1QYyyKApBXMrgf3gOvJ/WHd2NCFuKUfRvQhN1w
+	u9dTlquFzyAioc0tBqRDpVbpkz+0Sf6ep2BeQnNiE61Ib2ru2X3t4BzXNavRHgEynFSA==
+X-Received: by 2002:a17:907:c1e:b0:c12:9e83:643 with SMTP id a640c23a62f3a-c16b46ab9a4mr73127266b.10.1784281812365;
+        Fri, 17 Jul 2026 02:50:12 -0700 (PDT)
+Received: from akuchynski.c.googlers.com.com (91.27.34.34.bc.googleusercontent.com. [34.34.27.91])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c17009addd2sm48862466b.3.2026.07.17.02.50.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 02:50:11 -0700 (PDT)
+From: Andrei Kuchynski <akuchynski@chromium.org>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Jameson Thies <jthies@google.com>,
+	Benson Leung <bleung@chromium.org>,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: core: Strengthen error handling in hub_hub_status()
-Message-ID: <2026071717-richness-opossum-b855@gregkh>
-References: <20260714-usb_core_patches_2-v1-1-4229a368a633@kroah.com>
- <f66a5507-5e83-424f-9c11-15b1882be499@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Johan Hovold <johan@kernel.org>,
+	Hsin-Te Yuan <yuanhsinte@chromium.org>,
+	Myrrh Periwinkle <myrrhperiwinkle@qtmlabs.xyz>,
+	Jack Pham <quic_jackp@quicinc.com>,
+	"Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: typec: ucsi: Correct teardown ordering in ucsi_init() error path
+Date: Fri, 17 Jul 2026 09:50:06 +0000
+Message-ID: <20260717095006.101389-1-akuchynski@chromium.org>
+X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f66a5507-5e83-424f-9c11-15b1882be499@rowland.harvard.edu>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 14, 2026 at 12:32:06PM -0400, Alan Stern wrote:
-> On Tue, Jul 14, 2026 at 11:04:33AM +0200, Griffin Kroah-Hartman wrote:
-> > Add additional error handling after the call to get_hub_status() in
-> > hub_hub_status().
-> > 
-> > get_hub_status() uses usb_control_msg() which does not verify that the
-> > message is the correct length, substituting it for
-> > usb_control_msg_recv() would also solve this issue but increase memory
-> > allocations.
-> > 
-> > Instead, error handling is copied from the method used in
-> > hub_ext_port_status(), which shares the same flow of logic as
-> > hub_hub_status().
-> > 
-> > Assisted-by: gkh_clanker_t1000
-> > Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
-> > ---
-> >  drivers/usb/core/hub.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> > index 5262e11c12cd..0d2166b8923a 100644
-> > --- a/drivers/usb/core/hub.c
-> > +++ b/drivers/usb/core/hub.c
-> > @@ -991,10 +991,12 @@ static int hub_hub_status(struct usb_hub *hub,
-> >  
-> >  	mutex_lock(&hub->status_mutex);
-> >  	ret = get_hub_status(hub->hdev, &hub->status->hub);
-> > -	if (ret < 0) {
-> > +	if (ret < sizeof(hub->status->hub)) {
-> >  		if (ret != -ENODEV)
-> >  			dev_err(hub->intfdev,
-> >  				"%s failed (err = %d)\n", __func__, ret);
-> > +		if (ret >= 0)
-> > +			ret = -EIO;
-> 
-> It would be better to put these two lines above the preceding test.  
-> That way it won't print confusing things like "hub_hub_status failed 
-> (err = 2)".
+The commit 7aa7d4bf9d3f ("usb: typec: ucsi: Fix race condition and
+ordering in port unregistration") consolidated port teardown into the
+ucsi_unregister_port() helper. However, it introduced an ordering problem
+in the ucsi_init() error path.
 
-It is confusing, but it matches the other check for this same error in
-hub_ext_port_status() as it's the same error condition.  How about this
-patch happens first int he series, which "unifies" them, and then fix up
-both of the patterns at the same time to be more clear in a later patch
-in the series?
+Fix this by ensuring ucsi_unregister_port() is called before we unregister
+their corresponding lockdep keys.
 
-thanks,
+Cc: stable@vger.kernel.org
+Fixes: 7aa7d4bf9d3f ("usb: typec: ucsi: Fix race condition and ordering in port unregistration")
+Link: https://lore.kernel.org/all/22064276-6c56-411a-9f20-6917ceeb865f@intel.com/
+Signed-off-by: Andrei Kuchynski <akuchynski@chromium.org>
+---
+ drivers/usb/typec/ucsi/ucsi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-greg k-h
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 1ae4224d2dfc3..49f1c53721bbd 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -2142,11 +2142,11 @@ static int ucsi_init(struct ucsi *ucsi)
+ 	return 0;
+ 
+ err_unregister:
++	for (con = connector; con->port; con++)
++		ucsi_unregister_port(con);
+ 	for (i = 0; i < ucsi->cap.num_connectors; i++)
+ 		lockdep_unregister_key(&connector[i].lock_key);
+ 
+-	for (con = connector; con->port; con++)
+-		ucsi_unregister_port(con);
+ 	kfree(connector);
+ err_reset:
+ 	memset(&ucsi->cap, 0, sizeof(ucsi->cap));
+-- 
+2.55.0.229.g6434b31f56-goog
+
