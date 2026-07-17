@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885FC390608;
-	Fri, 17 Jul 2026 09:44:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A5F3E5EFE;
+	Fri, 17 Jul 2026 09:48:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784281473; cv=none; b=gGQYruGb7TGfA2CfKAOUoi9HBoVExe3mrqHcXeMlzTHo1uvAaJmnmHS5G3S1wZBi+6obsPkG3tjbfMVSSxT588OAzWn48JY8dS6h2CWWFpmkwu2h0yyAZ7XqPgkj3bXTgkKVuZtU2TENPor3rIbwFmfL0wDoIR2j1F4Jci2a9UE=
+	t=1784281736; cv=none; b=o+yMFi/fHbIZvWUHDvJMKPkpsP9zJJU+gGFOPAEz2EnLPoqFQQhVO0lbQmZJKpvbTPDiUVteHuvyvSXTmFyZBl4q7iA0MxM11SWLcmgyz/vMB2Wtw2JUH92m3lWM4R5ymXkEKDNjjI9M5Km1ZccUrfOIdkz6RWZjpDUCXcIadd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784281473; c=relaxed/simple;
-	bh=RYTe/Y7cbJt76CkVJwaNuVI41mBRB7u6vYdx2C2BXZo=;
+	s=arc-20240116; t=1784281736; c=relaxed/simple;
+	bh=iqpwM0vKXNxtX2iX2L4J+wT058uiUWYX/hFd7MUbD0k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XkaTpas/581hVy/U8tICh/DUMu6+xZsXBzzXNdrzSG6TgP0KFZp7o4OpilALp4NfJZb1TGridTFubVud3kKNxWC2X8Cq+J6zX0Q+KvjgZs8VxaCdO83epR0B2QT0IZPp3ITXeduVZGHqkzjc1DfXoBvaEd9FssKnSXGc6FVd8PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ts3xZ1/h; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=F3F3xKGvYwpwtgyN9r7DfnQy1bYqo3taZQJhUUYgDhE+y5dofNFxrcK9iOHjfpRWVwYkatpWYYq8RWqwzguPfrfRdMq5bCH2TQi1gsd+T6kmW3UoPTM/TjkFC6bmfmjSTaXHluADTaUYUE9P0p5RaqJVDMmJ6O0AlH0Tioumz6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=a2mOb6O6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ts3xZ1/h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B0541F000E9;
-	Fri, 17 Jul 2026 09:44:30 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="a2mOb6O6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C49BF1F000E9;
+	Fri, 17 Jul 2026 09:48:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1784281470;
-	bh=Iekj/UdlANyeEnC+k/Eca69pjw7NEMFAk99gzlJO46Y=;
+	s=korg; t=1784281734;
+	bh=4cqu0rkeLeh6LKa9vAmpoU7rjBhCPn8cvqECvRDDhTw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ts3xZ1/hAcKeM/8UEFYwmdpdjPegSsXDTDOV7r0drYDmmQMzErM5kT87bbTJoCfZV
-	 VCOB0mFqoiOZ1Vzeh94nZCVM3pwVgmiz8dCQNqAXGUKi7lkx9A5UJhvx5Vk2g6enot
-	 ZCYM9i4rGL6J01m23zXooNovUCAzyv+n6C/qF6oM=
-Date: Fri, 17 Jul 2026 11:44:23 +0200
+	b=a2mOb6O6L11bHXYBU3nbfWYvAuIzy0v/FgGEEWBvktzHHxw1XyteG3ZgCkvmJtwmn
+	 Y6E2CLsj8LcrvUWRf4ZH36/g/NENRUr+nOCRFLN1D46InNz/Pp0E8aLlOfi/07xE8U
+	 aZmMdaE6JaiNF2PSSC95L/fGtSxDC25i2+fDyvvo=
+Date: Fri, 17 Jul 2026 11:48:46 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: Bin Liu <b-liu@ti.com>, linux-usb@vger.kernel.org,
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Griffin Kroah-Hartman <griffin@kroah.com>, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: musb: da8xx: depopulate OF children on teardown
-Message-ID: <2026071745-award-affair-a332@gregkh>
-References: <20260715135916.24417-4-pengpeng@iscas.ac.cn>
+Subject: Re: [PATCH] usb: core: Strengthen error handling in hub_hub_status()
+Message-ID: <2026071717-richness-opossum-b855@gregkh>
+References: <20260714-usb_core_patches_2-v1-1-4229a368a633@kroah.com>
+ <f66a5507-5e83-424f-9c11-15b1882be499@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -39,58 +40,53 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260715135916.24417-4-pengpeng@iscas.ac.cn>
+In-Reply-To: <f66a5507-5e83-424f-9c11-15b1882be499@rowland.harvard.edu>
 
-On Wed, Jul 15, 2026 at 09:57:50PM +0800, Pengpeng Hou wrote:
-> da8xx_probe() populates OF child devices before registering the MUSB
-> platform device. If the later MUSB device registration fails, those
-> children remain registered. The remove path also leaves the populated
-> children behind.
+On Tue, Jul 14, 2026 at 12:32:06PM -0400, Alan Stern wrote:
+> On Tue, Jul 14, 2026 at 11:04:33AM +0200, Griffin Kroah-Hartman wrote:
+> > Add additional error handling after the call to get_hub_status() in
+> > hub_hub_status().
+> > 
+> > get_hub_status() uses usb_control_msg() which does not verify that the
+> > message is the correct length, substituting it for
+> > usb_control_msg_recv() would also solve this issue but increase memory
+> > allocations.
+> > 
+> > Instead, error handling is copied from the method used in
+> > hub_ext_port_status(), which shares the same flow of logic as
+> > hub_hub_status().
+> > 
+> > Assisted-by: gkh_clanker_t1000
+> > Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
+> > ---
+> >  drivers/usb/core/hub.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> > index 5262e11c12cd..0d2166b8923a 100644
+> > --- a/drivers/usb/core/hub.c
+> > +++ b/drivers/usb/core/hub.c
+> > @@ -991,10 +991,12 @@ static int hub_hub_status(struct usb_hub *hub,
+> >  
+> >  	mutex_lock(&hub->status_mutex);
+> >  	ret = get_hub_status(hub->hdev, &hub->status->hub);
+> > -	if (ret < 0) {
+> > +	if (ret < sizeof(hub->status->hub)) {
+> >  		if (ret != -ENODEV)
+> >  			dev_err(hub->intfdev,
+> >  				"%s failed (err = %d)\n", __func__, ret);
+> > +		if (ret >= 0)
+> > +			ret = -EIO;
 > 
-> Depopulate the children when MUSB device registration fails and after
-> unregistering the MUSB device during remove.
-> 
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-> ---
-> Changes since v1: https://lore.kernel.org/all/20260616005819.11232-1-pengpeng@iscas.ac.cn/
-> - keep the existing of_platform_populate() error unwind target, so both
->   labels remain used and the patch does not introduce an unused-label
->   warning
-> - limit the commit message to paths where population has succeeded
-> ---
->  drivers/usb/musb/da8xx.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/musb/da8xx.c b/drivers/usb/musb/da8xx.c
-> index 4209f43..0c098a4 100644
-> --- a/drivers/usb/musb/da8xx.c
-> +++ b/drivers/usb/musb/da8xx.c
-> @@ -577,11 +577,13 @@ static int da8xx_probe(struct platform_device *pdev)
->  	ret = PTR_ERR_OR_ZERO(glue->musb);
->  	if (ret) {
->  		dev_err(&pdev->dev, "failed to register musb device: %d\n", ret);
-> -		goto err_unregister_phy;
-> +		goto err_depopulate;
->  	}
->  
->  	return 0;
->  
-> +err_depopulate:
-> +	of_platform_depopulate(&pdev->dev);
->  err_unregister_phy:
->  	usb_phy_generic_unregister(glue->usb_phy);
->  	return ret;
-> @@ -592,6 +594,7 @@ static void da8xx_remove(struct platform_device *pdev)
->  	struct da8xx_glue		*glue = platform_get_drvdata(pdev);
->  
->  	platform_device_unregister(glue->musb);
-> +	of_platform_depopulate(&pdev->dev);
+> It would be better to put these two lines above the preceding test.  
+> That way it won't print confusing things like "hub_hub_status failed 
+> (err = 2)".
 
-This implies that this has always been a bug for the normal remove path?
-How has this never shown up anywhere?
-
-So shouldn't this be 2 different patches, there are 2 different bugs
-here, right?
+It is confusing, but it matches the other check for this same error in
+hub_ext_port_status() as it's the same error condition.  How about this
+patch happens first int he series, which "unifies" them, and then fix up
+both of the patterns at the same time to be more clear in a later patch
+in the series?
 
 thanks,
 
