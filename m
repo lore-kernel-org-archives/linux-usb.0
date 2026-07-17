@@ -1,164 +1,118 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E942391E73
-	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 19:54:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784318056; cv=none; b=WNvk8zMilfCfnIwnF4YEWLri9N5oT1sodQuUoHedpjEsK5RTf7J84MldyQmPQSmTTDareLwt4/dENqFaXbBpWYjQTFgcbNWZF2wkYpHc8C+7BgiyzRs7XbpobzljKOItt6q7TJFTC0FA3pn2E/vJd1ILLz/yliQML6SsrXGF/5A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784318056; c=relaxed/simple;
-	bh=OovEX5j8oO9dt0RWb+VLsO7EVU4CwpJSCIQyuF/rK64=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=n/PhWEgqee5hoWgOi8MVXZJfLRg0lwkszpZ7IMWWyWBHBY5f5gHUpSf0B2LO1OM8U4zF+380jUcztgUmCeTyfMYtLMcRRGDrn8YRqH5d3eENBGkL1GEFtAiU5LxvvCPeJxjy4yhde2HCFiM0Muz6A3DD+XyjF6FpPUkSkBPh8PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j42IAOvK; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C70E207A20
+	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 20:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784318988; cv=pass; b=e/nAoZpZewHavThbGAdX5+7mJWYm0YD1g0lFg3W8iwwCFcT3f28DjmTej7M78kEvx3I7VqJKd1tGRy/thGm8chS3HHQiC4kYasBshYAd8RthvIhkTBdQ0V8SaTKYcY98St5R0cLGsq9l3XnPvwGNWMr2nQLOFiex1ZWz31fjNHQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784318988; c=relaxed/simple;
+	bh=fuyvlwPt0XTcmclhQS2Affk7gZrA0/CGf7Y+BAmXAYI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TgQfZrz+SyI6th9A0b+e4tv+f1T8RuGD4wOToZ96s7PIg5Rwj84XuN4cZY2+q0EEyZmi6l/DClfE+XvqUmw10UPcWf5lHn9xY9ZzuKrd2v6IHzfp81O/0JSORo/09+/n3Q5Z5M4DzQAngLyTfB8QtNMsb9E4OhqoWDAh0gOgrWo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GBNK4t5E; arc=pass smtp.client-ip=209.85.167.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j42IAOvK"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ceaf8a1265so77963445ad.2
-        for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 12:54:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GBNK4t5E"
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-497e6956acfso1694670b6e.1
+        for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 13:09:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784318986; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fs7gSegBzCPd9k3PWkcoEy8bmS7O1kJIlfEWNlZ17iUU6DU+jyungqiOfpIYeYsKR6
+         dl+ZF420xaV24mB29H9HAcReARy800aRH+h1Cf+KoUHVCHbVFSTL3nVG2Hgbe6yBYPlc
+         Ld/kRLcP5oCfFltCfcQYZ49+wHWyjqNicegDvo55EIXAM++mKFt5XlkWVYcsP8uBD0EP
+         OS7frrtffuOdZB8W2CKaw/ArITQEqN2s1OcoBy4VRYkjlLnYalndLQZ0jNJixT8QH0nR
+         +cdFevE8Wuw4MkTZ0Xc4DF7si7LOLxY7/H3VLvQPkqGW4gzgmqba53peNyhc9IWshOYY
+         t8oA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=a/oGsTQzPIVzUquhOd7LVAa8iiu8gSxf6tbKnkANbwA=;
+        fh=7un95RKD2bJbulfPEiJ9mBxElfs41gX5Ftg2SVt9jGs=;
+        b=s2tazTXBpWLpzkdaiVLc17OPxFQokCsbDLk7NoiqM5DbQIzp3YgQo8mYOaRoO3NSPQ
+         PyobOawA5R9vlyINZ9l/k9+Tcj9HvavIZNO6Vo1EghY7mI9t5QfBMuEFsUx5Qcps0Pmd
+         0p0HJXkGUI2dSyYDs5+dQUgXANaKjH7sIVeG5A2T1N/eRjrMN0VndP7Ga6AHTPZMRe6Z
+         I0edps3fb1hFUNLuNsiYXMijmGdTJwMcU4PmdHASZSJdOVHX9qfTjzL4I1dcnrRoKLlL
+         U+04ZsGLb3lJVttiP4ZhZI11W1kJvsYXcHHVErQdOgxJMQLYTfQMGvr+UxLhud06DD23
+         KcRg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784318054; x=1784922854; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=V/QRLXFyC7iudgBp/aY0Qb4ATVQXu8Baj1/SfCLrVxo=;
-        b=j42IAOvKxqnZj3n5K8PPiEyEA0/rceoW371CuW5G9lu3f/qPSxND06blwGg7s4FZbS
-         EQaV2I4h1lKfnlVTC6EbUpi1Ktie8lvo7X2FmTAzBXdyfA0Yq6vrAZFVja0Hh6BKWx7P
-         5S663aYfl0Gn90Nurqh0STxP6pjYiRs1MRAytFPo6mNSe4IH5YqZ5csFbO9YVZ3JkAfo
-         D9h74oJehVUcMpmtW6/rqIB7zqcHridhd/4OnUGN1C4fpknbS59mMjhFwhIOhMRH7Pei
-         k8stnFdnz47EhWaZnCPZ8+eaZT0rvXkJ4ZxAFsbDdCQv6MxPB3N9tS6Af1mHQZ4XU9wW
-         IhJg==
+        d=google.com; s=20251104; t=1784318986; x=1784923786; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=a/oGsTQzPIVzUquhOd7LVAa8iiu8gSxf6tbKnkANbwA=;
+        b=GBNK4t5EJg+Q7MBRIthnH3DvFWCNZkU7xOCb17RBAfkf7mvvLMMcc5kV2fx8gH7ECK
+         +Io4k82JVFk/vqhwsTR/tWUtgfdcqiDcdrgW8wWO3K3c1Q/FMXqFmaIOWv5afl9Iv47T
+         EzOmXZi0zCRFL9QUA9bos7P3vadMYbWvDAyHXzeEqHUDsuG/hC9n0KQIEeN7UvxIMia0
+         FquvHpHVieLwql0sJFkpYnPmYblRrAxQFnI1KUC27GTv871SW8DCWxITErk+TNoBReyA
+         H7LIe75zx5mwUypzNhPCdRDKG2BNFhUBfZMNGxep2FLGeKLrtX4G2O4pApkxrVWYsA6p
+         5m1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784318054; x=1784922854;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=V/QRLXFyC7iudgBp/aY0Qb4ATVQXu8Baj1/SfCLrVxo=;
-        b=n6MOHhCBF06h74DmRdc12IZgSYZR5TXGLdnJIdM12c6fH47nmhEfsgucWQ68yPgKwF
-         34B9jb42OwsIAm00FMgvcwx4R5uqHk1GNmdN+L8oh+wjdEJIKv3NNgCBt7hZF7vEXEHZ
-         aeGxj2BFT7c28BKlLIKcqvqvWZfXp2Z3mWOCOspGcKyGdn5X0YBaGQYrW8oFxZed5lBt
-         8z38Kukcnh7K94rSWs/eln4AaDhnDpgoIdUsi0+nHJtAt6su0cZQaMOSnR/Ii5ivWM0m
-         XPNYD5kYZzCOUH0ynC30JDI/cgJqvIOizjD2V0j8/1UsyGmKa3FQckYcO2GZ2spTCYI7
-         2nMQ==
-X-Gm-Message-State: AOJu0YyhJ62anbsg/0wqX75xUOFuPWffgEOYEFtAYoP1vRRBfY5on6Tn
-	uMXHnVdjWEygwsI8oMp3k8USok21oIOwhSiTBAgkk9hLSHi5w6t1Ljjx
-X-Gm-Gg: AfdE7cnOooxME3HnUQWN/pnAlPB0Z1oawC45Ql2yiqdI9zyN8uL3SSbmOU2xjo92H7A
-	8ioocoXsyXmnQ6cMLMBgXIfJxuQCZ1my6OB1l4FucjXIp8u+sQnmQ7CySNAjdG70PQq/zLTdNqz
-	Jgjt36irqu3pUWk4QzoDhzpv+DEYgZsIPzi/QBl3lCZcxvrdWkal60omv7+5edtxLMHZPZkDJBG
-	Lr0PETWmfEGpKuGY7taIy78n1t7R8M9PFyImZ5tLjqeIm38eTTxnATM9GYolSGMwAYWQWAMyFdZ
-	X/Q3fQt9qX5yL65xvvV0tlmlpaukMMZlYi/407TJCUaPAOHRzqI3Iv7YRi+c/MRgxXHJenJmIn9
-	/Hq8EJwpA2Nk4YzaqiiqWLS+NCDuELw7y69V5ThfSXATjk6xagHDvQv2kaKUMAoPOE5YnFJQ3Np
-	SrI8d9SKxFzF7foFiap0TepHtYUVGNvz051XmVEe6EMWy8uCibwHYwOwAbMsgp6gLfOZKPypeLr
-	MDg
-X-Received: by 2002:a17:903:3d0f:b0:2cf:477d:8a87 with SMTP id d9443c01a7336-2cf477d8f76mr5826235ad.10.1784318054611;
-        Fri, 17 Jul 2026 12:54:14 -0700 (PDT)
-Received: from ghost.localdomain ([103.170.252.7])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13ce29c2dcdsm7103119c88.1.2026.07.17.12.54.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 12:54:14 -0700 (PDT)
-Received: from ghost.localdomain (ip6-localhost [::1])
-	by ghost.localdomain (OpenSMTPD) with ESMTP id be1d25cf;
-	Fri, 17 Jul 2026 19:54:03 +0000 (UTC)
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	stern@rowland.harvard.edu,
-	michal.pecio@gmail.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	stable@vger.kernel.org,
-	Nikhil Solanke <nikhilsolanke5@gmail.com>
-Subject: [PATCH 2/2] USB: hub: Split announce_device() to log device identity before enumeration
-Date: Sat, 18 Jul 2026 01:23:36 +0530
-Message-ID: <20260717195336.98500-3-nikhilsolanke5@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260717195336.98500-1-nikhilsolanke5@gmail.com>
-References: <20260717195336.98500-1-nikhilsolanke5@gmail.com>
+        d=1e100.net; s=20251104; t=1784318986; x=1784923786;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=a/oGsTQzPIVzUquhOd7LVAa8iiu8gSxf6tbKnkANbwA=;
+        b=Hni/LINXn44klH03u/MRbosQF5DO2ElFXG5lx3uJ3SjY+HUEpJWWDQcRJiFlxPdA1Y
+         ygFS0S4b6axPgiNa5H7pIthsZDnK0qLyW5OL0VsAYuQvuN32bREQaMpEbciioZ8WzSd/
+         7QG9oTQXaP6sYB+L1PjXZG5FvIA39t1826Di5S1Xsiso2XJ31g5cQ69MjygOBY/lJXGT
+         1YlwdbHelAKdaf6XjzV4FTgDJbIDsn9QLcWz0OM6LUx3Kw0Bb1pbRRhsBYRr5HSdbDCL
+         +E0IIbz4YcoRgLq+QOJ/H8hYACUvoI3gXY4rtLk9ujETdvS0J8pcKt3yRhjeANrGw1Gv
+         Rzjg==
+X-Forwarded-Encrypted: i=1; AHgh+RpCgMoJKwGPA668riwtTKdG1pUeM29v/4vFkA5Xbaqk2/H2q/Qs00bF2QXM/kEV5EoBsD52wfCqKLo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9Yx633jIrbY/qfy77f1Oq3KPUSdjZUqzg9ai8abJY8IqK+THw
+	OqRTxlckAUFEvitGteAhc/i8lmYtJja7ZgVRv9Z9pvj1CcyrcOYsCUQ5uxYsKppjtaE1JNu4AF4
+	ijwppHhfMRSDaOCuUs2miUavsnJAk1S+l1Hx+DQhv
+X-Gm-Gg: AfdE7cna0798qQkv/xwbmJy9xI4t7qFD26Udk04D+jIZ4y8zI4pKoyxLPBDwrHk+sFR
+	Pzqa6qR3KYKWJAYK7urye+DZkkKliX+s+kUK81ewKQkTQBiKX754I8AgbCGd6I0mznjImvykh71
+	jca5TEMRuMvFqv6DyCWEuAIKDt5ACh6kRrB1ETG9XXjXSzCbtQXZNRJPTPIaozrslXMlpcTdowC
+	3eV5XMG0KmGVakVl5FIpnbRXR0QPvjYg8AjHm72vaDbRNxz6t5+Z69ULURwBIx2BjStJHGpH9Ed
+	0QAMpreeLGkJili6MdlhNbAFlfAa2TQ=
+X-Received: by 2002:a05:6808:3007:b0:486:caa4:ea44 with SMTP id
+ 5614622812f47-4a4b20680c0mr5042366b6e.6.1784318985031; Fri, 17 Jul 2026
+ 13:09:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260710200308.1401321-2-rdbabiera@google.com> <alYJHaXFR7q0q_Xq@kuha>
+In-Reply-To: <alYJHaXFR7q0q_Xq@kuha>
+From: RD Babiera <rdbabiera@google.com>
+Date: Fri, 17 Jul 2026 13:09:33 -0700
+X-Gm-Features: AUfX_myEj5B4NTI3ixuAXDmW795frjjR4YKKXMcANtLiE0szhvu4UnHPPoUOKgw
+Message-ID: <CALzBnUHXDozZbPFB9tE6MPEbSMcmHxtkFpU9DMcR2b7M3npJVA@mail.gmail.com>
+Subject: Re: [PATCH v4] usb: typec: tcpm: implement retry mechanism for
+ Discover Identity VDMs
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: badhri@google.com, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-announce_device() currently logs the device VID:PID and string
-descriptors only after successful enumeration. This means that if
-enumeration fails, no identifying information about the device appears
-in the kernel log, making it difficult to diagnose failures.
+On Tue, Jul 14, 2026 at 3:02=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+> This looks good to me but let's wait for Badhri. If you do v5, there
+> is one nitpick below. Otherwise:
+>
+> I think you could trim the above a little with this (is 0 a valid
+> version?):
+>
+>         if (svdm_version >=3D 0)
+>                 tcpm_queue_vdm(port, msg[0], &msg[1], 0, tx_sop_type);
+>
+> >  unlock:
+> >       mutex_unlock(&port->lock);
+> >  }
 
-Split announce_device() into announce_device_ids(), which logs the
-VID:PID and bcdDevice immediately after the device descriptor is read,
-and announce_device_strings(), which logs the product, manufacturer,
-and serial number strings after successful enumeration. This ensures
-that a device's identity is always visible in the log regardless of
-whether enumeration succeeds or fails.
+0 is a valid version, it equates to SVDM_VER_1_0.
+I'll add the nit to v5, thanks for taking a look!
 
-Suggested-by: Michal Pecio <michal.pecio@gmail.com>
-Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
----
- drivers/usb/core/hub.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 5262e11c12cd..d92bf887739d 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -2401,7 +2401,7 @@ static void show_string(struct usb_device *udev, char *id, char *string)
- 	dev_info(&udev->dev, "%s: %s\n", id, string);
- }
- 
--static void announce_device(struct usb_device *udev)
-+static void announce_device_ids(struct usb_device *udev)
- {
- 	u16 bcdDevice = le16_to_cpu(udev->descriptor.bcdDevice);
- 
-@@ -2410,6 +2410,10 @@ static void announce_device(struct usb_device *udev)
- 		le16_to_cpu(udev->descriptor.idVendor),
- 		le16_to_cpu(udev->descriptor.idProduct),
- 		bcdDevice >> 8, bcdDevice & 0xff);
-+}
-+
-+static void announce_device_strings(struct usb_device *udev)
-+{
- 	dev_info(&udev->dev,
- 		"New USB device strings: Mfr=%d, Product=%d, SerialNumber=%d\n",
- 		udev->descriptor.iManufacturer,
-@@ -2420,7 +2424,8 @@ static void announce_device(struct usb_device *udev)
- 	show_string(udev, "SerialNumber", udev->serial);
- }
- #else
--static inline void announce_device(struct usb_device *udev) { }
-+static inline void announce_device_ids(struct usb_device *udev) { }
-+static inline void announce_device_strings(struct usb_device *udev) { }
- #endif
- 
- 
-@@ -2651,6 +2656,9 @@ int usb_new_device(struct usb_device *udev)
- 		device_init_wakeup(&udev->dev, 0);
- 	}
- 
-+	/* Announce the device identity */
-+	announce_device_ids(udev);
-+
- 	/* Tell the runtime-PM framework the device is active */
- 	pm_runtime_set_active(&udev->dev);
- 	pm_runtime_get_noresume(&udev->dev);
-@@ -2672,8 +2680,8 @@ int usb_new_device(struct usb_device *udev)
- 	udev->dev.devt = MKDEV(USB_DEVICE_MAJOR,
- 			(((udev->bus->busnum-1) * 128) + (udev->devnum-1)));
- 
--	/* Tell the world! */
--	announce_device(udev);
-+	/* Announce the device's product, manufacturer and serial number */
-+	announce_device_strings(udev);
- 
- 	if (udev->serial)
- 		add_device_randomness(udev->serial, strlen(udev->serial));
--- 
-2.55.0
-
+Best,
+RD
