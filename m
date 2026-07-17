@@ -1,101 +1,141 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8273B14BC;
-	Fri, 17 Jul 2026 12:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BFE391845;
+	Fri, 17 Jul 2026 12:08:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784289764; cv=none; b=Os7Up/kif5vG6gFjprqVZ6279G5FRjmqOgQFLRfUM/pjsZmQsZxczJs4ohwIZTiUs+DUWj11YOI48nqlDf6qgwfB7zNT7CxX1/czPbCwkRq0ypJR24mGzyHABA0h/ScO0riP8/nlDjRZdPhs10a9ztW+1/ohgk6pHqTCPOoiWXg=
+	t=1784290107; cv=none; b=N8+hX+bLDhLx5cUfc9ITpM2uHXEfpszvrgxNROnbi74wWlab1qgTn+Y8gY3etE++QyJw+eji3uxnT9qC6beyo6inzJex3h4LEifbqY2VetkmxfTwsuBADb0DIVNBFx5nznF76DtAZRS2loJa8+Ix5uLJm2LhXCdcFzlqEot9AQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784289764; c=relaxed/simple;
-	bh=M6dliTL3upPz3AWTcFuW/Bf8sQHGqFSf/FvFJ52AEJY=;
+	s=arc-20240116; t=1784290107; c=relaxed/simple;
+	bh=9cTJRJlKipjC0yew8M0TvUnzS/l6CdYkIayakG+k3yw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l9MYNYWA3Bpp819UCNDe+JUNa+wOfKqcDXg60x+0q3Tiihwwh2VuedriQwhzMjh5tHoeRlNtyHuqNfDHcDp6NqTMTfuAaobhd4zx3otJJJY8bA3VWpv/Xi19pDfNyYQvyU7sCFUeD6PiaGIMzRS6Oml+v3LwFxstZU6eU13KywE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=afG26BD5; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=qw0EzdGBLQp0JKPHqDz3O86YEUGtuft7mz+IM5uUPoSmMH3hLYaHast2RoSaOlk49fOqbxaGATmD+gj06Txbr+Z+HpkwpHmd7f4tHUOUzWqLezEI6srCR++J17aYHpzxWZTwvC20ul9jD2jZNrsxW7G1NfuFuivtgcknm0gkx1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZiFJaGhk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="afG26BD5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03A1A1F000E9;
-	Fri, 17 Jul 2026 12:02:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784289763;
-	bh=M6dliTL3upPz3AWTcFuW/Bf8sQHGqFSf/FvFJ52AEJY=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZiFJaGhk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9E331F000E9;
+	Fri, 17 Jul 2026 12:08:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1784290106;
+	bh=YXUGG0uc7ix9Rid2bi7JYasFamsRv3C8p4iEQHOP9tg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=afG26BD5DJqcY9jFPHWwLoeF+nbY3GkVgbzmYISsj7xeZVCukUAa6Tdq4RdHOi1kv
-	 VhO0c4wlgnq8/uJ4G1UyEHvTyxI9wOPKKaqgViGb19EFGyS0cg19B9qoWfDnJR0YZm
-	 xD7VopeVKolG7iP9adxYqAQAtLV8auh9YJx/PsTDMa4HNn8peJiYCom6ppiEpBE6Ri
-	 O5VPY2KO8x4IepP8GFuNG7upUnYOFwAgzIaIiRLTvysiIiBbNcvkYDfO9/wew8cRsb
-	 l3JKPUr7GFFU/UKQZM1P948sh1G9gBvmTEg4KhGcT678i50OfZ6MBUBq9hVbqmsveD
-	 3Nyo9BqNTTjfQ==
-Date: Fri, 17 Jul 2026 13:02:35 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Swark Yang <syang@axiado.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Harshit Shah <hshah@axiado.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>, Jan Kotas <jank@cadence.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Mathias Nyman <mathias.nyman@intel.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-i3c@lists.infradead.org, linux-serial@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 6/8] dt-bindings: spi: dw-apb-ssi: add Axiado AX3005
- SPI variant
-Message-ID: <6d69cfd0-5f3b-4324-8d64-b4695cbb3e92@sirena.org.uk>
-References: <20260716-upstream-axiado-ax3005-upstream-v3-0-c429095143ec@axiado.com>
- <20260716-upstream-axiado-ax3005-upstream-v3-6-c429095143ec@axiado.com>
+	b=ZiFJaGhknvzm5ZAx4iegkIxtrgTfmE6DnJIk2Z+p5izJ8P0yEYMyydCs6Q0nroNC3
+	 X+d7MuEYnwlG/E0bd9Y2rlC5Lm+GTamNT/Aq8pzDx+l/X2EgS7QvHRz6HUijKylAv2
+	 OTQwZyE917GoXdKQU4qK60tum0jsuCaadc6cUJOg=
+Date: Fri, 17 Jul 2026 14:08:18 +0200
+From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+To: Lucas Martins Alves <lucas.alves@lumal21.com.br>
+Cc: "b-liu@ti.com" <b-liu@ti.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5] usb: musb: dsps: implement vbus_status and set_vbus
+ platform ops
+Message-ID: <2026071706-hardening-handwrite-e6de@gregkh>
+References: <20260717111547.6946-1-lucas.alves@lumal21.com.br>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="70M3+S0UoM/WolbI"
-Content-Disposition: inline
-In-Reply-To: <20260716-upstream-axiado-ax3005-upstream-v3-6-c429095143ec@axiado.com>
-X-Cookie: Enjoy yourself while you're still old.
-
-
---70M3+S0UoM/WolbI
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260717111547.6946-1-lucas.alves@lumal21.com.br>
 
-On Thu, Jul 16, 2026 at 08:51:13PM -0700, Swark Yang wrote:
-> Add binding for Axiado AX3005 SPI controller. So far, no changes
-> are known, so it can fall back to the snps,dwc-ssi-1.01a compatible.
+On Fri, Jul 17, 2026 at 11:16:02AM +0000, Lucas Martins Alves wrote:
+> From: Lucas Martins Alves <lucas.alves@lumal21.com.br>
+> 
+> The DSPS glue layer (used on TI AM335x SoCs) was missing implementations
+> for the vbus_status and set_vbus platform ops defined in struct
+> musb_platform_ops.
+> 
+> Add dsps_musb_vbus_status() to report VBUS presence by reading the VBUS
+> field of MUSB_DEVCTL, and dsps_musb_set_vbus() to drive the SESSION bit
+> on MUSB_DEVCTL, enabling or disabling the USB session.
+> 
+> Register both callbacks in dsps_ops to allow the MUSB core to control
+> VBUS on AM335x-based platforms. This enables the USB core to perform a
+> VBUS power cycle as a recovery mechanism when a USB error condition is
+> detected, and also allows userspace to control VBUS state via the
+> standard USB sysfs interface.
+> 
+> Signed-off-by: Lucas Martins Alves <lucas.alves@lumal21.com.br>
+> ---
+>  drivers/usb/musb/musb_dsps.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+> 
+> diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
+> index e3935f18dd56..efd1f0dbb926 100644
+> --- a/drivers/usb/musb/musb_dsps.c
+> +++ b/drivers/usb/musb/musb_dsps.c
+> @@ -618,6 +618,29 @@ static int dsps_musb_recover(struct musb *musb)
+>  	return session_restart ? 0 : -EPIPE;
+>  }
+>  
+> +static int dsps_musb_vbus_status(struct musb *musb)
+> +{
+> +	u8 devctl = musb_readb(musb->mregs, MUSB_DEVCTL);
+> +
+> +	return (devctl & MUSB_DEVCTL_VBUS) == MUSB_DEVCTL_VBUS;
+> +}
+> +
+> +static void dsps_musb_set_vbus(struct musb *musb, int is_on)
+> +{
+> +	u8 devctl;
+> +
+> +	devctl = musb_readb(musb->mregs, MUSB_DEVCTL);
+> +
+> +	if (is_on) {
+> +		devctl |= MUSB_DEVCTL_SESSION;
+> +	} else {
+> +		musb_root_disconnect(musb);
+> +		devctl &= ~MUSB_DEVCTL_SESSION;
+> +	}
+> +
+> +	musb_writeb(musb->mregs, MUSB_DEVCTL, devctl);
+> +}
+> +
+>  /* Similar to am35x, dm81xx support only 32-bit read operation */
+>  static void dsps_read_fifo32(struct musb_hw_ep *hw_ep, u16 len, u8 *dst)
+>  {
+> @@ -702,6 +725,8 @@ static struct musb_platform_ops dsps_ops = {
+>  
+>  	.set_mode	= dsps_musb_set_mode,
+>  	.recover	= dsps_musb_recover,
+> +	.vbus_status	= dsps_musb_vbus_status,
+> +	.set_vbus	= dsps_musb_set_vbus,
+>  	.clear_ep_rxintr = dsps_musb_clear_ep_rxintr,
+>  };
+>  
+> -- 
+> 2.53.0
+> 
 
-Please include human readable descriptions of things like commits and
-issues being discussed in e-mail in your mails, this makes them much
-easier for humans to read especially when they have no internet access.
-I do frequently catch up on my mail on flights or while otherwise
-travelling so this is even more pressing for me than just being about
-making things a bit easier to read.
+Hi,
 
-If there is no need for things to be part of a multi-subsystem series
-(eg, dependencies) it's normally better to send each subsystem
-separately.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
---70M3+S0UoM/WolbI
-Content-Type: application/pgp-signature; name="signature.asc"
+You are receiving this message because of the following common error(s)
+as indicated below:
 
------BEGIN PGP SIGNATURE-----
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpaGdoACgkQJNaLcl1U
-h9CYYgf/a6ZXfaJE/jmFwdCosDxknw75RDj7nPAqr8ZtQ6OEKCVRSIVBgwrMG1B6
-7TPPAIzIrDPqOWeb/BZihDW7BKUj2aDsl7pZivADMe0txrRhev2UcBUZUMxW1sXn
-DgyCTELlXBzkCAltV41zPIZTn6Rwcy8lHkkDXAfh0JGD5azOUiDxKAusCY9IhML1
-YtCaED6Zm325NAZ+cUqXIKy177WK3d4XQrt4N/qPahtGnlsER6BwUocE9HGNpNLh
-l3iTBw5h+slXmMR6H40Ax4/E64jiKe5RpDEW3MeDQgZLROX+xs5G+fp3eE5NGFPQ
-Z9zQeNxaiqK3XtZlukPgm9tW3O9UDA==
-=i8XU
------END PGP SIGNATURE-----
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
---70M3+S0UoM/WolbI--
+thanks,
+
+greg k-h's patch email bot
