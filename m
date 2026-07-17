@@ -1,163 +1,145 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx3.wp.pl (mx3.wp.pl [212.77.101.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAB83DBD55
-	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 08:58:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8824367B9E
+	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 09:10:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.77.101.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784278741; cv=none; b=LoJ4ME75c1yFtU/hSJ+f0YturWk+rKjuyleJ+B+/VsbZ/2IKBmkD0qaiHqx/h8/mLTCqWAJmBZD3IHlLNtPJo7huBZWtaVfalSxI5B/pZVws2jzKzcWrg7zQvntG9tqFwclgaT5SbD3BPJIrLWR5r77wQip7tnrl1gfgxUobgkc=
+	t=1784279436; cv=none; b=LHQyNcS99JWc0tci11dSWAAQ/MdxklQqSR1IrFNO92ku+g6R8SAvEYgwJDvHnnw954D9lXi1wMVLHsxrzyFSGVF+oyLNff8HPKBxypS44LfLJM2j3wZv+4X8+L8LAegIzE/32xaIW37ogi+iFxGCAAkR1rg1FmAbR8lAdZIyrkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784278741; c=relaxed/simple;
-	bh=iKr+ORJN/0HmCwv5NrZPcwiCSwGwPmGXsiFEI46TzZc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JvQYm1XGPhsfTY8gxjm5gGbzEuO/FNYQ8E/Kueb5oWSMDomOUJCwaWVUvyBnG6+Ude6S+UoqdH+mozqrmwjZSY/kkjJh7buKfwLqYBUW/kjhryLHZ7PnVLKOnffjNQL/JC3PNopuvFIw45dRITxsEZD3tzIp29oOg7dfcQmprLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=l400jifc; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VoVaXEjJ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1784279436; c=relaxed/simple;
+	bh=t1ONTKlONATXt4cdDOMB4swG1RCJMvreFRxlParBwSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BYGAgo8WrEWdPa+E7gPFqZZbIwSnjVbGdxtKxE9vUWMnNmAuFkiFdxU9ogkJYdtUuF90O/vJfFi/Pb5D7YJvTHENR4ms4BkytuYei4xIx6f2PAevjeDlRLX0SD0n6zXDl22A8iDDRQrsv5F/1yJhb5S7sXlHb3hgGCKc8BvEZ2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl; spf=pass smtp.mailfrom=wp.pl; dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b=fV+/+QIW; arc=none smtp.client-ip=212.77.101.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wp.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wp.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="l400jifc";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VoVaXEjJ"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66H6cZxn851854
-	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 08:58:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	V6MbJnmX7m7Q+rNiwCmFsJ4wLFKfE9U7mLaz8j8CV9U=; b=l400jifcL5aKd65B
-	5LUw2Bc0DKEUaD+NP5xqtPA0B+pUH7FOZJXvTs+5QjLB6A5Gg8elI6ZNoyfPveE3
-	c6jq6vIIbzxH9mI9jgJ3j0N+TLBSoEiiPaWzLOHUlLViZNgsZmc/WjtUN0Bh+1wD
-	FBsECLyhP50+rHKfuAww3lq6pCtK3FMsoNMX/+5UPmIhIgCf+34zN7ItdPiQRVn1
-	YuBZTVahOP5+znFPqWN37skx8eW25UhncLxEY5No6gd7D2EJk6mlPGaNSy+HmlSv
-	7ZU/elCzCRgFqR2DaXZBaHSiUoaiCj/LdbpP9HjwCRdDBT6RXnsOPSUQ69WmcMTU
-	YlF3BA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fff9p8ha9-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 08:58:58 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-51c0e702df8so91937751cf.2
-        for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 01:58:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784278738; x=1784883538; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=V6MbJnmX7m7Q+rNiwCmFsJ4wLFKfE9U7mLaz8j8CV9U=;
-        b=VoVaXEjJgzgcakQ7j9flfYo8ay7oKb+LCzu1nywgGyphgjXW/pfrlxRc8PTsPUFF8l
-         UY2ZKJD3GKkkqE0A/CdT8G4+p4ZuBg6WG389unhxpnTSdKp/tKVoiLFffOCHC9AL5gLU
-         zTrNAnRrleoAk5YMXXADPlEEnieKslz46mcKHoxZ6hRL22bHT3/8AcFa8eX8IEzgSI6K
-         RB1E60kF+FAFMOqAfiwaTj9kORJ3WgVaZQ7MiQga28hj5S9Sz7edICbE5cKGgv8e9JmI
-         X5b/1TZR78xtFoxJFGX5kUXwvrqtS1ZzfCK0H6NA4XznzA7k3cJxpuSHgw6ZA/sAggia
-         ssZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784278738; x=1784883538;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=V6MbJnmX7m7Q+rNiwCmFsJ4wLFKfE9U7mLaz8j8CV9U=;
-        b=EVEVKAMOimKGgaVFQVMkaNtG0i3E71kmdGRnNPDBXIgRyaHqcpc5ip0ugQIBJot9d3
-         CxDLnCgaRH/iTe9rMQB/RkBtSBYMR/fM0XPM/Ls1P/J1GUb9XqVNSksCRFQhj8BMLAO2
-         AANKJAfKXAIphW/zwBty5gwSPVF0bCXjom0pt5MzJU5RcrSC809xYX4qFCudkD/xBNYo
-         U4+eMs0GstcUmcK2BjuNq3iqeb1so5kUQWS/h36iz75Htz5dCowKAN/4lBAizt0qfgzl
-         NrQj6+zGBineRcWBMMccyTjADaWGwlSWsFVXB6zr3DgQXJrCc/nNmP1JtN2mZ6egFlZo
-         BT9A==
-X-Forwarded-Encrypted: i=1; AHgh+RrMILNlIA18ZjSPxude9IYx+bTkCY06DNzFml5pKhWLJQy5NXkFXaSSlCbP/+JAIq2XSbhRY+xd8bo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyM0Z6YyEpHXETewW0nNsBlagutkxTDGJNclz4BQmE2BcDN8COb
-	j35eC5jBhQKLw3f2VHJBoW0h/uEWym0kT3QDiXcl3DAkZcRX4f9hh2OLXDWw9HNVwNdYLvplPaN
-	z6Y1F2jrzWxk1JJO0X7aNmtiBtNBmlV1Nam/X8hQvYs7kQlV5ypThBnZByjjZ2Fg=
-X-Gm-Gg: AfdE7cmWYr8XfvEaPscb2PVS+f9QUU+IAmFCWZsk6ki8tC0m7rXFlxjtEqU/SXH1wO6
-	SJ8MRJX9Fd4MgpFbPDDjSMhFkY8jZbKoUp7LJwFBImmKv8x/t+Kvf4GyzPeV70BmN55gTsIKcqa
-	avIao7rGZV7k6rn+Wtz+925lBHpJY2gwYZWFNJpbQEVMUE1c5kNjEpkwFknBV7EJMF7ripx4snR
-	7q/D1m0om+fJKJVFQxYm0fnLZ/a1tO2r0bVOd8jk4TRIoJ93ZBIogQe7qvR2AywjZ5X8SZoU+k6
-	P4MsnkIChzFZIjWl7K9hWmk5xAJzIW6v1bogNvRqpNS/UUrPwavuyrTOHiBbhKynqPPwTVW+dSH
-	0SidGFPLa1YOqUISkd0gfbsJ6y/nM
-X-Received: by 2002:a05:622a:1346:b0:51c:1eb5:333d with SMTP id d75a77b69052e-5213eb757d0mr12604831cf.66.1784278737610;
-        Fri, 17 Jul 2026 01:58:57 -0700 (PDT)
-X-Received: by 2002:a05:622a:1346:b0:51c:1eb5:333d with SMTP id d75a77b69052e-5213eb757d0mr12604541cf.66.1784278737262;
-        Fri, 17 Jul 2026 01:58:57 -0700 (PDT)
-Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:dc44:5b1b:5396:79d6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63e65644sm1911449f8f.16.2026.07.17.01.58.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 01:58:55 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Harshit Shah <hshah@axiado.com>,
-        Linus Walleij <linusw@kernel.org>,
-        Bartosz Golaszewski <brgl@kernel.org>, Jan Kotas <jank@cadence.com>,
-        Michal Simek <michal.simek@amd.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        =?UTF-8?q?Przemys=C5=82aw=20Gaj?= <pgaj@cadence.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Frank Li <Frank.Li@nxp.com>, Boris Brezillon <bbrezillon@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>, Swark Yang <syang@axiado.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-usb@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: (subset) [PATCH v3 0/8] arm64: Add Axiado AX3005 SoC and EVK support
-Date: Fri, 17 Jul 2026 10:58:47 +0200
-Message-ID: <178427872043.9452.9219608850005529427.b4-ty@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260716-upstream-axiado-ax3005-upstream-v3-0-c429095143ec@axiado.com>
-References: <20260716-upstream-axiado-ax3005-upstream-v3-0-c429095143ec@axiado.com>
+	dkim=pass (2048-bit key) header.d=wp.pl header.i=@wp.pl header.b="fV+/+QIW"
+Received: (wp-smtpd smtp.wp.pl 22452 invoked from network); 17 Jul 2026 11:10:20 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wp.pl; s=20241105;
+          t=1784279420; bh=4njjNxmdqdKQD2Sv7qSJwe/k4x/oy97MONVKplRGPmM=;
+          h=From:To:Cc:Subject;
+          b=fV+/+QIWpmkliyicNsMcPi21czDITY6ciyosF/RJ/Fr9NiR1/i6mzGJD25V7jC4GJ
+           36RzFcbPMdcBAhsfiQYIJi1iPj/FL5lM2OJvegk5tv0BB3jHOmv11G0wzRp9LBkwf0
+           W8Hq93QvX7IaSFuT9n9jgs6TarsMuMa3wrKtqDCXQndIXTQiv1ZERdI5rsq84yAPPb
+           BQO/pCRyVCAl9eGOTyKqO0H0y76K6CLQRS/yn72iWVDqZj5sgU02IbwFjwW0/tcjlv
+           tSfNK/TPId25jTuCYs3R6+1chOMF8VZsVX6xvyb0bVgS2WNgtKaSRllN10TwqaKY3x
+           qtR3yHxQCYQJg==
+Received: from 77-236-11-215.static.play.pl (HELO localhost) (stf_xl@wp.pl@[77.236.11.215])
+          (envelope-sender <stf_xl@wp.pl>)
+          by smtp.wp.pl (WP-SMTPD) with TLS_AES_256_GCM_SHA384 encrypted SMTP
+          for <diegomancera.dev@gmail.com>; 17 Jul 2026 11:10:20 +0200
+Date: Fri, 17 Jul 2026 11:10:20 +0200
+From: Stanislaw Gruszka <stf_xl@wp.pl>
+To: Diego Fernando Mancera Gomez <diegomancera.dev@gmail.com>
+Cc: Matthieu CASTET <castet.matthieu@free.fr>,
+	Chas Williams <3chas3@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauricio Faria de Oliveira <mfo@igalia.com>,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org,
+	syzbot+e62a973f8322b3bbe3ac@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usb: atm: ueagle-atm: reject descriptors that confuse
+ probe and disconnect
+Message-ID: <20260717091020.GA13163@wp.pl>
+References: <20260717080704.1264-1-diegomancera.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: d8Ku6sPcud8JrhcH3uclzuSrzoAjPEjU
-X-Proofpoint-ORIG-GUID: d8Ku6sPcud8JrhcH3uclzuSrzoAjPEjU
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDA4OSBTYWx0ZWRfX5czPA60/rXxx
- /vYbnpzQepJwGSzAqV8XrNjTT4zqoy/7HGkgw4XgLJokhzohfQZzHR+oq8l0rpkPS9kJeYcb6FM
- XJh9cvIudE+9e3vk9e5142KvWYeOOzpmbe1VgPEm2WUku2ylBGI9HSYgESaIkcSJgGuaSdv7AD8
- 8iGKWUknHFt3To5PnE0xi4aWTyjhBBsu9jtmghe9cceN9yseMzbrEVSmWkAzxtUFZo2RzXPRJXR
- w7hDaJTRChrKVUdutOU9eiijRtdG8Y0FkCyVey6ztKNLzU5Ng+ljOTCiP1fC6IKK6ZvDvN2MnSr
- aW7gPpXxtWYDz9HaPsqKPQvgOTIESEhJoydP+SUzdXd1gV4M+QFB+wBZTuIqkXzyvsmr0BPLFhP
- nc6MToBlve7Ub/Don11CDeqALQ5/DuqnKSnZzRoxvsSDtZ7riKYgpbQXVnELeAfLceq2AFa0tzp
- 7L7AnjtxGEWYz4TDA1A==
-X-Authority-Analysis: v=2.4 cv=TaqmcxQh c=1 sm=1 tr=0 ts=6a59eed2 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=zGYnv34WkyyXCUjmJXsA:9 a=QEXdDO2ut3YA:10
- a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDA4OSBTYWx0ZWRfX1vkddhVn9Emx
- 3ADaxZ1k4YII4Px3/JOIvY5sRe1XwPku2pvF/+EW/ZOwy4BpjncI6nnXdqTfBE9QCCfuW82nhdh
- vGF7TrA16xxye5zmsSKd7i705Di7Zug=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-17_02,2026-07-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
- adultscore=0 spamscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607170089
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260717080704.1264-1-diegomancera.dev@gmail.com>
+X-WP-MailID: 83786f0debeb45b06beadd33465da70c
+X-WP-AV: skaner antywirusowy Poczty Wirtualnej Polski
+X-WP-SPAM: NO 0000001 [4ZLh]                               
 
-
-On Thu, 16 Jul 2026 20:51:07 -0700, Swark Yang wrote:
-> This series adds initial device tree support for the Axiado AX3005 SoC
-> and its evaluation board (EVK).
+On Fri, Jul 17, 2026 at 02:07:04AM -0600, Diego Fernando Mancera Gomez wrote:
+> uea_probe() distinguishes a pre-firmware device from a post-firmware one
+> using the USB id (UEA_IS_PREFIRM()), and stores a different object as the
+> interface data in each case: a 'struct completion' for a pre-firmware
+> device (to be waited on in .disconnect()), or a 'struct usbatm_data' for a
+> post-firmware one.
 > 
-> The AX3005 uses Cadence-derived UART/I2C/I3C/GPIO and Synopsys
-> DesignWare SPI IP blocks. These are already described by
-> existing bindings, so the device tree reuses the "axiado,ax3000-*",
-> "cdns,*" and "snps,*" compatible strings; only a new SoC/board
-> level compatible is added.
+> uea_disconnect() instead tells the two apart by the number of interfaces
+> of the active configuration (a pre-firmware device exposes a single
+> interface, ADI930 has 2 and eagle has 3), and casts the interface data
+> accordingly.
 > 
-> [...]
+> Because the two handlers use different criteria, a crafted device that
+> advertises a pre-firmware id together with a multi-interface descriptor
+> (or a post-firmware id with a single interface) makes them disagree: the
+> small 'struct completion' stored by uea_probe() is then passed to
+> usbatm_usb_disconnect(), which casts it to 'struct usbatm_data' and takes
+> instance->serialize, reading past the end of the allocation:
+> 
+>   BUG: KASAN: slab-out-of-bounds in __mutex_lock+0x152a/0x1b80
+>   Read of size 8 at addr ffff8880470e2c60 by task kworker/1:2/982
+>   ...
+>    __mutex_lock+0x152a/0x1b80
+>    usbatm_usb_disconnect+0x70/0x820
+>    uea_disconnect+0x133/0x2c0
+>    usb_unbind_interface+0x1dd/0x9e0
+>   ...
+>   which belongs to the cache kmalloc-96 of size 96
+>   The buggy address is located 0 bytes to the right of
+>    allocated 96-byte region [ffff8880470e2c00, ffff8880470e2c60)
+> 
+> Reject such inconsistent descriptors in uea_probe() so that both handlers
+> always make the same pre/post-firmware decision.
+> 
+> Reported-by: syzbot+e62a973f8322b3bbe3ac@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=e62a973f8322b3bbe3ac
+> Fixes: e2674dfbed8a ("usb: atm: ueagle-atm: wait for pre-firmware load in .disconnect()")
+> Signed-off-by: Diego Fernando Mancera Gomez <diegomancera.dev@gmail.com>
+Acked-by: Stanislaw Gruszka <stf_xl@wp.pl>
 
-Applied, thanks!
+Thanks
+Stanislaw
 
-[2/8] dt-bindings: gpio: cdns: add Axiado AX3005 GPIO variant
-      https://git.kernel.org/brgl/c/e8a40b3566887c1c83d4cb87058d4e98ec8b4a14
-
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+>  drivers/usb/atm/ueagle-atm.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/drivers/usb/atm/ueagle-atm.c b/drivers/usb/atm/ueagle-atm.c
+> index 4e71ed679a76..4266a0cb7e3b 100644
+> --- a/drivers/usb/atm/ueagle-atm.c
+> +++ b/drivers/usb/atm/ueagle-atm.c
+> @@ -2549,6 +2549,7 @@ static struct usbatm_driver uea_usbatm_driver = {
+>  static int uea_probe(struct usb_interface *intf, const struct usb_device_id *id)
+>  {
+>  	struct usb_device *usb = interface_to_usbdev(intf);
+> +	bool single_iface = usb->config->desc.bNumInterfaces == 1;
+>  	int ret;
+>  
+>  	uea_dbg(usb, "ADSL device found with vid (%#X) pid (%#X) Rev (%#X): %s\n",
+> @@ -2557,6 +2558,22 @@ static int uea_probe(struct usb_interface *intf, const struct usb_device_id *id)
+>  		le16_to_cpu(usb->descriptor.bcdDevice),
+>  		chip_name[UEA_CHIP_VERSION(id)]);
+>  
+> +	/*
+> +	 * uea_probe() decides between the pre-firmware and post-firmware case
+> +	 * from the USB id and stores a different object as interface data in
+> +	 * each case: a struct completion for a pre-firmware device, a struct
+> +	 * usbatm_data for a post-firmware one. uea_disconnect() instead tells
+> +	 * the two apart by the number of interfaces (a pre-firmware device
+> +	 * exposes a single interface, ADI930 has 2 and eagle has 3). A crafted
+> +	 * device advertising a pre-firmware id together with a multi-interface
+> +	 * descriptor (or the other way around) makes the two disagree, so that
+> +	 * usbatm_usb_disconnect() treats the small completion object as a
+> +	 * struct usbatm_data and reads out of bounds. Reject such inconsistent
+> +	 * descriptors so both paths make the same decision.
+> +	 */
+> +	if (UEA_IS_PREFIRM(id) != single_iface)
+> +		return -ENODEV;
+> +
+>  	usb_reset_device(usb);
+>  
+>  	if (UEA_IS_PREFIRM(id)) {
+> -- 
+> 2.43.0
+> 
