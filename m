@@ -1,206 +1,153 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11021124.outbound.protection.outlook.com [52.101.52.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C69334C2E
-	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 03:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784259749; cv=none; b=gxRYkYaZzPj8ioLgZXeCQTCnmmtbV9d+/pVU1h7aryjDfV0vAo3ewzAxhjdV/lMuZw6+Tv6UDZrHhDwdag02Yyo8M6OlV9qZc4smI9vTZivAWCzD1yAjrCBSMONeMqbt74GmOQGmW8StTzF1IHB/uu0hA6uK6zeoIq1sS9/V6ko=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784259749; c=relaxed/simple;
-	bh=PZLunVrkyHtC9wfdf+kbcQ5bdeFIPeDTlnp6w7k2OYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oF6dxJSr3KxjoLQifDR9EVP3kw9JX+Cbf1edS0TZxwWbXHVr0gT8Y4B9VqWokxDVSMaf8dNWUBx9zlLsiy9dIj/76Ow8HOd3IEfq8Ttfu61k/bhHEzz8NM2YAYDvL3mG8/deZxQnibdytTxgXH6Q27niNgR14UBjkkrthIbCatQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bdJmPiFL; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kZ3PJlxN; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991CA277C9E;
+	Fri, 17 Jul 2026 03:51:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784260292; cv=fail; b=rNVIfZp4lHOf7SkZ6VFUqwO67/KggKWnkyapcQZtP2ARuPPmimnVsso2E5RqAHgkKqwe0LZZfKWnYXWxYUbnZ2LBY/5XbcAabWKw3fHdEj2aZ3GSq8vlN/5sGT75xeu4N3+fXkNJVGYwoPn2idGJ9ZA9M97xW7cu2av0pALJFRc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784260292; c=relaxed/simple;
+	bh=lRd5fEURFEd7L6FVtJkfNOmGCkYyQJoZtmef8h3/52s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=WyydvFrxPx9BVXUJSTsOT1cqRq6ZvH2w9eq3uBSSJhMarUy60m1EpXClF3Z+JqBXXlo5DuZSxM+aXwMsYHMF4KD97Vt+tUm8WwR7PasFn/2X6hdy0XIZyCwrX9xlOv9RWyHvc8pgsG7TGJikICaSnEb8SSxSMg6iXATKWLpkHJ8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=axiado.com; spf=pass smtp.mailfrom=axiado.com; dkim=pass (2048-bit key) header.d=axiado.com header.i=@axiado.com header.b=ucv9OBm2; arc=fail smtp.client-ip=52.101.52.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=axiado.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axiado.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bdJmPiFL";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kZ3PJlxN"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66H34So7680043
-	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 03:42:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=l5saWHr3dnLJEHPhwGPzYl0K
-	X1zNELXP1BiUWCkz+mA=; b=bdJmPiFLP6nRbBRlNw19xZ463qICNAeLUdMVQitv
-	j86NJrmzrC89aWZXPVwFKkd6fvSSBE5OEbbFA3dDN3oU74Q4/Bb72Al/XP+axYYA
-	uSz8y7LO6disXMPVxTouGQnsWacHrLS3XrLGXVYROkT/vpnalhN36KAI2SM2quwk
-	y+e5YuHpkXJH0XPUFalLjOPzFmJwIFc/Eq7SHal9VLGdCe+364DBp67bfAf0vs8d
-	e/w7fUYEVDoEHDffFN9cpyUGlvfpMgODPa5QRgDXqe2mBCgVXhw9P3PYdPUp06dq
-	tRA5/cHQ55v5hDjA6p2UILUi5Tv5EI/9kC4Re1Rec67p8A==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fetcf4huk-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 03:42:26 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38dc085b0a7so10303997a91.2
-        for <linux-usb@vger.kernel.org>; Thu, 16 Jul 2026 20:42:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1784259746; x=1784864546; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=l5saWHr3dnLJEHPhwGPzYl0KX1zNELXP1BiUWCkz+mA=;
-        b=kZ3PJlxN1micX76bAvnaIOyf/69GCmwpcTqXeMjN4Ua6/GnB8T3w10OzD+6fQFxLoc
-         5M3iB8GT7MUCMK/EEpmXzIACY0UElKr2GdDXf4GUzOKGWlnft5IFSHSCjmIzBgXHrE2j
-         uvbbt/Ci7MYJrDx2UTYGF0vLixmc0F+nhbqfdS5v+Cs1QbRoYJig8cOdB4cNrdBG4mq8
-         2fgxzNKHXtlbR0bq+FaaUgZdgN+sSeSfasTpFDN+8fkP/UJPSdiy7p3ABEdQjeIbDsxY
-         Kw8tnz++GQ5Inm3kCZEuD0/SEiGlgrrBT0I/xjNV7AL6ifmvykGemgIN3TUN6PG/eMIa
-         6lAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784259746; x=1784864546;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=l5saWHr3dnLJEHPhwGPzYl0KX1zNELXP1BiUWCkz+mA=;
-        b=pgoK+VCOWRndumrEYGAaYEaU5knQMrXxKkTHw54cjKF/6w+GXbI3rpU8dQgs8D966Q
-         FMWUFja1Bx6EHZ81800y9qPtW9BSBoqRbjmBrHHwA4+vL/IZxeUxJ6T2VLmwwuPO7hRq
-         5qqvdvjcWZ7PvsvRYlklK82lpJ4ZSPq6p3/kvpUJXRchK30P86jswHojd8s2S5Hb16Dt
-         vqugeGhAsk+XcGXTNP6TfHGDAXqrNlNgXvsEWJmVayPdiBRM2m0JViozZiqz4SBD/s/f
-         KqBHojWcC7maj8pHHtbI8bbh61OezMOklSofg+MhbN3iK1pvLQdjs02V1byWWWABz8EC
-         nCsg==
-X-Forwarded-Encrypted: i=1; AHgh+RrMm+vZAccptX+52UorfpLks6++wjFCON7rn2AwBWfhftHLbGUDFYUzihw/PkvciTqtQevEw/h8vn0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxK8r5dBszpiVrBTf+XJr+GnIMK3Vj7qV++bPyWl/8GmFvAhA/9
-	iMlqRwM9NYUdHT1dWB0t6xFCWgMUCHGuolCkbM6sK8l3WrItnREhlaYeEGeTApLsniD0/AfHOZ7
-	7HKxsnWdOrP6SDznpZJMIUBjEhXG7TJPkh5jVaH1aV7iD7K0YK/pVYQCL/Oy6kV0=
-X-Gm-Gg: AfdE7cmRV9+Cj8pQnQqPbKB15ARFlOsVDhzfSjn4Futve8PlRj9LylaI9O/GfXM1f1h
-	Me1XL1o/AhcGDryAV69Tubg9DeENNSxe3MivG/+HuB8AfCkOQUNHQDGFQYgDu9e4Ybrp/oDV4zl
-	lK6f2baPtkSuP1hRUoagIPwrC9i3bpAUlthRPqpyIdXBBtj7T1UU0HeiWwo9Pg2/doikPCI9D/d
-	ziqaraECm7Q5kRWemSNS/PgU9rDdyBsl1pWCImr1H9pGOfs0iNuan63n7I0kwLvYRLMOXoHz0K9
-	di0LaZFOhJFbuvBbc3oM3SUZ19vaXbS1q0XMhGIdhzSpIJvj558yEhWtlu2GMnyrg+fVuF/7/ED
-	EEDaL+XZdrPkOnnjD56dkoHEheNA/a/dBtJ9FIjXMCpiRZjUWWQ==
-X-Received: by 2002:a17:90b:528d:b0:384:d509:7274 with SMTP id 98e67ed59e1d1-38e4b448dffmr769078a91.15.1784259745798;
-        Thu, 16 Jul 2026 20:42:25 -0700 (PDT)
-X-Received: by 2002:a17:90b:528d:b0:384:d509:7274 with SMTP id 98e67ed59e1d1-38e4b448dffmr769059a91.15.1784259745345;
-        Thu, 16 Jul 2026 20:42:25 -0700 (PDT)
-Received: from hu-petche-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a1de301sm1702185eec.24.2026.07.16.20.42.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2026 20:42:24 -0700 (PDT)
-Date: Thu, 16 Jul 2026 20:42:22 -0700
-From: Peter Chen <peter.chen@oss.qualcomm.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 1/2] dt-bindings: qcom,snps-dwc3: Add property
- indicating presence of eUSB2 phy
-Message-ID: <almknp4Fx4EXqjm-@hu-petche-lv.qualcomm.com>
-References: <alV0_DHvBFpzDumP@vbox>
- <alWq4jAGPTINnpxD@hu-petche-lv.qualcomm.com>
- <albAccNnsI12AIUo@vbox>
- <ff5e00be-dba6-4597-b2bf-288147cbf60e@oss.qualcomm.com>
- <algTE3PyJVxLdFq6@vbox>
- <b697c933-4556-404a-95f3-2a347a83e390@oss.qualcomm.com>
- <ali0dEMbSh4STLmi@hu-petche-lv.qualcomm.com>
- <allvBYQN_0QkI835@vbox>
- <almDYCfHf4WV-giY@hu-petche-lv.qualcomm.com>
- <almJeSq1zfcC1mjj@vbox>
+	dkim=pass (2048-bit key) header.d=axiado.com header.i=@axiado.com header.b="ucv9OBm2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JE3+uwE9fxcidfQOSlxAj5dyFLIV0LlsllOK0gT73c8ilRkgopeY3YihIh7VqFERuKZzM2SmmZW/A4SwSBQ95I12S/c33TSobYPdKPnqwpFZJVS7GmXcX9l6cljD+866b4MWPu8rHkQ2eO50uu96+D3zB8WySxG9PnlG71tj5bOxOv6IPnx+AIhshiwLaUjrAo3teUOUuCqXPaxBwEwqt9V5hxb0k5v90C045LHjWJciWP3QR4He/LnyRWQ/MJkECTNb9JQCoHa2OAge0QvYJe22lap/f1PJ6GsFdZaH6CFgxVn5en+r0o2Xu/hTg30ydms72kp6LWvJ0y+HWa7oYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2ywj/R598DHvTK5R2nBVRB/G7elq9O/Ae5ypwi9az0Q=;
+ b=LZ9++RgBH58QWBj2TrICFZ2EMA0JW2yRwh5IaVmaHZ9LiU8DLjt9CT2V6/bTpIaBgJ5u3FfcfTz8JI8S9LE32/UHkwMBnOiNRzJjoQXEBYqsq06yL6XU5N2DEB9adnnNNDx06UC2ic9zMcns704d7vpsBAnw/k5fN6QWfFdoDU7ExesyWqR+PbV80pitiS2dbX7s6e9q7R7J2eefm55R+Mj/QO6JasdoEm2t642aY9JOUTw7OKabJHdvfPFep03WEW8kBKhMq7jACq6qHNPkvIn8os6XGqTgjCoVGp1W2ATZyqozzTSwWQ2kn3NIGjUhq4BR8i607wejo+gnrCELvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 64.62.143.114) smtp.rcpttodomain=amd.com smtp.mailfrom=axiado.com; dmarc=none
+ action=none header.from=axiado.com; dkim=none (message not signed); arc=none
+ (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axiado.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2ywj/R598DHvTK5R2nBVRB/G7elq9O/Ae5ypwi9az0Q=;
+ b=ucv9OBm2b8DLu+X2K4+LVze6NfGiUviC3XQSj/2B7goHEkQ78yVGbxOhFuWZT9YKM9AFbVUi4mwW1kvLT/U2S4/DSB2TdoQVqoEmh++tPEkwM5ORtJGbkovmrNAfCwMYGLkNvMQkY9JpOT+6DPdigjpTYwqMiNLbDm4fODKacVFVnvjx16boLa1eX+C+oxFuWxBW5dF9PWCX9QZwn3MBDS2vwwLBoNM4y/RulBxcFam7Uga1UNki55NsxDSLsnx9M5vKIQvCJne6/Adl7arJ8WZOQlY0rvj7H7M5tskIZ0POLvE6LQg/6Y/gc5e6S4NYwjExRcjvbaAXGziEEqN5OA==
+Received: from IA4P220CA0003.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:558::12)
+ by IA5PR18MB988632.namprd18.prod.outlook.com (2603:10b6:208:607::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.12; Fri, 17 Jul
+ 2026 03:51:27 +0000
+Received: from BL02EPF0002992B.namprd02.prod.outlook.com
+ (2603:10b6:208:558:cafe::22) by IA4P220CA0003.outlook.office365.com
+ (2603:10b6:208:558::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.223.12 via Frontend Transport; Fri,
+ 17 Jul 2026 03:51:27 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 64.62.143.114)
+ smtp.mailfrom=axiado.com; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axiado.com;
+Received-SPF: Fail (protection.outlook.com: domain of axiado.com does not
+ designate 64.62.143.114 as permitted sender) receiver=protection.outlook.com;
+ client-ip=64.62.143.114; helo=smtp.corp.axiado.com;
+Received: from smtp.corp.axiado.com (64.62.143.114) by
+ BL02EPF0002992B.mail.protection.outlook.com (10.167.249.56) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.245.5
+ via Frontend Transport; Fri, 17 Jul 2026 03:51:26 +0000
+Received: from [127.0.0.1] (unknown [10.4.1.181])
+	by smtp.corp.axiado.com (Postfix) with ESMTPS id 365AE4186B53;
+	Thu, 16 Jul 2026 20:51:26 -0700 (PDT)
+From: Swark Yang <syang@axiado.com>
+Date: Thu, 16 Jul 2026 20:51:08 -0700
+Subject: [PATCH v3 1/8] dt-bindings: arm: axiado: add AX3005 EVK
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <almJeSq1zfcC1mjj@vbox>
-X-Proofpoint-ORIG-GUID: w5g6uZubxh_YjPbR9L4yWud3URcep59f
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzE3MDAzMSBTYWx0ZWRfX9vAahk1Q7uWS
- gONCxt8COcJS6A++2PoEgVJ86oS4CTLcWfbaujfYpXzBXesOxKFKc24YFBF1CKu/Oq223fjTIjV
- ClQcHVQLypRBdeYW83TCK+wzdTUeuaPxDg9FfSvibK9HY1ubjXPYxjpetHwzUV1XRmnBS0SDJFE
- h2fUPXp4QUE49S3wmY616IKGCzoYwzRKhg7DSu+gQCCae6tV8IUu1smxB2pQiQqXkjWGVHTWNaB
- cbYNa39FG7fYd085nsHrmf8Hto0G4jaeow2O7XKU28zhy8hXQWqAc0CTDIlElBJ6HEj/UTlY5U5
- y68nLwTXyd7qXQQBoubwwLvfExo0nJd4iAwOuCe3V7laVohG4OYNxTpOY7KZuoZ4pPy5mVbeiwT
- RY7btHlUrw6gEgCCN2eVbmfccQ3IYHCv2TgTmB+YyGsu/HNihcZZiZi7nBm35TInj0fm1nRd01K
- nDBx621IIEs/zMqWUFA==
-X-Authority-Analysis: v=2.4 cv=f8R4wuyM c=1 sm=1 tr=0 ts=6a59a4a2 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=kj9zAlcOel0A:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=zDMlSImzIToMmpLGiZwA:9 a=CjuIK1q_8ugA:10 a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-GUID: w5g6uZubxh_YjPbR9L4yWud3URcep59f
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzE3MDAzMSBTYWx0ZWRfX/tn5vpBpGhQn
- fl+kWvT9lr9i6PdHibVekcTAJJhpMIqYCscQ3YZb5GwTM0j+tRFdAkBNWvCcrDoq0tn1HTZtQwS
- clFZ3YebXsH09PIKz1gzpE8DEkXZ0Ts=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-17_01,2026-07-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 impostorscore=0 priorityscore=1501 bulkscore=0
- phishscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607170031
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260716-upstream-axiado-ax3005-upstream-v3-1-c429095143ec@axiado.com>
+References: <20260716-upstream-axiado-ax3005-upstream-v3-0-c429095143ec@axiado.com>
+In-Reply-To: <20260716-upstream-axiado-ax3005-upstream-v3-0-c429095143ec@axiado.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Harshit Shah <hshah@axiado.com>, 
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Jan Kotas <jank@cadence.com>, Michal Simek <michal.simek@amd.com>, 
+ Andi Shyti <andi.shyti@kernel.org>, 
+ =?utf-8?q?Przemys=C5=82aw_Gaj?= <pgaj@cadence.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Frank Li <Frank.Li@nxp.com>, Boris Brezillon <bbrezillon@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>, 
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org, 
+ linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, 
+ linux-usb@vger.kernel.org, Swark Yang <syang@axiado.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1098; i=syang@axiado.com;
+ h=from:subject:message-id; bh=lRd5fEURFEd7L6FVtJkfNOmGCkYyQJoZtmef8h3/52s=;
+ b=owGbwMvMwCHWlWK8+EozbyzjabUkhqzIZXum16rf+c65p3sP28Z3h5rZ3oV7c0XN2z6/d94S7
+ QOs27RmdZSyMIhxMMiKKbJ81fmWfzJX+17n3pWlMHNYmUCGMHBxCsBE1hUwMqzPt1OP9PSZZ8Zy
+ xH5v97aj/HMTHweedjU3irk//8u53rmMDIfmdvH0J+XulD3oePtJ7sqMrvatVoIea86v19N/u/2
+ 5BisA
+X-Developer-Key: i=syang@axiado.com; a=openpgp;
+ fpr=F52CF66FC96D2BDE89BDA9758A6433A3D4830D5D
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0002992B:EE_|IA5PR18MB988632:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6512681c-b003-434b-f58a-08dee3b6ada9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|23010399003|7416014|376014|1800799024|36860700016|3023799007|56012099006|10067099003|921020|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	JodlnM7YRwBR+OcwmEWuCyroxszfRaCe0qfj0IYMhgJRlBE8sHYebDwENpIWUH0upNfIE6nMZjJhSwUbc5fpXFkpBXo0wPsNqprynbXpBtKwdbGzbUqQTU/XM6vWst3blbeEukb6dR+bK51+ETVHXZrSNmxHZyiEOpvh8IhC8K2nwKevRgM8Ib2odxDrpUpm8LIpzw3/vjpC4+ooHfc4CLdHpfEV7Tg4+BRA0DPXPlNhYjAqjq61oLFV9AvQLEKyybejSaqi8xufCSuy+G1zO77V47NwS9k62yMhIsuWanl9QzE8cxkg9YFQ+Z6NMT5gjPC8jqYcWy1N20TOYpxb/MzwIqh4IkvqlTu2pI6nv4N62MWGZUq/vl1g91CZdLgMxX0nzXJOxkjoSljS3DvtqHzv3BJGKgSyVNzj325syQIRTvWVA/9GqWLIPlUSGMkOQlEgoMFCHPWBFjfTosLXS+gOmlpHj4d1qfHnzZwXb1bUB5aRJy/vHXqwG17mhyCnx262JsM+SnDOWtSJvgguPjt9Vy4SpiiuzOdUZxxedfQDt777+3khMDHGVR76xOrWr4irJGvWOaeV1QQONIjt7+ROBm5ws3ezTOGZ5W9iPlCxeeY0giLIEwyxI06NMJ7/NO81+iPAWXd+VHgl+FOTtriqlFw1XULpd1qUpw4SNxZHId9RnGiEvzHfnGvL+A0KRavjSfhjy2MVTYGWZJqpA6pO5peR/pFO+PCfPGyI7xwB6q+w/10CDajDURVEgCnl
+X-Forefront-Antispam-Report:
+	CIP:64.62.143.114;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtp.corp.axiado.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(23010399003)(7416014)(376014)(1800799024)(36860700016)(3023799007)(56012099006)(10067099003)(921020)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	oEVgZjNBsbdm1gT8K1nhaV/Bn71iNDeBNHhjaZal1h13WzEqbnQ7QXGpYE+jSIvBPIEU+q683zcSsYTjyXMGpwaR1+qZfUasTau17Uq3Itc7s00P2i/xmd2QQearzda4k0wwgpPguIcNsmJnKD99eO9GVFjHJfCxpDViQtkfbKqt1FEJYVGYADdRAM+o3/Z9ge4woBlx33m1Codn560COEVit2MWQEiuVD2+TlbcBrydi6pHk+Qb87nwdP+71L1rsrwIAtTU2xFembq76AqLNAoYvfXLM7Q1++hErNkY7eVkgld9pHk+Qu/0eYvk06cd+mnv22vD69EGwva9VxnT7RlIlildfRj2fqhc2sA9sge8BdXHO8cw5IUXGals8WVQFe4FUBdFli2rQlH7WRGWZjEBlBqUxblQJbIQ6a/kL+tHmiDydA8NrLqcLewNaXKm
+X-OriginatorOrg: axiado.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2026 03:51:26.8656
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6512681c-b003-434b-f58a-08dee3b6ada9
+X-MS-Exchange-CrossTenant-Id: ff2db17c-4338-408e-9036-2dee8e3e17d7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=ff2db17c-4338-408e-9036-2dee8e3e17d7;Ip=[64.62.143.114];Helo=[smtp.corp.axiado.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0002992B.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA5PR18MB988632
 
-On 26-07-17 01:56:59, Thinh Nguyen wrote:
-> On Thu, Jul 16, 2026, Peter Chen wrote:
-> > On 26-07-17 00:06:37, Thinh Nguyen wrote:
-> > > > 
-> > > > I have seen fewer platforms use "phy_type" at dts for arm64, dwc3
-> > > > core uses it only for special cases and the code was added for
-> > > > ten years ago. For the default situation, we may not need to
-> > > > change DWC3_GUSB2PHYCFG_EUSB2OPMODE value for UTMI+, Thinh, is it
-> > > > correct?
-> > > > 
-> > > 
-> > > The GUSB2PHYCFG.eUSB2OPMODE is only relevant for host mode and mainly
-> > > for electrical compliance. Usually by default, the CoreConsultant
-> > > setting should have this set correctly. So not explicitly setting it
-> > > should be functionally fine (IIRC).
-> > > 
-> > > That said, this is separate from the GUSB2PHYCFG.PHYIF, which the core
-> > > uses dwc->hsphy_mode to indicate whether the UTMI interface is 8-bit or
-> > > 16-bit.
-> > > 
-> > 
-> > Why only rockchip uses this "phy_type" property, why other SoC vendors
-> > no this requirement for UTMI width setting? 
-> > 
-> 
-> Not just rockchip, some tegra and hikey also use it. Some old qcom dts
-> files also have it for ulpi.
+Add device tree binding schema for the Axiado AX3005 SoC and its
+associated evaluation board. This binding will be used for the
+board-level DTS files that support the AX3005 platforms.
 
-Tegra and old qcom platforms use chipidea, hikey uses dwc3.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Swark Yang <syang@axiado.com>
+---
+ Documentation/devicetree/bindings/arm/axiado.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> 
-> It is typically set when the coreConsultant default differs from what
-> the platform needs, so the driver can override it with the correct
-> setting.
-> 
-> My point is that changing "phy_type" definition is more involved than it
-> looks. I'm open to alternatives.
-> 
-
-I know your concern that in case the eUSB2 PHY SoC wants to change UTMI
-width, it can't do that. Are there controller register know it connects
-eUSB2 PHY?
-
-For the place to put "eusb2" for phy type, I still think enum
-usb_phy_interface at: include/linux/usb/phy.h is the most suitable
-place, would you have any alternatives?
-
-Another solution is using generic PHY API phy_get_mode, set fixed "eusb2"
-mode at eUSB2 PHY driver, but it depends on PHY driver doesn't have
-different settings for device and host mode.
-
-Other solution is compare the generic PHY compatible string at dwc3 qcom
-glue layer, it depends on eUSB2 PHY compatible string always contains
-"eusb2-phy"
-
-I prefer the solution that extend enum usb_phy_interface for eUSB2 PHY,
-it uses existed kernel structure and device tree binding.
+diff --git a/Documentation/devicetree/bindings/arm/axiado.yaml b/Documentation/devicetree/bindings/arm/axiado.yaml
+index bfabe7b32e65..008d2b1d4e62 100644
+--- a/Documentation/devicetree/bindings/arm/axiado.yaml
++++ b/Documentation/devicetree/bindings/arm/axiado.yaml
+@@ -20,4 +20,10 @@ properties:
+               - axiado,ax3000-evk       # Axiado AX3000 Evaluation Board
+           - const: axiado,ax3000       # Axiado AX3000 SoC
+ 
++      - description: AX3005 based boards
++        items:
++          - enum:
++              - axiado,ax3005-evk       # Axiado AX3005 Evaluation Board
++          - const: axiado,ax3005       # Axiado AX3005 SoC
++
+ additionalProperties: true
 
 -- 
+2.34.1
 
-Thanks,
-Peter Chen
