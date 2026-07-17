@@ -1,114 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360423FCB3D
-	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 15:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57981F936
+	for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 15:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784301398; cv=none; b=PxFfhYgKQpkA1klc0pbREk8pUUWUhlI/dnZM2pQx9/0Tgy0fobLFAW6dne3e6ZgIiAy4Xgi2hwVvG12zZ9l42PEvr1OgoAQrrwGaINlswukiSUrNmWdrreeeEUCE4CZDMAvco4AZaSDX3zTxPtUJwRYO86PMRYV4674vPz0nAyI=
+	t=1784303133; cv=none; b=Pk6TavjFU3xgGaXfqIs2qi9JupQ9MuixEcMMAKaD8/THkOXlfwgU4ntGbvfAA/hVR0Rjfo7/VhATUfUnwn7nAYCuQzocnE6R19ZAavW2SUhwKdAMHNs67vWPDpxS4+S755S+40dP9zMLlkcNu3Lq2eE8KaqeDRGtwwHJG/d50Cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784301398; c=relaxed/simple;
-	bh=NNibbsMBzcBhzHKyyVyWoEjs9JNqg5eZd/fl/Nu8GEg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ujHCTMGCZKrb2sJlLYMnK1jSP0HFJaXmJScLuwuLQ6q6HV8lNk6YrOmNW8sJXqgMAba+LazwMOAz+vtaNtWmoLiceFaON++LLfdjgV1VdVQRv8TivfRhS5PgxEnfOXp4IHbxJ/kluPXOvgfphCSs47MwhTKIp3vrF1ayNQgJel0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bXkjmYQ3; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1784303133; c=relaxed/simple;
+	bh=hkdjjgfOmkIA4l6ExGwaCTS7sdXHEhbk5kh7kTnnmtk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HcGS9tYlmC2TQdnSIL07Gi2VxZ3xDFZJEx8oqPhBcBMM+6xTjxYaK13Rj+5gdQx/UOrERvfokH/2MmsgADcjNu0i0mo7lBAC0FbUqrmvasloBnYilE02iITOfywV/EO06nMLqLOokZwlIja1+hFCGvv7GGIt6qO7AyMXpJu1lK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=kyvFIDt9; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bXkjmYQ3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1784301394;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=TRhb9mvNrRYyHgkhEJwct4IUo2+m3ly9XG+UwgjaINA=;
-	b=bXkjmYQ3rvFSjX6TY3q4fHvN7jBKP1DwS41ueLPojKhvo9DK/ILi+YqULCojnKp06c4dgX
-	dnW/vtWGr+2JbYoaVV6sMzL2MiO3inE2FaOwZ0hXrhpZlwjGFcsZwjxeO51xLcaL4MJwpG
-	GxPAN3R/xtNOln6TtkKAMG2mwxiJ6pE=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-302-dNHHZgzCNfWqsyxdkLZFtg-1; Fri,
- 17 Jul 2026 11:16:30 -0400
-X-MC-Unique: dNHHZgzCNfWqsyxdkLZFtg-1
-X-Mimecast-MFC-AGG-ID: dNHHZgzCNfWqsyxdkLZFtg_1784301389
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5CFF11955D8D;
-	Fri, 17 Jul 2026 15:16:29 +0000 (UTC)
-Received: from lenovo-t14s.redhat.corp (headnet05.pony-001.prod.iad2.dc.redhat.com [10.2.32.117])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 726A33004182;
-	Fri, 17 Jul 2026 15:16:27 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	linux-usb@vger.kernel.org,
-	Stefano Brivio <sbrivio@redhat.com>,
-	Oliver Neukum <oneukum@suse.com>,
-	Laurent Vivier <lvivier@redhat.com>,
-	stable@vger.kernel.org
-Subject: [PATCH net] usbnet: cap max_mtu for drivers without bind callback
-Date: Fri, 17 Jul 2026 17:16:26 +0200
-Message-ID: <20260717151626.2913171-1-lvivier@redhat.com>
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="kyvFIDt9"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-51c16ac21acso31551361cf.0
+        for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 08:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1784303130; x=1784907930; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=dfxgHjwXQJwL6VSIEWWu+C1UvQGeRN1CKjS9L8cjWCE=;
+        b=kyvFIDt9p+Es8YXsc8Tsi8LS17an5A1eErJgLAmAKx8FNUArspgnUHJH4tvdbbodLg
+         DELJgf0TJ6FhsBLuzPVbkLdDOVanpz2iwMWyktnJuqc6zk5LzUAG1wVbpwuxQyNYh6Kq
+         8Y6zFxYkC44WIN2Nbpt2xJTmFqJbIJkYstGB6NpUlwtv7taZBnpkbnMIFS4VrkH5wgVf
+         KMIjayusBTQhgs3RG2PYax6wc0vFHcRNOfOWkHq/Kj1Dk0FKP3GxBqBiGz3ZeJ5ioWAq
+         nyxgbk1+/f4VqmlVf1iQw5EomWT0X9JaLIYbv/+jOpVY37RQHQKgSTETlyb2s1Lrp4bV
+         Ek3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784303130; x=1784907930;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dfxgHjwXQJwL6VSIEWWu+C1UvQGeRN1CKjS9L8cjWCE=;
+        b=dgmzF3LCK9wZLjbMNXmsg7mhpj00EdpP+NQ+NcUXoWkhaCbdGf5ZlaKxBaRdmUx15U
+         Bi7YAg3BtzVI497MHzpAqBsQoV4mTssmKSCMWBrMRmImQdkod6DyhM+XgikI7ScQWf/v
+         TkrKNNYRN3wr5bfBRkeT6OPRUTF5kBHulJE5tGp44fW6+0bv0DOKh5LCnQxA3zktNNQq
+         SxJ4KHZ5ssWyn+Pa7LANbE3Ol+r0MxlyVg/Ci+qgSWPThVjNEP70vid+b8usTyqcu2ML
+         5ObX6wz/JTINVXJdlanX93pobCEb/OBhuNxOdFAhYVR9+gALLPd8895QKOG3s5L6c4kx
+         X+xA==
+X-Forwarded-Encrypted: i=1; AHgh+RqZqbc8Z+wZFblQM3LVjgp//S5AozA/kMYtPhqPmJLdqsITaaCOFjDevYYLq5bb1eacoYP8HnBJUKM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz62DWbfgecqEHqa6B3xx9bsMguuK1iD2DJnHgZAhx+d7O1DImj
+	GngNVJQwwzfmDFpnPnXKl6ZZCMrIqhMxlqMftn2uEnAvQ4lZTr6/nMA74jFE7rzS7XOMc81ArYb
+	mwZCbhQ==
+X-Gm-Gg: AfdE7cm7Xhqmv4LM/C4pTmCzrNneOCi9N4CUOlN1rJO4orHqiSSaasJoZ6oKj+YfzZG
+	JREMyETX9Y+902hjJd36eQ38wmzTKrHtBprLMEbyy6RQmZd93vT9Bs6j7FFLKfJbQcRDSF2pmOp
+	70ezlo0y9DtXPTfWMTXRza8jp3VYano802o9/cOmvwacRWWrmGJw6vBwDfvWky73OCYf+HY0lED
+	bbH5dEMaqmhoaez/DDf7VOSCW1maASq89Xf5oaenw2bLb0Mdg5cWlyZri+N8JZsVOrNBcX8rIN7
+	GI6wMByf4C9oPzK6mpOXYHgmTO59NQ4veHipksw3MjKghNOSVgBI8ZrSX7fOIQ1xYJFJtMbQVVY
+	IiSE/cjvRg2owxD3g4YlYwHzM8Xp+cbEZYW7f9VO1DQ9DHYcy6IKXY6UdSIKctvjfRof4UTSPiM
+	ItHKyMGtDoe3Preg==
+X-Received: by 2002:ac8:5a43:0:b0:51c:25da:903f with SMTP id d75a77b69052e-5213eb784bdmr28353611cf.59.1784303130298;
+        Fri, 17 Jul 2026 08:45:30 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9077871dec5sm19100736d6.44.2026.07.17.08.45.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 08:45:29 -0700 (PDT)
+Date: Fri, 17 Jul 2026 11:45:27 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Griffin Kroah-Hartman <griffin@kroah.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: core: Strengthen error handling in hub_hub_status()
+Message-ID: <8fbe8ab9-011c-48d6-91b2-b0d73b23d8b7@rowland.harvard.edu>
+References: <20260714-usb_core_patches_2-v1-1-4229a368a633@kroah.com>
+ <f66a5507-5e83-424f-9c11-15b1882be499@rowland.harvard.edu>
+ <2026071717-richness-opossum-b855@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026071717-richness-opossum-b855@gregkh>
 
-Commit c7159e960f14 ("usbnet: limit max_mtu based on device's hard_mtu")
-caps max_mtu inside the if (info->bind) block in usbnet_probe(). Drivers
-without a bind callback never enter this block, so max_mtu stays at
-ETH_MAX_MTU.
+On Fri, Jul 17, 2026 at 11:48:46AM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Jul 14, 2026 at 12:32:06PM -0400, Alan Stern wrote:
+> > On Tue, Jul 14, 2026 at 11:04:33AM +0200, Griffin Kroah-Hartman wrote:
+> > > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> > > index 5262e11c12cd..0d2166b8923a 100644
+> > > --- a/drivers/usb/core/hub.c
+> > > +++ b/drivers/usb/core/hub.c
+> > > @@ -991,10 +991,12 @@ static int hub_hub_status(struct usb_hub *hub,
+> > >  
+> > >  	mutex_lock(&hub->status_mutex);
+> > >  	ret = get_hub_status(hub->hdev, &hub->status->hub);
+> > > -	if (ret < 0) {
+> > > +	if (ret < sizeof(hub->status->hub)) {
+> > >  		if (ret != -ENODEV)
+> > >  			dev_err(hub->intfdev,
+> > >  				"%s failed (err = %d)\n", __func__, ret);
+> > > +		if (ret >= 0)
+> > > +			ret = -EIO;
+> > 
+> > It would be better to put these two lines above the preceding test.  
+> > That way it won't print confusing things like "hub_hub_status failed 
+> > (err = 2)".
+> 
+> It is confusing, but it matches the other check for this same error in
+> hub_ext_port_status() as it's the same error condition.  How about this
+> patch happens first int he series, which "unifies" them, and then fix up
+> both of the patterns at the same time to be more clear in a later patch
+> in the series?
 
-QEMU's usb-net device (0x0525/0xa4a2) is claimed by the cdc_subset
-driver which has no bind callback. The guest accepts any MTU from DHCP
-(e.g. 65520 from passt), leading to TCP segments that exceed the
-device's 2048-byte receive buffer and are silently dropped.
+That would be fine with me.
 
-Move the max_mtu capping after the if/else block so it applies to all
-usbnet drivers.
-
-Fixes: c7159e960f14 ("usbnet: limit max_mtu based on device's hard_mtu")
-Cc: stable@vger.kernel.org
-Link: https://gitlab.com/qemu-project/qemu/-/issues/3268
-Link: https://bugs.passt.top/show_bug.cgi?id=189
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- drivers/net/usb/usbnet.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index 25518635b7b7..d87299025552 100644
---- a/drivers/net/usb/usbnet.c
-+++ b/drivers/net/usb/usbnet.c
-@@ -1825,10 +1825,6 @@ usbnet_probe(struct usb_interface *udev, const struct usb_device_id *prod)
- 		if ((dev->driver_info->flags & FLAG_NOARP) != 0)
- 			net->flags |= IFF_NOARP;
- 
--		if ((dev->driver_info->flags & FLAG_NOMAXMTU) == 0 &&
--		    net->max_mtu > (dev->hard_mtu - net->hard_header_len))
--			net->max_mtu = dev->hard_mtu - net->hard_header_len;
--
- 		if (net->mtu > (dev->hard_mtu - net->hard_header_len))
- 			net->mtu = dev->hard_mtu - net->hard_header_len;
- 
-@@ -1851,6 +1847,10 @@ usbnet_probe(struct usb_interface *udev, const struct usb_device_id *prod)
- 		if (status == 0 && !usb_check_bulk_endpoints(udev, ep_addrs))
- 			status = -EINVAL;
- 	}
-+	if ((dev->driver_info->flags & FLAG_NOMAXMTU) == 0 &&
-+	    net->max_mtu > (dev->hard_mtu - net->hard_header_len))
-+		net->max_mtu = dev->hard_mtu - net->hard_header_len;
-+
- 	if (status >= 0 && dev->status)
- 		status = init_status(dev, udev);
- 	if (status < 0)
--- 
-2.54.0
-
+Alan Stern
