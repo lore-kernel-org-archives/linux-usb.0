@@ -1,52 +1,52 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7776C382F0A;
-	Fri, 17 Jul 2026 08:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CE114A4CC;
+	Fri, 17 Jul 2026 08:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784277267; cv=none; b=aT5kTYGbK9ms9WZ1j1G8Q0hihNIgq7PXe86C333G9LyLZUtG2JFAQNw5KvvG2YcL5Mk9EtBPYtHSMprKo+UlzSHIM6DPWVj+QBCy4Uphuno+lJH9XepauZW21DHyFT5Dh78sMUw0MH0W54blFyT6N58lhNP1BZBhnhqM1BwBa0o=
+	t=1784277304; cv=none; b=OHUgx+8WIALU7rZmrrRo3AnFd+0p8xsKMIT1t8FWDr//jVGfY4Het+HybKzxIuIzVbbf+sXhqEH1esCuNLO36SpmJY1adMGx8i/Q2JPMOuNiLGy11UtV8yKHojCpBu5onRwEAKVKSYQKIyWNmQJagE5Qj4U7EPzvul0SWD7aEUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784277267; c=relaxed/simple;
-	bh=+pWsxeoxhoPbWcY42u7dCH6rkkWQnTAdY8BdayH10gc=;
+	s=arc-20240116; t=1784277304; c=relaxed/simple;
+	bh=HTqVnu9Kqs+w34Lrrmzme2SvEYMUqsXPKzmYnFCXCYk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=da7dWgj1AHlQvtlfN8bpdBq6gAhlHvGWqpD2Ljk3fi34LsFF9xgdvFVjfVJN/GCtwoXj2aiDrPMfUjl1rDDumE7LZ2jfi3n61cTqN0bK5oJJm72Ph0YHmHjSf2EqveyqOx6fitpgx1hI2QGEA9yFYHETw9Xm1sQyckYE4IeYuZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=flBgOdPP; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jYJR5bSN; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=cS0zgG39Aj4bXFIdaTgYkqFdFFHd0EivBzWc0U7iWSRq46zSFHn6swya7GY+YZLi8fMkOQapbJc3KJ5E7WakBh+zPQWS6wupH5Hg+5CVBESfOfUw0gRtTvsH+PCKeEVophn6nEmhhSScx+wqw81WQCx0KEsJ9sq5ogiEyxEK/OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QmUcmphv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="flBgOdPP";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jYJR5bSN"
-Date: Fri, 17 Jul 2026 10:34:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1784277264;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x/4cJmb+CqTgnlyUoEH6yLWy+62hNw8/3jy7Vcwgv+E=;
-	b=flBgOdPPLSTs0F19eC3sEWm6QOg/TwE0Gl0Y7t9g5t+DDdd3A75mR/WDXGzQRJyA2jfl3F
-	12Cl/2nWknXlIZgqGWRtrmfaSUJHtIUL4ty8vOK8VHPSENfOw3XIKEAl+7OeA5tMHSnilR
-	GTGPywZGn0/vjgqPccu8Dx5otdy7QdDaZIrqOxvYFHWSq4FcFw53vDfGuEy+bC7BA/Z2WF
-	8uvmDqVGxP3QXgAq21K5ugtoMFcUGUxyvT/H6tiKCsnxmML7dAGtw/rrDN4wJ43ZcyWbII
-	cZ5RvjKnMOjnNl+O6t0JKyCsBHih4cdbqAB/z9v2TiVBYp57Ai7sSbIyxxuc9Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1784277264;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=x/4cJmb+CqTgnlyUoEH6yLWy+62hNw8/3jy7Vcwgv+E=;
-	b=jYJR5bSNK+v0Bht7qAbxKIwVnL9+XLdRSCfy8kToEmuxIQOiyMf1zKDVhiW3IUD4Q0hZZK
-	IA+0dpQk7nxcJDCA==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: "Jiangong.Han" <jiangong.han@windriver.com>, gregkh@linuxfoundation.org,
-	surban@surban.net, eeodqql09@gmail.com, kees@kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: dummy_hcd: fix IRQs-disabled violation in
- dummy_timer()
-Message-ID: <20260717083423.NViVto15@linutronix.de>
-References: <20260716020713.1698421-1-jiangong.han@windriver.com>
- <17c672c6-bac3-456a-895f-d5406624a3fd@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QmUcmphv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 322251F000E9;
+	Fri, 17 Jul 2026 08:35:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784277303;
+	bh=63aCLAenr8WeJxjEBK4GeDaPD8Vm1UzrQNPs6BAaFUU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QmUcmphvyTev+tyhUnKnKF4pnUGio0/8tkVjKj4SrF0FmwpjD/pyvdYPDADdn3rOz
+	 /kajA4XHq2PdGW+ZGZZS59vwBiChthDNTMt7ZwQx37zVqdvWH31NMOU8gbhxW8CM5p
+	 03wgP7AVkFVUY2utMXQhcyoiYB5GW3rjSgOsl6VW+Q1OPrdW/2JzqSbzaoqxQpXrm/
+	 M8lK2zAgrEb7bNw3IOUUNtnYdi4loQpMpGn8QNyYTkAucUfwF/NgzDw2/hJV2M5CH4
+	 ZFYT/ruGvs2KSk+NZ5CRGobTg+wo/Gv3T6VqeVzmZ9aV6+ls6b6RwwamYSz08GY1fV
+	 l7kozIek5JXAg==
+Date: Fri, 17 Jul 2026 10:34:58 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Swark Yang <syang@axiado.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Harshit Shah <hshah@axiado.com>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Jan Kotas <jank@cadence.com>, 
+	Michal Simek <michal.simek@amd.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Frank Li <Frank.Li@nxp.com>, Boris Brezillon <bbrezillon@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Mathias Nyman <mathias.nyman@intel.com>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-i3c@lists.infradead.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 6/8] dt-bindings: spi: dw-apb-ssi: add Axiado AX3005
+ SPI variant
+Message-ID: <20260717-admirable-robust-adder-7aad70@quoll>
+References: <20260716-upstream-axiado-ax3005-upstream-v3-0-c429095143ec@axiado.com>
+ <20260716-upstream-axiado-ax3005-upstream-v3-6-c429095143ec@axiado.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -55,25 +55,32 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <17c672c6-bac3-456a-895f-d5406624a3fd@rowland.harvard.edu>
+In-Reply-To: <20260716-upstream-axiado-ax3005-upstream-v3-6-c429095143ec@axiado.com>
 
-On 2026-07-15 22:15:52 [-0400], Alan Stern wrote:
-> This is not the right way to solve the problem observed in carl9170.  It 
-> is documented that usb_hcd_giveback_urb() runs in atomic context, and 
-> drivers' completion handlers should not expect to be called with 
-> interrupts enabled.  The problem lies in carl9170_get_queued_skb(); 
-> that's where it needs to be fixed.
+On Thu, Jul 16, 2026 at 08:51:13PM -0700, Swark Yang wrote:
+> Add binding for Axiado AX3005 SPI controller. So far, no changes
+> are known, so it can fall back to the snps,dwc-ssi-1.01a compatible.
+> 
+> Signed-off-by: Swark Yang <syang@axiado.com>
+> ---
+>  Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
+> index 8ebebcebca16..7b16053d2244 100644
+> --- a/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
+> +++ b/Documentation/devicetree/bindings/spi/snps,dw-apb-ssi.yaml
+> @@ -41,6 +41,10 @@ properties:
+>          enum:
+>            - snps,dw-apb-ssi
+>            - snps,dwc-ssi-1.01a
+> +      - description: Axiado AX3005 SPI Controller
 
-I guess we don't see this that often because the widely used HCDs have
-HCD_BH set.
-I sort of think that we already did have this conversation about
-having unlock+lock with irq and not skipping it. But yes, while this
-would solve the problem _here_ we would still have the same warning on
-OHCI.
+Rather: Vendor controllers compatible with v1.01a
 
-Take a look at other drivers in drivers/net/usb/, they delay their doing
-to napi/ workqueue/ tasklet.
+and then place it after the group with "description: Vendor controllers which
+use snps,dw-apb-ssi as fallback".
 
-> Alan Stern
+Best regards,
+Krzysztof
 
-Sebastian
