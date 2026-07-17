@@ -1,52 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C8532E151;
-	Fri, 17 Jul 2026 08:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7776C382F0A;
+	Fri, 17 Jul 2026 08:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784277190; cv=none; b=EolCt33fPeoyiA673NLacrwRMpnZFqv39aeuHy7mbQTY2PPW/n/zUXGUL890HZebcpJAmi8Y/1L2xgUdusORnaTUyF6Q+Vhy5By/K4DsPS9h7PTTScefvwEHDw+XFfBqwvdTjryMxwQYvmL1wKnvnoZsILZKqHZgoKUquWV6LSQ=
+	t=1784277267; cv=none; b=aT5kTYGbK9ms9WZ1j1G8Q0hihNIgq7PXe86C333G9LyLZUtG2JFAQNw5KvvG2YcL5Mk9EtBPYtHSMprKo+UlzSHIM6DPWVj+QBCy4Uphuno+lJH9XepauZW21DHyFT5Dh78sMUw0MH0W54blFyT6N58lhNP1BZBhnhqM1BwBa0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784277190; c=relaxed/simple;
-	bh=idhp5R6D7rxQvoxipxETE4jM30ZWH6Wp1KS8L0iHxrs=;
+	s=arc-20240116; t=1784277267; c=relaxed/simple;
+	bh=+pWsxeoxhoPbWcY42u7dCH6rkkWQnTAdY8BdayH10gc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eT15RYGrMHKBErg1z7OwU5VaYQzevN2R3Q50ORzuv0BodgybrrFjoO8NQZ/lfLZ55p8XVLxzLUYTdHmmeg+T7NT6WICxU2waQqNp0KVyVqCpLPd3Y+F1xjy8vfXqYaTrJW8/z9HNotB4QnREBtR0V5IRFYaYr6ZyWRVuP3ByAA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KLF5yoPq; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=da7dWgj1AHlQvtlfN8bpdBq6gAhlHvGWqpD2Ljk3fi34LsFF9xgdvFVjfVJN/GCtwoXj2aiDrPMfUjl1rDDumE7LZ2jfi3n61cTqN0bK5oJJm72Ph0YHmHjSf2EqveyqOx6fitpgx1hI2QGEA9yFYHETw9Xm1sQyckYE4IeYuZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=flBgOdPP; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=jYJR5bSN; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KLF5yoPq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56AA71F000E9;
-	Fri, 17 Jul 2026 08:33:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784277189;
-	bh=1/vXpkNy3cOqlWapaK3O7CEzY3os4he4uAXH6NOiATU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KLF5yoPqydipFqeq8BtY4outpqLJ+2cNkNOIxCagm/G6UaxMtvukMovZPuSlxY1N2
-	 txnUltNAw1nQDIIEus7CxEXxm6aix4k1uLo/BXdFj3yrQ9Ef0vowYe528eozK7f4aO
-	 kWZhE3VYyusw2Nz/rdoWafYYDw2PHQPqVuah62Y4E/jXeDHospmit6rHS4J1z2jsTA
-	 0E38wK2F9iKFeBqddio9b/Ps7u04RTnyBaBT5WdGRdPcVf29FQzpOCHAP1vwfPVC9z
-	 EUe4D+DbAMiejBV2IZ+TwSfWJawIjxP/+Z4s+SRaN5UPQY7XoIHsU1e47SqgqqynlI
-	 3DWxEmxCShihg==
-Date: Fri, 17 Jul 2026 10:33:06 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Swark Yang <syang@axiado.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Harshit Shah <hshah@axiado.com>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Jan Kotas <jank@cadence.com>, 
-	Michal Simek <michal.simek@amd.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Frank Li <Frank.Li@nxp.com>, Boris Brezillon <bbrezillon@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Mathias Nyman <mathias.nyman@intel.com>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
-	linux-i3c@lists.infradead.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 2/8] dt-bindings: gpio: cdns: add Axiado AX3005 GPIO
- variant
-Message-ID: <20260717-prudent-indefinable-labradoodle-fcaa9e@quoll>
-References: <20260716-upstream-axiado-ax3005-upstream-v3-0-c429095143ec@axiado.com>
- <20260716-upstream-axiado-ax3005-upstream-v3-2-c429095143ec@axiado.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="flBgOdPP";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="jYJR5bSN"
+Date: Fri, 17 Jul 2026 10:34:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1784277264;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x/4cJmb+CqTgnlyUoEH6yLWy+62hNw8/3jy7Vcwgv+E=;
+	b=flBgOdPPLSTs0F19eC3sEWm6QOg/TwE0Gl0Y7t9g5t+DDdd3A75mR/WDXGzQRJyA2jfl3F
+	12Cl/2nWknXlIZgqGWRtrmfaSUJHtIUL4ty8vOK8VHPSENfOw3XIKEAl+7OeA5tMHSnilR
+	GTGPywZGn0/vjgqPccu8Dx5otdy7QdDaZIrqOxvYFHWSq4FcFw53vDfGuEy+bC7BA/Z2WF
+	8uvmDqVGxP3QXgAq21K5ugtoMFcUGUxyvT/H6tiKCsnxmML7dAGtw/rrDN4wJ43ZcyWbII
+	cZ5RvjKnMOjnNl+O6t0JKyCsBHih4cdbqAB/z9v2TiVBYp57Ai7sSbIyxxuc9Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1784277264;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x/4cJmb+CqTgnlyUoEH6yLWy+62hNw8/3jy7Vcwgv+E=;
+	b=jYJR5bSNK+v0Bht7qAbxKIwVnL9+XLdRSCfy8kToEmuxIQOiyMf1zKDVhiW3IUD4Q0hZZK
+	IA+0dpQk7nxcJDCA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: "Jiangong.Han" <jiangong.han@windriver.com>, gregkh@linuxfoundation.org,
+	surban@surban.net, eeodqql09@gmail.com, kees@kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: dummy_hcd: fix IRQs-disabled violation in
+ dummy_timer()
+Message-ID: <20260717083423.NViVto15@linutronix.de>
+References: <20260716020713.1698421-1-jiangong.han@windriver.com>
+ <17c672c6-bac3-456a-895f-d5406624a3fd@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -55,31 +55,25 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260716-upstream-axiado-ax3005-upstream-v3-2-c429095143ec@axiado.com>
+In-Reply-To: <17c672c6-bac3-456a-895f-d5406624a3fd@rowland.harvard.edu>
 
-On Thu, Jul 16, 2026 at 08:51:09PM -0700, Swark Yang wrote:
-> Add binding for Axiado AX3005 GPIO controller. So far, no changes
-> are known, so it can fall back to the cdns,gpio-r1p02 compatible.
-> 
-> Signed-off-by: Swark Yang <syang@axiado.com>
-> ---
->  Documentation/devicetree/bindings/gpio/cdns,gpio.yaml | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/gpio/cdns,gpio.yaml b/Documentation/devicetree/bindings/gpio/cdns,gpio.yaml
-> index a84d60b39459..7eacf5af6554 100644
-> --- a/Documentation/devicetree/bindings/gpio/cdns,gpio.yaml
-> +++ b/Documentation/devicetree/bindings/gpio/cdns,gpio.yaml
-> @@ -14,8 +14,11 @@ properties:
->      oneOf:
->        - const: cdns,gpio-r1p02
->        - items:
-> -          - enum:
+On 2026-07-15 22:15:52 [-0400], Alan Stern wrote:
+> This is not the right way to solve the problem observed in carl9170.  It 
+> is documented that usb_hcd_giveback_urb() runs in atomic context, and 
+> drivers' completion handlers should not expect to be called with 
+> interrupts enabled.  The problem lies in carl9170_get_queued_skb(); 
+> that's where it needs to be fixed.
 
-This should stay enum which would also make your diff easier to read.
+I guess we don't see this that often because the widely used HCDs have
+HCD_BH set.
+I sort of think that we already did have this conversation about
+having unlock+lock with irq and not skipping it. But yes, while this
+would solve the problem _here_ we would still have the same warning on
+OHCI.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Take a look at other drivers in drivers/net/usb/, they delay their doing
+to napi/ workqueue/ tasklet.
 
-Best regards,
-Krzysztof
+> Alan Stern
 
+Sebastian
