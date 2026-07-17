@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343663ECBC4;
-	Fri, 17 Jul 2026 10:26:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CA53E00B4;
+	Fri, 17 Jul 2026 10:26:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784284016; cv=none; b=NVDL8ccDAI7qpbu57n6bQO94/weiGBUDatceeK+G/CFQxFeUVpl+dbrdK40+CD1PKo3aOHabyGYNUrsCMtt8iEzu+lU0qLwhUVpQCrGHFl4xi4Fv7A3oN/J2UwnOnXdDBBTa06Y5/7PYPJHfbVR6L+IW7cNyugv1daGLCFxxbDw=
+	t=1784284015; cv=none; b=d04acJdDcpwVbiNE/ETyGzIOyiiO5ueiRJiQ6AywezR63lhN0z6BKTITSRiJm3Vja20oCNCZ6EK48OMqdzX2+fGcEZxedmz3aln4z9+WOFyv3xWf7EbxjGgVeiU3vYhJYaxbpdWzDft3fByay5moL3uQklNfS5GffEs2XNjhhkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784284016; c=relaxed/simple;
-	bh=ruGA/S07N+ySzaerz9AV3uF9UjUXHVPnaqN609WVLgE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Zq3ztRJdOd4XDc2vhbaUf6Tthmy/P0tps7cYe7Ia+23P65cQJArnjgCSvzYCTeQlyswQog9cJral1f0+7KKLeNnaWpfYGUIZTcdu2HPx4puScQd2HKhnUxOfKS6M7JSqW8tBhrBvrQLnzZJ8TU21wQ7OZSBmur8OLTrxcK0fbTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kKNjjqRP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1784284015; c=relaxed/simple;
+	bh=jlGRCyOVWPqpkZ0E8atWDoSwsOLVumKM1U4k22v6y58=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RPZGV6alFyeAUCDhV6SBAeicqgZxwG2i01bERhZodjg5N7FfmYe2hfPrGU6KHBhBZGTmLeFANt1+86bwCSy/DwX6ejdNc7j4Z/tg+T0qjudDnaoRv8N8jtxYtDKsyfvL0tSJmu0nNGpHmRuJGoOSFN8n3/X/iYhevQfwzpEul/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S3fZjXki; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kKNjjqRP"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 01FAEC2BCF4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S3fZjXki"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E107CC2BCB9;
 	Fri, 17 Jul 2026 10:26:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784284014;
-	bh=ruGA/S07N+ySzaerz9AV3uF9UjUXHVPnaqN609WVLgE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=kKNjjqRPvLds9QF1NYY+mROjWyPepsHYM6OT54LNMVb6KgskGP1i59kujGR5vvv0Y
-	 Q+qKFkcsVzgJFhIDzP+fhqbLcluUT4j/7xIKyIKf3WkwS+0YSgBe0msftjnXkc+8AO
-	 hfoQblxyQdXZfV0Hh+Y3UFXbp3vNYm8Od6b60p12y717qr8612DKbTrcjhK6+p8Lwd
-	 OoycvwiOkCMo68fXp57K+TcTshMBJp5rCkGR4Dx63ALrfu9s/ln1VnpP1ZXbTQTLjO
-	 Kcptocwc5unhq4RJtPLw4v9XM6hSdzHzW1dfcYlJ0V4c5S7L6BHOi5ghXRe0QTWLj0
-	 m0yvUObO8eqHQ==
+	s=k20201202; t=1784284013;
+	bh=jlGRCyOVWPqpkZ0E8atWDoSwsOLVumKM1U4k22v6y58=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=S3fZjXkizYEcY/JO90ZopKdUaDvFXz4pTQLhWEGf3lCvoJmd9Tr/If7abBXg8d6o3
+	 +AbyLTcmceLGTDSLojpwlHhVfBqYPsx8JZOAXPEUVu/OAY5RK3oOTf/ZPmx+8zEySs
+	 SRXWAw46M8es9Vn+EkZ2KrHY2vtrQMhNe4R9+Q9IB6BGxD4T2oSj76kECZFPXwPdxb
+	 Ai3pKj95+/jI9gWD7gx+fg6JVemIuA2wv72F6eUZhMWycaCxNRU8oUtMW5ESSy+/br
+	 1vErFqJT7fM3/iSAYCaQTNwsnBUrw2DLVXmZLaUqC3h/xPDtS8ZejWGjrj96HP3jT0
+	 umZ+NNn8Wu0gA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D688CC44507;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC449C44514;
 	Fri, 17 Jul 2026 10:26:53 +0000 (UTC)
 From: Pawel Laszczak via B4 Relay <devnull+pawell.cadence.com@kernel.org>
-Date: Fri, 17 Jul 2026 12:44:15 +0200
-Subject: [PATCH 2/3] usb: gadget: composite: Support eUSB2v2 bulk MPS
- update request
+Subject: [PATCH 0/3] usb: Add support for eUSB2v2 1024-byte Bulk
+ MaxPacketSize
+Date: Fri, 17 Jul 2026 12:44:13 +0200
+Message-Id: <20260717-eusb2v2-packet-size-v1-0-67c611bd0c5b@cadence.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,19 +41,20 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260717-eusb2v2-packet-size-v1-2-67c611bd0c5b@cadence.com>
-References: <20260717-eusb2v2-packet-size-v1-0-67c611bd0c5b@cadence.com>
-In-Reply-To: <20260717-eusb2v2-packet-size-v1-0-67c611bd0c5b@cadence.com>
+X-B4-Tracking: v=1; b=H4sIAH0HWmoC/yXMQQrCMBBG4auUWTsQQzKoVxEXTfzVUagl0xax9
+ O6mdvkt3pvJUBRGp2amgklN313FftdQfrTdHazXavLOixN3ZIyW/OS5b/MLA5t+wSEnkUOIMUi
+ kWvYFN/38r+fLZhvTE3lYV7QsPwXVaO13AAAA
+X-Change-ID: 20260609-eusb2v2-packet-size-4cb668455465
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Mathias Nyman <mathias.nyman@intel.com>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Pawel Laszczak <pawell@cadence.com>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784285103; l=4930;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784285103; l=3316;
  i=pawell@cadence.com; h=from:subject:message-id;
- bh=BinsopW6J/BJzPhINKchDQl5qlxVOPT1dCsHQoufo9s=;
- b=oRplN9glS7CnNkMYW7suoV3GQopKgyXSB/iq9eO1ojSik5QaZ9d/OiPelyBkpH4lVH2LTyj/S
- qvtbOUejU3/C599lzN7feIVEe5jgGZkEy1ietqklrbsV5AhcSjUH1Du
+ bh=jlGRCyOVWPqpkZ0E8atWDoSwsOLVumKM1U4k22v6y58=;
+ b=7rcyvpbhamKiRTFKuhr5kraG1B06AHnGBNeC6VigOpCk4FyaI9Uzybo1aI3MDWaf7LG8wcIor
+ EuJdytKIQGpAEILJUjIjnswtqbBLZZPcPytOUovKsXgAtqDU1G7WPlr
 X-Developer-Key: i=pawell@cadence.com; a=ed25519;
  pk=EUPBvLO9CDg7j6defeDl2iqi+z5Ivqu4Z46aiqe7dYc=
 X-Endpoint-Received: by B4 Relay for pawell@cadence.com/default with
@@ -61,154 +62,72 @@ X-Endpoint-Received: by B4 Relay for pawell@cadence.com/default with
 X-Original-From: Pawel Laszczak <pawell@cadence.com>
 Reply-To: pawell@cadence.com
 
-From: Pawel Laszczak <pawell@cadence.com>
+The Embedded USB2 (eUSB2) v2 specification (bcdUSB 0x0230) introduces a
+mechanism that allows High-Speed Bulk endpoints to support a maximum packet
+size (MPS) of 1024 bytes, expanding it from the traditional 512-byte limit
+defined in the standard USB 2.0 specification. This capability is highly
+beneficial for Mass Storage Class (MSC) devices, significantly improving
+overall throughput.
 
-Add support for eUSB2v2 1024-byte Bulk MPS negotiation to the Gadget
-Composite framework.
+Per the eUSB2v2 specification, a peripheral device will revert its internal
+Bulk MPS back to 512 bytes after major bus events, including a bus reset,
+disconnect, or deconfiguration. To establish and maintain the 1024-byte mode,
+the host controller must explicitly issue a device-recipient SET_FEATURE
+request called USB_DEVICE_BULK_MAX_PACKET_UPDATE. This must occur after the
+device enters the ADDRESSED state, but strictly *before* it transitions to the
+CONFIGURED state.
 
-If 'gadget->is_eusb2v2' is set, force bcdUSB to 0x0230 and bMaxPacketSize0
-to 64 bytes. Handle the USB_DEVICE_BULK_MAX_PACKET_UPDATE feature request
-by introducing eusb2_update_mps_bulk(), which dynamically updates the
-wMaxPacketSize of all HS Bulk endpoint descriptors to 1024 bytes before
-the device is configured.
+This patch series implements the required infrastructure on both the host and
+gadget sides, and enables it for the Cadence (cdnsp) controller.
+
+Structure of the series:
+- Patch 1: Introduces host-side core support in usb_set_configuration() to
+  detect eUSB2v2 devices and issue the SET_FEATURE update request prior to
+  activating the device configuration. It also updates xHCI endpoint
+  initialization routines to allow 1024-byte packets for High-Speed Bulk
+  endpoints when the host capability bit HCC2_E2V2C is present.
+  
+- Patch 2: Extends the USB Gadget Composite framework to advertise bcdUSB
+  0x0230 when eUSB2v2 is supported, intercept the incoming feature request,
+  and dynamically update the wMaxPacketSize fields across all High-Speed
+  Bulk descriptors before configuration is completed.
+  
+- Patch 3: Implements peripheral-specific handling in the Cadence (cdnsp)
+  driver, reading HCCPARAMS2 to discover the hardware capability and adapting
+  cdnsp_endpoint_init() boundaries to allow for the larger packet size.
+
+Testing:
+The flow has been validated using the Cadence eUSB2v2 Host and Device
+controllers, ensuring seamless transition to 1024-byte mode during early
+enumeration stages and successful verification under USB-IF Compliance
+Verification (CV) tooling.
 
 Signed-off-by: Pawel Laszczak <pawell@cadence.com>
 ---
- drivers/usb/gadget/composite.c | 67 ++++++++++++++++++++++++++++++++++++++----
- include/linux/usb/gadget.h     |  2 ++
- 2 files changed, 63 insertions(+), 6 deletions(-)
+Pawel Laszczak (3):
+      usb: xhci: Add support for eUSB2v2 1024-byte bulk packet size
+      usb: gadget: composite: Support eUSB2v2 bulk MPS update request
+      usb: cdns3: cdnsp: Enable eUSB2v2 1KB bulk packet capability
 
-diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-index dc3664374596..e009f8c4281c 100644
---- a/drivers/usb/gadget/composite.c
-+++ b/drivers/usb/gadget/composite.c
-@@ -924,6 +924,48 @@ static void device_qual(struct usb_composite_dev *cdev)
- }
- 
- /*-------------------------------------------------------------------------*/
-+static void eusb2_update_ep_mps(struct usb_descriptor_header *header, __le16 mps)
-+{
-+	struct usb_endpoint_descriptor *epd;
-+
-+	if (header->bDescriptorType != USB_DT_ENDPOINT)
-+		return;
-+
-+	epd = (void *)header;
-+	if (usb_endpoint_xfer_bulk(epd))
-+		epd->wMaxPacketSize = mps;
-+}
-+
-+static int eusb2_update_mps_bulk(struct usb_composite_dev *cdev, bool set)
-+{
-+	__le16 mps = cpu_to_le16(set ? 1024 : 512);
-+	struct usb_gadget *gadget = cdev->gadget;
-+	struct usb_configuration *config;
-+	struct usb_function *f;
-+
-+	if (!gadget->is_eusb2v2)
-+		return -EINVAL;
-+
-+	if (set && gadget->state >= USB_STATE_CONFIGURED)
-+		return -EINVAL;
-+
-+	list_for_each_entry(config, &cdev->configs, list) {
-+		if (!config->highspeed)
-+			continue;
-+
-+		list_for_each_entry(f, &config->functions, list) {
-+			struct usb_descriptor_header **desc = f->hs_descriptors;
-+
-+			if (!desc)
-+				continue;
-+
-+			for (; *desc; desc++)
-+				eusb2_update_ep_mps(*desc, mps);
-+		}
-+	}
-+
-+	return 0;
-+}
- 
- static void reset_config(struct usb_composite_dev *cdev)
- {
-@@ -971,8 +1013,10 @@ static int set_config(struct usb_composite_dev *cdev,
- 		if (result < 0)
- 			goto done;
- 	} else { /* Zero configuration value - need to reset the config */
--		if (cdev->config)
-+		if (cdev->config) {
- 			reset_config(cdev);
-+			eusb2_update_mps_bulk(cdev, false);
-+		}
- 		result = 0;
- 	}
- 
-@@ -1807,7 +1851,11 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
- 				count_configs(cdev, USB_DT_DEVICE);
- 			cdev->desc.bMaxPacketSize0 =
- 				cdev->gadget->ep0->maxpacket;
--			if (gadget_is_superspeed(gadget)) {
-+
-+			if (gadget->is_eusb2v2) {
-+				cdev->desc.bcdUSB = cpu_to_le16(0x0230);
-+				cdev->desc.bMaxPacketSize0 = 64;
-+			} else if (gadget_is_superspeed(gadget)) {
- 				if (gadget->speed >= USB_SPEED_SUPER) {
- 					cdev->desc.bcdUSB = cpu_to_le16(0x0320);
- 					cdev->desc.bMaxPacketSize0 = 9;
-@@ -2005,12 +2053,18 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
- 	 */
- 	case USB_REQ_CLEAR_FEATURE:
- 	case USB_REQ_SET_FEATURE:
--		if (!gadget_is_superspeed(gadget))
--			goto unknown;
--		if (ctrl->bRequestType != (USB_DIR_OUT | USB_RECIP_INTERFACE))
--			goto unknown;
- 		switch (w_value) {
-+		case USB_DEVICE_BULK_MAX_PACKET_UPDATE:
-+			if (ctrl->bRequestType != (USB_DIR_OUT | USB_RECIP_DEVICE))
-+				goto unknown;
-+
-+			value = eusb2_update_mps_bulk(cdev, true);
-+			break;
- 		case USB_INTRF_FUNC_SUSPEND:
-+			if (!gadget_is_superspeed(gadget))
-+				goto unknown;
-+			if (ctrl->bRequestType != (USB_DIR_OUT | USB_RECIP_INTERFACE))
-+				goto unknown;
- 			if (!cdev->config || intf >= MAX_CONFIG_INTERFACES)
- 				break;
- 			f = cdev->config->interface[intf];
-@@ -2303,6 +2357,7 @@ static void __composite_disconnect(struct usb_gadget *gadget)
- 
- void composite_disconnect(struct usb_gadget *gadget)
- {
-+	eusb2_update_mps_bulk(get_gadget_data(gadget), false);
- 	usb_gadget_vbus_draw(gadget, 0);
- 	__composite_disconnect(gadget);
- }
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index 8285b19a25e0..3c554fe95f87 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -420,6 +420,7 @@ struct usb_gadget_ops {
-  * @wakeup_armed: True if gadget is armed by the host for remote wakeup.
-  * @irq: the interrupt number for device controller.
-  * @id_number: a unique ID number for ensuring that gadget names are distinct
-+ * @is_eusb2v2: True if controller is Embedded usb2.
-  *
-  * Gadgets have a mostly-portable "gadget driver" implementing device
-  * functions, handling all usb configurations and interfaces.  Gadget
-@@ -483,6 +484,7 @@ struct usb_gadget {
- 	unsigned			lpm_capable:1;
- 	unsigned			wakeup_capable:1;
- 	unsigned			wakeup_armed:1;
-+	unsigned			is_eusb2v2:1;
- 	int				irq;
- 	int				id_number;
- };
+ drivers/usb/cdns3/cdnsp-ep0.c    |  2 ++
+ drivers/usb/cdns3/cdnsp-gadget.c |  4 +++
+ drivers/usb/cdns3/cdnsp-gadget.h |  8 +++++
+ drivers/usb/cdns3/cdnsp-mem.c    | 11 +++++--
+ drivers/usb/common/debug.c       |  2 ++
+ drivers/usb/core/config.c        |  4 ++-
+ drivers/usb/core/message.c       | 65 +++++++++++++++++++++++++++++++++++++-
+ drivers/usb/gadget/composite.c   | 67 ++++++++++++++++++++++++++++++++++++----
+ drivers/usb/host/xhci-mem.c      | 18 +++++++++--
+ drivers/usb/host/xhci.c          |  3 ++
+ include/linux/usb.h              |  4 +++
+ include/linux/usb/gadget.h       |  2 ++
+ 12 files changed, 177 insertions(+), 13 deletions(-)
+---
+base-commit: 1d52b92ce8748624f84eca7eaea3ac31ed7b09a5
+change-id: 20260609-eusb2v2-packet-size-4cb668455465
 
--- 
-2.43.0
+Best regards,
+--  
+Pawel Laszczak <pawell@cadence.com>
 
 
