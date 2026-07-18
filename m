@@ -1,97 +1,138 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9EE35972;
-	Sat, 18 Jul 2026 11:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6822E7376;
+	Sat, 18 Jul 2026 17:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784374223; cv=none; b=RWVplLxeX2QyHlMH2RKeOWO1YazX29mU2VUXN7F23yQfsg9L2IM7hRmUzpUekppjzp8Wd5ssHgOHLjCezZ3ANCbIyrjT+yDJz5gLu1uoYBY8kEkyT2PN6TklJEyMkodRmwWB/LpIa1w3rNO4U5/U1CpE2GkHQrTfg9ImOrHpUD4=
+	t=1784394392; cv=none; b=YfQzkBxoR32JsA8mhhqfqpRYNIcSEckHaadXjFOJnvxjOw3zZ6qIP/ifujIHhRrv5ZQ2kr6tA7kxZC27fypTGKwPGYuTOZGL8e2RtZVSh9KKzeNhqr1eEYa43hnZbgh79GisIK9CiMbHv5aACS+bjsGogOSMhhXK9PjLEd69fwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784374223; c=relaxed/simple;
-	bh=boFit2Hy/EG+JX1++7ZX5P/mBiURjKww6YJUqa1i2Kg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Dvs1avSN8P65kAe+ObROMP2AO2Iwotrqw4qClRnPF2ySI1TFrddoZ5KlkZU/i5RLjRU1wdCMrv/Q9iRycDGLQXFDimH/mLTesZgjDv7m2JQABCeAvb+ZY3GOEuqgFc5qqRtpDeHYz6W8LAM6a3ui7Nl6D0JJIq4A53L1/QwAYMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=V5YQC7Ue; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1784394392; c=relaxed/simple;
+	bh=YVzVTS3yfTz3Fpn4bxNP94OBR+Wp6n8cJXaURHReZ6U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mnLpcf5kT/NfZZA4AuLTPOvUZhGMdF4fExZJRJvOUdZ7sfrP6vnhxoooQPHXeT2P2zdM9REvw38ab9df4m9BaFD4EdV61c3ZxaPk1T09xMc48lV/a3oDvAXty77dCZlKIobHYh2uZWP4+DfU1pwXJBtXWDSI5oNWv1LWcJYoEtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHWWsm5k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="V5YQC7Ue"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4h2Phm5HFbzKnR5;
-	Sat, 18 Jul 2026 13:30:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1784374216;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=impHDjenMIJErEGwDatH0w1SiMFR8u879Cjzsuf2iok=;
-	b=V5YQC7UeDTEjbe402VoyHW+O4eByuzyQMKs562aNH1f1PTDQgWRyRhLG7k+62kPRjDGM4b
-	HhtZReOzxd2itJtWIzsgc0sQoYwII8y83BsFEa0yQwL2dILam3EikOXSc6HU/5RHFcBZqe
-	WcGgYa99X4UMr2OQqqLAccP3BS6Ajl3NHG70Nnm9IT/HazIaCA5AKhl7Q/rhBMJ9Q04yxE
-	85kU88G6Svq95H+ISh4b/KSgjTLCR4ObGddNhGGJDOL99f08U+XtEQQ3hcddoMQfpyljbO
-	5L/8bUmlTUdqGUYRPUyjH3pmg3CaWpquyzsYU16qvcrkigaa0PTs+iWMeFIesw==
-Message-ID: <49ad090f48d0ad38a46642c2ddd019ae3cfebc82.camel@mailbox.org>
-Subject: Re: [PATCH] USB: phy: fsl-usb: fix missing static keywords
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: linux-next@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, Mark Brown <broonie@kernel.org>
-Date: Sat, 18 Jul 2026 13:30:11 +0200
-In-Reply-To: <20260717154957.1853976-1-johan@kernel.org>
-References: <20260717154957.1853976-1-johan@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHWWsm5k"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 24813C2BCB7;
+	Sat, 18 Jul 2026 17:06:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784394392;
+	bh=YVzVTS3yfTz3Fpn4bxNP94OBR+Wp6n8cJXaURHReZ6U=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=MHWWsm5kDP5Q0mktCHh2v9gCw0TwH3xPhaYXrNRlT1PVb/uZi5bcDi8EiGwkb1Kjf
+	 gs1VKUygvBWEOiW1pEG2+S43SS+AfGq0Pp0ZPMPi1ackpCjZoxlAARWo1TFP6Q8eO6
+	 MGUWlc1na6yhwiRL9U0s++6+dlgsG63eQY3MixHkxVXftzpgOodOXSdAV0VvPPblfs
+	 LpbbzhR2r1NUDGWMtqTPPAsEp8ztiBNlsTV5JeUuID1+cFKYom4h7tdYiy7kyJk6lM
+	 Gsbdsjhp2PBy4XOb7pd+YtaiyyRTC6PLp8J08iVWCM3J0k0ohdpqPSSFEg9I75dj6n
+	 wRrig4Q0LdtCw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8574C4451B;
+	Sat, 18 Jul 2026 17:06:31 +0000 (UTC)
+From: Jens Glathe via B4 Relay <devnull+jens.glathe.oldschoolsolutions.biz@kernel.org>
+Subject: [PATCH 0/5] usb: typec: ps883x: fixes for older Thunderbolt 4 /
+ USB4 docks
+Date: Sat, 18 Jul 2026 19:06:28 +0200
+Message-Id: <20260718-ps883x-disable-usb4-v1-0-cec86d0b909e@oldschoolsolutions.biz>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: defd08d209d5d9186f3
-X-MBO-RS-META: qb4kafrytksnh784kfinnqhmnj564f6y
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MSwqAMAwA0atI1gZav9WriItGowZEpUERxLtbX
+ L7FzAPKQVihTR4IfInKvkXYNIFh8dvMKGM0ZCarTG0dHupcfuMo6mllPJUKtA2ZabA5lZ4glkf
+ gSe7/2vXv+wFCb18kZQAAAA==
+X-Change-ID: 20260718-ps883x-disable-usb4-19b0fc13b5ab
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ stable@vger.kernel.org, "Dr. David Alan Gilbert" <dave@treblig.org>, 
+ Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784394390; l=3110;
+ i=jens.glathe@oldschoolsolutions.biz; s=20240919;
+ h=from:subject:message-id;
+ bh=YVzVTS3yfTz3Fpn4bxNP94OBR+Wp6n8cJXaURHReZ6U=;
+ b=DZWzcN6ExfomMn/qKUwIcdGwtfI7YlcHPZ+0pbphXAgeO88tq3W1ZInBAdA4WjN4ILSaVtQ/5
+ ltNIjewtXObDIcYbMuWPQlarhGXAhQ4NDQXDShX0JIQ58K2s2dEGz6F
+X-Developer-Key: i=jens.glathe@oldschoolsolutions.biz; a=ed25519;
+ pk=JcRJqJc/y8LsxOlPakALD3juGfOKmFBWtO+GfELMJVg=
+X-Endpoint-Received: by B4 Relay for
+ jens.glathe@oldschoolsolutions.biz/20240919 with auth_id=216
+X-Original-From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+Reply-To: jens.glathe@oldschoolsolutions.biz
 
-On Fri, 2026-07-17 at 17:49 +0200, Johan Hovold wrote:
-> A recent change enabling compile testing of a Freescale dual-role
-> controller indirectly enabled a USB PHY driver to be built. That driver
-> in turn is missing a bunch of static keywords which results in warnings
-> like:
->=20
-> drivers/usb/phy/phy-fsl-usb.c:105:5: error: no previous prototype for 'wr=
-ite_ulpi' [-
-> Werror=3Dmissing-prototypes]
-> =C2=A0 105 | int write_ulpi(u8 addr, u8 data)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=A0 ^~~~=
-~~~~~~
->=20
-> which consequently breaks -Werror builds.
->=20
-> Add the missing static keywords.
->=20
-> Fixes: 0807c500a1a6 ("USB: add Freescale USB OTG Transceiver driver")
-> Cc: stable@vger.kernel.org	# 3.0
+On Qualcomm X1E80100 platforms (e.g. Lenovo ThinkPad T14s Gen 6)
+using the Parade PS883x retimer, connecting USB4-capable docks such
+as the Lenovo 40B0 via a regular Type-C cable (which forces the dock
+into Type-C fallback mode) often results in working USB but no
+DisplayPort output.
 
-Add linux-next@vger.kernel.org
+This series addresses the issue with two main changes:
 
-> Reported-by: Mark Brown <broonie@kernel.org>
-> Link: https://lore.kernel.org/r/4f9f5ff9-8eaa-4bd5-9331-37119f78e13f@sire=
-na.org.uk
-> Signed-off-by: Johan Hovold <johan@kernel.org>
+- Add a new optional DT property "parade,disable-usb4". When present,
+  the PS883x driver rejects USB4 mode (-EOPNOTSUPP). This forces the
+  Type-C stack to fall back to USB3 + DP Alt Mode, which works
+  reliably with the 40B0.
 
-Reviewed-by: Manuel Ebner <manuelebner@mailbox.org>
+- Refactor DP altmode handling to also support the legacy
+  TYPEC_DP_STATE_F request (deprecated since DP Alt Mode 1.0b) sent by
+  the 40B0 and other docks (e.g. SSK SC220).
 
-Thanks
- Manuel
+- Add a short delay after writing configuration registers, which
+  improves hotplug reliability.
 
-> ---
-> =C2=A0drivers/usb/phy/phy-fsl-usb.c | 52 +++++++++++++++++---------------=
+This is a temporary workaround until full USB4 DP tunneling support is
+available in the X1E USB4 controller and qmp-combo PHY stack.
+
+Note: The DT patch adds the new property to all currently upstream
+boards using the PS883x retimer (15 files). Happy to split it on v2
+if requested.
+
+As an additional observation, the same dock with type-c cable works well
+on Thinkpad X13s, Thinkbook 16 G7 QOY, Ideapad 5 14Q8X9, but doesn't need
+the ps883x changes (naturally). 
+
+Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 ---
-> =C2=A0drivers/usb/phy/phy-fsl-usb.h |=C2=A0 6 ++--
-> =C2=A02 files changed, 29 insertions(+), 29 deletions(-)
->=20
-> [...]
+Jens Glathe (5):
+      dt-bindings: usb: parade,ps8830: Add parade,disable-usb4 property
+      usb: typec: ps883x: Return -EOPNOTSUPP for USB4 when parade,disable-usb4 is set
+      usb: typec: mux: ps883x: refactor DP altmode handling and support TYPEC_DP_STATE_F
+      usb: typec: mux: ps883x: add a delay after writing config regs
+      arm64: dts: qcom: x1: disable ps883x USB4 capability
+
+ .../devicetree/bindings/usb/parade,ps8830.yaml     |  6 +++
+ arch/arm64/boot/dts/qcom/hamoa-iot-evk.dts         |  4 ++
+ .../qcom/hamoa-lenovo-ideacentre-mini-01q8x10.dts  |  2 +
+ arch/arm64/boot/dts/qcom/purwa-iot-evk.dts         |  6 +++
+ arch/arm64/boot/dts/qcom/x1-asus-vivobook-s15.dtsi |  4 ++
+ arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi  |  4 ++
+ arch/arm64/boot/dts/qcom/x1-crd.dtsi               |  6 +++
+ arch/arm64/boot/dts/qcom/x1-dell-thena.dtsi        |  4 ++
+ arch/arm64/boot/dts/qcom/x1-hp-omnibook-x14.dtsi   |  2 +
+ arch/arm64/boot/dts/qcom/x1-microsoft-denali.dtsi  |  4 ++
+ arch/arm64/boot/dts/qcom/x1e001de-devkit.dts       |  6 +++
+ .../dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi    |  4 ++
+ .../boot/dts/qcom/x1e80100-dell-xps13-9345.dts     |  4 ++
+ .../boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dts  |  6 +++
+ .../dts/qcom/x1e80100-medion-sprchrgd-14-s1.dts    |  2 +
+ .../boot/dts/qcom/x1e80100-microsoft-romulus.dtsi  |  4 ++
+ drivers/usb/typec/mux/ps883x.c                     | 47 +++++++++++++++-------
+ 17 files changed, 100 insertions(+), 15 deletions(-)
+---
+base-commit: 0718283ab28bc3907e10b61a6b4be6fefa1cbb2f
+change-id: 20260718-ps883x-disable-usb4-19b0fc13b5ab
+
+Best regards,
+-- 
+Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+
+
