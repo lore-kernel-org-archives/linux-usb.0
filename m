@@ -1,111 +1,109 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E063D3B3
-	for <linux-usb@vger.kernel.org>; Sat, 18 Jul 2026 02:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1A6366DB5
+	for <linux-usb@vger.kernel.org>; Sat, 18 Jul 2026 05:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.42
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784341622; cv=pass; b=AXThzZ8aGSz6E5fpgSSqD6ELysTcVuhiRSLiZ1N4lcH6OoYpicObjJlZoSY/WX4lodjITi75O1SwEO3S+BRor589zOlHsB+8QtaYoVfsgvsN9ul3wQxHcyWb4A7mRDcL2xC7QLGCeBw4isTSzNc9gWu5sJQDoKNu6haYDCs9d2o=
+	t=1784352633; cv=pass; b=ijRViVLDwQy34rf5YJLp+TQwHml8iQ4O3YXk78Ux47re3/x8qefZRaPGnfc1IQ54oy3NzzT1FsW52e6Zsl347/SZNwcu0YQyeuc5kt73gqzf7LUHCfeyexUQ6QXu1UUopWcuL1MPxxBk5NQiUU4mb5BB8bA5rSWJRNiKPr5PzGE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784341622; c=relaxed/simple;
-	bh=pgIV7aKbqHytik67W+b1EwdRl5JQN5YDhvZ8bL8PJnQ=;
+	s=arc-20240116; t=1784352633; c=relaxed/simple;
+	bh=St5k3xj4AeRhAT3qhfUkT73XJDbiQlQOZPv5JEO7Dv0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RLsENmFafJS8jOsyr/Doecu0ozkfpCtkNFpAmmIo8gNVVhpBIZNJ1u6UfC/sJqVdj/Y7N4xaH70OSJ5P29yylcZ85ULOds4y9VHKIs0J0Pfq48QsN9346NoKZG0hb2cS9Fl5fmQwMpKkE/+NUyhh1+pDnPiagCPq0MCgIIBxkTI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=EcIB5JNM; arc=pass smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
+	 To:Cc:Content-Type; b=OBx7TDt6Y5Jec8C/EuCPKHbu0KEvDHtAkXeF/AjXq9RlwS/LIdiAcVHB2rQa352w4pTwEHoFKyP2N2kNE1aN9+R01nnqR5bZBzSoVrTHQig8G3pmrEOUe1on03ms9E/mgy38rfTejUptS5eAknpImCCZrE308HfIx3pSTQA3g5A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dLSNAWpG; arc=pass smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="EcIB5JNM"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38dfe7eb825so4198096a91.0
-        for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 19:27:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784341620; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dLSNAWpG"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c15c7d22070so1115472966b.2
+        for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 22:30:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784352630; cv=none;
         d=google.com; s=arc-20260327;
-        b=CaFwPDk29bmYNWu6DJnZrI5RYHXctNjkt9BVTRDY15H9P19g8kvPtIVFpM3Z18yxYG
-         /bJcl4B08tvzCDJLtPfo46pRU4fGKHyVWYasX3pe5wp07hIj/xc09hM1O2LUKk2n1eEm
-         sLQNbQbo3TiyMG2XeYdpLkBzIYud6gx+6ufDC2xdZVbgGTmBdBltF8sT6p8kicJIHO+R
-         3bjeFXlggd9YYhZIu1zUZfkAw+TJQwMi6/AoeH6gPjzcT2+wxGen7yTIpUxspU5yV+MJ
-         0VokcwVqGKZYx5jaU7TH4bCv3tbJsSkgLCyBeZL5LJg4gc0XZaVTqMzofFoEZSXY1uQC
-         QZAg==
+        b=q2sMZzsgOSU9jI4lqF9I40VoHrDr7onbgDSt7S9e/aITDjn4WS3N4thrpwHv5wgRdJ
+         jvfLyQ+cSJwMY9NJ55ERLY5sTmNuhhyZtFF0Y6viHEDtEdtZl6jWqk3XZp5m92e7kQ41
+         WTmYMf4O722zGrv5Otmsm21DqcUbgmjOJt6mYwyxEhnQh5KXOxSVWtAqW30n3bo5nLmp
+         /8gmN3mZoGPg8bAQd+++nrhtNF5LXOzXuke9Zwr7mI9wOR4gAkCtYZ27Skxm+rDo2IG8
+         tvO1JZYhoyLRu51GDEyK66EL5TroszfIm8vx8i/E63Wspz9FNy0fq+YwZXm1rkCebrBO
+         iIEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=9G5E4Bpqv3WVAkSn3RpR+71BbPgGPWbp2fY+GvAIce8=;
-        fh=CrvWdkxKjD5fXwdJA2HKxqnyRTkmPUdwsMF1cJSa5Wg=;
-        b=qibyKoMMcm/thYic+B9u649sUMeO2zrSeebruOD221kNh27N5zEluCftGUXf/5iQHh
-         KgEHWYhyr4FGA5ySrZJ9SPkD3Yv3FRiw9p3gtS7CXGRqNIPKrlClWLUs7/7t3w3ZYdj4
-         uBMeOAnkjniPcKiKFD6Fej168eqQNYfGg6mOhN12qTmVxFQsTiuE6Y7enhBT+SQmUQDH
-         PzlxXTBPSpWcy5kh9ZyDbUN7bLm5rPb2V0AmmrLAlUbXr7V4QkleRD2wx1ee3tHXfQ8D
-         +ZxT8F5GHt/cauMTGlB8F/sDszBQ1XozKPl9a3FgYYVnPLWA+RjB1jfy0qdVmm0g50oa
-         AzPA==;
+        bh=St5k3xj4AeRhAT3qhfUkT73XJDbiQlQOZPv5JEO7Dv0=;
+        fh=kmuytBiTbvjEYRcnXHMDkBYfN0H8fPlcLm9I6tZChfs=;
+        b=FS4cSvR50IRNeMoDl1I7v47Hdl2g7o34LdwXFgafJmofa5t9brO8sh0DId2dXBwrDh
+         vSuXE9Z+YRZG3gxiYeJwIFFb5ckuLVB7D6Fso1UhLkaxPp0EMcN1PVmobIvZ20E0a11G
+         IqlYE4jm8NgQl9fNSSw2nYajeRfhJZSppgnNAVXcBOQmzztQ2EA4qPzxWWuyNcSoBQXE
+         fWxRbqIPumx6/2n5r14LWAz4nBk1fB6xayr+5i9xuQ2S/mwsF+kqNnOtd0LSzOdQB1kp
+         gJmAyYHNMY/L3IjnJSdz/6a+IHW1vPMxqmIoM3v8f0UIQUDom4Tmi5bPyfjpgfFKzNuN
+         Iu+A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thingy.jp; s=google; t=1784341620; x=1784946420; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1784352630; x=1784957430; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=9G5E4Bpqv3WVAkSn3RpR+71BbPgGPWbp2fY+GvAIce8=;
-        b=EcIB5JNMXG2A+Unq+m8rfO5GqyzI0m8m32A6lICzxckn2D3+W3It4tf0vVlhqzLk/h
-         rmbKmxcJSgHGgqF/KBCRNqlPk12QFHVQqzka+AaW7sXQk+g8338/SUrfRHKWoZ7zrHQF
-         v5yF4qvCEYV7LyoKLNC9mscAnRtAIU0XqTPw4=
+        bh=St5k3xj4AeRhAT3qhfUkT73XJDbiQlQOZPv5JEO7Dv0=;
+        b=dLSNAWpGn+AYA3Ja8ZBDg6U+/i+xfqMpH34m6m9kjklwRkNUmUsWx7D2/3kytFqpzw
+         zqPPKFBg5mIHGSsXuoJEOLtZyOoz6XGBVzpy+w+GzXF7z0DzLgmLlEZFpAowngvaT1Zz
+         OYmnhQx59SbVcbXiMBdUrGUE5fQQoMbf7/QxWKN9ToMrhf6jyJ5PAodODi6bMUtleX67
+         gZXl2DIJNcd6TvPEpiUJdnXnrD8HdlwOA8t0cTkYCUYxrJGIizZW3v50+qKGFAUaz7cL
+         60csjiweZU7cT+VPlBySAHD8zok8+kUydSXTTAShOkK0sY2QWt8zjjaJXsAasFOUxgxg
+         nr8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784341620; x=1784946420;
+        d=1e100.net; s=20251104; t=1784352630; x=1784957430;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=9G5E4Bpqv3WVAkSn3RpR+71BbPgGPWbp2fY+GvAIce8=;
-        b=LZzYWC83YJ381hZJpqbT1zH9D63w5D3Biy6FGnz+bkbgIEqrjs/Pw4YQdw6oXQNmbR
-         4KUkBZRYnn26j4AQQXRA06MW1IQdEFCQuCOCSsWcOg2C46XORTUNGPv0TuKPCLcoIId9
-         pGznB+iX0XApjrcqBhDXC+5BgBCqvqqJO8o9KHbZrEi7ZZfhcZ5gZzpLCloLIag9U99r
-         hCfV8B7vos1iNKfSy21A+WUDgduotIHq+sIj+ubLyH78OIq5CexfefmT5jEoNfkUhaqL
-         xuoWlv+Ar+4jpbCY1r/gWs+iotEoRE5gxT4hpJhwNnGV2RKjwyXWJUe6kpDtjMCwkUyI
-         TmaQ==
-X-Forwarded-Encrypted: i=1; AHgh+RplDB/ItpU1apX56NKRX5pZ9f5Jb1gD3U9nhN08jDK/hbpBaZhAEIJJHqVLzobG7FCuu9nc8Jrc9qY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1XNCtSGo/tKhwnNZLJPkZDcPsipvL90HYRa7sJbvSSoEHRRdF
-	35YkXBGoX5Clz6U9Y7UV75n/pm8mneGuYU79QB40fORlBGVUhHoNuZ25VQM3+nqjMOkWCQzx5Jw
-	KZTRxz22k70xegey6jCXu9Du2CkJ0UEQ37fS7oEf59A==
-X-Gm-Gg: AfdE7cmV/4JHzVkxoV8VsZYHz0i0/ThYYusYxcYSYYx11x6He4zHCy3aaFxRh20vWf/
-	zAF3C3IIbZ82Z4Gl5VEvExi3akVTrDS7tXXtVu33ZNqIwwXHbqLP4aFMC1I38oSBjrE1EqlYVc8
-	EFJ9fCmlwM96R+LDPV+o234fgmPhXENxs5xJKPu121T72kpL2J78ursUIzncD/lLXgPnvG6fnaU
-	Or7tBEDZmOdHNnic+3PHSFjnmdXi6mwCzzhbYZB7/gRz4UyPQVD+gfZ5z0aaTAkqC9bGC+CO8OP
-	ogg6zVZ/VSpsQ6u9fGiH
-X-Received: by 2002:a17:90b:57ee:b0:383:f52b:d616 with SMTP id
- 98e67ed59e1d1-38e4b40292cmr5642393a91.10.1784341619978; Fri, 17 Jul 2026
- 19:26:59 -0700 (PDT)
+        bh=St5k3xj4AeRhAT3qhfUkT73XJDbiQlQOZPv5JEO7Dv0=;
+        b=tKmsO3pmAYtdG3PY1Vtn0PGOWkWgsmaNF85K79Uw6d/ETJul/qNnG004JTRDphl9RN
+         UlyAy6L6wWcPMD/3ehjiVCTscLTEYvmNSKqKYHLpXjmTBRvgoB2o+U4kKLpGpEjt4bn4
+         +xHWo7aTlFZXAhV/uzgRVeeLEcarfqnbaY8/W3OyTPl4tAz3IQ7WaDfV8kfQvw1bhSgW
+         WaJv5mextfE0bQSOMUVRTXmZ6NmmNsKecS00NqPHQgE3cEPYi+p9C1Ll6VcTnjhois7M
+         wmu+Xev3FtZwKtfuYab8FmVir/GzkfQSEBsJOuvTuGJ3sNJ1K4xQFelnq0FoCgkv433v
+         PSXw==
+X-Gm-Message-State: AOJu0YwnxbG+ISrkl5UZzp8vkjXxwFYdgx5NeVnC66aoXIab47QxTFRg
+	vmjz29winT1yafROxE9SoPQz1j5EMc6e7CF0QJ/eQ+7HNvs8ai9b+sxSO27QTbRbaSimfmmGAng
+	VPLTLz3W8kEQYCUrZPDaTVimtn85YDNo0rUVj7CM=
+X-Gm-Gg: AfdE7clHcOUXsCIMtlv6XLKXzGg9FJ+w6jXD96m22z+KwIQTFrYxrdIr3SEr/WYO/T1
+	qUgA+iKFS+KcOSE7cuu+RzQsQ85Qvs00C4kYeeKVaTj6OxFhlh3Si+H6qVJFlZ3XgkAPYlGgUb1
+	2Gku3FmcQc8/0t06DCh8yH0NB3NgeO6Z3GCSySiI6l5O7UWWMQuXFMjkupPHJQSjhuIw985OKtn
+	sz3mMdum213Seq0rLdh0WliWMkKjlJwyT2jCtPTdt6LI9lAdTN2ACh2fge1r2Xtwj4TaP+grbEX
+	pjQqsm920cbSlMKc0+xlO7RtdXnnnhUPFnPcylvRr61h3j0=
+X-Received: by 2002:a17:907:e1d3:10b0:c12:34ed:da14 with SMTP id
+ a640c23a62f3a-c16b47ea252mr147632766b.64.1784352630205; Fri, 17 Jul 2026
+ 22:30:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260713122205.1350933-1-daniel@thingy.jp> <20260713122205.1350933-3-daniel@thingy.jp>
- <alcfzDBAtuSZG3pq@hu-petche-lv.qualcomm.com>
-In-Reply-To: <alcfzDBAtuSZG3pq@hu-petche-lv.qualcomm.com>
-From: Daniel Palmer <daniel@thingy.jp>
-Date: Sat, 18 Jul 2026 11:26:46 +0900
-X-Gm-Features: AUfX_mzvkLkU0tGjxRt_cqQP6T2a8k9TlUOp9V9nVKwGtnu0RXqS0l52QTS11FA
-Message-ID: <CAFr9PXnfQnaz7C3gsZS=2Pq3Dg+VhR8V2L7EN7zdDVXSMeNZGw@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/2] usb: chipidea: use the generic ehci_writel
- override for i.MX28
-To: Peter Chen <peter.chen@kernel.org>
-Cc: gregkh@linuxfoundation.org, stern@rowland.harvard.edu, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260717195336.98500-1-nikhilsolanke5@gmail.com>
+In-Reply-To: <20260717195336.98500-1-nikhilsolanke5@gmail.com>
+From: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Date: Sat, 18 Jul 2026 11:00:19 +0530
+X-Gm-Features: AUfX_mxhIJFm-FhL7GTanL1EAGlmqlbs9olf-RM3hy7jEr95fa0uEkWsyyRhdQw
+Message-ID: <CAFgddhJpqOO+pBrVs6U=mMOfXrO1DPTZ6XAbwPQubjYz4ZB35A@mail.gmail.com>
+Subject: Re: [PATCH 0/2] usbcore: Add quirk for 255-byte initial config read
+To: linux-usb@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	stern@rowland.harvard.edu, michal.pecio@gmail.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Peter,
+Sorry, forgot to mark this as v3. This should be [PATCH v3 0/2].
 
-On Wed, 15 Jul 2026 at 14:51, Peter Chen <peter.chen@kernel.org> wrote:
-> > +     select HAVE_BROKEN_EHCI_HCD if SOC_IMX28
->
-> Is the SoC you are trying adding support imx28? If it is not, I could not
-> understand why you add this patch.
-
-I need to override the accessors for ehci registers to use the ehci
-core code with another USB controller. The only in-kernel example of
-doing this is IMX28 hence I used it as the example of what I want to
-do for the RFC. Also this shows that the IMX28 code would move out of
-the ehci core with this change.
+Changes from v2:
+- put strings in a single line
+- copy bytes from desc to bigbuffer instead of pointer aliasing.
+- change tabs to spaces in documentation
+- reworded some comments
+- drop USB_CONFIG_WINDOWS_REQ_SIZE macro
+- revert USB_DELAY_INIT to original behavior. no delay before 1st request.
+- split announce_device() so we can report device ids early before
+vendor strings
 
 Thanks,
-
-Daniel
+Nikhil Solanke
