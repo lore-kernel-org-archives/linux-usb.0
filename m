@@ -1,121 +1,111 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E65B335972;
-	Sat, 18 Jul 2026 02:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784340773; cv=none; b=I+rcc0ivLwqsRSc3lSc49sCCryGQH2kxg85wP4eBYNSdLi2BpohC3RKrNIRuZGM/kMgpge1wk3ptsTynBop+yzXjuUhPy7IGTJ1bDbmMiQpe8r0P9HyKVsAsd+Dbf4bVE+BNQ99uxOPqI1H/CKEUxAdSZGcc2MxVDKkmvLtNmUo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784340773; c=relaxed/simple;
-	bh=FQAxCInk2AF8mBO39ha0IVg7+b8kN4qIDSfhr6AwqeM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=epEdM124mPBV3h2ACsvGpRDZcKc6vHEFxyftBW+ER+Q38xm/WGVzvJW/vzHSQAPm9SAa8BY4GeNxsjV6eNTL2CeLxML16W9mJqvi49bNspmgeAknMASNkHlmA7cC+UbBXryXbTYBm7dG1u+z4Kb+oEDIaskwt5hGfNXgAFQKvZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.75.44.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wDn738V4Vpqo_8KAA--.4374S3;
-	Sat, 18 Jul 2026 10:12:39 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app4 (Coremail) with SMTP id zi_KCgC36jEV4VpqssxhAg--.22301S2;
-	Sat, 18 Jul 2026 10:12:37 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: heikki.krogerus@linux.intel.com
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Fan Wu <fanwu01@zju.edu.cn>
-Subject: [PATCH] usb: typec: ucsi: acpi: Fix use-after-free of ucsi on remove
-Date: Sat, 18 Jul 2026 02:11:42 +0000
-Message-Id: <20260718021142.3146566-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E063D3B3
+	for <linux-usb@vger.kernel.org>; Sat, 18 Jul 2026 02:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784341622; cv=pass; b=AXThzZ8aGSz6E5fpgSSqD6ELysTcVuhiRSLiZ1N4lcH6OoYpicObjJlZoSY/WX4lodjITi75O1SwEO3S+BRor589zOlHsB+8QtaYoVfsgvsN9ul3wQxHcyWb4A7mRDcL2xC7QLGCeBw4isTSzNc9gWu5sJQDoKNu6haYDCs9d2o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784341622; c=relaxed/simple;
+	bh=pgIV7aKbqHytik67W+b1EwdRl5JQN5YDhvZ8bL8PJnQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RLsENmFafJS8jOsyr/Doecu0ozkfpCtkNFpAmmIo8gNVVhpBIZNJ1u6UfC/sJqVdj/Y7N4xaH70OSJ5P29yylcZ85ULOds4y9VHKIs0J0Pfq48QsN9346NoKZG0hb2cS9Fl5fmQwMpKkE/+NUyhh1+pDnPiagCPq0MCgIIBxkTI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp; spf=pass smtp.mailfrom=0x0f.com; dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b=EcIB5JNM; arc=pass smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thingy.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0x0f.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=thingy.jp header.i=@thingy.jp header.b="EcIB5JNM"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38dfe7eb825so4198096a91.0
+        for <linux-usb@vger.kernel.org>; Fri, 17 Jul 2026 19:27:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784341620; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CaFwPDk29bmYNWu6DJnZrI5RYHXctNjkt9BVTRDY15H9P19g8kvPtIVFpM3Z18yxYG
+         /bJcl4B08tvzCDJLtPfo46pRU4fGKHyVWYasX3pe5wp07hIj/xc09hM1O2LUKk2n1eEm
+         sLQNbQbo3TiyMG2XeYdpLkBzIYud6gx+6ufDC2xdZVbgGTmBdBltF8sT6p8kicJIHO+R
+         3bjeFXlggd9YYhZIu1zUZfkAw+TJQwMi6/AoeH6gPjzcT2+wxGen7yTIpUxspU5yV+MJ
+         0VokcwVqGKZYx5jaU7TH4bCv3tbJsSkgLCyBeZL5LJg4gc0XZaVTqMzofFoEZSXY1uQC
+         QZAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=9G5E4Bpqv3WVAkSn3RpR+71BbPgGPWbp2fY+GvAIce8=;
+        fh=CrvWdkxKjD5fXwdJA2HKxqnyRTkmPUdwsMF1cJSa5Wg=;
+        b=qibyKoMMcm/thYic+B9u649sUMeO2zrSeebruOD221kNh27N5zEluCftGUXf/5iQHh
+         KgEHWYhyr4FGA5ySrZJ9SPkD3Yv3FRiw9p3gtS7CXGRqNIPKrlClWLUs7/7t3w3ZYdj4
+         uBMeOAnkjniPcKiKFD6Fej168eqQNYfGg6mOhN12qTmVxFQsTiuE6Y7enhBT+SQmUQDH
+         PzlxXTBPSpWcy5kh9ZyDbUN7bLm5rPb2V0AmmrLAlUbXr7V4QkleRD2wx1ee3tHXfQ8D
+         +ZxT8F5GHt/cauMTGlB8F/sDszBQ1XozKPl9a3FgYYVnPLWA+RjB1jfy0qdVmm0g50oa
+         AzPA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=thingy.jp; s=google; t=1784341620; x=1784946420; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9G5E4Bpqv3WVAkSn3RpR+71BbPgGPWbp2fY+GvAIce8=;
+        b=EcIB5JNMXG2A+Unq+m8rfO5GqyzI0m8m32A6lICzxckn2D3+W3It4tf0vVlhqzLk/h
+         rmbKmxcJSgHGgqF/KBCRNqlPk12QFHVQqzka+AaW7sXQk+g8338/SUrfRHKWoZ7zrHQF
+         v5yF4qvCEYV7LyoKLNC9mscAnRtAIU0XqTPw4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784341620; x=1784946420;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=9G5E4Bpqv3WVAkSn3RpR+71BbPgGPWbp2fY+GvAIce8=;
+        b=LZzYWC83YJ381hZJpqbT1zH9D63w5D3Biy6FGnz+bkbgIEqrjs/Pw4YQdw6oXQNmbR
+         4KUkBZRYnn26j4AQQXRA06MW1IQdEFCQuCOCSsWcOg2C46XORTUNGPv0TuKPCLcoIId9
+         pGznB+iX0XApjrcqBhDXC+5BgBCqvqqJO8o9KHbZrEi7ZZfhcZ5gZzpLCloLIag9U99r
+         hCfV8B7vos1iNKfSy21A+WUDgduotIHq+sIj+ubLyH78OIq5CexfefmT5jEoNfkUhaqL
+         xuoWlv+Ar+4jpbCY1r/gWs+iotEoRE5gxT4hpJhwNnGV2RKjwyXWJUe6kpDtjMCwkUyI
+         TmaQ==
+X-Forwarded-Encrypted: i=1; AHgh+RplDB/ItpU1apX56NKRX5pZ9f5Jb1gD3U9nhN08jDK/hbpBaZhAEIJJHqVLzobG7FCuu9nc8Jrc9qY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1XNCtSGo/tKhwnNZLJPkZDcPsipvL90HYRa7sJbvSSoEHRRdF
+	35YkXBGoX5Clz6U9Y7UV75n/pm8mneGuYU79QB40fORlBGVUhHoNuZ25VQM3+nqjMOkWCQzx5Jw
+	KZTRxz22k70xegey6jCXu9Du2CkJ0UEQ37fS7oEf59A==
+X-Gm-Gg: AfdE7cmV/4JHzVkxoV8VsZYHz0i0/ThYYusYxcYSYYx11x6He4zHCy3aaFxRh20vWf/
+	zAF3C3IIbZ82Z4Gl5VEvExi3akVTrDS7tXXtVu33ZNqIwwXHbqLP4aFMC1I38oSBjrE1EqlYVc8
+	EFJ9fCmlwM96R+LDPV+o234fgmPhXENxs5xJKPu121T72kpL2J78ursUIzncD/lLXgPnvG6fnaU
+	Or7tBEDZmOdHNnic+3PHSFjnmdXi6mwCzzhbYZB7/gRz4UyPQVD+gfZ5z0aaTAkqC9bGC+CO8OP
+	ogg6zVZ/VSpsQ6u9fGiH
+X-Received: by 2002:a17:90b:57ee:b0:383:f52b:d616 with SMTP id
+ 98e67ed59e1d1-38e4b40292cmr5642393a91.10.1784341619978; Fri, 17 Jul 2026
+ 19:26:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zi_KCgC36jEV4VpqssxhAg--.22301S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?IIomyAXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfnXz+g1OQfMo27QHy5TwQyZz7YkbJ3AoyGBdg4rUAvmX1NnfkbRhgWhLC2J6tQB0GXIUi
-	MA23mPTTVIkZA5npcoqp9E6mavGmQbzmcFsnzP86
-X-Coremail-Antispam: 1Uk129KBj93XoWxCw4xurykAF48ZFyxuF45Jwc_yoW5XrWxpr
-	WIk3y0kw40gF1Yga1kXwn5XFy8uF4kZry7GF1Ig3yxGws8uw1UXF93t3W5CFy5Jr98Wanr
-	Ar48Ja45Zay5AwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Cb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAF
-	wI0_GcCE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjx
-	CEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAF
-	wI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0x
-	vY0x0EwIxGrwACjcxG0xvY0x0EwIxGrVCF72vEw4AK0wCF04k20xvY0x0EwIxGrwCFx2Iq
-	xVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r
-	106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AK
-	xVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7
-	xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_
-	Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jnKsUUUUUU=
+References: <20260713122205.1350933-1-daniel@thingy.jp> <20260713122205.1350933-3-daniel@thingy.jp>
+ <alcfzDBAtuSZG3pq@hu-petche-lv.qualcomm.com>
+In-Reply-To: <alcfzDBAtuSZG3pq@hu-petche-lv.qualcomm.com>
+From: Daniel Palmer <daniel@thingy.jp>
+Date: Sat, 18 Jul 2026 11:26:46 +0900
+X-Gm-Features: AUfX_mzvkLkU0tGjxRt_cqQP6T2a8k9TlUOp9V9nVKwGtnu0RXqS0l52QTS11FA
+Message-ID: <CAFr9PXnfQnaz7C3gsZS=2Pq3Dg+VhR8V2L7EN7zdDVXSMeNZGw@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/2] usb: chipidea: use the generic ehci_writel
+ override for i.MX28
+To: Peter Chen <peter.chen@kernel.org>
+Cc: gregkh@linuxfoundation.org, stern@rowland.harvard.edu, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The ACPI notify handler ucsi_acpi_notify() calls
-ua->ucsi->ops->read_cci() and ucsi_notify_common(), both of which
-dereference ua->ucsi with no NULL guard.  In ucsi_acpi_remove(),
-ucsi_destroy() frees ua->ucsi (kfree) before
-acpi_remove_notify_handler() is called, so a notify dispatch already
-in flight on another CPU may access the freed object after
-ucsi_destroy().
+Hi Peter,
 
-  CPU 0 (remove)                    | CPU 1 (ACPI notify wq)
-    ucsi_destroy(ua->ucsi)          |   ucsi_acpi_notify(ua)
-      kfree(ucsi) // FREE           |     ua->ucsi->ops->read_cci(...) // USE
+On Wed, 15 Jul 2026 at 14:51, Peter Chen <peter.chen@kernel.org> wrote:
+> > +     select HAVE_BROKEN_EHCI_HCD if SOC_IMX28
+>
+> Is the SoC you are trying adding support imx28? If it is not, I could not
+> understand why you add this patch.
 
-Move acpi_remove_notify_handler() before ucsi_destroy() in the remove
-path.  It is kept after ucsi_unregister(): ucsi_unregister() cancels
-connector work whose handler issues GET_CONNECTOR_STATUS through
-ucsi_send_command_common(), which waits for a completion that is
-signalled from the notify path, so the handler must stay registered
-until that work has been cancelled.
+I need to override the accessors for ehci registers to use the ehci
+core code with another USB controller. The only in-kernel example of
+doing this is IMX28 hence I used it as the example of what I want to
+do for the RFC. Also this shows that the IMX28 code would move out of
+the ehci core with this change.
 
-acpi_remove_notify_handler() drains in-flight notify dispatches before
-returning: it calls acpi_os_wait_events_complete(), which flushes
-kacpi_notify_wq. Because ACPI device-notify dispatch is deferred to that
-same workqueue (acpi_os_execute(OSL_NOTIFY_HANDLER, ...)), the flush
-guarantees any queued or running ucsi_acpi_notify() has returned before
-the function returns, so ucsi_destroy() frees an object no handler can
-reach. This mirrors commit 1f0bdc2884b6 ("usb: typec: ucsi: ccg: Fix
-use-after-free of ucsi on remove"), which moved free_irq() before
-ucsi_destroy() with the same ordering rationale.
+Thanks,
 
-The probe error paths already order acpi_remove_notify_handler() (or
-omit it, when install failed) before ucsi_destroy(), and are unchanged.
-
-This issue was found by an in-house static analysis tool.
-
-Fixes: f56de278e8ec ("usb: typec: ucsi: acpi: Move to the new API")
-Cc: stable@vger.kernel.org
-Assisted-by: Codex:gpt-5.6
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
----
- drivers/usb/typec/ucsi/ucsi_acpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
-index 60b12961e..1d56eadc9 100644
---- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-+++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-@@ -257,10 +257,10 @@ static void ucsi_acpi_remove(struct platform_device *pdev)
- 	struct ucsi_acpi *ua = platform_get_drvdata(pdev);
- 
- 	ucsi_unregister(ua->ucsi);
--	ucsi_destroy(ua->ucsi);
- 
- 	acpi_remove_notify_handler(ACPI_HANDLE(&pdev->dev), ACPI_DEVICE_NOTIFY,
- 				   ucsi_acpi_notify);
-+	ucsi_destroy(ua->ucsi);
- }
- 
- static int ucsi_acpi_resume(struct device *dev)
--- 
-2.34.1
-
+Daniel
