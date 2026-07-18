@@ -1,174 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mailsrv.dsidata.sk (mailsrv.dsidata.sk [80.87.208.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD49282F21
-	for <linux-usb@vger.kernel.org>; Sat, 18 Jul 2026 06:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E91243F0A0;
+	Sat, 18 Jul 2026 10:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.87.208.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784356909; cv=none; b=SWFn8h5B8pm4z5xBemj/LFIvxTMvF2I/c0XlP4tWA6qiVqZe1zZyEku0gv7NUdAn0aWQ+fsd7bGeG2SYf4q7nZoWM2HXaBhkhm6n5x2J4GsgSIfi7M6KdNupJbxB0SEQGmTDfzvoeGhbvdTOoifl3CRJ5CdGQwVsn7kd5kPWV8A=
+	t=1784370068; cv=none; b=pC40QLR6JUqTAuUlDvaSt9i+0ujj6wpynClgasi4jEkVkL9PfUi7+iGMMXGVi6HBBWNaIqhyJJpF8uIJXS9AM7JLh+nDSOZyk526IBUADUrnH1U5AqVhh5x/g3aEZZRs6kKGZKAtXCkMQYjgSgtd9ojc9E0I/Gf11nRO8imA71c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784356909; c=relaxed/simple;
-	bh=Vm0hemrVXtLwsA33JohRMPmHOC5vfwjrar2vwnBNzPE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=e8Y9W8gj0Ca00pHMTf7TkaPGryQHW+MMYCQGR8w51QDaHEgDa5BhIn+go76UfFqKiga2+3Ur7g70yw/iMBFMXhdVmubqTK//7nvc7N6C438BzqqDCK1ateO3sQ4ZF10fsFcUpZSYOEXSJJRcgLt/audUhy63+jNY886fRuhQ4NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dBiiy1am; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1784370068; c=relaxed/simple;
+	bh=5iMZmqmjBSKbPtQY4PLTrVc2WqfrJPG6IZMqVKRBSu4=;
+	h=Message-ID:Date:MIME-Version:To:Cc:Subject:From:Content-Type; b=G3CWW08a1/wVsgHwP0EUcZ5UvDs6Dvk78sBVSu6W17o0ygOGsSmaAhHeQrVGVSM4hVHifa5bZMqp3lsNZZDNNZ/cSsxUhehZimF2dGMVruf3ceuoxZxVSU0hC2cdMpbssd3fHf4spxo0unjFTayOA+amGc8EYqcMVl1SPMtm72k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orava.sk; spf=pass smtp.mailfrom=orava.sk; dkim=pass (1024-bit key) header.d=orava.sk header.i=@orava.sk header.b=hxbHppgw; arc=none smtp.client-ip=80.87.208.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orava.sk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orava.sk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBiiy1am"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784356908; x=1815892908;
-  h=date:from:to:cc:subject:message-id;
-  bh=Vm0hemrVXtLwsA33JohRMPmHOC5vfwjrar2vwnBNzPE=;
-  b=dBiiy1amJheRFP1qJLLtTgDbHvevP5z4tM6C9O1is1p/WeuloWcuYu5v
-   bmPIhNgt6miKJ6vWiSgyiAAalAIs8akFUDuQg6FLet91k71/lq0g1ostG
-   gwJUAe0RFX/5paNED1fD1Sr7DK5enPiCPpaWNxlshJMmtNYjHcoyqemDK
-   oQN8nuIYAAqmpA/IErjheE3q5R2QuKE9FcIOg83X1qSVRf80QeRCdFAf0
-   wfxdJR0vJn0hJm2BeJgMgi0iGpzDp480511o7wwC/gVvQzW/P1SByKbz3
-   5BAzz5zybQc9DHVvlh1daIIRuCOs9MMi3xHdRNI70iRu2MIRqdQTFPvN8
-   w==;
-X-CSE-ConnectionGUID: jLoM67F3TK6/Yzukvfe0uA==
-X-CSE-MsgGUID: 3OdMEc/VSa+qnPb5Ec1QFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11849"; a="102440645"
-X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="102440645"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2026 23:41:48 -0700
-X-CSE-ConnectionGUID: CU29F7lPSzuKW1Z1q0FSrg==
-X-CSE-MsgGUID: wS0kCIGATkO24Nul+1S2aw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,170,1779174000"; 
-   d="scan'208";a="250619483"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Jul 2026 23:41:46 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wkyk4-00000000TWt-0LDH;
-	Sat, 18 Jul 2026 06:41:44 +0000
-Date: Sat, 18 Jul 2026 14:41:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-linus] BUILD SUCCESS
- 71132cedd1ecbc4032d76e9928c18a10f7e39b80
-Message-ID: <202607181450.5kHasEpV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=orava.sk header.i=@orava.sk header.b="hxbHppgw"
+DKIM-Signature: a=rsa-sha256; t=1784369911; x=1784974711; s=2018; d=orava.sk; c=relaxed/relaxed; v=1; bh=Ws1dxkoGI05DP5xLCcQhzaRSrH1Hg7hjHyjznl3MjwY=; h=From:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding;
+   b=hxbHppgw2GBEX4PAJuaIb1+jP5CyDNaZs3HraOT6TguFyCucv+7DO8h4OZGDJUq7sRnQngCRm734NwE2Lk9mJJEUbaKVD+rlz+zZoGa+l4zx86KVklGq9gozrlAkadJJw42F11fJLG4WoD+FhZxYbA4E1SR5QwYwWKrWSfyercw=
+Received: from [192.168.15.14] ([213.81.222.48])
+        by mailsrv.dsidata.sk (14.2.0 build 16 ) with ASMTP (SSL) id 202607181218315607;
+        Sat, 18 Jul 2026 12:18:31 +0200
+Message-ID: <c79e7821-eff0-4c75-a41a-bf14b00333c9@orava.sk>
+Date: Sat, 18 Jul 2026 12:18:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: linux-usb@vger.kernel.org
+Cc: linux-bluetooth@vger.kernel.org, mathias.nyman@intel.com
+Subject: xHCI TT: FS audio capture glitches when btusb SCO runs concurrently
+Content-Language: en-US, sk-SK
+From: Branislav Klocok <branislav.klocok@orava.sk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CTCH: RefID="str=0001.0A2D035C.6A5B52F6.003C,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0"; Spam="Unknown"; VOD="Unknown"
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-branch HEAD: 71132cedd1ecbc4032d76e9928c18a10f7e39b80  usb: atm: ueagle-atm: reject descriptors that confuse probe and disconnect
+Hi,
 
-elapsed time: 747m
+I'd like to report (and ask for guidance on) an apparent conflict between
+two concurrent full-speed isochronous streams on the same xHCI controller:
+a full-speed USB audio device behind a hub (split transactions through the
+hub's TT) and the SCO endpoints of an Intel Bluetooth controller (btusb)
+on a root port.
 
-configs tested: 97
-configs skipped: 0
+Short version: while an HFP call is active over Bluetooth (SCO), the
+capture stream of a full-speed USB headset plugged in *behind a dock hub*
+is subtly corrupted. After mSBC encoding and the telephony path, the far
+end hears severely "robotic" audio. Moving the same headset to a direct
+root port makes the problem disappear immediately; moving it back behind
+the dock brings it back. CVSD calls are perceptually unaffected.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Environment
+-----------
+- ThinkPad X1 Carbon 6th gen; xHCI: Intel Sunrise Point-LP [8086:9d2f]
+- Kernel 7.1.3-1-default (openSUSE Tumbleweed), BlueZ 5.82,
+   PipeWire 1.6.8 / WirePlumber 0.5.15 (HFP native backend, laptop = HF)
+- Bluetooth: Intel 8265 [8087:0a2b], full-speed, internal (bus 1 root
+   port 7), fw ibt-12-16
+- USB headset: C-Media [0d8c:0014], full-speed, mono capture 48 kHz
+- Dock: Lenovo USB dock (hubs 17ef:3071/17ef:3070, cascade incl.
+   067b:2586 and 05e3:0610)
+- HFP counterpart: Android phone (Volla X23) as AG; a call was placed to
+   a second handset held at my ear, so I judged the far-end quality
+   directly while speaking
 
-tested configs:
-alpha                            allnoconfig    gcc-16.1.0
-alpha                           allyesconfig    gcc-16.1.0
-alpha                              defconfig    gcc-16.1.0
-arc                             allmodconfig    gcc-16.1.0
-arc                             allyesconfig    gcc-16.1.0
-arc                           randconfig-001    gcc-8.5.0
-arc                  randconfig-001-20260718    gcc-8.5.0
-arc                  randconfig-002-20260718    gcc-8.5.0
-arm                  randconfig-001-20260718    gcc-8.5.0
-arm                  randconfig-002-20260718    gcc-8.5.0
-arm                  randconfig-003-20260718    gcc-8.5.0
-arm                  randconfig-004-20260718    gcc-8.5.0
-arm                          u8500_defconfig    gcc-16.1.0
-arm64                         randconfig-001    gcc-14.3.0
-arm64                randconfig-001-20260718    gcc-14.3.0
-arm64                randconfig-002-20260718    gcc-14.3.0
-arm64                randconfig-003-20260718    gcc-14.3.0
-arm64                randconfig-004-20260718    gcc-14.3.0
-csky                            allmodconfig    gcc-16.1.0
-csky                 randconfig-001-20260718    gcc-14.3.0
-csky                 randconfig-002-20260718    gcc-14.3.0
-hexagon              randconfig-001-20260718    clang-18
-hexagon              randconfig-002-20260718    clang-18
-i386                            allmodconfig    gcc-14
-i386                 randconfig-001-20260718    gcc-14
-i386                 randconfig-002-20260718    gcc-14
-i386                 randconfig-003-20260718    gcc-14
-i386                 randconfig-004-20260718    gcc-14
-i386                 randconfig-005-20260718    gcc-14
-i386                 randconfig-006-20260718    gcc-14
-i386                 randconfig-007-20260718    gcc-14
-i386                 randconfig-011-20260718    clang-22
-i386                 randconfig-012-20260718    clang-22
-i386                 randconfig-013-20260718    clang-22
-i386                 randconfig-014-20260718    clang-22
-i386                 randconfig-015-20260718    clang-22
-i386                 randconfig-016-20260718    clang-22
-i386                 randconfig-017-20260718    clang-22
-loongarch                          defconfig    clang-24
-loongarch            randconfig-001-20260718    clang-18
-loongarch            randconfig-002-20260718    clang-18
-nios2                           allmodconfig    gcc-11.5.0
-nios2                            allnoconfig    gcc-11.5.0
-nios2                randconfig-001-20260718    clang-18
-nios2                randconfig-002-20260718    clang-18
-parisc                          allmodconfig    gcc-16.1.0
-parisc                          allyesconfig    gcc-16.1.0
-parisc                             defconfig    gcc-16.1.0
-parisc                        randconfig-001    gcc-16.1.0
-parisc               randconfig-001-20260718    gcc-16.1.0
-parisc               randconfig-002-20260718    gcc-16.1.0
-powerpc              randconfig-001-20260718    gcc-16.1.0
-powerpc              randconfig-002-20260718    gcc-16.1.0
-powerpc64            randconfig-001-20260718    gcc-16.1.0
-powerpc64            randconfig-002-20260718    gcc-16.1.0
-riscv                randconfig-001-20260718    clang-24
-riscv                randconfig-002-20260718    clang-24
-s390                 randconfig-001-20260718    clang-24
-s390                 randconfig-002-20260718    clang-24
-sh                                 defconfig    gcc-16.1.0
-sh                   randconfig-001-20260718    clang-24
-sh                   randconfig-002-20260718    clang-24
-sparc                randconfig-001-20260718    gcc-11.5.0
-sparc                randconfig-002-20260718    gcc-11.5.0
-sparc64              randconfig-001-20260718    gcc-11.5.0
-sparc64              randconfig-002-20260718    gcc-11.5.0
-um                   randconfig-001-20260718    gcc-11.5.0
-um                   randconfig-002-20260718    gcc-11.5.0
-x86_64     buildonly-randconfig-001-20260718    clang-22
-x86_64     buildonly-randconfig-002-20260718    clang-22
-x86_64     buildonly-randconfig-003-20260718    clang-22
-x86_64     buildonly-randconfig-004-20260718    clang-22
-x86_64     buildonly-randconfig-005-20260718    clang-22
-x86_64     buildonly-randconfig-006-20260718    clang-22
-x86_64                                 kexec    clang-22
-x86_64                        randconfig-001    gcc-14
-x86_64               randconfig-001-20260718    gcc-14
-x86_64               randconfig-002-20260718    gcc-14
-x86_64               randconfig-003-20260718    gcc-14
-x86_64               randconfig-004-20260718    gcc-14
-x86_64               randconfig-005-20260718    gcc-14
-x86_64               randconfig-006-20260718    gcc-14
-x86_64               randconfig-011-20260718    gcc-14
-x86_64               randconfig-012-20260718    gcc-14
-x86_64               randconfig-013-20260718    gcc-14
-x86_64               randconfig-014-20260718    gcc-14
-x86_64               randconfig-015-20260718    gcc-14
-x86_64               randconfig-016-20260718    gcc-14
-x86_64               randconfig-071-20260718    clang-22
-x86_64               randconfig-072-20260718    clang-22
-x86_64               randconfig-073-20260718    clang-22
-x86_64               randconfig-074-20260718    clang-22
-x86_64               randconfig-075-20260718    clang-22
-x86_64               randconfig-076-20260718    clang-22
-x86_64                          rhel-9.4-bpf    gcc-14
-xtensa               randconfig-001-20260718    gcc-11.5.0
-xtensa               randconfig-002-20260718    gcc-11.5.0
+SCO detail during mSBC: eSCO, air mode Transparent, 60-byte RX/TX packet
+length, btusb isoc alt setting 1 (9-byte packets), HCI SCO frames
+dlen 24. CVSD uses alt setting 2 (17-byte packets).
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Reproduction (single call, changing only the capture source / port)
+-------------------------------------------------------------------
+I kept the same position and speech style throughout and judged the
+quality on the far-end handset:
+
+   uplink capture source                    far-end verdict
+   1. HS webcam (behind the same dock)      clean
+   2. FS headset behind dock hub A          severely "robotic"
+   3. same, headset moved 30 cm away        severely "robotic"
+                                            (rules out mic proximity/level)
+   4. FS headset on a DIRECT root port      clean
+   5. FS headset behind dock hub B          severely "robotic" again
+                                            (immediately reversible)
+
+A parallel capture of the same source during phase 5 (recording to a file
+while the stream also feeds the call) contains audible subtle glitching
+already at the capture side -- i.e. the corruption exists in the USB
+capture data before any Bluetooth/mSBC processing. Amplitude analysis
+shows no zero-runs or full-scale clicks, so the defect consists of small
+sample-level discontinuities, which the frame-based mSBC codec then
+amplifies into severe artifacts, while sample-based CVSD mostly masks
+them.
+
+What I ruled out
+----------------
+- Bluetooth host stack: btmon traces covering a clean -> robotic -> clean
+   cycle show the HCI SCO TX stream is byte-perfect (intact 60-byte mSBC
+   framing with H2 headers, ~3333 frames/10 s constant) and the write
+   timing pattern is identical between clean and robotic phases (bursts of
+   3x24 B every ~7.5 ms). The RX direction is likewise clean. So
+   BlueZ/PipeWire/btusb submit correct data on time; the corruption
+   happens elsewhere.
+- Audio content/level: same speech, same position (phase 3).
+- The specific adapter/hub: reproduced behind two different hub chains,
+   and with a different FS combo headset (Sennheiser) behind a different
+   (Thunderbolt) dock in another location -- there the mSBC *downlink*
+   died completely while CVSD kept working.
+- PipeWire graph effects: an *idle* parallel capture from the FS device
+   behind the dock (both via PipeWire and via direct ALSA hw:) does NOT
+   disturb a call whose uplink comes from the HS webcam -- the corruption
+   only matters when the TT capture stream is the one feeding the call.
+   Consistent with the corruption being on the TT capture stream itself.
+
+Possibly related: "Bluetooth: hci0: corrupted SCO packet" bursts (~14-32
+messages) at SCO setup time, with both codecs, transient. Earlier this
+year, on 6.18.8 with the Thunderbolt dock setup, mSBC showed frequent
+decode errors but audio still flowed; I have not bisected.
+
+Questions
+---------
+1. Is this a known limitation of xHCI TT split-isochronous scheduling
+    with two concurrent FS isoc streams (one behind a TT, one on a root
+    port)? EHCI had a software TT scheduler
+    (CONFIG_USB_EHCI_TT_NEWSCHED); as far as I can tell xHCI relies on
+    hardware scheduling with no equivalent knob.
+2. Which captures would help most? I can provide btmon traces (a 26 MB
+    clean/robotic cycle), usbmon captures, xhci dynamic debug logs and
+    audio samples, and I'm happy to test patches.
+
+Best regards,
+
+-- 
+Branislav Klocok
+email: branislav.klocok@orava.sk
+tel: +421908703366
+
