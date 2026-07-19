@@ -1,139 +1,152 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877C31E531;
-	Sun, 19 Jul 2026 01:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF5DFC2EA;
+	Sun, 19 Jul 2026 04:29:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784423940; cv=none; b=swoCdgwO6xcZgd6DsXevEq3/XZtzMYKyR8678Tl723AzO6jGqv8N+/gxfl6ybifXVRP47ZZck7QT2ty2MbFw0l6DSOotIaizpDkVTbYRpQop3Py1lIrZjmUeoAjGlAsnTfnUx3q+jmrpcsgHgHh2bO0vhTAH0X2syw0e+0iv0Ac=
+	t=1784435392; cv=none; b=I8qYa9o0ke/oF2VkxsGPipF0nQsLtEkD0v3d+xanxB/xaqUvnVinpuFG5lHAXN6Jz53avnsu2EqksIVd7ayoBRSnddxEWbOQ1CtYoHi0m/idGADD2LDRfw8QZFLnDIAnr4POHV1PO1v4WDo+UASAqXSb9dh+p7dpZUsEEBvfVnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784423940; c=relaxed/simple;
-	bh=HpKzQwdWnZXfUFVyjvn4Y1ma8GYpPUZe84X7AWEHGWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bjXovKwGXSvXbGAIwexfySd8egpdQBRkj+8Q/ri51V66+FQp5fhbrmPPZeOeXTg09S+TKIt/G21gZVWOttOcih2YWsbfhBki/X3A/9u+SBLJMyDB71yejr/48WGDrVP3F1nV2zioh+f/PFSEw8R0CSREUr/14EwmPTUqFXGAkWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=ZNVybkf5; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="ZNVybkf5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=+hR30FyCx6dJ/Rb8n97v+rar2Y0DFtw7gllu3+XUFXE=; b=ZNVybkf58ijbRjJV
-	8ur2h6gkcxxaXGwLxsGBpIRMMHmgqx8cTFfHxjox0oQ8T4Wcqfk1wQb5773dsKNstVeMUf8gfsiNp
-	C+8kJ38MdwTPam9MSBC0+Ok6EYY1f5yKbuD20RRZo9Wmm3L5Q3hRgXleWRXgiVcyEc3tcq8tIb+wS
-	jKQ4lWtuhc/zCM8uRVIcsZJEzMDuk/2vGYQjRqVWd1CO5gu8jcAn9M/CbkJBMTWiQ9wgh5VXIMCi/
-	f+NHiPH7/j1bX/ETI3uwoENzTfsC/dUcnnSYK1nkdE3Bw92AF2bsG6YJvvnnUHDoaRT57vWd0MPBh
-	nR/snDsliRQec5dOlw==;
-Received: from dg by mx.treblig.org with local (Exim 4.98.2)
-	(envelope-from <dg@treblig.org>)
-	id 1wlG78-00000003ZUc-0bBQ;
-	Sun, 19 Jul 2026 01:14:42 +0000
-Date: Sun, 19 Jul 2026 01:14:42 +0000
-From: "Dr. David Alan Gilbert" <dave@treblig.org>
-To: jens.glathe@oldschoolsolutions.biz
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 2/5] usb: typec: ps883x: Return -EOPNOTSUPP for USB4 when
- parade,disable-usb4 is set
-Message-ID: <alwlAgUQnzfg75hp@gallifrey>
-References: <20260718-ps883x-disable-usb4-v1-0-cec86d0b909e@oldschoolsolutions.biz>
- <20260718-ps883x-disable-usb4-v1-2-cec86d0b909e@oldschoolsolutions.biz>
+	s=arc-20240116; t=1784435392; c=relaxed/simple;
+	bh=NH35sQ4CvVQbDGSMh5RbG49yBSKIX3bDQafg3CBqFR4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=V2ytuwOq+IZifNZfPYkwXPvqX6PxfWX5Oo3S/6v5IvfXHcNw2azpvmgNBzoc69GfpKCuK3a+lWgcRqGbBDuKdWfLF7l8B5dxHTxGI4Wi2Dcu/HYL/uZyNZV84Mwfqhe1v2RqjMG6JZNsAYg+1OcJVVvcePgNJLAJiewni5nW1Xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.75.44.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wD3SAivUlxqr5wRAA--.40166S3;
+	Sun, 19 Jul 2026 12:29:36 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app1 (Coremail) with SMTP id yy_KCgCHiaOuUlxqvO31Ag--.22502S2;
+	Sun, 19 Jul 2026 12:29:34 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: linux-usb@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
+	nicolas.ferre@microchip.com,
+	alexandre.belloni@bootlin.com,
+	claudiu.beznea@tuxon.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Fan Wu <fanwu01@zju.edu.cn>
+Subject: [PATCH] usb: gadget: at91_udc: drain polled-VBUS timer/work before udc is freed
+Date: Sun, 19 Jul 2026 04:28:39 +0000
+Message-Id: <20260719042839.3167094-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20260718-ps883x-disable-usb4-v1-2-cec86d0b909e@oldschoolsolutions.biz>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.12.95+deb13-amd64 (x86_64)
-X-Uptime: 01:13:18 up 13 days, 54 min,  3 users,  load average: 0.00, 0.00,
- 0.00
-User-Agent: Mutt/2.2.13 (2024-03-09)
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:yy_KCgCHiaOuUlxqvO31Ag--.22502S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?E9tgYQXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnVCjTgEH9dVomQuWcozCBBFO+OqxT0FaZMjqNNJSPRVXVwwGfJ0X0lj3+n4RXJDYpP4E
+	eXecJ1t502QrduF9jzDN5RPxYw6l01w8CbPzC/8w
+X-Coremail-Antispam: 1Uk129KBj93XoWxWF4fKFyUuw45XF1UWF48uFX_yoW5tF1kpF
+	Z3WFWfCFW7XFW2ywnxZ3yqvFyYy3yxt34jvrWxGa18urn3Jr13JFyUJFy2vFWrCFZ5G3W7
+	ta1kWw45CFn7ZrbCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Gb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
+	JrUvcSsGvfC2KfnxnUUI43ZEXa7IU85l1PUUUUU==
 
-* Jens Glathe via B4 Relay (devnull+jens.glathe.oldschoolsolutions.biz@kernel.org) wrote:
-> From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-> 
-> On Qualcomm X1E80100 platforms using the Parade PS883x retimer (like
-> Lenovo ThinkPad T14s Gen6), hotplugging USB4-capable docks such as the
-> Lenovo 40B0 results in working USB but no DisplayPort output on the
-> dock's HDMI/DP ports.
-> 
-> When the dock negotiates USB4, the retimer receives TYPEC_MODE_USB4
-> and forwards it via typec_mux_set(). The qmp_combo PHY then selects
-> QMPPHY_MODE_USB3_ONLY because no classic DP altmode SVID is present in
-> the state, leaving the DP transmitter and AUX channel disabled.
-> 
-> Add a DT property "parade,disable-usb4" that, when present, makes the
-> PS883x driver reject USB4 modes as not supported. DP altmode
-> configuration is still applied if negotiated, so both USB and
-> DisplayPort continue to work.
-> 
-> This is a temporary workaround until proper USB4 DP tunneling support
-> is available in the X1E USB4 controller and qmp_combo PHY stack.
-> 
-> Link: https://patch.msgid.link/20260312101431.2375709-1-krishna.kurapati@oss.qualcomm.com
-> Assisted-by: Grok(xAI):4.3
-> Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+In polled-VBUS mode (board.vbus_pin && board.vbus_polled), probe arms a
+self-restarting cycle: at91_vbus_timer() schedules vbus_timer_work, and
+at91_vbus_timer_work() calls at91_vbus_update() and re-arms the timer via
+mod_timer(). Both recover the same udc through container_of and dereference
+it on every iteration.
 
-Tested-by: Dr. David Alan Gilbert <dave@treblig.org>
-  On zenbook a14 with the following patches and a TB cable
+Neither teardown path cancels this cycle. udc is devm-allocated, so it is
+freed after at91udc_remove() returns, and is likewise freed when probe
+fails and devres runs. A timer callback or work item that is pending or
+running at either point dereferences the freed udc.
 
-> ---
->  drivers/usb/typec/mux/ps883x.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/mux/ps883x.c b/drivers/usb/typec/mux/ps883x.c
-> index 64e0a61b776a1..3fa26ce01a9c9 100644
-> --- a/drivers/usb/typec/mux/ps883x.c
-> +++ b/drivers/usb/typec/mux/ps883x.c
-> @@ -62,6 +62,7 @@ struct ps883x_retimer {
->  
->  	enum typec_orientation orientation;
->  	bool in_reset;
-> +	bool disable_usb4;
->  };
->  
->  static int ps883x_enable_vregs(struct ps883x_retimer *retimer)
-> @@ -249,6 +250,13 @@ static int ps883x_set(struct ps883x_retimer *retimer, struct typec_retimer_state
->  			cfg0 |= CONN_STATUS_0_USB_3_1_CONNECTED;
->  			break;
->  		case TYPEC_MODE_USB4:
-> +			if (retimer->disable_usb4) {
-> +				dev_info(&retimer->client->dev,
-> +					 "USB4 disabled via DT property, rejecting USB4 mode\n");
-> +				return -EOPNOTSUPP;
-> +			}
-> +
-> +			/* Normal USB4 handling */
->  			eudo_data = state->data;
->  
->  			cfg2 |= CONN_STATUS_2_USB4_CONNECTED;
-> @@ -378,6 +386,8 @@ static int ps883x_retimer_probe(struct i2c_client *client)
->  
->  	retimer->client = client;
->  
-> +	retimer->disable_usb4 = device_property_read_bool(dev, "parade,disable-usb4");
-> +
->  	mutex_init(&retimer->lock);
->  
->  	retimer->regmap = devm_regmap_init_i2c(client, &ps883x_retimer_regmap);
-> 
-> -- 
-> 2.53.0
-> 
-> 
+Add at91_udc_shutdown_vbus_timer() and call it from at91udc_remove() and
+from the usb_add_gadget_udc() failure path in probe; the remaining probe
+error paths fail before the timer is armed. timer_shutdown_sync() waits
+for a running callback and clears timer->function, which makes the work
+handler's mod_timer() a permanent no-op; cancel_work_sync() then drains
+any pending or running work whose re-arm attempt now does nothing. The
+timer must be shut down first, since cancelling the work alone would let
+the timer re-queue it. The guard mirrors probe: in IRQ mode the timer and
+work_struct are never initialized.
+
+This does not require a fault; a normal driver unbind can interleave with
+an already queued work item.
+
+This issue was found by an in-house static analysis tool.
+
+Fixes: 4037242c4f5f ("ARM: 6209/3: at91_udc: Add vbus polarity and polling mode")
+Cc: stable@vger.kernel.org
+Assisted-by: Codex:gpt-5.6
+Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+---
+ drivers/usb/gadget/udc/at91_udc.c | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/udc/at91_udc.c b/drivers/usb/gadget/udc/at91_udc.c
+index 5aa360ba4..8e5d7fb71 100644
+--- a/drivers/usb/gadget/udc/at91_udc.c
++++ b/drivers/usb/gadget/udc/at91_udc.c
+@@ -1794,6 +1794,19 @@ static void at91udc_of_init(struct at91_udc *udc, struct device_node *np)
+ 		udc->caps = match->data;
+ }
+ 
++/*
++ * The work handler re-arms this timer, so shut the timer down before
++ * draining the work; otherwise it restarts the polling cycle.
++ */
++static void at91_udc_shutdown_vbus_timer(struct at91_udc *udc)
++{
++	if (!(udc->board.vbus_pin && udc->board.vbus_polled))
++		return;
++
++	timer_shutdown_sync(&udc->vbus_timer);
++	cancel_work_sync(&udc->vbus_timer_work);
++}
++
+ static int at91udc_probe(struct platform_device *pdev)
+ {
+ 	struct device	*dev = &pdev->dev;
+@@ -1907,7 +1920,7 @@ static int at91udc_probe(struct platform_device *pdev)
+ 	}
+ 	retval = usb_add_gadget_udc(dev, &udc->gadget);
+ 	if (retval)
+-		goto err_unprepare_iclk;
++		goto err_shutdown_vbus;
+ 	dev_set_drvdata(dev, udc);
+ 	device_init_wakeup(dev, 1);
+ 	create_debug_file(udc);
+@@ -1915,6 +1928,8 @@ static int at91udc_probe(struct platform_device *pdev)
+ 	INFO("%s version %s\n", driver_name, DRIVER_VERSION);
+ 	return 0;
+ 
++err_shutdown_vbus:
++	at91_udc_shutdown_vbus_timer(udc);
+ err_unprepare_iclk:
+ 	clk_unprepare(udc->iclk);
+ err_unprepare_fclk:
+@@ -1933,6 +1948,9 @@ static void at91udc_remove(struct platform_device *pdev)
+ 	DBG("remove\n");
+ 
+ 	usb_del_gadget_udc(&udc->gadget);
++
++	at91_udc_shutdown_vbus_timer(udc);
++
+ 	if (udc->driver) {
+ 		dev_err(&pdev->dev,
+ 			"Driver still in use but removing anyhow\n");
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+2.34.1
+
