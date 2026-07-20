@@ -1,222 +1,103 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D721428852
-	for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 16:04:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA0240DFAC
+	for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 16:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784563473; cv=none; b=g6pQXrqjEzhqpF/CIellitz9Ywy9pC6SFCoxIIbmQ6Is3m3FRGkSsx9s6sLbw2jgYOoDOhI5tCNc/Gjzpukr31uGyuTeyAT7t1pog5qdTMHmyIf23nIMFrm/uXXz8CjEXWnAcd37CMORtYt4F+FQVyNWJJi/K2Ei6Fhz3lvReCg=
+	t=1784566655; cv=none; b=Ko/0xdIKL8QR/wkspxhMW1jqUcVJjMMiIAsPGOOqvaqUdrpnZx21Skrd0tEfKtj7pHzu9XdGxxtKThWyVqaHVB+z4x5rkSEM+iit4RTDf3RAJUqxNkFfgvfPvT/6F/1sLDuCFb2Y/mUPmqlgP3f5nAKFg2d5L+UlG0yp4H7nWnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784563473; c=relaxed/simple;
-	bh=+qTmfzHzKgZXFKCtnjQEa7gvZQKtdktlmWhJSmYTJ8c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FAvPzqisKu3J/AycQwcwRj6mtOo6t7AuNsXdtbQwTfNM0GaH8ns9nXxsY74Gg1E4H5IxtGWZSlo1MLw39x0CIaXdyZlx2jZ+zp74A5NqDwvuGZf0P8dT9cYynPeHXPu6VOrzFJU5VRheZCvNeXT45qDoA/BXPkPzYxz3sTNjl8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=vDHhJJ8U; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1784566655; c=relaxed/simple;
+	bh=txRVoarM9RtPWUWP0CtgOYUtrKwjXI7x8OF9IaeZvqw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=FnYwe0YfKSbH7rvg+CtT6CQIabDNEjr3N//bnb3eTCHHa0wj2gTI649hBfnkKHLSIobZZJtsnif+x84+lquxqtPTsQmQtckNrrZcdEpv4Tj22ruQTEyBb7zUu8bNLoCy2jXoYZVej6BKT6fAxfo6KRMFvwKn2a+x17P5qOqinrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sonalipradhan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MAcSuKjr; arc=none smtp.client-ip=209.85.214.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sonalipradhan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="vDHhJJ8U"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-51c0a81d286so36378231cf.1
-        for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 09:04:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MAcSuKjr"
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2cca5e0a0c9so202773635ad.1
+        for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 09:57:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1784563469; x=1785168269; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pRDup4IApSPObs0d76X/agqpGSU9Wb191kX+rVPp5VA=;
-        b=vDHhJJ8U/eGnHCju/2g8I6RWbjIqOBzooig18e4keQUxvGtul9STJq3Ar9ZuE9SJ/M
-         JoeqLDKWoACt82iXwDnjfsJKRJBj3yfrWYcZXmZVEaFy17bZPHvxB7sR6DOQXsTxDsvv
-         NQHxjla6/b+ESClGr8XNEOSDIGclYIeNGepycCSgVu0gSU7aPtDI8V02HPEgI3C4fKLA
-         nEIn296czenH6hClFflKwiXOf1LXt5ETguz5GGl9bvcKBFFlKaIYZU/p3SyaCQt8JTg8
-         9Px8UTpP0GOhxwUyvoJau/erz2p9LYcrEuK2nLdsvnYhKD3Neenk9bdCtVDa9OcTVPXU
-         Ux1Q==
+        d=google.com; s=20251104; t=1784566653; x=1785171453; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=pp8INu7R2avTucfkh21LhjYSN0E+XTKfW4u2lNTh3fs=;
+        b=MAcSuKjr2851HVM7INV4boXvAXAabgunyupOWNKuijX6NL7kRtf9u4pT5sr/D9LY1E
+         bL8O0i9IBKdGQtYIfmcszrLOcDqUFs0T3M0qTOIafqb5aDGmGlaxTy4xuwXoFAUXcIhu
+         aZTZQRzs5YAHivsVSq2PvUTZmqHapVw13AF8DVvyWOqIkHe4LPVBusa4qdX1aUOqy0RG
+         4Yf86UAAV0ICiSNxaDPfbZcxYNLuBjHYbmD7gZ/Gm/0DbQQZ00nEy+AVDCNIB/agXijl
+         Fzj2eJA3hcTTDMIs8GSs4k889fqBWZtp3DnhvsBVYxQhF4eeAEtVE884mjoe6gWYU/sG
+         HPOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784563469; x=1785168269;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1784566653; x=1785171453;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pRDup4IApSPObs0d76X/agqpGSU9Wb191kX+rVPp5VA=;
-        b=lTcqRrl3J7CmX18H3EOSEfJT40GfxM/rlsjJklsj76KX0ndvblhvrgdlQwJ5LmEhJw
-         f4rVTjysgDxVtfBqRWt/qF6gBxKVVNckemdAw8Sy3r1Sg7FZxp9lNxZjHS7wGMGjoA3z
-         3BjDuG5kbqMnEnl5uYbfs/yS7AEWp67FrO9G2hXidMQEuKyzxQmxU9Y2atbZEsVnE5kZ
-         RsCHTxsugHzPPvmnQQ+MqkG/Rdymi2sLgaaf4RhrxUzaN4JrYd/9vGNYz5y5qCAPC0Sq
-         IDstdl2BB+VcXLk61mOlTZiOHEMNG56BNSEhRuQHQWiG+KSQ9mm2iAc+e1ATmLyvltBF
-         43ug==
-X-Forwarded-Encrypted: i=1; AHgh+RruDgJmEJp+vmsxoECaN1srsgOi73kudBnmbQKwQw1Up0WPQYYL25t3m3RxNu6E9Cp9x0GnkDqicA0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzR/Tg8rld+r9i6RAk+EPxvf+3+XuCLtYOEW3QPGa/EYPytsqaT
-	KCkprZ8J2F5FRjvKpm6pIlnXzApOauK7sZ0ZHay7hEdc0GK8QGqwq153hVAZvrTBew==
-X-Gm-Gg: AfdE7cnGCAtU8Wk4SGqzSS+VXVnpgNBShpP3002ogAiwfQG5k4lTEbHxePIq4lFHzRG
-	Hrk9D81CqI6jyVBTShAPdWyY+lxLUFxip7DARVkyVO8c4EBYCpmOd0gbAsWFZVoxQMUFRSjVqjJ
-	7Y520AvA+cbhCsUidGU0ulZx8DJpf/dob73kguovYu7dHBmrWl7F4KCAxuU7LmkGRvWcq25+qQu
-	TbGc3MrokZCW7zqm6CKdOMG04QBLU3TGq86uuef4u12ag6p2smhR1YWr4Fzif+KYN5yy0qKoY41
-	5rn27X5pZSQNw9D/j28flGp+QCH0OodaJHtjRtQmhLJ8CZ5DW0bQ79wmrakp8ZkauGoBScDtIo7
-	3v8AGpuIDmeREK+6cgyD92fW5HY6qYMuX9WSQAEQFbhRM42hTZ3/INOA2bjGPWeDn5q/ISVD5q+
-	Fnm75h6kcFQQ25fpZ0gdRxOQQPdqMg8y4P9SBLPT7TyLCnPg==
-X-Received: by 2002:ac8:7f8b:0:b0:517:5f04:f23f with SMTP id d75a77b69052e-521298a8a73mr142534011cf.4.1784563469002;
-        Mon, 20 Jul 2026 09:04:29 -0700 (PDT)
-Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-521502b92acsm81123961cf.30.2026.07.20.09.04.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 09:04:28 -0700 (PDT)
-Date: Mon, 20 Jul 2026 12:04:25 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Charles Daoust <charles.daoust@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: core: add USB_QUIRK_CONFIG_DESC_READ_255 for Razer
- BlackShark V3 Pro
-Message-ID: <2a80e88e-936d-4927-a915-352fe92e47df@rowland.harvard.edu>
-References: <20260720150207.1963786-1-charles.daoust@gmail.com>
+        bh=pp8INu7R2avTucfkh21LhjYSN0E+XTKfW4u2lNTh3fs=;
+        b=VSQAm0iNddzpmNHWNTN1oSnyCaEniUAMBzvjKh0xRcboC+ovR38V6iKYoTQZEeLNJJ
+         5maAp/aEC7XpFVNopYRUXFkkhmSrVTCl2T+PUeyrhRz+lelBl8J/ys/enGm471Z2p5iY
+         LeR8n4Ez7fEmxnQWpt2U0EU1fja095/N5dw5/bFSYc1U0ZQo44HNUtGSn8DteUgR6wVc
+         M713N3b4mvw1V3tS+n2sY3glacUQGJIPr3lvF9U44C39xoXMb/jF475Lp0TYr3QjStnG
+         rfX9HUcdoaCYL0jN+5FzuWelGSGW7zCjR5WJoj6ANgh3q+hUKFOggw6fbkn9obOL++At
+         Ouig==
+X-Forwarded-Encrypted: i=1; AHgh+Rop6hRtiCQyAsVm2xh9/u3khQdL4n0gXwZ8LpA/FKQma7Twpoismdhii69OG2xIe2By+YkvswN/yPY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyA35doDQwVzRSvgem+8cgyB6j91syo+hXf9VTAGEkn4tBtiwwg
+	IHjooItmgj/d7dn2DHpaWJKLUppT0pshqcTGYZzO8cflBs7kJ2M0pMCrzL1VzjUc5ZXsCyHbddM
+	Hc5pbAQShfWJkUjUWxccw/F/FUOEj3+whpg==
+X-Received: from plim8.prod.google.com ([2002:a17:903:3b48:b0:2cf:7a5b:f7ad])
+ (user=sonalipradhan job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:903:8c8:b0:2ce:e75f:b713 with SMTP id d9443c01a7336-2cf349640f3mr154178425ad.23.1784566652964;
+ Mon, 20 Jul 2026 09:57:32 -0700 (PDT)
+Date: Mon, 20 Jul 2026 16:56:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260720150207.1963786-1-charles.daoust@gmail.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
+Message-ID: <20260720165654.2224591-1-sonalipradhan@google.com>
+Subject: [PATCH] usb: gadget: f_ncm: Use unsigned int for ndp_index
+From: Sonali Pradhan <sonalipradhan@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Kuen-Han Tsai <khtsai@google.com>, Kees Cook <kees@kernel.org>, 
+	raub camaioni <raubcameo@gmail.com>, Jim Baxter <jim_baxter@mentor.com>, Felipe Balbi <balbi@ti.com>, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Sonali Pradhan <sonalipradhan@google.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 20, 2026 at 11:01:26AM -0400, Charles Daoust wrote:
-> From: Charles D'Aoust <charles.daoust@gmail.com>
-> 
-> The Razer BlackShark V3 Pro wireless headset dongle (1532:0577)
-> fingerprints its host during the first enumeration after power-on: if
-> the first GET_DESCRIPTOR(CONFIGURATION) request asks for 255 bytes, as
-> Windows does, the dongle enables its vendor HID command channel; if it
-> sees the 9-byte header-only read that Linux issues, it disables that
-> channel for the rest of the power session.  Audio still works in that
-> state, but battery reporting and all vendor commands are silently
-> ignored, and nothing short of removing power recovers the device:
-> resets, re-enumerations and byte-exact replays of complete Windows
-> control sessions were all verified not to help.
-> 
-> Both read lengths are spec-compliant (the device truncates the reply
-> to wLength); the firmware was evidently only validated against the
-> larger request.  The kernel already accommodates this class of
-> firmware assumption during enumeration: hub_port_init() reads the
-> device descriptor with a 64-byte request because that is what Windows
-> does and what many devices expect.
-> 
-> Add USB_QUIRK_CONFIG_DESC_READ_255, which makes usb_get_configuration()
-> request 255 bytes for the initial configuration descriptor read rather
-> than USB_DT_CONFIG_SIZE, apply it to 1532:0577, and expose it as
-> runtime quirk letter 'r'.  Devices without the quirk are unaffected.
-> 
-> The trigger was isolated by single-variable bisection on otherwise
-> unmodified kernels: with only the widened initial read, the dongle's
-> vendor channel comes up enabled on a cold plug with no interface
-> drivers bound (bare enumeration only); without it, it never does.
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Charles D'Aoust <charles.daoust@gmail.com>
-> ---
+The variable ndp_index is declared as a signed integer, but it stores
+the return value of get_ncm(), which is unsigned.
 
-Is this not the same as
+A malicious host can supply a large offset that overflows the signed
+ndp_index, making it negative. Because ndp_index is compared against
+unsigned bounds, this negative value bypasses sanity checks and leads
+to an out-of-bounds read when calculating the address of the NDP
+block (ntb_ptr + ndp_index).
 
-https://lore.kernel.org/linux-usb/20260717195336.98500-2-nikhilsolanke5@gmail.com/
+Fix this by changing ndp_index to unsigned int to ensure consistent
+unsigned comparisons throughout the function.
 
-?
+Fixes: 370af734dfaf ("usb: gadget: NCM: RX function support multiple NDPs")
+Cc: stable@vger.kernel.org
+Signed-off-by: Sonali Pradhan <sonalipradhan@google.com>
+---
+ drivers/usb/gadget/function/f_ncm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alan Stern
+diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/function/f_ncm.c
+index 64eabda2f546..bf02545b37a2 100644
+--- a/drivers/usb/gadget/function/f_ncm.c
++++ b/drivers/usb/gadget/function/f_ncm.c
+@@ -1171,7 +1171,7 @@ static int ncm_unwrap_ntb(struct gether *port,
+ 	unsigned char	*ntb_ptr = skb->data;
+ 	__le16		*tmp;
+ 	unsigned	index, index2;
+-	int		ndp_index;
++	unsigned int	ndp_index;
+ 	unsigned	dg_len, dg_len2;
+ 	unsigned	ndp_len;
+ 	unsigned	block_len;
+-- 
+2.55.0.229.g6434b31f56-goog
 
->  Documentation/admin-guide/kernel-parameters.txt |  3 +++
->  drivers/usb/core/config.c                       | 13 ++++++++++---
->  drivers/usb/core/quirks.c                       |  6 ++++++
->  include/linux/usb/quirks.h                      |  3 +++
->  4 files changed, 22 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index b5493a7f8..1bd138ba6 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -8169,6 +8169,9 @@ Kernel parameters
->  				q = USB_QUIRK_FORCE_ONE_CONFIG (Device
->  					claims zero configurations,
->  					forcing to 1);
-> +				r = USB_QUIRK_CONFIG_DESC_READ_255 (initial
-> +					configuration descriptor read must
-> +					request 255 bytes, as Windows does);
->  			Example: quirks=0781:5580:bk,0a5c:5834:gij
->  
->  	usbhid.mousepoll=
-> diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-> index cd3231d21..c7e21cc76 100644
-> --- a/drivers/usb/core/config.c
-> +++ b/drivers/usb/core/config.c
-> @@ -908,7 +908,7 @@ int usb_get_configuration(struct usb_device *dev)
->  {
->  	struct device *ddev = &dev->dev;
->  	int ncfg = dev->descriptor.bNumConfigurations;
-> -	unsigned int cfgno, length;
-> +	unsigned int cfgno, length, first_read_len;
->  	unsigned char *bigbuffer;
->  	struct usb_config_descriptor *desc;
->  	int result;
-> @@ -938,7 +938,14 @@ int usb_get_configuration(struct usb_device *dev)
->  	if (!dev->rawdescriptors)
->  		return -ENOMEM;
->  
-> -	desc = kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
-> +	/*
-> +	 * Some devices (see USB_QUIRK_CONFIG_DESC_READ_255) malfunction unless
-> +	 * the initial configuration descriptor read requests 255 bytes, as
-> +	 * Windows does.  Only the header is consumed here either way.
-> +	 */
-> +	first_read_len = (dev->quirks & USB_QUIRK_CONFIG_DESC_READ_255) ?
-> +			 255 : USB_DT_CONFIG_SIZE;
-> +	desc = kmalloc(first_read_len, GFP_KERNEL);
->  	if (!desc)
->  		return -ENOMEM;
->  
-> @@ -946,7 +953,7 @@ int usb_get_configuration(struct usb_device *dev)
->  		/* We grab just the first descriptor so we know how long
->  		 * the whole configuration is */
->  		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
-> -		    desc, USB_DT_CONFIG_SIZE);
-> +		    desc, first_read_len);
->  		if (result < 0) {
->  			dev_err(ddev, "unable to read config index %d "
->  			    "descriptor/%s: %d\n", cfgno, "start", result);
-> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-> index 87ee2d938..c8f71b825 100644
-> --- a/drivers/usb/core/quirks.c
-> +++ b/drivers/usb/core/quirks.c
-> @@ -142,6 +142,9 @@ static int quirks_param_set(const char *value, const struct kernel_param *kp)
->  				break;
->  			case 'q':
->  				flags |= USB_QUIRK_FORCE_ONE_CONFIG;
-> +				break;
-> +			case 'r':
-> +				flags |= USB_QUIRK_CONFIG_DESC_READ_255;
->  			/* Ignore unrecognized flag characters */
->  			}
->  		}
-> @@ -496,6 +499,9 @@ static const struct usb_device_id usb_quirk_list[] = {
->  	/* Razer - Razer Blade Keyboard */
->  	{ USB_DEVICE(0x1532, 0x0116), .driver_info =
->  			USB_QUIRK_LINEAR_UFRAME_INTR_BINTERVAL },
-> +	/* Razer - Razer BlackShark V3 Pro wireless headset dongle */
-> +	{ USB_DEVICE(0x1532, 0x0577), .driver_info =
-> +			USB_QUIRK_CONFIG_DESC_READ_255 },
->  	/* Razer - Razer Kiyo Pro Webcam */
->  	{ USB_DEVICE(0x1532, 0x0e05), .driver_info = USB_QUIRK_NO_LPM },
->  
-> diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
-> index b3cc7beab..02de5ed48 100644
-> --- a/include/linux/usb/quirks.h
-> +++ b/include/linux/usb/quirks.h
-> @@ -81,4 +81,7 @@
->  /* Device claims zero configurations, forcing to 1 */
->  #define USB_QUIRK_FORCE_ONE_CONFIG		BIT(18)
->  
-> +/* initial configuration descriptor read must request 255 bytes (Windows) */
-> +#define USB_QUIRK_CONFIG_DESC_READ_255		BIT(19)
-> +
->  #endif /* __LINUX_USB_QUIRKS_H */
-> -- 
-> 2.55.0
-> 
-> 
