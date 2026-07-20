@@ -1,100 +1,195 @@
-Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72963E00BA;
-	Mon, 20 Jul 2026 10:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784545110; cv=none; b=LMwOHHXc40lvhMKOkomwY3ztuGWFed45VzkFBlejXDPPQt5PKS37wq2DFU2gyLqQiNXKt+xI+7OjyGtJ9DE41U1o1wXx0MBgkrQdoJwsNDnmBxH7Wn9i2rUoC/PoaBRHiZi3Va213BzSHEy0s1s+Ik11wazLqm4IoKrKqiIUNNo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784545110; c=relaxed/simple;
-	bh=ti/6xfUrMzehoDq07KlqKBlG3kMhUHZWVA6NoDBNaJE=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=dfcrWZBeB0Nclkm1Zx+LBPiIDxV0lCOGjXmV8vnmWeTuaQ1tba1xiFSK4ddRDzrILYKXIjq6p7n6FuoUVTzUkz3wTu7Kngg+40A92muM7sYMbZF1morYGYfyce9iOIuniCS3Xu5h1jvDYOF01ruWQG0vlIGMuU72Tf1AHvZ3IKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=HGxpSSmv; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lxiKLc2p; arc=none smtp.client-ip=103.168.172.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF553F39C4
+	for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 11:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784545839; cv=pass; b=sQvX22RN8cj7GwneiUHaqxYU/6QyEz16QQ43Kqg+Qo1KPV0S65VlNqAd98bEweTj8z2JNXumlq6WqL1BOWpm0VsvlFoxWrr72ABUfthZMayIhE8xx6jBF3Fw9Szdvgh5B0jg3jJ+0H4P8BoqgP87IGmWm7De7peX0xlGBg8prig=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784545839; c=relaxed/simple;
+	bh=UKngneTFPXF8poS1q5fNtashfeg8DcKeJ6OYgfoXl7Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Syny2k30p/1998l6Q0BLGbZSNYLAYOBTr4fkP+wRGeaP04MXtfFGLI0YGMddpdJR0zyGhVlAaXmfeargdoq3bOEJVJvkenkicHlWunxR5DcmQto6W16T5FpEPSx/cU1jBqm1nm/ZR3tjL9qAM6lCNH2e7Isj0sO6/ialK9P4Lm4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mYnODL/Q; arc=pass smtp.client-ip=209.85.160.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="HGxpSSmv";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lxiKLc2p"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id D6BBCEC00CC;
-	Mon, 20 Jul 2026 06:58:27 -0400 (EDT)
-Received: from phl-imap-05 ([10.202.2.95])
-  by phl-compute-04.internal (MEProxy); Mon, 20 Jul 2026 06:58:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1784545107;
-	 x=1784631507; bh=ti/6xfUrMzehoDq07KlqKBlG3kMhUHZWVA6NoDBNaJE=; b=
-	HGxpSSmv4piJbyfCijSz7pUMCM3rAKaoXft1OtSxbf7ddoQ7cmeXa8iLYVVQBcgO
-	HMzUCb3BH3f4iTVpSbveI9l+Ds/COLR82R3b6jc6aXnzBquJcCF8CY4qMYfO5AIl
-	7fFpAhmE8gsSEdxTpoM97qcr7bBtyDRX2bhEI9nwl8gLfd8P/h5FtFBa4aaUKrSP
-	821SVoxYCYMmhuHYoSQSRwJC/AHg2FAMpcLDTlyNelSr7ziR6Nk9MMyod1uEAnXY
-	aXvcIkROMkaSQqdE71OOQF465V7MpNZdLkWNnROdCme+8EqeNbBFA7hbzaovglNg
-	DhZWa8ylsB92BZCJL92y+A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784545107; x=
-	1784631507; bh=ti/6xfUrMzehoDq07KlqKBlG3kMhUHZWVA6NoDBNaJE=; b=l
-	xiKLc2pY+fih2SWQQtzgQwQd4ZG9l50d5wpg6HpVZe18Rf8kSwHchbIANzBPpsdQ
-	8Bbb2b0DxxFWk0jM94CgDNZAFlJRBKIArCeEcUeTuUA47eCoc2MOtlldH3Oah7Al
-	/8+R5I07guWWz9/IzqJJX579i7lJD0W+gjhHjCTRdvkicASTMjyh6EP10PpvWC+r
-	Cr8sU04zDsYykX0YmTjvK7qJ0p+s6GF/hgeau//vndSLiga392ttNeTlzDeQq9QX
-	SY80W501ZY//+DAMG0CHaEYc5IE6Q6FuCaTtTJXZydmkkhQ5rby/mSAuzx+0eG/h
-	WH6QzZ7ZJTHdt66ECsw3A==
-X-ME-Sender: <xms:U_9dasP9cEJUPDssR3K4BnLbxFE4Afx4Vlxv74ZoN-t-JLAvwAhtIg>
-    <xme:U_9datwRbLPnO4DuVbjYwG3lcxLnYlkdVm8lVK8z9feP5V6OkHl5iZqpcL5cvr1jB
-    CW2fmQmbD_6aK3KPw8KlvuOcXFpBKr-RZGlvJYtgdO-2pAIgjstZNE>
-X-ME-Proxy-Cause: dmFkZTGr9GAfQlJFWw9e5I36JsgIporeOv0YsA4s9bxUSsA1X0ozZ7vaSw863TsSZFtUel
-    JkTOVtWp0xF6nxk1LAhqlYIe8jvdzAQ6yVOvBpoIL+OXvGges5sP/nj9gmHhiL7g66LOsS
-    dMyM3YhRjuzy6v/ou1vx1R6EyuRvsE+C+BekqfpQP2/rsKpu3/tOx+hOG2cub0yMPYm7hn
-    z5OH9EvBu/nnrPmG2GV9jpJgVRFvPfuEcjT+Nrlp5VqiT8OZvOxpT0ciZHmHAAHTHhO2vc
-    QyGPAsEuLXdEC0PvSUYts0axRizXgeCUDat/99oRXneDa9+Px7lkCHpuc+DpTz150ZJ4p6
-    m6zzY8bJWD3xHbwNKv0ifUOQ8k3+0SyH+PGnFKukYtDQAWdPRcN1UZoB5pnXxTnpuJWvAg
-    X5mwyi0VQXRKsoTzRWKvw6506M0kltR0t3iEJS2WE9UmHORRYzwGTP7u7QM5Yfri5APhL3
-    fZWzHyVkJdG3MqlMXpse0nhErYzvYAOQw/bkhWglvrzCJ3v2Qyy8+pWsuGCFzvqctjesy+
-    tTuSJWS5MsIlU7ZMkyiA8R+iDHhliOA+rjWwiOet/WBmKls5/u8+1gm9KEdR3vzqRu3xlK
-    VaU47JXQiHA0AvidtDhfA72lI/cGdChFygCJUoIInqBZ6OwtxwlpEQ/cbuOg
-X-ME-Proxy: <xmx:U_9dalx4QGrzQiVe3XQ21PEndSo7khRkxu8xvigtzuVzekEOjmZ08A>
-    <xmx:U_9danjrM-VBxOxm-36dquLbiDZU8Aw8ZgBqC-7ouzpG4YR1LzDPyg>
-    <xmx:U_9dahnujErDnUuozKfYxS9knXr0HQIqyH0a_n1S2LVe5HB1aXmd5Q>
-    <xmx:U_9dathEpxcwXL5Vn_YsK-wh_4T8GIARAp0XFW5io5D7dpo5iWhbfA>
-    <xmx:U_9dara-KMYElNN1hi6k7yjn24MMBnudcCg0qiCLPlmRa40n3ZMC2-hh>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 989DF182007E; Mon, 20 Jul 2026 06:58:27 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mYnODL/Q"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-448cf99c133so2361300fac.1
+        for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 04:10:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784545837; cv=none;
+        d=google.com; s=arc-20260327;
+        b=lYnGMZ43TweVXO6ZHDsiOF4/LIUP6tvbOVRlSerDNnLXXNV9SihURyLs4rKMxrixP5
+         mY2ICWUqdww3ld6TNZfehxK4hgO3+YjULNPRaB3w1ho7AhPYSCwFGCi0KPc75KZxVeDq
+         vROjRS0PVE5qRTLeA08vwExxZzQyuMHcyS8hB1f/t6v7nnjEWUQ7rZgbiudijk9i/BbR
+         AsPv5LNBgHkwP08d7XTQGrb6Eh0Eg2Rmy6ZDoJ4mxL28NON1jvi0Ngrer9BnQxUTFjW4
+         jqd+mqkADHiIb5Bezyk70MGX8UEFvVXAoqJ0jvuUTfrdiaPa0O5e1mG8ERWvbQt5AV9l
+         F5lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Q4iy5g0+ixbzL2cCTufEUXDAeXZcr26NvjHxO5tS93Y=;
+        fh=jAboDJEQiB0/2CpFQoijg8pZ+3AlARF9/mwPVSeNvSM=;
+        b=BVKYnGWuvKR9m5SEZbFt+ATgtVABleZ64KgLqxYumTYDd7WRfDEyTF9xfO4TJRsyVB
+         mfr4TIMywQlmukfPiDj3KaeWRlYIPWSn+uBVIVNH6nqHhK05RgUEfG2d+47PYTIZSVIR
+         /xdBVHNFu3KoDvcp1ENAk7jZ6bahHEktJjma2xOreRSUPiNwn2t9u0TABeG06cU3B7bR
+         NPOntKuzVLfCpHD+gEMkua4nwwYjOWiU9p5aK0e8lC7bSv+5iQ4ugaBk8HY+0Tj6Hc0U
+         YFvDHWiwF+ydsbc0mnTaan4f7/CipenW0Ku3eUcSZZif/ffOeY9igcBz171xcC1Iaa7G
+         bonA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1784545837; x=1785150637; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Q4iy5g0+ixbzL2cCTufEUXDAeXZcr26NvjHxO5tS93Y=;
+        b=mYnODL/QB8ZTNk2QEG6x6GML/pmbLhG1QTYOqar1Sjy3RPSTngM7r19p/aiON4sy5z
+         aJlZ0dHTvprCGE8RCg3pZp1KhvX9jaI6tMyNgmoCfSLvC5ibYfVmHLGExs+R/ln3/lF/
+         P1DBusTl4SVA+hOc0/uCicBwVckTea3nFBNuVidHulxkxySDhQvh5ckJGva0snvzLQq9
+         rBU1hbHArwxdv0J2LlxXPRy/MZbRMmEOTuJVRllfncDorrzu/+Y1uDf7YteuesZmMH1I
+         jxlxDLhrmE8mTws3yymu9bfOcOdaT3XL+h49nxTiSAiJyfwg8MPTOuDjGkIMUFwg3iO8
+         eNiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784545837; x=1785150637;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Q4iy5g0+ixbzL2cCTufEUXDAeXZcr26NvjHxO5tS93Y=;
+        b=roXMngmn+n53SEUCcGXZ+VMABwm6ozM6hI7CUakX+uPQ+DCWdluvkKjuKAWUM+fdIX
+         e+mhgt3f0WGT8QgcCLtIbIsBieFfKABo2SW2X6wFcvM+9fvCZ9uLN4VrfBaPAUAsLNkk
+         wJXZvCbv9ZVYE7QoGJjCeLNIkg9AL8S/Tprl/YqIqur3CtYvmVvm5k/GO65qPYHWnkmU
+         sGqfp3hT4/ZkDaL1LFH2bd7z7re8JBqmp4LTeftmQ5ePmx7CLCmkjWGRoa5pSEDcBgWg
+         1FRAMlApz8xYRgdpeAmNGE80qoT9HQLUIex2Bo/fmvgYKz0O/x6yS/3mX2lEnDlTC66a
+         YEQw==
+X-Forwarded-Encrypted: i=1; AHgh+RqTDYwReCd06WUV2uZ+r7/jjvhNWOLfx0rgf1/jHP2YwiZcExJdtWtRUWupdnU5N3J5DuJDhJJD4LA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzmCKtBx7dPaPGhdKFFFyqbKhV7vdc1mE8nmyOMwOxvFluXKJNI
+	eGrJp1wlQsv1OvdYgRPKZDHy0WgWzuJf0IvsGkPrfw59rfkoKreoxfESnLs2as28hLmnU2/52z0
+	W6QKQEtzvoVLyUKE94r3eO9Q2fRCriQslz5qPz8Po
+X-Gm-Gg: AfdE7cmgzX4YWdp+RNSayoCdUXs896EGQMWTQGGNtqS4bIhpvOcIQOdy/GF7aHiExJo
+	HLmaxzzknn8IfavUtnvaQhh2X9iYAsygpSLRhF6S2XBaoBsjXi0YkeWOT8ADFpAzn1NKXaeH2Lm
+	dX68VwlcE48FgC1bktE8HAzbdvQYzclCl6lmCjUs6RdDJrY0Iaeuvkkt8CX3MTEIVx/lBuQxKyr
+	zx/s5VXd2kY8VNHCkoFPT7GU3G7PJvTvPQXRcAaJHfEXrNWsohN64T4rp0sPMrRCqvVFOIZBgEN
+	9NooPa/EzoRoHRrUWg==
+X-Received: by 2002:a05:6808:c3cb:b0:495:fa67:7496 with SMTP id
+ 5614622812f47-4a4cf26bb93mr6980875b6e.14.1784545836234; Mon, 20 Jul 2026
+ 04:10:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: A8o2RnYMbicF
-Date: Mon, 20 Jul 2026 12:58:07 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Pawel Laszczak" <pawell@cadence.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Peter Chen" <peter.chen@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Message-Id: <38578902-b6e8-420a-b866-b613c12d9726@app.fastmail.com>
-In-Reply-To: <20260720-endian-fix-v1-v1-1-b5681fa1ea9f@cadence.com>
-References: <20260720-endian-fix-v1-v1-1-b5681fa1ea9f@cadence.com>
-Subject: Re: [PATCH] usb: cdnsp: fix incorrect endian conversions for APB timeout
- register
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <20260703063247.2521524-1-xu.yang_2@oss.nxp.com>
+In-Reply-To: <20260703063247.2521524-1-xu.yang_2@oss.nxp.com>
+From: Badhri Jagan Sridharan <badhri@google.com>
+Date: Mon, 20 Jul 2026 04:09:59 -0700
+X-Gm-Features: AUfX_mzHCu4vQ3381cWLlJf4lmLBc46WP_-kLs73DVkvjTeQs-I65NOSJUBSaew
+Message-ID: <CAPTae5+6-NYoP7NQGDJN62AFnGSGW-8vaA1Jdny9V8meeDifQA@mail.gmail.com>
+Subject: Re: [PATCH] usb: typec: tcpci: pass correct rx_type to tcpm_pd_receive()
+To: Xu Yang <xu.yang_2@oss.nxp.com>
+Cc: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+	jun.li@nxp.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 20, 2026, at 13:11, Pawel Laszczak via B4 Relay wrote:
+On Thu, Jul 2, 2026 at 11:29=E2=80=AFPM Xu Yang <xu.yang_2@oss.nxp.com> wro=
+te:
 >
-> Fixes: 241e2ce88e5a ("usb: cdnsp: Fix issue with resuming from L1")
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+> From: Xu Yang <xu.yang_2@nxp.com>
+>
+> Previously, tcpci_irq() always passed TCPC_TX_SOP as the receive type
+> to tcpm_pd_receive(), ignoring the actual frame type reported by the
+> TCPC_RX_BUF_FRAME_TYPE register.
+>
+> Read TCPC_RX_BUF_FRAME_TYPE after receiving a PD message and map it to
+> the appropriate tcpm_transmit_type:
+>   - TCPC_RX_BUF_FRAME_TYPE_SOP1 -> TCPC_TX_SOP_PRIME
+>   - TCPC_RX_BUF_FRAME_TYPE_SOP  -> TCPC_TX_SOP (default)
+>
+> This allows TCPM to correctly distinguish SOP from SOP' messages, which
+> is required for proper cable plug communication during PD negotiation.
+>
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Can you add "Fixes:" as well ?
+
+> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> ---
+>  drivers/usb/typec/tcpm/tcpci.c | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpc=
+i.c
+> index 7ac7000b2d13..c19413f41bcb 100644
+> --- a/drivers/usb/typec/tcpm/tcpci.c
+> +++ b/drivers/usb/typec/tcpm/tcpci.c
+> @@ -748,7 +748,8 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+>
+>         if (status & TCPC_ALERT_RX_STATUS) {
+>                 struct pd_message msg;
+> -               unsigned int cnt, payload_cnt;
+> +               unsigned int cnt, type, payload_cnt;
+> +               enum tcpm_transmit_type rx_type;
+>                 u16 header;
+>
+>                 regmap_read(tcpci->regmap, TCPC_RX_BYTE_CNT, &cnt);
+> @@ -763,6 +764,17 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+>                 else
+>                         payload_cnt =3D 0;
+>
+> +               regmap_read(tcpci->regmap, TCPC_RX_BUF_FRAME_TYPE, &type)=
+;
+
+
+If regmap_read() fails, type would be uninitialized containing random
+values from the stack, can you make the code to handle that ?
+
+>
+> +               switch (type) {
+> +               case TCPC_RX_BUF_FRAME_TYPE_SOP1:
+> +                       rx_type =3D TCPC_TX_SOP_PRIME;
+> +                       break;
+> +               case TCPC_RX_BUF_FRAME_TYPE_SOP:
+
+
+TCPCI Spec Table 4-38 also defines SOP'' (SOP2 =3D 2), SOP_DBG' (3), and
+SOP_DBG'' (4). Since enum tcpm_transmit_type defines
+TCPC_TX_SOP_PRIME_PRIME, TCPC_TX_SOP_DEBUG_PRIME, and
+TCPC_TX_SOP_DEBUG_PRIME_PRIME, why not expand the switch statement  to
+handle SOP'' and Debug frame types as well to cover all cases ?
+
+
+>
+> +               default:
+> +                       rx_type =3D TCPC_TX_SOP;
+> +                       break;
+> +               }
+>
+> +
+>                 tcpci_read16(tcpci, TCPC_RX_HDR, &header);
+>                 msg.header =3D cpu_to_le16(header);
+>
+> @@ -776,7 +788,7 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+>                 /* Read complete, clear RX status alert bit */
+>                 tcpci_write16(tcpci, TCPC_ALERT, TCPC_ALERT_RX_STATUS);
+>
+> -               tcpm_pd_receive(tcpci->port, &msg, TCPC_TX_SOP);
+> +               tcpm_pd_receive(tcpci->port, &msg, rx_type);
+
+Please also check whether TCPC_RX_DETECT was actually programmed to
+receive the specific "rx_type" to begin with. Perhaps while
+programming TCPC_RX_DETECT the allowed received messages should be
+cached and cross checked here. This would prevent unsolicited messages
+from being passed to TCPM which poses a security risk.
+
+
+>         }
+>
+>         if (tcpci->data->vbus_vsafe0v && (status & TCPC_ALERT_EXTENDED_ST=
+ATUS)) {
+> --
+> 2.34.1
+>
