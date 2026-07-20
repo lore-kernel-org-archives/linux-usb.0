@@ -1,30 +1,31 @@
 Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8326E4048BB;
-	Mon, 20 Jul 2026 11:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ABFE40626F;
+	Mon, 20 Jul 2026 11:52:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784548105; cv=none; b=YWW5gHHFc4QWNB7h2sdEhKyzYlr7ABYd5yhGl6qoGQpCcw6g6PM8iQ3D34v0DXODKNMe/GEwW8gdxjY4uv6RSoOCaKvICsDCw2WZY1hnHbSJ97n2KCOhb8zDyF/ixyUO7cKue5YqvC2ifFzO4B7x4o/p+gZqbNg4G603JAyJbdM=
+	t=1784548349; cv=none; b=jVe6TfX8d+UDDWa801BhLVaqS+Foml8GAhGl+C7O6wYkIT581cPeHCWcQlJy6mLrzh0xvH+VFuNjtN4XcBQstsy8A3bKdE+3GUEClpq8nNKVJuj30kvVTl+Rm/F6ZmXF/+d9ewDU/eqxQCozyoYzY7anObtbqxu+6KBeGAdoZqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784548105; c=relaxed/simple;
-	bh=7Y8QkdmHKYOnAfX1CWKH4TnmIcBzbHvt1FItYl6psJs=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=PaX5QP/2xIrb4CTb8aK80+n0aWECjxAhyQN6YCHzIW/axP0qWqF2AzW+U3JkV4+tog8IHsO1e2OcrwCpxon2smGVJT8y+5cKJeFNpNIoqBgB59UneBFFwfc7assWOgj6LEjdbPqsSPuo7tIytLkC8y+XaDrJtbliFdBv+XIe+3k=
+	s=arc-20240116; t=1784548349; c=relaxed/simple;
+	bh=fGfjIlBHhvJtiN2Szq0z4bjHNLFWYT85o1hI9Qjz4Ew=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Eq830xt/e722l/s16dGUUTWSUiq2TOfDhCJovj4vSdx8WBPh8CQ9juYLW0ePtf170qFOP6S/WzhdhrGynyxP6nhcAUsvuGqieVyZtYC1V28jacdF6J9eOh3u3b0Wb9nZA6wMEPCTFYCmfxTfc2Ba/llpMGNo8RnB8TqxAc365aY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowABn1T8BC15q1bOIAA--.63197S2;
-	Mon, 20 Jul 2026 19:48:18 +0800 (CST)
+	by APP-05 (Coremail) with SMTP id zQCowAC3JD_0C15qjsWIAA--.52237S2;
+	Mon, 20 Jul 2026 19:52:21 +0800 (CST)
 From: Pengpeng Hou <pengpeng@iscas.ac.cn>
 To: Johan Hovold <johan@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Lunn <andrew@lunn.ch>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [PATCH v2] USB: serial: io_ti: reject oversized boot-mode firmware
-Date: Mon, 20 Jul 2026 19:48:17 +0800
-Message-ID: <20260720114817.65531-1-pengpeng@iscas.ac.cn>
+Subject: [PATCH v2] USB: serial: mxuport: validate firmware header size
+Date: Mon, 20 Jul 2026 19:52:20 +0800
+Message-ID: <20260720115220.84905-1-pengpeng@iscas.ac.cn>
 X-Mailer: git-send-email 2.50.1
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -34,61 +35,60 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABn1T8BC15q1bOIAA--.63197S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7AFykZw13JF4UXw43JryUAwb_yoW8XF1UpF
-	sYgFW7Krn8XF4xXFySyF1SvFyru3ZYqFW3KFZxX3yF9rn0vrn29FyrGrW0gFy7Ar1fGr1q
-	yFWjvr4DCF48taDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID:zQCowAC3JD_0C15qjsWIAA--.52237S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zr43tFWkKr1rKw15Ww4fAFb_yoW8GryfpF
+	4jgFWqgrs3Wry3Xw1rAan0934rW3WFy343GFyxAw42gr4ayas7JFyxK3yktryUtr48JFW3
+	Kr1qyF48WayUKrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkC14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
 	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
-	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-	IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbb_-PUUUU
-	U==
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
+	AVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
+	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkG
+	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI
+	0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
+	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUeKsjUU
+	UUU
 X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
 
-do_boot_mode() copies the firmware payload, excluding its four-byte prefix,
-into a fixed 15.5 KiB staging buffer. check_fw_sanity() already proves that
-the image contains its seven-byte header and validates the declared image
-length and checksum, but it does not impose this boot-mode destination
-limit.
+mxuport_probe() reads version bytes at fixed offsets after
+request_firmware() succeeds. Firmware loading success does not prove that
+the blob reaches the highest version offset.
 
-Reject images whose payload does not fit before allocating and filling the
-staging buffer.
+Reject short firmware images before reading the version bytes. This is
+source-level parser hardening; no affected device or crash was observed.
 
-Fixes: d12b219a228e ("edgeport-ti: use request_firmware()")
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
 ---
-Changes since v1: https://lore.kernel.org/all/20260701053535.39951-1-pengpeng@iscas.ac.cn/
-- drop the redundant short-image check already provided by check_fw_sanity()
-- state that the issue was found by source review
-- add the requested Fixes tag
+Changes since v1: https://lore.kernel.org/all/20260715084611.45995-1-pengpeng@iscas.ac.cn/
+- drop the Fixes tag and stable implication because no regression report is
+  known
+- carry Andrew Lunn's Reviewed-by
 - rebase onto v7.2-rc4
 
- drivers/usb/serial/io_ti.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/usb/serial/mxuport.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/usb/serial/io_ti.c b/drivers/usb/serial/io_ti.c
-index 07c0eff3bef4..cc28f5869a3e 100644
---- a/drivers/usb/serial/io_ti.c
-+++ b/drivers/usb/serial/io_ti.c
-@@ -1464,6 +1464,12 @@ static int do_boot_mode(struct edgeport_serial *serial,
- 		/* Allocate a 15.5k buffer + 3 byte header */
- 		buffer_size = (((1024 * 16) - 512) +
- 					sizeof(struct ti_i2c_image_header));
-+		if (fw->size - 4 > buffer_size) {
-+			dev_err(dev, "%s - firmware image is too large\n",
-+				__func__);
-+			return -EINVAL;
+diff --git a/drivers/usb/serial/mxuport.c b/drivers/usb/serial/mxuport.c
+index e3c5a1b97542..088d5dd8abb5 100644
+--- a/drivers/usb/serial/mxuport.c
++++ b/drivers/usb/serial/mxuport.c
+@@ -1080,6 +1080,13 @@ static int mxuport_probe(struct usb_serial *serial,
+ 		/* Use the firmware already in the device */
+ 		err = 0;
+ 	} else {
++		if (fw_p->size <= VER_ADDR_3) {
++			dev_err(&serial->interface->dev,
++				"Firmware %s is too short\n", buf);
++			err = -EINVAL;
++			goto out;
 +		}
 +
- 		buffer = kmalloc(buffer_size, GFP_KERNEL);
- 		if (!buffer)
- 			return -ENOMEM;
+ 		local_ver = ((fw_p->data[VER_ADDR_1] << 16) |
+ 			     (fw_p->data[VER_ADDR_2] << 8) |
+ 			     fw_p->data[VER_ADDR_3]);
 
