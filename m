@@ -1,232 +1,264 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A5C1A9FAF;
-	Mon, 20 Jul 2026 19:11:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784574706; cv=none; b=l0LMCuMCpC7TQhWClHfC/j6mgQOp3vHDV3gLCQS0t1Mu0WNLIj06lSafe82kMMRL8AkzMu1YuXA0fhwo5GcFz/ZF+L1yzdttq3wg8c9RYpYtt1JGP6juYTUBeVjUZ6z01fuStHDfZ11ftsLlVEIR7ZWXt/Qy2RUpVF4vQmDFOko=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784574706; c=relaxed/simple;
-	bh=PsclTYPxcBmOlw9pDJWwhBzl8K3G7eLXdmPSBGOwWS4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vz26c7R8IPG9yrP5HneYSmf3X7WXcBJvq/Llk9zDdOCwGWEXvRm5te7TDbdmnneDYIc9XPIki3ifDFwr3DtyRxSJnqRx1tZUvRxTPiH49cXQYugwKEf8FOlXHYcxPvc2QCaruPvWfRco+GHWVnQ6E4CRAqgsm/6NAjG3ZZg3VwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=ro8oZOuH; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7FD3939C1
+	for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 19:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784574745; cv=pass; b=RqyMs7JSgEnZBjTOU0dMIw6OAmsUO8gohJJ2w3Jd+iIvyf4KOVhArFL/bS5ypQvCaubiD1VUmokX2Kewu1QiSJUQWYC0EkM8i2gSLnxGEJD1+bJzkpxmA8kLCgK3unq0KW8l67HNNBrh2cir1eNUtpSGQWgzxRhcVJig8vQ/k6s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784574745; c=relaxed/simple;
+	bh=mREub83eGI32NFJ5AQK+0Smu7QqyiGENCYK6tMBvBH4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tlJbsoqj7KT0fVegeE/MeOf+CrJXvqpCqQXgt8LQxGzXvGDR3kTv5Fw+Ga68awnr63hs2zvAlwz60ClR01/c5EI1XbH/D5qyFmgs2nYQgrvfnwMS1e99YnF8/5hb0TDbk1Se5lB3crog+3pPxM5Boa20pam/RZW28kYa4MLOUKg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NF3uueS5; arc=pass smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="ro8oZOuH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
-	Cc:To:From:From:Reply-To; bh=XG8hJ8tls9MlC9wEZ829d6JtsGM2DbHw4W0tLDMzt08=; b=
-	ro8oZOuHvXhEqW1WxlUULzoegUalTV+siTEycDeqWAtpwXZ0nSiHdF+YEmLJJi5hPefpdPf4RVDzn
-	1s7gl3Q4MS9IHN0NvpIlxNoVXCp2WGwettLZBu4wTfZIiVcIXRhTGiainBIePp9j4fJjhrgbyLP+N
-	RjhmLqyxQiJz/ZjIVHyHYld8yM15EYvP1iH+vXWRtGA6iJ0NzP0rVAABfSGSE0G/wxQfLbBZDo6S4
-	tC3trNALqJNpj5cXHVxhk5nfKhMvWLdJv/fwhpeWct7WLN1nqeCeK371xH20a7lMKS8NBWZ7CQJ7o
-	H0XmlhpfsfVfi17S+HFDjYWrbHbish/6Tg==;
-Received: from [49.36.125.148] (helo=uajain)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wltOo-001GfC-Vk; Mon, 20 Jul 2026 21:11:35 +0200
-From: Umang Jain <uajain@igalia.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lucas De Marchi <demarchi@kernel.org>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-dev@igalia.com,
-	Umang Jain <uajain@igalia.com>
-Subject: [PATCH] early: usb: xhci-dbc: Handle out of bounds xhci-xdbc capability
-Date: Tue, 21 Jul 2026 00:42:49 +0530
-Message-ID: <20260720191249.1272328-1-uajain@igalia.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NF3uueS5"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-4472500e25fso4897386fac.1
+        for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 12:12:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784574743; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ILqHRvhTFpWhThr2w4eLTrS+kGjojVXL80BmSDyx3exuQDeoPXVIP0gkksfiURhe04
+         MRUD75yWKiplWz1q0ne91ypwkSgIeOojj214kMq+2IgApVJBjspCkFJHSbtBy9lixRzQ
+         r9DB2RUcd6omldgG//iWmID5wjtYNfEyJ9dwV+P6oLk3oroIhz5y49tcmy0vv5mMeMzK
+         uLGKJQ8jaTvbhfO8bb5Fp7iGAsVwmUHUuOImJTMFopiz4+vq1dYz4IikRhtUV+/xdhKD
+         /bHqxFlrTsLsESblekQ1PtX9e4wHMoPcFcjgY0LPoL2l0ecSVzXXvEmOZOkViQv6W4H5
+         th+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=qgTohs12tn7pUsawXCo+sFgrXRMEdlm/0Hs5iyyxK0A=;
+        fh=svYahHfe32RvA3kR6faUY/l+RbZ0KbJDigfCiIXvEIA=;
+        b=mPPfg2f1PpV1NjydVKDRsZkbTPt1Y15+pfNLUuo6wIOKusJv0szefsIrf/J6+3Un0c
+         S35J2K36B6bAXD2DV7baWGrR3gzeUZ80tslIcaPdsLMUEkfWaetfF4FKRsKVKuFWwh2j
+         NzwJOgi4F889wpUJphaap7t/r/7lpmYm22hh2cCIYBqcvApXteCDPY2zXsZHb/vjwkch
+         MoCqjx01h42vH/PGs6T1n4EuTtQKUeyZ//Uyw8sgDIQDUaZg1rmbZ/f8qmFiznroG2ny
+         MExrACAlzilZQgwOQdKIUAJqNQIserjnQzAmGhLgZRhCzKIvgFiHAzM4KQBL13Xh02n/
+         bxAQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784574743; x=1785179543; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=qgTohs12tn7pUsawXCo+sFgrXRMEdlm/0Hs5iyyxK0A=;
+        b=NF3uueS5U52/IORfZPJUBzNXoATpcJNTTjGNTS9lACvN5iijlpAhTYRCifnadG9m0z
+         R5D5ZumY38oeSTpFUDTyqXetll5fAOs1YKeGiJWWjfLESI1m9V9IqEhw4Wtl73fn4/Mo
+         bXplRmg8cIYmzKYhPlRxTF53sEnpHjou8+d2W/5lHM0nPq9uphbrxx16gzWBwzgOWF9M
+         HHGca5s8VKu3Am3ftAZZMgwgmoVnLlYu6qmn/SV1+WCi2+YSR+8vvR2KShm1U8q7f5pL
+         a0gRnmH8IjJSmtdPbtxuIBQwoDlaGrIjsW8ldOkOACcTv3pOc1fSyxyHqq5XKEBUlePL
+         Z0aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784574743; x=1785179543;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qgTohs12tn7pUsawXCo+sFgrXRMEdlm/0Hs5iyyxK0A=;
+        b=T8G4uJBSAfRG5F+30RH34J1bUI539scSiEav59U4VeOwBnw0ONPb3iIlgG1oSyy6Wa
+         OrPU2cA6LCdYQX4mG0Q2v1VfeJLYcG1x6/pdVmMX4IuC+O1sv4mQq+cZVnZDW68wrHSG
+         54cf02g3jd+IyHjSaDlhXUciKpPvMV4FRmzpxaYxkTJFnH4pHl3mYB8vnQS7yg+GXESx
+         c1aOQs5FeeGwytJoNve5UF0sjXISRZpQYzRyntZeBwW4LbR0MjFDdUoMVWzqBH2WFMQg
+         kOQAahp92CUY5UuGN3kon243Ss5yMDDs8b8mhmvHfjlMR6sGU3LqBHqRLbUUMPRaYk8Z
+         Nyhg==
+X-Forwarded-Encrypted: i=1; AHgh+RrQA5pBCcVmSJ8AYcaTfk788wcGdTy40E6IkQfzeuDn5NMryD+OPnwZHLSoeJGUjVqXWxUO5Y0fXkY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEyZJ52qcWxIr1GgqZAXlD8624uTVx6fgo08YWF6ZtQxeDnqd4
+	mE6uKYl4iV/ekXrq034N/uHjBH/YsJReltSZurSeYq5b44IOepUH3z0lomBSnYGhykEhNoDJ9Za
+	XkqRY5dyuYBRpTPja66pe0CKF48n1Www=
+X-Gm-Gg: AfdE7cmaG3s/2N6BbWZk3P/t+9ZA4A5aUsfrrtHr5u6v0ao0j9b06h1d4EMGo8hbDIS
+	PLjIhyVxFFvLXmBFjYCcpreJrc5y4bvjWTWhXYWU1SaJj5EeISjecvV5ES+Ei+xq4D1q6lyq3sM
+	KuRNuhXGdGiwS3lehP2MMJb3z7ygmZiXhOwPFWcwtWt4fFQsWLcuRcTU6229FkX1otjbzVVvk7z
+	XV6Wz+aDty7/auB9imI+wRnBUJ9pG0z2cO3oDk0We4WL7/uJlNmM8wQNR6ZZoINAAoDw/qRd9yW
+	bJox1Dd0w3UJ7aEdEEc=
+X-Received: by 2002:a05:6870:a488:b0:441:3cdc:28c7 with SMTP id
+ 586e51a60fabf-456902170bdmr7045940fac.9.1784574742840; Mon, 20 Jul 2026
+ 12:12:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260720150207.1963786-1-charles.daoust@gmail.com> <2a80e88e-936d-4927-a915-352fe92e47df@rowland.harvard.edu>
+In-Reply-To: <2a80e88e-936d-4927-a915-352fe92e47df@rowland.harvard.edu>
+From: "Charles D'Aoust" <charles.daoust@gmail.com>
+Date: Mon, 20 Jul 2026 15:12:11 -0400
+X-Gm-Features: AUfX_my8a4yLN_j8L1tIkscz-2rravyhw63mOlWyCUvY8YFH5chrZpGkergO1Gw
+Message-ID: <CAAhWKQQU5Bj6iDGP2KYTcx=TpGDo70qLR_vpyJqc9jAA4KkxCg@mail.gmail.com>
+Subject: Re: [PATCH] usb: core: add USB_QUIRK_CONFIG_DESC_READ_255 for Razer
+ BlackShark V3 Pro
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Currently, the early xhci-dbc assumes that the extended capability
-can be mapped within the fixed boot time mappings dictated by
-NR_FIX_BTMAPS.
-
-This patch iterates over the PCI BAR address size to find and map
-xhci-xdbc capability which could be out-of-bounds otherwise,
-in xdbc_map_pci_mmio(). The iterations map the maximum allowed
-boot time mappings (fixmap size) at a time and search for xhci-xdbc
-capability offset, till the end of the bar address size.
-
-This brings the need to track the early_ioremap() mapped size separately
-hence, introduce additional struct member xhci_base_length in
-struct xdbc_state.
-
-Signed-off-by: Umang Jain <uajain@igalia.com>
+You are correct, they are indeed the same. I apologize, I missed it.
 ---
-Link to earlier RFC:
-https://lore.kernel.org/all/20260604144122.962236-1-uajain@igalia.com/
+Charles D=E2=80=99Aoust
+
 ---
- drivers/usb/early/xhci-dbc.c | 94 +++++++++++++++++++++++++++++++++---
- drivers/usb/early/xhci-dbc.h |  1 +
- 2 files changed, 87 insertions(+), 8 deletions(-)
+Charles D=E2=80=99Aoust
 
-diff --git a/drivers/usb/early/xhci-dbc.c b/drivers/usb/early/xhci-dbc.c
-index 41118bba9197..5e540b6bf962 100644
---- a/drivers/usb/early/xhci-dbc.c
-+++ b/drivers/usb/early/xhci-dbc.c
-@@ -35,10 +35,23 @@ static bool early_console_keep;
- static inline void xdbc_trace(const char *fmt, ...) { }
- #endif /* XDBC_TRACE */
- 
-+/* Size of xHCI debug capability structure */
-+#define XDBC_MAPPING_SIZE	56
-+
-+enum xdbc_capability_flags {
-+	XDBC_CAP_FLAG_NONE		= 0,
-+	XDBC_CAP_FLAG_LEGACY		= 1 << 0,
-+	XDBC_CAP_FLAG_PROTOCOL		= 1 << 1,
-+	XDBC_CAP_FLAG_DEBUG		= 1 << 2,
-+};
-+
- static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
- {
--	u64 val64, sz64, mask64;
-+	u64 val64, sz64, mask64, fixmap_size, mapped_size;
-+	enum xdbc_capability_flags cap_flags = XDBC_CAP_FLAG_NONE;
-+	bool found_all_caps = false;
- 	void __iomem *base;
-+	int offset;
- 	u32 val, sz;
- 	u8 byte;
- 
-@@ -85,7 +98,72 @@ static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
- 
- 	xdbc.xhci_start = val64;
- 	xdbc.xhci_length = sz64;
--	base = early_ioremap(val64, sz64);
-+
-+	fixmap_size = NR_FIX_BTMAPS << PAGE_SHIFT;
-+	if (sz64 < fixmap_size) {
-+		xdbc.xhci_base_length = sz64;
-+		return early_ioremap(val64, sz64);
-+	}
-+
-+	/*
-+	 * Base address size is greater than fixed size boot mappings,
-+	 * hence iterate over the region one fixmap_size at a time,
-+	 * starting with XHCI_EXP_CAPS_DEBUG capability.
-+	 */
-+	base = early_ioremap(val64, fixmap_size);
-+	offset = xhci_find_next_ext_cap(base, 0, 0);
-+	mapped_size = fixmap_size;
-+
-+	while (mapped_size <= sz64) {
-+		val = readl(base + offset);
-+		switch (XHCI_EXT_CAPS_ID(val)) {
-+		case XHCI_EXT_CAPS_DEBUG:
-+			if (offset + XDBC_MAPPING_SIZE > fixmap_size) {
-+				early_iounmap(base, fixmap_size);
-+				base = early_ioremap(val64 + offset, XDBC_MAPPING_SIZE);
-+
-+				mapped_size += offset;
-+				cap_flags = XDBC_CAP_FLAG_NONE;
-+			}
-+			cap_flags |= XDBC_CAP_FLAG_DEBUG;
-+			break;
-+		case XHCI_EXT_CAPS_PROTOCOL:
-+			cap_flags |= XDBC_CAP_FLAG_PROTOCOL;
-+			break;
-+		case XHCI_EXT_CAPS_LEGACY:
-+			cap_flags |= XDBC_CAP_FLAG_LEGACY;
-+			break;
-+		}
-+
-+		if ((cap_flags & XDBC_CAP_FLAG_DEBUG) &&
-+		    (cap_flags & XDBC_CAP_FLAG_PROTOCOL) &&
-+		    (cap_flags & XDBC_CAP_FLAG_LEGACY)) {
-+			found_all_caps = true;
-+			break;
-+		}
-+
-+		/*
-+		 * Find offset to next xhci-ext capability, remap if the offset
-+		 * is out of bounds of the already mapped region.
-+		 */
-+		offset = xhci_find_next_ext_cap(base, offset, 0);
-+		if (!offset) {
-+			early_iounmap(base, fixmap_size);
-+			base = early_ioremap(val64 + mapped_size, fixmap_size);
-+			mapped_size += fixmap_size;
-+
-+			offset = xhci_find_next_ext_cap(base, 0, 0);
-+			cap_flags = XDBC_CAP_FLAG_NONE;
-+
-+		}
-+	}
-+
-+	if (found_all_caps) {
-+		xdbc.xhci_base_length = fixmap_size;
-+	} else {
-+		xdbc.xhci_base_length = 0;
-+		base = NULL;
-+	}
- 
- 	return base;
- }
-@@ -643,9 +721,9 @@ int __init early_xdbc_parse_parameter(char *s, int keep_early)
- 	offset = xhci_find_next_ext_cap(xdbc.xhci_base, 0, XHCI_EXT_CAPS_DEBUG);
- 	if (!offset) {
- 		pr_notice("xhci host doesn't support debug capability\n");
--		early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
-+		early_iounmap(xdbc.xhci_base, xdbc.xhci_base_length);
- 		xdbc.xhci_base = NULL;
--		xdbc.xhci_length = 0;
-+		xdbc.xhci_base_length = 0;
- 
- 		return -ENODEV;
- 	}
-@@ -682,9 +760,9 @@ int __init early_xdbc_setup_hardware(void)
- 		xdbc.table_base = NULL;
- 		xdbc.out_buf = NULL;
- 
--		early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
-+		early_iounmap(xdbc.xhci_base, xdbc.xhci_base_length);
- 		xdbc.xhci_base = NULL;
--		xdbc.xhci_length = 0;
-+		xdbc.xhci_base_length = 0;
- 	}
- 
- 	return ret;
-@@ -987,7 +1065,7 @@ static int __init xdbc_init(void)
- 	}
- 
- 	raw_spin_lock_irqsave(&xdbc.lock, flags);
--	early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
-+	early_iounmap(xdbc.xhci_base, xdbc.xhci_base_length);
- 	xdbc.xhci_base = base;
- 	offset = xhci_find_next_ext_cap(xdbc.xhci_base, 0, XHCI_EXT_CAPS_DEBUG);
- 	xdbc.xdbc_reg = (struct xdbc_regs __iomem *)(xdbc.xhci_base + offset);
-@@ -1004,7 +1082,7 @@ static int __init xdbc_init(void)
- 	memblock_phys_free(xdbc.table_dma, PAGE_SIZE);
- 	memblock_phys_free(xdbc.out_dma, PAGE_SIZE);
- 	writel(0, &xdbc.xdbc_reg->control);
--	early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
-+	early_iounmap(xdbc.xhci_base, xdbc.xhci_base_length);
- 
- 	return ret;
- }
-diff --git a/drivers/usb/early/xhci-dbc.h b/drivers/usb/early/xhci-dbc.h
-index 8b4d71de45fc..e2aefb796084 100644
---- a/drivers/usb/early/xhci-dbc.h
-+++ b/drivers/usb/early/xhci-dbc.h
-@@ -144,6 +144,7 @@ struct xdbc_state {
- 	u32			dev;
- 	u32			func;
- 	void __iomem		*xhci_base;
-+	size_t			xhci_base_length;
- 	u64			xhci_start;
- 	size_t			xhci_length;
- 	int			port_number;
--- 
-2.55.0
 
+On Mon, Jul 20, 2026 at 12:04=E2=80=AFPM Alan Stern <stern@rowland.harvard.=
+edu> wrote:
+>
+> On Mon, Jul 20, 2026 at 11:01:26AM -0400, Charles Daoust wrote:
+> > From: Charles D'Aoust <charles.daoust@gmail.com>
+> >
+> > The Razer BlackShark V3 Pro wireless headset dongle (1532:0577)
+> > fingerprints its host during the first enumeration after power-on: if
+> > the first GET_DESCRIPTOR(CONFIGURATION) request asks for 255 bytes, as
+> > Windows does, the dongle enables its vendor HID command channel; if it
+> > sees the 9-byte header-only read that Linux issues, it disables that
+> > channel for the rest of the power session.  Audio still works in that
+> > state, but battery reporting and all vendor commands are silently
+> > ignored, and nothing short of removing power recovers the device:
+> > resets, re-enumerations and byte-exact replays of complete Windows
+> > control sessions were all verified not to help.
+> >
+> > Both read lengths are spec-compliant (the device truncates the reply
+> > to wLength); the firmware was evidently only validated against the
+> > larger request.  The kernel already accommodates this class of
+> > firmware assumption during enumeration: hub_port_init() reads the
+> > device descriptor with a 64-byte request because that is what Windows
+> > does and what many devices expect.
+> >
+> > Add USB_QUIRK_CONFIG_DESC_READ_255, which makes usb_get_configuration()
+> > request 255 bytes for the initial configuration descriptor read rather
+> > than USB_DT_CONFIG_SIZE, apply it to 1532:0577, and expose it as
+> > runtime quirk letter 'r'.  Devices without the quirk are unaffected.
+> >
+> > The trigger was isolated by single-variable bisection on otherwise
+> > unmodified kernels: with only the widened initial read, the dongle's
+> > vendor channel comes up enabled on a cold plug with no interface
+> > drivers bound (bare enumeration only); without it, it never does.
+> >
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Charles D'Aoust <charles.daoust@gmail.com>
+> > ---
+>
+> Is this not the same as
+>
+> https://lore.kernel.org/linux-usb/20260717195336.98500-2-nikhilsolanke5@g=
+mail.com/
+>
+> ?
+>
+> Alan Stern
+>
+> >  Documentation/admin-guide/kernel-parameters.txt |  3 +++
+> >  drivers/usb/core/config.c                       | 13 ++++++++++---
+> >  drivers/usb/core/quirks.c                       |  6 ++++++
+> >  include/linux/usb/quirks.h                      |  3 +++
+> >  4 files changed, 22 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
+ation/admin-guide/kernel-parameters.txt
+> > index b5493a7f8..1bd138ba6 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -8169,6 +8169,9 @@ Kernel parameters
+> >                               q =3D USB_QUIRK_FORCE_ONE_CONFIG (Device
+> >                                       claims zero configurations,
+> >                                       forcing to 1);
+> > +                             r =3D USB_QUIRK_CONFIG_DESC_READ_255 (ini=
+tial
+> > +                                     configuration descriptor read mus=
+t
+> > +                                     request 255 bytes, as Windows doe=
+s);
+> >                       Example: quirks=3D0781:5580:bk,0a5c:5834:gij
+> >
+> >       usbhid.mousepoll=3D
+> > diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
+> > index cd3231d21..c7e21cc76 100644
+> > --- a/drivers/usb/core/config.c
+> > +++ b/drivers/usb/core/config.c
+> > @@ -908,7 +908,7 @@ int usb_get_configuration(struct usb_device *dev)
+> >  {
+> >       struct device *ddev =3D &dev->dev;
+> >       int ncfg =3D dev->descriptor.bNumConfigurations;
+> > -     unsigned int cfgno, length;
+> > +     unsigned int cfgno, length, first_read_len;
+> >       unsigned char *bigbuffer;
+> >       struct usb_config_descriptor *desc;
+> >       int result;
+> > @@ -938,7 +938,14 @@ int usb_get_configuration(struct usb_device *dev)
+> >       if (!dev->rawdescriptors)
+> >               return -ENOMEM;
+> >
+> > -     desc =3D kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
+> > +     /*
+> > +      * Some devices (see USB_QUIRK_CONFIG_DESC_READ_255) malfunction =
+unless
+> > +      * the initial configuration descriptor read requests 255 bytes, =
+as
+> > +      * Windows does.  Only the header is consumed here either way.
+> > +      */
+> > +     first_read_len =3D (dev->quirks & USB_QUIRK_CONFIG_DESC_READ_255)=
+ ?
+> > +                      255 : USB_DT_CONFIG_SIZE;
+> > +     desc =3D kmalloc(first_read_len, GFP_KERNEL);
+> >       if (!desc)
+> >               return -ENOMEM;
+> >
+> > @@ -946,7 +953,7 @@ int usb_get_configuration(struct usb_device *dev)
+> >               /* We grab just the first descriptor so we know how long
+> >                * the whole configuration is */
+> >               result =3D usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
+> > -                 desc, USB_DT_CONFIG_SIZE);
+> > +                 desc, first_read_len);
+> >               if (result < 0) {
+> >                       dev_err(ddev, "unable to read config index %d "
+> >                           "descriptor/%s: %d\n", cfgno, "start", result=
+);
+> > diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+> > index 87ee2d938..c8f71b825 100644
+> > --- a/drivers/usb/core/quirks.c
+> > +++ b/drivers/usb/core/quirks.c
+> > @@ -142,6 +142,9 @@ static int quirks_param_set(const char *value, cons=
+t struct kernel_param *kp)
+> >                               break;
+> >                       case 'q':
+> >                               flags |=3D USB_QUIRK_FORCE_ONE_CONFIG;
+> > +                             break;
+> > +                     case 'r':
+> > +                             flags |=3D USB_QUIRK_CONFIG_DESC_READ_255=
+;
+> >                       /* Ignore unrecognized flag characters */
+> >                       }
+> >               }
+> > @@ -496,6 +499,9 @@ static const struct usb_device_id usb_quirk_list[] =
+=3D {
+> >       /* Razer - Razer Blade Keyboard */
+> >       { USB_DEVICE(0x1532, 0x0116), .driver_info =3D
+> >                       USB_QUIRK_LINEAR_UFRAME_INTR_BINTERVAL },
+> > +     /* Razer - Razer BlackShark V3 Pro wireless headset dongle */
+> > +     { USB_DEVICE(0x1532, 0x0577), .driver_info =3D
+> > +                     USB_QUIRK_CONFIG_DESC_READ_255 },
+> >       /* Razer - Razer Kiyo Pro Webcam */
+> >       { USB_DEVICE(0x1532, 0x0e05), .driver_info =3D USB_QUIRK_NO_LPM }=
+,
+> >
+> > diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
+> > index b3cc7beab..02de5ed48 100644
+> > --- a/include/linux/usb/quirks.h
+> > +++ b/include/linux/usb/quirks.h
+> > @@ -81,4 +81,7 @@
+> >  /* Device claims zero configurations, forcing to 1 */
+> >  #define USB_QUIRK_FORCE_ONE_CONFIG           BIT(18)
+> >
+> > +/* initial configuration descriptor read must request 255 bytes (Windo=
+ws) */
+> > +#define USB_QUIRK_CONFIG_DESC_READ_255               BIT(19)
+> > +
+> >  #endif /* __LINUX_USB_QUIRKS_H */
+> > --
+> > 2.55.0
+> >
+> >
