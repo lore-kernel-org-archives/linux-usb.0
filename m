@@ -1,264 +1,169 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011057.outbound.protection.outlook.com [52.101.62.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7FD3939C1
-	for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 19:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC1D3C10B6;
+	Mon, 20 Jul 2026 20:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.57
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784574745; cv=pass; b=RqyMs7JSgEnZBjTOU0dMIw6OAmsUO8gohJJ2w3Jd+iIvyf4KOVhArFL/bS5ypQvCaubiD1VUmokX2Kewu1QiSJUQWYC0EkM8i2gSLnxGEJD1+bJzkpxmA8kLCgK3unq0KW8l67HNNBrh2cir1eNUtpSGQWgzxRhcVJig8vQ/k6s=
+	t=1784579255; cv=fail; b=mV36XMXlRlDbiXs30GBU/hLtODXZNM3CyiFUgIwywV+3nVmLVHv8wlg0G3Il+6/pzd3LWGw8w4BShkGnRUjAYEsb/GsdQd9gFTJYcn/h/7UDKdP7V1dQY+TQkW1YSB8IdY2Bqm8LEM/7B7zHHe4JPmVyrQsn4n0UqDszx9d/0v8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784574745; c=relaxed/simple;
-	bh=mREub83eGI32NFJ5AQK+0Smu7QqyiGENCYK6tMBvBH4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tlJbsoqj7KT0fVegeE/MeOf+CrJXvqpCqQXgt8LQxGzXvGDR3kTv5Fw+Ga68awnr63hs2zvAlwz60ClR01/c5EI1XbH/D5qyFmgs2nYQgrvfnwMS1e99YnF8/5hb0TDbk1Se5lB3crog+3pPxM5Boa20pam/RZW28kYa4MLOUKg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NF3uueS5; arc=pass smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784579255; c=relaxed/simple;
+	bh=RiLPkDpohL19RPUlYySLMIU1oafqyLsQ7sAURoJmc1Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=cU8FCC3/rbDKTooL8p7+xZsWQxFh+2KqkLG+D3ggLSTpa+E+TzcfiDcXoF32F+z+zAkjev3zRUUIYiwBePuhAEvEF22S1Rb/I3ACB0sjY2VzT7a0pZMrrciRcXCQQHAYcsPD+bTrjKPGE8woVTw2dNBROp0dAFhJANgbtXmhKnk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=tySky3UF; arc=fail smtp.client-ip=52.101.62.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NF3uueS5"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-4472500e25fso4897386fac.1
-        for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 12:12:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784574743; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ILqHRvhTFpWhThr2w4eLTrS+kGjojVXL80BmSDyx3exuQDeoPXVIP0gkksfiURhe04
-         MRUD75yWKiplWz1q0ne91ypwkSgIeOojj214kMq+2IgApVJBjspCkFJHSbtBy9lixRzQ
-         r9DB2RUcd6omldgG//iWmID5wjtYNfEyJ9dwV+P6oLk3oroIhz5y49tcmy0vv5mMeMzK
-         uLGKJQ8jaTvbhfO8bb5Fp7iGAsVwmUHUuOImJTMFopiz4+vq1dYz4IikRhtUV+/xdhKD
-         /bHqxFlrTsLsESblekQ1PtX9e4wHMoPcFcjgY0LPoL2l0ecSVzXXvEmOZOkViQv6W4H5
-         th+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qgTohs12tn7pUsawXCo+sFgrXRMEdlm/0Hs5iyyxK0A=;
-        fh=svYahHfe32RvA3kR6faUY/l+RbZ0KbJDigfCiIXvEIA=;
-        b=mPPfg2f1PpV1NjydVKDRsZkbTPt1Y15+pfNLUuo6wIOKusJv0szefsIrf/J6+3Un0c
-         S35J2K36B6bAXD2DV7baWGrR3gzeUZ80tslIcaPdsLMUEkfWaetfF4FKRsKVKuFWwh2j
-         NzwJOgi4F889wpUJphaap7t/r/7lpmYm22hh2cCIYBqcvApXteCDPY2zXsZHb/vjwkch
-         MoCqjx01h42vH/PGs6T1n4EuTtQKUeyZ//Uyw8sgDIQDUaZg1rmbZ/f8qmFiznroG2ny
-         MExrACAlzilZQgwOQdKIUAJqNQIserjnQzAmGhLgZRhCzKIvgFiHAzM4KQBL13Xh02n/
-         bxAQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784574743; x=1785179543; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qgTohs12tn7pUsawXCo+sFgrXRMEdlm/0Hs5iyyxK0A=;
-        b=NF3uueS5U52/IORfZPJUBzNXoATpcJNTTjGNTS9lACvN5iijlpAhTYRCifnadG9m0z
-         R5D5ZumY38oeSTpFUDTyqXetll5fAOs1YKeGiJWWjfLESI1m9V9IqEhw4Wtl73fn4/Mo
-         bXplRmg8cIYmzKYhPlRxTF53sEnpHjou8+d2W/5lHM0nPq9uphbrxx16gzWBwzgOWF9M
-         HHGca5s8VKu3Am3ftAZZMgwgmoVnLlYu6qmn/SV1+WCi2+YSR+8vvR2KShm1U8q7f5pL
-         a0gRnmH8IjJSmtdPbtxuIBQwoDlaGrIjsW8ldOkOACcTv3pOc1fSyxyHqq5XKEBUlePL
-         Z0aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784574743; x=1785179543;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qgTohs12tn7pUsawXCo+sFgrXRMEdlm/0Hs5iyyxK0A=;
-        b=T8G4uJBSAfRG5F+30RH34J1bUI539scSiEav59U4VeOwBnw0ONPb3iIlgG1oSyy6Wa
-         OrPU2cA6LCdYQX4mG0Q2v1VfeJLYcG1x6/pdVmMX4IuC+O1sv4mQq+cZVnZDW68wrHSG
-         54cf02g3jd+IyHjSaDlhXUciKpPvMV4FRmzpxaYxkTJFnH4pHl3mYB8vnQS7yg+GXESx
-         c1aOQs5FeeGwytJoNve5UF0sjXISRZpQYzRyntZeBwW4LbR0MjFDdUoMVWzqBH2WFMQg
-         kOQAahp92CUY5UuGN3kon243Ss5yMDDs8b8mhmvHfjlMR6sGU3LqBHqRLbUUMPRaYk8Z
-         Nyhg==
-X-Forwarded-Encrypted: i=1; AHgh+RrQA5pBCcVmSJ8AYcaTfk788wcGdTy40E6IkQfzeuDn5NMryD+OPnwZHLSoeJGUjVqXWxUO5Y0fXkY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEyZJ52qcWxIr1GgqZAXlD8624uTVx6fgo08YWF6ZtQxeDnqd4
-	mE6uKYl4iV/ekXrq034N/uHjBH/YsJReltSZurSeYq5b44IOepUH3z0lomBSnYGhykEhNoDJ9Za
-	XkqRY5dyuYBRpTPja66pe0CKF48n1Www=
-X-Gm-Gg: AfdE7cmaG3s/2N6BbWZk3P/t+9ZA4A5aUsfrrtHr5u6v0ao0j9b06h1d4EMGo8hbDIS
-	PLjIhyVxFFvLXmBFjYCcpreJrc5y4bvjWTWhXYWU1SaJj5EeISjecvV5ES+Ei+xq4D1q6lyq3sM
-	KuRNuhXGdGiwS3lehP2MMJb3z7ygmZiXhOwPFWcwtWt4fFQsWLcuRcTU6229FkX1otjbzVVvk7z
-	XV6Wz+aDty7/auB9imI+wRnBUJ9pG0z2cO3oDk0We4WL7/uJlNmM8wQNR6ZZoINAAoDw/qRd9yW
-	bJox1Dd0w3UJ7aEdEEc=
-X-Received: by 2002:a05:6870:a488:b0:441:3cdc:28c7 with SMTP id
- 586e51a60fabf-456902170bdmr7045940fac.9.1784574742840; Mon, 20 Jul 2026
- 12:12:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="tySky3UF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v2Ez+7eIDxn+OF89PcKDnemmnLrrf2SEUCej4FLRu8PpOnHAnx1myNLcyv90L8bbzvCC3vJ7ttBKMASRQzyR2HCrgYSMcqji6+4UyGhzcfTDg7sc1BsSYP4yV6VAlt6Sbc5TYTBK3TkLEmWE8nUxm283pajvqxFtJ1HSi+wP49QLDnzo+3c+jl5JykfSOCZ3NcrHBUDiCq+dHonAzuksuxUSbrYhmeJUYGIzSWYymxRyM7bp9vDK1gjehpfutaMBSYnRAy1mRvM602Qx7PAKHQUhC8dDhv61pMm37ETPZUM1oUiWnl4NhDcZ2QH4yK5UVZv1vaMUA7KksCsCM9m1og==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lVerh133brC5eLn2ZjoUFVwH58pVJGzLFQMwEdeK0Eo=;
+ b=JAELmMd24S5mqdMvdJhOUO4TmcvD6/VP0oTebhhYGXJGxuhxECXmNw73uOmPSJ0zj/n1LOJTaiiapCWXKl0wFcU0wyALo5oxtWY5KhoBrdt9VJ897ioxYyVX//oDmHJuyokV2rps+/x0IDyLUPm9XcblII94vt+Q0tdaRnmqdH9JuF62fBWcK2VFNu5pxEOHajyN2Hw6G66ty6IrgG+Tb+FcJ6ECG5qr6FxOqy41m1YtQmpAPnLq0gK/BmFGaVJFwqdn3a2tC2Fe7L4nhXgcRSWA84E1zzjumu1UPrz2Jxi/18y+Shcn6H2r8NZi03yHmKsb/sNf+5JzhQEBQwOaLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lVerh133brC5eLn2ZjoUFVwH58pVJGzLFQMwEdeK0Eo=;
+ b=tySky3UFLAhrgElq8t2Zk99IEq9OSyX9MRR+1UhVRHpz5cVhE7LVe3L1GYpANCvGgiXJ7wpGFRSiSGoq9o1QiGdQl6Fe/3T3BGoelvSvzNMRxEPtWV8QW7M37USdRSUYOTkFIyeuuC1XFImRJ/YRM8rUcFsqW/OiZKEg6tTIzlHxGVUxtskDXA6dWITNE6EEvurnHYhBtEi8OvldXG3df8B4f4+AsBJnEKwgm9hTkh8ffbkeNGy1ZSoPf30wAHV0sj2yfDSHqfYH0LhwOatwMFWMkOvcgWYxl/joJWnXoIX8rZH1cyPt97glNXjnRR1Q/8qw0wan/1Gy5fV5OfdZ3w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CY8PR12MB7540.namprd12.prod.outlook.com (2603:10b6:930:97::15)
+ by CH3PR12MB9430.namprd12.prod.outlook.com (2603:10b6:610:1cd::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Mon, 20 Jul
+ 2026 20:27:28 +0000
+Received: from CY8PR12MB7540.namprd12.prod.outlook.com
+ ([fe80::4eb1:ab21:a9cf:e72a]) by CY8PR12MB7540.namprd12.prod.outlook.com
+ ([fe80::4eb1:ab21:a9cf:e72a%5]) with mapi id 15.21.0223.017; Mon, 20 Jul 2026
+ 20:27:28 +0000
+From: Lucas De Marchi <ldemarchi@nvidia.com>
+To: Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	demarchi@kernel.org,
+	Lucas De Marchi <ldemarchi@nvidia.com>,
+	stable@vger.kernel.org,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH 1/3] xhci: dbgtty: Fix unregister on tty_register_driver() failure
+Date: Mon, 20 Jul 2026 17:27:14 -0300
+Message-ID: <20260720202716.76000-1-ldemarchi@nvidia.com>
+X-Mailer: git-send-email 2.54.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0008.namprd03.prod.outlook.com
+ (2603:10b6:a03:33a::13) To CY8PR12MB7540.namprd12.prod.outlook.com
+ (2603:10b6:930:97::15)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260720150207.1963786-1-charles.daoust@gmail.com> <2a80e88e-936d-4927-a915-352fe92e47df@rowland.harvard.edu>
-In-Reply-To: <2a80e88e-936d-4927-a915-352fe92e47df@rowland.harvard.edu>
-From: "Charles D'Aoust" <charles.daoust@gmail.com>
-Date: Mon, 20 Jul 2026 15:12:11 -0400
-X-Gm-Features: AUfX_my8a4yLN_j8L1tIkscz-2rravyhw63mOlWyCUvY8YFH5chrZpGkergO1Gw
-Message-ID: <CAAhWKQQU5Bj6iDGP2KYTcx=TpGDo70qLR_vpyJqc9jAA4KkxCg@mail.gmail.com>
-Subject: Re: [PATCH] usb: core: add USB_QUIRK_CONFIG_DESC_READ_255 for Razer
- BlackShark V3 Pro
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY8PR12MB7540:EE_|CH3PR12MB9430:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc08148c-1d95-474f-516d-08dee69d5134
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|10070799003|376014|23010399003|366016|18002099003|10067099003|11063799006|56012099006|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	5RnI1pjE2AW+HgdU0G5iIUNOXfr6GBp1rpWuf+0ISI+AsjYNZc32e9FPj0deJ08DjkDzSArDFez4bCZLCDfhHz0DvPtw8eJaKitib8F+RIciZRW8tmdRnsykW+WldBoEPDY4CQDFE5ZATaTheemNRtB5NTaRV7Gx6iMqWXlo6Z0qDBhJcpnTb2skQiEf9Zn4/CH46U33ySkZBIM6cdOZY6ZhEDlonsrAy9G0KmTMAWBiYX23gugJIS73TZQtCK1Gv/jTmL5tFwS/SWTogFKfOLyWgVYLd/ASVZQppfLwKj1j7WJQjCRl6mB9XYQNmkAHOfGVffo2SZXI45Fb6zfGEdiBI8eI3uBlGl/HXYVHF6TqYA7UT216840by/snpxlGA3psP6EV+vhuvZ3wYOvxnUUnF+SCrP4N2K0/neIpHGE5v12jcvqP4hvK6kT98IBAu/q378U23oDlhl3a4LF8qG7A20xiszjU2Q2e/BVxOc+znyZKiHcz0PZy9I9fhp7mbiW5wke7oiuixQrm2El10FB4CXK7TwhCjFYTWQesNmUxlOBkbbW6ho47hVw4WlSiU2CbmLNkAAkzjDoQXPuOrqQKelqOx7wYyeyxIbHo2kMuujtdg6viaYuVkL4jR4ozRxCldcmt/A9RO61mFIYJy+rV+kJMXwvgcPyIOrdHsgU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR12MB7540.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(376014)(23010399003)(366016)(18002099003)(10067099003)(11063799006)(56012099006)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?E5gCEnLkY3UnVLlxzOwlmZDJVtNHXrts1p4BSLsqvhC+zDwnloGmNqql5rHx?=
+ =?us-ascii?Q?7biVBDgdMb1Un7JoDExyh4urhIFuABMyQk/lha18VLfkpZJ+FAaS6QXRba3K?=
+ =?us-ascii?Q?E/Qf5q34ezdBFXlxmFapSjYhSDfhy9Ug8quZ2de1PSjjzDUWmyV/7M8FEJiC?=
+ =?us-ascii?Q?TxSKF5U49UBNbPjAoG7oUArqaPZw6RGgR0zXHXOaDo5DpYZNNx7kXaeZC584?=
+ =?us-ascii?Q?/PUrxO++SMBspG1I/yG3ib0wPkndPYgIqXBlZ/y3h1fUjq888LWq5yqBd3IO?=
+ =?us-ascii?Q?CSddD82jMUUK89K1CV8eqbJukBojOjXGoEjLeRoznli0Qq1mTXTOGcy5ZTIT?=
+ =?us-ascii?Q?ylm/O5fow8guup0P3x2wBC2GRwtwRQfYTZNGjrxs13tcR6++0j9o/UsUuZZX?=
+ =?us-ascii?Q?JlRmM3yTk+KtL3ucUhppEny6KeLniO7kfy/fzpEiHqSosfr43HwIXE6n+IOx?=
+ =?us-ascii?Q?LKqDrbkXZh8LdtVrZN1D5gEd9TElrTkYjc352npLWpqLazqi0TSt8ZvDpMJT?=
+ =?us-ascii?Q?MlDJmTtzUQWmrQXwNA1y+N8S41M+cjzxKDwX5OuN2Y5WXlF3hUBMNAXPSyUw?=
+ =?us-ascii?Q?p/+wOlZsmAmTC/8mSmr+aJsXo82VLBI+IrTJdbq47SO4pjd0gQxiQQbyCBQa?=
+ =?us-ascii?Q?kZNo7AG66X6L7kHZ1HQSbuLuy1uibP8ttyn8HvK2USnJmpn3HPdXWPGLdOHJ?=
+ =?us-ascii?Q?Bu8ykDR0WqzMtgaTD5o8Ttr9385LKwtiDA73wBEXL4ZqKdD6bYJHgucEZoDL?=
+ =?us-ascii?Q?WW6a+W9Cb3SFGgIAl7lX/5LJJr+/tex4QYEsgLhp7YGq1/jB3uONzD3pn2JM?=
+ =?us-ascii?Q?sAslj3MAS2FAcs3Ts7+gNGx5yonTdJ9zBe7gZYbBahNDmbMbOC+0xe395/1X?=
+ =?us-ascii?Q?2topwz4azGiCfXsuATa46Csz2TwhVybUuJgCTLyznWrwYBX6M+l82tOqhsam?=
+ =?us-ascii?Q?CG35MgxKSsIBPlsPUOs08R999tR30OZ5QEVdhNe3oGiygI/T3UWvDfyTYtQK?=
+ =?us-ascii?Q?4cuTjMW7Qp3AjU31lnag+FiVQEUMUw/F+MwBrKZEoX5Kt+nN1PwkdEXUd5oI?=
+ =?us-ascii?Q?MVxCxDeSNMVAqz49eXKOSSOcxQwWx1FX3QDby/78pJcqzcNvNA1KPomKU3f2?=
+ =?us-ascii?Q?KW0lXHjScKNB/ojD5kX65LH4N8/Py/oXzfj31GqNVBF7UHrTCSQmlLR7aqes?=
+ =?us-ascii?Q?mV+tvRM6lV7A7E8+CqfdT4zxtOCIYT7tJGYDYoufdXGZHtQOsjDyZ/F7aGFg?=
+ =?us-ascii?Q?4XI4lMCJ101npweeicLY7mgMYAlqqvTQcKR3LzNnEd0KgJawOEpdwWou66BD?=
+ =?us-ascii?Q?To3BfFqzlppTNMZ9nr75xPA5cjVzj3tmVHMkzKCkiDG5zflXSrvpCiilgEz4?=
+ =?us-ascii?Q?BdyNob2+jRQHj0UvwtX0MQCGcJ/eKfIaDb7KCkrGLItHkWg6QWbV9PQqaXx5?=
+ =?us-ascii?Q?gwTrFrOcusIisvTYc2d3ExFh1PyShQdcUL+WHCKbj9SN5jfLdFWVSw5uphnt?=
+ =?us-ascii?Q?wicnwaOqc0BlI1z0SnDCfjg5OpUMibW8hgW/F7xxM6nXY7Hzwq7C4OLImIjI?=
+ =?us-ascii?Q?NAa3j/2sKxLfGuuRiGsMCS4w6gmMOjr0K84nj5JA990s8sUnfnrZlqrb4iaI?=
+ =?us-ascii?Q?0Bgg2cslP9OdlAYnhy17ppwhoNEznmL7XrgZj9clp1yKP3lzDzjKfVySt8mZ?=
+ =?us-ascii?Q?p9Cv2zUPl7vN0Zq2QJtOgBOFdG762vhMGn2JrG0SXpgg/iABNXhafwYXH+pC?=
+ =?us-ascii?Q?1WlVSY8NQzPUatQSYW9z0l4RSE0b49Z3rIcN8vCPZ9PYa/QarXqmGHvo94Ze?=
+X-MS-Exchange-AntiSpam-MessageData-1: Fr3W2E0sNBESFg==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc08148c-1d95-474f-516d-08dee69d5134
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR12MB7540.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 20:27:28.0834
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3JOMvmuGHTiS4YjU9BfronmjPuLIIh51yNeEiip9Hz+vZiJ+G1CijkiUQdiOOoS687WmuXY1k9rx4E8NwDvVSA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9430
 
-You are correct, they are indeed the same. I apologize, I missed it.
+If tty_register_driver() fails, it drops the reference, but fails to set
+the global dbc_tty_driver to NULL, causing the unregister to be called
+again when module exits.
+
+On module unload dbc_tty_exit() only gates its cleanup on the driver
+pointer being non-NULL, so it operates on the already-freed driver:
+
+    module_init(xhci_hcd_init)
+      xhci_hcd_init()
+        xhci_dbc_init()                       [return value ignored]
+          dbc_tty_init()
+            tty_register_driver() fails
+              tty_driver_kref_put()           -> driver freed
+              (dbc_tty_driver left dangling)
+    ...
+    module_exit(xhci_hcd_fini)
+      xhci_hcd_fini()
+        xhci_dbc_exit()
+          dbc_tty_exit()
+            if (dbc_tty_driver)               -> true (dangling)
+              tty_unregister_driver()         -> use-after-free
+
+Fixes: 4521f1613940 ("xhci: dbctty: split dbc tty driver registration and unregistration functions.")
+Cc: stable@vger.kernel.org # v5.10
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Lucas De Marchi <ldemarchi@nvidia.com>
 ---
-Charles D=E2=80=99Aoust
+ drivers/usb/host/xhci-dbgtty.c | 1 +
+ 1 file changed, 1 insertion(+)
 
----
-Charles D=E2=80=99Aoust
+diff --git a/drivers/usb/host/xhci-dbgtty.c b/drivers/usb/host/xhci-dbgtty.c
+index 2e7384c6b6ec..01decd46f313 100644
+--- a/drivers/usb/host/xhci-dbgtty.c
++++ b/drivers/usb/host/xhci-dbgtty.c
+@@ -651,6 +651,7 @@ int dbc_tty_init(void)
+ 		pr_err("Can't register dbc tty driver\n");
+ 		tty_driver_kref_put(dbc_tty_driver);
+ 		idr_destroy(&dbc_tty_minors);
++		dbc_tty_driver = NULL;
+ 	}
+ 
+ 	return ret;
+-- 
+2.54.0
 
-
-On Mon, Jul 20, 2026 at 12:04=E2=80=AFPM Alan Stern <stern@rowland.harvard.=
-edu> wrote:
->
-> On Mon, Jul 20, 2026 at 11:01:26AM -0400, Charles Daoust wrote:
-> > From: Charles D'Aoust <charles.daoust@gmail.com>
-> >
-> > The Razer BlackShark V3 Pro wireless headset dongle (1532:0577)
-> > fingerprints its host during the first enumeration after power-on: if
-> > the first GET_DESCRIPTOR(CONFIGURATION) request asks for 255 bytes, as
-> > Windows does, the dongle enables its vendor HID command channel; if it
-> > sees the 9-byte header-only read that Linux issues, it disables that
-> > channel for the rest of the power session.  Audio still works in that
-> > state, but battery reporting and all vendor commands are silently
-> > ignored, and nothing short of removing power recovers the device:
-> > resets, re-enumerations and byte-exact replays of complete Windows
-> > control sessions were all verified not to help.
-> >
-> > Both read lengths are spec-compliant (the device truncates the reply
-> > to wLength); the firmware was evidently only validated against the
-> > larger request.  The kernel already accommodates this class of
-> > firmware assumption during enumeration: hub_port_init() reads the
-> > device descriptor with a 64-byte request because that is what Windows
-> > does and what many devices expect.
-> >
-> > Add USB_QUIRK_CONFIG_DESC_READ_255, which makes usb_get_configuration()
-> > request 255 bytes for the initial configuration descriptor read rather
-> > than USB_DT_CONFIG_SIZE, apply it to 1532:0577, and expose it as
-> > runtime quirk letter 'r'.  Devices without the quirk are unaffected.
-> >
-> > The trigger was isolated by single-variable bisection on otherwise
-> > unmodified kernels: with only the widened initial read, the dongle's
-> > vendor channel comes up enabled on a cold plug with no interface
-> > drivers bound (bare enumeration only); without it, it never does.
-> >
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Charles D'Aoust <charles.daoust@gmail.com>
-> > ---
->
-> Is this not the same as
->
-> https://lore.kernel.org/linux-usb/20260717195336.98500-2-nikhilsolanke5@g=
-mail.com/
->
-> ?
->
-> Alan Stern
->
-> >  Documentation/admin-guide/kernel-parameters.txt |  3 +++
-> >  drivers/usb/core/config.c                       | 13 ++++++++++---
-> >  drivers/usb/core/quirks.c                       |  6 ++++++
-> >  include/linux/usb/quirks.h                      |  3 +++
-> >  4 files changed, 22 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
-ation/admin-guide/kernel-parameters.txt
-> > index b5493a7f8..1bd138ba6 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -8169,6 +8169,9 @@ Kernel parameters
-> >                               q =3D USB_QUIRK_FORCE_ONE_CONFIG (Device
-> >                                       claims zero configurations,
-> >                                       forcing to 1);
-> > +                             r =3D USB_QUIRK_CONFIG_DESC_READ_255 (ini=
-tial
-> > +                                     configuration descriptor read mus=
-t
-> > +                                     request 255 bytes, as Windows doe=
-s);
-> >                       Example: quirks=3D0781:5580:bk,0a5c:5834:gij
-> >
-> >       usbhid.mousepoll=3D
-> > diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-> > index cd3231d21..c7e21cc76 100644
-> > --- a/drivers/usb/core/config.c
-> > +++ b/drivers/usb/core/config.c
-> > @@ -908,7 +908,7 @@ int usb_get_configuration(struct usb_device *dev)
-> >  {
-> >       struct device *ddev =3D &dev->dev;
-> >       int ncfg =3D dev->descriptor.bNumConfigurations;
-> > -     unsigned int cfgno, length;
-> > +     unsigned int cfgno, length, first_read_len;
-> >       unsigned char *bigbuffer;
-> >       struct usb_config_descriptor *desc;
-> >       int result;
-> > @@ -938,7 +938,14 @@ int usb_get_configuration(struct usb_device *dev)
-> >       if (!dev->rawdescriptors)
-> >               return -ENOMEM;
-> >
-> > -     desc =3D kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
-> > +     /*
-> > +      * Some devices (see USB_QUIRK_CONFIG_DESC_READ_255) malfunction =
-unless
-> > +      * the initial configuration descriptor read requests 255 bytes, =
-as
-> > +      * Windows does.  Only the header is consumed here either way.
-> > +      */
-> > +     first_read_len =3D (dev->quirks & USB_QUIRK_CONFIG_DESC_READ_255)=
- ?
-> > +                      255 : USB_DT_CONFIG_SIZE;
-> > +     desc =3D kmalloc(first_read_len, GFP_KERNEL);
-> >       if (!desc)
-> >               return -ENOMEM;
-> >
-> > @@ -946,7 +953,7 @@ int usb_get_configuration(struct usb_device *dev)
-> >               /* We grab just the first descriptor so we know how long
-> >                * the whole configuration is */
-> >               result =3D usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
-> > -                 desc, USB_DT_CONFIG_SIZE);
-> > +                 desc, first_read_len);
-> >               if (result < 0) {
-> >                       dev_err(ddev, "unable to read config index %d "
-> >                           "descriptor/%s: %d\n", cfgno, "start", result=
-);
-> > diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-> > index 87ee2d938..c8f71b825 100644
-> > --- a/drivers/usb/core/quirks.c
-> > +++ b/drivers/usb/core/quirks.c
-> > @@ -142,6 +142,9 @@ static int quirks_param_set(const char *value, cons=
-t struct kernel_param *kp)
-> >                               break;
-> >                       case 'q':
-> >                               flags |=3D USB_QUIRK_FORCE_ONE_CONFIG;
-> > +                             break;
-> > +                     case 'r':
-> > +                             flags |=3D USB_QUIRK_CONFIG_DESC_READ_255=
-;
-> >                       /* Ignore unrecognized flag characters */
-> >                       }
-> >               }
-> > @@ -496,6 +499,9 @@ static const struct usb_device_id usb_quirk_list[] =
-=3D {
-> >       /* Razer - Razer Blade Keyboard */
-> >       { USB_DEVICE(0x1532, 0x0116), .driver_info =3D
-> >                       USB_QUIRK_LINEAR_UFRAME_INTR_BINTERVAL },
-> > +     /* Razer - Razer BlackShark V3 Pro wireless headset dongle */
-> > +     { USB_DEVICE(0x1532, 0x0577), .driver_info =3D
-> > +                     USB_QUIRK_CONFIG_DESC_READ_255 },
-> >       /* Razer - Razer Kiyo Pro Webcam */
-> >       { USB_DEVICE(0x1532, 0x0e05), .driver_info =3D USB_QUIRK_NO_LPM }=
-,
-> >
-> > diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
-> > index b3cc7beab..02de5ed48 100644
-> > --- a/include/linux/usb/quirks.h
-> > +++ b/include/linux/usb/quirks.h
-> > @@ -81,4 +81,7 @@
-> >  /* Device claims zero configurations, forcing to 1 */
-> >  #define USB_QUIRK_FORCE_ONE_CONFIG           BIT(18)
-> >
-> > +/* initial configuration descriptor read must request 255 bytes (Windo=
-ws) */
-> > +#define USB_QUIRK_CONFIG_DESC_READ_255               BIT(19)
-> > +
-> >  #endif /* __LINUX_USB_QUIRKS_H */
-> > --
-> > 2.55.0
-> >
-> >
