@@ -1,79 +1,232 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574A130C15A;
-	Mon, 20 Jul 2026 17:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A5C1A9FAF;
+	Mon, 20 Jul 2026 19:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784566861; cv=none; b=Z/ky/4XwWGOStemJvn7ZsHu+5VgMvvyQ1fSl3DR7khzrCoj15pJYXy49gGjmWEQdA/cqP0ixx3AyBF4qyWvo7Pzqg0QTp+K9UzAKkKOvwZVbyH/S51d5S4t4f/opajg9RmAao1JaZlK1UdkV4cKJRaXpU7rDPaIuf0XbqInviBs=
+	t=1784574706; cv=none; b=l0LMCuMCpC7TQhWClHfC/j6mgQOp3vHDV3gLCQS0t1Mu0WNLIj06lSafe82kMMRL8AkzMu1YuXA0fhwo5GcFz/ZF+L1yzdttq3wg8c9RYpYtt1JGP6juYTUBeVjUZ6z01fuStHDfZ11ftsLlVEIR7ZWXt/Qy2RUpVF4vQmDFOko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784566861; c=relaxed/simple;
-	bh=ZnocIwDopiqqJVtg7Vh0BtT5txebzTbq20nDoe2yfWQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S9qkkmpZDY6vP34kQ7Q1+gA+VuSiREXRBgTF7JYoXeKw7UYluOUGji6R1pif5JzjUeoWo2zMIxsipsy/SHeyxhBDRo83ppv/7msH63wp0bOT66aSASSmrOgFv7fC5ik7khtvq8ZHRVfdpUwxmVkO7AYnufWhIpiThWXIgyWMEaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NO3JayVd; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1784574706; c=relaxed/simple;
+	bh=PsclTYPxcBmOlw9pDJWwhBzl8K3G7eLXdmPSBGOwWS4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vz26c7R8IPG9yrP5HneYSmf3X7WXcBJvq/Llk9zDdOCwGWEXvRm5te7TDbdmnneDYIc9XPIki3ifDFwr3DtyRxSJnqRx1tZUvRxTPiH49cXQYugwKEf8FOlXHYcxPvc2QCaruPvWfRco+GHWVnQ6E4CRAqgsm/6NAjG3ZZg3VwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=ro8oZOuH; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NO3JayVd"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id ADC061A10FF;
-	Mon, 20 Jul 2026 17:00:58 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7C80260360;
-	Mon, 20 Jul 2026 17:00:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2CC2111BD0382;
-	Mon, 20 Jul 2026 19:00:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1784566857; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=mZZOF6F/+6qbNKDZNrs6o2rZDEXs+kob5JewkcsaTMI=;
-	b=NO3JayVdQ3CLT/6I5bhNFXPmsyyk3gjtLO74861rznSjjAiL0jbKD4m/9c7UTOuXhyAZIE
-	hK/5x73D6QSBO6KzbYGfA8N2DK7QfB3w0lUQaN293kooZPGiZwXbqtSsOuOm0b/2gdyxe5
-	uoIfaTD8Y7wFX5SCHtuKQrQjcTq+1VykLD3I+wGic9mG0oGlfuOiV4pgz2WvJJABCwuE7i
-	fiRRx9Mq54xB5lnICoVgjRkZ+SYxwhArSIUOW8i5Hx2K2DiXxVsaKuEx+80N3eA+Yb8DZz
-	9FlCpISUFqqIZ+0NJrAH3crNikvFUwc3QiLr1vU1wpoqTvn1YUpNxlpOMtKdaw==
-Date: Mon, 20 Jul 2026 19:00:52 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Harshit Shah <hshah@axiado.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>, Jan Kotas <jank@cadence.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	=?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Swark Yang <syang@axiado.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
-	linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: (subset) [PATCH v3 4/8] dt-bindings: i3c: cdns: add Axiado
- AX3005 I3C variant
-Message-ID: <178456684519.97914.11616437803490580349.b4-ty@b4>
-References: <20260716-upstream-axiado-ax3005-upstream-v3-4-c429095143ec@axiado.com>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="ro8oZOuH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+	Cc:To:From:From:Reply-To; bh=XG8hJ8tls9MlC9wEZ829d6JtsGM2DbHw4W0tLDMzt08=; b=
+	ro8oZOuHvXhEqW1WxlUULzoegUalTV+siTEycDeqWAtpwXZ0nSiHdF+YEmLJJi5hPefpdPf4RVDzn
+	1s7gl3Q4MS9IHN0NvpIlxNoVXCp2WGwettLZBu4wTfZIiVcIXRhTGiainBIePp9j4fJjhrgbyLP+N
+	RjhmLqyxQiJz/ZjIVHyHYld8yM15EYvP1iH+vXWRtGA6iJ0NzP0rVAABfSGSE0G/wxQfLbBZDo6S4
+	tC3trNALqJNpj5cXHVxhk5nfKhMvWLdJv/fwhpeWct7WLN1nqeCeK371xH20a7lMKS8NBWZ7CQJ7o
+	H0XmlhpfsfVfi17S+HFDjYWrbHbish/6Tg==;
+Received: from [49.36.125.148] (helo=uajain)
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wltOo-001GfC-Vk; Mon, 20 Jul 2026 21:11:35 +0200
+From: Umang Jain <uajain@igalia.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lucas De Marchi <demarchi@kernel.org>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com,
+	Umang Jain <uajain@igalia.com>
+Subject: [PATCH] early: usb: xhci-dbc: Handle out of bounds xhci-xdbc capability
+Date: Tue, 21 Jul 2026 00:42:49 +0530
+Message-ID: <20260720191249.1272328-1-uajain@igalia.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260716-upstream-axiado-ax3005-upstream-v3-4-c429095143ec@axiado.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-On Thu, 16 Jul 2026 20:51:11 -0700, Swark Yang wrote:
-> Add binding for Axiado AX3005 I3C master. So far, no changes
-> are known, so it can fall back to the cdns,i3c-master compatible.
+Currently, the early xhci-dbc assumes that the extended capability
+can be mapped within the fixed boot time mappings dictated by
+NR_FIX_BTMAPS.
 
-Applied, thanks!
+This patch iterates over the PCI BAR address size to find and map
+xhci-xdbc capability which could be out-of-bounds otherwise,
+in xdbc_map_pci_mmio(). The iterations map the maximum allowed
+boot time mappings (fixmap size) at a time and search for xhci-xdbc
+capability offset, till the end of the bar address size.
 
-[4/8] dt-bindings: i3c: cdns: add Axiado AX3005 I3C variant
-      https://git.kernel.org/i3c/c/0dbcbd4c0b7a
+This brings the need to track the early_ioremap() mapped size separately
+hence, introduce additional struct member xhci_base_length in
+struct xdbc_state.
 
-Best regards,
+Signed-off-by: Umang Jain <uajain@igalia.com>
+---
+Link to earlier RFC:
+https://lore.kernel.org/all/20260604144122.962236-1-uajain@igalia.com/
+---
+ drivers/usb/early/xhci-dbc.c | 94 +++++++++++++++++++++++++++++++++---
+ drivers/usb/early/xhci-dbc.h |  1 +
+ 2 files changed, 87 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/usb/early/xhci-dbc.c b/drivers/usb/early/xhci-dbc.c
+index 41118bba9197..5e540b6bf962 100644
+--- a/drivers/usb/early/xhci-dbc.c
++++ b/drivers/usb/early/xhci-dbc.c
+@@ -35,10 +35,23 @@ static bool early_console_keep;
+ static inline void xdbc_trace(const char *fmt, ...) { }
+ #endif /* XDBC_TRACE */
+ 
++/* Size of xHCI debug capability structure */
++#define XDBC_MAPPING_SIZE	56
++
++enum xdbc_capability_flags {
++	XDBC_CAP_FLAG_NONE		= 0,
++	XDBC_CAP_FLAG_LEGACY		= 1 << 0,
++	XDBC_CAP_FLAG_PROTOCOL		= 1 << 1,
++	XDBC_CAP_FLAG_DEBUG		= 1 << 2,
++};
++
+ static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
+ {
+-	u64 val64, sz64, mask64;
++	u64 val64, sz64, mask64, fixmap_size, mapped_size;
++	enum xdbc_capability_flags cap_flags = XDBC_CAP_FLAG_NONE;
++	bool found_all_caps = false;
+ 	void __iomem *base;
++	int offset;
+ 	u32 val, sz;
+ 	u8 byte;
+ 
+@@ -85,7 +98,72 @@ static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
+ 
+ 	xdbc.xhci_start = val64;
+ 	xdbc.xhci_length = sz64;
+-	base = early_ioremap(val64, sz64);
++
++	fixmap_size = NR_FIX_BTMAPS << PAGE_SHIFT;
++	if (sz64 < fixmap_size) {
++		xdbc.xhci_base_length = sz64;
++		return early_ioremap(val64, sz64);
++	}
++
++	/*
++	 * Base address size is greater than fixed size boot mappings,
++	 * hence iterate over the region one fixmap_size at a time,
++	 * starting with XHCI_EXP_CAPS_DEBUG capability.
++	 */
++	base = early_ioremap(val64, fixmap_size);
++	offset = xhci_find_next_ext_cap(base, 0, 0);
++	mapped_size = fixmap_size;
++
++	while (mapped_size <= sz64) {
++		val = readl(base + offset);
++		switch (XHCI_EXT_CAPS_ID(val)) {
++		case XHCI_EXT_CAPS_DEBUG:
++			if (offset + XDBC_MAPPING_SIZE > fixmap_size) {
++				early_iounmap(base, fixmap_size);
++				base = early_ioremap(val64 + offset, XDBC_MAPPING_SIZE);
++
++				mapped_size += offset;
++				cap_flags = XDBC_CAP_FLAG_NONE;
++			}
++			cap_flags |= XDBC_CAP_FLAG_DEBUG;
++			break;
++		case XHCI_EXT_CAPS_PROTOCOL:
++			cap_flags |= XDBC_CAP_FLAG_PROTOCOL;
++			break;
++		case XHCI_EXT_CAPS_LEGACY:
++			cap_flags |= XDBC_CAP_FLAG_LEGACY;
++			break;
++		}
++
++		if ((cap_flags & XDBC_CAP_FLAG_DEBUG) &&
++		    (cap_flags & XDBC_CAP_FLAG_PROTOCOL) &&
++		    (cap_flags & XDBC_CAP_FLAG_LEGACY)) {
++			found_all_caps = true;
++			break;
++		}
++
++		/*
++		 * Find offset to next xhci-ext capability, remap if the offset
++		 * is out of bounds of the already mapped region.
++		 */
++		offset = xhci_find_next_ext_cap(base, offset, 0);
++		if (!offset) {
++			early_iounmap(base, fixmap_size);
++			base = early_ioremap(val64 + mapped_size, fixmap_size);
++			mapped_size += fixmap_size;
++
++			offset = xhci_find_next_ext_cap(base, 0, 0);
++			cap_flags = XDBC_CAP_FLAG_NONE;
++
++		}
++	}
++
++	if (found_all_caps) {
++		xdbc.xhci_base_length = fixmap_size;
++	} else {
++		xdbc.xhci_base_length = 0;
++		base = NULL;
++	}
+ 
+ 	return base;
+ }
+@@ -643,9 +721,9 @@ int __init early_xdbc_parse_parameter(char *s, int keep_early)
+ 	offset = xhci_find_next_ext_cap(xdbc.xhci_base, 0, XHCI_EXT_CAPS_DEBUG);
+ 	if (!offset) {
+ 		pr_notice("xhci host doesn't support debug capability\n");
+-		early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
++		early_iounmap(xdbc.xhci_base, xdbc.xhci_base_length);
+ 		xdbc.xhci_base = NULL;
+-		xdbc.xhci_length = 0;
++		xdbc.xhci_base_length = 0;
+ 
+ 		return -ENODEV;
+ 	}
+@@ -682,9 +760,9 @@ int __init early_xdbc_setup_hardware(void)
+ 		xdbc.table_base = NULL;
+ 		xdbc.out_buf = NULL;
+ 
+-		early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
++		early_iounmap(xdbc.xhci_base, xdbc.xhci_base_length);
+ 		xdbc.xhci_base = NULL;
+-		xdbc.xhci_length = 0;
++		xdbc.xhci_base_length = 0;
+ 	}
+ 
+ 	return ret;
+@@ -987,7 +1065,7 @@ static int __init xdbc_init(void)
+ 	}
+ 
+ 	raw_spin_lock_irqsave(&xdbc.lock, flags);
+-	early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
++	early_iounmap(xdbc.xhci_base, xdbc.xhci_base_length);
+ 	xdbc.xhci_base = base;
+ 	offset = xhci_find_next_ext_cap(xdbc.xhci_base, 0, XHCI_EXT_CAPS_DEBUG);
+ 	xdbc.xdbc_reg = (struct xdbc_regs __iomem *)(xdbc.xhci_base + offset);
+@@ -1004,7 +1082,7 @@ static int __init xdbc_init(void)
+ 	memblock_phys_free(xdbc.table_dma, PAGE_SIZE);
+ 	memblock_phys_free(xdbc.out_dma, PAGE_SIZE);
+ 	writel(0, &xdbc.xdbc_reg->control);
+-	early_iounmap(xdbc.xhci_base, xdbc.xhci_length);
++	early_iounmap(xdbc.xhci_base, xdbc.xhci_base_length);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/usb/early/xhci-dbc.h b/drivers/usb/early/xhci-dbc.h
+index 8b4d71de45fc..e2aefb796084 100644
+--- a/drivers/usb/early/xhci-dbc.h
++++ b/drivers/usb/early/xhci-dbc.h
+@@ -144,6 +144,7 @@ struct xdbc_state {
+ 	u32			dev;
+ 	u32			func;
+ 	void __iomem		*xhci_base;
++	size_t			xhci_base_length;
+ 	u64			xhci_start;
+ 	size_t			xhci_length;
+ 	int			port_number;
+-- 
+2.55.0
+
