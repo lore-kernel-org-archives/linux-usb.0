@@ -1,152 +1,166 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDFA47010D
-	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 20:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912B9438026
+	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 22:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784665405; cv=none; b=BODo/7PbL4GvDph27bUbJFW+KL12U0N71cD4xZ7sPocAhim/po1C537djcuAlIH/DU/TkvtKzAv4MSkYBeuk3uRHnqhIodX/CEj6P3vlrrWQCwBYtflgMpEJTNgvQ7rit3x7NxrFd3d22iF2xkvXV79buyTWJ/Ssz1acXQZLzQc=
+	t=1784671827; cv=none; b=aOxR54Is+iJNU6Fk37L5MztJWMLnE/Bv+NlmvoI4TQ8/eEXzMT/02aAWCF+Sl9eaU2y2drx28TJCU/apoX7/Sln7Yt4hphRYVrgwvNTwYlyVe1wcswNFytJ4Vw4hI37F5pgAhxsl4p00WqR6HWOgakOw5uFarIwk/IkXz0YyFAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784665405; c=relaxed/simple;
-	bh=JBlHO5DQokP7KzJFu7kjEI7Wjf9nZX1JcZlQnvCG/DA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T+c5ZkCXm1Gaz/dFwhFwfS1+ME8bm6XRNgnp8I7hhNQYtqvSOtWitE1tDaltfHrP7ShVJZSCte/l/A0aRS79Q2a2eyBfeFGnJQCKeFCU3W8wuI0snmOm8+q+6rFFIrGu97J2/1a/Div5uW22RnPIRjN/Ojl0EcY8LslZRHU6IoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mP4LDj2A; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784671827; c=relaxed/simple;
+	bh=bfzIW94VGV4aa8VbT63J2yX3En1AiPSPfx//cVs9tec=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uVegM8WgEh3Vj3tnZqp10+7UZve6BvCe5vRRL/b4iybdHPdhHpuUbvNT7LhE2cID3PWPy3T76fWkZTjzSJNreBdQb4tV0j1l2n1E0VsfROgFcouebg8DH+EwDW5veKatc/Sq/Cjm+B/FtidgGGBWz9652/tmeyjvtSaM0tO+ZPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tremby.net; spf=pass smtp.mailfrom=tremby.net; dkim=pass (2048-bit key) header.d=tremby-net.20251104.gappssmtp.com header.i=@tremby-net.20251104.gappssmtp.com header.b=VSAb5JPx; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tremby.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tremby.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mP4LDj2A"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47f7027ca11so2288106f8f.3
-        for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 13:23:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=tremby-net.20251104.gappssmtp.com header.i=@tremby-net.20251104.gappssmtp.com header.b="VSAb5JPx"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c9aea40d799so4175658a12.0
+        for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 15:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784665402; x=1785270202; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YqxrRu6c0CmsNnLQXaa6olxyd1SouOkiNs++sl3QAeY=;
-        b=mP4LDj2AwfnHoYDsVSDL8cVJgXfHZ0kLszzs+mg87lI+gzAsP1R2MBdXGvg1JiWSV4
-         YjHbSgf2ievKsDSWHRV6CESAQZxjX+Ofwuc4V9uKjmeCUYV79r1dQbOeiI2xxNaoEUfU
-         qZVzKjEKmAgeIhx/cTRgBzhD1l+WLxmmGYxUF+0e8Jl61tkPUxfNrzG/cfmxDL1qBrQD
-         KgejpnDBrWsbJ2pOGDGN0TUgTPubqyW1JRbuxR8dmkgVbbZtkPYkClq/33iWD+5GLPRY
-         pOYnAbpRYt5KE1Umb+OimHrLIYmy05Ywh74TCNQhzNWXW0iwnhQDh3l16vn7eJbj9IXk
-         L2mw==
+        d=tremby-net.20251104.gappssmtp.com; s=20251104; t=1784671825; x=1785276625; darn=vger.kernel.org;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/MVmrHMpMqhlwcI0jqQADf82qCf2cqkqHXevYBahEDk=;
+        b=VSAb5JPxYSmHZI+iewGU/y2ouvHYMTMJ6jLGPECOQ2dVy2tvUBDkgddahUzdlMsEo+
+         JojzgQ9/C+DJEs/Lzj577ajAc4RWO3nJuvXRuZRVfaPz4+lP5IG9TkB7WTc+IAwFJuau
+         jGdZD1lgqP6KKoNYqTyg5k/lZqf3G5kPQyuPlP4ZrCgCR/HgZNXBXY2o+DCSn61DhJSc
+         vqkbYM+03Q3eHDi6aXagQqNuTT5HWdWc2t1OM2dtXoh7iGhY2MZkyZVCnjWX09cGOWmP
+         QiiBP4pTa8aHdtR02WuFjPRp0kbOViu4iQyw0MJPRmNOjD0xwhSjTjFrWUQ9Mf1UhxN5
+         8CNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784665402; x=1785270202;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1784671825; x=1785276625;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YqxrRu6c0CmsNnLQXaa6olxyd1SouOkiNs++sl3QAeY=;
-        b=PPesn5zKFc9+EtZbWdh1H6iGfy6KK4uxjNWkxJr1sxy3sQIxk99JqNjN4oN4bBelbA
-         5W8SZaUFKrvjf8LKNJeTkvEpEKhapk1X3blLUeP/dBTTpAKeKobRO5ho/K8r74FS/GjB
-         9ZoNO8Nt2AMIzgP5+VxWxHaLxPTL5cFeyRstpN4gdbouWw2NWjadNDzA7mIo6hXy8hDD
-         Y9EUr3ZYCuDdbptKMYC4AcUKhvOfscTMyVYE2vOsGVGM20KtcSJYaldXTGYza96QYNLS
-         eNP69gAIEeRUjBiGCyQAkOCEuMlG1p0urZRsyVjirmJDTMocvzEKSiB0GLrZgGepXwSN
-         Kn1A==
-X-Forwarded-Encrypted: i=1; AHgh+Rrcw9A9gTdV20rE/ce7gzp3KyNR6pfKRDIaSy/sG886+NCpAFisQ6rtv0kOxaSyqfZ/0ckDqspyXBA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsHO+LztbCew8m2EitPTgvqLYJB3V1UBDmjqtKXDqCp82xkeY9
-	sqzwKzdRBDyPBCxij03v1JULIjPGQsJ9Wr3Sk4p1kjBbc9fYR7+Mg2+X
-X-Gm-Gg: AR+sD11UP1hhQLnjQWigkyQvTBP5F2RFd0bYqUPUdGvvOzw5EfRLDuraHiWzETzuDvM
-	gYDQJTewf3VdWklUvdeW/tO8q5AoUMLe4HygUGLzNnVrtVXkXLkLB6dlBEQG7v3a1U9bOhls2xg
-	uT+/eq1+JFfVm0IEIu2866iiUdiXVQTp1cvOlKOdIZkBozZsWcisIctV2AY+VGaBpIPPHroo33i
-	1U7YvgwiZF1nbgL7o42SNCTk+ZjlpiJCb25aDg2gFkbB7aU+QUDysWoYcNuFXTK6+6YQoeIVING
-	GPsX6W3gLOm2u2frJyQ/Cm2Ec1dJ2XWms/U53Chgbg0xJUvBQ6809TeknEr0DiPctkwiGtb2EWy
-	i2tg3HVwZzw/ZRlSgCQSZEvWlAzSrlHJhtBim/FA8abgTEp1FIVYUSvndRE5RmPcB5If38XHKSx
-	nce5Qoa6HFs8wLGKEbfBBJolmZmGb+/Xkl7InZ3gcyAFFURQZ41OPXJmJRc/DqzVl6DHcnt5yJZ
-	wguAEutgA1fnHEj1KJMGOwxuxvZ38JND+gP9zHJdQ==
-X-Received: by 2002:a05:6000:29c3:b0:47f:6fbd:8a23 with SMTP id ffacd0b85a97d-47f6fbd8f53mr10389528f8f.9.1784665401839;
-        Tue, 21 Jul 2026 13:23:21 -0700 (PDT)
-Received: from asterix.home (host-82-52-196-160.retail.telecomitalia.it. [82.52.196.160])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f63edcd13sm41259478f8f.26.2026.07.21.13.23.21
+        bh=/MVmrHMpMqhlwcI0jqQADf82qCf2cqkqHXevYBahEDk=;
+        b=VY1n70/9Z1aljo4EakS83TDcHUoDIAkFoYn6T046OObiIx+5f8TJ4gRNzrQ9Ss83rp
+         rUhYiF1BCyVuRWDmwRmbn63Per7ob+Vnd/K1HCuGrlQZAuFE5nUvjLWrboAuXMm+onmC
+         zq5Qji+oLRb7Yg3h9mJrSXurQsg2KfGz4JiLtoGHf7uhadqh1s1vH+ndFdf5wt2VJq/N
+         K080z3dxKXxR8eEO6FX9Veob2jhkOEBNEofEQcAHfQfXvVRWwRwblLHkj1zmIu7lrxYC
+         PQQt0yM7jRthtumyP5hmU30jipNDZLP9XUWCkzhc0IPcytatYYhLHX8ztPasVxlPPD9M
+         P/7w==
+X-Gm-Message-State: AOJu0Yy0JWMBKF2iEe/3XRg8oxqphB4eza0QIjHYMJhoaNqVA2rHhUkx
+	GCBDLq62LqaprOXUm0eVrXnN29v4pX/Vyx6x9fTlKv+O1STX7hnXE/4bOZOuYrc2qiL3JEE3ou7
+	W+6w3jUI=
+X-Gm-Gg: AR+sD115a5wWE6x/GyrQEhClEy7EUfRg8FYv3XVWYel1AqHLkAsY2K6eNM+6s8rVKkj
+	OrNA88KZ3KtA1SeBdc16MWCViQ2q/eGk6HsM0QgXNcuNyrUG1DOpKdAuqCKmreIEcItThzXQt2i
+	3a/Jz8g5gNsUpaevumsezfKxGAZO4KpR6ai7kxJvkryzRR3Bw2pX75EaoNEnzgzF9n+wgZYpP7R
+	b9kgeUt4VI94M2iVJ8Xiqpg0pid2KHkc2AqrDdaVBpu8NwVYJP26SqzgCWfMDdKjYQ7W2sjBbKX
+	m7ZOKxdBWjmOKL0gbPX116qbLfRKUiVLWbWmbomeFgXrYKuWj0tAphNw3M9sbnsTCDTz++zKcMD
+	wysA8NNjdEMBtCmKiMDhvCsQnxnmd32tRfVVd1JBMMzTi8QLZvZ7pdzMfYVthkNMQ9ZKzncf0Ml
+	djB9nKnlgqulZ3PTI+g8LKX983zag3CoDmpftHEqN6nt2UcOEwCD/nvC6Xtuc=
+X-Received: by 2002:a05:6a00:1bcb:b0:842:747f:c043 with SMTP id d2e1a72fcca58-84c29229dcemr18902133b3a.1.1784671824759;
+        Tue, 21 Jul 2026 15:10:24 -0700 (PDT)
+Received: from localhost ([2605:1700:2080:8400:39ac:1c76:5270:b727])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e17602046sm300234b3a.59.2026.07.21.15.10.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 13:23:21 -0700 (PDT)
-From: Marco Tormento <mtormento80@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Marco Tormento <mtormento80@gmail.com>
-Subject: [PATCH] usb: core: deattach child device from typec connector on port unbind
-Date: Tue, 21 Jul 2026 22:22:01 +0200
-Message-ID: <20260721202201.27442-1-mtormento80@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Tue, 21 Jul 2026 15:10:24 -0700 (PDT)
+Date: Tue, 21 Jul 2026 15:10:22 -0700
+From: Bart Nagel <bart@tremby.net>
+To: linux-usb@vger.kernel.org
+Cc: mathias.nyman@intel.com, michal.pecio@gmail.com
+Subject: Regression: webcam freezing since Linux 6.15
+Message-ID: <al_hchyOdPoPWKEo@spiral>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-connector_bind() tells the Type-C connector about a port's already
-attached child via typec_attach(), but connector_unbind() has no
-mirror image: it drops port_dev->connector without deattaching a
-still-present child first. When that happens, port->usb2_dev (or
-usb3_dev) in the Type-C port is left pointing at a device that is
-about to be torn down, and typec_partner_deattach() never runs for
-it.
+I regularly capture from screen and webcam while gaming. Usually it is
+rock solid, and can capture for hours and hours with no problems, and have
+done for hundreds of hours in total.
 
-This shows up on hardware where a single Type-C connector's component
-aggregate spans ports on more than one USB root hub sharing an xHCI
-controller (e.g. a Thunderbolt-attached hub exposing both a USB-2 and
-a USB-3 root-hub port through the same connector). Unbinding the
-connector from one root hub's ports also unbinds it for the other's,
-even though the other root hub's child device is still attached and
-gets disconnected later, by which point the connector is already
-gone. The result is a "kernfs: can not remove 'typec', no directory"
-warning the first time, "sysfs: cannot create duplicate filename"
-the next time the device is reattached, and eventually a general
-protection fault in typec_unregister_partner() when it dereferences
-port->usb2_dev/usb3_dev after the device it points to has been freed.
+After a kernel update from 6.12.83 to 6.18.28 I started getting webcam
+freezes. The symptom is that the picture from the camera suddenly stops
+changing and will stay as a freeze frame. The camera still claims to be
+active, and the capture software (tried with OBS and ffplay) seems to have
+no idea anything is wrong.
 
-Fix connector_unbind() to mirror connector_bind(): deattach the
-child from the connector before dropping the reference to it. This
-closes the race regardless of which order the parent USB controllers
-happen to be torn down in.
+I have found no reliable way to reproduce the problem other than running
+the system at high load (in particular running a game; problem occurs
+across multiple games) while capturing from webcam. In my tests so far it
+has taken anywhere between 8 minutes and a couple of hours to fail in
+these conditions. Freezes seem to be less common when the system is under
+less load -- for example I have tried leaving it running overnight when
+the system is under low load and seen no freeze, then I have started a
+game and seen a freeze within the next hour. I have no way of knowing
+whether no freeze is a pass or it's just that a failure didn't quite
+happen yet so I have been testing for many hours while bisecting, often
+over the course of a whole week or more.
 
-Reported on a Lenovo Thinkpad T480s (BenQ EX3501R monitor with an
-integrated USB hub, connected via the Thunderbolt-capable Type-C
-port, alongside a USB-C power delivery brick on the other Type-C
-port). Ran the reported plug/unplug sequence multiple times on that
-hardware with this patch applied and could not reproduce the failure;
-the same kernel build without the patch reproduced it on the first
-attempt. Supersedes an earlier attempt that reordered
-typec_deattach() in usb_disconnect() instead; that approach worked
-around the same race but only for one ordering of controller teardown,
-and inverted the normal teardown-mirrors-setup convention.
+My bisection took me to a USB branch leading up to the release of
+6.15. Specifically:
 
-The original investigation, including the v1 patch and the hardware
-reproduction that led to identifying this bug, is my own work. The
-connector_unbind() fix approach below was proposed by Claude (Anthropic,
-Sonnet 5) during code review of the v1 patch. Hardware reproduction and
-validation of this fix were carried out by me, on the same hardware, per
-the note above.
+ddd0172f182e pass (branch point of USB branch, "Merge tag 'tty-6.15-rc1'
+             of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty")
+a1b5bd45d4ee fail (merge of USB branch, "Merge tag 'usb-6.15-rc1' of
+             git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb")
 
-Link: https://lore.kernel.org/r/20250720210847.30998-1-mtormento80@gmail.com
+Digging deeper in that branch, these are my results during bisecting
+(sorted into graph order):
 
-Assisted-by: Claude:claude-sonnet-5
-Signed-off-by: Marco Tormento <mtormento80@gmail.com>
----
- drivers/usb/core/port.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+6623c40bed7a pass (usb: storage: datafab: Use const for constant arrays)
+bfa845994282 pass (usb: xhci: Complete 'error mid TD' transfers when
+             handling Missed Service)
+906dec15b9b3 pass* (usb: xhci: Fix isochronous Ring Underrun/Overrun event
+             handling)
+d0b619599e52 fail (usb: xhci: Expedite skipping missed isoch TDs on modern
+             HCs)
+fe1ccba52a8d fail (usb: xhci: Skip only one TD on Ring Underrun/Overrun)
+d71cb7d6e1a2 fail (usb: xhci: refactor trb_in_td() to be static)
+525b139fb403 fail (Merge v6.14-rc6 into usb-next)
 
-diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-index b1364f0c384c..3b258246bb3f 100644
---- a/drivers/usb/core/port.c
-+++ b/drivers/usb/core/port.c
-@@ -738,6 +738,14 @@ static void connector_unbind(struct device *dev, struct device *connector, void
- {
- 	struct usb_port *port_dev = to_usb_port(dev);
- 
-+	/*
-+	 * If a USB device is still connected to the port, let the
-+	 * Type-C connector know it's going away before we drop our
-+	 * reference to it.
-+	 */
-+	if (port_dev->child)
-+		typec_deattach(data, &port_dev->child->dev);
-+
- 	sysfs_remove_link(&connector->kobj, dev_name(dev));
- 	sysfs_remove_link(&dev->kobj, "connector");
- 	port_dev->connector = NULL;
--- 
-2.55.0
+The asterisk with 906dec15b9b3 is because it has survived 12+ hours of
+recording while gaming so far but I did see the webcam freeze once at the
+precise moment I made some changes in OBS. After resetting it I recorded
+for another 6+ hours with no issues. The other failures have been much
+faster and occurred at seemingly random times, so I'm not 100% sure here.
 
+If I take that one as a pass, the bisection points to commit
+d0b619599e52fe3e1454f7d151dedf2b194f61d8 as the first failing: "usb: xhci:
+Expedite skipping missed isoch TDs on modern HCs"
+
+At the moment of failure I have seen a huge flood of duplicates of this
+message in dmesg:
+
+    uvcvideo 2-6.1:1.0: USB isochronous frame lost (-18)
+
+This happened during some bisection steps but not all. Regrettably I did
+not record which steps produced the error and which did not. In fact, I
+think during the weeks of bisecting I remember at same point following
+some advice from an LLM, and it could be that in those cases where I saw
+those messages I'd enabled some extra debugging of some kind, possibly via
+`echo 0xff > sys/module/uvcvideo/parameters/trace`. Or perhaps those
+messages were introduced at some point in the kernel changes. What I do
+have recorded is seeing a steady stream of "Frame complete (EOF found)"
+messages during normal operation (possibly with extra debug logging
+enabled) which would suddenly cut at failure time and be replaced with
+those "frame lost" messages. There was no disconnect event at or after
+failure; the camera's runtime_status still shows "active" after the
+failure.
+
+If it would be useful, I could go back to failing versions and try again,
+but for me it is a painfully slow process to build the kernels (I am on
+NixOS and I have not yet figured out how to get ccache working so it is
+building everything from scratch each time), so I'll only do this if
+directed to.
+
+The affected webcam is a Razer Kiyo Pro (1532:0e05). It is connected to a
+USB 3 port and is the only device on that host controller (bus 002,
+xhci_hcd, 5000M).
+
+The most recent kernel I have tested on is 6.18.28, and the failure
+happens there too.
+
+Please let me know anything I can do to provide useful information, or if
+there's anything I can try which might prevent the freezes on current
+kernels.
+
+Thanks.
