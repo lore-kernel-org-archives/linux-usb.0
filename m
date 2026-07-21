@@ -1,326 +1,240 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC4C367B60;
-	Tue, 21 Jul 2026 15:29:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE83E46C4C9;
+	Tue, 21 Jul 2026 15:52:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784647769; cv=none; b=F0vmhPAAGOtDe+WLtcinpNv/JOkt/R77B0pvulpHRu4zAh6v96Zy3Wzbzi+0Luh4Ct/2kLDRvlmkZTgpShm6LIBSObQO72SSh+WtAfsxB9XPQrB5kloQw4weT434IUdiFc7k0h/5yYSFHrG5Otw8swB6o/aKcWZV/grVT+IwBVs=
+	t=1784649122; cv=none; b=nCc4jkNoO01xX0mivkTHCdek259dGcsqev1E+88bOkiPvUy5dvQFQ9bYIoNPUs/YrW+eEt8ZgRDO8ywCNLyTivomXJeQ4J+nZCeCZ1UZ4XUyHrUGZ7XR5oW4EZOuCTwvANWnHYn+AbYGi6k/BaBhfCrX/FfMQccM1d3ds+NZkNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784647769; c=relaxed/simple;
-	bh=6YNNZIFpa1OsYiAePENW2CYKRSiDbIY4qh/xUvVrYXo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gzXhe0Wq7LxTmPVipYCxRbTNzTwEtxkygUwGEZHXft0UIBbBr7NhTiG5TQu1ONqihSjJmu5wXtmr86FzMXkZGt1Obt2R04ILVvxXJG91R3gOMegCwDTAhoZ5NOivn+a3M094t7zc3qLXOiH6XbTsy4UQAkz1xcES5s1JfQQmOeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P5GtKRfC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784649122; c=relaxed/simple;
+	bh=J/sL81+K9AUsWSotR2dFtua+MERC7Qdtg+lP/wOIf50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JYcOjv7GANOjL0670RgfCwY3eBiKMWoXiizUcGVhaMQrVs9HCyTfAWBrTXLHm3mqUnw9AhtRK2S9cguw/AuzwXPniZkxno6FwaBtXGbKtTjK0WuTG2K7/JQqeBm0A+/qRwuaf41r3+iYj0vvcXf903lTeEuUXYsqW2mgREF/dZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K1cew4QO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P5GtKRfC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 642351F00A3A;
-	Tue, 21 Jul 2026 15:29:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K1cew4QO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 881C91F000E9;
+	Tue, 21 Jul 2026 15:52:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784647768;
-	bh=vKR0zlu4bK2eye4JJSxzjC3UQbyoedFDIfb+cFpF7yI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=P5GtKRfCBc3xqCC+TlINJzdnXVxCjDemORr98LEM7iXwLwu4yz4RT8DrZSjAtEFoU
-	 3kA0E7mWKVBNs/9BurxF5ZwULBFcnTvqN6jR75eYS9VlJPFA8316RTtLVSvXT+Fcsc
-	 3QvzzKNYPzS/VCtbrXkbtrg0gmMfttl2OM4JhsNEWMdlkOAl6px66BrylVDE4esJlT
-	 qV46lU8gq9rhUGeWqnKL3yEQhPs5rkqnG85TzZKgTE2mpcT5zcR5UaUYISXXuhMv07
-	 WoNj0TAYsg6k2OMZnI5Qf8ZwIMqx6M+PUQjKKGD76fxuxgG/5rEiDZhTT98iHEPPfa
-	 lZs01SJgzeajQ==
-Message-ID: <e74d963c-8cf0-42ee-8b83-86e8c65dd0c7@kernel.org>
-Date: Tue, 21 Jul 2026 17:29:22 +0200
+	s=k20260515; t=1784649120;
+	bh=m+6oq14+1sciodQeq9W31jMJwmPHF/1daByVeGTs8Qg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=K1cew4QOPfNGAcR8JBlWeQ4iq9RLIxp22oDZ3nZHic6jBH8K/QrJsfND4jxSPLX47
+	 1BgOftwL/YvBVS3BWToCmuKgXFGlLoOrpaGBttrPW8uYHsJAtjhH5uWlJKySwwoP5E
+	 sf7avMtlJQkkit1RcoGft01aVt2SNMrsYCNLSANMOK1cq1lqCDtgz73XcXm3lqtbK5
+	 imQa/a9mbGtHjos3Lc/eb823uJ+wfLKr7MAlLR4UmTyRw1t1qEqkstE2Q4x2UYPQsI
+	 hE6NUdhNbqgqEiqluD/P6ThxavQxkiCP1iCqNspvTcA3rjRy05gRormAYoYkdfkdLj
+	 QQI2V8wYZftjA==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1wmClC-000000093bV-0RY8;
+	Tue, 21 Jul 2026 17:51:58 +0200
+Date: Tue, 21 Jul 2026 17:51:58 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Crescent Hsieh <crescentcy.hsieh@moxa.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	FangpingFP.Cheng@moxa.com, Epson.Chiang@moxa.com
+Subject: Re: [PATCH v2 3/4] USB: serial: mxuport: handle SEND_NEXT transmit
+ flow control
+Message-ID: <al-VnkwqXYC7MoVG@hovoldconsulting.com>
+References: <20260623080138.166398-2-crescentcy.hsieh@moxa.com>
+ <20260623080138.166398-5-crescentcy.hsieh@moxa.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] treewide: Add a flag to detect the Apple T2 chip
-To: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
- Eric Snowberg <eric.snowberg@oracle.com>, Paul Moore <paul@paul-moore.com>,
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
- linux-security-module@vger.kernel.org
-References: <20260721063412.11588-1-atharvatiwarilinuxdev@gmail.com>
- <20260721063412.11588-2-atharvatiwarilinuxdev@gmail.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20260721063412.11588-2-atharvatiwarilinuxdev@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260623080138.166398-5-crescentcy.hsieh@moxa.com>
 
-Hi,
+On Tue, Jun 23, 2026 at 04:01:38PM +0800, Crescent Hsieh wrote:
+> The device uses the SEND_NEXT event to pace host-to-device transmission.
+> Without waiting for this event, continuous transmission on multiple
+> ports can make the driver submit bulk-out URBs faster than the device
+> can process them, which can result in data errors during burn-in
+> testing.
 
-On 21-Jul-26 08:34, Atharva Tiwari wrote:
-> Add a flag to detect Apple T2 chips on Intel Macs.
-> Cache the result to avoid repeated checks. That will
-> be used in upcoming patches.
+Why does it matter if we're sending data for other ports? Isn't the
+problem that we're sending more data than the per-port buffer can hold?
+
+And is this an issue with all firmware versions, including the ones used
+for the existing gen1 devices?
+ 
+> Stop submitting further write URBs after requesting SEND_NEXT and resume
+> transmission when the matching event is received.
+
+How exactly does SEND_NEXT work? Is it signalled when the per-port
+buffer drops below some threshold?
+
+> This cannot be implemented by returning zero from
+> prepare_write_buffer(), as the generic write implementation expects the
+> callback to return a transfer length once data is available in the write
+> FIFO. Add a mxuport-specific write path so that URB submission can be
+> stopped and resumed explicitly.
 > 
-> Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+> This may reduce throughput, but avoids data errors under sustained
+> transmit load.
+> 
+> Signed-off-by: Crescent Hsieh <crescentcy.hsieh@moxa.com>
 > ---
->  arch/x86/kernel/quirks.c                      | 105 ++++++++++++++++++
->  include/linux/platform_data/x86/apple.h       |   5 +
->  .../platform_certs/keyring_handler.h          |   8 --
->  security/integrity/platform_certs/load_uefi.c |  38 ++-----
->  4 files changed, 118 insertions(+), 38 deletions(-)
+>  drivers/usb/serial/mxuport.c | 165 +++++++++++++++++++++++++++++++++--
+>  1 file changed, 156 insertions(+), 9 deletions(-)
 > 
-> diff --git a/arch/x86/kernel/quirks.c b/arch/x86/kernel/quirks.c
-> index a92f18db9610..300d6436060d 100644
-> --- a/arch/x86/kernel/quirks.c
-> +++ b/arch/x86/kernel/quirks.c
-> @@ -664,8 +664,113 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_INTEL, 0x2083, quirk_intel_purley_xeon_ras
->  bool x86_apple_machine;
->  EXPORT_SYMBOL(x86_apple_machine);
+> diff --git a/drivers/usb/serial/mxuport.c b/drivers/usb/serial/mxuport.c
+> index 067c8d9752e0..f3be2b3bd95b 100644
+> --- a/drivers/usb/serial/mxuport.c
+> +++ b/drivers/usb/serial/mxuport.c
+> @@ -147,6 +147,8 @@ static const u16 mxuport_mux50u_fw_ver_offsets[] = {
+>  #define UPORT_EVENT_LSR			4 /* Line status */
+>  #define UPORT_EVENT_MCR			5 /* Modem control */
 >  
-> +bool has_apple_t2_chip;
-> +EXPORT_SYMBOL(has_apple_t2_chip);
+> +#define UPORT_REQUEST_SEND_NEXT		0x80
 > +
-> +static const struct dmi_system_id apple_t2_devices[] __initconst = {
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "MacBookPro15,1"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "MacBookPro15,2"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "MacBookPro15,3"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "MacBookPro15,4"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "MacBookPro16,1"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "MacBookPro16,2"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "MacBookPro16,3"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "MacBookPro16,4"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "MacBookAir8,1"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "MacBookAir8,2"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "MacBookAir9,1"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "Macmini8,1"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "MacPro7,1"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "iMac20,1"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "iMac20,2"),
-> +		},
-> +	},
-> +	{
-> +		.matches = {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "Apple Inc."),
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "iMacPro1,1"),
-> +		},
-> +	},
-> +	{ }
-> +};
-> +
-
-This takes quite a bit of storage, struct dmi_system_id is not
-very efficient.
-
-How about making this a NULL terminated array of strings:
-
-const char *apple_t2_devices[] __initconst = {
-	"MacBookPro15,1",
-	...
-	"iMacPro1,1",
-	NULL
-};
-
->  void __init early_platform_quirks(void)
+>  /* Definitions for serial event type */
+>  #define SERIAL_EV_CTS			0x0008	/* CTS changed state */
+>  #define SERIAL_EV_DSR			0x0010	/* DSR changed state */
+> @@ -193,6 +195,8 @@ static const u16 mxuport_mux50u_fw_ver_offsets[] = {
+>  
+>  /* This structure holds all of the local port information */
+>  struct mxuport_port {
+> +	u32 sent_payload;
+> +	u8 hold_reason;
+>  	u8 mcr_state;		/* Last MCR state */
+>  	u8 msr_state;		/* Last MSR state */
+>  	struct mutex mutex;	/* Protects mcr_state */
+> @@ -276,22 +280,148 @@ MODULE_DEVICE_TABLE(usb, mxuport_idtable);
+>  static int mxuport_prepare_write_buffer(struct usb_serial_port *port,
+>  					void *dest, size_t size)
 >  {
->  	x86_apple_machine = dmi_match(DMI_SYS_VENDOR, "Apple Inc.") ||
->  			    dmi_match(DMI_SYS_VENDOR, "Apple Computer, Inc.");
+> +	struct mxuport_port *mxport = usb_get_serial_port_data(port);
+>  	u8 *buf = dest;
+> +	unsigned long flags;
+> +	bool request_send_next;
+>  	int count;
+>  
+> -	count = kfifo_out_locked(&port->write_fifo, buf + HEADER_SIZE,
+> -				 size - HEADER_SIZE,
+> -				 &port->lock);
+> +	spin_lock_irqsave(&port->lock, flags);
+> +	count = kfifo_out(&port->write_fifo, buf + HEADER_SIZE,
+> +			  size - HEADER_SIZE);
+> +	mxport->sent_payload += count;
+> +	request_send_next = mxport->sent_payload >= port->bulk_out_size;
+
+How big are the per-port buffers?
+
+> +	if (request_send_next)
+> +		mxport->hold_reason |= MX_WAIT_FOR_SEND_NEXT;
+> +	spin_unlock_irqrestore(&port->lock, flags);
+>  
+>  	put_unaligned_be16(port->port_number, buf);
+>  	put_unaligned_be16(count, buf + 2);
+>  
+> +	if (request_send_next)
+> +		buf[0] |= UPORT_REQUEST_SEND_NEXT;
 > +
-> +	has_apple_t2_chip = dmi_check_system(apple_t2_devices);
-
-and then here:
-
-	for (int i = 0; x86_apple_machine && apple_t2_devices[i]; i++)
-		if (dmi_match(DMI_PRODUCT_NAME, apple_t2_devices[i])) {
-			has_apple_t2_chip = true;
-			break;
-		}
-
-This should save some space and IMHO just having a compact list of
-product-names is more readable too.
-
-Regards,
-
-Hans
-
-
+>  	dev_dbg(&port->dev, "%s - size %zd count %d\n", __func__,
+>  		size, count);
+>  
+>  	return count + HEADER_SIZE;
 >  }
-> diff --git a/include/linux/platform_data/x86/apple.h b/include/linux/platform_data/x86/apple.h
-> index 079e816c3c21..47b27dceab18 100644
-> --- a/include/linux/platform_data/x86/apple.h
-> +++ b/include/linux/platform_data/x86/apple.h
-> @@ -6,8 +6,13 @@
->   * x86_apple_machine - whether the machine is an x86 Apple Macintosh
->   */
->  extern bool x86_apple_machine;
-> +/**
-> + * has_apple_t2_chip - whether the machine has the Apple T2 chip
-> + */
-> +extern bool has_apple_t2_chip;
->  #else
->  #define x86_apple_machine false
-> +#define has_apple_t2_chip false
->  #endif
 >  
->  #endif
-> diff --git a/security/integrity/platform_certs/keyring_handler.h b/security/integrity/platform_certs/keyring_handler.h
-> index f92895cc50f6..a355f4400179 100644
-> --- a/security/integrity/platform_certs/keyring_handler.h
-> +++ b/security/integrity/platform_certs/keyring_handler.h
-> @@ -45,11 +45,3 @@ efi_element_handler_t get_handler_for_code_signing_keys(const efi_guid_t *sig_ty
->  efi_element_handler_t get_handler_for_dbx(const efi_guid_t *sig_type);
->  
->  #endif
-> -
-> -#ifndef UEFI_QUIRK_SKIP_CERT
-> -#define UEFI_QUIRK_SKIP_CERT(vendor, product) \
-> -		 .matches = { \
-> -			DMI_MATCH(DMI_BOARD_VENDOR, vendor), \
-> -			DMI_MATCH(DMI_PRODUCT_NAME, product), \
-> -		},
-> -#endif
-> diff --git a/security/integrity/platform_certs/load_uefi.c b/security/integrity/platform_certs/load_uefi.c
-> index c0d6948446c3..b4096d4c828d 100644
-> --- a/security/integrity/platform_certs/load_uefi.c
-> +++ b/security/integrity/platform_certs/load_uefi.c
-> @@ -3,42 +3,16 @@
->  #include <linux/kernel.h>
->  #include <linux/sched.h>
->  #include <linux/cred.h>
-> -#include <linux/dmi.h>
->  #include <linux/err.h>
->  #include <linux/efi.h>
->  #include <linux/slab.h>
->  #include <linux/ima.h>
-> +#include <linux/platform_data/x86/apple.h>
->  #include <keys/asymmetric-type.h>
->  #include <keys/system_keyring.h>
->  #include "../integrity.h"
->  #include "keyring_handler.h"
->  
-> -/*
-> - * On T2 Macs reading the db and dbx efi variables to load UEFI Secure Boot
-> - * certificates causes occurrence of a page fault in Apple's firmware and
-> - * a crash disabling EFI runtime services. The following quirk skips reading
-> - * these variables.
-> - */
-> -static const struct dmi_system_id uefi_skip_cert[] = {
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro15,1") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro15,2") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro15,3") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro15,4") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro16,1") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro16,2") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro16,3") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro16,4") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookAir8,1") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookAir8,2") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookAir9,1") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "Macmini8,1") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacPro7,1") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "iMac20,1") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "iMac20,2") },
-> -	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "iMacPro1,1") },
-> -	{ }
-> -};
-> -
->  /*
->   * Look to see if a UEFI variable called MokIgnoreDB exists and return true if
->   * it does.
-> @@ -165,10 +139,14 @@ static int __init load_uefi_certs(void)
->  	unsigned long dbsize = 0, dbxsize = 0, mokxsize = 0;
->  	efi_status_t status;
->  	int rc = 0;
-> -	const struct dmi_system_id *dmi_id;
->  
-> -	dmi_id = dmi_first_match(uefi_skip_cert);
-> -	if (dmi_id) {
-> +	/*
-> +	 * On T2 Macs reading the db and dbx efi variables to load UEFI Secure Boot
-> +	 * certificates causes occurrence of a page fault in Apple's firmware and
-> +	 * a crash disabling EFI runtime services. The following quirk skips reading
-> +	 * these variables.
-> +	 */
-> +	if (has_apple_t2_chip) {
->  		pr_err("Reading UEFI Secure Boot Certs is not supported on T2 Macs.\n");
->  		return false;
->  	}
+> +static int mxuport_write_start(struct usb_serial_port *port, gfp_t mem_flags)
+> +{
+> +	struct mxuport_port *mxport = usb_get_serial_port_data(port);
+> +	struct urb *urb;
+> +	unsigned long flags;
+> +	int i;
+> +	int count;
+> +	int result;
+> +
+> +	if (test_and_set_bit_lock(USB_SERIAL_WRITE_BUSY, &port->flags))
+> +		return 0;
+> +retry:
+> +	spin_lock_irqsave(&port->lock, flags);
+> +	if ((mxport->hold_reason & MX_WAIT_FOR_SEND_NEXT) ||
+> +	    !port->write_urbs_free || !kfifo_len(&port->write_fifo)) {
+> +		clear_bit_unlock(USB_SERIAL_WRITE_BUSY, &port->flags);
+> +		spin_unlock_irqrestore(&port->lock, flags);
+> +		return 0;
+> +	}
+> +
+> +	i = (int)find_first_bit(&port->write_urbs_free,
+> +				ARRAY_SIZE(port->write_urbs));
+> +	spin_unlock_irqrestore(&port->lock, flags);
+> +
+> +	urb = port->write_urbs[i];
+> +	count = mxuport_prepare_write_buffer(port, urb->transfer_buffer,
+> +					     port->bulk_out_size);
+> +	urb->transfer_buffer_length = count;
+> +	usb_serial_debug_data(&port->dev, __func__, count,
+> +			      urb->transfer_buffer);
+> +
+> +	spin_lock_irqsave(&port->lock, flags);
+> +	port->tx_bytes += count;
+> +	spin_unlock_irqrestore(&port->lock, flags);
+> +
+> +	clear_bit(i, &port->write_urbs_free);
+> +	result = usb_submit_urb(urb, mem_flags);
+> +	if (result) {
+> +		dev_err_console(port, "%s - error submitting urb: %d\n",
+> +				__func__, result);
+> +		set_bit(i, &port->write_urbs_free);
+> +		spin_lock_irqsave(&port->lock, flags);
+> +		port->tx_bytes -= count;
 
+> +		if (mxport->hold_reason & MX_WAIT_FOR_SEND_NEXT) {
+> +			mxport->hold_reason &= ~MX_WAIT_FOR_SEND_NEXT;
+> +			mxport->sent_payload = 0;
+> +		}
+
+Shouldn't you undo the effects of prepare_write_buffer() and subtract
+count from sent_payload (and clear the flag) unconditionally?
+
+> +		spin_unlock_irqrestore(&port->lock, flags);
+> +
+> +		clear_bit_unlock(USB_SERIAL_WRITE_BUSY, &port->flags);
+> +		return result;
+> +	}
+> +
+> +	goto retry;
+> +}
+
+This is a more or less verbatim copy of the generic write
+implementation. If we go this way you should at least mention that you
+copied it in the commit message, but perhaps we should try to find a way
+to generalise it instead.
+
+Also, if you really need a custom implementation to throttle writes,
+then shouldn't using one URB be enough? The other one is essentially
+there to allow for higher throughput which we need to give up for
+correctness here anyway.
+
+> +
+> +static int mxuport_write(struct tty_struct *tty, struct usb_serial_port *port,
+> +			 const unsigned char *buf, int count)
+> +{
+> +	int result;
+> +
+> +	if (!port->bulk_out_size)
+> +		return -ENODEV;
+
+This is redundant in a custom implementation.
+
+> +
+> +	if (!count)
+> +		return 0;
+> +
+> +	count = kfifo_in_locked(&port->write_fifo, buf, count, &port->lock);
+> +	result = mxuport_write_start(port, GFP_ATOMIC);
+> +	if (result)
+> +		return result;
+> +
+> +	return count;
+> +}
+
+Johan
