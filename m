@@ -1,64 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA5D47A0A7;
-	Tue, 21 Jul 2026 10:31:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11364A33E1;
+	Tue, 21 Jul 2026 10:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784629886; cv=none; b=PPK+lu4m7oPX6FixgE1ZF+oGU23N4POISUOObaKqLrGwRFAOQBWi+g+j9/fk1h+/50DrxiKzWDL1ClCIHf4wDvRFO8YHQjqB30Nqyibn6vfGqO+oqiq6zrGRO/MXwIH/jfskQuDkxQf/zwM6YsufGGRp75mM+WIJOaJ4hVZgLpw=
+	t=1784630027; cv=none; b=V+mI8Xv3G2S4xATugAl3zfsbUJUvnqGJwZfYXLPVIR41QmKwi0ss7XuJzxERk+AqeOZwA57/advNVc7BSJb4cz5Ed8iEcz7qHMLxjwn1+qYduppt6/Xinkcz5Y+Vr9xUpHAaCH9cSyXwqmr314GJ0tbKUoa4sy74S67q75bhTqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784629886; c=relaxed/simple;
-	bh=it2z8vVLbrMTJSVxZm2FSmQ7gTChaBemoS1y1Qindjo=;
+	s=arc-20240116; t=1784630027; c=relaxed/simple;
+	bh=WJGTqjCh1G3VEZn3GJLICNgLE0eVx5PejOB2rEtQ0YU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NgRA1ur1TUFk4LFp7DinvQRO0FOoxTnGMquprLZefTzjdcu2cgjKOW0+mmZdwSC1sfB6YsYrkaUqoh0c6jSs4p6biF05eeiOTowbnlsLjT/93k55e1TzeMybiJhJnye+f6m7fnJ2Z8uZF8UOGG9l9Q5fliOzzAw0s1LImVLgttE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mmlPn0bn; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=t4cAwDMoakTvtCVydCnCwZYu5sD1x1ql+G+Ty10LKfFt74PV3H+Wr+wLn8ro+t/9abNBe/bJQEABWFhnwKJRki64xBucvcvTBPhVDaQHg3mHNLze0Z/DmgmZmTFR7w9gJRWwZgdnDmWNg85TN6ogsE/2VoRAupC3vrxlFSh1Bjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+q3LaSK; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mmlPn0bn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+q3LaSK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784629884; x=1816165884;
+  t=1784630021; x=1816166021;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=it2z8vVLbrMTJSVxZm2FSmQ7gTChaBemoS1y1Qindjo=;
-  b=mmlPn0bn9+k5Q5YZW3O4REfzvAs6jeZwRTte+AifGWiqPgBzUs5pRbgV
-   e3+fDV5UfF1mDRZCxSPeLPv9wgso08HbQxTUSrhhE1EHT1s4CBjjTjata
-   oemBp5wpAuacS9tDuwwNGdeMUPOzsZABwSiXwnGtsnoFk40k0Lqi51Tyh
-   s8ykadOa8gYbiBqnx7hA9nQ/ONEWPDGmcG46WZTdA4f0uEQNgKsHiEhcr
-   1cJ4DTytBLqDb7Y2y2kCQvPNQo5ynYsv2kt2Fqdt1lihflAwdHUGTYXJO
-   vbEzyq693qwmUb4EFJD5tsveoM8fOL5etVn4z3UtobNrRTcEzoP5pYc4U
-   w==;
-X-CSE-ConnectionGUID: 5jn6iR0zSiCZjPO0QizADA==
-X-CSE-MsgGUID: XaBSrfTDRqC1bN23O8evlQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="72761667"
+  bh=WJGTqjCh1G3VEZn3GJLICNgLE0eVx5PejOB2rEtQ0YU=;
+  b=L+q3LaSKHJNBh3h6PGNYGP2wHbtlXudRpaWZHKrEAxcSLLWsORgfgCRo
+   t4iuMsd/4cKSq20DEZ7iT/5PEEgnpbHEQ8000Db/LREpElfvJsTJQWZen
+   sOy5ojSLyXWpQaZQjPK4XFDeY/oAxl2xYERQ4Lx2mSslS8qZW5ZcxmeK4
+   FsOQGszFs1PnDukH0/HZ6/5Q2X4oyjih2n4+Bp/BMIdBd11ZCoZWHI7cq
+   VF1CQncz3zFZpubEwzVDTBHCxo1C1iaZnSHJ3x8LPyk1PLVRv9fMrj58z
+   Lt54lH7LMbsTSGtX++F0C6ewdqURXFyCsuegnMlTszI4Q339nORqe2cNj
+   Q==;
+X-CSE-ConnectionGUID: vzYFBY1cRYCfPI4NylcSiw==
+X-CSE-MsgGUID: 9dtSZo+0RHW51BahhMEXhw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="89117451"
 X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
-   d="scan'208";a="72761667"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 03:31:23 -0700
-X-CSE-ConnectionGUID: MnCYKw73QQ2lEJvbhOSNSQ==
-X-CSE-MsgGUID: EWLrEdjoQUWzTZYsIdDHsg==
+   d="scan'208";a="89117451"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 03:33:38 -0700
+X-CSE-ConnectionGUID: LOm+XhIsSSC11g9b3Ixtdg==
+X-CSE-MsgGUID: Jf4YByYiTEC9GfPIHvQ8WA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
-   d="scan'208";a="282224712"
+   d="scan'208";a="253369954"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa001.fm.intel.com with ESMTP; 21 Jul 2026 03:31:21 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 21 Jul 2026 03:33:34 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 85A0E95; Tue, 21 Jul 2026 12:31:20 +0200 (CEST)
-Date: Tue, 21 Jul 2026 13:31:18 +0300
+	id EB03695; Tue, 21 Jul 2026 12:33:32 +0200 (CEST)
+Date: Tue, 21 Jul 2026 13:33:31 +0300
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Konrad Dybcio <konradybcio@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Benson Leung <bleung@chromium.org>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	usb4-upstream@oss.qualcomm.com,
-	Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>
-Subject: Re: [PATCH] usb: typec: ucsi: Unregister lockdep key only after last
- lock use
-Message-ID: <al9KdsRvLhq3sE23@kuha>
-References: <20260720-topic-ucsi_lockdep-v1-1-6c1b5f9d1f3e@oss.qualcomm.com>
+To: Subasri S <subasris1210@gmail.com>
+Cc: Peter Chen <peter.chen@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Duncan Sands <duncan.sands@free.fr>,
+	Chas Williams <3chas3@gmail.com>,
+	Minas Harutyunyan <hminas@synopsys.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Badhri Jagan Sridharan <badhri@google.com>,
+	linux-usb@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org
+Subject: Re: [PATCH 3/3] usb: typec: Use %pe to print error pointers
+Message-ID: <al9K-4w4FykFIgpi@kuha>
+References: <20260719-usb-ptr_err_patchset-v1-0-85f7f2e4fefb@gmail.com>
+ <20260719-usb-ptr_err_patchset-v1-3-85f7f2e4fefb@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,53 +73,96 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260720-topic-ucsi_lockdep-v1-1-6c1b5f9d1f3e@oss.qualcomm.com>
+In-Reply-To: <20260719-usb-ptr_err_patchset-v1-3-85f7f2e4fefb@gmail.com>
 
-On Mon, Jul 20, 2026 at 04:24:27PM +0200, Konrad Dybcio wrote:
-> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Hi Subasri,
+
+Thanks for the patch.
+
+On Sun, Jul 19, 2026 at 06:25:48PM +0530, Subasri S wrote:
+> Use the %pe format specifier instead of %ld with PTR_ERR() for printing
+> error pointers in various typec drivers. This prints symbolic
+> error names (e.g.-ENOMEM) instead of errno numbers (e.g. -12),
+> making error logs more readable.
 > 
-> ucsi_unregister_port() starts off with taking con->lock. Fix the
-> ucsi_init() teardown path to avoid unregistering the lockdep key
-> associated with it right before its use.
-
-There's already a fix for this one:
-https://lore.kernel.org/linux-usb/20260717104614.325250-1-akuchynski@chromium.org/
-
-> Fixes: 7aa7d4bf9d3f ("usb: typec: ucsi: Fix race condition and ordering in port unregistration")
-> Assisted-by: Codex:GPT-5.5
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> ---
-> To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> To: Andrei Kuchynski <akuchynski@chromium.org>
-> To: Benson Leung <bleung@chromium.org>
-> Cc: linux-usb@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: usb4-upstream@oss.qualcomm.com
-> Cc: Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>
-> ---
->  drivers/usb/typec/ucsi/ucsi.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> This patch fixes coccinelle reported warnings:
+> ./typec/tcpm/tcpm.c:4799:60-67: WARNING: Consider using %pe to print PTR_ERR()
+> ./typec/mux/pi3usb30532.c:143:3-10: WARNING: Consider using %pe to print PTR_ERR()
+> ./typec/mux/pi3usb30532.c:155:3-10: WARNING: Consider using %pe to print PTR_ERR()
+> ./typec/wusb3801.c:281:5-12: WARNING: Consider using %pe to print PTR_ERR()
 > 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index d221ca9bc88e..67c75e6bdfae 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -2142,11 +2142,12 @@ static int ucsi_init(struct ucsi *ucsi)
->  	return 0;
+> Compile tested only.
+> 
+> Signed-off-by: Subasri S <subasris1210@gmail.com>
+> ---
+>  drivers/usb/typec/mux/pi3usb30532.c | 8 ++++----
+>  drivers/usb/typec/tcpm/tcpm.c       | 2 +-
+>  drivers/usb/typec/wusb3801.c        | 4 ++--
+>  3 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/mux/pi3usb30532.c b/drivers/usb/typec/mux/pi3usb30532.c
+> index 985683fe49e9..a2357a28ecf4 100644
+> --- a/drivers/usb/typec/mux/pi3usb30532.c
+> +++ b/drivers/usb/typec/mux/pi3usb30532.c
+> @@ -139,8 +139,8 @@ static int pi3usb30532_probe(struct i2c_client *client)
 >  
->  err_unregister:
-> +	for (con = connector; con->port; con++)
-> +		ucsi_unregister_port(con);
-> +
->  	for (i = 0; i < ucsi->cap.num_connectors; i++)
->  		lockdep_unregister_key(&connector[i].lock_key);
+>  	pi->sw = typec_switch_register(dev, &sw_desc);
+>  	if (IS_ERR(pi->sw)) {
+> -		dev_err(dev, "Error registering typec switch: %ld\n",
+> -			PTR_ERR(pi->sw));
+> +		dev_err(dev, "Error registering typec switch: %pe\n",
+> +			pi->sw);
+
+One line is enough.
+
+>  		return PTR_ERR(pi->sw);
+>  	}
 >  
-> -	for (con = connector; con->port; con++)
-> -		ucsi_unregister_port(con);
->  	kfree(connector);
->  err_reset:
->  	memset(&ucsi->cap, 0, sizeof(ucsi->cap));
+> @@ -151,8 +151,8 @@ static int pi3usb30532_probe(struct i2c_client *client)
+>  	pi->mux = typec_mux_register(dev, &mux_desc);
+>  	if (IS_ERR(pi->mux)) {
+>  		typec_switch_unregister(pi->sw);
+> -		dev_err(dev, "Error registering typec mux: %ld\n",
+> -			PTR_ERR(pi->mux));
+> +		dev_err(dev, "Error registering typec mux: %pe\n",
+> +			pi->mux);
+
+Ditto.
+
+>  		return PTR_ERR(pi->mux);
+>  	}
+>  
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+> index 89eec20a2064..ad10470ea73b 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -4796,7 +4796,7 @@ static void tcpm_typec_connect(struct tcpm_port *port)
+>  			port->partner_desc.accessory = TYPEC_ACCESSORY_NONE;
+>  		partner = typec_register_partner(port->typec_port, &port->partner_desc);
+>  		if (IS_ERR(partner)) {
+> -			dev_err(port->dev, "Failed to register partner (%ld)\n", PTR_ERR(partner));
+> +			dev_err(port->dev, "Failed to register partner (%pe)\n", partner);
+>  			return;
+>  		}
+>  
+> diff --git a/drivers/usb/typec/wusb3801.c b/drivers/usb/typec/wusb3801.c
+> index 6062875fb04a..86d13ab41670 100644
+> --- a/drivers/usb/typec/wusb3801.c
+> +++ b/drivers/usb/typec/wusb3801.c
+> @@ -277,8 +277,8 @@ static void wusb3801_hw_update(struct wusb3801 *wusb3801)
+>  		if (partner_type != WUSB3801_STAT_PARTNER_STANDBY) {
+>  			wusb3801->partner = typec_register_partner(port, &desc);
+>  			if (IS_ERR(wusb3801->partner))
+> -				dev_err(dev, "Failed to register partner: %ld\n",
+> -					PTR_ERR(wusb3801->partner));
+> +				dev_err(dev, "Failed to register partner: %pe\n",
+> +					wusb3801->partner);
+>  		}
+>  
+>  		data_role = pwr_role == TYPEC_SOURCE ? TYPEC_HOST : TYPEC_DEVICE;
+> 
+> -- 
+> 2.43.0
 
 Thanks,
 
