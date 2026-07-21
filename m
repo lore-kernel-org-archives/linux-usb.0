@@ -1,120 +1,95 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6862C3A5E7B
-	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 08:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF5343553E;
+	Tue, 21 Jul 2026 08:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784620840; cv=none; b=ES+UUHahvHLi5aIIz2Ik/Sx6ePycHVZJgmLR3IRm58Mh1YHOONRllC5/Mp0IxXzvOTQ8Na568c44WBzoayZycIen6WNHamgPGOsWlCrlcZNQwLwYLRLAtTD0BUuMCdor8URGNM8AsGhl8Oc/KT/GoBjlnqUK7K6T5NYMQkDyyDY=
+	t=1784621019; cv=none; b=T3oBdIAcmXWOdNTDtuFi0h8JSsZWHN6sdsJiQb9eEG1xJ/53eED6AmHEbJzPmD+zkcJMlFfDjfCYPgt0+E2EtuUJwrbZFF+PtUjXlXP6q+MX0Ebopg8FRFt3HKAq/gnSYwoTFSM3FwwbIb0Kp7w39YsIJ8njibiwG5LPatHfgnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784620840; c=relaxed/simple;
-	bh=J+hvT9djKWEh2KaPq8J1xxPp4lqSyqlDt6JIH48cZng=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qKPhFn9Lhh8kRZzVJnmerJQYC+NEI9RkJwCPhf8Opgp932xLwtX4NumAvfNUO8xSiLUxUF5hfzz8yYpvKu1J0jmHHaqzu4CJmMp632jJyX1P2xSyqezguxyvKz/8rvEFOftVyOwOcBhZ54lVqJtR4AKLurlzHerAQwkfYZ6w6E8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=aI6AyJc2; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1784621019; c=relaxed/simple;
+	bh=RIA91nt9VWpvt5I2cVVz5LXty8Ng3GITexqKzE7p8Io=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fm2/fOv49+jb9IJCozO7em4P76OBRmgkzkW+TvA/0YLqM0piztuJF4WS785xqJofekFPhDfoaspDcVUR1OLl8isVdyK9GtMN6VEHa9um67JY/YrYMKQGbflqUc27ddH/+aIr1VEIg4j3Amar2V0wIN8RXIfdqD3RASWRF50cPiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jjN1DPBL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="aI6AyJc2"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c1712a04ddaso806036766b.2
-        for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 01:00:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1784620835; x=1785225635; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=VCTZhhsDkQDmv6W2lFgIQm5lul/8HcQoqcagpiQUCv4=;
-        b=aI6AyJc2q8ssF4ces09P30ikBAQl9tsimfO7YMkxpeHQOiEo6cpuN8nI8cABUIj+KY
-         DpOYa40KQsGm5iUqwjw9/2bM6cMtqD76Csp9bYzu4yvPy/2Nh4GAWlkUijCcDTenlm+K
-         mXgdkTAoFFJZR0EyMVNpzoADMEMOGUUum+9/v6jp2EFGzA+m4XFi1zKTkRYVbLkIpO//
-         usOavCVMubvlKIM+jNcE1py0jJF7yyemDs2rxTLQl1OWpMf2vT1VGbxkFJatWl4X0hXu
-         iIFradtynHcgR+cpYj8Kx8uzhMIsSjzIRqaHRkqwxSo7nTYViVzDvcvceDIwN3nnHdBU
-         Ulag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784620836; x=1785225636;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=VCTZhhsDkQDmv6W2lFgIQm5lul/8HcQoqcagpiQUCv4=;
-        b=ATuaOTD+PcRNu6W0ULstcdnJLiFkSVXrbJ2bbVb8jgHyhr+zgxlX0BRC89+IFKozYU
-         qNcd09KRkvH7eRXRaDFUn2GZhkJb/XpE7ByNbCozGLC9U7Y3wyiDhSyfCnht5foB55ot
-         0XL+l9OPfxhKCW90WEcK4v8B0lb2uvwSz03f4YjL8mPABBard09OtByCyzND21pHxWKS
-         q07mbMixwStSFk1YR8Y76k7euDSnV7Iv8kjVBqWubyURC5KI80Wz9qrOGWZJ9RXXHPry
-         pEOOxmivPo/KEVZjqUY9njp7FruP9zjxA0K4s94aWk+IkaG9zcxGMZYvpeu2fAwoXAjR
-         UNUg==
-X-Gm-Message-State: AOJu0YyFZkRAAkQa9zyJTGLDzQqox9YgoZLWf6aixrVFXFCQYf5O4+mK
-	lF1FLQlPG+v9t673GuddmBWlpnEkvgQpgaC6hNUF+Uu/eEr21gad+gc/RTQGe9Deacc=
-X-Gm-Gg: AfdE7cmT/+NnrW+LcT6rZFV9mXonVEPzV1jTZYwAYAqym874FovzTfOyHLEibk1XSDW
-	FLZPg0iggLguRcW/KrVge/SQ7SoASIOMoXzEbgwT2EpS45EH60OwHwL5mjZbmm7ICvjH7x6TH49
-	rvJmRrEwQsDVi0txrrew5tngP5v8v+KzBKksH6dnNmQSMxld/2sc53Ic5qPBtq8EJ+nwqEZClkS
-	vhOxr3janMlbqYcHsXIaztb9kwJu2eOcKjtJi29w9Or/DgDmzMxmamCz8RXG2KWbIAOiRRsJv00
-	qDWi0iioH+qMxGO5hjVhCHhGWXTguWX1FNsUAYD4xnTjUTrqCVlP8olsOW5Jd717qq4vXFTAdsS
-	1FEgvvSl9bSOClMYCX8xFBvljKHCjoJyAhb/h1JxI+USlFuSx71iQZmHeKcnqdV3RXKEOKttQxY
-	LeIfJmf/B5s+lysZZywWPUWbemjpUpGV4rUMuwdma8mMqStGHf5hibHMsyGDWEGcHJKRMcIw==
-X-Received: by 2002:a17:907:d09:b0:c15:e04e:aed4 with SMTP id a640c23a62f3a-c16b47e6906mr747823566b.42.1784620835539;
-        Tue, 21 Jul 2026 01:00:35 -0700 (PDT)
-Received: from [127.0.0.1] (host-87-0-90-136.retail.telecomitalia.it. [87.0.90.136])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1734b1918asm541895566b.43.2026.07.21.01.00.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 01:00:35 -0700 (PDT)
-From: Carlo Caione <ccaione@baylibre.com>
-Date: Tue, 21 Jul 2026 10:00:28 +0200
-Subject: [PATCH] dt-bindings: usb: mtu3: Add MT8512
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jjN1DPBL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CD461F000E9;
+	Tue, 21 Jul 2026 08:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784621018;
+	bh=HUYs/Ob+ASc+HhkW0GMSvxRWsc8l0brHegTeCxiUikU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jjN1DPBLygNW48DKwbfHWlWbTNe+d+X0RU3/g8PsnFV7MASHyxK50WSooKHoC3rfY
+	 G8G1/by1z9mPqctKyMNRAezDveFwoQXr3/mZRBkxiK7Bhe9uBO5t6IBJFK5gPjIfIj
+	 hgqaTAU65/gZh4NYlhFHbjgSLGmauuI7UKY2mNOYa7PlgU5wuQoLsJwZp8j6BKne5k
+	 CpewCIfc/s6ktCsMtFVfVFpVGI69M6RRjWSC5bA+Pier8uhpLpcosGVVcozWsCWvoW
+	 briZtCeIaAwda9Be8hedl7fP+hl4+BXUwTvQFaYYqMcLAtSx7DWqodf/xegjchdJD7
+	 Gc1NQpTXeQOhg==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1wm5Rv-00000008wCV-3ENz;
+	Tue, 21 Jul 2026 10:03:35 +0200
+Date: Tue, 21 Jul 2026 10:03:35 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Chinna Mopurigari Naveen Kumar Reddy <naveen.reddy@ftdichip.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Arun Pappan <arun.pappan@ftdichip.com>
+Subject: Re: [PATCH v3 2/2] USB: serial: ftdi_sio: make explicit
+ latency_timer sysfs write authoritative
+Message-ID: <al8n17rIPduwjphv@hovoldconsulting.com>
+References: <cover.1782121274.git.naveen.reddy@ftdichip.com>
+ <cover.1782201674.git.naveen.reddy@ftdichip.com>
+ <c1956d7641cd96f75cf2534b65fe9a83d0941e50.1782201674.git.naveen.reddy@ftdichip.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260721-ccaione-upstream-mt8512-mtu3-binding-v1-1-2f229c39f121@baylibre.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWNywqDMBBFf0Vm3YFMSjT0V0oXSRztFEwlDymI/
- 960ri4HLufskDkJZ7h1OyTeJMs7NqBLB+Hp4swoY2PQSvdq0IQhuHZhrGsuid2CS7GGdJt6RS9
- xlDijUdQbb4OlgaCp1sSTfP6Z++PkXP2LQ/m54Ti+6Uvzw4gAAAA=
-X-Change-ID: 20260721-ccaione-upstream-mt8512-mtu3-binding-50165b8c8171
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, David Lechner <dlechner@baylibre.com>, 
- Julien Stephan <jstephan@baylibre.com>, Carlo Caione <ccaione@baylibre.com>
-X-Mailer: b4 0.15.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c1956d7641cd96f75cf2534b65fe9a83d0941e50.1782201674.git.naveen.reddy@ftdichip.com>
 
-The MT8512 USB controller uses the standard MTU3 device MAC and IPPC
-register layout and is handled by the generic mediatek,mtu3 driver. Add
-the SoC-specific compatible so the controller can be described without a
-legacy split node.
+On Tue, Jun 23, 2026 at 04:03:21PM +0800, Chinna Mopurigari Naveen Kumar Reddy wrote:
+> write_latency_timer() clamps the value programmed into the FT chip's
+> per-channel latency_timer register to 1 whenever ASYNC_LOW_LATENCY is
+> set in priv->flags.  ASYNC_LOW_LATENCY is set by userspace via
+> TIOCSSERIAL, used by setserial(8), libftdi and certain tcsetattr
+> paths.  The interaction with the existing sysfs latency_timer
+> attribute is surprising: once any of those tools has set the flag, a
+> later write of "16" (or any other value) to
+> /sys/bus/usb-serial/devices/ttyUSBx/latency_timer is silently
+> clamped to 1 and never reaches the chip.
+> 
+> The store path is the most explicit way userspace can ask for a
+> particular latency_timer value; treat it as authoritative.  On an
+> explicit sysfs write, clear ASYNC_LOW_LATENCY before calling
+> write_latency_timer() so the requested value is what the chip
+> register actually receives.  The override is logged at debug level
+> (dev_dbg) for diagnostics only.
+> 
+> Reads continue to honour ASYNC_LOW_LATENCY (returning "1") so any
+> userspace that previously inspected the attribute to confirm
+> low-latency mode keeps working until it does its own explicit write.
 
-For now the only user of this is on the U-Boot side but we want to keep
-bindings in sync.
+No, I don't think we should be changing this now.
 
-Signed-off-by: Carlo Caione <ccaione@baylibre.com>
----
- Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml | 1 +
- 1 file changed, 1 insertion(+)
+The driver has behaved this way since 2009 and commit 557aaa7ffab6
+("ft232: support the ASYNC_LOW_LATENCY flag") which explicitly let the
+standard setserial interface override the "obscure chip specific"
+interface.
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-index 21fc6bbe954f..42da2c6dfba1 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml
-@@ -29,6 +29,7 @@ properties:
-           - mediatek,mt8192-mtu3
-           - mediatek,mt8195-mtu3
-           - mediatek,mt8365-mtu3
-+          - mediatek,mt8512-mtu3
-       - const: mediatek,mtu3
- 
-   reg:
+Also note that the value written to sysfs does take effect once the
+low-latency flag is cleared so we can't really return an error like
+-EBUSY either.
 
----
-base-commit: b95f03f04d475aa6719d15a636ddf32222d55657
-change-id: 20260721-ccaione-upstream-mt8512-mtu3-binding-50165b8c8171
+I don't know how libftdi uses the flag, but it generally would not even
+be set unless you explicitly set it using setserial.
 
-Best regards,
---  
-Carlo Caione <ccaione@baylibre.com>
+Perhaps you can send a fix to libftdi so that it uses the sysfs
+interface directly and leaves the flag alone if that's the library
+that's causing the flag to unknowingly be left set.
 
+Johan
