@@ -1,106 +1,113 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF9184A2E2D;
-	Tue, 21 Jul 2026 14:48:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF9639EF2E
+	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 14:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784645309; cv=none; b=HsY6S6gnDYFq1KX5RSNrmrjJxM9V2KtQsEYvAIwh+A2yZKxWyHIT/2bh+/h6K3aMDsLNxICgaRdeYcyRQAAArrrWodCfRew2tRc87YYMDRrj3tJ4joWUQxNJYwTTwt+POyEsgfC2VfI8dSZhV61LO4tAsXgqy8Oq0dkuVo8oqFk=
+	t=1784645599; cv=none; b=TSxfczbdzus5PAmX9y+9BpnskWwW1qCLs37iwiyj+OxQOhCyMqbwMVbJT5MYEUXgfeqbRcW02+qWxqhoFP30Vks7kI1rqZEQGxdsNqtcgS1N5EVAuCGtYsAU3zbJXSH7ac8UVhpcEgxGUHk/UzmEstBAF/m8aE21EFl1NSPH4FE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784645309; c=relaxed/simple;
-	bh=M6PUUG9um/n1vJEIfyj77W2zsTnAQYi3uaxcpP5nfWA=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=P/Y+E+STn0SjkMvY5I0vrBtJoYpa1WplIjSz3/UOfox9SN68SOJHySRgb0LPhySmvMaZrerZ0b2152A8CAZqi8L4pu59U3FN6J5t12W9iIjQTCj7G8MOhqRl3w0kCg8INgwaQk69vbvwrFb5LBRrwBuNqlhPvZ+hMmKEaDwEig4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.97.49.238])
-	by mtasvr (Coremail) with SMTP id _____wDXZTWqhl9qe+AjAA--.61812S3;
-	Tue, 21 Jul 2026 22:48:11 +0800 (CST)
-Received: from smtpclient.apple (unknown [10.97.49.238])
-	by mail-app3 (Coremail) with SMTP id zS_KCgBnf3Gphl9q0ONoAw--.53334S2;
-	Tue, 21 Jul 2026 22:48:09 +0800 (CST)
-Content-Type: text/plain;
-	charset=us-ascii
+	s=arc-20240116; t=1784645599; c=relaxed/simple;
+	bh=HrN8QzFTxn/kc9XDBHlxJqA259dPvb+TLVCMgk3h8yc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QQpDM6XC8RSJ3Kci7aluPjIdPjHGHevGI+e+YvLU554YIXE52fhYGFCnHgC36Q6KrCfs6K3EnJxJ2HFiPTANFThUwcLiXo0EiQyNhzO/gOwwQVuvB4OD/Q+17bu8VBUTGZcvme4SeXRTWlkJAHP6sxdVyULc5LK1emqusQ2+kHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=HsipdN81; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="HsipdN81"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5218927884fso5519011cf.3
+        for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 07:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1784645595; x=1785250395; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=EFrX82+E4SUZ6RwB/henPb0TQRKayvdvEFB3jC1N7HE=;
+        b=HsipdN81wvI5yoOuzbr6h5eO+PoAIcttrkUxOemZ5mjm4Uq8FSLDY7fw12Dwnrn+45
+         R/c/L8h3kVC+pMfaKkytGvihX2NSMfEx1JypU3DboPGQEAI4x0InRwMf9bqQC6HDdj/+
+         S9GX3qcekvSLjD6XFuwCgIfZEZfZcq9vfQ+AamtkcIV11OQ+6pVxmSBC93cmTv/vH5Oz
+         KumAyrSfCRLtv9lROOeTWpqq+MTgeM2zZfS3JRyzZSPolhbmsSh11B8b7BDqlkvky/64
+         R71P9nuZ5Hxs9KookamVJRvY1UD78zg34kbN7T92Z+tYBisKpvb4CKUE2i+Pe5RK2j/C
+         l/vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784645595; x=1785250395;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EFrX82+E4SUZ6RwB/henPb0TQRKayvdvEFB3jC1N7HE=;
+        b=cNKcVEHn5YqvOvVe0cKHtRECmCPRXswNSNcU1Hx/ymqeniPztn7hWojcMJzbjK2S/b
+         0PPGL78yerz2fWvRRAkPcNX9nN/8QLvanls3wWbUFnu0edxM9BJZxszFlrUO8k8Z6GGY
+         j1TjoVyDTWfUEkNleUe5YP/tC0/erzdiFUoMvOyNrjH7SaXNlpRNoE/wzliU/XF4/903
+         d49fAZF7HLDu/RKLwnjKSvTr6NZhjHz/AEguYpLhaoBuapGNWTEfmr94HRp1ulp7JHh4
+         lZfw5JLA3GaJMZtD5UIYWhdI2vq7mZWykjkQwh6W8RE5YaKfZuCyLgf5RWbL7NqIuZ/d
+         T/LQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoARcdi9oh9gjn3XnVKEoBBWFqndG8XvhzxWcROPxEhmO/WQlBoEFpYgGeo/CAStb4nkABxECihTdQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6HD7q1Sax0W1pefMsq2f3ZQ1VNby4yh1/YLEDWGjIP+hB8xDF
+	8BQpvzT4a3tvuEh6IEJoT3HuWe4oPLHFIyIiG4W1P8bV6inhdkjR7qy7MkeVjnUApA==
+X-Gm-Gg: AfdE7clrDzkQk57/vOkXeu0BYb4QT2QsV0WbaultPfsGbuHoktToUzE9wl0m+/cbOzZ
+	StgQPwobI/6LwUikLCcQfCTmXDz/qqoxHsSd4PhTRhfiyFsgVeTd+Wdio7PzluKgfO33J1WiuAw
+	E4uvyWAjXBl2f+0BD72YcAy5qdyKGUW5jxJ3av20ymZTL+ounXbetgJFat4Mdrj1vP6vHlDLWJG
+	oOlH/P+QcoSWBxB3j/DZfNxqOs2i0BedEdo58ofayQ6YpcT00zNpsOiKRZ/IBng9/fRhNWG432f
+	xmqNzVQWvhYqpYHKHXm3wlc+QAjysG7DKOH0nPCGAGJNlFn08LUWRJZs8q2g1lwC+37GQKkFxkV
+	bRwTEq+LLBAur8i2ecpTrUCLK+DK1e7TCH2d/6YQjhxHQ4MO5IOIVykGqyxAnWh7mvroQ9z+jXV
+	FrS8+5ernLz6C+ZywpFnFqokkBf5NheNHbuw0xxeV9DP34mw==
+X-Received: by 2002:a05:622a:251b:b0:51c:7b12:5fd8 with SMTP id d75a77b69052e-5213d3b8efbmr190535801cf.84.1784645595304;
+        Tue, 21 Jul 2026 07:53:15 -0700 (PDT)
+Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5214c5cc928sm98695611cf.2.2026.07.21.07.53.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2026 07:53:14 -0700 (PDT)
+Date: Tue, 21 Jul 2026 10:53:12 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Griffin Kroah-Hartman <griffin@kroah.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] USB core hub error handling.
+Message-ID: <5fb8b60e-81e4-429c-a455-1f86746c8369@rowland.harvard.edu>
+References: <20260721-usb_core_patches_2-v2-0-05069c892fbf@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
-Subject: Re: [PATCH] usb: typec: ucsi: acpi: Fix use-after-free of ucsi on
- remove
-From: Fan Wu <12321260@zju.edu.cn>
-In-Reply-To: <al8thH8aWmMOUuAZ@kuha>
-Date: Tue, 21 Jul 2026 22:47:59 +0800
-Cc: Fan Wu <fanwu01@zju.edu.cn>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <F4203724-2CD7-446A-B766-79015B8E37B2@zju.edu.cn>
-References: <20260718021142.3146566-1-fanwu01@zju.edu.cn>
- <al8thH8aWmMOUuAZ@kuha>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-X-Mailer: Apple Mail (2.3774.600.62)
-X-CM-TRANSID:zS_KCgBnf3Gphl9q0ONoAw--.53334S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?e5QFjgXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfnZPoDCNGYdHSfuFmYJL54WN0Q2EU//07hLCuQFu1C4kxAHgw0980SEoSzNLBCaa4RYmd
-	4elvWv+U/t0OrYkVm5qp9E6mavGmQbzmcFsnzP86
-X-Coremail-Antispam: 1Uk129KBj93XoW7Ary3Xr18JF45WF4xXr1DurX_yoW8GF1fpa
-	y3K34fArWUGF4Sga9xZF4fCFy7ur97Jr4jkr15J345Aws8GF9a9rs7K3y5uFyxZrs5ua1Y
-	qw45Zw4xuayjywcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
-	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
-	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
-	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
-	I_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
-	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
-	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8
-	JbIYCTnIWIevJa73UjIFyTuYvjxU2LIDUUUUU
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260721-usb_core_patches_2-v2-0-05069c892fbf@kroah.com>
 
+On Tue, Jul 21, 2026 at 12:15:18PM +0200, Griffin Kroah-Hartman wrote:
+> A small patch series dedicated to strengthening error handling and
+> readability in drivers/usb/core/hub.c
+> 
+> Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
+> ---
 
+For both patches:
 
-> On Jul 21, 2026, at 16:27, Heikki Krogerus =
-<heikki.krogerus@linux.intel.com> wrote:
->=20
->=20
-> I don't think this is enough. You now create a window where the ucsi
-> is unregistered, but you can still call ucsi_notify_common(),
-> ucsi_connector_change(), etc. So you'll end up with even more =
-problems.
->=20
-> If I understood correctly the long explanation (I'm guessing generated
-> by gpt-5.6), the problem is that ucsi_unregister() disables the
-> notification, but it does not flush them. My proposal is that you fix
-> that by setting the ua->ucsi to NULL after calling ucsi_unregister()
-> and then always check it in ucsi_acpi_notify(). You probable also need
-> a lock for that.
->=20
-> thanks,
->=20
-> --=20
-> heikki
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-Thank you, you are right. The proposed reordering does not protect the
-connector state freed by ucsi_unregister(), while the notify handler can
-still enter ucsi_notify_common() and ucsi_connector_change().
-
-I also see that simply serializing the handler with ucsi_unregister()
-could prevent pending command completions needed by work being cancelled
-there. Thus, a driver-local reorder or NULL check alone is not =
-sufficient.
-
-I will drop this patch and investigate the appropriate synchronization
-scheme. Do you have a preferred direction: should this be handled by a
-core-UCSI quiesce interface, or by a transport-side locking protocol?
-
-thanks,
-Fan=
-
+> Changes in v2:
+> - Added a patch rearranging error handling logic.
+> - Link to v1: https://patch.msgid.link/20260714-usb_core_patches_2-v1-1-4229a368a633@kroah.com
+> 
+> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> 
+> ---
+> Griffin Kroah-Hartman (2):
+>       usb: core: Strengthen error handling in hub_hub_status()
+>       usb: core: reformat error handling and messages
+> 
+>  drivers/usb/core/hub.c | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+> ---
+> base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+> change-id: 20260714-usb_core_patches_2-a3eb9d1b7b9e
+> 
+> Best regards,
+> --  
+> Griffin Kroah-Hartman <griffin@kroah.com>
+> 
