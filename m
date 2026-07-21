@@ -1,158 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC4D33F597;
-	Tue, 21 Jul 2026 14:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF9184A2E2D;
+	Tue, 21 Jul 2026 14:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784644450; cv=none; b=sgy2wvlAKFWL67FUff4YTmbXiKUOAMGEwBLeYArRalnNhqwO4cnZ4dCLNKZm6XAOzFeRWcIS8aq5vqA/pLF0ztiVj2qYyZbVK/fxTiY4LEyoHPcg6DgybphogyYfR2CuXITYj4fQT7Ay3uWgHcKYW95p95uQqRXC22hEtEzViZA=
+	t=1784645309; cv=none; b=HsY6S6gnDYFq1KX5RSNrmrjJxM9V2KtQsEYvAIwh+A2yZKxWyHIT/2bh+/h6K3aMDsLNxICgaRdeYcyRQAAArrrWodCfRew2tRc87YYMDRrj3tJ4joWUQxNJYwTTwt+POyEsgfC2VfI8dSZhV61LO4tAsXgqy8Oq0dkuVo8oqFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784644450; c=relaxed/simple;
-	bh=pMHeh4zhJ4bYuilf+EbYDdiFeXpQaVHZaT4q/aEUdG0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p4xccpPCuiV8YowtFDxSdVwkxwjpwpXod2pkrDp0Y5twClWbqY5apZyvYwpP9WaMSb1ujUD3gBVJTwqRwjAM7nciiSuZ2vEF/XzL14TL2v0r0CiK9rA5+gYMYq2k8WopgQQtLX3u04e3W41VWjJXVBSDdEwcDN17wArj8kpDbtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BMWYhSl/; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BMWYhSl/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE0291F000E9;
-	Tue, 21 Jul 2026 14:34:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784644448;
-	bh=RO989GIm+lzTtLY0QJT8coHQhLYEBWAeDT/sPoy8hBI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BMWYhSl/HOsbs4kjAEJroB2wwv31uGT0dSDmsl1VBDtu6fFrP2ECaXygKLDdQy56k
-	 63wfHW4DU6Ls3InTdg58jrulq0aen/1Y0NrlvRo01EuCKNgbTcFBxKbNWx6KAdoYJg
-	 RhTfHE0pHbMjnNraMR9rMUa+qmoPcOTYODPlQD0oZ5rvHHKHHLePvJPDGgCv12+WHc
-	 Lc8xg9Ak5ZQAbK7dECmqn+OqATIXFw/H41jPxLDdVCMgMdtysPtlCRpK1dcmA0WMot
-	 Y72UqSbXZqIi8qx2OoFqrkKcknRDxlKy0QWdSPJBnDC9kM/3WMh6L17vlf8ilb2tEI
-	 i/NDfsqkJiumw==
-Received: from johan by xi.lan with local (Exim 4.99.4)
-	(envelope-from <johan@kernel.org>)
-	id 1wmBXq-000000092Q4-1MxI;
-	Tue, 21 Jul 2026 16:34:06 +0200
-Date: Tue, 21 Jul 2026 16:34:06 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Crescent Hsieh <crescentcy.hsieh@moxa.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	FangpingFP.Cheng@moxa.com, Epson.Chiang@moxa.com
-Subject: Re: [PATCH v2 1/4] USB: serial: mxuport: clean up firmware version
- handling
-Message-ID: <al-DXpI52HuWBNwG@hovoldconsulting.com>
-References: <20260623080138.166398-2-crescentcy.hsieh@moxa.com>
- <20260623080138.166398-3-crescentcy.hsieh@moxa.com>
+	s=arc-20240116; t=1784645309; c=relaxed/simple;
+	bh=M6PUUG9um/n1vJEIfyj77W2zsTnAQYi3uaxcpP5nfWA=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=P/Y+E+STn0SjkMvY5I0vrBtJoYpa1WplIjSz3/UOfox9SN68SOJHySRgb0LPhySmvMaZrerZ0b2152A8CAZqi8L4pu59U3FN6J5t12W9iIjQTCj7G8MOhqRl3w0kCg8INgwaQk69vbvwrFb5LBRrwBuNqlhPvZ+hMmKEaDwEig4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.79.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.97.49.238])
+	by mtasvr (Coremail) with SMTP id _____wDXZTWqhl9qe+AjAA--.61812S3;
+	Tue, 21 Jul 2026 22:48:11 +0800 (CST)
+Received: from smtpclient.apple (unknown [10.97.49.238])
+	by mail-app3 (Coremail) with SMTP id zS_KCgBnf3Gphl9q0ONoAw--.53334S2;
+	Tue, 21 Jul 2026 22:48:09 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260623080138.166398-3-crescentcy.hsieh@moxa.com>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
+Subject: Re: [PATCH] usb: typec: ucsi: acpi: Fix use-after-free of ucsi on
+ remove
+From: Fan Wu <12321260@zju.edu.cn>
+In-Reply-To: <al8thH8aWmMOUuAZ@kuha>
+Date: Tue, 21 Jul 2026 22:47:59 +0800
+Cc: Fan Wu <fanwu01@zju.edu.cn>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <F4203724-2CD7-446A-B766-79015B8E37B2@zju.edu.cn>
+References: <20260718021142.3146566-1-fanwu01@zju.edu.cn>
+ <al8thH8aWmMOUuAZ@kuha>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+X-Mailer: Apple Mail (2.3774.600.62)
+X-CM-TRANSID:zS_KCgBnf3Gphl9q0ONoAw--.53334S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?e5QFjgXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnZPoDCNGYdHSfuFmYJL54WN0Q2EU//07hLCuQFu1C4kxAHgw0980SEoSzNLBCaa4RYmd
+	4elvWv+U/t0OrYkVm5qp9E6mavGmQbzmcFsnzP86
+X-Coremail-Antispam: 1Uk129KBj93XoW7Ary3Xr18JF45WF4xXr1DurX_yoW8GF1fpa
+	y3K34fArWUGF4Sga9xZF4fCFy7ur97Jr4jkr15J345Aws8GF9a9rs7K3y5uFyxZrs5ua1Y
+	qw45Zw4xuayjywcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8
+	JbIYCTnIWIevJa73UjIFyTuYvjxU2LIDUUUUU
 
-On Tue, Jun 23, 2026 at 04:01:36PM +0800, Crescent Hsieh wrote:
-> Add a small helper for parsing firmware versions and use it for the
-> bundled firmware image. This avoids open-coded firmware image offsets
-> in probe() and validates the image size before reading the version
-> bytes.
-> 
-> Keep the existing version comparison policy unchanged, but store the
-> version components explicitly so that the version can be printed
-> without unpacking a raw integer.
-> 
-> Print the firmware version fields in decimal, as these fields represent
-> readable version components rather than hexadecimal values.
-> 
-> Signed-off-by: Crescent Hsieh <crescentcy.hsieh@moxa.com>
-> ---
 
-Thanks for the v2. You seem to have addressed all my comments on v1 of
-the series, which is unfortunately not as common as I wish it were. :)
 
-> @@ -82,7 +95,6 @@
->  
->  #define RQ_VENDOR_RESET_DEVICE		0x23 /* Try to reset the device */
->  #define RQ_VENDOR_QUERY_FW_CONFIG	0x24
-> -
+> On Jul 21, 2026, at 16:27, Heikki Krogerus =
+<heikki.krogerus@linux.intel.com> wrote:
+>=20
+>=20
+> I don't think this is enough. You now create a window where the ucsi
+> is unregistered, but you can still call ucsi_notify_common(),
+> ucsi_connector_change(), etc. So you'll end up with even more =
+problems.
+>=20
+> If I understood correctly the long explanation (I'm guessing generated
+> by gpt-5.6), the problem is that ucsi_unregister() disables the
+> notification, but it does not flush them. My proposal is that you fix
+> that by setting the ua->ucsi to NULL after calling ucsi_unregister()
+> and then always check it in ucsi_acpi_notify(). You probable also need
+> a lock for that.
+>=20
+> thanks,
+>=20
+> --=20
+> heikki
 
-Nit: this is an unrelated change
+Thank you, you are right. The proposed reordering does not protect the
+connector state freed by ucsi_unregister(), while the notify handler can
+still enter ucsi_notify_common() and ucsi_connector_change().
 
-I see you add another define here in the next patch, but perhaps you
-should keep the newline separators before and after that one.
+I also see that simply serializing the handler with ucsi_unregister()
+could prevent pending command completions needed by work being cancelled
+there. Thus, a driver-local reorder or NULL check alone is not =
+sufficient.
 
->  #define RQ_VENDOR_GET_VERSION		0x81 /* Get firmware version */
->  #define RQ_VENDOR_GET_PAGE		0x82 /* Read flash page */
->  #define RQ_VENDOR_GET_ROM_PROC		0x83 /* Get ROM process state */
-> @@ -970,8 +982,32 @@ static int mxuport_calc_num_ports(struct usb_serial *serial,
->  	return num_ports;
->  }
->  
-> +static void mxuport_set_fw_version(struct mxuport_fw_version *version,
-> +				   u8 major, u8 minor, u8 build)
+I will drop this patch and investigate the appropriate synchronization
+scheme. Do you have a preferred direction: should this be handled by a
+core-UCSI quiesce interface, or by a transport-side locking protocol?
 
-The naming is a bit unfortunate as this is not an inverse of
-mxuport_get_fw_version() but that should be ok.
+thanks,
+Fan=
 
-> +{
-> +	version->major = major;
-> +	version->minor = minor;
-> +	version->build = build;
-> +	version->value = (major << 16) | (minor << 8) | build;
-> +}
-> +
-> +static int mxuport_parse_fw_version(const struct firmware *fw,
-> +				    const u16 *offsets,
-> +				    struct mxuport_fw_version *version)
-> +{
-> +	if (fw->size <= offsets[0] || fw->size <= offsets[1] ||
-> +	    fw->size <= offsets[2])
-> +		return -EINVAL;
-
-I just merged this sanity check:
-
-	https://lore.kernel.org/all/20260715084611.45995-1-pengpeng@iscas.ac.cn/
-
-so you may want to rebase on my usb-linus branch if there is a v3,
-otherwise I can fix it up.
-
-	https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git/log/?h=usb-linus
-
-> +
-> +	mxuport_set_fw_version(version, fw->data[offsets[0]],
-> +			       fw->data[offsets[1]], fw->data[offsets[2]]);
-> +
-> +	return 0;
-> +}
-> +
->  /* Get the version of the firmware currently running. */
-> -static int mxuport_get_fw_version(struct usb_serial *serial, u32 *version)
-> +static int mxuport_get_fw_version(struct usb_serial *serial,
-> +				  struct mxuport_fw_version *version)
->  {
->  	u8 *ver_buf;
->  	int err;
-> @@ -988,7 +1024,7 @@ static int mxuport_get_fw_version(struct usb_serial *serial, u32 *version)
->  		goto out;
->  	}
->  
-> -	*version = (ver_buf[0] << 16) | (ver_buf[1] << 8) | ver_buf[2];
-> +	mxuport_set_fw_version(version, ver_buf[0], ver_buf[1], ver_buf[2]);
->  	err = 0;
->  out:
->  	kfree(ver_buf);
-> @@ -1049,8 +1085,7 @@ static int mxuport_probe(struct usb_serial *serial,
->  {
->  	u16 productid = le16_to_cpu(serial->dev->descriptor.idProduct);
->  	const struct firmware *fw_p = NULL;
-> -	u32 version;
-> -	int local_ver;
-> +	struct mxuport_fw_version version, local_ver;
-
-Nit: I'd move this line above fw_p to maintain reverse xmas style of the
-declarations.
-
->  	char buf[32];
->  	int err;
-
-Johan
