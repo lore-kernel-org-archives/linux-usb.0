@@ -1,70 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11364A33E1;
-	Tue, 21 Jul 2026 10:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71762F8EAD;
+	Tue, 21 Jul 2026 10:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784630027; cv=none; b=V+mI8Xv3G2S4xATugAl3zfsbUJUvnqGJwZfYXLPVIR41QmKwi0ss7XuJzxERk+AqeOZwA57/advNVc7BSJb4cz5Ed8iEcz7qHMLxjwn1+qYduppt6/Xinkcz5Y+Vr9xUpHAaCH9cSyXwqmr314GJ0tbKUoa4sy74S67q75bhTqw=
+	t=1784630761; cv=none; b=StQvNnPQGzOaTm3smQ4p9EjsQhxZmW/h8ZwyyvrL2HCdmurlPE0bdtjkYLPxHZZPQ47qhk6olNSygzCOuU97EyweMB6oScyL/rKHrTSEvPyjrSq6VhpuuPf0p7C5rvhC5BE9MvjQj3B1fYnDmc4WG2tQWKnBkCLjxkft3KbZ3cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784630027; c=relaxed/simple;
-	bh=WJGTqjCh1G3VEZn3GJLICNgLE0eVx5PejOB2rEtQ0YU=;
+	s=arc-20240116; t=1784630761; c=relaxed/simple;
+	bh=XiJ52Ro979Sd9I4QKn9c0heyv42apiPL9gmEGpxd7/E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t4cAwDMoakTvtCVydCnCwZYu5sD1x1ql+G+Ty10LKfFt74PV3H+Wr+wLn8ro+t/9abNBe/bJQEABWFhnwKJRki64xBucvcvTBPhVDaQHg3mHNLze0Z/DmgmZmTFR7w9gJRWwZgdnDmWNg85TN6ogsE/2VoRAupC3vrxlFSh1Bjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L+q3LaSK; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=cjZwLS/eJAFu4p/zDH0E22jYeWC/udU/j52oFzkESkSdMwyIIlZW498S2vzKgCpTQEgqMlN1o5v9BuZ5M3WOC3PtjmBtybnCCSVwJQIVk7+VL6UmQZ6DcyDmAz4tivJ4eqVVeg+ifry51D1JYlfL+D+5OW0aravOdXAziKe0Itg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IuTAUrua; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L+q3LaSK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IuTAUrua"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784630021; x=1816166021;
+  t=1784630752; x=1816166752;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WJGTqjCh1G3VEZn3GJLICNgLE0eVx5PejOB2rEtQ0YU=;
-  b=L+q3LaSKHJNBh3h6PGNYGP2wHbtlXudRpaWZHKrEAxcSLLWsORgfgCRo
-   t4iuMsd/4cKSq20DEZ7iT/5PEEgnpbHEQ8000Db/LREpElfvJsTJQWZen
-   sOy5ojSLyXWpQaZQjPK4XFDeY/oAxl2xYERQ4Lx2mSslS8qZW5ZcxmeK4
-   FsOQGszFs1PnDukH0/HZ6/5Q2X4oyjih2n4+Bp/BMIdBd11ZCoZWHI7cq
-   VF1CQncz3zFZpubEwzVDTBHCxo1C1iaZnSHJ3x8LPyk1PLVRv9fMrj58z
-   Lt54lH7LMbsTSGtX++F0C6ewdqURXFyCsuegnMlTszI4Q339nORqe2cNj
-   Q==;
-X-CSE-ConnectionGUID: vzYFBY1cRYCfPI4NylcSiw==
-X-CSE-MsgGUID: 9dtSZo+0RHW51BahhMEXhw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="89117451"
+  bh=XiJ52Ro979Sd9I4QKn9c0heyv42apiPL9gmEGpxd7/E=;
+  b=IuTAUruaZNEX8Wd1kWAbnjrgzbbv9nXHl90AjvJFcYzKkmnDifXtuoRh
+   MMXfL6rSoC17cv63z17RGTHd03e6AvStxvj4VW3qYS2pHjiyeElQt37qT
+   xqE6auF/qIHx3COQqdnEfF7KOeSWDW5RESgylYyizkbMliksBhdkjt1cI
+   epXUxZl9bISvtm6WC1tV2IFOlT5mwO02z2kLCayqLr/UVTJnYkq3KnkBM
+   4IuxNKXf9ZQgXi5jFg9Xi9bevRDewmmmIu6CoIXLRe4qcU2J97ZJ8+7Rd
+   Q98fqywLm4HL5IJwJ/tSre0gMrhG5Wy/gWEZgU91DdVw/1ZH5Wil0d2/h
+   w==;
+X-CSE-ConnectionGUID: eovB+DC1TTGBFFj5ew5bKg==
+X-CSE-MsgGUID: qUrereYGSnSZakPd86MFew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="85425829"
 X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
-   d="scan'208";a="89117451"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 03:33:38 -0700
-X-CSE-ConnectionGUID: LOm+XhIsSSC11g9b3Ixtdg==
-X-CSE-MsgGUID: Jf4YByYiTEC9GfPIHvQ8WA==
+   d="scan'208";a="85425829"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 03:45:46 -0700
+X-CSE-ConnectionGUID: BRMn8gthTUOZpen0KK6RBg==
+X-CSE-MsgGUID: 1+3gm2alRWmzcCIucRJVkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
-   d="scan'208";a="253369954"
+   d="scan'208";a="281001141"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Jul 2026 03:33:34 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 21 Jul 2026 03:45:43 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id EB03695; Tue, 21 Jul 2026 12:33:32 +0200 (CEST)
-Date: Tue, 21 Jul 2026 13:33:31 +0300
+	id 0120C95; Tue, 21 Jul 2026 12:45:41 +0200 (CEST)
+Date: Tue, 21 Jul 2026 13:45:40 +0300
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Subasri S <subasris1210@gmail.com>
-Cc: Peter Chen <peter.chen@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Duncan Sands <duncan.sands@free.fr>,
-	Chas Williams <3chas3@gmail.com>,
-	Minas Harutyunyan <hminas@synopsys.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Badhri Jagan Sridharan <badhri@google.com>,
-	linux-usb@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org
-Subject: Re: [PATCH 3/3] usb: typec: Use %pe to print error pointers
-Message-ID: <al9K-4w4FykFIgpi@kuha>
-References: <20260719-usb-ptr_err_patchset-v1-0-85f7f2e4fefb@gmail.com>
- <20260719-usb-ptr_err_patchset-v1-3-85f7f2e4fefb@gmail.com>
+To: jens.glathe@oldschoolsolutions.biz
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, stable@vger.kernel.org,
+	"Dr. David Alan Gilbert" <dave@treblig.org>
+Subject: Re: [PATCH 3/5] usb: typec: mux: ps883x: refactor DP altmode
+ handling and support TYPEC_DP_STATE_F
+Message-ID: <al9N1GncsKvVU9tZ@kuha>
+References: <20260718-ps883x-disable-usb4-v1-0-cec86d0b909e@oldschoolsolutions.biz>
+ <20260718-ps883x-disable-usb4-v1-3-cec86d0b909e@oldschoolsolutions.biz>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -73,98 +70,89 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260719-usb-ptr_err_patchset-v1-3-85f7f2e4fefb@gmail.com>
+In-Reply-To: <20260718-ps883x-disable-usb4-v1-3-cec86d0b909e@oldschoolsolutions.biz>
 
-Hi Subasri,
+On Sat, Jul 18, 2026 at 07:06:31PM +0200, Jens Glathe via B4 Relay wrote:
+> From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+> 
+> Several docks, including the Lenovo 40B0 and SSK SC220, still send the
+> legacy TYPEC_DP_STATE_F mode request (deprecated since DisplayPort Alt
+> Mode spec version 1.0b). Treat it as USB3 + DP altmode (same as
+> TYPEC_DP_STATE_D) so that DP altmode works correctly, especially on
+> the 40B0 in Type-C fallback mode.
+> 
+> Extract the state handling into ps883x_apply_dp_altmode() (modelled
+> after qmp-combo-phy) for consistency.
+> 
+> Assisted-by: Grok(xAI):4.3
+> Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 
-Thanks for the patch.
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-On Sun, Jul 19, 2026 at 06:25:48PM +0530, Subasri S wrote:
-> Use the %pe format specifier instead of %ld with PTR_ERR() for printing
-> error pointers in various typec drivers. This prints symbolic
-> error names (e.g.-ENOMEM) instead of errno numbers (e.g. -12),
-> making error logs more readable.
-> 
-> This patch fixes coccinelle reported warnings:
-> ./typec/tcpm/tcpm.c:4799:60-67: WARNING: Consider using %pe to print PTR_ERR()
-> ./typec/mux/pi3usb30532.c:143:3-10: WARNING: Consider using %pe to print PTR_ERR()
-> ./typec/mux/pi3usb30532.c:155:3-10: WARNING: Consider using %pe to print PTR_ERR()
-> ./typec/wusb3801.c:281:5-12: WARNING: Consider using %pe to print PTR_ERR()
-> 
-> Compile tested only.
-> 
-> Signed-off-by: Subasri S <subasris1210@gmail.com>
 > ---
->  drivers/usb/typec/mux/pi3usb30532.c | 8 ++++----
->  drivers/usb/typec/tcpm/tcpm.c       | 2 +-
->  drivers/usb/typec/wusb3801.c        | 4 ++--
->  3 files changed, 7 insertions(+), 7 deletions(-)
+>  drivers/usb/typec/mux/ps883x.c | 35 ++++++++++++++++++++---------------
+>  1 file changed, 20 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/usb/typec/mux/pi3usb30532.c b/drivers/usb/typec/mux/pi3usb30532.c
-> index 985683fe49e9..a2357a28ecf4 100644
-> --- a/drivers/usb/typec/mux/pi3usb30532.c
-> +++ b/drivers/usb/typec/mux/pi3usb30532.c
-> @@ -139,8 +139,8 @@ static int pi3usb30532_probe(struct i2c_client *client)
+> diff --git a/drivers/usb/typec/mux/ps883x.c b/drivers/usb/typec/mux/ps883x.c
+> index 3fa26ce01a9c9..3533d4f363286 100644
+> --- a/drivers/usb/typec/mux/ps883x.c
+> +++ b/drivers/usb/typec/mux/ps883x.c
+> @@ -188,6 +188,25 @@ static int ps883x_configure(struct ps883x_retimer *retimer, int cfg0,
+>  	return 0;
+>  }
 >  
->  	pi->sw = typec_switch_register(dev, &sw_desc);
->  	if (IS_ERR(pi->sw)) {
-> -		dev_err(dev, "Error registering typec switch: %ld\n",
-> -			PTR_ERR(pi->sw));
-> +		dev_err(dev, "Error registering typec switch: %pe\n",
-> +			pi->sw);
-
-One line is enough.
-
->  		return PTR_ERR(pi->sw);
->  	}
+> +static void ps883x_apply_dp_altmode(int *cfg0, int *cfg1, int dp_state)
+> +{
+> +	*cfg1 |= CONN_STATUS_1_DP_CONNECTED | CONN_STATUS_1_DP_HPD_LEVEL;
+> +
+> +	switch (dp_state) {
+> +	case TYPEC_DP_STATE_D:
+> +	case TYPEC_DP_STATE_F:
+> +		*cfg0 |= CONN_STATUS_0_USB_3_1_CONNECTED;
+> +		fallthrough;
+> +	case TYPEC_DP_STATE_C:
+> +	case TYPEC_DP_STATE_E:
+> +		*cfg1 |= CONN_STATUS_1_DP_SINK_REQUESTED |
+> +			 CONN_STATUS_1_DP_PIN_ASSIGNMENT_C_D;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +}
+> +
+>  static int ps883x_set(struct ps883x_retimer *retimer, struct typec_retimer_state *state)
+>  {
+>  	struct typec_thunderbolt_data *tb_data;
+> @@ -203,24 +222,10 @@ static int ps883x_set(struct ps883x_retimer *retimer, struct typec_retimer_state
+>  	if (state->alt) {
+>  		switch (state->alt->svid) {
+>  		case USB_TYPEC_DP_SID:
+> -			cfg1 |= CONN_STATUS_1_DP_CONNECTED |
+> -				CONN_STATUS_1_DP_HPD_LEVEL;
+> -
+> -			switch (state->mode)  {
+> -			case TYPEC_DP_STATE_D:
+> -				cfg0 |= CONN_STATUS_0_USB_3_1_CONNECTED;
+> -				fallthrough;
+> -			case TYPEC_DP_STATE_C:
+> -				cfg1 |= CONN_STATUS_1_DP_SINK_REQUESTED |
+> -					CONN_STATUS_1_DP_PIN_ASSIGNMENT_C_D;
+> -				break;
+> -			default: /* MODE_E */
+> -				break;
+> -			}
+> +			ps883x_apply_dp_altmode(&cfg0, &cfg1, state->mode);
+>  			break;
+>  		case USB_TYPEC_TBT_SID:
+>  			tb_data = state->data;
+> -
+>  			/* Unconditional */
+>  			cfg2 |= CONN_STATUS_2_TBT_CONNECTED;
 >  
-> @@ -151,8 +151,8 @@ static int pi3usb30532_probe(struct i2c_client *client)
->  	pi->mux = typec_mux_register(dev, &mux_desc);
->  	if (IS_ERR(pi->mux)) {
->  		typec_switch_unregister(pi->sw);
-> -		dev_err(dev, "Error registering typec mux: %ld\n",
-> -			PTR_ERR(pi->mux));
-> +		dev_err(dev, "Error registering typec mux: %pe\n",
-> +			pi->mux);
-
-Ditto.
-
->  		return PTR_ERR(pi->mux);
->  	}
->  
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 89eec20a2064..ad10470ea73b 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -4796,7 +4796,7 @@ static void tcpm_typec_connect(struct tcpm_port *port)
->  			port->partner_desc.accessory = TYPEC_ACCESSORY_NONE;
->  		partner = typec_register_partner(port->typec_port, &port->partner_desc);
->  		if (IS_ERR(partner)) {
-> -			dev_err(port->dev, "Failed to register partner (%ld)\n", PTR_ERR(partner));
-> +			dev_err(port->dev, "Failed to register partner (%pe)\n", partner);
->  			return;
->  		}
->  
-> diff --git a/drivers/usb/typec/wusb3801.c b/drivers/usb/typec/wusb3801.c
-> index 6062875fb04a..86d13ab41670 100644
-> --- a/drivers/usb/typec/wusb3801.c
-> +++ b/drivers/usb/typec/wusb3801.c
-> @@ -277,8 +277,8 @@ static void wusb3801_hw_update(struct wusb3801 *wusb3801)
->  		if (partner_type != WUSB3801_STAT_PARTNER_STANDBY) {
->  			wusb3801->partner = typec_register_partner(port, &desc);
->  			if (IS_ERR(wusb3801->partner))
-> -				dev_err(dev, "Failed to register partner: %ld\n",
-> -					PTR_ERR(wusb3801->partner));
-> +				dev_err(dev, "Failed to register partner: %pe\n",
-> +					wusb3801->partner);
->  		}
->  
->  		data_role = pwr_role == TYPEC_SOURCE ? TYPEC_HOST : TYPEC_DEVICE;
 > 
 > -- 
-> 2.43.0
-
-Thanks,
+> 2.53.0
+> 
 
 -- 
 heikki
