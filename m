@@ -1,92 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6728E431A4E
-	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 22:59:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49ACC443E3B;
+	Tue, 21 Jul 2026 23:34:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784674751; cv=none; b=dydryYDa+69V+RN6wxigz5UtncilDfu27ABJOBDHAHAID1JpwsstmD3lRfWfadMG7yX2r7t3AP2MDI2CkYc0N0dXN2aRyDRgk4XggofIC4AkgC6+HwMwQlwtfdQD/+BHjcpXJZk/CbmERgJVaJerSK26tx/spUKI31tgKC6XRSo=
+	t=1784676883; cv=none; b=f3i1M4k/NcNjUChVmlzHV6TB2DQSTNNg+jaijcerL5EniEDOfU6r/cJi2mEAryF7XdrI7W/rxsrPxJ/MLGHkUwgEr9hNsc4mkDSnaEuVWcz8ZolisFRoRI/AGJCEYpEQ6QlR597VgZFCk7bM4X0dN8/y27bandW2j+VS4Cf2Zh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784674751; c=relaxed/simple;
-	bh=fdRDKXt7aPUrguxEjnpR9u3gKWnsxIED72l1/dxGKzk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=i9bKTbdrgKJVTwNlXcpNG4y1/2ux8ICOzIfp7DIIdpSdJj586fhtlxQoKWC8My4dEIn9a8R2CeVCszgV5xbqA5Lw2XMoUqVTNo6QkafWrne0FOOL/DbXvMxQwrWH26yHVlrzuX+GwpE9Wi2ML4ko4ow8Y7ZSjygttvxqaA7cCGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HOiWO8tw; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1784676883; c=relaxed/simple;
+	bh=Nc4WY14ZOG9b3cMEtUSTkLaMCAnOejtKaABYyofBm5A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s/kVC1JVA3DzYfTUAmC/bRwK4ZtUlRYI7YXoJRXMuJOX2Ikzi8TcoEdRyiU68DQYOoppxXojFKZmlKWwfUzGO0iOqR71u8B9sC/KZpli0wWzvYlEYBnv+v+iy+455lHzu3ReBoCagJDsJIebtuwKW1/WrlaFwzj6L+dXN5N1+y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JxveD9ff; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HOiWO8tw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784674750; x=1816210750;
-  h=date:from:to:cc:subject:message-id;
-  bh=fdRDKXt7aPUrguxEjnpR9u3gKWnsxIED72l1/dxGKzk=;
-  b=HOiWO8tw3V3zJB9AM8dH6EKojh/ebRwXwFLycRJyxOqEFSdPdPyQmwBT
-   j5Jh6J7xxAtQq63Erk/wTXPqtWYOWpJjOMvBoPZExhIPGW8Bi+7JHNIS/
-   hu3LOMWcRNDtVBBbaQBsHjFs99W3ZjRuRoevg6bknrtd2dJybWl0Oe3bE
-   UQgf3nCr+8yGGENxaXdey9REj5bpLmMVWV1K8Y1LVNFIdSmb07w3itXNY
-   88C2BSAy0D6psiNxveHg65BMX3TQCm+xvT8ENERR9N015FsMhM9KKEpdz
-   i/enGpVV+0twOYDH9C/+delwMrsXvC7avOTbufEqWgmPCKuKG1DSK1umH
-   Q==;
-X-CSE-ConnectionGUID: Wc+PSlR7SpGESBl3A4ve4w==
-X-CSE-MsgGUID: n1nog4zuTxm+OqkvotB5OA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11853"; a="85311882"
-X-IronPort-AV: E=Sophos;i="6.25,177,1779174000"; 
-   d="scan'208";a="85311882"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 15:59:09 -0700
-X-CSE-ConnectionGUID: WI5S7bPsSCSZNuuElhPpxg==
-X-CSE-MsgGUID: JrIM8PybTCqoNDgR3dgK/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,177,1779174000"; 
-   d="scan'208";a="258568032"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 21 Jul 2026 15:59:08 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wmJQX-00000000Y8b-2Czx;
-	Tue, 21 Jul 2026 22:59:05 +0000
-Date: Wed, 22 Jul 2026 06:58:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-testing] BUILD SUCCESS
- 80574c40598aedbc1751c528e414d7e224bc6313
-Message-ID: <202607220633.ptIwZ1Tl-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JxveD9ff"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C173B1F000E9;
+	Tue, 21 Jul 2026 23:34:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784676881;
+	bh=cv958Pfgp7GUM/xVymrAwRNqVH7beklVxrmbR/6/w9I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JxveD9ffXTtbXb5I0bpaEeHuMDG/QnEyEuexLu/O2UvTTyhDYrpGnyQgBauldXR3j
+	 gj0SJH1MbDTpU/+pUxCwEBMpz1iNLlsAPXrDyeKFISU8X1kuYYK02QR3ibjuUrHvwt
+	 d6G9B71nlgcR+PtrqmE41sZKLGYlOCaKbRIdEVy1dTngToRLRqJi7e1zmXRrnpHnTH
+	 lgJV8ztUMmBY42gGr5b/zPLvzPaYfXbSNXPw1BTZHU3k0MUt65MRa2T56jvvFRn44Z
+	 oXhthrS7UJj303+JbZCS3skzcQw0J2v2mBpq41DkR7d+W8EVV9TBh4xK6P8mqQ2cCv
+	 kkeHZLAX/cNAQ==
+Received: by venus (Postfix, from userid 1000)
+	id 339D2180765; Wed, 22 Jul 2026 01:34:40 +0200 (CEST)
+Date: Wed, 22 Jul 2026 01:34:39 +0200
+From: Sebastian Reichel <sre@kernel.org>
+To: "Dr. David Alan Gilbert" <dave@treblig.org>
+Cc: jens.glathe@oldschoolsolutions.biz, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Abel Vesa <abelvesa@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 0/5] usb: typec: ps883x: fixes for older Thunderbolt 4 /
+ USB4 docks
+Message-ID: <al_0LjwmfW-cECnY@venus>
+References: <20260718-ps883x-disable-usb4-v1-0-cec86d0b909e@oldschoolsolutions.biz>
+ <al6-IyyWYRnEW4VC@venus>
+ <al-dJjzorP-I4Yff@gallifrey>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pugdf46x7r7xbl4p"
+Content-Disposition: inline
+In-Reply-To: <al-dJjzorP-I4Yff@gallifrey>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-branch HEAD: 80574c40598aedbc1751c528e414d7e224bc6313  USB: phy: fsl-usb: fix missing static keywords
 
-elapsed time: 6044m
+--pugdf46x7r7xbl4p
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/5] usb: typec: ps883x: fixes for older Thunderbolt 4 /
+ USB4 docks
+MIME-Version: 1.0
 
-configs tested: 15
-configs skipped: 0
+Hi,
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+On Tue, Jul 21, 2026 at 04:24:06PM +0000, Dr. David Alan Gilbert wrote:
+> * Sebastian Reichel (sre@kernel.org) wrote:
+> > On Sat, Jul 18, 2026 at 07:06:28PM +0200, Jens Glathe via B4 Relay wrot=
+e:
+> > > On Qualcomm X1E80100 platforms (e.g. Lenovo ThinkPad T14s Gen 6)
+> > > using the Parade PS883x retimer, connecting USB4-capable docks such
+> > > as the Lenovo 40B0 via a regular Type-C cable (which forces the dock
+> > > into Type-C fallback mode) often results in working USB but no
+> > > DisplayPort output.
+> > >=20
+> > > This series addresses the issue with two main changes:
+> > >=20
+> > > - Add a new optional DT property "parade,disable-usb4". When present,
+> > >   the PS883x driver rejects USB4 mode (-EOPNOTSUPP). This forces the
+> > >   Type-C stack to fall back to USB3 + DP Alt Mode, which works
+> > >   reliably with the 40B0.
+> > >=20
+> > > - Refactor DP altmode handling to also support the legacy
+> > >   TYPEC_DP_STATE_F request (deprecated since DP Alt Mode 1.0b) sent by
+> > >   the 40B0 and other docks (e.g. SSK SC220).
+> > >=20
+> > > - Add a short delay after writing configuration registers, which
+> > >   improves hotplug reliability.
+> > >=20
+> > > This is a temporary workaround until full USB4 DP tunneling support is
+> > > available in the X1E USB4 controller and qmp-combo PHY stack.
+> > >=20
+> > > Note: The DT patch adds the new property to all currently upstream
+> > > boards using the PS883x retimer (15 files). Happy to split it on v2
+> > > if requested.
+> >=20
+> > I don't think a kernel driver limitation is a good reason for the DT
+> > property. I suggest to add something like this in the ps883x driver
+> > instead:
+> >=20
+> > /*
+> >  * Hamoa does not yet support USB4, disable it for now to gracefully
+> >  * fall back to USB3 + DP AltMode. This should be removed once USB4
+> >  * support landed for X1E.
+> >  */
+> > if (of_machine_is_compatible("qcom,x1e80100"))
+> >     disable_usb4 =3D true;
+>=20
+> It seems a bit of a weird abstraction break to put a machine type
+> check down in a device that's not specific to qcom.
 
-tested configs:
-alpha        allnoconfig    gcc-16.1.0
-alpha       allyesconfig    gcc-16.1.0
-alpha          defconfig    gcc-16.1.0
-arc         allmodconfig    gcc-16.1.0
-arc         allyesconfig    gcc-16.1.0
-arm     ep93xx_defconfig    clang-24
-csky        allmodconfig    gcc-16.1.0
-i386        allmodconfig    gcc-14
-nios2       allmodconfig    gcc-11.5.0
-nios2        allnoconfig    gcc-11.5.0
-parisc      allmodconfig    gcc-16.1.0
-parisc      allyesconfig    gcc-16.1.0
-parisc         defconfig    gcc-16.1.0
-sh             defconfig    gcc-16.1.0
-x86_64      rhel-9.4-bpf    gcc-14
+It's obviously a hack, but this quirk would be simple and fully
+contained within the kernel and thus does not create a new ABI (in
+opposite to the DT property). Once the kernel supports USB4 on Hamoa
+it could simply be dropped and people have working USB4 with their
+existing DT.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> I'd bet it's not just qcom's suffering from this as well.
+
+Qcom boards are the only users of ps883x (the driver is exclusively
+probed via DT at the moment). So right now one could also simply
+remove any USB4 support from ps883x, but that would work against the
+people working on _adding_ proper USB4 support.
+
+IIUIC the problem is, that the Qcom board supports USB4, negotiates
+this via the PD protocol and then soft-fails because the software
+support is not yet ready. Most other ARM platforms do not have any
+USB4/Thunderbolt hardware support to begin with and wouldn't
+negotiate it, so they do not run into this in the first place.
+
+AFAIK only Qcom and Apple M series support it. A quick search
+suggsts Apple used an Intel retimer in the past and a custom one
+nowadays. From the looks of it the x86 world cannot use this driver
+either and probably handles retimers transparently in ACPI, so it's
+effectively Qcom specific until other vendors start adding USB4
+support. The only thing announced potentially running into this
+would be the Nvidia RTX Spark, which first needs to be released,
+then find a bunch of people motivated to implement upstream support.
+Nothing with USB4 capabilities has been announced from Mediatek or
+Rockchip. So I wouldn't hold my breath for another user and still
+suggested adding the machine check instead of simply disabling USB4
+for everyone ;)
+
+Greetings,
+
+-- Sebastian
+
+--pugdf46x7r7xbl4p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmpgAggACgkQ2O7X88g7
++prddRAAhL4NyRbROef+dbWH0+QaDvk9eCLvX99NubMXCloYyIVGfR41nxlMt49+
+7a70KAC+BGtNhJNOX2oGuwyQWuSMvicojed9x/Wwn8aCkjWylz8gVhC4ffnfQTD0
+OZo/q1d/IDZ95f7F+zfKTveevqaDLzhq3om/8gM7Z15NB14LV1fFz7N9SVK+9DkV
+ZLvQMjf1dwOaCg0/7hdBNk8M1jAVkcDfR+gkh0kcsya0F/5MnwxhLv/gM/3hGYNJ
+Dwfjk9EZslE3MZVIsdsUtyWutwhrdUj6V3OOCGKvEE9TjEyDu/zVDEUTRVWIK8v4
+MsRT0+SsBSM0YPlU/FT8D56CJ2LOFUoqWnw29UJewMxnflQ54Bxe3cAnZ2bGxFD0
+/XDJUCASrkmzR8YQvJhgTQUCBFv0Wfou2dWjMHql2kWr4Xc7ABOhHxV1tHkuJhFx
+kj/dZsVu3vJj3JFomyHn27G3qjNcJsAjHPhkfrgVtxqDHFW3/GlkXOO/2wQQMCmQ
+T7G/jR8+sjcBFXlhf3Ncx61UasAIsASOICyDqIi43wYXfO8mQsr/6vsMaWCM3AYW
++hy0y5SoxdwCJ5XMTNVml5a6IflJyrL6oBnpBMB+5wR3dDuY0c7D4bgCtkDlexdD
+3DsaLUgcOj4tx8ljd1T9/xS6yq3Syj8CMZ0H2OZorgxql8++9Mk=
+=PakO
+-----END PGP SIGNATURE-----
+
+--pugdf46x7r7xbl4p--
