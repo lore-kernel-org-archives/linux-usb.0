@@ -1,84 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DF73C2799
-	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 09:09:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B833C4B73
+	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 09:12:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784624991; cv=none; b=r57FKzTFhmooyJZfhNBAxzfhUiiM9xjuqJ7t/XHzdEDEt1OedxukA21ZSyOQDvkMUkPpfspqMQBzQ7dn8lfPpRSjrAr79Qa5T9yq4BD63+dLcT/Uze18rQO25LsMWIaugfERoDzkowhS/Dtlskv2a+8nZogatU+3LECItWZjVOw=
+	t=1784625122; cv=none; b=aAjgYA1yOmPos2vfSiAKJ8h9ym5H75eYpfZdtM/eAZdbG+9+vl6JA9YmP209S68SxX6cFhgvQmx5nVNdOSp6xvr2id9NdnC7/Qmc2dYg7bIZmFhzUmtd43JSmJJ3lo6hVuIP14neBG8KYJIpa9KzgcBhxiGe3Qow2kek9cczCdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784624991; c=relaxed/simple;
-	bh=uvM+G7VRk/YqTwwm/37jHxsh/YM0a3jwdT/iGpNt7ns=;
+	s=arc-20240116; t=1784625122; c=relaxed/simple;
+	bh=owGjS9GEb6JZAL9yeS9UGk88aYVHU6W0zz47VKrfioU=;
 	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Kj9oIbvZ8rbwXwhfaircntKQnkuR5jTyYxgv9v+DKHTDByOXA5+M/aHhwJEbLBBfiZuj+r+Iv/Y26fIxj97v0IjOh/ZP4GohNjKSXeiVsMkax4fDO5f59SD8zP0yko37Hbx1ajkgWNcJ2MsNJPc53oBOVCfaYKtHHsqkpyLLbdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MVQO9e13; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=R17ihXmW+mU6Dy3Z0o6PyAnYyJEJldAJurUZk+z4SXDQB3GwfNurLoNqx3JqcapQaasQRgkMmWkhu00PJQjJKySmNpF3j7NGcq9124hwA0HMxGegIEaVTn0jLbV7RL0pgBsafqKEzLO1UWr5tqera/VoAThKLRgusuFjhZKXv+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiPHC8zb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MVQO9e13"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C18571F0155F
-	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 09:09:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiPHC8zb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFB891F00ADB
+	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 09:12:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784624989;
-	bh=uvM+G7VRk/YqTwwm/37jHxsh/YM0a3jwdT/iGpNt7ns=;
+	s=k20260515; t=1784625120;
+	bh=owGjS9GEb6JZAL9yeS9UGk88aYVHU6W0zz47VKrfioU=;
 	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=MVQO9e13QUrl1ydM9tLxQtUaLCsnbcAtu8NgunLGYE4inVyVPW19Oav9+VQRrvtqa
-	 wmKELzHocua82VssA7btIuIuDdOSyzsdxQUjVe1815Zw/htwZXJ+yQtpe+a+6wt5wh
-	 +4j1aVXPzGCBf7oD26cJMav8pl/WEdSZrXJuFV0Zy0Fg4XrpxIa68x5pQQNY8vbOon
-	 2Jb4Om5yt/pVv3lweKK87+3r6/K0Ayn0C1tuO52khz0O+QvalM2yny3NEZ0hZ9HF7h
-	 frdv1XoaboFv7IEsh69K3VaUb3f5IZL78qHP2sWT5Aq9Z3gHI3BUoRl6RBQJCedg/p
-	 0FRgkMqlPYC1A==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-39c74722e27so55735401fa.0
-        for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 02:09:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrE/hOwqsoulhmgsdUbsyoclBSBIsGKu0vU2f7FsfllxNts72bePU/av38OhEUUV3XiwuUd/oBrFcY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyr6V7TwDXITDMEndN+3kf/6xdTNRzpOzAggYVMMGuo2qA9eRmD
-	KkMoU2s7SQ3vQ41N5w1cyn3iPjHFGIWLLerEnIharSJVfz2S4MfjQkK8rEVJQNrrJdVlp34luSV
-	FWma4+Sv3B491dxMa/H3nPpCLWbZJj4jo7g9oyrApUg==
-X-Received: by 2002:a2e:b8c7:0:b0:394:8fc:8c3d with SMTP id
- 38308e7fff4ca-39eb273c8e4mr29254061fa.4.1784624988499; Tue, 21 Jul 2026
- 02:09:48 -0700 (PDT)
+	b=YiPHC8zb+pExl6ZEXHE+3iy3gQmHX2ikNmew/jFcwvkRziWguGcxfAADe0WtSoI7A
+	 8ZkFHjxiWrVOiJ1pIwmkl9706O2lhpWQQmxcZWB76DjDfuyCbP3nRqGQFeRYgz/hEv
+	 oXsXCD9Z/47mZknKOjuv4pCxVaawZ1OBmgeCudZDFaqE8neLUQ3i5Tb6lbQVi/eYlJ
+	 9LC80MKibo4W/itfwbS0AH44tHcz1/AmU/RzIhpNmPX3VEGVf3TIvAgo0lIL4pvIbE
+	 PW2OF+IE2d54dmKR9SkzCSEcMhrsoy2r/cp1B1CX819eEua+f6uyM+ZSTwSfFLdo2Y
+	 8a8nkkv9XHpLA==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-39c8dbf4ef0so100084431fa.2
+        for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 02:12:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RrVaKjOKRk4jAFnP0rzm3eKHopU6WV4kRR+tXWZzDFEKr8s+SJWA1ibwTRSVZT5B/MUiH3h5XUVetE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7NApHVQ3cvtEcYUkQmR0GIiHSMRHpm5BolamXHyolbsNXKfMk
+	3WK7lwxFZQiBKzsaAt52QJuJ0merwxi+2DImTUjpMHArJdA+k5YSD8lopKKdfjiKsD1U4gwxDzG
+	ugnS0tky39vc9ErcPUZ16YoL30Ba1E2pxHQuu5kXHtw==
+X-Received: by 2002:a2e:be27:0:b0:39e:a64f:d7a9 with SMTP id
+ 38308e7fff4ca-39eb274e864mr35869361fa.2.1784625119589; Tue, 21 Jul 2026
+ 02:11:59 -0700 (PDT)
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 21 Jul 2026 09:09:46 +0000
+ HTTPREST; Tue, 21 Jul 2026 02:11:57 -0700
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 21 Jul 2026 09:09:46 +0000
+ HTTPREST; Tue, 21 Jul 2026 02:11:57 -0700
 From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260721065413.2306137-5-wenst@chromium.org>
+In-Reply-To: <0337442c-0278-48e7-9a69-9f11d7325f1f@axiado.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260721065413.2306137-1-wenst@chromium.org> <20260721065413.2306137-5-wenst@chromium.org>
-Date: Tue, 21 Jul 2026 09:09:46 +0000
-X-Gmail-Original-Message-ID: <CAMRc=McBNjvJK-dMBgifFxtgw0-bM_jaMYwJOWCRnV1PTLt-2w@mail.gmail.com>
-X-Gm-Features: AUfX_mwsGGPfxToi9CFWvHg8F0vayIDb1DET27lB_HvrcHXw8Ht65VkjHJmkwKw
-Message-ID: <CAMRc=McBNjvJK-dMBgifFxtgw0-bM_jaMYwJOWCRnV1PTLt-2w@mail.gmail.com>
-Subject: Re: [PATCH v6 04/16] usb: hub: Use assign_bit() in usb_hub_set_port_power()
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+References: <20260716-upstream-axiado-ax3005-upstream-v3-0-c429095143ec@axiado.com>
+ <20260716-upstream-axiado-ax3005-upstream-v3-2-c429095143ec@axiado.com>
+ <20260717-prudent-indefinable-labradoodle-fcaa9e@quoll> <0337442c-0278-48e7-9a69-9f11d7325f1f@axiado.com>
+Date: Tue, 21 Jul 2026 02:11:57 -0700
+X-Gmail-Original-Message-ID: <CAMRc=MdfUXBAm54RyCQXiPMxCp9pLR5mPfM5hnC6_X6O9UhyTg@mail.gmail.com>
+X-Gm-Features: AUfX_mwH0TpNMo9EZd0P-t0js313q4iPqh8W5BqP6DPj-e4tX6QwH3FcJB6hj2U
+Message-ID: <CAMRc=MdfUXBAm54RyCQXiPMxCp9pLR5mPfM5hnC6_X6O9UhyTg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/8] dt-bindings: gpio: cdns: add Axiado AX3005 GPIO variant
+To: Swark Yang <syang@axiado.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Harshit Shah <hshah@axiado.com>, 
+	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Jan Kotas <jank@cadence.com>, 
+	Michal Simek <michal.simek@amd.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	=?UTF-8?Q?Przemys=C5=82aw_Gaj?= <pgaj@cadence.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Frank Li <Frank.Li@nxp.com>, 
+	Boris Brezillon <bbrezillon@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, Mark Brown <broonie@kernel.org>, 
+	Mathias Nyman <mathias.nyman@intel.com>, devicetree@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	linux-i3c@lists.infradead.org, linux-serial@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-usb@vger.kernel.org, 
+	Krzysztof Kozlowski <krzk@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 21 Jul 2026 08:53:59 +0200, Chen-Yu Tsai <wenst@chromium.org> said:
-> usb_hub_set_port_power() open-codes assign_bit(). Just use the
-> assign_bit() macro instead. This makes subsequent additions to
-> usb_hub_set_port_power() easier to read.
+On Tue, 21 Jul 2026 05:35:42 +0200, Swark Yang <syang@axiado.com> said:
+> On 7/17/2026 4:33 PM, Krzysztof Kozlowski wrote:
+>>
+>> This should stay enum which would also make your diff easier to read.
+>>
+>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+>>
+>> Best regards,
+>> Krzysztof
+>>
 >
-> This change does not introduce any functional changes.
+> Hi Krzysztof,
 >
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
+> Agreed on the enum, and thanks for the tags.
+>
+> Since Bartosz already applied this to the GPIO tree, should I send an
+> incremental patch to fix the formatting, or is it fine as-is?
+>
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Feel free to send a separate follow-up patch.
+
+Bart
