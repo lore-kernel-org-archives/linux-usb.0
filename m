@@ -1,98 +1,77 @@
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3CF3783AE
-	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 11:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2985314B96;
+	Tue, 21 Jul 2026 12:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784635185; cv=none; b=Fl++sYTevhShCSg0rY7BFmh+HeuR8MooktSUYFVso91CP9kPT4HmB6nFuYoFw4MCO24EOrxlA0vgp9/dkVDp3zZpJpKPv7SBWLmtxz/Ac5m6AX3DB27UatHIgFLWeo30DgUi4+AvJHG/L9SLd+874PK67xNiit9M2IqGUGbvOjs=
+	t=1784638322; cv=none; b=i2n/e8L3c9z08SIEGC6+aV9cIK4cf3kxdh+GZDgqe1evrYLJnMMM4PoF4dvp1vfqfmgWnGnfXhsK0uH8Z+EboO+0mBRJZ4s1Tr3CW2FdE4JwvEdlc2bsNXehS3FObx0nBRoYwOCWiKBqhBDsJl804Fn6+IT95O06cGZ0g8H9Ksk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784635185; c=relaxed/simple;
-	bh=d6iVx5IavUkxy8UDURux1EOCHlWiuEn2BmT2qru6KkI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
-	 Content-Type:References; b=GGEJRu8MByP6x9XVikUCNCsNhO5fjsw6f1at9VBAAukpAGgSixZGCcVcj7IyWn4N6rF5rVjbxLklTimXMRVmHahKTv6jtrjrb4QzQKl9mdWR56TdOqBFNvbk2tZiaAiSf8JEnfjuWaHPXL1LxeMPVMU3NG7RhPAwlax7oqWi2as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Q5O6xHEX; arc=none smtp.client-ip=203.254.224.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1784638322; c=relaxed/simple;
+	bh=/WBXsmxPEQhihXBkNjWyKrr/NDVq9B8H92LownLm6VU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HJjtbf/5lQFoB14Vb1b+ydgbU3pCs42Oia4bGtavvfqfXpDM4cEDzVXMKqGUu1zj/s3v1zkZYuv6kUxNlN91yVMS4c53sqzJdh3Tcj8QGeFP/OZ10vpZ4ros7r2Uoh7oXXzgucBU15IWLcK/jb+8RsMgOwrJ4nF6EzL1cieFphY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ezeC6XfM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Q5O6xHEX"
-Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20260721115940epoutp01d36f32de4b0aefd72d7523394bd36974~ETD3b_RWy0617106171epoutp01G
-	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 11:59:40 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20260721115940epoutp01d36f32de4b0aefd72d7523394bd36974~ETD3b_RWy0617106171epoutp01G
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1784635180;
-	bh=C96dhuNGYGKvKEqRPxWyYPWU0tAfVKllf9BSY/CwOu4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Q5O6xHEXAkZir0t7rWpMOx0PdITdgVrPYVGUOQNyupyNyVQYCjToxgdG3w3360luo
-	 OBJNv7UME1qDyfItrzZwfhP5/f/m319xN8Kj5MRFTx0M6L7hWVwSbw4kf53D4KQU7N
-	 HUK5cqsmsYmzNSrZORFNXF0FD2YiGDWeHnV5wTFE=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas2p1.samsung.com (KnoxPortal) with ESMTPS id
-	20260721115940epcas2p197bbdab137deeb84f0eed21d14ff6a52~ETD3O0lPM1353013530epcas2p1T;
-	Tue, 21 Jul 2026 11:59:40 +0000 (GMT)
-Received: from epcas2p2.samsung.com (unknown [182.195.38.208]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4h4GCJ3Vpcz3hhT3; Tue, 21 Jul
-	2026 11:59:40 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTPA id
-	20260721115939epcas2p314179c3c0d831abdbb118793b6f48f46~ETD2WxuBR2616526165epcas2p3r;
-	Tue, 21 Jul 2026 11:59:39 +0000 (GMT)
-Received: from ubuntu (unknown [12.81.221.204]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20260721115939epsmtip1aa7da3f6932722f87c4a09d56b42da39~ETD2SzPoC1265812658epsmtip1i;
-	Tue, 21 Jul 2026 11:59:39 +0000 (GMT)
-Date: Tue, 21 Jul 2026 20:56:45 +0900
-From: Daehwan Jung <dh10.jung@samsung.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-Subject: Re: usb: gadget: u_serial: fix stale req->dep panic on
- disconnect/reconnect
-Message-ID: <al9efeoIVhWEc6DG@ubuntu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ezeC6XfM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E8FD1F000E9;
+	Tue, 21 Jul 2026 12:52:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784638321;
+	bh=E3KLFyHSkEcnBiEnanNxln+JZM5R+9tjKkKtlFE6K60=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ezeC6XfMxj9AfI+7UVkG5wIEyTPuVm/GoVDPHZTOaMwZIqueoeVKQj62ZkcbTu1tV
+	 H2lKIbmOoAXvFyW5SJNWeeqbj9YuLEY/F0OUqF5wol3YVgb8EepxTGGUTBNt5xyfWq
+	 0v5X7l/vy1GhR99MqwDsSFWQXUqK4kq++PEMg5CDIM15LorK/sQx5evZAqflR8XMpt
+	 wDj0Mo6Ra05/4HmTan6mi29bs07iSpMs6wnXmeY3/615IjCB1wtxEf/TpktQfgPRTr
+	 xFrObL2dqI52H3a5z8e1IuzIEmUiKzqUuuy27IRINVCXORrN/NUv/rJ0zFFOtra0PQ
+	 3E4YuZCTjC3Rg==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1wm9x0-000000090Np-3dS2;
+	Tue, 21 Jul 2026 14:51:58 +0200
+Date: Tue, 21 Jul 2026 14:51:58 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Chukun Pan <amadeus@jmu.edu.cn>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/1] USB: serial: option: add TDTECH MT5710-CN
+Message-ID: <al9rbrmvNNbp0Ebt@hovoldconsulting.com>
+References: <al4tjkfe3b9C9xSQ@hovoldconsulting.com>
+ <20260721103000.3721570-1-amadeus@jmu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <2026072102-acetone-revenue-f4b2@gregkh>
-X-CMS-MailID: 20260721115939epcas2p314179c3c0d831abdbb118793b6f48f46
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----2_goLOs2Eo.NJF7jaRRb75kR90Fcpo6snoS7cibQGcDoSKK1=_23c576_"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-cpgsPolicy: CPGSC10-234,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260721013831epcas2p18cc80c836585f3b38f718881de13cf92
-References: <CGME20260721013831epcas2p18cc80c836585f3b38f718881de13cf92@epcas2p1.samsung.com>
-	<20260721013509.2327242-1-dh10.jung@samsung.com>
-	<2026072102-acetone-revenue-f4b2@gregkh>
-
-------2_goLOs2Eo.NJF7jaRRb75kR90Fcpo6snoS7cibQGcDoSKK1=_23c576_
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260721103000.3721570-1-amadeus@jmu.edu.cn>
 
-On Tue, Jul 21, 2026 at 07:35:26AM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Jul 21, 2026 at 10:35:09AM +0900, Daehwan Jung wrote:
-> > From: "dh10.jung" <dh10.jung@samsung.com>
+On Tue, Jul 21, 2026 at 06:30:00PM +0800, Chukun Pan wrote:
+
+> It is based on the Huawei HiSilicon Balong chip.
+
+Thanks. I'll add that to commit message.
+
+> > Do all interfaces need (and accept) the
+> > USB_CDC_REQ_SET_CONTROL_LINE_STATE request sent on open
+> > (unless suppressed with NCTRL())?
 > 
-> We need a name, not an email alias.  Same for the changelog, your
-> internal samsung review should have caught this?
-> 
-> thanks,
-> 
-> greg k-h
-> 
+> Sorry, I don't know. Is there any way to verify this?
 
-I apologize for missing it. I'll correct and resend it.
+There are some device that time out when sending that request on open()
+and then you end up with a five second delay. That's likely not the case
+here and we don't currently log any errors if the device just rejects
+these calls.
 
-Best Regards,
-Daehwan Jung
+If you have the time it would be interesting to know what that
+usb_control_msg() in usb_wwan_send_setup() returns for each of the
+ports. Just add a dev_info() in there and log it.
 
-------2_goLOs2Eo.NJF7jaRRb75kR90Fcpo6snoS7cibQGcDoSKK1=_23c576_
-Content-Type: text/plain; charset="utf-8"
+But either way, we already have other Huawei devices in the option
+driver using similar configurations so I'll just go ahead and merge your
+patch.
 
-
-------2_goLOs2Eo.NJF7jaRRb75kR90Fcpo6snoS7cibQGcDoSKK1=_23c576_--
+Johan
