@@ -1,160 +1,143 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB6136895D
-	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 02:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784600319; cv=none; b=hEgRn6jI0VnmD47dd7d83hPWlN6Zp5yWvz/tUVJSrx/rveUkcfbS31IxTCTAK6ND9oUbkkmrVeN9UZfKps5/vHVk3IZ+/9sNYUxk4zgMeJVqCklav0n2W7XEcpBneLHtN1fvRu1hwM/haiIHiD85c6Xq8aoPOgtv5qqBTAkHuXw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784600319; c=relaxed/simple;
-	bh=QTOu5CSizizSoj5iz/k7HdxTrtBvF7bfxYpiFgYurHw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ESYOI4/5hu7P/GJ3czs/AWKRvsJlSssrafbmNcGnSYXCSW4+JOHO8SoogsdtE0+QaNx292LVYq+6SF0mNx6xrVg12MOBsyHcEUi5VU/dTJW3XNj+lUX/2JkIHDU9/RiQojaolm/d1R4HfUpYQd5R1TGWcSHN0b2oySgUEPG78Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=t8PLJJ2G; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA1436A02E
+	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 02:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784601332; cv=pass; b=uYtKdXZ8I4fzrUlI23l4C02ygKabHe2//Nz0zTa89EJtA9YRU9Ggt5izwUOcHGOFnHPqgO+f9Wl5qbQxnSfu2Jn7htNiiOPH7KEmyXOz3mPElNbYIjDh5nOxDADZPyvXT9499yMQ+ZdATFBlMe3FB4oR/YOnfhrAHUGc2Kk3hH4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784601332; c=relaxed/simple;
+	bh=olP6fhFd3yfQBZ1leEzaAFgOUF6R9AP+V+S5E7Ss1Os=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=t1dlroLVGzqJI7UkGRylKLeI8Tcm97mZl5VRSK9rOz2UTi9Uy7yodZs4eIGtxXsD2ONW7rPF6EG59sv6dVXeel9YOEhN3RC/MAPzBs0ViyJF/Zq85KDjFtyckUe33VL1kum09JLPOC5ZZSbu4YQYuKnvhW4giBLNVHznTj1OeRU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uag0ADhS; arc=pass smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="t8PLJJ2G"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-92e5d6f35c1so946023785a.0
-        for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 19:18:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uag0ADhS"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cf452def93so19040575ad.1
+        for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 19:35:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784601330; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BzVEe3frcfIa17mnAcdKpwAl4DYv9BFqUzWCnWag3FeoAVvKi3Fk+uiwWXh3XGFw3t
+         9xetnKieUmbJLg5gzRp4VeBE9JdatPoVxrFlzyqOASCDe3fbCd0J0U3AUGZQD+YzILuj
+         qT64JuiXvv5rcG1zo9R59sKG1p9eFgYcQUSjef6Lb8JCk1RcGf654OfujJShF3Gv2/e2
+         y0EYgPzt5KIAvuC4UGIaFT2lMd0alGOVYnedlGNvACHHvnjbHRNcKuFQazvEhOKK1+p9
+         +lMBsns7g2nxMNbgMGb7BjYnEvvLRqAQPtdG5EIWHA8CPiqoRYWiV5DdKanO1dXAnNy8
+         7XyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=fkktPuEZfL1BF6hmyNT6NL6oesW6VsaR8AVQ/kcA7Xo=;
+        fh=WIPVVV04You4BmRcpklsLxQMbomsR+/AxaMxxz9spYw=;
+        b=i3WlDYU4bjv+aTAiGbY7E2ASZFD6jQfyGYMmjJZHhjVhbBSzh5sgMYmDDL6AruWcjk
+         l7gqS6Mmf+U00Ge6HcHTSkq7Q4c7uslKVHVKV/k6fouoMZjTLX8vKN31NKQyu2jNaKap
+         TBkB2EaJQZyA9kzfDj4dEQEK/rSPVCoYxV9+aS9PMgJ7cHGwUBK4DP6QJLCUGmJdakvv
+         Y6Ei/8aSkiNh738iFoZR3peD4hjuIr8hQgIDwECncu9hXpICgIrpp9BH0oU5UM0TDd+F
+         kI9/pBGv3V0S4b3IshM8XQrFLkRQ1GJlqHVCTx4uCB7O36nPY51+2Ir86lmbu7g1Bb/6
+         hBsA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1784600317; x=1785205117; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1784601330; x=1785206130; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=D8k4ujQWkbP7sTnAVKUtdfzksJQNiMG5COn766xXXn4=;
-        b=t8PLJJ2GdQVnURmpCMtr40Nkr8Lrs+4AhG/YJK80tCpxdyBi/S9NjiMxjiSIv2+qgc
-         Cjy1xteJfhB443wIVhEbDEY6OmK0+NKDeQ4Mzhxisq32KVTlIofokM+1IKTUuDGvbTQz
-         Wb4hZIZl1OJRmp8WD8kZBStCjzsu2bML+4BDtdcpfs6hi7+5MnoYdQYM5427VmO1f4nZ
-         RmcbzfMpsQCBcjTPR1eIJRHIxAyTz3zuyue8w5r83Bsu5wrQH6QduW99VjsOMN1lhG5x
-         u2UeAK7TVKtzaDikTCzlFHDhLbcNqHAXOQytp39ykLSfA8bcXt/CLwAproq4Wum4DFVR
-         h5sQ==
+        bh=fkktPuEZfL1BF6hmyNT6NL6oesW6VsaR8AVQ/kcA7Xo=;
+        b=Uag0ADhSnWewGBNPnrnugL8ukOBXWEHcqQszU0L0hrrNt+pM3/OCp+Z0nHWjyhLBpu
+         2Qw2xRj8+/f+oVxlrDrQJF96uGZiKD8axgOEDv7gtUUZ3+2M7yDaKrMJLtLyLQipxR3K
+         zw47eVNppucmUtW3VAZ4WLMZl/Ejp8NW4MMCIIlb/KpAs+zcbLU/DvvLuHhVas7Mpon2
+         CGfYVYde++O0Aq8XNP47hB44Ze+v6GY38Yg5HvTMvcQqr04hJpEg9dX0XzUo8K9lXTjX
+         TIIdiEgdaxi8Kn/qeSp45i9aBSBcfLKg8joKH30zdth1Glvok91OXYqJPOC/5UfHZ48B
+         vSVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784600317; x=1785205117;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1784601330; x=1785206130;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=D8k4ujQWkbP7sTnAVKUtdfzksJQNiMG5COn766xXXn4=;
-        b=Nle4rJ7FffMtjFnn7ZkbFuQDw4NNri+19+PZUhf2Lv9Wh4UO8nlZhYLyVYS3vkmMk6
-         85kvUkrZofO2EZ0oTjhuzi8TchZkyCorku4QcF1nTBmrVW2kMruCA/hnRTF/oXU16YPb
-         tMDsK9ZJAc4p6tILbXFSelvfpBgBi9svqnCbn3UcFmZDBRG3aztHtlOkCehaa4+F7++r
-         6wZ7cbzxh/wYkiDDkBXV6uLCksAqTyVGiNCOg3U8kwtnNhMmkuMLas/I1h5WR27nAYzr
-         HjO+4ssLSWaUWqdFlvJzs2BB7QckLLWvsK0CJsjZLmnjKVLjngM7M4FpfSevCeyrbUd3
-         LV+g==
-X-Forwarded-Encrypted: i=1; AHgh+RoOPC+Mol2IDjfa5zQOAvUWrpH9Jwlv+BNzYWj1Bdz45l3b/xX7IHFiY60mNZavl/UdB/SRp7JG268=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyV9Noi94oiq77lGRcbeg4Gb/LlVjZzTcrRH2gEueDJXx5zCJ58
-	fA7Wfof+QuMe7/jSS0SghsX02G537mkgh/sy1W6ofp8bXlzO2eEqWfhxTbcTJy1yog==
-X-Gm-Gg: AfdE7cn8bot07ZbcgQhKy5rFbkW952zG0ArGmudQCwRLGGfFvCQwVmKZMGTOBc7Me8K
-	iFF1x+d+Q4wQ0ka23AqLqEz8TinJilzZY23EgwHY2hn5vAA9TUb34CHveq9f2vfQHpQ400HpE5t
-	xnqp1VoT0XWPVrSV/+TsTcPhbiSp8o78acTSrGbyrV9nLeltTjbILSbDOGRsmVX/5R1kwvdOJuM
-	qBzCYvyAov/yHnfaBTh8S2zzioSfEN25Ks1UPSE9a6WVGFTW7spa5+44uftaHxqM62V21/OERSp
-	eRVN0AxpLVDNNDc+7wN5fNlM1qXfe1DGj7aYY2n5gWOXFMwjchWzBRW5exErhNculTJimCdBMGi
-	X7YyMd0lglbzQX4Z17excO7WpHG2X7Q1K8PlWPl5Lfqz0mQ8PrC4m8ZPHWr+1DI0iAXTf/UY/SF
-	2wRnM=
-X-Received: by 2002:a05:620a:2305:20b0:915:efa6:d718 with SMTP id af79cd13be357-930b431be97mr1213727185a.47.1784600316964;
-        Mon, 20 Jul 2026 19:18:36 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-930b5494cf0sm1019636985a.46.2026.07.20.19.18.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jul 2026 19:18:36 -0700 (PDT)
-Date: Mon, 20 Jul 2026 22:18:33 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Minseo Kim <neck3922@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzkaller@googlegroups.com
-Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
- in ep_aio_cancel()
-Message-ID: <887e75d3-dd11-4d98-b6e6-5f6a2c3a6ae8@rowland.harvard.edu>
-References: <CAFmvuTWc880R=mw7=kixfx3Yb8u9thLHPA7D=rm6a8p9dYBBDA@mail.gmail.com>
- <2d4a91dc-037f-4c31-8ce1-7bc840d42b0b@rowland.harvard.edu>
- <CAFmvuTWq7TKZaj6R9JJzWhwe1WB1FanZ17T1-TFL1g2wsUBZ4w@mail.gmail.com>
- <8067503d-1c0d-4319-adbd-225a03e16ea3@rowland.harvard.edu>
- <CAFmvuTUEg8fr8pY91WpEk=CxHuackJfr0c2c4jxexNy9wkiS0A@mail.gmail.com>
- <a5e0e32a-7e49-4112-bcbc-92da449eb303@rowland.harvard.edu>
- <CAFmvuTXQbqbt3qxqUXitzboZhiMxAC7aaOqAtyZXs+QtJvAjBg@mail.gmail.com>
- <a7f9d958-7f9d-40eb-89ea-56094f60c075@rowland.harvard.edu>
- <CAFmvuTXx6bOEEusjf=bw5c-RDVu-bzRLbd_RVnhn2tLe4n4upQ@mail.gmail.com>
+        bh=fkktPuEZfL1BF6hmyNT6NL6oesW6VsaR8AVQ/kcA7Xo=;
+        b=qmSXC9eWN8Qnw4iUf9BtjTNTtrkjC0aNVTi3Fnx7qlo1MJMggDL0CYOTG+6Dq9yU4E
+         RRed82NQVwUSGMQR0HDJ+DecufgNfqTBEUO6chWTzZToqXkw4R0ys7o6Ug18CpjIgYg6
+         IuVCtwvF6BpizSlcg1jUdV0UT+tliLNUkUIKo78oJzGBelawHXwU7PvU07WQnyVZgB37
+         p98fBPDxfa+IT1B9P7LJqfolcOTXR96UrqvEIWibODJNsDkmiEJACxvaQu96Vz9thjiW
+         hmGh0mM/UFZ990tf6G55ivJ2ZUEVoyrXC+wrdFzgGU3hCsgvaCggM0g16O1n9TBirE8X
+         8Fsw==
+X-Gm-Message-State: AOJu0Yw8LpYBgv+Q4ye3056PF5J3cpUSzlkmVxN7tvaFW/1TeMyUDSUV
+	SLNGaxu8d3xJi5z0SCLbLvm+KX96s6weGTBueti/Wr06ol3TO/xHediciV87pI2AAdArhmeEAin
+	878EfviMj1t20kh48dznnIEyak5A2YzQmoqkv
+X-Gm-Gg: AfdE7cmZefQOnpCfU5j68t4zPy/qjtsINsHuY4gTjsX19EaGOM8oI5V3v+MuuU5qCOg
+	/yK9ZZxftZBMab70X97vsLgAaB3Y57G3QqMxtmRx/TVKfdZmd6m63Yl9RjqjqMUVyFhlqlvHkTx
+	oyIXgQeERyFBs+bOFo684dRTMUKSMFwoZtqQq08kpsn+sY7WqkuS88QrKjBQeLPHMVoCyOnwX3F
+	xU7DlcCXot+gS9fxZwDKgbxxx9a/FWz6Er9wDJyUAMqGdfL4MiJPVm17oEL
+X-Received: by 2002:a05:6a20:158d:b0:3c3:7226:d5a6 with SMTP id
+ adf61e73a8af0-3c3ace6f155mr16587487637.18.1784601329813; Mon, 20 Jul 2026
+ 19:35:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFmvuTXx6bOEEusjf=bw5c-RDVu-bzRLbd_RVnhn2tLe4n4upQ@mail.gmail.com>
+References: <CAJ5U=Uw2R7xVEY3ugZ_gRsi+yC9WviMbFEO9RbR6A3ue-G=adg@mail.gmail.com>
+ <34fd1f17-6e84-4d5c-bbc0-e1cb990d2017@rowland.harvard.edu>
+ <CAJ5U=Uwnt0kSJ+rFiA0tDg0=VZo3sVjfs49nHoFKXp28JTNoxg@mail.gmail.com> <bc2e0cfb-98ab-45de-a85d-e380d9db3629@rowland.harvard.edu>
+In-Reply-To: <bc2e0cfb-98ab-45de-a85d-e380d9db3629@rowland.harvard.edu>
+From: Anon <myaltforstuff1234@gmail.com>
+Date: Tue, 21 Jul 2026 05:35:18 +0300
+X-Gm-Features: AUfX_mw-hqyYov771pyugxfD1XGgT14bquHDgB835E64LVnAOxPOjGRjWWRBJqU
+Message-ID: <CAJ5U=UwY7xADYQQL9fMxnigFbNdiKONVLettG4jFe7D8JtpyNA@mail.gmail.com>
+Subject: Re: [BUG] usbcore: EPROTO on first-stage Config Descriptor read
+ (ShanWan clone, 2563:028e)
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 20, 2026 at 05:59:19AM +0900, Minseo Kim wrote:
-> Hi Alan,
-> 
-> Thank you for the revised patch and for your kind feedback on my
-> analysis. I applied the patch to upstream v7.2-rc1, commit
-> dc59e4fea9d83f03bad6bddf3fa2e52491777482.
-> 
-> Regarding cancellation before ep_aio() returns, the reproducer I used
-> for that test has separate submit and cancel threads. After
-> kiocb_set_cancel_fn() links the corresponding aio_kiocb into
-> ctx->active_reqs and releases ctx->ctx_lock, the cancel thread can find
-> it and call ep_aio_cancel() before the submit thread returns from
-> ep_aio(). The synchronous reference retained by the submission path is
-> not dropped by io_submit_one() until after ep_aio() returns, so the
-> aio_kiocb remains alive during this interval.
-> 
-> With the revised patch, I did not observe the earlier setup-time
-> null-ptr-deref or the original ep_aio_cancel() null-ptr-deref and UAF
-> signatures.
-> 
-> However, with kiocb_set_cancel_fn() moved after usb_ep_queue(), I
-> observed a different UAF:
-> 
->   BUG: KASAN: slab-use-after-free in kiocb_set_cancel_fn
->   Write of size 8 in list_add_tail() at fs/aio.c:658
-> 
-> After the request is queued by usb_ep_queue(), its completion callback
-> can run before the iocb is added to active_reqs. In that ordering,
-> aio_complete_rw() sees an empty ki_list, skips aio_remove_iocb(), and
-> drops the asynchronous reference. ep_aio() subsequently links the
-> completed iocb into active_reqs. When io_submit_one() drops the
-> synchronous reference, the aio_kiocb can be freed while still linked. A
-> later active-list operation can then access the stale entry; the first
-> KASAN-detected invalid access occurred in list_add_tail() during a
-> subsequent kiocb_set_cancel_fn() call.
-> 
-> This UAF was repeatedly observed with the revised patch and was not
-> observed in matched runs on the unpatched kernel using the same
-> reproducer, workload, and timing settings.
+On Tue, Jul 21, 2026 at 03:50:37AM +0300, Alan Stern wrote:
+> I don't know; it's up to Greg KH.  However, he's probably waiting to see
+> what the response will be from patch reviews, in case any changes end up
+> being needed.  You can speed the process along by reviewing and testing
+> the patch yourself, and posting your comments on the mailing list.
 
-I've got some ideas on how to fix these problems, but we should discuss 
-a few things first.
+I'll be honest, I don't actually know how to compile and apply a
+kernel patch myself. I'm not a kernel developer, and that's a
+different skill set than the packet capture work I did to track the
+bug on my V600SE controller. What I did do is forward this patch,
+along with the bug I found
+on my V600SE, over to the CachyOS GitHub to see if they'd be willing
+to backport it. If they (or anyone else) can hand me a kernel build
+that already includes the patch, I'm glad to install it, test it
+against my hardware (2563:028e), and report back whether it actually
+fixes things.
 
-The real problem is that I don't have a clear idea of how the kernel's 
-aio implementation is meant to work, and it isn't documented at all.  So 
-there are a lot of questions about how the cancel function is supposed 
-to interact with the normal I/O pathways.
+> One change that would be immediately useful would be to add quirk
+> entries for the various devices that people (I think there's been one
+> other besides you and the patch author) have said require it.  Maybe
+> that should go in a separate patch, however.
 
-For instance, what is the cancel function supposed to do if it is called 
-before the submission function (ep_aio() in this case) has returned, and 
-the submission function eventually returns something other than 
--EIOCBQUEUED (i.e., submission failed and no I/O was started)?  Or if it 
-is called before the submission function has started the actual I/O 
-operation, so there isn't anything to cancel yet?
+Happy for my device's VID:PID (2563:028e) to be included in that if
+it's useful, whoever ends up putting that patch together.
 
-What is the cancel function supposed to do if it is called after the I/O 
-has completed?  Should it return an error code?
+Anon
 
-What is supposed to happen if the I/O is cancelled and then completes 
-with no errors?
-
-How does the system handle a partial transfer, where the I/O was 
-cancelled part way through?  How does the user learn how much data was 
-transferred before the I/O was cancelled?
-
-I can program very defensively, to handle any possible interleaving of 
-the submission, completion, and cancellation paths, but I don't always 
-know what is the right thing to do in each case.  I'd appreciate any 
-suggestions you can give.
-
-Alan Stern
+On Tue, Jul 21, 2026 at 4:57=E2=80=AFAM Alan Stern <stern@rowland.harvard.e=
+du> wrote:
+>
+> On Tue, Jul 21, 2026 at 03:50:37AM +0300, Anon wrote:
+> > Wow what are the odds a patch this recent landed for this exact
+> > problem. Thank you! Realistically when will this patch land in
+> > mainline?
+>
+> I don't know; it's up to Greg KH.  However, he's probably waiting to see
+> what the response will be from patch reviews, in case any changes end up
+> being needed.  You can speed the process along by reviewing and testing
+> the patch yourself, and posting your comments on the mailing list.
+>
+> One change that would be immediately useful would be to add quirk
+> entries for the various devices that people (I think there's been one
+> other besides you and the patch author) have said require it.  Maybe
+> that should go in a separate patch, however.
+>
+> Alan Stern
