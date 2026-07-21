@@ -1,148 +1,148 @@
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F8F3DB64B;
-	Tue, 21 Jul 2026 10:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCE147B431;
+	Tue, 21 Jul 2026 10:19:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784628934; cv=none; b=VbXYxCJktGEyJl79iU27XJpkHAnYl6v5O0NJn9qeMs697sH73qhYkNaHT1uIvVhr17Z4lCdHx5hHgZ1DNGib8HIorc44IyWVroQQ56VgcgjNKkTU0Deh3FKWLb/fxdAUcGm/LA9dfKiDTIYVjWWR5M0ogcE/QWtMx26rT95+8O8=
+	t=1784629188; cv=none; b=YCBayxRZM8ff96kGaM2M/t2szYBfP2H8CiC1wQTocUeSPHDZLY3/CkHLw6DGAV51+zEEaNKt0u/uNDrk0xdO862j1INrK7SFj0G0VHYebEtoec6sHGhJ4asoPaQHpfKSK4FqLP3HYhXagL3g1XwOcHy06FyqvEBxpe2lTKFvHQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784628934; c=relaxed/simple;
-	bh=5ahVlNagwFDHiZoLi6dsBoUw1g3dj2YLzdPI4pt+hNk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=L/wtW2BPTx8Cyd/5Ep3SlrM3VO7KK/2lDtLZI0wSulJChiHHMa8gJHya4C/E9wfXHnlpQmUbZN1AOobPuR0NxkRV1aSHobZOxYPEi1V1RO+qR6LV3xam+875+NXv9MEuBvyQlXbhdUS4lQqVT6GNcCmBNfErqQEVPcUsMNJO4Hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=YNKekZ+I; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Eezk5ZeX; arc=none smtp.client-ip=103.168.172.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1784629188; c=relaxed/simple;
+	bh=F7PPeOpKbYFmNXZJaRImknjDFrLgvv/OQHLCHRkcXGA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FqES4OPFH5yaYWG9cYuKF9KqvyDUKRHZEY8rSRQkY3zo7zeBDJwuusvoBD3ILRPjaw+l95zzYUnFOZmU99Z66QUejX0cezk1MoTjvMhte+BgRMcqrBGAk21ezjPjIwDFmMKweidb6H/dLt98A2Gd8sYB0Tf1IJwhpeosJ4A0lMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NErrUrnb; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="YNKekZ+I";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Eezk5ZeX"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfout.phl.internal (Postfix) with ESMTP id 3C3EAEC01B1;
-	Tue, 21 Jul 2026 06:15:32 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Tue, 21 Jul 2026 06:15:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1784628932;
-	 x=1784715332; bh=94AV+cR78S0dpuQCrWvPUW036jLFomuUdH+WCCzjOM8=; b=
-	YNKekZ+IrYK7A64ID3Ta11wo0d0Co1d1Q7q15Od+uiJcLM7VoMUQLklSQO01J7GX
-	C+kdx2IiLE43occfOZWPwUoOezyCFRWV25DAcCPjDca2MrHMq0yP4dQfec3w945Q
-	5YF0mpsP8oOgCT/juhsE2VPiFHAbUn0dYcCSyIW0t/ZQpiKLihtyRDJfgNoxtCBK
-	rRRuu97P2bRL+eSL/pM4kwzcqEO256zyYb/rBSOLxbbmHU0AXh/7Uk92QBEtR26t
-	ap5oYNPi3boMbbHNXSpSoCCcvahquUlrjI3XJa5GMFT9t4n64L6G9UOf7J6P6LiB
-	yWHFyON8bqKnuWbpuTjsmw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784628932; x=
-	1784715332; bh=94AV+cR78S0dpuQCrWvPUW036jLFomuUdH+WCCzjOM8=; b=E
-	ezk5ZeXU3TQgKLXkCHMuMMH67jUio4c95wefdHbbH7byEq0EV53pJXaDPrGCgKPJ
-	G/B5ZzKGV4pmSzUM/IXVVpFZlZCx9a5654l6MG6jrb/YjE3B3bV5ypjBhFuMkcaD
-	JD8mtDEkjpyFMw8DTOx8HHTVBO7fra3kmyJI/BmMvpn3hfuifvvGdG7iZriCOdVD
-	Dc6yGEmWQb14//SjPY8dTNnWXhoS1OeTFAga3vnrlk/ye1rNTaOJjM/oBgxLJb44
-	U6YkW839W6M+Skoi2BBeXZA+PfZOLr2Qn7EFkjgaGFzSAFltEqdKy5lkqYBiL5HK
-	+s9NNn7K+O7+D60Fs8p/A==
-X-ME-Sender: <xms:xEZfatj3TqoElm7lB_GuGQUd5pJPeZCrokmkRrmxMylrzZVM6HP2xw>
-    <xme:xEZfaq_wZ0UMUtwByQCzwY-L-h-PY0icc97A5IlEddpnk-WuPQWwUnXMhvdw_Knoe
-    aaJwNjVexZ1lRJuSsygnWZMIdha0n_oYunfVieOPstFrD1IDQw>
-X-ME-Received: <xmr:xEZfaor8C-kqgByaqmh2epY-DSCjqA1OvqJ43ynilNC8KMkhGEPdsq1rKG_uthv8GbEunZI3iWL485qbH5HlYc2krScE3TRgdg>
-X-ME-Proxy-Cause: dmFkZTGCelPdHk18W4dLQbOqKO02toPalmUBSqIJlCMJbAYBHGMYqrYQKTJKHurziZmiCb
-    QH6LxgEw1VSPq/bOYq4F1SlQWy0lx7Jf+eh2/s1GtdkMKirxcJsQr9QtH97/Tu1XJmXGBS
-    hPT900IQbS60hL1sHASWjkyH9jRK6ZhO8OmqbafLvkkmzC32TgC3DoQ5hjhHM/8qjbSCWV
-    38MCugc48y/bzBIgxjU2AjzXw1fBuuTV3/XT08Cq8zvwQcgjbc2+ieCMYyPD58S5gd9dIF
-    fg7ZWGzc+1wK9ys54weg/c/FnZzjma9mXN+eU3iT+efCJKu8HjCyZCbukbquxxsYw98lYF
-    8rRo83Ehhx4Av0A7sDXh+khCUoL7s2d5leAhsGM5zDf2/lCYeTu7FRL/PkFrRQFxoD7+sk
-    QjSppaMRJMaqGe+3nNNotIJFXvf253iqGlgz70XvRLB6uvT+uMcd8taSPfouBbxetkfSYm
-    jqg3wq0mai02l9n8rq/xFbpIlcHnDn76P/DfgLt95JDDuFfawRxE6G/Sy04WRtC6boQQGB
-    9Odq90oPl38SUVlk7Iqe0GfEmn4oWpfOBd2przOn/2x6x9TpxLKkaQ6jtjAgW3PBDEn7Qm
-    8pOgEFDBv3eEYEgebHTkcykDWU+GcaGrzLY5HHu+KSWRtNqTCjzi9ZmNpQyA
-X-ME-Proxy: <xmx:xEZfaiXEp3FZtkimSSFDCOSlnabXozqVfTeyKWS31ztiua938TawAw>
-    <xmx:xEZfanAch08ER_8tXIP-2H0BUKPKes1AsKnjoH1z340jm9kCqW-F-g>
-    <xmx:xEZfam0rQXtsl8rFJcKLqgA2XxnJxLmyl3E_qJeTJrqyN2RCFkW6mA>
-    <xmx:xEZfap06tfxu8CJDbpetwE9Aiu1XIqEuw_wxF6g78KGVeTP4QhvdIw>
-    <xmx:xEZfao_x0FMmr4qW2Xi0fji3sJ6L1ETQaOH-TG8gjt9lcmqhg716697x>
-Feedback-ID: i1d2843be:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 21 Jul 2026 06:15:31 -0400 (EDT)
-From: Griffin Kroah-Hartman <griffin@kroah.com>
-Date: Tue, 21 Jul 2026 12:15:20 +0200
-Subject: [PATCH v2 2/2] usb: core: reformat error handling and messages
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NErrUrnb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784629186; x=1816165186;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F7PPeOpKbYFmNXZJaRImknjDFrLgvv/OQHLCHRkcXGA=;
+  b=NErrUrnbjatdw8zM4lZTZ/5v9YPCoES7Umsx0xBXUCqwwYZy0CyX22n0
+   wzRBH/tfNykwZMEV2VEUZgBCj/n5UVjEyz7oNtZPWW2sfQBvq3b7PzarI
+   Uz+AIBBhZH4w8fPyinkE1nGHEz3BJgqW8xjQ5rhNNhWDeVOE/JE/+qhqN
+   kTrqsSpIaI3FRW2OEHBq5/WZuXqqS6IJKtyWyznLUtEAJmfgRjd5kf1Y4
+   NlcV5H4BrrdjUj8zoaRq+Ftuw09PI5Deu1KA73O2p8QSgNCy5+7u7RlzK
+   Wbs0ufUr9xJnimKXzxzj7ribhYKUAxW+qgj62NiDFRClkl9QZ9uNlhSe5
+   w==;
+X-CSE-ConnectionGUID: QipOHEB5Qb6eH6Ul7Y9TaQ==
+X-CSE-MsgGUID: /KNiHUPvRW2VagIJbFoApw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="89049335"
+X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
+   d="scan'208";a="89049335"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 03:19:46 -0700
+X-CSE-ConnectionGUID: xGIYhQvgTX23d/aVtYp7Mg==
+X-CSE-MsgGUID: b3v5AhudQHGxvG0SSyS61A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
+   d="scan'208";a="255938275"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.67])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 03:19:40 -0700
+Date: Tue, 21 Jul 2026 13:19:38 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH v6 10/16] usb: hub: Power on connected M.2 E-key
+ connectors with power sequencing API
+Message-ID: <al9Hugh1LrCTn0du@ashevche-desk.local>
+References: <20260721065413.2306137-1-wenst@chromium.org>
+ <20260721065413.2306137-11-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260721-usb_core_patches_2-v2-2-05069c892fbf@kroah.com>
-References: <20260721-usb_core_patches_2-v2-0-05069c892fbf@kroah.com>
-In-Reply-To: <20260721-usb_core_patches_2-v2-0-05069c892fbf@kroah.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Griffin Kroah-Hartman <griffin@kroah.com>, 
- Alan Stern <stern@rowland.harvard.edu>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784628928; l=1834;
- i=griffin@kroah.com; s=20260706; h=from:subject:message-id;
- bh=5ahVlNagwFDHiZoLi6dsBoUw1g3dj2YLzdPI4pt+hNk=;
- b=EsrOaEpONfJhF7qmDa99Teve6wK1raG8GyyKQ8dEZ0mRiieU2sLewrBi79QUstsHtrMD7yHhc
- stBiX6g2tcCCoadkt8IlnVBb5CJ0fQbYKQ2Wlbkg9S8a2qd9S5ZLOKG
-X-Developer-Key: i=griffin@kroah.com; a=ed25519;
- pk=Hy1TuVHERdQhLAWwjmxLFNtGj7eEEjaZWPXehAlic5M=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260721065413.2306137-11-wenst@chromium.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Rearrange the error handling changes in the previous patch, in both
-hub_ext_port_status() and hub_hub_status(), in respect to maintainer
-feedback.
+On Tue, Jul 21, 2026 at 02:54:05PM +0800, Chen-Yu Tsai wrote:
+> The new M.2 E-key connector can have a USB connection. For the USB device
+> on this connector to work, its power must be enabled and the W_DISABLE2#
+> signal deasserted. The connector driver handles this and provides a
+> toggle over the power sequencing API.
+> 
+> This feature currently only supports a directly connected (no mux in
+> between) M.2 E-key connector. Existing USB connector types are not
+> covered. The USB A connector was recently added to the onboard devices
+> driver. USB B connectors have historically been managed by the USB
+> gadget or dual-role device controller drivers. USB C connectors are
+> handled by TCPM drivers.
+> 
+> The power sequencing API does not know whether a power sequence provider
+> is not needed or not available yet, so we only request it for connectors
+> that we know need it, which at this time is just the E-key connector.
+> 
+> On the USB side, the port firmware node (if present) is tied to the
+> usb_port device. This device is used to acquire the power sequencing
+> descriptor. This allows the provider to tell the different ports on one
+> hub apart.
+> 
+> This feature is not implemented in the onboard USB devices driver. The
+> power sequencing API expects the consumer device to make the request,
+> but there is no device node to instantiate a platform device to tie
+> the driver to. The connector is not a child node of the USB host or
+> hub, and the graph connection is from a USB port to the connector.
+> And the connector itself already has a driver.
+> 
+> Power sequencing is not directly enabled in the connector driver as
+> that would completely decouple the timing of it from the USB subsystem.
+> It would not be possible for the USB subsystem to toggle the power
+> for a power cycle or to disable the port.
+> 
+> Sashiko mentions possible use-after-free of hub->ports from the sysfs
+> callbacks. This is actually not possible, since the sysfs callbacks
+> acquire the hub device and its lock, and then check if it is in the
+> process of disconnect / removal. If it is, then the callbacks just
+> error out.
 
-Additionally, change the two usages of dev_err() in these functions to
-dev_dbg(), and reformat the error messages to be more accurate.
+...
 
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
----
- drivers/usb/core/hub.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+> static inline bool hub_is_port_power_switchable(struct usb_hub *hub)
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 0d2166b8923a..a563f7db1c59 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -623,11 +623,11 @@ static int hub_ext_port_status(struct usb_hub *hub, int port1, int type,
- 	mutex_lock(&hub->status_mutex);
- 	ret = get_port_status(hub->hdev, port1, &hub->status->port, type, len);
- 	if (ret < len) {
--		if (ret != -ENODEV)
--			dev_err(hub->intfdev,
--				"%s failed (err = %d)\n", __func__, ret);
- 		if (ret >= 0)
- 			ret = -EIO;
-+		else if (ret != -ENODEV)
-+			dev_dbg(hub->intfdev,
-+				"get_port_status failed: err = %d\n", ret);
- 	} else {
- 		*status = le16_to_cpu(hub->status->port.wPortStatus);
- 		*change = le16_to_cpu(hub->status->port.wPortChange);
-@@ -992,11 +992,11 @@ static int hub_hub_status(struct usb_hub *hub,
- 	mutex_lock(&hub->status_mutex);
- 	ret = get_hub_status(hub->hdev, &hub->status->hub);
- 	if (ret < sizeof(hub->status->hub)) {
--		if (ret != -ENODEV)
--			dev_err(hub->intfdev,
--				"%s failed (err = %d)\n", __func__, ret);
- 		if (ret >= 0)
- 			ret = -EIO;
-+		if (ret != -ENODEV)
-+			dev_dbg(hub->intfdev,
-+				"get_hub_status failed: err = %d\n", ret);
- 	} else {
- 		*status = le16_to_cpu(hub->status->hub.wHubStatus);
- 		*change = le16_to_cpu(hub->status->hub.wHubChange);
+>  	if (!hub)
+>  		return false;
+>  	hcs = hub->descriptor->wHubCharacteristics;
+> -	return (le16_to_cpu(hcs) & HUB_CHAR_LPSM) < HUB_CHAR_NO_LPSM;
+> +	if ((le16_to_cpu(hcs) & HUB_CHAR_LPSM) < HUB_CHAR_NO_LPSM)
+> +		return true;
+
+> +	/* check for controllable external power sequencers */
+> +	for (unsigned int i = 0; i < hub->hdev->maxchild; i++)
+> +		if (hub->ports[i] && hub->ports[i]->pwrseq)
+> +			return true;
+
+Missing {}.
+
+> +	return false;
 
 -- 
-2.55.0
+With Best Regards,
+Andy Shevchenko
+
 
