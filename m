@@ -1,176 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F102449B12;
-	Tue, 21 Jul 2026 00:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784594634; cv=none; b=dwFdHwnNXtZIqgVOHaEQ2NjmuCUbHvT/dex7cnpfVzTdbZnPo9UgLJPNbfy2+16me2UxZolWSvhnn4zPbAWAhLAB6TWrVjLTn2Gp57ZQIM8lr1KF6vWyH1svoMDlX8wL1BtMSGtV2zYH5Xb2FBctHr4MkkUby+fF1C25CX8hkBA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784594634; c=relaxed/simple;
-	bh=cbUUJ+eotvRm5zqUM2Kx6OHXTRyJBbLTfUabYVaGVJU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eUM3a/7ivqmgD8ZCMd3ZaT+2T+bOLM+Vrl5UDWx1XxR/+rMlGFDh57QSnDTcpd/hLdwa6JXFaNhSW3TcaPsxQBDj+xemPkfHiZsi3YbYNowm2XURAKjTNTfroSUDFzaNxnjxlRhDMNQk4VSM1VYDXiPG6J6WNvRXPPGnHxp6ZOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RcUB+xYs; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07703368BD
+	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 00:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784595051; cv=pass; b=DH46awxubiHQ3FMOAXT8s8vWUv33swIICOos59o9XtytFcWw8OElGLgJDXyl403P3eevW2dlxOJudzcyzVoL32qADCkYxiQFp0MBQol6cHtF9vNQHagDjdrJuStW5VvR1Okd5veYtEGIhv5L0qweaxdfoiuKVvRT2lDK7iAMqqg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784595051; c=relaxed/simple;
+	bh=Ijrl8AOK4suXz+UBtKa0/wn8BspCDqyzYDuJPUy8ekA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SINXfrGc75EzKZBbs6VW5SnTej3R3MmdPsEncb61OeWTTVlj++y3ZwEDcowqxBAHmHxISnm/ltCqUG1bdwfTG5gvRHYV41Tr+c0PLwgfOIFtuTMoTdkL+dZaSk88Rewwk2i00lqrQ4KTFZNk7b3FuXI9o+qf7q/7DQ5mX/iJvoE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IJRVC2Ms; arc=pass smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RcUB+xYs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60AA41F000E9;
-	Tue, 21 Jul 2026 00:43:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784594633;
-	bh=Fd7hZsvKd8rP/mpwq0Fu3nIETh38pakepxFmYnJYgxg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RcUB+xYsd+/61NPi9gClvOM297EcDNaD3cip6fmFmafrbDFc35548GifLazPnBIE7
-	 72vA+A031otpSAV4CSK+7zxnl39hBheSrMIj7rf28bo3naMhrR8q+QkGuM8jywBGR4
-	 AqpSba3upqKYQrEzeW3hU0sGclvpreircWESkf0H82zqO9yaDa0k9BJn8dotvaK0EI
-	 GeiIrJLVP1s7Pa+aqCtPZvpT328JqaMzeFYs3wWz5EkBky1sTrjnNjtssxjeKeIZtX
-	 OcUS/+XPTeE0NzhhVj1Di4KN66SZIzu6KY0gNXvf6K/lEvTSuZoaQD4RO2AerjPzXy
-	 z7/oXCTWCFw6Q==
-Received: by venus (Postfix, from userid 1000)
-	id CF0C81804CE; Tue, 21 Jul 2026 02:43:51 +0200 (CEST)
-Date: Tue, 21 Jul 2026 02:43:51 +0200
-From: Sebastian Reichel <sre@kernel.org>
-To: jens.glathe@oldschoolsolutions.biz
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, stable@vger.kernel.org, 
-	"Dr. David Alan Gilbert" <dave@treblig.org>
-Subject: Re: [PATCH 0/5] usb: typec: ps883x: fixes for older Thunderbolt 4 /
- USB4 docks
-Message-ID: <al6-IyyWYRnEW4VC@venus>
-References: <20260718-ps883x-disable-usb4-v1-0-cec86d0b909e@oldschoolsolutions.biz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IJRVC2Ms"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ceb096e675so106623245ad.0
+        for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 17:50:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784595049; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Am0MPO9vxMDrLavPgrPUE6T/2wtZoVveE3z9HiSH77NGSNndm+QF6jGgy054RrUDZp
+         Jyk6bSjmDElMFNlBTWoiwgP0n99nJXw+1BEWtSW3e/B/dYSykCvDOH5qDvT8ROOJH44M
+         OMmOW9uoo8JCJBsy1aZ78JdYAmN8br+A5I0ruVHj0WAUIn6+/Fm7UUcpNKLpVAUcgJ+O
+         lCiMl0iVUuiTc+e5iJ1SNgoh7DuBZvYkYQIQzaoR95mBuoHuGFn/0OKVdFNPhZOZg+B5
+         6SPh5qSs3eY/YCPkGsNwjPUM8StAJmIpaH+7z86sXqVlLTYiYWCZ7TOGCY5CGVvott/+
+         3Ybg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=eT35gyvZmMmvMyNqXFKHJFkmLqPivc/FT4p5X4DNc9g=;
+        fh=WIPVVV04You4BmRcpklsLxQMbomsR+/AxaMxxz9spYw=;
+        b=baqJ9q+LjdPSqQzWSN9mAAlvnkSo5rJMrLVd96Ap4VvW/U9756WXRcr/jqe9vycCAR
+         m55sCEA+CFJzIPFx6WVuXyvPdXgtFS/FXL4GZZdduTOSkCNOFZ5/X4RZ+swAVWazlx7Y
+         hzFclF9IZAhoRCsxxuF65crNqCbuEIDhmFO/MVRQbtOqOi+WdASwZi5FO6s0HpxV9+uH
+         JeI5B+9u+rs/C/vROo14Wmpor6Y7xqrWfhYTWIv4LBgNLb3yr2/KeOlNiMXzKtWqjiAE
+         XfHFTvOqB4IoBnLcdFhjCMVlvO9KxwKjjq4lC4WfeenRIicsJ3Gki9eBJD6g2aFeKTT/
+         734w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784595049; x=1785199849; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eT35gyvZmMmvMyNqXFKHJFkmLqPivc/FT4p5X4DNc9g=;
+        b=IJRVC2MsxC0d9L9dl0fvlAWP39DOMD6C2Ftfa9sDPGQbkAprS3gdDxI1Jmmr0xSuVz
+         fGlhLMgyP3sybHMAXxnnQ1FED8Xh1O/DVdEOmxzbgpUgEwwJL1lhswDd1hOj7ET3XtPx
+         acJaUPKqC1ocDQyXITUyJIgv52F2SxH2cB1ItCFzGf3S2SlTkHavnckzxNZiGv643Wgo
+         pLswBnCdYimKEYJPKyK4WZnIqOFZEGHj3fckRZeybwSy3ypmkeBf2IeclNX+CfdwH8IG
+         A8bEPUK+3u8fMDwCPFfU5kMUCotkREzgeqtVr0Fmek1i5SY3ZiqHBk47F047S53vS/KM
+         eEnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784595049; x=1785199849;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eT35gyvZmMmvMyNqXFKHJFkmLqPivc/FT4p5X4DNc9g=;
+        b=Oi4mPQ4wjyAL1RprTYFFODkUX+dD9Ri5h+plPHxehDtLqJDIMdYg4F/dU4AzwQnZDo
+         4Fwt1FZYAxu2mUcfVq7GVuzYtCvAn/zec+ySLoDhxZ8yBNqy9upq1xd+q97SgBndQinL
+         RwvSBTuDPiqm9RtjwIgE+G4LSE4EmIUBfgdtCEL1qUqeQtVplcXUtyQXU/a9XmZ2A6Bb
+         7TiiURZQwMkMlp2zzOKeGxxgp8atXjGrn3vppkrAR+fkYeC4sfBOjVameQqkyPNmq98f
+         M/rbiDW0AcZRP35n/GYo5Z+TmcwX4l4c2QTqj8jGOfivYhCW2s4SARJJBHU5tpLjx6X7
+         PZqg==
+X-Gm-Message-State: AOJu0YygaH+fgSL3ziM1JGXcEkTPBjPp7mRPtUJ6xWh0K/3Tmwkl1Eai
+	bDsNtU7cG15e/zUrEXoDt3JL01DkV35/XI1YaKqUHqEE68o+sX31EmvDgt2OvOJzYc2ebYaL6MG
+	vdY9EtqSHbxh7p2oLJr2J8f8YU8aaCko=
+X-Gm-Gg: AR+sD12Epyx9OP6HpjKGfF1h/p6hZhXdCSm/7CXDp7sPOfVa8qb4lidNab0JR51Dp6d
+	dmxHOvukTrxeMUKBUoKb71IxmFHQiGhAbhNQPQ5omV18p+3ulLeMprKyICRFTzHlze+i02ZAKop
+	f2hqDKjq70B4LWHuN95Qqiq2PER8lJpvChFxbwtMe8FBneCCJ0k0Hr7ETv3UANlj4uHEsML2QXj
+	WsyxrkoudUD+nAj1HW7SlG/5ZcJPgsywU1Dv9b347MSPDcDjfzP4p47jbuw
+X-Received: by 2002:a17:903:1aa7:b0:2ca:20b1:3e0a with SMTP id
+ d9443c01a7336-2cf34832655mr173102495ad.3.1784595049084; Mon, 20 Jul 2026
+ 17:50:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fkc6jiysmodswgij"
-Content-Disposition: inline
-In-Reply-To: <20260718-ps883x-disable-usb4-v1-0-cec86d0b909e@oldschoolsolutions.biz>
-
-
---fkc6jiysmodswgij
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <CAJ5U=Uw2R7xVEY3ugZ_gRsi+yC9WviMbFEO9RbR6A3ue-G=adg@mail.gmail.com>
+ <34fd1f17-6e84-4d5c-bbc0-e1cb990d2017@rowland.harvard.edu>
+In-Reply-To: <34fd1f17-6e84-4d5c-bbc0-e1cb990d2017@rowland.harvard.edu>
+From: Anon <myaltforstuff1234@gmail.com>
+Date: Tue, 21 Jul 2026 03:50:37 +0300
+X-Gm-Features: AUfX_mwK3z4hZ14NysVi3dE9OGG135tBhWkqg1I9yl5rTIl9FZPA5X4POtVUg7A
+Message-ID: <CAJ5U=Uwnt0kSJ+rFiA0tDg0=VZo3sVjfs49nHoFKXp28JTNoxg@mail.gmail.com>
+Subject: Re: [BUG] usbcore: EPROTO on first-stage Config Descriptor read
+ (ShanWan clone, 2563:028e)
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 0/5] usb: typec: ps883x: fixes for older Thunderbolt 4 /
- USB4 docks
-MIME-Version: 1.0
 
-Hello,
+Wow what are the odds a patch this recent landed for this exact
+problem. Thank you! Realistically when will this patch land in
+mainline?
 
-On Sat, Jul 18, 2026 at 07:06:28PM +0200, Jens Glathe via B4 Relay wrote:
-> On Qualcomm X1E80100 platforms (e.g. Lenovo ThinkPad T14s Gen 6)
-> using the Parade PS883x retimer, connecting USB4-capable docks such
-> as the Lenovo 40B0 via a regular Type-C cable (which forces the dock
-> into Type-C fallback mode) often results in working USB but no
-> DisplayPort output.
->=20
-> This series addresses the issue with two main changes:
->=20
-> - Add a new optional DT property "parade,disable-usb4". When present,
->   the PS883x driver rejects USB4 mode (-EOPNOTSUPP). This forces the
->   Type-C stack to fall back to USB3 + DP Alt Mode, which works
->   reliably with the 40B0.
->=20
-> - Refactor DP altmode handling to also support the legacy
->   TYPEC_DP_STATE_F request (deprecated since DP Alt Mode 1.0b) sent by
->   the 40B0 and other docks (e.g. SSK SC220).
->=20
-> - Add a short delay after writing configuration registers, which
->   improves hotplug reliability.
->=20
-> This is a temporary workaround until full USB4 DP tunneling support is
-> available in the X1E USB4 controller and qmp-combo PHY stack.
->=20
-> Note: The DT patch adds the new property to all currently upstream
-> boards using the PS883x retimer (15 files). Happy to split it on v2
-> if requested.
-
-I don't think a kernel driver limitation is a good reason for the DT
-property. I suggest to add something like this in the ps883x driver
-instead:
-
-/*
- * Hamoa does not yet support USB4, disable it for now to gracefully
- * fall back to USB3 + DP AltMode. This should be removed once USB4
- * support landed for X1E.
- */
-if (of_machine_is_compatible("qcom,x1e80100"))
-    disable_usb4 =3D true;
-
-Greetings,
-
--- Sebastian
-
-> As an additional observation, the same dock with type-c cable works well
-> on Thinkpad X13s, Thinkbook 16 G7 QOY, Ideapad 5 14Q8X9, but doesn't need
-> the ps883x changes (naturally).=20
->=20
-> Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-> ---
-> Jens Glathe (5):
->       dt-bindings: usb: parade,ps8830: Add parade,disable-usb4 property
->       usb: typec: ps883x: Return -EOPNOTSUPP for USB4 when parade,disable=
--usb4 is set
->       usb: typec: mux: ps883x: refactor DP altmode handling and support T=
-YPEC_DP_STATE_F
->       usb: typec: mux: ps883x: add a delay after writing config regs
->       arm64: dts: qcom: x1: disable ps883x USB4 capability
->=20
->  .../devicetree/bindings/usb/parade,ps8830.yaml     |  6 +++
->  arch/arm64/boot/dts/qcom/hamoa-iot-evk.dts         |  4 ++
->  .../qcom/hamoa-lenovo-ideacentre-mini-01q8x10.dts  |  2 +
->  arch/arm64/boot/dts/qcom/purwa-iot-evk.dts         |  6 +++
->  arch/arm64/boot/dts/qcom/x1-asus-vivobook-s15.dtsi |  4 ++
->  arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi  |  4 ++
->  arch/arm64/boot/dts/qcom/x1-crd.dtsi               |  6 +++
->  arch/arm64/boot/dts/qcom/x1-dell-thena.dtsi        |  4 ++
->  arch/arm64/boot/dts/qcom/x1-hp-omnibook-x14.dtsi   |  2 +
->  arch/arm64/boot/dts/qcom/x1-microsoft-denali.dtsi  |  4 ++
->  arch/arm64/boot/dts/qcom/x1e001de-devkit.dts       |  6 +++
->  .../dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtsi    |  4 ++
->  .../boot/dts/qcom/x1e80100-dell-xps13-9345.dts     |  4 ++
->  .../boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dts  |  6 +++
->  .../dts/qcom/x1e80100-medion-sprchrgd-14-s1.dts    |  2 +
->  .../boot/dts/qcom/x1e80100-microsoft-romulus.dtsi  |  4 ++
->  drivers/usb/typec/mux/ps883x.c                     | 47 +++++++++++++++-=
-------
->  17 files changed, 100 insertions(+), 15 deletions(-)
-> ---
-> base-commit: 0718283ab28bc3907e10b61a6b4be6fefa1cbb2f
-> change-id: 20260718-ps883x-disable-usb4-19b0fc13b5ab
->=20
-> Best regards,
-> --=20
-> Jens Glathe <jens.glathe@oldschoolsolutions.biz>
->=20
->=20
->=20
-
---fkc6jiysmodswgij
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmpewMMACgkQ2O7X88g7
-+powWBAAol0/PBJ1eXYYjlNiwB7qCbCecEfZTULQrX4zFmaA3o1MaYHhWFBR2WlK
-L74HXVNCoFn/IDQV0U4qDy15RPrOAr+NLj2sdyr6jqHx54IPi3OBHumGmEWrJmAO
-EGvtyp/AJb5mt7cvLlOoZukTcqgEP/oKgufLnER4KfHzcemjWMmcspzbOpz3648z
-7igV6sjiF0IoxzrzZKhWLKu12UWAPZE6BsrI/J2v3oojgJShxBZPaD+QblK7M4ME
-/b8tSYxWIVMiHCKQVebR4ZGyjEbMW5FvMYqZ3+H7otYTZu3VniPu8C/XSyohj3fy
-wxN/lOUOrSeM9uTaQWUjgQIongdBLc5gEoWQCp1U512bKCXkozn1UQThc5raqhoa
-wbTD/ZMioGLf//hOBk1FT+Gq/O+SEABPcMQ2zmHvHF8Pueeld7QuFU8Pd9dCbY5b
-/k7VlT/sKkJ0EvRZ6eEtdqCthk855FAvDQPS6Y3cVTfurlobnXPR7saZ7sR8AEne
-letJqKFPNXGMC5LQA7EdoQxNHU0lmYLeHsTKiDRvI34YluwsRvRH1fR/B7ipB150
-/bkqIu+I88a/9DFFBbkcr1+QUYxRdFTFnG5bNew6BqIUQrBA/GeqOOXGQ2BMm4cQ
-8l0Mblkqr3Gv3ZoZIx5R784zqBlD/3CwR3SwhU4nOF3Z8z5GMdc=
-=lVu4
------END PGP SIGNATURE-----
-
---fkc6jiysmodswgij--
+On Mon, Jul 20, 2026 at 4:47=E2=80=AFPM Alan Stern <stern@rowland.harvard.e=
+du> wrote:
+>
+> On Mon, Jul 20, 2026 at 08:50:49AM +0300, Anon wrote:
+> > Rapoo V600SE / ShanWan-family chipset -- X-input persona (2563:028E)
+> > fails USB enumeration one stage earlier than the known Switch Pro
+> > fallback bug
+> >
+> > Hardware
+> > --------
+> > Product: Rapoo V600SE Dual-Mode Vibration Gamepad (marketed with
+> > Hall-effect sticks/triggers, X/D/A mode switching)
+> > Underlying chipset family: ShenZhen ShanWan Technology Co., Ltd.
+> > (confirmed via multiple vendor IDs observed from the same physical
+> > unit: 0x2563, 0x20BC)
+> > System: CachyOS (Arch-based), systemd-boot bootloader, kernel 7.1.3-2-c=
+achyos
+> > USB controller: xHCI (xhci_hcd)
+> >
+> > Summary
+> > -------
+> > This controller presents at least four distinct USB identities from
+> > the same physical hardware, depending on mode-button state and
+> > connection type. Three of these are already individually documented in
+> > various places (ArchWiki, xpad issue tracker, hid-shanwan project) as
+> > instances of a known ShanWan firmware bug: a malformed response to the
+> > two-stage USB Configuration Descriptor read causing -71 EPROTO
+> > (sometimes -32 EPIPE), leading to enumeration failure and a silent
+> > firmware-side fallback to a lower-capability "Android" persona.
+>
+> > Root cause (confirmed at byte level via raw usbmon)
+> > -----------------------------------------------------
+> > This matches the general failure mode already described on the
+> > ArchWiki Gamepad page (https://wiki.archlinux.org/title/Gamepad) for
+> > ShanWan-family devices: during enumeration, the host requests the
+> > Configuration Descriptor in two stages -- a 9-byte header first (to
+> > learn wTotalLength), then the full descriptor. Some ShanWan firmware
+> > responds to the first request by sending the full descriptor anyway,
+> > which is a USB spec violation, and strict host controllers reject it
+> > with EPROTO/EPIPE. Windows tolerates this; Linux (by default) does
+> > not, and the device firmware silently re-enumerates into a
+> > lower-capability fallback persona after the failure.
+>
+> > What I'm hoping for
+> > --------------------
+> > - Has anyone seen this specific earlier-stage (first 9-byte header)
+> > EPROTO failure on a ShanWan-family device, as opposed to the more
+> > commonly documented second-stage failure? Is there a known fix?
+> > - Would a patch that increases retry attempts specifically around
+> > EPROTO on the Configuration Descriptor's first stage (perhaps gated to
+> > known-bad VID:PID ranges, similar to how hid-shanwan and hid-sony's
+> > existing ShanWan quirks are scoped) be a reasonable ask, or is this
+> > considered out of scope for mainline given it's cloned/unofficial
+> > hardware?
+> > - I'm not a kernel developer, but I'm willing to test patches, provide
+> > more capture data, or run a device on a spare machine if that's useful
+> > to anyone actively working on hid-shanwan or xpad.
+>
+> This message might be relevant:
+>
+> https://lore.kernel.org/linux-usb/20260717195336.98500-2-nikhilsolanke5@g=
+mail.com/
+>
+> You would have to add a quirk entry for your particular device, for
+> example (added to the boot command line):
+>
+>         usbcore.quirks=3D2563:028e:r
+>
+> Alan Stern
