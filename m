@@ -1,185 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F252DB780;
-	Tue, 21 Jul 2026 09:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEDA3C1411
+	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 09:08:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784624769; cv=none; b=PDtH1i8lYshpm3JdkZG3ccHmEBgqRlJ4BqZNogtpAWYm+ZwqqCd9MEipoWx/Do8oAR4iQjo7D7Jf9mAuDdi8fc6CNuJwkuR5tGN5Q2k+vU49R6dasqTAc9QrH/x/7eQVdTKLg5hBiQhGtmM6zn3Ejd8j8g/AwhmLl6IbJbMUoig=
+	t=1784624931; cv=none; b=Ec162cDnyuemvYZtl+PXcIg3FW7qMsFm3cRyJ8bEI7VBuiqQXZBW54WXVByTFfj+CuErZRsWCwxVgMyajycEVcTZ6hj5/ZTh8Wvg17m2rn05+GSi1XznSXeZYkTGauEXN+p4FT+WJcgQLd+g8xIQ8YvmevRAnCnrdU3W3/Gee5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784624769; c=relaxed/simple;
-	bh=PIpeij4MLN87anbd55HiYahbdIBi2fNR69Dqu0GXRm0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aqBCvY2oyxKrHoPu2ygw58IgYVajPqHa/lfRB6vNnWurbT4yK7FsI6sstE56gzVUJLyq75b92MzhTNUaKNhyI4i1hwz/DWxBN2YlgchMJHDCbUBFrS8ioVtTuJ8V/VTXePbhS5MZOoEg1Dv2FAA6+lC1zzxtViny2m4MuNKJEtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kCFx0Oi5; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1784624931; c=relaxed/simple;
+	bh=LWQhAMESFWDYUhOqi0N4NltBuuvLqrOk9w5ZbaPhgTs=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MRaxfq51IsWrNIt+Nag+Emyi8uLFdzoco9vIONJHQ07UPp1hvGM7QPSrunr1GFZBY85QaBuh3yhuht4MqVwY6KeXJ7vAUz++43aaU2qFp5oLMi8ELX5cq5mYGlSQv16vWPBStCcvufT2HtWdffKBY5P+q0BHbARY2g2wwXZkAhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e2rKA2Qo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kCFx0Oi5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784624768; x=1816160768;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PIpeij4MLN87anbd55HiYahbdIBi2fNR69Dqu0GXRm0=;
-  b=kCFx0Oi55SAmAIHQFUo+2ZQKSL03/LZp6Qb3SUa3+xisFY83+B+NxO2i
-   TfnEBj+yT9l3CC8/Mab/jZ3jrhw6Wgqipo5lazMI3ZSg8qcHBPpqSPiRY
-   iFL9j0t5Kcj1w0NeHNuQRqLO+3+W0UnG1F6QxLRVyiEYIfVbCpalW/rPp
-   g+2L/ag+uc6XKWe8V0MkNqInccHEFw3qoqUReGsc+iHx4P7DuUTXRGZM+
-   CnJV9mWf/5Tg1SUIRiqIb6Rds8RPXPYBVtBQef38gK8v6ipmvJ7izJDyc
-   +jUvAuEJuQa8Oi4AFzADhByO1cthWKUisTQzCNJKzg/6xQN/LTtEwEDma
-   A==;
-X-CSE-ConnectionGUID: PnIIBwDjTAmGPJQB7Jsfxg==
-X-CSE-MsgGUID: 0I1nziAvQ8qcrWehSIudeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11852"; a="89041203"
-X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
-   d="scan'208";a="89041203"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 02:06:06 -0700
-X-CSE-ConnectionGUID: fOYI0u/PT3KkPnKwat+n8A==
-X-CSE-MsgGUID: ePkWRlbyR/ew226kbX4QgQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,176,1779174000"; 
-   d="scan'208";a="261255565"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa003.jf.intel.com with ESMTP; 21 Jul 2026 02:05:47 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id CDAD495; Tue, 21 Jul 2026 11:05:45 +0200 (CEST)
-Date: Tue, 21 Jul 2026 12:05:44 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Amber Kao <amber.kao@ite.com.tw>
-Cc: Jeson Yang <jeson.yang@ite.com.tw>, Yaode Fang <Yaode.Fang@ite.com.tw>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Bling Chiang <Bling.Chiang@ite.com.tw>,
-	Eric Su <Eric.Su@ite.com.tw>, Doreen Lin <doreen.lin@ite.com.tw>
-Subject: Re: [PATCH v4 2/2] usb: typec: ucsi: Add ITE IT8851/IT8853 Type-C PD
- controller driver
-Message-ID: <al82aJzFzx44oXTf@kuha>
-References: <20260717-ucsi-itepd-v4-0-f3ba5addd0df@ite.com.tw>
- <20260717-ucsi-itepd-v4-2-f3ba5addd0df@ite.com.tw>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e2rKA2Qo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E0491F00ADF
+	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 09:08:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784624930;
+	bh=3xqu6DOCRis3ts8JU1eK1hQauNPqKuaV4g+S3+L3WS0=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=e2rKA2QoRAl6qUhMs9hQ1Eem9usUIBCUP4Q+OaZ3u0if2/XZI9Lioxy0NBFyDPryy
+	 S8S5SeBLBgooqyplAkD00YNDXDjVV+kqgYF2g6JJ+ha+i2RCLuhpwfV3XAeBSd1O4s
+	 Wj69Gm1/Wspw95I89hylmpns/qCqzELkR7ali+NjMd9pFZVuih/FtDIx7FM8NSfDNx
+	 CvCxQDoIXGcegrKfYENKCPGlVIVdYtx6oNm2uYMuQ1r19juAwtZMVopvj1P7F3aZB5
+	 hvGRxrcmxIt7Lf8kVkizYLhw+9XVTVP0ATFPuzHD+p6CxSpaXideDHYmVvzmyrzD/W
+	 dDjs7PUlOlGAg==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b0f19bea2fso6980397e87.1
+        for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 02:08:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqzesaIezRAwAWVy9iBWyta9Zh4jlDx1YS7n6I93IuL5eSSW2oIdRyy6L0+Wozh5pSikN4UBD484wY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxobqnRsFM6XDte2PQeiPMor4adO1FAfufOLEjtO7bW/+jCHibX
+	Iwc5WSzXJblI2E8P7b1pl1tkwpaMP+5Aw/jdboEpE3T5VDaFvjVrWnHuN7BSNsdsHY3d/I/aSzq
+	M7OAUrhyvgFizjH2RQK1YeTtTXzDfi2k5Ek9/ROUa/Q==
+X-Received: by 2002:a05:6512:239e:b0:5ad:58c8:5de8 with SMTP id
+ 2adb3069b0e04-5b28f854e5amr3537391e87.1.1784624928719; Tue, 21 Jul 2026
+ 02:08:48 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 21 Jul 2026 09:08:45 +0000
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 21 Jul 2026 09:08:45 +0000
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260721065413.2306137-4-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260717-ucsi-itepd-v4-2-f3ba5addd0df@ite.com.tw>
+References: <20260721065413.2306137-1-wenst@chromium.org> <20260721065413.2306137-4-wenst@chromium.org>
+Date: Tue, 21 Jul 2026 09:08:45 +0000
+X-Gmail-Original-Message-ID: <CAMRc=McsCRBxXMj0xC8H0cgdZZ=Z9_4u_DS9b2z0pLE0=gZr+g@mail.gmail.com>
+X-Gm-Features: AUfX_mzwzLN239CObNW1gLp59KRlXCiikBTT40SGbitpk5WIVatni_t3viiU0PQ
+Message-ID: <CAMRc=McsCRBxXMj0xC8H0cgdZZ=Z9_4u_DS9b2z0pLE0=gZr+g@mail.gmail.com>
+Subject: Re: [PATCH v6 03/16] power: sequencing: Add pwrseq_power_is_on()
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Amber,
-
-This looks okay otherwise, but I have to ask about the i2c reads and
-writes..
-
-> +static int itepd_read_reg(struct itepd *itepd, u8 reg, void *data, u32 len)
+On Tue, 21 Jul 2026 08:53:58 +0200, Chen-Yu Tsai <wenst@chromium.org> said:
+> The power sequencing consumer API already does power on state tracking
+> internally. Expose the state to consumers through pwrseq_power_is_on()
+> so that they don't have to reimplement it locally.
+>
+> Acked-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> ---
+> Changes since v5:
+> - Reverted back to returning -EINVAL if descriptor is NULL
+>
+> Changes since v4:
+> - Make pwrseq_power_is_on() return 1 if descriptor is NULL, i.e. if
+>   the descriptor is optional, matching the other pwrseq consumer APIs
+>
+> Changes since v3:
+> - Added missing stub function for !POWER_SEQUENCING
+>
+> Changes since v2:
+> - New patch
+>
+> Needs to go in with "usb: hub: Power on connected M.2 E-key connectors"
+> as it is a build time dependency. Bartosz wants the change on an
+> immutable branch to pull into the pwrseq tree.
+> ---
+>  drivers/power/sequencing/core.c | 18 ++++++++++++++++++
+>  include/linux/pwrseq/consumer.h |  6 ++++++
+>  2 files changed, 24 insertions(+)
+>
+> diff --git a/drivers/power/sequencing/core.c b/drivers/power/sequencing/core.c
+> index 02f42da91598..72b96d36920e 100644
+> --- a/drivers/power/sequencing/core.c
+> +++ b/drivers/power/sequencing/core.c
+> @@ -968,6 +968,24 @@ int pwrseq_power_off(struct pwrseq_desc *desc)
+>  }
+>  EXPORT_SYMBOL_GPL(pwrseq_power_off);
+>
+> +/**
+> + * pwrseq_power_is_on() - Queries the last requested state of the power sequencer.
+> + * @desc: Descriptor referencing the power sequencer.
+> + *
+> + * This returns the last requested state of the power sequencer.
+> + *
+> + * Returns:
+> + * On success, 1 for on and 0 for off; negative error number on failure.
+> + */
+> +int pwrseq_power_is_on(struct pwrseq_desc *desc)
 > +{
-> +	struct i2c_client *client = itepd->client;
-> +	struct i2c_msg msg[2];
-> +	u8 *tx_buf, *rx_buf;
-> +	int ret;
+> +	if (!desc)
+> +		return -EINVAL;
 > +
-> +	tx_buf = kzalloc(1, GFP_KERNEL);
-> +	if (!tx_buf)
-> +		return -ENOMEM;
-
-That looks completely unnecessary. You really don't need to allocate
-local buffer for one byte.
-
-> +	rx_buf = kzalloc(len, GFP_KERNEL);
-> +	if (!rx_buf) {
-> +		kfree(tx_buf);
-> +		return -ENOMEM;
-> +	}
-
-I'm not sure about this either.
-
-> +	tx_buf[0] = reg;
-> +
-> +	msg[0].addr	= client->addr;
-> +	msg[0].flags	= 0;
-> +	msg[0].len	= 1;
-> +	msg[0].buf	= tx_buf;
-> +
-> +	msg[1].addr	= client->addr;
-> +	msg[1].flags	= I2C_M_RD;
-> +	msg[1].len	= len;
-> +	msg[1].buf	= rx_buf;
-> +
-> +	mutex_lock(&itepd->i2c_lock);
-> +	ret = i2c_transfer(client->adapter, msg, ARRAY_SIZE(msg));
-> +	mutex_unlock(&itepd->i2c_lock);
-> +	if (ret < 0) {
-> +		dev_err_ratelimited(&client->dev, "reg 0x%02x read failed: %d\n",
-> +				    reg, ret);
-> +		goto out_free;
-> +	}
-> +	if (ret != ARRAY_SIZE(msg)) {
-> +		ret = -EIO;
-> +		goto out_free;
-> +	}
-> +
-> +	memcpy(data, rx_buf, len);
-
-This whole thing looks almost like SMBus Block Read protocol. Can't
-you just use
-i2c_smbus_read_i2c_block_data(client, reg, len, data)?
-
-> +	ret = 0;
-> +
-> +out_free:
-> +	kfree(rx_buf);
-> +	kfree(tx_buf);
-> +	return ret;
+> +	return desc->powered_on;
 > +}
+> +EXPORT_SYMBOL_GPL(pwrseq_power_is_on);
 > +
-> +static int itepd_write_reg(struct itepd *itepd, u8 reg, const void *data, u32 len)
-> +{
-> +	struct i2c_client *client = itepd->client;
-> +	struct i2c_msg msg[1];
-> +	u8 *tx_buf;
-> +	int ret;
-> +
-> +	tx_buf = kzalloc(len + 1, GFP_KERNEL);
-> +	if (!tx_buf)
-> +		return -ENOMEM;
-> +
-> +	tx_buf[0] = reg;
-> +	memcpy(tx_buf + 1, data, len);
-> +
-> +	msg[0].addr	= client->addr;
-> +	msg[0].flags	= 0;
-> +	msg[0].len	= len + 1;
-> +	msg[0].buf	= tx_buf;
-> +
-> +	mutex_lock(&itepd->i2c_lock);
-> +	ret = i2c_transfer(client->adapter, msg, ARRAY_SIZE(msg));
-> +	mutex_unlock(&itepd->i2c_lock);
 
-i2c_smbus_write_i2c_block_data(client, reg, len, data)?
+Didn't we agree on introducing an enum to make it future-proof for when we
+also pull in pwrseq_is_controllable() from Loic?
 
-> +	if (ret < 0) {
-> +		dev_err_ratelimited(&client->dev, "reg 0x%02x write failed: %d\n",
-> +				    reg, ret);
-> +		goto out_free;
-> +	}
-> +	if (ret != ARRAY_SIZE(msg)) {
-> +		ret = -EIO;
-> +		goto out_free;
-> +	}
-> +
-> +	ret = 0;
-> +
-> +out_free:
-> +	kfree(tx_buf);
-> +	return ret;
-> +}
+I think this should work like so:
 
-Thanks,
+enum {
+	PWRSEQ_STATE_UNKNOWN,
+	PWRSEQ_STATE_ON,
+	PWRSEQ_STATE_OFF,
+};
 
--- 
-heikki
+int pwrseq_get_state(struct pwrseq_desc *desc)
+{
+	/* Only once this is upstream. */
+	if (!pwrseq_is_controllable(desc))
+		return PWRSEQ_STATE_UNKNOWN;
+
+	return desc->powred_on ? PWRSEQ_STATE_ON : PWRSEQ_STATE_OFF;
+}
+
+Bart
