@@ -1,143 +1,146 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDA1436A02E
-	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 02:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784601332; cv=pass; b=uYtKdXZ8I4fzrUlI23l4C02ygKabHe2//Nz0zTa89EJtA9YRU9Ggt5izwUOcHGOFnHPqgO+f9Wl5qbQxnSfu2Jn7htNiiOPH7KEmyXOz3mPElNbYIjDh5nOxDADZPyvXT9499yMQ+ZdATFBlMe3FB4oR/YOnfhrAHUGc2Kk3hH4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784601332; c=relaxed/simple;
-	bh=olP6fhFd3yfQBZ1leEzaAFgOUF6R9AP+V+S5E7Ss1Os=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t1dlroLVGzqJI7UkGRylKLeI8Tcm97mZl5VRSK9rOz2UTi9Uy7yodZs4eIGtxXsD2ONW7rPF6EG59sv6dVXeel9YOEhN3RC/MAPzBs0ViyJF/Zq85KDjFtyckUe33VL1kum09JLPOC5ZZSbu4YQYuKnvhW4giBLNVHznTj1OeRU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uag0ADhS; arc=pass smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFD4337BA4
+	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 02:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784601453; cv=none; b=o/UvnqN9TOajHlQEmzwuD10X1Z0XRVybxA2NK3zd0uE0sIDM/c/sk6pdZBJJeu1AZdjZJ0TJ3FGtYDNCx0ea1hGaSP1tWSvfOn2FppgLYV6dyOhQyBMzU/RxCTII9/hsNhK4JD3Bd7rhHi6BoL9kmnzmI62pvF47oSFEPmceKFw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784601453; c=relaxed/simple;
+	bh=YPHIRcZFVd1ZTbWy0aEMivVzLYxDadsIeBzvmAwz7ZQ=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=JB020yMEwRXBeA09jF+Ozgx9Wr2eKXHv2+9mYrNSK3NUcuBYE++lC4d9IwZHGTTBOBljh6Qr8QC/ly2cw1XDJZhLxGs2OeLK6ryzKerHuliNNUzkBbsfyhm17M7zP1PRJeosO+H3qGcrfUuiyOb+epnd4osU8rhmnnNLVH5tADM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lf4oSKvy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uag0ADhS"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cf452def93so19040575ad.1
-        for <linux-usb@vger.kernel.org>; Mon, 20 Jul 2026 19:35:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784601330; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BzVEe3frcfIa17mnAcdKpwAl4DYv9BFqUzWCnWag3FeoAVvKi3Fk+uiwWXh3XGFw3t
-         9xetnKieUmbJLg5gzRp4VeBE9JdatPoVxrFlzyqOASCDe3fbCd0J0U3AUGZQD+YzILuj
-         qT64JuiXvv5rcG1zo9R59sKG1p9eFgYcQUSjef6Lb8JCk1RcGf654OfujJShF3Gv2/e2
-         y0EYgPzt5KIAvuC4UGIaFT2lMd0alGOVYnedlGNvACHHvnjbHRNcKuFQazvEhOKK1+p9
-         +lMBsns7g2nxMNbgMGb7BjYnEvvLRqAQPtdG5EIWHA8CPiqoRYWiV5DdKanO1dXAnNy8
-         7XyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=fkktPuEZfL1BF6hmyNT6NL6oesW6VsaR8AVQ/kcA7Xo=;
-        fh=WIPVVV04You4BmRcpklsLxQMbomsR+/AxaMxxz9spYw=;
-        b=i3WlDYU4bjv+aTAiGbY7E2ASZFD6jQfyGYMmjJZHhjVhbBSzh5sgMYmDDL6AruWcjk
-         l7gqS6Mmf+U00Ge6HcHTSkq7Q4c7uslKVHVKV/k6fouoMZjTLX8vKN31NKQyu2jNaKap
-         TBkB2EaJQZyA9kzfDj4dEQEK/rSPVCoYxV9+aS9PMgJ7cHGwUBK4DP6QJLCUGmJdakvv
-         Y6Ei/8aSkiNh738iFoZR3peD4hjuIr8hQgIDwECncu9hXpICgIrpp9BH0oU5UM0TDd+F
-         kI9/pBGv3V0S4b3IshM8XQrFLkRQ1GJlqHVCTx4uCB7O36nPY51+2Ir86lmbu7g1Bb/6
-         hBsA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784601330; x=1785206130; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=fkktPuEZfL1BF6hmyNT6NL6oesW6VsaR8AVQ/kcA7Xo=;
-        b=Uag0ADhSnWewGBNPnrnugL8ukOBXWEHcqQszU0L0hrrNt+pM3/OCp+Z0nHWjyhLBpu
-         2Qw2xRj8+/f+oVxlrDrQJF96uGZiKD8axgOEDv7gtUUZ3+2M7yDaKrMJLtLyLQipxR3K
-         zw47eVNppucmUtW3VAZ4WLMZl/Ejp8NW4MMCIIlb/KpAs+zcbLU/DvvLuHhVas7Mpon2
-         CGfYVYde++O0Aq8XNP47hB44Ze+v6GY38Yg5HvTMvcQqr04hJpEg9dX0XzUo8K9lXTjX
-         TIIdiEgdaxi8Kn/qeSp45i9aBSBcfLKg8joKH30zdth1Glvok91OXYqJPOC/5UfHZ48B
-         vSVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784601330; x=1785206130;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fkktPuEZfL1BF6hmyNT6NL6oesW6VsaR8AVQ/kcA7Xo=;
-        b=qmSXC9eWN8Qnw4iUf9BtjTNTtrkjC0aNVTi3Fnx7qlo1MJMggDL0CYOTG+6Dq9yU4E
-         RRed82NQVwUSGMQR0HDJ+DecufgNfqTBEUO6chWTzZToqXkw4R0ys7o6Ug18CpjIgYg6
-         IuVCtwvF6BpizSlcg1jUdV0UT+tliLNUkUIKo78oJzGBelawHXwU7PvU07WQnyVZgB37
-         p98fBPDxfa+IT1B9P7LJqfolcOTXR96UrqvEIWibODJNsDkmiEJACxvaQu96Vz9thjiW
-         hmGh0mM/UFZ990tf6G55ivJ2ZUEVoyrXC+wrdFzgGU3hCsgvaCggM0g16O1n9TBirE8X
-         8Fsw==
-X-Gm-Message-State: AOJu0Yw8LpYBgv+Q4ye3056PF5J3cpUSzlkmVxN7tvaFW/1TeMyUDSUV
-	SLNGaxu8d3xJi5z0SCLbLvm+KX96s6weGTBueti/Wr06ol3TO/xHediciV87pI2AAdArhmeEAin
-	878EfviMj1t20kh48dznnIEyak5A2YzQmoqkv
-X-Gm-Gg: AfdE7cmZefQOnpCfU5j68t4zPy/qjtsINsHuY4gTjsX19EaGOM8oI5V3v+MuuU5qCOg
-	/yK9ZZxftZBMab70X97vsLgAaB3Y57G3QqMxtmRx/TVKfdZmd6m63Yl9RjqjqMUVyFhlqlvHkTx
-	oyIXgQeERyFBs+bOFo684dRTMUKSMFwoZtqQq08kpsn+sY7WqkuS88QrKjBQeLPHMVoCyOnwX3F
-	xU7DlcCXot+gS9fxZwDKgbxxx9a/FWz6Er9wDJyUAMqGdfL4MiJPVm17oEL
-X-Received: by 2002:a05:6a20:158d:b0:3c3:7226:d5a6 with SMTP id
- adf61e73a8af0-3c3ace6f155mr16587487637.18.1784601329813; Mon, 20 Jul 2026
- 19:35:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lf4oSKvy"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0ACCCC2BCB8
+	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 02:37:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784601453;
+	bh=YPHIRcZFVd1ZTbWy0aEMivVzLYxDadsIeBzvmAwz7ZQ=;
+	h=From:To:Subject:Date:From;
+	b=lf4oSKvyDjZvZvK19vdX56AsXtJHmTa9XmYu1j+9svkWMbhS55t9Au9txEzeTG2Qs
+	 oDl/7pXu0GuMBt4kvQ5Zdh9XMUNdKYS4p5HkaeVNIbhXRwIESls8bbHgVpgcoKKKbB
+	 vl1ViBdSudCmlvTvn1Y/J4JsAtjHTREGN9EgEEl4V0T1sEW2HkPEid6WWAHQrw45HE
+	 /UPlFWWQ+X9QAyEpY3FY1fg0g7tzrUzyWTsrw6r+RsL0vUfbmyvR0+OBaOlDe2Nwyv
+	 77sCH9yN5A/tp49EKXvhkhhnhzgOKSMnWLOyqtFnkAxkuZNYz+svxq6Vn6UAvEICPr
+	 P6cFTzKapyWDw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id DA220C433E1; Tue, 21 Jul 2026 02:37:32 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221774] New: hid-multitouch: report ID mismatch check breaks
+ touchpad palm detection on ASUS ROG Flow Z13 (2025) GZ302EA (0b05:1a30)
+Date: Tue, 21 Jul 2026 02:37:32 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mayhemandcoffee@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-221774-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAJ5U=Uw2R7xVEY3ugZ_gRsi+yC9WviMbFEO9RbR6A3ue-G=adg@mail.gmail.com>
- <34fd1f17-6e84-4d5c-bbc0-e1cb990d2017@rowland.harvard.edu>
- <CAJ5U=Uwnt0kSJ+rFiA0tDg0=VZo3sVjfs49nHoFKXp28JTNoxg@mail.gmail.com> <bc2e0cfb-98ab-45de-a85d-e380d9db3629@rowland.harvard.edu>
-In-Reply-To: <bc2e0cfb-98ab-45de-a85d-e380d9db3629@rowland.harvard.edu>
-From: Anon <myaltforstuff1234@gmail.com>
-Date: Tue, 21 Jul 2026 05:35:18 +0300
-X-Gm-Features: AUfX_mw-hqyYov771pyugxfD1XGgT14bquHDgB835E64LVnAOxPOjGRjWWRBJqU
-Message-ID: <CAJ5U=UwY7xADYQQL9fMxnigFbNdiKONVLettG4jFe7D8JtpyNA@mail.gmail.com>
-Subject: Re: [BUG] usbcore: EPROTO on first-stage Config Descriptor read
- (ShanWan clone, 2563:028e)
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 21, 2026 at 03:50:37AM +0300, Alan Stern wrote:
-> I don't know; it's up to Greg KH.  However, he's probably waiting to see
-> what the response will be from patch reviews, in case any changes end up
-> being needed.  You can speed the process along by reviewing and testing
-> the patch yourself, and posting your comments on the mailing list.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221774
 
-I'll be honest, I don't actually know how to compile and apply a
-kernel patch myself. I'm not a kernel developer, and that's a
-different skill set than the packet capture work I did to track the
-bug on my V600SE controller. What I did do is forward this patch,
-along with the bug I found
-on my V600SE, over to the CachyOS GitHub to see if they'd be willing
-to backport it. If they (or anyone else) can hand me a kernel build
-that already includes the patch, I'm glad to install it, test it
-against my hardware (2563:028e), and report back whether it actually
-fixes things.
+            Bug ID: 221774
+           Summary: hid-multitouch: report ID mismatch check breaks
+                    touchpad palm detection on ASUS ROG Flow Z13 (2025)
+                    GZ302EA (0b05:1a30)
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: mayhemandcoffee@gmail.com
+        Regression: No
 
-> One change that would be immediately useful would be to add quirk
-> entries for the various devices that people (I think there's been one
-> other besides you and the patch author) have said require it.  Maybe
-> that should go in a separate patch, however.
+Created attachment 310482
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310482&action=3Dedit
+touch registers while typing
 
-Happy for my device's VID:PID (2563:028e) to be included in that if
-it's useful, whoever ends up putting that patch together.
+Component: Drivers / Input Devices (or USB, whichever's closest)
 
-Anon
+Kernel Version: 7.1.4-arch1-1 (regression); confirmed working on 6.18.39-1-=
+lts
 
-On Tue, Jul 21, 2026 at 4:57=E2=80=AFAM Alan Stern <stern@rowland.harvard.e=
-du> wrote:
->
-> On Tue, Jul 21, 2026 at 03:50:37AM +0300, Anon wrote:
-> > Wow what are the odds a patch this recent landed for this exact
-> > problem. Thank you! Realistically when will this patch land in
-> > mainline?
->
-> I don't know; it's up to Greg KH.  However, he's probably waiting to see
-> what the response will be from patch reviews, in case any changes end up
-> being needed.  You can speed the process along by reviewing and testing
-> the patch yourself, and posting your comments on the mailing list.
->
-> One change that would be immediately useful would be to add quirk
-> entries for the various devices that people (I think there's been one
-> other besides you and the patch author) have said require it.  Maybe
-> that should go in a separate patch, however.
->
-> Alan Stern
+Description:
+
+On the ASUS ROG Flow Z13 (2025), model GZ302EA, the detachable keyboard cov=
+er's
+touchpad (USB 0b05:1a30) loses its onboard palm-detection capability on ker=
+nels
+containing commit e716edafedad4952fe3a4a273d2e039a84e8681a ("HID: multitouc=
+h:
+Check to ensure report responses match the request").
+
+dmesg shows:
+
+hid-multitouch 0003:0B05:1A30.0004: Returned feature report did not match t=
+he
+request
+
+Effect: the touchpad falls back to a legacy single-touch-style report =E2=
+=80=94 missing
+ABS_MT_SLOT, ABS_MT_TOOL_TYPE, and multi-finger BTN_TOOL_* capabilities =E2=
+=80=94
+instead of the full Precision Touchpad protocol. This means palm rejection
+stops working entirely in userspace (libinput has no tool-type/slot data to
+reject a palm contact with).
+
+Working baseline: on linux-lts 6.18.39 (predates the commit), evtest on the
+touchpad node shows the full protocol, including ABS_MT_TOOL_TYPE correctly
+reporting value 2 (MT_TOOL_PALM) when a palm contact is detected, and 0
+(MT_TOOL_FINGER) for normal touches.
+
+Suspected root cause: in mt_feature_mapping(), the vendor-specific usage
+0xff0000c5 triggers a mt_get_feature() call described in the driver source =
+as
+"Retrieve the Win8 blob once to enable some devices." This device's firmware
+appears to respond to that specific GET_FEATURE request with a mismatched
+report ID, causing the new check to goto free and abort before the device g=
+ets
+switched into its full-capability reporting mode.
+
+Steps to reproduce:
+
+Boot a kernel containing commit e716edafedad4952fe3a4a273d2e039a84e8681a
+sudo evtest on the touchpad's /dev/input/eventN node
+Observe missing ABS_MT_SLOT / ABS_MT_TOOL_TYPE in the capabilities list, and
+dmesg | grep hid-multitouch showing the mismatch error
+
+Requested fix: a vendor/product-ID based quirk in hid-multitouch.c (similar=
+ to
+the existing MT_CLS_ASUS handling) to bypass or tolerate the report-ID mism=
+atch
+for 0b05:1a30, restoring the device to full-capability mode.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
