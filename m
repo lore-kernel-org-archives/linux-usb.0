@@ -1,87 +1,158 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561FD336EE1;
-	Tue, 21 Jul 2026 13:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784639685; cv=pass; b=jb83WThnvb6axI/m2uvGKIy6ZPEU71TQT7zD9/Mf38scxWlwcMUHH+S2rfjZ0khDXrOUXuAK3qJzpoHP5BzkIMneZ3yMEC+xLpOV5An2z1BFYasTd47vioiPlYBKaVsjR3TsVVqZKY4sSDEz+gmO5y7Xv2u0z/jZFqYYwsZghcw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784639685; c=relaxed/simple;
-	bh=PHW75fVCvQcIcSWGkb0hXZp5ryMs8/SdoE0rKqcOrgg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Y5SMfBFXPKONJiuHcRsd+9seZgf99hsniuvBbZlwpecFyFuxZmTFJ8T6mVB+brT28GI42gj443T236BaM5pTJGnLISt1jQgaXvxCMiHyWRjKycupGIGTftlmKpwtsJERYYH8gK6JKzgH1WbcAEDh0+QcWEnYq8q8q+iyIIBas30=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b=DlP55lgd; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC4D33F597;
+	Tue, 21 Jul 2026 14:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784644450; cv=none; b=sgy2wvlAKFWL67FUff4YTmbXiKUOAMGEwBLeYArRalnNhqwO4cnZ4dCLNKZm6XAOzFeRWcIS8aq5vqA/pLF0ztiVj2qYyZbVK/fxTiY4LEyoHPcg6DgybphogyYfR2CuXITYj4fQT7Ay3uWgHcKYW95p95uQqRXC22hEtEzViZA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784644450; c=relaxed/simple;
+	bh=pMHeh4zhJ4bYuilf+EbYDdiFeXpQaVHZaT4q/aEUdG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p4xccpPCuiV8YowtFDxSdVwkxwjpwpXod2pkrDp0Y5twClWbqY5apZyvYwpP9WaMSb1ujUD3gBVJTwqRwjAM7nciiSuZ2vEF/XzL14TL2v0r0CiK9rA5+gYMYq2k8WopgQQtLX3u04e3W41VWjJXVBSDdEwcDN17wArj8kpDbtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BMWYhSl/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nfraprado@collabora.com header.b="DlP55lgd"
-ARC-Seal: i=1; a=rsa-sha256; t=1784639673; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=TEnwMVmRD0Iddue5D3H/h/mqwuX9qPaF0KOqvVa42vXoexP4Z3gGweRmcqSDf6Zqgsk7oVE2herHvagyAv5FsTUNM5eHM4zUVJ5+wwxrorAuQO15h9pkiMRBd/w7iQ+SuG6mTVeZuG0T79/yrPKkVYxphdDaKbx4L93UK75SIiI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1784639673; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=PHW75fVCvQcIcSWGkb0hXZp5ryMs8/SdoE0rKqcOrgg=; 
-	b=ArvbFM6s84aM+c1lGv1RdSzZbSP8sZHj2URKmBWcq9kg2WsBpYn5Ky0wnCbXaQHHDIH1EW48k/FSXQooU5GQRQD72gWxqPiUbTF3zN06XVMhHfPzCa+Jk0+9UiKRrewlCaqset1OA5k/1HiKvrZI7EXO2uDEm4+7u/GqPv+5Zn0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nfraprado@collabora.com;
-	dmarc=pass header.from=<nfraprado@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1784639673;
-	s=zohomail; d=collabora.com; i=nfraprado@collabora.com;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=PHW75fVCvQcIcSWGkb0hXZp5ryMs8/SdoE0rKqcOrgg=;
-	b=DlP55lgdhdRP62/mLrmUvIPwxcELQYtVdJ7ZKoUBdy+i0aFEyapIb+2MWBv2wCFz
-	A4OGA9ybkfhndZbhrR3VDMOgRadbxxsmH2xpvoo9Y6lF2ogaFMpn/n83+VpsjX6Oe+j
-	gSmVEBC5if0B7qCi/KI6tPy/X5GxoRLyhheQs6QY=
-Received: by mx.zohomail.com with SMTPS id 1784639672029223.96092166734832;
-	Tue, 21 Jul 2026 06:14:32 -0700 (PDT)
-Message-ID: <309aef89f580ffc48f52c25846d050dcf04d01b0.camel@collabora.com>
-Subject: Re: [PATCH] usb: core: Notify through uevent when not enough
- bandwidth available
-From: =?ISO-8859-1?Q?N=EDcolas?= "F. R. A. Prado" <nfraprado@collabora.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel@collabora.com, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Tue, 21 Jul 2026 10:14:23 -0300
-In-Reply-To: <2026071031-chasing-booted-ecc2@gregkh>
-References: 
-	<20260615-usb-notify-not-enough-bandwidth-v1-1-09ee5098b42d@collabora.com>
-	 <2026071031-chasing-booted-ecc2@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-10 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BMWYhSl/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE0291F000E9;
+	Tue, 21 Jul 2026 14:34:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784644448;
+	bh=RO989GIm+lzTtLY0QJT8coHQhLYEBWAeDT/sPoy8hBI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BMWYhSl/HOsbs4kjAEJroB2wwv31uGT0dSDmsl1VBDtu6fFrP2ECaXygKLDdQy56k
+	 63wfHW4DU6Ls3InTdg58jrulq0aen/1Y0NrlvRo01EuCKNgbTcFBxKbNWx6KAdoYJg
+	 RhTfHE0pHbMjnNraMR9rMUa+qmoPcOTYODPlQD0oZ5rvHHKHHLePvJPDGgCv12+WHc
+	 Lc8xg9Ak5ZQAbK7dECmqn+OqATIXFw/H41jPxLDdVCMgMdtysPtlCRpK1dcmA0WMot
+	 Y72UqSbXZqIi8qx2OoFqrkKcknRDxlKy0QWdSPJBnDC9kM/3WMh6L17vlf8ilb2tEI
+	 i/NDfsqkJiumw==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1wmBXq-000000092Q4-1MxI;
+	Tue, 21 Jul 2026 16:34:06 +0200
+Date: Tue, 21 Jul 2026 16:34:06 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Crescent Hsieh <crescentcy.hsieh@moxa.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	FangpingFP.Cheng@moxa.com, Epson.Chiang@moxa.com
+Subject: Re: [PATCH v2 1/4] USB: serial: mxuport: clean up firmware version
+ handling
+Message-ID: <al-DXpI52HuWBNwG@hovoldconsulting.com>
+References: <20260623080138.166398-2-crescentcy.hsieh@moxa.com>
+ <20260623080138.166398-3-crescentcy.hsieh@moxa.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260623080138.166398-3-crescentcy.hsieh@moxa.com>
 
-On Fri, 2026-07-10 at 15:01 +0200, Greg Kroah-Hartman wrote:
-> On Mon, Jun 15, 2026 at 10:35:33AM -0400, N=C3=ADcolas F. R. A. Prado
-> wrote:
-> > Currently, when a new device is plugged in and the host controller
-> > can't
-> > find enough bandwidth for it, an error message is printed:
-> >=20
-> > =C2=A0 usb 1-3: Not enough bandwidth for new device state.
-> >=20
-> > In order to allow userspace to react to this and suggest the user
-> > to use
-> > a different host controller, send a uevent with
-> > 'USB_NOT_ENOUGH_BANDWIDTH=3D1' to the root hub device.
->=20
-> Where is this new user/kernel api now documented?=C2=A0 And what tool is
-> going to be looking for it?
+On Tue, Jun 23, 2026 at 04:01:36PM +0800, Crescent Hsieh wrote:
+> Add a small helper for parsing firmware versions and use it for the
+> bundled firmware image. This avoids open-coded firmware image offsets
+> in probe() and validates the image size before reading the version
+> bytes.
+> 
+> Keep the existing version comparison policy unchanged, but store the
+> version components explicitly so that the version can be printed
+> without unpacking a raw integer.
+> 
+> Print the firmware version fields in decimal, as these fields represent
+> readable version components rather than hexadecimal values.
+> 
+> Signed-off-by: Crescent Hsieh <crescentcy.hsieh@moxa.com>
+> ---
 
-Sorry I missed that, I'll add the documentation at
-Documentation/ABI/testing/usb-uevent in v2.
+Thanks for the v2. You seem to have addressed all my comments on v1 of
+the series, which is unfortunately not as common as I wish it were. :)
 
-As for the user, Steam will use it.
+> @@ -82,7 +95,6 @@
+>  
+>  #define RQ_VENDOR_RESET_DEVICE		0x23 /* Try to reset the device */
+>  #define RQ_VENDOR_QUERY_FW_CONFIG	0x24
+> -
 
---=20
-Thanks,
+Nit: this is an unrelated change
 
-N=C3=ADcolas
+I see you add another define here in the next patch, but perhaps you
+should keep the newline separators before and after that one.
+
+>  #define RQ_VENDOR_GET_VERSION		0x81 /* Get firmware version */
+>  #define RQ_VENDOR_GET_PAGE		0x82 /* Read flash page */
+>  #define RQ_VENDOR_GET_ROM_PROC		0x83 /* Get ROM process state */
+> @@ -970,8 +982,32 @@ static int mxuport_calc_num_ports(struct usb_serial *serial,
+>  	return num_ports;
+>  }
+>  
+> +static void mxuport_set_fw_version(struct mxuport_fw_version *version,
+> +				   u8 major, u8 minor, u8 build)
+
+The naming is a bit unfortunate as this is not an inverse of
+mxuport_get_fw_version() but that should be ok.
+
+> +{
+> +	version->major = major;
+> +	version->minor = minor;
+> +	version->build = build;
+> +	version->value = (major << 16) | (minor << 8) | build;
+> +}
+> +
+> +static int mxuport_parse_fw_version(const struct firmware *fw,
+> +				    const u16 *offsets,
+> +				    struct mxuport_fw_version *version)
+> +{
+> +	if (fw->size <= offsets[0] || fw->size <= offsets[1] ||
+> +	    fw->size <= offsets[2])
+> +		return -EINVAL;
+
+I just merged this sanity check:
+
+	https://lore.kernel.org/all/20260715084611.45995-1-pengpeng@iscas.ac.cn/
+
+so you may want to rebase on my usb-linus branch if there is a v3,
+otherwise I can fix it up.
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git/log/?h=usb-linus
+
+> +
+> +	mxuport_set_fw_version(version, fw->data[offsets[0]],
+> +			       fw->data[offsets[1]], fw->data[offsets[2]]);
+> +
+> +	return 0;
+> +}
+> +
+>  /* Get the version of the firmware currently running. */
+> -static int mxuport_get_fw_version(struct usb_serial *serial, u32 *version)
+> +static int mxuport_get_fw_version(struct usb_serial *serial,
+> +				  struct mxuport_fw_version *version)
+>  {
+>  	u8 *ver_buf;
+>  	int err;
+> @@ -988,7 +1024,7 @@ static int mxuport_get_fw_version(struct usb_serial *serial, u32 *version)
+>  		goto out;
+>  	}
+>  
+> -	*version = (ver_buf[0] << 16) | (ver_buf[1] << 8) | ver_buf[2];
+> +	mxuport_set_fw_version(version, ver_buf[0], ver_buf[1], ver_buf[2]);
+>  	err = 0;
+>  out:
+>  	kfree(ver_buf);
+> @@ -1049,8 +1085,7 @@ static int mxuport_probe(struct usb_serial *serial,
+>  {
+>  	u16 productid = le16_to_cpu(serial->dev->descriptor.idProduct);
+>  	const struct firmware *fw_p = NULL;
+> -	u32 version;
+> -	int local_ver;
+> +	struct mxuport_fw_version version, local_ver;
+
+Nit: I'd move this line above fw_p to maintain reverse xmas style of the
+declarations.
+
+>  	char buf[32];
+>  	int err;
+
+Johan
