@@ -1,72 +1,46 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF9639EF2E
-	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 14:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2913D4C9575;
+	Tue, 21 Jul 2026 14:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784645599; cv=none; b=TSxfczbdzus5PAmX9y+9BpnskWwW1qCLs37iwiyj+OxQOhCyMqbwMVbJT5MYEUXgfeqbRcW02+qWxqhoFP30Vks7kI1rqZEQGxdsNqtcgS1N5EVAuCGtYsAU3zbJXSH7ac8UVhpcEgxGUHk/UzmEstBAF/m8aE21EFl1NSPH4FE=
+	t=1784645949; cv=none; b=b2m+l2lpPmfCEwBIKco//4e6YmrHTHnbu9lgd+jyYRdj/EDO7JnaPrdsL7wLwCXsOacGjX+d4/58tbUvDUMWMeSM1Ag7Xwtml4bli4yKVKXLAy+jttfGWkOEiprQ1Wd90wYJeeYEoL300njDhGCdjetYb76FKbapqELKVrdMe9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784645599; c=relaxed/simple;
-	bh=HrN8QzFTxn/kc9XDBHlxJqA259dPvb+TLVCMgk3h8yc=;
+	s=arc-20240116; t=1784645949; c=relaxed/simple;
+	bh=/NGdiKxZaD3Py3xrJNAkaK2Yr+dstP+05KArXho0mtc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QQpDM6XC8RSJ3Kci7aluPjIdPjHGHevGI+e+YvLU554YIXE52fhYGFCnHgC36Q6KrCfs6K3EnJxJ2HFiPTANFThUwcLiXo0EiQyNhzO/gOwwQVuvB4OD/Q+17bu8VBUTGZcvme4SeXRTWlkJAHP6sxdVyULc5LK1emqusQ2+kHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=HsipdN81; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=UGEGjgXDPkZQ19fGfh4me8xOfI8DBycAEztKP3p33OnQXhiXRE/Ji2eSCtLDbm8O8pDBuHOFxdRApEYtLv4km59TDmimOUSM2s1iZsXO7Wjbd3m0m3XoTWbyVdAR/ub5fuLA/Pj7efCDz2KYchSuDBa5s/6PZmjbCi+MnmmuFhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nPx09/oB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="HsipdN81"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5218927884fso5519011cf.3
-        for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 07:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1784645595; x=1785250395; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=EFrX82+E4SUZ6RwB/henPb0TQRKayvdvEFB3jC1N7HE=;
-        b=HsipdN81wvI5yoOuzbr6h5eO+PoAIcttrkUxOemZ5mjm4Uq8FSLDY7fw12Dwnrn+45
-         R/c/L8h3kVC+pMfaKkytGvihX2NSMfEx1JypU3DboPGQEAI4x0InRwMf9bqQC6HDdj/+
-         S9GX3qcekvSLjD6XFuwCgIfZEZfZcq9vfQ+AamtkcIV11OQ+6pVxmSBC93cmTv/vH5Oz
-         KumAyrSfCRLtv9lROOeTWpqq+MTgeM2zZfS3JRyzZSPolhbmsSh11B8b7BDqlkvky/64
-         R71P9nuZ5Hxs9KookamVJRvY1UD78zg34kbN7T92Z+tYBisKpvb4CKUE2i+Pe5RK2j/C
-         l/vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784645595; x=1785250395;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EFrX82+E4SUZ6RwB/henPb0TQRKayvdvEFB3jC1N7HE=;
-        b=cNKcVEHn5YqvOvVe0cKHtRECmCPRXswNSNcU1Hx/ymqeniPztn7hWojcMJzbjK2S/b
-         0PPGL78yerz2fWvRRAkPcNX9nN/8QLvanls3wWbUFnu0edxM9BJZxszFlrUO8k8Z6GGY
-         j1TjoVyDTWfUEkNleUe5YP/tC0/erzdiFUoMvOyNrjH7SaXNlpRNoE/wzliU/XF4/903
-         d49fAZF7HLDu/RKLwnjKSvTr6NZhjHz/AEguYpLhaoBuapGNWTEfmr94HRp1ulp7JHh4
-         lZfw5JLA3GaJMZtD5UIYWhdI2vq7mZWykjkQwh6W8RE5YaKfZuCyLgf5RWbL7NqIuZ/d
-         T/LQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoARcdi9oh9gjn3XnVKEoBBWFqndG8XvhzxWcROPxEhmO/WQlBoEFpYgGeo/CAStb4nkABxECihTdQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6HD7q1Sax0W1pefMsq2f3ZQ1VNby4yh1/YLEDWGjIP+hB8xDF
-	8BQpvzT4a3tvuEh6IEJoT3HuWe4oPLHFIyIiG4W1P8bV6inhdkjR7qy7MkeVjnUApA==
-X-Gm-Gg: AfdE7clrDzkQk57/vOkXeu0BYb4QT2QsV0WbaultPfsGbuHoktToUzE9wl0m+/cbOzZ
-	StgQPwobI/6LwUikLCcQfCTmXDz/qqoxHsSd4PhTRhfiyFsgVeTd+Wdio7PzluKgfO33J1WiuAw
-	E4uvyWAjXBl2f+0BD72YcAy5qdyKGUW5jxJ3av20ymZTL+ounXbetgJFat4Mdrj1vP6vHlDLWJG
-	oOlH/P+QcoSWBxB3j/DZfNxqOs2i0BedEdo58ofayQ6YpcT00zNpsOiKRZ/IBng9/fRhNWG432f
-	xmqNzVQWvhYqpYHKHXm3wlc+QAjysG7DKOH0nPCGAGJNlFn08LUWRJZs8q2g1lwC+37GQKkFxkV
-	bRwTEq+LLBAur8i2ecpTrUCLK+DK1e7TCH2d/6YQjhxHQ4MO5IOIVykGqyxAnWh7mvroQ9z+jXV
-	FrS8+5ernLz6C+ZywpFnFqokkBf5NheNHbuw0xxeV9DP34mw==
-X-Received: by 2002:a05:622a:251b:b0:51c:7b12:5fd8 with SMTP id d75a77b69052e-5213d3b8efbmr190535801cf.84.1784645595304;
-        Tue, 21 Jul 2026 07:53:15 -0700 (PDT)
-Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5214c5cc928sm98695611cf.2.2026.07.21.07.53.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 07:53:14 -0700 (PDT)
-Date: Tue, 21 Jul 2026 10:53:12 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Griffin Kroah-Hartman <griffin@kroah.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nPx09/oB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5CE81F000E9;
+	Tue, 21 Jul 2026 14:59:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784645947;
+	bh=LLn0lUO38fnApxmEx1deyqzkk9eaTKyVI3WiebExEr4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nPx09/oB0PfCaEgBYRwv2TS+pXsri0mOGAdFDsnVtg8dAI1F4XiKaJayCW0fd9Gcw
+	 D+RG4Lt1A0vzDSX0CXAjiXaFGQ9MC2UT7FUJCb4+z1ou/cWzZgKpACe5d1IvLZgCHv
+	 3Y723G31mCGor2eH2Wo3WFxI4kUBnSawqOQzPfxf8of/bYddSHWI2n12wlSspd7BZX
+	 ZgLJEwmTQH7V5Mal5mcyrotozg5si/a7b/WveCziLrlhtSoFvDyBMArSSPzLyC3Vb0
+	 L8gigQDpGYiXbIkOzxbGFKLAn83A6x30/x9W2MHz7iNA7qxjFnhGGZN48CqFd36zsx
+	 ZgnyBgM3e19Lg==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1wmBw1-000000092mj-1ywn;
+	Tue, 21 Jul 2026 16:59:05 +0200
+Date: Tue, 21 Jul 2026 16:59:05 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Crescent Hsieh <crescentcy.hsieh@moxa.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] USB core hub error handling.
-Message-ID: <5fb8b60e-81e4-429c-a455-1f86746c8369@rowland.harvard.edu>
-References: <20260721-usb_core_patches_2-v2-0-05069c892fbf@kroah.com>
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	FangpingFP.Cheng@moxa.com, Epson.Chiang@moxa.com
+Subject: Re: [PATCH v2 2/4] USB: serial: mxuport: add MUX50U-based device
+ support
+Message-ID: <al-JOStaDglCBoL1@hovoldconsulting.com>
+References: <20260623080138.166398-2-crescentcy.hsieh@moxa.com>
+ <20260623080138.166398-4-crescentcy.hsieh@moxa.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -75,39 +49,232 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260721-usb_core_patches_2-v2-0-05069c892fbf@kroah.com>
+In-Reply-To: <20260623080138.166398-4-crescentcy.hsieh@moxa.com>
 
-On Tue, Jul 21, 2026 at 12:15:18PM +0200, Griffin Kroah-Hartman wrote:
-> A small patch series dedicated to strengthening error handling and
-> readability in drivers/usb/core/hub.c
+On Tue, Jun 23, 2026 at 04:01:37PM +0800, Crescent Hsieh wrote:
+> Add support for MUX50U-based UPort G2 devices and Platform UARTs.
 > 
-> Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
+> Encode the firmware family in the USB device id table so that the table
+> remains the single source for both the number of ports and the firmware
+> handling policy.
+> 
+> The MUX50U-based devices use two shared firmware images: UPort G2
+> devices use the UP firmware image (moxa-up-mux50u.fw), while Platform
+> UARTs use the PF firmware image (moxa-pf-mux50u.fw). Platform UARTs are
+> board-level UARTs accessed through the USB bus.
+> 
+> For MUX50U-based devices, the factory firmware reports versions in a
+> different format from the bundled runtime firmware image, so version
+> comparison cannot reliably determine whether a firmware download is
+> needed. The system-register remap state is used instead to check whether
+> the device has already booted the runtime firmware from SRAM.
+> 
+> Signed-off-by: Crescent Hsieh <crescentcy.hsieh@moxa.com>
 > ---
+>  drivers/usb/serial/mxuport.c | 174 ++++++++++++++++++++++++++++++++---
+>  1 file changed, 162 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/usb/serial/mxuport.c b/drivers/usb/serial/mxuport.c
+> index 5a9dd251ceff..067c8d9752e0 100644
+> --- a/drivers/usb/serial/mxuport.c
+> +++ b/drivers/usb/serial/mxuport.c
+> @@ -7,8 +7,11 @@
+>   *
+>   *	Supports the following Moxa USB to serial converters:
+>   *	 2 ports : UPort 1250, UPort 1250I
+> + *		   UPort 1250 G2, UPort 1250I G2
+>   *	 4 ports : UPort 1410, UPort 1450, UPort 1450I
+> + *		   UPort 1410 G2, UPort 1450 G2, UPort 1450I G2
+>   *	 8 ports : UPort 1610-8, UPort 1650-8
+> + *		   UPort 1610-8 G2, UPort 1650-8 G2
+>   *	16 ports : UPort 1610-16, UPort 1650-16
 
-For both patches:
+Should you add the MUx50U ones here as well for completeness? At least
+some of them seem to be missing.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+But perhaps it's just me not getting how these PIDs map to products.
 
-> Changes in v2:
-> - Added a patch rearranging error handling logic.
-> - Link to v1: https://patch.msgid.link/20260714-usb_core_patches_2-v1-1-4229a368a633@kroah.com
-> 
-> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-usb@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> 
-> ---
-> Griffin Kroah-Hartman (2):
->       usb: core: Strengthen error handling in hub_hub_status()
->       usb: core: reformat error handling and messages
-> 
->  drivers/usb/core/hub.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
-> ---
-> base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
-> change-id: 20260714-usb_core_patches_2-a3eb9d1b7b9e
-> 
-> Best regards,
-> --  
-> Griffin Kroah-Hartman <griffin@kroah.com>
-> 
+>   */
+>  
+> @@ -37,6 +40,24 @@
+>  #define MX_UPORT1613_PID	0x1613
+>  #define MX_UPORT1653_PID	0x1653
+>  
+> +#define MX_UPORT1252_PID	0x1252
+> +#define MX_UPORT1253_PID	0x1253
+> +#define MX_UPORT1411_PID	0x1411
+> +#define MX_UPORT1452_PID	0x1452
+> +#define MX_UPORT1453_PID	0x1453
+> +#define MX_UPORT1619_PID	0x1619
+> +#define MX_UPORT1659_PID	0x1659
+> +#define MX_UPORT165A_PID	0x165a
+> +#define MX_UPORT165B_PID	0x165b
+
+I realise this is how the existing PID defines are named, but would it
+not be possible to name the defines after the products they are used
+for?
+
+> +
+> +#define MX_MU250U_PID		0x0250
+> +#define MX_MU450U_PID		0x0450
+> +#define MX_MU850U_PID		0x0850
+> +#define MX_MU850U_6PORT_PID	0x7002
+> +#define MX_MUX50U_3PORT_PID	0x7003
+> +#define MX_MU850U_5PORT_PID	0x7004
+> +#define MX_MU850U_7PORT_PID	0x7005
+> +
+>  /* Definitions for USB info */
+>  #define HEADER_SIZE		4
+>  #define EVENT_LENGTH		8
+> @@ -46,6 +67,13 @@
+>  #define MX_FW_VER_BYTE1_OFF		0x20
+>  #define MX_FW_VER_BYTE2_OFF		0x24
+>  #define MX_FW_VER_BYTE3_OFF		0x28
+> +#define MX_MUX50U_FW_VER_BYTE1_OFF	0x86
+> +#define MX_MUX50U_FW_VER_BYTE2_OFF	0x88
+> +#define MX_MUX50U_FW_VER_BYTE3_OFF	0x8a
+> +
+> +#define MX_SYS_REG_REMAP_OFF		0x20
+> +#define MX_PWR_REMAP_MASK		0x03
+> +#define MX_REMAP_TO_SRAM		0x02
+>  
+>  struct mxuport_fw_version {
+>  	u8 major;
+> @@ -60,6 +88,12 @@ static const u16 mxuport_fw_ver_offsets[] = {
+>  	MX_FW_VER_BYTE3_OFF,
+>  };
+>  
+> +static const u16 mxuport_mux50u_fw_ver_offsets[] = {
+> +	MX_MUX50U_FW_VER_BYTE1_OFF,
+> +	MX_MUX50U_FW_VER_BYTE2_OFF,
+> +	MX_MUX50U_FW_VER_BYTE3_OFF,
+> +};
+> +
+>  /* Definitions for USB vendor request */
+>  #define RQ_VENDOR_NONE			0x00
+>  #define RQ_VENDOR_SET_BAUD		0x01 /* Set baud rate */
+> @@ -95,6 +129,7 @@ static const u16 mxuport_fw_ver_offsets[] = {
+>  
+>  #define RQ_VENDOR_RESET_DEVICE		0x23 /* Try to reset the device */
+>  #define RQ_VENDOR_QUERY_FW_CONFIG	0x24
+> +#define RQ_VENDOR_GET_SYS_REG		0x34
+
+So here I guess you should have a newline separator before and after
+0x34 to follow the existing style (of grouping related registers).
+
+>  #define RQ_VENDOR_GET_VERSION		0x81 /* Get firmware version */
+>  #define RQ_VENDOR_GET_PAGE		0x82 /* Read flash page */
+>  #define RQ_VENDOR_GET_ROM_PROC		0x83 /* Get ROM process state */
+> @@ -169,26 +204,65 @@ struct mxuport_port {
+>  #define MX_PORTS_OFFSET			1
+>  #define MX_PORTS(n)			(((n) - MX_PORTS_OFFSET) & MX_PORTS_MASK)
+>  
+> +#define MX_FW_FAMILY_MASK		GENMASK(5, 4)
+> +#define MX_FW_UPORT_G1			(0 << 4)
+> +#define MX_FW_UPORT_G2			(1 << 4)
+> +#define MX_FW_PLATFORM_UART		(2 << 4)
+> +#define MX_FW_FAMILY(info)		((info) & MX_FW_FAMILY_MASK)
+> +#define MX_DEVICE_INFO(ports, family)	(MX_PORTS(ports) | (family))
+> +
+>  /* Table of devices that work with this driver */
+>  static const struct usb_device_id mxuport_idtable[] = {
+>  	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1250_PID),
+> -	  .driver_info = MX_PORTS(2) },
+> +	  .driver_info = MX_DEVICE_INFO(2, MX_FW_UPORT_G1) },
+>  	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1251_PID),
+> -	  .driver_info = MX_PORTS(2) },
+> +	  .driver_info = MX_DEVICE_INFO(2, MX_FW_UPORT_G1) },
+>  	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1410_PID),
+> -	  .driver_info = MX_PORTS(4) },
+> +	  .driver_info = MX_DEVICE_INFO(4, MX_FW_UPORT_G1) },
+>  	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1450_PID),
+> -	  .driver_info = MX_PORTS(4) },
+> +	  .driver_info = MX_DEVICE_INFO(4, MX_FW_UPORT_G1) },
+>  	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1451_PID),
+> -	  .driver_info = MX_PORTS(4) },
+> +	  .driver_info = MX_DEVICE_INFO(4, MX_FW_UPORT_G1) },
+>  	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1618_PID),
+> -	  .driver_info = MX_PORTS(8) },
+> +	  .driver_info = MX_DEVICE_INFO(8, MX_FW_UPORT_G1) },
+>  	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1658_PID),
+> -	  .driver_info = MX_PORTS(8) },
+> +	  .driver_info = MX_DEVICE_INFO(8, MX_FW_UPORT_G1) },
+>  	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1613_PID),
+> -	  .driver_info = MX_PORTS(16) },
+> +	  .driver_info = MX_DEVICE_INFO(16, MX_FW_UPORT_G1) },
+>  	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1653_PID),
+> -	  .driver_info = MX_PORTS(16) },
+
+My initial reaction was that it would be better to just leave the gen1
+entries alone (with family implicitly set to MX_FW_UPORT_G1), but I
+guess this is fine too.
+
+> +	  .driver_info = MX_DEVICE_INFO(16, MX_FW_UPORT_G1) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1252_PID),
+> +	  .driver_info = MX_DEVICE_INFO(2, MX_FW_UPORT_G2) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1253_PID),
+> +	  .driver_info = MX_DEVICE_INFO(2, MX_FW_UPORT_G2) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1411_PID),
+> +	  .driver_info = MX_DEVICE_INFO(4, MX_FW_UPORT_G2) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1452_PID),
+> +	  .driver_info = MX_DEVICE_INFO(4, MX_FW_UPORT_G2) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1453_PID),
+> +	  .driver_info = MX_DEVICE_INFO(4, MX_FW_UPORT_G2) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1619_PID),
+> +	  .driver_info = MX_DEVICE_INFO(8, MX_FW_UPORT_G2) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT1659_PID),
+> +	  .driver_info = MX_DEVICE_INFO(8, MX_FW_UPORT_G2) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT165A_PID),
+> +	  .driver_info = MX_DEVICE_INFO(8, MX_FW_UPORT_G2) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_UPORT165B_PID),
+> +	  .driver_info = MX_DEVICE_INFO(8, MX_FW_UPORT_G2) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_MU250U_PID),
+> +	  .driver_info = MX_DEVICE_INFO(2, MX_FW_PLATFORM_UART) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_MU450U_PID),
+> +	  .driver_info = MX_DEVICE_INFO(4, MX_FW_PLATFORM_UART) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_MU850U_PID),
+> +	  .driver_info = MX_DEVICE_INFO(8, MX_FW_PLATFORM_UART) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_MU850U_6PORT_PID),
+> +	  .driver_info = MX_DEVICE_INFO(6, MX_FW_PLATFORM_UART) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_MUX50U_3PORT_PID),
+> +	  .driver_info = MX_DEVICE_INFO(3, MX_FW_PLATFORM_UART) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_MU850U_5PORT_PID),
+> +	  .driver_info = MX_DEVICE_INFO(5, MX_FW_PLATFORM_UART) },
+> +	{ USB_DEVICE(MX_USBSERIAL_VID, MX_MU850U_7PORT_PID),
+> +	  .driver_info = MX_DEVICE_INFO(7, MX_FW_PLATFORM_UART) },
+>  	{}			/* Terminating entry */
+>  };
+
+Perhaps the family defines can be shortened to make this a bit more
+readable, for example:
+
+	MX_FW_UP_G1
+	MX_FW_UP_G2
+	MX_FW_PF
+
+or even
+
+	MX_UP_G1
+	MX_UP_G2
+	MX_PF
+
+I didn't try and see what the result looks like. Perhaps the more
+verbose names are preferred.
+
+> @@ -1083,9 +1219,12 @@ static int mxuport_download_fw(struct usb_serial *serial,
+>  static int mxuport_probe(struct usb_serial *serial,
+>  			 const struct usb_device_id *id)
+>  {
+> +	unsigned long features = id->driver_info;
+> +	const u16 *fw_version_offsets;
+
+Nit: reverse xmas tends to be more readable
+
+>  	u16 productid = le16_to_cpu(serial->dev->descriptor.idProduct);
+>  	const struct firmware *fw_p = NULL;
+>  	struct mxuport_fw_version version, local_ver;
+> +	bool download_fw, from_sram;
+>  	char buf[32];
+>  	int err;
+
+Johan
