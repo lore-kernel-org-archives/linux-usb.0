@@ -1,39 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0418329CE9
-	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 18:27:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86EFB47010E
+	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 18:30:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784658444; cv=none; b=tvLTCHsL8EHMvCFPptaB4zWXZuDleHmXLdhyyYy58k1W2qUUnhH8ZXetkOAmavovgjzLYzGoAUoiTmFfKJbOtSl0mQF4eptoMOTKrAD/YQVzUJcJuRlbHC2BMXkWjCyNJvUZbN9JhMdPji434d0CXBb9eORO+XQdCm8lqXBVJmM=
+	t=1784658651; cv=none; b=BEyxc6Cg0miYW/A0xywGm9wMCikGBXqqKQ9nslYcx8ODgMVw9PWCSjA/yKFnVpkB9nmLqSf4HAFsVdxtySlCmfrpPgExp6xQOLdaaIeKwXcvzrwSDCqpK/xD8JJBlU/9UXKD5G31HTXfdrI5D7c1FE8GUbMsZrwFUU4v+iEtRhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784658444; c=relaxed/simple;
-	bh=US/bH4L3jJS/MQlnEuBy0Ymf0tFgP9oMc95ReTDJtV0=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=N1JkMQ/8SfbS7EMNc760IK6RnXTVjnxZh8EXzDKm6ZzcyEkmQqmwz5QLRjnskXs9dyFmJEWgO2BD/OGINcsHKwvWqSfNcHaE9nHhBC3jWvEAFpnrwUijxjhZfk39gHLmT6qL+UvHoWBw4NGusZZHbmtnX/ge/e2J/XcStfTCCqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tO3bF62o; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1784658651; c=relaxed/simple;
+	bh=QceliOAszOzqS9NMofDtYfUhlLn1ig2t9PHzxnMUHco=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=eCgqR+xp3410wMUlXGPi6QkdEwpDnLtnR5inotRgiyXFy1d3fWPlC3fF1rvoy6GRMz5aNZlccpNCqfggIrPNe/QiOBqt19uxekDaDupi6tZw6bxnC+mPmuzLVz0kxunnHI8kPfOuURJ1oXOGma3x65MKgWY47C7gOf+M4M6UtDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O/uRqMbw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tO3bF62o"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B08C4C2BCF7
-	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 18:27:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O/uRqMbw"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3CBB4C2BCB8
+	for <linux-usb@vger.kernel.org>; Tue, 21 Jul 2026 18:30:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784658443;
-	bh=US/bH4L3jJS/MQlnEuBy0Ymf0tFgP9oMc95ReTDJtV0=;
-	h=From:To:Subject:Date:From;
-	b=tO3bF62oHOGAiZchjgH0R7PAMSkNaOpwQJlCIQFm7Ecj5+QWPz04YnDLMIjSdiS8I
-	 BLg/QqN619CqLcTi2ZBR9tHWZkFcPexkKRAOMV8/3V4o/5Z/AxqYtT0NWr87eITvXt
-	 t4zIpdmygsSHJ1frJNlcqfCDCcbR11Slh0tK2qwMQfOqPr18g90Oss7AF7X58F7lg7
-	 IMBpv+ARaRJFBfZo4zg/FWtz1kr1RxDdz3GNYaumxxeKskrQIFLS5cqtjXs+T/0qoK
-	 PU9ozSv5umVt1l0awVcX0ESnfoR9ESmUqvLuL/yeZWT1DOgbje+fmX4QAIYIz48+6V
-	 vNiqrM6Eqsg/A==
+	s=k20201202; t=1784658651;
+	bh=QceliOAszOzqS9NMofDtYfUhlLn1ig2t9PHzxnMUHco=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=O/uRqMbw9pu3RLh1OypabzxLLW0lCIoq8cfIkaKowshkDBGiHIWf7dOPpn2CTGVMp
+	 hckN2Cstujqp4kgf5zAZ+PiPxmY2nJiEIUBTCD0KuxlrnJiveR4h5rX2Xw3jsTNeWj
+	 6RqxA/L8H+fngSRLxQC94lYlJg0A98HzRegS02G3ZtksFSit73MesqU/hjM6URiEdX
+	 +GmW8z+I46PFQxj/TGmHxfY45AAoEsaiHpOblnOGgfC+B751+BQvFs5Hi8k/5PDBAv
+	 2DUpjJOgyKgqD2G88Xn3KmKSWt9P71i7u/st8SlbzG8zDKTMPWXrSJ/7nQ67EP5OGI
+	 fwNoMs+wfPljA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 8CFB5C3279F; Tue, 21 Jul 2026 18:27:23 +0000 (UTC)
+	id 164C7C3279F; Tue, 21 Jul 2026 18:30:51 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
-Subject: [Bug 221776] New: HP OmniBook X Flip - Broken UCSI firmware / Slow
+Subject: [Bug 221776] HP OmniBook X Flip - Broken UCSI firmware / Slow
  charging
-Date: Tue, 21 Jul 2026 18:27:23 +0000
+Date: Tue, 21 Jul 2026 18:30:50 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: USB
@@ -46,10 +47,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-221776-208809@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221776-208809-vRhNVacAT4@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221776-208809@https.bugzilla.kernel.org/>
+References: <bug-221776-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -63,72 +64,35 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221776
 
-            Bug ID: 221776
-           Summary: HP OmniBook X Flip - Broken UCSI firmware / Slow
-                    charging
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: daviddelsol1998@gmail.com
-        Regression: No
+--- Comment #1 from David Del Sol (daviddelsol1998@gmail.com) ---
+From: David <david@david-desktop>
+Date: Tue, 21 Jul 2026 11:30:00 -0500
+Subject: [PATCH] usb: typec: ucsi: Skip UCSI on HP OmniBook X Flip (broken =
+EC
+firmware)
 
-The HP OmniBook X Flip has a non-compliant UCSI firmware in its
-Embedded Controller. The EC accepts only read-only UCSI commands
-(GET_VERSION, GET_CONNECTOR_STATUS) but rejects all control/write
-commands (SET_NOTIFICATION_ENABLE, PPM_RESET, CONNECTOR_RESET,
-and any _DSM WRITE function calls).
+The HP OmniBook X Flip (Ryzen AI 5 340) has a non-compliant UCSI
+firmware in the embedded controller.  The EC rejects all write/control
+UCSI commands (SET_NOTIFICATION_ENABLE, PPM_RESET, etc.) while
+accepting only read-only commands (GET_*). This causes the UCSI
+subsystem to eventually corrupt the EC state, resulting in USB PD
+negotiation falling back to 5V (only ~2W charging instead of 65W).
 
-When the ucsi_acpi driver loads and attempts to use UCSI for
-USB PD negotiation, the EC state eventually becomes corrupted.
-This causes USB PD to drop from 20V (65W) to 5V (~2W to battery),
-severely limiting charging speed.
+Add a DMI-based quirk to prevent the ucsi_acpi driver from binding
+to this hardware.  Use NULL driver_data to signal "broken firmware,
+skip UCSI entirely".
 
-The corruption persists across reboots and even warm reboots.
-Only a full EC reset (shutdown + unplug + 30s power drain + replug)
-restores normal PD negotiation.
+The user-visible symptom is that with a 65W USB-C PD charger, the
+battery charges at 2W instead of 25-30W after the first UCSI command
+exchange.  The workaround (removing this driver) has been verified
+on multiple charge cycles.
 
-WORKAROUND:
-Blacklist ucsi_acpi (module_blacklist=3Ducsi_acpi on kernel cmdline).
-Without UCSI, Linux doesn't talk to the broken EC firmware, the
-charger negotiates PD directly, and charging works at 25-30W
-(expected "normal speed" with system running).
-
-REPRODUCE:
-1. Boot with ucsi_acpi loaded (default)
-2. Plug in the 65W USB-C PD charger
-3. Wait 30-60 seconds
-4. Observe charging current drop from ~25W to ~2W via
-/sys/class/power_supply/BAT0/power_now
-5. After that, pd voltage locked at 5V (visible via
-/sys/class/typec/port0/pd_data)
-
-ROOT CAUSE:
-The EC UCSI firmware at ACPI path PNP0CA0 implements the _DSM
-(UCSI DSM UUID: 6f8398c2-7ca4-11e4-ad36-631042b5008f) but returns
-error for function 1 (WRITE). The ucsi_acpi driver's
-ucsi_acpi_async_control() calls _DSM WRITE to send UCSI commands
-to the EC mailbox, but these writes either fail or silently corrupt
-the EC's internal state.
-
-DIAGNOSTIC EVIDENCE:
-  - acpi_call test: _DSM function 1 (WRITE) fails with error
-  - UCSI debugfs GET_CONNECTOR_STATUS succeeds
-  - UCSI debugfs PPM_RESET/CONNECTOR_RESET returns EOPNOTSUPP
-  - After ucsi_acpi loads, /sys/class/typec/port0/power_role shows
-    "sink" even though charger is capable of sourcing
-  - After corruption, /sys/kernel/debug/usb/ucsi/*/status shows
-    PD contract at 5V/3A instead of 20V/3.25A
-  - Blacklisting ucsi_acpi + EC reset restores proper PD negotiation
-
-PROPOSED FIX:
-Add DMI quirk to ucsi_acpi.c to skip the driver on this hardware:
-
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=3DXXXXX
+Signed-off-by: David <david@david-desktop>
+---
+diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c
+b/drivers/usb/typec/ucsi/ucsi_acpi.c
+index 5b7d00907e39..c9bdeb110974 100644
 --- a/drivers/usb/typec/ucsi/ucsi_acpi.c
 +++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
 @@ -79,6 +79,17 @@ static const struct dmi_system_id ucsi_acpi_quirks[] =3D=
