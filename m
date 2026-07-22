@@ -1,107 +1,131 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B2A439F62
-	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 16:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784737545; cv=pass; b=L3IcQUn1RET718GujQeZ8dcIDmXIwV8+LVuDytNi506qzvXA1eeSA4NKIlXtThS3b0dTIwKBqmltBldnR9UbyO+OgjDalWMawmxfw54Xl+H3zyvNpzbzz6+Lj3YGy3gOS8wlL3tG4GN4b2E7NEis1vT568LtbX6PTKGqcgoYLTg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784737545; c=relaxed/simple;
-	bh=dgKunBaD1dP/eqVy3A0wkDQ4Mi805hagXOXzddL7tw8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SuPvBaPTCKotHIxYfwteqko9/VJEbMSKLlrAHqIcW+BtTJadjuAB6yfDIuOm0luSNpZOM37bL+NfvP0YdQwVtGgAie3VgzmWqIBxIk5yqYQIzOeGp7CB8e5KXfrweFcX2aR2LkcKLA/8S1yt/QM5qF7hGIxTxcYgYY18PIbKhYw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UfUiZamk; arc=pass smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E02D4749F4
+	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 16:31:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784737884; cv=none; b=TXft7/7eE8dIn7uYPesgJsAjZ5zWztANY5O7TQ0tBho8zsEx+zh9HsLSgo+DReODvxbdvYFuWNrY2RCT0TuNYH0719rpGbnk7vZKpnpcGcoB/NGJ7GU2nuh1AmOZ6ns5+p48KzrRfAZ+1V+wwIVxAQFDVM739oJKyhR01RLDoQw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784737884; c=relaxed/simple;
+	bh=r9jMaHrgUqWdKgQ1+sPm2OlhyhqGdlTMiEg/av9hP84=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=kHtzxrM82iawTqH0iuAzLO16FBZkiD6ITjWBdAfMNOETiEUzDvndcIguh5e5BcWwqGxN5pebhlvJ3XM8H7b3ZmOPBcAkkZ7RXgEh13eQwtFti+OetTOory6w9SVnxmCoA9Op7epR4iJnaUsgur+NM3O/7vkqxHZLB9lmmywyv6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQclxX/t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UfUiZamk"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-698e5859a3cso12879534a12.0
-        for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 09:25:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784737542; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kbBWFcdK0txfUEGgsDKHzwjTlQZ76XhJOa5UZet+VfS/pXJJysWAD/K/1Qiaa9zhhx
-         HrD9Z1LTXafOYklkwxAAGOM5twRFcIdER7tUPTV4B1Mq4bMJe5MvmHT7+KOx5FgSf6qc
-         f08BX7cIRI2WBCcd89tWQrofRech+pCdXsFNOMiKYeYzs0XofPFDsijT4Jie3mtOIkDh
-         okMLoMWk5W4aVT840LNgDsAjO8S5ThBLShBbv7xqlx0FtmTFKBvkH+sJS2kLN4c43iDh
-         FBYuQKpwMRd0Z+f4/Q+yDvdNR+TQvD5zCj1yZw6R3tQPCUVksZWHi8Az4z8mBaQQvSk/
-         RDDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=dgKunBaD1dP/eqVy3A0wkDQ4Mi805hagXOXzddL7tw8=;
-        fh=UdMJh2aWKms7teeIJoz2+iRwuazgxt7jMKZAx+sYLXo=;
-        b=q7f/0pDK0rjM/2Z7AxAKtY+kmRjLlvkuZ3/xJNX6aNMxN23mtL/YZJ96+zBCipHlFN
-         Bu72HHWJ23XP5DJehqY7g1sC1Khdzmn7gc4aWmdKMNndmA/kZWapQbdaAumyI3XWPzdw
-         96olSt06ZjPiGqYLJNyPmyF01lb8uNuldy0Azq8PDb9kjBvl4ufLj2PT+LKJEWK685Ff
-         C/pBmy0AGhGN1Ip7++FlIvnBCiB2xaEZ1+6gkxeXi7DbLqO4HzeylExlYfDEaZ7y1EwL
-         dJrFjzsGhelqpKPd2N+oz2wcVMd1I2XGcB5qNt7LSRsQkgVGYQT085Dp8lVFuKUbhuaz
-         zHcQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784737542; x=1785342342; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dgKunBaD1dP/eqVy3A0wkDQ4Mi805hagXOXzddL7tw8=;
-        b=UfUiZamkerX4L1/zYyJmhzDqeJ5COWGKBLg76k/yuBcxxwVybTtO6oUkzFLA+Ko0e+
-         fNxBDVhUONniKrxJ7f/dau8gUSHOL6qoji2/k5rxCMf8AHKXaEjDKKO9hTDSPetdAGBF
-         lLpFDmz25v43tFmlVAk3UBbu/ACRi2o4Zp0kVleXbZOSiO5yWdSA7XLWStax5WTewvOC
-         WuE/7x++/eYXKd+yHkwpY0SgTveUxwNNR2O83f1MuVBnVHa+u/mgiBXKs06DcDO9of1J
-         mungh3cBCSjUfAzBYkaHoaPzwhqAq7UMhNgtEyCzMkyp1jkuo65cjm9grYU+mDsXuv8+
-         NIMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784737542; x=1785342342;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=dgKunBaD1dP/eqVy3A0wkDQ4Mi805hagXOXzddL7tw8=;
-        b=Nr8m+QQnyj9DW4MyslapgjP434Bm7d6k8nH48J3/1zVCgczZJSoWiINHg/KvAoMBFl
-         mspw029RV1B4YuaHpGRtOcrPnMZ7RTxm3X0D4QRhjWuQ6tq8kqbi3JX+B/UKEe8A4BdV
-         0e4Oj+q7H5fajcvpCZWSn9z3UcGj1cmp/j0nn6gwAQpY4MJafzbPpT7YaRpoZwQ/fa69
-         5jR7YGgylE+7DkXWZCO8f5u+q8YKGnlNKChggK9ZHGWLlYq5Sw0Pvq8JtJ85B1Fq3tHH
-         Ih8MnJVnke8Sk0ZloQTux7Vb5JjKGI7/CTfX77ve+PPubPLKN6eXiOYEuwMrytEeiOk3
-         F4rw==
-X-Forwarded-Encrypted: i=1; AHgh+RoUlkzTCYTV48VVqSH76Pq+dHkUv3way66+J2PcQcoTRbp5XzQPmee1X4ZTsNwRoR0Dmt1HRP2ZzVY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7QyM5ceCO74QBLYIqjuDzJbC5SfY3OB3MDOYUSrKFyfa9oTqU
-	cKSvNv6tLBh/vZTN6QYXKq83z8WkjgiWDxx8Gqi/kfNI8ZmlwlJTn8Z7g7WDiMgc6CDYFZNAzrk
-	XKvNeGQtkW57CLcFkstF/ekYnQFXkOm6UQUeCkLstAQ==
-X-Gm-Gg: AR+sD11t8Oy4HmK53V4EaYneY2xIQqunJWUJPjagU0Uf2PH8rYODl1qhkr1ZX48mgmZ
-	+7BFwbpdX8G71CF/AsT1JjoEm1ugNgv+WuqfoKO1B1l+uEsusz3sJvu2T/LdGeSGrMi4Ur5Z9qd
-	lzYLnXjFsCqm9TQWpmlK4eOMIILieWkxZp5WoLEQqYeOTZx7pSxnfE2kiPgFQWLnsIJVbRz4ttL
-	Ul8kxb1QlTO7XOJSPmyy4zSt+gSdfLuUpw5bWdWdRIidoCJh6bBk86TKkYnIpJUTjctwz6WY2s1
-	GhsvxbkN4y4u4S9a7wmiQFjhn93n5/C/KwVZpR9ooZgS7qoXZKU18tdZGzzh12gSpPfpfbZq
-X-Received: by 2002:a05:6402:5246:b0:69c:794d:48b2 with SMTP id
- 4fb4d7f45d1cf-69f34de1ebfmr2029092a12.15.1784737542029; Wed, 22 Jul 2026
- 09:25:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQclxX/t"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F032EC19425
+	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 16:31:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784737884;
+	bh=r9jMaHrgUqWdKgQ1+sPm2OlhyhqGdlTMiEg/av9hP84=;
+	h=From:To:Subject:Date:From;
+	b=ZQclxX/tTJXi4+k5+L+wGRuuFwxXpwfevnWryLoFMMaFQRy+0c1WkMrmjUznpeX1u
+	 9XFDG0ECQIrmBq/D5FF3RsXOQG6PC4UOC95iJqOjba2L4Bp+rRTyBQgwOogW8JUeqO
+	 1Ga0ftDf3taev29AFw7H6T+MRaPDqZKX2Bq7lhn/cuPU1sb0BU+VgsGrTzA7Y2KHls
+	 whOHgecw3w/p9IWbqbAFQMP+ymgskB/8EFTHSDKEeb8Cjl8c7trz/oKZxQjsaBuz3m
+	 xyG42920b53vXVOXres0AblJ0dSTMNl0kTNxJTCpO5xlwFN0h4lWR+5RVhHgTObN2r
+	 yIGZolh4j+1kA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id CAF91C433E1; Wed, 22 Jul 2026 16:31:23 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: =?UTF-8?B?W0J1ZyAyMjE3NzhdIE5ldzogW1JFR1JFU1NJT04gNi4xMuKGkjYu?=
+ =?UTF-8?B?MThdIEFTVVMgTi1LRVkga2V5Ym9hcmQgKDBiMDU6MTliNikgVVNCIHJlc2V0?=
+ =?UTF-8?B?cyB+MS9zZWMgdW5kZXIgZEdQVSByZW5kZXJpbmcgbG9hZCBvbiBSYXBoYWVs?=
+ =?UTF-8?B?IHhIQ0k=?=
+Date: Wed, 22 Jul 2026 16:31:23 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: m.langas55@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-221778-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260721202201.27442-1-mtormento80@gmail.com> <amDplMXaf1JpxE0v@kuha>
-In-Reply-To: <amDplMXaf1JpxE0v@kuha>
-From: Marco Tormento <mtormento80@gmail.com>
-Date: Wed, 22 Jul 2026 18:25:30 +0200
-X-Gm-Features: AUfX_mxRdjzLFcEnb5u-Gb5gfyUaQouHa8kUyovlIFmAgoh479NMDjKj_L0rLAQ
-Message-ID: <CACF_UwoqtaGMB=O2em92JcTnW1RP_ozD415ieAbMBgmmq+gG6w@mail.gmail.com>
-Subject: Re: [PATCH] usb: core: deattach child device from typec connector on
- port unbind
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 22 Jul 2026 at 18:02, Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
-> There is already a fix for this:
-> https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?h=usb-linus&id=e0b291fe117964037e0ba382eff4bb365d531c3a
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221778
 
-Sorry, I did not notice it.
-Shouldn't the typec deattach come before the sysfs removals though,
-reversing what happens in connector_bind?
+            Bug ID: 221778
+           Summary: [REGRESSION 6.12=E2=86=926.18] ASUS N-KEY keyboard (0b0=
+5:19b6)
+                    USB resets ~1/sec under dGPU rendering load on Raphael
+                    xHCI
+           Product: Drivers
+           Version: 2.5
+          Hardware: AMD
+                OS: Linux
+            Status: NEW
+          Severity: high
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: m.langas55@gmail.com
+        Regression: No
 
-Regards,
-Marco
+Hardware: ASUS ROG Strix G16 G614PM (AMD variant: Raphael iGPU + RTX 5060
+Laptop dGPU), BIOS G614PM.316 (latest from ASUS).
+Internal keyboard: ASUS "N-KEY Device", USB 0b05:19b6, hid-asus driver,
+attached to usb 3-1 on the AMD Raphael xHCI controller (1022:15b6/15b7).
+
+Summary: since 6.18, rendering load on the Nvidia dGPU causes the
+internal keyboard's USB device to reset ~once per second
+("usb 3-1: reset full-speed USB device" in dmesg =E2=80=94 4,557 resets in =
+one
+8h boot). The resets corrupt input below userspace: evtest on
+/dev/input/event3 shows missed key presses, releases arriving seconds
+late, and missing autorepeat. In games this manifests as stuck/dropped
+WASD keys.
+
+Trigger isolation:
+- iGPU rendering with dGPU powered but idle: CLEAN (tested via
+  supergfxctl Integrated mode).
+- dGPU rendering by application: resets begin
+  immediately (70 resets in the first ~2 min after game launch).
+
+Kernels tested:
+- 6.12.75 (Arch linux-lts): CLEAN =E2=80=94 0 resets in a full game session.
+- 6.18.38 (cachyos-lts): BROKEN.
+- 7.1.4 (cachyos): BROKEN (retested 2026-07-22).
+
+Ruled out: EC reset (no effect), BIOS (already latest), hardware
+(machine is clean on 6.12).
+
+Distro: CachyOS (Arch-based, rolling). Nvidia driver 610.43.03 via
+nvidia-open-dkms.
+
+Multiple users with G614/G615 models report identical symptoms on the
+same 0b05:19b6 device:
+-
+https://discuss.cachyos.org/t/keyboard-input-issues-on-asus-rog-strix-16-20=
+25-with-cachyos-during-gaming/30823
+- https://github.com/ublue-os/bazzite/issues/4590
+
+I will be away from this machine until ~2026-07-24; I can respond to
+questions and run tests after that. Other affected users are active in
+the CachyOS thread linked above and may be able to test sooner.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
