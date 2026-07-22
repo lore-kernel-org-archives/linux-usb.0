@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93AE339E6FC
-	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 15:38:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF853B42D6
+	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 15:40:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784734691; cv=none; b=tUvArsNsa1LFqyMENr7Wnef4g1LDi3aF1qoGEywG9Cg2bIs//kfDehLN+NQVjOEqOKmZ9ybX1zoKW10nY33JMc5qrlS15tYSCyUIcU4XNc0kpgk5WJTe4R/RvI6rNybylDNImIMgzv/Pr/jtjTO2V8ptPg3fAGIDTRC9Ulw9vm8=
+	t=1784734827; cv=none; b=Zh1Mt0pJmzJ0tTSoYpytKyKF08u6U9bhx9X0OdnP/zTYKejHaU9F+nV1omr/ugB2HLuHDm9VvjCLuL/Ix0CDfT6t0M4yn8AELOiyv+gMGKWO7xCpdabejtEoOc0IgWX0ucI9bZwsGBy005gGMpaG4ifylpiy5F8NdaexV7QumFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784734691; c=relaxed/simple;
-	bh=Kz9ruYnDBf8oo2BBSEesv2Clep9S3O9EEh5hSaSVKRk=;
+	s=arc-20240116; t=1784734827; c=relaxed/simple;
+	bh=0nlEI9jCxE3tPdHDHFDttbJJz7G3g/iq5q7F38xQqlw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bPOaAvR3tTzURiS40lvdcjuLhOg/c4PfH5qYMNXl8/9GNyMVLiB30F2yq3Svl0jP0n8sPgyN8edKeKyMORv/Zsv8nV4FwcBRt4sehid2DEG3q235elu3yHnulynU/YGiJvb5Icu7at1BPdbN9+YVRnLHXNQBD0X5qs3u/Xvc6fI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mdopnx6L; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=j2vZnDe600mu4DOhDiNfyO1yi3mai7RrFcU6L88JvEpLgkuHXc+6qGY68BhpA7GmqXRL5o5tGO4yopGJ0G5EDjxKKBl7z4nMZhJEwOvjZ21HHmJmRkbURXYquYo02uiQKtMr6DMbCmKyrJW8NCnBpHwQT4lLmOERbwzWff0KsF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FF1CdfQj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mdopnx6L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42CEB1F00AC4
-	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 15:38:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FF1CdfQj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3DCC1F00A3F
+	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 15:40:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784734688;
-	bh=PU53zP2ZgYOzNVSXialkgWNhgjIomM0I0DCTOOJVrdA=;
+	s=k20260515; t=1784734824;
+	bh=0t8gQaKMc/ZXtwD0jqZwEWQOmpW4BE7yHhxrhnIKkTo=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Mdopnx6LNND9dD1lcVqJSplP0C59cqSy/YDjvD9Qr8e5//ozxm85tIqfCcHVb+wkk
-	 QsP1IZtH7IaaM+E6zlv3RE90dSRqnVfqnIS6Ny2EHkZOXtdfiFMaevvnHUo/0Txkxn
-	 eyhySHWpjoqocVW+IZbWAECP9mEcUIhm3RI8wQ5EuuXFyaZVlNZX4/JBS+kEj6FBhX
-	 HsQCAgFPL2ktL3jGQkIDqtcGEPA9CHKHK1UQYmjJRrlCLLZS0Q3RS1I1FD2FAiLWyl
-	 BGjxc15v8Y5lvwn4v/iUcy8rFwgVOh+iWzG8X63egX1h+nJjI6tIyHHgonuhmxbDeQ
-	 lAWcZGjEhP8vg==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5b013aa02b2so6741258e87.0
-        for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 08:38:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Ro/90AUBqtu/6OdEqJRGaewBP5LGDsT1MtREUJsURUeQNzLcxMgti/p155o5iPY9ttUiraAq7JPkZE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8mVMWXrhUg4Fssb8hXazI30K3ngpLyjnOr/lyjiDZXX+l/DJ4
-	c1BVy5/ctb5+dRAfYf60Outj7Vg5om0oWyIKZOCL6dfGdy1+ABSSoRMtimxVc7midtEI8+wVTF3
-	EGhLSfaq/Hje7Cc4MO753dinrFr4OoLk=
-X-Received: by 2002:a05:6512:3d86:b0:5ae:b5d7:4b99 with SMTP id
- 2adb3069b0e04-5b2a9af1a7cmr1068564e87.0.1784734686708; Wed, 22 Jul 2026
- 08:38:06 -0700 (PDT)
+	b=FF1CdfQjA5YU6UPgoNn2495U1jmnSduVCBGYSb6Ho/SpcbQyueLz/Se2lynEClEYo
+	 bdvNqfBVXjrCFZWL0SG0kgJBEDwzKv27928MyIM/fJnGdEI0Ig7mDuGGy9NJy9thUF
+	 8iNtQyK67P/hSVJUs9xmNPf7k+5G2xNhOzcmVrFPW+LSC2wXlU1/wnxyZSn378Hdtl
+	 GrnWhbzLPMZNuJZATCeghmsF35HHS9PCuBmEziTmtGvHMGulxAn1VZj1DHVxadNVLf
+	 pnlmv6jQqZBhUgatl4El2aRJYMF5/jHi8fNW/n3eZwYEXOQofQ5gA7OYLcUYisK/ke
+	 8/6am7uiDvjlQ==
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5b021916bd3so11764707e87.3
+        for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 08:40:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RqQnz4sX+gg2y0OJo1yfbKEtRyPPUBNQdZAQbOEpynrDIavTAG5djlu14GeVGbhV4wsgKol6BgBZmg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRIH8B6VAYwxRG0po6N+XMGVUkLpzQ0xULPzixXdn9R3iU3Ukl
+	uyPCJ4YifWoXXhEdRitiLcax1BF9bAVI1yPEwqTiv0UbLdFvRcFn3jtTJueJBdVsiq/B4c2wyKC
+	Y3wpUsBXWiszJNDngft+boGZQFsK8G+o=
+X-Received: by 2002:a05:6512:250f:b0:5b0:2190:1470 with SMTP id
+ 2adb3069b0e04-5b28f85e4f8mr5219479e87.3.1784734822551; Wed, 22 Jul 2026
+ 08:40:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,14 +42,14 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260602032413.1540166-1-tuhaowen@uniontech.com>
- <20260618013133.1047270-1-tuhaowen@uniontech.com> <20260618013133.1047270-2-tuhaowen@uniontech.com>
-In-Reply-To: <20260618013133.1047270-2-tuhaowen@uniontech.com>
+ <20260618013133.1047270-1-tuhaowen@uniontech.com> <20260618013133.1047270-3-tuhaowen@uniontech.com>
+In-Reply-To: <20260618013133.1047270-3-tuhaowen@uniontech.com>
 From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 22 Jul 2026 17:37:53 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0iO4Re1p90aoBTvThbw1BYH=0VGZmjWun8dgn3S6prXAw@mail.gmail.com>
-X-Gm-Features: AUfX_myuzvGbwGKCjnps4TgHXITnByYo2PRHGzvo6ZCk9NSFKcnMHG_GDC7r-lo
-Message-ID: <CAJZ5v0iO4Re1p90aoBTvThbw1BYH=0VGZmjWun8dgn3S6prXAw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] PM: hibernate: clear in_suspend before freeing the snapshot
+Date: Wed, 22 Jul 2026 17:40:10 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0j-jctEzVMoWDWewpuRHZu8Zm0MgKyk+zQdHTD1KwNibw@mail.gmail.com>
+X-Gm-Features: AUfX_mwRFKqssn_70u6zmdA90awB93un37CmLfl3CLL4YuefWZy1nGA5QUgUhUY
+Message-ID: <CAJZ5v0j-jctEzVMoWDWewpuRHZu8Zm0MgKyk+zQdHTD1KwNibw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] PM: hibernate: add pm_hibernation_snapshot_done() helper
 To: Haowen Tu <tuhaowen@uniontech.com>
 Cc: rafael@kernel.org, gregkh@linuxfoundation.org, hansg@kernel.org, 
 	kernel@uniontech.com, laurent.pinchart@ideasonboard.com, lenb@kernel.org, 
@@ -62,89 +62,90 @@ Content-Transfer-Encoding: quoted-printable
 On Thu, Jun 18, 2026 at 3:32=E2=80=AFAM Haowen Tu <tuhaowen@uniontech.com> =
 wrote:
 >
-> in_suspend indicates that a hibernation snapshot has been created and is
-> still available.  Keep that state consistent with the lifetime of the
-> snapshot memory by clearing in_suspend before swsusp_free() releases it.
+> Some subsystem resume callbacks do not receive the PM event and
+> therefore cannot distinguish the PMSG_THAW phase after snapshot creation
+> from the PMSG_RESTORE phase.
 >
-> If image creation fails after in_suspend has been set,
-> hibernation_snapshot() releases the snapshot memory but currently leaves
-> in_suspend set.  Preserve its value locally long enough to select the
-> appropriate device resume message, then clear it before releasing the
-> snapshot.
+> Export pm_hibernation_snapshot_done() so a driver can query whether the
+> hibernation snapshot has been created and is still available.  The
+> helper only exposes the PM state; callers remain responsible for
+> ensuring that any device-specific behavior is safe, including subsequent
+> poweroff or shutdown handling.
 >
-> Also clear in_suspend before releasing the snapshot after swsusp_write()
-> returns.
+> The helper returns !!in_suspend.  This variable is set before
+> swsusp_arch_suspend(), cleared before the snapshot memory is released,
+> and marked __nosavedata, so it remains clear on the restore path.
 >
 > Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
+> ---
+> Changes in v3:
+> - Split the in_suspend cleanup into a preceding patch.
+> - Clarify that callers must account for poweroff/shutdown handling.
+> - Drop extern from the new prototype.
 
-This is fine with me, so
+Fine with me now, so
 
 Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
 and please feel free to route it along with the media patch.
 
-Alternatively, I can pick up the whole series if I get an ACK on the
-media patch.
-
-> ---
-> Changes in v3:
-> - Split this cleanup from the helper patch.
+> Changes in v2:
+> - Rename pm_hibernation_storing_image() to
+>   pm_hibernation_snapshot_done().
 >
->  kernel/power/hibernate.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
+>  include/linux/suspend.h  |  2 ++
+>  kernel/power/hibernate.c | 12 ++++++++++++
+>  2 files changed, 14 insertions(+)
 >
+> diff --git a/include/linux/suspend.h b/include/linux/suspend.h
+> index b02876f1ae38..2cebbec3e2f7 100644
+> --- a/include/linux/suspend.h
+> +++ b/include/linux/suspend.h
+> @@ -393,6 +393,7 @@ extern void hibernation_set_ops(const struct platform=
+_hibernation_ops *ops);
+>  extern int hibernate(void);
+>  extern bool system_entering_hibernation(void);
+>  extern bool hibernation_available(void);
+> +bool pm_hibernation_snapshot_done(void);
+>  asmlinkage int swsusp_save(void);
+>  extern struct pbe *restore_pblist;
+>  int pfn_is_nosave(unsigned long pfn);
+> @@ -412,6 +413,7 @@ static inline void hibernation_set_ops(const struct p=
+latform_hibernation_ops *op
+>  static inline int hibernate(void) { return -ENOSYS; }
+>  static inline bool system_entering_hibernation(void) { return false; }
+>  static inline bool hibernation_available(void) { return false; }
+> +static inline bool pm_hibernation_snapshot_done(void) { return false; }
+>
+>  static inline int hibernate_quiet_exec(int (*func)(void *data), void *da=
+ta) {
+>         return -ENOTSUPP;
 > diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-> index af8d07bafe02..6d3e637c5a02 100644
+> index 6d3e637c5a02..045d29f55011 100644
 > --- a/kernel/power/hibernate.c
 > +++ b/kernel/power/hibernate.c
-> @@ -418,6 +418,7 @@ static void shrink_shmem_memory(void)
->  int hibernation_snapshot(int platform_mode)
->  {
->         pm_message_t msg;
-> +       bool snapshot_done;
->         int error;
+> @@ -113,6 +113,18 @@ bool hibernation_available(void)
+>                 !secretmem_active() && !cxl_mem_active();
+>  }
 >
->         pm_suspend_clear_flags();
-> @@ -474,15 +475,18 @@ int hibernation_snapshot(int platform_mode)
->          * returns here (1) after the image has been created or the
->          * image creation has failed and (2) after a successful restore.
->          */
-> +       snapshot_done =3D in_suspend;
->
->         /* We may need to release the preallocated image pages here. */
-> -       if (error || !in_suspend)
-> +       if (error || !snapshot_done) {
-> +               in_suspend =3D 0;
->                 swsusp_free();
-> +       }
->
-> -       msg =3D in_suspend ? (error ? PMSG_RECOVER : PMSG_THAW) : PMSG_RE=
-STORE;
-> +       msg =3D snapshot_done ? (error ? PMSG_RECOVER : PMSG_THAW) : PMSG=
-_RESTORE;
->         dpm_resume(msg);
->
-> -       if (error || !in_suspend)
-> +       if (error || !snapshot_done)
->                 pm_restore_gfp_mask();
->
->         console_resume_all();
-> @@ -865,6 +869,7 @@ int hibernate(void)
->
->                 pm_pr_dbg("Writing hibernation image.\n");
->                 error =3D swsusp_write(flags);
-> +               in_suspend =3D 0;
->                 swsusp_free();
->                 if (!error) {
->                         if (hibernation_mode =3D=3D HIBERNATION_TEST_RESU=
-ME)
-> @@ -872,7 +877,6 @@ int hibernate(void)
->                         else
->                                 power_down();
->                 }
-> -               in_suspend =3D 0;
->                 pm_restore_gfp_mask();
->         } else {
->                 pm_pr_dbg("Hibernation image restored successfully.\n");
+> +/**
+> + * pm_hibernation_snapshot_done - check if a hibernation snapshot is ava=
+ilable
+> + *
+> + * Return: %true if a hibernation snapshot has been taken and has not be=
+en
+> + *         released yet.
+> + */
+> +bool pm_hibernation_snapshot_done(void)
+> +{
+> +       return !!in_suspend;
+> +}
+> +EXPORT_SYMBOL_GPL(pm_hibernation_snapshot_done);
+> +
+>  /**
+>   * hibernation_set_ops - Set the global hibernate operations.
+>   * @ops: Hibernation operations to use in subsequent hibernation transit=
+ions.
 > --
 > 2.20.1
+>
