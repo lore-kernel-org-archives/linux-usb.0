@@ -1,140 +1,150 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE6838F25F;
-	Wed, 22 Jul 2026 15:34:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93AE339E6FC
+	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 15:38:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784734445; cv=none; b=atEptr17Y3vxfc/glbqVIKQOOkqhw1MBFZBiVi8njFMGKMHXUQBYxoXVnKsXDOKLY2Q2irtiGLsGht6FokGd5Pdfkw381X19hBxq5PwMq+D2qQkMf9xWbrE6pMJygWIuSC6AY5SJbkyyYni9+frlRbiUJm7s6wY5baBi4b/P4uk=
+	t=1784734691; cv=none; b=tUvArsNsa1LFqyMENr7Wnef4g1LDi3aF1qoGEywG9Cg2bIs//kfDehLN+NQVjOEqOKmZ9ybX1zoKW10nY33JMc5qrlS15tYSCyUIcU4XNc0kpgk5WJTe4R/RvI6rNybylDNImIMgzv/Pr/jtjTO2V8ptPg3fAGIDTRC9Ulw9vm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784734445; c=relaxed/simple;
-	bh=Wj3iGHaFHk5cmK4MBcrZslWG7a1FtT47wL16Mc7fWzc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eAQNIkOzQJAjHRfNPq+Qj8HnIqKszniZXYuSddt/ZjTkkycd/Bwa0j/BWxqMeXOHwPR3Jg0Fw3t4vJPea+KNRjsYhsj/kJEAYlcO9wweWlXNr/f+kc1k0Y6u12m21g9wgLfcgI+ObIt/pb0npRgVZnSVHGg6Nc21Z7kJfGoas50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U6w3Kc/V; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784734691; c=relaxed/simple;
+	bh=Kz9ruYnDBf8oo2BBSEesv2Clep9S3O9EEh5hSaSVKRk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bPOaAvR3tTzURiS40lvdcjuLhOg/c4PfH5qYMNXl8/9GNyMVLiB30F2yq3Svl0jP0n8sPgyN8edKeKyMORv/Zsv8nV4FwcBRt4sehid2DEG3q235elu3yHnulynU/YGiJvb5Icu7at1BPdbN9+YVRnLHXNQBD0X5qs3u/Xvc6fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mdopnx6L; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U6w3Kc/V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 225B51F000E9;
-	Wed, 22 Jul 2026 15:34:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mdopnx6L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42CEB1F00AC4
+	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 15:38:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784734444;
-	bh=Wj3iGHaFHk5cmK4MBcrZslWG7a1FtT47wL16Mc7fWzc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=U6w3Kc/V9lFKzM7M50hu3gsJsv9eztCwL+e8kF0iB8S8EAeV/x7mU0Zhr/uDV5mcC
-	 ELIFTU80sM+NkKNmlcXWqx+QATpoHz9oqxOSfkKW4a+TVr5jx3HZ/xjGXbLMROIPkn
-	 iAUTBsFWceWqsbXVc+WVipoS7+7uQdPHfZeYkaWaGFSEj8uCZlXZMDI/eMONUMW10Y
-	 Qc/wi3D16ZDb6TXOk8TGOpFctCjVjtFYPSqkHc/7uwoc/TDguVKugQMAr2QeZdmIyo
-	 2ZPWWNLhxNpLHRI1UnOrPu1eV2o/QgoL/vK3qk7TgrM1Myl9ZIEVZdiDyOBONRHRa0
-	 eWkmyiT8/aEsw==
-Received: by venus (Postfix, from userid 1000)
-	id DD71218090F; Wed, 22 Jul 2026 17:34:01 +0200 (CEST)
-Date: Wed, 22 Jul 2026 17:34:01 +0200
-From: Sebastian Reichel <sre@kernel.org>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: "Dr. David Alan Gilbert" <dave@treblig.org>, 
-	jens.glathe@oldschoolsolutions.biz, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 0/5] usb: typec: ps883x: fixes for older Thunderbolt 4 /
- USB4 docks
-Message-ID: <amDhpbdAElOpxW59@venus>
-References: <20260718-ps883x-disable-usb4-v1-0-cec86d0b909e@oldschoolsolutions.biz>
- <al6-IyyWYRnEW4VC@venus>
- <al-dJjzorP-I4Yff@gallifrey>
- <al_0LjwmfW-cECnY@venus>
- <f54271f1-477e-433f-9839-e1111898088f@oss.qualcomm.com>
+	s=k20260515; t=1784734688;
+	bh=PU53zP2ZgYOzNVSXialkgWNhgjIomM0I0DCTOOJVrdA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Mdopnx6LNND9dD1lcVqJSplP0C59cqSy/YDjvD9Qr8e5//ozxm85tIqfCcHVb+wkk
+	 QsP1IZtH7IaaM+E6zlv3RE90dSRqnVfqnIS6Ny2EHkZOXtdfiFMaevvnHUo/0Txkxn
+	 eyhySHWpjoqocVW+IZbWAECP9mEcUIhm3RI8wQ5EuuXFyaZVlNZX4/JBS+kEj6FBhX
+	 HsQCAgFPL2ktL3jGQkIDqtcGEPA9CHKHK1UQYmjJRrlCLLZS0Q3RS1I1FD2FAiLWyl
+	 BGjxc15v8Y5lvwn4v/iUcy8rFwgVOh+iWzG8X63egX1h+nJjI6tIyHHgonuhmxbDeQ
+	 lAWcZGjEhP8vg==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5b013aa02b2so6741258e87.0
+        for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 08:38:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+Ro/90AUBqtu/6OdEqJRGaewBP5LGDsT1MtREUJsURUeQNzLcxMgti/p155o5iPY9ttUiraAq7JPkZE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8mVMWXrhUg4Fssb8hXazI30K3ngpLyjnOr/lyjiDZXX+l/DJ4
+	c1BVy5/ctb5+dRAfYf60Outj7Vg5om0oWyIKZOCL6dfGdy1+ABSSoRMtimxVc7midtEI8+wVTF3
+	EGhLSfaq/Hje7Cc4MO753dinrFr4OoLk=
+X-Received: by 2002:a05:6512:3d86:b0:5ae:b5d7:4b99 with SMTP id
+ 2adb3069b0e04-5b2a9af1a7cmr1068564e87.0.1784734686708; Wed, 22 Jul 2026
+ 08:38:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3cqpbpihkikroulm"
-Content-Disposition: inline
-In-Reply-To: <f54271f1-477e-433f-9839-e1111898088f@oss.qualcomm.com>
-
-
---3cqpbpihkikroulm
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <20260602032413.1540166-1-tuhaowen@uniontech.com>
+ <20260618013133.1047270-1-tuhaowen@uniontech.com> <20260618013133.1047270-2-tuhaowen@uniontech.com>
+In-Reply-To: <20260618013133.1047270-2-tuhaowen@uniontech.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Wed, 22 Jul 2026 17:37:53 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0iO4Re1p90aoBTvThbw1BYH=0VGZmjWun8dgn3S6prXAw@mail.gmail.com>
+X-Gm-Features: AUfX_myuzvGbwGKCjnps4TgHXITnByYo2PRHGzvo6ZCk9NSFKcnMHG_GDC7r-lo
+Message-ID: <CAJZ5v0iO4Re1p90aoBTvThbw1BYH=0VGZmjWun8dgn3S6prXAw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] PM: hibernate: clear in_suspend before freeing the snapshot
+To: Haowen Tu <tuhaowen@uniontech.com>
+Cc: rafael@kernel.org, gregkh@linuxfoundation.org, hansg@kernel.org, 
+	kernel@uniontech.com, laurent.pinchart@ideasonboard.com, lenb@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, mchehab@kernel.org, 
+	oneukum@suse.com, pavel@kernel.org, stern@rowland.harvard.edu
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 0/5] usb: typec: ps883x: fixes for older Thunderbolt 4 /
- USB4 docks
-MIME-Version: 1.0
 
-Hi,
-
-On Wed, Jul 22, 2026 at 10:27:57AM +0200, Konrad Dybcio wrote:
-> On 7/22/26 1:34 AM, Sebastian Reichel wrote:
-> > On Tue, Jul 21, 2026 at 04:24:06PM +0000, Dr. David Alan Gilbert wrote:
-> >> * Sebastian Reichel (sre@kernel.org) wrote:
-> >>> On Sat, Jul 18, 2026 at 07:06:28PM +0200, Jens Glathe via B4 Relay wr=
-ote:
-> >>>> On Qualcomm X1E80100 platforms (e.g. Lenovo ThinkPad T14s Gen 6)
-> >>>> using the Parade PS883x retimer, connecting USB4-capable docks such
-> >>>> as the Lenovo 40B0 via a regular Type-C cable (which forces the dock
-> >>>> into Type-C fallback mode) often results in working USB but no
-> >>>> DisplayPort output.
->=20
-> [...]
->=20
-> > AFAIK only Qcom and Apple M series support it. A quick search
-> > suggsts Apple used an Intel retimer in the past and a custom one
-> > nowadays. From the looks of it the x86 world cannot use this driver
-> > either and probably handles retimers transparently in ACPI, so it's
-> > effectively Qcom specific until other vendors start adding USB4
-> > support. The only thing announced potentially running into this
-> > would be the Nvidia RTX Spark, which first needs to be released,
-> > then find a bunch of people motivated to implement upstream support.
-> > Nothing with USB4 capabilities has been announced from Mediatek or
-> > Rockchip. So I wouldn't hold my breath for another user and still
-> > suggested adding the machine check instead of simply disabling USB4
-> > for everyone ;)
->=20
-> The PS883x is used on x86 machines too.
-
-In context of x86 I was more talking about the driver than the chip
-itself. The driver can only be loaded via DT. Any quirks and hacks
-in the driver are unrelevant if the driver is not used by a
-platform.
-
-> Apart from I2C, it also ""speaks thunderbolt"" - the bus has a way
-> for retimers to enumerate and communicate with the routers
-> (controllers) through a sideband UART-like interface. But for
-> that, it still probably needs the platform firmware to program it
-> into the right mode over I2C, which Linux is unaware of (as it
-> effectively should be).
+On Thu, Jun 18, 2026 at 3:32=E2=80=AFAM Haowen Tu <tuhaowen@uniontech.com> =
+wrote:
 >
-> FWIW, we do the same on X2. An MCU takes care of setting it up.
+> in_suspend indicates that a hibernation snapshot has been created and is
+> still available.  Keep that state consistent with the lifetime of the
+> snapshot memory by clearing in_suspend before swsusp_free() releases it.
+>
+> If image creation fails after in_suspend has been set,
+> hibernation_snapshot() releases the snapshot memory but currently leaves
+> in_suspend set.  Preserve its value locally long enough to select the
+> appropriate device resume message, then clear it before releasing the
+> snapshot.
+>
+> Also clear in_suspend before releasing the snapshot after swsusp_write()
+> returns.
+>
+> Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
 
-Thanks for the info.
+This is fine with me, so
 
-Greetings,
+Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
--- Sebastian
+and please feel free to route it along with the media patch.
 
---3cqpbpihkikroulm
-Content-Type: application/pgp-signature; name="signature.asc"
+Alternatively, I can pick up the whole series if I get an ACK on the
+media patch.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmpg4uIACgkQ2O7X88g7
-+pqwzA//fhMItCy0gKdoT+UnjnJFPyhQ7Qe4Dg9P0nmUtG+6mGJv+9aKsN1SFePx
-tq+fqwvINni30JUwMfPPm8elmiUS4Y1zFyRD8FuqNxNZ4zypuQUr+wAAqNMgwhMU
-wj7v6Uo6uHLoMD6iStedRHhu6YE3FBKqW2RJf83ng2tsTPX7BNPm7RLsTB4bvnUh
-UO8VnpaHBFTQy2p7YknjRF/wQq2FafqONB6Q9x6H4AnGvA2CcTVguLU2rUuGr508
-jHiLdoyPlBQm45aUAc5xRaDNunoqYvYvcrHbwthiMGvHvuG66POUWxzjmdE1Q71X
-AvmPhezLYh5Z6I+ivrYGoB1CYWALZh7Ggs9r93bCroC4AJBIq/ZiohZ+aM+kzXJE
-43SwtpKkMMK4TruD5A2W2+f6aL2edo+vOvyKCmHLvCykWvR2MUXaFvvGomEIRpzE
-jgfELAWigx94VsJkK5TBTKQ9Gg2ShJexKE0fqj1JDpHVh/v30ATyUL53CZMvCL8b
-Zhd8alUJQDvKb6rPm6t71VBJnLm8UKKiN8nDuRvHa5cWVrvA2mF0jN4kMMmhZfsf
-2WzjXjDx2HpYcZBtDO9lEsdtaDT1S5oid7wh7LXnxeqdJSeUblVTNploMTACIA4K
-kFclFiyAvHbEg5oVUPJgc8fP5Yl4YQx+3ul6IPuSEn7BGMSu+IE=
-=ZoIQ
------END PGP SIGNATURE-----
-
---3cqpbpihkikroulm--
+> ---
+> Changes in v3:
+> - Split this cleanup from the helper patch.
+>
+>  kernel/power/hibernate.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+>
+> diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
+> index af8d07bafe02..6d3e637c5a02 100644
+> --- a/kernel/power/hibernate.c
+> +++ b/kernel/power/hibernate.c
+> @@ -418,6 +418,7 @@ static void shrink_shmem_memory(void)
+>  int hibernation_snapshot(int platform_mode)
+>  {
+>         pm_message_t msg;
+> +       bool snapshot_done;
+>         int error;
+>
+>         pm_suspend_clear_flags();
+> @@ -474,15 +475,18 @@ int hibernation_snapshot(int platform_mode)
+>          * returns here (1) after the image has been created or the
+>          * image creation has failed and (2) after a successful restore.
+>          */
+> +       snapshot_done =3D in_suspend;
+>
+>         /* We may need to release the preallocated image pages here. */
+> -       if (error || !in_suspend)
+> +       if (error || !snapshot_done) {
+> +               in_suspend =3D 0;
+>                 swsusp_free();
+> +       }
+>
+> -       msg =3D in_suspend ? (error ? PMSG_RECOVER : PMSG_THAW) : PMSG_RE=
+STORE;
+> +       msg =3D snapshot_done ? (error ? PMSG_RECOVER : PMSG_THAW) : PMSG=
+_RESTORE;
+>         dpm_resume(msg);
+>
+> -       if (error || !in_suspend)
+> +       if (error || !snapshot_done)
+>                 pm_restore_gfp_mask();
+>
+>         console_resume_all();
+> @@ -865,6 +869,7 @@ int hibernate(void)
+>
+>                 pm_pr_dbg("Writing hibernation image.\n");
+>                 error =3D swsusp_write(flags);
+> +               in_suspend =3D 0;
+>                 swsusp_free();
+>                 if (!error) {
+>                         if (hibernation_mode =3D=3D HIBERNATION_TEST_RESU=
+ME)
+> @@ -872,7 +877,6 @@ int hibernate(void)
+>                         else
+>                                 power_down();
+>                 }
+> -               in_suspend =3D 0;
+>                 pm_restore_gfp_mask();
+>         } else {
+>                 pm_pr_dbg("Hibernation image restored successfully.\n");
+> --
+> 2.20.1
