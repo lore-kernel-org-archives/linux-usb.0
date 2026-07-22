@@ -1,143 +1,108 @@
-Received: from jpms-ob02.noc.sony.co.jp (jpms-ob02.noc.sony.co.jp [211.125.140.165])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD5232FA30;
-	Wed, 22 Jul 2026 03:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F772F28EA
+	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 05:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784691715; cv=none; b=hvYEaQYdNkJRlomUfvnUWGmG/+96BwaZMtbvNT4IReCNKrHiosYswe3MrtADrzpE0ufkaaDX/yS3BdaTpjpTqnSVGOUzDyeOIpfARGz6uA1QoXbNlnrkrMwtAMt/cVLawDms6rjpJCOTGhXLEGh+pOLGllhLsIaTDClN/qjJR6M=
+	t=1784698169; cv=none; b=XPhNjQOhDARvLX6SOxRCmYteW4n6zOHmVyeENU/IDC1eMljWdsiQzjUF2BJFDcp21qFnorQK31R+lJdJjESDRNmxlcJP5etolT2JCc4pVDMcQkHD7IVQDjNSf8l/Sy+iAM1CWoWzGcBSlFCcEzug9AjQusk4cKUROQdv7l2yfZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784691715; c=relaxed/simple;
-	bh=hOS8XrwclxRNkO7pPFLDST+6/ZK1IJP08TljEpcZ0bM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VicOoXmfWf1xwciLaxMNiUuqNkq9XYbh2zYvzBdAocUCHWYkukC+I5kPm5kXKiellpAZPxTrExn/oEwmaCBsUy8YaX7cWnA5o/idkd4MSq2DArS4xzCWTmR5W3cCwNiBiTOcV8jn+4hxqn0YZChrXMinE8/upTl/zOwD1kKAY+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=Vb6s5khh; arc=none smtp.client-ip=211.125.140.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+	s=arc-20240116; t=1784698169; c=relaxed/simple;
+	bh=7imDamabQ0st7VaerNSwZAuWfrGW0HViNufdNQI8pEo=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=hxMx4KGfFSdoZddrCqIp4Ndq+lV/MaIQoACE+z7M2rmE24CObnrrE4iu4gkeZ2WnpIxsxWqobx0B6+Z4biO7kBTrMkku3j+/HIsFKeFV5RpKpRadDUh8SNHIHXpgSe2axyXNxOkHn2p0BQp9nEH2IIWAGQRlPrWs+Yty54E+EeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cu+ZK0RG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="Vb6s5khh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1784691713; x=1816227713;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=iqmt42izrnM/a72EVSBeh8/+uskpoymt+jEbjjfbepg=;
-  b=Vb6s5khhhf7IdDnNGkucT/B9BYW90+W82M4fNyT2RhO34EE4+lgjbzGy
-   GczcQUgf8QpSILE4Sj+gh1RAYJvru1N+p+f14554o1Tq6a+NyS32MA3x8
-   RW0VA0LfHas3L98jQxip82TSk6Flhy2LQMuO+zLeSYXyFu3tWJVx1RKI7
-   XysTvOcmsM8qNJm8OzAbJFFo1oitWOGiMEVMrcfXUS8C/MhY7GHmgDC9Z
-   Qc4bTR/58mwNN74aaiX2Ts74vTxyxHJtGdaQ+6iciMC0Zf99Aeqm4/P7q
-   cGRA8DxARVzfkyXJGPSIAfmn7BZO3sBtb4kTpqkjS93qd3hoX6d1EtPGr
-   g==;
-X-CSE-ConnectionGUID: 8xD1GDHxR3i3TDmy3oGVFQ==
-X-CSE-MsgGUID: Gze+wwJNTx2RAVAzamQXPA==
-Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
-  by jpms-ob02.noc.sony.co.jp with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 22 Jul 2026 12:31:37 +0900
-X-CSE-ConnectionGUID: hLuUGiCXR4SiNpeaAZLfzQ==
-X-CSE-MsgGUID: y4C7/ckmQIiW/XZeBRm+Dw==
-X-IronPort-AV: E=Sophos;i="6.25,177,1779116400"; 
-   d="scan'208";a="627327273"
-Received: from unknown (HELO [127.0.1.1]) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
-  by jpmta-ob02.noc.sony.co.jp with ESMTP; 22 Jul 2026 12:31:37 +0900
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
-Date: Wed, 22 Jul 2026 12:31:22 +0900
-Subject: [PATCH 2/4] usb: core: set mod_name in driver registration
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cu+ZK0RG"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9B6EAC19425
+	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 05:29:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784698168;
+	bh=7imDamabQ0st7VaerNSwZAuWfrGW0HViNufdNQI8pEo=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=Cu+ZK0RGvyHR5qkPhc2v4WFG/ZJjl3SBLUMh8ElZ6zZ74Vjr5oPniHpZjlsbrLYHx
+	 63PcdoeeuOFA/zsTbJqrB6pYKsEyBrnJdOwdoYTYasH/o+AW5XbpVLswjPveJAYZup
+	 kTAlFvWcMWnmxNiS4A+C0Q/jqIBdAy36qbHtjVjUC28ELfpPI5MugBCOcn+D29WJII
+	 nqULmI7z6WgB0MZzyCyKWvs4QI/8rkK8OgVI+YKlnEjw2Tl72mXn4zTQEW3x223mAb
+	 KzKH7iXXavBEqxpCEqbJbxkgVKY2dQrbAbsUDIkJTfMqRTPOfW5+u482Z2jzqyyAUB
+	 KdOGkx7to/V8A==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 867AFC433E1; Wed, 22 Jul 2026 05:29:28 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221776] HP OmniBook X Flip - Broken UCSI firmware / Slow
+ charging
+Date: Wed, 22 Jul 2026 05:29:28 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: greg@kroah.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221776-208809-KGIs1oFi7Y@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221776-208809@https.bugzilla.kernel.org/>
+References: <bug-221776-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260722-mod_name_usb-v1-2-96d781530f3f@sony.com>
-References: <20260722-mod_name_usb-v1-0-96d781530f3f@sony.com>
-In-Reply-To: <20260722-mod_name_usb-v1-0-96d781530f3f@sony.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Bastien Nocera <hadess@hadess.net>, Matthias Kaehlcke <mka@chromium.org>, 
- Valentina Manea <valentina.manea.m@gmail.com>, 
- Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Daniel Palmer <daniel.palmer@sony.com>, 
- Rahul Bukte <rahul.bukte@sony.com>, Tim Bird <tim.bird@sony.com>, 
- linux-embedded@vger.kernel.org, 
- Shashank Balaji <shashank.mahadasyam@sony.com>
-X-Mailer: b4 0.16-dev-3bfbc
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2731;
- i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
- bh=hOS8XrwclxRNkO7pPFLDST+6/ZK1IJP08TljEpcZ0bM=;
- b=owGbwMvMwCU2bX1+URVTXyjjabUkhqwEy+naHqLdBxi/ZDq7918ztNZ7ciVbIyDHa/5XMYtbr
- UfDPnl3lLIwiHExyIopspQqVf/auyJoSc+Z14owc1iZQIYwcHEKwEQmz2BkOFurfzXAcUbWUtvt
- 6Rtjetu2LX+lu6L2xL9bK2cXGcZkFzD8T7R77T31Rso1ObkPhx4Yb7HO8HwqUCY9eeKe/3tn/HR
- VYAYA
-X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
- fpr=75227BFABDA852A48CCCEB2196AF6F727A028E55
 
-The driver core only creates the sysfs "module" symlink for a built-in
-driver when its struct device_driver has mod_name set (see
-module_add_driver()). This registration path left mod_name unset, so built-in
-drivers using it had no such symlink.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221776
 
-Set mod_name to KBUILD_MODNAME during driver registration. Built-in
-drivers now gain the symlink, while loadable modules are unaffected.
+--- Comment #2 from Greg Kroah-Hartman (greg@kroah.com) ---
+On Tue, Jul 21, 2026 at 06:30:50PM +0000, bugzilla-daemon@kernel.org wrote:
+> https://bugzilla.kernel.org/show_bug.cgi?id=3D221776
+>=20
+> --- Comment #1 from David Del Sol (daviddelsol1998@gmail.com) ---
+> From: David <david@david-desktop>
+> Date: Tue, 21 Jul 2026 11:30:00 -0500
+> Subject: [PATCH] usb: typec: ucsi: Skip UCSI on HP OmniBook X Flip (broke=
+n EC
+> firmware)
+>=20
+> The HP OmniBook X Flip (Ryzen AI 5 340) has a non-compliant UCSI
+> firmware in the embedded controller.  The EC rejects all write/control
+> UCSI commands (SET_NOTIFICATION_ENABLE, PPM_RESET, etc.) while
+> accepting only read-only commands (GET_*). This causes the UCSI
+> subsystem to eventually corrupt the EC state, resulting in USB PD
+> negotiation falling back to 5V (only ~2W charging instead of 65W).
+>=20
+> Add a DMI-based quirk to prevent the ucsi_acpi driver from binding
+> to this hardware.  Use NULL driver_data to signal "broken firmware,
+> skip UCSI entirely".
+>=20
+> The user-visible symptom is that with a 65W USB-C PD charger, the
+> battery charges at 2W instead of 25-30W after the first UCSI command
+> exchange.  The workaround (removing this driver) has been verified
+> on multiple charge cycles.
+>=20
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3DXXXXX
+> Signed-off-by: David <david@david-desktop>
 
-Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
----
- include/linux/usb.h       | 4 ++--
- drivers/usb/core/driver.c | 4 +++-
- 2 files changed, 5 insertions(+), 3 deletions(-)
+Please send this to the linux-usb mailing list, with a proper name, and
+we will be glad to review it there.
 
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index 2466183a45f0..6507c217bca7 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -1369,9 +1369,9 @@ extern void usb_deregister(struct usb_driver *);
- 		       usb_deregister)
- 
- #define usb_register_device_driver(new_udriver) \
--	__usb_register_device_driver(new_udriver, THIS_MODULE)
-+	__usb_register_device_driver(new_udriver, THIS_MODULE, KBUILD_MODNAME)
- extern int __usb_register_device_driver(struct usb_device_driver *,
--			struct module *);
-+			struct module *, const char *);
- extern void usb_deregister_device_driver(struct usb_device_driver *);
- 
- extern int usb_register_dev(struct usb_interface *intf,
-diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index eac1ff468c08..ab809cb6da26 100644
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -983,6 +983,7 @@ bool is_usb_device_driver(const struct device_driver *drv)
-  * __usb_register_device_driver - register a USB device (not interface) driver
-  * @new_udriver: USB operations for the device driver
-  * @owner: module owner of this driver.
-+ * @mod_name: module name string
-  *
-  * Registers a USB device driver with the USB core.  The list of
-  * unattached devices will be rescanned whenever a new driver is
-@@ -991,7 +992,7 @@ bool is_usb_device_driver(const struct device_driver *drv)
-  * Return: A negative error code on failure and 0 on success.
-  */
- int __usb_register_device_driver(struct usb_device_driver *new_udriver,
--		struct module *owner)
-+		struct module *owner, const char *mod_name)
- {
- 	int retval = 0;
- 
-@@ -1003,6 +1004,7 @@ int __usb_register_device_driver(struct usb_device_driver *new_udriver,
- 	new_udriver->driver.probe = usb_probe_device;
- 	new_udriver->driver.remove = usb_unbind_device;
- 	new_udriver->driver.owner = owner;
-+	new_udriver->driver.mod_name = mod_name;
- 	new_udriver->driver.dev_groups = new_udriver->dev_groups;
- 
- 	retval = driver_register(&new_udriver->driver);
+thanks,
 
--- 
-2.43.0
+greg k-h
 
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
