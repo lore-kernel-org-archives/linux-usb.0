@@ -1,148 +1,179 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A26443ABE;
-	Wed, 22 Jul 2026 08:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC11B4779BC
+	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 08:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784708272; cv=none; b=pn9eS7mStQGwyLKK807uudjB/CMW9Wbvmihr8GmnEuSpQkLnWMvwgeIqIplejMUGD/KjodykTb355JR+edr1OEiA35cCMRPX+BH/aEvprH/H01SUH3OFsueCHpL8mrai5ZwHn6PQ80PwkvhhmOtEHhehR5b5V69Lmp7yI7twarc=
+	t=1784708891; cv=none; b=lE6nfw8SmiyfCI5BO8XgG7x6DMz7uPc3UoMBS0w3HQFtP+yIGavZ1QQ+u7ddxR0M2jRe8sN0C5JLwkfsX12P1GrJZ+5wKg59k3E5PaxG/zubdXPiyCwYuzdiA2Y46nY8qulJJfLbjxa21Hm3zdc/9IP+h/wcKjdbyCjxyIx52PE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784708272; c=relaxed/simple;
-	bh=OF3Cq69qZx3fkwUF4/0JWrcaffAYoEBCqZX5meMCaiU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jSLC3r7BeeAkshxwpxG3DnZAvtaVwS3L7+Y4XyXTykwnwqs9rErDMfX3YxacC3DXZEQB+G+WPnQZ0u3RsEMMcpIZ9xgUaLQbkxsxYXhARb3CHmDoLbonKVKwJ+PjDPlPDIZfZtmNfqtIyyd9SKTDPUMnTzLEMpmcbqzus9jtGZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=JCD5GxpU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BDtYuQ0M; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1784708891; c=relaxed/simple;
+	bh=TkK8+LPz3NLYgchZpLtTgVE409WX1AzhZy1O6ggVhyQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CXr4whC8j9ECQ7lZNY2G1VzV9IiD7mOfcfrMj7xe87xYEGprMFpOuybJYqKkjRWz7YXozcPoa855sI83WR0jZkAEVcTea0L5XxErx509OU2jpIO21JHJ8p9uK6R9VpLmyd2WIYNYrQT7xdiD8rTI5XLrO8r/17bdwCShUkPEJ8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TkhDpZ4t; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KuFeEGAg; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="JCD5GxpU";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BDtYuQ0M"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id 81B10EC00D7;
-	Wed, 22 Jul 2026 04:17:50 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Wed, 22 Jul 2026 04:17:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1784708270;
-	 x=1784794670; bh=pvw0sP9Y33TGVp2zd6A7xIHYROXt66eFd4Fg3nT9Jbw=; b=
-	JCD5GxpU5r5rD2UVOSiV2M6a7v/0glGqFSXmaj/VCZZMz+Pp6ep26D2jEqMJg8lC
-	hj9kBiMLHB95bqgwl7szXgDvSi0PPp9N5rC3dWen92zYWA2Y2qdGFnRu7DasPdtr
-	KQImGBuOeMlyWU73W6tfP5jP3rs5zpBkpUPCj4s2xiK1JBQL2DghkM0hxS9bvldy
-	cbeD+Hwy83kepIJgqGJdFc9Eds8I72xZ9jShdd7nxGy36NAMZ4FVSetwGFYsTs4n
-	hLPV7wpzmQXwiW4geCeLffoNB9JJNX3EvtyIBU/wO7HvfbDrZFpiX4AHx49uSLM8
-	fUuxDMUBFJ5YfgTsUQ0uBg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784708270; x=
-	1784794670; bh=pvw0sP9Y33TGVp2zd6A7xIHYROXt66eFd4Fg3nT9Jbw=; b=B
-	DtYuQ0MCatfZs1ef6zzOrIipD7jeTD8zY9E+SyrKcQF5YzildDa3m8pyYxnH6/9S
-	RTe7ALzrN/bAeWjVmeocxfPRizShrHz/iEDuefDeUEURJxcGRaCrqqj5gtUDrxzo
-	YTeVEvDPHKj0S+mbyFBbv3qmvJ/OmpzJDtlYiKW2RIKsxMp8Yv8+0ywouAmWD9fb
-	mk9aKvLJH2hOGsJbOQ8dNOYdRYYEfpaTm+WSEFCRy7GhxKQ5DfVOeoaPZ0agT9Hu
-	9PEifI+AFZwIcMfeDO9kMPIxl01kk63HdWvOnYek7LhxfTFiUassHDBWVIDg9Zz/
-	dYqMo0RsTBvIvKbxurCqw==
-X-ME-Sender: <xms:rnxgavVowcq3CVoqXvJ66RZpUgdAyAszAi_pjNjD2kA7GRuRP1WhNg>
-    <xme:rnxgalgWu6ajoyKS-OFjREFdJfnTYasnJ0FkKIaTg_wGWY03dh1bAfWHOAKaTd4-a
-    C4Ct3UjTOGDCW1Ou9dJ_XD9Le7N1hlhLryHYqXBBb3YPj_Q4w>
-X-ME-Received: <xmr:rnxgatvUTPTCO6w0f7YBrnT1610q-9sI37iN_D4C6njYeyPHKXz_ixfO2St0_MxGX6F06IgR1HupYSmTkF51EseXgzpxYMWDMA>
-X-ME-Proxy-Cause: dmFkZTFePMTx2K3lOG86P/K5Fxb4/47Da67zToW8WFfNqYuwznzIeuZfb/KMPgbrTEmeAg
-    Z8rDZBohPIaLlIc2L924ymJ13OT/XwFJ58H9h9vfYwFUPilIJOKgXY0fdbnrtapdx0KN4A
-    UPVsQzAZAfbLisbttJ09fC+O4hMNg4CO0u+r6JwFQcn9xPuTLW3WEPovXFtNS6RquMWfKP
-    xzP3YLDlXkHSdbTi3N43g3WHyzbfZ8UyMQP/cX6RBlWfGqEM5mg9OxcUgs16FLheTNXXxq
-    yLO0Ti5Vkf4Nv7Nm2uGHiELMvMG2t1/tbXzOwKl/HFfBvruoploQekBl1oOeeHoyXToHUj
-    Sfq/SOJpvsSJrvu/MUMf121IKFKv9WLq+XZx3bvlGRDWR1Z1Eo/Gs0x9AXn6SUeuef9S/Z
-    ENUOYNU5FowZ3oxliW+PVM1KSeb7UADrq4cUs8c52CDnhcDJY40hLCB4GQuTgoeouxuKvV
-    6DqIbGbDERae4pKYtV1z8Q4FJMRRFI/otLkl50A9G29O0XuaDkPvEUcr2ofZRYdaqlzpBj
-    8h0ck+rP5yhekRaZo8HtS+9u1OqfaH0y1q+tEFDM6lhWo6FLvuu4OnyZPB4+Z6p8kByfEB
-    geAziNUp3pxVSBuzVlAQkWVMDgsspLDSPcdCU1oGnaFgsA4HmeEvjN5NzlKA
-X-ME-Proxy: <xmx:rnxgau69mngdP0cSlTRirxnuyE6RqXV6I1GIhqTvqz1XLktdyQiT8Q>
-    <xmx:rnxgahMi3L9Jze3w3CZB5dgTexzV6SFjNbzh59v2_k35uUqQowS44Q>
-    <xmx:rnxgaktjUcGCqRT2jhxYLvOXlRfZaZXtqDxNNuCHn-oCJD876TVw3A>
-    <xmx:rnxgasbHMJE51RKG0VZFGorX70gby5YuAsN1RNjqj5EMUluC4pqNqQ>
-    <xmx:rnxgaiE7PRWxULDjZxehoZK12PLIcrGpIOkB9D_Ig0zjL44ExXiXOaeQ>
-Feedback-ID: i1d2843be:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jul 2026 04:17:49 -0400 (EDT)
-From: Griffin Kroah-Hartman <griffin@kroah.com>
-Date: Wed, 22 Jul 2026 10:17:40 +0200
-Subject: [PATCH v3 2/2] usb: core: reformat error handling and messages
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TkhDpZ4t";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KuFeEGAg"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66M7CBPt131213
+	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 08:28:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	mIsymjFuprG4so7Q98HuwxLOIzy0qsmeHV37HSxMH4Q=; b=TkhDpZ4tS7+g6FSu
+	V7hA31jvtXYwG8KYuedqPWY2GzKy10BPTSi76qlCpspHrBvRIpDD6sZjr8tRdJyD
+	5SgMYd+5tUtvFIDkcPUR89Kej60q2/cRRhTMCmLCdTGmXacX8Skz6H3KSqYwF02E
+	KuQS5Tw5yjxdY3+IWY3rCoYvAyp+VLz4uO6svqk8oRV7umNEedPcP4tytvgAQ/D6
+	2L7ulhngw4C6rA7P4W1zZzCJSAOhIa+TEDiJ/ZJ1zEQZoXZfCdMyndzNnV5CGCcy
+	GjBKW7wLRhJIDe4XFZThZM03+utPhHYrJrUFW5giJBeoVJdGpBvbwVvGmPqzednG
+	3SExMA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fjs928abv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 08:28:03 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-92e4ecd1ae4so185721685a.2
+        for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 01:28:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1784708882; x=1785313682; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mIsymjFuprG4so7Q98HuwxLOIzy0qsmeHV37HSxMH4Q=;
+        b=KuFeEGAgvF+vZl5wdpo+I3s3KtYfiXzcl1ww7ofB4rGIEgf1f4lKntUwH8+Qodz/38
+         iZ5+iwh6+7VbQ8XPb5uL/L7hDYXCFszuGXUP+UwYcxygBKByO9F+Tp3jWNuiR/FrnGSO
+         EgGWaCUOA4NUqqjnbERY4WysIH1tNTvrb3DePTQtHBoyQN1D20jFU9RwRrjzgxMHeS8U
+         /wk6z9pcd/oY0fR7jhHmM68Es5TWt1h5SBUthFkp99/bixn2+ng4Jc2LAUW3RmNuFPSY
+         Rl+MprY+5WFtKYMvg5KEXjmh5wcClNCrvBNp/uoJBCwx4M7d0erpjZx85N97yHecmvtR
+         Zg5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784708882; x=1785313682;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mIsymjFuprG4so7Q98HuwxLOIzy0qsmeHV37HSxMH4Q=;
+        b=Ddiw9m7U6lVwverZOgHRG9C8OR+mwe82x18QSVsuhYL9NAeGyI0Hu6d3eTXNEa0l66
+         uxGDnD7SmppBFanEfCTj8nomovwq1w/ezG/O3jXqVXNfY9y6VDjy66u+uwjBJfC8bK5B
+         /0HHSajBWhdyOZR9yM5w8pZyLYCMFDGJXE0/CTB9Wz93U2XOvZWTfQGW74I7xM6M4oCF
+         Yw6ubFPfk4C7dqEOGSof0ugw4QsE3B9593RP77Y5SbL0Oziig+9J9xWePDbzSFiSmr/Q
+         qnpybZ/0AQiSq9wkcMswCaFER9QzHzemD7G7xW0pOd7zQX1x+/6nZbHEWWUqESDhXR/b
+         LnzA==
+X-Forwarded-Encrypted: i=1; AHgh+RqUCvtbEfXXcndFo9ienAivnY8TUlbGOIf57QyU7avpjhgoU6ZZ5XgyBLBX3ZEbotyL/42YuwnfD58=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQfwJ3de1LltfL+5zdbJb66hPqGUogduas4x6qpn730k5Wm34Z
+	afBD61TzFf8CL8AJnM6z+S90YHHtgtZ848I0zrLT3Pc3S+Nlz2+Oud5j/sVQBme89pvXg4K/F3c
+	lGSj5aq7BkH47HmejCiYDdZoa/ImC1S8J8QWdydDz5gmEBBLLLOfR1SzMz7z6fMI=
+X-Gm-Gg: AR+sD12YgX54YZhMAKTBiws8mVd4FsF5Lb88osztymGLnvqYx/m1CcA6JXcyL5J5k7l
+	nJNl0U1GmssE5Nb+5/MaJvPIWal0GMyTz59Rw+0Z5By8/Wsdds8T4slf7fBe5xhT3FrzJOVtC9S
+	nTRGKElVbmu4QrCg8ZVKlp10hmWqB4Bk+To38VPecm/PQ/fM+N9jZ8W5LIm7hNEnEUkOhYWJik4
+	94xR7IpDI8iKuoMPmnQQ3kIaToX40FHHx04UT2gMZBLMDszYzv3/GUYI/Xk+fcqXd5Pb8uwbfZX
+	2GwJ9t95Q5wZwgGi1qgdSJ5Vzo4BPCOGRBTspzeIN5yukfvXedL8w+6XTqOPaHm8fxLSZ5xOb7/
+	i4Fucdk9QS4Ycl9XutTZYRozA
+X-Received: by 2002:a05:620a:1709:b0:92e:705f:1626 with SMTP id af79cd13be357-930f458fd0emr196447085a.6.1784708882439;
+        Wed, 22 Jul 2026 01:28:02 -0700 (PDT)
+X-Received: by 2002:a05:620a:1709:b0:92e:705f:1626 with SMTP id af79cd13be357-930f458fd0emr196445785a.6.1784708882047;
+        Wed, 22 Jul 2026 01:28:02 -0700 (PDT)
+Received: from [192.168.120.193] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69f34ba67f0sm621763a12.12.2026.07.22.01.27.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Jul 2026 01:28:00 -0700 (PDT)
+Message-ID: <f54271f1-477e-433f-9839-e1111898088f@oss.qualcomm.com>
+Date: Wed, 22 Jul 2026 10:27:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] usb: typec: ps883x: fixes for older Thunderbolt 4 /
+ USB4 docks
+To: Sebastian Reichel <sre@kernel.org>,
+        "Dr. David Alan Gilbert" <dave@treblig.org>
+Cc: jens.glathe@oldschoolsolutions.biz,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, stable@vger.kernel.org
+References: <20260718-ps883x-disable-usb4-v1-0-cec86d0b909e@oldschoolsolutions.biz>
+ <al6-IyyWYRnEW4VC@venus> <al-dJjzorP-I4Yff@gallifrey>
+ <al_0LjwmfW-cECnY@venus>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <al_0LjwmfW-cECnY@venus>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260722-usb_core_patches_2-v3-2-87622252bfdd@kroah.com>
-References: <20260722-usb_core_patches_2-v3-0-87622252bfdd@kroah.com>
-In-Reply-To: <20260722-usb_core_patches_2-v3-0-87622252bfdd@kroah.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Griffin Kroah-Hartman <griffin@kroah.com>, 
- Alan Stern <stern@rowland.harvard.edu>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784708266; l=1834;
- i=griffin@kroah.com; s=20260706; h=from:subject:message-id;
- bh=OF3Cq69qZx3fkwUF4/0JWrcaffAYoEBCqZX5meMCaiU=;
- b=QLVqn5IGLvmaqPBFkRxSvcmuls5bJCOzCMeraqGH8MAlnYBuP5/pVK1Rq7BlZ54tb5YWleC1a
- rnBW4arM66iC5zthJu2TG8m7Ow4b1/b4HHwOaSn3flyNHyEOcm4uW1Z
-X-Developer-Key: i=griffin@kroah.com; a=ed25519;
- pk=Hy1TuVHERdQhLAWwjmxLFNtGj7eEEjaZWPXehAlic5M=
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzIyMDA3OCBTYWx0ZWRfX879EtcQWnx/T
+ lYI3uOl49SCs427YmODvl6kHasBiVdvhzPREQ20YMG4adK33pEbtByRYthCr/YrT1yGlgvhHo6w
+ 7VdHeyvtCL3mwt5LeAiSIprxNOwxFG0=
+X-Proofpoint-ORIG-GUID: F1XouDcyEyhhVtZRUZLEoh0Nk3o4m4cV
+X-Proofpoint-GUID: F1XouDcyEyhhVtZRUZLEoh0Nk3o4m4cV
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzIyMDA3OCBTYWx0ZWRfX44rnK9UONOZA
+ DX3vks/cR3ZU3gS3QUoaW7wpOVKfthILhb4aYJpXYpHjwxKA7JOsXZ1Tv9ILeM3LogGXwfg504i
+ fT1yE6Ly/cQvQoqzrOde1CiCv/tKlFMNwb6kk5QybyaBlwNuxGpNBeUlYTqIoicO6R4HIFpmYtg
+ PlKilkyO+f5EbrMSvzVpWMIVsXDP6Fwp39vJE4T3Me1HWqI7E/BCIU8lPZrZlHbOBwe3tvhkQMm
+ byR3B0Lt+sm0qeBhKRRNWkUqPjbb7ULwUA4L0qHCENO4nyF4Akoskkb5PR+NO6lSLlYwebfavkE
+ fyjmxuln6+Hxu7CLyaVcrANLB+e8cn6OjkUIRIjB2LKk1iaNQk71BR6wuO+ZPimzCYMcWAjVO4P
+ rEbFLmH2DdhaLTvFPPn+R0G5Z8bi+jWCCzbi3wcapoHvzC3pGT6GvUiBpJbqjwjhnc0zJkLcK3t
+ gTSV/bMB8wzduQaKN4A==
+X-Authority-Analysis: v=2.4 cv=QahWeMbv c=1 sm=1 tr=0 ts=6a607f13 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=VwQbUJbxAAAA:8 a=B0dxQpQml5LPzYmAcjoA:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=lhd_8Stf4_Oa5sg58ivl:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-22_02,2026-07-21_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
+ lowpriorityscore=0 phishscore=0 spamscore=0 clxscore=1015 adultscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2607220078
 
-Rearrange the error handling changes in the previous patch, in both
-hub_ext_port_status() and hub_hub_status(), in respect to maintainer
-feedback.
+On 7/22/26 1:34 AM, Sebastian Reichel wrote:
+> Hi,
+> 
+> On Tue, Jul 21, 2026 at 04:24:06PM +0000, Dr. David Alan Gilbert wrote:
+>> * Sebastian Reichel (sre@kernel.org) wrote:
+>>> On Sat, Jul 18, 2026 at 07:06:28PM +0200, Jens Glathe via B4 Relay wrote:
+>>>> On Qualcomm X1E80100 platforms (e.g. Lenovo ThinkPad T14s Gen 6)
+>>>> using the Parade PS883x retimer, connecting USB4-capable docks such
+>>>> as the Lenovo 40B0 via a regular Type-C cable (which forces the dock
+>>>> into Type-C fallback mode) often results in working USB but no
+>>>> DisplayPort output.
 
-Additionally, change the two usages of dev_err() in these functions to
-dev_dbg(), and reformat the error messages to be more accurate.
+[...]
 
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
----
- drivers/usb/core/hub.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+> AFAIK only Qcom and Apple M series support it. A quick search
+> suggsts Apple used an Intel retimer in the past and a custom one
+> nowadays. From the looks of it the x86 world cannot use this driver
+> either and probably handles retimers transparently in ACPI, so it's
+> effectively Qcom specific until other vendors start adding USB4
+> support. The only thing announced potentially running into this
+> would be the Nvidia RTX Spark, which first needs to be released,
+> then find a bunch of people motivated to implement upstream support.
+> Nothing with USB4 capabilities has been announced from Mediatek or
+> Rockchip. So I wouldn't hold my breath for another user and still
+> suggested adding the machine check instead of simply disabling USB4
+> for everyone ;)
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 59b0e36816d6..94e268e791db 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -623,11 +623,11 @@ static int hub_ext_port_status(struct usb_hub *hub, int port1, int type,
- 	mutex_lock(&hub->status_mutex);
- 	ret = get_port_status(hub->hdev, port1, &hub->status->port, type, len);
- 	if (ret < len) {
--		if (ret != -ENODEV)
--			dev_err(hub->intfdev,
--				"%s failed (err = %d)\n", __func__, ret);
- 		if (ret >= 0)
- 			ret = -EIO;
-+		if (ret != -ENODEV)
-+			dev_dbg(hub->intfdev,
-+				"get_port_status failed: err = %d\n", ret);
- 	} else {
- 		*status = le16_to_cpu(hub->status->port.wPortStatus);
- 		*change = le16_to_cpu(hub->status->port.wPortChange);
-@@ -992,11 +992,11 @@ static int hub_hub_status(struct usb_hub *hub,
- 	mutex_lock(&hub->status_mutex);
- 	ret = get_hub_status(hub->hdev, &hub->status->hub);
- 	if (ret < (int)sizeof(hub->status->hub)) {
--		if (ret != -ENODEV)
--			dev_err(hub->intfdev,
--				"%s failed (err = %d)\n", __func__, ret);
- 		if (ret >= 0)
- 			ret = -EIO;
-+		if (ret != -ENODEV)
-+			dev_dbg(hub->intfdev,
-+				"get_hub_status failed: err = %d\n", ret);
- 	} else {
- 		*status = le16_to_cpu(hub->status->hub.wHubStatus);
- 		*change = le16_to_cpu(hub->status->hub.wHubChange);
+The PS883x is used on x86 machines too. Apart from I2C, it also
+""speaks thunderbolt"" - the bus has a way for retimers to enumerate
+and communicate with the routers (controllers) through a sideband
+UART-like interface. But for that, it still probably needs the
+platform firmware to program it into the right mode over I2C,
+which Linux is unaware of (as it effectively should be).
 
--- 
-2.55.0
+FWIW, we do the same on X2. An MCU takes care of setting it up.
 
+Konrad
