@@ -1,150 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAEA4749C6;
-	Wed, 22 Jul 2026 16:02:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385D24749E1;
+	Wed, 22 Jul 2026 16:03:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784736154; cv=none; b=ZbpuEPfd01wSJ1rbiw86wU0Rt2I4Z7BO6rc94W4mzMUqf+tGtWq4jFYR3ssdGdhWAy0XJcMVbVFS5uQtc5o/O5zDn0+tI3Dbo/YJfJXtKONQ1KTWaMAql2IFE+yjqVRSFTto+/VlcYZRb/1bHcnzJzkL2P8kCHUCz5aC1cHH8AA=
+	t=1784736200; cv=none; b=J17m72UcZ4lQsGvM2Dukcny8vqelx31aCGO456f6oQVBdbpMeZrrHPlZj4YD7xNMLxFZDqfW0ve/I+cJxQDW1jqBRZx4W7Ov5J+Y48gIKRzGE2WVFo/phu2/4jeFFH3e9LB8Rbuoj2ihaJ61hcgN6wLN1fwivx3mIbsJG3yJXJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784736154; c=relaxed/simple;
-	bh=gFPogyiES5hHGAcYy78tQAGv1pz20XnH2qEAWOjvMs0=;
+	s=arc-20240116; t=1784736200; c=relaxed/simple;
+	bh=3JshwvYSGmdmPVT0eS9/vpcUAfew6p/8glliOI2QBIU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IovowaAZ3OeWWGPDGt0EW5QtjV9eH3k23C0ugYqz5KaRX6E0Y/eEIUQmwyjCduQxtyUzc5UaxZKiJpBUg6DpbInLr5CRNoGuJtp2QwGCI8AWWAD+EFOTsKonMaF0a+9sobK0vM1q1sMfiIp6gkb4ClufQGCczvnyBFX8ubSC1EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fKTsbV5W; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=AA5e1GMA0+izAdQvO83WhqyGCQG7iXSVhQZtTawCXfgQlYElvx9uEOmHXyAfm46vUJw1j+mpNVuM3UsEkHL1b+s1xPCQyXb/9L3QSM16IFram9odPLIM0tK2SGsSkEbILpT3BtnXaNFGdHnpccUX+yoYYO7pXX/4I2HUUo38aBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WpPfvu7n; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fKTsbV5W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1784736153; x=1816272153;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gFPogyiES5hHGAcYy78tQAGv1pz20XnH2qEAWOjvMs0=;
-  b=fKTsbV5W3cRHTroEnMaugFHZLLksa0IiiQJzCzyL4yTvaHisknqpkFCC
-   U+ISB1FNyV+Pbj40ANlIDekqhg4XgA/P/iwYvP1aEBjql/o7xDuabQc4b
-   5L4N+M0opatBNB0v2kqx8nE8kJlV8jKMEZmarAhhzeD0li/Ctm/k1R6sr
-   SBXuOVCvM2k4MErtn9Yx3EI3w5luMFtLTGlZj8Su8gRfTq7AxdCrsJtrS
-   ttoz13o6Jc81MT6PgXLcxCx0aJUAdymWr6GxKBNHGJC+k4R9DwcoDHljX
-   LkVJ7rjAZvpZsNjXUzKqRdLTXqNSZrdoBHNtpJYEFn/WxxYQDqLc77mRA
-   A==;
-X-CSE-ConnectionGUID: hPNPJdK3TZ24UFm6zqi+eQ==
-X-CSE-MsgGUID: 8ypoQ1NFR5+U6952lc67dw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="108165699"
-X-IronPort-AV: E=Sophos;i="6.25,178,1779174000"; 
-   d="scan'208";a="108165699"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 09:02:33 -0700
-X-CSE-ConnectionGUID: 0LZMj6S+QxG46jGfyUszPw==
-X-CSE-MsgGUID: Nt7DjENgQNOoPXmdLeO8aw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,178,1779174000"; 
-   d="scan'208";a="261673506"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa003.jf.intel.com with ESMTP; 22 Jul 2026 09:02:31 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id C30A398; Wed, 22 Jul 2026 18:02:29 +0200 (CEST)
-Date: Wed, 22 Jul 2026 19:02:28 +0300
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Marco Tormento <mtormento80@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: core: deattach child device from typec connector on
- port unbind
-Message-ID: <amDplMXaf1JpxE0v@kuha>
-References: <20260721202201.27442-1-mtormento80@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WpPfvu7n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0BDF1F000E9;
+	Wed, 22 Jul 2026 16:03:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784736198;
+	bh=XVF6iboHpx/dJTK18UoKC6gB7U14XwiMPQNnAKiOLzg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WpPfvu7noZMjNHBdfUsuCGidsqrQjqSkT1af6eWYCHiAtBK7tASHCjOXQ3ULbKxDW
+	 mM0TAnrBvwQ0U8002WgR0np6zhlHFW0DyWRA3j2UYixg6WfVaaBYyMSH+iDA7RCw0b
+	 y5OVSTK59g0nQS9T3rcjoPVZJLy8SksDaLZiwSyC/fC9dV1YeZORDvgH1thhc82pcN
+	 aIYFm734Inxq51XVkaGgkpa9/zoRSG9lMCSW59sG7EiLKjrvxjbJZyHkWVPXDAi3Yb
+	 38sN8wtvXmJHmge1B1XSmmz0ikvsHsUXzlc6LCx4/ysU1vEDgN26Fy6t+HaUe0sLUc
+	 Xek9zfQQPnAnA==
+Received: by venus (Postfix, from userid 1000)
+	id 5A67E18090F; Wed, 22 Jul 2026 18:03:16 +0200 (CEST)
+Date: Wed, 22 Jul 2026 18:03:15 +0200
+From: Sebastian Reichel <sre@kernel.org>
+To: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+Cc: "Dr. David Alan Gilbert" <dave@treblig.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Abel Vesa <abelvesa@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 0/5] usb: typec: ps883x: fixes for older Thunderbolt 4 /
+ USB4 docks
+Message-ID: <amDi7e8fqqzCRlAc@venus>
+References: <20260718-ps883x-disable-usb4-v1-0-cec86d0b909e@oldschoolsolutions.biz>
+ <al6-IyyWYRnEW4VC@venus>
+ <al-dJjzorP-I4Yff@gallifrey>
+ <al_0LjwmfW-cECnY@venus>
+ <41222b67-19e5-4f74-b4aa-928d05db9675@oldschoolsolutions.biz>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ithrsve4yere6oyx"
 Content-Disposition: inline
-In-Reply-To: <20260721202201.27442-1-mtormento80@gmail.com>
+In-Reply-To: <41222b67-19e5-4f74-b4aa-928d05db9675@oldschoolsolutions.biz>
 
-On Tue, Jul 21, 2026 at 10:22:01PM +0200, Marco Tormento wrote:
-> connector_bind() tells the Type-C connector about a port's already
-> attached child via typec_attach(), but connector_unbind() has no
-> mirror image: it drops port_dev->connector without deattaching a
-> still-present child first. When that happens, port->usb2_dev (or
-> usb3_dev) in the Type-C port is left pointing at a device that is
-> about to be torn down, and typec_partner_deattach() never runs for
-> it.
-> 
-> This shows up on hardware where a single Type-C connector's component
-> aggregate spans ports on more than one USB root hub sharing an xHCI
-> controller (e.g. a Thunderbolt-attached hub exposing both a USB-2 and
-> a USB-3 root-hub port through the same connector). Unbinding the
-> connector from one root hub's ports also unbinds it for the other's,
-> even though the other root hub's child device is still attached and
-> gets disconnected later, by which point the connector is already
-> gone. The result is a "kernfs: can not remove 'typec', no directory"
-> warning the first time, "sysfs: cannot create duplicate filename"
-> the next time the device is reattached, and eventually a general
-> protection fault in typec_unregister_partner() when it dereferences
-> port->usb2_dev/usb3_dev after the device it points to has been freed.
-> 
-> Fix connector_unbind() to mirror connector_bind(): deattach the
-> child from the connector before dropping the reference to it. This
-> closes the race regardless of which order the parent USB controllers
-> happen to be torn down in.
-> 
-> Reported on a Lenovo Thinkpad T480s (BenQ EX3501R monitor with an
-> integrated USB hub, connected via the Thunderbolt-capable Type-C
-> port, alongside a USB-C power delivery brick on the other Type-C
-> port). Ran the reported plug/unplug sequence multiple times on that
-> hardware with this patch applied and could not reproduce the failure;
-> the same kernel build without the patch reproduced it on the first
-> attempt. Supersedes an earlier attempt that reordered
-> typec_deattach() in usb_disconnect() instead; that approach worked
-> around the same race but only for one ordering of controller teardown,
-> and inverted the normal teardown-mirrors-setup convention.
-> 
-> The original investigation, including the v1 patch and the hardware
-> reproduction that led to identifying this bug, is my own work. The
-> connector_unbind() fix approach below was proposed by Claude (Anthropic,
-> Sonnet 5) during code review of the v1 patch. Hardware reproduction and
-> validation of this fix were carried out by me, on the same hardware, per
-> the note above.
-> 
-> Link: https://lore.kernel.org/r/20250720210847.30998-1-mtormento80@gmail.com
-> 
-> Assisted-by: Claude:claude-sonnet-5
-> Signed-off-by: Marco Tormento <mtormento80@gmail.com>
 
-There is already a fix for this:
-https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?h=usb-linus&id=e0b291fe117964037e0ba382eff4bb365d531c3a
+--ithrsve4yere6oyx
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/5] usb: typec: ps883x: fixes for older Thunderbolt 4 /
+ USB4 docks
+MIME-Version: 1.0
 
-Thanks,
+Hi,
 
-> ---
->  drivers/usb/core/port.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
-> index b1364f0c384c..3b258246bb3f 100644
-> --- a/drivers/usb/core/port.c
-> +++ b/drivers/usb/core/port.c
-> @@ -738,6 +738,14 @@ static void connector_unbind(struct device *dev, struct device *connector, void
->  {
->  	struct usb_port *port_dev = to_usb_port(dev);
->  
-> +	/*
-> +	 * If a USB device is still connected to the port, let the
-> +	 * Type-C connector know it's going away before we drop our
-> +	 * reference to it.
-> +	 */
-> +	if (port_dev->child)
-> +		typec_deattach(data, &port_dev->child->dev);
-> +
->  	sysfs_remove_link(&connector->kobj, dev_name(dev));
->  	sysfs_remove_link(&dev->kobj, "connector");
->  	port_dev->connector = NULL;
-> -- 
-> 2.55.0
+On Wed, Jul 22, 2026 at 10:38:34AM +0200, Jens Glathe wrote:
+> On 7/22/26 01:34, Sebastian Reichel wrote:
+> > On Tue, Jul 21, 2026 at 04:24:06PM +0000, Dr. David Alan Gilbert wrote:
+> > > * Sebastian Reichel (sre@kernel.org) wrote:
+> > > > I don't think a kernel driver limitation is a good reason for the DT
+> > > > property. I suggest to add something like this in the ps883x driver
+> > > > instead:
+> > > >=20
+> > > > /*
+> > > >   * Hamoa does not yet support USB4, disable it for now to graceful=
+ly
+> > > >   * fall back to USB3 + DP AltMode. This should be removed once USB4
+> > > >   * support landed for X1E.
+> > > >   */
+> > > > if (of_machine_is_compatible("qcom,x1e80100"))
+> > > >      disable_usb4 =3D true;
+> > > It seems a bit of a weird abstraction break to put a machine type
+> > > check down in a device that's not specific to qcom.
+> > It's obviously a hack, but this quirk would be simple and fully
+> > contained within the kernel and thus does not create a new ABI (in
+> > opposite to the DT property). Once the kernel supports USB4 on Hamoa
+> > it could simply be dropped and people have working USB4 with their
+> > existing DT.
+> >=20
+> > > I'd bet it's not just qcom's suffering from this as well.
+> > Qcom boards are the only users of ps883x (the driver is exclusively
+> > probed via DT at the moment). So right now one could also simply
+> > remove any USB4 support from ps883x, but that would work against the
+> > people working on _adding_ proper USB4 support.
+> >=20
+> > IIUIC the problem is, that the Qcom board supports USB4, negotiates
+> > this via the PD protocol and then soft-fails because the software
+> > support is not yet ready. Most other ARM platforms do not have any
+> > USB4/Thunderbolt hardware support to begin with and wouldn't
+> > negotiate it, so they do not run into this in the first place.
+> >=20
+> > AFAIK only Qcom and Apple M series support it. A quick search
+> > suggsts Apple used an Intel retimer in the past and a custom one
+> > nowadays. From the looks of it the x86 world cannot use this driver
+> > either and probably handles retimers transparently in ACPI, so it's
+> > effectively Qcom specific until other vendors start adding USB4
+> > support. The only thing announced potentially running into this
+> > would be the Nvidia RTX Spark, which first needs to be released,
+> > then find a bunch of people motivated to implement upstream support.
+> > Nothing with USB4 capabilities has been announced from Mediatek or
+> > Rockchip. So I wouldn't hold my breath for another user and still
+> > suggested adding the machine check instead of simply disabling USB4
+> > for everyone ;)
+> >=20
+> > Greetings,
+> >=20
+> > -- Sebastian
+>
+> I understand, however I wouldn't want to nerf ps883x for the Hamoa
+> platform until the USB4 stack is complete. The issues you
+> currently run into is:
 
--- 
-heikki
+That's exactly what this series is doing and not really a problem
+considering USB4 is not working anyways.
+
+> - you use a tbt4 / usb4 cable and nothing works,
+>=20
+> - you have a tbt4 / usb4 capable device in fallback mode that does complex
+> stuff when negotiating and firmware / a partial USB4 stack requests USB4,
+> which ends up not working.
+>
+> Both cases are not the hardware's fault, it is capable of USB4. The driver
+> stack isn't. Therefore I would prefer to deliberately disable USB4 modes =
+by
+> device via the DT.
+
+DT is not a kernel config file. You can find that in .config. The DT
+describes the hardware. Writing in DT "no-usb4" means that the
+hardware does not support USB4. But the board files you are changing
+can do USB4 in hardware. Thus the DT entry is wrong.
+
+> That way it can fall back to re-negotiating something the driver
+> stack is capable of. PS883x is not the place where this starts,
+> but where it's convenient to stop.
+
+I understand that part. That's why I suggested to just put the
+disable_usb4 =3D true; in there without the DT check instead of
+something completley differnt. That's exactly the same, except
+that the information is fully contained within the kernel.
+
+This is actually __less__ intrusive:
+
+ - less code
+ - there is no need to touch all board files
+ - the hardware description stays correct
+ - it does not create ABI (you are supposed to continue supporting
+   the new flag also after known users dropped it)
+ - affects the same devices (all X1E)
+ - but automatically also affects newly added boards
+ - it's easier to revert (no need to touch all board files)
+
+If you don't want to have a hack, the proper fix would be to detect
+that the follow-up stack is not capable of handlin USB4 and avoid
+exposing it. I'm aware that this is a quite complex task and
+considering USB4 is WIP anyways, I would go with the hack until
+then.
+
+> I did some tests without USB4 disabled and the 40B0 stack in
+> type-c cable fallback mode, and most of the time it just works.
+> Except for an unlucky plug, and despite it shouldn't request USB4,
+> the request lands at the redriver. Disabling USB4 modes reliably
+> let's it renegotiate.
+
+I'm not doubting the result of the patch series and plan to test
+with my TB capable Dell U2725QE later.
+
+Greetings,
+
+-- Sebastian
+
+--ithrsve4yere6oyx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmpg6b8ACgkQ2O7X88g7
++poxKRAAhkOHIVGbE9bt/i28okHDL9qLEyOEBiNY9LxYpbyXnI4/iWgSIAfSsCFB
+FqKtm/Wj+o3Y2SmGV7jpKElgDdE3+jyBSMr9rJCS9ZHwBA4Pvh7Mh5IIuUcEDo+N
+isD6EOir1FXINNCIuFgC1zQVGljslyaGSblvBq73BdV2tu/KNKeVtp548fEeHWBW
+8q1o7k618DqD9eKT2OOeD6K+Zsa07BFhelb1LiCujJbetJPTgqTZlIp9TYPVMdCt
+HHButUW9kL4Mzlo3FIehJGwf0rslLNy9cTTwX/1bp97jBPDPzAY3Ylgj17YaXmZw
+HZxq3sZkvEnDeUwuyautZxJdBI6Y1vrkMgk1N4W4C7j5UFP3IuumOgLvT49RZz92
+PGZZBG7pIzAIXhCKZ1CGr0Q/M0VNmmmYcyCzSvQWEVJ3HjIkwjPOTyG5OAwX5TYe
+awY8/TUlWPDo3TSnoKmOZrkiRGzzc4GeoVWb5KgDKq9EZr0tobF8FxFHJDYnSwGW
+1G1MIHOzNpL9HUNKNV4uqGIpFTWT41pwx9RpsJTqu0a5DHwAZ4VyQfA9KOzPSVjv
+iKRK5EJHKfwBD7xw4iOexmqPjL9TRx7zWjuANoSTxmhw8IRM5hZz/yZnuELcu0lh
+VMWAxkkuh3udwqq+oSa/eIXK67ejr6XgXpfHyf5u9IvZaUtyRHk=
+=cRMf
+-----END PGP SIGNATURE-----
+
+--ithrsve4yere6oyx--
