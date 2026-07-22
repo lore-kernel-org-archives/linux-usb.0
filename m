@@ -1,151 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF853B42D6
-	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 15:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9700741A519;
+	Wed, 22 Jul 2026 15:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784734827; cv=none; b=Zh1Mt0pJmzJ0tTSoYpytKyKF08u6U9bhx9X0OdnP/zTYKejHaU9F+nV1omr/ugB2HLuHDm9VvjCLuL/Ix0CDfT6t0M4yn8AELOiyv+gMGKWO7xCpdabejtEoOc0IgWX0ucI9bZwsGBy005gGMpaG4ifylpiy5F8NdaexV7QumFU=
+	t=1784735525; cv=none; b=Y14llxo2lRkmRGuvAsgQPcq8yU8mL+6gUHYxknDc+oDwll+JVdtHFIUCUQlUa1nwsR/GNibWK15oQcVl4QviauglVr6e4j8YHusOfjdapWPANqSkEYaEUxF3NI9RIHQGQ3F1co08XCbs2osX0j3NLycMvvPcRBcChJPd//ZMW9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784734827; c=relaxed/simple;
-	bh=0nlEI9jCxE3tPdHDHFDttbJJz7G3g/iq5q7F38xQqlw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j2vZnDe600mu4DOhDiNfyO1yi3mai7RrFcU6L88JvEpLgkuHXc+6qGY68BhpA7GmqXRL5o5tGO4yopGJ0G5EDjxKKBl7z4nMZhJEwOvjZ21HHmJmRkbURXYquYo02uiQKtMr6DMbCmKyrJW8NCnBpHwQT4lLmOERbwzWff0KsF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FF1CdfQj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784735525; c=relaxed/simple;
+	bh=d01zzY8JpQv9yxL2KBCoOwtW2eehVW5xpHM0F/+SopY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DEpBFmoZVP9OlAMdAypQtuhqypkI0zRMO2oqXmRLsJ5pCo9gmYtKcQe6TyFNNKg+1bpjSxsdlNlVRfbRaRANuuIPVFVNfDgGf/P05lTGxXmrSQ+gMxSWVj9134UrzTLJtO9Az//N2Fd33ZgR81W/8dNHBwfRv3YqDqdqWPxcjjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UJz+SuU6; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FF1CdfQj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3DCC1F00A3F
-	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 15:40:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784734824;
-	bh=0t8gQaKMc/ZXtwD0jqZwEWQOmpW4BE7yHhxrhnIKkTo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=FF1CdfQjA5YU6UPgoNn2495U1jmnSduVCBGYSb6Ho/SpcbQyueLz/Se2lynEClEYo
-	 bdvNqfBVXjrCFZWL0SG0kgJBEDwzKv27928MyIM/fJnGdEI0Ig7mDuGGy9NJy9thUF
-	 8iNtQyK67P/hSVJUs9xmNPf7k+5G2xNhOzcmVrFPW+LSC2wXlU1/wnxyZSn378Hdtl
-	 GrnWhbzLPMZNuJZATCeghmsF35HHS9PCuBmEziTmtGvHMGulxAn1VZj1DHVxadNVLf
-	 pnlmv6jQqZBhUgatl4El2aRJYMF5/jHi8fNW/n3eZwYEXOQofQ5gA7OYLcUYisK/ke
-	 8/6am7uiDvjlQ==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5b021916bd3so11764707e87.3
-        for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 08:40:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqQnz4sX+gg2y0OJo1yfbKEtRyPPUBNQdZAQbOEpynrDIavTAG5djlu14GeVGbhV4wsgKol6BgBZmg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRIH8B6VAYwxRG0po6N+XMGVUkLpzQ0xULPzixXdn9R3iU3Ukl
-	uyPCJ4YifWoXXhEdRitiLcax1BF9bAVI1yPEwqTiv0UbLdFvRcFn3jtTJueJBdVsiq/B4c2wyKC
-	Y3wpUsBXWiszJNDngft+boGZQFsK8G+o=
-X-Received: by 2002:a05:6512:250f:b0:5b0:2190:1470 with SMTP id
- 2adb3069b0e04-5b28f85e4f8mr5219479e87.3.1784734822551; Wed, 22 Jul 2026
- 08:40:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UJz+SuU6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784735521; x=1816271521;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d01zzY8JpQv9yxL2KBCoOwtW2eehVW5xpHM0F/+SopY=;
+  b=UJz+SuU6tQhjPrvxotE+SIN4Fe2ldIZzcPpLttHcb4wDyNIZKJoS1IGi
+   RQZoBUxowBAMuYD/Bk9k8ebUmgH3RT11iRk/llrSEq67bzp2gzRUNvZBm
+   CJzFecUI0XGQn2lv2oaZkKQzsYczXn8ljWCw1dM3rD1GoYqzTXU539xYs
+   I7e1nsVPT9CzldU1C/kmHNtZrnGdqIv0KeZG71gdXdN88E2Mm6GQ/dmQ+
+   58UfqLbUBMbA7SBTzHx6N0t5hN1OUs8FYfyvXdWGtDPE401gfvLDlHn+4
+   f5nbKjod9OhaSXJDXfO5UP4vDO29z9rcHlwzEaVLK0boiknJytFxG/7T5
+   A==;
+X-CSE-ConnectionGUID: Jaw/lcD3TvOKGAiVh1ttRQ==
+X-CSE-MsgGUID: /O/beLzUTOyeoOP2a+YVTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11854"; a="72916851"
+X-IronPort-AV: E=Sophos;i="6.25,178,1779174000"; 
+   d="scan'208";a="72916851"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2026 08:51:59 -0700
+X-CSE-ConnectionGUID: sXuzmB/FTDaSFbIy2B6bXg==
+X-CSE-MsgGUID: hsQxKDs9T3SzSk6WQ1/o2A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,178,1779174000"; 
+   d="scan'208";a="258191820"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa007.jf.intel.com with ESMTP; 22 Jul 2026 08:51:58 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 91EB698; Wed, 22 Jul 2026 17:51:56 +0200 (CEST)
+Date: Wed, 22 Jul 2026 18:51:54 +0300
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Fan Wu <12321260@zju.edu.cn>
+Cc: Fan Wu <fanwu01@zju.edu.cn>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: acpi: Fix use-after-free of ucsi on
+ remove
+Message-ID: <amDnGh33sH-yo8nb@kuha>
+References: <20260718021142.3146566-1-fanwu01@zju.edu.cn>
+ <al8thH8aWmMOUuAZ@kuha>
+ <F4203724-2CD7-446A-B766-79015B8E37B2@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260602032413.1540166-1-tuhaowen@uniontech.com>
- <20260618013133.1047270-1-tuhaowen@uniontech.com> <20260618013133.1047270-3-tuhaowen@uniontech.com>
-In-Reply-To: <20260618013133.1047270-3-tuhaowen@uniontech.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 22 Jul 2026 17:40:10 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0j-jctEzVMoWDWewpuRHZu8Zm0MgKyk+zQdHTD1KwNibw@mail.gmail.com>
-X-Gm-Features: AUfX_mwRFKqssn_70u6zmdA90awB93un37CmLfl3CLL4YuefWZy1nGA5QUgUhUY
-Message-ID: <CAJZ5v0j-jctEzVMoWDWewpuRHZu8Zm0MgKyk+zQdHTD1KwNibw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] PM: hibernate: add pm_hibernation_snapshot_done() helper
-To: Haowen Tu <tuhaowen@uniontech.com>
-Cc: rafael@kernel.org, gregkh@linuxfoundation.org, hansg@kernel.org, 
-	kernel@uniontech.com, laurent.pinchart@ideasonboard.com, lenb@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, mchehab@kernel.org, 
-	oneukum@suse.com, pavel@kernel.org, stern@rowland.harvard.edu
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <F4203724-2CD7-446A-B766-79015B8E37B2@zju.edu.cn>
 
-On Thu, Jun 18, 2026 at 3:32=E2=80=AFAM Haowen Tu <tuhaowen@uniontech.com> =
-wrote:
->
-> Some subsystem resume callbacks do not receive the PM event and
-> therefore cannot distinguish the PMSG_THAW phase after snapshot creation
-> from the PMSG_RESTORE phase.
->
-> Export pm_hibernation_snapshot_done() so a driver can query whether the
-> hibernation snapshot has been created and is still available.  The
-> helper only exposes the PM state; callers remain responsible for
-> ensuring that any device-specific behavior is safe, including subsequent
-> poweroff or shutdown handling.
->
-> The helper returns !!in_suspend.  This variable is set before
-> swsusp_arch_suspend(), cleared before the snapshot memory is released,
-> and marked __nosavedata, so it remains clear on the restore path.
->
-> Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
-> ---
-> Changes in v3:
-> - Split the in_suspend cleanup into a preceding patch.
-> - Clarify that callers must account for poweroff/shutdown handling.
-> - Drop extern from the new prototype.
+Hi Fan,
 
-Fine with me now, so
+On Tue, Jul 21, 2026 at 10:47:59PM +0800, Fan Wu wrote:
+> 
+> 
+> > On Jul 21, 2026, at 16:27, Heikki Krogerus <heikki.krogerus@linux.intel.com> wrote:
+> > 
+> > 
+> > I don't think this is enough. You now create a window where the ucsi
+> > is unregistered, but you can still call ucsi_notify_common(),
+> > ucsi_connector_change(), etc. So you'll end up with even more problems.
+> > 
+> > If I understood correctly the long explanation (I'm guessing generated
+> > by gpt-5.6), the problem is that ucsi_unregister() disables the
+> > notification, but it does not flush them. My proposal is that you fix
+> > that by setting the ua->ucsi to NULL after calling ucsi_unregister()
+> > and then always check it in ucsi_acpi_notify(). You probable also need
+> > a lock for that.
+> > 
+> > thanks,
+> > 
+> > -- 
+> > heikki
+> 
+> Thank you, you are right. The proposed reordering does not protect the
+> connector state freed by ucsi_unregister(), while the notify handler can
+> still enter ucsi_notify_common() and ucsi_connector_change().
+> 
+> I also see that simply serializing the handler with ucsi_unregister()
+> could prevent pending command completions needed by work being cancelled
+> there. Thus, a driver-local reorder or NULL check alone is not sufficient.
+> 
+> I will drop this patch and investigate the appropriate synchronization
+> scheme. Do you have a preferred direction: should this be handled by a
+> core-UCSI quiesce interface, or by a transport-side locking protocol?
 
-Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
+Let's keep this in ucsi_acpi.c for now.
 
-and please feel free to route it along with the media patch.
+Thanks,
 
-> Changes in v2:
-> - Rename pm_hibernation_storing_image() to
->   pm_hibernation_snapshot_done().
->
->  include/linux/suspend.h  |  2 ++
->  kernel/power/hibernate.c | 12 ++++++++++++
->  2 files changed, 14 insertions(+)
->
-> diff --git a/include/linux/suspend.h b/include/linux/suspend.h
-> index b02876f1ae38..2cebbec3e2f7 100644
-> --- a/include/linux/suspend.h
-> +++ b/include/linux/suspend.h
-> @@ -393,6 +393,7 @@ extern void hibernation_set_ops(const struct platform=
-_hibernation_ops *ops);
->  extern int hibernate(void);
->  extern bool system_entering_hibernation(void);
->  extern bool hibernation_available(void);
-> +bool pm_hibernation_snapshot_done(void);
->  asmlinkage int swsusp_save(void);
->  extern struct pbe *restore_pblist;
->  int pfn_is_nosave(unsigned long pfn);
-> @@ -412,6 +413,7 @@ static inline void hibernation_set_ops(const struct p=
-latform_hibernation_ops *op
->  static inline int hibernate(void) { return -ENOSYS; }
->  static inline bool system_entering_hibernation(void) { return false; }
->  static inline bool hibernation_available(void) { return false; }
-> +static inline bool pm_hibernation_snapshot_done(void) { return false; }
->
->  static inline int hibernate_quiet_exec(int (*func)(void *data), void *da=
-ta) {
->         return -ENOTSUPP;
-> diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-> index 6d3e637c5a02..045d29f55011 100644
-> --- a/kernel/power/hibernate.c
-> +++ b/kernel/power/hibernate.c
-> @@ -113,6 +113,18 @@ bool hibernation_available(void)
->                 !secretmem_active() && !cxl_mem_active();
->  }
->
-> +/**
-> + * pm_hibernation_snapshot_done - check if a hibernation snapshot is ava=
-ilable
-> + *
-> + * Return: %true if a hibernation snapshot has been taken and has not be=
-en
-> + *         released yet.
-> + */
-> +bool pm_hibernation_snapshot_done(void)
-> +{
-> +       return !!in_suspend;
-> +}
-> +EXPORT_SYMBOL_GPL(pm_hibernation_snapshot_done);
-> +
->  /**
->   * hibernation_set_ops - Set the global hibernate operations.
->   * @ops: Hibernation operations to use in subsequent hibernation transit=
-ions.
-> --
-> 2.20.1
->
+-- 
+heikki
