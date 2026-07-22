@@ -1,122 +1,123 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F66735AC12;
-	Wed, 22 Jul 2026 17:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF623FA5F0;
+	Wed, 22 Jul 2026 20:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784741790; cv=none; b=IYJzrktDcfML5EZjjIwTnglv6wG/voh1sdbSak5PKmFkCH5iIGB0InAplP6VbTOtp3sfuC0zE2ukoUZKMv5JpbOEXrbZsgAzohopO4FhflfLYIbiFB3wfS182KaqokZGBzwjLQ+FcfC5U+uOlgZmwsfVoooSMNo1/vl0ffHU7cA=
+	t=1784750786; cv=none; b=q3UtJCOXIOQEO7+FUQfZwtuhCnFTnVH5t46Z2tIXv0xa1AoU0Fxkv2p9GF3kmU/V7Km+21+QOhqMcmwPRoGBLT/sEHcIaquSPInAQpVVAD6LMx6RRyQcU5ksCj9I86htm+hBI0J1SD/Kl/guFJQFDFsJ5SAngzN1deGl/0lW2jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784741790; c=relaxed/simple;
-	bh=DlW56uPwyY80Pq1Lt1pXe98HDdxPkxnkuilg8NA/LQ0=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=RfJmgXvefkQm33jECKQteqi0FspHreX/vfa6D6MWutuKgvNJArm8neR/URfX9HOFZsbdlGZrlsktl06FoAZSJy1mUWRbJFK48p+OzEtYgn5gbFTYsB6QfWmiZHCf+QJiZg0H6ThYwYDlDArVbTp6tVq/Gzk0khkhVfCFvQEbCuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oldschoolsolutions.biz; spf=pass smtp.mailfrom=oldschoolsolutions.biz; dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b=3B996Jaq; arc=none smtp.client-ip=217.72.192.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oldschoolsolutions.biz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oldschoolsolutions.biz
+	s=arc-20240116; t=1784750786; c=relaxed/simple;
+	bh=stshlyFU5jeSS4sb+KL/9qGL6v351n1j1DTdzSeYxms=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ynp2YjqBeMMaOJxMRbE9C/YMHSOI4+J5r+fxnp+P4t+FSqvPY8M2ULxBC31Pv+y9zr2qfgk1YZEw+5RPBxIEeSX87tDhfqnyl8XIKyJjZkPKadcRoOd6WdvR1bvZrRtWXvBXu1ar3qT/jDkNMzO9hLQkrWM+CfmpxtdDVty7C5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ToqILh9C; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="3B996Jaq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oldschoolsolutions.biz; s=s1-ionos; t=1784741781; x=1785346581;
-	i=jens.glathe@oldschoolsolutions.biz;
-	bh=iaCjgNfgkyjQUd1JMMz+MNNOJna+zo9bblFWecNE/nM=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:From:Subject:To:
-	 Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=3B996JaqZ2tuxXWKQxxBmpMBWI7kf8LQQfztVJ1QGKxacptKlnRx35lxbZRVS5qR
-	 wc5ytiKR7kbIRi/wFBcZHFIta83escDoKhPeUVWwqqagrN/tsmC2M/LipllEM7Hj5
-	 CONAKCgAyGfFF3sMLthdVuhhQYFOUYK8EbP/b4m0WCKtf0o9J6wzgEHKQ0Tvl6fRv
-	 LsVnairs5iYYAeQlQ5VtaYseuvEertkO4V5DQ7phG4EpvYC1L227sZohK5uXPwDrZ
-	 cbD77McdkuxuCYtl7RdkwW7O1Aq9epxGoLiZJqpRitXplB8nwBgjX2E1BZ1Dh13MN
-	 zC8umorN26nLorSB7A==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from client.hidden.invalid by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Mc0Er-1xPlIw1Lwt-00dibE; Wed, 22
- Jul 2026 19:36:21 +0200
-Message-ID: <f3fa0bb8-7ebf-482c-a98e-5a544305ee00@oldschoolsolutions.biz>
-Date: Wed, 22 Jul 2026 19:36:19 +0200
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ToqILh9C"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 25E6E594;
+	Wed, 22 Jul 2026 22:05:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1784750722;
+	bh=stshlyFU5jeSS4sb+KL/9qGL6v351n1j1DTdzSeYxms=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ToqILh9CPGJo0smEwP7rP4LkNeMgmIrJ+Q9iCToV2K2r361f3GHLEh8QgGGyhpyjl
+	 ip4IuQea7teP2RyzbNfgzH7OmAUnSK2gT5T1wKtAAixCwsWhGB/HGiMD/k494dvbU8
+	 VnXbholLCrbgR3UiGSTBYqggNj3fjvXwk+TWetOI=
+Date: Wed, 22 Jul 2026 23:06:20 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Haowen Tu <tuhaowen@uniontech.com>
+Cc: rafael@kernel.org, gregkh@linuxfoundation.org, hansg@kernel.org,
+	kernel@uniontech.com, lenb@kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org, mchehab@kernel.org, oneukum@suse.com,
+	pavel@kernel.org, stern@rowland.harvard.edu
+Subject: Re: [PATCH v3 3/3] media: uvcvideo: skip streaming restart after
+ hibernation snapshot
+Message-ID: <20260722200620.GC648629@killaraus.ideasonboard.com>
+References: <20260602032413.1540166-1-tuhaowen@uniontech.com>
+ <20260618013133.1047270-1-tuhaowen@uniontech.com>
+ <20260618013133.1047270-4-tuhaowen@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-Subject: Re: [PATCH 4/5] usb: typec: mux: ps883x: add a delay after writing
- config regs
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, stable@vger.kernel.org,
- "Dr. David Alan Gilbert" <dave@treblig.org>
-References: <20260718-ps883x-disable-usb4-v1-0-cec86d0b909e@oldschoolsolutions.biz>
- <20260718-ps883x-disable-usb4-v1-4-cec86d0b909e@oldschoolsolutions.biz>
- <al9PnLOTW-1OoR6G@kuha>
-Content-Language: en-US
-In-Reply-To: <al9PnLOTW-1OoR6G@kuha>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:89CBpbikyVWecaVSTBdA74uPvvbpsGpEa86gtVYmabZViHCSM9+
- zDP32ZFTiRD9xeH3wHiyNTbEGGSGN85Uhclj/fbn2pHopZwdADL0W6+2RKXjPKjczqgQihS
- 13JkZdegcqtZh5a68urDtPBCD+7dzB4/LlJqDNfvqSwzw4XwIOSsi7Ho2U7dKMCmFehhZ57
- HHbXVi5/L6Z7EaYzMva4A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:NNT9gKsEBWk=;7ymG6eZ1YgCIG7K1fCrFlSvXCY+
- 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
- =
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260618013133.1047270-4-tuhaowen@uniontech.com>
 
-Hi,
+On Thu, Jun 18, 2026 at 09:31:33AM +0800, Haowen Tu wrote:
+> After the hibernation snapshot is created, devices are resumed with
+> PMSG_THAW before the image is written and the system is powered off.
+> Restarting an active UVC stream during this phase reinitializes the
+> camera and visibly turns its indicator LED back on.
+> 
+> Skip only the UVC streaming hardware restart while the snapshot is
+> available.  The driver's frozen state and clock are still updated before
+> the check, and a subsequent UVC suspend can stop the stream and select
+> alternate setting 0 as usual.
 
-On 7/21/26 12:53, Heikki Krogerus wrote:
-> Hi,
->
-> On Sat, Jul 18, 2026 at 07:06:32PM +0200, Jens Glathe via B4 Relay wrote:
->> From: Jens Glathe<jens.glathe@oldschoolsolutions.biz>
->>
->> The config regs seem to need a few ms to propagate the changes through the
->> system (like, PLLs). This improves the hotplug dp altmode success rate
->> on the Lenovo 40B0 dock to 100%.
-[...]
-> +	usleep_range(20000, 30000);
-> /* <explanation why is the delay is necessary> */
-> fsleep(20000);
+Why is that desired (both the decision to only block the resume of the
+video interface, and the decision to not block the next suspend) ?
 
-Thanks for the suggestion. It will be in v2.
+> uvcvideo does not provide a shutdown
+> callback that requires the streaming hardware to be restarted first.
+> 
+> This is a device-specific use of pm_hibernation_snapshot_done().  The
+> helper does not cause other drivers or USB core to skip THAW resume.
 
-with best regards
+I don't think this sentence belongs to the commit message.
 
-Jens
+> Tested with hibernation image written to local storage and resumed from
+> disk on a system with a USB UVC camera attached; the camera LED remains
+> off during image writing and the video stream resumes correctly after
+> restore.
+> 
+> Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
+> ---
+> Changes in v3:
+> - Clarify that only the UVC streaming hardware restart is skipped.
+> - Explain the subsequent UVC suspend and shutdown handling.
+> 
+> Changes in v2:
+> - Use pm_hibernation_snapshot_done() after the PM helper was renamed.
+> - Move the check after clearing the frozen state and resetting the clock.
+> 
+>  drivers/media/usb/uvc/uvc_video.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index f6c8e3223796..1744298f4b1f 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+> +#include <linux/suspend.h>
+>  #include <linux/usb.h>
+>  #include <linux/usb/hcd.h>
+>  #include <linux/videodev2.h>
+> @@ -2151,6 +2152,13 @@ int uvc_video_resume(struct uvc_streaming *stream, int reset)
+>  	if (!uvc_queue_streaming(&stream->queue))
+>  		return 0;
+>  
+> +	/*
+> +	 * Avoid restarting the streaming hardware during the transient THAW
+> +	 * phase after a hibernation snapshot has been created.
+> +	 */
+> +	if (pm_hibernation_snapshot_done())
+> +		return 0;
+> +
+>  	ret = uvc_commit_video(stream, &stream->ctrl);
+>  	if (ret < 0)
+>  		return ret;
 
+-- 
+Regards,
+
+Laurent Pinchart
