@@ -1,132 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C0A4A33F6
-	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 10:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4A14C6EF6;
+	Wed, 22 Jul 2026 10:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784714598; cv=none; b=DQezlIxNV12QwAaUJC1ckXtNLcdL3Bq5cBbZBeTLyiC7sWPY0/UYQaLjvSrOr1cY/VeCaxNM/gCmWv/OrSf7kwovug03rm4naohSSvNSRtZDCJCDD3KNt6Cqc2TsdN3w/OLHHIKKkBSKbj2SgWMkeHOt7CWMo7tpk+c2TpTEDXE=
+	t=1784715506; cv=none; b=iwZI089NuGkwCcpTF7Eg/xBi8XFDxO3vV8eAW7K+lQ3aua8h7s0afcw5/ylmW3xdLZjArGS+n6FdfczlhYhbO8D2HyGqCq40TnXOdxwHoykn9GROiS4jRx14MNJe1eE63/vLd0bddHQB7Jm+J0nN73YXhFxsnwXFIYkfCF8rrTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784714598; c=relaxed/simple;
-	bh=zoqfEescrEM4/AemE1soEzPnfcrpe9p3YE38rq4XzRQ=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=is1v65LXKkvH9r0EOFus707DAUs1lvkTn/vs5GhbpHmJjPEm0D7o4J6WUUZnMmvWzQgwMgp5Dayo0te947CrgJW1ywBf1E4SRNFMpiKsvuYbpFnXyJNTffNyeXmG6ouKjGnOgmv0eYWMUz4huFsQ33O2DhcJ64UikiaNd6GM2oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aGMuUyLH; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aGMuUyLH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FCDE1F01564
-	for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 10:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784714594;
-	bh=v2nl4VWueEk9cKUhbw+kqvh7s/L/Uh+km+tAT2bP7fg=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=aGMuUyLHguxVRr1lFjeEqsXxI5a3BDv/DaaV4zoODVdfUElN6OPq6bkx5ATub1s7X
-	 NqCOBztx6noD+QfHAvSgTWe7vgJnIbtFqRfBncNwEd8MZhJAPkwQ6o1PmCErDh2eSF
-	 54ujH4MI/X8WrSdzSMvJdDCh0pZpi+hUqSU2T1bUPAGLbQO4yixldnti713LXPNkci
-	 YythZGNmbpNbSYX0SZ1YxdtUM26wau81e41aUGstklcHdYCONGNwfqBX6p8ICowp/6
-	 g9HicL6hWe6OdIC4YCD4+8eDDyuWsnOkh3GMzOh/RFUuABV1W9tcDEy8Izwff+b8ok
-	 dcHRMOjcvphAQ==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5b2aab18795so599961e87.2
-        for <linux-usb@vger.kernel.org>; Wed, 22 Jul 2026 03:03:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RolL7F7RhtbFe9QWqIoKkYNIwJceBSQkdXFUGbcHhuPHtAiBOM/usZ/aYyaoBK7sh3JVQ1p0KhgxNE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzul2PWu7lHVHvncvqKbF0jb9skFp6e7evunVU1rrOhH+NssrA3
-	e8+pNVGhv8GpgGkN6vCLBfr7RvtOJ/6krUe0kx8q5FHc86lHhZLmf1WAqUIAYteg9kv2zpnR4Fc
-	HOz9ojEU0plFPGJjxbRIHwsmM2Sb1nXppzgfyzE1D3g==
-X-Received: by 2002:a05:6512:3185:b0:5ae:b2e3:fc24 with SMTP id
- 2adb3069b0e04-5b28fabb0afmr5670333e87.60.1784714593132; Wed, 22 Jul 2026
- 03:03:13 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 22 Jul 2026 03:03:08 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 22 Jul 2026 03:03:08 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <CAGXv+5H_V+J0cvrYjMFdKAQVrPKxPdtimXMc+hwHenwxhb9mDQ@mail.gmail.com>
+	s=arc-20240116; t=1784715506; c=relaxed/simple;
+	bh=xUPP+gW7Bh28AmP5Zq+ucqDnbAHFzTCozSVPSf9w7N8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=lpM/wsTaAXAW98y5THpimup1uC9b9fvWCZDUYsTJYK4HizA4zwItr8Fh/94O/6rDb0UwNYJ8yWg0TBp6GuWj/jq6YhA9XM4RaurToy5dw/Ahs0GVTrAgqMTuAfi6Z36PcafiC4OkCyYWDjlLnQ9xNh0+87FV8lRfW/mdV/MJyz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: a6a038d885b611f1aa26b74ffac11d73-20260722
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:4a1b28b1-e874-4562-a05a-acb9cd6ef726,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:e7bac3a,CLOUDID:9e6fc850c72f477a14dd7304f7672c5e,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
+	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: a6a038d885b611f1aa26b74ffac11d73-20260722
+X-User: yijiangshan@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <yijiangshan@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 491663018; Wed, 22 Jul 2026 18:18:15 +0800
+From: Jiangshan Yi <yijiangshan@kylinos.cn>
+To: israel.a.cepeda.lopez@intel.com,
+	hansg@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	13667453960@163.com,
+	Jiangshan Yi <yijiangshan@kylinos.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: misc: usbio: check ibuf_len against rxbuf_len in bulk msg
+Date: Wed, 22 Jul 2026 18:18:10 +0800
+Message-Id: <20260722101810.458634-1-yijiangshan@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260721065413.2306137-1-wenst@chromium.org> <20260721065413.2306137-4-wenst@chromium.org>
- <CAMRc=McsCRBxXMj0xC8H0cgdZZ=Z9_4u_DS9b2z0pLE0=gZr+g@mail.gmail.com> <CAGXv+5H_V+J0cvrYjMFdKAQVrPKxPdtimXMc+hwHenwxhb9mDQ@mail.gmail.com>
-Date: Wed, 22 Jul 2026 03:03:08 -0700
-X-Gmail-Original-Message-ID: <CAMRc=MfZ1Yk6OJaCGphTYToMVfe_UU4dhOGmGVCbwqBV9S-a2g@mail.gmail.com>
-X-Gm-Features: AUfX_mz93U1zn17dWP9tyqRdXvFYbDQgxlYVyw0vjRryfcxfP9O2fsTk4G3zrhY
-Message-ID: <CAMRc=MfZ1Yk6OJaCGphTYToMVfe_UU4dhOGmGVCbwqBV9S-a2g@mail.gmail.com>
-Subject: Re: [PATCH v6 03/16] power: sequencing: Add pwrseq_power_is_on()
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: linux-acpi@vger.kernel.org, driver-core@lists.linux.dev, 
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Manivannan Sadhasivam <mani@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 22 Jul 2026 11:01:20 +0200, Chen-Yu Tsai <wenst@chromium.org> said:
-> On Tue, Jul 21, 2026 at 5:08=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.=
-org> wrote:
->>
->> >
->> > +/**
->> > + * pwrseq_power_is_on() - Queries the last requested state of the pow=
-er sequencer.
->> > + * @desc: Descriptor referencing the power sequencer.
->> > + *
->> > + * This returns the last requested state of the power sequencer.
->> > + *
->> > + * Returns:
->> > + * On success, 1 for on and 0 for off; negative error number on failu=
-re.
->> > + */
->> > +int pwrseq_power_is_on(struct pwrseq_desc *desc)
->> > +{
->> > +     if (!desc)
->> > +             return -EINVAL;
->> > +
->> > +     return desc->powered_on;
->> > +}
->> > +EXPORT_SYMBOL_GPL(pwrseq_power_is_on);
->> > +
->>
->> Didn't we agree on introducing an enum to make it future-proof for when =
-we
->> also pull in pwrseq_is_controllable() from Loic?
->
-> My bad. I misunderstood and thought it wasn't needed yet.
+ibuf_len is the bulk IN (receive) buffer size, but the EMSGSIZE check
+in usbio_bulk_msg() compares it against txbuf_len — the bulk OUT
+endpoint size.  Both are taken independently from different endpoints
+in usbio_probe(), so the check is wrong when they differ.
 
-It's not technically needed *yet* but since we know where we're going, it
-makes sense to be proactive.
+Use rxbuf_len for the IN direction.  This matches the buffer that
+actually holds the response data.
 
->
->> I think this should work like so:
->>
->> enum {
->>         PWRSEQ_STATE_UNKNOWN,
->>         PWRSEQ_STATE_ON,
->>         PWRSEQ_STATE_OFF,
->> };
->>
->> int pwrseq_get_state(struct pwrseq_desc *desc)
->> {
->
-> I think you still want this here?
->
->           if (!desc)
->                     return -EINVAL;
->
->
+Fixes: 121a0f839dbb ("usb: misc: Add Intel USBIO bridge driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
+---
+ drivers/usb/misc/usbio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes.
+diff --git a/drivers/usb/misc/usbio.c b/drivers/usb/misc/usbio.c
+index 3c2474dca810..fe093e7760d5 100644
+--- a/drivers/usb/misc/usbio.c
++++ b/drivers/usb/misc/usbio.c
+@@ -265,7 +265,7 @@ int usbio_bulk_msg(struct auxiliary_device *adev, u8 type, u8 cmd, bool last,
+ 	lockdep_assert_held(&usbio->bulk_mutex);
+ 
+ 	if ((obuf_len > (usbio->txbuf_len - sizeof(*bpkt))) ||
+-	    (ibuf_len > (usbio->txbuf_len - sizeof(*bpkt))))
++	    (ibuf_len > (usbio->rxbuf_len - sizeof(*bpkt))))
+ 		return -EMSGSIZE;
+ 
+ 	if (ibuf_len)
+-- 
+2.25.1
 
-Bart
