@@ -1,171 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from jpms-ob02.noc.sony.co.jp (jpms-ob02.noc.sony.co.jp [211.125.140.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49ACC443E3B;
-	Tue, 21 Jul 2026 23:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4520533065D;
+	Wed, 22 Jul 2026 03:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784676883; cv=none; b=f3i1M4k/NcNjUChVmlzHV6TB2DQSTNNg+jaijcerL5EniEDOfU6r/cJi2mEAryF7XdrI7W/rxsrPxJ/MLGHkUwgEr9hNsc4mkDSnaEuVWcz8ZolisFRoRI/AGJCEYpEQ6QlR597VgZFCk7bM4X0dN8/y27bandW2j+VS4Cf2Zh8=
+	t=1784691110; cv=none; b=FOE6FiffMZcWK1N4h7TDT+xE4nFnfItZN6v1IOsIVd71XRGl5Mx2kh1/WTRp5ReVvtb5vU0kJfAPLBgm8+Ma/zMZ5ZAbR7wZ9BbhqPilOlpIyXciQdaaUXcH5MlEmk+7U33v/h9qezyz8APTIs9oS/TYa+EJ1yKALYT0KGM7nK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784676883; c=relaxed/simple;
-	bh=Nc4WY14ZOG9b3cMEtUSTkLaMCAnOejtKaABYyofBm5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s/kVC1JVA3DzYfTUAmC/bRwK4ZtUlRYI7YXoJRXMuJOX2Ikzi8TcoEdRyiU68DQYOoppxXojFKZmlKWwfUzGO0iOqR71u8B9sC/KZpli0wWzvYlEYBnv+v+iy+455lHzu3ReBoCagJDsJIebtuwKW1/WrlaFwzj6L+dXN5N1+y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JxveD9ff; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1784691110; c=relaxed/simple;
+	bh=ojbQadbeSqjTJ0jmN/K6CSt7HZAxMUg6r6Eq5hbUMRc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=EYIoPBJMjKpvU1vnqnSrxIcKoCwbPEVMbObN15K99gHrS1PeWSaqsAx1mTz4aERDsurBmjK9M8eXGGbRpqBB6nnElXo6FbbEFpNQ1ev8/t7PcvMNdKfkepjXQLjo+yEPclu2avk+6myGm+hChdygy+ICLmHrZ6z1TU3/zUXa9Ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=oa27+A7U; arc=none smtp.client-ip=211.125.140.165
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JxveD9ff"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C173B1F000E9;
-	Tue, 21 Jul 2026 23:34:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1784676881;
-	bh=cv958Pfgp7GUM/xVymrAwRNqVH7beklVxrmbR/6/w9I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JxveD9ffXTtbXb5I0bpaEeHuMDG/QnEyEuexLu/O2UvTTyhDYrpGnyQgBauldXR3j
-	 gj0SJH1MbDTpU/+pUxCwEBMpz1iNLlsAPXrDyeKFISU8X1kuYYK02QR3ibjuUrHvwt
-	 d6G9B71nlgcR+PtrqmE41sZKLGYlOCaKbRIdEVy1dTngToRLRqJi7e1zmXRrnpHnTH
-	 lgJV8ztUMmBY42gGr5b/zPLvzPaYfXbSNXPw1BTZHU3k0MUt65MRa2T56jvvFRn44Z
-	 oXhthrS7UJj303+JbZCS3skzcQw0J2v2mBpq41DkR7d+W8EVV9TBh4xK6P8mqQ2cCv
-	 kkeHZLAX/cNAQ==
-Received: by venus (Postfix, from userid 1000)
-	id 339D2180765; Wed, 22 Jul 2026 01:34:40 +0200 (CEST)
-Date: Wed, 22 Jul 2026 01:34:39 +0200
-From: Sebastian Reichel <sre@kernel.org>
-To: "Dr. David Alan Gilbert" <dave@treblig.org>
-Cc: jens.glathe@oldschoolsolutions.biz, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Abel Vesa <abelvesa@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 0/5] usb: typec: ps883x: fixes for older Thunderbolt 4 /
- USB4 docks
-Message-ID: <al_0LjwmfW-cECnY@venus>
-References: <20260718-ps883x-disable-usb4-v1-0-cec86d0b909e@oldschoolsolutions.biz>
- <al6-IyyWYRnEW4VC@venus>
- <al-dJjzorP-I4Yff@gallifrey>
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="oa27+A7U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1784691108; x=1816227108;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=RWduDFciZbpwE+xzPcLgZdrOaRq58lmGj88C0MiHbXc=;
+  b=oa27+A7UpQ0+Hk0312KI1DLR04aH8MUxvR9i4bEluIu4JcGBkk5kF8L5
+   FmVkPRi9w2ZWGlZoHM/uyyqqKVKUZSXjiL5fvJCirNVrtrdhF4/om6fPb
+   eDY1dIIyaeiUHzpvTq2LYaIVDEv8+Cc2FAcD9AmTKUj5IwGsLgM8w/7y/
+   uZPiSUl/4FuHUTgsI//bN0fpwKTvlpJYBtVBIhwIQkmQR8V+pzIot7AWU
+   QS3A61LDZ6oy1mewosv7zojuC47xoOpkQyfdoib/NDDCgyWNVdNELXCeX
+   3L0rtEKnBKc6TJI1Gjy2PitN0itx/WzhnNil7uwb7QvhtvaAGOPxMNu2l
+   g==;
+X-CSE-ConnectionGUID: 9BoVPK9UTAOKNY25oOAw0w==
+X-CSE-MsgGUID: B7OvezifSUiM7/CA55YMzg==
+Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
+  by jpms-ob02.noc.sony.co.jp with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 22 Jul 2026 12:31:37 +0900
+X-CSE-ConnectionGUID: PvdEH5T2Q6WRlnnZQ7dmew==
+X-CSE-MsgGUID: 3qTt16CYTNS6ocxsYwwDcw==
+X-IronPort-AV: E=Sophos;i="6.25,177,1779116400"; 
+   d="scan'208";a="627327274"
+Received: from unknown (HELO [127.0.1.1]) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
+  by jpmta-ob02.noc.sony.co.jp with ESMTP; 22 Jul 2026 12:31:37 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+Date: Wed, 22 Jul 2026 12:31:23 +0900
+Subject: [PATCH 3/4] usb: typec: set mod_name in driver registration
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pugdf46x7r7xbl4p"
-Content-Disposition: inline
-In-Reply-To: <al-dJjzorP-I4Yff@gallifrey>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260722-mod_name_usb-v1-3-96d781530f3f@sony.com>
+References: <20260722-mod_name_usb-v1-0-96d781530f3f@sony.com>
+In-Reply-To: <20260722-mod_name_usb-v1-0-96d781530f3f@sony.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Bastien Nocera <hadess@hadess.net>, Matthias Kaehlcke <mka@chromium.org>, 
+ Valentina Manea <valentina.manea.m@gmail.com>, 
+ Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Daniel Palmer <daniel.palmer@sony.com>, 
+ Rahul Bukte <rahul.bukte@sony.com>, Tim Bird <tim.bird@sony.com>, 
+ linux-embedded@vger.kernel.org, 
+ Shashank Balaji <shashank.mahadasyam@sony.com>
+X-Mailer: b4 0.16-dev-3bfbc
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2114;
+ i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
+ bh=ojbQadbeSqjTJ0jmN/K6CSt7HZAxMUg6r6Eq5hbUMRc=;
+ b=owGbwMvMwCU2bX1+URVTXyjjabUkhqwEy+nbDeaXpHy755MtMmVzKGdafEmLdtZRuyAOhvQdi
+ 7gNPmp2lLAwiHExyIopspQqVf/auyJoSc+Z14owc1iZQIYwcHEKwERuXGH4zH7vPsdZcUbzvPT7
+ i6ZszdhlrO9YukGpl29V39/L8+MeMTKsn/vuMKfIfG57Uf7HksYHH2/eyvJxUeNyp0mill5nWXY
+ yAQA=
+X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
+ fpr=75227BFABDA852A48CCCEB2196AF6F727A028E55
 
+The driver core only creates the sysfs "module" symlink for a built-in
+driver when its struct device_driver has mod_name set (see
+module_add_driver()). This driver left mod_name unset, so its built-in
+form had no such symlink.
 
---pugdf46x7r7xbl4p
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 0/5] usb: typec: ps883x: fixes for older Thunderbolt 4 /
- USB4 docks
-MIME-Version: 1.0
+Set mod_name to KBUILD_MODNAME during driver registration. Built-in
+drivers now gain the symlink, while loadable modules are unaffected.
 
-Hi,
+Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+---
+ include/linux/usb/typec_altmode.h | 4 ++--
+ drivers/usb/typec/bus.c           | 4 +++-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-On Tue, Jul 21, 2026 at 04:24:06PM +0000, Dr. David Alan Gilbert wrote:
-> * Sebastian Reichel (sre@kernel.org) wrote:
-> > On Sat, Jul 18, 2026 at 07:06:28PM +0200, Jens Glathe via B4 Relay wrot=
-e:
-> > > On Qualcomm X1E80100 platforms (e.g. Lenovo ThinkPad T14s Gen 6)
-> > > using the Parade PS883x retimer, connecting USB4-capable docks such
-> > > as the Lenovo 40B0 via a regular Type-C cable (which forces the dock
-> > > into Type-C fallback mode) often results in working USB but no
-> > > DisplayPort output.
-> > >=20
-> > > This series addresses the issue with two main changes:
-> > >=20
-> > > - Add a new optional DT property "parade,disable-usb4". When present,
-> > >   the PS883x driver rejects USB4 mode (-EOPNOTSUPP). This forces the
-> > >   Type-C stack to fall back to USB3 + DP Alt Mode, which works
-> > >   reliably with the 40B0.
-> > >=20
-> > > - Refactor DP altmode handling to also support the legacy
-> > >   TYPEC_DP_STATE_F request (deprecated since DP Alt Mode 1.0b) sent by
-> > >   the 40B0 and other docks (e.g. SSK SC220).
-> > >=20
-> > > - Add a short delay after writing configuration registers, which
-> > >   improves hotplug reliability.
-> > >=20
-> > > This is a temporary workaround until full USB4 DP tunneling support is
-> > > available in the X1E USB4 controller and qmp-combo PHY stack.
-> > >=20
-> > > Note: The DT patch adds the new property to all currently upstream
-> > > boards using the PS883x retimer (15 files). Happy to split it on v2
-> > > if requested.
-> >=20
-> > I don't think a kernel driver limitation is a good reason for the DT
-> > property. I suggest to add something like this in the ps883x driver
-> > instead:
-> >=20
-> > /*
-> >  * Hamoa does not yet support USB4, disable it for now to gracefully
-> >  * fall back to USB3 + DP AltMode. This should be removed once USB4
-> >  * support landed for X1E.
-> >  */
-> > if (of_machine_is_compatible("qcom,x1e80100"))
-> >     disable_usb4 =3D true;
->=20
-> It seems a bit of a weird abstraction break to put a machine type
-> check down in a device that's not specific to qcom.
+diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
+index ef21ead551be..92309b569c3a 100644
+--- a/include/linux/usb/typec_altmode.h
++++ b/include/linux/usb/typec_altmode.h
+@@ -227,9 +227,9 @@ struct typec_altmode_driver {
+  * handle all SVID specific communication.
+  */
+ #define typec_altmode_register_driver(drv) \
+-		__typec_altmode_register_driver(drv, THIS_MODULE)
++		__typec_altmode_register_driver(drv, THIS_MODULE, KBUILD_MODNAME)
+ int __typec_altmode_register_driver(struct typec_altmode_driver *drv,
+-				    struct module *module);
++				    struct module *module, const char *mod_name);
+ /**
+  * typec_altmode_unregister_driver - unregisters a USB Type-C alternate mode
+  * 				     device driver
+diff --git a/drivers/usb/typec/bus.c b/drivers/usb/typec/bus.c
+index e84b134a3381..587d3b06ee8d 100644
+--- a/drivers/usb/typec/bus.c
++++ b/drivers/usb/typec/bus.c
+@@ -383,12 +383,14 @@ void typec_altmode_put_plug(struct typec_altmode *plug)
+ EXPORT_SYMBOL_GPL(typec_altmode_put_plug);
+ 
+ int __typec_altmode_register_driver(struct typec_altmode_driver *drv,
+-				    struct module *module)
++				    struct module *module,
++				    const char *mod_name)
+ {
+ 	if (!drv->probe)
+ 		return -EINVAL;
+ 
+ 	drv->driver.owner = module;
++	drv->driver.mod_name = mod_name;
+ 	drv->driver.bus = &typec_bus;
+ 
+ 	return driver_register(&drv->driver);
 
-It's obviously a hack, but this quirk would be simple and fully
-contained within the kernel and thus does not create a new ABI (in
-opposite to the DT property). Once the kernel supports USB4 on Hamoa
-it could simply be dropped and people have working USB4 with their
-existing DT.
+-- 
+2.43.0
 
-> I'd bet it's not just qcom's suffering from this as well.
-
-Qcom boards are the only users of ps883x (the driver is exclusively
-probed via DT at the moment). So right now one could also simply
-remove any USB4 support from ps883x, but that would work against the
-people working on _adding_ proper USB4 support.
-
-IIUIC the problem is, that the Qcom board supports USB4, negotiates
-this via the PD protocol and then soft-fails because the software
-support is not yet ready. Most other ARM platforms do not have any
-USB4/Thunderbolt hardware support to begin with and wouldn't
-negotiate it, so they do not run into this in the first place.
-
-AFAIK only Qcom and Apple M series support it. A quick search
-suggsts Apple used an Intel retimer in the past and a custom one
-nowadays. From the looks of it the x86 world cannot use this driver
-either and probably handles retimers transparently in ACPI, so it's
-effectively Qcom specific until other vendors start adding USB4
-support. The only thing announced potentially running into this
-would be the Nvidia RTX Spark, which first needs to be released,
-then find a bunch of people motivated to implement upstream support.
-Nothing with USB4 capabilities has been announced from Mediatek or
-Rockchip. So I wouldn't hold my breath for another user and still
-suggested adding the machine check instead of simply disabling USB4
-for everyone ;)
-
-Greetings,
-
--- Sebastian
-
---pugdf46x7r7xbl4p
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmpgAggACgkQ2O7X88g7
-+prddRAAhL4NyRbROef+dbWH0+QaDvk9eCLvX99NubMXCloYyIVGfR41nxlMt49+
-7a70KAC+BGtNhJNOX2oGuwyQWuSMvicojed9x/Wwn8aCkjWylz8gVhC4ffnfQTD0
-OZo/q1d/IDZ95f7F+zfKTveevqaDLzhq3om/8gM7Z15NB14LV1fFz7N9SVK+9DkV
-ZLvQMjf1dwOaCg0/7hdBNk8M1jAVkcDfR+gkh0kcsya0F/5MnwxhLv/gM/3hGYNJ
-Dwfjk9EZslE3MZVIsdsUtyWutwhrdUj6V3OOCGKvEE9TjEyDu/zVDEUTRVWIK8v4
-MsRT0+SsBSM0YPlU/FT8D56CJ2LOFUoqWnw29UJewMxnflQ54Bxe3cAnZ2bGxFD0
-/XDJUCASrkmzR8YQvJhgTQUCBFv0Wfou2dWjMHql2kWr4Xc7ABOhHxV1tHkuJhFx
-kj/dZsVu3vJj3JFomyHn27G3qjNcJsAjHPhkfrgVtxqDHFW3/GlkXOO/2wQQMCmQ
-T7G/jR8+sjcBFXlhf3Ncx61UasAIsASOICyDqIi43wYXfO8mQsr/6vsMaWCM3AYW
-+hy0y5SoxdwCJ5XMTNVml5a6IflJyrL6oBnpBMB+5wR3dDuY0c7D4bgCtkDlexdD
-3DsaLUgcOj4tx8ljd1T9/xS6yq3Syj8CMZ0H2OZorgxql8++9Mk=
-=PakO
------END PGP SIGNATURE-----
-
---pugdf46x7r7xbl4p--
