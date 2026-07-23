@@ -1,264 +1,236 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012052.outbound.protection.outlook.com [52.101.43.52])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013004.outbound.protection.outlook.com [52.101.72.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1482264A8;
-	Thu, 23 Jul 2026 03:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99AD2D5436;
+	Thu, 23 Jul 2026 03:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.4
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784779116; cv=fail; b=dYH3tUc3xTiOF4hufiEAz60UgECYt0DuBSbRaBHHBJR9mIYBAWIEnbslVBDoAUE5rwHZbfGvbQcTdrlnX1RZeP2RJAAp0wWHRgHjAWDjIHlusWln5kkp+hFCw8XuvCopvLUf6Jcwz4OjUakw3gc5JoBCOGL1HckltjUNf3ncyEk=
+	t=1784779186; cv=fail; b=Xsf1HJdiptY2qRdd32Vd2Rm7UXoeqbpqr0HbzZM/4AleABCbX4ZELK7lcuhp1y8vQa+CTKET9yQMhzKCd+3lO5cVszizdW164TpRGuF/yKBAsuv6dooM5zikyY9mWWYCJhdIkvNSdwBOlc//Ct+F0bCL/lKQQLqI/Eem+e8e72M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784779116; c=relaxed/simple;
-	bh=jWTRHhrYyJlyHxEbkdykDcF+1MuFWkr3J88LERCC9bo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=aUvzNWeSNMrXsLZxGS812xYBW/UaaRd/XO8wfoDZYFvDYaP6ePwoIWoTRnK/B+8PkHkjDRRYhhTzQhq6JHJ34xOUA6FYCBlWHAiE8Bv+eeUtJIx9tdVkMqCBJrT0f2/Jc0opw/go2s0XnDj7vaRc/RJataOGgDVrgIC9KEYY7O4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=v4yLaOSY; arc=fail smtp.client-ip=52.101.43.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1784779186; c=relaxed/simple;
+	bh=/ZwM2NwDUTJdO1vTq5pqTJeNnWVUa7ETpim96I9ud4s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=oOsztrggyFc3VeCUBjJxuf+7wXvvrffRV4XSDxkEsrvl+e9xRuQPeSMoBu6NLGxeNxHoMdClow5IM1nayRTNS6sB6nltVdcAbNP6utdAjcsbGEVqFy4V8jjwgyeIt3Jdqrb4x6lDxORVMSL3UuBFC0MQfea+DSyciTzHJpietGM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=RuF6CKQG; arc=fail smtp.client-ip=52.101.72.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="v4yLaOSY"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="RuF6CKQG"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yTJNi7rHJH1o7DYWF1+TAVRt2gLsVsmNslU54xVRHdpVONjv+lt9FMGD5H6zGq5x5M3iN3MKWzrkYzL7KXlRFbQZOPvlOYIWvWinGRjaCTNN0IKLY0wsaSi6xcPcYa3cew6VzNc6OXLYpe115zV6I1ndGhzZCOhK2KVbXAxi0vnYEyt+lY/pljWvidjj6Swe+Jr3FKd+FcRrEY4eMXfAk91Shx5LTVkoufqGEat3E9dATLYQkrXtcGBFkoIMGqllrk4B89RARMisn1NivnEvpYnfkV4QeqpxYo5AMztatjVNbk8A9FQzrY0YJvTqgsSIJvgkHeUuXflCcCFnQy385A==
+ b=Jqy9xBZcfcO4Dr7HV3y0oMDZLX0u8Xpihm844h8SebMztMRJKKlLmY5tJme1eZqVtw5ggmmI1FptpT4J90gnNdEt5T8cx/swUKfZ01rM822wT04BYr8ArA4OH0Q3Lb78NxrFHpkWykKUAcA3kKvTEJMFd7T3oTDX90GpZJZ2Q1cH2Ojc5H7KmtA/O9c78LS0+ddg68EH9uLYatJnN61baGrONyo9bhdg8IB1zwc02WOW/GjBGdV3c/kfiQXeldDPfC6ONKcdF0J7OaTDJ2vy0dqZvWT3i9/+Vep78WAy3qmDWT37jkxIM6dxpJsUiKvsER1uKCk2sPWbWFqA/y7ORw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0dbFL0LHibMT487Fa8XiRyb87Ak88q/OiowmFSo3yt8=;
- b=g64wo7QjuzBBt7TuDj+Yeke71cl3HIZVtx02WhwvaOT6A/JDPA42JP3yTGR0KjVoIYJRZ2/3GiodmA0Cq3EtrmmtzWKI08xmLWFr6eEbHO2BfBASNnbZtU/mZrYRdRICBn5gu6ljBlJ8wxLiRzhHACx3OJCn6MCRqAGvZyjtFo72eGc+6ZZJrh6WQvUqZXDLlorH+hf0siV7hO+nPVjUY4vJ3dXq3pWEOn3erhD/WQhPpU5RbbdocN8lzA10eeLQr3XLeX9mZx2MC8mCceAnyW4KOQIxPenRs+ueCGGkO5BwpXpQ79slkCZof5Mume8/58oJ3o/uR8LKIelqVCKQDw==
+ bh=0Ayynh2e5lNAPLFHK73u3sJe52xw06CNaiHJUhCMyiA=;
+ b=mXsbcQIM/KQi8jGB4Z1gbo4SXIb8ZQo1rXBpbkM9tnvoaxDdfUdfe7TLY/NeEeoxNvFvxCOsu3I4hYDros5FZT8Tlu0hEoK3oOJqnadpvFRBv3UVLtbzI5b9XwOuqV1ZqmbUzX5MHchUibAMTuEM2w0C8OjFLk4VdLiUri8VBM64VQaOkDExHBD4vha3kXfrx9iIi8+M0VMwEll+Bagx4SqGxvdpExg13iEPvTfSss+b5pwyIK+r+JZ2jVaCk9cx9iB7N+cMbvLzvV/fXaCfZ3eDyNumXjxQT9AEG12OJF3Zg2znECBb3BOM8VjFUCs7+KZ37JBfHLNd0eC8t5/6Mg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0dbFL0LHibMT487Fa8XiRyb87Ak88q/OiowmFSo3yt8=;
- b=v4yLaOSYqgfcFIVjLiVpCC8CAS0lWRK2ALnrvEIL2ZkiO6xtlA+z4zXmFp1HFq3r0PvUw+ZhriuyF2YSi9LxtW3lyy7mdIB4c0onUTTvzZfYhau9bpuHdjJKFIRDd3ZW2qma8tgNFT3X+L6B2bA1AlUVMSQFiX4UI6Yn/OAvPES4fG+qGQ0BYfOqAcbqdQr4MIPe1PqzjyP7mjBya2TqDt0joS6P1ayPlYa3DrS1g5iayY8f4ohOKS0Z2qTWhQr0D/qLVnoOVWojC4eBUytHYKFBaYorDU0XS+Y7FGvd8ZqnytztRNRKP0SXoTeEZY/qLJzZoTx4+ww+/mXUWm+Z+g==
-Received: from DSWPR11MB9715.namprd11.prod.outlook.com (2603:10b6:8:355::17)
- by IA4PR11MB9322.namprd11.prod.outlook.com (2603:10b6:208:562::17) with
+ bh=0Ayynh2e5lNAPLFHK73u3sJe52xw06CNaiHJUhCMyiA=;
+ b=RuF6CKQGsNwQVi8Oajbd2qFOI9wNGbDFAnJKNddIJNG+ytLdnr3yMUC4eiPVA4r0dmvrrx32yzuaqTjdWwkiiRW1y1h1P/fM+OOKbUHxWoaRp4/eKDvVXlzw/6q+hZoY3aRaEh1khDRmZohSeXJQjoXcp84HNJ1X8G/iMpH3kYXA5JjxRQJ/n2cl9wWPTAxyEP7W4j6KV5rHOUcmnFDFaKQbeskihNH8KEEWl9VcADEwLrXooIE+bRfV1LOGvNZI0+UpTdq09cGnoRdPp6f+iY49NnIidr9wuequnGMXOvPCdHN2SBykOZ4+tbbt8IpK9/cur4bpD08YUhe9B/yguw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB9422.eurprd04.prod.outlook.com (2603:10a6:102:2b4::21)
+ by PA2PR04MB10122.eurprd04.prod.outlook.com (2603:10a6:102:40a::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.10; Thu, 23 Jul
- 2026 03:58:30 +0000
-Received: from DSWPR11MB9715.namprd11.prod.outlook.com
- ([fe80::25ec:56c9:f864:9139]) by DSWPR11MB9715.namprd11.prod.outlook.com
- ([fe80::25ec:56c9:f864:9139%4]) with mapi id 15.21.0245.009; Thu, 23 Jul 2026
- 03:58:29 +0000
-From: <Thangaraj.S@microchip.com>
-To: <nb@tipi-net.de>, <enrico.pozzobon@dissecto.com>
-CC: <Rengarajan.S@microchip.com>, <UNGLinuxDriver@microchip.com>,
-	<andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-	<kuba@kernel.org>, <pabeni@redhat.com>, <Woojung.Huh@microchip.com>,
-	<netdev@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH net v3] net: usb: lan78xx: disable VLAN filter in
- promiscuous mode
-Thread-Topic: [PATCH net v3] net: usb: lan78xx: disable VLAN filter in
- promiscuous mode
-Thread-Index: AQHdCWiV89lCvz1/gUOsfpl7sDXfCbZgIcoAgBp6GwA=
-Date: Thu, 23 Jul 2026 03:58:29 +0000
-Message-ID:
- <DSWPR11MB9715DF2FA75211B9F2A6131AECC02@DSWPR11MB9715.namprd11.prod.outlook.com>
-References: <20260701-lan78xx-vlan-promisc-v3-1-232266d32743@dissecto.com>
- <71cdcc54320d7b44af327d9e5537b373@tipi-net.de>
-In-Reply-To: <71cdcc54320d7b44af327d9e5537b373@tipi-net.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DSWPR11MB9715:EE_|IA4PR11MB9322:EE_
-x-ms-office365-filtering-correlation-id: ae658caf-25ee-4824-658a-08dee86ea835
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|376014|7416014|366016|1800799024|38070700021|10067099003|11063799006|4143699003|6133799003|22082099003|18002099003|56012099006;
-x-microsoft-antispam-message-info:
- CtawefNjEXIhTjEreaV8JiRzklb056ecoL7SIXtyZf4NY97Rd4SyKshaOhxtE+VwSxbsxlyOhUIqSEFFNbQJI5bCVBJP2S3JZaZi5YM5tEjO6/T8zSG6TEWaLY5qPi6ygTynK/zeeR3erikc8YpzpNs18LWMiDm4FXUaNsXhIC1SkoL7eRINsgKr6470q4qOTyxXF9317OgVqYHPqzOQ2DRp3ZBiOYUqmMFl6q4sWqsqw/SqH/gHhO5buTKucT00yPzEQ/Fgqj/C0VNwdXb81HUY4CeAlTpadxz1knzVbW7LJW9vtNIVZqsQgsv30aQPc7Rmbx2PIGpdMYc2MRr/85/8bvWPlYfHMHuf8zMwunFXupsxiZq34rtR7Nb1qvSKvybtigreZhgdO+pd6vUQe7xHLKz7vLTQOXES9fihjmtVQAPWyS/TyWD7dagTY+OTyHfq+9GYzcpKdGaMfAFmSiW9Rd51NNYQ0HfVCTos+DFvf25UPRCCRA5mvSCTAM4gl4q623MJ30AuLLfm7LLmME+UfDhxusmp83reRlTU4VOzVVPE6b/edDaOnBTpXJPDRzi+sdfAxZ+oxRQNPdpqc94yzDefm/uOsSOIZSXUtjAT/8edwGYr4ygt4tViSmgDx/qq8SyqWYqhpJCxm5JEsB2kjdxIlrsDMwF949WOrkw=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DSWPR11MB9715.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(7416014)(366016)(1800799024)(38070700021)(10067099003)(11063799006)(4143699003)(6133799003)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?uI2ptCIKTS97CWKQCIhp6T7cmbr4FjrT7JiMnMcBOcRYblBmurBQvN8FVTgd?=
- =?us-ascii?Q?I259s90wpH64gt15IzfPsZlHSrRqHPaCbIoDw+ZHwroTBApOPB4hg4VK6Xz/?=
- =?us-ascii?Q?6ELDmf03HpsyNaOpX824Esk78MGaqXIT+MhDXiSNJPHChb4EVpg80eEI/GMe?=
- =?us-ascii?Q?f6SAtLWFVgl+dYnAs3Q3PRoL8cJUluxTsFUr/15SBO+HEnXU+QL8FMGRw1G6?=
- =?us-ascii?Q?yWQH29qfE9eTVMyakJRsuGEiS6eGGyLcPkF5JoMND5Gmn91qKIoR78hPBqYM?=
- =?us-ascii?Q?sPD233XqVGMOcNrTyp+aCr5AYCBRu0sLPGwZ8rCw7R0F7v/19p1pp1O/8uAE?=
- =?us-ascii?Q?Dh+7H3uKXC/lmRFw+JZychrEhcB+MfE/cVyJ/ctVDrQ2EAiHQ2ICJukb4OMr?=
- =?us-ascii?Q?99tUron8gLIQwmdEYac/qvKJLBDXBJuQBIWl8W5jzvZ5NWEYf04OuYUkZKa7?=
- =?us-ascii?Q?MdwdEazINed0sPPsvzuR4JhGmPvyM6ZTeQCrdvPx8nmQJHKmYaIOtN9Ehhzh?=
- =?us-ascii?Q?2dB801t5hnAWRQOTCnhLk+TcFwZ/tIQr4txehudVYNb6CTVAFqC2DAogKHMm?=
- =?us-ascii?Q?06dvZWnovtTx7rGnwT/a3U+5YxOGRJEs90LYB+NP3qoeBSSOMFNFFwyhxPnm?=
- =?us-ascii?Q?IK3LvVwDQ0RmB2G9ZExqVJmBbc4gwC0kMw64YOVudmk8TJDGW6BxJio+Kecw?=
- =?us-ascii?Q?A5GHSnrn5j3ZHO01FJaznbGWYk+X+B/lUHGgoEQFmnlkhp+evYb3SxoX2dC4?=
- =?us-ascii?Q?uTRhyFHqQW6BPLpqFLcPnrJBzTYoRh5nPHnoa7+5zDJte8sJNlbaio0S93Xr?=
- =?us-ascii?Q?3H2YYZ/jWvf9C5Qb4mW7ZxLCgCbgTjG7o0VQ+dy4EGnRRNEtZKS2EvaCGnc1?=
- =?us-ascii?Q?OaNcX/mk28DIWoGAo5TuzWFLq2Razw4wFYOfF1ph/lo6KMDLJfnnAMmHF1qC?=
- =?us-ascii?Q?GMABM7LMCJbqZRf0/LGSICEskRgzh4dlCmwqOrurbelxVf5r2YJXmdddZvcV?=
- =?us-ascii?Q?Zrv4xlD1bYH8tEVgJ70wEHcbph7MQtzQ+y7t15BtmCb15MtBSYpKiLXfrtXz?=
- =?us-ascii?Q?hC7qoGoN7xwzAKXtI6TbQojkPHKuaaL2iGe+XguU3QL1Kzi4iRMQixQhcgtS?=
- =?us-ascii?Q?v+KtWF170rOm6KXjdD6t+j9aIyOM5Ppg3UWGMEUKLj1FHtKRJ+DhYGbjxjlr?=
- =?us-ascii?Q?n5EzoWjx8uQVeINu+U2gijUDgEiJL3RXbDOsglMIH0nSUZFReh4SvYSPED6c?=
- =?us-ascii?Q?ZhMBaNCgy96V5Su+BWS7cV+A6C5jhv6F8dFH81IPHN2R9SavpndDhyQjm2/v?=
- =?us-ascii?Q?1fETeAVit+hDZfCcTw/kMsOoMZETRm1BSbWzyLlUnjSvPa3by2GgeJiZoeSw?=
- =?us-ascii?Q?pwvlggQ2ieQ1eKACM8abDmhVb76hWmcRgKt1fP/FToq9n0TfxDKj+BZYoTml?=
- =?us-ascii?Q?muQU5Epbov8hcXfhvJ+KvJnpf1NkmZSTNGpVwaWYg07XZaRlpL56eBmMJURx?=
- =?us-ascii?Q?WKoxB41a6yXa5yqoo4TzEGXbvp/mTcb2awNfyjUn41+Qa9+Z2FbE+JQmsRsP?=
- =?us-ascii?Q?p3EaCTpchYhh3itpNZ+LaXwWnOwfjz6JsvF2j7W8cs1zPbY0B+OgP13IEGkf?=
- =?us-ascii?Q?PSs6AqQivkJjDDq8os8uG7PvyRAq90SVojVhavRSAM6qThVxxY9eaeHd0/KZ?=
- =?us-ascii?Q?snQA1VUtdurm4v8GotTL1WsO05QB25YIovihabd6vM0H3CPNRwoWgZA4KgMS?=
- =?us-ascii?Q?MjBM8kafeg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 2026 03:59:37 +0000
+Received: from PAXPR04MB9422.eurprd04.prod.outlook.com
+ ([fe80::54e:28bf:aa85:d25d]) by PAXPR04MB9422.eurprd04.prod.outlook.com
+ ([fe80::54e:28bf:aa85:d25d%4]) with mapi id 15.21.0245.009; Thu, 23 Jul 2026
+ 03:59:37 +0000
+Date: Thu, 23 Jul 2026 11:58:10 +0800
+From: Xu Yang <xu.yang_2@oss.nxp.com>
+To: Badhri Jagan Sridharan <badhri@google.com>
+Cc: heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+	jun.li@nxp.com
+Subject: Re: [PATCH] usb: typec: tcpci: pass correct rx_type to
+ tcpm_pd_receive()
+Message-ID: <2wrbuxzoe6qj4hqv63u5a7vlg3xtgurbkajg2se2y5utxhdevr@gyzlaljgbntq>
+References: <20260703063247.2521524-1-xu.yang_2@oss.nxp.com>
+ <CAPTae5+6-NYoP7NQGDJN62AFnGSGW-8vaA1Jdny9V8meeDifQA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPTae5+6-NYoP7NQGDJN62AFnGSGW-8vaA1Jdny9V8meeDifQA@mail.gmail.com>
+X-ClientProxiedBy: AS4P190CA0039.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5d1::12) To PAXPR04MB9422.eurprd04.prod.outlook.com
+ (2603:10a6:102:2b4::21)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: microchip.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9422:EE_|PA2PR04MB10122:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b8364cd-4a0c-4a3f-ea50-08dee86ed046
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|23010399003|19092799006|1800799024|22082099003|18002099003|10067099003|11063799006|56012099006|4143699003;
+X-Microsoft-Antispam-Message-Info:
+	Rs5g2WjssG1EqgTrB/XP4Ko6kU2jxB0hV/HX2HJvOXiVHNANYFQF0OClabaXDQNECNWXxXD1cImi5AkR9Z9/pdbCu3fTvHs68w4kgmAzFH8zvSil+/5/JrYSSZYzt2eF8Xl4ei92CrZ7TYTr4lDLqO0JtxHoSkTcXfZ6YX7329aQLaGnTECzteyU95hD3dD+eRAKsZuQrudR98/xQXS5tyF4sUYQE2iBGtCcejhG+yCGzn6csg8uVdH10ePoy3fnQtdy+rW8FePL3sFhE8huBg9zixvy6i/kmmrd4BFrFkcS+hqetckn02I5spSEG+R3kpGibm4D28EnUIOtOLmNXhd7CFtv3dK6IN4xbew2ql2KIFdMwxJVC/dcnsZHGW3sH0snVRix2aiaoffpq3l2Xn8eymRuWcH5ZqjDpnYUjvilkCbqRkpnMPH0Sd0ro7BLcJ5xkxIC8nEEY0Gi6odZxJacUXX9xwFK3nmtH2EcLnk29FNh6Lvutoc4qeyDY8Hi+pAT0iH+/e3F/WaCR77d7HnocmV3nRrOv3YkLv5ilTZTev0F5zilPJbD5Rwh2aQvigavYljOwYTa0gOdPgnDvxf/5sTybc3HkwpGPPBjwzJkpt/4TxF9HDhrlF/TVSN8hrKiX/cI/QDgstQuYis8j+/Jlyn8fJ3W3q6xmjNn4AE=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9422.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(19092799006)(1800799024)(22082099003)(18002099003)(10067099003)(11063799006)(56012099006)(4143699003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dlZjTG1tdmlPWjNTVjN2M2hiQ3A0c2JMaEdtbkc2ci82MHhlcU5mQktLbDNp?=
+ =?utf-8?B?T1hHNURZd0laY2pocjlPQzZMNzJxTXZVSjdGQlRlOXhNY2JZclA3eUR3SFgr?=
+ =?utf-8?B?LzgyWERvYzRVTXQ5NlpQZTVETFB0Tjk5bXhZdVVTTng4THUvdkZGanpmMUpi?=
+ =?utf-8?B?U21HT1FxMEszdFcrbjlDQmd1WDZ0TTJQWCtVc1EvVjZVWHIvSFNFVjQrMXYr?=
+ =?utf-8?B?eitWbkZURXZ6R016aDd6NWVXTEIzRnFJU0FOODZFa2RKZ0FpTVVTUWRVRCtR?=
+ =?utf-8?B?ZnZwcDVINzVxRHcyZ3pITW1FV2pjaHhZdzJxaENJdTIwUGxCQWlPd3JHUWNW?=
+ =?utf-8?B?QmFRUnpGSFExT3pobUZTUTV1aVIzcGpnMWkvdDh3SndCRUhjeFB5NERoTHJ3?=
+ =?utf-8?B?Z1R6a0ZrTVQ3cEpZUStUd09mQU5XS1U4aTNpSXl3aXZiYmdyOG1ZUkEydkhU?=
+ =?utf-8?B?bUN0TTZ6bzMrMTB5K2pXNUxMT0Z0Rzk5ODBnbHdHOTdUd1pCbmFsWXZTZjZD?=
+ =?utf-8?B?Rm1VMUtNTHRIc2Zid3hMcDBOdFEyMzhReVVUc0IrdmE4MDg4bEhHUTIrRU15?=
+ =?utf-8?B?d3YvMTZpencxMllORHhaczdLd0NoTEJCaXU4NHI4VEc4UCtJUHdmY0x5TzZE?=
+ =?utf-8?B?WWZUK2pseTJ1V3BOTm1mZHJmMGtYNHAxWkpaYVBDNC9jQlcrdG5BTndBclNw?=
+ =?utf-8?B?cTRyZ1JxT0t0ZkRZMmQ4aGt3UG5YQUl1R3dacmsyQ3UzVmYxb2NTZWwyNStY?=
+ =?utf-8?B?dEtoMDcvRzZ0akE4MXFrODlPdG4rNDR1UHhpSS9VZE84QWRkM2toUS9CZXJM?=
+ =?utf-8?B?blpwSkN6Z2NKeGNlekVNR1RDMXM0VDhkN0RBRXFwamszQkRTekdIdW12MmQ3?=
+ =?utf-8?B?a29STDN1aE9Wa0FoKzFOYVhLSG1GYkxNNytscjgwN2Nmb3lBaXlwc0phS0ww?=
+ =?utf-8?B?T3NVbWpJSDlGV1NZbllrWnJNQkVERnhKc0NWWmVVMTFuL2M0OHdTZlhOWEdS?=
+ =?utf-8?B?VWMzd1Y2c2pZUXNCS1NqYytkdGt0VlhSV2xGbytMVlpxa0UwcTJ5TGtRVk43?=
+ =?utf-8?B?RmZtWUlhNmhvYTJNWUJQS3dLeExVcnRCYjlQOHlWbS9xT25lQTFRTldJSlVN?=
+ =?utf-8?B?OUhERzhTSUpkL093Q1JyUkV3eUt1SkcwYmdKRnUvNjFvS0ZRMDZLV3l3Qnpr?=
+ =?utf-8?B?cHJqazBqM0c2eEtqZm1wa0FqTG1GUnYrUG5mT3pRN2szQjJZa2RhYURsZHFZ?=
+ =?utf-8?B?WGZZMlBJajVmK1oxRUtVUWJVd1NremdXeFc4ZXk2Qzc2WkNnMWdublRKbG5i?=
+ =?utf-8?B?QmxLWldpSko2VjhvaVNxT0MyUzZ1UkJIZjB1SUJSNHFqN0s4RGlzOFFQMC9R?=
+ =?utf-8?B?WENoeHNPNURmU1hKb0YrcUVQTUVTS21wOE1rWkpKbER5ZENBOGNZblJ2L3l6?=
+ =?utf-8?B?MFAvZU5qcDJsY2hoMUd3aXM5RVVpdUZzdGI0NnFpaDdrK001R1E4VTRSb1Bl?=
+ =?utf-8?B?RXQ0QWQxZjMzazNjMXlaNjgvaFpUZlVDeHBIYXdVUHpqTjNLVy9yaTFkc1hr?=
+ =?utf-8?B?Vk5FRm16anR6cFBFcUgybW8xWUJBZkxoalR0MVZ1Mm1lKzFOSkxsenNwYnA0?=
+ =?utf-8?B?a2t1VDFGMy84R25DT1RRT3lJVnpxdStCYXhvdVBNdSt1bVBYN1NFZFRvLzBy?=
+ =?utf-8?B?ZW9xNWF4TW0vbXNRZC9HUks1VXZRajJlaDBTYm1iMnY3eGRiUXBmbjFDeTZu?=
+ =?utf-8?B?bEhhdXlTU2I1WloxbXQxVzNuUHErZkhxTkhBZXMzZFc0N2VLNWxnTEE2R3NE?=
+ =?utf-8?B?dnBKTkhjK2hBdERxOGdweXJnWld3cDRPL3plaGJYMDVuVkVPNnoxU2VKK2lU?=
+ =?utf-8?B?TkNJM1QwUzh5d0FFRVJOWjhOME1xMUZrakI2ZW9NbzQwMDNqVENMQ3RhL3Fu?=
+ =?utf-8?B?VDczME1ja1J2QlhnZkd3c3FvQ2NLenQzMkIxTXJlN2t1eW1RM3JIMmZjKy81?=
+ =?utf-8?B?Z3pTODJ0cWZDUE9NcnpNMjhUY1I5YzFTUU5ML2duSkpRcHBGTmNXYi82Zmps?=
+ =?utf-8?B?dUZUQ3dSaFkxVDBWZnFadG9TZ0J1a3lHYW84MVI5d3c3ZzA2RWhCb21FTXNr?=
+ =?utf-8?B?bjlLVE1QbWdmWFVHcHNWbWZJWkl0NGVjMWc5SlJUWXA5UE5TNmQvdXpFTmZq?=
+ =?utf-8?B?MGhNdENkMmtPaUdPQkgyUzMyaGxEeElTNUc1OFMrbk95dW51eE5QZENRb3Fy?=
+ =?utf-8?B?MnE3NzZZOGk0STM1YUttZkk3QXpOc2lQVytSSEN1UGIwQVNOM25xcXVlS0Rt?=
+ =?utf-8?B?V250aTJpUDZSb2YyWlJVdUV2REhPS0hWdlVTUUl1dHM3d2Q0TmtxM0RiWDhy?=
+ =?utf-8?Q?R07l8Y+oWKviIpfK5Ub5ZJxc7d4ts5ZNR0q3C?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b8364cd-4a0c-4a3f-ea50-08dee86ed046
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9422.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DSWPR11MB9715.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae658caf-25ee-4824-658a-08dee86ea835
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2026 03:58:29.9166
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2026 03:59:37.3460
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ddS/3jrRuhD/QbEyB0cmigw+k0liIFua0lLG7Be0lEaOBUhZwRbrE5fywNozdQO+hhLIWNpSvFlSfqeHOgbHY1cJ3HR0beAodt9hvJqGQGQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9322
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /1drX2tUNxJQTPtxyQDC0uTLu0+FiJdxuAFCmd3PItSyoJnw5FUqoC4IvpCf0M6FW8Y9/DbsUY+esk8vQ4E16TBG7XcGm9Gxw7UNE23ZJCtflgZLGMbaLKH23bLhobFZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10122
 
+On Mon, Jul 20, 2026 at 04:09:59AM -0700, Badhri Jagan Sridharan wrote:
+> On Thu, Jul 2, 2026 at 11:29 PM Xu Yang <xu.yang_2@oss.nxp.com> wrote:
+> >
+> > From: Xu Yang <xu.yang_2@nxp.com>
+> >
+> > Previously, tcpci_irq() always passed TCPC_TX_SOP as the receive type
+> > to tcpm_pd_receive(), ignoring the actual frame type reported by the
+> > TCPC_RX_BUF_FRAME_TYPE register.
+> >
+> > Read TCPC_RX_BUF_FRAME_TYPE after receiving a PD message and map it to
+> > the appropriate tcpm_transmit_type:
+> >   - TCPC_RX_BUF_FRAME_TYPE_SOP1 -> TCPC_TX_SOP_PRIME
+> >   - TCPC_RX_BUF_FRAME_TYPE_SOP  -> TCPC_TX_SOP (default)
+> >
+> > This allows TCPM to correctly distinguish SOP from SOP' messages, which
+> > is required for proper cable plug communication during PD negotiation.
+> >
+> 
+> Can you add "Fixes:" as well ?
 
-Hi,
+OK. I will add below fix tag because only SOP was supported before: 
+Fixes: fb7ff25ae433 ("usb: typec: tcpm: add discover identity support for SOP'")
 
-> -----Original Message-----
-> From: Nicolai Buchwitz <nb@tipi-net.de>
-> Sent: Monday, July 6, 2026 1:08 PM
-> To: enrico.pozzobon@dissecto.com
-> Cc: Thangaraj Samynathan - I53494 <Thangaraj.S@microchip.com>;
-> Rengarajan Sundararajan <Rengarajan.S@microchip.com>; UNGLinuxDriver
-> <UNGLinuxDriver@microchip.com>; Andrew Lunn
-> <andrew+netdev@lunn.ch>; David S. Miller <davem@davemloft.net>; Eric
-> Dumazet <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo
-> Abeni <pabeni@redhat.com>; Woojung Huh - C21699
-> <Woojung.Huh@microchip.com>; netdev@vger.kernel.org; linux-
-> usb@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH net v3] net: usb: lan78xx: disable VLAN filter in
-> promiscuous mode
->=20
-> EXTERNAL EMAIL: Do not click links or open attachments unless you know th=
-e
-> content is safe
->=20
-> On 1.7.2026 16:47, Enrico Pozzobon via B4 Relay wrote:
-> > From: Enrico Pozzobon <enrico.pozzobon@dissecto.com>
-> >
-> > The hardware VLAN filter (RFE_CTL_VLAN_FILTER_) drops VLAN-tagged
-> > frames whose VID has not been registered via
-> > lan78xx_vlan_rx_add_vid(). It is left enabled in promiscuous mode, so
-> > packet capture (e.g. tcpdump or
-> > Wireshark) does not see tagged frames for unregistered VIDs.
-> >
-> > Clear the filter while the interface is promiscuous and restore it
-> > from NETIF_F_HW_VLAN_CTAG_FILTER otherwise. Enforce the same
-> condition
-> > in
-> > lan78xx_set_features() so netdev_update_features() cannot re-enable
-> > the filter while promiscuous.
-> >
-> > Fixes: 55d7de9de6c3 ("Microchip's LAN7800 family USB 2/3 to
-> > 10/100/1000 Ethernet device driver")
-> > Signed-off-by: Enrico Pozzobon <enrico.pozzobon@dissecto.com>
+> 
+> > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
 > > ---
-> > Currently, on microchip lan7801, enabling promiscuous mode does not
-> > result in VLAN tagged packets being captured. This patch fixes this,
-> > forcing the RFE_CTL_VLAN_FILTER_ flag to be off when promiscuous mode
-> > is enabled.
-> > ---
-> > Changes in v3:
-> > - EDITME: describe what is new in this series revision.
-> > - EDITME: use bulletpoints and terse descriptions.
-> > - Link to v2:
-> > https://patch.msgid.link/20260701-lan78xx-vlan-promisc-v2-1-fe3b180667
-> > 28@dissecto.com
+> >  drivers/usb/typec/tcpm/tcpci.c | 16 ++++++++++++++--
+> >  1 file changed, 14 insertions(+), 2 deletions(-)
 > >
-> > Changes in v2:
-> > - moved VLAN filter logic into lan78xx_update_vlan_filter()
-> > - Link to v1:
-> > https://patch.msgid.link/20260630-lan78xx-vlan-promisc-v1-1-fbf0f903bd
-> > 8f@dissecto.com
+> > diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+> > index 7ac7000b2d13..c19413f41bcb 100644
+> > --- a/drivers/usb/typec/tcpm/tcpci.c
+> > +++ b/drivers/usb/typec/tcpm/tcpci.c
+> > @@ -748,7 +748,8 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
 > >
-> > To: Thangaraj Samynathan <Thangaraj.S@microchip.com>
-> > To: Rengarajan Sundararajan <Rengarajan.S@microchip.com>
-> > To: UNGLinuxDriver@microchip.com
-> > To: Andrew Lunn <andrew+netdev@lunn.ch>
-> > To: "David S. Miller" <davem@davemloft.net>
-> > To: Eric Dumazet <edumazet@google.com>
-> > To: Jakub Kicinski <kuba@kernel.org>
-> > To: Paolo Abeni <pabeni@redhat.com>
-> > To: Woojung.Huh@microchip.com
-> > Cc: netdev@vger.kernel.org
-> > Cc: linux-usb@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > ---
-> >  drivers/net/usb/lan78xx.c | 18 ++++++++++++++----
-> >  1 file changed, 14 insertions(+), 4 deletions(-)
+> >         if (status & TCPC_ALERT_RX_STATUS) {
+> >                 struct pd_message msg;
+> > -               unsigned int cnt, payload_cnt;
+> > +               unsigned int cnt, type, payload_cnt;
+> > +               enum tcpm_transmit_type rx_type;
+> >                 u16 header;
 > >
-> > diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-> > index c4cebacabcb5..cb782d81d84f 100644
-> > --- a/drivers/net/usb/lan78xx.c
-> > +++ b/drivers/net/usb/lan78xx.c
-> > @@ -1499,6 +1499,17 @@ static void
-> > lan78xx_deferred_multicast_write(struct work_struct *param)
-> >       return;
-> >  }
+> >                 regmap_read(tcpci->regmap, TCPC_RX_BYTE_CNT, &cnt);
+> > @@ -763,6 +764,17 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+> >                 else
+> >                         payload_cnt = 0;
 > >
-> > +static void lan78xx_update_vlan_filter(struct lan78xx_priv *pdata,
-> > +                                    struct net_device *netdev,
-> > +                                    netdev_features_t features) {
-> > +     if ((features & NETIF_F_HW_VLAN_CTAG_FILTER) &&
-> > +         !(netdev->flags & IFF_PROMISC))
-> > +             pdata->rfe_ctl |=3D RFE_CTL_VLAN_FILTER_;
-> > +     else
-> > +             pdata->rfe_ctl &=3D ~RFE_CTL_VLAN_FILTER_; }
+> > +               regmap_read(tcpci->regmap, TCPC_RX_BUF_FRAME_TYPE, &type);
+> 
+> 
+> If regmap_read() fails, type would be uninitialized containing random
+> values from the stack, can you make the code to handle that ?
+
+OK.
+
+> 
+> >
+> > +               switch (type) {
+> > +               case TCPC_RX_BUF_FRAME_TYPE_SOP1:
+> > +                       rx_type = TCPC_TX_SOP_PRIME;
+> > +                       break;
+> > +               case TCPC_RX_BUF_FRAME_TYPE_SOP:
+> 
+> 
+> TCPCI Spec Table 4-38 also defines SOP'' (SOP2 = 2), SOP_DBG' (3), and
+> SOP_DBG'' (4). Since enum tcpm_transmit_type defines
+> TCPC_TX_SOP_PRIME_PRIME, TCPC_TX_SOP_DEBUG_PRIME, and
+> TCPC_TX_SOP_DEBUG_PRIME_PRIME, why not expand the switch statement  to
+> handle SOP'' and Debug frame types as well to cover all cases ?
+
+OK. I will expend the rx_sop_type arguments for future use, although they
+are not supported in TCPM now.
+
+> 
+> 
+> >
+> > +               default:
+> > +                       rx_type = TCPC_TX_SOP;
+> > +                       break;
+> > +               }
+> >
 > > +
-> >  static void lan78xx_set_multicast(struct net_device *netdev)  {
-> >       struct lan78xx_net *dev =3D netdev_priv(netdev); @@ -1533,6
-> > +1544,8 @@ static void lan78xx_set_multicast(struct net_device
-> > *netdev)
-> >               }
-> >       }
+> >                 tcpci_read16(tcpci, TCPC_RX_HDR, &header);
+> >                 msg.header = cpu_to_le16(header);
 > >
-> > +     lan78xx_update_vlan_filter(pdata, dev->net, dev->net->features);
-> > +
-> >       if (netdev_mc_count(dev->net)) {
-> >               struct netdev_hw_addr *ha;
-> >               int i;
-> > @@ -3074,10 +3087,7 @@ static int lan78xx_set_features(struct
-> > net_device *netdev,
-> >       else
-> >               pdata->rfe_ctl &=3D ~RFE_CTL_VLAN_STRIP_;
+> > @@ -776,7 +788,7 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+> >                 /* Read complete, clear RX status alert bit */
+> >                 tcpci_write16(tcpci, TCPC_ALERT, TCPC_ALERT_RX_STATUS);
 > >
-> > -     if (features & NETIF_F_HW_VLAN_CTAG_FILTER)
-> > -             pdata->rfe_ctl |=3D RFE_CTL_VLAN_FILTER_;
-> > -     else
-> > -             pdata->rfe_ctl &=3D ~RFE_CTL_VLAN_FILTER_;
-> > +     lan78xx_update_vlan_filter(pdata, netdev, features);
-> >
-> >       spin_unlock_irqrestore(&pdata->rfe_ctl_lock, flags);
-> >
-> >
-> > ---
-> > base-commit: dc59e4fea9d83f03bad6bddf3fa2e52491777482
-> > change-id: 20260623-lan78xx-vlan-promisc-83af8a48a7ec
-> >
-> > Best regards,
-> > --
-> > Enrico Pozzobon <enrico.pozzobon@dissecto.com>
->=20
-> v2 is marked superseded in patchwork, so FWIW
->=20
-> Reviewed-by: Nicolai Buchwitz <nb@tipi-net.de>
->=20
-> Thanks
-> Nicolai
-Reviewed-by: Thangaraj Samynathan<Thangaraj.s@microchip.com>=20
+> > -               tcpm_pd_receive(tcpci->port, &msg, TCPC_TX_SOP);
+> > +               tcpm_pd_receive(tcpci->port, &msg, rx_type);
+> 
+> Please also check whether TCPC_RX_DETECT was actually programmed to
+> receive the specific "rx_type" to begin with. Perhaps while
+> programming TCPC_RX_DETECT the allowed received messages should be
+> cached and cross checked here. This would prevent unsolicited messages
+> from being passed to TCPM which poses a security risk.
+
+OK, Make sense. Will improve it in v2.
+Thanks for the suggestion!
+
+Thanks,
+Xu Yang
