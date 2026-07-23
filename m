@@ -1,140 +1,100 @@
-Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56922FE056;
-	Thu, 23 Jul 2026 01:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2683168E6
+	for <linux-usb@vger.kernel.org>; Thu, 23 Jul 2026 03:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784770823; cv=none; b=CUcozUWILO5SlzwsKcqYzVo4VepcaxnVV7ucfYrzHKMaQxfS0nby7/jRdyP3e+NH8rFdXipVQwi4sna/YZ4wU+01nMbgkwv6+alhBQqomUeSm7bRmQ32gvV0ef3p0dkJc/hJ3BzGKajJL16bDg4ZdudRd2Pe8H20m+bpu0zWDsg=
+	t=1784776680; cv=none; b=RGTmMd54R+MeY+syVtOAXpAs488+J+7w5UXQ7A7EhuQ1wt403GuS10IgVJIj2zR0hMscwBGpNj4fTeyRdsqZqp9Dqf+j/BEHYWNEkTgbI1yfsI+x82lYqNcOlq2oa67TBVPbq03JVKzUDdmVtYxgGscX6HiLMeSmLNMlDjcEB7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784770823; c=relaxed/simple;
-	bh=tDiVFKZNRc4Xa4VPQB5587fGdq0BGe1G0rK39Z3yEBg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Wq/cVx233njxCWj5JtHlJF5dk6hNuyViPYEOCPgeDTMUWjH5Ycc5FNJ+3jfGnqxeKglpA/B6sWyLdJFCmjsR3JObIP/aCKBzoMvm0NZ8l1APM6t5CtrcEONQhtKB4lDTSE8CPN9AzFE5dqF3uiFBu0fb1x4/knU3Dq7V0+pEizE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=p2jPaWGQ; arc=none smtp.client-ip=18.132.163.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1784776680; c=relaxed/simple;
+	bh=rc+8zH9oXdQFUGz2eT5vls5smjZFLz68W4xPCVd1uig=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Q4RgapA4QH3uSZJm6gsJVEUd7RUto+kMZ7VfUFwK1jrZhBozylPWlq+aLq+01cEAjHWGpsoQf1vawZSIFRKOSNGrF1ZwfK3xyspvgAS1dSAbujCSK8T8y7zWP8zR5H6YODsfe1s4QS04uBysuOPq/VgcKCNxSslGJTfgMwGAa9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hiCWyN28; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="p2jPaWGQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1784770813;
-	bh=39BXAVAV22NPOzYN+mKCQLJtCYn25wFR01/w/75Csns=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=p2jPaWGQmaa/lmwOFIGhxV1ZDUP6bxEbCjxhtR2sLXO4ei7ZugH0kZfskN75pui4w
-	 Ke3HD+vKQzfQRPqJK4rYP+pG9a8SnBYwpb1H4YnG0DdGhB9MfuNzKx0mrO/qIPK9U/
-	 X3unKiN8eOTIHE/o/qZYx2n9cXQZj2SgtNJk/dSI=
-X-QQ-mid: zesmtpgz7t1784770801t1c349629
-X-QQ-Originating-IP: tTDg4oK26foSmXmz/lkoC55/Q2YBBwv5cAWyXcflEm4=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 23 Jul 2026 09:39:58 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 2330629455518813040
-EX-QQ-RecipientCnt: 15
-From: Haowen Tu <tuhaowen@uniontech.com>
-To: laurent.pinchart@ideasonboard.com
-Cc: gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	kernel@uniontech.com,
-	lenb@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	mchehab@kernel.org,
-	oneukum@suse.com,
-	pavel@kernel.org,
-	rafael@kernel.org,
-	stern@rowland.harvard.edu,
-	tuhaowen@uniontech.com
-Subject: Re: [PATCH v3 3/3] media: uvcvideo: skip streaming restart after hibernation snapshot
-Date: Thu, 23 Jul 2026 09:39:55 +0800
-Message-Id: <20260723013955.3724344-1-tuhaowen@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20260722200620.GC648629@killaraus.ideasonboard.com>
-References: <20260618013133.1047270-4-tuhaowen@uniontech.com> <20260722200620.GC648629@killaraus.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hiCWyN28"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 58D98C2BCC6
+	for <linux-usb@vger.kernel.org>; Thu, 23 Jul 2026 03:18:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784776680;
+	bh=rc+8zH9oXdQFUGz2eT5vls5smjZFLz68W4xPCVd1uig=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=hiCWyN28srJ5/wTFmKKI1fIgoNtB8jSqtZ/SdL76gxNhmz4em/Bdqt1sHI0q6jjdj
+	 56BmLSJbwJgWUlZCs5X8iTGeeor8dCSWfxnyD3cF6eQo6FKAvq9QeLL/YQD3SOpNgP
+	 +XpBGHL7TQJ1gW85TA+CUsmbmewYKCPutT/nJh0WeW9PT3eX2F2XCULp32So+T1Dfb
+	 B+fv3jskVcnux18DyNHvi+OxtPNzePP8UJiENGap2lI1jegbWWUJMhlOis324uD0Vf
+	 YLfc34XE4toWfFk9rfoKIXYnqgq1NuPRsH5a66n49Dvlmng1d9bdt5hsHingf0nUxJ
+	 tC5qH3l3nwVag==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 38F59C41613; Thu, 23 Jul 2026 03:18:00 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: =?UTF-8?B?W0J1ZyAyMjE3NzhdIFtSRUdSRVNTSU9OIDYuMTLihpI2LjE4XSBB?=
+ =?UTF-8?B?U1VTIE4tS0VZIGtleWJvYXJkICgwYjA1OjE5YjYpIFVTQiByZXNldHMgfjEv?=
+ =?UTF-8?B?c2VjIHVuZGVyIGRHUFUgcmVuZGVyaW5nIGxvYWQgb24gUmFwaGFlbCB4SENJ?=
+Date: Thu, 23 Jul 2026 03:18:00 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: m.langas55@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221778-208809-6uHVKxUc7z@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221778-208809@https.bugzilla.kernel.org/>
+References: <bug-221778-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: MNzjxjeHhySas2iGtuu7+sD6lZe414OW8U6CJsmcJcGT1t5BxshT6a6G
-	sS2jnhjIV1/j4SQKXGi2JnjSnLd+e6R1pWel3NXkq+bDxgK8r2O09vGLOKHDA/rIh48FOIS
-	dbhw7bSclKUf6Hazs2KZIu3tqpqkjiBSkTq8tCjCF9wAG3Exd2itNwTOw+c7GNNyC9XCiru
-	hZqfhp7OZ5kxcUDf6j3W1UkeMbNDow+/42h6gccUrrAcdYZRzoQNpgNLEhiwhlz0hxi+iBj
-	Jj3QdwBiooPyo1S+SOOlL25M046k/V+fB843R86jF6Rmhm3zmnNw8bu5ryCwlN8zfKxIoxU
-	6SZ1gFifhtRzv3+gGURXs2DnukfpedPh/puXGmh4acPjIb37joYA/HvTjc7Y6g57GYQOdYU
-	WucEuVSu47JHw6Fktgz0gCbBcNmzHMzwNAPZ8HU32FyxFcIHMyR3S5yx1VFNiBVcqdI9Sn/
-	wv+ownELyxNU94/wbGZ0a7t3e2cBrZdiTKAfKKz/xW0DKtI++gCXptjwain4Vur3P+7ctkX
-	vIwJqNZcM1PdGnEKP0RkFruyalh65JZf4klo2AIYF60A8nhRvl1MhU5yquXTZWQJnZza0Xl
-	Vl48y1dUxGYs5t07wVseRYKwPwImBe72x5D12Q9zKtgFRCGK2vwF7ZoCUmr3E5ArO7z8nhp
-	g3nqly3mFkVWEP10OJHfg8TtGI6PKEi/w7lXYW4ksDreBQckA0hAX6/yyDBIE+0ZUxrohVv
-	rAO6jjLGEV2Jcsi7JlwfLaeXyGd64utr7Tgsqw3gmKpL9fkeSbwlnVaoOQxa3NBerPT+ezx
-	43mOEPtBXU1Q+SYOuvyaNtYKCeRUzrFZWNkjMj/zg8FcQpARSqC5ylUbcoCTtlfH79gCHRd
-	TNBUveDRES4iaSiRyIJirvLGZFsVWCnAbMwMMPSFMO8pbKJLNNkug6p7BlWCOHuKy9BHDJ+
-	nukXeS3H4iKRheOMJNxlgJkBCMC+YkO3SLhBoAKtkB6K2ajz2vCMbnHK7cPQB4CgykiKgpb
-	fAGjPxvXLzmrfzT3FDezr1qXHDegE=
-X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
-X-QQ-RECHKSPAM: 0
 
-Hi Laurent,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221778
 
-On Wed, Jul 22, 2026 at 11:06:20PM +0300, Laurent Pinchart wrote:
-> On Thu, Jun 18, 2026 at 09:31:33AM +0800, Haowen Tu wrote:
-> > After the hibernation snapshot is created, devices are resumed with
-> > PMSG_THAW before the image is written and the system is powered off.
-> > Restarting an active UVC stream during this phase reinitializes the
-> > camera and visibly turns its indicator LED back on.
-> > 
-> > Skip only the UVC streaming hardware restart while the snapshot is
-> > available.  The driver's frozen state and clock are still updated before
-> > the check, and a subsequent UVC suspend can stop the stream and select
-> > alternate setting 0 as usual.
->
-> Why is that desired (both the decision to only block the resume of the
-> video interface, and the decision to not block the next suspend) ?
+--- Comment #3 from Miguel Cervantes (m.langas55@gmail.com) ---
+(In reply to Micha=C5=82 Pecio from comment #2)
+> 6.12 to 6.18 is a fairly large spread, and it isn't even clear if the bug=
+ is
+> a regression or perhaps some CachyOS vs Arch difference. And the GPU uses=
+ an
+> out of tree driver, hmm.
+>=20
+> IDK about CachyOS, but Arch package archive has 'linux' (non -lts) packag=
+es
+> for all major versions from 6.12 to 6.18. Could you start with testing th=
+ese
+> to find which release broke things? And try to use the same NVIDIA driver
+> each time, or (preferably) see if the problem occurs with Nouveau.
+>=20
+> I would wager that resets are deliberate (HID driver seems to do that in
+> response to USB errors), but that still doesn't explain why USB errors oc=
+cur
+> due to GPU activity and why some kernels work but others don't.
 
-The intention is not to block the whole video interface resume callback.
-The callback still clears stream->frozen and resets the stream clock
-before the new check.  The patch only skips the final streaming hardware
-restart, namely uvc_commit_video() and uvc_video_start_transfer().
+So I installed Linux only about 2 weeks ago, I went from bazzite to cachy os
+and both experienced this issue, i couldn't recall bazzite history but cach=
+y i
+went from 6.12 base download to 6.18 upgrade for a few days into the newest
+version to test the bug, this is why i posted it like that. I cannot otherw=
+ise
+confirm if its inbetween all versions at the moment.
 
-In the earlier version the check was placed before those state updates.
-After Oliver pointed out the image write failure path, I moved it later
-in uvc_video_resume().  If swsusp_write() fails, the system continues
-running in the original kernel, and the driver should not be left with
-stream->frozen still set from the preceding FREEZE suspend.
+--=20
+You may reply to this email to add a comment.
 
-That is the part that reconfigures the camera and restarts USB video
-transfers, which is what turns the camera indicator LED back on during
-the hibernation image-write phase.  The control interface resume path is
-left unchanged because it is not the source of that visible side effect,
-and because I do not want to change more of the UVC PM flow than needed
-for this case.
-
-The later suspend is also intentionally left unchanged.  The patch should
-not alter the PM core sequencing.  If the platform hibernation path or an
-error recovery path later asks the UVC streaming interface to suspend
-again, uvc_video_suspend() can still run the existing cleanup path and
-select alternate setting 0 as usual.  This keeps the interface in the
-same state that the existing suspend path expects, instead of introducing
-a special case where the later suspend is skipped too.
-
-> > uvcvideo does not provide a shutdown
-> > callback that requires the streaming hardware to be restarted first.
-> > 
-> > This is a device-specific use of pm_hibernation_snapshot_done().  The
-> > helper does not cause other drivers or USB core to skip THAW resume.
->
-> I don't think this sentence belongs to the commit message.
-
-Agreed, I can drop that sentence from the commit message in the next
-version.  It belongs more in the cover letter, if anywhere.
-
-Thanks,
-Haowen
+You are receiving this mail because:
+You are watching the assignee of the bug.=
