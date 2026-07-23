@@ -1,71 +1,74 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F143DAAA7
-	for <linux-usb@vger.kernel.org>; Thu, 23 Jul 2026 21:02:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1E02737E3
+	for <linux-usb@vger.kernel.org>; Thu, 23 Jul 2026 22:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784840543; cv=none; b=K3bjq0iC3Xrggvj4jxoxMnCuw3KVTZFqgxfQfA7CRSt5HHkKOWlvyR9JlgQPayWxune8SF5ybC8cRX98K1WU7nSCy9+1or0L4BnhDCu80DRzklIf/lGTwtJ0LunCUvqqunJoBedTFXOq3iqQcvva2Zgdir7Z1GBHwJ1LxXmQ7Sw=
+	t=1784846731; cv=none; b=rHDf6MNta/CJirSXOyw3YbziveX5APSzBXk52Ka1UnIv0F3XyO9/BXzLrTqd3flzgPSwZ4XPNr53W2xSGClGaSo1ZkLwRQH0E5+IUp6LBZm/1LtQHr0GAQOp6zuE03oLNCwoOiD4daVt9NaiYHrY6DwrVFC7hWzv9ITLnlZbuQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784840543; c=relaxed/simple;
-	bh=lt0hWCYV8ycs5ZV+xzsIUNDBn9/WaE/zU7uFTpM0Yms=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=h+zQw0+wf/H90OuUSGv0SHGdKfE8l1eVl+10ttQTXM+6bAhwpNCCA081VA4bCYIpgyfFmBtoBg2UE43HLu7ayPTiiVx+x1VHsd9ilDchcaUA+rLMW4qkCiF3ZpY76ak/3U8C6rbSsjBTZR/iahkDYd1/2hfuBwUCclODDtkWQls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tremby.net; spf=pass smtp.mailfrom=tremby.net; dkim=pass (2048-bit key) header.d=tremby-net.20251104.gappssmtp.com header.i=@tremby-net.20251104.gappssmtp.com header.b=xTg25Bvb; arc=none smtp.client-ip=209.85.214.178
+	s=arc-20240116; t=1784846731; c=relaxed/simple;
+	bh=tWmMDKJhoMjgu/8ackuapPwnmWbrt9DBRbP4IU4CN70=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AqqszBGsZt8Qy/FpXXY4bLesUeR9sx0G8UaxgU5q9fEpkvVGmywLVyupDukPYT9+4u2AyiAxumyECrx53BAJliDXMotGBKfxc8+4CvcLP/lObCtFkjygWZwPHYSROHDL0QL5bO5QVJ/SXr/fjus2PnDjimtzvXd2WHR72JHE/XU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tremby.net; spf=pass smtp.mailfrom=tremby.net; dkim=pass (2048-bit key) header.d=tremby-net.20251104.gappssmtp.com header.i=@tremby-net.20251104.gappssmtp.com header.b=zNfA90Tc; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tremby.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tremby.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tremby-net.20251104.gappssmtp.com header.i=@tremby-net.20251104.gappssmtp.com header.b="xTg25Bvb"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cad8076b01so14581345ad.2
-        for <linux-usb@vger.kernel.org>; Thu, 23 Jul 2026 14:02:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=tremby-net.20251104.gappssmtp.com header.i=@tremby-net.20251104.gappssmtp.com header.b="zNfA90Tc"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ce98cb8165so11240695ad.1
+        for <linux-usb@vger.kernel.org>; Thu, 23 Jul 2026 15:45:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tremby-net.20251104.gappssmtp.com; s=20251104; t=1784840539; x=1785445339; darn=vger.kernel.org;
+        d=tremby-net.20251104.gappssmtp.com; s=20251104; t=1784846729; x=1785451529; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=E0yWaN6pXER4N08H5GtzM7TTPED9gbPdygYh1rpdKFY=;
-        b=xTg25BvbKF5SWuW+al/E6oMHVQXFF1s1AVl9k2tfHZs+K+vjg5+fiUpsA42/Xv0oTr
-         XDHL5poInmCSm8OXS4KZlNhxAoSkP/clP8oRE0AVHrKKth7jm0abwT963sXvJWVQP5aL
-         t9jfl2yXSe7xpMI0x7AipVkCDbmMHmlGl8KvTQi/VlEZ+RoFvc8h1IpMuIwM/UkCQPdw
-         pIkh/zW64qV5k1Ckl2w9TBFbjBSTlD5g/4A9OeVJ0qIfFFx9Yk5S3X1iIy2LeBm7zTwS
-         Wrload/wMmr92znJsr2MCqqNNzobolP38C478/e1DSkd3cECUdgbyjgovfTZPL7Ar84r
-         NyFw==
+         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wu/+dds1M0H0szpdM0oL2Xh7RLAnmyE8vKjUep0gVR8=;
+        b=zNfA90Tc8lwJ7cVEj1HjHurZ1rBKrltHbOikA5EZyx7ZQm2+0Pn6Wrh5RGNlsFDyi8
+         Z9rU+uKRxSV/34o/e2SvUR7J997bJo4SFETGCjI0RWiDq7eJO6Q6DzmgQEYLcAbNAwcR
+         iziLMbMIJS8oNc61SUK+3lY8gyeRrNpajLfVqAeUyrxr0G6uIHufTQsanpDkt3YNq7sR
+         q/f8TqLI7LewL0jOk8X3nCWrLgJdXAUqcOtKQM+De3tpZxu/NFrrqFXrBQXFj7AE+ufN
+         cZwna/LFH3akxr1pmmly1tVh2u9ZiwLu7UGycxC+g+CriLfj5EfOIN5dZztB5xzWoWcv
+         VmQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784840539; x=1785445339;
+        d=1e100.net; s=20251104; t=1784846729; x=1785451529;
         h=in-reply-to:content-disposition:content-type:mime-version
-         :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=E0yWaN6pXER4N08H5GtzM7TTPED9gbPdygYh1rpdKFY=;
-        b=WhCOksPfiH65hnf86gvzxhKL1RafHV5OrRIIQv0w48hEHtYinQsqEtznJyxTJ1pQgf
-         y4W6iPBYD5gtPpI0+VZIoWj92u73wsl+tr7Uk5bLWlq5FI+QuIEgF8RYqHe9oEnMzyX+
-         Kuov1ULAb9pNC69DnTZaO6ivJEgn2FiejpjIdSPJR/sP3c7VJ6L0opgexim55r2iYhuj
-         wp8hWN1y9wxxnGAt4GxVjswce7SpAamtL18WeYFrpT0LIS5l3VFZYjykD3+bgto77IwR
-         zlZZMyPpt2KJp9vdnQ7GGBtbDbxkek+n3ilcogIPUx8kcYGWxBOK7uCcDON46FyvWC56
-         AZew==
-X-Gm-Message-State: AOJu0YwNNcbLXo71AycOUbNqZm4VAKTWWWzmTfklWjUQ79HAld5SsTXb
-	AlP//icAU4F3uByct2MrA7TJFs5NH1NqRgm2IB4nHc1ASahypY/syhtU47V7C+WtsvM=
-X-Gm-Gg: AR+sD11MEsiebBomsh2ZYlnh0H5GoljSEGMyM2FqMzZ1o9Wqwv2eItkOvAe265R7jgC
-	wvXK01a2esSXPPmnw69gDbOwo/vNNe9x1qmIQ6xYxLwObi10+336m6x9WfRaBx8edjOgHLKBnt8
-	YhRCIlXQTeqRW2P1rOVW+oYxAVomwdJHzYPXkPjoMioo80WSRJ5GIyj2prtqrjQgT6rsXYRqHMU
-	PcNfRCSXp1FSjs8V9/TTJFpe/m7aUtUh2lF/e32ws8qYbXUXeIg3TWPKieYM2iKbDR7h1lx0P5b
-	FZekpEpZXRRU9d4PTfMoLxqASfQ7i7SCGPiStRDGh7CKx5WU+iSoHx/CfLb/xhjM+ewF7/9IpE8
-	R+9rVLJ+PvJkZ17uGhg6c9W2UYAYDTY3VI+bPEuu0lqcHYk3vrPfGmgemrfx5pUGfLTT6aGX7g7
-	+Ye3uGr522x8n9k6Z62Psi8HHEgElT8NRUuEHbO/OU8cJx/F5Fhe+AqMkpAplwkza/wP+NqWo=
-X-Received: by 2002:a17:903:1b2b:b0:2c2:7baf:139f with SMTP id d9443c01a7336-2cfa74e3c48mr57512895ad.30.1784840539228;
-        Thu, 23 Jul 2026 14:02:19 -0700 (PDT)
-Received: from localhost ([2605:1700:2080:8400:40f5:b8ba:5f3c:c670])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8f2eb72csm39889695ad.46.2026.07.23.14.02.18
+         :references:mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=wu/+dds1M0H0szpdM0oL2Xh7RLAnmyE8vKjUep0gVR8=;
+        b=aCUHlscvrG18Tqds/TdFFjL8ECZlMga7ZS4XRZyOa2wzZV0bvgnwfU5Ekq8DQIqcPw
+         BHybSu2emNCPPQbi74R9NSsJCI3c+HZdJ91gV6W7QTMF3eM+whSZHazGjz+Eh6J9dCnd
+         ZNLl8EWaRMWwIo1aO0d5JhJHw73xT/0BMYo35kqcGZ+NHgKpFsuao/bO+Lz76tI3AVnL
+         PdZBcjUgT2C0dpQ64nUZLBMiPYXLOe9KoyvG4/qENUZONs6aYZemEydn/zgl7D1/mOnZ
+         mVIUR+9RY7fIFA7kKqG8QxJgl8+2Xn+6eEKaW0L2cH/TyBn0bhGgjIFe46BQMveD3upy
+         Qkhw==
+X-Gm-Message-State: AOJu0Yyjz2qCzE35WWeN+e+/EEjtuy9ZwAJ4QurJ+cTrRKtj5IorJ03K
+	vzH4IoRv6hPx1H3IolQ3IvSNls0zH+C3rNZdkmCfQVPoiMzThwG/YIPCwpKefoSfQw8=
+X-Gm-Gg: AR+sD13cjzkkoe7BCcQqQDYhMxqmsZEhw0lJXlvcpPsS//0XuYIBynved6+wlmGjOIo
+	BCQEIQJeY3bMP3KEnstKcFGduqhynXYryLqtVYVoux2/ZlbLSnSKyoRBEUcMDfPlS52/5AGib6w
+	0CCiFgxxwtERIdR0F3vAhHZNd/3l6bHFeQK8VTlF0v3/+Lc0F03Q02VauUe+0umFupbpdL5Zeng
+	drXfc/ApGV66+pk9okRrBpG/EtQHhVB4fr6B+PteQEY21nc0sv4mDm3Q3Sl+PoLYfI9enDlnECs
+	MCJso/95s7y8UiEq7Ly0vjgv//1HxVNXFFIw2wci1UUcYm65q5bwI1I+HlPCg7AZjMk1L3N46Hm
+	nkb6Z7k1zA/02JmQgDrirlAd9nvdgby5bIeeiwdxVgRyGnyKPWvb4xQRY0g04Z29Eyb1hQcyVne
+	FizZpRDgfP9fVSdAXmH8XFun/wmX2ZMV37N8Z2nUn6OWnjSTKLwEoIpyO1Okv2TJg0ZIbG8A==
+X-Received: by 2002:a17:903:11d1:b0:2cf:70d2:da7c with SMTP id d9443c01a7336-2cfa94554e8mr52416845ad.12.1784846728576;
+        Thu, 23 Jul 2026 15:45:28 -0700 (PDT)
+Received: from localhost ([2605:1700:2080:8400:6b84:a6f9:5a58:5c29])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf8efd8a91sm40636265ad.27.2026.07.23.15.45.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 14:02:18 -0700 (PDT)
-Date: Thu, 23 Jul 2026 14:02:16 -0700
+        Thu, 23 Jul 2026 15:45:27 -0700 (PDT)
+Date: Thu, 23 Jul 2026 15:45:25 -0700
 From: Bart Nagel <bart@tremby.net>
 To: Michal Pecio <michal.pecio@gmail.com>
 Cc: linux-usb@vger.kernel.org, mathias.nyman@intel.com
 Subject: Re: Regression: webcam freezing since Linux 6.15
-Message-ID: <amJ9jAtK8rNWDO7V@spiral>
+Message-ID: <amKUdIRBrsFiDTiV@spiral>
 Mail-Followup-To: Michal Pecio <michal.pecio@gmail.com>, 
 	linux-usb@vger.kernel.org, mathias.nyman@intel.com
+References: <20260723081440.0228c59e.michal.pecio@gmail.com>
+ <20260723081440.0228c59e.michal.pecio@gmail.com>
+ <amJ9jAtK8rNWDO7V@spiral>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -74,84 +77,209 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260723081440.0228c59e.michal.pecio@gmail.com>
- <20260723081440.0228c59e.michal.pecio@gmail.com>
+In-Reply-To: <amJ9jAtK8rNWDO7V@spiral>
 
-At 2026-07-23 08:14:40 +0200, Michal Pecio wrote:
-> On Wed, 22 Jul 2026 16:23:28 -0700, Bart Nagel wrote:
-> > > You will probably see Missed Service Errors being logged
-> > > occasionally, likely both on "good" and "bad" kernels. And it seems
-> > > that good ones will recover every time, but not sure about bad
-> > > ones. Does the first MSE break things forever? Or does it take a
-> > > few? Could you post a log when it breaks? Caution: you may see
-> > > thousands of lines per second.  
-> > 
-> > I'm still on the asterisked kernel from the list above at the moment
-> > (appears to be "good"). I tried enabling this and I do indeed get a
-> > few of those errors and they seem to recover. This is what I have so
-> > far after having set it about 5 minutes ago:
-> > 
-> >     Jul 22 16:14:07 spiral kernel: xhci_hcd 0000:00:14.0: Miss service interval error for slot 18 ep 2, set skip flag
-> >     Jul 22 16:14:07 spiral kernel: xhci_hcd 0000:00:14.0: Miss service interval error for slot 18 ep 2, set skip flag
-> >     Jul 22 16:14:07 spiral kernel: xhci_hcd 0000:00:14.0: Miss service interval error for slot 18 ep 2, set skip flag
-> >     Jul 22 16:14:07 spiral kernel: xhci_hcd 0000:00:14.0: Found td. Clear skip flag for slot 18 ep 2.
-> >     Jul 22 16:14:52 spiral kernel: xhci_hcd 0000:00:14.0: Miss service interval error for slot 18 ep 2, set skip flag
-> >     Jul 22 16:14:53 spiral kernel: xhci_hcd 0000:00:14.0: Miss service interval error for slot 18 ep 2, set skip flag
-> >     Jul 22 16:14:53 spiral kernel: xhci_hcd 0000:00:14.0: Miss service interval error for slot 18 ep 2, set skip flag
-> >     Jul 22 16:14:53 spiral kernel: xhci_hcd 0000:00:14.0: Found td. Clear skip flag for slot 18 ep 2.
-> >     Jul 22 16:16:06 spiral kernel: xhci_hcd 0000:00:14.0: Miss service interval error for slot 18 ep 2, set skip flag
-> >     Jul 22 16:16:06 spiral kernel: xhci_hcd 0000:00:14.0: Miss service interval error for slot 18 ep 2, set skip flag
-> >     Jul 22 16:16:06 spiral kernel: xhci_hcd 0000:00:14.0: Found td. Clear skip flag for slot 18 ep 2.
-> >     Jul 22 16:17:33 spiral kernel: xhci_hcd 0000:00:14.0: Miss service interval error for slot 18 ep 2, set skip flag
-> >     Jul 22 16:17:33 spiral kernel: xhci_hcd 0000:00:14.0: Miss service interval error for slot 18 ep 2, set skip flag
-> >     Jul 22 16:17:33 spiral kernel: xhci_hcd 0000:00:14.0: Miss service interval error for slot 18 ep 2, set skip flag
-> >     Jul 22 16:17:33 spiral kernel: xhci_hcd 0000:00:14.0: Found td. Clear skip flag for slot 18 ep 2.
+At 2026-07-23 14:02:16 -0700, Bart Nagel wrote:
+> At 2026-07-23 08:14:40 +0200, Michal Pecio wrote:
+> > Maybe don't bother with newer kernels for now, but simply checkout
+> > d0b619599e52 and also add this patch. Recompilation should be fast.
+> > Then run it to failure and post the log. You may want to run
+> > 'dmesg -W | tee logfile.txt' just in case, because the resulting flood
+> > may overwrite initial messages in the kernel log buffer and I'm not
+> > sure how much extra buffering journald maintains.
 > 
-> Please use 'journalctl -o short-precise' or simply 'dmesg' next time.
-
-Will do.
-
-> It seems these errors are happening in bursts, sporadically, but much
-> more often than your failure rate, so 'bad' kernels handle most of them
-> fine and only occasionally something goes wrong.
+> OK. Checked out that commit, applied the patch, and it's compiling.
 > 
-> Per your other email, affected hardware is Intel 100 series chipset
-> (8086:a12f ?) USB 3.0 controller. If you run 'dmesg | grep hci.version'
-> I suppose you will see version 0x100, so it's somewhat old HW.
+...
+> 
+> I'll report back with logs when the time comes.
 
-It is indeed old hardware, but still capable enough for my needs.
-I get this:
+And here I am.
 
-    [    0.391721] xhci_hcd 0000:00:14.0: hcc params 0x200077c1 hci version 0x100 quirks 0x0000000001109810
-    [    0.455073] xhci_hcd 0000:05:00.0: hcc params 0x0200eec0 hci version 0x110 quirks 0x0000000000800010
+I found that I can reproduce the freeze much, much faster if I run
+`stress --cpu $(nproc)` at the same time. Not sure why I didn't think
+of this earlier, given that I knew it happened quicker when running a
+game.
 
-I suppose the other is another controller.
+This time it froze within seconds.
 
-> Maybe don't bother with newer kernels for now, but simply checkout
-> d0b619599e52 and also add this patch. Recompilation should be fast.
-> Then run it to failure and post the log. You may want to run
-> 'dmesg -W | tee logfile.txt' just in case, because the resulting flood
-> may overwrite initial messages in the kernel log buffer and I'm not
-> sure how much extra buffering journald maintains.
+Here's an abridged version of the log, with some extra annotation
+which I hope isn't entirely useless. It is of course possible that I
+have not picked up on some important details. So the full log is at
+https://termbin.com/ro416 to which I've added just one annotation to
+show what was visible in the last-captured frame before the camera
+froze.
 
-OK. Checked out that commit, applied the patch, and it's compiling.
+Nothing is output until I start OBS, and then it begins like this:
 
-(I haven't been able to figure out how to compile in-tree and then
-have Nixos accept and install its outputs, so I've been compiling via
-Nix's toolchain, since it just works and I can point it to a commit
-ref on my clone of the repo, but it builds from scratch each time. I'm
-sure it's possible to get it faster, just haven't figured it out. Last
-time I tried, I spent longer tinkering than a full compilation cycle
-would take before giving up.)
+    [  169.257158] usb 2-6.1: uvc_v4l2_open
+    [  169.407072] usb 2-6.1: Trying format 0x56595559 (YUYV): 1920x1080
+    [  169.407078] usb 2-6.1: Using default frame interval 16666.6 us (60.0 fps)
+    [  169.407675] usb 2-6.1: Trying format 0x56595559 (YUYV): 1920x1080
+    [  169.407678] usb 2-6.1: Using default frame interval 16666.6 us (60.0 fps)
+    [  169.409320] usb 2-6.1: uvc_v4l2_mmap
+    [  169.409496] usb 2-6.1: uvc_v4l2_mmap
+    [  169.409661] usb 2-6.1: uvc_v4l2_mmap
+    [  169.409825] usb 2-6.1: uvc_v4l2_mmap
+    [  169.660301] usb 2-6.1: uvc_v4l2_poll
+    [  169.744695] usb 2-6.1: uvc_v4l2_poll
+    [  169.744787] usb 2-6.1: uvc_v4l2_poll
+    [  169.760428] usb 2-6.1: Frame complete (EOF found)
+    [  169.761246] usb 2-6.1: uvc_v4l2_poll
+    [  169.763493] usb 2-6.1: uvc_v4l2_poll
+    [  169.776344] usb 2-6.1: Frame complete (EOF found)
+    [  169.780296] usb 2-6.1: uvc_v4l2_poll
+    [  169.782560] usb 2-6.1: uvc_v4l2_poll
+    [  169.812347] usb 2-6.1: Frame complete (EOF found)
+    [  169.813304] usb 2-6.1: uvc_v4l2_poll
+    [  169.813631] usb 2-6.1: uvc_v4l2_poll
+    [  169.828357] usb 2-6.1: Frame complete (EOF found)
+    [  169.828469] usb 2-6.1: uvc_v4l2_poll
+    [  169.828825] usb 2-6.1: uvc_v4l2_poll
 
-I'll report back with logs when the time comes.
+That pattern of "poll" and "frame complete" continues until:
 
-At 2026-07-23 08:19:42 +0200, Michal Pecio wrote:
-> Please use "Reply to all" and be careful to preserve Cc's, particularly
-> maintainers of the affected driver. Re-adding Mathias Nyman.
+    [  174.692343] usb 2-6.1: Frame complete (EOF found)
+    [  174.692469] usb 2-6.1: uvc_v4l2_poll
+    [  174.692814] usb 2-6.1: uvc_v4l2_poll
+    [  174.709692] xhci_hcd 0000:00:14.0: Transfer error for slot 6 ep 2 on endpoint
+    [  174.709815] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709818] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709820] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709822] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709823] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709825] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709827] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709828] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709830] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709832] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709833] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709835] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709837] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709838] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709840] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709842] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709843] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709845] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709846] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709848] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709850] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709851] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709853] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709855] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709856] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709858] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709860] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709861] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.709863] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  174.710069] xhci_hcd 0000:00:14.0: Found td. Clear skip flag for slot 6 ep 2.
+    [  174.710086] usb 2-6.1: USB isochronous frame lost (-71)
+    [  174.710088] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710089] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710091] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710092] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710093] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710095] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710096] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710097] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710099] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710100] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710101] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710103] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710104] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710105] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710107] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710108] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.710109] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.712405] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.712409] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.712410] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.712411] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.712413] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.712414] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.712415] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.712417] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.712418] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.712420] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.712421] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.712422] usb 2-6.1: USB isochronous frame lost (-18)
+    [  174.716415] usb 2-6.1: Frame complete (EOF found)
+    [  174.728415] usb 2-6.1: uvc_v4l2_poll
+    [  174.728438] usb 2-6.1: uvc_v4l2_poll
 
-Oh, sorry! I actually did that intentionally, since it was you
-replying and not Mathias, in an attempt to not bother an extra person.
-I see now that was a misstep. I'm new to the kernel mailing list ways.
+But at this point I think OBS is still in the process of starting up,
+and the picture is still fine.
+
+It then settles, though there are still some shorter bursts of "miss
+service interval" and "clear skip flag" and "isochronous frame lost"
+here and there.
+
+The last captured frame has nothing interesting visible, just more
+"frame complete" and "uvc_v4l2_poll".
+
+After the freeze there are a few more "frame complete" messages, then
+
+    [  180.701300] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 10a63e920, set skip flag
+    [  180.701315] xhci_hcd 0000:00:14.0: All TDs skipped for slot 6 ep 2. Clear skip flag.
+    [  180.701326] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701328] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701330] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701331] usb 2-6.1: USB isochronous frame lost (-18)
+
+And that frame lost message is repeated many many times. In the
+middle:
+
+    [  180.701418] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701419] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701420] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701423] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  180.701424] xhci_hcd 0000:00:14.0: Miss service interval error for slot 6 ep 2 ep_trb_dma 0, set skip flag
+    [  180.701428] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701429] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701429] usb 2-6.1: USB isochronous frame lost (-18)
+
+And then:
+
+    [  180.701552] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701553] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701684] xhci_hcd 0000:00:14.0: All TDs skipped for slot 6 ep 2. Clear skip flag.
+    [  180.701688] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701690] usb 2-6.1: USB isochronous frame lost (-18)
+
+And:
+
+    [  180.701794] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701795] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701797] xhci_hcd 0000:00:14.0: Overrun event on slot 6 ep 2
+    [  180.701801] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701803] usb 2-6.1: USB isochronous frame lost (-18)
+
+Finally, the "frame lost" messages come to an end:
+
+    [  180.701916] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701917] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701919] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701920] xhci_hcd 0000:00:14.0: Overrun event on slot 6 ep 2
+    [  180.701924] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701925] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701927] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701928] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.701929] usb 2-6.1: USB isochronous frame lost (-18)
+    [  180.702046] xhci_hcd 0000:00:14.0: Overrun event on slot 6 ep 2
+    [  180.780616] usb 2-6.1: uvc_v4l2_poll
+    [  180.780690] usb 2-6.1: uvc_v4l2_poll
+
+And then it's just a lot of poll messages.
+
+I hope this is useful.
+
+I found that nixos-unstable is still on 6.x but that I am able to
+quite easily move to the cachyos kernel which is labelled
+7.1.4-cachyos. Before compiling d0b619599e52 with your patch and
+capturing the log above I did test on 7.1.4-cachyos and it did freeze
+there too. The log in that case looks very similar, except that there
+are additionally a *ton* of "xhci_hcd 0000:00:14.0: Spurious event dma
+0x0000000492b26580, comp_code 13 after 13" messages, with different
+dma numbers on each. I don't know if this is a clue.
 
 Thanks again.
