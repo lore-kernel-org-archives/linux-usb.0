@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B10386424
-	for <linux-usb@vger.kernel.org>; Thu, 23 Jul 2026 13:22:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97D64399E7
+	for <linux-usb@vger.kernel.org>; Thu, 23 Jul 2026 13:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784812955; cv=none; b=IuHP5avIUAIV0MuHb/DmD+id616EmswrqTvCIVvdl860KSsEDy3eMS70s5OBJ1CMnoG2Pb3u1oH4+CHngN5ulxcbjCuVKvzzo0sSj4vSGknUECouEQaT5Z+nLxJ53+uEV0OfVYCE6dd9senCZkJxbr0WFqRlKB/BjZ7gRmcn+vk=
+	t=1784812978; cv=none; b=LMb95wZgNQfEmcA2ecy+TqZmO59vkS1sJA8RhqWGjb0V/yx3zgtfnV0cBAheNp5OUkLkwCOqHZeE72Xjick/Is17lWSj7fjJfdicPKrfxGqQrntBPujL49tvDbtLoLCdvvTbJKxngVY3oSD5Q4N8QOYjNloqVQLkWSMoGafBFJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784812955; c=relaxed/simple;
-	bh=hQRuO4dIBOx2Q8X9MwGXp1Z3493jdMZCC4iFgwGjlT0=;
+	s=arc-20240116; t=1784812978; c=relaxed/simple;
+	bh=kElcmeVwrdHw0AsaqYtwJS32IO1NK79c2x+xWxSidKM=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=TDgl8Lh2Xqmt65qEzloLc/2nXo0ufekwnYWH0PAi6GV3Tm075Eiy+rzvVF3LFwDPdProqiqsdNS5guUoYxG1sZ2qEI7KTQ8a9F3ILbyP43zY/Gs7egrKOXAUFLbS/Ja/Sp62Qb56IDyCUDpp/MPwTDB/HpPhH9eQ7mrwSJdYdP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=So77XNf9; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=Z3+8EsaWU8bhNksGRzO6SRF+35KQ+qbr/10xBQSq1dfBXgZm8EkHq1vj9FsjdBd69BhKp88SZd7G/VFQBxAQ86vo1wj/HdORuPo+hTV3+Ubz2h6lcw+6xPdUGkDDaWAYugWw0+sF9gHAg0osNiWfDQnPe/Pq6eB7NRaLIRoPikQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GXklqTFG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="So77XNf9"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 73CAAC2BCB8
-	for <linux-usb@vger.kernel.org>; Thu, 23 Jul 2026 13:22:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GXklqTFG"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 62D13C2BCB8
+	for <linux-usb@vger.kernel.org>; Thu, 23 Jul 2026 13:22:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784812955;
-	bh=hQRuO4dIBOx2Q8X9MwGXp1Z3493jdMZCC4iFgwGjlT0=;
+	s=k20201202; t=1784812978;
+	bh=kElcmeVwrdHw0AsaqYtwJS32IO1NK79c2x+xWxSidKM=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=So77XNf9uD0S8wnDQLdJsytRmh0j+hwn6BSplbH71z+aVe0UHF4rJgmyAHOgIKuGL
-	 iq6+cFBfqNvbMJPrD6Q3RIgaaEWNmEUQ9782GzwymR1NSisdjj8plyjmriSBBamrd3
-	 zh3mZghkH5pqOxc7Dzdw0VZUDRjPTJmZAVvdoPODSyAOqGl42pw6a3dnyXycQqZbak
-	 DXP/wPF+sW2R+G7fdmdkIVmD59oHym8GScXExkX2g72TI1rCmkAyFYrnDG58bZA0Rn
-	 +gWcRkblqWtfonE2mguvv/XILYhlZmx9kAwzDhrJJxWD36o7u12g7hRPv/Mt2KKht3
-	 OlCRr2MRHLyhA==
+	b=GXklqTFG582QjPPvUiEvPSDI1uGXWUAuXYLcD74hV0vCCy6GMY2dvGQ0wIjQa5d0q
+	 KPk2bl/Sd2lfz552A6y+2oqjK/tOxISWUS8mwEWit99IC2G8oY6Ro9S5MMmID/X5PM
+	 r/lkBzNI5QLRKwECTk+YX0zkYt7ww5oLiqHnP0QrXpglRIwYiSAJM7lsvOpd/ku/P0
+	 htp/HRlpIKydLm3FXzkAGzSoiadtxMua6xLj4FJr8yo+QMQaRuSl4g4E22ZyhvFauc
+	 sh9dgo2+qiCCBr7P8MnYkFAAQsbX1OMXitaLVeJMaY7qFPTutHgaUnlaD2kcrWWScu
+	 V+RYq67woe4wA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 607FAC433E1; Thu, 23 Jul 2026 13:22:35 +0000 (UTC)
+	id 51B11C433E1; Thu, 23 Jul 2026 13:22:58 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 221779] 3Dconnexion CadMouse Pro Wireless (256f:c654)
  repeatedly disconnects when wired, reproducible on all 4 host controllers
-Date: Thu, 23 Jul 2026 13:22:35 +0000
+Date: Thu, 23 Jul 2026 13:22:58 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -48,7 +48,7 @@ X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-221779-208809-6WlFgdhPst@https.bugzilla.kernel.org/>
+Message-ID: <bug-221779-208809-4T3EatRs6Z@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-221779-208809@https.bugzilla.kernel.org/>
 References: <bug-221779-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,10 +64,10 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D221779
 
---- Comment #1 from Scott (scott.meyers.email@gmail.com) ---
-Created attachment 310492
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310492&action=3Dedit
-lsusb tree output
+--- Comment #2 from Scott (scott.meyers.email@gmail.com) ---
+Created attachment 310493
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310493&action=3Dedit
+lsusb output
 
 --=20
 You may reply to this email to add a comment.
