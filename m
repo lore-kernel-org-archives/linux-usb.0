@@ -1,37 +1,52 @@
-Received: from codeconstruct.com.au (pi.codeconstruct.com.au [203.29.241.158])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843CC36B920;
-	Fri, 24 Jul 2026 05:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.241.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBCB35C69F;
+	Fri, 24 Jul 2026 07:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784870161; cv=none; b=BQwmmvf2UAT1v2UISsAzCmynw0/K9VusM/YbxdaLkS5kuPVBziSv5KbpyvEgOZxw/Rv00uibul7svgruJxvMnNC9lbq8p3I/+m9GxYHOC8QU1wUjfYIQVOtaQrDHWXqdJOFz9Aet7zWtkt62ueri7iNG3Lf4W+Cf0FdPcSuGQ/4=
+	t=1784878611; cv=none; b=Fl5a+ktD2hvmSlBE9ubqj89v4ZoYVXmlJ602cRANtIKKPp7cwLAiMYsk8hc1xnnOt87JucwthB1NXH0fBBScWDIMEnhvXYJiJ4OuR+NG6dmzFKAc+tODJLI37Chx2YRpmpTGIEb0cRtCHhSdBSeD7hsBydDjrQjT8x95m4sbjfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784870161; c=relaxed/simple;
-	bh=8QNE4Jg9czPrMfSdZDBYbvsG9uLL8b402gsiedUfdDs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AwiJ0i7UTcd6RFPND5iwp1y9417JavVbSK7NEp1NHMvee/EHPA8PAHxQLjiI8A8+OpIekwfqo8pVHxgTSQjtDPHrNONxCsbNuMjzLbBF+YpFSqd/Q78UUl9m45rxOBtXPJ0RdBRf11HTMBRBtgz+XYNQ3u/IULYl8o+LWbWUE90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au; spf=pass smtp.mailfrom=codeconstruct.com.au; dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b=e3zZ2z/Q; arc=none smtp.client-ip=203.29.241.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeconstruct.com.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeconstruct.com.au
+	s=arc-20240116; t=1784878611; c=relaxed/simple;
+	bh=0diy6qlRXuxFGZ27mChpVFYPLzDkwrnmHPicVhg7ai4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=P6j6uUuAKrcC5dZaHSny5uFE3KTCSu/5QOjNyS7bT5oAcgcj0UUc5nnfIsC7HEmthg6PJMKRPES+YRGkywhhSLdcGcVxvWAaferMQ8dpT/PZn03S0aZgCRPiLryybY+Djg267/QUifzXF9eZCfFrDUjbSw/MH/J9OIhS3Fh2s94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=DyNqk5is; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=FCk1B2cQ; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeconstruct.com.au header.i=@codeconstruct.com.au header.b="e3zZ2z/Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=codeconstruct.com.au; s=2022a; t=1784870143;
-	bh=zQA/lAdWT1G2TPowypQluYQTGVIVqEckouEduuRgadg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=e3zZ2z/Q34zxc/tJF5dDni8+1StCmvgMr+Jf8Zg0Cw1E9fyyue6KbBPPf+HTLDPSo
-	 XS/6N2s7oahq5YUaIYiPJRGkWJyjFD/4NUeNxBf094roOAltT7Wt1W1BBJUE9d1nLT
-	 S8CXfRsks3/uqtXgd09G9KUDZzeUo3HlxiQG3jqewoDUNw10cX3aoBqbgt60CnjIra
-	 VMCTVJK8Kk3FtYwgEHsiap2FoPCMckUIQ/BnhWu+aShyBCE5k/MEK0kU23jRGphvCL
-	 I9c6tE7VSWqgj6C9akGjklg3xIj16Wos55G5vS2jQkKxHQGx05a+6Vo8+RH8tGnsNH
-	 Q2NlfOgqIKRzw==
-Received: by codeconstruct.com.au (Postfix, from userid 10000)
-	id A5B0B66F41; Fri, 24 Jul 2026 13:15:43 +0800 (AWST)
-From: Jeremy Kerr <jk@codeconstruct.com.au>
-Date: Fri, 24 Jul 2026 13:15:30 +0800
-Subject: [PATCH net-next v5 09/12] net: mctp: usblib: Implement
- transmit-side packet spanning
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="DyNqk5is";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="FCk1B2cQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1784878607;
+	bh=0diy6qlRXuxFGZ27mChpVFYPLzDkwrnmHPicVhg7ai4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=DyNqk5istaG8XQtZGQchgw6nrbbeJZju7Eg8EzYsp0gqEtoA5TYkq2jQ7RobmwJI3
+	 /PABQyYkcTx4CPTSudAs4GcVa9QAnH7lBC1FLd9RiMF+1P9nl1AM6r/kysmXMTttz0
+	 2mYUC3gaE9Td4ncrCJwf8Dn4xUkPp7fPbUfyQkKD6mwomwXv3taX1xk9JkRgZYS5sc
+	 tIuBf/e19Vr4NXnuJJYExjH/2/T9C2txtLI+l/OLpV7mRedHuf2pzAKF7eBiB7XHBR
+	 65T8RKfwfiVqzVMFyajs50qZoO4j4MoaXfnHMjNWvBJlbKxm93ea9QYbsx8oGtA341
+	 fJVScttpmgSNw==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id B280D49369; Fri, 24 Jul 2026 07:36:47 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1784878606;
+	bh=0diy6qlRXuxFGZ27mChpVFYPLzDkwrnmHPicVhg7ai4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=FCk1B2cQClfM4nDfvDdKVX3xrL00CkRx5Mui7O/CmPiwO/enItvwVGnFpR/WfN7nU
+	 /ffkLBfL01f7j2u7poF79y8xAnD+WNx+F59FoQp00jVTxiwcj9XQF4IKoPmcmRnMss
+	 kROOK4Gz+rNcKPa7gURxi5RFQHb/W3KF95rzNL6vM8TkjhluduVtNxeB4ARlobPXGS
+	 08g4Pes2yEKPm/GmIUcj8pVMsJ2pnU4NI6kZBN/hX5McZtEyZD0reMv6ksv+rZxrCj
+	 p8w4qlrtucc03mM03G6+xOyMI/cLlgh3clkIZikkuJvapEG5P5PaPqVPXEXpuRtetI
+	 sOWfgwXrmOoEA==
+Received: from DebianDesktop.lan (p200300c69f1c3c00ecd187824fbc6faf.dip0.t-ipconnect.de [IPv6:2003:c6:9f1c:3c00:ecd1:8782:4fbc:6faf])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 7DEA448EFC;
+	Fri, 24 Jul 2026 07:36:46 +0000 (UTC)
+From: Birger Koblitz <mail@birger-koblitz.de>
+Subject: [PATCH net-next v3 00/13] ax88179_178a: Add support for
+ AX88179A-based chips
+Date: Fri, 24 Jul 2026 09:36:43 +0200
+Message-Id: <20260724-ax88179a-v3-0-bdde4f905883@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,165 +55,94 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260724-dev-mctp-usb-1-1-v5-9-e66bbba0dbdc@codeconstruct.com.au>
-References: <20260724-dev-mctp-usb-1-1-v5-0-e66bbba0dbdc@codeconstruct.com.au>
-In-Reply-To: <20260724-dev-mctp-usb-1-1-v5-0-e66bbba0dbdc@codeconstruct.com.au>
-To: Matt Johnston <matt@codeconstruct.com.au>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
+X-B4-Tracking: v=1; b=H4sIAAsWY2oC/23NwQ6CMBAE0F8he7Zmtw1t9eR/GA9gt9BoiimEo
+ IR/t+lFDh4nM3mzwsgp8AjnaoXEcxjDEHNQhwrufRM7FsHlDBKlRq1QNIu1ZE6NaMjZk2dJRiH
+ k+SuxD0uhrhB5EpGXCW656cM4DeldPmYqfeEM0o+bSaAgpW3tvDY11Zc2pI6TeAztM0yfo+OCz
+ XIP2B0gM4AW0bNrJZP+B2zb9gUdZ7nO8wAAAA==
+X-Change-ID: 20260630-ax88179a-a1d89fe21730
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
  "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org
-X-Mailer: b4 0.16-dev
+ Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Birger Koblitz <mail@birger-koblitz.de>
+X-Mailer: b4 0.14.2
 
-Add support for packet spanning as defined in DSP0283 v1.1.
+This adds support for the current generation of ASIX network adapter chips,
+which are based on the AX88179A. This includes the AX88179A/B (1GBit-PHY),
+AX88772D/E (100MBit) and AX88279 (2.5GBit).
 
-With the existing v1.0 implementation of multi-packet transfers, all we
-need here is to adjust the buffer sizes to suit v1.1.
+The AX179A-based chips all provide both a CDC-NCM compatible USB interface,
+and a proprietary vendor interface with more features. By default, the
+proprietary vendor interface is not active and Linux will load the CDC-NCM
+driver to support the devices. If the ax88179_178a module is configured by
+the OS to have precedence over CDC-NCM, then this driver will switch the
+device to use the vendor interface, and the device will be controlled by
+the ax88179_178a driver when the device is probed again after an automatic
+reset of the device bringing up the vendor interface.
 
-Signed-off-by: Jeremy Kerr <jk@codeconstruct.com.au>
+The following hardware was tested:
+Delock 66046 2.5GBit adapter (AX88279, FW: 1.2.0.0)
+TP-Link UE306 1GBit adapter (AX88179B, FW: 1.3.0.0)
+Renkforce RF-4708614 1GBit adapter (AX88179A, FW: 1.0.4.0)
+UGREEN CR110 100MBit adapter (AX88722E, FW: 1.3.0.0)
+
+The driver supports the following features
+- EEE
+- TCP segmentation offload
+- VLAN filtering/tagging offload 
+  (NETIF_F_HW_VLAN_CTAG_FILTER, NETIF_F_HW_VLAN_CTAG_RX/TX)
+- RX/TX checksum offload
+- FC/Pause configuration
+- EEPROM read access
+
+The code is based on the ASIX 4.1.0 out-of-tree driver published under
+the GPL,, the aqc111 driver which provides support for the AX88279A,
+and some tracing of USB-transfers of the Windows-driver.
+
+Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
 ---
- drivers/net/mctp/mctp-usb.c    |  2 +-
- drivers/net/mctp/mctp-usblib.c | 28 +++++++++++++++++++---------
- include/linux/usb/mctp-usb.h   |  4 +++-
- 3 files changed, 23 insertions(+), 11 deletions(-)
+Changes in v3:
+- Add PHY drivers for the PHYs of the AX88179A-based controllers
+- Use phylink for the AX88179A-based chips
+- Link to v2: https://lore.kernel.org/r/20260708-ax88179a-v2-0-0800fedb2e16@birger-koblitz.de
 
-diff --git a/drivers/net/mctp/mctp-usb.c b/drivers/net/mctp/mctp-usb.c
-index 439e92722a0a..2240c81cc6e7 100644
---- a/drivers/net/mctp/mctp-usb.c
-+++ b/drivers/net/mctp/mctp-usb.c
-@@ -344,7 +344,7 @@ static int mctp_usb_probe(struct usb_interface *intf,
- 				 false);
- 	if (rc)
- 		goto err_free_netdev;
--	mctp_usblib_tx_init(&dev->tx, &tx_ops, dev);
-+	mctp_usblib_tx_init(&dev->tx, &tx_ops, dev, false);
- 	init_usb_anchor(&dev->tx_anchor);
- 
- 	dev->ep_in = ep_in->bEndpointAddress;
-diff --git a/drivers/net/mctp/mctp-usblib.c b/drivers/net/mctp/mctp-usblib.c
-index 2304e33193b5..816a86b26a11 100644
---- a/drivers/net/mctp/mctp-usblib.c
-+++ b/drivers/net/mctp/mctp-usblib.c
-@@ -248,7 +248,7 @@ EXPORT_SYMBOL_GPL(mctp_usblib_rx_cancel);
- struct mctp_usblib_tx_ctx {
- 	struct mctp_usblib_tx *tx;
- 	struct sk_buff_head skbs;
--	unsigned int len;
-+	unsigned int buf_len, len;
- 	enum mctp_usblib_tx_buf_type {
- 		TX_SINGLE,
- 		TX_FLAT,
-@@ -258,18 +258,19 @@ struct mctp_usblib_tx_ctx {
- 
- void mctp_usblib_tx_init(struct mctp_usblib_tx *tx,
- 			 const struct mctp_usblib_tx_ops *ops,
--			 void *priv)
-+			 void *priv, bool span)
- {
- 	memset(tx, 0, sizeof(*tx));
- 	tx->ops = *ops;
- 	tx->priv = priv;
-+	tx->span = span;
- 	spin_lock_init(&tx->lock);
- }
- EXPORT_SYMBOL_GPL(mctp_usblib_tx_init);
- 
- static int mctp_usblib_tx_avail(struct mctp_usblib_tx_ctx *ctx)
- {
--	return ctx->buf_type == TX_SINGLE ? 0 : MCTP_USB_1_0_XFER_SIZE - ctx->len;
-+	return ctx->buf_type == TX_SINGLE ? 0 : ctx->buf_len - ctx->len;
- }
- 
- static bool mctp_usblib_tx_should_send(struct mctp_usblib_tx_ctx *ctx)
-@@ -358,6 +359,12 @@ void mctp_usblib_tx_fini(struct mctp_usblib_tx *tx)
- }
- EXPORT_SYMBOL_GPL(mctp_usblib_tx_fini);
- 
-+/* Max size of a spanned TX. Since we allocate a separate span buffer, limit
-+ * the tx-time allocations to 4k. Larger packets will be sent as single
-+ * transfers.
-+ */
-+static const unsigned int TX_SPAN_MAX = 4096 - sizeof(struct mctp_usblib_tx_ctx);
-+
- static struct mctp_usblib_tx_ctx *
- mctp_usblib_tx_ctx_create(struct mctp_usblib_tx *tx, struct sk_buff *skb,
- 			  bool single)
-@@ -366,11 +373,11 @@ mctp_usblib_tx_ctx_create(struct mctp_usblib_tx *tx, struct sk_buff *skb,
- 	struct mctp_usblib_tx_ctx *ctx;
- 	size_t sz = 0;
- 
--	if (single) {
-+	if (single || skb->len > TX_SPAN_MAX) {
- 		type = TX_SINGLE;
- 	} else {
- 		type = TX_FLAT;
--		sz = MCTP_USB_1_0_XFER_SIZE;
-+		sz = tx->span ? TX_SPAN_MAX : MCTP_USB_1_0_XFER_SIZE;
- 	}
- 
- 	ctx = kzalloc_flex(*ctx, buf, sz, GFP_ATOMIC);
-@@ -379,6 +386,7 @@ mctp_usblib_tx_ctx_create(struct mctp_usblib_tx *tx, struct sk_buff *skb,
- 
- 	ctx->tx = tx;
- 	ctx->buf_type = type;
-+	ctx->buf_len = sz;
- 	ctx->len = skb->len;
- 	skb_queue_head_init(&ctx->skbs);
- 	__skb_queue_tail(&ctx->skbs, skb);
-@@ -443,15 +451,17 @@ EXPORT_SYMBOL_GPL(mctp_usblib_tx_send_complete);
-  *
-  * On error, populates @reason.
-  */
--static int mctp_usblib_tx_skb_prepare(struct sk_buff *skb,
-+static int mctp_usblib_tx_skb_prepare(struct sk_buff *skb, bool span,
- 				      enum skb_drop_reason *reason)
- {
-+	unsigned long plen, max_len;
- 	struct mctp_usb_hdr *hdr;
--	unsigned long plen;
- 	int rc;
- 
-+	max_len = span ? MCTP_USB_1_1_PKTLEN_MAX : MCTP_USB_1_0_PKTLEN_MAX;
-+
- 	plen = skb->len;
--	if (plen + sizeof(*hdr) > MCTP_USB_1_0_PKTLEN_MAX) {
-+	if (plen + sizeof(*hdr) > max_len) {
- 		*reason = SKB_DROP_REASON_PKT_TOO_BIG;
- 		return -EMSGSIZE;
- 	}
-@@ -490,7 +500,7 @@ int mctp_usblib_tx_push(struct net_device *dev,
- 	unsigned long flags;
- 	int try = 1, rc;
- 
--	rc = mctp_usblib_tx_skb_prepare(skb, &reason);
-+	rc = mctp_usblib_tx_skb_prepare(skb, tx->span, &reason);
- 	if (rc) {
- 		mctp_usblib_tx_stats_single_drop(dev);
- 		kfree_skb_reason(skb, reason);
-diff --git a/include/linux/usb/mctp-usb.h b/include/linux/usb/mctp-usb.h
-index 2979ddaa4dab..4bb04a371105 100644
---- a/include/linux/usb/mctp-usb.h
-+++ b/include/linux/usb/mctp-usb.h
-@@ -81,6 +81,7 @@ struct mctp_usblib_tx_ops {
- struct mctp_usblib_tx {
- 	struct mctp_usblib_tx_ops ops;
- 	void *priv;
-+	bool span;
- 	/* protects access to cur_ctx */
- 	spinlock_t lock;
- 	/* context to which we are adding packets, cleared on send */
-@@ -88,7 +89,8 @@ struct mctp_usblib_tx {
- };
- 
- void mctp_usblib_tx_init(struct mctp_usblib_tx *tx,
--			 const struct mctp_usblib_tx_ops *ops, void *priv);
-+			 const struct mctp_usblib_tx_ops *ops, void *priv,
-+			 bool span);
- void mctp_usblib_tx_fini(struct mctp_usblib_tx *tx);
- 
- void *mctp_usblib_tx_ctx_priv(struct mctp_usblib_tx_ctx *tx_ctx);
+Changes in v2:
+- Correctly use net-next prefix
+- Fix compilation issue in HW support patch
+- Split MMD support patch into patches for EEE/new chip support
+- Do not use ADVERTISE_RESV but private flag definition
+- Fix pause configuration to keep track of settings when autoneg disabled
+- Fix issue with unitialized variable reported by kernel test robot <lkp@intel.com>
+- Avoid white-space changes
 
+- Link to v1: https://lore.kernel.org/r/20260701-ax88179a-v1-0-13685df67515@birger-koblitz.de
+
+---
+Birger Koblitz (13):
+      ax88179_178a: Fix endianness of pause watermark register
+      ax88179_178a: Add HW support for AX179A-based chips
+      ax88179_178a: Use MMD accessor functions for AX88179A
+      ax88179_178a: Add EEE HW configuration support for AX88179A
+      ax88179_178a: Use phylink in get/set_link_ksettings
+      ax88179_178a: EEE setup for AX88179A-based chips
+      ax88179_178a: Obtain speed and duplex from Interrupt URB
+      ax88179_178a: Add support for ethtool pause parameter configuration
+      ax88179_178a: Add VLAN offload support for AX88179A
+      ax88179_178a: Add ethtool get_drvinfo
+      ax88179_178a: Add support for AX88179A/772D/279 EEPROM access
+      ax88179_178a: Add AX179A/AX279 multicast configuration
+      ax88796b: Add support for AX88772D, AX88179A and AX88279
+
+ drivers/net/phy/ax88796b.c     |  194 +++++
+ drivers/net/usb/ax88179_178a.c | 1596 ++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 1630 insertions(+), 160 deletions(-)
+---
+base-commit: 1a9edf8be190decb17227e3cba540513d93ebb85
+change-id: 20260630-ax88179a-a1d89fe21730
+
+Best regards,
 -- 
-2.47.3
+Birger Koblitz <mail@birger-koblitz.de>
 
