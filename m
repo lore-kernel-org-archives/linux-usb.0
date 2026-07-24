@@ -1,164 +1,140 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C65447806;
-	Fri, 24 Jul 2026 18:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDF0339387
+	for <linux-usb@vger.kernel.org>; Fri, 24 Jul 2026 20:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784917340; cv=none; b=Aw3cGMo8rdxkXKQMcZCnwhNnidaNMOv6Aml84J5dQSJiIcWs/Mmwe0EeGhMWIgBDFGMqdh11VeNmzRztgYVBI8JIAbdEsgVaNyeok1o3+/1aZ/l3aJuH2kd/qsAJwSNOmrVUfvcKwaABpHCwvBT0LsfAXMj07bf8iDFF7s/dVGQ=
+	t=1784925697; cv=none; b=h41f1RBx7VJlohk2P4C6NG5jQuJaYqJ3c8m8346NkZLvKUExefoRdTyU/JHeEGH/f1jxZtG8z/v69FLhOHs+o5YY/PBVC0uW5vgWlszYXdem3EFpFu9k7gEW3ZUorngMBz58NwsFjZzBkDJc0CJ11o8+MLHEoZSzquqXODNQFTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784917340; c=relaxed/simple;
-	bh=vPYVEy/JUsOH4TpdOqkCVUf5fNBhANZGZngFCGA0/pk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gl7DbeAKQlpVgSEwmgg/BydysxqYwrU7fDU+ZOXiiUHegbKdkRc8DcK/URzm5Pp8+rL9FsWmb1RnLS/FKdHoPWf35r0SLQNcKKPjS2uzWhB76VH09vIBZsGpastLE1XkyccHkKrAsg8kJbwIVXLr5qpPFA/a6MhnFDs8kAgJjGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=H8NLO3dS; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1784925697; c=relaxed/simple;
+	bh=PzbXWJQs72R9iV99XX9jksyQUQ+nRv5EhQapM0F3FKw=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=d42Hjcks0yk3pufEUczAg/RLm1d8SfFO5ViZAl84hpvymF9kRXPXvCwJFSlLVpREuStcBDcW1Vy6F4uGVTRdCk/F1OTwlzwiOdW6CGNy6FK+drkmO2sXkEzWTEpO5cVAY621idTp0aZ5O2LDr5D4ZMUMxXdRbShE0vp1DDqGoUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TV3dIdxy; arc=none smtp.client-ip=209.85.167.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="H8NLO3dS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=w7Cjb1mhCIjD9yGDoNsfaW3DAYlADECi2INfw8agFS0=; b=H8NLO3dS/P418d59WH0jJPHNLe
-	EViWf6xYIXifPgDBq9qNcSTenv7STJ0uo1GOCvUhOTgLCuRcPYyLNRmbHxsdlg/VpcZbYRTyZ5pqP
-	Ep8Rbib2uTdB9csWO1xcaCdPRN+2p8hCTGfXjYyG5w/ms2CLguSn55xFLzm+BH7eodrQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wnKX2-00E2JK-Q4; Fri, 24 Jul 2026 20:22:00 +0200
-Date: Fri, 24 Jul 2026 20:22:00 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>, linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v3 05/13] ax88179_178a: Use phylink in
- get/set_link_ksettings
-Message-ID: <8284703c-7900-452f-9890-bb6b5e2cf4cc@lunn.ch>
-References: <20260724-ax88179a-v3-0-bdde4f905883@birger-koblitz.de>
- <20260724-ax88179a-v3-5-bdde4f905883@birger-koblitz.de>
- <0327f4da-a443-4500-871e-ef561bbc9281@lunn.ch>
- <f66c5d19-fac6-459b-b3d0-354893258073@birger-koblitz.de>
- <6042ea40-376c-43d9-97ab-13243b946a50@lunn.ch>
- <6a1935b9-dd81-447d-8a38-74d9c19be653@birger-koblitz.de>
- <958d44c6-0902-44b6-b861-ec501ed3ae7a@lunn.ch>
- <c59f2a8e-4bd6-46c0-bb61-bd2fbddf189c@birger-koblitz.de>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TV3dIdxy"
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4a43d32fa9fso871339b6e.2
+        for <linux-usb@vger.kernel.org>; Fri, 24 Jul 2026 13:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1784925695; x=1785530495; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Iajl6b3K8rXMmm9gJwdCmJTZEBGl8q0xqBBTV9E/nkk=;
+        b=TV3dIdxyMzImq0rmOMOVfzx7v095aWPcmXdttXdbYawpoHLU1JpU7c0MWRAqQGNkFj
+         83yKEbnKgJAW8D7MajYhV/hXqAkQm3QtkMEC8E+hn8Z0Ie6vUYQjpY9RdrBvuEX+Ujav
+         BCplSPd7eL1DDSWxdUUoBMA+D++DaYYqVVMnRi0BSBmVEnTRMPiwSaiUKhdDLztnxnDj
+         apvHnN9oByb3ZVJohnjZ0UfgHgKaKYU6u/GfPCSyHCDsWlbFo3B9dk305hPqQhDN7F9W
+         559F5qJb8PLA4fpUxBaJItvpdQZwrJwRboS/2d1C3gYr4LQdVsZ4tyMkonsJxdyXcc6B
+         Gliw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784925695; x=1785530495;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Iajl6b3K8rXMmm9gJwdCmJTZEBGl8q0xqBBTV9E/nkk=;
+        b=d2WJjjcGGcHgNo9xmOaIWBDoTFfsMYgVLhOklePoAWVMk4OM+nQqsCH6UcI46Pw05H
+         CSQj971G3y80eAF9lKKjtdp7Bs50BaoDWVLY/wsBa/EtmX+GcBT2xGM3IJG9piuHKcQD
+         cfnS8rjFFJHHg+VVV6v8F5o26e3eA0GpHgTNQ7q2kOLRdNdl8FlH5Zvt4XYMbC53XfiO
+         G5JlDDBIPA3DpdbVAW4k13Vjq+ZZhfJ6iqUZ6KsUvYXv2R7/ZOei1VZrWsuZY9kbZD9a
+         N4+axxy/zVDML+jlQsoXB/t8PkGbkS373/px9HJgZQ8LSMPOGvk6gFwaZ7tHrkEV56uh
+         c0/g==
+X-Forwarded-Encrypted: i=1; AHgh+RosaUtEt8O2OPrQXWSx/BHvzwc9gBiuQ2Zvt7ALBEMrmc+YafoxAc5Xgi9b1JtcFKeu/fi0VWVfYO0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzlhi204XnlmGcnViwmzF9HjVuBZjYtsUzD0k19F3E9vgqahX5G
+	yZDGzXEomCHZ5PQfM0IxqSyejitl/lNSUe+B7xmxvWDlI89yOn4cVopzcubwdiLRZySgEIIPsgL
+	gQQ/ZqPx8EA==
+X-Received: from jaqt21.prod.google.com ([2002:a05:6638:1f5:b0:5e8:f77c:fa88])
+ (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6808:180a:b0:497:cd5c:7f0b
+ with SMTP id 5614622812f47-4ab6a1bbb09mr2339b6e.30.1784925694976; Fri, 24 Jul
+ 2026 13:41:34 -0700 (PDT)
+Date: Fri, 24 Jul 2026 20:41:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c59f2a8e-4bd6-46c0-bb61-bd2fbddf189c@birger-koblitz.de>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
+Message-ID: <20260724204117.4036015-1-nkapron@google.com>
+Subject: [PATCH] usb: gadget: f_fs: Prevent deadlock during ep0 read loop
+From: Neill Kapron <nkapron@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Michal Nazarewicz <m.nazarewicz@samsung.com>
+Cc: nkapron@google.com, kernel-team@android.com, stable@vger.kernel.org, 
+	Greg Kroah-Hartman <gregkh@suse.de>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 24, 2026 at 07:02:48PM +0200, Birger Koblitz wrote:
-> 
-> On 7/24/26 18:25, Andrew Lunn wrote:
-> > > Well, only the new devices use phylink, so it is not converting the existing
-> > > chips.
-> > 
-> > O.K. I suggested you split the existing driver into two, a library of
-> > code moving frames around, and then the glue to probe and use mii. You
-> > can then add a new glue driver using phylink for the new devices.
-> I replied to that earlier on. My argument was that the frame moving bits are
-> rather different since the older devices use 32 bit header structures, while
-> the newer ones use 64 and the structures also are somewhat different. The
-> library would contain rather a lot of duplicate functions that are specific to
-> the AX179 and AX179A.
-> 
-> Are you aware that the asix_devices.c and asix_common.c drivers do already
-> have this structure (including phylink), but target even older devices? And then,
-> there is a 3rd implementation of the ASIX frame moving, again a bit different,
-> in aqc111.c (no phylink). If one changes there aqc111_ to asix_ one gets basically
-> the same code as in asix_common at least for the USB stuff and similarities to the
-> code of ax88179_178a for the frame moving. I did not want to further contribute
-> to the mess, but it now looks like I do just that.
+Currently, ffs_ep0_read() holds ffs->mutex when it prepares to go to
+sleep waiting for an event. When no setup events are pending, it calls
+wait_event_interruptible_exclusive_locked_irq() with the mutex still
+held. The wait macro deliberately drops the waitqueue spinlock before
+sleeping but does not drop the mutex.
 
-Yes ASIX is a mess. It is lacking a Maintainer to look after it as a
-whole, and say No to patches etc.
+If a userspace daemon is polling ep0 via read() and the gadget is
+asynchronously torn down via configfs (e.g., echo "" > UDC), a
+deadlock can occur:
 
-> To summarize, you suggest to split ax88179_178a plus the new HW code into 3 parts:
-> - ax179_lib (frame moving, USB read/write support)
-> - ax179_devices (HW support for AX179-based chips using mii)
-> - ax179a_devices (HW support for AX179A based chips using phylink)
+1. The configfs teardown calls functionfs_unbind(), which queues a
+   FUNCTIONFS_UNBIND event.
+2. The daemon wakes up, consumes the event, and drops the mutex.
+3. However, if the daemon loops and immediately issues another read()
+   before exiting, it reacquires ffs->mutex and again goes into an
+   interruptible sleep.
+4. Meanwhile, functionfs_unbind() continues execution and attempts to
+   acquire ffs->mutex to tear down ep0req.
+5. The kernel deadlocks because the configfs thread is stuck in an
+   uninterruptible sleep waiting for the mutex, while the userspace
+   daemon is in an interruptible sleep holding the mutex forever
+   because no more events will arrive.
 
-This seems like the best way to not make ax179 a worse of a mess.
+To fix this, we drop both the waitqueue spinlock and ffs->mutex before
+going to sleep, and use wait_event_interruptible_exclusive() instead.
+Upon waking up, we jump back to the `retry` label to safely reacquire
+the mutex and re-evaluate the state machine. By not sleeping with
+ffs->mutex held, we natively decouple gadget teardowns (which require
+the mutex) from userspace polling.
 
-When you look at what is actually needed for ax179a_devices, starting
-from ax88179_178a.c and deleting stuff, there is not too much.
+Fixes: ddf8abd25994 ("USB: f_fs: the FunctionFS driver")
+Cc: stable@vger.kernel.org
+Assisted-by: Antigravity:gemini-3.1-pro
+Signed-off-by: Neill Kapron <nkapron@google.com>
+---
+ drivers/usb/gadget/function/f_fs.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-static void ax88179_set_pm_mode(struct usbnet *dev, bool pm_mode)
-static int ax88179_in_pm(struct usbnet *dev)
-static int __ax88179_read_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
-			      u16 size, void *data)
-static int __ax88179_write_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
-			       u16 size, const void *data)
-static void ax88179_write_cmd_async(struct usbnet *dev, u8 cmd, u16 value,
-				    u16 index, u16 size, void *data)
-static int ax88179_read_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
-			    u16 size, void *data)
-static int ax88179_write_cmd(struct usbnet *dev, u8 cmd, u16 value, u16 index,
-			     u16 size, const void *data)
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 073c4cbd90fb..cfa05266e551 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -551,6 +551,7 @@ static ssize_t ffs_ep0_read(struct file *file, char __user *buf,
+ 	if (ffs_setup_state_clear_cancelled(ffs) == FFS_SETUP_CANCELLED)
+ 		return -EIDRM;
+ 
++retry:
+ 	/* Acquire mutex */
+ 	ret = ffs_mutex_lock(&ffs->mutex, file->f_flags & O_NONBLOCK);
+ 	if (ret < 0)
+@@ -585,10 +586,15 @@ static ssize_t ffs_ep0_read(struct file *file, char __user *buf,
+ 			break;
+ 		}
+ 
+-		if (wait_event_interruptible_exclusive_locked_irq(ffs->ev.waitq,
+-							ffs->ev.count)) {
+-			ret = -EINTR;
+-			break;
++		if (!ffs->ev.count) {
++			spin_unlock_irq(&ffs->ev.waitq.lock);
++			mutex_unlock(&ffs->mutex);
++
++			if (wait_event_interruptible_exclusive(ffs->ev.waitq,
++							       ffs->ev.count))
++				return -EINTR;
++
++			goto retry;
+ 		}
+ 
+ 		/* unlocks spinlock */
+-- 
+2.55.0.229.g6434b31f56-goog
 
-All goes into the library.
-
-I don't think
-
-static void ax88179_status(struct usbnet *dev, struct urb *urb)
-
-does anything useful with phylink.
-
-The _mdio_ and _mmd_ functions all need ax179a_devices specific
-versions.
-
-phylink does WoL differently, so you need to look at
-static int ax88179_suspend(struct usb_interface *intf, pm_message_t message)
-
-and maybe split it into two and have a ax179a_devices wrapper. Same
-for resume.
-
-_set_wol and _get_wol just calls into phylink.
-
-All the eeprom stuff goes into the library.
-
-The ethtool ksetting and eee calls just become calls into phylink.
-
-All the rest of the EEE code is ax179_devices specific.
-
-You need a new ethtool_ops structure.
-
-You have some changes to set_multicast. Maybe it can be shared, maybe
-a specific version?
-
-set_features, change_mtu, set_mac_addr all looks like library code.
-
-Probably a new net_device_ops. The usbnet_mii_ioctl call maybe does
-the wrong thing with phylink?
-
-More eeprom code for the library.
-
-efuses code for the library
-
-I personally would make the LED code ax179_devices specific. That
-would allow you to do a clean implementation of /sys/class LEDs.
-
-_get_mac_addr() in the library.
-
-_bind() and _unbind() is clearly ax179a_devices specific
-
-_rx_checksum(), _rx_fixup(), _tx_fixup looks to be library.
-
-_link_reset() needs closely looking at, there seems to be some PHY
-bits in there.
-
-_reset() needs splitting so there is a ax179a_devices specific part.
-_net_reset() as well.
-
-	     Andrew
