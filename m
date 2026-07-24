@@ -1,117 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF752476CEE;
-	Fri, 24 Jul 2026 23:35:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149CF47B406
+	for <linux-usb@vger.kernel.org>; Fri, 24 Jul 2026 23:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784936112; cv=none; b=J0KWaa/Munz1//BCYW2eIjIIeNnd1whPFGcvXNYu//CpZtkf4/iPsAuY3kGvjEHlLpCWJsbZbYiD6sAP6agFEyde0Ue97aPr8n3idslwePjXgd6d3Lj2BE2Y/DY6BmGRdDhJswgTB1A9A3ZslJhCTB/2yfx9GLjbwksWwr5o2/4=
+	t=1784937069; cv=none; b=u+mMjRPReTcH92DKyW9hAGTMRMi6sEJC2VKt9BozUDUOaJIrA+Ok1ZvUKhrNxBvPCytVlZnuGlFn7neOq7oIzlKfBk5S/3wAEVgYKSmmvfrZEuAFL/uS3/vn5RC08eHDfrwOPS+zgz2elIwgUIlBgKnH3D9CsSSFQ47ymWDbmDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784936112; c=relaxed/simple;
-	bh=aYrgDhizOckPspQJ6t3G3K3Lc7NOOpJo78OVx01YiFQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=G/cSxaNLZ38oJ0X1nq0GPY0ElORcleiWqC7Akkm8pgkr2qB4x24Wfhj25KXuDl209nPlNLwTXL/IiP67u++BEachw61Hw9arR/4iQCsKPNLl3YZpLwOJuyc1XtIlbzlSCXdN6vhikgAv3oHAtpg6bAtc5HzcC/qwyzIeJuO+DGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79E171F00A3A;
-	Fri, 24 Jul 2026 23:35:11 +0000 (UTC)
-Received: by venus (Postfix, from userid 1000)
-	id 93CE9181F1C; Sat, 25 Jul 2026 01:35:08 +0200 (CEST)
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Julia.Lawall@inria.fr, Alex Deucher <alexander.deucher@amd.com>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Andrew Lunn <andrew@lunn.ch>, Andrew Morton <akpm@linux-foundation.org>, 
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, 
- Borislav Petkov <bp@alien8.de>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Daniel Lezcano <daniel.lezcano@kernel.org>, 
- David Airlie <airlied@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Eric Dumazet <edumazet@google.com>, Florian Westphal <fw@strlen.de>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Hans de Goede <hansg@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Jakub Kicinski <kuba@kernel.org>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, Jaroslav Kysela <perex@perex.cz>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Jiri Pirko <jiri@resnulli.us>, 
- "Joerg Roedel (AMD)" <joro@8bytes.org>, Johan Hovold <johan@kernel.org>, 
- Jonathan Cameron <jic23@kernel.org>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Julian Anastasov <ja@ssi.bg>, Leon Romanovsky <leon@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Mark Brown <broonie@kernel.org>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>, 
- Matthew Sakai <msakai@redhat.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Maxime Ripard <mripard@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Mike Rapoport <rppt@kernel.org>, 
- Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
- Nicolas Palix <nicolas.palix@imag.fr>, 
- Pablo Neira Ayuso <pablo@netfilter.org>, Paolo Abeni <pabeni@redhat.com>, 
- Ping-Ke Shih <pkshih@realtek.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sebastian Reichel <sre@kernel.org>, 
- Shuah Khan <shuah@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
- Simon Horman <horms@verge.net.au>, Stephen Boyd <sboyd@kernel.org>, 
- Steve French <sfrench@samba.org>, Takashi Iwai <tiwai@suse.com>, 
- Thomas Renninger <trenn@suse.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Tony Luck <tony.luck@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
- Vadim Fedorenko <vadim.fedorenko@linux.dev>, Vinod Koul <vkoul@kernel.org>, 
- Will Deacon <will@kernel.org>, Yazen Ghannam <Yazen.Ghannam@amd.com>, 
- Sang-Heon Jeon <ekffu200098@gmail.com>
-Cc: cocci@inria.fr, amd-gfx@lists.freedesktop.org, 
- dmaengine@vger.kernel.org, dm-devel@lists.linux.dev, 
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
- intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, 
- linux-cifs@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org, 
- linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, 
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-mm@kvack.org, linux-pm@vger.kernel.org, 
- linux-rdma@vger.kernel.org, linux-rtc@vger.kernel.org, 
- linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-wireless@vger.kernel.org, lvs-devel@vger.kernel.org, 
- netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, 
- nouveau@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
-In-Reply-To: <20260723184538.3888637-1-ekffu200098@gmail.com>
-References: <20260723184538.3888637-1-ekffu200098@gmail.com>
-Subject: Re: (subset) [PATCH 00/36] treewide: remove conditional returns
- with no effect
-Message-Id: <178493610858.699463.6794401814873674138.b4-ty@collabora.com>
-Date: Sat, 25 Jul 2026 01:35:08 +0200
+	s=arc-20240116; t=1784937069; c=relaxed/simple;
+	bh=jlsa4KOozpF8lkrLjI7QECxAXU6Mr2HPk7AjzRmvTT0=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=hICsmm8/CSOzesjFjzEWqtU6bvzDNyCfNNJXm/Po+pMPEaVE+I/AmVsDVwvEnrOSoX0oHbFK0kh4j5/Qln4qaon7klPFzzJkk9Yfi7sSWdeXciE5AHxjXDTRRuGTJ9T/3M1HtQYqRatn3yNRlZPa9IwwTQy/M6qYZuVfDxs7QTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KrWKA/l/; arc=none smtp.client-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KrWKA/l/"
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-48e5de5a23cso469532b6e.0
+        for <linux-usb@vger.kernel.org>; Fri, 24 Jul 2026 16:51:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1784937065; x=1785541865; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=inDwNhTjfAEReKAs3ZD3SpJEd1qaXM6z94+m+5MyCOI=;
+        b=KrWKA/l/K3yEmPVhNxPShdtdmnW2KhIyx5L5cnbi6UqpAyMIKZlGDb+Ij+Ux1h+QtY
+         lw/5mqB+bfEzMDok2cpBHdNWC5aWHc2P85hMCD6gCoafp1wFCThuVqr9+wNk5pd4gOoU
+         rvwj1rmaMtWxfYK94uM9JFRlXstpybvu1bAddjMbOAQeNKkPiTSXie6YwWrqCZgtboj9
+         7oIAWYiwpF6gyoWta1hwNdsFyDVJeRSztGfnKWLnViSYnotvJOiaUrtZ8mMFCuARTSJw
+         GYaEoaPp5zl/x3ngNtMqaIbYO1mnYoJYesEbwbFjUcfQRo549sST0b7zRYc58n7+d5N7
+         LxsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784937065; x=1785541865;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=inDwNhTjfAEReKAs3ZD3SpJEd1qaXM6z94+m+5MyCOI=;
+        b=ViR+2slHTf4g0DwQDSxkbwgxaSQjR7C5uBgZZXMFMjd+6hToeHmQIAxsA6BLYHtd3i
+         9NA/m23IpfEXcIyI0KItATc4KayCY8IP5hU6spa6kQxV3aoIDEuBu5mvAUdhxdudWQbc
+         5w0CVH52q8DuQLlt0/9Yg/wJXtM4X+H26xsaCvA9fjDNZjnvPYr9RF37kH8jdwcN7kTO
+         l9RZ1FW7ZtE7WcBK7tOEqPPwfFoDtp0OQOrbRswKBcrtcx0/66tCcY5SN5GY5JvegwL8
+         wTXvppr1vL4h8+Xz56mATp/ju5B1QnDxLSSThYnPbvWd1Lk7/v/dSIVQNhYLvncw/S4r
+         561Q==
+X-Forwarded-Encrypted: i=1; AHgh+RprL0dARuWW6NXMATEnZcx5OnpwRorD9oVlf57M+f5IRQylLYBBVtndmTDT7dHSJavR7NhT7fQjujI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2OGWPOYcU9hGsaQANpdeMKDaCQRnsnSsiD7zra2ushe59Jcly
+	AgRnq1SeQNroYY6hIA1ZA5dlAsihpe2qxl7sih8I/v4t+nUkzztGNPSy+mH5CQr9dwkXFBDUkMZ
+	vDNkCiHRncw==
+X-Received: from ilnz9.prod.google.com ([2002:a92:cd09:0:b0:505:f2f1:cf8f])
+ (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6808:23c2:b0:4a4:a693:9d87
+ with SMTP id 5614622812f47-4ab69f5951fmr680108b6e.5.1784937065410; Fri, 24
+ Jul 2026 16:51:05 -0700 (PDT)
+Date: Fri, 24 Jul 2026 23:51:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
+Message-ID: <20260724235100.106011-1-nkapron@google.com>
+Subject: [PATCH] usb: gadget: f_fs: Fix Use-After-Free in AIO error path
+From: Neill Kapron <nkapron@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Al Viro <viro@zeniv.linux.org.uk>
+Cc: nkapron@google.com, kernel-team@android.com, stable@vger.kernel.org, 
+	Xingyu Jin <xingyuj@google.com>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+In ffs_epfile_write_iter() and ffs_epfile_read_iter(), when ffs_epfile_io()
+fails with an error other than -EIOCBQUEUED, the io_data structure (`p`) is
+freed. However, for AIO operations, the kiocb cancel function was already
+armed and kiocb->private was set to `p`.
 
-On Fri, 24 Jul 2026 03:45:02 +0900, Sang-Heon Jeon wrote:
-> While reading mm/memblock, I found a conditional return where both
-> branches return the same value:
-> 
-> 	err = do_something();
-> 	if (err)
-> 		return err;
-> 	return err;
-> 
-> [...]
+If a concurrent cancel operation (such as sys_io_cancel()) executes after
+ffs_epfile_io() fails but before the function frees `p`, a Use-After-Free
+can occur when the cancellation handler accesses the freed pointer.
 
-Applied, thanks!
+To securely fix this race condition, we must properly un-arm the
+cancellation. Invoking `kiocb->ki_complete()` does exactly this by
+acquiring `ctx->ctx_lock` and safely removing the kiocb from the active
+sequence. In doing so, it ensures that a parallel io_cancel can no longer
+discover the kiocb, effectively closing the race window.
 
-[26/36] power: supply: pm8916_lbc: remove conditional return with no effect
-        commit: b7c8d46411317f135e7791c0eddc56691de63f07
+We then return -EIOCBQUEUED to notify the VFS layer that the kiocb has been
+consumed and it should avoid attempting to complete the request again or
+triggering subsequent completion handlers.
 
-Best regards,
+Fixes: de2080d41b5d ("gadget/function/f_fs.c: close leaks")
+Cc: stable@vger.kernel.org
+Reported-by: Xingyu Jin <xingyuj@google.com>
+Assisted-by: Antigravity:gemini-3.1-pro
+Signed-off-by: Neill Kapron <nkapron@google.com>
+---
+ drivers/usb/gadget/function/f_fs.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
+index 073c4cbd90fb..8e9bf0bdbcdb 100644
+--- a/drivers/usb/gadget/function/f_fs.c
++++ b/drivers/usb/gadget/function/f_fs.c
+@@ -1290,8 +1290,10 @@ static ssize_t ffs_epfile_write_iter(struct kiocb *kiocb, struct iov_iter *from)
+ 	if (res == -EIOCBQUEUED)
+ 		return res;
+ 	if (p->aio) {
++		kiocb->ki_complete(kiocb, res);
+ 		mmdrop(p->mm);
+ 		kfree(p);
++		return -EIOCBQUEUED;
+ 	} else {
+ 		*from = p->data;
+ 	}
+@@ -1339,9 +1341,11 @@ static ssize_t ffs_epfile_read_iter(struct kiocb *kiocb, struct iov_iter *to)
+ 		return res;
+ 
+ 	if (p->aio) {
++		kiocb->ki_complete(kiocb, res);
+ 		mmdrop(p->mm);
+ 		kfree(p->to_free);
+ 		kfree(p);
++		return -EIOCBQUEUED;
+ 	} else {
+ 		*to = p->data;
+ 	}
 -- 
-Sebastian Reichel <sebastian.reichel@collabora.com>
+2.55.0.229.g6434b31f56-goog
 
