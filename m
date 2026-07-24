@@ -1,219 +1,89 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F98C448D0F
-	for <linux-usb@vger.kernel.org>; Fri, 24 Jul 2026 16:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6DC3F328F;
+	Fri, 24 Jul 2026 17:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784911647; cv=none; b=HgeSz4DNAZSRRK/eWNdhKiVOC3EZp65Ft3n2mP/dr82S+FiEQ04DS2jA8TCjZZJz0bFFhUOT2xguy/K6VFQN61CgUxXUWfO+D5r4ljAL3cinYcUgFJ0/6XWDo7jq1rrWut20qORx7B4It+Hdn/CcmyMIKaL2K2ego1gh4EUoxqM=
+	t=1784912531; cv=none; b=lq7FViI/nT2c2zhp+rmOEfveiOgv3SGCyLAq6cRg2MDLmASsjQbr3D5e3222FS0ldejtjiFRQcr9Chfrj9EbHdPg7E744A7hhtPXKyUgFZj3ABkPOlpEO9O8lu5jq5tyipvI/D9MpV8uz5n7dmnhMcW0niPVT6ta+M+cEr4NSqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784911647; c=relaxed/simple;
-	bh=FFFpGIB531o8c167/WQHpfJrFsCnpwaLHErYAnoCO+0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FFIvVcwetN75rUmcSW1s+rg37qVBaa8fuvhlBtTc1yEJDQ860YXnR2YNjvZbUmLdTokcrEkJ2TqXu7E5y6JzfwdmCUc11dMzbLt8Qc9eXjRRQr2Kpqjm4OlkOEhl9bd3AkpSsUYm0YPovZpPZH2zF3GPepPX7qEdA8qqZ9Tqb3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZnS2G3kU; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784912531; c=relaxed/simple;
+	bh=Av5o1z3S7Om5Rcjzxpjb/Z4njDbe4SlSxek5qvfKU4I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s6RUiEYHgjhbY+/t08usRex9xcl4eWhPDxJXFOKuLkCrAx+RpgRycS3UXbizzw946vdX6e0R7fHpqmKdXQeGdDQbouPFmNwudJH7b8NSYFTj41Il33lVVKqtA30D9CZ6sJI1n2LbMcOOKS8XZDQ4KBRxT4mSqB2YaOzxw9Fy6B0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=bDUpTM+1; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZnS2G3kU"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2caed617615so7980685ad.3
-        for <linux-usb@vger.kernel.org>; Fri, 24 Jul 2026 09:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784911645; x=1785516445; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5u91OXTJKFbcF00+Q/uuRlO/lNDvMJ8xKMudAoQ8DSI=;
-        b=ZnS2G3kU8JXYzF7dwokX3zdAS7zVDQONicp0aDUtzst9uqgARTGf6Vxkye1NSibgbM
-         fCnu+/Jzawcq4/utKzpXlzi0LCOWA24UK3OVqpPy71WruK1qV7Fssr3TzzJRaKZyi8uw
-         bhV0e/+VbMWkh5MFqg23A0VLOvSyuDh3XldLIVJ0luGA6VMiFToXXpO2S3I+HZJziGb3
-         bmVBRfcBjrUJysYpWNZJu3w0KwOmfDoS/rmwo4w9JpW8kN+CiJ+eWVDqqsEQqw9D5tCn
-         /dQay/pw157P1yBrbZdUwUx/o/WK6OMRQ1ISkFi7figPThchF/0aBvThivejccYviuFM
-         7/yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784911645; x=1785516445;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5u91OXTJKFbcF00+Q/uuRlO/lNDvMJ8xKMudAoQ8DSI=;
-        b=GHV7G74VVNe5W8Whxa9Uh1LbraZbieVfweMBj+iEbfzdGRmcYIowVHE1kWpWEeZ3C0
-         2OT13yEUuqL8KK38IYN6tZY6w8p9fvMHW60DZB8MMqxljNXkft7eZfK8bGsQ4GUA6+Tq
-         4b7lEu1123nj9zBNZWZ1/Ky4eAwu8yk2SwbIn6/tv7PN1yRAVACd6+5meWhNpJ5fAXTT
-         S4XLbS++yJ/E1/Mc6KWVVMmQGWEXbISm2NPw25kx6duFNEAc5UtHv/FBQ4+og68aGbzs
-         yKbx9O26TXvSDlx7t9e0ZQEL7Ka5n5EBofdkhg/MxCrPQZ9HH/Th7hgRtxV9DpDx8IuT
-         oS9w==
-X-Forwarded-Encrypted: i=1; AHgh+Rq4aGRU/lWF6GIMiIMQYEkDDMSeHWrxTheDb98aYSBd3YdgJdiAjjuD1u0Zv9C6VL5RVyoMBQvMj38=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/SuM6WXCD7Z0V2HkPHY9aatFh6/7XY4XsR4YYIjkVONV4r0Mq
-	2iXbBA7Fi9mSMJHScZHSHjxzV4rEzHvRWOfEALbZM1t0EySd8hy/Qko=
-X-Gm-Gg: AR+sD12akNDGuhlK8T/srncOEcCLZHyFMpUIMK6YAfaczzMoQ9SJyra50qVqrmJUxza
-	43VM9FHGlaW/i0vwl4PZ6GG33HPYyVOXQDKI5v04rQRGHPrQrwF6pBZ+ZiJWVlW2vwD690FvXCN
-	+QSqLu2KsdMRAK3Hj/9T1XDp7dEXdF8TxKBj9JMkRzeFco7+60bGrZgVrTrlG/y2TjCXQeVIBPC
-	dHiju35fXDv7DYQHQWyDpVMTDRzhic14EzZLjLtQ1xndkvEF8YyXz6F8Nc5/GfK5tqU0hAewqEo
-	x0KSy3Z4bnGLTPBVKWZw0g+IKJuNCXF3gVvWfD+5SP74QraQtRWv2vuKvnyCr57fZMQoga3d8Ma
-	GCU50kA0rW53S1dY/dJ0VwlHsRTSgAyIsI1RtbWUMBtnna4kQvMSvTcxaXfJoJJLEFCWmNrOaWY
-	TPnh55g2Xh4GTYiMhqePdUMDAi74UIaYLNARWa2w==
-X-Received: by 2002:a17:902:ecd0:b0:2c6:9f6a:9f6f with SMTP id d9443c01a7336-2cfa6c66734mr90588615ad.28.1784911645204;
-        Fri, 24 Jul 2026 09:47:25 -0700 (PDT)
-Received: from at-Standard-PC-Q35-ICH9-2009.. ([27.60.19.161])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc548e29sm918244eec.15.2026.07.24.09.47.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jul 2026 09:47:24 -0700 (PDT)
-From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-To: 
-Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
-	Andre Eikmeyer <andre@negmaster.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	keyrings@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH v4 2/2] thunderbolt: Add device links for Apple T2 NHI
-Date: Fri, 24 Jul 2026 12:46:37 -0400
-Message-ID: <20260724164641.2239-3-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260724164641.2239-1-atharvatiwarilinuxdev@gmail.com>
-References: <20260724164641.2239-1-atharvatiwarilinuxdev@gmail.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="bDUpTM+1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=aO1mXl3mf/wMOEdjf/dwtDS9upxpl7kKAe4lyTEBksI=; b=bD
+	UpTM+1HN2lAfiL734yqb1pPssiambUPrX99rBjNq4ZUZY8QjfY4bW3xIkk62nlUY/D48tXSLOaH3a
+	v26Y4yS68pZrLUIBIvRXe5brYlcXmjTR7X9aBrQRJsPbqoEzufgOdiUqFrSE7lOc1i34my7fdHhbt
+	aDEPWlYcFKsSKMg=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wnJHa-00E1on-Ts; Fri, 24 Jul 2026 19:01:58 +0200
+Date: Fri, 24 Jul 2026 19:01:58 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Birger Koblitz <mail@birger-koblitz.de>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Heiner Kallweit <hkallweit1@gmail.com>, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v3 07/13] ax88179_178a: Obtain speed and duplex
+ from Interrupt URB
+Message-ID: <434f6f0b-40ce-4f2c-95ac-1fe24ce38366@lunn.ch>
+References: <20260724-ax88179a-v3-0-bdde4f905883@birger-koblitz.de>
+ <20260724-ax88179a-v3-7-bdde4f905883@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260724-ax88179a-v3-7-bdde4f905883@birger-koblitz.de>
 
-From: Andre Eikmeyer <andre@negmaster.com>
+> @@ -506,6 +507,9 @@ static void ax88179_status(struct usbnet *dev, struct urb *urb)
+>  	le32_to_cpus((void *)&event->intdata1);
+>  
+>  	link = (((__force u32)event->intdata1) & AX_INT_PPLS_LINK) >> 16;
+> +	data->speed = (((__force u32)event->intdata1) >> 8) & 0x7;
+> +	data->full_duplex = (((__force u32)event->intdata1) >> 12) & 0x1;
+> +	data->link = link;
+>  
+>  	if (netif_carrier_ok(dev->net) != link) {
+>  		usbnet_link_change(dev, link, 1);
 
-Icelake Thunderbolt NHI on T2 Macs (2018-2020). The NHI and its
-associated PCIe root ports all sit directly on the root complex
-with no upstream port. Apple's ACPI tables name Thunderbolt root
-ports as TRP0, TRP1, etc. Find them and create device links back
-to the NHI so that PCIe tunnels can be re-established after sleep.
+usbnet_link_change() calls netif_carrier_off(). With phylink, phylink
+is in charge of the carrier.
 
-And on other Thunderbolt NHI's, like Titan Ridge, the default method
-is used to add device links.
+I would also be careful with speed. What is it actually returning?
 
-Co-developed-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+Think about when you turn autoneg off:
 
-Signed-off-by: Andre Eikmeyer <andre@negmaster.com>
----
- drivers/thunderbolt/tb.c | 58 ++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 56 insertions(+), 2 deletions(-)
+ethtool    -s    devname   [speed N]   [lanes N]   [du‐
+            plex half|full]            [port tp|aui|bnc|mii]
+            [mdix auto|on|off]    [autoneg on|off]
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index c69c323e6952..625451ff3ea0 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -6,9 +6,11 @@
-  * Copyright (C) 2019, Intel Corporation
-  */
- 
-+#include <linux/acpi.h>
- #include <linux/slab.h>
- #include <linux/errno.h>
- #include <linux/delay.h>
-+#include <linux/pci.h>
- #include <linux/pm_runtime.h>
- #include <linux/platform_data/x86/apple.h>
- 
-@@ -3305,21 +3307,73 @@ static const struct tb_cm_ops tb_cm_ops = {
- static bool tb_apple_add_links(struct tb_nhi *nhi)
- {
- 	struct pci_dev *upstream, *pdev;
--	bool ret;
-+	bool ret = false;
- 
- 	if (!x86_apple_machine)
- 		return false;
- 
-+	/* On T2 Macs with Icelake thunderbolt NHI's.
-+	 * the root ports are stored in ACPI as TRP0,
-+	 * TRP1, etc. Find them and create device links
-+	 * so that PCIe tunnels can be re-established after
-+	 * sleep.
-+	 */
-+#if IS_ENABLED(CONFIG_ACPI)
-+	if (has_apple_t2_chip && (nhi->pdev->device == PCI_DEVICE_ID_INTEL_ICL_NHI0 ||
-+				nhi->pdev->device == PCI_DEVICE_ID_INTEL_ICL_NHI1)) {
-+		struct acpi_device *adev;
-+		unsigned int slot, func;
-+		const struct device_link *link;
-+		const char *bid;
-+
-+		for (slot = 0; slot < 32; slot++) {
-+			for (func = 0; func < 8; func++) {
-+				struct pci_dev *current_pdev __free(pci_dev_put) =
-+					pci_get_slot(nhi->pdev->bus, PCI_DEVFN(slot, func));
-+				if (!current_pdev)
-+					continue;
-+
-+				if (!pci_is_pcie(current_pdev) || pci_pcie_type(current_pdev) !=
-+						PCI_EXP_TYPE_ROOT_PORT)
-+					continue;
-+
-+				adev = ACPI_COMPANION(&current_pdev->dev);
-+				if (!adev)
-+					continue;
-+
-+				bid = acpi_device_bid(adev);
-+				if (strncmp(bid, "TRP", 3) != 0)
-+					continue;
-+
-+				link = device_link_add(&current_pdev->dev, &nhi->pdev->dev,
-+						DL_FLAG_AUTOREMOVE_SUPPLIER |
-+						DL_FLAG_PM_RUNTIME);
-+				if (link) {
-+					dev_dbg(&nhi->pdev->dev, "created link from %s\n",
-+						dev_name(&current_pdev->dev));
-+					ret = true;
-+				} else {
-+					dev_warn(&nhi->pdev->dev,
-+						"device link creation from %s failed\n",
-+						dev_name(&current_pdev->dev));
-+				}
-+			}
-+		}
-+		return ret;
-+	}
-+#endif
-+
- 	switch (nhi->pdev->device) {
- 	case PCI_DEVICE_ID_INTEL_LIGHT_RIDGE:
- 	case PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C:
- 	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_2C_NHI:
- 	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_4C_NHI:
-+	case PCI_DEVICE_ID_INTEL_TITAN_RIDGE_2C_NHI:
-+	case PCI_DEVICE_ID_INTEL_TITAN_RIDGE_4C_NHI:
- 		break;
- 	default:
- 		return false;
- 	}
--
- 	upstream = pci_upstream_bridge(nhi->pdev);
- 	while (upstream) {
- 		if (!pci_is_pcie(upstream))
--- 
-2.43.0
+If i do ethtool -s eth42 speed 100 autoneg off
 
+The PHY does not have valid speed information in its advertise
+registers. The LP values are probably also wrong. phylib will set the
+speed the PHY is doing in its forced mode. Is the firmware clever
+enough to understand this and return the correct thing?
+
+The phylink link up callback will however tell you the truth. I would
+trust it over firmware.
+
+     Andrew
