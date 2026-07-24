@@ -1,140 +1,179 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDF0339387
-	for <linux-usb@vger.kernel.org>; Fri, 24 Jul 2026 20:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7951377EC7
+	for <linux-usb@vger.kernel.org>; Fri, 24 Jul 2026 20:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784925697; cv=none; b=h41f1RBx7VJlohk2P4C6NG5jQuJaYqJ3c8m8346NkZLvKUExefoRdTyU/JHeEGH/f1jxZtG8z/v69FLhOHs+o5YY/PBVC0uW5vgWlszYXdem3EFpFu9k7gEW3ZUorngMBz58NwsFjZzBkDJc0CJ11o8+MLHEoZSzquqXODNQFTY=
+	t=1784925931; cv=none; b=HetVVcvi7m8+Ctmga40857AY5Ey0FlkSLMzjBW06hZeRN3eP5pyB6id0u+bfpm/Na7BrQh67jrP+NTqGCrDPGzhavLnHQt789IgtpsttrNdaEshfhfz1ucjCv4N05ktzLM46RHBrNChDRgXighurUM7SSFz3aSpYkE+IaTrkLaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784925697; c=relaxed/simple;
-	bh=PzbXWJQs72R9iV99XX9jksyQUQ+nRv5EhQapM0F3FKw=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=d42Hjcks0yk3pufEUczAg/RLm1d8SfFO5ViZAl84hpvymF9kRXPXvCwJFSlLVpREuStcBDcW1Vy6F4uGVTRdCk/F1OTwlzwiOdW6CGNy6FK+drkmO2sXkEzWTEpO5cVAY621idTp0aZ5O2LDr5D4ZMUMxXdRbShE0vp1DDqGoUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TV3dIdxy; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
+	s=arc-20240116; t=1784925931; c=relaxed/simple;
+	bh=tQQjp6/Zlk94gGBr0qFHvJGWvJVsi5ANUQ7W1y+jQaA=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=bALd67vH5hg9Ah+0gTlS9ZGit5jhzp2+Ih/NoYUZy6Z6MLwk1dKG81jzykUynYrut1keSbCIuFO1pI3jlPJEWaJEtOXpFfUPbYqlJamuaymGoTAu6AP37k4TD8LJ01QCXAV1PI0TOKXocZaRPSdd+FzRY+svULTMJPwAShjP344=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uAQNGQvv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TV3dIdxy"
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4a43d32fa9fso871339b6e.2
-        for <linux-usb@vger.kernel.org>; Fri, 24 Jul 2026 13:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1784925695; x=1785530495; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Iajl6b3K8rXMmm9gJwdCmJTZEBGl8q0xqBBTV9E/nkk=;
-        b=TV3dIdxyMzImq0rmOMOVfzx7v095aWPcmXdttXdbYawpoHLU1JpU7c0MWRAqQGNkFj
-         83yKEbnKgJAW8D7MajYhV/hXqAkQm3QtkMEC8E+hn8Z0Ie6vUYQjpY9RdrBvuEX+Ujav
-         BCplSPd7eL1DDSWxdUUoBMA+D++DaYYqVVMnRi0BSBmVEnTRMPiwSaiUKhdDLztnxnDj
-         apvHnN9oByb3ZVJohnjZ0UfgHgKaKYU6u/GfPCSyHCDsWlbFo3B9dk305hPqQhDN7F9W
-         559F5qJb8PLA4fpUxBaJItvpdQZwrJwRboS/2d1C3gYr4LQdVsZ4tyMkonsJxdyXcc6B
-         Gliw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784925695; x=1785530495;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Iajl6b3K8rXMmm9gJwdCmJTZEBGl8q0xqBBTV9E/nkk=;
-        b=d2WJjjcGGcHgNo9xmOaIWBDoTFfsMYgVLhOklePoAWVMk4OM+nQqsCH6UcI46Pw05H
-         CSQj971G3y80eAF9lKKjtdp7Bs50BaoDWVLY/wsBa/EtmX+GcBT2xGM3IJG9piuHKcQD
-         cfnS8rjFFJHHg+VVV6v8F5o26e3eA0GpHgTNQ7q2kOLRdNdl8FlH5Zvt4XYMbC53XfiO
-         G5JlDDBIPA3DpdbVAW4k13Vjq+ZZhfJ6iqUZ6KsUvYXv2R7/ZOei1VZrWsuZY9kbZD9a
-         N4+axxy/zVDML+jlQsoXB/t8PkGbkS373/px9HJgZQ8LSMPOGvk6gFwaZ7tHrkEV56uh
-         c0/g==
-X-Forwarded-Encrypted: i=1; AHgh+RosaUtEt8O2OPrQXWSx/BHvzwc9gBiuQ2Zvt7ALBEMrmc+YafoxAc5Xgi9b1JtcFKeu/fi0VWVfYO0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzlhi204XnlmGcnViwmzF9HjVuBZjYtsUzD0k19F3E9vgqahX5G
-	yZDGzXEomCHZ5PQfM0IxqSyejitl/lNSUe+B7xmxvWDlI89yOn4cVopzcubwdiLRZySgEIIPsgL
-	gQQ/ZqPx8EA==
-X-Received: from jaqt21.prod.google.com ([2002:a05:6638:1f5:b0:5e8:f77c:fa88])
- (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6808:180a:b0:497:cd5c:7f0b
- with SMTP id 5614622812f47-4ab6a1bbb09mr2339b6e.30.1784925694976; Fri, 24 Jul
- 2026 13:41:34 -0700 (PDT)
-Date: Fri, 24 Jul 2026 20:41:16 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uAQNGQvv"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AFC26C19425
+	for <linux-usb@vger.kernel.org>; Fri, 24 Jul 2026 20:45:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784925930;
+	bh=tQQjp6/Zlk94gGBr0qFHvJGWvJVsi5ANUQ7W1y+jQaA=;
+	h=From:To:Subject:Date:From;
+	b=uAQNGQvvOMAXKCYMLo5lRrxwv/63Tx5mu/k2TTxHIRAa8aCsU+5bqB/GrJPkkuHCt
+	 1XOPc03XyvazmQSeGUy3DaLiiMm6MfmeJRKEMnNgdFqdfQpxb0DGFGjsBz/S7eEYkL
+	 AIN7V7/DcEy1li3RcBtSoLELgr7ouhrp/jlm+m84IJo3D1+gxetTImZ3oFV8PDtjsE
+	 zodWJuuheGooxQjpwSKm+YMadtcIYOHvgGcR/rIm+x32HWjdNi/fbZCsPwQNdUw+sd
+	 dp9/8TEdbCA8c2t8qVlq8OFBpJnSklZLEjSyueKtDWHmX/0wAmk/YBK8CT5rayYcUl
+	 8eUNnS+F0Bgsw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 8B92FC4160E; Fri, 24 Jul 2026 20:45:30 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: =?UTF-8?B?W0J1ZyAyMjE3ODVdIE5ldzogQU1EIFN0cml4IEhhbG8gKEFTVVMg?=
+ =?UTF-8?B?R1ozMDJFQSk6IFRCNCBkb2NrJ3MgVVNCIDIuMCB1cHN0cmVhbSBuZXZlciBl?=
+ =?UTF-8?B?bnVtZXJhdGVzIG9uIHhIQ0kgY29tcGFuaW9uIHBvcnQg4oCUICJDYW5ub3Qg?=
+ =?UTF-8?B?ZW5hYmxlIiB4NCwgcG93ZXIgY3ljbGUsIGdpdmVzIHVwOyBVU0I0IGxpbmsg?=
+ =?UTF-8?B?YW5kIFVTQjMgdHVubmVsIHdvcms=?=
+Date: Fri, 24 Jul 2026 20:45:30 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: lkorcm@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys bug_status bug_severity priority
+ component assigned_to reporter cf_regression
+Message-ID: <bug-221785-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.55.0.229.g6434b31f56-goog
-Message-ID: <20260724204117.4036015-1-nkapron@google.com>
-Subject: [PATCH] usb: gadget: f_fs: Prevent deadlock during ep0 read loop
-From: Neill Kapron <nkapron@google.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Michal Nazarewicz <m.nazarewicz@samsung.com>
-Cc: nkapron@google.com, kernel-team@android.com, stable@vger.kernel.org, 
-	Greg Kroah-Hartman <gregkh@suse.de>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
 
-Currently, ffs_ep0_read() holds ffs->mutex when it prepares to go to
-sleep waiting for an event. When no setup events are pending, it calls
-wait_event_interruptible_exclusive_locked_irq() with the mutex still
-held. The wait macro deliberately drops the waitqueue spinlock before
-sleeping but does not drop the mutex.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221785
 
-If a userspace daemon is polling ep0 via read() and the gadget is
-asynchronously torn down via configfs (e.g., echo "" > UDC), a
-deadlock can occur:
+            Bug ID: 221785
+           Summary: AMD Strix Halo (ASUS GZ302EA): TB4 dock's USB 2.0
+                    upstream never enumerates on xHCI companion port =E2=80=
+=94
+                    "Cannot enable" x4, power cycle, gives up; USB4 link
+                    and USB3 tunnel work
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 7.0.0-14-generic
+          Hardware: AMD
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: lkorcm@gmail.com
+        Regression: No
 
-1. The configfs teardown calls functionfs_unbind(), which queues a
-   FUNCTIONFS_UNBIND event.
-2. The daemon wakes up, consumes the event, and drops the mutex.
-3. However, if the daemon loops and immediately issues another read()
-   before exiting, it reacquires ffs->mutex and again goes into an
-   interruptible sleep.
-4. Meanwhile, functionfs_unbind() continues execution and attempts to
-   acquire ffs->mutex to tear down ep0req.
-5. The kernel deadlocks because the configfs thread is stuck in an
-   uninterruptible sleep waiting for the mutex, while the userspace
-   daemon is in an interruptible sleep holding the mutex forever
-   because no more events will arrive.
+One defect, consistently reproducible: a Thunderbolt 4 dock's USB 2.0
+hub upstream fails to enumerate on this AMD USB4 host's USB 2.0
+companion port. Everything else about the link is healthy.
 
-To fix this, we drop both the waitqueue spinlock and ffs->mutex before
-going to sleep, and use wait_event_interruptible_exclusive() instead.
-Upon waking up, we jump back to the `retry` label to safely reacquire
-the mutex and re-evaluate the state machine. By not sleeping with
-ffs->mutex held, we natively decouple gadget teardowns (which require
-the mutex) from userspace polling.
+Hardware:
+- Host: ASUS ROG Flow Z13 GZ302EA =E2=80=94 AMD Ryzen AI Max+ 395 w/ Radeon
+  8060S ("Strix Halo"), two USB4 ports.
+  BIOS GZ302EA.311 (latest), ASUS PD firmware updated
+  (ROG PD Firmware Update tool V2.13.0.001).
+- Dock: Sonnet Echo 20 Thunderbolt 4 SuperDock (ECHO-DK20-T4,
+  Goshen Ridge), included TB4 cable, own power supply.
+- Kernel: 7.0.0-14-generic (Ubuntu live session).
 
-Fixes: ddf8abd25994 ("USB: f_fs: the FunctionFS driver")
-Cc: stable@vger.kernel.org
-Assisted-by: Antigravity:gemini-3.1-pro
-Signed-off-by: Neill Kapron <nkapron@google.com>
----
- drivers/usb/gadget/function/f_fs.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+Observed (all captures attached, taken in the same session):
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 073c4cbd90fb..cfa05266e551 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -551,6 +551,7 @@ static ssize_t ffs_ep0_read(struct file *file, char __user *buf,
- 	if (ffs_setup_state_clear_cancelled(ffs) == FFS_SETUP_CANCELLED)
- 		return -EIDRM;
- 
-+retry:
- 	/* Acquire mutex */
- 	ret = ffs_mutex_lock(&ffs->mutex, file->f_flags & O_NONBLOCK);
- 	if (ret < 0)
-@@ -585,10 +586,15 @@ static ssize_t ffs_ep0_read(struct file *file, char __user *buf,
- 			break;
- 		}
- 
--		if (wait_event_interruptible_exclusive_locked_irq(ffs->ev.waitq,
--							ffs->ev.count)) {
--			ret = -EINTR;
--			break;
-+		if (!ffs->ev.count) {
-+			spin_unlock_irq(&ffs->ev.waitq.lock);
-+			mutex_unlock(&ffs->mutex);
-+
-+			if (wait_event_interruptible_exclusive(ffs->ev.waitq,
-+							       ffs->ev.count))
-+				return -EINTR;
-+
-+			goto retry;
- 		}
- 
- 		/* unlocks spinlock */
--- 
-2.55.0.229.g6434b31f56-goog
+1. USB4 side is fully functional. The CM enumerates the dock router
+   and both Parade PS8833 retimers, and bolt authorizes it at
+   40 Gb/s x2 lanes each direction:
 
+   [ 4673.092478] thunderbolt 1-2: new device found, vendor=3D0x8 device=3D=
+0x68
+   [ 4673.092485] thunderbolt 1-2: Sonnet Echo 20 Thunderbolt 4 SuperDock
+   [ 4673.820989] thunderbolt 1-0:2.1: new retimer found, vendor=3D0x1da0
+device=3D0x8833
+   [ 4674.652993] thunderbolt 1-2:1.1: new retimer found, vendor=3D0x1da0
+device=3D0x8833
+
+   The tunneled USB3 side comes up and works (dock hub chain and
+   Realtek r8152 2.5GbE on bus 8, lsusb-t.txt).
+
+2. The dock's USB 2.0 upstream fails on the companion port of the
+   same connector, in parallel with the successful USB4 bring-up:
+
+   [ 4674.354967] usb usb7-port1: Cannot enable. Maybe the USB cable is bad?
+   [ 4675.242360] usb usb7-port1: Cannot enable. Maybe the USB cable is bad?
+   [ 4675.242627] usb usb7-port1: attempt power cycle
+   [ 4676.258334] usb usb7-port1: Cannot enable. Maybe the USB cable is bad?
+   [ 4677.146602] usb usb7-port1: Cannot enable. Maybe the USB cable is bad?
+   [ 4677.147009] usb usb7-port1: unable to enumerate USB device
+
+   A connect is detected (D+ pull-up present) but the port never
+   reaches enabled state after reset. Every USB 2.0 / FS / LS
+   function of the dock is therefore dead (wireless receivers,
+   dock audio, card reader).
+
+3. The failure is invariant. The attached dmesg contains multiple
+   plug cycles (four SuperSpeed connects of the dock's 8087:0b40
+   hub, five USB 2.0 enumeration-failure sequences) across BOTH
+   physical USB4 ports and both link outcomes
+   (USB4 established, and USB 3.2 fallback sessions where mode entry
+   did not occur): the USB 2.0 failure signature is byte-for-byte
+   identical every time (usb5-port1 at ~648s/777s, usb7-port1 at
+   ~4674s). Link mode and port are not variables.
+
+   A "ucsi_acpi USBC000:00: GET_CURRENT_CAM command failed" follows
+   each dock connect (platform PPM errors on the alt-mode query).
+
+Cross-checks already performed:
+- Windows 11 on the same machine: identical end state =E2=80=94 the xHCI
+  companion port (USB Device Tree Viewer, PortConnectorIsTypeC,
+  CompanionPortChain) reports ConnectionStatus 0x00 while the USB3
+  side works. So this is OS-independent.
+- macOS (Apple Silicon), same dock + same cable + same devices:
+  full USB 2.0 tree (three hub levels) enumerates and works. The
+  dock and the cable's D+/D- pair are fine.
+- A native USB 3.2 dock (Belkin, no USB4 layer) on the same
+  physical connector enumerates BOTH its USB 3.x and USB 2.0 sides.
+  The host's USB 2.0 companion path is fine with other devices.
+- Vendor cases open: Sonnet support case #00021656 =E2=80=94 Sonnet has
+  confirmed reproducing an AMD USB4 host enumeration issue with
+  newer TB4/TB5 peripherals in their own lab and is contacting
+  AMD/Intel/Microsoft; ASUS escalation N2607023142 (BIOS-level fix
+  requested).
+
+Why this report: given the cross-OS reproduction this is most
+likely a platform/electrical-level interop defect rather than a
+kernel regression. Filing so the AMD USB4/platform maintainers are
+aware and the vendor cases can be linked, and to ask whether a
+kernel-side mitigation is feasible (e.g. xhci reset/retry tuning or
+a quirk for this pairing). Happy to run any instrumented builds,
+capture thunderbolt/xhci dynamic debug, or test patches =E2=80=94 the
+machine and dock are available.
+
+Attachments: kernel-version.txt, dmesg-boot.txt (full boot plus all
+plug cycles), lsusb-t.txt, lsusb-v.txt, lspci.txt, tb-devices.txt,
+boltctl.txt.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
