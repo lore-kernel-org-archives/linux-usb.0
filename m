@@ -1,170 +1,147 @@
-Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EC41A6810
-	for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 19:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785009397; cv=none; b=q8J+JLptQM8zhz44QvKHKL+YIJR2c6EAk/gYZEvBLzhW2t7Pgk5rxhsEE4UVuIrPJ6aJIK1xAYYRwFk+a3Auh3BWFXgSp4MKXV18d29lOzIQXBlfiRDZVJVuO2iDSu2vgibuk/HxTUuodWjivglTQUCqzCjpkASow0vEu6ipO+E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785009397; c=relaxed/simple;
-	bh=IMoXS/BcO1qL7fj3zWRgRqxcBQPRGySD2aVm3fydnPk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=IqlSJRJEXcTTSC9sUD3r73mwIdwKijh+ymTcfkQLlTxKUnO8wkJmaDyt29NH72nUhl8rc+unCH0AbdUlz2DMYoYngBdHoLWhKL12VVaEV3xu40l+gJx0FJor0WjU/JS76BecrfAizmRKMKjNnwY14+2i6eosGXjUyAE7GjhmHAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-49d4cb3ca23so2106871b6e.3
-        for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 12:56:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B8E2DC78C
+	for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 21:32:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785015155; cv=pass; b=H2v/5YlBaqPut87k94Wl6ATfZWYY7hnS/pqudcVhE8hFpuNgjhOC2bYShKb/gRlNnOGMON2O/naNbJbd9n19lGccMwD1ne278NkPcWemvruCQr9MUfak0j41df164z6ZpG3szJyj5ENogwauFFRGgVkuOd4WDoG7N0ibSU8NAVE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785015155; c=relaxed/simple;
+	bh=gWSXJ988CtisQ59qEr+M8v5kn9wb4fh4rUqWXXvQ+V4=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=tSdKMV4N5KOp3whV1oYfQtk5BzMdzkVx/22pfwFer0zS1mcKA+ufgr+gAXZ2O4dh+Tmk2qPboP72zCwg5TvRE1hQG9pg8hZHxCL3FxqJ0u7f39+eEibyLJLidRymYb6EyxDCekNw8F5mghE582ZjSZonJugqSTC/ieMAdGRXxPk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=riff.dk; spf=none smtp.mailfrom=riff.dk; dkim=pass (2048-bit key) header.d=riff-dk.20251104.gappssmtp.com header.i=@riff-dk.20251104.gappssmtp.com header.b=R/ymmnSs; arc=pass smtp.client-ip=209.85.222.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=riff.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=riff.dk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=riff-dk.20251104.gappssmtp.com header.i=@riff-dk.20251104.gappssmtp.com header.b="R/ymmnSs"
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-92ea24a2dbfso140587685a.0
+        for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 14:32:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785015151; cv=none;
+        d=google.com; s=arc-20260327;
+        b=s41EbbKo124Qzs/A/dyfpN+x0p+rlD3to+hpv5yECazzOwKeFspS2azzAsXaEawZ+v
+         Cv8sOfcpY0nrbFfPxTw8RtMNGjrBnhAD0lSoHyBioytMoQAlLnDM/HX07tTLyOk4zYec
+         GHT0R8s8e61UfaYKpcMHGH+MzRoHvA7Uol6IvRFfE9uUIceYPaH8QL7ahA7E7vhZ9Xu6
+         fItqI9mBEGhfKxsWRoCVgLW2wyxR3daiD51wBBxiWeLubk2GhQj08chlo/rZqFWcvntb
+         KDILZIuqe30WLNIfa5tcQ/+sbdNjiF2XHy3a7yw0HnOc44GG1V5LOIsQ3jh1liy3YFs6
+         7t+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=EhVPvTzQNWOneVSZMHFQHqnqEf/Dz5AYybiTIkMYd0w=;
+        fh=HXYDs94KzwTSsUf1O3tCI1GSm/xkj2EYYWY1hO6y3Vo=;
+        b=l/y2Ozsif/HthnCDBSCpu5nwNScsj1/Bp0W1xrsSeJL+gLQz9qbXJfgXvqipvZA390
+         uBtYmBpnadPM9IUlWZaWYuAQrfMhRaGaYAblWIgSl4znLos1+XNA3+O5kAwtPLbDO3Ik
+         7zzczshW0LdjxalxOoyCZlc+S7pPX0W0nTrJ8MVloblQwAUuUftQsGFqC/tyF/u9XJWL
+         5TkEsJvBMuJRlbsTibilgdCqU3P7WYjOpHpGou4wovFnqmbPS3FNdjpp2QgvE6r1qdhY
+         r01m58Z8rjcO0jplfHpfbIA/SyeeJhLE5ZQoRZBGGlp0orXDmAuWkxrsBnAtvrmMVELW
+         Sb+A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=riff-dk.20251104.gappssmtp.com; s=20251104; t=1785015151; x=1785619951; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EhVPvTzQNWOneVSZMHFQHqnqEf/Dz5AYybiTIkMYd0w=;
+        b=R/ymmnSsT8lnpwhng80+cRTtQLjhcWbPm2hgoVfMnWRhl4YIW+tI2SkLIfLS1CSJbR
+         ew1KEyHq7+aji2HyPyjPD/CT8KDGV4FK0vd4DCEUQ3Jkp+LvybnFKykryg52FKYrG2wW
+         DlcCtky1M8LQJkMHdcENP/B87Pky69I9j9nnDwJ9h68ZXeL5unvnySgvkLj5f49mvRu+
+         gcBFshsdpPSsrHiG4SFtc843+YqfPgs0dHtyOW5v5yoUwJh9KSvf5rVKJulQ226vDSMN
+         hsw4FxWilutMsCKQi7wUnfOK2eXdxMqvrzNpZ41/agtP2BBDOUW3lBCGVwjBlZ/q6zgl
+         dtNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785009395; x=1785614195;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tYLLa9d5ZZSEcz4GOUnCW5126Z1ea/JXPWPE7zU28Fs=;
-        b=MMvYyNsu6/CZ8t7E3TXbY2lDhfiPhXyyL0juwB0CDAGLB12qZ4teHBO0TEiag7gLf0
-         wKrivfkldFdjTSAI95uOdmvXxAHH3DjDw2IPj4F41rQXSNZyTZRsp4vcaVCOeY+vYY1m
-         RvYdGs9HsKZSo/tNcSyck90fiHzrjQoW8/OYJCaU4j7brKiaesvD5sSY8w1229E1o9YR
-         qubV+iJUR3ZhvQaupjoqJrnKhGOxeu9QG+mtzlTbHR3UWiSlIp0nEYyFBKndSJMVObXX
-         qtVX8Q7D38ncZPqdh1g2svp/YwDr+2+GfUQlB4nNdMNISr3JIknIUn2jUWI8HLz8yJqq
-         Cpew==
-X-Forwarded-Encrypted: i=1; AHgh+Rozf8yF9DCfmMmRxjj9lK9/WuvSgDz5KogUP9sONLbjoR6dc9uDBRBI6/El4PwXy0wRuo7J2B4mU98=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyI4JLTyC83Rzb8Y+WfyNZMq//mbLDwOpwML4qdv4Gi4QMCAXD4
-	LQXRnG3m4Oj5EAjEO7m8jHlANScI1wyu/6ZFULvYKqEO6VGIeDGszxRLemwjSCCWtDD4P8qskWB
-	r9s+C8E5XFlNggIJ9XgAjwRd06lyHVGwbowurPALVwG4nc5hdPiBHuiOUVro=
+        d=1e100.net; s=20251104; t=1785015151; x=1785619951;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=EhVPvTzQNWOneVSZMHFQHqnqEf/Dz5AYybiTIkMYd0w=;
+        b=Bf210C+MwHsGKtD7nLO+uABFIW4fNzB0U6XbWXXF61ULPNHT5ixNqSMhjxPI6GH2n5
+         fDkog/aVPJY3kNLcRve8lkesaBj//EQCwQR4ys4oRKJApwcm/PsP0I9xzOwON6LweOWY
+         F9vtATg6cKG7RILAh6lJ89h4nmWkSa7CZ3jgRelHuw0yyMR/3oes5wWzlpbFo078/P1r
+         MAz3V6m/PaPn0K3oJOGqSU2nHkU5Q1mfdKwY8cOdR6kCW3Hk8AO01EZrkPIe6CSXcmmJ
+         DLHIWu8buAEUFS6/7kZE/2WtRGAON6H+wZMFuNqUu4CnkyGP/hW0b6NtYj6UkN1PFQou
+         MVRQ==
+X-Gm-Message-State: AOJu0YzDNEZadlmawiLQPLkEn/pz7G7Hvz9SPE/9LZheXmV0kPL4adya
+	KgSlTYT3Nybyt2D3sgq0hi4hh2BvmJG7dHe8w01WvlnkWJw0y5IEUW4yCoCCa0oV2jyDWyZt6Rw
+	OZdmtzrWr943Gle8Hw4ABHw2tn3jHVNifrBDrJG6z+AjZbj4+O1TwaNJo8A==
+X-Gm-Gg: AR+sD10BGUm/6PJr/MDtzJ/nz8WWO7MZPyrnh0HC0mCKrJBexhG1sY5DDOau3v3Bodo
+	HAAV/MXbsLXi5ZXflUdTfrPeGqHjZBkjiZYx1ANtLXRcu+7DH3PJvHlcwcaZ5tcZFSA02YDITaW
+	ybtv4swHjRUkiDcO26PWl7FJ36f3mBTgSGd6qVJjs1Pxn85+kMdP2FXFAVd7fdLDxAHLGTUffuC
+	sVJnCGcwkjpsVFkRMCahdmsqWBxHXgcLDJg9lMMrPwB2txwFf1CsQXp9xQ48qrUOFycuLguWipB
+	YjW2hLXMpFHMmt2GmNDzB5XVSLOtujs=
+X-Received: by 2002:a05:620a:318a:b0:92e:e90f:71c9 with SMTP id
+ af79cd13be357-932df6ac830mr341151085a.62.1785015151026; Sat, 25 Jul 2026
+ 14:32:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:159d:b0:489:352c:5153 with SMTP id
- 5614622812f47-4ab6a113d99mr3129906b6e.21.1785009395234; Sat, 25 Jul 2026
- 12:56:35 -0700 (PDT)
-Date: Sat, 25 Jul 2026 12:56:35 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a6514f3.70955b6c.323240.0025.GAE@google.com>
-Subject: [syzbot] [input?] [usb?] WARNING in cm109_input_ev/usb_submit_urb (2)
-From: syzbot <syzbot+25031f01508bf55c62ca@syzkaller.appspotmail.com>
-To: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
+From: Jacob Riff <jacob@riff.dk>
+Date: Sat, 25 Jul 2026 14:31:53 -0700
+X-Gm-Features: AUfX_mxZ16ueQij6TnJGNG9ZV5eJoL6dDoPzZNrLBbB1jKzyoHSAUSphhwnDoVc
+Message-ID: <CAAw_munfAcpOUw-J9dPcnzVu+sibyxymFkLTp-a3-PMEe6VRZQ@mail.gmail.com>
+Subject: ucsi_acpi: intermittent "PPM init failed" at boot is never retried,
+ Type-C event handling stays dead for the session
+To: linux-usb@vger.kernel.org
+Cc: heikki.krogerus@linux.intel.com
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Hi,
 
-syzbot found the following issue on:
+On a Lenovo ThinkPad X1 Carbon Gen 14 (21V7CTO1WW, Panther Lake), UCSI
+initialization intermittently fails at boot, and because the failure is
+never retried, no typec ports are registered for the rest of the
+session. Most visible consequence: after unplugging and replugging the
+USB-C charger (a PD monitor), the machine silently never resumes
+charging. Notably, DisplayPort alt mode on the same port continues to
+work across replugs in this state, and charging does work if the
+charger was already attached at boot (EC autonomous) - it is
+specifically resumption of charging after a replug that is lost, which
+makes the failure easy to miss until the battery is unexpectedly
+drained.
 
-HEAD commit:    cc2b5f627e8c Add linux-next specific files for 20260714
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=128a1746580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2290ccbf984c524f
-dashboard link: https://syzkaller.appspot.com/bug?extid=25031f01508bf55c62ca
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=117b92b9580000
+Failure rate: 5 of 8 boots on one day of testing. Reproduced on two
+firmware versions including the latest (BIOS N4OET49W/1.12 and
+N4OET51W/1.14, EC 1.09 and 1.10). No clear correlation with whether
+anything is attached at boot: two boots one minute apart with the same
+setup split ok/fail.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/6836f8efb1da/disk-cc2b5f62.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/0109d3477cc7/vmlinux-cc2b5f62.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c2e49e350bbf/bzImage-cc2b5f62.xz
+Kernel: 7.1.4 (Arch Linux, unpatched in this area)
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+25031f01508bf55c62ca@syzkaller.appspotmail.com
+Two failure flavors seen:
 
-------------[ cut here ]------------
-URB ffff88802bec5e00 submitted while active
-WARNING: drivers/usb/core/urb.c:379 at usb_submit_urb+0x79/0x18b0 drivers/usb/core/urb.c:379, CPU#0: syz.1.696/7407
-Modules linked in:
-CPU: 0 UID: 0 PID: 7407 Comm: syz.1.696 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/25/2026
-RIP: 0010:usb_submit_urb+0x7c/0x18b0 drivers/usb/core/urb.c:379
-Code: 4c 89 f0 48 c1 e8 03 80 3c 28 00 74 08 4c 89 f7 e8 f9 92 4d fb 49 83 3e 00 74 40 e8 0e 3c e1 fa 48 8d 3d 87 f1 f8 08 48 89 de <67> 48 0f b9 3a b8 f0 ff ff ff eb 11 e8 f3 3b e1 fa eb 05 e8 ec 3b
-RSP: 0018:ffffc900054ff3f8 EFLAGS: 00010293
-RAX: ffffffff86e467a2 RBX: ffff88802bec5e00 RCX: ffff88803151be80
-RDX: 0000000000000000 RSI: ffff88802bec5e00 RDI: ffffffff8fdd5930
-RBP: dffffc0000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: ffffffff8e3c3880 R12: 1ffff1100b9e9d0a
-R13: dffffc0000000000 R14: ffff88802bec5e08 R15: 0000000000000820
-FS:  00007f395df0e6c0(0000) GS:ffff8881259f2000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f29938eb580 CR3: 0000000040c08000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- cm109_submit_buzz_toggle drivers/input/misc/cm109.c:351 [inline]
- cm109_toggle_buzzer_async drivers/input/misc/cm109.c:484 [inline]
- cm109_input_ev+0x1d1/0x3b0 drivers/input/misc/cm109.c:615
- input_event_dispose+0x80/0x6b0 drivers/input/input.c:322
- input_inject_event+0x1fa/0x310 drivers/input/input.c:424
- kd_sound_helper+0x101/0x210 drivers/tty/vt/keyboard.c:257
- input_handler_for_each_handle+0x101/0x1c0 drivers/input/input.c:2540
- kd_mksound+0x96/0x130 drivers/tty/vt/keyboard.c:281
- handle_ascii drivers/tty/vt/vt.c:2382 [inline]
- do_con_trol drivers/tty/vt/vt.c:2699 [inline]
- do_con_write+0x2f5a/0x5540 drivers/tty/vt/vt.c:3325
- con_write+0x31/0x2e0 drivers/tty/vt/vt.c:3661
- process_output_block drivers/tty/n_tty.c:557 [inline]
- n_tty_write+0xd4f/0x11e0 drivers/tty/n_tty.c:2366
- iterate_tty_write drivers/tty/tty_io.c:1006 [inline]
- file_tty_write+0x50b/0x980 drivers/tty/tty_io.c:1081
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x61e/0xbb0 fs/read_write.c:687
- ksys_write+0x156/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x17b/0x530 arch/x86/entry/syscall_64.c:85
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f395e8ade99
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f395df0e028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 00007f395eb35fa0 RCX: 00007f395e8ade99
-RDX: 0000000000001006 RSI: 0000200000002080 RDI: 0000000000000004
-RBP: 00007f395e943eaf R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f395eb36038 R14: 00007f395eb35fa0 R15: 00007fff65968248
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	4c 89 f0             	mov    %r14,%rax
-   3:	48 c1 e8 03          	shr    $0x3,%rax
-   7:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
-   b:	74 08                	je     0x15
-   d:	4c 89 f7             	mov    %r14,%rdi
-  10:	e8 f9 92 4d fb       	call   0xfb4d930e
-  15:	49 83 3e 00          	cmpq   $0x0,(%r14)
-  19:	74 40                	je     0x5b
-  1b:	e8 0e 3c e1 fa       	call   0xfae13c2e
-  20:	48 8d 3d 87 f1 f8 08 	lea    0x8f8f187(%rip),%rdi        # 0x8f8f1ae
-  27:	48 89 de             	mov    %rbx,%rsi
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	b8 f0 ff ff ff       	mov    $0xfffffff0,%eax
-  34:	eb 11                	jmp    0x47
-  36:	e8 f3 3b e1 fa       	call   0xfae13c2e
-  3b:	eb 05                	jmp    0x42
-  3d:	e8                   	.byte 0xe8
-  3e:	ec                   	in     (%dx),%al
-  3f:	3b                   	.byte 0x3b
+  ucsi_acpi USBC000:00: error -ENODEV: PPM init failed
 
+and:
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+  ucsi_acpi USBC000:00: possible UCSI driver bug 2
+  ucsi_acpi USBC000:00: error -EINVAL: PPM init failed
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Both appear ~1s after the typec ports bind. On failed boots
+/sys/class/typec/ stays empty.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+The part that suggests a driver-side improvement: recovery is trivial.
+Reloading the module seconds later has succeeded on every attempt so
+far (double digits by now):
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+  modprobe -r ucsi_acpi && sleep 2 && modprobe ucsi_acpi
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+after which connectors register and charging renegotiates immediately,
+no replug needed.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+ucsi_init_work() currently only requeues the init work for
+-EPROBE_DEFER (up to UCSI_ROLE_SWITCH_WAIT_COUNT). Given that an
+immediate retry reliably succeeds here, would it be reasonable to also
+retry a few times on other errors (-ENODEV/-EINVAL) before giving up?
+The PPM on these machines appears to simply not be ready to answer
+during a window around when init runs.
 
-If you want to undo deduplication, reply with:
-#syz undup
+Possibly related prior reports of Lenovo PPMs being slow/unready at
+init: the "usb: typec: ucsi: increase timeout for PPM reset operations"
+RFC (Feb 2025) and Ubuntu bug #2054928 (ThinkPad E490, -ENODEV).
+
+Happy to test patches on this hardware.
+
+Thanks,
+Jacob Riff
