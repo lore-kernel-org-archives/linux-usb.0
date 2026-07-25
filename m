@@ -1,173 +1,170 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ACDD2AEE1
-	for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 14:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784990981; cv=pass; b=PMjUVxqrYe7n0uXW82smo7GA2eI9vaYf8ebZN1dtCIeFkwc0par/UrbxLtTOrtNQ7mWCWkrUuaqYC9FyAnVu7mmLPUvIxTGwdJwkH9ndKCJMu40GJcJmqk9hgpRr07/p6/dgMWdn8Dl26dowLv/d53fjlPN8itI4lm/uAEJKiaM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784990981; c=relaxed/simple;
-	bh=PdFdwp2i+jLAJ8UTMabjWuH2CxAyO2fjSUEhLabgj+A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BuYTwQZ0b27D2aYwxbJ85ROwM5SyYCdjr+GKjJ62NiALlQDQy6tY/NEB349wHIiAu4YtGXMghPoxXVHCZZNc3MXVTvaTpd+4zeXUxcALnvW42zAIhNijtedmr0O7ztvkty75isP4Qa96YHhnLm/H5vEog4PoO2BKIYz9/lpr2y4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cWz9/Bfs; arc=pass smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF6C2EEE79;
+	Sat, 25 Jul 2026 16:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784996469; cv=none; b=biuv/KN0TJuZbsLsnKHzEf31l+RUkw4jN0Hrsm64WBCBkm1+Vgx5/2c7Fkzd7sYc+f1/vK6mqSuIw89d95lXAH9E0S1kOFJ80NlejmyF7P3khf1hra4usiPu7PIHJkXlkUHk1YIPM0XrJE1TRx9roX0fYwjJp2R12D5GUKd8E4Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784996469; c=relaxed/simple;
+	bh=kUq+5IiVyFZIO6HVawlTT3vsFaAkD2ugMp4vmnMDr8Y=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ajHEb73Ol3a5qY4jlm2i50YM/BtYp9qLLvLXwuhZ8vcyBwI/NFXx9tlZT29gDoEV7hhPgUP0oaro9gEjqtKpffWeHvvdco6tmJQcOR65B6nk5dSINk1nxrpWpUW4I3LyV5JfrbVcGIx5+YHs3/u8rlEkU6h3ayyLosYA8DA4nSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=kIkjYOe7; arc=none smtp.client-ip=77.81.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cWz9/Bfs"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c15e2dab83eso220220166b.1
-        for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 07:49:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784990978; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YMDhX8QoKeqZpHoTPN1nBrlaCOS6WZkFqzxXoRD8ng/ilFcGmOzdxfDUrdJ1ytUSt3
-         sInN+0C914aOkSJLqL7Oy+0Z+KS4Ic5pVqlZCI4rs5zW0datqu/U/qGcT/Pe9HuBBpE8
-         e8wh0M1EQ3oADfu5Jx4MvEE8VrzrS8nNaoq+22sLZhxpjh0BulrNOXiDohhGJCK2DNIl
-         F7UpFXmFopTXBSC4S0a86k7jDjjyeecyBaAVFkwbwY+Qj8SOjOksktYQixjvumpudkP9
-         8ytGMicMqp4TrqN0jhGUjtwaQtY46mSM/bOa3221W52hnkOl2dJbqOZBVD4LJ+0CDBsz
-         KFdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KaJqioGOibWuDzoAQ+ZR6ELpOOYcjKkCoHAQzOj15AE=;
-        fh=D2+QETd9AyAlE09iTfjayQsxLtb9WvsVm0aQfOA5rU0=;
-        b=NXztpoXNzolovMmydI4AG1pAvt9ldTbcPGOvhvL5iADQZazVFOcyYumNA2FCtoVysm
-         NOT/lHO5tDQ+FMy7Afut9xf/nlag6KV2EtV6QEuLp29lVzgMgWHmu4eiuZC+LQcDI9Ea
-         8Xzr4Y5aMvuaiZw79N+UdBR5/9/Rbj0RDzgFWCBA5vGmuqHrDoEaEjkljFkhX+Y1p+Mf
-         wQm2koxDVMoH9jf4nIBz5FP0NOTmj/x8nwynyiGsqHo9YRD2tKD3BjhsJ727FtocjaEW
-         IRNizeUCnhtf4C4YZQJy/lYanw6mGNEGaaSHBIV160eMEZc9hv2uyzIZIlz847/5968A
-         Gvmw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784990978; x=1785595778; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KaJqioGOibWuDzoAQ+ZR6ELpOOYcjKkCoHAQzOj15AE=;
-        b=cWz9/BfsqQGezvUEnWSEIUbA7TU3/Y9dBb+RQBQGzWS3uQ+8jk7z5vQiN3l+vj6wpy
-         RLiW/blDHDo1dpJ/OWT5Z3USvcpFzofohqPDyD02ZQZaUSM+uPNMd6TMZcwxvk5rCZ4S
-         tMT/p0lgFQfiiV4u0jFb0x/h6sS4/QCzQ57JLxguF/uPCyliLZgmCRRnMV5yOBEbO9Hm
-         tMol5kLVs40dMCHIeJbsDtN89tv1kxSW/dDwLMFqx56c/5zPt6ecJpkO01ByPUhAXKta
-         HdJUF8x7OJJeuK/FWqhOSo0o65R+0Ym/aU2zsiyReN+rqzJIJeU4KJDbjB90f48rs8CO
-         EpHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784990978; x=1785595778;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KaJqioGOibWuDzoAQ+ZR6ELpOOYcjKkCoHAQzOj15AE=;
-        b=ZjGURBcT1GeaBQPAtEUG5QwcDLb7EvosXCCstC2KvpiRty+lXfpnoaeNwQ+j34Mffs
-         F7XOWm/27/hW7d05G//Jf1Ra7/ny8P36ktbS1JsCEHcFtOtLzwGIkjL7+CsKOUoIOrjL
-         nhO9fX87SzhpvaEIJIjI0Mt5R7dS8CO3De7XZ5I18B2xFlJ2ZR4Hhw/0ndDWYzteu2Y8
-         Jz7BgiqmdY8OBzKkIOQ79hvEbFR27OWAn6O/x84W8aduOKri9XSjI4sfEvoZr59jicN6
-         vrY2M+c7J+BB56tphUocyCb8rSpjHjjUOrK5UqKZ3uOXPcT7fmdvtHXEHax4pMJL2oqg
-         OsPg==
-X-Forwarded-Encrypted: i=1; AHgh+RpU5x1YH8P4wYBrEsnTzmZzblFvY/ZfmYxvB7kaOh3sjLdmblUy3lB4onMnsPyKgjV86QO0eQ87V38=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfX2werj35QjUxjBtEauFqpzz65WmaLmCL9tDdZD+prg8ps5z2
-	oOImAeSPz3IufkrVl0IjXNO3OTsqQtm1cjATpOn3I2hAlCH43B3dTI7Mu6SMGWb3oCIkVcEO0/t
-	U5KinAeiVWvxi26A7Yv7dnyCpBk7lT78=
-X-Gm-Gg: AR+sD12fGudw8cJIdUYamdVQYu2zKtFgGUFmlcdRsPJdKRhhE54OIiBSq620DK7+mrJ
-	ERSlrONR+la+qeKtmV/ITuDnaGcrfEnhhBoJ2P5nK8wZmi2v4nmEnw8RCMcQqMwbmQbhKmCOuLL
-	0xTcg7E5MkWaXe/KTxaVbVjSdZ/agGSo+vfHwJuGNoCIxS9A8gqpgzPs9F7z9I63HpfeMMrxvnl
-	AKQr6EY/vAdEmCPebKj4BOPUeqFWNChM0jZspSm31iotGSY4sSOcm0KsISU4z0=
-X-Received: by 2002:a17:907:9709:b0:c12:6c88:bb33 with SMTP id
- a640c23a62f3a-c1f1f596e73mr97184966b.65.1784990978271; Sat, 25 Jul 2026
- 07:49:38 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="kIkjYOe7"
+Received: by chaosmail.tech (Postfix) id 4E4621C8829;
+	Sat, 25 Jul 2026 16:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
+	s=mail; t=1784996465;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sM2F7cRsJhOB+wTzn5wZj1Mny995buVgtLgdbqbcLH4=;
+	b=kIkjYOe7kX7WMilioriupdlp2P+396xYPhF2fIFgdu/5+FGhCaXl5ATSElU+8iYWWaLG00
+	62GScKF7zzQO+l0u/+FSIlqXvT2LaKAEASFWUu2621yHsWurnIo9oVgDxNKIYmlAb0tK+t
+	qNOQuCO93PFUgnYo0eRo+40Iwoj+fa4=
+From: Sasha Finkelstein <k@chaosmail.tech>
+Date: Sat, 25 Jul 2026 18:20:56 +0200
+Subject: [PATCH 1/3] dt-bindings: usb: tps6598x: Add sn201202x/ACE3
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAG0uPa-gYTMS87gWo2ixigFifAAR8wQ1eJ1iRRTvBgiywvdxYg@mail.gmail.com>
- <2026072535-uncork-gonad-4187@gregkh>
-In-Reply-To: <2026072535-uncork-gonad-4187@gregkh>
-From: Ishaan Dandekar <ishaan.dandekar@gmail.com>
-Date: Sat, 25 Jul 2026 20:19:21 +0530
-X-Gm-Features: AUfX_mywaVnp6qu8-sl9x7XfNhuLDz_o3eSrfenaQHfIcw60XuZm7iF8PHmBQ0Q
-Message-ID: <CAG0uPa8qSkQjesAmcfms7Va2j0yb3VDuES5TYe=65LXFn0qKJQ@mail.gmail.com>
-Subject: Re: [PATCH] usb: core: quirks: Add 255-bytes initial config read quirk
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: nikhilsolanke5@gmail.com, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260725-tipd-ace3-v1-1-73202d36138a@chaosmail.tech>
+References: <20260725-tipd-ace3-v1-0-73202d36138a@chaosmail.tech>
+In-Reply-To: <20260725-tipd-ace3-v1-0-73202d36138a@chaosmail.tech>
+To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
+ Neal Gompa <neal@gompa.dev>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784996463; l=3417;
+ i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
+ bh=kUq+5IiVyFZIO6HVawlTT3vsFaAkD2ugMp4vmnMDr8Y=;
+ b=+NfRbJtvWEDq1MQmo/o4cVMJ4FUVddbCWlWgNnxz4llexNy6cec5lt20O0/kXaFowjVI7xAfy
+ 28RI0Jq5AykBVVK8KU0tCli4vFJvZMcMMkp4ceE0oGNdlX7xBajD6mn
+X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
+ pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-Hi Greg,
+A variant of tps6598x that is attached to a SPMI bus and is found on
+Apple devices starting from the M3 series
 
-Here is the follow-on patch adding the ShanWan Wireless Gamepad (2563:0575)
-to the static quirks table.
-
-Note: This patch depends on the USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE flag
-introduced in Nikhil Solanke's pending patch:
-https://lore.kernel.org/linux-usb/20260717195336.98500-2-nikhilsolanke5@gma=
-il.com/
-
-Thanks,
-Ishaan
-
+Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
+ Documentation/devicetree/bindings/usb/apple,sn201202x.yaml | 78 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                                                |  1 +
+ 2 files changed, 79 insertions(+)
 
-From ecd1aa9afd8bc00a3e0b36cbe49b427f390e5de6 Mon Sep 17 00:00:00 2001
-From: Ishaan Dandekar <ishaan.dandekar@gmail.com>
-Date: Sat, 25 Jul 2026 20:03:28 +0530
-Subject: [PATCH] usb: quirks: Add ShanWan gamepad to quirk list
-
-The ShanWan Wireless Gamepad (dongle ID 2563:0575) crashes with a -71
-EPROTO error during standard enumeration because it expects a 255-byte
-initial configuration request. Add this device to the quirk list to
-use the USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE flag.
-
-Signed-off-by: Ishaan Dandekar <ishaan.dandekar@gmail.com>
----
- drivers/usb/core/quirks.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index 87ee2d938..696bb6548 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -588,6 +588,9 @@ static const struct usb_device_id usb_quirk_list[] =3D =
-{
-  { USB_DEVICE(0x2386, 0x3119), .driver_info =3D USB_QUIRK_NO_LPM },
-
-  { USB_DEVICE(0x2386, 0x350e), .driver_info =3D USB_QUIRK_NO_LPM },
+diff --git a/Documentation/devicetree/bindings/usb/apple,sn201202x.yaml b/Documentation/devicetree/bindings/usb/apple,sn201202x.yaml
+new file mode 100644
+index 000000000000..84d230ccccc7
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/apple,sn201202x.yaml
+@@ -0,0 +1,78 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/apple,sn201202x.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+ /* ShanWan Wireless Gamepad */
-+ { USB_DEVICE(0x2563, 0x0575), .driver_info =3D
-USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
++title: Texas Instruments sn201202x Type-C Power Delivery controller
++
++maintainers:
++  - Sasha Finkelstein <k@chaosmail.tech>
++
++description: |
++  Texas Instruments sn201202x Type-C Power Delivery controller
++
++  A variant of tps6598x controller also known as Apple ACE3
++  present on hardware with Apple SoCs starting from the M3.
++
++properties:
++  compatible:
++    enum:
++      - apple,sn201202x
++
++  reg:
++    minItems: 1
++
++  interrupts:
++    items:
++      - description: Primary irq used for tps6598x events
++      - description: Logical register selection completed
++      - description: Standby command completed
++      - description: Wakeup command completed
++
++  interrupt-names:
++    items:
++      - const: irq
++      - const: select
++      - const: sleep
++      - const: wake
++
++  connector:
++    $ref: /schemas/connector/usb-connector.yaml#
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - interrupt-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/spmi/spmi.h>
++    spmi {
++        #address-cells = <2>;
++        #size-cells = <0>;
++        usb-pd@c {
++            compatible = "apple,sn201202x";
++            reg = <0xc SPMI_USID>;
++            interrupts = <11 IRQ_TYPE_EDGE_RISING>,
++                         <13 IRQ_TYPE_EDGE_RISING>,
++                         <17 IRQ_TYPE_EDGE_RISING>,
++                         <19 IRQ_TYPE_EDGE_RISING>;
++            interrupt-names = "irq", "select", "sleep", "wake";
++
++            connector {
++                compatible = "usb-c-connector";
++                label = "USB-C";
++
++                port {
++                    typec_ep: endpoint {
++                        remote-endpoint = <&otg_ep>;
++                    };
++                };
++            };
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ff08a65d942a..b2819ca62e0c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2610,6 +2610,7 @@ F:	Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml
+ F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
+ F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
+ F:	Documentation/devicetree/bindings/usb/apple,dwc3.yaml
++F:	Documentation/devicetree/bindings/usb/apple,sn201202x.yaml
+ F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
+ F:	Documentation/hwmon/macsmc-hwmon.rst
+ F:	arch/arm64/boot/dts/apple/
 
-  /* UGREEN 35871 - BOS descriptor fetch hangs at SuperSpeed Plus */
-  { USB_DEVICE(0x2b89, 0x5871), .driver_info =3D USB_QUIRK_NO_BOS },
---=20
-2.34.1
+-- 
+2.55.0
 
-On Sat, Jul 25, 2026 at 10:53=E2=80=AFAM Greg KH <gregkh@linuxfoundation.or=
-g> wrote:
->
-> On Sat, Jul 25, 2026 at 10:35:47AM +0530, Ishaan Dandekar wrote:
-> > Hi Nikhil,
-> >
-> > Thank you for this patch. I can confirm this exact 255-byte config
-> > read issue also affects the ShanWan Wireless Gamepad (dongle ID
-> > 2563:0575). Standard enumeration causes a -71 EPROTO crash and drops
-> > it into a generic Android mode.
-> >
-> > Your logic prevents the firmware crash.
-> >
-> > Tested-by: Ishaan Dandekar <ishaan.dandekar@gmail.com>
-> >
-> > Could you please fold the following device ID into your quirks list for=
- v2?
-> >
-> > /* ShanWan Wireless Gamepad */
-> > { USB_DEVICE(0x2563, 0x0575), .driver_info =3D
-> > USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
->
-> Just send a follow-on patch for this device so you can get credit for
-> the change?
->
-> thanks,
->
-> greg k-h
