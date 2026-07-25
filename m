@@ -1,92 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D89F1DE8BE
-	for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 16:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFED03F327E
+	for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 17:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784997940; cv=none; b=pOXXl3Ip3CX5N9L5Fmk70o0Snju8YCgv3XuEu2414/9IaAe4a/oKyGcMDcBjOY8giy92x6K4Tyu3+wm4wShQ9Zj877H/R+gCb6brZ3zTaobgyNhcBm/XH/oQlq/EkIAFX6MdFq4QNe9nfhJMpC5sWPXXztj0ejqauASY9buVdm4=
+	t=1785000540; cv=none; b=bn+HB1UXWyyqkoJjwUVYh8Vx296XvpuTbTQrgFRT1Eu08VMvF7hhg7Eu0cA5sgO7U3f702EhARbskVTMs6N4hOOIwx2jkfV6r9HZPPYUshTddW6pNaohOFY8g/33Cxbbxw8ldSMU1X/tRbnluEKwKJGVY8020P9fnqobJcH/LRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784997940; c=relaxed/simple;
-	bh=HUjl61smVeXfv6ezVjF1cnAb2a/VsqxT//+SR7gXHww=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=do6PhiX3D0wT/MB7WkZYYV/MHBgM9mQzWaiFFg66fI76w2KJI3D8MVS8gnXdkbufuIohWm95hatVUDDIwY9qpvg8luem9Zsw5EcqvHiDog00lcwhXUUE0l6saGkqPGU+hlV5HpzXB6o+Lmpzy9KsXkmTTAlDHGGk78J56yth0XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dr65kUPn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785000540; c=relaxed/simple;
+	bh=210831r/SR9IrnmcujaWpwBHQzTgme4kyH5WM+jZJl0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qDJCWIuzrtbMqedibWC/lkhmLCVS66w/J7g7JFj8b6BT/22oVJvv6iSoLZS2Gqi+YOaayy+LnA7Og5DO0B0W1zQi56syh1WwO8esUY0ArTbkLmQ378Tk5TgGKFySnB19qdXEVeR/mf1fn2LK5BCfmB3TZsASIRZRuo/p5Sh3NOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qPvSyzAn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dr65kUPn"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C307DC2BCB8
-	for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 16:45:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784997939;
-	bh=HUjl61smVeXfv6ezVjF1cnAb2a/VsqxT//+SR7gXHww=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Dr65kUPnYVkUzqpk1HH82NyqSMBMbPT5W42yIkDvpjc1qGyXfbrIZmpQIvbKB1Iet
-	 WqsnxaXApsRUdVhguahP4yRf9B0KR08VDtWTDzP5kqlHQZhV6ZXB4ay7xuPrNRhw9Z
-	 IaiewxaGNxfrXXCiFkTbFFVPMnnXi4wyJfn8lvebt8srq8LBJ2luoNCi3frxbqZTOv
-	 woJyruSHInvGi2cWR6g9mS8EV0qXL3sCUknFJi47aY0BaFRHKAlstc+QUx99CHD2iZ
-	 pNBNufwEYEbdbZH9Cn2RxcG2cdmF7yby4diSIpRgN9dbo86mkGxNduAJOMob/DYltR
-	 ODypALN4MNGvg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 94B53C3279F; Sat, 25 Jul 2026 16:45:39 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: =?UTF-8?B?W0J1ZyAyMjE3ODVdIEFNRCBTdHJpeCBIYWxvIChBU1VTIEdaMzAy?=
- =?UTF-8?B?RUEpOiBUQjQgZG9jaydzIFVTQiAyLjAgdXBzdHJlYW0gbmV2ZXIgZW51bWVy?=
- =?UTF-8?B?YXRlcyBvbiB4SENJIGNvbXBhbmlvbiBwb3J0IOKAlCAiQ2Fubm90IGVuYWJs?=
- =?UTF-8?B?ZSIgeDQsIHBvd2VyIGN5Y2xlLCBnaXZlcyB1cDsgVVNCNCBsaW5rIGFuZCBV?=
- =?UTF-8?B?U0IzIHR1bm5lbCB3b3Jr?=
-Date: Sat, 25 Jul 2026 16:45:39 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: lkorcm@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-221785-208809-Wy8burL2fU@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221785-208809@https.bugzilla.kernel.org/>
-References: <bug-221785-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qPvSyzAn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B43571F000E9;
+	Sat, 25 Jul 2026 17:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1785000539;
+	bh=bl+huzAMEl1qxfkWazn9hlkIfBPKxvRMWiOPi5wcZic=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=qPvSyzAnx9YWK3uf2+zJu9U+ESFJqv9R7ailHGO/BSA4oc1+PwRzzyhIXclGTTDz8
+	 DdDxi6A5yyqYzd/pId1FC7IS/uIgId57TlCP8qn1o5TbGTiAzmIn7abzRdTBktC+No
+	 3G88z0ysIk1Gydf5xSEqBRJwSqiqc25qWtU3msd8=
+Date: Sat, 25 Jul 2026 19:27:34 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Ishaan Dandekar <ishaan.dandekar@gmail.com>
+Cc: nikhilsolanke5@gmail.com, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: core: quirks: Add 255-bytes initial config read
+ quirk
+Message-ID: <2026072500-moaning-importer-e8ee@gregkh>
+References: <CAG0uPa-gYTMS87gWo2ixigFifAAR8wQ1eJ1iRRTvBgiywvdxYg@mail.gmail.com>
+ <2026072535-uncork-gonad-4187@gregkh>
+ <CAG0uPa8qSkQjesAmcfms7Va2j0yb3VDuES5TYe=65LXFn0qKJQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAG0uPa8qSkQjesAmcfms7Va2j0yb3VDuES5TYe=65LXFn0qKJQ@mail.gmail.com>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221785
+On Sat, Jul 25, 2026 at 08:19:21PM +0530, Ishaan Dandekar wrote:
+> Hi Greg,
+> 
+> Here is the follow-on patch adding the ShanWan Wireless Gamepad (2563:0575)
+> to the static quirks table.
+> 
+> Note: This patch depends on the USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE flag
+> introduced in Nikhil Solanke's pending patch:
+> https://lore.kernel.org/linux-usb/20260717195336.98500-2-nikhilsolanke5@gmail.com/
+> 
+> Thanks,
+> Ishaan
+> 
+> ---
+> 
+> >From ecd1aa9afd8bc00a3e0b36cbe49b427f390e5de6 Mon Sep 17 00:00:00 2001
+> From: Ishaan Dandekar <ishaan.dandekar@gmail.com>
+> Date: Sat, 25 Jul 2026 20:03:28 +0530
+> Subject: [PATCH] usb: quirks: Add ShanWan gamepad to quirk list
+> 
+> The ShanWan Wireless Gamepad (dongle ID 2563:0575) crashes with a -71
+> EPROTO error during standard enumeration because it expects a 255-byte
+> initial configuration request. Add this device to the quirk list to
+> use the USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE flag.
+> 
+> Signed-off-by: Ishaan Dandekar <ishaan.dandekar@gmail.com>
+> ---
+>  drivers/usb/core/quirks.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+> index 87ee2d938..696bb6548 100644
+> --- a/drivers/usb/core/quirks.c
+> +++ b/drivers/usb/core/quirks.c
+> @@ -588,6 +588,9 @@ static const struct usb_device_id usb_quirk_list[] = {
+>   { USB_DEVICE(0x2386, 0x3119), .driver_info = USB_QUIRK_NO_LPM },
+> 
+>   { USB_DEVICE(0x2386, 0x350e), .driver_info = USB_QUIRK_NO_LPM },
+> +
+> + /* ShanWan Wireless Gamepad */
+> + { USB_DEVICE(0x2563, 0x0575), .driver_info =
+> USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
+> 
+>   /* UGREEN 35871 - BOS descriptor fetch hangs at SuperSpeed Plus */
+>   { USB_DEVICE(0x2b89, 0x5871), .driver_info = USB_QUIRK_NO_BOS },
+> -- 
+> 2.34.1
+> 
 
---- Comment #9 from lkorcm@gmail.com ---
-Created attachment 310510
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310510&action=3Dedit
-dmesg, kernel 7.1.5, USB4-entered state (reproduction)
+This patch is corrupted and can not be applied, please just send it with
+git send-email so that this doesn't happen.
 
-Reproduced on 7.1.5 (Linux work 7.1.5-070105-generic #202607241434 SMP
-PREEMPT_DYNAMIC Fri Jul 24 14:57:06 UTC 2026 x86_64): identical signature =
-=E2=80=94
-"Cannot enable" x4, attempt power cycle, unable to enumerate on the xHCI
-companion port (usb5-port1), occurring in parallel with successful USB4
-bring-up (Sonnet Echo 20 router and both retimers enumerated, this time on =
-the
-other domain/port). Fresh dmesg attached.
+thanks,
 
-(Note: the usb-storage.quirks / rootdelay entries on the kernel cmdline rel=
-ate
-to an unrelated NS1081 USB enclosure used as the boot disk, not the dock.)
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+greg k-h
