@@ -1,93 +1,124 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BEE942A82;
-	Sat, 25 Jul 2026 16:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55941A6813;
+	Sat, 25 Jul 2026 16:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784996470; cv=none; b=ZtJRQ7nY9pJE5mSMlsOqLeUh40YYbLXnOG9VH0FdTq79gS7biZrhpT+bP7Jeii7FvK7uOcCbA9V1kPAyALsh8DT719Ydluan0Pv2aCZG7bJ0IWtBarrBxJljIUOadVYauEzzkxGm0XiJ34HBSG7wDUrPqnoyhlfjqwVXgMpifBk=
+	t=1784996915; cv=none; b=V6z53YjXHz5/Fql3X08QWlr+pgndWefH1fe4W6l7xiTFmtGUNtpEKW5YEL8WxSSArBhkeQSUJSwy4jNWRM/+eDsja/fAWAKmjjCFJDnjLB2wsvfZ3WUkkKzvGJHaBXVeqOXiHV99dBVWYt6raAZ8TzN8ngXqyzgkiM++U74a94c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784996470; c=relaxed/simple;
-	bh=GYWvY5URAkNkQ1kqNOw2smlI2JLCatnep+JhlX9A0gg=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=aUxTzdjcsx6mFvTUi4mxnx8oub2l9vDxEpaVeYyuWRmdUYkOuvCxObxTWShmzwi1qqMvEJ1KHHhlKTZ4h7LDrj0uXmseMICfTAfEshKv9SLAoRQhnSQ6nOR4wYY4CaWKW9H9Y9C+mSNLtSZkHK3y1o9d1ZiNL1lVPpm9AoMrGrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=rRepT9lL; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	s=arc-20240116; t=1784996915; c=relaxed/simple;
+	bh=U3qQjuRNPpLfY7TrgJ3WRG2Wisb1hB9F3UEm+VvkDtw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Smfg+y/f1+U8TUnLGJvciKeQOw+uyir+feeZl5rr9++Ni/0c5g8/d8gnJjxDwqBPmgC1i0IgOKzvi7Y0XKvq5XTB6TraEISNHT4NLZbMx8KF46+8JGjyJkBduFTSVjtGaDqfxQhAeP/ZCEkTfwoebp7PT93WeX7Bb4SptOUoFUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=OVu7k7V1; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="rRepT9lL"
-Received: by chaosmail.tech (Postfix) id 6FF811C8684;
-	Sat, 25 Jul 2026 16:21:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1784996464;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=u1zr8HrJdV/Y3pfey2B5/XTcYM1ZBV0D6sRxUfn6RJ0=;
-	b=rRepT9lL2ve9XWMdScLOYZz60oFQXgqWqByzHaGHplnW5vmOV63DpVJi3VmKd3T40xH4WM
-	gkMi9CXhgZSN/DZvxmiID70iSDrcuZDxxcIRZ4doR8CGrj0FiLwGZRc3KROcYpmzCTgu91
-	XNYVtvBsN5eWPYJb1NyjD0oSBnjic9U=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Subject: [PATCH 0/3] usb: typec: tipd: Add sn201202x (ACE3) support
-Date: Sat, 25 Jul 2026 18:20:55 +0200
-Message-Id: <20260725-tipd-ace3-v1-0-73202d36138a@chaosmail.tech>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="OVu7k7V1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=VH
+	N+v7M01kQQBD++2huMW3GagxOuhUS523J0kslKRhY=; b=OVu7k7V1mUkIGvDvtt
+	I3lEhRl3mzdeasZfi4wgm5xcgfS3GGzMddcirFbVjB1B6Ai0n6/Nt02ZBCwbIwLL
+	w8mXF5LL757drrziDX95NC8CMmHM+N5tVYc/WAJWPvqY6+8dK5poGSDkGlMGuo0J
+	hY3Xdt0Au1+XWVXh6cpUiNpCk=
+Received: from pc.localdomain (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id PSgvCgCn5fMI5GRqXb4wIQ--.49959S2;
+	Sun, 26 Jul 2026 00:27:53 +0800 (CST)
+From: Jiale Yao <yaojiale02@163.com>
+To: Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Jiale Yao <yaojiale02@163.com>
+Subject: [PATCH v2] usb: serial: fix slab out-of-bounds read in interrupt URB callback
+Date: Sun, 26 Jul 2026 00:27:51 +0800
+Message-Id: <20260725162751.1045657-1-yaojiale02@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ5AMBBA0avIrDUZlRKuIhZVU8aimhaRiLsrl
- i/5+RdECkwR2uyCQAdHXl1CkWdgZu0mEjwmg0RZYS2V2NiPQhsqBTY4WFUjWdVA6n0gy+f36vr
- fcR8WMts7gPt+AE3TmJdtAAAA
-X-Change-ID: 20260725-tipd-ace3-090bf570ef59
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Neal Gompa <neal@gompa.dev>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>, 
- Alyssa Milburn <amilburn@zall.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784996463; l=1521;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=GYWvY5URAkNkQ1kqNOw2smlI2JLCatnep+JhlX9A0gg=;
- b=YMosi9qQh+R/gX1yMPeFJxRyRY7C4hDqEbiw1DvZHWQ+b7nhU64ka/wrJ4M30rMCsdXj/uYry
- sHyhlyAf+j4BQRLV66+ITlol2pb5j4YPqexxKOEfCQDn1ViBJwLyDzr
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PSgvCgCn5fMI5GRqXb4wIQ--.49959S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJFWfZw4fCFW7Gw15KFWrAFb_yoW5XFy7pF
+	W3Kayjyrs8Jry3tw17AF4fAry5Aws7Xa42kr97t34SyrnxJr1Yva43KF9YqFW7Cr93XF10
+	yrWqvFsxuryqyw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pi89NxUUUUU=
+X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbC8AruKWpk5AqeyQAA3K
 
-Add support for sn201202x (a.k.a ACE3), an Apple-specific tps6598x
-variant that wraps the tps6598x core register set with a SPMI based
-regmap-like protocol, first appearing in Apple M3 devices. This series
-first makes the core parts bus-agnostic, and then adds the new SPMI
-interface as a custom regmap implementation.
+The interrupt URB buffer is allocated in setup_port_interrupt_in() based
+on the endpoint's wMaxPacketSize:
 
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+    buffer_size = usb_endpoint_maxp(epd);
+    port->interrupt_in_buffer = kmalloc(buffer_size, GFP_KERNEL);
+
+When a USB device declares wMaxPacketSize = 8 on its interrupt IN
+endpoint, the buffer is allocated from kmalloc-8 cache (exactly 8 bytes).
+
+If the device sends a short packet (actual_length < wMaxPacketSize),
+the URB completes with status == 0 and the callback proceeds to read:
+
+    data[sizeof(struct usb_ctrlrequest)]
+
+which evaluates to data[8], accessing 1 byte beyond the allocated 8-byte
+buffer. This results in a slab out-of-bounds read.
+
+Fix this by splitting the bounds check into two: first verify that the
+actual length is large enough to contain the struct usb_ctrlrequest
+header before accessing req_pkt->bRequestType and req_pkt->bRequest,
+and then verify that there is an additional byte for the modem signal
+state before reading data[sizeof(struct usb_ctrlrequest)] inside the
+conditional.  Use sizeof(*req_pkt) instead of sizeof(struct
+usb_ctrlrequest) for consistency.
+
+Changes in v2:
+- Split the bounds check into two separate checks: one for the
+  usb_ctrlrequest header (before the conditional) and one for the
+  modem signal state (inside the conditional), as requested by
+  Johan Hovold and Oliver Neukum.
+- Use sizeof(*req_pkt) instead of sizeof(struct usb_ctrlrequest),
+  as suggested by Greg Kroah-Hartman.
+- Link to v1: https://lore.kernel.org/all/20260712170012.3503601-1-yaojiale02@163.com/T/#u
+
+Assisted-by: Claude:deepseek-v4-pro
+Signed-off-by: Jiale Yao <yaojiale02@163.com>
 ---
-Alyssa Milburn (1):
-      usb: typec: tipd: Factor out i2c specifics
+ drivers/usb/serial/option.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-Sasha Finkelstein (2):
-      dt-bindings: usb: tps6598x: Add sn201202x/ACE3
-      usb: typec: tipd: Add sn201202x support
-
- Documentation/devicetree/bindings/usb/apple,sn201202x.yaml |  78 +++++++++++++++++++++++++++++++
- MAINTAINERS                                                |   2 +
- drivers/usb/typec/tipd/Kconfig                             |  14 ++++++
- drivers/usb/typec/tipd/Makefile                            |  12 +++--
- drivers/usb/typec/tipd/{core.c => core.h}                  | 119 +++++++++++++++--------------------------------
- drivers/usb/typec/tipd/i2c.c                               |  86 ++++++++++++++++++++++++++++++++++
- drivers/usb/typec/tipd/spmi.c                              | 297 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 7 files changed, 523 insertions(+), 85 deletions(-)
----
-base-commit: 0ce37745d4bfbc493f718169c3974898ffec8ee7
-change-id: 20260725-tipd-ace3-090bf570ef59
-
-Best regards,
---  
-Sasha Finkelstein <k@chaosmail.tech>
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index 4c4009b8a46d..caef872a3c40 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -2672,12 +2672,25 @@ static void option_instat_callback(struct urb *urb)
+ 			dev_dbg(dev, "%s: NULL req_pkt\n", __func__);
+ 			return;
+ 		}
++
++		if (urb->actual_length < sizeof(*req_pkt)) {
++			dev_dbg(dev, "%s: short packet: %u bytes\n",
++				__func__, urb->actual_length);
++			return;
++		}
++
+ 		if ((req_pkt->bRequestType == 0xA1) &&
+ 				(req_pkt->bRequest == 0x20)) {
+ 			int old_dcd_state;
++			if (urb->actual_length < sizeof(*req_pkt) + 1) {
++				dev_dbg(dev, "%s: short interrupt transfer: %u bytes\n",
++					__func__, urb->actual_length);
++				return;
++			}
++
+ 			unsigned char signals = *((unsigned char *)
+ 					urb->transfer_buffer +
+-					sizeof(struct usb_ctrlrequest));
++					sizeof(*req_pkt));
+ 
+ 			dev_dbg(dev, "%s: signal x%x\n", __func__, signals);
+ 
+-- 
+2.34.1
 
