@@ -1,193 +1,170 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21CB248867
-	for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 19:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785006279; cv=pass; b=Dy0x6Vp6tWb9HXmxXIkLSyxETuL9Ijt236KuvJreqJx16bJsoQZIxW58abmVorGtxTFskcfJC4IPCtmDHrztMUXcJBhEhuqDa94XMhNSl2oD/CqkqOIsDP/jJSie1SuS1STR0ZFJoK4AKYwtxCuN5MiViQ22bt9BiiT9uaPAGsc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785006279; c=relaxed/simple;
-	bh=909KnFnJM92zqh+PmhfhpH+V9GdWwTmvuUc0UgAs410=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iM3NS4WmTNVSH1aSg6cuTAmhyUYfnY6350Xu+o5pY2sBeyXgGTtVxoaAXKaVxKQyEspbCL21IKCeOFq+6wtGRv2pPtF2ioXNN8X1b7KeyyWhjHpONneUmCBSSRVOw25MNyY5f1s9/k19f0/zjKetmc6tHwzsJJXoUGtp9gnaktE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aaxYdRo4; arc=pass smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aaxYdRo4"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c15d3cd51b2so194043166b.3
-        for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 12:04:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785006276; cv=none;
-        d=google.com; s=arc-20260327;
-        b=rSWrsLDwf1biIXjVydhzHFC+LCd2p7jlKeq0MnohniDsKnZ1djjn0Sn5jwDozfDvYp
-         z/+V87gn7sEVT0n507nBZTuvLBzN1jkjnspFnoZxIyqIMPK2q79Pi/m5Od24cuttHq0n
-         e1sq3gFAcgYrlfdIprfVen9B8SUocSSIh+dDjhCFUFLLE7KAMw4XrB5QemX5LEvJNrdM
-         cDbePixrzM/7FBs/NxWoqo27vn3QKnA+P5l1khA7XvP1HkDNiEV7UhCLvIIc7mEhlSv5
-         4XxFFlGNbfjvt8Gn/el9d+WS3cExQQ5gUP+9rEP1ytxDMUluwUFHKqE0c4zcm+Ir1qyD
-         XosA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=uvEXQWW6iRafzzNx5ovfDzwUreA8oA4ZcmkMJOBHy3M=;
-        fh=Ko74nwmlBBQfhD72g4wLhq0MG5MccuOItWUdks6RQr4=;
-        b=LDPKLABNsBwJgbWT0WHU4vwrCUcxrPLCohBLgrzWK/LoEsIHNC3qkCOFFeuw+2TQN5
-         VroyOnPEjizc0AAMsXctb+rp9v+rnQr/1T8rRB4hNy5PpT4hDZPrkvq2eJmPV+v1cEk4
-         QlbpVv7Hfaev0srlrWoORLiKwh3kzHCeZODTDNeXE6qGO9oAkMiyfA5gNtFGEc9bAdZd
-         SXE9UKmaoliNWwFoK3Ngvi+5iuo8A+f3i1AhShOiwBviUHjNtHPYIRL2VN2DsdbDGY9u
-         fKFnl9/EPo6LcfNqw+Ap9PTBFdSRZ3M37KDnSECkWeiSpKhxIh/ZFzggtkabk864vWqX
-         2SdA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785006276; x=1785611076; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uvEXQWW6iRafzzNx5ovfDzwUreA8oA4ZcmkMJOBHy3M=;
-        b=aaxYdRo4jCzIjLgpTbzHcqQCTMT7CiptiiSkG/9xWgSQ1a1q3HdTbwwtqffS8RjySb
-         9O4soAequgz2gbIH1PTJhZ3MW722Ig4fDzL1DkxXbK4N3BnG5+Oa/284oIuzBvTqmfuw
-         fBaZmH4MAyeEI0HpGOlpyzvbwCSZIKPScbI9pw46V0RWK1MXVIvF1i4xLK87H9/081Jd
-         UlDppyyHb6pHgLUDfvqp1mOiKAi6qmDOCj2cOtmN+8fLNUhDqqqTjXG1RTEDZNAe+U19
-         cdbTB1mseU00hliG7PKfrBxaUEZtjdVo92lQ1lr6rMt1TBXLkqYb6EjGkBRGUIqUgUGS
-         Eozw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EC41A6810
+	for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 19:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785009397; cv=none; b=q8J+JLptQM8zhz44QvKHKL+YIJR2c6EAk/gYZEvBLzhW2t7Pgk5rxhsEE4UVuIrPJ6aJIK1xAYYRwFk+a3Auh3BWFXgSp4MKXV18d29lOzIQXBlfiRDZVJVuO2iDSu2vgibuk/HxTUuodWjivglTQUCqzCjpkASow0vEu6ipO+E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785009397; c=relaxed/simple;
+	bh=IMoXS/BcO1qL7fj3zWRgRqxcBQPRGySD2aVm3fydnPk=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=IqlSJRJEXcTTSC9sUD3r73mwIdwKijh+ymTcfkQLlTxKUnO8wkJmaDyt29NH72nUhl8rc+unCH0AbdUlz2DMYoYngBdHoLWhKL12VVaEV3xu40l+gJx0FJor0WjU/JS76BecrfAizmRKMKjNnwY14+2i6eosGXjUyAE7GjhmHAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-49d4cb3ca23so2106871b6e.3
+        for <linux-usb@vger.kernel.org>; Sat, 25 Jul 2026 12:56:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785006276; x=1785611076;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1785009395; x=1785614195;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uvEXQWW6iRafzzNx5ovfDzwUreA8oA4ZcmkMJOBHy3M=;
-        b=BTBxNW2bs3QvToKmpSQshOlbzWNMv/9/WlPp9Qnr0W1Qz0JWjV/8Gqxa0NinmocsM5
-         e9t2Hi0nEZSBrS3IioJv9tKaxHkXB+hfGE9qFm/7ve2sVAV0gNCLyKCRntPqmZXSavh1
-         ABE6x5dE5aVpMxcXXrcEE8i++9bim6jbZHeak0V5GDVMUgej39CSmvOOQp9L6mAqKHit
-         ruVcD3Zc+pv0oKDnV1dp3/n0KuHq/Rr7+JL4h37fxM8jYuyavltqsn9UaoVZqzUmell+
-         uT1MZudPyiL2m/50Al35pCMcwzYJb795D0VZgfXSM3c0kHTPijtwFmLHr97HVvnkKJV+
-         LRAQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp4jdldGddCf4nL9QYJbPCcR/5R6hkLLxCt5mOhT4OFTeTR7HCyH3zHKORKm3Iv2sjf4jRbzRaOQLE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBaIwM8iM9GFPdqYiVIt7QW5zC2+X37HKf4eWFAmvTvz2OVVRa
-	HEzm54BwZcrlbp7dwZc/HkB+zArNAiOR9t5iJ9Zze8mWdFmfnD9xlvTDY03vnpzBQ2/TwSlasnx
-	piQM+fuTVVOWMwbenMA2oQLO21foclpX+a0GDWAg=
-X-Gm-Gg: AR+sD12mbBTdHwIRJsRrih28/WFCXER6XwWZrvWmTrrT823ql0gTcrGCnBOV81LJHgk
-	6jth20fDWLh7RWKhCdxdob5rDwVxVjW/CujWeZY+6OPAMMEnOZwRIu308z9f5Wq9HvXk2336O6d
-	XH3eJahIf29ubFgcMZptfTYH5RluCDTVgFwhodNXQj4NXipBbE6wW3uwMsB8oiXEZFPasNxxiay
-	PxPzRTYtYb10TWfRjADWKj6BKF9N832bSplwZbJ5JrWFLvRcvs8LY1qa/JePHzA1JxlGUFZ8iAZ
-	NwO/dIkYFUVsog8M/4XtIOn9louDEW2TA4G7sZyav62QVD2ftRSQLaKQC07EGtX7kYB13qevcYG
-	xCfcX
-X-Received: by 2002:a17:907:6d18:b0:c1f:1520:56d4 with SMTP id
- a640c23a62f3a-c1f1eeae3d2mr140419766b.27.1785006275571; Sat, 25 Jul 2026
- 12:04:35 -0700 (PDT)
+        bh=tYLLa9d5ZZSEcz4GOUnCW5126Z1ea/JXPWPE7zU28Fs=;
+        b=MMvYyNsu6/CZ8t7E3TXbY2lDhfiPhXyyL0juwB0CDAGLB12qZ4teHBO0TEiag7gLf0
+         wKrivfkldFdjTSAI95uOdmvXxAHH3DjDw2IPj4F41rQXSNZyTZRsp4vcaVCOeY+vYY1m
+         RvYdGs9HsKZSo/tNcSyck90fiHzrjQoW8/OYJCaU4j7brKiaesvD5sSY8w1229E1o9YR
+         qubV+iJUR3ZhvQaupjoqJrnKhGOxeu9QG+mtzlTbHR3UWiSlIp0nEYyFBKndSJMVObXX
+         qtVX8Q7D38ncZPqdh1g2svp/YwDr+2+GfUQlB4nNdMNISr3JIknIUn2jUWI8HLz8yJqq
+         Cpew==
+X-Forwarded-Encrypted: i=1; AHgh+Rozf8yF9DCfmMmRxjj9lK9/WuvSgDz5KogUP9sONLbjoR6dc9uDBRBI6/El4PwXy0wRuo7J2B4mU98=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyI4JLTyC83Rzb8Y+WfyNZMq//mbLDwOpwML4qdv4Gi4QMCAXD4
+	LQXRnG3m4Oj5EAjEO7m8jHlANScI1wyu/6ZFULvYKqEO6VGIeDGszxRLemwjSCCWtDD4P8qskWB
+	r9s+C8E5XFlNggIJ9XgAjwRd06lyHVGwbowurPALVwG4nc5hdPiBHuiOUVro=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAG0uPa-gYTMS87gWo2ixigFifAAR8wQ1eJ1iRRTvBgiywvdxYg@mail.gmail.com>
- <2026072535-uncork-gonad-4187@gregkh> <CAG0uPa8qSkQjesAmcfms7Va2j0yb3VDuES5TYe=65LXFn0qKJQ@mail.gmail.com>
-In-Reply-To: <CAG0uPa8qSkQjesAmcfms7Va2j0yb3VDuES5TYe=65LXFn0qKJQ@mail.gmail.com>
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Date: Sun, 26 Jul 2026 00:34:23 +0530
-X-Gm-Features: AUfX_mxOiDwd606abVp3JiJhlVM-tbR6arau4ryLEUHC2B25N5Mh_Pqu9JkSGbc
-Message-ID: <CAFgddhK40Ek0=ExAYtsTMbVBsx-h4rE7Kp9uBRDRv1eQ53oBYw@mail.gmail.com>
-Subject: Re: [PATCH] usb: core: quirks: Add 255-bytes initial config read quirk
-To: Ishaan Dandekar <ishaan.dandekar@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+X-Received: by 2002:a05:6808:159d:b0:489:352c:5153 with SMTP id
+ 5614622812f47-4ab6a113d99mr3129906b6e.21.1785009395234; Sat, 25 Jul 2026
+ 12:56:35 -0700 (PDT)
+Date: Sat, 25 Jul 2026 12:56:35 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a6514f3.70955b6c.323240.0025.GAE@google.com>
+Subject: [syzbot] [input?] [usb?] WARNING in cm109_input_ev/usb_submit_urb (2)
+From: syzbot <syzbot+25031f01508bf55c62ca@syzkaller.appspotmail.com>
+To: dmitry.torokhov@gmail.com, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, 25 Jul 2026 at 20:19, Ishaan Dandekar <ishaan.dandekar@gmail.com> w=
-rote:
->
-> Hi Greg,
->
-> Here is the follow-on patch adding the ShanWan Wireless Gamepad (2563:057=
-5)
-> to the static quirks table.
->
-> Note: This patch depends on the USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE flag
-> introduced in Nikhil Solanke's pending patch:
-> https://lore.kernel.org/linux-usb/20260717195336.98500-2-nikhilsolanke5@g=
-mail.com/
->
-> Thanks,
-> Ishaan
->
-> ---
->
-> From ecd1aa9afd8bc00a3e0b36cbe49b427f390e5de6 Mon Sep 17 00:00:00 2001
-> From: Ishaan Dandekar <ishaan.dandekar@gmail.com>
-> Date: Sat, 25 Jul 2026 20:03:28 +0530
-> Subject: [PATCH] usb: quirks: Add ShanWan gamepad to quirk list
->
-> The ShanWan Wireless Gamepad (dongle ID 2563:0575) crashes with a -71
-> EPROTO error during standard enumeration because it expects a 255-byte
-> initial configuration request. Add this device to the quirk list to
-> use the USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE flag.
->
-> Signed-off-by: Ishaan Dandekar <ishaan.dandekar@gmail.com>
-> ---
->  drivers/usb/core/quirks.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-> index 87ee2d938..696bb6548 100644
-> --- a/drivers/usb/core/quirks.c
-> +++ b/drivers/usb/core/quirks.c
-> @@ -588,6 +588,9 @@ static const struct usb_device_id usb_quirk_list[] =
-=3D {
->   { USB_DEVICE(0x2386, 0x3119), .driver_info =3D USB_QUIRK_NO_LPM },
->
->   { USB_DEVICE(0x2386, 0x350e), .driver_info =3D USB_QUIRK_NO_LPM },
-> +
-> + /* ShanWan Wireless Gamepad */
-> + { USB_DEVICE(0x2563, 0x0575), .driver_info =3D
-> USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
->
->   /* UGREEN 35871 - BOS descriptor fetch hangs at SuperSpeed Plus */
->   { USB_DEVICE(0x2b89, 0x5871), .driver_info =3D USB_QUIRK_NO_BOS },
-> --
-> 2.34.1
->
-> On Sat, Jul 25, 2026 at 10:53=E2=80=AFAM Greg KH <gregkh@linuxfoundation.=
-org> wrote:
-> >
-> > On Sat, Jul 25, 2026 at 10:35:47AM +0530, Ishaan Dandekar wrote:
-> > > Hi Nikhil,
-> > >
-> > > Thank you for this patch. I can confirm this exact 255-byte config
-> > > read issue also affects the ShanWan Wireless Gamepad (dongle ID
-> > > 2563:0575). Standard enumeration causes a -71 EPROTO crash and drops
-> > > it into a generic Android mode.
-> > >
-> > > Your logic prevents the firmware crash.
-> > >
-> > > Tested-by: Ishaan Dandekar <ishaan.dandekar@gmail.com>
-> > >
-> > > Could you please fold the following device ID into your quirks list f=
-or v2?
-> > >
-> > > /* ShanWan Wireless Gamepad */
-> > > { USB_DEVICE(0x2563, 0x0575), .driver_info =3D
-> > > USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
-> >
-> > Just send a follow-on patch for this device so you can get credit for
-> > the change?
-> >
-> > thanks,
-> >
-> > greg k-h
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    cc2b5f627e8c Add linux-next specific files for 20260714
+git tree:       linux-next
+console output: https://syzkaller.appspot.com/x/log.txt?x=128a1746580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2290ccbf984c524f
+dashboard link: https://syzkaller.appspot.com/bug?extid=25031f01508bf55c62ca
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=117b92b9580000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/6836f8efb1da/disk-cc2b5f62.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/0109d3477cc7/vmlinux-cc2b5f62.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/c2e49e350bbf/bzImage-cc2b5f62.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+25031f01508bf55c62ca@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+URB ffff88802bec5e00 submitted while active
+WARNING: drivers/usb/core/urb.c:379 at usb_submit_urb+0x79/0x18b0 drivers/usb/core/urb.c:379, CPU#0: syz.1.696/7407
+Modules linked in:
+CPU: 0 UID: 0 PID: 7407 Comm: syz.1.696 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/25/2026
+RIP: 0010:usb_submit_urb+0x7c/0x18b0 drivers/usb/core/urb.c:379
+Code: 4c 89 f0 48 c1 e8 03 80 3c 28 00 74 08 4c 89 f7 e8 f9 92 4d fb 49 83 3e 00 74 40 e8 0e 3c e1 fa 48 8d 3d 87 f1 f8 08 48 89 de <67> 48 0f b9 3a b8 f0 ff ff ff eb 11 e8 f3 3b e1 fa eb 05 e8 ec 3b
+RSP: 0018:ffffc900054ff3f8 EFLAGS: 00010293
+RAX: ffffffff86e467a2 RBX: ffff88802bec5e00 RCX: ffff88803151be80
+RDX: 0000000000000000 RSI: ffff88802bec5e00 RDI: ffffffff8fdd5930
+RBP: dffffc0000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: ffffffff8e3c3880 R12: 1ffff1100b9e9d0a
+R13: dffffc0000000000 R14: ffff88802bec5e08 R15: 0000000000000820
+FS:  00007f395df0e6c0(0000) GS:ffff8881259f2000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f29938eb580 CR3: 0000000040c08000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ cm109_submit_buzz_toggle drivers/input/misc/cm109.c:351 [inline]
+ cm109_toggle_buzzer_async drivers/input/misc/cm109.c:484 [inline]
+ cm109_input_ev+0x1d1/0x3b0 drivers/input/misc/cm109.c:615
+ input_event_dispose+0x80/0x6b0 drivers/input/input.c:322
+ input_inject_event+0x1fa/0x310 drivers/input/input.c:424
+ kd_sound_helper+0x101/0x210 drivers/tty/vt/keyboard.c:257
+ input_handler_for_each_handle+0x101/0x1c0 drivers/input/input.c:2540
+ kd_mksound+0x96/0x130 drivers/tty/vt/keyboard.c:281
+ handle_ascii drivers/tty/vt/vt.c:2382 [inline]
+ do_con_trol drivers/tty/vt/vt.c:2699 [inline]
+ do_con_write+0x2f5a/0x5540 drivers/tty/vt/vt.c:3325
+ con_write+0x31/0x2e0 drivers/tty/vt/vt.c:3661
+ process_output_block drivers/tty/n_tty.c:557 [inline]
+ n_tty_write+0xd4f/0x11e0 drivers/tty/n_tty.c:2366
+ iterate_tty_write drivers/tty/tty_io.c:1006 [inline]
+ file_tty_write+0x50b/0x980 drivers/tty/tty_io.c:1081
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x61e/0xbb0 fs/read_write.c:687
+ ksys_write+0x156/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x17b/0x530 arch/x86/entry/syscall_64.c:85
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f395e8ade99
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f395df0e028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f395eb35fa0 RCX: 00007f395e8ade99
+RDX: 0000000000001006 RSI: 0000200000002080 RDI: 0000000000000004
+RBP: 00007f395e943eaf R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f395eb36038 R14: 00007f395eb35fa0 R15: 00007fff65968248
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	4c 89 f0             	mov    %r14,%rax
+   3:	48 c1 e8 03          	shr    $0x3,%rax
+   7:	80 3c 28 00          	cmpb   $0x0,(%rax,%rbp,1)
+   b:	74 08                	je     0x15
+   d:	4c 89 f7             	mov    %r14,%rdi
+  10:	e8 f9 92 4d fb       	call   0xfb4d930e
+  15:	49 83 3e 00          	cmpq   $0x0,(%r14)
+  19:	74 40                	je     0x5b
+  1b:	e8 0e 3c e1 fa       	call   0xfae13c2e
+  20:	48 8d 3d 87 f1 f8 08 	lea    0x8f8f187(%rip),%rdi        # 0x8f8f1ae
+  27:	48 89 de             	mov    %rbx,%rsi
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	b8 f0 ff ff ff       	mov    $0xfffffff0,%eax
+  34:	eb 11                	jmp    0x47
+  36:	e8 f3 3b e1 fa       	call   0xfae13c2e
+  3b:	eb 05                	jmp    0x42
+  3d:	e8                   	.byte 0xe8
+  3e:	ec                   	in     (%dx),%al
+  3f:	3b                   	.byte 0x3b
 
 
-For git send-email setup, the kernel documentation has a good guide at
-Documentation/process/email-clients.rst. The key is making sure your
-mail client doesn't reformat the patch content. Gmail will change the
-tabs into spaces and wrap stuff, which leads to patch corruption.
-(this is what seems to have happened in this case).
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Also instead of sending it directly, you might want to save your email
-in a txt file and use `git am email.txt` to verify if it applies
-cleanly
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-Thanks,
-Nikhil Solanke
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
