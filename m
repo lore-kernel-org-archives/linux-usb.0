@@ -1,310 +1,202 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC1523C4F2
-	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 16:25:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343BF3C060E
+	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 17:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785083153; cv=none; b=McuD/fCcGVbvJJLwmEiwcu2fjyMpZ9j0RNdHkq0Slc7LH1mxLYsyTL2mVCwIRkm9UdGlv2q1zyeholsmcKDWeL5fxjBDVRlE0Ajlfxai5oiUGF39yI94Oz/NxBrYahDyKIhjyh+qJEy2hw9Bw0sN453WdaKYzS1HudoY6L2NzS8=
+	t=1785085736; cv=none; b=Kebz2heTbILBIyNXVF133WfTGKsMhKSy6q2viKKewT9OALqDmv72aOfUVYAFdKjccJguYFEiHoIY7ytgcMU2Ku7DcHXsAdPr6CT/rELtPXjOfjJlSm/qR+NxGocfxyr17ryEwgktdmFWKPfWBd/ebAszQztuTWt5wITn/o4vSUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785083153; c=relaxed/simple;
-	bh=XbhZWawk9uP5w+/hRkyU+8LB6exUbgZNi8v8VnEQEzc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tsxxYs0YIISSVbCRvxzt4rphjLRxCbUAhUjpegOyMn6Fk3h+FByTT109NL8lh9WNJn9+p8gptqeBGF1LTYoRhEkzq6FMAlfQej+z98O/T8A+sU/T0IYEdvl/vfGcHerwPeF8H65YRq5wpHTvNnCRns0aVe1wRs4Q/bdhFAzGnJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tv6wFtMH; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785085736; c=relaxed/simple;
+	bh=3fweRvX7MMmIfm6fBBdLurF+STbGvyfWftLxuHCdRxI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qLbmfjaw+t1PEYdnozE6YKEf6/6vnQApXU81lq6smLN6lh+1jlztCD/nQ2k5P6Xd3VtDTjCe0wr5qqAPN6S0nS0t15DueK7dxFNEXyhvhel15UCOxRwkskFM1YvQUKIbjPqhbrw94TsF3QyBoMEdWVa1oDAmdeA96UuMJTBgkHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lq8foyBX; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Bhj1id4P; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tv6wFtMH"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4799b3f7c83so1339200f8f.2
-        for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 09:25:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lq8foyBX";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Bhj1id4P"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66QH7IT0721716
+	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 17:08:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Wf5PgZtlT70Em21ycU9Ff2GtlKLobB73OXMoqmEXkMc=; b=lq8foyBX9L6drq12
+	ZuDookkAaOfZkS5kKuhL3iugpv12GkKl2Y23VadUuboRqfqaEKH2v37Eo5PZBQnV
+	szKo0Q1EAJeNWGr2yidPbBQD1y/kb2LUMd4ZAIYKujKQ9Hd8cD15OAlTfzV1qZPm
+	BNBi1bfByifqcABh7vBKw+2rWVs1HXfKd6dhyuYX0PuO2tTrrWUxrOwp7rRB/NtK
+	36aPa7UJpvqsKTMiW5Tm77HAmMtt7TIklU68meS+kSG9Z1kGJAMTbF1PxTkdCj0T
+	tBNH9KM5C9Lfss2DpBR7iE6kLtOE5jCCgqNc4iifXuxtmfk6pp8yRGq/p5jDJrIo
+	tm/7eg==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fmpajk6bd-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 17:08:54 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cacf17c7e0so27273205ad.0
+        for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 10:08:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785083150; x=1785687950; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=zFLKSj9QjxByZ3M4VcrGfBPwVddmmLi8VlJ0E9sOg4I=;
-        b=Tv6wFtMHsgi8RdI7RvXTvkvNoRut+nhX93vPraQKLt6lXF/OydWq1DonZUWQx1n4/x
-         5E9pVORAUfO74ZrEjkD2Y4JMzifGner2Keo12oS57vcFTWS+pMVACSWsHdxuAeh4mB1W
-         DbLqKg1Ppq8KAvbPvYhSEuHzpkwZa8m/QFspjsFFPNHtHGbXhcmPbiZgOn7gqUp/SG6p
-         GZyEv672LN+rmjVpViVQKqWBkqadG1dLaW7VwKrRtj5X3PuDY9f/O8S06etrosJQh7Nz
-         Vrn855+/DR6dSg3evyITd+hzygE/KO+Dgj5tNriSAsMySta/GVgslK2HGQSKKmOigZjq
-         FGvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785083150; x=1785687950;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1785085734; x=1785690534; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=zFLKSj9QjxByZ3M4VcrGfBPwVddmmLi8VlJ0E9sOg4I=;
-        b=iojMfiVBu++4UAniSvGgJlAdyWwYPUr9OrQQ1+p2W1IDHBjPnjYFOkpWqQqp2nlRoh
-         5V9BdKizjoD+EWGDAidJ+HOnoJEyjV5YpjpcVJq94gUNBdquHRINTaXB6CrKgQQ836UB
-         XgXpxKr7DdvsJyqS93O0/dWFr2D0z69IaHMCYqZkIlpa34tbQssSEBeKMDauNf8XkWCv
-         9zcFdyoBz0JkpyRCdROuc5NA82wTjMbU5vGeSpJYqeIC82GX2VMODfmCWIPpDr++5MKx
-         4f+dcAn5WJ5aJHkB8e9NYPQx/E/122sAUFcFdz7FRYqJEW5GOdS0/Bc5iSaCeqLzhlfk
-         UqYA==
-X-Gm-Message-State: AOJu0Yz6gm0n4MRlomKnVdy68sgAX/TmXMC8YOJl6MCkY12Si4fk/IS/
-	l8C9jjDU7NWOMEjfjz8r1a/UU7HVPBARWm3TGp5+ZqZTJGCM+EvDy4B1
-X-Gm-Gg: AR+sD13bmx+/sykpkCPruMbLIDuDmuDnGlm3+RYSswwTfSATrRVOmvZ2bu2L9Wt0VLl
-	XAl02Z3phUv18qVMD3SBr9t7+lXtA74WNfbK49ded4fG38P/z3NjR1WUyhVVmQqmdRRtrFdUWUd
-	cedHEupLeAffhdQEwS48kBalXzKQ31VLDZTPwRbucwjG+ca3OKFYHpIlcJSf1a4rKHzWog92O1q
-	EN0TnIEP9jvhSrVTxE61nrHjnmPSGeNoK+GP4HH5WzVyIQoKoMbfLyZQFBdOqaBxe8JN4sJPUX4
-	QPfepFhvePXGkyuN2bmUi1dqw1fSCOPcxcyFrLXLMJDu+x3nzclxcv9xVGU96uAtCYwu9jO1Ath
-	LAUscbTdD+C0AQTVEAD7OYPo7CMulwguyP2rBUj+GRM587/q71znT21r4lrCaEg7xsyBlj58NNt
-	6uJGh+3d+lrxY=
-X-Received: by 2002:a05:600c:6992:b0:495:4811:d71c with SMTP id 5b1f17b1804b1-496b56c6d6dmr72217385e9.13.1785083150064;
-        Sun, 26 Jul 2026 09:25:50 -0700 (PDT)
-Received: from foxbook (bey56.neoplus.adsl.tpnet.pl. [83.28.36.56])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f302f8sm148698145e9.12.2026.07.26.09.25.48
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sun, 26 Jul 2026 09:25:49 -0700 (PDT)
-Date: Sun, 26 Jul 2026 18:29:46 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, stern@rowland.harvard.edu, corbet@lwn.net,
- skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] usbcore: Add quirk for 255-bytes initial config
- read
-Message-ID: <20260726182946.79a4ef98.michal.pecio@gmail.com>
-In-Reply-To: <20260717195336.98500-2-nikhilsolanke5@gmail.com>
-References: <20260717195336.98500-1-nikhilsolanke5@gmail.com>
-	<20260717195336.98500-2-nikhilsolanke5@gmail.com>
+        bh=Wf5PgZtlT70Em21ycU9Ff2GtlKLobB73OXMoqmEXkMc=;
+        b=Bhj1id4PbksnD7yv99r0Ny7CkeWPpGaNMw4/jtbne/0I+Ww0r7Ssvs7fQWLE8SR4kx
+         8Mm+VeDqoX0qy2M4+DiohSSjv0s8pxX0R34NQy/J7jm+Um3TEP/+UXDvavKC3RALbvnL
+         22qFwVJtnMQ0OtEQ7qVhHgXFYqzHbj8H35FnXVGODyzaH/g1CSf8CdY/PiFOJaNNh2LY
+         R2zC9Gpx2XUEQ/JWx7yzh8oNpasfFWyU79sqZHpN768XiDaTKjcXzUi7JEjU1QPBpYfD
+         H5vaIxqXfqmLJnBNk1hM2R8OWHWujIo4YlD0v3/hoRIi2NAGMLIKwooRCQ8j2M0lwVT8
+         TGtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785085734; x=1785690534;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Wf5PgZtlT70Em21ycU9Ff2GtlKLobB73OXMoqmEXkMc=;
+        b=jlckY733Xc8UU8XpRN7s1GmLB48IMKjZCP9jhBJBR15UX1ym9SocK91BtV4PT3mIi2
+         FXUFDXxA1W/SXlvqW8/IdH01SIQuuPTr03IkKk5SmtUXAuwRNMzWBuIXm1aa2vYij+ig
+         26RrBlD6zY+dj9kvAcWYS0+CUB/O7376AbwV1eKraYVck9eP0SK70PxzTdGbexmXEu+/
+         NbT0SWA+L5fW/wEuS+QBW4nJYiQtkAL3WsBIifrZohmr/laCQqmGUR1bYQMlV8DKbDJR
+         Vi+s0YZgvRpq15MG/AxCnIYBaGC5aKX9NQisRMVSrc8oGgqgeG5L5BXd79R6tesg6JKF
+         YjWw==
+X-Forwarded-Encrypted: i=1; AHgh+Rq0NdYfbT5TxEMtKfol3ta9Bvk2cJo/obiDCCk1gAFzRdb0YWNuKHRshmfqYL0mMYEmR/B+NkrEM5U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3hfOyKgeC/UIeZ4N1XEKquYT2at0y1afqjPoDmLwWYpLAfF5Z
+	Ce1Rbn/++wSuyXGSDkf5PS5hE8Sr/ewjr81feOstmpNCNrW58EaDwbSQibuDSJeA1Nl/gn05HfN
+	5apV4G1AIpLtHp0VeOA/f6TizXTkmw6lRDs50hcCfL1m7yRy7NPhufbj6SxHXKes=
+X-Gm-Gg: AR+sD103KC/WxYeE+ydlRHqaJe2cslg4o7J1enUhN63JjLriZ9vzgy9T9fLbq1JTtRp
+	b/GQqJ8wxqRmHxv2UPhmZBZG+rzm3sIOaiuw/++vmQSmTydqP6PyTkavLGu1hv2vTkRW5rdd1Q8
+	X0b/HeGdeGCJZQla7AC5v2JHfPDC1PHVq205NfsQZH9YiGwxMclP1LmabpwAFQHtpRK7OMBRO6H
+	FY5hZJFHaCBQJa8lt/mozy9AB8GiZMosOiU4oOC2Dh1Yl/vrulmxqaZZbFcCYmWgqnuqaRpCV66
+	yEKP86yZPxOAdNWj+Lmhpi0hVtegnoMIROBEWpnKoqxp6lbpGUrNml3vhZN65GjVsHDMcaEmSRB
+	jrDcoCmq7DEASwx7Yp+nADJdsujEWQrJgna7SX9g5vDnk+P2Kln+btW2gsTKL+R9bTpKm
+X-Received: by 2002:a17:902:ce83:b0:2cc:777f:d67c with SMTP id d9443c01a7336-2cfde795576mr52293935ad.13.1785085733542;
+        Sun, 26 Jul 2026 10:08:53 -0700 (PDT)
+X-Received: by 2002:a17:902:ce83:b0:2cc:777f:d67c with SMTP id d9443c01a7336-2cfde795576mr52293705ad.13.1785085733122;
+        Sun, 26 Jul 2026 10:08:53 -0700 (PDT)
+Received: from [192.168.1.9] ([122.177.243.104])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde7f442bsm21570895ad.65.2026.07.26.10.08.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Jul 2026 10:08:51 -0700 (PDT)
+Message-ID: <49d0e412-4561-4f4f-b00b-b77dc9cf143b@oss.qualcomm.com>
+Date: Sun, 26 Jul 2026 22:38:43 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 3/5] phy: snps-eusb2: Set phy type to EUSB2
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org
+References: <20260723-eusb2-int-handling-v5-v5-0-f32ea6c1a318@oss.qualcomm.com>
+ <20260723-eusb2-int-handling-v5-v5-3-f32ea6c1a318@oss.qualcomm.com>
+ <amPdeL2GWkNhPoal@venus>
+Content-Language: en-US
+From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+In-Reply-To: <amPdeL2GWkNhPoal@venus>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: TkFNI6bIEkjx3927O_F2L5N6_2zPbQ98
+X-Authority-Analysis: v=2.4 cv=A8Bc+aWG c=1 sm=1 tr=0 ts=6a663f26 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=SscvhSW7bbCibxPycpFs8Q==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=EUspDBNiAAAA:8 a=gCZJ6Er7C-9YbjHnqbwA:9 a=QEXdDO2ut3YA:10
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-GUID: TkFNI6bIEkjx3927O_F2L5N6_2zPbQ98
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI2MDE3NCBTYWx0ZWRfX2JCD2TnXc2m/
+ VsuZcG828Xw0bfIhL7UqzXFm+CxRqD2x7H5OsVHaaci4rNO9OsSXQtFU7sXCo+hbMEikr1Je0Oe
+ jnqecx2tKbb9IwX7zOsqNRntQLI+wKGdcE1sNlYnyYjhHHsQFD0V7vVTyRS7FVA4OPDk5FQMM4h
+ B00MkwugC7et0D81S3Sqc9E4y+8N5mS3wPL0OZYom8wTeOCAdMogvY+5TqGBiZpseGI0f3rqZBq
+ BYOf1i3HvxGGyEm4D5PPwSO2wxv2PTrmcPbxnx1SN87HK2dPD8rYETb507O9fskX4k85T6Z4kiq
+ ppj4za3doi6A7xS/NmJP4jNUe9HkycdgswOHfFSQ9NmD6G5pBDeH/fUXC90RBvsXQXJDogSNfd8
+ Iif4/oGV8fP7lVHGtpVs1i2EZZiEDLZyF7Fwu/oN861la/VJj140MAK7COMZ++npL1r0KHUj7+a
+ j+t/R2beojB1X8Kj6wg==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI2MDE3NCBTYWx0ZWRfXxx+wBLw7i2Y5
+ udk7PIz7D1eQkUZ2NKTHv63XhvrlyCS2guPK7c/ypCUwbd7/KiqpdcZkbULv5BkAff6JqH/9UKO
+ F9/PYmK+UtMkqiMzZtOAN2y31Ie+QuE=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-26_05,2026-07-24_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
+ impostorscore=0 adultscore=0 lowpriorityscore=0 spamscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607260174
 
-On Sat, 18 Jul 2026 01:23:35 +0530, Nikhil Solanke wrote:
-> Certain third-party USB game controllers exposing (or spoofing) an Xbox
-> 360-compatible interface (VID:PID 045e:028e) fail to enumerate under Linux.
-> The device disconnects from the bus without responding to the initial
-> GET_DESCRIPTOR(CONFIGURATION) request, and the kernel logs 'unable to read
-> config index 0 descriptor/start: -71'.
+
+
+On 7/25/2026 3:21 AM, Sebastian Reichel wrote:
+> Hi,
 > 
-> The device then falls back to a secondary Android HID mode (with a
-> different VID:PID), losing XInput functionality including rumble support.
-> The failure reproduces across multiple machines, host controller types, and
-> kernel versions including current mainline and LTS. The device enumerates
-> correctly and remains in XInput mode under Windows. Notably, the device
-> enumerates correctly in Android mode when the same 9-byte request
-> is issued for that mode's configuration descriptor, confirming the firmware
-> bug is specific to the XInput mode.
+> On Thu, Jul 23, 2026 at 04:09:06PM +0530, Krishna Kurapati wrote:
+>> USB controllers like DWC3 are agnostic of the kind of phy (USB2/eUSB2)
+>> connected to it. Set the phy type to EUSB2 to let the controller know
+>> the phy type when queried during its probe.
+>>
+>> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+>> ---
+>>   drivers/phy/phy-snps-eusb2.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/phy/phy-snps-eusb2.c b/drivers/phy/phy-snps-eusb2.c
+>> index f90bf7e95463..e139b17bcda5 100644
+>> --- a/drivers/phy/phy-snps-eusb2.c
+>> +++ b/drivers/phy/phy-snps-eusb2.c
+>> @@ -13,6 +13,8 @@
+>>   #include <linux/regulator/consumer.h>
+>>   #include <linux/reset.h>
+>>   
+>> +#include <dt-bindings/phy/phy.h>
+>> +
+>>   #define EXYNOS_USB_PHY_HS_PHY_CTRL_RST	(0x0)
+>>   #define USB_PHY_RST_MASK		GENMASK(1, 0)
+>>   #define UTMI_PORT_RST_MASK		GENMASK(5, 4)
+>> @@ -597,6 +599,8 @@ static int snps_eusb2_hsphy_probe(struct platform_device *pdev)
+>>   		return PTR_ERR(generic_phy);
+>>   	}
+>>   
+>> +	phy_set_type(generic_phy, PHY_TYPE_EUSB2);
 > 
-> usbmon traces from Linux and Wireshark/USBPcap traces from Windows are
-> identical up to the point of failure, with no visible protocol-level
-> difference explaining the divergence. The root cause was identified when
-> Michal Pecio discovered via a QEMU bus-level capture that Windows does not
-> use wLength=9 for the initial config descriptor request; it uses
-> wLength=255. Alan Stern subsequently confirmed this with a bus
-> analyzer on a different USB 2.0 device, and Michal verified the behavior
-> goes back to Windows 95 OSR2.1.
+> Isn't there a potential race condition if it's handled in this way?
 > 
-> So, add a new quirk flag USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE which causes
-> usb_get_configuration() to issue a 255 byte sized configuration request
-> instead of USB_DT_CONFIG_SIZE (9) for the initial
-> GET_DESCRIPTOR(CONFIGURATION) request, mimicking long-standing Windows
-> behavior.
+> 1. phy-snps-eusb2 probe: PHY is registered
+> 2. dwc3 probes
+> 3. phy-snps-eusb2 probe: PHY type is set
 > 
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Suggested-by: Michal Pecio <michal.pecio@gmail.com>
-> Closes: https://lore.kernel.org/linux-usb/CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com/
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
-> ---
 
-The code looks generally correct now. Some small issues noted below.
+How about we do this get_type call after dwc3_probe call during 
+dwc3_qcom_probe. That way we can ensure phy is up for sure since core 
+init has to happen as part of dwc3_probe.
 
->  .../admin-guide/kernel-parameters.txt         | 10 +++++
->  drivers/usb/core/config.c                     | 39 +++++++++++++++----
->  drivers/usb/core/quirks.c                     |  4 ++
->  include/linux/usb/quirks.h                    |  3 ++
->  4 files changed, 49 insertions(+), 7 deletions(-)
+Regards,
+Krishna,
+
+> Greetings,
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index b5493a7f8f22..14121458a0c0 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -8169,6 +8169,16 @@ Kernel parameters
->  				q = USB_QUIRK_FORCE_ONE_CONFIG (Device
->  					claims zero configurations,
->  					forcing to 1);
-> +				r = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE (Device
-> +					fails during initialization when asked for
-> +					9-bytes configuration descriptor request.
-> +					Ask for 255-bytes request instead to mirror
-> +					Windows' behavior. This quirk is originally
-> +					meant to fix some quirky gamepads that refuse
-> +					to connect in their XInput mode. But it can
-> +					also potentially fix issues with other USB
-> +					devices that work on Windows but not on
-> +					Linux);
-
-I still think this text is needlessly long. Could be:
-
-				r = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE (Device
-					doesn't respond to 9-byte configuration
-					descriptor requests, ask for 255 bytes like
-					Windows does. Required by some gamepads);
-
->  			Example: quirks=0781:5580:bk,0a5c:5834:gij
->  
->  	usbhid.mousepoll=
-> diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-> index 45e20c6d76c0..442c15f92ccd 100644
-> --- a/drivers/usb/core/config.c
-> +++ b/drivers/usb/core/config.c
-> @@ -912,6 +912,17 @@ int usb_get_configuration(struct usb_device *dev)
->  	unsigned char *bigbuffer;
->  	struct usb_config_descriptor *desc;
->  	int result;
-> +	size_t usb_config_req_size;
-> +
-> +	/*
-> +	 * Devices with quirky firmware will stall or reset when the initial
-
-Has anyone actually seen a device that stalls?
-
-> +	 * config descriptor request uses wLength=9. If the quirk is set, use
-> +	 * 255 instead, mirroring the behavior of Windows.
-> +	 */
-
-If the USB_DT_CONFIG_SIZE constant is moved here then it could make
-sense to also move the related comment and merge with this one. Say,
-
-	/*
-	 * We start with grabbing the first descriptor so we know how
-	 * long the whole configuration is. Some devices don't respond,
-	 * request 255 bytes instead, mirroring the behavior of Windows.
-	 */
-
-> +	if (dev->quirks & USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE)
-> +		usb_config_req_size = 255;
-> +	else
-> +		usb_config_req_size = USB_DT_CONFIG_SIZE;
->  
->  	if (ncfg > USB_MAXCONFIG) {
->  		dev_notice(ddev, "too many configurations: %d, "
-> @@ -938,15 +949,19 @@ int usb_get_configuration(struct usb_device *dev)
->  	if (!dev->rawdescriptors)
->  		return -ENOMEM;
->  
-> -	desc = kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
-> +	desc = kmalloc(usb_config_req_size, GFP_KERNEL);
->  	if (!desc)
->  		return -ENOMEM;
->  
->  	for (cfgno = 0; cfgno < ncfg; cfgno++) {
-> -		/* We grab just the first descriptor so we know how long
-> -		 * the whole configuration is */
-> +		/*
-> +		 * Normally we request only the configuration descriptor header
-> +		 * so we can determine the total configuration length. For
-> +		 * devices with USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE set, try to
-> +		 * grab the full descriptor set instead.
-> +		 */
-
-... and then this comment wouldn't really be necessary, or it could
-be shorter like
-		/* First request for an initial prefix */
-
-Also, the full descriptor set may be up to 65535 bytes long and in
-some classes like UVC it commonly exceeds 255 bytes
-
->  		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
-> -		    desc, USB_DT_CONFIG_SIZE);
-> +		    desc, usb_config_req_size);
->  		if (result < 0) {
->  			dev_err(ddev, "unable to read config index %d "
->  			    "descriptor/%s: %d\n", cfgno, "start", result);
-> @@ -956,9 +971,8 @@ int usb_get_configuration(struct usb_device *dev)
->  			dev->descriptor.bNumConfigurations = cfgno;
->  			break;
->  		} else if (result < 4) {
-> -			dev_err(ddev, "config index %d descriptor too short "
-> -			    "(expected %i, got %i)\n", cfgno,
-> -			    USB_DT_CONFIG_SIZE, result);
-> +			dev_err(ddev, "config index %d descriptor too short (asked for %zu, got %i, need at least %i)\n",
-> +			    cfgno, usb_config_req_size, result, 4);
-
-There is no need to use %i if you always pass a constant 4.
-
-There is probably no need to print "need at least 4" at all. Users
-don't care that we request 9 or 255 bytes but tolarate just 4.
-
-No compliant device will ever respond with less than 9, so it's not
-clear if accepting 4 is even necessary for some very bad devices, or
-was merely done out of paranoia. It's an irrelevant detail.
-
->  			result = -EINVAL;
->  			goto err;
->  		}
-> @@ -972,6 +986,16 @@ int usb_get_configuration(struct usb_device *dev)
->  			goto err;
->  		}
->  
-> +		/*
-> +		 * If the device returns the full configuration descriptor set,
-> +		 * skip the second read. Otherwise, send a second request
-> +		 * asking for the full set.
-> +		 */
-
-There is already a comment about "getting the whole thing" a few lines
-above, so half of this is redundant.
-
-> +		if (result >= length) {
-> +			memcpy(bigbuffer, desc, length);
-> +			goto store_and_parse;
-> +		}
-> +
-
-Even if no device currently uses both quirks, I think this belongs
-after the msleep() below, to minimize interaction between the quirks.
-
->  		if (dev->quirks & USB_QUIRK_DELAY_INIT)
->  			msleep(200);
->  
-> @@ -989,6 +1013,7 @@ int usb_get_configuration(struct usb_device *dev)
->  			length = result;
->  		}
->  
-> +store_and_parse:
->  		dev->rawdescriptors[cfgno] = bigbuffer;
->  
->  		result = usb_parse_configuration(dev, cfgno,
-> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-> index 87ee2d938bc0..f5a60ccf21d3 100644
-> --- a/drivers/usb/core/quirks.c
-> +++ b/drivers/usb/core/quirks.c
-> @@ -142,6 +142,10 @@ static int quirks_param_set(const char *value, const struct kernel_param *kp)
->  				break;
->  			case 'q':
->  				flags |= USB_QUIRK_FORCE_ONE_CONFIG;
-> +				break;
-> +			case 'r':
-> +				flags |= USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE;
-> +				break;
->  			/* Ignore unrecognized flag characters */
->  			}
->  		}
-> diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
-> index b3cc7beab4a3..a4043b33c2c2 100644
-> --- a/include/linux/usb/quirks.h
-> +++ b/include/linux/usb/quirks.h
-> @@ -81,4 +81,7 @@
->  /* Device claims zero configurations, forcing to 1 */
->  #define USB_QUIRK_FORCE_ONE_CONFIG		BIT(18)
->  
-> +/* Use a 255 bytes config descriptor request mirroring windows behavior */
-> +#define USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE	BIT(19)
-> +
->  #endif /* __LINUX_USB_QUIRKS_H */
-> -- 
-> 2.55.0
+> -- Sebastian
 > 
+>> +
+>>   	dev_set_drvdata(dev, phy);
+>>   	phy_set_drvdata(generic_phy, phy);
+>>   
+>>
+>> -- 
+>> 2.34.1
+>>
+>>
+
