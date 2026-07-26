@@ -1,152 +1,159 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+Received: from out203-205-221-236.mail.qq.com (out203-205-221-236.mail.qq.com [203.205.221.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34C013FEE;
-	Sun, 26 Jul 2026 00:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785024303; cv=pass; b=cBke5bAHJ9HZNzVNO2EOEv4s24L+yQxaHed0sb87UkmUuIYaTur98mGSCuBB52+mzOMoWI8Skvj/EQmHW5Ee6Bw4kk43WFI9K4kA46ZZd79bwwfBMZox9QX9zDYuAdPM9DoVISOGInp6XN7xzBI201FnOfn2hYcvbXVEpPVFPRw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785024303; c=relaxed/simple;
-	bh=zdwmwSjlv5HSJMCjXoAa8XOTBONbWO6Dxow9THKZBYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kmbd9r9wpHFEbe3qxCfnbYBdP4l5FhsTUlkQ23u+n188+89tXv0Dgw/aTW8NqxgqAsXN7RnU1EmDYAes2Cw3FrjbdJ2Pya4WjbhCV3jelA7NviGKjvoxaInoNyEPMfR3TV53nwDqY9TWd0M0YDZj8K1jvDhJwNIgfY5EJ7exonc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=Jkj0JhS1; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E5A33CEA5;
+	Sun, 26 Jul 2026 05:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.236
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785045156; cv=none; b=jhyomimSTawhm/taI5wl2kwHVC9JBEc/04eRfNRRrUcKUqoeKRKu1FhrP0MRkcGLRGA2SKGsllej5xKa5bp+m/f1H/t6cdzWbX6K+0yaju765r6Oens13tw47+Pu8uhOvW1eW91hmH/iiS1zmDEq7KRyxMHW/Y7DbncURrwptHw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785045156; c=relaxed/simple;
+	bh=6Rmi8lmpmVr9PgLSv6DP0Ms+/G9bg5LUc/yqtlT1Sms=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=QQ8nVFSNdT6BZIDCSc4+nPccjN8OJFj3tMJatsg1J6XDGJBIuJZW/jdNOQS3qu/92iHf0xLqdNycjxHKS5wTGIieEsilb8Gw5fybLOh2dHBeY9EiEYIfKvQ3W4V94iNs4fttAP4AnlLmWXllfTW6XBdavu4lS74WJREysjiabBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=BtRbLTdN; arc=none smtp.client-ip=203.205.221.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="Jkj0JhS1"
-ARC-Seal: i=1; a=rsa-sha256; t=1785024283; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=O4C27WDzyRE6JF3uSatgl1SCTUoywkMJLxKBRFkf3aUb1IdNkWHxbFexsHqhj/iTUnrqA+O6clRt8CJYGEpWZx5ZKUTtd/Ea6IMOCBJACkeP1wyvr/6E8Ia465LTKMGJObhv6X9FScXUIjsOi9qLP70bAQ8Dr91EOKf1tqFDFvw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1785024283; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=GXBUHeWmx05A7NG2QHLd/WXxw6+eRlY+JwG0eU+0yMA=; 
-	b=OdnOWQF1Cxx4uSOEdAhcadVmsQEZGpJBBzgl0d8Y2iu3JJyunFPQMx0XwKhfqXOhLct1aoMDyqxjfZ9OgeSlB4ganwNsKVbsE3/61lSvv5nUMs/qZn2B9HPEqZQE3g5c1gGhT1AOoyOiyLcXV3J0iPcm8xk7GJH2M5ykGAOAask=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785024283;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=GXBUHeWmx05A7NG2QHLd/WXxw6+eRlY+JwG0eU+0yMA=;
-	b=Jkj0JhS1RdaUdEuKsuubBQ4AaN+7UMfMZJzkgk5LHagcV41+QHcsp0P99nGuODaI
-	6yykw/Kmxr8oAYkqd88sgzgth70vim0rrJx9VscXDcrbsRCR7NU61Qmy9TkhyZM/0P7
-	i7pd9DF8NeT8YiA+kLbGaQ1mMdBbsC9gh3570zY4=
-Received: by mx.zohomail.com with SMTPS id 1785024280358794.0851362361248;
-	Sat, 25 Jul 2026 17:04:40 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id 0D0361802A1; Sun, 26 Jul 2026 02:04:36 +0200 (CEST)
-Date: Sun, 26 Jul 2026 02:04:35 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Badhri Jagan Sridharan <badhri@google.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans de Goede <hansg@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
-	Purism Kernel Team <kernel@puri.sm>, Amit Sunil Dhamne <amitsd@google.com>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, =?utf-8?B?QW5kcsOp?= Draszik <andre.draszik@linaro.org>, 
-	Tudor Ambarus <tudor.ambarus@linaro.org>, Peter Griffin <peter.griffin@linaro.org>, 
-	RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>, 
-	Hans de Goede <johannes.goede@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v5 0/2] Add support for Battery Status AMS
-Message-ID: <amVOuVIW7WFCckfN@venus>
-References: <20260714-batt-status-v5-0-9de4aa900b69@google.com>
- <178502408322.829727.13725435987030791049.b4-ty@collabora.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="BtRbLTdN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1785045150; bh=AUcD5ksjUKN4lUkCAGne15+WHerBURaeoW1rDkQe+0E=;
+	h=From:To:Cc:Subject:Date;
+	b=BtRbLTdNZfPsmk/DeqiUfTgTkpqeHdzyoTVU933nGqrGX+3hTFrC3FW0RQovt9FmO
+	 sWrUKLPgMTduNzK1HtNXPTzLjSHyI1CWvW3Tb1EvkWR14VrJdlHSA4yoPoH3kto+A0
+	 F776FiJs5PJipD87LJ0++WZ3G22nCmPMfHd85DiI=
+Received: from ws006419.mbzu.ae ([5.195.0.150])
+	by newxmesmtplogicsvrsza73-0.qq.com (NewEsmtp) with SMTP
+	id D119CEA3; Sun, 26 Jul 2026 13:52:17 +0800
+X-QQ-mid: xmsmtpt1785045137t7lk3fqds
+Message-ID: <tencent_6E0FD0F7F7BD32B33EACC80AB25B97C26905@qq.com>
+X-QQ-XMAILINFO: MllZffuBkEb5vSxp2mtbmBjvV0CTeSn8BFhV6yybodv5U8x88r+qSOWsTPGDu3
+	 Gg2y/0d6uYEhugUhdBMLZLD5wSfnsgpxiA7cEBrhoTRRZ3GtaUf7k4d943j/CqWv3ibHxFfHOakt
+	 INdCMg/T0lvCZ22ScsQZDidgW3aNddN5fA5dh32huhGC5kVi/77WeiHUSlRLUsG2ephhhcwzQ1xR
+	 jNad3DkCWA2M4479gb4/e2Hi8tQ9HHKE9SjT/yE7YaEYm3Zhenqq5WjqRL2tF45l24c6H/vHdyRq
+	 rcfdPae6zYlo7jq5z4cdAdpxOoOJvO6Yqr3rlGnbd8CLD4xRwFxf3swcpJMSavoFJYYcLUZpmxgY
+	 WGdmt+EFFYUrspcVSavMFHT4ppxDo+0OW1Iq629TRsDZfUmjwZ2MLNsfJcwlE/Ei4ljXxDtIteJk
+	 CcgOBWMGP2b4nkI75CfQKGqIkT26wRCGeLfDEVphOOaiBjLLMjmU4sya3knM8d7vWhEEMH6kvUOp
+	 Lkyw9WshRN/dOYjyHVcJ7OxeSgg/wiNeci3B8FXJ2lscUfSuxG5E030U8iJxptoL8XDwQHhH7ulL
+	 681kAs3TXPos5yZ7pvVWJ/95nmvkHFwf/xZ7tzZnMGbQM3Gxv8hJw+RKWc4BwcBO9J6RioGw/7dH
+	 9AND1dKCxtS1UFhTuo8UIj6yoy4UlJ6Rc9k9aIckBH94bPmACrlUsDTqVRyjbF16MdcN4+8/3kxH
+	 jIUxO4A/1XktU8aVc7RL/6a+ait1RHbKWbUKGJovSdj3iulS8Fs8xOJo4iN+ODiGCGp9yjKi0UUV
+	 plVz6v2WzeyV1VkDEm4ZNTp+sSIW5YZnu0geu5N5jrkmzeyjmVWcD0gpVwxDIGH2j631XNcVKiqh
+	 gDBXL4X1Au7QmM4kV3WMYVEtpoMrWOcfCjCpAQLvfihbA5JME8z6RBPoY1fI5A2GhfG3NC4cnTSd
+	 EcBUaFUJW5WstlP/lajmV08qsa1Buu9bJx8ntyXVZtL0J6SHUCkSEhuT6C2wxn+T+OYIFyxD8G8a
+	 MsctCgxsLY4uWdqg0vFL4/GScGf182c+OJdvxpLjzb69SVpUNNYxijHJG4mZc=
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+From: Jiawen Liu <1298662399@qq.com>
+To: Neal Liu <neal_liu@aspeedtech.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>
+Cc: linux-aspeed@lists.ozlabs.org,
+	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Jiawen Liu <1298662399@qq.com>
+Subject: [PATCH] usb: gadget: aspeed_udc: fix probe error cleanup
+Date: Sun, 26 Jul 2026 09:52:15 +0400
+X-OQ-MSGID: <20260726055215.1389043-1-1298662399@qq.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bk3fbf2cmj33nl56"
-Content-Disposition: inline
-In-Reply-To: <178502408322.829727.13725435987030791049.b4-ty@collabora.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.10.1.5.2/284.966.17
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
+ast_udc_probe() jumps to one shared error label for failures after driver
+data is installed.  That label calls ast_udc_remove(), but remove assumes
+that the gadget has been registered successfully and that later probe
+resources are initialized.
 
---bk3fbf2cmj33nl56
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: (subset) [PATCH v5 0/2] Add support for Battery Status AMS
-MIME-Version: 1.0
+For example, failures before usb_add_gadget_udc() can call
+usb_del_gadget_udc() through ast_udc_remove() even though gadget->udc has
+not been set up by the UDC core.  Failures before or after DMA allocation
+also take the same remove-style path.
 
-Hi,
+Use staged probe error labels instead: free the endpoint DMA buffer only
+after it has been allocated, and disable the clock only after it has been
+enabled.  While doing this, also handle dma_alloc_coherent() failure
+explicitly.
 
-On Sun, Jul 26, 2026 at 02:01:23AM +0200, Sebastian Reichel wrote:
->=20
-> On Tue, 14 Jul 2026 21:10:51 +0000, Amit Sunil Dhamne wrote:
-> > PD 3.1 v1.8 Spec necessitates a response to Get_Battery_Status request
-> > from the port partner (see "6.13.2 Applicability of Data Message").
-> > This patchset adds support to get all the battery type power supplies
-> > and query them to report the telemetry required to build a Battery
-> > Status Message. Right now, this submission assumes all the battery type
-> > power supplies that exist in the system are fixed (meaning cannot be hot
-> > swapped).
-> >=20
-> > [...]
->=20
-> Applied, thanks!
->=20
-> [1/2] power: supply: Add helpers to get and put arrays of power supply ha=
-ndles
->       commit: 0962125d9001077e91bc90656245f009e3c6c129
+Signed-off-by: Jiawen Liu <1298662399@qq.com>
+---
+ drivers/usb/gadget/udc/aspeed_udc.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
-Here is a signed immutable branch/tag for the USB subsystem to
-handle patch 2 (I also left some review feedback for that one):
+diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
+index 75f9c831b21a..877a9f7539f7 100644
+--- a/drivers/usb/gadget/udc/aspeed_udc.c
++++ b/drivers/usb/gadget/udc/aspeed_udc.c
+@@ -1474,6 +1474,7 @@ static int ast_udc_probe(struct platform_device *pdev)
+ 	enum usb_device_speed max_speed;
+ 	struct device *dev = &pdev->dev;
+ 	struct ast_udc_dev *udc;
++	size_t ep0_buf_size;
+ 	int rc;
+ 
+ 	udc = devm_kzalloc(&pdev->dev, sizeof(struct ast_udc_dev), GFP_KERNEL);
+@@ -1516,10 +1517,14 @@ static int ast_udc_probe(struct platform_device *pdev)
+ 	/*
+ 	 * Allocate DMA buffers for all EPs in one chunk
+ 	 */
++	ep0_buf_size = AST_UDC_EP_DMA_SIZE * AST_UDC_NUM_ENDPOINTS;
+ 	udc->ep0_buf = dma_alloc_coherent(&pdev->dev,
+-					  AST_UDC_EP_DMA_SIZE *
+-					  AST_UDC_NUM_ENDPOINTS,
++					  ep0_buf_size,
+ 					  &udc->ep0_buf_dma, GFP_KERNEL);
++	if (!udc->ep0_buf) {
++		rc = -ENOMEM;
++		goto err_disable_clk;
++	}
+ 
+ 	udc->gadget.speed = USB_SPEED_UNKNOWN;
+ 	udc->gadget.max_speed = USB_SPEED_HIGH;
+@@ -1550,20 +1555,20 @@ static int ast_udc_probe(struct platform_device *pdev)
+ 	udc->irq = platform_get_irq(pdev, 0);
+ 	if (udc->irq < 0) {
+ 		rc = udc->irq;
+-		goto err;
++		goto err_free_ep0_buf;
+ 	}
+ 
+ 	rc = devm_request_irq(&pdev->dev, udc->irq, ast_udc_isr, 0,
+ 			      KBUILD_MODNAME, udc);
+ 	if (rc) {
+ 		dev_err(&pdev->dev, "Failed to request interrupt\n");
+-		goto err;
++		goto err_free_ep0_buf;
+ 	}
+ 
+ 	rc = usb_add_gadget_udc(&pdev->dev, &udc->gadget);
+ 	if (rc) {
+ 		dev_err(&pdev->dev, "Failed to add gadget udc\n");
+-		goto err;
++		goto err_free_ep0_buf;
+ 	}
+ 
+ 	dev_info(&pdev->dev, "Initialized udc in USB%s mode\n",
+@@ -1571,9 +1576,15 @@ static int ast_udc_probe(struct platform_device *pdev)
+ 
+ 	return 0;
+ 
++err_free_ep0_buf:
++	dma_free_coherent(&pdev->dev,
++			  ep0_buf_size, udc->ep0_buf,
++			  udc->ep0_buf_dma);
++	udc->ep0_buf = NULL;
++err_disable_clk:
++	clk_disable_unprepare(udc->clk);
+ err:
+ 	dev_err(&pdev->dev, "Failed to udc probe, rc:0x%x\n", rc);
+-	ast_udc_remove(pdev);
+ 
+ 	return rc;
+ }
+-- 
+2.34.1
 
-The following changes since commit dc59e4fea9d83f03bad6bddf3fa2e52491777482:
-
-  Linux 7.2-rc1 (2026-06-28 12:01:31 -0700)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.gi=
-t tags/ib-psy-array-helpers-for-v7.3-signed
-
-for you to fetch changes up to 0962125d9001077e91bc90656245f009e3c6c129:
-
-  power: supply: Add helpers to get and put arrays of power supply handles =
-(2026-07-26 01:31:43 +0200)
-
-----------------------------------------------------------------
-Immutable branch for battery array helpers for power-supply and USB
-
-----------------------------------------------------------------
-Amit Sunil Dhamne (1):
-      power: supply: Add helpers to get and put arrays of power supply hand=
-les
-
- drivers/power/supply/power_supply_core.c | 153 +++++++++++++++++++++++++++=
-++++
- include/linux/power_supply.h             |  15 +++
- 2 files changed, 168 insertions(+)
-
--- Sebastian
-
---bk3fbf2cmj33nl56
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmplTxMACgkQ2O7X88g7
-+pp4jA//eH9yHH+lFgxlN69qbhh8SunlrsCUxR0Z2Eob4EDAye2KknJhJHpW2O7c
-ZVEeiaesxJoztTl2hGztveEu0eFyIpF5oIlX270I77R11RBBG0BGa9kXXpgD0npU
-peTSHjSJ0GUGFdlOMbMVNy/wMwI/4shjEcydKq0RPVyDJ4WeM8rrB0Pj+VCfX3iX
-egCn9R9XuFMUxCjR5yFrRJ0gCnO0IujglIonjng4S8oPR0l2HNC3cssMlvdiHM2p
-NwPQNweTZeOU4nGlEjO28iSVIRZRvjC77LDaHCIR8WDLn9+WyuBYj+khugZvbaFp
-vh5Mce86LwdVcUl5wLqewlrAKGXHiZBRcxyQGiGnGvpHDIGHyMwv8c6DGFR70fI9
-58ljpXMpw3Mk6adkUeub21poDxu+nCYMeaooXQH8GCOrZubQsVPSJV8YE+VHxaJg
-kwxBJm4JE08ahqRn98WguzFAycIFCX154zYJ2l08jEzIjCAIXhacGwxAFMtQJxqL
-tBuNBQskpepUmfGsPcA4Uv+6mxDySmgjPkTpB27MHYLv1gW07ycpGpL6gHzhaJc8
-f6fWsQO0e2xRx3c+yp7qqXAbP+kq75TA+Sh18MyIQB+bISIaf5rQd7WY7taWjswT
-xdiMpohL6nTULhaqzdw1FHVYQK0d8BAckzfxBSpiZIICIHP3/K0=
-=3P8d
------END PGP SIGNATURE-----
-
---bk3fbf2cmj33nl56--
