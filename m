@@ -1,237 +1,310 @@
-Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBA223BD06
-	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 16:18:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC1523C4F2
+	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 16:25:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785082714; cv=none; b=bxOXcb9duzT+/rXylq7my/GVvB2URx4w1U/SBAPTrfZFin1UQapt443ZVgiAzQVXPu+/4FIx4LrMxiL6ZcUbMMgfvwcPqZRMIYRed8vVWgWPpqKD08EpefypfQC+XRJiuY4j7nKzmC/IdL6PG5gTihm9kSXtcOC9oq0x7Jmf3VQ=
+	t=1785083153; cv=none; b=McuD/fCcGVbvJJLwmEiwcu2fjyMpZ9j0RNdHkq0Slc7LH1mxLYsyTL2mVCwIRkm9UdGlv2q1zyeholsmcKDWeL5fxjBDVRlE0Ajlfxai5oiUGF39yI94Oz/NxBrYahDyKIhjyh+qJEy2hw9Bw0sN453WdaKYzS1HudoY6L2NzS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785082714; c=relaxed/simple;
-	bh=nxBSH+bTsxK02mepW3/7Uw9afuJvjS7+HAGukzoAaUA=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=fh4hh087TU4lSOc2l6SLnUayRQvGKVC/rWapExlsX6kxGw7QDGuOFoYGpyiICF6xboGI5Z2tX67OH99RpQeuP2Zv/yUPDsbxVdjoqxSC+m78KR40l2UrnMd2zJhhfwFn/3g5OYfVMDXTscjpp8DTxOjOlg/QJSPjQGiIND/Wqx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-49ce04870f8so2509990b6e.0
-        for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 09:18:32 -0700 (PDT)
+	s=arc-20240116; t=1785083153; c=relaxed/simple;
+	bh=XbhZWawk9uP5w+/hRkyU+8LB6exUbgZNi8v8VnEQEzc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tsxxYs0YIISSVbCRvxzt4rphjLRxCbUAhUjpegOyMn6Fk3h+FByTT109NL8lh9WNJn9+p8gptqeBGF1LTYoRhEkzq6FMAlfQej+z98O/T8A+sU/T0IYEdvl/vfGcHerwPeF8H65YRq5wpHTvNnCRns0aVe1wRs4Q/bdhFAzGnJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tv6wFtMH; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tv6wFtMH"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4799b3f7c83so1339200f8f.2
+        for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 09:25:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785083150; x=1785687950; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=zFLKSj9QjxByZ3M4VcrGfBPwVddmmLi8VlJ0E9sOg4I=;
+        b=Tv6wFtMHsgi8RdI7RvXTvkvNoRut+nhX93vPraQKLt6lXF/OydWq1DonZUWQx1n4/x
+         5E9pVORAUfO74ZrEjkD2Y4JMzifGner2Keo12oS57vcFTWS+pMVACSWsHdxuAeh4mB1W
+         DbLqKg1Ppq8KAvbPvYhSEuHzpkwZa8m/QFspjsFFPNHtHGbXhcmPbiZgOn7gqUp/SG6p
+         GZyEv672LN+rmjVpViVQKqWBkqadG1dLaW7VwKrRtj5X3PuDY9f/O8S06etrosJQh7Nz
+         Vrn855+/DR6dSg3evyITd+hzygE/KO+Dgj5tNriSAsMySta/GVgslK2HGQSKKmOigZjq
+         FGvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785082712; x=1785687512;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20251104; t=1785083150; x=1785687950;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xTVTBRABYS9ty2150DcyecBkK9Kui60TX0qGfQNDwV0=;
-        b=PuJjh67N/RI4JTId8h4d2ERtpVkShSos0Q5hJDMkndzMSmMrtrx4Z7Jwvi6ZOypWXa
-         /YGdeyvy7F+yp0zVB+eFmSdGh46Q0NG0hCUb2IUINt1BHpw0BcZ6OKxclLEPkxQxB+ZT
-         Wrqn1JRts33JI7Id4Ph8W4o3PQ6HH+CJiluLUgM2JNSaBWmM5RBqVH4R1cQ/DNdzkGZ4
-         bYR8EM+8Vs9Lq14cZZsL55E3gP+lLy4zXs/VlQywbuD1Tt8hoJzAGpWES+L5Wrsrhd+X
-         7VsEeqYPoBwCfzvJCqipDtzCRpRiYrUp1WXdFyVUogCKox6xTLPOpv33iWy+VUKawU0D
-         6CiQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqh46o3p9fm22AedYC2VGrjC5WEgMia2H7rGSDihlaBnm1iHLxbP6r60HZ+UgVPWvHZ/3S4+Xnlo+Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSzaLfjk8et3cATU4/exjr7mD1o4zxAP2kpB3eFaSiG7Sjpoxs
-	3i+AApmafuyzl2RHt82QBIpdX8jDVC6hj2OJMPJp9GWBcCX6tRDkstXkDXimxvb4PUIOZaeUkac
-	W1KA/J9UocKA7+E/g47mppLVgkkOucyyptEudaRTfxwJeVbvZO5yMqMV8KFk=
+        bh=zFLKSj9QjxByZ3M4VcrGfBPwVddmmLi8VlJ0E9sOg4I=;
+        b=iojMfiVBu++4UAniSvGgJlAdyWwYPUr9OrQQ1+p2W1IDHBjPnjYFOkpWqQqp2nlRoh
+         5V9BdKizjoD+EWGDAidJ+HOnoJEyjV5YpjpcVJq94gUNBdquHRINTaXB6CrKgQQ836UB
+         XgXpxKr7DdvsJyqS93O0/dWFr2D0z69IaHMCYqZkIlpa34tbQssSEBeKMDauNf8XkWCv
+         9zcFdyoBz0JkpyRCdROuc5NA82wTjMbU5vGeSpJYqeIC82GX2VMODfmCWIPpDr++5MKx
+         4f+dcAn5WJ5aJHkB8e9NYPQx/E/122sAUFcFdz7FRYqJEW5GOdS0/Bc5iSaCeqLzhlfk
+         UqYA==
+X-Gm-Message-State: AOJu0Yz6gm0n4MRlomKnVdy68sgAX/TmXMC8YOJl6MCkY12Si4fk/IS/
+	l8C9jjDU7NWOMEjfjz8r1a/UU7HVPBARWm3TGp5+ZqZTJGCM+EvDy4B1
+X-Gm-Gg: AR+sD13bmx+/sykpkCPruMbLIDuDmuDnGlm3+RYSswwTfSATrRVOmvZ2bu2L9Wt0VLl
+	XAl02Z3phUv18qVMD3SBr9t7+lXtA74WNfbK49ded4fG38P/z3NjR1WUyhVVmQqmdRRtrFdUWUd
+	cedHEupLeAffhdQEwS48kBalXzKQ31VLDZTPwRbucwjG+ca3OKFYHpIlcJSf1a4rKHzWog92O1q
+	EN0TnIEP9jvhSrVTxE61nrHjnmPSGeNoK+GP4HH5WzVyIQoKoMbfLyZQFBdOqaBxe8JN4sJPUX4
+	QPfepFhvePXGkyuN2bmUi1dqw1fSCOPcxcyFrLXLMJDu+x3nzclxcv9xVGU96uAtCYwu9jO1Ath
+	LAUscbTdD+C0AQTVEAD7OYPo7CMulwguyP2rBUj+GRM587/q71znT21r4lrCaEg7xsyBlj58NNt
+	6uJGh+3d+lrxY=
+X-Received: by 2002:a05:600c:6992:b0:495:4811:d71c with SMTP id 5b1f17b1804b1-496b56c6d6dmr72217385e9.13.1785083150064;
+        Sun, 26 Jul 2026 09:25:50 -0700 (PDT)
+Received: from foxbook (bey56.neoplus.adsl.tpnet.pl. [83.28.36.56])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496b4f302f8sm148698145e9.12.2026.07.26.09.25.48
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sun, 26 Jul 2026 09:25:49 -0700 (PDT)
+Date: Sun, 26 Jul 2026 18:29:46 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, stern@rowland.harvard.edu, corbet@lwn.net,
+ skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] usbcore: Add quirk for 255-bytes initial config
+ read
+Message-ID: <20260726182946.79a4ef98.michal.pecio@gmail.com>
+In-Reply-To: <20260717195336.98500-2-nikhilsolanke5@gmail.com>
+References: <20260717195336.98500-1-nikhilsolanke5@gmail.com>
+	<20260717195336.98500-2-nikhilsolanke5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3190:b0:4a2:ca6b:4214 with SMTP id
- 5614622812f47-4ab6a298532mr4952566b6e.29.1785082711888; Sun, 26 Jul 2026
- 09:18:31 -0700 (PDT)
-Date: Sun, 26 Jul 2026 09:18:31 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a663357.a2ea2cc8.fbad6.002b.GAE@google.com>
-Subject: [syzbot] [usb?] KASAN: invalid-free in dev_free (4)
-From: syzbot <syzbot+95b9b8670fa88368360e@syzkaller.appspotmail.com>
-To: andreyknvl@gmail.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On Sat, 18 Jul 2026 01:23:35 +0530, Nikhil Solanke wrote:
+> Certain third-party USB game controllers exposing (or spoofing) an Xbox
+> 360-compatible interface (VID:PID 045e:028e) fail to enumerate under Linux.
+> The device disconnects from the bus without responding to the initial
+> GET_DESCRIPTOR(CONFIGURATION) request, and the kernel logs 'unable to read
+> config index 0 descriptor/start: -71'.
+> 
+> The device then falls back to a secondary Android HID mode (with a
+> different VID:PID), losing XInput functionality including rumble support.
+> The failure reproduces across multiple machines, host controller types, and
+> kernel versions including current mainline and LTS. The device enumerates
+> correctly and remains in XInput mode under Windows. Notably, the device
+> enumerates correctly in Android mode when the same 9-byte request
+> is issued for that mode's configuration descriptor, confirming the firmware
+> bug is specific to the XInput mode.
+> 
+> usbmon traces from Linux and Wireshark/USBPcap traces from Windows are
+> identical up to the point of failure, with no visible protocol-level
+> difference explaining the divergence. The root cause was identified when
+> Michal Pecio discovered via a QEMU bus-level capture that Windows does not
+> use wLength=9 for the initial config descriptor request; it uses
+> wLength=255. Alan Stern subsequently confirmed this with a bus
+> analyzer on a different USB 2.0 device, and Michal verified the behavior
+> goes back to Windows 95 OSR2.1.
+> 
+> So, add a new quirk flag USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE which causes
+> usb_get_configuration() to issue a 255 byte sized configuration request
+> instead of USB_DT_CONFIG_SIZE (9) for the initial
+> GET_DESCRIPTOR(CONFIGURATION) request, mimicking long-standing Windows
+> behavior.
+> 
+> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> Suggested-by: Michal Pecio <michal.pecio@gmail.com>
+> Closes: https://lore.kernel.org/linux-usb/CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com/
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
+> ---
 
-syzbot found the following issue on:
+The code looks generally correct now. Some small issues noted below.
 
-HEAD commit:    248951ddc14d Merge tag 'hwmon-for-v7.2-rc5' of git://git.k..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13c62ab9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5c4196ba0e33631d
-dashboard link: https://syzkaller.appspot.com/bug?extid=95b9b8670fa88368360e
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+>  .../admin-guide/kernel-parameters.txt         | 10 +++++
+>  drivers/usb/core/config.c                     | 39 +++++++++++++++----
+>  drivers/usb/core/quirks.c                     |  4 ++
+>  include/linux/usb/quirks.h                    |  3 ++
+>  4 files changed, 49 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index b5493a7f8f22..14121458a0c0 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -8169,6 +8169,16 @@ Kernel parameters
+>  				q = USB_QUIRK_FORCE_ONE_CONFIG (Device
+>  					claims zero configurations,
+>  					forcing to 1);
+> +				r = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE (Device
+> +					fails during initialization when asked for
+> +					9-bytes configuration descriptor request.
+> +					Ask for 255-bytes request instead to mirror
+> +					Windows' behavior. This quirk is originally
+> +					meant to fix some quirky gamepads that refuse
+> +					to connect in their XInput mode. But it can
+> +					also potentially fix issues with other USB
+> +					devices that work on Windows but not on
+> +					Linux);
 
-Unfortunately, I don't have any reproducer for this issue yet.
+I still think this text is needlessly long. Could be:
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/517bea0258cd/disk-248951dd.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/ec55bd8fe529/vmlinux-248951dd.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/498450a9704a/bzImage-248951dd.xz
+				r = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE (Device
+					doesn't respond to 9-byte configuration
+					descriptor requests, ask for 255 bytes like
+					Windows does. Required by some gamepads);
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+95b9b8670fa88368360e@syzkaller.appspotmail.com
+>  			Example: quirks=0781:5580:bk,0a5c:5834:gij
+>  
+>  	usbhid.mousepoll=
+> diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
+> index 45e20c6d76c0..442c15f92ccd 100644
+> --- a/drivers/usb/core/config.c
+> +++ b/drivers/usb/core/config.c
+> @@ -912,6 +912,17 @@ int usb_get_configuration(struct usb_device *dev)
+>  	unsigned char *bigbuffer;
+>  	struct usb_config_descriptor *desc;
+>  	int result;
+> +	size_t usb_config_req_size;
+> +
+> +	/*
+> +	 * Devices with quirky firmware will stall or reset when the initial
 
-==================================================================
-BUG: KASAN: double-free in dev_free+0x43f/0x750 drivers/usb/gadget/legacy/raw_gadget.c:226
-Free of addr ffff88803706c020 by task syz.5.4224/22979
+Has anyone actually seen a device that stalls?
 
-CPU: 0 UID: 0 PID: 22979 Comm: syz.5.4224 Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/25/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report_invalid_free+0xea/0x110 mm/kasan/report.c:557
- check_slab_allocation mm/kasan/common.c:-1 [inline]
- __kasan_slab_pre_free+0x104/0x120 mm/kasan/common.c:261
- kasan_slab_pre_free include/linux/kasan.h:199 [inline]
- slab_free_hook mm/slub.c:2650 [inline]
- slab_free mm/slub.c:6405 [inline]
- kfree+0x173/0x640 mm/slub.c:6720
- dev_free+0x43f/0x750 drivers/usb/gadget/legacy/raw_gadget.c:226
- kref_put include/linux/kref.h:65 [inline]
- raw_release+0x199/0x260 drivers/usb/gadget/legacy/raw_gadget.c:474
- __fput+0x418/0xa50 fs/file_table.c:512
- task_work_run+0x1d9/0x270 kernel/task_work.c:233
- exit_task_work include/linux/task_work.h:40 [inline]
- do_exit+0x73a/0x2360 kernel/exit.c:1009
- do_group_exit+0x22d/0x2f0 kernel/exit.c:1152
- get_signal+0x121b/0x12c0 kernel/signal.c:3046
- arch_do_signal_or_restart+0xbb/0x860 arch/x86/kernel/signal.c:337
- __exit_to_user_mode_loop kernel/entry/common.c:66 [inline]
- exit_to_user_mode_loop+0x104/0x730 kernel/entry/common.c:101
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:318 [inline]
- do_syscall_64+0x353/0x580 arch/x86/entry/syscall_64.c:100
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fc8b1f5e6ce
-Code: Unable to access opcode bytes at 0x7fc8b1f5e6a4.
-RSP: 002b:00007fc8b2ea5f98 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
-RAX: 0000000000000000 RBX: 00007fc8b2ea66c0 RCX: 00007fc8b1f5e6ce
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000003
-RBP: 00007fc8b2033eaf R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fc8b2226038 R14: 00007fc8b2225fa0 R15: 00007fc8b234fa48
- </TASK>
+> +	 * config descriptor request uses wLength=9. If the quirk is set, use
+> +	 * 255 instead, mirroring the behavior of Windows.
+> +	 */
 
-Allocated by task 22980:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5362 [inline]
- __kmalloc_node_track_caller_noprof+0x4c3/0x730 mm/slub.c:5497
- memdup_user+0x2b/0xd0 mm/util.c:221
- raw_ioctl_ep_enable drivers/usb/gadget/legacy/raw_gadget.c:848 [inline]
- raw_ioctl+0xdbc/0x41c0 drivers/usb/gadget/legacy/raw_gadget.c:1319
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+If the USB_DT_CONFIG_SIZE constant is moved here then it could make
+sense to also move the related comment and merge with this one. Say,
 
-Freed by task 22979:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2705 [inline]
- slab_free mm/slub.c:6405 [inline]
- kfree+0x1c5/0x640 mm/slub.c:6720
- dev_free+0x43f/0x750 drivers/usb/gadget/legacy/raw_gadget.c:226
- kref_put include/linux/kref.h:65 [inline]
- raw_release+0x199/0x260 drivers/usb/gadget/legacy/raw_gadget.c:474
- __fput+0x418/0xa50 fs/file_table.c:512
- fput_close_sync+0x11f/0x240 fs/file_table.c:617
- __do_sys_close fs/open.c:1511 [inline]
- __se_sys_close fs/open.c:1496 [inline]
- __x64_sys_close+0x7e/0x110 fs/open.c:1496
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+	/*
+	 * We start with grabbing the first descriptor so we know how
+	 * long the whole configuration is. Some devices don't respond,
+	 * request 255 bytes instead, mirroring the behavior of Windows.
+	 */
 
-The buggy address belongs to the object at ffff88803706c020
- which belongs to the cache kmalloc-16 of size 16
-The buggy address is located 0 bytes inside of
- 16-byte region [ffff88803706c020, ffff88803706c030)
+> +	if (dev->quirks & USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE)
+> +		usb_config_req_size = 255;
+> +	else
+> +		usb_config_req_size = USB_DT_CONFIG_SIZE;
+>  
+>  	if (ncfg > USB_MAXCONFIG) {
+>  		dev_notice(ddev, "too many configurations: %d, "
+> @@ -938,15 +949,19 @@ int usb_get_configuration(struct usb_device *dev)
+>  	if (!dev->rawdescriptors)
+>  		return -ENOMEM;
+>  
+> -	desc = kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
+> +	desc = kmalloc(usb_config_req_size, GFP_KERNEL);
+>  	if (!desc)
+>  		return -ENOMEM;
+>  
+>  	for (cfgno = 0; cfgno < ncfg; cfgno++) {
+> -		/* We grab just the first descriptor so we know how long
+> -		 * the whole configuration is */
+> +		/*
+> +		 * Normally we request only the configuration descriptor header
+> +		 * so we can determine the total configuration length. For
+> +		 * devices with USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE set, try to
+> +		 * grab the full descriptor set instead.
+> +		 */
 
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff88803706c300 pfn:0x3706c
-flags: 0xfff00000000200(workingset|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000200 ffff88801b004640 ffffea0000d32790 ffffea0001db5950
-raw: ffff88803706c300 0000000800800050 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5768, tgid 5768 (kworker/0:9), ts 885089792261, free_ts 885088005196
- create_dummy_stack mm/page_owner.c:103 [inline]
- register_dummy_stack+0x98/0x100 mm/page_owner.c:109
- init_page_owner+0x2e/0x5f0 mm/page_owner.c:127
- invoke_init_callbacks mm/page_ext.c:152 [inline]
- page_ext_init+0x509/0x550 mm/page_ext.c:490
- mm_core_init+0x97/0xb0 mm/mm_init.c:2741
-page last free pid 5768 tgid 5768 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- __free_pages_prepare mm/page_alloc.c:1406 [inline]
- __free_frozen_pages+0xc1e/0xd10 mm/page_alloc.c:2950
- rcu_do_batch kernel/rcu/tree.c:2645 [inline]
- rcu_core+0x78b/0x10a0 kernel/rcu/tree.c:2897
- handle_softirqs+0x225/0x840 kernel/softirq.c:622
- do_softirq+0x76/0xd0 kernel/softirq.c:523
- __local_bh_enable_ip+0xf8/0x130 kernel/softirq.c:450
- local_bh_enable include/linux/bottom_half.h:33 [inline]
- __alloc_skb+0x1ad/0x7a0 net/core/skbuff.c:699
- alloc_skb include/linux/skbuff.h:1384 [inline]
- alloc_uevent_skb+0x7d/0x230 lib/kobject_uevent.c:289
- uevent_net_broadcast_untagged lib/kobject_uevent.c:326 [inline]
- kobject_uevent_net_broadcast+0x2fa/0x560 lib/kobject_uevent.c:410
- kobject_uevent_env+0x566/0x9e0 lib/kobject_uevent.c:611
- device_add+0x544/0xb80 drivers/base/core.c:3738
- device_create_groups_vargs drivers/base/core.c:4454 [inline]
- device_create+0x269/0x300 drivers/base/core.c:4493
- dvb_register_device+0x116d/0x1dd0 drivers/media/dvb-core/dvbdev.c:567
- dvb_dmxdev_init+0x2d4/0x430 drivers/media/dvb-core/dmxdev.c:1427
- dvb_usb_adapter_dvb_init+0x905/0xdb0 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:192
- dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:86 [inline]
- dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:186 [inline]
- dvb_usb_device_init+0x1c05/0x2570 drivers/media/usb/dvb-usb/dvb-usb-init.c:310
- usb_probe_interface+0x653/0xc60 drivers/usb/core/driver.c:396
+... and then this comment wouldn't really be necessary, or it could
+be shorter like
+		/* First request for an initial prefix */
 
-Memory state around the buggy address:
- ffff88803706bf00: 00 00 00 00 fc fc fc fc 00 00 00 00 fc fc fc fc
- ffff88803706bf80: fa fb fb fb fc fc fc fc 00 00 00 00 fc fc fc fc
->ffff88803706c000: 00 03 fc fc fa fb fc fc fa fb fc fc 00 05 fc fc
-                               ^
- ffff88803706c080: 00 05 fc fc 00 04 fc fc fa fb fc fc fa fb fc fc
- ffff88803706c100: 00 03 fc fc 00 00 fc fc fa fb fc fc 00 05 fc fc
-==================================================================
+Also, the full descriptor set may be up to 65535 bytes long and in
+some classes like UVC it commonly exceeds 255 bytes
 
+>  		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
+> -		    desc, USB_DT_CONFIG_SIZE);
+> +		    desc, usb_config_req_size);
+>  		if (result < 0) {
+>  			dev_err(ddev, "unable to read config index %d "
+>  			    "descriptor/%s: %d\n", cfgno, "start", result);
+> @@ -956,9 +971,8 @@ int usb_get_configuration(struct usb_device *dev)
+>  			dev->descriptor.bNumConfigurations = cfgno;
+>  			break;
+>  		} else if (result < 4) {
+> -			dev_err(ddev, "config index %d descriptor too short "
+> -			    "(expected %i, got %i)\n", cfgno,
+> -			    USB_DT_CONFIG_SIZE, result);
+> +			dev_err(ddev, "config index %d descriptor too short (asked for %zu, got %i, need at least %i)\n",
+> +			    cfgno, usb_config_req_size, result, 4);
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+There is no need to use %i if you always pass a constant 4.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+There is probably no need to print "need at least 4" at all. Users
+don't care that we request 9 or 255 bytes but tolarate just 4.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+No compliant device will ever respond with less than 9, so it's not
+clear if accepting 4 is even necessary for some very bad devices, or
+was merely done out of paranoia. It's an irrelevant detail.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+>  			result = -EINVAL;
+>  			goto err;
+>  		}
+> @@ -972,6 +986,16 @@ int usb_get_configuration(struct usb_device *dev)
+>  			goto err;
+>  		}
+>  
+> +		/*
+> +		 * If the device returns the full configuration descriptor set,
+> +		 * skip the second read. Otherwise, send a second request
+> +		 * asking for the full set.
+> +		 */
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+There is already a comment about "getting the whole thing" a few lines
+above, so half of this is redundant.
 
-If you want to undo deduplication, reply with:
-#syz undup
+> +		if (result >= length) {
+> +			memcpy(bigbuffer, desc, length);
+> +			goto store_and_parse;
+> +		}
+> +
+
+Even if no device currently uses both quirks, I think this belongs
+after the msleep() below, to minimize interaction between the quirks.
+
+>  		if (dev->quirks & USB_QUIRK_DELAY_INIT)
+>  			msleep(200);
+>  
+> @@ -989,6 +1013,7 @@ int usb_get_configuration(struct usb_device *dev)
+>  			length = result;
+>  		}
+>  
+> +store_and_parse:
+>  		dev->rawdescriptors[cfgno] = bigbuffer;
+>  
+>  		result = usb_parse_configuration(dev, cfgno,
+> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+> index 87ee2d938bc0..f5a60ccf21d3 100644
+> --- a/drivers/usb/core/quirks.c
+> +++ b/drivers/usb/core/quirks.c
+> @@ -142,6 +142,10 @@ static int quirks_param_set(const char *value, const struct kernel_param *kp)
+>  				break;
+>  			case 'q':
+>  				flags |= USB_QUIRK_FORCE_ONE_CONFIG;
+> +				break;
+> +			case 'r':
+> +				flags |= USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE;
+> +				break;
+>  			/* Ignore unrecognized flag characters */
+>  			}
+>  		}
+> diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
+> index b3cc7beab4a3..a4043b33c2c2 100644
+> --- a/include/linux/usb/quirks.h
+> +++ b/include/linux/usb/quirks.h
+> @@ -81,4 +81,7 @@
+>  /* Device claims zero configurations, forcing to 1 */
+>  #define USB_QUIRK_FORCE_ONE_CONFIG		BIT(18)
+>  
+> +/* Use a 255 bytes config descriptor request mirroring windows behavior */
+> +#define USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE	BIT(19)
+> +
+>  #endif /* __LINUX_USB_QUIRKS_H */
+> -- 
+> 2.55.0
+> 
