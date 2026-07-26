@@ -1,137 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5584A18C2C;
-	Sun, 26 Jul 2026 11:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5333876CC;
+	Sun, 26 Jul 2026 11:27:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785064280; cv=none; b=pFM36Xopn/yXNkRtWpMqgAt5o46QTwKvXTrL7QABAJrWkazbSY/tQ7r3QU3y0th1IVWXWDx+aztJWPVSYAEmtYcoLSw4otzhRd4Ro8NkSrWCnQbHgctix3tEu6/YJJdk1KA0nTv0Z4Y1zuNgEH/ojHn8rRscpCLYCcm2ma32bx0=
+	t=1785065269; cv=none; b=Su3uuTcbYb4azK7LP0QNMfsBgWGOuM3TgvrGiyhJl0HWo1VctX+mBdDOL66obW+UxzO786YtAUYhjG7MKkBpMZET/yXCDBcNcmWPov+aVqdcl2/LRoPcGeLlicWgjh+lYc7D6GbdnpgZpHhT+ZGx/P15TPkyP8Qwy2FjQbMIXhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785064280; c=relaxed/simple;
-	bh=dX7xC+F2VfseCFPPjMdEezyv4bbqh09NUjkZEo3thHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nt0XbvUrsebc0swgfyovT2sIr7GnBk5r5w1aXQxkf7nBNQ4ssMabIvPiZAbTrhzxrxhZWP+hpyBXcvxGstbPuU2Qzjz6maIWPh8jTh48LVnZfifWAgrbZma5EHAsZHOvxA1obWHa1j+8PCmnlADYMWZoSP5HXs1e5rFaj4YvLM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hb/8Cejf; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785065269; c=relaxed/simple;
+	bh=wz+8NcmaRr/+FjZLNGAP6I720CMo+sk//5lqyLArUTs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PxPHH222m3LEqpMe1Iof6BdwZI6pUoROkq5k6MJP24Vb8hkyYYfa1DTmAN4RyPCWvy55FuAKWRI9JITFxjTMbLI1YFWS4uhHYtDkmx0dwPZll0zwOuhGAp7lR/2QPkvgjfbkdWvmpGRt4du7/z52L0bXnYQNNDELj0UomMo32C8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=knBxXckw; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hb/8Cejf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 765A31F000E9;
-	Sun, 26 Jul 2026 11:11:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785064279;
-	bh=qsnACiFUU54YYrFgpxJ9gvk4dmWGwM/9GcFtaNpJFYM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hb/8CejflmypJ1DS0BYIqFW8aUhhZY+9BLQ5kazwgIBKOpaQgRCC0sVYbzfxwD25M
-	 Jh76CtL0Ye3GFswexZ8xbEf3Ni/DN7dGNdp5c3nGvA01lIPOivtgb9xLV3JjESBfsD
-	 FFS7O68sPuyT8wCCD65VmlA7oTg1oAaL/akWZls8=
-Date: Sun, 26 Jul 2026 13:09:54 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: HE WEI =?utf-8?B?KOOCruOCq+OCryk=?= <skyexpoc@gmail.com>
-Cc: Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-usb@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] usbio: fix two out-of-bounds accesses and a hang
-Message-ID: <2026072622-refusing-smasher-6eed@gregkh>
-References: <20260726080129.44969-1-skyexpoc@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="knBxXckw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 087B81F00A3D;
+	Sun, 26 Jul 2026 11:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785065263;
+	bh=sfKMVn9171l0Qjkq4ipk/ajO7811L4PUAUm8FcyVIuU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=knBxXckwTQrolUq5GbIVSW+zQ8Qkm61BaSiNXB5sZhUsnwMij/IYkoFMfhm6btgQ9
+	 sD+0vEz6f4u//A4GfIhvlUjBacRtZs+imctvarsxLtSogbqz5uCmZmH68RzNZg0IgU
+	 XTSNAefzjtflCJZy1VzfHkovBtjGuMz5AVkt2zL7wCwbogU0bbEhs4Nd/kUhevcewY
+	 9Qpz84w89hHQIHOhuUgpzaZMF10/Mwa9OnQ6X/OKSQLy1ETSUTKWvOoOKDQ2cSd8HU
+	 htZNrJu9ZupviWdWfnmdYogvrXd0GBfbeHZ1eF3KnVGWUQSgbI1qy6qADtUqbuk8tv
+	 ig9NPNrmrZmGQ==
+Message-ID: <462674b8-67e5-4802-98e1-751a6d5b18e6@kernel.org>
+Date: Sun, 26 Jul 2026 13:27:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260726080129.44969-1-skyexpoc@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: usb: maxim,max3420-udc: fix 'provices'
+ spelling
+To: "shaikh.kamal" <shaikhkamal2012@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jassi Brar <jaswinder.singh@linaro.org>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260726055846.18444-1-shaikhkamal2012@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260726055846.18444-1-shaikhkamal2012@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Jul 26, 2026 at 04:59:10PM +0900, HE WEI (ギカク) wrote:
-> This is variant analysis around 8c6314489550 ("usb: misc: usbio: bound
-> bulk IN response length to the received transfer"), which fixed a slab
-> out-of-bounds read in usbio_bulk_msg().  Re-reading that function,
-> usbio_ctrl_msg() and the I2C client built on top of them turned up three
-> further issues.
+On 26/07/2026 07:58, shaikh.kamal wrote:
+> Fix spelling error reported by codespell: provices -> provides.
+> No functional change.
 > 
-> Patch 1 fixes the length checks in usbio_ctrl_msg() and
-> usbio_bulk_msg().  They are computed as "<buf>_len - sizeof(*pkt)", u16
-> minus size_t, which wraps for any endpoint smaller than the protocol
-> header.  usb_parse_endpoint() only clamps wMaxPacketSize downwards, so
-> a device can advertise 1 and turn the check off entirely; the first I2C
-> transfer then overflows a one byte slab object.  The overflow completes
-> before usb_bulk_msg() is reached, so it does not depend on the host
-> controller accepting the transfer.  Fixed by validating the three
-> lengths once in usbio_probe(), which is the only place that assigns
-> them.
+> Signed-off-by: shaikh.kamal <shaikhkamal2012@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/usb/maxim,max3420-udc.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Patch 2 is the equivalent arithmetic in i2c-usbio.c, where the overhead
-> is 10 rather than 5.  The interesting value there is exactly 10: the
-> chunk size is then 0 and the split loop in usbio_i2c_read() never
-> advances, so a device that keeps answering keeps the loop alive
-> uninterruptibly while holding usbio->bulk_mutex.  That is a hang rather
-> than memory corruption, and patch 1 does not address it.  This is also
-> the one patch in the series with a behaviour change -- a bridge whose
-> bulk wMaxPacketSize is below 11 no longer gets an I2C adapter -- and the
-> commit message spells out why such an adapter could never have
-> completed a transfer in the first place.
-> 
-> Patch 3 is a different bug from the two above, and the one that affects
-> existing hardware.  usbio_ctrl_msg() and usbio_bulk_msg() hex dump the
-> reply with "%*phN" using a length the device supplied and that has not
-> been validated yet.  hex_string() caps the field width at 64, not at
-> the buffer size, so the dump reads up to byte 67 of ctrlbuf and byte 68
-> of rxbuf: out of bounds for every low, full and high speed ep0 packet
-> size and for the bulk sizes these bridges actually use.  It needs no
-> malformed descriptor at all, only the dev_dbg() calls enabled.
-> 
-> The new probe checks do not reject any supported bridge: the low, full
-> and high speed devices this driver binds to have an ep0 packet size of
-> at least 8, and they use bulk endpoints of 64, or 63 via
-> USBIO_QUIRK_BULK_MAXP_63.
-> 
-> What was verified, and what was not:
-> 
->  - All three build cleanly with x86_64 gcc 14.2.0 at W=1, with
->    CONFIG_DYNAMIC_DEBUG both disabled and enabled.
-> 
->  - The out-of-bounds accesses in patches 1 and 3, and the
->    non-terminating loop in patch 2, reproduce against a userspace model
->    that copies the struct definitions from usbio.h and the checks and
->    stores from usbio.c and i2c-usbio.c verbatim, with only
->    devm_kzalloc(), usb_bulk_msg() and usb_control_msg() replaced; the
->    memory errors are reported by AddressSanitizer.  The same source
->    built with the patches applied is clean, and both a normal device
->    (ep0 64, bulk 64/64) and the USBIO_QUIRK_BULK_MAXP_63 path still
->    work.
-> 
->  - The decision space was swept exhaustively, endpoint sizes 0..2048
->    against caller lengths 0..4101: the mainline bulk check can be
->    bypassed for exactly 0..4 and the control check for exactly 0..3.
->    After patch 1 no accepted endpoint size admits an overflow, and no
->    size that could carry a payload byte is rejected.
-> 
->  - I have not run any of this on hardware or on dummy_hcd.  The
->    reachability arguments are read from usbcore and from
->    lib/vsprintf.c, not observed at runtime.  I am happy to build a
->    raw-gadget reproducer if that would help review.
-> 
-> Patches 1 and 3 touch drivers/usb/misc/usbio.c and patch 2 touches
-> drivers/i2c/busses/i2c-usbio.c; MAINTAINERS lists all three files under
-> the same INTEL USBIO entry, so they are sent as one series.  They apply
-> to mainline 3dab139d4795, to usb-next and to usb-testing.
-> 
-> HE WEI (ギカク) (3):
->   usb: misc: usbio: reject endpoints smaller than the packet header
->   i2c: usbio: reject bridges with undersized transfer buffers
->   usb: misc: usbio: bound the debug hex dumps by the received length
-> 
->  drivers/i2c/busses/i2c-usbio.c | 14 ++++++++++++
->  drivers/usb/misc/usbio.c       | 50 ++++++++++++++++++++++++++++++++++++++----
->  2 files changed, 60 insertions(+), 4 deletions(-)
 
-As you obviously used a LLM for these, why did it not properly tag the
-changes with an "Assisted-by:" tag?  That is required.
+Slow down. Same comments.
 
-thanks,
-
-greg k-h
+Best regards,
+Krzysztof
