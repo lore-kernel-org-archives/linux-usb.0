@@ -1,74 +1,72 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23C6327C18
-	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 13:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B614B32B118
+	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 13:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785072216; cv=none; b=b1h+VVhiCRenFcpGkFVdqrSNmHr25K+ckWUkfTQ73cJLDKsoYeV8zs2jim0Sl3fcMtwietbEpw+cywB3Bg0ogQp9ipxxUeVJDxT6VReQRHmtnOtKiv2qxkFH36LOAJcAzqQBy+a62PHeZh2kYCBFbBE4OgXG1tNblu3dslL+xmw=
+	t=1785072219; cv=none; b=dmkuGHco5DIayqFhReEfA7subj7XTciSAu9hmh73UwEjPWNxiFh/Q6gFZwyp48vdBmorx8oWCJS2ghHX6ZK9oGP/RN9pAy5gCVU72GVQMFGN+5jx5LG61onobQncIliIesY3MEmSGi1ODsV9nfDVdyLG6x7G3WSbdRA9GK7UH00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785072216; c=relaxed/simple;
-	bh=K6apShv7PuQKFOIrpPMfbl4d2lt0kR7K+12Y5UKG6qg=;
+	s=arc-20240116; t=1785072219; c=relaxed/simple;
+	bh=98xmMfFvolCVIJOp/NbDI8DPy0x63kxjr5+u8qKjbG4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CUtUlKMY130k9wRhaBcamaV1WlTbQ5PYQHmJfDPu/Gmdh3+GVU9dnOOxRJp0ikfPaq28Jzf2NnOxvoa677pzJEHk4qfI1HtweosxV4KCkOwfp0YMzkpA93Ntelw3xCyTmPdHngePo7BPQrL2bxIcfqsP146lspxhH/OdtNSwRbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E1FL8saa; arc=none smtp.client-ip=209.85.216.54
+	 MIME-Version; b=br0UG92bhCSR+bIiA7HFSla7iDhdkHtvmtfV0Cocl4y5n4JJmdl93KbCLW4O7rYRfTKlRutQr2LvQlMdUaHEJ/OciO0HqFtA4sau3jwgIFUexHO1GlzNJJopYL+DVGEGW5y2j5BPSGCb+oW14qJ97HsU19CpHfw2/8NmStVznnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cX5S+NBo; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E1FL8saa"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38deea72eebso2091188a91.1
-        for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 06:23:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cX5S+NBo"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-385ea3ce80dso1905754a91.2
+        for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 06:23:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785072212; x=1785677012; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785072217; x=1785677017; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Ub9TpKLVdjjDPLO1Dd4PitaZbC716xWHBJENyYX1p2U=;
-        b=E1FL8saaZDZV3NdoYVxZ7eYjlJJ7tUeu29QMRsWmHmYvqc7zAAZdUfaFxu1Uwd7VHt
-         QtNHpJkpb9Ll5ia8XD64A1qHsuoqTzMTs+s4C/sExL2h2lj6dHtg1JjqXm7BnplCMb52
-         SkYfN4yrYy+7Njoaf8smoCbwGYCio1pEMTyOb1mSpJuyhUrhFEyyIQY/cmmWQtLwJkss
-         ViP1PU38Fu3P5x+1BBvsvGQNnPcZf48fm2S8fdOibnoo0BqVneofHTIjK9Fx+0ayE9Nd
-         AeS0tDSxiauy2VdB52PhYhwRys1gwporDZx4GIBkD//gGhyigyftLkgxmTGRpXkprxuc
-         JXtQ==
+        bh=fompq4KZBbcRpS6b4gUBu00h6u2Ol8qMiXNV2HqKzL8=;
+        b=cX5S+NBos1zP1/4NKvwwElpEKdMkKUVYzwKZmLdDYBZiAeLeb1l1BVnFJOiA6FmJ6t
+         7W35NtVjaDwYcxhQJuYNs/AuvMtvlDSkuAVK41qYju5SM/WzRc5wbhqa0lWanZjTG/iY
+         NhtAQ3/gAdo6FnNuGTbdGZDD4BKXuXoas0YCrFVcm/ZoeORVzzs3T1CFurnEvc4OxDfM
+         7jc3xW+b19t/THV+w5ofum9+VkBWL6miSHqOkKJsHqMYY7731A7mjiON3rLVHjQ+U0Kx
+         vviMRt87GKQXMqxoHFc8wk3bAixOqEcHoZAN/fMIf3/iH+bt0CNLq0Z0oiDvi9qG84/u
+         P8Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785072212; x=1785677012;
+        d=1e100.net; s=20251104; t=1785072217; x=1785677017;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ub9TpKLVdjjDPLO1Dd4PitaZbC716xWHBJENyYX1p2U=;
-        b=h0sTT3Fia9zCDabeweF8gAgnl+QMtt8jmWNqZjusMoNf+ghuY/hj2FAxjAXnpNySVB
-         8lXvt8aDmDZmXRH9MIY48zu1FEv785favM+N+lkqG6tJ+Ka5NPor5NnuM+xqZytox6vd
-         X6Q6PO+BWcf9Us4imNF8K/+XMB2A8YxbCBmGgRRJhHT5WOvlcUjuTgbu6nUE8uKrK1Jd
-         zsssAQBaTqc6Zz8SUY7sBYG3WAMKoVWWdAXtb6CccPtNGL2pgsgPUc9291CKBzhKQNru
-         Ez9qYhQCH1JlV1sqObb4Hwyr9Rur3TesT1NLOAKkyJN8jQ8xhzKWVxn3/YY0T8OsPBds
-         KjcQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqXN6/WskfzPpZQRd/39P40qXEDHomyqE4D8ckgL8JOswbOzhcY4krpza8ynb7CExrCqrL80/TiPLY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrtJltAoRybIHXcfv4ELzk+ZaD+rSOXki93oTAYfyCtbwJFWSo
-	0q8Po513AcuObJjyXeW123Q/FSGahVZ0yhfqWiyReRdbyRqq/4rH6QiE
-X-Gm-Gg: AR+sD12ePT5WN6IbkloFwaANNv4ZqjVS3GARNGOeR//KGI27HFLEtfBkPsLGLGrjqui
-	LjMmnZ9c2obV33LwWAyLzZcAj4+Fpn77uqb7kqsMNe0auGx+SarUnRmOJ1Z4lyzZ9A9+kS2ZlZL
-	LNsDI1EeHIl3WB1d7yqyAplPP8b5DJmBR82bQUS6vhHFw2uTQuZcSoWs0gqaX4kBEsJG7h/YBmd
-	6E1+MY0NSmhQGN11JQzfXyisADc7jBGlPqzfOmXP02CJDUfUpIvdulQoz1rK30QyKO7GBafU8Rl
-	Mv91uZi0mbgtMC3KkMWsJkPEvHUJ/8fqrRFKqiqfIME/wLfYMVsjCvI1wAxyT/zLf41mWxyMsJd
-	tRm4ZCMv1ZDfgPzkrLQ76e1YPy51NV4TrJ7I4YO0Ynn8Zh5rP9B9TlYiNqoVaPoaUcMlLIGXTv7
-	UStF6vGzTiOfUaDg==
-X-Received: by 2002:a17:90b:3cc3:b0:38d:b36e:9813 with SMTP id 98e67ed59e1d1-38f2950c7dfmr4915863a91.11.1785072211599;
-        Sun, 26 Jul 2026 06:23:31 -0700 (PDT)
+        bh=fompq4KZBbcRpS6b4gUBu00h6u2Ol8qMiXNV2HqKzL8=;
+        b=YxkFoIvRAkTzaG5cXNGzR29nCPrafGtAmK6AnPFl8v8w6noY01cnOY/lbEVLvN8QIK
+         eyDsn+YnuyWoMdUyY/N9QvtSKPaHxb2u+d2xQ51PrI7fCOcqecb/F1ENWOaf8MA573Bs
+         ABm03wW9aLIwnm5FwISiBdKCxoxz4LrbpS7t5KU6vml4PLInRqqy3HRudWric1lS3up2
+         BIvFCejSXZ5swxUVG/zDAezKiuHKtX56s7eXj+x8jn0YmT8VhUo4xiTZ8+YNiBNHZpUz
+         Ma0ZI0B93YXZDqhSHSc6wN89yTmlV3MjH3xAp0KFE74kLGTl02gPAwgNyiVvUeeBFigg
+         KLjg==
+X-Forwarded-Encrypted: i=1; AHgh+Roe8jOMnhrBYoT2qsCJsLaAvw1YdtG8H3twbWYIxGLiJkDCp8IbglC8o26rOKulyUHTpiG/MF/Kh9Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW4nIvku6hc2UAq5Cxnupc69ygl8KPA9QPX3G1uOYC0zcTx/CB
+	0f98Y7yIt9e+lJfMWsMQrKK4lOG716GM4ihiHBvTV6QhDhs8wY9XDCWv
+X-Gm-Gg: AR+sD11XiKpjkiW3MqvpbwY4ysYwgfRM0fXgl94+5hCYZkrjo9a2628TlSNTF+jAEDY
+	EIErCvO1ecIg7UjlWskTu3VPMUZHyrHnatQMju8odha/7segKlexK6CZRHWaVLt6ZRBsI5gkKI1
+	aun9rbKEBktYcoWP99MJTkvKYBXc2FEkjO6yQWpVldfKOlflQ1ICy69ShwY02EfhCaAAQ1fWKM2
+	XPeajhr2EGQV5sngORHz6uPvyvF9g7jqUMuvflBtcru6+vHmHmsuhKLLNIMXAWXbOiSZhyynXMB
+	HfXU1tIKmXCUVUu0RosAz8GqBFfkhqVbvcbf9ehOMrXoxUmEb16mWcGfLUZ4zKXs4ghMeUl6nE6
+	rLwaGx/V97I9THPa6zudGmePE43YrWWSLkWfNFaiO94ahpsojSq90bBJM3LxoijeDmJgT5urr94
+	nP7EC5KOm4RvULBg==
+X-Received: by 2002:a17:90b:5625:b0:389:8f6c:4d70 with SMTP id 98e67ed59e1d1-38f2963ce06mr4691503a91.28.1785072216761;
+        Sun, 26 Jul 2026 06:23:36 -0700 (PDT)
 Received: from Linux.bbrouter ([115.96.217.226])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc419e3asm20784436eec.11.2026.07.26.06.23.26
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc419e3asm20784436eec.11.2026.07.26.06.23.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 06:23:30 -0700 (PDT)
+        Sun, 26 Jul 2026 06:23:35 -0700 (PDT)
 From: Ishaan Dandekar <ishaan.dandekar@gmail.com>
 To: linux-input@vger.kernel.org,
 	linux-usb@vger.kernel.org
 Cc: gregkh@linuxfoundation.org,
 	nikhilsolanke5@gmail.com,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH 1/3] usbcore: Add quirk for 255-bytes initial config read
-Date: Sun, 26 Jul 2026 18:50:38 +0530
-Message-Id: <20260726132039.28330-2-ishaan.dandekar@gmail.com>
+	Ishaan Dandekar <ishaan.dandekar@gmail.com>
+Subject: [PATCH 2/3] usb: quirks: Add ShanWan gamepad to quirk list
+Date: Sun, 26 Jul 2026 18:50:39 +0530
+Message-Id: <20260726132039.28330-3-ishaan.dandekar@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260726132039.28330-1-ishaan.dandekar@gmail.com>
 References: <20260726132039.28330-1-ishaan.dandekar@gmail.com>
@@ -80,182 +78,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
+The ShanWan Wireless Gamepad (dongle ID 2563:0575) crashes with a -71 EPROTO error during standard enumeration because it expects a 255-byte initial configuration request. Add this device to the quirk list to use the USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE flag.
 
-Certain third-party USB game controllers exposing (or spoofing) an Xbox
-360-compatible interface (VID:PID 045e:028e) fail to enumerate under Linux.
-The device disconnects from the bus without responding to the initial
-GET_DESCRIPTOR(CONFIGURATION) request, and the kernel logs 'unable to read
-config index 0 descriptor/start: -71'.
-
-The device then falls back to a secondary Android HID mode (with a
-different VID:PID), losing XInput functionality including rumble support.
-The failure reproduces across multiple machines, host controller types, and
-kernel versions including current mainline and LTS. The device enumerates
-correctly and remains in XInput mode under Windows. Notably, the device
-enumerates correctly in Android mode when the same 9-byte request
-is issued for that mode's configuration descriptor, confirming the firmware
-bug is specific to the XInput mode.
-
-usbmon traces from Linux and Wireshark/USBPcap traces from Windows are
-identical up to the point of failure, with no visible protocol-level
-difference explaining the divergence. The root cause was identified when
-Michal Pecio discovered via a QEMU bus-level capture that Windows does not
-use wLength=9 for the initial config descriptor request; it uses
-wLength=255. Alan Stern subsequently confirmed this with a bus
-analyzer on a different USB 2.0 device, and Michal verified the behavior
-goes back to Windows 95 OSR2.1.
-
-So, add a new quirk flag USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE which causes
-usb_get_configuration() to issue a 255 byte sized configuration request
-instead of USB_DT_CONFIG_SIZE (9) for the initial
-GET_DESCRIPTOR(CONFIGURATION) request, mimicking long-standing Windows
-behavior.
-
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Suggested-by: Michal Pecio <michal.pecio@gmail.com>
-Closes: https://lore.kernel.org/linux-usb/CAFgddh+JWdT4LLwMc5qjM8q_pBu-fRo2qADR5ovAKoGHWMQrRw@mail.gmail.com/
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Signed-off-by: Nikhil Solanke <nikhilsolanke5@gmail.com>
+Signed-off-by: Ishaan Dandekar <ishaan.dandekar@gmail.com>
 ---
- .../admin-guide/kernel-parameters.txt         | 10 +++++
- drivers/usb/core/config.c                     | 39 +++++++++++++++----
- drivers/usb/core/quirks.c                     |  4 ++
- include/linux/usb/quirks.h                    |  3 ++
- 4 files changed, 49 insertions(+), 7 deletions(-)
+ drivers/usb/core/quirks.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index b5493a7f8..14121458a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8169,6 +8169,16 @@ Kernel parameters
- 				q = USB_QUIRK_FORCE_ONE_CONFIG (Device
- 					claims zero configurations,
- 					forcing to 1);
-+				r = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE (Device
-+					fails during initialization when asked for
-+					9-bytes configuration descriptor request.
-+					Ask for 255-bytes request instead to mirror
-+					Windows' behavior. This quirk is originally
-+					meant to fix some quirky gamepads that refuse
-+					to connect in their XInput mode. But it can
-+					also potentially fix issues with other USB
-+					devices that work on Windows but not on
-+					Linux);
- 			Example: quirks=0781:5580:bk,0a5c:5834:gij
- 
- 	usbhid.mousepoll=
-diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
-index 45e20c6d7..442c15f92 100644
---- a/drivers/usb/core/config.c
-+++ b/drivers/usb/core/config.c
-@@ -912,6 +912,17 @@ int usb_get_configuration(struct usb_device *dev)
- 	unsigned char *bigbuffer;
- 	struct usb_config_descriptor *desc;
- 	int result;
-+	size_t usb_config_req_size;
-+
-+	/*
-+	 * Devices with quirky firmware will stall or reset when the initial
-+	 * config descriptor request uses wLength=9. If the quirk is set, use
-+	 * 255 instead, mirroring the behavior of Windows.
-+	 */
-+	if (dev->quirks & USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE)
-+		usb_config_req_size = 255;
-+	else
-+		usb_config_req_size = USB_DT_CONFIG_SIZE;
- 
- 	if (ncfg > USB_MAXCONFIG) {
- 		dev_notice(ddev, "too many configurations: %d, "
-@@ -938,15 +949,19 @@ int usb_get_configuration(struct usb_device *dev)
- 	if (!dev->rawdescriptors)
- 		return -ENOMEM;
- 
--	desc = kmalloc(USB_DT_CONFIG_SIZE, GFP_KERNEL);
-+	desc = kmalloc(usb_config_req_size, GFP_KERNEL);
- 	if (!desc)
- 		return -ENOMEM;
- 
- 	for (cfgno = 0; cfgno < ncfg; cfgno++) {
--		/* We grab just the first descriptor so we know how long
--		 * the whole configuration is */
-+		/*
-+		 * Normally we request only the configuration descriptor header
-+		 * so we can determine the total configuration length. For
-+		 * devices with USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE set, try to
-+		 * grab the full descriptor set instead.
-+		 */
- 		result = usb_get_descriptor(dev, USB_DT_CONFIG, cfgno,
--		    desc, USB_DT_CONFIG_SIZE);
-+		    desc, usb_config_req_size);
- 		if (result < 0) {
- 			dev_err(ddev, "unable to read config index %d "
- 			    "descriptor/%s: %d\n", cfgno, "start", result);
-@@ -956,9 +971,8 @@ int usb_get_configuration(struct usb_device *dev)
- 			dev->descriptor.bNumConfigurations = cfgno;
- 			break;
- 		} else if (result < 4) {
--			dev_err(ddev, "config index %d descriptor too short "
--			    "(expected %i, got %i)\n", cfgno,
--			    USB_DT_CONFIG_SIZE, result);
-+			dev_err(ddev, "config index %d descriptor too short (asked for %zu, got %i, need at least %i)\n",
-+			    cfgno, usb_config_req_size, result, 4);
- 			result = -EINVAL;
- 			goto err;
- 		}
-@@ -972,6 +986,16 @@ int usb_get_configuration(struct usb_device *dev)
- 			goto err;
- 		}
- 
-+		/*
-+		 * If the device returns the full configuration descriptor set,
-+		 * skip the second read. Otherwise, send a second request
-+		 * asking for the full set.
-+		 */
-+		if (result >= length) {
-+			memcpy(bigbuffer, desc, length);
-+			goto store_and_parse;
-+		}
-+
- 		if (dev->quirks & USB_QUIRK_DELAY_INIT)
- 			msleep(200);
- 
-@@ -989,6 +1013,7 @@ int usb_get_configuration(struct usb_device *dev)
- 			length = result;
- 		}
- 
-+store_and_parse:
- 		dev->rawdescriptors[cfgno] = bigbuffer;
- 
- 		result = usb_parse_configuration(dev, cfgno,
 diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index 87ee2d938..f5a60ccf2 100644
+index f5a60ccf2..97b1cdf0e 100644
 --- a/drivers/usb/core/quirks.c
 +++ b/drivers/usb/core/quirks.c
-@@ -142,6 +142,10 @@ static int quirks_param_set(const char *value, const struct kernel_param *kp)
- 				break;
- 			case 'q':
- 				flags |= USB_QUIRK_FORCE_ONE_CONFIG;
-+				break;
-+			case 'r':
-+				flags |= USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE;
-+				break;
- 			/* Ignore unrecognized flag characters */
- 			}
- 		}
-diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
-index b3cc7beab..a4043b33c 100644
---- a/include/linux/usb/quirks.h
-+++ b/include/linux/usb/quirks.h
-@@ -81,4 +81,7 @@
- /* Device claims zero configurations, forcing to 1 */
- #define USB_QUIRK_FORCE_ONE_CONFIG		BIT(18)
+@@ -592,6 +592,9 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 	{ USB_DEVICE(0x2386, 0x3119), .driver_info = USB_QUIRK_NO_LPM },
  
-+/* Use a 255 bytes config descriptor request mirroring windows behavior */
-+#define USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE	BIT(19)
-+
- #endif /* __LINUX_USB_QUIRKS_H */
+ 	{ USB_DEVICE(0x2386, 0x350e), .driver_info = USB_QUIRK_NO_LPM },
++	
++	/* ShanWan Wireless Gamepad */
++	{ USB_DEVICE(0x2563, 0x0575), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
+ 
+ 	/* UGREEN 35871 - BOS descriptor fetch hangs at SuperSpeed Plus */
+ 	{ USB_DEVICE(0x2b89, 0x5871), .driver_info = USB_QUIRK_NO_BOS },
 -- 
 2.34.1
 
