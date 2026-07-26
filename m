@@ -1,65 +1,65 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C65311969
-	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 11:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FFC381EB8
+	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 11:36:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785065787; cv=none; b=FQqUnnSDYYVicPGNvjWwQiriAs+qRHd9ovSK2HnxB6A7fcv+VdQtXs4UZ/iHVqvA5NhUKee5IOJ6gBg/99nVVETzGylgd/lWEutQ1FOXnBBlA4BKG9vhfnFx3RoggZngoyE7d6YbXnZ4haJWq08IHJsddCkjR15XR/iSNY3zyOA=
+	t=1785065794; cv=none; b=RJy+wNGD/6fE6/u9AM7DLRNyKVkzd8isQPXKy7FxXWs+NUew22evy1CszFuProf6oe+tbt0/3k79fgPbwG2AzI+dDtzyhRo/a0+GJDRLlqKKNBIUy5vn5fXNdq1bdXgLU7p7wtVk3OoT/cRXTXuPVGhY+mYaaIHPWr6dmGxWlWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785065787; c=relaxed/simple;
-	bh=+AQdO9jbHPGWTkO02kfiTsWfoEksoJp8fjCl6GsmFuE=;
+	s=arc-20240116; t=1785065794; c=relaxed/simple;
+	bh=PdnK50oA4aFSHZ0sz/xkxC2UJ+Kx0nvxAsO7+oQ5kI0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mIUkrOzEuMp4HMfzk8EsEfx3C/NAUqj6XV+aRl+rinKWGlaKpoV26aVQLKfQR/GRz0YsE24gh6RkEyLq7D7DI0k5XL9CYwaSNFuAp22+NsWvqTBUXkDEEoNm4lfYIedjeo1gke+oLftWnjLJrEmwW0JMeSToiRdwPsjvJfLPecg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rgAJjsTr; arc=none smtp.client-ip=209.85.210.175
+	 MIME-Version:Content-Type; b=J84zPymnj2yg0TZN/yQeStXwEXi0CDi1kwEzQ8s16PIlh8CVGuDmXiXDBH1XYLEKZbEwx9ownX12CVG5zvajBoEMaUItH6vbOWE0/7ifpKa6x/cnpLf5ndmF+K0AW8sB4rqDciePFW1wkYbjOgS2TU2mRe5TX5FAqgM/mITLUZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ft2hkL8z; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rgAJjsTr"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-84e584c7a5bso534812b3a.2
-        for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 04:36:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ft2hkL8z"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-84830c774a0so1812525b3a.1
+        for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 04:36:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785065785; x=1785670585; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785065792; x=1785670592; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=V3UIYH7lFVlBcdk70z0Hk0kHBBIMfI7kKaGxbMqB1eQ=;
-        b=rgAJjsTrNukpgUEKryoqaFs6cbW8loh0W0eONnFgqHFU6pdEJbwxFcRNOMWhJbPrSB
-         riCmki9G3/hCawxutH6R182gU/w9ehrK4AWcEc5Vq4XQqK4Ykh+qLJyW5Md2Mf7Gnv1F
-         NuMTndCt2mdX6LKVAWqmoJT6nAsxHaYU4BaChlDI7dlijlZCgVpO4S+zpv6ku1DzyyOs
-         PH+Zkq0pN7D8HCul2+8FVPqYtMOQ8/usvfj5t2o2NkP32KItB0FaEGAiKkJFiWd+3lSt
-         6NUSOxGIQ2fsXM0SGKDKN3WbsBgHIuEWRGkTXMcbkO15xq8XSlV7H4+X0D8tHw3vgwIU
-         ITmg==
+        bh=ZpZ8cl8NdFknWl7FIQEBjS+A4S/OlaNCwNqgkfiNXr8=;
+        b=Ft2hkL8z8GT3HlDdQ3SRaP4Avnsh2Rv2zq4WDkHp+gPiA0eAJok88XXlUoWaKLZwHw
+         GAzyMOga0P0QdoBhYI6SC71Y8ltyD1RZv85J/SNUWsmrClPKTb0buTCn3GhT0MOdG1vC
+         DYqkAUoS4SCJ0HHLYEqh7nwqpu+SrjJajB3Dah+eo1YVMWuyod7TU7PFFb+iyLwLFFmw
+         W7Nlw1Z8PLgoch3OADElILy8Zc45SjQue0bJE3MO4pfo8+8/wzeX/fCAyV+12gYpa/MY
+         RR19RBdeIxiYCCAn+7Hdh7l5ZVGy+DOW91WCqMNxrzIFg/7fcpw02WUQv5inpNtD6dzL
+         z1eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785065785; x=1785670585;
+        d=1e100.net; s=20251104; t=1785065792; x=1785670592;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=V3UIYH7lFVlBcdk70z0Hk0kHBBIMfI7kKaGxbMqB1eQ=;
-        b=ShqMzndcmE6oJ0pXlAnOZdrpeBiS6NvpjTH+rNtg1kl49S/dmH2ul92aHdy4fAj2kh
-         m2tMHCQGLazNunA9nqbIHFeo0CrIpML7F6k94jBAQbndtfZAybiIzl+8tSMK2GD2DLj+
-         TXgGt9b+q2PYbcTxBu3c2BcTGAsxlY2OOO5UoYcbopHA/guEl+fxlts9VLErNqg1p2xC
-         +ZHnjjDFQ+d622xT8T9x8I2OIAUdvXB6DSKR6Yb3U4u+5OzpLdhMD5gSi6FLgzDCDKGM
-         9IHTy8wrBU7LpyokzU2kZLIl+MhG9xZlw7JCTWokLqESrpK7PO6d08uJBb10x/nOg1qE
-         1VmA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp3SiMaC7ID7cHB89IlibosmNiHWxCjOISzBCE9zMnn/rcigzBnZhdLj14vgCtNeFgXRPPcfGw3dKk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoHKv5CISRFUlbvwOmDWcUogl/KArzpnE3PGax91yEGx9zBBGG
-	/eXWRf5KRWGt4sS3eldRqdWxoO14nroQgWSH7oHLZ6ISNaMkNK5NjjYL
-X-Gm-Gg: AR+sD13frBhbIGkPow9ajjl33OloZ/x0cJbhQF0d5hCRZOslcGbQmHtpNIRFx3NfBGk
-	CcdM5lfhaO8qHz9BJsrdRA7XNhbi0WLfnTU8svJZQyQujlgZ9v+S9L1FE0f1IgZfOB+WjWCxMCO
-	TU+d3mwmaXNHyly1pf1MON3hmwpnltu2ETRW2kQtb/mdzp68u8q/0RtHBT0+CRS/3FELUdr235q
-	Sbg/q7HdUPlM9g9Am+K1XYVQV+LD7QKp4vPxFjyn6zb8MO+iONbTnkciwdfGY91nxZMGzfG1bXZ
-	KvaxzJmqBfwq/C33tV0RfkUUKBac42ZY1ils95HprbVs7vYBHg+qJXZxujulos/jhP0QDFaaIdM
-	YJkGRURlJ9hRrYPSdRWvfc29EpuMvgleSlchICPucqgyFcezJCGM/xtvlEZnK+OqqFy3clHThlK
-	oDJc9Ek8PnQBUZ8Sr7EKD/yBs2PsMrOMLB/i4UMMMPmNIumaQKkB6NnCQIDQ4ILc0LcVZxUa7AJ
-	Q==
-X-Received: by 2002:a05:6a00:218f:b0:848:2f71:b657 with SMTP id d2e1a72fcca58-84e59589e65mr3842731b3a.66.1785065784806;
-        Sun, 26 Jul 2026 04:36:24 -0700 (PDT)
+        bh=ZpZ8cl8NdFknWl7FIQEBjS+A4S/OlaNCwNqgkfiNXr8=;
+        b=PNdKxgMTrbUijEXcStF8ywqWENb2unxQ25uNjBnDyreTP0wlnQVmVuUdYMsQw6L0Jl
+         Iv9Qeqoh7dmNodb0YwgT+WzGTl7HtLpGMDa+EI41oTf1VscyK4BNJEt478qQey4UEg2R
+         21fa6881RdVjVOj2jrJbAs1NPGKe+xGDbwwVhWSMhfVuPnzc+uE9USt9vNI+l0vuez/z
+         CpOVea62b3dEtXIdRBZkjlrsg7IwjLQodlflL5sOCP6ybiam+kQpHKuscfxGHP6Vh6fQ
+         qmUlCQs+PM6c9tIjbg3R9vPRikKFLCEKl2EHxRbgBhW8WJpQGhEP8RcxgyJVrimmYhBE
+         3w4Q==
+X-Forwarded-Encrypted: i=1; AHgh+RoSkfrKGjpZQHMc9KfuIKXqkinwbv86T4jOcX717F47nR6feSJFn5raHoTqbxaIEjlkiouEJb/SXrs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFOGN9tz7dIyJGLZzIOWfXYLzBdAJxBYnpfM4O3GKeQgWWgmjd
+	KoeFcZuk6WWhhpaW1fgpupSem8SnQ03aLzvDoaJpVUfPrMK1fnBGy+zp
+X-Gm-Gg: AR+sD13iib2tTpdR52kXLRadGL2WecGGBvhHgjvGppRU10h302zfzUiwMHcZ+MUbPQq
+	ELE3HOoU++PmlzaSwJRHQRy/XpFtmNYEPfnP/zIBalNNyd0FrWS0bNQ+S3lK2dyj9oaE47gEXr5
+	TI7oLnvn+ZQHUCpiGDhwEXCdXmlRGrMsaqNdfY2OAQ/o/xesAEvEsO4d7LVkYYUvtJUV5blQdtt
+	ukxuPCNCx+/E0WjK0ATftOy+lxmCXB3kXfRf2gRGHoQfLo09+IscDLSIPPbG1ZfnRfQpYyqoEG5
+	Ev7sm1xoi89UxN0ucFyutcXU3i2cSrd2ttmXI/Ts38NFe//MNYMdNYcwDqteQ/SsrQkYAkC436T
+	Cl9z5xEoOdY+sEnBEzuZOoXgnJ4hWdYdzRp0ohad5UQ6aJ8Y9mXQIDrVWRCTMoiqjoZAm80yhCJ
+	qrwiqtHf+NOdu2SeRPrJFDhXvk0OY14tHrnc2u5fs5VHYrOKti3A+SwkFlo3r3Hr2oJ0frdNa7k
+	A==
+X-Received: by 2002:a05:6a00:1826:b0:847:9c06:2bef with SMTP id d2e1a72fcca58-84e59474684mr3819057b3a.29.1785065792127;
+        Sun, 26 Jul 2026 04:36:32 -0700 (PDT)
 Received: from localhost.localdomain (211-20-143-81.hinet-ip.hinet.net. [211.20.143.81])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e532585edsm1785051b3a.4.2026.07.26.04.36.19
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e532585edsm1785051b3a.4.2026.07.26.04.36.26
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 26 Jul 2026 04:36:22 -0700 (PDT)
+        Sun, 26 Jul 2026 04:36:30 -0700 (PDT)
 From: =?UTF-8?q?HE=20WEI=20=28=E3=82=AE=E3=82=AB=E3=82=AF=29?= <skyexpoc@gmail.com>
 To: Hans de Goede <hansg@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -70,9 +70,9 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-kernel@vger.kernel.org,
 	HE WEI <skyexpoc@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH v2 2/3] i2c: usbio: reject bridges with undersized transfer buffers
-Date: Sun, 26 Jul 2026 20:35:08 +0900
-Message-ID: <20260726113511.57596-3-skyexpoc@gmail.com>
+Subject: [PATCH v2 3/3] usb: misc: usbio: bound the debug hex dumps by the received length
+Date: Sun, 26 Jul 2026 20:35:09 +0900
+Message-ID: <20260726113511.57596-4-skyexpoc@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260726113511.57596-1-skyexpoc@gmail.com>
 References: <20260726113511.57596-1-skyexpoc@gmail.com>
@@ -85,98 +85,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-usbio_i2c_read() and usbio_i2c_write() derive their per-transfer chunk
-size from the bridge buffer sizes:
+usbio_ctrl_msg() and usbio_bulk_msg() hex dump the reply with "%*phN",
+using a length the device supplied and that has not been validated yet:
 
-	u16 rxchunk = i2c->rxbuf_len - I2C_RW_OVERHEAD;
-	u16 txchunk = i2c->txbuf_len - I2C_RW_OVERHEAD;
+	ret = usb_control_msg(usbio->udev, pipe, 0, request | USB_DIR_IN, 0, 0,
+			      cpkt, cpkt_len, USBIO_CTRLXFER_TIMEOUT);
+	dev_dbg(usbio->dev, "control in %d hdr %*phN data %*phN\n", ret,
+		(int)sizeof(*cpkt), cpkt, (int)cpkt->len, cpkt->data);
 
-I2C_RW_OVERHEAD is sizeof(struct usbio_bulk_packet) +
-sizeof(struct usbio_i2c_rw), i.e. a size_t of value 10, while the two
-lengths are u16.  The subtraction is therefore done in size_t and, for a
-bridge reporting less than 10, wraps before being truncated back into a
-u16.  rxbuf_len = 8, a legal full speed bulk wMaxPacketSize, gives
-rxchunk = 65534.
+cpkt->len is a u8 read back out of usbio->ctrlbuf after the IN transfer,
+and bpkt_len in usbio_bulk_msg() is le16_to_cpu(bpkt->len) read out of
+usbio->rxbuf.  Both are handed to "%*phN" as the field width.
+hex_string() in lib/vsprintf.c caps that at 64, and dereferences every
+byte up to that cap regardless of how much room the output buffer has:
 
-The chunk size decides whether a transfer has to be split:
+	if (spec.field_width > 0)
+		len = min(spec.field_width, 64);
 
-	if (msg->len > rxchunk) {
-		/* Need to split the input buffer */
+	for (i = 0; i < len; ++i) {
+		if (buf < end)
+			*buf = hex_asc_hi(addr[i]);
 
-The adapter quirks cap msg->len at 4096, so a wrapped chunk size makes
-that condition permanently false, the splitting path becomes dead code,
-and the single-shot path asks usbio_bulk_msg() for more than the bridge
-buffer can hold.
+So the dump reads up to byte 67 of ctrlbuf and byte 68 of rxbuf.  Both
+buffers are sized from the endpoint packet sizes, so this is out of
+bounds whenever ep0 wMaxPacketSize is below 68 and whenever the bulk in
+endpoint is below 69.  That covers every low, full and high speed ep0
+(8, 16, 32 or 64) and the bulk sizes the supported bridges actually use
+(64, or 63 for the Synaptics Sabre via USBIO_QUIRK_BULK_MAXP_63).
 
-The boundary value is worse.  rxbuf_len of exactly 10 gives rxchunk 0,
-and I2C_AQ_NO_ZERO_LEN guarantees msg->len is at least 1, so the split
-loop is entered and never advances:
+A device answering one of the five usbio_ctrl_msg() calls in
+usbio_probe() with cpkt->len = 255 therefore leaks up to 60 bytes of
+adjacent slab memory into the kernel log during enumeration, before any
+user space is involved.  On the bulk path a reply claiming
+bpkt->len = 0xffff reads 5 bytes past a 64 byte rxbuf.
 
-		do {
-			if (msg->len - len < rxchunk)
-				rxchunk = msg->len - len;
-			ret = usbio_bulk_msg(...);
-			if (ret < 0)
-				return ret;
-			memcpy(&msg->buf[len], rbuf->data, rxchunk);
-			len += rxchunk;
-		} while (msg->len > len);
+Unlike the endpoint size issues this needs no malformed descriptor at
+all; it only needs the dev_dbg() calls to be enabled.  When they are, it
+is a slab-out-of-bounds read under KASAN and the bytes reach dmesg.
 
-"msg->len - len < rxchunk" is 1 < 0, so rxchunk stays 0 and len never
-grows.  The only exit is an error return, so a device that keeps
-answering keeps the loop running indefinitely and uninterruptibly, while
-holding both usbio->bulk_mutex and the client mutex, which blocks every
-other user of the bridge.  txbuf_len is independent and can be left at a
-normal value, so usbio_i2c_init() succeeds and the read is reached.
+Bound both dumps by the number of bytes actually received.  That is in
+bounds by construction and also stops the dump printing stale bytes left
+over from an earlier transfer.  The matching dumps on the two OUT paths
+are left alone: they use lengths the driver itself just wrote, which the
+size checks above them already bound.
 
-Check both lengths once at probe time.
-
-This is a behaviour change: a bridge reporting a bulk wMaxPacketSize
-below 11 no longer gets an I2C adapter at all.  Such an adapter could
-never have completed a transfer.  usbio_i2c_xfer() runs usbio_i2c_init()
-first and bails out on failure, and that needs obuf_len = 7 to fit in
-txbuf_len - sizeof(struct usbio_bulk_packet), so anything below 12
-already returned -EMSGSIZE for every single transfer.  Failing to probe
-is better than registering an adapter that cannot work.  No supported
-bridge is affected: they use 64, or 63 via USBIO_QUIRK_BULK_MAXP_63.
-
-This additionally covers the case where usbio_get_txrxbuf_len() returns
-without writing its output parameters because the bridge is already
-gone; the lengths then stay 0 and the bridge is rejected instead of
-being used.
-
-Found by code review.  The non-terminating loop was reproduced with a
-userspace model of usbio_i2c_read()'s split path; it has not been
-exercised on hardware or on dummy_hcd.
+Found by code review.  The out-of-bounds read was reproduced under
+AddressSanitizer with a userspace model of the two dev_dbg() call sites
+and of hex_string()'s field-width handling; it has not been exercised on
+hardware or on dummy_hcd.
 
 Fixes: 121a0f839dbb ("usb: misc: Add Intel USBIO bridge driver")
 Cc: stable@vger.kernel.org
 Assisted-by: Claude:claude-opus-5 asan
 Signed-off-by: HE WEI (ギカク) <skyexpoc@gmail.com>
 ---
---- a/drivers/i2c/busses/i2c-usbio.c
-+++ b/drivers/i2c/busses/i2c-usbio.c
-@@ -245,6 +245,20 @@
+--- a/drivers/usb/misc/usbio.c
++++ b/drivers/usb/misc/usbio.c
+@@ -14,6 +14,7 @@
+ #include <linux/dev_printk.h>
+ #include <linux/device.h>
+ #include <linux/lockdep.h>
++#include <linux/minmax.h>
+ #include <linux/mutex.h>
+ #include <linux/string.h>
+ #include <linux/types.h>
+@@ -141,7 +142,7 @@
+ 	struct usbio_ctrl_packet *cpkt;
+ 	unsigned int pipe;
+ 	u16 cpkt_len;
+-	int ret;
++	int dbg_len, ret;
  
- 	usbio_acpi_bind(i2c->adev, usbio_i2c_acpi_hids);
- 	usbio_get_txrxbuf_len(i2c->adev, &i2c->txbuf_len, &i2c->rxbuf_len);
-+
+ 	lockdep_assert_held(&usbio->ctrl_mutex);
+ 
+@@ -181,8 +182,15 @@
+ 	cpkt_len = sizeof(*cpkt) + ibuf_len;
+ 	ret = usb_control_msg(usbio->udev, pipe, 0, request | USB_DIR_IN, 0, 0,
+ 			      cpkt, cpkt_len, USBIO_CTRLXFER_TIMEOUT);
 +	/*
-+	 * usbio_i2c_read() and usbio_i2c_write() compute their chunk size as
-+	 * "<buf>_len - I2C_RW_OVERHEAD".  Those lengths are u16 and the
-+	 * overhead is a size_t, so a bridge reporting less than the overhead
-+	 * makes the subtraction wrap and the truncated u16 chunk size then
-+	 * defeats the splitting logic, while reporting exactly the overhead
-+	 * makes the chunk 0 and the split loop in usbio_i2c_read() never
-+	 * advance.  Refuse to attach to such a bridge.
++	 * cpkt->len has just been written by the device and is not validated
++	 * until below, while %*phN dereferences up to 64 bytes of whatever
++	 * field width it is handed.  Bound the dump by what was received.
 +	 */
-+	if (i2c->txbuf_len <= I2C_RW_OVERHEAD || i2c->rxbuf_len <= I2C_RW_OVERHEAD)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "Bridge buffers too small: tx %u rx %u\n",
-+				     i2c->txbuf_len, i2c->rxbuf_len);
++	dbg_len = (ret > (int)sizeof(*cpkt)) ?
++		  min_t(int, cpkt->len, ret - (int)sizeof(*cpkt)) : 0;
+ 	dev_dbg(usbio->dev, "control in %d hdr %*phN data %*phN\n", ret,
+-		(int)sizeof(*cpkt), cpkt, (int)cpkt->len, cpkt->data);
++		(int)sizeof(*cpkt), cpkt, dbg_len, cpkt->data);
  
- 	i2c->rwbuf = devm_kzalloc(dev, max(i2c->txbuf_len, i2c->rxbuf_len), GFP_KERNEL);
- 	if (!i2c->rwbuf)
+ 	if (ret < sizeof(*cpkt)) {
+ 		dev_err(usbio->dev, "USB control in failed: %d\n", ret);
+@@ -258,7 +266,7 @@
+ 	struct usbio_client *client = adev_to_client(adev);
+ 	struct usbio_device *usbio = client->bridge;
+ 	struct usbio_bulk_packet *bpkt;
+-	int ret, act = 0;
++	int ret, act = 0, dbg_len;
+ 	u16 bpkt_len;
+ 
+ 	lockdep_assert_held(&client->mutex);
+@@ -314,8 +322,14 @@
+ 	act = usbio->rxdat_len;
+ 	bpkt = usbio->rxbuf;
+ 	bpkt_len = le16_to_cpu(bpkt->len);
++	/*
++	 * Same as in usbio_ctrl_msg(): bpkt_len is device supplied and is only
++	 * validated below, so bound the dump by what was received.
++	 */
++	dbg_len = (act > (int)sizeof(*bpkt)) ?
++		  min_t(int, bpkt_len, act - (int)sizeof(*bpkt)) : 0;
+ 	dev_dbg(usbio->dev, "bulk in %d hdr %*phN data %*phN\n", act,
+-		(int)sizeof(*bpkt), bpkt, bpkt_len, bpkt->data);
++		(int)sizeof(*bpkt), bpkt, dbg_len, bpkt->data);
+ 
+ 	/*
+ 	 * Unsupported bulk commands get only an usbio_packet_header with
 -- 
 2.51.0
 
