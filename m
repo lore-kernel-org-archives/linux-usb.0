@@ -1,124 +1,137 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF40355F41
-	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 10:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.215.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785063267; cv=pass; b=IR/RUbO+mCDyB480vrUqH4b7+HeqvJ1EwYS42qJ0Ds4aUoLRXy41TmwUXuK1/iCPk7fGGwu+ij7ySQqUcrw6Kjf7Wiocs4XbId+A57+pAPQoaB0xFWwHAtNqT5ry7Uyl7Iywgca+ld6dhtiNqzh+JlAsh0NrLHO0vaHfdQKtArI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785063267; c=relaxed/simple;
-	bh=Iw88qdhbLeJWjjRsO5YQ58HvJ0RtCrw2s4pHsHM+gn0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZohexHvVONElDpiyQSAqHS45EjMvOC1LGeaDSCXgrjtDl07ZhJEkzeMl2M4OmdiCIImYV7fAkzjG91+94VAZpxadZDfHcsADCZsyBy2FNjlylU1aMpWCW9WFUod9iCf8j3Rl4YnvNcgg9w/WBOxxznCFBPJca5BPpqkKDtwXBBk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dvpv2ol3; arc=pass smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5584A18C2C;
+	Sun, 26 Jul 2026 11:11:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785064280; cv=none; b=pFM36Xopn/yXNkRtWpMqgAt5o46QTwKvXTrL7QABAJrWkazbSY/tQ7r3QU3y0th1IVWXWDx+aztJWPVSYAEmtYcoLSw4otzhRd4Ro8NkSrWCnQbHgctix3tEu6/YJJdk1KA0nTv0Z4Y1zuNgEH/ojHn8rRscpCLYCcm2ma32bx0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785064280; c=relaxed/simple;
+	bh=dX7xC+F2VfseCFPPjMdEezyv4bbqh09NUjkZEo3thHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nt0XbvUrsebc0swgfyovT2sIr7GnBk5r5w1aXQxkf7nBNQ4ssMabIvPiZAbTrhzxrxhZWP+hpyBXcvxGstbPuU2Qzjz6maIWPh8jTh48LVnZfifWAgrbZma5EHAsZHOvxA1obWHa1j+8PCmnlADYMWZoSP5HXs1e5rFaj4YvLM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hb/8Cejf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dvpv2ol3"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c9d1fff21edso1098823a12.1
-        for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 03:54:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785063266; cv=none;
-        d=google.com; s=arc-20260327;
-        b=SDV3DW/s8/py0P2coQiuJWtN1VAlZQwPQMWfWD689AdpLhiRRAcHSH8GrUQ4RmOOHr
-         VNwWQSjd6Z1+LRkrfnc4B4EibO5/ajNpBE7uvyhQI6z/Z/MS43rMRs3JPoV7hoXlF8zo
-         qk7Gmy2S3eX4XvQL3QvQ9UUufzIvdZiBg/DWOLGFOS5GhUlLxDf6qylyXsEMeuzkDXNd
-         7AyChDSrSV09CerAK3mW+o0wmVzag4kQuiWGYFD+09RKZpig+WbUdV+RDSS/vpW31zU2
-         jGFf/RkdHAthdck95SIxsAmhw/LvDynFUaA8HjEGcYiCf1rfmyorNSJnJtWVXp0t7F9s
-         /eSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Iw88qdhbLeJWjjRsO5YQ58HvJ0RtCrw2s4pHsHM+gn0=;
-        fh=0gUOkb99zZDS44YG5/7a7qtBVUpqoUEK2LyVXTz0xBU=;
-        b=X0iw8guOMPmAgnwwoabDAqoZgznRIU1A9zqHC18bwz5N0NZT8AqAVys3iYGKfwXFUd
-         yRvZFIzKK8JoynxejJjMAJsIWj51HYo7YROIXyLXbXfnb3UElRD+gZ/v8C4zi+bqnH//
-         aFhzHPSt6H1H03NlGZEA6aXftdFUly2Kfj0rcdNONAWg4xt7ILnBX0ZKpr75dAS4qr2/
-         9FB7Pc6hXQjzcFmeCB1Jwee6PXTgNJZ2EKc2MTrmeiV6VJmcXZi0EgYzlV8UeAQm6xOC
-         OJTBZ0hviUhmDnX59mu2ZkSwqHzrcVBWvCGFq7qTJdSdLbozGjCDgZv9OSDGpz9JJDZ1
-         UxEQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785063266; x=1785668066; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Iw88qdhbLeJWjjRsO5YQ58HvJ0RtCrw2s4pHsHM+gn0=;
-        b=Dvpv2ol3gARkoIB9UcQeTblO9C1suXXD5K6j2neVIym/I5hSAZlqwQL5v2vjOD4O2M
-         9NG6JlGieKWNZyTtPpSWqLT4v0xdA4egzED+rPp8omqS1McUmXTfJZEY3U0WTEbTVfmt
-         MP53Lf3RrzMlMlm76Y3ya0RXlJSRQnwvi3oegwzmjx1uU6XXsu0mm7hVs+t/h4M/BVAx
-         EuY9B17ZQlYQUrS0Sm3a6ErwpxkZIKSa/+6e4VI4lWbSdiXArkeiv11Pj+QZN8TAPhaS
-         6Uf642mGc9VUzor3mcI2nOPnXxkVA8iGytd3v19AvBPm2fi+6HdqNq6FwRU4Z7Cx1yYJ
-         6SjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785063266; x=1785668066;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Iw88qdhbLeJWjjRsO5YQ58HvJ0RtCrw2s4pHsHM+gn0=;
-        b=jm6li5TZEuCvwcvjmJpWRS6yKxn7uRyc1g0mspY+VNG588HCc8B03bNhfd0XfcwcyM
-         wqRiF99qZhL9O5FwA5DXHBooYIldyWRW7m9DqMf+DkLbTqRonrWRoSYZjoqCkLOksRFK
-         vmIgEBnIL5/S62UrR/4s0KDxZTSVCXEIw0XbN/4fxQ3+hlMbCntwBkUQq+QWUI23XN89
-         j/gTwjPJaPGrQmf9jJiSe89YHO5Aj6RXsPmOrai8btEUyo6AEQeaaWd/3acDwLolQM/3
-         N4mLNKuZp8CeucqgEoIk3FQ/Gw7N9yHUTjFOHpJILZbmK7+rJpHR/VFrli7LB810qtrm
-         l1EQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpaVxBsL31L2VM1raST0mqlyHRGH6eVrXL3XJQAPF2WSyyvAkSL7JMwN7WF6LrDZDplU49XLnGQ1Lw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIF8m6v5XzP3Z8LAi7sebK3SYC6uOszH3dJ4FMumnjwKZ34N5K
-	uU4QvWLLleARJAn7kJO8vdmemDc9S9L4cVLw25ckGBkmQOSif28DOnw0CHNQrsG6NKk9ByCmaNZ
-	oRKE2ljor8+pxtMj91SReAOIFRtLhCfM=
-X-Gm-Gg: AR+sD103VezOTda8BpkBH2gqSkgve2P7F+48CmEkNP23SX0Nz9fELIAI0KZ/o6SW2fo
-	X8I8FWBRjrri0JBzjZT3YiZcKRj8sCFiovgsjToC1PaidXsP8pVLSg6Q6bLr/J9PHBb+Gv4xW+N
-	BHnulDqLuC33dYMoSzqzNVeF2qyeZ+w+dIQuvAIoeGDwncGC3wSyyqGVKxL6/EWXoXWSmLXw9Yz
-	I0hz1t2oQM7p8wphffEG1xmNc5W3kGg8wbdr4HjXgjZfYAY17aYHZO3XfBf54/D
-X-Received: by 2002:a05:6a20:918e:b0:3c3:68a5:50c8 with SMTP id
- adf61e73a8af0-3c67e166966mr4554741637.71.1785063266062; Sun, 26 Jul 2026
- 03:54:26 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hb/8Cejf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 765A31F000E9;
+	Sun, 26 Jul 2026 11:11:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1785064279;
+	bh=qsnACiFUU54YYrFgpxJ9gvk4dmWGwM/9GcFtaNpJFYM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hb/8CejflmypJ1DS0BYIqFW8aUhhZY+9BLQ5kazwgIBKOpaQgRCC0sVYbzfxwD25M
+	 Jh76CtL0Ye3GFswexZ8xbEf3Ni/DN7dGNdp5c3nGvA01lIPOivtgb9xLV3JjESBfsD
+	 FFS7O68sPuyT8wCCD65VmlA7oTg1oAaL/akWZls8=
+Date: Sun, 26 Jul 2026 13:09:54 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: HE WEI =?utf-8?B?KOOCruOCq+OCryk=?= <skyexpoc@gmail.com>
+Cc: Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-usb@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] usbio: fix two out-of-bounds accesses and a hang
+Message-ID: <2026072622-refusing-smasher-6eed@gregkh>
+References: <20260726080129.44969-1-skyexpoc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260719-usb-ptr_err_patchset-v1-0-85f7f2e4fefb@gmail.com>
- <20260719-usb-ptr_err_patchset-v1-1-85f7f2e4fefb@gmail.com> <al4zFG3zCD5FJ7eB@SMW015318>
-In-Reply-To: <al4zFG3zCD5FJ7eB@SMW015318>
-From: Subasri S <subasris1210@gmail.com>
-Date: Sun, 26 Jul 2026 16:24:14 +0530
-X-Gm-Features: AUfX_myX_j6xmvi1eW61hYxH97YPNgwMZ6bNH_j9w9hal-EVFSbaRcZHMpkAmFA
-Message-ID: <CABfayGP4XpfqrfQ3qWz97yLTfjqwn8xXwW9WS2g1_vceS0srXg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] usb: chipidea: Use %pe to print error pointers
-To: Frank Li <Frank.li@oss.nxp.com>
-Cc: Peter Chen <peter.chen@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Duncan Sands <duncan.sands@free.fr>, Chas Williams <3chas3@gmail.com>, 
-	Minas Harutyunyan <hminas@synopsys.com>, Hans de Goede <hansg@kernel.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
-	Badhri Jagan Sridharan <badhri@google.com>, linux-usb@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260726080129.44969-1-skyexpoc@gmail.com>
 
-On Mon, Jul 20, 2026 at 8:09=E2=80=AFPM Frank Li <Frank.li@oss.nxp.com> wro=
-te:
->
-> Avoid use words "This patch", just
->
-> Fix coccinelle reported warnings:
->
+On Sun, Jul 26, 2026 at 04:59:10PM +0900, HE WEI (ギカク) wrote:
+> This is variant analysis around 8c6314489550 ("usb: misc: usbio: bound
+> bulk IN response length to the received transfer"), which fixed a slab
+> out-of-bounds read in usbio_bulk_msg().  Re-reading that function,
+> usbio_ctrl_msg() and the I2C client built on top of them turned up three
+> further issues.
+> 
+> Patch 1 fixes the length checks in usbio_ctrl_msg() and
+> usbio_bulk_msg().  They are computed as "<buf>_len - sizeof(*pkt)", u16
+> minus size_t, which wraps for any endpoint smaller than the protocol
+> header.  usb_parse_endpoint() only clamps wMaxPacketSize downwards, so
+> a device can advertise 1 and turn the check off entirely; the first I2C
+> transfer then overflows a one byte slab object.  The overflow completes
+> before usb_bulk_msg() is reached, so it does not depend on the host
+> controller accepting the transfer.  Fixed by validating the three
+> lengths once in usbio_probe(), which is the only place that assigns
+> them.
+> 
+> Patch 2 is the equivalent arithmetic in i2c-usbio.c, where the overhead
+> is 10 rather than 5.  The interesting value there is exactly 10: the
+> chunk size is then 0 and the split loop in usbio_i2c_read() never
+> advances, so a device that keeps answering keeps the loop alive
+> uninterruptibly while holding usbio->bulk_mutex.  That is a hang rather
+> than memory corruption, and patch 1 does not address it.  This is also
+> the one patch in the series with a behaviour change -- a bridge whose
+> bulk wMaxPacketSize is below 11 no longer gets an I2C adapter -- and the
+> commit message spells out why such an adapter could never have
+> completed a transfer in the first place.
+> 
+> Patch 3 is a different bug from the two above, and the one that affects
+> existing hardware.  usbio_ctrl_msg() and usbio_bulk_msg() hex dump the
+> reply with "%*phN" using a length the device supplied and that has not
+> been validated yet.  hex_string() caps the field width at 64, not at
+> the buffer size, so the dump reads up to byte 67 of ctrlbuf and byte 68
+> of rxbuf: out of bounds for every low, full and high speed ep0 packet
+> size and for the bulk sizes these bridges actually use.  It needs no
+> malformed descriptor at all, only the dev_dbg() calls enabled.
+> 
+> The new probe checks do not reject any supported bridge: the low, full
+> and high speed devices this driver binds to have an ep0 packet size of
+> at least 8, and they use bulk endpoints of 64, or 63 via
+> USBIO_QUIRK_BULK_MAXP_63.
+> 
+> What was verified, and what was not:
+> 
+>  - All three build cleanly with x86_64 gcc 14.2.0 at W=1, with
+>    CONFIG_DYNAMIC_DEBUG both disabled and enabled.
+> 
+>  - The out-of-bounds accesses in patches 1 and 3, and the
+>    non-terminating loop in patch 2, reproduce against a userspace model
+>    that copies the struct definitions from usbio.h and the checks and
+>    stores from usbio.c and i2c-usbio.c verbatim, with only
+>    devm_kzalloc(), usb_bulk_msg() and usb_control_msg() replaced; the
+>    memory errors are reported by AddressSanitizer.  The same source
+>    built with the patches applied is clean, and both a normal device
+>    (ep0 64, bulk 64/64) and the USBIO_QUIRK_BULK_MAXP_63 path still
+>    work.
+> 
+>  - The decision space was swept exhaustively, endpoint sizes 0..2048
+>    against caller lengths 0..4101: the mainline bulk check can be
+>    bypassed for exactly 0..4 and the control check for exactly 0..3.
+>    After patch 1 no accepted endpoint size admits an overflow, and no
+>    size that could carry a payload byte is rejected.
+> 
+>  - I have not run any of this on hardware or on dummy_hcd.  The
+>    reachability arguments are read from usbcore and from
+>    lib/vsprintf.c, not observed at runtime.  I am happy to build a
+>    raw-gadget reproducer if that would help review.
+> 
+> Patches 1 and 3 touch drivers/usb/misc/usbio.c and patch 2 touches
+> drivers/i2c/busses/i2c-usbio.c; MAINTAINERS lists all three files under
+> the same INTEL USBIO entry, so they are sent as one series.  They apply
+> to mainline 3dab139d4795, to usb-next and to usb-testing.
+> 
+> HE WEI (ギカク) (3):
+>   usb: misc: usbio: reject endpoints smaller than the packet header
+>   i2c: usbio: reject bridges with undersized transfer buffers
+>   usb: misc: usbio: bound the debug hex dumps by the received length
+> 
+>  drivers/i2c/busses/i2c-usbio.c | 14 ++++++++++++
+>  drivers/usb/misc/usbio.c       | 50 ++++++++++++++++++++++++++++++++++++++----
+>  2 files changed, 60 insertions(+), 4 deletions(-)
 
-Sure, will follow the same in all my patches.
+As you obviously used a LLM for these, why did it not properly tag the
+changes with an "Assisted-by:" tag?  That is required.
 
->
-> keep one is enough
->
+thanks,
 
-Got it, will do.
-Thanks for the review. Will incorporate your review comments in the v2 patc=
-h.
-
-Best,
-Subasri
+greg k-h
