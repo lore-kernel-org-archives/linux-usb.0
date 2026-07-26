@@ -1,181 +1,167 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D366C334C1D
-	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 07:33:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785051186; cv=pass; b=mcjYKunm+RKTzmfzsvnsQquBfnqSfEbVjQwJnscvv6R6b9MLBhvCQg/izdcqtS7+EYuubPoW5BBE0yHIHDxC2qDs7eTGyTIa1v8Py61UPCtLLR4h/9QMROp++FNeeh0P2xAUMFyZvXHuvmE78r9Q6a6KOd3oxNwOjBqz0fEzQb0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785051186; c=relaxed/simple;
-	bh=6HH9cMBt7GUMmx3pXIrBjnnBE9GcVYR4Y05wgv5sHxo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=joiygg5EnT2nva5RSUMLOPYP4HaFkFmSsLeGDCI8Q9SnnlaDAPAyIsNf1J+uDDcAEBfou/odboiZAZ51rQEcvARV80HmA4Tjo//vTW6X3x/ULhWY3wg48bKqzV2DLOuENUFYS6DkybKwhlNoxjFkIQeQ0CHIYn+M+W8yyJrUz4E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BqwHmZeO; arc=pass smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C483E379EF5
+	for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 08:04:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785053043; cv=none; b=E/X3jvxTykEdiIiOKlYct+MAWbh2YEdCif7PqFjC0FbMbpGQG02tg8f+6G6sGxyJKqjMFRH2gl35uPXWdfiMsINitPc1MpsG2l6eOMgOHEtlwU88lS/Cerz+ZfGnuFxDKi40Wt+nVj4UfgeYwahUppVLD0hX+zlOYoqe73Vx2K0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785053043; c=relaxed/simple;
+	bh=eBiYeqRNOonyekOJrJqCQgTXAFtBAqkEfIJs/qQdiKw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=t0rpcXOKT7+G25uIGLzr3akuyG4boIUcGqPfSLcBxJW9ibU3jt5cTm78IaMHa2lu8UeDJOgw8PttqWEVUY0PuwoUfQWjZ67b/adJyBXNtqdLOsu40PyhUbwPnhlhhQ+EqUgwnNbG8sDp2DCCpJMOCuBoql5LPH9u7i+QD8OV5No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P9FE78d1; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BqwHmZeO"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-698ae09e356so2012219a12.2
-        for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 00:33:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785051183; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ReXCw9+f1JS4jYKzG4WthDtYU4Cdw7l6fAkURRTq/QzdybOoeSiSecvUijJ0BOyxAc
-         vUTREXqdy+lQ2a2n0wtpVEdisFuctd+8dDW773rwhAWcJBNTPchXrUmibB8EhV3LEygV
-         s8sTpTCxe4Zn++MqaZiO7Sboa5BcKtx4AKvMcQQyrU+mxc/g+D4ZSbwRCA8BTRjmEkKQ
-         AZ6iZ8zYkl9yTYz43H9ZN6G8fPiMnt+9XVPwJ2b7E2I9lfvGS1486ejraXa6xw3vT12S
-         5YljdGRwsOemLL1T57/pVVxdVihiP2fvslknFPA+7JmUDm+xPMKcNoPOOZR/hoXojX3O
-         UBAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=B5p5HfuZ9T8Sd8UslFZSjCp4DIlb+MCzLrjbm/ciTL8=;
-        fh=+vjGDEcgTdDFyBC1yJgNGOVVsPwZE00e7TRviBcLabg=;
-        b=dW5/0ZtL0oOQkIw0UD3wjLtuDr5opT6aELgPpFQfxl+c7on8MM6MvyjkNIAC5ePMJs
-         EZh4zFI969RsdoHhBY7OogbD4pPmx26vhX7kfoBtYZX/ui+qizANg25fxDt+6NZ3OwVi
-         9gRCi4W/36wWA/qD4q1ggVeMS3sXO73E7u052jNa5gc4nOgDsRgG9piWh2SrmYrnlLNe
-         Vq2GqftXWe0GPsxyJfCo2/8KQbLhV22qC3/daOc0u6ZX8HRi7wIVnwMLWAHwOP+X5kLy
-         U2gbJzBSijUH9B6+5bDtsAg9jaWx4v95pPgnt/tiFO/svRbd6tvVupJyvSgYA8IlXUqX
-         fTsw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P9FE78d1"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cea3004256so18825215ad.0
+        for <linux-usb@vger.kernel.org>; Sun, 26 Jul 2026 01:04:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785051183; x=1785655983; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=B5p5HfuZ9T8Sd8UslFZSjCp4DIlb+MCzLrjbm/ciTL8=;
-        b=BqwHmZeOeUemyjX2JtRv/qC2+awFOwfgoM5Ey+uHHnusX/8GUxRGNq5gGZ9LCY7kHL
-         9+uNgCrjQsok23NNicv3kb3n/vBaJAQxZPKWXKzZCiSxwDPp9UpDhl80Y7no0stgnKS0
-         Qjg6sUCTx0hO95MErDnUqMxPNwQPnTzylKFumoACf4TJdlVbgJybzREqbokLWrKMhCNz
-         7ArfLE27miYSiJON0gE/yXEvG1rxBjy68sByyEYJq0r23npekZYHqzOxnlrM0xxv2q/Z
-         ZQdz4u8773sHRMX2K8FOpr8qil8F0KVHzvPeGy9/fee1nO7wsEwT7okaNbMLUDBMk5Q1
-         xiUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785051183; x=1785655983;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1785053041; x=1785657841; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=B5p5HfuZ9T8Sd8UslFZSjCp4DIlb+MCzLrjbm/ciTL8=;
-        b=ZofpB1JUuFuWnUUanF9vVrsiyBAsOg0JrKleaRQcYfN1fcawiHA5zoKDK3+hXIPahH
-         IFcovG3uGNDfyJktAb7/7I4EYDxjbbeJAAG3vgETJKWAdogJtPdh+6GH/xuqmmN6jvLd
-         rcW4EMf7OraPOiqAKHI7hx/vbe8zYteh+rIbWDJc6JBYUPsA0CBH8RgxkikTTqcbbNqh
-         QZ+I1RlU7SxtAFZoW2f+1ZitVXGMB9ilB1jM4GTy8ulQplCzaboVYBWbXu5rnVMh26Mk
-         X8V8Ozde0ldGeOH33O8acxGJIP1eYVEuPidEsuy3VTKCpuRjJ7xj6jx+mX5sTMBED2eI
-         slJA==
-X-Forwarded-Encrypted: i=1; AHgh+RrqMUflAjGvnxfTOqySKaVk/tjDaDTQXkJqub43Q1rOs6CG0uI3rg7ppXMLHmS3Wm0viJkS7PLMKIs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yypm5Udd0tP99wQN8/UpzyLjJfv1sIOU4Bq13PtPyKkrAQzHbWB
-	xUozFVC+op43N/UfhJQR/4cA9FG1E+MJzRF0BK1AP7j5BKFh+Pf3z1eFOp+hk3/MlWglYB8SAMi
-	MIPBjeTQtZu1ZkR9RfzFHCtb0e6hDn2w=
-X-Gm-Gg: AR+sD11zGMNm1jX1UWsAFDmCkuSTfxGwq6m/MS7TX9Eb5CUfQwVBHMi2OmceM0zWriD
-	1aa+M5dhTJmj+8Cdi/GN8oUDEz3sQByiuYVbZkgTSBI4lHJ96mVZ7wNr6CmuA45rlEaDGHpEOrD
-	Z5dRfD8Yx5WI6IR69IkRkU1Q2TD4VM9avCLLWMKNY9aclllNhoxGN66JuGRRmMOGpVeC6MEq3Ak
-	TTgtL9wptlxaMeRfNXHp4aiz/c3t4YZ7/nl1Q3I3jzN99SiWhT6k0aiH7PpwbY=
-X-Received: by 2002:a17:907:6d0b:b0:c16:13c3:b1ef with SMTP id
- a640c23a62f3a-c1f1eeacc81mr181433366b.24.1785051182770; Sun, 26 Jul 2026
- 00:33:02 -0700 (PDT)
+        bh=0vwye3bYt271MSx9qRm7lxJP4TvzZMND6qAgc6WLmrE=;
+        b=P9FE78d1HGGeARsExt2f7fztq/9m4wBIg3d7T+CB8S5GjBucwMdDiJTIRlsMRNTojz
+         5rATMUSjZyQdNd7wBCkCGu6VCbsXzP+4dX/7fmRTXjx59tYNOAV+dbGKl5d+vjYAOVWf
+         Rx73FRVt3ubUuD8vXr/BHdKX5X6XHzV/2gR1j8r2f/XweBX7WExuwwDh877Wy6ByBFBA
+         VYbg1OsZSZXmzYtr5TuJzXACv94W2VGHF9KaMG3djs/xoCYYR6IF1U0c64Zlnijm2L15
+         PblKVxpYOz2z9Vx7UdjazIlULIsXM0r/97CqMimy/7IgGHv8UE5NTmeoa7ZrcT7gRTTC
+         0pqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785053041; x=1785657841;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0vwye3bYt271MSx9qRm7lxJP4TvzZMND6qAgc6WLmrE=;
+        b=ThuL6kgAEBCVWFhvfXBTWNhdp0dNr8oCfpUAd2mybCuvQX79EIAnoZ5cH0ltd3LvFb
+         vFzdUjwJzG29cQpZF8UJGnaSq2h8TwnX6c94IYrkaPFq3RW1SOMMFIn/zq61Opc3vfcv
+         icc3grqppLljIw1XK89Sgwqf8U9bxJM4YjkReZPmoHt8sgguJNWAUYRghmCOI0nOb84U
+         tLuMU16pmt6MUIWKBCtIhBBKrAHxwb3tVSfL7AxQC8pTVmtDN5qzE9fB9HkfFeMC9I2r
+         rq15O3P5culbdksr765F6tE3srOtrmPRtJHlAQq31YxcNY1xUlazAxi/c7JS8TEI4CJm
+         F0VQ==
+X-Forwarded-Encrypted: i=1; AHgh+RrLBPwdZR+P3P61w3jQhTnOg5LmsPnlPakoNWntkBsTv5k0NrBKDmgIW6AVODq4R4KFbskuZOOo13g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YynZfCDLWFYTY+wsWDcntris1z8eJoyObdZAJGuIMLO/hNXsXHy
+	G6QjBG50bMmUmYvia72AHp06/xAItoVU+U7846ro00lI+NrTbheB2FIH
+X-Gm-Gg: AR+sD10Esb/Znikn39oUFqEaZJzfixUlanneOuDl/YbrW3idk5jzQXVEbMx1T86EBQl
+	n1jkOY+w7rC7jd2O73FmHaJKC/ItNMIQz2g3K/+yLczalX+mAmbP0WiDda9JtuGY2tL8W80WONU
+	E+JI9zwTeDCTx5KbXMgEm6SbKw2dlfE39x5+j/TRv956YYTbgq5cGHqz+eHoTpI9fPDcfr0i9lT
+	4SIPe5B8jIG6ov7Dxmhza3qbYNsvZ+lOcu3EisulolBXE5/8lZmUN2PDLFqxYnn4KEzZhobP7GM
+	7wKvrRQTxruwvDBUsncPMr7kaV+9Ya1EAzNCGP0h8VVVLlFFMwQNkl1Vtn9G50g0rR60uD+Roaa
+	6AFDm6SnRvq4z1ULVlQ53OewY0Ia4GoJltuMK3eodstP9d2otQOky9TOURe9bjI6oRQhFy9cUtI
+	8dxGkBEK0sOw+M9Vt4HqJJVF+82l3aawrKqlfoLQ1zMr+89DxDQwpUjxWxfltV7e8=
+X-Received: by 2002:a17:902:d2c9:b0:2ca:53e9:1277 with SMTP id d9443c01a7336-2cfde6877c3mr43661925ad.1.1785053040874;
+        Sun, 26 Jul 2026 01:04:00 -0700 (PDT)
+Received: from localhost.localdomain (211-20-143-81.hinet-ip.hinet.net. [211.20.143.81])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde5e2b8esm17503365ad.31.2026.07.26.01.03.56
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 26 Jul 2026 01:04:00 -0700 (PDT)
+From: =?UTF-8?q?HE=20WEI=20=28=E3=82=AE=E3=82=AB=E3=82=AF=29?= <skyexpoc@gmail.com>
+To: Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andi Shyti <andi.shyti@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-usb@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	HE WEI <skyexpoc@gmail.com>
+Subject: [PATCH 0/3] usbio: fix two out-of-bounds accesses and a hang
+Date: Sun, 26 Jul 2026 16:59:10 +0900
+Message-ID: <20260726080129.44969-1-skyexpoc@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAG0uPa-gYTMS87gWo2ixigFifAAR8wQ1eJ1iRRTvBgiywvdxYg@mail.gmail.com>
- <2026072535-uncork-gonad-4187@gregkh> <CAG0uPa8qSkQjesAmcfms7Va2j0yb3VDuES5TYe=65LXFn0qKJQ@mail.gmail.com>
- <2026072500-moaning-importer-e8ee@gregkh>
-In-Reply-To: <2026072500-moaning-importer-e8ee@gregkh>
-From: Ishaan Dandekar <ishaan.dandekar@gmail.com>
-Date: Sun, 26 Jul 2026 13:02:45 +0530
-X-Gm-Features: AUfX_mw-VKpPPNd7ycgcZ6QS32FZxCAkWlFySy1SHAyIttwrv2wgEsVEMsvKIYE
-Message-ID: <CAG0uPa_w9jjqwQkgJD1eyjN8b1CUBRRURcfEgfouZi7PRSxseQ@mail.gmail.com>
-Subject: Re: [PATCH] usb: core: quirks: Add 255-bytes initial config read quirk
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: nikhilsolanke5@gmail.com, linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Greg and Nikhil,
+This is variant analysis around 8c6314489550 ("usb: misc: usbio: bound
+bulk IN response length to the received transfer"), which fixed a slab
+out-of-bounds read in usbio_bulk_msg().  Re-reading that function,
+usbio_ctrl_msg() and the I2C client built on top of them turned up three
+further issues.
 
-Thank you both for the guidance. I am setting up git send-email now
-and will verify everything with git am locally before sending anything
-else.
+Patch 1 fixes the length checks in usbio_ctrl_msg() and
+usbio_bulk_msg().  They are computed as "<buf>_len - sizeof(*pkt)", u16
+minus size_t, which wraps for any endpoint smaller than the protocol
+header.  usb_parse_endpoint() only clamps wMaxPacketSize downwards, so
+a device can advertise 1 and turn the check off entirely; the first I2C
+transfer then overflows a one byte slab object.  The overflow completes
+before usb_bulk_msg() is reached, so it does not depend on the host
+controller accepting the transfer.  Fixed by validating the three
+lengths once in usbio_probe(), which is the only place that assigns
+them.
 
-Regarding the delay in my response: while testing the usb: core:
-quirks patch, I realized the quirk alone doesn't entirely solve the
-hardware's behavior. After running a Wireshark capture on the device's
-Windows initialization, I discovered the controller drops into a
-fallback state that the Linux xpad driver was ignoring due to missing
-VIP bindings.
+Patch 2 is the equivalent arithmetic in i2c-usbio.c, where the overhead
+is 10 rather than 5.  The interesting value there is exactly 10: the
+chunk size is then 0 and the split loop in usbio_i2c_read() never
+advances, so a device that keeps answering keeps the loop alive
+uninterruptibly while holding usbio->bulk_mutex.  That is a hang rather
+than memory corruption, and patch 1 does not address it.  This is also
+the one patch in the series with a behaviour change -- a bridge whose
+bulk wMaxPacketSize is below 11 no longer gets an I2C adapter -- and the
+commit message spells out why such an adapter could never have
+completed a transfer in the first place.
 
-I didn't want to submit a partial fix that leaves the controller
-broken or mismapped for end users. I've now patched xpad.c to properly
-claim the interface and route the X-Input protocol.
+Patch 3 is a different bug from the two above, and the one that affects
+existing hardware.  usbio_ctrl_msg() and usbio_bulk_msg() hex dump the
+reply with "%*phN" using a length the device supplied and that has not
+been validated yet.  hex_string() caps the field width at 64, not at
+the buffer size, so the dump reads up to byte 67 of ctrlbuf and byte 68
+of rxbuf: out of bounds for every low, full and high speed ep0 packet
+size and for the bulk sizes these bridges actually use.  It needs no
+malformed descriptor at all, only the dev_dbg() calls enabled.
 
-I will be sending a properly formatted patch series shortly using git
-send-email. Thanks again for your patience with a first-time
-contributor!
+The new probe checks do not reject any supported bridge: the low, full
+and high speed devices this driver binds to have an ep0 packet size of
+at least 8, and they use bulk endpoints of 64, or 63 via
+USBIO_QUIRK_BULK_MAXP_63.
 
-Best, Ishaan
+What was verified, and what was not:
 
-On Sat, Jul 25, 2026 at 10:59=E2=80=AFPM Greg KH <gregkh@linuxfoundation.or=
-g> wrote:
->
-> On Sat, Jul 25, 2026 at 08:19:21PM +0530, Ishaan Dandekar wrote:
-> > Hi Greg,
-> >
-> > Here is the follow-on patch adding the ShanWan Wireless Gamepad (2563:0=
-575)
-> > to the static quirks table.
-> >
-> > Note: This patch depends on the USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE flag
-> > introduced in Nikhil Solanke's pending patch:
-> > https://lore.kernel.org/linux-usb/20260717195336.98500-2-nikhilsolanke5=
-@gmail.com/
-> >
-> > Thanks,
-> > Ishaan
-> >
-> > ---
-> >
-> > >From ecd1aa9afd8bc00a3e0b36cbe49b427f390e5de6 Mon Sep 17 00:00:00 2001
-> > From: Ishaan Dandekar <ishaan.dandekar@gmail.com>
-> > Date: Sat, 25 Jul 2026 20:03:28 +0530
-> > Subject: [PATCH] usb: quirks: Add ShanWan gamepad to quirk list
-> >
-> > The ShanWan Wireless Gamepad (dongle ID 2563:0575) crashes with a -71
-> > EPROTO error during standard enumeration because it expects a 255-byte
-> > initial configuration request. Add this device to the quirk list to
-> > use the USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE flag.
-> >
-> > Signed-off-by: Ishaan Dandekar <ishaan.dandekar@gmail.com>
-> > ---
-> >  drivers/usb/core/quirks.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-> > index 87ee2d938..696bb6548 100644
-> > --- a/drivers/usb/core/quirks.c
-> > +++ b/drivers/usb/core/quirks.c
-> > @@ -588,6 +588,9 @@ static const struct usb_device_id usb_quirk_list[] =
-=3D {
-> >   { USB_DEVICE(0x2386, 0x3119), .driver_info =3D USB_QUIRK_NO_LPM },
-> >
-> >   { USB_DEVICE(0x2386, 0x350e), .driver_info =3D USB_QUIRK_NO_LPM },
-> > +
-> > + /* ShanWan Wireless Gamepad */
-> > + { USB_DEVICE(0x2563, 0x0575), .driver_info =3D
-> > USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
-> >
-> >   /* UGREEN 35871 - BOS descriptor fetch hangs at SuperSpeed Plus */
-> >   { USB_DEVICE(0x2b89, 0x5871), .driver_info =3D USB_QUIRK_NO_BOS },
-> > --
-> > 2.34.1
-> >
->
-> This patch is corrupted and can not be applied, please just send it with
-> git send-email so that this doesn't happen.
->
-> thanks,
->
-> greg k-h
+ - All three build cleanly with x86_64 gcc 14.2.0 at W=1, with
+   CONFIG_DYNAMIC_DEBUG both disabled and enabled.
+
+ - The out-of-bounds accesses in patches 1 and 3, and the
+   non-terminating loop in patch 2, reproduce against a userspace model
+   that copies the struct definitions from usbio.h and the checks and
+   stores from usbio.c and i2c-usbio.c verbatim, with only
+   devm_kzalloc(), usb_bulk_msg() and usb_control_msg() replaced; the
+   memory errors are reported by AddressSanitizer.  The same source
+   built with the patches applied is clean, and both a normal device
+   (ep0 64, bulk 64/64) and the USBIO_QUIRK_BULK_MAXP_63 path still
+   work.
+
+ - The decision space was swept exhaustively, endpoint sizes 0..2048
+   against caller lengths 0..4101: the mainline bulk check can be
+   bypassed for exactly 0..4 and the control check for exactly 0..3.
+   After patch 1 no accepted endpoint size admits an overflow, and no
+   size that could carry a payload byte is rejected.
+
+ - I have not run any of this on hardware or on dummy_hcd.  The
+   reachability arguments are read from usbcore and from
+   lib/vsprintf.c, not observed at runtime.  I am happy to build a
+   raw-gadget reproducer if that would help review.
+
+Patches 1 and 3 touch drivers/usb/misc/usbio.c and patch 2 touches
+drivers/i2c/busses/i2c-usbio.c; MAINTAINERS lists all three files under
+the same INTEL USBIO entry, so they are sent as one series.  They apply
+to mainline 3dab139d4795, to usb-next and to usb-testing.
+
+HE WEI (ギカク) (3):
+  usb: misc: usbio: reject endpoints smaller than the packet header
+  i2c: usbio: reject bridges with undersized transfer buffers
+  usb: misc: usbio: bound the debug hex dumps by the received length
+
+ drivers/i2c/busses/i2c-usbio.c | 14 ++++++++++++
+ drivers/usb/misc/usbio.c       | 50 ++++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 60 insertions(+), 4 deletions(-)
+
+-- 
+2.51.0
+
