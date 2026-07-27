@@ -1,132 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D4C422E36
-	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 16:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785170587; cv=none; b=FOhhs+0lt0C9mnk1odjjC5KRegROicZ10xKpUnWY144l3VpUYfkgkn4BVSUa9dQPGHsbBsmwlRNiwzzChYJNryu8dVXo5W2RmhUMZwZBgu2srFBEZvt2rAzBg0RyJ1Rksye9l+g3pRrzvvdXMUlTT7rm9kQ9nmYzmARNralUwZ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785170587; c=relaxed/simple;
-	bh=9SpQBJLruHY6a/9VFB6mc1Gqmhm8ZVqOYyhnISrB2rs=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=jzjlyM19rGuJkMs2N1tq781Md+w1Gu4F81xW/KTukRaAJ70VGIaLK6rQ487HJZMYQd34dxvQXjtBibfqYjOvmGWjHXkwTg820/yOuN0nJUlC7CJXPJTqWbryOiIOrFpEf5K21IjeCYb+B22/4ae7Njwr6RhnsJPPA/Joo0CpPdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lNDpbLOH; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C0B4156CC
+	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 16:51:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785171115; cv=pass; b=LgE6k9XM2F6DJA7pK5t3xxROmO15u6fOuNLMKbX3vqLuhhGKUsU6p8fA75Gg26vjBVu9O/91vzjNQNacY0G91oAcphWi03hz6uLAOOKBCG4+sTVnjx9zzxiLBPVIfV2i2XbX8Uv5r/t15iJpUzyqwosugwFqT6emrWyiDp/Z85U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785171115; c=relaxed/simple;
+	bh=l9hEapXFjhD3ebiCQnR0Mo/cNkCwktpHytvBsARA7mU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G9SjQ1deh06oC092jx9KY4DO0D66eKNLREY5jxIc103tFyMQJo3rXDUUGppjSqbl0Vqe82B5JNZ9hwe9MvmvWGDRkYANFAn1smY7DKTfev46EamsFOqvSJuX9XVe7FeEidw/aff1iy4s9K9eT1NfAwrjZckScygTTkFrNRhRTsc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lqo12ST2; arc=pass smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lNDpbLOH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785170585; x=1816706585;
-  h=date:from:to:cc:subject:message-id;
-  bh=9SpQBJLruHY6a/9VFB6mc1Gqmhm8ZVqOYyhnISrB2rs=;
-  b=lNDpbLOHKXywjyTqlFT+XvcxLjxbM4cRyyIQQgnLu2hVzmh7noyl+WiI
-   jIGuKh1gCmqGTjORg/m3lvSBJgJ+Oz5fogbeEqjxaarEuh2u2doIGAngP
-   WLYBybQOIFARs9eFtFWJB7ubLE2A1TLNgyY49sEhVD2rXClQJw4+7pgbw
-   RqNVoaCvcDQO2VINjh3B/cBcgsMe+6fAwERIz2aVSPMS7RdHzgzqrPSWw
-   og0mlylVUgslf5cyqzu3x4O0xa1XnTrb6x9BiVI1R94V5kZ3OjnIfeLmR
-   ENsmItVxEsaR21kNeWZxYSsGKNdxqad7K3X3l8k/QF1+3hdrENQAFv+Jr
-   Q==;
-X-CSE-ConnectionGUID: fyT2/sWuQLeMgOpj62BvSA==
-X-CSE-MsgGUID: 9u8G2F6vQh6u5LJeFqKAng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="111287535"
-X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
-   d="scan'208";a="111287535"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 09:43:04 -0700
-X-CSE-ConnectionGUID: TjiVA+P4TBWE+FpRlbZvew==
-X-CSE-MsgGUID: j2zsES9dTDGzKck40kokeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
-   d="scan'208";a="256787656"
-Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Jul 2026 09:43:02 -0700
-Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1woOPr-000000001g6-2jBY;
-	Mon, 27 Jul 2026 16:42:59 +0000
-Date: Mon, 27 Jul 2026 18:42:32 +0200
-From: kernel test robot <lkp@intel.com>
-To: Pan Chuang <panchuang@vivo.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
- Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [westeri-thunderbolt:next 7/7]
- drivers/thunderbolt/pci.c:115:24: warning: unused variable 'dev'
-Message-ID: <202607271811.1izFG7s9-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lqo12ST2"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-69c7ab350e9so4268365a12.0
+        for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 09:51:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785171109; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Nv1JYWoAlXN4nSqD1KopXxg8CG8y4myAOdsr+Axhe/5woNlEutJd/wWYgtbE7WQB0q
+         2USS9brK8+L0XWzAAmDicYmm//la7DHO/Nh99Bv6hSU2ZwgKMu4/X94fMT9FnBsWTIQi
+         Vt4/92aNnJvShcSZ/bm05g4glcxZcHxYCahZvp6O9mbLXmvrGdVOxjveCO11xpcyw+xX
+         VZGJQ1H+ycuhoB7y2eMEpN1s6IEWLIwpxaNkgEc/+t9XAH6DOoFOQVVXQx3LSYSNc1gH
+         qZKQcmvEIuEr+lXklYUEMRy7s5raG91yGA5zaaH7G6BcC7Nw6aSl6qTyVXAxTzf2rUGv
+         RGUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=l9hEapXFjhD3ebiCQnR0Mo/cNkCwktpHytvBsARA7mU=;
+        fh=rc4OhCJwTDPyR+1fwkHLNEXz4ZlkCHJCHKTPXoIBvBk=;
+        b=p6bGa/dMcMhfsyWu+luzEFkadJtDWc9a5pHj322sCdersUCEiFBeEQczQYP4itiXvT
+         9USIGchm7xR+6FrYO5nLysxuCefvWux4NCESz+vndqBDeEvA91dVhB8oV/Xb7EXmqKY5
+         oBMe9e2h6O6ra6q3fyt/YOLG0SuVgIc1xbmlSGxPxPlNHOQ7C1Eshmhyf9Ej2QvUVLjp
+         XDdF48i/7FNiR6WdXL1jnBnLLaqHvW67yzuirzlryyZOUuK6p4DoqTLjkG5d7LsJSuEz
+         R1RRFqRZsOtVhRX4/FqPIhz7LCS4cOe6SUesD+B0xVHC6glb8eHH59kTQmSaUz0//zbD
+         k1MA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785171109; x=1785775909; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=l9hEapXFjhD3ebiCQnR0Mo/cNkCwktpHytvBsARA7mU=;
+        b=Lqo12ST2NzU3DhyqgUCrRkhwLf2CclHdnSrrj9RoS5TgBJ/Z0eV4ETXAA0Wzff3MaK
+         xuc0uPckgDYaLl1kLiDVAtjmUfVuCosKjDwrak0wyQogmAfFVDomfFB5/UF6KgyFCgUW
+         W5vVfnX5HUnSVyq/vZuuJrLj7Bg5MFJmCetL8+p9yFkRRqIQ5/3VGf51SXo6k36vcEf1
+         C5MwIud7/9J8o1bHKk+kwjLd8cXuIct+B1NW6e7uDQRmANpvH0INg637Xd3zsL+cirls
+         7j4QWMYq74Bey+KMlOuxwOM2Xmj46GEAV9stOFIU47pVdc4tABHt+eAoTX8OMvUnp0Gr
+         gSEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785171109; x=1785775909;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=l9hEapXFjhD3ebiCQnR0Mo/cNkCwktpHytvBsARA7mU=;
+        b=GQ1zNxd9k4c2bA+4iYjJDPCN86f2/6Fcflx9ovXVimlaaKoektnrD5j1+YLBu0wiT3
+         4AHTmzl+ERBzjee3gSj+5T/bp8hBS9caazhwKFvKPFf183ihQVApNWuB+ePWss2J5drj
+         zsX0ETWlPc6lVvSpVkQ9lcYdFoeENRJBlxxFDZ+sVZBW0ODc1+LvszPVjHvArZh8jKp4
+         bu1Blaca/xEtJeUrPv1cZmSrUVpLwUNEBTK0y4XdVtyUhNNroIqI6CxLo7mWahhyJ0E6
+         O1/3FqGUDLQn3Bn7SYJ4jzWQJm69f1HtyXIGQApDahNa5j0N5neA7rYaKEF1JSb3WSZo
+         ELLg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpicn8dcVPc8jCh8skt8GU7LBgPk83ZYst9K7yy8YN97D5ZpQ0IdnOPJSgAZb8crQn9AMUjPwstwdo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw69pgVQt2W3A17Y0ZgCDGEQhK0Q+tEX1pA/jmmahDhKGzRE/ER
+	WxU01e39pO3XSsbZCb3SXN3sN62ZlHf+sTVG/WhSYqeesbp5MCoUM0/E6XJDZg29mpVY0D5ENC4
+	KwcUdZQtd9E9C0kfcoBreNBIcbAFvh2uEF/24tyE=
+X-Gm-Gg: AR+sD137EuJ/LPW6ynsIpkkqUfp33ZwGnKf4EUxIa82Q6YzJznOcdlEBjAer5+0mpGT
+	YsG8X/q1Z7dVCLurzUTW7Ywx9TuaLYgd92IZBfqXEEyUxNu5ZTvNDquiIuWvZfxDjXLaKn7Fw8J
+	Doaw9a+WLJwF++e3dfvevqo3nuMx4Lgewylmg/PjNFx8sZq8StJaiBDrxmAD4njls10WiqFpp8a
+	r966/rQJtyELB5cjRUArHn0/9wnXnBwvj9k2nVf4U1zRfF+qJULR0zmf12WK9tLXvZpMNK3lezo
+	J5kH4eUlmmwctyd/9/GwBRy80f1SaGIsNLgMNv+66cpA
+X-Received: by 2002:a17:907:7ba7:b0:c15:ef0a:adb4 with SMTP id
+ a640c23a62f3a-c1f1f1a7396mr379839266b.61.1785171108625; Mon, 27 Jul 2026
+ 09:51:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260721202201.27442-1-mtormento80@gmail.com> <amDplMXaf1JpxE0v@kuha>
+ <CACF_UwoqtaGMB=O2em92JcTnW1RP_ozD415ieAbMBgmmq+gG6w@mail.gmail.com> <amc9R83pQ8-XyYYm@black.igk.intel.com>
+In-Reply-To: <amc9R83pQ8-XyYYm@black.igk.intel.com>
+From: Marco Tormento <mtormento80@gmail.com>
+Date: Mon, 27 Jul 2026 18:51:36 +0200
+X-Gm-Features: AUfX_mwbgCbY83swB099b4e_1HXHRBXUFCuTwRfmNvFUuzBpK6V1H5gouh0bOSU
+Message-ID: <CACF_Uwo-hj8qpWoK8EjYVKRui2EmwHmWZ-ntS2Yd8MrTZ5Udgw@mail.gmail.com>
+Subject: Re: [PATCH] usb: core: deattach child device from typec connector on
+ port unbind
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
-head:   eef9f6d8c36f7610b5f837e196692ec34842a400
-commit: eef9f6d8c36f7610b5f837e196692ec34842a400 [7/7] thunderbolt: Remove redundant dev_err_probe()
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260727/202607271811.1izFG7s9-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260727/202607271811.1izFG7s9-lkp@intel.com/reproduce)
+Hi Heikki,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607271811.1izFG7s9-lkp@intel.com/
+On Mon, 27 Jul 2026 at 13:13, Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> We should not need to reverse anything. We can't avoid calling
+> typec_attach() separately from connector_bind() because we can't
+> prevent USB devices from being enumerated before the typec drivers are
+> loaded for example during bootup. But that does not mean we need to
+> call typec_deattach() in connector_unbind().
+>
+> After the USB device is "attached" to the typec connector, the
+> connector device should be pinned down for as long as the USB device
+> exists, but that is not happening. So what both you guys are doing, is
+> working around a problem with the reference count.
+>
+> I can see that most of your commit message is written by some LLM, and
+> the parts that you've added don't usually belong to the commit
+> message. That makes me a bit concerned about how much you actually
+> understand what the code that you are modifying does.
+>
+> Use of LLMs is fine, but you still have understand the code that you
+> modify.
 
-All warnings (new ones prefixed by >>):
+First of all, thank you for the explanation.
 
-   drivers/thunderbolt/pci.c: In function 'nhi_pci_init_msi':
->> drivers/thunderbolt/pci.c:115:24: warning: unused variable 'dev' [-Wunused-variable]
-     115 |         struct device *dev = &pdev->dev;
-         |                        ^~~
+The commit message definitely sounded over confident, my understanding
+of the issue is summed up here in my first patch submission a year
+ago: https://lore.kernel.org/all/20250720210847.30998-1-mtormento80@gmail.com/
 
+As I said back then, my experience on kernel code was nearly zero, and
+I was well aware there might be better ways to fix the issue: that's
+also true today.
 
-vim +/dev +115 drivers/thunderbolt/pci.c
+What I did a few days ago was to ask AI to analyse my first patch and
+see if it could find a better mitigation.
+It came up with this patch, I read the explanation and it made sense
+for my level of understanding of the matter (which is arguably low,
+unfortunately).
+I checked the code and tested for a while with success, so I submitted
+a new patch and here we are.
 
-e241d98e04ef05 Konrad Dybcio 2026-05-21  110  
-e241d98e04ef05 Konrad Dybcio 2026-05-21  111  static int nhi_pci_init_msi(struct tb_nhi *nhi)
-e241d98e04ef05 Konrad Dybcio 2026-05-21  112  {
-e241d98e04ef05 Konrad Dybcio 2026-05-21  113  	struct tb_nhi_pci *nhi_pci = nhi_to_pci(nhi);
-e241d98e04ef05 Konrad Dybcio 2026-05-21  114  	struct pci_dev *pdev = to_pci_dev(nhi->dev);
-e241d98e04ef05 Konrad Dybcio 2026-05-21 @115  	struct device *dev = &pdev->dev;
-e241d98e04ef05 Konrad Dybcio 2026-05-21  116  	int res, irq, nvec;
-e241d98e04ef05 Konrad Dybcio 2026-05-21  117  
-e241d98e04ef05 Konrad Dybcio 2026-05-21  118  	ida_init(&nhi_pci->msix_ida);
-e241d98e04ef05 Konrad Dybcio 2026-05-21  119  
-e241d98e04ef05 Konrad Dybcio 2026-05-21  120  	/*
-e241d98e04ef05 Konrad Dybcio 2026-05-21  121  	 * The NHI has 16 MSI-X vectors or a single MSI. We first try to
-e241d98e04ef05 Konrad Dybcio 2026-05-21  122  	 * get all MSI-X vectors and if we succeed, each ring will have
-e241d98e04ef05 Konrad Dybcio 2026-05-21  123  	 * one MSI-X. If for some reason that does not work out, we
-e241d98e04ef05 Konrad Dybcio 2026-05-21  124  	 * fallback to a single MSI.
-e241d98e04ef05 Konrad Dybcio 2026-05-21  125  	 */
-e241d98e04ef05 Konrad Dybcio 2026-05-21  126  	nvec = pci_alloc_irq_vectors(pdev, MSIX_MIN_VECS, MSIX_MAX_VECS,
-e241d98e04ef05 Konrad Dybcio 2026-05-21  127  				     PCI_IRQ_MSIX);
-e241d98e04ef05 Konrad Dybcio 2026-05-21  128  	if (nvec < 0) {
-e241d98e04ef05 Konrad Dybcio 2026-05-21  129  		nvec = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI);
-e241d98e04ef05 Konrad Dybcio 2026-05-21  130  		if (nvec < 0)
-e241d98e04ef05 Konrad Dybcio 2026-05-21  131  			return nvec;
-e241d98e04ef05 Konrad Dybcio 2026-05-21  132  
-e241d98e04ef05 Konrad Dybcio 2026-05-21  133  		INIT_WORK(&nhi->interrupt_work, nhi_interrupt_work);
-e241d98e04ef05 Konrad Dybcio 2026-05-21  134  
-e241d98e04ef05 Konrad Dybcio 2026-05-21  135  		irq = pci_irq_vector(pdev, 0);
-e241d98e04ef05 Konrad Dybcio 2026-05-21  136  		if (irq < 0)
-e241d98e04ef05 Konrad Dybcio 2026-05-21  137  			return irq;
-e241d98e04ef05 Konrad Dybcio 2026-05-21  138  
-e241d98e04ef05 Konrad Dybcio 2026-05-21  139  		res = devm_request_irq(&pdev->dev, irq, nhi_msi,
-e241d98e04ef05 Konrad Dybcio 2026-05-21  140  				       IRQF_NO_SUSPEND, "thunderbolt", nhi);
-e241d98e04ef05 Konrad Dybcio 2026-05-21  141  		if (res)
-eef9f6d8c36f76 Pan Chuang    2026-07-16  142  			return res;
-e241d98e04ef05 Konrad Dybcio 2026-05-21  143  	}
-e241d98e04ef05 Konrad Dybcio 2026-05-21  144  
-e241d98e04ef05 Konrad Dybcio 2026-05-21  145  	return 0;
-e241d98e04ef05 Konrad Dybcio 2026-05-21  146  }
-e241d98e04ef05 Konrad Dybcio 2026-05-21  147  
+Do you have any suspects yet on where the underlying issue might be?
 
-:::::: The code at line 115 was first introduced by commit
-:::::: e241d98e04ef0513b78de2d87d8d1eb2993d9d34 thunderbolt: Separate out common NHI bits
-
-:::::: TO: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-:::::: CC: Mika Westerberg <mika.westerberg@linux.intel.com>
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Marco
