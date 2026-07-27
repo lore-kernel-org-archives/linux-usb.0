@@ -1,138 +1,203 @@
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF30B3CF670;
-	Mon, 27 Jul 2026 22:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AD13E0C67
+	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 22:28:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785190435; cv=none; b=Hyv7peBfEiiCRaHXfuey4qQAoTBoQW+7s1FBNkP6nn0OltfyGyPgPlpgMdSMRZNQcI8/zQhgr1VmSDaTTn440uuHR4HusJSZQLVIx76qLu2FYrGklpYMvEwjIC21Rbqvq0nPy7mjGHSBXH6+0JPbgxsFulsNrmAP9x1N0n6XSJs=
+	t=1785191312; cv=none; b=FlwvcZQC+NnIio2tBn76wqugFaXpRaYpFvxYK3CdcUUEsp0RqpSE4xv1TAc0RtnIXmVcoOkMCREWHJiCXe3x63/glbZJZMxxtWxbG2dzO/tJHj2qYooMHC1HDdBxPK/oi0D9/6aMOMVLd/NfDQDqyMGuROEz3RLUF0vfUFwZmxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785190435; c=relaxed/simple;
-	bh=7HRdo5lWL0NKXPhbJw2Cxby7bQ0TPgn/2i9ZGXXDXgw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ti0xi6n+FQDfLBqfQ1N4x/MwToSm5913k6cb3eLmqknivbj8Kwc3w49jYKyweNaoS0W8CBvKlo58x9ITZOV8XzyMEbd4dRShqpSVlu03QK5j9mBPiL7IUwvW6mXn/UfJVWOhIrs7qbIT48YPMSAdSDChgThOrWzVWlARztm4LXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invisiblethingslab.com; spf=pass smtp.mailfrom=invisiblethingslab.com; dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b=A1rfGZeE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nF/RrYpi; arc=none smtp.client-ip=202.12.124.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=invisiblethingslab.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=invisiblethingslab.com
+	s=arc-20240116; t=1785191312; c=relaxed/simple;
+	bh=fmBby+j7vqUnhnHT90DY1Oyy++yHey2NEwWypi48XCg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mBYjuKGiwHl2nGTFTxm5QapmX0AX3ueh3x3LN8R37XQtyt88pHrJkgoyUbGp9P7sqIHPoaB0ihHXkwWhEAlVOVFbfle59Icin+JpKGPYymapZ68z5q7T07QHh40tCDYZrzHDIeVHxG+EJHWSkIpQpo/KPoG0VsZGwuxZO4YkzuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ci9jdmQZ; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=invisiblethingslab.com header.i=@invisiblethingslab.com header.b="A1rfGZeE";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nF/RrYpi"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.stl.internal (Postfix) with ESMTP id F24731D00071;
-	Mon, 27 Jul 2026 18:13:52 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Mon, 27 Jul 2026 18:13:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	invisiblethingslab.com; h=cc:cc:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1785190432;
-	 x=1785276832; bh=vYS0xXEeYA9rj9xO7sCrN+QFnzSeIAByUzf6qfAMg6I=; b=
-	A1rfGZeEltNc03STRNcBuz/33BU75Y2RENf7jVQ0iM0/Pk8kpyYZnQGFHP9ntULD
-	BoERh8tuipXcyxhGkijsM66NDjnGALf26B7oVZnMbLVQzBXftBYL6gWSpP02i/2k
-	dcz+nqGpW8yUhNYXLjlC8qA4m8oHmXLiEx3tb67eO+P7PCr2FISSh5uzzQtT0cwJ
-	W04Vr8Ln5dzC+9uS/rfrMy9Wkn2qFRgAYOpBJH/BSo6QNqN6RBaon9HOne3dtnV+
-	gyCRoTrmAn8zXQr2nPpy6/zle26TUt9wzwpbSL0SQMH4JTGKzDYL7kBDaNGN4epY
-	DkG+Uaf6tEJO8ZStc/3F/Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1785190432; x=1785276832; bh=vYS0xXEeYA9rj9xO7sCrN+QFnzSeIAByUzf
-	6qfAMg6I=; b=nF/RrYpiQ8CVrpTSrNH+ZdrKX/mGrFS9s3yKGawwlhmhDwb8L0p
-	uTPET8pRJloxDSXsatzSWb5UT84UPqA0eHdnVW7325ZPB430Rj5DgwdZynF1bhkf
-	1Ytthqe0OD42DraLvX4Z93Q3iBGjrfsWqE9EdugA9c0J6fZxTwWSd5+Fs6kIGNjb
-	0hRFyM/FPekXoeAXeMLBtX1jboBFPQdNRBJXxQt2n9iez5efwri+WZRCfai74IOU
-	SoPvp46EEjDyxpeBVOxnnqVa2d3OdtFZ39VQmD5HBisQ/WNDmbdKCQyPAQd6BxIY
-	leKNwNUoHmXe462LZLBrwjwwEklm/8a2bVg==
-X-ME-Sender: <xms:INhnap8Upt4dm_TaoCzRXEZz4fVLEDxeoyRjWNVlmcwb7Wgi9qf6ZA>
-    <xme:INhnanwBHzp9pSg7F0nAytfpejPsTNfvgYdbLPcILNTrgUocR8-MfI27g_Dfblypc
-    hfkpPEl7uJcyHnSavPxTaxGe5mSdavHv-y_bpiFhK69L1jx9w>
-X-ME-Received: <xmr:INhnam5ls_RcJoOBKx4n-z6AXgdGtyAtEdtmzfA1N0qUKTNu0uEqUadwW8oF4DR_I32kuI1KzEiyM0cpADkelvtoAfBQRHzTiao>
-X-ME-Proxy-Cause: dmFkZTEGT8bAaOJwhfw7ktivcpct8ChjMjKmELRqOnkMGr/piDpGCD6t/TYFdRxt4X8vgy
-    +z/myw6nfhXiw2JGLk1NbmcT02gy1c9uDz1cf2qWO+w2o6bdbBCxxARIuwfFaOZ27wP7yo
-    ejUUKEOXZOYffwTPFyCO3W0KTeNHecltIVK7ElZrPqmJpXMeKhUccuZZLvf8WMmY0A3TZl
-    4OtBK2yFW16jy1frBnhWoQlrFi2V/RYigph6flfjDJh1qVxqJj1TQBA6JW2Z4lfFdAVs+F
-    t2cLDBjNznQUCZddyC96Ec32Odbyjm5GkHyc++0+S5ZK++QZe02mplGw8CeD1gFeVMNIVJ
-    3iwUAF8uBiskOU/B7TN9QeKxUqBYGY9PjceoaM5rdVIJPOgRRV4vkqCNjA3XCRbOpj+aCF
-    xc3+GgSz69c/7w3s10PClx4B0jhrtnGUrGLF8WCWr5ohZriQ7P9TPhodRJYHD+acoKnjtG
-    tf5Q1Hi5hUtoS+S2aA8uTBv7gshDefnfLEojGcB+Yh5KiC2iL7lKj1a6rDxD45+hHzBXMm
-    HpgOBksFGcFNE4dRU0epWlG/YjYU+RBPNrRR4vYdlNDUdxPuUCu425MWA63lWNrdE/XJjn
-    cug5dEWFh9kC6HMASHjsvQSi90IhUqkoyOnrfwAJISiELuD9xgOD9FxfKNhA
-X-ME-Proxy: <xmx:INhnau_-U9HLjtqbBG-z1wkfehvpvAWjn6jH1eyWTwwtVw6QHCoR8g>
-    <xmx:INhnaroDr3FojgbbcPYDKykB1c331bi8BlCX2Yuxw_oW7vDnGQIv4A>
-    <xmx:INhnavrPPtWIOUcNeaqcA4suv_gxaaCH69k4BEPql8aJ4pdEZu2eqA>
-    <xmx:INhnau23T-lVH_kRcOb1iSebk2v3oS70cNEhMSdDLF3vYGEMW1TXrA>
-    <xmx:INhnalzJWBvtwOjINDtcK4ubWWW-SMX69ujZdZatIvUh36-qsZtUM2vX>
-Feedback-ID: i1568416f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Jul 2026 18:13:51 -0400 (EDT)
-Date: Tue, 28 Jul 2026 00:13:49 +0200
-From: Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	"open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Woody Suwalski <terraluna977@gmail.com>
-Subject: Re: Kernel panic in nhi_probe()->icm_probe() - Linux 7.2-rc
-Message-ID: <amfYHcjnKTQ180r3@mail-itl>
-References: <amdezCBiW4fd_DuB@mail-itl>
- <20260727140527.GM2365036@black.igk.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ci9jdmQZ"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47c6e9a694bso1890405f8f.1
+        for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 15:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785191309; x=1785796109; darn=vger.kernel.org;
+        h=content-type:mime-version:references:in-reply-to:message-id:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jaVs4MRBs+CoMFWSDY+BDZbxmcERjicLr9vSXImNabA=;
+        b=ci9jdmQZ/vBmxUV0zPZDuKi6iGoJg2g+3kR+ASm1wK5r8p1daXq8BrJTGqt4rtWLpe
+         WfwE4NRD2wV1aW8Bw2kKFbRngO8i832TIs64oM0YhJeIC54ZH1tiBvFKzBy/zEKFOO+n
+         CKwj5Mh9mMhKBCFZEaNMdqZCpvpazxDkFIMEFs72SJmbSDFX1czOuH10ga7OWPLBC7sI
+         3WhnSwSs1qbTvH1+bRg7ZoJyUcFH9Jqz/orWXLgKHyZ+6mc5HG3y/z0iuT+3OOpjoQdz
+         wZGfG+wBAhIXaVFPgsoJDguFCjyohCSX3K/iJPreWTkvm4TEEORUAYzTFVffbq7+IaPK
+         pBOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785191309; x=1785796109;
+        h=content-type:mime-version:references:in-reply-to:message-id:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jaVs4MRBs+CoMFWSDY+BDZbxmcERjicLr9vSXImNabA=;
+        b=PNCba9QXCS75OFowsT8AE+bJYXK7fvg62SSsOfYtgIop59RSXcf6e3FLDYBHG0axQu
+         Nu2VuOYGnwTtrfO5Vreb/ZbWUiLsIekR4ee39XSPEwQ4fZCYblD+jpKJMbE7fmuynxCS
+         VUFn7W5GyrpaBtoOWhGCo2hzlceURxIRVywxAgL4iw4QX32gR2+Z4TG71QbraOdPxPyr
+         y1UzMU80slMYaXmnxGAl/fcP3HSxqrWJr3wAHs2ynsi45Xci/2vdWMmiTU8koKKKwobv
+         NSk6T200JA9bYclUi6rRMewuGPvLKZNnYFsRPpc5NsAE0Ht0PIPD5sk107gbxVTiF1Rs
+         h7vg==
+X-Gm-Message-State: AOJu0YzVp2W27/23ugLhittSY3Oc7r2AghSMy4/6gbmvyvWSNCg6UYxK
+	NNa0fgLitGfJBy23aZaGIRP65nvS9wV7zMMtZ775G9FbQ2HXAObJn4Y2
+X-Gm-Gg: AR+sD12peMQ8yCSg69RbHGURz0l56M2iyZqJ6aOmsnJiIAM5gbL4JRf2XLXI9mhlP/i
+	1AEEgZJCY4M8tSmsSMEX3S2WYl3Opw59IS2bXdrBGppaPhX7CLPjtmDYk+HuLmR4LXeSw5Nv9x5
+	nNIeCyqpVXt4unmvhPO802gYe7X8cyU+rUmx9VgSnWan1Ri3eiY8QJzE2pqTyUo/zYH8FSqiOV5
+	q5SxP+8iKV/2dDyGdy6yDWHxDtjdvVo/cQUiCJ9URERwFufYl+qkOhR1lzAD6/d4bgwc4fPXv4T
+	FPG9EAr+q5B44Aq0TAGCUSwAy+cuQiHjqMeCnhsRxyJ7eGC77Lae2folyN3NddCTgDbWSZqsPXk
+	lMJMfVekHlBK2b+5VpZ1jdwqgifYVYHs6JXqww1RTWzfF0LKN0wTKcjcoxnxvTRww6lzU+ZQKCN
+	wy/Kst5dtTEX0=
+X-Received: by 2002:a5d:64e8:0:b0:47f:8191:1467 with SMTP id ffacd0b85a97d-47f9fc8fe71mr12282277f8f.16.1785191309155;
+        Mon, 27 Jul 2026 15:28:29 -0700 (PDT)
+Received: from foxbook (bey56.neoplus.adsl.tpnet.pl. [83.28.36.56])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a596sm51290791f8f.4.2026.07.27.15.28.28
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 27 Jul 2026 15:28:28 -0700 (PDT)
+Date: Tue, 28 Jul 2026 00:31:31 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Bart Nagel <bart@tremby.net>
+Cc: linux-usb@vger.kernel.org, mathias.nyman@intel.com
+Subject: Re: Regression: webcam freezing since Linux 6.15
+Message-ID: <20260728003131.085171ee.michal.pecio@gmail.com>
+In-Reply-To: <ame6T_LjiJBeJ2W3@spiral>
+References: <20260723081440.0228c59e.michal.pecio@gmail.com>
+	<20260723081440.0228c59e.michal.pecio@gmail.com>
+	<amJ9jAtK8rNWDO7V@spiral>
+	<amKUdIRBrsFiDTiV@spiral>
+	<20260725115956.321185a1.michal.pecio@gmail.com>
+	<ame6T_LjiJBeJ2W3@spiral>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="dbZkQ/gFEv4Z+Ps8"
+Content-Type: multipart/mixed; boundary="MP_/4_ydBRYfQaQYwP6ReGraQdz"
+
+--MP_/4_ydBRYfQaQYwP6ReGraQdz
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Content-Disposition: inline
-In-Reply-To: <20260727140527.GM2365036@black.igk.intel.com>
 
---dbZkQ/gFEv4Z+Ps8
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 28 Jul 2026 00:13:49 +0200
-From: Marek =?utf-8?B?PT91dGYtOD9RP01hcmN6eWtvd3NraS1HPUMzPUIzcmVja2k/PQ==?= <marmarek@invisiblethingslab.com>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	"open list:THUNDERBOLT DRIVER" <linux-usb@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Woody Suwalski <terraluna977@gmail.com>
-Subject: Re: Kernel panic in nhi_probe()->icm_probe() - Linux 7.2-rc
+On Mon, 27 Jul 2026 13:23:48 -0700, Bart Nagel wrote:
+> At 2026-07-25 11:59:56 +0200, Michal Pecio wrote:
+> > What happens differently in absence of CPU load?
+> > - no Missed Service Errors anymore
+> > - ep_trb_dma (see below) becomes always zero
+> > - no obvious change, somehow the kernel gets more lucky  
+> 
+> The log is a whole lot quieter. With ffplay it appears that no
+> uvc_v4l2_poll messages are produced. I ran for a few minutes and was
+> seeing no missed service errors at all.
 
-On Mon, Jul 27, 2026 at 04:05:27PM +0200, Mika Westerberg wrote:
-> Agree. I think the problem is that the icm_probe() fails and then we
-> release the domain structure and the complete the ->domain_released but it
-> is not yet initialized (as also reported by Woody, CC'd).
->=20
-> Can you try this?
+OK, no MSEs so no failures, that's obvious.
 
-Yes, this fixes the issue, thanks!
+> OK, I've done this. I disconnected all USB devices but that webcam and
+> my keyboard, and the hubs those two are connected through (otherwise
+> would be a pain but let me know if it would be helpful).
 
---=20
-Best Regards,
-Marek Marczykowski-G=C3=B3recki
-Invisible Things Lab
+Thanks, this dump is good enough, no noise from other devices.
 
---dbZkQ/gFEv4Z+Ps8
-Content-Type: application/pgp-signature; name=signature.asc
+Let's see if the attached patch fixes it, it will print BAILING OUT each
+time the failure would otherwise happen and it should prevent failures.
 
------BEGIN PGP SIGNATURE-----
+I think the problem occurs when a Short Packet event is generated for
+the first TRB of a two-TRB TD. The TD is completed and later a Missed
+Service Error event erronously points to the second TRB of the same TD.
+The driver can't identify this TD (it's gone) and goes nuts.
 
-iQEzBAEBCAAdFiEEhrpukzGPukRmQqkK24/THMrX1ywFAmpn2B0ACgkQ24/THMrX
-1ywA+Af+Oh6mYNqOFFAqJL4TWWxuBTdgURfFgmeQhH2IOeF78gAGJAwoL92WU8PW
-OlW/2zwGVLSp/4zVb1qUnARP147TKY245JAI8d5ehdy9g7kRK7WTX7v5XP8zoNCn
-LeMtACbW3v7Co+n6/obZMPqtvJoA9tvE6uIQUmg2yXcgMRI9qnuWLbqT3xMhgJrS
-Q8kEP4sGw+QvvBMUGl0IRChwjenehif9fMTFd00NhOrGWKI7JWFFK1227+Kdjb0c
-Eo+3Mmyn6HZRw0qQaa9oAcs94RLmFvy/8ws0xOVeet8TzAlOkygvEyeBArmJ+Ob9
-Edun+1vHSPnLf1Xi6mEHijgfDotH4A==
-=fCew
------END PGP SIGNATURE-----
+I can't explain why we aren't getting a second Short Packet for the
+second TRB before we get MSE. Your HW does generate Short Packet for
+both TRBs in other similar cases visible in this event ring dump.
 
---dbZkQ/gFEv4Z+Ps8--
+I suspect that all those non-zero ep_trb_dma in MSE events are more or
+less bogus on your hardware, although obviously not all of them are
+instances of the aforementioned bug, because then the driver would
+malfunction on every such event, and we have seen that it doesn't. But
+let's start with testing if my guess is anywhere close to correct...
+
+Regards,
+Michal
+
+--MP_/4_ydBRYfQaQYwP6ReGraQdz
+Content-Type: text/x-patch
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=webcam-crash-debug-fix.patch
+
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 24fde00fbb3f..89adf76e43be 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2683,6 +2683,8 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 	if (!ep_ring)
+ 		return handle_transferless_tx_event(xhci, ep, trb_comp_code);
+ 
++	td = list_first_entry_or_null(&ep_ring->td_list, struct xhci_td, td_list);
++
+ 	/* Look for common error cases */
+ 	switch (trb_comp_code) {
+ 	/* Skip codes that require special handling depending on
+@@ -2779,8 +2781,8 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 		 */
+ 		ep->skip = true;
+ 		xhci_dbg(xhci,
+-			 "Miss service interval error for slot %u ep %u, set skip flag%s\n",
+-			 slot_id, ep_index, ep_trb_dma ? ", skip now" : "");
++			 "Miss service interval error for slot %u ep %u ep_trb_dma %llx td_dma %llx, set skip flag\n",
++			 slot_id, ep_index, ep_trb_dma, td ? xhci_trb_virt_to_dma(td->start_seg, td->start_trb) : ~0);
+ 		break;
+ 	case COMP_NO_PING_RESPONSE_ERROR:
+ 		ep->skip = true;
+@@ -2822,13 +2824,22 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 	 * We wait for the final IOC event, but if we get an event
+ 	 * anywhere outside this TD, just give it back already.
+ 	 */
+-	td = list_first_entry_or_null(&ep_ring->td_list, struct xhci_td, td_list);
+-
+ 	if (td && td->error_mid_td && !trb_in_td(td, ep_trb_dma)) {
+ 		xhci_dbg(xhci, "Missing TD completion event after mid TD error\n");
+ 		xhci_dequeue_td(xhci, td, ep_ring, td->status);
+ 	}
+ 
++	if (ep_ring->old_trb_comp_code == COMP_SHORT_PACKET && ep_trb_dma == ep_ring->old_td_end_dma) {
++		if (trb_comp_code != COMP_SHORT_PACKET)
++			xhci_info(xhci, "Event %d for old TD end DMA %llx after %lldus\n",
++					trb_comp_code, ep_trb_dma,
++					(ktime_get_ns() - ep_ring->old_time_ns) / 1000);
++		if (trb_comp_code == COMP_MISSED_SERVICE_ERROR) {
++			xhci_err(xhci, "BAILING OUT\n");
++			return 0;
++		}
++	}
++
+ 	/* If the TRB pointer is NULL, missed TDs will be skipped on the next event */
+ 	if (trb_comp_code == COMP_MISSED_SERVICE_ERROR && !ep_trb_dma)
+ 		return 0;
+@@ -2937,6 +2948,8 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 	} while (ep->skip);
+ 
+ 	ep_ring->old_trb_comp_code = trb_comp_code;
++	ep_ring->old_td_end_dma = xhci_trb_virt_to_dma(td->end_seg, td->end_trb);
++	ep_ring->old_time_ns = ktime_get_ns();
+ 
+ 	/* Get out if a TD was queued at enqueue after the xrun occurred */
+ 	if (ring_xrun_event)
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 3ce71211ee6f..b508904b34ba 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1363,6 +1363,8 @@ struct xhci_ring {
+ 	union  xhci_trb		*dequeue;
+ 	struct xhci_segment	*deq_seg;
+ 	struct list_head	td_list;
++	dma_addr_t		old_td_end_dma;
++	u64			old_time_ns;
+ 	/*
+ 	 * Write the cycle state into the TRB cycle field to give ownership of
+ 	 * the TRB to the host controller (if we are the producer), or to check
+
+--MP_/4_ydBRYfQaQYwP6ReGraQdz--
