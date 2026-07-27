@@ -1,126 +1,120 @@
-Received: from esa.hc5016-32.iphmx.com (esa.hc5016-32.iphmx.com [207.54.87.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A933341A569;
-	Mon, 27 Jul 2026 13:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.87.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 883AE41A50D;
+	Mon, 27 Jul 2026 13:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785159166; cv=none; b=NV9jGqRrhmR7kxyGq5g3Lz+c7tHgJabJATa2l0Z72xH9agJ5We5g2xOgYeNA4fZCqTQkyYWWHyiV0JeihBMgSNWnbC5mwWXL9KGMVPBRwK1sFStjv9U7jQsbmg/PbZcC/uOEVaH9QDh6XB1L1X3VUoiglRPoTx9QW+rhi+OAhFA=
+	t=1785159312; cv=none; b=mzddiWG2iUM2opz2oUMi2nVUD2PHVlRd9oL+rApuEgwFC9T24ZT3CnsRtIEABkKOv0HVLFx1pQor/Jou4UzMlwN1hi1EZMZ6OyDW8Hz9RLBrLEOjeJ6LHoAAsdDjZPG8bQeVQgiHFBkW9a+7/xlOpekVcs1yNoMcAmdc0JsZKQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785159166; c=relaxed/simple;
-	bh=lvjFxcdcPlxe5y3oQfMMGbt+KFUWox48zQVzoOwO47Y=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ps+Wxnqmhuo8CRAydSpTlPrK0XagMO5NPPFy7L/VWkDvk3DI7xLdkAPHEOkSPNKPE3fpQjG2NUCtIvchAnYlZJ9wJgyr6yQEDc0SiDRiN27j6s3SOEjf7S90wp7ClOeASjoZzcHx9joqsaFfAiS7FytiY17D2L0JDzLxnqt7vWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=harman.com; spf=pass smtp.mailfrom=harman.com; dkim=pass (2048-bit key) header.d=harman.com header.i=@harman.com header.b=ee7pGBlZ; arc=none smtp.client-ip=207.54.87.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=harman.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harman.com
+	s=arc-20240116; t=1785159312; c=relaxed/simple;
+	bh=HydDCbf25c4IBePyWe5fOUhH5Tx/fRp3Pg5Yu0ROnV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ha50SydiTE8tVokCH7uYgobMu5ApcHug645dJ3nNEmrda982tLzs6c5nRQMI+b+MTEx2NWl1+2BKrV/63MYvs6H/qyNAzAEUvrM3P6/pH8YPY+vEobZO1xh8o487P2xF718n9s9MO9jkkTfBEw61O0OULC+9WMWb7Ay4sVfl2HM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YUGAN2TR; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=harman.com header.i=@harman.com header.b="ee7pGBlZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=harman.com; i=@harman.com; q=dns/txt; s=CES-HARMAN1;
-  t=1785159164; x=1816695164;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=AX4cyBfkVmtItWN66pXo1qA418loJXkfALdGa3eCdFc=;
-  b=ee7pGBlZiEQmXXPQkSaHG2ucdW2jIKtbVqpXwPWqBMKn1wxcUxHR4NWv
-   As/3dHMWuv0QUW2yI2yIOdVAgve64FtqT4Kv4lnEUQdmm3HcIOPjhToYW
-   dqCWRKhyx5qS/kfHAIInLP+UHqOTIVyLYjRYmDqSRGNWXQyu/o69iA50B
-   6GyUCKpbqoxUk7i2ppuTfPe5thrfk7FLff5V5r4KfFn8NeSXxTvszHA7v
-   2UrtpR8+8kq/pWIfASrIXuAP3OjiNYBM7cQ63/K0e6PTPzE2sp4V+/sDv
-   NIbelgj5GdbZAX9p6DXj89oVz80Wq4FkloVpj4SCwbAFhBq1eAMN4yrMU
-   Q==;
-X-CSE-ConnectionGUID: 5uIQVk6ZSlatejKiGQf4tg==
-X-CSE-MsgGUID: UkFPcrSoTRmr+v5dsLoiEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="119158545"
-X-IronPort-AV: E=Sophos;i="6.25,188,1779163200"; 
-   d="scan'208";a="119158545"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from unknown (HELO INMDWSHYB09.ad.harman.com) ([199.27.113.4])
-  by esa11.hc5016-32.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 09:32:35 -0400
-Received: from INMDWSHYB09.ad.harman.com (10.92.6.246) by
- INMDWSHYB09.ad.harman.com (10.92.6.246) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 27 Jul 2026 19:02:33 +0530
-Received: from awsmblx423bs002.localdomain (10.63.34.68) by
- INMDWSHYB09.ad.harman.com (10.92.6.254) with Microsoft SMTP Server id
- 15.2.2562.43 via Frontend Transport; Mon, 27 Jul 2026 19:02:33 +0530
-Received: by awsmblx423bs002.localdomain (Postfix, from userid 530975)
-	id 421A68AEE1; Mon, 27 Jul 2026 13:32:32 +0000 (UTC)
-From: Akshay Gujar <Akshay.Gujar@harman.com>
-To: <gregkh@linuxfoundation.org>
-CC: <Akshay.Gujar@harman.com>, <linux-kernel@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <naveen.v@harman.com>, <oneukum@suse.com>,
-	<stern@rowland.harvard.edu>
-Subject: Re: [PATCH v5 2/3] Documentation: ABI: document DEVICE_ENUMERATION_FAILURE uevent
-Date: Mon, 27 Jul 2026 13:32:32 +0000
-Message-ID: <20260727133232.556324-1-Akshay.Gujar@harman.com>
-X-Mailer: git-send-email 2.19.0
-In-Reply-To: <2026072515-pueblo-appealing-e245@gregkh>
-References: <2026072515-pueblo-appealing-e245@gregkh>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YUGAN2TR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785159311; x=1816695311;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HydDCbf25c4IBePyWe5fOUhH5Tx/fRp3Pg5Yu0ROnV8=;
+  b=YUGAN2TR3+6bq+KNgF5XrdX3/eOL+XPMPza1OFIb63Fy702UnercCDPK
+   nTJzxxqjrPmjwhO+ks012n797dPB1vRm7OaT4JPoEZ2Ruv9sdVRM60cWd
+   YSEsn2LuiEItSZtMYgbvNUmoKJ5O5/8O+B82h13CKUK13qcvwxRMtKLzk
+   7vZZgcpYhn75+KCq11d1h9mBi733yZFOBuMS4D5pbuy2ZSIcpQ3XJVctt
+   0ttyFbCsHqDo/G3T5vTGcxjlgTGiU5WMQRNwhZavid9JsjfGdNozL7wAk
+   uaUlEboEXE1RXzZ7FR1RvlH4gX4hG1PNvbvoW08l4YzleH3EZUKy6XVBA
+   w==;
+X-CSE-ConnectionGUID: sf5DdIo0T9Gh1uZyMZ5W1A==
+X-CSE-MsgGUID: qmGMYE7CT3eNEqGI2CXqzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="89395660"
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="89395660"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 06:35:10 -0700
+X-CSE-ConnectionGUID: Xzul9p9NShC4vgSi+4W1Ag==
+X-CSE-MsgGUID: hmyfe6J4SaeDPjv0j7eJwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="262908979"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa003.jf.intel.com with ESMTP; 27 Jul 2026 06:35:08 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 2B4C599; Mon, 27 Jul 2026 15:35:07 +0200 (CEST)
+Date: Mon, 27 Jul 2026 15:35:07 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Sang-Heon Jeon <ekffu200098@gmail.com>
+Cc: Julia.Lawall@inria.fr, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	cocci@inria.fr, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH 33/36] usb: typec: fusb302: remove conditional return
+ with no effect
+Message-ID: <amdei6iyJ_N3l8Vs@black.igk.intel.com>
+References: <20260723184538.3888637-1-ekffu200098@gmail.com>
+ <20260723184538.3888637-34-ekffu200098@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260723184538.3888637-34-ekffu200098@gmail.com>
 
-On Sat, Jul 25, 2026 at 07:21:30AM +0200, Greg KH wrote:
-> > > > +What:          DEVICE_ENUMERATION_FAILURE
-> > > > +Date:          July 2026
-> > > > +KernelVersion: 7.3
-> > > > +Description:
-> > > > +               Some devices may be detected but fail to enumerate
-> > > > +               due to protocol-level errors or invalid responses.
-> > > > +
-> > > > +               A KOBJ_CHANGE uevent includes the following environment
-> > > > +               variable when this occurs:
-> > > > +
-> > > > +                 DEVICE_ENUMERATION_FAILURE=<dev_name>
-> > > > +
-> > > > +               The value is the kernel device name of the device for
-> > > > +               which enumeration failed, as returned by dev_name().
-> > > > +
-> > > > +               Example (USB):
-> > > > +
-> > > > +               ACTION=change
-> > > > +               SUBSYSTEM=usb
-> > > > +               DEVTYPE=usb_interface
-> > > 
-> > > This will be the port device, not the usb interface, right?
-> > 
-> > No, DEVTYPE=usb_interface is correct, the example was captured on
-> > real hardware. The uevent is not emitted from the port device itself.
-> > usb_port devices have no bus or class, so dev_uevent_filter()
-> > drops any event from them.It is emitted from the port's parent, 
-> > the hub's usb_interface device, while the failing port is identified in the payload instead.
+On Fri, Jul 24, 2026 at 03:45:35AM +0900, Sang-Heon Jeon wrote:
+> Both branches of the check return the same value, so the check has
+> no effect. Remove it and return the value directly.
+> 
+> This is the result of running the Coccinelle script from
+> scripts/coccinelle/misc/cond_return_no_effect.cocci.
+> 
+> Signed-off-by: Sang-Heon Jeon <ekffu200098@gmail.com>
 
-> So shouldn't we fix the fact that usb_ports are not on the bus and add
-> them to one?  Would that make things more obvious here as to what port
-> the issue is happening on, and potentially allow userspace to actually
-> figure out which physical port the problem is?
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Adding usb_port devices to usb_bus_type does not fit. usb_device_match()
-only handles usb_device and usb_interface, so ports would fall through
-unmatched, and bus-managed binding would conflict with the existing
-usb_port_driver assignment.
+> ---
+>  drivers/usb/typec/tcpm/fusb302.c | 14 +++-----------
+>  1 file changed, 3 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+> index 3319f6a2b0c9..d0ab247b24bf 100644
+> --- a/drivers/usb/typec/tcpm/fusb302.c
+> +++ b/drivers/usb/typec/tcpm/fusb302.c
+> @@ -314,11 +314,7 @@ static int fusb302_i2c_mask_write(struct fusb302_chip *chip, u8 address,
+>  		return ret;
+>  	data &= ~mask;
+>  	data |= value;
+> -	ret = fusb302_i2c_write(chip, address, data);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	return ret;
+> +	return fusb302_i2c_write(chip, address, data);
+>  }
+>  
+>  static int fusb302_i2c_set_bits(struct fusb302_chip *chip, u8 address,
+> @@ -375,12 +371,8 @@ static int fusb302_init_interrupt(struct fusb302_chip *chip)
+>  	ret = fusb302_i2c_write(chip, FUSB_REG_MASKB, 0xFF);
+>  	if (ret < 0)
+>  		return ret;
+> -	ret = fusb302_i2c_clear_bits(chip, FUSB_REG_CONTROL0,
+> -				     FUSB_REG_CONTROL0_INT_MASK);
+> -	if (ret < 0)
+> -		return ret;
+> -
+> -	return ret;
+> +	return fusb302_i2c_clear_bits(chip, FUSB_REG_CONTROL0,
+> +				      FUSB_REG_CONTROL0_INT_MASK);
+>  }
+>  
+>  static int fusb302_set_power_mode(struct fusb302_chip *chip, u8 power_mode)
+> -- 
+> 2.43.0
 
-Userspace can already resolve the physical port directly from the
-event today:
-
-  DEVPATH=/devices/.../usb1/1-0:1.0
-  DEVICE_ENUMERATION_FAILURE=usb1-port1
-
-which corresponds to:
-  -> /sys/devices/.../usb1/1-0:1.0/usb1-port1
-
-Appending the payload name to DEVPATH gives the exact sysfs path to
-the failing port on the hub.
-
-I dropped the DEVPATH line from the documentation example by mistake.
-Will restore it in v6 so the emitter/payload relationship is clear.
-
-Thanks,
-Akshay
+-- 
+heikki
