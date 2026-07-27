@@ -1,87 +1,139 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DCD23394C;
-	Mon, 27 Jul 2026 12:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6149371897
+	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 12:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785154881; cv=none; b=rB9jvul/4DOtVpoJQyVh30mzshg6pKRoqMSzrjb15XxRGRSmIf2JiKGoH5VsSERp0HNeBdL0fOertBI3CQN1SZ9zG8QCZnzg3cX3E1OQvQhnx9QQEsDIBFsAgjy+f+ZGWADSZrrB4pVYl37J/255PElzvwHDQh1ewTkp8vXMF5A=
+	t=1785155663; cv=none; b=SEZOqPeeRyRbw/qqwQP86PGSqwsiYYSX3thqYkCIro4HKDij+y0x70EYTXiIqQR72wDQnbxH4QFTPTez9J/2iYZAp6bIj3RjB4/drz2BMgVJO5Ij9U7Tqjn+KSAPA9aQROloEMKD7sdW7QH9H8CGdS3fohY1E+LtRFFdcfaSfec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785154881; c=relaxed/simple;
-	bh=/qgAaYQWaAbeyAP3PJcBiiWFMkeJAumbwCm16UYsfl8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZHaT/bymZtmUVq/KpuRARfr24Twp0rm/KsXWIloBtqQ5aLHHn3qQRm5wWWyensi5+JdNT5baKpWEEre6k5+kU6VTsFWSPKZhZAMY5bpV8349grsq1LAebM+RTN/xps6MSxaHUe/RGgtZfQMgomyeJFsjHv28VBUGh7OwbhTdL0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net; spf=pass smtp.mailfrom=hadess.net; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hadess.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hadess.net
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 485123E9B9;
-	Mon, 27 Jul 2026 12:21:08 +0000 (UTC)
-Message-ID: <03ff73c4dd251ed115b4f2149f9c0e9a1a2569a6.camel@hadess.net>
-Subject: Re: [PATCH 0/4] usb: enable sysfs module symlink for more built-in
- drivers
-From: Bastien Nocera <hadess@hadess.net>
-To: Shashank Balaji <shashank.mahadasyam@sony.com>, Andrew Lunn	
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet	 <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni	 <pabeni@redhat.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Matthias Kaehlcke	 <mka@chromium.org>,
- Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan	
- <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>, Heikki Krogerus	
- <heikki.krogerus@linux.intel.com>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Daniel Palmer <daniel.palmer@sony.com>, Rahul
- Bukte <rahul.bukte@sony.com>, Tim Bird <tim.bird@sony.com>,
- linux-embedded@vger.kernel.org
-Date: Mon, 27 Jul 2026 14:21:07 +0200
-In-Reply-To: <20260722-mod_name_usb-v1-0-96d781530f3f@sony.com>
-References: <20260722-mod_name_usb-v1-0-96d781530f3f@sony.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	s=arc-20240116; t=1785155663; c=relaxed/simple;
+	bh=tnL9O9Z7eVZ+EFi12OyJIwP3KzopoQRB3H0/5ZGueNY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Dzh1alaTXsHbvfXpDKSMIStpXfUVzH92AQ+pbWLQROdCrIODkqr2v8ZFvVa5usON/icSqoR6NuNoeMkt688YOPXbzRd5nXt+uAOxNyKXUtT44NygX1+IsdOqjMXDpl5GQszy4cBBs3qo5TXqinSjyYYmmCUNGx7z3JX2xhGtgyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SDncjdFY; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SDncjdFY"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38e3efab7e0so2074939a91.0
+        for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 05:34:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785155661; x=1785760461; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ad864FHAlhdgy4F9Sp08C6CuMiqJx6RHQkPj5GQwqjE=;
+        b=SDncjdFYndxVcFvM4eSwH7OQqOIvZnH4dVWQvnlBgY+EFIih2pmUc15WrN9F9salVr
+         j76hgjufrGZy8QIz+lKdhIMEYIdvzMGT1Qo/39OH9OJlU2uo7uYCGRTpMEKra119DmNJ
+         uSQzZTA/YXLsD4ZuO7Yi2K/CKIbw7gwCv5GBeHzLdXfje4aquWX98TsibJLxAWKI/7bX
+         bfnHGZUVws3ZOe/4EkxTtLyOcNA7/Ik3fqDo8U5FEHk2m/Hu2dbEtJWJcCtzHnYGt/Cd
+         SzcAkTdLh1sHlBsSyB8P4k+Ka9A5LX6ic7ZHiYPxEPzKEwxw9xrPqBPH09NSU9aknPds
+         aRfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785155661; x=1785760461;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ad864FHAlhdgy4F9Sp08C6CuMiqJx6RHQkPj5GQwqjE=;
+        b=aOZx0PFU55ZowS8U5YpS3EL1f3vrdNrn/ZKyejQgyGAgCY8/6Cx3hwCHXuXc8uW1Fw
+         qfWyFaWDz/hZF4OsmxB98BN0zQGruFuSyBu+uYhW1iSRDuAuLBcSIDfpFiMZbC7g9Tl+
+         v3k+v9UixI1HSxvpEY0laPkkMccBPo/JaqPZByrvkbzc3I3cWkQL3DGuXp0bT1LwNZAk
+         f1bImn0sHbf4t49plSydURFAuf/zDRFYxZAghb0P70Cu/PVbadSc6P3JWG2U1iUnx09X
+         wWNzn5Q2ykQFQ/HofV48iHfhGo8gRZp/zSgiAgX45fZ5Upqovn4SrubngPhj76C3/KNe
+         xClw==
+X-Forwarded-Encrypted: i=1; AHgh+RqFNJmVGUZT1IZjczbf/gfUwFL+Y7OBVRQJv9D13YYPAgw+P41EELCFASrIkdTZHMem54PATV+wG+A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4rn4S1Q3QThLD4SjadwfCM+tmc/luLS10gq7eE68lj5Ly03PV
+	Qyew/kALL4qOVK/+CeXhscBqKx4+K8sxO//thzDnTDLq8USNaMkZYIs=
+X-Gm-Gg: AR+sD12uC943gAE/iU35CL+J3zgNGdaMvd8jHjerQ822nv7D4+RUUc/3/dCyKilhJnQ
+	mhxPCGbmC+auFqNQwvphzEeLD1GiaSi+XuGU0+Fdha4Krt8TY0BzSfOjtXUxcexNroAwNXt8jeE
+	vhWj5Du6CUMpmWwV/JmK50BnAACDKAgPpMMvtKWxgGRrkoCQAQSO+t0svNiofgg+N4UIh5Cfvc7
+	z++4xYxkJzNmZsqXR+ULKfeO9A9oA3zZFgIlsa4wtBTXLmfYK52p8sVuWA+x4YA4sQTM7hJabhK
+	vivm2TjSZJFrLfsgmeb915tcq+OGySrO1Q6qfGWt/QivVtTNx8sHhk/jVi3/mMdL4/9yQFccjyS
+	Ajl1wYdw3aeRylGxw8zhJIF1UasJzOK35IEdeIWE0kgaBjXhMJvuAjwXEOJQkCoAnBcD3Z9KpmY
+	zsGkCaAoATIA+s0YTgr8+G1qmtkvGf5Y90T284wiGrgQ3Dv1t5sVdDHhYyoRrhyqsVxj6vO9ecC
+	zsUAQVCccaUd5JmhJmJtVZMKIcyGw3lSfAyo3XaEU+xU5jvx2C19tY=
+X-Received: by 2002:a17:90b:554f:b0:387:d5bd:6231 with SMTP id 98e67ed59e1d1-38f2aacfdadmr5837955a91.20.1785155661178;
+        Mon, 27 Jul 2026 05:34:21 -0700 (PDT)
+Received: from localhost.localdomain ([121.147.145.153])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f03ad817esm4956993a91.4.2026.07.27.05.34.18
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 27 Jul 2026 05:34:20 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	edwin_rong <edwin_rong@realsil.com.cn>,
+	Ijae Kim <ae878000@gmail.com>,
+	linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: storage: realtek_cr: fix use-after-free on disconnect
+Date: Mon, 27 Jul 2026 21:34:14 +0900
+Message-Id: <20260727123414.44700-1-mhun512@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-GND-Sasl: hadess@hadess.net
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: dmFkZTF1VpgYiuSWtj1F0o3toIdSnVbZh0YOqLUcmkqOXRKcLnbr3AM3SOD1nKNCwgpzxEAUJ7CVLeQFTzX/etcWn4kpSv+4+aACvfElJJbyO7X0aQ5zaXsrLe/idtOjSeF41WVwhnDT89qARREA3zII5z2pyKfX9gsQ6Nusj9EetT9d63MikP3Q97QWxF8JJ1BJeZcOhM0eKF+h/dtQoaQCrpt0JPKT3Jl2NkC2Wjtxac7lKb5iovBvkmf0SzpY7ZCIJcO5eKSjig0r07x2897SF2p1AW+vxH5wZNUaO79o4OsibrDJrEQOi3xV7r1VnWQa+XWT/t43wU/VI0Ol72t8KtLOIBS14rMNBWnkrKLfKzGzq3ZrNNpOAx31GlAnUEt3z63DH3rQ+EqX27v8aZhmgmhHJViP4GN5uj0j6f5yK7EBaSULtjoQz7in+PAPXADUYo7rvS4TLAHXMfyGZuy4/KFmzVvFx+YYTW9CJTNa7uqbykPhN4XPvOJv7mXfDIGCy8MZ2uYGu4EBUqQu8ok/uMO1lUzcTqby3FLXY+B99KlXL79iYBsA/i50DtWBqadvvne6FQdKGBinHzzPO69x4xBjFZGtpCa9WuDK5QZKsPamcxvuLWtVqnph3FmhVzzmg8xO3XNNJBa4BVLy2nmWMPJyO5ZK+7oDVxOCMTtj17QSjA
+Content-Transfer-Encoding: 8bit
 
-T24gV2VkLCAyMDI2LTA3LTIyIGF0IDEyOjMxICswOTAwLCBTaGFzaGFuayBCYWxhamkgd3JvdGU6
-Cj4gVGhpcyBpcyBpbiBjb250aW51YXRpb24gdG8gWzFdLgo+IAo+IHN0cnVjdCBkZXZpY2VfZHJp
-dmVyJ3MgbW9kX25hbWUgaXMgbm90IHNldCBieSBhIG51bWJlciBvZiBidXMnIGRyaXZlcgo+IHJl
-Z2lzdHJhdGlvbgo+IGZ1bmN0aW9ucy4gV2l0aG91dCB0aGF0LCBidWlsdC1pbiBkcml2ZXJzIGRv
-bid0IGhhdmUgdGhlIG1vZHVsZQo+IHN5bWxpbmsgaW4gc3lzZnMuCj4gV2Ugd2FudCB0aGlzIHRv
-IGdvIGZyb20gdW5ib3VuZCBkcml2ZXIgbmFtZSAtPiBtb2R1bGUgbmFtZSAtPiBrZXJuZWwKPiBj
-b25maWcgbmFtZS4KPiBUaGlzIGlzIHVzZWZ1bCBvbiBlbWJlZGRlZCBwbGF0Zm9ybXMgdG8gbWlu
-aW1pemUga2VybmVsIGNvbmZpZywKPiByZWR1Y2Uga2VybmVsIHNpemUsCj4gYW5kIHJlZHVjZSBi
-b290IHRpbWUuCj4gCj4gVGhpcyBwYXRjaHNldCBhZGRzIG1vZF9uYW1lIHRvIHVzYi1yZWxhdGVk
-IGRyaXZlcnMuCj4gCj4gWzFdCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvYWxsLzIwMjYwNTE4
-LWFjcGlfbW9kX25hbWUtdjUtMC03MDVjY2M0MzA4ODVAc29ueS5jb20vCj4gCj4gU2lnbmVkLW9m
-Zi1ieTogU2hhc2hhbmsgQmFsYWppIDxzaGFzaGFuay5tYWhhZGFzeWFtQHNvbnkuY29tPgoKUmV2
-aWV3ZWQtYnk6IEJhc3RpZW4gTm9jZXJhIDxoYWRlc3NAaGFkZXNzLm5ldD4KCj4gLS0tCj4gU2hh
-c2hhbmsgQmFsYWppICg0KToKPiDCoMKgwqDCoMKgIHVzYjogY29yZTogcGFzcyBUSElTX01PRFVM
-RSBpbXBsaWNpdGx5IHRocm91Z2ggYSBtYWNybwo+IMKgwqDCoMKgwqAgdXNiOiBjb3JlOiBzZXQg
-bW9kX25hbWUgaW4gZHJpdmVyIHJlZ2lzdHJhdGlvbgo+IMKgwqDCoMKgwqAgdXNiOiB0eXBlYzog
-c2V0IG1vZF9uYW1lIGluIGRyaXZlciByZWdpc3RyYXRpb24KPiDCoMKgwqDCoMKgIHVzYjogdWxw
-aTogc2V0IG1vZF9uYW1lIGluIGRyaXZlciByZWdpc3RyYXRpb24KPiAKPiDCoGluY2x1ZGUvbGlu
-dXgvdWxwaS9kcml2ZXIuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNCArKy0tCj4gwqBp
-bmNsdWRlL2xpbnV4L3VzYi5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCB8wqAgNiArKysrLS0KPiDCoGluY2x1ZGUvbGludXgvdXNiL3R5cGVjX2FsdG1vZGUuaMKgwqDC
-oMKgwqDCoCB8wqAgNCArKy0tCj4gwqBkcml2ZXJzL25ldC91c2IvcjgxNTIuY8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAyICstCj4gwqBkcml2ZXJzL3VzYi9jb21tb24vdWxw
-aS5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNCArKystCj4gwqBkcml2ZXJzL3Vz
-Yi9jb3JlL2RyaXZlci5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDEwICsrKysrKy0t
-LS0KPiDCoGRyaXZlcnMvdXNiL2NvcmUvdXNiLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIHzCoCAyICstCj4gwqBkcml2ZXJzL3VzYi9taXNjL2FwcGxlLW1maS1mYXN0Y2hhcmdl
-LmMgfMKgIDIgKy0KPiDCoGRyaXZlcnMvdXNiL21pc2Mvb25ib2FyZF91c2JfZGV2LmPCoMKgwqDC
-oMKgIHzCoCAyICstCj4gwqBkcml2ZXJzL3VzYi90eXBlYy9idXMuY8KgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIHzCoCA0ICsrKy0KPiDCoGRyaXZlcnMvdXNiL3VzYmlwL3N0dWJfbWFp
-bi5jwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDIgKy0KPiDCoDExIGZpbGVzIGNoYW5nZWQsIDI1
-IGluc2VydGlvbnMoKyksIDE3IGRlbGV0aW9ucygtKQo+IC0tLQo+IGJhc2UtY29tbWl0OiAyNDg5
-NTFkZGMxNGRlODRkZTM5MTBmOWIxM2Y1MTQ5MWE4Y2Q5MWRmCj4gY2hhbmdlLWlkOiAyMDI2MDcy
-Mi1tb2RfbmFtZV91c2ItZTNiYWY1OGUxZTFlCj4gCj4gQmVzdCByZWdhcmRzLAo+IC0twqAgCj4g
-U2hhc2hhbmsgQmFsYWppIDxzaGFzaGFuay5tYWhhZGFzeWFtQHNvbnkuY29tPgo=
+realtek_cr_destructor() calls timer_delete() before the chip containing
+the timer is freed. The timer callback may still be running and can
+rearm itself, resulting in a use-after-free.
+
+Use timer_shutdown_sync() to wait for the callback and prevent further
+rearming. Do this unconditionally because ss_en may be changed after
+the timer is armed.
+
+Move timer_setup() into init_realtek_cr() so the timer is initialized
+before any failure path can invoke the destructor.
+
+Found by static analysis.
+
+Fixes: e931830bb877 ("Realtek cr: Add autosuspend function.")
+Cc: stable@vger.kernel.org
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+---
+ drivers/usb/storage/realtek_cr.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/usb/storage/realtek_cr.c b/drivers/usb/storage/realtek_cr.c
+index af038b897c6b..c4b28744693b 100644
+--- a/drivers/usb/storage/realtek_cr.c
++++ b/drivers/usb/storage/realtek_cr.c
+@@ -916,7 +916,6 @@ static int realtek_cr_autosuspend_setup(struct us_data *us)
+ 	us->proto_handler = rts51x_invoke_transport;
+ 
+ 	chip->timer_expires = 0;
+-	timer_setup(&chip->rts51x_suspend_timer, rts51x_suspend_timer_fn, 0);
+ 	fw5895_init(us);
+ 
+ 	/* enable autosuspend function of the usb device */
+@@ -934,10 +933,7 @@ static void realtek_cr_destructor(void *extra)
+ 		return;
+ 
+ #ifdef CONFIG_REALTEK_AUTOPM
+-	if (ss_en) {
+-		timer_delete(&chip->rts51x_suspend_timer);
+-		chip->timer_expires = 0;
+-	}
++	timer_shutdown_sync(&chip->rts51x_suspend_timer);
+ #endif
+ 	kfree(chip->status);
+ }
+@@ -982,6 +978,9 @@ static int init_realtek_cr(struct us_data *us)
+ 
+ 	us->extra = chip;
+ 	us->extra_destructor = realtek_cr_destructor;
++#ifdef CONFIG_REALTEK_AUTOPM
++	timer_setup(&chip->rts51x_suspend_timer, rts51x_suspend_timer_fn, 0);
++#endif
+ 	us->max_lun = chip->max_lun = rts51x_get_max_lun(us);
+ 	chip->us = us;
+ 
+-- 
+2.47.1
 
