@@ -1,295 +1,242 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012024.outbound.protection.outlook.com [40.107.75.24])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2F23F823C;
-	Mon, 27 Jul 2026 10:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785148112; cv=fail; b=MOBhCIQDIeHEmqCw96gWU9EPwjuB3kQwCe0OZxR99nBRauaKi/7fmG7XK0pqJRLGxNy1CohO/HSRouTEOJdNhs90gSy3t6YN3+uJZT8/C+3aU5OwGuv68KovVYXPrOgswHVaiDNcOU3zGlvtkJlRyEtVOuU4VYJbas2vROrtZiw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785148112; c=relaxed/simple;
-	bh=racRpqfCPCuGOC1q95Pb+Q3E0PRS2NYps2dZ3jk8VXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Zy6xakgdnfqFiIQYCZozCDevDPnu3rF6zFkAt+M7tVaKQOjVb1eJ/dkqp858oS5SYq341T4AKaBmNwanNLhuvYIkgLuwFHGPRbCdIGyQrwhCHzJOH0vX0ciAYayfGD5D4ClaWfPTMIZOoE+DjTnMUtMLCcZ6uZ/f75whdtJWdBA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=moxa.com; spf=pass smtp.mailfrom=moxa.com; dkim=pass (1024-bit key) header.d=moxa.com header.i=@moxa.com header.b=e4D+HKcw; arc=fail smtp.client-ip=40.107.75.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=moxa.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=moxa.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FED3378814;
+	Mon, 27 Jul 2026 10:39:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785148746; cv=none; b=ImHNOHYyR5SO+MA/d+xNZWOYXVfQ4bOb50h+i2ZEHXC9BWEt4rKRQ8X5kkYVqFLMdD93a7uzcvMCOE5BCQ9HIkD+Udq66NI70p1ZYvv6NwJQZs6SSsebQC9U+wIoks2Mt7hnGB+ZII0T3nl9XkEvyj67VvmkTq3OR7PG65gx1jk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785148746; c=relaxed/simple;
+	bh=w6wUKYAyQ4AO01G0KPCkbFGYujaSnyFiCoNIJ5SMw08=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jrVVwFwk8kjoNNVII//B/vRI2swRlNWz1u9+alPeo2JJg3ivAzCPt8zzCmZG2QQE0pcHv8SBAgcIbI/Se1/wiwffdS7ty9Owstw+OD3RPvVBlsf1vaOxiWwlbIjZcg8gu++ceeyHbLHHPgeq17NaZwRRt9T7hmogEi2XaI8N6po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DacCFS8H; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=moxa.com header.i=@moxa.com header.b="e4D+HKcw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NT1KjYtDv2XPvpTGbi/H3FtuIEiBXOY2ehnB02QiGn4pLJrUvT+HAFRpWykxgDcKKw1MCNNWmi6hMG7x+VGo/PeHexdCmL7HlIrQ2G5CGaKsfDxVEx0PoYc58m/Tp6eKpVuT4JVla2TaHku80+nbNfG9CojIjjnnH9G8NRuQH9i372ZJgKPgMspTVmU8X/mt70VnlxxuIuA27pVSdIK5ZPaY3AtlKl1ZnIugQbnr7K5eaz748YGUY6pHoUjP8I4EBtTE9BJtoMhZFwVrHxcwrakRygFvSPqGJTNykahtTt8w7j+pyStXOOA1bOVuVcUA+L5gQ2oNQGYiii9TnBAcrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xGYzFHqlckT81iejVd25zWlWH5ssCXR74EgzuQdJdj4=;
- b=ugQz1YCeaOQJ95dKFlphlRiIHFgVTGBj5kYv6GJLiH9yQlAlwexmjYyFnUS12x0JotT4g+PnXq2iRrBEQc956ot7G/pmhG8ajtU9Oqc5aPMFlrOgtCa9pCi/ROKWoj1HAM6a1xg1FwH51qoqzhBCiuhEYHpaiiPUbF+IwNunJymHon0JUwdjKBm6/QVOD1x+cmB5E+21iDiepSymGNXDw6UU7SMzj49OigXjJqs8EFYUFt7xRD8dhKpjCxAi98J3HuJx1Sw5g9WNzVJ1qYevnnsf1eNYfVV2F04WpxjaG6jM9gHiPXyhNR2aQoo/iNcvGr1vQWYbLOQFOf5/03MqBA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=moxa.com; dmarc=pass action=none header.from=moxa.com;
- dkim=pass header.d=moxa.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=moxa.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xGYzFHqlckT81iejVd25zWlWH5ssCXR74EgzuQdJdj4=;
- b=e4D+HKcwMFToPddhlebtEYqqPPpsr+bRd0hpe587+8GbOkc5gXZ6HlfP9pxawtukezXa1YloOCkt4M5QOmH1YB7Oza0bItwjPI9GL6Sukfzy17qRGbV/7QyXshujl0PuK88uYUHyn4YpepkOIE5UEh8hGIt6sl4b6OMseZQybuU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=moxa.com;
-Received: from PUZPR01MB5405.apcprd01.prod.exchangelabs.com
- (2603:1096:301:115::14) by TY2PPF92D7F20FA.apcprd01.prod.exchangelabs.com
- (2603:1096:408::3b7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.245.12; Mon, 27 Jul
- 2026 10:28:19 +0000
-Received: from PUZPR01MB5405.apcprd01.prod.exchangelabs.com
- ([fe80::ae38:e821:cf7d:3717]) by PUZPR01MB5405.apcprd01.prod.exchangelabs.com
- ([fe80::ae38:e821:cf7d:3717%4]) with mapi id 15.21.0245.012; Mon, 27 Jul 2026
- 10:28:19 +0000
-Date: Mon, 27 Jul 2026 18:28:09 +0800
-From: Crescent Hsieh <crescentcy.hsieh@moxa.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	FangpingFP.Cheng@moxa.com, Epson.Chiang@moxa.com
-Subject: Re: [PATCH v2 3/4] USB: serial: mxuport: handle SEND_NEXT transmit
- flow control
-Message-ID: <amcyubnG9N8ZI0ro@moxa-ThinkCentre-M90t>
-References: <20260623080138.166398-2-crescentcy.hsieh@moxa.com>
- <20260623080138.166398-5-crescentcy.hsieh@moxa.com>
- <al-VnkwqXYC7MoVG@hovoldconsulting.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <al-VnkwqXYC7MoVG@hovoldconsulting.com>
-X-ClientProxiedBy: TP0P295CA0040.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:910:4::13) To PUZPR01MB5405.apcprd01.prod.exchangelabs.com
- (2603:1096:301:115::14)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DacCFS8H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785148742; x=1816684742;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=w6wUKYAyQ4AO01G0KPCkbFGYujaSnyFiCoNIJ5SMw08=;
+  b=DacCFS8HF9QWejAtvQQN1zHY4Pdaabpv7pPaU5zar28fLonNOIUw63x5
+   MR1cbHP+dz5Jn8aus0r/84J2ep4LWpDaZqecQIuvKAklUOFdJoYFmW1Ja
+   FVnKyAfN0uocoCVx09qH18bs6N0pdWmm/xWVUlItMVyq0tFchWQYiykr3
+   nCCYhFG+sqMMuNs8s9oKUp2vE1zS/yWDIDH1MRED+PE+/6LV0PWToInb0
+   p4/fSz8UbIK06V4lArPxL403IylkOP22qIkSGHdpHVMo2Q5MkuOHjH1Bm
+   D2ChTR4zLzieeUw/H7Av1ZJdNZzQ0UlkeQVOyP5y8DR4TgIBS4C3sJCKo
+   A==;
+X-CSE-ConnectionGUID: GVZkXfVKThSwo3T79vwoIg==
+X-CSE-MsgGUID: B1enb7xkTl6IFuFK7ETe2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="85757170"
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="85757170"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 03:39:01 -0700
+X-CSE-ConnectionGUID: kqyT9SqUTkaKzHdfbVoaEw==
+X-CSE-MsgGUID: B/r1zXEkTrGQdu5rI1YUCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="283896895"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa001.fm.intel.com with ESMTP; 27 Jul 2026 03:39:00 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 5CB0D99; Mon, 27 Jul 2026 12:38:59 +0200 (CEST)
+Date: Mon, 27 Jul 2026 12:38:59 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Woody Suwalski <terraluna977@gmail.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Mika Westerberg <westeri@kernel.org>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	USB list <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH] Kernel 7.2: fix for crash during init of thunderbolt
+ driver
+Message-ID: <20260727103859.GE2365036@black.igk.intel.com>
+References: <62caf7f8-b403-d0dd-15bc-b31b56f71c28@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR01MB5405:EE_|TY2PPF92D7F20FA:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf31e2e7-96ba-4e13-bbbf-08deebc9c6b3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|52116014|56012099006|4143699003|10067099003|18002099003|3023799007|22082099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	ICjMqvJE0W9CJ0FiR7R/zQlEdp76NJKgoet8+cMZoqVy7gzkMHDh3EKULLrqpRYxyqzmZNA5tgSADMI4EDVdt+tdEI74Eh0WQb8PmcgLuNG8+0HvUd2Oi97hjELzdLKwI3pyhu/pIdsvNCNZqH5yicgHgphJThPXi9Nh0fUpuDJbjHgFudhsyxODZaVrUzy8csjvnMs0De4BI2wEYxp072hegamKi85vJEIIaGL24Mau0e1SitItzd6n5QdC2gLLme3FhLZBLjLDjtWpqyEEOezNoJE9TB5yf2+/gFKv48yvYgXZQcixWygOmSCTI3YmeH+/asQKKAy/QmpMritmCMxvOMHv486RsUxGe5vnpucVe3ifwTMstpDz2/L3NGWNQ5rW9cxysmZplyO5M4pEBRqm5f3SpXwV9m0qQqvuKXUCm+0TjBr4mYeu0m4OEC1mguKz3cBzFtJ3+3ZHph5hzhccPzYEbD/7VOjuR82Qbj0wT2lVzrnAkE/wEmeyMRQKYbDdWlIqHOWJReqUPeSV2iLPo1lFcC1F2blhqA5ftMIB4d7zGJzLHU2fkir1ZECG40scZ3rkeBB5YAt3Ve0s2SUYkI/Apo8yj1E4z0mNGpxGHCPa5PGfLC7qYJQpR6f61IoWJsSfTYCdoSm5nRXBLZ6rn4G46jgRvMQu0bMYXMtWPcuH+Xj/AiRLH0O9tersjK/SXBlPuj643bvGujZOO0s23y/+H7SX4HgRoHyvMx8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR01MB5405.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(52116014)(56012099006)(4143699003)(10067099003)(18002099003)(3023799007)(22082099003)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?+RF+iHAdezO006ZUShKqEwoNyo/fGA6JBLjKkOfnwfOP4hGhC2fnP9ddOCVc?=
- =?us-ascii?Q?Ja5ojBgEMAj/6dMyMWb3dotuFLZv42mC0HtxKcA3+t4W7hskk5crUS5eEHHM?=
- =?us-ascii?Q?F+Oc+aBpOcw6RthDQNKxbPFFJtXlwkmhPpxTiCB0/gIqGRkjdYD3e8wSVddW?=
- =?us-ascii?Q?5Q0LcMzuEzwMLezbknXtnT9qyfMwUCzkbqREsdHMAVe8giCszWhPtrX/qJp1?=
- =?us-ascii?Q?nZrsHDPeleYrzpM2i1Plb3NxkIvNR7+bpafA2su4ziuEtYGUiHheA7gf16Ml?=
- =?us-ascii?Q?ik7SePoiPuwWBHks39UJt1kKIjAaOiyXWi2kFCsVCfgKMsb38v1G9X3LXNqL?=
- =?us-ascii?Q?y2BNdlntyUv1M1v9bST8YZ0/Kbs3yl6UHdJkTVvBBnzSRp1AjmFyNuQ7/50d?=
- =?us-ascii?Q?tL2Lu7koY/fEMgmeq6PSOecYQ5M9xbEWIl9u6F1zzwzdU59s8sPqkMqivtTM?=
- =?us-ascii?Q?pDKsu+R/AlHqlehiLF+X64i6C69kXJ5+XG0QTLMMgiEarMSwcvOZ6WknGuZf?=
- =?us-ascii?Q?lD7KRhh9YYEuBwWtJp5PUcJe+KVxurC4AxWReMRRKj59lCf5h+9rg/yOiHD8?=
- =?us-ascii?Q?y7syOeB0Ra4C47rVWkIriMiLjlbk9rntyRpkbbqDt/L7OdTRIry+BuiaD2fX?=
- =?us-ascii?Q?vRxgFW86xDyQriBe3IHvTNpJYG2k5lqZFHUCtD8cearXoNZZrqftR89CcCF6?=
- =?us-ascii?Q?bbbpKJW+ZxXnX0WcqHuROBsuUokdLA1vx2K69JQSoL5DcNs6z/8B209EcENk?=
- =?us-ascii?Q?tF76f8pR7HDy1Z98gA6ujl405C1pAdK0toZXDwx9RF7PSe59D3LQohobAZaX?=
- =?us-ascii?Q?AyFShoqdutDm62SsSdzWydlkY4bnNP2V5sY1l4wmmE6xHAIo2XTedb+aJJ3r?=
- =?us-ascii?Q?ny0qisk6/0AzGo/Bj/5s5i0r7D6Hcyysxo9haludVTYL74Nn0DMKJ3XndL8K?=
- =?us-ascii?Q?ziPVrvPOKVRdel81pEkyrIHz/UnUt/X0+hAxI38ghL9d08pz2uU1+gXpdJ7X?=
- =?us-ascii?Q?gRY6g2fW58Hrb+5pW2Tbzw4w++EiTx8py7aMmn4qBALcedLXz/pHhsUlVej5?=
- =?us-ascii?Q?lmXpD2xqWRAJjnwXQGL7F0xNxWp3eAFhb941+BOe/fgtbB6BgIF+onmbDIez?=
- =?us-ascii?Q?NvUUlh2UvDwbu59R/HpPJp/uiB/zFKpOgPmE8YI3kpvQDWFKPoW17YOT8b4E?=
- =?us-ascii?Q?8FsQFRb0ZLCC/30EyyfQP2jFMekxaulGpQnZh8kuGgY+5CIaZvkMO/W+hFhY?=
- =?us-ascii?Q?tg1YeHA6vJOrcD8T25suGrGKQeRLVvq3k5FqMAc+mysazkDIR0yxGrJJ6p8I?=
- =?us-ascii?Q?exUAJkZZ+eIzA7zWh/+VNmOKvLog4qlW/vdcZli3z3ifeN5ZwWbSCb/T2ddh?=
- =?us-ascii?Q?3XtUKYFvY47tvvdNPyrX++y5BaokFB8YTVyiWTWG04I/AHIRJvPRRPymEZtX?=
- =?us-ascii?Q?KEm3xv7iBVULfB84HC+VskTy9rRzOBjc6Bbs/ukqziRXkDlPFqfREqPIFZGu?=
- =?us-ascii?Q?goFl68JOPOxx5eY01lalW3RX/7fiqD0JO07IL5L0cTHSQ5soX8EpdH2pu6UL?=
- =?us-ascii?Q?EYpzcxou8AxftY6HVF2HoDx/tGyl+FmfYjCsKOiqt4BAOkLfaUkUKF/0N3lS?=
- =?us-ascii?Q?a1ZhjWpteiLfduetteF46cFJ6un1KPIhFDXC39n8V9QaT9dC2rEgy8cDLy+M?=
- =?us-ascii?Q?PYH0JgIfXw5LfT0SzzkTtjQFF75OFGibfmAxzOzyrKZk7Vssp9KKrbFwHoBA?=
- =?us-ascii?Q?UFJ57KM1fWiZJQ1iwjnATbvS8kkIkmQ=3D?=
-X-OriginatorOrg: moxa.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf31e2e7-96ba-4e13-bbbf-08deebc9c6b3
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR01MB5405.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2026 10:28:19.0082
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5571c7d4-286b-47f6-9dd5-0aa688773c8e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xYK9TsWQ/AXjb27tN6kytTCRc+MIJ0aMxofL3jdV87gXrcOzG+xQ/RLoJbusoZpEgWSdekfmzi1zvINOzBX9ZHQewJnDiM2yO9ITWSPLWRA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PPF92D7F20FA
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <62caf7f8-b403-d0dd-15bc-b31b56f71c28@gmail.com>
 
-On Tue, Jul 21, 2026 at 05:51:58PM +0200, Johan Hovold wrote:
-> On Tue, Jun 23, 2026 at 04:01:38PM +0800, Crescent Hsieh wrote:
-> > The device uses the SEND_NEXT event to pace host-to-device transmission.
-> > Without waiting for this event, continuous transmission on multiple
-> > ports can make the driver submit bulk-out URBs faster than the device
-> > can process them, which can result in data errors during burn-in
-> > testing.
+Hi,
+
+On Sat, Jul 11, 2026 at 06:51:36PM -0400, Woody Suwalski wrote:
+> Kernel 7.2 now includes the following patch from Mika:
+> =====
+> commit f5cc545f59699549adbaa4084149f8247865a51d
+> Author: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Date:   Wed Nov 19 12:53:58 2025 +0200
 > 
-> Why does it matter if we're sending data for other ports? Isn't the
-> problem that we're sending more data than the per-port buffer can hold?
+>     thunderbolt: Wait for tb_domain_release() to complete when driver is
+> removed
+> =====
+> However as testing on older MacBookPro and MacBook Air, this patch is
+> causing a crash on driver insmod.
+> /...
+> [   10.570223] [   T2604] ACPI: bus type thunderbolt registered
+> [   10.580666] [   T2604] BUG: unable to handle page fault for address:
+> fffffffffffffff8
+> [   10.580745] [   T2604] #PF: supervisor read access in kernel mode
+> [   10.580796] [   T2604] #PF: error_code(0x0000) - not-present page
+> [   10.580844] [   T2604] PGD 2ec19067 P4D 2ec19067 PUD 2ec1b067 PMD 0
+> [   10.580915] [   T2604] Oops: Oops: 0000 [#1] SMP NOPTI
+> [   10.580929] [   T2603] acpi ACPI0001:00: SBS HC: offset = 0x20, query_bit
+> = 0x10
+> [   10.580968] [   T2604] CPU: 3 UID: 0 PID: 2604 Comm: (udev-worker)
+> Tainted: G S                  7.2-pingu #0~rc1 PREEMPT(full) 
+> 9f8aaa247129d19aebb6b0d19f7b648b1f9f7f36
+> [   10.581126] [   T2604] Tainted: [S]=CPU_OUT_OF_SPEC
+> [   10.581165] [   T2604] Hardware name: Apple Inc.
+> MacBookPro8,1/Mac-94245B3640C91C81, BIOS MBP81.88Z.0050.B00.1804101331
+> 04/10/18
+> [   10.581248] [   T2604] RIP: 0010:complete+0x3a/0x70
+> [   10.581301] [   T2604] Code: 61 c8 00 48 89 c5 8b 03 83 f8 ff 74 05 83 c0
+> 01 89 03 48 8b 53 10 48 8d 43 10 48 39 c2 74 29 48 8b 5b 10 31 d2 be 03 00
+> 00 00 <48> 8b 7b f8 e8 4d e9 fd ff 48 8b 13 48 8b 43 08 48 89 42 08 48 89
+> [   10.581441] [   T2604] RSP: 0018:ffff92720020ba98 EFLAGS: 00010046
+> [   10.581496] [   T2604] RAX: ffff8c82c6a2b3b0 RBX: 0000000000000000 RCX:
+> 000000000000000c
+> [   10.581559] [   T2604] RDX: 0000000000000000 RSI: 0000000000000003 RDI:
+> ffff8c82c6a2b3a8
+> [   10.581621] [   T2604] RBP: 0000000000000282 R08: 0000000000000000 R09:
+> 0000000000000000
+> [   10.581681] [   T2604] R10: 0000000000000001 R11: ffff8c832ba20d80 R12:
+> ffff8c82c6a2b3a8
+> [   10.581744] [   T2604] R13: ffff8c82c81f02b0 R14: 0000000000000000 R15:
+> ffff8c82c6e53148
+> [   10.581808] [   T2604] FS:  00007ffaf52c99c0(0000)
+> GS:ffff8c839ad88000(0000) knlGS:0000000000000000
+> [   10.581881] [   T2604] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   10.581935] [   T2604] CR2: fffffffffffffff8 CR3: 0000000105596002 CR4:
+> 00000000000606f0
+> [   10.581999] [   T2604] Call Trace:
+> [   10.582032] [   T2604]  <TASK>
+> [   10.582061] [   T2604]  device_release+0x3a/0x90
+> [   10.582112] [   T2604]  kobject_put+0x8a/0x230
+> [   10.582166] [   T2604]  icm_probe+0xf2/0x550 [thunderbolt
+> 2f2c536023810e0da91d9b6d6a63a9f9bf553e73]
+> [   10.582415] [   T2604]  nhi_probe+0x196/0x390 [thunderbolt
+> 2f2c536023810e0da91d9b6d6a63a9f9bf553e73]
+> [   10.582620] [   T2604]  local_pci_probe+0x3c/0x90
+> [   10.582668] [   T2604]  pci_device_probe+0xb0/0x1d0
+> /...
+> 
+> The fix is to check if tb->cm_ops->complete has been initialized before
+> using it.
+> I have also added couple of NULL pointer checks before calling a function.
+> I think that another issue could have been caused by a use-after-free of the
+> tb structure after kfree() call.
 
-You're right. The commit message is incorrect, as the issue can also be
-reproduced on a single port. The actual problem is overflow of the
-per-port buffer. I will correct this in v3.
+Just one change per patch.
+
+In your system TB is not working even with this patch, right? Because where
+this crash happens above it is on failure path if I read this right (back
+from vacation so brains still partially on vacation mode).
 
 > 
-> And is this an issue with all firmware versions, including the ones used
-> for the existing gen1 devices?
+> I have tested it OK on my older hardware...
+> 
+> Signed-off-by: Woody Suwalski <terraluna977@gmail.com>
+> ---
+> 
+> --- a/drivers/thunderbolt/domain.c    2026-06-23 07:35:46.060061342 -0400
+> +++ b/drivers/thunderbolt/domain.c    2026-07-11 15:09:12.748107785 -0400
+> @@ -321,13 +321,19 @@ static void tb_domain_release(struct dev
+>      struct tb *tb = container_of(dev, struct tb, dev);
+>      struct tb_nhi *nhi = tb->nhi;
+> 
+> -    tb_ctl_free(tb->ctl);
+> -    destroy_workqueue(tb->wq);
+> +    if (tb->ctl)
+> +        tb_ctl_free(tb->ctl);
+> +
+> +    if (tb->wq)
+> +        destroy_workqueue(tb->wq);
+> +
+>      ida_free(&tb_domain_ida, tb->index);
+> +
+> +    if (tb->cm_ops && tb->cm_ops->complete)
+> +        complete(&nhi->domain_released);
+> +
+>      mutex_destroy(&tb->lock);
+>      kfree(tb);
+> -
+> -    complete(&nhi->domain_released);
+>  }
+> 
+>  const struct device_type tb_domain_type = {
+> @@ -405,6 +411,8 @@ struct tb *tb_domain_alloc(struct tb_nhi
+>      if (!tb->ctl)
+>          goto err_destroy_wq;
+> 
+> +    tb->cm_ops = NULL;
+> +
+>      tb->dev.parent = nhi->dev;
+>      tb->dev.bus = &tb_bus_type;
+>      tb->dev.type = &tb_domain_type;
+> @@ -600,7 +608,7 @@ int tb_domain_thaw_noirq(struct tb *tb)
+> 
+>  void tb_domain_complete(struct tb *tb)
+>  {
+> -    if (tb->cm_ops->complete)
+> +    if (tb && tb->cm_ops && tb->cm_ops->complete)
+>          tb->cm_ops->complete(tb);
+>  }
+> 
+> 
+
+> --- a/drivers/thunderbolt/domain.c	2026-06-23 07:35:46.060061342 -0400
+> +++ b/drivers/thunderbolt/domain.c	2026-07-11 15:09:12.748107785 -0400
+> @@ -321,13 +321,19 @@ static void tb_domain_release(struct dev
+>  	struct tb *tb = container_of(dev, struct tb, dev);
+>  	struct tb_nhi *nhi = tb->nhi;
+>  
+> -	tb_ctl_free(tb->ctl);
+> -	destroy_workqueue(tb->wq);
+> +	if (tb->ctl)
+> +		tb_ctl_free(tb->ctl);
+> +
+> +	if (tb->wq)
+> +		destroy_workqueue(tb->wq);
+> +
+>  	ida_free(&tb_domain_ida, tb->index);
+> +
+> +	if (tb->cm_ops && tb->cm_ops->complete)
+> +		complete(&nhi->domain_released);
+> +
+>  	mutex_destroy(&tb->lock);
+>  	kfree(tb);
+> -
+> -	complete(&nhi->domain_released);
+>  }
+>  
+>  const struct device_type tb_domain_type = {
+> @@ -405,6 +411,8 @@ struct tb *tb_domain_alloc(struct tb_nhi
+>  	if (!tb->ctl)
+>  		goto err_destroy_wq;
+>  
+> +	tb->cm_ops = NULL;
+> +
+>  	tb->dev.parent = nhi->dev;
+>  	tb->dev.bus = &tb_bus_type;
+>  	tb->dev.type = &tb_domain_type;
+> @@ -600,7 +608,7 @@ int tb_domain_thaw_noirq(struct tb *tb)
+>  
+>  void tb_domain_complete(struct tb *tb)
+>  {
+> -	if (tb->cm_ops->complete)
+> +	if (tb && tb->cm_ops && tb->cm_ops->complete)
+>  		tb->cm_ops->complete(tb);
+>  }
 >  
 
-Yes. This issue is not specific to the G2 and Platform firmware; This
-could also be reproduced on existing G1 devices.
-
-> > Stop submitting further write URBs after requesting SEND_NEXT and resume
-> > transmission when the matching event is received.
-> 
-> How exactly does SEND_NEXT work? Is it signalled when the per-port
-> buffer drops below some threshold?
-
-SEND_NEXT is initiated by the driver on a per-port basis. The driver
-sets the SEND_NEXT request bit in a bulk-out frame and then stops
-submitting further data for that port. The firmware sends a SEND_NEXT
-event when the corresponding per-port buffer becomes empty, The driver
-then resumes transmission.
-
-> > @@ -276,22 +280,148 @@ MODULE_DEVICE_TABLE(usb, mxuport_idtable);
-> >  static int mxuport_prepare_write_buffer(struct usb_serial_port *port,
-> >  					void *dest, size_t size)
-> >  {
-> > +	struct mxuport_port *mxport = usb_get_serial_port_data(port);
-> >  	u8 *buf = dest;
-> > +	unsigned long flags;
-> > +	bool request_send_next;
-> >  	int count;
-> >  
-> > -	count = kfifo_out_locked(&port->write_fifo, buf + HEADER_SIZE,
-> > -				 size - HEADER_SIZE,
-> > -				 &port->lock);
-> > +	spin_lock_irqsave(&port->lock, flags);
-> > +	count = kfifo_out(&port->write_fifo, buf + HEADER_SIZE,
-> > +			  size - HEADER_SIZE);
-> > +	mxport->sent_payload += count;
-> > +	request_send_next = mxport->sent_payload >= port->bulk_out_size;
-> 
-> How big are the per-port buffers?
-
-The size depends on the device. The G2 and Platform UART firmware have
-a 4096-byte buffer per port, while the G1 per-port buffer ranges from
-32 KiB to 256 KiB depending on the number of ports.
-
-The bulk_out_size threshold is not derived from the firmware buffer
-size. It is used as a simple and conservative pacing interval that
-works across the device families without requiring family-specific
-buffer sizes in the driver. This results in more frequent
-SEND_NEXT waits and may reduce throughput.
-
-> 
-> > +	if (request_send_next)
-> > +		mxport->hold_reason |= MX_WAIT_FOR_SEND_NEXT;
-> > +	spin_unlock_irqrestore(&port->lock, flags);
-> >  
-> >  	put_unaligned_be16(port->port_number, buf);
-> >  	put_unaligned_be16(count, buf + 2);
-> >  
-> > +	if (request_send_next)
-> > +		buf[0] |= UPORT_REQUEST_SEND_NEXT;
-> > +
-> >  	dev_dbg(&port->dev, "%s - size %zd count %d\n", __func__,
-> >  		size, count);
-> >  
-> >  	return count + HEADER_SIZE;
-> >  }
-> >  
-> > +static int mxuport_write_start(struct usb_serial_port *port, gfp_t mem_flags)
-> > +{
-> > +	struct mxuport_port *mxport = usb_get_serial_port_data(port);
-> > +	struct urb *urb;
-> > +	unsigned long flags;
-> > +	int i;
-> > +	int count;
-> > +	int result;
-> > +
-> > +	if (test_and_set_bit_lock(USB_SERIAL_WRITE_BUSY, &port->flags))
-> > +		return 0;
-> > +retry:
-> > +	spin_lock_irqsave(&port->lock, flags);
-> > +	if ((mxport->hold_reason & MX_WAIT_FOR_SEND_NEXT) ||
-> > +	    !port->write_urbs_free || !kfifo_len(&port->write_fifo)) {
-> > +		clear_bit_unlock(USB_SERIAL_WRITE_BUSY, &port->flags);
-> > +		spin_unlock_irqrestore(&port->lock, flags);
-> > +		return 0;
-> > +	}
-> > +
-> > +	i = (int)find_first_bit(&port->write_urbs_free,
-> > +				ARRAY_SIZE(port->write_urbs));
-> > +	spin_unlock_irqrestore(&port->lock, flags);
-> > +
-> > +	urb = port->write_urbs[i];
-> > +	count = mxuport_prepare_write_buffer(port, urb->transfer_buffer,
-> > +					     port->bulk_out_size);
-> > +	urb->transfer_buffer_length = count;
-> > +	usb_serial_debug_data(&port->dev, __func__, count,
-> > +			      urb->transfer_buffer);
-> > +
-> > +	spin_lock_irqsave(&port->lock, flags);
-> > +	port->tx_bytes += count;
-> > +	spin_unlock_irqrestore(&port->lock, flags);
-> > +
-> > +	clear_bit(i, &port->write_urbs_free);
-> > +	result = usb_submit_urb(urb, mem_flags);
-> > +	if (result) {
-> > +		dev_err_console(port, "%s - error submitting urb: %d\n",
-> > +				__func__, result);
-> > +		set_bit(i, &port->write_urbs_free);
-> > +		spin_lock_irqsave(&port->lock, flags);
-> > +		port->tx_bytes -= count;
-> 
-> > +		if (mxport->hold_reason & MX_WAIT_FOR_SEND_NEXT) {
-> > +			mxport->hold_reason &= ~MX_WAIT_FOR_SEND_NEXT;
-> > +			mxport->sent_payload = 0;
-> > +		}
-> 
-> Shouldn't you undo the effects of prepare_write_buffer() and subtract
-> count from sent_payload (and clear the flag) unconditionally?
-> 
-> > +		spin_unlock_irqrestore(&port->lock, flags);
-> > +
-> > +		clear_bit_unlock(USB_SERIAL_WRITE_BUSY, &port->flags);
-> > +		return result;
-> > +	}
-> > +
-> > +	goto retry;
-> > +}
-> 
-> This is a more or less verbatim copy of the generic write
-> implementation. If we go this way you should at least mention that you
-> copied it in the commit message, but perhaps we should try to find a way
-> to generalise it instead.
-> 
-> Also, if you really need a custom implementation to throttle writes,
-> then shouldn't using one URB be enough? The other one is essentially
-> there to allow for higher throughput which we need to give up for
-> correctness here anyway.
-
-Agreed, the custom write path is largely based on the generic write
-implementation. In v1, I attempted to implement the throttling in
-prepare_write_buffer() to avoid changing the generic path, but
-returning zero caused the generic implementation to submit a
-zero-length URB. In v2, I therefore added a custom write path so that
-submission could be stopped before preparing another URB.
-
-I will investigate whether this can instead be generalised through a
-small driver callback that allows the generic write path to check
-whether another URB may be submitted. This would avoid duplicating the
-generic implementation while preserving the behaviour of other
-USB-to-serial drivers.
-
-I will also describe the SEND_NEXT behaviour in more detail in the v3
-commit message.
-
----
-Sincerely,
-Crescent Hsieh
