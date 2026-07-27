@@ -1,63 +1,64 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA343E63A8
-	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 21:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF75413797
+	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 21:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785187105; cv=none; b=JrdHv7aRk6f9rmTeynb/O+7OCuGFkVwn8p1K4yG8ZhWjbDbInSywW4aX3yzJml6KyclxeFGSJ3uDYXwynCM9MQ5TgeFJzlJN+bWifBqqwHIEeBRDpvjgWMfqeC6RWcuIa/BM5XAI8aFgZloGNrqm1pVk/RUEr6Bz+b3htYC9Ci0=
+	t=1785187116; cv=none; b=TN8w3kcIG3mBIsXmzdaEvqKGxjiw7bYnlGzikmbMr9rkqLKFOpf/S7AeGLjb2LquxXLPu98A/vGH2ZCINqtVbn42nLUP7QM5iivjmZu7KDiHyKLkDukPmbSj6O37RB6EI43ARCo/WHoZCzQEnmym9qg/atc8SJfMiS/LObvBbVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785187105; c=relaxed/simple;
-	bh=3CbbR2OL6iy/vE34PxqlFInK6NVsD5LXXqSf2ANoapg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=R4yfvdh2MXv7i9CM66HhXGhjKmuAm1xbv5rS7rEaMZtrmxFK9vPXpIa2nPavrGvUXBjt1fmugI5Jor4SihYvHj2HpJeZQ9npIgU1oO4jQ4lCiYja8Ik28dAUQ+gDUE4RgVtM87yHlkxpScfMoruxOY1EAH4X8EYbRMIUwbT98Ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UFfA7oTz; arc=none smtp.client-ip=209.85.215.171
+	s=arc-20240116; t=1785187116; c=relaxed/simple;
+	bh=G9P3Gm9X6VHormYF4PiT6UNlB1syHT2Cmg6ZgiMV8f8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JsUFWxfTThPKmOHifdoCaAP+paY9PAu85V00OtPPndPx/Ow+aROKWRt5/6jOhj5Y8zycg45CXtXA0wbMjhcP8eU3qBsIu75JA10G4dyaHpbIP7E8TlQF8XxGr8oK6OVNTFIDNR48EmCXF/Y2kg7UaB+jVTp2WCBMMA/X8F5yTcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K5i2LVCP; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UFfA7oTz"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-ca80d708489so222537a12.1
-        for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 14:18:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K5i2LVCP"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-848595b338cso3483480b3a.0
+        for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 14:18:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785187103; x=1785791903; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qQqWUZmrvTZ8p8YK697dL17ozshe0vWXwcEmOAnzcLQ=;
-        b=UFfA7oTzWtADJOJQVdjayW1f2TQ/CJoE8usBj7JBhWwURagylWHJK396z6tNaQa3oN
-         40S5VwbF6aTrpSAXYmZQXrTJnOsQ2pRq8nsmS636FuZ6BWtP81c6aPGnu9isfchiHDOY
-         XFGePtabW+X0pLo528k2KPgBEgllNMfh+oFHlK0ks0sLPH+uSDcJ/cqcbvKhdShl8UsP
-         cSg6sOxyvfzwB+9gHauioh8WldlRTKHWYoUTC4oq/HcRw6PFPnMJRqIY8md/EOnMYa+U
-         0RxXaRJNTp6svu94HuMf0SiTSITcm4uFJgdumTBlXuMBunCV3SBYQkymTou5ar8rtCWW
-         LwzA==
+        d=gmail.com; s=20251104; t=1785187114; x=1785791914; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/e05uQAC/MWsadOTV5ro3O8ihJOAfbb/VcbPjWI2HCQ=;
+        b=K5i2LVCPZ2XO0tLyO2XD47rgx0M4ImH26RaBaZQxJwdu/ZHkKNROtznlKrEwtxkYTD
+         3LVzx7vY85nIRbe/5q2ZfVFDQsgmPzsONIcCkVr3JjSK+4Lkr2EW9X+p2fQQRIrM9s7D
+         l3iTBFKdFQ1ZgRR/r4X3+BpqaUfIR4Dc7SH0ZgSUs4hUKxxbL2x5AodQuV7229UNzqF4
+         yVG6gbAZ/tJG3a8vx2L8ZH+QW/O+0OIG4PpzxUBgwfeb7BsZh0g8UwgLzibEgX5s4+kK
+         y/awZOH5+zRb40DUdy+y3jaFoSSbKfL1mSvBrvajcZTw+OMsfOriKsReWaNH6ZLFIBQf
+         LAHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785187103; x=1785791903;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qQqWUZmrvTZ8p8YK697dL17ozshe0vWXwcEmOAnzcLQ=;
-        b=Sq4VeMSmXT/gkp7S0kdOteyjQWf6c+VTcNtLj1itO0WmFcSoGPTvifSYKPRBOR6q26
-         nZ+/RiOuj3vv8k9tmD3dKj960klWA1gc85NuxA4o6Y8ykmdNu97W5Kig/fmXGifap5nJ
-         BjSexHRoMivB47132OCVXwBMDNvyQSzq0cMg9nqAfYzrUU2OJdGdMQwyv/zHdZ8IjXYo
-         swGwsOkx4s628g2GBFhgi3nFU7xuUnpTNHhrVqHoVMIFqlCpZrSjkKJO2idakOrORa3z
-         U3j0ygPmGujaRP/m++BgQajxpZyIXuljABYzQuy7RF/XJZBvBJ3JVMjRpcfAA92p4wAG
-         eAfg==
-X-Forwarded-Encrypted: i=1; AHgh+Ro38dGMWkAcv9UakmFNhNj8zdEF/ZyrHjPhyC63+ilqcOAAwYtwmHYxeZKHMZPH3fZKiG6Q5FK529o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwfZ56RLOH6/8nGAuhXAWtgi+CdqWQ93k4I9n3Xq1ltSODc7qOd
-	aAIqa/lHT3R9RxVOQZoe4kuDtGzqMTX1dupt0303Jf1uI1t1XwFSdOQ=
-X-Gm-Gg: AR+sD1393LlAQ5EFgDqddYRTlBeLayySwny+T/guvi8w+DHoMYieSUOOYjS4ELAMoPI
-	iVoGoTjLwsBIVXp5QtTkhGOXew4qrw34J34OTk664FdqFXVldxa2lbbuBEvVzW+6LatnfxNXpGa
-	X1j+B+O2G85M7HWQIQE1VVZtvhzY3xVo03Pwr0a8YtL1r45dHDAk1NKVcWFfCzwMWovh3RotFmv
-	1T/olBrtAgiIqkSMHe3b4aICtmwYGnFSjhUN/wD0PYW1x5ZVY/RfbMqy9CKlL7BHYNOP4EGEFRk
-	0txca066VPkd82Raj+DiOrKG/ftdLRWpd1VV7U5F0gS2aXImir5shObIldZZB2MqiGjyxjSQ8lY
-	6Hc9H/g2G3axsNEZLU3uGA4AEdLVG9Yg0ZK+rHZD8H2XqQfXis1DAeVwS1Yjo+jIqapT0DKqlsf
-	2zsqoRbgJPfN/amUK6NcxbztuOMYkoDSm/jc4YPrkriU5iOEIh2HZpbnVY0RToOeGxjWmV+FDui
-	8NF1eJ0waQVcz0nR14tiPZO4KAC4wdJRQ==
-X-Received: by 2002:a05:6a21:7706:b0:3c4:2cd3:f0bb with SMTP id adf61e73a8af0-3c7857620bfmr410550637.10.1785187103141;
-        Mon, 27 Jul 2026 14:18:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785187114; x=1785791914;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/e05uQAC/MWsadOTV5ro3O8ihJOAfbb/VcbPjWI2HCQ=;
+        b=QONCLi/Uayx/MkWHS95v/3uO0vhH3tnXv5uCUrvhBDz5LRdQw2Fq1NcvbkPyUAZQLg
+         ZdFjIAUH9GRmcta4dJg8Cv5Ob/yuS2BmIjTicGpVEt5U0O7lyTbqERMIBW1Q85ePr6JX
+         PbgwIv7W0yen+fZOHFyb8WodITkwLI9BCoxMHfKl1qlLcv45jmSTJOIfF1QPs6H5szJh
+         RRiPLPu7xi2IsavDLZEgeCeX3yDLrtMtk48ItT1GsPWJ604z8XHhX4KfdVxGLAyBhPKr
+         g3t90Jl7KBjui7esr3fSMAyZ5Bhl61Tbiq0et7mlpyx9TFzuYWzxY4lFkNFbKS6lUJeT
+         BI9w==
+X-Forwarded-Encrypted: i=1; AHgh+RrkFuvoRySQFAFpS2U+9Uo4VgdosfpEXeYocgiifFvnx40VdQAp3gaUpg7LdysA2tNDehpNcHHyZ8Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyXH6owTSNHOa2oOOBN0rPiWlZdQBIU/JbcYcmWiLrJU1NQeVQ
+	BYIs6IMuFqXueuXbp24TtzNAGupujUN8rUTRCi9J8N4APCZ0RYcBxYU=
+X-Gm-Gg: AR+sD10gqs7BQ4cgXf/GKNuEPdLlczapgXa/iaCw2dita388PvEMcmY0Zxo6o0krE5c
+	u5HK20QN/VT6BiOxiCURXX6xC+7+gNFXeU8KHds3DLs9zABfrovV2MQ78RDLv1FMBDE5OSArK+S
+	2wSQbkCcvyQ4w/ND+bhfFTpYbeNlWye2XC0wmwJv6Rl3ZOn+4LkQm7fKEWaBwFxXvONmzPO7Egh
+	drSBsbym766/lpJ3B7CoPegxAP+mw1X36Gym/Q9nPviYgin4gmjLJiUAerhHT7BzqIU85LJPvj+
+	U0e++mgdsPh/KMnS5iga7aFcYWft2aVpegkd9zahmCCPtCwAs17VLCtzACqG1RUOBkeWTn061Zc
+	TK7FCY10shrCDlWVNyE68qmQD5nxIGS+K9p6DGAoq6uMJfwBX9bF04FO23JBaqJY0xGkWC4+cD9
+	0Gv8ScWMAr3tAkt61A95WKC2zD5tMM/jVKlkMyBD28++MiFEohX8MHWc+rEK8IJoM8LIKhUL+fX
+	r5GWrywF2Tw32bRhMHAxkM=
+X-Received: by 2002:a05:6a21:497:b0:3c3:96dd:9ecc with SMTP id adf61e73a8af0-3c6c8046134mr1094107637.57.1785187114177;
+        Mon, 27 Jul 2026 14:18:34 -0700 (PDT)
 Received: from at-Standard-PC-Q35-ICH9-2009.. ([27.59.84.42])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314e17a6f5fsm7916699eec.31.2026.07.27.14.18.12
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314e17a6f5fsm7916699eec.31.2026.07.27.14.18.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 14:18:22 -0700 (PDT)
+        Mon, 27 Jul 2026 14:18:33 -0700 (PDT)
 From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
 To: 
 Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
@@ -88,66 +89,182 @@ Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
 	linux-integrity@vger.kernel.org,
 	keyrings@vger.kernel.org,
 	linux-security-module@vger.kernel.org
-Subject: [PATCH v5 0/2] Add Apple T2 NHI device links
-Date: Mon, 27 Jul 2026 17:18:01 -0400
-Message-ID: <20260727211807.1223-1-atharvatiwarilinuxdev@gmail.com>
+Subject: [PATCH v5 1/2] treewide: Add a flag to detect the Apple T2 chip
+Date: Mon, 27 Jul 2026 17:18:02 -0400
+Message-ID: <20260727211807.1223-2-atharvatiwarilinuxdev@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260727211807.1223-1-atharvatiwarilinuxdev@gmail.com>
+References: <20260727211807.1223-1-atharvatiwarilinuxdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series adds a cached flag to detect Apple T2 systems, then uses it
-to create device links for the Thunderbolt NHI.
+Add a flag to detect Apple T2 chips on Intel Macs.
+Cache the result to avoid repeated checks. That will
+be used in upcoming patches.
 
-Changes in v5:
-- Used Icelake root PCI IDs for detection of root ports instead of TRP
+Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+---
+ arch/x86/kernel/quirks.c                      | 37 ++++++++++++++++++
+ include/linux/platform_data/x86/apple.h       |  5 +++
+ .../platform_certs/keyring_handler.h          |  8 ----
+ security/integrity/platform_certs/load_uefi.c | 38 ++++---------------
+ 4 files changed, 50 insertions(+), 38 deletions(-)
 
-Changes in v4:
-- Limited TRP check to T2 Icelake systems only
-- Optimized has_apple_t2_chip check
-- Included pci.h to drivers/thunderbolt/tb.c
-- Used __free(pci_dev_put) to avoid label
-
-Changes in v3:
-- Fix build errors with non-x86 machines
-- Used __initconst for apple_t2_devices
-- Removed UEFI_QUIRK_SKIP_CERT as its unused now
-- Used IS_ENABLED(CONFIG_ACPI) in tb_apple_add_links for the T2 part
-- Removed !bid check to remove warning with -Waddress
-
-Changes in v2:
-- Used a less generic name for has_t2_chip
-- Used DMI instead of PCI for has_apple_t2_chip to avoid PCI problems
-- Initialized ret in tb_apple_add_links
-
-Link to v4:
-https://lore.kernel.org/all/20260724164641.2239-1-atharvatiwarilinuxdev@gmail.com/
-
-Link to v3:
-https://lore.kernel.org/all/20260721063412.11588-1-atharvatiwarilinuxdev@gmail.com/
-
-Link to v2:
-https://lore.kernel.org/all/20260721054506.11871-1-atharvatiwarilinuxdev@gmail.com/
-
-Link to v1:
-https://lore.kernel.org/all/20260719180308.1398-1-atharvatiwarilinuxdev@gmail.com/
-
-Atharva Tiwari (2):
-  treewide: Add a flag to detect the Apple T2 chip
-  thunderbolt: Add device links for Apple T2 NHI
-
- arch/x86/kernel/quirks.c                      | 37 +++++++++++++
- drivers/thunderbolt/tb.c                      | 54 ++++++++++++++++++-
- include/linux/platform_data/x86/apple.h       |  5 ++
- .../platform_certs/keyring_handler.h          |  8 ---
- security/integrity/platform_certs/load_uefi.c | 38 +++----------
- 5 files changed, 102 insertions(+), 40 deletions(-)
-
+diff --git a/arch/x86/kernel/quirks.c b/arch/x86/kernel/quirks.c
+index a92f18db9610..6651e5d4d106 100644
+--- a/arch/x86/kernel/quirks.c
++++ b/arch/x86/kernel/quirks.c
+@@ -664,8 +664,45 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_INTEL, 0x2083, quirk_intel_purley_xeon_ras
+ bool x86_apple_machine;
+ EXPORT_SYMBOL(x86_apple_machine);
+ 
++bool has_apple_t2_chip;
++EXPORT_SYMBOL(has_apple_t2_chip);
++
++static const char * const __initconst apple_t2_models[] = {
++	"MacBookPro15,1",
++	"MacBookPro15,2",
++	"MacBookPro15,3",
++	"MacBookPro15,4",
++	"MacBookPro16,1",
++	"MacBookPro16,2",
++	"MacBookPro16,3",
++	"MacBookPro16,4",
++	"MacBookAir8,1",
++	"MacBookAir8,2",
++	"MacBookAir9,1",
++	"Macmini8,1",
++	"MacPro7,1",
++	"iMac20,1",
++	"iMac20,2",
++	"iMacPro1,1",
++};
++
+ void __init early_platform_quirks(void)
+ {
+ 	x86_apple_machine = dmi_match(DMI_SYS_VENDOR, "Apple Inc.") ||
+ 			    dmi_match(DMI_SYS_VENDOR, "Apple Computer, Inc.");
++
++	if (x86_apple_machine) {
++		const char *product_name = dmi_get_system_info(DMI_PRODUCT_NAME);
++		int i;
++
++		if (!product_name)
++			return;
++
++		for (i = 0; i < ARRAY_SIZE(apple_t2_models); i++) {
++			if (!strcmp(product_name, apple_t2_models[i])) {
++				has_apple_t2_chip = true;
++				break;
++			}
++		}
++	}
+ }
+diff --git a/include/linux/platform_data/x86/apple.h b/include/linux/platform_data/x86/apple.h
+index 079e816c3c21..47b27dceab18 100644
+--- a/include/linux/platform_data/x86/apple.h
++++ b/include/linux/platform_data/x86/apple.h
+@@ -6,8 +6,13 @@
+  * x86_apple_machine - whether the machine is an x86 Apple Macintosh
+  */
+ extern bool x86_apple_machine;
++/**
++ * has_apple_t2_chip - whether the machine has the Apple T2 chip
++ */
++extern bool has_apple_t2_chip;
+ #else
+ #define x86_apple_machine false
++#define has_apple_t2_chip false
+ #endif
+ 
+ #endif
+diff --git a/security/integrity/platform_certs/keyring_handler.h b/security/integrity/platform_certs/keyring_handler.h
+index f92895cc50f6..a355f4400179 100644
+--- a/security/integrity/platform_certs/keyring_handler.h
++++ b/security/integrity/platform_certs/keyring_handler.h
+@@ -45,11 +45,3 @@ efi_element_handler_t get_handler_for_code_signing_keys(const efi_guid_t *sig_ty
+ efi_element_handler_t get_handler_for_dbx(const efi_guid_t *sig_type);
+ 
+ #endif
+-
+-#ifndef UEFI_QUIRK_SKIP_CERT
+-#define UEFI_QUIRK_SKIP_CERT(vendor, product) \
+-		 .matches = { \
+-			DMI_MATCH(DMI_BOARD_VENDOR, vendor), \
+-			DMI_MATCH(DMI_PRODUCT_NAME, product), \
+-		},
+-#endif
+diff --git a/security/integrity/platform_certs/load_uefi.c b/security/integrity/platform_certs/load_uefi.c
+index c0d6948446c3..b4096d4c828d 100644
+--- a/security/integrity/platform_certs/load_uefi.c
++++ b/security/integrity/platform_certs/load_uefi.c
+@@ -3,42 +3,16 @@
+ #include <linux/kernel.h>
+ #include <linux/sched.h>
+ #include <linux/cred.h>
+-#include <linux/dmi.h>
+ #include <linux/err.h>
+ #include <linux/efi.h>
+ #include <linux/slab.h>
+ #include <linux/ima.h>
++#include <linux/platform_data/x86/apple.h>
+ #include <keys/asymmetric-type.h>
+ #include <keys/system_keyring.h>
+ #include "../integrity.h"
+ #include "keyring_handler.h"
+ 
+-/*
+- * On T2 Macs reading the db and dbx efi variables to load UEFI Secure Boot
+- * certificates causes occurrence of a page fault in Apple's firmware and
+- * a crash disabling EFI runtime services. The following quirk skips reading
+- * these variables.
+- */
+-static const struct dmi_system_id uefi_skip_cert[] = {
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro15,1") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro15,2") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro15,3") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro15,4") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro16,1") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro16,2") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro16,3") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookPro16,4") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookAir8,1") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookAir8,2") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacBookAir9,1") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "Macmini8,1") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "MacPro7,1") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "iMac20,1") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "iMac20,2") },
+-	{ UEFI_QUIRK_SKIP_CERT("Apple Inc.", "iMacPro1,1") },
+-	{ }
+-};
+-
+ /*
+  * Look to see if a UEFI variable called MokIgnoreDB exists and return true if
+  * it does.
+@@ -165,10 +139,14 @@ static int __init load_uefi_certs(void)
+ 	unsigned long dbsize = 0, dbxsize = 0, mokxsize = 0;
+ 	efi_status_t status;
+ 	int rc = 0;
+-	const struct dmi_system_id *dmi_id;
+ 
+-	dmi_id = dmi_first_match(uefi_skip_cert);
+-	if (dmi_id) {
++	/*
++	 * On T2 Macs reading the db and dbx efi variables to load UEFI Secure Boot
++	 * certificates causes occurrence of a page fault in Apple's firmware and
++	 * a crash disabling EFI runtime services. The following quirk skips reading
++	 * these variables.
++	 */
++	if (has_apple_t2_chip) {
+ 		pr_err("Reading UEFI Secure Boot Certs is not supported on T2 Macs.\n");
+ 		return false;
+ 	}
 -- 
 2.43.0
 
