@@ -1,173 +1,201 @@
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFCC379990;
-	Mon, 27 Jul 2026 14:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785161863; cv=pass; b=PSqwym56don72O7gfAM8YaWgbDw0Xy1QXO5+K3e5Nl8kYQP8GuSZIIXM5R1eZfLI8SSrSIwdIoDa7eAFE6nkRiF0sRVYg7oDtlfFCKmIq9se7dqbIgSz41rOabkp8pj7b1aRXiwuMH1WMowXyIfXgYrPDEQCPVeV1R9zhM9MuvQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785161863; c=relaxed/simple;
-	bh=9+wN2OP+VN5YRtn4mhF1EF59I/ceBJXoESFcFVuCH8Q=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=lzhvUo5TX6/pcH+u6f4O1BgiiSeBtx0YbSsmi8YmiZdGdp9JNP2Al02V9zyLjjKwbkLE/twzAIFhERavKd3AQToBCHBb13OxV5utqUH8U3D0B0+YFLiZGzJ6ndY6QxWbS71D2C6ITsqEyDp5MyuhK9N9es3mC/S7OykUs79T4sk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=v9sGYDEg; arc=pass smtp.client-ip=103.117.158.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C52302753;
+	Mon, 27 Jul 2026 14:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785161991; cv=none; b=rHpIG5184vI+0fpOCfNMNm8gB3hUPfLtSbtbRpahubiTtw9u47ZIXc6wzopSMEiJn5CRkGD6iLjzR8KR4ipQE55iLDKs7v9H2d+bWQj5zRctsNGCmJ64MLcLW0VOgB7nxKJy+XjTHhVN9v8BTv++xeE8EHUgE+PpA1YVYl8NvBo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785161991; c=relaxed/simple;
+	bh=V9p2YWwy+qDp++oEzl/SFUPoEgtrzmfwQYJdAYRgwns=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mr2HbbNxQb5TDPnfpxankPz09ARV5jqXwsBJAudUgqqn5JLKNKIagftjNDBzSLWpMQXqCbKhpRLnZgDpd5NEeYBgH5CTb9zVuy1/3IVbgXVKfUbNNL0JYKDsZkPdJR6UAeHe9ESg7rTZz36ky387XOOVgUamINu5NkeSQDaAeSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GTqEAzlR; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="v9sGYDEg"
-ARC-Seal: i=1; a=rsa-sha256; t=1785161855; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=CUWSggHXLqM8E10T1VtM9+98qDHB5d5qyNYILpvD0S7N5O2RFZ3cb6oSz+fcY6AkoIfZsiKYk5d63QsfTCgx0BM1H1f/XuNcKy8ZHK73DG3hRCkefLbs9EhHWp60Bg0XJSVe9GzF9wYsYX2O5vt/H3eUaijna/aawFIjWMoO7Q4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1785161855; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=T9hHBHR63j1NMl1lY512Q03I0uaCkxsT4y3nIXMLuR8=; 
-	b=JoAIUKuOW6CeNYaup6ma6H4ls0PA4diq6CssG5uT35BcEklXrvMhRQhPs/yR+VIf9PTn/xWgWNSFaCntaSUQZh+JzFjFQFOoreZFi1XILUUeL9d00+JoIcPZMQVIBihuixgMVi+dKyvWV5BcmLhoeD4lbShP9TcVpyx/QKjxVoU=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
-	dmarc=pass header.from=<linuxuser509@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785161855;
-	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=T9hHBHR63j1NMl1lY512Q03I0uaCkxsT4y3nIXMLuR8=;
-	b=v9sGYDEgaLZAIyL02VmqSYhemBKUA2hc7IkfEVBm4ghzvS28xvS7czUDnwl19Ecu
-	1v6+r0lmwLq0VTziq57YWgNOX5h4wqa+YpPl2ubmNWpwWwesTn5+njkBCOedP4lTRuK
-	V3SmiBPgObskSg5cZ6EP7UlDw4fDibYb8cWIW5ps=
-Received: from mail.zoho.in by mx.zoho.in
-	with SMTP id 1785161853152548.8193999763087; Mon, 27 Jul 2026 19:47:33 +0530 (IST)
-Received: from  [152.57.173.177] by mail.zoho.in
-	with HTTP;Mon, 27 Jul 2026 19:47:33 +0530 (IST)
-Date: Mon, 27 Jul 2026 19:47:33 +0530
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-To: "netdev" <netdev@vger.kernel.org>
-Cc: "linux-usb" <linux-usb@vger.kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>
-Message-ID: <19fa3f028d9.fe65e7a4540.8296440890414077743@zohomail.in>
-In-Reply-To: <19fa3e79cfe.894831784405.7828961255432177577@zohomail.in>
-References: <19fa3e79cfe.894831784405.7828961255432177577@zohomail.in>
-Subject: Re: [PATCH] net: usb: net1080: add error handling to
- nc_vendor_write()
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTqEAzlR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785161989; x=1816697989;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=V9p2YWwy+qDp++oEzl/SFUPoEgtrzmfwQYJdAYRgwns=;
+  b=GTqEAzlR/CEAllMyoTB14bERU4tSksqZSRDp1DgdNoMNfOcNJg6l21zo
+   m4KD2ATTpLAHSngjyOWlm93zP7lU48s05LPCpCT4Hyxcg4Lj2RKrZCUUG
+   C0brwXWOvOUawS9HA3bJP9tOUD1vHmVIPqmJgr9a2FTY5n6EfOFupc7Ft
+   hI0Czx4ebAGWwaWOkex2ktq8SvzIQp+WflvqrmPbRqKWo+AZVuw7dP3Bx
+   /R8WCVh7P0od2rm2LJgtqNX1SmlJmpXgiWjtUUCZ4EBr+MAsV0S7g2fHs
+   qWVv7ezKCmdTt7pvedQ9kL4VS6B6+ykXgQvxB4fOdphgi3ZAJ4YzbFudF
+   w==;
+X-CSE-ConnectionGUID: 13rCGCgWQBSpOfPDqZuDAg==
+X-CSE-MsgGUID: 0UYVJrUCTuqHuBg321TxfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="97104514"
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="97104514"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 07:19:48 -0700
+X-CSE-ConnectionGUID: xxyaqvFQQ3erpc+oJfFetQ==
+X-CSE-MsgGUID: a1AIrb0HS/itmtyAfYHiWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="258861289"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO [10.245.245.171]) ([10.245.245.171])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 07:19:47 -0700
+Message-ID: <2fd4299c-c455-497b-a122-5f94eeb9d1bd@linux.intel.com>
+Date: Mon, 27 Jul 2026 17:19:43 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: xhci: Restore MSI/MSI-X reinitialization on resume
+ for RESET_ON_RESUME hosts
+To: Jie Deng <dengjie03@kylinos.cn>, mathias.nyman@intel.com
+Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+References: <20260714090210.1201964-1-dengjie03@kylinos.cn>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20260714090210.1201964-1-dengjie03@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
 
-From 70278069430a8b7d71728bc3c24400dc2bdffb63 Mon Sep 17 00:00:00 2001
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-Date: Mon, 27 Jul 2026 19:34:16 +0530
-Subject: [PATCH] net: usb: net1080: add error handling to nc_vendor_write()
+Hi
 
-The nc_vendor_write() function currently ignores the return value of
-usbnet_write_cmd(). This can lead to silent failures when USB
-communication fails.
+On 7/14/26 12:02, Jie Deng wrote:
+> Commit 944e7deb4238 ("xhci: Avoid PCI MSI/MSIX interrupt
+> reinitialization at resume") moved MSI/MSI-X setup out of xhci_run()
+> into a PCI-specific xhci_pci_run() that is only invoked at probe time,
+> and removed the xhci_cleanup_msix() call from xhci_resume().
+> 
+> The rationale (avoid redundant MSI reconfiguration on every resume) is
+> sound for controllers that preserve state across suspend.  It is however
+> *harmful* for controllers carrying XHCI_RESET_ON_RESUME: those hosts are
+> fully reset on every S3 resume, and on some of them (e.g. ASMedia 3042)
+> the MSI/MSI-X delivery path is no longer functional after the controller
+> reset + D3->D0 transition.  Because the MSI vectors are now kept around
+> unchanged across resume, the first post-resume command-completion event
+> (ENABLE_SLOT) is delivered to a stale MSI channel and never reaches the
+> CPU, which surfaces as:
+>    xhci_hcd 0000:05:00.0: Error while assigning device slot ID: Command Aborted
+>    xhci_hcd 0000:05:00.0: Max number of devices this xHCI host supports is 127.
+>    usb 1-2: device not accepting address 3, error -22
+>    xhci_hcd 0000:05:00.0: Error while assigning device slot ID: Command Aborted
+>    xhci_hcd 0000:05:00.0: Max number of devices this xHCI host supports is 127.
+>    usb 1-2: device not accepting address 3, error -22
+>    xhci_hcd 0000:05:00.0: Error while assigning device slot ID: Command Aborted
+>    xhci_hcd 0000:05:00.0: Max number of devices this xHCI host supports is 127.
+>    usb 2-2: device not accepting address 3, error -22
+> 
 
-Change nc_vendor_write() and nc_register_write() to return int
-instead of void, and propagate the error from usbnet_write_cmd()
-back to the caller.
+Thanks for reporting and debugging this.
 
-Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
----
- drivers/net/usb/net1080.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Is this also an issue in runtime resume where system stays in S0 while
+xHC transitions from D3 to D0, and is then reset?
 
-diff --git a/drivers/net/usb/net1080.c b/drivers/net/usb/net1080.c
-index 19f6e1222d93..dd9f1361aed6 100644
---- a/drivers/net/usb/net1080.c
-+++ b/drivers/net/usb/net1080.c
-@@ -113,18 +113,18 @@ nc_register_read(struct usbnet *dev, u8 regnum, u16 *retval_ptr)
- 	return nc_vendor_read(dev, REQUEST_REGISTER, regnum, retval_ptr);
- }
- 
--static void
-+static int
- nc_vendor_write(struct usbnet *dev, u8 req, u8 regnum, u16 value)
- {
--	usbnet_write_cmd(dev, req,
--			 USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
--			 value, regnum, NULL, 0);
-+	return usbnet_write_cmd(dev, req,
-+				USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
-+				value, regnum, NULL, 0);
- }
- 
--static inline void
-+static inline int
- nc_register_write(struct usbnet *dev, u8 regnum, u16 value)
- {
--	nc_vendor_write(dev, REQUEST_REGISTER, regnum, value);
-+	return nc_vendor_write(dev, REQUEST_REGISTER, regnum, value);
- }
- 
- 
--- 
-2.53.0
+Or is it only in system suspend, or in hibernate?
+Does it matter if xHC was in D3hot or D3cold before resume?
+
+Not sure if gating with XHCI_RESET_ON_RESUME is the right way as some of those
+xHCI PCI hosts may just need to be reset in resume, but retain their MSI settings.
+(xhci specs states that resetting xHC should not touch PCI config space)
+
+This may just be a ASMedia PCI xHCI issue.
 
 
+> Up to v6.3 the resume reset path did xhci_cleanup_msix() and, through
+> xhci_run() -> xhci_try_enable_msi(), re-allocated the vectors, which
+> incidentally re-armed the MSI delivery path and masked the hardware
+> issue.  Work it around by restoring that behaviour, but only for hosts
+> marked XHCI_RESET_ON_RESUME and only for PCI devices (platform/RCAR
+> hosts using the same quirk must not be touched).
+> 
+> Fix: 944e7deb4238 ("xhci: Avoid PCI MSI/MSIX interrupt reinitialization at resume")
+> Signed-off-by: Jie Deng <dengjie03@kylinos.cn>
+> ---
+>   drivers/usb/host/xhci-pci.c |  6 ++++--
+>   drivers/usb/host/xhci.c     | 19 +++++++++++++++++++
+>   drivers/usb/host/xhci.h     |  2 ++
+>   3 files changed, 25 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+> index 6b3fcba44b08..77b3215c95f3 100644
+> --- a/drivers/usb/host/xhci-pci.c
+> +++ b/drivers/usb/host/xhci-pci.c
+> @@ -126,7 +126,7 @@ static void xhci_msix_sync_irqs(struct xhci_hcd *xhci)
+>   }
+>   
+>   /* Legacy IRQ is freed by usb_remove_hcd() or usb_hcd_pci_shutdown() */
+> -static void xhci_cleanup_msix(struct xhci_hcd *xhci)
+> +void xhci_cleanup_msix(struct xhci_hcd *xhci)
+>   {
+>   	struct usb_hcd *hcd = xhci_to_hcd(xhci);
+>   	struct pci_dev *pdev = to_pci_dev(hcd->self.controller);
+> @@ -138,9 +138,10 @@ static void xhci_cleanup_msix(struct xhci_hcd *xhci)
+>   	pci_free_irq_vectors(pdev);
+>   	hcd->msix_enabled = 0;
+>   }
+> +EXPORT_SYMBOL_GPL(xhci_cleanup_msix);
+>   
+>   /* Try enabling MSI-X with MSI and legacy IRQ as fallback */
+> -static int xhci_try_enable_msi(struct usb_hcd *hcd)
+> +int xhci_try_enable_msi(struct usb_hcd *hcd)
+>   {
+>   	struct pci_dev *pdev = to_pci_dev(hcd->self.controller);
+>   	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+> @@ -207,6 +208,7 @@ static int xhci_try_enable_msi(struct usb_hcd *hcd)
+>   	hcd->irq = pdev->irq;
+>   	return 0;
+>   }
+> +EXPORT_SYMBOL_GPL(xhci_try_enable_msi);
+>   
+>   static int xhci_pci_run(struct usb_hcd *hcd)
+>   {
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index 091c82ca8ee2..7dd3afcf6b2e 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -1190,10 +1190,29 @@ int xhci_resume(struct xhci_hcd *xhci, bool power_lost, bool is_auto_resume)
+>   		xhci_for_each_ring_seg(xhci->cmd_ring->first_seg, seg)
+>   			memset(seg->trbs, 0, sizeof(union xhci_trb) * TRBS_PER_SEGMENT);
+>   
+> +		/* XHCI_RESET_ON_RESUME hosts are fully reset on every resume.
+> +		 * On some of them (e.g. ASMedia 3042) the MSI/MSI-X delivery
+> +		 * path is no longer valid after the reset + D3->D0 cycle, so
+> +		 * tear the vectors down here and let xhci_try_enable_msi()
+> +		 * re-allocate them below, matching pre-6.4 behaviour.
+> +		 */
+> +		if (xhci->quirks & XHCI_RESET_ON_RESUME)
+> +			xhci_cleanup_msix(xhci);
 
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-To: "netdev"<netdev@vger.kernel.org>
-Cc: "linux-usb"<linux-usb@vger.kernel.org>, "linux-kernel"<linux-kernel@vger.kernel.org>
-Date: Mon, 27 Jul 2026 19:38:13 +0530
-Subject: [PATCH] net: usb: net1080: add error handling to nc_vendor_write()
+Ideally all PCI related xHCI code should be done in xhci-pci.c, like xhci_pci_resume()
 
- > From a822037e659f6c13022062b399a96b7d72780090 Mon Sep 17 00:00:00 2001 
- > From: Ashwin Gundarapu <gundarapuashwin@outlook.com> 
- > Date: Mon, 27 Jul 2026 19:34:16 +0530 
- > Subject: [PATCH] net: usb: net1080: add error handling to nc_vendor_write() 
- >  
- > The nc_vendor_write() function currently ignores the return value of 
- > usbnet_write_cmd(). This can lead to silent failures when USB 
- > communication fails. 
- >  
- > Change nc_vendor_write() and nc_register_write() to return int 
- > instead of void, and propagate the error from usbnet_write_cmd() 
- > back to the caller. 
- >  
- > Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in> 
- > --- 
- >  drivers/net/usb/net1080.c | 12 ++++++------ 
- >  1 file changed, 6 insertions(+), 6 deletions(-) 
- >  
- > diff --git a/drivers/net/usb/net1080.c b/drivers/net/usb/net1080.c 
- > index 19f6e1222d93..dd9f1361aed6 100644 
- > --- a/drivers/net/usb/net1080.c 
- > +++ b/drivers/net/usb/net1080.c 
- > @@ -113,18 +113,18 @@ nc_register_read(struct usbnet *dev, u8 regnum, u16 *retval_ptr) 
- >      return nc_vendor_read(dev, REQUEST_REGISTER, regnum, retval_ptr); 
- >  } 
- >  
- > -static void 
- > +static int 
- >  nc_vendor_write(struct usbnet *dev, u8 req, u8 regnum, u16 value) 
- >  { 
- > -    usbnet_write_cmd(dev, req, 
- > -             USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE, 
- > -             value, regnum, NULL, 0); 
- > +    return usbnet_write_cmd(dev, req, 
- > +                USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE, 
- > +                value, regnum, NULL, 0); 
- >  } 
- >  
- > -static inline void 
- > +static inline int 
- >  nc_register_write(struct usbnet *dev, u8 regnum, u16 value) 
- >  { 
- > -    nc_vendor_write(dev, REQUEST_REGISTER, regnum, value); 
- > +    return nc_vendor_write(dev, REQUEST_REGISTER, regnum, value); 
- >  } 
- >  
- >  
- > -- 
- > 2.53.0 
- >  
- >  
- > 
+In this case it's a bit tricky as msi cleanup and enabling is done mid xhci_resume(),
+and would require a lot of refactoring to get it done.
+
+Might need to do it this way first to get the ASMedia host working, and then refactor later.
+
+> +
+>   		xhci_debugfs_exit(xhci);
+>   
+>   		xhci_init(hcd);
+>   
+> +		/* Re-arm the MSI/MSI-X delivery path for RESET_ON_RESUME PCI
+> +		 * hosts. xhci_run() no longer does this (it was moved to the
+> +		 * probe-only xhci_pci_run()), and the stale vectors left over
+> +		 * from before suspend cannot carry the first post-resume
+> +		 * command-completion event on affected hardware.
+> +		 */
+> +		if ((xhci->quirks & XHCI_RESET_ON_RESUME) &&
+> +		    dev_is_pci(hcd->self.controller))
+> +			xhci_try_enable_msi(hcd);
+
+Same comment as above
+
+Thanks
+Mathias
 
