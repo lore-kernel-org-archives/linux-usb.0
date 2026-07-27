@@ -1,95 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA4D3D3CEB;
-	Mon, 27 Jul 2026 11:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785150303; cv=none; b=A/ZdvpBLoe1BVbZfHn/LNXpSvlicQBTS+GwRjzMvwtJvW7SMejHk/+//dAnvfySltJ0pCx8teFKQIj6XxGPT92gvDgGvoppMvHa3+abFydxmWiTySJbQ9eYuPYk/gnpJHODI31CDcuC4zIsYIHJjCatux4xkTxC8hxiCYzl8gy4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785150303; c=relaxed/simple;
-	bh=7mt6BZOnmtVbD9vLUXdK50ILuKZ8pafLEG2RXqM8qhI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OLWNPh24WWmctpAJnzm5FC2hvvanUZHw6dLSib006WnSURlOg+yWATOk+KU9SQQryrbMzqqZ0+GDSNqTJ6NbjY/OA3jnmd5qJKoV1KBATcC5SQy5U2WVhHfMlgNWaBo1zP300cWcA5x67oPLJQ7uvHNlPqwUS2u+1BvO+IN5Ko8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e1qWWNxf; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C287D3FA5C4
+	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 11:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785150531; cv=pass; b=Wo+Vwf78BKJ8DlcIvrINu/pyp6/ccxYfjmos6jbtma4ALlQZMBvD3Nxom0436GMql5hrpam7VtD9cmUoMwxtkpPJqy42M9NaTjid2giyOBFwooe6EkfvndFk1r3eDwnsTusdoPdwEYXX8Ywzm9kNWuascUUA3ZRHfaFwT8RBx5o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785150531; c=relaxed/simple;
+	bh=pV1TDUaa2YAV2kxJY3x35Y0FQXGiZRc6WWYevwzWDGg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FborLY8Cw5H9vEg5FDxY0K5eWltd4Yq0nGCwmkPMv1jT4DnOBmLCNBo387tn/ozCwfUThrlLpKZbiOfUHLTIiyBPw6P8r/5RiRGVVPQv3Tk/0+gTVt5HVXxlQ+XBs176vTqZ9N+Inb4ZbjXYfm069xEQI+GHtVi2Shd5zzXsydw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M3mRoCn4; arc=pass smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e1qWWNxf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785150302; x=1816686302;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7mt6BZOnmtVbD9vLUXdK50ILuKZ8pafLEG2RXqM8qhI=;
-  b=e1qWWNxf+C9yKybQeFQtnioEZWxFVCjVY7RR2Wg7s68jTECyp+OOwPD+
-   Sic5mG2XRog5CYns8riGMWeDt3ZzQcRdO7uHeHfmK18eJU+ZgFuewDHmB
-   ew2PDbf6tD/NUORRNlBSYDjoqsB41NfsTHnow5cxBvJO1LKo9841DApRk
-   JMoPlWThcBb/tB3/0s9HUyJDIqmBLdjS3ap+xjOnHc4qqE5BM27ivmYB0
-   Ew1zjOjmblbfeVN/AZ/RM1r/EVsg7yhShcCXuy5Z7l5zXEBcDsIm2XDdv
-   3Ydq9fJ49zsuKZn1G7KtPwFlsUuEUsR7N13H+gu9M05e7lmTvEHgvrfLC
-   Q==;
-X-CSE-ConnectionGUID: 6DaJNgBYT0iHBqFhzvb+kw==
-X-CSE-MsgGUID: 1vy48teIR4aUlnba3ogZZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11857"; a="85478355"
-X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
-   d="scan'208";a="85478355"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 04:05:01 -0700
-X-CSE-ConnectionGUID: 1iJbDDvdRd+Yd1hub+cvQg==
-X-CSE-MsgGUID: TOAXQaf/SmaczJa4NwgGbw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
-   d="scan'208";a="297611032"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa001.jf.intel.com with ESMTP; 27 Jul 2026 04:04:59 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 352B799; Mon, 27 Jul 2026 13:04:58 +0200 (CEST)
-Date: Mon, 27 Jul 2026 13:04:58 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: raoxu <raoxu@uniontech.com>
-Cc: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] thunderbolt: icm: preserve USB4 proxy data-valid bit
-Message-ID: <20260727110458.GH2365036@black.igk.intel.com>
-References: <BA3238878103AC07+20260713093237.3516283-1-raoxu@uniontech.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M3mRoCn4"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8114a4542b2so34405557b3.1
+        for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 04:08:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785150525; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Ce9NWbrHYY7oPDvDMxBNn2W2+yxA7yqbnIyiHN6Ia98u3TWaVC2uGuy5i898Bywpg9
+         zH8w5oW9rKJkPk1ZTv1UJBgxViN1hg0RMbv8p6fBNborVVo0PO44S75JEYACIS8qMaXm
+         ne4ktNUT8mkl7nNldJtVd1gxCwe/xUDw84hBKXv3UjK9Q5fT0zo/mDg9ulzlvy8PX7F8
+         V+/cIpeNhOW6tr4tmsyRWit3F6wZTKH+nO+YLk48Lz3EkINAOUmUqBggeJN3mO8mZN9j
+         wRtLkVA1xPKaK0g668ir9yLEyDFJP6YFGlRLY0Ix0dg2mLpiwaFrZuUMucOSPHP/IEkA
+         fRMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pV1TDUaa2YAV2kxJY3x35Y0FQXGiZRc6WWYevwzWDGg=;
+        fh=mbLBYBroZYgTOP0dp5fPsCSbxsaOXqhBBUWGRbDAmNc=;
+        b=K73IsDOnFID4/Z1T1fqXnG+8O8LtFubmjcT/Ze0TEL/g8y13Ggb6vmAf6ovKR6mYf6
+         UIdgWqzgR4zYLS0oLraZnfSeeKLIkH3YJP4RNHgiFiCDpjRk/3t/gK99+T+sJKbhyP7T
+         pC6KkL+WOeNA5AA79RTjmFPkGvSdCA3m/EXySvwRi2wXfxBvDOMf/jM3hv7xRjgq1XCR
+         K3OuPebIWp6vKTAPPyl/mzO/WrzB76EvRPd3D+uuBtnS950ddX/KTDKZU2VmiaqxpR23
+         eKkrWefKogzW/G/87Tz4Z/0CAFWNhwnJrwb8h3HqlYdV8BSA6YFIxUatbYaFDwPM1mj2
+         +iTw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785150525; x=1785755325; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pV1TDUaa2YAV2kxJY3x35Y0FQXGiZRc6WWYevwzWDGg=;
+        b=M3mRoCn4tl8RPjfQixKwIWWGSOwAsLGhmh+pOW5tV4opu6k/FIUqHgtBSUi/lYWXNo
+         K98eF+P/A41j+K8iwFXw6liU49SqTYrvvms0nmGWFjNMcapwdxy/m16HBI26xKOSiPvw
+         bHpYUNToOx9zQJmLUksPduoTCqqE2dSxgHeSldgGIbLqv2CWqoDhAou0N3efVhSwmwfM
+         VQbpCmhybFLItirVtnzw4TnneJchaVYJVzYdQrFlaDO4vxp9qnK66elczaAbAPUjs+C1
+         1bvSmITqLw2KhR3gNZaWHhZGr+7ZSQD962od3gweFtTkzKTtbvFjOOIGdEoRbtgOHS17
+         oVMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785150525; x=1785755325;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pV1TDUaa2YAV2kxJY3x35Y0FQXGiZRc6WWYevwzWDGg=;
+        b=PauzKlwH/60hbpJhX94W2inuUjtGncXdXPqn5W+cyaY7AMTmgXGpVBmAizAPFGhxJy
+         Kp3R0i1IcYsQFEOFTZlmjxNxmJTrpYJPOYMwIFucg8HhpYIvAD7NihmnZDNaqqiTjlM9
+         fgFgHbi6zkcylmc7PC9+pqoUUwehjXmd9AF8HA6MI/SBQ3x/OVvX1B+4l6rwxeuws3zR
+         JnT5y8y1mSjCN9Bq+IWOBmDSRaQ+TAJv6HOHgKFqLz6XpkGG3yrB+oGDBam8RKRx0wel
+         NkZRKC04cEzmmuYi6Ozv0UmOG/66UDe61dHv1ujY0jHZ2EA83FWpwb4vtJBChzNAnzuY
+         D+uw==
+X-Forwarded-Encrypted: i=1; AHgh+RqMR6M5VjEfwIe1nRKuRBHhgAJ+n++xc4TtJ8xg5Zt5LR86h/jKObxH7Y7jEijch/OZPlaZbxNExlo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPMjEOh9ui/vwWqwQRzzjb6/u3eYyvdWe85jTlQLR5GTY/YQFp
+	Grw3oHavC2t063zSX0AZ53qHx+ZsXZJ+rBqzHYOay3glWJeLrbS7m2NRKSNFY9fbKC52DmNG0cJ
+	4zQJ2ci5RpTyahvxcot1E0/saFE9/lCM=
+X-Gm-Gg: AR+sD10vDryo6S4rXvIlg7alulzbTAOW5kjZdkhtisy/zODj+ik2kQChze99Ww0keGs
+	r5WGbNxO6gfWxU+2Zxouan+teR4DlJef/+5JHZVXPAX1XRLbtznWO+z9LIk/1x81yBcpZFYoNUg
+	xwlBxQ+JOo5aH+ahqa4wp4o1/8QlNJih/4oRde7+dPp05oUWGgsyeIKWC8JAgVhQVn5AICPI9p5
+	hndHyuvAMhuM2lW3hXZuvBcTT6KN/A5whrMR75aN76ZppL9J5iJj9Zp7aI=
+X-Received: by 2002:a05:690c:3747:b0:809:86c6:ee18 with SMTP id
+ 00721157ae682-81f69e3978bmr27868337b3.37.1785150525277; Mon, 27 Jul 2026
+ 04:08:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <BA3238878103AC07+20260713093237.3516283-1-raoxu@uniontech.com>
+References: <20260723184538.3888637-1-ekffu200098@gmail.com>
+ <20260724144822.6af8213f@kernel.org> <0ee1ef4aa7daa908bf28397ccc639c89b6aabd9c@intel.com>
+In-Reply-To: <0ee1ef4aa7daa908bf28397ccc639c89b6aabd9c@intel.com>
+From: Sang-Heon Jeon <ekffu200098@gmail.com>
+Date: Mon, 27 Jul 2026 20:08:33 +0900
+X-Gm-Features: AUfX_mzhfgKW48GB4CRuyNKliFu1x1EH8aDGDqYePXeE0rGOBX3Wid5IOU1hKpc
+Message-ID: <CABFDxMFMOAZ_3kYxEGCutnGt1OSSmgvmwx-=M1RxGc3VGKORYQ@mail.gmail.com>
+Subject: Re: [PATCH 00/36] treewide: remove conditional returns with no effect
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, Julia.Lawall@inria.fr, 
+	Alex Deucher <alexander.deucher@amd.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Borislav Petkov <bp@alien8.de>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, David Airlie <airlied@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Eric Dumazet <edumazet@google.com>, Florian Westphal <fw@strlen.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hansg@kernel.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Jaroslav Kysela <perex@perex.cz>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Jiri Pirko <jiri@resnulli.us>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
+	Johan Hovold <johan@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Julian Anastasov <ja@ssi.bg>, 
+	Leon Romanovsky <leon@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Mark Brown <broonie@kernel.org>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Matthew Sakai <msakai@redhat.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Mike Rapoport <rppt@kernel.org>, 
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>, Nicolas Palix <nicolas.palix@imag.fr>, 
+	Pablo Neira Ayuso <pablo@netfilter.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Ping-Ke Shih <pkshih@realtek.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Sebastian Reichel <sre@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Simona Vetter <simona@ffwll.ch>, Simon Horman <horms@verge.net.au>, Stephen Boyd <sboyd@kernel.org>, 
+	Steve French <sfrench@samba.org>, Takashi Iwai <tiwai@suse.com>, Thomas Renninger <trenn@suse.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Tony Luck <tony.luck@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
+	Vinod Koul <vkoul@kernel.org>, Will Deacon <will@kernel.org>, 
+	Yazen Ghannam <Yazen.Ghannam@amd.com>, cocci@inria.fr, amd-gfx@lists.freedesktop.org, 
+	dmaengine@vger.kernel.org, dm-devel@lists.linux.dev, 
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	intel-wired-lan@lists.osuosl.org, iommu@lists.linux.dev, 
+	linux-cifs@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-edac@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-mm@kvack.org, linux-pm@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-rtc@vger.kernel.org, 
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, lvs-devel@vger.kernel.org, 
+	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, 
+	nouveau@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 13, 2026 at 05:32:37PM +0800, raoxu wrote:
-> From: Xu Rao <raoxu@uniontech.com>
-> 
-> The ICM USB4 switch operation request encodes two values in
-> request.data_len_valid: bit 4 marks the data payload valid, while bits
-> 3:0 hold the payload length in dwords.  A zero length with the valid bit
-> set represents the full 16-dword data array.
-> 
-> icm_usb4_switch_op() sets the valid bit when a transmit payload is
-> present.  For payloads shorter than the full 16 dwords, it then assigns
-> the length to the whole field and clears the valid bit that was just set.
-> The payload is still copied into the request, but the descriptor sent to
-> firmware marks that data as invalid.
-> 
-> This affects USB4 router operations that send short payloads through the
-> firmware connection manager.  In particular, USB4 NVM writes can send a
-> short final block when the image size is not aligned to the 64-byte proxy
-> payload size.  Firmware may then ignore or reject that final block, while
-> full 16-dword blocks are unaffected because they are encoded as length 0
-> with the valid bit set.
-> 
-> OR the short payload length into data_len_valid so the valid bit is
-> preserved.
-> 
-> Fixes: 9039387e166e ("thunderbolt: Add USB4 router operation proxy for firmware connection manager")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Xu Rao <raoxu@uniontech.com>
+Hello,
 
-Applied to thunderbolt.git/fixes, thanks!
+On Mon, Jul 27, 2026 at 5:30=E2=80=AFPM Jani Nikula <jani.nikula@linux.inte=
+l.com> wrote:
+>
+> On Fri, 24 Jul 2026, Jakub Kicinski <kuba@kernel.org> wrote:
+> > On Fri, 24 Jul 2026 03:45:02 +0900 Sang-Heon Jeon wrote:
+> >> Patch 1 adds a Coccinelle script that matches the pattern, including
+> >> negation and constant-comparison variants. Where a local variable is
+> >> assigned right before the check, the assignment and the two returns
+> >> turn into a single return of the assigned expression.
+> >
+> > Huh, I thought we already had such script. Various script children have
+> > been sending such "cleanups" in the past.
+>
+> We did, and it was removed, I believe in 1a617a8475e8 ("coccinelle:
+> misc: remove "complex return code" warnings"), because people just don't
+> want this constant churn.
+>
+> It's perfectly fine to have the error case and happy day scenario
+> separated.
+
+Thanks for sharing the history.
+
+I checked the mailing list. The removed script looks similar to the
+new one, but it is different. The removed script reported a
+conditional return followed by an explicit return 0, where the error
+case and happy day scenario are separated as you mentioned, and Johan
+also complained about this 10 years ago.
+
+But the new script only reports when both branches return the same
+variable, not the explicit 0. So, I think the new script is close to
+the restricted version that Julia mentioned 10 years ago, and it
+should be acceptable.
+
+>
+> BR,
+> Jani.
+>
+>
+> --
+> Jani Nikula, Intel
+
+Best Regards,
+Sang-Heon Jeon
