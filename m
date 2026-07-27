@@ -1,139 +1,126 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6149371897
-	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 12:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC173405C47
+	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 12:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785155663; cv=none; b=SEZOqPeeRyRbw/qqwQP86PGSqwsiYYSX3thqYkCIro4HKDij+y0x70EYTXiIqQR72wDQnbxH4QFTPTez9J/2iYZAp6bIj3RjB4/drz2BMgVJO5Ij9U7Tqjn+KSAPA9aQROloEMKD7sdW7QH9H8CGdS3fohY1E+LtRFFdcfaSfec=
+	t=1785156852; cv=none; b=AFs7Gnmii5UdWlYcTVOjSWK5E6xGZTSzsEkIe4WVxECHgQhZ2EXuBCrNdwi8cp3ty3q3TXmiObfgQv1H2WbB+xeadyjxjyMITuHOIdOmh2NBy/bCWkf2cImi7/kTPhUSXRGQuG2ATi/6MuLJsOdQoy52ZiM4SXvGZrtyePfVa6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785155663; c=relaxed/simple;
-	bh=tnL9O9Z7eVZ+EFi12OyJIwP3KzopoQRB3H0/5ZGueNY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Dzh1alaTXsHbvfXpDKSMIStpXfUVzH92AQ+pbWLQROdCrIODkqr2v8ZFvVa5usON/icSqoR6NuNoeMkt688YOPXbzRd5nXt+uAOxNyKXUtT44NygX1+IsdOqjMXDpl5GQszy4cBBs3qo5TXqinSjyYYmmCUNGx7z3JX2xhGtgyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SDncjdFY; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785156852; c=relaxed/simple;
+	bh=n8zD+KBICI3FYjOsbmH+e8vQyG2dF/F/2s43FdFTwwU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R2XloHcabkUw+1CdiU1KdFlgLoQ0EO1W1IUW2Ycc+lq2YkKEZUo/8LjPj1bo6EXk2lA/u7hQU8Y1AcCjxxLRoPiZDHY/Ye2NUyDqciw/Tf5KignqeuWHflHdWhf7bIqH/ajEpHTlYU0L3OxFI/Kxl4gU4tJ7aw43SyP61gke8K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=cIz8mkmq; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SDncjdFY"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38e3efab7e0so2074939a91.0
-        for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 05:34:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="cIz8mkmq"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47f59f25ec4so842197f8f.2
+        for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 05:54:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785155661; x=1785760461; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ad864FHAlhdgy4F9Sp08C6CuMiqJx6RHQkPj5GQwqjE=;
-        b=SDncjdFYndxVcFvM4eSwH7OQqOIvZnH4dVWQvnlBgY+EFIih2pmUc15WrN9F9salVr
-         j76hgjufrGZy8QIz+lKdhIMEYIdvzMGT1Qo/39OH9OJlU2uo7uYCGRTpMEKra119DmNJ
-         uSQzZTA/YXLsD4ZuO7Yi2K/CKIbw7gwCv5GBeHzLdXfje4aquWX98TsibJLxAWKI/7bX
-         bfnHGZUVws3ZOe/4EkxTtLyOcNA7/Ik3fqDo8U5FEHk2m/Hu2dbEtJWJcCtzHnYGt/Cd
-         SzcAkTdLh1sHlBsSyB8P4k+Ka9A5LX6ic7ZHiYPxEPzKEwxw9xrPqBPH09NSU9aknPds
-         aRfw==
+        d=suse.com; s=google; t=1785156848; x=1785761648; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zi1T+ervO72hPAhvtSTp+J+71PJ/y6xxamrS360Oo9U=;
+        b=cIz8mkmq54fHPH8POCSHiFUm4yXqu3Tq56Fwzugq29s5wKt//qR6/eKV02QQMhfgtQ
+         8XsfrNHeLkAe48A0V+4lCgCsIIShsZz2oyFmXZfZObdonaWWOdJITG9D1+hBKS4xxWLd
+         wPq9oSIn/klxOd48PcJgdL/msbtRosfqQkgmdqBZpq/s+S1A3j25UUBW9YCaUuqZTPT+
+         Tw4ufmsZk8R8RLkSNDqkBLRJsOQOXKS3dpr/THrPIUX+nLh7DEeTUELCGGFimuBsqwPB
+         AX6FUJCKCKZe/j6uTIK0sxst69hR8INWLMJSjxBE3ERawVRwOP+/lJOADkFSvgDVZni6
+         nskw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785155661; x=1785760461;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1785156848; x=1785761648;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ad864FHAlhdgy4F9Sp08C6CuMiqJx6RHQkPj5GQwqjE=;
-        b=aOZx0PFU55ZowS8U5YpS3EL1f3vrdNrn/ZKyejQgyGAgCY8/6Cx3hwCHXuXc8uW1Fw
-         qfWyFaWDz/hZF4OsmxB98BN0zQGruFuSyBu+uYhW1iSRDuAuLBcSIDfpFiMZbC7g9Tl+
-         v3k+v9UixI1HSxvpEY0laPkkMccBPo/JaqPZByrvkbzc3I3cWkQL3DGuXp0bT1LwNZAk
-         f1bImn0sHbf4t49plSydURFAuf/zDRFYxZAghb0P70Cu/PVbadSc6P3JWG2U1iUnx09X
-         wWNzn5Q2ykQFQ/HofV48iHfhGo8gRZp/zSgiAgX45fZ5Upqovn4SrubngPhj76C3/KNe
-         xClw==
-X-Forwarded-Encrypted: i=1; AHgh+RqFNJmVGUZT1IZjczbf/gfUwFL+Y7OBVRQJv9D13YYPAgw+P41EELCFASrIkdTZHMem54PATV+wG+A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4rn4S1Q3QThLD4SjadwfCM+tmc/luLS10gq7eE68lj5Ly03PV
-	Qyew/kALL4qOVK/+CeXhscBqKx4+K8sxO//thzDnTDLq8USNaMkZYIs=
-X-Gm-Gg: AR+sD12uC943gAE/iU35CL+J3zgNGdaMvd8jHjerQ822nv7D4+RUUc/3/dCyKilhJnQ
-	mhxPCGbmC+auFqNQwvphzEeLD1GiaSi+XuGU0+Fdha4Krt8TY0BzSfOjtXUxcexNroAwNXt8jeE
-	vhWj5Du6CUMpmWwV/JmK50BnAACDKAgPpMMvtKWxgGRrkoCQAQSO+t0svNiofgg+N4UIh5Cfvc7
-	z++4xYxkJzNmZsqXR+ULKfeO9A9oA3zZFgIlsa4wtBTXLmfYK52p8sVuWA+x4YA4sQTM7hJabhK
-	vivm2TjSZJFrLfsgmeb915tcq+OGySrO1Q6qfGWt/QivVtTNx8sHhk/jVi3/mMdL4/9yQFccjyS
-	Ajl1wYdw3aeRylGxw8zhJIF1UasJzOK35IEdeIWE0kgaBjXhMJvuAjwXEOJQkCoAnBcD3Z9KpmY
-	zsGkCaAoATIA+s0YTgr8+G1qmtkvGf5Y90T284wiGrgQ3Dv1t5sVdDHhYyoRrhyqsVxj6vO9ecC
-	zsUAQVCccaUd5JmhJmJtVZMKIcyGw3lSfAyo3XaEU+xU5jvx2C19tY=
-X-Received: by 2002:a17:90b:554f:b0:387:d5bd:6231 with SMTP id 98e67ed59e1d1-38f2aacfdadmr5837955a91.20.1785155661178;
-        Mon, 27 Jul 2026 05:34:21 -0700 (PDT)
-Received: from localhost.localdomain ([121.147.145.153])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f03ad817esm4956993a91.4.2026.07.27.05.34.18
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 27 Jul 2026 05:34:20 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	edwin_rong <edwin_rong@realsil.com.cn>,
-	Ijae Kim <ae878000@gmail.com>,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: storage: realtek_cr: fix use-after-free on disconnect
-Date: Mon, 27 Jul 2026 21:34:14 +0900
-Message-Id: <20260727123414.44700-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+        bh=zi1T+ervO72hPAhvtSTp+J+71PJ/y6xxamrS360Oo9U=;
+        b=rWRE/ldGYsqN27mDFi0sdT4CVnkDs+RtYsyOZ2epnAegiakmi6RbWl0JPiTwO8peCx
+         bJ/L96P2nUsBe5fNl+KPM0TMQJBGpaMUdHGRHX14XNZ1MaFSRVyfzv314hgl7CG322NS
+         wxxHC4Y1vEkwQpBJ+yeZgaiIeIpYgNpjOYUOn+QD5p3T9spaf3I4wUyqHRzdhk2nWWMF
+         g5BQKLWxsgVUD5xEI3lbyq7gzYwmQnwozpGiW3YGEjfkLN1UprwHDVaGJC7ltjhaGTih
+         HYwTig2H9EgpUv4ifWM/SUxCsP3wGhHQl1i7+zN20SYdNYUWrs84qmCi+fPVz8inTAGz
+         5NzA==
+X-Gm-Message-State: AOJu0YyKPbt7wb2jJZ0HdS66Vr4GNtVYSwdj18UNBLe5zJsT7f7zXvp0
+	TUinFuP0q1UnzdGf+3k/H8P7Ue1xvnuhUwHQUNU2xMURE1qaDr9Phet5fubZrkracdM=
+X-Gm-Gg: AR+sD12GkFN/ldDn5tkxDSA1Olg5izBmjKU4AF2vpUMFW7GdNXubvLxnf0qwUR8zC06
+	s2WRNZxgHTHIWelT2IJ8wWDRVr/zk74YUjJ31CA6sa2aHUaJ7MKeRTNR+bjgre2qYB6JqyDelGp
+	dXTkj1me5vxE2uLfH+KI/ylcw6Ck5DRMqoBhhk145n0ha2BqmJdXjmuXtOVJgMWUZA1n0dmta0S
+	BWvBS9nJTRQy8/fnq9JdyglaMl+qPxS/niiMPGA/tZOVzSdxaHmUbjGz88yjROlN5RLfw68z/M5
+	ygwtIzZs8/p1ABKke0uzm9qG8QgHYry9NGyOQ5Jpx2jogzNi7hrKt2xTYGhbZwfsmYyDiZOUc8A
+	zC4u/21hmUCgU5adTDT91t/4snz52D2DOXNfloK5Yr2DmxRCY33993uKRRGBeIHB60E8O3TiBgc
+	Xfr9xKEVX1dnfzLU/jCFrbg55e6wbQ4arUgxBQz/ESgVUu
+X-Received: by 2002:a05:6000:60f:b0:47f:7531:3e6d with SMTP id ffacd0b85a97d-47f9fe9354fmr10353166f8f.38.1785156848207;
+        Mon, 27 Jul 2026 05:54:08 -0700 (PDT)
+Received: from ?IPV6:2001:a61:1349:a501:c269:d4d5:feb2:1d42? ([2001:a61:1349:a501:c269:d4d5:feb2:1d42])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a5c4sm48979060f8f.8.2026.07.27.05.54.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jul 2026 05:54:07 -0700 (PDT)
+Message-ID: <22bdd65d-efbc-4229-a66e-62ecedd6c0f1@suse.com>
+Date: Mon, 27 Jul 2026 14:54:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] usb: xhci: Add support for eUSB2v2 1024-byte bulk
+ packet size
+To: pawell@cadence.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260717-eusb2v2-packet-size-v1-0-67c611bd0c5b@cadence.com>
+ <20260717-eusb2v2-packet-size-v1-1-67c611bd0c5b@cadence.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20260717-eusb2v2-packet-size-v1-1-67c611bd0c5b@cadence.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-realtek_cr_destructor() calls timer_delete() before the chip containing
-the timer is freed. The timer callback may still be running and can
-rearm itself, resulting in a use-after-free.
 
-Use timer_shutdown_sync() to wait for the callback and prevent further
-rearming. Do this unconditionally because ss_en may be changed after
-the timer is armed.
 
-Move timer_setup() into init_realtek_cr() so the timer is initialized
-before any failure path can invoke the destructor.
+On 17.07.26 12:44, Pawel Laszczak via B4 Relay wrote:
+> From: Pawel Laszczak <pawell@cadence.com>
 
-Found by static analysis.
+[..]
+> index 75e2bfd744a9..3b4f7aedd381 100644
+> --- a/drivers/usb/core/message.c
+> +++ b/drivers/usb/core/message.c
+> @@ -2007,6 +2007,65 @@ int usb_set_wireless_status(struct usb_interface *iface,
+>   }
+>   EXPORT_SYMBOL_GPL(usb_set_wireless_status);
+>   
+> +/*
+> + * eusb_update_max_packet - set or restore max packet size
+> + * @udev: target device
+> + * @cp: if NULL restore MPS to 512 else set 1024
+> + *
+> + * This request is specific to eUSB2v2.
+> + * An eUSB2v2 peripheral will revert the maximum packet size to 512
+> + * for bulk endpoints after bus reset, disconnect and deconfiguration.
+> + * This function allows updating the max packet size for BULK endpoints
+> + * to 1024 after above events.
+> + */
+> +static void eusb_update_max_packet(struct usb_device *udev, struct usb_host_config *cp)
 
-Fixes: e931830bb877 ("Realtek cr: Add autosuspend function.")
-Cc: stable@vger.kernel.org
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
- drivers/usb/storage/realtek_cr.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+This has interesting implications for error handling. The command
+has to be redone before reset_resume() and post_reset().
+Hence if this fails in these cases you'll change the packet size
+behind a driver's back. The same happens if it initially failed
+but succeeds before these two operations, only in the other direction.
 
-diff --git a/drivers/usb/storage/realtek_cr.c b/drivers/usb/storage/realtek_cr.c
-index af038b897c6b..c4b28744693b 100644
---- a/drivers/usb/storage/realtek_cr.c
-+++ b/drivers/usb/storage/realtek_cr.c
-@@ -916,7 +916,6 @@ static int realtek_cr_autosuspend_setup(struct us_data *us)
- 	us->proto_handler = rts51x_invoke_transport;
- 
- 	chip->timer_expires = 0;
--	timer_setup(&chip->rts51x_suspend_timer, rts51x_suspend_timer_fn, 0);
- 	fw5895_init(us);
- 
- 	/* enable autosuspend function of the usb device */
-@@ -934,10 +933,7 @@ static void realtek_cr_destructor(void *extra)
- 		return;
- 
- #ifdef CONFIG_REALTEK_AUTOPM
--	if (ss_en) {
--		timer_delete(&chip->rts51x_suspend_timer);
--		chip->timer_expires = 0;
--	}
-+	timer_shutdown_sync(&chip->rts51x_suspend_timer);
- #endif
- 	kfree(chip->status);
- }
-@@ -982,6 +978,9 @@ static int init_realtek_cr(struct us_data *us)
- 
- 	us->extra = chip;
- 	us->extra_destructor = realtek_cr_destructor;
-+#ifdef CONFIG_REALTEK_AUTOPM
-+	timer_setup(&chip->rts51x_suspend_timer, rts51x_suspend_timer_fn, 0);
-+#endif
- 	us->max_lun = chip->max_lun = rts51x_get_max_lun(us);
- 	chip->us = us;
- 
--- 
-2.47.1
+IMHO if this operation fails before post_reset() or reset_resume(),
+the driver will have to be unbound. Likewise if it had failed before
+binding a driver, the failure has to be recorded and the command omitted
+before post_reset() or reset_resume().
+
+In any case, this function has to return errors.
+
+	Regards
+		Oliver
+
 
