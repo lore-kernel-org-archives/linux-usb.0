@@ -1,126 +1,487 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC173405C47
-	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 12:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC643AC0F5;
+	Mon, 27 Jul 2026 12:56:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785156852; cv=none; b=AFs7Gnmii5UdWlYcTVOjSWK5E6xGZTSzsEkIe4WVxECHgQhZ2EXuBCrNdwi8cp3ty3q3TXmiObfgQv1H2WbB+xeadyjxjyMITuHOIdOmh2NBy/bCWkf2cImi7/kTPhUSXRGQuG2ATi/6MuLJsOdQoy52ZiM4SXvGZrtyePfVa6o=
+	t=1785157016; cv=none; b=GnIiRhWskRfUdAqV4y5YFEavoQ/n95i3qA0f7BI63inRTSOop8Ey79MldxbKe8S4klvuD7LeouKd7u5NNv+ejnJlxMvAoU/UPLVeuwFPpthzd9VbjDWdn2C9EgTM4E72w5xki3opgYIVpL1Ie9B41omOX0iiGQPkt8tyxB4p/f0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785156852; c=relaxed/simple;
-	bh=n8zD+KBICI3FYjOsbmH+e8vQyG2dF/F/2s43FdFTwwU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R2XloHcabkUw+1CdiU1KdFlgLoQ0EO1W1IUW2Ycc+lq2YkKEZUo/8LjPj1bo6EXk2lA/u7hQU8Y1AcCjxxLRoPiZDHY/Ye2NUyDqciw/Tf5KignqeuWHflHdWhf7bIqH/ajEpHTlYU0L3OxFI/Kxl4gU4tJ7aw43SyP61gke8K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=cIz8mkmq; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1785157016; c=relaxed/simple;
+	bh=GYVuKkTLiXnGHBgh8bC5iv2cV5n6Wk3H6hfC832STfM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ViWkDr6RFIFuga3bJszMWoVd2KzrNVrXatDSNOO+4XbF82C4byLIlgndQcf+5jxfeSSynJpKoR9AshLCHzHBi7Pb4UJSrKCob+1NS2sZi8I9IPXxqkflI2HhUdTfZrCqZt61fJ/kce9fE5x0bA7z2D6/1xdBUE1TOzbKqhK8MTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eny4et4r; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="cIz8mkmq"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47f59f25ec4so842197f8f.2
-        for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 05:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1785156848; x=1785761648; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zi1T+ervO72hPAhvtSTp+J+71PJ/y6xxamrS360Oo9U=;
-        b=cIz8mkmq54fHPH8POCSHiFUm4yXqu3Tq56Fwzugq29s5wKt//qR6/eKV02QQMhfgtQ
-         8XsfrNHeLkAe48A0V+4lCgCsIIShsZz2oyFmXZfZObdonaWWOdJITG9D1+hBKS4xxWLd
-         wPq9oSIn/klxOd48PcJgdL/msbtRosfqQkgmdqBZpq/s+S1A3j25UUBW9YCaUuqZTPT+
-         Tw4ufmsZk8R8RLkSNDqkBLRJsOQOXKS3dpr/THrPIUX+nLh7DEeTUELCGGFimuBsqwPB
-         AX6FUJCKCKZe/j6uTIK0sxst69hR8INWLMJSjxBE3ERawVRwOP+/lJOADkFSvgDVZni6
-         nskw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785156848; x=1785761648;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zi1T+ervO72hPAhvtSTp+J+71PJ/y6xxamrS360Oo9U=;
-        b=rWRE/ldGYsqN27mDFi0sdT4CVnkDs+RtYsyOZ2epnAegiakmi6RbWl0JPiTwO8peCx
-         bJ/L96P2nUsBe5fNl+KPM0TMQJBGpaMUdHGRHX14XNZ1MaFSRVyfzv314hgl7CG322NS
-         wxxHC4Y1vEkwQpBJ+yeZgaiIeIpYgNpjOYUOn+QD5p3T9spaf3I4wUyqHRzdhk2nWWMF
-         g5BQKLWxsgVUD5xEI3lbyq7gzYwmQnwozpGiW3YGEjfkLN1UprwHDVaGJC7ltjhaGTih
-         HYwTig2H9EgpUv4ifWM/SUxCsP3wGhHQl1i7+zN20SYdNYUWrs84qmCi+fPVz8inTAGz
-         5NzA==
-X-Gm-Message-State: AOJu0YyKPbt7wb2jJZ0HdS66Vr4GNtVYSwdj18UNBLe5zJsT7f7zXvp0
-	TUinFuP0q1UnzdGf+3k/H8P7Ue1xvnuhUwHQUNU2xMURE1qaDr9Phet5fubZrkracdM=
-X-Gm-Gg: AR+sD12GkFN/ldDn5tkxDSA1Olg5izBmjKU4AF2vpUMFW7GdNXubvLxnf0qwUR8zC06
-	s2WRNZxgHTHIWelT2IJ8wWDRVr/zk74YUjJ31CA6sa2aHUaJ7MKeRTNR+bjgre2qYB6JqyDelGp
-	dXTkj1me5vxE2uLfH+KI/ylcw6Ck5DRMqoBhhk145n0ha2BqmJdXjmuXtOVJgMWUZA1n0dmta0S
-	BWvBS9nJTRQy8/fnq9JdyglaMl+qPxS/niiMPGA/tZOVzSdxaHmUbjGz88yjROlN5RLfw68z/M5
-	ygwtIzZs8/p1ABKke0uzm9qG8QgHYry9NGyOQ5Jpx2jogzNi7hrKt2xTYGhbZwfsmYyDiZOUc8A
-	zC4u/21hmUCgU5adTDT91t/4snz52D2DOXNfloK5Yr2DmxRCY33993uKRRGBeIHB60E8O3TiBgc
-	Xfr9xKEVX1dnfzLU/jCFrbg55e6wbQ4arUgxBQz/ESgVUu
-X-Received: by 2002:a05:6000:60f:b0:47f:7531:3e6d with SMTP id ffacd0b85a97d-47f9fe9354fmr10353166f8f.38.1785156848207;
-        Mon, 27 Jul 2026 05:54:08 -0700 (PDT)
-Received: from ?IPV6:2001:a61:1349:a501:c269:d4d5:feb2:1d42? ([2001:a61:1349:a501:c269:d4d5:feb2:1d42])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a5c4sm48979060f8f.8.2026.07.27.05.54.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jul 2026 05:54:07 -0700 (PDT)
-Message-ID: <22bdd65d-efbc-4229-a66e-62ecedd6c0f1@suse.com>
-Date: Mon, 27 Jul 2026 14:54:07 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eny4et4r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785157014; x=1816693014;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GYVuKkTLiXnGHBgh8bC5iv2cV5n6Wk3H6hfC832STfM=;
+  b=eny4et4rQ6/YPodR+ojzumZiTp2B1JdYyUl1es1wpQq8fj4RgVPtPntD
+   c2sUr03t+OnfPeL9uQO39Wx4RMGRY22KAFeg6+xnsTx4Gycet/fPaq6E8
+   4TZz2KoHeWObfZqniZEabDbr/7o7XhG6sg0CgWeE+mZIG1wRVvrncN8mj
+   JzRWRT+Ffmg7yxUmRclLaoOkemw1CRvNQgPDGanLTUPMZrZSOIi12NOIW
+   zxI8A/k6XKmPG8ntzdhuYQoHaT7AcHUG04ZFmioQH5HJwIV4beJ2/XOcj
+   urmM4EbIBuihCIPumno3rYAoPg6O6QNnkWfITHLbwqr7hR6jlfX3+tXdM
+   w==;
+X-CSE-ConnectionGUID: O08grYO+T7yt0JFmzS4Z6g==
+X-CSE-MsgGUID: X+c9ARsqRz26GaSw8kP6Aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="108518147"
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="108518147"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 05:56:53 -0700
+X-CSE-ConnectionGUID: LNirte2LRwWZFvzv4Hh5BQ==
+X-CSE-MsgGUID: 4qbEDkg9QKuNMvBUMtg3hQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="256041753"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa007.fm.intel.com with ESMTP; 27 Jul 2026 05:56:50 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 1FA8C99; Mon, 27 Jul 2026 14:56:49 +0200 (CEST)
+Date: Mon, 27 Jul 2026 14:56:49 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Sasha Finkelstein <k@chaosmail.tech>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alyssa Milburn <amilburn@zall.org>
+Subject: Re: [PATCH 2/3] usb: typec: tipd: Factor out i2c specifics
+Message-ID: <amdVkYEiv_tOZuwG@black.igk.intel.com>
+References: <20260725-tipd-ace3-v1-0-73202d36138a@chaosmail.tech>
+ <20260725-tipd-ace3-v1-2-73202d36138a@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] usb: xhci: Add support for eUSB2v2 1024-byte bulk
- packet size
-To: pawell@cadence.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260717-eusb2v2-packet-size-v1-0-67c611bd0c5b@cadence.com>
- <20260717-eusb2v2-packet-size-v1-1-67c611bd0c5b@cadence.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20260717-eusb2v2-packet-size-v1-1-67c611bd0c5b@cadence.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260725-tipd-ace3-v1-2-73202d36138a@chaosmail.tech>
 
+Hi,
 
+On Sat, Jul 25, 2026 at 06:20:57PM +0200, Sasha Finkelstein wrote:
+> From: Alyssa Milburn <amilburn@zall.org>
+> 
+> Make the core driver more bus-agnostic to prepare for SPMI variants of
+> the tipd chip
+> 
+> Signed-off-by: Alyssa Milburn <amilburn@zall.org>
+> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> ---
+>  drivers/usb/typec/tipd/Makefile           |   2 +-
+>  drivers/usb/typec/tipd/{core.c => core.h} | 109 ++++++++++++++++++++++++++++---------------------------------------------------------------------------------
 
-On 17.07.26 12:44, Pawel Laszczak via B4 Relay wrote:
-> From: Pawel Laszczak <pawell@cadence.com>
+That has to be a mistake, right? You don't move code into a header
+like that.
 
-[..]
-> index 75e2bfd744a9..3b4f7aedd381 100644
-> --- a/drivers/usb/core/message.c
-> +++ b/drivers/usb/core/message.c
-> @@ -2007,6 +2007,65 @@ int usb_set_wireless_status(struct usb_interface *iface,
->   }
->   EXPORT_SYMBOL_GPL(usb_set_wireless_status);
->   
+>  drivers/usb/typec/tipd/i2c.c              |  86 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 115 insertions(+), 82 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tipd/Makefile b/drivers/usb/typec/tipd/Makefile
+> index aa439f80a889..ba38daee9e72 100644
+> --- a/drivers/usb/typec/tipd/Makefile
+> +++ b/drivers/usb/typec/tipd/Makefile
+> @@ -2,5 +2,5 @@
+>  CFLAGS_trace.o			:= -I$(src)
+>  
+>  obj-$(CONFIG_TYPEC_TPS6598X)	+= tps6598x.o
+> -tps6598x-y			:= core.o
+> +tps6598x-y			:= i2c.o
+
+Now I'm worried. Are you really planning on putting the code into the
+header?
+
+You should keep the core independent of the glue drivers, even if core
+is just a library. I'm expecting to see something like this here:
+
+obj-$(CONFIG_TYPEC_TPS6598X)	+= tps6598x.o
+tps6598x-y			:= core.o
++tps6598x-$(CONFIG_I2C)		+= i2c.o
+
+>  tps6598x-$(CONFIG_TRACING)	+= trace.o
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.h
+> similarity index 95%
+> rename from drivers/usb/typec/tipd/core.c
+> rename to drivers/usb/typec/tipd/core.h
+> index d5ee0af9058b..1ba29e439e01 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.h
+> @@ -9,7 +9,6 @@
+>  #include <linux/i2c.h>
+>  #include <linux/acpi.h>
+>  #include <linux/gpio/consumer.h>
+> -#include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/power_supply.h>
+>  #include <linux/regmap.h>
+> @@ -167,6 +166,7 @@ struct tps6598x {
+>  	struct device *dev;
+>  	struct regmap *regmap;
+>  	struct mutex lock; /* device lock */
+> +	int irq;
+>  	u8 i2c_protocol:1;
+>  
+>  	struct gpio_desc *reset;
+> @@ -231,6 +231,13 @@ static const char *tps6598x_psy_name_prefix = "tps6598x-source-psy-";
+>   */
+>  #define TPS_MAX_LEN	64
+>  
+> +static struct tps6598x *tps6598x_from_device(struct device *dev)
+> +{
+> +	struct i2c_client *client = i2c_verify_client(dev);
+> +	struct tps6598x *tps = i2c_get_clientdata(client);
+> +	return tps;
+> +}
+
+You should not need anything like that.
+
+>  static int
+>  tps6598x_block_read(struct tps6598x *tps, u8 reg, void *val, size_t len)
+>  {
+> @@ -1738,27 +1745,13 @@ static void cd321x_remove(struct tps6598x *tps)
+>  	cancel_delayed_work_sync(&cd321x->update_work);
+>  }
+>  
+> -static int tps6598x_probe(struct i2c_client *client)
+> +static int tps6598x_probe(struct tps6598x *tps)
+
+So you really were planning on putting this into a header :(
+
+The header will have only the definitions and prototypes that the
+glue drivers such as that i2c.c need. The implementation of this
+functions stays in core.c. It just not static anymore.
+You should have something like this in core.c:
+
+-static int tps6598x_probe(struct i2c_client *client)
++int tipd_init(struct tps6598x *tps)
+{
+        ...
+}
++EXPORT_SYMBOL_GPL(tipd_init);
+
+>  {
+> -	const struct tipd_data *data;
+> -	struct tps6598x *tps;
+>  	struct fwnode_handle *fwnode;
+>  	u32 status;
+>  	u32 vid;
+>  	int ret;
+>  
+> -	data = i2c_get_match_data(client);
+> -	if (!data)
+> -		return -EINVAL;
+> -
+> -	tps = devm_kzalloc(&client->dev, data->tps_struct_size, GFP_KERNEL);
+> -	if (!tps)
+> -		return -ENOMEM;
+> -
+> -	mutex_init(&tps->lock);
+> -	tps->dev = &client->dev;
+> -	tps->data = data;
+> -
+>  	tps->reset = devm_gpiod_get_optional(tps->dev, "reset", GPIOD_OUT_LOW);
+>  	if (IS_ERR(tps->reset))
+>  		return dev_err_probe(tps->dev, PTR_ERR(tps->reset),
+> @@ -1766,23 +1759,12 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	if (tps->reset)
+>  		msleep(TPS_SETUP_MS);
+>  
+> -	tps->regmap = devm_regmap_init_i2c(client, &tps6598x_regmap_config);
+> -	if (IS_ERR(tps->regmap))
+> -		return PTR_ERR(tps->regmap);
+> -
+>  	if (!device_is_compatible(tps->dev, "ti,tps25750")) {
+>  		ret = tps6598x_read32(tps, TPS_REG_VID, &vid);
+>  		if (ret < 0 || !vid)
+>  			return -ENODEV;
+>  	}
+>  
+> -	/*
+> -	 * Checking can the adapter handle SMBus protocol. If it can not, the
+> -	 * driver needs to take care of block reads separately.
+> -	 */
+> -	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+> -		tps->i2c_protocol = true;
+> -
+>  	if (tps->data->switch_power_state) {
+>  		ret = tps->data->switch_power_state(tps, TPS_SYSTEM_POWER_STATE_S0);
+>  		if (ret)
+> @@ -1816,7 +1798,7 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	 * with existing DT files, we work around this by deleting any
+>  	 * fwnode_links to/from this fwnode.
+>  	 */
+> -	fwnode = device_get_named_child_node(&client->dev, "connector");
+> +	fwnode = device_get_named_child_node(tps->dev, "connector");
+>  	if (fwnode)
+>  		fw_devlink_purge_absent_suppliers(fwnode);
+>  
+> @@ -1842,14 +1824,14 @@ static int tps6598x_probe(struct i2c_client *client)
+>  			goto err_unregister_port;
+>  		ret = tps->data->connect(tps, status);
+>  		if (ret)
+> -			dev_err(&client->dev, "failed to register partner\n");
+> +			dev_err(tps->dev, "failed to register partner\n");
+>  	}
+>  
+> -	if (client->irq) {
+> -		ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
+> +	if (tps->irq) {
+> +		ret = devm_request_threaded_irq(tps->dev, tps->irq, NULL,
+>  						tps->data->irq_handler,
+>  						IRQF_SHARED | IRQF_ONESHOT,
+> -						dev_name(&client->dev), tps);
+> +						dev_name(tps->dev), tps);
+>  	} else {
+>  		dev_warn(tps->dev, "Unable to find the interrupt, switching to polling\n");
+>  		INIT_DELAYED_WORK(&tps->wq_poll, tps6598x_poll_work);
+> @@ -1860,13 +1842,12 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	if (ret)
+>  		goto err_disconnect;
+>  
+> -	i2c_set_clientdata(client, tps);
+>  	fwnode_handle_put(fwnode);
+>  
+>  	tps->wakeup = device_property_read_bool(tps->dev, "wakeup-source");
+> -	if (tps->wakeup && client->irq) {
+> -		devm_device_init_wakeup(&client->dev);
+> -		enable_irq_wake(client->irq);
+> +	if (tps->wakeup && tps->irq) {
+> +		devm_device_init_wakeup(tps->dev);
+> +		enable_irq_wake(tps->irq);
+>  	}
+>  
+>  	return 0;
+> @@ -1888,14 +1869,12 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	return ret;
+>  }
+>  
+> -static void tps6598x_remove(struct i2c_client *client)
+> +static void tps6598x_remove(struct tps6598x *tps)
+>  {
+> -	struct tps6598x *tps = i2c_get_clientdata(client);
+> -
+> -	if (!client->irq)
+> +	if (!tps->irq)
+>  		cancel_delayed_work_sync(&tps->wq_poll);
+>  	else
+> -		devm_free_irq(tps->dev, client->irq, tps);
+> +		devm_free_irq(tps->dev, tps->irq, tps);
+>  
+>  	if (tps->data->remove)
+>  		tps->data->remove(tps);
+> @@ -1913,17 +1892,16 @@ static void tps6598x_remove(struct i2c_client *client)
+>  
+>  static int __maybe_unused tps6598x_suspend(struct device *dev)
+>  {
+> -	struct i2c_client *client = to_i2c_client(dev);
+> -	struct tps6598x *tps = i2c_get_clientdata(client);
+> +	struct tps6598x *tps = tps6598x_from_device(dev);
+>  
+>  	if (tps->wakeup) {
+> -		disable_irq(client->irq);
+> -		enable_irq_wake(client->irq);
+> +		disable_irq(tps->irq);
+> +		enable_irq_wake(tps->irq);
+>  	} else if (tps->reset) {
+>  		gpiod_set_value_cansleep(tps->reset, 1);
+>  	}
+>  
+> -	if (!client->irq)
+> +	if (!tps->irq)
+>  		cancel_delayed_work_sync(&tps->wq_poll);
+>  
+>  	return 0;
+> @@ -1931,8 +1909,7 @@ static int __maybe_unused tps6598x_suspend(struct device *dev)
+>  
+>  static int __maybe_unused tps6598x_resume(struct device *dev)
+>  {
+> -	struct i2c_client *client = to_i2c_client(dev);
+> -	struct tps6598x *tps = i2c_get_clientdata(client);
+> +	struct tps6598x *tps = tps6598x_from_device(dev);
+>  	int ret;
+>  
+>  	ret = tps6598x_check_mode(tps);
+> @@ -1946,14 +1923,14 @@ static int __maybe_unused tps6598x_resume(struct device *dev)
+>  	}
+>  
+>  	if (tps->wakeup) {
+> -		disable_irq_wake(client->irq);
+> -		enable_irq(client->irq);
+> +		disable_irq_wake(tps->irq);
+> +		enable_irq(tps->irq);
+>  	} else if (tps->reset) {
+>  		gpiod_set_value_cansleep(tps->reset, 0);
+>  		msleep(TPS_SETUP_MS);
+>  	}
+>  
+> -	if (!client->irq)
+> +	if (!tps->irq)
+>  		queue_delayed_work(system_power_efficient_wq, &tps->wq_poll,
+>  				   msecs_to_jiffies(POLL_INTERVAL));
+
+The PM callbacks should be in the glue drivers. You can provide
+separate suspend and resume functions here that the glue drivers can
+call from their PM callbacks:
+
+int tipd_suspend(struct tps6598x *tps)
+{
+        ...
+}
+EXPORT_SYMBOL_GPL(tipd_suspend);
+
+int tipd_resume(struct tps6598x *tps)
+{
+        ...
+}
+EXPORT_SYMBOL_GPL(tipd_suspend);
+
+> @@ -2018,33 +1995,3 @@ static const struct tipd_data tps25750_data = {
+>  	.reset = tps25750_reset,
+>  	.connect = tps6598x_connect,
+>  };
+> -
+> -static const struct of_device_id tps6598x_of_match[] = {
+> -	{ .compatible = "ti,tps6598x", &tps6598x_data},
+> -	{ .compatible = "apple,cd321x", &cd321x_data},
+> -	{ .compatible = "ti,tps25750", &tps25750_data},
+> -	{}
+> -};
+> -MODULE_DEVICE_TABLE(of, tps6598x_of_match);
+> -
+> -static const struct i2c_device_id tps6598x_id[] = {
+> -	{ .name = "tps6598x", .driver_data = (kernel_ulong_t)&tps6598x_data },
+> -	{ }
+> -};
+> -MODULE_DEVICE_TABLE(i2c, tps6598x_id);
+> -
+> -static struct i2c_driver tps6598x_i2c_driver = {
+> -	.driver = {
+> -		.name = "tps6598x",
+> -		.pm = &tps6598x_pm_ops,
+> -		.of_match_table = tps6598x_of_match,
+> -	},
+> -	.probe = tps6598x_probe,
+> -	.remove = tps6598x_remove,
+> -	.id_table = tps6598x_id,
+> -};
+> -module_i2c_driver(tps6598x_i2c_driver);
+> -
+> -MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>");
+> -MODULE_LICENSE("GPL v2");
+> -MODULE_DESCRIPTION("TI TPS6598x USB Power Delivery Controller Driver");
+> diff --git a/drivers/usb/typec/tipd/i2c.c b/drivers/usb/typec/tipd/i2c.c
+> new file mode 100644
+> index 000000000000..0233e19290ea
+> --- /dev/null
+> +++ b/drivers/usb/typec/tipd/i2c.c
+> @@ -0,0 +1,86 @@
+> +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * eusb_update_max_packet - set or restore max packet size
-> + * @udev: target device
-> + * @cp: if NULL restore MPS to 512 else set 1024
+> + * Driver for TI TPS6598x USB Power Delivery controller family
 > + *
-> + * This request is specific to eUSB2v2.
-> + * An eUSB2v2 peripheral will revert the maximum packet size to 512
-> + * for bulk endpoints after bus reset, disconnect and deconfiguration.
-> + * This function allows updating the max packet size for BULK endpoints
-> + * to 1024 after above events.
+> + * Copyright (C) 2017, Intel Corporation
+> + * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 > + */
-> +static void eusb_update_max_packet(struct usb_device *udev, struct usb_host_config *cp)
 
-This has interesting implications for error handling. The command
-has to be redone before reset_resume() and post_reset().
-Hence if this fails in these cases you'll change the packet size
-behind a driver's back. The same happens if it initially failed
-but succeeds before these two operations, only in the other direction.
+This driver is not coming from me.
 
-IMHO if this operation fails before post_reset() or reset_resume(),
-the driver will have to be unbound. Likewise if it had failed before
-binding a driver, the failure has to be recorded and the command omitted
-before post_reset() or reset_resume().
+> +#include <linux/module.h>
+> +
+> +#include "core.h"
+> +
+> +static int tps6598x_probe_i2c(struct i2c_client *client)
+> +{
+> +	const struct tipd_data *data;
+> +	struct tps6598x *tps;
+> +	int ret;
+> +
+> +	data = i2c_get_match_data(client);
+> +	if (!data)
+> +		return -EINVAL;
+> +
+> +	tps = devm_kzalloc(&client->dev, data->tps_struct_size, GFP_KERNEL);
+> +	if (!tps)
+> +		return -ENOMEM;
+> +
+> +	mutex_init(&tps->lock);
+> +	tps->dev = &client->dev;
+> +	tps->data = data;
+> +	tps->irq = client->irq;
+> +
+> +	tps->regmap = devm_regmap_init_i2c(client, &tps6598x_regmap_config);
+> +	if (IS_ERR(tps->regmap))
+> +		return PTR_ERR(tps->regmap);
+> +
+> +	/*
+> +	 * Checking can the adapter handle SMBus protocol. If it can not, the
+> +	 * driver needs to take care of block reads separately.
+> +	 */
+> +	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+> +		tps->i2c_protocol = true;
+> +
+> +	ret = tps6598x_probe(tps);
+> +
+> +	if (ret == 0)
+> +		i2c_set_clientdata(client, tps);
+> +
+> +	return ret;
+> +}
+> +
+> +static void tps6598x_remove_i2c(struct i2c_client *client)
+> +{
+> +	struct tps6598x *tps = i2c_get_clientdata(client);
+> +
+> +	tps6598x_remove(tps);
+> +}
+> +
+> +static const struct of_device_id tps6598x_of_match[] = {
+> +	{ .compatible = "ti,tps6598x", &tps6598x_data},
+> +	{ .compatible = "apple,cd321x", &cd321x_data},
+> +	{ .compatible = "ti,tps25750", &tps25750_data},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, tps6598x_of_match);
+> +
+> +static const struct i2c_device_id tps6598x_id[] = {
+> +	{ .name = "tps6598x", .driver_data = (kernel_ulong_t)&tps6598x_data },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, tps6598x_id);
+> +
+> +static struct i2c_driver tps6598x_i2c_driver = {
+> +	.driver = {
+> +		.name = "tps6598x",
+> +		.pm = &tps6598x_pm_ops,
+> +		.of_match_table = tps6598x_of_match,
+> +	},
+> +	.probe = tps6598x_probe_i2c,
+> +	.remove = tps6598x_remove_i2c,
+> +	.id_table = tps6598x_id,
+> +};
+> +module_i2c_driver(tps6598x_i2c_driver);
+> +
+> +MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>");
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("TI TPS6598x USB Power Delivery Controller Driver");
 
-In any case, this function has to return errors.
+You need to change that too. The glue drivers will be separate
+modules and the core will stay as its own module.
 
-	Regards
-		Oliver
+Thanks,
 
-
+-- 
+heikki
