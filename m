@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A5A2F39B5;
-	Mon, 27 Jul 2026 08:40:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C53E1D555;
+	Mon, 27 Jul 2026 08:41:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785141618; cv=none; b=Nq1jG2SsYQ7LdMNu4mSA3arnyrFALvze+XSRe1DM2/jDMzOP9d4+n3Lj5wQ24GyKTeXQdBRbENdYOQNSoUdmSt+dM2eRojhIAbIIlpGzu4Q8C1ajV0OriDCBxxtRXSLNdxcwvwfVFpcE5MD/FDked0NkOUVM7Dyv3Nu6QuKO5AE=
+	t=1785141686; cv=none; b=PVaW24V6mRfc3dFTW3tf/c2QVx+vDgdNKHKbN3LcVrfGbW9lD67B1gm0wATolv5Hv7YqqQM/Kal6GV3tb0q+OWUUd6VB0Lm5s2ScbUS9JizWE9nM1y72SlnmBWAFZwEVGTuyIB26qnTBR0XRv/Hl8qjPtrQTAr3VfXCy3IJ0JRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785141618; c=relaxed/simple;
-	bh=1vq5tElCqjgq78TxKZDpO8iJmdtYJwEC9y7NY/io2yQ=;
+	s=arc-20240116; t=1785141686; c=relaxed/simple;
+	bh=SFN0Wcvh0CYZiQYkfMRfFNoFQUgK014vYof3Weid3+o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qwMivUcXT3ZNhqTWbG5svmtXXVTA0R0LULqEH7hU1KWDVd1EJx0EnnDAZbrNRS8IAvruwpFHCh+rSr0C8FXTsLru6R+cH2bna4XydWke/BHpIbWcSRAjaM4PguCirIcPtqKe4csEsEQhfuHYYcJv6DXmaZut5XP3RgEYfPxZtl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KR1QwAc2; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=e/2OALAStlN/He7SmDkc+qcAQaz3yX4Hy1dE+d1LKXpS7xW5azid6M0SCyhtY+ibQ8sk3xjv25YM8i+8h4xJQNA7ls1uj3Xt6KNTy8SADwBueNzgirOreRXNyySbJdWdozSkbp9Za08RHO+V2C3VbJd1wbEXSGOs2ZH1W31XWjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FnVWEzTK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KR1QwAc2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FC011F000E9;
-	Mon, 27 Jul 2026 08:40:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FnVWEzTK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4ABD1F000E9;
+	Mon, 27 Jul 2026 08:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785141616;
-	bh=ZP4KdcXkeXYuZa2glRkDOsikFgVQzKiGkb82a7T8evI=;
+	s=k20260515; t=1785141685;
+	bh=dNd2TwjkZrt20Ojzv/eCH7NhBi6NhBwUaK+R5WktpKA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KR1QwAc2mmPmcZl0j7etDSDuKcYJ2fJqB2WtvCD1McOS7StM8onZzGxrIXdBCqsCG
-	 mdy4F3jFL5wRNldL1oU1+6Fh0haoFlmZQ8vuIN5OuifWbJbzcsPUBuRI6zQu+HCIT5
-	 DZiaMXg4tWiiYK6ebudVIJolXaVu+WCMsSqFY5blKHpHwjHcedw/vwHQnR0nmjoXCk
-	 fM8fZWFMdsAyYkvL8znRDIjgRMHCuDUktFVh78rEWB9rVElYHeo4bKYGuhJLYGix8X
-	 /23bSg2uVe1FLZvvwgAdvDO6iHNHnUwUmylU8zWZm4qUPDbI/lEM9zgGYGLnVooGFe
-	 Gh33i3RWpXKiA==
-Date: Mon, 27 Jul 2026 10:40:11 +0200
+	b=FnVWEzTKN6pw2LyqUX4nuXgPT4StgQOtD+iINO7+/2Odf0a8q1HtI6gEdo6HkLcLh
+	 HUaTJEHq+/Db1sq4RzBHMeHc6gRQqBo0G/+N6EXlxh8MRr/Xk7y/rH2hwiL7NVkMS5
+	 kfFu9rPS6w1B/HEMBSM5696/OpXgQww50ci/5DIIuuh5l+UwbLnWkirXQK4T2ce6Ix
+	 byaUD3yWZI/tN0LPPMogRTJ177itOjlwGlOcZHPq8wGARQO6zeBv7uWH3yQWRvLk5o
+	 uRelePtQH393vac7eN4dGd0vRA38htVn3IAT68rbChOtwG7yvsnDkZyRN4rApQN2L1
+	 d6mz1PALVznNQ==
+Date: Mon, 27 Jul 2026 10:41:21 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Amber Kao <amber.kao@ite.com.tw>
 Cc: Jeson Yang <jeson.yang@ite.com.tw>, Yaode Fang <Yaode.Fang@ite.com.tw>, 
@@ -35,11 +35,11 @@ Cc: Jeson Yang <jeson.yang@ite.com.tw>, Yaode Fang <Yaode.Fang@ite.com.tw>,
 	Heikki Krogerus <heikki.krogerus@linux.intel.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, Bling Chiang <Bling.Chiang@ite.com.tw>, 
 	Eric Su <Eric.Su@ite.com.tw>, Doreen Lin <doreen.lin@ite.com.tw>
-Subject: Re: [PATCH v5 1/2] dt-bindings: usb: Add ITE IT8851/IT8853 Type-C PD
- controllers
-Message-ID: <20260727-scrupulous-impartial-ferret-cffce7@quoll>
+Subject: Re: [PATCH v5 2/2] usb: typec: ucsi: Add ITE IT8851/IT8853 Type-C PD
+ controller driver
+Message-ID: <20260727-cordial-wakeful-serpent-e3c74f@quoll>
 References: <20260724-ucsi-itepd-v5-0-d1a83e5c9c77@ite.com.tw>
- <20260724-ucsi-itepd-v5-1-d1a83e5c9c77@ite.com.tw>
+ <20260724-ucsi-itepd-v5-2-d1a83e5c9c77@ite.com.tw>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -48,28 +48,48 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260724-ucsi-itepd-v5-1-d1a83e5c9c77@ite.com.tw>
+In-Reply-To: <20260724-ucsi-itepd-v5-2-d1a83e5c9c77@ite.com.tw>
 
-On Fri, Jul 24, 2026 at 06:09:19PM +0800, Amber Kao wrote:
-> Add device tree binding for the ITE IT8851 and IT8853 I2C-based USB
-> Type-C Power Delivery controllers.
-> The IT8851 supports one Type-C port; the IT8853 is the two-port variant
-> sharing the same interface.
-> 
-> Add a MAINTAINERS entry for the binding.
-> 
-> Cc: Yaode Fang <Yaode.Fang@ite.com.tw>
-> Cc: Jeson Yang <jeson.yang@ite.com.tw>
-> Cc: Bling Chiang <Bling.Chiang@ite.com.tw>
-> Cc: Eric Su <Eric.Su@ite.com.tw>
-> Cc: Doreen Lin <doreen.lin@ite.com.tw>
-> Signed-off-by: Amber Kao <amber.kao@ite.com.tw>
-> ---
->  .../devicetree/bindings/usb/ite,it8851.yaml        | 151 +++++++++++++++++++++
->  MAINTAINERS                                        |   8 ++
->  2 files changed, 159 insertions(+)
+On Fri, Jul 24, 2026 at 06:09:20PM +0800, Amber Kao wrote:
+> +	ret = itepd_process_event(itepd, &cci);
+> +	if (ret < 0)
+> +		dev_warn(dev, "initial event processing failed: %d\n", ret);
+> +
+> +	ret = ucsi_register(itepd->ucsi);
+> +	if (ret) {
+> +		dev_err_probe(dev, ret, "failed to register UCSI\n");
+> +		goto out_free_irq;
+> +	}
+> +
+> +	return 0;
+> +
+> +out_free_irq:
+> +	free_irq(client->irq, itepd);
+> +out_ucsi_destroy:
+> +	ucsi_destroy(itepd->ucsi);
+> +	return ret;
+> +}
+> +
+> +static void itepd_remove(struct i2c_client *client)
+> +{
+> +	struct itepd *itepd = i2c_get_clientdata(client);
+> +
+> +	ucsi_unregister(itepd->ucsi);
+> +	free_irq(client->irq, itepd);
+> +	ucsi_destroy(itepd->ucsi);
+> +}
+> +
+> +static const struct of_device_id itepd_of_match_table[] = {
+> +	{ .compatible = "ite,it8851" },
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> +	{ .compatible = "ite,it8853" },
+
+Drop this one. One of the points of compatibility is remove redundant
+match data.
+
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, itepd_of_match_table);
 
 Best regards,
 Krzysztof
