@@ -1,68 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7538D37E2E9;
-	Mon, 27 Jul 2026 07:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECFE3DD87B
+	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 07:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785136271; cv=none; b=YQ/z2UpSyOZmkMjHaJXiOtjiU80hs6tkrCjYZx3NuP8sJuve6OiiD9/u6/hKfjwa/1RYPCzamo34NZMeeQTkDk+TP5F4GeA3azTRKn52um16ODsX/3tOh5nPdnep+0kD0d0/qMm4DYJ1DKdCZ8F3yErhjFKxyYmYy0wNjb+ItJs=
+	t=1785136995; cv=none; b=QMRuFJtSpqF0YFcKIvfH3KfGf3ki3oxZU8jcsXkvCpEVEbk2orphq+Ybrm39aWDxve8bomvSawFJR5vPlfAGuziOJ3YcSDLalG9Gc7pcKYwsBApav6IMeTNlLClpgTtsW0sU0k/izayHCIjlwHcsGWIv5BY9fC86a3SjO7fll4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785136271; c=relaxed/simple;
-	bh=IoAulvL2ymot7MCIcP9KQvs60IpuTe+QIH09+vO/zqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VUm0wVHdPCZLWqYG+utO0W8Ncg2/igWKfcbNRAZVhxm6+gYiDFKBceLCps7RzoA0TQAbjNayqYzJU/YeWmnTL7DSHTJjIOlNvb2hzNMNAwB5MBjKFAljb6/gDnXQiWIBiOWQW55jvxGG3LOy5N6oi5Z48XGDvi/ZB8/AoZAo/OQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QAkAakP9; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785136995; c=relaxed/simple;
+	bh=oske5IT+0Jxt8FV9lY7qQB5fVx2GIoBK5TkJPNHjXz8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P84xkSe8gUOKyBZDh8ckFNy8LaL4tLhSmYNzeDYd5hQ40jPv0HUZo5JXujz3Cg6ZsgGJxQguXQUEwUoyObfxBn5LOcTZPz7gqaPAS/MoLWIztkoY2bgYS/BUt7wLP5VXtKvceaCR0VUgr8nR+m02vHvWB0cb23Uppq9uTyESs2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Sjr0E9eL; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QAkAakP9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDBA11F00A3A;
-	Mon, 27 Jul 2026 07:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785136270;
-	bh=IoAulvL2ymot7MCIcP9KQvs60IpuTe+QIH09+vO/zqk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QAkAakP9C5+NU1EqDCV8N/ffmU/76Pk58xm4a3aCsUTdNBbZPrNZ5H9gof3kgoddF
-	 KDXaecE1wL7N49c3vfaiFo78eVJ4ZhyiM+3h9V5ZipR1JizEwK5rfP/edwgy4h5Oqj
-	 g2fo+v/ZymtRod34kJZb2eITiwmSSH03RXuAej7gHekjBjaNSbKPCWho1sIvP6lGfy
-	 6QobSiPobsrftocLzwAj0kKh112QmdKUeObswbRDxBwYYwwoxVw7dQpF7T2j6sV06z
-	 LDVsWKBIPqVQ8YXeq9FEf/LmnaTtetjp8EaUhmhrBLFHLTJvrYhF1ijRgJPFH+MWcK
-	 HlQ/NyXzITmEw==
-Date: Mon, 27 Jul 2026 09:11:05 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v5 1/5] dt-bindings: phy: Add PHY_TYPE_EUSB2 definition
-Message-ID: <20260727-convivial-capuchin-of-upgrade-a0ddfb@quoll>
-References: <20260723-eusb2-int-handling-v5-v5-0-f32ea6c1a318@oss.qualcomm.com>
- <20260723-eusb2-int-handling-v5-v5-1-f32ea6c1a318@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Sjr0E9eL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1785136992;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1YdMYbSNSRTLrXvkowbw8IdGzcoEefYu8TY9ARtQFCI=;
+	b=Sjr0E9eLjJE1K243Mm42hy0DFPkUH9+29NNoLeWgdVtE/ZqNM1SZ5s0us2E36+KzOIBPzg
+	y3N+b9Jq1jdTN2IBYgds0T3r2ue6vsRNz9PPmm5+pP7VlsImiNBy/g5cS1IyVV9A+1FG4u
+	kAK30xGa96X1QBqSzKdszH8J9+4km0A=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-711-YD7OBC22Mqm8n8ZJWNTSyQ-1; Mon,
+ 27 Jul 2026 03:23:09 -0400
+X-MC-Unique: YD7OBC22Mqm8n8ZJWNTSyQ-1
+X-Mimecast-MFC-AGG-ID: YD7OBC22Mqm8n8ZJWNTSyQ_1785136988
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 206A0180121A;
+	Mon, 27 Jul 2026 07:23:08 +0000 (UTC)
+Received: from lenovo-t14s.redhat.corp (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BF74D180057E;
+	Mon, 27 Jul 2026 07:23:05 +0000 (UTC)
+From: Laurent Vivier <lvivier@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	Stefano Brivio <sbrivio@redhat.com>,
+	netdev@vger.kernel.org,
+	Oliver Neukum <oneukum@suse.com>,
+	linux-usb@vger.kernel.org,
+	Laurent Vivier <lvivier@redhat.com>,
+	jarod@redhat.com,
+	stable@vger.kernel.org
+Subject: [PATCH net v2] usbnet: cap max_mtu for drivers without bind callback
+Date: Mon, 27 Jul 2026 09:23:04 +0200
+Message-ID: <20260727072304.154608-1-lvivier@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260723-eusb2-int-handling-v5-v5-1-f32ea6c1a318@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Thu, Jul 23, 2026 at 04:09:04PM +0530, Krishna Kurapati wrote:
-> Add definition for EUSB2 phy type.
+usbnet_probe() initializes max_mtu to ETH_MAX_MTU and only caps it
+inside the if (info->bind) block. Drivers without a bind callback
+never enter this block, so max_mtu stays at ETH_MAX_MTU.
 
-And what is EUSB2 and how does it differ from USB2 which is already
-there? I see that USB org defined a standard for such phy, but a very
-quick googling suggests difference is only in the voltage, so not a
-different type. At the end, this is still a USB2 phy, no?
+QEMU's usb-net device (0x0525/0xa4a2) is claimed by the cdc_subset
+driver which has no bind callback. The guest accepts any MTU from DHCP
+(e.g. 65520 from passt), leading to TCP segments that exceed the
+device's 2048-byte receive buffer and are silently dropped.
 
-There might be more differences and that's why you have entire commit
-msg instead of repeating the subject and diff.
+Initialize max_mtu to net->mtu at probe time and update it inside
+the bind block based on the device's hard_mtu.
 
-Basically in all three places - subject, commit msg and diff - you say
-the same obvious thing.
+Fixes: f77f0aee4da4 ("net: use core MTU range checking in USB NIC drivers")
+Cc: jarod@redhat.com
+Cc: stable@vger.kernel.org
+Link: https://gitlab.com/qemu-project/qemu/-/issues/3268
+Link: https://bugs.passt.top/show_bug.cgi?id=189
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+---
 
-Best regards,
-Krzysztof
+Notes:
+    v2:
+    - Set max_mtu to net->mtu at init, update inside bind
+    - Fix Fixes tag to f77f0aee4da4
+
+ drivers/net/usb/usbnet.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index 25518635b7b7..9f11ca449aad 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -1794,7 +1794,7 @@ usbnet_probe(struct usb_interface *udev, const struct usb_device_id *prod)
+ 	 */
+ 	dev->hard_mtu = net->mtu + net->hard_header_len;
+ 	net->min_mtu = 0;
+-	net->max_mtu = ETH_MAX_MTU;
++	net->max_mtu = net->mtu;
+ 
+ 	net->netdev_ops = &usbnet_netdev_ops;
+ 	net->watchdog_timeo = TX_TIMEOUT_JIFFIES;
+@@ -1825,8 +1825,9 @@ usbnet_probe(struct usb_interface *udev, const struct usb_device_id *prod)
+ 		if ((dev->driver_info->flags & FLAG_NOARP) != 0)
+ 			net->flags |= IFF_NOARP;
+ 
+-		if ((dev->driver_info->flags & FLAG_NOMAXMTU) == 0 &&
+-		    net->max_mtu > (dev->hard_mtu - net->hard_header_len))
++		if (dev->driver_info->flags & FLAG_NOMAXMTU)
++			net->max_mtu = ETH_MAX_MTU;
++		else
+ 			net->max_mtu = dev->hard_mtu - net->hard_header_len;
+ 
+ 		if (net->mtu > (dev->hard_mtu - net->hard_header_len))
+-- 
+2.54.0
 
