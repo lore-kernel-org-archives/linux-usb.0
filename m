@@ -1,119 +1,132 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A3C4248B1
-	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 16:29:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785169801; cv=pass; b=N7onCoJuavq9hyfxBBMQDuTUoUP+uRu6XvgiqqcOJT+JkwWopbLgktKJMycSOUCK5o/v9V0Zn5oqhWzKYORLtYpc3SNaOcAvUpJHIpGAgexAFRCveyYlm+BeieT2EzT+pIB/Gz2Bq7YcSVPm9sOLIjXK2UOCHvdZxy6Ug+4yE74=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785169801; c=relaxed/simple;
-	bh=4fw+Tj0+DQysQ6LoLPz6sEIQDfLSYGRYcdm5yHyz104=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZRSMxX5N2t+5LLrzRxgD5b1dH3WQTI4OE5qi/N2iCAupyozIIe4AWaLhwI/kdcaytICzB6xAZaKcIyk+ZqnhPs4OKrvmrn9w+/lZ0Zhx3a0t+sHdsGJSj1xZI24FwH1xSaaAnPsId4G3jh8MHWCcJRd83/vEMnxtkbBDEaAEuI4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gWGd5pgr; arc=pass smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D4C422E36
+	for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 16:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785170587; cv=none; b=FOhhs+0lt0C9mnk1odjjC5KRegROicZ10xKpUnWY144l3VpUYfkgkn4BVSUa9dQPGHsbBsmwlRNiwzzChYJNryu8dVXo5W2RmhUMZwZBgu2srFBEZvt2rAzBg0RyJ1Rksye9l+g3pRrzvvdXMUlTT7rm9kQ9nmYzmARNralUwZ4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785170587; c=relaxed/simple;
+	bh=9SpQBJLruHY6a/9VFB6mc1Gqmhm8ZVqOYyhnISrB2rs=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jzjlyM19rGuJkMs2N1tq781Md+w1Gu4F81xW/KTukRaAJ70VGIaLK6rQ487HJZMYQd34dxvQXjtBibfqYjOvmGWjHXkwTg820/yOuN0nJUlC7CJXPJTqWbryOiIOrFpEf5K21IjeCYb+B22/4ae7Njwr6RhnsJPPA/Joo0CpPdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lNDpbLOH; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gWGd5pgr"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c15f47e6297so304808466b.0
-        for <linux-usb@vger.kernel.org>; Mon, 27 Jul 2026 09:29:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785169797; cv=none;
-        d=google.com; s=arc-20260327;
-        b=K31UdKIIxjitY5BdorAv14HwXBISABJDrdgGyz+OCpW0yCzfaTet3Hmfl2FE9YlgWX
-         ztlAQVDBcqPYpgNTWeVqv2EOUYJWLFiLbA1Aa0mouHabpBGWcIg1U/EpXh1JH647m5NA
-         rPu5fIU86UPZkHF6pPa6+y2Mo1V3Ryfyo4758L3ucaCde8PwFBnO4X1nsXfS+z1/6SO/
-         IgykiFtPXFIncWpMreXCvhp82SOJ6bWi+jhqR3ClO10sgF7ull2rdDHkBu/VkRe67/Nq
-         y1Pp1X/Yq0bwMnbqAWZP1tFZnLilAbde1VAiuSYdBxdM29RM3vCeKTpL+Lezc/54r6Za
-         mdLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=yssewUfVkwN4cFK4Z6j0f4XwofFyqvtnyN84dqAF65I=;
-        fh=PRx3zGN3tZB2xr7+Dngow/ptw8Up7DZYC70cqpK02Ok=;
-        b=pRSoxDWpvsqPGpaFoZ2DW9/GvEd1ybzyn2wJ8ludvTwj9YlhzyzXyZb168Mo9SJ8Dh
-         Y4mHCia3IZ0B5o4Vx11ZekLk2ccTYQL0VIQpXunQBhqNWQQVol+hH6R4zbj1TCXXUdnm
-         VM7SSWpkmzBtaFpmPa8SIqtrlr4cjruOCkupe3PryqSQy7aWPHAyqWhUEkKVl3/k1OFB
-         MMGV+7yPKgIzM5T6gWMsVCWycfGDH+UkfrMXGRndCaX5j9/qopHGY/mc/LOUL1hgiiPs
-         3R/PVYxf20exqvjbaUZi1KPZT9cyqaOu9pFUOYIhKVdn50mH36ZgnOuU0JBd08vdCHmE
-         z78g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785169797; x=1785774597; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yssewUfVkwN4cFK4Z6j0f4XwofFyqvtnyN84dqAF65I=;
-        b=gWGd5pgrF+i8kAH/mOp2E+LAfYJzJS578qtFnTqQh8cz5w8FXc/doegNcSFrB3DwQV
-         xZHAJjgkJCy+zyXK4RKSkv9y/YuMu6WyeGfxeHT+rxyO8rUHV4/sO38PyKjiL6O+XBfy
-         Qpai5QA0QJnUm2SqZpsvtwCdXFM5WP0fVvb3X+hOp8WSG6w80hCzv6eUyqjLeWW0VXu7
-         ZYvpwOP55/qYoup1MWf/qsGFJOI+3FMuyiL18xJsieC01zv6Q18Uo6tZPKnT9aNCowTd
-         qj2HlvWlNhPVWPov7L65H/Aqbqr0F3HWZ951EU/BRenkXNzU7Z/htfSv/WGmPHmJZdbx
-         Zjtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785169797; x=1785774597;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=yssewUfVkwN4cFK4Z6j0f4XwofFyqvtnyN84dqAF65I=;
-        b=j8FTTomfQCLoZ9kElEbzl5+R1/+I3idpue0rOR60Y36sHiFLP/Y0y+qdtq6WcB92Np
-         UyI3t2KNNMlezQ4XW+/KFf3e8JHrqVnY2Ub/tq4U2Fs1c0aCDxPGzzr21/g5fFxVJ1cc
-         Nw7Q5vRtm4pC/pA+6fw23X6I5WCuEJa/rBmB+zTmfwTrU823TIKCFN2DdU+ZK6WXbTyj
-         H5OWTmhTHgr55SQwa9sdySmtudCwsZXNJgl8hJF+NyL5NbDjJpQBv2df1OaFIAVqsIPI
-         Q+yIkQ0K255lPj+Mp7J72kfpTu23w8b+tr63bRWNPjVYnBa4QmwJZ4ZCSb2R5OGcTbzm
-         67Iw==
-X-Forwarded-Encrypted: i=1; AHgh+RqaOajfC2Fw6rilc5W7UPXamcjMCIiTJvRflynIKUCDFkOu6BLN9l03m4mpSiywZZQ/UR8zmIyH1Us=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx374XZOQasP8z8r4hTiz7d3uooBvxwIcAtxHRtXrTW2Mheg0dE
-	QGClydCw10vVQfAMqoeIgQiOW54XgreboNa5Ip5yYROkJ6xXjZ4Qui4AvD9P3PbYbzzhatKtifH
-	CYIEGJmbGylno21d8VbSZ9QGxIAeDa+I/0pT2D1zOYw==
-X-Gm-Gg: AR+sD12K3FEXEiiowIi4dmOophNCZ9G+ABV863wm6BUA+LP3PnR2TnDrsDvpiyQlrAE
-	FxjISckRbXXgv3ktdPO0KT6Tyuf6FJw+U76DM9u76IV5d/o011itIfLP3rR4FlIavJcsJK2ENDX
-	x5A6K8Xo/FmqNNmjl3qqChsXD/IYEVSO6HuaZcI0p93RmIVPvVGDhdfHsQ7MpZxib0jymCggJn2
-	puUi03VVBRjQQ2L5qlDV9CMJowVsFoKfT0GcZ/PQCo7FcQicvdzYvV7woL2r9kEiKylb5R/pQsq
-	WIsLxpp3AAtH1Bqejb+fZ3Q73WLh2iOR/apuEmbfoT3ze2I=
-X-Received: by 2002:a17:906:7315:b0:c16:589d:c969 with SMTP id
- a640c23a62f3a-c1f1f0391camr387687866b.43.1785169797067; Mon, 27 Jul 2026
- 09:29:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lNDpbLOH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785170585; x=1816706585;
+  h=date:from:to:cc:subject:message-id;
+  bh=9SpQBJLruHY6a/9VFB6mc1Gqmhm8ZVqOYyhnISrB2rs=;
+  b=lNDpbLOHKXywjyTqlFT+XvcxLjxbM4cRyyIQQgnLu2hVzmh7noyl+WiI
+   jIGuKh1gCmqGTjORg/m3lvSBJgJ+Oz5fogbeEqjxaarEuh2u2doIGAngP
+   WLYBybQOIFARs9eFtFWJB7ubLE2A1TLNgyY49sEhVD2rXClQJw4+7pgbw
+   RqNVoaCvcDQO2VINjh3B/cBcgsMe+6fAwERIz2aVSPMS7RdHzgzqrPSWw
+   og0mlylVUgslf5cyqzu3x4O0xa1XnTrb6x9BiVI1R94V5kZ3OjnIfeLmR
+   ENsmItVxEsaR21kNeWZxYSsGKNdxqad7K3X3l8k/QF1+3hdrENQAFv+Jr
+   Q==;
+X-CSE-ConnectionGUID: fyT2/sWuQLeMgOpj62BvSA==
+X-CSE-MsgGUID: 9u8G2F6vQh6u5LJeFqKAng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="111287535"
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="111287535"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2026 09:43:04 -0700
+X-CSE-ConnectionGUID: TjiVA+P4TBWE+FpRlbZvew==
+X-CSE-MsgGUID: j2zsES9dTDGzKck40kokeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,188,1779174000"; 
+   d="scan'208";a="256787656"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 27 Jul 2026 09:43:02 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1woOPr-000000001g6-2jBY;
+	Mon, 27 Jul 2026 16:42:59 +0000
+Date: Mon, 27 Jul 2026 18:42:32 +0200
+From: kernel test robot <lkp@intel.com>
+To: Pan Chuang <panchuang@vivo.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [westeri-thunderbolt:next 7/7]
+ drivers/thunderbolt/pci.c:115:24: warning: unused variable 'dev'
+Message-ID: <202607271811.1izFG7s9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260717195336.98500-1-nikhilsolanke5@gmail.com>
- <20260717195336.98500-2-nikhilsolanke5@gmail.com> <20260726182946.79a4ef98.michal.pecio@gmail.com>
- <CAFgddh+1Bk=CFkKYNzB=L++UejkhCEcTHp4A2JL2v+P6uBuF2w@mail.gmail.com> <a0db0e6d-ba94-4577-ac11-6f2d26055427@rowland.harvard.edu>
-In-Reply-To: <a0db0e6d-ba94-4577-ac11-6f2d26055427@rowland.harvard.edu>
-From: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Date: Mon, 27 Jul 2026 21:59:42 +0530
-X-Gm-Features: AUfX_mzffcfuwQcRNau6f9N-lR3BG3pBZBzfB8I2zKVV0zqs6e1HssoZ4dKzImA
-Message-ID: <CAFgddhKMGMw1rv8EOHyW9ZNMGPW8U5yGCuLYBgef9a+FcMwX_Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] usbcore: Add quirk for 255-bytes initial config read
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Michal Pecio <michal.pecio@gmail.com>, linux-usb@vger.kernel.org, 
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 27 Jul 2026 at 21:43, Alan Stern <stern@rowland.harvard.edu> wrote:
->
-> On Mon, Jul 27, 2026 at 08:55:27PM +0530, Nikhil Solanke wrote:
-> > For the remaining comment and log message wording, I'd prefer to keep
-> > the current version for now unless there's a strong objection. The
-> > patch has already gone through several review rounds and I'd like to
-> > avoid extending the review cycle further over comment phrasing,
-> > especially since the implementation itself now seems to be in good
-> > shape.
->
-> I strongly agree with Michal; the comments are overly long and contain
-> information that the reader doesn't need to know.  You don't have to use
-> the exact wording in his suggestions, but something like it would be a
-> big improvement.
->
-> Alan Stern
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
+head:   eef9f6d8c36f7610b5f837e196692ec34842a400
+commit: eef9f6d8c36f7610b5f837e196692ec34842a400 [7/7] thunderbolt: Remove redundant dev_err_probe()
+config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20260727/202607271811.1izFG7s9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260727/202607271811.1izFG7s9-lkp@intel.com/reproduce)
 
-Alright I'll do those changes too then.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607271811.1izFG7s9-lkp@intel.com/
 
-Thanks,
-Nikhil Solanke
+All warnings (new ones prefixed by >>):
+
+   drivers/thunderbolt/pci.c: In function 'nhi_pci_init_msi':
+>> drivers/thunderbolt/pci.c:115:24: warning: unused variable 'dev' [-Wunused-variable]
+     115 |         struct device *dev = &pdev->dev;
+         |                        ^~~
+
+
+vim +/dev +115 drivers/thunderbolt/pci.c
+
+e241d98e04ef05 Konrad Dybcio 2026-05-21  110  
+e241d98e04ef05 Konrad Dybcio 2026-05-21  111  static int nhi_pci_init_msi(struct tb_nhi *nhi)
+e241d98e04ef05 Konrad Dybcio 2026-05-21  112  {
+e241d98e04ef05 Konrad Dybcio 2026-05-21  113  	struct tb_nhi_pci *nhi_pci = nhi_to_pci(nhi);
+e241d98e04ef05 Konrad Dybcio 2026-05-21  114  	struct pci_dev *pdev = to_pci_dev(nhi->dev);
+e241d98e04ef05 Konrad Dybcio 2026-05-21 @115  	struct device *dev = &pdev->dev;
+e241d98e04ef05 Konrad Dybcio 2026-05-21  116  	int res, irq, nvec;
+e241d98e04ef05 Konrad Dybcio 2026-05-21  117  
+e241d98e04ef05 Konrad Dybcio 2026-05-21  118  	ida_init(&nhi_pci->msix_ida);
+e241d98e04ef05 Konrad Dybcio 2026-05-21  119  
+e241d98e04ef05 Konrad Dybcio 2026-05-21  120  	/*
+e241d98e04ef05 Konrad Dybcio 2026-05-21  121  	 * The NHI has 16 MSI-X vectors or a single MSI. We first try to
+e241d98e04ef05 Konrad Dybcio 2026-05-21  122  	 * get all MSI-X vectors and if we succeed, each ring will have
+e241d98e04ef05 Konrad Dybcio 2026-05-21  123  	 * one MSI-X. If for some reason that does not work out, we
+e241d98e04ef05 Konrad Dybcio 2026-05-21  124  	 * fallback to a single MSI.
+e241d98e04ef05 Konrad Dybcio 2026-05-21  125  	 */
+e241d98e04ef05 Konrad Dybcio 2026-05-21  126  	nvec = pci_alloc_irq_vectors(pdev, MSIX_MIN_VECS, MSIX_MAX_VECS,
+e241d98e04ef05 Konrad Dybcio 2026-05-21  127  				     PCI_IRQ_MSIX);
+e241d98e04ef05 Konrad Dybcio 2026-05-21  128  	if (nvec < 0) {
+e241d98e04ef05 Konrad Dybcio 2026-05-21  129  		nvec = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_MSI);
+e241d98e04ef05 Konrad Dybcio 2026-05-21  130  		if (nvec < 0)
+e241d98e04ef05 Konrad Dybcio 2026-05-21  131  			return nvec;
+e241d98e04ef05 Konrad Dybcio 2026-05-21  132  
+e241d98e04ef05 Konrad Dybcio 2026-05-21  133  		INIT_WORK(&nhi->interrupt_work, nhi_interrupt_work);
+e241d98e04ef05 Konrad Dybcio 2026-05-21  134  
+e241d98e04ef05 Konrad Dybcio 2026-05-21  135  		irq = pci_irq_vector(pdev, 0);
+e241d98e04ef05 Konrad Dybcio 2026-05-21  136  		if (irq < 0)
+e241d98e04ef05 Konrad Dybcio 2026-05-21  137  			return irq;
+e241d98e04ef05 Konrad Dybcio 2026-05-21  138  
+e241d98e04ef05 Konrad Dybcio 2026-05-21  139  		res = devm_request_irq(&pdev->dev, irq, nhi_msi,
+e241d98e04ef05 Konrad Dybcio 2026-05-21  140  				       IRQF_NO_SUSPEND, "thunderbolt", nhi);
+e241d98e04ef05 Konrad Dybcio 2026-05-21  141  		if (res)
+eef9f6d8c36f76 Pan Chuang    2026-07-16  142  			return res;
+e241d98e04ef05 Konrad Dybcio 2026-05-21  143  	}
+e241d98e04ef05 Konrad Dybcio 2026-05-21  144  
+e241d98e04ef05 Konrad Dybcio 2026-05-21  145  	return 0;
+e241d98e04ef05 Konrad Dybcio 2026-05-21  146  }
+e241d98e04ef05 Konrad Dybcio 2026-05-21  147  
+
+:::::: The code at line 115 was first introduced by commit
+:::::: e241d98e04ef0513b78de2d87d8d1eb2993d9d34 thunderbolt: Separate out common NHI bits
+
+:::::: TO: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+:::::: CC: Mika Westerberg <mika.westerberg@linux.intel.com>
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
