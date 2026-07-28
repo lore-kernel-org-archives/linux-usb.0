@@ -1,106 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A3F30568D;
-	Tue, 28 Jul 2026 15:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B6A432313
+	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 15:44:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785252268; cv=none; b=OsTcd+rgI3WCOIMR172rxbLjq66lUh/Id42jBoXAFcIq+pFWGzHn9F9MFdSLqzHk8ILk4nn9ZQ1BWlV1+CpzIyCBkBzgI8iFn9/ZE6jFZZ4mEypGldZ/3vDlB94/GquOyIED3DXOqqDVs2TwZ9NC26Ds/K8owtSdAQOxjcXwbTU=
+	t=1785253466; cv=none; b=HLQ/om2WtN+7n+nK48kJfOZV4WQmUS/BXBpRaPpnPh7Nvm246WNplRefSMpueISINRBWcHHAoknZE5H6MD948sX/MQ7aYAK/BN+97ahWp/ZtC5BIz3zML6jZsyGZU2XNE89bw7HVSb8xE0G/wJW03JGtu1Qzd3qONqaqtiJFLL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785252268; c=relaxed/simple;
-	bh=HbAXE+kt/gg6/vVHF+a8eI7tJ3ds+StEx30QT3bbTIY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pNRvweJp0iR1qAVQgJ0A731GxVwvB9lQIBIa0/4f0sRdyy94TB+baP+y25G7xTNrAOCuzEtGpCBdcO5vo0D+s4X7mH71hUHERD4LfUGdhCw08/pMr+JCOvoXaJ7xu2WxM/5pl/rHV8S3UUJyix5cmv6uq8h67bFUKVC+168JkMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AQXRuwAn; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785253466; c=relaxed/simple;
+	bh=B+iy6kp9ASXr8Q315XpH1lU+dHe0l3ofKkdBIdlMNz8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=o9DWTmcGXZFNIPBWUn2IfPKe1ZHaaMT56+8cictyGQ8WestigZ2+ztXM27swYNe6Xk9R6/d7usFGbAPZ4bgKAp2Y26Nw48xGe9rAiUQiH+yS4Bm7R+/f292++IrIRQ0947kt+WPUYGo46KxrUJJ++qrh7d4hkIS5AbNugMPm1wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=QikZo11i; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQXRuwAn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F40C91F00A3A;
-	Tue, 28 Jul 2026 15:24:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785252267;
-	bh=+XBHM4Y2azxZZa9+2n0cn7/S1Zo1nqK1cbQKursEuU8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=AQXRuwAnmeNsCUMnDuyVSTCYhTop9FeluTrtQtmzhUKpET33xZQPbfMa/FsniHPe1
-	 jKfwwk1BzCkD2McI7qFj+Og0wcyJNXZUUhx4U6VMOm9Eoa9EGoypukF4qlVj3O2uB6
-	 uGvGpkG4eP5IVy+v/62ogTjydHTTIE/miaHcxSY4VEUVO7BJSKABFvx9rmLuiGi4t3
-	 KXI2mJpnvGKmIrAAlzbTHjtIADZcaTAs3cN0rufVC9R9/xiv2Alg65YXlTUfbIYiYQ
-	 rhzjx4WpOV3R2iGo4RIZUFdh2JChcxhkwF3zdsg0BDMslT6rdF0xGzd5/602iK+WFb
-	 zVIQsy6+FquJw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wojfM-00000009kmG-1Tn4;
-	Tue, 28 Jul 2026 15:24:24 +0000
-Date: Tue, 28 Jul 2026 16:24:23 +0100
-Message-ID: <86v79zcf2w.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Swark Yang <syang@axiado.com>
-Cc: Rob Herring <robh@kernel.org>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,	Harshit Shah <hshah@axiado.com>,	Linus
- Walleij <linusw@kernel.org>,	Bartosz Golaszewski <brgl@kernel.org>,	Jan
- Kotas <jank@cadence.com>,	Michal Simek <michal.simek@amd.com>,	Andi Shyti
- <andi.shyti@kernel.org>,	=?UTF-8?B?UHJ6ZW15c8WCYXc=?= Gaj
- <pgaj@cadence.com>,	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Frank Li <Frank.Li@nxp.com>,	Boris Brezillon <bbrezillon@kernel.org>,	Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,	Jiri Slaby
- <jirislaby@kernel.org>,	Mark Brown <broonie@kernel.org>,	Mathias Nyman
- <mathias.nyman@intel.com>,	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,	linux-i2c@vger.kernel.org,
-	linux-i3c@lists.infradead.org,	linux-serial@vger.kernel.org,
-	linux-spi@vger.kernel.org,	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 8/8] arm64: dts: axiado: Add initial support for AX3005 SoC and eval board
-In-Reply-To: <20260716-upstream-axiado-ax3005-upstream-v3-8-c429095143ec@axiado.com>
-References: <20260716-upstream-axiado-ax3005-upstream-v3-0-c429095143ec@axiado.com>
-	<20260716-upstream-axiado-ax3005-upstream-v3-8-c429095143ec@axiado.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="QikZo11i"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-69fab5a852cso5823782a12.0
+        for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 08:44:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1785253461; x=1785858261; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GVqoC0PvlsYqdavWQBkILSRZgUpiUZ64ta6tc5vlUjs=;
+        b=QikZo11iiDLG/MEEmJkm2zY4QoSViMFJBglWVlQz5YI+EpB793c8cj5aLbMmrKoPZg
+         RDQxzWJCL2/OsaiwzPDDImSZKqreqrvOmFOBEg/dsh/S87/ja/q6Ibd9BpK+z1nCnDAZ
+         WK/+SNPRa3LTli0ZObk0JtwtReCQ8L0dZo28CrNSPcqjNu5V1t9Yen+/oU+uyFHFch+H
+         SeLSa4ucHsZ5TLpkkfjI9K6Cy03yKAvvqpyYcoTz6QDAEUuWY7x2n+fDv0A3rRWjgt6+
+         uy2K60r66AurJUgQ7RGRPIhjB+Zp9oHSOXYGUOdH4hdPR4ZFhFNcEzZOncG+mjtz5GW6
+         6O6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785253461; x=1785858261;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GVqoC0PvlsYqdavWQBkILSRZgUpiUZ64ta6tc5vlUjs=;
+        b=Uyq3yUqLsOgER5OGYqZSQe4ZaChb22yoZyf8TlIx1mE4Xso8fukBhPAE+1HqhxzcXV
+         zEw5xRGZzxY88CIcm9KIxTC0xzhuCazXuLH7slKYWQqTuNB7yYqeuz+NtxBVHAAlL232
+         YCP5dndTsmnIWxsJ7OOdIFhb3JvzGcDJbl3As5+cd1LojZuf37RpmLm4AqKAkyMp/2AF
+         clI5+sJaUPYDWDiTs9z/Bt4cwJ2pKX8rofN2IWwSk+JQvgp6wp2idRxl++A8LmX9g/EM
+         RjNZ52V0ycdIriP+lPm0jQNldbfJFiyvSPVPQ8kA74FkFF1Z5pqVkAA3SslSR4JXkWod
+         xQ+A==
+X-Forwarded-Encrypted: i=1; AHgh+RoPCKX6AuZgsO4xEXAdpPWv5nFhWuBDAEao0lnAx8CnJDyexjgiqz98zzSrFqTTSyE3E3bZOT0zAwM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywz5+rEkahNr1dWXCcMqqYx6qdQB+idLzoRDIIwhthKxccTaVGm
+	uOLVRmlwflysSxx7TwV2turlCRE9qJ9XAhQhsSVju66q/XP4fNLLixsRUhcNsScGkdY=
+X-Gm-Gg: AR+sD12hz5D/3ENhN0ZiQMu3gBrEwQKtqrIROQAvPiFfKFrlv0eCnxVNPP+vpKlispQ
+	Yno5iRNZ+1EB4WCuHpzrBYAqurJwteksq0poMuR242Tt89DzL6zyi5wzz8h+P83lX9cIK08CJxV
+	H3v0F/levEf+zuEmFubRl4C59fdqPvWfF6rtEGgUXlgdY3tzMDcRYpj3KJiQq/TPc6XVAeHi0lq
+	70Y5LYMvtEI/Iv4zz0UYw2K4AHgNDm2MwIKcDEq5MK21qMaKxTKjZj+G9xGSyrZiTaCpkRue+eu
+	HOFxW1lOs3+NODMj5tjHQwukKWm5r7nFw34DfcaUKYLziNont+tf5m6bOZcQXRBk2hVTnJ20BND
+	frZqNNLE0av7Xkg9e92KlY4ouy1fJ4jHkiFFByWv9AzsR7pbrsoQVI4aQdX1WBjSnTDUUEXpD4C
+	SOYlI3dqduTb/xP9/9x3qUjQdr+TsqdA==
+X-Received: by 2002:a05:6402:a5ca:10b0:69e:9213:11b with SMTP id 4fb4d7f45d1cf-6a0349ec6e2mr1041065a12.13.1785253461681;
+        Tue, 28 Jul 2026 08:44:21 -0700 (PDT)
+Received: from localhost (mob-176-247-26-234.net.vodafone.it. [176.247.26.234])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69fb594622asm4573764a12.26.2026.07.28.08.44.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jul 2026 08:44:21 -0700 (PDT)
+From: Francesco Lavra <flavra@baylibre.com>
+To: Minas Harutyunyan <hminas@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Felipe Balbi <felipe.balbi@linux.intel.com>,
+	Grigor Tovmasyan <tovmasya@synopsys.com>,
+	John Youn <johnyoun@synopsys.com>,
+	Vardan Mikayelyan <mvardan@synopsys.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH] usb: dwc2: gadget: Exit partial power down state when changing USB pull-up
+Date: Tue, 28 Jul 2026 17:44:20 +0200
+Message-Id: <20260728154420.2021519-1-flavra@baylibre.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: syang@axiado.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, hshah@axiado.com, linusw@kernel.org, brgl@kernel.org, jank@cadence.com, michal.simek@amd.com, andi.shyti@kernel.org, pgaj@cadence.com, alexandre.belloni@bootlin.com, Frank.Li@nxp.com, bbrezillon@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org, broonie@kernel.org, mathias.nyman@intel.com, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2172; i=flavra@baylibre.com; h=from:subject; bh=B+iy6kp9ASXr8Q315XpH1lU+dHe0l3ofKkdBIdlMNz8=; b=owEB7QES/pANAwAKAe3xO3POlDZfAcsmYgBqaM3FFIxZ52DW+l5DVb8R5uXZTXBCixZJH5yrH thUlmkLyl2JAbMEAAEKAB0WIQSGV4VPlTvcox7DFObt8TtzzpQ2XwUCamjNxQAKCRDt8TtzzpQ2 X65rC/90A/JWtrbWO3amiFS3C69FigY24thsO2QSDfyfhnA/9Hnzss5k7S91fueUhsk3QHIQa2e fsEg8vjXEox6ALrpoHK6H/mAOF9HbbmOyz6vrNWiYGyo9W5A7dN5b36FeHut1X9M1a4WkbnBV8S yTfBrbmfYBDrAbj65iRbPXfmVFvZBgn/dFXX5V3yoXL8IapBlV6YS1GSglyuDk1p3jeUfRKbloC 8ecpO+vMvK2SOn0bpKoJwPXhubO/VVHpKu8KnJo1KjGoKgoDMyT9DGChOX2W5wYylYa3KFJQCdc sJxzGpd+e75/0ru266yJJ4MBlBvJKA3giuZKxMou9vw3SIEiMNta77pQAK4mGrUBP0fiiZ5SbYP N/FoV1yijn6+cRGr1H697PdWuhYxu3pAIPTyC5NbWaPZAXAkNrdBafQbnzN/zjFpSqL4jsOP6R0 GWJh19Gvpn9Y6P75rGaXJI0YQkVTLzaSOQ5akz8+5xIIdz4hJm8jc51CErrKU4EvbCJDE=
+X-Developer-Key: i=flavra@baylibre.com; a=openpgp; fpr=8657854F953BDCA31EC314E6EDF13B73CE94365F
+Content-Transfer-Encoding: 8bit
 
-On Fri, 17 Jul 2026 04:51:15 +0100,
-Swark Yang <syang@axiado.com> wrote:
->
+When a USB host suspends a connected device, the DWC2 USB device controller
+enters a partial power down state where controller registers are not
+accessible. If the USB gadget is then disconnected or deactivated
+(e.g. when a gadget function is unbound from the controller), the `pullup`
+callback in struct usb_gadget_ops is invoked; if the controller is kept in
+partial power down, the register write in dwc2_hsotg_core_disconnect() does
+not take effect; as a result, the USB host keeps seeing the device as
+connected, even though the device is disabled.
 
-[...]
+Properly exit partial power down state in the pullup callback, so that the
+USB host detects a device disconnection as intended.
 
-> +	soc {
-> +		compatible = "simple-bus";
-> +		#address-cells = <2>;
-> +		#size-cells = <2>;
-> +		interrupt-parent = <&gic500>;
-> +		ranges;
-> +
-> +		gic500: interrupt-controller@40400000 {
-> +			compatible = "arm,gic-v3";
-> +			reg = <0x0 0x40400000 0x0 0x10000>,
-> +			      <0x0 0x40500000 0x0 0xc0000>;
+Fixes: 97861781daff ("usb: dwc2: Allow entering hibernation from USB_SUSPEND interrupt")
+Cc: stable@vger.kernel.org
+Signed-off-by: Francesco Lavra <flavra@baylibre.com>
+---
+ drivers/usb/dwc2/gadget.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-This is missing the GICC, GICH and GICV regions that are implemented
-on Cortex-A53. See the binding document.
-
-> +			ranges;
-> +			#interrupt-cells = <3>;
-> +			interrupt-controller;
-> +			#address-cells = <2>;
-> +			#size-cells = <2>;
-> +			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
-> +			#redistributor-regions = <1>;
-
-This is the default, and isn't required.
-
-	M.
-
+diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+index c8b02c27d27d..102169b40419 100644
+--- a/drivers/usb/dwc2/gadget.c
++++ b/drivers/usb/dwc2/gadget.c
+@@ -4680,6 +4680,7 @@ static int dwc2_hsotg_pullup(struct usb_gadget *gadget, int is_on)
+ {
+ 	struct dwc2_hsotg *hsotg = to_hsotg(gadget);
+ 	unsigned long flags;
++	int ret = 0;
+ 
+ 	dev_dbg(hsotg->dev, "%s: is_on: %d op_state: %d\n", __func__, is_on,
+ 		hsotg->op_state);
+@@ -4691,6 +4692,13 @@ static int dwc2_hsotg_pullup(struct usb_gadget *gadget, int is_on)
+ 	}
+ 
+ 	spin_lock_irqsave(&hsotg->lock, flags);
++	if (hsotg->in_ppd) {
++		ret = dwc2_exit_partial_power_down(hsotg, 0, true);
++		if (ret) {
++			dev_err(hsotg->dev, "exit partial_power_down failed\n");
++			goto exit;
++		}
++	}
+ 	if (is_on) {
+ 		hsotg->enabled = 1;
+ 		dwc2_hsotg_core_init_disconnected(hsotg, false);
+@@ -4704,9 +4712,10 @@ static int dwc2_hsotg_pullup(struct usb_gadget *gadget, int is_on)
+ 	}
+ 
+ 	hsotg->gadget.speed = USB_SPEED_UNKNOWN;
++exit:
+ 	spin_unlock_irqrestore(&hsotg->lock, flags);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int dwc2_hsotg_vbus_session(struct usb_gadget *gadget, int is_active)
 -- 
-Without deviation from the norm, progress is not possible.
+2.39.5
+
