@@ -1,125 +1,187 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6231325B086;
-	Tue, 28 Jul 2026 00:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBCD72621;
+	Tue, 28 Jul 2026 01:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785200385; cv=none; b=t/pOwBpjBPIHT066m6KrDJfVzwGHdwE9EjX/MYF8cqCCue32hTRMafC8b6MAX18z3QAqH4F/0NulcunNwhmtF5ayTy7WepmMdFp7z4PrmOG9AklAohoEjF31sATWpyrqRseA4ClOf4Z5MngzyOiUpWxIpNg4JzzShvtT54dDuLA=
+	t=1785201432; cv=none; b=LcbX6C1RAiQu7m3I6HnyASXD7P4gTIUOTQWOk/7MmQFj02ChbczvHuu4K5hCBI69SCLLrDy4Yw7f3hmIQC/f8bX9xN/Hm2jIHoKWLHzwsYsWwGKa/dUutjQIUFmHrWRMHL3TEQe+nFZGGjnjpjXPrH+dzmslTqOTKwUN0JRUPu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785200385; c=relaxed/simple;
-	bh=Cs+lhkcx4V+TqqoVLC1x5WpkdtMehp4i/XgGotMPyPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IR68/pYzYGaGKlFdQ6rMkUTLIaxow4MGKFBKYMurMwMC6rNFUzsZKRcG9f9mjAg57AGuLT+D0Mqky5fwo2d1lI7yMMUBJcn7i/O5Hfhg0BWwKIXp4w/29V7CvCMdbquy1ke0xwMjgiwAg9wFMlrM8YlQXcItWMA4gDp0wQYS0uU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=QpeT7HFS; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1785201432; c=relaxed/simple;
+	bh=v/mUmOU+HY69AjTuNDV03iMyJqr5mZ3bTeOUS6/4vzk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WNtmrN4+M2Hi0mW5dltg3Of3QK/n5zqB9FwF1oL8r63RHotgZdowondQMA6ZVNw1STnZnlos3pe6NuQz2HanyapKdHo/F84go7j8imRgvdOVqC5pK/6wnBsKtnxKv140Pc/vxoVTAOZs1uP8zkiQM/FSQjArhWzRQ0MTrF9JVgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=FziW/z8w; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=l9Op8jxa; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="QpeT7HFS"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 3016040E00E6;
-	Tue, 28 Jul 2026 00:59:34 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id 9tTrzS08_f7E; Tue, 28 Jul 2026 00:59:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1785200364; bh=9Pbkpsyn3LuxVwkQuJpW2Q4r277BvMJkMnI0QRRTiG4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QpeT7HFSVEUpD8isy8cgi+uAuDnpBv5k8tUswB8JcUi0yf3JUqKTQRIY6xSsdpO+C
-	 tSzenpZgLXRXTw95sp0ZRAU1xsPDqjohWBswZjo4QT6xNyZMNeDBkB3MVibp3S/BTD
-	 zw5PJxwBc5/D+KxwYxCzaRd3xB8IzAprq6Kdbqd/oAOF8xRTp5mWkapltNGT5vEOdN
-	 zoo7uffYylNSVAvHPfePC1Ck0zOI0WUIAFKiVr+My2Tnca6dt5qjp+JB7kKdtkqzVQ
-	 n6f2cmpO5KnjHdXEKDUqIDnxr67MTcj/SzPatjGosMYaY7oHCbm3VAHF9RqfM6gekz
-	 hA23uR6Pa/k5U0rjYoTZAkm394Y0VyyVcB/cRdgLWv6xpfumR78tGG2i522vzmLpJx
-	 407UtK/24FnSygTWoouOsIz8UGBp+Nsba43y6ogqn/1embEXhCp8CqNq5p5p38kWQx
-	 RLZrKDf5ZBwFBS4KXv1LP9iFxjygFw1j/JHovqwj7m69Sj68H8EtQLpeItaWnk6CEL
-	 yaKnDytPYYUQdbS8X8EKfm3714KMQlf2LinuarKBktj8tDVIysF8MgNOpUbjgTbRFX
-	 j7pR+L1Tk/Zb7Y07YkcBwnB4DU5+y1KXJpzSMhooE2POqgYaxeDu1CAJStAyfUyqgV
-	 um0y9GM4HUUMqOaBSvTsy+Oo=
-Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::43])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="FziW/z8w";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="l9Op8jxa"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 256CF40E00C3;
-	Tue, 28 Jul 2026 00:58:51 +0000 (UTC)
-Date: Mon, 27 Jul 2026 17:58:47 -0700
-From: Borislav Petkov <bp@alien8.de>
-To: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Darren Hart <dvhart@infradead.org>, Lukas Wunner <lukas@wunner.de>,
-	Westerberg <mika.westerberg@linux.intel.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-integrity@vger.kernel.org, keyrings@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] treewide: Add a flag to detect the Apple T2 chip
-Message-ID: <20260728005847.GBamf-x27vgqj7WG7e@fat_crate.local>
-References: <20260727211807.1223-1-atharvatiwarilinuxdev@gmail.com>
- <20260727211807.1223-2-atharvatiwarilinuxdev@gmail.com>
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4h8Hcf31L1zMlJ8;
+	Tue, 28 Jul 2026 03:17:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1785201426;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dtik4JvPxTZDeHivd+wa3zDBGw7+is8/aXM+fbU4iXY=;
+	b=FziW/z8wJ2rpWxW/e2fC6+UEpfdOpRXWLXLQvv3pNalE8kcBRiHovbyzmM+gegpiycXgmg
+	a3dUjcGDlCQ30RJGcPcir/j+ekbUfwjMXGDd+8WEcIYp2PDfUQIfemLKkf/oGczZbVJ2bn
+	iyUTWN8VKt7x/DXp6Z5YcQQ09iS8DcmkTMSVX4UY4kjVgW9dCHme/b4EYbZ4An6NZdmZbg
+	2JqydyKWewmapKHcDo2neuMuC8ObmRHbRa7AZ/uVd2i5Q9xTZYDl2UOTWfW4gBr3d4kCcm
+	Uj/QJIp2mTH2O3XkFfKoW5XF2Nf1vNtZBJKI5IAQPNbrYxQtKEMWGx4o7KGNog==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=l9Op8jxa;
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut+renesas@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=marek.vasut+renesas@mailbox.org
+From: Marek Vasut <marek.vasut+renesas@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1785201424;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dtik4JvPxTZDeHivd+wa3zDBGw7+is8/aXM+fbU4iXY=;
+	b=l9Op8jxaqvYzoVyIa4wTHyJHr/TunyRgtOjdzepjrOQ/ZmTbFq7DfS66askuMWW0bllLPb
+	mky2nI5euHqEMaLtTsNxk8jzs9iv9vrt8N/VKWvdVgB3BBJLrnyF1Nv0K1HbX+fdR1gKmj
+	KwWIeiHUKiu4ZBC/e3i5phVA9YmNTx9SV4sdvSyR+2hMbN8ataxXTlfqZBBcOJAkQCkqNy
+	xn+fpKVYkiNm0MClvU2RfI0OfnnXvUO8T9iDHd+AvIA6I5bzPHb4aanJYJ+TyOOXIMTfNI
+	IufcxrXz64mZbLC7d78MstQqRLEhzmDqj4BbBPr030yGSAE3dmIbxnvTRZF9qw==
+To: linux-usb@vger.kernel.org
+Cc: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v1 1/2] dt-bindings: usb: dwc3: Document Renesas R-Car Gen5 DWC3 xHCI USB controller
+Date: Tue, 28 Jul 2026 03:14:58 +0200
+Message-ID: <20260728011656.465040-1-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260727211807.1223-2-atharvatiwarilinuxdev@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: 3fzedjwk5mpn3dr5anqkii4jyofpmynr
+X-MBO-RS-ID: 1c87bb2ee30355f9efd
+X-Rspamd-Queue-Id: 4h8Hcf31L1zMlJ8
 
-On Mon, Jul 27, 2026 at 05:18:02PM -0400, Atharva Tiwari wrote:
-> Add a flag to detect Apple T2 chips on Intel Macs.
-> Cache the result to avoid repeated checks. That will
-> be used in upcoming patches.
-> 
-> Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-> ---
->  arch/x86/kernel/quirks.c                      | 37 ++++++++++++++++++
->  include/linux/platform_data/x86/apple.h       |  5 +++
->  .../platform_certs/keyring_handler.h          |  8 ----
->  security/integrity/platform_certs/load_uefi.c | 38 ++++---------------
->  4 files changed, 50 insertions(+), 38 deletions(-)
-> 
-> diff --git a/arch/x86/kernel/quirks.c b/arch/x86/kernel/quirks.c
-> index a92f18db9610..6651e5d4d106 100644
-> --- a/arch/x86/kernel/quirks.c
-> +++ b/arch/x86/kernel/quirks.c
-> @@ -664,8 +664,45 @@ DECLARE_PCI_FIXUP_EARLY(PCI_VENDOR_ID_INTEL, 0x2083, quirk_intel_purley_xeon_ras
->  bool x86_apple_machine;
->  EXPORT_SYMBOL(x86_apple_machine);
->  
-> +bool has_apple_t2_chip;
-> +EXPORT_SYMBOL(has_apple_t2_chip);
+The Renesas R-Car Gen5 SoC contains multiple instances of DWC3 USB
+controller with glue logic wrapper around them. Document the glue
+logic and DWC3 controller.
 
-I'm guessing this is parrotting the non-GPL export of x86_apple_machine from
+Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+---
+Cc: Conor Dooley <conor+dt@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+---
+ .../bindings/usb/renesas,rcar-gen5-usb.yaml   | 82 +++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/renesas,rcar-gen5-usb.yaml
 
-  630b3aff8a51 ("treewide: Consolidate Apple DMI checks")
-
-Lemme add those folks and ask why aren't those exports GPL only?
-
-Thx.
-
+diff --git a/Documentation/devicetree/bindings/usb/renesas,rcar-gen5-usb.yaml b/Documentation/devicetree/bindings/usb/renesas,rcar-gen5-usb.yaml
+new file mode 100644
+index 0000000000000..a334648e2dfc4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/renesas,rcar-gen5-usb.yaml
+@@ -0,0 +1,82 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/renesas,rcar-gen5-usb.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Car Gen5 DWC3 xHCI USB controller
++
++maintainers:
++  - Marek Vasut <marek.vasut+renesas@mailbox.org>
++
++properties:
++  compatible:
++    items:
++      - const: renesas,r8a78000-usb
++      - const: renesas,rcar-gen5-usb
++
++  '#address-cells':
++    const: 2
++
++  '#size-cells':
++    const: 2
++
++  ranges: true
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++patternProperties:
++  '^usb@':
++    $ref: snps,dwc3.yaml#
++
++required:
++  - compatible
++  - '#address-cells'
++  - '#size-cells'
++  - ranges
++  - reg
++  - clocks
++  - power-domains
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    bus {
++        #address-cells = <2>;
++        #size-cells = <2>;
++
++        usb@c9c54000 {
++            compatible = "renesas,r8a78000-usb", "renesas,rcar-gen5-usb";
++            reg = <0 0xc9c54000 0 0x2000>;
++            clocks = <&scmi_clk 336>;
++            power-domains = <&scmi_devpd 16>;
++            resets = <&scmi_reset 336>;
++
++            #address-cells = <2>;
++            #size-cells = <2>;
++            ranges = <0x0 0xc8800000 0x0 0xc8800000 0x0 0x100000>;
++
++            usb@c8800000 {
++                compatible = "synopsys,dwc3";
++                reg = <0x0 0xc8800000 0x0 0x100000>;
++                interrupts = <GIC_SPI 795 IRQ_TYPE_LEVEL_HIGH>;
++                maximum-speed = "super-speed-plus";
++                phys = <&mp_phy 2>;
++                phy-names = "usb3-phy";
++            };
++        };
++    };
 -- 
-Regards/Gruss,
-    Boris.
+2.53.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
