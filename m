@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77CDF25C818;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E32282F1B;
 	Tue, 28 Jul 2026 01:20:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785201608; cv=none; b=CLw5LV8T9gMIFpSVLEFOoq4zCJP6I/z5Kuo20QBQxBNyEqjceKpoid2AWcA8Kv5Mzk9jK2vqiZztgWPxLM0tjyFd8uVE46pLUhPuXKzgBHWZX99yIBQ9QBtqtVXjurIrIU3aa55FaLAEiDkb0S6LWp/GxPzLd3sPe+xBnqAbgko=
+	t=1785201608; cv=none; b=HWTAxEXm9KD50Zokjzz62ZZM3YEzaTBYCVwclI96b3xoIA+whcaafkiuHzeTwNsi0gTDddA5OLTXb2D52CVxE3uaEAw0ETD80HGEswq9DU/BNCY9cj2Dtx2aa54HoBjLYOtUtP6ydmWtMzbHjzZoFUqPtyJCKbCvxNc/wjnyGoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1785201608; c=relaxed/simple;
-	bh=WI6oTE0h6f3ZCUzrpFhYF/ZiQg5eQif/VlNNNLNXWQQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kJ5HTkwLwuXvRZW0kbOZCclrRhbPefgl7dczTLq69QurwtRr2hbDPHRmO+GoNzi9yoop5ApvTC3eFHjC99+DY283nTLMbWjW4NzSiYx3yvrTA/ruFnwQ2tpWER7W5ygAAn1OMCRQyQ99+a1zHJhqU2UanxazGqMwqImvetlmszE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p4dGkBA2; arc=none smtp.client-ip=10.30.226.201
+	bh=V5Mj8+KXokuuedqJV0YZXgawcmpOl3xxL72RlJ0hmsk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=sXVIfyqn0Bd4P0B6gesxq3XaQsb7owZdBJadQUHdzSzm3U+AL3mtV41ItvrG5kEswMABep4VE5P7svjHAnRF2QEcLSCKVlEG8oWUVoeJfRv4gjgb2d5zcaryHXB7HsLvwzhQYUZM9JPsh5gCFDxYbZPKqbCr3edRBAxHbJbV1qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SlM5RqTi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p4dGkBA2"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1798AC19425;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SlM5RqTi"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2440AC2BCF7;
 	Tue, 28 Jul 2026 01:20:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1785201608;
-	bh=WI6oTE0h6f3ZCUzrpFhYF/ZiQg5eQif/VlNNNLNXWQQ=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=p4dGkBA2SZWGAVEuFp/NtneV8ZGMKDPU2wF+W5QWMy/Z+zR5qKV2e11g9B/GV7hgd
-	 3RK6E84JLHsg7e36u6sFkFm4sBW55Qfgq+1kN2vl4g+DsbtbElXwShjqQbCdGvmH+t
-	 1t26QaeAUlKHKc8PP69PYAqkqGgEeZ6NXUyPPjyjovVp9gQt+igthstJoNDX60xaP9
-	 7XJHZ1GASQlQP9JRz3xLbzWmim9Nfe1sNxsJMEoDo6hem8pxAKbKf8ul0+Kx99bPlS
-	 ZkCrj+VMAjxEu6x05D35wwdEfY5EG9XWgD+HwLvzKX825lHBBiUbNOseYwO3qSxIG+
-	 lq57rGh3594aQ==
+	bh=V5Mj8+KXokuuedqJV0YZXgawcmpOl3xxL72RlJ0hmsk=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=SlM5RqTiErJpwFR0i4TXPD0h/8228k7Rfd+2r5zoG1/VOGC7YDTjzoI1tlpy7wUvy
+	 ldASWMumEYvz5cOXxW4hQhJTV9XPD116BnWE1Se2hKeoUXZBnYFcfI1/3r4rP1LqQc
+	 yxTWNH10hHaHS1xzEsaE2I255kbKRB8oaK8vtoQoHl3/ByQBMcxs6sNB3cvBR+99Px
+	 QfaoBchTjW0Yj0cp6KcYHFiDD1yvA9CvCJpUDVfqyNpoYvwOyg2OlI9kadDJxx+5Bg
+	 soMQHmyI6nUohUjGfGYcm9w8u2KZ7ppvlKykkIrO9npnIMlvrPCyzLjxyEAG6mO5OX
+	 2HGFe9mKQB7rg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE08FC53209;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F04B9C531D0;
 	Tue, 28 Jul 2026 01:20:07 +0000 (UTC)
 From: Esteban Urrutia via B4 Relay <devnull+esteuwu.proton.me@kernel.org>
-Subject: [PATCH 0/2] Add support for Parade PS5169 USB Type-C linear
- redriver
-Date: Mon, 27 Jul 2026 21:19:33 -0400
-Message-Id: <20260727-ps5169-bup-v1-0-c76a8ef3b239@proton.me>
+Date: Mon, 27 Jul 2026 21:19:34 -0400
+Subject: [PATCH 1/2] dt-bindings: usb: Add Parade PS5169 redriver bindings
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,10 +40,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ5AMBBA4avIrDVpm7R+riIW1GAsaDoqEnF3x
- fJbvHcBYyBkqLMLAh7EtK0JKs/Azd06oaAhGbTUVhbaCs9G2Ur00YtSFrY0anDaGEiBDzjS+c2
- a9jfHfkG3vwe47weR4hqFbgAAAA==
-X-Change-ID: 20260726-ps5169-bup-8076851dc255
+Message-Id: <20260727-ps5169-bup-v1-1-c76a8ef3b239@proton.me>
+References: <20260727-ps5169-bup-v1-0-c76a8ef3b239@proton.me>
+In-Reply-To: <20260727-ps5169-bup-v1-0-c76a8ef3b239@proton.me>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
@@ -53,11 +51,11 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org, 
  Esteban Urrutia <esteuwu@proton.me>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785201606; l=1889;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785201606; l=5782;
  i=esteuwu@proton.me; s=20260622; h=from:subject:message-id;
- bh=WI6oTE0h6f3ZCUzrpFhYF/ZiQg5eQif/VlNNNLNXWQQ=;
- b=rnjyZsLX4tVS0+P/qjnvndI/9wGy0VbhJ6nDK1GKA1FGItz27+eWjbl6O69R04Kwf02/WNf1v
- QBWDa82Ad3JCS04KoSnY+iAURRLWCF06K6yUsLt4yEvsqbXia7CwIr/
+ bh=XrA62lSi9Hct6BU2/Wdu52E9fNAtqyvkYTG62kpPHKI=;
+ b=8bz18Ihb1Qg5UqyBDz0eoMxkYcAU6/IakynLwaYmoG+feEFhtBR8cpCi1X6t5TF0uJYWzt1XK
+ gV1gTymgeVADdWxMtROq/NKUSJBeS9MhjXBoMTePXOp7S0dKzKxzb69
 X-Developer-Key: i=esteuwu@proton.me; a=ed25519;
  pk=wToFt4mOAWkzbqb15Ye1hrhevI13vK9BcMUFiQ/me1M=
 X-Endpoint-Received: by B4 Relay for esteuwu@proton.me/20260622 with
@@ -65,47 +63,212 @@ X-Endpoint-Received: by B4 Relay for esteuwu@proton.me/20260622 with
 X-Original-From: Esteban Urrutia <esteuwu@proton.me>
 Reply-To: esteuwu@proton.me
 
-The Parade PS5169 is an USB Type-C linear redriver capable of handling:
-- Two-lane USB 3.2 Gen2x2, at 10Gb/s
-- Four-lane DP 1.4, at HBR3 (8.1Gb/s)
-- Two-lane USB 3.2 Gen2x2, at 10Gb/s AND two-lane DP 1.4, at HBR3
-(8.1Gb/s)
+From: Esteban Urrutia <esteuwu@proton.me>
 
-This redriver features programmable equalization and gain settings.
-This series also future-proofs the binding and adds support for the
-Parade PS5170.
-Unlike PS5169, PS5170 embeds the AUX switch into the redriver.
-
-The PS5169 redriver is found in the Motorola ThinkPhone by motorola,
-device in which this driver was tested on.
-
-Given Parade does not publish datasheets for their redrivers/retimers,
-this implementation is based on downstream drivers.
-Most of my work is based on [1], while registers were decoded from other
-implementations, such as [2] and [3].
-
-[1] https://github.com/LineageOS/android_kernel_motorola_sm8475/blob/lineage-22.2/drivers/usb/misc/ssusb-redriver-ps5169.c
-[2] https://github.com/ilsubyeega/tb321fu-zui16/blob/main/kernel-6.1.68/kernel/drivers/usb/redriver/ps5169.c
-[3] https://github.com/ferstar/xiaomi_xaga_kernel/blob/mglru/drivers/misc/mediatek/typec/mux/ps5170.c
+Add bindings for the Parade PS5169 and PS5170 USB Type-C linear redrivers.
+The difference between PS5169 and PS5170 is that PS5170 features an
+embedded AUX switch, while PS5169 does not.
+Future-proof the binding by adding PS5170 as well.
 
 Signed-off-by: Esteban Urrutia <esteuwu@proton.me>
 ---
-Esteban Urrutia (2):
-      dt-bindings: usb: Add Parade PS5169 redriver bindings
-      usb: typec: Add support for Parade PS5169 USB Type-C redriver
+ .../devicetree/bindings/usb/parade,ps5169.yaml     | 186 +++++++++++++++++++++
+ 1 file changed, 186 insertions(+)
 
- .../devicetree/bindings/usb/parade,ps5169.yaml     | 186 +++++++
- MAINTAINERS                                        |   7 +
- drivers/usb/typec/mux/Kconfig                      |  10 +
- drivers/usb/typec/mux/Makefile                     |   1 +
- drivers/usb/typec/mux/ps5169.c                     | 535 +++++++++++++++++++++
- 5 files changed, 739 insertions(+)
----
-base-commit: 9eebf259d5352b87080d67758f483583d9e763d7
-change-id: 20260726-ps5169-bup-8076851dc255
+diff --git a/Documentation/devicetree/bindings/usb/parade,ps5169.yaml b/Documentation/devicetree/bindings/usb/parade,ps5169.yaml
+new file mode 100644
+index 000000000000..23ca8e6c0491
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/parade,ps5169.yaml
+@@ -0,0 +1,186 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/parade,ps5169.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Parade PS5169 USB Type-C linear redriver
++
++maintainers:
++  - Esteban Urrutia <esteuwu@proton.me>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - const: parade,ps5170
++          - const: parade,ps5169
++      - const: parade,ps5169
++
++  reg:
++    maxItems: 1
++
++  vcc-supply:
++    description: 1.8V power supply
++
++  reset-gpios:
++    maxItems: 1
++
++  orientation-switch: true
++  retimer-switch: true
++
++  parade,dp-eq-level:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Equalization level for DisplayPort channels which is mapped to decibels.
++    # 0: 2    dB
++    # 1: 5.5  dB
++    # 2: 6.5  dB
++    # 3: 7.5  dB
++    # 4: 8    dB
++    # 5: 8.5  dB
++    # 6: 9.5  dB
++    # 7: 10   dB
++    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
++
++  parade,usb-rx-eq-level:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Equalization level for USB receive channels which is mapped to decibels.
++    # 0: 5.2  dB
++    # 1: 6    dB
++    # 2: 7    dB
++    # 3: 8    dB
++    # 4: 8.8  dB
++    # 5: 9.6  dB
++    # 6: 10.4 dB
++    # 7: 11.2 dB
++    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
++
++  parade,usb-tx-eq-level:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Equalization level for USB transmit channels which is mapped to decibels.
++    # 0: 2    dB
++    # 1: 5.5  dB
++    # 2: 6.5  dB
++    # 3: 7.5  dB
++    # 4: 8    dB
++    # 5: 8.5  dB
++    # 6: 9.5  dB
++    # 7: 10   dB
++    enum: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
++
++  parade,aux-rx-data-reverse:
++    type: boolean
++    description:
++      Please check the driver before specifying this property.
++      Usage of this property is design-specific.
++
++  parade,fine-tune-lfps-swing:
++    type: boolean
++    description:
++      If this property is specified a 50 ohm termination will be set on the USB receive channels.
++      Usage of this property is design-specific.
++
++  parade,dp-set-gain:
++    type: boolean
++    description:
++      If this property is specified a gain of -0.9 dB will be applied on the DisplayPort channels.
++
++  parade,usb-rx-set-gain:
++    type: boolean
++    description:
++      If this property is specified a gain of -0.9 dB will be applied on the USB receive channels.
++
++  parade,usb-tx-set-gain:
++    type: boolean
++    description:
++      If this property is specified a gain of -0.9 dB will be applied on the USB transmit channels.
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Super Speed (SS) Output endpoint to the Type-C connector
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        description: Super Speed (SS) Input endpoint from the Super-Speed PHY
++        unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - vcc-supply
++  - reset-gpios
++  - orientation-switch
++  - retimer-switch
++
++allOf:
++  - $ref: usb-switch.yaml#
++  - $ref: usb-switch-ports.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: parade,ps5170
++    then:
++      properties:
++        ports:
++          properties:
++            port@2:
++              $ref: /schemas/graph.yaml#/properties/port
++              description:
++                Sideband Use (SBU) AUX lines endpoint to the Type-C connector for the purpose of
++                handling altmode muxing and orientation switching.
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        typec-retimer@30 {
++            compatible = "parade,ps5169";
++            reg = <0x30>;
++
++            vcc-supply = <&vreg_s10b_1p8>;
++            reset-gpios = <&tlmm 54 GPIO_ACTIVE_LOW>;
++
++            orientation-switch;
++            retimer-switch;
++
++            parade,dp-eq-level = <0>;     /* 2   dB */
++            parade,usb-rx-eq-level = <0>; /* 5.2 dB */
++            parade,usb-tx-eq-level = <0>; /* 2   dB */
++
++            parade,aux-rx-data-reverse;
++            parade,fine-tune-lfps-swing;
++
++            ports {
++                #address-cells = <1>;
++                #size-cells = <0>;
++
++                port@0 {
++                    reg = <0>;
++                    usb_con_ss: endpoint {
++                        remote-endpoint = <&typec_con_ss>;
++                    };
++                };
++
++                port@1 {
++                    reg = <1>;
++                    phy_con_ss: endpoint {
++                        remote-endpoint = <&usb_phy_ss>;
++                    };
++                };
++            };
++        };
++    };
++...
 
-Best regards,
---  
-Esteban Urrutia <esteuwu@proton.me>
+-- 
+2.55.0
 
 
