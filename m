@@ -1,131 +1,106 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6C92E1F0E
-	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 15:18:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A3F30568D;
+	Tue, 28 Jul 2026 15:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785251938; cv=none; b=nItfxnPttmvsJDD/ritJcLdLbX0n6E0djhxfDLb4M6B8hZ2Gb2KtPkrj80dLT4ptPJgS6yuEfNmwO5edjvKSa+W2F1IYY5NmoAxQrWfMUJOY66ko554aVflNVwEE/wZtWl0Zhwr7tURzkK99xG6Uhgs8BXqGc0qnLxlEn7U7EJ4=
+	t=1785252268; cv=none; b=OsTcd+rgI3WCOIMR172rxbLjq66lUh/Id42jBoXAFcIq+pFWGzHn9F9MFdSLqzHk8ILk4nn9ZQ1BWlV1+CpzIyCBkBzgI8iFn9/ZE6jFZZ4mEypGldZ/3vDlB94/GquOyIED3DXOqqDVs2TwZ9NC26Ds/K8owtSdAQOxjcXwbTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785251938; c=relaxed/simple;
-	bh=aM2KX+SLDwftppA55jxwitKAx3AJ79bmrqQfKetSDRE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AlK1Uq1m5KrwUZNnXISkb6OlxYjPspVo5XklStg64wc3kKjuSoyn9Bj626ydFOCKOhfNdwRXMfbK/mNiQFeuzu6k6iVW6eQmWCql5/+JvzJMtuV5G9YzyRr3yzQp/olWvQg2keIVIydLKTetA7xQ05NpmP9LD+OuYptETLwbKxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=c4RHMNo/; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1785252268; c=relaxed/simple;
+	bh=HbAXE+kt/gg6/vVHF+a8eI7tJ3ds+StEx30QT3bbTIY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pNRvweJp0iR1qAVQgJ0A731GxVwvB9lQIBIa0/4f0sRdyy94TB+baP+y25G7xTNrAOCuzEtGpCBdcO5vo0D+s4X7mH71hUHERD4LfUGdhCw08/pMr+JCOvoXaJ7xu2WxM/5pl/rHV8S3UUJyix5cmv6uq8h67bFUKVC+168JkMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AQXRuwAn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="c4RHMNo/"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-902e4af2d9dso9016446d6.0
-        for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 08:18:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1785251936; x=1785856736; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9di/IG6Jc1VtV8BRHbehmfOGqBLbsLtDHRgb0wHAUZU=;
-        b=c4RHMNo/pmE4n+WCgY8d45wnay3DmHpiTk7OncSgzFyWLAavDZDqRcUX+T9lATIlnl
-         7nSxXs3pxewDKuWa4XzuxcDcZNyZnsXnn4Z/84qNFAnd+k6vCuBYydyFv8GkfrNmJC0e
-         mlXZ78l6B5tEc3uEQP+JMUlCakBtv22KFocQvFMTNWcIiVimnTJ17z2eKG6/TuxVK3Md
-         +3i45LbKZ9O6v7xeaPWvHeT4kafWRtIpbdj4urgo3rzrg1K/6V/6NeqbR8VO5iYWbljb
-         SkX+6tXUE5QIBTjpH73QgSZ45dLpWORSCVPf/Uvg7GM5hB+21jgLOYil60F3jojFL91Z
-         ycYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785251936; x=1785856736;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9di/IG6Jc1VtV8BRHbehmfOGqBLbsLtDHRgb0wHAUZU=;
-        b=H05nmLNYSdYawOKNvm5UBAxxYu+hRMA6fPtEd6mrXWaUGbvucCdNAZLxYtsjBRYYJO
-         9lgp3B+jtn2eA0oEc3eVrHj4pGUmCh8ZMLAiyIB2kuiQYilGlxg7DLMaP7nleTJ7E37Y
-         jDX/P28c6yXxknP3wukyjlpvt+AB2JDXNCSAgxn0W1Je0lm+ToEbJ0vTvRxJElCez1VG
-         O2SqM2Wo7Q0SlgM39EpfhVHIC7w0/bIC1Yt+Ev4bTejlFiGPNQF4VrJXG5bAjRiUjfeO
-         8GISQWTlfZpS1qDz/LVYpw7s0sArvHeg8ZHHDLSEdSVS4W0Ic81E27myc0OZdJZitLO6
-         wJKA==
-X-Gm-Message-State: AOJu0YxzBcoXaubHfFJnnIwgOg1kp3KfkvgPLg7VncnS58DDrg4CmxdD
-	cestamHycaAXMnGnjfptM8yAQYXSnfCGzaNyI48QHD1pkLuSTGkfi/+Ck0LbfZ98yA==
-X-Gm-Gg: AR+sD10FtT3JDcxQ+imEPLg3Td0uftws3u8M75Z9n+U4gSrpu6PLFrQTsz8ScgJfFTj
-	A9+79q+Kcu36aHah+tCnDJOAiMN6fYjxLbXvZcF6HUt3F3pKC6ImadsqNskGa7qH8nsjLcsPEz+
-	jZw2mlacFCC6RqkTRU7/tqfcE2yJPV3XJExJt1a4PIbgOQ7fiz/Ri+QTHEaspAtDKuDC8VDXohn
-	ipBMPlaa6QM8XfcJaSCbLMnfSAextgUQAdOQnF34yoEmpSAvJF9mECjYuNhiGQR9vRryLXvscjF
-	noa5fiBGq7vognF/fuEcYEjh9O2RrUnjmeGrp38L6ptQipgTgI8QZwzoV6EHV0bGDq1I6KwlWOi
-	cvmZyvTcwfE/iTtf7yhupZDp8Yf6YWfdybF3bpN03iRAeQJ6nrwjSAQ30H7fdiv1mEAlta//4z8
-	Oh7eU=
-X-Received: by 2002:a05:6214:1cc2:b0:907:5319:53b7 with SMTP id 6a1803df08f44-90817306839mr28886226d6.18.1785251935603;
-        Tue, 28 Jul 2026 08:18:55 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::883a])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9081dc6c862sm1445086d6.14.2026.07.28.08.18.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 08:18:54 -0700 (PDT)
-Date: Tue, 28 Jul 2026 11:18:52 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Nikhil Solanke <nikhilsolanke5@gmail.com>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, michal.pecio@gmail.com,
-	corbet@lwn.net, skhan@linuxfoundation.org, stable@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] usb: core: Add quirk for 255-bytes initial config
- read
-Message-ID: <df358305-0c66-449e-ad44-effc707ce654@rowland.harvard.edu>
-References: <20260727195434.14626-1-nikhilsolanke5@gmail.com>
- <20260727195434.14626-2-nikhilsolanke5@gmail.com>
- <ba2af6f4-0134-4feb-addc-24694fabeb10@rowland.harvard.edu>
- <CAFgddhLNOVPqnZW89W8XvD5W9nOPK51grBdraOeQcCe1_+WVFw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AQXRuwAn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F40C91F00A3A;
+	Tue, 28 Jul 2026 15:24:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785252267;
+	bh=+XBHM4Y2azxZZa9+2n0cn7/S1Zo1nqK1cbQKursEuU8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=AQXRuwAnmeNsCUMnDuyVSTCYhTop9FeluTrtQtmzhUKpET33xZQPbfMa/FsniHPe1
+	 jKfwwk1BzCkD2McI7qFj+Og0wcyJNXZUUhx4U6VMOm9Eoa9EGoypukF4qlVj3O2uB6
+	 uGvGpkG4eP5IVy+v/62ogTjydHTTIE/miaHcxSY4VEUVO7BJSKABFvx9rmLuiGi4t3
+	 KXI2mJpnvGKmIrAAlzbTHjtIADZcaTAs3cN0rufVC9R9/xiv2Alg65YXlTUfbIYiYQ
+	 rhzjx4WpOV3R2iGo4RIZUFdh2JChcxhkwF3zdsg0BDMslT6rdF0xGzd5/602iK+WFb
+	 zVIQsy6+FquJw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1wojfM-00000009kmG-1Tn4;
+	Tue, 28 Jul 2026 15:24:24 +0000
+Date: Tue, 28 Jul 2026 16:24:23 +0100
+Message-ID: <86v79zcf2w.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Swark Yang <syang@axiado.com>
+Cc: Rob Herring <robh@kernel.org>,	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,	Harshit Shah <hshah@axiado.com>,	Linus
+ Walleij <linusw@kernel.org>,	Bartosz Golaszewski <brgl@kernel.org>,	Jan
+ Kotas <jank@cadence.com>,	Michal Simek <michal.simek@amd.com>,	Andi Shyti
+ <andi.shyti@kernel.org>,	=?UTF-8?B?UHJ6ZW15c8WCYXc=?= Gaj
+ <pgaj@cadence.com>,	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Frank Li <Frank.Li@nxp.com>,	Boris Brezillon <bbrezillon@kernel.org>,	Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,	Jiri Slaby
+ <jirislaby@kernel.org>,	Mark Brown <broonie@kernel.org>,	Mathias Nyman
+ <mathias.nyman@intel.com>,	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,	linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,	linux-i2c@vger.kernel.org,
+	linux-i3c@lists.infradead.org,	linux-serial@vger.kernel.org,
+	linux-spi@vger.kernel.org,	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 8/8] arm64: dts: axiado: Add initial support for AX3005 SoC and eval board
+In-Reply-To: <20260716-upstream-axiado-ax3005-upstream-v3-8-c429095143ec@axiado.com>
+References: <20260716-upstream-axiado-ax3005-upstream-v3-0-c429095143ec@axiado.com>
+	<20260716-upstream-axiado-ax3005-upstream-v3-8-c429095143ec@axiado.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFgddhLNOVPqnZW89W8XvD5W9nOPK51grBdraOeQcCe1_+WVFw@mail.gmail.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: syang@axiado.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, hshah@axiado.com, linusw@kernel.org, brgl@kernel.org, jank@cadence.com, michal.simek@amd.com, andi.shyti@kernel.org, pgaj@cadence.com, alexandre.belloni@bootlin.com, Frank.Li@nxp.com, bbrezillon@kernel.org, gregkh@linuxfoundation.org, jirislaby@kernel.org, broonie@kernel.org, mathias.nyman@intel.com, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Tue, Jul 28, 2026 at 01:37:16PM +0530, Nikhil Solanke wrote:
-> On Tue, 28 Jul 2026 at 07:29, Alan Stern <stern@rowland.harvard.edu> wrote:
-> >
-> > Also, it's odd that you add the quirk flag to the kernel without adding
-> > a new quirk entry for the Xbox 360-compatible devices.  That doesn't
-> > have to be done in this patch, though; it can be done in a follow-up.
-> > (But note that without a followup this patch doesn't actually fix
-> > anything, since a true fix would require user intervention.)
-> >
-> 
-> Well the device I am using spoofs Microsoft's device IDs directly. I
-> avoided adding it because the official xbox controllers work out of
-> the box. It won't break their functionality, but it kinda falls into
-> the category of "if it ain't broken, why fix it". Other clone devices
-> use different VID:PID pair as well, like with what happened Ishaan's
-> device (his reply to my previous patch revision). I believe they
-> should be added here instead. Since there are many such devices,
-> gathering all the IDs would take considerable time and community work.
+On Fri, 17 Jul 2026 04:51:15 +0100,
+Swark Yang <syang@axiado.com> wrote:
+>
 
-Okay.  It's worth mentioning this in the patch description.
+[...]
 
-> Also, the kernel's own xpad module is slightly behind some changes or
-> so I have heard. There are a few community maintained kernel
-> modules/drivers with many changes that are required for these devices
-> to actually function. There is some magic packet that needs to be sent
-> after the usb device has initialized along with doing a bunch of other
-> things like mapping out buttons, etc. These drivers are also required
-> for a device to fully function in most cases (the builtin xpad also
-> works in some cases). So just by adding a device to the quirk list
-> wouldn't truly fix it.
-> 
-> There's still a lot of issues that need to be addressed in the kernel
-> driver space to "truly" fix Xbox 360-compatible devices (majorly,
-> hid-generic or other drivers claim the devices before these
-> out-of-tree modules due to race conditions). My patch is just the
-> first step.
+> +	soc {
+> +		compatible = "simple-bus";
+> +		#address-cells = <2>;
+> +		#size-cells = <2>;
+> +		interrupt-parent = <&gic500>;
+> +		ranges;
+> +
+> +		gic500: interrupt-controller@40400000 {
+> +			compatible = "arm,gic-v3";
+> +			reg = <0x0 0x40400000 0x0 0x10000>,
+> +			      <0x0 0x40500000 0x0 0xc0000>;
 
-Got it.
+This is missing the GICC, GICH and GICV regions that are implemented
+on Cortex-A53. See the binding document.
 
-> Thanks! I would like to know your thoughts on the above points as to
-> what should be preferably done moving forward. If it happens that I
-> should send in another patch, I will address the nits and add the
-> Acked-By as well.
+> +			ranges;
+> +			#interrupt-cells = <3>;
+> +			interrupt-controller;
+> +			#address-cells = <2>;
+> +			#size-cells = <2>;
+> +			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_LOW>;
+> +			#redistributor-regions = <1>;
 
-That's up to you.  What you have done so far is already acceptable, IMO.
+This is the default, and isn't required.
 
-Alan Stern
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
