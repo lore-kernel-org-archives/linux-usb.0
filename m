@@ -1,51 +1,51 @@
-Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
+Received: from mail-oo1-f77.google.com (mail-oo1-f77.google.com [209.85.161.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648021A6811
-	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 13:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CBA448392
+	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 13:53:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785246761; cv=none; b=A9zS0dTdPQkDeRppLoKUaoNdTrW8Td/af5xjby7nb/7o4yu1Y0Sqg8evdhPbuhf7O8iRnZb+cDRuNDL/NlAMnvY8AjyP/MCAt4gRP9m/6fJzSXvwfmH9H17gEF/0drPL7V9Ltyz3cUpIj2pic2zBsJMpHdSxaOnYXUfmHuOkhEM=
+	t=1785246811; cv=none; b=DTU0XeRtmGyD0Q5DXfYLppwbuYpCeSmPr2VNzjd7HgOqye1PrJPbWLV8OCxqUAa9UsJ6VSDE2iZpLNU218beXA2qbmO53Krduu6xbgTr/22aIxkDyrlpGE45ze2vPZwCY9Ju51b2I5lgw3Y/5bDBHgdXrKhDk5K37q2xVaDKRBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785246761; c=relaxed/simple;
-	bh=gNQBf0Bq1O1ppF8DS1vr5zUXLPEJdDcY0BVXmWg36qw=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=CTxfjBm+quAWeWxwBZh6Nr6feJsLAmMOq9qVLf4kIXEGGddt8iiQKBxez2cU89OVPziRjG162wP//bgTjbtTjvAMGtLoqL5tB95obFrETDNPK+rUgY+R0XLt8deMJ5aik9ZY0Ks0f6MJ4ui/ycOk4e1ZMBAD2XBX5nBGkC9DlyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.208
+	s=arc-20240116; t=1785246811; c=relaxed/simple;
+	bh=+Ip+lJ1eAVbdLUX3Bk2e9rUpffjB2ipt2l1i1GIKHqE=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Bd8UxBpV6jEJlX/iKp7j6zHITAuT31wfPfvfIBuOkq22PYnIJavwHS+F0T47JnBMX9XxLwt7b+s93IAv1rXeTwjUrKB/6x5WqmHEVUM1q4AoWNCzIDB2TWw5j4/Bpq3uDIfCg0n1YutMnNn/RYIabvckM3iOs8csij549/ZsNc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.77
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-4a46e8eec4bso885676b6e.1
-        for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 06:52:39 -0700 (PDT)
+Received: by mail-oo1-f77.google.com with SMTP id 006d021491bc7-6a3856a293fso3755648eaf.3
+        for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 06:53:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785246758; x=1785851558;
+        d=1e100.net; s=20251104; t=1785246808; x=1785851608;
         h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QaSiw8puFPeBu1SI31F7bxptPEcCvdayre4NGJcNTDE=;
-        b=a4jy7v1jih4BABqVz8wT2BTgYxZyCtN8xHrpp4aVD29j273N9eJpZ3pjeEOqjgqXfu
-         JI5sCudre6D3oxaoL9AmZOX8t57eZ6e10HHhrWly4OKuTJz/utzkAlsSjtIg1H+ft0A5
-         pWP8ICry1aov7H6umPmfNT0sjzNF1WCHlFHGL1IdzDAKjdGqq+7GtgosScCn3YwHw//s
-         e3nD7vm/jd03qCvepmxi8rzetqphQS3f0tEihV+dfmpJyRWISdyVhPlMVFBTeiMwUMN4
-         3PO6PyugJ/9kuwqLx6mK2I7CRWMVf+8XlVVdAXX+kn1+fVgDWiu58sKYXbnwNKmMaJXV
-         rcjQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr72lR+rv7+nS1qXVWd+ajMxvfl0NP2N1R0+EZPYofyj4DpUyd2OzAFn8ivZdZr0GteUCuolU5ZqzA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxR1mCxZvGjFF80BlXlan8E6CvzEXI37Z0B1lRNY81Q42ctzfLy
-	j/R1CK9+GpktFU8sFqLA5RMhNBRfycYAc9N98YLw83Sa797tdwFn4HfON0Jb47EMZ1ue4zSXiL8
-	5adXWNisTqip1x4OVacHJ46cGk1BUP2EGD8z5uPbHX5mpi//+hazfIUXSxYA=
+        bh=W3P8Z9hUFoF2OzUP/lyBgZsBLImsu6jtz1XzpT1r4ew=;
+        b=lCZDunVON09dJb5vTviQLq1ZMtH87vnl7hpw894rjqm/WGH/nKpBBpnfSJ5PgP7wtZ
+         klU+cTK2cadReYiIOcjQW3qRfbSx5SklzhB27lA/m2l+QmDwnnUlnIhDgaCxEc2rraae
+         /CLsffgyuHS0ewBV6lLKpDVAtuR1FP0u0SiAarhm4Fretdm90m7Q++A7ipqCysFNUAP1
+         FSwSYnma804zwIWWMF2CZZ+L2lPeZTKvjckblUcZ2KRco1W1FdwSAVLRSI1E/Zc1rTHz
+         m84nE92bWhyJA6lUrFWSlnwUIuP7PfC0RsV/coOYs8qAyRKZ4Gumk3sE+9TNNpdI+3aT
+         hBCw==
+X-Forwarded-Encrypted: i=1; AHgh+RrG1pvw7TSEn0dogQsD6AQpxkU/P2h8wOLS4om+akcS+wtUg+UFg718XABweWe1V0mqvzzFLLB4SSA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmOPbmOhuyHcu8uiOIrU56bU1wuDURPsOKc7V3Q03xBo5f8EBg
+	iDMi9jg7O666YDZEWTCtfw0QAU0kpAfIlHqZVsjw0BojjvHFHfYSZKS3dY5b/TzGj8INl+t52Go
+	cdqjzsp2e1saKqDtVUIXzg1soBMALUdjtvzT4upGmcfvDNFP5tslgc8AR3zU=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:250e:b0:4a4:744:a4ff with SMTP id
- 5614622812f47-4ad5b94bbc8mr1603167b6e.4.1785246758353; Tue, 28 Jul 2026
- 06:52:38 -0700 (PDT)
-Date: Tue, 28 Jul 2026 06:52:38 -0700
+X-Received: by 2002:a05:6820:1899:b0:6a3:77b0:f765 with SMTP id
+ 006d021491bc7-6ac969be136mr1361644eaf.8.1785246808725; Tue, 28 Jul 2026
+ 06:53:28 -0700 (PDT)
+Date: Tue, 28 Jul 2026 06:53:28 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a68b426.b6659fcc.241ab8.00e9.GAE@google.com>
-Subject: [syzbot] [usb?] general protection fault in f_midi2_free_ep_reqs
-From: syzbot <syzbot+01a17afb30637396955e@syzkaller.appspotmail.com>
+Message-ID: <6a68b458.4c659fcc.19cd90.0022.GAE@google.com>
+Subject: [syzbot] [usb?] general protection fault in dummy_set_selfpowered
+From: syzbot <syzbot+5c0303816c30d2e621df@syzkaller.appspotmail.com>
 To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
 	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -54,150 +54,103 @@ Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    4235cb24ec1e Merge tag 'vfs-7.2-rc5.fixes' of git://git.ke..
+HEAD commit:    f5098b6bae76 Linux 7.2-rc5
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13b86449580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
-dashboard link: https://syzkaller.appspot.com/bug?extid=01a17afb30637396955e
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17aaa7b1580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16341632580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=101426b9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cb17729fb04b1e3a
+dashboard link: https://syzkaller.appspot.com/bug?extid=5c0303816c30d2e621df
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14dc67b1580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11b89632580000
 
 Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-4235cb24.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/0220bd6b47b0/vmlinux-4235cb24.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/b7fcbec12504/bzImage-4235cb24.xz
+disk image: https://storage.googleapis.com/syzbot-assets/af1f735fe999/disk-f5098b6b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a9ba72031565/vmlinux-f5098b6b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/5bfbc9338ea7/bzImage-f5098b6b.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+01a17afb30637396955e@syzkaller.appspotmail.com
+Reported-by: syzbot+5c0303816c30d2e621df@syzkaller.appspotmail.com
 
-Oops: general protection fault, probably for non-canonical address 0xdffffc00000000e6: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000730-0x0000000000000737]
-CPU: 2 UID: 0 PID: 56 Comm: kworker/2:1 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:f_midi2_free_ep_reqs+0x56/0x2b0 drivers/usb/gadget/function/f_midi2.c:1166
-Code: 85 6a 02 00 00 49 8b 45 00 48 89 44 24 18 48 05 30 07 00 00 48 89 c2 48 89 44 24 20 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <0f> b6 04 02 84 c0 74 08 3c 03 0f 8e b5 01 00 00 48 8b 44 24 18 31
-RSP: 0018:ffffc900006489e8 EFLAGS: 00010002
-RAX: dffffc0000000000 RBX: ffff8880559b0000 RCX: ffffffff87e7a829
-RDX: 00000000000000e6 RSI: ffffffff87e7a666 RDI: ffff8880559b0128
-RBP: ffff8880559b0128 R08: 0000000000000004 R09: 0000000000000020
-R10: 0000000000000020 R11: 000000000000758b R12: ffff8880559b00f0
-R13: ffff8880559b0128 R14: ffff8880559b0740 R15: 0000000000000001
-FS:  0000000000000000(0000) GS:ffff8880d5fdc000(0000) knlGS:0000000000000000
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 1 UID: 0 PID: 5939 Comm: syz.0.18 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+RIP: 0010:dummy_set_selfpowered+0xbe/0x160 drivers/usb/gadget/udc/dummy_hcd.c:906
+Code: 8d 34 c6 49 81 c6 c8 07 00 00 4c 89 f0 48 c1 e8 03 42 80 3c 20 00 74 08 4c 89 f7 e8 fc 22 01 fb 4d 8b 3e 4c 89 f8 48 c1 e8 03 <42> 80 3c 20 00 74 08 4c 89 ff e8 e3 22 01 fb 41 be 00 14 00 00 4d
+RSP: 0018:ffffc90003aaf780 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffff88803c6e0000
+RDX: 0000000000000000 RSI: 0000000000000003 RDI: 0000000000000005
+RBP: 0000000000000003 R08: 0000000000000000 R09: 0000000000000000
+R10: dffffc0000000000 R11: ffffffff872e19b0 R12: dffffc0000000000
+R13: ffff88803ab92528 R14: ffff88802a2fd408 R15: 0000000000000000
+FS:  00005555757b0500(0000) GS:ffff888125d41000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000033e4100 CR3: 0000000030cc7000 CR4: 0000000000352ef0
+CR2: 0000200000001000 CR3: 000000004417e000 CR4: 00000000003526f0
 Call Trace:
- <IRQ>
- f_midi2_stop_eps drivers/usb/gadget/function/f_midi2.c:1246 [inline]
- f_midi2_set_alt+0x444/0x5f0 drivers/usb/gadget/function/f_midi2.c:1296
- composite_setup+0x16f8/0x9290 drivers/usb/gadget/composite.c:1933
- configfs_composite_setup+0xfb/0x130 drivers/usb/gadget/configfs.c:1877
- dummy_timer+0x2045/0x36f0 drivers/usb/gadget/udc/dummy_hcd.c:1951
- __run_hrtimer kernel/time/hrtimer.c:2032 [inline]
- __hrtimer_run_queues+0x462/0x9c0 kernel/time/hrtimer.c:2096
- hrtimer_run_softirq+0x17d/0x2c0 kernel/time/hrtimer.c:2113
- handle_softirqs+0x1ea/0x9b0 kernel/softirq.c:622
- __do_softirq kernel/softirq.c:656 [inline]
- invoke_softirq kernel/softirq.c:496 [inline]
- __irq_exit_rcu+0x162/0x210 kernel/softirq.c:735
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0xa3/0xc0 arch/x86/kernel/apic/apic.c:1062
- </IRQ>
  <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:179 [inline]
-RIP: 0010:_raw_spin_unlock_irqrestore+0x31/0x80 kernel/locking/spinlock.c:198
-Code: f5 53 48 8b 74 24 10 48 89 fb 48 83 c7 18 e8 56 f0 27 f6 48 89 df e8 de 3f 28 f6 f7 c5 00 02 00 00 75 23 9c 58 f6 c4 02 75 37 <bf> 01 00 00 00 e8 a5 4f 17 f6 65 8b 05 ee 38 a6 08 85 c0 74 16 5b
-RSP: 0018:ffffc90000a9e778 EFLAGS: 00000246
-RAX: 0000000000000006 RBX: ffff88806a626280 RCX: 0000000000000040
-RDX: 0000000000000000 RSI: ffffffff8e1a5b18 RDI: ffffffff8c401580
-RBP: 0000000000000283 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000000 R12: ffff88806a626280
-R13: 0000000000000000 R14: 00000000ffffffff R15: ffff88806a6262c8
- __mod_timer+0x409/0xca0 kernel/time/timer.c:1139
- add_timer+0x62/0x90 kernel/time/timer.c:1249
- schedule_timeout+0x122/0x280 kernel/time/sleep_timeout.c:98
- do_wait_for_common kernel/sched/completion.c:100 [inline]
- __wait_for_common+0x2e7/0x4c0 kernel/sched/completion.c:121
- usb_start_wait_urb+0x2ae/0x580 drivers/usb/core/message.c:72
- usb_internal_control_msg drivers/usb/core/message.c:117 [inline]
- usb_control_msg+0x328/0x4b0 drivers/usb/core/message.c:167
- usb_control_msg_send+0xca/0x130 drivers/usb/core/message.c:226
- usb_set_interface+0x9b6/0xe20 drivers/usb/core/message.c:1649
- snd_usb_midi_v2_create+0x629/0x4070 sound/usb/midi2.c:1120
- snd_usb_create_stream.isra.0+0x386/0x4d0 sound/usb/card.c:290
- snd_usb_create_streams sound/usb/card.c:392 [inline]
- usb_audio_probe+0xf05/0x3b10 sound/usb/card.c:1031
- usb_probe_interface+0x303/0x8f0 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3772
- usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
- usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
- usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:291
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3772
- usb_new_device.cold+0x685/0x115c drivers/usb/core/hub.c:2695
- hub_port_connect drivers/usb/core/hub.c:5567 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x30a3/0x4a60 drivers/usb/core/hub.c:5953
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ usb_gadget_set_selfpowered+0x75/0x260 drivers/usb/gadget/udc/core.c:578
+ composite_dev_prepare+0x2fa/0x320 drivers/usb/gadget/composite.c:2440
+ configfs_composite_bind+0xa5/0x1410 drivers/usb/gadget/configfs.c:1701
+ gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __driver_attach+0x339/0x600 drivers/base/dd.c:1292
+ bus_for_each_dev+0x23e/0x2c0 drivers/base/bus.c:383
+ bus_add_driver+0x348/0x670 drivers/base/bus.c:763
+ driver_register+0x23a/0x320 drivers/base/driver.c:174
+ usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1752
+ gadget_dev_desc_UDC_store+0x1c9/0x2f0 drivers/usb/gadget/configfs.c:300
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x33a/0x430 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x61e/0xbb0 fs/read_write.c:687
+ ksys_write+0x156/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5cd9f1de99
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc750c2c68 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f5cda1a5fa0 RCX: 00007f5cd9f1de99
+RDX: 000000000000000c RSI: 0000200000001100 RDI: 0000000000000003
+RBP: 00007f5cd9fb3eaf R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f5cda1a5fac R14: 00007f5cda1a5fa0 R15: 00007f5cda1a5fa0
  </TASK>
 Modules linked in:
 ---[ end trace 0000000000000000 ]---
-RIP: 0010:f_midi2_free_ep_reqs+0x56/0x2b0 drivers/usb/gadget/function/f_midi2.c:1166
-Code: 85 6a 02 00 00 49 8b 45 00 48 89 44 24 18 48 05 30 07 00 00 48 89 c2 48 89 44 24 20 48 b8 00 00 00 00 00 fc ff df 48 c1 ea 03 <0f> b6 04 02 84 c0 74 08 3c 03 0f 8e b5 01 00 00 48 8b 44 24 18 31
-RSP: 0018:ffffc900006489e8 EFLAGS: 00010002
-RAX: dffffc0000000000 RBX: ffff8880559b0000 RCX: ffffffff87e7a829
-RDX: 00000000000000e6 RSI: ffffffff87e7a666 RDI: ffff8880559b0128
-RBP: ffff8880559b0128 R08: 0000000000000004 R09: 0000000000000020
-R10: 0000000000000020 R11: 000000000000758b R12: ffff8880559b00f0
-R13: ffff8880559b0128 R14: ffff8880559b0740 R15: 0000000000000001
-FS:  0000000000000000(0000) GS:ffff8880d5fdc000(0000) knlGS:0000000000000000
+RIP: 0010:dummy_set_selfpowered+0xbe/0x160 drivers/usb/gadget/udc/dummy_hcd.c:906
+Code: 8d 34 c6 49 81 c6 c8 07 00 00 4c 89 f0 48 c1 e8 03 42 80 3c 20 00 74 08 4c 89 f7 e8 fc 22 01 fb 4d 8b 3e 4c 89 f8 48 c1 e8 03 <42> 80 3c 20 00 74 08 4c 89 ff e8 e3 22 01 fb 41 be 00 14 00 00 4d
+RSP: 0018:ffffc90003aaf780 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: ffff88803c6e0000
+RDX: 0000000000000000 RSI: 0000000000000003 RDI: 0000000000000005
+RBP: 0000000000000003 R08: 0000000000000000 R09: 0000000000000000
+R10: dffffc0000000000 R11: ffffffff872e19b0 R12: dffffc0000000000
+R13: ffff88803ab92528 R14: ffff88802a2fd408 R15: 0000000000000000
+FS:  00005555757b0500(0000) GS:ffff888125d41000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000033e4100 CR3: 0000000030cc7000 CR4: 0000000000352ef0
+CR2: 0000200000001000 CR3: 000000004417e000 CR4: 00000000003526f0
 ----------------
 Code disassembly (best guess):
-   0:	85 6a 02             	test   %ebp,0x2(%rdx)
-   3:	00 00                	add    %al,(%rax)
-   5:	49 8b 45 00          	mov    0x0(%r13),%rax
-   9:	48 89 44 24 18       	mov    %rax,0x18(%rsp)
-   e:	48 05 30 07 00 00    	add    $0x730,%rax
-  14:	48 89 c2             	mov    %rax,%rdx
-  17:	48 89 44 24 20       	mov    %rax,0x20(%rsp)
-  1c:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  23:	fc ff df
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	0f b6 04 02          	movzbl (%rdx,%rax,1),%eax <-- trapping instruction
-  2e:	84 c0                	test   %al,%al
-  30:	74 08                	je     0x3a
-  32:	3c 03                	cmp    $0x3,%al
-  34:	0f 8e b5 01 00 00    	jle    0x1ef
-  3a:	48 8b 44 24 18       	mov    0x18(%rsp),%rax
-  3f:	31                   	.byte 0x31
+   0:	8d 34 c6             	lea    (%rsi,%rax,8),%esi
+   3:	49 81 c6 c8 07 00 00 	add    $0x7c8,%r14
+   a:	4c 89 f0             	mov    %r14,%rax
+   d:	48 c1 e8 03          	shr    $0x3,%rax
+  11:	42 80 3c 20 00       	cmpb   $0x0,(%rax,%r12,1)
+  16:	74 08                	je     0x20
+  18:	4c 89 f7             	mov    %r14,%rdi
+  1b:	e8 fc 22 01 fb       	call   0xfb01231c
+  20:	4d 8b 3e             	mov    (%r14),%r15
+  23:	4c 89 f8             	mov    %r15,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 80 3c 20 00       	cmpb   $0x0,(%rax,%r12,1) <-- trapping instruction
+  2f:	74 08                	je     0x39
+  31:	4c 89 ff             	mov    %r15,%rdi
+  34:	e8 e3 22 01 fb       	call   0xfb01231c
+  39:	41 be 00 14 00 00    	mov    $0x1400,%r14d
+  3f:	4d                   	rex.WRB
 
 
 ---
