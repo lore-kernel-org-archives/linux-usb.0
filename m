@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8E3224AF9
-	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 10:28:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5298A41F7EC
+	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 10:36:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785234515; cv=none; b=ekugGCBN3g8PrZKDnGP1K6cTORvb54DQISIlQfWLzmPCqz/R6csV8kqSGqRD/lYShjb9I5J2qY813gYIbgHQ4XIqWq1Iq4tSYyZ8kqVpp/8UXULvHIR24CCNbp7ZFNeTvg2BMRps6FtOYl3IF0T0/ieg9ort6gvI9+JkvEYZ9IY=
+	t=1785235005; cv=none; b=IgXQBc5G5z0M3iaJx0vJe11EZWXQwSh/k/Ay/h+4RVQVZPfmR/1S3bT/KMIhLS37L3iGAswzjiV4+ozbeRKq8U/adiKSgNsAiju0EpCfl1dSRKlyVJlLx2FPNDlH1cT+pOiAeE1WcfYt9pjNmktac9ucotKyeumr+58b/mLkYKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785234515; c=relaxed/simple;
-	bh=WBZEq8eulA94uyKiAd6EwifwlYpNHAve+HpLJ79kSsE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=doEtTfiVWptFhr9Gfd0nMAeLDa5RqWVWAYjRjpb78UOrTmD4yWdoYIP4a5V9yZom2Bze749VrVEl+Tj4FgFhC2pJOsU4QwMYTYmWkRDceyHMdHKyHEMFJvDYHe3lB42QsHrtU4zyuRboKUssfeVWf4+9tlrfYa1V2PvNY8+S1t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HqLBYFgb; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1785235005; c=relaxed/simple;
+	bh=IEWWu/6oGiIkJH8sG4p3XM9WoQus5pjqyhHaY9P/mMM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cGPKUPA7+u1aKU8oq3QVGAm3RdVH6KqwsBIBIfNYaKmd0KxX696gFKvKYXt4oYTtYVLRUPKNSlP9Qz1jmHcUn8dOwA44s0PaAtwsmrwomoZou5aTQKgmSqQ3nG6GJIdn0J9f7aDNV/hGdrP/yE5fWt5m1sX2pkJ6cLVOdrk2wNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K06XJbXC; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HqLBYFgb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K06XJbXC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785234513; x=1816770513;
+  t=1785235003; x=1816771003;
   h=date:from:to:cc:subject:message-id;
-  bh=WBZEq8eulA94uyKiAd6EwifwlYpNHAve+HpLJ79kSsE=;
-  b=HqLBYFgbHfvWhTlZWMB30462sg4TlMAp7FYs9X6u/+JMcMp24MZs0lHf
-   cokmQUGX2EqkvUcYxgK5onp/EphR7yEJDDd9UGbD8Fnxjzv/Xg5zONFA/
-   HdqrVhgQ6+QYTMs9M/+2lSokcvnm8aUmXArUEO+nFPh52TwBKPEzndCFk
-   roOTptcBWzD8LF4sh3HlyrUjOfHkMwcZBWdkfnPnB6Skjjnuy3gY4ZoZ8
-   dLzdqaDhfcibTa2FP5q2jrKBgLYUu5juuFjDdU3zGXblWJLq17zkpjvTf
-   INwD5/l0ixSv1l4lIIvgRo1V/Xd9UXKLiVRxU7YSHjbo2CP8z/zHtmIF5
-   A==;
-X-CSE-ConnectionGUID: PLMV8cOYTy6zyKCMhBRrXw==
-X-CSE-MsgGUID: /VXTCGHrSGqpHLQ52a++uQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="85932794"
+  bh=IEWWu/6oGiIkJH8sG4p3XM9WoQus5pjqyhHaY9P/mMM=;
+  b=K06XJbXCq9yWn3XzeUwmZR2HZtRRAHBIwIGzGVoMocjB5YNwepackVel
+   Yae4V9Z0zLpNDzkzdygLE43Wo/7lVmWb/lSqQMNB4dFn8AFIri8ETtGAo
+   Ci2/KYT/ZmVRxmXLyoy0jlzOKrRnUDph3fZPuC2YasTpXFtDJ9wR6IDPs
+   vO09HXyr8NXwDnKMuMiOBSMmoIfrTPozjLevvXzuSdK2BmUXRZAdMcgQW
+   5N8kZIbT+XwjSSxQNf0BJU676xzpAkQp/VKjPdKZM5cDHKqU996hgVj04
+   SdNyItI/5h+3pjl/hTXbfSgSCEiqI4WN34cWhXiM3UdFSeTUulrMkucPG
+   Q==;
+X-CSE-ConnectionGUID: DZqCy8WYQPef4GPu/K1ETQ==
+X-CSE-MsgGUID: 87zvX4lhTYuuU/mTvK0XBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="85933585"
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="85932794"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 03:28:33 -0700
-X-CSE-ConnectionGUID: QBjEW4CZToSORUmo/STabQ==
-X-CSE-MsgGUID: OFJCNXjgRjeg8YkA+xdf2g==
+   d="scan'208";a="85933585"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 03:36:43 -0700
+X-CSE-ConnectionGUID: CbJ1Q/uYS6qbeT7wJcQoxQ==
+X-CSE-MsgGUID: aPR363YXTDuKHgmYEIhwFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="256324583"
+   d="scan'208";a="255730498"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Jul 2026 03:28:31 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 Jul 2026 03:36:42 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wof2z-00000000eFH-22vo;
-	Tue, 28 Jul 2026 10:28:29 +0000
-Date: Tue, 28 Jul 2026 18:27:40 +0800
+	id 1wofAt-00000000eFg-25Nz;
+	Tue, 28 Jul 2026 10:36:39 +0000
+Date: Tue, 28 Jul 2026 18:36:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org
-Subject: [westeri-thunderbolt:fixes] BUILD SUCCESS
- e48844ece5e3ed1d1eb865f6da2b16f62cd9f86d
-Message-ID: <202607281830.PVskvY02-lkp@intel.com>
+Subject: [usb:usb-testing] BUILD SUCCESS
+ 5d5fd841c34649f1b09220fe58e59dffd61c447d
+Message-ID: <202607281848.r2bBZobB-lkp@intel.com>
 User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -59,10 +59,10 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git fixes
-branch HEAD: e48844ece5e3ed1d1eb865f6da2b16f62cd9f86d  thunderbolt: icm: Preserve USB4 proxy data-valid bit
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: 5d5fd841c34649f1b09220fe58e59dffd61c447d  Merge 7.2-rc5 into usb-next
 
-elapsed time: 879m
+elapsed time: 888m
 
 configs tested: 102
 configs skipped: 0
