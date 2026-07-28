@@ -1,108 +1,175 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A630423EA4
-	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 13:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785244163; cv=pass; b=YSnBOAM9MhgcpgNLWwvB8QgtWxDkYU0JfP3Bw4KdyzZ7DOxtrDoh49k0XocM/GX653U9wbfJgePMc6a3gI+fcAmkqh60Y6hptT0bdv7NrsWhTR24W1whC76hAgtujOmay/8gW5NSjOypBt81i/sxvMmvY79Sv7XppdkoJ3S0QWM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785244163; c=relaxed/simple;
-	bh=WW/xZH2DAZNDKZdBA60p3UQPzVbo1xpEASFs7x1TQNU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kMkHwHPhFIjiv63jzpJk2bvAXD8oWwMFDc/nwOTyxKW8CNzhvgp3VhPW2a8Ye87eto5eEq/lCRw0Tj/gtwMUHUaC2RQAijtqU9px0p15v3Q6TknU00NhRYw5TXbIb7l8SfSS+BJu7YoVwBuBw6KxK27bMX+eFM7ERQQ8338RFIE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C6Gy1gQ9; arc=pass smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C6Gy1gQ9"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5b0117d49dcso3404978e87.3
-        for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 06:09:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785244160; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kXTb3ub5TuBoVVljxc+NOPgAGtj7I/TXLNsA/IGVRq4WeHv/KYZcXSIQVDqdeFWLlU
-         vtvWt/ZtUGEGQFeSDRfBzEvbfvmUoeMFA5kFfbOev3WL0oWaYXpd18ZdE2GILrIedxiG
-         mu9W2aVny8KkuV6WE15NBwjejrbKGeVp7p1Qcpa7MhEObKwM3BO00Kg2IhSsdKTaERNW
-         khoLigLV5HeIbd9LVtg2pdjtL3qvaSUQkB3uQktVE4Wz3EV7Ex6mBRNQfDr4Yp0aJXYL
-         DKpieZ3PqURHlx7ZW6I9TB9QLo26GsAee9n6YQ6VBN5AhZMrn+US49iRTx7UuRM8ZUzi
-         lnxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=WW/xZH2DAZNDKZdBA60p3UQPzVbo1xpEASFs7x1TQNU=;
-        fh=JXJ7PMvKJNcjRTCRac8theD0Nen2cp+z36+i3um/C/Q=;
-        b=eatB268DafnQocejyV1+kQW6dzz79UKcW0X/HkHBMiOi5V8SV9WpzUpTc6LxHxlJGQ
-         ACOXUxqV/QBo9tQyZRcdEobN+3ae3OyexC4p4klxLyPWukz7rM5SgRvQo+9MFE1/ilno
-         s9r6jeKkcYZjZSgDOe0zXCq8RZXz2t+JGszUVQdSe3euXx1XQPo+vgRKN8RSEFU6Z8Jo
-         5ezjaTlSmsWe3p3/v0evv4V+lycrguQtmjBMPwQMNmZLv0FOdzTUZcmajPHLnKPgj6yi
-         yDzQvvNBzhopKm4F46gjA4CrJX9JIYwTCMKXH6+abHHh+L5gMGB21jiYKdXlB77Ut+GQ
-         odnw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785244160; x=1785848960; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WW/xZH2DAZNDKZdBA60p3UQPzVbo1xpEASFs7x1TQNU=;
-        b=C6Gy1gQ9BNJ/OEPfxj+pLjsHXezLe9fpChkh/YIE2fyvfTgxS7Y1WjsLvXizGnMm+I
-         CDjPL2pY7MokDo++TJfF+ukENZGvmD2sdo509erUNs3HCbHYiXFG3x96lra/ufMsTtRu
-         zjCdczN9evTASwi+d4AZ/vZsedkFxHWiaED66WeUQFWtJNNGKM7sG6a/0+Kz1ibevHT+
-         83hu8GDI9SAy5hhTBTEyF14l7r1pRcMYAwrUW08lwrDUj0DCz5C1TFCYDca5+Uskjl81
-         4B9T7okJcbONpSr9Lj0FzsobJnWI48sIkZLQnTGjxIWAvEfET0EZk9Vf3HhArEYunqja
-         cYlQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2DC43F0BC
+	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 13:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785245500; cv=none; b=B576dPYGkcGlHB0zAz/3Qf8QV3/JO35QIKUONNBPJL9rbdCvRejtL5EyZR7g1I1YUJYq0NwiaAFpr793zWUjTUUxzDEGSBR0ktG1/6mgFVIfN6sNGq+zaBEKRd4J754EIN7zl1d1hd/75rVPna98MZxUSmZUIlhtYqI6CMrcREE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785245500; c=relaxed/simple;
+	bh=N8murcwrzzDuOEXDT31IGQPYYYDfS2HWUC/xlDZ/Efk=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=lrJsqnWznSpoEea7khVQlZPtICfHjEHoeT6OhbarYTjPls/Pg3GiROIQfPngkaOAkN4mLUdm5uY5hdyjxrgdmSbhXfDERSaZvQUUAyh3oTxL17QOWnj8bROaSFwD9AVx12tyS4UvTYGBAlhEwcFtOUERqnck8mVIsTJBcUhdpH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4a4a7d0362eso4458617b6e.0
+        for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 06:31:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785244160; x=1785848960;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=WW/xZH2DAZNDKZdBA60p3UQPzVbo1xpEASFs7x1TQNU=;
-        b=VJIAiJEgkFUOm1Z2SzHDoFzG1x/+iNXk4AQ6aw3BTAJdmf1e92M9Hp1110MZmL5IcW
-         ZoSqhDW1V0fR64fsfEF4iC1u2jiU6Rm9L9qCQrpMeQAUMWHMhECo+bCx0/XWyfHjGOS6
-         26bq4FR1fWXvwZKmu25VzYah0B0GmwUVrNdFDhxUS60+4IghGv/0CRdzpK6FpSsimJPa
-         nHHL2ue2ryaJdZDQXNhBfLSF9g3385jh6/LCtF5es58HYDPMwuNikg7ni9QTSxi16YEZ
-         l+euz7E8JtdXwy8lG8ZUsT/axDD1LUwgq1UyJ6d3GM6DoFN5kfyBJ31GEZFhSVJHVSkZ
-         wE1w==
-X-Forwarded-Encrypted: i=1; AHgh+RozlddflloeIBLMeXstxubgaNSFDP58Nl1GcCWlhI91LLGnehsKUL49VZe2cQY6iC/0SgSi2/PvvKY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIarwPQI+qZsrFHEkeA74VqroMTwtkesz4HvfQcwjRCUtJi+30
-	N0J5PCRthHxYDJw0JmsLiwDl5vLcqsh/ZM2VRKuO4V0EEtoMsRQ16V0Rb8weJPCjzSD2pKZjfFI
-	WYIVyV+QusXKADnxbAXL3oTx8awr76+0=
-X-Gm-Gg: AR+sD12NPRdSxBLWWXdjqmW8E23u9IG7XxHGZGMtpgjolql2KypGYQibuFwnQzK4ne6
-	Qru1gchG0IcIPJV8Rgr8zcTi86ImHhoDA6es/bDqs6tx+tRK8JHwmiYAeybz1KQhcpk8gv0j8Er
-	JvFHf6YO06mK1jCrHWQhdfN6ovgOFZZj7KYL6pvs3JVXeIx2PCalkR1udJIwhWnMTRE//+FD9Zy
-	khtlbPYVUIOQAyqhTfruzK+fitZ2/nA/pdBpAwCtJeqzHKjIxozzaNvcpcymw==
-X-Received: by 2002:a05:6512:3990:b0:5b2:a22c:50e7 with SMTP id
- 2adb3069b0e04-5b2d025f1aamr513462e87.32.1785244160071; Tue, 28 Jul 2026
- 06:09:20 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785245489; x=1785850289;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BcItoRZsm4FGQfGvK79yI//8WQjIHvk6Nfh6Hvg2Bqs=;
+        b=LEr0Cyru8KeA4giKDsafMcSgEvgzdYvLSDsgT+dBzXG0TdLVd6P1wQJQG8kOXbdCkS
+         upJYSCiT8AeAz6lymeGJwL9FNUV0BDbYB23zoR0592gfZ+PTtCcIglsuL77pGbQ67o8m
+         VvQmQCtlaN30sTCN8eY+j07zYO/ViYqkKMt8SfD1b2bpdEU+IXmRoykr0mquxYhyPC0P
+         KqAte7HNpDFs/fWgWT2JX0E/tzhDj5q4xOE18zi1OKSAgHxs4tXzq4BOJaMxWz6TfgLK
+         GeFUv86brWv55l1gvLdDythbhe53YW/E38hlZoG1UBitJhK/5SWltMTO+S1/43gqzqgo
+         037A==
+X-Forwarded-Encrypted: i=1; AHgh+RoO3JPOdzN5eAT0YxeKn72l8HvwaJ3M7w5MnTAayresxv9wnjtVwYbRbvw0XABnZp5vQfb9ClEGrFA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQ3blbDpC0FVDzPy9JsrbvRJUxlR+GD57bHvu1mPK8PN2+adV1
+	B58cLRtD5lM65yP2dYFnnpscWg6NvnpU3BHGxHXt0dOreEySPiDwPYIsqS7bs4wAi3VIwAcRnkG
+	nvxRcoi3NBJqtoJFBoi9gpY3yCPRrOQCEZpxRpaWXjBxiB1mt8FgHgZxGHL8=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260708-ax88179a-v2-0-0800fedb2e16@birger-koblitz.de>
- <20260723143420.672680-1-neuromoments@gmail.com> <7f74229e-15a0-4633-9eb2-100fb9cccb91@birger-koblitz.de>
-In-Reply-To: <7f74229e-15a0-4633-9eb2-100fb9cccb91@birger-koblitz.de>
-From: Yuan Xu <neuromoments@gmail.com>
-Date: Tue, 28 Jul 2026 21:09:08 +0800
-X-Gm-Features: AUfX_mx7V3gsePYk3FYgpjUYk4nuJ1-IELUE_-DOvSqrglRkvttZ_r0RjorTGuE
-Message-ID: <CAMdPb80Jt5qdK_ecsbUh-D6OY+fM_qA6CiAq6bNUkAw0ogTAHg@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 00/12] ax88179_178a: Add support for
- AX88179A-based chips
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+X-Received: by 2002:a05:6808:c40d:b0:495:f104:d895 with SMTP id
+ 5614622812f47-4ad5b88751cmr1577943b6e.31.1785245489676; Tue, 28 Jul 2026
+ 06:31:29 -0700 (PDT)
+Date: Tue, 28 Jul 2026 06:31:29 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a68af31.073198cf.94f0f.0049.GAE@google.com>
+Subject: [syzbot] [usb?] general protection fault in uvcg_video_init
+From: syzbot <syzbot+8dcac923582c28505fd7@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 24, 2026, Birger Koblitz wrote:
+Hello,
 
-> If you have time, it would be great if you could test also that
-patch-revision.
+syzbot found the following issue on:
 
-Sure, I plan to test v3 on the AX88179B adapter over the weekend and
-will report the results afterward.
+HEAD commit:    62cc90241548 Merge tag 'mm-hotfixes-stable-2026-07-27-14-1..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=175316b9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
+dashboard link: https://syzkaller.appspot.com/bug?extid=8dcac923582c28505fd7
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
 
-Thanks,
-Jianhui
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/824c8ce85a0f/disk-62cc9024.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/a1e6cc0e8f11/vmlinux-62cc9024.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/807679f73b90/bzImage-62cc9024.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+8dcac923582c28505fd7@syzkaller.appspotmail.com
+
+configfs-gadget.g1 gadget.32: uvc: uvc_function_bind()
+Oops: general protection fault, probably for non-canonical address 0xdffffc00000000ec: 0000 [#1] SMP KASAN NOPTI
+KASAN: null-ptr-deref in range [0x0000000000000760-0x0000000000000767]
+CPU: 1 UID: 0 PID: 8101 Comm: syz.4.604 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+RIP: 0010:uvcg_video_init.cold+0x5f/0x135 drivers/usb/gadget/function/uvc_video.c:824
+Code: e0 2a 80 3c 02 00 74 08 48 89 df e8 6a bd 25 01 48 8b 2b b8 ff ff 37 00 48 c1 e0 2a 48 8d bd 60 07 00 00 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 b1 00 00 00 48 8d bd 90 07 00 00 b8 ff ff 37 00
+RSP: 0000:ffffc9000d2d7878 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: ffff888055368840 RCX: ffffc900065b2000
+RDX: 00000000000000ec RSI: ffffffff81552b56 RDI: 0000000000000760
+RBP: 0000000000000000 R08: 0000000000000007 R09: fffffffffffff000
+R10: fffffffffffffffc R11: ffffffff8bba81c5 R12: ffff8880553688a0
+R13: 0000000000000003 R14: ffff8880553686a0 R15: ffff88804c7c6528
+FS:  00007f59706d16c0(0000) GS:ffff888123edc000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000000110c379612 CR3: 0000000022a85000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ uvc_function_bind+0x136e/0x1939 drivers/usb/gadget/function/f_uvc.c:874
+ usb_add_function+0x219/0x890 drivers/usb/gadget/composite.c:333
+ configfs_composite_bind+0xd83/0x1960 drivers/usb/gadget/configfs.c:1802
+ gadget_bind_driver+0x28c/0xbf0 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __driver_attach+0x21f/0x5b0 drivers/base/dd.c:1292
+ bus_for_each_dev+0x13e/0x1d0 drivers/base/bus.c:383
+ bus_add_driver+0x305/0x5b0 drivers/base/bus.c:763
+ driver_register+0x1e2/0x360 drivers/base/driver.c:174
+ usb_gadget_register_driver_owner+0x132/0x210 drivers/usb/gadget/udc/core.c:1752
+ gadget_dev_desc_UDC_store+0x1b0/0x2e0 drivers/usb/gadget/configfs.c:300
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f596f79de99
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f59706d1028 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007f596fa25fa0 RCX: 00007f596f79de99
+RDX: 000000000000000c RSI: 0000200000001f00 RDI: 0000000000000004
+RBP: 00007f596f833eaf R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f596fa26038 R14: 00007f596fa25fa0 R15: 00007ffed2857f28
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:uvcg_video_init.cold+0x5f/0x135 drivers/usb/gadget/function/uvc_video.c:824
+Code: e0 2a 80 3c 02 00 74 08 48 89 df e8 6a bd 25 01 48 8b 2b b8 ff ff 37 00 48 c1 e0 2a 48 8d bd 60 07 00 00 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 b1 00 00 00 48 8d bd 90 07 00 00 b8 ff ff 37 00
+RSP: 0000:ffffc9000d2d7878 EFLAGS: 00010202
+RAX: dffffc0000000000 RBX: ffff888055368840 RCX: ffffc900065b2000
+RDX: 00000000000000ec RSI: ffffffff81552b56 RDI: 0000000000000760
+RBP: 0000000000000000 R08: 0000000000000007 R09: fffffffffffff000
+R10: fffffffffffffffc R11: ffffffff8bba81c5 R12: ffff8880553688a0
+R13: 0000000000000003 R14: ffff8880553686a0 R15: ffff88804c7c6528
+FS:  00007f59706d16c0(0000) GS:ffff888123ddc000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055558731aa48 CR3: 0000000022a85000 CR4: 00000000003526f0
+----------------
+Code disassembly (best guess):
+   0:	e0 2a                	loopne 0x2c
+   2:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+   6:	74 08                	je     0x10
+   8:	48 89 df             	mov    %rbx,%rdi
+   b:	e8 6a bd 25 01       	call   0x125bd7a
+  10:	48 8b 2b             	mov    (%rbx),%rbp
+  13:	b8 ff ff 37 00       	mov    $0x37ffff,%eax
+  18:	48 c1 e0 2a          	shl    $0x2a,%rax
+  1c:	48 8d bd 60 07 00 00 	lea    0x760(%rbp),%rdi
+  23:	48 89 fa             	mov    %rdi,%rdx
+  26:	48 c1 ea 03          	shr    $0x3,%rdx
+* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
+  2e:	0f 85 b1 00 00 00    	jne    0xe5
+  34:	48 8d bd 90 07 00 00 	lea    0x790(%rbp),%rdi
+  3b:	b8 ff ff 37 00       	mov    $0x37ffff,%eax
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
