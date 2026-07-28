@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE0042CB0A
-	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 11:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE27742BC35
+	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 11:51:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785239508; cv=none; b=iNocEcpRB7Br12RrI+Y2kclzsChbrN0u4SG0MonwRqnXlWh317uAco+1BK08+UvqjZcGigTQveha3XKwJ3B34MghGyjNWQEPVWtoKA06tlSRhMjUSD1F6+C8Rv5YxqE/Ah2xqcuX39RH0/K8AzL7t6EF2u5iLOMq/yKBqqHInt4=
+	t=1785239509; cv=none; b=rW5y5b1StnbylDAlw9bY6RmbR88N5vJ/j2tZ0xKBUSbwROG/BbpoBwpZ5C6iDmYMvK3QkhZOnBC+aG3vHLRSmyEsHxwZRmrCpuL8xw83issHYzhu6WklC7Faqze/dHtGafs8PVrI0ChpQ+nNsxJw7ATBZYxyF3JLfTdhoS1KMeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785239508; c=relaxed/simple;
-	bh=JKv13jN/7ryP6ULexYMG2RRjfa9GeGotcXDWsmxcIDg=;
+	s=arc-20240116; t=1785239509; c=relaxed/simple;
+	bh=Su5BIh0XPuifis2D6dD7PguigxUDtC+t9bGo9dyKEew=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QXzqIxKfiAa9GJP4oB46RDLPivGKE8d1qAFSkvzfvYWzrtcBT5ZcXbzZ2vZEPkYUMduvov6ReAZf3NTcVK/4t2RQycNITjNwrXWwbzOzcRJtz88Djlor2k/IbFV47f+E+71MzCa3nnxCYU1cytFdG/dSeZuJHe7QYA4Fx33m7jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FurbRMOu; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=po8mGaj7Gy0bRZULc6xqhIAxKKU20TCYWR3ArVy7hwVU19hfqjd6H3yUdzf6scuvVatCD6+l9pf7DRO2PhaPmOIDsMnXBiru0K5Mn5HHG94Ul/mmWVYuDWXfaQNFcqf+Vm17RTg9qbAyM3ylCk8LTSlMf1knhHHBWM+l0qAO30U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BYV5p+E+; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FurbRMOu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BYV5p+E+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785239507; x=1816775507;
+  t=1785239508; x=1816775508;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=JKv13jN/7ryP6ULexYMG2RRjfa9GeGotcXDWsmxcIDg=;
-  b=FurbRMOuuKn4kKNRUaquLwCCo4mIqM7BTZ12cvVDAYO3IN5+OrSJXAY/
-   d0904tfBvzn0KJxHHdVm5g96az5y5Pse0/QPVluF5W1t8Z/Onw4m0k2fE
-   erXFQhvvaHNwPuH6YFdkWoohNJsOhAyjCtSfKpiyKw/4pIu8Fr1R2xUCi
-   4s9fmxW7YrVugDB4l1aud8oKqdR9Lz2I1ZwkYzNDkAkayNxVEhvxhfSvK
-   2HWLRFNT09HrsHr5thfyCkLquzXKH1brSyaEOtHIbZ4sbni5kg4Y/MccK
-   h+NA9Qq+XzfLZCjCHBvYPVPnA58lkVVOuYNTHHynu6WYOHN6girX/S0gU
+  bh=Su5BIh0XPuifis2D6dD7PguigxUDtC+t9bGo9dyKEew=;
+  b=BYV5p+E+ZBIMJfnhD9WdVCR1nHW/sAYn71lqRMkWcPcP25ryMzzEUmh/
+   /CM5HP1Pvrrwfov5H9tEk25cI83t3e5gmXulqx00HEMk0+FiIwP2ImK2j
+   S/59fpngHT6seQxXSwyWWdAV+rDxoV0CinwO2uNzpL49veZRyTGShVW7z
+   uCiwE0INiutA0+STzIp6xi6VRi0BXtAyScg8zfyx19jVJGVG3QAazFVWG
+   oEbCAi8Ahc2LF8L2L71bJ3SKPd7FLrucBqKChG2u53OEflBfjzQJE2PIw
+   zvJw2sM845RZn2MvnFq4QuCoS3gXnM8hLtC9R8m+UIjZiKBMvsCgiIrpk
    w==;
-X-CSE-ConnectionGUID: DX9+e9/gTYGTZGGRiBrUGw==
-X-CSE-MsgGUID: 3SteBicLTUuKjpKN7R5T5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="103227213"
+X-CSE-ConnectionGUID: wd/gabLCSNKwcU8RdmlG6g==
+X-CSE-MsgGUID: HI+5fZOgSYG2C9IzyT2ugA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11858"; a="103227216"
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="103227213"
+   d="scan'208";a="103227216"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 04:51:44 -0700
-X-CSE-ConnectionGUID: ehSNGpmYS4S5fU0qPCF+VQ==
-X-CSE-MsgGUID: MHAwA/srQHOKdVR/xTojAA==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2026 04:51:47 -0700
+X-CSE-ConnectionGUID: X0xbYHHoRNODuEuTTYn71Q==
+X-CSE-MsgGUID: h6HyplsFS36Dn1ee8EeWFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,190,1779174000"; 
-   d="scan'208";a="263991658"
+   d="scan'208";a="263991662"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa005.jf.intel.com with ESMTP; 28 Jul 2026 04:51:43 -0700
+  by orviesa005.jf.intel.com with ESMTP; 28 Jul 2026 04:51:45 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 5C7F99E; Tue, 28 Jul 2026 13:51:41 +0200 (CEST)
+	id 63137A2; Tue, 28 Jul 2026 13:51:41 +0200 (CEST)
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
 To: linux-usb@vger.kernel.org
 Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
@@ -52,9 +52,9 @@ Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
 	Andreas Noever <andreas.noever@gmail.com>,
 	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 3/5] thunderbolt: stream: Support IOCB_NOWAIT in non-blocking I/O as well
-Date: Tue, 28 Jul 2026 13:51:39 +0200
-Message-ID: <20260728115141.2585464-4-mika.westerberg@linux.intel.com>
+Subject: [PATCH 5/5] thunderbolt: stream: Add support for busy polling
+Date: Tue, 28 Jul 2026 13:51:41 +0200
+Message-ID: <20260728115141.2585464-6-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260728115141.2585464-1-mika.westerberg@linux.intel.com>
 References: <20260728115141.2585464-1-mika.westerberg@linux.intel.com>
@@ -66,115 +66,379 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For read_iter/write_iter() it is also possible to pass IOCB_NOWAIT with
-the kiocb to indicate non-blocking read/write. For instance io_uring
-does this. So take this into account on read and write paths.
+Using interrupts and scheduling workers increase latency so latency
+critical applications may want to avoid that. Make this possible in
+USB4STREAM by adding a new ConfigFS attribute: busy_poll that, when
+activated switches the rings to polling mode. The cost for lower latency
+is that this burns more CPU cycles and things like poll(2) cannot be
+used.
 
+Assisted-by: Claude:claude-opus-4-8
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/stream.c | 40 +++++++++++++++++++++++++++---------
- 1 file changed, 30 insertions(+), 10 deletions(-)
+ .../ABI/testing/configfs-thunderbolt_stream   |  15 ++
+ drivers/thunderbolt/stream.c                  | 212 ++++++++++++++----
+ 2 files changed, 187 insertions(+), 40 deletions(-)
 
+diff --git a/Documentation/ABI/testing/configfs-thunderbolt_stream b/Documentation/ABI/testing/configfs-thunderbolt_stream
+index 7abc6b73a1e4..cbecb3d8db50 100644
+--- a/Documentation/ABI/testing/configfs-thunderbolt_stream
++++ b/Documentation/ABI/testing/configfs-thunderbolt_stream
+@@ -27,6 +27,21 @@ Description:
+ 		default values. If there is an advertised remote stream
+ 		with the same name, uses its values as the default.
+ 
++What:		/sys/kernel/config/thunderbolt/stream/<xdomain>.<service>/$name/busy_poll
++Date:		Nov 2026
++KernelVersion:	v7.3
++Contact:	Mika Westerberg <mika.westerberg@linux.intel.com>
++Description:
++		Instead of using interrupts for completing the frames in
++		the TX/RX rings, busy poll them directly from the
++		read(2) and write(2) calls. This burns more CPU cycles
++		but provides lower latency for applications that need it.
++
++		This also makes poll(2) return EPOLLERR because
++		interrupts do not provide wakeup anymore. Likewise a
++		blocking read(2) without available data busy-spins until
++		data arrives or a signal is received.
++
+ What:		/sys/kernel/config/thunderbolt/stream/<xdomain>.<service>/$name/index
+ Date:		Sep 2026
+ KernelVersion:	v7.2
 diff --git a/drivers/thunderbolt/stream.c b/drivers/thunderbolt/stream.c
-index 20e6ad586879..06c8620708b1 100644
+index 06c8620708b1..d16f14b170e8 100644
 --- a/drivers/thunderbolt/stream.c
 +++ b/drivers/thunderbolt/stream.c
-@@ -633,10 +633,23 @@ static void tbstream_dev_stop(struct tbstream_dev *sdev)
+@@ -9,10 +9,12 @@
+ 
+ #define pr_fmt(fmt) "tbstream: " fmt
+ 
++#include <linux/delay.h>
+ #include <linux/configfs.h>
+ #include <linux/file.h>
+ #include <linux/fs.h>
+ #include <linux/idr.h>
++#include <linux/ktime.h>
+ #include <linux/miscdevice.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+@@ -128,6 +130,7 @@ struct tbstream_ring {
+  * @out_hopid: Out HopID
+  * @ring_size: Size of the rings
+  * @throttling: Interrupt throttling rate in ns
++ * @busy_poll: Instead of interrupts, busy poll the rings
+  * @users: Number of times @cdev has been opened
+  * @closed: CLOSE packet was received
+  * @removed: Userspace removed the ConfigFS group underneath.
+@@ -147,6 +150,7 @@ struct tbstream_dev {
+ 	int out_hopid;
+ 	unsigned int ring_size;
+ 	unsigned int throttling;
++	bool busy_poll;
+ 	int users;
+ 	bool closed;
+ 	bool removed;
+@@ -536,10 +540,39 @@ tbstream_dev_send_data(struct tbstream_dev *sdev, struct iov_iter *from,
+ 	return tb_ring_tx(sdev->tx_ring.ring, &sf->frame);
+ }
+ 
++static void
++tbstream_dev_poll_ring(struct tbstream_dev *sdev, struct tbstream_ring *ring)
++{
++	struct ring_frame *frame;
++
++	if (!sdev->busy_poll)
++		return;
++
++	while ((frame = tb_ring_poll(ring->ring)))
++		frame->callback(ring->ring, frame, false);
++}
++
+ static int tbstream_dev_send_close(struct tbstream_dev *sdev)
+ {
+ 	struct tbstream_frame *sf;
+ 
++	if (sdev->busy_poll) {
++		/*
++		 * When busy polling it's the write(2) path that
++		 * advances the completions so it is possible that the
++		 * ring is full at this point. Advance the ring here so
++		 * that there is room for the CLOSE packet to be sent.
++		 */
++		ktime_t timeout = ktime_add_ms(ktime_get(), 500);
++
++		do {
++			if (tbstream_ring_available(&sdev->tx_ring))
++				break;
++			tbstream_dev_poll_ring(sdev, &sdev->tx_ring);
++			fsleep(15);
++		} while (ktime_before(ktime_get(), timeout));
++	}
++
+ 	sf = tbstream_dev_alloc_tx(sdev, TBSTREAM_CLOSE, NULL, SZ_256);
+ 	if (IS_ERR(sf))
+ 		return PTR_ERR(sf);
+@@ -549,12 +582,15 @@ static int tbstream_dev_send_close(struct tbstream_dev *sdev)
+ static int tbstream_dev_start(struct tbstream_dev *sdev)
+ {
+ 	struct tb_xdomain *xd = tbstream_dev_xdomain(sdev);
++	unsigned int flags = RING_FLAG_FRAME | RING_FLAG_E2E;
+ 	u16 sof_mask, eof_mask;
+ 	struct tb_ring *ring;
+ 	int ret, e2e_tx_hop;
+ 
+-	ring = tb_ring_alloc_tx(xd->tb->nhi, -1, sdev->ring_size,
+-				RING_FLAG_FRAME | RING_FLAG_E2E);
++	if (sdev->busy_poll)
++		flags |= RING_FLAG_NO_INTERRUPT;
++
++	ring = tb_ring_alloc_tx(xd->tb->nhi, -1, sdev->ring_size, flags);
+ 	if (!ring)
+ 		return -ENOMEM;
+ 	sdev->tx_ring.ring = ring;
+@@ -567,9 +603,8 @@ static int tbstream_dev_start(struct tbstream_dev *sdev)
+ 	sof_mask = BIT(TBSTREAM_FRAME_START);
+ 	eof_mask = BIT(TBSTREAM_DATA) | BIT(TBSTREAM_CLOSE);
+ 
+-	ring = tb_ring_alloc_rx(xd->tb->nhi, -1, sdev->ring_size,
+-				RING_FLAG_FRAME | RING_FLAG_E2E, e2e_tx_hop,
+-				sof_mask, eof_mask, NULL, NULL);
++	ring = tb_ring_alloc_rx(xd->tb->nhi, -1, sdev->ring_size, flags,
++				e2e_tx_hop, sof_mask, eof_mask, NULL, NULL);
+ 	if (!ring) {
+ 		ret = -ENOMEM;
+ 		goto err_free_tx_buffers;
+@@ -607,15 +642,43 @@ static int tbstream_dev_start(struct tbstream_dev *sdev)
+ 	return ret;
+ }
+ 
++static bool tbstream_dev_tx_drained(const struct tbstream_dev *sdev)
++{
++	const struct tbstream_ring *ring = &sdev->tx_ring;
++
++	/*
++	 * Everything is completed when number of free TX slots is back
++	 * to the maximum.
++	 */
++	return ring->prod - ring->cons == tb_ring_size(ring->ring) - 1;
++}
++
+ static void tbstream_dev_stop(struct tbstream_dev *sdev)
+ {
+ 	struct tb_xdomain *xd;
+ 
+-	/* Wait for the ring to complete any outstanding frames */
+-	tb_ring_flush(sdev->tx_ring.ring, 500);
+-	tb_ring_stop(sdev->tx_ring.ring);
+-	tb_ring_flush(sdev->rx_ring.ring, 500);
+-	tb_ring_stop(sdev->rx_ring.ring);
++	if (sdev->busy_poll) {
++		/*
++		 * When busy polling we must advance the ring ourselves
++		 * to push all outstanding frames on the wire.
++		 */
++		ktime_t timeout = ktime_add_ms(ktime_get(), 500);
++
++		do {
++			if (tbstream_dev_tx_drained(sdev))
++				break;
++			tbstream_dev_poll_ring(sdev, &sdev->tx_ring);
++			fsleep(15);
++		} while (ktime_before(ktime_get(), timeout));
++
++		tb_ring_stop(sdev->tx_ring.ring);
++		tb_ring_stop(sdev->rx_ring.ring);
++	} else {
++		tb_ring_flush(sdev->tx_ring.ring, 500);
++		tb_ring_stop(sdev->tx_ring.ring);
++		tb_ring_flush(sdev->rx_ring.ring, 500);
++		tb_ring_stop(sdev->rx_ring.ring);
++	}
+ 
+ 	xd = tbstream_dev_xdomain(sdev);
+ 	if (xd) {
+@@ -633,6 +696,7 @@ static void tbstream_dev_stop(struct tbstream_dev *sdev)
  	sdev->tx_ring.ring = NULL;
  }
  
-+static int tbstream_dev_lock(struct tbstream_dev *sdev, bool nowait)
-+{
-+	if (nowait) {
-+		if (!mutex_trylock(&sdev->lock))
++/* Use only with read_iter/write_iter() to handle nowait */
+ static int tbstream_dev_lock(struct tbstream_dev *sdev, bool nowait)
+ {
+ 	if (nowait) {
+@@ -662,26 +726,42 @@ tbstream_dev_fops_read_iter(struct kiocb *kiocb, struct iov_iter *to)
+ 	if (ret)
+ 		return ret;
+ 
+-	while (!tbstream_ring_available(&sdev->rx_ring)) {
+-		mutex_unlock(&sdev->lock);
+-
+-		if (nowait)
+-			return -EAGAIN;
+-
+-		ret = wait_event_interruptible(sdev->wait,
+-				tbstream_ring_available(&sdev->rx_ring) ||
+-				tbstream_dev_valid(sdev) != 0 ||
+-				tbstream_dev_closed(sdev) ||
+-				tbstream_dev_removed(sdev));
+-		if (ret)
+-			return ret;
++	for (;;) {
++		/* When busy polling, advance any completions manually */
++		tbstream_dev_poll_ring(sdev, &sdev->rx_ring);
+ 
+ 		ret = tbstream_dev_valid(sdev);
+-		if (ret)
++		if (ret) {
++			mutex_unlock(&sdev->lock);
+ 			return ret;
++		}
+ 
+-		if (tbstream_dev_closed(sdev) || tbstream_dev_removed(sdev))
++		if (tbstream_dev_closed(sdev) || tbstream_dev_removed(sdev)) {
++			mutex_unlock(&sdev->lock);
+ 			return 0;
++		}
++
++		if (tbstream_ring_available(&sdev->rx_ring))
++			break;
++
++		mutex_unlock(&sdev->lock);
++
++		if (nowait)
 +			return -EAGAIN;
-+	} else {
-+		if (mutex_lock_interruptible(&sdev->lock))
-+			return -ERESTARTSYS;
-+	}
-+	return 0;
++
++		if (sdev->busy_poll) {
++			if (signal_pending(current))
++				return -ERESTARTSYS;
++			cond_resched();
++		} else {
++			ret = wait_event_interruptible(sdev->wait,
++					tbstream_ring_available(&sdev->rx_ring) ||
++					tbstream_dev_valid(sdev) != 0 ||
++					tbstream_dev_closed(sdev) ||
++					tbstream_dev_removed(sdev));
++			if (ret)
++				return ret;
++		}
+ 
+ 		ret = tbstream_dev_lock(sdev, nowait);
+ 		if (ret)
+@@ -758,26 +838,41 @@ tbstream_dev_fops_write_iter(struct kiocb *kiocb, struct iov_iter *from)
+ 	if (ret)
+ 		return ret;
+ 
+-	while (!tbstream_ring_available(&sdev->tx_ring)) {
+-		mutex_unlock(&sdev->lock);
+-
+-		if (nowait)
+-			return -EAGAIN;
+-
+-		ret = wait_event_interruptible(sdev->wait,
+-				tbstream_ring_available(&sdev->tx_ring) ||
+-				tbstream_dev_valid(sdev) != 0 ||
+-				tbstream_dev_closed(sdev) ||
+-				tbstream_dev_removed(sdev));
+-		if (ret)
+-			return ret;
++	for (;;) {
++		tbstream_dev_poll_ring(sdev, &sdev->tx_ring);
+ 
+ 		ret = tbstream_dev_valid(sdev);
+-		if (ret)
++		if (ret) {
++			mutex_unlock(&sdev->lock);
+ 			return ret;
++		}
+ 
+-		if (tbstream_dev_closed(sdev) || tbstream_dev_removed(sdev))
++		if (tbstream_dev_closed(sdev) || tbstream_dev_removed(sdev)) {
++			mutex_unlock(&sdev->lock);
+ 			return -ENXIO;
++		}
++
++		if (tbstream_ring_available(&sdev->tx_ring))
++			break;
++
++		mutex_unlock(&sdev->lock);
++
++		if (nowait)
++			return -EAGAIN;
++
++		if (sdev->busy_poll) {
++			if (signal_pending(current))
++				return -ERESTARTSYS;
++			cond_resched();
++		} else {
++			ret = wait_event_interruptible(sdev->wait,
++					tbstream_ring_available(&sdev->tx_ring) ||
++					tbstream_dev_valid(sdev) != 0 ||
++					tbstream_dev_closed(sdev) ||
++					tbstream_dev_removed(sdev));
++			if (ret)
++				return ret;
++		}
+ 
+ 		ret = tbstream_dev_lock(sdev, nowait);
+ 		if (ret)
+@@ -815,6 +910,13 @@ tbstream_dev_fops_poll(struct file *file, struct poll_table_struct *wait)
+ 	struct tbstream_dev *sdev = to_tbstream_dev(file->private_data);
+ 	__poll_t mask = 0;
+ 
++	/*
++	 * Without interrupts there is nothing that can wake us up so
++	 * return failure instead.
++	 */
++	if (sdev->busy_poll)
++		return EPOLLERR;
++
+ 	poll_wait(file, &sdev->wait, wait);
+ 	guard(mutex)(&sdev->lock);
+ 	if (tbstream_dev_valid(sdev) != 0) {
+@@ -924,6 +1026,35 @@ tbstream_dev_from_group(struct config_group *group)
+ 	return container_of(group, struct tbstream_dev, group);
+ }
+ 
++static ssize_t tbstream_dev_busy_poll_show(struct config_item *item, char *buf)
++{
++	struct config_group *group = to_config_group(item);
++	struct tbstream_dev *sdev = tbstream_dev_from_group(group);
++
++	return sysfs_emit(buf, "%u\n", sdev->busy_poll);
 +}
 +
- static ssize_t
- tbstream_dev_fops_read_iter(struct kiocb *kiocb, struct iov_iter *to)
- {
- 	struct file *file = kiocb->ki_filp;
-+	bool nowait = file->f_flags & O_NONBLOCK || kiocb->ki_flags & IOCB_NOWAIT;
- 	struct tbstream_dev *sdev = to_tbstream_dev(file->private_data);
- 	size_t nbytes;
- 	int ret;
-@@ -645,14 +658,16 @@ tbstream_dev_fops_read_iter(struct kiocb *kiocb, struct iov_iter *to)
- 	if (ret)
- 		return ret;
- 
--	if (mutex_lock_interruptible(&sdev->lock))
--		return -ERESTARTSYS;
-+	ret = tbstream_dev_lock(sdev, nowait);
++static ssize_t
++tbstream_dev_busy_poll_store(struct config_item *item, const char *buf,
++			     size_t count)
++{
++	struct config_group *group = to_config_group(item);
++	struct tbstream_dev *sdev = tbstream_dev_from_group(group);
++	bool busy_poll;
++	int ret;
++
++	ret = kstrtobool(buf, &busy_poll);
 +	if (ret)
 +		return ret;
- 
- 	while (!tbstream_ring_available(&sdev->rx_ring)) {
- 		mutex_unlock(&sdev->lock);
- 
--		if (file->f_flags & O_NONBLOCK)
-+		if (nowait)
- 			return -EAGAIN;
 +
- 		ret = wait_event_interruptible(sdev->wait,
- 				tbstream_ring_available(&sdev->rx_ring) ||
- 				tbstream_dev_valid(sdev) != 0 ||
-@@ -668,8 +683,9 @@ tbstream_dev_fops_read_iter(struct kiocb *kiocb, struct iov_iter *to)
- 		if (tbstream_dev_closed(sdev) || tbstream_dev_removed(sdev))
- 			return 0;
- 
--		if (mutex_lock_interruptible(&sdev->lock))
--			return -ERESTARTSYS;
-+		ret = tbstream_dev_lock(sdev, nowait);
-+		if (ret)
-+			return ret;
- 	}
- 
- 	nbytes = 0;
-@@ -729,6 +745,7 @@ static ssize_t
- tbstream_dev_fops_write_iter(struct kiocb *kiocb, struct iov_iter *from)
++	guard(mutex)(&sdev->lock);
++	if (sdev->users)
++		return -EBUSY;
++	sdev->busy_poll = busy_poll;
++	return count;
++}
++CONFIGFS_ATTR(tbstream_dev_, busy_poll);
++
+ static ssize_t tbstream_dev_index_show(struct config_item *item, char *buf)
  {
- 	struct file *file = kiocb->ki_filp;
-+	bool nowait = file->f_flags & O_NONBLOCK || kiocb->ki_flags & IOCB_NOWAIT;
- 	struct tbstream_dev *sdev = to_tbstream_dev(file->private_data);
- 	size_t nbytes;
- 	int ret;
-@@ -737,14 +754,16 @@ tbstream_dev_fops_write_iter(struct kiocb *kiocb, struct iov_iter *from)
- 	if (ret)
- 		return ret;
+ 	struct config_group *group = to_config_group(item);
+@@ -1230,6 +1361,7 @@ tbstream_dev_throttling_store(struct config_item *item, const char *buf,
+ CONFIGFS_ATTR(tbstream_dev_, throttling);
  
--	if (mutex_lock_interruptible(&sdev->lock))
--		return -ERESTARTSYS;
-+	ret = tbstream_dev_lock(sdev, nowait);
-+	if (ret)
-+		return ret;
- 
- 	while (!tbstream_ring_available(&sdev->tx_ring)) {
- 		mutex_unlock(&sdev->lock);
- 
--		if (file->f_flags & O_NONBLOCK)
-+		if (nowait)
- 			return -EAGAIN;
-+
- 		ret = wait_event_interruptible(sdev->wait,
- 				tbstream_ring_available(&sdev->tx_ring) ||
- 				tbstream_dev_valid(sdev) != 0 ||
-@@ -760,8 +779,9 @@ tbstream_dev_fops_write_iter(struct kiocb *kiocb, struct iov_iter *from)
- 		if (tbstream_dev_closed(sdev) || tbstream_dev_removed(sdev))
- 			return -ENXIO;
- 
--		if (mutex_lock_interruptible(&sdev->lock))
--			return -ERESTARTSYS;
-+		ret = tbstream_dev_lock(sdev, nowait);
-+		if (ret)
-+			return ret;
- 	}
- 
- 	nbytes = 0;
+ static struct configfs_attribute *tbstream_dev_attrs[] = {
++	&tbstream_dev_attr_busy_poll,
+ 	&tbstream_dev_attr_index,
+ 	&tbstream_dev_attr_in_hopid,
+ 	&tbstream_dev_attr_out_hopid,
 -- 
 2.50.1
 
