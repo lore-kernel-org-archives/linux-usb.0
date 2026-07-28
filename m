@@ -1,73 +1,163 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC18B3B961A;
-	Tue, 28 Jul 2026 21:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53FC47A87C
+	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 23:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785272762; cv=none; b=TBdUsj2S74aMnrZdZTEcCY0TAjpbh1VvpRaKXWr1PcEpGPOh70mVXS2tTP6TNJ6ignY7fAJH5gapR2V5n/1VAO4SVNLbSxwhvwM1NDwkoOnCygSw5W+uRKNw8xm88diT1VIdCbR2Jd/PHszUOnDAgeR1R7e6m9Hy/6csS5lLX9o=
+	t=1785281086; cv=none; b=lwAF7aJP3TmGfReBPmvkU/ImXFNs2GQLsn/Wa2Yr9RsZXTL1ChGnYIUEetI5eT0GS3weHeneY8lsAXoSpN42R+UsWWCYqgLPkAhTqDASugM8fXmavtyYRqCBZJgTZT8YPkKQJwhw7LZdQj6cGC4kibJzO++Ur5zGkbAmkbrXihU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785272762; c=relaxed/simple;
-	bh=Od0/ctBOxz8BkIinbfn4OQrOVnl1ASbobNH/pQmU5Js=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C6QgsLctZXiUb3YSSMADGDoi63D7eXd5an93CMZmnKv4FB8suAgIk3cjCxliMRBwI9JuD7V5djLo7TqBGjLbDmT+sRN/1iYozrokxCBMEypNevcELxfFLm/FAsPu+PK1SYhzh+i0S7T6jxXBG4jbGTsQc5MKmjzkxEnF0PAn1m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=gNdEiECb; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1785281086; c=relaxed/simple;
+	bh=8228BBjbf2EyJN/mSSeB1D2t8diA/iE4Gqp6z8doAPw=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Kw3ZY1KnzoMA4gzFEpyWUPDDsRxnstFOLuaGW5KRutt6/sZuOWJUNgnVI3wULI59kKZD2P9VJsrY0xQQbHB9ImIPrpzOtL3Mp3I4D10/AQabdqpzbeFsLQZPtkKQobgvrU0FE6n5R+hejjZ4MJY+iE6KkQEv0gH9+D8BjUAvlUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cTWy1K0l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="gNdEiECb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=1S0KlBi30seu1JHMXi/GAE2O8nC0cKNZoFH/jteR0VU=; b=gNdEiECbjVmJOW1nH3TJG+PHGD
-	LUAPBDKhQtCo/FQjS2JC4OEuiEA7uiSCa7v5ED5vN6g6hJFl0liiogZVsOjPm/t3IJRV3ouP1KiTM
-	+78/qTub/DCCqSxi9AiW6lLxSdV7WCC04ztq7Cv81IraZ4U1u6oXWchWJ3VOtxD72wnE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1woozu-00EhQT-DC; Tue, 28 Jul 2026 23:05:58 +0200
-Date: Tue, 28 Jul 2026 23:05:58 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Ashwin Gundarapu <linuxuser509@zohomail.in>
-Cc: netdev <netdev@vger.kernel.org>, linux-usb <linux-usb@vger.kernel.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] net: usb: net1080: add error handling to
- nc_vendor_write()
-Message-ID: <1caa928e-fb7a-464b-a9af-1135569fd6da@lunn.ch>
-References: <19fa888e049.512e8c5e24030.7986824281565553606@zohomail.in>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cTWy1K0l"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 58C70C2BCC6
+	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 23:24:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785281086;
+	bh=8228BBjbf2EyJN/mSSeB1D2t8diA/iE4Gqp6z8doAPw=;
+	h=From:To:Subject:Date:From;
+	b=cTWy1K0lh5adm+Fti8Ff12lzZ6BjMut2dos+/1AQk/N0gIclFQEw56Id7FapAoymg
+	 4dewgMbtgmvQavc+k/A/XS+2HxZiPFpYW0jsy3wKrKikAM7j/9P6L1U6QdBjgjvGL6
+	 sNUlJZt4FJCHo0OnZm9xkqGCvF0z4FKLEtjxCrislolGkHDSFafrl9hTB8YdwyX3YO
+	 iHi5QokDIgQkk0gwVjEVV26Rqjo+GcVmWSUGBR/vQNxzW4R31IV4gmOLIkI10EaB1U
+	 z97bbi0SVjj5oMJRBB4T9/aaOs+8KIKayu40Ywir6b8xvVLrQJZ6VJzzdllfl53eW4
+	 7TrZKPwbuLC3g==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 3686BC433E1; Tue, 28 Jul 2026 23:24:46 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: =?UTF-8?B?W0J1ZyAyMjE4MDZdIE5ldzogUmlnaHQtc2lkZSBVU0ItQSBwb3J0?=
+ =?UTF-8?B?IGZhaWxzIFN1cGVyU3BlZWQgbGluayB0cmFpbmluZyBvbiBMZW5vdm8gVGhp?=
+ =?UTF-8?B?bmtQYWQgWDEzIEdlbiA1IChNZXRlb3IgTGFrZSwgeGhjaV9oY2QgODA4Njo3?=
+ =?UTF-8?B?ZTdkKSDigJQgd29ya3Mgb24gRmVkb3JhIDYuMTkuMzAwLCBmYWlscyBvbiA2?=
+ =?UTF-8?B?LjE4LjM5IGFuZCA3LjEuNA==?=
+Date: Tue, 28 Jul 2026 23:24:46 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: perttu@thinkerit.pro
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-221806-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <19fa888e049.512e8c5e24030.7986824281565553606@zohomail.in>
 
-On Tue, Jul 28, 2026 at 05:12:50PM +0530, Ashwin Gundarapu wrote:
-> >From 8c6ffd0b1a5ac33fb6a81cfd4d7d2c54462233bc Mon Sep 17 00:00:00 2001
-> From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-> Date: Mon, 27 Jul 2026 19:34:16 +0530
-> Subject: [PATCH] net: usb: net1080: add error handling to nc_vendor_write()
-> 
-> The nc_vendor_write() function currently ignores the return value of
-> usbnet_write_cmd(). This can lead to silent failures when USB
-> communication fails.
-> 
-> Change nc_vendor_write() and nc_register_write() to return int
-> instead of void, and propagate the error from usbnet_write_cmd()
-> back to the caller.
-> 
-> Also fix the callers in net1080_reset() to check the return value
-> and handle errors appropriately. Remove an unused #if 0 block while
-> at it.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221806
 
-This patch is doing multiple things. Please turn it into two patches
-in a series.
+            Bug ID: 221806
+           Summary: Right-side USB-A port fails SuperSpeed link training
+                    on Lenovo ThinkPad X13 Gen 5 (Meteor Lake, xhci_hcd
+                    8086:7e7d) =E2=80=94 works on Fedora 6.19.300, fails on
+                    6.18.39 and 7.1.4
+           Product: Drivers
+           Version: 2.5
+          Hardware: Intel
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: perttu@thinkerit.pro
+        Regression: No
 
-    Andrew
+Hardware:
+Lenovo ThinkPad X13 Gen 5 (21LVS3U900), Intel Core Ultra 7 165U (Meteor Lak=
+e)
+USB controller: Intel Corporation Meteor Lake-P USB 3.2 Gen 2x1 xHCI Host
+Controller [8086:7e7d] (rev 20), driver xhci_hcd
 
----
-pw-bot: cr
+Problem:
+The right-side USB-A port (physical_location panel=3Dright; USB2 companion
+port bus3/port5, SuperSpeed port bus4/port1, both on the same 00:14.0
+xHCI controller alongside the internal camera/fingerprint reader/Bluetooth,
+which work fine) fails to enumerate any device. Left-side USB-A and both
+USB-C ports work normally.
+
+Confirmed NOT a hardware fault: the exact same USB drive works reliably,
+repeatedly, on a Fedora 44 LiveCD (kernel 6.19.300) in the same port.
+
+Kernel versions tested on NixOS (vanilla/mainline builds via nixpkgs), both
+fail identically:
+- 6.18.39 (nixpkgs linuxPackages, i.e. an older stable branch)
+- 7.1.4   (nixpkgs linuxPackages_latest)
+
+Symptom (with xhci_hcd/xhci_pci dynamic debug enabled):
+
+  xhci_hcd 0000:00:14.0: Port change event, 3-5, id 5, portsc: 0x20ae1
+  xhci_hcd 0000:00:14.0: handle_port_status: starting usb3 port polling.
+  xhci_hcd 0000:00:14.0: Get port status 3-5 read: 0x20ae1, return 0x10301
+  xhci_hcd 0000:00:14.0: clear port5 connect change, portsc: 0xae1
+  xhci_hcd 0000:00:14.0: Get port status 3-5 read: 0xae1, return 0x301
+  xhci_hcd 0000:00:14.0: Port change event, 3-5, id 5, portsc: 0x202a0
+  xhci_hcd 0000:00:14.0: handle_port_status: starting usb3 port polling.
+  xhci_hcd 0000:00:14.0: Get port status 3-5 read: 0x202a0, return 0x10100
+  xhci_hcd 0000:00:14.0: clear port5 connect change, portsc: 0x2a0
+  xhci_hcd 0000:00:14.0: Get port status 3-5 read: 0x2a0, return 0x100
+  [... repeated Get port status 0x2a0 ...]
+  xhci_hcd 0000:00:14.0: xhci_hub_status_data: stopping usb3 port polling
+
+Interpretation: on connect, CCS (connect status) briefly goes to 1 with
+link state "Polling" (SuperSpeed link training in progress), then within
+~2.3ms drops back to CCS=3D0 with link state "RxDetect". The kernel retries
+polling for ~130ms then gives up. This sequence is 100% deterministic and
+reproducible =E2=80=94 identical portsc values and timing on every attempt,=
+ across
+both kernel versions above.
+
+Things ruled out during troubleshooting:
+- Not a loose/mechanical connection: laptop stationary, port physically
+  fine, confirmed reliable on Fedora LiveCD with many repeated
+  plug/unplug cycles.
+- Not device-level USB autosuspend: usbcore.autosuspend=3D-1 kernel param
+  set and confirmed active (/sys/module/usbcore/parameters/autosuspend =3D =
+-1).
+- Not USB roothub runtime PM: forced power/control=3Don on both usb3 and
+  usb4 roothubs, no change.
+- Not PCIe ASPM: forced pcie_aspm policy to "performance", no change,
+  identical portsc trace.
+- Not PCI device runtime PM: 0000:00:14.0 power/runtime_status was
+  "active" throughout.
+- thinkpad_acpi loads and initializes normally; no ACPI errors in dmesg
+  around boot or around the 00:14.0 device.
+- boltctl / bolt (Thunderbolt security) not relevant =E2=80=94 this is a pl=
+ain
+  USB2/USB3 port on the classic xHCI controller (00:14.0), not the
+  USB4/Thunderbolt controller (00:0d.x).
+
+Requesting help identifying what Fedora's kernel build (6.19.300, likely
+with Red Hat/Fedora-specific patches or a different xhci_pci
+config/quirk) does differently that allows this port to work, versus a
+vanilla/mainline kernel build of both an older (6.18.39) and much newer
+(7.1.4) version, which fail identically.
+
+Happy to test patches or provide additional logs (full dmesg, lspci -vvv,
+port_status via debugfs, etc.) on request.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
