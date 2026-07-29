@@ -1,165 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA4D3054C7;
-	Wed, 29 Jul 2026 16:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FBCC42A167;
+	Wed, 29 Jul 2026 18:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785340829; cv=none; b=r02eyI7Zjk2uF7c3lqVj8h3C2gw3JRr5C3PRfXXu9VDA9LZOUNlUW/T+4II8xleoIFLWl543LSXn1LksQQeH+vWwPMb0Ok/rKfAUNlx2XaYi3c1afdmkdJldZaaP5uHhGcf5qdFj+PwsbxNd0mYUbHPsArksPxjYBPVce6xSo88=
+	t=1785349336; cv=none; b=h+jrd6ZhqgOn0ylUWwcedQHeba0sxxd9fc0k+YJs0OtqB7gLBXVX3wzY30NhiNw4jR9iQB21Jauaq01kSpR2HWP+rupx6XOG+Nzl4A75hgUS5x/leBywoBHwj+qygSr5h62UDAmuB+Cg8H1WnjkrIiGcA2mvzTbRsaVyOElU0lI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785340829; c=relaxed/simple;
-	bh=F33ada4OmlS+8/2MgZh5k8anahQVk85omhHgDq3n/Ek=;
-	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=vAr43BUuDv6qVbhhta+YofF6vW6ZQfWobSZ0NOeS14vIFBgIJs0srLULkVW2j6E6S4iVdIunMZg9xLBEuDIEb9QLmzgttFGPngDRRQLaROqTvESTriKUBkTa8wV6nIowwp+k3lMlH++ANpcFX2E/UaEas6hagLbeM6TyA2abEG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mKiBLzdh; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785349336; c=relaxed/simple;
+	bh=5cSXMBpNs9hBevYPQkRTR0vcasVAI49hQ2TlwfXMIPM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=T3zQLnddhOVJzwW4UDut//zzegqJYCdvAW+szihnkI4woFaeW5/9NOWCSx1E4C0zECy4cxMgp69Ys0CcEtJH8nwK0vFPlM+HEo75X6EK8cTCgO23BVIeeg6xtCifWpCT4VZS0e9lXm/GlsJ2MDLtiFe2ssTwT02HHfouaZnSQds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=UFV5uMKn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=crYwsjAF; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mKiBLzdh"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 7A3561F000E9;
-	Wed, 29 Jul 2026 16:00:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785340827;
-	bh=Iu9fxVl0EBhvOLnfdANvBli5d6rGsACH+DRmq4nb+p0=;
-	h=From:To:Cc:Subject:Date;
-	b=mKiBLzdhNCB3W5UWhc55ZCgpjIfEArFl8rAYPYTASHXc0mx/YlR8E2EDGXPX0glug
-	 tiqk2BdG6oIzk1XP2gJVaQPJ+eoprgxTZaieoy9ukV2xEgfQSJQsZZ4nMfnXMjtD+J
-	 GKARTxKcCek8NVGjLqyeC5dZe4ILIEFTWrWp1KJLxhtK4KNS2NBU1xg5vx/KhV5dTo
-	 nZYc/jbIfqBqs7kYtreiCxG0KxjHw9Jd+6eix+9DUmBRlvsB/JqWglF4KM8Upjv7hq
-	 nWjupaSCYIj+lwOjqdmjT1ksITs9D7VH60lfdL/91PVxXVxlDarAGdVrYNmj+RLAKI
-	 Sjuei2XPKj09w==
-From: "syzbot" <syzbot@kernel.org>
-To: syzkaller-bugs@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>, "Julian Scheel" <julian@jusst.de>
-Cc: christophe.jaillet@wanadoo.fr, kees@kernel.org, linux-kernel@vger.kernel.org, syzbot@lists.linux.dev
-Subject: [PATCH] usb: gadget: f_uac1, f_uac2: fix invalid free and memory leak
-Message-ID: <b1b92444-7b06-4ce1-abf7-66145a4e8939@mail.kernel.org>
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="UFV5uMKn";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="crYwsjAF"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfout.phl.internal (Postfix) with ESMTP id 9F0F8EC03DA;
+	Wed, 29 Jul 2026 14:22:07 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Wed, 29 Jul 2026 14:22:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1785349327; x=
+	1785435727; bh=tCEmIAz+T4auu2wA2WwOK9meBHLzuikBJRdYB1aASwc=; b=U
+	FV5uMKnEv7rYugkv1YMckEnKoDUIY6oI1KRDqkT1Z7KhYgbaDpA0zAFcaO+gUbxu
+	DhvgGHKPMj1qEevsiu1OvuQAJ7AxtXrDMBRJ2qiXii48RjjEzPv0cUDYoA+ABi58
+	eD8FvkMjXscd8Yweu8AwnYxSByBTm7uesabRJ3yU6K7T1UL9cHDSDxRdTJpaulyG
+	4vlN8RRbxbBGyCNrtpryTvJyPUafmHxFgoHMHEn5oLfRU/Sl+RRV036/6hWrI1N+
+	WrfrmxOLfJxNC7KkoyU08CLn3zvg0vMiULIGsWxjh9dGHxax9a854abERwmeDvaq
+	wrRkzUAF8F1K2HZUQHUNg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm2; t=1785349327; x=1785435727; bh=t
+	CEmIAz+T4auu2wA2WwOK9meBHLzuikBJRdYB1aASwc=; b=crYwsjAF3/6SiFJwS
+	ucNW0UGwii4TvFAOxXNbWhLl3oenSewmIdrnkQYvbiVyNpNyCLPRHQBomb3wlPcF
+	gkIpol5tfUZrdJMZ54RVqiNgUBNIo24v0huyAGoiRNlXqTEhnLoZlIgqPQXEBX/M
+	BQOkFZWHYCB219PhjOJ+DM1XVolnWlj9chuO+a+1RXi9Ms7/s/s2y2sR+4BAXNyO
+	VtQWHT2nKJ4D69A2P44+WPCXyYpa12typoKbxYS0Y4xuSgLAmo0ljH1N+0qauzvk
+	0bNb0D8n2eLw9LkEZPpDowqXExC82Jeg/Va7KIgKkXKwapAI/elwwD0A833LclWH
+	R0R8A==
+X-ME-Sender: <xms:z0RqaorO6OYD5xqizRX-zer8tZv9A2FMLDyFJlyxqBwXcbZUHgstSQ>
+    <xme:z0RqanlG5JEC3Bfj0lLEe5_R8Yd9sb5e48rkgWZlCkcTnTfMhznq5YKv-GCJLnnB0
+    y2lYBcBHCqim9fW1HAvHOBzxoSx8tZ7OYY3LZO8YHFSYXvMe-jPAu7S>
+X-ME-Received: <xmr:z0Rqaoz_R3EM7T_qK3Tzvl8eKlP19BbrtbbNHgxBdPhTvu1dh4hgAnhYYlt7Hz9RcfrB5A28nCH-hJ5hCx5cvV8ojWI>
+X-ME-Proxy-Cause: dmFkZTFHiOXOxwS7EouX3+qGwFjKCeONA2OUndrVtvrYVGsNWNqitendXpCmpVcFdgUFTo
+    3sPIeyEHcqALZpXKuaeJXQZ5ZEXeEMAQNQa8PXv8eVk/ZYrjNhL/bvc70/C4c9Tpvqv62s
+    TxFtmaeBcbPDfOzsMJCpdJ1h8s3yV2MmxhjQUZkIn5t8urVNHlrDhp4RMxrlE90tLFdGjs
+    b40FkAkep3iMKVPPkzGythSetNGFrK7FAM7/YX4k6jfCfF9VZAN28cBQl5Coa4aq2q6aPF
+    qCScquYaPfEQhnPcqVbuNJvrgt9XkiTqZKxGW6qqa/N2x4DVi1mtL5gDRMkXI0T1Gf7MT7
+    7K4VpW8mpQhDRLjLFafnLgIsDlqhKz4+5gMmoG6tbY9AOur/jTC4wSSBsGpcxODzL/Qm/3
+    zq7ZESiz4ulqZZYlVpL8V07olaDeEgeUF0fo7RVRJLKEplQj7QEWqKWkOYUU0cLTMDv2Td
+    v7mVxccysojx/b6AvhQui7724tivFRfSz7nn/mgwfaaSS9uv8LagKilwvxGu1R7YuEcNAW
+    2CYFIv9BlF6bG/Tr6UmLrqOFv5oPSkwGd+kcNiByi+w/vD1sSJFOmdA/zqqKxjF6x8mAxa
+    bP6dYWfTBKRBD6DD7p6lGTEabmv/Z0AcaBg7ptNozicrd580m62LOcz4o+Tw
+X-ME-Proxy: <xmx:z0Rqav_XwN8d23y-PWnj4G5MP02p3-9CCbmKAd_3lfe79-FrsG3Gmg>
+    <xmx:z0RqakJsAhGZX7Wr2u4ZFB_d3M6xuQ_RIE-jcngh0VsK_5dHkdKmoQ>
+    <xmx:z0RqatfTEFiQHBQoX6oxyje39W_z4x7xeW_AlgveuwfeG6FVuCHsew>
+    <xmx:z0Rqar8rJ8Bb4byUFB-ZKqUMQaOY0mw8jl3o-WfH5OSq75ceXyr34g>
+    <xmx:z0RqaieBgQ1nadkojKTD1HYpSdmEVjN3op96CjAS7eDKyLwVqIykZfiG>
+Feedback-ID: ibe194615:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Jul 2026 14:22:06 -0400 (EDT)
+From: Mark Pearson <mpearson-lenovo@squebb.ca>
+To: mpearson-lenovo@squebb.ca
+Cc: heikki.krogerus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: typec: ucsi: Retry if notification enable timesout
+Date: Wed, 29 Jul 2026 14:21:50 -0400
+Message-ID: <20260729182203.3667583-1-mpearson-lenovo@squebb.ca>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <mpearson-lenovo@squebb.ca>
+References: <mpearson-lenovo@squebb.ca>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Date: Wed, 29 Jul 2026 16:00:27 +0000 (UTC)
 
-From: Aleksandr Nogikh <nogikh@google.com>
+Found on Thinkpad E14 G8.
+When UCSI notifications are enabled the FW does not ack the enablement
+itself. Future commands will be acked correctly.
 
-The `UAC1_RATE_ATTRIBUTE` and `UAC2_RATE_ATTRIBUTE` macros generate store
-functions that use `strsep()` to parse a comma-separated list of sample
-rates. The `strsep()` function modifies the pointer passed to it, advancing
-it past the delimiter.
+If this happens try enablement again and confirm acks are working
+correctly.
 
-This causes two issues. First, if `kstrtou32()` fails (e.g., due to an
-invalid token), the code jumps to the `end` label and calls
-`kfree(split_page)`. Since `split_page` has been advanced by `strsep()`,
-this results in an invalid free. Second, if the loop completes
-successfully, `strsep()` sets `split_page` to `NULL`. The subsequent
-`kfree(split_page)` becomes a no-op, leaking the memory allocated by
-`kstrdup()`.
-
-KASAN reports the invalid free as follows:
-
-BUG: KASAN: invalid-free in f_uac2_opts_p_srate_store+0x225/0x2b0
-drivers/usb/gadget/function/f_uac2.c:2087
-Free of addr ffff888192cb7806 by task syz.0.17/6182
-Call Trace:
- kfree+0x173/0x6c0 mm/slub.c:6692
- f_uac2_opts_p_srate_store+0x225/0x2b0
- drivers/usb/gadget/function/f_uac2.c:2087
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x33a/0x430 fs/configfs/file.c:229
- vfs_write+0x61e/0xbb0 fs/read_write.c:687
- ksys_write+0x156/0x270 fs/read_write.c:739
-The buggy address is located 6 bytes inside of
- 32-byte region [ffff888192cb7800, ffff888192cb7820)
-
-Fix this by keeping the original pointer returned by `kstrdup()` in a
-separate variable `page_alloc` and passing a temporary pointer `split_page`
-to `strsep()`. This ensures that the correct pointer is passed to
-`kfree()`. Additionally, add a check to handle `kstrdup()` allocation
-failures.
-
-Fixes: a7339e4f5788 ("usb: gadget: f_uac2: Support multiple sampling rates")
-Assisted-by: Gemini:gemini-3.5-flash Gemini:gemini-3.1-pro-preview syzbot
-Reported-by: syzbot+bfca46c96ddf3b7d5c55@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=bfca46c96ddf3b7d5c55
-Link: https://syzkaller.appspot.com/ai_job?id=705307cf-805c-4e75-8f76-2a0acc541cb8
-Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
-
+Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 ---
-diff --git a/drivers/usb/gadget/function/f_uac1.c b/drivers/usb/gadget/function/f_uac1.c
-index 85c502e98..f4b7bbd93 100644
---- a/drivers/usb/gadget/function/f_uac1.c
-+++ b/drivers/usb/gadget/function/f_uac1.c
-@@ -1594,6 +1594,7 @@ static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
- 					  const char *page, size_t len)	\
- {									\
- 	struct f_uac1_opts *opts = to_f_uac1_opts(item);		\
-+	char *page_alloc = NULL;					\
- 	char *split_page = NULL;					\
- 	int ret = -EINVAL;						\
- 	char *token;							\
-@@ -1608,7 +1609,12 @@ static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
- 									\
- 	i = 0;								\
- 	memset(opts->name##s, 0x00, sizeof(opts->name##s));		\
--	split_page = kstrdup(page, GFP_KERNEL);				\
-+	page_alloc = kstrdup(page, GFP_KERNEL);				\
-+	if (!page_alloc) {						\
-+		ret = -ENOMEM;						\
-+		goto end;						\
-+	}								\
-+	split_page = page_alloc;					\
- 	while ((token = strsep(&split_page, ",")) != NULL) {		\
- 		ret = kstrtou32(token, 0, &num);			\
- 		if (ret)						\
-@@ -1619,7 +1625,7 @@ static ssize_t f_uac1_opts_##name##_store(struct config_item *item,	\
- 	};								\
- 									\
- end:									\
--	kfree(split_page);						\
-+	kfree(page_alloc);						\
- 	mutex_unlock(&opts->lock);					\
- 	return ret;							\
- }									\
-diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
-index 897787d08..336aeaec9 100644
---- a/drivers/usb/gadget/function/f_uac2.c
-+++ b/drivers/usb/gadget/function/f_uac2.c
-@@ -2012,6 +2012,7 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
- 					  const char *page, size_t len)	\
- {									\
- 	struct f_uac2_opts *opts = to_f_uac2_opts(item);		\
-+	char *page_alloc = NULL;					\
- 	char *split_page = NULL;					\
- 	int ret = -EINVAL;						\
- 	char *token;							\
-@@ -2026,7 +2027,12 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
- 									\
- 	i = 0;								\
- 	memset(opts->name##s, 0x00, sizeof(opts->name##s));		\
--	split_page = kstrdup(page, GFP_KERNEL);				\
-+	page_alloc = kstrdup(page, GFP_KERNEL);				\
-+	if (!page_alloc) {						\
-+		ret = -ENOMEM;						\
-+		goto end;						\
-+	}								\
-+	split_page = page_alloc;					\
- 	while ((token = strsep(&split_page, ",")) != NULL) {		\
- 		ret = kstrtou32(token, 0, &num);			\
- 		if (ret)						\
-@@ -2037,7 +2043,7 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
- 	};								\
- 									\
- end:									\
--	kfree(split_page);						\
-+	kfree(page_alloc);						\
- 	mutex_unlock(&opts->lock);					\
- 	return ret;							\
- }									\
+ drivers/usb/typec/ucsi/ucsi.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-
-base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 49f1c53721bb..ea25c44c2850 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -2082,6 +2082,12 @@ static int ucsi_init(struct ucsi *ucsi)
+ 	ntfy = UCSI_ENABLE_NTFY_CMD_COMPLETE | UCSI_ENABLE_NTFY_ERROR;
+ 	command = UCSI_SET_NOTIFICATION_ENABLE | ntfy;
+ 	ret = ucsi_send_command(ucsi, command, NULL, 0);
++	/*
++	 * Some FW may not ack the notification enable the first time.
++	 * If this happens, repeat to confirm it is actually working
++	 */
++	if (ret == -ETIMEDOUT)
++		ret = ucsi_send_command(ucsi, command, NULL, 0);
+ 	if (ret < 0)
+ 		goto err_reset;
+ 
 -- 
-See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
-You can comment on the patch as usual, syzbot will try to address
-the comments and send a new version of the patch if necessary.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+2.43.0
+
