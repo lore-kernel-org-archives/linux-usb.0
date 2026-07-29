@@ -1,148 +1,117 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58444B8DD8
-	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 14:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D5843CE62
+	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 14:43:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785334331; cv=none; b=m3wmJhwXLUgFIaNX4R4SeU+MmpSbCnESUt/3UQk69BlbkilSnTkQnRzQ+8Oanqok7bUkPIT/rMoOct6PfaklzAdybhz6Obq8Yy0j4Z/PNS5t7/ruN7pugvTTNY0C1OUdCBBHulL3tjDB2EW8Fh7Gk2SaachgfgUmLh9oY+i9ebQ=
+	t=1785336229; cv=none; b=WbDRsobNpKuZdXjEilemHxq/NAKQ+dM3EV4Fyf47G38nn4b9CEX4uzbXUKGw9CnC6Jrx8B2bJeXOpE7qbtCH8NN5uCSglWTZyRxIAKXckN4hI4a/T4njXZemzZyjq1qDUnb2kk93tz6zI5pejaR3gwHb5XjxLQ6mgzHjyxRov/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785334331; c=relaxed/simple;
-	bh=T9by4kRg+HcXaT9fvSv2FJ/TvpklmdEpn34reGATAJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l6cnzxUVLPcmeXPcLBEED7FKyAnl46nSNs1EXPLL+udwcnsME46kRukYpkHPGjY+JOpCZUQgW0Xr7BPPGpProNggTJGKa7IF9pXMNOvu/pcn/Y/S3Pf/Ambs6PZvCUzb0xdeYsWZ+toYYqzmM3rCNqnEyzIew52Nvrb/VF6sKJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=YxQpfUal; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1785336229; c=relaxed/simple;
+	bh=oLfEIwylLehkQEMAvc2D+SQKRav1vzUm+1RG6j/CQXc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IPbxXP2mTZFqyqJMupO97Bq2wqqLLCmZVs3OmQHspqeCIxC4AvHcCV37yT2rCqKKFfrxO99F2vVj0/7mzhvaRzoVLbOHj3AvDbnum4McrXxGHS/Xr/UjIu2QZCenVEYUET8vP9AHqsNfhYsOY4lykQxqWZ6o4VyhSWuE8WjtNlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=eNkSppop; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="YxQpfUal"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-92e622cc874so56564885a.0
-        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 07:12:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="eNkSppop"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4954aff6088so10114305e9.3
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 07:43:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1785334327; x=1785939127; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9nH7C12AAMTnsrKtngI4gHKic+dxofm32Qf5T6pdLgY=;
-        b=YxQpfUaleV6qjW7v49SwJl0Slp/96RbVJRzEYyawqGkDU8kJcrFZuOLUijIRWd6ojk
-         gaQKe1sN8hGVuG4S07teXy4MsLTtolI4BCWLe8TJRaJh8jW4J5HgbhA7u/3JeRa24cLg
-         Cug/cn1X+XjiWPdLrKZMiBTAUl3TtiOC9zvpI2souy0om8T8DzKztSivJ8uyXuGoynD4
-         R9hmm2zj+YlR5eSLl55ZM5jed3IpJ+6O1kUu3bbVv4nS41KWeaPjoV2XoIU1pyJK84Vg
-         cGJAGWyRFGiUTEhTI0u7lZrjyVR6PnB3Nc++/SQ7qEuOxGbYO1O1qGJAPTr5vbZ9w5xX
-         20eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785334327; x=1785939127;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=suse.com; s=google; t=1785336226; x=1785941026; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=9nH7C12AAMTnsrKtngI4gHKic+dxofm32Qf5T6pdLgY=;
-        b=c0ugzHModtugslMHKrhRIJVm008VIJZaUlAuGwZQcyrJgFnDQSq3fq8d/4cHVso9a/
-         3YJsTYDWvndI35HrIoiMsofrjTX5eDhRAmW9h7T6Fo/lWQnxJavhvMCnY00AFKBF8Aq7
-         Ohz1J9oHAa0ej+7ytNCwjCPZRsqX92ZehZXs+3UyOyfOKJ0wAcHEEBIk+HqK8SB0oWDj
-         IEFX+WNtX7Snusmnk4F1tZWdP4htDSozX5aFVxPz4m6dc2bki8V9glKQzuESg4e+3Tyj
-         7UOOA3abs+PxIyoO0A8vgPKcW5UR3LPUuqy7/BkoSLb40Pp9EVrCSwEIpdkYSRhWxyvz
-         OaSg==
-X-Forwarded-Encrypted: i=1; AHgh+RpGHQGuCLaFK2AVp/odJKTqxeo9+HuN6mRB0EpYrRoZhiQiiYPplkMbT929fYMP8Kvpecukll0XIo0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVvNI7+xxPCEklZMo8Bw/i0Q2cOFAJZtRezG/KZ3zxonFLzXDV
-	rcoVHL0EYFV2OI5TyDQY1PRwE98AOorTe1TlemkuLEuqb4tLvaTC+pQFvbPlKKAUD32MWhS/pcp
-	JVjxcJw==
-X-Gm-Gg: AR+sD1064G+1C+vzTyysRBMOcKaMkkLXe/CsK75O9vLCP74kT6gKmXKSDGIpQrIOD22
-	9phyhSpBk0NnxelbsFgGmkCjAOgezZMJtu0C26FgQlHbBAWZBe3RH6qIkjjmZpWtHhCxoh/zAnm
-	qN7ifYJXgY5+lMjTg5qeD/eYjT6puDK4EOIoKHKwskq5sBKHO7yZwkDnp0xkX+0MrbsyzOX7X31
-	qeEr0HGlG1iUrPgUeuSc5wNEYGhnB4xGoH3fvUUbIMEnBE61Z9IH6ZvK2fmdHsyVkF6o1zAi2c5
-	WG3vuI7vtJlRs2vVp9pRuviEpFxR2hklzEtkImZp9wqYMU4B2FEZWPB7jfouJJ4/dzOj4VNmvWS
-	/1D9yaoV1gMAOsAVIop72uMQD3RwWMnDZBOpK3PJ7HEVTNeSSMfo6olXZumErpVHwluzzQLAHds
-	7fhlGLYe39XBp1nQtKkVhL9fYG2SE2QVP+KpoAonJn1VtCGiFHK0/AD+X9AXZPLQQBm0Kbyml19
-	zsAIQAV0cQNMBO9XQ==
-X-Received: by 2002:a05:620a:2b9c:b0:92e:535b:e08b with SMTP id af79cd13be357-933025a4b2cmr725634285a.33.1785334326405;
-        Wed, 29 Jul 2026 07:12:06 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-933e736a9ffsm173899485a.47.2026.07.29.07.12.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2026 07:12:05 -0700 (PDT)
-Date: Wed, 29 Jul 2026 10:12:03 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Xue Lei <Xue.Lei@windriver.com>
-Cc: gregkh@linuxfoundation.org, kyungmin.park@samsung.com,
-	andrzej.p@samsung.com, balbi@ti.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: f_mass_storage: reject relative paths to
- fix sb_writers deadlock
-Message-ID: <d1cd4b2b-6389-40af-8637-1d3fa46c2491@rowland.harvard.edu>
-References: <20260729103245.3744500-1-Xue.Lei@windriver.com>
+        bh=50edlJllfkH6a8WONFuoYrMx0sLpIgYxe7t4UMo4JmI=;
+        b=eNkSppop1FgH77FyDoSriO2/kUiGpbuM20+Ih/X8BatynvUiOAP+swd22Rd3QDlTMD
+         nv9uod0DXgVx3eg886y6TtuK/aVjiGgVcShWjYWDfIchscp8/PXInthYMvKCYXxpAh9A
+         /VeNNa70UbKkop7hm/Z/OM5JwTrRPuVtXRMXd03qNKv8O5SDI5ii0Ocj2jPde/eXsOQy
+         yvSXkg8Ja2n2fb1nUEgjGyrtWON24TVYQlCMUxxC5YOVBcqgrAdiC3AL8Kmr1grV/qmP
+         rEL0o4dl5uQXwBBHLmcwUArg7Y3xQuFdgSi0BpF19fTseY/roI5bnJB7d20oyFeS5fZ0
+         QxmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785336226; x=1785941026;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=50edlJllfkH6a8WONFuoYrMx0sLpIgYxe7t4UMo4JmI=;
+        b=M01YdnJLjgxV23yytfPYEFlfl9q42VKoPGOcTcSLcvM5N2PZ74wStee7ZrCF0HAPaJ
+         ehIt+UsOdUSIpWCVUUohaWzS/OqS1OGgbYbEeWqLLDway1FiEmxlMLA2X8gEjpxnYJwk
+         3PiRlBM7HNxWPyo42Ckog4ovoGLwrhZ5hG/QLaB3HFLccfbea2ZcMuuMBNujBl3v1Kho
+         bVZDrCUDY/v+LetxnRE0KzDsWTqUsRFRD8AlWdR6UN2F2H04Pi7I9N6+3XoJgMbk6a4y
+         MbXRde33z5rRUDF09G4h5QQY/amCAVeIctbqdSmnJCTtz32hToOO6CLHYaANg5txzsc6
+         G9SA==
+X-Forwarded-Encrypted: i=1; AHgh+RqarMAy1BRTm0M00lPHX3FFyv2/zQ13Lj5MBXhGFL2MOQtGwI0jXIADx7VaGmAnEdHEA4AwdKgbcsg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzG/a4Z/2YcX7MTuBCCkEWUOgTPO/ydELQ19S7Gr0/a/PICJc9K
+	Xz0st+NI2FHZ4wmJBmkdVtlmRCdcAFhTboG6pC0p1Ash2mx9zkPiMlgz+iJLCJVeRlEVKo9F3ZA
+	eWt1F
+X-Gm-Gg: AR+sD11rrXhLxuu3IGso604Nn86uYnxKMjglbFkknlq2dYncLFB4Kpr7PEiUPQq3ivc
+	ctZs8ao0BIBQa7hajt49ssNwi5qa+uc+DH9zuHD6+SQK0LDQbyw8rCnYag+QNAQ6QyyOJSTKGJB
+	NcM34DLo4kXLkY9iHVi7d1ZaSyIMh2AMln2m1L+UW5Z0wuZgSvTmBuPYp4W4CTAEVgSOaH5i4wY
+	0ia1oqMb2uxPozybs0uc+4btdfVld9yH5NfVczPJow+bNM2T7w9Syt8NGptYHBt2f3ixlGubfD/
+	NtEt75ub8bTTWL49wyyi2bXFfF006bP0oaY/wXaZw92ucUFGKP3tVNGBIpO3LhKpGpXYBGFS2gK
+	d3UiWGNwWxKZ5C8+ODTsIx2tCVCVCm5u5LmuizvcIAB9f4j2HsqIFqgwg+JdCC5lQlf2lokT9XT
+	QsNjmhyasCgTTU8JQhk/O4C3+jieSgwSMwn2y1fYhXtoQwpA5ZWsHl9eXfx0VfoAzGUrik4jUbB
+	CwD/qEcEAU+ONDS4uzCEGM/QigHi9Lh
+X-Received: by 2002:a05:600c:8b2f:b0:493:b56b:c45c with SMTP id 5b1f17b1804b1-496c6581371mr69751225e9.30.1785336225979;
+        Wed, 29 Jul 2026 07:43:45 -0700 (PDT)
+Received: from ?IPV6:2001:a61:135e:f101:ca2c:3cad:536e:8acf? ([2001:a61:135e:f101:ca2c:3cad:536e:8acf])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4976bd45fc5sm40613485e9.1.2026.07.29.07.43.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jul 2026 07:43:45 -0700 (PDT)
+Message-ID: <5d36c6a8-bbc9-4d5f-8670-2993bdeb857f@suse.com>
+Date: Wed, 29 Jul 2026 16:43:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260729103245.3744500-1-Xue.Lei@windriver.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/4] media: uvcvideo: defer streaming restart after
+ hibernation snapshot
+To: Alan Stern <stern@rowland.harvard.edu>, Haowen Tu <tuhaowen@uniontech.com>
+Cc: hansg@kernel.org, gregkh@linuxfoundation.org, kernel@uniontech.com,
+ laurent.pinchart@ideasonboard.com, lenb@kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, mchehab@kernel.org,
+ pavel@kernel.org, rafael@kernel.org
+References: <cbac4803-cf65-4b8b-a662-073189df478b@kernel.org>
+ <20260729075655.1187692-1-tuhaowen@uniontech.com>
+ <0e22e9d4-da39-4d3f-9492-5c74295be312@rowland.harvard.edu>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <0e22e9d4-da39-4d3f-9492-5c74295be312@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 29, 2026 at 06:32:45PM +0800, Xue Lei wrote:
-> A deadlock can occur when writing a relative path to the mass_storage
-> lun file attribute while the process's CWD is on the same configfs
-> mount:
-> 
->   write(configfs_fd, "relative_path", ...)
->     -> vfs_write()
->       -> file_start_write()          -- acquires sb_writers (configfs sb)
->         -> configfs_write_iter()
->           -> fsg_store_file()
->             -> fsg_lun_open()
->               -> filp_open("relative_path", O_RDWR, ...)
->                 -> path_openat()
->                   -> open_last_lookups()
->                     -> mnt_want_write() -- tries to acquire same sb_writers
->                        *** DEADLOCK ***
-> 
-> This happens because filp_open() resolves relative paths against the
-> task's CWD. If the CWD is on the same configfs superblock, path_openat()
-> calls mnt_want_write() which calls sb_start_write() on the same
-> superblock, causing a recursive lock acquisition that can deadlock
-> during filesystem freeze.
-> 
-> Backing file paths for mass_storage LUNs should always be absolute
-> paths pointing to block devices or regular files. Reject relative
-> paths early in fsg_store_file() to prevent this deadlock.
+On 29.07.26 16:08, Alan Stern wrote:
 
-What happens if the user gives an absolute path that just happens to be 
-below the configfs mount point?
+> You're missing an important fact: If something goes wrong during the
+> hibernation transition (for example, if the kernel's memory image can't
+> be stored to disk) then there will be no RESTORE phase.  Following the
+> THAW phase, the system will return to normal operation.
 
-What happens if the user gives a relative path of the form 
-"../filename"?
+Right, but that does not need to mean that the driver has to be operational
+at the THAW phase. It has to be operational before userland is unfrozen
+again at the latest. The difficulty how the driver learns that the system
+will not power down remains to be solved.
+  
+> For this reason, during THAW drivers must not assume that the system is
+> about to power down.
 
-Alan Stern
+True. For this reason the patch introduces a notifier queue.
 
-> 
-> Reported-by: syzbot+4c9318af45f0bf2af153@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=4c9318af45f0bf2af153
-> Fixes: ef0aa4b92cf1 ("usb: gadget: f_mass_storage: add configfs support")
-> Signed-off-by: Xue Lei <Xue.Lei@windriver.com>
-> ---
->  drivers/usb/gadget/function/storage_common.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/usb/gadget/function/storage_common.c b/drivers/usb/gadget/function/storage_common.c
-> index 75831f2c7abe..d45c7a34df99 100644
-> --- a/drivers/usb/gadget/function/storage_common.c
-> +++ b/drivers/usb/gadget/function/storage_common.c
-> @@ -448,6 +448,12 @@ ssize_t fsg_store_file(struct fsg_lun *curlun, struct rw_semaphore *filesem,
->  	if (count > 0 && buf[count-1] == '\n')
->  		((char *) buf)[count-1] = 0;		/* Ugh! */
->  
-> +	/* Reject relative paths to prevent sb_writers deadlock when
-> +	 * CWD is on the same filesystem (e.g., configfs).
-> +	 */
-> +	if (count > 0 && buf[0] && buf[0] != '/')
-> +		return -EINVAL;
-> +
->  	/* Load new medium */
->  	down_write(filesem);
->  	if (count > 0 && buf[0]) {
-> -- 
-> 2.49.1
-> 
-> 
+Now, that you make me think about that it seems to be inelegant, as this throws
+away the proper order of the device tree. It seems to me that we should
+bite the bullet and go for the big solution:
+
+Split the THAW phase in two, like a THAW_WRITEOUT and an optional
+THAW_BAILOUT that is called only when the system does not power down.
+
+	Regards
+		Oliver
+
