@@ -1,100 +1,139 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EBB411F82
-	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 09:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F40381EA3;
+	Wed, 29 Jul 2026 10:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785318193; cv=none; b=gIQuob83rf3EYNZVP1aqNcAa/j6YfZdFWqczxzUYqMJFQoxsHdwenR75Jnm6TEKZHpjeSXOF299CE8T3DSIh8Tg+KWEN2eMSuiY2knrSXfR68E9MEIP65A77XPuOGGJCgx7WjAjEkvPkVFqwU76XvU+FBZNXh+b8VQbRJ9Ci24U=
+	t=1785321182; cv=none; b=ffVmBe9utHxSJYN+2po6edWK7AEIJHQRhkega0YPL0/Yu/kDUdi9EFNbGhaAjrsi2DXUbtpUD9ehOKe7Ckc2QP/UU5jZM/5xzuiRn4xMsaFSlhtm5V3GQtxJ9Fbc8fVrKEXtNCAGgWIgq3+zaDXX6IkkhKlmjyOzrAX6EpgSFHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785318193; c=relaxed/simple;
-	bh=hkcrbB9ShktWX1H9AZ/hhXP4eZ26Ve/kCzpgfCdUT2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oum4GlI2UDG3DvbGqsgRUlUR3Nel+Oz9QTzylj0i8URxMYJGsDtTZ5gb7DDp7CkwQ+vau/k1xn7X1Ydv9eChTef4tdY8GJwRCYfUxCxBRg6RSYmVy78zhJgDp9LFk/iZt8Qe4LPI6bMTJ3eNRVw4VygkdjlS4ukzK9iRQM6HTtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JtUO37h4; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785321182; c=relaxed/simple;
+	bh=gSR+YRyUEccdjCLYz4d4psDyGPINF2Llxh6QiMZUgN4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SEEd3OVMf+Y9brHmJdbv44e/vD2zYBHPz66kjwDV0UDeB2BLP3UFEvDSZY58AxZhX9aho75W7HG5ezQ0P6kj81XAZsSq7rx/J3ltltQ8R9p2rg05EyjKeboFL2Dw/GJDTGEcMNrqOSQmqBZ00o9SX37WfAB8R48TA/St52E2BF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=fail smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=nh8Ea176; arc=none smtp.client-ip=205.220.166.238
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=windriver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JtUO37h4"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-ca7c1176317so618351a12.1
-        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 02:43:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785318192; x=1785922992; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=t83ZAl+HTEOhK7yZi3aE9T2wGWPdb8+DClmlDdgQvpA=;
-        b=JtUO37h4LqYcWNJl8gtSWbDpQOCbH27M9saeYKYhx2HxuUhIGjMTDgjIfQxIkJtpiT
-         TQor7HFnFcBbXCgiiHx0M1sy4ilrfHkRzNtZf6EG73NE4/JBr1dh5iM5UpUK5ZX2hpsQ
-         YS79mcBmlpwJg1aqS34RLdrlzo9QfA2NJdgpjonhFKESChtdRib2gAtQQOund8w683qn
-         xgXbPcz4ot4pz3Ksy/YO4UOTuOK44e7YoTFoeIxzzascRl4avZJkx1hOVK/ZoDc4F8kt
-         RyC6z/Bcoh/RPFo3A1UlfPmwsmmOXSuSV9XF8YlAKIusNvnJ/j3pBs9ufQaCn+SWAvkH
-         pXNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785318192; x=1785922992;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=t83ZAl+HTEOhK7yZi3aE9T2wGWPdb8+DClmlDdgQvpA=;
-        b=DO2h+P8vBlNNJAhmPsoC/d7SC/3XSY7bqgp9vDlCNEdbtkW4sctgYC/EkZjpI8tzM5
-         OuxEiVQ6U68169HMRjuSfJNjhEEJriWiK8h9u6GRX2sKsa710P319MV98UM1BL4d6l0b
-         J71h6t3idiOo2PykQa2XJaXBuEhwpV10NKE9CMEKZNehYLuGvsASTczizck4Q63OVP6d
-         xuxzShQJ8ZB52MN3qUD21suZO3icpU86YS1w+hdyKvs+vvojF8Ss9NyBfLpGSOtmKJZH
-         I3yxFVXYqHHls4ntYqm8wGxvwkXeYnwkCNb8fvPVk5GH5povJSEA9plndoC+mbGQqQ6I
-         SghA==
-X-Forwarded-Encrypted: i=1; AHgh+Rrx1BsPBfoGiGjGMNDGpmp6c4ENwh8ouMFjAWSy/xdpXwHVGhu0KdbzPm4QYOcBnY+A8fCZ4qqo/Ao=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBhmPNh23pDMGwdzwD65ve/QbMl1z6fxH/krCpoLJDrgr1Va/m
-	D/RJ1TasG0X3GMrp+8I4DzxtbIa5Jzg4XBuRo6fFeI4GJeulnSe4JGAO5lMHSrm63EY=
-X-Gm-Gg: AR+sD11eGvpBZ2pyajctK6XO5G2/fEdH8AlEUcG2BvzYiG0ykUE3CY+ZunrfznlVdaW
-	ecvYRYeV8UPPZ3Wxu8BPNZNAJumyyxe05dtk06jTgzdZj4NmX1NBfWvJ4CmbBPGKLvu7FQ0vt9x
-	dL//F1asfBC4vZCjPN5khzg7/O0rKgFJ8J0hx/jtF0nb97dgtQTUJMTqBFhp79apn64LWvDD3R8
-	iEdLeLPb1zLqPf1WBeTDSyZ8ktxugaZd1pQBBpEOLKkyGN7cecKE4+nWEMf7WuNhSIuFjXs7HEw
-	DO3liNJvkajWVGC1BoUYrLXUAbhaD/d4poW566nt3+l3TRYT5wY5IWWojk5Dlhhl4eKmJWPQ8PZ
-	lnF2kCD9k0XnfzKdV8UDmbKI/MeAjWNn9inR06iNOZEuj/82qp/XsZBhadhgc1KQnP7LLG76Vq0
-	LVudSYGaD0cZCHHTrgkfLDEVVTH60iOKNZej26HGomUoE1vJVswN0rVc+CP6ffLpv5AEQjywsHC
-	gdrRmLIWFMgllrnDmDTps1K62864Wl2yEfSoDg=
-X-Received: by 2002:a05:6a21:2291:b0:3c3:83e6:c705 with SMTP id adf61e73a8af0-3c8ba5beec0mr7303606637.35.1785318191749;
-        Wed, 29 Jul 2026 02:43:11 -0700 (PDT)
-Received: from localhost ([2409:40c4:138:9281:7d6f:2f3:b5b5:ed1c])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504d37368sm14174469eec.22.2026.07.29.02.43.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2026 02:43:11 -0700 (PDT)
-Date: Wed, 29 Jul 2026 15:13:07 +0530
-From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-To: Snake Pilot <snakepilot10@gmail.com>
-Cc: linux-wireless@vger.kernel.org, pkshih@realtek.com, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] rtw88_8723de: Wi-Fi and Bluetooth fail after warm reboot
-Message-ID: <amnGXPlG6nKUdEl7@eggarch>
-References: <CA+fxq6gPCQOYr6mh+_1ReOGzaiTULzMazXhs5q0PXc8PsjRJEQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="nh8Ea176"
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66T7d3FS1014337;
+	Wed, 29 Jul 2026 03:32:49 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=qsaU6sXPB
+	UWFe64iHHZYPW9RtvPu9kj5iJYxwc2ZgXc=; b=nh8Ea176EkpG6T+uSdQ5Z4Lan
+	iQi3tmQkL+wZQRI9LEEW9vgNDtR7YN4LattjQ0GjqKS6BtoSXIk8d1hJctjSS+Yx
+	xHDqLGAmxLhkewR/b5GpLXYRMJMYloZHA5X/ofY2ov1DIXdp6RZiN7gXd9Odj86H
+	DgGbYVmCV/dIuGpv6FWMKGC1amjttVqba7t9Jm6D7yqjRv/TbTpDdlocSSFyWu+n
+	A73q95Ae3txNIHcldX8iA3CseZvqaVVnZP8AHOvpvL4GfRRaUSsl5EnZYf3FcPWp
+	JVynBWZDrCKR8TcdQjK+iZ2j6cus6t2fTImVZJqoDBPdAYbFBZP/y+c3pF6Dw==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4fq8840hqf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 29 Jul 2026 03:32:49 -0700 (PDT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 29 Jul 2026 03:32:48 -0700
+Received: from pek-lpd-ccm6.wrs.com (10.11.232.110) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 29 Jul 2026 03:32:46 -0700
+From: Xue Lei <Xue.Lei@windriver.com>
+To: <gregkh@linuxfoundation.org>, <kyungmin.park@samsung.com>,
+        <andrzej.p@samsung.com>, <balbi@ti.com>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <Xue.Lei@windriver.com>
+Subject: [PATCH] usb: gadget: f_mass_storage: reject relative paths to fix sb_writers deadlock
+Date: Wed, 29 Jul 2026 18:32:45 +0800
+Message-ID: <20260729103245.3744500-1-Xue.Lei@windriver.com>
+X-Mailer: git-send-email 2.49.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+fxq6gPCQOYr6mh+_1ReOGzaiTULzMazXhs5q0PXc8PsjRJEQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=QZ1WeMbv c=1 sm=1 tr=0 ts=6a69d6d1 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=RAioF0-LDSMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=HK-ge7EqtdluswH-FwHe:22 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8
+ a=aYVbFLsPbZdTT_ihAckA:9 a=DcSpbTIhAlouE1Uv7lRv:22 a=cQPPKAXgyycSBL8etih5:22
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: lmSc9WD9KTNPOqZakFdCM6_0L-vn804v
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzI5MDA4NyBTYWx0ZWRfX39o1Ysu7KDeW
+ tdmuELCvuli5Muj1dudDQ7RKFb2P2GYuvVySFA8lXIqt/tjqzcIAbKew8aTRuwPmVoK/v3713Ml
+ 0iT9mLdWu72UeIMnB1/iDDQyt8vu3S1Nu1NJL09GPaylkrZW1Jey
+X-Proofpoint-GUID: lmSc9WD9KTNPOqZakFdCM6_0L-vn804v
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzI5MDA4NyBTYWx0ZWRfXyBmsQlqzFd84
+ NafkmI2t/H5v7K35RXwWu/XhtlOXrfWwAsAxlGmk48DaE86PHFdlkbUcvxgihZ77kBnWa6QqJh2
+ c12DljvEpSrVLw6pFNtE95y4y/CrE7LpaoPIOxDAIKzaryyOdSsqfJXurP2/YpT/BgmhPmK9iRe
+ JhYF23/Wqe9Eu7NzMwojqk/sAoIx1IoeF6tR5+BqiLsr+cC6U2hnIJAN+hGVo5tEySvj0EU13Vc
+ IB4HIh1FXL+1Qlf5v3h++8yD76oU1MmWMtFi7tTaxyj+ZQPr/L0Kex7R3HuND4OlOOma4EzmCDc
+ N05gt9QQc2QXdgB0G5EAIbJtn06OPPgiDtEe6p+Qk1EbRRzW87sjteXnfGdFCjiLiFhH8TjFhww
+ 49EefCCz0Skctn3IKt0Jhp+087UUYRtTxLDfJlGM01v7RlnPveG70fKBKrHTpgcYvbJ6LGZ88/O
+ +4LONVDU2Hb+I3VZ9cQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-29_03,2026-07-28_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 impostorscore=0 adultscore=0 phishscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 suspectscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607290087
 
-Hi,
+A deadlock can occur when writing a relative path to the mass_storage
+lun file attribute while the process's CWD is on the same configfs
+mount:
 
-Could you provide the following:
-1) Full dmesg after warm and cold boot
-2) 'journalctl -k -b -1' after warm boot
+  write(configfs_fd, "relative_path", ...)
+    -> vfs_write()
+      -> file_start_write()          -- acquires sb_writers (configfs sb)
+        -> configfs_write_iter()
+          -> fsg_store_file()
+            -> fsg_lun_open()
+              -> filp_open("relative_path", O_RDWR, ...)
+                -> path_openat()
+                  -> open_last_lookups()
+                    -> mnt_want_write() -- tries to acquire same sb_writers
+                       *** DEADLOCK ***
 
-Also please run a few tests,
-1) Unload rtw88_8723de only or btusb only and perform warm reboot
-and see if both of them are broken while unloading only one driver
-2) Repeat the above with a delay like sleep 0, 1, 3, 5
-3) Try 'echo 1 | sudo tee /sys/bus/pci/devices/0000:02:00.0/reset' 
-after warm reboot see if it pci function reset recovers wifi
+This happens because filp_open() resolves relative paths against the
+task's CWD. If the CWD is on the same configfs superblock, path_openat()
+calls mnt_want_write() which calls sb_start_write() on the same
+superblock, causing a recursive lock acquisition that can deadlock
+during filesystem freeze.
 
-Also provide output of 'lspci -vv -s 02:00.0' and 'lsusb -t'
-after warm reboot.
+Backing file paths for mass_storage LUNs should always be absolute
+paths pointing to block devices or regular files. Reject relative
+paths early in fsg_store_file() to prevent this deadlock.
 
-That would be helpful.
+Reported-by: syzbot+4c9318af45f0bf2af153@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=4c9318af45f0bf2af153
+Fixes: ef0aa4b92cf1 ("usb: gadget: f_mass_storage: add configfs support")
+Signed-off-by: Xue Lei <Xue.Lei@windriver.com>
+---
+ drivers/usb/gadget/function/storage_common.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Thanks, 
-Lovekesh
+diff --git a/drivers/usb/gadget/function/storage_common.c b/drivers/usb/gadget/function/storage_common.c
+index 75831f2c7abe..d45c7a34df99 100644
+--- a/drivers/usb/gadget/function/storage_common.c
++++ b/drivers/usb/gadget/function/storage_common.c
+@@ -448,6 +448,12 @@ ssize_t fsg_store_file(struct fsg_lun *curlun, struct rw_semaphore *filesem,
+ 	if (count > 0 && buf[count-1] == '\n')
+ 		((char *) buf)[count-1] = 0;		/* Ugh! */
+ 
++	/* Reject relative paths to prevent sb_writers deadlock when
++	 * CWD is on the same filesystem (e.g., configfs).
++	 */
++	if (count > 0 && buf[0] && buf[0] != '/')
++		return -EINVAL;
++
+ 	/* Load new medium */
+ 	down_write(filesem);
+ 	if (count > 0 && buf[0]) {
+-- 
+2.49.1
+
