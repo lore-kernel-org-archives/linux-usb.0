@@ -1,38 +1,81 @@
-Received: from mailout1.hostsharing.net (mailout1.hostsharing.net [83.223.95.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CC44C9564
-	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 14:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D348C4CA29A
+	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 14:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785336490; cv=none; b=cY20UthzRPuFk7AOdyr4roZp7ME78rKJJxYnRhL/py/liiCjN+5VJ2cGdsPz5Um5iha5odak5LeaCoqAJrpEEC7qrLByDBX80RQVfSuR1mF0V2vqiInqN50HxonYvoLrCdcJL/s1a/fIr3NR5z5Tbf2/jW9RUI6wQBbwfD/+EPQ=
+	t=1785336873; cv=none; b=fNVfsEiIv3RMZYylXqioFF/evozi8p1KA1xyT8dh7q+uej13DlDfB89E5dolOQjeovfAPwe0hj7Bm54bn1yDyx8i8k5hQLxBSfGIMGxzhlp5/DPtjzMk1yg4qSt7mnvexEYDpX+oPwukWxgQsN+o9xC0Vg+Ak2W0I3t9D7+AhLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785336490; c=relaxed/simple;
-	bh=2llLaDOXMPRQmM/XqalDtJqo9YL1UTfJV6p96HHE014=;
+	s=arc-20240116; t=1785336873; c=relaxed/simple;
+	bh=eEfGUNYm069B8YRJw7nG+CpVl1p+N0InV7LL9ThjIe8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HMNAIiZL27rVEmJOMEhBnzU91aPZfDXsZ2W7xjeUsvkxX1irM/1IhZperrDAQRXy078hL0kXNoG4fxhpA6Dy30KPGrStsNHwiYJGkIvQgNW4/3nnnPl/C//w63jKFIgTmTFvohihYTAfVFesT/GGj/ry1hvS3glolx8tlc/53Vg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.95.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
-	 client-signature ECDSA (secp384r1) client-digest SHA384)
-	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
-	by mailout1.hostsharing.net (Postfix) with ESMTPS id 2089A36B;
-	Wed, 29 Jul 2026 16:47:58 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 1D435602E834; Wed, 29 Jul 2026 16:47:58 +0200 (CEST)
-Date: Wed, 29 Jul 2026 16:47:58 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: linux-usb@vger.kernel.org, Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
-Subject: Re: [PATCH 5/5] thunderbolt: stream: Add support for busy polling
-Message-ID: <amoSnhr833oztrqK@wunner.de>
-References: <20260728115141.2585464-1-mika.westerberg@linux.intel.com>
- <20260728115141.2585464-6-mika.westerberg@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=OezI3XUpKBQzDHnHc6f87iAIJwjaPVL5AbCu/viGkDeM65qVb928/qbvfYYzosFkEzxpmXyYRIMrqXGQFDp9jhK++DJFe7WwtQ8bP4JtlMRkX7me92iLHzqVvrs8xaAlynJm7uCNEL8T8brW5ApFJFbH70RU9ngBijJGtrdT+qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=O3BmsLQw; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="O3BmsLQw"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-51c1372f84dso5970631cf.2
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 07:54:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1785336867; x=1785941667; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=diG76WQps7jL2eyBJvu35E+/CEytgTNbNERpdeDHsjg=;
+        b=O3BmsLQw3McVjTiDGfKastaWa5ZTDhWha9yR+c9sNTwfCVWSxFPZQh59Bwxkp+HpXf
+         hJ8lT8mUOuv6Qn0cxeIv8zPndGtRZiXfqnKjepB8wLbn8Z0dtX+PJajGlVWO8HsEHQ18
+         focSSNttHZLcFRhehL4jqDC4a/HpRGM9qQSInQa+gKoRQH4hhhbpQkG3D4BXnFeOlb0S
+         8WehKu9o7DYabQ7Wt3arignFNdJ7FdVEO3kfLTxt3+iNiGrNysxJAbtCAAHYYRHImaFu
+         6yD+SoIZ6g4I592C1JX5T35MTcmEPrdeIx+UK5g2hmOZERGp5tC81OEGFg2lhTmJ4sDN
+         et0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785336867; x=1785941667;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=diG76WQps7jL2eyBJvu35E+/CEytgTNbNERpdeDHsjg=;
+        b=tFxKBWtnt0FZS5Xiufi6iEtVnXvqlWNzwJ4tG8bcI13Db7CsrxGTaPe5R+UtQc2Efk
+         wS+zpyxK26VYeEQLAMp7pF72OZlZ8pV1LOxPeYqo1FdRdAueM7Nut5P/0zoyjgxR9E95
+         Cn88ToHpvXjW7DgDF0z2izfSaDUODqr+3C/iQ/nyQpKA2dw2dteBRZliOOWxm35C5hp+
+         lSVndGzEpIJGNzLB4Z2/zQUVjmJgD4OiPS6SoYiV+SlI2Mq/KoTv5bmkVAYqA/YQCcSY
+         jlyfk3ykWX3tJw6itp7bTOtXk6Q4+cEG+EvjibW2Lq1/LMVBOzlpkVjiaJ0d5jE+zg+g
+         UY8A==
+X-Forwarded-Encrypted: i=1; AHgh+RpujQyzNF93PTzCmZnKJRvilWTwbXM7lfiTMk8fBXvITYk/RdnC98jAyVpWpJH2a+RQhaVPdKXAUwU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzh6t88yrfffy5Lh7oKoloEXG245fUP58vq139Y9uHanykkp1rY
+	dgVdLQPnnNotbunt8Wt269fFgeyWCyOBuuUzNcXQRHpJFzmmmWcqhbCwu7pAv9gZgA==
+X-Gm-Gg: AR+sD12xCw3cXaydhO1NcjGPMLY7/Ct3tlO03SpphkQRerPTO0hqdqqR1za1DbRUUH/
+	xoqJHTWjLmPcR+E7SWhr8iVu+IvJHkG5ZXIjbJjzyjEY4iFX7Jy3pwhUQTNiB6dbvcmbFNDtk6l
+	YOm5pGkV271jpHHBgl8jmBhUX3osz0NbPwTW7EpPzogiAV4GPT8p3WxGYcvhtexqNxXmJWCVcEO
+	7Dyew9G33uU/a7bf5MBv1Dlg1m5glfoPZui1kvb34xQ3VUKHxp4ZgHmj+ioUGm8ERsuyvaTBMDn
+	hGdWLVrOfkIf5/+f5FtswDLJeS72OuO1zZlDiFZtqvMBuZcrE7BdlmOdDA2xjjB50GhA+lFFgi0
+	Bh5SGmQJQQrkQLUdGB0FiZf9FdTOsQXEySXttElgN30dOyt7GIk3WCa7DmwiTtKfgdnQ/GJpcOv
+	We645q68gkSwabfibgEncQyOMLCYjjA/bi9k6MEdofd6UhHEqDnkg6ECwOP2zPKvB+lQMlEFQXM
+	IP+nPHrJkg06DQMMz6za7puP0QHv3wT
+X-Received: by 2002:a05:622a:608f:b0:519:89b6:78b4 with SMTP id d75a77b69052e-529d7103196mr64381481cf.40.1785336867388;
+        Wed, 29 Jul 2026 07:54:27 -0700 (PDT)
+Received: from rowland.harvard.edu ([2607:fb60:1011:2006:a008:aeb7:73d7:d8ff])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-529e2dd45ffsm19696401cf.22.2026.07.29.07.54.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2026 07:54:26 -0700 (PDT)
+Date: Wed, 29 Jul 2026 10:54:24 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Haowen Tu <tuhaowen@uniontech.com>, hansg@kernel.org,
+	gregkh@linuxfoundation.org, kernel@uniontech.com,
+	laurent.pinchart@ideasonboard.com, lenb@kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	mchehab@kernel.org, pavel@kernel.org, rafael@kernel.org
+Subject: Re: [PATCH v4 4/4] media: uvcvideo: defer streaming restart after
+ hibernation snapshot
+Message-ID: <af0d5a2b-373a-4a0f-9e0f-8502217a6a1a@rowland.harvard.edu>
+References: <cbac4803-cf65-4b8b-a662-073189df478b@kernel.org>
+ <20260729075655.1187692-1-tuhaowen@uniontech.com>
+ <0e22e9d4-da39-4d3f-9492-5c74295be312@rowland.harvard.edu>
+ <5d36c6a8-bbc9-4d5f-8670-2993bdeb857f@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,25 +84,36 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260728115141.2585464-6-mika.westerberg@linux.intel.com>
+In-Reply-To: <5d36c6a8-bbc9-4d5f-8670-2993bdeb857f@suse.com>
 
-On Tue, Jul 28, 2026 at 01:51:41PM +0200, Mika Westerberg wrote:
-> Using interrupts and scheduling workers increase latency so latency
-> critical applications may want to avoid that. Make this possible in
-> USB4STREAM by adding a new ConfigFS attribute: busy_poll that, when
-> activated switches the rings to polling mode. The cost for lower latency
-> is that this burns more CPU cycles and things like poll(2) cannot be
-> used.
+On Wed, Jul 29, 2026 at 04:43:44PM +0200, Oliver Neukum wrote:
+> On 29.07.26 16:08, Alan Stern wrote:
+> 
+> > You're missing an important fact: If something goes wrong during the
+> > hibernation transition (for example, if the kernel's memory image can't
+> > be stored to disk) then there will be no RESTORE phase.  Following the
+> > THAW phase, the system will return to normal operation.
+> 
+> Right, but that does not need to mean that the driver has to be operational
+> at the THAW phase. It has to be operational before userland is unfrozen
+> again at the latest. The difficulty how the driver learns that the system
+> will not power down remains to be solved.
+> > For this reason, during THAW drivers must not assume that the system is
+> > about to power down.
+> 
+> True. For this reason the patch introduces a notifier queue.
+> 
+> Now, that you make me think about that it seems to be inelegant, as this throws
+> away the proper order of the device tree. It seems to me that we should
+> bite the bullet and go for the big solution:
+> 
+> Split the THAW phase in two, like a THAW_WRITEOUT and an optional
+> THAW_BAILOUT that is called only when the system does not power down.
 
-Hm, would it be possible to auto-detect whether polling is more performant
-for the current workload and automatically enable and disable it?
-E.g. by counting the number of interrupts in a given interval and
-enabling/disabling polling based on a high water mark / low water mark?
-Those marks could then be finetuned from user space, but moving in and
-out of polling automatically would be more desirable I think.  Forcing
-polling could be achieved by setting the water marks to a special value,
-e.g. 0 or UINT_MAX.
+I could think up some better names for it.  Also, it doesn't fit into 
+the existing scheme of callbacks, whereby each "suspend"-type callback 
+has a corresponding "resume"-type callback.  The new one you're 
+proposing would be something different -- a "stay-alive" callback, 
+neither suspend nor resume.
 
-Thanks,
-
-Lukas
+Alan Stern
