@@ -1,203 +1,306 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F383CAE8D
-	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 07:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785309237; cv=pass; b=bieHPQRwb/A+3mlA/9xPqE9gprXxCj/ICJnDHIDaOStu8wyLQ7lFC39tROwQIF13bFPrdC98jIe/tvRv55Z5hD+LHCAjKDi0iMHvhG6vMI95B5yMrerlnNb8AuCPI/mwE/7GMTAY1xQ+oE4h6+0WCcTATeStPrB5iMWnlZCAyjQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785309237; c=relaxed/simple;
-	bh=KpYULavbjtKvFdrpkXDnK1yzhJE4jkFyhzzm/kEvt24=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=cIzvfUTh+dhAmLHb4LBFPiwMakU4GmWAv1mjYA/2AFQl3IviJW/6eHaA6JX5fXSlMfsblPbrgcJ+zT7ON/lywAngF4iEv60ngxHlJm7OtOw7Qwr55HXpxNQw25jTJY+nigfEwD0lHP/nri6FzXP0gUhTlfVtfubKN7RDhy5pNxU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sft9mcUn; arc=pass smtp.client-ip=209.85.222.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D556423A9B;
+	Wed, 29 Jul 2026 07:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785310158; cv=none; b=mGR+l/rZSul2IHajhpPB6b8NyX75GfsUdqDAHjBPHQxxP/Npu95JsHJN4n0H0abj2SJjPNoKF+VAbWgwTjsX1jfPaDYhfVOaH2vrHjPHY1YACBNJ3SSpZ0IryqjEsSEUireH7Xx8znNMCt3zyWUuDl3TNwOQOes7w8G2hhEQs3Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785310158; c=relaxed/simple;
+	bh=0GPxDcwyimw4bHAA4qTNOyDQJhuAQtZVF3rC79tiNd8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QArgq9cYDfHBaGMdslkmAc1M3vVqrnE5BkI+qHsZD1HqnFawfNPi+FYvYbHRhC+vXCAVVhdFjTKZ9dQnUs+4RJ2+gvPzo1oKkQqLfiDsgdR6e0frPhrQcvAf6JCLNFREve1jLb1ko/uP9xGmSTP2m5W4djO68NVMbLZpvA2kHSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HGc5cJjZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sft9mcUn"
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-969524c1aefso194058241.3
-        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 00:13:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785309228; cv=none;
-        d=google.com; s=arc-20260327;
-        b=WWR6L6NaCusMb/DaJU8gyJ6uQhVjTIr9pSgXb/D09pbmHV2ctcsQqtECgJVZ+HeWqR
-         xn9YDTWh/G6cTF4gy3Iczv7MhzNoPVChfJX+1lc/nCcEjLDpTvb4OKdus/HuR0Qp4NeR
-         V1wj6h3IsSW8UcShDmicRA00quJL116jEAPAfljzDZ2yonwG3q7N5NsHvBTYRttwnhlc
-         HbNDG/F4NFqE0u1cPPU8B0uWOeBuY9V0RmjfhPgOaxszLGU5F9Jlwnx3J1eSyMYvwJZS
-         bvozEDJ0KhbTv9irdBDc3X2fKrMUuPPih5ENvfnw2j5qYBCaAgXcY4dAoYR1JRTTr7hL
-         eoGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=fs+jIt+cbjSuNDysNWabBfq+6b6qQltF4ClvU4rx7Ok=;
-        fh=+o3Ju6DM5aSes1Mc6gRgBxYp0ge6yZl+8bzw/XgeBv8=;
-        b=h+yUokbT9K9fihgrJqspSNhbG5ofnADwiAt0wqmqqomv2aypwnzxxLVGp30ycXQp8T
-         8E8ywZmQbCrCzajJbBSW4CAwY+Av+3cfNvrxzC1adj2rVeCT3E6cuUgX7s93Dfrobue7
-         5GwO2Kq4uqB+nAVX20dxUYJb7WRSEdQ+VTjmoR1qxuIyoqlmj551ZuKvvCoOevwcGY/S
-         g4vvyIPxwfP5HCmUkSh2zVRgzBBZWhuoBei0BXa8fEOvJnJ0qCQhAqyNjV4FERqtYaom
-         173R7LPS9YEQBJ9/QMDtHNlzuNvrtJBlzvibJK2rw2luQF+lXanymdxNM83GEwY6Kkxt
-         gblQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785309228; x=1785914028; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fs+jIt+cbjSuNDysNWabBfq+6b6qQltF4ClvU4rx7Ok=;
-        b=sft9mcUnUwaBwkznaWOw5tDR62xcayGvxD0I15D462BV2rkk5/GRVb/QURghbg2Juo
-         seIeohFVRtcr2R/geRfBoepX0lmWZMfBRHR1wUE83jYfFEigo43wJj2ycIv1UWJx0uSv
-         8ExTAvhF7qum0BSRmIv837hVoMSkN89WmRRH2Ag8jcfCkWELxRNmplLIMyyfWvZZDPAB
-         hFjfd+h4LriSfQKHrahJmZUro0PTVoJhVsbuvvdktsAEK9/uC+bYzFBlzLuNTYl7SEXh
-         fjWLixreDCf6CUfzHGqZ8Q2wacLb8mNoG7ZGj2zPuJK8p2zrEopukAenvmt1LF5+rb26
-         igFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785309228; x=1785914028;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=fs+jIt+cbjSuNDysNWabBfq+6b6qQltF4ClvU4rx7Ok=;
-        b=ZJJ6H3Yh39VTxgdoaZlJk1u5N+GsrOupFj8AZ0F8qEZ2dd8gw2S7w3aDfD75Pnj99E
-         dM8p1Bz6xLIvl7pRZ5zxial3GXUfImqYwmqUABbkrK7VdyWBUJuFAuxuIwR8pNiLawIF
-         FFmP/fkICFx/gOaW/5yi0OGxs8LLXJHKjL6syOZuzkVTNgVe60N+mgqXKhitS7mJhr9O
-         N3lCZmrehsUSfBFA4K7QrF8QOcVnByJ268EMCzYoEHaWsVyxrnJvOKj3ELIIiyCTGHRr
-         2MyifZIKVm2gKBaITBg2YvQY/7HjGpQnLdxaOprIOVvwRi8iJRXf4SJKacTB4+3BBwPO
-         u9tg==
-X-Forwarded-Encrypted: i=1; AHgh+Rra+AHU0Hkefb67MCNjSEClIcgxf2c31KxkhAyEBD+q26JqjYM0FNhe1qOgMJPiZEr3J7GuHYT0fCQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrJxXAS1eUNtmlO4UY4JyO9xUJnbTWzizvPYajgraoZdcTDleE
-	LxR6f9EXT3aCv25F3jneMLQme8WbI9sI61WrYz9lpzlNt/mRJ+EQuTqqwdZxbjbtmTE00xBRRB5
-	GLr6p5KJZnuxQDw4ZQgwKnbV+YJrrNUk=
-X-Gm-Gg: AR+sD132taciA9cWF+y2ii0bZDKf3ERy2WbXW0g+3Ys+8FE1pab1XdG/BUMo4J6kwKi
-	oZFyKr2M9SwhIlTWvSvFlwVxEL8ePFXhnNUk+TnzFxMF0hbbYjAT6cid61ww9v/Nuph03Rw9Bqu
-	XoOoTCDvqgBOoaoUz9F9lEQbOvRPKRP45snZcmqH0gRwf+jKVms2/0PeYGQ2UO3tVvoc5UZI5xv
-	LPdzOqsPlDUlSRqDynVgHpAwtJkO4WQ/SQ9FbtjWEb6w23mjt+wiRBL9V4yQsjpxiM9+7n0OW2H
-	HL2qw74QWrxbs6A0Ev6h4PY3lypqQtnV9MIaE6UIA9eBSfxzNIZ4/LsyqA==
-X-Received: by 2002:a05:6102:571b:b0:740:22ba:8a4e with SMTP id
- ada2fe7eead31-7549f657d0emr2248081137.6.1785309227977; Wed, 29 Jul 2026
- 00:13:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HGc5cJjZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7CFE1F000E9;
+	Wed, 29 Jul 2026 07:29:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785310147;
+	bh=dDJuyxTx89l+wBrZp9SB2fXDrF6LUCjF+IHLy2dmd0o=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=HGc5cJjZpDotJJMikzDYnOwgbeDbIueRd7ncAspKugQzpn0hlBnKc6e8XSSbqlAvr
+	 mahD/qvYqIJKlJDyq1vFXZyXXEA03d9MONzxOptjM3OywB9pVvENNaAj49ROa24S93
+	 T881DM5z086V1IoVHqX/cdiHI7cg3HahhL5nzdL2b5k3hzfGqRcbGpF3X/4rWIxxgi
+	 xHb+QXNVGkqfaOQ7pfmoG5HC+e+o9X4uP85ZM9FNySarTnmgoRV7tofo10rid7Rorr
+	 h8VD3Ek68Sp5MYE+zQaUw3gEm5ZMJhUzO6F7K5IVHTqtudcmd97X1MWwgtunXa1aor
+	 WeUaNXgNWvbVQ==
+Message-ID: <cbac4803-cf65-4b8b-a662-073189df478b@kernel.org>
+Date: Wed, 29 Jul 2026 09:29:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Snake Pilot <snakepilot10@gmail.com>
-Date: Wed, 29 Jul 2026 01:13:36 -0600
-X-Gm-Features: AUfX_mw9EhIxqweqSgEi1AawCPL0kcmUZ0QCkalyp2e3NkfvGdVYFyBPcptR2Ug
-Message-ID: <CA+fxq6gPCQOYr6mh+_1ReOGzaiTULzMazXhs5q0PXc8PsjRJEQ@mail.gmail.com>
-Subject: [BUG] rtw88_8723de: Wi-Fi and Bluetooth fail after warm reboot
-To: linux-wireless@vger.kernel.org
-Cc: pkshih@realtek.com, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/4] media: uvcvideo: defer streaming restart after
+ hibernation snapshot
+To: Haowen Tu <tuhaowen@uniontech.com>, laurent.pinchart@ideasonboard.com,
+ rafael@kernel.org
+Cc: gregkh@linuxfoundation.org, kernel@uniontech.com, lenb@kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, mchehab@kernel.org,
+ oneukum@suse.com, pavel@kernel.org, stern@rowland.harvard.edu
+References: <20260723084633.GE648629@killaraus.ideasonboard.com>
+ <cover.1785226280.git.tuhaowen@uniontech.com>
+ <6179cdb467414a1949fabbd4d8dec29affe9c3ea.1785226280.git.tuhaowen@uniontech.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <6179cdb467414a1949fabbd4d8dec29affe9c3ea.1785226280.git.tuhaowen@uniontech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
+Hi Haowen,
 
-I would like to report a reproducible warm-reboot issue affecting the
-Realtek RTL8723DE combo device.  I have included the reproduction steps,
-relevant logs, and a tested workaround below.
+Thank you for your work on this.
 
-The RTL8723DE combo device in this HP laptop is unusable after a warm
-reboot.  The PCIe Wi-Fi function fails to power on and the USB Bluetooth
-function fails to enumerate.  A cold boot restores both functions.
+On 29-Jul-26 09:11, Haowen Tu wrote:
+> When a UVC camera is streaming and the system enters hibernation, the
+> streaming interface is frozen before the snapshot is created. The
+> original kernel then resumes devices with PMSG_THAW so it can write the
+> hibernation image.
+> 
+> Restarting UVC streaming during this transient phase can turn the camera
+> LED back on and generate USB traffic even though the normal successful
+> path writes the image and powers off.
 
-This prevents the laptop from using either Wi-Fi or Bluetooth after a
-normal reboot.  The problem is reproducible.  I have also observed the
-same behavior while using other Linux distributions.
+Right, so the purpose here is to avoid the LED turning back on and
+to speedup the hibernate?
 
-System information:
+IOW except for the LED turning back on and things taking slightly
+longer everything works correctly with the current code, right ?
 
-  Laptop:             HP Laptop 15-da1xxx
-  Product SKU:        18K59LA#ABM
-  BIOS:               Insyde F.48, 2024-04-26
-  Wi-Fi:              10ec:d723, subsystem 103c:8319
-  Bluetooth:          USB 0bda:b009
-  Distribution:       Soplos Linux Tyron RC4
-  Kernel:             7.1.3+deb14-amd64
-  Kernel package:     Debian 7.1.3-1
-  Kernel taint:       0
-  Driver:             in-tree rtw88_8723de
-  Wi-Fi firmware:     48.0.0
-  firmware-realtek:   20260622-1
+I'm wondering if it would not be better to solve this in userspace
+and have userspace stop the streaming before hibernation ?
 
-The failing boot used the packaged Debian kernel with the in-tree driver,
-no rtw88 module options, and no local shutdown workaround.  The kernel
-reported taint value 0 when the failure was captured.
+Things like network connections will also get disrupted so some sort
+of system-is-going-to-suspend notification to userspace processes
+sounds useful ?   This could e.g. also be used for program to save
+any unsaved work (e.g. save unsaved changes in an editor to
+a recovery file).
 
-Steps to reproduce:
+> USB interface resume callbacks do
+> not receive the PM message,
 
-  1. Start the laptop after a complete power-off.  Wi-Fi and Bluetooth
-     work normally.
-  2. Reboot Linux normally.
-  3. Wi-Fi and Bluetooth are both unavailable after the reboot.
-  4. Power off the laptop and hold the power button for about 30 seconds.
-  5. Start the laptop.  Wi-Fi and Bluetooth work again.
+Hmm, the way you word this sound like this is a problem at the USB
+layer. But I think this is more of a short-coming in the generic
+device model.
 
-Expected result:
+To clarify AFAIK the actual USB device to which the interfaces belong
+also does not get a specific PM message here, right ?
 
-  Both functions should initialize after a warm reboot.
+The reason I'm asking is because the way this is worded in the commit
+message makes it sounds like this might be something which could
+be solved in the USB subsystem which I do not think is the case ?
 
-Actual result:
+Regards,
 
-  The Wi-Fi PCI function remains visible at 02:00.0, but the driver does
-  not bind.  The relevant kernel messages are:
+Hans
 
-  rtw88_8723de 0000:02:00.0: Firmware version 48.0.0, H2C version 0
-  rtw88_8723de 0000:02:00.0: failed to poll offset=0x5 mask=0x1 value=0x0
-  rtw88_8723de 0000:02:00.0: mac power on failed
-  rtw88_8723de 0000:02:00.0: failed to power on mac
-  rtw88_8723de 0000:02:00.0: failed to setup chip efuse info
-  rtw88_8723de 0000:02:00.0: failed to setup chip information
-  rtw88_8723de 0000:02:00.0: probe with driver rtw88_8723de failed with
-  error -16
 
-  During the same boot, the Bluetooth USB function fails before btusb can
-  bind:
 
-  usb 1-10: device descriptor read/64, error -71
-  usb usb1-port10: attempt power cycle
-  usb 1-10: device not accepting address 6, error -71
-  usb 1-10: device not accepting address 7, error -71
-  usb usb1-port10: unable to enumerate USB device
 
-On a successful cold boot the same hardware produces:
+> so use pm_hibernation_snapshot_done() to
+> detect this phase and defer the streaming restart.
+> 
+> The deferred state is kept in the UVC stream. If image writeout succeeds,
+> the system powers off and no restart is needed. If image writeout fails,
+> the PM core sends PM_HIBERNATION_IMAGE_WRITE_FAILED before userspace is
+> thawed; the UVC PM notifier then restarts streams whose resume was
+> deferred. If that recovery restart fails, fall back to the existing
+> streamoff error path so userspace is notified instead of waiting on
+> buffers indefinitely.
+> 
+> Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 56 +++++++++++++++++++++++++++++-
+>  drivers/media/usb/uvc/uvc_video.c  | 19 +++++++++-
+>  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
+>  3 files changed, 75 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 31b4ac3b48c1..3cf861e0fa95 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+> +#include <linux/suspend.h>
+>  #include <linux/usb.h>
+>  #include <linux/usb/quirks.h>
+>  #include <linux/usb/uvc.h>
+> @@ -38,6 +39,8 @@ unsigned int uvc_dbg_param;
+>  unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
+>  
+>  static struct usb_driver uvc_driver;
+> +static LIST_HEAD(uvc_pm_devices);
+> +static DEFINE_MUTEX(uvc_pm_mutex);
+>  
+>  /* ------------------------------------------------------------------------
+>   * Utility functions
+> @@ -2200,6 +2203,7 @@ static int uvc_probe(struct usb_interface *intf,
+>  	INIT_LIST_HEAD(&dev->entities);
+>  	INIT_LIST_HEAD(&dev->chains);
+>  	INIT_LIST_HEAD(&dev->streams);
+> +	INIT_LIST_HEAD(&dev->pm_list);
+>  	kref_init(&dev->ref);
+>  	atomic_set(&dev->nmappings, 0);
+>  
+> @@ -2346,6 +2350,10 @@ static int uvc_probe(struct usb_interface *intf,
+>  	if (!(dev->quirks & UVC_QUIRK_DISABLE_AUTOSUSPEND))
+>  		usb_enable_autosuspend(udev);
+>  
+> +	mutex_lock(&uvc_pm_mutex);
+> +	list_add_tail(&dev->pm_list, &uvc_pm_devices);
+> +	mutex_unlock(&uvc_pm_mutex);
+> +
+>  	uvc_dbg(dev, PROBE, "UVC device initialized\n");
+>  
+>  	return 0;
+> @@ -2370,6 +2378,10 @@ static void uvc_disconnect(struct usb_interface *intf)
+>  	    UVC_SC_VIDEOSTREAMING)
+>  		return;
+>  
+> +	mutex_lock(&uvc_pm_mutex);
+> +	list_del_init(&dev->pm_list);
+> +	mutex_unlock(&uvc_pm_mutex);
+> +
+>  	uvc_unregister_video(dev);
+>  	kref_put(&dev->ref, uvc_delete);
+>  }
+> @@ -2447,6 +2459,41 @@ static int uvc_reset_resume(struct usb_interface *intf)
+>  	return __uvc_resume(intf, 1);
+>  }
+>  
+> +static int uvc_pm_notify(struct notifier_block *nb, unsigned long action,
+> +			 void *data)
+> +{
+> +	struct uvc_device *dev;
+> +	struct uvc_streaming *stream;
+> +	int ret;
+> +
+> +	if (action != PM_HIBERNATION_IMAGE_WRITE_FAILED)
+> +		return NOTIFY_DONE;
+> +
+> +	mutex_lock(&uvc_pm_mutex);
+> +	list_for_each_entry(dev, &uvc_pm_devices, pm_list) {
+> +		list_for_each_entry(stream, &dev->streams, list) {
+> +			if (!stream->hibernate_resume_deferred)
+> +				continue;
+> +
+> +			stream->hibernate_resume_deferred = 0;
+> +			ret = uvc_video_resume(stream, 0);
+> +			if (ret < 0) {
+> +				mutex_lock(&stream->queue.mutex);
+> +				vb2_streamoff(&stream->queue.queue,
+> +					      stream->queue.queue.type);
+> +				mutex_unlock(&stream->queue.mutex);
+> +			}
+> +		}
+> +	}
+> +	mutex_unlock(&uvc_pm_mutex);
+> +
+> +	return NOTIFY_OK;
+> +}
+> +
+> +static struct notifier_block uvc_pm_nb = {
+> +	.notifier_call = uvc_pm_notify,
+> +};
+> +
+>  /* ------------------------------------------------------------------------
+>   * Module parameters
+>   */
+> @@ -3291,8 +3338,15 @@ static int __init uvc_init(void)
+>  
+>  	uvc_debugfs_init();
+>  
+> +	ret = register_pm_notifier(&uvc_pm_nb);
+> +	if (ret < 0) {
+> +		uvc_debugfs_cleanup();
+> +		return ret;
+> +	}
+> +
+>  	ret = usb_register(&uvc_driver);
+>  	if (ret < 0) {
+> +		unregister_pm_notifier(&uvc_pm_nb);
+>  		uvc_debugfs_cleanup();
+>  		return ret;
+>  	}
+> @@ -3303,6 +3357,7 @@ static int __init uvc_init(void)
+>  static void __exit uvc_cleanup(void)
+>  {
+>  	usb_deregister(&uvc_driver);
+> +	unregister_pm_notifier(&uvc_pm_nb);
+>  	uvc_debugfs_cleanup();
+>  }
+>  
+> @@ -3313,4 +3368,3 @@ MODULE_AUTHOR(DRIVER_AUTHOR);
+>  MODULE_DESCRIPTION(DRIVER_DESC);
+>  MODULE_LICENSE("GPL");
+>  MODULE_VERSION(DRIVER_VERSION);
+> -
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index f6c8e3223796..2c57b7042856 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+> +#include <linux/suspend.h>
+>  #include <linux/usb.h>
+>  #include <linux/usb/hcd.h>
+>  #include <linux/videodev2.h>
+> @@ -2151,11 +2152,27 @@ int uvc_video_resume(struct uvc_streaming *stream, int reset)
+>  	if (!uvc_queue_streaming(&stream->queue))
+>  		return 0;
+>  
+> +	/*
+> +	 * Defer restarting the streaming hardware during the transient THAW
+> +	 * phase after a hibernation snapshot has been created. If writing the
+> +	 * image succeeds, the system powers off and the restart is not needed.
+> +	 * If writing fails, the PM core notifies the driver before userspace is
+> +	 * thawed so deferred streams can be restarted.
+> +	 */
+> +	if (pm_hibernation_snapshot_done()) {
+> +		stream->hibernate_resume_deferred = 1;
+> +		return 0;
+> +	}
+> +
+>  	ret = uvc_commit_video(stream, &stream->ctrl);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	return uvc_video_start_transfer(stream, GFP_NOIO);
+> +	ret = uvc_video_start_transfer(stream, GFP_NOIO);
+> +	if (!ret)
+> +		stream->hibernate_resume_deferred = 0;
+> +
+> +	return ret;
+>  }
+>  
+>  /* ------------------------------------------------------------------------
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 0a0c01b2420f..c87eaaaf2749 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -475,6 +475,7 @@ struct uvc_streaming {
+>  
+>  	/* Buffers queue. */
+>  	unsigned int frozen : 1;
+> +	unsigned int hibernate_resume_deferred : 1;
+>  	struct uvc_video_queue queue;
+>  	struct workqueue_struct *async_wq;
+>  	void (*decode)(struct uvc_urb *uvc_urb, struct uvc_buffer *buf,
+> @@ -604,6 +605,7 @@ struct uvc_device {
+>  
+>  	/* Video Streaming interfaces */
+>  	struct list_head streams;
+> +	struct list_head pm_list;
+>  	struct kref ref;
+>  
+>  	/* Status Interrupt Endpoint */
 
-  usb 1-10: New USB device found, idVendor=0bda, idProduct=b009
-  rtw88_8723de 0000:02:00.0: Firmware version 48.0.0, H2C version 0
-  rtw88_8723de 0000:02:00.0 wlo1: renamed from wlan0
-
-Disabling ASPM with the following module option did not change the result:
-
-  options rtw88_pci disable_aspm=1
-
-The option was confirmed active during the test and was removed
-afterwards.
-
-The failure can be prevented by stopping NetworkManager and Bluetooth,
-unloading btusb and rtw88_8723de, waiting three seconds, and then
-rebooting.  On the same system, this workaround completed three
-consecutive warm reboots without either failure:
-
-  modprobe -r btusb
-  modprobe -r rtw88_8723de
-  sleep 3
-  reboot
-
-The fact that both bus functions fail together, while an explicit driver
-shutdown prevents the failure, appears to indicate that the combo device
-retains an invalid power or reset state across warm reboot.
-
-An older report describes the same behavior on an HP 15-da0xxx with the
-same PCI and USB identifiers.  It used the driver available in 2018, but
-also reported USB error -71, MAC initialization failure after warm reboot,
-and recovery after a cold boot:
-
-  https://bbs.archlinux.org/viewtopic.php?id=240675
-  https://bugzilla.kernel.org/show_bug.cgi?id=201239
-
-A related RTL8723DE rtw88 power-sequence report is archived here:
-
-  https://www.spinics.net/lists/linux-wireless/msg200831.html
-
-Please let me know which additional traces or tests would help determine
-whether the shutdown sequence belongs in rtw88 or requires a platform
-quirk.
-
-Thank you for your time and help.
