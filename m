@@ -1,306 +1,215 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D556423A9B;
-	Wed, 29 Jul 2026 07:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4752C11E8
+	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 07:32:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785310158; cv=none; b=mGR+l/rZSul2IHajhpPB6b8NyX75GfsUdqDAHjBPHQxxP/Npu95JsHJN4n0H0abj2SJjPNoKF+VAbWgwTjsX1jfPaDYhfVOaH2vrHjPHY1YACBNJ3SSpZ0IryqjEsSEUireH7Xx8znNMCt3zyWUuDl3TNwOQOes7w8G2hhEQs3Y=
+	t=1785310342; cv=none; b=IWUVRak8qjm1fKZAdAYxsJgz/zpiESrMVk7P4G3uV7C0umbJcExeclXpAuAYn0Bj5Fuy1gSbqHkRPzrm8na4HzvD+IwlJbs5dtC7cGvY+qBgmREUM0jDXP91Gq95XW49RhdMLNS2G1mi+9Ruq8eAYhkaMNA0zrVhjZM2L6xRrPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785310158; c=relaxed/simple;
-	bh=0GPxDcwyimw4bHAA4qTNOyDQJhuAQtZVF3rC79tiNd8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QArgq9cYDfHBaGMdslkmAc1M3vVqrnE5BkI+qHsZD1HqnFawfNPi+FYvYbHRhC+vXCAVVhdFjTKZ9dQnUs+4RJ2+gvPzo1oKkQqLfiDsgdR6e0frPhrQcvAf6JCLNFREve1jLb1ko/uP9xGmSTP2m5W4djO68NVMbLZpvA2kHSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HGc5cJjZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785310342; c=relaxed/simple;
+	bh=N8F6gruLmVUyvVYMqbK3eV5zq1o0WBYJsoQv7SBSlgw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hzw17yJZdzhJ+KGqnQtpaLVP5E0BjLX3IwYQ+h3mD/1YnlGw/eZBz8lafCa3j34VpVlaMJ8qk5H0BdRya9Rujd2wWKUOsl6VwPtdH1nlUhpRtkCjdjHpnSt8RLO2VWODfJRRvBRdfnbrLxpoeDmDMKQHiAeI+HPMEh9f3TmpfPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g7PSQpRL; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HGc5cJjZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7CFE1F000E9;
-	Wed, 29 Jul 2026 07:29:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785310147;
-	bh=dDJuyxTx89l+wBrZp9SB2fXDrF6LUCjF+IHLy2dmd0o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=HGc5cJjZpDotJJMikzDYnOwgbeDbIueRd7ncAspKugQzpn0hlBnKc6e8XSSbqlAvr
-	 mahD/qvYqIJKlJDyq1vFXZyXXEA03d9MONzxOptjM3OywB9pVvENNaAj49ROa24S93
-	 T881DM5z086V1IoVHqX/cdiHI7cg3HahhL5nzdL2b5k3hzfGqRcbGpF3X/4rWIxxgi
-	 xHb+QXNVGkqfaOQ7pfmoG5HC+e+o9X4uP85ZM9FNySarTnmgoRV7tofo10rid7Rorr
-	 h8VD3Ek68Sp5MYE+zQaUw3gEm5ZMJhUzO6F7K5IVHTqtudcmd97X1MWwgtunXa1aor
-	 WeUaNXgNWvbVQ==
-Message-ID: <cbac4803-cf65-4b8b-a662-073189df478b@kernel.org>
-Date: Wed, 29 Jul 2026 09:29:03 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g7PSQpRL"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38eca09faa2so70513a91.3
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 00:32:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785310328; x=1785915128; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=BOIx6kQw8kncN7CWUML3AjNSrwnvdWec0++IgBrYaUY=;
+        b=g7PSQpRLKsTYrPfHoW3xUqZdM3akrgm1WDXWGkU/qs/D5k/B4jUZMtrqf4ieCcN0Bt
+         ykj0ZuOYiDB32n7+7vNMa8GyB5H/ldM2VtEJurYdPjShjya38tRF119rJkIeeRT2jn8d
+         k7D2jMinCJZynWKcklUTNGmT+Aj1qeM0Aw3Zma9tYfk0mFYrY3d9++4FjFSKm0WwdBKa
+         wXOQ+Nh/O+tD4mumPY0h6Yo5Dv2OAwZOKk1uxSiUH7bLAquu7UtPWDcPuRwGtyVCAcMG
+         L2gZD8oM7BhSNSq5czBZiBVOR/tINl2wU11KhcmIrnLRjwvbM/mw6n/7Sdm7ypP6/ykp
+         /51Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785310328; x=1785915128;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=BOIx6kQw8kncN7CWUML3AjNSrwnvdWec0++IgBrYaUY=;
+        b=OJIwrtEt84saYmN4iXLacPi7KJimXcXr+fiEPKT1KlqqjlvbvzIcYvGpvAj3s1FR6r
+         CQnEt8hqAybzpBuRdpKOTFeWW3pC88mbcLEHMVcjpl61uLoxcTR8Q9u5pIFv/f/rxF6u
+         jg4A6CBk1z+Cg9lV0qcnYkez/lnZR24cxG+9q60l4uhw6P+7F1plTNVRgxssmCdBmBq/
+         eYJ+67rfrhNdZxhpFZ7nrEN2bSh4tuzxCY5fEk2und//PryHQky4xleZct87yY+gx7Cx
+         gyJl0cYcns9XhEz9Qa9SNugkjcebwuaTXYhhueo5ACdQO5AxjFbVuQHQORBq1+Js62sp
+         x6YA==
+X-Gm-Message-State: AOJu0YzbmUNvLplrtm3j882eJJad5L8lyY3jwpZg8QOQIQVyQPwjqxkY
+	BNQHoTMkKesMKz+50ZR+J5frGxVn/J6HbCw0iw2t210pvtU3e//x2xkwOduTF1XX
+X-Gm-Gg: AR+sD10dLXCPQxuW5eGlWtAupIc0JJoNNfbEJ40ZDAfG5uxGlLpF2yivZ0AHycgzLeK
+	qcZqFt4zlQOijPbfbdtJEWjFOifUxKOC10vfbMcwD8ito826V4qP+pTOBLpJ2l9UIoFAaI2MlcZ
+	jYr+nkHOdwmKTvrgCTypc86fn9vSE/njXjTk5EgaEJ8wUwFXAyHzv9EEYyjrwVhggLHV36n/ABu
+	BG5RWnvlmqj9jdusRF5GH1mUqEt+TEtk9e9U7y05xSu7FbZF1w7nUGdCnFAsggUwanPOal4dKAt
+	ytT+7MDK/0rXPE3BL1Mg1+lA3upp74ZrfAg464+9qev8KI7v5ZddknArfJhtSddwUvG41efT42h
+	rHafbkfRjZSzdd//4+GYLXyQN2ITM45L2rzWSj8Za2KcPlpmt0iXeZ6++qnzNUoAYv69cmoAQS+
+	XpSZfH2pECA8pJqkQekEOGsYBX122IJUOLaZs6SPqdjch6GJga6gJ/qLHy+CYWnWEMb63bFw==
+X-Received: by 2002:a05:6a21:117:b0:3c3:8f7a:c0a2 with SMTP id adf61e73a8af0-3c8d4ec287bmr5668653637.4.1785310327631;
+        Wed, 29 Jul 2026 00:32:07 -0700 (PDT)
+Received: from [10.136.11.252] ([2409:40c2:500e:cf:36e8:6bdc:17c3:c887])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504b88e12sm6758159eec.11.2026.07.29.00.31.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2026 00:32:06 -0700 (PDT)
+From: Bhargav Joshi <j.bhargav.u@gmail.com>
+Date: Wed, 29 Jul 2026 13:00:37 +0530
+Subject: [PATCH v3] dt-bindings: usb: ti,da830-ohci: Convert to DT schema
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/4] media: uvcvideo: defer streaming restart after
- hibernation snapshot
-To: Haowen Tu <tuhaowen@uniontech.com>, laurent.pinchart@ideasonboard.com,
- rafael@kernel.org
-Cc: gregkh@linuxfoundation.org, kernel@uniontech.com, lenb@kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, mchehab@kernel.org,
- oneukum@suse.com, pavel@kernel.org, stern@rowland.harvard.edu
-References: <20260723084633.GE648629@killaraus.ideasonboard.com>
- <cover.1785226280.git.tuhaowen@uniontech.com>
- <6179cdb467414a1949fabbd4d8dec29affe9c3ea.1785226280.git.tuhaowen@uniontech.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <6179cdb467414a1949fabbd4d8dec29affe9c3ea.1785226280.git.tuhaowen@uniontech.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260729-ti-da830-ohci-v3-1-e30da330780f@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12N0Q6CIBhGX8VxHQ1+ULOr3qN1QYD6t5IGxmrOd
+ w/0xnl5tu+cbyLBerSBnIuJeBsxoBsSiENBdK+GzlI0iQkwqFgFQEekRp0Eo67XSEEBNI1hsrR
+ AkvP2tsXv0rveVg6f+8PqMUfyoscwOv9bDiPPu7Vd83rXjpxyKlownHMFTMKleyl8HrV7kdyOs
+ LFB7G1ItuS2lKrVsmZia8/z/AfL3KCs+gAAAA==
+X-Change-ID: 20260622-ti-da830-ohci-2a2299d045e2
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Axel Haslam <ahaslam@baylibre.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, goledhruva@gmail.com, m-chawdhry@ti.com, 
+ daniel.baluta@gmail.com, simona.toaca@nxp.com, j.bhargav.u@gmail.com
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785310319; l=3406;
+ i=j.bhargav.u@gmail.com; h=from:subject:message-id;
+ bh=N8F6gruLmVUyvVYMqbK3eV5zq1o0WBYJsoQv7SBSlgw=;
+ b=KcpnK6gaa4ebpbq1GxjUGrl5aWx0q1JQnwo3+lKh0Mo95XAfg5tjFFuuUs4mWebftPam+czK3
+ 71dNPuxUi/PBtnAIo+Lnp1wmfPFoehP3yjDOmsxZyEzBB5uSI1kDpWy
+X-Developer-Key: i=j.bhargav.u@gmail.com; a=ed25519;
+ pk=IqNDwUZKECEA+n8wXctFLBbYL9NhFstZNbOznm/nX1k=
 
-Hi Haowen,
+Convert Texas Instruments da830-ohci bindings from legacy text to DT
+schema. Name of binding is changed to match primary compatible property.
+Add required property clocks and optional property oc-gpios which were
+missing from legacy binding.
 
-Thank you for your work on this.
+Signed-off-by: Bhargav Joshi <j.bhargav.u@gmail.com>
+---
+Changes in v3:
+- Add allOf reference to the common usb-hcd.yaml schema
+- Link to v2: https://lore.kernel.org/r/20260723-ti-da830-ohci-v2-1-41e54afc4703@gmail.com
 
-On 29-Jul-26 09:11, Haowen Tu wrote:
-> When a UVC camera is streaming and the system enters hibernation, the
-> streaming interface is frozen before the snapshot is created. The
-> original kernel then resumes devices with PMSG_THAW so it can write the
-> hibernation image.
-> 
-> Restarting UVC streaming during this transient phase can turn the camera
-> LED back on and generate USB traffic even though the normal successful
-> path writes the image and powers off.
+Changes in v2:
+- Added clocks as required property which was missing in legacy binding.
+- Added oc-gpios property which is checked by driver.
+- Link to v1: https://patch.msgid.link/20260717-ti-da830-ohci-v1-1-3f2d111a2042@gmail.com
+---
+ .../devicetree/bindings/usb/ohci-da8xx.txt         | 23 --------
+ .../devicetree/bindings/usb/ti,da830-ohci.yaml     | 61 ++++++++++++++++++++++
+ 2 files changed, 61 insertions(+), 23 deletions(-)
 
-Right, so the purpose here is to avoid the LED turning back on and
-to speedup the hibernate?
+diff --git a/Documentation/devicetree/bindings/usb/ohci-da8xx.txt b/Documentation/devicetree/bindings/usb/ohci-da8xx.txt
+deleted file mode 100644
+index 24a826d5015e..000000000000
+--- a/Documentation/devicetree/bindings/usb/ohci-da8xx.txt
++++ /dev/null
+@@ -1,23 +0,0 @@
+-DA8XX USB OHCI controller
+-
+-Required properties:
+-
+- - compatible: Should be "ti,da830-ohci"
+- - reg:        Should contain one register range i.e. start and length
+- - interrupts: Description of the interrupt line
+- - phys:       Phandle for the PHY device
+- - phy-names:  Should be "usb-phy"
+-
+-Optional properties:
+- - vbus-supply: phandle of regulator that controls vbus power / over-current
+-
+-Example:
+-
+-ohci: usb@225000 {
+-        compatible = "ti,da830-ohci";
+-        reg = <0x225000 0x1000>;
+-        interrupts = <59>;
+-        phys = <&usb_phy 1>;
+-        phy-names = "usb-phy";
+-        vbus-supply = <&reg_usb_ohci>;
+-};
+diff --git a/Documentation/devicetree/bindings/usb/ti,da830-ohci.yaml b/Documentation/devicetree/bindings/usb/ti,da830-ohci.yaml
+new file mode 100644
+index 000000000000..148b9d0d83da
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/ti,da830-ohci.yaml
+@@ -0,0 +1,61 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/ti,da830-ohci.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: DA8XX USB OHCI controller
++
++maintainers:
++  - Axel Haslam <ahaslam@baylibre.com>
++
++allOf:
++  - $ref: usb-hcd.yaml#
++
++properties:
++  compatible:
++    const: ti,da830-ohci
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  phys:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  phy-names:
++    const: usb-phy
++
++  vbus-supply:
++    description:
++      phandle of regulator that controls vbus power / over-current
++
++  oc-gpios:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - phys
++  - phy-names
++  - clocks
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    usb@225000 {
++        compatible = "ti,da830-ohci";
++        reg = <0x225000 0x1000>;
++        interrupts = <59>;
++        phys = <&usb_phy 1>;
++        phy-names = "usb-phy";
++        clocks = <&psc1 2>;
++        vbus-supply = <&reg_usb_ohci>;
++    };
 
-IOW except for the LED turning back on and things taking slightly
-longer everything works correctly with the current code, right ?
+---
+base-commit: ef0c9f75a19532d7675384708fc8621e10850104
+change-id: 20260622-ti-da830-ohci-2a2299d045e2
 
-I'm wondering if it would not be better to solve this in userspace
-and have userspace stop the streaming before hibernation ?
-
-Things like network connections will also get disrupted so some sort
-of system-is-going-to-suspend notification to userspace processes
-sounds useful ?   This could e.g. also be used for program to save
-any unsaved work (e.g. save unsaved changes in an editor to
-a recovery file).
-
-> USB interface resume callbacks do
-> not receive the PM message,
-
-Hmm, the way you word this sound like this is a problem at the USB
-layer. But I think this is more of a short-coming in the generic
-device model.
-
-To clarify AFAIK the actual USB device to which the interfaces belong
-also does not get a specific PM message here, right ?
-
-The reason I'm asking is because the way this is worded in the commit
-message makes it sounds like this might be something which could
-be solved in the USB subsystem which I do not think is the case ?
-
-Regards,
-
-Hans
-
-
-
-
-> so use pm_hibernation_snapshot_done() to
-> detect this phase and defer the streaming restart.
-> 
-> The deferred state is kept in the UVC stream. If image writeout succeeds,
-> the system powers off and no restart is needed. If image writeout fails,
-> the PM core sends PM_HIBERNATION_IMAGE_WRITE_FAILED before userspace is
-> thawed; the UVC PM notifier then restarts streams whose resume was
-> deferred. If that recovery restart fails, fall back to the existing
-> streamoff error path so userspace is notified instead of waiting on
-> buffers indefinitely.
-> 
-> Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 56 +++++++++++++++++++++++++++++-
->  drivers/media/usb/uvc/uvc_video.c  | 19 +++++++++-
->  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
->  3 files changed, 75 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 31b4ac3b48c1..3cf861e0fa95 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -13,6 +13,7 @@
->  #include <linux/list.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> +#include <linux/suspend.h>
->  #include <linux/usb.h>
->  #include <linux/usb/quirks.h>
->  #include <linux/usb/uvc.h>
-> @@ -38,6 +39,8 @@ unsigned int uvc_dbg_param;
->  unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
->  
->  static struct usb_driver uvc_driver;
-> +static LIST_HEAD(uvc_pm_devices);
-> +static DEFINE_MUTEX(uvc_pm_mutex);
->  
->  /* ------------------------------------------------------------------------
->   * Utility functions
-> @@ -2200,6 +2203,7 @@ static int uvc_probe(struct usb_interface *intf,
->  	INIT_LIST_HEAD(&dev->entities);
->  	INIT_LIST_HEAD(&dev->chains);
->  	INIT_LIST_HEAD(&dev->streams);
-> +	INIT_LIST_HEAD(&dev->pm_list);
->  	kref_init(&dev->ref);
->  	atomic_set(&dev->nmappings, 0);
->  
-> @@ -2346,6 +2350,10 @@ static int uvc_probe(struct usb_interface *intf,
->  	if (!(dev->quirks & UVC_QUIRK_DISABLE_AUTOSUSPEND))
->  		usb_enable_autosuspend(udev);
->  
-> +	mutex_lock(&uvc_pm_mutex);
-> +	list_add_tail(&dev->pm_list, &uvc_pm_devices);
-> +	mutex_unlock(&uvc_pm_mutex);
-> +
->  	uvc_dbg(dev, PROBE, "UVC device initialized\n");
->  
->  	return 0;
-> @@ -2370,6 +2378,10 @@ static void uvc_disconnect(struct usb_interface *intf)
->  	    UVC_SC_VIDEOSTREAMING)
->  		return;
->  
-> +	mutex_lock(&uvc_pm_mutex);
-> +	list_del_init(&dev->pm_list);
-> +	mutex_unlock(&uvc_pm_mutex);
-> +
->  	uvc_unregister_video(dev);
->  	kref_put(&dev->ref, uvc_delete);
->  }
-> @@ -2447,6 +2459,41 @@ static int uvc_reset_resume(struct usb_interface *intf)
->  	return __uvc_resume(intf, 1);
->  }
->  
-> +static int uvc_pm_notify(struct notifier_block *nb, unsigned long action,
-> +			 void *data)
-> +{
-> +	struct uvc_device *dev;
-> +	struct uvc_streaming *stream;
-> +	int ret;
-> +
-> +	if (action != PM_HIBERNATION_IMAGE_WRITE_FAILED)
-> +		return NOTIFY_DONE;
-> +
-> +	mutex_lock(&uvc_pm_mutex);
-> +	list_for_each_entry(dev, &uvc_pm_devices, pm_list) {
-> +		list_for_each_entry(stream, &dev->streams, list) {
-> +			if (!stream->hibernate_resume_deferred)
-> +				continue;
-> +
-> +			stream->hibernate_resume_deferred = 0;
-> +			ret = uvc_video_resume(stream, 0);
-> +			if (ret < 0) {
-> +				mutex_lock(&stream->queue.mutex);
-> +				vb2_streamoff(&stream->queue.queue,
-> +					      stream->queue.queue.type);
-> +				mutex_unlock(&stream->queue.mutex);
-> +			}
-> +		}
-> +	}
-> +	mutex_unlock(&uvc_pm_mutex);
-> +
-> +	return NOTIFY_OK;
-> +}
-> +
-> +static struct notifier_block uvc_pm_nb = {
-> +	.notifier_call = uvc_pm_notify,
-> +};
-> +
->  /* ------------------------------------------------------------------------
->   * Module parameters
->   */
-> @@ -3291,8 +3338,15 @@ static int __init uvc_init(void)
->  
->  	uvc_debugfs_init();
->  
-> +	ret = register_pm_notifier(&uvc_pm_nb);
-> +	if (ret < 0) {
-> +		uvc_debugfs_cleanup();
-> +		return ret;
-> +	}
-> +
->  	ret = usb_register(&uvc_driver);
->  	if (ret < 0) {
-> +		unregister_pm_notifier(&uvc_pm_nb);
->  		uvc_debugfs_cleanup();
->  		return ret;
->  	}
-> @@ -3303,6 +3357,7 @@ static int __init uvc_init(void)
->  static void __exit uvc_cleanup(void)
->  {
->  	usb_deregister(&uvc_driver);
-> +	unregister_pm_notifier(&uvc_pm_nb);
->  	uvc_debugfs_cleanup();
->  }
->  
-> @@ -3313,4 +3368,3 @@ MODULE_AUTHOR(DRIVER_AUTHOR);
->  MODULE_DESCRIPTION(DRIVER_DESC);
->  MODULE_LICENSE("GPL");
->  MODULE_VERSION(DRIVER_VERSION);
-> -
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index f6c8e3223796..2c57b7042856 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -12,6 +12,7 @@
->  #include <linux/list.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> +#include <linux/suspend.h>
->  #include <linux/usb.h>
->  #include <linux/usb/hcd.h>
->  #include <linux/videodev2.h>
-> @@ -2151,11 +2152,27 @@ int uvc_video_resume(struct uvc_streaming *stream, int reset)
->  	if (!uvc_queue_streaming(&stream->queue))
->  		return 0;
->  
-> +	/*
-> +	 * Defer restarting the streaming hardware during the transient THAW
-> +	 * phase after a hibernation snapshot has been created. If writing the
-> +	 * image succeeds, the system powers off and the restart is not needed.
-> +	 * If writing fails, the PM core notifies the driver before userspace is
-> +	 * thawed so deferred streams can be restarted.
-> +	 */
-> +	if (pm_hibernation_snapshot_done()) {
-> +		stream->hibernate_resume_deferred = 1;
-> +		return 0;
-> +	}
-> +
->  	ret = uvc_commit_video(stream, &stream->ctrl);
->  	if (ret < 0)
->  		return ret;
->  
-> -	return uvc_video_start_transfer(stream, GFP_NOIO);
-> +	ret = uvc_video_start_transfer(stream, GFP_NOIO);
-> +	if (!ret)
-> +		stream->hibernate_resume_deferred = 0;
-> +
-> +	return ret;
->  }
->  
->  /* ------------------------------------------------------------------------
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 0a0c01b2420f..c87eaaaf2749 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -475,6 +475,7 @@ struct uvc_streaming {
->  
->  	/* Buffers queue. */
->  	unsigned int frozen : 1;
-> +	unsigned int hibernate_resume_deferred : 1;
->  	struct uvc_video_queue queue;
->  	struct workqueue_struct *async_wq;
->  	void (*decode)(struct uvc_urb *uvc_urb, struct uvc_buffer *buf,
-> @@ -604,6 +605,7 @@ struct uvc_device {
->  
->  	/* Video Streaming interfaces */
->  	struct list_head streams;
-> +	struct list_head pm_list;
->  	struct kref ref;
->  
->  	/* Status Interrupt Endpoint */
+Best regards,
+-- 
+Bhargav
 
