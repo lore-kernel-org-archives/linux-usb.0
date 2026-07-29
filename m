@@ -1,116 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074273C5525;
-	Wed, 29 Jul 2026 09:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EBB411F82
+	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 09:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785316796; cv=none; b=HoHyYF1RtPaT3po3VUZP0KFi5hSeFUDsqhI17uisT9yXzi4KmUhdxGwHXhxai8yoqpEE3IOVLbZM1rLjj72tNV0Es/uiT9QDkxH61dnarCJ2v6LSIQQKMwjLnwpH0/y3Yg23sEa8HwptVNqZrOUCmtQQ/C36iVUL3wDzkP2KRIs=
+	t=1785318193; cv=none; b=gIQuob83rf3EYNZVP1aqNcAa/j6YfZdFWqczxzUYqMJFQoxsHdwenR75Jnm6TEKZHpjeSXOF299CE8T3DSIh8Tg+KWEN2eMSuiY2knrSXfR68E9MEIP65A77XPuOGGJCgx7WjAjEkvPkVFqwU76XvU+FBZNXh+b8VQbRJ9Ci24U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785316796; c=relaxed/simple;
-	bh=nqwd1aeayF/tTSe1p1DlzBVqmH9ArOQHbigtgzdusZc=;
-	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=qKnF6iC1YRsA2rhFzIbTehFxb0Sy7Q/3J2/EpSpFMv5gwYinN54fkiBss3Ur6yLXG0SmIZgQVkI2GNidhCrWNHkTWcExejFDsN70hvKbV7A5yZqt+DJ6lK1nuQt58nsfAY5rTWt0T4BVyBL22uswrUcbT8IdjN3TKNnuiQDLdrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=obGo9WYI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785318193; c=relaxed/simple;
+	bh=hkcrbB9ShktWX1H9AZ/hhXP4eZ26Ve/kCzpgfCdUT2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Oum4GlI2UDG3DvbGqsgRUlUR3Nel+Oz9QTzylj0i8URxMYJGsDtTZ5gb7DDp7CkwQ+vau/k1xn7X1Ydv9eChTef4tdY8GJwRCYfUxCxBRg6RSYmVy78zhJgDp9LFk/iZt8Qe4LPI6bMTJ3eNRVw4VygkdjlS4ukzK9iRQM6HTtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JtUO37h4; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="obGo9WYI"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 6577E1F000E9;
-	Wed, 29 Jul 2026 09:19:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785316794;
-	bh=79VI3Ct6agLLEKvEp8Q1IlyWfRd7S13KEiFjfSd6Ndw=;
-	h=From:To:Cc:Subject:Date;
-	b=obGo9WYIxUw0p4y8Ly0PTrWD433q065h8b8YT6X5BHQPOAGV5RXP7xsrGgvPM03vB
-	 WNiJ28mkYMVDjvlboVEZePdETp+hmIuJ59mAmt527p9Y4Z+38gL8mx/tVGO9W7ojty
-	 Qet/mM0Tf2jyGc8agX8/YJAlfOHiCe/hHYGDt3L8Uq0vWP/RdDYb7YH62SwPADEwIt
-	 nQRoB55UfDsAL2EQ3kxCT3kYsVefp4zbuD0ELOwfnTRbYruG+E3QTySPT4bqpLceAq
-	 YdwfYlAbWcX4pRMEWbk5VUGHNirhipfWyci36Z/NYmNXXeBJPEoXzsZowcXFyOEoYf
-	 j/9UNv2W//+Sw==
-From: "syzbot" <syzbot@kernel.org>
-To: syzkaller-bugs@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>, "Greg Kroah-Hartman" <gregkh@suse.de>
-Cc: kees@kernel.org, linux-kernel@vger.kernel.org, syzbot@lists.linux.dev
-Subject: [PATCH] usb: usbtest: fix NULL pointer dereference in usbtest_probe
-Message-ID: <2650cf0f-26f9-48b5-b198-e4cb67c59cf0@mail.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JtUO37h4"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-ca7c1176317so618351a12.1
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 02:43:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785318192; x=1785922992; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=t83ZAl+HTEOhK7yZi3aE9T2wGWPdb8+DClmlDdgQvpA=;
+        b=JtUO37h4LqYcWNJl8gtSWbDpQOCbH27M9saeYKYhx2HxuUhIGjMTDgjIfQxIkJtpiT
+         TQor7HFnFcBbXCgiiHx0M1sy4ilrfHkRzNtZf6EG73NE4/JBr1dh5iM5UpUK5ZX2hpsQ
+         YS79mcBmlpwJg1aqS34RLdrlzo9QfA2NJdgpjonhFKESChtdRib2gAtQQOund8w683qn
+         xgXbPcz4ot4pz3Ksy/YO4UOTuOK44e7YoTFoeIxzzascRl4avZJkx1hOVK/ZoDc4F8kt
+         RyC6z/Bcoh/RPFo3A1UlfPmwsmmOXSuSV9XF8YlAKIusNvnJ/j3pBs9ufQaCn+SWAvkH
+         pXNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785318192; x=1785922992;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=t83ZAl+HTEOhK7yZi3aE9T2wGWPdb8+DClmlDdgQvpA=;
+        b=DO2h+P8vBlNNJAhmPsoC/d7SC/3XSY7bqgp9vDlCNEdbtkW4sctgYC/EkZjpI8tzM5
+         OuxEiVQ6U68169HMRjuSfJNjhEEJriWiK8h9u6GRX2sKsa710P319MV98UM1BL4d6l0b
+         J71h6t3idiOo2PykQa2XJaXBuEhwpV10NKE9CMEKZNehYLuGvsASTczizck4Q63OVP6d
+         xuxzShQJ8ZB52MN3qUD21suZO3icpU86YS1w+hdyKvs+vvojF8Ss9NyBfLpGSOtmKJZH
+         I3yxFVXYqHHls4ntYqm8wGxvwkXeYnwkCNb8fvPVk5GH5povJSEA9plndoC+mbGQqQ6I
+         SghA==
+X-Forwarded-Encrypted: i=1; AHgh+Rrx1BsPBfoGiGjGMNDGpmp6c4ENwh8ouMFjAWSy/xdpXwHVGhu0KdbzPm4QYOcBnY+A8fCZ4qqo/Ao=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBhmPNh23pDMGwdzwD65ve/QbMl1z6fxH/krCpoLJDrgr1Va/m
+	D/RJ1TasG0X3GMrp+8I4DzxtbIa5Jzg4XBuRo6fFeI4GJeulnSe4JGAO5lMHSrm63EY=
+X-Gm-Gg: AR+sD11eGvpBZ2pyajctK6XO5G2/fEdH8AlEUcG2BvzYiG0ykUE3CY+ZunrfznlVdaW
+	ecvYRYeV8UPPZ3Wxu8BPNZNAJumyyxe05dtk06jTgzdZj4NmX1NBfWvJ4CmbBPGKLvu7FQ0vt9x
+	dL//F1asfBC4vZCjPN5khzg7/O0rKgFJ8J0hx/jtF0nb97dgtQTUJMTqBFhp79apn64LWvDD3R8
+	iEdLeLPb1zLqPf1WBeTDSyZ8ktxugaZd1pQBBpEOLKkyGN7cecKE4+nWEMf7WuNhSIuFjXs7HEw
+	DO3liNJvkajWVGC1BoUYrLXUAbhaD/d4poW566nt3+l3TRYT5wY5IWWojk5Dlhhl4eKmJWPQ8PZ
+	lnF2kCD9k0XnfzKdV8UDmbKI/MeAjWNn9inR06iNOZEuj/82qp/XsZBhadhgc1KQnP7LLG76Vq0
+	LVudSYGaD0cZCHHTrgkfLDEVVTH60iOKNZej26HGomUoE1vJVswN0rVc+CP6ffLpv5AEQjywsHC
+	gdrRmLIWFMgllrnDmDTps1K62864Wl2yEfSoDg=
+X-Received: by 2002:a05:6a21:2291:b0:3c3:83e6:c705 with SMTP id adf61e73a8af0-3c8ba5beec0mr7303606637.35.1785318191749;
+        Wed, 29 Jul 2026 02:43:11 -0700 (PDT)
+Received: from localhost ([2409:40c4:138:9281:7d6f:2f3:b5b5:ed1c])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504d37368sm14174469eec.22.2026.07.29.02.43.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2026 02:43:11 -0700 (PDT)
+Date: Wed, 29 Jul 2026 15:13:07 +0530
+From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
+To: Snake Pilot <snakepilot10@gmail.com>
+Cc: linux-wireless@vger.kernel.org, pkshih@realtek.com, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [BUG] rtw88_8723de: Wi-Fi and Bluetooth fail after warm reboot
+Message-ID: <amnGXPlG6nKUdEl7@eggarch>
+References: <CA+fxq6gPCQOYr6mh+_1ReOGzaiTULzMazXhs5q0PXc8PsjRJEQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Date: Wed, 29 Jul 2026 09:19:54 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+fxq6gPCQOYr6mh+_1ReOGzaiTULzMazXhs5q0PXc8PsjRJEQ@mail.gmail.com>
 
-From: Aleksandr Nogikh <nogikh@google.com>
+Hi,
 
-The usbtest driver relies on the driver_info field of the usb_device_id
-structure to hold a pointer to a struct usbtest_info, which contains
-necessary configuration for the device. When a new device ID is dynamically
-added via the sysfs new_id interface without specifying a reference device,
-the driver_info field defaults to 0. When the USB core binds the device
-using this dynamic ID, usbtest_probe() unconditionally casts the 0 to a
-pointer, resulting in a NULL pointer dereference when attempting to access
-the autoconf bitfield (at offset 0xa) of the struct usbtest_info.
+Could you provide the following:
+1) Full dmesg after warm and cold boot
+2) 'journalctl -k -b -1' after warm boot
 
-This leads to the following crash:
+Also please run a few tests,
+1) Unload rtw88_8723de only or btusb only and perform warm reboot
+and see if both of them are broken while unloading only one driver
+2) Repeat the above with a delay like sleep 0, 1, 3, 5
+3) Try 'echo 1 | sudo tee /sys/bus/pci/devices/0000:02:00.0/reset' 
+after warm reboot see if it pci function reset recovers wifi
 
-Oops: general protection fault, probably for non-canonical address
-0xdffffc0000000001: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-RIP: 0010:usbtest_probe+0x522/0xcc0 drivers/usb/misc/usbtest.c:2822
-Call Trace:
- <TASK>
- usb_probe_interface+0x653/0xc60 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
- bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
- device_add+0x7d7/0xb80 drivers/base/core.c:3772
- usb_set_configuration+0x1ad8/0x2180 drivers/usb/core/message.c:2268
- usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
- usb_probe_device+0x1c3/0x3b0 drivers/usb/core/driver.c:291
+Also provide output of 'lspci -vv -s 02:00.0' and 'lsusb -t'
+after warm reboot.
 
-To fix this, validate that id->driver_info is not NULL before proceeding
-with the probe. If it is NULL, gracefully return -ENODEV. The check is
-placed before any memory allocation to avoid unnecessary work and simplify
-error handling.
+That would be helpful.
 
-Fixes: 733260ff9c45 ("[PATCH] USB: add dynamic id functionality to USB core")
-Assisted-by: Gemini:gemini-3.5-flash Gemini:gemini-3.1-pro-preview syzbot
-Reported-by: syzbot+7e1e5911f9eac50bedc7@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=7e1e5911f9eac50bedc7
-Link: https://syzkaller.appspot.com/ai_job?id=9e476ca5-99d1-47d2-b9d1-f3b501897179
-Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
-
----
-diff --git a/drivers/usb/misc/usbtest.c b/drivers/usb/misc/usbtest.c
-index 98071b25a..6410b3e26 100644
---- a/drivers/usb/misc/usbtest.c
-+++ b/drivers/usb/misc/usbtest.c
-@@ -2786,10 +2786,13 @@ usbtest_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	}
- #endif
- 
-+	info = (struct usbtest_info *) id->driver_info;
-+	if (!info)
-+		return -ENODEV;
-+
- 	dev = kzalloc_obj(*dev);
- 	if (!dev)
- 		return -ENOMEM;
--	info = (struct usbtest_info *) id->driver_info;
- 	dev->info = info;
- 	mutex_init(&dev->lock);
- 
-
-
-base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
--- 
-See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
-You can comment on the patch as usual, syzbot will try to address
-the comments and send a new version of the patch if necessary.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Thanks, 
+Lovekesh
