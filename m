@@ -1,75 +1,79 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E5F4963AA
-	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 13:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF844B8DFD
+	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 14:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785333300; cv=none; b=j3BjrMCsyp053mlFF6wSRVnzycaWJ48sK/NN+/CFcj/k4A14KEAg0IUNIXyfdXyfMNCQiksm5qBO9/guXdyeX5zU9cYJXB5zVDqRn6nkwArHw4svVUpnQ+cE6NzcdDXRlQFm/j2hfhHfOOKTTRzXqWYtXGk1jLGEtghqEtMAMyU=
+	t=1785334142; cv=none; b=goCDAbHvGzkKx0dQTPWaxoKF77XBa+HcoOkOIE229DBywmxL+Y3ZMvfp3nKBt1Gn+9D62ylLuiyOBHZ202r6cqkdZu0JU7XYREpCD5dP9xhld6Bj2whgG4e3xYkO5npHMNtVc/LDWFSEKGGooi3lsk8ZAdmbqIPWhk8dBp6Zmjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785333300; c=relaxed/simple;
-	bh=Ha1mb5kFxDm9cD7pXy0bfXPQoZoNfTAyfFWhvydeIfQ=;
+	s=arc-20240116; t=1785334142; c=relaxed/simple;
+	bh=/67HQpFAEKtmh7pBdA3FLDCKv9mMdJ7V2q7+FUwXbd8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HtxwyIEitYii08YYZT1IueVuSCXqSJZns/MT+hBHWzJ89eEwqTVzgMpkeB2jZFCRMpi5ahM5tgP2v0CI1mBtus+AKMqZ24EehXZRYMKZXGYJjWGGg58DF5AgOC7I5eEXUhXX51ejTRQo+4zKas1O1/AuQKknoJZRlMgoAJj9sRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=WHfAs2b0; arc=none smtp.client-ip=209.85.222.169
+	 Content-Type:Content-Disposition:In-Reply-To; b=JD7FJSeAUQX8hg8JFqPhUnSmhAnswgknuUcX68pBH8HBpsMCJHGkoXMlBqAkL3TvDkdGtHiKR2K0FTk16AFS/CrA0Sp99+NfyNdF7ra/aa2OJRBojYaA7N+7ftGc7tYXamvw619x5uHC1WaIwfq5CRhGDpvRrHvqCFtoEPfci9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=fc5HPDSA; arc=none smtp.client-ip=209.85.222.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="WHfAs2b0"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-930f4e5eed1so63090985a.2
-        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 06:54:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="fc5HPDSA"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-92e54f8c051so54004385a.3
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 07:08:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1785333293; x=1785938093; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1785334137; x=1785938937; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=5LvZ0chz+TPJ0xzzKfMEgSAWIzM2O+ULwcgXsdKslGY=;
-        b=WHfAs2b0MqeNrejqbHOouVZIjQEJqBaVJlGrcEYRO4MomjAR7nygi7EO3LK1jwQbvU
-         kevkRJvxaJtZ/TXpm4NHcax2qMacQ8CEJOyIVP9KeuH+VVsFwiux54zSa7n1ePNLSlaf
-         JFPPVyp5p6GPs08mMhKar9BECPZjmc+4y9NQSsn8R/ifndZMZ75BfXEQ+yrlKT+6pfFk
-         p517T1TuYugWjT0cLmPjLidihGqqCqejMNnFFEUuOThRy0RoWrTWUBcnUZlwO34LSR/c
-         gPSFLOPcKIQGcKEJcIhDGXa7AbjvJMBtXK2wdwqVuJU8CJoQw8gkFcK2ygV3ifnJl9II
-         +IbQ==
+        bh=QoSZbcsZXIA21iiTaWUMCP3YKzXreBNCKDmjiwMa46E=;
+        b=fc5HPDSAElfoSoHh+f7ML8gc7houZbNcc++y5+dTQI+inYS6W7Rc9GelL8uJVg9bYq
+         EF/Jdugz7g+8ihesTro33kfsM3wpCL1YOk4az52IsZ67ET7M3ZQjuMdBToudr0iYiWht
+         3rXef8fuPZr6pIVDqQYPKg6SR+OJxIX7wYbVc5n/NqDfLtBUhnQ4QfNMvDJNx1f7Og1O
+         RIx1Ncz1eJLfErxFjcbCKaj4pzoqnj3Kuq5qjvuf8IBanetkJ8mjTln/TQLgERwjeNCo
+         WDLz4np5Cl7Uu1np5XQ4hoNizl2iZ/XI2ViNPuiZ3BcOPwj7wwqJF5w6EHjXAIIKWhnZ
+         eeEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785333293; x=1785938093;
+        d=1e100.net; s=20251104; t=1785334137; x=1785938937;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5LvZ0chz+TPJ0xzzKfMEgSAWIzM2O+ULwcgXsdKslGY=;
-        b=aYI7gzwDmgcaGGc5YAAo5olJkqrIgZvt7EpNrvxhZu8u7c7VsSe6JSSOxrdiFtZLAJ
-         5MPKOBpEY7BGWfssFY+Ea/x+Xw+hgM8H2cbDjV0Kc+kKrkoa5bmKhK4cUCVpkSoMVQh5
-         Qg+OK93Dj5PeZjx2KDDb4qup6xOnFtm1BQBCRPChpWh2cds6vvHpju7vM18ViveromGo
-         vcRiqYHkd+tKArAfhGvyx3EfjSkxtvOAovRGIr+qigU1o8QqPg3fnl6cgdwd5Bok6Zxl
-         84UgsEMYyXVq+wUyHwVNBC7yA9C1uSM9ZXmRd1hh9g+JwO5EjsUC0yiDLayYO2wnZhtz
-         J2/g==
-X-Forwarded-Encrypted: i=1; AHgh+RpvsVVAUYF3uk0qq1JoEADbOtaXuNnB/8eMzS5bq0j0uvvOWpzDKV1bdciv8DMYQLJ3W1UUEf6v1Vk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxwYaRQibx3A22DnFsUZ6VAcVe60Ndr8AQNap1m5J+5ZsQCVEk
-	D7Rhk5XjbStAkKzZFXOjmo+GcrOa/BsRvJCBeUUkWFujr7ApB7YQQr7NwUdofoheoA==
-X-Gm-Gg: AR+sD10B8s5a0ORqxcO5gKzBAaEg/mha4tWyKngnZfx3AvPRQlJqdVLJdO0Od4c8nos
-	KV+iovEby5JTZxzcT9Tc5Jm/ZaqPG6pV9K+3o4vlAihtVupMOsCk73WYpsoVRsu/BvR3IT38Ljd
-	4tjCOdQVwFxFylmDPfYmenxH9lXQOjeKLudqzv3BTAQgAifEjWxybVSM4UnZcV4t6Gg4CtqEPd2
-	1R8GsoTx0AokEmkiiWzu3VHnCbu/algDasz7pWhKCMdYDU8snGZXV57guMb1pTefLG0XhXg338N
-	QkVo/DYissagXlA5SpvXpJK/rwtA+kf7jgX2Ve2kx/FFy0YHVnLNobz3SLU36QNOoEkOIpNxyW3
-	VDRG6wAqzZdUvYVZykkiED2lmeqy9MVs1aCiQUDAIbOrbHGH3TQVERuF9nWuugkB9DuanRAhTnK
-	avchsOILw3jyYQxdnO1fTqtTh25CYaouolLpybrRGQNdC4f9GoPmmxxxRaWDnlhFyVbkSBZgvBN
-	872Duo=
-X-Received: by 2002:a05:620a:284f:b0:930:9585:e0b2 with SMTP id af79cd13be357-93302621312mr623402585a.51.1785333293093;
-        Wed, 29 Jul 2026 06:54:53 -0700 (PDT)
+        bh=QoSZbcsZXIA21iiTaWUMCP3YKzXreBNCKDmjiwMa46E=;
+        b=sGM2B4FWGf0hj0AMePWVMN+Q0o3EMUGzjnpZkmyf+b9DKgzEkf+WLCwr5mVwpqzdp3
+         8KoeeX9im5o5qmsIbEiCZuDFdSdX/r4Ui52sPRkQ/DRecCH40Iq/20gRide/0A3Qcs3e
+         gv08MHiHZ+WgHDKVDZZz1jpU1n4zp48ObAfvkWk2ytDOOvof8XRe3Ij4Q8x2R/DXFAg6
+         XHAQbKmepJOcNaxFgZl2UxLJ8ZRbHuv6pnCkmRkNg9udVDNI9NK0Ov6Qa8T9lc6Kn1xs
+         FdGVbJ7CmPil5QSoNnsMDwbc1HU/24ofq9MlK27KAgAeFXkRW39U1ZQpzoL3N2DPziqe
+         YXtQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqCe4mbUo9POWgFxiGitJ+gh8pDautkhqUZIB+bsJgB75a3C7OUodGKKr+M94f+a7P7mTPB7bPyeUY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywspq4lOm21OPAnX06NuY2ZVK5x4ljDLPK/SZOAn6TSNcIt0ClY
+	CJC4RjBI6Nefvqys7+APCKMJePgsjdsblzT83GB+kKJUVKd2WV/ZXu/a+pSVeQtLOg==
+X-Gm-Gg: AR+sD12LhpGvyORJrrtNvUtL9ifZBHdA52llC9Il12pKnC+a+yN38WwvRTkdHCakTpT
+	Xrdcz4pYbf3fN4ooqCe6y805Y4s026v9df6SgM7VYlDDhPYnFFIqJzGq+sweLjD8sYX2k17aq3S
+	17vUVFFqyvM5p9DQFBi0u6qtygt2HcjFDkJSdYxbpYwW2o4BN4e6A5DlsLVY2jCuTKR/GgR/z/4
+	fMMwQYoD1BLJnQUJJEPfqYAOck0o35ahpGu3xDiioUi1FqFFIqwQwN64zysodR9Dt9RQpxvY58t
+	J1OwBR0k7BNG4XTa6S5A5bqBr3x+07fr3xMHBjAp6FulhDGYNxiTcCuiGILOxN2rUAwFRSqKyaC
+	9DLmwCICIns8yEtIdk5wDQyJTCxwyx3NdIMjh7+mk+/7YcEOWoh6a4B7vuG5fD4tn68xsBVklhh
+	t8lwJtaSQyVlXIvch4i+LshZRSvv50N1Zmz6xrcALgWJH9eCkrq/HdsH68tYiib/rpqTfXMbVdx
+	UGtQrn0jBfTEV3bOA==
+X-Received: by 2002:a05:620a:6cca:b0:931:62d:6c3e with SMTP id af79cd13be357-933026a88eemr685715385a.86.1785334134953;
+        Wed, 29 Jul 2026 07:08:54 -0700 (PDT)
 Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-933e7361dc2sm174271185a.43.2026.07.29.06.54.52
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-933e712fc05sm174197385a.29.2026.07.29.07.08.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Jul 2026 06:54:52 -0700 (PDT)
-Date: Wed, 29 Jul 2026 09:54:50 -0400
+        Wed, 29 Jul 2026 07:08:54 -0700 (PDT)
+Date: Wed, 29 Jul 2026 10:08:51 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
-To: syzbot <syzbot@kernel.org>
-Cc: syzkaller-bugs@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot@lists.linux.dev, wangjinchao600@gmail.com
-Subject: Re: [PATCH] usb: gadget: dummy_hcd: prevent unbind via sysfs
-Message-ID: <fda1c515-8075-4da4-b60e-2ad1c779820b@rowland.harvard.edu>
-References: <18ec3122-7566-49e5-9964-1028857405b1@mail.kernel.org>
+To: Haowen Tu <tuhaowen@uniontech.com>
+Cc: hansg@kernel.org, gregkh@linuxfoundation.org, kernel@uniontech.com,
+	laurent.pinchart@ideasonboard.com, lenb@kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	mchehab@kernel.org, oneukum@suse.com, pavel@kernel.org,
+	rafael@kernel.org
+Subject: Re: [PATCH v4 4/4] media: uvcvideo: defer streaming restart after
+ hibernation snapshot
+Message-ID: <0e22e9d4-da39-4d3f-9492-5c74295be312@rowland.harvard.edu>
+References: <cbac4803-cf65-4b8b-a662-073189df478b@kernel.org>
+ <20260729075655.1187692-1-tuhaowen@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,105 +82,94 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <18ec3122-7566-49e5-9964-1028857405b1@mail.kernel.org>
+In-Reply-To: <20260729075655.1187692-1-tuhaowen@uniontech.com>
 
-On Wed, Jul 29, 2026 at 12:25:27PM +0000, syzbot wrote:
-> From: Aleksandr Nogikh <nogikh@google.com>
+On Wed, Jul 29, 2026 at 03:56:55PM +0800, Haowen Tu wrote:
+> Hi Hans,
 > 
-> The dummy_hcd (Host Controller) and dummy_udc (Device Controller) are
-> implemented as two separate platform drivers that share the same underlying
-> state (struct dummy). They are designed to be created and destroyed
-> together during the module's init and exit phases.
+> On Wed, Jul 29, 2026 at 09:29:03AM +0200, Hans de Goede wrote:
+> > Right, so the purpose here is to avoid the LED turning back on and
+> > to speedup the hibernate?
+> >
+> > IOW except for the LED turning back on and things taking slightly
+> > longer everything works correctly with the current code, right ?
 > 
-> If userspace forces the dummy_hcd driver to unbind from the device via
-> sysfs, dummy_hcd_remove() cleans up the host controllers and sets the
-> pointers to NULL (dum->hs_hcd = NULL). However, the dummy_udc driver is
-> still bound to its device, meaning the USB gadget is still registered with
-> the udc-core subsystem.
+> Yes, the current code is functionally correct in the sense that the
+> hibernation flow can complete and the camera can be restored afterwards.
 > 
-> If a new gadget driver is subsequently registered, it binds to the
-> still-registered dummy_udc gadget, invoking the dummy_udc_start() callback.
-> This callback attempts to retrieve the HCD state using
-> gadget_to_dummy_hcd(), which returns NULL because of the unbind. This
-> results in a null-pointer dereference:
+> The issue was reported as a user-visible privacy concern.  When an active
+> UVC camera enters hibernation, the camera LED turns off during the freeze
+> phase but turns back on after the snapshot has been created, while the
+> system is writing the hibernation image.  From the user's point of view,
+> this looks like the camera has been activated again during the
+> hibernation transition.
 > 
-> Oops: general protection fault, probably for non-canonical address
-> 0xdffffc0000000000: 0000 [#1] SMP KASAN NOPTI
-> KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-> ...
-> RIP: 0010:dummy_udc_start+0xd0/0x1f0
-> drivers/usb/gadget/udc/dummy_hcd.c:1022
-> ...
-> Call Trace:
->  <TASK>
->  usb_gadget_udc_start_locked drivers/usb/gadget/udc/core.c:1237 [inline]
->  gadget_bind_driver+0x3a8/0x9e0 drivers/usb/gadget/udc/core.c:1667
->  call_driver_probe drivers/base/dd.c:-1 [inline]
->  really_probe+0x254/0xae0 drivers/base/dd.c:706
->  __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
->  driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
->  __driver_attach+0x339/0x600 drivers/base/dd.c:1292
->  bus_for_each_dev+0x23b/0x2c0 drivers/base/bus.c:383
->  bus_add_driver+0x345/0x670 drivers/base/bus.c:763
->  driver_register+0x23a/0x320 drivers/base/driver.c:174
->  usb_gadget_register_driver_owner+0xf9/0x270
->  drivers/usb/gadget/udc/core.c:1752
->  raw_ioctl_run drivers/usb/gadget/legacy/raw_gadget.c:596 [inline]
->  raw_ioctl+0x1541/0x41c0 drivers/usb/gadget/legacy/raw_gadget.c:1307
+> I am not claiming that this causes image data to be exposed.  The problem
+> is the unnecessary hardware reactivation and the resulting unexpected
+> privacy-indicator behavior during a system power transition.
 > 
-> Adding NULL checks to the UDC callbacks is not a robust solution because
-> there is no synchronization between dummy_hcd_remove() and the UDC
-> callbacks, which would result in a use-after-free race condition if the HCD
-> were unbound concurrently.
+> Avoiding the restart also avoids unnecessary device work in this window,
+> but I do not intend to make performance the main argument here.  The
+> primary goal is to avoid the unexpected camera reactivation.
 > 
-> Fix this by setting .suppress_bind_attrs = true in both driver definitions.
-> This prevents userspace from unbinding these drivers dynamically, ensuring
-> their lifecycles remain strictly synchronized with the module's load/unload
-> process.
+> > I'm wondering if it would not be better to solve this in userspace
+> > and have userspace stop the streaming before hibernation ?
 > 
-> Fixes: d9b762510c18 ("[PATCH] USB dummy_hcd: Use separate pdevs for HC and UDC")
-> Assisted-by: Gemini:gemini-3.5-flash Gemini:gemini-3.1-pro-preview syzbot
-> Reported-by: syzbot+d270af829aca04e783fc@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=d270af829aca04e783fc
-> Link: https://syzkaller.appspot.com/ai_job?id=7a763ada-c07c-458f-9fea-f7e913dc1f2f
-> Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
+> That would help when all userspace camera users cooperate, but I don't
+> think it is equivalent to handling this in the driver.
 > 
-> ---
+> UVC is a generic driver and the kernel PM transition can happen while an
+> application is actively streaming.  Relying on every userspace camera
+> consumer to stop streaming before hibernation would make the behavior
+> depend on userspace policy and application support.  The driver already
+> knows whether streaming was active at freeze time, and it is also the
+> component that restarts the hardware during resume, so it can avoid this
+> specific unnecessary hardware restart more reliably.
+> 
+> > Hmm, the way you word this sound like this is a problem at the USB
+> > layer. But I think this is more of a short-coming in the generic
+> > device model.
+> >
+> > To clarify AFAIK the actual USB device to which the interfaces belong
+> > also does not get a specific PM message here, right ?
+> >
+> > The reason I'm asking is because the way this is worded in the commit
+> > message makes it sounds like this might be something which could
+> > be solved in the USB subsystem which I do not think is the case ?
+> 
+> Yes, that is my understanding as well.  The USB device resume path does
+> not expose the specific PM transition type to the UVC interface driver's
+> resume callback.
+> 
+> The problem was observed in UVC, and the immediate reason there is that
+> the UVC resume path is reached through usb_driver.resume(), which does
+> not receive the PM event.  But I agree that this should not be worded as
+> a USB subsystem bug.
+> 
+> My earlier thought was to expose the THAW/RESTORE distinction through
+> USB, but that would still need coordination with the PM core, and it
+> would only cover USB drivers.  If other non-USB drivers have similar
+> device-specific reasons to avoid work during the post-snapshot THAW
+> phase, they would need their own handling too.
+> 
+> So I can reword the commit message to avoid implying that this is a USB
+> core issue.  Something like:
+> 
+>   Some resume callback paths, including the UVC path through
+>   usb_driver.resume(), do not receive the PM event and therefore cannot
+>   distinguish the transient post-snapshot THAW phase from the later
+>   RESTORE phase using their local callback arguments.
+> 
+> The helper is intended to expose only the hibernation snapshot state.
+> Whether it is safe or useful to defer any work remains a driver-specific
+> decision.
 
-In theory the driver could be rewritten to allow independent unbinding 
-and rebinding of the HCD and UDC.  But that would be a much more 
-intrusive change, whereas as this is a small and reasonable fix for a 
-real problem.
+You're missing an important fact: If something goes wrong during the 
+hibernation transition (for example, if the kernel's memory image can't 
+be stored to disk) then there will be no RESTORE phase.  Following the 
+THAW phase, the system will return to normal operation.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+For this reason, during THAW drivers must not assume that the system is 
+about to power down.
 
 Alan Stern
-
-> diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
-> index c0e40fa6d..415096835 100644
-> --- a/drivers/usb/gadget/udc/dummy_hcd.c
-> +++ b/drivers/usb/gadget/udc/dummy_hcd.c
-> @@ -1180,6 +1180,7 @@ static struct platform_driver dummy_udc_driver = {
->  	.resume		= dummy_udc_resume,
->  	.driver		= {
->  		.name	= gadget_name,
-> +		.suppress_bind_attrs = true,
->  	},
->  };
->  
-> @@ -2802,6 +2803,7 @@ static struct platform_driver dummy_hcd_driver = {
->  	.resume		= dummy_hcd_resume,
->  	.driver		= {
->  		.name	= driver_name,
-> +		.suppress_bind_attrs = true,
->  	},
->  };
->  
-> 
-> 
-> base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
-> -- 
-> See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
-> You can comment on the patch as usual, syzbot will try to address
-> the comments and send a new version of the patch if necessary.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
