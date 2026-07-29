@@ -1,85 +1,101 @@
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FBCC42A167;
-	Wed, 29 Jul 2026 18:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DFB45199E
+	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 18:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785349336; cv=none; b=h+jrd6ZhqgOn0ylUWwcedQHeba0sxxd9fc0k+YJs0OtqB7gLBXVX3wzY30NhiNw4jR9iQB21Jauaq01kSpR2HWP+rupx6XOG+Nzl4A75hgUS5x/leBywoBHwj+qygSr5h62UDAmuB+Cg8H1WnjkrIiGcA2mvzTbRsaVyOElU0lI=
+	t=1785350139; cv=none; b=VjV4vOf/N+AA20ZAvxyfFtt9cM2BjrLeH+YqgaSxHTMh8IBkVmHULYq+02u1xjnDaESAUhKyORI2wF3Y5GOPQpoldPDQJ28gdYjAc9if2n9Qkul4VavLzsbgkw4ErBC1wGAgmP7xGsVHMj/UtBRmuAqNiK9z4nRpzp9xvtzd9eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785349336; c=relaxed/simple;
-	bh=5cSXMBpNs9hBevYPQkRTR0vcasVAI49hQ2TlwfXMIPM=;
+	s=arc-20240116; t=1785350139; c=relaxed/simple;
+	bh=w8ZcsTYZq6h1WcjQ9hsHh5n9tzoVHYRugiOtWG6aBT8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T3zQLnddhOVJzwW4UDut//zzegqJYCdvAW+szihnkI4woFaeW5/9NOWCSx1E4C0zECy4cxMgp69Ys0CcEtJH8nwK0vFPlM+HEo75X6EK8cTCgO23BVIeeg6xtCifWpCT4VZS0e9lXm/GlsJ2MDLtiFe2ssTwT02HHfouaZnSQds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=UFV5uMKn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=crYwsjAF; arc=none smtp.client-ip=103.168.172.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	 MIME-Version; b=ffpjmXJfvWAyfUARal0S4zW7RI+lxI6j+gvvcQ5/xTyblFBtqRY63/IZTo66d9gdq6ndFFvnq0HKtR4Ij5Q0lMzLnJ5jxRq/Vzi7kIKH0W2fnBBHm5bnPaFfzmbGV0bbic/0690vxKz42TtyQ8b1ndgDDUlSMbaAJu1Q2cHKOgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IQ8r3hTi; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="UFV5uMKn";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="crYwsjAF"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 9F0F8EC03DA;
-	Wed, 29 Jul 2026 14:22:07 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 29 Jul 2026 14:22:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm3; t=1785349327; x=
-	1785435727; bh=tCEmIAz+T4auu2wA2WwOK9meBHLzuikBJRdYB1aASwc=; b=U
-	FV5uMKnEv7rYugkv1YMckEnKoDUIY6oI1KRDqkT1Z7KhYgbaDpA0zAFcaO+gUbxu
-	DhvgGHKPMj1qEevsiu1OvuQAJ7AxtXrDMBRJ2qiXii48RjjEzPv0cUDYoA+ABi58
-	eD8FvkMjXscd8Yweu8AwnYxSByBTm7uesabRJ3yU6K7T1UL9cHDSDxRdTJpaulyG
-	4vlN8RRbxbBGyCNrtpryTvJyPUafmHxFgoHMHEn5oLfRU/Sl+RRV036/6hWrI1N+
-	WrfrmxOLfJxNC7KkoyU08CLn3zvg0vMiULIGsWxjh9dGHxax9a854abERwmeDvaq
-	wrRkzUAF8F1K2HZUQHUNg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1785349327; x=1785435727; bh=t
-	CEmIAz+T4auu2wA2WwOK9meBHLzuikBJRdYB1aASwc=; b=crYwsjAF3/6SiFJwS
-	ucNW0UGwii4TvFAOxXNbWhLl3oenSewmIdrnkQYvbiVyNpNyCLPRHQBomb3wlPcF
-	gkIpol5tfUZrdJMZ54RVqiNgUBNIo24v0huyAGoiRNlXqTEhnLoZlIgqPQXEBX/M
-	BQOkFZWHYCB219PhjOJ+DM1XVolnWlj9chuO+a+1RXi9Ms7/s/s2y2sR+4BAXNyO
-	VtQWHT2nKJ4D69A2P44+WPCXyYpa12typoKbxYS0Y4xuSgLAmo0ljH1N+0qauzvk
-	0bNb0D8n2eLw9LkEZPpDowqXExC82Jeg/Va7KIgKkXKwapAI/elwwD0A833LclWH
-	R0R8A==
-X-ME-Sender: <xms:z0RqaorO6OYD5xqizRX-zer8tZv9A2FMLDyFJlyxqBwXcbZUHgstSQ>
-    <xme:z0RqanlG5JEC3Bfj0lLEe5_R8Yd9sb5e48rkgWZlCkcTnTfMhznq5YKv-GCJLnnB0
-    y2lYBcBHCqim9fW1HAvHOBzxoSx8tZ7OYY3LZO8YHFSYXvMe-jPAu7S>
-X-ME-Received: <xmr:z0Rqaoz_R3EM7T_qK3Tzvl8eKlP19BbrtbbNHgxBdPhTvu1dh4hgAnhYYlt7Hz9RcfrB5A28nCH-hJ5hCx5cvV8ojWI>
-X-ME-Proxy-Cause: dmFkZTFHiOXOxwS7EouX3+qGwFjKCeONA2OUndrVtvrYVGsNWNqitendXpCmpVcFdgUFTo
-    3sPIeyEHcqALZpXKuaeJXQZ5ZEXeEMAQNQa8PXv8eVk/ZYrjNhL/bvc70/C4c9Tpvqv62s
-    TxFtmaeBcbPDfOzsMJCpdJ1h8s3yV2MmxhjQUZkIn5t8urVNHlrDhp4RMxrlE90tLFdGjs
-    b40FkAkep3iMKVPPkzGythSetNGFrK7FAM7/YX4k6jfCfF9VZAN28cBQl5Coa4aq2q6aPF
-    qCScquYaPfEQhnPcqVbuNJvrgt9XkiTqZKxGW6qqa/N2x4DVi1mtL5gDRMkXI0T1Gf7MT7
-    7K4VpW8mpQhDRLjLFafnLgIsDlqhKz4+5gMmoG6tbY9AOur/jTC4wSSBsGpcxODzL/Qm/3
-    zq7ZESiz4ulqZZYlVpL8V07olaDeEgeUF0fo7RVRJLKEplQj7QEWqKWkOYUU0cLTMDv2Td
-    v7mVxccysojx/b6AvhQui7724tivFRfSz7nn/mgwfaaSS9uv8LagKilwvxGu1R7YuEcNAW
-    2CYFIv9BlF6bG/Tr6UmLrqOFv5oPSkwGd+kcNiByi+w/vD1sSJFOmdA/zqqKxjF6x8mAxa
-    bP6dYWfTBKRBD6DD7p6lGTEabmv/Z0AcaBg7ptNozicrd580m62LOcz4o+Tw
-X-ME-Proxy: <xmx:z0Rqav_XwN8d23y-PWnj4G5MP02p3-9CCbmKAd_3lfe79-FrsG3Gmg>
-    <xmx:z0RqakJsAhGZX7Wr2u4ZFB_d3M6xuQ_RIE-jcngh0VsK_5dHkdKmoQ>
-    <xmx:z0RqatfTEFiQHBQoX6oxyje39W_z4x7xeW_AlgveuwfeG6FVuCHsew>
-    <xmx:z0Rqar8rJ8Bb4byUFB-ZKqUMQaOY0mw8jl3o-WfH5OSq75ceXyr34g>
-    <xmx:z0RqaieBgQ1nadkojKTD1HYpSdmEVjN3op96CjAS7eDKyLwVqIykZfiG>
-Feedback-ID: ibe194615:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Jul 2026 14:22:06 -0400 (EDT)
-From: Mark Pearson <mpearson-lenovo@squebb.ca>
-To: mpearson-lenovo@squebb.ca
-Cc: heikki.krogerus@linux.intel.com,
-	gregkh@linuxfoundation.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IQ8r3hTi"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso1560240a91.2
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 11:35:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785350137; x=1785954937; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=w8ZcsTYZq6h1WcjQ9hsHh5n9tzoVHYRugiOtWG6aBT8=;
+        b=IQ8r3hTihDiHql8XStVzAvqfjhtDRgi2V5JQUxt/RD9oDTMOWG0xFjc1UeyrzoQBcp
+         fep2WMI0SlVztxeV60UEjFzToFkkJZGHq0rBJvbEMtFuzHk8EmMsbDIpWDAsznjx5FoE
+         G+PfbuUo77ZBaPThehnA4rCAYfcMIDtTNrBHAW8nMAQv3tSHDD2nuPdRoP3lriEWi1w6
+         8rVxNa3hAncs/f0aB6K2x18hXZE/xFD1b6s+9/9S/tJamvYR5NTYlU0NT7WC98LzTFtb
+         5c10gdVBLex8w7MTwbrCos8qkWmJRyTk+K7DoG+sGeCdKx1I7/xnAB2xjy8ayPQcmelJ
+         qz2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785350137; x=1785954937;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=w8ZcsTYZq6h1WcjQ9hsHh5n9tzoVHYRugiOtWG6aBT8=;
+        b=eLt7L2iu6ZecFB7MwIiT4UL+o/9nbyCyfr5DtDzzgz3BvKQ4O6XekB2o0pDMB0S67T
+         6abS37xnmsIBLcwyJvqwZb0BtyBjbHH2iL189J4X1BzlZRXFPhN8qEgV8dU0qPQfZ7PG
+         RWRn9UdWKYBQy9+8h44c5kAh1R9Qz9LF3Ep/yTLJQi5Db7bfGzs72yoa+mCn0z6g2FbA
+         EyzoZSz4HZmJxV1eKPIiDKdKughNRj2kfvybERYVjIP/oxFjDSdt3hqjrm1RDKDuHavY
+         Onbc5zhbgiab5n4riGk07MSWQhA/aDSU/rv3ClLCXb16DHwWinwlFQgx6MsV3ZjBc1JH
+         NVlA==
+X-Forwarded-Encrypted: i=1; AHgh+RrmTG0rcAnvqn1LSs81ntkFGeBrTNt14VuCkQvYwH7y6vz+umVHiV3L4H50jlt8Z4Pc+tpYmyZZPsc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1BD84mxz3EVV7G5AXCqimGmrBzryhWI46zFuSSngf/10FcJEk
+	OmwCpp9NTzdPjmQAztOO+8SkY6wPA+uHETe4Ktpl9vKMQhBBszakHsg=
+X-Gm-Gg: AR+sD12KBvVjXS5/9ipTBxqrS00rPiB8sw90PlmoYit0tXisrIHKOEb506SG9suflbQ
+	yoJw6LfkhTpvaI5ZUz5CVAYhl+J7UEoYvtil9+tq39c2iFOn+DwjNtT3PHNNzuU4/A0tqbMKH2k
+	nam1NyiNIfIeWrpveEswgDdTeVIum4TbehJQ66COLBubRHfBJwsviv6Sy4IoIOFO/IovTl+BSzX
+	O8NjVB1QhksJZhXCrVOjnVW4mZxcD2xvi13NKXeveEC4nSEndjqkU4TtDGOMRzyB4pLw5SedTOj
+	OVNuhFMfLB1kwUSzEQp3yHd+daVFGuJhku2T1UU/rfYdG0DfWrWaE5oGK1VIgYKy3COeoRCFxYa
+	3qm5Praq/8P+2W9oo0ko8+O+Mt7bVqB0InFnMK1yXucTXoM0u+nuiOzvZkW+bV1sVeDPsEHCCDn
+	jhLnhpDUd0K8PWOpuJvHgCxgdeg/ozGn/6u/+h/R/Jp9SKiz4CRmqgtCnhPTRxeJEz1Hn9VhvhO
+	MsjZo0FmhKNye1B7Q4NMd/lsrQEQ92/XsrZn3fS
+X-Received: by 2002:a05:6a20:1449:b0:3c3:9557:3b56 with SMTP id adf61e73a8af0-3c8ba66b71fmr9232328637.72.1785350137261;
+        Wed, 29 Jul 2026 11:35:37 -0700 (PDT)
+Received: from at-Standard-PC-Q35-ICH9-2009.. ([106.202.119.113])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504d37368sm22620397eec.22.2026.07.29.11.35.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2026 11:35:36 -0700 (PDT)
+From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+To: mika.westerberg@linux.intel.com
+Cc: YehezkelShB@gmail.com,
+	andreas.noever@gmail.com,
+	atharvatiwarilinuxdev@gmail.com,
+	bhelgaas@google.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	dev@deq.rocks,
+	dmitry.kasatkin@gmail.com,
+	eric.snowberg@oracle.com,
+	hansg@kernel.org,
+	hpa@zytor.com,
+	ilpo.jarvinen@linux.intel.com,
+	jarkko@kernel.org,
+	jmorris@namei.org,
+	keyrings@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: typec: ucsi: Retry if notification enable timesout
-Date: Wed, 29 Jul 2026 14:21:50 -0400
-Message-ID: <20260729182203.3667583-1-mpearson-lenovo@squebb.ca>
+	mingo@redhat.com,
+	paul@paul-moore.com,
+	platform-driver-x86@vger.kernel.org,
+	roberto.sassu@huawei.com,
+	serge@hallyn.com,
+	tglx@kernel.org,
+	westeri@kernel.org,
+	x86@kernel.org,
+	zohar@linux.ibm.com
+Subject: Re: [PATCH v5 2/2] thunderbolt: Add device links for Apple T2 NHI
+Date: Wed, 29 Jul 2026 14:35:24 -0400
+Message-ID: <20260729183524.1199-1-atharvatiwarilinuxdev@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <mpearson-lenovo@squebb.ca>
-References: <mpearson-lenovo@squebb.ca>
+In-Reply-To: <20260728044841.GP2365036@black.igk.intel.com>
+References: <20260728044841.GP2365036@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -88,35 +104,30 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Found on Thinkpad E14 G8.
-When UCSI notifications are enabled the FW does not ack the enablement
-itself. Future commands will be acked correctly.
+> We should not be calling PCI functions anymore from the SW CM core. We have
+> pci.c for that.
 
-If this happens try enablement again and confirm acks are working
-correctly.
+That is outside the scope of this patch, this should be another patch.
 
-Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
----
- drivers/usb/typec/ucsi/ucsi.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+> I wonder if we can put this to pci.c, rename it to tb_pci_add_links()
+> instead.
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 49f1c53721bb..ea25c44c2850 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -2082,6 +2082,12 @@ static int ucsi_init(struct ucsi *ucsi)
- 	ntfy = UCSI_ENABLE_NTFY_CMD_COMPLETE | UCSI_ENABLE_NTFY_ERROR;
- 	command = UCSI_SET_NOTIFICATION_ENABLE | ntfy;
- 	ret = ucsi_send_command(ucsi, command, NULL, 0);
-+	/*
-+	 * Some FW may not ack the notification enable the first time.
-+	 * If this happens, repeat to confirm it is actually working
-+	 */
-+	if (ret == -ETIMEDOUT)
-+		ret = ucsi_send_command(ucsi, command, NULL, 0);
- 	if (ret < 0)
- 		goto err_reset;
- 
--- 
-2.43.0
+Same thing as before, its outside the scope of this patch.
+
+> BTW, why you need to differentiate T2 vs. the rest of Apple x86? Don't this
+> variable do?
+
+Because the Patchset is specifically for T2 Macs.
+
+> I'm not fan of __free() and the like so let's not use it here.
+>
+> Also you don't need to scan all the slots. Just look for the tunneled
+> downstream ports based on their PCI IDs like we do already.
+
+Could you please point me to the "like we do already" code you're referring to?
+
+> This is unrelated change.
+
+Its not. the patch specifically says T2 macs, and Titan ridge is only on T2 Macs
+so we dont need to use has_apple_t2_chip for that.
 
