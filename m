@@ -1,163 +1,340 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53FC47A87C
-	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 23:24:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10B12CCB9
+	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 00:08:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785281086; cv=none; b=lwAF7aJP3TmGfReBPmvkU/ImXFNs2GQLsn/Wa2Yr9RsZXTL1ChGnYIUEetI5eT0GS3weHeneY8lsAXoSpN42R+UsWWCYqgLPkAhTqDASugM8fXmavtyYRqCBZJgTZT8YPkKQJwhw7LZdQj6cGC4kibJzO++Ur5zGkbAmkbrXihU=
+	t=1785283713; cv=none; b=Z7InZNqTi/27sy9pM4ow8Q5ngT1JJWKoTeBuXQN390gaO+hFuT16jTcqUqhJX1TF77cnmnGQcSHn1ipiKuR4PR374cjNqGdmLExBoR7fLn/gvFIk5dBn/HeOOwjAX7YRPL7dw2hix2rUwLgn07u4q6RrZdzXpSYmSyk4G5qFWWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785281086; c=relaxed/simple;
-	bh=8228BBjbf2EyJN/mSSeB1D2t8diA/iE4Gqp6z8doAPw=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Kw3ZY1KnzoMA4gzFEpyWUPDDsRxnstFOLuaGW5KRutt6/sZuOWJUNgnVI3wULI59kKZD2P9VJsrY0xQQbHB9ImIPrpzOtL3Mp3I4D10/AQabdqpzbeFsLQZPtkKQobgvrU0FE6n5R+hejjZ4MJY+iE6KkQEv0gH9+D8BjUAvlUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cTWy1K0l; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cTWy1K0l"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 58C70C2BCC6
-	for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 23:24:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785281086;
-	bh=8228BBjbf2EyJN/mSSeB1D2t8diA/iE4Gqp6z8doAPw=;
-	h=From:To:Subject:Date:From;
-	b=cTWy1K0lh5adm+Fti8Ff12lzZ6BjMut2dos+/1AQk/N0gIclFQEw56Id7FapAoymg
-	 4dewgMbtgmvQavc+k/A/XS+2HxZiPFpYW0jsy3wKrKikAM7j/9P6L1U6QdBjgjvGL6
-	 sNUlJZt4FJCHo0OnZm9xkqGCvF0z4FKLEtjxCrislolGkHDSFafrl9hTB8YdwyX3YO
-	 iHi5QokDIgQkk0gwVjEVV26Rqjo+GcVmWSUGBR/vQNxzW4R31IV4gmOLIkI10EaB1U
-	 z97bbi0SVjj5oMJRBB4T9/aaOs+8KIKayu40Ywir6b8xvVLrQJZ6VJzzdllfl53eW4
-	 7TrZKPwbuLC3g==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 3686BC433E1; Tue, 28 Jul 2026 23:24:46 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: =?UTF-8?B?W0J1ZyAyMjE4MDZdIE5ldzogUmlnaHQtc2lkZSBVU0ItQSBwb3J0?=
- =?UTF-8?B?IGZhaWxzIFN1cGVyU3BlZWQgbGluayB0cmFpbmluZyBvbiBMZW5vdm8gVGhp?=
- =?UTF-8?B?bmtQYWQgWDEzIEdlbiA1IChNZXRlb3IgTGFrZSwgeGhjaV9oY2QgODA4Njo3?=
- =?UTF-8?B?ZTdkKSDigJQgd29ya3Mgb24gRmVkb3JhIDYuMTkuMzAwLCBmYWlscyBvbiA2?=
- =?UTF-8?B?LjE4LjM5IGFuZCA3LjEuNA==?=
-Date: Tue, 28 Jul 2026 23:24:46 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: perttu@thinkerit.pro
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-221806-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=arc-20240116; t=1785283713; c=relaxed/simple;
+	bh=5KSyUxsSquWaqxJrpQRUYTIFgSOj64jsI3uOOnTrt1w=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=awwSiLwF9+UTIljEC/GeeatvoIUvm7ohsQwyusD8HBteKnfUXXO4ILm+3yrbYbPL7nu94ZeJU/o9Qc7O9N0N+MgafYJXszZWMH9vNip5dhAFYxFAN5ZOhAl/ZvZtiWkqe+vZlYQmb4oHklUDq2dPAzBJagRrH1w3BDqYImVM+ac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-7ee59eeb8c1so336993a34.0
+        for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 17:08:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785283711; x=1785888511;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YA866TGxUMSIjShsMH9itC0w3w6ZSkdHHY4g4DQKNuU=;
+        b=f12V9ING0wmS7+oL2PfaheIgxOx07ey9JSrAdZnrVi/TCeIvncn+nxFJefgrfrkHAi
+         9HdMVKRX3SCPYVYcZGQZqg6i9aOjMo80X0HdTYpU01eKosPtBz2ECcfdKgsM4GXG006j
+         tgJ8inBSUW4kIyOisPPLIVRU3kP5hKx15o/ziVS2UEFHcMj1bAjSfj33/VAlvYR+uwU7
+         9IyEzCh4VnFhu7uJQxFfLkOWo93uqd8+twr1OJDVe9vk+tEHPtIsckKBknK/eJxfKswK
+         wxxJK6dkMPcwrYad9aHWDBAhBK95YlyClf+RMlfZOBBLUR0F2ewLstojJuLmdKYRJSbm
+         zUjw==
+X-Forwarded-Encrypted: i=1; AHgh+Rr09yFZMp6O64/zJmqyzNgTv80NWqZZcul9IOUaVkef920X6eXCrBi2hSrRb8EUYeLzGwfGtBZpxGQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmQXKsy/NDiscSeICUdtHf1zRnDdBmXSXcSkHv7Gr0S9D5J2AN
+	n4kpKia6A4EJqD4wu7glu9IdGt8+yH7nzeuJLyIX1DiCyZXAnpyroHLoLfMT9tqOyApB85ywH4Y
+	bQyWEDzfeLp84KBS89mB1AgqxPhouHl8D9Oyp2hy5YztabHYHMoeJNQF/mtc=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-Received: by 2002:a05:6808:f8e:b0:495:e0a9:8c0 with SMTP id
+ 5614622812f47-4ad5ba6ae70mr2481156b6e.11.1785283710948; Tue, 28 Jul 2026
+ 17:08:30 -0700 (PDT)
+Date: Tue, 28 Jul 2026 17:08:30 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a69447e.6bd615f2.c0aa.0001.GAE@google.com>
+Subject: [syzbot] [fs?] [usb?] KASAN: slab-use-after-free Read in lockref_get (2)
+From: syzbot <syzbot+227dbc9afd022922d624@syzkaller.appspotmail.com>
+To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, rafael@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221806
+Hello,
 
-            Bug ID: 221806
-           Summary: Right-side USB-A port fails SuperSpeed link training
-                    on Lenovo ThinkPad X13 Gen 5 (Meteor Lake, xhci_hcd
-                    8086:7e7d) =E2=80=94 works on Fedora 6.19.300, fails on
-                    6.18.39 and 7.1.4
-           Product: Drivers
-           Version: 2.5
-          Hardware: Intel
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: perttu@thinkerit.pro
-        Regression: No
+syzbot found the following issue on:
 
-Hardware:
-Lenovo ThinkPad X13 Gen 5 (21LVS3U900), Intel Core Ultra 7 165U (Meteor Lak=
-e)
-USB controller: Intel Corporation Meteor Lake-P USB 3.2 Gen 2x1 xHCI Host
-Controller [8086:7e7d] (rev 20), driver xhci_hcd
+HEAD commit:    48a5a7ab8d6a Merge tag 'v7.2-rc4-smb3-client-fixes' of git..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=169761b9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
+dashboard link: https://syzkaller.appspot.com/bug?extid=227dbc9afd022922d624
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13cc86b9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14f8109e580000
 
-Problem:
-The right-side USB-A port (physical_location panel=3Dright; USB2 companion
-port bus3/port5, SuperSpeed port bus4/port1, both on the same 00:14.0
-xHCI controller alongside the internal camera/fingerprint reader/Bluetooth,
-which work fine) fails to enumerate any device. Left-side USB-A and both
-USB-C ports work normally.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/1eb5b7aa9ec5/disk-48a5a7ab.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/965506e050aa/vmlinux-48a5a7ab.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/662778208054/bzImage-48a5a7ab.xz
 
-Confirmed NOT a hardware fault: the exact same USB drive works reliably,
-repeatedly, on a Fedora 44 LiveCD (kernel 6.19.300) in the same port.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+227dbc9afd022922d624@syzkaller.appspotmail.com
 
-Kernel versions tested on NixOS (vanilla/mainline builds via nixpkgs), both
-fail identically:
-- 6.18.39 (nixpkgs linuxPackages, i.e. an older stable branch)
-- 7.1.4   (nixpkgs linuxPackages_latest)
+dvb-usb: bulk message failed: -22 (6/0)
+dvb-usb: bulk message failed: -22 (5/0)
+ucsi_ccg 1-0008: ucsi_ccg_init failed - -110
+==================================================================
+BUG: KASAN: slab-use-after-free in __raw_spin_lock include/linux/spinlock_api_smp.h:158 [inline]
+BUG: KASAN: slab-use-after-free in _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:158
+Read of size 1 at addr ffff888059900c90 by task syz.3.43/6010
 
-Symptom (with xhci_hcd/xhci_pci dynamic debug enabled):
+CPU: 0 UID: 0 PID: 6010 Comm: syz.3.43 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ __kasan_check_byte+0x36/0x50 mm/kasan/common.c:574
+ kasan_check_byte include/linux/kasan.h:402 [inline]
+ lock_acquire kernel/locking/lockdep.c:5842 [inline]
+ lock_acquire+0x132/0x370 kernel/locking/lockdep.c:5825
+ __raw_spin_lock include/linux/spinlock_api_smp.h:158 [inline]
+ _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:158
+ spin_lock include/linux/spinlock.h:342 [inline]
+ lockref_get+0x15/0x50 lib/lockref.c:50
+ dget include/linux/dcache.h:364 [inline]
+ __simple_recursive_removal+0x3d/0x5c0 fs/libfs.c:601
+ debugfs_remove+0x5d/0x80 fs/debugfs/inode.c:781
+ i2c_device_probe+0x6e2/0xd10 drivers/i2c/i2c-core-base.c:610
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ i2c_new_client_device+0x660/0xd30 drivers/i2c/i2c-core-base.c:1019
+ new_device_store+0x20f/0x420 drivers/i2c/i2c-core-base.c:1307
+ dev_attr_store+0x58/0x80 drivers/base/core.c:2505
+ sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7ff4d2d9de99
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffcf8ba9808 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007ff4d3025fa0 RCX: 00007ff4d2d9de99
+RDX: 000000000000000f RSI: 0000200000000700 RDI: 0000000000000004
+RBP: 00007ff4d2e33eaf R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007ff4d3025fac R14: 00007ff4d3025fa0 R15: 00007ff4d3025fa0
+ </TASK>
 
-  xhci_hcd 0000:00:14.0: Port change event, 3-5, id 5, portsc: 0x20ae1
-  xhci_hcd 0000:00:14.0: handle_port_status: starting usb3 port polling.
-  xhci_hcd 0000:00:14.0: Get port status 3-5 read: 0x20ae1, return 0x10301
-  xhci_hcd 0000:00:14.0: clear port5 connect change, portsc: 0xae1
-  xhci_hcd 0000:00:14.0: Get port status 3-5 read: 0xae1, return 0x301
-  xhci_hcd 0000:00:14.0: Port change event, 3-5, id 5, portsc: 0x202a0
-  xhci_hcd 0000:00:14.0: handle_port_status: starting usb3 port polling.
-  xhci_hcd 0000:00:14.0: Get port status 3-5 read: 0x202a0, return 0x10100
-  xhci_hcd 0000:00:14.0: clear port5 connect change, portsc: 0x2a0
-  xhci_hcd 0000:00:14.0: Get port status 3-5 read: 0x2a0, return 0x100
-  [... repeated Get port status 0x2a0 ...]
-  xhci_hcd 0000:00:14.0: xhci_hub_status_data: stopping usb3 port polling
+Allocated by task 6010:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ unpoison_slab_object mm/kasan/common.c:340 [inline]
+ __kasan_slab_alloc+0x89/0x90 mm/kasan/common.c:366
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4612 [inline]
+ slab_alloc_node mm/slub.c:4945 [inline]
+ kmem_cache_alloc_lru_noprof+0x267/0x6a0 mm/slub.c:4978
+ __d_alloc+0x35/0xa50 fs/dcache.c:1902
+ d_alloc+0x4a/0x1e0 fs/dcache.c:1981
+ lookup_one_qstr_excl+0x171/0x250 fs/namei.c:1806
+ __start_dirop fs/namei.c:2920 [inline]
+ start_dirop+0x59/0xb0 fs/namei.c:2942
+ simple_start_creating+0xf9/0x110 fs/libfs.c:2305
+ debugfs_start_creating.part.0+0x82/0x170 fs/debugfs/inode.c:394
+ debugfs_start_creating fs/debugfs/inode.c:371 [inline]
+ debugfs_create_dir+0x72/0x440 fs/debugfs/inode.c:572
+ i2c_device_probe+0x5f5/0xd10 drivers/i2c/i2c-core-base.c:588
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ i2c_new_client_device+0x660/0xd30 drivers/i2c/i2c-core-base.c:1019
+ new_device_store+0x20f/0x420 drivers/i2c/i2c-core-base.c:1307
+ dev_attr_store+0x58/0x80 drivers/base/core.c:2505
+ sysfs_kf_write+0xf2/0x150 fs/sysfs/file.c:145
+ kernfs_fop_write_iter+0x3e0/0x5f0 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-Interpretation: on connect, CCS (connect status) briefly goes to 1 with
-link state "Polling" (SuperSpeed link training in progress), then within
-~2.3ms drops back to CCS=3D0 with link state "RxDetect". The kernel retries
-polling for ~130ms then gives up. This sequence is 100% deterministic and
-reproducible =E2=80=94 identical portsc values and timing on every attempt,=
- across
-both kernel versions above.
+Freed by task 23:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2705 [inline]
+ slab_free mm/slub.c:6405 [inline]
+ kmem_cache_free+0x127/0x6b0 mm/slub.c:6532
+ rcu_do_batch kernel/rcu/tree.c:2645 [inline]
+ rcu_core+0x5a2/0x10d0 kernel/rcu/tree.c:2897
+ handle_softirqs+0x1ea/0x9b0 kernel/softirq.c:622
+ run_ksoftirqd kernel/softirq.c:1076 [inline]
+ run_ksoftirqd+0x38/0x60 kernel/softirq.c:1068
+ smpboot_thread_fn+0x3d3/0xaa0 kernel/smpboot.c:160
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
-Things ruled out during troubleshooting:
-- Not a loose/mechanical connection: laptop stationary, port physically
-  fine, confirmed reliable on Fedora LiveCD with many repeated
-  plug/unplug cycles.
-- Not device-level USB autosuspend: usbcore.autosuspend=3D-1 kernel param
-  set and confirmed active (/sys/module/usbcore/parameters/autosuspend =3D =
--1).
-- Not USB roothub runtime PM: forced power/control=3Don on both usb3 and
-  usb4 roothubs, no change.
-- Not PCIe ASPM: forced pcie_aspm policy to "performance", no change,
-  identical portsc trace.
-- Not PCI device runtime PM: 0000:00:14.0 power/runtime_status was
-  "active" throughout.
-- thinkpad_acpi loads and initializes normally; no ACPI errors in dmesg
-  around boot or around the 00:14.0 device.
-- boltctl / bolt (Thunderbolt security) not relevant =E2=80=94 this is a pl=
-ain
-  USB2/USB3 port on the classic xHCI controller (00:14.0), not the
-  USB4/Thunderbolt controller (00:0d.x).
+Last potentially related work creation:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xa7/0xc0 mm/kasan/generic.c:556
+ __call_rcu_common.constprop.0+0xa5/0x9b0 kernel/rcu/tree.c:3159
+ dentry_free+0x145/0x2b0 fs/dcache.c:450
+ dentry_kill+0x5e8/0xc20 fs/dcache.c:845
+ finish_dput fs/dcache.c:1001 [inline]
+ dput.part.0+0xd7/0x240 fs/dcache.c:1042
+ dput+0x1f/0x30 fs/dcache.c:1037
+ find_next_child+0x18f/0x280 fs/libfs.c:592
+ __simple_recursive_removal+0x2ab/0x5c0 fs/libfs.c:609
+ debugfs_remove+0x5d/0x80 fs/debugfs/inode.c:781
+ i2c_del_adapter+0x17f/0x2d0 drivers/i2c/i2c-core-base.c:1829
+ dvb_usb_i2c_exit+0x9f/0xf0 drivers/media/usb/dvb-usb/dvb-usb-i2c.c:46
+ dvb_usb_exit drivers/media/usb/dvb-usb/dvb-usb-init.c:144 [inline]
+ dvb_usb_device_exit+0x313/0x520 drivers/media/usb/dvb-usb/dvb-usb-init.c:338
+ usb_unbind_interface+0x1dd/0x9e0 drivers/usb/core/driver.c:458
+ device_remove drivers/base/dd.c:618 [inline]
+ device_remove+0x12a/0x180 drivers/base/dd.c:610
+ __device_release_driver drivers/base/dd.c:1349 [inline]
+ device_release_driver_internal+0x44e/0x620 drivers/base/dd.c:1372
+ bus_remove_device+0x2bc/0x560 drivers/base/bus.c:664
+ device_del+0x376/0x9b0 drivers/base/core.c:3961
+ usb_disable_device+0x367/0x810 drivers/usb/core/message.c:1478
+ usb_disconnect+0x2e2/0x9a0 drivers/usb/core/hub.c:2345
+ hub_port_connect drivers/usb/core/hub.c:5407 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ port_event drivers/usb/core/hub.c:5871 [inline]
+ hub_event+0x1c4f/0x4a60 drivers/usb/core/hub.c:5953
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
-Requesting help identifying what Fedora's kernel build (6.19.300, likely
-with Red Hat/Fedora-specific patches or a different xhci_pci
-config/quirk) does differently that allows this port to work, versus a
-vanilla/mainline kernel build of both an older (6.18.39) and much newer
-(7.1.4) version, which fail identically.
+The buggy address belongs to the object at ffff888059900bc0
+ which belongs to the cache dentry of size 312
+The buggy address is located 208 bytes inside of
+ freed 312-byte region [ffff888059900bc0, ffff888059900cf8)
 
-Happy to test patches or provide additional logs (full dmesg, lspci -vvv,
-port_status via debugfs, etc.) on request.
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x59900
+head: order:1 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+memcg:ffff888059901ed9
+flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000040 ffff88801d2de280 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000800150015 00000000f5000000 ffff888059901ed9
+head: 00fff00000000040 ffff88801d2de280 dead000000000100 dead000000000122
+head: 0000000000000000 0000000800150015 00000000f5000000 ffff888059901ed9
+head: 00fff00000000001 ffffffffffffff81 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000002
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 1, migratetype Reclaimable, gfp_mask 0xd20d0(__GFP_RECLAIMABLE|__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5758, tgid 5758 (syz-executor), ts 89145754316, free_ts 80519981616
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1859
+ prep_new_page mm/page_alloc.c:1867 [inline]
+ get_page_from_freelist+0xf48/0x3530 mm/page_alloc.c:3946
+ __alloc_frozen_pages_noprof+0x299/0x2dc0 mm/page_alloc.c:5304
+ alloc_slab_page mm/slub.c:3294 [inline]
+ allocate_slab mm/slub.c:3408 [inline]
+ new_slab+0xa2/0x650 mm/slub.c:3454
+ refill_objects+0xe3/0x410 mm/slub.c:7338
+ refill_sheaf mm/slub.c:2832 [inline]
+ __pcs_replace_empty_main+0x376/0x680 mm/slub.c:4703
+ alloc_from_pcs mm/slub.c:4801 [inline]
+ slab_alloc_node mm/slub.c:4933 [inline]
+ kmem_cache_alloc_lru_noprof+0x46a/0x6a0 mm/slub.c:4978
+ __d_alloc+0x35/0xa50 fs/dcache.c:1902
+ d_alloc_pseudo+0x1c/0xc0 fs/dcache.c:2033
+ alloc_path_pseudo fs/file_table.c:407 [inline]
+ alloc_file_pseudo+0x118/0x290 fs/file_table.c:423
+ sock_alloc_file+0x50/0x210 net/socket.c:532
+ sock_map_fd net/socket.c:562 [inline]
+ __sys_socket+0x1c0/0x260 net/socket.c:1802
+ __do_sys_socket net/socket.c:1807 [inline]
+ __se_sys_socket net/socket.c:1805 [inline]
+ __x64_sys_socket+0x72/0xb0 net/socket.c:1805
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+page last free pid 5698 tgid 5698 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ __free_pages_prepare mm/page_alloc.c:1406 [inline]
+ free_pages_prepare+0x586/0xd80 mm/page_alloc.c:1451
+ __free_contig_range_common+0x14f/0x250 mm/page_alloc.c:6897
+ __free_contig_range mm/page_alloc.c:6942 [inline]
+ free_pages_bulk+0x12a/0x200 mm/page_alloc.c:5257
+ vm_area_free_pages+0xad/0x2b0 mm/vmalloc.c:3439
+ vfree mm/vmalloc.c:3488 [inline]
+ vfree+0x107/0x750 mm/vmalloc.c:3462
+ kcov_put kernel/kcov.c:447 [inline]
+ kcov_put kernel/kcov.c:443 [inline]
+ kcov_close+0x34/0x60 kernel/kcov.c:554
+ __fput+0x3ff/0xb50 fs/file_table.c:512
+ task_work_run+0x150/0x240 kernel/task_work.c:233
+ exit_task_work include/linux/task_work.h:40 [inline]
+ do_exit+0x951/0x2ae0 kernel/exit.c:1009
+ do_group_exit+0xd5/0x2a0 kernel/exit.c:1152
+ get_signal+0x1ec7/0x21e0 kernel/signal.c:3046
+ arch_do_signal_or_restart+0x91/0x7e0 arch/x86/kernel/signal.c:337
+ __exit_to_user_mode_loop kernel/entry/common.c:66 [inline]
+ exit_to_user_mode_loop+0x139/0x6f0 kernel/entry/common.c:101
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:318 [inline]
+ do_syscall_64+0x666/0x870 arch/x86/entry/syscall_64.c:100
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
---=20
-You may reply to this email to add a comment.
+Memory state around the buggy address:
+ ffff888059900b80: fc fc fc fc fc fc fc fc fa fb fb fb fb fb fb fb
+ ffff888059900c00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff888059900c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fc
+                         ^
+ ffff888059900d00: fc fc fc fc fc fc fc fa fb fb fb fb fb fb fb fb
+ ffff888059900d80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
