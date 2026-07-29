@@ -1,93 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D4E3B8BCB;
-	Wed, 29 Jul 2026 19:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C53229B18;
+	Wed, 29 Jul 2026 21:16:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785354538; cv=none; b=R7aXdyUy5UhgJtG07khfOepkU/YPqpxYHZgydfkm5js821FaNtPxs4gZh5wBrUMc/rtTO7tqpWHPyQwoxx2WOeE0cx/z2YKtC+Wz6XisgVEFsTlorzESYymuHAnokDtJWrCQAMHA1ht1k2pblVsyLoAcULAQUSFl47wIyU5bTs0=
+	t=1785359798; cv=none; b=Yq9zouzHhrMihRasrtvJ/FdEZQITZ95bvBhzEahflK8v5I9k9+SEMZdLrLHU5/xHF4wvwOr71zF06l2x8576ScAd+gLDTymLKbxDLDpj148Vd2qW9qNlkumDQBKYdDiDu2LoZvIUS6kX/FVcCIFsa0YQN49O4ySGJdOammbYiTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785354538; c=relaxed/simple;
-	bh=SWisuBb4nkusEArnjWhT2oFMW033z9vtu3jY510Jhno=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FvqwiwKl4b41PPTi7x9GWlldAzu8S03TYyZPuWDKBzQtaph6Z1Eyc8850dBLECgz6LdNiYWhWu86SxTKyXflTdwEKyLV+WhSC73gODvQCLy/mG3FUBIzHy5gy1z833UGAy9vxvQ6JSbAKxn7PB6c/65MsdSywTM3/5qACRLe5ZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dg1StLal; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785359798; c=relaxed/simple;
+	bh=jhCXA+dWSWUpif09/n0d8Qt4sEbpdN8adehF2YoLyx4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rBF6HWB2yiLzqNyMmI1ecbGqUrLAdOXqdK1nAE9RavLFBlwb+2+2ugAkyMap07y65Km+q+djRQoZPU0gyx2ZfUu8VTysCqpQELdf4+pyTtnSOQsTDNm68GGrIClJiZum8NkzzcATafyFqtj1I3oQIM0A6QPaaLvVEE7QKqW1VsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ti3vd3LC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dg1StLal"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8BE2EC2BCB3;
-	Wed, 29 Jul 2026 19:48:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785354537;
-	bh=SWisuBb4nkusEArnjWhT2oFMW033z9vtu3jY510Jhno=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=dg1StLalYMOahodhSpN2BD2hl+9cs79WgRzdVDFtzkUMK1a1S6C0anhUIR/ijtdtl
-	 AXb1llrKqVrUnls1GK7mr9zCsOwGwatQCv85Zrlej13vviMDGt2Ix0DFsKu3YabHhU
-	 Ua91Z+4pAANFkoPgWA3guu0LYsZ6PWKGFGnma92r6ayAqGhTLisXkv21xe07DY/R0L
-	 iWmURdoL+dUDvyurBN8SwGnLNqTKBTL7PpgfTQJM/5epN3wGrMTVZlc+7JE4Yn+LB3
-	 vXKXNcuJWc9Wc5xsDkNtMADUY0L9hjhn0OyLxe0X8ou1vRvP4rdwLMbkZ6kNmjhuKq
-	 dNGzJq4YTbTUg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60DBAC54F51;
-	Wed, 29 Jul 2026 19:48:57 +0000 (UTC)
-From: Esteban Urrutia via B4 Relay <devnull+esteuwu.proton.me@kernel.org>
-Subject: [PATCH 0/2] Support for pmic-glink in SM8475
-Date: Wed, 29 Jul 2026 15:48:23 -0400
-Message-Id: <20260729-sm8475-pmic-glink-v1-0-c2e1967c04de@proton.me>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ti3vd3LC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A4031F000E9;
+	Wed, 29 Jul 2026 21:16:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785359797;
+	bh=ICOOmH7oPMkeN55Q6RYj17FT0y6ZKJX2Y/p6cYzEeJ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ti3vd3LCwYY+TxXB6RQSTLBlF7YvGZjEH2Xzx+vmu07cvKyKDHfS8I0iRe7vlx0f1
+	 z9AEALmHpQkqDfmVmdXZ76ALyR9aIfj7lYO6k+DFYXMjckJjwtWsnJUQwxXR3Ki1br
+	 ctP+yTmsSqM4fnqVcVF7FLIdGGwW8Z8FXhSPWlnpojJda1zojeaKctZxykav5bvDms
+	 ctpKAAk8DpTV1wn/HTYcDqESLUNWo7eoHdQUPh8qMK4UcpBKX733YG8u82DTw6DVoT
+	 8Co+ilgSUCRJ3ArIS3GEx6uNeoBGgSmNHAeizHYrh6hsK4b6XmL9GGZD8J5bALQban
+	 nQVt9w9YG4RXQ==
+Date: Wed, 29 Jul 2026 23:16:32 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: HE WEI =?utf-8?B?KOOCruOCq+OCryk=?= <skyexpoc@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-usb@vger.kernel.org, linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] usb: misc: usbio: reject endpoints smaller than
+ the packet header
+Message-ID: <ampsSryj3Vtjo37H@zenone.zhora.eu>
+References: <20260726113511.57596-1-skyexpoc@gmail.com>
+ <20260726113511.57596-2-skyexpoc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQ5DQBCA4VeROXcSXV1LX0UcWIMpluzQNBHv3
- sXxO/z/DkKeSeAd7eDpy8KzC3g+IrB95TpCboJBxSqNjcpRpuxlNC4TW+xGdgNqQzpt86xRdQK
- hWzy1/LueRXlbtvpDdj1HcBx/Vr/GmHUAAAA=
-X-Change-ID: 20260729-sm8475-pmic-glink-57e56f98d2b3
-To: Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
- phone-devel@vger.kernel.org, Esteban Urrutia <esteuwu@proton.me>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785354535; l=877;
- i=esteuwu@proton.me; s=20260622; h=from:subject:message-id;
- bh=SWisuBb4nkusEArnjWhT2oFMW033z9vtu3jY510Jhno=;
- b=sFRd8CMMnhQdQrtQrgSDCqW6VvcJtydCsQOzOuZgpBbUzIgLay6BbaHKVmU+ZQYXrhi+6DIhb
- fzAcjWx7yamC85Bfra7+So3MdluKO1UczF8zErZRbL/wFFZ5vnjFPM+
-X-Developer-Key: i=esteuwu@proton.me; a=ed25519;
- pk=wToFt4mOAWkzbqb15Ye1hrhevI13vK9BcMUFiQ/me1M=
-X-Endpoint-Received: by B4 Relay for esteuwu@proton.me/20260622 with
- auth_id=835
-X-Original-From: Esteban Urrutia <esteuwu@proton.me>
-Reply-To: esteuwu@proton.me
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260726113511.57596-2-skyexpoc@gmail.com>
 
-This series adds a compatible string for SM8475 for supporting
-pmic-glink.
-This way, confusion is avoided, because SM8475 takes most
-(CPU/GPU/reserved-memory/etc.) things from SM8450 and some (PHY/eUSB)
-from SM8550.
-Instead of using one or the other, add a different compatible string.
+Hi He Wei,
 
-Signed-off-by: Esteban Urrutia <esteuwu@proton.me>
----
-Esteban Urrutia (2):
-      dt-bindings: soc: qcom: qcom,pmic-glink: Add compatible string for SM8475
-      usb: typec: ucsi: ucsi_glink: Add compatible string for SM8475
+On Sun, Jul 26, 2026 at 08:35:07PM +0900, HE WEI (ギカク) wrote:
+> usbio_ctrl_msg() and usbio_bulk_msg() bound the caller's transfer sizes
+> against the endpoint packet size minus the fixed protocol header:
+> 
+> 	if ((obuf_len > (usbio->txbuf_len - sizeof(*bpkt))) ||
+> 	    (ibuf_len > (usbio->txbuf_len - sizeof(*bpkt))))
+> 		return -EMSGSIZE;
+> 
+> usbio->txbuf_len is a u16 and sizeof(*bpkt) is a size_t, so the
+> subtraction is done in size_t.  struct usbio_bulk_packet is 5 bytes and
 
- Documentation/devicetree/bindings/soc/qcom/qcom,pmic-glink.yaml | 1 +
- drivers/usb/typec/ucsi/ucsi_glink.c                             | 1 +
- 2 files changed, 2 insertions(+)
----
-base-commit: 78bc8af4affb9a732504eb22eeac7d1e50883853
-change-id: 20260729-sm8475-pmic-glink-57e56f98d2b3
+... blah blah blah ...
 
-Best regards,
---  
-Esteban Urrutia <esteuwu@proton.me>
+> via usbio_i2c_init() with obuf_len = 7.  The wrapped check passes and the
+> packet header stores overflow the slab object before memcpy() is even
+> reached:
+> 
+> 	bpkt = usbio->txbuf;
+> 	bpkt->header.type = type;	/* txbuf[0] */
+> 	bpkt->header.cmd = cmd;		/* txbuf[1], out of bounds */
+> 	bpkt->header.flags = ...;	/* txbuf[2], out of bounds */
+> 	bpkt->len = cpu_to_le16(obuf_len);	/* txbuf[3..4] */
+> 	memcpy(bpkt->data, obuf, obuf_len);	/* txbuf[5..] */
+> 
+> Note that this is all complete before usb_bulk_msg() is called, so it
+> does not depend on the host controller being willing to run a transfer
+> on such an endpoint.  With KASAN it is a slab-out-of-bounds write.
 
+... blah blah blah ...
 
+> combined with "(udev->speed >= USB_SPEED_SUPER && i > 0)" below, so
+> bMaxPacketSize0 of 0 or 1 gives a ctrlbuf of 1 or 2 bytes and the same
+> wrap, during the five usbio_ctrl_msg() calls in usbio_probe().  Whether
+> a given host controller will operate such an ep0 has not been
+
+... blah blah blah ...
+
+> Found by code review, doing variant analysis on the code around
+> 8c6314489550.  The overflow was reproduced under AddressSanitizer with a
+> userspace model of usbio_probe() and usbio_bulk_msg() that uses this
+> driver's struct definitions, checks and stores verbatim; it has not been
+> exercised on hardware or on dummy_hcd.
+> 
+> Fixes: 121a0f839dbb ("usb: misc: Add Intel USBIO bridge driver")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-5 asan
+> Signed-off-by: HE WEI (ギカク) <skyexpoc@gmail.com>
+
+Please use Latin characters, with the first letter of each name
+capitalized: "He Wei", not "HE WEI".
+
+Also, your commit logs are far too long. If I had to spend this
+much time reading AI generated commit logs, I'd end up spending
+all my time chatting with AI instead of real people.
+
+Please check what you are posting before sending it. Write the
+commit logs yourself and use AI only to help with the grammar.
+
+Thanks,
+Andi
