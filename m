@@ -1,351 +1,207 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FD3380FD5
-	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 05:07:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD1F2D8376
+	for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 05:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785301657; cv=none; b=hvUOSd6ThJWmEng318e/1A6hEgnUl+Dkh11ma+YxrWesZlqWrgy9ZuDSq9fWb6Zv2f1HBjl//1R43+AHbE5u0+i/1JBALM65VIAD66iUnVjZclUSh4t8EN7B+8gfisEA1i2pDen7m/8dnOCGsiuYNy7Kgb0tz3lGA97bZmsCrI0=
+	t=1785302851; cv=none; b=GPMsD1+DREzA42Fhut6WMKY9qElccAz+17lT/HghDoCN3hkriV/ZMVkqm0Lbo9PaEkCnRiibfQ5fEBVZmJY+QCCwthaOXvQ93xiz9havvDG2E3JCHjkTX8t09ThsCigd7tr+BP71pKLZSY1u5yi0gqHTNISIc2r7cMq1S6MxMa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785301657; c=relaxed/simple;
-	bh=ZfB4n3w74e+5HN71qiwvQPeiWQFnKwH2mvvABopEsHk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tCFg0qNSU8zNuiOu08VfFxiQ5ebZEntoC7Xp3PvSsqX4u6uaTKpWUDn0MoZ9iofsuFsOwIhoz9T8Jtk1EcFB88C/81lUzSdPxIrZLZPRRv0z6rxQjhCd20VGde1csj4pd0RFQaH1vk6yuQb7GpsswN/PgJJ5nGfwDuvrRxvsGkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=V+WnmADx; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="V+WnmADx"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-38ea87caafeso439575a91.3
-        for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 22:07:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1785301654; x=1785906454; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=d4yblqAd0xSRNZZHzOoXjhNEV9GdfBie/LOgStT5lG8=;
-        b=V+WnmADxpqQPyAhBu2qW3gZEgwcGcoXqbGtnUqyc+rxaDygIu0LLwHSwFSTbYJZbJQ
-         NbFUeTz2bmHod7VmD6ftu5cw0MSR+whX0JnO7flxfRqYBi7cLlPaaLlEwGc17aW491Ke
-         W15E0R6qXyUbardTgsNfEZ/39yPN5VnnUj3fE=
+	s=arc-20240116; t=1785302851; c=relaxed/simple;
+	bh=wpx7lMdpMSZJhkaSOhm/0ZtyMHnzjxDsu5vQh8KMxyU=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=awthKUzjGXnXPXcOnJAYMspOUOxOQgmLShBIPdG4/Px2cteIhng7QXekxv4m9Qbd/LD2bYo6w03WuJ2/Anhzajvph8ul3WzEOC1C3UC6LXhtR+Wp9urfH/Z16n0poeifx7S1bjUyqO1sMzOVa6Pgc4KarNFFTE9hsBMdIYG9USE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-6a3a3151b3fso401791eaf.1
+        for <linux-usb@vger.kernel.org>; Tue, 28 Jul 2026 22:27:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785301654; x=1785906454;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1785302849; x=1785907649;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=d4yblqAd0xSRNZZHzOoXjhNEV9GdfBie/LOgStT5lG8=;
-        b=A66QM1pvAnw+O3o5jQng0BS5M1yDTv86csH0V8HoVu6clOzZ8xc8fK4srX8xSdCzD4
-         t1zLPzPAZv1X73+q37w/dXeQOdTKZ0d2l1SWC87wi7NRkK7/oC3qRNKitqDFODLE1VYu
-         eT57LTKUqLiZYjl8YJLOAzlPwowd+4pTtncbNDsyTu2tMc8AARFFyJxnk/h/pwHrp95q
-         rofZGIIRKKNHZxAswgxyU7KMmw+vRPrT6tMA1ledWUf8dXacQDPjz3VuJTFJ/u4/+5UG
-         MNT6K6fODVA2dEB5SnbkHShvkEiRCOUg52WNscoKcUpnmpP+COiDHGQYKB896RoJtwb/
-         wSmg==
-X-Forwarded-Encrypted: i=1; AHgh+RrhV7BReTGJ26c3w6Tvtqn4KNef1HskSkSU9aq77XP+p+oFDgK4LssgSZNoCaqcZqtD3IN4UYkcQh0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0eTF0jl4wEGydVMpaQh65Kc94qtTqKmjEE+zL9NbIWNVia3bt
-	6MbS4fdIhxrmGTGE/atuwVtbjiDabrgGeAk1giVBgEmFW2Clr71WdVe2Sp0TTAcliH9RVhCF5pQ
-	nBlg=
-X-Gm-Gg: AR+sD12nU+Z0QkXWegGY6I+2LHIkAKn8rc9fQD9iF7JFW6HrhUGrAihrSFctdhiaLew
-	f3fxixkZAGhYjsI/2DyIm4NsTCFZWWGPfILCOYiwfkMGQCJEFd6psUTDva2R1qIFCAV5l8XBPMd
-	bx7AgyJiEeU6ED/a136QTVZS1vroBbtqupQCEk5fgmCZFceM8KkxOXQShura26NtsgArXnuvaxv
-	i0gQClY9W8Thq9tJKOM36eXdJDYpYWwKxn2Dss4iu2vZeGeY5kVK02N+unyV2BqJeO4ZhKZiFka
-	SXBj6yzl8IwAJlps9xH/KxbOVqucf40/aiUq0vZEoP7u0Ek3mJPufX7aKl+7ZfBhdQMih2NC9th
-	uHNNU33sy61IlzjbliH05gczeIST5/dbTv9hIXoDSAtGrVQL65VCbcitZslIseG62LN6fex2w7H
-	XrePb9asIdiWou0OLSF6PV/Qy51yMsRpw0eKcKNwo+91uW2XpvdFRV18vKlnlldXTvaRaKiOXSE
-	jd50vaZ2yt9gTAxVckO/ZDDta90
-X-Received: by 2002:a17:90b:58f0:b0:38e:6a44:671b with SMTP id 98e67ed59e1d1-38f6a29f784mr5404464a91.0.1785301653929;
-        Tue, 28 Jul 2026 22:07:33 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2031:6:65c1:52a3:f6d3:37dc])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f642bfc71sm2128670a91.11.2026.07.28.22.07.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 22:07:32 -0700 (PDT)
-Date: Wed, 29 Jul 2026 14:07:29 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net, 
-	linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [usb-storage] [RFC PATCH] usb: storage: uas: limit consecutive
- device resets in error handling
-Message-ID: <ammKVTDFMbbhcmBl@google.com>
-References: <20260701040335.810297-1-senozhatsky@chromium.org>
- <e2599d9b-5dd9-47db-8339-f1aa825a11d6@suse.com>
- <akXJuqvHLUpcjXIv@google.com>
+        bh=y6qQWu0scSRBlCzcYu8f441cc4q4XDfoGjKNjI1ISV0=;
+        b=p2rIe6Ggj0naQDAitHwjWrNEo+RWQit7iZnKO/ONjOhfedZbRL6ylrUeoKVThfCvzg
+         ytfidfACSulTd1CGXzRIYLuWnIdQ+vSyqSJxYIAd0G5XvjLWU47faE/whkmaq20CoFJ/
+         3jwoHy+9UC85mqs/YCd8al01RDQrFiIgyryOVXybX6eiuS7J6hLbm00dO8MGhdMLXM0u
+         BsoJyeL+7a3c9fGfOh0mS2bw4KQk2FvPbGhoumYdNVoTz7w9gp4V2muxK0gef7qxXF5F
+         lcIz87PaQPK9vx5ojzGx8n4oERQC7B+ZCSYiXKl04Ni6E5KRhHlBVA0iH4CVW+DVReMt
+         Ii6Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpTREntdi+wX6WepQIl7tq8hNV9QvpCK9WSg02r1gxCO6rgisnwrsa59JdFaU7QN+emY3eaG1KSKEw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFtI0he1AQoG7psuif5ngOVIJXg0BKhh3ikXRszx4pPFoLcv41
+	Gzs7xrbNaUJQ9VWtGqP5DLwGo3STAcRcAs50AENXmkY6O+1TqODJGlZ5akYfYbt3JFFQx+FE98S
+	hEcX/yZ3uSewgy6joPXm3E0MIpeNiT5q6XkZ0TyoOrzoI4xMs/OupTkBPRrA=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <akXJuqvHLUpcjXIv@google.com>
+X-Received: by 2002:a4a:ee87:0:b0:6a1:50f0:ccc9 with SMTP id
+ 006d021491bc7-6ac96d20d75mr2519200eaf.62.1785302849139; Tue, 28 Jul 2026
+ 22:27:29 -0700 (PDT)
+Date: Tue, 28 Jul 2026 22:27:29 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a698f41.d9e86bb5.297b12.0051.GAE@google.com>
+Subject: [syzbot] [usb?] KASAN: invalid-free in f_uac2_opts_c_srate_store
+From: syzbot <syzbot+a4f65284f1451010b0a8@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On (26/07/02 11:25), Sergey Senozhatsky wrote:
-> On (26/07/01 10:28), Oliver Neukum wrote:
-> > On 01.07.26 06:03, Sergey Senozhatsky wrote:
-> > > When a UAS storage device experiences persistent wire or hardware IO
-> > > failures, commands time out and the SCSI error handler thread invokes
-> > > uas_eh_device_reset_handler().  If usb_reset_device() succeeds at the
-> > > USB hub level but the underlying drive remains unresponsive, the reset
-> > 
-> > What exactly do you mean by unresponsive? Usbcore must at least
-> > reassign the configuration (and the device address).
-> 
-> I might be using a wrong term, sorry about that, what we see is that
-> USB reports successful resets, but the device still cannot handle
-> data writes, requests stall.
-> 
-> [..]
-> > > Introduce a runtime-configurable module parameter 'reset_limit' (default
-> > > 3) and track consecutive resets in devinfo->reset_cnt.  When a productive
-> > > block layer command completes successfully (SUBMITTED_BY_BLOCK_LAYER),
-> > > reset the counter to zero.  If consecutive resets exceed reset_limit,
-> > > abort the loop by completing pending commands with DID_NO_CONNECT and
-> > > returning FAILED.  This allows SCSI EH to offline the unresponsive
-> > > device.
-> > 
-> > Let us take a step back. What is the issue here? The device goes
-> > into error handling. That is not a problem as such. A method
-> > designed to remedy an error condition has not been effective but seems
-> > to succeed.
-> > That must not happen. So what do we do? It seems to me like we
-> > ought to add a test for the effectiveness of the reset.
-> > At first glance it looks like UAS should do a TEST UNIT READY
-> > on its own after a reset.
-> > Or are we looking at a command that reliably crashes the device and
-> > is reissued by an upper layer? In that case either we need
-> > a quirk or the SCSI layer ought to deduce that it is using commands
-> > it shouldn't use.
-> > 
-> > Can we have more information about the scenario that triggered
-> > the desire for this patch?
-> 
-> Unfortunately, I cannot add a lot of info, as I don't posses (nor
-> have access to) the device in question.  The user is on 6.6 LTS
-> kernel (UAS code wise there doesn't seem to be that much of a
-> difference compared to mainline).  I suppose the misbehaving UAS
-> device is:
-> 
-> <6>[ 11.902842] usb 2-1.3: New USB device found, idVendor=2109, idProduct=0715, bcdDevice= 2.63
-> <6>[ 11.902968] usb 2-1.3: New USB device strings: Mfr=1, Product=2, SerialNumber=(Serial: 6)
-> <6>[ 11.902994] usb 2-1.3: Product: SSK USB3.2 SSD Flash Drive
-> <6>[ 11.903041] usb 2-1.3: Manufacturer: SSK Corporation
-> <6>[ 11.903066] usb 2-1.3: SerialNumber: (Serial: 11)
-> <6>[ 11.909223] scsi host0: uas
-> <5>[ 11.919288] scsi 0:0:0:0: Direct-Access SSK Port able SSD 256 X082 PQ: 0 ANSI: 6
-> <5>[ 11.928062] sd 0:0:0:0: [sda] 500118192 512-byte logical blocks: (256 GB/238 GiB)
-> <5>[ 11.928336] sd 0:0:0:0: [sda] Write Protect is off
-> <7>[ 11.928377] sd 0:0:0:0: [sda] Mode Sense: 2f 00 00 00
-> <5>[ 11.929521] sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
-> <6>[ 11.956480] sd 0:0:0:0: [sda] Preferred minimum I/O size 4096 bytes
-> <4>[ 11.956515] sd 0:0:0:0: [sda] Optimal transfer size 33553920 bytes not a multiple of preferred minimum block size (4096 bytes)
-> 
-> And then all I have is dmesg (ramoops).
-> 
-> (don't get confused by "rq: tag=.. op=..." lines, they are from  our downstream
-> blk-mq stall watchdog)
-> 
-> Cut and paste from the first time UAS reports an error:
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    3dab139d4795 Merge tag 'rust-fixes-7.2-2' of git://git.ker..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=10e2b746580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
+dashboard link: https://syzkaller.appspot.com/bug?extid=a4f65284f1451010b0a8
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1466a449580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12d83fde580000
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-3dab139d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/2b5a401a9dc7/vmlinux-3dab139d.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/7ed2d255bd44/bzImage-3dab139d.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a4f65284f1451010b0a8@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: invalid-free in f_uac2_opts_c_srate_store+0x1d4/0x260 drivers/usb/gadget/function/f_uac2.c:2091
+Free of addr ffff88802a89370c by task syz.0.17/5924
+
+CPU: 0 UID: 0 PID: 5924 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report_invalid_free+0xb8/0x190 mm/kasan/report.c:557
+ check_slab_allocation+0xe1/0xf0 mm/kasan/common.c:230
+ kasan_slab_pre_free include/linux/kasan.h:199 [inline]
+ slab_free_hook mm/slub.c:2622 [inline]
+ slab_free mm/slub.c:6377 [inline]
+ kfree+0x1b6/0x6c0 mm/slub.c:6692
+ f_uac2_opts_c_srate_store+0x1d4/0x260 drivers/usb/gadget/function/f_uac2.c:2091
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fc39579de99
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc94f16318 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 00007fc395a25fa0 RCX: 00007fc39579de99
+RDX: 00000000000000f7 RSI: 0000200000000d40 RDI: 0000000000000003
+RBP: 00007fc395833eaf R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fc395a25fac R14: 00007fc395a25fa0 R15: 00007fc395a25fa0
+ </TASK>
+
+Allocated by task 5924:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __do_kmalloc_node mm/slub.c:5334 [inline]
+ __kmalloc_node_track_caller_noprof+0x331/0x830 mm/slub.c:5471
+ __kmemdup_nul mm/util.c:64 [inline]
+ kstrdup+0x51/0xe0 mm/util.c:84
+ f_uac2_opts_c_srate_store+0x113/0x260 drivers/usb/gadget/function/f_uac2.c:2091
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x6ac/0x1050 fs/read_write.c:687
+ ksys_write+0x12a/0x250 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff88802a893700
+ which belongs to the cache kmalloc-32 of size 32
+The buggy address is located 12 bytes inside of
+ 18-byte region [ffff88802a893700, ffff88802a893712)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x2a893
+flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000000 ffff88801bc42780 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000800400040 00000000f5000000 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2800(GFP_NOWAIT|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1489, tgid 1489 (kworker/u33:2), ts 8170009835, free_ts 0
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1859
+ prep_new_page mm/page_alloc.c:1867 [inline]
+ get_page_from_freelist+0xf48/0x3530 mm/page_alloc.c:3946
+ __alloc_frozen_pages_noprof+0x299/0x2dc0 mm/page_alloc.c:5304
+ alloc_slab_page mm/slub.c:3266 [inline]
+ allocate_slab mm/slub.c:3380 [inline]
+ new_slab+0xa2/0x640 mm/slub.c:3426
+ refill_objects+0xe3/0x410 mm/slub.c:7310
+ refill_sheaf mm/slub.c:2804 [inline]
+ __pcs_replace_empty_main+0x376/0x680 mm/slub.c:4675
+ alloc_from_pcs mm/slub.c:4773 [inline]
+ slab_alloc_node mm/slub.c:4905 [inline]
+ __kmalloc_cache_noprof+0x479/0x6c0 mm/slub.c:5485
+ _kmalloc_noprof include/linux/slab.h:988 [inline]
+ slab_free_hook mm/slub.c:2629 [inline]
+ slab_free mm/slub.c:6377 [inline]
+ kmem_cache_free+0x412/0x6b0 mm/slub.c:6504
+ __cleanup_sighand kernel/fork.c:1705 [inline]
+ __cleanup_sighand+0x6a/0xa0 kernel/fork.c:1697
+ __exit_signal kernel/exit.c:223 [inline]
+ release_task+0xc31/0x1ab0 kernel/exit.c:270
+ exit_notify kernel/exit.c:810 [inline]
+ do_exit+0x13ba/0x2ae0 kernel/exit.c:1021
+ call_usermodehelper_exec_async+0x35d/0x4b0 kernel/umh.c:122
+ ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+page_owner free stack trace missing
+
+Memory state around the buggy address:
+ ffff88802a893600: 00 00 00 00 fc fc fc fc fa fb fb fb fc fc fc fc
+ ffff88802a893680: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+>ffff88802a893700: 00 00 02 fc fc fc fc fc fa fb fb fb fc fc fc fc
+                      ^
+ ffff88802a893780: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+ ffff88802a893800: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
+==================================================================
 
 
-Oliver, what should be the way forward here?
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-> <6>[ 704.586138] sd 0:0:0:0: [sda] tag#5 uas_eh_abort_handler 0 uas-tag 6 inflight: CMD OUT
-> <6>[ 704.586217] sd 0:0:0:0: [sda] tag#5 CDB: Write(10) 2a 00 00 d3 94 08 00 04 00 00
-> <6>[ 704.687269] sd 0:0:0:0: [sda] tag#4 uas_eh_abort_handler 0 uas-tag 4 inflight: CMD OUT
-> <6>[ 704.687356] sd 0:0:0:0: [sda] tag#4 CDB: Write(10) 2a 00 00 d3 8c 08 00 04 00 00
-> <6>[ 704.693877] sd 0:0:0:0: [sda] tag#3 uas_eh_abort_handler 0 uas-tag 3 inflight: CMD OUT
-> <6>[ 704.693947] sd 0:0:0:0: [sda] tag#3 CDB: Write(10) 2a 00 00 d3 88 08 00 04 00 00
-> <6>[ 704.700914] sd 0:0:0:0: [sda] tag#2 uas_eh_abort_handler 0 uas-tag 2 inflight: CMD OUT
-> <6>[ 704.700963] sd 0:0:0:0: [sda] tag#2 CDB: Write(10) 2a 00 00 d3 84 08 00 04 00 00
-> <6>[ 704.707981] sd 0:0:0:0: [sda] tag#1 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD OUT
-> <6>[ 704.708053] sd 0:0:0:0: [sda] tag#1 CDB: Write(10) 2a 00 00 d3 80 08 00 04 00 00
-> <6>[ 704.714947] sd 0:0:0:0: [sda] tag#0 uas_eh_abort_handler 0 uas-tag 5 inflight: CMD OUT
-> <6>[ 704.715019] sd 0:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 00 d3 90 08 00 04 00 00
-> <6>[ 704.730668] scsi host0: uas_eh_device_reset_handler start
-> <6>[ 704.797633] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-> <6>[ 704.817713] scsi host0: uas_eh_device_reset_handler success
-> <6>[ 735.309699] scsi host0: uas_eh_device_reset_handler start
-> <6>[ 735.310945] sd 0:0:0:0: [sda] tag#2 uas_zap_pending 0 uas-tag 1 inflight: CMD
-> <6>[ 735.311018] sd 0:0:0:0: [sda] tag#2 CDB: Write(10) 2a 00 00 d3 94 08 00 04 00 00
-> <6>[ 735.311057] sd 0:0:0:0: [sda] tag#3 uas_zap_pending 0 uas-tag 2 inflight: CMD
-> <6>[ 735.311122] sd 0:0:0:0: [sda] tag#3 CDB: Write(10) 2a 00 00 d3 8c 08 00 04 00 00
-> <6>[ 735.311188] sd 0:0:0:0: [sda] tag#4 uas_zap_pending 0 uas-tag 3 inflight: CMD
-> <6>[ 735.311224] sd 0:0:0:0: [sda] tag#4 CDB: Write(10) 2a 00 00 d3 88 08 00 04 00 00
-> <6>[ 735.311289] sd 0:0:0:0: [sda] tag#0 uas_zap_pending 0 uas-tag 4 inflight: CMD
-> <6>[ 735.311354] sd 0:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 00 d3 84 08 00 04 00 00
-> <6>[ 735.311390] sd 0:0:0:0: [sda] tag#1 uas_zap_pending 0 uas-tag 5 inflight: CMD
-> <6>[ 735.311455] sd 0:0:0:0: [sda] tag#1 CDB: Write(10) 2a 00 00 d3 80 08 00 04 00 00
-> <6>[ 735.311521] sd 0:0:0:0: [sda] tag#5 uas_zap_pending 0 uas-tag 6 inflight: CMD
-> <6>[ 735.311558] sd 0:0:0:0: [sda] tag#5 CDB: Write(10) 2a 00 00 d3 90 08 00 04 00 00
-> <6>[ 735.377751] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-> <6>[ 735.398693] scsi host0: uas_eh_device_reset_handler success
-> <4>[ 750.651133] rq: tag=0 hctx=0 op=WRITE sector=13860872 len=524288 age=76536 ms pid=11900 comm=image_burner state=D
-> <4>[ 750.651205] rq: tag=1 hctx=0 op=WRITE sector=13865992 len=524288 age=76536 ms pid=11900 comm=image_burner state=D
-> <4>[ 750.651263] rq: tag=2 hctx=0 op=WRITE sector=13863944 len=524288 age=76536 ms pid=11900 comm=image_burner state=D
-> <4>[ 750.651320] rq: tag=3 hctx=0 op=WRITE sector=13862920 len=524288 age=76536 ms pid=11900 comm=image_burner state=D
-> <4>[ 750.651379] rq: tag=4 hctx=0 op=WRITE sector=13861896 len=524288 age=76536 ms pid=11900 comm=image_burner state=D
-> <4>[ 750.651437] rq: tag=5 hctx=0 op=WRITE sector=13864968 len=524288 age=76536 ms pid=11900 comm=image_burner state=D
-> <4>[ 750.651494] blk: queue stall on sda: 6 inflight, 6 stalled (threshold 60000 ms)
-> <6>[ 765.511365] scsi host0: uas_eh_device_reset_handler start
-> <6>[ 765.512640] sd 0:0:0:0: [sda] tag#4 uas_zap_pending 0 uas-tag 1 inflight: CMD
-> <6>[ 765.512689] sd 0:0:0:0: [sda] tag#4 CDB: Write(10) 2a 00 00 d3 84 08 00 04 00 00
-> <6>[ 765.512737] sd 0:0:0:0: [sda] tag#0 uas_zap_pending 0 uas-tag 2 inflight: CMD
-> <6>[ 765.512762] sd 0:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 00 d3 80 08 00 04 00 00
-> <6>[ 765.512808] sd 0:0:0:0: [sda] tag#1 uas_zap_pending 0 uas-tag 3 inflight: CMD
-> <6>[ 765.512855] sd 0:0:0:0: [sda] tag#1 CDB: Write(10) 2a 00 00 d3 94 08 00 04 00 00
-> <6>[ 765.512880] sd 0:0:0:0: [sda] tag#2 uas_zap_pending 0 uas-tag 4 inflight: CMD
-> <6>[ 765.512927] sd 0:0:0:0: [sda] tag#2 CDB: Write(10) 2a 00 00 d3 8c 08 00 04 00 00
-> <6>[ 765.512974] sd 0:0:0:0: [sda] tag#3 uas_zap_pending 0 uas-tag 5 inflight: CMD
-> <6>[ 765.513000] sd 0:0:0:0: [sda] tag#3 CDB: Write(10) 2a 00 00 d3 88 08 00 04 00 00
-> <6>[ 765.513047] sd 0:0:0:0: [sda] tag#5 uas_zap_pending 0 uas-tag 6 inflight: CMD
-> <6>[ 765.513094] sd 0:0:0:0: [sda] tag#5 CDB: Write(10) 2a 00 00 d3 90 08 00 04 00 00
-> <6>[ 765.577456] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-> <6>[ 765.597265] scsi host0: uas_eh_device_reset_handler success
-> <6>[ 795.719449] scsi host0: uas_eh_device_reset_handler start
-> <6>[ 795.720700] sd 0:0:0:0: [sda] tag#4 uas_zap_pending 0 uas-tag 1 inflight: CMD
-> <6>[ 795.720752] sd 0:0:0:0: [sda] tag#4 CDB: Write(10) 2a 00 00 d3 80 08 00 04 00 00
-> <6>[ 795.720778] sd 0:0:0:0: [sda] tag#0 uas_zap_pending 0 uas-tag 2 inflight: CMD
-> <6>[ 795.720826] sd 0:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 00 d3 94 08 00 04 00 00
-> <6>[ 795.720872] sd 0:0:0:0: [sda] tag#1 uas_zap_pending 0 uas-tag 3 inflight: CMD
-> <6>[ 795.720897] sd 0:0:0:0: [sda] tag#1 CDB: Write(10) 2a 00 00 d3 8c 08 00 04 00 00
-> <6>[ 795.720944] sd 0:0:0:0: [sda] tag#2 uas_zap_pending 0 uas-tag 4 inflight: CMD
-> <6>[ 795.720990] sd 0:0:0:0: [sda] tag#2 CDB: Write(10) 2a 00 00 d3 88 08 00 04 00 00
-> <6>[ 795.721016] sd 0:0:0:0: [sda] tag#3 uas_zap_pending 0 uas-tag 5 inflight: CMD
-> <6>[ 795.721062] sd 0:0:0:0: [sda] tag#3 CDB: Write(10) 2a 00 00 d3 84 08 00 04 00 00
-> <6>[ 795.721109] sd 0:0:0:0: [sda] tag#5 uas_zap_pending 0 uas-tag 6 inflight: CMD
-> <6>[ 795.721135] sd 0:0:0:0: [sda] tag#5 CDB: Write(10) 2a 00 00 d3 90 08 00 04 00 00
-> <6>[ 796.007591] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-> <6>[ 796.027767] scsi host0: uas_eh_device_reset_handler success
-> <4>[ 812.091136] rq: tag=0 hctx=0 op=WRITE sector=13863944 len=524288 age=137976 ms pid=11900 comm=image_burner state=D
-> <4>[ 812.091194] rq: tag=1 hctx=0 op=WRITE sector=13862920 len=524288 age=137976 ms pid=11900 comm=image_burner state=D
-> <4>[ 812.091242] rq: tag=2 hctx=0 op=WRITE sector=13861896 len=524288 age=137976 ms pid=11900 comm=image_burner state=D
-> <4>[ 812.091289] rq: tag=3 hctx=0 op=WRITE sector=13860872 len=524288 age=137976 ms pid=11900 comm=image_burner state=D
-> <4>[ 812.091335] rq: tag=4 hctx=0 op=WRITE sector=13865992 len=524288 age=137976 ms pid=11900 comm=image_burner state=D
-> <4>[ 812.091381] rq: tag=5 hctx=0 op=WRITE sector=13864968 len=524288 age=137976 ms pid=11900 comm=image_burner state=D
-> <4>[ 812.091428] blk: queue stall on sda: 6 inflight, 6 stalled (threshold 60000 ms)
-> <6>[ 826.435375] scsi host0: uas_eh_device_reset_handler start
-> <6>[ 826.436559] sd 0:0:0:0: [sda] tag#4 uas_zap_pending 0 uas-tag 1 inflight: CMD
-> <6>[ 826.436619] sd 0:0:0:0: [sda] tag#4 CDB: Write(10) 2a 00 00 d3 94 08 00 04 00 00
-> <6>[ 826.436679] sd 0:0:0:0: [sda] tag#0 uas_zap_pending 0 uas-tag 2 inflight: CMD
-> <6>[ 826.436710] sd 0:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 00 d3 8c 08 00 04 00 00
-> <6>[ 826.436758] sd 0:0:0:0: [sda] tag#1 uas_zap_pending 0 uas-tag 3 inflight: CMD
-> <6>[ 826.436807] sd 0:0:0:0: [sda] tag#1 CDB: Write(10) 2a 00 00 d3 88 08 00 04 00 00
-> <6>[ 826.436834] sd 0:0:0:0: [sda] tag#2 uas_zap_pending 0 uas-tag 4 inflight: CMD
-> <6>[ 826.436884] sd 0:0:0:0: [sda] tag#2 CDB: Write(10) 2a 00 00 d3 84 08 00 04 00 00
-> <6>[ 826.436933] sd 0:0:0:0: [sda] tag#3 uas_zap_pending 0 uas-tag 5 inflight: CMD
-> <6>[ 826.436960] sd 0:0:0:0: [sda] tag#3 CDB: Write(10) 2a 00 00 d3 80 08 00 04 00 00
-> <6>[ 826.437008] sd 0:0:0:0: [sda] tag#5 uas_zap_pending 0 uas-tag 6 inflight: CMD
-> <6>[ 826.437056] sd 0:0:0:0: [sda] tag#5 CDB: Write(10) 2a 00 00 d3 90 08 00 04 00 00
-> <6>[ 826.502749] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-> <6>[ 826.521493] scsi host0: uas_eh_device_reset_handler success
-> <6>[ 856.652469] scsi host0: uas_eh_device_reset_handler start
-> <6>[ 856.653458] sd 0:0:0:0: [sda] tag#2 uas_zap_pending 0 uas-tag 1 inflight: CMD
-> <6>[ 856.653535] sd 0:0:0:0: [sda] tag#2 CDB: Write(10) 2a 00 00 d3 8c 08 00 04 00 00
-> <6>[ 856.653574] sd 0:0:0:0: [sda] tag#3 uas_zap_pending 0 uas-tag 2 inflight: CMD
-> <6>[ 856.653640] sd 0:0:0:0: [sda] tag#3 CDB: Write(10) 2a 00 00 d3 88 08 00 04 00 00
-> <6>[ 856.653706] sd 0:0:0:0: [sda] tag#4 uas_zap_pending 0 uas-tag 3 inflight: CMD
-> <6>[ 856.653741] sd 0:0:0:0: [sda] tag#4 CDB: Write(10) 2a 00 00 d3 84 08 00 04 00 00
-> <6>[ 856.653804] sd 0:0:0:0: [sda] tag#0 uas_zap_pending 0 uas-tag 4 inflight: CMD
-> <6>[ 856.653867] sd 0:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 00 d3 80 08 00 04 00 00
-> <6>[ 856.653902] sd 0:0:0:0: [sda] tag#1 uas_zap_pending 0 uas-tag 5 inflight: CMD
-> <6>[ 856.653965] sd 0:0:0:0: [sda] tag#1 CDB: Write(10) 2a 00 00 d3 94 08 00 04 00 00
-> <6>[ 856.654029] sd 0:0:0:0: [sda] tag#5 uas_zap_pending 0 uas-tag 6 inflight: CMD
-> <6>[ 856.654064] sd 0:0:0:0: [sda] tag#5 CDB: Write(10) 2a 00 00 d3 90 08 00 04 00 00
-> <6>[ 856.718609] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-> <6>[ 856.738743] scsi host0: uas_eh_device_reset_handler success
-> <3>[ 856.738939] sd 0:0:0:0: [sda] tag#0 timing out command, waited 180s
-> <6>[ 856.738999] sd 0:0:0:0: [sda] tag#0 FAILED Result: hostbyte=DID_RESET driverbyte=DRIVER_OK cmd_age=182s
-> <6>[ 856.739056] sd 0:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 00 d3 80 08 00 04 00 00
-> <3>[ 856.739119] I/O error, dev sda, sector 13860872 op 0x1:(WRITE) flags 0x4800 phys_seg 128 prio class 2
-> <3>[ 856.739155] Buffer I/O error on dev sda, logical block 1732609, lost async page write
-> <3>[ 856.739219] Buffer I/O error on dev sda, logical block 1732610, lost async page write
-> <3>[ 856.739272] Buffer I/O error on dev sda, logical block 1732611, lost async page write
-> <3>[ 856.739323] Buffer I/O error on dev sda, logical block 1732612, lost async page write
-> <3>[ 856.739354] Buffer I/O error on dev sda, logical block 1732613, lost async page write
-> <3>[ 856.739410] Buffer I/O error on dev sda, logical block 1732614, lost async page write
-> <3>[ 856.739466] Buffer I/O error on dev sda, logical block 1732615, lost async page write
-> <3>[ 856.739522] Buffer I/O error on dev sda, logical block 1732616, lost async page write
-> <3>[ 856.739553] Buffer I/O error on dev sda, logical block 1732617, lost async page write
-> <3>[ 856.739607] Buffer I/O error on dev sda, logical block 1732618, lost async page write
-> <3>[ 856.739764] sd 0:0:0:0: [sda] tag#1 timing out command, waited 180s
-> <6>[ 856.739796] sd 0:0:0:0: [sda] tag#1 FAILED Result: hostbyte=DID_RESET driverbyte=DRIVER_OK cmd_age=182s
-> <6>[ 856.739852] sd 0:0:0:0: [sda] tag#1 CDB: Write(10) 2a 00 00 d3 94 08 00 04 00 00
-> <3>[ 856.739907] I/O error, dev sda, sector 13865992 op 0x1:(WRITE) flags 0x4800 phys_seg 128 prio class 2
-> <3>[ 856.740068] sd 0:0:0:0: [sda] tag#2 timing out command, waited 180s
-> <6>[ 856.740099] sd 0:0:0:0: [sda] tag#2 FAILED Result: hostbyte=DID_RESET driverbyte=DRIVER_OK cmd_age=182s
-> <6>[ 856.740154] sd 0:0:0:0: [sda] tag#2 CDB: Write(10) 2a 00 00 d3 8c 08 00 04 00 00
-> <3>[ 856.740200] I/O error, dev sda, sector 13863944 op 0x1:(WRITE) flags 0x4800 phys_seg 128 prio class 2
-> <3>[ 856.740310] sd 0:0:0:0: [sda] tag#3 timing out command, waited 180s
-> <6>[ 856.740338] sd 0:0:0:0: [sda] tag#3 FAILED Result: hostbyte=DID_RESET driverbyte=DRIVER_OK cmd_age=182s
-> <6>[ 856.740385] sd 0:0:0:0: [sda] tag#3 CDB: Write(10) 2a 00 00 d3 88 08 00 04 00 00
-> <3>[ 856.740431] I/O error, dev sda, sector 13862920 op 0x1:(WRITE) flags 0x4800 phys_seg 128 prio class 2
-> <3>[ 856.740532] sd 0:0:0:0: [sda] tag#4 timing out command, waited 180s
-> <6>[ 856.740558] sd 0:0:0:0: [sda] tag#4 FAILED Result: hostbyte=DID_RESET driverbyte=DRIVER_OK cmd_age=182s
-> <6>[ 856.740603] sd 0:0:0:0: [sda] tag#4 CDB: Write(10) 2a 00 00 d3 84 08 00 04 00 00
-> <3>[ 856.740649] I/O error, dev sda, sector 13861896 op 0x1:(WRITE) flags 0x4800 phys_seg 128 prio class 2
-> <3>[ 856.740750] sd 0:0:0:0: [sda] tag#5 timing out command, waited 180s
-> <6>[ 856.740775] sd 0:0:0:0: [sda] tag#5 FAILED Result: hostbyte=DID_RESET driverbyte=DRIVER_OK cmd_age=182s
-> <6>[ 856.740821] sd 0:0:0:0: [sda] tag#5 CDB: Write(10) 2a 00 00 d3 90 08 00 04 00 00
-> <3>[ 856.740867] I/O error, dev sda, sector 13864968 op 0x1:(WRITE) flags 0x4800 phys_seg 128 prio class 2
-> <6>[ 886.862169] sd 0:0:0:0: [sda] tag#4 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD
-> <6>[ 886.862204] sd 0:0:0:0: [sda] tag#4 CDB: Write(10) 2a 00 00 d3 98 08 00 04 00 00
-> <6>[ 886.862256] sd 0:0:0:0: [sda] tag#0 uas_eh_abort_handler 0 uas-tag 2 inflight: CMD OUT
-> <6>[ 886.862303] sd 0:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 00 d3 9c 08 00 04 00 00
-> <6>[ 886.872436] scsi host0: uas_eh_device_reset_handler start
-> <6>[ 886.936568] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-> <6>[ 886.954990] scsi host0: uas_eh_device_reset_handler success
-> <6>[ 917.070222] sd 0:0:0:0: [sda] tag#3 uas_eh_abort_handler 0 uas-tag 3 inflight: CMD IN
-> <6>[ 917.070318] sd 0:0:0:0: [sda] tag#3 CDB: Read(10) 28 00 00 00 00 00 00 00 20 00
-> <6>[ 917.079434] scsi host0: uas_eh_device_reset_handler start
-> <6>[ 917.079994] sd 0:0:0:0: [sda] tag#1 uas_zap_pending 0 uas-tag 1 inflight: CMD
-> <6>[ 917.080046] sd 0:0:0:0: [sda] tag#1 CDB: Write(10) 2a 00 00 d3 98 08 00 04 00 00
-> <6>[ 917.080072] sd 0:0:0:0: [sda] tag#2 uas_zap_pending 0 uas-tag 2 inflight: CMD
-> <6>[ 917.080118] sd 0:0:0:0: [sda] tag#2 CDB: Write(10) 2a 00 00 d3 9c 08 00 04 00 00
-> <6>[ 917.145714] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-> <6>[ 917.164988] scsi host0: uas_eh_device_reset_handler success
-> <6>[ 917.165155] sd 0:0:0:0: [sda] tag#3 FAILED Result: hostbyte=DID_ERROR driverbyte=DRIVER_OK cmd_age=30s
-> <6>[ 917.165210] sd 0:0:0:0: [sda] tag#3 CDB: Read(10) 28 00 00 00 00 00 00 00 20 00
-> <3>[ 917.165239] I/O error, dev sda, sector 0 op 0x0:(READ) flags 0x80700 phys_seg 4 prio class 3
-> <4>[ 934.971114] rq: tag=0 hctx=0 op=WRITE sector=13867016 len=524288 age=78231 ms pid=11900 comm=image_burner state=D
-> <4>[ 934.971169] rq: tag=1 hctx=0 op=WRITE sector=13868040 len=524288 age=78230 ms pid=11900 comm=image_burner state=D
-> <4>[ 934.971217] blk: queue stall on sda: 3 inflight, 2 stalled (threshold 60000 ms)
-> <6>[ 947.276222] sd 0:0:0:0: [sda] tag#3 uas_eh_abort_handler 0 uas-tag 3 inflight: CMD IN
-> <6>[ 947.276282] sd 0:0:0:0: [sda] tag#3 CDB: Read(10) 28 00 00 00 00 00 00 00 08 00
-> <6>[ 947.280489] scsi host0: uas_eh_device_reset_handler start
-> <6>[ 947.281255] sd 0:0:0:0: [sda] tag#0 uas_zap_pending 0 uas-tag 1 inflight: CMD
-> <6>[ 947.281309] sd 0:0:0:0: [sda] tag#0 CDB: Write(10) 2a 00 00 d3 98 08 00 04 00 00
-> <6>[ 947.281391] sd 0:0:0:0: [sda] tag#1 uas_zap_pending 0 uas-tag 2 inflight: CMD
-> <6>[ 947.281468] sd 0:0:0:0: [sda] tag#1 CDB: Write(10) 2a 00 00 d3 9c 08 00 04 00 00
-> <6>[ 947.346666] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-> <6>[ 947.365031] scsi host0: uas_eh_device_reset_handler success
-> <6>[ 977.479406] scsi host0: uas_eh_device_reset_handler start
-> <6>[ 977.479963] sd 0:0:0:0: [sda] tag#2 uas_zap_pending 0 uas-tag 1 inflight: CMD
-> <6>[ 977.480015] sd 0:0:0:0: [sda] tag#2 CDB: Write(10) 2a 00 00 d3 98 08 00 04 00 00
-> <6>[ 977.480042] sd 0:0:0:0: [sda] tag#3 uas_zap_pending 0 uas-tag 2 inflight: CMD
-> <6>[ 977.480089] sd 0:0:0:0: [sda] tag#3 CDB: Write(10) 2a 00 00 d3 9c 08 00 04 00 00
-> <6>[ 977.480137] sd 0:0:0:0: [sda] tag#4 uas_zap_pending 0 uas-tag 3 inflight: CMD
-> <6>[ 977.480166] sd 0:0:0:0: [sda] tag#4 CDB: Read(10) 28 00 00 00 00 00 00 00 08 00
-> <6>[ 977.545653] usb 2-1.3: reset SuperSpeed Plus Gen 2x1 USB device number 4 using xhci_hcd
-> <6>[ 977.565338] scsi host0: uas_eh_device_reset_handler success
-> <3>[ 984.123394] INFO: task image_burner:11900 blocked for more than 122 seconds.
-> <3>[ 984.123449] Tainted: G S U 6.6.135-09364-g548ca84e71c6 #1
-> <3>[ 984.123501] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> <6>[ 984.123517] task:image_burner state:D stack:0 pid:11900 ppid:11893 flags:0x00004002
-> <6>[ 984.123577] Call Trace:
-> <6>[ 984.123603] <TASK>
-> <6>[ 984.123659] __schedule+0x5e8/0x14c0
-> <6>[ 984.123688] ? free_unref_page_list+0x25d/0x290
-> <6>[ 984.123715] ? lru_gen_update_size+0x1e3/0x220
-> <6>[ 984.123763] schedule+0x5e/0xa0
-> <6>[ 984.123788] io_schedule+0x47/0x70
-> <6>[ 984.123814] folio_wait_bit_common+0x18a/0x270
-> <6>[ 984.123863] ? __pfx_wake_page_function+0x10/0x10
-> <6>[ 984.123889] folio_wait_writeback+0x35/0x90
-> <6>[ 984.123937] __filemap_fdatawait_range+0x162/0x190
-> <6>[ 984.123965] file_write_and_wait_range+0xa3/0x120
-> <6>[ 984.124013] blkdev_fsync+0x39/0x60
-> <6>[ 984.124040] __x64_sys_fdatasync+0x4c/0x90
-> <6>[ 984.124067] do_syscall_64+0x6b/0xa0
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
