@@ -1,163 +1,166 @@
-Received: from va-1-111.ptr.blmpb.com (va-1-111.ptr.blmpb.com [209.127.230.111])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A433B05B1
-	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 05:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.230.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E70423EA8B
+	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 05:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785389304; cv=none; b=jpMVHjcP9lSsQx7gTcFqqkzBH4VUtrs0VN5h+xgwnpywA4RbEXnGfCTLAHmdGS6H2iLR0A4S1oR19MBWwp7ZEE/FFtHodeZg4tWwqth4GyoOsV4PUvcZydOGYRjOD1KDpJhXOYBN3XzccH6SPv+pIslcHhzade6D2rpQYFDvYzU=
+	t=1785390342; cv=none; b=q9FLL1PK3Yb224ZTuHQimZMAoFAmm6dCM8bKukPalSRvGHvsqJCMHahEFG/qDM62Z5uq8LwhVo7MIi3JhbDfycv+V7PXrSvtqZmubWD7HfzRootzXiZjcbkFMt9D9Unsk6GLWDwr3S0NpW1XsI2cpunwrYbmGdztYjTbxxy1TM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785389304; c=relaxed/simple;
-	bh=yl94ymhBwsMWWLB/i/YPI6mck4HKp1tM81c1xp2Bxr8=;
-	h=Message-Id:Mime-Version:References:Content-Type:Subject:To:From:
-	 Date:In-Reply-To:Cc; b=mggcLJKfwY19mqAg6SIyGbxzBHKTfah6M0Au3kzj8kKordFD+b71YbtT9AkjltSM3KFWDWuBls0Ic6pHRfrKCOc1Z2VxJQxQK+wgUzNuGhvUZ/tX8zSHKcDOyILg9pvqy9HqcT431zilKgw101tap9hxfGo+b34MD86IZiowQlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=hRVy+pyG; arc=none smtp.client-ip=209.127.230.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1785390342; c=relaxed/simple;
+	bh=Y1vbb4+WSikD4XCWd2jc7BVnW2zpn2qNVu5ZLbalqUo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VCqBFxeAKrANFjHGWZLwHSeFsYaaqIk+h4vlAFRLJYhKmWOfAK7/qhUc+/kdD4tv7S+EbNMD7BqmW1V/An3xinzHf/0ao+lgByM+SnXwoS2t8HGMWVOIWuvk/dB8ZUBotb9rK4uY8Bzv3VMC3G8aHeQMG7N6GvRVZPL2+Y4icvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=morsemicro.com; spf=pass smtp.mailfrom=morsemicro.com; dkim=pass (2048-bit key) header.d=morsemicro-com.20251104.gappssmtp.com header.i=@morsemicro-com.20251104.gappssmtp.com header.b=YgUoVBzY; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=morsemicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=morsemicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="hRVy+pyG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1785389290; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=NodeUa70AZXIC374qnjJWxHQAwni28ruRy38JLx9Ks0=;
- b=hRVy+pyGl2ZbG5Rwi+a2zlJagZCgDG2N0lgJm5G1WhLMYMPWmj+gmNNhMxUpT43hWfEXtZ
- uel71TRXNokpRCCAsxU2TFsydM+0RD0xySetjCwxCYSJOuOxae5I7BB1fZkdRdkdR3JS3z
- nPc1MBwScnlePDMBtA4TOUYdPYLJXLSLEvcsEYIdS5/RKr9DrjRrZPc9GfYPJV0czKBYfO
- LfXpr6sAXHGcIjc7T6D0pB6SODBli8hCIbnv9jpm5NcWi0QVgCoOxa3XqzpaYLZKQKv3wr
- hqIYcE7TtsT2uME2I1Hd14iTYmrN4DneGMPT4Jq1SlmHzj2FS1CjcwZIluNviA==
-Message-Id: <20260730052752.25116-1-guojinhui.liam@bytedance.com>
+	dkim=pass (2048-bit key) header.d=morsemicro-com.20251104.gappssmtp.com header.i=@morsemicro-com.20251104.gappssmtp.com header.b="YgUoVBzY"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-84e0688b7e8so1523667b3a.1
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 22:45:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=morsemicro-com.20251104.gappssmtp.com; s=20251104; t=1785390340; x=1785995140; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OoHJfTfNGCZcdoSdMSuAR9Bs2dt360oLu0EuCp6rBCw=;
+        b=YgUoVBzYklwrhTXs+KvsF1KnGGdQhzqN9akgtNunkBQ4Hs+ZJKLijPo+1V6aF9N1U0
+         nR8+wWMG7QiEYWiOleXdwxyCbjGbMyHisFSad5qlkwWv9V8PIJx5Qjwj9DfAXD75+zLL
+         MqUQvT6WkrjjtmScdN+BiwPmrGEubnOvjOsfGWNV2oF7Mn4dRF8qLZ8nPZ4MQHR4JSGE
+         IKspd11o9BqkyB4QDVIzoRzDyVJOxLWgSMte9v75k3JkOCTloMvu74mX14dl7mtbcKxe
+         a01CxrV4Wj646j5h2zkytpE/BuxlWkk+Fya5IMUO7eHthkxnzLRXmciGXZ8I+YrJY9wn
+         92Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785390340; x=1785995140;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OoHJfTfNGCZcdoSdMSuAR9Bs2dt360oLu0EuCp6rBCw=;
+        b=DFTB/ehiGdMJDfyBxXJXVjdxKgElzioV1qkZtL311V4cjL3TR9Pjo1cbVTwHQvdT+D
+         KAISRf+3aJa7AmEo+7n0YDJ9M84+WDEyE8JYfrkPFhoBsf6a2UOGvhHPEg8qvojy17f/
+         XiGZdZJLnRslT0ezqBG680ElhQL+BwxmzX00RK4hF5yp6RgFXCxNZ9+DUN0HONQVEqit
+         gUthiW53VxIt78SR0Rpcyo20W56aWb+DNUufZ+BKbeRo6MiTCPPpyrUUZ2vrH0mjxXle
+         8wV+dmjq+2cE5r38mrcXBliRWHMDVRfVba9htVMjOT5LTM9HXKtiCBLbcDULwfD7n2kp
+         Rm1A==
+X-Gm-Message-State: AOJu0Yw98+qDrz4+ThDqpOGvxICCGsMMcgwsCd79ukQdtWVunwwUpddf
+	IbyMGgR8gtRFRvll4I3D+RIZMg7bNMKaYep68YBokWF0lo89u+0kkol1xH13eowlpckVrDohQUp
+	dGEiLTXc=
+X-Gm-Gg: AR+sD132Rfswzooz5VhP/dEAY6U9cuczxKpMXaknOHcWdDVin3Oirs4WDHYMQwfTtDm
+	m3+7mRWdvtjhEY2XVL4hgTYifaAd4ma6Q1T26owDsvZ4SGc30tiufRBxnfPn1XlWjVbFd+kkUuZ
+	sCP3TOs1JXndMwokm5qI4w7krGif/yT76U3hq6BaCtHCNg2K0C3sBV43jyv1rv4GKEi28GBi0y2
+	2gRUFLo/CJ4tPLNEgSxV+pHNpMrb4VpDKWE7tYF9lhzEbvF7QyuJBf5M8u7wEfV5xtiofEZDifD
+	A7X5VKtp1VlEveTKKGuJx1FHTxzTjf7FMSQ+nUSif00rOiO0YpDD3FtKpxBI/ModiLYHf1/m31b
+	6HnkM5Tbx/nQ07kd+jyAC3iGm9vnxdLoJ1t7Xk9Sj2Cj78W6ZNv6peiYTtmuvPhRSl8QBwDssct
+	AvLCtLcKBBBUVjMT14/C2M8S/jI2Vp55UIRFJZM0CQKAnb9EaGdrnzGcoP2OGkv2R1reuKI82ql
+	D94AKiaqdCQ+XMH4pfQ2K3y4xFHYU6WsTwaYoV+0fTTq7aiBz4jSKPMdIOdJzMpm+597zrhBpLY
+	F4A18JuQkzYYZ5Cg
+X-Received: by 2002:a05:6a00:f8c:b0:848:42c4:d8c7 with SMTP id d2e1a72fcca58-84ebc446dccmr1251043b3a.66.1785390339726;
+        Wed, 29 Jul 2026 22:45:39 -0700 (PDT)
+Received: from mma-H9MHD44.sydney.mm.lcl (60-242-93-14.static.tpgi.com.au. [60.242.93.14])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84e9fe238efsm2398337b3a.4.2026.07.29.22.45.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2026 22:45:39 -0700 (PDT)
+From: Lachlan Hodges <lachlan.hodges@morsemicro.com>
+To: mathias.nyman@intel.com,
+	gregkh@linuxfoundation.org,
+	oneukum@suse.com
+Cc: linux-usb@vger.kernel.org,
+	arien.judge@morsemicro.com,
+	Lachlan Hodges <lachlan.hodges@morsemicro.com>
+Subject: [RFC PATCH] usb: xhci: use BIT_ULL for CRCR bits
+Date: Thu, 30 Jul 2026 15:45:21 +1000
+Message-ID: <20260730054521.296139-1-lachlan.hodges@morsemicro.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260730051341.24930-1-guojinhui.liam@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Subject: Re: [PATCH] net: usb: cdc_ether: add quirk for AMI BMC stale link events
-X-Lms-Return-Path: <lba+26a6ae0e8+b49e2b+vger.kernel.org+guojinhui.liam@bytedance.com>
-X-Mailer: git-send-email 2.17.1
-Content-Transfer-Encoding: 7bit
-To: "Oliver Neukum" <oliver@neukum.org>, 
-	"Andrew Lunn" <andrew+netdev@lunn.ch>, 
-	"David S . Miller" <davem@davemloft.net>, 
-	"Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>, 
-	"Paolo Abeni" <pabeni@redhat.com>
-From: "Jinhui Guo" <guojinhui.liam@bytedance.com>
-Date: Thu, 30 Jul 2026 13:27:52 +0800
-In-Reply-To: <20260730051341.24930-1-guojinhui.liam@bytedance.com>
-X-Original-From: Jinhui Guo <guojinhui.liam@bytedance.com>
-Cc: <linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi,
+The CRCR register is 64 bits wide - commit abe93f27cdd7
+("xhci: use BIT macro") changed the flag definitions from (1 << n),
+a signed int, to BIT(n), an unsigned long. Within
+xhci_set_cmd_ring_deq(), the following operation is performed on the
+CRCR register:
 
-To help review this patch, here is the runtime evidence captured on
-one of the affected Genoa boxes. All timestamps below are from the
-same failing boot; I have trimmed unrelated lines and replaced host-
-specific addresses with placeholders.
-
-1. usbmon: the two back-to-back NETWORK_CONNECTION notifications
-
-Right after enumeration the BMC gadget delivers two class
-notifications on the interrupt endpoint within ~130us of each other.
-Both are USB_CDC_NOTIFY_NETWORK_CONNECTION (bNotificationType = 0x00,
-bmRequestType = 0xa1); the first has wValue = 0 (link OFF), the
-second has wValue = 1 (link ON):
-
-ffff9c48c... Ii:1:007:1 -115:1 8
-ffff9c48c... Ii:1:007:1 0:1 8 = a1000000 00000000 0000        <- OFF
-ffff9c48c... Ii:1:007:1 -115:1 8
-ffff9c48c... Ii:1:007:1 0:1 8 = a1000000 01000000 0000        <- ON
-
-Timing between the two Ii completions is ~130us. There is no
-carrier-off event in between and no earlier NETWORK_CONNECTION was
-seen, so the OFF is purely a stale event generated by the BMC
-firmware on cold boot.
-
-2. Why the OFF is not filtered out
-
-At the moment the OFF arrives, alloc_netdev() has already run but
-netif_carrier_off() has not, so __LINK_STATE_NOCARRIER is clear and
-netif_carrier_ok() returns 1. usbnet_cdc_status() therefore takes
-the wValue-differs branch and calls usbnet_link_change(dev, 0, 0),
-which schedules EVENT_LINK_CHANGE. This is confirmed by tracing at
-the cdc_ether entry:
-
-[Test] CDC status: set carrier 0, current carrier 1     <- OFF, propagated
-[Test] CDC status: set carrier 1, current carrier 0     <- ON, propagated
-
-The ~130us window between the two events is much shorter than the
-kevent workqueue latency, so both are queued before
-__handle_link_change() runs and are processed in order.
-
-3. xHCI trace: rx URBs killed with data already DMA'd
-
-When __handle_link_change() processes the OFF it takes the
-!netif_carrier_ok branch and calls unlink_urbs() on dev->rxq (~60
-URBs at the moment of failure). The xhci_ring events show that
-several TRBs are already in a completed state when Stop Ring runs;
-their Transfer Events carry a non-zero transferred length and are
-delivered to the driver as -ECONNRESET:
-
-xhci_handle_command:    Stop Ring, slot 3 ep 1
-xhci_handle_transfer:   TRB[...] type 'Transfer' len 1514 status 'Stopped'
-xhci_urb_giveback:      ep1in-bulk urb ffff8a... status -108 -> -104 length 1514/1514
-xhci_urb_giveback:      ep1in-bulk urb ffff8a... status -104 length 1500/1514
+...
+	crcr &= ~CMD_RING_PTR_MASK;
+	crcr |= deq_dma;
+	crcr &= ~CMD_RING_CYCLE;
+	crcr |= xhci->cmd_ring->cycle_state;
 ...
 
-(-104 == -ECONNRESET, -108 == -ESHUTDOWN. Both cases hit the same
-goto block in rx_complete().)
+Previously, ~CMD_RING_CYCLE was ~(int)1, a negative signed value
+(0xFFFFFFFE with the sign bit set). Widening a negative signed int to
+u64 sign-extends it to 0xFFFFFFFFFFFFFFFE, correctly clearing only bit
+0 and preserving the 64-bit pointer written two lines above.
 
-rx_complete() unconditionally drops these frames:
+After the change when running on 32 bit kernels, ~CMD_RING_CYCLE is
+~(unsigned long)1UL. On a 32-bit host this is an unsigned 32-bit
+value (0xFFFFFFFE, no sign bit). Widening an unsigned value to u64
+zero-extends it instead (0x00000000FFFFFFFE), so the subsequent AND
+silently clears bits 63:32 of crcr, truncating the command ring
+pointer that was just written before the value reaches hardware.
 
-switch (urb_status) {
-case -ECONNRESET:
-case -ESHUTDOWN:
-        goto block;
-}
+To fix, similar to how CMD_RING_PTR_MASK is defined, make sure we
+use the BIT_ULL variant when defining the CRCR bits.
 
-so the ARP reply that happened to have been DMA'd into one of these
-URBs just before Stop Ring is discarded, even though the payload was
-already resident in memory. The subsequent ON re-arms the rx queue,
-but by then the reply is gone and the interface stays "up but
-silent" until the peer times out and re-ARPs, or until the operator
-runs ifdown/ifup. This matches the observed intermittent behaviour:
-whether the ARP reply falls into the tiny "DMA done, giveback not
-yet" window is a race, so the failure only reproduces on some
-fraction of AC cold boots.
+Fixes: abe93f27cdd7 ("xhci: use BIT macro")
+Assisted-by: Claude:claude-sonnet-5
+Signed-off-by: Lachlan Hodges <lachlan.hodges@morsemicro.com>
+---
 
-4. Why DC reboots don't hit this
+Hi, I experienced this when running the tip of wireless-next on
+a raspberry pi 4B compiled for arm32. The main symptoms were the
+following log message:
 
-On DC reboot the BMC USB gadget state is preserved, so the stale
-OFF/ON pair is not queued and the sequence above never starts. This
-matches every failing boot we captured being an AC cold boot.
+[    0.549897] raspberrypi-firmware soc:firmware: Attached to firmware from 2021-02-25T12:11:39
+[    0.626859] xhci_hcd 0000:01:00.0: xHCI Host Controller
+[    0.626889] xhci_hcd 0000:01:00.0: new USB bus registered, assigned bus number 1
+[    0.812619] xhci_hcd 0000:01:00.0: hcc params 0x002841eb hci version 0x100 quirks 0x0000200000000890
+[    0.813188] xhci_hcd 0000:01:00.0: xHCI Host Controller
+[    0.813203] xhci_hcd 0000:01:00.0: new USB bus registered, assigned bus number 2
+[    0.813219] xhci_hcd 0000:01:00.0: Host supports USB 3.0 SuperSpeed
+[    0.813602] hub 1-0:1.0: USB hub found
+[    0.814052] hub 2-0:1.0: USB hub found
+[    0.952714] xhci_hcd 0000:01:00.0: ERROR mismatched command completion event
 
-5. Why FLAG_LINK_INTR fixes it
+Additionally running lsusb just hangs. Running the same kernel compiled
+for aarch64 worked fine. Bisected to the commit in the Fixes line
+above. Additionally a USB device plugged in to the USB3.0 (or 2.0)
+did not enumerate. Once this patch is applied the USB device
+enumerates properly on the tip of wireless-next 4a0bd262df75 ("wifi:
+mac80211: fix per-STA profile length in cross-link CSA parsing").
 
-With FLAG_LINK_INTR the probe path calls
-usbnet_link_change(dev, 0, 0), which sets carrier off before
-register_netdev() exposes the netdev. When the stale OFF arrives,
-usbnet_cdc_status() sees netif_carrier_ok() == !!event->wValue
-(both 0) and returns without calling usbnet_link_change(), so no
-EVENT_LINK_CHANGE is queued and unlink_urbs() never runs. The
-following ON is the first real state change and brings the link up
-cleanly, without ever tearing down the rx queue.
+Happy to test alternate fix proposals! Thanks.
 
-I chose to add this as a device quirk rather than modifying cdc_info
-because commit 71cc1fa9f2d7 ("cdc_ether: Set FLAG_LINK_INTR for all
-devices with a status endpoint") was reverted in the same series
-after it broke CDC devices that never send NETWORK_CONNECTION
-notifications; restricting FLAG_LINK_INTR to 046b:ffb0 keeps those
-devices untouched.
+lachlan
+---
+ drivers/usb/host/xhci.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Verified across 100+ AC cold boot cycles on both Genoa and Turin
-reference boards: first-packet ping success went from intermittent
-to 100%. DC reboot and ifdown/ifup paths are unchanged.
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index d02046a573e4..df014855c659 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -190,13 +190,13 @@ struct xhci_op_regs {
+ 
+ /* CRCR - Command Ring Control Register - cmd_ring bitmasks */
+ /* bit 0 - Cycle bit indicates the ownership of the command ring */
+-#define CMD_RING_CYCLE		BIT(0)
++#define CMD_RING_CYCLE		BIT_ULL(0)
+ /* stop ring operation after completion of the currently executing command */
+-#define CMD_RING_PAUSE		BIT(1)
++#define CMD_RING_PAUSE		BIT_ULL(1)
+ /* stop ring immediately - abort the currently executing command */
+-#define CMD_RING_ABORT		BIT(2)
++#define CMD_RING_ABORT		BIT_ULL(2)
+ /* true: command ring is running */
+-#define CMD_RING_RUNNING	BIT(3)
++#define CMD_RING_RUNNING	BIT_ULL(3)
+ /* bits 63:6 - Command Ring pointer */
+ #define CMD_RING_PTR_MASK	GENMASK_ULL(63, 6)
+ 
+-- 
+2.43.0
 
-Happy to provide fuller usbmon / xhci trace captures if that would
-help.
-
-Thanks,
-Jinhui
