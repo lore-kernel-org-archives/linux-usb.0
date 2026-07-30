@@ -1,97 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F43368D46
-	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 04:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEDAD38D014
+	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 04:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785386665; cv=none; b=BjAE9BtF14ROc2x0Hb+yjB5cvV//vcRm8BQEwyTHEvOr2bpAvC5dZW5NRqeF4WkqG4wIdeYGF5mK6ALIWimZUM4r/czSlw+Rtx4tsN1Tp7JO0xiA3dDu0jUi3wMY7BQGJZSCZAIXRvXyNUxvQ2MYvdd7Vrxs09qrQrGou3jggbU=
+	t=1785386815; cv=none; b=LkG6TdLx4c6czE6DQp6/ukOrdy+MOokQ646GjoVYwojkIhQvpG9JLhwcAe5sq+3Ae/TqT1WBOmGbms+iQhpM24oWdLviOl94gnYGGquizBV7P6scJfMgorFhkO4omwEzSqJOt+Mw5Siza9ogEAMEuiHL43uLZjaW6HDz/sMNJyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785386665; c=relaxed/simple;
-	bh=2LkxNJmzANEno4fR9ONEMPDQiskBLYpxNq5h3TI7z0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yt/gddbkHx8m8CpaA4IDkqIQuVPXMJ3vCQXO5YaNIzwaveueHCKrcqauTubyZCfRC3DCovQfak2u4A9B+JtsTUnySGv8XYT9Bj3nQnA3gUcZjcXsv25uFEzvyPDq3J2XnhPfWws+t9R9TVNYwWBNYQibBsrlHVD95PpqjZGW1Iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZuEcKqBJ; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1785386815; c=relaxed/simple;
+	bh=1dAfclRN/nmv7uY0bWUpsisbW5y7IcZ0Z7SsLZ1q5lw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ph/uPfpRnWOdywkZUzwhPHY2C5NqLaspO+N3qalZhxGSztzyGbvCA1L6ztxMkjp/rIXodhKc0XH4NtEtxqwm/IWgUbFjyotYj/27Fc8gmw19sB+SrO4iYe0f3d5ABzDnvL1/CdpSGKB3DDr/dy/q9l3qpPsl55aNB9uDRywiE30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Etvs0WIF; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZuEcKqBJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785386663; x=1816922663;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2LkxNJmzANEno4fR9ONEMPDQiskBLYpxNq5h3TI7z0E=;
-  b=ZuEcKqBJzu4bFytZc0cdF5ikukgs/NxlaZYlMn5Z0xPjcp278vct0XbD
-   zHIAYOdQeynqpVDhEuqUrRNBBOlkCxh4Mp2q7aQNuTeE2fE9BnGbD5mCI
-   p5pjMba0UfVSrH97hkQHREUDadT+WHt97jCDk576F6/klK+Rz9I4d4vcc
-   xAs/gTNf75ssDst6pgAIk5TcYwXUBvEUAo3kSZZsJh4badWkUgV7/QAlp
-   sqpWPXkUMi+y2qU/5DtsTkj7w3JaiFCnSl4PCYyZIcxD6U4XE/2kPgYMk
-   EWXo+F60mSiW36r12J/NIQj2gcG3s1KFL9fdXPrc0bvxlTetJesHY+X8R
-   w==;
-X-CSE-ConnectionGUID: UyITtG+9SvCf/eRBEuqtTw==
-X-CSE-MsgGUID: ZmzRNpMVSA20x7hH4GCITg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="88538024"
-X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="88538024"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 21:44:23 -0700
-X-CSE-ConnectionGUID: grRg7McOT2KaELZh7j8DfA==
-X-CSE-MsgGUID: 6HqNpgN0Qca7XEp6s8xYYw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="263683371"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa003.jf.intel.com with ESMTP; 29 Jul 2026 21:44:22 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 3288999; Thu, 30 Jul 2026 06:44:20 +0200 (CEST)
-Date: Thu, 30 Jul 2026 06:44:20 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: linux-usb@vger.kernel.org, Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
-Subject: Re: [PATCH 5/5] thunderbolt: stream: Add support for busy polling
-Message-ID: <20260730044420.GB20844@black.igk.intel.com>
-References: <20260728115141.2585464-1-mika.westerberg@linux.intel.com>
- <20260728115141.2585464-6-mika.westerberg@linux.intel.com>
- <amoSnhr833oztrqK@wunner.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Etvs0WIF"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4954afac04bso18242895e9.0
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jul 2026 21:46:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785386812; x=1785991612; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=XduwMnpj7HK4kp4UcbmFCBNZ+6mOdUnf50UJZABb5nQ=;
+        b=Etvs0WIFmNXJx7xMN096eTFuV48n8Oz6mkrCJ4bYmPOgTBQz+ltMP+S1Skgc52KR/u
+         tSaXrf6T52LfnmNMd362Xvv6f5cbGNqagCuMKMvhxGfiCqkxyuFotYdwLNNJclMFqP3h
+         2cUPhMso97fp9AaZGaExPsQuxSOODVbTDbL/MRe+Mx5imdwnQBE5M7HpYVDvgO1p4cfX
+         9NGBwrooRaNvA2PW5FgAxjgzDmA9DeqHXeDHZe7kwUKmpnPEIVvrFTT8WCzHizbWF/I4
+         uOGHdaglv3F74EqTodremJwYloYxA9TM8pwQVnc9lWWENqPEf5IbNo7LVSbZDpO+HOfY
+         ReBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785386812; x=1785991612;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XduwMnpj7HK4kp4UcbmFCBNZ+6mOdUnf50UJZABb5nQ=;
+        b=PxKqOyedh8S1YlNHXW25QNg/nmfk6qedHc7RIVFS0u1cpVtIPdrDcaDx5Vjd+AyLED
+         1EV3AE3OQe9sC1LsizOdKoajlO12+ro+2gD4VVH2yKHzNUZBo7wzxc6Zbcpd5W/P7Ar0
+         ozXcymdbT2CzLs5U0y5s6Wvc/ge0PZa6prSbG7B/RylDuCMa4xt0RI66pqHivvaI7ERB
+         0Bh+xC6tcoUccYoAOVmRkv8WKyw0kMAEkoOmlQwS/J4FjcFJfPPtZp1skA7UEPmUJ0kT
+         /AbuEF6YNOxnjQBfcT91xZx++fGaldFPqGUWcQV4VqwYdEPmKPirrolgRaIHeHV7s4Ow
+         vbVA==
+X-Forwarded-Encrypted: i=1; AHgh+RrXh117zZxZVCcgVl0FywvmhJK2c64X5O/dVndYSXA5JUJuugh4Xyh1iVs9LhtIHDnCIBOE8TTHTrQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJ3ukJJ+/CSpPj67NGQBFsx7K4rXrvAaJZwlmc/MuErRGOAevq
+	xMQ3cQ3GxCz20UH6Bh7hyaOu9L9SnXu+/9joz3DeMES9iV72+8d4bhnz
+X-Gm-Gg: AR+sD11gl7YXJ7C8/YoZDHatyQtJAH2Kb97MF70qGnJrJgDMVVelTNacbyFOcZTLRWV
+	QvIw7RlxQAmg5dapAW/H+hHHwyA1KtRabQUu51ViQnepcQJKGWTaDR6c6HzqQ6VqsnYwpakV8D7
+	mMdTV5Uo4gGwMlKjqKY4XypvXNbMVUoGQj8HrzIomlrDdfo5T20zk6u4bGEhemctG2X7KmiYvgn
+	BMC8Q7xKQTax/GLJsXvfuDtCD0neSYKKQFbyuWondO5u2Ekp5u//Ic5InWtbaM2exx1BMwNyG/r
+	tpgEgTG+LmjS0z7I2ZSqRwROx7GNcsIrvInSbwWMpujXtd31dwb8OjVeqVH30hMR8if5ppjrSHz
+	oppyQtPLTpjmDqtfmLf5EeQCrBUjPyePiXMTGtVNWGMwHEgTlvm+MoGRtIxg4TFJ5EsNAAy/YcO
+	tM6lVNEMRFRHqddapSH+juUsJP7HFpRBxvpD3az4t3aTcSKYIYFz8IW2OkM6vi5DawSCilUw==
+X-Received: by 2002:a05:600c:3b1e:b0:495:727f:40d2 with SMTP id 5b1f17b1804b1-49800ed19e5mr10900265e9.38.1785386811674;
+        Wed, 29 Jul 2026 21:46:51 -0700 (PDT)
+Received: from foxbook (bey56.neoplus.adsl.tpnet.pl. [83.28.36.56])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fc894c994sm2545793f8f.37.2026.07.29.21.46.50
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 29 Jul 2026 21:46:51 -0700 (PDT)
+Date: Thu, 30 Jul 2026 06:48:17 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Jie Deng <dengjie03@kylinos.cn>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, mathias.nyman@intel.com,
+ linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: xhci: Restore MSI/MSI-X reinitialization on resume
+ for RESET_ON_RESUME hosts
+Message-ID: <20260730064817.79e3d1af.michal.pecio@gmail.com>
+In-Reply-To: <e0c37a75-0569-45ac-acd0-534a24b6e3dd@kylinos.cn>
+References: <20260714090210.1201964-1-dengjie03@kylinos.cn>
+	<2fd4299c-c455-497b-a122-5f94eeb9d1bd@linux.intel.com>
+	<e0c37a75-0569-45ac-acd0-534a24b6e3dd@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <amoSnhr833oztrqK@wunner.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+To avoid putting PCI-specific code in xhci.c, I wonder if it would
+still work if the disable/enable cycle is done by xhci_pci_resume()
+before calling xhci_resume()?
 
-On Wed, Jul 29, 2026 at 04:47:58PM +0200, Lukas Wunner wrote:
-> On Tue, Jul 28, 2026 at 01:51:41PM +0200, Mika Westerberg wrote:
-> > Using interrupts and scheduling workers increase latency so latency
-> > critical applications may want to avoid that. Make this possible in
-> > USB4STREAM by adding a new ConfigFS attribute: busy_poll that, when
-> > activated switches the rings to polling mode. The cost for lower latency
-> > is that this burns more CPU cycles and things like poll(2) cannot be
-> > used.
-> 
-> Hm, would it be possible to auto-detect whether polling is more performant
-> for the current workload and automatically enable and disable it?
-> E.g. by counting the number of interrupts in a given interval and
-> enabling/disabling polling based on a high water mark / low water mark?
-> Those marks could then be finetuned from user space, but moving in and
-> out of polling automatically would be more desirable I think.  Forcing
-> polling could be achieved by setting the water marks to a special value,
-> e.g. 0 or UINT_MAX.
+On Thu, 30 Jul 2026 10:24:05 +0800, Jie Deng wrote:
+> Runtime PM is not practically triggerable on this desktop setup,
+> but code inspection shows runtime resume also goes through
+> xhci_resume() with reset_registers=true for XHCI_RESET_ON_RESUME
+> hosts.
 
-I think the applications that want the minimal latency and end up setting
-this will put it to the "minimal" anyway (because they don't tolerate any
-additional latencies caused by interrupts and the worker scheduling) and
-for the rest they can already tune this by setting non-default values to
-"throttling" attribute (eg. 0 to avoid it completely, makes latency lower
-while still keeping it from hogging the CPU fully).
+Resetting at runtime resume sounds like an odd thing to do, maybe
+runtime suspend should be rejected then. But this is unrelated...
 
-We can introduce auto-tuning mode afterwards as you suggest if it turns out
-to be wanted feature.
+> We conducted 1000 tests on Hibernate and did not observe the problem 
+> recurring.
+> When it is suspended, both xHC D3hot and D3clod can reproduce the
+> problem.
+
+> Additionally, I was able to reproduce the problem using the Renesas 
+> uPD720201 controller as well.
+
+I wonder if it's an issue with those chips or a general PCIe or IRQ
+resume bug in some particular host system? It looks like nobody else
+complained about this old patch for three years.
+
+I don't have ASM3042, but I do have ASM1042, ASM1142, ASM3142 and
+also uPD720200, uPD720201 (rarely available for testing), uPD720202.
+To be honest, I have never seen lost IRQs after resume here.
+
+How often is this supposed to happen, how exactly is it reproduced?
+
+Regards,
+Michal
