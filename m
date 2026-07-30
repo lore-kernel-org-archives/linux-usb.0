@@ -1,269 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99ABB417D6C;
-	Thu, 30 Jul 2026 11:32:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3EC942B728
+	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 12:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785411141; cv=none; b=YB5IBXbUlJQz5t8CfBHsC+XzfIj2irjASBcRZ+fFmsuYTNCuu9lvegswMw+Ji1VFvgkDNiCozfN1zGFVYHS3OnyXCkFNTV3Z1S7o5pUhs3UoAxya1iTaZ5l/meEPjSe5hfph9rPnwgPpT1UHVQBPf7EKWJKzu6X3hj6PKUBFdU0=
+	t=1785414387; cv=none; b=M1yLMBqpvC4eYBPzeRMixa4+F/cgJXQ0lecAjfgvvJ7U0YXDV8GmS4MFlvWJHOD1q1s5YW3dlPxpVQeMc2757ELEjriYNIfpznp5MWAYX1em8OO6ZCswEsztALMgRzLLmJ/+YQaaUWVBXFsIAibEfYL2+lJaK+cmvHLTifM95TQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785411141; c=relaxed/simple;
-	bh=m1ExKWgi718ZprBimzloJzqWKB6yzODetoUWTdDAx1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FdJKHUXwbB1MJn/gzC9ejp7q6mTwkoFw2T6W66gfrqmdTdBwIK5wb1iuVcWA+fCORjJINIDZMD2iZgsaKWKNStAqAY/8vGW2Qaxk6vtxE1piimIPLKfxL1tiO/5UL1A+6Y5uAbo5Cq3woQY0Ug14eHlQ/krrMioDwd4xaZRIQHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CHEgFYsK; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CHEgFYsK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785411138; x=1816947138;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m1ExKWgi718ZprBimzloJzqWKB6yzODetoUWTdDAx1c=;
-  b=CHEgFYsK7v04YqN45s3JR1jt52ui2PHNe6ncvoqUQTaPOOIk5Q8qfKlr
-   tIhk6CMnw9bT0iisoz6f7OWfLeEX9DV/rHEec8y+PBdyPKPJqLdXJQ2PA
-   mXiD/EW5SEwvZuI/TIom3M1tkQ/emmgDr/N5Pq4rXLTs4AlW+gMs8d3hm
-   Qu5kdGwJu7oSWPaaF78WThooQP7IsAxOzXiUJFR5niKM97hc0zE1nQK2M
-   K2NYZ6jt3d77XMHfHzmfUQwlqFYO8yNIL9LGM8RM4jEd9j1W3XfQoI9OT
-   YI4BMmSVncm0LRUT2oRh2n51SUjg9lu3QSithnNcfvxsAp/6CibtuOwDB
-   g==;
-X-CSE-ConnectionGUID: q+o3ZJESRHCA/hJ+6uwcIw==
-X-CSE-MsgGUID: RrHV7KGOSF6Bs4zYW0i1IQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="96387253"
-X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="96387253"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 04:32:16 -0700
-X-CSE-ConnectionGUID: zUnt6nDSRoyMT5L5M8xpPg==
-X-CSE-MsgGUID: YplSsbrUS8escrrvME1oDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="283628940"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Jul 2026 04:32:10 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id DD87399; Thu, 30 Jul 2026 13:32:09 +0200 (CEST)
-Date: Thu, 30 Jul 2026 13:32:09 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-Cc: YehezkelShB@gmail.com, andreas.noever@gmail.com, bhelgaas@google.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, dev@deq.rocks,
-	dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
-	hansg@kernel.org, hpa@zytor.com, ilpo.jarvinen@linux.intel.com,
-	jarkko@kernel.org, jmorris@namei.org, keyrings@vger.kernel.org,
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-usb@vger.kernel.org, mingo@redhat.com, paul@paul-moore.com,
-	platform-driver-x86@vger.kernel.org, roberto.sassu@huawei.com,
-	serge@hallyn.com, tglx@kernel.org, westeri@kernel.org,
-	x86@kernel.org, zohar@linux.ibm.com
-Subject: Re: [PATCH v5 2/2] thunderbolt: Add device links for Apple T2 NHI
-Message-ID: <20260730113209.GF20844@black.igk.intel.com>
-References: <20260728044841.GP2365036@black.igk.intel.com>
- <20260729183524.1199-1-atharvatiwarilinuxdev@gmail.com>
+	s=arc-20240116; t=1785414387; c=relaxed/simple;
+	bh=3eX/wD/Y2vIGFeWBUssBD/O8VVwMxSDpbGhLJJd7dIY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=gyAjfPBeF+t3n6eZdd4wTE+bLqSVpJoZWAl8AJTw9A7y1UsdCQyHSxoCKDeSsRtnnuDn4X+phrnKyrVio4Cov50eLOqWO1c4l1/MnlfPqgR/ml2R63CvBbA9wGOJVXi9wnNNuevf3N5G2LDYpRDc/rUOttlY4Dw3S0PNuIqMSpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-48576b535b6so926086b6e.2
+        for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 05:26:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785414381; x=1786019181;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=XFJV9HxGuHkSPqosS0cOCUqhDVqL3XcR6UL2UDe7Vsw=;
+        b=ChSakF/vWcOwY/Ey/i4QoTRSEsizRC6WmnUT+Vx0y7QjM1rJjvYB/ni4wxNQHca+cn
+         3IEaBeX7B4XuJEE9xb1SQSfjspCYj+2EeXUrcgbixMfrKukniDMjaezgaJJS+MN4/x2F
+         SufqlFKScT9Oy5BADn99jePXI8gTsXSJVsQ0GWUPtKnQwyDrUvkU5euGkf9d49oDhwER
+         KvVeOJIm676BXQoqbOjhW/E8BQAUB/tWSlW7zUFDY3dqU0itIGiwlhgqp9lszUA3Y+J0
+         a7xm2w0Ttw8n8/vz+PRXZab608AOI2kY1hv+ISQ+UPaIgWSc8warteSIZFidCzFP82i/
+         5Bgg==
+X-Forwarded-Encrypted: i=1; AHgh+RrkKX5jTvdClZ7IB9HsNwoyFvctnFWT3rllgklLvNv8gGhw7F366TthKxhBoKi+9yOfTSr2RtKL558=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQaaOKpUpkyVDL8L7NvVPnqTmTRvIQ/b7Wxo4sqE4Y8vomFm/1
+	TEYtET6gQIKU8yl+V1sZPlXA9IASzoBnfd+LHdmKyQVK4Ima7q0cVq8QNCMX/mVoINwzxhypQvI
+	LKczqc1raRwWGMiTczG14/+qT23VrWN1aGBlgDnllbC4AQ9+0LtJT3T+ysJw=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260729183524.1199-1-atharvatiwarilinuxdev@gmail.com>
+X-Received: by 2002:a05:6808:3507:b0:496:3a1:e44f with SMTP id
+ 5614622812f47-4ad8773d02emr1429632b6e.6.1785414381730; Thu, 30 Jul 2026
+ 05:26:21 -0700 (PDT)
+Date: Thu, 30 Jul 2026 05:26:21 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a6b42ed.86abc875.e5c3d.006a.GAE@google.com>
+Subject: [syzbot] [usb?] memory leak in try_get_usb_function_instance
+From: syzbot <syzbot+eaa106d192c9daf37f95@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hello,
 
-On Wed, Jul 29, 2026 at 02:35:24PM -0400, Atharva Tiwari wrote:
-> > We should not be calling PCI functions anymore from the SW CM core. We have
-> > pci.c for that.
-> 
-> That is outside the scope of this patch, this should be another patch.
+syzbot found the following issue on:
 
-Agree. It should be preparatory patch for the series.
+HEAD commit:    3dab139d4795 Merge tag 'rust-fixes-7.2-2' of git://git.ker..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=163a388e580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ba7c2d1679fb08a2
+dashboard link: https://syzkaller.appspot.com/bug?extid=eaa106d192c9daf37f95
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=111c11b9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12b5909e580000
 
-> > I wonder if we can put this to pci.c, rename it to tb_pci_add_links()
-> > instead.
-> 
-> Same thing as before, its outside the scope of this patch.
-> 
-> > BTW, why you need to differentiate T2 vs. the rest of Apple x86? Don't this
-> > variable do?
-> 
-> Because the Patchset is specifically for T2 Macs.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/8c49d395f8d0/disk-3dab139d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/deff2ace5e6a/vmlinux-3dab139d.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2c90a783f940/bzImage-3dab139d.xz
 
-Yes but don't x86_apple_machine is true for T2 macs as well? Why need a
-separate variable?
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+eaa106d192c9daf37f95@syzkaller.appspotmail.com
 
-> > I'm not fan of __free() and the like so let's not use it here.
-> >
-> > Also you don't need to scan all the slots. Just look for the tunneled
-> > downstream ports based on their PCI IDs like we do already.
-> 
-> Could you please point me to the "like we do already" code you're referring to?
+2026/07/26 12:12:48 executed programs: 5
+BUG: memory leak
+unreferenced object 0xffff888112a69c00 (size 512):
+  comm "syz.0.19", pid 5954, jiffies 4294946869
+  hex dump (first 32 bytes):
+    08 9c a6 12 81 88 ff ff 65 70 2e 30 00 00 00 00  ........ep.0....
+    00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00  ................
+  backtrace (crc 56e62c00):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4597 [inline]
+    slab_alloc_node mm/slub.c:4917 [inline]
+    __kmalloc_cache_noprof+0x356/0x440 mm/slub.c:5485
+    _kmalloc_noprof include/linux/slab.h:988 [inline]
+    _kzalloc_noprof include/linux/slab.h:1309 [inline]
+    f_midi2_ep_opts_create drivers/usb/gadget/function/f_midi2.c:2504 [inline]
+    f_midi2_alloc_inst+0xa0/0x250 drivers/usb/gadget/function/f_midi2.c:2666
+    try_get_usb_function_instance+0xb8/0x100 drivers/usb/gadget/functions.c:28
+    usb_get_function_instance+0x16/0x70 drivers/usb/gadget/functions.c:44
+    function_make+0xf5/0x240 drivers/usb/gadget/configfs.c:626
+    configfs_mkdir+0x2e9/0x6f0 fs/configfs/dir.c:1360
+    vfs_mkdir+0x16c/0x3a0 fs/namei.c:5276
+    filename_mkdirat+0x27c/0x300 fs/namei.c:5309
+    __do_sys_mkdirat fs/namei.c:5330 [inline]
+    __se_sys_mkdirat fs/namei.c:5327 [inline]
+    __x64_sys_mkdirat+0x39/0x60 fs/namei.c:5327
+    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+    do_syscall_64+0xf8/0x610 arch/x86/entry/syscall_64.c:94
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-Yes see below.
+BUG: memory leak
+unreferenced object 0xffff8881105a3f00 (size 256):
+  comm "syz.0.19", pid 5954, jiffies 4294946869
+  hex dump (first 32 bytes):
+    08 3f 5a 10 81 88 ff ff 62 6c 6f 63 6b 2e 30 00  .?Z.....block.0.
+    00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00  ................
+  backtrace (crc f7f284e3):
+    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
+    slab_post_alloc_hook mm/slub.c:4597 [inline]
+    slab_alloc_node mm/slub.c:4917 [inline]
+    __kmalloc_cache_noprof+0x356/0x440 mm/slub.c:5485
+    _kmalloc_noprof include/linux/slab.h:988 [inline]
+    _kzalloc_noprof include/linux/slab.h:1309 [inline]
+    f_midi2_block_opts_create+0x82/0x120 drivers/usb/gadget/function/f_midi2.c:2342
+    f_midi2_alloc_inst+0xe9/0x250 drivers/usb/gadget/function/f_midi2.c:2673
+    try_get_usb_function_instance+0xb8/0x100 drivers/usb/gadget/functions.c:28
+    usb_get_function_instance+0x16/0x70 drivers/usb/gadget/functions.c:44
+    function_make+0xf5/0x240 drivers/usb/gadget/configfs.c:626
+    configfs_mkdir+0x2e9/0x6f0 fs/configfs/dir.c:1360
+    vfs_mkdir+0x16c/0x3a0 fs/namei.c:5276
+    filename_mkdirat+0x27c/0x300 fs/namei.c:5309
+    __do_sys_mkdirat fs/namei.c:5330 [inline]
+    __se_sys_mkdirat fs/namei.c:5327 [inline]
+    __x64_sys_mkdirat+0x39/0x60 fs/namei.c:5327
+    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+    do_syscall_64+0xf8/0x610 arch/x86/entry/syscall_64.c:94
+    entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-> > This is unrelated change.
-> 
-> Its not. the patch specifically says T2 macs, and Titan ridge is only on T2 Macs
-> so we dont need to use has_apple_t2_chip for that.
+connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
 
-I meant the extra empty line that your patch adds.
 
-In addition to rename and move to pci.c (as separate patch) something like
-this (completely untested) I had in mind. Does that make sense? It does not
-add the Titan Ridge IDs, you can add them to the discrete part then.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index ddeba0861a2b..3ad6ece6b808 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -3397,32 +3397,30 @@ static const struct tb_cm_ops tb_cm_ops = {
- 	.disconnect_xdomain_paths = tb_disconnect_xdomain_paths,
- };
- 
--/*
-- * During suspend the Thunderbolt controller is reset and all PCIe
-- * tunnels are lost. The NHI driver will try to reestablish all tunnels
-- * during resume. This adds device links between the tunneled PCIe
-- * downstream ports and the NHI so that the device core will make sure
-- * NHI is resumed first before the rest.
-- */
--static bool tb_apple_add_links(struct tb_nhi *nhi)
-+static bool add_link(struct device *dev, struct device *nhi)
- {
--	struct pci_dev *nhi_pdev = to_pci_dev(nhi->dev);
--	struct pci_dev *upstream, *pdev;
--	bool ret;
-+	const struct device_link *link;
- 
--	if (!x86_apple_machine)
--		return false;
--
--	switch (nhi_pdev->device) {
--	case PCI_DEVICE_ID_INTEL_LIGHT_RIDGE:
--	case PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C:
--	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_2C_NHI:
--	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_4C_NHI:
--		break;
--	default:
--		return false;
-+	link = device_link_add(dev, nhi, DL_FLAG_AUTOREMOVE_SUPPLIER |
-+				DL_FLAG_PM_RUNTIME);
-+	if (link) {
-+		dev_dbg(nhi, "created link from %s\n",
-+			dev_name(dev));
-+		return true;
-+	} else {
-+		dev_warn(nhi, "device link creation from %s failed\n",
-+			 dev_name(dev));
- 	}
- 
-+	return false;
-+}
-+
-+static bool
-+tb_pci_add_links_discrete(struct tb_nhi *nhi, struct pci_dev *nhi_pdev)
-+{
-+	struct pci_dev *upstream, *pdev;
-+	bool ret;
-+
- 	upstream = pci_upstream_bridge(nhi_pdev);
- 	while (upstream) {
- 		if (!pci_is_pcie(upstream))
-@@ -3442,30 +3440,80 @@ static bool tb_apple_add_links(struct tb_nhi *nhi)
- 	 */
- 	ret = false;
- 	for_each_pci_bridge(pdev, upstream->subordinate) {
--		const struct device_link *link;
--
- 		if (!pci_is_pcie(pdev))
- 			continue;
- 		if (pci_pcie_type(pdev) != PCI_EXP_TYPE_DOWNSTREAM ||
- 		    !pdev->is_pciehp)
- 			continue;
- 
--		link = device_link_add(&pdev->dev, nhi->dev,
--				       DL_FLAG_AUTOREMOVE_SUPPLIER |
--				       DL_FLAG_PM_RUNTIME);
--		if (link) {
--			dev_dbg(nhi->dev, "created link from %s\n",
--				dev_name(&pdev->dev));
--			ret = true;
--		} else {
--			dev_warn(nhi->dev, "device link creation from %s failed\n",
--				 dev_name(&pdev->dev));
-+		ret = add_link(&pdev->dev, nhi->dev);
-+	}
-+
-+	return ret;
-+}
-+
-+static bool
-+tb_pci_add_links_integrated(struct tb_nhi *nhi, struct pci_dev *nhi_pdev)
-+{
-+	struct pci_bus *bus = nhi_pdev->bus;
-+	struct pci_dev *pdev;
-+	bool ret = false;
-+
-+	/*
-+	 * On intergrated the tunneled PCIe root ports are directly
-+	 * under the host bridge.
-+	 */
-+	if (!pci_is_root_bus(bus))
-+		return false;
-+
-+	for_each_pci_bridge(pdev, bus) {
-+		switch (nhi_pdev->device) {
-+		case PCI_DEVICE_ID_INTEL_ICL_NHI0:
-+			if (pdev->device == 0x8a1d || pdev->device == 0x8a1fb)
-+				ret = add_link(&pdev->dev, nhi->dev);
-+			break;
-+		case PCI_DEVICE_ID_INTEL_ICL_NHI1:
-+			if (pdev->device == 0x8a21 || pdev->device == 0x8a23)
-+				ret = add_link(&pdev->dev, nhi->dev);
-+			break;
-+		default:
-+			break;
- 		}
- 	}
- 
- 	return ret;
- }
- 
-+/*
-+ * During suspend the Thunderbolt controller is reset and all PCIe
-+ * tunnels are lost. The NHI driver will try to reestablish all tunnels
-+ * during resume. This adds device links between the tunneled PCIe
-+ * downstream ports and the NHI so that the device core will make sure
-+ * NHI is resumed first before the rest.
-+ */
-+static bool tb_apple_add_links(struct tb_nhi *nhi)
-+{
-+	struct pci_dev *nhi_pdev = to_pci_dev(nhi->dev);
-+
-+	if (!x86_apple_machine)
-+		return false;
-+
-+	switch (nhi_pdev->device) {
-+	case PCI_DEVICE_ID_INTEL_LIGHT_RIDGE:
-+	case PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C:
-+	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_2C_NHI:
-+	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_4C_NHI:
-+		return tb_pci_add_links_discrete(nhi, nhi_pdev);
-+
-+	case PCI_DEVICE_ID_INTEL_ICL_NHI0:
-+	case PCI_DEVICE_ID_INTEL_ICL_NHI1:
-+		return tb_pci_add_links_integrated(nhi, nhi_pdev);
-+
-+	default:
-+		return false;
-+	}
-+}
-+
- struct tb *tb_probe(struct tb_nhi *nhi)
- {
- 	struct tb_cm *tcm;
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
