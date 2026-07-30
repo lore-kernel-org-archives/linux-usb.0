@@ -1,152 +1,91 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FE0432E99;
-	Thu, 30 Jul 2026 13:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70198434E53
+	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 13:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785417396; cv=none; b=ptKrP6YqNrlKjW42BWNFYNJluW75Dp73kqoSafz1mGJkAUbXOYYKpJwbaMdDGNi4KkG8O7JOiqyvUdu9aQHx8S76M7SjL+syw0EQxEsR/taYIeMcDj5cEix6xMeQZQ1AcYWH9otA1XrqVpE3TAjKf+SQdXTTXYJpFbAgwHZTQKY=
+	t=1785417526; cv=none; b=Ot82DgMne60rNUD6PXsPXaNf4W0hDDCSP5P3FI9pI05bxdqKKhcXFJlpROeejRPLPvjLaOzHbgcSiQgF1pc2IGYOGvR7K9FY7tAi5jUVDY/Jc7HAuscptHba4FgVHSC2fMGdewtP7eCeV03SR/MV0D3rFEcFDB9Y1+yCCXww5aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785417396; c=relaxed/simple;
-	bh=jMg+iqDg1vHUkvxN5L9rxcFOWZfcy7JBoxtmU+M9+Do=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ePXrF/tqViNrtl3g3W6BTAu4flGIj2c/p2g+0kWRck3IOpL635FIg194rnFHkjMN0tTq5jkuLaNwLIdGfJQoMYiZx06FlzqgCFOvrkKFJadRyovFt8ij3s6+hKyNoVk11PcAtqHnF8cbf31OIcpv8aeklY6gh7ZcL/nT4B+EGQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qN9a/EZJ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1785417526; c=relaxed/simple;
+	bh=xyZv2VmTQLPI23xs17apnap01Rqgwa9z+jjUANCkb7k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HE9vs3eBHiyO0JCU+mk+4ICqXz7GcZz6UIVUOCfstszb3bqZOhkSBNbvdh2XlL9sOWUEE6bJZCvKHur8wMDnkzY6Uw2Dw0xKP6GQy//8umz8aA3hEDEIqS6KeFg+LEoeceCZVS+cuRo0V5I1zFtbeJEj/TRjjM0XbXQJxi5Ajfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ser6kfmN; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qN9a/EZJ"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 041181E4;
-	Thu, 30 Jul 2026 15:15:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1785417324;
-	bh=jMg+iqDg1vHUkvxN5L9rxcFOWZfcy7JBoxtmU+M9+Do=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qN9a/EZJ7pduCKubGbMIy0zM2SPcxCQtQIur9ejS4DnkM90L+LuipgC986K7rlYB3
-	 JYWHjydDXxRPGLMOGKm6px+DgcKTJzsWj7N/Po76h/hJv8s1xhDkhmIlensAmBmFgF
-	 TBglQwBVF6oIhksxoDfQCI9NHNNAsWpA+kkSW9+c=
-Date: Thu, 30 Jul 2026 16:16:28 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Haowen Tu <tuhaowen@uniontech.com>, hansg@kernel.org,
-	gregkh@linuxfoundation.org, kernel@uniontech.com, lenb@kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-	mchehab@kernel.org, oneukum@suse.com, pavel@kernel.org,
-	rafael@kernel.org
-Subject: Re: [PATCH v4 4/4] media: uvcvideo: defer streaming restart after
- hibernation snapshot
-Message-ID: <20260730131628.GA1555789@killaraus.ideasonboard.com>
-References: <cbac4803-cf65-4b8b-a662-073189df478b@kernel.org>
- <20260729075655.1187692-1-tuhaowen@uniontech.com>
- <0e22e9d4-da39-4d3f-9492-5c74295be312@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ser6kfmN"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ceaf8a1265so26396825ad.2
+        for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 06:18:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785417519; x=1786022319; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AAaQWvcNiNvM0OrKoPcMa7qyZNNUq+voHRPWQFnYeoI=;
+        b=ser6kfmNmobBZo/GB1o8oiAUsPDVFeIR+GJldnFK50eQSmNMy6PyrOhWCRNcCkNz6m
+         Plx76tr+e+7gStccH3J66ReSDNdicXJDTfCEo21V7Izg/OBP1ldWg0VQUh4huQjwgCtQ
+         Vib0hGrIInKurk17r8W5iduGGivsdTU+EnRYfhe6md8zoKIY4H5ae/EjSKeBeKFIlUwB
+         OQVXg1qBGkWnt2WxMlIWKZqQf97Ro1DC4Uonjt40sfr0kdO00idkk4tkK9ZlQKcaeTbz
+         aPsE5RKh/yAY/0D7/3us8/ztB1yQbsstefiishlq930wt4pIlEbrxKSvXjUCNmBgdfGY
+         /o9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785417519; x=1786022319;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AAaQWvcNiNvM0OrKoPcMa7qyZNNUq+voHRPWQFnYeoI=;
+        b=W2qFhnzvcKYjwvaPwUB9wA9f3sZRuhQ3KgjVtDIzWpPueubee24uwW1D+kqiqcAmdz
+         t/MYhsdHNPYs2z/Fv4PhC10scSFBGwIvFglr4ecxoplEInTwvT5GwFoCs8zUpy+eiyh7
+         DCl6Ft3eEkMiphWgk0ObsmFoYr7ms3NM22alpHD3NgEZZWK4cAOIGWY3EFh1jswbaII0
+         hR+v7UESn7CPRF+PuEx7DpLIDrbRq2rQQIXXBwR7++M725Kz6u4vLakSqnCS/BUWy2/+
+         zz3/5aAAfZxjt+pzfGkWa9VozmaG0MlRF7Xfsvx6DECyXwmzU82dpVazZm6K7/bbjO3S
+         mNyw==
+X-Forwarded-Encrypted: i=1; AHgh+RpNQ1r2LxXHIFj6myfB3dWl5zLUd7zjkKylvV517fv8PL04wkqlHMCxit2a5yzmm8qEI44Q1v+vEIA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEyKXvcFiWkKnonW5Q11HWK46x+57FUkPNh2hdFvomXQQjyTNw
+	AaFhsbo7A5R8lDt1anBeTUrjrpFQ8S/5pXvkCinYzN0giZ1Ym5lNR9dU
+X-Gm-Gg: AR+sD113uRZZ61XyInYagF+RBCh1FYFnozmQuXIvFk+Fp/I18HfpVIvR1It8h6pbDvc
+	zfAlVph2U7/p8P34jo0laDe5A4YAjSKDymsAtblR+bX9L4zjcjrhCFG2H3dkH0NK2YlglZglosE
+	jgcSFS8zW7wB/+b84WAnYprdHYRm7Dn9F1kkNFRJv3xBR2h3qtsTXi9mFSoPULuJr7SoG1RHmRv
+	2XXxd9vF7eqszu5/ZVehC77xVHw5o16LliZAXiCmF/uO7rtJWI4z2gcP38UhOWN1yaWIOij9xJo
+	IBJ+7r/XeMhCnjXFMCuKFeBKu3uhnxHCaraOqjcQjVzJB550lFfa/rRIqQDmctphAkwzfkES8OC
+	PR2LF31F9B2AmHTw9y1qmMKGu34KSlNGwW8HXGpsU2cdZmr2auvK6qjcQ8bMEPKJeOr2joawZRv
+	jKwNo6bxTBmDdpYnEU5LzhraurDZ7cL9Ivh4t3F4UoTq/IzuwAWb8ov7kDNGEHJ1bK
+X-Received: by 2002:a17:902:ea0c:b0:2c2:bd7f:ccd4 with SMTP id d9443c01a7336-2d035c4b360mr23200275ad.21.1785417519033;
+        Thu, 30 Jul 2026 06:18:39 -0700 (PDT)
+Received: from Default ([2409:40f4:10f3:2277:aebf:f6c4:d4e2:70b4])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504cc9dffsm23063328eec.14.2026.07.30.06.18.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 06:18:38 -0700 (PDT)
+From: Jeffin Philip <jeffinphilip14@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Frank.Li@nxp.com,
+	jeffinphilip14@gmail.com,
+	kees@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	panjunzhong@linux.spacemit.com,
+	stable@vger.kernel.org,
+	syzbot+8dcac923582c28505fd7@syzkaller.appspotmail.com,
+	xu.yang_2@nxp.com
+Subject: Re: [PATCH v5] usb: gadget: uvc: Fix Null Pointer Dereference in uvcg_video_init()
+Date: Thu, 30 Jul 2026 18:48:20 +0530
+Message-ID: <20260730131820.9143-1-jeffinphilip14@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <2026073005-shadiness-untracked-9efc@gregkh>
+References: <2026073005-shadiness-untracked-9efc@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0e22e9d4-da39-4d3f-9492-5c74295be312@rowland.harvard.edu>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 29, 2026 at 10:08:51AM -0400, Alan Stern wrote:
-> On Wed, Jul 29, 2026 at 03:56:55PM +0800, Haowen Tu wrote:
-> > On Wed, Jul 29, 2026 at 09:29:03AM +0200, Hans de Goede wrote:
-> > > Right, so the purpose here is to avoid the LED turning back on and
-> > > to speedup the hibernate?
-> > >
-> > > IOW except for the LED turning back on and things taking slightly
-> > > longer everything works correctly with the current code, right ?
-> > 
-> > Yes, the current code is functionally correct in the sense that the
-> > hibernation flow can complete and the camera can be restored afterwards.
-> > 
-> > The issue was reported as a user-visible privacy concern.  When an active
-> > UVC camera enters hibernation, the camera LED turns off during the freeze
-> > phase but turns back on after the snapshot has been created, while the
-> > system is writing the hibernation image.  From the user's point of view,
-> > this looks like the camera has been activated again during the
-> > hibernation transition.
-> > 
-> > I am not claiming that this causes image data to be exposed.  The problem
-> > is the unnecessary hardware reactivation and the resulting unexpected
-> > privacy-indicator behavior during a system power transition.
-> > 
-> > Avoiding the restart also avoids unnecessary device work in this window,
-> > but I do not intend to make performance the main argument here.  The
-> > primary goal is to avoid the unexpected camera reactivation.
-> > 
-> > > I'm wondering if it would not be better to solve this in userspace
-> > > and have userspace stop the streaming before hibernation ?
-> > 
-> > That would help when all userspace camera users cooperate, but I don't
-> > think it is equivalent to handling this in the driver.
-> > 
-> > UVC is a generic driver and the kernel PM transition can happen while an
-> > application is actively streaming.  Relying on every userspace camera
-> > consumer to stop streaming before hibernation would make the behavior
-> > depend on userspace policy and application support.  The driver already
-> > knows whether streaming was active at freeze time, and it is also the
-> > component that restarts the hardware during resume, so it can avoid this
-> > specific unnecessary hardware restart more reliably.
-> > 
-> > > Hmm, the way you word this sound like this is a problem at the USB
-> > > layer. But I think this is more of a short-coming in the generic
-> > > device model.
-> > >
-> > > To clarify AFAIK the actual USB device to which the interfaces belong
-> > > also does not get a specific PM message here, right ?
-> > >
-> > > The reason I'm asking is because the way this is worded in the commit
-> > > message makes it sounds like this might be something which could
-> > > be solved in the USB subsystem which I do not think is the case ?
-> > 
-> > Yes, that is my understanding as well.  The USB device resume path does
-> > not expose the specific PM transition type to the UVC interface driver's
-> > resume callback.
-> > 
-> > The problem was observed in UVC, and the immediate reason there is that
-> > the UVC resume path is reached through usb_driver.resume(), which does
-> > not receive the PM event.  But I agree that this should not be worded as
-> > a USB subsystem bug.
-> > 
-> > My earlier thought was to expose the THAW/RESTORE distinction through
-> > USB, but that would still need coordination with the PM core, and it
-> > would only cover USB drivers.  If other non-USB drivers have similar
-> > device-specific reasons to avoid work during the post-snapshot THAW
-> > phase, they would need their own handling too.
-> > 
-> > So I can reword the commit message to avoid implying that this is a USB
-> > core issue.  Something like:
-> > 
-> >   Some resume callback paths, including the UVC path through
-> >   usb_driver.resume(), do not receive the PM event and therefore cannot
-> >   distinguish the transient post-snapshot THAW phase from the later
-> >   RESTORE phase using their local callback arguments.
-> > 
-> > The helper is intended to expose only the hibernation snapshot state.
-> > Whether it is safe or useful to defer any work remains a driver-specific
-> > decision.
-> 
-> You're missing an important fact: If something goes wrong during the 
-> hibernation transition (for example, if the kernel's memory image can't 
-> be stored to disk) then there will be no RESTORE phase.  Following the 
-> THAW phase, the system will return to normal operation.
-> 
-> For this reason, during THAW drivers must not assume that the system is 
-> about to power down.
+Hi Greg, 
+Apologies for the noise and flooding the queue. I understand the situation
+and am stepping back.
 
-All of this seems fairly complicated to me for devices that have no role
-to play whatsoever in the hibernation image write, and that's probably
-the majority of devices.
-
-Is there a reason a driver couldn't set a flag at probe time to tell the
-device doesn't care about hibernation, and have the PM core skip the
-resume in the THAW phase, instead resuming only when THAW fails ?
-
--- 
-Regards,
-
-Laurent Pinchart
+Thanks,
+Jeffin.
