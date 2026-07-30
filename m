@@ -1,106 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from va-2-111.ptr.blmpb.com (va-2-111.ptr.blmpb.com [209.127.231.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B30F39D6F2
-	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 04:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843A32AEE4
+	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 05:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.127.231.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785386912; cv=none; b=hnjb2GlTSaq6GmIACYfbGYdWVV/q+8+mwhfhT4aUL6CDhzOY3UyF4qgBivQ+gbUfqjniv9U95WztWKiGcWrRhLfev7LrIqoQwONCeTZJQIN5plqyuwXA2Pvv7BqzGeHmyQ6BEglFLWmm9bKYzg9bj5VmSM1tVB674OC9syK8KZw=
+	t=1785388558; cv=none; b=Xl8xYn28TNlqX8NbtQsN+KUeFo4xSpsmHtNXR15V+N9c/5FpK9ZI4kPVi67eEEzxeokxhymT6L9bLFsi9cLMWNlR+qt5FnMfFy5mGJenVcYPVClgzSA4N0IrySK0pZB+ouf1k44fTBKwSZZ537y94HD2Fjc5idwlY2ULD5AR3PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785386912; c=relaxed/simple;
-	bh=Ge2TgakRiHMVcQWyRs7WRkdN6uRjzTKHRvkAYnt/Bl0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=You+uOqsRw01ydWYrdU+to1uTvdR1ilNGQGuJYZP5/0nXBS3KSpqSkuAwFJvXuDaJPiYonl+0jToV/4K3CLtPKYXQmRa/reHNvcDFTtj9bMrJdg+d27KoFG6y0CBMDcIMopZNdBeZ0K4jeZd452ifExAGiR4eo/6rIflSRDtRaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jUrWQvGu; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1785388558; c=relaxed/simple;
+	bh=L4Fr/IPBaswcp0Tdqp78Oxfob8Q+aYAGLFBQxTEoO2g=;
+	h=From:Subject:Date:Mime-Version:Content-Type:Cc:Message-Id:To; b=Vlt0oKCV55p82g3L8u3o0aGs90EB/yiGOfeRsxDq91x8fclQGGpSUQBshPOuTmus2R10UXetpsMq1xEAiGc6cSddyJGPj6WZjy8Dn5KNmZ3tRE7M4ZB75CEHBo+EbvW3gQIez9gS+pV+AuZbvX/BCLdtuq44RZzJsy+tH0LQgb0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Q0kcxUPs; arc=none smtp.client-ip=209.127.231.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jUrWQvGu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785386910; x=1816922910;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Ge2TgakRiHMVcQWyRs7WRkdN6uRjzTKHRvkAYnt/Bl0=;
-  b=jUrWQvGuwZxxx8aatVkw3m7ub32vVcvJel8bj8vu4NJ3TKEeef7nA4uj
-   H/dtzWgwElDp+gIhX3eU6UveBgiECDL5Z37JYYJkqX3gaftvbyjNo3a/C
-   0orZYsyvmN536wI0Ysyofq9NKXaZUiRhYL2RyLEuAVcFTuk20Br9s2jVJ
-   +qFUyosaVubutKzZgm1kQYkgv2fbzj9kBPaJmud1miJb1o7YMz8OWkOp8
-   hHgRiyEybcLR2dAkO1UZ81s9DLX1095IY9fHWiDlwT26KTtAR9sx1xkNw
-   GrpPcRcHnH+0Tc5bnrcsVC2Trun4F9/tPQJogqdN3+urD7QAgBm7GjnQZ
-   g==;
-X-CSE-ConnectionGUID: Gq4Oz2OCT9uBqZB+VL9QiQ==
-X-CSE-MsgGUID: /Iy8S7EqR5STfDC86m9siA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="86119512"
-X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="86119512"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2026 21:48:29 -0700
-X-CSE-ConnectionGUID: kKCCmMVDTbSvppoBUiQlXw==
-X-CSE-MsgGUID: XaxxZVNDTHGHLwzBurRavA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,193,1779174000"; 
-   d="scan'208";a="258414795"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa006.jf.intel.com with ESMTP; 29 Jul 2026 21:48:28 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id C628099; Thu, 30 Jul 2026 06:48:26 +0200 (CEST)
-Date: Thu, 30 Jul 2026 06:48:26 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Woody Suwalski <terraluna977@gmail.com>
-Cc: linux-usb@vger.kernel.org, Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>
-Subject: Re: [PATCH] thunderbolt: Initialize ->domain_released completion
- before it is being used
-Message-ID: <20260730044826.GD20844@black.igk.intel.com>
-References: <20260728065222.2550284-1-mika.westerberg@linux.intel.com>
- <20260729065554.GA20844@black.igk.intel.com>
- <3d0e3639-87cd-5289-eb1c-40293d8ac9b7@gmail.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Q0kcxUPs"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=2212171451; d=bytedance.com; t=1785388544; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=eicauRYls+vtChdKBvYJvUOMEv7Id/rxHhxy0VE2Rq4=;
+ b=Q0kcxUPsvEu6IH7BXaacP51/gm+IEjIYuXi+pitis5ZaeMeWQvr2Sq7TgJTJbQ5wyeGmqv
+ wjfBtCKXyEt3FctakEe8OzlWWMidtdhQDrDganRPUkVyjZGL0ykp2WgfkgxONNPezJxibs
+ cfGW0B/KQeZdlBrRsEX/qd0Z+ikxnHEgj8W/xlj632MbQ0kD8yE1MgvAVk/WFCdZ9BZpMC
+ /TUBB/kgDUeraf+9kwpukWGOnvR7aFlrT9d1+oncGC7O3TemyZkQxnrr0na6RxD+Bn36lA
+ V5kJZFQVijS4I+YewwFP9zk1OSmIJ4x4bZ4rEHg9FNVNY1ohE60ihlQuQQnZkQ==
+From: "Jinhui Guo" <guojinhui.liam@bytedance.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] net: usb: cdc_ether: add quirk for AMI BMC stale link events
+Date: Thu, 30 Jul 2026 13:13:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3d0e3639-87cd-5289-eb1c-40293d8ac9b7@gmail.com>
+Mime-Version: 1.0
+X-Original-From: Jinhui Guo <guojinhui.liam@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Cc: <linux-usb@vger.kernel.org>, <netdev@vger.kernel.org>, 
+	<linux-kernel@vger.kernel.org>, 
+	"Jinhui Guo" <guojinhui.liam@bytedance.com>
+Message-Id: <20260730051341.24930-1-guojinhui.liam@bytedance.com>
+Content-Transfer-Encoding: quoted-printable
+To: "Oliver Neukum" <oliver@neukum.org>, 
+	"Andrew Lunn" <andrew+netdev@lunn.ch>, 
+	"David S . Miller" <davem@davemloft.net>, 
+	"Eric Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>, 
+	"Paolo Abeni" <pabeni@redhat.com>
+X-Lms-Return-Path: <lba+26a6addfe+7bba8e+vger.kernel.org+guojinhui.liam@bytedance.com>
 
-On Wed, Jul 29, 2026 at 11:54:45AM -0400, Woody Suwalski wrote:
-> Mika Westerberg wrote:
-> > On Tue, Jul 28, 2026 at 08:52:22AM +0200, Mika Westerberg wrote:
-> > > Both Woody and Marek reported following crash:
-> > > 
-> > >   BUG: unable to handle page fault for address: fffffffffffffff8
-> > >   Call Trace:
-> > >    <TASK>
-> > >    device_release+0x43/0x90
-> > >    kobject_cleanup+0x3c/0x180
-> > >    icm_probe+0x19c/0x550 [thunderbolt]
-> > >    nhi_probe+0x1a4/0x370 [thunderbolt]
-> > >    local_pci_probe+0x41/0x90
-> > >    pci_call_probe+0x5b/0x1a0
-> > >    ...
-> > > 
-> > > This only triggers on the error path when icm_probe() fails and the
-> > > domain structure is released, it tries to complete() uninitialized
-> > > completion.
-> > > 
-> > > Fix this by initializing the completion earlier.
-> > > 
-> > > Reported-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
-> > > Closes: https://lore.kernel.org/linux-usb/amdezCBiW4fd_DuB@mail-itl/
-> > > Reported-by: Woody Suwalski <terraluna977@gmail.com>
-> > > Closes: https://lore.kernel.org/linux-usb/62caf7f8-b403-d0dd-15bc-b31b56f71c28@gmail.com/
-> > > Fixes: f5cc545f5969 ("thunderbolt: Wait for tb_domain_release() to complete when driver is removed")
-> > > Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> > Applied to thunderbolt.git/fixes.
-> The patch seems to work OK. I can see
-> |/sys/bus/thunderbolt/devices/domain0/.
-> 
-> Tested_by: Woody Suwalski <terraluna977@gmail.com>
+On AMD Genoa/Turin platforms the BMC-provided USB-Ethernet gadget
+(American Megatrends, VID 0x046b PID 0xffb0) intermittently fails to
+respond to ARP after AC cold boot.  usbmon captures a stale
+NETWORK_CONNECTION(off) immediately followed by
+NETWORK_CONNECTION(on) on the interrupt endpoint (~130us apart)
+after enumeration.  Because alloc_netdev() leaves
+__LINK_STATE_NOCARRIER cleared, netif_carrier_ok() returns true
+when the spurious OFF arrives, so usbnet_cdc_status() cannot
+recognise it as redundant and schedules EVENT_LINK_CHANGE.
+__handle_link_change() then calls unlink_urbs(), killing ~60 rx
+URBs whose payload has already been DMA'd into memory =E2=80=94 xHCI trace
+confirms them completing as -ECONNRESET with non-zero residual
+length.  rx_complete() drops these unconditionally.  The following
+ON restores the carrier and re-submits URBs, but the ARP reply is
+already lost; the interface looks "up but silent" until ifdown/ifup.
 
-Thanks for testing! I added your tag to the commit now.
+Fix this by adding a device-specific quirk with FLAG_LINK_INTR set,
+which makes usbnet_probe() call netif_carrier_off() after bind.
+With initial carrier =3D=3D OFF, usbnet_cdc_status() recognises the
+spurious OFF as matching the current state and drops it; the
+subsequent ON is the first real event and brings the link up
+cleanly without ever tearing down the rx queue.  The scheduled
+link-change kevent is harmless because EVENT_DEV_OPEN is not yet
+set at probe time.
+
+This is applied as a device-specific quirk rather than a change to
+the shared cdc_info driver_info because some CDC devices never
+send NETWORK_CONNECTION notifications; forcing carrier off for
+them would leave the link permanently DOWN.  Restricting the change
+to this VID/PID keeps that class of device untouched.
+
+Tested on Genoa and Turin across 100+ AC cold boot cycles; ping
+first-packet success rate went from intermittent to 100%.
+
+Signed-off-by: Jinhui Guo <guojinhui.liam@bytedance.com>
+---
+ drivers/net/usb/cdc_ether.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
+index a0a5740590b9..b5e4b195b69a 100644
+--- a/drivers/net/usb/cdc_ether.c
++++ b/drivers/net/usb/cdc_ether.c
+@@ -538,6 +538,16 @@ static const struct driver_info	cdc_info =3D {
+ 	.manage_power =3D	usbnet_manage_power,
+ };
+=20
++static const struct driver_info ami_bmc_info =3D {
++	.description =3D	"AMI BMC USB Ethernet",
++	.flags =3D	FLAG_ETHER | FLAG_POINTTOPOINT | FLAG_LINK_INTR,
++	.bind =3D		usbnet_cdc_bind,
++	.unbind =3D	usbnet_cdc_unbind,
++	.status =3D	usbnet_cdc_status,
++	.set_rx_mode =3D	usbnet_cdc_update_filter,
++	.manage_power =3D	usbnet_manage_power,
++};
++
+ static const struct driver_info	zte_cdc_info =3D {
+ 	.description =3D	"ZTE CDC Ethernet Device",
+ 	.flags =3D	FLAG_ETHER | FLAG_POINTTOPOINT,
+@@ -946,6 +956,12 @@ static const struct usb_device_id	products[] =3D {
+ 				      USB_CDC_SUBCLASS_ETHERNET,
+ 				      USB_CDC_PROTO_NONE),
+ 	.driver_info =3D (unsigned long)&wwan_info,
++}, {
++	/* AMI BMC gadget */
++	USB_DEVICE_AND_INTERFACE_INFO(0x046b, 0xffb0, USB_CLASS_COMM,
++				      USB_CDC_SUBCLASS_ETHERNET,
++				      USB_CDC_PROTO_NONE),
++	.driver_info =3D (unsigned long)&ami_bmc_info,
+ }, {
+ 	USB_INTERFACE_INFO(USB_CLASS_COMM, USB_CDC_SUBCLASS_ETHERNET,
+ 			USB_CDC_PROTO_NONE),
+--=20
+2.20.1
