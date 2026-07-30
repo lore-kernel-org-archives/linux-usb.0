@@ -1,96 +1,61 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-10628.protonmail.ch (mail-10628.protonmail.ch [79.135.106.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9B7449B1E
-	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 16:16:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0693750CF;
+	Thu, 30 Jul 2026 16:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785428213; cv=none; b=V+PSaADgOeCGJrpJ36oLLsiOESSH2KxMXQgJtSHkzCMqPrFYTpUy5AQwfjdlGZtaAehfb5Gkn/RWVSV0nxS/KV21KURwmAeNsTbUjouPZT+jTNXsqutMpbhOEnPxvqs2aCqXgiIePIkfSdHPfjaoWm1QXGMsLpME/buR6opyeig=
+	t=1785429545; cv=none; b=AgiPv5olH3Mn6LLoRgHgflIpyk1uoD61MfESQzSLEYNifqGtZrTRaV1KuobF3qtQTtWB3GfPwhuk6vRIiZMdoeblevyvJX3R2zDtouEKv67dDTfTeZHgKoAubJeH7N7tpAdyn1yiFfijR1zQbd49sDI3odVYRxZbhF9JrszO7mM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785428213; c=relaxed/simple;
-	bh=vTL2CoCioo0C29r7W2+MFUas25/QqmMowB+wUM6mGTk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pR+GXoG8NZr1L2Vr41gumVJwcJXg5aLNNx/i0CBQtto+YTPQcalQtYYeg7aT1NVwRs3rG7ok8Unray+X3xyZ6oMespuLs5M/Ei17/CXDdwJE+56yw2dUew2GldQLisYv/DOKEkMv2mxkWrCEDImFhGY5v1rLMzfddrrahIxp2Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cr3yqEcT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785429545; c=relaxed/simple;
+	bh=FvSRXzH21BOJOktta5GQtFHb1pGMF2T86f5HtQBYDl8=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fYGFsaSFwWP9c/B9pBlLlON6hHtJBC70rJk8FvJ9LvbcVn70vausEpGwdZdptRjXxSUuLxpI6AxccFd3X6IjB0kMB6Qkrpa/2bNDKoNKLs+4TE1RIu165AiIEZzyI/qf/3AJzEhEfd+W82DJ7/bLYa+cp9XTrnL4GUja8i/35p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=fE+70jUT; arc=none smtp.client-ip=79.135.106.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cr3yqEcT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65C871F00A3F
-	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 16:16:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785428202;
-	bh=vTL2CoCioo0C29r7W2+MFUas25/QqmMowB+wUM6mGTk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Cr3yqEcTRxQH2d/5SbtkUkWZVOvUBke2+iadHZ9YkFjwGzKgb/vSkKOiL8wPKXFHG
-	 hvjLQUlfs0S+CTUgKiU4hvFWJOHCd+T7saYlwC683eknvBgcj2KbwEix0z3tdGyXHV
-	 cnEKTvlLMgfPkc29MI/84cW+/eoqxCN969yPGe5uR8g8qciiKQ6ZWRwTS7ODRcFOXJ
-	 NmZ1wyszdXiLjhBSxYzE15C6cMspjPVa0LWi7yMrXKsQk3w+bEdGqj5YJUihK/EX1M
-	 tkFqxii+70ZAWBufXXj3RAdIjwJD78mpwjSFEUkt0lfMyFgP1uLpLl/T1p1uDt4KQe
-	 KJl63unhYwhiA==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5b0117d49dcso2793147e87.3
-        for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 09:16:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rq3TDrxw4VE/F0+LX9ljxKRjIh+4y/GxgVoI1rKP5gwFGJP9WdvOvmJANvWo/wCeAt9Hwq8riI02JM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywz8R438E7DuXK15rjknJq51XixPBx9qs7v9yAL7s++5tx2yJ5o
-	tBz0sepuILAFW75uf+Y0+/vd0dlw7h79o23sOTO4EEuzF76l/TdBpJRGm4PtauJw0pI7REnSW+N
-	Qe9CtklHmXVVOIxz/ThwlY6bhl7VHhFY=
-X-Received: by 2002:a05:6512:b95:b0:5ae:ba47:e7bb with SMTP id
- 2adb3069b0e04-5b2db36ff2fmr756325e87.36.1785428200820; Thu, 30 Jul 2026
- 09:16:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="fE+70jUT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1785429539; x=1785688739;
+	bh=FvSRXzH21BOJOktta5GQtFHb1pGMF2T86f5HtQBYDl8=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=fE+70jUTpsYhVkVyacxBQcq4J+DvncCG9+8vI1lR0rnR1IV1GD2WZ6IGbBO6BFRYW
+	 2K/ozJ9KhdTcKiroK+xft8F+3Xu+GDqFmduzZqvzTfNVUxC2pZKiq0gqMQqch8W0Ky
+	 O/nXCvfOflqLGaxiuov5GASHo+LLsjXhpnjCf4WEX3xYzqfGgA8bvu65f03CSF7cyo
+	 OaAvRuS8WDfWDjooblZvVQnoa2d1L2gKkl/rcJh5QLr4hkA9xAjtMXC/Vq8soCGTLW
+	 dm9+xVt6tu34geUSneF9Ll2y60fjXBFr0mzLw3FhuF/FBdkdz6bDKh7KNTuOq94ozD
+	 xz1/5dNsoBXiA==
+Date: Thu, 30 Jul 2026 16:38:52 +0000
+To: Krzysztof Kozlowski <krzk@kernel.org>
+From: Esteban Urrutia <esteuwu@proton.me>
+Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, phone-devel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: soc: qcom: qcom,pmic-glink: Add compatible string for SM8475
+Message-ID: <4dcdfd25-edec-4ea9-8b80-2472e2b66e5e@proton.me>
+In-Reply-To: <20260730-resourceful-scrupulous-goshawk-c9ea53@quoll>
+References: <20260729-sm8475-pmic-glink-v1-0-c2e1967c04de@proton.me> <20260729-sm8475-pmic-glink-v1-1-c2e1967c04de@proton.me> <20260730-resourceful-scrupulous-goshawk-c9ea53@quoll>
+Feedback-ID: 147889766:user:proton
+X-Pm-Message-ID: 18bca195c0b4ada2204842aecab4aed0bf173d9a
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <3353bdf3-4f33-44b1-809b-b0378bee5816@gmail.com>
- <CAJZ5v0h1kqDEBYk0k05rv6f2SJ7g+TN4FhBDJYZSVUctu-0FdA@mail.gmail.com> <daf0bb9b-246d-437d-87ca-16706113b201@gmail.com>
-In-Reply-To: <daf0bb9b-246d-437d-87ca-16706113b201@gmail.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 30 Jul 2026 18:16:27 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jByxtQ2tmNm_ZyyBnDMBNjuqQwD_367NRyGNzF7wQtRw@mail.gmail.com>
-X-Gm-Features: AUfX_mwZ5mGlfMgKYkJ4kGxNRS7Dq4qB-hx9LK75gZM3H9j-7RhwOVWynjj-T0w
-Message-ID: <CAJZ5v0jByxtQ2tmNm_ZyyBnDMBNjuqQwD_367NRyGNzF7wQtRw@mail.gmail.com>
-Subject: Re: [REGRESSION] usb controller fails to initialize on intel s1200btl
-To: Julian Silver <mendaxca@gmail.com>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, rafael.j.wysocki@intel.com, 
-	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
-	regressions@lists.linux.dev
-Content-Type: multipart/mixed; boundary="000000000000aeaf7f0657d665e7"
-
---000000000000aeaf7f0657d665e7
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 30, 2026 at 5:32=E2=80=AFPM Julian Silver <mendaxca@gmail.com> =
-wrote:
->
-> On 2026-07-30 21:55:14, Rafael J. Wysocki (Intel) wrote:
-> > Does adding "intel_idle.max_cstate=3D1" to the kernel command line also
-> > help, by any chance?
->
-> Yes. "intel_idle.max_cstate=3D1" also helps (on kernel 7.1.5).
+On 7/30/26 5:03 AM, Krzysztof Kozlowski wrote:
+> First, not true. You did not add compatible for pmic-glink.
+>=20
+> Second, that's redundant. You just repeated subject and the diff
+> (although incorrectly). Explain why this is not compatible with existing
+> variants, writing bindings EXPLICITLY ask for that.
 
-Thanks for checking.
+Thanks for the heads up. Will fix it.
 
-Can you please check if the attached patch (on top of the current
-mainline) helps?
+Regards,
+Esteban
 
---000000000000aeaf7f0657d665e7
-Content-Type: text/x-patch; charset="US-ASCII"; name="usb-ehci-pm-qos.patch"
-Content-Disposition: attachment; filename="usb-ehci-pm-qos.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_ms7psosk0>
-X-Attachment-Id: f_ms7psosk0
-
-LS0tCiBkcml2ZXJzL3VzYi9ob3N0L2VoY2ktcGNpLmMgfCAgIDEwICsrKysrKysrKy0KIDEgZmls
-ZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCi0tLSBhL2RyaXZlcnMv
-dXNiL2hvc3QvZWhjaS1wY2kuYworKysgYi9kcml2ZXJzL3VzYi9ob3N0L2VoY2ktcGNpLmMKQEAg
-LTM4MCw5ICszODAsMTcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBlaGNpX2RyaXZlcl9vdmVycmlk
-ZQogCiBzdGF0aWMgaW50IGVoY2lfcGNpX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25z
-dCBzdHJ1Y3QgcGNpX2RldmljZV9pZCAqaWQpCiB7CisJc3RydWN0IHBtX3Fvc19yZXF1ZXN0IHJl
-cTsKKwlpbnQgcmV0OworCiAJaWYgKGlzX2J5cGFzc2VkX2lkKHBkZXYpKQogCQlyZXR1cm4gLUVO
-T0RFVjsKLQlyZXR1cm4gdXNiX2hjZF9wY2lfcHJvYmUocGRldiwgJmVoY2lfcGNpX2hjX2RyaXZl
-cik7CisKKwljcHVfbGF0ZW5jeV9xb3NfYWRkX3JlcXVlc3QoJnJlcSwgMTApOworCXJldCA9IHVz
-Yl9oY2RfcGNpX3Byb2JlKHBkZXYsICZlaGNpX3BjaV9oY19kcml2ZXIpOworCWNwdV9sYXRlbmN5
-X3Fvc19yZW1vdmVfcmVxdWVzdCgmcmVxKTsKKworCXJldHVybiByZXQ7CiB9CiAKIHN0YXRpYyB2
-b2lkIGVoY2lfcGNpX3JlbW92ZShzdHJ1Y3QgcGNpX2RldiAqcGRldikK
---000000000000aeaf7f0657d665e7--
