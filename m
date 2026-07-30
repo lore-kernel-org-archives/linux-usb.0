@@ -1,76 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E685D3AFB18
-	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 13:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1706D33D50F
+	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 13:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785419728; cv=none; b=pujLZT69pRptP2bxqlo9Zt4W+qY/ElSpk8oYcn0Oe+INCbDQdOIh5LHdIyWBMRV/6cNXD8yfmgThjPvhy2tB6c6SJ7DZCzhA+Nnpxf54t5Mr1xr7l5rnCvWz/HDxiDXVWHxUcWFoZTQO23YuYMqlznsvrMuDGeFsmTUTR7NZwA0=
+	t=1785419915; cv=none; b=eIywFC6vs8Z/szt6DQFN29QBr9fxPPKIre/tlFgFkAyU+MF1GFyVjchzqnj23KzF119sq8dimMrWreBtfSnLUP92hoe8ovDcO6AXW1sjLnFfjhvdtB6Vainb3p2Vq/mJxqBvYKaThxE0l2tKfcF8QdXgb+q0z6JLAD4KeNMLWp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785419728; c=relaxed/simple;
-	bh=sKE2xC6X+2IdWYTl4zutx8wFqjnVGYhszftxHKoGsyA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UU/NTFp6DDmtyfRin/tRLJV72s8BSy+D9G9+0YvpBeWk0NReFwbKcjy8Qo7Kjq0PVkNcKHKXzStGHliXwYPSq0dy6qfysO/lUteFTF5VARFr5LF8zVjEGgJlS6w+vT2McfibOZZaz479RK2I7RCZ047kw12j3UWKQKJgvuHPx/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EcMaWMSv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785419915; c=relaxed/simple;
+	bh=AyDYZUkI4LxN1OwKn1gdfZzLnCy8TifSWUoCaFYc7dU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QohLmEkcXi66EUfwpBXx2j+jDQMvynEz8Q8rLG+UbgIiUol+Bf661HMRcRBHm5UrYvbg9kYi2gHJMdk8z6yEu5qIkC7EntdQekcLc8lEq///eAshJWTtz8TMev7z/CnToUuoJp5ngO7EGyjuT4UCQ/bKGX4VkkU0B6tuoW/T4Qc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cx/l9uME; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EcMaWMSv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC7AD1F00A3D
-	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 13:55:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785419727;
-	bh=YWCbGRN60aLduWSj1P0c1mwKjRkg5va/RqN0EEDtBiA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=EcMaWMSvpvXflh1UWsET849B9X8RIOgqkUxP5QJ59JsAMzXWeJqyFi+XG3cW1/o3u
-	 qRC1YtWSRz4mqUOV2+x1fPE/xIs9ynQFRS+6Jfi6dJa0dbMrnnmwDM3yX0hKHuBQa6
-	 1vn+RQWTB4cENKShzJv/VMkhfLrbU9VvRZ/HbqB2zMJ4U6n1iokzorghgLQ+Gq4akG
-	 63osD3uVaC/l4DoytIbGer72ThsA1SKLq0NJE9LD/gDP/I27v0tTO05N1hZouihhBI
-	 zUtTXYvunRF5U/rsuKPse/aZOijsdC7Ib+ZjtYARFE3+rO1CRpV+nCSsMz0//Qr1w6
-	 fSScFyaKEK7Pg==
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aebd52488cso2340977e87.2
-        for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 06:55:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rr6rKMwbw9JMYaWPmez1Ujw6saLl8nq61pnXXjUN2PHwqMe8loIqrCIogBFQTTet6kDUy+rYQJYfW4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYcxKLn7pYD6v/aFKTy3MmqEezIaVXnRmlMrw8STr+wWgYMXv/
-	xxH9oWOrS8vTIGsuEQubNPxPYk9G8A+WF/hshvq55UGVilERlq+WqRJ3TabXfQwoJbftt6plhQ6
-	Uub4D50hsYnIW007FkhGLp0BKr5lrRdc=
-X-Received: by 2002:a05:6512:39ce:b0:5b2:a951:d959 with SMTP id
- 2adb3069b0e04-5b2db378408mr732761e87.42.1785419726227; Thu, 30 Jul 2026
- 06:55:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cx/l9uME"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c15e03c2763so162601766b.0
+        for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 06:58:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785419912; x=1786024712; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=oeo+Ol5V0iJzFZJqhhNTD7gRBEjmwHyjPFI1Uq7A5sM=;
+        b=cx/l9uMEzmG5GDELul4c0xZm8bJBUwBC/oBFFrj0JT8BGo5HLx5RTNLtwEc1qW1mHt
+         FpB2bnY6QfuP+j8UzEzZI/avnbnr+5zXb/PUfhbc8fr4+B4n1XMCUng3RfSqlUBRHeiJ
+         TRHNpV1LIoWsrlzbvbATQjiCWMEUwxLVbaayD+0Zfq/PIv43sa6rZFgQMNIYWUe28t3G
+         6SO+Zo6d9KKRIv6praWI0xxgm9dN+EYYWHypBYQUDAjZzgTpF6513r/GbOIbuoqTZhtU
+         E989Uj9h3p8WYtHOc0+pH9cFgwneb0PLJishQMCFExU3tN0ZEyxpWllNtv+ipAOj7FqT
+         3Srg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785419912; x=1786024712;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=oeo+Ol5V0iJzFZJqhhNTD7gRBEjmwHyjPFI1Uq7A5sM=;
+        b=sMIx6w58+addfHrnIMJXkzoar2zYos6d7bhkh2zVWMk8+0fKhkLUpyN/mOsTmpQquJ
+         /33DwSU4khcmOGXtnMc/T2szsM3xiFcM5Ze6lzS45zhacEx+SOwK4935miavZIZuN10I
+         o9XVZi4uB4/1LhBb+GTotwiOtwHx22/fnGcUQniQja+pIwX0yngqnHHdq5uG84CWsiVL
+         7ro0y+IhHTeN7TJWZueei7M8mDKLEnrkYibU1MZBR7Ft1Hbx0mjoQKc4k2zvkprscJb1
+         HrYoHSfVLRyMNhaJkVrMV2DWujnUjhpEUcN51A7iXPSYZstIfNup6YBY/Lu5H02oGM0z
+         DVWQ==
+X-Gm-Message-State: AOJu0Yw+zlCHxw7wGFcfcaMJB7IX/Hf6wq1mQTexWbYaIdTIhiFUiH3N
+	pLHC8v0T6nV0X5fn/BaaC4doSmEvmdB4hk6xK5k7XQPuygsZND6daJyx
+X-Gm-Gg: AR+sD12M26+Ls9zwC9W6T9uYi7h8dDXB91D2uOX78ClvPsKhH1BlADddpO6odjwir9J
+	vacwT1sVnPXp+R01zJCxR03p3pOxarh8Y+xyg1KiDxu2gB6lPjbNFxQ88SUf0wqf7aYhfYwhvvo
+	GboHmoGbfXBrnk21LYf0ml4LzQSoZZywRUkrHG3glGNX4G9rufO49uiPiEp/wJFzRxKUndOg8H5
+	Pus+t/3DBwUHKfIoTvTQ4p6uXKxrT6IVA8t/1+bdncaAUIjPBDG0lv85qhx3Q+fJOWCFkHRvKYm
+	E/xGzCwhR35CW4s92uD3UleSw85fGwKrYDIvtUAQkUPa0HoaktrHDECXGeIKBeqFtz2Nhd/BD+W
+	WStvbX176G68fSDK2W3JzVSnOohDTCRc1pu/rxNTt2i11O5dO34efR1xYMvvpFfdC+wmtRngIt+
+	j5L/eBSCmeQQTt+u3jcOmU+a/C4cGIhtfwcVcPuRGBYn+kMpDJ2fJxAfxjm/T4zRh30/jqH/O/J
+	Suke3ijH/lP54UgeRbUflWTtjqwmkk5h6ZRtwkw8Wl5/FAXl19y1pie8ojFhukg1DZ6d+5ViEL1
+	nqxQJChfEziEuj9kXODW02b6XLzDt9ngZfJqehX802npYgJywzaIUkkjB5UYPOj0KECXSqjaPRS
+	PVUb2mYwXvCgxeS0frTlPmGQ+U1liF+PISZheSFpMxMpgQ9e/olo1h+P32GFfO0RDaUEHLsrpVK
+	BRpMCUiX1pATv309q6I3+LbU6VSTpL2HPAGz8KBJ4tWOi1yv9prKJJr3B/D5jchRumWpi7zwWfB
+	BLjfw==
+X-Received: by 2002:a17:907:d0d:b0:c12:8a:7d7b with SMTP id a640c23a62f3a-c1fbd180da7mr28571566b.1.1785419911910;
+        Thu, 30 Jul 2026 06:58:31 -0700 (PDT)
+Received: from cs-280612103108-default.europe-west4-b.c.oa7bb030819b2a894-tp.internal (73.138.178.34.bc.googleusercontent.com. [34.178.138.73])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1fa851d495sm69164666b.2.2026.07.30.06.58.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 06:58:31 -0700 (PDT)
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	syzbot+eaa106d192c9daf37f95@syzkaller.appspotmail.com
+Subject: [PATCH] usb: gadget: midi2: remove default configfs groups on teardown
+Date: Thu, 30 Jul 2026 13:58:11 +0000
+Message-ID: <20260730135811.1498-1-joshua.crofts1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <3353bdf3-4f33-44b1-809b-b0378bee5816@gmail.com>
-In-Reply-To: <3353bdf3-4f33-44b1-809b-b0378bee5816@gmail.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Thu, 30 Jul 2026 15:55:14 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0h1kqDEBYk0k05rv6f2SJ7g+TN4FhBDJYZSVUctu-0FdA@mail.gmail.com>
-X-Gm-Features: AUfX_my-eWqY0dDbynyNa1iUY9tCXfwBCUG1XQRADfSP_Nxlv55HPv_Xg2X8VDY
-Message-ID: <CAJZ5v0h1kqDEBYk0k05rv6f2SJ7g+TN4FhBDJYZSVUctu-0FdA@mail.gmail.com>
-Subject: Re: [REGRESSION] usb controller fails to initialize on intel s1200btl
-To: Julian Silver <mendaxca@gmail.com>
-Cc: rafael.j.wysocki@intel.com, linux-acpi@vger.kernel.org, 
-	linux-usb@vger.kernel.org, regressions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 30, 2026 at 3:25=E2=80=AFPM Julian Silver <mendaxca@gmail.com> =
-wrote:
->
-> #regzbot introduced: c0f691388992c708436ab5f6e810865be6ddf5c6
->
-> Hello,
->
-> After commit c0f69138, all usb ports on the rear panel stop working. The =
-kernel logs show: "probe with driver ehci-pci failed with error -110". Spec=
-ifying "intel_idle.max_cstate=3D0" can work around this issue.
->
-> Please let me know if you need any additional info or trying patches.
+f_midi2_alloc_inst() creates default configfs child groups for the
+default endpoint and default block using configfs_add_default_group(),
+setting their internal refcount to 1.
 
-So you get a timeout during ehci-pci probe if the intel_idle driver
-initializes before it.  Apparently, CPU idle states get in the way of
-HW probing.
+However, during function teardown in f_midi2_free_inst() or EP cleanup
+in f_midi2_ep_opts_release(), configfs_remove_default_groups() is
+never called, therefore never dropping the refcount and leaking struct
+f_midi2_ep_opts and f_midi2_block_opts.
 
-Does adding "intel_idle.max_cstate=3D1" to the kernel command line also
-help, by any chance?
+Add the missing configfs_remove_default_groups() in the afformentioned
+functions to free the structs properly.
+
+Fixes: 8b645922b223 ("usb: gadget: Add support for USB MIDI 2.0 function driver")
+Cc: <stable@vger.kernel.org>
+Reported-by: syzbot+eaa106d192c9daf37f95@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=eaa106d192c9daf37f95
+Tested-by: syzbot+eaa106d192c9daf37f95@syzkaller.appspotmail.com
+Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
+---
+Aside from testing the fix locally with QEMU and the reproducer,
+syzbot also reports no issues after running `syz test`.
+---
+ drivers/usb/gadget/function/f_midi2.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/usb/gadget/function/f_midi2.c b/drivers/usb/gadget/function/f_midi2.c
+index 19fdac024..a4b72a6fa 100644
+--- a/drivers/usb/gadget/function/f_midi2.c
++++ b/drivers/usb/gadget/function/f_midi2.c
+@@ -2473,6 +2473,7 @@ static void f_midi2_ep_opts_release(struct config_item *item)
+ {
+ 	struct f_midi2_ep_opts *opts = to_f_midi2_ep_opts(item);
+ 
++	configfs_remove_default_groups(&opts->group);
+ 	kfree(opts->info.ep_name);
+ 	kfree(opts->info.product_id);
+ 	kfree(opts);
+@@ -2639,6 +2640,7 @@ static void f_midi2_free_inst(struct usb_function_instance *f)
+ 
+ 	opts = container_of(f, struct f_midi2_opts, func_inst);
+ 
++	configfs_remove_default_groups(&opts->func_inst.group);
+ 	kfree(opts->info.iface_name);
+ 	kfree(opts);
+ }
+-- 
+2.47.3
+
