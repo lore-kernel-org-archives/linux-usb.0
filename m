@@ -1,186 +1,233 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34860270545;
-	Thu, 30 Jul 2026 15:38:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785425905; cv=none; b=kYhzGfRzAF8OOMzwQyy3Wp59GZTS1DG7IIm2f+Fetcs/V4Yg+HPRnBlup4yFJR/f6Mb+PjEUG80zAHknD0k7v4VDxVrpJxYUK6mZs2kfpVkGzjbqeW56dqQ947FvCx70CKBL0VvdNVst2IHuJlGRKfZfXPCGKm6l0kV76bninHs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785425905; c=relaxed/simple;
-	bh=ugiPkk6ymF50jzIIdLIDww3QYXfEzU9GjSCj/4sd1Fs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LIvWqOlwJ1CNV1yXphjAgnbzAHgckgOWxvrmjxSevXNvbu/Mkkd1j3Uhg60ZwWaCxi3MgcukRC5bLgTv/Bpd5TxMse8JeTaW43XDOVVPQH+OE/wuWpTon2y0uj679ZDDYT2OrITvclHXTi7yUIHH3CjdlhEinDf1X6MKa1504TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fOW7VEtP; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39973441041
+	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 15:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785426918; cv=pass; b=TDp2MUbQ6hw/+BWqTx4ZoRY2q6GDcX4T5b1qAdCZMcm1bMo7MryAVMRUHUwABQ/qsE2tIzUYT/mYDkwhs0KWtKqhl7MbRY4ga1vPsFWeYLdB3kAymzZHSxDHyf8dEPKAfOFlRAAnllPJ3VpmDKBpudVu+V4s+NhOfHvU16OOU+k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785426918; c=relaxed/simple;
+	bh=OG+j75NhAHcd3BYSTTyVaqz/Dl5DXj2SrrDsxTDhTVM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Lpdq6/sWn+EhTeCfiwWnZzx6j3EltxeuyFNsHie/ulacZlTuivwQ0I9tUgvK0afPau9wSK2C/VLNNRWrJy1TQgwl8mN2i/zRhg7Vu6X56lyWjAYvjZ++QGbiuzAbFKJSGbFgXRv9rJ3wCa144EILBSLvhFXLQ77QqdDfRczMesQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZO+CdrzS; arc=pass smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fOW7VEtP"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D9429BB;
-	Thu, 30 Jul 2026 17:37:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1785425834;
-	bh=ugiPkk6ymF50jzIIdLIDww3QYXfEzU9GjSCj/4sd1Fs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fOW7VEtPjQUuveOx0Di8R+LQPFvV7fte++RdpjjphX3zsOSjcn7eQfRnhQM00FyFS
-	 RUv6VWgYIC7E2kOZieELlviec9NRxnxRLXlUyRgK5JcRpgFwaqjNavkCWmeXPSnPle
-	 JotpDhf7vFG3JmIV5G9IDZVzWiqBStM7sB1q5E7E=
-Date: Thu, 30 Jul 2026 18:38:17 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Haowen Tu <tuhaowen@uniontech.com>, hansg@kernel.org,
-	gregkh@linuxfoundation.org, kernel@uniontech.com, lenb@kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-	mchehab@kernel.org, oneukum@suse.com, pavel@kernel.org,
-	rafael@kernel.org
-Subject: Re: [PATCH v4 4/4] media: uvcvideo: defer streaming restart after
- hibernation snapshot
-Message-ID: <20260730153817.GA1555869@killaraus.ideasonboard.com>
-References: <cbac4803-cf65-4b8b-a662-073189df478b@kernel.org>
- <20260729075655.1187692-1-tuhaowen@uniontech.com>
- <0e22e9d4-da39-4d3f-9492-5c74295be312@rowland.harvard.edu>
- <20260730131628.GA1555789@killaraus.ideasonboard.com>
- <a1f8d865-531c-4f30-85c1-735254940763@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZO+CdrzS"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-908239232adso5503146d6.1
+        for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 08:55:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785426916; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YhvIf3SfPynlC/QT2iZOzoH1FgCkN+fg/dhKWJzXzagfqVzBg6a9UzaDtnMTNeUeHb
+         26UO25XYvBFC4C/V0FOUV/4eiqJIpRysxUqMBsfzzqotor4yZRQvWBP47oC1bXm/rNdK
+         5fV9PPk0CD9DhdFDZXdLnnKF8mh5Xqwpwvms1Dp7H3ff9tfMfzy/IQXqA6bjd4R2UOUT
+         gilrDnX/j2/OlyO5inSxadDYQO/Q4dsvsNEyMjEWdC1c1lSA7nsItdl99HyXxDx1hivf
+         kMvMJh4RumF1COqP3VBX+pq+cTDzUt75htnbzomHZP0/BA7SC8UcKH/PhOM00tT/WN4G
+         5puA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cJ6C4XbWu20lERxOYTG5hF1tJrtEIvIctdbpaEtxhUk=;
+        fh=ykcJDM7RGIq295CVDcT+L/WCV+A88nf903gPSL8GqRI=;
+        b=pfYbdAfRZNak8EaNjHSCiEPkJVNuXfBrcUFuwQV2wytVr5ZUhSTiq9lj7TGAbiJ0NU
+         oKvbypC9WHW54VQbA64cT2RscaodgdL75pfXjzR5Le/6fOwJBmbccmKrBdEoW+vvhuZs
+         eU3K0EFYgJCWCjHl73FWEEEf5cMjfflrl04EfFpkHbNmJqEVu+TNAvuXYgGxycqNnLlT
+         D67W1mygNxrayAR1W2Hb4BFWNAi0ZtD1VtLay+EABAmqCIca1MDHskixvzD1ma4fb8Gj
+         LMS5JkS07MdDuWZ39isGSWqqNGOj08LzXA0w9IxXy2WDo2wuE5TGo5e8F1DkLfdiQqHq
+         tiww==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785426916; x=1786031716; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cJ6C4XbWu20lERxOYTG5hF1tJrtEIvIctdbpaEtxhUk=;
+        b=ZO+CdrzShBFzIpT4OAlFHY+oKsqvwpJswBbkF87ApwNSEqXpXY+hG8WTOzPilvlg8S
+         f1xlF4PMpKX/9fjF8j0ZNQil1rb+Nywo2uch1YgyMDOeIe3CFbFg6AlbyBcRTgeHnaas
+         iwbD4kkvVUyJhlwepxqU7ebPc84wOb5QcjFYcYT9HeuFDzWCQgDh2Q1gLdg0YfQ18cdL
+         /J/xMxJZnH+05cifwH3elz93E9U9841LlGjsEy7EGcBkFHtgLFGppyT1gEsWKFhUR2kG
+         y7kKviTlVJkx9FD5CHHOnfNZpI03Mr+z6Kx0q7VaF1/0M4bYqa+xNu+1+Hk6OyARC6S/
+         fgkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785426916; x=1786031716;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cJ6C4XbWu20lERxOYTG5hF1tJrtEIvIctdbpaEtxhUk=;
+        b=Fd0e8d1s26Udf2irLJwWej+0GfdyZfYVsCwz6lBMSTmEF9RKYkF+ClOwnJzUkAh8YP
+         3iUS+jfLltKnwZf9ftICeiGPAOYoXSHzT8tQk7WGgLpv31mH2k5yUR+F710AuhChXheY
+         do1myAm3HnDmsAmiAUuTIIVPQTvlVXNh+RBhvMaagt3rhM9mn1o5EDp70QJ2cHdyyNJR
+         +mkAFeV6J7FJr5knlLy1kfAtz1vVJTbdlm5dlfCGjvExk4lMiaEchYDU/Cbonzk4GMiy
+         kHdIUSOg+Jx62Zp9ZkLrbSWskSPDbxWWkvZgGruks+CesiNyhQ3xHEBr2ZpGlkc1Bwv9
+         m9+w==
+X-Forwarded-Encrypted: i=1; AHgh+Rq7DwphxXRBzVfIFkMCSKPnf/xLneyj33xKr3BMOqXzMwIVGK51vI33/jdGf/Ggzh9oaFtLTX9DJ4c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywnf0meoS0ml3qG2n2BbQ7BKnLpCsAlWZqlq4mTCcpXMbcqG08t
+	TEvQYi/sDa+5JPFjxDX1m2oCHj27OCkWs0uI1CpYRGPrWTtWD2gwOvR4dh85itQqccDIz8lV998
+	6eKybqif+u1sjyrjM2zotdkqG20u6s/A=
+X-Gm-Gg: AR+sD123Z3eRcBM64ksmxq0ZOGohZkv8EPE1oU6rzDuUYZYJuPoe5AC7YINSMv406Qg
+	LDlRfqNnyYv9nRHydxHknOlpR06EcWGS3wpc9tha0o2l4ZiGHCkVc4RLyJQoaU5/vjLzb4yvdi0
+	gNNsAIjcCN4jp7sMnDv0s3Z3P9kjaxJ9CgFiZlUgP4SCl3Ksr9yWUWut4t23OWeRoS9feQ13hnX
+	KwNGzMFqoD29xxItvLqBs38z5mPvBA0zmFwbo62dteReLUTkfkYkC3ta7Lw/ZimCV8DaYlH0u8m
+	J1ZMvLEYKzlR3ntafp8aTHTMxiOTLw8L1epHxIBh28Tx2nFZKYhZrFqJ
+X-Received: by 2002:a05:6214:4118:b0:8cd:d12a:3d with SMTP id
+ 6a1803df08f44-9083a66d3demr11525416d6.28.1785426916093; Thu, 30 Jul 2026
+ 08:55:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <a1f8d865-531c-4f30-85c1-735254940763@rowland.harvard.edu>
+References: <CAFmvuTWc880R=mw7=kixfx3Yb8u9thLHPA7D=rm6a8p9dYBBDA@mail.gmail.com>
+ <2d4a91dc-037f-4c31-8ce1-7bc840d42b0b@rowland.harvard.edu>
+ <CAFmvuTWq7TKZaj6R9JJzWhwe1WB1FanZ17T1-TFL1g2wsUBZ4w@mail.gmail.com>
+ <8067503d-1c0d-4319-adbd-225a03e16ea3@rowland.harvard.edu>
+ <CAFmvuTUEg8fr8pY91WpEk=CxHuackJfr0c2c4jxexNy9wkiS0A@mail.gmail.com>
+ <a5e0e32a-7e49-4112-bcbc-92da449eb303@rowland.harvard.edu>
+ <CAFmvuTXQbqbt3qxqUXitzboZhiMxAC7aaOqAtyZXs+QtJvAjBg@mail.gmail.com>
+ <a7f9d958-7f9d-40eb-89ea-56094f60c075@rowland.harvard.edu>
+ <CAFmvuTXx6bOEEusjf=bw5c-RDVu-bzRLbd_RVnhn2tLe4n4upQ@mail.gmail.com>
+ <887e75d3-dd11-4d98-b6e6-5f6a2c3a6ae8@rowland.harvard.edu> <e05c6ba1-48f9-49e7-9d56-25db41e70f6e@rowland.harvard.edu>
+In-Reply-To: <e05c6ba1-48f9-49e7-9d56-25db41e70f6e@rowland.harvard.edu>
+From: Minseo Kim <neck3922@gmail.com>
+Date: Fri, 31 Jul 2026 00:55:03 +0900
+X-Gm-Features: AUfX_mxGacbWf8uHP7nL84Bf0DriBdT7Jq1fTfCkhduH3mjXugzuEFZHDXvK_VQ
+Message-ID: <CAFmvuTVYt2bVaqcyJVUSvNZfss6yzVdPbA5Wk2dtr89w2tz+5w@mail.gmail.com>
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF in ep_aio_cancel()
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 30, 2026 at 10:29:34AM -0400, Alan Stern wrote:
-> On Thu, Jul 30, 2026 at 04:16:28PM +0300, Laurent Pinchart wrote:
-> > On Wed, Jul 29, 2026 at 10:08:51AM -0400, Alan Stern wrote:
-> > > On Wed, Jul 29, 2026 at 03:56:55PM +0800, Haowen Tu wrote:
-> > > > On Wed, Jul 29, 2026 at 09:29:03AM +0200, Hans de Goede wrote:
-> > > > > Right, so the purpose here is to avoid the LED turning back on and
-> > > > > to speedup the hibernate?
-> > > > >
-> > > > > IOW except for the LED turning back on and things taking slightly
-> > > > > longer everything works correctly with the current code, right ?
-> > > > 
-> > > > Yes, the current code is functionally correct in the sense that the
-> > > > hibernation flow can complete and the camera can be restored afterwards.
-> > > > 
-> > > > The issue was reported as a user-visible privacy concern.  When an active
-> > > > UVC camera enters hibernation, the camera LED turns off during the freeze
-> > > > phase but turns back on after the snapshot has been created, while the
-> > > > system is writing the hibernation image.  From the user's point of view,
-> > > > this looks like the camera has been activated again during the
-> > > > hibernation transition.
-> > > > 
-> > > > I am not claiming that this causes image data to be exposed.  The problem
-> > > > is the unnecessary hardware reactivation and the resulting unexpected
-> > > > privacy-indicator behavior during a system power transition.
-> > > > 
-> > > > Avoiding the restart also avoids unnecessary device work in this window,
-> > > > but I do not intend to make performance the main argument here.  The
-> > > > primary goal is to avoid the unexpected camera reactivation.
-> > > > 
-> > > > > I'm wondering if it would not be better to solve this in userspace
-> > > > > and have userspace stop the streaming before hibernation ?
-> > > > 
-> > > > That would help when all userspace camera users cooperate, but I don't
-> > > > think it is equivalent to handling this in the driver.
-> > > > 
-> > > > UVC is a generic driver and the kernel PM transition can happen while an
-> > > > application is actively streaming.  Relying on every userspace camera
-> > > > consumer to stop streaming before hibernation would make the behavior
-> > > > depend on userspace policy and application support.  The driver already
-> > > > knows whether streaming was active at freeze time, and it is also the
-> > > > component that restarts the hardware during resume, so it can avoid this
-> > > > specific unnecessary hardware restart more reliably.
-> > > > 
-> > > > > Hmm, the way you word this sound like this is a problem at the USB
-> > > > > layer. But I think this is more of a short-coming in the generic
-> > > > > device model.
-> > > > >
-> > > > > To clarify AFAIK the actual USB device to which the interfaces belong
-> > > > > also does not get a specific PM message here, right ?
-> > > > >
-> > > > > The reason I'm asking is because the way this is worded in the commit
-> > > > > message makes it sounds like this might be something which could
-> > > > > be solved in the USB subsystem which I do not think is the case ?
-> > > > 
-> > > > Yes, that is my understanding as well.  The USB device resume path does
-> > > > not expose the specific PM transition type to the UVC interface driver's
-> > > > resume callback.
-> > > > 
-> > > > The problem was observed in UVC, and the immediate reason there is that
-> > > > the UVC resume path is reached through usb_driver.resume(), which does
-> > > > not receive the PM event.  But I agree that this should not be worded as
-> > > > a USB subsystem bug.
-> > > > 
-> > > > My earlier thought was to expose the THAW/RESTORE distinction through
-> > > > USB, but that would still need coordination with the PM core, and it
-> > > > would only cover USB drivers.  If other non-USB drivers have similar
-> > > > device-specific reasons to avoid work during the post-snapshot THAW
-> > > > phase, they would need their own handling too.
-> > > > 
-> > > > So I can reword the commit message to avoid implying that this is a USB
-> > > > core issue.  Something like:
-> > > > 
-> > > >   Some resume callback paths, including the UVC path through
-> > > >   usb_driver.resume(), do not receive the PM event and therefore cannot
-> > > >   distinguish the transient post-snapshot THAW phase from the later
-> > > >   RESTORE phase using their local callback arguments.
-> > > > 
-> > > > The helper is intended to expose only the hibernation snapshot state.
-> > > > Whether it is safe or useful to defer any work remains a driver-specific
-> > > > decision.
-> > > 
-> > > You're missing an important fact: If something goes wrong during the 
-> > > hibernation transition (for example, if the kernel's memory image can't 
-> > > be stored to disk) then there will be no RESTORE phase.  Following the 
-> > > THAW phase, the system will return to normal operation.
-> > > 
-> > > For this reason, during THAW drivers must not assume that the system is 
-> > > about to power down.
-> > 
-> > All of this seems fairly complicated to me for devices that have no role
-> > to play whatsoever in the hibernation image write, and that's probably
-> > the majority of devices.
-> > 
-> > Is there a reason a driver couldn't set a flag at probe time to tell the
-> > device doesn't care about hibernation, and have the PM core skip the
-> > resume in the THAW phase, instead resuming only when THAW fails ?
-> 
-> You mean adding an extra THAW phase to the hibernation transition, which 
-> gets triggered only when writing the memory image fails, and which 
-> affects only drivers having this new flag set?  And as a result, when 
-> hibernation succeeds these drivers would see a FREEZE callback followed 
-> directly by a POWEROFF callback (unless the flag causes POWEROFF to be 
-> skipped as well)?
+Hi Alan,
 
-Something like that. I'm very biased as I mostly work on multimedia
-devices, but it feels to me that for many drivers the current
-hibernation procedure is too complex. Those drivers don't need to
-differentiate suspend and hibernation, they only need to be instructed
-to suspend at some point, and resume later. Resuming could occur when
-the system is woken up, or when hibernation fails in the THAW phase, and
-those drivers wouldn't care to differentiate between the two. Seeing an
-extra resume + suspend cycle due to the hibernation machinery needing to
-write the image to disk, and having to handle that cycle manually as in
-this series, is additional complexity that (unless I'm missing
-something) could be handled by the PM core.
+Sorry for the delayed response, and thank you for following up.
 
-> Another thing to be aware of is what happens while waking up from 
-> hibernation, if the memory image can't be restored.  In that case the 
-> restore kernel would send THAW callbacks to all drivers before 
-> continuing, and presumably you wouldn't want this callback to be 
-> skipped.
+> What is the cancel function supposed to do if it is called after the I/O
+> has completed? Should it return an error code?
 
-I wasn't even aware this was a thing, which only strengthen my
-conviction that we're making it too difficult for many drivers :-)
+My current view is yes. If "completed" means that AIO-core completion has
+removed the iocb from ctx->active_reqs, a later cancellation should fail
+because the request is no longer cancellable. It should not invoke
+ep_aio_cancel(), touch the completed request or its private state, or
+produce another completion event. The current implementation returns
+-EINVAL in this case, although the exact userspace error to use is a
+separate AIO-core/API question.
 
-> That seems like it could be feasible, but the decision is up to Rafael.
+The distinction between AIO-core completion and completion of the
+lower-level USB request is important here. If the USB request has
+completed but the iocb is still present in ctx->active_reqs,
+ep_aio_cancel() may still be called.
 
--- 
-Regards,
+In that narrower interval, the completion-side flow already in progress,
+including ep_user_copy_worker() where applicable, should remain the sole
+source of the resulting AIO completion. The cancellation and completion
+paths must coordinate any cleanup so that the GadgetFS private state and
+USB request are each released exactly once. If usb_ep_dequeue() reports
+that the request is no longer active, ep_aio_cancel() should propagate the
+negative result without initiating a separate completion. In the current
+implementation, io_cancel() still removes the iocb from ctx->active_reqs
+as part of its own bookkeeping.
 
-Laurent Pinchart
+Conversely, if cancellation reaches an active USB request first and
+usb_ep_dequeue() succeeds, the request is returned through the USB
+completion/giveback path, which should remain the source of the resulting
+AIO completion. The cancellation and completion paths must still
+coordinate cleanup so that the GadgetFS private state and USB request are
+each released exactly once; ep_aio_cancel() should not independently
+generate another completion of the same iocb.
+
+The behavior I observed is consistent with this exactly-once completion
+and teardown requirement. After AIO-core completion, cancel attempts made
+both before and after io_getevents() consumed the published event returned
+-EINVAL and did not change or duplicate the event. In a deliberately
+widened lower-level completion window, dummy_hcd returned -EINVAL because
+the USB request was already inactive, and the normal AIO completion
+remained the only event.
+
+Your expectation about partial transfers also matched the observed
+behavior: in both the PWRITE and PREADV checks, after a 512-byte partial
+transfer, the single AIO completion event reported res=3D512 despite a
+negative USB completion status.
+
+For a fix, I think the important invariant is exactly-once completion and
+teardown: each GadgetFS private object and USB request must be released
+exactly once, the iocb must be completed exactly once, and no path may
+dereference any of these objects after its lifetime has ended.
+
+One additional point from the v2 results may be relevant to the approach
+you outlined: delaying kiocb_set_cancel_fn() until after successful
+submission. Moving it after a successful usb_ep_queue(), by itself, may
+not be sufficient: once the request has been queued successfully, its
+completion can run before cancellation is registered. The revised-patch
+UAF demonstrated this completion-before-registration ordering. The
+registration and completion paths therefore appear to need an additional
+ordering or lifetime mechanism.
+
+There is also a locking constraint: io_cancel() and free_ioctx_users() can
+invoke the cancel callback while holding ctx->ctx_lock. A synchronous
+dequeue giveback must therefore not cause aio_complete_rw() to reacquire
+that lock while the iocb is still linked and the original caller still
+holds ctx->ctx_lock.
+
+I hope this answers the remaining semantic question and clarifies the
+constraints that seem relevant to a revised fix.
+
+Best regards,
+Minseo Kim
+
+2026=EB=85=84 7=EC=9B=94 30=EC=9D=BC (=EB=AA=A9) =EC=98=A4=EC=A0=84 12:31, =
+Alan Stern <stern@rowland.harvard.edu>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1=
+:
+>
+> On Mon, Jul 20, 2026 at 10:18:33PM -0400, Alan Stern wrote:
+> > I've got some ideas on how to fix these problems, but we should discuss
+> > a few things first.
+>
+> Minseo, any responses to these questions?
+>
+> > The real problem is that I don't have a clear idea of how the kernel's
+> > aio implementation is meant to work, and it isn't documented at all.  S=
+o
+> > there are a lot of questions about how the cancel function is supposed
+> > to interact with the normal I/O pathways.
+> >
+> > For instance, what is the cancel function supposed to do if it is calle=
+d
+> > before the submission function (ep_aio() in this case) has returned, an=
+d
+> > the submission function eventually returns something other than
+> > -EIOCBQUEUED (i.e., submission failed and no I/O was started)?  Or if i=
+t
+> > is called before the submission function has started the actual I/O
+> > operation, so there isn't anything to cancel yet?
+>
+> Never mind this question; I can avoid the issue by not calling
+> kiocb_set_cancel_fn() until after the request has been sucessfully
+> submitted.
+>
+> > What is the cancel function supposed to do if it is called after the I/=
+O
+> > has completed?  Should it return an error code?
+> >
+> > What is supposed to happen if the I/O is cancelled and then completes
+> > with no errors?
+>
+> Presumably nothing special should happen in this case.  It should look
+> more or less the same as in the previous question.
+>
+> > How does the system handle a partial transfer, where the I/O was
+> > cancelled part way through?  How does the user learn how much data was
+> > transferred before the I/O was cancelled?
+>
+> Presumably the second argument to ki_complete() contains this
+> information.
+>
+> This leaves only one question for you to answer.  :-)
+>
+> Alan Stern
