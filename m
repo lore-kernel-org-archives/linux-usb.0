@@ -1,198 +1,211 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B2B3D8901;
-	Thu, 30 Jul 2026 22:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785450286; cv=pass; b=KKkTC9uVbYVOm+eVkcTzGIq1J3LzienLt8I6qhbqI1+HIApWaaJ7Z6QZG9gdoat6wt7a4vPlVfJ3QpFq2nKk7gyxFsTMngQv0NfJaExXpZm3v07s62VMX5LF9i8j03+me5eWAWY8Kz2dHrSjhdEQA7LCOCDKaPoyu6cxnjjyzHI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785450286; c=relaxed/simple;
-	bh=d0i9HDqmQaVirMU39SBAIJQgl7eqNcVittnSMCAH1Yo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RMm2qk0Wfi8FkfVq0bF0aIdtEq9z5+H3A/Grll+YUfDhp8i9ubQP5w81vK7IPR6yDtgWndwjcF4JiScA+8ewpZohG6kCnazpqUUQwgas9lEkTviJl590PLSFTxGcYhJ7tMjx0qTLa8GHTAxFeif9liAag6KqAwXX3J/cB6GW3SQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=SgQIyVwH; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B7237267C
+	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 22:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785450897; cv=none; b=TTB38SFXE5meSJ01jiXSM1JqZpT9UAFlVIxAh8+m576AjKh4QlYFanRk1hdE4tDfukY5N+38kjtymJgzLlrnixHZLdsiJzRcGAyUGrhlCfZlBqS42X7zgRUevDQ41dZWr0EzbiUfRs8sAZ8pXSK4+OVMQNxqUxX+CuJNGDQwD44=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785450897; c=relaxed/simple;
+	bh=fX+6pkMX/W45v5AWJzh/xbfzKLl70LphLmyCsByYtYw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TIS+g3kC8ya0qIlK5oWpbyWs+6RoemsSV0wU0kwbO9w30+qPhP3g5mnbacDX0rX7BqCygKwrK1CCNadV+UTNFhaZh+G4AHHuGE218XSz7uUGGoaVnXRLpxgTf/9Mquek67wH+9D6au7QefHVMnYBe8ln9nl4tA7OZ/SYG0HNvwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kjuBGepS; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="SgQIyVwH"
-ARC-Seal: i=1; a=rsa-sha256; t=1785450265; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=nCwqrpQA/5KRd/aoEYqtyv5P//KsZyi0QfDgUIPirBnE7rULFe4p/z8fCtwSYYnfNl882nAeMXuGn81z7443i2YARqAtVj3+p/iwagNPmpFfCgnjb7plT5FVxsgHKq4nWGIQw1RqBvOsH6jJtG3mopOst6vi6ylsgEyyfawrRYw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1785450265; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=P2EOieav7Aqn1vOjTwTK3mtj6IAIOaeNk67juagebGM=; 
-	b=X9TWJRYqgxEp6be8H9utRmMrJmeiXvpy29IBI8NjPmRRgjUSQpw92+hhPLnzvrC1rx3MvEVDLH3TJNZS35LGfTqK1DckXm9OBoISuht6/jlj8NGomQprOX9gM8JzbstYV107nVrChBkebal+jbJTt2Y3/T7TSN1W/HpXwlJooIw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785450265;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=P2EOieav7Aqn1vOjTwTK3mtj6IAIOaeNk67juagebGM=;
-	b=SgQIyVwHk3tFpQsCoVUtW27U7gYycBjqS9l7usPChy5SqAp42CYB1L+TPYStT7FJ
-	+Vjkf9vLdUb2p0ZeHKrPGO0b7YvdfLCrbPQzV+Jw075kR9I5km41D5vne7w5FHG2Kcg
-	EoMlLQJqv6+9zp+x0/PvRnaqV70wLxzPMzxeRJao=
-Received: by mx.zohomail.com with SMTPS id 178545026283429.3908393134966;
-	Thu, 30 Jul 2026 15:24:22 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id 2B80118029A; Fri, 31 Jul 2026 00:24:18 +0200 (CEST)
-Date: Fri, 31 Jul 2026 00:24:18 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Amit Sunil Dhamne <amitsd@google.com>
-Cc: Badhri Jagan Sridharan <badhri@google.com>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Hans de Goede <hansg@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>, 
-	Purism Kernel Team <kernel@puri.sm>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, =?utf-8?B?QW5kcsOp?= Draszik <andre.draszik@linaro.org>, 
-	Tudor Ambarus <tudor.ambarus@linaro.org>, Peter Griffin <peter.griffin@linaro.org>, 
-	RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>
-Subject: Re: [PATCH v5 2/2] usb: typec: tcpm: Add support for Battery Status
- response message
-Message-ID: <amvLtvDbJ8g-1rJ3@venus>
-References: <20260714-batt-status-v5-0-9de4aa900b69@google.com>
- <20260714-batt-status-v5-2-9de4aa900b69@google.com>
- <amVJ1u67qHENBQ5l@venus>
- <5cdf0238-24f8-402f-a72a-d490f8d9c99a@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kjuBGepS"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c999f162c9aso198690a12.3
+        for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 15:34:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785450894; x=1786055694; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Kmlw9fyosGZdf2BNWt4ws0mLj8YjVKrdloEGzRsMNAk=;
+        b=kjuBGepSIs6f7w04cF2YWo4RRxz+fGsJEnr6/o6pGxBIO4eZHWqbkvT1wUsee5dHfX
+         8fhSwDkwfsfZtQGv6gizpOSJ4+HVtfE0ooQJdHul/g34BgecFN1gIRHS53AN5v1QWPEO
+         I3VtmkTzlHSxRu3BDCHuwET6Nnzvrzxd2Pf4rBmWNr5HFctc121fZQXP4q6LlZvCugh9
+         p2PwVH7g/eeVg4V3P99If2whUthws0qsr1nil5wUbVWFrlhZB14vPW9jjCroewEt0JVb
+         2avhGzZ6YcnvesgK7S5j55i2ZZgSE/ZGs3dm7SVK3/7lsmW0DH/6nibGtS/1AFlGIT+8
+         oEMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785450894; x=1786055694;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Kmlw9fyosGZdf2BNWt4ws0mLj8YjVKrdloEGzRsMNAk=;
+        b=h0hIGgj/+CT4sfZajh3KAdoVBPr6Tjx876n+sODIT7ZSMrs2qNRVqy1W/dP9FTC2yq
+         OZT64DnRmkhSDvRySC2QVivCmk7ENJr395vhi7TZHMp2TGFi2u8RQiGq+lA+GbZsScvO
+         sbMNPgLl7h7moIpmKXgWGeV+EbFNLvvBqdf1FThUoStks43mpWCbkMo2hgbWTm63qQLz
+         J9IwZ+mR34bk8vGTh/yUZbmby+UYry+oIl7vvJ9sLUIX3/NnEVxtZbeOrY8TF+nrQsfT
+         96jJJ9agiuiyPA/tfaJ4nryvBFK9uXTTcyAnAqLDpFYIjmhxwh/upSNZHd5EVXGecw4y
+         J5aQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rod1SamOGuDxRFME1GFue/66Syriwr+ZE7R2tQDf5ajde7SXLTvGbLhilNWelzA2xFL6tz9aKjcp+o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrwaKI7fD/kz2HzyC5mQzY10Kw3xj7vpB3vSLhWPZ2jgf/lQlR
+	Lt5spinvTxgtul4aKdUsEguG7VvfkbewceMDwy6HF4mhc3WrdwMQU0c=
+X-Gm-Gg: AR+sD124tNPZGOr7Ftr8JxDsc/2xY/mhZ4sSsn9z6lAUiZOvOU/9YxTP4JXquXPzGEJ
+	4y1m4Nah2w3oCdaC8uCUqripbdyYH87e/yxdcZouk6uX7/1rvgdZSoO5uVlgu3nEg/P7/TUI/Uq
+	ZX8+ufTk7agOdtjMv+I+2Y0B3wzkrk55OSA9WfzGvWvkePpE3tQSiaoEnjiCnBbzwOV2ep+r2Xx
+	3fkvUyelWBgqQumMqpNqd95+4l008E4T/cnQ9h4A42D2ShQLjw+niFo3/MHKR+BpvZJnkNuemOJ
+	qijC+wa9SOcaw++jR4uOto+sqwJe3ikJg004JH28CWeeE9hqxArHeN0iW35zxDdhuaBxBFdweR6
+	9zR4lYRyiFQYtNiw+ymZvKN9EtPlUUvVoNpuiS4BY+nfmc0bIJS1o+BPI3prlFEw9xVCrnfi7D1
+	mcD0+MrKVJZmuMreP7nrZe2NchCFVqrhu6I3mbxJJYZINrht6I31oW2kz+DLyIIO/PIci92jDer
+	ETE228oV5HIQePF1eLzXwNutls=
+X-Received: by 2002:a05:6a21:3391:b0:3c4:397a:69b8 with SMTP id adf61e73a8af0-3c90d425340mr2161402637.21.1785450894427;
+        Thu, 30 Jul 2026 15:34:54 -0700 (PDT)
+Received: from at-Standard-PC-Q35-ICH9-2009.. ([106.221.78.187])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504cc6936sm23692181eec.17.2026.07.30.15.34.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 15:34:53 -0700 (PDT)
+From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+To: 
+Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
+	Andre Eikmeyer <andre@negmaster.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6] thunderbolt: Add device links for Apple T2 NHI
+Date: Thu, 30 Jul 2026 18:34:33 -0400
+Message-ID: <20260730223435.2874-1-atharvatiwarilinuxdev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qyehq7adb53xg3ab"
-Content-Disposition: inline
-In-Reply-To: <5cdf0238-24f8-402f-a72a-d490f8d9c99a@google.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.10.1.5.2/285.439.57
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
+Ice Lake Thunderbolt NHI That are only on T2 Macs. The NHI and its
+associated PCIe Root Ports all sit directly on the Root Complex
+with no upstream port. Identify the tunneled PCIe Root Ports by
+their PCI IDs and create device links back to the NHI so that
+PCIe tunnels can be re-established after sleep.
 
---qyehq7adb53xg3ab
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 2/2] usb: typec: tcpm: Add support for Battery Status
- response message
-MIME-Version: 1.0
+And on other Thunderbolt NHI's, like Titan Ridge, the default method
+is used to add device links.
 
-Hi,
+Co-developed-by: Andre Eikmeyer <andre@negmaster.com>
+Signed-off-by: Andre Eikmeyer <andre@negmaster.com>
 
-On Wed, Jul 29, 2026 at 05:56:29PM -0700, Amit Sunil Dhamne wrote:
-> [...]
->
-> > > +/*
-> > > + * As per USB PD Spec Rev 3.18 (Sec. 6.5.13.11), the number of fixed=
- batteries
-> > > + * that a port can be queried is restricted to 4.
-> > > + */
-> > > +#define MAX_NUM_FIXED_BATT				4
-> >=20
-> > If I understand the spec correctly, the presence of a fixed battery
-> > should never change for fixed batteries. I guess the rationale is,
-> > that one only has to the battery capabilities once for these kind of
-> > batteries. But for the Linux kernel this concept does not exist and
-> > all batteries are potentialle hot-swappable. For real hardware with
-> > TCPM and hot-swappable battery, this code will now incorrectly
-> > expose them as fixed battery and violate the spec. I think this should
-> > at least be mentioned in the commit message.
-> >=20
->=20
-> You are completely right. I was approaching this primarily from the
-> smartphone side (Pixel 6), where batteries are effectively fixed and
-> inaccessible to the user. Because I don't have a setup with TCPM +
-> hot-swappable (in the context of the spec) batteries to test with, I only
-> implemented the fixed case.
->
-> I mentioned this constraint in the cover letter, but I agree it could
-> have been in the commit message as well. Since Greg has already picked
-> this series up into his tree, I can't amend the commit message now.
-> However, if you think it's necessary, I can send a small incremental
-> patch to add a comment in the code clarifying this assumption.
-> Otherwise, we can leave it as-is until someone has the hardware to
-> properly implement and test the hot-swappable support. Let me know what
-> you prefer.
+Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
 
-You tested only the fixed variant, but your implementation is in the
-generic TCPM and does not check if it runs on a Pixel 6. If you
-touch generic code you need to think generic :)
+Changes in v6:
+- Used for_each_pci_bridge in Icelake section
+- Removed has_apple_t2_chip as its not required now
 
-Generally I would expect it is "safer" to expose batteries as
-hot-swappable when they are fixed than the other way around.
-FWIW the kernel's power-supply framework has no concept of fixed
-batteries.
+Changes in v5:
+- Used Icelake root PCI IDs for detection of root ports instead of TRP
 
-> > > [...]
-> > > +	batt =3D port->fixed_batt[batt_id];
-> > > +	ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_PRESENT, =
-&val);
-> > > +	if (ret)
-> > > +		tcpm_log(port,
-> > > +			 "Failed to fetch power_supply_prop_present ret %d",
-> > > +			 ret);
-> > > +	else
-> > > +		batt_present =3D val.intval > 0;
-> > > +
-> > > +	ret =3D power_supply_get_property(batt, POWER_SUPPLY_PROP_CHARGE_NO=
-W,
-> > > +					&val);
-> > > +	if (!ret) {
-> > > +		charge_now =3D val.intval;
-> > > +		ret =3D power_supply_get_property(batt,
-> > > +						POWER_SUPPLY_PROP_VOLTAGE_AVG,
-> > > +						&val);
-> > > +		if (!ret) {
-> > > +			energy_now =3D div_u64((u64)charge_now * val.intval,
-> > > +					     1000000);
-> > > +
-> > > +			/*
-> > > +			 * Battery Present Charge is reported in
-> > > +			 * increments of 0.1WH.
-> > > +			 */
-> > > +			present_charge =3D (u16)UW_TO_W(energy_now * 10);
-> > > +		}
-> > > +	}
-> > > [...]
-> >=20
-> > What about fuel gauges, which expose POWER_SUPPLY_PROP_ENERGY_NOW
-> > instead of POWER_SUPPLY_PROP_CHARGE_NOW?
->=20
-> Good point. Our fuel gauge uses charge_* properties, so charge_now was
-> sufficient for our immediate use case, but it makes sense to support
-> energy_now natively for other users.
->=20
-> Since the original patch is already merged, I could write an incremental
-> follow-up patch that checks POWER_SUPPLY_PROP_ENERGY_NOW first, and if
-> it's not supported, falls back to calculating it via CHARGE_NOW *
-> VOLTAGE_AVG. Please let me know if this works?
+Changes in v4:
+- Limited TRP check to T2 Icelake systems only
+- Optimized has_apple_t2_chip check
+- Included pci.h to drivers/thunderbolt/tb.c
+- Used __free(pci_dev_put) to avoid label
 
-That sounds sensible to me.
+Changes in v3:
+- Fix build errors with non-x86 machines
+- Used __initconst for apple_t2_devices
+- Removed UEFI_QUIRK_SKIP_CERT as its unused now
+- Used IS_ENABLED(CONFIG_ACPI) in tb_apple_add_links for the T2 part
+- Removed !bid check to remove warning with -Waddress
 
-Greetings,
+Changes in v2:
+- Used a less generic name for has_t2_chip
+- Used DMI instead of PCI for has_apple_t2_chip to avoid PCI problems
+- Initialized ret in tb_apple_add_links
 
--- Sebastian
+Link to v5:
+https://lore.kernel.org/all/20260727211807.1223-1-atharvatiwarilinuxdev@gmail.com/
 
---qyehq7adb53xg3ab
-Content-Type: application/pgp-signature; name="signature.asc"
+Link to v4:
+https://lore.kernel.org/all/20260724164641.2239-1-atharvatiwarilinuxdev@gmail.com/
 
------BEGIN PGP SIGNATURE-----
+Link to v3:
+https://lore.kernel.org/all/20260721063412.11588-1-atharvatiwarilinuxdev@gmail.com/
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmprzw4ACgkQ2O7X88g7
-+poz0A/+Oyytl2CQTkU1NiGQryK8B3TvHsp7xGl/6ytERDUEqsth+Bak3dA/qO0t
-sHahi8j5TAfnysANfqtMAy3QPNPyYdQTzt3qaUr1LGIZjkQU2Jwc66Fj0VjGJxh3
-QGQejTigD2dBJzYvQp4ifvGYXuTba+KhaIyXCdjpzNYQ3K9MRb75e3+cRTElMdsC
-YH066o2Dwdm7cDprzm5QKN6Pnv1tORLUenT8x7L67ZrHxQELcZJj/b3b5YbK/bIX
-0Fns9AplRLL5Y2s85tl98LhAYSWGrNO8OCr+bY7EAWVzAG2XcOdAg/nADza8ks9E
-9qwONB4+b8xDxrRcywhm/Y218NW3jkzv6A3H4tqgsIHA+dTMdD4APuxoro/yhIea
-SdxzJsSoGpncgq4vuNubrTFAegMafwWx1ecwIDKAcFmw3TfsukQPPCZot/hQ/rjL
-fT3NaVysteP8uqLVTaKXZWTSs58d+GVsPoti3Siiy1wB3l+vtKKsZ/NYlIk6++rU
-Zxj/WhTWTmn12XPTiop6M+umqTuBx/6Jhd+MSE7p4AnkCoBiBmMMUDH99WLP5fjV
-KlVoxjW38mOnsoAHGKWLNUHWEkuZV+L4bgyJZC5z7nJ9ItUDuE4T2lYlgGkFt8gz
-YA8Z/EVmOECCn+fdijlqdua4yjRLTAvdRBFTC5QDzA1iOQPlZwA=
-=d4NC
------END PGP SIGNATURE-----
+Link to v2:
+https://lore.kernel.org/all/20260721054506.11871-1-atharvatiwarilinuxdev@gmail.com/
 
---qyehq7adb53xg3ab--
+Link to v1:
+https://lore.kernel.org/all/20260719180308.1398-1-atharvatiwarilinuxdev@gmail.com/
+---
+ drivers/thunderbolt/tb.c | 44 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 43 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index c69c323e6952..d6efc822ebd5 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -9,6 +9,7 @@
+ #include <linux/slab.h>
+ #include <linux/errno.h>
+ #include <linux/delay.h>
++#include <linux/pci.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/platform_data/x86/apple.h>
+ 
+@@ -3305,16 +3306,57 @@ static const struct tb_cm_ops tb_cm_ops = {
+ static bool tb_apple_add_links(struct tb_nhi *nhi)
+ {
+ 	struct pci_dev *upstream, *pdev;
+-	bool ret;
++	bool ret = false;
+ 
+ 	if (!x86_apple_machine)
+ 		return false;
+ 
++	/* Identify the tunneled PCIe Root Ports by their PCI IDs
++	 * on Macs with Icelake NHI's
++	 * and create device links so that
++	 * PCIe tunnels can be re-established after sleep.
++	 */
++	if (nhi->pdev->device == PCI_DEVICE_ID_INTEL_ICL_NHI0 ||
++		nhi->pdev->device == PCI_DEVICE_ID_INTEL_ICL_NHI1) {
++		const struct device_link *link;
++
++		for_each_pci_bridge(pdev, nhi->pdev->bus) {
++			if (!pci_is_pcie(pdev) || pci_pcie_type(pdev) != PCI_EXP_TYPE_ROOT_PORT)
++				continue;
++
++			switch (pdev->device) {
++			case 0x8a1d:
++			case 0x8a1f:
++			case 0x8a21:
++			case 0x8a23:
++				break;
++			default:
++				continue;
++			}
++
++			link = device_link_add(&current_pdev->dev, &nhi->pdev->dev,
++					DL_FLAG_AUTOREMOVE_SUPPLIER |
++					DL_FLAG_PM_RUNTIME);
++			if (link) {
++				dev_dbg(&nhi->pdev->dev, "created link from %s\n",
++					dev_name(&current_pdev->dev));
++				ret = true;
++			} else {
++				dev_warn(&nhi->pdev->dev,
++					"device link creation from %s failed\n",
++					dev_name(&current_pdev->dev));
++			}
++		}
++		return ret;
++	}
++
+ 	switch (nhi->pdev->device) {
+ 	case PCI_DEVICE_ID_INTEL_LIGHT_RIDGE:
+ 	case PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C:
+ 	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_2C_NHI:
+ 	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_4C_NHI:
++	case PCI_DEVICE_ID_INTEL_TITAN_RIDGE_2C_NHI:
++	case PCI_DEVICE_ID_INTEL_TITAN_RIDGE_4C_NHI:
+ 		break;
+ 	default:
+ 		return false;
+-- 
+2.43.0
+
