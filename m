@@ -1,111 +1,117 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D029346AC2
-	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 21:15:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6FF3921D5
+	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 21:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785446165; cv=none; b=pCRPCUKw5IsFMbL2wO/KKK3ZqU0DbHkgcudMzTyPPs4eMhBO+R8lQd3y982gyyemKNdm3N6Q7vE51g+xVDgVBXHOOeuqF3SS42qlSb9e18Ld0zBsMSNmW845HxyfCsk0xGjtVSt5wknunQKLNJwsCxo8619n0H5n2HWpJGkEvZA=
+	t=1785448741; cv=none; b=c5LeQdeNLbGAy0IU7HMkjpn+7yyfXwWzyjGe4Veb6XdiVcSBJ/ZldWvJ9XFZ+KAxAatzOSjYp8prjH2FmGQxcfSLm2oC4ACOGLFJvVPHxbq/wrGAl1hz5eZm2HlwPZEgbfU8Td1G5B1eBFlgbAk9HEtl98MAWKRdCd4thgIv3DE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785446165; c=relaxed/simple;
-	bh=WG0+e1KN1nsoMOFFn5MjuvZvyoDnerqjnUnTWeX68Mg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NQG4mP8IQc0qiHCuU3JAfH1CZ4kZNxs6ZxwBYDgrqbCAyuM61hEBEUzM5lKSHysFaNkvPIO4yP9vOw9n1W0qmIgYxMxDy59HRtrh30HjcpAVbOxKxxEOfzeKvykFUb/7zLkH0gxr2JA2wBNRY0/ZiX70ok2Ufh2p081+bFm/QKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gdANWppI; arc=none smtp.client-ip=209.85.215.180
+	s=arc-20240116; t=1785448741; c=relaxed/simple;
+	bh=FGXxWVw4SzX08TKroZSL5yJeWhV+nwGiWQVG+GQA1mY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XTpmvyd0BCo1dNjWHFFoE7qNCnFZSZ1AT7C5cILs97tMUu1PUbrfej6uKQlKat4XV4STdh2CXxgjTREAdHAGijNXOpOjHK1avjEB2lIBX6C9VG8rcNlo992n6lKWgxNeFoLTw5EEH8yRIj9u+oNuvEZm7CS5qDL5/6HuQSZEYgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BNzuuH+E; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gdANWppI"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c99eaa1f020so238098a12.2
-        for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 14:15:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BNzuuH+E"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4954a32cf1eso1048415e9.3
+        for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 14:59:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785446156; x=1786050956; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WG0+e1KN1nsoMOFFn5MjuvZvyoDnerqjnUnTWeX68Mg=;
-        b=gdANWppIZaHHVrO4NaZ0vAnYOeETJRqHszRJALyTxCLTqgXFXrtYSNK//frvSJEA1M
-         3XJJ9haOTo6G6TFEVFdIkZaz52Q8g5dIQV2bVosoXWU/WWUFW/93r52sljYl22mpBKl/
-         2MLJqA4PXP/ZhvSSifBMiJxZWjtupSytErT1RK1s73DP0GXqpIkcM5CzcKqA+eoYZkU1
-         8HpTUNx7+9bcYo5oBcQR8sogLak4n13pvrOpuY+MEVc05W3e9bhnbfFlWDdj5mvoouCI
-         HnAYRTRyxcZIqKGWZbU3wEQlEpc7dIhx8SWOIQw7iUrd9xDOnXw6dWZtVg/1OHfI5+BD
-         2i+w==
+        d=gmail.com; s=20251104; t=1785448738; x=1786053538; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rVlKEk/Ve9KIOBOOmVgo+QzHu2mFk3fxwP01HaX2UmA=;
+        b=BNzuuH+E94PwUIACnuqweS9IGh10r2gRzDrgUyj+Pqnux1K93bO6JOjYYWxU7a4Ad2
+         vYhq95D4z04aCg5Q/9BV7CI05vaV2HAuCLNvmIs+oIPmPkTjcrSKsqVVxmclB61sKE64
+         LfpAlYE4bgsisErMI1RnpaMYwZMb5OnrYjGBM3JHp88oFQiiGpXDF52Rk++CC24MOOvA
+         tiGJ+jil+fKEVOVXKxnz4B02aHK4uksm6JKh3WGWHCKD3+PEk9SHGRTdXg++1okoFFkJ
+         S5iFfxX/bXTWsnuNVxchzqiA0CN0MKufzUzRfL8m8HB1DJQxG+2liZCR2cMLQdQbQvrr
+         bSoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785446156; x=1786050956;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WG0+e1KN1nsoMOFFn5MjuvZvyoDnerqjnUnTWeX68Mg=;
-        b=DbTeDV2SW8U6i1FQFI8T9JSXjxXDrd0QCa1MfmdkRgI0bv3iWvKjn55R8UP+Ug5TG9
-         GRN2FISfJaZc74r0wJmSDegCqIxCmVMoCZz//FZLN8jo3HrbBRvCnhUpLbBq5u28K2jQ
-         lZTRvOWrz9UuoGadPdk+NcqNtyILk/J/7vn9kWZ9tA/mlE6droZaThbFxg+BsgDxVtqP
-         EzR1K+XkklwVviUqJzszBoZYQBWwpa8y2A5G+3jvbz0/MkqeB8brkKUCu27bzyOtExUq
-         ziaOs5KWYSDxYfxnTiDsJJEoCqhRkrsuza569rFQG+Tz3XZqPWmvQk15H5SWTqL/8Lyd
-         sxiA==
-X-Forwarded-Encrypted: i=1; AHgh+RqWrnOiiD8DSBywcWQJv46JPkZsFFbuVmGUh9JHG38eJMEFaKbTYN9osxWN+dqvfeGO+3nalmk9niU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9BTz15vAuo1TgIkXiqRsuJwQFhPJpi8QshzZzvOzwuoAwWKSC
-	1VQXJoGimwILwuuTKrAn9WidFTO1TOlLlpDZV5U8/AW4mG/TrsL9CzU=
-X-Gm-Gg: AR+sD13m68fad3Tm7/jOqnOzaCH+LLWQGHxQoI13GGdom3t/TV6x87ByznbllfUaVON
-	BMeYFdof+1W5CgX+VD0faGM6KQyOtbRV7anvnjcsdLP1hnyeAEGfTRCfQ+QX5vBFBlLq85afcjM
-	Ws/j0eB2RxU84wxxqDBmttdLhNXO8gyd62eFZwKhspA/0FxSQ0MV0f7wwHqU+wcYrGZ0V3ALhqx
-	izdP1lxShB899HNhyB8wXPzj3s6zmYbtlEMLXDbyx7g7JvlYSd++FpM+XzCXM7mqgEAPmVVSNWh
-	XosD+iEVH6VoZ38X20Lq2HP/YiPlpxwu2rvjliEJjo1ryuKQy3quvIAY4ulpFJtxuWYuAkbrfwf
-	mmZhl5BvM9opTerzkRzFri7EMbJsec7Bennckj8ptW1VLw5d29UAVfKWPkWRYkWCi6xuwKWNWy6
-	mwoA555ntVWwSltyRGE8N16jdJUA2DkjYdQUTkUWqzritz9vDDu7qQ3GiJhCWzi+3VCQyWz5swC
-	sOfYgwiKpVoPD3A+5iUk51LtAMIbjGdq8evqA==
-X-Received: by 2002:a17:90b:380b:b0:387:e0db:3faf with SMTP id 98e67ed59e1d1-38f9c0abaecmr3050277a91.40.1785446155807;
-        Thu, 30 Jul 2026 14:15:55 -0700 (PDT)
-Received: from at-Standard-PC-Q35-ICH9-2009.. ([106.221.78.187])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13e7263cfd9sm36251186c88.4.2026.07.30.14.15.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 14:15:55 -0700 (PDT)
-From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-To: mika.westerberg@linux.intel.com
-Cc: YehezkelShB@gmail.com,
-	andreas.noever@gmail.com,
-	atharvatiwarilinuxdev@gmail.com,
-	bhelgaas@google.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	dev@deq.rocks,
-	dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com,
-	hansg@kernel.org,
-	hpa@zytor.com,
-	ilpo.jarvinen@linux.intel.com,
-	jarkko@kernel.org,
-	jmorris@namei.org,
-	keyrings@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	mingo@redhat.com,
-	paul@paul-moore.com,
-	platform-driver-x86@vger.kernel.org,
-	roberto.sassu@huawei.com,
-	serge@hallyn.com,
-	tglx@kernel.org,
-	westeri@kernel.org,
-	x86@kernel.org,
-	zohar@linux.ibm.com
-Subject: Re: [PATCH v5 2/2] thunderbolt: Add device links for Apple T2 NHI
-Date: Thu, 30 Jul 2026 17:15:42 -0400
-Message-ID: <20260730211542.1422-1-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260730113209.GF20844@black.igk.intel.com>
-References: <20260730113209.GF20844@black.igk.intel.com>
+        d=1e100.net; s=20251104; t=1785448738; x=1786053538;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rVlKEk/Ve9KIOBOOmVgo+QzHu2mFk3fxwP01HaX2UmA=;
+        b=WNoKom+G2VQIGlLFOjRPxe6YWGn7ZUffBFWs5f1iKjRI0zbnuqjjLEa7YET8JDVNt3
+         ZQgi95YHPvn8D5pBeWXsCuNiDMyPX5sdyAodCGnLwu0mrp+ZFy2pLvCjXLjWLsU0h4I7
+         HymK5Gqkrcdr9CumYwphdvHHQUgNsEdfBGH67H4SFXETAZshijySHxF3onVaA584oPza
+         3mUNfyE/uzepXyqicz1oyhDDfyOoxfAJE5YC8d7SU1blYQg5JGipELQZOdzZ3Jt+c/cY
+         +hUbb0yVLBkusB5tuuAQV5hWjXTyk1AuZsrTFBZFpd0VkbUJJgSvNbNpynIudVkQght7
+         2xNQ==
+X-Gm-Message-State: AOJu0YzVAvbQrbXo+gXzFGQ1ofYt4+VG//V39yxpYIUIi4BSUm6KHWhL
+	azg5/WL3RvAm4sQyxoFvNssA8KgnNXNtQ9wc4jMZSPrjc6+bDSCbyySA
+X-Gm-Gg: AR+sD12VfU4MoJTxna7AYWakWeIDUW2jHavgHI25RLZ2osjzT5TzfeZaScslX0ZQatf
+	GTTCyiEij8iNFp3D/0OumaVTKg6GGI5Z9rAdsxAfgFi+BoqxGNN/Nn55WLN5SC6QRNFAzr857oT
+	kfHZNKQ/4DU4vp9ey+zgKThujVnrTPHNVgBp4erRNHZFW8q/wizaGLsMEbfPr/0/Gz/oAAHeU8u
+	jMd1VOo5elft1yAeYDFB7VssTjLZK/EG1wxKQDgGql2p8vfyj8qHhhv2JZqvqUr5QncEF9s1C5R
+	k22c+ITwffIXX319qccHb9w4MTaQYxg7y+Bw645MzeHAF1lwUTUtsFjGMGWblJlrdTSrPg9JBt/
+	P71B7/kwhhPPzzmZhva6viPfegR6iVud6qCMPugNuuAl2onOMrMxoRX9tBypi2P+dryNHdSvbkc
+	dzIbzMoXJyqMEjnv9SYgZ74uijBCsmOwD5RfnsThIYIZMpTZH2W0MZ0YzAbwAmLLoRSCq4eg==
+X-Received: by 2002:a05:600c:628f:b0:496:bbca:c989 with SMTP id 5b1f17b1804b1-49800eb1bd3mr58772515e9.33.1785448738204;
+        Thu, 30 Jul 2026 14:58:58 -0700 (PDT)
+Received: from foxbook (bey56.neoplus.adsl.tpnet.pl. [83.28.36.56])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-498010aade3sm96906995e9.14.2026.07.30.14.58.56
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Thu, 30 Jul 2026 14:58:57 -0700 (PDT)
+Date: Thu, 30 Jul 2026 23:59:53 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Bart Nagel <bart@tremby.net>
+Cc: linux-usb@vger.kernel.org, mathias.nyman@intel.com
+Subject: Re: Regression: webcam freezing since Linux 6.15
+Message-ID: <20260730235953.2d51e0cc.michal.pecio@gmail.com>
+In-Reply-To: <amuTKengDzr0IL6b@spiral>
+References: <20260723081440.0228c59e.michal.pecio@gmail.com>
+	<20260723081440.0228c59e.michal.pecio@gmail.com>
+	<amJ9jAtK8rNWDO7V@spiral>
+	<amKUdIRBrsFiDTiV@spiral>
+	<20260725115956.321185a1.michal.pecio@gmail.com>
+	<ame6T_LjiJBeJ2W3@spiral>
+	<20260728003131.085171ee.michal.pecio@gmail.com>
+	<ampPGn-3C9PSEZQz@spiral>
+	<20260730130814.65f7891c.michal.pecio@gmail.com>
+	<amuTKengDzr0IL6b@spiral>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> Agree. It should be preparatory patch for the series.
+On Thu, 30 Jul 2026 11:13:59 -0700, Bart Nagel wrote:
+> At 2026-07-30 13:08:14 +0200, Michal Pecio wrote:
+> > I'm slightly curious what exactly happens there (probably MSE after
+> > Short Packet on a single-TRB TD), and whether Missed Service Error
+> > may point at a Link TRB, because the current fix wouldn't handle
+> > that and the stream could still hang. So your failure rate may
+> > actually be reduced to 1/255 of what it was, but still not zero.
+> > 
+> > If possible, please boot the patched kernel again and run it for
+> > a little longer. If it fails, post dmesg starting from the "Miss
+> > service interval error" line which is followed by "All TDs skipped".
+> > 
+> > And while that is running, also collect another log:
+> > 
+> > cd /sys/kernel/tracing/
+> > echo 1 > events/xhci-hcd/xhci_handle_event/enable
+> > echo 1 > tracing_on
+> > grep -B5 Missed trace_pipe | tee /tmp/trace
+> > 
+> > This is supposed to log 6 lines for every Missed Service Error, so
+> > it will grow, but not terribly fast.  
+> 
+> Before I make a bad assumption and collect a useless log, please
+> confirm for me exactly which debugging I should enable. Just the two
+> you gave above, or also one or both of the ones I was using before:
+> 
+>     echo "func handle_tx_event +p" >/proc/dynamic_debug/control
+>     echo 0xff >/sys/module/uvcvideo/parameters/trace
 
-I think ur ideas should be implimeneted AFTER the patch, because this
-patch adds a kind-of important feature to T2 macs, and well ur ideas
-are for code quality, and well it takes time for patches to upstream
+Yes, please keep handle_tx_event, otherwise xhci_hcd debug messages
+won't show up. UVC trace is not that important.
