@@ -1,98 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2B9411671;
-	Thu, 30 Jul 2026 12:29:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD27942E8D9
+	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 12:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785414594; cv=none; b=fjWWRvHkKM1MxN+/wawnnLZa5KM4ya8roIUg0HJW5wOixcOQrD+VBQA+UBBtTJjgAyfv/IDl0J96/xCgMJxb7Ghm6Bys5imS/vxIPh94SHofO/CvUdAcZzuHz5GqQiPqSD3nLI1hD+MeH5CmzaRZTLI/BI8Y9PLpRXu7KPWlYxs=
+	t=1785415242; cv=none; b=pkXX261Q0BsO8E+cWUsKEOZ8T/8q+Acr4KwRp2J2tr3vw8vEP3hcarLqwGpOCwMRB5TL7KAdoD7DBsOC+OKvK9g5mUHqz134OlbyyVbFuy4eht2kOqLU6FHVoW1n7x/9k/S9TVMCgaBNu7s7sjQnrGr33w2o23gyOLD3zLG4qvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785414594; c=relaxed/simple;
-	bh=OO/SE1PwhpajyMbmM2qT0kMyzsBUzzKtu8jgtvCBiE0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SsiDs0Yn/QM+PAeSE7HeLQgOr1HBBXQ8RBdynfxwxUQvlepK/a8WA0+OgMgxFlNvcK87PVzcLcc7scQHCUXhmjwgZI0JOK/uPR93QUtNCF2jG0cvACOQs7vl7ZCfKreVfMADVZ5JwFh1ummmLxJIInpx/jGeV3+cIgiISqqxbzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cFyUf4dR; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1785415242; c=relaxed/simple;
+	bh=fONK/6k9BVEQqKWlP3oR8VWpkLY1KDrJ8eIRgRE2WHU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rT5qEIt3ZSZMSleYpNHiSMmJyH7QUqhI4/EIBjhVq2JZUyAJD26n+njp8Al8DpxtxSTQjjvX7+qtKZyRtX3U2/ReMLFPg/5TWzbnIOhdXdwaoKBdEbtIo1hoPtZMWsx/XTULkcqyLHcVRfpsDrvgGJD6/DxmGRhqLUII25ixspg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b0G/MzSN; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cFyUf4dR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785414592; x=1816950592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=OO/SE1PwhpajyMbmM2qT0kMyzsBUzzKtu8jgtvCBiE0=;
-  b=cFyUf4dRe+eOsrgSvGyg/iftDLmfM0mYjY2fmWSwcEFhlKf45Syv9Lix
-   UwonmXt91L4QQT8XPM6TjH4BpYOtRVJ4sUKk9ifxMnFZQmc4im7B1hmTM
-   8vWlKii5wLVrbLqieCGN79cSs5/cu+dNAU2hI+QH4Rfvhci4ccqYmVCqq
-   EY4iScDb9FY1fe9IDmS5d8eQmRJ5yqTzgNK+BUU5mI3ekNOffvSr89yjW
-   pOcB0BCudCe34FoOtL7mmXHhuvKqyhZg19I+uub151qse7Q4AhSWcJbzY
-   p4I0kkIjUT02hqdyiSOzf6RTey/S8b+60+z1agw7pda0yj5njfCyHuoEc
-   w==;
-X-CSE-ConnectionGUID: 9P4gY5khSwGgnh+w9lt/Rw==
-X-CSE-MsgGUID: 6reNcY9WQCeUQ6IwEyB1tQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="89712425"
-X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="89712425"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:29:51 -0700
-X-CSE-ConnectionGUID: jkRxFni7TQWU5acaCyekJw==
-X-CSE-MsgGUID: PwXQ/QiXQ8CZulru9stBfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
-   d="scan'208";a="264561145"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO alaakso-desk) ([10.245.246.85])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:29:49 -0700
-Date: Thu, 30 Jul 2026 15:29:45 +0300
-From: Antti Laakso <antti.laakso@linux.intel.com>
-To: Jiangshan Yi <yijiangshan@kylinos.cn>
-Cc: israel.a.cepeda.lopez@intel.com, hansg@kernel.org,
-	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	13667453960@163.com, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: misc: usbio: check ibuf_len against rxbuf_len in
- bulk msg
-Message-ID: <amtDubB1yNk1JGXG@alaakso-desk>
-References: <20260722101810.458634-1-yijiangshan@kylinos.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b0G/MzSN"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38dfe7eb825so1598095a91.0
+        for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 05:40:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785415238; x=1786020038; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=L/7dzEjrRgdyFmDtxdz5LPMscHhW5+6zoxnA0y+daes=;
+        b=b0G/MzSNGUO7w1s4yeP70jU8pUQ4wPWSnruWA4khCCAOiHhnK35PhlQWIVl/PgmNWt
+         tFnAeL3osMVmCQDo82VsrV7G35GH6b28B9j8QQb2tjDyKbrVvSd0rEUT93WF/v5Gv5RA
+         jItfEvxrqlikvDH26kuNn1YDsxobVqWY8gwf6zTvOyoiH9BVxngYjcADqza/CqlZeuTq
+         M08wUOL8/yVh9hb5hvUGjA3l7LJSx8sgs9Z/iXSCEcbwPVDgJ7Rpsqk+Het6OKBdhwyt
+         6/9tCoazN581mvDIo83YmuegB2eRaFnETP/wkHJQb7qsYFdFBQCtBP+yf4sAGZUBJS3I
+         Zkbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785415238; x=1786020038;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=L/7dzEjrRgdyFmDtxdz5LPMscHhW5+6zoxnA0y+daes=;
+        b=Y7m6Iwj9FYRtlPRujxvk4/gR9gd9TsVLHgAWcNT3ze3AOIsyPWOevxaVFIosok0KMj
+         RsYGy2vxQGE6xdCHHou2bBQa5QrdD+cXtsCjlwjcHNm5GCnZG1QGf+a+PGTOf4l4gbVp
+         paspTXfHKQ0efUCwps3lAGOtnZ0NirWk5j48cksAhZpEP/DVsbEh8qWSQkUWG/1+LKKb
+         UpL7bPKV5DisYoQ4q5wgHIVism2aoLAYOQFQFcgEwKGJym+DA+wiyIRqervGbebmDqLs
+         VYFaFrNMM13FPlErGN1+KVMsGKECDsrSLAN15oeIGm13ZNa5M+JAUGVbs0fGBbczdFNy
+         JhYw==
+X-Forwarded-Encrypted: i=1; AHgh+RqrAhvS+Tcfzp6BpYZNNchPe0W4NkM5naBCni3fSALRft5o5iWrd+mZJwr6uf8yDzMhC3oKeukgCm0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSiG9VMEiXM9HtwaVvUJQxonVmjLQzs6sZjCifMnPAjeEMlp0g
+	EyvlXa97A/LEiCIDjzY7Z8WaTMAsd4IpnhluA58AFgLQ/9RFsilWB5iz
+X-Gm-Gg: AR+sD11ELzTkXEPnB3GrvuX7REgLmbEU8vQInMD6C99Ehgc7nQwoREVh1s6TV/bmr4o
+	LqQaWjQTzI4PxydVE/ut4oFJcv81G0cgUC9oLLkTsEod9PxdtCf9bih76nN5U/IX++XdDmOaVh1
+	kdAqG3bvXJukKvWQP/Ot4KovdmP1VkDVsaAhKIFgbipx/p7lX8nwiEdiElsWNTy/BDU+PmLC0vg
+	MzXmCg3MV1fKzXoPQHDfPgq66v7LodrVltdULhjoe6zEAVxISsWM26kE+cZ+ixiTlONqqHSrqGx
+	mKWUeqdHIUEGLIbksNlwaHGgZ6qbdVZPJWSLZc1mRQGhcZScIv1T5Arnv3aIHqrc4rePYxQb+Om
+	7ZmABQM9nS0KkcdH6gRKATiXn3FbruG5EcCV6wmU4YXCMar0yxZvFGtSoi2d/AoBk4hl13AJEIx
+	/F2+656sVmeAJPxOOCKa7jb4oD974iu0AnrozUn6d72B6l3R5aZi0KnymXdXM57CbS
+X-Received: by 2002:a17:90b:3d47:b0:38e:2e86:ed02 with SMTP id 98e67ed59e1d1-38f9be181b1mr2001265a91.14.1785415237935;
+        Thu, 30 Jul 2026 05:40:37 -0700 (PDT)
+Received: from Default ([2409:40f4:10f3:2277:aebf:f6c4:d4e2:70b4])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13e72643a12sm32622646c88.5.2026.07.30.05.40.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jul 2026 05:40:37 -0700 (PDT)
+From: Jeffin Philip <jeffinphilip14@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: Frank.Li@nxp.com,
+	kees@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	panjunzhong@linux.spacemit.com,
+	xu.yang_2@nxp.com,
+	Jeffin Philip <jeffinphilip14@gmail.com>,
+	syzbot+8dcac923582c28505fd7@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH v5] usb: gadget: uvc: Fix Null Pointer Dereference in uvcg_video_init()
+Date: Thu, 30 Jul 2026 18:09:41 +0530
+Message-ID: <20260730123941.8180-1-jeffinphilip14@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260722101810.458634-1-yijiangshan@kylinos.cn>
 
-On Wed, Jul 22, 2026 at 06:18:10PM +0800, Jiangshan Yi wrote:
-> ibuf_len is the bulk IN (receive) buffer size, but the EMSGSIZE check
-> in usbio_bulk_msg() compares it against txbuf_len — the bulk OUT
-> endpoint size.  Both are taken independently from different endpoints
-> in usbio_probe(), so the check is wrong when they differ.
-> 
-> Use rxbuf_len for the IN direction.  This matches the buffer that
-> actually holds the response data.
-> 
-> Fixes: 121a0f839dbb ("usb: misc: Add Intel USBIO bridge driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
-> ---
->  drivers/usb/misc/usbio.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/misc/usbio.c b/drivers/usb/misc/usbio.c
-> index 3c2474dca810..fe093e7760d5 100644
-> --- a/drivers/usb/misc/usbio.c
-> +++ b/drivers/usb/misc/usbio.c
-> @@ -265,7 +265,7 @@ int usbio_bulk_msg(struct auxiliary_device *adev, u8 type, u8 cmd, bool last,
->  	lockdep_assert_held(&usbio->bulk_mutex);
->  
->  	if ((obuf_len > (usbio->txbuf_len - sizeof(*bpkt))) ||
-> -	    (ibuf_len > (usbio->txbuf_len - sizeof(*bpkt))))
-> +	    (ibuf_len > (usbio->rxbuf_len - sizeof(*bpkt))))
->  		return -EMSGSIZE;
->  
->  	if (ibuf_len)
+In uvcg_video_init(), if kthread_run_worker() fails,
+the error logged uses uvcg_err(), however, the pointer it uses:
+video->uvc is not assigned at this point, triggering a null
+pointer dereference. Fix this by directly using uvc->func which
+is assigned already.
 
-Tested-by: Antti Laakso <antti.laakso@linux.intel.com>
+Reported-by: syzbot+8dcac923582c28505fd7@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=8dcac923582c28505fd7
+Fixes: 7ea95b110811 ("usb: gadget: uvc: rename functions to avoid conflicts with host uvc")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
+---
+Changelog:
+ -Small fixes addressed in v4 discussion
+  https://lore.kernel.org/all/20260730093948.7800-1-jeffinphilip14@gmail.com/T/#u
+
+ drivers/usb/gadget/function/uvc_video.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index 2f9700b3f1b6..9ba09118bb74 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -821,7 +821,7 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
+ 	/* Allocate a kthread for asynchronous hw submit handler. */
+ 	video->kworker = kthread_run_worker(0, "UVCG");
+ 	if (IS_ERR(video->kworker)) {
+-		uvcg_err(&video->uvc->func, "failed to create UVCG kworker\n");
++		uvcg_err(&uvc->func, "failed to create UVCG kworker\n");
+ 		return PTR_ERR(video->kworker);
+ 	}
+
+--
+2.55.0
+
