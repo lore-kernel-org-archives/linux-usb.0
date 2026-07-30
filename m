@@ -1,157 +1,98 @@
-Received: from mail-oi1-f205.google.com (mail-oi1-f205.google.com [209.85.167.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3EC942B728
-	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 12:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2B9411671;
+	Thu, 30 Jul 2026 12:29:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785414387; cv=none; b=M1yLMBqpvC4eYBPzeRMixa4+F/cgJXQ0lecAjfgvvJ7U0YXDV8GmS4MFlvWJHOD1q1s5YW3dlPxpVQeMc2757ELEjriYNIfpznp5MWAYX1em8OO6ZCswEsztALMgRzLLmJ/+YQaaUWVBXFsIAibEfYL2+lJaK+cmvHLTifM95TQ=
+	t=1785414594; cv=none; b=fjWWRvHkKM1MxN+/wawnnLZa5KM4ya8roIUg0HJW5wOixcOQrD+VBQA+UBBtTJjgAyfv/IDl0J96/xCgMJxb7Ghm6Bys5imS/vxIPh94SHofO/CvUdAcZzuHz5GqQiPqSD3nLI1hD+MeH5CmzaRZTLI/BI8Y9PLpRXu7KPWlYxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785414387; c=relaxed/simple;
-	bh=3eX/wD/Y2vIGFeWBUssBD/O8VVwMxSDpbGhLJJd7dIY=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=gyAjfPBeF+t3n6eZdd4wTE+bLqSVpJoZWAl8AJTw9A7y1UsdCQyHSxoCKDeSsRtnnuDn4X+phrnKyrVio4Cov50eLOqWO1c4l1/MnlfPqgR/ml2R63CvBbA9wGOJVXi9wnNNuevf3N5G2LDYpRDc/rUOttlY4Dw3S0PNuIqMSpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f205.google.com with SMTP id 5614622812f47-48576b535b6so926086b6e.2
-        for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 05:26:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785414381; x=1786019181;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XFJV9HxGuHkSPqosS0cOCUqhDVqL3XcR6UL2UDe7Vsw=;
-        b=ChSakF/vWcOwY/Ey/i4QoTRSEsizRC6WmnUT+Vx0y7QjM1rJjvYB/ni4wxNQHca+cn
-         3IEaBeX7B4XuJEE9xb1SQSfjspCYj+2EeXUrcgbixMfrKukniDMjaezgaJJS+MN4/x2F
-         SufqlFKScT9Oy5BADn99jePXI8gTsXSJVsQ0GWUPtKnQwyDrUvkU5euGkf9d49oDhwER
-         KvVeOJIm676BXQoqbOjhW/E8BQAUB/tWSlW7zUFDY3dqU0itIGiwlhgqp9lszUA3Y+J0
-         a7xm2w0Ttw8n8/vz+PRXZab608AOI2kY1hv+ISQ+UPaIgWSc8warteSIZFidCzFP82i/
-         5Bgg==
-X-Forwarded-Encrypted: i=1; AHgh+RrkKX5jTvdClZ7IB9HsNwoyFvctnFWT3rllgklLvNv8gGhw7F366TthKxhBoKi+9yOfTSr2RtKL558=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQaaOKpUpkyVDL8L7NvVPnqTmTRvIQ/b7Wxo4sqE4Y8vomFm/1
-	TEYtET6gQIKU8yl+V1sZPlXA9IASzoBnfd+LHdmKyQVK4Ima7q0cVq8QNCMX/mVoINwzxhypQvI
-	LKczqc1raRwWGMiTczG14/+qT23VrWN1aGBlgDnllbC4AQ9+0LtJT3T+ysJw=
+	s=arc-20240116; t=1785414594; c=relaxed/simple;
+	bh=OO/SE1PwhpajyMbmM2qT0kMyzsBUzzKtu8jgtvCBiE0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SsiDs0Yn/QM+PAeSE7HeLQgOr1HBBXQ8RBdynfxwxUQvlepK/a8WA0+OgMgxFlNvcK87PVzcLcc7scQHCUXhmjwgZI0JOK/uPR93QUtNCF2jG0cvACOQs7vl7ZCfKreVfMADVZ5JwFh1ummmLxJIInpx/jGeV3+cIgiISqqxbzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cFyUf4dR; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cFyUf4dR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785414592; x=1816950592;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=OO/SE1PwhpajyMbmM2qT0kMyzsBUzzKtu8jgtvCBiE0=;
+  b=cFyUf4dRe+eOsrgSvGyg/iftDLmfM0mYjY2fmWSwcEFhlKf45Syv9Lix
+   UwonmXt91L4QQT8XPM6TjH4BpYOtRVJ4sUKk9ifxMnFZQmc4im7B1hmTM
+   8vWlKii5wLVrbLqieCGN79cSs5/cu+dNAU2hI+QH4Rfvhci4ccqYmVCqq
+   EY4iScDb9FY1fe9IDmS5d8eQmRJ5yqTzgNK+BUU5mI3ekNOffvSr89yjW
+   pOcB0BCudCe34FoOtL7mmXHhuvKqyhZg19I+uub151qse7Q4AhSWcJbzY
+   p4I0kkIjUT02hqdyiSOzf6RTey/S8b+60+z1agw7pda0yj5njfCyHuoEc
+   w==;
+X-CSE-ConnectionGUID: 9P4gY5khSwGgnh+w9lt/Rw==
+X-CSE-MsgGUID: 6reNcY9WQCeUQ6IwEyB1tQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11859"; a="89712425"
+X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
+   d="scan'208";a="89712425"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:29:51 -0700
+X-CSE-ConnectionGUID: jkRxFni7TQWU5acaCyekJw==
+X-CSE-MsgGUID: PwXQ/QiXQ8CZulru9stBfQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,194,1779174000"; 
+   d="scan'208";a="264561145"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO alaakso-desk) ([10.245.246.85])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2026 05:29:49 -0700
+Date: Thu, 30 Jul 2026 15:29:45 +0300
+From: Antti Laakso <antti.laakso@linux.intel.com>
+To: Jiangshan Yi <yijiangshan@kylinos.cn>
+Cc: israel.a.cepeda.lopez@intel.com, hansg@kernel.org,
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	13667453960@163.com, stable@vger.kernel.org
+Subject: Re: [PATCH] usb: misc: usbio: check ibuf_len against rxbuf_len in
+ bulk msg
+Message-ID: <amtDubB1yNk1JGXG@alaakso-desk>
+References: <20260722101810.458634-1-yijiangshan@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:3507:b0:496:3a1:e44f with SMTP id
- 5614622812f47-4ad8773d02emr1429632b6e.6.1785414381730; Thu, 30 Jul 2026
- 05:26:21 -0700 (PDT)
-Date: Thu, 30 Jul 2026 05:26:21 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a6b42ed.86abc875.e5c3d.006a.GAE@google.com>
-Subject: [syzbot] [usb?] memory leak in try_get_usb_function_instance
-From: syzbot <syzbot+eaa106d192c9daf37f95@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260722101810.458634-1-yijiangshan@kylinos.cn>
 
-Hello,
+On Wed, Jul 22, 2026 at 06:18:10PM +0800, Jiangshan Yi wrote:
+> ibuf_len is the bulk IN (receive) buffer size, but the EMSGSIZE check
+> in usbio_bulk_msg() compares it against txbuf_len — the bulk OUT
+> endpoint size.  Both are taken independently from different endpoints
+> in usbio_probe(), so the check is wrong when they differ.
+> 
+> Use rxbuf_len for the IN direction.  This matches the buffer that
+> actually holds the response data.
+> 
+> Fixes: 121a0f839dbb ("usb: misc: Add Intel USBIO bridge driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
+> ---
+>  drivers/usb/misc/usbio.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/misc/usbio.c b/drivers/usb/misc/usbio.c
+> index 3c2474dca810..fe093e7760d5 100644
+> --- a/drivers/usb/misc/usbio.c
+> +++ b/drivers/usb/misc/usbio.c
+> @@ -265,7 +265,7 @@ int usbio_bulk_msg(struct auxiliary_device *adev, u8 type, u8 cmd, bool last,
+>  	lockdep_assert_held(&usbio->bulk_mutex);
+>  
+>  	if ((obuf_len > (usbio->txbuf_len - sizeof(*bpkt))) ||
+> -	    (ibuf_len > (usbio->txbuf_len - sizeof(*bpkt))))
+> +	    (ibuf_len > (usbio->rxbuf_len - sizeof(*bpkt))))
+>  		return -EMSGSIZE;
+>  
+>  	if (ibuf_len)
 
-syzbot found the following issue on:
-
-HEAD commit:    3dab139d4795 Merge tag 'rust-fixes-7.2-2' of git://git.ker..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=163a388e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ba7c2d1679fb08a2
-dashboard link: https://syzkaller.appspot.com/bug?extid=eaa106d192c9daf37f95
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=111c11b9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12b5909e580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/8c49d395f8d0/disk-3dab139d.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/deff2ace5e6a/vmlinux-3dab139d.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/2c90a783f940/bzImage-3dab139d.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+eaa106d192c9daf37f95@syzkaller.appspotmail.com
-
-2026/07/26 12:12:48 executed programs: 5
-BUG: memory leak
-unreferenced object 0xffff888112a69c00 (size 512):
-  comm "syz.0.19", pid 5954, jiffies 4294946869
-  hex dump (first 32 bytes):
-    08 9c a6 12 81 88 ff ff 65 70 2e 30 00 00 00 00  ........ep.0....
-    00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00  ................
-  backtrace (crc 56e62c00):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4597 [inline]
-    slab_alloc_node mm/slub.c:4917 [inline]
-    __kmalloc_cache_noprof+0x356/0x440 mm/slub.c:5485
-    _kmalloc_noprof include/linux/slab.h:988 [inline]
-    _kzalloc_noprof include/linux/slab.h:1309 [inline]
-    f_midi2_ep_opts_create drivers/usb/gadget/function/f_midi2.c:2504 [inline]
-    f_midi2_alloc_inst+0xa0/0x250 drivers/usb/gadget/function/f_midi2.c:2666
-    try_get_usb_function_instance+0xb8/0x100 drivers/usb/gadget/functions.c:28
-    usb_get_function_instance+0x16/0x70 drivers/usb/gadget/functions.c:44
-    function_make+0xf5/0x240 drivers/usb/gadget/configfs.c:626
-    configfs_mkdir+0x2e9/0x6f0 fs/configfs/dir.c:1360
-    vfs_mkdir+0x16c/0x3a0 fs/namei.c:5276
-    filename_mkdirat+0x27c/0x300 fs/namei.c:5309
-    __do_sys_mkdirat fs/namei.c:5330 [inline]
-    __se_sys_mkdirat fs/namei.c:5327 [inline]
-    __x64_sys_mkdirat+0x39/0x60 fs/namei.c:5327
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xf8/0x610 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-BUG: memory leak
-unreferenced object 0xffff8881105a3f00 (size 256):
-  comm "syz.0.19", pid 5954, jiffies 4294946869
-  hex dump (first 32 bytes):
-    08 3f 5a 10 81 88 ff ff 62 6c 6f 63 6b 2e 30 00  .?Z.....block.0.
-    00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00  ................
-  backtrace (crc f7f284e3):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4597 [inline]
-    slab_alloc_node mm/slub.c:4917 [inline]
-    __kmalloc_cache_noprof+0x356/0x440 mm/slub.c:5485
-    _kmalloc_noprof include/linux/slab.h:988 [inline]
-    _kzalloc_noprof include/linux/slab.h:1309 [inline]
-    f_midi2_block_opts_create+0x82/0x120 drivers/usb/gadget/function/f_midi2.c:2342
-    f_midi2_alloc_inst+0xe9/0x250 drivers/usb/gadget/function/f_midi2.c:2673
-    try_get_usb_function_instance+0xb8/0x100 drivers/usb/gadget/functions.c:28
-    usb_get_function_instance+0x16/0x70 drivers/usb/gadget/functions.c:44
-    function_make+0xf5/0x240 drivers/usb/gadget/configfs.c:626
-    configfs_mkdir+0x2e9/0x6f0 fs/configfs/dir.c:1360
-    vfs_mkdir+0x16c/0x3a0 fs/namei.c:5276
-    filename_mkdirat+0x27c/0x300 fs/namei.c:5309
-    __do_sys_mkdirat fs/namei.c:5330 [inline]
-    __se_sys_mkdirat fs/namei.c:5327 [inline]
-    __x64_sys_mkdirat+0x39/0x60 fs/namei.c:5327
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xf8/0x610 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Tested-by: Antti Laakso <antti.laakso@linux.intel.com>
