@@ -1,112 +1,89 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13A03BCD0A
-	for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 09:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FD238DC51;
+	Thu, 30 Jul 2026 10:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785404408; cv=none; b=CDz4s3fKjAnQnVuiGcLzpEPux7Mn9uVTaw6CFNTG5gbgJZuxjaPjGZPS3oDwAqvxi53LC7n1WkT7GMnh+0kxzq2nFWf/d+0aqle3GqMirg9SgKu8l0A5cY3b+YKCn01KLD5KLigBYE2xe+a5Xn52s3X+iavFAAbeUOSjT6qSbnQ=
+	t=1785405611; cv=none; b=Gu+g1VAbRS1DDXpeooZxIrVkD0K5S32lSMkT5lFzX+wg1njd3IUf9VwF1I0CmU5Pe0k9sz1sjIUXxKGwnVumhOmyFJevd8PNLvKqXIbCc1SjnPu39UWERTlueioCuw/6+RdlQgsty9enjh/ZYfzAiEgEFueWDG3VkO/Wv+qXa1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785404408; c=relaxed/simple;
-	bh=QVWkhEl0FV+Cz79sh6pbWlQp2k5M+DToLA+Tgm/x84M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g0TEU5S1KzBastdMUpwefFQsEtP/K8gJDqzuRaL4OW+BzxnMeksgly1BI4bi9YYizsnfZmAmKCbv2+qRX7BlqDDsxzo1qOVlTKFdBN+j986ZrzGtMOug76N7rI7+ZkGLlYlevk3KdIOmFENqSAJM8Q151I0Iku9ert41vR8fYtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Afv/Kosq; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785405611; c=relaxed/simple;
+	bh=YAK4FBEjUwihRwITFMn8VwvrjUGpkYRacJbhN6DWGUE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mUZnVW374EtKOHWCMgACVXUOlDz2IAIpliWOI1saEMeS+mZGGMSyXTSwiFzlIb51oSyVd8o/FcdZzm4YANTVbOKJL0qHJkL/2YAb8rAzx7pSNuEbvSFuJE8vgg0MkfGIJRJynhHec544BV35j2e5qTIcJoOVXplLT6QwZW/kli0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yH1Ykp9+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Afv/Kosq"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-383cb94f742so1919358a91.3
-        for <linux-usb@vger.kernel.org>; Thu, 30 Jul 2026 02:40:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785404406; x=1786009206; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QiYqu+7IfXIRAIS5oVdzky6mjvxq3/9d+Z5iNN6Z82c=;
-        b=Afv/KosqbkLdMobvmIuEhe2C7Fy6X8nfrikNH9x12iNNjNAcz9RZKBBUUsJWwIzcES
-         MCC+tJKO6u9aGSkJ0wPaE62w0avVhrUz/iJFgDyzEUURjIZMUGZc6jeqKPfBYCmGkQQm
-         W6vwQRb1TrOfnthEJtOfgDPU4EcpzhZX33OR9H31TXo/p3lfY/D9lD+ZUc9VgsNZzM87
-         T7Kuqsvn3ZCN5Tj96/RnzWH1EdWa/v5P+psmxWrg2UA07/2lXo+UvV1+4xntNwXP0E8m
-         wMk1G80JdGGkHDelzxc+03dYLH80PbOO32lEKbeZlx36hHRyeiW/H35/6lvxQn5TVvTI
-         Ex+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785404406; x=1786009206;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QiYqu+7IfXIRAIS5oVdzky6mjvxq3/9d+Z5iNN6Z82c=;
-        b=Am0Dnb14TDgdczWEhYRzG2lHxZnBkAa3bGJdFdMW8Yi7/TP+j7aSTuWlSuY/7ZWrYT
-         HIUOZUstq3HT17oR4C0Zu/a9Pbcxc21ol6baExHbRxV0z18Gi1lYtWorg1ypx8BsjHNp
-         A7x5MRAn8HNj2HvjVdPVc1cHr0HWGByCl6WuVXwDdKsQdAoVDccSlOaPkX6zjVbwQDUo
-         2S4YPrzmjDcHFEy2gt6tBybFkx5v8gpfJCBw3LAQDBQDIQj5oeXa7+Uoo3x3sHyY+YWM
-         Cav8z4EnZaDRnt9uvBdQ7eNfprYWHc0DfNIcZIUAeG71sZ8eeeVBhmcIhWIAowPCRl/Z
-         SHAQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr1bY1tzgFMz9U/3dq+eYb/Olro+Z1URtECd7Lc8jIfw8jZx+m3yZV+Z07bSf3Cm5IHd+7waGhWkc4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNcVxYRvwfnmRpUyDU/uShx4o2v+F5mBfPogOAY7AFdpIbbebt
-	gZ32CzYvKfjANFvfFUcA3VmSg+l/GKGl47xZPTXA41edzbBq6fxKwGaQ
-X-Gm-Gg: AR+sD12tILr38nKoUCZBpWwd1tZAEHjKqmGnBq8207DQHzFvk7BLbdnvz6R+zX/86i0
-	Q8VcD2l+07kt0i/YRqn3p34V1bdWzXEZt3w7V/6Bv+Pw0yTEFTLOpUvss9GHYi4wne+KnzuZzcv
-	w0MEH/f1D9Dv6XuYg8p5bqAhyqV4ZbTB7xSr+x+dMVkObMmLazz8P7m40dSiELRaSBxpZeb4BEC
-	04Chx/0cfer9oTNsk9tO61cW/Uu825zEKtW7JVPRCNsQ+FV787CNX666n460/EFKy6Bpr7qsjs8
-	1Ls7A/kee2hrqTiHAhuE8rtCY2W+O3bv9Hi0ld/TJJf1f9iXE5mWXS/Sk83wDEILQosBTCAVWeP
-	7dgxMLQlsUPtxRG2/zMNOZR9Mx41liiNSVL0MNSPO+OChYluSbLi0ToFO0pV2JvztfsOYQkqZmU
-	7W5XlAHhsnbiG2h9wIN++jitM+uRCfyIR09eEnKMmJWJBuHTay6vYzF25rYFqj+azzVg==
-X-Received: by 2002:a17:90b:55c7:b0:38e:75f3:ad4d with SMTP id 98e67ed59e1d1-38f9be2b442mr1756243a91.7.1785404406040;
-        Thu, 30 Jul 2026 02:40:06 -0700 (PDT)
-Received: from Default ([2409:40f4:100d:2c91:aff5:d71c:30c2:c60a])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504dab154sm21269626eec.26.2026.07.30.02.40.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 02:40:05 -0700 (PDT)
-From: Jeffin Philip <jeffinphilip14@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: xu.yang_2@nxp.com,
-	Frank.Li@nxp.com,
-	panjunzhong@linux.spacemit.com,
-	kees@kernel.org,
-	linux-usb@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yH1Ykp9+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CB2D1F000E9;
+	Thu, 30 Jul 2026 10:00:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1785405609;
+	bh=l/xo6Y9k3LaBxxdPOqqjWN0IjEhjhqW7CVXzXDrrmHk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=yH1Ykp9+b0iNiu3RY+mDjyWgom9yfalc8QCeWrtPVdmUuXkv5SF6BSnlKSZwoaHKT
+	 i6F4SkonwVH3A4ucn3i/aaVUHkaFivIaFe3bJYYYBcZA5G96Q9sQlh48lBF3Jv1Xsd
+	 QyVeLMcJRomJgSJjgtk61GHNzoIy9CMVRvDukMtQ=
+Date: Thu, 30 Jul 2026 11:59:55 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jeffin Philip <jeffinphilip14@gmail.com>
+Cc: xu.yang_2@nxp.com, Frank.Li@nxp.com, panjunzhong@linux.spacemit.com,
+	kees@kernel.org, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Jeffin Philip <jeffinphilip14@gmail.com>,
 	syzbot+8dcac923582c28505fd7@syzkaller.appspotmail.com,
 	stable@vger.kernel.org
-Subject: [PATCH v4] usb: gadget: uvc: Fix Null Pointer Dereference in
-Date: Thu, 30 Jul 2026 15:09:48 +0530
-Message-ID: <20260730093948.7800-1-jeffinphilip14@gmail.com>
-X-Mailer: git-send-email 2.55.0
+Subject: Re: [PATCH v4] usb: gadget: uvc: Fix Null Pointer Dereference in
+Message-ID: <2026073025-gigantic-defuse-84d7@gregkh>
+References: <20260730093948.7800-1-jeffinphilip14@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260730093948.7800-1-jeffinphilip14@gmail.com>
 
-In uvcg_video_init(), if kthread_run_worker() fails,
-the error logged uses uvcg_err(), however, the pointer it uses:
-video->uvc is not assigned at this point, triggering a null
-pointer dereference. Fix this by directly using uvc->func which
-is assigned already.
+On Thu, Jul 30, 2026 at 03:09:48PM +0530, Jeffin Philip wrote:
+> In uvcg_video_init(), if kthread_run_worker() fails,
+> the error logged uses uvcg_err(), however, the pointer it uses:
+> video->uvc is not assigned at this point, triggering a null
+> pointer dereference. Fix this by directly using uvc->func which
+> is assigned already.
+> 
+> Reported-by: syzbot+8dcac923582c28505fd7@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=8dcac923582c28505fd7
+> Fixes: 7ea95b110811 (usb: gadget: uvc: rename functions to avoid conflicts with host uvc)
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
+> ---
+>  drivers/usb/gadget/function/uvc_video.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+> index 2f9700b3f1b6..9ba09118bb74 100644
+> --- a/drivers/usb/gadget/function/uvc_video.c
+> +++ b/drivers/usb/gadget/function/uvc_video.c
+> @@ -821,7 +821,7 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
+>  	/* Allocate a kthread for asynchronous hw submit handler. */
+>  	video->kworker = kthread_run_worker(0, "UVCG");
+>  	if (IS_ERR(video->kworker)) {
+> -		uvcg_err(&video->uvc->func, "failed to create UVCG kworker\n");
+> +		uvcg_err(&uvc->func, "failed to create UVCG kworker\n");
+>  		return PTR_ERR(video->kworker);
+>  	}
+> 
+> --
+> 2.55.0
+> 
 
-Reported-by: syzbot+8dcac923582c28505fd7@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=8dcac923582c28505fd7
-Fixes: 7ea95b110811 (usb: gadget: uvc: rename functions to avoid conflicts with host uvc)
-Cc: stable@vger.kernel.org
-Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
----
- drivers/usb/gadget/function/uvc_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Please slow down. Only do 1 patch per day, at the most.
 
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 2f9700b3f1b6..9ba09118bb74 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -821,7 +821,7 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
- 	/* Allocate a kthread for asynchronous hw submit handler. */
- 	video->kworker = kthread_run_worker(0, "UVCG");
- 	if (IS_ERR(video->kworker)) {
--		uvcg_err(&video->uvc->func, "failed to create UVCG kworker\n");
-+		uvcg_err(&uvc->func, "failed to create UVCG kworker\n");
- 		return PTR_ERR(video->kworker);
- 	}
+This one is still wrong (hint, no changelog of what changed between
+versions.)
 
---
-2.55.0
+There is no rush here, relax :)
 
+thanks,
+
+greg k-h
