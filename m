@@ -1,63 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB8D1DF248;
-	Fri, 31 Jul 2026 13:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB29A5695;
+	Fri, 31 Jul 2026 13:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785504366; cv=none; b=lCGfsSE5TtVCLEvN7J8GPEEsR9s4Rjqx+gYYeQqXlDgYaa/1bIVVN5+hdV8xoXTUyOd3Rdb5ppYoh5qONQjmeRzOw8JORKNWGMVK8coxKHLyCwaAlre9KvBcZJzw9/73iMwmNiBEPMf1010AKaKERmLvCPwyDuoCjou9rhYaJrM=
+	t=1785504715; cv=none; b=fzLNX2TXsE5mHH/m0sVrIMiSoqIQ+7BRqTqu/ft/Q7+zu8DIZHokDuw56XKVkJvY66/BxfWUVwMst6J7bO2iFsQrHXqoM2zo+Yzy/abs6tBRJ2gEAZoGR9lqA2jys3fZecp8mTYzJItq1p7x03nrJpIIxP1/iC3pAATBHfsorZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785504366; c=relaxed/simple;
-	bh=nIG1qcZnbAITJ9F8ZcApjWSQKYFtXcVE4l1QYZI96G0=;
+	s=arc-20240116; t=1785504715; c=relaxed/simple;
+	bh=XEJsFqUMJdgVQw5t9ByhRqL3F4MdLLQ1VSep3LSS1e4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VECs61frIUqyVyY7kr0m8z/aO/YkZhP4PhMMNjXBJ3nrPcwEat+QFyoNOnK19VNVlPTCJRWZt+i8Gcue6XMIwDWspY1eGz7zafJLPykh/kKqqHTK3WMjTiboiPxM3T8tQXZsTNlyoyCU4TyDk77Vc1X9/uX5MJW2KbcHQsVv0as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKdYqz7p; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=NOOxT3HrKHqCqFQtsEW2SecnpYiS5htsle9mGioVADeHkURBmkvr/GR3JBykHnnMq5W8JP4H/Q4jnolSgrVr4TIPCqeuhCKb8+8Wj7UaUK8233V+zKWfuzj5tTGxzBoRzUWWn1OwsHTNb7BFMReWmcjeF3hHwAZwHr1JLC7p9+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kOHPZY1g; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YKdYqz7p"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785504365; x=1817040365;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nIG1qcZnbAITJ9F8ZcApjWSQKYFtXcVE4l1QYZI96G0=;
-  b=YKdYqz7pdlNGW3HVCRol62V5OLDSZ4PggX2hDRmlFqa+jvNQdAIeWgkH
-   h/5C3D/2Msswx8ytDooTQQ9MQ4SIvE7+eqhF3qeDxGQw6Zln1Eo3UhK/E
-   4jHNl0qZh7v6e+J9EEfDqrlTI3BHzxmFKgh+vpwkJGxquOmEn3Vp/0dMt
-   1a6TkvGnwOdiT8pVw3MuJmUD6jjFGvhW/wUj5QkA9SuL/036VaZxLZMx6
-   a3gFcj+Htobon2VM6kO5Dlb9KL65Io5+iJ+vVenEdjWXAPHINbkw6nITH
-   4I2RGNXWGoyENSZVaQVprtdNBQYDhtw9bfzyBw1bvqcmMnkuL9YjnOMZk
-   g==;
-X-CSE-ConnectionGUID: rvMHO45bR1q3ym54DKzuIg==
-X-CSE-MsgGUID: CjGJdaJLSyyxQOfP/BA04Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11860"; a="108923135"
-X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="108923135"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 06:26:04 -0700
-X-CSE-ConnectionGUID: UxNIjUXkTquD1ugO/6HpYw==
-X-CSE-MsgGUID: 0PL/vfzxSYKNYmgmepgoRg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
-   d="scan'208";a="262544045"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 31 Jul 2026 06:26:02 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wpnFP-000000000yn-132C;
-	Fri, 31 Jul 2026 13:25:59 +0000
-Date: Fri, 31 Jul 2026 21:25:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ashwin Gundarapu <linuxuser509@zohomail.in>,
-	netdev <netdev@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb <linux-usb@vger.kernel.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	andrew <andrew@lunn.ch>
-Subject: Re: [PATCH v2] net: usb: net1080: add error handling to
- nc_vendor_write()
-Message-ID: <202607312111.RaYDdcfw-lkp@intel.com>
-References: <19fa888e049.512e8c5e24030.7986824281565553606@zohomail.in>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kOHPZY1g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 845B01F00A3A;
+	Fri, 31 Jul 2026 13:31:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785504713;
+	bh=rGgwANsxUTezRZTMVGHNgPfWWWn+5m3NscRbU5PsUSs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kOHPZY1gOTbhlsywYYreCcmwSTF0B3ogQ031uyhy+FZZgZgNPdedgrX+ZqDXrJdCs
+	 2fBiEB0nWW5ckA08kqaaAbrdwwD1gnpEg1zvcywSpLrmYXXfIemgyp8e3sHMhgWHmK
+	 e2cCZsdLWmVze7D8+oXKkVVSmUKzRe591J01o0L3pdhRzNEz/DOBDhUSymFhdYM8Ut
+	 q4zKRrfW6rMLJeGNtFID696NqD8c285hmHxcn/GfsTDyxgpmOVxCKFN217VMq8+SF4
+	 pfl/4t1O8f7bfFe0Vr+dWBy0bJLBU1Zoj6b7mDc0Vn9MIFOn7kax2ooIV9gsJCcaAS
+	 P8GZW/pHzWPdg==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1wpnL4-00000000VuS-48mA;
+	Fri, 31 Jul 2026 15:31:51 +0200
+Date: Fri, 31 Jul 2026 15:31:50 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Jiale Yao <yaojiale02@163.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: serial: fix slab out-of-bounds read in interrupt
+ URB callback
+Message-ID: <amyjxljD7aMO75Ql@hovoldconsulting.com>
+References: <20260725162751.1045657-1-yaojiale02@163.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -66,47 +47,101 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <19fa888e049.512e8c5e24030.7986824281565553606@zohomail.in>
+In-Reply-To: <20260725162751.1045657-1-yaojiale02@163.com>
 
-Hi Ashwin,
+On Sun, Jul 26, 2026 at 12:27:51AM +0800, Jiale Yao wrote:
+> The interrupt URB buffer is allocated in setup_port_interrupt_in() based
+> on the endpoint's wMaxPacketSize:
+> 
+>     buffer_size = usb_endpoint_maxp(epd);
+>     port->interrupt_in_buffer = kmalloc(buffer_size, GFP_KERNEL);
+> 
+> When a USB device declares wMaxPacketSize = 8 on its interrupt IN
+> endpoint, the buffer is allocated from kmalloc-8 cache (exactly 8 bytes).
+> 
+> If the device sends a short packet (actual_length < wMaxPacketSize),
+> the URB completes with status == 0 and the callback proceeds to read:
+> 
+>     data[sizeof(struct usb_ctrlrequest)]
+> 
+> which evaluates to data[8], accessing 1 byte beyond the allocated 8-byte
+> buffer. This results in a slab out-of-bounds read.
+> 
+> Fix this by splitting the bounds check into two: first verify that the
 
-kernel test robot noticed the following build errors:
+As there is no current check I changed this to "by adding the missing
+bounds check".
 
-[auto build test ERROR on net/main]
-[also build test ERROR on net-next/main linus/master horms-ipvs/master v7.2-rc5 next-20260730]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> actual length is large enough to contain the struct usb_ctrlrequest
+> header before accessing req_pkt->bRequestType and req_pkt->bRequest,
+> and then verify that there is an additional byte for the modem signal
+> state before reading data[sizeof(struct usb_ctrlrequest)] inside the
+> conditional.  Use sizeof(*req_pkt) instead of sizeof(struct
+> usb_ctrlrequest) for consistency.
+ 
+> Changes in v2:
+> - Split the bounds check into two separate checks: one for the
+>   usb_ctrlrequest header (before the conditional) and one for the
+>   modem signal state (inside the conditional), as requested by
+>   Johan Hovold and Oliver Neukum.
+> - Use sizeof(*req_pkt) instead of sizeof(struct usb_ctrlrequest),
+>   as suggested by Greg Kroah-Hartman.
+> - Link to v1: https://lore.kernel.org/all/20260712170012.3503601-1-yaojiale02@163.com/T/#u
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ashwin-Gundarapu/net-usb-net1080-add-error-handling-to-nc_vendor_write/20260731-180509
-base:   net/main
-patch link:    https://lore.kernel.org/r/19fa888e049.512e8c5e24030.7986824281565553606%40zohomail.in
-patch subject: [PATCH v2] net: usb: net1080: add error handling to nc_vendor_write()
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20260731/202607312111.RaYDdcfw-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607312111.RaYDdcfw-lkp@intel.com/reproduce)
+The changelog should go below the --- line so that it does not end up
+in the git logs.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607312111.RaYDdcfw-lkp@intel.com/
+> Assisted-by: Claude:deepseek-v4-pro
+> Signed-off-by: Jiale Yao <yaojiale02@163.com>
+> ---
+>  drivers/usb/serial/option.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+> index 4c4009b8a46d..caef872a3c40 100644
+> --- a/drivers/usb/serial/option.c
+> +++ b/drivers/usb/serial/option.c
+> @@ -2672,12 +2672,25 @@ static void option_instat_callback(struct urb *urb)
+>  			dev_dbg(dev, "%s: NULL req_pkt\n", __func__);
+>  			return;
+>  		}
+> +
+> +		if (urb->actual_length < sizeof(*req_pkt)) {
+> +			dev_dbg(dev, "%s: short packet: %u bytes\n",
+> +				__func__, urb->actual_length);
+> +			return;
 
-All errors (new ones prefixed by >>):
+Since we stop the reading from the endpoint this should be logged as
+an error.
 
->> drivers/net/usb/net1080.c:132:2: error: '#endif' without '#if'
-     132 | #endif
-         |  ^~~~~
+> +		}
+> +
+>  		if ((req_pkt->bRequestType == 0xA1) &&
+>  				(req_pkt->bRequest == 0x20)) {
+>  			int old_dcd_state;
+> +			if (urb->actual_length < sizeof(*req_pkt) + 1) {
+> +				dev_dbg(dev, "%s: short interrupt transfer: %u bytes\n",
+> +					__func__, urb->actual_length);
+> +				return;
 
+Same here.
 
-vim +132 drivers/net/usb/net1080.c
+> +			}
+> +
+>  			unsigned char signals = *((unsigned char *)
+>  					urb->transfer_buffer +
+> -					sizeof(struct usb_ctrlrequest));
+> +					sizeof(*req_pkt));
 
-904813cd8a0b33 drivers/usb/net/net1080.c David Brownell 2005-08-31  129  
-904813cd8a0b33 drivers/usb/net/net1080.c David Brownell 2005-08-31  130  
-904813cd8a0b33 drivers/usb/net/net1080.c David Brownell 2005-08-31  131  
-904813cd8a0b33 drivers/usb/net/net1080.c David Brownell 2005-08-31 @132  #endif
-904813cd8a0b33 drivers/usb/net/net1080.c David Brownell 2005-08-31  133  
-904813cd8a0b33 drivers/usb/net/net1080.c David Brownell 2005-08-31  134  
+And signals now need to be declared and initialised separately to keep
+the declarations at the top of the block.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>  
+>  			dev_dbg(dev, "%s: signal x%x\n", __func__, signals);
+
+I fixed up the above when applying this time (and added the missing
+driver name to Subject). The end result is here:
+
+	https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git/commit/?h=usb-next&id=885d802f544ca7bfa8f3984d94233cce715bb6b3
+
+Johan
