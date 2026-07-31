@@ -1,113 +1,513 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ironport.ite.com.tw (60-251-196-230.hinet-ip.hinet.net [60.251.196.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80F6408018;
-	Fri, 31 Jul 2026 10:01:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEBA3BED78;
+	Fri, 31 Jul 2026 10:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.251.196.230
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785492078; cv=none; b=DudsfpNtsmv5hhUt5ZX7cQ0e5deqC/jdvT/vI7QOfK+/DJtEzlOamR/sYLb/UjG3buNK8wb/UpCDDXtoJ1LP4DJelxEGfJFwg8gRjrr3kwomC4jdig/s2gBCu5qc8Cu4uS82kBj6+THQR0a284l6jaZSEq502/XcRO4SUFsUbYw=
+	t=1785492137; cv=none; b=Y5UiQLcJ0Ss0DAebZxcoMSXro2Cy8XIh1iJeiY4Q4zD/PxEG0Kv6pf1ZhiOk0bg+U+XI7RkNPnhqzFQzoPzs+eByhGHLo4n7tjCQUVEwpaus63zBChpu44agv+h33SQDe5YHoiaKaqrRiB3+s57q2sdH07Xm/ZfB5bwHpIAb+3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785492078; c=relaxed/simple;
-	bh=KlCqI650uExuWZPDin/+py6svSSDja3/3wQ+HNFhLIY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HNosLvY0WqCiKsSAFtcV6ETZPS15M1CMn0Zb+AQY2B7FL10TW1N6Qvf8X/qDlqoqd2yJbBrZAEjbvBOMRks6hB1YKjPQV7I9aInRVRlvQlCvUculvgYhELjNGmhtJFs/nL+0F7wvYTdzF7JNK8rG3EUmFEaHwBuDhXU+XLJtf3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WftJdO5M; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785492137; c=relaxed/simple;
+	bh=WkEp3+KOKFjSM00NHE+Zqkjl31hejSX392orgnxxnx8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=shv4ustgOnDBWEm06qx+6N7hH2nEsUivQes9+oPIzRATLNE8smY4uOOySIXotOkJa//fJtNHIUCJM0d6MbXo5HzdAA1YRuPE6OJVqYN63bXIFDoAerE+hWGLCPB8VnaUxIt3wPK56+0tebNJdW9JCEYVSRiTklnKkck8cbzitm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw; spf=pass smtp.mailfrom=ite.com.tw; dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b=QEMhE7oK; arc=none smtp.client-ip=60.251.196.230
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ite.com.tw
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WftJdO5M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A11881F000E9;
-	Fri, 31 Jul 2026 10:00:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785492063;
-	bh=5exqEWY3QQkS1RSL6GG0A/UQ+LCHlyye0D9104wdTqY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=WftJdO5MU+FuDIhiLVN3ZkEd+13G/rHgEVnAvx6TLlCnvHbLbiIzG74GF5vxlid8h
-	 BHWnelt3zFm0qkL3R30pM7kc07UM24XM2E+NQZ+SOSg04EzuxvtrZFnghZLAC3cPug
-	 L17ZD4arEPBoTsI/XLvtqc5lFx0vARTh3jkPPmjYbcbmDZhav/fSTaPYtJ8drnkmoQ
-	 bVA5voXmVcB5egK4jXO82lbhfocD2S0yKOSBbXUIO7yzsVaolENc7/KjDiQI4S/M+r
-	 K+bXriBRNbN+nQffrpxueeB5KhjqvIEqEVKlFvx2/U5hweM0doDHx5r/noBymfbOXe
-	 qyyu1PAjhfYJg==
-Message-ID: <670ca697-40c5-403f-839d-b9470cd0879b@kernel.org>
-Date: Fri, 31 Jul 2026 12:00:56 +0200
+	dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b="QEMhE7oK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=ite.com.tw; s=dkim;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=+eNVIAM3DD8HhF06zVlzHuhCgRy2YlCPD3Ty3d+9DCQ=;
+  b=QEMhE7oKsGDlEZGmsqyxr65FVk5lelroJ2U2Hw4FC1QYyq2Pn8TqIFoT
+   dmLmrX4KjypPkaFgu50pPdD9ouB68YgxM2gw825LN+PS4ZhnycLlAaXg9
+   B/HpNGeSlyPgMlXGvagBuPOYgRnuGmmZxtD2WcI8HVc16dHcmSsC7p7oQ
+   mjWfLWYLRiGCAZI/aKG4sMkbuTnXfvux7oxnHJ1Ht8YSh5iopwHznQDvN
+   rmbQodbzxYrQsC/PPm4YBrSr3iAJVp0mFYcQgo3C1SFqCz9zQPVmWCmOW
+   GNUpSix6OltLP92KBoTvx2QYfeadY2HzJkj5h3tTMFQZA3EBJ1karvTRR
+   Q==;
+X-CSE-ConnectionGUID: 1FsLzIGqQkyhO2ItmxICTA==
+X-CSE-MsgGUID: VdsrvA4NRNugBYGZRPKKkg==
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+  by ironport.ite.com.tw with ESMTP; 31 Jul 2026 18:01:47 +0800
+Received: from hscmail1.internal.ite.com.tw (HSCMAIL1.internal.ite.com.tw [192.168.35.58])
+	by mse.ite.com.tw with ESMTP id 66VA1j5T005654;
+	Fri, 31 Jul 2026 18:01:45 +0800 (+08)
+	(envelope-from amber.kao@ite.com.tw)
+Received: from [127.0.1.1] (192.168.37.107) by HSCMAIL1.internal.ite.com.tw
+ (192.168.35.58) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Fri, 31 Jul
+ 2026 18:01:45 +0800
+From: Amber Kao <amber.kao@ite.com.tw>
+Date: Fri, 31 Jul 2026 18:02:04 +0800
+Subject: [PATCH v6 2/2] usb: typec: ucsi: Add ITE IT8851/IT8853 Type-C PD
+ controller driver
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] Support for pmic-glink in SM8475
-To: esteuwu@proton.me, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20260731-sm8475-pmic-glink-v2-0-28c04928ef22@proton.me>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
- /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
- s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
- EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
- rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
- DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
- IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
- vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
- oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
- sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
- vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
- Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
- BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
- 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
- f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
- WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
- XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
- IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
- YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
- p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
- GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
- YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
- vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
- ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
- QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
- +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
- wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
- c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
- K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
- n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
- qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260731-sm8475-pmic-glink-v2-0-28c04928ef22@proton.me>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-ID: <20260731-ucsi-itepd-v6-2-d25ae12b181f@ite.com.tw>
+References: <20260731-ucsi-itepd-v6-0-d25ae12b181f@ite.com.tw>
+In-Reply-To: <20260731-ucsi-itepd-v6-0-d25ae12b181f@ite.com.tw>
+To: Jeson Yang <jeson.yang@ite.com.tw>, Yaode Fang <Yaode.Fang@ite.com.tw>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+CC: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Amber Kao <amber.kao@ite.com.tw>,
+        Bling
+ Chiang <Bling.Chiang@ite.com.tw>, Eric Su <Eric.Su@ite.com.tw>,
+        Doreen Lin
+	<doreen.lin@ite.com.tw>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: TPEMAIL1.internal.ite.com.tw (192.168.15.58) To
+ HSCMAIL1.internal.ite.com.tw (192.168.35.58)
+X-TM-SNTS-SMTP:
+	DCA964DBD1085541BC131C75AE307D23B685B32256F94C82463ACB595BB0B7532002:8
+X-MAIL:mse.ite.com.tw 66VA1j5T005654
 
-On 31/07/2026 07:00, Esteban Urrutia via B4 Relay wrote:
-> This series adds a compatible string for SM8475 for supporting
-> pmic-glink.
-> This way, confusion is avoided, because SM8475 takes most
-> (CPU/GPU/reserved-memory/etc.) things from SM8450 and some (PHY/eUSB)
-> from SM8550.
-> Instead of using one or the other, add a different compatible string.
-> 
-> Signed-off-by: Esteban Urrutia <esteuwu@proton.me>
-> ---
-> Changes in v2:
-> - Apply suggestions from Krzysztof
+Add a UCSI driver for the ITE IT8851 and IT8853 I2C-based USB Type-C
+Power Delivery controllers.
+The controller signals UCSI through a shared interrupt line; events are
+read and acknowledged via vendor-specific registers, and
+UCSI events are forwarded to the UCSI core.
 
-Which ones? I did not see any improvements. This has to be specific.
+Add the driver file to the MAINTAINERS entry.
 
-Best regards,
-Krzysztof
+Cc: Yaode Fang <Yaode.Fang@ite.com.tw>
+Cc: Jeson Yang <jeson.yang@ite.com.tw>
+Cc: Bling Chiang <Bling.Chiang@ite.com.tw>
+Cc: Eric Su <Eric.Su@ite.com.tw>
+Cc: Doreen Lin <doreen.lin@ite.com.tw>
+Signed-off-by: Amber Kao <amber.kao@ite.com.tw>
+---
+ MAINTAINERS                         |   1 +
+ drivers/usb/typec/ucsi/Kconfig      |  10 +
+ drivers/usb/typec/ucsi/Makefile     |   1 +
+ drivers/usb/typec/ucsi/ucsi_itepd.c | 364 ++++++++++++++++++++++++++++++++++++
+ 4 files changed, 376 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ec0eeea79b9e..1e76e299e6c3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13727,6 +13727,7 @@ R:	Yaode Fang <Yaode.Fang@ite.com.tw>
+ L:	linux-usb@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/usb/ite,it8851.yaml
++F:	drivers/usb/typec/ucsi/ucsi_itepd.c
+ 
+ IVTV VIDEO4LINUX DRIVER
+ M:	Andy Walls <awalls@md.metrocast.net>
+diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
+index 87dd992a4b9e..0f10dac9b34b 100644
+--- a/drivers/usb/typec/ucsi/Kconfig
++++ b/drivers/usb/typec/ucsi/Kconfig
+@@ -104,4 +104,14 @@ config UCSI_HUAWEI_GAOKUN
+ 	  To compile the driver as a module, choose M here: the module will be
+ 	  called ucsi_huawei_gaokun.
+ 
++config UCSI_ITEPD
++	tristate "UCSI Interface Driver for ITE IT8851/IT8853"
++	depends on I2C
++	help
++	  This driver enables UCSI support on platforms that expose an
++	  ITE IT8851/IT8853 Type-C Power Delivery controller over an I2C interface.
++
++	  To compile the driver as a module, choose M here: the module
++	  will be called ucsi_itepd.
++
+ endif
+diff --git a/drivers/usb/typec/ucsi/Makefile b/drivers/usb/typec/ucsi/Makefile
+index c7e38bf01350..0903a1fd486b 100644
+--- a/drivers/usb/typec/ucsi/Makefile
++++ b/drivers/usb/typec/ucsi/Makefile
+@@ -28,3 +28,4 @@ obj-$(CONFIG_UCSI_PMIC_GLINK)		+= ucsi_glink.o
+ obj-$(CONFIG_CROS_EC_UCSI)		+= cros_ec_ucsi.o
+ obj-$(CONFIG_UCSI_LENOVO_YOGA_C630)	+= ucsi_yoga_c630.o
+ obj-$(CONFIG_UCSI_HUAWEI_GAOKUN)	+= ucsi_huawei_gaokun.o
++obj-$(CONFIG_UCSI_ITEPD)		+= ucsi_itepd.o
+diff --git a/drivers/usb/typec/ucsi/ucsi_itepd.c b/drivers/usb/typec/ucsi/ucsi_itepd.c
+new file mode 100644
+index 000000000000..a639b3d32535
+--- /dev/null
++++ b/drivers/usb/typec/ucsi/ucsi_itepd.c
+@@ -0,0 +1,364 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2025-2026, ITE. All Rights Reserved
++ *
++ */
++#include <linux/bits.h>
++#include <linux/err.h>
++#include <linux/i2c.h>
++#include <linux/interrupt.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/slab.h>
++#include <linux/unaligned.h>
++
++#include "ucsi.h"
++
++#define ITEPD_UCSI_VERSION_REG	0x80
++#define ITEPD_UCSI_CCI_REG	0x84
++#define ITEPD_UCSI_MSG_IN_REG	0x88
++#define ITEPD_UCSI_CONTROL_REG	0x98
++
++#define ITEPD_VENDOR_WC_INT	0xbc
++#define ITEPD_VENDOR_INT	0xbd
++#define ITEPD_ALERT_VDM_EVENT	BIT(0)
++#define ITEPD_ALERT_UCSI_EVENT	BIT(1)
++
++#define ITEPD_MSG_IN_MAX_LEN	0x28
++
++#define ITEPD_EVENT_NONE	0
++#define ITEPD_EVENT_UCSI	1
++#define ITEPD_EVENT_VDM		2
++
++struct itepd {
++	struct i2c_client *client;
++	struct ucsi *ucsi;
++	struct mutex i2c_lock;		/* Serializes I2C accesses */
++	struct mutex event_lock;	/* Serializes event processing (IRQ vs poll) */
++	struct mutex received_lock;	/* Protects cci and msg_in */
++	u8 msg_in[ITEPD_MSG_IN_MAX_LEN];
++	u32 cci;
++};
++
++static u8 ucsi_itepd_get_len(u32 cci)
++{
++	if (cci & UCSI_CCI_COMMAND_COMPLETE)
++		return UCSI_CCI_LENGTH(cci);
++	return 0;
++}
++
++static int itepd_read_reg(struct itepd *itepd, u8 reg, void *data, u32 len)
++{
++	struct i2c_client *client = itepd->client;
++	struct i2c_msg msg[2] = {
++		{
++			.addr	= client->addr,
++			.flags	= 0,
++			.len	= 1,
++			.buf	= &reg,
++		},
++		{
++			.addr	= client->addr,
++			.flags	= I2C_M_RD,
++			.len	= len,
++			.buf	= data,
++		}
++
++	};
++	int ret;
++
++	mutex_lock(&itepd->i2c_lock);
++	ret = i2c_transfer(client->adapter, msg, ARRAY_SIZE(msg));
++	mutex_unlock(&itepd->i2c_lock);
++	if (ret < 0) {
++		dev_err_ratelimited(&client->dev, "reg 0x%02x read failed: %d\n",
++				    reg, ret);
++		return ret;
++	}
++
++	return ret == ARRAY_SIZE(msg) ? 0 : -EIO;
++}
++
++static int itepd_write_reg(struct itepd *itepd, u8 reg, const void *data, u32 len)
++{
++	struct i2c_client *client = itepd->client;
++	u8 buf[sizeof(u64) + 1];
++	struct i2c_msg msg[1] = {
++		{
++			.addr	= client->addr,
++			.flags	= 0,
++			.len	= len + 1,
++			.buf	= buf,
++		}
++	};
++	int ret;
++
++	if (len > sizeof(buf) - 1)
++		return -EINVAL;
++
++	buf[0] = reg;
++	memcpy(&buf[1], data, len);
++
++	mutex_lock(&itepd->i2c_lock);
++	ret = i2c_transfer(client->adapter, msg, 1);
++	mutex_unlock(&itepd->i2c_lock);
++	if (ret < 0) {
++		dev_err_ratelimited(&client->dev, "reg 0x%02x write failed: %d\n",
++				    reg, ret);
++		return ret;
++	}
++
++	return ret == 1 ? 0 : -EIO;
++}
++
++static int itepd_process_event(struct itepd *itepd, u32 *cci)
++{
++	u8 msg_in[ITEPD_MSG_IN_MAX_LEN] = {};
++	__le32 le_cci;
++	u8 event, ack;
++	u8 len = 0;
++	int err = 0;
++	int ret;
++
++	mutex_lock(&itepd->event_lock);
++
++	ret = itepd_read_reg(itepd, ITEPD_VENDOR_INT, &event, sizeof(event));
++	if (ret)
++		goto out_unlock;
++
++	event &= ITEPD_ALERT_VDM_EVENT | ITEPD_ALERT_UCSI_EVENT;
++	if (!event) {
++		mutex_lock(&itepd->received_lock);
++		*cci = itepd->cci;
++		mutex_unlock(&itepd->received_lock);
++		ret = ITEPD_EVENT_NONE;
++		goto out_unlock;
++	}
++
++	if (event & ITEPD_ALERT_UCSI_EVENT) {
++		err = itepd_read_reg(itepd, ITEPD_UCSI_CCI_REG, &le_cci,
++				     sizeof(le_cci));
++		if (!err) {
++			*cci = le32_to_cpu(le_cci);
++			len = min_t(u8, ucsi_itepd_get_len(*cci),
++				    sizeof(msg_in));
++			if (len)
++				err = itepd_read_reg(itepd,
++						     ITEPD_UCSI_MSG_IN_REG,
++						     msg_in, len);
++		}
++	}
++
++	ack = event;
++	ret = itepd_write_reg(itepd, ITEPD_VENDOR_WC_INT, &ack, sizeof(ack));
++	if (ret)
++		goto out_unlock;
++
++	if (err) {
++		ret = err;
++		goto out_unlock;
++	}
++
++	if (event & ITEPD_ALERT_UCSI_EVENT) {
++		mutex_lock(&itepd->received_lock);
++		itepd->cci = *cci;
++		memset(itepd->msg_in, 0, sizeof(itepd->msg_in));
++		memcpy(itepd->msg_in, msg_in, len);
++		mutex_unlock(&itepd->received_lock);
++		ret = ITEPD_EVENT_UCSI;
++	} else {
++		mutex_lock(&itepd->received_lock);
++		*cci = itepd->cci;
++		mutex_unlock(&itepd->received_lock);
++		ret = ITEPD_EVENT_VDM;
++	}
++
++out_unlock:
++	mutex_unlock(&itepd->event_lock);
++	return ret;
++}
++
++static int ucsi_itepd_read_version(struct ucsi *ucsi, u16 *version)
++{
++	struct itepd *itepd = ucsi_get_drvdata(ucsi);
++	__le16 le_version;
++	int ret;
++
++	ret = itepd_read_reg(itepd, ITEPD_UCSI_VERSION_REG, &le_version,
++			     sizeof(le_version));
++	if (ret)
++		return ret;
++
++	*version = le16_to_cpu(le_version);
++
++	return 0;
++}
++
++static int ucsi_itepd_read_cci(struct ucsi *ucsi, u32 *cci)
++{
++	struct itepd *itepd = ucsi_get_drvdata(ucsi);
++
++	mutex_lock(&itepd->received_lock);
++	*cci = itepd->cci;
++	mutex_unlock(&itepd->received_lock);
++
++	return 0;
++}
++
++static int ucsi_itepd_poll_cci(struct ucsi *ucsi, u32 *cci)
++{
++	struct itepd *itepd = ucsi_get_drvdata(ucsi);
++	int ret;
++
++	ret = itepd_process_event(itepd, cci);
++	return ret < 0 ? ret : 0;
++}
++
++static int ucsi_itepd_read_message_in(struct ucsi *ucsi, void *val, size_t val_len)
++{
++	struct itepd *itepd = ucsi_get_drvdata(ucsi);
++
++	mutex_lock(&itepd->received_lock);
++	memcpy(val, itepd->msg_in, min(val_len, sizeof(itepd->msg_in)));
++	mutex_unlock(&itepd->received_lock);
++
++	return 0;
++}
++
++static int ucsi_itepd_async_control(struct ucsi *ucsi, u64 command)
++{
++	struct itepd *itepd = ucsi_get_drvdata(ucsi);
++	__le64 le_cmd = cpu_to_le64(command);
++
++	if (UCSI_COMMAND(command) == UCSI_PPM_RESET) {
++		mutex_lock(&itepd->received_lock);
++		itepd->cci = 0;
++		mutex_unlock(&itepd->received_lock);
++	}
++
++	return itepd_write_reg(itepd, ITEPD_UCSI_CONTROL_REG, &le_cmd,
++			       sizeof(le_cmd));
++}
++
++static const struct ucsi_operations ucsi_itepd_ops = {
++	.read_version		= ucsi_itepd_read_version,
++	.read_cci		= ucsi_itepd_read_cci,
++	.poll_cci		= ucsi_itepd_poll_cci,
++	.read_message_in	= ucsi_itepd_read_message_in,
++	.sync_control		= ucsi_sync_control_common,
++	.async_control		= ucsi_itepd_async_control,
++};
++
++static irqreturn_t itepd_irq_process(struct itepd *itepd)
++{
++	u32 cci;
++	int ret;
++
++	ret = itepd_process_event(itepd, &cci);
++	if (ret == ITEPD_EVENT_NONE)
++		return IRQ_NONE;
++
++	if (ret < 0)
++		return IRQ_HANDLED;
++
++	if (ret == ITEPD_EVENT_UCSI)
++		ucsi_notify_common(itepd->ucsi, cci);
++
++	return IRQ_HANDLED;
++}
++
++static irqreturn_t itepd_irq_thread_fn(int irq, void *data)
++{
++	struct itepd *itepd = data;
++
++	return itepd_irq_process(itepd);
++}
++
++static int itepd_probe(struct i2c_client *client)
++{
++	struct device *dev = &client->dev;
++	struct itepd *itepd;
++	u32 cci;
++	int ret;
++
++	if (client->irq <= 0)
++		return dev_err_probe(dev, -ENODEV, "no IRQ provided\n");
++
++	itepd = devm_kzalloc(dev, sizeof(*itepd), GFP_KERNEL);
++	if (!itepd)
++		return -ENOMEM;
++
++	itepd->client = client;
++	mutex_init(&itepd->i2c_lock);
++	mutex_init(&itepd->event_lock);
++	mutex_init(&itepd->received_lock);
++	i2c_set_clientdata(client, itepd);
++
++	itepd->ucsi = ucsi_create(dev, &ucsi_itepd_ops);
++	if (IS_ERR(itepd->ucsi))
++		return dev_err_probe(dev, PTR_ERR(itepd->ucsi),
++				     "ucsi_create failed\n");
++
++	ucsi_set_drvdata(itepd->ucsi, itepd);
++
++	ret = request_threaded_irq(client->irq, NULL, itepd_irq_thread_fn,
++				   IRQF_ONESHOT, dev_name(dev), itepd);
++	if (ret) {
++		dev_err_probe(dev, ret, "request_threaded_irq failed\n");
++		goto out_ucsi_destroy;
++	}
++
++	ret = itepd_process_event(itepd, &cci);
++	if (ret < 0)
++		dev_warn(dev, "initial event processing failed: %d\n", ret);
++
++	ret = ucsi_register(itepd->ucsi);
++	if (ret) {
++		dev_err_probe(dev, ret, "failed to register UCSI\n");
++		goto out_free_irq;
++	}
++
++	return 0;
++
++out_free_irq:
++	free_irq(client->irq, itepd);
++out_ucsi_destroy:
++	ucsi_destroy(itepd->ucsi);
++	return ret;
++}
++
++static void itepd_remove(struct i2c_client *client)
++{
++	struct itepd *itepd = i2c_get_clientdata(client);
++
++	ucsi_unregister(itepd->ucsi);
++	free_irq(client->irq, itepd);
++	ucsi_destroy(itepd->ucsi);
++}
++
++static const struct of_device_id itepd_of_match_table[] = {
++	{ .compatible = "ite,it8851" },
++	{}
++};
++MODULE_DEVICE_TABLE(of, itepd_of_match_table);
++
++static const struct i2c_device_id itepd_id_table[] = {
++	{ "ucsi_itepd", 0 },
++	{}
++};
++MODULE_DEVICE_TABLE(i2c, itepd_id_table);
++
++static struct i2c_driver itepd_driver = {
++	.driver = {
++		.name = "ucsi_itepd",
++		.of_match_table = itepd_of_match_table,
++	},
++	.probe = itepd_probe,
++	.remove = itepd_remove,
++	.id_table = itepd_id_table,
++};
++module_i2c_driver(itepd_driver);
++
++MODULE_AUTHOR("Jeson Yang <jeson.yang@ite.com.tw>");
++MODULE_DESCRIPTION("UCSI driver for ITE IT8851 and IT8853 Type-C PD controllers");
++MODULE_LICENSE("GPL");
+
+-- 
+2.53.0
+
