@@ -1,314 +1,203 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A464C44D015;
-	Fri, 31 Jul 2026 16:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDF945C6EF
+	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 16:28:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785514777; cv=none; b=V3f/1suskXizGo8/YH3A2EydNgdqJm4PE0dTQInVz/5lqXKPRAAlcWL2W1FNRSpjhnvJ+guNM7nys6NP1k2yEibIE9KxWuHo3m0UNnVOctstlrdxHpMVy07eAKWRtR7mwLdC1mlDlwTJLUlvZV00WReLiTqbgmojVrMy2vSYRXg=
+	t=1785515329; cv=none; b=RNmrRiRDDVTJTg/Dk5RbHc96ZdVnb6Hgq9K5Q1R9R7X0dyWMOpZ6UH0HGV7Zjc54X8tIdCmMAYUzVOLGPLtC52xYNsY0A2OEJjwFzgXPHXvzsdJJVkz4RkvVrwDnFxsF3P8alvXrTCPcWwvQ4GDD7HKMs9zyGuTnlNVpXZFpmOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785514777; c=relaxed/simple;
-	bh=LYDpLwNooFFmU/VU5Ml5Zld0cdi5efNeuMTFMCkLcqU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=St1wPD94Q+zhPhlUfh3ikYHHz/fCNMKySjuU+p6ihZe4RRZR3EN6BYOkKg5s6+ZtUFPl672sDHtxwAJPDGWf3Uo8tyKsXQllkui3Sof8oAPynHlAuRQYVCp+zxk81MHYknECfo9xZlrXX7ul1Xcrr8i4jHC9Hsk/Iwu9iWe9VrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=MbSK/E5K; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=vUhYrVa7; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1785515329; c=relaxed/simple;
+	bh=tdIckQhLNbQNSl5V3HKeuTWwIdJ326oXapW+yHipcXo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DKRuESlFKU2B3Bwwa4rjvNquCCRRiG3lPe/Uf76+n9A+H0peLeu6WWZQf5xbESqIudri7k7KjGW5nwz47ZZNr7I/6slifwC696b+ivtVyy10LdR2hDdh2d5sOnBnDEbFkcJbicAnV5dhe56rW5hup1dkyeyai5+tianCyDFFiNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OZ8qIkc1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ij+QHXfM; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="MbSK/E5K";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="vUhYrVa7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1785514760;
-	bh=LYDpLwNooFFmU/VU5Ml5Zld0cdi5efNeuMTFMCkLcqU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=MbSK/E5Ky0oepOccmtl3GghLoLALDUWEkJ1Tp+l+VFddhocgjZiJeNE/s4L0Y57Mw
-	 Z4liUJ1E+BQRjsLDWBeGciIKiwd67DZlRcKk4Qi1k9ggcPIACsUnggKLhpC1QfxOPm
-	 /vsWVRIrsSkBk0uSq2nyHGaoSTpbd1VG2e3tAVb183SRL0JwGxfw/n8QyXzJaa9O1U
-	 gBrXNqDs9Twb1Yc99C3xSlBsI9KkGmrUF9h3uQ8JY38Wul7hZIkId1WLPK6p318mIs
-	 DUPaFY/12uzTHZERSIyeTcZcmVrLg6XlM0I6FVDsOsS9MXlp3K0cYDRy+Kutpe5uc7
-	 6zVLgU/MYslOQ==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 5C40E494FE; Fri, 31 Jul 2026 16:19:20 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1785514747;
-	bh=LYDpLwNooFFmU/VU5Ml5Zld0cdi5efNeuMTFMCkLcqU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=vUhYrVa7RcBo78akfeO8QsQOrk5IFayUsil5chiOZJ3jyzNOGY4x3xeBxutfFjqVm
-	 mBKsg7303KXZrgZzzyKbeng2RxpqdSjhGLRukp+knuaAJ5oT5HWfKlAiswelIBiSDI
-	 KHLDY/FZevve8p8lMFf+6EqK/t8dcAUhTXDhnZk0jEyDscCAM79l/kEnakaphynx5z
-	 zejm8cpiHerCKulEusPskWyfx6Tfy2IxhUO/6jLJx+mHajfoC7y4t9FJUpHZwaxKnL
-	 HXjKbRVrN24rV5NU3j+4BmjHKCkSaedo9AYVufcOnXkQmvj0lEKvsyb2Wkwg2kltrK
-	 VUnIaF7Gul/NA==
-Received: from ThinkPadAMD.lan (unknown [82.99.30.195])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 0AC9A494F7;
-	Fri, 31 Jul 2026 16:19:07 +0000 (UTC)
-From: Birger Koblitz <mail@birger-koblitz.de>
-Date: Fri, 31 Jul 2026 18:19:12 +0200
-Subject: [PATCH net-next v4 12/12] ax88796b: Add support for AX88772D,
- AX88179A and AX88279
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OZ8qIkc1";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ij+QHXfM"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66VFO5DQ070846
+	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 16:28:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	odqlC2FoPgYqgWEtEvIgQYwkoAQU4wo/OhJb44epMDs=; b=OZ8qIkc1cHBlefwq
+	b3qjVnJ8PnTRnT34MU6TTLI1d9MoAw85if6r6CQ0NNPsGxay+j7cvZOyCdLN4hGU
+	r6urCOKM+LE9QgfStgCLq2U9Q8cPMBqyavVsGP2daCwZ4ckwdHiTapyf6Hj6euWX
+	8pG1Y3O3rGwW6ZsuVHCud2J6RV3aIQKvAs7mZiTij1wAdLYwrM52hCK8CMn+BZTy
+	GdMnIMLjy+XL9Hg76VRNpGPraAAmswRz7/flMZYVKpTENLRFTl3MZQpHEV6fMZjr
+	vhKVdXT70XhcpO63gDAfuj6oAPdwqskwSgXaevdhCojU0d/4vYUYhXvYqCQuhWuw
+	KVr1mg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4frtyqha3h-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 16:28:46 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51c15c77619so2070271cf.1
+        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 09:28:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1785515326; x=1786120126; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=odqlC2FoPgYqgWEtEvIgQYwkoAQU4wo/OhJb44epMDs=;
+        b=ij+QHXfMm3ZugorQqwNO0wvUt3HGu+157KxGKVszUKpY2lMjMTMpZrR593Ngfpadlf
+         QEVdt8mrUsEjNpyg6leYkVdmLhS42kqI8CwCsLhh+ZYCsLacS/JjJjkhqx7rV5whUNRR
+         HlBwe+1RIgzKKB+Fp/pGOi4+TNdcgftvSD90xk2rF7L973oV4udF6KH9qr3RoeHurBAH
+         Qnt2DHsubb9/o4uJJcuqAXyeMo4N1iGPu+x09EQSS3DM1STZXVs2IYOAGu2EIqAI+pLF
+         RPP+Ad6b7IrWNse2qjBCw96Bz7jWu65tBKXdYZwPgEQ0H72ZmhgVSUdI1H9XrF60TMJG
+         SGRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785515326; x=1786120126;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=odqlC2FoPgYqgWEtEvIgQYwkoAQU4wo/OhJb44epMDs=;
+        b=Obi9Tnqn/nFax+jJQ7BSMiygGyaafTL9VXmCuQ+T/XfiNyzOT3t/5n5nrHffndayy/
+         x7TAuVp1mAnBH0zkk9IUaPqf2mrhmRHKfqGaSb69a0WcuIQ/KOp/3VM24w7Onv+UoSxN
+         n3FvrmNVK4i6MCPsF7buOE4Uuw+cUvpYtmcslKzGhy0n3FWayKpS4ji2IoJso61i9302
+         DBn/COakyXzawe9e5P9TQ8c1Iz6IeskkbXDxK7wZl0Q32ck6ojJ/gK635j9Lg9BPvPHO
+         SWlAYohHQfku+tBiVdLpEhZsZ0w3w9MLvTssyM/D1radvCp92zqCv/Z390TBqROyBxt0
+         sZEg==
+X-Forwarded-Encrypted: i=1; AHgh+Rolw68Y8tmWQXyi3zcQy4vV7kOtBlgCLCknipD2WImpIhuygrAipBOuHcuExhzIdkf6LiMLwQxR2p0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/KR71mdtTNZFXAqedlbrUN0/FlZxXlJBXyz6HykxPWWhf5PCG
+	+tYcG8h6AZ59TxIIjyo0MDbrSBBommwuFENhPqJAW7knwwQcT523q/dhFiZvigOLpCARB0/KOah
+	qJ34iKNTmHPRu/Q/xGR7R5AhyzatYXklnUmupuUVHnwQt0WHkPw1hQDjxxc1tf7M=
+X-Gm-Gg: AR+sD125T75c98e1v/tDqw1f8OLHq+ad8H0NpBl+Jw5l4yKGsTVkgCsfLfjHN0QyCPQ
+	PSpsISz+laD9fiSQIfJFO14axLOacIaGo/2eCxNq6NxuTHQd2tzR0ji1RrPM/31LO2nfHPXPfbu
+	g260DEXbTp36SGyZHvMn6j1bn05lGbLxV6Y67VuW83eZty5pc8gn2I7kU3NeHryu7dsz6sywNEE
+	I2ihNw/f2pNH1fFbBXNjfjMplmgu/cvR4CUujQcVT/vSkk9NaqunEPqZ5Z1O8AK8w9RVC7pBVKk
+	l/0v27f9cqd99hIp/5zDNX3IJ6q/LV96rFG9O+Y8EV1P63dVCvmIaK991QGSvNCDMndNS7KIWjv
+	Jg+wsg0RAaQVsy53RyoV6sYCI
+X-Received: by 2002:ac8:7e81:0:b0:51c:845b:ac4 with SMTP id d75a77b69052e-52b567f85bamr10459981cf.3.1785515326342;
+        Fri, 31 Jul 2026 09:28:46 -0700 (PDT)
+X-Received: by 2002:ac8:7e81:0:b0:51c:845b:ac4 with SMTP id d75a77b69052e-52b567f85bamr10459421cf.3.1785515325767;
+        Fri, 31 Jul 2026 09:28:45 -0700 (PDT)
+Received: from [192.168.120.193] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1fd44542d2sm229079466b.35.2026.07.31.09.28.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jul 2026 09:28:44 -0700 (PDT)
+Message-ID: <2ace2703-79cb-4046-a2b3-8fdeb9b2c99e@oss.qualcomm.com>
+Date: Fri, 31 Jul 2026 18:28:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: soc: qcom: qcom,pmic-glink: Add
+ compatible string for SM8475
+To: Esteban Urrutia <esteuwu@proton.me>, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        phone-devel@vger.kernel.org
+References: <20260731-sm8475-pmic-glink-v2-0-28c04928ef22@proton.me>
+ <20260731-sm8475-pmic-glink-v2-1-28c04928ef22@proton.me>
+ <20260731-savvy-piquant-chowchow-f516f2@quoll>
+ <9718d7b8-7303-47a2-9d75-58bbde6385e9@proton.me>
+ <c4ceda32-d4c8-4fd9-b0d6-3f4519485bde@oss.qualcomm.com>
+ <6fc5165c-95b5-475a-a0a6-e1d7b9721222@proton.me>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <6fc5165c-95b5-475a-a0a6-e1d7b9721222@proton.me>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260731-ax88179a-v4-12-2cf1f71b1dd2@birger-koblitz.de>
-References: <20260731-ax88179a-v4-0-2cf1f71b1dd2@birger-koblitz.de>
-In-Reply-To: <20260731-ax88179a-v4-0-2cf1f71b1dd2@birger-koblitz.de>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Birger Koblitz <mail@birger-koblitz.de>, 
- Jianhui Xu <neuromoments@gmail.com>
-X-Mailer: b4 0.14.2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMxMDEyNSBTYWx0ZWRfX7YLGz/h4eWZc
+ soAgo2bAtqASQyP6n4HXgIazNzQQAN5WsvMDFUy1qmYwoncKHDb/8I5YGyKMAqZn4zjfUuDh8AD
+ s57QZjh7VlwjQuyPu3KWbkq2YFYrO1CWNFx/Dm1tXowX6yQ1NGvJwhhiYnuKI3Se8dZJLkz+5xp
+ /bVyvKnM9RDxVg7NMIMKrGsRP5ZOCyqcDQll3VWX+CXzVSGwBGZZeH988DC3t6wQ1EEtdQv+NQN
+ watIbA+/e2aRwRk4lLRHfgX5M6tljdJJB7I8klq3n8ciUR3Q+UkYZ5CR9Fry+el1tnei7DduK4l
+ SsOrz4X1JlzU2M+7mILTgc7n5Cumx4jRfdjzW3wlkyjG4D+FkR/g4shFpGjGHvbShqmIijQ+WFs
+ ffSlqNfrB6Xt3jvpboSJTEu629WHe/8E7ubx5W+mKG35bAqCKRtLNqWcuILdXYxEvUjLKQ67EVu
+ Kwp6eCcuVKHQVcMFkdQ==
+X-Proofpoint-ORIG-GUID: rMNBw1N--LmzsFTcpF19-a2Ke1DLtudZ
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMxMDEyNSBTYWx0ZWRfX8aJ3cnRJPR3E
+ bYOrP6OzbaaVvfx8uiglAI2aduchQf4uQ+8c6p2juM9EFviVEOrCUHUH9mUiIHzrFtca9q9f9zc
+ HfWJ+FZzRdTlFKLYFyCxjR3WKU9GpGQ=
+X-Authority-Analysis: v=2.4 cv=YaGNIQRf c=1 sm=1 tr=0 ts=6a6ccd3e cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=P4BrIvBfxGhJqZf7NZgA:9 a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-GUID: rMNBw1N--LmzsFTcpF19-a2Ke1DLtudZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-31_05,2026-07-30_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0 spamscore=0
+ malwarescore=0 priorityscore=1501 suspectscore=0 bulkscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607310125
 
-The AX88772D, AX88179A and AX88279 are 100MBit, 1GBit and respectively
-2.5 GBit PHYs that are found in ASIX USB-Ethernet controllers of the
-same name.
+On 7/31/26 5:54 PM, Esteban Urrutia wrote:
+> On 7/31/26 11:30 AM, Konrad Dybcio wrote:
+>> On 7/31/26 4:44 PM, Esteban Urrutia wrote:
+>>> On 7/31/26 5:58 AM, Krzysztof Kozlowski wrote:
+>>>> On Fri, Jul 31, 2026 at 01:00:08AM -0400, Esteban Urrutia wrote:
+>>>>> Due to a different process design, SM8475 (4 nm) SoC takes things from both
+>>>>> SM8450 (4 LPX) and SM8550 (4 nm) SoCs.
+>>>>
+>>>> What things? This is just unspecific and not useful. And I doubt that it
+>>>> is even "different process design", because how one would know that?
+>>>
+>>>
+>>> The process design is specified on the corresponding datasheets for
+>>> these SoCs, which are flying somewhere around the internet.
+>>> Also [1].
+>>>
+>>>>> Add a separate compatible string for this SoC to avoid possible confusions.
+>>>>
+>>>> No, explain the hardware compatibility.
+>>>>
+>>>> Add foo bar, which is not compatible with baz because it uses bam bam in
+>>>> different setup (difference in registers, e.g. XYZ and ABC),
+>>>
+>>> How does this commit message based on what was said in [1] sound to you?
+>>
+>> That made more sense because the electrical differences are what made
+>> the PHY init sequence changes necessary. Here, Krzysztof is trying to
+>> express that the pmic-glink interface found on SM8475 is likely no
+>> different than the one found on SM8450 (and SM8350 and so on)
+>>
+>> Then, since it's the same, it can reuse the same driver match data,
+>> so patch 2 is unnecessary, since the driver binds said match data
+>> on the fallback "qcom,pmic-glink" compatible
+> 
+> 
+> I don't understand. You're implying that the pmic-glink interface found
+> on SM8350 and SM8450 is not that different but they both have different
+> quirks on ucsi_glink.c.
+> No quirks would be applied on SM8475 if patch 2 is not in place either.
 
-Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
----
- drivers/net/phy/ax88796b.c | 192 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 192 insertions(+)
+Somehow I confabulated the generic compatible being present in the
+driver... I was trying to explain that 
 
-diff --git a/drivers/net/phy/ax88796b.c b/drivers/net/phy/ax88796b.c
-index f20ddf64914993f7097070d1f56c1103ec1e40e8..686f4e8d08f74da98e453ea50a5347cf3673e869 100644
---- a/drivers/net/phy/ax88796b.c
-+++ b/drivers/net/phy/ax88796b.c
-@@ -13,6 +13,19 @@
- #define PHY_ID_ASIX_AX88772A		0x003b1861
- #define PHY_ID_ASIX_AX88772C		0x003b1881
- #define PHY_ID_ASIX_AX88796B		0x003b1841
-+#define PHY_ID_ASIX_AX88772D		0x003b772d
-+#define PHY_ID_ASIX_AX88179A		0x003b179a
-+#define PHY_ID_ASIX_AX88279		0x003b2790
-+
-+#define AX_ADVERTISE_2500		0x1000
-+
-+/* MII Vendor registers */
-+#define AX_CTRL_STATUS			0x1d
-+#define AX_CTRL_STATUS_SPEED_MASK	0x0c
-+#define   AX_CTRL_STATUS_SPEED_10	0x0
-+#define   AX_CTRL_STATUS_SPEED_100	0x4
-+#define   AX_CTRL_STATUS_SPEED_1000	0x8
-+#define   AX_CTRL_STATUS_SPEED_2500	0xc
- 
- MODULE_DESCRIPTION("Asix PHY driver");
- MODULE_AUTHOR("Michael Schmitz <schmitzmic@gmail.com>");
-@@ -83,6 +96,135 @@ static int asix_ax88772a_read_status(struct phy_device *phydev)
- 	return 0;
- }
- 
-+static int asix_ax88279_read_status(struct phy_device *phydev)
-+{
-+	int ret, val;
-+
-+	ret = genphy_update_link(phydev);
-+	if (ret)
-+		return ret;
-+
-+	phydev->master_slave_get = MASTER_SLAVE_CFG_UNSUPPORTED;
-+	phydev->master_slave_state = MASTER_SLAVE_STATE_UNSUPPORTED;
-+	phydev->speed = SPEED_UNKNOWN;
-+	phydev->duplex = DUPLEX_UNKNOWN;
-+	phydev->pause = 0;
-+	phydev->asym_pause = 0;
-+	phydev->rate_matching = RATE_MATCH_PAUSE;
-+
-+	if (!phydev->link)
-+		return 0;
-+
-+	ret = genphy_read_master_slave(phydev);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = genphy_read_lpa(phydev);
-+	if (ret < 0)
-+		return ret;
-+
-+	val = phy_read(phydev, MII_ADVERTISE);
-+	if (val < 0)
-+		return val;
-+
-+	linkmode_mod_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT,
-+			 phydev->advertising, val & AX_ADVERTISE_2500);
-+
-+	/* Read actual speed from vendor register */
-+	val = phy_read(phydev, AX_CTRL_STATUS);
-+	switch (val & AX_CTRL_STATUS_SPEED_MASK) {
-+	case AX_CTRL_STATUS_SPEED_2500:
-+		phydev->speed = SPEED_2500;
-+		break;
-+	case AX_CTRL_STATUS_SPEED_1000:
-+		phydev->speed = SPEED_1000;
-+		break;
-+	case AX_CTRL_STATUS_SPEED_100:
-+		phydev->speed = SPEED_100;
-+		break;
-+	case AX_CTRL_STATUS_SPEED_10:
-+		phydev->speed = SPEED_10;
-+	}
-+
-+	/* MDIO_AN_10GBT_STAT_LP2_5G is broken, but we can deduce that
-+	 * the link-partner advertised 2500M if remotely AN succceded
-+	 * for link speed > 1000M and we locally have a link speed of
-+	 * 2500M
-+	 */
-+	val = phy_read_mmd(phydev, MDIO_MMD_AN, MDIO_AN_10GBT_STAT);
-+	if (val >= 0 && val & MDIO_AN_10GBT_STAT_REMOK) {
-+		linkmode_mod_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT,
-+				 phydev->lp_advertising,
-+				 phydev->speed == SPEED_2500);
-+	}
-+	/* Only supports full duplex */
-+	phydev->duplex = DUPLEX_FULL;
-+
-+	return 0;
-+}
-+
-+static int asix_ax88279_config_aneg(struct phy_device *phydev)
-+{
-+	bool changed = false;
-+	int ret;
-+	u32 adv;
-+
-+	if (phydev->autoneg == AUTONEG_DISABLE) {
-+		phydev_warn(phydev, "Disabling autoneg is not supported\n");
-+		return -EINVAL;
-+	}
-+
-+	adv = linkmode_adv_to_mii_10gbt_adv_t(phydev->advertising);
-+
-+	ret = phy_modify_mmd_changed(phydev, MDIO_MMD_AN, MDIO_AN_10GBT_CTRL,
-+				     MDIO_AN_10GBT_CTRL_ADV2_5G, adv);
-+	if (ret < 0)
-+		return ret;
-+	if (ret > 0)
-+		changed = true;
-+
-+	return __genphy_config_aneg(phydev, changed);
-+}
-+
-+static int asix_ax88279_get_features(struct phy_device *phydev)
-+{
-+	int ret;
-+
-+	/* MDIO_DEVS1/2 empty, so set mmds_present bits to allow reading abilities */
-+	phydev->c45_ids.mmds_present |= MDIO_DEVS_PMAPMD | MDIO_DEVS_AN;
-+
-+	linkmode_set_bit_array(phy_basic_ports_array, ARRAY_SIZE(phy_basic_ports_array),
-+			       phydev->supported);
-+
-+	ret = genphy_c45_pma_read_abilities(phydev);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* AX88279 does not support reported 100baseT-half duplex mode */
-+	linkmode_clear_bit(ETHTOOL_LINK_MODE_100baseT_Half_BIT, phydev->supported);
-+
-+	return 0;
-+}
-+
-+/* AX88179A-based PHYs cannot access MMD registers via MII_MMD_CTRL/MII_MMD_DATA
-+ * Make sure to use c45 access instead.
-+ */
-+static int asix_read_mmd(struct phy_device *phydev, int devnum, u16 reg)
-+{
-+	struct mii_bus *bus = phydev->mdio.bus;
-+	int addr = phydev->mdio.addr;
-+
-+	return __mdiobus_c45_read(bus, addr, devnum, reg);
-+}
-+
-+static int asix_write_mmd(struct phy_device *phydev, int devnum, u16 reg, u16 val)
-+{
-+	struct mii_bus *bus = phydev->mdio.bus;
-+	int addr = phydev->mdio.addr;
-+
-+	return __mdiobus_c45_write(bus, addr, devnum, reg, val);
-+}
-+
- static void asix_ax88772a_link_change_notify(struct phy_device *phydev)
- {
- 	/* Reset PHY, otherwise MII_LPA will provide outdated information.
-@@ -94,6 +236,25 @@ static void asix_ax88772a_link_change_notify(struct phy_device *phydev)
- 	}
- }
- 
-+static int asix_ax88772D_get_features(struct phy_device *phydev)
-+{
-+	int ret;
-+	__ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
-+
-+	/* MDIO_DEVS1/2 empty, so set mmds_present bits to allow reading abilities */
-+	phydev->c45_ids.mmds_present |= MDIO_DEVS_PMAPMD | MDIO_DEVS_AN;
-+
-+	ret = genphy_read_abilities(phydev);
-+	if (ret < 0)
-+		return ret;
-+
-+	/* AX88772D does not support reported 1000baseT mode */
-+	linkmode_set_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT, mask);
-+	linkmode_andnot(phydev->supported, phydev->supported, mask);
-+
-+	return 0;
-+}
-+
- static struct phy_driver asix_driver[] = {
- {
- 	PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88772A),
-@@ -111,6 +272,34 @@ static struct phy_driver asix_driver[] = {
- 	.suspend	= genphy_suspend,
- 	.resume		= genphy_resume,
- 	.soft_reset	= asix_soft_reset,
-+}, {
-+	PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88772D),
-+	.name		= "Asix Electronics AX88772D",
-+	.flags		= PHY_IS_INTERNAL,
-+	.get_features	= asix_ax88772D_get_features,
-+	.read_mmd	= asix_read_mmd,
-+	.write_mmd	= asix_write_mmd,
-+	.suspend	= genphy_suspend,
-+	.resume		= genphy_resume,
-+}, {
-+	PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88179A),
-+	.name		= "Asix Electronics AX88179A",
-+	.flags		= PHY_IS_INTERNAL,
-+	.suspend	= genphy_suspend,
-+	.resume		= genphy_resume,
-+	.read_mmd	= asix_read_mmd,
-+	.write_mmd	= asix_write_mmd,
-+}, {
-+	PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88279),
-+	.name		= "Asix Electronics AX88279",
-+	.flags		= PHY_IS_INTERNAL,
-+	.get_features	= asix_ax88279_get_features,
-+	.read_status	= asix_ax88279_read_status,
-+	.config_aneg	= asix_ax88279_config_aneg,
-+	.read_mmd	= asix_read_mmd,
-+	.write_mmd	= asix_write_mmd,
-+	.suspend	= genphy_suspend,
-+	.resume		= genphy_resume,
- }, {
- 	PHY_ID_MATCH_MODEL(PHY_ID_ASIX_AX88796B),
- 	.name		= "Asix Electronics AX88796B",
-@@ -124,6 +313,9 @@ static const struct mdio_device_id __maybe_unused asix_tbl[] = {
- 	{ PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88772A) },
- 	{ PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88772C) },
- 	{ PHY_ID_MATCH_MODEL(PHY_ID_ASIX_AX88796B) },
-+	{ PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88772D) },
-+	{ PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88179A) },
-+	{ PHY_ID_MATCH_EXACT(PHY_ID_ASIX_AX88279) },
- 	{ }
- };
- 
+And yes I didn't notice the 8350/8450 difference. But anyway, the
+resolution will be one of:
 
--- 
-2.47.3
+// 8450 is fully compatible
+"qcom,sm8475-pmic-glink",
+"qcom,sm8450-pmic-glink",
+"qcom,pmic-glink"
 
+or
+
+// 8475 is special
+"qcom,sm8475-pmic-glink",
+"qcom,pmic-glink"
+
+depending on what you believe is more correct. I think the first
+one fits better.
+
+Konrad
