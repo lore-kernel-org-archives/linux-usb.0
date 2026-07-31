@@ -1,83 +1,48 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE72E47CC87
-	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 18:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E421933372A;
+	Fri, 31 Jul 2026 19:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785524368; cv=none; b=ZpTFG12oBaMI4dIQhAFqa8/+xwUTgTKvn8scs/SNgg0N0mV11U4xmwSYjI3uV5O9rBiVx4sEdm5dYzkIAQS6mc44xtDDF5Kae/Z02dRmWUfKxeM23pP0FZshPngzrBlBbvkt3b8SeQ7Vbq3RcHdrpJowPIj+zOKa6GnGtj74wS0=
+	t=1785526647; cv=none; b=WKKAhAwvlibdHlM++62pcz3Ajhgj/vbeIcmvna3PVsh5FVNyFFMZM3UENBbAqO4nVGKB9Kv9kmAswX51A7maacLlgUJcRA6irD6k5m/z7DnHxxEbAq9s+AhamVY3IF34qqfpj09o39CEL7hLhoGEpMUplVVPbbWziKV4v4rmez0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785524368; c=relaxed/simple;
-	bh=+4UuqCGDJvYiHY5ATL3vTwUJpNpQn+RbOiQ7hFigNf4=;
+	s=arc-20240116; t=1785526647; c=relaxed/simple;
+	bh=NB/PwCqVQAHiVelzBswTiN8ZoxQRfIuDcaO9gbe7GMk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H74Kn6K3yBIloHpOtUbqA8Ows9DZi5tSokkdks84/6HGi7qQLrE8/t5hUScZygk0f5qlfWkQRwPoylDel02WOkzWQbE2U2WSPybjCIkBE/TfXbzJ8p5azU9/1ykV+jlDfh6d9cl9p54KjH2hJyn0D78tLaOZ2qPJSeGuzcfWq3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=cOsY+SxE; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=OI5W8AUNV478BYe0f2TWpLphuIXSnB52K18M9SHRxIzkPEpS7DVqBFCmDM0Dj6g28GdjwQEmd5yWJN4rNTs1uvJP3cMm+GnXECndXIy/nsdRNg4dNeCMpQM4Oh5RBZRrpy0Koi5DsyruVcoqS/oS4Evk4H/2eAYxXyCNv3uc0nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=MePVDpXD; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="cOsY+SxE"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-92e602d2c0fso141814885a.0
-        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 11:59:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1785524366; x=1786129166; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+bdNNeltNar6WxpdXcgfNthavCd4cr8ezSkYqu5772o=;
-        b=cOsY+SxEp6BqZasnT9qERkvdo/Tl+U/+2CvzMEXtuSkvbh2omrVpzeM4Qv6rwcP3MQ
-         XRzveSDgEbEuuop1eNcIivudoWfY+TqM8bMXsXJFk9aCMtR2Ua0fkWaJCEpZ2DA6uuMB
-         u5Yw/DDoUqCApGzaIqmlWxwDZwtWjT8KQ2nsUk2XWInxrACKMOd76yKmEnCzXz238IWa
-         gbWgqlWB+QeoeIbF9dBfHF6cv7m4B9q5t378zesMtQLHfz4y5vzqRw+0Z5RrvoU4J6Ka
-         5Ez8scsVXfZSpgMZEewVUpA35Tg3QtEVd4XvdKZ2YjUIot8fqJKfNCmc0LCTRIZrQESw
-         oiQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785524366; x=1786129166;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+bdNNeltNar6WxpdXcgfNthavCd4cr8ezSkYqu5772o=;
-        b=FGLUuWmy2rjTjWUaqJH5C5FN9JEcd391dKkpgw1+WhiQWYE0hCHgqbkrzVUKLQYBbL
-         K+TPwM65wWpirkpsP1zKPatneQItJmB5ocJ2aWGNxA2xxw/ZNxER2VaX9Qm6YNXANR1y
-         vIn/dpdtpp3Ifsua+M71n0Mg2B1QHh1FE+bVw/s5N1qNhv3KTmXP+EIkhNv1c/CSmajH
-         NJmsxkLDQ/qdQdQY/+dfo+pdQJ77wFw2sgKJ0CN4jn88cc83JO8sXv2QZNcXEiQHGgZ5
-         RHStSAZAnWoMslhzVLLjRzK9pY1PSQN7FCM9KFBE1iGmrIEG4LLBZ+EV0+dzjWF3r6u6
-         tuNQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rrsb4qNbIR2Rw3w6/iWanPzrWMoqSbdUR6hGq4V3TVrN30c7gIRVpit+9bq2fZdWIjENQsTvuG3va4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRK8QrLzAqwwhWkv0tKmiduXH0qdmVXwshKdimToMbCH0NukMM
-	HdqF/2/oJfPjpk27zKwl3R1/uP7p84GBY1lnZ64535bTcCyY6kcbQ7M51wh+vr5KmA==
-X-Gm-Gg: AR+sD134NoNorj00Qh1UJeQSfoZRXFgRe0PSvgxvSzsDP2SF/DYuG8HhvU7wjEOg+Jx
-	a49C+5ei4uwA57Qhs5Difhi9QYDhDcYkZkbk50dPh7qtsMjR4tSibAiJC+zWFjd+K5+DNZJlXYG
-	APOpX9alv0FwHIm7VNeY+xduTIBAsdVvlHVsXnB8jUiR5zngEZRPbsF/bFayUFX9zieG+H+A/st
-	CL9fmbyu3elMEmmLoLp5H5FxTGPxEqg1mV6CbxbM/v4dCi98wCVK1ydbZdibIyQj/awuAGm61Q4
-	a1yx2cInu7ivqcufJ64MjFNp7xxoKlmdqod0NST87NaCVZm59pm706XrnxQ3XGwVsQ/K3LEQsob
-	KlpqU/3sawaJoRmFFj7anESubj88AJwjW0rePmEaJBcR02RhIu1Qu6T5i/hLGxz42n338j6u+z8
-	POmFlK1aKjI4lfhhTC/0aOZTn88v7nHeFTRxUCvfCl/v3oc5Uu0jIkKo+c5NOWbA==
-X-Received: by 2002:a05:620a:3d04:b0:915:92f3:54e3 with SMTP id af79cd13be357-9349aa7184fmr311577485a.4.1785524365624;
-        Fri, 31 Jul 2026 11:59:25 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9349c199641sm118752485a.22.2026.07.31.11.59.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 11:59:24 -0700 (PDT)
-Date: Fri, 31 Jul 2026 14:59:22 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Minseo Kim <neck3922@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzkaller@googlegroups.com
-Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
- in ep_aio_cancel()
-Message-ID: <483692a4-8fb7-419e-90d5-1784b71fbb9f@rowland.harvard.edu>
-References: <CAFmvuTWq7TKZaj6R9JJzWhwe1WB1FanZ17T1-TFL1g2wsUBZ4w@mail.gmail.com>
- <8067503d-1c0d-4319-adbd-225a03e16ea3@rowland.harvard.edu>
- <CAFmvuTUEg8fr8pY91WpEk=CxHuackJfr0c2c4jxexNy9wkiS0A@mail.gmail.com>
- <a5e0e32a-7e49-4112-bcbc-92da449eb303@rowland.harvard.edu>
- <CAFmvuTXQbqbt3qxqUXitzboZhiMxAC7aaOqAtyZXs+QtJvAjBg@mail.gmail.com>
- <a7f9d958-7f9d-40eb-89ea-56094f60c075@rowland.harvard.edu>
- <CAFmvuTXx6bOEEusjf=bw5c-RDVu-bzRLbd_RVnhn2tLe4n4upQ@mail.gmail.com>
- <887e75d3-dd11-4d98-b6e6-5f6a2c3a6ae8@rowland.harvard.edu>
- <e05c6ba1-48f9-49e7-9d56-25db41e70f6e@rowland.harvard.edu>
- <CAFmvuTVYt2bVaqcyJVUSvNZfss6yzVdPbA5Wk2dtr89w2tz+5w@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="MePVDpXD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=8CzcEyA1wO04nQo+U8qgjK9ddh8HvnIYb//dcKYDGkU=; b=MePVDpXDpXTnK+oYBzwyCcIJoz
+	FLdT1EFBftd1t8/U5VtVIIOZ2fvyWCR99NG8NjZYZ+sP49T2pmEwz2gtPHlppx46208YrpoGiD+Eb
+	iiAr7XiFdcJ2WtAbj4nzC5WtIknLdHhqIioJ8nZM2oC5M7FiKoUki1zFRVeeh/RdAmlc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wpt2d-00FHhV-NY; Fri, 31 Jul 2026 21:37:11 +0200
+Date: Fri, 31 Jul 2026 21:37:11 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Birger Koblitz <mail@birger-koblitz.de>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Heiner Kallweit <hkallweit1@gmail.com>, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jianhui Xu <neuromoments@gmail.com>
+Subject: Re: [PATCH net-next v4 03/12] ax88179_178a: Add HW support for
+ AX179A-based chips
+Message-ID: <3eb5691a-4a84-487e-8d5e-f91a646c03c1@lunn.ch>
+References: <20260731-ax88179a-v4-0-2cf1f71b1dd2@birger-koblitz.de>
+ <20260731-ax88179a-v4-3-2cf1f71b1dd2@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -86,285 +51,113 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFmvuTVYt2bVaqcyJVUSvNZfss6yzVdPbA5Wk2dtr89w2tz+5w@mail.gmail.com>
+In-Reply-To: <20260731-ax88179a-v4-3-2cf1f71b1dd2@birger-koblitz.de>
 
-On Fri, Jul 31, 2026 at 12:55:03AM +0900, Minseo Kim wrote:
-> For a fix, I think the important invariant is exactly-once completion and
-> teardown: each GadgetFS private object and USB request must be released
-> exactly once, the iocb must be completed exactly once, and no path may
-> dereference any of these objects after its lifetime has ended.
+> +static int ax88179_mdiobus_write(struct mii_bus *bus, int phy_id, int regnum, u16 val)
+> +{
+> +	struct usbnet *dev = bus->priv;
+> +	u16 res = (u16)val;
 
-Okay, the new patch below guarantees this.  Or at least, I believe it 
-does.  :-)
+val already is a u16, so the cast is not needed.
 
-> One additional point from the v2 results may be relevant to the approach
-> you outlined: delaying kiocb_set_cancel_fn() until after successful
-> submission. Moving it after a successful usb_ep_queue(), by itself, may
-> not be sufficient: once the request has been queued successfully, its
-> completion can run before cancellation is registered. The revised-patch
-> UAF demonstrated this completion-before-registration ordering. The
-> registration and completion paths therefore appear to need an additional
-> ordering or lifetime mechanism.
+> +
+> +	return ax88179_write_cmd(dev, AX_ACCESS_PHY, phy_id, (__u16)regnum, 2, &res);
 
-The new patch registers the cancel function before submission, so this 
-will be okay.
+Does ax88179_write_cmd actually modify the res value? I'm just
+wondering why you need the local copy.
 
-> There is also a locking constraint: io_cancel() and free_ioctx_users() can
-> invoke the cancel callback while holding ctx->ctx_lock. A synchronous
-> dequeue giveback must therefore not cause aio_complete_rw() to reacquire
-> that lock while the iocb is still linked and the original caller still
-> holds ctx->ctx_lock.
+> +static void ax88179a_get_pauseparam(struct net_device *net, struct ethtool_pauseparam *pause)
+> +{
+> +	struct usbnet *dev = netdev_priv(net);
+> +	struct ax88179_data *data;
+> +
+> +	data = dev->driver_priv;
 
-In the new patch, nothing more complicated than kfree() happens while 
-the new aio_lock is held, no new locking cycles will be created.  Of 
-course, your testing may reveal a pre-existing cycle.
+This pattern happens enough that it is worth adding a helper,
+netdev2data() or something like that.
 
-On the other hand, we have no control over whether dequeue givebacks are 
-synchronous.  If necessary we could complete the aio in a different 
-thread, but that would be wasteful if it isn't needed.
+> +static void ax88179a_mac_link_up(struct phylink_config *config,
+> +				 struct phy_device *phy,
+> +				 unsigned int phy_mode, phy_interface_t interface,
+> +				 int speed, int duplex,
+> +				 bool tx_pause, bool rx_pause)
+> +{
 
-Thanks for your help, and let me know how the patch below works out.
+> +
+> +	netdev_info(dev->net, "ax88179a - Link status is: 1, Link speed: %d, Duplex: %d\n",
+> +		    speed, duplex);
+> +}
 
-Alan Stern
+Maybe not needed? Does phylink print something?
 
+> +static int ax88179a_init_mdio(struct usbnet *dev)
+> +{
+> +	struct ax88179_data *data = dev->driver_priv;
+> +	int ret;
+> +
+> +	data->mdio = mdiobus_alloc();
+> +	if (!data->mdio)
+> +		return -ENOMEM;
+> +
+> +	data->mdio->priv = dev;
+> +	data->mdio->read = ax88179_mdiobus_read;
+> +	data->mdio->write = ax88179_mdiobus_write;
+> +	data->mdio->read_c45 = ax88179_mdiobus_read_c45;
+> +	data->mdio->write_c45 = ax88179_mdiobus_write_c45;
+> +	data->mdio->name = "AX88179A MDIO Bus";
+> +	data->mdio->phy_mask = ~(1 << AX88179_PHY_ID);
+> +	/* mii bus name is usb-<usb bus number>-<usb device number> */
+> +	snprintf(data->mdio->id, MII_BUS_ID_SIZE, "usb-%03d:%03d",
+> +		 dev->udev->bus->busnum, dev->udev->devnum);
+> +
+> +	netdev_err(dev->net, "Registering MDIO bus\n");
 
-Index: usb-devel/drivers/usb/gadget/legacy/inode.c
-===================================================================
---- usb-devel.orig/drivers/usb/gadget/legacy/inode.c
-+++ usb-devel/drivers/usb/gadget/legacy/inode.c
-@@ -236,6 +236,8 @@ static void put_ep (struct ep_data *data
- static const char *CHIP;
- static DEFINE_MUTEX(sb_mutex);		/* Serialize superblock operations */
- 
-+static DEFINE_SPINLOCK(aio_lock);	/* Protect aio cancellation info */
-+
- /*----------------------------------------------------------------------*/
- 
- /* NOTE:  don't use dev_printk calls before binding to the gadget
-@@ -433,6 +435,19 @@ static long ep_ioctl(struct file *fd, un
- 
- /* ASYNCHRONOUS ENDPOINT I/O OPERATIONS (bulk/intr/iso) */
- 
-+enum aio_req_state {
-+	AIO_SUBMITTING,
-+	AIO_RUNNING,
-+	AIO_COMPLETED,
-+	AIO_GIVEN_BACK,
-+};
-+
-+enum aio_cancel_state {
-+	AIO_NOT_CANCELLED,
-+	AIO_UNLINKING,
-+	AIO_UNLINK_DONE,
-+};
-+
- struct kiocb_priv {
- 	struct usb_request	*req;
- 	struct ep_data		*epdata;
-@@ -443,24 +458,53 @@ struct kiocb_priv {
- 	struct iov_iter		to;
- 	const void		*to_free;
- 	unsigned		actual;
-+	enum aio_req_state	req_state;
-+	enum aio_cancel_state	cancel_state;
- };
- 
- static int ep_aio_cancel(struct kiocb *iocb)
- {
--	struct kiocb_priv	*priv = iocb->private;
-+	struct kiocb_priv	*priv;
- 	struct ep_data		*epdata;
-+	struct usb_ep		*ep;
- 	int			value;
-+	enum aio_req_state	req_state;
- 
--	local_irq_disable();
--	epdata = priv->epdata;
--	// spin_lock(&epdata->dev->lock);
--	if (likely(epdata && epdata->ep && priv->req))
--		value = usb_ep_dequeue (epdata->ep, priv->req);
--	else
--		value = -EINVAL;
--	// spin_unlock(&epdata->dev->lock);
--	local_irq_enable();
-+	spin_lock_irq(&aio_lock);
-+	priv = iocb->private;
-+	if (!priv || priv->cancel_state != AIO_NOT_CANCELLED) {
-+		spin_unlock_irq(&aio_lock);
-+		return -EINVAL;		/* Already completed or cancelled */
-+	}
-+	if (priv->req_state == AIO_SUBMITTING) {
-+		priv->cancel_state = AIO_UNLINK_DONE;
-+		spin_unlock_irq(&aio_lock);
-+		return 0;	/* ep_aio() will call us again if needed */
-+	}
- 
-+	epdata = priv->epdata;
-+	ep = epdata->ep;
-+	priv->cancel_state = AIO_UNLINKING;
-+	spin_unlock_irq(&aio_lock);
-+
-+	value = usb_ep_dequeue(ep, priv->req);
-+
-+	spin_lock_irq(&aio_lock);
-+	req_state = priv->req_state;
-+	priv->cancel_state = AIO_UNLINK_DONE;
-+	spin_unlock_irq(&aio_lock);
-+
-+	/*
-+	 * priv->req and epdata are freed after unlinking and completion are
-+	 * both done.
-+	 * priv itself is freed after unlinking and giveback are both done.
-+	 */
-+	if (req_state >= AIO_COMPLETED) {
-+		usb_ep_free_request(ep, priv->req);
-+		put_ep(epdata);
-+		if (req_state == AIO_GIVEN_BACK)
-+			kfree(priv);
-+	}
- 	return value;
- }
- 
-@@ -482,7 +526,12 @@ static void ep_user_copy_worker(struct w
- 
- 	kfree(priv->buf);
- 	kfree(priv->to_free);
--	kfree(priv);
-+
-+	spin_lock_irq(&aio_lock);
-+	priv->req_state = AIO_GIVEN_BACK;
-+	if (priv->cancel_state != AIO_UNLINKING)
-+		kfree(priv);
-+	spin_unlock_irq(&aio_lock);
- }
- 
- static void ep_aio_complete(struct usb_ep *ep, struct usb_request *req)
-@@ -490,11 +539,16 @@ static void ep_aio_complete(struct usb_e
- 	struct kiocb		*iocb = req->context;
- 	struct kiocb_priv	*priv = iocb->private;
- 	struct ep_data		*epdata = priv->epdata;
-+	enum aio_req_state	new_req_state;
-+	enum aio_cancel_state	cancel_state;
- 
--	/* lock against disconnect (and ideally, cancel) */
-+	/* lock against unbind */
- 	spin_lock(&epdata->dev->lock);
--	priv->req = NULL;
--	priv->epdata = NULL;
-+
-+	/* Prevent future cancellation */
-+	spin_lock(&aio_lock);
-+	iocb->private = NULL;
-+	spin_unlock(&aio_lock);
- 
- 	/* if this was a write or a read returning no data then we
- 	 * don't need to copy anything to userspace, so we can
-@@ -503,10 +557,9 @@ static void ep_aio_complete(struct usb_e
- 	if (priv->to_free == NULL || unlikely(req->actual == 0)) {
- 		kfree(req->buf);
- 		kfree(priv->to_free);
--		kfree(priv);
--		iocb->private = NULL;
- 		iocb->ki_complete(iocb,
- 				req->actual ? req->actual : (long)req->status);
-+		new_req_state = AIO_GIVEN_BACK;
- 	} else {
- 		/* ep_copy_to_user() won't report both; we hide some faults */
- 		if (unlikely(0 != req->status))
-@@ -516,12 +569,23 @@ static void ep_aio_complete(struct usb_e
- 		priv->buf = req->buf;
- 		priv->actual = req->actual;
- 		INIT_WORK(&priv->work, ep_user_copy_worker);
--		schedule_work(&priv->work);
-+		new_req_state = AIO_COMPLETED;
- 	}
--
--	usb_ep_free_request(ep, req);
- 	spin_unlock(&epdata->dev->lock);
--	put_ep(epdata);
-+
-+	spin_lock(&aio_lock);
-+	priv->req_state = new_req_state;
-+	cancel_state = priv->cancel_state;
-+	spin_unlock(&aio_lock);
-+
-+	if (new_req_state == AIO_COMPLETED)
-+		schedule_work(&priv->work);
-+	if (cancel_state != AIO_UNLINKING) {
-+		usb_ep_free_request(ep, req);
-+		put_ep(epdata);
-+		if (new_req_state == AIO_GIVEN_BACK)
-+			kfree(priv);
-+	}
- }
- 
- static ssize_t ep_aio(struct kiocb *iocb,
-@@ -532,11 +596,12 @@ static ssize_t ep_aio(struct kiocb *iocb
- {
- 	struct usb_request *req;
- 	ssize_t value;
-+	struct usb_ep *ep;
-+	bool need_unlink = false;
- 
- 	iocb->private = priv;
- 	priv->iocb = iocb;
- 
--	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
- 	get_ep(epdata);
- 	priv->epdata = epdata;
- 	priv->actual = 0;
-@@ -547,10 +612,11 @@ static ssize_t ep_aio(struct kiocb *iocb
- 	 */
- 	spin_lock_irq(&epdata->dev->lock);
- 	value = -ENODEV;
--	if (unlikely(epdata->ep == NULL))
-+	ep = epdata->ep;
-+	if (unlikely(ep == NULL))
- 		goto fail;
- 
--	req = usb_ep_alloc_request(epdata->ep, GFP_ATOMIC);
-+	req = usb_ep_alloc_request(ep, GFP_ATOMIC);
- 	value = -ENOMEM;
- 	if (unlikely(!req))
- 		goto fail;
-@@ -560,12 +626,37 @@ static ssize_t ep_aio(struct kiocb *iocb
- 	req->length = len;
- 	req->complete = ep_aio_complete;
- 	req->context = iocb;
--	value = usb_ep_queue(epdata->ep, req, GFP_ATOMIC);
-+
-+	priv->req_state = AIO_SUBMITTING;
-+	priv->cancel_state = AIO_NOT_CANCELLED;
-+	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
-+
-+	value = usb_ep_queue(ep, req, GFP_ATOMIC);
- 	if (unlikely(0 != value)) {
--		usb_ep_free_request(epdata->ep, req);
-+		spin_lock(&aio_lock);
-+		iocb->private = NULL;
-+		spin_unlock(&aio_lock);
-+
-+		usb_ep_free_request(ep, req);
- 		goto fail;
- 	}
- 	spin_unlock_irq(&epdata->dev->lock);
-+
-+	spin_lock_irq(&aio_lock);
-+	if (priv->req_state == AIO_SUBMITTING) {
-+		priv->req_state = AIO_RUNNING;
-+
-+		/* Cancelled before or just after submission? */
-+		if (priv->cancel_state == AIO_UNLINK_DONE) {
-+			priv->cancel_state = AIO_NOT_CANCELLED;
-+			need_unlink = true;
-+		}
-+	}			/* Otherwise already completed */
-+	spin_unlock_irq(&aio_lock);
-+
-+	if (need_unlink)	/* Redo cancel that was too early */
-+		ep_aio_cancel(iocb);
-+
- 	return -EIOCBQUEUED;
- 
- fail:
+Left over debug.
 
+> +	/* Initialize MII structure */
+> +	dev->mii.dev = dev->net;
+> +	dev->mii.mdio_read = ax88179_mdio_read;
+> +	dev->mii.mdio_write = ax88179_mdio_write;
+> +	dev->mii.phy_id_mask = 0xff;
+> +	dev->mii.reg_num_mask = 0xff;
+> +	dev->mii.phy_id = AX88179_PHY_ID;
+
+So the aim is this is removed. Do the follow up patches remove it?
+
+> +static int ax88179a_reset(struct usbnet *dev)
+> +{
+> +	struct ax88179_data *ax179_data = dev->driver_priv;
+> +	u16 *tmp16;
+> +	u8 buf[5];
+> +	u8 *tmp;
+> +
+> +	tmp16 = (u16 *)buf;
+> +	tmp = (u8 *)buf;
+> +
+> +	/* Power up ethernet PHY */
+> +	*tmp = AX_PHY_POWER;
+> +	ax88179_write_cmd(dev, AX88179A_PHY_POWER, 0, 0, 1, tmp);
+> +	msleep(250);
+> +
+> +	if (ax179_data->chip_version == AX_VERSION_AX88279) {
+> +		*tmp16 = ax88179_mdio_read(dev->net, dev->mii.phy_id, MII_ADVERTISE);
+> +		*tmp16 &= ~(ADVERTISE_10FULL | ADVERTISE_10HALF);
+> +		*tmp16 |= AX_ADVERTISE_2500;
+> +		ax88179_mdio_write(dev->net, dev->mii.phy_id, MII_ADVERTISE, *tmp16);
+> +	}
+
+If the PHY driver is doing the correct thing, this is not needed.  So
+long as you tell phylink that 10Mbps is not supported by the MAC, it
+should disable the advertisement of 10Mps link modes.
+
+> +	ax179_data->eee_enabled = 0;
+> +	ax179_data->eee_active = 0;
+
+Are these used anywhere? Phylink should be tracking the EEE state, not
+the MAC driver.
+
+Overall, this is looking a lot better.
+
+Thanks for continuing to work on this.
+
+       Andrew
