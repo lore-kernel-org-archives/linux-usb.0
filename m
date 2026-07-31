@@ -1,101 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544092D9EED
-	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 13:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E6C64266B2;
+	Fri, 31 Jul 2026 13:59:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785505324; cv=none; b=Nxw8cjLURB+rrlmTE5/Sa/Inv3gG9cxrcAbmQo/oHATsCVvh+roxKpsC7GimQ3IKkkhmJB7afXDMJ34I+NziUXLA0myxZVYyQVbnpLwktb81leggB185w4JQPqVw42/F5c6NKsSJj3+vJkN9/3qNAlIwkepC3Cj9qKWkH6wZG70=
+	t=1785506382; cv=none; b=umkTmMb34h0TOHaYhEYCSAQ5xbobCicRE8wwoS+b+W699dbcyUwtQOXw/1ZPlNVacDGQbsunvxfWrT/Q1SXq4R4p0qvnXoGwIk9QV21nEW0DVKxDrBHdMsbA9qPbKYUvJGRzuQOMRtu71XAvpjyQxyG3SXQPwdntFfGBV2uOCMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785505324; c=relaxed/simple;
-	bh=xulBkEBoW/Vipy84Mg1gXjd7RRHLkaEtxMYygUAymjE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ARPeTQnJ87nBBVeemhrt9J8wDhx2PcTCpaQaEO6yFH9qQJwhLyXGtAzmn0+8AY241sflODEBIECal9YRzLyDzqGs8Gcy3dJglOiAbvA8+vxI0/qmoCpuD45Dnmgfc3dX3u2VaDga4C8V80PqWwwWQiBCLwzKOk5/xlZjsxrxleg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U1ojylSK; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785506382; c=relaxed/simple;
+	bh=+XV+enkyZxfJAKv056yIwFw5Xr9BJehT8qLm/+5QHME=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=byMUnSIEmUDOvCrxPxwa6wZkGQ0p8t3WjfM1lBfZLQfSNss8YQUe9Ny4faE24wRHR4GxHDrfv6tqO7t9qazo5XmiqQn0XLxO8xJe3FVfqYEWwTS9s9ZOWlmUhiNUE6yl3eG80yTmTnjY1g8KH6wLX1tkx8g7aJYyZrNO/1kouIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=byq7vO7j; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U1ojylSK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A6691F00A3F
-	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 13:42:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785505323;
-	bh=ziwLSFeYv7qGbVdCZPRrsO565whIeVlucmgjj21mw1Q=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=U1ojylSKuWWLfky1GUKvMT2MZqtpbSzt4yMaqJGVjklzuNJ49wMPdFUdVyqSlxHSY
-	 pB7W0SJdpG5gwAoLV3Y+oaloPSfyGfXd9QjS3dbSQi3v8bz0Ak5ZxW+5LGpPUbtL9r
-	 4eno3/GVoAFCVZ2ywWFdzDdgKzcggT1EFMv/hcWaxelRGxoerbFrse+HsgEggpvrSv
-	 v9uxpYGA3H2y54UckUAYhH6/UYrUnKMWmBY/p6wCDL+0HFADoSYmSclzPhr6mcUO2c
-	 uMy0OOGn7y/UgZCS2dBPf6P6sg5nWQtbdvDEdFMi02rVrw9Poe1sNYRvm7UdAYxulT
-	 mWROV4CN0IC4g==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-39c9bb9d2fbso9023441fa.2
-        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 06:42:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rr2KlmnObKPBBNGIlhUNYitd3YUlCyYSKWRjS078RgutTmWAEpE+eJyFKhgwlKRHpVmYy++JIppKoA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz947bK3ymKxCufeY71KsDCbopf6BB6NmurO5qxiZWid333twWR
-	W14JUjkCKz9mG7ZwsiXRIqH0rWv75lcm+cJ3eas4g7Jl9Xus5aAJtFN0fOmB3GrQH84p+XSksiZ
-	65HYBUb8FIH53baDsvXln5Y0jEzqdUpQ=
-X-Received: by 2002:a05:6512:251e:b0:5b1:6130:b83a with SMTP id
- 2adb3069b0e04-5b2e1ffe663mr473612e87.55.1785505321560; Fri, 31 Jul 2026
- 06:42:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="byq7vO7j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785506380; x=1817042380;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+XV+enkyZxfJAKv056yIwFw5Xr9BJehT8qLm/+5QHME=;
+  b=byq7vO7jFEFxgozZLU7ytlB+djd2TY2EYdg6/qjmYvrb9ZWWSbvYhHLw
+   VKhFVZYhPPSRXWNqVSqwNmR1wts1SZb3gK5/hE7IsqGemXtf1pBa3Wi55
+   nKtgPm7jB9IGfxrIOZlOqEuH3Wzc21kDCeTQlBUhwWDP7+Q4UhaGewcMH
+   pDps35zD1szlJdCeB+3pnc1HpQN+Gt5sG7PcvH7DwQ1u7O63NtVwwNwg4
+   eT9bCcP6aSjdyRxn50ITOcXwnxriwKLNcmjkZvEsPITQnjYidSqKnvhBJ
+   MpqmTFTbRoH+fSVXKbm9jZBcuq+Zlc3GjxBgdlBEk3YE0PN4+d9YKIYBJ
+   g==;
+X-CSE-ConnectionGUID: 1+IAVpSYQZmgSDOg3TaW/A==
+X-CSE-MsgGUID: uqtJkAZzRLKKxtdnvBb25A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11861"; a="111677895"
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="111677895"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2026 06:59:34 -0700
+X-CSE-ConnectionGUID: BS6hcmAFQrip23A/ScQoGw==
+X-CSE-MsgGUID: +zgHyQdySzK2BovyQs/ahg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,196,1779174000"; 
+   d="scan'208";a="260646806"
+Received: from igk-lkp-server01.igk.intel.com (HELO 3cba2a188a06) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 31 Jul 2026 06:59:33 -0700
+Received: from kbuild by 3cba2a188a06 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wpnlq-0000000035m-1L5K;
+	Fri, 31 Jul 2026 13:59:30 +0000
+Date: Fri, 31 Jul 2026 15:58:35 +0200
+From: kernel test robot <lkp@intel.com>
+To: Ashwin Gundarapu <linuxuser509@zohomail.in>,
+	netdev <netdev@vger.kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-usb <linux-usb@vger.kernel.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	andrew <andrew@lunn.ch>
+Subject: Re: [PATCH v2] net: usb: net1080: add error handling to
+ nc_vendor_write()
+Message-ID: <202607311511.xIUupBfm-lkp@intel.com>
+References: <19fa888e049.512e8c5e24030.7986824281565553606@zohomail.in>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <3353bdf3-4f33-44b1-809b-b0378bee5816@gmail.com>
- <CAJZ5v0h1kqDEBYk0k05rv6f2SJ7g+TN4FhBDJYZSVUctu-0FdA@mail.gmail.com>
- <daf0bb9b-246d-437d-87ca-16706113b201@gmail.com> <CAJZ5v0jByxtQ2tmNm_ZyyBnDMBNjuqQwD_367NRyGNzF7wQtRw@mail.gmail.com>
- <7792f017-42b0-4a09-9941-5259138e21b1@gmail.com> <CAJZ5v0jCFFNuG7WtCE2CG+hP=YNsYMdXH_945QgkgAUcr4Lryg@mail.gmail.com>
- <37daa35f-06aa-49d0-bf0a-1b5ac9f44c89@gmail.com> <CAJZ5v0jyy0+hqU3=gmBrgMzLBVhdUQwDj8d0_jGCqZwqyWT=_g@mail.gmail.com>
- <588c2e18-e6fb-4fc1-95d5-7a5dd0f556fe@gmail.com>
-In-Reply-To: <588c2e18-e6fb-4fc1-95d5-7a5dd0f556fe@gmail.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 31 Jul 2026 15:41:49 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gXtKEaNDdSRqd57zg9GbFN-VDHrU5-=EEQPdSa9Zk-xw@mail.gmail.com>
-X-Gm-Features: AUfX_myny4EGedYcM4sa8xfU_VQjyCSaiBahOaU8wNq2oZCnensu24184gcoNy0
-Message-ID: <CAJZ5v0gXtKEaNDdSRqd57zg9GbFN-VDHrU5-=EEQPdSa9Zk-xw@mail.gmail.com>
-Subject: Re: [REGRESSION] usb controller fails to initialize on intel s1200btl
-To: Julian Silver <mendaxca@gmail.com>
-Cc: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>, rafael.j.wysocki@intel.com, 
-	linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org, 
-	regressions@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Alan Stern <stern@rowland.harvard.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <19fa888e049.512e8c5e24030.7986824281565553606@zohomail.in>
 
-On Fri, Jul 31, 2026 at 3:06=E2=80=AFPM Julian Silver <mendaxca@gmail.com> =
-wrote:
->
-> On 2026-07-31 19:58:32, Rafael J. Wysocki (Intel) wrote:
-> > Please boot with "intel_idle.states_off=3D16" in the kernel command lin=
-e
-> > and see if the problem is still there.  If this doesn't help, please
-> > also try "intel_idle.states_off=3D24".
->
-> "intel_idle.states_off=3D16" does not help.  "intel_idle.states_off=3D24"=
- works.
-> Note that the test is performed on vanilla kernel v7.2-rc5(without the pa=
-tch).
+Hi Ashwin,
 
-Yes, that's what I meant, thanks!
+kernel test robot noticed the following build errors:
 
-The kernel command line switch that works causes idle states 3 and 4
-(C3 and C6) to be disabled by default.  These CPU idle states allow
-the processor to enter package idle states (PC2 or deeper), so what
-(most likely) happens is that the package idle states on this platform
-somehow interfere with EHCI probing (causing the latter time out).  It
-is basically a platform issue that was previously hidden.
+[auto build test ERROR on net/main]
+[also build test ERROR on net-next/main linus/master v7.2-rc5 next-20260730]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Note that you can re-enable idle states disabled by default by doing (as ro=
-ot)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ashwin-Gundarapu/net-usb-net1080-add-error-handling-to-nc_vendor_write/20260731-180509
+base:   net/main
+patch link:    https://lore.kernel.org/r/19fa888e049.512e8c5e24030.7986824281565553606%40zohomail.in
+patch subject: [PATCH v2] net: usb: net1080: add error handling to nc_vendor_write()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20260731/202607311511.xIUupBfm-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260731/202607311511.xIUupBfm-lkp@intel.com/reproduce)
 
-# echo 0 | tee /sys/devices/system/cpu/cpu*/cpuidle/state[3-4]/disable
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607311511.xIUupBfm-lkp@intel.com/
 
-Before the commit in question EHCI was probed before the intel_idle
-initialization and so package idle states were not used at that time
-and before, but that was only due to the initialization ordering based
-on driver name (so fragile anyway).
+All errors (new ones prefixed by >>):
 
-I'm not sure how to address this cleanly because moving the intel_idle
-initialization back to the device_initcall() level won't guarantee the
-working initialization ordering (for instance, if ehci-pci is a
-module), but let me send you one more debug patch.
+>> drivers/net/usb/net1080.c:132:2: error: #endif without #if
+     132 | #endif
+         |  ^
+   1 error generated.
+
+
+vim +132 drivers/net/usb/net1080.c
+
+904813cd8a0b334 drivers/usb/net/net1080.c David Brownell 2005-08-31  129  
+904813cd8a0b334 drivers/usb/net/net1080.c David Brownell 2005-08-31  130  
+904813cd8a0b334 drivers/usb/net/net1080.c David Brownell 2005-08-31  131  
+904813cd8a0b334 drivers/usb/net/net1080.c David Brownell 2005-08-31 @132  #endif
+904813cd8a0b334 drivers/usb/net/net1080.c David Brownell 2005-08-31  133  
+904813cd8a0b334 drivers/usb/net/net1080.c David Brownell 2005-08-31  134  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
