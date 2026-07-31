@@ -1,129 +1,160 @@
-Received: from mail-oa1-f77.google.com (mail-oa1-f77.google.com [209.85.160.77])
+Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3138944BCB8
-	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 17:13:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815B7449B11
+	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 17:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785518019; cv=none; b=kU5DFFBlB09K5pj1LUgG6/KRcO5BaeEb++EsLw7HUMA1TvkYNMm0o1On1FFn741FbJ5XeWYO3A2NzwNrDg01perSgxIEBncV70nA0NxZ6NHpcUtvm1mRY1CDZOkYgV3KW4NI2qUVRmVI9zCfT2L74Z5xcntr7U2d0NKZl2KQwGU=
+	t=1785518073; cv=none; b=L2QQjkMw2sQHxs178A/fP6uSfEJG42M/Yyrb4OqbXWK62NbU6y375AUs6yfzN/00yKwvakFQMx0sEqQFAj2wtsslW7iTe5h8QjEa/KtWZsfxBvKx6bitD4Rcya2Y/xr6QpH/8+lZnIhfE0Y7AFdB6f7OzjthI7APl5rnWCL/LM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785518019; c=relaxed/simple;
-	bh=96PNsj1/Hnew5zbsnXedf9JB5xT9/AZJthw1LhWZ3Ug=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=BdhTCRyJ/LKPrrxjoJIOixqeat1PfhIdnuPsE9at3388/8XA5hRtNui4GbWrQxuAQ4FdpiVcK8dtSAF9sl4Z51PfX9gv5GidCpx7tWNN8f+xt1n27ChVh0K/ckNy9plfgWDWV6gizj9iyz6MN1Jg/EBv3W3mGXG9eS/5AzoeOk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.77
+	s=arc-20240116; t=1785518073; c=relaxed/simple;
+	bh=MaEk9IhYqtSp5p8XQpWZpSgVOWuSjHZoEn9KLCOdXmg=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=fVP0Pv64m7BUXLTzFRT3ZAuIjHj0X8gNWs0OM7rD7PaT4Z5XPhEMbrtX5Byva+fOW7tLJ3m3Bt9sCOm8qt3Hf2MCQyfRb2DV1zO5Yv/AqMC5MAIAdmhD3eKYatmZdxH9QHd3dlnG2iKJufdm0aars/1l6c+AAlOZkPzg6eH2y6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f77.google.com with SMTP id 586e51a60fabf-44d0960fb5bso947518fac.2
-        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 10:13:34 -0700 (PDT)
+Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4ab7bb257bbso1065926b6e.0
+        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 10:14:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785518014; x=1786122814;
+        d=1e100.net; s=20251104; t=1785518070; x=1786122870;
         h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YsSTy9xzX8uiUelmYUyQXwhjgy1boltKLtOgh/tyd2g=;
-        b=meiKTOZV+m/eUlSa0CndKaz7RILXaVwscvA3MVfDUprj4nuNSE4YKVJHbMmf2fHZOv
-         SUSyB2QZ6YaXlGcZs8m8/pTxPac5xqTGKF8Xtci3VffXRQKszHAHg2tQT7NwlDdOO+NM
-         qogrYXOHOAa18kpg2q1H3PoLRhWi6owNIdaGEXRNQkzoCKj83VZXQNjT9zMnmcMGohuG
-         o6T0267QURSdkLT8j9AMKMNUv42lF4rU4YEEUxAe5qISNv4LkHXywLGoap5RuTdBFOi4
-         oeqQJnDbPP9nbVPd+28ilYvroVy/1GjVLBcQPIs5PfBsbekUaWQLOoVOahDsDG0sbSYI
-         WHaA==
-X-Forwarded-Encrypted: i=1; AHgh+RqmJCN9xnRjtfLRyVkARaLgFezLErITCS8dJOn5wbDU4fq07GEAc9x5nif+fOL3vquCyppnRieow0o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyka9o0ClaHYAf+TENimMMeGRuAHtL+yqcpyVNZdmoTsArbGv5t
-	xbq2WLm16KIBmBbwDlOrMJI7+koPJg9VHed2aNhbXxLkccahuvzspqt9ONMffJ3R1cqtmHnWGqC
-	PJuvyduPKXUDC4gpZULtIYzSe8+JbYbN9Ydb5nbCCAsz6G/aAKIX8eSIRNqY=
+        bh=lWAzJCFBg4uy8Bt5Hyp9HNfzqLV/NPZfyz7dBiNQs4E=;
+        b=lEsGLcLArkEgAxuBz/orRnthxzVUNKPpWpv2rtSsMkNf/zn4fhmzq5At9yHgy9q7y7
+         lmm/1nqMX6SFOczWzwjR/huHjyttvNTZ9MhE5L23Cmu/bET+G3sGM1+TNPfG4pA857cX
+         8hZKBqTChuVQNWXsDaeXudZFoPrkQMjqksDIS2DugXIS4bQFoyqZ493y2OwQysSg9IGk
+         hrshcLvWaBdRWfS3LLqKsJPKwSsKElGOdfEnARpT5pYpdDJDPzFkb4aB9CLJhaO14j7K
+         SqVlABlBMFEOApKPpO3+lvFwq9ItLpdhZ9qMwGTH8EkeE+VUUVGF0nNJF1WVhMBldxU2
+         DIwQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpYG3OhNrPHli9ypuvItEPosneN/a/GXy+3ix+PgnRajUxXi9OKoQYm0KJ7rLUxIV2q7qQ0jh7FUf4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIGTdArK54aZiXce48GAiEuCW2JICNmTF0yf/84kHiXvHYjg8L
+	OBDWdz2PsQHcua1B+9wUj4zoSg0lz74+KRwnL/VbvWAQPTjvEp5EjzlRDCYZIjjdsOkJ6xEyd/r
+	/42Pc+5xrzUOOzI/+YQ3KGnGptC/YB7oWVupx1AJk5JlB23Ghz2jv9kfrw18=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:17a9:b0:48f:c907:7a40 with SMTP id
- 5614622812f47-4af5e1b5806mr1418049b6e.11.1785518013890; Fri, 31 Jul 2026
- 10:13:33 -0700 (PDT)
-Date: Fri, 31 Jul 2026 10:13:33 -0700
+X-Received: by 2002:a05:6808:1a0c:b0:4a3:ec8e:2052 with SMTP id
+ 5614622812f47-4af5e18ac5amr1294243b6e.8.1785518070536; Fri, 31 Jul 2026
+ 10:14:30 -0700 (PDT)
+Date: Fri, 31 Jul 2026 10:14:30 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a6cd7bd.1aa927e4.17d4bf.0004.GAE@google.com>
-Subject: [syzbot] [usb?] WARNING in usb_ep_enable
-From: syzbot <syzbot+7b70c4a6021fd49c4151@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Message-ID: <6a6cd7f6.2d659fcc.1d46f5.0198.GAE@google.com>
+Subject: [syzbot] [usb?] WARNING in cxacru_cm/usb_submit_urb (3)
+From: syzbot <syzbot+f254240f0da61e58c9ef@syzkaller.appspotmail.com>
+To: 3chas3@gmail.com, accessrunner-general@lists.sourceforge.net, 
+	gregkh@linuxfoundation.org, linux-atm-general@lists.sourceforge.net, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    11028ab62899 Merge tag 'probes-fixes-v7.2-rc5' of git://gi..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1673649e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cb17729fb04b1e3a
-dashboard link: https://syzkaller.appspot.com/bug?extid=7b70c4a6021fd49c4151
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13074aea580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=161271b9580000
+HEAD commit:    5d5fd841c346 Merge 7.2-rc5 into usb-next
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=14ebcaea580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6ec4d592e55f7960
+dashboard link: https://syzkaller.appspot.com/bug?extid=f254240f0da61e58c9ef
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=157ca5b9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16a77a49580000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/bc967be819a3/disk-11028ab6.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/6e9f003c9cc8/vmlinux-11028ab6.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/5c292926486f/bzImage-11028ab6.xz
+disk image: https://storage.googleapis.com/syzbot-assets/2ed536ae4daf/disk-5d5fd841.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ab40098ccbf1/vmlinux-5d5fd841.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/66d5c395f47c/bzImage-5d5fd841.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7b70c4a6021fd49c4151@syzkaller.appspotmail.com
+Reported-by: syzbot+f254240f0da61e58c9ef@syzkaller.appspotmail.com
 
+cxacru 4-1:1.0: send of cm 0x84 failed (-104)
+ATM dev 0: cxacru_atm_start: CHIP_ADSL_LINE_START returned -104
 ------------[ cut here ]------------
-usb_ep_enable: ep129 (ep1in-bulk) has maxpacket 0
-WARNING: drivers/usb/gadget/udc/core.c:125 at usb_ep_enable+0x148/0x480 drivers/usb/gadget/udc/core.c:124, CPU#1: ktimers/1/29
+URB ffff8881136a1a00 submitted while active
+WARNING: drivers/usb/core/urb.c:379 at usb_submit_urb+0x1689/0x19b0 drivers/usb/core/urb.c:379, CPU#0: kworker/0:2/1122
 Modules linked in:
-CPU: 1 UID: 0 PID: 29 Comm: ktimers/1 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+CPU: 0 UID: 0 PID: 1122 Comm: kworker/0:2 Not tainted syzkaller #0 PREEMPT(lazy) 
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-RIP: 0010:usb_ep_enable+0x1bc/0x480 drivers/usb/gadget/udc/core.c:124
-Code: 4a 17 02 fb 49 83 3f 00 48 c7 c0 60 b3 1f 8c 49 c7 c0 80 b3 1f 8c 4c 0f 44 c0 4c 89 f7 48 c7 c6 8b 42 b0 8d 44 89 ea 4c 89 e1 <67> 48 0f b9 3a bd ea ff ff ff 0f 1f 44 00 00 e8 40 a4 98 fa 65 8b
-RSP: 0018:ffffc90000a3f6b8 EFLAGS: 00010282
-RAX: ffffffff8c1fb360 RBX: ffff88802a08c120 RCX: ffffffff8c1fd1e0
-RDX: 0000000000000081 RSI: ffffffff8db0428b RDI: ffffffff8fbc9d40
-RBP: dffffc0000000000 R08: ffffffff8c1fb380 R09: 0000000000000100
-R10: 0000000000000100 R11: 0000000000000003 R12: ffffffff8c1fd1e0
-R13: 0000000000000081 R14: ffffffff8fbc9d40 R15: ffff88802a08c138
-FS:  0000000000000000(0000) GS:ffff888125d41000(0000) knlGS:0000000000000000
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:usb_submit_urb+0x168c/0x19b0 drivers/usb/core/urb.c:379
+Code: 00 48 8b 04 24 48 8b 90 b0 00 00 00 e9 70 ff ff ff bb ed ff ff ff e9 ac f1 ff ff e8 ae c8 ba fc 48 8d 3d 97 28 01 06 48 89 de <67> 48 0f b9 3a bb f0 ff ff ff e9 8e f1 ff ff c7 44 24 30 00 00 00
+RSP: 0018:ffffc900030deb98 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff8881136a1a00 RCX: 0000000000000000
+RDX: ffff88810df81e00 RSI: ffff8881136a1a00 RDI: ffffffff8afa6430
+RBP: 0000000000000000 R08: 0000000000000002 R09: 0000000000000000
+R10: ffffc900030dec20 R11: 0000000000000000 R12: 0000000000000040
+R13: ffff88811dc98000 R14: ffff8881129a3000 R15: 0000000000000000
+FS:  0000000000000000(0000) GS:ffff888268636000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000563af0aa84a0 CR3: 00000000382cc000 CR4: 00000000003526f0
+CR2: 000055ae16b61948 CR3: 0000000115e52000 CR4: 00000000003506f0
 Call Trace:
  <TASK>
- hidg_set_alt+0x12a/0xa50 drivers/usb/gadget/function/f_hid.c:1042
- set_config+0x749/0x1160 drivers/usb/gadget/composite.c:1018
- composite_setup+0x1de7/0x3480 drivers/usb/gadget/composite.c:1901
- configfs_composite_setup+0xbd/0x100 drivers/usb/gadget/configfs.c:1877
- dummy_timer+0x2f77/0x4d50 drivers/usb/gadget/udc/dummy_hcd.c:1951
- __run_hrtimer kernel/time/hrtimer.c:2032 [inline]
- __hrtimer_run_queues+0x3eb/0xaf0 kernel/time/hrtimer.c:2096
- hrtimer_run_softirq+0x18f/0x260 kernel/time/hrtimer.c:2113
- handle_softirqs+0x1d9/0x6c0 kernel/softirq.c:622
- __do_softirq kernel/softirq.c:656 [inline]
- run_ktimerd+0x69/0x100 kernel/softirq.c:1151
- smpboot_thread_fn+0x57c/0xa80 kernel/smpboot.c:160
- kthread+0x388/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ cxacru_cm+0x202/0x950 drivers/usb/atm/cxacru.c:631
+ cxacru_cm_get_array drivers/usb/atm/cxacru.c:722 [inline]
+ cxacru_poll_status+0x147/0xdc0 drivers/usb/atm/cxacru.c:828
+ cxacru_atm_start+0x203/0x240 drivers/usb/atm/cxacru.c:814
+ usbatm_atm_init+0x196/0x360 drivers/usb/atm/usbatm.c:927
+ usbatm_usb_probe+0x147e/0x1b50 drivers/usb/atm/usbatm.c:1178
+ cxacru_usb_probe+0x101/0x200 drivers/usb/atm/cxacru.c:1370
+ usb_probe_interface+0x386/0x9b0 drivers/usb/core/driver.c:399
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
+ usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
+ usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:293
+ call_driver_probe drivers/base/dd.c:628 [inline]
+ really_probe+0x241/0xa60 drivers/base/dd.c:706
+ __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
+ driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
+ __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
+ bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
+ __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
+ device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x64/0x160 drivers/base/bus.c:620
+ device_add+0x121d/0x1970 drivers/base/core.c:3772
+ usb_new_device.cold+0x685/0x115c drivers/usb/core/hub.c:2700
+ hub_port_connect drivers/usb/core/hub.c:5572 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5712 [inline]
+ port_event drivers/usb/core/hub.c:5876 [inline]
+ hub_event+0x314d/0x4af0 drivers/usb/core/hub.c:5958
+ process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
+ process_scheduled_works kernel/workqueue.c:3405 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
  </TASK>
 ----------------
 Code disassembly (best guess):
-   0:	4a 17                	rex.WX (bad)
-   2:	02 fb                	add    %bl,%bh
-   4:	49 83 3f 00          	cmpq   $0x0,(%r15)
-   8:	48 c7 c0 60 b3 1f 8c 	mov    $0xffffffff8c1fb360,%rax
-   f:	49 c7 c0 80 b3 1f 8c 	mov    $0xffffffff8c1fb380,%r8
-  16:	4c 0f 44 c0          	cmove  %rax,%r8
-  1a:	4c 89 f7             	mov    %r14,%rdi
-  1d:	48 c7 c6 8b 42 b0 8d 	mov    $0xffffffff8db0428b,%rsi
-  24:	44 89 ea             	mov    %r13d,%edx
-  27:	4c 89 e1             	mov    %r12,%rcx
+   0:	00 48 8b             	add    %cl,-0x75(%rax)
+   3:	04 24                	add    $0x24,%al
+   5:	48 8b 90 b0 00 00 00 	mov    0xb0(%rax),%rdx
+   c:	e9 70 ff ff ff       	jmp    0xffffff81
+  11:	bb ed ff ff ff       	mov    $0xffffffed,%ebx
+  16:	e9 ac f1 ff ff       	jmp    0xfffff1c7
+  1b:	e8 ae c8 ba fc       	call   0xfcbac8ce
+  20:	48 8d 3d 97 28 01 06 	lea    0x6012897(%rip),%rdi        # 0x60128be
+  27:	48 89 de             	mov    %rbx,%rsi
 * 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	bd ea ff ff ff       	mov    $0xffffffea,%ebp
-  34:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
-  39:	e8 40 a4 98 fa       	call   0xfa98a47e
-  3e:	65                   	gs
-  3f:	8b                   	.byte 0x8b
+  2f:	bb f0 ff ff ff       	mov    $0xfffffff0,%ebx
+  34:	e9 8e f1 ff ff       	jmp    0xfffff1c7
+  39:	c7                   	.byte 0xc7
+  3a:	44 24 30             	rex.R and $0x30,%al
+  3d:	00 00                	add    %al,(%rax)
 
 
 ---
