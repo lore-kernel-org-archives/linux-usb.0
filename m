@@ -1,165 +1,173 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB781A682A
-	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 11:01:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785495713; cv=none; b=gPlU4dh+hrsIu/B61jVURpz8sqOm3fzaMYea5VcTIv05VwTITtJNMvjrhYzjnNpxEfHz4IaWowlkLisW4PabuCWV7xL6mQfZRO6dponp7kcR7qsDHdH69Btgp0af+uYiPHJNVgb09aINuQIUWylkRgWEdy56AatChQnW93Bsxj4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785495713; c=relaxed/simple;
-	bh=lmIlcCPPjfy2tKJPCB5IOMJRdhikECabt3KeCbjuI/Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bjQjzLRZGriEPgxcO9keFD2ZtkFbd9g8Cj3nbkrv/CbFxsCI/3tC+GgWb5FofC1x6RAC/Qnp7zX95zikZmWSaDywB41ruY/VQOUAQU2sIcUHkEMZ05aq+fzttfKIxEoFKVWgjcyAGs6gjPK863pTA9y9+s9kI5BcTxcX0I7e4iQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lCjgIpdZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kCVnF4iv; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB50E3F39FB
+	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 11:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785496392; cv=pass; b=HO79wFVvUvMSZFKaE/TnWFiG40KZzQhVJCHwOZYFsuUZLyDcZ1+sfKoVUY+gjjy1D04HYIaq2lIYIMQrRIL7vjgsUuulI6cIBrFbwJZbXfhbXpcPWdNfWEqBoosDUNKBqo57bLaUcLna/HUYCrE5ATrCMdfkvWNCJ9S4rey7dAQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785496392; c=relaxed/simple;
+	bh=U6FWqmAjMXu81c1lJrojTAumO8gtbpTP4J5Oe2U4Ces=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hcfNLW36DSFvmyXGTdjsWQVd2C/W+DHqkpTcao3WPVXyApMAnpTKiKUg0LSAfcjfdGnSt4ApukYjvKVajd/P2Ys2OM/AxqMM+H5huyQsPPPhrQzGFACnRF9BPKsq6WpteTW0zU+trg+23hOzLX+JNdpQXAW7rY2bKCVm8B5CAoY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UUYkKrs4; arc=pass smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lCjgIpdZ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kCVnF4iv"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66VAndSB3263459
-	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 11:01:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	r3e/L0q20ll9U/xUZgEVMkmMsHsy5Op3pRyml4PevRM=; b=lCjgIpdZcmcNs1At
-	x/QtXAQXR6yzNjOyJomb2I278fGaQwH3bzcBlaBRTfNdaF/7ZwbEZBDZGhjDBLWZ
-	qovyqMwZxZNo5RysjYqeldd0LedeeQZjb4WHbxBFzmCDz7thhKsGeFivfFcKIWnH
-	GxWhTdtpRGrdJoYiC89q+PXV32Fl1kGu6vQtl2Bi9q6hafWkV0rBJWJmPBcU0ovx
-	sokW7u6kQ5+7nkYWaV8MUGyNbu0zWcx91It9yFHVAhySG9N8kthT7jDNBWCL7fms
-	LLJgOZ5uXVmUFqWdL02Iepk2q87TyVw0KXH6gFgwP+yzJgRyJBDz6LLaTJXJZVfM
-	aNVETA==
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4frt9xr1dq-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 11:01:51 +0000 (GMT)
-Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-74dd1e86d1fso24487137.2
-        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 04:01:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UUYkKrs4"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-8143daf89c7so8230117b3.1
+        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 04:13:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785496389; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qE0BfDRyfVaWxAVMGdSK5e6cLjfVOq+xp8UHcB1+sjkD5pZIwumyfsDvhVsYNQCUT8
+         XThk081kTqcx1OzwIi3DU/2TUyUCfJ/VKUnK/r1ZjXBksRFSIKWvvjb/gM2DKowxrc+w
+         SH67SudONYngzl/nyLNxloMV5i6DSFzbxOdDOsph+pWOiAb5jpdRp62EL0t8+Ws1U/Wd
+         bPjI+pqtG0h4qF4WqwmYjtmsVe60nj0qf9S281BaJ8K9RLwm+UI//qljjv/V9Sll3UCQ
+         8sPKj34/YkEd72N2LuvVsl2WacQGCBODjZO/0pD8fFrm4PQZvhG0Ks5fBuyrKf0lqGQ9
+         VSeg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2p0EeN6dXhl+wQoCj1GbVY2xW8MN67WT2/eOXo99EpY=;
+        fh=//NJbMrWCFXFC/qQdlyb/6rS8VgiEuWzyODeZiaQ0K8=;
+        b=DzJB59wZAsOD8wz+jJhQ/jisfQZ2ACoYptVmT5XfljfBkUkqOP6vDrnLnv+xsxyAm3
+         WcRcirBsZtjjcM7batGejkX4YbRgJOKgLG/4wFIVaganFOk2CSFfIQi0Hsq/0RewCIiF
+         0TZvAofbNbqyUBEHTt/HgAdpsqcGkAbEJhuooELVbfaRcMPB32tnomM9GCVdNmBOoD22
+         Kfn9d26NSRe8MhGPnVrO1IX0pyKJP7k/FfYtic3/s6i2MtrDrrElT2C3qTIvOVmuj126
+         2nIOOES3gyY4avlWyKmeyCYlgiXj8I4pfvYk1FK46wfNPlNw1e8GpFbamRnhHyvC5vbI
+         3asg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1785495710; x=1786100510; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=r3e/L0q20ll9U/xUZgEVMkmMsHsy5Op3pRyml4PevRM=;
-        b=kCVnF4ivgp6TxPhzA4H+UIgRbR6hAU4xtv1Ud/UhfRIlIf4NP88zbbBjWvOZ9KKclX
-         D1gxlDCp76Sk7+G5oZ2gJj63lnaHraTrEbjHHeXXxxuLsslXPmbAXy08+ULurM0aJzXX
-         RvFEKKlYYx5TBnUteczZn88mD6c9VdQMio6VUGNkpEntxlIeEuJ97wiwzbArUSCvWwmK
-         gWEt8R0n6zaGhK5+dqidJ818grHgB+mGijwVi6M/h7WWVzmFYP4BXr/j2MXrC3ofOyX5
-         kbx6ekQAOWaqtrGQk41pFKCvWdYRYK+lm+6nvmFeSdFzodjYDH62uOOhNw30UFk+M5+a
-         ImUA==
+        d=gmail.com; s=20251104; t=1785496389; x=1786101189; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=2p0EeN6dXhl+wQoCj1GbVY2xW8MN67WT2/eOXo99EpY=;
+        b=UUYkKrs47BeqOXMyqzl+H5Vi0+MeTucSagDbV5kafpRMs4g4yM9T4PQskECcN3qMOS
+         IGuoxEh9lPhUzkDruKaBBjwVA7BlgjoWpfQOUNdcMbr5zKDt48lSdeyMRwF9QzK77EVr
+         EgyoPhLGWBeqJpHb5kdTWKCzxURks55czTIQ5w+NRk9OLjQcwTESNIS3Cya4efDvje7h
+         eNfRHYb6fFoH+dF0r7v958Bed6/e+SBQ4BJBDh0rMGQ38EcpcrDNLoBeu7+znU0ny+Jo
+         JMxQFeIhtuNvwbSo8X53Q0pMagQQ0/bOsELKeaeOaepMpsUo5QekILzHteaxHmwuIe6Y
+         /Yfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785495710; x=1786100510;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=r3e/L0q20ll9U/xUZgEVMkmMsHsy5Op3pRyml4PevRM=;
-        b=TwTX/X7mjpYJSvE2XxpomsFSlvNn3sQ7Z6uUT+ikU+VrsGijehsvcW+/q8ozG5JfEH
-         d0Ct4dcSGGGEByqP92vHS/v4F4VPwmfgNy8T/uULvWu3GrUuEarZ07sI+LgdfiBSb7jN
-         PceQ1V0dNqtpgQmByLobCprngCphWcJkOTSYKkSnVEOaJbClU7ZlHdWQCcXJ1FbVz7Sl
-         hOa7UHh4uHCpot9D8wWQ7nsTPVCHycnMQPZuiufuFa0naKyvoNr8J3NYObLvd/acqDj/
-         UEBm4o6N48dxj0I+i0jpeRpZcVKSMF6DF5eQI9+TrZghtLLO9tsD/+dleXg3jw6taSaJ
-         +Nzw==
-X-Gm-Message-State: AOJu0YzJ9j+J/mwxUGO27mxgHqQiDldhF8uPh3VShpRZ12p0Sl+LxXVE
-	fwnVV3ckcaa/SwI8KrWOvSEZ4zPSgcjIj+sX1XCKMQDJ9lB18y9N8+Xw4PNAOD5l7NK2IgXuQeC
-	hDOwx4pUfPjD7ute3XE0qthnR4HUgQNte9D8TXM6p1R9bMcpFyot/3drh291maAc=
-X-Gm-Gg: AR+sD11sp3/gUFfL4RlxLxDRJSGhhVvwynnDOUJJfEyb8Dfb1ANW1wdTY7Q1jpyzso0
-	Th1hArFhU/Thzoq7HTlKvuvBIXzcX+9fsoMkb7mSASCJtEMve01HiroCyByAaWLpbe/Y7fKaS+L
-	ggkDyk7GiFXEOC6O4au64ewwrHnU/udyBr6ajn6uw3swcFqgGXbgNeBppwF9SGFRpjU2Cee3bIH
-	qfN6kDp9SZ5EXuBsCqsDLqxEThtP5apOUEdotbBjaT6rxKW4GqzYwp94Ntz50o2qlBIjZQrD2Qe
-	PwgTLD2XYNIUDjXK2SDW1V8N8XrNKNGkYnUqqBl+lFuK4qi8n0Mdz9tgDBWZdn4A0FJhnpECq4/
-	EC4xZq4On3d1Vl78OeEPhh7N+
-X-Received: by 2002:a05:6102:b0f:b0:74a:b1ee:e21b with SMTP id ada2fe7eead31-758f91821bamr297296137.1.1785495709744;
-        Fri, 31 Jul 2026 04:01:49 -0700 (PDT)
-X-Received: by 2002:a05:6102:b0f:b0:74a:b1ee:e21b with SMTP id ada2fe7eead31-758f91821bamr297235137.1.1785495709311;
-        Fri, 31 Jul 2026 04:01:49 -0700 (PDT)
-Received: from [192.168.120.193] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1fd3c5b387sm111840566b.2.2026.07.31.04.01.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 31 Jul 2026 04:01:47 -0700 (PDT)
-Message-ID: <51346b78-3fd8-4426-a7ce-fb46052c591a@oss.qualcomm.com>
-Date: Fri, 31 Jul 2026 13:01:45 +0200
+        d=1e100.net; s=20251104; t=1785496389; x=1786101189;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2p0EeN6dXhl+wQoCj1GbVY2xW8MN67WT2/eOXo99EpY=;
+        b=h0kjq1eBLQ9q82Z9ny+hmwpledMDFJ+L/fKjElQI86PrYKj51u7fIMQMC81aIyMG2h
+         BAuKGNOhydLZzdvj6P8hqyU23nueaVOh7TFtj4j5zg7KjkkZ8YMhv0VafCeiq5hooJbn
+         wuEYBhId4VcMkbsP1AUlYMhB1BzbUjFAQui42bctUZw3y5DxyZcLjLEVE9RCVgAtnv/C
+         J1YMwQtWTt8sI2T60LMI1v12wcUHrOIbe7rc6KCsyodpUuiB8EzEzxfppsSbue8bmROn
+         u+edzPjqUfJZTKD0ELFrOmpkg3spioGklp44Zf8r62e0kcZxcPMFjszYXYwb16bq0puE
+         D0UA==
+X-Forwarded-Encrypted: i=1; AHgh+RoBSiDJUhKeB+9069khJXrHMGdFzhxrHmOP2yJiK+gu76o5qA7+Bg+KtfBLPeNS5cysjOS3rk1cmZE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIOAPx3VcZA8EwZ1QYEamruKBlSr8iukxcdU2JA/cc4MQ5mRk4
+	t/xDMxdOnHD1ABgdpfOPIMJNDhTX8Fkq13JNtnAhkXekAH+ZNVlRZ5zyRkCU+OCqMpAYT4FLs+Z
+	J0v5yxeDWY/n4bVkOYigFGgEi0iTCtos=
+X-Gm-Gg: AR+sD11bu1RKgju0A29LE+8hJPwKauJ7nFUmYqihfAQHxOnuGlsBYfLUfSEPoJLPJDy
+	1xk3Rj5To9CebmfsMTOGmuD5nhEFIGRNjAQodAF0ErNLr4DHK5z4GqZV+ogDtLZxKGZyi2frxb6
+	zOHWXT2BmgoOCcrwMKZ64uzUaRF2zcipqjFB0pWPBa2vg9bZTJU4BwmcubbumBj4hkgnU3oZSLS
+	5q+yG5kaiWRYFlxxf3wqizOXYcIC2dOeYwWDG/VhbzhqI63eJdf9X1xeS4aX6bTQAzmTYyAoTWz
+	jFKP8i2BCTM4v6WTBYpUW22yuR7RfHH3EjnZ8u1w7hiwtDi2wxUqbNg8+1xs/tr5n0ZzpnUG2uA
+	ecxGstQyBtwMAN5oQf5Ll+/Q79ok3Y1+3
+X-Received: by 2002:a05:690c:6982:b0:81e:a471:e893 with SMTP id
+ 00721157ae682-81fcbad5eb5mr12438657b3.24.1785496389404; Fri, 31 Jul 2026
+ 04:13:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] usb: xhci: Honor PORTSC.TM if valid
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        usb4-upstream@oss.qualcomm.com,
-        Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-References: <20260715-topic-dwc3_tunneling_state-v2-0-026487a08119@oss.qualcomm.com>
- <20260715-topic-dwc3_tunneling_state-v2-2-026487a08119@oss.qualcomm.com>
- <7f0618ed-d2da-42a1-a605-0660439255d7@linux.intel.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <7f0618ed-d2da-42a1-a605-0660439255d7@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMxMDA4MyBTYWx0ZWRfX9fufjFe/Gbg2
- MO7E4V4yTnckptbsQvolw/otBE7CkPn1bIVlrGkErwWn1bzbt/bVMM4s9J+wmnlJAeziHIWJ1fS
- IKH+veYmv/Dy03dM4hKfeu6vO2f3p/g=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMxMDA4MyBTYWx0ZWRfX2sV8uxweKGZE
- VMqNpjt+NUSh3ZbD/a/XYu6gjwNxPGIy3xwknqNAZlLGWbFWaulLF8XTRSJPYa8uk8BCoPavcXj
- JAtLN6BuOtGLTpdE69yPbcyjimjr7pW/nwLgmAzZkrIraVqnoR2Io5mvfDszO43oZnL0J2M8WTX
- aET22/QfHsZcNkXBtB48rTycUX5xU7KjjJ6dSs1G/2YDPvSl48pTRQaWKNnEbNM/hmYlO8i75A/
- GXb79OeXkdo78r+EDco7NUuDag5qCFXt3p8rGoq+PLKE9WKXEVgCaYYCFRObzJBEWnHU/dRVrJY
- 7zYbbit9wgmC+Vk6QeL8KpYA1XMl5x2NPXkKfGhAOg324v5yZ+WcP17Fisjm8/gHcels1uobcDC
- w9VIxZrS3VLdUULMYwrWlRu3Bs6OBY1omVOCvyJSNb66jmWRJEjOjHhwPosLM+z0iDTF1AGG/fU
- wXmWCDDwTIDh93wxuOA==
-X-Proofpoint-GUID: hyuU-17uC0RZCg4KEaHQ6r-uwVF-HbuY
-X-Authority-Analysis: v=2.4 cv=Q8/iJY2a c=1 sm=1 tr=0 ts=6a6c809f cx=c_pps
- a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=EUspDBNiAAAA:8 a=T39ctT4NTyHGGofNco4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=gYDTvv6II1OnSo0itH1n:22
-X-Proofpoint-ORIG-GUID: hyuU-17uC0RZCg4KEaHQ6r-uwVF-HbuY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-31_03,2026-07-30_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
- clxscore=1015 priorityscore=1501 phishscore=0 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607310083
+References: <20260731091316.14145-1-kartikey406@gmail.com> <2026073135-tiny-frightful-ea54@gregkh>
+In-Reply-To: <2026073135-tiny-frightful-ea54@gregkh>
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+Date: Fri, 31 Jul 2026 16:42:57 +0530
+X-Gm-Features: AUfX_mzISKbKNo_YRWuuke0qJIGSVjf5fP_mpuR2ADukmbY4KR5yebLAjY0vk2Q
+Message-ID: <CADhLXY5J1qGJM5FszxHJ_VXoVRBx1zOUnTESZmG9hjOO9EaSkQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadgetfs: fix use-after-free in ep_open()
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: viro@zeniv.linux.org.uk, jack@suse.cz, brauner@kernel.org, 
+	mjguzik@gmail.com, kees@kernel.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+df9e891bf8ea586f846b@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/31/26 12:51 PM, Mathias Nyman wrote:
-> On 7/15/26 15:29, Konrad Dybcio wrote:
->> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->>
->> Currently, the only way for the USB core to determine whether the link
->> is native or tunneled is via an Intel vendor-specific Extended
->> Capability.
+On Fri, Jul 31, 2026 at 4:08=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
 
-[...]
+> > Reported-by: syzbot+df9e891bf8ea586f846b@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=3Ddf9e891bf8ea586f846b
+> > Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+>
+> What commit id does this fix?
+>
 
->>   -    /* Don't try and probe this capability for non-Intel hosts */
->> +    /* Prefer the XHCI v1.2 ext_cap if advertised */
->> +    offset = xhci_find_next_ext_cap(base, 0, XHCI_EXT_CAPS_USB3_TUNNELING);
->> +    if (offset) {
->> +        if (!(readl(base + offset) & XHCI_USB3_TUNNELING_SUPPORTED))
->> +            return USB_LINK_NATIVE;
->> +
-> 
-> The extcap 18 value won't change.
-> We can read it once in xhci_gen_setup()/xhci_setup_port_arrays() and cache it.
-> 
-> here we would just check:
-> 
-> if  (xhci->portsc_tunnel_reporting) {
->     ..read portsc and return, as you do below
+Fixes commit: I'll track down the exact SHA via git blame
+on ep_open()'s lock ordering and resend with a proper Fixes: tag.
 
-Got it
 
-Konrad
+> And how did you find this?  Test it?
+>
+
+Found via syzbot fuzzing (KASAN slab-use-after-free),
+not a manual audit reproduced locally under KASAN in a loop,
+and confirmed via syzbot's #syz test against this patch.
+
+> >
+> >  static const char *CHIP;
+> >  static DEFINE_MUTEX(sb_mutex);               /* Serialize superblock o=
+perations */
+> > +static struct dev_data *the_device;
+>
+> Do we really want a single "device"?  Ah, it comes from elsewhere in
+> thsi file, that's really not good...
+>
+
+I don't personally use gadgetfs found this purely from the syzbot report.
+Happy to help check whether it's still in active use anywhere if that's use=
+ful,
+or if you'd rather this go toward removing the legacy driver
+ instead of patching it, that's fine by me too; your call.
+
+
+
+> >  ep_open (struct inode *inode, struct file *fd)
+> >  {
+> > -     struct ep_data          *data =3D inode->i_private;
+> > -     int                     value =3D -EBUSY;
+> > +     struct dev_data *dev =3D the_device;
+>
+> Why isn't this coming from the inode or file?
+>
+>
+
+Fair point; it doesn't need the_device at all.
+I'll derive dev frominstead (setting sb->s_fs_info =3D dev in
+gadgetfs_fill_super()),
+which is properly scoped to this inode's mount rather than relying on
+the global singleton.
+
+
+> > -     rc =3D gadgetfs_create_file(sb, CHIP, dev, &ep0_operations);
+> > +     rc =3D gadgetfs_create_file(sb, CHIP, dev, &ep0_operations, NULL)=
+;
+>
+> When we have to look up what a random parameter is, when you set it to
+> NULL, that's usually not a good way to write a function.
+>
+
+Correct, I will remove this no longer needed once I pick dev from
+inode->i_sb->s_fs_info
+
+I will send the patch v2 shortly
+
+Thanks
+
+Deepanshu
