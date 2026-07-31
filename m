@@ -1,223 +1,163 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336832DEA7B
-	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 16:18:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A6E43802C;
+	Fri, 31 Jul 2026 16:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785514735; cv=none; b=drVuQYkG9GiphQPt36YjcPFuw4H0fX/AiC7CUmslYhZxNeBPNm/8ALLMlf9UZVnHFAK4x3LT1PCIkMjcKKRQkwYqQ8gWD82RkVs7BaWV3jCRFqz5DcO4X1DT5KywGnFQ838mrI0RvuKdCZIpWz/fTGRQ9e5mrqdvpWM3r998btc=
+	t=1785514748; cv=none; b=hsVy+A44RgdFPttMQHdv6lK2f53knymHcM9bpyXajrVBEPVME8fIQI8tmjrN9HUEhLPhXcdpb9IoyUlywral4iA/e9vjSURrdZ7NoEz4llxPBXeWZcFgsvyjavup6r8J5d0ex8gfCs8S+K1hUapPh8Z0hPHG48Poez9pX+3rCAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785514735; c=relaxed/simple;
-	bh=x0XfJfYYmm0lZckHiSTrULL19u0GEKu1sJMJbH7EwyY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TreF83F4e+DvgZd7XQTp0Bzth3+tm8TqLpzx3dn5gg5/feXxJuA0Y9wenRgXFEiAHwaiHHbV/Qeh6tVInkCucOfJUwen03Dbeicv3mvc5cmVSRvJSZpCIssSrcrJ1i1RjPvkEQHq5Sk4BxLmx1PfxaOjqE0/j3Kk39/jWNdnoNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DHNd5rsL; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785514748; c=relaxed/simple;
+	bh=77dPU3aCVLiyLZPqpkAAbRzsa6LcmIYFGd9fJND0R4E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mXgV+uJdpjNJ+Cbea/CtAslxp36sQtEPis7sRznwvxPPfIcNI7lRX4vmPXBijV89Ax06wp2toMTPk3HL9wyme8rDr4Oa2eNNmBigf/lGGPTa1K3rofbpmCu5W3nIPzl4JzKDpZ5Bg9yQ20tb/DQ5+GDx+F8X2hPl2lnv3IQtOqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=t9nHkfaU; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=b2+THnQu; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DHNd5rsL"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c966b9ee9cbso641962a12.1
-        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 09:18:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785514732; x=1786119532; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fzIk5I7OqDCOAhpxa2DhuDUN9BeeRjYb7EQC4Ahia0I=;
-        b=DHNd5rsLK3ZgbPHPbbPElaE2Oh3UZbKzL9BQNpigBmC5O6dKgVOzmH3U89iOFF6c53
-         8Ako3Sy6O8Jvp6dA2BGCfre51P0g4QT8JnOfnerKZWah7d1VRLeHHU2Fy+m9/p4BW45v
-         4KSrfHVlDELCRKJBSojFM5awB98feN4i/PwKH/3Jd4MXG7atEggW6NokqU9OoyOPmFlC
-         0zmqoe1zuxrPupnu3OvW9L61wKoFfVJBvWcZQfPEcC9enCibqtzp5C9AgndpFa3vlqD9
-         ShXgmrF88dCqawaBZV5i5SsAFyFxgjjIJuoUlcEYFkDAv4hkHVZC9K9runR4+WfXz1e/
-         fXRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785514732; x=1786119532;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fzIk5I7OqDCOAhpxa2DhuDUN9BeeRjYb7EQC4Ahia0I=;
-        b=l8/WQVCPLO6Ynoks4UM55aKvb0N6reP5jRgUZKRvA8YLUJandYdMMQwj8WaYg8+gTR
-         7CxJPHrU353quDeLPa4emLxhuM8G2cz+4pyimiNDAufYbdpBoMUFV3TG4NU6klIy/64g
-         l3uh2m1mj1n4apcV+AHEQfg4ehxt5LsVtGeTaZpsnzEMJCLuoUkEuN6MQCIGjHRczeSZ
-         IbgT0KbA5aK98dy0jOnkBu8Q39wbfL/jStkR4OsPEfxz0dkPl3BDuhnTzgRQ8+nWfHKm
-         qkcKT2IasuPLn5HRNqc2Mo2D0x2fxBWmvYXgOAlHGPreVrmgbNgDzJVycXtFhfYOKi93
-         HjtQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoNOBHWgvrRXOz8szOVyxMfw4bwiAf/1C0W7rev4ydt1dXq3oGoNdFKJLtVA4JnzSY1r/hBUI+2WxY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzqvihPm4tWBG5J0c3YCeeMZH8qtaJTC5BmKo0rXlNhsXF8PmC
-	MuyiLgC3+WvbY2+RkIqDi4WerWxqHu3l7WJ/Ctvayggx+CMQ1uc9ZXE=
-X-Gm-Gg: AR+sD11NLxpYf8FuyzubTzBhjt4irrh7QFnGmc9s8Ku9Lz8toY/vsa35Z0gGJjYz7ic
-	Yvd5X9rfzaeGDm1yyspDGgqQpVYckNqsH6kuVknmi8Ow93M5UAzI1NLaP+S3mgyLRgiFNSP48vb
-	KQa+CqW+IaxfI9WzqeUGop0eG/7LiLlrd7zkYZxoTvRZoHRC4wR2S873P6uggE+LphqmbUV8YW+
-	MEIbLIPEFR7whsDHe7IDHmC0Zcki61G4KulxvVH0vUpddyZrgv3MkiaF1N9sv4/Cmy3lSDQ7Bh5
-	8yLWGRdUTRmovZOk4lE789gMQSei+ry/TQ4nqZjs1QD7iQQrCs7U/nGI0FPSLw90Wka3TUJsjKD
-	wsRzf+4VrycM0caYhqUU1iVP/xRrCSdSLo5WHEfblH+dvNeQot6fTNnQhm4kPeaM88JWNVrpTTS
-	mtSIhRJPN9u6FUbvQZ4+QHLkn61S19N5nnUEC7Itlzw+ICgXQOgV/e7+uwO59F9YsONa8YlfZti
-	HJJ9OvhRv3wY6Mw1n7a3j531LSA
-X-Received: by 2002:a05:6a21:9098:b0:3b4:e4f6:4f15 with SMTP id adf61e73a8af0-3c92a51aef2mr413430637.5.1785514732276;
-        Fri, 31 Jul 2026 09:18:52 -0700 (PDT)
-Received: from at-Standard-PC-Q35-ICH9-2009.. ([106.202.118.213])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153e18e107sm8486940eec.27.2026.07.31.09.18.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 09:18:51 -0700 (PDT)
-From: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
-To: 
-Cc: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>,
-	Andre Eikmeyer <andre@negmaster.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v7] thunderbolt: Add device links for Apple T2 NHI
-Date: Fri, 31 Jul 2026 12:18:40 -0400
-Message-ID: <20260731161842.12636-1-atharvatiwarilinuxdev@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="t9nHkfaU";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="b2+THnQu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1785514743;
+	bh=77dPU3aCVLiyLZPqpkAAbRzsa6LcmIYFGd9fJND0R4E=;
+	h=From:Subject:Date:To:Cc:From;
+	b=t9nHkfaUh09OjX+aQyObImJlIiM5sC9L4NgPXC3sbb9+BVptSk9ZvfzNvIL1Devvh
+	 wQp0TT+d7HdXpSC8fuUA3m+cHLgZPk4fPBlQiibnVKtIbWqloRT2DniP+8YVHddrG0
+	 FV9xHVvA9HLdMGO1pfF8OgrV0KFEphELa9OXi9hHqArdksdkl0oUQD0rcnJdqrHQTp
+	 PplBMihnoFWx+gDakxMB4FgmCkXYq9HKoHO+/BVwUYdoVIelBMJsBTh1PQcwwI9Zvo
+	 A9cTWzN37XbZr1mWGTYUq1HegJw7xddWSIbN+sCwxbO7abwR2mFcWDCTtwom5NJHT4
+	 ve68xfAZqkgGg==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id A3830494FA; Fri, 31 Jul 2026 16:19:03 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1785514742;
+	bh=77dPU3aCVLiyLZPqpkAAbRzsa6LcmIYFGd9fJND0R4E=;
+	h=From:Subject:Date:To:Cc:From;
+	b=b2+THnQu3xt6xaDBZzYMJGsd5irTvSNW2zX1MCMaBUEF/nkfGH3pKdEJ6REOmFkSp
+	 lpTS8D5bKDOnqbY4DjFkqEZJat7KqdnD/MgCgttY+699MdMGo7kjMg/KKDIGEpTgKK
+	 F+kO0F3IuTFTYEyUAS78GdzRmqQfwiD1ti4qS/nV477Umn6E65WNsHZSbuPfmgLgMZ
+	 Uch5sdTiU28R4qxD4RPSm+5Jcm/XeUdVEtzE9AMzKtRxSS6PGthvBET60wjkAA/GRQ
+	 TvqqPWp3b1uwKsUtybUhn2tfgAUddFWaBKTpnhfCGRUorhJ6GoqyXUMaKlXEFFNZ7w
+	 YCADVVYImEKdg==
+Received: from ThinkPadAMD.lan (unknown [82.99.30.195])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 1D791494ED;
+	Fri, 31 Jul 2026 16:19:02 +0000 (UTC)
+From: Birger Koblitz <mail@birger-koblitz.de>
+Subject: [PATCH net-next v4 00/12] ax88179_178a: Add support for
+ AX88179A-based chips
+Date: Fri, 31 Jul 2026 18:19:00 +0200
+Message-Id: <20260731-ax88179a-v4-0-2cf1f71b1dd2@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPTKbGoC/3XNQQ6CMBQE0KuQrq35v6WluPIexkWxv9BowBRCU
+ MLdbbqRhS4nM3mzspFioJGdipVFmsMYhj6F8lCwW2f7lnhwKTMBQoOWwO1iDFa15RadqT0JrCS
+ wNH9G8mHJ1IX1NPGeloldU9OFcRriK3/MmPvMVYBfbkYOHKU2ynldKVTnJsSWIr8PzSNM76Ojj
+ M1iD5gdIBIABsCTawSh/gfIHSDKHSAT0DhHpa9BGSN/Adu2fQBcLkqxNAEAAA==
+X-Change-ID: 20260630-ax88179a-a1d89fe21730
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Birger Koblitz <mail@birger-koblitz.de>, 
+ Jianhui Xu <neuromoments@gmail.com>
+X-Mailer: b4 0.14.2
 
-Ice Lake Thunderbolt NHI That are only on T2 Macs. The NHI and its
-associated PCIe Root Ports all sit directly on the Root Complex
-with no upstream port. Identify the tunneled PCIe Root Ports by
-their PCI IDs and create device links back to the NHI so that
-PCIe tunnels can be re-established after sleep.
+This adds support for the current generation of ASIX network adapter chips,
+which are based on the AX88179A. This includes the AX88179A/B (1GBit-PHY),
+AX88772D/E (100MBit) and AX88279 (2.5GBit).
 
-And on other Thunderbolt NHI's, like Titan Ridge, the default method
-is used to add device links.
+The AX179A-based chips all provide both a CDC-NCM compatible USB interface,
+and a proprietary vendor interface with more features. By default, the
+proprietary vendor interface is not active and Linux will load the CDC-NCM
+driver to support the devices. If the ax88179_178a module is configured by
+the OS to have precedence over CDC-NCM, then this driver will switch the
+device to use the vendor interface, and the device will be controlled by
+the ax88179_178a driver when the device is probed again after an automatic
+reset of the device bringing up the vendor interface.
 
-Co-developed-by: Andre Eikmeyer <andre@negmaster.com>
-Signed-off-by: Andre Eikmeyer <andre@negmaster.com>
+The following hardware was tested:
+Delock 66046 2.5GBit adapter (AX88279, FW: 1.2.0.0)
+TP-Link UE306 1GBit adapter (AX88179B, FW: 1.3.0.0)
+Renkforce RF-4708614 1GBit adapter (AX88179A, FW: 1.0.4.0)
+UGREEN CR110 100MBit adapter (AX88722E, FW: 1.3.0.0)
 
-Signed-off-by: Atharva Tiwari <atharvatiwarilinuxdev@gmail.com>
+The driver supports the following features
+- EEE
+- TCP segmentation offload
+- VLAN filtering/tagging offload 
+  (NETIF_F_HW_VLAN_CTAG_FILTER, NETIF_F_HW_VLAN_CTAG_RX/TX)
+- RX/TX checksum offload
+- FC/Pause configuration
+- EEPROM read access
+
+The code is based on the ASIX 4.1.0 out-of-tree driver published under
+the GPL,, the aqc111 driver which provides support for the AX88279A,
+and some tracing of USB-transfers of the Windows-driver.
+
+Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
+Tested-by: Jianhui Xu <neuromoments@gmail.com>
 ---
-Changes in v7:
-- Used pci_lock_rescan_remove to prevent race conditons.
-- Fixed patch format.
-
-Changes in v6:
-- Used for_each_pci_bridge in Icelake section
-- Removed has_apple_t2_chip as its not required now
-
-Changes in v5:
-- Used Icelake root PCI IDs for detection of root ports instead of TRP
-
 Changes in v4:
-- Limited TRP check to T2 Icelake systems only
-- Optimized has_apple_t2_chip check
-- Included pci.h to drivers/thunderbolt/tb.c
-- Used __free(pci_dev_put) to avoid label
+- Split driver into library part and part2 for AX88179 and AX88179A-based
+  controllers
+- Driver renamed ax88179
+- Improved phylink use: use phylink standard functions for speed and EEE-settings,
+  correct MAC capabilities, removed ax88179_status() irq-urb callback
+- Fixes in PHY driver for AX88179A integrated PHYs
+- Link to v3: https://lore.kernel.org/r/20260724-ax88179a-v3-0-bdde4f905883@birger-koblitz.de
 
 Changes in v3:
-- Fix build errors with non-x86 machines
-- Used __initconst for apple_t2_devices
-- Removed UEFI_QUIRK_SKIP_CERT as its unused now
-- Used IS_ENABLED(CONFIG_ACPI) in tb_apple_add_links for the T2 part
-- Removed !bid check to remove warning with -Waddress
+- Add PHY drivers for the PHYs of the AX88179A-based controllers
+- Use phylink for the AX88179A-based chips
+- Link to v2: https://lore.kernel.org/r/20260708-ax88179a-v2-0-0800fedb2e16@birger-koblitz.de
 
 Changes in v2:
-- Used a less generic name for has_t2_chip
-- Used DMI instead of PCI for has_apple_t2_chip to avoid PCI problems
-- Initialized ret in tb_apple_add_links
+- Correctly use net-next prefix
+- Fix compilation issue in HW support patch
+- Split MMD support patch into patches for EEE/new chip support
+- Do not use ADVERTISE_RESV but private flag definition
+- Fix pause configuration to keep track of settings when autoneg disabled
+- Fix issue with unitialized variable reported by kernel test robot <lkp@intel.com>
+- Avoid white-space changes
 
-Link to v6:
-https://lore.kernel.org/all/20260730223435.2874-1-atharvatiwarilinuxdev@gmail.com/
+- Link to v1: https://lore.kernel.org/r/20260701-ax88179a-v1-0-13685df67515@birger-koblitz.de
 
-Link to v5:
-https://lore.kernel.org/all/20260727211807.1223-1-atharvatiwarilinuxdev@gmail.com/
+---
+Birger Koblitz (12):
+      ax88179_178a: Fix endianness of pause watermark register
+      ax88179_178a: Split driver into library and device specific code
+      ax88179_178a: Add HW support for AX179A-based chips
+      ax88179_178a: Add EEE configuration support for AX88179A MACs
+      ax88179_178a: Add EEE configuration support for AX88179A PHYs
+      ax88179_178a: Add VLAN offload support for AX88179A
+      ax88179_178a: Add AX179A/AX279 multicast configuration
+      ax88179_178a: Add Suspend/resume support for AX88179A/772D/279
+      ax88179_178a: Add ethtool get_drvinfo
+      ax88179_178a: update driver information
+      ax88179_178a: Add support for AX88179A/772D/279 EEPROM access
+      ax88796b: Add support for AX88772D, AX88179A and AX88279
 
-Link to v4:
-https://lore.kernel.org/all/20260724164641.2239-1-atharvatiwarilinuxdev@gmail.com/
+ drivers/net/phy/ax88796b.c         |  192 ++++++
+ drivers/net/usb/Kconfig            |    9 +-
+ drivers/net/usb/Makefile           |    3 +-
+ drivers/net/usb/ax88179_178a.c     |  664 ++-----------------
+ drivers/net/usb/ax88179_lib.c      |  508 +++++++++++++++
+ drivers/net/usb/ax88179_lib.h      |  357 +++++++++++
+ drivers/net/usb/ax88179a_devices.c | 1245 ++++++++++++++++++++++++++++++++++++
+ 7 files changed, 2355 insertions(+), 623 deletions(-)
+---
+base-commit: 1a9edf8be190decb17227e3cba540513d93ebb85
+change-id: 20260630-ax88179a-a1d89fe21730
 
-Link to v3:
-https://lore.kernel.org/all/20260721063412.11588-1-atharvatiwarilinuxdev@gmail.com/
-
-Link to v2:
-https://lore.kernel.org/all/20260721054506.11871-1-atharvatiwarilinuxdev@gmail.com/
-
-Link to v1:
-https://lore.kernel.org/all/20260719180308.1398-1-atharvatiwarilinuxdev@gmail.com/
-
- drivers/thunderbolt/tb.c | 49 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 48 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index c69c323e6952..2534c6378000 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -9,6 +9,7 @@
- #include <linux/slab.h>
- #include <linux/errno.h>
- #include <linux/delay.h>
-+#include <linux/pci.h>
- #include <linux/pm_runtime.h>
- #include <linux/platform_data/x86/apple.h>
- 
-@@ -3305,16 +3306,62 @@ static const struct tb_cm_ops tb_cm_ops = {
- static bool tb_apple_add_links(struct tb_nhi *nhi)
- {
- 	struct pci_dev *upstream, *pdev;
--	bool ret;
-+	bool ret = false;
- 
- 	if (!x86_apple_machine)
- 		return false;
- 
-+	/* Identify the tunneled PCIe Root Ports by their PCI IDs
-+	 * on Macs with Icelake NHI's
-+	 * and create device links so that
-+	 * PCIe tunnels can be re-established after sleep.
-+	 */
-+	if (nhi->pdev->device == PCI_DEVICE_ID_INTEL_ICL_NHI0 ||
-+		nhi->pdev->device == PCI_DEVICE_ID_INTEL_ICL_NHI1) {
-+		const struct device_link *link;
-+
-+		pci_lock_rescan_remove();
-+
-+		for_each_pci_bridge(pdev, nhi->pdev->bus) {
-+			if (!pci_is_pcie(pdev) || pci_pcie_type(pdev) != PCI_EXP_TYPE_ROOT_PORT)
-+				continue;
-+
-+			switch (pdev->device) {
-+			/* Ice Lake Thunderbolt 3 PCIe Root Ports */
-+			case 0x8a1d:
-+			case 0x8a1f:
-+			case 0x8a21:
-+			case 0x8a23:
-+				break;
-+			default:
-+				continue;
-+			}
-+
-+			link = device_link_add(&pdev->dev, &nhi->pdev->dev,
-+					DL_FLAG_AUTOREMOVE_SUPPLIER |
-+					DL_FLAG_PM_RUNTIME);
-+			if (link) {
-+				dev_dbg(&nhi->pdev->dev, "created link from %s\n",
-+					dev_name(&pdev->dev));
-+				ret = true;
-+			} else {
-+				dev_warn(&nhi->pdev->dev,
-+					"device link creation from %s failed\n",
-+					dev_name(&pdev->dev));
-+			}
-+		}
-+
-+		pci_unlock_rescan_remove();
-+		return ret;
-+	}
-+
- 	switch (nhi->pdev->device) {
- 	case PCI_DEVICE_ID_INTEL_LIGHT_RIDGE:
- 	case PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_4C:
- 	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_2C_NHI:
- 	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_4C_NHI:
-+	case PCI_DEVICE_ID_INTEL_TITAN_RIDGE_2C_NHI:
-+	case PCI_DEVICE_ID_INTEL_TITAN_RIDGE_4C_NHI:
- 		break;
- 	default:
- 		return false;
+Best regards,
 -- 
-2.43.0
+Birger Koblitz <mail@birger-koblitz.de>
 
