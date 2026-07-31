@@ -1,96 +1,106 @@
-Received: from mail-24418.protonmail.ch (mail-24418.protonmail.ch [109.224.244.18])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C613B442FD8
-	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 15:54:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76474457B5;
+	Fri, 31 Jul 2026 16:06:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785513285; cv=none; b=hvgzaffSKfZCS1WbkDgit53hpn9ay6J+iqSSZQU+fsG5VzDpV76ox7X3ZcNxiUeNyJIHU5QJO6O+IWb6hncmN1QjPu7wS7F/Zv2M1x4Q7zdcn+nJKU8VkQk+WWJn9B8dMiyKxdVMgKi4tQYzTrDUsxLc+DIZtCOaVw3yyOZX49M=
+	t=1785514014; cv=none; b=Yqz/Z3jV5tIXmdNArjiOgGjDaurO7atKnUtIbc7HxN6rKdwxw4+6smmJzsQmI4aiLUiWpv+WWPLW+9hcpekYPTKPBx/hR1+T1/aCsscWmwEVA89FL8f83kFk6uo6s+/XCAZzKVi/EcH3dnvGSLi0lY82m8XreQtEyCxzCx+3HdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785513285; c=relaxed/simple;
-	bh=UvfV0yUydnPwbeXd1gmp8nhkgykO2QTTcFOpW4UCBq4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uXraWTfoJUZ8z01bn9+JB5JAyQWgkJmseu/t4GBO0D0L5TpZfVqG1unt86BIpEv0cPiB/Oeo3NtZ/MhA8zNY2xga2g3I7F64wmWDJoywCpDM4WGSQ45tlDsetcdnQ0iHQ9x9d4eKdcPzDlD4vcCA1R1FSrKaeH3uebGcx0Ek2AQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=QKNy54Rr; arc=none smtp.client-ip=109.224.244.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1785514014; c=relaxed/simple;
+	bh=1nEG1vtutbdA3vK1VYmDnSguaehOwWKHv9dFl1QMlhk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kL09OD5QIDZBK+MlMJ7Nl4Z4DnGagULoefWjkFSa69GTAyRjbgKxrzdjNUulL1WR3ZiYO+AHMQxpeMqhplr8OYOHUb/i4zva2BaXJQrNb0+KZIN2CZA8J+cvr/I/HT1o3EsPWD3Iiqm0Vqmr8nAXNukNEFCpJwFAkia+DlFGq84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=xVjFIJlq; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=1nTJOPMn; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="QKNy54Rr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1785513272; x=1785772472;
-	bh=UvfV0yUydnPwbeXd1gmp8nhkgykO2QTTcFOpW4UCBq4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=QKNy54Rra4MP+uigkoKWhjwWJwUA7GrAp0sVQNKjQl+cmyvuwaDTDlbL9jxHftcIR
-	 tgro5h2bmt2S7Jc8vHHYzwlRV8+9DNKy7GU4AdyOae+wsjL2RMU/w6DAf62wc/DuNK
-	 b86wm+nxwtsTc8tCLG/4nIwfJokUe7c7J4wM27JHImCAbuoeHh2QRm1FDig/cJQzcZ
-	 8ElbBmmkgC/c3BhC9PiYCuh+z+Gg+2knyK/oHyO4zFMVXO1kuRQCZ/dFvUiGbH0lrs
-	 rM1n3480XYCasQxHz/WU96l3ZNC1xbPh4CZs2U8zvbDQo8/sp3K/bgEBTsEpZHli8Y
-	 aZZ6sw0o7Gbtw==
-Date: Fri, 31 Jul 2026 15:54:25 +0000
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, Krzysztof Kozlowski <krzk@kernel.org>
-From: Esteban Urrutia <esteuwu@proton.me>
-Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, phone-devel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: soc: qcom: qcom,pmic-glink: Add compatible string for SM8475
-Message-ID: <6fc5165c-95b5-475a-a0a6-e1d7b9721222@proton.me>
-In-Reply-To: <c4ceda32-d4c8-4fd9-b0d6-3f4519485bde@oss.qualcomm.com>
-References: <20260731-sm8475-pmic-glink-v2-0-28c04928ef22@proton.me> <20260731-sm8475-pmic-glink-v2-1-28c04928ef22@proton.me> <20260731-savvy-piquant-chowchow-f516f2@quoll> <9718d7b8-7303-47a2-9d75-58bbde6385e9@proton.me> <c4ceda32-d4c8-4fd9-b0d6-3f4519485bde@oss.qualcomm.com>
-Feedback-ID: 147889766:user:proton
-X-Pm-Message-ID: 62dd8eb4d952bf400f0cb957436432499d2d0d32
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="xVjFIJlq";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="1nTJOPMn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1785514005;
+	bh=1nEG1vtutbdA3vK1VYmDnSguaehOwWKHv9dFl1QMlhk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=xVjFIJlqEDYKf9W1KRj3PwzuBunrtjwhnWuCoNj2rs6TqkNHE5HHhwvIxAfdMbtjZ
+	 MmQP3oG5YsH2qGd+JQeucfoIVbZzq32YLzQDg7juD490e0jSVibm95XZwFoWB5Uqel
+	 zwidIvJZNEv7k9HOuqN9kWKYVaZl0HOgbZ55aGM13kQB+7ASLL2NoDTdgiDbgtU+09
+	 gCfRwnFflxgPQ9Kc8G2CEGgG0FZz3Oc+jN+b5+1Zqk+MmZaInI5MdGlACNjhV2ALmw
+	 BOzCTJ55LU4Rod+u2VhaS008CXxS9rovrGiitZQAESyKc44JxhaWbaBaVQuiraWQT2
+	 ztWwj/VL0C0Hw==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id 7DB18494F6; Fri, 31 Jul 2026 16:06:45 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1785514004;
+	bh=1nEG1vtutbdA3vK1VYmDnSguaehOwWKHv9dFl1QMlhk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=1nTJOPMnLJtZ+xAPLOg4GquBuaZIwYALZ1o/jY4QKMQdsACYcJMN4qWx8CsyU2EBc
+	 iqnPN8AVqEu0lY3+pL+cP9OBdm7BSlgDHAoxWcS9HPl6EDNZfu+VclhLLmGN3qMCHA
+	 td6B2YCQNBwBDAPRRLCmqqsXqhSjeRZXAcKroFLr+QykM2UAxMottz/hac5LlCOjqN
+	 9cAD8i+XD8fUal5liBvqux7KVs6TKgFrKl7NMqnydqseclsxBKw58mVeW4X6Ar8B3y
+	 ICkXJTwccTQKCnMRS2oYjmC91kmSiOYKx/UIxikRmzyd06TdzNO3Hdi9pTzb828Rth
+	 sEFPjMv9ksUcQ==
+Received: from [10.99.12.190] (unknown [82.99.30.195])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 6DDF6494ED;
+	Fri, 31 Jul 2026 16:06:44 +0000 (UTC)
+Message-ID: <10846ba2-1c3a-4e6f-9f2a-711789c36dbd@birger-koblitz.de>
+Date: Fri, 31 Jul 2026 18:06:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v3 02/13] ax88179_178a: Add HW support for
+ AX179A-based chips
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Heiner Kallweit
+ <hkallweit1@gmail.com>, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260724-ax88179a-v3-0-bdde4f905883@birger-koblitz.de>
+ <20260724-ax88179a-v3-2-bdde4f905883@birger-koblitz.de>
+ <9cf523c0-f765-4be4-8b8b-7b29a3ed6329@lunn.ch>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <9cf523c0-f765-4be4-8b8b-7b29a3ed6329@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 7/31/26 11:30 AM, Konrad Dybcio wrote:
-> On 7/31/26 4:44 PM, Esteban Urrutia wrote:
->> On 7/31/26 5:58 AM, Krzysztof Kozlowski wrote:
->>> On Fri, Jul 31, 2026 at 01:00:08AM -0400, Esteban Urrutia wrote:
->>>> Due to a different process design, SM8475 (4 nm) SoC takes things from=
- both
->>>> SM8450 (4 LPX) and SM8550 (4 nm) SoCs.
->>>
->>> What things? This is just unspecific and not useful. And I doubt that i=
-t
->>> is even "different process design", because how one would know that?
->>
->>
->> The process design is specified on the corresponding datasheets for
->> these SoCs, which are flying somewhere around the internet.
->> Also [1].
->>
->>>> Add a separate compatible string for this SoC to avoid possible confus=
-ions.
->>>
->>> No, explain the hardware compatibility.
->>>
->>> Add foo bar, which is not compatible with baz because it uses bam bam i=
-n
->>> different setup (difference in registers, e.g. XYZ and ABC),
->>
->> How does this commit message based on what was said in [1] sound to you?
->=20
-> That made more sense because the electrical differences are what made
-> the PHY init sequence changes necessary. Here, Krzysztof is trying to
-> express that the pmic-glink interface found on SM8475 is likely no
-> different than the one found on SM8450 (and SM8350 and so on)
->=20
-> Then, since it's the same, it can reuse the same driver match data,
-> so patch 2 is unnecessary, since the driver binds said match data
-> on the fallback "qcom,pmic-glink" compatible
+On 24/07/2026 18:22, Andrew Lunn wrote:
+>> +static void ax88179a_mac_link_up(struct phylink_config *config,
+>> +				 struct phy_device *phy,
+>> +				 unsigned int phy_mode, phy_interface_t interface,
+>> +				 int speed, int duplex,
+>> +				 bool tx_pause, bool rx_pause)
+>> +{
+> 
+> 
+>> +	ax179_data->eee_enabled = ax88179_chk_eee(dev);
+> 
+> With phylink, EEE works differently. You need to provide
+> .mac_disable_tx_lpi and .mac_enable_tx_lpi in phylink_mac_ops, and set
+> bp->phylink_config.lpi_capabilities etc. Take a look at
+> 
+Will be fixed in v4.
 
+> commit 0cc425f18f59f992c61c1802331d25ce689ff5d1
+> Author: Nicolai Buchwitz <nb@tipi-net.de>
+> Date:   Wed Mar 4 11:54:29 2026 +0100
+> 
+>      net: cadence: macb: implement EEE TX LPI support
+> 
+> and there are other examples.
+Thanks for the pointer!
 
-I don't understand. You're implying that the pmic-glink interface found
-on SM8350 and SM8450 is not that different but they both have different
-quirks on ucsi_glink.c.
-No quirks would be applied on SM8475 if patch 2 is not in place either.
+> 
+>> +	netif_carrier_on(dev->net);
+> 
+> phylink devices never touch the carrier. Leave phylink to set it.
+Removed in v4.
 
-Regards,
-Esteban
-
+Birger
 
