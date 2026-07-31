@@ -1,112 +1,165 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2CF3B71BD
-	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 10:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB781A682A
+	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 11:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785495434; cv=none; b=k+ohKyK7F9XcueRJvP0uyZPKitvfwD+0B7fkbeYIQoI/mNo1ZTovpro5JBtejijmv34xBhpLuDJhqUQ5IWu7yvhXubG8SLX9e0SmhYqfI+HPMIm2q9E9nZjTt70gIWteDKeT7rU3SxBU7/GnQurtlT6rh8mPqbALAN3I4mwn7zw=
+	t=1785495713; cv=none; b=gPlU4dh+hrsIu/B61jVURpz8sqOm3fzaMYea5VcTIv05VwTITtJNMvjrhYzjnNpxEfHz4IaWowlkLisW4PabuCWV7xL6mQfZRO6dponp7kcR7qsDHdH69Btgp0af+uYiPHJNVgb09aINuQIUWylkRgWEdy56AatChQnW93Bsxj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785495434; c=relaxed/simple;
-	bh=yGH28gtQqHhec5knFR5sD1CQPcz72FlfWLY6Gw7j7BY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WTjnF96yECj+zE/neIRrgoqPQAG+Er/ctGuB9BmgjmnQFSLvHfNnGPhOLWMjMnq3bwdBO0jWHgYjqv6MnGsnEFDa0zrH4RIntwvTbT0KE3p+zUBkAhENObzH7AG3Vae0whKD0iiWNoHtCptt4//UYXeRipntzANl36JSAh2rjUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bWP/tFCF; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785495713; c=relaxed/simple;
+	bh=lmIlcCPPjfy2tKJPCB5IOMJRdhikECabt3KeCbjuI/Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bjQjzLRZGriEPgxcO9keFD2ZtkFbd9g8Cj3nbkrv/CbFxsCI/3tC+GgWb5FofC1x6RAC/Qnp7zX95zikZmWSaDywB41ruY/VQOUAQU2sIcUHkEMZ05aq+fzttfKIxEoFKVWgjcyAGs6gjPK863pTA9y9+s9kI5BcTxcX0I7e4iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lCjgIpdZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kCVnF4iv; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bWP/tFCF"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-69e2266b07fso1385677a12.2
-        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 03:57:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lCjgIpdZ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kCVnF4iv"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66VAndSB3263459
+	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 11:01:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	r3e/L0q20ll9U/xUZgEVMkmMsHsy5Op3pRyml4PevRM=; b=lCjgIpdZcmcNs1At
+	x/QtXAQXR6yzNjOyJomb2I278fGaQwH3bzcBlaBRTfNdaF/7ZwbEZBDZGhjDBLWZ
+	qovyqMwZxZNo5RysjYqeldd0LedeeQZjb4WHbxBFzmCDz7thhKsGeFivfFcKIWnH
+	GxWhTdtpRGrdJoYiC89q+PXV32Fl1kGu6vQtl2Bi9q6hafWkV0rBJWJmPBcU0ovx
+	sokW7u6kQ5+7nkYWaV8MUGyNbu0zWcx91It9yFHVAhySG9N8kthT7jDNBWCL7fms
+	LLJgOZ5uXVmUFqWdL02Iepk2q87TyVw0KXH6gFgwP+yzJgRyJBDz6LLaTJXJZVfM
+	aNVETA==
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4frt9xr1dq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 11:01:51 +0000 (GMT)
+Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-74dd1e86d1fso24487137.2
+        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 04:01:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785495428; x=1786100228; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=PBQcBLqkV/gb6gmWhio9kGVASVUCF6aNePQnrEZ5KNc=;
-        b=bWP/tFCFDvGwzG7/bZfZ30hVU2bAG8XKHU0zHt5XMO5Jx+xbV34vdfhdey2y42qBIV
-         ZozF6zUGVW04pKVmCSOR29Cab9EM4R40y3wsBVNaGjyonaSFMKqI48/5Uc1xkwproRWj
-         tgi+V6jnlq9EbGYjmYShkF086DaQwouL/H3m46O72ywyHyscNIS9GP2ZXKpoihN+Pa9v
-         eNgbqLN47QSW+/TClQgIkXTsuYVs8TxK1ll5XUOPS/dZ4a0MfoZavs7GQAUWlECHIzVn
-         kiyTPkpBeIhnIK1WF2riQyeKyh9gN3Zwd1m04MDfJKwFk+0ho3bfAqmY/GYze8DbFiVq
-         H3Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785495428; x=1786100228;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1785495710; x=1786100510; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PBQcBLqkV/gb6gmWhio9kGVASVUCF6aNePQnrEZ5KNc=;
-        b=dLLu1viDbi5CQQvVIKxdpRT7SkfimU6eWy4xuI7ivTZtSep//7qvax2gCB2uPhmJtP
-         umdM54yuUVtkcOuLPOJenpTppTfKsy4zu7jZcuU7X+y+nWxqWEXj6q8AM6ZwvlGfSIQ+
-         0ZYWLB6mt+RrnxXAsXXTZWPJQzkB3IZQ3bBoAGWtgNXLDvysxbFeFQ1ChPWwQJSHvpqv
-         Rh63HLOQmKMoSoBw4trjBKkHJKowndIGKHujBCTlEAUbARUwZyOApDPENoJLYrQkoart
-         W6tR8419C1ymqIdjgALnbcntoivd/IGlg7C8IqhKTtnstICX67tFhyVN4JqosDuqCj7J
-         wOfQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrPQbn9iVTRNYWE9ExHdkK0+K65j0pNVEJEYiMipW09kxs17nTDB4MTF6Fj4yXH4xpymPhOm8BWBQ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4194+/JdVB8BXqMFORlslMV+ZQhVcE3/TtiAhY1dEowoLt8gV
-	iD15kwNSQCluKYDmt8mR2eXxo6uGvxXLlZuZt7q4JSoUHfcEF09qUWSX+wYFmA==
-X-Gm-Gg: AR+sD12C12mQluL4bgcegkMOsm0oka2rT3aZx61Ii6yNtKdCSvwPwComJum0p5aZIWH
-	ONdKdIMs0CDw6NKGhaWeCz+Pv9v1ZZh89ZTjc/zIGklFm5RA4GFHj7e2PYbTgXp+scuJbwygsQf
-	Q4L7kHXyShRipYF6gNZO+bjw0jlJimPAhm7VvmhpjHBuLpfjlXx3Rzp8ddW2Mhf4AaIGd90ucpq
-	nvSp4pkpB72hUJbX8ZBJPacR64XxgCHpx9Js+d2rtVyL2nPbABoFeXPt3hNfW5kYK8OUae6wmCw
-	qeASXHTSZ5kZtB9Fn/4opnfRXTxOG8uc/tiYE20Bl4JMHByJZYAoYn7d3fudZYZ4WTIiKeOvCqF
-	Mbn9Dj93oj4WJyAEwbInk9E9dt1Ltd3NVVDMqskacF2Jmv1YsxI8eM20e7bafzp1tzgbvQc8IeV
-	dYCKkgLSu33LV9FIo+yVMHrAfBSX9LPu3PNF+lmAsIoOYBgunDrKJP+3Yv5v+kNQbjGE9Hm0zx
-X-Received: by 2002:a05:6402:458b:b0:69f:e12c:bd43 with SMTP id 4fb4d7f45d1cf-6a098cacdc3mr735841a12.12.1785495428305;
-        Fri, 31 Jul 2026 03:57:08 -0700 (PDT)
-Received: from foxbook (bgt135.neoplus.adsl.tpnet.pl. [83.28.83.135])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a09c5b0c0csm1061040a12.7.2026.07.31.03.57.07
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 31 Jul 2026 03:57:08 -0700 (PDT)
-Date: Fri, 31 Jul 2026 12:57:37 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Jie Deng <dengjie03@kylinos.cn>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, mathias.nyman@intel.com,
- linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: xhci: Restore MSI/MSI-X reinitialization on resume
- for RESET_ON_RESUME hosts
-Message-ID: <20260731125737.073cedb3.michal.pecio@gmail.com>
-In-Reply-To: <d71b1b08-eae8-4e0a-a58f-bbd6b131d5cd@kylinos.cn>
-References: <20260714090210.1201964-1-dengjie03@kylinos.cn>
-	<2fd4299c-c455-497b-a122-5f94eeb9d1bd@linux.intel.com>
-	<e0c37a75-0569-45ac-acd0-534a24b6e3dd@kylinos.cn>
-	<20260730064817.79e3d1af.michal.pecio@gmail.com>
-	<d71b1b08-eae8-4e0a-a58f-bbd6b131d5cd@kylinos.cn>
+        bh=r3e/L0q20ll9U/xUZgEVMkmMsHsy5Op3pRyml4PevRM=;
+        b=kCVnF4ivgp6TxPhzA4H+UIgRbR6hAU4xtv1Ud/UhfRIlIf4NP88zbbBjWvOZ9KKclX
+         D1gxlDCp76Sk7+G5oZ2gJj63lnaHraTrEbjHHeXXxxuLsslXPmbAXy08+ULurM0aJzXX
+         RvFEKKlYYx5TBnUteczZn88mD6c9VdQMio6VUGNkpEntxlIeEuJ97wiwzbArUSCvWwmK
+         gWEt8R0n6zaGhK5+dqidJ818grHgB+mGijwVi6M/h7WWVzmFYP4BXr/j2MXrC3ofOyX5
+         kbx6ekQAOWaqtrGQk41pFKCvWdYRYK+lm+6nvmFeSdFzodjYDH62uOOhNw30UFk+M5+a
+         ImUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785495710; x=1786100510;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=r3e/L0q20ll9U/xUZgEVMkmMsHsy5Op3pRyml4PevRM=;
+        b=TwTX/X7mjpYJSvE2XxpomsFSlvNn3sQ7Z6uUT+ikU+VrsGijehsvcW+/q8ozG5JfEH
+         d0Ct4dcSGGGEByqP92vHS/v4F4VPwmfgNy8T/uULvWu3GrUuEarZ07sI+LgdfiBSb7jN
+         PceQ1V0dNqtpgQmByLobCprngCphWcJkOTSYKkSnVEOaJbClU7ZlHdWQCcXJ1FbVz7Sl
+         hOa7UHh4uHCpot9D8wWQ7nsTPVCHycnMQPZuiufuFa0naKyvoNr8J3NYObLvd/acqDj/
+         UEBm4o6N48dxj0I+i0jpeRpZcVKSMF6DF5eQI9+TrZghtLLO9tsD/+dleXg3jw6taSaJ
+         +Nzw==
+X-Gm-Message-State: AOJu0YzJ9j+J/mwxUGO27mxgHqQiDldhF8uPh3VShpRZ12p0Sl+LxXVE
+	fwnVV3ckcaa/SwI8KrWOvSEZ4zPSgcjIj+sX1XCKMQDJ9lB18y9N8+Xw4PNAOD5l7NK2IgXuQeC
+	hDOwx4pUfPjD7ute3XE0qthnR4HUgQNte9D8TXM6p1R9bMcpFyot/3drh291maAc=
+X-Gm-Gg: AR+sD11sp3/gUFfL4RlxLxDRJSGhhVvwynnDOUJJfEyb8Dfb1ANW1wdTY7Q1jpyzso0
+	Th1hArFhU/Thzoq7HTlKvuvBIXzcX+9fsoMkb7mSASCJtEMve01HiroCyByAaWLpbe/Y7fKaS+L
+	ggkDyk7GiFXEOC6O4au64ewwrHnU/udyBr6ajn6uw3swcFqgGXbgNeBppwF9SGFRpjU2Cee3bIH
+	qfN6kDp9SZ5EXuBsCqsDLqxEThtP5apOUEdotbBjaT6rxKW4GqzYwp94Ntz50o2qlBIjZQrD2Qe
+	PwgTLD2XYNIUDjXK2SDW1V8N8XrNKNGkYnUqqBl+lFuK4qi8n0Mdz9tgDBWZdn4A0FJhnpECq4/
+	EC4xZq4On3d1Vl78OeEPhh7N+
+X-Received: by 2002:a05:6102:b0f:b0:74a:b1ee:e21b with SMTP id ada2fe7eead31-758f91821bamr297296137.1.1785495709744;
+        Fri, 31 Jul 2026 04:01:49 -0700 (PDT)
+X-Received: by 2002:a05:6102:b0f:b0:74a:b1ee:e21b with SMTP id ada2fe7eead31-758f91821bamr297235137.1.1785495709311;
+        Fri, 31 Jul 2026 04:01:49 -0700 (PDT)
+Received: from [192.168.120.193] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1fd3c5b387sm111840566b.2.2026.07.31.04.01.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 31 Jul 2026 04:01:47 -0700 (PDT)
+Message-ID: <51346b78-3fd8-4426-a7ce-fb46052c591a@oss.qualcomm.com>
+Date: Fri, 31 Jul 2026 13:01:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] usb: xhci: Honor PORTSC.TM if valid
+To: Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        usb4-upstream@oss.qualcomm.com,
+        Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+References: <20260715-topic-dwc3_tunneling_state-v2-0-026487a08119@oss.qualcomm.com>
+ <20260715-topic-dwc3_tunneling_state-v2-2-026487a08119@oss.qualcomm.com>
+ <7f0618ed-d2da-42a1-a605-0660439255d7@linux.intel.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <7f0618ed-d2da-42a1-a605-0660439255d7@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzMxMDA4MyBTYWx0ZWRfX9fufjFe/Gbg2
+ MO7E4V4yTnckptbsQvolw/otBE7CkPn1bIVlrGkErwWn1bzbt/bVMM4s9J+wmnlJAeziHIWJ1fS
+ IKH+veYmv/Dy03dM4hKfeu6vO2f3p/g=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzMxMDA4MyBTYWx0ZWRfX2sV8uxweKGZE
+ VMqNpjt+NUSh3ZbD/a/XYu6gjwNxPGIy3xwknqNAZlLGWbFWaulLF8XTRSJPYa8uk8BCoPavcXj
+ JAtLN6BuOtGLTpdE69yPbcyjimjr7pW/nwLgmAzZkrIraVqnoR2Io5mvfDszO43oZnL0J2M8WTX
+ aET22/QfHsZcNkXBtB48rTycUX5xU7KjjJ6dSs1G/2YDPvSl48pTRQaWKNnEbNM/hmYlO8i75A/
+ GXb79OeXkdo78r+EDco7NUuDag5qCFXt3p8rGoq+PLKE9WKXEVgCaYYCFRObzJBEWnHU/dRVrJY
+ 7zYbbit9wgmC+Vk6QeL8KpYA1XMl5x2NPXkKfGhAOg324v5yZ+WcP17Fisjm8/gHcels1uobcDC
+ w9VIxZrS3VLdUULMYwrWlRu3Bs6OBY1omVOCvyJSNb66jmWRJEjOjHhwPosLM+z0iDTF1AGG/fU
+ wXmWCDDwTIDh93wxuOA==
+X-Proofpoint-GUID: hyuU-17uC0RZCg4KEaHQ6r-uwVF-HbuY
+X-Authority-Analysis: v=2.4 cv=Q8/iJY2a c=1 sm=1 tr=0 ts=6a6c809f cx=c_pps
+ a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=EUspDBNiAAAA:8 a=T39ctT4NTyHGGofNco4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=gYDTvv6II1OnSo0itH1n:22
+X-Proofpoint-ORIG-GUID: hyuU-17uC0RZCg4KEaHQ6r-uwVF-HbuY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-07-31_03,2026-07-30_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ clxscore=1015 priorityscore=1501 phishscore=0 adultscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607310083
 
-On Fri, 31 Jul 2026 15:38:22 +0800, Jie Deng wrote:
-> The S3 test script is as follows:
-> #! /bin/bash
-> #
-> for i in $(seq 1 $1); do
->  =C2=A0 =C2=A0 echo "the $i th s3" > /dev/ttyAMA0
->  =C2=A0 =C2=A0 echo "the $i th s3"
->  =C2=A0 =C2=A0 rtcwake -m mem -s 20
->  =C2=A0 =C2=A0 sleep 15
-> done
+On 7/31/26 12:51 PM, Mathias Nyman wrote:
+> On 7/15/26 15:29, Konrad Dybcio wrote:
+>> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>>
+>> Currently, the only way for the USB core to determine whether the link
+>> is native or tunneled is via an Intel vendor-specific Extended
+>> Capability.
 
-That's simple enough, I could run it for a few hours on x86 PC with
-a few different PCIe xHCI cards.
+[...]
 
-Just in case, are some USB devices supposed to be connected, or not
-connected, or maybe it's known to make no difference?
+>>   -    /* Don't try and probe this capability for non-Intel hosts */
+>> +    /* Prefer the XHCI v1.2 ext_cap if advertised */
+>> +    offset = xhci_find_next_ext_cap(base, 0, XHCI_EXT_CAPS_USB3_TUNNELING);
+>> +    if (offset) {
+>> +        if (!(readl(base + offset) & XHCI_USB3_TUNNELING_SUPPORTED))
+>> +            return USB_LINK_NATIVE;
+>> +
+> 
+> The extcap 18 value won't change.
+> We can read it once in xhci_gen_setup()/xhci_setup_port_arrays() and cache it.
+> 
+> here we would just check:
+> 
+> if  (xhci->portsc_tunnel_reporting) {
+>     ..read portsc and return, as you do below
 
-You mentioned that the problem occurs both in D3cold and D3hot, on
-my system I'm not sure if D3hot is possible with S3 so I would end
-up with D3cold or use s2idle instead of S3.
+Got it
 
-I recall that in D3cold most of my PCIe cards don't supply AUX power
-to the xHCI. Was AUX power supplied to these chips in your tests?
-If so, I may be forced to use s2idle. Or maybe will just try both.
-
-Regards,
-Michal
+Konrad
