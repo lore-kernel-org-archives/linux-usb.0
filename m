@@ -1,795 +1,288 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-oo1-f80.google.com (mail-oo1-f80.google.com [209.85.161.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3984E26ED25
-	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 00:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1018D23AB88
+	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 00:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785542492; cv=none; b=gW7T6RxOKIyyqKayYXPe9j37EXEljcnlvMGjSgwYuCl0gzQWavoX+J5Rax1blPsBfeWcBehNskH72dI1JrgjZfPESS7IkgGfhxrCgNQKYeRMBSfCDJXxUCFMONdbtupxFmAIUU11j/6pTHtRE+KmWvdh3UuSrytr4P3NupUPDDo=
+	t=1785542498; cv=none; b=ia5Y6eLTPjUP8W/o1TJ5a2VD+AbtuGRzwn0XoKH0z+6lJh+/+KhC6tX6arMpOAjth8I8qSXNGvTebSx18GbT4UTOV+1PRlhiyNrSoCDdoaVIS1nYqFdUqsI2QToc/hGpVS1JTIXqVr8MxtGb0r1+FSCQ4Hsg/E+1/YqHv9S/wkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785542492; c=relaxed/simple;
-	bh=n0NpDNBD8KJ39pEKMF2PsU//Q7FgTlACJzL1ls80DK8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OdNirn6lv3jaa4tVezaWjvakr0skGCMktUyRXavP3QmrPAVilkdrqfWxlFAKyMYkWqgMeb/b9OZR4qNPiGl1j2bKQtNm5pcGEtmgcaEMW+XHn0GBhBQbhv0hJSyHhpBaUnNL8ICkT3dSF/WKe9r7Q5NsZds4Om1d2mZynKloFzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wyliodrin.com; spf=pass smtp.mailfrom=wyliodrin.com; dkim=pass (1024-bit key) header.d=wyliodrin.com header.i=@wyliodrin.com header.b=dfYDzrFB; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wyliodrin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyliodrin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wyliodrin.com header.i=@wyliodrin.com header.b="dfYDzrFB"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49550ec592cso8388885e9.0
-        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 17:01:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wyliodrin.com; s=google; t=1785542485; x=1786147285; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fhGCZPQrCzgc+r5pSkdCx02xaW/EGSSmOaW0NiiuQ+4=;
-        b=dfYDzrFBzpXUPlN9FP0NcpYaqzTmNeyrg9lQc93d6/P/YfAzkRyVfJnpk3mAdmvGbT
-         a8kPGR8oGooYCGxnwQ91v2xJFQRPWqFVn9ruhQxQ7qJSASNFuB/vr1pFrDKm66eEcY7q
-         2b1yvkd119lSDIvFkEzUvkvkMPKMY9hEmVpC0=
+	s=arc-20240116; t=1785542498; c=relaxed/simple;
+	bh=OFBG12L5clhw4gwYLB+RXBhuhfTPhHqVAvxYjKWfMw4=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Ndi1fuWzO341YRWGkdTjb0xenVP6G8N3JvLCEP7MZJcJfTv8qT1Wm48FpyOdTdyDsFHt058yCuo6UHjr+uQjUTFMj2tQD6xxS6rghu0nxhPkjr5ggGTSRnL2EFRYHYLmS4eWWz0SC92PMlv5wmH+V2VltAxDg6YaSP0D6vEM1wQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f80.google.com with SMTP id 006d021491bc7-6acaccb8b0cso1009763eaf.0
+        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 17:01:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785542485; x=1786147285;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
+        d=1e100.net; s=20251104; t=1785542495; x=1786147295;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fhGCZPQrCzgc+r5pSkdCx02xaW/EGSSmOaW0NiiuQ+4=;
-        b=dI+7xW21qo9i1W8H5h+4ybDLOqo8P0sRbD2T4TLDWlBH2MQVy4JYWeMW4dMMosib6L
-         1F+3+0rRU6dGcQ/bGoGROnh57/5cqv0QBn+gRAPS2qHWD7UmkSe5qxKWmwuSF6OTuUHt
-         aES46pFBzAUnWiT4Fe0GkWvWNphOj9s/sbrZNzbb1NIE94OgUDRxKrNVjI4A6nONgz/4
-         BFokcn4NoCgfGlQhdQfD0JpJt96ax+EWxUACjnH16tm4nRIte5e3Xtytmb/Nq5wTGAGp
-         hfR68U1yWRjWHcBC9lJ3Q2QhtCE0mNDIT7KD+cLq//H7yOliRubMjRTSZZ1yB6vqZWhV
-         uOUA==
-X-Forwarded-Encrypted: i=1; AHgh+RrUpudNqh3i4kOLpKFc5IaIWCrpyWP7DDlKpqVmxM3Lw38dBksPa2/mctI7nBwEeewAHUrEBaGE07w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVDIXnJYolCCwRLq/ztpzAeWb9DVNLSpf1YDOekAS2ZmKg+KA5
-	AAPIvs5nfNEnujB/eZ7I1pVfqCvWH0IJ/ffzTc6tz17oniWwVIewVVQShkbbAvXAfqY=
-X-Gm-Gg: AR+sD13AlnxaY5w9m3d7AKHr+PFLTax8t5pgxpOkpT+yYoOQkD2wCygx3l7lzWtbVS0
-	1TvLeaMmeI1d8u2WwfGFVgkNr4uBnkp7hwBtQnjqzwW8Jnk5qk0vg3G6cwePVxgSGgZE04wxSjK
-	d+uJop5nrU4OWYRO8LMeGvT2cG2PryI9e6baKAIUHXMX1iC3VtTe3e4/VaIc0taWd+kRWGRKgAJ
-	SM4JPQF0gAawCsXeWNZv3KEqL9XvSrkAhiNZ96khn9LOwerkwrSwsbjt8HtVIDjQRhWxh74ZXvJ
-	E5GpasLKqSouv1mbIeRt41N6LSRtjIH8Sd2f335KeL+lRouMJtOv3mOsVcj9aqbxkJ3+cqjyFDh
-	Eidkskb+k/lZOVxZXYQYzLYml4AhM9PAfdBm4c+ZT9Wmdr4KFK3ERarqPv31t2pogsWciQ7YaXp
-	KoiCJwG72SntsB/w8ksyCzWp5GISZtHX/Bx/c9Qu40fgHFINRYMicr5WK2O/56RDHph1Tb4Ymgx
-	iU38sUnUfDlBuyl3lfu/7OaRGFVvIBw/s7AHhPZog==
-X-Received: by 2002:a05:600c:1d18:b0:498:40a:16b3 with SMTP id 5b1f17b1804b1-4980ebc2159mr1811335e9.10.1785542485147;
-        Fri, 31 Jul 2026 17:01:25 -0700 (PDT)
-Received: from [192.168.2.138] ([86.122.199.88])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49807b8d04fsm6568935e9.3.2026.07.31.17.01.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 17:01:24 -0700 (PDT)
-From: Alexandru Radovici <alexandru.radovici@wyliodrin.com>
-Date: Sat, 01 Aug 2026 03:01:07 +0300
-Subject: [PATCH RFC 1/2] rust: usb: add endpoint abstraction
+        bh=kWzeqHTiSfVdN9VWhXh6EZKEtrgF29HcGXxv1NPzYCc=;
+        b=JEuiEoxPKw/JOWVxeVS7kqmIPmJN5R4KxGWDbDgUFetUQs8YsdRIQUjUoK/Cdivqzl
+         pcJV97J3ETTEqgdzuJuqK/Hy+otnptNUXpzIaoac5FnJgCGXLNozIj9Ra30R9U+0gUsU
+         ch9FCZflu045TA+uiWIWLAIBwr76UzZwsWYl9iYrVILqgGW3WvXgc6f30s6viCSUx6C7
+         vdDg+3ElDvguhfnhn2RWX4PJJyxO1j9I+mAjrwTowT8w0qG0xSbGRDZIPxuEnwMmYwOr
+         5YAwsddG95j2ZJby7wiciz66bj4i+YEl4VdAu3KMdpeo+24LVZGflR/cQm71AOmIguzm
+         59NA==
+X-Forwarded-Encrypted: i=1; AHgh+RqA0GR30v5BWHPMecXsRbNyf0Xfsp3o2SZE255bxDF0uW2aAsPZooWfvN4OVvFEoF7Iw0xmGecPu4E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPto8zVJEi65JQEAK2pq7sBQT5Dj+rqW5sSIRLp46PPOJ5qNdV
+	tugOjQg6xtuag3BnW5T4Mk9vvqkV2UM3YUux/IAR0mvFQUjDfZH3yqqG1xtheu+nsdzBUKMZqFs
+	kshvCvWE/mlpla7wl4TfMNQIMd+zO5elRLyXTZhFPV61Lxa4/hvp2NXBHkQk=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260801-rust-usb_control_msg-v1-1-655bb444b52c@wyliodrin.com>
-References: <20260801-rust-usb_control_msg-v1-0-655bb444b52c@wyliodrin.com>
-In-Reply-To: <20260801-rust-usb_control_msg-v1-0-655bb444b52c@wyliodrin.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Tamir Duberstein <tamird@kernel.org>, 
- Alexandre Courbot <acourbot@nvidia.com>, 
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, 
- Alexandru Radovici <alexandru.radovici@wyliodrin.com>
-X-Mailer: b4 0.14.3
+X-Received: by 2002:a05:6820:16a4:b0:6ac:a994:8794 with SMTP id
+ 006d021491bc7-6ae4317b7f1mr3864142eaf.7.1785542494889; Fri, 31 Jul 2026
+ 17:01:34 -0700 (PDT)
+Date: Fri, 31 Jul 2026 17:01:34 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a6d375e.2d659fcc.1d46f5.01a4.GAE@google.com>
+Subject: [syzbot] [usb?] KASAN: slab-use-after-free Read in vhci_shutdown_connection
+From: syzbot <syzbot+31117fde582fe6a0cd62@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, i@zenithal.me, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, shuah@kernel.org, syzkaller-bugs@googlegroups.com, 
+	valentina.manea.m@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-Add an abstraction for `struct usb_host_endpoint`, together with the
-accessors needed to reach one: `AlternateSetting` wrapping
-`struct usb_host_interface`, `Interface::alternate_settings()` and
-`Interface::current_alternate_setting()`, and `Device::control_endpoint()`
-for the default control endpoint, which no interface descriptor lists.
+Hello,
 
-`HostEndpoint` is generic over two sealed marker traits,
-`EndpointDirection` and `EndpointTransferType`, whose implementors are
-1-ZSTs held in `PhantomData`. An endpoint borrowed from an alternate
-setting starts out generic in both; `as_in()`, `as_out()` and
-`as_control()` check the descriptor once and return a reference
-carrying the corresponding marker, so a function taking
-`&HostEndpoint<In, Bulk>` needs no check of its own. The type is
-`#[repr(transparent)]` over the C struct and the markers are
-zero-sized, so the refinement costs nothing and a slice of endpoints
-can be borrowed directly from the C array.
+syzbot found the following issue on:
 
-Control endpoints get a distinct `Bidirectional` marker rather than an
-IN or OUT one. A control transfer takes its direction from bit 7 of the
-setup packet's bmRequestType, and USB 2.0 section 9.6.6 defines the
-corresponding bit of bEndpointAddress as ignored for control endpoints.
-`as_in()` and `as_out()` are not implemented for `Bidirectional`, making
-calling them a compile error rather than a misleading result.
+HEAD commit:    f5098b6bae76 Linux 7.2-rc5
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=11b391b9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4e38b15c29e6a1d9
+dashboard link: https://syzkaller.appspot.com/bug?extid=31117fde582fe6a0cd62
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1575d1b9580000
 
-Signed-off-by: Alexandru Radovici <alexandru.radovici@wyliodrin.com>
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/7d76d25427fa/disk-f5098b6b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/b2a3f9e7cb3e/vmlinux-f5098b6b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/e4d49cdcd799/bzImage-f5098b6b.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+31117fde582fe6a0cd62@syzkaller.appspotmail.com
+
+vhci_hcd vhci_hcd.0: disconnect device
+vhci_hcd vhci_hcd.0: stop threads
+==================================================================
+BUG: KASAN: slab-use-after-free in vhci_shutdown_connection+0x1d4/0x650 drivers/usb/usbip/vhci_hcd.c:1062
+Read of size 8 at addr ffff888020bd1560 by task kworker/u8:9/1170
+
+CPU: 1 UID: 0 PID: 1170 Comm: kworker/u8:9 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+Workqueue: usbip_event event_handler
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ vhci_shutdown_connection+0x1d4/0x650 drivers/usb/usbip/vhci_hcd.c:1062
+ event_handler+0x2a4/0x4b0 drivers/usb/usbip/usbip_event.c:79
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+Allocated by task 1:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __do_kmalloc_node mm/slub.c:5334 [inline]
+ __kmalloc_noprof+0x375/0x720 mm/slub.c:5359
+ _kmalloc_noprof include/linux/slab.h:992 [inline]
+ _kzalloc_noprof include/linux/slab.h:1309 [inline]
+ __usb_create_hcd+0x67/0x900 drivers/usb/core/hcd.c:2566
+ vhci_hcd_probe+0x104/0x3e0 drivers/usb/usbip/vhci_hcd.c:1378
+ platform_probe+0xf9/0x190 drivers/base/platform.c:1439
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+ bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
+ __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
+ device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+ bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
+ device_add+0x7d7/0xb80 drivers/base/core.c:3772
+ platform_device_add+0x4bd/0x860 drivers/base/platform.c:762
+ platform_device_register_full+0x62d/0x710 drivers/base/platform.c:902
+ vhci_hcd_init+0x227/0x360 drivers/usb/usbip/vhci_hcd.c:1557
+ do_one_initcall+0x250/0x870 init/main.c:1347
+ do_initcall_level+0x10a/0x1a0 init/main.c:1409
+ do_initcalls+0x59/0xa0 init/main.c:1425
+ kernel_init_freeable+0x29d/0x3e0 init/main.c:1658
+ kernel_init+0x1d/0x1d0 init/main.c:1548
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Freed by task 6083:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2677 [inline]
+ slab_free mm/slub.c:6377 [inline]
+ kfree+0x1c5/0x640 mm/slub.c:6692
+ vhci_hcd_remove+0xe4/0x110 drivers/usb/usbip/vhci_hcd.c:1434
+ device_remove drivers/base/dd.c:616 [inline]
+ __device_release_driver drivers/base/dd.c:1349 [inline]
+ device_release_driver_internal+0x48b/0x880 drivers/base/dd.c:1372
+ unbind_store+0x1a1/0x1d0 drivers/base/bus.c:244
+ kernfs_fop_write_iter+0x3a4/0x540 fs/kernfs/file.c:345
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Last potentially related work creation:
+ kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
+ insert_work+0x3d/0x330 kernel/workqueue.c:2226
+ __queue_work+0xcd8/0x10a0 kernel/workqueue.c:2401
+ queue_work_on+0x106/0x1d0 kernel/workqueue.c:2452
+ usb_rh_urb_dequeue drivers/usb/core/hcd.c:845 [inline]
+ unlink1+0x344/0x3e0 drivers/usb/core/hcd.c:1580
+ usb_hcd_unlink_urb+0xe6/0x1e0 drivers/usb/core/hcd.c:1617
+ usb_kill_urb+0x10b/0x2f0 drivers/usb/core/urb.c:716
+ hub_quiesce+0x211/0x330 drivers/usb/core/hub.c:1412
+ hub_suspend+0x904/0xad0 drivers/usb/core/hub.c:4008
+ usb_suspend_interface drivers/usb/core/driver.c:1323 [inline]
+ usb_suspend_both+0x285/0x1040 drivers/usb/core/driver.c:1446
+ usb_runtime_suspend+0x58/0x110 drivers/usb/core/driver.c:2000
+ __rpm_callback+0x2c7/0x950 drivers/base/power/runtime.c:406
+ rpm_callback drivers/base/power/runtime.c:460 [inline]
+ rpm_suspend+0x8a0/0x17b0 drivers/base/power/runtime.c:698
+ __pm_runtime_suspend+0x12f/0x1a0 drivers/base/power/runtime.c:1167
+ pm_runtime_autosuspend include/linux/pm_runtime.h:415 [inline]
+ usb_runtime_idle+0x76/0x90 drivers/usb/core/driver.c:2037
+ rpm_idle+0x5b4/0x980 drivers/base/power/runtime.c:550
+ pm_runtime_work+0x11e/0x1b0 drivers/base/power/runtime.c:995
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Second to last potentially related work creation:
+ kasan_save_stack+0x3e/0x60 mm/kasan/common.c:57
+ kasan_record_aux_stack+0xbd/0xd0 mm/kasan/generic.c:556
+ insert_work+0x3d/0x330 kernel/workqueue.c:2226
+ __queue_work+0xcd8/0x10a0 kernel/workqueue.c:2401
+ queue_work_on+0x106/0x1d0 kernel/workqueue.c:2452
+ rh_call_control drivers/usb/core/hcd.c:706 [inline]
+ rh_urb_enqueue drivers/usb/core/hcd.c:817 [inline]
+ usb_hcd_submit_urb+0xa3b/0x1b60 drivers/usb/core/hcd.c:1538
+ usb_start_wait_urb+0x13f/0x5b0 drivers/usb/core/message.c:62
+ usb_internal_control_msg drivers/usb/core/message.c:117 [inline]
+ usb_control_msg+0x234/0x3e0 drivers/usb/core/message.c:167
+ get_port_status drivers/usb/core/hub.c:607 [inline]
+ hub_ext_port_status+0x114/0x810 drivers/usb/core/hub.c:624
+ usb_hub_port_status drivers/usb/core/hub.c:674 [inline]
+ hub_activate+0x740/0x1b20 drivers/usb/core/hub.c:1185
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+The buggy address belongs to the object at ffff888020bd0000
+ which belongs to the cache kmalloc-8k of size 8192
+The buggy address is located 5472 bytes inside of
+ freed 8192-byte region [ffff888020bd0000, ffff888020bd2000)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x20bd0
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000040 ffff88801b005280 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000800020002 00000000f5000000 0000000000000000
+head: 00fff00000000040 ffff88801b005280 dead000000000100 dead000000000122
+head: 0000000000000000 0000000800020002 00000000f5000000 0000000000000000
+head: 00fff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 10, tgid 10 (kworker/0:1), ts 3790461764, free_ts 0
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1859
+ prep_new_page mm/page_alloc.c:1867 [inline]
+ get_page_from_freelist+0x21fa/0x2270 mm/page_alloc.c:3946
+ __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5304
+ alloc_slab_page mm/slub.c:3266 [inline]
+ allocate_slab+0x79/0x5e0 mm/slub.c:3380
+ new_slab mm/slub.c:3426 [inline]
+ refill_objects+0x2d5/0x350 mm/slub.c:7310
+ refill_sheaf mm/slub.c:2804 [inline]
+ __pcs_replace_empty_main+0x2bf/0x6b0 mm/slub.c:4675
+ alloc_from_pcs mm/slub.c:4773 [inline]
+ slab_alloc_node mm/slub.c:4905 [inline]
+ __do_kmalloc_node mm/slub.c:5333 [inline]
+ __kmalloc_noprof+0x485/0x720 mm/slub.c:5359
+ _kmalloc_noprof include/linux/slab.h:992 [inline]
+ acpi_ut_initialize_buffer+0xca/0x170 drivers/acpi/acpica/utalloc.c:-1
+ acpi_rs_create_pci_routing_table+0x1c0/0xd90 drivers/acpi/acpica/rscreate.c:212
+ acpi_rs_get_prt_method_data+0xdf/0x150 drivers/acpi/acpica/rsutils.c:456
+ acpi_get_irq_routing_table+0x98/0xe0 drivers/acpi/acpica/rsxface.c:137
+ acpi_pci_irq_find_prt_entry+0x163/0x1040 drivers/acpi/pci_irq.c:215
+ acpi_pci_irq_lookup+0x45/0x690 drivers/acpi/pci_irq.c:299
+ acpi_pci_irq_enable+0x1ee/0x7a0 drivers/acpi/pci_irq.c:414
+ do_pci_enable_device+0x26f/0x4a0 drivers/pci/pci.c:1998
+ pci_enable_device_flags+0x5ab/0x700 drivers/pci/pci.c:2089
+page_owner free stack trace missing
+
+Memory state around the buggy address:
+ ffff888020bd1400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888020bd1480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff888020bd1500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                       ^
+ ffff888020bd1580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888020bd1600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
 ---
- rust/kernel/usb.rs          | 124 +++++++++++
- rust/kernel/usb/endpoint.rs | 508 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 632 insertions(+)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
-index 7aff0c82d0af..55c627be1658 100644
---- a/rust/kernel/usb.rs
-+++ b/rust/kernel/usb.rs
-@@ -20,6 +20,7 @@
-     prelude::*,
-     sync::aref::AlwaysRefCounted,
-     types::Opaque,
-+    usb::endpoint::HostEndpoint,
-     ThisModule, //
- };
- use core::{
-@@ -29,8 +30,11 @@
-         MaybeUninit, //
-     },
-     ptr::NonNull,
-+    slice,
- };
- 
-+pub mod endpoint;
-+
- /// An adapter for the registration of USB drivers.
- pub struct Adapter<T: Driver>(T);
- 
-@@ -334,6 +338,78 @@ fn disconnect<'bound>(
-     );
- }
- 
-+/// A single alternate setting of an [`Interface`].
-+///
-+/// A USB interface declares one or more alternate settings, each of which describes a different
-+/// endpoint configuration for the same logical function - for example a UVC camera exposing one
-+/// setting per bandwidth tier, plus a zero-bandwidth setting used while idle. Exactly one is
-+/// active at a time; see [`Interface::current_alt_setting()`].
-+///
-+/// # Invariants
-+///
-+/// The wrapped [`Opaque`] holds an initialised `struct usb_host_interface`. Instances are never
-+/// constructed by Rust code: they are only ever borrowed out of the `altsetting` array of a
-+/// `struct usb_interface` owned by the C side, which guarantees that `desc` is initialised and
-+/// that the setting outlives the borrow.
-+#[repr(transparent)]
-+pub struct AlternateSetting(Opaque<bindings::usb_host_interface>);
-+
-+impl AlternateSetting {
-+    /// Returns a raw pointer to the underlying `struct usb_host_interface`.
-+    ///
-+    /// By the type invariants the pointer is non-null and points at an initialised alternate
-+    /// setting for at least the lifetime of `&self`.
-+    fn as_raw(&self) -> *mut bindings::usb_host_interface {
-+        self.0.get()
-+    }
-+
-+    /// Returns this setting's `bAlternateSetting` number.
-+    ///
-+    /// Alternate settings of one interface are numbered from zero; setting 0 always exists and is
-+    /// the one the device defaults to after a configuration is selected. This is the value passed
-+    /// to `usb_set_interface()` to activate the setting.
-+    pub fn number(&self) -> u8 {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid
-+        // `struct usb_host_interface` with an initialised `desc`.
-+        unsafe { (*self.as_raw()).desc.bAlternateSetting }
-+    }
-+
-+    /// Returns the `bInterfaceNumber` of the interface this setting belongs to.
-+    ///
-+    /// Every alternate setting of a given interface reports the same number, so this identifies
-+    /// the interface within its configuration rather than distinguishing settings from one
-+    /// another, use [`number()`](Self::number) for that.
-+    pub fn interface_number(&self) -> u8 {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid
-+        // `struct usb_host_interface` with an initialised `desc`.
-+        unsafe { (*self.as_raw()).desc.bInterfaceNumber }
-+    }
-+
-+    /// Returns the endpoints declared by this alternate setting, in descriptor order.
-+    ///
-+    /// The endpoints come back untyped, as `Endpoint<Generic, Generic>`; refine them with
-+    /// [`Endpoint::as_in()`], [`Endpoint::as_out()`] and [`Endpoint::as_control()`].
-+    pub fn endpoints(&self) -> &[HostEndpoint] {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid
-+        // `struct usb_host_interface` with an initialised `desc`.
-+        let (ptr, len) = (unsafe { (*self.as_raw()).endpoint }, unsafe {
-+            (*self.as_raw()).desc.bNumEndpoints
-+        });
-+
-+        if len == 0 {
-+            &[]
-+        } else {
-+            // SAFETY: When `bNumEndpoints` is non-zero the C side has allocated an array of that
-+            // many initialised `struct usb_host_endpoint` at `ptr`, living as long as the
-+            // interface. `Endpoint` is a `#[repr(transparent)]` wrapper around
-+            // `Opaque<bindings::usb_host_endpoint>`, which is itself layout-compatible with
-+            // `struct usb_host_endpoint`, so the cast preserves both size and alignment and the
-+            // resulting slice borrows for no longer than `&self`.
-+            unsafe { slice::from_raw_parts(ptr.cast(), len as usize) }
-+        }
-+    }
-+}
-+
- /// A USB interface.
- ///
- /// This structure represents the Rust abstraction for a C [`struct usb_interface`].
-@@ -356,6 +432,54 @@ impl<Ctx: device::DeviceContext> Interface<Ctx> {
-     fn as_raw(&self) -> *mut bindings::usb_interface {
-         self.0.get()
-     }
-+
-+    /// Returns all alternate settings of this interface, in `bAlternateSetting` order.
-+    ///
-+    /// The slice is never empty: every interface has at least setting 0.
-+    pub fn alternate_settings(&self) -> &[AlternateSetting] {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid `struct usb_interface`,
-+        // so both fields are initialised. Reading them requires nothing of the device context:
-+        // `altsetting` is filled in when the interface is created and holds until it is released.
-+        let (ptr, len) = (unsafe { (*self.as_raw()).altsetting }, unsafe {
-+            (*self.as_raw()).num_altsetting
-+        });
-+
-+        if len == 0 {
-+            &[]
-+        } else {
-+            // SAFETY: When `num_altsetting` is non-zero the C side has allocated an array of that
-+            // many initialised `struct usb_host_interface` at `ptr`, kept alive by the interface's
-+            // reference for at least as long as `&self`.
-+            //
-+            // `AlternateSetting` is a `#[repr(transparent)]` wrapper around
-+            // `Opaque<bindings::usb_host_interface>`, which is itself layout-compatible with
-+            // `struct usb_host_interface`, so the cast preserves both size and alignment and
-+            // the resulting slice borrows for no longer than `&self`.
-+            unsafe { slice::from_raw_parts(ptr.cast(), len as usize) }
-+        }
-+    }
-+
-+    /// Returns the alternate setting that is currently active on this interface.
-+    ///
-+    /// This is the setting whose endpoints the device is actually prepared to service, so it is
-+    /// the one a driver should read endpoint descriptors from. After configuration it is
-+    /// setting 0.
-+    ///
-+    /// The result is a snapshot. `usb_set_interface()` can repoint the interface at a different
-+    /// setting, which does not invalidate the returned reference - both point into the same live
-+    /// array - but does stop it being the current one. A driver that caches endpoints across a
-+    /// setting switch will go on using the previous setting's descriptors.
-+    pub fn current_alternate_setting(&self) -> &AlternateSetting {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid `struct usb_interface`.
-+        // `cur_altsetting` is set when the interface is created and only ever repointed within
-+        // that same array by `usb_set_interface()`, so it is non-null and names an initialised
-+        // `struct usb_host_interface` for at least the lifetime of `&self`.
-+        //
-+        // `AlternateSetting` is a `#[repr(transparent)]` wrapper around
-+        // `Opaque<bindings::usb_host_interface>` and so layout-compatible with it, and the borrow
-+        // lasts no longer than `&self`.
-+        unsafe { &*(*self.as_raw()).cur_altsetting.cast() }
-+    }
- }
- 
- // SAFETY: `usb::Interface` is a transparent wrapper of `struct usb_interface`.
-diff --git a/rust/kernel/usb/endpoint.rs b/rust/kernel/usb/endpoint.rs
-new file mode 100644
-index 000000000000..17301ef4137d
---- /dev/null
-+++ b/rust/kernel/usb/endpoint.rs
-@@ -0,0 +1,508 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// SPDX-FileCopyrightText: Copyright (C) 2026 Wyliodrin SRL.
-+
-+//! USB endpoints.
-+//!
-+//! C header: [`include/linux/usb.h`](srctree/include/linux/usb.h)
-+//!
-+//! An [`HostEndpoint`] is a borrowed view of a `struct usb_host_endpoint` - one of the addressable
-+//! sources or sinks of data on a USB device. Its accessors read the endpoint descriptor the device
-+//! reported: [`number()`](HostEndpoint::number) and [`address()`](HostEndpoint::address),
-+//! [`direction()`](HostEndpoint::direction) and [`transfer_type()`](HostEndpoint::transfer_type),
-+//! and the packet and interval geometry needed to size and schedule transfers.
-+//!
-+//! # Where endpoints come from
-+//!
-+//! Endpoints declared by an interface are borrowed from the alternate setting that describes them,
-+//! via [`AlternateSetting::endpoints()`](crate::usb::AlternateSetting::endpoints). The
-+//! default control endpoint - endpoint 0 - is not among them: no interface descriptor lists
-+//! it, because the specification excludes it from `bNumEndpoints` and devices never send a
-+//! descriptor for it. It is reached through [`Device::control_endpoint()`] instead.
-+//!
-+//! # Type-state
-+//!
-+//! [`HostEndpoint`] carries two marker type parameters recording what is *statically* known
-+//! about it. Endpoints start out fully generic, and the `as_*` accessors check the
-+//! descriptor once and hand back a reference that remembers the answer:
-+//!
-+//! ```text
-+//!                              Endpoint<Generic, Generic>
-+//!                                 |        |                   |
-+//!                       as_in() <--        v as_control()      --> as_out()
-+//!      Endpoint<In, Generic>   Endpoint<Bidirectional, Control>   Endpoint<Out, Generic>
-+//! ```
-+//!
-+//! A function taking `&Endpoint<In, Bulk>` therefore cannot be handed anything but a bulk IN
-+//! endpoint, and needs no run-time check of its own. The markers are [`PhantomData`], so this
-+//! costs nothing at run time and a typed endpoint has the same layout as an untyped one.
-+//!
-+//! # Direction and control endpoints
-+//!
-+//! The two axes are not independent. A control endpoint is bidirectional: the direction of a
-+//! control transfer comes from the setup packet's `bmRequestType`, and USB 2.0
-+//! section 9.6.6 correspondingly defines bit 7 of `bEndpointAddress` as ignored
-+//! for control endpoints. So the direction of a control endpoint is
-+//! not merely unknown - it does not exist.
-+//!
-+//! That is what [`Bidirectional`] marks. Because [`as_in()`](HostEndpoint::as_in) and
-+//! [`as_out()`](HostEndpoint::as_out) are defined only for [`Generic`],
-+//! asking a control endpoint which direction it runs in is a compile error rather than
-+//! an answer that would mislead whichever way it came out. See [`control`](crate::usb::control)
-+//! for issuing transfers on one.
-+//!
-+//! # Examples
-+//!
-+//! ```
-+//! use kernel::usb::{
-+//!     endpoint::{HostEndpoint, In, Out},
-+//!     AlternateSetting,
-+//! };
-+//!
-+//! /// Picks out the first IN and OUT endpoints of an alternate setting.
-+//! fn pair(alt: &AlternateSetting) -> (Option<&Endpoint<In>>, Option<&Endpoint<Out>>) {
-+//!     let eps = alt.endpoints();
-+//!
-+//!     (
-+//!         eps.iter().find_map(ep.as_in),
-+//!         eps.iter().find_map(ep.as_out),
-+//!     )
-+//! }
-+//! ```
-+
-+use core::marker::PhantomData;
-+
-+use crate::{device, types::Opaque, usb::Device};
-+
-+/// A single endpoint of an [`AlternateSetting`](crate::usb::AlternateSetting).
-+///
-+/// `Dir` and `Type` are compile-time markers recording what is statically known about the
-+/// endpoint's direction and transfer type. An endpoint obtained from an
-+/// [`AlternateSetting`](crate::usb::AlternateSetting) starts out as `Endpoint<Generic, Generic>`,
-+/// i.e. nothing is known about it yet. The [`as_in()`], [`as_out()`] and [`as_control()`]
-+/// accessors inspect the endpoint descriptor at run time and, on success, hand back a reference
-+/// carrying the corresponding marker. Code that accepts only an `&Endpoint<In, Bulk>` may then
-+/// rely on the endpoint really being a bulk IN endpoint without re-checking it.
-+///
-+/// Direction and transfer type are not independent: a control endpoint has no direction, so
-+/// [`as_control()`] yields [`Bidirectional`] rather than preserving or discovering an IN/OUT
-+/// marker, and [`as_in()`]/[`as_out()`] are not defined on the result.
-+///
-+/// The markers are [`PhantomData`], so a typed `HostEndpoint` has the same layout as
-+/// an untyped one and the refinement is free at run time.
-+///
-+/// # Invariants
-+///
-+/// - The wrapped [`Opaque`] holds an initialised `struct usb_host_endpoint`. Instances are never
-+///   constructed by Rust code; they are only ever borrowed out of a `struct usb_host_interface`
-+///   owned by the C side, which guarantees that `desc` is initialised and that the endpoint
-+///   outlives the reference.
-+/// - If `Type` is [`Control`], [`Isochronous`], [`Bulk`] or [`Interrupt`], then
-+///   `desc.bmAttributes` really encodes that transfer type.
-+/// - If `Dir` is [`In`] or [`Out`], then bit 7 of `desc.bEndpointAddress` really encodes that
-+///   direction. If `Dir` is [`Bidirectional`], then `Type` is [`Control`] and the direction bit
-+///   carries no meaning at all.
-+/// - [`Generic`] asserts nothing in either position.
-+///
-+/// [`as_in()`]: HostEndpoint::as_in
-+/// [`as_out()`]: HostEndpoint::as_out
-+/// [`as_control()`]: HostEndpoint::as_control
-+#[repr(transparent)]
-+pub struct HostEndpoint<Dir: EndpointDirection = Generic, Type: EndpointTransferType = Generic>(
-+    Opaque<bindings::usb_host_endpoint>,
-+    PhantomData<Dir>,
-+    PhantomData<Type>,
-+);
-+
-+/// A marker usable in the `Dir` position of [`HostEndpoint`].
-+///
-+/// This trait is sealed: it is implemented by [`Generic`], [`In`], [`Out`] and [`Bidirectional`]
-+/// only, and cannot be implemented outside of this module.
-+pub trait EndpointDirection: private::Sealed {}
-+
-+/// A marker usable in the `Type` position of [`HostEndpoint`].
-+///
-+/// This trait is sealed: it is implemented by [`Generic`], [`Control`], [`Isochronous`],
-+/// [`Bulk`] and [`Interrupt`] only, and cannot be implemented outside of this module.
-+pub trait EndpointTransferType: private::Sealed {}
-+
-+/// Marker for an [`HostEndpoint`] whose direction or transfer type is not statically known.
-+///
-+/// This is the default in both marker positions. It carries no guarantee, so the property has
-+/// to be queried at run time with [`HostEndpoint::direction()`] or
-+/// [`HostEndpoint::transfer_type()`], or established once and for all with one of
-+/// the `as_*` accessors.
-+pub struct Generic;
-+
-+/// Marker for a device-to-host ("IN") [`HostEndpoint`].
-+pub struct In;
-+
-+/// Marker for a host-to-device ("OUT") [`HostEndpoint`].
-+pub struct Out;
-+
-+/// Marker for an [`HostEndpoint`] that carries data in both directions.
-+///
-+/// This is the direction marker of every control endpoint, and the only marker they get. A control
-+/// transfer takes the direction of its data stage from bit 7 of the setup
-+/// packet's `bmRequestType`, and USB 2.0 section 9.6.6 correspondingly defines bit 7
-+/// of `bEndpointAddress` as ignored for control endpoints - so "is this endpoint IN or OUT"
-+/// has no answer for one.
-+///
-+/// Since [`HostEndpoint::as_in()`] and [`HostEndpoint::as_out()`] are defined only
-+/// for [`Generic`], asking that question of a [`Bidirectional`] endpoint fails to compile rather
-+/// than returning an answer that would be misleading either way.
-+pub struct Bidirectional;
-+
-+/// Marker for an [`HostEndpoint`] using control transfers.
-+pub struct Control;
-+
-+/// Marker for an [`HostEndpoint`] using isochronous transfers.
-+pub struct Isochronous;
-+
-+/// Marker for an [`HostEndpoint`] using bulk transfers.
-+pub struct Bulk;
-+
-+/// Marker for an [`HostEndpoint`] using interrupt transfers.
-+pub struct Interrupt;
-+
-+mod private {
-+    /// Prevents [`EndpointDirection`] and [`EndpointTransferType`] from being implemented
-+    /// outside of this module, so that the type invariants of [`HostEndpoint`] cannot be forged by
-+    /// downstream code.
-+    ///
-+    /// [`EndpointDirection`]: super::EndpointDirection
-+    /// [`EndpointTransferType`]: super::EndpointTransferType
-+    /// [`HostEndpoint`]: super::Endpoint
-+    pub trait Sealed {}
-+
-+    impl Sealed for super::Generic {}
-+    impl Sealed for super::In {}
-+    impl Sealed for super::Out {}
-+    impl Sealed for super::Bidirectional {}
-+    impl Sealed for super::Control {}
-+    impl Sealed for super::Isochronous {}
-+    impl Sealed for super::Bulk {}
-+    impl Sealed for super::Interrupt {}
-+}
-+
-+impl EndpointDirection for Generic {}
-+impl EndpointTransferType for Generic {}
-+impl EndpointDirection for In {}
-+impl EndpointDirection for Out {}
-+impl EndpointDirection for Bidirectional {}
-+impl EndpointTransferType for Control {}
-+impl EndpointTransferType for Isochronous {}
-+impl EndpointTransferType for Bulk {}
-+impl EndpointTransferType for Interrupt {}
-+
-+/// The direction in which data flows over an [`HostEndpoint`].
-+///
-+/// The direction is fixed by the endpoint descriptor and is stated from the host's point of
-+/// view. Control endpoints are bidirectional; for those the descriptor's direction bit is
-+/// meaningless and this enum should be ignored.
-+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
-+pub enum Direction {
-+    /// Data flows from the device to the host (`USB_DIR_IN`).
-+    In,
-+    /// Data flows from the host to the device (`USB_DIR_OUT`).
-+    Out,
-+}
-+
-+impl From<u8> for Direction {
-+    /// Extracts the direction from a raw `bEndpointAddress`.
-+    ///
-+    /// Bit 7 of the endpoint address is the direction bit: set means IN, clear means OUT. All
-+    /// other bits are ignored, so any `u8` is a valid input.
-+    fn from(value: u8) -> Self {
-+        if (value >> 7) & 0b1 == 1 {
-+            Direction::In
-+        } else {
-+            Direction::Out
-+        }
-+    }
-+}
-+
-+/// The transfer type an [`HostEndpoint`] uses.
-+///
-+/// Every endpoint is fixed to exactly one of these by its descriptor; see USB 2.0 section 5.4
-+/// for what each one guarantees.
-+#[derive(Copy, Clone, PartialEq, Eq, Debug)]
-+pub enum TransferType {
-+    /// Bidirectional, request/response transfers with guaranteed delivery. Used for device
-+    /// configuration; endpoint 0 is always a control endpoint.
-+    Control,
-+    /// Transfers with guaranteed bandwidth and bounded latency but no error retry, for
-+    /// time-sensitive streams such as audio and video.
-+    Isochronous,
-+    /// Transfers with guaranteed delivery but no bandwidth or latency guarantee, for bulk data
-+    /// such as mass storage.
-+    Bulk,
-+    /// Small, periodically polled transfers with bounded latency and guaranteed delivery, for
-+    /// devices such as keyboards and mice.
-+    Interrupt,
-+}
-+
-+impl From<u8> for TransferType {
-+    /// Extracts the transfer type from a raw `bmAttributes`.
-+    ///
-+    /// Bits 1:0 of the endpoint attributes hold the transfer type (`USB_ENDPOINT_XFERTYPE_MASK`)
-+    /// and all four encodings are defined, so any `u8` is a valid input. The remaining bits,
-+    /// which further describe isochronous endpoints, are ignored.
-+    fn from(value: u8) -> Self {
-+        match value & 0b11 {
-+            0 => TransferType::Control,
-+            1 => TransferType::Isochronous,
-+            2 => TransferType::Bulk,
-+            _ => TransferType::Interrupt,
-+        }
-+    }
-+}
-+
-+impl<Dir: EndpointDirection, Type: EndpointTransferType> HostEndpoint<Dir, Type> {
-+    /// Returns a raw pointer to the underlying `struct usb_host_endpoint`.
-+    ///
-+    /// By the type invariants the pointer is non-null and points at an initialised endpoint for
-+    /// at least the lifetime of `&self`.
-+    fn as_raw(&self) -> *mut bindings::usb_host_endpoint {
-+        self.0.get()
-+    }
-+
-+    /// Returns the endpoint number, i.e. bits 3:0 of `bEndpointAddress`.
-+    ///
-+    /// The number alone does not identify an endpoint: an IN and an OUT endpoint of the same
-+    /// interface may share one, so pair it with [`direction()`](Self::direction), or use
-+    /// [`address()`](Self::address), which combines the two.
-+    pub fn number(&self) -> u8 {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid
-+        // `struct usb_host_endpoint` with an initialised `desc`.
-+        unsafe { (*self.as_raw()).desc.bEndpointAddress & 0x0f }
-+    }
-+
-+    /// Returns the full `bEndpointAddress` of the endpoint descriptor.
-+    ///
-+    /// The byte packs the endpoint number in bits 3:0 and the direction in bit 7 (set for IN,
-+    /// clear for OUT); bits 6:4 are reserved and zero. Taken together those fields uniquely
-+    /// identify the endpoint within its configuration, which is why this is the value host-side
-+    /// APIs use to name an endpoint - for example when constructing a URB pipe.
-+    ///
-+    /// For a control endpoint bit 7 is defined to be ignored, so the byte should not be read as a
-+    /// direction there; see [`Bidirectional`].
-+    ///
-+    /// Use [`number()`](Self::number) or [`direction()`](Self::direction) to get the fields
-+    /// individually.
-+    pub fn address(&self) -> u8 {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid
-+        // `struct usb_host_endpoint` with an initialised `desc`.
-+        unsafe { (*self.as_raw()).desc.bEndpointAddress }
-+    }
-+
-+    /// Returns the direction data flows in over this endpoint.
-+    ///
-+    /// Meaningless for control endpoints, which are bidirectional; what it reports for one is
-+    /// whatever bit 7 of the address byte happens to hold, which the specification leaves
-+    /// undefined.
-+    pub fn direction(&self) -> Direction {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid
-+        // `struct usb_host_endpoint` with an initialised `desc`.
-+        unsafe { (*self.as_raw()).desc.bEndpointAddress.into() }
-+    }
-+
-+    /// Returns the transfer type this endpoint uses.
-+    pub fn transfer_type(&self) -> TransferType {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid
-+        // `struct usb_host_endpoint` with an initialised `desc`.
-+        unsafe { (*self.as_raw()).desc.bmAttributes.into() }
-+    }
-+
-+    /// Returns the maximum payload size of a single transaction, in bytes.
-+    ///
-+    /// This is bits 10:0 of `wMaxPacketSize`. The permitted values depend on the transfer type
-+    /// and the speed the device is operating at; for high-speed isochronous and interrupt
-+    /// endpoints the total payload per microframe is this value multiplied by the number of
-+    /// transactions per microframe, which [`max_packet_mult()`](Self::max_packet_mult)
-+    /// describes.
-+    pub fn max_packet_size(&self) -> u16 {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid
-+        // `struct usb_host_endpoint` with an initialised `desc`.
-+        unsafe { (*self.as_raw()).desc.wMaxPacketSize & 0x07ff }
-+    }
-+
-+    /// Returns the number of *additional* transaction opportunities per microframe.
-+    ///
-+    /// This is bits 12:11 of `wMaxPacketSize`, so the total number of transactions per microframe
-+    /// is one more than the returned value. The field is only defined for high-speed isochronous
-+    /// and interrupt endpoints and must not be used for anything else.
-+    ///
-+    /// The specification defines the encodings `0..=2`; `3` is reserved, so a conforming device
-+    /// never reports it, but a malformed descriptor can and this returns it unchanged.
-+    pub fn max_packet_multipier(&self) -> u8 {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid
-+        // `struct usb_host_endpoint` with an initialised `desc`.
-+        unsafe { (((*self.as_raw()).desc.wMaxPacketSize >> 11) & 0b11) as u8 + 1 }
-+    }
-+}
-+
-+impl HostEndpoint<Generic, Generic> {
-+    /// Refines this endpoint into a control endpoint, if it is one.
-+    ///
-+    /// Returns [`None`] if [`transfer_type()`](Self::transfer_type) is not
-+    /// [`TransferType::Control`].
-+    ///
-+    /// The result is [`Bidirectional`], not the direction the descriptor happens to record: bit 7
-+    /// of a control endpoint's address is defined to be ignored, so there is nothing to preserve.
-+    /// That is also why this is only available on a fully generic endpoint - refining direction
-+    /// first and transfer type second would otherwise produce an `Endpoint<In, Control>`, a
-+    /// combination that has no meaning.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::usb::{
-+    ///     Hostendpoint::{Bidirectional, Control, Endpoint},
-+    ///     AlternateSetting,
-+    /// };
-+    ///
-+    /// /// Finds an interface's own control endpoint, if it declares one.
-+    /// ///
-+    /// /// This never finds endpoint 0, which no interface descriptor lists; reach that one
-+    /// /// through `Device::control_endpoint()` instead.
-+    /// fn extra_control(alt: &AlternateSetting) -> Option<&Endpoint<Bidirectional, Control>> {
-+    ///     alt.endpoints().iter().find_map(|ep| ep.as_control())
-+    /// }
-+    /// ```
-+    pub fn as_control(&self) -> Option<&HostEndpoint<Bidirectional, Control>> {
-+        matches!(self.transfer_type(), TransferType::Control).then(|| {
-+            // SAFETY: The transfer type was just checked, so the [`Control`] invariant holds, and
-+            // [`Bidirectional`] is exactly what a control endpoint warrants.
-+            // `Endpoint<Bidirectional, Control>` is a `#[repr(transparent)]` wrapper around the
-+            // same `struct usb_host_endpoint` and differs only in its `PhantomData` markers, which
-+            // are 1-ZSTs, so the two types have identical layout and the reference stays valid for
-+            // the same lifetime.
-+            unsafe { &*core::ptr::from_ref(self).cast() }
-+        })
-+    }
-+}
-+
-+impl<Type: EndpointTransferType> HostEndpoint<Generic, Type> {
-+    /// Refines this endpoint into a device-to-host endpoint, if it is one.
-+    ///
-+    /// Returns [`None`] if [`direction()`](Self::direction) is not [`Direction::In`]. The known
-+    /// transfer type, if any, is preserved.
-+    pub fn as_in(&self) -> Option<&HostEndpoint<In, Type>> {
-+        if self.direction() == Direction::In {
-+            // SAFETY: The direction was just checked, so the [`In`] invariant holds.
-+            // `Endpoint<In, Type>` is a `#[repr(transparent)]` wrapper around the same
-+            // `struct usb_host_endpoint` and differs only in its `PhantomData` markers, which
-+            // are 1-ZSTs, so the two types have identical layout and the reference stays valid
-+            // for the same lifetime.
-+            unsafe { Some(&*core::ptr::from_ref(self).cast()) }
-+        } else {
-+            None
-+        }
-+    }
-+
-+    /// Refines this endpoint into a host-to-device endpoint, if it is one.
-+    ///
-+    /// Returns [`None`] if [`direction()`](Self::direction) is not [`Direction::Out`]. The known
-+    /// transfer type, if any, is preserved.
-+    pub fn as_out(&self) -> Option<&HostEndpoint<Out, Type>> {
-+        if self.direction() == Direction::Out {
-+            // SAFETY: The direction was just checked, so the [`Out`] invariant holds.
-+            // `Endpoint<Out, Type>` is a `#[repr(transparent)]` wrapper around the same
-+            // `struct usb_host_endpoint` and differs only in its `PhantomData` markers, which
-+            // are 1-ZSTs, so the two types have identical layout and the reference stays valid
-+            // for the same lifetime.
-+            unsafe { Some(&*core::ptr::from_ref(self).cast()) }
-+        } else {
-+            None
-+        }
-+    }
-+}
-+
-+impl<Generic: EndpointDirection> HostEndpoint<Generic, Interrupt> {
-+    /// Returns the raw `bInterval` value of the endpoint descriptor.
-+    ///
-+    /// How this encodes a service interval depends on the transfer type and the device's
-+    /// operating speed:
-+    ///
-+    /// - Full-/low-speed interrupt endpoints: the interval in frames (1 ms), `1..=255`.
-+    /// - High-speed interrupt endpoints and all isochronous endpoints: an exponent, giving an
-+    ///   interval of `2^(bInterval - 1)` microframes (125 micros), with `bInterval` in `1..=16`.
-+    pub fn interval(&self) -> u8 {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid
-+        // `struct usb_host_endpoint` with an initialised `desc`.
-+        unsafe { (*self.as_raw()).desc.bInterval }
-+    }
-+}
-+
-+impl HostEndpoint<Out, Control> {
-+    /// Returns the raw `bInterval` value of the endpoint descriptor.
-+    ///
-+    /// This applies only to high-speed bulk/control OUT endpoints and
-+    /// represents the maximum NAK rate, or zero for no limit.
-+    pub fn max_nak_rate(&self) -> u8 {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid
-+        // `struct usb_host_endpoint` with an initialised `desc`.
-+        unsafe { (*self.as_raw()).desc.bInterval }
-+    }
-+}
-+
-+impl HostEndpoint<Out, Bulk> {
-+    /// Returns the raw `bInterval` value of the endpoint descriptor.
-+    ///
-+    /// This applies only to high-speed bulk/control OUT endpoints and
-+    /// represents the maximum NAK rate, or zero for no limit.
-+    pub fn max_nak_rate(&self) -> u8 {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid
-+        // `struct usb_host_endpoint` with an initialised `desc`.
-+        unsafe { (*self.as_raw()).desc.bInterval }
-+    }
-+}
-+
-+impl<Ctx: device::DeviceContext> Device<Ctx> {
-+    /// Returns the default control endpoint (endpoint 0) of this device.
-+    ///
-+    /// Every USB device has exactly one, and it is the endpoint all enumeration and standard
-+    /// requests travel over. Unlike the endpoints of an
-+    /// [`AlternateSetting`](crate::usb::AlternateSetting), it is not described by any
-+    /// descriptor the device sends: the USB core synthesizes its descriptor
-+    /// in `usb_alloc_dev()` and fills in the packet size from `bMaxPacketSize0` of the device
-+    /// descriptor during enumeration. It therefore cannot be found by searching
-+    /// [`AlternateSetting::endpoints()`](crate::usb::AlternateSetting::endpoints), and
-+    /// this accessor is the only way to reach it.
-+    ///
-+    /// Neither marker needs a run-time check. [`Control`] holds because the core sets
-+    /// `bmAttributes` to `USB_ENDPOINT_XFER_CONTROL` itself and the specification fixes endpoint 0
-+    /// as a control endpoint; [`Bidirectional`] holds because control endpoints have no direction.
-+    /// Endpoint 0's address byte is `0x00`, so [`direction()`](HostEndpoint::direction)
-+    /// would report [`Direction::Out`] - a meaningless answer, which is why the direction
-+    /// refinements are not available on the returned type. Route control transfers
-+    /// on `bmRequestType` instead.
-+    ///
-+    /// No device-state bound is required: a `struct usb_device` has a valid `ep0` from allocation
-+    /// onwards, so this is available wherever a [`Device`] is.
-+    ///
-+    /// # Examples
-+    ///
-+    /// ```
-+    /// use kernel::usb::Device;
-+    ///
-+    /// fn ep0_packet_size(dev: &Device) -> u16 {
-+    ///     dev.control_endpoint().max_packet_size()
-+    /// }
-+    /// ```
-+    pub fn control_endpoint(&self) -> &HostEndpoint<Bidirectional, Control> {
-+        // SAFETY: By the type invariants, `self.as_raw()` points at a valid `struct usb_device`.
-+        // `ep0` is an embedded field rather than a pointer, so it is live for as long as the
-+        // device is, and `usb_alloc_dev()` has initialised its descriptor.
-+        let ep0 = unsafe { core::ptr::addr_of!((*self.as_raw()).ep0) };
-+
-+        // SAFETY: `HostEndpoint` is a `#[repr(transparent)]` wrapper around
-+        // `Opaque<bindings::usb_host_endpoint>`, which is layout-compatible with
-+        // `struct usb_host_endpoint`, so the cast preserves size and alignment. The [`Control`]
-+        // invariant holds because the core fixes `ep0.desc.bmAttributes` to
-+        // `USB_ENDPOINT_XFER_CONTROL`, and [`Bidirectional`] holds for any control endpoint. The
-+        // `Opaque` accounts for the C side mutating the endpoint behind this shared reference, and
-+        // the borrow lasts no longer than `&self`.
-+        unsafe { &*ep0.cast() }
-+    }
-+}
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
--- 
-2.55.0
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
