@@ -1,169 +1,132 @@
-Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B73A23D7F4;
-	Sat,  1 Aug 2026 21:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7403DB64A
+	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 23:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785619857; cv=none; b=Ck2tHgJowLKH1p8goMJpYY/xm1xPIdakkIJWDnm5ZQKUaumbzlYpdGUePIWdd7EBhksOX8T8cJBh/n/qMp3Pd+OH+L7obuZNq/QbyEPFJAt9N2Qcz8p4lteW7b0rzX7exsMiwxUFuYIeG3I5532tchHIbn1Ay/+My0YCeJIEIXA=
+	t=1785628416; cv=none; b=PY7a+CPiTD1a5A1v0rzjFRXdBd2hfPhY9Sj+Ml+dj6Zka3am7rmY3kOKaWvkaYK0Dr78MFKLYQmueVF0k2Sp4QXaXOMhok5f5NjXmWO57gyAAUdMtZ7J8RC0+b1uL2/dNfsnv8Co+RRkkxKGccDUYOK7YkgNgTIwerHdDBIR5CI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785619857; c=relaxed/simple;
-	bh=HLfrMJHx/3cQgTp030Hr466tjj0ppbN8Q6eIcTsqdII=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Z83IObqoOpoExlsa2ceNK4bdM7S4YmzRXk+7vOLDPnFXUvPe5qnF2ejBlaPANPx8NRM4iEmFhlgDIPb3sv5ViLdEqtxsiGWuppLVc7yRp+uZ6PtFTrFsddqfsoKNLHuiPTj+dlj85zEGNQV8JTlplwxcF2clQlUoEch4bM88v68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=XX3PbnFF; arc=none smtp.client-ip=77.81.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
+	s=arc-20240116; t=1785628416; c=relaxed/simple;
+	bh=e+rsG9MzxhJaJV6c5SXSPxe8Yy3+bJkISODYZAFNwUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gwG89YBAw97eFVku/nkYSs9bVPT2vryUQTPZ7PAWR/y5f3ch6BzNcrP3Yb6LWwUfCncprtl1rXtuSfVQfMYwIaCHHiGAQruoWwrJS32Wwj+7HERN12MBZoylBZuboGowGk/dypGeI1gcOZOtTocXDBJ334CQZl/ZxJ3McWUnU64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Gkp8fGCM; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="XX3PbnFF"
-Received: by chaosmail.tech (Postfix) id CCED31C8806;
-	Sat, 01 Aug 2026 21:30:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1785619846;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W5DiJCajdy+f7EAjWHD0E6m9Wp5JC04xl4hwWKQ+e9c=;
-	b=XX3PbnFFhcBab/JiHRgdr+ShETJaKijGaYSqjSXtIHqzcuxBt43qaZb1HV5Z0ZWCMRMDY4
-	guUKhP0wBSJeOlSyhSCeXqvCPVwOYrFgVYH6p1ZlWWWz+HmMZyatqNFoxRxFrewvll2TYf
-	c12WMU60KHaZ8YSZ1YGjMa9AUh6G1lk=
-From: Sasha Finkelstein <k@chaosmail.tech>
-Date: Sat, 01 Aug 2026 23:30:10 +0200
-Subject: [PATCH v3 1/3] dt-bindings: usb: tps6598x: Add sn201202x/ACE3
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Gkp8fGCM"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-51c05dcdf49so23078211cf.0
+        for <linux-usb@vger.kernel.org>; Sat, 01 Aug 2026 16:53:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1785628411; x=1786233211; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7vqUPPgydAt2IIqwdqtZaZWjZ8UlIgUm3LT5nWMNn7s=;
+        b=Gkp8fGCMQccqkOYBoJX5lsGmFMl+M/HtU1P51HuHBbcFRNpka8MkUPcktsItslyonL
+         KzdF8EzhVFwBnbn6NMGMyBj6i2ACdSQ3ZkcgfFsj6PrxHROBgpFLNF0rf9mm8HeqSMNf
+         NFYhYzolOlQAvgd0NlY6mXdN2dMmlcmGh5etBo7KdCQ7HUOv0HWbLW4STF3IJRq9T1LJ
+         G9Rtjo3TBPsBfPVmhca8U2Vp6JNIxguWWnzix2JFFWd12IeYUHNx0yaMrl8azoFv7OPI
+         K4oEvNwzqHDFdQr75RBd7hGFWcNUpNAMv2ZxyrN9eceRoUplhvb15PIGCVY0R8S8olkw
+         IAyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785628411; x=1786233211;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7vqUPPgydAt2IIqwdqtZaZWjZ8UlIgUm3LT5nWMNn7s=;
+        b=mNnVnDLD0l+OtBJUWOXZaA+zYQMvww4HQQagVRt2PpyCaXd/19et9BZjWJ30KNFijJ
+         YMPvfOSl+sJBV9jkWOZatN7m9wVjIsE4yt/8YH3P/AOv1P4LDSU3s3opa/N3s6lCx+Yd
+         lV1V0mWJlTb8Dx6zVZZO3SrUIUQO7RT5s/u0CU0y8NNVcVorMHu7vG2u47AxSO1H2Ib7
+         LMBQQ4DHtLT1CTcOxnE53V3UTICxaVdO6VthMyzdNuJwX/fkPwAQAx7+AePUpOUY4QBQ
+         cImJjpQ6TxZFfgZj6xH+38Rj5zljksm3PcsDtC5IGf+CJdA3anC2O+14ce3Z6LFzCWnK
+         bldA==
+X-Forwarded-Encrypted: i=1; AHgh+RrgUm96OFdP1CTu0FAeO29qQr7BN65qEGroAzTiUvgyZ57ZnnXlIlVecEiDt3K4uV+eYXPui1fkYYY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YygsxBsGcSh1rEHA+WeKWaDRjKQiPpG8QlJXiA7RWtPLiLxYwsQ
+	qFhiZTMp+4F9w8YUtRHTOWHy0zNpYmI6foGfUxjZf+LJ5rYco61FfbJ/feuCQensy2lRwervWw+
+	olm5CYA==
+X-Gm-Gg: AR+sD13mluRo+lgo3ZxcIs28ZmX4Y+P0npIzKrvnWQQGqkl96IZhFc9gWzhF5VgFiTB
+	OjXBCouFhv+2c79Sdl/L5oyVIrYEqWSTjswDR2Nhv21YJM6sEjc/lHb24KCwEmItnD2q9hU5yxO
+	nBVwTSuI8e369lohMoVeI9wqXwOwby3gKocPF8F5o1+xSXBEiSTnpP9ORQsCv5TAj4NzBXsl7uG
+	nd+sy+qxSdUbZqkGLIQKZgQzhHdkK7DAQTXZZEaDp/quV89fB8t3oD4N9TNwibDwfN1sYtiwnQ3
+	uD2x+8F+iKP2e7HCn3EC2VJ6+/UQvo1R10WGb7428+y69c0/D+pqX/gk6ZSU+y67t6Ym6fJRVIF
+	TxXw7mB8HrFoZuffuIefs7mOd1IaBU+ZDq18n3h4L9hqVUsuJxUQRWSSVpSlE4mLXgrSa7KGGJS
+	9w4fhyrkhYGPma3Golp1uzO8dQZXvVfGo8BYB8vwf2MSMCWuhWLhR1EPhEQhq45g==
+X-Received: by 2002:ac8:5955:0:b0:517:87df:d8ec with SMTP id d75a77b69052e-52b5666c4e5mr98606391cf.9.1785628410965;
+        Sat, 01 Aug 2026 16:53:30 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::dfd8])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52b4ebc1f13sm34825811cf.25.2026.08.01.16.53.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Aug 2026 16:53:29 -0700 (PDT)
+Date: Sat, 1 Aug 2026 19:53:27 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Julia Lawall <Julia.Lawall@inria.fr>
+Cc: kernel-janitors@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: OHCI: drop unneeded semicolon
+Message-ID: <45cdfa3c-4ea8-4e51-99fa-e0444e7b2454@rowland.harvard.edu>
+References: <20260801191002.1383835-1-Julia.Lawall@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260801-tipd-ace3-v3-1-8332f2eca4fc@chaosmail.tech>
-References: <20260801-tipd-ace3-v3-0-8332f2eca4fc@chaosmail.tech>
-In-Reply-To: <20260801-tipd-ace3-v3-0-8332f2eca4fc@chaosmail.tech>
-To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785619844; l=3417;
- i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=HLfrMJHx/3cQgTp030Hr466tjj0ppbN8Q6eIcTsqdII=;
- b=fnwe289chuPE9v/l46w3ff20w4AAZbUW8EQVgRPqi5IUGsWaMTPPjImNesR4Fe+oH8VD2VcrW
- sqmITGOw1qFCYlrn33TJWUA30X4gg1FiZFbMBTc0x0mk++XPUt6/UNB
-X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
- pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260801191002.1383835-1-Julia.Lawall@inria.fr>
 
-A variant of tps6598x that is attached to a SPMI bus and is found on
-Apple devices starting from the M3 series
+On Sat, Aug 01, 2026 at 09:09:47PM +0200, Julia Lawall wrote:
+> When a function-like macro expands to an expression, that expression
+> doesn't need a semicolon after it.  All uses have been verified to
+> have their own semicolons.
+> 
+> This was found using the following Coccinelle semantic patch:
+> 
+> @r@
+> identifier i : script:ocaml() { String.lowercase_ascii i = i };
+> expression e;
+> @@
+> 
+> *#define i(...) e;
+> 
+> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+> 
+> ---
 
-Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
----
- Documentation/devicetree/bindings/usb/apple,sn201202x.yaml | 78 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                                                |  1 +
- 2 files changed, 79 insertions(+)
+Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
 
-diff --git a/Documentation/devicetree/bindings/usb/apple,sn201202x.yaml b/Documentation/devicetree/bindings/usb/apple,sn201202x.yaml
-new file mode 100644
-index 000000000000..133a71bbedb7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/apple,sn201202x.yaml
-@@ -0,0 +1,78 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/apple,sn201202x.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Texas Instruments sn201202x Type-C Power Delivery controller
-+
-+maintainers:
-+  - Sasha Finkelstein <k@chaosmail.tech>
-+
-+description: |
-+  Texas Instruments sn201202x Type-C Power Delivery controller
-+
-+  A variant of tps6598x controller also known as Apple ACE3
-+  present on hardware with Apple SoCs starting from the M3.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - apple,sn201202x
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    items:
-+      - description: Primary irq used for tps6598x events
-+      - description: Logical register selection completed
-+      - description: Standby command completed
-+      - description: Wakeup command completed
-+
-+  interrupt-names:
-+    items:
-+      - const: irq
-+      - const: select
-+      - const: sleep
-+      - const: wake
-+
-+  connector:
-+    $ref: /schemas/connector/usb-connector.yaml#
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - interrupt-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/spmi/spmi.h>
-+    spmi {
-+        #address-cells = <2>;
-+        #size-cells = <0>;
-+        usb-pd@c {
-+            compatible = "apple,sn201202x";
-+            reg = <0xc SPMI_USID>;
-+            interrupts = <11 IRQ_TYPE_EDGE_RISING>,
-+                         <13 IRQ_TYPE_EDGE_RISING>,
-+                         <17 IRQ_TYPE_EDGE_RISING>,
-+                         <19 IRQ_TYPE_EDGE_RISING>;
-+            interrupt-names = "irq", "select", "sleep", "wake";
-+
-+            connector {
-+                compatible = "usb-c-connector";
-+                label = "USB-C";
-+
-+                port {
-+                    typec_ep: endpoint {
-+                        remote-endpoint = <&otg_ep>;
-+                    };
-+                };
-+            };
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ff08a65d942a..b2819ca62e0c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2610,6 +2610,7 @@ F:	Documentation/devicetree/bindings/rtc/apple,smc-rtc.yaml
- F:	Documentation/devicetree/bindings/spi/apple,spi.yaml
- F:	Documentation/devicetree/bindings/spmi/apple,spmi.yaml
- F:	Documentation/devicetree/bindings/usb/apple,dwc3.yaml
-+F:	Documentation/devicetree/bindings/usb/apple,sn201202x.yaml
- F:	Documentation/devicetree/bindings/watchdog/apple,wdt.yaml
- F:	Documentation/hwmon/macsmc-hwmon.rst
- F:	arch/arm64/boot/dts/apple/
-
--- 
-2.55.0
-
+>  drivers/usb/host/ohci-dbg.c |    2 +-
+>  drivers/usb/host/ohci-hub.c |    2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/host/ohci-dbg.c b/drivers/usb/host/ohci-dbg.c
+> index 9e0e06bbc..4c83a1686 100644
+> --- a/drivers/usb/host/ohci-dbg.c
+> +++ b/drivers/usb/host/ohci-dbg.c
+> @@ -184,7 +184,7 @@ ohci_dump_status (struct ohci_hcd *controller, char **next, unsigned *size)
+>  		\
+>  		(temp & RH_PS_PES) ? " PES" : "", \
+>  		(temp & RH_PS_CCS) ? " CCS" : "" \
+> -		);
+> +		)
+>  
+>  
+>  static void
+> diff --git a/drivers/usb/host/ohci-hub.c b/drivers/usb/host/ohci-hub.c
+> index b3d734ab6..84d10a932 100644
+> --- a/drivers/usb/host/ohci-hub.c
+> +++ b/drivers/usb/host/ohci-hub.c
+> @@ -33,7 +33,7 @@
+>  		\
+>  		(value & RH_PS_PES) ? " PES" : "", \
+>  		(value & RH_PS_CCS) ? " CCS" : "" \
+> -		);
+> +		)
+>  
+>  /*-------------------------------------------------------------------------*/
+>  
+> 
