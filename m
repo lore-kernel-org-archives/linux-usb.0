@@ -1,294 +1,133 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F0731E833
-	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 16:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2DF3A6B67
+	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 16:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785600604; cv=none; b=cCPn6XkgZEmnGZ/g+sfLdFt/Dfnjdv/adaczwsUj+omdnPZVaHSBOkPr4WP04HDh9/vSk9rz6zDUIePhwU8lXK1TdAP/6tepkgzsbx/+wu7Cv+AzyHRQRosVZroF6aB/SYgbWGCcjCX8yHZFjXvTaz5LKYqeBxHXZef2xHkMnE8=
+	t=1785602279; cv=none; b=YJaeZDKrMj+NhhIpslpDmywn8ZvWS83L4VAoF35tu5U2PfF2sWRjMJit8lEZPy4knefSVHU/krvilFSlwcRKH168dD4iuksteB5A7RK36XHJnixvaeTCtA+siNri8jb7Q8O8dh/gxcbmZ+KEF3jGt4jh3j2TuWUCfVB8OEdfroY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785600604; c=relaxed/simple;
-	bh=mU48XutIQu9U1nnENybcXBIpxpVHt7bqkhtI9Dgsmno=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XEEetXf/2QYyf0oyn6TkAwLfNSsgYvVFBYXpfSM4ccYyrKEDiRoOmyc+r4Rpd6l6Qm15y2oYfYtsNhz/V60nhOQtvr7BsYamMnq9sVRzywhKelo2xbJh+06/Ur21sN7w20Au42r5UFap5o3RkGMsFO5jxTpjr6lKSr2QvBNLE/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VnZNBdju; arc=none smtp.client-ip=209.85.215.172
+	s=arc-20240116; t=1785602279; c=relaxed/simple;
+	bh=jBFcsgxdsHHBtuj6y0A4tNj7euZVpJzFOiPD+w8Y0Es=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BO9i/YamNOq60K4TFXgbu83wp8cBVEjJYNlPz+ROItRd4eqAF7Z2h7mvSSSgsOXzXFxibEEa2gGtG0vDcONYHY33p00zlRy/76Lqq9iMbpVqFEy2WRPkYeeNooi/G0OgarLM/rk96zy1lWbcvwIy/j0ZYo8ARHi5oZ7uES+j+9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rR1+xJJL; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VnZNBdju"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-ca957432c7fso1331105a12.1
-        for <linux-usb@vger.kernel.org>; Sat, 01 Aug 2026 09:10:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rR1+xJJL"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49548e01d02so3865765e9.0
+        for <linux-usb@vger.kernel.org>; Sat, 01 Aug 2026 09:37:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785600603; x=1786205403; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=OAH0aaBcNE5pbI6Vh/1tSYyGZ49sfz+qqIld0AASCLE=;
-        b=VnZNBdju8HWOmD7XPxiU5qxMou2erA4FI8NgQICinuLx77n7euqIFch/n5KeGRq1K3
-         4yxrBli9nQeKH6b7LCwLkJPL+WNY6erfG6tlmbzNZHrx7N7sUp4kyj4NT2fshC3KRFa6
-         XZx+5aaui+uMwA2WREjg2m1O7kQtOMUwL8K1FbkWGDbsLBahU9Qj0py9Jr9C/7a0cIpd
-         LbmDHNl9cJJLLr2QOPNWcuX62g2zcgVrehEnT2+iY8KlfrYFO59aKe1aqzjPwgQ3ccQs
-         fnOYI9V8x70xPjjZaWRFbpuMEmxnxB+rtfRLMZxThO/9lY7LUSJlulaTfFmW0JqQSn/W
-         IyVA==
+        d=gmail.com; s=20251104; t=1785602276; x=1786207076; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/aOkOfzHfwCb8la8nV7ofbFSb+oxHno2SRX3scABeu0=;
+        b=rR1+xJJLR9kcRNtuEL7URIj0cfazNz1hwGwr6Hy0WERF/7UmTJza1gj3nHgbBDylPh
+         Jl7roZM7wD6wgltIrkL2tumn8z1AectR9HlJrj8MDPoA+Hwswn5tg+cT9HKrHAOTxhoK
+         b49/upzwYduxnX8ysY7kQNGquwJhEHWlo+NDA2R7xhmNNG1JP5BteW5I1EagY1fwbIF3
+         qWhWeYo69gP8TtyBnF8fWer4xB4xqo5eD6IkPkcau20awx/qVtqZI2g96mvM0zgsFf4L
+         T+NbA5SnrEuqIm4Hu9qEIEm4arC5qjgyy2PVlnt4pst3GO51cWOUnH1u63AD4LThCOwm
+         YjEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785600603; x=1786205403;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OAH0aaBcNE5pbI6Vh/1tSYyGZ49sfz+qqIld0AASCLE=;
-        b=TXTwEmZv7sqsLbI495Lr9wc35WMhRpCVyIZnF2wwdbJPh+TmFM27ZXgQdO++uxKTeg
-         bBuoF+GbMgmfTkjv3089hSwUI4e+rcK3pCqwFL26OuZxPmE+/lx1QC0ugxl1ogET7Iby
-         n77pLVKRO1OE8bRq9iuTjjnTFSxiUA/I3fMsUujXrZBZQwj8mBdGbUkcf7ubtopNDxWS
-         4qf9EPmmBHpm0YF4QUr3VqisjfVIqwuGVAxEr5jhWRkqXxth/emFeFBMmjPyiFnCRRbP
-         w/+1HkZP2hvX7hg6ka5XDszDeTUWJ+Q8Jz70hJG37bJERDseWDoa+nKcnyuEb2MbF0w9
-         QYXQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpD6VYufFybr5O/ZimV/i7Fy1mC3P7kO0ziQ8Nvg4ZrOSgtUEBcz+2y7nVT0GkZiOr66wfRVc4clQU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcslxDaKv0ytop1fx5PnhG3gKOqi7+8X5Zq/XBRP9gzN9BDHqU
-	uyeHgk62Ci1n6Re693QNyCEt8uATFaifVV4qNKvyvZXRnRqpKkao/abP
-X-Gm-Gg: AR+sD11bx5VwLhyAb2qto9cn1tgLJDhxwDjc8CvHCbI2E06ZsQwiuhjstn5qjbZb0mN
-	5R243s6qaMLGCU9SjlQ8rdpblE5sJJLqYsdm8BfXwfVsXvE0JaxTS2gdA+iueYib8A/SHVzWz4W
-	qVu1FN0TtcgF2hZ892MLqTOtQr42OVbLewnPfLtndAqX1IstOj+HNCGRnoaduaFf+NOqPraFWPG
-	4PVXaNbrCDUrC1S1lGxGC+vOnOY9Adg+heUD/5PmYlmuPWl9qhm8pMCc1ne9PsaeTjojdmw5yOt
-	IdMA7htIaCV1Ib5qSTaDhExx5k6mSMvb0Mg+3lF0H1bw6a05MuZbwFVup0utU2YHR4wbvb3zy7a
-	QMsf/qD8MdLSdQaErQNM+8o7Lnr17RyJGCHnjZexkGiIiuJkxxLiRgnv+TI7KpgSX5/YCKavB9Y
-	jPLm0XivBCy8eQ9TWaHcweMHIyAFMrxcjJeWFcfd/tYuWr3DIc2rFO0xY+JDJcRphtonoAyXXX7
-	TTCrg8jgwQ5T9prL0tyEkAgmGyI
-X-Received: by 2002:a05:6a21:99a3:b0:3c3:7dfd:22be with SMTP id adf61e73a8af0-3c92a826d43mr3747998637.53.1785600602441;
-        Sat, 01 Aug 2026 09:10:02 -0700 (PDT)
-Received: from localhost ([2409:40c4:18:70ff:d54f:b0c4:6a9f:71d7])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153dd4e5b0sm17212440eec.1.2026.08.01.09.10.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Aug 2026 09:10:01 -0700 (PDT)
-Date: Sat, 1 Aug 2026 21:39:58 +0530
-From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-To: Snake Pilot <snakepilot10@gmail.com>
-Cc: linux-wireless@vger.kernel.org, pkshih@realtek.com, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] rtw88_8723de: Wi-Fi and Bluetooth fail after warm reboot
-Message-ID: <am4JYI-tXa-rK7Hq@eggarch>
-References: <CA+fxq6gPCQOYr6mh+_1ReOGzaiTULzMazXhs5q0PXc8PsjRJEQ@mail.gmail.com>
- <amnGXPlG6nKUdEl7@eggarch>
- <CA+fxq6i05RW5G289EL9V_uUgidQhDOpUhiy_J++pDDwqLwJp0Q@mail.gmail.com>
- <am0AOC9ZmP81kGcT@eggarch>
- <CA+fxq6hD-duO3g1gEEQL5o+_S-y8dfFDerD58=scNsd9WfdU5Q@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1785602276; x=1786207076;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/aOkOfzHfwCb8la8nV7ofbFSb+oxHno2SRX3scABeu0=;
+        b=PFcEHkVCXR4rjI9ezDpytj4C1l92NI2d4vyq3h95Q7SWrHgTs26Q4n6MHAB4StRtlM
+         W+zRw2oe3dz+d5ZfHkoUnteqwrBcb5+IHUnqmTWgldGAAsXtzn2nA760bCgZ7NKGgrB9
+         1BJZR7RJos6RF7qkvBOnlpx6zKzYB2HRrBTpRv9wU32UPW3ee6fp8FCemrcT9stT13gR
+         9stjfxbBMJOWFUraC6lL/3STWdgLMBQvzBwRi+dz4GMx6SolGnLo5+t7fAGOFSa3nWjq
+         R7Rbo/qVtV+izoR7xsGaZxgapOf2StHhcSX2VJ1eir/t8hDGGc3rcdakGDbCpR1knKyO
+         zBqw==
+X-Gm-Message-State: AOJu0Yx0YW2cEEL37TvYvqYfmSpI6KNMN/uULlQTqxkKdw1OzPETo65R
+	jMUtHinpMR6/ei9aXrlsnDrk70Q/8x7qJB4ycCZc4iRHWG6bDcL2iRsOJdcJdmzStRySoQ==
+X-Gm-Gg: AR+sD12CrzpXlhmOoOj0x8MozzV/DeX0BTMkwq/D3Z+d4Hb2z1JASsmAYrrXJA9WI7T
+	uQ+p9tRjxGiVaQFfnk3pd6rK2w8pdNAYs2CIN7V72vfkveA9FMmmMPpOm5MVkV1f+OZ9QHU38L5
+	MaficecJrDBLC1hqAZ5+SZOk9ndnJrvL5Ac3oBcEB8DbQOq0IK1JSkYdBe4ssB6FDc16e2VtlwI
+	uS3aCOZ9SrINN53JkD7qb/s3IRxtwUq/BkZXnOUWXNlHkkf3ytCUT+N6uBqHSTLjfRE9+yaHyXJ
+	C89JU5KH/GmRC0EeW1KrEhaQsaKQNdNZXTcC8fWiRwv0gvMIkn6oPkTm1hb16rUk57ef5JHGGtN
+	JUdmZerJHKFMMmzD689os6bJfIqA/YIrQKBYfozYCPhDtmtX+PfyzQC5yd0IjEJmAO4KgAxcCk0
+	LJrL2f/uNcdno8g15+5XmWcTOfoIsfGznApebemqTSKzpfqJL5/mwwCZ+dqTf82p2YzsZ91G4aa
+	CM55jXbCbhE+NyzZ2DCpqa8TToT4DfJ/1vFCuKe7usf42eRgr1BHsOvDLazBa8qImsDl6diW1+f
+	ieu+aQ/Lh9tjioZX2fYERaUWTHgbKgomRz4Eg6gzlrnw
+X-Received: by 2002:a05:600c:4e90:b0:495:7426:c392 with SMTP id 5b1f17b1804b1-4980eb4d5f9mr50698045e9.1.1785602276233;
+        Sat, 01 Aug 2026 09:37:56 -0700 (PDT)
+Received: from riacini.speedport.ip (p200300fcd73d5b958d916a1d293e566c.dip0.t-ipconnect.de. [2003:fc:d73d:5b95:8d91:6a1d:293e:566c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49807b5f0adsm66461855e9.4.2026.08.01.09.37.55
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 01 Aug 2026 09:37:55 -0700 (PDT)
+From: Rituparna Warwatkar <rwarwatkar@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Rituparna Warwatkar <rwarwatkar@gmail.com>,
+	syzbot+54927260acba030187a6@syzkaller.appspotmail.com
+Subject: [PATCH] usb: gadget: uvc: don't pack struct uvcg_extension_unit_descriptor
+Date: Sat,  1 Aug 2026 18:37:47 +0200
+Message-ID: <20260801163747.82910-1-rwarwatkar@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="glh5jd5gyccenl4p"
-Content-Disposition: inline
-In-Reply-To: <CA+fxq6hD-duO3g1gEEQL5o+_S-y8dfFDerD58=scNsd9WfdU5Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
+kmemleak reports the baSourceID and bmControls arrays allocated by the
+UVC extension-unit configfs attributes as leaked, e.g.:
 
---glh5jd5gyccenl4p
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+  BUG: memory leak
+  unreferenced object 0xffff888114fee2c0 (size 8):
+    __kmalloc_noprof
+    uvcg_extension_ba_source_id_store
+    configfs_write_iter
+    vfs_write
+    ksys_write
 
-Thanks for testing, 
+The arrays are not actually leaked: they are reachable through
+xu->desc.baSourceID / xu->desc.bmControls and are freed when the
+extension unit is removed.  The problem is that struct
+uvcg_extension_unit_descriptor is marked __packed, so these two heap
+pointers are stored at unaligned offsets (22 and 31).  kmemleak only
+scans memory on pointer-aligned boundaries, so it never sees the
+pointers and reports the arrays as unreferenced.
 
-On Sat, Aug 01, 2026 at 02:00:12AM -0600, Snake Pilot wrote:
-> This explains the missing btusb shutdown log, although it does not by itself
-> explain or fix the retained hardware state. I can test a corrected diagnostic
-> or a specific USB reset/shutdown sequence if useful.
-I didn't notice this, I'll fix it in updated patch.
+Unlike the UAPI struct uvc_extension_unit_descriptor, this is a purely
+in-memory staging structure: baSourceID and bmControls are pointers,
+not inline arrays, and the wire descriptor is assembled field by field
+in UVC_COPY_XU_DESCRIPTOR().  Nothing relies on the packed layout, so
+the __packed attribute is unnecessary and only serves to misalign the
+pointers.
 
-I'm adding some logging in pci.c around rtw_pci_shutdown(),
-maybe the chip's power or reset state is just stuck before rtw88*
-reaches it and USB for some reason leaves it that way. Let's see if the 
-PCIe function even reaches D3hot transition.
+Drop __packed so the pointers are naturally aligned and visible to
+kmemleak, silencing the false positive.
 
-Could you redo a warm reboot with only the updated patch and attach the
-previous and current logging same as before?
-Could you also attach your acpidump? I'd like to see if D3cold state is
-possible which may be a possible fix.
+Fixes: 0525210c9840 ("usb: gadget: uvc: Allow definition of XUs in configfs")
+Reported-by: syzbot+54927260acba030187a6@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=54927260acba030187a6
+Signed-off-by: Rituparna Warwatkar <rwarwatkar@gmail.com>
+---
+ drivers/usb/gadget/function/uvc_configfs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Lovekesh
+diff --git a/drivers/usb/gadget/function/uvc_configfs.h b/drivers/usb/gadget/function/uvc_configfs.h
+index 9391614135e..5a882afbce4 100644
+--- a/drivers/usb/gadget/function/uvc_configfs.h
++++ b/drivers/usb/gadget/function/uvc_configfs.h
+@@ -176,7 +176,7 @@ struct uvcg_extension_unit_descriptor {
+        u8 bControlSize;
+        u8 *bmControls;
+        u8 iExtension;
+-} __packed;
++};
 
---glh5jd5gyccenl4p
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="diag2.patch"
+ struct uvcg_extension {
+        struct config_item item;
+--
+2.47.3
 
-diff --git a/drivers/bluetooth/btrtl.c b/drivers/bluetooth/btrtl.c
-index 7f54d2d2d13a..b78feb7ddde8 100644
---- a/drivers/bluetooth/btrtl.c
-+++ b/drivers/bluetooth/btrtl.c
-@@ -1402,6 +1402,8 @@ int btrtl_shutdown_realtek(struct hci_dev *hdev)
- 	struct sk_buff *skb;
- 	int ret;
- 
-+	bt_dev_info(hdev, "diag: btrtl_shutdown_realtek: sending HCI_OP_RESET");
-+
- 	/* According to the vendor driver, BT must be reset on close to avoid
- 	 * firmware crash.
- 	 */
-@@ -1411,6 +1413,7 @@ int btrtl_shutdown_realtek(struct hci_dev *hdev)
- 		bt_dev_err(hdev, "HCI reset during shutdown failed");
- 		return ret;
- 	}
-+	bt_dev_info(hdev, "diag: btrtl_shutdown_realtek: HCI_OP_RESET completed OK");
- 	kfree_skb(skb);
- 
- 	return 0;
-diff --git a/drivers/bluetooth/btusb.c b/drivers/bluetooth/btusb.c
-index 184e95c1625e..2369ca69af9c 100644
---- a/drivers/bluetooth/btusb.c
-+++ b/drivers/bluetooth/btusb.c
-@@ -6,6 +6,7 @@
-  *  Copyright (C) 2005-2008  Marcel Holtmann <marcel@holtmann.org>
-  */
- 
-+#include "linux/bitops.h"
- #include <linux/dmi.h>
- #include <linux/module.h>
- #include <linux/usb.h>
-@@ -4470,6 +4471,8 @@ static void btusb_disconnect(struct usb_interface *intf)
- 	struct btusb_data *data = usb_get_intfdata(intf);
- 	struct hci_dev *hdev;
- 
-+	bt_dev_info(data ? data->hdev : NULL, "diag: btusb_disconnect called for intf %p", intf);
-+
- 	BT_DBG("intf %p", intf);
- 
- 	if (!data)
-@@ -4682,10 +4685,21 @@ static void btusb_coredump(struct device *dev)
- }
- #endif
- 
-+static void btusb_shutdown(struct usb_interface *intf)
-+{
-+	struct btusb_data *data = usb_get_intfdata(intf);
-+
-+	bt_dev_info(data ? data->hdev : NULL,
-+	     "diag: btusb_shutdown() reached intf %p, hdev up=%d",
-+	     intf, data && data->hdev ? test_bit(HCI_UP, &data->hdev->flags) : -1);
-+
-+}
-+
- static struct usb_driver btusb_driver = {
- 	.name		= "btusb",
- 	.probe		= btusb_probe,
- 	.disconnect	= btusb_disconnect,
-+	.shutdown	= btusb_shutdown,
- 	.suspend	= pm_ptr(btusb_suspend),
- 	.resume		= pm_ptr(btusb_resume),
- 	.id_table	= btusb_table,
-diff --git a/drivers/net/wireless/realtek/rtw88/mac.c b/drivers/net/wireless/realtek/rtw88/mac.c
-index eaa928bab240..f6c548681e45 100644
---- a/drivers/net/wireless/realtek/rtw88/mac.c
-+++ b/drivers/net/wireless/realtek/rtw88/mac.c
-@@ -2,6 +2,7 @@
- /* Copyright(c) 2018-2019  Realtek Corporation
-  */
- 
-+#include "hci.h"
- #include "main.h"
- #include "mac.h"
- #include "reg.h"
-@@ -166,6 +167,10 @@ static int rtw_pwr_cmd_polling(struct rtw_dev *rtwdev,
- 
- 	/* if PCIE, toggle BIT_PFM_WOWL and try again */
- 	value = rtw_read8(rtwdev, REG_SYS_PW_CTRL);
-+
-+	rtw_info(rtwdev, "diag: pre-toggle REG_SYS_PW_CTRL=0x%02x, poll offset = 0x%x want=0x%x\n",
-+	  value, offset, cmd->value & cmd->mask);
-+
- 	if (rtwdev->chip->id == RTW_CHIP_TYPE_8723D)
- 		rtw_write8(rtwdev, REG_SYS_PW_CTRL, value & ~BIT_PFM_WOWL);
- 	rtw_write8(rtwdev, REG_SYS_PW_CTRL, value | BIT_PFM_WOWL);
-@@ -173,6 +178,9 @@ static int rtw_pwr_cmd_polling(struct rtw_dev *rtwdev,
- 	if (rtwdev->chip->id == RTW_CHIP_TYPE_8723D)
- 		rtw_write8(rtwdev, REG_SYS_PW_CTRL, value | BIT_PFM_WOWL);
- 
-+	rtw_info(rtwdev, "diag: post-toggle REG_SYS_PW_CTRL=0x%02x, retry poll read=0x%02x\n",
-+	  rtw_read8(rtwdev, REG_SYS_PW_CTRL), rtw_read8(rtwdev, offset));
-+
- 	if (do_pwr_poll_cmd(rtwdev, offset, cmd->mask, cmd->value))
- 		return 0;
- 
-diff --git a/drivers/net/wireless/realtek/rtw88/pci.c b/drivers/net/wireless/realtek/rtw88/pci.c
-index a30467228912..e80cfa738262 100644
---- a/drivers/net/wireless/realtek/rtw88/pci.c
-+++ b/drivers/net/wireless/realtek/rtw88/pci.c
-@@ -2,6 +2,7 @@
- /* Copyright(c) 2018-2019  Realtek Corporation
-  */
- 
-+#include "linux/pci_regs.h"
- #include <linux/dmi.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-@@ -1909,6 +1910,10 @@ void rtw_pci_shutdown(struct pci_dev *pdev)
- 	struct ieee80211_hw *hw = pci_get_drvdata(pdev);
- 	struct rtw_dev *rtwdev;
- 	const struct rtw_chip_info *chip;
-+	int pm_cap;
-+	u16 pmcsr = 0xffff;
-+
-+	dev_info(&pdev->dev, "diag: rtw_pci_shutdown: entry, hw=%p\n", hw);
- 
- 	if (!hw)
- 		return;
-@@ -1919,7 +1924,23 @@ void rtw_pci_shutdown(struct pci_dev *pdev)
- 	if (chip->ops->shutdown)
- 		chip->ops->shutdown(rtwdev);
- 
-+	pm_cap = pci_find_capability(pdev, PCI_CAP_ID_PM);
-+
-+	if(pm_cap) {
-+		pci_read_config_word(pdev, pm_cap + PCI_PM_CTRL, &pmcsr);
-+		dev_info(&pdev->dev, "diag: pre-D3hot PMCSR=0x%04x (state=D%d)\n",
-+	   pmcsr, pmcsr & PCI_PM_CTRL_STATE_MASK);
-+	} else {
-+		dev_info(&pdev->dev, "diag: no PCI PM capability found\n");
-+	}
-+
- 	pci_set_power_state(pdev, PCI_D3hot);
-+
-+	if(pm_cap){
-+		pci_read_config_word(pdev, pm_cap + PCI_PM_CTRL, &pmcsr);
-+		dev_info(&pdev->dev, "diag: post-D3hot PMCSR=0x%04x (state=D%d)\n",
-+	   pmcsr, pmcsr & PCI_PM_CTRL_STATE_MASK);
-+	}
- }
- EXPORT_SYMBOL(rtw_pci_shutdown);
- 
-diff --git a/net/bluetooth/hci_sync.c b/net/bluetooth/hci_sync.c
-index c8d14128c363..2d170801196e 100644
---- a/net/bluetooth/hci_sync.c
-+++ b/net/bluetooth/hci_sync.c
-@@ -6,6 +6,7 @@
-  * Copyright 2023 NXP
-  */
- 
-+#include "net/bluetooth/hci.h"
- #include <linux/property.h>
- 
- #include <net/bluetooth/bluetooth.h>
-@@ -5416,11 +5417,20 @@ static int hci_dev_shutdown(struct hci_dev *hdev)
- 	bool was_userchannel =
- 		hci_dev_test_and_clear_flag(hdev, HCI_USER_CHANNEL);
- 
-+	bt_dev_info(hdev, "diag: hci_dev_shtudown: HCI_UP=%d HCI_UNREGISTER=%d shutdown_cb=%ps",
-+	     test_bit(HCI_UP, &hdev->flags),
-+	     hci_dev_test_flag(hdev, HCI_UNREGISTER),
-+	     hdev->shutdown);
-+
- 	if (!hci_dev_test_flag(hdev, HCI_UNREGISTER) &&
- 	    test_bit(HCI_UP, &hdev->flags)) {
- 		/* Execute vendor specific shutdown routine */
--		if (hdev->shutdown)
-+		if (hdev->shutdown) {
-+			bt_dev_info(hdev, "diag: calling vendor shutdown callback");
- 			err = hdev->shutdown(hdev);
-+			bt_dev_info(hdev, "diag: vendor shutdown returned %d", err);
-+
-+		}
- 	}
- 
- 	if (was_userchannel)
-
---glh5jd5gyccenl4p--
