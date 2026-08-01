@@ -1,239 +1,294 @@
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0067E2931F0
-	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 16:05:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785600349; cv=pass; b=tWF0qQKcEoI04dblEwDDOF0t+r1DE9taKv/L2VcZLNbnJbrr4JMpb7Lg4kk8TNPNZL43OCpl0zAOxViI04fpdncdslb+X6thJ9QsQIYFZUeXCWRx4G/DbMGH2KLeUzBl1UEsI0SAVSmpXVRw3nWBHfYJPwQHYpTI6mrBfFRrSFA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785600349; c=relaxed/simple;
-	bh=1s+k8tyBOhZPxlFWvGN/J1vpjulmW34RLDYSL4C+Ah4=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=uaoQEQLydKcRWCAgLXnAKOZcvor8/5kksv3S0kQaM2UYKGutN6htA6yXeyqiEV6+2wIGCwls8cNqBeIbrUczt/5PYceQej7wpk59zTRQvvhkCaRZn1El/Eu+h4pd0aUjXXMGWpHzpEAo0XmS37/oTETbUYnBbJhIvf2uh7l62gg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=behler.me; spf=pass smtp.mailfrom=behler.me; dkim=pass (2048-bit key) header.d=behler.me header.i=@behler.me header.b=oGQ+BWLU; arc=pass smtp.client-ip=74.125.224.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=behler.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=behler.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F0731E833
+	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 16:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785600604; cv=none; b=cCPn6XkgZEmnGZ/g+sfLdFt/Dfnjdv/adaczwsUj+omdnPZVaHSBOkPr4WP04HDh9/vSk9rz6zDUIePhwU8lXK1TdAP/6tepkgzsbx/+wu7Cv+AzyHRQRosVZroF6aB/SYgbWGCcjCX8yHZFjXvTaz5LKYqeBxHXZef2xHkMnE8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785600604; c=relaxed/simple;
+	bh=mU48XutIQu9U1nnENybcXBIpxpVHt7bqkhtI9Dgsmno=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XEEetXf/2QYyf0oyn6TkAwLfNSsgYvVFBYXpfSM4ccYyrKEDiRoOmyc+r4Rpd6l6Qm15y2oYfYtsNhz/V60nhOQtvr7BsYamMnq9sVRzywhKelo2xbJh+06/Ur21sN7w20Au42r5UFap5o3RkGMsFO5jxTpjr6lKSr2QvBNLE/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VnZNBdju; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=behler.me header.i=@behler.me header.b="oGQ+BWLU"
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-664c6304683so1847580d50.2
-        for <linux-usb@vger.kernel.org>; Sat, 01 Aug 2026 09:05:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785600347; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HDGt8GusazVhfvKMCKOh+ljg1m61jYBTfIIYNgFfelfMPq43R0KdwCxtlXuN+khSI8
-         bFwlmO2OBM8mruVuVXbmksqOYTt75nefx8hIW0lAt/lDtIwOOeLYtzeb87kVwBBHdiRk
-         O0pprBD1zdI9LTZMAA9jYPFzmbVujXuz2IZgk0+mQA6G3fyqy7fQhX/jelsoIp03ild1
-         8lcvesWwW+Dc/dI8ZypsNtBBMh6HAIxpzVr0q5aQaBlzce9hizPQrHuJfI/vF886jEk2
-         RSyRitdUt/vUxtCC0SANxxkdjcw6E3yaixlXI/pT18luVXPiaPytt6sndNom2aMuDL9w
-         uu/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=XMV4g3BZPpWE/yWFeGUE5X630AsemOBuxoyOXwBAQaM=;
-        fh=Bbcf4hivZNfTN8ijOKMz6dJ5JqjWwwdD5xgTSLsMjfo=;
-        b=H9vbveqPuiWUNn++IwOPdSQImGxXsbUVvU96nlD+yzqbxcK8BIQf/V6IiHkeE7v/Py
-         YIQZ+MM0LkQNHLWPmc0RlXPsY6j10YxdUMLJ/4IqvtFuduU1Hu55WRasKnOoNX3qWhCZ
-         kyOPjTUXJoCtl5iGy2UnuScvklnVuAZQ9263bR9jvWEZlgLsYufhWFcQBKeoE0rkmSTC
-         9WysZ7/llT1mKDkmf+oUwxYAI+cK2IJHPvxfkKS+id/PFqkbiUWblwYuy0LkPH2+tMso
-         XmcDMYANKnnAi8FPoeV08AkfPDG68jNgOd0VfgUMwLNqLbtFFQveeuGjtorFDN/QLMEI
-         YGIQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VnZNBdju"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-ca957432c7fso1331105a12.1
+        for <linux-usb@vger.kernel.org>; Sat, 01 Aug 2026 09:10:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=behler.me; s=google; t=1785600347; x=1786205147; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XMV4g3BZPpWE/yWFeGUE5X630AsemOBuxoyOXwBAQaM=;
-        b=oGQ+BWLUSKW8lhGX8IZ6Nt7cfjHsXs+02/f1kkCRRSUqTbGu3W98MTLTTSo6NmH53z
-         CiopkFpFuVLs32G/1PUfhB6xHX/u6vUmQjWjoQHarlSGx40P/DXWp5NgBE9cvRqFacl0
-         /EGRsuGLY6AdaecMP1gGWHgUKowNs932IRXysGI+S3pNsUi258VY2RhDsp+Z4UXAAYk/
-         zoVExDq2kC8oglwXXmGiIrh6+s0ElGJZuzXtqrzrGmLRtx4r1NXLIAFMzyiiGYbCflh6
-         2OFtR1mmMQjSRFoEr+duhNd7vM1Gae4+C9LcdzHyoco2GI7HbrJBetD7MVfapvBFhDL3
-         TDtg==
+        d=gmail.com; s=20251104; t=1785600603; x=1786205403; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OAH0aaBcNE5pbI6Vh/1tSYyGZ49sfz+qqIld0AASCLE=;
+        b=VnZNBdju8HWOmD7XPxiU5qxMou2erA4FI8NgQICinuLx77n7euqIFch/n5KeGRq1K3
+         4yxrBli9nQeKH6b7LCwLkJPL+WNY6erfG6tlmbzNZHrx7N7sUp4kyj4NT2fshC3KRFa6
+         XZx+5aaui+uMwA2WREjg2m1O7kQtOMUwL8K1FbkWGDbsLBahU9Qj0py9Jr9C/7a0cIpd
+         LbmDHNl9cJJLLr2QOPNWcuX62g2zcgVrehEnT2+iY8KlfrYFO59aKe1aqzjPwgQ3ccQs
+         fnOYI9V8x70xPjjZaWRFbpuMEmxnxB+rtfRLMZxThO/9lY7LUSJlulaTfFmW0JqQSn/W
+         IyVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785600347; x=1786205147;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=XMV4g3BZPpWE/yWFeGUE5X630AsemOBuxoyOXwBAQaM=;
-        b=hWRlTw4IdJZCOP3U/VPB+sLqoWjoAhic7cMf0d+gikHudlccUaLXZq26aXrAnoF9fj
-         bGv1rN7caO4zPFZwtrnkO4HFjO81E1/SjXtcG0EDJ7QFPLm6zwvHXZjrpzfq89ORf+pt
-         k6Chj8E6aw8ZYcHuFBdE7RewcB4AlcQKCU2RfAG7RHhmD0HjEGxtL7mMiT8koylPmmnf
-         gcQ3aKx/ztJbgJOUnWowUvI6EVxWFdyykKfLCrjS0l7wkn+K2pbcxEM02/BDkhlhgpJj
-         GXv+30jURKvsDvS3CO8e20yMhsWlJKwex3Fra6uo0jOqEdu/ZEVsTC2wdSmDbq7sRbiS
-         RxvA==
-X-Gm-Message-State: AOJu0Yz5M3kCipIghmeRdNmpherOEPP3umf0Fc+Zm65InH8lYR6wyjYP
-	lDjj07/VV/eCh4FPpoU25RRtyy0iFnYQ1gBTakqgCgHWIbsolq0H1+C6s25bB4iAysEjLj75NGK
-	N9eBqx9gMc/Hs9LXSD0DgOnJpSo9fAFoeIs0qDvCWMxaNYAnQeLbpXt8=
-X-Gm-Gg: AR+sD10GNp2nrbsgRRYRE+tzJ2b7xqCRu8PyCZvQV/+Hkc7BiM8av7OWduBGWgAvxmf
-	FsXwYRNOyfDPaMsihgVFFcNNJrIkdeR2MaOL/K6wbPOM+y56Chunc3FFfOZTT/9wdR3QdglHqXU
-	Cqd2vc0TiKvoWIu/OnekGSsyxnOUix8wYEv7tZOaa3jy+GJk3sAm/Y3Ah2wTO4ml4CFvPWV6vT6
-	A/dcJptZFznV/wJ1n90rSVXask//Zo8YXgjxoAqDBx9bLpS/wNxDBhN4+GM/e+JHqO0hsixa7oi
-	K5A3FGIC0x0e6+uhPU2lV0Nw0G4QqTDvl3i1oSu+6rwNYhkfsZ3oW5B1AWkhEDNy3qKnUjkwQDu
-	t49ZTfmq7er/q
-X-Received: by 2002:a53:cc4f:0:b0:667:c3c0:f2b7 with SMTP id
- 956f58d0204a3-6694f0a7488mr4235374d50.19.1785600346674; Sat, 01 Aug 2026
- 09:05:46 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785600603; x=1786205403;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OAH0aaBcNE5pbI6Vh/1tSYyGZ49sfz+qqIld0AASCLE=;
+        b=TXTwEmZv7sqsLbI495Lr9wc35WMhRpCVyIZnF2wwdbJPh+TmFM27ZXgQdO++uxKTeg
+         bBuoF+GbMgmfTkjv3089hSwUI4e+rcK3pCqwFL26OuZxPmE+/lx1QC0ugxl1ogET7Iby
+         n77pLVKRO1OE8bRq9iuTjjnTFSxiUA/I3fMsUujXrZBZQwj8mBdGbUkcf7ubtopNDxWS
+         4qf9EPmmBHpm0YF4QUr3VqisjfVIqwuGVAxEr5jhWRkqXxth/emFeFBMmjPyiFnCRRbP
+         w/+1HkZP2hvX7hg6ka5XDszDeTUWJ+Q8Jz70hJG37bJERDseWDoa+nKcnyuEb2MbF0w9
+         QYXQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpD6VYufFybr5O/ZimV/i7Fy1mC3P7kO0ziQ8Nvg4ZrOSgtUEBcz+2y7nVT0GkZiOr66wfRVc4clQU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzcslxDaKv0ytop1fx5PnhG3gKOqi7+8X5Zq/XBRP9gzN9BDHqU
+	uyeHgk62Ci1n6Re693QNyCEt8uATFaifVV4qNKvyvZXRnRqpKkao/abP
+X-Gm-Gg: AR+sD11bx5VwLhyAb2qto9cn1tgLJDhxwDjc8CvHCbI2E06ZsQwiuhjstn5qjbZb0mN
+	5R243s6qaMLGCU9SjlQ8rdpblE5sJJLqYsdm8BfXwfVsXvE0JaxTS2gdA+iueYib8A/SHVzWz4W
+	qVu1FN0TtcgF2hZ892MLqTOtQr42OVbLewnPfLtndAqX1IstOj+HNCGRnoaduaFf+NOqPraFWPG
+	4PVXaNbrCDUrC1S1lGxGC+vOnOY9Adg+heUD/5PmYlmuPWl9qhm8pMCc1ne9PsaeTjojdmw5yOt
+	IdMA7htIaCV1Ib5qSTaDhExx5k6mSMvb0Mg+3lF0H1bw6a05MuZbwFVup0utU2YHR4wbvb3zy7a
+	QMsf/qD8MdLSdQaErQNM+8o7Lnr17RyJGCHnjZexkGiIiuJkxxLiRgnv+TI7KpgSX5/YCKavB9Y
+	jPLm0XivBCy8eQ9TWaHcweMHIyAFMrxcjJeWFcfd/tYuWr3DIc2rFO0xY+JDJcRphtonoAyXXX7
+	TTCrg8jgwQ5T9prL0tyEkAgmGyI
+X-Received: by 2002:a05:6a21:99a3:b0:3c3:7dfd:22be with SMTP id adf61e73a8af0-3c92a826d43mr3747998637.53.1785600602441;
+        Sat, 01 Aug 2026 09:10:02 -0700 (PDT)
+Received: from localhost ([2409:40c4:18:70ff:d54f:b0c4:6a9f:71d7])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153dd4e5b0sm17212440eec.1.2026.08.01.09.10.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Aug 2026 09:10:01 -0700 (PDT)
+Date: Sat, 1 Aug 2026 21:39:58 +0530
+From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
+To: Snake Pilot <snakepilot10@gmail.com>
+Cc: linux-wireless@vger.kernel.org, pkshih@realtek.com, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [BUG] rtw88_8723de: Wi-Fi and Bluetooth fail after warm reboot
+Message-ID: <am4JYI-tXa-rK7Hq@eggarch>
+References: <CA+fxq6gPCQOYr6mh+_1ReOGzaiTULzMazXhs5q0PXc8PsjRJEQ@mail.gmail.com>
+ <amnGXPlG6nKUdEl7@eggarch>
+ <CA+fxq6i05RW5G289EL9V_uUgidQhDOpUhiy_J++pDDwqLwJp0Q@mail.gmail.com>
+ <am0AOC9ZmP81kGcT@eggarch>
+ <CA+fxq6hD-duO3g1gEEQL5o+_S-y8dfFDerD58=scNsd9WfdU5Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Bernd Behler <bernd@behler.me>
-Date: Sat, 1 Aug 2026 18:05:34 +0200
-X-Gm-Features: AUfX_myTGQEgFAnuavm2rETdEKM6wPsVH5mJSLK-QjJxN1Au5BXvDoH27Vz5AwQ
-Message-ID: <CAM=hwCxiJwODObeut=JcCA8jbu4C-XVEKJpR-y2MnDJibBQyOw@mail.gmail.com>
-Subject: =?UTF-8?Q?Apple_Studio_Display_=282026=2C_Thunderbolt_5=29_=E2=80=94_DP_tu?=
-	=?UTF-8?Q?nnel_torn_down_every_few_minutes_on_Intel_TB4_host?=
-To: linux-usb@vger.kernel.org, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/mixed; boundary="glh5jd5gyccenl4p"
+Content-Disposition: inline
+In-Reply-To: <CA+fxq6hD-duO3g1gEEQL5o+_S-y8dfFDerD58=scNsd9WfdU5Q@mail.gmail.com>
 
-Summary
--------
 
-An Apple Studio Display (2026 model, Thunderbolt 5) connected to an Intel
-Arrow Lake-H host with integrated Thunderbolt 4 loses its DisplayPort
-tunnel every 2-5 minutes under normal desktop use. The screen goes black
-for ~2 s, occasionally for several minutes. The Thunderbolt link itself,
-the tunnelled USB3 and the tunnelled PCIe stay up throughout -- only the
-DP tunnels are torn down and re-established.
+--glh5jd5gyccenl4p
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The previous Studio Display model (2022, Thunderbolt 3) on the same host,
-same port, same cable, same kernel does not show the problem.
+Thanks for testing, 
 
-Hardware
---------
+On Sat, Aug 01, 2026 at 02:00:12AM -0600, Snake Pilot wrote:
+> This explains the missing btusb shutdown log, although it does not by itself
+> explain or fix the retained hardware state. I can test a corrected diagnostic
+> or a specific USB reset/shutdown sequence if useful.
+I didn't notice this, I'll fix it in updated patch.
 
-Host:        Intel NUC 15 Pro "Cyber Canyon" (NUC15CRKU5), Core Ultra 5 225H
-Host TB:     integrated, 8086:7ec2 / 8086:7ec3, host router generation 4
-GPU:         Intel Arc 130T/140T (8086:7d51), i915
-Kernel:      7.1.4-arch1-1 (Arch Linux)
-Compositor:  Hyprland / aquamarine (Wayland, atomic KMS)
+I'm adding some logging in pci.c around rtw_pci_shutdown(),
+maybe the chip's power or reset state is just stuck before rtw88*
+reaches it and USB for some reason leaves it that way. Let's see if the 
+PCIe function even reaches D3hot transition.
 
-Failing display -- Apple Studio Display 2026
-- EDID: manufacturer APP, model 44614, made week 1 of 2026
-- TB device 0x8025, generation 4, 20.0 Gb/s x 2 lanes, NVM 64.81
-- contains an Intel JHL9480 (Barlow Ridge, TB5) -- appears as
-  8086:5786 PCIe switch behind the tunnel
-- firmware updated via macOS immediately before these traces; no change
+Could you redo a warm reboot with only the updated patch and attach the
+previous and current logging same as before?
+Could you also attach your acpidump? I'd like to see if D3cold state is
+possible which may be a possible fix.
 
-Working reference -- Apple Studio Display 2022
-- EDID: manufacturer APP, model 44602, made week 7 of 2022
-- TB device 0x801f, generation 3, NVM 67.0
+Regards,
+Lovekesh
 
-Symptom
--------
+--glh5jd5gyccenl4p
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="diag2.patch"
 
-Reproducible within minutes by scrolling bright web pages. Frequency under
-load is one event every 2-5 minutes. Recovery is usually ~2 s; three events
-during the session took between 2 and 3 minutes.
+diff --git a/drivers/bluetooth/btrtl.c b/drivers/bluetooth/btrtl.c
+index 7f54d2d2d13a..b78feb7ddde8 100644
+--- a/drivers/bluetooth/btrtl.c
++++ b/drivers/bluetooth/btrtl.c
+@@ -1402,6 +1402,8 @@ int btrtl_shutdown_realtek(struct hci_dev *hdev)
+ 	struct sk_buff *skb;
+ 	int ret;
+ 
++	bt_dev_info(hdev, "diag: btrtl_shutdown_realtek: sending HCI_OP_RESET");
++
+ 	/* According to the vendor driver, BT must be reset on close to avoid
+ 	 * firmware crash.
+ 	 */
+@@ -1411,6 +1413,7 @@ int btrtl_shutdown_realtek(struct hci_dev *hdev)
+ 		bt_dev_err(hdev, "HCI reset during shutdown failed");
+ 		return ret;
+ 	}
++	bt_dev_info(hdev, "diag: btrtl_shutdown_realtek: HCI_OP_RESET completed OK");
+ 	kfree_skb(skb);
+ 
+ 	return 0;
+diff --git a/drivers/bluetooth/btusb.c b/drivers/bluetooth/btusb.c
+index 184e95c1625e..2369ca69af9c 100644
+--- a/drivers/bluetooth/btusb.c
++++ b/drivers/bluetooth/btusb.c
+@@ -6,6 +6,7 @@
+  *  Copyright (C) 2005-2008  Marcel Holtmann <marcel@holtmann.org>
+  */
+ 
++#include "linux/bitops.h"
+ #include <linux/dmi.h>
+ #include <linux/module.h>
+ #include <linux/usb.h>
+@@ -4470,6 +4471,8 @@ static void btusb_disconnect(struct usb_interface *intf)
+ 	struct btusb_data *data = usb_get_intfdata(intf);
+ 	struct hci_dev *hdev;
+ 
++	bt_dev_info(data ? data->hdev : NULL, "diag: btusb_disconnect called for intf %p", intf);
++
+ 	BT_DBG("intf %p", intf);
+ 
+ 	if (!data)
+@@ -4682,10 +4685,21 @@ static void btusb_coredump(struct device *dev)
+ }
+ #endif
+ 
++static void btusb_shutdown(struct usb_interface *intf)
++{
++	struct btusb_data *data = usb_get_intfdata(intf);
++
++	bt_dev_info(data ? data->hdev : NULL,
++	     "diag: btusb_shutdown() reached intf %p, hdev up=%d",
++	     intf, data && data->hdev ? test_bit(HCI_UP, &data->hdev->flags) : -1);
++
++}
++
+ static struct usb_driver btusb_driver = {
+ 	.name		= "btusb",
+ 	.probe		= btusb_probe,
+ 	.disconnect	= btusb_disconnect,
++	.shutdown	= btusb_shutdown,
+ 	.suspend	= pm_ptr(btusb_suspend),
+ 	.resume		= pm_ptr(btusb_resume),
+ 	.id_table	= btusb_table,
+diff --git a/drivers/net/wireless/realtek/rtw88/mac.c b/drivers/net/wireless/realtek/rtw88/mac.c
+index eaa928bab240..f6c548681e45 100644
+--- a/drivers/net/wireless/realtek/rtw88/mac.c
++++ b/drivers/net/wireless/realtek/rtw88/mac.c
+@@ -2,6 +2,7 @@
+ /* Copyright(c) 2018-2019  Realtek Corporation
+  */
+ 
++#include "hci.h"
+ #include "main.h"
+ #include "mac.h"
+ #include "reg.h"
+@@ -166,6 +167,10 @@ static int rtw_pwr_cmd_polling(struct rtw_dev *rtwdev,
+ 
+ 	/* if PCIE, toggle BIT_PFM_WOWL and try again */
+ 	value = rtw_read8(rtwdev, REG_SYS_PW_CTRL);
++
++	rtw_info(rtwdev, "diag: pre-toggle REG_SYS_PW_CTRL=0x%02x, poll offset = 0x%x want=0x%x\n",
++	  value, offset, cmd->value & cmd->mask);
++
+ 	if (rtwdev->chip->id == RTW_CHIP_TYPE_8723D)
+ 		rtw_write8(rtwdev, REG_SYS_PW_CTRL, value & ~BIT_PFM_WOWL);
+ 	rtw_write8(rtwdev, REG_SYS_PW_CTRL, value | BIT_PFM_WOWL);
+@@ -173,6 +178,9 @@ static int rtw_pwr_cmd_polling(struct rtw_dev *rtwdev,
+ 	if (rtwdev->chip->id == RTW_CHIP_TYPE_8723D)
+ 		rtw_write8(rtwdev, REG_SYS_PW_CTRL, value | BIT_PFM_WOWL);
+ 
++	rtw_info(rtwdev, "diag: post-toggle REG_SYS_PW_CTRL=0x%02x, retry poll read=0x%02x\n",
++	  rtw_read8(rtwdev, REG_SYS_PW_CTRL), rtw_read8(rtwdev, offset));
++
+ 	if (do_pwr_poll_cmd(rtwdev, offset, cmd->mask, cmd->value))
+ 		return 0;
+ 
+diff --git a/drivers/net/wireless/realtek/rtw88/pci.c b/drivers/net/wireless/realtek/rtw88/pci.c
+index a30467228912..e80cfa738262 100644
+--- a/drivers/net/wireless/realtek/rtw88/pci.c
++++ b/drivers/net/wireless/realtek/rtw88/pci.c
+@@ -2,6 +2,7 @@
+ /* Copyright(c) 2018-2019  Realtek Corporation
+  */
+ 
++#include "linux/pci_regs.h"
+ #include <linux/dmi.h>
+ #include <linux/module.h>
+ #include <linux/pci.h>
+@@ -1909,6 +1910,10 @@ void rtw_pci_shutdown(struct pci_dev *pdev)
+ 	struct ieee80211_hw *hw = pci_get_drvdata(pdev);
+ 	struct rtw_dev *rtwdev;
+ 	const struct rtw_chip_info *chip;
++	int pm_cap;
++	u16 pmcsr = 0xffff;
++
++	dev_info(&pdev->dev, "diag: rtw_pci_shutdown: entry, hw=%p\n", hw);
+ 
+ 	if (!hw)
+ 		return;
+@@ -1919,7 +1924,23 @@ void rtw_pci_shutdown(struct pci_dev *pdev)
+ 	if (chip->ops->shutdown)
+ 		chip->ops->shutdown(rtwdev);
+ 
++	pm_cap = pci_find_capability(pdev, PCI_CAP_ID_PM);
++
++	if(pm_cap) {
++		pci_read_config_word(pdev, pm_cap + PCI_PM_CTRL, &pmcsr);
++		dev_info(&pdev->dev, "diag: pre-D3hot PMCSR=0x%04x (state=D%d)\n",
++	   pmcsr, pmcsr & PCI_PM_CTRL_STATE_MASK);
++	} else {
++		dev_info(&pdev->dev, "diag: no PCI PM capability found\n");
++	}
++
+ 	pci_set_power_state(pdev, PCI_D3hot);
++
++	if(pm_cap){
++		pci_read_config_word(pdev, pm_cap + PCI_PM_CTRL, &pmcsr);
++		dev_info(&pdev->dev, "diag: post-D3hot PMCSR=0x%04x (state=D%d)\n",
++	   pmcsr, pmcsr & PCI_PM_CTRL_STATE_MASK);
++	}
+ }
+ EXPORT_SYMBOL(rtw_pci_shutdown);
+ 
+diff --git a/net/bluetooth/hci_sync.c b/net/bluetooth/hci_sync.c
+index c8d14128c363..2d170801196e 100644
+--- a/net/bluetooth/hci_sync.c
++++ b/net/bluetooth/hci_sync.c
+@@ -6,6 +6,7 @@
+  * Copyright 2023 NXP
+  */
+ 
++#include "net/bluetooth/hci.h"
+ #include <linux/property.h>
+ 
+ #include <net/bluetooth/bluetooth.h>
+@@ -5416,11 +5417,20 @@ static int hci_dev_shutdown(struct hci_dev *hdev)
+ 	bool was_userchannel =
+ 		hci_dev_test_and_clear_flag(hdev, HCI_USER_CHANNEL);
+ 
++	bt_dev_info(hdev, "diag: hci_dev_shtudown: HCI_UP=%d HCI_UNREGISTER=%d shutdown_cb=%ps",
++	     test_bit(HCI_UP, &hdev->flags),
++	     hci_dev_test_flag(hdev, HCI_UNREGISTER),
++	     hdev->shutdown);
++
+ 	if (!hci_dev_test_flag(hdev, HCI_UNREGISTER) &&
+ 	    test_bit(HCI_UP, &hdev->flags)) {
+ 		/* Execute vendor specific shutdown routine */
+-		if (hdev->shutdown)
++		if (hdev->shutdown) {
++			bt_dev_info(hdev, "diag: calling vendor shutdown callback");
+ 			err = hdev->shutdown(hdev);
++			bt_dev_info(hdev, "diag: vendor shutdown returned %d", err);
++
++		}
+ 	}
+ 
+ 	if (was_userchannel)
 
-Only the Studio Display blanks. A second monitor on HDMI is unaffected.
-
-Trace
------
-
-drm.debug=0x104 plus "module thunderbolt +p". A single event:
-
-  i915 0000:00:02.0: [drm:xelpdp_pica_irq_handler] pica hotplug event received,
-                     stat 0x0000000c, pins 0x00001800, long 0x00001800
-  i915 0000:00:02.0: [drm:intel_dp_hpd_pulse] got hpd irq on
-                     [ENCODER:521:DDI TC3/PHY TC3] - long
-  i915 0000:00:02.0: [drm:drm_dp_dpcd_access] AUX USBC3/DDI TC3/PHY TC3:
-                     Too many retries, giving up. First error: -6
-  i915 0000:00:02.0: [drm:intel_dp_hpd_pulse] got hpd irq on
-                     [ENCODER:549:DDI TC4/PHY TC4] - long
-  i915 0000:00:02.0: [drm:intel_tc_port_reset_mode] Port G/TC#4:
-                     TC port mode reset (disconnected -> tbt-alt)
-  i915 0000:00:02.0: [drm:drm_dp_tunnel_destroy] [DPTUN 1:1:5] destroying
-  i915 0000:00:02.0: [drm:drm_dp_tunnel_destroy] [DPTUN 1:1:6] destroying
-
-Thunderbolt side of the same event:
-
-  thunderbolt 0000:00:0d.3: acking hot unplug event on 1:11
-  thunderbolt 0000:00:0d.3: 1:11: DP OUT resource unavailable: adapter unplug
-  thunderbolt 0000:00:0d.3: 0:5 <-> 1:11 (DP): deactivating
-  thunderbolt 0000:00:0d.3: acking hot unplug event on 1:12
-  thunderbolt 0000:00:0d.3: deactivating Video path from 0:5 to 1:11
-  thunderbolt 0000:00:0d.3: 0:5: detached from bandwidth group 1
-  thunderbolt 0000:00:0d.3: 0: released DP resource for port 5
-  thunderbolt 0000:00:0d.3: 0:6 <-> 1:12 (DP): DPRX read timeout
-
-The "hot unplug event" originates from the device router; the host acks it
-and tears the tunnels down. "DPRX read timeout" recurs on every event.
-
-In one earlier trace the teardown was preceded by a bandwidth-allocation
-request from the display asking for zero:
-
-  thunderbolt 0000:00:0d.3: acking DP_BW (0x20) notification on 0
-  thunderbolt 0000:00:0d.3: 0:6: requested bandwidth 0 Mb/s
-  thunderbolt 0000:00:0d.3: 0:6 <-> 1:12 (DP): bandwidth allocation
-changed to 0/0 Mb/s
-  thunderbolt 0000:00:0d.3: acking hot unplug event on 1:12
-
-Later events start directly at the active adapter 1:11 with no such
-prelude, also with bw_alloc_mode=N.
-
-Possibly relevant: tunnel topology differs between the two models
------------------------------------------------------------------
-
-Both displays expose a 2x1 tiled EDID (2560x2880 per tile).
-
-2026 model -- i915 drives the full 5120x2880 through a single tunnel at
-HBR3; the second DP tunnel exists but never carries a stream:
-
-  0:5 <-> 1:11 (DP): consumed bandwidth 0/22500 Mb/s      <- carries all of 5K
-  0:6 <-> 1:12 (DP): consumed bandwidth 0/0 Mb/s          <- idle
-  port_clock=810000, lane_count=4
-
-2022 model -- driven as two real tiles, both tunnels carrying video:
-
-  0:5 <-> 1:10 (DP): consumed bandwidth 0/17000 Mb/s
-  0:6 <-> 1:11 (DP): estimated bandwidth 19000 Mb/s
-  port_clock=540000, lane_count=4
-
-The idle second tunnel of the 2026 model was the adapter that unplugged
-first in the earliest traces.
-
-Link maximum on this host is 36000 Mb/s. The tunnelled USB3 grows to
-14738 Mb/s when DP releases bandwidth.
-
-Ruled out
----------
-
-Each of these was tested; the trace signature stayed byte-for-byte
-identical.
-
-- Display firmware update (performed via macOS; now NVM 64.81)
-- thunderbolt.clx=0 -- link low-power states
-- thunderbolt.bw_alloc_mode=0 -- DP bandwidth allocation mode
-- Thunderbolt/PCIe runtime PM (power/control=on on the NHI controllers,
-  the tunnel PCIe ports and all TB devices). This did eliminate a
-  separate, rarer failure in which the whole TB link dropped for ~8 s
-  including USB -- but has no effect on the DP-only events described here.
-- Cable: swapped the 2026 display's cable for the 2022 display's TB3
-  cable. Link still negotiates generation 4 at 20 Gb/s x 2; failure
-  unchanged.
-- Bandwidth / link training: AUX dies outright (-ENXIO), no retrain is
-  ever attempted.
-- PSR / Panel Replay: "Sink support: PSR = no, Panel Replay = no".
-
-Not yet tested: driving the 2026 display as two explicit tiles to mirror
-the 2022 model's working configuration.
-
-Questions
----------
-
-1. Is the host expected to tear down both DP tunnels when one DP OUT
-   adapter signals unplug, or could the teardown be scoped to the
-   affected adapter?
-2. Would a debounce or retry be appropriate before releasing the DP
-   resource, given the adapter reappears ~2 s later?
-3. Is the recurring "DPRX read timeout" on this device a known interop
-   issue? dprx_timeout is at its default of 12000 ms here.
-
-Happy to test patches or collect further traces.
-
-Thanks,
-Bernd Behler
+--glh5jd5gyccenl4p--
