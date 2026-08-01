@@ -1,51 +1,68 @@
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FEF433E81;
-	Sat,  1 Aug 2026 10:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAF52745E
+	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 10:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785578991; cv=none; b=sF+pNJW4y4u05sELjRmcWtiwH/S+ZOv0X9NH11Q1kMGxFA6sQHjzerOXkFet8t2Jy7RQXnFCWkpCCLQ6pZoC/A6+kYTesXc20v/mJ7lPQslEKfSB3BqdSdS7c4jff+PkJdmNDPAS4KlKko/a1rMZDfDPuYAI/RqW2rnKDpjdRUM=
+	t=1785581330; cv=none; b=XA6bU0Iz0bD7h6fhfkQa/c6vKSobzr2DV/5+5SyB0WuG/a8oNbA3nOiu5me5jPeCmGGqQxW6pOTl23ag0Xn28f1/SgbyImBc8U+RxMKc/wxQUtRq7vUaCHSdYbbPPd5puobVaLnGt0NXBpBIXdK2enjOvZjLvC8Idl14joeb7Qg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785578991; c=relaxed/simple;
-	bh=bbOgKiha4GotQFEp6gkVSisdQW9VlF/rhFfK28f8MJE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=h6w6FlN5G6j5wkzod16xH9uJWKexS/GOKBWHUel99Zs4irMuR5TdVshpvZuKJUhOW7Lh/t7A39LX3LHgi56MM4fdwMQRcxoTlvUKvaminq05dR/tZrgolS5luVi16K5zymnyJq0nj5IPLVL1nCFPANiKAOK22fWyxihYcDNsRFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=fail smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=YgfSTqca; arc=none smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=windriver.com
+	s=arc-20240116; t=1785581330; c=relaxed/simple;
+	bh=wtDSZ5mp5Wvt1kWFT21QCDzbA3vFoy0pmDjMyVRSB7g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RZp3i02pvXje3fNhBInj765iSRBcjWlO50OPRxWxTwsY8ZDG7cwTNKIQK8zvL0dxhhvBIjyi1E58951+KsvL2Ur9MPJIQFnMH+eQTbMnnsgQWA+RJJ7yoCZ+SS5tm5ECnqsDTs5Q2KO9pRHXFDpC1goW3xPmwRL7bsufoowgNYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bRbRMY0z; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="YgfSTqca"
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6719pVkE324598;
-	Sat, 1 Aug 2026 02:51:31 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=q/MtFn2D7
-	/SDWhNuj5nJXsisX0i/gMoxKVS1PzpgxI8=; b=YgfSTqcaBxjlBBPffnR/u8J6Y
-	gzC95r6G13lW7JhiRvSncksgo/TLQGcKtUPDOB1fFdj8FmKBraXx8IWUOXTN/ool
-	bD4/f6NGZALMPqe5Zibv1j2OgJKtLRAksm9WvacEDP+5tX4iDvvv44WxfxUugxb3
-	fQLwNuYBa2/GctB+K7fHjWiv/TxzhsvyTz/eVGXmId3u8mJeXkvmX8jismAMQycs
-	YkPKnL0dyz00nIvlPFVNvsLSbocphEPTPLehdniGoSVilkNl5DWz/+IQyfOEDB6f
-	9Bq8SmsgyyER2VapSmZRW6qZukIssdATrMARw3BzgJUyNvIbgLvJofvhLrLWA==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4frtx7hcvv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 01 Aug 2026 02:51:30 -0700 (PDT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Sat, 1 Aug 2026 02:51:30 -0700
-Received: from pek-lpd-ccm4.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Sat, 1 Aug 2026 02:51:29 -0700
-From: Jiangong.Han <jiangong.han@windriver.com>
-To: <gregkh@linuxfoundation.org>
-CC: <kees@kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <jiangong.han@windriver.com>
-Subject: [PATCH] USB: usbmon: fix null-ptr-deref in mon_bus_remove() when mon_bus_init() fails
-Date: Sat, 1 Aug 2026 17:51:28 +0800
-Message-ID: <20260801095128.46322-1-jiangong.han@windriver.com>
-X-Mailer: git-send-email 2.37.3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bRbRMY0z"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47c6e9a694bso1250000f8f.1
+        for <linux-usb@vger.kernel.org>; Sat, 01 Aug 2026 03:48:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785581326; x=1786186126; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vGQePxgnH3gJYAYdtUPdhKdx3RT8nxQFNw+xvKDts8Y=;
+        b=bRbRMY0zpC3j/1FHVChHum1cFK8Qc8oi1V034LvSW4bCh4d71jYxxnIcUuDuITSuhd
+         KiWvmgowWMT92OPCpkbpXf7diC1EnDHRwXLuIJDPShQdY1xTio7nJ6ZJEtWcWE6E65NY
+         lwL+9y7kru/6BgcBShKX4R8xi46nhG3wx5gu4095+CvlQDq3sSqn68vrOWHClRHftTSN
+         IC3N1PpdpdzNrvDqUm0cOitk462X+TuJ2oRu8tpd5rXf2ZQ9iXpCIijBHUrTkPlaauwd
+         ZcoSF5vt+SiDsL/OvWRhMnHBMg/Gv36ai+z/qogoHKOso/39ofHOwJHnaXEDvjIy/lib
+         b4QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785581326; x=1786186126;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vGQePxgnH3gJYAYdtUPdhKdx3RT8nxQFNw+xvKDts8Y=;
+        b=VcO6dXB5PMnqhwl/aY/cTKaxs+pNcHm10dYW7sicSL/T2zbYuobfAJhtnQyQdJ6CiU
+         cjL+A9UQ9w3wh6xYRWGi1IHmsXj8E2PI2Kzltr7MhdGs7ADWxH6tSPkLmY63nXLvSoJS
+         t51Hn5xGqni9Z0VhgZMvHTSmBt884xyzXKzIGu/EKDAv0cqOy1x+9KstN8cuaNC7D0Qz
+         h3wfsyQ/Km8Yslf1UOTJYgUZgR99MnXzURo8dW1FSeKQg0YckXEyaO2D8MEvvIrYv7qf
+         wOxfavMlbk1gcXCkJED8G6BSWwD7uWss3HozncZSLky1Cwa4EZZOtTTZc1Wo0J8vb62Z
+         QQkg==
+X-Gm-Message-State: AOJu0Yy9A6Kob7X4BghoF7Mx/+8rhNtIx7sBbqF3DjPhn/YrIYO8Rmig
+	dG75wyIjZgjZWO5dUkTVqJBSJSaZVp8ypt44c5rvKFUxMUwWhcp3iRVWq8RUj2jm+E7wQA==
+X-Gm-Gg: AR+sD10i09oHhrQFJ+RSq6Sl8o1se3Dl3+o9iGc7wuDj8afqWbBRWFsqrw/Su3Ks/G9
+	YMEjNyfoypJNqbOYtSsBxeLtw96XBrD+pZrVKHSRa+ChMaK4gQWIjJta78NOCieIlxE2y2LRuuL
+	eRuE2aONDTja81pe7rLNG2mDIudUpe+RU0DDVl8+Rl0CdHknuHcsCdAZmvFctn8u9QTG1G65XBm
+	zEPUr+calwnDyCpo0mAECbcs1VFNlqTRSSpn7AubgIOh0S4r+SxUqCXhs5goYUlEn7mc8acC9Ui
+	ClZlB8WjLpGaQ6fK4h9iYfdaBWb1O9HySaSEhBmcVXhL9CUVosB0NncQRscOOGQUxtvJDtM4UaE
+	PnRxAlOiXGkaUxHDkbc/i3Bub5Ef3JpYn5Kn8agwOPmaStNnMcHWY5dj00Y1Qij1wbnRtfag/sH
+	oJkLWMNe78gUUDVM+JjkpjeHe7ORt9nO53tCsscv74WfRHayzoNgVebqpz12T7I7OJ2VGowW9U
+X-Received: by 2002:a05:6000:230d:b0:47f:6dcb:3737 with SMTP id ffacd0b85a97d-47fd72fa279mr7289305f8f.29.1785581326444;
+        Sat, 01 Aug 2026 03:48:46 -0700 (PDT)
+Received: from debian.powerhub ([2a0a:ef40:e13:1601:a8d:2d:6c37:dbbd])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd4562667sm15154551f8f.24.2026.08.01.03.48.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Aug 2026 03:48:46 -0700 (PDT)
+From: Chris Bainbridge <chris.bainbridge@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
+	Chris Bainbridge <chris.bainbridge@gmail.com>
+Subject: [PATCH] usb-storage: Add US_FL_IGNORE_UAS for JMicron JMS581
+Date: Sat,  1 Aug 2026 11:47:51 +0100
+Message-ID: <20260801104751.277572-1-chris.bainbridge@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -53,70 +70,40 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODAxMDA3MyBTYWx0ZWRfX8hjesvYJXrOl
- UHZ8/8/SDQUo5h5lgw/xMyRiGVjdsKwyRQFROoQ0lpSjfcsE3/YjkfjlAjxBqfSis0C0FQa7Lvh
- qksIr5QW5nTPXyH/FFCr8tcb1uj6VHIjul9MAOx59TFOxXraM5EOUYHJFFgL1nLeKcDiS0dNCOi
- 0PmmEwr+lZmMYNIuZTaq/rSg5h7jzNYDgl4MKgFFK8v4mgKDpU+xCemctrEdzFlhHjPofmiX3je
- 9wEPEl2HdMXbKbFRdkwgVQwDWTHIKGdjb78AfN9N+XjdZWbMEZWpkblSY9JOT5ypjBkpYhHxpTA
- oSfFDLTr63SoZJ3YOZ1RqFCA/LMCeoF0+RUi3iEdNPJSChEG12eEC9QZvQFksdreZj22OP9wMan
- 9afvx/02d0a/CHKXdLi/CqwRR77xAu8zPTPwNFGjvamLXltUoCjJCe2ljkHmP4wRy6DY6hCcwoQ
- OJ3+QlElkm+JcJ1ervA==
-X-Authority-Analysis: v=2.4 cv=KIhqylFo c=1 sm=1 tr=0 ts=6a6dc1a3 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=iKiJcTA2PjBS6x5JeXcw:22 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=t7CeM3EgAAAA:8
- a=Ns-D_JD0lY-C9p9CwasA:9 a=DcSpbTIhAlouE1Uv7lRv:22 a=cQPPKAXgyycSBL8etih5:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: ATWFWyZtJVk6exBjwyXsXZqZksn-tgje
-X-Proofpoint-GUID: ATWFWyZtJVk6exBjwyXsXZqZksn-tgje
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODAxMDA3MyBTYWx0ZWRfX00FCe2SLN+Zn
- GuC7uEl9SCNhmRACphOLGWHmYWobCCMxorCS3yiQJS/2/ee57zgd8dwuMdd2FJjFUUiDzeKPcmB
- TG/uN68qp+Z2GAbIylNy0lAgOmLhjeE2fBBo10dJ1+POXLCw6leI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-07-31_07,2026-07-30_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
- spamscore=0 phishscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608010073
 
-When mon_bus_init() fails to allocate the mon_bus struct, it returns
-without setting ubus->mon_bus, so mbus->mon_bus remains NULL.
-mon_bus_add() intentionally ignores this failure because the USB core
-does not require monitoring to be established for normal operation.
-However, when the HCD is later removed, usb_remove_hcd() fires the
-USB_BUS_REMOVE notifier which calls mon_bus_remove(), it dereferences
-ubus->mon_bus without checking for NULL, causing a null-ptr deference.
+Enabling UAS results in a 30-second boot hang when using a JMicron
+JMS581 NVMe enclosure (specifically SSK 'SHE-C325 PRO' with a WD PC
+SN520 NVMe drive).
 
-Fix this by adding a NULL check for mbus at the top of mon_bus_remove().
-If mon_bus_init() failed, ubus->mon_bus is NULL, meaning the bus was
-never tracked by the monitor, so there is nothing to clean up and
-returning early is correct.
+Fixes:
 
-Reported-by: syzbot+5f4b29d9fe710a964482@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=5f4b29d9fe710a964482
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Jiangong.Han <jiangong.han@windriver.com>
+[16.603548] Bluetooth: hci0: Device booted in 26690 usecs
+[46.617796] sd 0:0:0:0: [sda] tag#28 uas_eh_abort_handler 0 uas-tag 14 inflight: CMD IN
+[46.617859] sd 0:0:0:0: [sda] tag#28 CDB: Read(10) 28 00 0d 28 fe 10 00 00 20 00
+
+Signed-off-by: Chris Bainbridge <chris.bainbridge@gmail.com>
 ---
- drivers/usb/mon/mon_main.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/usb/storage/unusual_devs.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/usb/mon/mon_main.c b/drivers/usb/mon/mon_main.c
-index e4fff194fea0..600c9de84c7e 100644
---- a/drivers/usb/mon/mon_main.c
-+++ b/drivers/usb/mon/mon_main.c
-@@ -199,6 +199,9 @@ static void mon_bus_remove(struct usb_bus *ubus)
- {
- 	struct mon_bus *mbus = ubus->mon_bus;
+diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
+index ac22fa318734..26f3a5809712 100644
+--- a/drivers/usb/storage/unusual_devs.h
++++ b/drivers/usb/storage/unusual_devs.h
+@@ -2184,6 +2184,13 @@ UNUSUAL_DEV(0x152d, 0x0578, 0x0000, 0x9999,
+ 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+ 		US_FL_BROKEN_FUA),
  
-+	if (mbus == NULL)
-+		return;
++/* JMicron JMS581 / SSK 'SHE-C325 PRO' NVMe enclosure */
++UNUSUAL_DEV(0x152d, 0x581d, 0x0000, 0x9999,
++		"JMicron",
++		"JMS581 NVMe enclosure",
++		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
++		US_FL_IGNORE_UAS),
 +
- 	mutex_lock(&mon_lock);
- 	list_del(&mbus->bus_link);
- 	if (mbus->text_inited)
+ /*
+  * Reported by Alexandre Oliva <oliva@lsd.ic.unicamp.br>
+  * JMicron responds to USN and several other SCSI ioctls with a
 -- 
-2.37.3
+2.47.3
 
