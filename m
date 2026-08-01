@@ -1,54 +1,53 @@
-Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
+Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDCD37F323
-	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 00:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE713806CA
+	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 00:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785545084; cv=none; b=R3aKh31jK1BD5l08nbKFLgGauX1pgrKTHsFyvgFhqvTA3kMe3/+i41Xms4Sovn71tKlhNWfO9TcToj2E0DBBHtuIxac2vdqKh7/1Ec7/D3CYnWMYI/vNGwHzrSWWtDDk2H7bhrUT4aHdhLFchigBHKK6Rb0Q9CdhfopljZ4MNqE=
+	t=1785545128; cv=none; b=nCUWKTVCXu4dA+lrIqMWCwy02ZLZl90Wt5h0bCwYRoftUupPQUxH8qP1bpo171/I683gfF+eXRjz4Y8zX3Ga5QHiOjj6YtXutZrD4Hx+ZQNW3zmSFAVZPGlsNZA/OYnO2J5IE3FvEIXtYlfvnE0M5QEUOM3O++YkU1+JE7YPx3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785545084; c=relaxed/simple;
-	bh=5oaD68Ll0z65kLg/8s7cyrtvJaWmHwKg9bkzwAu6w3I=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Ey18HuMo/KGDy3mkA3SsCVq4UGQ4eUsPt7fumU42bpIQu6/bbGdqhmyUZQOrf2XayftbpGdfykt9FPNDm3LwMMryqKplgwDtbIWHIjQ2amd/HXPTg8b7dr3exCQECzyTeqpw+8unBUMqUrWqaM7c/ZgG8uAzW4vyHbdMYpGTO1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
+	s=arc-20240116; t=1785545128; c=relaxed/simple;
+	bh=LNfq9aoJgtwPj36TAg+ZRPDUWnkFHdi8z1vkuUHoFbE=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=JcpIzfwcSuO2xUHE3tPdjXkjv3ceZlOYom1zVSqpvKvu3smBD91zEFc0xQwpuqE1HZmkWgwa+AcE2Mv4xWUZotjpKNcbbV7+g7aB9K7QuqHh6Unp5GRi4jnOe0FHMfutw0u1RiBowy9CZqFBNlW2QFup3REq70DfjNliUl7b/sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4a41e3d6fe9so2031645b6e.2
-        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 17:44:41 -0700 (PDT)
+Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-48576b535b6so886607b6e.2
+        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 17:45:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785545080; x=1786149880;
+        d=1e100.net; s=20251104; t=1785545123; x=1786149923;
         h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xTh98wbGF2N5n4nc7qOj6jSVQhzkMR5+UHhLoSPYTWk=;
-        b=N+MdaGAl54QaAXCNKPbA+U5HVtMKFQHPxekz/5UrVUMOsuEMkAo7FkAlg5FvFtEXNd
-         ce09xrA83mODUauIHxvDoN8drVWxTZfYaT9xmCb9HPbko4+yrIMrJ4pLkMus2ZUniILc
-         bUXD79ph8TQu8a1sCi/FAKlN0vVzdXOXs2EgMqUx9pAEa5Bv2XmMhI0ip6nq0+YxFV2x
-         FcGsTr+nw8mMImzfGRn960j/Pa9/PbTxAmHl6MMu8oeEeO2TmACjeyrpqphhZFcnkVSZ
-         6cms/p7b4kXbvOKUd9AkKQMh7AKqS6lNxrrLawBZt+rimy1f255CPeeuWUXTGRm8+4Fl
-         1myQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rpy8nlE8awJGxTv+RQ/XmfrO/gLIgVlTrEW9CEWQ8XbxATRxVfQSOvbG6777GOdI6lmVeZglLwEKAg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdGU7Ob1cJKDqLzfUGGdeYj/8DqZ51YoOhhYGBBzswY/1Hd+xn
-	y3B/eFRY3+X7d57CP19qT6ZUdbxutTcgAlDLV0kilRBs4hKnSaGlhSPH0RcIjYlvGJU6Y9ZH9O5
-	PMbrjKUAvHQV2+ivXaMyYSlWY6+i5vPAI0QqcOkdYdCUgRpMWoqRE9flcI30=
+        bh=Q8vmeMP/RpI8sx/Cn/QAEYbKX3MZkH0hFRUyB+kPLME=;
+        b=XU+sTeyvJZNNhMU3naPEsmKe1JjAAtMIxDXT5BcDqxHcEFtr/kw+NHoGcY6/+w24hB
+         wFdtHhZID0qOlHzW7Ec+VvGafVNTi/NvEVQ8rULp5QLMQy2ffF2TH4ubI4rA3kg6pUSw
+         snHVA5qFAIe6aCiDcn5N1T25Pq1YHZIaH08orT04sr0QfHBkcpG8xucyNxvOK2mSYnh0
+         bcoJ0j8buHcVGzRrGT75OqGZGO6JrHkGFLkE7v0DgEqLVpVNS5vA+ShJyG3DrkJtuJhX
+         jTxZ6nAMzPvw0Mmr/PaKhPAiZz8F44U8ScHakwcTi78S1th2Q2JeBAtXtUAtBdIh3IkG
+         spTQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqcZrBwNVYerxIzZ9whnc97F0DimF+RTWo/GkYhAW1lQcqAjPoCING8JLS68ZtKbd+eIf1RSDHv+l8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2eZ1fxTXV3rgC0xHJh0CmwEsTozVKjFyuGImfzw1gNQEj456w
+	R21sD+TDnQHEDqNWEHNmbr4GYz/A22g46R4Dv0tnkNJV/ueRQDGd2tq8Se3KcrQiuw0fZ9UgrXN
+	fvTJXcqj8NgYE/1UZPc/c2uSjAGTfuU3A4zCWR6mNptTAmpS6LvT2y9SMR/0=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:19aa:b0:4a4:c12:ee68 with SMTP id
- 5614622812f47-4af5e1b213fmr3899023b6e.10.1785545080361; Fri, 31 Jul 2026
- 17:44:40 -0700 (PDT)
-Date: Fri, 31 Jul 2026 17:44:40 -0700
+X-Received: by 2002:a05:6808:c1e8:b0:497:d371:21c8 with SMTP id
+ 5614622812f47-4af5e2cd936mr3876312b6e.19.1785545123221; Fri, 31 Jul 2026
+ 17:45:23 -0700 (PDT)
+Date: Fri, 31 Jul 2026 17:45:23 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a6d4178.13bfb6d0.1ecdd5.0256.GAE@google.com>
-Subject: [syzbot] [usb?] UBSAN: array-index-out-of-bounds in uea_bind
-From: syzbot <syzbot+92f5bf49bf4ac75223ca@syzkaller.appspotmail.com>
-To: 3chas3@gmail.com, castet.matthieu@free.fr, gregkh@linuxfoundation.org, 
-	linux-atm-general@lists.sourceforge.net, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org, stf_xl@wp.pl, 
+Message-ID: <6a6d41a3.f794c993.27aeb.000e.GAE@google.com>
+Subject: [syzbot] [media?] [usb?] WARNING in ttusb_dec_send_command
+From: syzbot <syzbot+ac9880be0b0b1a5f54d6@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-usb@vger.kernel.org, mchehab@kernel.org, 
 	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
@@ -56,42 +55,53 @@ Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    3708dd948844 Merge tag 'pm-7.2-rc6' of git://git.kernel.or..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14ff71b9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
-dashboard link: https://syzkaller.appspot.com/bug?extid=92f5bf49bf4ac75223ca
+HEAD commit:    5d5fd841c346 Merge 7.2-rc5 into usb-next
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=14114e32580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6ec4d592e55f7960
+dashboard link: https://syzkaller.appspot.com/bug?extid=ac9880be0b0b1a5f54d6
 compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11a0a5b9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12ff71b9580000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=127da5b9580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16c6f8c6580000
 
 Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-3708dd94.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/57f69e2a6e3b/vmlinux-3708dd94.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/3511d4246fb6/bzImage-3708dd94.xz
+disk image: https://storage.googleapis.com/syzbot-assets/2ed536ae4daf/disk-5d5fd841.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ab40098ccbf1/vmlinux-5d5fd841.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/66d5c395f47c/bzImage-5d5fd841.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+92f5bf49bf4ac75223ca@syzkaller.appspotmail.com
+Reported-by: syzbot+ac9880be0b0b1a5f54d6@syzkaller.appspotmail.com
 
-usb 5-1: reset high-speed USB device number 6 using dummy_hcd
-usb 5-1: device descriptor read/64, error -71
-usb 5-1: reset high-speed USB device number 6 using dummy_hcd
+usb 4-1: config 1 interface 0 altsetting 0 has 2 endpoint descriptors, different from the interface descriptor's value: 5
+usb 4-1: New USB device found, idVendor=0b48, idProduct=1008, bcdDevice= 1.00
+usb 4-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
 ------------[ cut here ]------------
-UBSAN: array-index-out-of-bounds in drivers/usb/atm/ueagle-atm.c:2466:28
-index 4 is out of range for type 'bool [4]'
-CPU: 2 UID: 0 PID: 847 Comm: kworker/2:2 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+memcpy: detected buffer overflow: 75 byte read of buffer size 60
+WARNING: lib/string_helpers.c:1036 at __fortify_report+0x8d/0xd0 lib/string_helpers.c:1036, CPU#0: kworker/0:1/11
+Modules linked in:
+CPU: 0 UID: 0 PID: 11 Comm: kworker/0:1 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
 Workqueue: usb_hub_wq hub_event
+RIP: 0010:__fortify_report+0x99/0xd0 lib/string_helpers.c:1036
+Code: ad 31 dc fe 45 84 f6 48 c7 c0 20 ec b0 87 48 0f 44 e8 e8 8a 37 dc fe 48 8d 3d 93 b9 20 08 4d 89 e8 48 89 e9 4c 89 e2 48 89 de <67> 48 0f b9 3a 5b 5d 41 5c 41 5d 41 5e e9 85 3a a7 04 48 89 de 48
+RSP: 0018:ffffc900000bece8 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffffffff87b0f7c0 RCX: ffffffff87b0ec20
+RDX: 000000000000004b RSI: ffffffff87b0f7c0 RDI: ffffffff8af88650
+RBP: ffffffff87b0ec20 R08: 000000000000003c R09: 0000000000000000
+R10: 0000000000000000 R11: ffffffff81595b4a R12: 000000000000004b
+R13: 000000000000003c R14: 0000000000000000 R15: 1ffff92000017dac
+FS:  0000000000000000(0000) GS:ffff888268636000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055d73a1cbc10 CR3: 0000000118014000 CR4: 00000000003506f0
 Call Trace:
  <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- ubsan_epilogue+0xa/0x30 lib/ubsan.c:233
- __ubsan_handle_out_of_bounds+0xcc/0xf0 lib/ubsan.c:455
- uea_bind+0x1014/0x1380 drivers/usb/atm/ueagle-atm.c:2466
- usbatm_usb_probe+0x378/0x1b50 drivers/usb/atm/usbatm.c:1058
- uea_probe+0x194/0x570 drivers/usb/atm/ueagle-atm.c:2597
- usb_probe_interface+0x303/0x8f0 drivers/usb/core/driver.c:396
+ __fortify_panic+0x23/0x26 lib/string_helpers.c:1043
+ fortify_memcpy_chk include/linux/fortify-string.h:549 [inline]
+ ttusb_dec_send_command.cold+0x75/0xf8 drivers/media/usb/ttusb-dec/ttusb_dec.c:372
+ ttusb_dec_get_stb_state drivers/media/usb/ttusb-dec/ttusb_dec.c:392 [inline]
+ ttusb_dec_init_stb drivers/media/usb/ttusb-dec/ttusb_dec.c:1413 [inline]
+ ttusb_dec_probe+0x8b4/0x2110 drivers/media/usb/ttusb-dec/ttusb_dec.c:1671
+ usb_probe_interface+0x386/0x9b0 drivers/usb/core/driver.c:399
  call_driver_probe drivers/base/dd.c:628 [inline]
  really_probe+0x241/0xa60 drivers/base/dd.c:706
  __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
@@ -104,7 +114,7 @@ Call Trace:
  device_add+0x121d/0x1970 drivers/base/core.c:3772
  usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
  usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
- usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:291
+ usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:293
  call_driver_probe drivers/base/dd.c:628 [inline]
  really_probe+0x241/0xa60 drivers/base/dd.c:706
  __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
@@ -115,19 +125,42 @@ Call Trace:
  device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
  bus_probe_device+0x64/0x160 drivers/base/bus.c:620
  device_add+0x121d/0x1970 drivers/base/core.c:3772
- usb_new_device.cold+0x685/0x115c drivers/usb/core/hub.c:2695
- hub_port_connect drivers/usb/core/hub.c:5567 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x30a3/0x4a60 drivers/usb/core/hub.c:5953
+ usb_new_device.cold+0x685/0x115c drivers/usb/core/hub.c:2700
+ hub_port_connect drivers/usb/core/hub.c:5572 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5712 [inline]
+ port_event drivers/usb/core/hub.c:5876 [inline]
+ hub_event+0x314d/0x4af0 drivers/usb/core/hub.c:5958
  process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
  process_scheduled_works kernel/workqueue.c:3405 [inline]
  worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
  kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
+ ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
  </TASK>
----[ end trace ]---
+----------------
+Code disassembly (best guess):
+   0:	ad                   	lods   %ds:(%rsi),%eax
+   1:	31 dc                	xor    %ebx,%esp
+   3:	fe 45 84             	incb   -0x7c(%rbp)
+   6:	f6 48 c7 c0          	testb  $0xc0,-0x39(%rax)
+   a:	20 ec                	and    %ch,%ah
+   c:	b0 87                	mov    $0x87,%al
+   e:	48 0f 44 e8          	cmove  %rax,%rbp
+  12:	e8 8a 37 dc fe       	call   0xfedc37a1
+  17:	48 8d 3d 93 b9 20 08 	lea    0x820b993(%rip),%rdi        # 0x820b9b1
+  1e:	4d 89 e8             	mov    %r13,%r8
+  21:	48 89 e9             	mov    %rbp,%rcx
+  24:	4c 89 e2             	mov    %r12,%rdx
+  27:	48 89 de             	mov    %rbx,%rsi
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	5b                   	pop    %rbx
+  30:	5d                   	pop    %rbp
+  31:	41 5c                	pop    %r12
+  33:	41 5d                	pop    %r13
+  35:	41 5e                	pop    %r14
+  37:	e9 85 3a a7 04       	jmp    0x4a73ac1
+  3c:	48 89 de             	mov    %rbx,%rsi
+  3f:	48                   	rex.W
 
 
 ---
