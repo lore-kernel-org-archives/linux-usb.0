@@ -1,65 +1,65 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89E2489895
-	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 00:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C765929408
+	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 00:01:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785542486; cv=none; b=XMhYlxiY/hvVa+rKT7l64HVqoOmy5EANSBCHQEA9s33vW2CbotW4Y4/Yn6YSxrx1p9wVa5zjFhEtx1sY9wE5mkBPVqj/aT5emUKnup2jltxUUTQbzY22iTipiHzb2hf08M1MjfPLHxtbWrWUgSfl+NUCHLPeqeFQNUIpmQ/6ta0=
+	t=1785542491; cv=none; b=P4hvSLUTVbzZyFZzWAPXXVvJDrnASiPUHS8Z9mzTq76NkyZoeUvnrfkCqnMwSGVXEPC4OnXO7IHS6st0CDwGarCXW3U0QUkKsXYB0PGlxW8F9WwGp8UaBJuKQbY/x0CFH+ZKaVU3lXir8ldxW0LgVn4I0qCuDwTSVPo/KFoaDkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785542486; c=relaxed/simple;
-	bh=blUFlIt8O7oYpaqhv6zEZCtXsSnujw6mbv2SP3ymoew=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cL+JUKMWc3i2zoNe07kkQI5ujzF2rVQKza9VSt12ANgXt492dCcJ1B6RFo9hD5gOZPDt+U8H3RP6X4QKkfKX2VB8hScHp6shx7BHnYOjDubKF2ELzG/9uS1AzmAYuY07F87FhmDtPCmCBsAxa793l+hNSZ4h9527lIvuZ/zi+Jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wyliodrin.com; spf=pass smtp.mailfrom=wyliodrin.com; dkim=pass (1024-bit key) header.d=wyliodrin.com header.i=@wyliodrin.com header.b=T+mIcf8K; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1785542491; c=relaxed/simple;
+	bh=3T6QpkPI//WGbA+RmHlvgDJPZcPLkgFPEUBMEoDHZGo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Q/NPO7GLPK5Qj75AqSNKrIMVZlTxXkz9qYrlAtDi+lZNpGbx+9LcW4/Es11UHSEf4zDeC1Cgav6XAkBbTMPTSqx96bOibUNg0S0kviUl1PaaE/94ljp2u1FBpHOtbWTuUmEqFcpJRbWAmXfM6HF1QbWb9QlYiOcP30AyjxlOrdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wyliodrin.com; spf=pass smtp.mailfrom=wyliodrin.com; dkim=pass (1024-bit key) header.d=wyliodrin.com header.i=@wyliodrin.com header.b=h+lIeGFq; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wyliodrin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyliodrin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wyliodrin.com header.i=@wyliodrin.com header.b="T+mIcf8K"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49553515a8bso4574685e9.1
-        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 17:01:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=wyliodrin.com header.i=@wyliodrin.com header.b="h+lIeGFq"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso3759825e9.1
+        for <linux-usb@vger.kernel.org>; Fri, 31 Jul 2026 17:01:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wyliodrin.com; s=google; t=1785542483; x=1786147283; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=46CUrG4tc8/WbuOoYkVdgL8ks4nY5iubpA/vNK5op0g=;
-        b=T+mIcf8KlZW3FJYe3HcBwOUPWDaUqrg93f4KDaL0zYVbiSAtjHL5Evs4c9k5FXd/TI
-         bo4vjGOQxkBpofCoLrYVZibCBb5r/0NzVyocvLAnLBaqz66zit+QxeXi7YS7tYqzISqx
-         tgazaKDGytjgH2/bXxp2fh6PGdh7pPnaYp7tE=
+        d=wyliodrin.com; s=google; t=1785542487; x=1786147287; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dxjeR4PCY58BhrAQyXpzwzfVgEnX583XUlxdGj566C0=;
+        b=h+lIeGFqsH+yCRgylqutJgrlEN7AA6IJhx0FZR6IfL3vVDS8f5Qy54hRDdu9cThCxQ
+         QRPiDdfKXz4GwsaU16D1sQlnKEXXTHMQV17uv3vTikyyg8Vvh9aE4swdm6Au/8PSYCha
+         Q6zm02R8KaaCYbWrku3UDIC81x69+HxG0Fqq8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785542483; x=1786147283;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=46CUrG4tc8/WbuOoYkVdgL8ks4nY5iubpA/vNK5op0g=;
-        b=bueAOzU/vNgxiM0Ytq1yVCagjtENLgExIAkRRHIn4Tny5IoCcnlLegfpyYjpdIfxep
-         l6/xs6MzQZweXNAS8gZJJI1Y1XOXZfGqPzU0p7KHo1XDCVkx7XJKSPDoWVQ++/tShCBm
-         lSWwOPpzhSgvOQ/rzH//vc/4UMsme9C0yxouZsRLrBNHAtv4v7rCzK/VnnjJJKJ1crLY
-         zIoMAD5REgqr+9uTYDj/W+ATee/r8YpmHlU2ian/IxkQfxyseYBSEZ6lrwKbV/keZru/
-         OJ40QDNNnxiIhJJEVM0Ikta6N+h+5movUvc5RkLVUetKAsTpteQ6OhYLy1c2Eb6bY4gR
-         KeHw==
-X-Forwarded-Encrypted: i=1; AHgh+RrZalKb008pMNIy+zdJmOX3pp80w8teVLINm2xmuF30ID33n3WRMOAzq/JyEJzeXXaF4lCOq4phTEQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuXPTQeyD8ahpcJSzHgNwd/DLjvBkf/S0VSLYbDuh6Kegrjxak
-	zYSxpI1ajzm+Tt55NbtilHwomijnIGlm/LRkap2lg1i8P7f3fx6SazuJEr/dsY4NOlU=
-X-Gm-Gg: AR+sD10F+rACDDnsvK8+3xZVND1yelt+yk4du8nYoPNZonGFqjXE/erPHHJRCMxy2BI
-	qC4pWmYNaoIQGmZLRWlrH+054QGx6a2ZIQUomXxiBa43nBEMV9snSR0+nh2EdYOFabama6XfhxT
-	ph0VH1RmXYBehR+FDFHreKXTsZauRsiG2Xwo+cyXjeW8wFCB/CZRFkxBD9szuZosEh3nXI3L4m4
-	PBMaO0w6LU2hMOKmWzTqHcQoXRsIsI6PCDSe1oE3ukmbdA392Pyx3vKngMnyybKP0rqcVZZ99wP
-	iydJsMXsFwRtZ+3h+hgKGDRHdl2zygOFhIchp/TAUexH5TwOxpzebyCn1dqH4ee7HLdIKv1qvqB
-	8g4hrLSYL1U2Zt2ygaifXmHEKec8r2AYzGjJQ6yBB8NecxrNW+fTFLjAevy0bRnGchpKy0wtvJ3
-	6yYXK/f5wFuWqlXaSRLgCImtem18YKLsUAcy25a7UJb0DZCEDQCUv6cE9uJX4x3TjARFVJwosXK
-	Ei1txa2f00QJJLZJzMRQAYG3psrJieoVtYpgRCkUA==
-X-Received: by 2002:a05:600c:4512:b0:493:a570:df7d with SMTP id 5b1f17b1804b1-4980c696278mr2027305e9.20.1785542483082;
-        Fri, 31 Jul 2026 17:01:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785542487; x=1786147287;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dxjeR4PCY58BhrAQyXpzwzfVgEnX583XUlxdGj566C0=;
+        b=C/CpBpv23x6ymhcHYPxYqb9D0e5a4AwJ63c74smbKDBgKJPI4WHud8FIqiNZZIKs3B
+         zL+4OOTw1wzCNv570n6LWtVs8nKhIS84rx/Aq49trRV2fikDdpVQIGUuxPXtmD84V7q6
+         xlpAJfNgxV25fBBn2bepsExZdbRQ/Zsi3Sv7rXbJTP8gsqiK0p9ab63MvrU20DEAw374
+         TvUQo4NVZKeMGa9IIii6WU3PZqJUjh6guvA8/4z7G/KJ5jgAui/HAtxJyhR69ZtRzXm0
+         yF+2+bNFEB65N0HyQKED3oSfQn+FQIRj8xb5WMNBoVOSv/Gd3yYRqMdZxjjkheSKWlYS
+         q3SA==
+X-Forwarded-Encrypted: i=1; AHgh+RpwOa41jmwu6t0xXsoY+LN4Ww5dDjBvAkuwb1JWOMaC7dpqk4zXyoeyYOJqE+9nxK42mK2am20RuVk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFgSc8Lk2o4uhocUxUGDu7SCvhVCxC+U46VM2InMB+TVhOiigy
+	+rV0699II+9NGzP/7qhO63Ryb4wyJeyIIb4F9zVfyEjuqBgaQyQI3KKWzcP1dg57ma0=
+X-Gm-Gg: AR+sD10etsEIVEN9ixr/rE7CqzVcskoPT1DLRrEtTxd7zxpVDqFXqj7KUU4mQlW3UJk
+	qKUmAxz1msNbVfYMfuiGgDSvAObTKStnE3gXDqBaIZSOslEncrwKmLC0ZzjGosDeEpauqKbxPfG
+	6TfO/EPlhKQwiRjHbmhQlrr2cHjSgzljO0NLF2WkYjuymUEdKMlonsy+yL1XJ/3cwJB/85ya8Df
+	HwyI1tQJsFP/a5UfSh6/IGIGb1Vsk1B9oGrMGyh7+855tnaX3t34X6ECHzuUhZbdWvOuB+rGRY9
+	yT2IihwSofsukwLb768asHarB26FDxhDUhwnYR/G5rwb5xdCUiOJ/AKr/o1H5mX2nKQ5UKbEaLO
+	3gBHdWXLmTqPzy6seJ4kW9bN9SvizPiWs1B38jrIPWbHpqFJXwr96DDKhqCKVYSoGo75vgLCv2U
+	WLgDR0Sf2sEwGb7PMDdCQEPG7VosN77KPsL/9rE0Sy60WQKml0bOrmn2yNHAZpBTb0pl+96VUCi
+	M52Kw8AJkJP7oim4Po/y/YpfFyhlwA+7ZKjk+XoJg==
+X-Received: by 2002:a05:600c:a01:b0:495:63f5:7a4f with SMTP id 5b1f17b1804b1-4980c6a3cd3mr3509945e9.33.1785542487018;
+        Fri, 31 Jul 2026 17:01:27 -0700 (PDT)
 Received: from [192.168.2.138] ([86.122.199.88])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49807b8d04fsm6568935e9.3.2026.07.31.17.01.21
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49807b8d04fsm6568935e9.3.2026.07.31.17.01.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 17:01:22 -0700 (PDT)
+        Fri, 31 Jul 2026 17:01:26 -0700 (PDT)
 From: Alexandru Radovici <alexandru.radovici@wyliodrin.com>
-Subject: [PATCH RFC 0/2] rust: usb: abstractions towards the port of
- usbsevseg.c to Rust
-Date: Sat, 01 Aug 2026 03:01:06 +0300
-Message-Id: <20260801-rust-usb_control_msg-v1-0-655bb444b52c@wyliodrin.com>
+Date: Sat, 01 Aug 2026 03:01:08 +0300
+Subject: [PATCH RFC 2/2] rust: usb: add control message send and receive
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -68,10 +68,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDCwND3aLS4hLd0uKk+OT8vJKi/Jz43OJ03dRUY5NUAwOjJAtDCyWg1oK
- i1LTMCrCx0UpBbs5KsbW1AM8/bbBrAAAA
-X-Change-ID: 20260801-rust-usb_control_msg-ee34e002b818
+Message-Id: <20260801-rust-usb_control_msg-v1-2-655bb444b52c@wyliodrin.com>
+References: <20260801-rust-usb_control_msg-v1-0-655bb444b52c@wyliodrin.com>
+In-Reply-To: <20260801-rust-usb_control_msg-v1-0-655bb444b52c@wyliodrin.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
  Gary Guo <gary@garyguo.net>, 
@@ -88,51 +87,408 @@ Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
  Alexandru Radovici <alexandru.radovici@wyliodrin.com>
 X-Mailer: b4 0.14.3
 
-My end goal is to port the usbsevseg.c USB driver to Rust. That driver is
-small enough to make a useful first target; the remaining piece it
-needs is sysfs attribute support for USB devices, which I plan to send
-separately.
+Add `Device::send_control_message()` and
+`Device::receive_control_message()`, wrapping usb_control_msg_send()
+and usb_control_msg_recv(), plus a `Request` type describing the
+bmRequestType, bRequest, wValue and wIndex fields of a setup packet.
 
-Porting the driver requires:
-- retrieving endpoints and sending control messages API (this series)
-- enabling sysfs attributes API for USB devices (future patch)
+`Request` deliberately omits the two setup packet fields that are
+properties of a submission rather than of the request itself: the
+direction bit of bmRequestType and wLength. Both are derived from the
+method called and the buffer passed, so a caller cannot describe an
+inbound transfer while handing over a read-only buffer, nor set a
+length that disagrees with one.
 
-These patches add the USB abstractions needed to port
-drivers/usb/misc/usbsevseg.c to Rust: retrieving an interface's
-endpoints, and sending and receiving control messages.
-
-Patch 1 adds `AlternateEndpoint`, along with `AlternateSetting`
-and the accessors needed to reach one. Patch 2 adds the
-control transfer methods and the `Request` type describing a setup packet.
-
-The part I would most like feedback on is the typestate design in patch
-1. `HostEndpoint` is generic over a direction and a transfer type, both
-sealed 1-ZST markers, so a function can require e.g.
-`&HostEndpoint<In, Bulk>` and skip checking the descriptor itself. Control
-endpoints get a `Bidirectional` marker rather than a direction, since
-bit 7 of bEndpointAddress is ignored for them. I am not sure whether
-this earns its complexity for the drivers we expect, or whether plain
-run-time check would be better.
-
-Only `as_control()`, `as_in()` and `as_out()` are implemented so far;
-`as_bulk()`, `as_interrupt()` and `as_isochronous()` are skiped for now 
-as no current user needs them.
+Both methods take a `&HostEndpoint<Bidirectional, Control>`, so a
+non-control endpoint cannot be passed by construction.
 
 Signed-off-by: Alexandru Radovici <alexandru.radovici@wyliodrin.com>
 ---
-Alexandru Radovici (2):
-      rust: usb: add endpoint abstraction
-      rust: usb: add control message send and receive
+ rust/kernel/usb.rs         |   3 +-
+ rust/kernel/usb/control.rs | 353 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 355 insertions(+), 1 deletion(-)
 
- rust/kernel/usb.rs          | 127 ++++++++++-
- rust/kernel/usb/control.rs  | 353 ++++++++++++++++++++++++++++++
- rust/kernel/usb/endpoint.rs | 508 ++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 987 insertions(+), 1 deletion(-)
----
-base-commit: 8ba098e6b6ff0db8edf28528d1552be261af30d4
-change-id: 20260801-rust-usb_control_msg-ee34e002b818
+diff --git a/rust/kernel/usb.rs b/rust/kernel/usb.rs
+index 55c627be1658..7d23186630ce 100644
+--- a/rust/kernel/usb.rs
++++ b/rust/kernel/usb.rs
+@@ -33,6 +33,7 @@
+     slice,
+ };
+ 
++pub mod control;
+ pub mod endpoint;
+ 
+ /// An adapter for the registration of USB drivers.
+@@ -550,7 +551,7 @@ unsafe impl Sync for Interface {}
+ ///
+ /// [`struct usb_device`]: https://www.kernel.org/doc/html/latest/driver-api/usb/usb.html#c.usb_device
+ #[repr(transparent)]
+-struct Device<Ctx: device::DeviceContext = device::Normal>(
++pub struct Device<Ctx: device::DeviceContext = device::Normal>(
+     Opaque<bindings::usb_device>,
+     PhantomData<Ctx>,
+ );
+diff --git a/rust/kernel/usb/control.rs b/rust/kernel/usb/control.rs
+new file mode 100644
+index 000000000000..32edd17ab90d
+--- /dev/null
++++ b/rust/kernel/usb/control.rs
+@@ -0,0 +1,353 @@
++// SPDX-License-Identifier: GPL-2.0
++// SPDX-FileCopyrightText: Copyright (C) 2026 Wyliodrin SRL.
++
++//! USB control transfers.
++//!
++//! Control transfers are the request/response mechanism every USB device must support. A transfer
++//! consists of an 8-byte setup packet, an optional data stage, and a status stage;
++//! the setup packet is described by [`Request`], and the direction of the data stage is chosen by
++//! calling either [`Device::send_control_message()`] or [`Device::receive_control_message()`].
++//!
++//! Both travel over a control endpoint - usually the device's default one, from
++//! [`Device::control_endpoint()`]. Because control endpoints are bidirectional, the endpoint does
++//! not determine the direction: the `Direction` bit of `bmRequestType` does, and these two methods
++//! set it so it cannot disagree with the buffer you passed.
++
++use core::ptr;
++
++use ffi::c_void;
++
++use crate::{
++    alloc::Flags,
++    bindings,
++    error::{code::EOVERFLOW, Error, Result},
++    num::Bounded,
++    usb::{
++        endpoint::{Bidirectional, Control, Direction, HostEndpoint},
++        Device,
++    },
++};
++
++/// Position of the `Type` field within `bmRequestType` (bits 6:5).
++const REQUEST_TYPE_SHIFT: u32 = 5;
++
++/// Which part of the USB specification defines the meaning of a [`Request`].
++///
++/// This is the `Type` field of `bmRequestType`, occupying bits 6:5 of the setup packet's first
++/// byte. It selects the namespace that [`Request::request`] is interpreted in, so the same request
++/// code means different things under different types.
++#[derive(Copy, Clone, PartialEq, PartialOrd)]
++#[repr(u8)]
++pub enum RequestType {
++    /// Request is a USB standard request, defined by the specification itself and interpreted the
++    /// same way by every device. Usually handled by the USB core rather than by a driver; see
++    /// [`Device`].
++    Standard = 0,
++    /// Request is intended for a USB class.
++    Class = 1,
++    /// Request is vendor-specific.
++    Vendor = 2,
++    /// Reserved.
++    Reserved = 3,
++}
++
++/// The target a [`Request`] is addressed to.
++///
++/// This is the `Recipient` field of `bmRequestType`, occupying bits 4:0 of the setup
++/// packet's first byte. For [`INTERFACE`](Self::INTERFACE) and [`ENDPOINT`](Self::ENDPOINT)
++/// the specific interface or endpoint is named by [`Request::index`]; the other recipients
++/// ignore it or give it a request-specific meaning.
++///
++/// Although the field is five bits wide, only the values below are defined - hence
++/// the bound on the wrapped [`Bounded`].
++#[derive(Copy, Clone, PartialEq, PartialOrd)]
++#[repr(transparent)]
++pub struct Recipient(Bounded<u8, 5>);
++
++impl Recipient {
++    /// The device as a whole.
++    pub const DEVICE: Self = Self(Bounded::<u8, 5>::new::<0u8>());
++    /// A specific interface, named by [`Request::index`].
++    pub const INTERFACE: Self = Self(Bounded::<u8, 5>::new::<1u8>());
++    /// A specific endpoint, named by [`Request::index`].
++    pub const ENDPOINT: Self = Self(Bounded::<u8, 5>::new::<2u8>());
++    /// Some other target, defined by the request itself.
++    pub const OTHER: Self = Self(Bounded::<u8, 5>::new::<3u8>());
++    /// A port. Wireless USB only.
++    pub const PORT: Self = Self(Bounded::<u8, 5>::new::<4u8>());
++    /// An RPipe. Wireless USB only.
++    pub const RPIPE: Self = Self(Bounded::<u8, 5>::new::<5u8>());
++
++    /// Builds a recipient from a raw field value.
++    ///
++    /// Prefer the associated constants; this exists for values a future specification revision may
++    /// define. The [`Bounded`] parameter rules out values the field cannot hold, but does not
++    /// guarantee the device understands the one you pass.
++    pub fn new(val: Bounded<u8, 5>) -> Recipient {
++        Recipient(val)
++    }
++}
++
++/// The setup packet of a control transfer, minus the direction and length.
++///
++/// These fields map onto the setup packet as `bmRequestType` (from
++/// [`request_type`](Self::request_type) and [`recipient`](Self::recipient)), `bRequest`, `wValue`
++/// and `wIndex`. The remaining two - the `Direction` bit of `bmRequestType` and `wLength` - are
++/// filled in by [`Device::send_control_message()`] and [`Device::receive_control_message()`] from
++/// the method you call and the buffer you hand it, which is what keeps them consistent with each
++/// other.
++pub struct Request {
++    /// Type of the request.
++    pub request_type: RequestType,
++    /// Recipient of the request.
++    pub recipient: Recipient,
++    /// Request code. The meaning of the value depends on the previous fields.
++    pub request: u8,
++    /// Request value. The meaning of the value depends on the previous fields.
++    pub value: u16,
++    /// Request index. The meaning of the value depends on the previous fields.
++    pub index: u16,
++}
++
++impl Request {
++    /// Encodes this request into a `bmRequestType` byte for a data stage flowing in `direction`.
++    ///
++    /// `direction` here is a property of the transfer, not of the endpoint it runs over: bit 7 of
++    /// `bmRequestType` is what the host controller obeys for a control transfer, and bit 7 of the
++    /// endpoint address is defined to be ignored.
++    fn bm_request_type(&self, direction: Direction) -> u8 {
++        let dir = match direction {
++            // `USB_DIR_IN` is `0x80`; `USB_DIR_OUT` is zero.
++            Direction::In => bindings::USB_DIR_IN as u8,
++            Direction::Out => 0,
++        };
++
++        dir | ((self.request_type as u8) << REQUEST_TYPE_SHIFT) | self.recipient.0.get()
++    }
++}
++
++/// Converts a buffer length into a `wLength` value.
++///
++/// The field is 16 bits, so anything larger cannot be expressed in a single control transfer.
++fn transfer_length(len: usize) -> Result<u16> {
++    u16::try_from(len).map_err(|_| EOVERFLOW)
++}
++
++impl Device {
++    /// Performs a control transfer with an outbound data stage, i.e. host to device.
++    ///
++    /// The `Direction` bit of `bmRequestType` is set to `USB_DIR_OUT` for you. Pass [`None`] as
++    /// `data` for a request with no data stage at all, which sets `wLength` to zero.
++    ///
++    /// `endpoint` selects the control endpoint to use; it must belong to this device, since only
++    /// its [`number()`](Endpoint::number) is taken from it. For the default control endpoint -
++    /// almost always the right choice - pass [`control_endpoint()`](Device::control_endpoint).
++    ///
++    /// `timeout` is in milliseconds, with zero meaning "wait forever". `memflags` are used for an
++    /// internal copy of `data`, so `data` itself need not be DMA-capable.
++    ///
++    /// Returns `Ok(())` only if the whole request completed; unlike `usb_control_msg()` there
++    /// is no partial-success case to inspect.
++    ///
++    /// This sleeps, so it must not be called from atomic context.
++    ///
++    /// # Examples
++    ///
++    /// A vendor-specific request with no data stage:
++    ///
++    /// ```
++    /// use kernel::{
++    ///     alloc::flags::GFP_KERNEL,
++    ///     error::Result,
++    ///     usb::{
++    ///         transfer::{Recipient, Request, RequestType},
++    ///         Device,
++    ///     },
++    /// };
++    ///
++    /// fn set_led(dev: &Device, on: bool) -> Result {
++    ///     dev.send_control_message(
++    ///         dev.control_endpoint(),
++    ///         Request {
++    ///             request_type: RequestType::Vendor,
++    ///             recipient: Recipient::DEVICE,
++    ///             request: 0x01,
++    ///             value: on as u16,
++    ///             index: 0,
++    ///         },
++    ///         None,
++    ///         1000,
++    ///         GFP_KERNEL,
++    ///     )
++    /// }
++    /// ```
++    ///
++    /// A class request that carries a payload:
++    ///
++    /// ```
++    /// use kernel::{
++    ///     alloc::flags::GFP_KERNEL,
++    ///     error::Result,
++    ///     usb::{
++    ///         transfer::{Recipient, Request, RequestType},
++    ///         Device,
++    ///     },
++    /// };
++    ///
++    /// fn set_line_coding(dev: &Device, interface: u8, coding: &[u8; 7]) -> Result {
++    ///     dev.send_control_message(
++    ///         dev.control_endpoint(),
++    ///         Request {
++    ///             request_type: RequestType::Class,
++    ///             recipient: Recipient::INTERFACE,
++    ///             request: 0x20,
++    ///             value: 0,
++    ///             index: interface as u16,
++    ///         },
++    ///         Some(coding),
++    ///         1000,
++    ///         GFP_KERNEL,
++    ///     )
++    /// }
++    /// ```
++    pub fn send_control_message(
++        &self,
++        endpoint: &HostEndpoint<Bidirectional, Control>,
++        request: Request,
++        data: Option<&[u8]>,
++        timeout: i32,
++        memflags: Flags,
++    ) -> Result {
++        let (data, size) = match data {
++            Some(bytes) => (
++                bytes.as_ptr().cast::<c_void>(),
++                transfer_length(bytes.len())?,
++            ),
++            None => (ptr::null(), 0),
++        };
++
++        // SAFETY: `self.as_raw()` is a valid `struct usb_device` by the type invariants of
++        // [`Device`], and `endpoint` belongs to it, so its number names a control endpoint of this
++        // device. `data` is either null with `size` zero, or points at `size` initialised bytes
++        // that outlive the call - the callee only reads from it, and copies before submitting, so
++        // no DMA is performed on the caller's buffer.
++        let ret = unsafe {
++            bindings::usb_control_msg_send(
++                self.as_raw(),
++                endpoint.number(),
++                request.request,
++                request.bm_request_type(Direction::Out),
++                request.value,
++                request.index,
++                data,
++                size,
++                timeout,
++                memflags.as_raw(),
++            )
++        };
++
++        if ret < 0 {
++            Err(Error::from_errno(ret))
++        } else {
++            Ok(())
++        }
++    }
++
++    /// Performs a control transfer with an inbound data stage, i.e. device to host.
++    ///
++    /// The `Direction` bit of `bmRequestType` is set to `USB_DIR_IN` for you. Pass [`None`] as
++    /// `data` for a request with no data stage at all, which sets `wLength` to zero - note that
++    /// this makes the direction bit meaningless, so such a request is indistinguishable from the
++    /// [`send_control_message()`](Device::send_control_message) equivalent.
++    ///
++    /// `endpoint` selects the control endpoint to use; it must belong to this device, since only
++    /// its [`number()`](Endpoint::number) is taken from it. For the default control endpoint -
++    /// almost always the right choice - pass [`control_endpoint()`](Device::control_endpoint).
++    ///
++    /// `timeout` is in milliseconds, with zero meaning "wait forever". `memflags` are used for an
++    /// internal DMA-capable buffer that is copied into `data` on success, so `data`
++    /// itself need not be DMA-capable.
++    ///
++    /// The transfer must fill `data` exactly. A device that returns fewer bytes than requested
++    /// fails with `EREMOTEIO` and leaves `data` untouched, so this is not the right method for
++    /// requests of variable-length descriptors - size the buffer from the device's own length
++    /// field, or use a lower-level transfer.
++    ///
++    /// This sleeps, so it must not be called from atomic context.
++    ///
++    /// # Examples
++    ///
++    /// Reading a fixed-size vendor-specific register:
++    ///
++    /// ```
++    /// use kernel::{
++    ///     alloc::flags::GFP_KERNEL,
++    ///     error::Result,
++    ///     usb::{
++    ///         transfer::{Recipient, Request, RequestType},
++    ///         Device,
++    ///     },
++    /// };
++    ///
++    /// fn firmware_version(dev: &Device) -> Result<u16> {
++    ///     let mut buf = [0u8; 2];
++    ///
++    ///     dev.receive_control_message(
++    ///         dev.control_endpoint(),
++    ///         Request {
++    ///             request_type: RequestType::Vendor,
++    ///             recipient: Recipient::DEVICE,
++    ///             request: 0x02,
++    ///             value: 0,
++    ///             index: 0,
++    ///         },
++    ///         Some(&mut buf),
++    ///         1000,
++    ///         GFP_KERNEL,
++    ///     )?;
++    ///
++    ///     Ok(u16::from_le_bytes(buf))
++    /// }
++    /// ```
++    pub fn receive_control_message(
++        &self,
++        endpoint: &HostEndpoint<Bidirectional, Control>,
++        request: Request,
++        data: Option<&mut [u8]>,
++        timeout: i32,
++        memflags: Flags,
++    ) -> Result {
++        let (data, size) = match data {
++            Some(bytes) => {
++                let size = transfer_length(bytes.len())?;
++                (bytes.as_mut_ptr().cast::<c_void>(), size)
++            }
++            None => (ptr::null_mut(), 0),
++        };
++
++        // SAFETY: `self.as_raw()` is a valid `struct usb_device` by the type invariants of
++        // [`Device`], and `endpoint` belongs to it, so its number names a control endpoint of this
++        // device. `data` is either null with `size` zero, or points at `size` bytes of a buffer
++        // uniquely borrowed for the duration of the call, which the callee may only write to.
++        let ret = unsafe {
++            bindings::usb_control_msg_recv(
++                self.as_raw(),
++                endpoint.number(),
++                request.request,
++                request.bm_request_type(Direction::In),
++                request.value,
++                request.index,
++                data,
++                size,
++                timeout,
++                memflags.as_raw(),
++            )
++        };
++
++        if ret < 0 {
++            Err(Error::from_errno(ret))
++        } else {
++            Ok(())
++        }
++    }
++}
 
-Best regards,
 -- 
-Alexandru Radovici <alexandru.radovici@wyliodrin.com>
+2.55.0
 
