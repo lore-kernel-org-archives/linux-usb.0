@@ -1,122 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7CB1DA0E1;
-	Sat,  1 Aug 2026 20:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7D43C76BC
+	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 21:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785615580; cv=none; b=YPobU3qE2n5+ktopyS8Pmu+r6qy2PLpz9ogjJZXW0989p7AD1N6zxXiOITimp7zOVUsgRSAFl8P2oPO8ooJeoUOKoRfCf/xGNQ9gMP8KfzBDFVT8qrFrnFL1akcAO1bDW/sioZVctgdaJZfOhbpJaDbxSeYbwv0jK7j+9OREhvo=
+	t=1785618525; cv=none; b=S8x4pah0CB7j3Ka/i/zh2HgXO804ldRtS50OVva4HvuGmjtGmTWWGD81dWmU098Lc5v6K4RxOtiKDeZvOXcWDhe6+RHxfZInuZVcxZYL6kr23jWXEf/lfjSpi4gnt9MkCFIpo5N0mrNpnpZ67/0nlTe7uVOaykrNSIgMj0sDtJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785615580; c=relaxed/simple;
-	bh=gNubbleal6oiTO6TL68qUn+btefgiRGC0QUhzBRW+yo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=McQQ9rpg87i3bVS7+WzR3xlQJWYAEEB0VovBLAYDXUNH8E35yT41B3wTpzyMEAAHu9IFj4Lvkvsq+Z05sFG6seEBdHg8Ii+5P0Lh18AbM+TKJoHkHEmvNZoePLieO6B6eZZR21ohV3mzx9q7SJaBGxlVJ+OqzURTuW2oSHLIYcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AxlfUaHn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785618525; c=relaxed/simple;
+	bh=ytW2dzrwseQLWF/FfUI5A1bEPtqQGxGAOw5QiXc0dgo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZvlbcVX2SYDNGPgmMI3Yh4t+9ZgMt5M7ZtFbvcCEVwOSaCLuJUUIHZD/UlLNim+RH7dbJrOMor6q6rDHFRbJ6dW1MowC0r0W2zHBCJH/aRwK0Ip2oUu+WDw97xHT6jl5T7xbMXOpwO4dKfndTCSbuwB+zHdCsAER3V3JJE+xE0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=la2XzSGG; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AxlfUaHn"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AAC27C2BCB3;
-	Sat,  1 Aug 2026 20:19:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785615579;
-	bh=gNubbleal6oiTO6TL68qUn+btefgiRGC0QUhzBRW+yo=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=AxlfUaHnIr8VEPraP6WBv+pS7wwf/xwMay9bKYEMNWF4SHQwQ91Q9HmDv9AMNI7i3
-	 H1nWwKNr4K4JWL5YQB4RMudSvcqeHgLEKC1WQOUipt2ViCy9W9A7XdyVArXZAo4bxq
-	 Uw5sGzX5BXAi78fl4yyPmj5FyMpyek2rGkL/twbI/v7cGrx0FsEe8dqkZZO8/RoL9D
-	 zNLlExU0DnrN0eV++myy9J5b0+qyZZYBuvCmfl6n600Clfj7634qwSD/Jf2R9oMwAP
-	 mptwdolHuAyhNFXzEKnWHqAoF9LS7jUC9dISZkIDZnlsRv+zZkyTIFCgbeFVl6rTjk
-	 VMnIX7ozTLQmw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85AF5C5516F;
-	Sat,  1 Aug 2026 20:19:39 +0000 (UTC)
-From: lurenjia534 via B4 Relay <devnull+lurenjia534.outlook.com@kernel.org>
-Date: Sun, 02 Aug 2026 04:19:34 +0800
-Subject: [PATCH] usb: gadget: f_hid: reject zero report length
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="la2XzSGG"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so1543333a91.2
+        for <linux-usb@vger.kernel.org>; Sat, 01 Aug 2026 14:08:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785618523; x=1786223323; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MogQwrslHLi5jGDDwOYk2l2MGGMGY183USKXP4UGByU=;
+        b=la2XzSGGpJDQg7edaBVTmQdfD9cbu4V+glMMYhx6SGFjKLdb2XkUTUTN4fNt1uUG+E
+         YynusAutyN/xDCJa6ZOeMZfBhQFNgZlBxgUAelQxyw1fek5R6PvvM/VJh6q45PaXVbcu
+         D0eXoFg9yuxm+dRCJMDDtC75u/+XMuV9Nz4QyqumUIqx24EWvtx66acxyW6qyyPqytEn
+         4+SNC9VRMPIpEtjMi3wQ1trvqsAmh5oVOunH3JsdBQMU1zdhcRxyIMntP589soppn7t2
+         G1N9ZbusspkxKR9+OSafCd29Iz2uXUTn3UO1J9Afl/qXU2L9owBH1q+UqGye/H6/mvtd
+         rJ9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785618523; x=1786223323;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MogQwrslHLi5jGDDwOYk2l2MGGMGY183USKXP4UGByU=;
+        b=dK9O5k5Sgq4ExNKVqqvfxR0RSI152gcThS0u8cM5BWHqzLQtsGBy7N0w6acpz24GWf
+         0ES5hOKzekT5Ei8oWeR7XMRervOd2wSXyZ4+bSAySDZpIhbrArAveTd9S0KwnQiDHujW
+         rCBEhG8my0t7PLjxKzREfPcT2DWgzjNMV6rI9FCbGcAuq4Nikr1bcTd7wpa4YLWwLI4R
+         sTbmtP6kEeHYdJECyzJx/l+tmRwRK0BRsErg2cxCeWXomjGTFksnLurVhjQgnNgkLN8u
+         KCAe4NTQEV0PFM8ZU8RPW6SWMfdLBqV0DckxwuQkcD/p0foyH5VBWKJP/sIMflOiIEK1
+         Mlyg==
+X-Gm-Message-State: AOJu0YwHTm7sGzUc47Cl3LdHqo1YBO1dXcd+IA9gGB5fSszJQJAVqdxp
+	kDCn6w33r5iGq3isKLC9G2izcjVVW6Lecphhy5NNoZulYw5LXrSqyZQq/VAYzA==
+X-Gm-Gg: AR+sD12PwHLorBhN/22DltwEGiF5PBvlJHZBJ+tgb/VFuyKroYE9fV34tHAtCwZ8lEq
+	gOUf5wmmVKVnRIygf3UDQjYZXzEx34EHfjCjcEhqV7+4MrNmbDfL0sZ+5FMkui8Itz89j0jIThi
+	qg+2QdZM5MwYdzpqtnsQL+mydLNBRA5BBtp0pRVPAktWRW4VShPrLpSxf/RZc8Znoc+3B1KVkzY
+	Nhb9jr17hvrSg/EI8hCrinaeXLl40aYTTMV3AS/qeEtsPH1L8AyfkxgegORe2JAIOIHUTFXJP3l
+	RBNhL2FSlIHyj9P0K2i4PYa8pgWDLY/robXlfye0RNfedK7FRAtRGNqaShSv/9VlHADFQwJ3+wQ
+	kwT2iQa3sMcdxpV2NY9xhtC7O5XxsAsyZ17Y0yaDc8X+WWxlLnamiFHa7e5CQA+Do8SXO2cj7KG
+	TVKmGmT5My8xfNnusxRrQayOj/ABcfb2ldWr8dXE5Dx+2NBa0nFCiDWFrR7U0gO1yL
+X-Received: by 2002:a17:90b:2242:b0:38e:5ac1:9517 with SMTP id 98e67ed59e1d1-38fbc3f0a61mr3977549a91.3.1785618522996;
+        Sat, 01 Aug 2026 14:08:42 -0700 (PDT)
+Received: from amd.com ([165.204.156.251])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153e04491dsm28260781eec.16.2026.08.01.14.08.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Aug 2026 14:08:42 -0700 (PDT)
+From: Paritosh Potukuchi <paritoshpotukuchi@gmail.com>
+X-Google-Original-From: Paritosh Potukuchi <paritosh.potukuchi@amd.com>
+To: linux-usb@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	Paritosh Potukuchi <paritosh.potukuchi@amd.com>,
+	syzbot+debc5c305403f180c01c@syzkaller.appspotmail.com
+Subject: [PATCH] usb: gadget: f_uac1: fix ac_header_desc in SS descriptor list
+Date: Sat,  1 Aug 2026 21:08:34 +0000
+Message-ID: <20260801210834.3809187-1-paritosh.potukuchi@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260802-hid-report-length-usb-testing-v1-1-0499f99136d2@outlook.com>
-X-B4-Tracking: v=1; b=H4sIANVUbmoC/03MwQrCMAzG8VcZORuo3Sjqq4iHtkvbiHSj6YYw9
- u6uevH4Tz5+GwgVJoFbt0GhlYWnfMT51IFPNkdCHo8GrbRRF6Ux8YiF5qlUfFGONeEiDitJ5Rw
- xXAcTemuGfrRwGHOhwO+vf3/8Whb3JF8b2hbOCqErNvvUTv9Ye8G+fwDAN3G3pAAAAA==
-X-Change-ID: 20260802-hid-report-length-usb-testing-f946f3a643da
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzbot+7b70c4a6021fd49c4151@syzkaller.appspotmail.com, 
- Felipe Balbi <balbi@ti.com>, Andrzej Pietrasiewicz <andrzej.p@samsung.com>, 
- lurenjia534 <lurenjia534@outlook.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785615577; l=2219;
- i=lurenjia534@outlook.com; s=20260801; h=from:subject:message-id;
- bh=iNhr1oVERThburQ7HiMLwACK+h6L6PLXeAOagepD/hQ=;
- b=SFtiOQdsjcQ/amIdJ1XFYxqjyf2dEDHjAoYI81mToMrDN+4Rmg3ySrfh7qRsPX+VfkZi5j1bn
- 4Ll2LgqxnEtCSJwckgkbaGA7zp9swFQaojUgLpI7wfM/ewHl+qG3k1J
-X-Developer-Key: i=lurenjia534@outlook.com; a=ed25519;
- pk=nMa0OcUJYxnaGbhs5f95IwVQ7sPrWI7It3LMsh0BJX4=
-X-Endpoint-Received: by B4 Relay for lurenjia534@outlook.com/20260801 with
- auth_id=906
-X-Original-From: lurenjia534 <lurenjia534@outlook.com>
-Reply-To: lurenjia534@outlook.com
+Content-Transfer-Encoding: 8bit
 
-From: lurenjia534 <lurenjia534@outlook.com>
+ac_header_desc is a pointer to a dynamically allocated
+uac1_ac_header_descriptor. The SS descriptor list
+incorrectly stores &ac_header_desc, which is the address of
+the pointer variable rather than the descriptor itself.
 
-New configfs HID function instances leave report_length at zero until
-userspace sets the attribute.  hidg_alloc() currently accepts that value
-and copies it into the function state.  hidg_bind() then uses it as the
-maximum packet size of the interrupt endpoint descriptors.
+usb_copy_descriptors() interprets the entry as a USB
+descriptor header, which can lead to a global-out-of-bounds
+read.
 
-If userspace links the unconfigured function and enables the gadget,
-hidg_set_alt() reaches usb_ep_enable() with a zero maximum packet size,
-which triggers a warning.
+Store ac_header_desc instead of &ac_header_desc.
 
-Reject the function from hidg_alloc() when report_length is zero.  This
-makes the configfs link fail before invalid endpoint descriptors can be
-added while leaving configured HID functions unchanged.
-
-Fixes: 21a9476a7ba8 ("usb: gadget: hid: add configfs support")
-Reported-by: syzbot+7b70c4a6021fd49c4151@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/6a6cd7bd.1aa927e4.17d4bf.0004.GAE@google.com/
-Assisted-by: Codex:GPT-5.6 MAX
-Signed-off-by: lurenjia534 <lurenjia534@outlook.com>
+Fixes: 0591bc236015 ("usb: gadget: add f_uac1 variant based on a new u_audio api")
+Reported-by: syzbot+debc5c305403f180c01c@syzkaller.appspotmail.com
+Link: https://lore.kernel.org/all/6a68b182.4c659fcc.19cd90.0021.GAE@google.com/T/
+Signed-off-by: Paritosh Potukuchi <paritosh.potukuchi@amd.com>
 ---
-Testing:
-- syzbot reproducer: warning and panic in 2/2 runs before the fix;
-  no warning in 2/2 30-second runs after the fix
-- configfs/dummy_hcd regression: FAIL before the fix and PASS after it
-- current usb-testing: reproducer and regression test PASS, taint 0
-- GCC built-in and module builds, sparse, and x86-64/arm64 target
-  builds with both supported toolchains: PASS
----
- drivers/usb/gadget/function/f_hid.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/usb/gadget/function/f_uac1.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-index 3c6b43d06a..74a78cfd37 100644
---- a/drivers/usb/gadget/function/f_hid.c
-+++ b/drivers/usb/gadget/function/f_hid.c
-@@ -1605,6 +1605,11 @@ static struct usb_function *hidg_alloc(struct usb_function_instance *fi)
- 	opts = container_of(fi, struct f_hid_opts, func_inst);
+diff --git a/drivers/usb/gadget/function/f_uac1.c b/drivers/usb/gadget/function/f_uac1.c
+index 85c502e98f57..95d53ac8cedb 100644
+--- a/drivers/usb/gadget/function/f_uac1.c
++++ b/drivers/usb/gadget/function/f_uac1.c
+@@ -332,7 +332,7 @@ static struct usb_ss_ep_comp_descriptor ss_as_in_ep_desc_comp = {
  
- 	mutex_lock(&opts->lock);
-+	if (!opts->report_length) {
-+		mutex_unlock(&opts->lock);
-+		kfree(hidg);
-+		return ERR_PTR(-EINVAL);
-+	}
+ static struct usb_descriptor_header *f_audio_ss_desc[] = {
+ 	(struct usb_descriptor_header *)&ac_interface_desc,
+-	(struct usb_descriptor_header *)&ac_header_desc,
++	(struct usb_descriptor_header *)ac_header_desc,
  
- 	spin_lock_init(&hidg->write_spinlock);
- 	spin_lock_init(&hidg->read_spinlock);
-
----
-base-commit: 5d5fd841c34649f1b09220fe58e59dffd61c447d
-change-id: 20260802-hid-report-length-usb-testing-f946f3a643da
-
-Best regards,
---  
-lurenjia534 <lurenjia534@outlook.com>
-
+ 	(struct usb_descriptor_header *)&usb_out_it_desc,
+ 	(struct usb_descriptor_header *)&io_out_ot_desc,
+-- 
+2.54.0
 
