@@ -1,109 +1,144 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAF52745E
-	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 10:48:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C618F261388
+	for <linux-usb@vger.kernel.org>; Sat,  1 Aug 2026 12:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785581330; cv=none; b=XA6bU0Iz0bD7h6fhfkQa/c6vKSobzr2DV/5+5SyB0WuG/a8oNbA3nOiu5me5jPeCmGGqQxW6pOTl23ag0Xn28f1/SgbyImBc8U+RxMKc/wxQUtRq7vUaCHSdYbbPPd5puobVaLnGt0NXBpBIXdK2enjOvZjLvC8Idl14joeb7Qg=
+	t=1785587401; cv=none; b=lxkDreCnEALEgalAEsDyjmVE6tm8TON+ooyK6CbUlpX8PcaCoaQ1pE1RuxvsrIAMRTEbS3tWR9qrSk036nmcwTLNCMrHCofTfQ8wGOGGubf671j+s7wk4Al1EpV7q6GDl7/CqUV8h5DN0I4KcVEAMuNL3aW9w9bKC+1fv1c4fTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785581330; c=relaxed/simple;
-	bh=wtDSZ5mp5Wvt1kWFT21QCDzbA3vFoy0pmDjMyVRSB7g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RZp3i02pvXje3fNhBInj765iSRBcjWlO50OPRxWxTwsY8ZDG7cwTNKIQK8zvL0dxhhvBIjyi1E58951+KsvL2Ur9MPJIQFnMH+eQTbMnnsgQWA+RJJ7yoCZ+SS5tm5ECnqsDTs5Q2KO9pRHXFDpC1goW3xPmwRL7bsufoowgNYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bRbRMY0z; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1785587401; c=relaxed/simple;
+	bh=XWT+evDyeLy1CvG7qT+s2Eh+cCd6BaPGI+i6dJwrKE0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZaA0EhQNiGXyr4hlZKndkHDmhDavXHMKcJ0HnRPwsyrH8qPN9IyZaev/Q6s0D5AYBrJ+guFnFaJr+p/w0lNSBAhT/1+siQBQqCNB4Ek34b/H44o3L3ud2gxXo0nzUI7FEocKU+mOkLkLoy4UWwBlv9aMnOXB+um8rSWwkhEGnrM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JNnWIWaI; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bRbRMY0z"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47c6e9a694bso1250000f8f.1
-        for <linux-usb@vger.kernel.org>; Sat, 01 Aug 2026 03:48:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JNnWIWaI"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2ce98cb8165so19952935ad.1
+        for <linux-usb@vger.kernel.org>; Sat, 01 Aug 2026 05:29:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785581326; x=1786186126; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vGQePxgnH3gJYAYdtUPdhKdx3RT8nxQFNw+xvKDts8Y=;
-        b=bRbRMY0zpC3j/1FHVChHum1cFK8Qc8oi1V034LvSW4bCh4d71jYxxnIcUuDuITSuhd
-         KiWvmgowWMT92OPCpkbpXf7diC1EnDHRwXLuIJDPShQdY1xTio7nJ6ZJEtWcWE6E65NY
-         lwL+9y7kru/6BgcBShKX4R8xi46nhG3wx5gu4095+CvlQDq3sSqn68vrOWHClRHftTSN
-         IC3N1PpdpdzNrvDqUm0cOitk462X+TuJ2oRu8tpd5rXf2ZQ9iXpCIijBHUrTkPlaauwd
-         ZcoSF5vt+SiDsL/OvWRhMnHBMg/Gv36ai+z/qogoHKOso/39ofHOwJHnaXEDvjIy/lib
-         b4QA==
+        d=gmail.com; s=20251104; t=1785587399; x=1786192199; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=G+I02+8xmB4l0yP/lItNCeO/Dv9gNUrktx08qk23Etg=;
+        b=JNnWIWaIxMxBg5gA9oK3Ax0k04F7KBXHc9ac5ht8liBL2QVbL7CkcgXZsz0pA4rXCY
+         esFpxqkxTFXmoQ30ZpCC3bCnfHbp4WCjqZ5FVj7rr/pB89OgiRy4MiPZzwhs47s7BJZ/
+         TZv2jCj6N/WXaDhKvx+9TAxBWDgy+qMlB4G8MJ6veWsrULZeNn1tbeD9JjJQA3cK3gm6
+         IP1w0hosslkbbYafiwDsypzGN0YcehMAyQ7GHuojzLu15Z6f2Mx/HbQkVtxxMtzbvmIq
+         9gF1MlFLL0ckNICHZoNAdeKhA38YXJ0Tzv3mjPtZJ7tgaNf8txORwghFIFU89+KdZ1wI
+         5rng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785581326; x=1786186126;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vGQePxgnH3gJYAYdtUPdhKdx3RT8nxQFNw+xvKDts8Y=;
-        b=VcO6dXB5PMnqhwl/aY/cTKaxs+pNcHm10dYW7sicSL/T2zbYuobfAJhtnQyQdJ6CiU
-         cjL+A9UQ9w3wh6xYRWGi1IHmsXj8E2PI2Kzltr7MhdGs7ADWxH6tSPkLmY63nXLvSoJS
-         t51Hn5xGqni9Z0VhgZMvHTSmBt884xyzXKzIGu/EKDAv0cqOy1x+9KstN8cuaNC7D0Qz
-         h3wfsyQ/Km8Yslf1UOTJYgUZgR99MnXzURo8dW1FSeKQg0YckXEyaO2D8MEvvIrYv7qf
-         wOxfavMlbk1gcXCkJED8G6BSWwD7uWss3HozncZSLky1Cwa4EZZOtTTZc1Wo0J8vb62Z
-         QQkg==
-X-Gm-Message-State: AOJu0Yy9A6Kob7X4BghoF7Mx/+8rhNtIx7sBbqF3DjPhn/YrIYO8Rmig
-	dG75wyIjZgjZWO5dUkTVqJBSJSaZVp8ypt44c5rvKFUxMUwWhcp3iRVWq8RUj2jm+E7wQA==
-X-Gm-Gg: AR+sD10i09oHhrQFJ+RSq6Sl8o1se3Dl3+o9iGc7wuDj8afqWbBRWFsqrw/Su3Ks/G9
-	YMEjNyfoypJNqbOYtSsBxeLtw96XBrD+pZrVKHSRa+ChMaK4gQWIjJta78NOCieIlxE2y2LRuuL
-	eRuE2aONDTja81pe7rLNG2mDIudUpe+RU0DDVl8+Rl0CdHknuHcsCdAZmvFctn8u9QTG1G65XBm
-	zEPUr+calwnDyCpo0mAECbcs1VFNlqTRSSpn7AubgIOh0S4r+SxUqCXhs5goYUlEn7mc8acC9Ui
-	ClZlB8WjLpGaQ6fK4h9iYfdaBWb1O9HySaSEhBmcVXhL9CUVosB0NncQRscOOGQUxtvJDtM4UaE
-	PnRxAlOiXGkaUxHDkbc/i3Bub5Ef3JpYn5Kn8agwOPmaStNnMcHWY5dj00Y1Qij1wbnRtfag/sH
-	oJkLWMNe78gUUDVM+JjkpjeHe7ORt9nO53tCsscv74WfRHayzoNgVebqpz12T7I7OJ2VGowW9U
-X-Received: by 2002:a05:6000:230d:b0:47f:6dcb:3737 with SMTP id ffacd0b85a97d-47fd72fa279mr7289305f8f.29.1785581326444;
-        Sat, 01 Aug 2026 03:48:46 -0700 (PDT)
-Received: from debian.powerhub ([2a0a:ef40:e13:1601:a8d:2d:6c37:dbbd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd4562667sm15154551f8f.24.2026.08.01.03.48.45
+        d=1e100.net; s=20251104; t=1785587399; x=1786192199;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=G+I02+8xmB4l0yP/lItNCeO/Dv9gNUrktx08qk23Etg=;
+        b=R2skRZaAHy60TdInPU354EtswVF5fq+3EzQJg+MuZenlOn+FuyP32TZFMg23KuPiT8
+         k8kn90tam1MB9uQKF/xQDUyroCfrSgoYmY4hj1p+9VGh16gtVlwEpAFxouullJw8VjLy
+         JrPyrBJYu0J5n+k037UYJmYzYkUU35RP55mOu5HUZqWRvsE0J+FUnI2WuRROcM65b3G+
+         PqeTJRQou+SU27iCdRHX3bRJwZ4g08e3hVi0E2uuvKJ2C2BcIOJu8AjkfSEfXWO7ohGN
+         npRPgWvGFHmZm4n1luwQG9Eq86jNfT7qMvCP2nQdfqdZCDOGgQ0fY7htHNKSgh39nwG0
+         rqIw==
+X-Gm-Message-State: AOJu0YwRZbcvD6KWPR5ZN/osU6x/mnar650teMBbcGzA2Jc8AQRIgDQI
+	cPpNHgNcyYgWJtad3JvqMyRp2M8bgq3hMGquc1eDHlbT96P8R5nHzmeS
+X-Gm-Gg: AR+sD12ic71IlO8Ld6NGfjvGKle9MITZgkUpl5yd6aK0uTSQsiq4P2XC07G1FHHGalS
+	gDiFUcolRj15yA6vr4b8GtGB27mBSm9j1UeVmnZyuOyBe+PaQUAKCuHknnggzr5hmHkeOuNf0S+
+	pmkEfNXwLX5d2+2YUHQGI6plGm/lo10E2MSustu+YobfAQMcit7xMLPFZON/NH0YupuC0+1KHkU
+	mMElBKx/MmpAdD6RD1aMlPlaC4uVhI1gXYS2DzIiRaLLKSM6k/qQ6QELpUVYq4UZscEp7NjsGw0
+	4Gv8AYZuNqgXQfUsxsGc8eQCCQmbY/Hxzu/iIWcSEri4R78TX68gucoVZ+ZMaKdxuNQSKq4sFZK
+	qU/EZQCT9kJt6hO6fyS+hFmyxYjUAInCKRyNUqg+I/SBL6Zt0mQO0m2o7Nukk1w1D+Lqsg6vV5s
+	Yvyma0y9eNFrOkEHfaogsBaTOiYugh5hUvZzzyTUJArWA9z78QvQmSUvXo2EDN2Y0=
+X-Received: by 2002:a17:902:d58b:b0:2cf:6e5d:23e9 with SMTP id d9443c01a7336-2d047e39483mr47362455ad.14.1785587399079;
+        Sat, 01 Aug 2026 05:29:59 -0700 (PDT)
+Received: from [127.0.1.1] ([2404:f801:8028:3:9df5:1cd1:f108:c202])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153e045022sm16174086eec.18.2026.08.01.05.29.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Aug 2026 03:48:46 -0700 (PDT)
-From: Chris Bainbridge <chris.bainbridge@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	Chris Bainbridge <chris.bainbridge@gmail.com>
-Subject: [PATCH] usb-storage: Add US_FL_IGNORE_UAS for JMicron JMS581
-Date: Sat,  1 Aug 2026 11:47:51 +0100
-Message-ID: <20260801104751.277572-1-chris.bainbridge@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        Sat, 01 Aug 2026 05:29:58 -0700 (PDT)
+From: Subasri S <subasris1210@gmail.com>
+Subject: [PATCH v2 0/3] usb: Use %pe to print error pointers
+Date: Sat, 01 Aug 2026 17:59:49 +0530
+Message-Id: <20260801-usb-ptr_err_patchset-v2-0-1698e298c1e3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL3mbWoC/22NywqDMBBFf0Vm3ZQkaGO78j+KiMaJDtQHkzS0i
+ P/eVOiuy3PgnruBRyb0cMs2YIzkaZkT6FMGdmznAQX1iUFLfZFGleLpO7EGbpC5WdtgR49BGFv
+ 0qshNh2ggTVdGR68je68Tj+TDwu/jJaqv/QWv/4NRCSnKwhmnMXfoumqYWnqc7TJBve/7BwBM2
+ Hu4AAAA
+To: Peter Chen <peter.chen@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Duncan Sands <duncan.sands@free.fr>, 
+ Chas Williams <3chas3@gmail.com>, Minas Harutyunyan <hminas@synopsys.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Badhri Jagan Sridharan <badhri@google.com>
+Cc: linux-usb@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org, 
+ Subasri S <subasris1210@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785587393; l=1843;
+ i=subasris1210@gmail.com; s=20260709; h=from:subject:message-id;
+ bh=XWT+evDyeLy1CvG7qT+s2Eh+cCd6BaPGI+i6dJwrKE0=;
+ b=0f+dwnGYHa4UQ8hP1TjasctdxpWvaBpodGko+alNSS3r7FTk7fgSHNv+UkNuF44cit/1Qe5z1
+ lfa5cZCNpZJAUDQW94/1Qjnuq2g/IKzzTddsR2NQSADKcvo6jGCchay
+X-Developer-Key: i=subasris1210@gmail.com; a=ed25519;
+ pk=6C4wavGFy/OsR8yQQKNWuDXoYPHp2L3sfgNfyzTruTk=
 
-Enabling UAS results in a 30-second boot hang when using a JMicron
-JMS581 NVMe enclosure (specifically SSK 'SHE-C325 PRO' with a WD PC
-SN520 NVMe drive).
+Replace PTR_ERR() in format strings with 
+%pe format specifier across the USB subsystem. %pe prints 
+symbolic error names (e.g., -ENOMEM) instead of 
+raw numbers (e.g., -12), making error logs more readable. 
+These patches fix coccinelle reported warning: "Consider 
+using %pe to print PTR_ERR()" in usb subsystem.
 
-Fixes:
+The patches are grouped by subsystem:
+  1/3 - chipidea
+  2/3 - miscellaneous USB drivers
+  3/3 - typec
 
-[16.603548] Bluetooth: hci0: Device booted in 26690 usecs
-[46.617796] sd 0:0:0:0: [sda] tag#28 uas_eh_abort_handler 0 uas-tag 14 inflight: CMD IN
-[46.617859] sd 0:0:0:0: [sda] tag#28 CDB: Read(10) 28 00 0d 28 fe 10 00 00 20 00
+All patches are compile-tested on x86_64. Please let me know if 
+any more testing is needed for any patch. 
 
-Signed-off-by: Chris Bainbridge <chris.bainbridge@gmail.com>
+Signed-off-by: Subasri S <subasris1210@gmail.com>
 ---
- drivers/usb/storage/unusual_devs.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+Changes in v2:
+- Remove "This patch" phrasing from the commit message body.
+- Trim redundant Coccinelle warning outputs in the commit log to keep only one.
+- Clean up multi-line dev_err() statements into single lines.
+- Link to v1: https://lore.kernel.org/r/20260719-usb-ptr_err_patchset-v1-0-85f7f2e4fefb@gmail.com
 
-diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
-index ac22fa318734..26f3a5809712 100644
---- a/drivers/usb/storage/unusual_devs.h
-+++ b/drivers/usb/storage/unusual_devs.h
-@@ -2184,6 +2184,13 @@ UNUSUAL_DEV(0x152d, 0x0578, 0x0000, 0x9999,
- 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
- 		US_FL_BROKEN_FUA),
- 
-+/* JMicron JMS581 / SSK 'SHE-C325 PRO' NVMe enclosure */
-+UNUSUAL_DEV(0x152d, 0x581d, 0x0000, 0x9999,
-+		"JMicron",
-+		"JMS581 NVMe enclosure",
-+		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
-+		US_FL_IGNORE_UAS),
-+
- /*
-  * Reported by Alexandre Oliva <oliva@lsd.ic.unicamp.br>
-  * JMicron responds to USN and several other SCSI ioctls with a
+---
+Subasri S (3):
+      usb: chipidea: Use %pe to print error pointers
+      usb: misc: Use %pe to print error pointers
+      usb: typec: Use %pe to print error pointers
+
+ drivers/usb/atm/usbatm.c               |  4 ++--
+ drivers/usb/chipidea/ci_hdrc_imx.c     | 12 ++++++------
+ drivers/usb/chipidea/core.c            |  4 ++--
+ drivers/usb/core/hub.c                 |  3 +--
+ drivers/usb/dwc2/pci.c                 |  3 +--
+ drivers/usb/gadget/function/u_serial.c |  4 ++--
+ drivers/usb/misc/usb3503.c             |  3 +--
+ drivers/usb/typec/mux/pi3usb30532.c    |  6 ++----
+ drivers/usb/typec/tcpm/tcpm.c          |  2 +-
+ drivers/usb/typec/wusb3801.c           |  4 ++--
+ 10 files changed, 20 insertions(+), 25 deletions(-)
+---
+base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+change-id: 20260718-usb-ptr_err_patchset-7c5d1547bee7
+
+Best regards,
 -- 
-2.47.3
+Subasri S <subasris1210@gmail.com>
 
