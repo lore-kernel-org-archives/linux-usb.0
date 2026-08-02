@@ -1,64 +1,129 @@
-Received: from mx5.mail-out.lima-city.de (mx5.mail-out.lima-city.de [91.216.248.207])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7432F7F1B
-	for <linux-usb@vger.kernel.org>; Sun,  2 Aug 2026 17:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.248.207
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C74225403;
+	Sun,  2 Aug 2026 18:13:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785692646; cv=none; b=a1dUrpoDs5RK6yTs0wIzGG7qoUYxQ6nzEPiyuV2J4XgBwpUv1ZR4TUdUtWaeXICLfHtQ4DWt25kAOt7UjTfS4AYe0cfJC8hAZsVzFmt+YDJRTRuTu3BWU6GLNlp/dz2zFU4YzGjXZoiSUCN+qnL84YM0tpc9L2vEsjvzFHg3Ehw=
+	t=1785694385; cv=none; b=jGH3UTLEmw6hAqKbYlb3knbzZ7nj++cnekp3Vq/xvvqBzxwbAcls25ZGyKfIuIVDJC2gZK4kFOLfSku3RslfjqxJ6XeqidvUKzlXduLBXDiAQskWG51/RDgrVAByib043V0F/zlMIBZHarYwfwJgf5hCLHzqnRObz683ePXy8xc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785692646; c=relaxed/simple;
-	bh=Bp1ae2vgzK/GTp/o1zNw72JgBOAIuy7piWkv6wbaBuk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eLNp8/AFNlqjn57+Ma6UU1+5FVq0SBVpqSxMjkYVpRRkAmj/LkiFxL1ckPOusFpRV3CTewEfj2NWpVcsJyUIb2Qb+caoOc290zckfcdRf/AE//kdXa0Bm4fvLYsi+hyOn8UsAszN3dyJ9Soo+h5vRGCg3T3pwgXOTz6J6LclQGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks; spf=none smtp.mailfrom=deq.rocks; dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.b=opU7BuwG; arc=none smtp.client-ip=91.216.248.207
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deq.rocks
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=deq.rocks
+	s=arc-20240116; t=1785694385; c=relaxed/simple;
+	bh=0k+OJtuRZY0lMi/7cUM4/mD9P0j5mcdSum3AE7JlLTY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SKIZyfn+ZJrzy09M6Vpb+U80r5jJlNqpSxZryKsTME4XGQ1TxYBx1/QwytP5EkBF0N7AV4uCzj87YUbLEK42mW5mVwVGxcGMjjuIXcqQm0ADANVvWZwhHstC2BDp48YSTGolh8TxOeetn4x3jnGmfs1W5IjTABLJEfYneStYGAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IAS++0ij; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=deq.rocks header.i=@deq.rocks header.b="opU7BuwG"
-From: Andre Eikmeyer <dev@deq.rocks>
-X-Lima-ML-UUID: 99e3ac60-db84-4541-9b41-19999dceb006
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=deq.rocks;
-	s=securedbylima-20251205; t=1785692634;
-	bh=Bp1ae2vgzK/GTp/o1zNw72JgBOAIuy7piWkv6wbaBuk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=opU7BuwG/xDy83YSNVcTGvfyOBumkoVNZ0c6Wk2zMX336BUEU44MsLBI2jzMeboTI
-	 HX2SLMpA4s01hHkIadj1b0gMi/27OQoE+F7y830nWT153Dw38neqPQqTI1AlBiIyG1
-	 ZCR8HXah6bUBYdcm1F/jhQTwdRaD+CzqK+fOw1YuzMHAGIkn1eRlPxNKgCRGeqxd+k
-	 olAD2WOp5hmsi8OSj2wZftS7A3iZau6GHaZSiESmL9/xHv29f5MYDYaMzYJ5cs4kqq
-	 SWGQ/3RW5VLMjHXjatIy2PLQIApzq81U6CEu/Ofq7q9RP7V9E0nw6cwrjcAA8Ni9z5
-	 hukONJwisK/Ag==
-To: Mathias Nyman <mathias.nyman@intel.com>
-Cc: Andre Eikmeyer <dev@deq.rocks>,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] xhci-pci: keep Titan Ridge active on MacBookPro15,1
-Date: Sun,  2 Aug 2026 19:43:52 +0200
-Message-ID: <20260802174352.13097-1-dev@deq.rocks>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260730210655.15514-1-dev@deq.rocks>
-References: <20260730210655.15514-1-dev@deq.rocks>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IAS++0ij"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EEFECC19425;
+	Sun,  2 Aug 2026 18:13:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785694385;
+	bh=0k+OJtuRZY0lMi/7cUM4/mD9P0j5mcdSum3AE7JlLTY=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=IAS++0ijGJz6yUSa6FC/PbUnG6sbgpvqD4lSJOvubohVJ4IvTt6nKlZbllmZ6pRXB
+	 9GtAlZ8uwYnWA8gEe4OPSL0ipdFrvyQ1UM5JwTLO0VYAf5j4tZjYvqs5YHCDxfBrjT
+	 pAIHsMRc0WsyWpBhvk1pTE877Z1bmY+/w4AKomszSetZgRMpdZvZqULwoICM91NWzS
+	 qKAI8YGVTsm2oOfsoPEDK0YDeK0mYzGdk6ajsVGpv5S8IsZHYYip7JYK4sirMEO5vm
+	 1x1c0j5FB9ySZKssF3AQQkASo0ZFllhyOxxRTKd4inhtfkA43ZYxhQcP+Yxv5zp2rj
+	 dtShlpiJn1rSg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEEDAC55171;
+	Sun,  2 Aug 2026 18:13:04 +0000 (UTC)
+From: Jiaheng Zhang via B4 Relay <devnull+lurenjia534.outlook.com@kernel.org>
+Date: Mon, 03 Aug 2026 02:12:59 +0800
+Subject: [PATCH v2] usb: gadget: f_hid: reject zero report length
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260803-hid-report-length-usb-testing-v2-1-49144e0d11ae@outlook.com>
+X-B4-Tracking: v=1; b=H4sIAKqIb2oC/42OQQ7CIBREr2JY+w2lDRFX3sN0QeFT0AoN0EbT9
+ O6WunHp8s1MXmYhCaPDRC6HhUScXXLBb8COB6Ks9D2C0xsTRhmnZ8rAOg0RxxAzDOj7bGFKHWR
+ M2fkejGi4qSVvai3J5hgjGvfa/bf2y2nq7qhykZZFJxNCF6VXtkS/slKViXUph/jeP85VUf17Z
+ 66gAtoIYYSoaq7ZNUx5COFxUuFJ2nVdP3bL18QBAQAA
+X-Change-ID: 20260802-hid-report-length-usb-testing-f946f3a643da
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzbot+7b70c4a6021fd49c4151@syzkaller.appspotmail.com, 
+ Felipe Balbi <balbi@ti.com>, Andrzej Pietrasiewicz <andrzej.p@samsung.com>, 
+ Jiaheng Zhang <lurenjia534@outlook.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785694383; l=2465;
+ i=lurenjia534@outlook.com; s=20260801; h=from:subject:message-id;
+ bh=O2BdkvFQJmn8WM8m861gjCJrv/A+Rv0+aSvZQnkLtyY=;
+ b=LRa3ZEUBkieSiDH0kyo5QbqaOeXnx2Ntre5qJt6NoErr07dCJt3c6qvApcOc4hxSwge2Ox1uj
+ WK/oV23xv6wAaBFX/7s5JyFSjQ18Wf+yjrOkB8T8Y5JTDL8eXPmYDbE
+X-Developer-Key: i=lurenjia534@outlook.com; a=ed25519;
+ pk=nMa0OcUJYxnaGbhs5f95IwVQ7sPrWI7It3LMsh0BJX4=
+X-Endpoint-Received: by B4 Relay for lurenjia534@outlook.com/20260801 with
+ auth_id=906
+X-Original-From: Jiaheng Zhang <lurenjia534@outlook.com>
+Reply-To: lurenjia534@outlook.com
 
-Hello everyone,
+From: Jiaheng Zhang <lurenjia534@outlook.com>
 
-Please disregard this patch for now.
+New configfs HID function instances leave report_length at zero until
+userspace sets the attribute.  hidg_alloc() currently accepts that value
+and copies it into the function state.  hidg_bind() then uses it as the
+maximum packet size of the interrupt endpoint descriptors.
 
-Further testing indicates that the reported USB hotplug failure may be
-caused by an initialization/runtime-PM ordering race rather than by the
-Titan Ridge xHCI controllers being unable to enter D3.
+If userspace links the unconfigured function and enables the gadget,
+hidg_set_alt() reaches usb_ep_enable() with a zero maximum packet size,
+which triggers a warning.
 
-Keeping the controllers permanently in D0 avoids the symptom, but also
-prevents deeper package C-states and increases idle power consumption.
-We are running additional tests before proposing a more appropriate fix.
+Reject the function from hidg_alloc() when report_length is zero.  This
+makes the configfs link fail before invalid endpoint descriptors can be
+added while leaving configured HID functions unchanged.
 
-We will send a revised patch if the race and its correct handling can be
-confirmed.
+Fixes: 21a9476a7ba8 ("usb: gadget: hid: add configfs support")
+Reported-by: syzbot+7b70c4a6021fd49c4151@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/6a6cd7bd.1aa927e4.17d4bf.0004.GAE@google.com/
+Assisted-by: Codex:GPT-5.6 MAX
+Signed-off-by: Jiaheng Zhang <lurenjia534@outlook.com>
+---
+Testing:
+- syzbot reproducer: warning and panic in 2/2 runs before the fix;
+  no warning in 2/2 30-second runs after the fix
+- configfs/dummy_hcd regression: FAIL before the fix and PASS after it
+- current usb-testing: reproducer and regression test PASS, taint 0
+- GCC built-in and module builds, sparse, and x86-64/arm64 target
+  builds with both supported toolchains: PASS
+---
+Changes in v2:
+- Use the real name Jiaheng Zhang in the author and Signed-off-by fields,
+  as requested.
+- No code changes.
+- Link to v1: https://patch.msgid.link/20260802-hid-report-length-usb-testing-v1-1-0499f99136d2@outlook.com
+---
+ drivers/usb/gadget/function/f_hid.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Thanks,
-Andre
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+index 3c6b43d06a..74a78cfd37 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -1605,6 +1605,11 @@ static struct usb_function *hidg_alloc(struct usb_function_instance *fi)
+ 	opts = container_of(fi, struct f_hid_opts, func_inst);
+ 
+ 	mutex_lock(&opts->lock);
++	if (!opts->report_length) {
++		mutex_unlock(&opts->lock);
++		kfree(hidg);
++		return ERR_PTR(-EINVAL);
++	}
+ 
+ 	spin_lock_init(&hidg->write_spinlock);
+ 	spin_lock_init(&hidg->read_spinlock);
+
+---
+base-commit: 5d5fd841c34649f1b09220fe58e59dffd61c447d
+change-id: 20260802-hid-report-length-usb-testing-f946f3a643da
+
+Best regards,
+--  
+Jiaheng Zhang <lurenjia534@outlook.com>
+
+
