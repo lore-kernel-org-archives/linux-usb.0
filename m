@@ -1,149 +1,165 @@
-Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D5F2F361E
-	for <linux-usb@vger.kernel.org>; Sun,  2 Aug 2026 19:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B3233345A
+	for <linux-usb@vger.kernel.org>; Sun,  2 Aug 2026 20:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785699209; cv=none; b=F/c/QiTjGgUeMZj/rnZK6Sw9Xah7GFrlahGr2BCZ3hf70FpkCN7mAVUK39ITOcxLVHMWblyfgrkxyNcw8+XQnzSaOSSWLTsQhALzvCZOJRD5MP7JWF487CxN/Yjz6l8vsOFjXOtYzwK27KfoWSzj5q5fBdQs3oCDilYkfdlaGrk=
+	t=1785702551; cv=none; b=E6/WA1ovxb/ztVoHWpflSGt7G+Nnkq2CbX1w4qhh9sLkbRyl1d6zf+8SpauJ/5CcTpw5HB/Xh+xmB7Hh+fn3wtu93FmJu4c3F0shF8pdq052kjjTBjh2qae7xA5MrYb7W2Uj+Z8uM+N8OMx2gHkLlHDHiRZYAhwhUiHuFMgtw2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785699209; c=relaxed/simple;
-	bh=Tmf95eU38h67RlSOc5/IDaKvWlDyJML3H49atAbxLJs=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=AYUmig5rdNsvYmzsSUzCWSw/vroTj8Yz3eFNZmuOfdmXjV34vbCIfEQgj0sIV8yX2ExGME2gsL6AnirJ8vCQdoYljok1PQSM22BfLCR8oNp77d6ZogTfnIyhNBtekPkDsi/zaivjFZOpgQnIh7njugdmEidCpIpJP013Z//BxwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-4a43d32fa9fso3718051b6e.2
-        for <linux-usb@vger.kernel.org>; Sun, 02 Aug 2026 12:33:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785699207; x=1786304007;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+	s=arc-20240116; t=1785702551; c=relaxed/simple;
+	bh=hU6z7tDH/RIBfFMVZ0vmIWyj2jSjD8asNjxERxcj6Mc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ON4eU6FjDjaPv/soux+QC+4tH5SgYPjWBl/sCDo86KYuSc3SExXHHn2NSsQM71AddTIdzHRqVhnZCEslJ39XcJiRsd2kpDR5yI8uqQpmWM4KMPTCSFSSJd+lxULqb3SjJFzPDnViXlIp3dLG9WDDDxMbpCDQZPl0AvOJIgIg3l4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R3Tzf7zB; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3Tzf7zB"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49544f26c43so1548545e9.0
+        for <linux-usb@vger.kernel.org>; Sun, 02 Aug 2026 13:29:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785702548; x=1786307348; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :disposition-notification-to:references:in-reply-to:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Fl/swWjuypY8j0ebyjkVOUqoL8JWr+sB4G5Jys7JFeM=;
-        b=jJyVADk7U9NJcLx3y3FVgJFlptGHa0tZD8oVTqGVoQvFCli8O7jMS9l7wWKkDR8/Q8
-         1zGY0iP9yMrRz65Czu1KO+cWgSwXXjBlrkoldt6nXLpSn/BuvHMctX3pruGISFNIy5Os
-         dC/vnj07m3Ow+EROkMclj6Fv/s4pgoSL/xeyM8BA5Eu2D57C/ojERurxP71zOSQaF/Zw
-         hKfioTasqHvMnPxxp+sSQHgonq4HPXZX3meEXg/xUeNXxfuQ1fnq/PdW8T4nD8/PPGgT
-         oVBSctOz9ummSoGNG3D8v1Obaxws3qBHDkpXqOGR/1GUzNToWIbYWODHjfkgpR9pshDR
-         MgPQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr1l4Bqnc5Xznbn6VjiasC+plON7Do/26GQpDs2x4S1InCosm8jag7CLEKdH90m5Sq5mmbkxZKKsZc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEwrKtD4jf4crXfL6BFlfcYUe12SD/2aWiMIFcVLZ23N0Hk7oG
-	R+Zd/5cfakAUJJLkGHLDxU8beYRnCIdb375+BxGTH3XS6gQNB+jUdTbh6bVXaBXaT8esfum7R25
-	TtRoJoQXt86DFcKFPImP2vtqjkuF1oXgMAqVg8WpnJ5ULZNr5iFky8SbwcS8=
+        bh=mQQf06IDZFsoJ7D/EZprq+pM+J9k2ih+aOiCkbV2M8U=;
+        b=R3Tzf7zBNVGilplnVjgsxLFzZb+C7Q9IFODerqnXInvoml2ncK0nLnFQGZ0o9Ggd/Q
+         +C5XjC8XX6T5RRjsS7JJ0pSBpuJf/6ZnvGlAOyyrPQ+8/6ohi+KOsllC4na4hu0REl7l
+         1BmcneSw4k7CPOW9VnpUISywgvoFPgzYsXZLFfC/j64dcp3icxmyc1wMouBD2EGMt50v
+         4jDFEbWcc1P1SQY7AZxyr6mSO/DBRfhayPBt212E4aB5Bt7W3cVmX5fO7lbcy30JFRFk
+         SBR1CvmIOpbtF5Ig4LI3/J8XbIgirdit+W2I2lBRH6mNUYFT3dGeqVFJQUGS0+spl5S1
+         MU2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785702548; x=1786307348;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :disposition-notification-to:references:in-reply-to:date:cc:to:from
+         :subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=mQQf06IDZFsoJ7D/EZprq+pM+J9k2ih+aOiCkbV2M8U=;
+        b=FMoJvIYV9t/lnEPDf5S8f5gT5yhA0ThJAS+XnswFfGuolviS0xhPnevo5tLw8xglTC
+         BTc91xbLQ5szlz/avKiLzTmDXeHDh0Srdcblo0yIpTLe3j/CwI1s5r4PVV5W0XioSGQr
+         0+7YWME2d9yq+LDYfaqPhWNwF2y7gB8NFxCLQivhjVghL2BpPwhpMr6S2/+nwyP6mZY6
+         BDJ+tYojBF7XyTJOoRP1h35nxAQkVILXLBv/Kimi5YSCKpaXJY40PUbI6O57rSXPZ1qL
+         gP8lQoTcKi/6Poo5lLsD6/GssOhL4PeyIcPP6oSlnG8zHVogkLTANpCYlT+Um1es1yAP
+         EQNg==
+X-Forwarded-Encrypted: i=1; AHgh+RqOqsuuj07b4h+18KqqMV+5LCc/YptWKBrPe7E1nHBiAP0/wVKVYsjG7qjkMESS2mmutI3cV83EA0U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBacDhR0FtjebzVgqDZHTgmDld1r5rYz3N7bCAwAncwUrIygy0
+	TnGMq2GmrYKM0SaafVrLzdGuGRtFIb5KKpPT5fkZeDX5a5oNkzEtnn2s
+X-Gm-Gg: AR+sD11feRfPd1kgRCdZaltFZAibjBTqidd4CheH3WOP9wwPCvgGVvcV84fmUQOGYVE
+	stf43e0qgl0jV6ri8AzsXP4qLpI2kzwYu+tAmpUyBXYVjfbo9w3wCLjyLudb5eMsPcH/m6+1HD3
+	JptKnhdvUXL2O4MJIxG6GqTlWrRyJFDtmM+b32ECKBe48b3Mcdoa1YrR8dBSRlVvTLtfsT1VT0O
+	XGl4QdRUwMbNWmZh/me0zDYNIuFXgMtJY+KxuQXea27O9rhO8/zYP/mFkNvxS67xGeJWoCX29Il
+	Bu+Yo6/10/v0KfIfk/G6rL+Lt1HZtRFn+zTX+pKxJrSFjOsCm12XeoypDcXAHo/+5gWwEydBbH0
+	CzCNogvZ/2LvChZFLFe/U+cneur95jbiJFERO91zyi2V0SaoqOICTRv9A0TDdf38078JYPeCqrO
+	N3lsFRUW3yw6sTMD5ZgPYOj11Z/X808xfnr1+j07lIOSDGNdGqj3XmODdFW1eAMVuSjyQyLBLVu
+	0Vg/jl4Vt1CGbBfh5VyGKPQ69b47CofyPc4D/Oa3Fzm9MFr
+X-Received: by 2002:a05:600c:1d21:b0:495:6713:9ae2 with SMTP id 5b1f17b1804b1-4980c66d99bmr96563135e9.1.1785702547947;
+        Sun, 02 Aug 2026 13:29:07 -0700 (PDT)
+Received: from [192.168.1.239] (87-205-5-123.static.ip.netia.com.pl. [87.205.5.123])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49807b9441csm158560585e9.4.2026.08.02.13.29.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Aug 2026 13:29:07 -0700 (PDT)
+Message-ID: <5ca2e1c1eb36880a0686682588dcb2b6799121ff.camel@gmail.com>
+Subject: Re: [PATCH] HID: pidff: fix OOB write when hid->inputs is empty
+From: Tomasz =?UTF-8?Q?Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>
+To: Baul Lee <baul.lee@xbow.com>, linux-input@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oleg@makarenk.ooo, jikos@kernel.org, bentiss@kernel.org, 
+	federico.kirschbaum@xbow.com
+Date: Sun, 02 Aug 2026 22:29:06 +0200
+In-Reply-To: <20260726062503.43717-1-baul.lee@xbow.com>
+References: <20260726062503.43717-1-baul.lee@xbow.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:19a9:b0:4a4:ed9a:e793 with SMTP id
- 5614622812f47-4af5e25c8c8mr13990855b6e.16.1785699207107; Sun, 02 Aug 2026
- 12:33:27 -0700 (PDT)
-Date: Sun, 02 Aug 2026 12:33:27 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a6f9b87.13bfb6d0.1ecdd5.0275.GAE@google.com>
-Subject: [syzbot] [usb?] memory leak in f_uac2_opts_p_srate_store
-From: syzbot <syzbot+87c10526d2cfa8d14ff6@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+On Sun, 2026-07-26 at 15:25 +0900, Baul Lee wrote:
+> hid_pidff_init_with_quirks() derives its input_dev from
+>=20
+> 	list_entry(hid->inputs.next, struct hid_input, list)
+>=20
+> without first checking that hid->inputs is non-empty.  The list member
+> of struct hid_input is at offset 0, so on an empty list list_entry()
+> yields &hid->inputs itself and the following hidinput->input load reads
+> an unrelated member of struct hid_device.  dev is then a type-confused
+> pointer, and force-feedback init writes through it: each
+> set_bit(FF_*, dev->ffbit) stores 8 bytes at dev + 192, past the end of
+> the object dev actually aliases, and input_ff_create() adds further
+> writes of a heap pointer and two function pointers.
+>=20
+> Until hid-universal-pidff the only caller was hid_pidff_init() from
+> usbhid, which runs under HID_CLAIMED_INPUT and therefore always has at
+> least one hid_input.  universal_pidff_probe() starts the device with
+> HID_CONNECT_DEFAULT & ~HID_CONNECT_FF and then calls
+> hid_pidff_init_with_quirks() directly whenever the descriptor carries a
+> PID usage page, bypassing that gate.  A report descriptor whose only
+> application collection is on HID_UP_PID leaves hid->inputs empty while
+> hid_connect() still succeeds through the hidraw claim, so probe reaches
+> the unguarded list_entry().
+>=20
+> The write happens in the USB probe path, on the hotplug workqueue, so
+> plugging in a malicious device is enough to trigger it; no attacker
+> software and no logged-in user are required.  KASAN reports an 8-byte
+> out-of-bounds write in hid_pidff_init_with_quirks() reached from
+> universal_pidff_probe().
+>=20
+> Check for an empty list before deriving dev and return -ENODEV, as the
+> other HID force-feedback drivers already do.  universal_pidff_probe()
+> propagates the error and unwinds.
+>=20
+> Discovered by XBOW, triaged by Baul Lee <baul.lee@xbow.com>
+>=20
+> Fixes: f06bf8d94fff ("HID: Add hid-universal-pidff driver and supported d=
+evice ids")
+> Reported-by: Federico Kirschbaum <federico.kirschbaum@xbow.com>
+> Reported-by: Baul Lee <baul.lee@xbow.com>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Baul Lee <baul.lee@xbow.com>
+> ---
+>  drivers/hid/usbhid/hid-pidff.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidf=
+f.c
+> index 5f4395f7c645..22951b7ecd17 100644
+> --- a/drivers/hid/usbhid/hid-pidff.c
+> +++ b/drivers/hid/usbhid/hid-pidff.c
+> @@ -1539,13 +1539,20 @@ static int pidff_check_autocenter(struct pidff_de=
+vice *pidff,
+>  int hid_pidff_init_with_quirks(struct hid_device *hid, u32 initial_quirk=
+s)
+>  {
+>  	struct pidff_device *pidff;
+> -	struct hid_input *hidinput =3D
+> -		list_entry(hid->inputs.next, struct hid_input, list);
+> -	struct input_dev *dev =3D hidinput->input;
+> +	struct hid_input *hidinput;
+> +	struct input_dev *dev;
+>  	struct ff_device *ff;
+>  	int max_effects;
+>  	int error;
+> =20
+> +	if (list_empty(&hid->inputs)) {
+> +		hid_err(hid, "no inputs found\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	hidinput =3D list_first_entry(&hid->inputs, struct hid_input, list);
+> +	dev =3D hidinput->input;
+> +
+>  	hid_dbg(hid, "starting pid init\n");
+> =20
+>  	if (list_empty(&hid->report_enum[HID_OUTPUT_REPORT].report_list)) {
 
-syzbot found the following issue on:
-
-HEAD commit:    fc02acf6ac0c Merge tag 'platform-drivers-x86-v7.2-4' of gi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11b3a49e580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ba7c2d1679fb08a2
-dashboard link: https://syzkaller.appspot.com/bug?extid=87c10526d2cfa8d14ff6
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=148cd1b9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=141f38c6580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/b9d1b7c8f45c/disk-fc02acf6.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/a68eafefb074/vmlinux-fc02acf6.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/89c624fcb62b/bzImage-fc02acf6.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+87c10526d2cfa8d14ff6@syzkaller.appspotmail.com
-
-2026/07/29 19:24:36 executed programs: 7
-BUG: memory leak
-unreferenced object 0xffff888112f1fd80 (size 64):
-  comm "syz.0.21", pid 5964, jiffies 4294942888
-  hex dump (first 32 bytes):
-    34 34 31 30 30 00 34 38 30 30 30 00 38 38 32 30  44100.48000.8820
-    30 00 39 36 30 30 30 00 31 37 36 34 30 30 00 31  0.96000.176400.1
-  backtrace (crc 6cdecf20):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4597 [inline]
-    slab_alloc_node mm/slub.c:4917 [inline]
-    __do_kmalloc_node mm/slub.c:5333 [inline]
-    __kmalloc_node_track_caller_noprof+0x3d3/0x570 mm/slub.c:5471
-    __kmemdup_nul mm/util.c:64 [inline]
-    kstrdup+0x3c/0x80 mm/util.c:84
-    f_uac2_opts_p_srate_store+0xbb/0x170 drivers/usb/gadget/function/f_uac2.c:2087
-    flush_write_buffer fs/configfs/file.c:207 [inline]
-    configfs_write_iter+0x10d/0x1a0 fs/configfs/file.c:229
-    new_sync_write fs/read_write.c:595 [inline]
-    vfs_write+0x3ac/0x720 fs/read_write.c:687
-    ksys_write+0xa5/0x170 fs/read_write.c:739
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xf8/0x610 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-BUG: memory leak
-unreferenced object 0xffff888113454dc0 (size 64):
-  comm "syz.0.23", pid 5967, jiffies 4294943452
-  hex dump (first 32 bytes):
-    34 34 31 30 30 00 34 38 30 30 30 00 38 38 32 30  44100.48000.8820
-    30 00 39 36 30 30 30 00 31 37 36 34 30 30 00 31  0.96000.176400.1
-  backtrace (crc 6cdecf20):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4597 [inline]
-    slab_alloc_node mm/slub.c:4917 [inline]
-    __do_kmalloc_node mm/slub.c:5333 [inline]
-    __kmalloc_node_track_caller_noprof+0x3d3/0x570 mm/slub.c:5471
-    __kmemdup_nul mm/util.c:64 [inline]
-    kstrdup+0x3c/0x80 mm/util.c:84
-    f_uac2_opts_p_srate_store+0xbb/0x170 drivers/usb/gadget/function/f_uac2.c:2087
-    flush_write_buffer fs/configfs/file.c:207 [inline]
-    configfs_write_iter+0x10d/0x1a0 fs/configfs/file.c:229
-    new_sync_write fs/read_write.c:595 [inline]
-    vfs_write+0x3ac/0x720 fs/read_write.c:687
-    ksys_write+0xa5/0x170 fs/read_write.c:739
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xf8/0x610 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Looks good, doesn't break anything and will help in such scenario.
+Thanks!
+--=20
+Reviewed-by: Tomasz Paku=C5=82a <tomasz.pakula.oficjalny@gmail.com>
