@@ -1,124 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD823AFCF1
-	for <linux-usb@vger.kernel.org>; Sun,  2 Aug 2026 11:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00553489888
+	for <linux-usb@vger.kernel.org>; Sun,  2 Aug 2026 12:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785670500; cv=none; b=sHLWgS8wOjbcxAUBvWM0MgUwS3u9JHuA8LpQMdmlt/3kvvedXBqqXcPs8QKYRmkA0rBVCfwJOcJlVWDNTP6NhwL7aIurbFNoVZzqkrpTbGEstfQbxltkKek5SX8fRYM9nt8U08d463qcjTH+Ok91eUvUkrsxBwOv3HcSDNz0rJk=
+	t=1785672194; cv=none; b=kxt0wRxj46TSY3SO3+J8MSM/f+WFgGa9HSmAprXwH/s9P73p3ewXZxKD8sOgvv7PGX0mHCRjZG46JNCPUqkTY6w623AVhHpzR7g83aMkoG9JfipHO5M6yfaMMJg6Xa2ld/Uid+Y34Gn328JtUfkGKMXlW6gHFHtn2QNPUFERY4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785670500; c=relaxed/simple;
-	bh=3l69cxT7EEK7w6ZTr5XcvRGECXdZvJZg4vaHK+1J4CQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iPKyjCag2IMpvuJ2EbvfbNOTu+Urfo7ioSCf30dHxnC5zzeaSBsDVnKQOV4zB+VTSuJb/CaDod+EiB6+V/4Kj0OVkncw6tpOs+0d7dowj2GB8U/g1eboVKnsjJ5KgvaVkF19/Pu8vlBCo5+Le8F5enNMV/K55hIjn5HC9s4Gupw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q56RVo86; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785672194; c=relaxed/simple;
+	bh=nODzfVIY+u+U0NxjaY5Q0k+xT6ktqGXokwVSi2oGxZs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ho0W3rKVvebiBiFKoabcWreVDN3g65gtgXWmn7ToPXNmfo1hX2uaSvpNqQBxg8T4JmG5h9c46FgrGKIPrgU7cGdFo2F5cZFDG1awZHXbzsGBVpBjL4JXiqSEZ4n2cBgj53cNqozHAQFQlkGLyV3JQi2VC6+VNecLZV6Aq/Av/cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XHUFEzx+; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q56RVo86"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1D67FC19425
-	for <linux-usb@vger.kernel.org>; Sun,  2 Aug 2026 11:34:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785670499;
-	bh=3l69cxT7EEK7w6ZTr5XcvRGECXdZvJZg4vaHK+1J4CQ=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Q56RVo86GRnRiHr1l2dy/OIMB+cMInvt8zltk0Ok5kPhdiOm+rBGN5Q0QGCH4K1OD
-	 lK20AneARQWbXu1oZuToJEcZUt/KtK5Io1GD9JARvdhTPRpnieATzsQi3C6HGVfJwZ
-	 Wkq6wd0lC5vFnW7DkdcAeXFvWMqTXcXHfRzYvdXgaD68htHKVmMG/keNjTxMyy5fhx
-	 daGgAwbfCkP3lxCI01q5ir29Jx6bvp9sf1N4H4wn7PSAEuyeTh74SwV3FWoZ3/z5xT
-	 ILP6XVufc+a2BdObR2WIBnZw1Nc7J9dbPAeokmdGBi5E1LzlIsislUqh38wOmwt8ta
-	 yqAdeF0qPPBxQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id EEAF1C433E1; Sun,  2 Aug 2026 11:34:58 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221822] tb-retry.patch (against drivers/thunderbolt/tb.c):
- makes USB4 link setup resilient to transient sideband failures on AMD hosts
- with slow-to-ready device routers.
-Date: Sun, 02 Aug 2026 11:34:58 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: j.jamesjohnson@icloud.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221822-208809-A2wWXHXrNp@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221822-208809@https.bugzilla.kernel.org/>
-References: <bug-221822-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XHUFEzx+"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-ca7c1176317so2201261a12.1
+        for <linux-usb@vger.kernel.org>; Sun, 02 Aug 2026 05:03:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785672192; x=1786276992; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=d4DPRLOqD5LujDLCSonnI5RwX6dJtVo8ngpLah2ku/I=;
+        b=XHUFEzx+9vXGxmGjyHSeaRrU2hHHG9J8Ldj+VKgnxzliaPYnxHvpWIYTbRNm2qDgSd
+         BmLPPwYDTOTNadIV08jESjXVRNQ7G29n/2ZMcxRrEY0bMmh5xlJiPC11YgPDciGjktXq
+         nNUfhPk/0vuSid9eYsMnxyMmvvchGUznY63ziOn34KO997bMgKt2zza1210h90kGgfGb
+         tHuXcV+2yqaLXgnvr4eio0aV4pLOEqByiEFnshDWiHxkCrDfsGzPEmTO+yfg9hCiH6dm
+         2o8aF/io+vFvd/4zmUxWucPigMRmI+FL8n5O6cYUhvbDqPttrRM/I9+lyQP3Dhwhby0b
+         erBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785672192; x=1786276992;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=d4DPRLOqD5LujDLCSonnI5RwX6dJtVo8ngpLah2ku/I=;
+        b=OtDkpjZ+VHZVvqd7VV9fH6zQSaFiui5U4R+Dombi2lv3Nj2g4vp1cgGLFilarsFw2c
+         nQ0as6Qvx1GrUAO6MEz3HhAbAlB820X/6Ock/pj1p9AEx9/0SgZngGekx/ouXdwGvkhF
+         M4y+WA3d5KLPFMN2q0ptlB5AWBvkm+FhEw/aDEfj5hN9VuMfWJygJ+jSrCii0PYfvgS+
+         U/VcgtuG2YNoJYcjo3jNYagaxYgp/pqprVOPuy2z0TcnJBudeD3/wYu5w+oQkxDHknPo
+         K4L2b4OaiSokLB6nfaPcrLKGikOurq7ywR+ckMIJpsSD1BUK0hqdPamQY+tYia8FE+6V
+         21QA==
+X-Forwarded-Encrypted: i=1; AHgh+RrIokqmubqRcO9cl21amPkz4yvCVC67r/v8AIrpkANz13Idb/6TStd4+VUeECgcLF/xZ2tON6fC5lI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnPF1tdwCjwXX7al62HLI6S3G/Gc/XRzx9NCpnSKikE8hT0HRg
+	YSW5WcyFEzGV5cjlIpDYgE8QzpsitwdzaqrVPtUcrQXmWfZk0V2x63rB
+X-Gm-Gg: AR+sD112z4cIh9Wced9DzfeO38OgU7yiVLkF39af4dpm0S/fv3ZNbknTflTQHmnU52T
+	R2ux0ezZSvJ2mH73HWDbBI8F73+li2Uan49ol3nz84o94DoFR4gL2AGAO8+SvGy1jIJUkzSNZye
+	O9MPeFEPnJyK02FzDDS8/cjJB9n4u/Z8r+58NvKBuHEvQihRHBvqTxQkagzvM/kcG4s+xO9Q1wo
+	71tjUStq4RX5cMd8C50CHzSL/+YWcOLz7Y2xy517dqHdUbJ/kr44Em6vFljdiafOgm9mSu0G9P9
+	BJEEseuI+RhFCz4aMx+BUVyag1Tczpy94ZNeLkNIUJ07X5K9DcuDMd8chzDByzZvvU0HGOOT5U0
+	T2P32+b9bV2ST16XFtD6BQwM5z+JCaoCkWL6rvIBFiCOltGf9aIdSGMiEQ5fih4xt5zjKYoSdL4
+	3nVANh/4RfT9Fhkmp/61lPkFYghiv9CFsXRKyPqPsKfxX/zNFsqkRPp8r3xdq84+S8atMIYOM5T
+	TyqIePnR04=
+X-Received: by 2002:a05:6a20:3ca2:b0:3bf:6c08:fb93 with SMTP id adf61e73a8af0-3c92a8f133cmr7448956637.53.1785672192078;
+        Sun, 02 Aug 2026 05:03:12 -0700 (PDT)
+Received: from Linux.tail44a0fc.ts.net ([115.96.219.61])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153dd4e5b0sm25202018eec.1.2026.08.02.05.03.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Aug 2026 05:03:11 -0700 (PDT)
+From: Ishaan Dandekar <ishaan.dandekar@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Cc: nikhilsolanke5@gmail.com,
+	Ishaan Dandekar <ishaan.dandekar@gmail.com>
+Subject: [PATCH v3] usb: quirks: Add ShanWan gamepad to quirk list
+Date: Sun,  2 Aug 2026 17:31:29 +0530
+Message-Id: <20260802120128.38302-1-ishaan.dandekar@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221822
+The ShanWan Wireless Gamepad (dongle ID 2563:0575) crashes with a -71
+EPROTO error during standard enumeration because it expects a 255-byte
+initial configuration request. Add this device to the quirk list to
+use the USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE flag.
 
---- Comment #1 from j. james johnson (j.jamesjohnson@icloud.com) ---
-The 3-site retry patch (CL2=E2=86=92CL0s/CL1 fallback on *any* CL-enable er=
-ror; 3=C3=97
-retry with 100/200/300 ms backoff on
-`tb_enable_clx`/`tb_enable_tmu`/`tb_tunnel_usb3`/`tb_tunnel_activate`) was
-ported to the **shipping distro kernel `7.0.14-8-pve`** (pve-kernel build w=
-ith
-patch applied as `patches/kernel/0052-...`) and is now the daily driver on =
-this
-host. Results correct the original report:
+Signed-off-by: Ishaan Dandekar <ishaan.dandekar@gmail.com>
+---
+Changes in v3:
+- Sent as a standalone patch instead of a series.
+- Dropped Nikhil Solanke's core patch from the submission to avoid duplication.
 
-- **Boot-attached hub self-recovers after ~2 failed cycles (~252 s) =E2=80=
-=94 no
-hotplug.** This invalidates the report's claim that boot-attached USB3 tunn=
-el
-creation is a hard failure point requiring a device reset.=20
+Note: This patch depends on Nikhil Solanke's updated patchset:
+https://lore.kernel.org/linux-usb/20260728195158.65162-1-nikhilsolanke5@gmail.com/
 
-- **CL-state and TMU failures eliminated** =E2=80=94 the CL2=E2=86=92CL0s/C=
-L1 fallback absorbs
-them.
-- **The link lane-bonds at 40 Gb/s** on the successful cycle (`link width s=
-et
-to symmetric, dual lanes`) =E2=80=94 the original Summary's "never bonds" i=
-s wrong;
-bonding occurs whenever lane 1 trains in time, and the retries keep the ses=
-sion
-alive long enough for that to happen.
-- **New errno data:** the winning cycle logged `PCIe Down path activation
-failed: -13` (EACCES) twice before succeeding, alongside the `-107` (ENOTCO=
-NN)
-seen on failing cycles. Both are transient sideband/port-state races during
-device-router enumeration; retry recovers both.
-- **BIOS excluded:** flashed board BIOS 1.06 (which adds a retimer GPIO-det=
-ect
-change). Retimer sideband reads unchanged =E2=80=94 lane-0 NVM still all-ze=
-ros, lane-1
-retimer still never responds. Firmware is not the active variable; tracked
-separately with the board vendor.
-- 5 HDDs + PCIe/USB3 devices stable under sustained load (I/O at platter sp=
-eed)
+Note: While these USB patches keep the device stable in X-Input mode, a 
+companion patch is submitted separately to the linux-input subsystem 
+(drivers/input/joystick/xpad.c) to ensure the device is routed correctly 
+and retains full haptic feedback and functionality.
 
-Open, load-tested asks to restate to upstream when the thread is next touch=
-ed:
-(a) retry-with-backoff on transient CL/TMU/USB3/PCIe-path-activation failur=
-es;
-(b) CL2=E2=86=92CL0s/CL1 fallback on any CL-enable error, not just `-EOPNOT=
-SUPP`; (c)
-re-attempt `tb_switch_set_link_width(DUAL)` when the second lane reaches
-`TB_PORT_UP` late =E2=80=94 single-lane sessions still occur on cycles wher=
-e lane 1
-trains after the initial bonding attempt.
+ drivers/usb/core/quirks.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
---=20
-You may reply to this email to add a comment.
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index 87ee2d938..b1e7e6071 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -589,6 +589,9 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 
+ 	{ USB_DEVICE(0x2386, 0x350e), .driver_info = USB_QUIRK_NO_LPM },
+ 
++	/* ShanWan Wireless Gamepad */
++	{ USB_DEVICE(0x2563, 0x0575), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
++
+ 	/* UGREEN 35871 - BOS descriptor fetch hangs at SuperSpeed Plus */
+ 	{ USB_DEVICE(0x2b89, 0x5871), .driver_info = USB_QUIRK_NO_BOS },
+ 
+-- 
+2.34.1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
