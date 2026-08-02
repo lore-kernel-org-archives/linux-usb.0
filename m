@@ -1,38 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2912E889C;
-	Sun,  2 Aug 2026 06:48:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D63D371860;
+	Sun,  2 Aug 2026 06:50:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785653319; cv=none; b=b+Nv+hvSjytjyju9mksKnm6XW2QNkX84C+BuLfUjK80rLvXJRSv8g9P9gAieH9osz0WxXr1lIcrKlp4Zq4VX9O/DpyhJ3vrDX/NbCWJbt1Du71ozTYUR2XEr9hssfKj280KDUX1K5XzR2vQcC8dcDPsVITFE0TcFv9WMRSjEje0=
+	t=1785653414; cv=none; b=ggyVHV+jQHxRCWPjwp2Jt0naIfNRDjbtlaVWgge8sYd4n9Z5hxRA09EhsLdAlJP6nTNRHnyqpffjAqMs/QMFSMrqLZtWfb3439CJ3l20rQRzEyTODOXCIj8EGwlDIEEuZGmveTv79xH20LTOw3K5K9lE8Y8PJ2pm3MBLygzopiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785653319; c=relaxed/simple;
-	bh=4cfG16S+rkmW0i+Xq/EyZBv5k87Qgr2X+nXb6qv1EEM=;
+	s=arc-20240116; t=1785653414; c=relaxed/simple;
+	bh=M6pAKNX50XXG1YLuYhXHjLBW2ZPTRPi1nw8Ar1PPog0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MAiaHX/9xqr9qJ7NBJPKgWxj2LxgAEFHmvxMcxxm17jwiuahZjjJTVO0X/wbbeBiwIb91Z+c3T7/eSZhZ9Dn8cyl3zIM+RfaMqlaAp6fqYQTdDzg1u+oYAdYJgs9av8e5tWVuiNr7aOOqexx1emuQdPzcO5ZzLHSeKw4j4co9CQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HApSNoKo; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=TWi4GkXdyoWT1FIG6lVkh3NvuTAeaXIr6WdqPHIcKkBLQ5a5wMdgqxcl+R8utOIRZmLK/7FgxPux30Mxc17SPG7DUEf9lw3BZRuzHtTHFMlKPTHoIRlsi7gYJLebfhRqMRTu3h01JpjEFR1KKPL4Sdt0R0ICnCwEfAaHtIcADME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=p/U/I4qE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HApSNoKo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 582EF1F00AC4;
-	Sun,  2 Aug 2026 06:48:37 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="p/U/I4qE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C0961F00AC4;
+	Sun,  2 Aug 2026 06:50:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785653317;
-	bh=4cfG16S+rkmW0i+Xq/EyZBv5k87Qgr2X+nXb6qv1EEM=;
+	s=korg; t=1785653413;
+	bh=2ms8peD3gBhGpckea1Q+PxSxIjsDsIoXRur8ga0rlkI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HApSNoKoih7e1bPRA3aMu7+927ZAxVQEfmOYNwoAWRdHm6O41MRtiJg9NWQ+WArCS
-	 jVq+Oi0Y4Gg13HjaBJtSjDsYlArkWlC1CyfdN89m6CGR8dFR1WQm/fxLGAC2wMltZf
-	 4gY5NVHa4U5zhla/gH6D7jqDG4jsTUkrRggaTKPU=
-Date: Sun, 2 Aug 2026 08:47:10 +0200
+	b=p/U/I4qEaylIvGlTEOuwiTXIGj+wS1vfLLG7uZ8Wu7qKuZGL/bZi7G6Bhqfng/ov/
+	 rNCuBThMi7f3RcKTsv6/BAJw94hXQPQn5Bvb2AU2CNzUF70HZdkwdZT63d7X3eAAKh
+	 dPtW3tp1+18/2Spdb+K/DzLw57E+1OMtznOrtt8Q=
+Date: Sun, 2 Aug 2026 08:48:45 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: lurenjia534@outlook.com
+To: Rituparna Warwatkar <rwarwatkar@gmail.com>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+7b70c4a6021fd49c4151@syzkaller.appspotmail.com,
-	Felipe Balbi <balbi@ti.com>,
-	Andrzej Pietrasiewicz <andrzej.p@samsung.com>
-Subject: Re: [PATCH] usb: gadget: f_hid: reject zero report length
-Message-ID: <2026080227-prude-wrist-ec7c@gregkh>
-References: <20260802-hid-report-length-usb-testing-v1-1-0499f99136d2@outlook.com>
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	syzbot+54927260acba030187a6@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usb: gadget: uvc: don't pack struct
+ uvcg_extension_unit_descriptor
+Message-ID: <2026080223-turbojet-unsold-7290@gregkh>
+References: <20260801163747.82910-1-rwarwatkar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,12 +43,59 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260802-hid-report-length-usb-testing-v1-1-0499f99136d2@outlook.com>
+In-Reply-To: <20260801163747.82910-1-rwarwatkar@gmail.com>
 
-On Sun, Aug 02, 2026 at 04:19:34AM +0800, lurenjia534 via B4 Relay wrote:
-> From: lurenjia534 <lurenjia534@outlook.com>
+On Sat, Aug 01, 2026 at 06:37:47PM +0200, Rituparna Warwatkar wrote:
+> kmemleak reports the baSourceID and bmControls arrays allocated by the
+> UVC extension-unit configfs attributes as leaked, e.g.:
+> 
+>   BUG: memory leak
+>   unreferenced object 0xffff888114fee2c0 (size 8):
+>     __kmalloc_noprof
+>     uvcg_extension_ba_source_id_store
+>     configfs_write_iter
+>     vfs_write
+>     ksys_write
+> 
+> The arrays are not actually leaked: they are reachable through
+> xu->desc.baSourceID / xu->desc.bmControls and are freed when the
+> extension unit is removed.  The problem is that struct
+> uvcg_extension_unit_descriptor is marked __packed, so these two heap
+> pointers are stored at unaligned offsets (22 and 31).  kmemleak only
+> scans memory on pointer-aligned boundaries, so it never sees the
+> pointers and reports the arrays as unreferenced.
+> 
+> Unlike the UAPI struct uvc_extension_unit_descriptor, this is a purely
+> in-memory staging structure: baSourceID and bmControls are pointers,
+> not inline arrays, and the wire descriptor is assembled field by field
+> in UVC_COPY_XU_DESCRIPTOR().  Nothing relies on the packed layout, so
+> the __packed attribute is unnecessary and only serves to misalign the
+> pointers.
+> 
+> Drop __packed so the pointers are naturally aligned and visible to
+> kmemleak, silencing the false positive.
+> 
+> Fixes: 0525210c9840 ("usb: gadget: uvc: Allow definition of XUs in configfs")
+> Reported-by: syzbot+54927260acba030187a6@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=54927260acba030187a6
+> Signed-off-by: Rituparna Warwatkar <rwarwatkar@gmail.com>
+> ---
+>  drivers/usb/gadget/function/uvc_configfs.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/gadget/function/uvc_configfs.h b/drivers/usb/gadget/function/uvc_configfs.h
+> index 9391614135e..5a882afbce4 100644
+> --- a/drivers/usb/gadget/function/uvc_configfs.h
+> +++ b/drivers/usb/gadget/function/uvc_configfs.h
+> @@ -176,7 +176,7 @@ struct uvcg_extension_unit_descriptor {
+>         u8 bControlSize;
+>         u8 *bmControls;
+>         u8 iExtension;
+> -} __packed;
+> +};
 
-We need a real name, not an email alias.
+Why not rearrange the structure so that there is no space in it now
+instead?
 
 thanks,
 
