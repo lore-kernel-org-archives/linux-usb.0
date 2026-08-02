@@ -1,244 +1,496 @@
-Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065E41E1DF0
-	for <linux-usb@vger.kernel.org>; Sun,  2 Aug 2026 03:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785642404; cv=none; b=ViiNgJIuNtLCZOz7VCGTFy1JK8uPaWy+F3NNYMe7cduoBgp+C23el9Nt6902u756cGwkcM5z6lPhr5PrTl+qE3xLZO03oXvj7m4sk4vgj6IzpUl/eq+6trI7Ii+1lyFZJzmuXOktVhH46wqZrn9AKldpEM4ehx9soaIrJZrbS9M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785642404; c=relaxed/simple;
-	bh=sezgLEyBC9Es3UETpH3+MuabYW/HD/PBrBBUJMwZj0s=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=LVZYQdOCuPyuJmZrfkTEO/H8mDPjwhfciUxcJbsMqsZAOJcZX1njBluWf2l4yrfFkNmvBZHnLZLvVNoPwVPBjaLlr74t1AZXRR52mwAleTn0edrwkM0TZH68CEf0FvjdO6UfvNJapuM8eNIfpZthTtDIf/CvApjq2fTSu9BeEhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-49aa4525b82so3184217b6e.1
-        for <linux-usb@vger.kernel.org>; Sat, 01 Aug 2026 20:46:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD152737F8
+	for <linux-usb@vger.kernel.org>; Sun,  2 Aug 2026 06:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785650905; cv=pass; b=ECRDVhUSb5GXEpeI+hGdlCFWy/C1aPSJOI3dYxWwT6nuSqdWCbP5zE4HMHPbSpabuBmmMwxPQ6hFRAqZKGEIOJPaPOiyfbao3+hax971dKH+4jnVaFjGKsCv+9+9GFYe8A9v4c5e57z6flDss1Kuym8LyXiHIvaNpBPidF2NbTw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785650905; c=relaxed/simple;
+	bh=Kf17WANs6JfhL1xqclAYA1dpuPciti323x4GqPklwSM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J6bPnuwMgKm7CPEZFUnKwWxgXdfT7Iylbu4cAclTl28sQFBA7vkKobLEatg2EcPDEGdpn1nnT4vqbgb005yYvHJTuqMrntYwlK9wYoL78ahM+SjMqM4oxngfrhD4wWbCnmTnQ1qGC7yKUmZficG6mOVRqZE+zOxlFDGso6LsG3Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0DgXYnA; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0DgXYnA"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-51c2149571dso21151251cf.3
+        for <linux-usb@vger.kernel.org>; Sat, 01 Aug 2026 23:08:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785650903; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Pv+4GocOSr/qam783nFPNERhQ9jrK9FI9Ecx4AUFENcl8YlqMAurBEL5xZtHavWI8y
+         +D9F+kfpfPuF32Ky6sd6oEPGPeRjiSK/PcvSHJM7AONmNQQzwfA9EXEbxxqxFXu/XaPD
+         bK/5Y2a1vrKYwEfSP1kTjjjmXYWUVS6dgn7OwkOCbKLG/YEn1TUMD46ETHJokink6ZMt
+         agMywAnA7cJna/HCxnFSe9/EZeyJ9oxDXLL+TWsMdXQJ90Q4axmoeOcQIcUg2xXVp17o
+         tiKBHyAtEVepiU6oLjMDi6yLVyWo9xj26GwZg63rEjQmR4TpOcKE7T8RVcZ11UxWHK+H
+         RTEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=CetZ3P9aPepyqJKQ2nK4mmdcMjZOCOyFw6y06lUHTEI=;
+        fh=ehwrrNQqLx3weruk7Lgxkk9jD+XY3Sv8ZiUPaKjqYxQ=;
+        b=I3cGe5VxDX5cFe37Z4FfdjdP5m7/7fy7Oy3VkSVMaf2NxnFsR0Syvph58cW9o/88QS
+         Ard0RVeiwzNb//WsFWTqOrRDQAuH+15J77WpIJsuF6MvpgtJLecTkQ57XUKH+uJjqRJd
+         sGb1E/QO4SCHl/fA+Nd8p0iym7fsJXpXVbXbIhZPVQR43p3vXJU7jaYhZTyhO11pF3CR
+         r9kCoVwfKJg5h0TM6tfrsEtye4gJLfquAF5mvuzVClHDNX3zeQtR9l9k6CubFKAKdvGw
+         dOJBqXHX6kVXj+wsKyF0PITsd9KRdcESE1Y5wRnqh0ucYYqC7nbboJOPwQreOl+TnShr
+         lY6g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785650903; x=1786255703; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CetZ3P9aPepyqJKQ2nK4mmdcMjZOCOyFw6y06lUHTEI=;
+        b=h0DgXYnAYmRt0tPADMYuNU3ETlk4Fl7igGwr8q+jo5ZmXCOFKyO86lqEPpowRrP+Ch
+         dAEtCpmIUgroGjTF8mCMDtQ9Zka4e5mk6XmhakpY7SGEZoLvqMLOMt6ZuhDMakV0YScz
+         l/i1cpTxrNyzo7VLUXAGjK8xekL1yaonnQ6mXtQ6ebjHagveCxLHGhA5yNTwBpupUly2
+         WR3eGFiMNR4NTyAshmWrSq1YHrb1OyXlKVAk6OJZ4U3/KU2i1zc1y5Z0tp8vDMbNom4e
+         dVSzv6jN38BUeULsi3uUKROuvnzwST3kCyODopOkrHeSSqZt6xWYwhpNSRLS+3+y2n1w
+         0P2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785642399; x=1786247199;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20251104; t=1785650903; x=1786255703;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=kL/Ml9iryEkMC+wj+LqPNtEaj4DBg6U2aownFArWlo4=;
-        b=FrR8AWiZ1AoMXS06W6F4wT2YlJ6X6gJ3efCVA1Qu+zYmBnVgBGn78ILWGPDtNC9B5y
-         sbc2r5OXsm4/qeCibKa3oU+RPsEoh/dFAkYdxmx+1P48uABPgG0I717C+Q9gvOt+tg1j
-         yvVE+ISIhiJMKCcHdYMxluyPdirpZvEMsSp/kBSotaDNIdAvogh8tE/4XXolhiBn6A48
-         fFzId9FngbiJA3piK5fCPl8ggCTJnrODBG41MiCfwvcezMlcJJZ9zLdrpBybEbjBzPZ9
-         jkY/LCPbNT7wLd70demtCPtiHaHQbBI/P7+ku/SVodZZawMkBiZmINacX5Vh/rfPrGmN
-         lSqw==
-X-Forwarded-Encrypted: i=1; AHgh+RpxkTeyYhqEEiEJf4pmshBm4YM6/+dbOZCXts/SC03WL8A/qdmyLzzAf9D0+NI7K3nzgkPs3f5XxeM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDNQIsffRvvQYG0wnSAxwFW/9AjKNzib3ZANd6ggNrIiNzfuGC
-	Abu8xvmrLHowAjM8deZUS+KE3HIqpgeSFOBHXD/VvzDOjYCIrvEnFCCAQ9J6UlP2jQ/8AVBbXsd
-	agbUJBfb8fxj6l3LndKGGisZIqbuqBsXF2C/r8PpK0IDj9Cpa1DRZIkkadV0=
+        bh=CetZ3P9aPepyqJKQ2nK4mmdcMjZOCOyFw6y06lUHTEI=;
+        b=BcuMj7HCTocoRvjU9VNkh5cVGEW+2sg2CPtEMTRs9uTkx/2xQyQOgoTa3A9cApyEtK
+         lXMglTrskUDVHKw1+HBa2T2YfwGKmKqyziFQOrFCJdVO9RbgTmnQAIgzen9EH6i7acgX
+         26xqgiYqMy6q+Heuiu5iDQH6GtYW+EzxacoHCiLcniEMbz4eQ/GZfF9avZl+3TX0aQ7W
+         V7i1AIf84YSmUZrNF0WgwB0IJOEWPf7uW0sVzw6QZsvNyD5ADlbOmDf5+BFahV/Gna3q
+         vK965QRFOk4/uP56dzAkASJyKIOMR8D/vVPWZjsIrlafqHxcsixNaMKjhIjHBMxkfgxv
+         uuIw==
+X-Forwarded-Encrypted: i=1; AHgh+RqdljABPwPKg/41y90cdniOoPIXpxpIS6TExQ+F66rw4xc7zdkq263S9IeQmX6Cx/G7tw7YVELvGck=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzymRgnSrNgkiiSOqucZbWNvwfqkiSGnhK6Gj187KV4zT7JBccr
+	F/Ay895dSLhcdFa5Bj4EJBIb4dGUnycYZxVXDozPU0E0IzysFHncavEhXy/OJNo8qq9YUEvB/3u
+	PAeByo8DSbTM4CrUfya5OfG+CFwPTbAcoZFFU
+X-Gm-Gg: AR+sD11zeqB32BJ2RMhSqy6mBCcJbnl80LA60IL5W8ECoXswsYg5jXuO4Z/OBtajiS4
+	PgPuBHXa6kRMbooNHl5zv7fWcxNQzYMLnR0kmCdIXSphYlsWjMjlV+Ks0d8fGP1flBSyBM84trN
+	BSYwHm0G4wArtVGjpOoA4+TXETobWbRAd771xdqCXJC1RaY9hPl2yPcM1XVAzSEsg6hj+wXlQeU
+	hxojtOMxaEMojOGr3s/GfcDd1fIWwGkbhjwNkL5IE0M5BNNmN5R6dlQ1EvLPUJ9gCrmag3rFy5t
+	2RmSsm8aXtQWPyAi1eNfQL+N+a/KTdk42/a+nRpS+vKqzb07jsKMXcGt
+X-Received: by 2002:a05:622a:4d8f:b0:51c:1568:3a53 with SMTP id
+ d75a77b69052e-52b566af242mr121956511cf.16.1785650902696; Sat, 01 Aug 2026
+ 23:08:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:150c:b0:4ab:32ea:95f6 with SMTP id
- 5614622812f47-4af5e1b215amr9515583b6e.13.1785642399119; Sat, 01 Aug 2026
- 20:46:39 -0700 (PDT)
-Date: Sat, 01 Aug 2026 20:46:39 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a6ebd9f.2d659fcc.1d46f5.01cd.GAE@google.com>
-Subject: [syzbot] [libertas?] INFO: task hung in lbs_remove_card (2)
-From: syzbot <syzbot+a88c826d548437310a57@syzkaller.appspotmail.com>
-To: libertas-dev@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org, 
-	netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
+References: <CAFmvuTWq7TKZaj6R9JJzWhwe1WB1FanZ17T1-TFL1g2wsUBZ4w@mail.gmail.com>
+ <8067503d-1c0d-4319-adbd-225a03e16ea3@rowland.harvard.edu>
+ <CAFmvuTUEg8fr8pY91WpEk=CxHuackJfr0c2c4jxexNy9wkiS0A@mail.gmail.com>
+ <a5e0e32a-7e49-4112-bcbc-92da449eb303@rowland.harvard.edu>
+ <CAFmvuTXQbqbt3qxqUXitzboZhiMxAC7aaOqAtyZXs+QtJvAjBg@mail.gmail.com>
+ <a7f9d958-7f9d-40eb-89ea-56094f60c075@rowland.harvard.edu>
+ <CAFmvuTXx6bOEEusjf=bw5c-RDVu-bzRLbd_RVnhn2tLe4n4upQ@mail.gmail.com>
+ <887e75d3-dd11-4d98-b6e6-5f6a2c3a6ae8@rowland.harvard.edu>
+ <e05c6ba1-48f9-49e7-9d56-25db41e70f6e@rowland.harvard.edu>
+ <CAFmvuTVYt2bVaqcyJVUSvNZfss6yzVdPbA5Wk2dtr89w2tz+5w@mail.gmail.com> <483692a4-8fb7-419e-90d5-1784b71fbb9f@rowland.harvard.edu>
+In-Reply-To: <483692a4-8fb7-419e-90d5-1784b71fbb9f@rowland.harvard.edu>
+From: Minseo Kim <neck3922@gmail.com>
+Date: Sun, 2 Aug 2026 15:08:11 +0900
+X-Gm-Features: AUfX_mwFrZQjyqSvzEr7J2gSBiXjMgiseXAleDJX9urKsR1oN0LWsgSXorJjKqA
+Message-ID: <CAFmvuTXvwuUrfbvsAQ_VvC9jH5iS62J+Ei23TD0NfQ_igFRJ_A@mail.gmail.com>
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF in ep_aio_cancel()
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Hi Alan,
 
-syzbot found the following issue on:
+Thank you for the new patch. I applied it as posted to upstream v7.2-rc1,
+commit dc59e4fea9d83f03bad6bddf3fa2e52491777482.
 
-HEAD commit:    5d5fd841c346 Merge 7.2-rc5 into usb-next
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=13539499580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6ec4d592e55f7960
-dashboard link: https://syzkaller.appspot.com/bug?extid=a88c826d548437310a57
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+Across the timing ranges I tested, I did not reproduce the originally
+reported ep_aio_cancel() stale-priv failure on the kernel with the new
+patch applied. In a targeted diagnostic comparison, the original
+ep_aio_cancel() UAF was reproduced on the unpatched kernel. Using the
+same kernel configuration, reproducer, and arguments, the diagnostic
+runs on the patched kernel produced no KASAN or Oops. I also did not
+observe the original null-ptr-deref or UAF signatures in non-diagnostic
+runs of the patched kernel.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+However, I observed a different slab-use-after-free in ep_aio() on the
+patched kernel:
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/2ed536ae4daf/disk-5d5fd841.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/ab40098ccbf1/vmlinux-5d5fd841.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/66d5c395f47c/bzImage-5d5fd841.xz
+  BUG: KASAN: slab-use-after-free in ep_aio+0x573/0x660
+  Read of size 4
+  drivers/usb/gadget/legacy/inode.c:647
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a88c826d548437310a57@syzkaller.appspotmail.com
+This UAF was repeatedly reproduced on the patched kernel. It was not
+observed in control runs on the unpatched kernel using the same kernel
+configuration, reproducer, workload, and timing settings.
 
-INFO: task kworker/1:3:5238 blocked for more than 143 seconds.
-      Not tainted syzkaller #0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-task:kworker/1:3     state:D stack:20968 pid:5238  tgid:5238  ppid:2      task_flags:0x4288060 flags:0x00080000
-Workqueue: events request_firmware_work_func
-Call Trace:
- <TASK>
- context_switch kernel/sched/core.c:5510 [inline]
- __schedule+0x1325/0x47d0 kernel/sched/core.c:7234
- __schedule_loop kernel/sched/core.c:7311 [inline]
- schedule+0xdd/0x2c0 kernel/sched/core.c:7326
- lbs_wait_for_firmware_load+0x11e/0x1e0 drivers/net/wireless/marvell/libertas/firmware.c:117
- lbs_remove_card+0x84/0x390 drivers/net/wireless/marvell/libertas/main.c:913
- if_usb_disconnect+0xc5/0x270 drivers/net/wireless/marvell/libertas/if_usb.c:317
- usb_unbind_interface+0x1dd/0x9e0 drivers/usb/core/driver.c:461
- device_remove drivers/base/dd.c:618 [inline]
- device_remove+0x12a/0x180 drivers/base/dd.c:610
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x44e/0x620 drivers/base/dd.c:1372
- usb_driver_release_interface drivers/usb/core/driver.c:643 [inline]
- usb_forced_unbind_intf+0x1a4/0x240 drivers/usb/core/driver.c:1137
- usb_reset_device+0x411/0xaa0 drivers/usb/core/hub.c:6409
- if_usb_reset_device.isra.0+0x21e/0x290 drivers/net/wireless/marvell/libertas/if_usb.c:400
- if_usb_prog_firmware.cold+0x161/0x192 drivers/net/wireless/marvell/libertas/if_usb.c:918
- lbs_fw_loaded drivers/net/wireless/marvell/libertas/firmware.c:23 [inline]
- helper_firmware_cb drivers/net/wireless/marvell/libertas/firmware.c:80 [inline]
- helper_firmware_cb+0x1f7/0x2d0 drivers/net/wireless/marvell/libertas/firmware.c:64
- request_firmware_work_func+0x13f/0x440 drivers/base/firmware_loader/main.c:1164
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
+The ordering appears to be:
 
-Showing all locks held in the system:
-5 locks held by kworker/0:1/11:
-5 locks held by kworker/1:0/23:
- #0: ffff888106684540 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x12b1/0x1940 kernel/workqueue.c:3297
- #1: ffffc9000018fd18 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x988/0x1940 kernel/workqueue.c:3298
- #2: ffff88810b7441d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
- #2: ffff88810b7441d8 (&dev->mutex){....}-{4:4}, at: hub_event+0x1bd/0x4af0 drivers/usb/core/hub.c:5904
- #3: ffff8881360491d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
- #3: ffff8881360491d8 (&dev->mutex){....}-{4:4}, at: usb_disconnect+0x10a/0x9a0 drivers/usb/core/hub.c:2341
- #4: ffff888104e921a0 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
- #4: ffff888104e921a0 (&dev->mutex){....}-{4:4}, at: device_del+0xa0/0x9b0 drivers/base/core.c:3923
-1 lock held by khungtaskd/29:
- #0: ffffffff896e2b40 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
- #0: ffffffff896e2b40 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
- #0: ffffffff896e2b40 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x3d/0x184 kernel/locking/lockdep.c:6775
-8 locks held by kworker/1:1/40:
-2 locks held by getty/2917:
- #0: ffff888112a280a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x24/0x80 drivers/tty/tty_ldisc.c:243
- #1: ffffc900000452e8 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x419/0x14e0 drivers/tty/n_tty.c:2211
-3 locks held by kworker/1:3/5238:
- #0: ffff88810006b140 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x12b1/0x1940 kernel/workqueue.c:3297
- #1: ffffc90001fffd18 ((work_completion)(&fw_work->work)){+.+.}-{0:0}, at: process_one_work+0x988/0x1940 kernel/workqueue.c:3298
- #2: ffff888104e921a0 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
- #2: ffff888104e921a0 (&dev->mutex){....}-{4:4}, at: __device_driver_lock drivers/base/dd.c:1171 [inline]
- #2: ffff888104e921a0 (&dev->mutex){....}-{4:4}, at: device_release_driver_internal+0xb2/0x620 drivers/base/dd.c:1369
-3 locks held by kworker/1:4/5243:
- #0: ffff8881f57397a0 (&rq->__lock){-.-.}-{2:2}, at: raw_spin_rq_lock_nested kernel/sched/core.c:667 [inline]
- #0: ffff8881f57397a0 (&rq->__lock){-.-.}-{2:2}, at: raw_spin_rq_lock kernel/sched/sched.h:1653 [inline]
- #0: ffff8881f57397a0 (&rq->__lock){-.-.}-{2:2}, at: rq_lock kernel/sched/sched.h:1991 [inline]
- #0: ffff8881f57397a0 (&rq->__lock){-.-.}-{2:2}, at: __schedule+0x2dc/0x47d0 kernel/sched/core.c:7108
- #1: ffffc9000203fd18 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x988/0x1940 kernel/workqueue.c:3298
- #2: ffff8881f5728d28 (lock#5){..-.}-{3:3}, at: local_lock_acquire include/linux/local_lock_internal.h:46 [inline]
- #2: ffff8881f5728d28 (lock#5){..-.}-{3:3}, at: kcov_remote_stop+0x77/0x540 kernel/kcov.c:1040
-5 locks held by kworker/0:6/5376:
- #0: ffff888106684540 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x12b1/0x1940 kernel/workqueue.c:3297
- #1: ffffc90004327d18 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0x988/0x1940 kernel/workqueue.c:3298
- #2: ffff88810bb1c1d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
- #2: ffff88810bb1c1d8 (&dev->mutex){....}-{4:4}, at: hub_event+0x1bd/0x4af0 drivers/usb/core/hub.c:5904
- #3: ffff888123b8a1d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
- #3: ffff888123b8a1d8 (&dev->mutex){....}-{4:4}, at: __device_attach+0x7e/0x4d0 drivers/base/dd.c:1073
- #4: ffff88813c9131a0 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
- #4: ffff88813c9131a0 (&dev->mutex){....}-{4:4}, at: __device_attach+0x7e/0x4d0 drivers/base/dd.c:1073
+1. ep_aio() registers cancellation and successfully queues the USB request.
+2. ep_aio() releases epdata->dev->lock before acquiring aio_lock.
+3. ep_aio_complete() can run the immediate-completion branch, clear
+   iocb->private, call iocb->ki_complete(), set priv->req_state to
+   AIO_GIVEN_BACK, observe that cancel_state is not AIO_UNLINKING, and
+   reach the path that frees priv.
+4. ep_aio() then acquires aio_lock and reads priv->req_state at line 647.
 
-=============================================
+Thus aio_lock serializes the post-queue state check and update, but it
+does not keep priv alive until ep_aio() has finished that transition.
+This is not the original ep_aio_cancel() stale-pointer window. The
+observed UAF and the code ordering are consistent with ep_aio()
+dereferencing priv after the completion path has freed it.
 
-NMI backtrace for cpu 1
-CPU: 1 UID: 0 PID: 29 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- nmi_cpu_backtrace.cold+0x12d/0x151 lib/nmi_backtrace.c:122
- nmi_trigger_cpumask_backtrace+0x21c/0x2a0 lib/nmi_backtrace.c:65
- trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
- __sys_info lib/sys_info.c:157 [inline]
- sys_info+0x141/0x190 lib/sys_info.c:165
- check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
- watchdog+0xcb1/0x1030 kernel/hung_task.c:561
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x69a/0xc80 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Sending NMI from CPU 1 to CPUs 0:
-NMI backtrace for cpu 0
-CPU: 0 UID: 0 PID: 9946 Comm: syz.5.678 Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
-RIP: 0010:io_serial_in+0x87/0xb0 drivers/tty/serial/8250/8250_port.c:402
-Code: 82 88 fe 48 8d 7d 40 44 89 e1 48 b8 00 00 00 00 00 fc ff df 48 89 fa d3 e3 48 c1 ea 03 80 3c 02 00 75 1a 66 03 5d 40 89 da ec <5b> 0f b6 c0 5d 41 5c e9 cd 85 53 04 e8 38 e8 f0 fe eb a2 e8 c1 e8
-RSP: 0018:ffffc9001299f8b0 EFLAGS: 00000002
-RAX: dffffc0000000000 RBX: 00000000000003fd RCX: 0000000000000000
-RDX: 00000000000003fd RSI: ffffffff832b8160 RDI: ffffffff94249da0
-RBP: ffffffff94249d60 R08: 0000000000000001 R09: 000000000000001f
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000020 R14: fffffbfff2849406 R15: dffffc0000000000
-FS:  00007f0e216776c0(0000) GS:ffff888268636000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000000110c38e08b CR3: 00000001350e0000 CR4: 00000000003506f0
-Call Trace:
- <TASK>
- serial_in drivers/tty/serial/8250/8250.h:128 [inline]
- serial_lsr_in drivers/tty/serial/8250/8250.h:150 [inline]
- wait_for_lsr+0x13a/0x210 drivers/tty/serial/8250/8250_port.c:1982
- serial8250_fifo_wait_for_lsr_thre drivers/tty/serial/8250/8250_port.c:3235 [inline]
- serial8250_console_fifo_write drivers/tty/serial/8250/8250_port.c:3300 [inline]
- serial8250_console_write+0xdfd/0x1a50 drivers/tty/serial/8250/8250_port.c:3385
- console_emit_next_record kernel/printk/printk.c:3183 [inline]
- console_flush_one_record+0x790/0xe50 kernel/printk/printk.c:3269
- console_flush_all kernel/printk/printk.c:3343 [inline]
- __console_flush_and_unlock kernel/printk/printk.c:3373 [inline]
- console_unlock+0x103/0x260 kernel/printk/printk.c:3413
- vprintk_emit+0x407/0x6b0 kernel/printk/printk.c:2479
- _printk+0xcf/0x110 kernel/printk/printk.c:2504
- usb_gadget_register_driver_owner.cold+0x58/0xd0 drivers/usb/gadget/udc/core.c:1762
- raw_ioctl_run drivers/usb/gadget/legacy/raw_gadget.c:596 [inline]
- raw_ioctl+0x1a85/0x2b80 drivers/usb/gadget/legacy/raw_gadget.c:1307
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl fs/ioctl.c:583 [inline]
- __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x10b/0x7f0 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f0e22c1dc2b
-Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 00 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
-RSP: 002b:00007f0e21674f00 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000006 RCX: 00007f0e22c1dc2b
-RDX: 0000000000000000 RSI: 0000000000005501 RDI: 0000000000000006
-RBP: 00007f0e21675fd0 R08: 0000000000000001 R09: 00000000ffffffff
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000200000000000 R14: 0000000000000000 R15: 00000000000010d0
- </TASK>
+This suggests that the submitting path may need an additional lifetime
+handoff. Either priv must remain alive until ep_aio() has finished its
+post-queue work, or ep_aio() must no longer access priv after the point at
+which the completion path may free it.
 
+In diagnostic runs, I also tested cancellation while the request was in
+AIO_SUBMITTING. In the queue-success ordering, I observed one completion
+event with res=3D-ECONNRESET; in the forced queue-failure ordering, one
+event with res=3D-EINVAL. Neither case produced KASAN or an Oops.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+I also rechecked the potential unbind race you mentioned earlier. Using
+pointer-correlated tracing on the patched build, I observed an
+ep_aio_cancel() operation overlapping the gadgetfs_unbind() path while
+that path called usb_ep_disable() on the request's endpoint. The
+ep_aio_cancel() entry and ep_aio_complete() records referred to the same
+iocb, priv, and usb_request, and the corresponding usb_ep_dequeue()
+record referred to that same usb_request and endpoint.
+ep_user_copy_worker() also ran for the same priv while gadgetfs_unbind()
+was still in progress.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Corresponding runs with the probes disabled, using the same delay settings
+as the traced runs, produced no KASAN or Oops.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Supporting files:
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+  C reproducer for the ep_aio() post-queue UAF on the patched kernel:
+    https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main=
+/gadgetfs_candidate_v3_validation_20260802/repro_v3_ep_aio_postqueue_uaf.c
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+  Build:
+    gcc -O2 -Wall -Wextra -pthread -o repro_v3_ep_aio_postqueue_uaf \
+      repro_v3_ep_aio_postqueue_uaf.c
 
-If you want to undo deduplication, reply with:
-#syz undup
+  Symbolized KASAN report:
+    https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main=
+/gadgetfs_candidate_v3_validation_20260802/symbolized_report_v3_ep_aio_post=
+queue_uaf_unified.txt
+
+  Kernel config used for the post-queue UAF reproducer and unpatched
+  control runs:
+    https://raw.githubusercontent.com/neck392/linux-kernel-bug-reports/main=
+/gadgetfs_candidate_v3_validation_20260802/kernel.config.v7.2-rc1-candidate=
+-v3-unified
+
+I hope these results are useful.
+
+Best regards,
+Minseo Kim
+
+2026=EB=85=84 8=EC=9B=94 1=EC=9D=BC (=ED=86=A0) =EC=98=A4=EC=A0=84 3:59, Al=
+an Stern <stern@rowland.harvard.edu>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> On Fri, Jul 31, 2026 at 12:55:03AM +0900, Minseo Kim wrote:
+> > For a fix, I think the important invariant is exactly-once completion a=
+nd
+> > teardown: each GadgetFS private object and USB request must be released
+> > exactly once, the iocb must be completed exactly once, and no path may
+> > dereference any of these objects after its lifetime has ended.
+>
+> Okay, the new patch below guarantees this.  Or at least, I believe it
+> does.  :-)
+>
+> > One additional point from the v2 results may be relevant to the approac=
+h
+> > you outlined: delaying kiocb_set_cancel_fn() until after successful
+> > submission. Moving it after a successful usb_ep_queue(), by itself, may
+> > not be sufficient: once the request has been queued successfully, its
+> > completion can run before cancellation is registered. The revised-patch
+> > UAF demonstrated this completion-before-registration ordering. The
+> > registration and completion paths therefore appear to need an additiona=
+l
+> > ordering or lifetime mechanism.
+>
+> The new patch registers the cancel function before submission, so this
+> will be okay.
+>
+> > There is also a locking constraint: io_cancel() and free_ioctx_users() =
+can
+> > invoke the cancel callback while holding ctx->ctx_lock. A synchronous
+> > dequeue giveback must therefore not cause aio_complete_rw() to reacquir=
+e
+> > that lock while the iocb is still linked and the original caller still
+> > holds ctx->ctx_lock.
+>
+> In the new patch, nothing more complicated than kfree() happens while
+> the new aio_lock is held, no new locking cycles will be created.  Of
+> course, your testing may reveal a pre-existing cycle.
+>
+> On the other hand, we have no control over whether dequeue givebacks are
+> synchronous.  If necessary we could complete the aio in a different
+> thread, but that would be wasteful if it isn't needed.
+>
+> Thanks for your help, and let me know how the patch below works out.
+>
+> Alan Stern
+>
+>
+> Index: usb-devel/drivers/usb/gadget/legacy/inode.c
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> --- usb-devel.orig/drivers/usb/gadget/legacy/inode.c
+> +++ usb-devel/drivers/usb/gadget/legacy/inode.c
+> @@ -236,6 +236,8 @@ static void put_ep (struct ep_data *data
+>  static const char *CHIP;
+>  static DEFINE_MUTEX(sb_mutex);         /* Serialize superblock operation=
+s */
+>
+> +static DEFINE_SPINLOCK(aio_lock);      /* Protect aio cancellation info =
+*/
+> +
+>  /*----------------------------------------------------------------------=
+*/
+>
+>  /* NOTE:  don't use dev_printk calls before binding to the gadget
+> @@ -433,6 +435,19 @@ static long ep_ioctl(struct file *fd, un
+>
+>  /* ASYNCHRONOUS ENDPOINT I/O OPERATIONS (bulk/intr/iso) */
+>
+> +enum aio_req_state {
+> +       AIO_SUBMITTING,
+> +       AIO_RUNNING,
+> +       AIO_COMPLETED,
+> +       AIO_GIVEN_BACK,
+> +};
+> +
+> +enum aio_cancel_state {
+> +       AIO_NOT_CANCELLED,
+> +       AIO_UNLINKING,
+> +       AIO_UNLINK_DONE,
+> +};
+> +
+>  struct kiocb_priv {
+>         struct usb_request      *req;
+>         struct ep_data          *epdata;
+> @@ -443,24 +458,53 @@ struct kiocb_priv {
+>         struct iov_iter         to;
+>         const void              *to_free;
+>         unsigned                actual;
+> +       enum aio_req_state      req_state;
+> +       enum aio_cancel_state   cancel_state;
+>  };
+>
+>  static int ep_aio_cancel(struct kiocb *iocb)
+>  {
+> -       struct kiocb_priv       *priv =3D iocb->private;
+> +       struct kiocb_priv       *priv;
+>         struct ep_data          *epdata;
+> +       struct usb_ep           *ep;
+>         int                     value;
+> +       enum aio_req_state      req_state;
+>
+> -       local_irq_disable();
+> -       epdata =3D priv->epdata;
+> -       // spin_lock(&epdata->dev->lock);
+> -       if (likely(epdata && epdata->ep && priv->req))
+> -               value =3D usb_ep_dequeue (epdata->ep, priv->req);
+> -       else
+> -               value =3D -EINVAL;
+> -       // spin_unlock(&epdata->dev->lock);
+> -       local_irq_enable();
+> +       spin_lock_irq(&aio_lock);
+> +       priv =3D iocb->private;
+> +       if (!priv || priv->cancel_state !=3D AIO_NOT_CANCELLED) {
+> +               spin_unlock_irq(&aio_lock);
+> +               return -EINVAL;         /* Already completed or cancelled=
+ */
+> +       }
+> +       if (priv->req_state =3D=3D AIO_SUBMITTING) {
+> +               priv->cancel_state =3D AIO_UNLINK_DONE;
+> +               spin_unlock_irq(&aio_lock);
+> +               return 0;       /* ep_aio() will call us again if needed =
+*/
+> +       }
+>
+> +       epdata =3D priv->epdata;
+> +       ep =3D epdata->ep;
+> +       priv->cancel_state =3D AIO_UNLINKING;
+> +       spin_unlock_irq(&aio_lock);
+> +
+> +       value =3D usb_ep_dequeue(ep, priv->req);
+> +
+> +       spin_lock_irq(&aio_lock);
+> +       req_state =3D priv->req_state;
+> +       priv->cancel_state =3D AIO_UNLINK_DONE;
+> +       spin_unlock_irq(&aio_lock);
+> +
+> +       /*
+> +        * priv->req and epdata are freed after unlinking and completion =
+are
+> +        * both done.
+> +        * priv itself is freed after unlinking and giveback are both don=
+e.
+> +        */
+> +       if (req_state >=3D AIO_COMPLETED) {
+> +               usb_ep_free_request(ep, priv->req);
+> +               put_ep(epdata);
+> +               if (req_state =3D=3D AIO_GIVEN_BACK)
+> +                       kfree(priv);
+> +       }
+>         return value;
+>  }
+>
+> @@ -482,7 +526,12 @@ static void ep_user_copy_worker(struct w
+>
+>         kfree(priv->buf);
+>         kfree(priv->to_free);
+> -       kfree(priv);
+> +
+> +       spin_lock_irq(&aio_lock);
+> +       priv->req_state =3D AIO_GIVEN_BACK;
+> +       if (priv->cancel_state !=3D AIO_UNLINKING)
+> +               kfree(priv);
+> +       spin_unlock_irq(&aio_lock);
+>  }
+>
+>  static void ep_aio_complete(struct usb_ep *ep, struct usb_request *req)
+> @@ -490,11 +539,16 @@ static void ep_aio_complete(struct usb_e
+>         struct kiocb            *iocb =3D req->context;
+>         struct kiocb_priv       *priv =3D iocb->private;
+>         struct ep_data          *epdata =3D priv->epdata;
+> +       enum aio_req_state      new_req_state;
+> +       enum aio_cancel_state   cancel_state;
+>
+> -       /* lock against disconnect (and ideally, cancel) */
+> +       /* lock against unbind */
+>         spin_lock(&epdata->dev->lock);
+> -       priv->req =3D NULL;
+> -       priv->epdata =3D NULL;
+> +
+> +       /* Prevent future cancellation */
+> +       spin_lock(&aio_lock);
+> +       iocb->private =3D NULL;
+> +       spin_unlock(&aio_lock);
+>
+>         /* if this was a write or a read returning no data then we
+>          * don't need to copy anything to userspace, so we can
+> @@ -503,10 +557,9 @@ static void ep_aio_complete(struct usb_e
+>         if (priv->to_free =3D=3D NULL || unlikely(req->actual =3D=3D 0)) =
+{
+>                 kfree(req->buf);
+>                 kfree(priv->to_free);
+> -               kfree(priv);
+> -               iocb->private =3D NULL;
+>                 iocb->ki_complete(iocb,
+>                                 req->actual ? req->actual : (long)req->st=
+atus);
+> +               new_req_state =3D AIO_GIVEN_BACK;
+>         } else {
+>                 /* ep_copy_to_user() won't report both; we hide some faul=
+ts */
+>                 if (unlikely(0 !=3D req->status))
+> @@ -516,12 +569,23 @@ static void ep_aio_complete(struct usb_e
+>                 priv->buf =3D req->buf;
+>                 priv->actual =3D req->actual;
+>                 INIT_WORK(&priv->work, ep_user_copy_worker);
+> -               schedule_work(&priv->work);
+> +               new_req_state =3D AIO_COMPLETED;
+>         }
+> -
+> -       usb_ep_free_request(ep, req);
+>         spin_unlock(&epdata->dev->lock);
+> -       put_ep(epdata);
+> +
+> +       spin_lock(&aio_lock);
+> +       priv->req_state =3D new_req_state;
+> +       cancel_state =3D priv->cancel_state;
+> +       spin_unlock(&aio_lock);
+> +
+> +       if (new_req_state =3D=3D AIO_COMPLETED)
+> +               schedule_work(&priv->work);
+> +       if (cancel_state !=3D AIO_UNLINKING) {
+> +               usb_ep_free_request(ep, req);
+> +               put_ep(epdata);
+> +               if (new_req_state =3D=3D AIO_GIVEN_BACK)
+> +                       kfree(priv);
+> +       }
+>  }
+>
+>  static ssize_t ep_aio(struct kiocb *iocb,
+> @@ -532,11 +596,12 @@ static ssize_t ep_aio(struct kiocb *iocb
+>  {
+>         struct usb_request *req;
+>         ssize_t value;
+> +       struct usb_ep *ep;
+> +       bool need_unlink =3D false;
+>
+>         iocb->private =3D priv;
+>         priv->iocb =3D iocb;
+>
+> -       kiocb_set_cancel_fn(iocb, ep_aio_cancel);
+>         get_ep(epdata);
+>         priv->epdata =3D epdata;
+>         priv->actual =3D 0;
+> @@ -547,10 +612,11 @@ static ssize_t ep_aio(struct kiocb *iocb
+>          */
+>         spin_lock_irq(&epdata->dev->lock);
+>         value =3D -ENODEV;
+> -       if (unlikely(epdata->ep =3D=3D NULL))
+> +       ep =3D epdata->ep;
+> +       if (unlikely(ep =3D=3D NULL))
+>                 goto fail;
+>
+> -       req =3D usb_ep_alloc_request(epdata->ep, GFP_ATOMIC);
+> +       req =3D usb_ep_alloc_request(ep, GFP_ATOMIC);
+>         value =3D -ENOMEM;
+>         if (unlikely(!req))
+>                 goto fail;
+> @@ -560,12 +626,37 @@ static ssize_t ep_aio(struct kiocb *iocb
+>         req->length =3D len;
+>         req->complete =3D ep_aio_complete;
+>         req->context =3D iocb;
+> -       value =3D usb_ep_queue(epdata->ep, req, GFP_ATOMIC);
+> +
+> +       priv->req_state =3D AIO_SUBMITTING;
+> +       priv->cancel_state =3D AIO_NOT_CANCELLED;
+> +       kiocb_set_cancel_fn(iocb, ep_aio_cancel);
+> +
+> +       value =3D usb_ep_queue(ep, req, GFP_ATOMIC);
+>         if (unlikely(0 !=3D value)) {
+> -               usb_ep_free_request(epdata->ep, req);
+> +               spin_lock(&aio_lock);
+> +               iocb->private =3D NULL;
+> +               spin_unlock(&aio_lock);
+> +
+> +               usb_ep_free_request(ep, req);
+>                 goto fail;
+>         }
+>         spin_unlock_irq(&epdata->dev->lock);
+> +
+> +       spin_lock_irq(&aio_lock);
+> +       if (priv->req_state =3D=3D AIO_SUBMITTING) {
+> +               priv->req_state =3D AIO_RUNNING;
+> +
+> +               /* Cancelled before or just after submission? */
+> +               if (priv->cancel_state =3D=3D AIO_UNLINK_DONE) {
+> +                       priv->cancel_state =3D AIO_NOT_CANCELLED;
+> +                       need_unlink =3D true;
+> +               }
+> +       }                       /* Otherwise already completed */
+> +       spin_unlock_irq(&aio_lock);
+> +
+> +       if (need_unlink)        /* Redo cancel that was too early */
+> +               ep_aio_cancel(iocb);
+> +
+>         return -EIOCBQUEUED;
+>
+>  fail:
+>
