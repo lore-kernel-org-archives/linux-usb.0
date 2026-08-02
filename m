@@ -1,202 +1,128 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC9739989D
-	for <linux-usb@vger.kernel.org>; Sun,  2 Aug 2026 12:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C25733938C;
+	Sun,  2 Aug 2026 12:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785672370; cv=none; b=Z9coruZ5eiS7Xum2x05UWr53FGATvp3mdk6deUfrYlt+i6HcImEwutESAv+wbHjQe3rwK318TB5W0w4QI/iUcnVd+6t+MVcIMQkWNjCaUfukCszpwwGUUjGTNo64mQTCvW5zsKzHkzzCYixLL5k2xxxAxkpERQuKnMoHJX34buM=
+	t=1785673760; cv=none; b=qO/rcRAFnXWUWQa341URwKoj+uLscP9GrkSPKxZkoNdwcmCN8pkW95QJdsliHDIbo0P3HGI7oI04CspwLrYFILyJ22H4SgRPshtdSN+8kcwkiGC09DKA2Fb+earvHYjBTHHZBGm9whHuiv5uGKdmGySmAQAx99ydDsYeP2ipHp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785672370; c=relaxed/simple;
-	bh=ja9SEZY37py2LPC3UCzbojlbnwIXzxtJJQ0uGcIg/sk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nH7HAW+xAWS/zCpEl3rDlgOrrIPeCrBvCoExZqUuB5f7tcCOq0qRCoorcsE6RAqAFT0EGR7tHT9Tt3wXDjHibEOJaQRkuJhcSV76hUF74vLbj4tfvkAuY4Z6v9ezuEc4dhUhMhWWtM89jcv3B9Sy2ayWhBT3+XaqCY6YAMqlaeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=dgpKf/1V; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
+	s=arc-20240116; t=1785673760; c=relaxed/simple;
+	bh=Oc+Pf6P+wet7UHezAuJRNaKASH+UQW2bFsWGp3UkczE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mf6Fm0hvQAAJI/h04j0SzTVXjWRPswwTU27YOyhlujQ7ZrDNjgplkL+GDpzp9b6k+m4xH/0IQuJl8+yhfwf4G8iWpdan3u1w46NCn+rwFND3hL21/ucXdoIw6hOSUu1VmJTdFK211Wbo9aCInysHqXes8SmoV6c62l1WL3IOzWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H2OmZJER; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="dgpKf/1V"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-495437bb891so8938705e9.1
-        for <linux-usb@vger.kernel.org>; Sun, 02 Aug 2026 05:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1785672366; x=1786277166; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YmI7MBDeloKectxU/BNiRN1jB4jCnA25xpecmEwYe0k=;
-        b=dgpKf/1VX/V/XUhdm6FM3HK3/hMzv9nsCRIOy6R61ouRFAXv02jm+AyOcOJu87XgPd
-         RpEixcxwjNs1eXFeMGUrHULio5bx7oNjwj0Vv8ut8kRDoDusqtrl7DTE3sbMNEKGzl6s
-         T6d9CBEcGP2HoR/8Ov66/12Uu0hrIKHKDRmZEBPLng4QSi4Hr5CeXgK4kIzHOl9Vjm6P
-         odcqZsrzPB6DzUWg2y+GN44ChXwp8eU5gXndFY7tZ/AI1PiaM9c+u+L+b2KlSJHoU7Va
-         bXKpvLiovV5TWbh0E/YyvyzVXKDuOV/JquH/2ijGvuYDeMq8wRuWYjbCNmccWh5kyBla
-         Ev9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785672366; x=1786277166;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YmI7MBDeloKectxU/BNiRN1jB4jCnA25xpecmEwYe0k=;
-        b=GMm1JaJMN4fGo9LgQNTcEIZakfn9kYKjRUcJ/C32s8czR3+Mj4g0O9wU1Cg6f5t5IP
-         MhPiPNCY3XqbH0WK9T6zJngkBukYaKLsenR8swQmc55Xhj6rEn3bNBMemOb3tLFLgOXl
-         e+AkIlplJIKslFdrFbyZgZmai20LgiUF+pMkAd2ihsKAidOF94ET21htDzDEiLaUz2mM
-         lWLuSGDAXe0hF7rDG3+Y+9MrKvfnKwPTd3BBWXGquS0AUSzp2GOvNcFtU/ttzwdFbQ9P
-         tilqMWUId56ME4KhoNOb1dYB/l4qAkvNU4XrP9dXTFS0hHTbJRB0ksA3DWpWjeFF0wO2
-         6E3w==
-X-Forwarded-Encrypted: i=1; AHgh+RpJiEsFZF7D6aNKTYKJbkcQYIulRKGha2lhBywbdPNxlZCNTeW9zwaNwl3aXbTr6UeWi6b2DU1phJM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2B0ha36g5u/h7lls0gEtQ9kyU4P54hGsrUfXLAPinUYzvKsYW
-	WaRRvNMEaDRKgXJ8PjZrCOgOok69U8OCdpaaPa9ARTP49h2Y73S6MsJ2YprKVP9KyYgOQlW70ZR
-	ks3I7SA==
-X-Gm-Gg: AR+sD109tVefFEQtFQntOy7D/rCmSo4XMywPjWLvZFBSn1n+8+udsqbMzyOksIAGJXT
-	I1jiy5F/3gd7aW7cVpTIFrca5CA6C0qN1caNpoOjz1yDVe6q7DX7XnKAqnDKGanalS9SvRPpyIX
-	oVxFgGq2Bu4pA4twrYnbTQwIGMqu6cnLhkKfgMsWetJ+iKaJ78bHY+OyQJ128q5IAfTzCXyfFYE
-	h5V7mjeN1DralqN5YlUsAm7hmSZ7n8xREYLS3vH5aj8Jekony5Kr3svdE/KsefFaZmEh+0LlW1V
-	yB7lgW3kniemIElpk9UttCwHwVUwUiTEN1/n1U8EMxzq5+vNm0CLAbTOFI1dG3nLxZPNGeee1wT
-	SbN1K+VdxYy6z7Enjj3uvb1HHrJ72aKagyFGbbHbbSp35jCx/O0rJiW5VZ0hUdzRFFsPKVQSGQA
-	m/NLCoYqLcFj7bGaxvqfl7dvRf2pihM1Elwc8gXSoMbTbXdXNLtIytHCwzn2bB0TAu5TjjvR8g5
-	jv0XCs4mpulkDVcXKSAFxQvBdqjtzb8YWNY/6w/F+9OYxcCOdGMHilm9x7LVleV9GGePBZKqFRQ
-	zW63m/u/g6nV/fMh+Q==
-X-Received: by 2002:a05:600c:1f8f:b0:493:f478:4c71 with SMTP id 5b1f17b1804b1-4980eba0817mr106984535e9.7.1785672365325;
-        Sun, 02 Aug 2026 05:06:05 -0700 (PDT)
-Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.158])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49807b8d04fsm175226825e9.3.2026.08.02.05.06.03
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 02 Aug 2026 05:06:04 -0700 (PDT)
-From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	andrew+netdev@lunn.ch
-Cc: agk@godking.net,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH net v2] net: usb: ipheth: fix carrier_work UAF on disconnect
-Date: Sun,  2 Aug 2026 14:06:02 +0200
-Message-ID: <20260802120602.42595-1-doruk@0sec.ai>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H2OmZJER"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C46541F000E9;
+	Sun,  2 Aug 2026 12:29:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785673758;
+	bh=SHSGsM0vu6t3zdEJHGFOqvnDDQ/hs9cDuA8s50LeKfA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=H2OmZJERCYxtrOOph6nrStzZdf9Px2+Qu52EKRUMyRnmj4QfSbClOGXvOwLQl/4aA
+	 QXrUGppcGBhRWhY9tW992RTQ83AkGGQJozNyGViEgllW7DJ8ayJ1pfg/mDZfKLYM+O
+	 iaCJu9ozHHoC9OJbqbp8GE2FXVc48vGCq9wTtZKsOYsPdu40/jveDStEa4FnAS8dvh
+	 eBwmazAysE+S1N5/1Od2as8vkHZiBiRzJzW/3NReG/Vr6BQSlyRO9SCgOFK91LoO0Z
+	 4Wat2UmYU94tkzX5l86TF3Srukt7Yi+4nQ/P5F5pqFRu3Ol3LaLh9TJ1K2EelnS/lt
+	 PpuVHx/cRwcTg==
+Date: Sun, 2 Aug 2026 14:29:15 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Mike Leach <mike.leach@arm.com>, 
+	James Clark <james.clark@linaro.org>, Leo Yan <leo.yan@arm.com>, Damien Le Moal <dlemoal@kernel.org>, 
+	Niklas Cassel <cassel@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Patrice Chotard <patrice.chotard@foss.st.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>, 
+	Lee Jones <lee@kernel.org>, Johannes Berg <johannes@sipsolutions.net>, 
+	Jeff Johnson <jjohnson@kernel.org>, Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Yangbo Lu <yangbo.lu@nxp.com>, Paul Walmsley <pjw@kernel.org>, 
+	Samuel Holland <samuel.holland@sifive.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Richard Cochran <richardcochran@gmail.com>, Jens Wiklander <jenswi@kernel.org>, 
+	Yuanfang Zhang <yuanfang.zhang@oss.qualcomm.com>, YC Hung <yc.hung@mediatek.com>, 
+	Svyatoslav Ryhel <clamor95@gmail.com>, Sean Wang <sean.wang@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org, linux-arm-msm@vger.kernel.org, 
+	linux-ide@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	mfd@lists.linux.dev, linux-wireless@vger.kernel.org, ath10k@lists.infradead.org, 
+	linux-pm@vger.kernel.org, netdev@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Correct white-space style
+Message-ID: <am83ac93gyowUgSQ@monoceros>
+References: <20260801195613.235430-2-krzysztof.kozlowski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ynduf7ixmtnk7fvw"
+Content-Disposition: inline
+In-Reply-To: <20260801195613.235430-2-krzysztof.kozlowski@oss.qualcomm.com>
 
-ipheth_sndbulk_callback() re-arms the carrier-check work on any
-non-zero URB status:
 
-	else
-		schedule_delayed_work(&dev->carrier_work, 0);
+--ynduf7ixmtnk7fvw
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] dt-bindings: Correct white-space style
+MIME-Version: 1.0
 
-Nothing ties that to the interface being up, so the work can be armed
-again after ipheth_close() has already drained it, and stay armed
-until the netdev whose private area embeds it is freed.
+On Sat, Aug 01, 2026 at 09:56:14PM +0200, Krzysztof Kozlowski wrote:
+> Correct a few white-space issues, like double space after '=3D' or before
+> bracket '{' characters, which will be flagged by dt-check-style.  No
+> functional changes.
+>=20
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> [...]
+> diff --git a/Documentation/devicetree/bindings/pwm/pwm-sifive.yaml b/Docu=
+mentation/devicetree/bindings/pwm/pwm-sifive.yaml
+> index bae993128981..40397bdf2d69 100644
+> --- a/Documentation/devicetree/bindings/pwm/pwm-sifive.yaml
+> +++ b/Documentation/devicetree/bindings/pwm/pwm-sifive.yaml
+> @@ -62,7 +62,7 @@ additionalProperties: false
+> =20
+>  examples:
+>    - |
+> -    pwm:  pwm@10020000 {
+> +    pwm@10020000 {
+>        compatible =3D "sifive,fu540-c000-pwm", "sifive,pwm0";
+>        reg =3D <0x10020000 0x1000>;
+>        clocks =3D <&tlclk>;
 
-On unplug with a TX URB in flight, ipheth_disconnect() drains the work
-through unregister_netdev() -> ipheth_close() ->
-cancel_delayed_work_sync() and only then calls ipheth_kill_urbs().
-usb_kill_urb() completes the in-flight TX URB with -ENOENT, so
-ipheth_sndbulk_callback() runs after the drain and re-arms
-carrier_work.
+I'm ok with this change (as &pwm is unused in the example), I also don't
+care much about this not being a whitespace only change and thus not
+really matching the commit log.
 
-The same completion also re-arms the work if the interface is only
-brought down while a TX URB is in flight, and
-ipheth_carrier_check_work() then keeps re-queueing itself once a
-second. unregister_netdev() does not call ipheth_close() for an
-already-down interface, so nothing drains it on the later unplug
-either.
+Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org> # for Documentation/devi=
+cetree/bindings/pwm
 
-In both cases free_netdev() frees the netdev while carrier_work is
-still pending, and ipheth_carrier_check_work() dereferences freed
-memory.
+Best regards
+Uwe
 
-Tie the work to the interface state instead of chasing the completion:
-disable it in ipheth_close() and enable it in ipheth_open(), so a
-schedule_delayed_work() from the URB completion is a no-op whenever
-the interface is not up. disable_delayed_work_sync() also waits for a
-running instance, so it fully replaces the cancel_delayed_work_sync()
-it takes the place of. The work starts out disabled in ipheth_probe()
-so the enable/disable counts balance from the first open.
+--ynduf7ixmtnk7fvw
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Reproduced under KASAN on linux-next (next-20260731) with dummy_hcd and
-raw-gadget standing in for the device, driving the second path above (the
-interface is already down, so unregister_netdev() does not call
-ipheth_close()): 15 of 15 unpatched boots report a slab-use-after-free in
-__run_timers(), freed by ipheth_disconnect() and re-armed from
-ipheth_sndbulk_callback() via queue_delayed_work_on(). The
-same trigger on a kernel differing only by this patch reports 0 of 15,
-and the carrier check still functions across open/close cycles.
+-----BEGIN PGP SIGNATURE-----
 
-The reproducer needs an attached USB device that stops draining bulk OUT,
-plus a link down and unplug, driven as root. It is not a privilege
-boundary crossing and no exploit primitive was developed.
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmpvOBgACgkQj4D7WH0S
+/k5+WQf8CivH89faKCp48CBlupnrahHpA3qdaBm48BnUdJduo4BaximYlTqDGSxO
+NXL529LwysgvuiHkOxrg9bUdk/Lx68V5xZboTmO5BFwMGnqiXaazc9iWfyHrau7M
+YVderOTLj5yWcB/0FkMdHb59nmaH6H3DTA7lTyzhEH2rK1e56Xe0bWxXn5wPx//K
+Fg6BzFpjoO28RLKp88OCsgzFiu3Y6yaJNenCx2MeV0T15/L721ZmHJDKsQqu5iDJ
+iXzPSntzwtR7HAs/3NUW1jSaAV2Jq41LUqlqjX4CeZDwSDaX6iquowVSJDhJvYuK
+ZtKTkgqchOdbv2qhQEqje3UkwK9pWQ==
+=9CRH
+-----END PGP SIGNATURE-----
 
-Found by 0sec (https://0sec.ai).
-
-Fixes: bb1b40c7cb86 ("usbnet: ipheth: prevent TX queue timeouts when device not ready")
-Cc: stable@vger.kernel.org
-Assisted-by: 0sec:multi-model
-Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
----
-v2:
- - Fix this at the scheduling site as Jakub suggested, instead of
-   adding a second cancel_delayed_work_sync() to ipheth_disconnect().
- - Took the disable/enable option rather than a netif_running() test.
-   The test would sit in ipheth_sndbulk_callback(), which can observe
-   __LINK_STATE_START still set and then queue the work after the
-   cancel_delayed_work_sync() in ipheth_close() has already returned.
-   Disabling the work closes that window.
- - Now runtime-reproduced: 15/15 unpatched boots splat under KASAN,
-   0/15 with this patch (x86_64, W=1, no new warnings). v1 and the
-   earlier v2 draft said compile-tested only; that is no longer true.
-   KASAN was confirmed live on both kernels via KUNIT before trusting
-   the negative, and the two kernels differ only by this patch.
- - v1: https://lore.kernel.org/netdev/20260724134250.34360-1-doruk@0sec.ai/
-
-Note for stable: disable_delayed_work_sync() and enable_delayed_work()
-first appeared in v6.10 (86898fa6b8cd "workqueue: Implement disable/enable
-for (delayed) work items"), so 6.6 and older trees need a different
-backport.
-
- drivers/net/usb/ipheth.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/usb/ipheth.c b/drivers/net/usb/ipheth.c
-index bb1364f85bd1f..2b490114d2327 100644
---- a/drivers/net/usb/ipheth.c
-+++ b/drivers/net/usb/ipheth.c
-@@ -490,6 +490,7 @@ static int ipheth_open(struct net_device *net)
- 	if (retval)
- 		return retval;
- 
-+	enable_delayed_work(&dev->carrier_work);
- 	schedule_delayed_work(&dev->carrier_work, IPHETH_CARRIER_CHECK_TIMEOUT);
- 	return retval;
- }
-@@ -499,7 +500,11 @@ static int ipheth_close(struct net_device *net)
- 	struct ipheth_device *dev = netdev_priv(net);
- 
- 	netif_stop_queue(net);
--	cancel_delayed_work_sync(&dev->carrier_work);
-+	/* A TX URB can still complete with an error after this point and
-+	 * try to re-arm the carrier work. Disable it instead of cancelling
-+	 * it, so that such a schedule_delayed_work() is a no-op.
-+	 */
-+	disable_delayed_work_sync(&dev->carrier_work);
- 	return 0;
- }
- 
-@@ -629,6 +634,10 @@ static int ipheth_probe(struct usb_interface *intf,
- 	}
- 
- 	INIT_DELAYED_WORK(&dev->carrier_work, ipheth_carrier_check_work);
-+	/* Armed only between ipheth_open() and ipheth_close(). Start out
-+	 * disabled so the enable/disable counts balance from the first open.
-+	 */
-+	disable_delayed_work(&dev->carrier_work);
- 
- 	retval = ipheth_alloc_urbs(dev);
- 	if (retval) {
--- 
-2.43.0
-
+--ynduf7ixmtnk7fvw--
