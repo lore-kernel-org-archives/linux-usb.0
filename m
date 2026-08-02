@@ -1,33 +1,72 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E69F83A14;
-	Sun,  2 Aug 2026 01:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B462D6E44
+	for <linux-usb@vger.kernel.org>; Sun,  2 Aug 2026 03:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785635469; cv=none; b=BrWpTkql/TiBAHxmst51Cvm8Oy0rm6upUCJnPuUtkS7URfTs4E2DznrKJ5hZgIGcLUXFkipgPX8UlxwufpRAxoNL58Ifew4CDSwqiIQQzNYsk3KyGApZnI0SpvP25p6kVtrEUgRC0NlN/D54ck/tCfxTEROXzuKfoMrgKbA6KnA=
+	t=1785641436; cv=none; b=EMoOF3XOEmUy49CkKILmdXwX5s1UJ7tosgIc1BDrcWmF0OHV7fGc744iI3zMpdpigGRWKFFP5hMv3rRbnPtKrhpv2s4hxGVxYnjHfUYjjhdSh2PWvOvjsAltYvIMkM8BsB6VRruYvOZMyyBiT0wq0+V2FlFfj1mgVFBazz8fLa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785635469; c=relaxed/simple;
-	bh=1us0727q9hpocAeDy3PrQlxJWVw8J/a/P/4v0mI+EsA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Z0TLHORTZH5pK4p6u4ttJ/FPNj92c0PIIreY+MF5kt0+Ngh8eOKD/T5SH9+HugUdUv0FUWGzurKGL5/1fajA/bqGQiRDGka94PotnhmG59OBhY3JgdT7tSo1wtQmWC27vZ2FpU9e/P7COjEhAiohXjhq1fu8nxL2ON6KZJuERP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wC3Hzx_om5qdgVZAA--.14746S3;
-	Sun, 02 Aug 2026 09:50:56 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app2 (Coremail) with SMTP id zC_KCgBn2c5+om5qdD5zAw--.15409S2;
-	Sun, 02 Aug 2026 09:50:54 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: linux-usb@vger.kernel.org
-Cc: heikki.krogerus@linux.intel.com,
-	gregkh@linuxfoundation.org,
+	s=arc-20240116; t=1785641436; c=relaxed/simple;
+	bh=QZaiviFXIpFOU6xrt4pohFGuFmFnFNWk4lMFpZyHZPg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B3ih0KwrmcnzLPK1wISe4/jrRve84wUPWdNBrF/4uIM43SzNL+KNAUky37jXHpkgHYf2MwxsiNgfR6cwqnRROk7ssk3UyQkg6k1J5AdywQGBA/b0y1TCIHdkXk0JewSA7y0Vg7UybPCXnbHy3zs/3Xjp7cu8f1REMqK7L1wrzVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oazx74BQ; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oazx74BQ"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49557167508so9057095e9.1
+        for <linux-usb@vger.kernel.org>; Sat, 01 Aug 2026 20:30:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785641433; x=1786246233; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5getTzD0IVo0TFYhF1w5tTOZvncb1cQf4iioeWqGs5Y=;
+        b=oazx74BQ5ljVYFxE5ay4CDYSl+BifQzmkdGHWprgszYz6Kij1gUD3iBg9VNiDSLA7z
+         6GmEzqbEndXioOCOzs8M24m00sBVUdU1+HO4NbSNbKT8jwMDfy/W7rj83HNZlC+8FLVX
+         AfMQyQVB75Ir6YfCMKtqXNVVB/DKIB5DW5sHgBcHbAvpLfx8cElgpEIEd5VZwjahRIPb
+         3v/cwYaZ4iYtSCeYQlQUl/hInKN2WRXIPl63oap3Ej1PMfmB4XTXaXhu4Si/St/etfPF
+         R3s/dg51bY1HJKBxxHMCVQOwtjS7AfIXZzwzj6rF7lvYzWMozokBowBevJrXRMFXDgCJ
+         YYrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785641433; x=1786246233;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5getTzD0IVo0TFYhF1w5tTOZvncb1cQf4iioeWqGs5Y=;
+        b=NAzOgwkUCvuPhxX/as5yZfaT1et7+nWzOPqZC6aeHW15KAKadshVq8W/icQS1tzRR9
+         xjw8VPz/HEbQ3iaLV8iZ5WrDy3ysY/SDiNa+ggFv02br4aJurDtWHc1jffAAMNfIhItU
+         BsW2EhZcBuGl1jKr518q7wii0Gor9SH5xrl745u2rfkhrfbcTwP3fXO85wrWWT143Wk5
+         6WZykXmvqBKPmC2bEqtO0It/UKiSFnht6/gOGcJazLdjLxmVDQnB0aheAhz/KyV9Xv/X
+         7WAgL79lbzSAIY43bguHiMmwDHzoO/d30vs456uGROdJYAwwZxTd8mv5+Hq+iGv8B88K
+         YSAg==
+X-Gm-Message-State: AOJu0YwrC3lPgFRgnYZUb9unPtCZJXxcIYbY0u1XgxgRSDhofCrivt57
+	FekTLpDfEYLjbQO7Y0BXNVZCoWwVi+9EUEz3dJo4ggp6SXc1OobHyxVx
+X-Gm-Gg: AR+sD1325Wan9WUzkwUylI2QVfkLTJIjxDjubKs8+eO8eCEiKKQO/uYE0ku8oQ3Vniz
+	M3S2BPPyCwWAR/YtgT3kmrEWKcRJp3IVXUwL+L3op9abBxnwTqZGV4nS3IDb95FafOFI05KmTj8
+	aQ8r0D2ES+bed/WuIehgMT6G/jWw6V6l7pFPEJ+rxIbXFg5DeBEdJrj8TmO8rXKJoQy5vYZNtX3
+	CoHC4pVA3WUjg5r7lgTsWnMwyW5J6qZkSPn8e7e/lcRJvM1DdymWs/i3oxMJmuKjhsITFoXWUly
+	efNQBvYFD0muug5SfgrOip6hHceOXQm0FvFhKoX+8paA5P025jM0SnOsb6opKmb5BdE2ruQuUh/
+	7h8Xg/kKxGQA0oTgfR8jAiGlSeX4/pFjMcZTsPbaCvYy+SwEXfGqRh/48GUWVRP3+t2W8kX1FMy
+	bKw8r/JnI5S4YlaWuR2SB0uhsv8kL1VV2SKqqeAlsPj/K2xIYwiD0MPAdaU3V5E0yxJipBjl8wj
+	fM6poVx36WT/VHTwFftI4GJq3sctkiRIKbkj9VNpzsZLiQWa859/9ojAKNwVnJPKA69Bio2CiB0
+	YDssOu8zEWKsOupky7Ya4Le7HMzJL2o3f9sUiIn3nj0sD8P+B16x360=
+X-Received: by 2002:a05:600c:4795:b0:495:5d5b:7533 with SMTP id 5b1f17b1804b1-4980c65b84bmr53485235e9.13.1785641433009;
+        Sat, 01 Aug 2026 20:30:33 -0700 (PDT)
+Received: from riacini.speedport.ip (p200300fcd73d5b95e8f13abce6faaab2.dip0.t-ipconnect.de. [2003:fc:d73d:5b95:e8f1:3abc:e6fa:aab2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49808191be8sm159659035e9.2.2026.08.01.20.30.31
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 01 Aug 2026 20:30:32 -0700 (PDT)
+From: Rituparna Warwatkar <rwarwatkar@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Fan Wu <fanwu01@zju.edu.cn>
-Subject: [PATCH] usb: typec: thunderbolt: Disable work before freeing tbt on remove
-Date: Sun,  2 Aug 2026 01:49:59 +0000
-Message-Id: <20260802014959.416687-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	Rituparna Warwatkar <rwarwatkar@gmail.com>,
+	syzbot+ebd045a6645cfb713c95@syzkaller.appspotmail.com
+Subject: [PATCH] usb: gadget: f_uac2: fix memory leak in sample rate store
+Date: Sun,  2 Aug 2026 05:29:59 +0200
+Message-ID: <20260802032959.98815-1-rwarwatkar@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,62 +74,61 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zC_KCgBn2c5+om5qdD5zAw--.15409S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?2WXfxwXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfncGSG+szpQCInt5Y8rbJUI1tfbJsdK5dvU8FUQzzw28qOlTcHMLmBbFhnccGnxXQowXF
-	SETPXWEienVG2sSaE6vN5RPxYw6l01w8CbPzC/8w
-X-Coremail-Antispam: 1Uk129KBj93XoW7Cr18Cw18GFy7Ar48GFy5ZFc_yoW8GrWxpF
-	sIgrWjkFy7GFWxt3W8Jr4I9ay8uwnrZFW3GFyIg3ySqrs8JF12qay8GrW0qFy7CF4rZFWa
-	qF13JF13uayUArcCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Cb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAF
-	wI0_Cr1j6rxdM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57
-	IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE
-	14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2
-	IYc2Ij64vIr41lF7xvr2IYc2Ij64vIr40E4x8a64kEw24l42xK82IYc2Ij64vIr41l4I8I
-	3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxV
-	WUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAF
-	wI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcI
-	k0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j
-	6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jnKsUUUUUU=
 
-tbt_altmode_remove() drops the plug and cable references without
-draining tbt->work. The work function dereferences those references,
-and can also requeue itself in its error path. The VDM callbacks can
-queue the same work item.
+f_uac2_opts_{p,c}_srate_store() duplicate the input page with kstrdup()
+and then tokenize it with strsep(&split_page, ","). strsep() advances
+the pointer it is given, so by the time the parsing loop finishes
+split_page points at the end of the string (or NULL). The subsequent
+kfree(split_page) therefore frees the wrong pointer (NULL when the
+whole buffer was consumed), leaking the buffer allocated by kstrdup():
 
-Disable and drain tbt->work before dropping the references. This waits
-for an existing invocation and prevents subsequent schedule_work()
-calls from queueing it during teardown.
+  BUG: memory leak
+  unreferenced object 0xffff888112a01e00 (size 64):
+    kstrdup
+    f_uac2_opts_c_srate_store
+    configfs_write_iter
+    vfs_write
+    ksys_write
 
-This issue was found by an in-house static analysis tool and confirmed
-by manual code review.
+Keep the original allocation in split_page and hand a separate iterator
+to strsep(), so the buffer is always freed. While at it, handle a
+kstrdup() failure instead of dereferencing NULL. Both the p_srate and
+c_srate attributes use the same macro and are fixed together.
 
-Fixes: 100e25738659 ("usb: typec: Add driver for Thunderbolt 3 Alternate Mode")
-Cc: stable@vger.kernel.org
-Assisted-by: Codex:gpt-5.6
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+Fixes: a7339e4f5788 ("usb: gadget: f_uac2: Support multiple sampling rates")
+Reported-by: syzbot+ebd045a6645cfb713c95@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=ebd045a6645cfb713c95
+Signed-off-by: Rituparna Warwatkar <rwarwatkar@gmail.com>
 ---
- drivers/usb/typec/altmodes/thunderbolt.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/usb/gadget/function/f_uac2.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/typec/altmodes/thunderbolt.c b/drivers/usb/typec/altmodes/thunderbolt.c
-index 32250b942..601d39ee1 100644
---- a/drivers/usb/typec/altmodes/thunderbolt.c
-+++ b/drivers/usb/typec/altmodes/thunderbolt.c
-@@ -303,6 +303,8 @@ static void tbt_altmode_remove(struct typec_altmode *alt)
- {
- 	struct tbt_altmode *tbt = typec_altmode_get_drvdata(alt);
- 
-+	disable_work_sync(&tbt->work);
-+
- 	for (int i = TYPEC_PLUG_SOP_PP; i >= 0; --i) {
- 		if (tbt->plug[i])
- 			typec_altmode_put_plug(tbt->plug[i]);
--- 
-2.34.1
+diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
+index 897787d0803..8facf289710 100644
+--- a/drivers/usb/gadget/function/f_uac2.c
++++ b/drivers/usb/gadget/function/f_uac2.c
+@@ -2013,6 +2013,7 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,       \
+ {                                                                      \
+        struct f_uac2_opts *opts = to_f_uac2_opts(item);                \
+        char *split_page = NULL;                                        \
++       char *rest;                                                     \
+        int ret = -EINVAL;                                              \
+        char *token;                                                    \
+        u32 num;                                                        \
+@@ -2027,7 +2028,12 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,      \
+        i = 0;                                                          \
+        memset(opts->name##s, 0x00, sizeof(opts->name##s));             \
+        split_page = kstrdup(page, GFP_KERNEL);                         \
+-       while ((token = strsep(&split_page, ",")) != NULL) {            \
++       if (!split_page) {                                              \
++               ret = -ENOMEM;                                          \
++               goto end;                                               \
++       }                                                               \
++       rest = split_page;                                              \
++       while ((token = strsep(&rest, ",")) != NULL) {                  \
+                ret = kstrtou32(token, 0, &num);                        \
+                if (ret)                                                \
+                        goto end;                                       \
+--
+2.47.3
 
