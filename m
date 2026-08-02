@@ -1,60 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66CC5390601;
-	Sun,  2 Aug 2026 08:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF043905F9;
+	Sun,  2 Aug 2026 08:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785660115; cv=none; b=SvueE+J64Na2J8fI3P659EwBhXsHZeeiZZMlb/wuVL19S0KzCJEYuS+wVJqBrzzYm0BPp3vzxsuWN1P3ncjJ97Lqj0euoGtUCsrLoiQgjLiZxfd63U5L0Jfl96C+yHbiCou0kn06YSTXcNtJfjUD63A3uRfsws5isj+EijuWdGw=
+	t=1785660280; cv=none; b=T1YARg+yEeoHojo4crm5C4aGPCXq6ab0b/xlPvUmfyXn3B6rwgdtXfjzJg+tEtkRhK8wqHCkL+8p/J2mFigS53n4wKaSWyMBzAg5bJuy5d8bhWLgEDgmDIAqAsivJ5NGCQk6fnm1JfVbbtegSNC5X52EIC/H04Rw2F2d0+7Y9k0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785660115; c=relaxed/simple;
-	bh=UBFQ4/nq0LXLskmxbuf+fEMvZnPC+kk8on2dh1BW9kU=;
+	s=arc-20240116; t=1785660280; c=relaxed/simple;
+	bh=7sfW5wlvZYnYnzcSvnYlUi9Nes8niWZernyfcxy7UWg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k6Zt2t5RLAdOaK29qfh5KmqXg1g0oTXAJDhFexWoNgWEzVivtm+5g+9szOpN/Mpv44xvVR1ibiR3u2BbjrC64Tbl2oB3cFZfb1tehADg34ikTlmJY51OEb58Y95UJ6ON+LzDGY5V+cUT1RHYk25oW7lC+lllpFZiH54ax82y1PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ME+ZRB+2; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bpNaH6SPe74ELo7P3IYtakM4G83EmDBDDqVmrBzPIJ5yIUYOx+FgojY6DErK1oOF+n2iAgSrc1kdvDQnN9TnDNgy8AbMzn8A3bpZMNVTIiCC2el9kvyyK2yygweXgxgSTuLShr/6ITIWvOTTyq7rhSGTffhf41TKueLNrQDIqAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=y299rIWR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ME+ZRB+2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785660113; x=1817196113;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UBFQ4/nq0LXLskmxbuf+fEMvZnPC+kk8on2dh1BW9kU=;
-  b=ME+ZRB+2gzGfw9qDjMionWjIPxxyC1ST4SbspRWqfBjmfpmee9liLMzn
-   HDeHZSliAMLkYR13/THezDx9ZVlsjgw20WcLmDlHxD34oWEzff0YR3ZQv
-   fiVniv7g9TJ642ZU/idEBTv+cKmHdcw4k9MXnqQLQ1zrKMrSrLsSrL8gc
-   bB/gpPxthGjJ3W50JMr5cf0/Kuf9uNZOzKegdD4Q+DEX9ZloEUkgTMMc+
-   TdIlxSLGpXFTEgEE96uuTlHzyBKTuz4+jK+KWn2ubvarc3h3HVoBLbKmk
-   rO/sTjHDE2sfFDVGEf4Gyh1RpNrHftrZuFDccUSA4FM9/AuOduISENpjW
-   A==;
-X-CSE-ConnectionGUID: WS76VPEOQtypDUAlWJ6Qyw==
-X-CSE-MsgGUID: f0W9ZBTbSyavJ7zfBqYy0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11862"; a="89903155"
-X-IronPort-AV: E=Sophos;i="6.25,200,1779174000"; 
-   d="scan'208";a="89903155"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2026 01:41:52 -0700
-X-CSE-ConnectionGUID: kaNSgnylRh282nPbXGWBXw==
-X-CSE-MsgGUID: PNS5obIuSH+a8rdh6MRgnw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,200,1779174000"; 
-   d="scan'208";a="260392713"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 02 Aug 2026 01:41:50 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 342D199; Sun, 02 Aug 2026 10:41:49 +0200 (CEST)
-Date: Sun, 2 Aug 2026 10:41:49 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] thunderbolt: validate DROM entry lengths
-Message-ID: <20260802084149.GM20844@black.igk.intel.com>
-References: <20260731141700.3-thunderbolt-v2-pengpeng@iscas.ac.cn>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="y299rIWR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA4111F00AC4;
+	Sun,  2 Aug 2026 08:44:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1785660278;
+	bh=1Roupk5IXNgnb0jQ7zaI+Ly47KyHYdNPIJ5Qwm1Ktso=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=y299rIWRBVsf7PVUy/+/ich9HT/PFAxKthYj2Z5VQ3cpSrywr+WAPamNXaOOFQzBX
+	 ZUcJKSwmVDIJptvz53pC2Q9K2Z5XQAvIZ1nh82q64XomwCApyIFx2D0IS9sTCFjcyp
+	 wMajmZxqV//VWOo6EwCr0xxbLU17/j7kodtOAVao=
+Date: Sun, 2 Aug 2026 10:43:10 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: HE WEI =?utf-8?B?KOOCruOCq+OCryk=?= <skyexpoc@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-usb@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] usb: misc: usbio: reject endpoints smaller than
+ the packet header
+Message-ID: <2026080209-satin-existing-5450@gregkh>
+References: <20260726113511.57596-1-skyexpoc@gmail.com>
+ <20260726113511.57596-2-skyexpoc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -63,72 +43,121 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260731141700.3-thunderbolt-v2-pengpeng@iscas.ac.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260726113511.57596-2-skyexpoc@gmail.com>
 
-Hi,
-
-On Fri, Jul 31, 2026 at 10:20:54PM +0800, Pengpeng Hou wrote:
-> tb_drom_parse_entries() checks that a DROM entry does not run past the
-> end of the DROM, but it does not require the declared entry length to
-> cover the entry header itself. A one-byte generic string entry therefore
-> makes the payload length calculation underflow.
+On Sun, Jul 26, 2026 at 08:35:07PM +0900, HE WEI (ギカク) wrote:
+> usbio_ctrl_msg() and usbio_bulk_msg() bound the caller's transfer sizes
+> against the endpoint packet size minus the fixed protocol header:
 > 
-> Require each entry to contain its two-byte header before dispatching to
-> the type-specific DROM entry parsers. Also require a USB4 product
-> descriptor entry to contain the vendor and product fields read by its
-> parser.
+> 	if ((obuf_len > (usbio->txbuf_len - sizeof(*bpkt))) ||
+> 	    (ibuf_len > (usbio->txbuf_len - sizeof(*bpkt))))
+> 		return -EMSGSIZE;
 > 
-> Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
+> usbio->txbuf_len is a u16 and sizeof(*bpkt) is a size_t, so the
+> subtraction is done in size_t.  struct usbio_bulk_packet is 5 bytes and
+> struct usbio_ctrl_packet is 4 bytes, so any endpoint smaller than that
+> makes the expression wrap to a value close to ULONG_MAX, both
+> comparisons become false and the check is disabled.
+> 
+> txbuf_len and rxbuf_len come from the bulk endpoint wMaxPacketSize.
+> usb_parse_endpoint() only clamps wMaxPacketSize downwards, it never
+> enforces a lower bound:
+> 
+> 	if (maxp > j) {
+> 		dev_notice(ddev, "... has invalid maxpacket %d, setting to %d\n",
+> 		    ..., maxp, j);
+> 		maxp = j;
+> 		endpoint->desc.wMaxPacketSize = cpu_to_le16(i | maxp);
+> 	}
+> 
+> A wMaxPacketSize of 0 is merely logged with dev_notice(), and a bulk
+> endpoint declaring 1 is accepted verbatim.  usb_submit_urb() rejects
+> maxpacket 0, but nothing rejects 1.
+> 
+> A device claiming one of the ids in usbio_table[] and advertising a bulk
+> out endpoint with wMaxPacketSize 1 therefore ends up with a one byte
+> usbio->txbuf, and the very first I2C transfer reaches usbio_bulk_msg()
+> via usbio_i2c_init() with obuf_len = 7.  The wrapped check passes and the
+> packet header stores overflow the slab object before memcpy() is even
+> reached:
+> 
+> 	bpkt = usbio->txbuf;
+> 	bpkt->header.type = type;	/* txbuf[0] */
+> 	bpkt->header.cmd = cmd;		/* txbuf[1], out of bounds */
+> 	bpkt->header.flags = ...;	/* txbuf[2], out of bounds */
+> 	bpkt->len = cpu_to_le16(obuf_len);	/* txbuf[3..4] */
+> 	memcpy(bpkt->data, obuf, obuf_len);	/* txbuf[5..] */
+> 
+> Note that this is all complete before usb_bulk_msg() is called, so it
+> does not depend on the host controller being willing to run a transfer
+> on such an endpoint.  With KASAN it is a slab-out-of-bounds write.
+> Through usbio_i2c_write() obuf_len becomes sizeof(struct usbio_i2c_rw) +
+> msg->len, so the length and the contents of the overflow are controlled
+> by whoever can issue I2C transfers, up to the 4096 byte adapter limit.
+> 
+> wMaxPacketSize 0 is worse in a different way: devm_kzalloc(dev, 0)
+> returns ZERO_SIZE_PTR rather than NULL, so the existing
+> 
+> 	if (!usbio->txbuf)
+> 		return -ENOMEM;
+> 
+> does not catch it and the same header stores dereference ZERO_SIZE_PTR.
+> usbio_bulk_recv() has the same problem on the receive side: it reads
+> bpkt->header.flags at offset 2 of usbio->rxbuf before any length
+> validation.
+> 
+> The control side is different.  For low, full and high speed hub.c
+> forces ep0 wMaxPacketSize to 8, 16, 32 or 64, all larger than the
+> control header, so usbio_ctrl_msg()'s check cannot wrap there.  For
+> SuperSpeed it accepts any bMaxPacketSize0 that encodes a non-zero value:
+> 
+> 	i = maxp0;
+> 	if (udev->speed >= USB_SPEED_SUPER) {
+> 		if (maxp0 <= 16)
+> 			i = 1 << maxp0;
+> 		else
+> 			i = 0;		/* Invalid */
+> 	}
+> 
+> combined with "(udev->speed >= USB_SPEED_SUPER && i > 0)" below, so
+> bMaxPacketSize0 of 0 or 1 gives a ctrlbuf of 1 or 2 bytes and the same
+> wrap, during the five usbio_ctrl_msg() calls in usbio_probe().  Whether
+> a given host controller will operate such an ep0 has not been
+> established; the control length is checked here regardless so that the
+> invariant is stated once for all three buffers.
+> 
+> Validate the three lengths in usbio_probe(), which is the only place
+> that assigns them, instead of hardening each arithmetic site.  A bridge
+> whose endpoints cannot even carry the protocol header is unusable, so
+> refusing to probe is the correct outcome.  Rejecting the equal case as
+> well is deliberate: it does not wrap, but it leaves no room for a
+> payload, and excluding it makes every "<buf>_len - sizeof(*pkt)" in the
+> driver a valid size of at least one.
+> 
+> No supported bridge is affected.  The low, full and high speed devices
+> this driver binds to have an ep0 packet size of at least 8, and they use
+> bulk endpoints of 64, or 63 via USBIO_QUIRK_BULK_MAXP_63.
+> 
+> Found by code review, doing variant analysis on the code around
+> 8c6314489550.  The overflow was reproduced under AddressSanitizer with a
+> userspace model of usbio_probe() and usbio_bulk_msg() that uses this
+> driver's struct definitions, checks and stores verbatim; it has not been
+> exercised on hardware or on dummy_hcd.
+> 
+> Fixes: 121a0f839dbb ("usb: misc: Add Intel USBIO bridge driver")
+> Cc: stable@vger.kernel.org
+> Assisted-by: Claude:claude-opus-5 asan
+> Signed-off-by: HE WEI (ギカク) <skyexpoc@gmail.com>
 > ---
-> Changes since v1: https://lore.kernel.org/all/20260706091532.77293-1-pengpeng@iscas.ac.cn/
-> - use the full author name in From and Signed-off-by as requested by
->   Mika Westerberg
-> - validate the fields read from USB4 product descriptor entries
-> - rebase onto the current tree
-> 
->  drivers/thunderbolt/eeprom.c | 19 ++++++++++++++++---
->  1 file changed, 16 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/thunderbolt/eeprom.c b/drivers/thunderbolt/eeprom.c
-> index 5681c17f82ec..87ae1b8d7c82 100644
-> --- a/drivers/thunderbolt/eeprom.c
-> +++ b/drivers/thunderbolt/eeprom.c
-> @@ -348,6 +348,12 @@ static int tb_drom_parse_entry_generic(struct tb_switch *sw,
->  		const struct tb_drom_entry_desc *desc =
->  			(const struct tb_drom_entry_desc *)entry;
->  
-> +		/* Header, USB spec, vendor ID, and product ID. */
+> --- a/drivers/usb/misc/usbio.c
+> +++ b/drivers/usb/misc/usbio.c
+> @@ -577,6 +577,24 @@
 
-Can't you just compare to the desc here since that's the structure we find
-there in that entry?
+This is a very odd diff, what tool created it?  Did "Claude" manually
+write a diff?  Please use the correct git diff output so that we can
+correctly validate it is proper.
 
-> +		if (header->len < sizeof(*header) + 3 * sizeof(u16)) {
-> +			tb_sw_warn(sw, "USB4 product descriptor entry is too short\n");
-> +			return -EIO;
-> +		}
-> +
->  		if (!sw->vendor && !sw->device) {
->  			sw->vendor = desc->idVendor;
->  			sw->device = desc->idProduct;
-> @@ -414,9 +420,16 @@ static int tb_drom_parse_entries(struct tb_switch *sw, size_t header_size)
->  	int res;
->  
->  	while (pos < drom_size) {
-> -		struct tb_drom_entry_header *entry = (void *) (sw->drom + pos);
-> -		if (pos + 1 == drom_size || pos + entry->len > drom_size
-> -				|| !entry->len) {
-> +		struct tb_drom_entry_header *entry;
-> +
-> +		if (drom_size - pos < sizeof(*entry)) {
-> +			tb_sw_warn(sw, "DROM buffer overrun\n");
-> +			return -EIO;
-> +		}
-> +
-> +		entry = (void *)(sw->drom + pos);
-> +		if (entry->len < sizeof(*entry) ||
-> +		    entry->len > drom_size - pos) {
->  			tb_sw_warn(sw, "DROM buffer overrun\n");
->  			return -EIO;
->  		}
-> -- 
-> 2.50.1
+thanks,
+
+greg k-h
