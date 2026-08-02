@@ -1,129 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C74225403;
-	Sun,  2 Aug 2026 18:13:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122BE175A81
+	for <linux-usb@vger.kernel.org>; Sun,  2 Aug 2026 19:10:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785694385; cv=none; b=jGH3UTLEmw6hAqKbYlb3knbzZ7nj++cnekp3Vq/xvvqBzxwbAcls25ZGyKfIuIVDJC2gZK4kFOLfSku3RslfjqxJ6XeqidvUKzlXduLBXDiAQskWG51/RDgrVAByib043V0F/zlMIBZHarYwfwJgf5hCLHzqnRObz683ePXy8xc=
+	t=1785697827; cv=none; b=ok1mtLTeKnO8H73haG7HxHrPzfnnmH0fR0jYIx4zv2PbnrzFIckx7ucYVDsiCZcMe6B/Z422ijjsdLPuYM6hT5hUETFooiIfzaiHgmHFtmccm30+sUi4RErmhh/53PH/gUPPcMQ6KBGNYHSMzhhtyt4gL13J4aRB9T0WnvxDNYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785694385; c=relaxed/simple;
-	bh=0k+OJtuRZY0lMi/7cUM4/mD9P0j5mcdSum3AE7JlLTY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SKIZyfn+ZJrzy09M6Vpb+U80r5jJlNqpSxZryKsTME4XGQ1TxYBx1/QwytP5EkBF0N7AV4uCzj87YUbLEK42mW5mVwVGxcGMjjuIXcqQm0ADANVvWZwhHstC2BDp48YSTGolh8TxOeetn4x3jnGmfs1W5IjTABLJEfYneStYGAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IAS++0ij; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785697827; c=relaxed/simple;
+	bh=Q0EDz+CWOGaRIi6PFiKN+tOPbzszIfYTvWYmGCeKlB4=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MqbNu2h2m6afpP9qDR62ax3NftmLWdYeij4LuC47B9mLWjfbOEsbGNrXKmz7vEywY5nDJf7MBzwXyekVzHvVhpZxnVYR1NCsQmik/WSsQLMPMjL/nTzv+Pan1aZLfKVXl7om62um5/FYOt0gXfC3FcduFtCw/kq7CyLDe9W3y7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oxYeMVkj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IAS++0ij"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EEFECC19425;
-	Sun,  2 Aug 2026 18:13:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oxYeMVkj"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 99F85C2BCF7
+	for <linux-usb@vger.kernel.org>; Sun,  2 Aug 2026 19:10:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785694385;
-	bh=0k+OJtuRZY0lMi/7cUM4/mD9P0j5mcdSum3AE7JlLTY=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=IAS++0ijGJz6yUSa6FC/PbUnG6sbgpvqD4lSJOvubohVJ4IvTt6nKlZbllmZ6pRXB
-	 9GtAlZ8uwYnWA8gEe4OPSL0ipdFrvyQ1UM5JwTLO0VYAf5j4tZjYvqs5YHCDxfBrjT
-	 pAIHsMRc0WsyWpBhvk1pTE877Z1bmY+/w4AKomszSetZgRMpdZvZqULwoICM91NWzS
-	 qKAI8YGVTsm2oOfsoPEDK0YDeK0mYzGdk6ajsVGpv5S8IsZHYYip7JYK4sirMEO5vm
-	 1x1c0j5FB9ySZKssF3AQQkASo0ZFllhyOxxRTKd4inhtfkA43ZYxhQcP+Yxv5zp2rj
-	 dtShlpiJn1rSg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEEDAC55171;
-	Sun,  2 Aug 2026 18:13:04 +0000 (UTC)
-From: Jiaheng Zhang via B4 Relay <devnull+lurenjia534.outlook.com@kernel.org>
-Date: Mon, 03 Aug 2026 02:12:59 +0800
-Subject: [PATCH v2] usb: gadget: f_hid: reject zero report length
+	s=k20201202; t=1785697826;
+	bh=Q0EDz+CWOGaRIi6PFiKN+tOPbzszIfYTvWYmGCeKlB4=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=oxYeMVkjsKcjcxL3mOp4idQcTNc4uhY4Ky7fKB2Bt3zPyatvY2Ia5NzDpvr47UCB1
+	 3W3vnxbdJt6mLCe+OPhx2oL6aoG7OFddJiS0MDSqze282W/4UKCyCdZCkgWRylGMMb
+	 5u1VD8qz0Cb5cvboOmEG/M+mwI/Cq4ZXTsjlXzBBqmCKXmq9e1WMufGZr2wOiEU3jQ
+	 nwagx9kFFcns3xBJ28KOx5zTy7feardoKQhIrUyDMbsMlqPWWczHVU/h9iohGC4tsj
+	 7gx3eOXI7oMfg3UfdvfL+fdFaBO9rrTCWGijAOlDF4WTikJ4j1cKWEMzd840D3mYcT
+	 L+wO2un6icxhQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 7AAEBC41612; Sun,  2 Aug 2026 19:10:26 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221774] hid-multitouch: report ID mismatch check breaks
+ touchpad palm detection on ASUS ROG Flow Z13 (2025) GZ302EA (0b05:1a30)
+Date: Sun, 02 Aug 2026 19:10:26 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: lovekeshsolanki00@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221774-208809-GiVlG6p6hg@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221774-208809@https.bugzilla.kernel.org/>
+References: <bug-221774-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260803-hid-report-length-usb-testing-v2-1-49144e0d11ae@outlook.com>
-X-B4-Tracking: v=1; b=H4sIAKqIb2oC/42OQQ7CIBREr2JY+w2lDRFX3sN0QeFT0AoN0EbT9
- O6WunHp8s1MXmYhCaPDRC6HhUScXXLBb8COB6Ks9D2C0xsTRhmnZ8rAOg0RxxAzDOj7bGFKHWR
- M2fkejGi4qSVvai3J5hgjGvfa/bf2y2nq7qhykZZFJxNCF6VXtkS/slKViXUph/jeP85VUf17Z
- 66gAtoIYYSoaq7ZNUx5COFxUuFJ2nVdP3bL18QBAQAA
-X-Change-ID: 20260802-hid-report-length-usb-testing-f946f3a643da
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzbot+7b70c4a6021fd49c4151@syzkaller.appspotmail.com, 
- Felipe Balbi <balbi@ti.com>, Andrzej Pietrasiewicz <andrzej.p@samsung.com>, 
- Jiaheng Zhang <lurenjia534@outlook.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785694383; l=2465;
- i=lurenjia534@outlook.com; s=20260801; h=from:subject:message-id;
- bh=O2BdkvFQJmn8WM8m861gjCJrv/A+Rv0+aSvZQnkLtyY=;
- b=LRa3ZEUBkieSiDH0kyo5QbqaOeXnx2Ntre5qJt6NoErr07dCJt3c6qvApcOc4hxSwge2Ox1uj
- WK/oV23xv6wAaBFX/7s5JyFSjQ18Wf+yjrOkB8T8Y5JTDL8eXPmYDbE
-X-Developer-Key: i=lurenjia534@outlook.com; a=ed25519;
- pk=nMa0OcUJYxnaGbhs5f95IwVQ7sPrWI7It3LMsh0BJX4=
-X-Endpoint-Received: by B4 Relay for lurenjia534@outlook.com/20260801 with
- auth_id=906
-X-Original-From: Jiaheng Zhang <lurenjia534@outlook.com>
-Reply-To: lurenjia534@outlook.com
 
-From: Jiaheng Zhang <lurenjia534@outlook.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221774
 
-New configfs HID function instances leave report_length at zero until
-userspace sets the attribute.  hidg_alloc() currently accepts that value
-and copies it into the function state.  hidg_bind() then uses it as the
-maximum packet size of the interrupt endpoint descriptors.
+--- Comment #10 from Lovekesh Solanki (lovekeshsolanki00@gmail.com) ---
+Hey, just checking if you have tested the above patch?
+Please do let me know if it fixes the issue after you test it.
 
-If userspace links the unconfigured function and enables the gadget,
-hidg_set_alt() reaches usb_ep_enable() with a zero maximum packet size,
-which triggers a warning.
+--=20
+You may reply to this email to add a comment.
 
-Reject the function from hidg_alloc() when report_length is zero.  This
-makes the configfs link fail before invalid endpoint descriptors can be
-added while leaving configured HID functions unchanged.
-
-Fixes: 21a9476a7ba8 ("usb: gadget: hid: add configfs support")
-Reported-by: syzbot+7b70c4a6021fd49c4151@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/6a6cd7bd.1aa927e4.17d4bf.0004.GAE@google.com/
-Assisted-by: Codex:GPT-5.6 MAX
-Signed-off-by: Jiaheng Zhang <lurenjia534@outlook.com>
----
-Testing:
-- syzbot reproducer: warning and panic in 2/2 runs before the fix;
-  no warning in 2/2 30-second runs after the fix
-- configfs/dummy_hcd regression: FAIL before the fix and PASS after it
-- current usb-testing: reproducer and regression test PASS, taint 0
-- GCC built-in and module builds, sparse, and x86-64/arm64 target
-  builds with both supported toolchains: PASS
----
-Changes in v2:
-- Use the real name Jiaheng Zhang in the author and Signed-off-by fields,
-  as requested.
-- No code changes.
-- Link to v1: https://patch.msgid.link/20260802-hid-report-length-usb-testing-v1-1-0499f99136d2@outlook.com
----
- drivers/usb/gadget/function/f_hid.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-index 3c6b43d06a..74a78cfd37 100644
---- a/drivers/usb/gadget/function/f_hid.c
-+++ b/drivers/usb/gadget/function/f_hid.c
-@@ -1605,6 +1605,11 @@ static struct usb_function *hidg_alloc(struct usb_function_instance *fi)
- 	opts = container_of(fi, struct f_hid_opts, func_inst);
- 
- 	mutex_lock(&opts->lock);
-+	if (!opts->report_length) {
-+		mutex_unlock(&opts->lock);
-+		kfree(hidg);
-+		return ERR_PTR(-EINVAL);
-+	}
- 
- 	spin_lock_init(&hidg->write_spinlock);
- 	spin_lock_init(&hidg->read_spinlock);
-
----
-base-commit: 5d5fd841c34649f1b09220fe58e59dffd61c447d
-change-id: 20260802-hid-report-length-usb-testing-f946f3a643da
-
-Best regards,
---  
-Jiaheng Zhang <lurenjia534@outlook.com>
-
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
