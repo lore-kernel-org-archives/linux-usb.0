@@ -1,116 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6FF2D23A6
-	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 18:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB21489863
+	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 18:51:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785782995; cv=none; b=MYE4NuVJCW+Xzj1j4em/q4jncPjQmkkcGkgQYdWVJ9jWfasdQrugyRZu+pVvos1zY6zVTHy1W8MbX2F5iTFPiKA9P6/Pc5MLXShOacrjHpTlzImEcSGZ/xeeIb0+giX9wuwxwgNIfDC1q0bj/5OjUFLSTssT81dB6q6lJqN+nN0=
+	t=1785783121; cv=none; b=thRUny7vERaDeMYYUbtC3iE+TuJbJcP53WpexOZB4yiiC9iBPuj4npaVSNffBD/sYYjUWNaRuRjh6P5nd4ay2jfUhTDT7ScWbBcQjcn87XWofm3nLDxy3PfExhrRA2URq8eCz+7srDvfpTdsGj5L1D+/Q7ABojCD+kADH+5A8X4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785782995; c=relaxed/simple;
-	bh=MMR8Kg68RaWCatfrYwL4nQZYPjeY+nfcKs/f7Ecwad8=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=t0HHQBG/tCbcVLHzbKISaIVqGS8E9L+Rew5w58Hz58vhxdH2p/9s6mnzGiBDP3kBJynTSdjWzx8uOEOznuxFKBXIWJ99yVvmLfTBjdalRtVo6vb724BxUIMzoqn9Gr3O+L4fmWmdCjxwKgbsyVsTfDqoFN+GuQV9bOOZlISBj/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5dMpMxT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785783121; c=relaxed/simple;
+	bh=iM5Z/oLcSCR6iWyjXpj6dij8yyM7ihBxh2QC9XIR3ko=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=I0ywLI50m2gYyLal4i+ayHQOyHOGqWjSiW6cwhoZfSWqduq2PW6UFuQp+qCj++xvMkyzdaaOSGyTZIpNbCzn6nIYRqybLMHhNrcYp/M4wdyWiVfQfiZJ0pVucEY0evgESwIPynJXlZVFn+8noOiaJMzuABkp20TFJF/1E8Qsht4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MMTWMpGk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5dMpMxT"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 160A1C2BCF7
-	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 18:49:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785782995;
-	bh=MMR8Kg68RaWCatfrYwL4nQZYPjeY+nfcKs/f7Ecwad8=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=C5dMpMxTW3nhDAg7aLenGJgjLoCJFeURyi5NEyEF/C/dIuMEZqWxqDsVNk5H3qZxP
-	 MP3Wi5YsdSDrgD+ag7A7L/xI8B2mfxyitsx293WGRYHQFaiHfdk8e3NOFLp1C1v4Nq
-	 Nvkw2Y/nEKMGMIVWfEQfD3N3QG+EQs/5vPu5NjFLvRbYZJNcvcnqRI7EXqQmpH/Obg
-	 nw3jWt9+eFVf1ff1s2OR/AqsN0+i1wRu3jOFUMnyeoDIz1QqC5c2PN+1DLpGxrtNHR
-	 Mhd6syDf1zb63DOdMWVG9qg7I1ocY1GKLSoFxga1Xr46j1KQptVybOTaDTBA5ey68a
-	 gEK0+hDxuVZfQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id E9CCFC4160E; Mon,  3 Aug 2026 18:49:54 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221774] hid-multitouch: report ID mismatch check breaks
- touchpad palm detection on ASUS ROG Flow Z13 (2025) GZ302EA (0b05:1a30)
-Date: Mon, 03 Aug 2026 18:49:54 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: lovekeshsolanki00@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221774-208809-Gmk16PfM6r@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221774-208809@https.bugzilla.kernel.org/>
-References: <bug-221774-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MMTWMpGk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A029A1F00AC4
+	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 18:51:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785783119;
+	bh=iM5Z/oLcSCR6iWyjXpj6dij8yyM7ihBxh2QC9XIR3ko=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=MMTWMpGk1qBzFG99s3mkfXUNJFhgXIDVkp4/uN7rg9p05cwHr3uIIeOkcKapgqdNK
+	 dtnuonhBiDfU5aiQzNhElCckusGB9gfgGj2lzv9nIH6nPzlFgh+J0bJlAfuHlo8VB4
+	 zLaSmjAN6/l7zlPBn/+vv3K4wdVfWA3gPxW0VxnUR3ciu9yEOfRueTPsDSCaktMBnl
+	 NP1pJ8j1hR77vWG/rYAKaF5orPGAOhpwi4IWbbaUSNhLQdgU1QTcgiGM24M0AHXXgL
+	 xk9mEcasJedI07bEa6bp1vUeF+c0d+sXETEN30Snmx5eLOGXcQmYdrYq4h1MQak21b
+	 43OtXe+BP1SmA==
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-39f20d19895so27489571fa.2
+        for <linux-usb@vger.kernel.org>; Mon, 03 Aug 2026 11:51:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AHgh+RpdKaolGDgqiCla3DeTar8m87r83p532BTJ0spuxlureee+XsVk/f6icS4kcsYDZCVaem1Ude+IxJA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaYl4s7AU26addlJW4mJ5YZ5PNDqjGqNTn2vciqNg/3dQ586tY
+	qCc9+qC3XPq+UXbv4u9I307pm5+iq+kTmPSi4x3NUSzIexz5a3WQsxgWmlAQEZ7mn0j3PFDgWlC
+	SSpoQfMH2h+OvBdoKAX0Q/7SkD2UeYnM=
+X-Received: by 2002:a05:651c:1508:b0:39e:ed7e:45b8 with SMTP id
+ 38308e7fff4ca-39f8613cb28mr22393461fa.1.1785783118064; Mon, 03 Aug 2026
+ 11:51:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <3353bdf3-4f33-44b1-809b-b0378bee5816@gmail.com>
+ <CAJZ5v0h1kqDEBYk0k05rv6f2SJ7g+TN4FhBDJYZSVUctu-0FdA@mail.gmail.com>
+ <daf0bb9b-246d-437d-87ca-16706113b201@gmail.com> <CAJZ5v0jByxtQ2tmNm_ZyyBnDMBNjuqQwD_367NRyGNzF7wQtRw@mail.gmail.com>
+ <7792f017-42b0-4a09-9941-5259138e21b1@gmail.com> <CAJZ5v0jCFFNuG7WtCE2CG+hP=YNsYMdXH_945QgkgAUcr4Lryg@mail.gmail.com>
+ <37daa35f-06aa-49d0-bf0a-1b5ac9f44c89@gmail.com> <CAJZ5v0jyy0+hqU3=gmBrgMzLBVhdUQwDj8d0_jGCqZwqyWT=_g@mail.gmail.com>
+ <588c2e18-e6fb-4fc1-95d5-7a5dd0f556fe@gmail.com> <CAJZ5v0gXtKEaNDdSRqd57zg9GbFN-VDHrU5-=EEQPdSa9Zk-xw@mail.gmail.com>
+ <CAJZ5v0g4ctzLpEro2Mu7EbSo8RNmYUCM6+J2p_ExCXseQAx13Q@mail.gmail.com> <1da0b5a8-336c-455f-9098-a8c834721039@gmail.com>
+In-Reply-To: <1da0b5a8-336c-455f-9098-a8c834721039@gmail.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Mon, 3 Aug 2026 20:51:44 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0g6He-X-C1Ctr4nsnL00mgLiD1mThwyX2jhUj9qKV12+A@mail.gmail.com>
+X-Gm-Features: AUfX_myF8OwVYwT4pBH1PqlOFv8YfvQAumFBZafcm5ubEHHbSA3UYGkJN_QcxIg
+Message-ID: <CAJZ5v0g6He-X-C1Ctr4nsnL00mgLiD1mThwyX2jhUj9qKV12+A@mail.gmail.com>
+Subject: Re: [REGRESSION] usb controller fails to initialize on intel s1200btl
+To: Julian Silver <mendaxca@gmail.com>
+Cc: rafael.j.wysocki@intel.com, linux-acpi@vger.kernel.org, 
+	linux-usb@vger.kernel.org, regressions@lists.linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221774
+On Sat, Aug 1, 2026 at 3:16=E2=80=AFAM Julian Silver <mendaxca@gmail.com> w=
+rote:
+>
+> On 2026-07-31 22:11:15, Rafael J. Wysocki (Intel) wrote:
+> > The attached patch (on top of the current mainline) should prevent
+> > cpuidle governors from requesting idle states deeper than C1E when
+> > intel_idle is used until all of the device_initcall()s are done.
+> > Please see if this helps.
+>
+> Thanks for the patch. There is no more -110 error after applying this.
+> Feel free if you need other info or test.
 
---- Comment #16 from Lovekesh Solanki (lovekeshsolanki00@gmail.com) ---
-(In reply to mayhemandcoffee from comment #14)
-> I've tested the palm rejection.
->=20
-> It is a lot better as the cursor no longer jumps around when I am typing,
-> nor is it clicking on stuff. However, I noticed that occasionally, a
-Seems like the fix is working.
+A new version of the patch has been sent:
 
-> keystroke would not register while typing.=20
-The patch is highly unlikely cause this. I don't think this would even be
-fixable in kernel. Keystrokes all follow a different input path nothing
-hid-multitouch touches.=20
-This could be a hardware/firmware issue, you could test running evtest on
-keyboard node, if evtest does not list the unregistered keys then the device
-didn't even send them. But if it does, then it's likely libinput or the
-compositor.
+https://lore.kernel.org/linux-pm/5120454.31r3eYUQgx@rafael.j.wysocki/
 
+Please test that one if possible.
 
-(In reply to mayhemandcoffee from comment #15)
-> I should also mention that I have a recent version of libinput and the qu=
-irk
-> from commit 772c1f5ebb4a4122d55fc392a690056d8c55809d is already present in
-> /usr/share/libinput/50-system-asus.quirks.
->=20
-> [thienan@thienan-pc libinput]$ sed -n '45,55p'
-> /usr/share/libinput/50-system-asus.quirks
-> AttrKeyboardIntegration=3Dinternal
->=20
-> # enable "disable touchpad while typing" to work with z13 keyboard
-> [Asus ROG FLow Z13 2025 keyboard]
-> MatchUdevType=3Dkeyboard
-> MatchBus=3Dusb
-> MatchVendor=3D0x0B05
-> MatchProduct=3D0x1A30
-> AttrKeyboardIntegration=3Dinternal
-About disable-while-typing being greyed out, that seems to be a libinput is=
-sue
-and should be reported there instead. Touchpad might be getting set as exte=
-rnal
-by libinput and disabling the feature.
-
-I'm going to send the patch after slightly revising it upstream, please let=
- me
-know if I should add a Tested by tag now.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Thanks!
