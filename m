@@ -1,108 +1,62 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F83B40315F
-	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 11:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DA53750D7;
+	Mon,  3 Aug 2026 12:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785757161; cv=none; b=iR0ZniwRccyEKvNTczqCacIORJNLJDaRPhGXnsA7lxoB/AXCxK2ctjs0gdls+6EQDPVzpYIT0eorkpq3z6j2ES4puTk4eou2sGdQDT7p3r2tTI/dZ4sAddFCSorym9xVf1buBDR9LpKclhs7hGr3haMoF0KfJw+8eO5aJYRWFM0=
+	t=1785759914; cv=none; b=hVxi7A4YsgzZ7XOCj5/99eJdrW1aP5gY9RfJvxS7WzTgtWnREEE8/XQGxceIlYGZaXAEmFnz9Ksgb2hcJ2520zRa5nBzLbLEyFIDDHZz0kfP0xTukV1HdNiGTPl/ctrgMUkeZYiRvm6S2QqZG8eV7JM9xHXeUAroNKkiGsVhKT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785757161; c=relaxed/simple;
-	bh=CdfWodirFgw1Ed9n5sstSXJyDj8AhHM/oa+p0Cx4vOg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=nA2pD0xZtp2hBz2a6/9XNUFafTZjllGNX7JjA9nlZUmQg9tv82XeziudHjW3/111+xnSCQ8K58OwVinDmoIJSUw6y7GADOLYLuCbSs3ZmF8/wUA72QRGP0z+yLCz2EVi6yOjJX6JfdakEVuPFqqG6dOAe6+TREmcE9lafgJDKWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wyliodrin.com; spf=pass smtp.mailfrom=wyliodrin.com; dkim=pass (1024-bit key) header.d=wyliodrin.com header.i=@wyliodrin.com header.b=QI5HPf7U; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wyliodrin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyliodrin.com
+	s=arc-20240116; t=1785759914; c=relaxed/simple;
+	bh=6AnzZuHIry/G2Vy+XSomctH4QdWeS7mCWuxp4vgSbFY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y2vHpOYSyFFztc8k4QKnIMH0MEBneydeRvxiVFsNJyw+0OniskxrDtgQlS7UdjmrYLBK3jK/uqSV0Q2YBcw0aVdn1uwtSweuAJuu4Hu4sMVp4LMhb+hEgYW1b5dzeASU2LMT3p3WYPlCh9TggjAfi57GC1eyGc9xMJxmATrgLXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LJcDjcQ7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wyliodrin.com header.i=@wyliodrin.com header.b="QI5HPf7U"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4956869750eso12257175e9.2
-        for <linux-usb@vger.kernel.org>; Mon, 03 Aug 2026 04:39:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wyliodrin.com; s=google; t=1785757156; x=1786361956; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=WJd2b+nAhn+22H9JaMbhByCLa4f0+AZx4UQqq+PPVEI=;
-        b=QI5HPf7UGqkEazzVR+7a97M8hZb+npAuOjr8fsjViJjeSSBTrtqdIY+SyC+PKMXyMj
-         S64Js/QIlFEBXTSTZhTb1lSuwX4tcjJ3U4vJX3tRBkH4PktyWTr7N3mSxhei7w8MneJ2
-         7i4FdUxdUeDeEXreaSvab5h+Th7uOPlrtgaqc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785757156; x=1786361956;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WJd2b+nAhn+22H9JaMbhByCLa4f0+AZx4UQqq+PPVEI=;
-        b=QKACgrVk2Zrh9iFAhPt5SzavHr99hazEEepc9YbPnRO3jnFp7jK/kJgOPmjk7HRsrG
-         iov9kP7qWLGksmGcftUbH7NcOwxiTYbvszohCnNKwnSwJdOtrZgAElk+2nFgWrMZNkfd
-         8nFCHzZi+nU5qiqmjpA+pOnCykdcfcp/Gw5coLxG6A8WOf3BlVrEtd8lyvq+ih9asM6N
-         MonuIZHN3iiokqsS4ERVEgxvHGXV2ppQLyGGMTfF71vDa1m/d6tQqW9JLSbOg40/74B/
-         muReZ1YBnjC8e6vTlzDGzBE++zifLomW9kv2iUVEkMiSdkSfOC/kUGf5rTFEI110SQLK
-         z97w==
-X-Forwarded-Encrypted: i=1; AHgh+RoCQCezMqVzXmt6f7MtO+g3LUSVyk/r3Lpdi2TWnjPGfWeHjs1lkklRqTRFOA1+2HAzoHkFu5a3bcI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvtEbdd5H2XBTmfwdkD7uD4EzAy3seq4uSRzS9FjGIxHNzsoNU
-	QEhtj/V6qWMjcIeo4LURImdM6u+Tyacb89lRk5GulBEZeJcTEuqKJrstqlEsckLwQn0=
-X-Gm-Gg: AR+sD10DSMpXoG9XtCank4G+ag8/F6YDZ2QD9RDtKMig0ZdwZ/NJQg/q6YpCrAbzwdO
-	YTDxfy/87NZNtKNibdNkckv1i78Eg5o2Ngj9m8pPjv71D238BVodXGQN2unQ2+zFHtsTc+0nhab
-	POI3ltn+dMRCfVCLM7VWLYScgj2WsgcYsZJc7cZbVgcuI6c8swGsSnEc03jfsk2JGanx4BHwMgG
-	EHLRLJIBe63yAb/fMzqLPssPOf+gwrM32lhWF6nJ50HEwvUfptmgZgtTJAaI+i7sT77v71eFVH/
-	aPrI7LuCCd4omHYIG+dU/anzDqAvlZjc+JQZKbix1cOzyafRfBD84Jpimh1tsF9KEwygFYbUhC9
-	HpZrj0B0GewWSvJoVMHoU7SfdO/ojierZU+0IZV9YHv8C6VauqnRXGTusako3Pw2DiWho6riQMH
-	TUlybD/T8oEX8HHZP10XOUEEAYkt30rnhxXX35LM9IJtjhaIHDdv5fYlXreSHjZrkHKHV+8Mw1h
-	ln/4InHlMYe6HZtdho0dKHPHoXSUtUlIg==
-X-Received: by 2002:a05:600c:c8c:b0:495:4589:707 with SMTP id 5b1f17b1804b1-4980c6452f7mr203906995e9.5.1785757156437;
-        Mon, 03 Aug 2026 04:39:16 -0700 (PDT)
-Received: from localhost ([217.73.170.83])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd41e2961sm35814991f8f.13.2026.08.03.04.39.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Aug 2026 04:39:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LJcDjcQ7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB801F000E9;
+	Mon,  3 Aug 2026 12:25:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1785759912;
+	bh=RY5VYHcleCFtl/JsvDXjJIgn1pRCBlEBktKzt+ezWNc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LJcDjcQ72VCjJvuGpGjfRUPMuTOCG9OvVACwsItUdlpEyXLriazw1Cs8jqgJyAWML
+	 aNIHLMFg7jrDV/wW8LgQgIGY+zidcoaAKMGmjILK7iSyidoZBVNRN8t0sOsbdG/kEu
+	 /suyLgqXqlT4SzuIn7R/4VvXcdxP96PwWtp+OhdA=
+Date: Mon, 3 Aug 2026 14:24:56 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Dmitry Antipov <dmantipov@yandex.ru>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, linux-usb@vger.kernel.org,
+	lvc-project@linuxtesting.org,
+	syzbot+6aa97991da41499aa852@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: fix device data management error in
+ gadgetfs_bind()
+Message-ID: <2026080337-ovary-grappling-8541@gregkh>
+References: <20260803091258.85969-1-dmantipov@yandex.ru>
+ <2026080336-roast-sudden-e02e@gregkh>
+ <ed1607b6-0ced-487a-a241-17f1efa27dfa@yandex.ru>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 03 Aug 2026 14:39:14 +0300
-Message-Id: <DKFA2VDUIJNX.2UAJMD907F7TS@wyliodrin.com>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Daniel Almeida" <daniel.almeida@collabora.com>, "Tamir Duberstein"
- <tamird@kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH RFC 2/2] rust: usb: add control message send and receive
-From: "Alrexandru Radovici" <alexandru.radovici@wyliodrin.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Alexandru Radovici"
- <alexandru.radovici@wyliodrin.com>
-X-Mailer: aerc 0.21.0
-References: <20260801-rust-usb_control_msg-v1-0-655bb444b52c@wyliodrin.com>
- <20260801-rust-usb_control_msg-v1-2-655bb444b52c@wyliodrin.com>
- <2026080244-ability-education-535f@gregkh>
-In-Reply-To: <2026080244-ability-education-535f@gregkh>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ed1607b6-0ced-487a-a241-17f1efa27dfa@yandex.ru>
 
-On Sun Aug 2, 2026 at 11:32 AM EEST, Greg Kroah-Hartman wrote:
-> On Sat, Aug 01, 2026 at 03:01:08AM +0300, Alexandru Radovici wrote:
->> Add `Device::send_control_message()` and
->> `Device::receive_control_message()`, wrapping usb_control_msg_send()
->> and usb_control_msg_recv(), plus a `Request` type describing the
->> bmRequestType, bRequest, wValue and wIndex fields of a setup packet.
->
-> Why not keep the names as close as possible to the C calls?  You have
-> switched around the noun/verb use here.
+On Mon, Aug 03, 2026 at 01:33:08PM +0300, Dmitry Antipov wrote:
+> On 8/3/26 12:15 PM, Greg Kroah-Hartman wrote:
+> 
+> > What commit id does this fix?
+> 
+> IIUC this code is really ancient and 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> looks the only match.
 
-Sorry, my bad, I will rename them in v2 to `control_message_send` and
-`control_message_receive`. Thanks for pointing this out.
+So this is not anything a normal user could ever hit, given the age?
+It's only something that fault-injection causes?
 
-> thanks,
->
-> greg k-h
+thanks,
 
-Alexandru
-
+greg k-h
