@@ -1,113 +1,147 @@
-Received: from esa.hc5016-32.iphmx.com (esa.hc5016-32.iphmx.com [207.54.81.235])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCCD356751;
-	Sun,  2 Aug 2026 23:32:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.81.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC772848AA
+	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 01:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785713549; cv=none; b=oYzMFNBz1KTB7TTcMzgdCXd/3zy3iyePnw4We3lEltzujXLF0JA3f/dMlzj1wHzkBxnXrylEZttO3q2IWwE9Tu34f3pW+LCHh24Nb6jQ/mfGCB/rIp+c0Yb4B4emxPX6IqnReoMsUrtWUelC9+M9c7V1r2uim/ADakcezfn79j8=
+	t=1785720716; cv=none; b=OxWYSagMLLGnvosGwN0flK8rPBlsoQUX+5CAh+RSESMwLEW8Xa/W2t/6cTY2urVUlzNsb1XeM2rnWKMQHAFOXLs0TClVNpUg5gTAh+FEaU7G3kj4T3cwkhxc5zjy0o/5DKob9xSS3+LWqq5H7+zob8ZDsodMJgF7AeiWkcE2ZjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785713549; c=relaxed/simple;
-	bh=4przBRhh1cRZD7KStSGaXhl6zXz+0M25B9IiIkd2nfk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Pqxgzd3vx/w0NW0mHq3tGDQ+X4boq4EXglpck6wVjwVXhEyr0QfY3OT5Uqkj0iqHMWyeHcgcJIPOUUvSYwTuGYr3Xq3WdSOOZ82+kok3Tgt1zO3SYCsFFn+hDEXLQu5DK3YiF98u7RvcWgsdS/AqoHSd1Qxpac6ZxN0V2gGYo2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=harman.com; spf=pass smtp.mailfrom=harman.com; dkim=pass (2048-bit key) header.d=harman.com header.i=@harman.com header.b=ElFLmrO1; arc=none smtp.client-ip=207.54.81.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=harman.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=harman.com
+	s=arc-20240116; t=1785720716; c=relaxed/simple;
+	bh=qGwnzzFtPCXnkbUcC3G8xd8N/4bCjsqAHVLg1X/Vx9Y=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=XsVei/EuFQHoGaHjkJt/OBq/NSfOOWrMz3/dMfwqFNNxOPRIvlr+9ophnTe5m6fNxQi8nTe2UVutVcHTbwVLDgpJFRrcUzgCHhXL923dT+OIKlSY4tOIhuF5jsGJ+wbNmrqB0P7CoZtgOqsZekHzLTjcQ450Z+ZMMLU1skWCn7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rTUZBEJR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=harman.com header.i=@harman.com header.b="ElFLmrO1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=harman.com; i=@harman.com; q=dns/txt; s=CES-HARMAN1;
-  t=1785713546; x=1817249546;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Xs7KEoQug94DNSAZiYnsFgZIMPypF3GOMUS39LPoXDA=;
-  b=ElFLmrO1wgU+Q0zPAF5/Xk1S32PcRdNuS+36Njy/tqHRn7asIa9jfXuw
-   2T9Q3QYAoa8q1fskpT1vH4kM1unrxYTttKjULR45FIMSqdJKxEw3OM8by
-   8ZD3cxsajjKGOgHpntMa7Q6NqWXRq+c3OJVx710CcWZzHZSfk/QqAk1rf
-   UhPWgmJFEqMI69R0SFWnECw0c1mlIye+zjEGD0sH/YkeKHb4+nY/peozk
-   rDWDOt69D7VLEsl8z2wtT0vXg1fc8cvWXkDzp1rrCiZd4tWk77+F0CHbE
-   PSPf4U2i8Xc3X8+fStpGUEgtERJYUHuWEYtKUuFAqeJh0nrJ76kzwHwjN
-   w==;
-X-CSE-ConnectionGUID: wjzAAacYRf6GRKZ1sEQx0A==
-X-CSE-MsgGUID: zZ8mAfExR42fs8uJLe7GQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11863"; a="118025935"
-X-IronPort-AV: E=Sophos;i="6.25,201,1779163200"; 
-   d="scan'208";a="118025935"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from unknown (HELO INMDWSHYB10.ad.harman.com) ([199.27.113.4])
-  by esa1.hc5016-32.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2026 19:31:16 -0400
-Received: from INMDWSHYB09.ad.harman.com (10.92.6.246) by
- INMDWSHYB10.ad.harman.com (10.92.6.249) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Mon, 3 Aug 2026 05:01:12 +0530
-Received: from awsmblx423bs002.localdomain (10.63.34.68) by
- INMDWSHYB09.ad.harman.com (10.92.6.254) with Microsoft SMTP Server id
- 15.2.2562.43 via Frontend Transport; Mon, 3 Aug 2026 05:01:12 +0530
-Received: by awsmblx423bs002.localdomain (Postfix, from userid 530975)
-	id 6DEB680059; Sun,  2 Aug 2026 23:31:12 +0000 (UTC)
-From: Akshay Gujar <Akshay.Gujar@harman.com>
-To: <gregkh@linuxfoundation.org>
-CC: <Akshay.Gujar@harman.com>, <linux-kernel@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <naveen.v@harman.com>, <oneukum@suse.com>,
-	<stern@rowland.harvard.edu>
-Subject: [PATCH v6 3/3] usb: hub: send enumeration failure uevent
-Date: Sun, 2 Aug 2026 23:31:08 +0000
-Message-ID: <20260802233108.70950-4-Akshay.Gujar@harman.com>
-X-Mailer: git-send-email 2.19.0
-In-Reply-To: <20260802233108.70950-1-Akshay.Gujar@harman.com>
-References: <20260802233108.70950-1-Akshay.Gujar@harman.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rTUZBEJR"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B3718C19425
+	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 01:31:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785720715;
+	bh=qGwnzzFtPCXnkbUcC3G8xd8N/4bCjsqAHVLg1X/Vx9Y=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=rTUZBEJRwIf56KMjBUnVh1qHIcFoI7EkB+lmwNHiWWr79QK8tF22qquN279ufaaIX
+	 XKRf41WFNQqQjVy9Y780nRkO3TnMXJrW+auB8QBSf8+d076e42UYHZjfaqqnJ2sqHw
+	 YfgQoUe+u/WQiEavscEyeniA6EDy0ggflx/EGbRkSwCERFJZOWZTW3lLdhuXff2Brt
+	 XF/PmSziBu0XNXPdq71C9aSUnG4rw9L8sAaMAVXYmXA99Vkq2Jk/CqCH0isey85TV6
+	 c5Lh5QXphfdhRZOWrqD0+b6AUsU6NsgcySANpZ069qNsoA9hSeJCo5wD1rG0EvKAIO
+	 UEqS6NIAwyGeg==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 9A163C3279F; Mon,  3 Aug 2026 01:31:55 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221774] hid-multitouch: report ID mismatch check breaks
+ touchpad palm detection on ASUS ROG Flow Z13 (2025) GZ302EA (0b05:1a30)
+Date: Mon, 03 Aug 2026 01:31:55 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mayhemandcoffee@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221774-208809-GrL4ViYvDE@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221774-208809@https.bugzilla.kernel.org/>
+References: <bug-221774-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Emit a structured uevent when USB device enumeration fails in
-hub_port_connect(), supplementing the existing error log with a
-notification userspace can act on.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221774
 
-The event is emitted from the port's parent, the hub interface, because
-usb_port devices have neither a bus nor a class and dev_uevent_filter()
-drops any uevent sent from them. The failing port is named in the
-payload.
+--- Comment #12 from mayhemandcoffee@gmail.com ---
+Hi,
 
-Signed-off-by: Akshay Gujar <Akshay.Gujar@harman.com>
----
- drivers/usb/core/hub.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+I tested the updated patch on Linux 7.1.4 rebuilt from source.
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 5262e11c12cd3..78275dd702ceb 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -5613,9 +5613,21 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
- 	if (hub->hdev->parent ||
- 			!hcd->driver->port_handed_over ||
- 			!(hcd->driver->port_handed_over)(hcd, port1)) {
--		if (status != -ENOTCONN && status != -ENODEV)
-+		if (status != -ENOTCONN && status != -ENODEV) {
-+			int ret;
- 			dev_err(&port_dev->dev,
- 					"unable to enumerate USB device\n");
-+
-+			/* usb_port has no bus or class, so uevents from it
-+			 * are dropped; emit from the hub interface instead.
-+			 */
-+			ret = device_enumeration_failure_notify(port_dev->dev.parent,
-+								dev_name(&port_dev->dev));
-+			if (ret)
-+				dev_warn(&port_dev->dev,
-+					 "failed to send enumeration failure uevent: %d\n",
-+					 ret);
-+		}
- 	}
- 
- done:
--- 
-2.19.0
+Results:
 
+The "Returned feature report did not match the request" message is no longer
+present in dmesg.
+evtest now reports ABS_MT_TOOL_TYPE, which was missing with the previous pa=
+tch.
+ABS_MT_SLOT, ABS_MT_POSITION_X, ABS_MT_POSITION_Y, ABS_MT_TOOL_TYPE, and
+ABS_MT_TRACKING_ID are all present.
+
+However, there is still no observable userspace change.
+
+libinput list-devices still reports:
+
+Device:                  ASUSTeK Computer Inc. GZ302EA-Keyboard Touchpad
+Kernel:                  /dev/input/event11
+Id:                      usb:0b05:1a30
+Group:                   2
+Seat:                    seat0, default
+Size:                    127x70mm
+Capabilities:            pointer gesture
+Tap-to-click:            disabled
+Tap-and-drag:            enabled
+Tap button map:          left/right/middle
+Tap drag lock:           disabled
+Left-handed:             disabled
+Nat.scrolling:           disabled
+Middle emulation:        disabled
+Calibration:             n/a
+Scroll methods:          *two-finger edge=20
+Scroll button:           n/a
+Scroll button lock:      n/a
+Click methods:           *button-areas clickfinger=20
+Clickfinger button map:  left/right/middle
+Disable-w-typing:        n/a
+Disable-w-trackpointing: n/a
+Accel profiles:          flat *adaptive custom
+Rotation:                n/a
+Area rectangle:          n/a
+
+KDE Plasma's Disable while typing option is still greyed out.
+
+evtest capability output:
+Input driver version is 1.0.1
+Input device ID: bus 0x3 vendor 0xb05 product 0x1a30 version 0x110
+Input device name: "ASUSTeK Computer Inc. GZ302EA-Keyboard Touchpad"
+Supported events:
+Event type 0 (EV_SYN)=20
+Event type 1 (EV_KEY)=20
+Event code 272 (BTN_LEFT)=20
+Event code 325 (BTN_TOOL_FINGER)=20
+Event code 328 (BTN_TOOL_QUINTTAP)=20
+Event code 330 (BTN_TOUCH)=20
+Event code 333 (BTN_TOOL_DOUBLETAP)=20
+Event code 334 (BTN_TOOL_TRIPLETAP)=20
+Event code 335 (BTN_TOOL_QUADTAP)=20
+Event type 3 (EV_ABS)=20
+Event code 0 (ABS_X) Value 2208 Min 0 Max 3929 Resolution 31=20
+Event code 1 (ABS_Y) Value 1489 Min 0 Max 2181 Resolution 31=20
+Event code 47 (ABS_MT_SLOT) Value 0 Min 0 Max 4=20
+Event code 53 (ABS_MT_POSITION_X) Value 0 Min 0 Max 3929 Resolution 31=20
+Event code 54 (ABS_MT_POSITION_Y) Value 0 Min 0 Max 2181 Resolution 31=20
+Event code 55 (ABS_MT_TOOL_TYPE) Value 0 Min 0 Max 2=20
+Event code 57 (ABS_MT_TRACKING_ID) Value 0 Min 0 Max 65535=20
+Event type 4 (EV_MSC)=20
+Event code 5 (MSC_TIMESTAMP) Key repeat handling: Repeat type 20 (EV_REP)
+Repeat code 0 (REP_DELAY) Value 250 Repeat code 1 (REP_PERIOD) Value 33
+
+Properties:=20
+Property type 0 (INPUT_PROP_POINTER)=20
+Property type 2 (INPUT_PROP_BUTTONPAD)
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
