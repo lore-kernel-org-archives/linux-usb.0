@@ -1,64 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A76A40A940;
-	Mon,  3 Aug 2026 13:27:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1202A40B0FE
+	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 13:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785763627; cv=none; b=pNqFuajzLb4RNjPxIQyR/yeyqctbTzTX4RCdSD7NICbyESVCLptleerc0yEHhPTZzuBPYEgZc5qyO74kYkPpEYQRM8OGYwrc+o+3+5XD0hQ6VgJ+gmQdwaytjq0VxLNQ7timjrOR1OMokiJH1qRc1I3aQBAC30iFOYwmyI/qeo0=
+	t=1785763750; cv=none; b=j3YS/GNuLFKReOJxAmUlbOP+iFBbui8keetbTHbpNfatsA3EkEQ9zmKlj3vMg8eGXlm3RR49urQLdA2Xb/zQeX8lnjFEDJLH8zXoWiLUyuaiO/1k4wsvfNIr9UDTZb6I1mV32uLvH2iETbc+VgA6myY5vWUXo5zs/om6hYHQsK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785763627; c=relaxed/simple;
-	bh=ZAs1UJTnc5myktNT9d7ssqtaWfnqDjbdx+EXdy+DlzI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hWRFIchfXEAmmVJXPDQoHTByYLRrX994ZiyhKfwEohJRwhY44ovstNdnY0XGwKQ5eZ9FCH4yKXl42EZS8k8khfThGJ03IAAlrF2YQT9V6fWHWHAl2SYoIzZoA2AJPIu8jg/vuzOrw7tMl6bgHM5LU8JSPtxVzhjs6RyFsVaVfJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OWkRFGSj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785763750; c=relaxed/simple;
+	bh=ym+P4yr83cLonxfGG0o6VAKDjCE/0V7gT1aHFCXGT+o=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kSIr4qMYAuLztiHc1Igb3yEh1bMzldlw2eL7CXeGVqfPJVaxs7mS7dKLFbLg2AUZ1yeHy54b58evVYOxM8nTAAZRe+plJU/pR7DxtJcdMHSGaKbXkufLrvG1KYYbGF0sQW7Y8HNh+Wz23OFmMiblojmRMTjvToS4f3bX152vLwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=daRhdBxK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OWkRFGSj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26DD01F000E9;
-	Mon,  3 Aug 2026 13:27:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785763623;
-	bh=HyDasUl5xJAi8s7xwyQZZPeZ+YeItyDCVXgGzPgumaU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OWkRFGSjWIYCFzT+QaS4+Cm0Gn3hwkqXd8O3b5JwuqWmbylgNjogQhRJ1bLOWFajz
-	 TJoL/rsWE92hJKXlZzK+rIyzT3KlvQNZMnjDvfKJOKbtplV7TpjWvriPfD5MjYQXwt
-	 aF7Ti0tw0ExeSu5GH9JLTUEyqLn+aL51rZfv1sSs=
-Date: Mon, 3 Aug 2026 15:26:47 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Dmitry Antipov <dmantipov@yandex.ru>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, linux-usb@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	syzbot+6aa97991da41499aa852@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: fix device data management error in
- gadgetfs_bind()
-Message-ID: <2026080327-tightrope-relieve-0d40@gregkh>
-References: <20260803091258.85969-1-dmantipov@yandex.ru>
- <2026080336-roast-sudden-e02e@gregkh>
- <ed1607b6-0ced-487a-a241-17f1efa27dfa@yandex.ru>
- <2026080307-glamour-reveal-a851@gregkh>
- <f18f3752-f5b2-4e38-934c-9f6afbc60575@yandex.ru>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="daRhdBxK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 27780C2BCB9
+	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 13:29:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785763749;
+	bh=ym+P4yr83cLonxfGG0o6VAKDjCE/0V7gT1aHFCXGT+o=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=daRhdBxKg1WsE8GRr4owlrRyvVofoBr0m8yU5qKp7uoKBRdlF0Qmn+q20+fLbZHmS
+	 2r1cm8GMeIGEi++x7DeziHpFw3IfWiya5M8FD/NjAttbKX+++d2idqIjyzo4YQxNxS
+	 G7KOG5WoFYyxU9uI6zSr5h66T3PR3BamPEPMqwXhDMs8BW+Cmh82wl9RYBY20lsJYs
+	 JW2RMd5ogdRuHHH2KW3AEO7CeqSepFd05g0RKwu0e6r98GNeRuyQDPiQafkdOIkA+u
+	 TjeVj3q7sfTskTGFR92jkuTDGgk+3LbVAqQlzVDk/DVJgy2HWpryUdYeS4bIzESTGx
+	 acRFuuPLBj3Qw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 18AB1C4160E; Mon,  3 Aug 2026 13:29:09 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221774] hid-multitouch: report ID mismatch check breaks
+ touchpad palm detection on ASUS ROG Flow Z13 (2025) GZ302EA (0b05:1a30)
+Date: Mon, 03 Aug 2026 13:29:08 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mayhemandcoffee@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221774-208809-fDDJl1LiAu@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221774-208809@https.bugzilla.kernel.org/>
+References: <bug-221774-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f18f3752-f5b2-4e38-934c-9f6afbc60575@yandex.ru>
 
-On Mon, Aug 03, 2026 at 04:13:05PM +0300, Dmitry Antipov wrote:
-> On 8/3/26 3:25 PM, Greg Kroah-Hartman wrote:
-> 
-> > I'd like to drop all the "legacy" USB gadget code
-> 
-> Hm. Then I would like to ask you to mark this code with Obsolete:
-> in MAINTAINERS and wait for some grace period at least.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221774
 
-Grace periods never work, I'll just go make a patch to delete them all
-now and see who says anything :)
+--- Comment #15 from mayhemandcoffee@gmail.com ---
+(In reply to mayhemandcoffee from comment #14)
+> I've tested the palm rejection.
+>=20
+> It is a lot better as the cursor no longer jumps around when I am typing,
+> nor is it clicking on stuff. However, I noticed that occasionally, a
+> keystroke would not register while typing.=20
+>=20
+> So I would say the palm rejection behavior is significantly improved, but=
+ I
+> don't think the behavior is completely correct yet.
+>=20
+> Because of that, I'm not comfortable saying the issue is fully fixed or
+> adding a Tested-by tag just yet. I'm happy to continue testing if you have
+> another revision or if there are specific things you'd like me to check.
 
-thanks,
+I should also mention that I have a recent version of libinput and the quirk
+from commit 772c1f5ebb4a4122d55fc392a690056d8c55809d is already present in
+/usr/share/libinput/50-system-asus.quirks.
 
-greg k-h
+[thienan@thienan-pc libinput]$ sed -n '45,55p'
+/usr/share/libinput/50-system-asus.quirks
+AttrKeyboardIntegration=3Dinternal
+
+# enable "disable touchpad while typing" to work with z13 keyboard
+[Asus ROG FLow Z13 2025 keyboard]
+MatchUdevType=3Dkeyboard
+MatchBus=3Dusb
+MatchVendor=3D0x0B05
+MatchProduct=3D0x1A30
+AttrKeyboardIntegration=3Dinternal
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
