@@ -1,72 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E3B52F8EB3;
-	Mon,  3 Aug 2026 06:49:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC24E39CCF0
+	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 07:01:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785739768; cv=none; b=Ast7q+BzYYDItGcE4ZqUutS3/wsum7tnzRs2IzJlvrl48Rw6Tuy5u9/R19lzodmzfBV2T2yrD/6pucaLFgbYMywNc5T/6fVO6mXxggJjkS/HXdOb+Llk0xsIeWrhSBBkH9aOZOBmaz7Gv3bmSedQyDaxYSfk7GX3CNBlgaVgcdg=
+	t=1785740480; cv=none; b=e1NA+0n2S1d+XdV2LccWT9gdVg5a0HyyCebvLbtPAyQgFivdE+bnMflvIYQOk97T1Ztf7pLxpi5CXlLhYk+Oq5sZuBBsk/ESexqZniwWtNtxLak/NRo9zk1QIcDdQD2Iz8aDMXD8o0A5XHLpvV80ynX8ct/0WAg2NFVnbU08bWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785739768; c=relaxed/simple;
-	bh=n7W1/CR2fnqvRQ1Me7jxh9E9/huwjhD6a8dCIrKmWQo=;
+	s=arc-20240116; t=1785740480; c=relaxed/simple;
+	bh=KYchIHArZsKzpTfs8Lqfi3g/Cq7u7a/h6rAXD5nWPZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QgJE4sliAE+qABxYfgHQRX84VBANlXabizEgQPcU0x89HOqF19GhalVjkyBqLKts2b3giO8yenTFNcFWOR/ecEApNXSAecd26roG5ey6S1Fio7IecZcnbqc+byihilmErwRK3n4tc1M9ZKgfcT/nMrXi4ohMMorm2qHV2tU2E80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oHPwSwhr; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gf6X0podQIz6XGPGPPggxCk4/Yqd7G5WP4Ah5rw8cKk71m15UKAxZZ9nhe2xFSIsecroi2RiYhgcvOXsImCYc+fKK7SvAaP+nERfSzTX4jU0bhjNUlLOpMPj8Q5csCGyUCyUvGwWzycys12yY8b/jt2t7gPyG/kAT1EKZSc3JoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iXR4yGqB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oHPwSwhr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC1E31F000E9;
-	Mon,  3 Aug 2026 06:49:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iXR4yGqB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A318E1F000E9;
+	Mon,  3 Aug 2026 07:01:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785739767;
-	bh=JPTDrdjixJ8M01ykdTWBJ/WbejRC3iM9Zy6wkUYIJw8=;
+	s=k20260515; t=1785740479;
+	bh=/UBvDvrxyB9HEmxe6qyo6oWHvdRltSwyGYv7EV0liyU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oHPwSwhrC3By/P1n7JX4mUc/ARiE+Ebh6/sf/5IUjy3dO5WrjIa8unyo7BQvJTGrD
-	 Oxl3igQYFz/u03OTFpqyy4F0w+T58YP9lLCoqdXKnTGfvT4i9Gm18GZv9UdK9Q/UvM
-	 CV1xX4bmGo5a91yTAPCb1LldEOx/48qZcuzhOSRrYgw6QC/Bg9IFgHMCm02HUzwq5J
-	 hTp1zRC44BhbajlRWgaCfn4bHOyoZyGNLexU+4mJXiwZQM29+hDKe9qDttoR3KsM9z
-	 5jPOanplVvQ8nbscml7QVcgGf24V2mn7u2ek+ptWcRptwEVwjgU9cC2zBDfnypGapW
-	 FhjWJ9btpWEaQ==
-Date: Mon, 3 Aug 2026 08:49:22 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Josua Mayer <josua@solid-run.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benjamin Bara <benjamin.bara@skidata.com>, 
-	Jon Nettleton <jon@solid-run.com>, Mikhail Anikin <mikhail.anikin@solid-run.com>, 
-	Yazan Shhady <yazan.shhady@solid-run.com>, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v4 2/5] dt-bindings: usb: cypress,hx3: make peer-hub
- property optional
-Message-ID: <20260803-real-shrewd-bee-ad6cba@quoll>
-References: <20260730-rzg2-sr-boards-v4-0-08bc459578dc@solid-run.com>
- <20260730-rzg2-sr-boards-v4-2-08bc459578dc@solid-run.com>
+	b=iXR4yGqBrM+oy+2jn1AfJY6xB+0Olf/TDCnhD9l+VlXHqvCLV2CUzJm5aS9Y848V5
+	 TKfZsvQWL6fjsSCU2bzJJbrWJjDtFDmlOM2YeCZsCXacUhrZTxlDAKFGlyY30V54e9
+	 nR5ZlTa77e/8ncz0xxTaK8ZBwaLDC58RPvVsngXZhRVguGWamMQvk2+ER1xQY4bxPw
+	 F2S5G6DDr7L/CE5tesrataMwp3gDCmhAsEuczV1ea9nx+8aSEqMa+47N95FH8nHHK0
+	 2NxvwEeEmv+EaR487MNEmYf2iYyk0tbRg3Cdhe+lTRjEaR2vCwu+3h9A2aFYtI3zgo
+	 cgI0u2gJMSFSA==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1wqmfl-00000002aBI-10hT;
+	Mon, 03 Aug 2026 09:01:17 +0200
+Date: Mon, 3 Aug 2026 09:01:17 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Charles Yeh <charlesyeh522@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	charles-yeh@prolific.com.tw
+Subject: Re: [PATCH v3] USB: serial: pl2303: add support for PL256X
+ multi-port devices
+Message-ID: <anA8vXRbP_S2jPUV@hovoldconsulting.com>
+References: <20260721112440.1816-1-charlesyeh522@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260730-rzg2-sr-boards-v4-2-08bc459578dc@solid-run.com>
+In-Reply-To: <20260721112440.1816-1-charlesyeh522@gmail.com>
 
-On Thu, Jul 30, 2026 at 01:38:33PM +0300, Josua Mayer wrote:
-> Cypress HX3 Hubs are combined USB-2.0 and USB-3.0 devices, and should be
-> described by one node per speed and linked by peer-hub property.
+On Tue, Jul 21, 2026 at 07:24:40PM +0800, Charles Yeh wrote:
+> Prolific PL256X devices are multi-port USB-to-UART controllers,
+> including the PL2533, PL2543 and PL2565 variants.
 > 
-> It is however possible to install this Hub to a USB-2.0-only host, in
-> which case the USB-3.0 peer has no place in device-tree.
+> These devices use vendor requests that differ from those used by the
+> existing TYPE_HX and TYPE_HXN devices. They also require a separate UART
+> reset request and use a port-specific register for configuring flow
+> control.
 > 
-> Remove peer-hub from required properties.
+> Add a new TYPE_MP device type and select the appropriate vendor requests,
+> reset operation and flow-control register for PL256X devices. Store the
+> USB interface number so that requests can be directed to the corresponding
+> UART port.
 > 
-> Signed-off-by: Josua Mayer <josua@solid-run.com>
+> Detect the supported PL256X variants using bcdDevice before issuing any
+> legacy vendor requests, as PL256X devices do not accept those requests.
+> 
+> PL256X devices support baud rates up to 24 Mbps and do not use divisor
+> encoding.
+> 
+> Signed-off-by: Charles Yeh <charlesyeh522@gmail.com>
 > ---
->  Documentation/devicetree/bindings/usb/cypress,hx3.yaml | 1 -
->  1 file changed, 1 deletion(-)
+> v3:
+> * update the patch subject to describe PL256X multi-port support
+> * add device variant comments to the bcdDevice table
+> * use lowercase hexadecimal constants
+> * simplify pl256x_uart_reset() by removing unnecessary arguments
+> * improve the UART reset error message
+> * fix continuation-line indentation
+> * preserve reverse Christmas tree declaration order
+> * add a default error case for unsupported interface numbers
+> * remove the redundant flow-control configuration from startup
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Thanks for the update. Now applied.
 
-Best regards,
-Krzysztof
-
+Johan
