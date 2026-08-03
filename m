@@ -1,144 +1,193 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E57A288C30
-	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 07:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C2830BF4F;
+	Mon,  3 Aug 2026 08:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785742437; cv=none; b=jOS2WRcUMn55LIHrlmPIlWWaJ5Xur7khEgP3fC/oxURZA+Te5H7phCZ1EQPFI/4lMYVtadWEh7kQxCcMbEio53Ru5Fng1QUnMHt5gUV+OfK2pW1zjp6uPQbdz8nETbWMdanlJorFeC/2hAvT0veHGYnDVNwa84wKndGmbnyGZDM=
+	t=1785746116; cv=none; b=SE6ZoWol2ItDSa1n7veLzX1HhV2KR2mmvcNFFI3RZmN0x8mI8nie7HPk6worV4k2MmL+5OP0lygId03K+Okca0Ft80dCONJxUwl6pJ8Bdk3C+XiGiEWijmL4B69uE7HVUfqRe6c/Nn/PPTCatiUN+kZuQVgEtgyB0uOj2U6f+rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785742437; c=relaxed/simple;
-	bh=/DmVr1I/uwji10ZFfwhluNchBTHGN9354X6a+AWJeRQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Xhot50BZhwkdd8lDQ48ivyBrOPIDb9n6x66U58sEObWdzJU7KbjPzh9xE2VJ2pEXnBhcHqLK8pTvve1SxYbR4HuWT3dl5h59UM9X3YoR/GqwZsWHkPuFhSdvBSSr4jlDQgPhExQ6vZHq5jqnAzW0qavEY+UYwRLGdyHqesYYm7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rmCscYgv; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785746116; c=relaxed/simple;
+	bh=3ZPBjmQF3udJNSx/O8HY3YiE1o+qRRrUYmbnmm32Z6M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e/DCbg4N14Co/D+4kbbS9oCteRrHfQgVkqyX7Q2gprvuqGBRHlwygP7+uZ+Z6FkgY1Fld0tCYkmWufuFEVrQmrK2WjzZA3NGQTxpScmOtGCSGZPCEksP8E8c7AJH0M74TRTwJgZcyqrP262prHtSGfJ87O7s6kOqi/52YC4SCs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oIkIqIT5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rmCscYgv"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cf452def93so28168595ad.1
-        for <linux-usb@vger.kernel.org>; Mon, 03 Aug 2026 00:33:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785742435; x=1786347235; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/DmVr1I/uwji10ZFfwhluNchBTHGN9354X6a+AWJeRQ=;
-        b=rmCscYgvDJeAXeIuP3zDYzn8E4Ra/yjaGenXiulNX58lw5etwE8S+dQ82quCJ9kxwz
-         yKZxHFGItzQKbTjGzvtsXV5B5mm0AdXfsquHUlt3TXnoWGNmA4NwXn8RmtR8AHswGVnT
-         cRgmNL6+xk6eXeVRO2YCr86sMw+loHIdFxo/JZM1Qk7zWH3lAkrLPxrBL+yckDKUrTu4
-         W1c5t7d3w+Va1lwj1DEPwrAtBFxAaAUPI4BAHlaYF/fmOeziLlHFPrxWL+Nr4+9vZRuQ
-         nEkBG271Xf0ZY/gmU+mZDMCfJSJBZ0cZqJWjog0CXIo958SJZauE368MtytrT+B+x/ic
-         mazA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785742435; x=1786347235;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/DmVr1I/uwji10ZFfwhluNchBTHGN9354X6a+AWJeRQ=;
-        b=BimPluM09QUIbDp351qccEsaECNMmOC4ub0ZElbCGhLT8UfNCvheH7ctbkagIWZGOF
-         uoGKYi6tI/xpSVMKiQDGNmJoHjetRhSKdGt1t9td+gTbgESdJDGg0edRE5PME4t6xT+S
-         hCVGNldheHJFD4u82fuhbKsJnuqGvh2HCiJKspZsgPMkoeI7WsWkRWjDuL9HeUrxn6RT
-         EM+gsGXN8E653cqKZkLKz+Vk+pFIDkj/JGAffUUHRuITZT62SyelI9Q1KegoSdvOd9Yb
-         iCTqh1DL2XgcrwWaOm4OC20H5wrBmOuJCf7kYa4hlpBbQU6S3yT1+QA8xQkSduD+hoD5
-         8oyA==
-X-Forwarded-Encrypted: i=1; AHgh+RqXyt/s9rj3usk74qNP5S74Jaq/n9A7jODWYGZGP7gNW2bXw1IZe8R32H6MAYb1E+Qx+FGDhEXjxE4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqBJ4oMoAYkd+gAhxmgcX5uSWt3WnYySQGvN8k4UmqbeAtVGz4
-	S6XDzbtqqMT9YUdlz3WDPfItdv1feEWqknmHp1YauD8xOH+7jxcMIuq6
-X-Gm-Gg: AR+sD12iBjoqFXHmNWs2PsD5ELdm35/J8+9UhujluQ6neAD5NBwcjzdFpnBDbj7mC5t
-	jqg7pqsaT7HKAyZaQPtmzIEzjV+Cz76P5V+rdIh3FWIaumfoaOHYwVccfQQ/IGS/rf6keVmJo0g
-	uCi8rkIlMGsF4QhHs3ZnUlUyGitJcPMUeJMbsPXY3NYERzRuJG4mdoL59jIxTZFK2NSxH33XbXo
-	HtdG7cuzFbdDjvwUJJu+ZwO05+UQZ4gy6GIrv/AshtEDwCUEaPYbXRx+kO6X+rsXiUjwM+IludS
-	Xa4nHv/Dl+dsuoe5dKUUItBlkiMyPkDjSiWL68e56uATg50rTzXiyUmnNHwvL7q2TWWUHkvJI7c
-	i4f5Ad3a7N9/K/mJACc7B4PF1BZgtahcghkdwvQzdkS0210blNOAUDreUjj0maYbpzgEyiujjT+
-	osvVi62hbLqe3PJ53GgpKzwPY80EDFfjbGD6fO5xVyCAoQ2Kti6jLTx39ayGnu788=
-X-Received: by 2002:a17:902:ea0c:b0:2cf:41ba:96c2 with SMTP id d9443c01a7336-2d05366b5dfmr76364185ad.12.1785742435408;
-        Mon, 03 Aug 2026 00:33:55 -0700 (PDT)
-Received: from Inspiron5409 ([138.199.21.246])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d04ae5abbbsm33637465ad.22.2026.08.03.00.33.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 00:33:54 -0700 (PDT)
-From: Jianhui Xu <neuromoments@gmail.com>
-To: mail@birger-koblitz.de
-Cc: andrew+netdev@lunn.ch,
-	andrew@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	hkallweit1@gmail.com,
-	kuba@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux@armlinux.org.uk,
-	netdev@vger.kernel.org,
-	neuromoments@gmail.com,
-	pabeni@redhat.com
-Subject: Re: [PATCH net-next v5 00/13] ax88179_178a: Add support for AX88179A-based chips
-Date: Mon,  3 Aug 2026 15:33:48 +0800
-Message-ID: <20260803073348.2190800-1-neuromoments@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260802-ax88179a-v5-0-dcb9fea4acd4@birger-koblitz.de>
-References: <20260802-ax88179a-v5-0-dcb9fea4acd4@birger-koblitz.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oIkIqIT5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D406F1F000E9;
+	Mon,  3 Aug 2026 08:35:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785746114;
+	bh=ZeiUjm8O3Q6bUQlLUzE6ETjL10h5QMZydvQI4QhPUUY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=oIkIqIT5KU+YYalGBSyOxbcle9YtCazDZp/qpg9EqpfrnMZk2HFjeZrnRZkLR8dUA
+	 1KCYQpxTaLQr7tWKglJYdVY5N2sztjKDsKlF/YtL4gCo2aCo29Of5fXmD3mGhvn1r6
+	 5SSHzCxy2p8Hpml+UuuuIgh+xD5rH/GlOJybgiSQwpEIW1ezY0G1CdHN0BcBQbiUD2
+	 Sogaac81x0VSSvkusqHSlTw6e0MDXp7t1pcTxoTfKDnAI4FfSwFhU4L6ym6SfDxVAc
+	 pd0Fg47n1lK8oVIzmaym1DquM9srk89CqDNk+4RbF5QQuwObNqcTqU2cF+347GpD6e
+	 vn1AVJLJHL+Pg==
+Received: from johan by xi.lan with local (Exim 4.99.4)
+	(envelope-from <johan@kernel.org>)
+	id 1wqo8e-00000002jmj-2qEi;
+	Mon, 03 Aug 2026 10:35:12 +0200
+Date: Mon, 3 Aug 2026 10:35:12 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Crescent Hsieh <crescentcy.hsieh@moxa.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	FangpingFP.Cheng@moxa.com, Epson.Chiang@moxa.com
+Subject: Re: [PATCH v2 3/4] USB: serial: mxuport: handle SEND_NEXT transmit
+ flow control
+Message-ID: <anBSwNnnFrZLqOwO@hovoldconsulting.com>
+References: <20260623080138.166398-2-crescentcy.hsieh@moxa.com>
+ <20260623080138.166398-5-crescentcy.hsieh@moxa.com>
+ <al-VnkwqXYC7MoVG@hovoldconsulting.com>
+ <amcyubnG9N8ZI0ro@moxa-ThinkCentre-M90t>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <amcyubnG9N8ZI0ro@moxa-ThinkCentre-M90t>
 
-Hi Birger,
+On Mon, Jul 27, 2026 at 06:28:09PM +0800, Crescent Hsieh wrote:
+> On Tue, Jul 21, 2026 at 05:51:58PM +0200, Johan Hovold wrote:
+> > On Tue, Jun 23, 2026 at 04:01:38PM +0800, Crescent Hsieh wrote:
 
-I tested v5 on the same ASIX AX88179B adapter (USB 0b95:1790,
-bcdDevice 0x0200, firmware 1.3.0.0).
+> > > @@ -276,22 +280,148 @@ MODULE_DEVICE_TABLE(usb, mxuport_idtable);
+> > >  static int mxuport_prepare_write_buffer(struct usb_serial_port *port,
+> > >  					void *dest, size_t size)
+> > >  {
+> > > +	struct mxuport_port *mxport = usb_get_serial_port_data(port);
+> > >  	u8 *buf = dest;
+> > > +	unsigned long flags;
+> > > +	bool request_send_next;
+> > >  	int count;
+> > >  
+> > > -	count = kfifo_out_locked(&port->write_fifo, buf + HEADER_SIZE,
+> > > -				 size - HEADER_SIZE,
+> > > -				 &port->lock);
+> > > +	spin_lock_irqsave(&port->lock, flags);
+> > > +	count = kfifo_out(&port->write_fifo, buf + HEADER_SIZE,
+> > > +			  size - HEADER_SIZE);
+> > > +	mxport->sent_payload += count;
+> > > +	request_send_next = mxport->sent_payload >= port->bulk_out_size;
+> > 
+> > How big are the per-port buffers?
+> 
+> The size depends on the device. The G2 and Platform UART firmware have
+> a 4096-byte buffer per port, while the G1 per-port buffer ranges from
+> 32 KiB to 256 KiB depending on the number of ports.
+> 
+> The bulk_out_size threshold is not derived from the firmware buffer
+> size. It is used as a simple and conservative pacing interval that
+> works across the device families without requiring family-specific
+> buffer sizes in the driver. This results in more frequent
+> SEND_NEXT waits and may reduce throughput.
 
-The 13 patches applied to net-next commit
-df13c1df8147675470213ffff29dd5762fa321f5 and built successfully as
-7.2.0-rc3-ax88179b-v5. The focused W=1 builds for ax88179.o and
-ax88796b.o were clean.
+Thanks for the details. So there may be some room for optimisation later
+here by taking the buffer sizes into account. Not sure if it's worth it
+though (and draining 32k at low line speeds will take quite some time).
 
-Unfortunately I reproduced an intermittent cold-activation failure, so I cannot
-add a Tested-by for v5. In four fresh direct-kernel QEMU starts with complete
-diagnostic capture, the old lease was released before starting DHCPDISCOVER. Two
-reported 1000baseT/Full carrier but timed out DHCP, while two succeeded
-normally. In both failed runs, RX remained at zero while TX increased. Reloading
-ax88179 and ax88796b recovered DHCP, RX, and bound traffic in both cases.
+> > > +static int mxuport_write_start(struct usb_serial_port *port, gfp_t mem_flags)
+> > > +{
+> > > +	struct mxuport_port *mxport = usb_get_serial_port_data(port);
+> > > +	struct urb *urb;
+> > > +	unsigned long flags;
+> > > +	int i;
+> > > +	int count;
+> > > +	int result;
+> > > +
+> > > +	if (test_and_set_bit_lock(USB_SERIAL_WRITE_BUSY, &port->flags))
+> > > +		return 0;
+> > > +retry:
+> > > +	spin_lock_irqsave(&port->lock, flags);
+> > > +	if ((mxport->hold_reason & MX_WAIT_FOR_SEND_NEXT) ||
+> > > +	    !port->write_urbs_free || !kfifo_len(&port->write_fifo)) {
+> > > +		clear_bit_unlock(USB_SERIAL_WRITE_BUSY, &port->flags);
+> > > +		spin_unlock_irqrestore(&port->lock, flags);
+> > > +		return 0;
+> > > +	}
+> > > +
+> > > +	i = (int)find_first_bit(&port->write_urbs_free,
+> > > +				ARRAY_SIZE(port->write_urbs));
+> > > +	spin_unlock_irqrestore(&port->lock, flags);
+> > > +
+> > > +	urb = port->write_urbs[i];
+> > > +	count = mxuport_prepare_write_buffer(port, urb->transfer_buffer,
+> > > +					     port->bulk_out_size);
+> > > +	urb->transfer_buffer_length = count;
+> > > +	usb_serial_debug_data(&port->dev, __func__, count,
+> > > +			      urb->transfer_buffer);
+> > > +
+> > > +	spin_lock_irqsave(&port->lock, flags);
+> > > +	port->tx_bytes += count;
+> > > +	spin_unlock_irqrestore(&port->lock, flags);
+> > > +
+> > > +	clear_bit(i, &port->write_urbs_free);
+> > > +	result = usb_submit_urb(urb, mem_flags);
+> > > +	if (result) {
+> > > +		dev_err_console(port, "%s - error submitting urb: %d\n",
+> > > +				__func__, result);
+> > > +		set_bit(i, &port->write_urbs_free);
+> > > +		spin_lock_irqsave(&port->lock, flags);
+> > > +		port->tx_bytes -= count;
+> > 
+> > > +		if (mxport->hold_reason & MX_WAIT_FOR_SEND_NEXT) {
+> > > +			mxport->hold_reason &= ~MX_WAIT_FOR_SEND_NEXT;
+> > > +			mxport->sent_payload = 0;
+> > > +		}
+> > 
+> > Shouldn't you undo the effects of prepare_write_buffer() and subtract
+> > count from sent_payload (and clear the flag) unconditionally?
+> > 
+> > > +		spin_unlock_irqrestore(&port->lock, flags);
+> > > +
+> > > +		clear_bit_unlock(USB_SERIAL_WRITE_BUSY, &port->flags);
+> > > +		return result;
+> > > +	}
+> > > +
+> > > +	goto retry;
+> > > +}
+> > 
+> > This is a more or less verbatim copy of the generic write
+> > implementation. If we go this way you should at least mention that you
+> > copied it in the commit message, but perhaps we should try to find a way
+> > to generalise it instead.
+> > 
+> > Also, if you really need a custom implementation to throttle writes,
+> > then shouldn't using one URB be enough? The other one is essentially
+> > there to allow for higher throughput which we need to give up for
+> > correctness here anyway.
+> 
+> Agreed, the custom write path is largely based on the generic write
+> implementation. In v1, I attempted to implement the throttling in
+> prepare_write_buffer() to avoid changing the generic path, but
+> returning zero caused the generic implementation to submit a
+> zero-length URB. In v2, I therefore added a custom write path so that
+> submission could be stopped before preparing another URB.
 
-Before this follow-up campaign, in the earlier v5 validation session, I observed
-a separate 100baseT/Full failure: the adapter negotiated carrier after I changed
-the advertisement to 100baseT/Full-only, but ARP and bound traffic failed.
-I then tried to reproduce that result with three new advertise-0x008
-transitions. All three negotiated 100baseT/Full and passed bound gateway
-traffic; two also explicitly passed traffic to the test host. These repetitions
-included tests both with and without a preceding module reload. I could not
-reproduce the earlier 100-Mbit failure.
+Yeah, we probably want a custom implementation for this. Making the
+generic implementation handle drivers returning 0 from
+prepare_write_buffer() is straightforward, but then you also need to
+notify them if URB submission failed (e.g. to prevent stalled writes).
 
-That earlier v5 validation session also produced a separate guest ACPI S3
-failure: after resume, the adapter returned with 1000baseT/Full carrier, but RX
-remained frozen and traffic was broken. I then performed three new S3 cycles.
-All three logged QEMU's same emulated-XHCI resume reinitialization and USB
-reset, but returned working traffic with increasing RX counters immediately. The
-final repetition also recreated the earlier speed, EEE, and pause setting
-sequence and verified working gateway traffic immediately before suspend.
-I could not reproduce the earlier frozen-RX result. This remains a QEMU
-emulated-XHCI test, not a physical-XHCI suspend test.
+But then again, if that's all that's needed it doesn't sound too bad.
 
-While reviewing the speed result, I noticed ax88179a_bulkin_config() selects its
-table using ax179_data->speed, while ax88179a_mac_link_up() receives the speed
-argument but I could not find an assignment to that private member. The new
-passing 100-Mbit tests do not support linking that source observation to the
-original one-off failure, and the same pattern appears in v4.
+> I will investigate whether this can instead be generalised through a
+> small driver callback that allows the generic write path to check
+> whether another URB may be submitted. This would avoid duplicating the
+> generic implementation while preserving the behaviour of other
+> USB-to-serial drivers.
 
-EEE disable/restore, pause enable/restore, EEPROM read, module reload, and USB
-detach/reattach otherwise worked. I also tried Wake-on-LAN in QEMU. The driver
-accepted magic-packet wake, ethtool read back Wake-on: g, and USB wakeup was
-enabled before the guest entered S3. QEMU was configured with USB remote-wake
-suppression disabled, but the guest did not resume after directed-broadcast,
-limited-broadcast, and unicast magic packets. I consider that result
-inconclusive because I did not independently verify the physical USB
-remote-wakeup propagation through QEMU.
+I think we may have other drivers that could benefit from this too.
 
-Please let me know if you would like me to test a fix or collect a specific
-register trace.
+> I will also describe the SEND_NEXT behaviour in more detail in the v3
+> commit message.
 
-Thanks,
-Jianhui
+Sounds good, thanks.
+
+Johan
