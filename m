@@ -1,96 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFC13932E8;
-	Mon,  3 Aug 2026 18:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6FF2D23A6
+	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 18:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785781680; cv=none; b=hznQ5BUguzZRCKkJwxJOaP6M6C8TBJMJPqwA/G9u2MCU6/hzPxTRWzkBlCnRPyw/hx6Gff2y5AsmsHjQot+Joo0SZF0oiGyexdkzS9lEg8gTtOs2G8YDAQauuiY1EtRU6hpj2YqldhB3DmfNXsMRDXIaCBRQPEv6hj2XaUflVE8=
+	t=1785782995; cv=none; b=MYE4NuVJCW+Xzj1j4em/q4jncPjQmkkcGkgQYdWVJ9jWfasdQrugyRZu+pVvos1zY6zVTHy1W8MbX2F5iTFPiKA9P6/Pc5MLXShOacrjHpTlzImEcSGZ/xeeIb0+giX9wuwxwgNIfDC1q0bj/5OjUFLSTssT81dB6q6lJqN+nN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785781680; c=relaxed/simple;
-	bh=jIz3BJTDhW73H+tLjep0/ppR366ZBftJ1KK3CoTOfGM=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=XETDhNZLXTsVUiRaZ1/yNachwpyg987zyp7mm//bP6tF81GfHwUUOT2UJW/8OWA6lQt/pc2KCsQsxhksGjjLf7CHXIs6VKYyAZflan7itP3oqo58PPLoQ8pbK8j+sTlei94pf969eBLIlQ+pw0ZYubAxFSz71444hVhF1s4BV10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DkB7rq2S; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785782995; c=relaxed/simple;
+	bh=MMR8Kg68RaWCatfrYwL4nQZYPjeY+nfcKs/f7Ecwad8=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=t0HHQBG/tCbcVLHzbKISaIVqGS8E9L+Rew5w58Hz58vhxdH2p/9s6mnzGiBDP3kBJynTSdjWzx8uOEOznuxFKBXIWJ99yVvmLfTBjdalRtVo6vb724BxUIMzoqn9Gr3O+L4fmWmdCjxwKgbsyVsTfDqoFN+GuQV9bOOZlISBj/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5dMpMxT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DkB7rq2S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBB971F000E9;
-	Mon,  3 Aug 2026 18:27:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785781679;
-	bh=WmbOkPAiaMrLGRjtVF9xC4tPfFZSeLU4xssR1Id2CAg=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References;
-	b=DkB7rq2SE2HZlq3PQCev8CRkgzaCtgPsfB711Uk8GWz8SdIBoCNtCSqW/tKkENYnM
-	 Uchg5KYFdTrLhk1od/9DMNLmr9BdGe6lG5ixEw3X5MWRfZk+Xyj5di4VJdBxg+UrlO
-	 Lwv/hoxlwxfQWtUR9P3U0wfWg7zwl9VQOXQki6QAmZYrvWzoMjg96yI79V0wguW8p4
-	 Vvqzz6FhPTxG7lxJSGB3aY/E2xPPO3GU1A7Z0a96fwD2FDdMHdpkyJjsfHuuyUwZnh
-	 rHvTJQ/uueppfIXIIkFsOcFZlJoQOggAMomquQoo+a2niGdhssjdEJb4k4ouDxgjKe
-	 tc+gNvA37/p2w==
-Date: Mon, 3 Aug 2026 20:27:56 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Baul Lee <baul.lee@xbow.com>
-cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, tomasz.pakula.oficjalny@gmail.com, 
-    oleg@makarenk.ooo, bentiss@kernel.org, federico.kirschbaum@xbow.com, 
-    stable@vger.kernel.org
-Subject: Re: [PATCH] HID: pidff: fix OOB write when hid->inputs is empty
-In-Reply-To: <20260726062503.43717-1-baul.lee@xbow.com>
-Message-ID: <9s691pno-26o7-2099-0001-sn9751958r8r@xreary.bet>
-References: <20260726062503.43717-1-baul.lee@xbow.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5dMpMxT"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 160A1C2BCF7
+	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 18:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785782995;
+	bh=MMR8Kg68RaWCatfrYwL4nQZYPjeY+nfcKs/f7Ecwad8=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=C5dMpMxTW3nhDAg7aLenGJgjLoCJFeURyi5NEyEF/C/dIuMEZqWxqDsVNk5H3qZxP
+	 MP3Wi5YsdSDrgD+ag7A7L/xI8B2mfxyitsx293WGRYHQFaiHfdk8e3NOFLp1C1v4Nq
+	 Nvkw2Y/nEKMGMIVWfEQfD3N3QG+EQs/5vPu5NjFLvRbYZJNcvcnqRI7EXqQmpH/Obg
+	 nw3jWt9+eFVf1ff1s2OR/AqsN0+i1wRu3jOFUMnyeoDIz1QqC5c2PN+1DLpGxrtNHR
+	 Mhd6syDf1zb63DOdMWVG9qg7I1ocY1GKLSoFxga1Xr46j1KQptVybOTaDTBA5ey68a
+	 gEK0+hDxuVZfQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id E9CCFC4160E; Mon,  3 Aug 2026 18:49:54 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221774] hid-multitouch: report ID mismatch check breaks
+ touchpad palm detection on ASUS ROG Flow Z13 (2025) GZ302EA (0b05:1a30)
+Date: Mon, 03 Aug 2026 18:49:54 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: lovekeshsolanki00@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221774-208809-Gmk16PfM6r@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221774-208809@https.bugzilla.kernel.org/>
+References: <bug-221774-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
-On Sun, 26 Jul 2026, Baul Lee wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221774
 
-> hid_pidff_init_with_quirks() derives its input_dev from
-> 
-> 	list_entry(hid->inputs.next, struct hid_input, list)
-> 
-> without first checking that hid->inputs is non-empty.  The list member
-> of struct hid_input is at offset 0, so on an empty list list_entry()
-> yields &hid->inputs itself and the following hidinput->input load reads
-> an unrelated member of struct hid_device.  dev is then a type-confused
-> pointer, and force-feedback init writes through it: each
-> set_bit(FF_*, dev->ffbit) stores 8 bytes at dev + 192, past the end of
-> the object dev actually aliases, and input_ff_create() adds further
-> writes of a heap pointer and two function pointers.
-> 
-> Until hid-universal-pidff the only caller was hid_pidff_init() from
-> usbhid, which runs under HID_CLAIMED_INPUT and therefore always has at
-> least one hid_input.  universal_pidff_probe() starts the device with
-> HID_CONNECT_DEFAULT & ~HID_CONNECT_FF and then calls
-> hid_pidff_init_with_quirks() directly whenever the descriptor carries a
-> PID usage page, bypassing that gate.  A report descriptor whose only
-> application collection is on HID_UP_PID leaves hid->inputs empty while
-> hid_connect() still succeeds through the hidraw claim, so probe reaches
-> the unguarded list_entry().
-> 
-> The write happens in the USB probe path, on the hotplug workqueue, so
-> plugging in a malicious device is enough to trigger it; no attacker
-> software and no logged-in user are required.  KASAN reports an 8-byte
-> out-of-bounds write in hid_pidff_init_with_quirks() reached from
-> universal_pidff_probe().
-> 
-> Check for an empty list before deriving dev and return -ENODEV, as the
-> other HID force-feedback drivers already do.  universal_pidff_probe()
-> propagates the error and unwinds.
-> 
-> Discovered by XBOW, triaged by Baul Lee <baul.lee@xbow.com>
-> 
-> Fixes: f06bf8d94fff ("HID: Add hid-universal-pidff driver and supported device ids")
-> Reported-by: Federico Kirschbaum <federico.kirschbaum@xbow.com>
-> Reported-by: Baul Lee <baul.lee@xbow.com>
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Baul Lee <baul.lee@xbow.com>
+--- Comment #16 from Lovekesh Solanki (lovekeshsolanki00@gmail.com) ---
+(In reply to mayhemandcoffee from comment #14)
+> I've tested the palm rejection.
+>=20
+> It is a lot better as the cursor no longer jumps around when I am typing,
+> nor is it clicking on stuff. However, I noticed that occasionally, a
+Seems like the fix is working.
 
-Applied, thanks.
+> keystroke would not register while typing.=20
+The patch is highly unlikely cause this. I don't think this would even be
+fixable in kernel. Keystrokes all follow a different input path nothing
+hid-multitouch touches.=20
+This could be a hardware/firmware issue, you could test running evtest on
+keyboard node, if evtest does not list the unregistered keys then the device
+didn't even send them. But if it does, then it's likely libinput or the
+compositor.
 
--- 
-Jiri Kosina
-SUSE Labs
 
+(In reply to mayhemandcoffee from comment #15)
+> I should also mention that I have a recent version of libinput and the qu=
+irk
+> from commit 772c1f5ebb4a4122d55fc392a690056d8c55809d is already present in
+> /usr/share/libinput/50-system-asus.quirks.
+>=20
+> [thienan@thienan-pc libinput]$ sed -n '45,55p'
+> /usr/share/libinput/50-system-asus.quirks
+> AttrKeyboardIntegration=3Dinternal
+>=20
+> # enable "disable touchpad while typing" to work with z13 keyboard
+> [Asus ROG FLow Z13 2025 keyboard]
+> MatchUdevType=3Dkeyboard
+> MatchBus=3Dusb
+> MatchVendor=3D0x0B05
+> MatchProduct=3D0x1A30
+> AttrKeyboardIntegration=3Dinternal
+About disable-while-typing being greyed out, that seems to be a libinput is=
+sue
+and should be reported there instead. Touchpad might be getting set as exte=
+rnal
+by libinput and disabling the feature.
+
+I'm going to send the patch after slightly revising it upstream, please let=
+ me
+know if I should add a Tested by tag now.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
