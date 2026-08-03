@@ -1,47 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55CD73B38B7;
-	Mon,  3 Aug 2026 13:24:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A76A40A940;
+	Mon,  3 Aug 2026 13:27:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785763455; cv=none; b=AGtavSUnSFhH2W5OSKi33i+Ojogmo1WnL88aXL4j5BuoNmPIFdLyipLQHG2nf24yra0eDV+1Ksp4ouLsTPDXbsSSXRLIUuyqZQgeNg9Vc3+u67/5Edd+Xk80FMkZ6fRmus9XmUTr14Lim+E8NjTAdhLD2yMbs191enhm0wMvv8g=
+	t=1785763627; cv=none; b=pNqFuajzLb4RNjPxIQyR/yeyqctbTzTX4RCdSD7NICbyESVCLptleerc0yEHhPTZzuBPYEgZc5qyO74kYkPpEYQRM8OGYwrc+o+3+5XD0hQ6VgJ+gmQdwaytjq0VxLNQ7timjrOR1OMokiJH1qRc1I3aQBAC30iFOYwmyI/qeo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785763455; c=relaxed/simple;
-	bh=MykMrv+yNqsHxDJcjhJ+8zmtleFJi7+mJjWEpaDod+w=;
+	s=arc-20240116; t=1785763627; c=relaxed/simple;
+	bh=ZAs1UJTnc5myktNT9d7ssqtaWfnqDjbdx+EXdy+DlzI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u6VwQWmb5gPSbDeoH0h7+YtSICNAiYwjIyqNhxt6oHV7F3Kap/GO+lrg2ZfCAYOXi1kwqlhQnh7VffoFWwSpzD9gQYvuWpTnaaz4+EB/1r4A/3k7B+buFDTVlpoS+ObHqQmxHUXAEMkakVfBIRVg3T5pU+rpd4y98bga9xt8j4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SV0fH98W; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=hWRFIchfXEAmmVJXPDQoHTByYLRrX994ZiyhKfwEohJRwhY44ovstNdnY0XGwKQ5eZ9FCH4yKXl42EZS8k8khfThGJ03IAAlrF2YQT9V6fWHWHAl2SYoIzZoA2AJPIu8jg/vuzOrw7tMl6bgHM5LU8JSPtxVzhjs6RyFsVaVfJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OWkRFGSj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SV0fH98W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA8CF1F000E9;
-	Mon,  3 Aug 2026 13:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785763447;
-	bh=ewIzq0LibUQ6nB6UeoGja0UgNFI3wXy5HatxgQmIUJw=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OWkRFGSj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26DD01F000E9;
+	Mon,  3 Aug 2026 13:27:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1785763623;
+	bh=HyDasUl5xJAi8s7xwyQZZPeZ+YeItyDCVXgGzPgumaU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SV0fH98WZVDHS7kV3MtroOyYATNwTHsNidP7OGsD9j1V4qyH+YZ/Z6Hox1QZ1jNA9
-	 3jdYzqqt6GOMDx+cHMzWLEllGzDiDSbCMjaRF+vYEnhYSnwCC94E1nTW9rUHlDmzKn
-	 /ttUNPZyWB/8TRiK8Ze4s6IhSF/MxJZrj+la7KbmuQOJZjSRBpr7BKObrhLpco39Y0
-	 URWIpqf4GWuOtmtT2OpMhlAdLWgyh9RRr//v6IedvZ8H3Nv7xEq9QBgHh9mX5Vopcx
-	 /56VW0xcJQdfq4amODpFS7ibeYomUH76DHpLhbXjmoiMMW5mHjFNlStxVhEERporJZ
-	 6XaUvT5CgQ2UA==
-Date: Mon, 3 Aug 2026 08:24:06 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Carlo Caione <ccaione@baylibre.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	devicetree@vger.kernel.org, Julien Stephan <jstephan@baylibre.com>,
-	linux-mediatek@lists.infradead.org,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, David Lechner <dlechner@baylibre.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Chunfeng Yun <chunfeng.yun@mediatek.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Subject: Re: [PATCH] dt-bindings: usb: mtu3: Add MT8512
-Message-ID: <178576344579.3104650.10771178654777991535.robh@kernel.org>
-References: <20260721-ccaione-upstream-mt8512-mtu3-binding-v1-1-2f229c39f121@baylibre.com>
+	b=OWkRFGSjWIYCFzT+QaS4+Cm0Gn3hwkqXd8O3b5JwuqWmbylgNjogQhRJ1bLOWFajz
+	 TJoL/rsWE92hJKXlZzK+rIyzT3KlvQNZMnjDvfKJOKbtplV7TpjWvriPfD5MjYQXwt
+	 aF7Ti0tw0ExeSu5GH9JLTUEyqLn+aL51rZfv1sSs=
+Date: Mon, 3 Aug 2026 15:26:47 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Dmitry Antipov <dmantipov@yandex.ru>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, linux-usb@vger.kernel.org,
+	lvc-project@linuxtesting.org,
+	syzbot+6aa97991da41499aa852@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: fix device data management error in
+ gadgetfs_bind()
+Message-ID: <2026080327-tightrope-relieve-0d40@gregkh>
+References: <20260803091258.85969-1-dmantipov@yandex.ru>
+ <2026080336-roast-sudden-e02e@gregkh>
+ <ed1607b6-0ced-487a-a241-17f1efa27dfa@yandex.ru>
+ <2026080307-glamour-reveal-a851@gregkh>
+ <f18f3752-f5b2-4e38-934c-9f6afbc60575@yandex.ru>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -50,23 +46,19 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260721-ccaione-upstream-mt8512-mtu3-binding-v1-1-2f229c39f121@baylibre.com>
+In-Reply-To: <f18f3752-f5b2-4e38-934c-9f6afbc60575@yandex.ru>
 
-
-On Tue, 21 Jul 2026 10:00:28 +0200, Carlo Caione wrote:
-> The MT8512 USB controller uses the standard MTU3 device MAC and IPPC
-> register layout and is handled by the generic mediatek,mtu3 driver. Add
-> the SoC-specific compatible so the controller can be described without a
-> legacy split node.
+On Mon, Aug 03, 2026 at 04:13:05PM +0300, Dmitry Antipov wrote:
+> On 8/3/26 3:25 PM, Greg Kroah-Hartman wrote:
 > 
-> For now the only user of this is on the U-Boot side but we want to keep
-> bindings in sync.
+> > I'd like to drop all the "legacy" USB gadget code
 > 
-> Signed-off-by: Carlo Caione <ccaione@baylibre.com>
-> ---
->  Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+> Hm. Then I would like to ask you to mark this code with Obsolete:
+> in MAINTAINERS and wait for some grace period at least.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Grace periods never work, I'll just go make a patch to delete them all
+now and see who says anything :)
 
+thanks,
+
+greg k-h
