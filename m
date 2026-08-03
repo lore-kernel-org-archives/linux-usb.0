@@ -1,135 +1,144 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513B835674F
-	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 07:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E57A288C30
+	for <linux-usb@vger.kernel.org>; Mon,  3 Aug 2026 07:33:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785741445; cv=none; b=BY4KnjZV2QbRr4Wd2GdTnp7PiEwnkJeQf/nTxBI7rD2OJzw7Zc+QqEvnebsSHKgPSstAJNYSR9DN/m3FDivgLy6dZ8Ihpkd+JAsA0/bBy1o7YFNE/0qYgbBPTQ4IQ3M45rgHwvVJaPMWWoXpTJN2V0BboZZUxAXx92jsmKCaJEk=
+	t=1785742437; cv=none; b=jOS2WRcUMn55LIHrlmPIlWWaJ5Xur7khEgP3fC/oxURZA+Te5H7phCZ1EQPFI/4lMYVtadWEh7kQxCcMbEio53Ru5Fng1QUnMHt5gUV+OfK2pW1zjp6uPQbdz8nETbWMdanlJorFeC/2hAvT0veHGYnDVNwa84wKndGmbnyGZDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785741445; c=relaxed/simple;
-	bh=U+5e91uQmJMhSeEJDMN1Jap5tDni7smE/OojSiTdnpw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zij1v76P0x8tQLqOQakt29HmZYHuCSJvAjtGyogdi5FBPVjdRI8+uE0IeaPC643mLtYWCw3FZpS/9rnihV+7dlvHCv1p8KzxN9LdsrRqXHfRTiIaoAuVtHk0phaIzBEABD76Gl6KohMcQGVH+atKfWrgbx50JqMmy239Q+cF2Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l0h4DH0F; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1785742437; c=relaxed/simple;
+	bh=/DmVr1I/uwji10ZFfwhluNchBTHGN9354X6a+AWJeRQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Xhot50BZhwkdd8lDQ48ivyBrOPIDb9n6x66U58sEObWdzJU7KbjPzh9xE2VJ2pEXnBhcHqLK8pTvve1SxYbR4HuWT3dl5h59UM9X3YoR/GqwZsWHkPuFhSdvBSSr4jlDQgPhExQ6vZHq5jqnAzW0qavEY+UYwRLGdyHqesYYm7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rmCscYgv; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l0h4DH0F"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4957eefd361so11590805e9.1
-        for <linux-usb@vger.kernel.org>; Mon, 03 Aug 2026 00:17:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rmCscYgv"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2cf452def93so28168595ad.1
+        for <linux-usb@vger.kernel.org>; Mon, 03 Aug 2026 00:33:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785741442; x=1786346242; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Q+2A2Z7IoojlaYkRkYfkrCKzpU+eyj3RUWUUDSzJuJ0=;
-        b=l0h4DH0FUgsfCeBr8twNzc6fO7x35l20RvXusShGJwYuVasTvvsCu6G4wRtH9s2406
-         HLLAR9Us/55HzrAm3JvK98MexymY0c1wC2VX6ER1DwADcUVpVKDmI5TuLQyZ55sK/Vsz
-         outEWyF+mlYW6yejFN77y+N66iEX1ei0PWymLj68SpYbJrQP3L5MYOIG9cWvdCCY+1zp
-         GDoN3qe4Bs9iiI0JS57s68wXBSALEAz5HcUCAAP1CC+TOmESYZVuLjKcnOZgU52XelVN
-         nZMYhMTO6eVqNf/zpAYt2YYisoa5UBRGTRsu17DpGLUyP8WdrF721xtEud2uv56rZUMt
-         mHUg==
+        d=gmail.com; s=20251104; t=1785742435; x=1786347235; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/DmVr1I/uwji10ZFfwhluNchBTHGN9354X6a+AWJeRQ=;
+        b=rmCscYgvDJeAXeIuP3zDYzn8E4Ra/yjaGenXiulNX58lw5etwE8S+dQ82quCJ9kxwz
+         yKZxHFGItzQKbTjGzvtsXV5B5mm0AdXfsquHUlt3TXnoWGNmA4NwXn8RmtR8AHswGVnT
+         cRgmNL6+xk6eXeVRO2YCr86sMw+loHIdFxo/JZM1Qk7zWH3lAkrLPxrBL+yckDKUrTu4
+         W1c5t7d3w+Va1lwj1DEPwrAtBFxAaAUPI4BAHlaYF/fmOeziLlHFPrxWL+Nr4+9vZRuQ
+         nEkBG271Xf0ZY/gmU+mZDMCfJSJBZ0cZqJWjog0CXIo958SJZauE368MtytrT+B+x/ic
+         mazA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785741442; x=1786346242;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Q+2A2Z7IoojlaYkRkYfkrCKzpU+eyj3RUWUUDSzJuJ0=;
-        b=hCCwa+TaI5a4GkK6iX8W0emmiHMJkNsxo+T9A0QmalYPoqPE0IAQ0y+mOszyu5UKCY
-         sARrMD7AbPBdBAM87mt0+0tyQJc0BVNTjET9mH+E5HFGP290vFEUODPm5gpAaLnCXjEf
-         Mn/5MaNrKzNJvqouIFTvU7OmcNGCpTMP4XJKrdDq5XYPfnXVY18lZS/cZmKsNdKbpHmh
-         gapqmckp3ib/4Cey22x4xdXL9rES5MnuP5NvyCXnU+l/igJQQoECm9Fg3y0FGNOsFTod
-         XJgL8gvtlaSzN9ESR99LDPJY2ozrGG5JKafPMMTe1o1ox2DlO9/fNM3mbElCmv7B9aTm
-         FT4Q==
-X-Gm-Message-State: AOJu0Yz8475MG98VnOxg0nYjuD7KgqHQFl/tnMCKtK0UkPT85I8xnbr3
-	opxiGiW3umOpYzio0IBSlTJ3xPcov/BZm71aXWfKcxny7vn5C/kraX4G
-X-Gm-Gg: AR+sD10OjMHWZaU6bvkwz+dg/9QvIU4AVIiSGsKl/f/e4mM2ZjSmaVX9pyQSmUREgy8
-	sYEbkGeK5LU5PqJO1hJ03LA2Qi7+Pi/6PaS7LfRkH4cbEG8IeCeKXZeAQVNt9+mc4E36AWjV2SS
-	hjEVdqNZw1t0xQ//RYYgmqIPsynyV35dv6JK5RsHux7HY4q2kWvcsSTRMqqN7O5U7j4Nc74gBxi
-	YCYH6jI3Hm3hsXCRoHo9+Fa0Pd1BRwiUbTA2e3JcxyBktSKWib5YtshBGUt4dNszgx0SwDANoQV
-	4wprv+DYd4Yrh/I1qtxj3q73KIB3XJ+WdskYYpcyodM+8en1CToBjJAZpv8VwAQbhH5sQslopv3
-	7dY3gNMwcezqrFIRApFC2NtDWOLVihaEaFlKKjcqTJ8bT9d1PC9ce3vlKX746ZwIDxkNlTWnGDi
-	QvWm/QGdrNV9Zi9PjTa5nTBUzJeDXdZ7DZe0+Ef0fAUEQSoNQ63FlvJ8bzILzYIbVW9k20nVgNG
-	rYQ9yTGwAOLG4q5VNZr0FXy+bQYJr2QEcd1G3oNztmSzc9IWid5mBo+bh1dNt6fIz+YmWRMuALw
-	5lm5BKbX1mVyvgBY/FdTb1m8DFeElrPuAKG4qFLsljA2QH6DD1lIqs6/4eDe2YR8vmeauDmuodD
-	O3ijbdk+rEpfhj3cr+oD6/PP/VGYo2jPZNMr+zyA1Xmj8DN9s1QfYis7bIKQ0fvxhSZKBHYze6G
-	EFX0rS1g==
-X-Received: by 2002:a05:600c:46ce:b0:498:ee7:e403 with SMTP id 5b1f17b1804b1-4980ee7e7dfmr149263745e9.19.1785741442335;
-        Mon, 03 Aug 2026 00:17:22 -0700 (PDT)
-Received: from localhost (90-182-112-124.rcp.o2.cz. [90.182.112.124])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49808691014sm208280535e9.11.2026.08.03.00.17.21
+        d=1e100.net; s=20251104; t=1785742435; x=1786347235;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/DmVr1I/uwji10ZFfwhluNchBTHGN9354X6a+AWJeRQ=;
+        b=BimPluM09QUIbDp351qccEsaECNMmOC4ub0ZElbCGhLT8UfNCvheH7ctbkagIWZGOF
+         uoGKYi6tI/xpSVMKiQDGNmJoHjetRhSKdGt1t9td+gTbgESdJDGg0edRE5PME4t6xT+S
+         hCVGNldheHJFD4u82fuhbKsJnuqGvh2HCiJKspZsgPMkoeI7WsWkRWjDuL9HeUrxn6RT
+         EM+gsGXN8E653cqKZkLKz+Vk+pFIDkj/JGAffUUHRuITZT62SyelI9Q1KegoSdvOd9Yb
+         iCTqh1DL2XgcrwWaOm4OC20H5wrBmOuJCf7kYa4hlpBbQU6S3yT1+QA8xQkSduD+hoD5
+         8oyA==
+X-Forwarded-Encrypted: i=1; AHgh+RqXyt/s9rj3usk74qNP5S74Jaq/n9A7jODWYGZGP7gNW2bXw1IZe8R32H6MAYb1E+Qx+FGDhEXjxE4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqBJ4oMoAYkd+gAhxmgcX5uSWt3WnYySQGvN8k4UmqbeAtVGz4
+	S6XDzbtqqMT9YUdlz3WDPfItdv1feEWqknmHp1YauD8xOH+7jxcMIuq6
+X-Gm-Gg: AR+sD12iBjoqFXHmNWs2PsD5ELdm35/J8+9UhujluQ6neAD5NBwcjzdFpnBDbj7mC5t
+	jqg7pqsaT7HKAyZaQPtmzIEzjV+Cz76P5V+rdIh3FWIaumfoaOHYwVccfQQ/IGS/rf6keVmJo0g
+	uCi8rkIlMGsF4QhHs3ZnUlUyGitJcPMUeJMbsPXY3NYERzRuJG4mdoL59jIxTZFK2NSxH33XbXo
+	HtdG7cuzFbdDjvwUJJu+ZwO05+UQZ4gy6GIrv/AshtEDwCUEaPYbXRx+kO6X+rsXiUjwM+IludS
+	Xa4nHv/Dl+dsuoe5dKUUItBlkiMyPkDjSiWL68e56uATg50rTzXiyUmnNHwvL7q2TWWUHkvJI7c
+	i4f5Ad3a7N9/K/mJACc7B4PF1BZgtahcghkdwvQzdkS0210blNOAUDreUjj0maYbpzgEyiujjT+
+	osvVi62hbLqe3PJ53GgpKzwPY80EDFfjbGD6fO5xVyCAoQ2Kti6jLTx39ayGnu788=
+X-Received: by 2002:a17:902:ea0c:b0:2cf:41ba:96c2 with SMTP id d9443c01a7336-2d05366b5dfmr76364185ad.12.1785742435408;
+        Mon, 03 Aug 2026 00:33:55 -0700 (PDT)
+Received: from Inspiron5409 ([138.199.21.246])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d04ae5abbbsm33637465ad.22.2026.08.03.00.33.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 00:17:22 -0700 (PDT)
-Date: Mon, 3 Aug 2026 09:17:20 +0200
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org,
- syzbot+eaa106d192c9daf37f95@syzkaller.appspotmail.com
-Subject: Re: [PATCH] usb: gadget: midi2: remove default configfs groups on
- teardown
-Message-ID: <20260803091720.00006bf8@gmail.com>
-In-Reply-To: <2026080342-theorize-everybody-9f2c@gregkh>
-References: <20260730135811.1498-1-joshua.crofts1@gmail.com>
-	<CALoEA-yuzdD9=gBy0s0VFc2yD5Kwga57LjECUWTTXdF2SHed8g@mail.gmail.com>
-	<2026080342-theorize-everybody-9f2c@gregkh>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+        Mon, 03 Aug 2026 00:33:54 -0700 (PDT)
+From: Jianhui Xu <neuromoments@gmail.com>
+To: mail@birger-koblitz.de
+Cc: andrew+netdev@lunn.ch,
+	andrew@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	hkallweit1@gmail.com,
+	kuba@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux@armlinux.org.uk,
+	netdev@vger.kernel.org,
+	neuromoments@gmail.com,
+	pabeni@redhat.com
+Subject: Re: [PATCH net-next v5 00/13] ax88179_178a: Add support for AX88179A-based chips
+Date: Mon,  3 Aug 2026 15:33:48 +0800
+Message-ID: <20260803073348.2190800-1-neuromoments@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260802-ax88179a-v5-0-dcb9fea4acd4@birger-koblitz.de>
+References: <20260802-ax88179a-v5-0-dcb9fea4acd4@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 3 Aug 2026 08:25:35 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+Hi Birger,
 
-> On Mon, Aug 03, 2026 at 07:59:17AM +0200, Joshua Crofts wrote:
-> > On Thu, 30 Jul 2026 at 15:58, Joshua Crofts <joshua.crofts1@gmail.com> wrote:  
-> > >
-> > > f_midi2_alloc_inst() creates default configfs child groups for the
-> > > default endpoint and default block using configfs_add_default_group(),
-> > > setting their internal refcount to 1.
-> > >
-> > > However, during function teardown in f_midi2_free_inst() or EP cleanup
-> > > in f_midi2_ep_opts_release(), configfs_remove_default_groups() is
-> > > never called, therefore never dropping the refcount and leaking struct
-> > > f_midi2_ep_opts and f_midi2_block_opts.
-> > >
-> > > Add the missing configfs_remove_default_groups() in the afformentioned
-> > > functions to free the structs properly.
-> > >
-> > > Fixes: 8b645922b223 ("usb: gadget: Add support for USB MIDI 2.0 function driver")
-> > > Cc: <stable@vger.kernel.org>
-> > > Reported-by: syzbot+eaa106d192c9daf37f95@syzkaller.appspotmail.com
-> > > Closes: https://syzkaller.appspot.com/bug?extid=eaa106d192c9daf37f95
-> > > Tested-by: syzbot+eaa106d192c9daf37f95@syzkaller.appspotmail.com
-> > > Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
-> > > ---
-> > > Aside from testing the fix locally with QEMU and the reproducer,
-> > > syzbot also reports no issues after running `syz test`.
-> > > ---  
-> > 
-> > Hi Greg,
-> > 
-> > Gentle ping on this patch.  
-> 
-> It's been 2 "business days" since you sent this.  What's the rush?  If
-> you wish to see patches reviewed faster, please help out in reviewing
-> other patches on the list.
-> 
-> And as this is really only a syzbot issue, the "severity" is low, right?
-> 
-> thanks,
-> 
-> greg k-h
+I tested v5 on the same ASIX AX88179B adapter (USB 0b95:1790,
+bcdDevice 0x0200, firmware 1.3.0.0).
 
-Apologies, I let my impatience get the better of me :( won't happen again.
+The 13 patches applied to net-next commit
+df13c1df8147675470213ffff29dd5762fa321f5 and built successfully as
+7.2.0-rc3-ax88179b-v5. The focused W=1 builds for ax88179.o and
+ax88796b.o were clean.
 
--- 
-Kind regards,
-Joshua Crofts
+Unfortunately I reproduced an intermittent cold-activation failure, so I cannot
+add a Tested-by for v5. In four fresh direct-kernel QEMU starts with complete
+diagnostic capture, the old lease was released before starting DHCPDISCOVER. Two
+reported 1000baseT/Full carrier but timed out DHCP, while two succeeded
+normally. In both failed runs, RX remained at zero while TX increased. Reloading
+ax88179 and ax88796b recovered DHCP, RX, and bound traffic in both cases.
+
+Before this follow-up campaign, in the earlier v5 validation session, I observed
+a separate 100baseT/Full failure: the adapter negotiated carrier after I changed
+the advertisement to 100baseT/Full-only, but ARP and bound traffic failed.
+I then tried to reproduce that result with three new advertise-0x008
+transitions. All three negotiated 100baseT/Full and passed bound gateway
+traffic; two also explicitly passed traffic to the test host. These repetitions
+included tests both with and without a preceding module reload. I could not
+reproduce the earlier 100-Mbit failure.
+
+That earlier v5 validation session also produced a separate guest ACPI S3
+failure: after resume, the adapter returned with 1000baseT/Full carrier, but RX
+remained frozen and traffic was broken. I then performed three new S3 cycles.
+All three logged QEMU's same emulated-XHCI resume reinitialization and USB
+reset, but returned working traffic with increasing RX counters immediately. The
+final repetition also recreated the earlier speed, EEE, and pause setting
+sequence and verified working gateway traffic immediately before suspend.
+I could not reproduce the earlier frozen-RX result. This remains a QEMU
+emulated-XHCI test, not a physical-XHCI suspend test.
+
+While reviewing the speed result, I noticed ax88179a_bulkin_config() selects its
+table using ax179_data->speed, while ax88179a_mac_link_up() receives the speed
+argument but I could not find an assignment to that private member. The new
+passing 100-Mbit tests do not support linking that source observation to the
+original one-off failure, and the same pattern appears in v4.
+
+EEE disable/restore, pause enable/restore, EEPROM read, module reload, and USB
+detach/reattach otherwise worked. I also tried Wake-on-LAN in QEMU. The driver
+accepted magic-packet wake, ethtool read back Wake-on: g, and USB wakeup was
+enabled before the guest entered S3. QEMU was configured with USB remote-wake
+suppression disabled, but the guest did not resume after directed-broadcast,
+limited-broadcast, and unicast magic packets. I consider that result
+inconclusive because I did not independently verify the physical USB
+remote-wakeup propagation through QEMU.
+
+Please let me know if you would like me to test a fix or collect a specific
+register trace.
+
+Thanks,
+Jianhui
