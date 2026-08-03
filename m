@@ -1,112 +1,112 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B76931E84E;
-	Mon,  3 Aug 2026 14:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8666230D416;
+	Mon,  3 Aug 2026 15:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785769143; cv=none; b=hw76gEdjI0kGs4nGCVzHGknuoaPiRfDOePUDGMkWUBLLjrLKMXCuJFooEZkb5JkuNYwPw4rBLS4awq1XZNK3JgV3hgimccFlDqTKkWhqqFDn7wD87nI7gTJytq7k9s8Ok4DwwJXc8+1Y6dJT+DyUshamD6Jcym8q48WUWs16BXw=
+	t=1785769542; cv=none; b=LSEgIds1cCrMAuSWEOs0HJtjiGAqusRdh/mLfMdSGTihxP7b5Avi2+k7H2XAxKgVf1WF6utqYCwwsl2/Rah22PjkQ870tFY/54670DpIRCjcHITf0eMcpVx4AcN4kkescDIXT5jrOB+ihQuwK3ehFhEZkIx+UMLWP4jrn7sp93s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785769143; c=relaxed/simple;
-	bh=KDuDbnl5Ik4EvojWyjHZUafMv5BHieWOdLiU2Wi9b3Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rhGE/K2vb8TmIgB0c6gQt4eULiBtR6tkbdLg5pBad0Yy3lmrf0Y+Y0KloW9cO5aa6O3JFXY7YREHgkKZcoVCvNh13bURRBlEcj3OKojaGED32YkmH2OKM1YIDJr1x6rxUAajkcnK7Gsi0etDrdebrWUXppNgvltOA8XAPWC2I9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=TpeuWugh; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1785769542; c=relaxed/simple;
+	bh=j3JqQziFSJ6RmPpcX7u8WR8MivZeywKVb1vMZQG565Q=;
+	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=ctdpfgZxf7sjp2U2o0BE7wR/iBIsrPIF5lrzUYpB/CcDorBOrnpL8qI7rB2aF4txO50wiZPDqzTaJqSEmbQW0P02NIygKWBx0BibjfgkM9M3K5e882AlFY6zHF87QPnvnZwIbW8u2OYSpVXOpLetDdK8nrtlHlcxAroaGNtZR3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NRu/pUn/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="TpeuWugh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=96dlq3idf7vxs9Ds9ETsknBLPCm+5ZDiYOvDVTO4d2o=; b=TpeuWughhwuY9zGUW1Fb0vyXwE
-	sBlZyUypmv3rPvjvgf0Vn/mywokHpR8fCHLQNVHgbwHHE2jn9cKrz86AgKH89O7SIet3hGTnli5qO
-	RjgGB8HmE2Jv4Giw6tH5PM/lsDimNXqqO3g26NPLD4eOyAzvsNybbizsrpSzvF7U2tqU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wqu7u-00FkTI-2z; Mon, 03 Aug 2026 16:58:50 +0200
-Date: Mon, 3 Aug 2026 16:58:50 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>, linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jianhui Xu <neuromoments@gmail.com>
-Subject: Re: [PATCH net-next v5 09/13] ax88179_178a: Add Suspend/resume
- support for AX88179A/772D/279
-Message-ID: <fa2cbf05-548b-4ce7-b69b-e46b6cbe486e@lunn.ch>
-References: <20260802-ax88179a-v5-0-dcb9fea4acd4@birger-koblitz.de>
- <20260802-ax88179a-v5-9-dcb9fea4acd4@birger-koblitz.de>
- <1cf1c0c8-d7a7-4ff8-9a9d-02dcc993ac14@lunn.ch>
- <5e15ac01-18c1-4cdf-a800-62e2b1427087@birger-koblitz.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRu/pUn/"
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 96F021F000E9;
+	Mon,  3 Aug 2026 15:05:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785769541;
+	bh=qXdj6PMUQgk/ZpPaBgGxf4NvtqzfJ8AmdBzhdA0qQf4=;
+	h=From:To:Cc:Subject:Date;
+	b=NRu/pUn/w35r08Kwv3FY4Of9tOnK9gtiIdmPuatMytvwzqD1m21kLNxQT8xyaJj1N
+	 loEPn+W+wEF9R30nHJLxtOzWz52SL5cUPPMJxiBuTVOgTs81Fi8vKYSayL5rz5U3hv
+	 VLTAM37k8F7OHlFo5SyvxoEzJXXQTiillxOvXVp7P0QRp37QfhMXe7OH72dhmQ4i7c
+	 Rr9BRVgsKVu4oZOjyeVQn5L2OmRMaV65hfUxh0umnCG6LF8EWjs2tsNDG85t2OKlJ6
+	 pXmY/sXmmY71Zx5W1lT4KCWynw0aYZrkM6DJoC8npzS+CsyuIpztcYKuu5nwKPv0tm
+	 768hmnnL48w0g==
+From: "syzbot" <syzbot@kernel.org>
+To: syzkaller-bugs@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>, "Shuah Khan" <shuah@kernel.org>, "Valentina Manea" <valentina.manea.m@gmail.com>, "Nobuo Iwata" <nobuo.iwata@fujixerox.co.jp>
+Cc: i@zenithal.me, linux-kernel@vger.kernel.org, syzbot@lists.linux.dev
+Subject: [PATCH] usbip: fix use-after-free in event_handler()
+Message-ID: <ee9bc932-2fbf-4e8f-90e2-6cf604be9ff1@mail.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5e15ac01-18c1-4cdf-a800-62e2b1427087@birger-koblitz.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Date: Mon,  3 Aug 2026 15:05:40 +0000 (UTC)
 
-On Mon, Aug 03, 2026 at 10:53:18AM +0200, Birger Koblitz wrote:
-> On 02/08/2026 23:44, Andrew Lunn wrote:
-> > > +	/* Enable WoL */
-> > > +	if (priv->wolopts) {
-> > > +		ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MONITOR_MOD, 1, 1, &tmp8);
-> > > +		if (priv->wolopts & WAKE_PHY)
-> > > +			tmp8 |= AX_MONITOR_MODE_RWLC;
-> > 
-> > Have you tested WoL?
-> Yes, I tested WoL with the initially submitted driver, and I later checked that
-> the register writes around suspend/resume stayed the same. In fact, without
-> proper WoL settings, the AX279 will immediately wake up the host again after
-> suspend once USB wakeup is enabled for the respective USB device. I successfully
-> tested WoL for PHY changes (link state changes, any type of packet received) for
-> the 772D, 179A and 279. I did not manage to get WoL to work with magic packets,
-> but I could also not make this work with the ASIX Windows driver or ASIX's
-> out-of-tree Linux driver, so I assumed I was just not able to send the right type
-> of magic packets or my network setup was broken.
+From: Aleksandr Nogikh <nogikh@google.com>
 
-sudo apt install wakeonlan
+The event_handler function in drivers/usb/usbip/usbip_event.c is a
+workqueue item responsible for processing events for a struct usbip_device.
+During device teardown, usbip_stop_eh() is called to wait for the event
+handler to finish processing. However, usbip_stop_eh() uses
+wait_event_interruptible() and ignores its return value. If the process
+unbinding the driver receives a signal, wait_event_interruptible() returns
+immediately, causing the teardown process to falsely assume the event
+handler has finished. The teardown process then proceeds to free the
+usbip_device memory. Meanwhile, the event_handler workqueue is still
+running and attempts to access the freed usbip_device, resulting in a KASAN
+slab-use-after-free crash.
 
-wakeonlan AA:BB:CC:DD:EE:FF
+BUG: KASAN: slab-use-after-free in __mutex_lock_common
+kernel/locking/rtmutex_api.c:559 [inline]
+BUG: KASAN: slab-use-after-free in mutex_lock_nested+0x5a/0x1d0
+kernel/locking/rtmutex_api.c:578
+Read of size 1 at addr ffff8881145245b0 by task kworker/u8:5/6177
 
-I've used this in the past.
+Call Trace:
+ <TASK>
+ lock_acquire+0x84/0x350 kernel/locking/lockdep.c:5842
+ __mutex_lock_common kernel/locking/rtmutex_api.c:559 [inline]
+ mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:578
+ event_handler+0x1e3/0x4a0 drivers/usb/usbip/usbip_event.c:73
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
 
-> I really look at the suspend/resume functionality and WoL as a command that is
-> sent to the MCU, which then configures MAC/PHY and the USB interface in one
-> go and then puts the controller to sleep. It works by configuring a monitor mode
-> in the MAC (cmd AX_ACCESS_MAC, register AX_MONITOR_MODe) and then "calling"
-> AX88179A_WAKEUP_SETTING, register 8, with bits specifying
-> EPHY_LOW_POWER_EN | S5_WOL_EN | S5_WOL_LOW_POWER | 0x8000 which is a mix of USB
-> interface options and PHY configuration options plus a the EPHY_LOW_POWER_EN
-> command.
-> 
-> It now looks like suspend/resume is broken in v5 according to Jianhui's tests. Hhowever,
-> it was probably already broken in v4. Since this is intermittent, I wonder whether
-> the polling of the phy by phylink is to blame, which sometimes may still come after
-> the AX88179A_WAKEUP_SETTING sleep command. Can the polling be disabled by the driver
-> in the suspend() function?
+To fix this, change wait_event_interruptible() to wait_event() in
+usbip_stop_eh(). This ensures that the teardown process strictly waits for
+the event handler to finish its execution and drop all references to the
+usbip_device before the memory is freed, preventing the use-after-free.
+This change is safe from deadlocks because usbip_stop_eh() is never called
+with locks held that the event_handler would need to acquire.
 
-Better still, the PHY driver should configure WoL in the PHY, and use
-phylinks WoL support for everything PHY related. It does require you
-know what registers to set in the PHY.
+Fixes: bb7871ad99ea ("usbip: event handler as one thread")
+Assisted-by: Gemini:gemini-3.5-flash Gemini:gemini-3.1-pro-preview syzbot
+Reported-by: syzbot+f4518ac0a3dd3aafde38@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=f4518ac0a3dd3aafde38
+Link: https://syzkaller.appspot.com/ai_job?id=88101c8e-4da9-45de-b879-0549d6fe5649
+Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
 
-As for waking up too early, we need to understand how the PHY is
-waking the MAC. Often the PHYs have an interrupt output pin, which is
-tied to a GPIO pin of the SoC which is wake capable. With a USB device
-it will be different, but probably still an output from the PHY
-connected to a pin of the USB MAC, which wakes the USB device.
+---
+diff --git a/drivers/usb/usbip/usbip_event.c b/drivers/usb/usbip/usbip_event.c
+index 0e00c2d00..81d761891 100644
+--- a/drivers/usb/usbip/usbip_event.c
++++ b/drivers/usb/usbip/usbip_event.c
+@@ -115,7 +115,7 @@ void usbip_stop_eh(struct usbip_device *ud)
+ 	if (pending)
+ 		usbip_dbg_eh("usbip_eh waiting completion %lx\n", pending);
+ 
+-	wait_event_interruptible(ud->eh_waitq, !(ud->event & ~USBIP_EH_BYE));
++	wait_event(ud->eh_waitq, !(ud->event & ~USBIP_EH_BYE));
+ 	usbip_dbg_eh("usbip_eh has stopped\n");
+ }
+ EXPORT_SYMBOL_GPL(usbip_stop_eh);
 
-It could be that interrupt output is wrongly configured, so it is
-reporting some other event? Or it has not been cleared after the last
-link up interrupt etc.
 
-     Andrew
+base-commit: 075b74841bd0065a3bda3440873c747938e69b68
+-- 
+See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
+You can comment on the patch as usual, syzbot will try to address
+the comments and send a new version of the patch if necessary.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
