@@ -1,70 +1,81 @@
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5DB30D40B
-	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 15:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7A5489882;
+	Tue,  4 Aug 2026 15:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785856804; cv=none; b=KNCTIJ8wBdlZvND2tPiPaFjhiZdWNM96F6kcuRbX90QCAqz4HxQ49zv0sZJ0RhGHdD4QNxOjjtX3Xmv50/7achvX1/3dDOvUssSJKIYecWcKQF+EEPfiafUgptQXrFxZBTx9SRJQIt20ENT9Gy6jA6hPExBSJjwHfMdUl0a1eik=
+	t=1785857546; cv=none; b=gM6F4oM5QjHFbT/B2x8kv9/5BTrZYc3dgU1XzEeCq64gxS+PKkJQiugNRlHLX3hP1P/UaDrxaCqmb9ug4AiYblQ8uFkBVM5bkPBb6n5ryLdbYQqSZ8DyArg3f0KI8hvEEWPo1CCkVZDqV4m1nOfTNoug+fi4noovbZ9uIbdb33U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785856804; c=relaxed/simple;
-	bh=eN32eP1uBHWh/BWbbb0ImwAJS3mQ8iV/MM7QQ9N1THE=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=Oqa+pBzFs8oN2jUxHG2Ui2gW0P2asjBoxsLnDbi8yD9cTilh1uAsXh5wU0OupEgW/wBy6lExh7sbGW97LlhZqAClkVSvQuoOHsRt+9xXB4HSpmU8M01ejS31x6+tTq38/CtdbFOHTGxi4xAN7MuiHbfQqn/NznKtli9qMeqeO2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-7e6b73b3920so21905a34.0
-        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 08:20:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785856802; x=1786461602;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=eLXnvvNTX/4uIyiRrAJ2jKywDGhge3hvW8HNnLnjv0M=;
-        b=sqSJC5we0w2QoYAPir7uN1mdvQ9GtHZlfzsd7IzPXmz448I/2ipjXNldNXj89C+bHN
-         5Gu87WSa6+wfGomdLvyMJoX4Pm3TGYmpvr3Gd1CWYzlha8tA7YFh+BIssdAQ7n9tSfZi
-         wxK4GapEPDL9AnFnjE1AE5mfLarizHYx8UixWmnbvFZvjgxAhiBbBs2KN3iLdegzaFqL
-         /sWfpq3IlHztmRY+V3sdHzTmg2S6gWZkd1YIm2oow0GoTqrLXihT6qQ+GXtAfwhcp+1X
-         gIQvXa87ObF+kGm8YfSSTX+jmJ2sum7+oFfCGI8NRa54RiWRJGPIABRXeJCS6XVFEKo9
-         gi7g==
-X-Forwarded-Encrypted: i=1; AHgh+Rr/xR0E7yxMcDWFPGqvRz7pUE6yf7PWkrFUEjA20OOxxqOwZyrcItcPV2ItJ4nfl9A2qLMwrr01I0I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzquRQTvBeuggY/94xmm5BKtHI6tkdUZtYDKMIuoWwyYd56Zsx8
-	iS0dzoLQUS+8ThwL+QiWKlL4cRgvoS5gdiabKNRcNI45zo8l/pL5qUonnbLnFxCHsPhbp4KUtdQ
-	ykTwKK0E8ERRoiR9HMrJeQgbyNAOy5N7YAhaVieuH36qsiwzIF/C3w6diQdg=
+	s=arc-20240116; t=1785857546; c=relaxed/simple;
+	bh=uD8On8upy+JKUxcP87wLmazE/jkeplubLzolBbphKIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I8rHSX7V8GuOHGkPJiVqAXifWuoE+4ix7mz/99R5W1/rCbRmcOX2lvWMMzNkyFyWc5AlgcATT1ND9ayFoe8JRS42fCpJCJ7t6gUQ+VyPrNVImIgZ0MI9nrk6bgrv+DHr1iur6enwWODL2CwD2uEMPhbomvQ+EuO8kK+4xD+ApjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gJsbdeht; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gJsbdeht"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE69F1F000E9;
+	Tue,  4 Aug 2026 15:32:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1785857544;
+	bh=WvDDf6J7dCM0BUoSYxUzj1LJOmPw9de1njg1GkihQKM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gJsbdehtWmtmuFxK04tHxJ4a3INSZuXip4b5n8NqCkRYYJrHw+vCAFtH3+ZhvSJUd
+	 eGfJleomZ+UESvajrBMow9ji7F3uD18bX50c2B0nRkJBy1q0nAX++VawKp7yXQMZsF
+	 UClWsJOl7UgxzGKzoJhQnGYfOyOu20udF9GFnaGc=
+Date: Tue, 4 Aug 2026 17:32:07 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: bolewara@gmail.com
+Cc: Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+9aacea11bc70c3ddaff2@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3] usb: raw_gadget: fix use-after-free when UDC is
+ removed
+Message-ID: <2026080421-amaretto-bronco-898c@gregkh>
+References: <20260804-raw-gadget-ep0-uaf-v3-1-bb7cf1d892af@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1208:b0:496:2b3:ae71 with SMTP id
- 5614622812f47-4af5e3536b2mr20513588b6e.18.1785856802399; Tue, 04 Aug 2026
- 08:20:02 -0700 (PDT)
-Date: Tue, 04 Aug 2026 08:20:02 -0700
-In-Reply-To: <badd4d94-2e84-400f-bddc-c9ac8fd6e7c8@suse.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a720322.9511d2ce.1fc5b9.033e.GAE@google.com>
-Subject: Re: [syzbot] [usb?] possible deadlock in digi_set_modem_signals
-From: syzbot <syzbot+2051460e19471eeb42c3@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, johan@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, oneukum@suse.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260804-raw-gadget-ep0-uaf-v3-1-bb7cf1d892af@gmail.com>
 
-Hello,
+On Tue, Aug 04, 2026 at 08:32:50PM +0530, Anuj Bolewar via B4 Relay wrote:
+> From: Anuj Bolewar <bolewara@gmail.com>
+> 
+> When the UDC is removed (e.g. dummy_hcd unbind via sysfs) while the raw
+> gadget fd is still open, usb_del_gadget() destroys the gadget device
+> and its name. raw_gadget keeps a dangling pointer in dev->gadget, and
+> ioctls dereference it after releasing dev->lock, leading to a
+> use-after-free in dev_err() when usb_ep_queue() fails.
+> 
+> Take a gadget reference in gadget_bind() and drop it in dev_free() so
+> the gadget device and its name stay alive for as long as the fd is open
+> and an ioctl may still dereference dev->gadget.
 
-syzbot tried to test the proposed patch but the build/boot failed:
+But bind/unbind have nothing to do with open/close.  bind/unbind track
+the lifetime of a driver being bound to a device.  After unbind happens,
+the driver CAN NOT touch the device at all.  That's not what you are
+fixing here, you are attempting to keep a reference alive that you are
+NOT allowed to keep alive, as it is gone.
 
-failed to checkout kernel repo git://repo/address.git on commit 11028ab62899: failed to run ["git" "-c" "core.hooksPath=/dev/null" "fetch" "--force" "--tags" "b7cf8f2fbfc36c709a08e0b9c77990e491473738"]: exit status 128
+> gadget_unbind() only
+> marks the device as failed under dev->lock; the reference is dropped in
+> dev_free(), which runs only after the fd is closed and no ioctl can be
+> in flight.
 
+Again, bind/unbind have nothing to do with open/close/ioctl.  This is
+the "traditional" issue with char devices having their "backing device"
+go away.  There are many different ways to solve this, none of which is
+this patch at all.
 
-Tested on:
+So please, go back and rethink the lifetime rules here and do NOT rely
+on a LLM to attempt to work it out as obviously it is totally getting it
+incorrect.
 
-commit:         [unknown 
-git tree:       git://repo/address.git 11028ab62899
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cb17729fb04b1e3a
-dashboard link: https://syzkaller.appspot.com/bug?extid=2051460e19471eeb42c3
-compiler:       
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=15fd8bb9580000
+thanks,
 
+greg k-h
