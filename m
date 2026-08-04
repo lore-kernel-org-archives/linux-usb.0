@@ -1,136 +1,121 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8090A37F741
-	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 17:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1028F4949E0;
+	Tue,  4 Aug 2026 17:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785864687; cv=none; b=PzXsu9iOwPGF3ptPsaF6fhJk4lU5NWYpd/8ZjuuXZ4+b+15+3wJ7FaIDp4U1aeL5T8LWoOLIajEP+g9iaHP7WDTJzboPpCgYipOqt147FMXh5T1ML4MO5XtqmK9c8PnOa0qO/pzGUuMxejgH8wUV66dH/b9yKXvTRuuBkXy+Cog=
+	t=1785865404; cv=none; b=ksW2GqkSrh+Yd+sXKYDvhEYwoXbL/gogs2xL8MXvFTK1QixxeZp9wZSpe2qtxRlCc4R3qx584j40bnQOvI67cqclL2UViGgxyUSPpWOy4IPcqJL0oy/MGkv2uGBq2RsXeFX5oh/hPgg2SogYgmlr+hDvEMqR77Mw5un+YvURX2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785864687; c=relaxed/simple;
-	bh=PEIo+F6nSB/oPmXub2a1WcIGBd3T5QhN0xPjELeCzQA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oqlHoy7WPDC3qPYNHep0xOQiA6JL8GHOXim7MZRlXA9UAbpq5uHVPoTM4bihZyGDzQm3Ym4Wm0Mt22npiUCZ7lfhcUHmdeVXf2ItbCTtEHHMmi7zLy3idpZJ0+mAGI3HbhOMI+ej6XS4Y2tDAAO3pWIdNtWffReNZRzZvytwBwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DEhkO8L+; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1785865404; c=relaxed/simple;
+	bh=OqfU1cetu2PV0guIGKHE6M9WH7KOauzBBcurUh/WLUs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=uBd9V3h6PoY0CQDX04U9mAe2k3q0X5FvJTwPHOz7Fno+ylDlpSMpKTEA6VHoqvE24OW4+57UswJT2PEfdtxGa053qrYsF0oVbqx3rlcUq3j+z9GC0mWkD5v44Ys4rvnrynq4ObDmMV7UqDrNcPhIZ9W30l8BFeWL0qdALKSrCNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T+MMn1iS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DEhkO8L+"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7ec1e9d3359so128809a34.0
-        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 10:31:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1785864684; x=1786469484; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nShkqNi6OVr5kcjYAHosuW4Py7XxiJXhmTYRr0hY3Fc=;
-        b=DEhkO8L+kplLHHMgpjKXPIbiCNjNvATB/T9IKH1TV08XPvuG142dP2sX2iggzZauuF
-         9mVzcVX8l0C0vSCbh8B79d734eaPhhtM+6QcbEo9g2tr3rw9NaPa6xxnSUnqQoQYfATC
-         CqQZGSR2CYMV22RVBeRNrexJn4PqljwKMjULE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785864684; x=1786469484;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nShkqNi6OVr5kcjYAHosuW4Py7XxiJXhmTYRr0hY3Fc=;
-        b=PE3GkG47svwLpcPM/nyzNjKjFWR5Oca7ML1KgI80bD+ub5VoKwWv8HBsoUxooHadyn
-         QaaYaRK9Kml1AvzHpLTP5LqJTcS7ZRHaQO2LDOnTK5XcR2LG4pQFNyxW/P+oPWyPbVUJ
-         NzunXdsOzZ6+GFacuh6q4ZIFhNxImD3LLte9AqQ9F8yHzsRCdIZaKGUP4hgExIbAjQec
-         LGhgjRh11XUk4TsA4GPxGNY7n2CGrJeDLkHsjsNSkatdd0RLclUiT7IC09cwTLbej52Z
-         2sI/cpLZNY7hgPof1LRlHp/5lQiRR/mdheoWghGnpgDwokqqpDBhwviVivoO6QVLNYsu
-         Tyyw==
-X-Forwarded-Encrypted: i=1; AHgh+Rrv0zEgHQBqBGSoCVhJKpj66DsOAX4RWT7oyOVhvIf7pbbxlobg4TRCy5kxfyra+syyjIs86K2P5eo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzNTCbI50Th2teIqBYyPqoL3JKP3IwsUPwZh7xirvtSi7auG7Ga
-	BPem9j/EDDSbS6qgqmoDkgEkiGYaSmNXniwfxoLvbUNuDwQUfF+UDQw5nG9cAIwIrgo=
-X-Gm-Gg: AR+sD12SZ/r+RBqNYc0UbYHGOQ8OJaQN//PFho0LApnUQp3VUC5+K4x/xGZTKPBr7Y/
-	o0WL1vFskeInF+SAc9NypCET/zCh0jP7PpR+2BMM0oiiFUtsqNmN0u3OSR/TYIQgPaTibcDpBB7
-	j50nbIuWNw8LGOrsj364vKj2Ie9rMhKwE9zzxvRAaGgb9pEn1x2bIZEVhP/rQtPApvxZlUwRQRE
-	rAcvmeFqaX4Chvbfh+M3ZxQuBxjjTGYZwpgsONKTzC4nIsn7G2BaQ92ArI3lpLSn7ap/ePdiL3T
-	R8/ZUnnVs2oVozcy8Ktfgb/MzYqEmFuf8YLo4l68V99Z1nmoQggGwXzo4lAjF0d4h8Vugn5FWTw
-	swjsX+MXh87K5VFbbZyvOjA+/OleEk6zJqKs8MqlTevMg28fuTDEVACGoOxfEhkliLBC1avdcJU
-	nm8zd2Ny9U22hf/8HwFRIMYKImQyNBhay3zYtb9bVmpOe/qPJ1FRKD+gwD1/80TMK/UQ+pzA==
-X-Received: by 2002:a05:6830:83b7:b0:7e6:ef2e:28a5 with SMTP id 46e09a7af769-7f1e5f5ed24mr508079a34.15.1785864684292;
-        Tue, 04 Aug 2026 10:31:24 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f1df5e21d0sm1396175a34.27.2026.08.04.10.31.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Aug 2026 10:31:23 -0700 (PDT)
-Message-ID: <b47d2b37-0aba-46cc-afaf-cf824d99524e@linuxfoundation.org>
-Date: Tue, 4 Aug 2026 11:31:21 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T+MMn1iS"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B27C3C2BCFA;
+	Tue,  4 Aug 2026 17:43:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785865403;
+	bh=OqfU1cetu2PV0guIGKHE6M9WH7KOauzBBcurUh/WLUs=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=T+MMn1iSBg52OnspWEyMeMGpMejwwRjSgO/btYjlnIF9Sio+qVSCZf5WcfHf4ug6+
+	 a/gnYlkpG9lo5fmSSe3efHhEXb2N/hZf7ZxCbW55ztLrs/eA8jVJF8k7k8pnpeyfN0
+	 4CIWLm9eEhvx6CJ7Ja6vYghv0JD8qQd21oTxeLGobb122P3cTtlo4v694Zyh66aUXf
+	 fIIPRG0HkjYsbbkcVlWr58B+LkDzFLTdHcg98pRL32aay4o/XoVda1COUZgQ4UoDVy
+	 m6MRORzupKpQfSTitLjoWFniZsWThipXuRODzkwErNDYAGUPsr6w5T1Y2XKG3X34HR
+	 xnCjd/Srnrzjw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91ECBC55184;
+	Tue,  4 Aug 2026 17:43:23 +0000 (UTC)
+From: Anuj Bolewar via B4 Relay <devnull+bolewara.gmail.com@kernel.org>
+Date: Tue, 04 Aug 2026 23:13:23 +0530
+Subject: [PATCH 1/2] usb: gadget: f_uac2: fix invalid-free in srate
+ configfs store
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usbip: fix use-after-free in event_handler()
-To: syzbot <syzbot@kernel.org>, syzkaller-bugs@googlegroups.com,
- Aleksandr Nogikh <nogikh@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Shuah Khan <shuah@kernel.org>, Valentina Manea
- <valentina.manea.m@gmail.com>, Nobuo Iwata <nobuo.iwata@fujixerox.co.jp>
-Cc: i@zenithal.me, linux-kernel@vger.kernel.org, syzbot@lists.linux.dev,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <ee9bc932-2fbf-4e8f-90e2-6cf604be9ff1@mail.kernel.org>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <ee9bc932-2fbf-4e8f-90e2-6cf604be9ff1@mail.kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260804-f-uac-srate-invalid-free-v1-1-2c980378cdf5@gmail.com>
+References: <20260804-f-uac-srate-invalid-free-v1-0-2c980378cdf5@gmail.com>
+In-Reply-To: <20260804-f-uac-srate-invalid-free-v1-0-2c980378cdf5@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Anuj Bolewar <bolewara@gmail.com>, 
+ syzbot+38bab69d2760cc99cfbe@syzkaller.appspotmail.com, 
+ syzbot+a4f65284f1451010b0a8@syzkaller.appspotmail.com
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785865402; l=2146;
+ i=bolewara@gmail.com; s=20260802; h=from:subject:message-id;
+ bh=h3b3cUpt9LNSykl6ZTC6+F63cumiiyAJh4aXLLAwcDA=;
+ b=WC4mjhIguPighvd51eNzBqB5v8kUH9yBvAF+q+Xt2NcT/Z3eLs5rXwoc9fIsUjUlsLBqoVRdu
+ Y8qWyWDmYiNASsl1oA88Ul3BkxlxIvVudvxUcW01VCRqS6lTKDSrJ7i
+X-Developer-Key: i=bolewara@gmail.com; a=ed25519;
+ pk=XxcXxqFWk9xQziyNEfhS6NRJQR1shqHRRYzkbaYamm0=
+X-Endpoint-Received: by B4 Relay for bolewara@gmail.com/20260802 with
+ auth_id=907
+X-Original-From: Anuj Bolewar <bolewara@gmail.com>
+Reply-To: bolewara@gmail.com
 
-On 8/3/26 09:05, syzbot wrote:
-> From: Aleksandr Nogikh <nogikh@google.com>
-> 
-> The event_handler function in drivers/usb/usbip/usbip_event.c is a
-> workqueue item responsible for processing events for a struct usbip_device.
-> During device teardown, usbip_stop_eh() is called to wait for the event
-> handler to finish processing. However, usbip_stop_eh() uses
-> wait_event_interruptible() and ignores its return value. If the process
-> unbinding the driver receives a signal, wait_event_interruptible() returns
-> immediately, causing the teardown process to falsely assume the event
-> handler has finished. 
+From: Anuj Bolewar <bolewara@gmail.com>
 
-Does this mean unbinding didn't happen?
+The store path for the p_srate/c_srate attributes calls kfree() on
+split_page after it has been advanced by strsep(). When the first
+token fails to parse, strsep() leaves split_page pointing into the
+middle of the kstrdup()'d buffer and the subsequent kfree() triggers
+a KASAN invalid-free.
 
-The teardown process then proceeds to free the
-> usbip_device memory. Meanwhile, the event_handler workqueue is still
-> running and attempts to access the freed usbip_device, resulting in a KASAN
-> slab-use-after-free crash.
-> 
-> BUG: KASAN: slab-use-after-free in __mutex_lock_common
-> kernel/locking/rtmutex_api.c:559 [inline]
-> BUG: KASAN: slab-use-after-free in mutex_lock_nested+0x5a/0x1d0
-> kernel/locking/rtmutex_api.c:578
-> Read of size 1 at addr ffff8881145245b0 by task kworker/u8:5/6177
-> 
-> Call Trace:
->   <TASK>
->   lock_acquire+0x84/0x350 kernel/locking/lockdep.c:5842
->   __mutex_lock_common kernel/locking/rtmutex_api.c:559 [inline]
->   mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:578
->   event_handler+0x1e3/0x4a0 drivers/usb/usbip/usbip_event.c:73
->   process_one_work kernel/workqueue.c:3322 [inline]
->   process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
->   worker_thread+0xa47/0xfb0 kernel/workqueue.c:3486
->   kthread+0x388/0x470 kernel/kthread.c:436
->   ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
->   ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
->   </TASK>
-> 
-> To fix this, change wait_event_interruptible() to wait_event() in
-> usbip_stop_eh(). This ensures that the teardown process strictly waits for
-> the event handler to finish its execution and drop all references to the
-> usbip_device before the memory is freed, preventing the use-after-free.
-> This change is safe from deadlocks because usbip_stop_eh() is never called
-> with locks held that the event_handler would need to acquire.
+Keep the original pointer returned by kstrdup() and free that
+instead.
 
-Correct - usbip_stop_eh() is called without lock hold after updating
-the shutdown_busid status to true. However I am curious what happens
-to the unbinding? Should usbip_stop_eh() check the return value of
-wait_event_interruptible() and handle the error instead?
+Reported-by: syzbot+38bab69d2760cc99cfbe@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=38bab69d2760cc99cfbe
+Reported-by: syzbot+a4f65284f1451010b0a8@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=a4f65284f1451010b0a8
+Fixes: a7339e4f5788 ("usb: gadget: f_uac2: Support multiple sampling rates")
+Assisted-by: deepseek:v4-pro
+Signed-off-by: Anuj Bolewar <bolewara@gmail.com>
+---
+ drivers/usb/gadget/function/f_uac2.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-thanks,
--- Shuah
+diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
+index 897787d0803..1ea1bedef9a 100644
+--- a/drivers/usb/gadget/function/f_uac2.c
++++ b/drivers/usb/gadget/function/f_uac2.c
+@@ -2013,6 +2013,7 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
+ {									\
+ 	struct f_uac2_opts *opts = to_f_uac2_opts(item);		\
+ 	char *split_page = NULL;					\
++	char *split_page_orig = NULL;					\
+ 	int ret = -EINVAL;						\
+ 	char *token;							\
+ 	u32 num;							\
+@@ -2026,7 +2027,7 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
+ 									\
+ 	i = 0;								\
+ 	memset(opts->name##s, 0x00, sizeof(opts->name##s));		\
+-	split_page = kstrdup(page, GFP_KERNEL);				\
++	split_page_orig = split_page = kstrdup(page, GFP_KERNEL);      \
+ 	while ((token = strsep(&split_page, ",")) != NULL) {		\
+ 		ret = kstrtou32(token, 0, &num);			\
+ 		if (ret)						\
+@@ -2037,7 +2038,7 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
+ 	};								\
+ 									\
+ end:									\
+-	kfree(split_page);						\
++	kfree(split_page_orig);						\
+ 	mutex_unlock(&opts->lock);					\
+ 	return ret;							\
+ }									\
+
+-- 
+2.53.0
+
+
