@@ -1,78 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74803EBF23;
-	Tue,  4 Aug 2026 14:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3784C3F65E7
+	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 14:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785854382; cv=none; b=IafT73dfTL0k7PkN1CfoIdcWr/4SVxcA8+ZGUTyBJMIyUFa1t7+YsTV20SZ6E02/pGrSd3xquyytCNLJkGQgGnmHdTB7V8iHrRO58B5I4POiTwp0MMFydG9jlG17N4ydzIgArQIwXwDcCN4/COshrZznHLx5AkXCoMjAkbQww/Y=
+	t=1785854705; cv=none; b=mNONGAkc566CgfKh7jnxJxaDAgIWfGAIdGuhEWZzw6jBVO2YzGeB9/b/U/KxMV6IIeSof62MQ3PuxaU6mfEtrZFC7eEUkLCuGYLeTjN2N7neTbHE7RxHPcX/rHwJ9xHFD8zx7qz5vh+1Dr5hmTJv0y3dHeQ2g76pX1nK3qFQDj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785854382; c=relaxed/simple;
-	bh=UD3L0Zyr70GITDouRwp5Jhhv1RHn3BcHDQWy9vn8wzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uKoG+d0NKtFb1SmpO8iyuWpLFnDDWrHzDs5lLXzNLt+72t5ulzBkcqh1bRw908zBCuQiXw8Io1jjSQOY1Ji0fTjFCXxSp8k4EVFi1Y9KHLGxyumJblynfCvWrySI2qwgh8+lpNEbCyrG1R11i6aYiZPzWw2BXNCWqlTQGqDfA68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bx7oZjmv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785854705; c=relaxed/simple;
+	bh=GD+qj187u3fHMZKk648ieQlllJ7Eh8ebH17wofD8XdE=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Ua1Y0gMUeActkcK4gcNygGbwvoCT3zemsZVyvkn7qQwOJAfMTzbSDCrUT6sgUGohglaK2S9eX1F9PIfPdQ4AhiKUj/6jwiWYka1jPUzujC3vF3s9NdsMJQcV5Lvrt0wReQSvaMI+/fgsCLpf2IZl5rzafS2QKHGYJICSzRFz9Z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J4+vOmw9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bx7oZjmv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E72D1F000E9;
-	Tue,  4 Aug 2026 14:39:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785854381;
-	bh=A3hxWVeUb+bnzcI7yo9wY4MZl5uyc0k0gBivgzxxluI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Bx7oZjmvnpjKDbncoaL6SAwGamDL6J/Yr/YXz6oRA8EFY4RfVp+V7HkLawA1+IgGD
-	 8jGAaX4bR6RjfbU7hqIGjtir9Amh1/PhgaRPmViWn2T6Uimn9AAgrm2EZr0JYK1tvo
-	 Tyb7QEYbIdKB3vsXmI48vDKyZqCx132wIOtVmIuZ/pLfHcpq07Er878b0qvD6Z2zcb
-	 nCP4zSAfwkWniC2JCDh2G/R6OOpRpgADrNZ34Ma3VwTlLjny1K3BOpUZx3XnR/Zp8a
-	 i06zyEkOowI646W7HLII1hEvabEFxf4lm2FHBNwS9zuUKdnaaCcdFPkc00C4bsqyoM
-	 Cxe5CrHuG4cSQ==
-Received: from johan by theta with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1wrGIs-000000005X8-0aMc;
-	Tue, 04 Aug 2026 16:39:38 +0200
-Date: Tue, 4 Aug 2026 16:39:38 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: syzbot <syzbot+2051460e19471eeb42c3@syzkaller.appspotmail.com>,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [usb?] possible deadlock in digi_set_modem_signals
-Message-ID: <anH5qi4skYbh0iO0@hovoldconsulting.com>
-References: <6a6cd832.1aa927e4.17d4bf.0007.GAE@google.com>
- <badd4d94-2e84-400f-bddc-c9ac8fd6e7c8@suse.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J4+vOmw9"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C0646C2BCF4
+	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 14:45:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785854704;
+	bh=GD+qj187u3fHMZKk648ieQlllJ7Eh8ebH17wofD8XdE=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=J4+vOmw97G8jaeyH1eawqYlEXDroDIAM1DYu1nEFStSUsv/vwH2Ry8QxqFvJ2Qqqa
+	 ARqmFCSHvjqv8mfKJA7DPfXXhECKZWHM1gs9aBaDwBABe4gQpgCvaREEaCaOlB0NRF
+	 Y6yd8UgA0I87Qt/DbeBtat54xXrRBWiDPi8YqQOfloBQvjKT/o1JqEFIWCFyCZKPw3
+	 hBM4LHpPAnRu3FCXz2WrNLueyGGPYq/vGvVgsU4lv25cPlu/7wYvbLp7gcEfk1JQ+L
+	 yvigdE04LSfFOQ7oyML3fXqi810/LxQaRnwXdfYYeUXAZFNuwbWf2UBvtFw1sWm3VK
+	 Alu4cuq82bs0Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 9CF77C3279F; Tue,  4 Aug 2026 14:45:04 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221774] hid-multitouch: report ID mismatch check breaks
+ touchpad palm detection on ASUS ROG Flow Z13 (2025) GZ302EA (0b05:1a30)
+Date: Tue, 04 Aug 2026 14:45:04 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mayhemandcoffee@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-221774-208809-mhuqkqOMUS@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221774-208809@https.bugzilla.kernel.org/>
+References: <bug-221774-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <badd4d94-2e84-400f-bddc-c9ac8fd6e7c8@suse.com>
 
-On Tue, Aug 04, 2026 at 03:41:59PM +0200, Oliver Neukum wrote:
-> 
-> 
-> On 31.07.26 19:15, syzbot wrote:
-> > If you want syzbot to run the reproducer, reply with:
-> 
-> #syz test: git://repo/address.git 11028ab62899
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221774
 
-> From ce3cda5cc4df748600c37b6b5cf5964d21478e1c Mon Sep 17 00:00:00 2001
-> From: Oliver Neukum <oneukum@suse.com>
-> Date: Tue, 4 Aug 2026 11:38:30 +0200
-> Subject: [PATCH 1/2] usb: serial: digi_accelport: annotate spinlocks
-> 
-> The driver holds two spinlocks at the same time.
-> This is perfectly safe, but confuses the validator.
-> Tell it manually that we know what we are doing.
+--- Comment #17 from mayhemandcoffee@gmail.com ---
+Yes, you may add both the Reported-by and the Tested-by tags.
 
-I fixed this up a few days ago after I saw the report:
+Thank you for working on this and for walking through the debugging with me.
+I'm glad we were able to narrow down the regression.
 
-	https://lore.kernel.org/all/20260801125827.292983-1-johan@kernel.org/
+I'll look into the remaining libinput issues on my own.
 
-I've merged that patch for 7.2 to avoid others spending time on it, but
-perhaps I should have replied to the report as well. Sorry about that.
+--=20
+You may reply to this email to add a comment.
 
-Johan
+You are receiving this mail because:
+You are watching the assignee of the bug.=
