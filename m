@@ -1,73 +1,73 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA9F4457BB
-	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 10:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D0A44AB60
+	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 10:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785837802; cv=none; b=ilFWoMhHde5O4/4sGy8RaPaoDBd9iLFfXmG24Hu5PiViyk5EAeAocnEp9p9VExiiwRRGPflSOboiaPRingBZvwYUfJBnZMuUmY8EJEMjRBtGbM0F6pCjBZyot+8Bo+fE1Z5S5j/s1kTs5Q19q6COiQkyBI/oFCo+gQCZLq9rido=
+	t=1785837844; cv=none; b=i/UJxiVokF4nQDF7LwVO5oPfBNn96S9JIROjs3gsyWb2+vC+zRLm83CsutEHbaCIWACzFkwboZQ4xd3L498c2Jv/yKpm45PYC5pxl37w9kxzU/YYPTIshQtsxuZ+Vc1sIX2AmqfSCCKOjJqDVuabBLSz42LUtNtoLqRrp2pySUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785837802; c=relaxed/simple;
-	bh=MU350OP6kB1rEDUkj+DOlrGzj1MoS0IisNveTm2dqus=;
+	s=arc-20240116; t=1785837844; c=relaxed/simple;
+	bh=V5RWXyjpVGh3i0A+4CrqmjGtiyY6FHhADkCnDHoo5LE=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bmSB6Xzj9nT7NsI9MU/ygY8XeoZsZm/McKoUa3bkY0PSyl11zmA+DucigpbVrVeTqci0uhFQU/Y8itta/J57+ZTIE3TcmzY9YTtYh0sDuP0N9Pk/kTgCgc5GGJn9nKijo7vG3jqkUH6tb/a9tcgGZL1hjA7/Mr5DGNfHqCMUsHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kDmfPnO2; arc=none smtp.client-ip=209.85.221.43
+	 MIME-Version:Content-Type; b=uOFecYwNZhYE776vcUI801U+8c4SMneItBe9rmXsF/ipZtJDd2mOeO+VnR3/xmISgeMoV9yarIV4KagWRt/OBQiOFYyJGI3b0UP3ii88Xw3AxHpY1hv8VJnKit1imFS1nBCtKg3EO/miIO+f15XS/9Yl/OPm9REnOc0RACAgEWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gEJ78mo0; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDmfPnO2"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47fdd674e17so1456641f8f.1
-        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 03:03:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gEJ78mo0"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49545ba3d4eso14625895e9.3
+        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 03:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785837798; x=1786442598; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785837840; x=1786442640; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=mKNdCd7BfihSdT/4/OO50sBOOdXqsgqCXHHpY928Dwk=;
-        b=kDmfPnO2ovj/FFsT4TngDNbAfrHWNcx9h7a1sB6WZAMAbEsmDAb8OFvXqxpcceXAJ0
-         nvJ/rDu2MEMEHT/TRdcVgW963VpwftwcVDlnlSzl83oK1+s8WEBtFiHsjdKSBvDfOq3L
-         VKQZDZUhXimT1CTaz/ZREW/HKsiq8AxYiQlq1TroWAoYOZRzTv8GAtM5HsDu3VvvGOKC
-         1FQynDqaSlSepFl3Ux1jvCa2gH9hdUChGm8/DL6TU2fJoB0R54o3POx3+pjrlmZPSfxi
-         je+2zfs0DQQYYsbz0wOtGPf0KlhAQFuJzkhivHws3VyO8S3Q13FjwTkPsHkHeeTUb4BE
-         1AUg==
+        bh=g5sbX7LPbmxKznY3becilAKwjNokPaVAppuK6EGQWgc=;
+        b=gEJ78mo0Wk6/V0h43f0Jf319a07aSgL0/aOjrMdAxVZq07t9BRhXTiLhgkNnBnmn1G
+         /b1klYK6DE8mPnH/t+f6eQtiMJVoikneHhNpVjc/zTs2WHKBtd7mgZ5uOg/pky47F6Zs
+         C6aH8wRckp2ZJ23L5ue9asrmbu2jWyI4yGAo5bOnF01+UROoVC+H5VtT2eluW1iieN+5
+         p8gNgoYAxtKH2yNLzew5Ic12GPPYtog+qVrvPOKebufN2BiKglbhm3iDF9UESA/z4/Qz
+         9aMbSAiZMHVzzrRIJXJzoycZtsi4icEgPJtS1XzQ5DMYkaCvQl5Xcc2b9Eyv4DuliBi/
+         w1cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785837798; x=1786442598;
+        d=1e100.net; s=20251104; t=1785837840; x=1786442640;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=mKNdCd7BfihSdT/4/OO50sBOOdXqsgqCXHHpY928Dwk=;
-        b=qszWRYf1xrUkIno1ib2/bnqo5az+qPqoySoTiXb09ZtJhs69s6hD6rBKpDn8ze7gVI
-         ZhqfRAZ3uCDcnDgtn9ivPMdldBc93tFc1Apt/DYhLqm8De/GVwimxWsmM/ky6mvF/wHG
-         tKhpQM5/52KGPV/CBxL+Hs7CmRKoIjKkr0TW9QzzoqFgoIz3FDv8MRijm67vMQikXAK6
-         s79SrgSnmsB1uZze0U00368tLZZbN7Hv6Mm5A/CkRPjfYZQcrj0vk1kBEWKg278gobOV
-         rx/KpwRCOaYH+IkcesJvdN/GeqRN8yoOJD4EGmijV3WpmWtBGuBDQZmOKLOATE2cmTyW
-         Eu1A==
-X-Forwarded-Encrypted: i=1; AHgh+Rpyvm5LOX+sEvXgdrv2LxhzfOQEXlBmHy8nvrPFcV6WSte1CxFFzu3ktgH/eIYxEw8xId3BfnMRm9g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpOcOfQHrx8XE60jqsVIve4Ji6/FjNrk4xy5F9jClJJEeinOGA
-	/ml7t+JfgWQcQJ6GCL3rFudkaqo5u5GJw8Nh583zoj8VUabmkd0oNwEo
-X-Gm-Gg: AR+sD12NL41OBE4IMhDbMgUUXGsYrE631cPGdX19o/8cIwruOeOTyc1PhgbhQ51Dcbb
-	f2QHOWBym0c8Bt4H814pnw6lRc9fRjZpSimSh0MJO1RfY3vnKoibWqtv83Psy8cy1hc2l3GxbIj
-	dgZvIIyV5JW0YAv+tn3vgnCWL8SK9lWQeGDZUTTC/d8IyVUtXk5prRYPfqh5EKtFdt6kh98qXTn
-	Vzt61gtKtfizdX1kOypbgBn8Xl/EIFT8y5wS1q5L+EV6Exl30bmWFZKhZ83zomxVPnHQhmVC6Qd
-	d4+BRiyB3pDHgnviL1uGhDWtH5C2yFlbLCL8vE+JCLvXMrLS4ReHvOVfKS2CDbwM7lqV4hoRv5V
-	9zzonHXzY921IxVXRqvN2opXYli/C3vvIzJcGa9lM05Lx+aVBhF65fEvmSoj2P+JONnQxjvCk/T
-	kAsjeNi5HOqjk78x1/zTq51RgLRcwpSXZbod0k8Y36OljzZzJ9YvHoJsF4OgQVyfALC9tWziv6
-X-Received: by 2002:a05:6000:4693:b0:45e:73eb:5119 with SMTP id ffacd0b85a97d-47fd72d4819mr26233578f8f.22.1785837798381;
-        Tue, 04 Aug 2026 03:03:18 -0700 (PDT)
+        bh=g5sbX7LPbmxKznY3becilAKwjNokPaVAppuK6EGQWgc=;
+        b=AnHysPSzTJFloJD5MkNUHU4MqFwdSblF6t4zgn38v3kds7E41yTOWqoawsbJTu+t4x
+         uJRKqKUV3P2QFOSHSxZJpIXqRT4943RLGUaQHs5tKiz8+JNGDuqjnd/hS0DnDJx2KWYt
+         +e2e1DDjCw1KNFwV8MQkneZqZbRKWzHoaWqqqwv606Rwc2TufqPEVAcWLoh8+giD8HyV
+         evZ6A7JZevPLOvx85d2mHXOg8bSkDx1h62MONnYX71VTkpfcS47hinrMUhyUhG+2dQbm
+         u5KnLGJ90oqs1+DQO+5MfJx6nad114TJG8ewEpY6nW1HZRsNgUQLEFDmdPLieSrKa8XJ
+         EEkw==
+X-Forwarded-Encrypted: i=1; AHgh+RqA1Opb0I5do1DEJ4kRadPPIkhyaTWVtHAQNmS0lkU5MoUVG90j5Tawn0hV0wsXYaZKv0YkrZOolG8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztJsbZjW3tIJeuZIZ7TKYXihHX27/RvMfSaITGcPDSChV5skkU
+	fLs3ac6/fBEjSTZcJKPk/+uGbuNNhJLAak8YWce/MDq8gvs3Cy4R+lfL
+X-Gm-Gg: AR+sD11DNngI7C75+pRljuz8ocM9zUdfNeURI5ulw86pMVTdQDrkiLuYkkvsJjrcMEk
+	EalQ1elUR/TDrcuICTm0P8DOCOMJxFcXtdHY9f6UXsSBFB4UqmFDneGq5+vXdqqItpBes8PQwHZ
+	qcgPkq4ExcW1UEG9LOCjha+VgfE/zxUXTgopgXLH4bBYG2d/bg2dNzSHsUUkQEdbgjQZ4qdtn1R
+	5Q2Aio0IJEBn0JskxUURBYoUo3ZcRUHxwchfHQFfTg5E7QGRxJuIiKqgZrvnqgQuQjJvidJudit
+	boqNnlHY082AgWKyzlPOPVsGQpexG2nmMWl9ZONRfpEnfdd23nN9Jb55EdsYOwxFGHG/oZrHT3p
+	XoguXg5CUcyQHGMdsMUwmRI2D4zS4+oUdrxFXZQNCzK2Op8OT7fyST7zZZ4afMcaG1exLcmlYm8
+	WYjIVm0/CS1hjjwCJDlglFBopYx4iCyGaRmumw4uWPzjvYUuFhYvikOeCPLIGFHKO3cMrHquQN
+X-Received: by 2002:a05:600c:3b99:b0:498:519:e660 with SMTP id 5b1f17b1804b1-4980c66d8b0mr317127735e9.4.1785837840308;
+        Tue, 04 Aug 2026 03:04:00 -0700 (PDT)
 Received: from foxbook (bgt135.neoplus.adsl.tpnet.pl. [83.28.83.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd42d91bfsm44715531f8f.15.2026.08.04.03.03.17
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49949fd8919sm69114595e9.8.2026.08.04.03.03.59
         (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 04 Aug 2026 03:03:18 -0700 (PDT)
-Date: Tue, 4 Aug 2026 12:03:14 +0200
+        Tue, 04 Aug 2026 03:04:00 -0700 (PDT)
+Date: Tue, 4 Aug 2026 12:03:56 +0200
 From: Michal Pecio <michal.pecio@gmail.com>
 To: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>
 Cc: Bart Nagel <bart@tremby.net>, linux-usb@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 2/5] usb: xhci: Guarantee URB giveback on Ring
- Underrun/Overrun
-Message-ID: <20260804120314.0a3203e7.michal.pecio@gmail.com>
+Subject: [PATCH 3/5] usb: xhci: Don't set the skip flag on non-isoc
+ endpoints
+Message-ID: <20260804120356.470fab4b.michal.pecio@gmail.com>
 In-Reply-To: <20260804120110.01bda0e2.michal.pecio@gmail.com>
 References: <20260804120110.01bda0e2.michal.pecio@gmail.com>
 Precedence: bulk
@@ -79,75 +79,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-In this case we know that the xHC has released ownership of all missed
-TDs, we only don't know which were missed and which were queued later.
+These events are unique to isochronous endpoints, ignore them otherwise.
+Update debug messages to reflect new policies. We could also log invalid
+events as errors, but it seems nobody has ever had problems with that,
+so don't bother.
 
-URBs are queued atomically, so we can safely give back all TDs of the
-currently executing URB. Unlike the previous policy, this does actually
-ensure that the class driver will learn about the error and won't see
-all of its URBs still in progress when all TDs are missed on xHCI 1.0.
+This allows dropping the isoc check when skipping TDs.
 
 Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
 ---
- drivers/usb/host/xhci-ring.c | 32 +++++++++++++++++++-------------
- 1 file changed, 19 insertions(+), 13 deletions(-)
+ drivers/usb/host/xhci-ring.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 38a0f895553a..8eed56b72c30 100644
+index 8eed56b72c30..8270c63ec3bf 100644
 --- a/drivers/usb/host/xhci-ring.c
 +++ b/drivers/usb/host/xhci-ring.c
-@@ -2630,6 +2630,7 @@ static int handle_tx_event(struct xhci_hcd *xhci,
- 	unsigned int slot_id;
- 	int ep_index;
- 	struct xhci_td *td = NULL;
-+	struct urb *missed_urb = NULL;
- 	dma_addr_t ep_trb_dma;
- 	union xhci_trb *ep_trb;
- 	int status = -EINPROGRESS;
-@@ -2849,26 +2850,31 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+@@ -2759,16 +2759,18 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 		 * Set skip flag of the ep_ring; Complete the missed tds as
+ 		 * short transfer when process the ep_ring next time.
+ 		 */
+-		ep->skip = true;
++		if (ep_ring->type == TYPE_ISOC)
++			ep->skip = true;
+ 		xhci_dbg(xhci,
+-			 "Miss service interval error for slot %u ep %u, set skip flag%s\n",
+-			 slot_id, ep_index, ep_trb_dma ? ", skip now" : "");
++			 "Missed Service Error for slot %u ep %u, skip %d, try now %d\n",
++			 slot_id, ep_index, ep->skip, !!ep_trb_dma);
+ 		break;
+ 	case COMP_NO_PING_RESPONSE_ERROR:
+-		ep->skip = true;
++		if (ep_ring->type == TYPE_ISOC)
++			ep->skip = true;
+ 		xhci_dbg(xhci,
+-			 "No Ping response error for slot %u ep %u, Skip one Isoc TD\n",
+-			 slot_id, ep_index);
++			 "No Ping response error for slot %u ep %u, skip %d\n",
++			 slot_id, ep_index, ep->skip);
+ 		return 0;
+ 
+ 	case COMP_INCOMPATIBLE_DEVICE_ERROR:
+@@ -2844,7 +2846,7 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 		/* Is this TRB not part of the currently executing TD? */
+ 		if (!trb_in_td(td, ep_trb_dma)) {
+ 
+-			if (ep->skip && usb_endpoint_xfer_isoc(&td->urb->ep->desc)) {
++			if (ep->skip) {
+ 				/* this event is unlikely to match any TD, don't skip them all */
+ 				if (trb_comp_code == COMP_STOPPED_LENGTH_INVALID)
  					return 0;
- 
- 				/*
--				 * TD was missed, skip it. Core already initialized frame->status
--				 * to -EXDEV and frame->actual_length to 0, nothing more to do.
-+				 * If skip flag is still set at xrun, we are on xHCI 1.0 and our TRB
-+				 * pointer is zero again. All missed TDs can be given back, but we
-+				 * don't know which were missed and which were queued after the xrun
-+				 * occurred. We can safely give back the first pending URB.
- 				 */
--				xhci_dequeue_td(xhci, td, ep_ring, 0);
-+				if (ring_xrun_event) {
-+					if (!missed_urb)
-+						missed_urb = td->urb;
- 
--				if (!list_empty(&ep_ring->td_list)) {
--					if (ring_xrun_event) {
--						/*
--						 * If we are here, we are on xHCI 1.0 host with no
--						 * idea how many TDs were missed or where the xrun
--						 * occurred. New TDs may have been added after the
--						 * xrun, so skip only one TD to be safe.
--						 */
--						xhci_dbg(xhci, "Skipped one TD for slot %u ep %u",
-+					if (td->urb != missed_urb) {
-+						xhci_dbg(xhci, "Skipped one URB for slot %u ep %u",
- 								slot_id, ep_index);
- 						return 0;
- 					}
--					continue;
- 				}
- 
-+				/*
-+				 * TD was missed, skip it. Core already initialized frame->status
-+				 * to -EXDEV and frame->actual_length to 0, nothing more to do.
-+				 */
-+				xhci_dequeue_td(xhci, td, ep_ring, 0);
-+
-+				if (!list_empty(&ep_ring->td_list))
-+					continue;
-+
- 				xhci_dbg(xhci, "All TDs skipped for slot %u ep %u. Clear skip flag.\n",
- 					 slot_id, ep_index);
- 				ep->skip = false;
 -- 
 2.48.1
