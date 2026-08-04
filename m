@@ -1,208 +1,105 @@
-Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
+Received: from mail-oi1-f207.google.com (mail-oi1-f207.google.com [209.85.167.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C33E37EFF1
-	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 00:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9D63D5674
+	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 00:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785804029; cv=none; b=MjDqnQiua+jWG/ceXlzezxlW4zf0jTvVjvbpSn/NWDh8+i+SgSjQSVoz7XQVqE2qVxu+NpkugMz1g6UOjVlIdrXll2M33lPQeZ1IjDxRkREUz0UlqI/RIi95/igGIYK3Azj+w+VKj2MsMKyyMQXH9i4ew7XSGaasbCAfYnKZxBo=
+	t=1785804863; cv=none; b=Ae0DpSJvZkEiwqaJIohk1LWbQ5f51GA/QvJtmaVWir6h0zqwOd/SirXruAOBSnzW2KwXlQJ1sxv1UlC/TUWCToFAbdVsgER0CtbpaP3MrHESEewZuIpQuVypGPN7MMxYa89Nion28BgkCqecWj9garDC4LZbo6SyGoNmzmzpu+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785804029; c=relaxed/simple;
-	bh=I6gWXDEwBVOZPIWwvrZHaxO/3M9QKCkpQ22/xhJC5V8=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=fd021PNSvHz5BZxohKFAGSDB6Zi9ioRMtwici6TtMQjrSFWU8+x8Q4iKgFEzxI6wGTU9dyDcQDy1sB5iv/mgvGT6kc6SS30d1Wt8pNG0+xWXXb23M4cMABJpaQPG3ol3RWDBMeBuvMr91Dzh0moYq97nDmy2AFhF0tki6QBL3ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
+	s=arc-20240116; t=1785804863; c=relaxed/simple;
+	bh=GOm7hNA1SDTFWEXlyNk+KrY+NMgVFg6/NxYVQ5JfG4I=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=hnCrV5SZ69qVtMFmWk+SdHYkxhnLSHsJqwhRWGy3qhwP18/jAoqrylOXmI59bO4BmgYu7cuHiR+jyuz4EkHzkkuLboAPQ4RZJXjKVPklz2cGh8O5OpIwGWsZ3f0lqOcNvt6KX9+FMwEddaQ3zs0irLASbT0alym0IVt8wImwPUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.207
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4a36606e230so5872786b6e.2
-        for <linux-usb@vger.kernel.org>; Mon, 03 Aug 2026 17:40:26 -0700 (PDT)
+Received: by mail-oi1-f207.google.com with SMTP id 5614622812f47-48e5de5a23cso2367328b6e.0
+        for <linux-usb@vger.kernel.org>; Mon, 03 Aug 2026 17:54:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785804026; x=1786408826;
+        d=1e100.net; s=20251104; t=1785804861; x=1786409661;
         h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5ubF6i7JD4IUrpmUaXuu4x/832Ry3dsg6m3Oj3ejdvQ=;
-        b=Qkb9Q977KZjI0vmqg+HisLvuwEQyH1EFjVmODEXN1zgDRt9L0BBXNZmJMe8NsPFnIY
-         TS/BxA/8G3aJOJVhge5FbLeli1VKGsU8KobhB+oNzGR1tg354CJUBbcUTYi3WoUfqQHG
-         PfXmJKU6HF6JDRjzcTmgzQyjXUBYamCq7yquVdDkJvJ6iqsZKYrmRdarwIv4370m5rYH
-         bAxFVmEFdrXdp3PdAvfzSNBUY12D332etYJfMg2qmbtgv5SaRkyacbXSyk6ki0Ox3t6X
-         TMnZPCp80KnDbfckW9LjOpdzTbm9ZJ2WToTEwNl60/DrPmDKecdySLl4oMHpKcHHC55P
-         yduA==
-X-Forwarded-Encrypted: i=1; AHgh+Rq5T8vYhPfP/VzXl1uBpytW802/Cj8HqAEOxmsrTVftDqkPj2NQyZ/yZEYbd09yar4XWF6rLrEsVb8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzl2Pte0oEEWf6jjGiXwGz0AOkaC/WfO+f32/4zj5JiKKtT+FMa
-	5vodUUnJHW68VS5Ip/0pVFBo+5vWMneh1VDx0LPl8pSD0pkx4NMRietK1WdoE279m8Wme9bmgZ3
-	hx5UGh6q3RgEXKmTWSB/T3j/QsXNTBGtnSM9Eg5QKBAwyKmTsJ158CVpsUfs=
+        bh=u5UCRU8bhI6JU/9gONm1CNlxMA4ZYw4dAZxma0LCOWY=;
+        b=cna7hiuKNyUZ1wF7+7cL1i+5aomWhdI/y62tKXvtRoP1bH7i7iIkafNTcc2QBzifwQ
+         C00NSUy8V3lm7jdgQsqY3dJlMzcsCYpSK1qg9f3jHzHsQoTwCHV2I/NmU2VXI5cEUCkg
+         ciGvMNHR+BPvGVDNDc6tjRXmFmLWC4hHvs/fg3s543n4ERpbwJfNgT5JogXf/YSLCEek
+         eXQSTbvN+qtbzhlTnAvgw67hONYF3XPuU4VKAmNuxDnN9bbpPVT63z9OMM0OFD/F/aY7
+         J6mgPshbcVtSGLRdLXL33YuVwrKSwKUxQFya0jr1jfVGvodS51kOeDpWnwqL6RDaAlnl
+         A1Mg==
+X-Forwarded-Encrypted: i=1; AHgh+RovRAYuzpKOztQ9qXecpu8N4Ya7kCtvV8xERd38aaP0CxXMcR27NntIN33wY3w0Mo4i74dyszhi2pw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQaqsjmAhwl1P3gbbSY4WGkqtox0PtI0SaqQt9yRkVSqO+V1xN
+	Ycr05SJhIYtSFkq0erB3lkJWUZ8LvIxS8YPzwTBuHD0AGtUHsba/x2llmzn5kDyc97bde4Z+RrZ
+	5gqt7/WOwKsr3X6sbGGSk6K8xbBF557hPc9W4Lnqgxhdv238rlKvjxyf5PpM=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:5241:b0:4a4:866:c395 with SMTP id
- 5614622812f47-4af5e335346mr19213504b6e.13.1785804025786; Mon, 03 Aug 2026
- 17:40:25 -0700 (PDT)
-Date: Mon, 03 Aug 2026 17:40:25 -0700
+X-Received: by 2002:a05:6808:17aa:b0:487:530f:5754 with SMTP id
+ 5614622812f47-4af5e2f59b4mr22289774b6e.20.1785804860946; Mon, 03 Aug 2026
+ 17:54:20 -0700 (PDT)
+Date: Mon, 03 Aug 2026 17:54:20 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a7134f9.13623e66.bdc14.0005.GAE@google.com>
-Subject: [syzbot] [usb?] KASAN: slab-use-after-free Read in
- lookup_object_or_alloc (4)
-From: syzbot <syzbot+e4b1171e7c5ae2556f9e@syzkaller.appspotmail.com>
-To: 3chas3@gmail.com, accessrunner-general@lists.sourceforge.net, 
-	gregkh@linuxfoundation.org, linux-atm-general@lists.sourceforge.net, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Message-ID: <6a71383c.d35e88fd.de8b.0005.GAE@google.com>
+Subject: [syzbot] [usb?] WARNING in __fsg_is_set
+From: syzbot <syzbot+d31109047baed8f3b590@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
 Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    11028ab62899 Merge tag 'probes-fixes-v7.2-rc5' of git://gi..
+HEAD commit:    3708dd948844 Merge tag 'pm-7.2-rc6' of git://git.kernel.or..
 git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=159225b9580000
+console output: https://syzkaller.appspot.com/x/log.txt?x=14e278c6580000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
-dashboard link: https://syzkaller.appspot.com/bug?extid=e4b1171e7c5ae2556f9e
+dashboard link: https://syzkaller.appspot.com/bug?extid=d31109047baed8f3b590
 compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
 
 Unfortunately, I don't have any reproducer for this issue yet.
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/dbf4cb7b4116/disk-11028ab6.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/77761f1559a8/vmlinux-11028ab6.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/bb1ed2bbff0e/bzImage-11028ab6.xz
+disk image: https://storage.googleapis.com/syzbot-assets/aa997b3eeef4/disk-3708dd94.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/1ab7e579d11e/vmlinux-3708dd94.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/7038f45d2e15/bzImage-3708dd94.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e4b1171e7c5ae2556f9e@syzkaller.appspotmail.com
+Reported-by: syzbot+d31109047baed8f3b590@syzkaller.appspotmail.com
 
-ATM dev 0: poll status: error -5
-ATM dev 0: polling disabled, set adsl_state to 'start' or 'poll' to resume
-==================================================================
-BUG: KASAN: slab-use-after-free in timer_is_static_object+0x80/0x90 kernel/time/timer.c:691
-Read of size 8 at addr ffff88805443f8f8 by task kworker/0:7/5803
-
-CPU: 0 UID: 0 PID: 5803 Comm: kworker/0:7 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+configfs-gadget.g1 gadget.0: common->fsg is NULL in fsg_setup at 467
+------------[ cut here ]------------
+1
+WARNING: drivers/usb/gadget/function/f_mass_storage.c:316 at __fsg_is_set.part.0.isra.0+0x2c/0x3a drivers/usb/gadget/function/f_mass_storage.c:316, CPU#0: syz-executor/7045
+Modules linked in:
+CPU: 0 UID: 0 PID: 7045 Comm: syz-executor Tainted: G             L      syzkaller #0 PREEMPT(full) 
 Tainted: [L]=SOFTLOCKUP
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
-Workqueue: events cxacru_poll_status
+RIP: 0010:__fsg_is_set.part.0.isra.0+0x2c/0x3a drivers/usb/gadget/function/f_mass_storage.c:316
+Code: 41 89 d4 55 48 89 f5 53 48 89 fb e8 ce c9 b5 00 48 8d bb d8 00 00 00 44 89 e1 48 89 ea 48 c7 c6 80 48 ba 8c e8 75 87 eb ff 90 <0f> 0b 90 31 c0 5b 5d 41 5c e9 86 5b 6a 0a e8 a1 c9 b5 00 4c 89 e2
+RSP: 0018:ffffc90000007a50 EFLAGS: 00010082
+RAX: 0000000000000000 RBX: ffff888028710c00 RCX: 0000000000000000
+RDX: ffff888096b22540 RSI: ffffffff81401999 RDI: fffff52000000f3a
+RBP: ffffffff8cba6580 R08: 0000000000000005 R09: 0000000000000000
+R10: 0000000080000102 R11: 0000000000000000 R12: 00000000000001d3
+R13: ffff88802b94fce8 R14: 0000000000000000 R15: ffffc90000007de8
+FS:  0000000000000000(0000) GS:ffff888123dda000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f3c94bf84c0 CR3: 000000008125d000 CR4: 00000000003526f0
 Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x13d/0x4b0 mm/kasan/report.c:482
- kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
- timer_is_static_object+0x80/0x90 kernel/time/timer.c:691
- lookup_object_or_alloc.part.0+0x386/0x4f0 lib/debugobjects.c:696
- lookup_object_or_alloc lib/debugobjects.c:682 [inline]
- debug_object_activate+0x2fd/0x4b0 lib/debugobjects.c:875
- debug_timer_activate kernel/time/timer.c:793 [inline]
- __mod_timer+0x845/0xca0 kernel/time/timer.c:1124
- add_timer_global+0x8e/0xd0 kernel/time/timer.c:1283
- __queue_delayed_work+0x331/0x450 kernel/workqueue.c:2585
- queue_delayed_work_on+0x180/0x1e0 kernel/workqueue.c:2620
- queue_delayed_work include/linux/workqueue.h:714 [inline]
- schedule_delayed_work include/linux/workqueue.h:856 [inline]
- cxacru_poll_status+0x622/0xdc0 drivers/usb/atm/cxacru.c:931
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-Allocated by task 5803:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x2e5/0x6c0 mm/slub.c:5489
- _kmalloc_noprof include/linux/slab.h:988 [inline]
- _kzalloc_noprof include/linux/slab.h:1309 [inline]
- cxacru_bind+0xac/0x1440 drivers/usb/atm/cxacru.c:1133
- usbatm_usb_probe+0x378/0x1b50 drivers/usb/atm/usbatm.c:1058
- cxacru_usb_probe+0x101/0x200 drivers/usb/atm/cxacru.c:1370
- usb_probe_interface+0x303/0x8f0 drivers/usb/core/driver.c:396
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3772
- usb_set_configuration+0xd97/0x1c60 drivers/usb/core/message.c:2268
- usb_generic_driver_probe+0xa1/0xe0 drivers/usb/core/generic.c:250
- usb_probe_device+0xef/0x400 drivers/usb/core/driver.c:291
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x20e/0x450 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3772
- usb_new_device.cold+0x685/0x115c drivers/usb/core/hub.c:2695
- hub_port_connect drivers/usb/core/hub.c:5567 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x30a3/0x4a60 drivers/usb/core/hub.c:5953
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Freed by task 5718:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2677 [inline]
- slab_free mm/slub.c:6377 [inline]
- kfree+0x22b/0x6c0 mm/slub.c:6692
- cxacru_unbind+0x1fc/0x3d0 drivers/usb/atm/cxacru.c:1266
- usbatm_usb_disconnect+0x449/0x7e0 drivers/usb/atm/usbatm.c:1255
- usb_unbind_interface+0x1dd/0x9e0 drivers/usb/core/driver.c:458
- device_remove drivers/base/dd.c:618 [inline]
- device_remove+0x12a/0x180 drivers/base/dd.c:610
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x44e/0x620 drivers/base/dd.c:1372
- bus_remove_device+0x2bc/0x560 drivers/base/bus.c:664
- device_del+0x376/0x9b0 drivers/base/core.c:3961
- usb_disable_device+0x367/0x810 drivers/usb/core/message.c:1478
- usb_disconnect+0x2e2/0x9a0 drivers/usb/core/hub.c:2345
- hub_port_connect drivers/usb/core/hub.c:5407 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
- port_event drivers/usb/core/hub.c:5871 [inline]
- hub_event+0x1c4f/0x4a60 drivers/usb/core/hub.c:5953
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Last potentially related work creation:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_record_aux_stack+0xa7/0xc0 mm/kasan/generic.c:556
- insert_work+0x36/0x230 kernel/workqueue.c:2226
- __queue_work+0x9bc/0x12b0 kernel/workqueue.c:2401
- call_timer_fn+0x19a/0x610 kernel/time/timer.c:1748
- expire_timers kernel/time/timer.c:1794 [inline]
- __run_timers+0x570/0xb00 kernel/time/timer.c:2374
- __run_timer_base kernel/time/timer.c:2386 [inline]
- __run_timer_base kernel/time/timer.c:2378 [inline]
- run_timer_base+0x114/0x190 kernel/time/timer.c:2395
- run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
+ <IRQ>
+ __fsg_is_set drivers/usb/gadget/function/f_mass_storage.c:865 [inline]
+ fsg_setup.cold+0x38/0x4c drivers/usb/gadget/function/f_mass_storage.c:467
+ composite_setup+0xad8/0x9290 drivers/usb/gadget/composite.c:2239
+ configfs_composite_setup+0xfb/0x130 drivers/usb/gadget/configfs.c:1877
+ dummy_timer+0x2045/0x36f0 drivers/usb/gadget/udc/dummy_hcd.c:1951
+ __run_hrtimer kernel/time/hrtimer.c:2032 [inline]
+ __hrtimer_run_queues+0x462/0x9c0 kernel/time/hrtimer.c:2096
+ hrtimer_run_softirq+0x17d/0x2c0 kernel/time/hrtimer.c:2113
  handle_softirqs+0x1ea/0x9b0 kernel/softirq.c:622
  __do_softirq kernel/softirq.c:656 [inline]
  invoke_softirq kernel/softirq.c:496 [inline]
@@ -210,94 +107,71 @@ Last potentially related work creation:
  irq_exit_rcu+0x9/0x30 kernel/softirq.c:752
  instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
  sysvec_apic_timer_interrupt+0xa3/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
  asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-
-The buggy address belongs to the object at ffff88805443f800
- which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 248 bytes inside of
- freed 1024-byte region [ffff88805443f800, ffff88805443fc00)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x54438
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000040 ffff88813fe23dc0 dead000000000100 dead000000000122
-raw: 0000000000000000 0000000800100010 00000000f5000000 0000000000000000
-head: 00fff00000000040 ffff88813fe23dc0 dead000000000100 dead000000000122
-head: 0000000000000000 0000000800100010 00000000f5000000 0000000000000000
-head: 00fff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd2820(GFP_ATOMIC|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1019, tgid 1019 (kworker/u8:7), ts 92204884189, free_ts 91158504294
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1859
- prep_new_page mm/page_alloc.c:1867 [inline]
- get_page_from_freelist+0xf48/0x3530 mm/page_alloc.c:3946
- __alloc_frozen_pages_noprof+0x299/0x2dc0 mm/page_alloc.c:5304
- alloc_slab_page mm/slub.c:3266 [inline]
- allocate_slab mm/slub.c:3380 [inline]
- new_slab+0xa2/0x640 mm/slub.c:3426
- refill_objects+0xe3/0x410 mm/slub.c:7310
- refill_sheaf mm/slub.c:2804 [inline]
- __pcs_replace_empty_main+0x376/0x680 mm/slub.c:4675
- alloc_from_pcs mm/slub.c:4773 [inline]
- slab_alloc_node mm/slub.c:4905 [inline]
- __do_kmalloc_node mm/slub.c:5333 [inline]
- __kmalloc_noprof+0x66d/0x820 mm/slub.c:5359
- _kmalloc_noprof include/linux/slab.h:992 [inline]
- _kzalloc_noprof include/linux/slab.h:1309 [inline]
- ieee802_11_parse_elems_full+0x17c/0x3bc0 net/mac80211/parse.c:1073
- ieee802_11_parse_elems net/mac80211/ieee80211_i.h:2551 [inline]
- ieee80211_rx_mgmt_probe_beacon net/mac80211/ibss.c:1540 [inline]
- ieee80211_ibss_rx_queued_mgmt+0xc96/0x1c70 net/mac80211/ibss.c:1571
- ieee80211_iface_process_skb net/mac80211/iface.c:1769 [inline]
- ieee80211_iface_work+0xa9a/0x1070 net/mac80211/iface.c:1823
- cfg80211_wiphy_work+0x2b7/0x550 net/wireless/core.c:538
- process_one_work+0xa23/0x1940 kernel/workqueue.c:3322
- process_scheduled_works kernel/workqueue.c:3405 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3486
- kthread+0x370/0x450 kernel/kthread.c:436
- ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-page last free pid 5873 tgid 5870 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- __free_pages_prepare mm/page_alloc.c:1406 [inline]
- __free_frozen_pages+0x79f/0x1090 mm/page_alloc.c:2950
- __folio_put+0x3b4/0x5f0 mm/swap.c:112
- folio_put include/linux/mm.h:2124 [inline]
- put_page include/linux/mm.h:2193 [inline]
- put_netmem include/net/netmem.h:394 [inline]
- skb_page_unref include/linux/skbuff_ref.h:43 [inline]
- __skb_frag_unref include/linux/skbuff_ref.h:56 [inline]
- skb_release_data+0x649/0x8e0 net/core/skbuff.c:1110
- skb_release_all net/core/skbuff.c:1191 [inline]
- __kfree_skb net/core/skbuff.c:1205 [inline]
- kfree_skb_napi_cache net/core/skbuff.c:7281 [inline]
- skb_attempt_defer_free+0x38d/0x830 net/core/skbuff.c:7319
- tcp_eat_recv_skb net/ipv4/tcp.c:1621 [inline]
- tcp_recvmsg_locked+0x11ed/0x2a30 net/ipv4/tcp.c:2899
- tcp_recvmsg+0x141/0x630 net/ipv4/tcp.c:2944
- inet_recvmsg+0xd5/0x4c0 net/ipv4/af_inet.c:894
- sock_recvmsg_nosec net/socket.c:1126 [inline]
- sock_recvmsg+0x1b8/0x220 net/socket.c:1148
- __sys_recvfrom+0x1f2/0x2f0 net/socket.c:2302
- __do_sys_recvfrom net/socket.c:2317 [inline]
- __se_sys_recvfrom net/socket.c:2313 [inline]
- __x64_sys_recvfrom+0xe0/0x1c0 net/socket.c:2313
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
+RIP: 0010:finish_task_switch.isra.0+0x2cd/0x10c0 kernel/sched/core.c:5361
+Code: ab 0a 00 00 41 c7 87 20 0e 00 00 00 00 00 00 0f 1f 44 00 00 49 8d 7f 48 e8 d0 a5 e8 09 e8 6b ad 3c 00 fb 48 8d bb f8 16 00 00 <48> b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 0f b6 04 02 84
+RSP: 0018:ffffc90005317308 EFLAGS: 00000202
+RAX: 00000000000d9725 RBX: ffff888096b22540 RCX: 0000000000000080
+RDX: 0000000000000000 RSI: ffffffff8e1a7695 RDI: ffff888096b23c38
+RBP: ffffc90005317360 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000001 R11: 0000000000000000 R12: ffff888054164a80
+R13: 0000000000000000 R14: ffffffff9122b4a4 R15: ffff8880b843b4c0
+ context_switch kernel/sched/core.c:5513 [inline]
+ __schedule+0x1264/0x6730 kernel/sched/core.c:7234
+ preempt_schedule_common+0x42/0xc0 kernel/sched/core.c:7413
+ preempt_schedule_thunk+0x16/0x40 arch/x86/entry/thunk.S:12
+ __raw_spin_unlock include/linux/spinlock_api_smp.h:169 [inline]
+ _raw_spin_unlock+0x3e/0x50 kernel/locking/spinlock.c:190
+ spin_unlock include/linux/spinlock.h:390 [inline]
+ zap_pte_range mm/memory.c:1964 [inline]
+ zap_pmd_range mm/memory.c:2020 [inline]
+ zap_pud_range mm/memory.c:2048 [inline]
+ zap_p4d_range mm/memory.c:2069 [inline]
+ __zap_vma_range+0x16f7/0x4a30 mm/memory.c:2109
+ unmap_vmas+0x299/0x5f0 mm/memory.c:2178
+ exit_mmap+0x1ef/0xa00 mm/mmap.c:1300
+ __mmput+0x12a/0x410 kernel/fork.c:1187
+ mmput+0x67/0x80 kernel/fork.c:1210
+ exit_mm kernel/exit.c:615 [inline]
+ do_exit+0x8b1/0x2ae0 kernel/exit.c:997
+ do_group_exit+0xd5/0x2a0 kernel/exit.c:1152
+ get_signal+0x1ec7/0x21e0 kernel/signal.c:3046
+ arch_do_signal_or_restart+0x91/0x7e0 arch/x86/kernel/signal.c:337
+ __exit_to_user_mode_loop kernel/entry/common.c:66 [inline]
+ exit_to_user_mode_loop+0x139/0x6f0 kernel/entry/common.c:101
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:318 [inline]
+ do_syscall_64+0x666/0x870 arch/x86/entry/syscall_64.c:100
  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Memory state around the buggy address:
- ffff88805443f780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff88805443f800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff88805443f880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                                ^
- ffff88805443f900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88805443f980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+RIP: 0033:0x7fb7f835e84e
+Code: Unable to access opcode bytes at 0x7fb7f835e824.
+RSP: 002b:00007ffc9019ebb8 EFLAGS: 00000246 ORIG_RAX: 00000000000000e6
+RAX: fffffffffffffdfc RBX: 0000555587db6500 RCX: 00007fb7f835e84e
+RDX: 00007ffc9019ec10 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 00007ffc9019ec7c R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000001388
+R13: 00000000000927c0 R14: 0000000000208ec2 R15: 00007ffc9019ecd0
+ </TASK>
+----------------
+Code disassembly (best guess), 2 bytes skipped:
+   0:	00 00                	add    %al,(%rax)
+   2:	41 c7 87 20 0e 00 00 	movl   $0x0,0xe20(%r15)
+   9:	00 00 00 00
+   d:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+  12:	49 8d 7f 48          	lea    0x48(%r15),%rdi
+  16:	e8 d0 a5 e8 09       	call   0x9e8a5eb
+  1b:	e8 6b ad 3c 00       	call   0x3cad8b
+  20:	fb                   	sti
+  21:	48 8d bb f8 16 00 00 	lea    0x16f8(%rbx),%rdi
+* 28:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax <-- trapping instruction
+  2f:	fc ff df
+  32:	48 89 fa             	mov    %rdi,%rdx
+  35:	48 c1 ea 03          	shr    $0x3,%rdx
+  39:	0f b6 04 02          	movzbl (%rdx,%rax,1),%eax
+  3d:	84                   	.byte 0x84
 
 
 ---
