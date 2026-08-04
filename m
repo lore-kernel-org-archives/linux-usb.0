@@ -1,71 +1,79 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47C82FDC57
-	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 03:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3584374170
+	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 03:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785814427; cv=none; b=Vc/nti7d2boc1zRskp0XpU+22mZJSwMvLWpwA8TeWcH8+Z81CZybqRr2cM9mx06ILk2jnNXjFnD4LFPcmm1eQRkoqVoVM0YHYLgoso4beImSU+A/Nv7nZPcaTND6ycjo+J6uhl79SgWqv1k6c1R5Jhymp8o2ypRNQ+oNqrMAKxs=
+	t=1785815047; cv=none; b=Taztfo1hZWHxhWmBJjnCVLxOFixBO0xRiWYD5uaq8zAkQ6OKNIFSdXn+58NTzO5jVgmAb7RFmz68F8Cknnsh60D9RoTZTpEB3/YUbtGcDbH6B3MX8FgZ0Mfcju0Niu6lxNl6Vv+Y3zrqvGnz5BumXLuAYEziYS5YSo4cD0zlydQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785814427; c=relaxed/simple;
-	bh=JJPT5uu44aQguJzoiNHoy/Ath8/gUc7Bf0ZjaZG+5GY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=U56SPo54ZwsUNFJDjcIqwlyrpkY44d9Gm7zFBlh7MfsXjOMh7C1mqI7lW/rGykzxy5+CrffF/6Pf7N6vu9ccZ9RnLHD5+qYnuj6ZPmy/Z/GrFoqSWJvTkwnmTYEDoZYwQRVtL2zRU/ytmDA930Ik9XcVMtBZN5eFNIEwgKyTE18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+ES+5hl; arc=none smtp.client-ip=209.85.215.178
+	s=arc-20240116; t=1785815047; c=relaxed/simple;
+	bh=rf9Ub9sDjKu1OneCevUsd/89sAcaPAkWTeLE2c6AmDE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XDVqWvKaEYVv1y+A92wW7StIC7+/QbaoRWUFAtjj3mceBHuXMno+IWTQd03vJvKBD19vMo2Md1miR07eoKItt8NPXvYAG9Xkpdiz3M2Itu2iU6GRcKp3vkOuTMl9+kXXITtz0lDJOGdADE/ZgwwQtnzrj+YHKKvMvaQ++1Ttg6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n1ezje1y; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+ES+5hl"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c9fe3c9bd5fso398237a12.0
-        for <linux-usb@vger.kernel.org>; Mon, 03 Aug 2026 20:33:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n1ezje1y"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38deea72eebso3918315a91.1
+        for <linux-usb@vger.kernel.org>; Mon, 03 Aug 2026 20:44:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785814425; x=1786419225; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785815045; x=1786419845; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=seZC1uxNZsDIE6HCcr0pbelK6/1aquebV/a2t6CIBO4=;
-        b=F+ES+5hl3g5aRc5y40QhB+4mc314BXjM5dWtFkXtfv16J8XOPZmA8o27pioKF+NC7p
-         udWp5jyB5Uo8lmLq/IkHVXbheq0827uqK9zczTqKb8w4X85FSFRRaeGNe/T72PUR/dSn
-         Dlx1dandjn19hZ/nP9Mqd9RHHbSMqXDOg46cza9zTQCc98SaNWxEkwCOz/CLEET6lyp3
-         GJC9+Ex2XivuHYNk8daWlW1Xx1BBAI/GxqkuKnACmFVSILrweDTQ+lfO2IkJE/iPZsgr
-         Wlz1rGGYejrIZZ5W6id5aVm4FzZnWK/lGlDAVPQSV2zQQ1rxJFNrDjkwn0BNPTtKcHNe
-         4XsQ==
+        bh=iQoj1Sy41ih176qzgh3hbd4a6Tkh8TOhWR6mflT66zs=;
+        b=n1ezje1ymE1OaMeHq+uSVOoP6Pike9A8qb3j/9sEoB44uemFpYdOvzRZXg6pErDO3T
+         gm/LG4lzKMdIYd12sC1oF4u/eVaNQwv9JD98Umb4emhPMz9G6NWDClwfD4OorTv+Wnye
+         cBIyuWcHUFrBYkHh6QutKHghR95sXfxqXTzM6ESkNcgHaScsZtqPV7QNeS0AraXJZHhy
+         Df3+ac2rgz/i4VWVlC6IYCbYlNPZjwH0HTqleCTGkORY4NWCAy2dhfRcF55U3jRvFGaq
+         kvkYflrWQ+qYjkPaq3xJ2w6bx8vEMLZUsWJ2pRggBMYL4gjakYbpx7L0eTBM1QPLer9C
+         0fkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785814425; x=1786419225;
+        d=1e100.net; s=20251104; t=1785815045; x=1786419845;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=seZC1uxNZsDIE6HCcr0pbelK6/1aquebV/a2t6CIBO4=;
-        b=sR69xZe4T4x2agzIwR5335P3g4IS3lKKFzfxpWJdOExU3GC8TdpsjhQ/AFcsQOA9cy
-         /UovxnxS5QXAQvz1fpTGJJvIzVnXw3OXX89eR1f1vCqDjILaBshqJLzmF/J3SzSdP8Hg
-         jJiPgMnEIE+qqpoBZBZfN2Ab38tFaKZD14374F1Amz7tsVIM0AwikyR48FU5Cfk2LSIH
-         p5txa/jDnu2BOldYTeTPyzf3sBA56AX1+DdV8ik/q5nOX7DneajJqB/e4c+zjsYxj0Gm
-         6bEaLrE+yNDrKlpzShRpnviCjUZz5rj6NuyRUrPaQwOJnvk1xbQHQmJ4FT4bhG6baDDY
-         aIlw==
-X-Gm-Message-State: AOJu0YxBvQMjZS7CZjXHeYzXGh7YCKXkSVLt2WFXZ6wbKd/YEvs1HGqp
-	xPIiX8JmIm5e58z0srl8fVsFjYucn7UQabRUMpOFAlF8zmzMnaWYXUhi
-X-Gm-Gg: AR+sD1334Qz2ebPzR+x+YhnarIqhjU6pP9UDWQRMAVtxmJjqPx2hR9KI1B4shzutWye
-	YhXJ+QQ3zTG3VFMjn8VsvQP9aFxFoTYH5yTkxCMnA8NZK1TxZaVBNpxsQMXTg6Ba6Y8ZBzXGuLv
-	Ml+FBTqLSPUY9WfcTqSwDdfF/K1fgw1TC/kffM//T9AO0mUldvIx/uRQNOwMgnOi6sb6T+xjSMT
-	UNxVvud5AjUGVIKasiMhzar1kYK99R7vJQcesCA5Q83aA9vJX1w97nngOnPggoo7cNWTBMvgJbr
-	nkefZjZAt6vivR6crNdFZFz40RevXEvnWzRSxr8Pk2WNqomjq0ZuVemlAupX7oQimjTQ3IWUX/4
-	KzKhGDcgx9OcTfvHa1VQFPjskg2KPfsf6BYYtdsQZu9M8HNmLd1KdNwy/2QMM3O9UinWt17ngBF
-	3HZYDlfhXT87EYTzbLMlN+c3XpCAYACQdcQXvedBeYeDH0qDr9TrkceTMdf/FGoN2BZwd3AaVde
-	u8DF76fsCZAlbKagun2Nt4i6WyR5DFVZXef
-X-Received: by 2002:a05:6a21:6906:b0:3bf:b7e8:68ab with SMTP id adf61e73a8af0-3cb6c752d6dmr2124947637.2.1785814424915;
-        Mon, 03 Aug 2026 20:33:44 -0700 (PDT)
-Received: from ML-GYSUBT565.ECARX.COM.CN ([101.47.164.95])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153e04506csm46215078eec.17.2026.08.03.20.33.43
+        bh=iQoj1Sy41ih176qzgh3hbd4a6Tkh8TOhWR6mflT66zs=;
+        b=BjQCTlMGy4ZqgkFX57cc/fn0S7adsa7lAFzgD29YdrKzXPdGXKJ56hlXBHrnyJ6/W8
+         kUM9oz4k8ApV+BY0CIBK0yFOEeHlKxvfJT4lnzOnF2KqHxTj6/KLSAk3ATXeen9Pklbe
+         obwVbL1rubaqVa0ZJ4EnSHpUTA9S70B9FOONRh0liKgRjNPz/tze5vMNUgn3awGe0W+7
+         AWEfAYLHTGXt7HGbvczvGneSJOWLKzY2f/974PhHRmY75cDcYvM5Vr6CxNymSSeKgtxL
+         HO1SjnHQmIgYPrrh77+BHH6mP2hNLjhqG8u1JzQHprrpaWJDPdaqUQDBIFy2y6ovAgPK
+         HUHw==
+X-Forwarded-Encrypted: i=1; AHgh+RrpTooMwAk5rZatHbeu39/naQFVtN33Yh2jmFVkryCtCwEXQszS9JCrROlMqdkYIDPm2r9OD9GbQiE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbJ2pthSPuq61N2EsSLnAeJT+CZcfwIqUvAT+eLtPInpABRSQ8
+	eFoQDO3trBIBNmaWLnBhVbSSfrLo5QWomm4yLhRUTeHcwLID8lm4gQt2
+X-Gm-Gg: AR+sD11tUTPUeG9wm8jc7sokZOApdWhp+x72tWxi9t/UCXATbfvCAu4X86pGs+eFbPH
+	HW1nARw5eJzPwzKN0ZzUSa1HBH0gXpi9pf0oq5xLaK1VeVG87FQV29nIUUj5U+/JKt99DTHX8s5
+	nVB5dCiMQ19JSfWtYctkuB8RotR0YH4eYmSMiCtLuIvzcB7VL7qFXyRBgzKk+0FpKUcGvTKqrIC
+	hrSMd7RRFIMXAXKWwkRXagCctk5N+LS8Fa6Yvl3Ls7/Z6K9RvPdYJ2CFofs4D7eeH3lDoZdiseU
+	CHM0BchbcdFeRY+jJ5TQmAPnj/VlI72bA9V/9gafwIwqDkGOEQ6lOiJI5XPSploGOUF/FwgeIal
+	5nbcoQN6nppbQA7HtFI8qjmdgoSZKMbvaQj2hOrkUE/1D5e5fq2D7rkNj4gZAIsPA2dyGWMY/7D
+	G1aIG0wBbBaJCQg43pHa4R1JgEIgOCnppvJU8v248zHR1te13QgtAIDdSHN1pud7BI
+X-Received: by 2002:a17:90b:534e:b0:38e:2aa8:60d0 with SMTP id 98e67ed59e1d1-38fbc598d19mr12616251a91.37.1785815045133;
+        Mon, 03 Aug 2026 20:44:05 -0700 (PDT)
+Received: from Default ([157.51.13.203])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab132cc4sm36025019c88.2.2026.08.03.20.43.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 20:33:44 -0700 (PDT)
-From: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
+        Mon, 03 Aug 2026 20:44:04 -0700 (PDT)
+From: Jeffin Philip <jeffinphilip14@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
+Cc: xu.yang_2@nxp.com,
+	Frank.Li@nxp.com,
+	kees@kernel.org,
+	panjunzhong@linux.spacemit.com,
+	andrzej.p@samsung.com,
+	laurent.pinchart@ideasonboard.com,
+	balbi@ti.com,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzbot+098999e05b6b877c01b3@syzkaller.appspotmail.com,
-	Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
-Subject: [PATCH] usb: gadget: f_phonet: fix use-after-free in pn_bind
-Date: Tue,  4 Aug 2026 11:33:41 +0800
-Message-Id: <20260804033341.2784711-1-khiemtranzo532001@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Jeffin Philip <jeffinphilip14@gmail.com>,
+	syzbot+8dcac923582c28505fd7@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH v7] usb: gadget: uvc: Fix null pointer dereference in uvcg_video_init()
+Date: Tue,  4 Aug 2026 09:13:38 +0530
+Message-ID: <20260804034338.7976-1-jeffinphilip14@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -74,95 +82,55 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-phonet_free_inst() checks opts->bound to decide whether to call
-gphonet_cleanup() or free_netdev(). If opts->bound is false,
-free_netdev(opts->net) is called immediately.
+In uvcg_video_init(), if kthread_run_worker() fails,
+the error logged uses uvcg_err(), however, the pointer it uses:
+video->uvc is not assigned at this point, triggering a null
+pointer dereference. Fix this by directly using uvc->func which
+is assigned already.
 
-However, pn_bind() can race with phonet_free_inst() when a configfs
-entry is removed while binding is in progress. pn_bind() reads
-opts->bound and calls gphonet_set_gadget(opts->net, ...) before
-setting opts->bound = true. If phonet_free_inst() runs concurrently
-after the !opts->bound check in pn_bind() but before opts->bound is
-set, it will free opts->net, causing a use-after-free when pn_bind()
-subsequently writes to net->dev.parent via gphonet_set_gadget().
-
-Fix this by adding a mutex to f_phonet_opts and holding it in both
-pn_bind() and phonet_free_inst() when accessing opts->bound and
-opts->net. This is consistent with how other gadget functions such
-as f_eem protect their opts->bound flag.
-
-Fixes: 00a2430ff07d ("usb: gadget: Gadget directory cleanup - group usb functions")
-Reported-by: syzbot+098999e05b6b877c01b3@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=098999e05b6b877c01b3
-Signed-off-by: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
+Reported-by: syzbot+8dcac923582c28505fd7@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=8dcac923582c28505fd7
+Fixes: f0bbfbd16b3b ("usb: gadget: uvc: rework to enqueue in pump worker from encoded queue")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jeffin Philip <jeffinphilip14@gmail.com>
 ---
- drivers/usb/gadget/function/f_phonet.c | 16 ++++++++--------
- drivers/usb/gadget/function/u_phonet.h |  1 +
- 2 files changed, 9 insertions(+), 8 deletions(-)
+Changes in v7:
+Changed Fixes: tag hash mentioned incorrectly to be updated before in v4
+ 
+Changes in v6:
+No code changes from v5
+ 
+Changes in v5:
+Added changelog as per maintainer suggestions
+ 
+Changes in v4:
+Changed Fixes commit line as per Xu Yang's suggestion
+ 
+Changes in v3:
+Shortened SHA1 hash as per maintainer comment
+ 
+Changes in v2:
+ -Changed subject of the patch to include subsystem as per Xu Yang's comment
+ -Changed incorrect "Fixes" tag to "Closes"
+ -Rewrote the patch to use uvc->func rather than declaring video->uvc first
+  as per Xu Yang's comment
+---
+ drivers/usb/gadget/function/uvc_video.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/f_phonet.c b/drivers/usb/gadget/function/f_phonet.c
-index b1ee9a7c2..b7eae14e8 100644
---- a/drivers/usb/gadget/function/f_phonet.c
-+++ b/drivers/usb/gadget/function/f_phonet.c
-@@ -499,20 +499,17 @@ static int pn_bind(struct usb_configuration *c, struct usb_function *f)
- 
- 	phonet_opts = container_of(f->fi, struct f_phonet_opts, func_inst);
- 
--	/*
--	 * in drivers/usb/gadget/configfs.c:configfs_composite_bind()
--	 * configurations are bound in sequence with list_for_each_entry,
--	 * in each configuration its functions are bound in sequence
--	 * with list_for_each_entry, so we assume no race condition
--	 * with regard to phonet_opts->bound access
--	 */
-+	mutex_lock(&phonet_opts->lock);
- 	if (!phonet_opts->bound) {
- 		gphonet_set_gadget(phonet_opts->net, gadget);
- 		status = gphonet_register_netdev(phonet_opts->net);
--		if (status)
-+		if (status) {
-+			mutex_unlock(&phonet_opts->lock);
- 			return status;
-+		}
- 		phonet_opts->bound = true;
+diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
+index 2f9700b3f1b6..9ba09118bb74 100644
+--- a/drivers/usb/gadget/function/uvc_video.c
++++ b/drivers/usb/gadget/function/uvc_video.c
+@@ -821,7 +821,7 @@ int uvcg_video_init(struct uvc_video *video, struct uvc_device *uvc)
+ 	/* Allocate a kthread for asynchronous hw submit handler. */
+ 	video->kworker = kthread_run_worker(0, "UVCG");
+ 	if (IS_ERR(video->kworker)) {
+-		uvcg_err(&video->uvc->func, "failed to create UVCG kworker\n");
++		uvcg_err(&uvc->func, "failed to create UVCG kworker\n");
+ 		return PTR_ERR(video->kworker);
  	}
-+	mutex_unlock(&phonet_opts->lock);
  
- 	/* Reserve interface IDs */
- 	status = usb_interface_id(c, f);
-@@ -621,10 +618,12 @@ static void phonet_free_inst(struct usb_function_instance *f)
- 	struct f_phonet_opts *opts;
- 
- 	opts = container_of(f, struct f_phonet_opts, func_inst);
-+	mutex_lock(&opts->lock);
- 	if (opts->bound)
- 		gphonet_cleanup(opts->net);
- 	else
- 		free_netdev(opts->net);
-+	mutex_unlock(&opts->lock);
- 	kfree(opts);
- }
- 
-@@ -636,6 +635,7 @@ static struct usb_function_instance *phonet_alloc_inst(void)
- 	if (!opts)
- 		return ERR_PTR(-ENOMEM);
- 
-+	mutex_init(&opts->lock);
- 	opts->func_inst.free_func_inst = phonet_free_inst;
- 	opts->net = gphonet_setup_default();
- 	if (IS_ERR(opts->net)) {
-diff --git a/drivers/usb/gadget/function/u_phonet.h b/drivers/usb/gadget/function/u_phonet.h
-index ff62ca22c..4666413fc 100644
---- a/drivers/usb/gadget/function/u_phonet.h
-+++ b/drivers/usb/gadget/function/u_phonet.h
-@@ -13,6 +13,7 @@
- 
- struct f_phonet_opts {
- 	struct usb_function_instance func_inst;
-+	struct mutex lock;
- 	bool bound;
- 	struct net_device *net;
- };
 -- 
-2.34.1
+2.55.0
 
