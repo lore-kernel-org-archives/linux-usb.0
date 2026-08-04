@@ -1,172 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584DB4137A7
-	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 04:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6722C027F;
+	Tue,  4 Aug 2026 04:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785816342; cv=none; b=StQtZmIu/y6KfTN/y8BNyKR9NCaQAS98kSskSX96RS05CfdTJlBsftqQcZkytKYpQBi8KyYGDCYQxAVPxUbF78tF5y6notiyN/cwsUpWF6ZeUbXSBgtnaYr3zqIpeBRFfW4axysLyzzEfEhEULsE0Rjfj8OYA2cmY6k5qb7z5BQ=
+	t=1785817530; cv=none; b=JkXqPdSm9QUCJyniF4NulUXHp0Oj1FjOltBMO0l+rgNkvVQ+AGVT82EvMx46xNvdbOKrLmLNfp80018QquiFfPiILwpc7iW/mt/egSJnY4WR9f97BLEjfNkBnFVkkhvd23iU6ZtKRA3gMoP8bNTrXNXMuQz1U8hiv5KAlXCnddI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785816342; c=relaxed/simple;
-	bh=6Ln14x3wdpeHq9cBZfbGYvp4hEAAD+xhC0GuLqr1N0M=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=JR9fmkmcjRXvUq10D0YuB4pQiMsqK6pd9wqTwkM6Ujp2Kl2EJzq6v446KRJe3PhU1tzqjqtCpVvPkEkxPvCeIJQkNqbtH05mDPO8fHciywFkKBS1C6GEHCI7Ox8+XRVBIu6BMXxJHBuU2Yqlm/HV8wdS+I7pe0QxAM75LERa1xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UsZpkLh1; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1785817530; c=relaxed/simple;
+	bh=rM0mY0j877vcVz0fCL+Dk4GjYVnAT5MHVI831jFvFFc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=UDu4vQyGskQvrqrHug9bb0jqw8jIhztg7vYaO3tXc3D2FIZrucYatQ2TFtoYFv6VmJ202uWAZH8C6VsXexggRpFMW24IiWpqW88/z5E9beEC+P0GHhCULOKZrYBgX4O03yBEchZ6lnyjF87n2PTemU6Gw5i7gRaD0xY0ZDuRMEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cnkAgvmj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UsZpkLh1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785816340; x=1817352340;
-  h=date:from:to:cc:subject:message-id;
-  bh=6Ln14x3wdpeHq9cBZfbGYvp4hEAAD+xhC0GuLqr1N0M=;
-  b=UsZpkLh1zvWHoQV5qJ7bRSp2Eol3S3WwFp2wcdGzkwVQZXibBZyYnbeW
-   TFodiJ34PIJDPYUMn6XUFg229ZdLWES5hbocAZ+S1bn0CI6Hw8oRq2FSm
-   3lftEbWvvtvUgzpaTheHAPk6i5OUyDDQmLNIewCkAs4f5CkAXhUbpYD6k
-   /1+1rOlAzbxlMwQG+5V2W3nqozl+CdujUfSiGA6FPMUEs3cNEziherG4/
-   gdwgUVvEQBYE4copSUCSX8DULhxErxffwTIhbHoGGdeQBgIQjdA+pxc6A
-   IBBII67KXQHenemdM5FxmJ72yM4WxRTu2a5UJbjnk7gfx+eyeecUIQmtw
-   g==;
-X-CSE-ConnectionGUID: xjIO0y9vRmaQizoOwQhb+w==
-X-CSE-MsgGUID: 7SgRmD5WTXq6ov+jYnbQbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11864"; a="86480319"
-X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="86480319"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2026 21:05:40 -0700
-X-CSE-ConnectionGUID: rZwelAmATZyWwyjuQrO+1Q==
-X-CSE-MsgGUID: WNbH3bTmR4S1b3lLLTydrQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,203,1779174000"; 
-   d="scan'208";a="257511340"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Aug 2026 21:05:38 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wr6PI-000000008rV-193s;
-	Tue, 04 Aug 2026 04:05:36 +0000
-Date: Tue, 04 Aug 2026 12:04:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Subject: [usb:usb-linus] BUILD SUCCESS
- f3988e68fc089f6a5883f4f807955a3825bb7d45
-Message-ID: <202608041226.8Exq4JEa-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cnkAgvmj"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 36F18C2BCF5;
+	Tue,  4 Aug 2026 04:25:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785817530;
+	bh=rM0mY0j877vcVz0fCL+Dk4GjYVnAT5MHVI831jFvFFc=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=cnkAgvmjrkCFRcRH/sGNDz1lIjt6ByP/UzzJXfs9nmDmTb2ESLhb3D30uv+7/YYEL
+	 jqTnHY647mBo7gWN7q7Xt9lKnBsI3cCCb7HNRbcPWYH7Yi0k+GUeBtjbvP0qyIAwCT
+	 hHqAudpJ5kSSXnfW4qnoxKSuCalF9CKDgvMtGPP6A/0puAr+JtdHzbNXlax78TatRF
+	 B5IgCJ2GRP2MWN3e2PcG2B8Ke7M7n+BCq4CxPv+HXRxFp5MHEjxD8R0AAGGoCGWkfm
+	 AeLfA/lIpJ7qeZiw+QHd0GqJbq6njUHudxIv/1fZOAX32sYrHlTGEvtGXLsaDb5cPF
+	 dCoBHf+Ut6uww==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12728C55822;
+	Tue,  4 Aug 2026 04:25:30 +0000 (UTC)
+From: Anuj Bolewar via B4 Relay <devnull+bolewara.gmail.com@kernel.org>
+Date: Tue, 04 Aug 2026 09:55:29 +0530
+Subject: [PATCH] usb: raw_gadget: fix use-after-free when UDC is removed
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260804-raw-gadget-ep0-uaf-v1-1-07878773da15@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMMQ6DMAxA0asgz7VkIkCIq1QdnMQEM1CUAK2Eu
+ DsBxjf8v0OSqJKgK3aIsmnS75RRvgpwA09BUH02GDINtVRh5B8G9kEWlJlw5R5L4tZY77m2DnI
+ 4R+n1f0/fn8dptaO45TrBcZzkdz6QdgAAAA==
+X-Change-ID: 20260804-raw-gadget-ep0-uaf-10a82bdda5bc
+To: Andrey Konovalov <andreyknvl@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzbot+9aacea11bc70c3ddaff2@syzkaller.appspotmail.com, 
+ Anuj Bolewar <bolewara@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785817528; l=3419;
+ i=bolewara@gmail.com; s=20260802; h=from:subject:message-id;
+ bh=qhiaYn09tLH9YWJZgXmuebtXULUgOs9TL6YTq4LuyUk=;
+ b=awzMXsShbudvZ3SZ/9Omcmt6c/NHoRE5MBKLz0YotbE/PufH3c0jZ/NJU7hh5pjYiinHI8226
+ IugLCdU07A/AgDNomOLpqCfWvpqIRJetqH6nLuNm7NXKB+pbutad9Nx
+X-Developer-Key: i=bolewara@gmail.com; a=ed25519;
+ pk=XxcXxqFWk9xQziyNEfhS6NRJQR1shqHRRYzkbaYamm0=
+X-Endpoint-Received: by B4 Relay for bolewara@gmail.com/20260802 with
+ auth_id=907
+X-Original-From: Anuj Bolewar <bolewara@gmail.com>
+Reply-To: bolewara@gmail.com
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-branch HEAD: f3988e68fc089f6a5883f4f807955a3825bb7d45  usb: quirks: Add ShanWan gamepad to quirk list
+From: Anuj Bolewar <bolewara@gmail.com>
 
-elapsed time: 734m
+When the UDC is removed (e.g. dummy_hcd unbind via sysfs) while the raw
+gadget fd is still open, usb_del_gadget() destroys the gadget device and
+its name. raw_gadget keeps a dangling pointer in dev->gadget, and ioctls
+dereference it after releasing dev->lock, leading to a use-after-free in
+dev_err() when usb_ep_queue() fails.
 
-configs tested: 95
-configs skipped: 1
+Hold a gadget reference from bind until unbind and clear dev->gadget
+under dev->lock, so ioctls either observe the gadget as unbound or keep
+the device alive through the reference.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Reported-by: syzbot+9aacea11bc70c3ddaff2@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=9aacea11bc70c3ddaff2
+Fixes: f2c2e717642c ("usb: gadget: add raw-gadget interface")
+Signed-off-by: Anuj Bolewar <bolewara@gmail.com>
+---
+The gadget device embedded in the UDC is destroyed when the UDC is
+removed while the raw gadget fd is still open (e.g. unbinding dummy_hcd
+via sysfs). raw_gadget keeps a dangling pointer in dev->gadget and
+ioctls dereference it after dropping dev->lock, which KASAN reports as a
+slab use-after-free in raw_process_ep0_io() (dev_err with a freed device
+name).
 
-tested configs:
-alpha                            allnoconfig    gcc-16.1.0
-alpha                           allyesconfig    gcc-16.1.0
-alpha                              defconfig    gcc-16.1.0
-arc                             allmodconfig    gcc-16.1.0
-arc                             allyesconfig    gcc-16.1.0
-arc                  randconfig-001-20260804    gcc-8.5.0
-arc                  randconfig-002-20260804    gcc-8.5.0
-arm                     integrator_defconfig    clang-24
-arm                  randconfig-001-20260804    gcc-8.5.0
-arm                  randconfig-002-20260804    gcc-8.5.0
-arm                  randconfig-003-20260804    gcc-8.5.0
-arm                  randconfig-004-20260804    gcc-8.5.0
-arm64                randconfig-001-20260804    gcc-11.5.0
-arm64                randconfig-002-20260804    gcc-11.5.0
-arm64                randconfig-003-20260804    gcc-11.5.0
-arm64                randconfig-004-20260804    gcc-11.5.0
-csky                            allmodconfig    gcc-16.1.0
-csky                 randconfig-001-20260804    gcc-11.5.0
-csky                 randconfig-002-20260804    gcc-11.5.0
-hexagon              randconfig-001-20260804    gcc-16.1.0
-hexagon              randconfig-002-20260804    gcc-16.1.0
-i386                            allmodconfig    gcc-14
-i386       buildonly-randconfig-001-20260804    gcc-14
-i386       buildonly-randconfig-002-20260804    gcc-14
-i386       buildonly-randconfig-003-20260804    gcc-14
-i386       buildonly-randconfig-004-20260804    gcc-14
-i386       buildonly-randconfig-005-20260804    gcc-14
-i386       buildonly-randconfig-006-20260804    gcc-14
-i386                 randconfig-001-20260804    clang-22
-i386                 randconfig-001-20260804    gcc-14
-i386                 randconfig-002-20260804    clang-22
-i386                 randconfig-002-20260804    gcc-14
-i386                 randconfig-003-20260804    clang-22
-i386                 randconfig-003-20260804    gcc-14
-i386                 randconfig-004-20260804    clang-22
-i386                 randconfig-004-20260804    gcc-14
-i386                 randconfig-005-20260804    clang-22
-i386                 randconfig-005-20260804    gcc-14
-i386                 randconfig-006-20260804    clang-22
-i386                 randconfig-007-20260804    clang-22
-i386                 randconfig-007-20260804    gcc-14
-i386                 randconfig-011-20260804    gcc-13
-i386                 randconfig-012-20260804    gcc-13
-i386                 randconfig-013-20260804    gcc-13
-i386                 randconfig-014-20260804    gcc-13
-i386                 randconfig-015-20260804    gcc-13
-i386                 randconfig-016-20260804    gcc-13
-i386                 randconfig-017-20260804    gcc-13
-loongarch                          defconfig    clang-24
-loongarch            randconfig-001-20260804    gcc-16.1.0
-loongarch            randconfig-002-20260804    gcc-16.1.0
-m68k                         atari_defconfig    gcc-16.1.0
-nios2                           allmodconfig    gcc-11.5.0
-nios2                            allnoconfig    gcc-11.5.0
-nios2                randconfig-001-20260804    gcc-16.1.0
-nios2                randconfig-002-20260804    gcc-16.1.0
-parisc                          allmodconfig    gcc-16.1.0
-parisc                          allyesconfig    gcc-16.1.0
-parisc                             defconfig    gcc-16.1.0
-parisc               randconfig-001-20260804    gcc-8.5.0
-parisc               randconfig-002-20260804    gcc-8.5.0
-powerpc              randconfig-001-20260804    gcc-8.5.0
-powerpc              randconfig-002-20260804    gcc-8.5.0
-powerpc64            randconfig-001-20260804    gcc-8.5.0
-powerpc64            randconfig-002-20260804    gcc-8.5.0
-sh                                 defconfig    gcc-16.1.0
-sparc                randconfig-001-20260804    gcc-16.1.0
-sparc                randconfig-002-20260804    gcc-16.1.0
-sparc64              randconfig-001-20260804    clang-24
-sparc64              randconfig-002-20260804    clang-20
-um                   randconfig-001-20260804    gcc-14
-um                   randconfig-002-20260804    gcc-14
-x86_64     buildonly-randconfig-001-20260804    gcc-14
-x86_64     buildonly-randconfig-002-20260804    gcc-14
-x86_64     buildonly-randconfig-003-20260804    gcc-14
-x86_64     buildonly-randconfig-004-20260804    gcc-14
-x86_64     buildonly-randconfig-005-20260804    gcc-14
-x86_64     buildonly-randconfig-006-20260804    gcc-14
-x86_64                                 kexec    clang-22
-x86_64               randconfig-001-20260804    gcc-14
-x86_64               randconfig-002-20260804    gcc-14
-x86_64               randconfig-003-20260804    gcc-14
-x86_64               randconfig-004-20260804    gcc-14
-x86_64               randconfig-005-20260804    gcc-14
-x86_64               randconfig-006-20260804    gcc-14
-x86_64                        randconfig-071    clang-22
-x86_64               randconfig-071-20260804    clang-22
-x86_64               randconfig-072-20260804    clang-22
-x86_64               randconfig-073-20260804    clang-22
-x86_64               randconfig-074-20260804    clang-22
-x86_64               randconfig-075-20260804    clang-22
-x86_64               randconfig-076-20260804    clang-22
-x86_64                          rhel-9.4-bpf    gcc-14
-xtensa               randconfig-001-20260804    gcc-8.5.0
-xtensa               randconfig-002-20260804    gcc-14.3.0
+Fix it by taking a gadget reference while dev->gadget is set and clearing
+dev->gadget under dev->lock on unbind, so ioctls either observe the
+gadget as unbound or keep the device alive through the reference.
+---
+ drivers/usb/gadget/legacy/raw_gadget.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/usb/gadget/legacy/raw_gadget.c b/drivers/usb/gadget/legacy/raw_gadget.c
+index 4febf8dac7c..acc6e4799ee 100644
+--- a/drivers/usb/gadget/legacy/raw_gadget.c
++++ b/drivers/usb/gadget/legacy/raw_gadget.c
+@@ -303,6 +303,8 @@ static int gadget_bind(struct usb_gadget *gadget,
+ 	dev->req->context = dev;
+ 	dev->req->complete = gadget_ep0_complete;
+ 	dev->gadget = gadget;
++	/* Keep the gadget alive while the device holds a reference to it. */
++	usb_get_gadget(gadget);
+ 	gadget_for_each_ep(ep, dev->gadget) {
+ 		dev->eps[i].ep = ep;
+ 		dev->eps[i].addr = get_ep_addr(ep->name);
+@@ -316,6 +318,10 @@ static int gadget_bind(struct usb_gadget *gadget,
+ 	ret = raw_queue_event(dev, USB_RAW_EVENT_CONNECT, 0, NULL);
+ 	if (ret < 0) {
+ 		dev_err(&gadget->dev, "failed to queue connect event\n");
++		spin_lock_irqsave(&dev->lock, flags);
++		dev->gadget = NULL;
++		spin_unlock_irqrestore(&dev->lock, flags);
++		usb_put_gadget(gadget);
+ 		set_gadget_data(gadget, NULL);
+ 		return ret;
+ 	}
+@@ -328,7 +334,19 @@ static int gadget_bind(struct usb_gadget *gadget,
+ static void gadget_unbind(struct usb_gadget *gadget)
+ {
+ 	struct raw_dev *dev = get_gadget_data(gadget);
++	unsigned long flags;
+ 
++	/*
++	 * The gadget is going away (e.g. the UDC is being removed), so stop
++	 * using it. Hold the lock to synchronize with ioctls that check
++	 * dev->gadget and may dereference it after dropping the lock.
++	 */
++	spin_lock_irqsave(&dev->lock, flags);
++	dev->state = STATE_DEV_FAILED;
++	dev->gadget = NULL;
++	spin_unlock_irqrestore(&dev->lock, flags);
++	/* Matches usb_get_gadget() in gadget_bind(). */
++	usb_put_gadget(gadget);
+ 	set_gadget_data(gadget, NULL);
+ 	/* Matches kref_get() in gadget_bind(). */
+ 	kref_put(&dev->count, dev_free);
+
+---
+base-commit: 075b74841bd0065a3bda3440873c747938e69b68
+change-id: 20260804-raw-gadget-ep0-uaf-10a82bdda5bc
+
+Best regards,
+--  
+Anuj Bolewar <bolewara@gmail.com>
+
+
