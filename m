@@ -1,73 +1,73 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF5B4399CD
-	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 10:02:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA9F4457BB
+	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 10:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785837753; cv=none; b=WTWwko7IiawxYA0kb4U1/gWwiPe0ytcR8hQMSCf+gvkS/E+e6AgZRkWT1IKf+QLTPA5UAs8u/sDi6asBcOTu65OD/aibw++Q26ywVK9uZ9BHIab0MjlzdnzWYMwNBpVi1C9lKy42PRL+hOYg42SVbV7KgdlCtM73t9fin/IkdPs=
+	t=1785837802; cv=none; b=ilFWoMhHde5O4/4sGy8RaPaoDBd9iLFfXmG24Hu5PiViyk5EAeAocnEp9p9VExiiwRRGPflSOboiaPRingBZvwYUfJBnZMuUmY8EJEMjRBtGbM0F6pCjBZyot+8Bo+fE1Z5S5j/s1kTs5Q19q6COiQkyBI/oFCo+gQCZLq9rido=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785837753; c=relaxed/simple;
-	bh=JxbxhSi0ikTARZZqD063b3g0IiJDbZr8KLUrF9HY2A8=;
+	s=arc-20240116; t=1785837802; c=relaxed/simple;
+	bh=MU350OP6kB1rEDUkj+DOlrGzj1MoS0IisNveTm2dqus=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d9UlvpP/NeL49oIJAN0ZVMX3MFgNH5ANPIsQmEkx19v9u20H9J06YeinA+lVbnWrvhHP6AN75jmdZKsToEvGDkyOLxW97LMPPToopKaHRnNuAt7jOuhacNVpnaS6qhVxuwQt7EGaIYtwQb/grY3NHffHpEBLUR7xLzp1G6Uw9AA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MzRmkEK9; arc=none smtp.client-ip=209.85.128.41
+	 MIME-Version:Content-Type; b=bmSB6Xzj9nT7NsI9MU/ygY8XeoZsZm/McKoUa3bkY0PSyl11zmA+DucigpbVrVeTqci0uhFQU/Y8itta/J57+ZTIE3TcmzY9YTtYh0sDuP0N9Pk/kTgCgc5GGJn9nKijo7vG3jqkUH6tb/a9tcgGZL1hjA7/Mr5DGNfHqCMUsHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kDmfPnO2; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MzRmkEK9"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-495757ccbc1so29359395e9.2
-        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 03:02:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kDmfPnO2"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-47fdd674e17so1456641f8f.1
+        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 03:03:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785837750; x=1786442550; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1785837798; x=1786442598; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=y/lteXKHrsjzDmStTxqHbNUy74XpdlBSY16dLUMkL84=;
-        b=MzRmkEK96Ci8t9QFCHO6glDWY3DL9GihoFV8iieb2zFefNBdx0i6KMe7ufEUMebnab
-         jgu+BcT39vYvwgrWI0hdX0y4ryNnUBHUa1VfC9e1SsdEkw4j96yDr/+sbVO9+yCrwvM0
-         XVpErEA09tjlu1la4DKfQud7+ykt71UMXtVzWnq+hqoN0wmuewbjY1KYv6TW8sBHC0e1
-         lu3zr8LkZmhXTWWKkvLa9cK+P3lobwDmr3iaQnw832+ACxLxP8Xcx6lAKfglg3kDVGXT
-         pBx3EMmmZhpbC6ke9/7seizfKlOAaa9Xsf+fXLGzJwn9rnjeU1RtZLo8EWRoHEFQnddb
-         ESNQ==
+        bh=mKNdCd7BfihSdT/4/OO50sBOOdXqsgqCXHHpY928Dwk=;
+        b=kDmfPnO2ovj/FFsT4TngDNbAfrHWNcx9h7a1sB6WZAMAbEsmDAb8OFvXqxpcceXAJ0
+         nvJ/rDu2MEMEHT/TRdcVgW963VpwftwcVDlnlSzl83oK1+s8WEBtFiHsjdKSBvDfOq3L
+         VKQZDZUhXimT1CTaz/ZREW/HKsiq8AxYiQlq1TroWAoYOZRzTv8GAtM5HsDu3VvvGOKC
+         1FQynDqaSlSepFl3Ux1jvCa2gH9hdUChGm8/DL6TU2fJoB0R54o3POx3+pjrlmZPSfxi
+         je+2zfs0DQQYYsbz0wOtGPf0KlhAQFuJzkhivHws3VyO8S3Q13FjwTkPsHkHeeTUb4BE
+         1AUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785837750; x=1786442550;
+        d=1e100.net; s=20251104; t=1785837798; x=1786442598;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=y/lteXKHrsjzDmStTxqHbNUy74XpdlBSY16dLUMkL84=;
-        b=aw85eq9a+GBp35dRaFXhBu2pFPeD6p/9N4a6nvyBed+aVw7HWmzhEeETC4DeM9lS6Y
-         n5SfOQeFtPH1jSWDkq0D3miemd1IVkJHLMYDJ833huXEhG5968lRQEz6bUlPCN0/chQs
-         rLTTsmyTPQEtqFmB3W8s6aOqPfbNHcF4mWU/LYiEakb7P/pLVbnK+wMAqEaPAAzhGnAi
-         V2eQdPwVfljKWWuPrdiGH/O6EuXYIBzzdHy4VHxQMePanWgXMbH101iFgD9bpkxlFxJI
-         y57rYp48+6MD+zQB6qjO+azFovbkmnwI1J2T2l8ZuIfj774j0h8Ybn0ZlLezhH5PNYlU
-         foEw==
-X-Forwarded-Encrypted: i=1; AHgh+RoX0K4VmCUxhJBg6hCoscmF8zu8wP2DeUB/04hQ+1SiRkE/R6e4V5OqX4wlpVmecCIWKgX+Iykz/1o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoJW4jT3KTqIUA1ekT/KqZNrxje6vEHqV4O7PpEZ5MtGKCN7iP
-	3MK2jmcw4fJR1T66TuGRJ03gCe8B5e+v0FKjRBIEcEL6Z1rszJK3MwGZ
-X-Gm-Gg: AR+sD13M1kB4/dWdYgowUu0SlMnCPYbfknVexJtf7gnRrzG1sD2fQLcgK+BIieuVQFi
-	T/qaVFFc9EausN75T4jQqOuBRqlTIRKoxYc5l+oPGNRmF45z+eU0sHn6DXOCQpSGq+LnH2oesaM
-	6c9EUuo6vDpU6dYw105KJa4D1uNwWFZtDbn7ONy5I1SHqz/03B7eSPImEbDIWY2kQ4Ra1qqkGem
-	CFuaQfA7wdu1Aq7hpoKVlkmI1Nn4DH1e6CiaAEwQLtB58TMZOgyD1R07lQmi+pxRX4NqeHNxCkm
-	IaOu4yKohB+V3rCFuOrEwYs2ghAqcQGtprjkfx3UYGq8lsSFQ1ND/NhFZW2ErjsIDDInSFhlRff
-	ggWlVJrZsq5MJZnV5eZrLcIIPMsO81uBLnO+BQCIxGcVvR93GaB4dEUUAvsL3aiiQ54IrWlURqd
-	SMADdiYlvC730THWLDzrL9FfPYct+Qx7fNqQoZ+S4gU0t9D5U/jWWuoUQpBimCgAlz/DdHOir7
-X-Received: by 2002:a05:600c:1910:b0:493:cc25:85cb with SMTP id 5b1f17b1804b1-4980ee9bd7fmr270480725e9.8.1785837749626;
-        Tue, 04 Aug 2026 03:02:29 -0700 (PDT)
+        bh=mKNdCd7BfihSdT/4/OO50sBOOdXqsgqCXHHpY928Dwk=;
+        b=qszWRYf1xrUkIno1ib2/bnqo5az+qPqoySoTiXb09ZtJhs69s6hD6rBKpDn8ze7gVI
+         ZhqfRAZ3uCDcnDgtn9ivPMdldBc93tFc1Apt/DYhLqm8De/GVwimxWsmM/ky6mvF/wHG
+         tKhpQM5/52KGPV/CBxL+Hs7CmRKoIjKkr0TW9QzzoqFgoIz3FDv8MRijm67vMQikXAK6
+         s79SrgSnmsB1uZze0U00368tLZZbN7Hv6Mm5A/CkRPjfYZQcrj0vk1kBEWKg278gobOV
+         rx/KpwRCOaYH+IkcesJvdN/GeqRN8yoOJD4EGmijV3WpmWtBGuBDQZmOKLOATE2cmTyW
+         Eu1A==
+X-Forwarded-Encrypted: i=1; AHgh+Rpyvm5LOX+sEvXgdrv2LxhzfOQEXlBmHy8nvrPFcV6WSte1CxFFzu3ktgH/eIYxEw8xId3BfnMRm9g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpOcOfQHrx8XE60jqsVIve4Ji6/FjNrk4xy5F9jClJJEeinOGA
+	/ml7t+JfgWQcQJ6GCL3rFudkaqo5u5GJw8Nh583zoj8VUabmkd0oNwEo
+X-Gm-Gg: AR+sD12NL41OBE4IMhDbMgUUXGsYrE631cPGdX19o/8cIwruOeOTyc1PhgbhQ51Dcbb
+	f2QHOWBym0c8Bt4H814pnw6lRc9fRjZpSimSh0MJO1RfY3vnKoibWqtv83Psy8cy1hc2l3GxbIj
+	dgZvIIyV5JW0YAv+tn3vgnCWL8SK9lWQeGDZUTTC/d8IyVUtXk5prRYPfqh5EKtFdt6kh98qXTn
+	Vzt61gtKtfizdX1kOypbgBn8Xl/EIFT8y5wS1q5L+EV6Exl30bmWFZKhZ83zomxVPnHQhmVC6Qd
+	d4+BRiyB3pDHgnviL1uGhDWtH5C2yFlbLCL8vE+JCLvXMrLS4ReHvOVfKS2CDbwM7lqV4hoRv5V
+	9zzonHXzY921IxVXRqvN2opXYli/C3vvIzJcGa9lM05Lx+aVBhF65fEvmSoj2P+JONnQxjvCk/T
+	kAsjeNi5HOqjk78x1/zTq51RgLRcwpSXZbod0k8Y36OljzZzJ9YvHoJsF4OgQVyfALC9tWziv6
+X-Received: by 2002:a05:6000:4693:b0:45e:73eb:5119 with SMTP id ffacd0b85a97d-47fd72d4819mr26233578f8f.22.1785837798381;
+        Tue, 04 Aug 2026 03:03:18 -0700 (PDT)
 Received: from foxbook (bgt135.neoplus.adsl.tpnet.pl. [83.28.83.135])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49807b85be7sm392930275e9.2.2026.08.04.03.02.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd42d91bfsm44715531f8f.15.2026.08.04.03.03.17
         (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 04 Aug 2026 03:02:29 -0700 (PDT)
-Date: Tue, 4 Aug 2026 12:02:26 +0200
+        Tue, 04 Aug 2026 03:03:18 -0700 (PDT)
+Date: Tue, 4 Aug 2026 12:03:14 +0200
 From: Michal Pecio <michal.pecio@gmail.com>
 To: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
  <gregkh@linuxfoundation.org>
 Cc: Bart Nagel <bart@tremby.net>, linux-usb@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 1/5] usb: xhci: Handle bogus TRB pointers in Missed Service
- Error events
-Message-ID: <20260804120226.1e72ff24.michal.pecio@gmail.com>
+Subject: [PATCH 2/5] usb: xhci: Guarantee URB giveback on Ring
+ Underrun/Overrun
+Message-ID: <20260804120314.0a3203e7.michal.pecio@gmail.com>
 In-Reply-To: <20260804120110.01bda0e2.michal.pecio@gmail.com>
 References: <20260804120110.01bda0e2.michal.pecio@gmail.com>
 Precedence: bulk
@@ -79,64 +79,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-xHCI 1.0 allowed these pointers to be zero. Some Intel chipsets from the
-era usually set it to zero, but sometimes (apparently) to the next TRB
-after the one referenced by the previous transfer event on the endpoint.
+In this case we know that the xHC has released ownership of all missed
+TDs, we only don't know which were missed and which were queued later.
 
-Usually that's indeed the missed TD, but it may also be the last TRB of
-a two-TRB TD already completed with Short Packet on its first TRB. Then
-the driver skips all pending TDs, failing to find a match.
+URBs are queued atomically, so we can safely give back all TDs of the
+currently executing URB. Unlike the previous policy, this does actually
+ensure that the class driver will learn about the error and won't see
+all of its URBs still in progress when all TDs are missed on xHCI 1.0.
 
-When handling Missed Service Error, scan TD list twice and only really
-skip TDs in the second pass if the first pass found a match. This won't
-catch bogus pointers to wrong TDs, but such a bug would be practically
-impossible to detect automatically and isn't known to exist.
-
-Reported-by: Bart Nagel <bart@tremby.net>
-Closes: https://lore.kernel.org/linux-usb/al_hchyOdPoPWKEo@spiral/
-Suggested-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-Fixes: d0b619599e52 ("usb: xhci: Expedite skipping missed isoch TDs on modern HCs")
-Cc: stable@vger.kernel.org
 Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
 ---
- drivers/usb/host/xhci-ring.c | 18 ++++++++++++++++--
- 1 file changed, 16 insertions(+), 2 deletions(-)
+ drivers/usb/host/xhci-ring.c | 32 +++++++++++++++++++-------------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index dfe42822dde5..38a0f895553a 100644
+index 38a0f895553a..8eed56b72c30 100644
 --- a/drivers/usb/host/xhci-ring.c
 +++ b/drivers/usb/host/xhci-ring.c
-@@ -2605,6 +2605,17 @@ static bool xhci_spurious_success_tx_event(struct xhci_hcd *xhci,
- 	}
- }
+@@ -2630,6 +2630,7 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 	unsigned int slot_id;
+ 	int ep_index;
+ 	struct xhci_td *td = NULL;
++	struct urb *missed_urb = NULL;
+ 	dma_addr_t ep_trb_dma;
+ 	union xhci_trb *ep_trb;
+ 	int status = -EINPROGRESS;
+@@ -2849,26 +2850,31 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+ 					return 0;
  
-+static struct xhci_td *find_td_by_dma(struct xhci_ring *ep_ring, dma_addr_t dma)
-+{
-+	struct xhci_td *td;
+ 				/*
+-				 * TD was missed, skip it. Core already initialized frame->status
+-				 * to -EXDEV and frame->actual_length to 0, nothing more to do.
++				 * If skip flag is still set at xrun, we are on xHCI 1.0 and our TRB
++				 * pointer is zero again. All missed TDs can be given back, but we
++				 * don't know which were missed and which were queued after the xrun
++				 * occurred. We can safely give back the first pending URB.
+ 				 */
+-				xhci_dequeue_td(xhci, td, ep_ring, 0);
++				if (ring_xrun_event) {
++					if (!missed_urb)
++						missed_urb = td->urb;
+ 
+-				if (!list_empty(&ep_ring->td_list)) {
+-					if (ring_xrun_event) {
+-						/*
+-						 * If we are here, we are on xHCI 1.0 host with no
+-						 * idea how many TDs were missed or where the xrun
+-						 * occurred. New TDs may have been added after the
+-						 * xrun, so skip only one TD to be safe.
+-						 */
+-						xhci_dbg(xhci, "Skipped one TD for slot %u ep %u",
++					if (td->urb != missed_urb) {
++						xhci_dbg(xhci, "Skipped one URB for slot %u ep %u",
+ 								slot_id, ep_index);
+ 						return 0;
+ 					}
+-					continue;
+ 				}
+ 
++				/*
++				 * TD was missed, skip it. Core already initialized frame->status
++				 * to -EXDEV and frame->actual_length to 0, nothing more to do.
++				 */
++				xhci_dequeue_td(xhci, td, ep_ring, 0);
 +
-+	if (dma)
-+		list_for_each_entry(td, &ep_ring->td_list, td_list)
-+			if (trb_in_td(td, dma))
-+				return td;
-+	return NULL;
-+}
++				if (!list_empty(&ep_ring->td_list))
++					continue;
 +
- /*
-  * If this function returns an error condition, it means it got a Transfer
-  * event with a corrupted Slot ID, Endpoint ID, or TRB DMA address.
-@@ -2799,8 +2810,11 @@ static int handle_tx_event(struct xhci_hcd *xhci,
- 		xhci_dequeue_td(xhci, td, ep_ring, td->status);
- 	}
- 
--	/* If the TRB pointer is NULL, missed TDs will be skipped on the next event */
--	if (trb_comp_code == COMP_MISSED_SERVICE_ERROR && !ep_trb_dma)
-+	/*
-+	 * We don't know how many TDs were missed when ep_trb_dma is zero (as permitted by
-+	 * xHCI 1.0) or bogus. Bail out leaving ep->skip set, next event will sort it out.
-+	 */
-+	if (trb_comp_code == COMP_MISSED_SERVICE_ERROR && !find_td_by_dma(ep_ring, ep_trb_dma))
- 		return 0;
- 
- 	if (list_empty(&ep_ring->td_list)) {
+ 				xhci_dbg(xhci, "All TDs skipped for slot %u ep %u. Clear skip flag.\n",
+ 					 slot_id, ep_index);
+ 				ep->skip = false;
 -- 
 2.48.1
