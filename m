@@ -1,152 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A111423E91;
-	Tue,  4 Aug 2026 07:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E53B427F84
+	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 07:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785827347; cv=none; b=rmpOwPlpSwdavDFULhhzedvD7p5gle2zenNuWZF1+8PyYvdNRd89oiWNyVZv088XUA+fBhlINMERuUBMNzoE77eU14zqdJu0FDstEMyHAVGw9T7w6/s1kBHU9FcQlF3hr2qB9ky4qwL5hK0ydYQJnXl+KzhMBPxZl1/AcOL/FZ4=
+	t=1785829479; cv=none; b=YXdc1USqoNe74+EfwZ8uFlkMZAT2hqc90QC2BF+EIOexSGrqEdCPGw+uUHYGJpXNDLq8WtZlwZW46pz4eWqdNo6j6Cz+AUOJSsHeN/zVPFzQNBU29qm8sDB8k7mrcpok70QNq0f+NMA6fFGIiq5BT8kbObZHqBqUMZUyeh1djbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785827347; c=relaxed/simple;
-	bh=/oGSAJpj/gNj4VN8Mly4LJKuS5OncmNsDIid8/Sh/xg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YSoPJYrYJotXKTrCUDHhScdD3TrVeHJWTRTPJVrkbztjx8EL4h5aBGG9ahy7YX7uo/Wxl/LkTNyM9T5cGVyRHu+psA/M3JVlRAc5+1aO1URCXgzU2F7IGcrg9srl/78cE84mxXpDBtSI1V4sM/o74JhCYOxw9SEcGCuPShB3LNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IbummmFQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785829479; c=relaxed/simple;
+	bh=esbXX7i5X1gADRKgX80SvnOuJl3IXoEgbmVlwa26+zo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=DfxO9CfFTDi0A9B7V2SkWR5beI+1HtWmPsspeE1o1JAiW7Ksua6FOfcjaHJmTT99eAMc8HJdNfqn+k6c8bwNaIEhuM1a5On+BSS4KQOHuUkQ5+dXo4HKoQpt5CB3bVzDJgmLy9g9iqHEPQeBkeDwFnVsPzYjj5BCsODIhfNlHoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IaW/p7we; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IbummmFQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id D1F9FC2BCF5;
-	Tue,  4 Aug 2026 07:09:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785827346;
-	bh=/oGSAJpj/gNj4VN8Mly4LJKuS5OncmNsDIid8/Sh/xg=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=IbummmFQ8Rx6WRvfnn5mcRpNlS5AJ22CDVlRKLUHU+tWi/zj6RTfTrmMzFYR3Go3c
-	 H2livD03F5uZsRIXn3xxA5n5rXhEz6yYh5FNAlJxdDExQmf4KmKCurDeUjvDadl54M
-	 R/hp7I5s7uMFRexWITuyesETqTK/4H3wxPF30VA+8uYSc8YkCFcbYh7J4Ur3pA/abW
-	 Q/CfAjkSS2d/GgyUBzUz/s/a01FYdSlUAUoUaDJE2NBYjX7ugPTSY46oroiCGbIjGv
-	 ExD8Y1L8RIQro2ipQUnc6EvUDmoDPS/4aFvE3oIqqV/jiLA+9jVjJOkolCr9/WQIaJ
-	 QJv7nIlIVxYkQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8FAAC5518F;
-	Tue,  4 Aug 2026 07:09:06 +0000 (UTC)
-From: Anuj Bolewar via B4 Relay <devnull+bolewara.gmail.com@kernel.org>
-Date: Tue, 04 Aug 2026 12:39:05 +0530
-Subject: [PATCH v2] usb: raw_gadget: fix use-after-free when UDC is removed
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IaW/p7we"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-38e88b60121so3264308a91.3
+        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 00:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785829478; x=1786434278; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fTXWfWyOkl0xOSzBDPDeUohi0rPwGKQbDvqXhmbLPPY=;
+        b=IaW/p7weYGjHBq/tWkQ/mIHB52uyAHr6yBNjEOXIKMnrIUqbyWCYPdA+PuMu4BBeyE
+         btBhmslahSKRiLdxk9A/i/bJ6TTWqrSU9fqzxDvvtkNNrqlrly8UUteYv6m7nntkGSlu
+         kRyZ+dqCYvUMVEEeXbYDYvqmvNxGxPRsfBshHVUpJCEhrmHLE/2WdWPlIEnTMv2v0kwm
+         nAl0MlfpNBczMsuenTGNo+ZV9m+RFQAzT9ak6oJr3R7SDid6K+Qa/ZxxYIiIXFQc4UxI
+         6lWAQOo1ofD23ybsdwmpmRCKM2KfX0vPiFkvFnrZHaDjCHDj0Rpt1fNFrEjZWclRBi/g
+         A/lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785829478; x=1786434278;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fTXWfWyOkl0xOSzBDPDeUohi0rPwGKQbDvqXhmbLPPY=;
+        b=lwV1yPesZCoswau5Urk9RIxzExSc9l284bff7iEnqwRqrgml6AFqY8fo5/kDJnO9kc
+         KhhtMDxpV+VHdXavE8TQSlQxJnWwVVpyJiLtsXAvprV2IKLeiKP8hngki1e+0YLMQxJc
+         XQu1y9ps4uQk1+IWyKc9PvKUs+alIPzgSBqfF1viuA4tIg8Qy/wwz5xySm0YXHxGfWlZ
+         T14sVoCvMy8g7WiMfyBeWT47OlEAxA1dEqXs8Ut2uubEx10acPMEFRcyst8fRR2p5coE
+         qi9u96Vk6ejINdcTMSGIU420XkKkvvMXAjclvVsnIkj6lXh6qMaWiVndrj+T00QmG8Xr
+         zNGg==
+X-Gm-Message-State: AOJu0Ywdg1LrZqSDQeJNjgCZ6VZ4diwACL4ro6ueBHKXb5lJuQT+xce4
+	lB1DqO3CNJE04C6kIWIc+EbuHc9LPwAKcb4TiPVaJt/tL7mlQcbeuC+t
+X-Gm-Gg: AR+sD10iepY0XkSKuOZXcWlstgdaQeZUva/6UtM7yGGnAQYHege4HE3LX8LUGv7SMET
+	I7D5LHHSurwNCQX0ejmMOglnMKQAPe2+xIjawCunqEGxlC41JMSZLv4zJp+Y+lY6pMRPVF0F6s7
+	Er/cqtwp5q284VulB4/yZUhxC5cumKDdypNJgrioC0TS1VyQEm1URTMY5gfKWMU5jw3febAGbse
+	t0yOyNElojkuCwOFOCJ6r30QaRKLCNQE5Ok3u3tPdnR3krxkW9QRFqea6WZGs0nrIoXs++XVoHb
+	httwrp7lrLjQ5l5xXJemnQZFNvs7Dv/cEtBsnDxUABfyYF/m2xfbRdkQm6s1DNu8Bi9LKlB1r3O
+	AsgzZazVnLMyiwnciU5c/hUFXYLPxpLXlQgVRpZocVEvPtFMikJiy9ImQVK9JW0GIFQS3DW21rD
+	Updr8+0wAYk3rIHMj8UQO5iWiRldSRCadZBoTv2d9WOgiv7ZsPwomW//o0F/kv9w5rttvzugFZh
+	f05ZEvVrVtMXA==
+X-Received: by 2002:a17:90b:48c9:b0:382:5c31:1f8a with SMTP id 98e67ed59e1d1-38fbc511c3emr11893259a91.27.1785829477748;
+        Tue, 04 Aug 2026 00:44:37 -0700 (PDT)
+Received: from ML-GYSUBT565.ECARX.COM.CN ([101.47.164.95])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38fb2b551b9sm2985830a91.2.2026.08.04.00.44.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 00:44:37 -0700 (PDT)
+From: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+098999e05b6b877c01b3@syzkaller.appspotmail.com,
+	Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
+Subject: [PATCH v2] usb: gadget: f_phonet: fix use-after-free in pn_bind
+Date: Tue,  4 Aug 2026 15:44:32 +0800
+Message-Id: <20260804074432.2906951-1-khiemtranzo532001@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <2026080431-paragraph-caloric-0aae@gregkh>
+References: <2026080431-paragraph-caloric-0aae@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260804-raw-gadget-ep0-uaf-v2-1-3a5ded46ab50@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NwQ6CMBBEf4X07Jq2ihBP/ofhsLRLWSOUtIAaw
- r9b8G7m9JKZeYuIFJiiuGaLCDRzZN8n0IdMmBZ7R8A2sdBSX2QpzxDwBQ6toxFokDBhA0piqWt
- rMa+NSMMhUMPv/fRe/ThO9YPMuD1tjZbj6MNnt85q6/0VzAoUyKJMKU4WVX5zHfLzaHwnqnVdv
- zydfnbGAAAA
-X-Change-ID: 20260804-raw-gadget-ep0-uaf-10a82bdda5bc
-To: Andrey Konovalov <andreyknvl@gmail.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzbot+9aacea11bc70c3ddaff2@syzkaller.appspotmail.com, 
- Anuj Bolewar <bolewara@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785827344; l=3579;
- i=bolewara@gmail.com; s=20260802; h=from:subject:message-id;
- bh=bFLKavspgBu4le5fmIl2M8+XfOkXMsCr6XLI9iZ/YEY=;
- b=HoqsHxICbaaGKnQbjAthWTJ3ov/SGc/VCwEenAFi/eI7NjhzOebxQ1mqPBZbp/hUzijtLsqp2
- A9MAibfT9YLDGRu9imG7RCiKTtSUoONZe5gHllPKWOclAJhrYwW4XoF
-X-Developer-Key: i=bolewara@gmail.com; a=ed25519;
- pk=XxcXxqFWk9xQziyNEfhS6NRJQR1shqHRRYzkbaYamm0=
-X-Endpoint-Received: by B4 Relay for bolewara@gmail.com/20260802 with
- auth_id=907
-X-Original-From: Anuj Bolewar <bolewara@gmail.com>
-Reply-To: bolewara@gmail.com
+Content-Transfer-Encoding: 8bit
 
-From: Anuj Bolewar <bolewara@gmail.com>
+pn_bind() and phonet_free_inst() race on opts->bound and opts->net.
+If configfs removes the function instance while pn_bind() is between
+the !bound check and setting bound = true, free_inst() frees opts->net
+and pn_bind() then writes to net->dev.parent via gphonet_set_gadget().
 
-When the UDC is removed (e.g. dummy_hcd unbind via sysfs) while the raw
-gadget fd is still open, usb_del_gadget() destroys the gadget device
-and its name. raw_gadget keeps a dangling pointer in dev->gadget, and
-ioctls dereference it after releasing dev->lock, leading to a
-use-after-free in dev_err() when usb_ep_queue() fails.
+The existing "no race condition" comment was wrong: configfs_rmdir()
+can run independently of the composite bind sequence.
 
-Take a gadget reference in gadget_bind() and drop it in dev_free() so
-the gadget device and its name stay alive for as long as the fd is open
-and an ioctl may still dereference dev->gadget. gadget_unbind() only
-marks the device as failed under dev->lock; the reference is dropped in
-dev_free(), which runs only after the fd is closed and no ioctl can be
-in flight.
+Add a mutex to f_phonet_opts and use scoped_guard(mutex) in both
+pn_bind() and phonet_free_inst() to serialize access to ->bound and
+->net. Add a kernel-doc comment describing what the lock protects,
+and destroy the mutex before freeing opts.
 
-Reported-by: syzbot+9aacea11bc70c3ddaff2@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=9aacea11bc70c3ddaff2
-Fixes: f2c2e717642c ("usb: gadget: add raw-gadget interface")
-Signed-off-by: Anuj Bolewar <bolewara@gmail.com>
+Fixes: 00a2430ff07d ("usb: gadget: Gadget directory cleanup - group usb functions")
+Reported-by: syzbot+098999e05b6b877c01b3@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=098999e05b6b877c01b3
+Signed-off-by: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
 ---
-The gadget device embedded in the UDC is destroyed when the UDC is
-removed while the raw gadget fd is still open (e.g. unbinding dummy_hcd
-via sysfs). raw_gadget keeps a dangling pointer in dev->gadget and
-ioctls dereference it after dropping dev->lock, which KASAN reports as a
-slab use-after-free in raw_process_ep0_io() (dev_err with a freed device
-name).
-
-Fix it by holding a gadget reference for the raw device lifetime:
-gadget_bind() takes it, gadget_unbind() only marks the device as failed
-under dev->lock, and the reference is dropped in dev_free() once the fd
-is closed and no ioctl can still be in flight.
+v2:
+ - use scoped_guard(mutex) instead of open-coded lock/unlock
+ - add kernel-doc comment on struct f_phonet_opts describing what
+   @lock protects
+ - add explicit #include <linux/mutex.h>
+ - call mutex_destroy() before kfree(opts)
+ - remove stale "no race condition" comment; explain why it was wrong
+   in the commit message
 ---
-Changes in v2:
-- Reworked per review: the gadget reference is now held for the raw
-  device lifetime (bind until dev_free()) instead of the bind/unbind
-  window, since ioctls dereference dev->gadget after releasing dev->lock
-  and the UDC core owns the gadget's lifetime during bind/unbind.
-- gadget_unbind() now only marks the device as failed under dev->lock;
-  the reference is dropped in dev_free() after the fd is closed.
-- Dropped the now-unneeded comment and switched the spinlock to guard().
-- Link to v1: https://patch.msgid.link/20260804-raw-gadget-ep0-uaf-v1-1-07878773da15@gmail.com
----
- drivers/usb/gadget/legacy/raw_gadget.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/usb/gadget/function/f_phonet.c | 34 +++++++++++++-------------
+ drivers/usb/gadget/function/u_phonet.h | 10 ++++++++
+ 2 files changed, 27 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/usb/gadget/legacy/raw_gadget.c b/drivers/usb/gadget/legacy/raw_gadget.c
-index 4febf8dac7c..d6341823f90 100644
---- a/drivers/usb/gadget/legacy/raw_gadget.c
-+++ b/drivers/usb/gadget/legacy/raw_gadget.c
-@@ -226,6 +226,7 @@ static void dev_free(struct kref *kref)
- 		kfree(dev->eps[i].ep->desc);
- 		dev->eps[i].state = STATE_EP_DISABLED;
+diff --git a/drivers/usb/gadget/function/f_phonet.c b/drivers/usb/gadget/function/f_phonet.c
+index b1ee9a7c2..350579747 100644
+--- a/drivers/usb/gadget/function/f_phonet.c
++++ b/drivers/usb/gadget/function/f_phonet.c
+@@ -12,6 +12,7 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/device.h>
++#include <linux/mutex.h>
+ 
+ #include <linux/netdevice.h>
+ #include <linux/if_ether.h>
+@@ -499,19 +500,14 @@ static int pn_bind(struct usb_configuration *c, struct usb_function *f)
+ 
+ 	phonet_opts = container_of(f->fi, struct f_phonet_opts, func_inst);
+ 
+-	/*
+-	 * in drivers/usb/gadget/configfs.c:configfs_composite_bind()
+-	 * configurations are bound in sequence with list_for_each_entry,
+-	 * in each configuration its functions are bound in sequence
+-	 * with list_for_each_entry, so we assume no race condition
+-	 * with regard to phonet_opts->bound access
+-	 */
+-	if (!phonet_opts->bound) {
+-		gphonet_set_gadget(phonet_opts->net, gadget);
+-		status = gphonet_register_netdev(phonet_opts->net);
+-		if (status)
+-			return status;
+-		phonet_opts->bound = true;
++	scoped_guard(mutex, &phonet_opts->lock) {
++		if (!phonet_opts->bound) {
++			gphonet_set_gadget(phonet_opts->net, gadget);
++			status = gphonet_register_netdev(phonet_opts->net);
++			if (status)
++				return status;
++			phonet_opts->bound = true;
++		}
  	}
-+	usb_put_gadget(dev->gadget);
- 	kfree(dev);
+ 
+ 	/* Reserve interface IDs */
+@@ -621,10 +617,13 @@ static void phonet_free_inst(struct usb_function_instance *f)
+ 	struct f_phonet_opts *opts;
+ 
+ 	opts = container_of(f, struct f_phonet_opts, func_inst);
+-	if (opts->bound)
+-		gphonet_cleanup(opts->net);
+-	else
+-		free_netdev(opts->net);
++	scoped_guard(mutex, &opts->lock) {
++		if (opts->bound)
++			gphonet_cleanup(opts->net);
++		else
++			free_netdev(opts->net);
++	}
++	mutex_destroy(&opts->lock);
+ 	kfree(opts);
  }
  
-@@ -302,7 +303,7 @@ static int gadget_bind(struct usb_gadget *gadget,
- 	dev->req = req;
- 	dev->req->context = dev;
- 	dev->req->complete = gadget_ep0_complete;
--	dev->gadget = gadget;
-+	dev->gadget = usb_get_gadget(gadget);
- 	gadget_for_each_ep(ep, dev->gadget) {
- 		dev->eps[i].ep = ep;
- 		dev->eps[i].addr = get_ep_addr(ep->name);
-@@ -329,6 +330,10 @@ static void gadget_unbind(struct usb_gadget *gadget)
- {
- 	struct raw_dev *dev = get_gadget_data(gadget);
+@@ -636,6 +635,7 @@ static struct usb_function_instance *phonet_alloc_inst(void)
+ 	if (!opts)
+ 		return ERR_PTR(-ENOMEM);
  
-+	{
-+		guard(spinlock_irqsave)(&dev->lock);
-+		dev->state = STATE_DEV_FAILED;
-+	}
- 	set_gadget_data(gadget, NULL);
- 	/* Matches kref_get() in gadget_bind(). */
- 	kref_put(&dev->count, dev_free);
-
----
-base-commit: 075b74841bd0065a3bda3440873c747938e69b68
-change-id: 20260804-raw-gadget-ep0-uaf-10a82bdda5bc
-
-Best regards,
---  
-Anuj Bolewar <bolewara@gmail.com>
-
++	mutex_init(&opts->lock);
+ 	opts->func_inst.free_func_inst = phonet_free_inst;
+ 	opts->net = gphonet_setup_default();
+ 	if (IS_ERR(opts->net)) {
+diff --git a/drivers/usb/gadget/function/u_phonet.h b/drivers/usb/gadget/function/u_phonet.h
+index ff62ca22c..54fadfe64 100644
+--- a/drivers/usb/gadget/function/u_phonet.h
++++ b/drivers/usb/gadget/function/u_phonet.h
+@@ -8,11 +8,21 @@
+ #ifndef __U_PHONET_H
+ #define __U_PHONET_H
+ 
++#include <linux/mutex.h>
+ #include <linux/usb/composite.h>
+ #include <linux/usb/cdc.h>
+ 
++/**
++ * struct f_phonet_opts - Phonet function instance options
++ * @func_inst: USB function instance
++ * @lock: protects @bound and @net against concurrent access from
++ *        pn_bind() vs phonet_free_inst() during configfs teardown
++ * @bound: true once pn_bind() has successfully registered @net
++ * @net: net_device owned by this function instance
++ */
+ struct f_phonet_opts {
+ 	struct usb_function_instance func_inst;
++	struct mutex lock;
+ 	bool bound;
+ 	struct net_device *net;
+ };
+-- 
+2.34.1
 
