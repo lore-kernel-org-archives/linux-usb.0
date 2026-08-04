@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B688427F84;
-	Tue,  4 Aug 2026 07:49:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A27CC395AF2;
+	Tue,  4 Aug 2026 07:53:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785829783; cv=none; b=dOacwmqZ8tt0G8N+1PB5SgGy1TTpmplMaKeWPBnCdOSP2/JLYIPUPJiMU5JQ3xuJdmbEAiykzQ4Vd5VIX8X16pOlW3bwsQN5FtknvLZsw9fQf/JunGR+JaC0YaPwZWUZuuxjZy5c4OmdAAmIMJIiZfO/6mLALQv66+pywiVFgYM=
+	t=1785829991; cv=none; b=qDdzNyIvpx0kRdgblT7Q+SAY53jJCFq68eWYomo6dZqsjWuv4LjYqWcMO8lzlhAdyq8TPF7yZPJky7b0V0TxDt61I/x0XuGGD7cNkG+GU+QlGBQ5GvMGI9dk1Ba/1oHhQRTYiINsPEiUoKysEb3lKwRFmdzj9FFBaJGCGOq/seI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785829783; c=relaxed/simple;
-	bh=hACa1UEC9tkNcNFaB9rer7HLqo0Pnvx/7MYVwZhkhJU=;
+	s=arc-20240116; t=1785829991; c=relaxed/simple;
+	bh=nbe8NLIdku1F87f86Rlteq2imjQONvL/2Fqkp3V/5D4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jdl2wf3oJL9QMkCipkgwmm+uG85LtHh/aaY1MFxcNUVnIiJH3OqdRMIIOwTZ2EmvfhLDVpEnLqn8XV8M75o8uXm5l/06tRb1lLfRLqP/MWDbuWi2RMmR/MuR0nClIRuIHzOBezlBSyty67dFf3XSF1IzOb9pXfxQJGRedfZh+Vg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=AeDevbZW; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=TC19EGl88rlvj6+8sSm5ysuINIRafNBfdTlTXlsrJgOXy0ljx+MAVeAc5Y6Dw2/QBV6x2pMk4aATSqi3Jj6o21872J1QKvjnV3LHTKGVce3EaI81EPNvWv+9e2seqwekDYC5BIKbb08lH9nTJhNQuVSVWhu4Ap1nfDuezOrsjlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=aUQPSrdb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AeDevbZW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16DFE1F000E9;
-	Tue,  4 Aug 2026 07:49:40 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aUQPSrdb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A12921F000E9;
+	Tue,  4 Aug 2026 07:53:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785829781;
-	bh=7J858pPzlAPXlt2vx21ytV54ZvGQP2VSTUGFJZd8k+4=;
+	s=korg; t=1785829990;
+	bh=llhTySycapYDnP9sroaWfyUe20YpY9sf2TW2dee3DyU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AeDevbZWDMTqnrVTN3nxfre0MhBiLsps7gWcYZMN0UIX1LM4VpOtrVQgxz1je0hMG
-	 c5kEMHkJMriPQAzpO9APi01dAvyAeFuJleSn/rgtE5stUzDlnoWLulu5ea0vAoszql
-	 /r3Wuq/sOGzUqUhBMavRStsoeB1o6QGZvDkS6LUU=
-Date: Tue, 4 Aug 2026 09:49:25 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: bolewara@gmail.com
-Cc: Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+9aacea11bc70c3ddaff2@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2] usb: raw_gadget: fix use-after-free when UDC is
- removed
-Message-ID: <2026080451-exterior-stank-a019@gregkh>
-References: <20260804-raw-gadget-ep0-uaf-v2-1-3a5ded46ab50@gmail.com>
+	b=aUQPSrdb81VzqMhtBzry5mvoMPSjChZFhLTcOzxwdYjLewMCCk/DBUyifoYA8FYQU
+	 VVm346fPOIUqFmHn0LJbfHy3g5NPPdlij3ELKdnJetDhjdgSCvWiSqpK6Op7Ihf90n
+	 vtnI6tasV2zbrNhzA7j3CUMdSxlz4tlanpZM/WiA=
+Date: Tue, 4 Aug 2026 09:52:53 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	syzbot+098999e05b6b877c01b3@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] usb: gadget: f_phonet: fix use-after-free in pn_bind
+Message-ID: <2026080420-grudge-version-8bf2@gregkh>
+References: <2026080431-paragraph-caloric-0aae@gregkh>
+ <20260804074432.2906951-1-khiemtranzo532001@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,90 +40,60 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260804-raw-gadget-ep0-uaf-v2-1-3a5ded46ab50@gmail.com>
+In-Reply-To: <20260804074432.2906951-1-khiemtranzo532001@gmail.com>
 
-On Tue, Aug 04, 2026 at 12:39:05PM +0530, Anuj Bolewar via B4 Relay wrote:
-> From: Anuj Bolewar <bolewara@gmail.com>
+On Tue, Aug 04, 2026 at 03:44:32PM +0800, Nguyen Quang Le Kien wrote:
+> pn_bind() and phonet_free_inst() race on opts->bound and opts->net.
+> If configfs removes the function instance while pn_bind() is between
+> the !bound check and setting bound = true, free_inst() frees opts->net
+> and pn_bind() then writes to net->dev.parent via gphonet_set_gadget().
 > 
-> When the UDC is removed (e.g. dummy_hcd unbind via sysfs) while the raw
-> gadget fd is still open, usb_del_gadget() destroys the gadget device
-> and its name. raw_gadget keeps a dangling pointer in dev->gadget, and
-> ioctls dereference it after releasing dev->lock, leading to a
-> use-after-free in dev_err() when usb_ep_queue() fails.
+> The existing "no race condition" comment was wrong: configfs_rmdir()
+> can run independently of the composite bind sequence.
 > 
-> Take a gadget reference in gadget_bind() and drop it in dev_free() so
-> the gadget device and its name stay alive for as long as the fd is open
-> and an ioctl may still dereference dev->gadget. gadget_unbind() only
-> marks the device as failed under dev->lock; the reference is dropped in
-> dev_free(), which runs only after the fd is closed and no ioctl can be
-> in flight.
+> Add a mutex to f_phonet_opts and use scoped_guard(mutex) in both
+> pn_bind() and phonet_free_inst() to serialize access to ->bound and
+> ->net. Add a kernel-doc comment describing what the lock protects,
+> and destroy the mutex before freeing opts.
 > 
-> Reported-by: syzbot+9aacea11bc70c3ddaff2@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=9aacea11bc70c3ddaff2
-> Fixes: f2c2e717642c ("usb: gadget: add raw-gadget interface")
-> Signed-off-by: Anuj Bolewar <bolewara@gmail.com>
+> Fixes: 00a2430ff07d ("usb: gadget: Gadget directory cleanup - group usb functions")
+> Reported-by: syzbot+098999e05b6b877c01b3@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=098999e05b6b877c01b3
+
+Did this new version properly run through syzbot and it reported it
+succeeded?
+
+
+
+> Signed-off-by: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
 > ---
-> The gadget device embedded in the UDC is destroyed when the UDC is
-> removed while the raw gadget fd is still open (e.g. unbinding dummy_hcd
-> via sysfs). raw_gadget keeps a dangling pointer in dev->gadget and
-> ioctls dereference it after dropping dev->lock, which KASAN reports as a
-> slab use-after-free in raw_process_ep0_io() (dev_err with a freed device
-> name).
-> 
-> Fix it by holding a gadget reference for the raw device lifetime:
-> gadget_bind() takes it, gadget_unbind() only marks the device as failed
-> under dev->lock, and the reference is dropped in dev_free() once the fd
-> is closed and no ioctl can still be in flight.
+> v2:
+>  - use scoped_guard(mutex) instead of open-coded lock/unlock
+>  - add kernel-doc comment on struct f_phonet_opts describing what
+>    @lock protects
+>  - add explicit #include <linux/mutex.h>
+>  - call mutex_destroy() before kfree(opts)
+>  - remove stale "no race condition" comment; explain why it was wrong
+>    in the commit message
 > ---
-> Changes in v2:
-> - Reworked per review: the gadget reference is now held for the raw
->   device lifetime (bind until dev_free()) instead of the bind/unbind
->   window, since ioctls dereference dev->gadget after releasing dev->lock
->   and the UDC core owns the gadget's lifetime during bind/unbind.
-> - gadget_unbind() now only marks the device as failed under dev->lock;
->   the reference is dropped in dev_free() after the fd is closed.
-> - Dropped the now-unneeded comment and switched the spinlock to guard().
-> - Link to v1: https://patch.msgid.link/20260804-raw-gadget-ep0-uaf-v1-1-07878773da15@gmail.com
-> ---
->  drivers/usb/gadget/legacy/raw_gadget.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  drivers/usb/gadget/function/f_phonet.c | 34 +++++++++++++-------------
+>  drivers/usb/gadget/function/u_phonet.h | 10 ++++++++
+>  2 files changed, 27 insertions(+), 17 deletions(-)
 > 
-> diff --git a/drivers/usb/gadget/legacy/raw_gadget.c b/drivers/usb/gadget/legacy/raw_gadget.c
-> index 4febf8dac7c..d6341823f90 100644
-> --- a/drivers/usb/gadget/legacy/raw_gadget.c
-> +++ b/drivers/usb/gadget/legacy/raw_gadget.c
-> @@ -226,6 +226,7 @@ static void dev_free(struct kref *kref)
->  		kfree(dev->eps[i].ep->desc);
->  		dev->eps[i].state = STATE_EP_DISABLED;
->  	}
-> +	usb_put_gadget(dev->gadget);
->  	kfree(dev);
->  }
->  
-> @@ -302,7 +303,7 @@ static int gadget_bind(struct usb_gadget *gadget,
->  	dev->req = req;
->  	dev->req->context = dev;
->  	dev->req->complete = gadget_ep0_complete;
-> -	dev->gadget = gadget;
-> +	dev->gadget = usb_get_gadget(gadget);
->  	gadget_for_each_ep(ep, dev->gadget) {
->  		dev->eps[i].ep = ep;
->  		dev->eps[i].addr = get_ep_addr(ep->name);
-> @@ -329,6 +330,10 @@ static void gadget_unbind(struct usb_gadget *gadget)
->  {
->  	struct raw_dev *dev = get_gadget_data(gadget);
->  
-> +	{
-> +		guard(spinlock_irqsave)(&dev->lock);
-> +		dev->state = STATE_DEV_FAILED;
-> +	}
+> diff --git a/drivers/usb/gadget/function/f_phonet.c b/drivers/usb/gadget/function/f_phonet.c
+> index b1ee9a7c2..350579747 100644
+> --- a/drivers/usb/gadget/function/f_phonet.c
+> +++ b/drivers/usb/gadget/function/f_phonet.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/device.h>
+> +#include <linux/mutex.h>
 
-Please look at how scoped_guard() works.
+This isn't needed as you added it to the .h file, right?
 
-And again, are you _SURE_ you need to call get/put on the device?  That
-still feels wrong...
+And you didn't answer my question about LLM use.
 
-And you did not answer my question about the need for the Assisted-by:
-tag.
+thanks,
 
 greg k-h
