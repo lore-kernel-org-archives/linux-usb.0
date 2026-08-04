@@ -1,230 +1,156 @@
-Received: from mail-oa1-f78.google.com (mail-oa1-f78.google.com [209.85.160.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7C346A610
-	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 14:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043FF44DB73;
+	Tue,  4 Aug 2026 15:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785855452; cv=none; b=RbrSyFjG1Rk+ZX1wwDl5zlDQ5JZfW6GfdqRHpZh+7ywfPpUuATo2WgugIvehH1/wkAi2KweLSTocVfH7BQLoSmDryF++kiiKnMXvGgjnyuR2f9L3lU45X7INmQng/fQngP2kjsXltfddE6hYrZqLQjkDzixSJCFUbG1WnBjvet0=
+	t=1785855774; cv=none; b=a5TUvLsf/EVKsKBbUYe4Bb9y79P/x79ihKYbkCzXxvW7eLhHXCiferM4nh1+HwlV7OwE6Tl4jEpKLVS3QN7akITMUakppb+FWrVRpnEzMzcQV7rtKZLe89knmJHkx1q9A9b/o83lD7MGvLqg9M3SRYvT+d01UDmXsK6Z8i+Sx8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785855452; c=relaxed/simple;
-	bh=rMAF4XU07HFKncfc17A7M0Elt6/Pslo/OhRfEW+p9GM=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=Fkz7QA8GWD4VsVL3T63bzqwyJUE+3xwdQcTyIZ1PvAyd5o6FM9D9BiH+mPzUDKPgPpDcYiDS8o+zRJpvudCgB/fDQ+6/5mUlCHr37qxmYYOE5rQavwDmkgU2ejmy9jTnRfGy0dMtV8t5H4rCQM9IdymQ6EbYTtg0sP0GLO8XXfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f78.google.com with SMTP id 586e51a60fabf-44aeefa1c36so2341226fac.3
-        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 07:57:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785855443; x=1786460243;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=PsskWs2jCqD12KdY8/UEuILCIAav0xujzhiNwH++F4U=;
-        b=p8IQkps6lI1vir1c+wb7gYmOV6WSnOgARYCrm+0mqzicSoklUzU++bX0yb2+ztnyrh
-         m1ccO9hMtwlf19+KT/r55Vap68/o96p196Aw3VP+3Kt0D526BotHbFN7oYkSTJkJkOfh
-         n/cd+bcx/DU6xNYCKZ6Ia5N280+SVZkZeyvjXFPYVCG8ZCGyfYRCcoFYwArRCVZbacCM
-         ZvGWm/T+xLftFDyGLJcNGGGiacwiC7GVNyo9SOayNbjleIYYUEJoIKEFAArqa2G4jf5k
-         zoKID5e2eocwKu9JaKKXuf3ktngyfPDM4/IXm17tuT62kUDMJej0IPNHSr0rqIufMKWW
-         Dx1A==
-X-Forwarded-Encrypted: i=1; AHgh+RqIm289lDs8FLjBKQW1Ds5Du8LmA+oZm0yaTC6vjXBrv2o1cVT2qcmyw8+eaqLD+QHONxREQyiv7yg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw20BgIJk2TfpGHYhhKnMPzXtN5lA6OtvCRre51JBF4N++c57Bp
-	FjXrx50B+vwNJMSu+P4Lv6fX1LkcZiWuKfn4pK1u4aWUSBhwa1sPqY6bDqmiG3FIXbog48lOSEE
-	VtM4I/2tZ7MemAbCo+Nqo9hsT57oeHmmxWzkLRhPmdmeXdyeoi96hVwLU/To=
+	s=arc-20240116; t=1785855774; c=relaxed/simple;
+	bh=p9sSAQckyN6YNEPYfVr0Mp/hEVY97uneL0c8SXCfHJc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OBt6iNYStOQfWegayywhYDJCYxxaBOYCkitffUNnWqYqexa+9QpK4P0j6OoVERnDkz3/LT8w470G/lIE5MJzZrRspCTz8VxIGjyttkoKNZPXGnHPhbRSJIrVVZj4DUOhNNzgT2VlE6HzBgSacHaVKvZwgPQiIXOISk8uemSaXzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gv29wc57; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gv29wc57"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F2E26C2BCF4;
+	Tue,  4 Aug 2026 15:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785855771;
+	bh=p9sSAQckyN6YNEPYfVr0Mp/hEVY97uneL0c8SXCfHJc=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=gv29wc57hyNn9rs/bEypBXHdO+Nd5ClAhT2GM+5CJ2PlUV7aPACHl3TAUL74E/2iH
+	 Mg7oX7OyJT8IJuBPNf8Ck0iy87N7wsdNk891H7UAQ9WeoYgpxl6sCdlIgnAwo5VGUH
+	 3y0eGnJlc4To60TCeKSllei12qYZpd26lZe8yNzAlDqSFQG6SyEpQRuUrWcaINpmiv
+	 uCZKyhuZPDOvFlRAgOZ6bgAiO241PgriiUaz/mVkllZXGAWGc8asaMIPXPhruqIUh7
+	 9uXhjXwHh0U0VgKM7Cf9Wy3+9aRFrpRbtutqBTN+oUojalSr28dsFSwGQC8bFUFr1T
+	 WZH102Usv4u7w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE82BC55822;
+	Tue,  4 Aug 2026 15:02:50 +0000 (UTC)
+From: Anuj Bolewar via B4 Relay <devnull+bolewara.gmail.com@kernel.org>
+Date: Tue, 04 Aug 2026 20:32:50 +0530
+Subject: [PATCH v3] usb: raw_gadget: fix use-after-free when UDC is removed
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:8587:20b0:6a1:963d:a040 with SMTP id
- 006d021491bc7-6ae4319060amr14332716eaf.2.1785855443228; Tue, 04 Aug 2026
- 07:57:23 -0700 (PDT)
-Date: Tue, 04 Aug 2026 07:57:23 -0700
-In-Reply-To: <6a7071f9.f794c993.27aeb.002f.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a71fdd3.13623e66.bdc14.0017.GAE@google.com>
-Subject: Re: [syzbot] [usb?] possible deadlock in tcm_alloc
-From: syzbot <syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260804-raw-gadget-ep0-uaf-v3-1-bb7cf1d892af@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNzQ7CIBAGX6XhLAZoaRtPvofxsMC2xdifQIuap
+ u8u1IsnzZ4m+XZmJR6dRU9O2UocBuvtOETIDxnRHQwtUmsiE8FEyWpWUAcP2oJpcaY4MbpAQzm
+ DWihjQCpN4uPksLHPXXq5ftgv6oZ6Tqa06KyfR/faq4Gn3c9A4JRTVtXxqtwAl+e2B3s/6rEnK
+ RDEf4WIihykQVOUoCT7Vmzb9gZFmA9aCQEAAA==
+X-Change-ID: 20260804-raw-gadget-ep0-uaf-10a82bdda5bc
+To: Andrey Konovalov <andreyknvl@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzbot+9aacea11bc70c3ddaff2@syzkaller.appspotmail.com, 
+ Anuj Bolewar <bolewara@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785855769; l=3861;
+ i=bolewara@gmail.com; s=20260802; h=from:subject:message-id;
+ bh=9HHZvo2aa/FJzquprkweq3XaHjJz/PlTTjlhPeXxzqM=;
+ b=cOBn1KgZttb+i0l/66Xwb+JEhAn5RmQ7zZ20MavfckkHIcf2dBDiKiRHOU/9TSvRVZlgLDKpY
+ YoxU5H83r07DfBJGM64/OwtX7jTV0yZq0y+qYv+T/ELk8dVnglseIma
+X-Developer-Key: i=bolewara@gmail.com; a=ed25519;
+ pk=XxcXxqFWk9xQziyNEfhS6NRJQR1shqHRRYzkbaYamm0=
+X-Endpoint-Received: by B4 Relay for bolewara@gmail.com/20260802 with
+ auth_id=907
+X-Original-From: Anuj Bolewar <bolewara@gmail.com>
+Reply-To: bolewara@gmail.com
 
-syzbot has found a reproducer for the following issue on:
+From: Anuj Bolewar <bolewara@gmail.com>
 
-HEAD commit:    848acc8ffe1b Merge tag 'fsverity-for-linus' of git://git.k..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=176213b9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=145fa60d73086782
-dashboard link: https://syzkaller.appspot.com/bug?extid=2799146a53c356f8017d
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17e5be32580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17639bb9580000
+When the UDC is removed (e.g. dummy_hcd unbind via sysfs) while the raw
+gadget fd is still open, usb_del_gadget() destroys the gadget device
+and its name. raw_gadget keeps a dangling pointer in dev->gadget, and
+ioctls dereference it after releasing dev->lock, leading to a
+use-after-free in dev_err() when usb_ep_queue() fails.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-848acc8f.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/6fb497cc0c8d/vmlinux-848acc8f.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/663ccee34982/bzImage-848acc8f.xz
+Take a gadget reference in gadget_bind() and drop it in dev_free() so
+the gadget device and its name stay alive for as long as the fd is open
+and an ioctl may still dereference dev->gadget. gadget_unbind() only
+marks the device as failed under dev->lock; the reference is dropped in
+dev_free(), which runs only after the fd is closed and no ioctl can be
+in flight.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
+Reported-by: syzbot+9aacea11bc70c3ddaff2@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=9aacea11bc70c3ddaff2
+Fixes: f2c2e717642c ("usb: gadget: add raw-gadget interface")
+Assisted-by: deepseek:v4-pro
+Signed-off-by: Anuj Bolewar <bolewara@gmail.com>
+---
+The gadget device embedded in the UDC is destroyed when the UDC is
+removed while the raw gadget fd is still open (e.g. unbinding dummy_hcd
+via sysfs). raw_gadget keeps a dangling pointer in dev->gadget and
+ioctls dereference it after dropping dev->lock, which KASAN reports as a
+slab use-after-free in raw_process_ep0_io() (dev_err with a freed device
+name).
 
-======================================================
-WARNING: possible circular locking dependency detected
-syzkaller #0 Not tainted
-------------------------------------------------------
-syz.0.17/5925 is trying to acquire lock:
-ffffffff90253240 (tpg_instances_lock){+.+.}-{4:4}, at: tcm_alloc+0x20/0x440 drivers/usb/gadget/function/f_tcm.c:2733
+Fix it by holding a gadget reference for the raw device lifetime:
+gadget_bind() takes it, gadget_unbind() only marks the device as failed
+under dev->lock, and the reference is dropped in dev_free() once the fd
+is closed and no ioctl can still be in flight.
+---
+Changes in v3:
+- Use scoped_guard() for the spinlock in gadget_unbind() per review.
+- Add Assisted-by trailer per Documentation/process/coding-assistants.rst.
+- Link to v2: https://patch.msgid.link/20260804-raw-gadget-ep0-uaf-v2-1-3a5ded46ab50@gmail.com
 
-but task is already holding lock:
-ffff88802e43c390 (&gi->lock){+.+.}-{4:4}, at: config_usb_cfg_link+0x57/0x3a0 drivers/usb/gadget/configfs.c:439
+Changes in v2:
+- Reworked per review: the gadget reference is now held for the raw
+  device lifetime (bind until dev_free()) instead of the bind/unbind
+  window, since ioctls dereference dev->gadget after releasing dev->lock
+  and the UDC core owns the gadget's lifetime during bind/unbind.
+- gadget_unbind() now only marks the device as failed under dev->lock;
+  the reference is dropped in dev_free() after the fd is closed.
+- Dropped the now-unneeded comment and switched the spinlock to guard().
+- Link to v1: https://patch.msgid.link/20260804-raw-gadget-ep0-uaf-v1-1-07878773da15@gmail.com
+---
+ drivers/usb/gadget/legacy/raw_gadget.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-which lock already depends on the new lock.
-
-
-the existing dependency chain (in reverse order) is:
-
--> #3 (&gi->lock){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       config_usb_cfg_link+0x57/0x3a0 drivers/usb/gadget/configfs.c:439
-       configfs_symlink+0x540/0x11f0 fs/configfs/symlink.c:196
-       vfs_symlink fs/namei.c:5660 [inline]
-       vfs_symlink+0x178/0x4d0 fs/namei.c:5639
-       filename_symlinkat+0x2a6/0x560 fs/namei.c:5685
-       __do_sys_symlinkat fs/namei.c:5705 [inline]
-       __se_sys_symlinkat fs/namei.c:5700 [inline]
-       __x64_sys_symlinkat+0x9c/0xe0 fs/namei.c:5700
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #2 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       down_write+0x8b/0x1f0 kernel/locking/rwsem.c:1631
-       inode_lock include/linux/fs.h:1024 [inline]
-       configfs_depend_item_unlocked+0xf3/0x6a0 fs/configfs/dir.c:1259
-       usbg_make_tpg+0x261/0x620 drivers/usb/gadget/function/f_tcm.c:1686
-       target_fabric_make_tpg+0xab/0x8c0 drivers/target/target_core_fabric_configfs.c:939
-       configfs_mkdir+0x51e/0xb70 fs/configfs/dir.c:1360
-       vfs_mkdir+0x361/0x850 fs/namei.c:5276
-       filename_mkdirat+0x48b/0x5e0 fs/namei.c:5309
-       __do_sys_mkdirat fs/namei.c:5330 [inline]
-       __se_sys_mkdirat fs/namei.c:5327 [inline]
-       __x64_sys_mkdirat+0x89/0xc0 fs/namei.c:5327
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #1 (&opts->dep_lock){+.+.}-{4:4}:
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       usbg_make_tpg+0x1a4/0x620 drivers/usb/gadget/function/f_tcm.c:1678
-       target_fabric_make_tpg+0xab/0x8c0 drivers/target/target_core_fabric_configfs.c:939
-       configfs_mkdir+0x51e/0xb70 fs/configfs/dir.c:1360
-       vfs_mkdir+0x361/0x850 fs/namei.c:5276
-       filename_mkdirat+0x48b/0x5e0 fs/namei.c:5309
-       __do_sys_mkdirat fs/namei.c:5330 [inline]
-       __se_sys_mkdirat fs/namei.c:5327 [inline]
-       __x64_sys_mkdirat+0x89/0xc0 fs/namei.c:5327
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
--> #0 (tpg_instances_lock){+.+.}-{4:4}:
-       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3165
-       check_prevs_add kernel/locking/lockdep.c:3284 [inline]
-       validate_chain kernel/locking/lockdep.c:3908 [inline]
-       __lock_acquire+0x136c/0x1a40 kernel/locking/lockdep.c:5237
-       lock_acquire kernel/locking/lockdep.c:5868 [inline]
-       lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
-       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
-       __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
-       tcm_alloc+0x20/0x440 drivers/usb/gadget/function/f_tcm.c:2733
-       usb_get_function+0x5e/0xd0 drivers/usb/gadget/functions.c:61
-       config_usb_cfg_link+0x1ed/0x3a0 drivers/usb/gadget/configfs.c:469
-       configfs_symlink+0x540/0x11f0 fs/configfs/symlink.c:196
-       vfs_symlink fs/namei.c:5660 [inline]
-       vfs_symlink+0x178/0x4d0 fs/namei.c:5639
-       filename_symlinkat+0x2a6/0x560 fs/namei.c:5685
-       __do_sys_symlinkat fs/namei.c:5705 [inline]
-       __se_sys_symlinkat fs/namei.c:5700 [inline]
-       __x64_sys_symlinkat+0x9c/0xe0 fs/namei.c:5700
-       do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-       do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
-       entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-other info that might help us debug this:
-
-Chain exists of:
-  tpg_instances_lock --> &sb->s_type->i_mutex_key#24 --> &gi->lock
-
- Possible unsafe locking scenario:
-
-       CPU0                    CPU1
-       ----                    ----
-  lock(&gi->lock);
-                               lock(&sb->s_type->i_mutex_key#24);
-                               lock(&gi->lock);
-  lock(tpg_instances_lock);
-
- *** DEADLOCK ***
-
-3 locks held by syz.0.17/5925:
- #0: ffff888023820450 (sb_writers#13){.+.+}-{0:0}, at: filename_create+0x10d/0x400 fs/namei.c:4948
- #1: ffff8880403dac00 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
- #1: ffff8880403dac00 (&sb->s_type->i_mutex_key#24){+.+.}-{4:4}, at: configfs_symlink+0x3c0/0x11f0 fs/configfs/symlink.c:186
- #2: ffff88802e43c390 (&gi->lock){+.+.}-{4:4}, at: config_usb_cfg_link+0x57/0x3a0 drivers/usb/gadget/configfs.c:439
-
-stack backtrace:
-CPU: 1 UID: 0 PID: 5925 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_circular_bug.cold+0x178/0x1c7 kernel/locking/lockdep.c:2043
- check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2175
- check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3165
- check_prevs_add kernel/locking/lockdep.c:3284 [inline]
- validate_chain kernel/locking/lockdep.c:3908 [inline]
- __lock_acquire+0x136c/0x1a40 kernel/locking/lockdep.c:5237
- lock_acquire kernel/locking/lockdep.c:5868 [inline]
- lock_acquire+0x1b9/0x370 kernel/locking/lockdep.c:5825
- __mutex_lock_common kernel/locking/mutex.c:646 [inline]
- __mutex_lock+0x1a4/0x1bd0 kernel/locking/mutex.c:821
- tcm_alloc+0x20/0x440 drivers/usb/gadget/function/f_tcm.c:2733
- usb_get_function+0x5e/0xd0 drivers/usb/gadget/functions.c:61
- config_usb_cfg_link+0x1ed/0x3a0 drivers/usb/gadget/configfs.c:469
- configfs_symlink+0x540/0x11f0 fs/configfs/symlink.c:196
- vfs_symlink fs/namei.c:5660 [inline]
- vfs_symlink+0x178/0x4d0 fs/namei.c:5639
- filename_symlinkat+0x2a6/0x560 fs/namei.c:5685
- __do_sys_symlinkat fs/namei.c:5705 [inline]
- __se_sys_symlinkat fs/namei.c:5700 [inline]
- __x64_sys_symlinkat+0x9c/0xe0 fs/namei.c:5700
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x115/0x870 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f71ccb9e019
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffc4ccd6728 EFLAGS: 00000246 ORIG_RAX: 000000000000010a
-RAX: ffffffffffffffda RBX: 00007f71cce25fa0 RCX: 00007f71ccb9e019
-RDX: 00002000000009c0 RSI: ffffffffffffff9c RDI: 0000200000000980
-RBP: 00007f71ccc3500c R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f71cce25fac R14: 00007f71cce25fa0 R15: 00007f71cce25fa0
- </TASK>
-
+diff --git a/drivers/usb/gadget/legacy/raw_gadget.c b/drivers/usb/gadget/legacy/raw_gadget.c
+index 4febf8dac7c..fb15ab6fc73 100644
+--- a/drivers/usb/gadget/legacy/raw_gadget.c
++++ b/drivers/usb/gadget/legacy/raw_gadget.c
+@@ -226,6 +226,7 @@ static void dev_free(struct kref *kref)
+ 		kfree(dev->eps[i].ep->desc);
+ 		dev->eps[i].state = STATE_EP_DISABLED;
+ 	}
++	usb_put_gadget(dev->gadget);
+ 	kfree(dev);
+ }
+ 
+@@ -302,7 +303,7 @@ static int gadget_bind(struct usb_gadget *gadget,
+ 	dev->req = req;
+ 	dev->req->context = dev;
+ 	dev->req->complete = gadget_ep0_complete;
+-	dev->gadget = gadget;
++	dev->gadget = usb_get_gadget(gadget);
+ 	gadget_for_each_ep(ep, dev->gadget) {
+ 		dev->eps[i].ep = ep;
+ 		dev->eps[i].addr = get_ep_addr(ep->name);
+@@ -329,6 +330,8 @@ static void gadget_unbind(struct usb_gadget *gadget)
+ {
+ 	struct raw_dev *dev = get_gadget_data(gadget);
+ 
++	scoped_guard(spinlock_irqsave, &dev->lock)
++		dev->state = STATE_DEV_FAILED;
+ 	set_gadget_data(gadget, NULL);
+ 	/* Matches kref_get() in gadget_bind(). */
+ 	kref_put(&dev->count, dev_free);
 
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+base-commit: 075b74841bd0065a3bda3440873c747938e69b68
+change-id: 20260804-raw-gadget-ep0-uaf-10a82bdda5bc
+
+Best regards,
+--  
+Anuj Bolewar <bolewara@gmail.com>
+
+
