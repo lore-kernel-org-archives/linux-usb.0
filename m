@@ -1,143 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6742222C5;
-	Tue,  4 Aug 2026 06:32:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A111423E91;
+	Tue,  4 Aug 2026 07:09:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785825132; cv=none; b=O7mRJYbMtcRYc7MekFgznWp7kZxrqYiYyZHdvMa+xySLlDboqoC1EPslgmd6QNWNO+lrPBtZbxpidav7ZnHEKFHtoyruKYkBXPk/VK+ZS3QCEIAVeTu1HO0SWF0Ye0bUmqqXAW2tjGC6FZ9XpHzeDZn2GY7/WNbBYYRtPwD6Ke0=
+	t=1785827347; cv=none; b=rmpOwPlpSwdavDFULhhzedvD7p5gle2zenNuWZF1+8PyYvdNRd89oiWNyVZv088XUA+fBhlINMERuUBMNzoE77eU14zqdJu0FDstEMyHAVGw9T7w6/s1kBHU9FcQlF3hr2qB9ky4qwL5hK0ydYQJnXl+KzhMBPxZl1/AcOL/FZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785825132; c=relaxed/simple;
-	bh=+OHhvv68SFY1qokxevv79KOcM4f6hTSS8hpyzo8zVdM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e8dIFaus6z12SiPxquhDiEdovDHqTOxpcX6NKTeuiOyjWEmMVEZ6nimmHma1CI2M5QkYweMySSIH6lV1a6FSTObd30yjRgX+7ak0BMhBzd2k2ohmv34vHgP26qGa1fX3w46ukEYe+RAL40m8ObJB91aFF3Fog3emRf5gSqd/Cl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=e0x657dj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785827347; c=relaxed/simple;
+	bh=/oGSAJpj/gNj4VN8Mly4LJKuS5OncmNsDIid8/Sh/xg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YSoPJYrYJotXKTrCUDHhScdD3TrVeHJWTRTPJVrkbztjx8EL4h5aBGG9ahy7YX7uo/Wxl/LkTNyM9T5cGVyRHu+psA/M3JVlRAc5+1aO1URCXgzU2F7IGcrg9srl/78cE84mxXpDBtSI1V4sM/o74JhCYOxw9SEcGCuPShB3LNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IbummmFQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e0x657dj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EAE61F000E9;
-	Tue,  4 Aug 2026 06:32:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785825131;
-	bh=ISaL/AyCBAFDZPe6bt66VJWp0K35XIs752U0Xyuc/KY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=e0x657djKj7S/c6SLoA6IgpdGeW4ZWiRxxUUUG8iIjM2QskVm+8mWVI4n1jLOeRvZ
-	 IBIpiMizonhbMd+AcLc+rb7sEwhL9a02Ux8SdEXTtyKQfIgNEdqwpcSYMLL8mNFeje
-	 2f9xY5sX7p79mwpzb+Nxrf/a+TMvDhA8a1hNOa2Y=
-Date: Tue, 4 Aug 2026 08:30:42 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+098999e05b6b877c01b3@syzkaller.appspotmail.com
-Subject: Re: [PATCH] usb: gadget: f_phonet: fix use-after-free in pn_bind
-Message-ID: <2026080431-paragraph-caloric-0aae@gregkh>
-References: <20260804033341.2784711-1-khiemtranzo532001@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IbummmFQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D1F9FC2BCF5;
+	Tue,  4 Aug 2026 07:09:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1785827346;
+	bh=/oGSAJpj/gNj4VN8Mly4LJKuS5OncmNsDIid8/Sh/xg=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=IbummmFQ8Rx6WRvfnn5mcRpNlS5AJ22CDVlRKLUHU+tWi/zj6RTfTrmMzFYR3Go3c
+	 H2livD03F5uZsRIXn3xxA5n5rXhEz6yYh5FNAlJxdDExQmf4KmKCurDeUjvDadl54M
+	 R/hp7I5s7uMFRexWITuyesETqTK/4H3wxPF30VA+8uYSc8YkCFcbYh7J4Ur3pA/abW
+	 Q/CfAjkSS2d/GgyUBzUz/s/a01FYdSlUAUoUaDJE2NBYjX7ugPTSY46oroiCGbIjGv
+	 ExD8Y1L8RIQro2ipQUnc6EvUDmoDPS/4aFvE3oIqqV/jiLA+9jVjJOkolCr9/WQIaJ
+	 QJv7nIlIVxYkQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8FAAC5518F;
+	Tue,  4 Aug 2026 07:09:06 +0000 (UTC)
+From: Anuj Bolewar via B4 Relay <devnull+bolewara.gmail.com@kernel.org>
+Date: Tue, 04 Aug 2026 12:39:05 +0530
+Subject: [PATCH v2] usb: raw_gadget: fix use-after-free when UDC is removed
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260804033341.2784711-1-khiemtranzo532001@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260804-raw-gadget-ep0-uaf-v2-1-3a5ded46ab50@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NwQ6CMBBEf4X07Jq2ihBP/ofhsLRLWSOUtIAaw
+ r9b8G7m9JKZeYuIFJiiuGaLCDRzZN8n0IdMmBZ7R8A2sdBSX2QpzxDwBQ6toxFokDBhA0piqWt
+ rMa+NSMMhUMPv/fRe/ThO9YPMuD1tjZbj6MNnt85q6/0VzAoUyKJMKU4WVX5zHfLzaHwnqnVdv
+ zydfnbGAAAA
+X-Change-ID: 20260804-raw-gadget-ep0-uaf-10a82bdda5bc
+To: Andrey Konovalov <andreyknvl@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ syzbot+9aacea11bc70c3ddaff2@syzkaller.appspotmail.com, 
+ Anuj Bolewar <bolewara@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785827344; l=3579;
+ i=bolewara@gmail.com; s=20260802; h=from:subject:message-id;
+ bh=bFLKavspgBu4le5fmIl2M8+XfOkXMsCr6XLI9iZ/YEY=;
+ b=HoqsHxICbaaGKnQbjAthWTJ3ov/SGc/VCwEenAFi/eI7NjhzOebxQ1mqPBZbp/hUzijtLsqp2
+ A9MAibfT9YLDGRu9imG7RCiKTtSUoONZe5gHllPKWOclAJhrYwW4XoF
+X-Developer-Key: i=bolewara@gmail.com; a=ed25519;
+ pk=XxcXxqFWk9xQziyNEfhS6NRJQR1shqHRRYzkbaYamm0=
+X-Endpoint-Received: by B4 Relay for bolewara@gmail.com/20260802 with
+ auth_id=907
+X-Original-From: Anuj Bolewar <bolewara@gmail.com>
+Reply-To: bolewara@gmail.com
 
-On Tue, Aug 04, 2026 at 11:33:41AM +0800, Nguyen Quang Le Kien wrote:
-> phonet_free_inst() checks opts->bound to decide whether to call
-> gphonet_cleanup() or free_netdev(). If opts->bound is false,
-> free_netdev(opts->net) is called immediately.
-> 
-> However, pn_bind() can race with phonet_free_inst() when a configfs
-> entry is removed while binding is in progress. pn_bind() reads
-> opts->bound and calls gphonet_set_gadget(opts->net, ...) before
-> setting opts->bound = true. If phonet_free_inst() runs concurrently
-> after the !opts->bound check in pn_bind() but before opts->bound is
-> set, it will free opts->net, causing a use-after-free when pn_bind()
-> subsequently writes to net->dev.parent via gphonet_set_gadget().
-> 
-> Fix this by adding a mutex to f_phonet_opts and holding it in both
-> pn_bind() and phonet_free_inst() when accessing opts->bound and
-> opts->net. This is consistent with how other gadget functions such
-> as f_eem protect their opts->bound flag.
-> 
-> Fixes: 00a2430ff07d ("usb: gadget: Gadget directory cleanup - group usb functions")
-> Reported-by: syzbot+098999e05b6b877c01b3@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=098999e05b6b877c01b3
-> Signed-off-by: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
-> ---
->  drivers/usb/gadget/function/f_phonet.c | 16 ++++++++--------
->  drivers/usb/gadget/function/u_phonet.h |  1 +
->  2 files changed, 9 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_phonet.c b/drivers/usb/gadget/function/f_phonet.c
-> index b1ee9a7c2..b7eae14e8 100644
-> --- a/drivers/usb/gadget/function/f_phonet.c
-> +++ b/drivers/usb/gadget/function/f_phonet.c
-> @@ -499,20 +499,17 @@ static int pn_bind(struct usb_configuration *c, struct usb_function *f)
->  
->  	phonet_opts = container_of(f->fi, struct f_phonet_opts, func_inst);
->  
-> -	/*
-> -	 * in drivers/usb/gadget/configfs.c:configfs_composite_bind()
-> -	 * configurations are bound in sequence with list_for_each_entry,
-> -	 * in each configuration its functions are bound in sequence
-> -	 * with list_for_each_entry, so we assume no race condition
-> -	 * with regard to phonet_opts->bound access
-> -	 */
-> +	mutex_lock(&phonet_opts->lock);
+From: Anuj Bolewar <bolewara@gmail.com>
 
-So the coomment lied?
+When the UDC is removed (e.g. dummy_hcd unbind via sysfs) while the raw
+gadget fd is still open, usb_del_gadget() destroys the gadget device
+and its name. raw_gadget keeps a dangling pointer in dev->gadget, and
+ioctls dereference it after releasing dev->lock, leading to a
+use-after-free in dev_err() when usb_ep_queue() fails.
 
-And why not use guard()?  Was an LLM used to generate this changelog and
-code change?
+Take a gadget reference in gadget_bind() and drop it in dev_free() so
+the gadget device and its name stay alive for as long as the fd is open
+and an ioctl may still dereference dev->gadget. gadget_unbind() only
+marks the device as failed under dev->lock; the reference is dropped in
+dev_free(), which runs only after the fd is closed and no ioctl can be
+in flight.
+
+Reported-by: syzbot+9aacea11bc70c3ddaff2@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=9aacea11bc70c3ddaff2
+Fixes: f2c2e717642c ("usb: gadget: add raw-gadget interface")
+Signed-off-by: Anuj Bolewar <bolewara@gmail.com>
+---
+The gadget device embedded in the UDC is destroyed when the UDC is
+removed while the raw gadget fd is still open (e.g. unbinding dummy_hcd
+via sysfs). raw_gadget keeps a dangling pointer in dev->gadget and
+ioctls dereference it after dropping dev->lock, which KASAN reports as a
+slab use-after-free in raw_process_ep0_io() (dev_err with a freed device
+name).
+
+Fix it by holding a gadget reference for the raw device lifetime:
+gadget_bind() takes it, gadget_unbind() only marks the device as failed
+under dev->lock, and the reference is dropped in dev_free() once the fd
+is closed and no ioctl can still be in flight.
+---
+Changes in v2:
+- Reworked per review: the gadget reference is now held for the raw
+  device lifetime (bind until dev_free()) instead of the bind/unbind
+  window, since ioctls dereference dev->gadget after releasing dev->lock
+  and the UDC core owns the gadget's lifetime during bind/unbind.
+- gadget_unbind() now only marks the device as failed under dev->lock;
+  the reference is dropped in dev_free() after the fd is closed.
+- Dropped the now-unneeded comment and switched the spinlock to guard().
+- Link to v1: https://patch.msgid.link/20260804-raw-gadget-ep0-uaf-v1-1-07878773da15@gmail.com
+---
+ drivers/usb/gadget/legacy/raw_gadget.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/legacy/raw_gadget.c b/drivers/usb/gadget/legacy/raw_gadget.c
+index 4febf8dac7c..d6341823f90 100644
+--- a/drivers/usb/gadget/legacy/raw_gadget.c
++++ b/drivers/usb/gadget/legacy/raw_gadget.c
+@@ -226,6 +226,7 @@ static void dev_free(struct kref *kref)
+ 		kfree(dev->eps[i].ep->desc);
+ 		dev->eps[i].state = STATE_EP_DISABLED;
+ 	}
++	usb_put_gadget(dev->gadget);
+ 	kfree(dev);
+ }
+ 
+@@ -302,7 +303,7 @@ static int gadget_bind(struct usb_gadget *gadget,
+ 	dev->req = req;
+ 	dev->req->context = dev;
+ 	dev->req->complete = gadget_ep0_complete;
+-	dev->gadget = gadget;
++	dev->gadget = usb_get_gadget(gadget);
+ 	gadget_for_each_ep(ep, dev->gadget) {
+ 		dev->eps[i].ep = ep;
+ 		dev->eps[i].addr = get_ep_addr(ep->name);
+@@ -329,6 +330,10 @@ static void gadget_unbind(struct usb_gadget *gadget)
+ {
+ 	struct raw_dev *dev = get_gadget_data(gadget);
+ 
++	{
++		guard(spinlock_irqsave)(&dev->lock);
++		dev->state = STATE_DEV_FAILED;
++	}
+ 	set_gadget_data(gadget, NULL);
+ 	/* Matches kref_get() in gadget_bind(). */
+ 	kref_put(&dev->count, dev_free);
+
+---
+base-commit: 075b74841bd0065a3bda3440873c747938e69b68
+change-id: 20260804-raw-gadget-ep0-uaf-10a82bdda5bc
+
+Best regards,
+--  
+Anuj Bolewar <bolewara@gmail.com>
 
 
->  	if (!phonet_opts->bound) {
->  		gphonet_set_gadget(phonet_opts->net, gadget);
->  		status = gphonet_register_netdev(phonet_opts->net);
-> -		if (status)
-> +		if (status) {
-> +			mutex_unlock(&phonet_opts->lock);
->  			return status;
-> +		}
->  		phonet_opts->bound = true;
->  	}
-> +	mutex_unlock(&phonet_opts->lock);
->  
->  	/* Reserve interface IDs */
->  	status = usb_interface_id(c, f);
-> @@ -621,10 +618,12 @@ static void phonet_free_inst(struct usb_function_instance *f)
->  	struct f_phonet_opts *opts;
->  
->  	opts = container_of(f, struct f_phonet_opts, func_inst);
-> +	mutex_lock(&opts->lock);
->  	if (opts->bound)
->  		gphonet_cleanup(opts->net);
->  	else
->  		free_netdev(opts->net);
-> +	mutex_unlock(&opts->lock);
->  	kfree(opts);
->  }
->  
-> @@ -636,6 +635,7 @@ static struct usb_function_instance *phonet_alloc_inst(void)
->  	if (!opts)
->  		return ERR_PTR(-ENOMEM);
->  
-> +	mutex_init(&opts->lock);
->  	opts->func_inst.free_func_inst = phonet_free_inst;
->  	opts->net = gphonet_setup_default();
->  	if (IS_ERR(opts->net)) {
-> diff --git a/drivers/usb/gadget/function/u_phonet.h b/drivers/usb/gadget/function/u_phonet.h
-> index ff62ca22c..4666413fc 100644
-> --- a/drivers/usb/gadget/function/u_phonet.h
-> +++ b/drivers/usb/gadget/function/u_phonet.h
-> @@ -13,6 +13,7 @@
->  
->  struct f_phonet_opts {
->  	struct usb_function_instance func_inst;
-> +	struct mutex lock;
-
-No comment as to what this lock protects?
-
-thanks,
-
-greg k-h
