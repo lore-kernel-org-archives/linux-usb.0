@@ -1,81 +1,147 @@
-Received: from forward205b.mail.yandex.net (forward205b.mail.yandex.net [178.154.239.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6382E738F
-	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 13:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0847F46985B
+	for <linux-usb@vger.kernel.org>; Tue,  4 Aug 2026 13:58:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785851867; cv=none; b=Fg5hRKvQP3erlT4kuyox+tnoSPZrd8WBXnFZyKY688TgIbKKlquqTplUqC/jIdvZCQ/mqRmJSSumCjnKtMXKssufXjSiYqI0S5eviyvasKlTelF9m2bHmAkWV8YeRhNYY6r+7zCWNpE0XCj+r3x6h4u6m/Vu3r4+zspV3WCpbf8=
+	t=1785851894; cv=none; b=ec+wqPo3Sx/5mIv83vsFKc6jwEfIgSZ62lvVRRgzwKyY5VWq5Ea1uNibA7n/pQD4JvcpZFBidNBUcCH+gQCUg5MOSHR7+2ROZUTKVniSUbXm1fk048XjePjxGpfKLK7zVoJizTT9IlLfYMclGiPn9oBNHHDKWt943uRS+husiFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785851867; c=relaxed/simple;
-	bh=Hjr6dmhzxqD/u6uJeF9t1AhwzhhqfwhkwKFdImpETac=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dT+Hgfvhq97EJnh9/BTlVEop/9GeZy6ibppacWulbXhg6GcATppXDQLl+OP8d5rqaYOayBlx5U8yPxyY34gOnf5WNNNRpLfdUnfj5lrpttwT//+gvz1out2TU1fuZ5hnY+gTuVs64htct7q6AiYt0CfDZ6T8BKf4FbS+0qxeqW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=a+kUHa5b; arc=none smtp.client-ip=178.154.239.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+	s=arc-20240116; t=1785851894; c=relaxed/simple;
+	bh=fcxHE4069tN1YsR2Y0p8nND9Z2PnmMiBnNC9xxS2rTY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CFWWz6KWcHgitXuukRGfRMozG29acOXIFTYVYeQfREZn7oAOHjaaOFNn+zKbECgF40u6hCAFQrTW6d0WtsLzXYhjBfSAwmLV1jqWpPiAgrov2LiMZyJNhdxEE/P+rSsgbXq9R+BoNmWEdBcTmDCNQx0ZPFsx+EvUrTTIXWORUfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tMrgTSNx; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="a+kUHa5b"
-Received: from forward100b.mail.yandex.net (forward100b.mail.yandex.net [IPv6:2a02:6b8:c02:900:1:45:d181:d100])
-	by forward205b.mail.yandex.net (postfix) with ESMTPS id D583388DA9
-	for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 16:50:03 +0300 (MSK)
-Received: from mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:1199:0:640:2d84:0])
-	by forward100b.mail.yandex.net (postfix) with ESMTPS id E2263806E2;
-	Tue, 04 Aug 2026 16:49:55 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (smtp) with ESMTPSA id inkREv3gMmI0-C90kx6MG;
-	Tue, 04 Aug 2026 16:49:55 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1785851395; bh=YQmmI9CqWPU9Jd63yM11Z4pViOQMOyeaKjidWe7k4XM=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=a+kUHa5bMbUslkGSDuu5vv1QrZKSShU7K1JN/tnjwbhje+j/TolfI4FBV0yNzrV1m
-	 U8lRtwOBbgMuYE6OFKjGL5IZxL6HilKUnfFIB7b1CNVVI5X/dlu8pW3HGkBOjYaswd
-	 BC6W8B5OiCDzs7biwmpPM268wdcDd0fIq2RjT+IQ=
-Authentication-Results: mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-From: Dmitry Antipov <dmantipov@yandex.ru>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	Dmitry Antipov <dmantipov@yandex.ru>
-Subject: [PATCH] usb: dwc3: simplify dwc3_lsp_write()
-Date: Tue,  4 Aug 2026 16:49:43 +0300
-Message-ID: <20260804134943.651893-1-dmantipov@yandex.ru>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tMrgTSNx"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c9e607d81fcso2657795a12.2
+        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 06:58:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785851892; x=1786456692; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=aIeJjdKUMZPMOtXxfYP3hPyesDpx3ea/m3sZqCZSwEU=;
+        b=tMrgTSNxFhXTkVuTBcaH1z4KBtre81u7I9RPx/iGmL0WKQCm3c3qFQtY7AyHGQSJwv
+         2sKMdSRMkxfqNAnv5AUrCzQi9hYtUpgWZRAXGny3lNvyJ9Gt5qWSSFmBF6PGUS4FmCEN
+         IaUkOLpEX2/lYtZ7fv/ApCzRKt0vhrSbPaAPeiHx6ODq3Udey7yq+0rR19wC1rR9YoI+
+         Xfq4nirCi1GpvwVwGmxZ+zXEe+isLyWMtBwgQmsXaDT3VHYnkQmi+gNYH12OlXhLiUeL
+         f+XQSQcPwg5xi7cToUt4NoLwR5Hau+RsRt5p3KoPMlZHW2dqslFADJwdr9j38AwVtxw6
+         T31A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785851892; x=1786456692;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=aIeJjdKUMZPMOtXxfYP3hPyesDpx3ea/m3sZqCZSwEU=;
+        b=K4H3RtefdtKahX/oUeITi8bstFraFg13/zeu8ZolY0oOpjcRKO7e8CnTnDdtLnvdZ3
+         BDPZAcdiSL7n8RR6OXqE4Z0qRk19T+t1QNIa+xV4oK0K0RhwrtBiGWKEJ5AXTV2GRLq1
+         +Iim2rZFkJXDRhgXodKBPPBh4yU2Qza9CivzgCTFmc+/S4cx0lUPjw0EyrN3Nt63nUqW
+         HVgs6c3EYcSiL0jTo3kEslnklv06YZdYwiareMnrIuAOcDCJESHem2a8rEMfYocSO7wH
+         aLHcBOs4tsunGijqqmWfZS0cqe70k+UU8rVU08ArA1GFa4qtwJQP0D6aaXTSDkZ0hGFM
+         ORlw==
+X-Gm-Message-State: AOJu0YxPPdEZr0UoXSKDaUMrhG7S+Lv1dml/ResqFuo/u+KuWIRh/UYl
+	lCJA9byMAiDuvsqUjrocghaVOOM0sicpLT1OySvmmYPiO6AnR2H3+yPE
+X-Gm-Gg: AR+sD13+JH1i/tPTUp5VqkrxHZ5KSXYoCEFZlLSg9/dRd5uvTMt/0E4jk9/caHQ5QyP
+	lhHJEKrHA0jKI6f19kK5ivJXARWkrmcAHcO5HyIMgiOCW5OJR0kMII69z17XH70pk/zHBmdFvNI
+	lyDlClBkLuV1HNIXn8mjs3OUuIiWvl2x9Bhs/Qtjo2W3PGPpmYrZ3mCLJxIlN7WmNTQDAD1xNpy
+	i0pvVIg4COapmNjjYwq4GgjBJyzGmn5ldwIL41c8M96k/fUPuK3EeQ8xnqJBOE/h4cm9IIaHUnh
+	xGlZN5T+0+D4pcnuU9hsndMnBqgO3bDVM56TfWaUEPahtIKA5toUZzlVdB148S44PRKVAzVPCjU
+	99hUwpyZDABv4MDGylQkgMnpugvMXVyEHFrnY5ZZXjSoO6HAM90X2wwqJGQDzRkTr1yZjvznmXC
+	i4jsALRJQo6fcYkU+ngFjxUAWEZiI7A0oA42LcclpIp2NY9ONVWxXtqo2NFY40z0Q/bWmy1pH97
+	VpP8H4VUKZY11r1A9ke9HgzsYcX5gRwKJFTNg==
+X-Received: by 2002:a17:903:37c8:b0:2b2:67ca:5ff9 with SMTP id d9443c01a7336-2d051efd46amr142715445ad.0.1785851892093;
+        Tue, 04 Aug 2026 06:58:12 -0700 (PDT)
+Received: from [127.0.0.1] ([103.17.98.26])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d0a9f8fee7sm8893255ad.16.2026.08.04.06.58.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Aug 2026 06:58:11 -0700 (PDT)
+From: Felix Gu <ustc.gu@gmail.com>
+Date: Tue, 04 Aug 2026 21:58:07 +0800
+Subject: [PATCH] phy: sunplus: fix crash when the disc_vol nvmem cell is
+ missing
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260804-sunplus-v1-1-79f52226cb50@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAO7vcWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDCwMT3eLSvIKc0mJdU+NE86Qkw6TkFHMjJaDqgqLUtMwKsEnRsRB+cWl
+ SVmpyCUi7Um0tANmQHlFrAAAA
+X-Change-ID: 20260804-sunplus-53a7bb1bcd72
+To: Vincent Shih <vincent.sunplus@gmail.com>, Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: linux-usb@vger.kernel.org, linux-phy@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Felix Gu <ustc.gu@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785851890; l=1862;
+ i=ustc.gu@gmail.com; h=from:subject:message-id;
+ bh=fcxHE4069tN1YsR2Y0p8nND9Z2PnmMiBnNC9xxS2rTY=;
+ b=Cid/GYA75nIzfeE+1i4bBmQ/P5KYsKTwmwbuoViplJHvHw+rygKgovZvvFmnHEVXV88dRlSbL
+ QpDeN/5gYrAB7/1cirox7Ybp2kxKsoUlhF1WlOoIJaIbQotic6a8hRO
+X-Developer-Key: i=ustc.gu@gmail.com; a=ed25519;
+ pk=fjUXwmjchVN7Ja6KGP55IXOzFeCl9edaHoQIEUA+/hw=
 
-Simplify 'dwc3_lsp_write()' by using the convenient
-'kstrtou32_from_user()'.
+nvmem_cell_get() can fail with errors other than -EPROBE_DEFER, but
+update_disc_vol() only handled -EPROBE_DEFER and then called
+nvmem_cell_read() with the error pointer, crashing the kernel.
 
-Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+Fall back to the default disconnect voltage on a failed cell lookup,
+and free the buffer returned by nvmem_cell_read().
+
+Fixes: 99d9ccd97385 ("phy: usb: Add USB2.0 phy driver for Sunplus SP7021")
+Signed-off-by: Felix Gu <ustc.gu@gmail.com>
 ---
- drivers/usb/dwc3/debugfs.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/phy/sunplus/phy-sunplus-usb2.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/dwc3/debugfs.c b/drivers/usb/dwc3/debugfs.c
-index 65d909e4b785..01ebd73198e0 100644
---- a/drivers/usb/dwc3/debugfs.c
-+++ b/drivers/usb/dwc3/debugfs.c
-@@ -367,14 +367,10 @@ static ssize_t dwc3_lsp_write(struct file *file, const char __user *ubuf,
- 	struct seq_file		*s = file->private_data;
- 	struct dwc3		*dwc = s->private;
- 	unsigned long		flags;
--	char			buf[32] = { 0 };
- 	u32			sel;
- 	int			ret;
+diff --git a/drivers/phy/sunplus/phy-sunplus-usb2.c b/drivers/phy/sunplus/phy-sunplus-usb2.c
+index 637a5fbae6d9..94146118e9c2 100644
+--- a/drivers/phy/sunplus/phy-sunplus-usb2.c
++++ b/drivers/phy/sunplus/phy-sunplus-usb2.c
+@@ -81,12 +81,13 @@ static int update_disc_vol(struct sp_usbphy *usbphy)
+ 	char *disc_name = "disc_vol";
+ 	ssize_t otp_l = 0;
+ 	char *otp_v;
+-	u32 val, set;
++	u32 val, set = OTP_DISC_LEVEL_DEFAULT;
  
--	if (copy_from_user(&buf, ubuf, min_t(size_t, sizeof(buf) - 1, count)))
--		return -EFAULT;
+ 	cell = nvmem_cell_get(usbphy->dev, disc_name);
+-	if (IS_ERR_OR_NULL(cell)) {
++	if (IS_ERR(cell)) {
+ 		if (PTR_ERR(cell) == -EPROBE_DEFER)
+ 			return -EPROBE_DEFER;
++		goto out;
+ 	}
+ 
+ 	otp_v = nvmem_cell_read(cell, &otp_l);
+@@ -96,11 +97,12 @@ static int update_disc_vol(struct sp_usbphy *usbphy)
+ 		set = *(otp_v + 1);
+ 		set = (set << (sizeof(char) * 8)) | *otp_v;
+ 		set = (set >> usbphy->disc_vol_addr_off) & J_DISC;
++		if (set == 0)
++			set = OTP_DISC_LEVEL_DEFAULT;
++		kfree(otp_v);
+ 	}
+ 
+-	if (IS_ERR(otp_v) || set == 0)
+-		set = OTP_DISC_LEVEL_DEFAULT;
 -
--	ret = kstrtouint(buf, 0, &sel);
-+	ret = kstrtou32_from_user(ubuf, count, 0, &sel);
- 	if (ret)
- 		return ret;
- 
--- 
-2.55.0
++out:
+ 	val = readl(usbphy->phy_regs + CONFIG7);
+ 	val = (val & ~J_DISC) | set;
+ 	writel(val, usbphy->phy_regs + CONFIG7);
+
+---
+base-commit: 9a4cdc958dd79fc6c3b20b51a10debec6ca09fec
+change-id: 20260804-sunplus-53a7bb1bcd72
+
+Best regards,
+--  
+Felix Gu <ustc.gu@gmail.com>
 
