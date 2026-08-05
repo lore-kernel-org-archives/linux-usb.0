@@ -1,172 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5853E4C6D
-	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 09:11:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AC003E0243
+	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 09:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785921116; cv=none; b=qkn7n8dqq5kkqivwrQI4/S+71PksXiS+lSuISwaO9TqWNDL59cu7NqnZNFR1/0ZTdhUjeWABxk01yWjfY5EtnMjRyuL8AI2bC2Iq9tt9rvuDb9p7GaTByeiYF+fvAAaH5nGdDSra3TGMujoG5ljeR9SQ60vEbGhrZZND7l7XRBA=
+	t=1785921805; cv=none; b=LQNgB0/tUYdOSCZb9cRfFCIswGnMnPUd0xSwWtcQoNqEipkPO+VikP8UYs9LttGSUQTMaxsx7wt4wXAN7r55TZ9vTaKBvtZBTLqubXIqKT7srT6aWnbTvZ6CtizLZn/tkqmZwffITdQLCG0YAeoWsdLpMxjYKX+BzwowaRE1NfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785921116; c=relaxed/simple;
-	bh=3Qv0QvDlcpPD0KoTLgGRCXGC+JhRqrVJRmRnEsC+gMU=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OyEo20zOmeD0MdshQFIqRlfDw2HCrix+rb9vwNMeAOTQIvG+yJS6ORjZ/IIqOrS+1ErhGHW/ZNsk3NFCBT8W8VFJ+PQtD0GiVHwQvCNEXiyVUcGatyB7WirqVTpdBiyMdNvp07oOLF/6J18PXPkkP10dJyLDeWTr0cJ3jlNhvQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DhGC5Qq2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1785921805; c=relaxed/simple;
+	bh=MZCEPZl0ZFbsMwGuo3y43zOIDo/hbmY79R4mzKfy0j0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YG7XsSh0d1Dsxwt/WJJtcX6xAAq7Ug1hWrE/ZFFPvXv7OO8JY/UnznREMA+WaFlkO1VPlYhl+ysuRqt4caQ2SjAXiXKnihYe01t1f2Y6xvTc9NJZ7sojpW48P/PVZJFzXv6eHC7SbJX8bFjR8hsOIWzvc0bIe/PraWh82qm+wv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T5LHKO5G; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DhGC5Qq2"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 30DD3C19425
-	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 09:11:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1785921116;
-	bh=3Qv0QvDlcpPD0KoTLgGRCXGC+JhRqrVJRmRnEsC+gMU=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=DhGC5Qq2OTFvrQ0SF5BjxB1NsvrrGwqmR9pduS+4rwto7s0Z9fqgxoWU5eSpLEpJI
-	 iyoSZAeWaCt122SJWuCOdhligoyVOYIdUzITXyq0ExGS08hY5n1L9ltZ2CbN0Zbdzi
-	 E8MKx+zMPyvCN7EBRQysd+jKJGUvy7bHEpnvlYypTig0f3Pv6SA3fsmgPgYOvsk9et
-	 ELymellr++D7XoejWExlo7/Lwp23KKMho0Ku4JPLaG/+wlko6lQKzfMnAz3hRTbYlV
-	 lMYcyBiKCmuRQNYw9hxbHaeX9w03PiA24l+c+n5GarJSXAiIXrCb8fWfAA1XVC3Gmj
-	 R+bxUguQK+FCg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 17EA9C4160E; Wed,  5 Aug 2026 09:11:56 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: =?UTF-8?B?W0J1ZyAyMjE3NDBdIHVjc2lfYWNwaSBQUE0gaW5pdCBmYWlsZWQg?=
- =?UTF-8?B?KC1FVElNRURPVVQpIG9uIFRoaW5rUGFkIEUxNCBHZW4gNyAoQU1EKSDigJQg?=
- =?UTF-8?B?YmxvY2tzIFVTQi1DIGRvY2sgZW51bWVyYXRpb24=?=
-Date: Wed, 05 Aug 2026 09:11:55 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: blocking
-X-Bugzilla-Who: huangwei@kylinos.cn
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-221740-208809-PZniIpyKVG@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221740-208809@https.bugzilla.kernel.org/>
-References: <bug-221740-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T5LHKO5G"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cacb8416a1so8589225ad.1
+        for <linux-usb@vger.kernel.org>; Wed, 05 Aug 2026 02:23:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785921803; x=1786526603; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MZCEPZl0ZFbsMwGuo3y43zOIDo/hbmY79R4mzKfy0j0=;
+        b=T5LHKO5G9Lo72wjaUQLTQGQ/SNZuX9uMWPSjxIt2rxguGMu9goj1EisXFX/jRtgxli
+         QHjrRiFU4d5VqJNOLlhMciKeUXkAgKtLQTbtIlMDApwV3+EQM6hlBWQat6gJVYFkxbKy
+         XcAArK5xFtTLbIWrMGY3IA1ACnIteJM0aycXOOeAG5qzTdVzuhPvuwpgEycHBSG0IqmT
+         MHo3CJb1+F4j6vO5u+XO9pAwgBNxEdLqRPdmQeghA4hCO5wivUmqsmGgoH8Ls+Yf1Y8Q
+         D2j0p7c6c4rZfX3DE82GycM9rJBEU2RckoAyN31Nkz4X+Ghncx8/ZK3QYniz5TGeYDMF
+         oruw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785921803; x=1786526603;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MZCEPZl0ZFbsMwGuo3y43zOIDo/hbmY79R4mzKfy0j0=;
+        b=FPqBJsOjvRZLntQtUoxmgNY9cpHlYDPetyf4rBvbjIv7ZRJCEzl5s9hq3RDKo5k5yq
+         ziNky4vfHI4l6zHNrZqXEZ/DuAL2v6K3uWl2WfzX7+QLYskxtQge+cOn5ruXx664TdZu
+         foB3QOWTb3PE8BwFbquGoZGpdoKPkjb9KiRzcNQ7v00A/o37UeFkU7VYN1J4xX2dDxD3
+         ITowYeXW6XrgCVKFQIqrFcCU4iTwI1KgKW38grdnUwCusq30XOwB3VtWwkKw5jjO1lai
+         b33NHxnr3NrEIq4VS8mJsHOi/9Vt5Ziw7ML4H2PW3NWiy+HvMCDDy2vJnY2onsc9VG4+
+         vcWQ==
+X-Gm-Message-State: AOJu0YxxNVcqaTYTauSxqvCUTav0NzOkU6Nq4Qf4014OZTGIo/Jzx926
+	+H1lR8ljrg1rdoQHB7mFQNMBBEyIz5QeKtg8+x0iGtQYmqRLz6EUKea4
+X-Gm-Gg: AR+sD12vtJPNexH5QIAowaY29gMfGgHXssmzSSzj0kSPWqOnD2mwB1z+dtZ61SMj24x
+	CSOIpq8pq3K+0MjfAKIMoBJPPQtGy8cZkRF/o/lO3s0HUIEf3ND+reThHVwz81TriDyq1vfi80n
+	eMCB1iqGLqt49o/OlMNhiDz7IAAx2wfr0WxHsEVsWRGlW8Weci5SHPnrig4GZUDxzMiIJFgsm7R
+	x31gfKNeMtVvBFzB5prU2Ifqj1aqN/m/Gsj8Pk7zz7RO5bqyzpqyQYI/13kaiyxpQ7/1nIzc1fe
+	Ak7HPPMUkjvMGFFiQguNSaqlMXS6H04JhR6mvL70SrBT2Qz5sDWzVBXL3Mly+YbqdyhMFRB5vS0
+	+/SOD9q8f1QNcPazGo+FRq1ZJj1K4uLLxFHjMuwLks1RHrNYdGA6JZAKqNLs0qCN1pJUBi/W5uA
+	64q/FtejMe8FhfHJ9yFGupHBTb431abgHNkMUuUH49hAicfbK+w9z1x4tjrHiaNsBIZpm7fNiHf
+	VtguJkW2J4HiA==
+X-Received: by 2002:a17:90b:3841:b0:37f:e1b6:4c7d with SMTP id 98e67ed59e1d1-3903c54b375mr5522134a91.6.1785921802638;
+        Wed, 05 Aug 2026 02:23:22 -0700 (PDT)
+Received: from ML-GYSUBT565.ECARX.COM.CN ([101.47.164.95])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39039179fabsm2562694a91.7.2026.08.05.02.23.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Aug 2026 02:23:22 -0700 (PDT)
+From: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
+Subject: Re: [PATCH v3] usb: gadget: f_phonet: fix use-after-free in pn_bind
+Date: Wed,  5 Aug 2026 17:23:17 +0800
+Message-Id: <20260805092317.3298203-1-khiemtranzo532001@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <2026080532-reverb-freewill-9228@gregkh>
+References: <2026080532-reverb-freewill-9228@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221740
+On Wed, Aug 05, 2026 at XX:XX, Greg KH wrote:
+> Great, but what drew you to wanting to fix this specific syzbot issue?
+> Do you have this hardware that you need to see this issue resolved for?
 
---- Comment #2 from Wei Huang (huangwei@kylinos.cn) ---
-Hi Shofiq,
+No, I don't have Phonet hardware. I work on USB kernel code at my job
+and was looking through open syzbot USB bugs to get practice on real
+issues. The race here was easy to spot so I sent a fix.
 
-Thanks for the detailed report, and for noting that it works on Windows =E2=
-=80=94
-that's a useful data point ruling out the dock/cable/hardware.
-
-I've been looking into this and I believe the UCSI driver's command
-completion timeout is too short on machines where the EC is slow during
-boot. I've prepared a patch, submitted it upstream [1], and would appreciate
-your help testing it.
-
-  [1]
-https://lore.kernel.org/linux-usb/20260805085725.389761-1-huangwei@kylinos.=
-cn/
-
-=3D=3D What I've found =3D=3D
-
-The UCSI driver has two paths to talk to the platform firmware (PPM):
-
-  1. ucsi_reset_ppm()             =E2=80=94 polls, 10-second timeout
-  2. ucsi_sync_control_common()   =E2=80=94 waits for an ACPI notification,
-                                    currently hardcoded to 5 seconds
-
-A previous fix [2] raised path (1) from 5s to 10s, but path (2) was left at
-5 seconds. Since your log shows "PPM init failed" WITHOUT "failed to reset
-PPM!", the reset itself likely succeeded =E2=80=94 the timeout is hitting a=
- command
-sent right after it (e.g. SET_NOTIFICATION_ENABLE, GET_CAPABILITY). That's
-exactly path (2).
-
-Once UCSI init aborts, USB-C PD negotiation never completes
-(usb_power_delivery_revision: 0.0), which blocks dock enumeration since the
-dock depends on a PD contract. This matches the symptoms you described.
-
-The patch replaces the hardcoded 5-second timeout in path (2) with
-msecs_to_jiffies(UCSI_TIMEOUT_MS), so both paths use the same 10-second
-value.
-
-  [2] commit bf4f9ae1cb08c ("usb: typec: ucsi: increase timeout for PPM
-      reset operations")
-
-=3D=3D Before testing =E2=80=94 a quick check =3D=3D
-
-To confirm the diagnosis, could you run and paste the output of:
-
-    sudo dmesg | grep -i ucsi
-
-I'd like to verify that there is NO "failed to reset PPM!" line, and that
-"PPM init failed" is the only ucsi error. (If "failed to reset PPM!" IS
-present, the fix is different and I'll adjust.)
-
-=3D=3D How to test =3D=3D
-
-The raw patch is available at the lore link [1] above. The simplest way on
-Fedora is to apply it against a matching kernel source tree and rebuild just
-the typec_ucsi module:
-
-    # prerequisites
-    sudo dnf install kernel-devel-$(uname -r) kernel-headers gcc make
-
-    # get source matching your kernel
-    sudo dnf download --source kernel
-    rpm2cpio kernel-*.src.rpm | cpio -idmv
-    tar xf linux-*.tar.xz && cd linux-*/
-    patch -p1 < /path/to/the-patch-from-lore
-
-    # build only the affected module
-    cp /lib/modules/$(uname -r)/build/.config .config
-    make olddefconfig
-    make M=3Ddrivers/usb/typec/ucsi modules
-
-    # install and reload
-    sudo cp drivers/usb/typec/ucsi/typec_ucsi.ko \
-         /lib/modules/$(uname -r)/extra/
-    sudo depmod -a
-    sudo modprobe -r typec_ucsi && sudo modprobe typec_ucsi
-    # or simply reboot
-
-=3D=3D What to report back =3D=3D
-
-  1. The dmesg | grep -i ucsi output after applying the patch.
-  2. Whether the USB-C dock enumerates (dmesg should show the USB devices).
-  3. These values after connecting the dock:
-
-        cat /sys/class/typec/port0/power_role
-        cat /sys/class/typec/port0/usb_power_delivery_revision
-
-If 10 seconds is still not enough, please also run:
-
-    sudo acpidbg -b "examine USBC000:00"
-
-so I can investigate whether the ACPI/EC notification path itself is broken
-(in which case no timeout increase will help, and we'd need a different fix=
-).
-
-(I've also attached the patch directly to this bug for convenience.)
-
-Thank you!
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Thanks,
+Nguyen Quang Le Kien
