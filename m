@@ -1,263 +1,255 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010035.outbound.protection.outlook.com [52.101.193.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDAE42377D
-	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 11:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785928728; cv=fail; b=WewhuOdYeQSYAT3TIP6uorZ+OgtEbptlOBCUGNlLAOwtK0OMdNJnpxjWqrzNZTpVrgym1VI4cfRg8KJQyWM1zVJvGtqLEy1wqsU/GMsH2XnfHe+ob1s4hrnlDwqToSprM2Mdk39MxVBbGu59j/eN7oGL2g7VC5BWgR/ZoiGLPuY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785928728; c=relaxed/simple;
-	bh=kj0H3lKoXW0RtWaXsunvRuWbAV60MC1Xgb8rjWuqNCA=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LhCfFCoc7fj/JaPrT/5I5fwIHX7Aeuf/Dp8dKxRiOlUm0aKMp5htgT13VdlRKSx0yQuQLGmaf2y3ilHOr+CQzrtmfgF8vAuxJ141AkSZ6/56no6kCDvovF6XWW9+TrbqXeY+qDuXzlhcYijyk8lw0UBF/DvdWTEnWiXt7TQo7ZE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=dhFKdyEi; arc=fail smtp.client-ip=52.101.193.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="dhFKdyEi"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uat1kWPgMH6z7KB/8tQYba5ySKsN+JOqtNpa6RkQd1cpZicOBV0SZPZL1GjsfAOlG2kH76PluVhX+1IYh7DWNCzXzQumWOCuaV7p7mjvlwGYfqSCoRY0wV1iX6+BgeE5B+EsrOME9TgiFQ7g9Q0TTYg+63XbgAlOTHGkQz2P6cl0XPeOCyQZrRrF1do9GfevueEyS5d0MDkP8oKfve6MjlsC8shp+Z5xGTuyo2KMsUcBbMnhvu6GFc83fNn+JGc+OHgZmViHoEbHvthWfi2WH7WeXAX3TXeLHQkhmMwdAzNH2DIODAY7dAiHWE39bW8ZL2a5Zv/OZ5cTxrTkFfo+PA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HHMH/AziKAY09PbQw+ax4NdopRjBMVQB4pz6DrI3/7E=;
- b=DOb7QhvuNIngeBAphLB03zKuopkss6HhMXl8YxBqhFWR8/A9bDOIQOoX5lV8EhieLeI+xtOEw0M9eF/4RY/hMuUQgT4ZJYpKzh+sMZmBMKrSK7DRl1CSQkgcfWcV+8ZDdLZa64XErgIVRiJlr95Hp8GLLhVo49fmn4UMV6hR0hadquvumRqpf/JWBOVSgKzn5hbSGjm6O5Tm9s8pDRFJKtWEXzSY61h22TfujUrstzAN/UOCubrVZoagoFX9kgS1OxHXzzr9nNrWzkIlmx6ISBuNzucvbJlFW1JGvHtIR6FALvmpGQL5IsxxLKtBp4aaZra4FYAUnMjhpQQP8emzFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HHMH/AziKAY09PbQw+ax4NdopRjBMVQB4pz6DrI3/7E=;
- b=dhFKdyEiwo1wZz4KuXY08F4edsqaXV55Z5kK2vfjwKi8tXqSa7q/LXd2x+/HU0aJbl25x3IWxYmWuwkP+uDHN+dYQDXueNMQayPmi2FlXthoeSfcI80IO15IgrBBvcAaNoL8o/MVQ0HM4nD2+WrZ6zOcRx+SDv5Yr17Y5s7ko1s=
-Received: from DM6PR07CA0089.namprd07.prod.outlook.com (2603:10b6:5:337::22)
- by PH8PR12MB6673.namprd12.prod.outlook.com (2603:10b6:510:1c0::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.270.18; Wed, 5 Aug
- 2026 11:18:39 +0000
-Received: from DS3PEPF0000C37E.namprd04.prod.outlook.com
- (2603:10b6:5:337:cafe::8a) by DM6PR07CA0089.outlook.office365.com
- (2603:10b6:5:337::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.292.19 via Frontend Transport; Wed, 5
- Aug 2026 11:18:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- DS3PEPF0000C37E.mail.protection.outlook.com (10.167.23.8) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.292.8 via Frontend Transport; Wed, 5 Aug 2026 11:18:39 +0000
-Received: from airavat.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Wed, 5 Aug
- 2026 06:18:35 -0500
-From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-To: <andreas.noever@gmail.com>, <westeri@kernel.org>, <YehezkelShB@gmail.com>,
-	<linux-usb@vger.kernel.org>
-CC: <Mario.Limonciello@amd.com>, Basavaraj Natikar
-	<Basavaraj.Natikar@amd.com>, Sanath S <Sanath.S@amd.com>
-Subject: [PATCH -next v2] thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers
-Date: Wed, 5 Aug 2026 16:48:11 +0530
-Message-ID: <20260805111811.517996-1-Basavaraj.Natikar@amd.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F1D3AF656
+	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 11:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785929803; cv=none; b=TYyQgtcqOIkqYfvO2s3rWrlaMSaMy8JkbwGX1ir2S4l0G9eGeQosVa38gLaW/eztYZFAP7zk9K2+5ZK//SOBSYFFT4WdtNGBQi8IeqJKlEwCyALY60jdIwiQrBMzHF/boGk68MVGizXf2AtO5th72i6MLXNF/tFP6q30oI5CQaU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785929803; c=relaxed/simple;
+	bh=nF1QCgX5WfoJSjZeQdH1AHWr7LM2AuaR3K8jt4+2mFo=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=R17zxqq37HVrvYfK241DGREOFjyGu4/eBrV+p1puUGuwGWGfWIRpZEopm+JfKtxgqh2LegxsKcjg+EuvmOhxdAvti/Wa35LyFo3Qsf6RY/u1ntkIKfXCd5PCZEA4MlDE/Uu5/MBa0ZXjQjzQdZu6/FTk5l4ACErauWZyKZP2RXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-6ae4622d842so833459eaf.3
+        for <linux-usb@vger.kernel.org>; Wed, 05 Aug 2026 04:36:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785929799; x=1786534599;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=VinKqMIuodFDTumz2PvjMdlIeNFC1YF3ggEJK8oUmk8=;
+        b=BOHGI0kfB4sjYOYXCAtNh5tIhIjJKBd1KE/h3b1TwOShaKZhrlDg7AKqOdMK/0o1hH
+         iSGpb73oB57GPjVips/zgvGsKciV2ilaSuK2y8nXbVNZZxxYjC7C+oyN5DohBumpejF5
+         aoQ0QW2TJkVBaq7p9EWuoSMtUBSTgmV1uJiuMtOQ4cegvyN1xhbIwJ26/MC7GabZHIst
+         ffPoBq+kAsbxRFxdCMEUNleiIfm8owvC7NpV+TaIZvMCKpieSaj00AAHjHPcBkA+3ggG
+         ZOCBLgQTALkEnHlWCWthYQiFf349v8wsc8nkuhgNLueeedlHw4kO2WtRFjHAi8Hl3NF5
+         JCLw==
+X-Forwarded-Encrypted: i=1; AHgh+Ro345xVmDY9OcXlyA8ff+wTw2niJakulLcMmDs4Osib9oGuqT57WTU4fBjTq4Hy5OBETMfAwkdt4p4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzShWLVTD77q8RqQOZXSWqfkLMA5Dx/zdd8KRbpDJtRwXfbhHo2
+	RfXzKflrjwR3joIlAgcO1zEellfdERcBW6NpGV1NWDBaSK/YE68urk/H6VhB/bfPnpxcJTq3W2M
+	9GLqeoJKOpVqsLg1pLoCOparr6RKbFOHi+t7GIepSx57VKmyiQNp8S++TKSY=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF0000C37E:EE_|PH8PR12MB6673:EE_
-X-MS-Office365-Filtering-Correlation-Id: a43dd6fe-a85f-4bd3-7a31-08def2e34cba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|23010399003|376014|1800799024|56012099006|10067099003|11063799006|5023799004|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	72gH/fXynaGqhyniG3p0ONysnJ+j3t/3bVOqO8yq8K8Asy1cY4Uv1W+gauP7CL0LfhQ2kocMZDZKIJMpHuzvCcMhd5pLloEXivfQvHHKTY5Fk/wDQOEb5fkKm+j+5MQ9pjj2ECQSL0PEbvynlFYgNhrFzq2kCgQOQdz9xvgqqgZu/BRrIuBhJTA9k4DxpA841Ld8hyrtxGjCmZ4fFqRIaFBG5GxBnwxOFB3Mt5l/QtMAMu5l3OaWF1PQmhvb0cNChLDTkYPcoem3LZkkZ5ieIM23Pf1+VLoZOSzpHe1cCdw6oDzAA1bwTyXNqXNmpkdhndzMKN/rTIjQAM4lcAQffppa720IlT82CPOzyo0MMPJoWgLVxNgc5M1fyy0KEa1dE2Pfz9r6SD1wZ32VlYX+swWa1fKmAAMgX0SXfgzP6lk5qVI/PCCryicdNXj3xfbJ1uOn28hT+KnEJxJ8rRgJakj5wynxbtibUOAKbNlAw/LpNIqcRiWvfECQNcVA4Pmzy89J5vQWXxzIS6r67AIvLcwu5JKahG2UTF9mhHfozFlCZRtVBxLcaqgnH8ZbBCCDLbPFGSEdcwegSbB4U2o9OZqI5RHwaSQWs2JPrt1T8TS/9X9WPFSdMYeDnpKA9xII08jBb3K7bgKnWNFCl2579vNLWdnaR/1c+zX6PZJ6mCK8R7HnbhYAHDvkOiOG/cIGpup+Y8GrqKoUvZ8xts2Z0g==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(23010399003)(376014)(1800799024)(56012099006)(10067099003)(11063799006)(5023799004)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	avZ8wE/ULPmjxG9VbAQHVN/3AZks69Ml1UFMSxJIpiJA4Wrg/E3gMF75Vp84Bnci1UzDJllGhbYZ89ccerjNt56fqehApGu59k4hMfbSifpPSBBMTIzOD3MsrdySIOqOjf8RW/uu1sfKDBIpobYyfhTp7hCu5HM+CwI9tBeWiHEvmnU92LcHkHtY3wJFiRm/m/WrPMc1HnhN1IWucxeZEJHhPTnOhz4Jxs66Xfq6e08znDxUMeOtaa3zmZPWqU8PkIbhjqJjbGf3OAR7ENCVVDv0/BK2bw8s0Anm91jsd8I2Cq5K6DADnL9X29yNFg+nAEMrO/Kg3rYXQpp3JVSKAsvLHdh5AEeaPyYtdtBkBVzH+epvbnz+lH8rhTftUXszLSZgN5LPA/aH7P5j31P3fIYMTTzJ1PB3EliW31lqtputGPsGlkgBcxnSxFO8/XRT
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2026 11:18:39.1162
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a43dd6fe-a85f-4bd3-7a31-08def2e34cba
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF0000C37E.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6673
+X-Received: by 2002:a05:6820:a0b:b0:6ac:b80e:76b0 with SMTP id
+ 006d021491bc7-6ae96bc46b9mr3269332eaf.3.1785929799699; Wed, 05 Aug 2026
+ 04:36:39 -0700 (PDT)
+Date: Wed, 05 Aug 2026 04:36:39 -0700
+In-Reply-To: <6a6cd87b.2d659fcc.1d46f5.019d.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a732047.9511d2ce.1fc5b9.0370.GAE@google.com>
+Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Write in gadgetfs_bind
+From: syzbot <syzbot+f63ad1084fd77fab48e4@syzkaller.appspotmail.com>
+To: dmantipov@yandex.ru, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Some AMD USB4 host routers have a bug in the Host Interface where
-DMA path setup and teardown cycles may cause the Tx ring to hang.
+syzbot has found a reproducer for the following issue on:
 
-Fix this by issuing a Host Interface Reset on every DMA path teardown
-for affected routers. The Host Interface Reset brings the registers in
-the memory BAR to their default state and clears the End-to-End Flow
-Control state, preventing the hang condition.
+HEAD commit:    c21bb4193868 Merge tag 'for_linus' of git://git.kernel.org..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=16903bb9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cb17729fb04b1e3a
+dashboard link: https://syzkaller.appspot.com/bug?extid=f63ad1084fd77fab48e4
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=141bf649580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13bcecc6580000
 
-Co-developed-by: Sanath S <Sanath.S@amd.com>
-Signed-off-by: Sanath S <Sanath.S@amd.com>
-Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/c16af6f477ef/disk-c21bb419.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/8e14d9f5431d/vmlinux-c21bb419.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/6fd0c9afffcc/bzImage-c21bb419.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+f63ad1084fd77fab48e4@syzkaller.appspotmail.com
+
+Memory cgroup out of memory: Killed process 5619 (syz-executor246) total-vm:17440kB, anon-rss:60kB, file-rss:376kB, shmem-rss:0kB, UID:0 pgtables:52kB oom_score_adj:1000
+udc dummy_udc.0: failed to start USB Gadget filesystem: -12
+gadgetfs gadget.0: probe with driver gadgetfs failed with error -12
+udc dummy_udc.1: failed to start USB Gadget filesystem: -12
+gadgetfs gadget.1: probe with driver gadgetfs failed with error -12
+==================================================================
+BUG: KASAN: slab-use-after-free in gadgetfs_bind+0xd8/0xae0 drivers/usb/gadget/legacy/inode.c:1682
+Write of size 8 at addr ffff888038c6a900 by task syz-executor246/5619
+
+CPU: 0 UID: 0 PID: 5619 Comm: syz-executor246 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ gadgetfs_bind+0xd8/0xae0 drivers/usb/gadget/legacy/inode.c:1682
+ gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __driver_attach+0x339/0x600 drivers/base/dd.c:1292
+ bus_for_each_dev+0x23e/0x2c0 drivers/base/bus.c:383
+ bus_add_driver+0x348/0x670 drivers/base/bus.c:763
+ driver_register+0x23a/0x320 drivers/base/driver.c:174
+ usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1752
+ dev_config+0xe4e/0x12c0 drivers/usb/gadget/legacy/inode.c:1883
+ vfs_write+0x29f/0xbb0 fs/read_write.c:685
+ ksys_write+0x156/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f20a39768e9
+Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffe1170d338 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f20a39768e9
+RDX: 000000000000001f RSI: 0000200000000400 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f20a39dd042
+R13: 00007ffe1170d370 R14: 00007ffe1170d3b0 R15: 0000000000000000
+ </TASK>
+
+Allocated by task 5615:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x3d2/0x6b0 mm/slub.c:5489
+ _kmalloc_noprof include/linux/slab.h:988 [inline]
+ _kzalloc_noprof include/linux/slab.h:1309 [inline]
+ dev_new drivers/usb/gadget/legacy/inode.c:176 [inline]
+ gadgetfs_fill_super+0x27b/0x7a0 drivers/usb/gadget/legacy/inode.c:2054
+ vfs_get_super fs/super.c:1273 [inline]
+ get_tree_single+0xc0/0x150 fs/super.c:1300
+ vfs_get_tree+0x92/0x2a0 fs/super.c:1700
+ fc_mount fs/namespace.c:1198 [inline]
+ do_new_mount_fc fs/namespace.c:3765 [inline]
+ do_new_mount+0x319/0xdc0 fs/namespace.c:3841
+ do_mount fs/namespace.c:4174 [inline]
+ __do_sys_mount fs/namespace.c:4390 [inline]
+ __se_sys_mount+0x31d/0x420 fs/namespace.c:4367
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Freed by task 5619:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2677 [inline]
+ slab_free mm/slub.c:6377 [inline]
+ kfree+0x1c5/0x6c0 mm/slub.c:6692
+ gadgetfs_bind+0x942/0xae0 drivers/usb/gadget/legacy/inode.c:1703
+ gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __driver_attach+0x339/0x600 drivers/base/dd.c:1292
+ bus_for_each_dev+0x23e/0x2c0 drivers/base/bus.c:383
+ bus_add_driver+0x348/0x670 drivers/base/bus.c:763
+ driver_register+0x23a/0x320 drivers/base/driver.c:174
+ usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1752
+ dev_config+0xe4e/0x12c0 drivers/usb/gadget/legacy/inode.c:1883
+ vfs_write+0x29f/0xbb0 fs/read_write.c:685
+ ksys_write+0x156/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+The buggy address belongs to the object at ffff888038c6a800
+ which belongs to the cache kmalloc-1k of size 1024
+The buggy address is located 256 bytes inside of
+ freed 1024-byte region [ffff888038c6a800, ffff888038c6ac00)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888038c6d000 pfn:0x38c68
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0x80000000000240(workingset|head|node=0|zone=1)
+page_type: f5(slab)
+raw: 0080000000000240 ffff88813ffb2dc0 ffff88813ffb1b88 ffff88813ffb1b88
+raw: ffff888038c6d000 000000080010000a 00000000f5000000 0000000000000000
+head: 0080000000000240 ffff88813ffb2dc0 ffff88813ffb1b88 ffff88813ffb1b88
+head: ffff888038c6d000 000000080010000a 00000000f5000000 0000000000000000
+head: 0080000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd2040(__GFP_IO|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5615, tgid 5615 (syz-executor246), ts 101449671750, free_ts 101302084021
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1859
+ prep_new_page mm/page_alloc.c:1867 [inline]
+ get_page_from_freelist+0x262a/0x26a0 mm/page_alloc.c:3946
+ __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5304
+ alloc_slab_page mm/slub.c:3266 [inline]
+ allocate_slab+0x79/0x5e0 mm/slub.c:3380
+ new_slab mm/slub.c:3426 [inline]
+ refill_objects+0x2d8/0x350 mm/slub.c:7310
+ refill_sheaf mm/slub.c:2804 [inline]
+ __pcs_replace_empty_main+0x330/0x690 mm/slub.c:4675
+ alloc_from_pcs mm/slub.c:4773 [inline]
+ slab_alloc_node mm/slub.c:4905 [inline]
+ __do_kmalloc_node mm/slub.c:5333 [inline]
+ __kmalloc_noprof+0x544/0x780 mm/slub.c:5359
+ _kmalloc_noprof include/linux/slab.h:992 [inline]
+ _kzalloc_noprof include/linux/slab.h:1309 [inline]
+ tomoyo_init_log+0x1aaf/0x1fa0 security/tomoyo/audit.c:273
+ tomoyo_supervisor+0x35f/0x1560 security/tomoyo/common.c:2232
+ tomoyo_audit_path2_log security/tomoyo/file.c:184 [inline]
+ tomoyo_path2_perm+0x567/0x760 security/tomoyo/file.c:948
+ security_sb_pivotroot+0xb6/0x270 security/security.c:1117
+ path_pivot_root+0x135/0xd90 fs/namespace.c:4680
+ __do_sys_pivot_root fs/namespace.c:4784 [inline]
+ __se_sys_pivot_root fs/namespace.c:4767 [inline]
+ __x64_sys_pivot_root+0x15d/0x1d0 fs/namespace.c:4767
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+page last free pid 2 tgid 2 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ __free_pages_prepare mm/page_alloc.c:1406 [inline]
+ __free_frozen_pages+0x10e7/0x11c0 mm/page_alloc.c:2950
+ __slab_free+0x252/0x2a0 mm/slub.c:5741
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:350
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4584 [inline]
+ slab_alloc_node mm/slub.c:4917 [inline]
+ kmem_cache_alloc_node_noprof+0x3eb/0x670 mm/slub.c:4989
+ alloc_task_struct_node kernel/fork.c:188 [inline]
+ dup_task_struct+0x52/0x8f0 kernel/fork.c:921
+ copy_process+0x820/0x4390 kernel/fork.c:2115
+ kernel_clone+0x2d2/0x8d0 kernel/fork.c:2748
+ kernel_thread+0x13f/0x1b0 kernel/fork.c:2809
+ create_kthread kernel/kthread.c:459 [inline]
+ kthreadd+0x4ec/0x6e0 kernel/kthread.c:817
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Memory state around the buggy address:
+ ffff888038c6a800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888038c6a880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff888038c6a900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                   ^
+ ffff888038c6a980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888038c6aa00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
 ---
-v2:
-- Move the quirk to the NHI (nhi->quirks), set in nhi_pci_check_quirks()
-  by PCI ID following the QUIRK_AUTO_CLEAR_INT convention, instead of the
-  tb_quirks[] fabric table.
-- Declare nhi_host_interface_reset() in nhi.h instead of tb.h.
-
-v1: https://lore.kernel.org/all/20260804122638.1623429-1-Basavaraj.Natikar@amd.com/
- drivers/thunderbolt/nhi.c      | 37 ++++++++++++++++++++++++++++++++++
- drivers/thunderbolt/nhi.h      |  2 ++
- drivers/thunderbolt/nhi_regs.h |  4 ++++
- drivers/thunderbolt/pci.c      | 21 +++++++++++++++++++
- drivers/thunderbolt/tb.c       |  6 ++++++
- 5 files changed, 70 insertions(+)
-
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index 383a36212f70..72a76db5ea68 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -1160,6 +1160,43 @@ static void nhi_reset(struct tb_nhi *nhi)
- 	dev_warn(nhi->dev, "timeout resetting host router\n");
- }
- 
-+/**
-+ * nhi_host_interface_reset() - Issue host interface reset
-+ * @tb: Domain whose host interface is reset
-+ *
-+ * Resets the host interface by setting the RST bit in the host interface
-+ * reset register. This brings the registers in the memory BAR to their
-+ * default state and clears the End-to-End Flow Control state. Does nothing
-+ * unless the host interface is known to need this (QUIRK_HOST_INTERFACE_RESET).
-+ *
-+ * The control channel is stopped over the reset because the reset clears
-+ * the ring state as well.
-+ */
-+void nhi_host_interface_reset(struct tb *tb)
-+{
-+	struct tb_nhi *nhi = tb->nhi;
-+	u32 val;
-+
-+	if (!(nhi->quirks & QUIRK_HOST_INTERFACE_RESET))
-+		return;
-+
-+	val = ioread32(nhi->iobase + REG_CAPS);
-+	/* Only v1 host interfaces implement the reset */
-+	if (FIELD_GET(REG_CAPS_VERSION_MASK, val) >= REG_CAPS_VERSION_2)
-+		return;
-+
-+	dev_dbg(nhi->dev, "issuing host interface reset\n");
-+
-+	tb_ctl_stop(tb->ctl);
-+
-+	iowrite32(REG_HOST_INTERFACE_RESET_RST,
-+		  nhi->iobase + REG_HOST_INTERFACE_RESET);
-+	/* Wait for tHIReset (10 ms) to complete */
-+	usleep_range(10000, 20000);
-+
-+	tb_ctl_start(tb->ctl);
-+}
-+
- static struct tb *nhi_select_cm(struct tb_nhi *nhi)
- {
- 	struct tb *tb;
-diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
-index d488eadadfce..9be0372b837e 100644
---- a/drivers/thunderbolt/nhi.h
-+++ b/drivers/thunderbolt/nhi.h
-@@ -36,6 +36,7 @@ irqreturn_t nhi_msi(int irq, void *data);
- irqreturn_t ring_msix(int irq, void *data);
- int nhi_probe(struct tb_nhi *nhi);
- void nhi_shutdown(struct tb_nhi *nhi);
-+void nhi_host_interface_reset(struct tb *tb);
- extern const struct dev_pm_ops nhi_pm_ops;
- 
- /**
-@@ -121,6 +122,7 @@ struct tb_nhi_ops {
- /* Host interface quirks */
- #define QUIRK_AUTO_CLEAR_INT	BIT(0)
- #define QUIRK_E2E		BIT(1)
-+#define QUIRK_HOST_INTERFACE_RESET	BIT(2)
- 
- /*
-  * Minimal number of vectors when we use MSI-X. Two for control channel
-diff --git a/drivers/thunderbolt/nhi_regs.h b/drivers/thunderbolt/nhi_regs.h
-index d6a197fabc74..99df60b6db36 100644
---- a/drivers/thunderbolt/nhi_regs.h
-+++ b/drivers/thunderbolt/nhi_regs.h
-@@ -115,6 +115,10 @@ struct ring_desc {
- #define REG_CAPS_VERSION_MASK		GENMASK(23, 16)
- #define REG_CAPS_VERSION_2		0x40
- 
-+/* Host Interface Reset - resets TX/RX rings and E2E flow control counters */
-+#define REG_HOST_INTERFACE_RESET	0x39858
-+#define REG_HOST_INTERFACE_RESET_RST	BIT(0)
-+
- #define REG_DMA_MISC			0x39864
- #define REG_DMA_MISC_INT_AUTO_CLEAR     BIT(2)
- #define REG_DMA_MISC_DISABLE_AUTO_CLEAR	BIT(17)
-diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
-index 8462ccb59b7e..02534287cb43 100644
---- a/drivers/thunderbolt/pci.c
-+++ b/drivers/thunderbolt/pci.c
-@@ -62,6 +62,27 @@ static void nhi_pci_check_quirks(struct tb_nhi_pci *nhi_pci)
- 			nhi->quirks |= QUIRK_E2E;
- 			break;
- 		}
-+	} else if (pdev->vendor == PCI_VENDOR_ID_AMD) {
-+		switch (pdev->device) {
-+		case 0x1120:
-+		case 0x1121:
-+		case 0x113b:
-+		case 0x113c:
-+		case 0x1155:
-+		case 0x1158:
-+		case 0x1159:
-+		case 0x151c:
-+		case 0x151d:
-+		case 0x158d:
-+		case 0x158e:
-+			/*
-+			 * These AMD hosts may hang the Tx ring when the
-+			 * DMA paths are torn down so they need the host
-+			 * interface reset after each teardown.
-+			 */
-+			nhi->quirks |= QUIRK_HOST_INTERFACE_RESET;
-+			break;
-+		}
- 	}
- }
- 
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 47753a5c0f2e..f07f2ada2346 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -2395,6 +2395,12 @@ static void __tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
- 	 * the same host router USB4 downstream port.
- 	 */
- 	tb_enable_clx(sw);
-+
-+	/*
-+	 * Some hosts may hang the Tx ring after the DMA paths are torn
-+	 * down so reset the host interface to prevent that.
-+	 */
-+	nhi_host_interface_reset(tb);
- }
- 
- static int tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
--- 
-2.34.1
-
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
