@@ -1,163 +1,156 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C51D1632E7
-	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 06:14:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785910496; cv=none; b=P5CqjxQSQA6hzo4GDaIbC6rpO6kfKnIxSLNZaIwDPVhx8XLd8cQkJG6a7naX6yUsqGyOQzMCziByIH8wlnrzZjhMd5pILfU6R3IOvi625Dojy4WerfZDBPKVY0VGrGWi5r3CCI94heQFwFGGoiC3WrHuJNYow/gMr6RQSfgJ4Gw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785910496; c=relaxed/simple;
-	bh=vJ5MxHYi3r5+ShST2+5AL6VgT6RsJZyduj1Vc94PXwg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oFZuKjcmVNikMs5yPMD2vNiKWiira8tWKMMv6CM0p0uMyOub9OvLyNPNrIEULMbXuzmzrHi926tXsUtYiTR/gix9DxAMfI3B8PCz1skvpek/u9qyY0dVRyWMGp72Y7Kg08cKyE3sBqI1sSW7WRbSlaRo7O5kE33ebSYEavVcqMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VHAfo8sm; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558703DDDC4
+	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 06:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785912517; cv=pass; b=AaB8U9WUX34bhu4DGEyeLx/deIdC2h1+oHPK0bBK5GB4cI4oEo1PJ1gd9BEPLs9t5UA4Kis6OIyxW2rcJ70Hz/WEURKW1Bcqp0AJsbvsfZG/yzfSLFw3KyT7G9mShWnwxUlEtbuMyjjCpO0GYuxMGtH3t7kLPrHVLtJdYYA88+Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785912517; c=relaxed/simple;
+	bh=zX9W4WlSLffcK18o88Do8oN5udTcUrmnH3VmfZ2omYM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ccPVYh05eFM1tvXGcgRzlJ9+A6ZV+5Zpo8mgX6k5il04qqMclXszdDI4r/EMTSk2hqr1PR1AyjMtdorQOP5dgFgavkVwMPH1YjSnF5xeEXpNO9NHaI+chDC/YHh5q4YpH7MZDsM3dJN48IagVaFQ9ZWvMAJ4UFsTgyJcj+JO/Xc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q8+f4yQY; arc=pass smtp.client-ip=209.85.210.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VHAfo8sm"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47f7872abb6so261498f8f.3
-        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 23:14:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q8+f4yQY"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7ee4399c3abso507040a34.2
+        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 23:48:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785912512; cv=none;
+        d=google.com; s=arc-20260327;
+        b=lQT2fGWGYhCLETVWXkcqKEPKwpAnV5Nd3TA0jgOcF7fFXaXPMV2ohZTrcE+IXZ4rfL
+         tlniSt8C8cfyAyy6oNeTbfuJ+ht+EDIhbwkdZaI8Vk/F1so9+3fGLB2JjTCw9qe+9Xc3
+         Ii6R3EjRMMObzZXdmWuK6lYEm+IWhYvu1TTLuBxpYf+iXWrek2x59+7NUdTN+XY8elZ4
+         E5dovdrTxBZ2yVHdzji+IkNxsCeL7RZLN+I/6wlnzv+Bt7uXgdEQjNCiATMUg3ZntRbe
+         71WvIZVgbnblBEmjSrxg5yOnoIPZONezQSb7D3n4HttHj2CJ+XEHXKpxsP6bBXCWWpaW
+         xekA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4Xv6Lh9Vxa7VZjoa3LMQUcV3QtVtWuQt/nGnygeIYR4=;
+        fh=3qsyWHk8Z16YcchumrSVXc8jwsrFqrMV4GVeBZvSy9s=;
+        b=PPuYJ67/44MWLl+y5Qr1OW+8gNLFi/Er9fKglGjcaNy4mdLLxeGNcbsxCNrbgpmpI1
+         NOj2qoUpMd9/5gkrkE4WwNNXx9YwJYma/xLLZUGLZatpUOGSslU+Eu0gRLQ/4F5TqL/M
+         f6iTMhovob/yBCMr22YOSrGNmeEACb7oc3v0X+jIVczrWs6UviZ/ptaAT/Y0Yb9wASMH
+         p/qzCgVqkkdlMDKUfCzykqyx4dC6TGTYO9S06JDs8fBGfMfl8c83tJDkdoaMWuPhyLM2
+         8c8mbU6N3yl+09OK5bOF5n+mM4ggBOasExGF8qXOsrLIxgxN6OV3qU4mhUEZbRl2nbPA
+         cKjw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785910493; x=1786515293; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1785912512; x=1786517312; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=pWtI7Eo8kslq6oPjBinD1vpUNGlOV9tEDrUNukpkSaY=;
-        b=VHAfo8smDmsnCypNB90l1dBpFQqdRwINpo81yZtSSfxvSnORyD2PfG5Y7zs1nstZCE
-         WGUp2qU5vS8dkKlIyg4lvqIu0vVg3DpD8xeC0y75LIZbQgeNxePMbac6lvRryr+ZbLn+
-         hIRDRO1GnuMSY4vtv57fcZx9pl2w9PIy4dq6avVX4BVQ9f4cNHZ0AUIcnKtf53yXth2j
-         R70ICLt7N1S9zYqOPuDYfo54L2NMRpywa6TrBd30a5LsA7GmdXSCYz/0wA9fTLtzU0of
-         5VQOHM7M/CABnYTs6du5XSqZd9i3hvohJ0CtV8tti1ob3hYHfxXY3wFWkTXdWFGGbKY7
-         pRgQ==
+        bh=4Xv6Lh9Vxa7VZjoa3LMQUcV3QtVtWuQt/nGnygeIYR4=;
+        b=q8+f4yQYNOVGCOuJYnVDIQaH/7HQZACPtQm+liespzmBCm+MDCxyGgbv49EcsdCoNu
+         OzsiDfxTw/fub6y3Unn6bPzysaKnEdvLmrae9J/an1wsAJVYfrrCowJ41R7fHrmh979h
+         NE7057qCQZnzkzUe8A9CmDa8NlZ2ngsrJGw9AGhmQbX3dNeYKbh6GEXUYZWAajKGqM8F
+         7qVF1XGaFMsG/HhjmRG5X0H3tVyV82PJ32Vxt/MoqaHGTpScw8CfQJxJV4J9Sqde672W
+         hsI5yu6U1z6vGiC94RpN7E+Qauu68zFCaGinfLGbFYzxm08cmZg9CdgsB8C7BJZtaA77
+         6S+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785910493; x=1786515293;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1785912512; x=1786517312;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pWtI7Eo8kslq6oPjBinD1vpUNGlOV9tEDrUNukpkSaY=;
-        b=OOpMLJ5l6aQcpc9w7t/EC0OtbagHwCxdQnuKy7dQmHKuXGSViFE0VhgjkZfW0iU3yQ
-         RCrxVKQ39bBIR4CA0cFOBq74ZAhKkCboYgcRgpkDBQHG7gGhaXSxn1jQoh8i9AnfqqQY
-         zrjaSucHlcVd6xoTiC3Gfy7x70izZXb+pFH5qXC+0hPL/r4/r8NOk5YoV7Kn73sJjDn4
-         X1qzfGBYJmA/d/9VueZZH6TE2WP99FFfszrPmHgYTGGa2IgLFqyQtzq5zuNB+L51k2xS
-         OfwAChk089TVZvMGGTdDLiK/FPhHD/CBxQRHlkY7UmE6cxysrUt3iZHH6TsN7JyM8Gsk
-         z4QA==
-X-Forwarded-Encrypted: i=1; AHgh+RpdIvWP4RKnk9puj2VD+iPUAFIklQCPiqTANNwpciF6l9hpqGAhUaMUpLbArtKW6LsHGGe5as9sII4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTqnA2kbzkRh0LZcP6h9LRNpGk1gOn5+x6QJ1SmYM4sTiziFCr
-	LWthdgqmuZBVRZeklvSoA/1XH9i44/er7E8GTkFHy466U5ieUeph0QWk
-X-Gm-Gg: AR+sD11oaWph7mtaeTL7Xf1Oaoe62vBVpdD5XwsG/QE+51ZU9rqP541mslSmoF4kDNs
-	SQxrV6L9+0dViuQSsl98U7NU6Et7S6IUdRVbqDpJy6yvezcX2EC5/AkcaIGpG2F5Rls7PHjAcYk
-	8G186em4nckZ1NfotINDiI0bTKueVNPIto7CvrBwl7IPSDYNMNe3Gb1/VfsRsw4pwJm8URvLlJt
-	c3XEzE9D4fC42KCqI73A7a1BlY55YI8Sf6BYwLYSuGADY25HqWiTs0rgTpVBIych/dkJn5gkMOD
-	jFcLLBt2DsaT7cao4eoSJ+8ab/ed2vgNMoK/U8ukNmHcqPFfUE4nDnG5QvbJo2rbNzcNmJ20Ohk
-	4NtaT3nPFHwlo5EjMED7GumSdy1Bm9F79LJBa12HI59WEIJ2O9k4YW9ElBDMSl+/t+AGNKZVgUg
-	bytMBdpDDf4ou0IiPAjqE0TTFDwA2ckfvCoQ2nJkSDA7A5Ivm8srdUiaKvfcCuKT4gaoXqIG3A
-X-Received: by 2002:a05:6000:41dd:b0:47f:8183:e9b8 with SMTP id ffacd0b85a97d-47fec53093cmr6285176f8f.22.1785910493066;
-        Tue, 04 Aug 2026 23:14:53 -0700 (PDT)
-Received: from foxbook (bgt135.neoplus.adsl.tpnet.pl. [83.28.83.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fec24a23asm6235292f8f.37.2026.08.04.23.14.52
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 04 Aug 2026 23:14:52 -0700 (PDT)
-Date: Wed, 5 Aug 2026 08:14:49 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Anon <myaltforstuff1234@gmail.com>, linux-usb@vger.kernel.org
-Subject: Re: [BUG] usbcore: EPROTO on first-stage Config Descriptor read
- (ShanWan clone, 2563:028e)
-Message-ID: <20260805081449.7199fe16.michal.pecio@gmail.com>
-In-Reply-To: <34fd1f17-6e84-4d5c-bbc0-e1cb990d2017@rowland.harvard.edu>
-References: <CAJ5U=Uw2R7xVEY3ugZ_gRsi+yC9WviMbFEO9RbR6A3ue-G=adg@mail.gmail.com>
-	<34fd1f17-6e84-4d5c-bbc0-e1cb990d2017@rowland.harvard.edu>
+        bh=4Xv6Lh9Vxa7VZjoa3LMQUcV3QtVtWuQt/nGnygeIYR4=;
+        b=r4Blprz3JDEMp4QWS5SvrzWiqvyZiA1bCJxS/oPU8AUcqCA6AIcXCWIP5QBI075exi
+         RZzEi1BHqYh9AaljZryqivip5ZXAgnQHva9gYmvzSxqnq+NkaSp4+nZxCEsWgQqgBZxr
+         NWXmXy5qck8v+IhPxYqIdAzeFHlytJfdMr857PFIhy6M4bJ2lR9N1RPgAK+N4nTwkD7m
+         aLsG/uzCf2Q6UAJDteInEpDRksiXYq/3q0bUJq81w5P3nbBhdCXz0n109qN2D5g5RrhE
+         p/A23OZ0l1V45nIOwCuDS9jI7y55U29Cs+lVqgFyNPz396AKM3ocARJ5hI6l61lYJpAc
+         +JQg==
+X-Forwarded-Encrypted: i=1; AHgh+RqmgJit2HDrt8EXBIeAfTEvUtTME7vf0CRKGM/K2g2+GY9rlIgD1cJxiQnu/cdRqrBIcdDJID7h3GE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKxd/6VfB3+/ca9X0JRyD6VZbiI+QogDqsJ7i6Nyd18OxbgFNi
+	bB/1k29Z9yUnyC54jN4VbaBrKqlTtITvm6d3uNhZWfR/qvvcHobq1uW7SO5O09ZvMogI7jx+uVX
+	MfZRYq5qtSHOlDbRWnA711Zi3LRl6SmI=
+X-Gm-Gg: AR+sD10kFkcIwf5HgErTGZ79cqajawfQ6FGBNnkXuQtN3rPIZiTHumrkGDOYZ/nxrOR
+	AwHlJcD9OVewcdTaIBzW/gVZreabNJQ4XBucGaVZUV55Ugd4tU6/+bxprZD4qWysvLuVu1Zg51a
+	17kaA38ftaqmoTN1I+dxLh2ZZeRY5rlLWsLWs4QrLJtxml3lEhS+JHvUgNT8+0pDEJoQRrQ+q92
+	xm5r0TlYbR0l2tfYFHB1lIpkOXZ1byIGvMh5PyVqzVMvmU+YXmGiSmj17ZLTWqvBxtYaOy8JUjZ
+	1d3RQmYdyFOL5ZoklmtswJ1kaZFNb5fRgkLsfY2x4i5dsfrhhAtxwPc7JaCdIA+Q96/7+V6EfQj
+	+aA==
+X-Received: by 2002:a05:6820:3095:b0:6ac:a5a3:460f with SMTP id
+ 006d021491bc7-6ae96f1111dmr2536229eaf.25.1785912512358; Tue, 04 Aug 2026
+ 23:48:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260720150207.1963786-1-charles.daoust@gmail.com> <20260805075429.08416607.michal.pecio@gmail.com>
+In-Reply-To: <20260805075429.08416607.michal.pecio@gmail.com>
+From: "Charles D'Aoust" <charles.daoust@gmail.com>
+Date: Wed, 5 Aug 2026 02:48:21 -0400
+X-Gm-Features: AUfX_myCbyWaGmHoIJb8Tebqi3WNBU8TWiYaZdPYl_JynhHI19QT4zP5Jqfjl3Y
+Message-ID: <CAAhWKQRBrK0Bu_wEPV6chU=p6Y=kXix9H2Ys2k=M+PxbAL3Wqg@mail.gmail.com>
+Subject: Re: [PATCH] usb: core: add USB_QUIRK_CONFIG_DESC_READ_255 for Razer
+ BlackShark V3 Pro
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 20 Jul 2026 09:46:57 -0400, Alan Stern wrote:
-> On Mon, Jul 20, 2026 at 08:50:49AM +0300, Anon wrote:
-> > Rapoo V600SE / ShanWan-family chipset -- X-input persona (2563:028E)
-> > fails USB enumeration one stage earlier than the known Switch Pro
-> > fallback bug
-> > 
-> > Hardware
-> > --------
-> > Product: Rapoo V600SE Dual-Mode Vibration Gamepad (marketed with
-> > Hall-effect sticks/triggers, X/D/A mode switching)
-> > Underlying chipset family: ShenZhen ShanWan Technology Co., Ltd.
-> > (confirmed via multiple vendor IDs observed from the same physical
-> > unit: 0x2563, 0x20BC)
-> > System: CachyOS (Arch-based), systemd-boot bootloader, kernel 7.1.3-2-cachyos
-> > USB controller: xHCI (xhci_hcd)
-> > 
-> > Summary
-> > -------
-> > This controller presents at least four distinct USB identities from
-> > the same physical hardware, depending on mode-button state and
-> > connection type. Three of these are already individually documented in
-> > various places (ArchWiki, xpad issue tracker, hid-shanwan project) as
-> > instances of a known ShanWan firmware bug: a malformed response to the
-> > two-stage USB Configuration Descriptor read causing -71 EPROTO
-> > (sometimes -32 EPIPE), leading to enumeration failure and a silent
-> > firmware-side fallback to a lower-capability "Android" persona.  
-> 
-> > Root cause (confirmed at byte level via raw usbmon)
-> > -----------------------------------------------------
-> > This matches the general failure mode already described on the
-> > ArchWiki Gamepad page (https://wiki.archlinux.org/title/Gamepad) for
-> > ShanWan-family devices: during enumeration, the host requests the
-> > Configuration Descriptor in two stages -- a 9-byte header first (to
-> > learn wTotalLength), then the full descriptor. Some ShanWan firmware
-> > responds to the first request by sending the full descriptor anyway,
-> > which is a USB spec violation, and strict host controllers reject it
-> > with EPROTO/EPIPE. Windows tolerates this; Linux (by default) does
-> > not, and the device firmware silently re-enumerates into a
-> > lower-capability fallback persona after the failure.
+It was indeed AI assisted. It's hard to tell if this is sloppy QA,
+obviously, but initially I thought it was an actual lockdown in the
+firmware to prevent non-Razer software from accessing the device.
+Turns out you're probably right.
+---
+Charles D=E2=80=99Aoust
 
-That's speculation by somebody on Arch Linux wiki, we were under
-impression that the mechanism (at least in other similar case) is
-different. Also, device sending more than requested is expected to
-yield -EOVERFLOW, not -EPROTO.
-
-Curiously, wiki claims that some existing quirks solve this issue.
-Did you try them?
-
-> 
-> > What I'm hoping for
-> > --------------------
-> > - Has anyone seen this specific earlier-stage (first 9-byte header)
-> > EPROTO failure on a ShanWan-family device, as opposed to the more
-> > commonly documented second-stage failure? Is there a known fix?
-> > - Would a patch that increases retry attempts specifically around
-> > EPROTO on the Configuration Descriptor's first stage (perhaps gated to
-> > known-bad VID:PID ranges, similar to how hid-shanwan and hid-sony's
-> > existing ShanWan quirks are scoped) be a reasonable ask, or is this
-> > considered out of scope for mainline given it's cloned/unofficial
-> > hardware?
-> > - I'm not a kernel developer, but I'm willing to test patches, provide
-> > more capture data, or run a device on a spare machine if that's useful
-> > to anyone actively working on hid-shanwan or xpad.  
-> 
-> This message might be relevant:
-> 
-> https://lore.kernel.org/linux-usb/20260717195336.98500-2-nikhilsolanke5@gmail.com/
-> 
-> You would have to add a quirk entry for your particular device, for 
-> example (added to the boot command line):
-> 
-> 	usbcore.quirks=2563:028e:r
-
-This new quirk is now on the way to mainline:
-https://patch.msgid.link/20260728195158.65162-2-nikhilsolanke5@gmail.com
-
-As is the first patch to enable it on some device ID:
-https://patch.msgid.link/20260802120128.38302-1-ishaan.dandekar@gmail.com
-
-You could send a similar patch if the quirk works for you.
-
-Regards,
-Michal
+On Wed, Aug 5, 2026 at 1:54=E2=80=AFAM Michal Pecio <michal.pecio@gmail.com=
+> wrote:
+>
+> On Mon, 20 Jul 2026 11:01:26 -0400, Charles Daoust wrote:
+> > From: Charles D'Aoust <charles.daoust@gmail.com>
+> >
+> > The Razer BlackShark V3 Pro wireless headset dongle (1532:0577)
+> > fingerprints its host during the first enumeration after power-on: if
+> > the first GET_DESCRIPTOR(CONFIGURATION) request asks for 255 bytes, as
+> > Windows does, the dongle enables its vendor HID command channel; if it
+> > sees the 9-byte header-only read that Linux issues, it disables that
+> > channel for the rest of the power session.  Audio still works in that
+> > state, but battery reporting and all vendor commands are silently
+> > ignored, and nothing short of removing power recovers the device:
+> > resets, re-enumerations and byte-exact replays of complete Windows
+> > control sessions were all verified not to help.
+> >
+> > Both read lengths are spec-compliant (the device truncates the reply
+> > to wLength); the firmware was evidently only validated against the
+> > larger request.
+>
+> Hmm, so is it fingerprinting of the host or sloppy QA? ;)
+> Out of curiosity, was this patch AI-generated?
+>
+> >  The kernel already accommodates this class of
+> > firmware assumption during enumeration: hub_port_init() reads the
+> > device descriptor with a 64-byte request because that is what Windows
+> > does and what many devices expect.
+> >
+> > Add USB_QUIRK_CONFIG_DESC_READ_255, which makes usb_get_configuration()
+> > request 255 bytes for the initial configuration descriptor read rather
+> > than USB_DT_CONFIG_SIZE, apply it to 1532:0577, and expose it as
+> > runtime quirk letter 'r'.  Devices without the quirk are unaffected.
+> >
+> > The trigger was isolated by single-variable bisection on otherwise
+> > unmodified kernels: with only the widened initial read, the dongle's
+> > vendor channel comes up enabled on a cold plug with no interface
+> > drivers bound (bare enumeration only); without it, it never does.
+> >
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Charles D'Aoust <charles.daoust@gmail.com>
+>
+> But anyway, FYI an equivalent quirk is now sitting in Greg KH's queue
+> of fixes for (presumably) the 7.2 release.
+>
+> I suspect that Greg would accept one more patch to enable the quirk
+> by default on your device ID.
+>
+> Regards,
+> Michal
