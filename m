@@ -1,147 +1,247 @@
-Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198B01D9A5F
-	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 03:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4127D381EBA
+	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 03:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785899605; cv=none; b=d4wVc7E4BbMF4Emef6miCAF4Bj/2R4ve/bxNw5ZrtZR5CJTTYcxc1D9DfhXwRDEKRzb3gH5vxZ7nwaTcKNWVM5mvk0RElILE9Prlqs5R0KtVaeVv/E2eYh+kbLfvtrP/Metzyr9tQxYS8D012BDHjbJ3KoK4JBUBC9buRSWBOhw=
+	t=1785901757; cv=none; b=RsI1fXlc5/JsckN6EInfLRRYl9D2oCcPywzoe68F8l8ork17XGzX+0jq6xwvhq3AO0oscdxWLkb8D+GFrGBFwpE7MOvobQW2KpSFQGi/dS97teeL5GY4ukcjrDT6JvMtGdf0cgZM69W0l/8j57QnWuS6hHeFQKYhfOAYVzGGzy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785899605; c=relaxed/simple;
-	bh=clTICIsFy7PUiTG4RtZ3LYbmXKSV4GiO8/hLkimCVLk=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=r8YCA3zGZkWWTe7fgl03ZGJpUW9PR2o0X9QBHgxH6AYSLHLG2ETaThDiIM/wWYY0/pBjWNeJL2EWvunZeV8WWb4oK/ddDNOEdeJtP1+oTJQhSaEWUbxJUF4LsLsrGoztCKLIn6cbEoj57g2ZLgiqST4S4OaAYpbyHw05O+NqsKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-6a0f261aeb6so587181eaf.3
-        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 20:13:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785899603; x=1786504403;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sEinLgk6nKBfrSgVLGRRHa/JVOnk19HNYug5SV+RYcE=;
-        b=CDqopoiaOFoDBxLmQIcGDExiiEGFtPN2ytUfqxaA2rqxH39TnCKEKWKAHsWDEZHXBb
-         d6+/7R+UleGYmLG+Z4gykHFYMbzjsym3jusGMVLX8/Lnivdq+Pt5R9mh6pcpvA2qyS5I
-         7dNpswvySU+W4dPAzInGp4siqhslIdftOaskJuKhn5evmlfo6SCOMnsvFs8UKKPIYH7I
-         j0qAcrsurPXq/WqEHa2KMNHZNb1CqDj7ZRFh1yyE1Ok9x2m0UDULeelHptD3XNf6dqp5
-         O1n8Jr6F52bG5KD0aDYVXPo3e4YG7w3uz5ZNN6+sXvTZJX2xXb4GYqLrp32wVePjkHbb
-         hTMw==
-X-Forwarded-Encrypted: i=1; AHgh+Rpj518UDiL9aQJ2trQJWR+YdqOL0mZ72ZIheVuxxZSg1MSkwbec/j7MOCC6khvagaiP3LqvgQYV5kg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjrVYZv1/+VzUi8gIKwEXI1gxXaFAIZeyPgIVAEH0b0i7rYOmj
-	TvLiVv3oW2HYZTavZ7GX6ekdij8I+76ygfkw0mH5hkVYvsr9xmV6U5GrOGhdPsp6e0/dKzKQC7X
-	aMAp53WTshnp45GeQqaQWc1OmE2+wKa+QJk3xE/K8v5LCDCJPhw4BiS+22B0=
+	s=arc-20240116; t=1785901757; c=relaxed/simple;
+	bh=meFEwZIslNE7kFHIjAADvZ+HWEw7+PCD4fidAQi7V+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OW/+Bm7UQWq1/vqrPpiMZ3TMW9E9rtA9xiheOaWmLUKiqAZkGBE5LbbVf+/TL+Muv5MFZNiUhs00so2+us1dVat92yEWZ+unrHf7QWMU8pwXJ8YU54kfXATSuF0TXUMuJb2wBAnYxM/YLOAGjbpBD11Vv+wxabSWu8ACtdg4U1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WCZY6uNO; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WCZY6uNO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785901752; x=1817437752;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=meFEwZIslNE7kFHIjAADvZ+HWEw7+PCD4fidAQi7V+Q=;
+  b=WCZY6uNO5biN1aMey2yNWVKe0AUQivTI1fj+9d3tQLqBvtiMJ4n/yuGy
+   myYCkIyQf8r1Fvw2RripjiSsrC/CigiBkncIXZO4MP0NbY/5mGCOjZGkk
+   gWbSl7IV98Fum9UoCXNbOxGRsxIzAMI08h0GHWKV3M7unxhAcpwSeqE1r
+   3iwwZz21m+6jysB5g1L28BuuMfT/GdkS/Ji2HhlqeVC8CeTd/nzw9DI7z
+   F5Pj/8nH8eJ8i67LIor+OURWpxJHKR+5ZuTrI7Nz+RoL0rj+oP4Q0KKqN
+   JDYVFtvqQZE5tHlQvFgt1DopAtOJOjaAicv0JAyRWupHBmOmmDiaMsLTn
+   g==;
+X-CSE-ConnectionGUID: GimhQ38jRPiIUFH7yOOvog==
+X-CSE-MsgGUID: OkGpGn2YSn+2IAdrUhjoiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="109254877"
+X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
+   d="scan'208";a="109254877"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 20:49:11 -0700
+X-CSE-ConnectionGUID: wb+P5wogR8Spa8X7ffMQFw==
+X-CSE-MsgGUID: U7rBnLuGS9G6UvabZSlj3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
+   d="scan'208";a="285055728"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa002.fm.intel.com with ESMTP; 04 Aug 2026 20:49:09 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 7A25499; Wed, 05 Aug 2026 05:49:08 +0200 (CEST)
+Date: Wed, 5 Aug 2026 05:49:08 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com,
+	linux-usb@vger.kernel.org, Mario.Limonciello@amd.com,
+	Sanath S <Sanath.S@amd.com>
+Subject: Re: [PATCH -next] thunderbolt: Add quirk to reset host interface on
+ DMA path teardown for AMD USB4 routers
+Message-ID: <20260805034908.GC235112@black.igk.intel.com>
+References: <20260804122638.1623429-1-Basavaraj.Natikar@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:c91:b0:6aa:f45a:68cc with SMTP id
- 006d021491bc7-6ae96bb305cmr2316035eaf.5.1785899602973; Tue, 04 Aug 2026
- 20:13:22 -0700 (PDT)
-Date: Tue, 04 Aug 2026 20:13:22 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a72aa52.13623e66.bdc14.004a.GAE@google.com>
-Subject: [syzbot] [usb?] memory leak in f_uac1_opts_c_srate_store
-From: syzbot <syzbot+7cc26dd73231714cecd4@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260804122638.1623429-1-Basavaraj.Natikar@amd.com>
 
-Hello,
+Hi,
 
-syzbot found the following issue on:
+On Tue, Aug 04, 2026 at 05:56:38PM +0530, Basavaraj Natikar wrote:
+> Some AMD USB4 host routers have a bug in the Host Interface where
+> DMA path setup and teardown cycles may cause the Tx ring to hang.
+> 
+> Fix this by issuing a Host Interface Reset on every DMA path teardown
+> for affected routers. The Host Interface Reset brings the registers in
+> the memory BAR to their default state and clears the End-to-End Flow
+> Control state, preventing the hang condition.
+> 
+> Co-developed-by: Sanath S <Sanath.S@amd.com>
+> Signed-off-by: Sanath S <Sanath.S@amd.com>
+> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+> ---
+>  drivers/thunderbolt/nhi.c      | 48 ++++++++++++++++++++++++++++++++++
+>  drivers/thunderbolt/nhi_regs.h |  4 +++
+>  drivers/thunderbolt/quirks.c   | 16 ++++++++++++
+>  drivers/thunderbolt/tb.c       |  7 +++++
+>  drivers/thunderbolt/tb.h       |  3 +++
+>  5 files changed, 78 insertions(+)
+> 
+> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+> index 383a36212f70..0865cab582e7 100644
+> --- a/drivers/thunderbolt/nhi.c
+> +++ b/drivers/thunderbolt/nhi.c
+> @@ -1160,6 +1160,54 @@ static void nhi_reset(struct tb_nhi *nhi)
+>  	dev_warn(nhi->dev, "timeout resetting host router\n");
+>  }
+>  
+> +/**
+> + * nhi_host_interface_reset() - Issue a host interface reset
+> + * @nhi: Pointer to the NHI structure
+> + *
+> + * Resets the Host Interface by setting the RST bit in the Host Interface
+> + * Reset register. This brings the registers in the memory BAR to their
+> + * default state and clears the End-to-End Flow Control state.
+> + *
+> + * The caller must ensure that the control channel (Ring 0) is stopped
+> + * before calling this function, since the reset clears ring state.
+> + * The caller is responsible for restarting Ring 0 afterward.
+> + *
+> + * After setting the RST bit, waits for tHIReset (10 ms) for the reset
+> + * to complete.
+> + */
+> +static void nhi_host_interface_reset(struct tb_nhi *nhi)
+> +{
+> +	struct device *dev = nhi->dev;
+> +	u32 val;
+> +
+> +	val = ioread32(nhi->iobase + REG_CAPS);
+> +	/* Host Interface Reset only applies to Ver. 1 routers */
+> +	if (FIELD_GET(REG_CAPS_VERSION_MASK, val) >= REG_CAPS_VERSION_2)
+> +		return;
+> +
+> +	dev_dbg(dev, "issuing host interface reset\n");
+> +
+> +	iowrite32(REG_HOST_INTERFACE_RESET_RST,
+> +		  nhi->iobase + REG_HOST_INTERFACE_RESET);
+> +
+> +	/* Wait for tHIReset (10 ms) for the reset to complete */
+> +	usleep_range(10000, 20000);
+> +}
+> +
+> +/**
+> + * tb_nhi_host_interface_reset() - Reset host interface with control channel
+> + * @tb: Pointer to the thunderbolt domain
+> + *
+> + * Stops the control channel, issues a Host Interface Reset, and restarts
+> + * the control channel.
+> + */
+> +void tb_nhi_host_interface_reset(struct tb *tb)
+> +{
+> +	tb_ctl_stop(tb->ctl);
+> +	nhi_host_interface_reset(tb->nhi);
+> +	tb_ctl_start(tb->ctl);
+> +}
+> +
+>  static struct tb *nhi_select_cm(struct tb_nhi *nhi)
+>  {
+>  	struct tb *tb;
+> diff --git a/drivers/thunderbolt/nhi_regs.h b/drivers/thunderbolt/nhi_regs.h
+> index d6a197fabc74..99df60b6db36 100644
+> --- a/drivers/thunderbolt/nhi_regs.h
+> +++ b/drivers/thunderbolt/nhi_regs.h
+> @@ -115,6 +115,10 @@ struct ring_desc {
+>  #define REG_CAPS_VERSION_MASK		GENMASK(23, 16)
+>  #define REG_CAPS_VERSION_2		0x40
+>  
+> +/* Host Interface Reset - resets TX/RX rings and E2E flow control counters */
+> +#define REG_HOST_INTERFACE_RESET	0x39858
+> +#define REG_HOST_INTERFACE_RESET_RST	BIT(0)
+> +
+>  #define REG_DMA_MISC			0x39864
+>  #define REG_DMA_MISC_INT_AUTO_CLEAR     BIT(2)
+>  #define REG_DMA_MISC_DISABLE_AUTO_CLEAR	BIT(17)
+> diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
+> index 9f7914ac2f48..cc04d0873931 100644
+> --- a/drivers/thunderbolt/quirks.c
+> +++ b/drivers/thunderbolt/quirks.c
+> @@ -52,6 +52,12 @@ static void quirk_block_rpm_in_redrive(struct tb_switch *sw)
+>  	tb_sw_dbg(sw, "preventing runtime PM in DP redrive mode\n");
+>  }
+>  
+> +static void quirk_host_interface_reset(struct tb_switch *sw)
+> +{
+> +	sw->quirks |= QUIRK_HOST_INTERFACE_RESET;
+> +	tb_sw_dbg(sw, "enabling host interface reset on DMA path teardown\n");
+> +}
+> +
+>  struct tb_quirk {
+>  	u16 hw_vendor_id;
+>  	u16 hw_device_id;
+> @@ -114,6 +120,16 @@ static const struct tb_quirk tb_quirks[] = {
+>  	{ 0x0438, 0x0209, 0x0000, 0x0000, quirk_clx_disable },
+>  	{ 0x0438, 0x020a, 0x0000, 0x0000, quirk_clx_disable },
+>  	{ 0x0438, 0x020b, 0x0000, 0x0000, quirk_clx_disable },
+> +	/*
+> +	 * AMD USB4 host routers may hang the Tx ring after repeated
+> +	 * DMA path teardowns. Issue a Host Interface Reset on each
+> +	 * teardown to prevent the hang.
+> +	 */
+> +	{ 0x0438, 0x020d, 0x0000, 0x0000, quirk_host_interface_reset },
+> +	{ 0x0438, 0x020e, 0x0000, 0x0000, quirk_host_interface_reset },
+> +	{ 0x0438, 0x020f, 0x0000, 0x0000, quirk_host_interface_reset },
+> +	{ 0x0438, 0x0210, 0x0000, 0x0000, quirk_host_interface_reset },
+> +	{ 0x0438, 0x0211, 0x0000, 0x0000, quirk_host_interface_reset },
 
-HEAD commit:    8ba098e6b6ff Merge tag 'v7.2-rc5-smb3-client-fixes' of git..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=120e09b9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ba7c2d1679fb08a2
-dashboard link: https://syzkaller.appspot.com/bug?extid=7cc26dd73231714cecd4
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=101d4c9e580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12000649580000
+These quirks are for things inside USB4 fabric. Since this is the HI, we
+have quirks for those in pci.c/nhi.c like QUIRK_AUTO_CLEAR_INT. Can you
+make this one follow that convention instead?
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/7704922b2ff1/disk-8ba098e6.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/15910c78a77e/vmlinux-8ba098e6.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/c70f2f8f4678/bzImage-8ba098e6.xz
+>  };
+>  
+>  /**
+> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+> index 47753a5c0f2e..d40cc9e57364 100644
+> --- a/drivers/thunderbolt/tb.c
+> +++ b/drivers/thunderbolt/tb.c
+> @@ -2395,6 +2395,13 @@ static void __tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+>  	 * the same host router USB4 downstream port.
+>  	 */
+>  	tb_enable_clx(sw);
+> +
+> +	/*
+> +	 * Some host routers may hang the Tx ring after DMA path teardowns.
+> +	 * Issue a Host Interface Reset to prevent it.
+> +	 */
+> +	if (tb->root_switch->quirks & QUIRK_HOST_INTERFACE_RESET)
+> +		tb_nhi_host_interface_reset(tb);
+>  }
+>  
+>  static int tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+> index 4373336d9425..d21feb631f3e 100644
+> --- a/drivers/thunderbolt/tb.h
+> +++ b/drivers/thunderbolt/tb.h
+> @@ -26,6 +26,8 @@
+>  #define QUIRK_NO_CLX					BIT(1)
+>  /* Need to keep power on while USB4 port is in redrive mode */
+>  #define QUIRK_KEEP_POWER_IN_DP_REDRIVE			BIT(2)
+> +/* Reset Host Interface on DMA path teardown to prevent Tx ring hang */
+> +#define QUIRK_HOST_INTERFACE_RESET			BIT(3)
+>  
+>  /**
+>   * struct tb_nvm - Structure holding NVM information
+> @@ -1507,6 +1509,7 @@ static inline bool usb4_port_device_is_offline(const struct usb4_port *usb4)
+>  }
+>  
+>  void tb_check_quirks(struct tb_switch *sw);
+> +void tb_nhi_host_interface_reset(struct tb *tb);
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7cc26dd73231714cecd4@syzkaller.appspotmail.com
+Also we don't need to expose this then (and if it needs to be exposed it
+belongs to nhi.h not here.).
 
-2026/08/01 03:11:31 executed programs: 5
-BUG: memory leak
-unreferenced object 0xffff8881116a9c10 (size 8):
-  comm "syz.0.19", pid 5937, jiffies 4294943638
-  hex dump (first 8 bytes):
-    34 00 00 00 00 00 00 00                          4.......
-  backtrace (crc 1875d87):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4597 [inline]
-    slab_alloc_node mm/slub.c:4917 [inline]
-    __do_kmalloc_node mm/slub.c:5333 [inline]
-    __kmalloc_node_track_caller_noprof+0x3d3/0x570 mm/slub.c:5471
-    __kmemdup_nul mm/util.c:64 [inline]
-    kstrdup+0x3c/0x80 mm/util.c:84
-    f_uac1_opts_c_srate_store+0xbb/0x170 drivers/usb/gadget/function/f_uac1.c:1666
-    flush_write_buffer fs/configfs/file.c:207 [inline]
-    configfs_write_iter+0x10d/0x1a0 fs/configfs/file.c:229
-    new_sync_write fs/read_write.c:595 [inline]
-    vfs_write+0x3ac/0x720 fs/read_write.c:687
-    ksys_write+0xa5/0x170 fs/read_write.c:739
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xf8/0x610 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-BUG: memory leak
-unreferenced object 0xffff888109bd5f20 (size 8):
-  comm "syz.0.20", pid 5965, jiffies 4294944214
-  hex dump (first 8 bytes):
-    34 00 00 00 00 00 00 00                          4.......
-  backtrace (crc 1875d87):
-    kmemleak_alloc_recursive include/linux/kmemleak.h:44 [inline]
-    slab_post_alloc_hook mm/slub.c:4597 [inline]
-    slab_alloc_node mm/slub.c:4917 [inline]
-    __do_kmalloc_node mm/slub.c:5333 [inline]
-    __kmalloc_node_track_caller_noprof+0x3d3/0x570 mm/slub.c:5471
-    __kmemdup_nul mm/util.c:64 [inline]
-    kstrdup+0x3c/0x80 mm/util.c:84
-    f_uac1_opts_c_srate_store+0xbb/0x170 drivers/usb/gadget/function/f_uac1.c:1666
-    flush_write_buffer fs/configfs/file.c:207 [inline]
-    configfs_write_iter+0x10d/0x1a0 fs/configfs/file.c:229
-    new_sync_write fs/read_write.c:595 [inline]
-    vfs_write+0x3ac/0x720 fs/read_write.c:687
-    ksys_write+0xa5/0x170 fs/read_write.c:739
-    do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
-    do_syscall_64+0xf8/0x610 arch/x86/entry/syscall_64.c:94
-    entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-connection error: failed to recv *flatrpc.ExecutorMessageRawT: EOF
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+>  
+>  #ifdef CONFIG_ACPI
+>  bool tb_acpi_add_links(struct tb_nhi *nhi);
+> -- 
+> 2.34.1
