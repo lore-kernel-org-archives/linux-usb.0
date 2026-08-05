@@ -1,270 +1,122 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843502F7EFF
-	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 13:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CF0472798;
+	Wed,  5 Aug 2026 13:45:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785936803; cv=none; b=TQzPJhdPNeKDNm8DboIRm4d0qCgAhtEQLTSKWMLZtn2ygziGgu+bcBL36nzro6ys/ygraZj+DVCjkvzlh3Ul/CsYZ2SgvCGO+76s93T2fFww54RpARvhz9tx++XDjRtu/IJtPrIbTHj3Jxo0xaLj1Wnmh+e6tQd9JhdWfUMQ63U=
+	t=1785937527; cv=none; b=oimabLmyoPYJhg2ZNwr8iv8OW9mpw6i52RPQenxALBcCWrsSAvUM2q0fmT/2xyHF8gPDcJ4yjRhGQfPf7mvOXV5d3bjHVw39p/OjvNK2yWG17Zpbu12ly0UdqM0sq765x5pQ+uDJaBVhPIXTbZ9/pNCBHmK6ptVL3+EMgY5vK68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785936803; c=relaxed/simple;
-	bh=5qwwTPLAjifjucq09daVXZoN5WEB7gNKHa2R9gMjFMc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gEAbvrhmYK4hsoeQracIHhuYl7c2pBU6Q1Ey8ZM9aupB7LlRdJXlM2MzmW4OM8u4URoObi+X3Jd8tHnga8PqJJYNJe+MJQlsPlrk96BP6xnOMjDLB6i3JLc4FGOz7KFW4A30rAnujeexeusulLguRzVqYLixbxqH+/8GeU16ru8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dfRwHl/z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dozMO8tb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jLEeuNJO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=SnrQG1cZ; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dfRwHl/z";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dozMO8tb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jLEeuNJO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SnrQG1cZ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4E5FD3DF3;
-	Wed,  5 Aug 2026 13:33:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785936795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TE+q35ApNjZKO4rqBMkHgJw8FcFNWwsiENwfNPKpXik=;
-	b=dfRwHl/zvBze8z7P2MjRJ4Gdnl3xqfdY1vlAPwXjoF6gvwQcPiliUNDgH7Lm3bI5bvHVVx
-	1PqCkBdgIXjSnRLui93xhZzXyCGRg/ZsHAfkHXfD/91Oyy2rJsW5gHUpZ/CFw/6Xf/Ni6y
-	mvs3G4SZTJhgPqqtK7C5F6Ldf9HAVxE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785936795;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TE+q35ApNjZKO4rqBMkHgJw8FcFNWwsiENwfNPKpXik=;
-	b=dozMO8tbjjqNhlvs0nJMpzteLTF0AnBFYgGygi0DebWlkJP6RPZxXwBQT2FDYLw3minMlS
-	U58paLlTYboduWDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jLEeuNJO;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=SnrQG1cZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1785936791; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TE+q35ApNjZKO4rqBMkHgJw8FcFNWwsiENwfNPKpXik=;
-	b=jLEeuNJOlLY1VJQqCoVg63NofmaOm6osWa8/hskz+x5gdMuThQL46pO8do3dNiDkDUll/U
-	NUVHZ5EPr7hEplIK7pOSENV4Tnol8is2QjaUpvAUIV1kgZqFMJEPO/wDhHtzI1zDmQcmpr
-	tegj2F/5R0e1hKS07LTj0Rky30EtdP8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1785936791;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TE+q35ApNjZKO4rqBMkHgJw8FcFNWwsiENwfNPKpXik=;
-	b=SnrQG1cZjvu28SbvgLwnEObBzOiy+Ke5vUoqjEORfXud3jKpnd+Se7Nansz3fUQkCIP0lX
-	1VyI/w4knx9MebCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B153779C2;
-	Wed,  5 Aug 2026 13:33:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id A/gYCZc7c2rENAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 05 Aug 2026 13:33:11 +0000
-Date: Wed, 05 Aug 2026 15:33:10 +0200
-Message-ID: <87o6fgg0a1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?GB2312?B?1cW9qA==?= <soldierjazz2013@gmail.com>
-Cc: alsa-devel@alsa-project.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [BUG REPORT] sound/usb: Fix Use-After-Free in snd-usb-audio error_timer during device disconnect
-In-Reply-To: <CAEoG+NTPOoKfbJMvcnfsM2f-3GUrpcw5_LSnpXvAPWUZZJg7mA@mail.gmail.com>
-References: <CAEoG+NRpPip1Eymi1ZSgG7FdYH2UkRneat2GJRWXL_M38xfD9w@mail.gmail.com>
-	<8733wshq3t.wl-tiwai@suse.de>
-	<CAEoG+NTPOoKfbJMvcnfsM2f-3GUrpcw5_LSnpXvAPWUZZJg7mA@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	s=arc-20240116; t=1785937527; c=relaxed/simple;
+	bh=LoohxNysBPr0AgYIL7WP/BAageI879VZyP6fORbJ7v0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s57yAMDZg9iUGejpsxTgA1hMe18uItDkbVnHYoNablUXPbFakgfohe6yadP6AyATOEXr9Uh9zPBJwMAReP4LTuKGbbMfL+10d/f0u4WbHJx2aykKKdWIMyRwM2XwfoR48biHOEwjsNDTb3xK1448y0V28A45iF3vmN6IZMUcqH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
+	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 09E7A20194D;
+	Wed, 05 Aug 2026 15:45:21 +0200 (CEST)
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1wrbvs-0037F4-35;
+	Wed, 05 Aug 2026 15:45:20 +0200
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1wrbvs-0000000D9mS-3Y8P;
+	Wed, 05 Aug 2026 15:45:20 +0200
+Date: Wed, 5 Aug 2026 15:45:20 +0200
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: badhri@google.com, gregkh@linuxfoundation.org, xu.yang_2@nxp.com, 
+	18255117159@163.com, krzysztof.kozlowski@oss.qualcomm.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH] usb: typec: tcpci: add alert.fault handling
+Message-ID: <ucjnu5ybx7kcxtfagyxxjjkzwcqbhfip7zxdlndu3lnggvscwp@27w6h2kbxs3v>
+References: <20260731083529.2659924-1-m.felsch@pengutronix.de>
+ <anMpvRaTmV0qY65v@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 4E5FD3DF3
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:email,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <anMpvRaTmV0qY65v@black.igk.intel.com>
 
-On Wed, 05 Aug 2026 11:36:19 +0200,
-张建 wrote:
+On 26-08-05, Heikki Krogerus wrote:
+> On Fri, Jul 31, 2026 at 10:34:59AM +0200, Marco Felsch wrote:
+> > Add minimal handling to clear the ALERT.Fault bit which may be set in
+> > case of an over-current or over-voltage detection. At the moment only
+> > the IRQ clear support is added since the TCPC Spec mentions that the
+> > handling of such events is vendor specific.
+> > 
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > ---
+> >  drivers/usb/typec/tcpm/tcpci.c | 16 +++++++++++++++-
+> >  1 file changed, 15 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
+> > index a56e31b20c21..d2d5bf7ca618 100644
+> > --- a/drivers/usb/typec/tcpm/tcpci.c
+> > +++ b/drivers/usb/typec/tcpm/tcpci.c
+> > @@ -692,7 +692,8 @@ static int tcpci_init(struct tcpc_dev *tcpc)
+> >  
+> >  	reg = TCPC_ALERT_TX_SUCCESS | TCPC_ALERT_TX_FAILED |
+> >  		TCPC_ALERT_TX_DISCARDED | TCPC_ALERT_RX_STATUS |
+> > -		TCPC_ALERT_RX_HARD_RST | TCPC_ALERT_CC_STATUS;
+> > +		TCPC_ALERT_RX_HARD_RST | TCPC_ALERT_CC_STATUS |
+> > +		TCPC_ALERT_FAULT;
+> >  	if (tcpci->controls_vbus)
+> >  		reg |= TCPC_ALERT_POWER_STATUS;
+> >  	/* Enable VSAFE0V status interrupt when detecting VSAFE0V is supported */
+> > @@ -720,6 +721,19 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+> >  	irq_ret = status & tcpci->alert_mask;
+> >  
+> >  process_status:
+> > +	/*
+> > +	 * Handle nested fault before clearing the alert status to not
+> > +	 * re-trigger a fault alert immediately again.
+> > +	 */
 > 
-> Hi Takashi,
-> 
-> We can only test the Linux driver on other processors (non-Qualcomm
-> processors), and no problems occur under these conditions. Therefore, we
-> suspect it's related to the callback value sent to the URB when a USB device
-> is disconnected on a Qualcomm CPU.
+> Shouldn't that explanation in the comment be also in the commit
+> message? That sounds like the "why" part to me.
 
-Basically the upstream focuses only on the upstream code base, so the
-bug reproducibility with the latest upstream kernel is mandatory.
-Since there have been already many fixes for similar issues, it's hard
-to tell without testing with the latest code.
+I don't think so, it's just a comment for $dev that this ordering is
+important. The commit message clearly states that an over-current or
+over-voltage may trigger this.
 
-Let us know if you can trigger the issue with the upstream kernel,
-then we can take a deeper look at it.
+Regards,
+  Marco
 
+> > +	if (status & TCPC_ALERT_FAULT) {
+> > +		unsigned int fault;
+> > +
+> > +		/* TODO: Add a proper over-current and over-voltage handling */
+> > +		ret = regmap_read(tcpci->regmap, TCPC_FAULT_STATUS, &fault);
+> > +		if (!ret)
+> > +			regmap_write(tcpci->regmap, TCPC_FAULT_STATUS, fault);
+> > +	}
+> > +
+> >  	/*
+> >  	 * Clear alert status for everything except RX_STATUS, which shouldn't
+> >  	 * be cleared until we have successfully retrieved message.
+> > -- 
+> > 2.47.3
+> 
+> -- 
+> heikki
+> 
 
-thanks,
+-- 
+#gernperDu 
+#CallMeByMyFirstName
 
-Takashi
-
-> 
-> Thanks!
-> 
-> Takashi Iwai <tiwai@suse.de> 于2026年8月5日周三 17:30写道：
-> 
->     On Wed, 05 Aug 2026 11:19:54 +0200,
->     张建 wrote:
->     >
->     >
->     > Hi Takashi and Linux USB/ALSA maintainers,
->     >
->     > We identified a reproducible Use-After-Free (UAF) kernel panic in sound/
->     usb/
->     > midi.c during USB MIDI device hot-unplug under active URB transfers.
->     >
->     > The issue was reproduced on Qualcomm platforms (Snapdragon 8 Gen 3 Linux
->     > 6.1.145 / Android 14, Snapdragon 8 Elite Linux 6.6.77 / Android16 etc.).
->     The
->     > crash consistently hits __run_timers (timer softirq) dereferencing
->     poison
->     > pointer.
->     >
->     > Crash Trace
->     >
->     > [  169.493907] I[ 1: surfaceflinger: 1794] Internal error: Oops - CFI:
->     00000000f2008234 [#1] PREEMPT SMP
->     > [  169.493941] I[ 1: surfaceflinger: 1794] sec,qc-rst_exinfo
->     soc:samsung,qcom-rst_exinfo: fault handler : unknown
->     > [  169.495442] I[ 1: surfaceflinger: 1794] CPU: 1 PID: 1794 Comm:
->     surfaceflinger Tainted: G S      WC O      
->     6.1.145-android14-11-3254743-abS9280ZCS6DZF2 #1
->     > [  169.495447] I[ 1: surfaceflinger: 1794] Hardware name: Samsung E3Q
->     PROJECT (board-id,09) (DT)
->     > [  169.495455] I[ 1: surfaceflinger: 1794] pstate: 02400005 (nzcv daif
->     +PAN -UAO +TCO -DIT -SSBS BTYPE=--)
->     > [  169.495464] I[ 1: surfaceflinger: 1794] pc : call_timer_fn+0x44/0x26c
->     > [  169.495471] I[ 1: surfaceflinger: 1794] lr : __run_timers+0x1b8/0x30c
->     > [  169.495475] I[ 1: surfaceflinger: 1794] sp : ffffffc00800be40
->     > [  169.495480] I[ 1: surfaceflinger: 1794] x29: ffffffc00800be40 x28:
->     dead000000000122 x27: 0000000000000000
->     > [  169.495490] I[ 1: surfaceflinger: 1794] x26: ffffffc00800be90 x25:
->     0000000000000001 x24: ffffff8a713312b0
->     > [  169.495501] I[ 1: surfaceflinger: 1794] x23: ffffffc00a427000 x22:
->     ffffff8868a70000 x21: ffffff804c485c40
->     > [  169.495511] I[ 1: surfaceflinger: 1794] x20: ffffff804c485c58 x19:
->     0000000000000100 x18: 0000000000000000
->     > [  169.495522] I[ 1: surfaceflinger: 1794] x17: 0000000091b4a83a x16:
->     0000000000000000 x15: 0000000000000000
->     > [  169.495532] I[ 1: surfaceflinger: 1794] x14: ffffff804c485c40 x13:
->     000000000000000d x12: 0000000000000028
->     > [  169.495542] I[ 1: surfaceflinger: 1794] x11: ffffffc00800be98 x10:
->     ffffff8a71331240 x9 : 0000000100000100
->     > [  169.495553] I[ 1: surfaceflinger: 1794] x8 : 0000000100000100 x7 :
->     0000002776497736 x6 : 0000002776497736
->     > [  169.495563] I[ 1: surfaceflinger: 1794] x5 : 0000002776497736 x4 :
->     0000000000000001 x3 : 00000000000009c4
->     > [  169.495573] I[ 1: surfaceflinger: 1794] x2 : 00000000ffff808d x1 :
->     ffffff804c485c58 x0 : ffffff804c485c40
->     > [  169.495584] I[ 1: surfaceflinger: 1794] Call trace:
->     > [  169.495591] I[ 1: surfaceflinger: 1794]  call_timer_fn+0x44/0x26c
->     > [  169.495598] I[ 1: surfaceflinger: 1794]  __run_timers+0x1b8/0x30c
->     > [  169.495605] I[ 1: surfaceflinger: 1794]  run_timer_softirq+0x24/0x4c
->     > [  169.495614] I[ 1: surfaceflinger: 1794]  handle_softirqs+0x120/0x3e0
->     > [  169.495621] I[ 1: surfaceflinger: 1794]  __do_softirq+0x14/0x20
->     > [  169.495628] I[ 1: surfaceflinger: 1794]  ____do_softirq+0x10/0x20
->     > [  169.495635] I[ 1: surfaceflinger: 1794]  call_on_irq_stack+0x3c/0x74
->     > [  169.495641] I[ 1: surfaceflinger: 1794]  do_softirq_own_stack+0x1c/
->     0x2c
->     > [  169.495648] I[ 1: surfaceflinger: 1794]  __irq_exit_rcu+0x54/0xb4
->     > [  169.495655] I[ 1: surfaceflinger: 1794]  irq_exit_rcu+0x10/0x1c
->     > [  169.495665] I[ 1: surfaceflinger: 1794]  el0_interrupt+0x54/0x174
->     > [  169.495671] I[ 1: surfaceflinger: 1794] 
->     __el0_irq_handler_common+0x18/0x28
->     > [  169.495677] I[ 1: surfaceflinger: 1794]  el0t_64_irq_handler+0x10/
->     0x1c
->     > [  169.495683] I[ 1: surfaceflinger: 1794]  el0t_64_irq+0x1a4/0x1a8
->     > [  169.495690] I[ 1: surfaceflinger: 1794] Code: 72950751 72b23691
->     6b11021f 54000040 (d4304680)
->     > [  169.495696] I[ 1: surfaceflinger: 1794] ---[ end trace
->     0000000000000000 ]---
->     >
->     > Root Cause & Race Condition
->     >
->     > There is a sequence defect in snd_usbmidi_disconnect() combined with the
->     URB
->     > completion handler:
->     >
->     >  1. In snd_usbmidi_disconnect(), del_timer_sync(&umidi->error_timer) is
->     >     invoked BEFORE killing in-flight IN URBs via usb_kill_urb().
->     >   
->     >  2. Prior to usb_kill_urb() finishing, an in-flight IN URB completes
->     with an
->     >     unconventional error status (e.g., -EPIPE) when USB disconnect.
->     >   
->     >  3. snd_usbmidi_in_urb_complete() calls snd_usbmidi_urb_error(urb). When
->     >     receiving non-disconnect error codes (This error code is outside the
->     scope
->     >     of the error codes handled by snd_usbmidi_urb_error.), it invokes
->     >     mod_timer(&ep->umidi->error_timer, ...) without checking umidi->
->     >     disconnected.
->     >   
->     >  4. This re-arms error_timer AFTER del_timer_sync() has already
->     executed.
->     >   
->     >  5. snd_usbmidi_disconnect() completes and frees struct snd_usb_midi in
->     >     snd_usbmidi_free.
->     >   
->     >  6. Later when error_timer fires on deallocated memory, leading to a UAF
->     panic
->     >     in __run_timers.
->     >   
->     > Please let us know your thoughts on this issue.
->    
->     Could you verify the issue with the very latest Linus tree, too?
-> 
->     thanks,
->    
->     Takashi
-> 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
