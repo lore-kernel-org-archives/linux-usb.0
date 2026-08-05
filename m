@@ -1,199 +1,154 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC9F3E2AB7
-	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 07:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785915397; cv=pass; b=JNv4oxmqUdPPqdIS+e/6eKeaJwjjr/9wLhMe8+NGIZjzQ6MM6+01v8Ut7+KaCeqylooRkIPXai1UyAymYJdPpn+U8xAZKqyR+px4A7kSBszo+IMXluVw9/TKX4oShiIGc6cKfyHD4ltKJRnj1exQZFubKIS+cDEBcX/WFL1LbfU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785915397; c=relaxed/simple;
-	bh=xGxnVi3lGoEFuEahJsDINJmDX+RfQNxu1kDekNa8Aqk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CTmrV/VS18FYgSSnJtEzlz012PXoCU+Yc/RL55qUOizdXHDlH4fP+2ebVJAn571TiDBAj9LJKDnQPU9XYTDI+vstJOZZCaclrLaviVS0hdJPZKDUzlmV1aJUEhyAb1Dx0qpfjZBrAlPi/bmn8KSFfy+YKB45aucu+i5Pid4NbYY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=behler.me; spf=pass smtp.mailfrom=behler.me; dkim=pass (2048-bit key) header.d=behler.me header.i=@behler.me header.b=mVHNl23n; arc=pass smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=behler.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=behler.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7483E16A4
+	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 07:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785915783; cv=none; b=ftRdCbZcbeNIQZtx2evlmHNmwGZ7KRSI1RsINmJlUom5tGnDei+wBWZHflnCiwe+5zwOlC9b5xliTREyXgw0DZZ7Y2LGfAnu4C2ji+zFmnNmKNj1TfYnJ5jOtNyr2RRZ/aswG5ZJeuVrwPjuAJ8IyZvVG94oF/RcrtqokfwQDTg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785915783; c=relaxed/simple;
+	bh=amTNGb+mD7w8vSU5rAtsxeWQhArbmrSWkamf543I0L0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PGq/hegJ4M6iwWtZom0HCUCWedJ0i9k6fbDVsfPJCmTK/vLbVB4ya+saJUb7N4nYruTRCiyngyfiSQ5x/gUjZdtdZUONnnuCi7OZ7sN40mFBV7LM/IbY/OllW5dPd3eFmH52P/uDSMIQ+1guqVDYyi27IZmNmJR80/Ebeejbes0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BtxJB+4T; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NfTmz4D4; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=behler.me header.i=@behler.me header.b="mVHNl23n"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-664a09bc459so981576d50.1
-        for <linux-usb@vger.kernel.org>; Wed, 05 Aug 2026 00:36:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1785915394; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gVrxe18wLCozx1Qb9eP1c66IAO8lgWXUTvv739umSVn/Po/uC4ungpVO9whAdBoIrP
-         BcwLRO+crkNhIFyiYPzVBI8ZOjOQstG8Jpxy7+QafuKlLX8ntNhIJMIDKTbX8nzv6HDE
-         YcBChXs7SaCeEgQ+joz9pJjV8yCvUwVc+RIyrO4Hljar4OFgiSoPf9+wV9PoLmfihZSq
-         hWT1cPgaH+LFkoJI9z9Oxd+8qU1rtr2HdU+RRPeqkuBQPt1z+xFofaA/duApAbedcgGO
-         EhCvu5PSOnVJRC7B0VQA+LqyMGIvieXo0RziSc+ad0LpgrfhCJgH9SrLnTLj+lLLsBZ2
-         pA3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=pwm+LlowPY9vPcB+T9axyMQcBGk7e5jWR5riOc7h0to=;
-        fh=fPXnWPsi3f7SCSp9saiMQBwVeohT1G4AielRK1qiPnE=;
-        b=Ejqxxi0r6wKQZ00jrf/R7ac58QGWn8wdYPXp3jUK0cwPZPnWKJqH5QqCSpzT4tmcX9
-         hK5/fmh5lovVnJEk1cPZzo/NbBT7WnNnof8LpfDMlywQMMspyRVuIxCl7Cq6flbTi/Y4
-         K6w0TJmu4gM/CpP0Zg55Z9MOgRqddJAnZBmzhvVoia05Fx1fCTLE/B+BEFlHgp8qZIx/
-         IlY5Q9s4ZJ+oX/6vHLYNksG1k9putifaZ6gPYDIVVvo3qXShKnh66mk/CiGi9nndCs9L
-         q/ZFBGMs5YjVKsjwZ77kbtDhLinyQbHj8+psJAurQ+DQKn5E6YezEIOuMi23s4wX2u85
-         csdA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BtxJB+4T";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NfTmz4D4"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6755lEQJ1732108
+	for <linux-usb@vger.kernel.org>; Wed, 5 Aug 2026 07:43:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	l7Oe/YyuErLOkXALaYpSA84y6Os1ajXDNg5/2GXwoes=; b=BtxJB+4TOr4qZNk+
+	CLWE13GzdxT7uSh68CqbagmhJ/N2v8P1YLogcUZ7q9QPTVszOvpvb7nsdsdPCT1W
+	+CIYxFyi5R/My+tIKqe0LqeeHnuUMROcMyPBgopSBUJ9WiKl1EH7P0UB1hQnbLMI
+	MuSF9vDSUPhUuAfXprJY3wz3F4XuseABZ0tHeJCmSgOA9AzRfQxWNdS/otT+KCeM
+	jtLCgsU5RLJVuP/a5TZxGVwcWKZ3t0Voq9tbEjciMr3yqEo8/9/QjbNKA5ShI+cO
+	h4L9CMiL8UElKk8Fgc2ogM6/sYeOiAbk3hM3OKVrI8BWEWw0fX0N5BKGdK7Pho1E
+	3BSeUg==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4fugmgmj1b-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 05 Aug 2026 07:43:01 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-38ea32e57e2so1269919a91.1
+        for <linux-usb@vger.kernel.org>; Wed, 05 Aug 2026 00:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=behler.me; s=google; t=1785915394; x=1786520194; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pwm+LlowPY9vPcB+T9axyMQcBGk7e5jWR5riOc7h0to=;
-        b=mVHNl23n7P1xiwCM0LkT37yzW5eUALmcym89j6ZUPXcU+kK9OqoFsvdcD60rtxO70m
-         9nhquul/ZL0o+nPLZI7x2I0I5H+J9J+L0en0fYNzk3T1jjAojK+uoXYVAtqrXm5iF7Fc
-         QmMBX73NBwcqMtsWj6/KWg0ZJVJp3KZGicZv0r8EK+dOT1dcYnsCOXs0r1s1zjd80Gme
-         3w/YNFUk1HXhdEspgvC00mI2gTjEHx4BBQLyZZ7wa1GMJOCo0JmeJkc1V9jeIBVluys/
-         HLVK+YE+n8CH2mvyTHN3LSiGO2nMhgyFoeZiXCeY9eTlxvmTN4Jj8hRDcrXUQVW1V674
-         93Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785915394; x=1786520194;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1785915781; x=1786520581; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pwm+LlowPY9vPcB+T9axyMQcBGk7e5jWR5riOc7h0to=;
-        b=hE+DFshDlqOyt4EYpV1lBEwCdwIYoTREPV4iFkf6o9yF/LR03LkxriF9V3Bo0wKOYv
-         CmHNMxiTfgLKSjUpOpd91vhx+42Uow1FMZxIUsY9xoQqqNaMpTbJgcQnuRTbwigqUTKA
-         sBJ9NFJybRCeDnPTWayUBUO1BQVhReJtGvuPX7DEYaF8Kz1ItVnrHB6SOLqZlDhU51D4
-         YqchpmY03NoRQ2SlE/cqdnPa/ZgB/BJr8iSX34wOwU7fUFlifR8BQm5nEZd+VqYadD/B
-         1P3HfK97C+R9sfWzLwpYRL+UFH5DJZQxdXFmibrnz6q2BNNk5k1ZOov0gGWWTxXKdCgR
-         m/hQ==
-X-Gm-Message-State: AOJu0YxSySktMD3Dwyl57fjBUVQMihx83qLKffcDUs+5RZWOHQoNx5Qc
-	AR+hiIeOHs79RHjr2ezkPUXFUyewy2PzVSmVLV9ohCHWNfbfTxP6D8fWprAOmUYSo4acaL0d90N
-	wUpygIXpQnJBmC8cpHdIonp+vDd5XEdrDyUnnaHF+Nw==
-X-Gm-Gg: AR+sD13pYadPItJ8kCqej1bmvIl+MYgWyzWzdWatJjHqkxC9Uq06lUPzQzJTH+lDJAp
-	gzgQ5HQRx8MDBqtKOKoSpYJacxPPLUHLrJr142g9ApCUZQ7eO7wqfPyfmDvqHUbXjKqmRC0MU6N
-	2zDNpHWZH9nW4xHozA2c3I4Z/PLQXI4qKLJ3WzIONqXWj8JTQ3Jn9tlcSgM0+dQMD+DF4SMGIiT
-	jkeGwTs435GpAjUr5ftGnoBie3Q/YG9aWAM3efrYpMBlOQK9zLzRVgcmI7dOMKfI211KjSZOAx3
-	kNntLTQqwq6OajzgjGdcIfWcCcZSsjE8djl088+bUYygXNXqi2BDmve60l4=
-X-Received: by 2002:a05:690e:10:b0:668:4ef3:ac41 with SMTP id
- 956f58d0204a3-6699aa3787emr2141994d50.31.1785915394368; Wed, 05 Aug 2026
- 00:36:34 -0700 (PDT)
+        bh=l7Oe/YyuErLOkXALaYpSA84y6Os1ajXDNg5/2GXwoes=;
+        b=NfTmz4D4rVgtaqpb6+a77XpczcC6L6REdZWliEYsjjBAjPsiDf3R1P1iNadKicSCIR
+         kH9vmku/gF4xCyXTVmDC41JUaphFce/1UWHKClokqWs7Ub6440CkIOZrNm5HaX/9uqdV
+         Zl5ldDCcanLxPi38yG9MabVS8AcNaHl8ARNlxPyb/NtyQg/d895sb2WziZ9XTPc8HgyV
+         5KwsrzR/2qbwdGDdpccrlqKOHzM4cdrj3qQB5RmuhbBwWATgLA2WSCg4KVBlcjaZ5sHK
+         vhOJifQfytpc9SGSnYzTE6WfKknGCfcysFoLG34EJHTfLsJAt0ou5ZOiWnrNIKt+9Tyr
+         tFEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785915781; x=1786520581;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=l7Oe/YyuErLOkXALaYpSA84y6Os1ajXDNg5/2GXwoes=;
+        b=OCsQRyXmJ0gGykUabWipyEbvhI80lQpDilaN7VmKmnQmEbV1hJjXAM5WzkoGTF/U3T
+         mBWUHAus+yxVWoZgVQN7KtKhmLHpq7AD8pNHZNGxMT8bvk63Q6sHKxPxNA25VKLgQfd3
+         TMkxmQxglUooN/r34GEGcM1Fqyi17OXJfPAqWzyEb+VGy8kjc9TKQ1j0xgi+MdLcrSSt
+         ALF/FQNNJq1rZfyW8lOFOZSWkT74RSC3+w7FbL1JOswEABMZX1N27BVKTzPlJqqfdEXH
+         Vm9zNtX5I57S+2p5YgbRJfy0n3ccHyRx4VEfaIUiex2MUd9Iou8kB+w4fgkea8jaz8oM
+         1csw==
+X-Forwarded-Encrypted: i=1; AHgh+RolTpQwepk+X/ScfLieCzeeFdFz2PNo5reqRqvu32B6q9Eyx003ITJipv2L2e0okkgp2KVOAPI6L1g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTvywoC9K1FBYJ0otT9Fj9pvRR6IfBdXyZEL9x3Adgq4xHF6On
+	2fTwcKezC2d19nT9HkNYtpL6Hf81EjPl1XX4sbwxZbjIt8KarCbjCDo/i9VhgDCifwMA+DoxHmj
+	gHBo74aDQ52npTQv9gloSAOz7KZm8nFHK18XktgouDmNVnKZWRbe6MAv00OYPjsEHisCM8iQ=
+X-Gm-Gg: AR+sD13rOCZQPCzALCADF6cO+LLnrDaKZm+XhQ0rkadDvqeCcModPV8CJHPqPIZXlp6
+	ZpC8kV7M+iegX6EZHkS4bJojpsXeckQL4kBDlNwKSBaS5XSpEuAAE/47QdMPMpSIPSKR60aiwXe
+	xW70MqmapeEk+W9Rbqopr04eEKCfq0Mn0vp91MWUmH2cG9SNTwwohnTwcm9hC2t4r1TR4RGiKqz
+	jMhK+j74zhtMR0Ksvpgc2Eoy58iiVBeCaW97CfelqFxSl8Hqs33NYaAYT4eeAPGBpfRHm8M5wof
+	1dacwHkoKwSpb54h9sQmaEsWAOng3iWQuTIVVOwGm00zhWeX0eBAyLmLxhPVCFXI+RrKuGE5TmQ
+	Ctp01Y0X1rLas45ZzsZPqCIxFLhuJCvt8KLRphY/CNNRNN+nAi3uRJVt97T9OKsOT/BXf
+X-Received: by 2002:a17:90b:1fc8:b0:38f:23d6:b4a9 with SMTP id 98e67ed59e1d1-3903c6295a6mr5707836a91.21.1785915780647;
+        Wed, 05 Aug 2026 00:43:00 -0700 (PDT)
+X-Received: by 2002:a17:90b:1fc8:b0:38f:23d6:b4a9 with SMTP id 98e67ed59e1d1-3903c6295a6mr5707814a91.21.1785915780240;
+        Wed, 05 Aug 2026 00:43:00 -0700 (PDT)
+Received: from [10.217.219.121] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3903d1ad274sm1272999a91.0.2026.08.05.00.42.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 05 Aug 2026 00:42:58 -0700 (PDT)
+Message-ID: <ac93dc2a-9149-4ddb-a7f9-56010cb9e15c@oss.qualcomm.com>
+Date: Wed, 5 Aug 2026 13:12:54 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAM=hwCxiJwODObeut=JcCA8jbu4C-XVEKJpR-y2MnDJibBQyOw@mail.gmail.com>
- <20260802064729.GL20844@black.igk.intel.com> <CAM=hwCytVxuqfT2d4UNaf2x5FCOpMXaaGyuQ6xEoh_+w8NVJtw@mail.gmail.com>
- <20260804140449.GA235112@black.igk.intel.com> <CAM=hwCx7hg7ZubxmGOND02Do_Vp7W-qJRXK+NyN48sO0Zmy0_g@mail.gmail.com>
- <20260805041421.GE235112@black.igk.intel.com>
-In-Reply-To: <20260805041421.GE235112@black.igk.intel.com>
-From: Bernd Behler <bernd@behler.me>
-Date: Wed, 5 Aug 2026 09:36:22 +0200
-X-Gm-Features: AUfX_mzBxRe2jIp5uB-0VBqqwxGej1PY2-VEIr7YO7ViUQVX4XXmw03AJuBUgzI
-Message-ID: <CAM=hwCwB=eXrDKFLdohPhvPMHCGm_+2qukTa5qiDknkyFVcj=g@mail.gmail.com>
-Subject: =?UTF-8?Q?Re=3A_Apple_Studio_Display_=282026=2C_Thunderbolt_5=29_=E2=80=94_D?=
-	=?UTF-8?Q?P_tunnel_torn_down_every_few_minutes_on_Intel_TB4_host?=
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: linux-usb@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, Imre Deak <imre.deak@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Mika,
-
-> This is not expected. What typically happens is that there is another
-> hotplug and the DP tunnels get re-established.
-
-You are right and my observation was wrong =E2=80=94 I had queried tbtunnel=
-s after
-the re-establishment, not during the outage. It goes exactly as you describ=
-e,
-about a second later:
-
-  16:47:48  acking hot unplug event on 1:11
-  16:47:48  1:11: DP OUT resource unavailable: adapter unplug
-  16:47:48  0:5 <-> 1:11 (DP): deactivating
-  16:47:48  acking hot unplug event on 1:12
-  16:47:48  1:12: DP OUT resource unavailable: adapter unplug
-  16:47:48  0:6 <-> 1:12 (DP): deactivating
-  16:47:48  looking for DP IN <-> DP OUT pairs:
-  16:47:48  0:5: no suitable DP OUT adapter available, not tunneling
-  16:47:48  0:6: no suitable DP OUT adapter available, not tunneling
-  16:47:49  1:11: DP OUT resource available after hotplug
-  16:47:49  available bandwidth for new DP tunnel 34650/34650 Mb/s
-  16:47:49  0:5 <-> 1:11 (DP): activating
-  16:47:49  0:5 <-> 1:11 (DP): DP IN maximum supported bandwidth 8100
-Mb/s x4 =3D 25920 Mb/s
-  16:47:49  activating Video path from 0:5 to 1:11
-  16:47:49  Video path activation complete
-  16:47:50  1:12: DP OUT resource available after hotplug
-
-So: unplug on both adapters, teardown, then a fresh hotplug on both and ful=
-l
-re-establishment roughly one second later. Nothing stale. Sorry for the noi=
-se.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: usb: qcom,snps-dwc3: Fix glymur binding for
+ non-MP controllers
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Wesley Cheng <quic_wcheng@quicinc.com>, linux-arm-msm@vger.kernel.org,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260803-glymur-usb-binding-fixes-v1-1-9ce334777387@oss.qualcomm.com>
+ <20260805-independent-dashing-urchin-0b9776@quoll>
+Content-Language: en-US
+From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+In-Reply-To: <20260805-independent-dashing-urchin-0b9776@quoll>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA1MDA1OSBTYWx0ZWRfXxv0mViY+tRNc
+ tzKxleiKo24dOZckKlf0levCSTTSdStnm3kCQlSosWVMxOhirFED5PLCkM4LCJUojK6thTbATV5
+ Qgz+zWFLwkXqFXMSvM0cbLjvCHCUkEyfasZOOcZmCFsOZjwmxgwB+v/6I73HcL0kybxmiu6G6TA
+ CKear1i54eFUp6/dxzRG8dZ0ODA/e0CZj75VDnb6IQ26RLx7OQKDyOr5c5hCBkQ6gOT0n4OGurb
+ kZGAl4gbCKqhExvcyU5Px0idg07UuAumGgsYaCe1e9Benss1aK6vwgGDdcROMonRzqmVvKiW9mO
+ heX1l9XhRjmuBogLM1xSNEqpr9neRLYSFS2ZIL4ebEpPlKtsHtCBNBcfI0QLuzZRRximikKJqgt
+ 9d4u2S3oRlohOfefNPkaOBOa7MeVotErk34tyjIUlOSG2vB/+8opJkg379j16U70lad8sv3e1W+
+ V2PfHm6hI/s8MDLVBYw==
+X-Proofpoint-GUID: ElB4maeIkSL8HFTDEIXF7-AlcJuTp3hL
+X-Proofpoint-ORIG-GUID: ElB4maeIkSL8HFTDEIXF7-AlcJuTp3hL
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODA1MDA1OSBTYWx0ZWRfXx1bRXFdXoYGo
+ YKyZ8wUCN+8q1C+46REzYhUCmPWSxC91kiS+RflvfUEM0QM4eJMQvCEFf4vzt5NjqDaFR5gFo63
+ en17e+lda+MbNZRl3zPEcPTXyIhuVlo=
+X-Authority-Analysis: v=2.4 cv=XYC5Co55 c=1 sm=1 tr=0 ts=6a72e985 cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=Soz1QWBkztWbeeSyrHYA:9 a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-05_02,2026-08-04_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0
+ clxscore=1015 bulkscore=0 impostorscore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608050059
 
 
-Cable and power supply
-----------------------
 
-> Also, you connect the monitor with a real TB cable, right?
-> The second idea that comes to mind is power supply
+On 8/5/2026 1:05 PM, Krzysztof Kozlowski wrote:
+> On Mon, Aug 03, 2026 at 09:43:04AM +0530, Krishna Kurapati wrote:
+>> Glymur DRD capable controllers have HS Phy interrupt. Fix the binding to
+>> indicate the same.
+> 
+> HS phy irq is listed in the existing if:then: block, so what do you
+> exactly fix?
+> 
+Hi Krzysztof,
 
-Both original Apple parts, and I can answer this better than by description=
-,
-because of how the desk is arranged: the NUC sits physically on top of a Ma=
-c
-mini M2 Pro. Same room, same mains outlet, same monitor, same cable.
+  In non-MP SS capable controllers, the HS Phy IRQ is missing from DT. 
+Also the HS only controller has the dp/dm interrupts swapped up. So 
+wanted to fix the binding to indicate that the 4 non-MP controllers do 
+have dwc_usb3/ pwr_event/ dp/ dm/ hs irq all of them.
 
-  cable plugged into the Mac mini underneath  ->  stable
-  same cable plugged into the NUC above       ->  teardowns within minutes
-
-Nothing moves except which host the plug goes into. That rules out the cabl=
-e,
-the monitor's power supply, and anything environmental. Note the Mac mini M=
-2
-Pro is Thunderbolt 4 as well, not 5, so this is not a TB5-sink-on-TB4-host
-problem either.
-
-The cable was additionally swapped for the 2022 unit's Thunderbolt cable
-earlier; link still came up at generation 4 and the failure was unchanged.
-
-
-> Based on your dump it also happens to both DP OUT adapters (11, 12) at th=
-e
-> same time.
-
-Confirmed, always both, in the same millisecond bracket. The tunnelled USB3
-and PCIe stay up throughout =E2=80=94 only DP goes down. The monitor's USB =
-hub,
-webcam and speakers never disconnect during an event.
-
-
-Usage pattern
--------------
-
-> You don't see any "usage" pattern there when this happens?
-
-Partly. Scrolling bright web pages full screen raises the rate noticeably a=
-nd
-is my usual way to provoke it. But it also happens with the machine idle an=
-d
-nobody in the room, at a lower rate. So load correlates but is not required=
-.
-
-I am sorry to say I cannot run any more tests: the monitor goes back
-today, so this
-hardware is gone as of this afternoon and no further tests are possible on =
-it.
-
-What I do still have is everything captured while it was here =E2=80=94 the=
- traces
-already sent, matching dmesg with drm.debug=3D0x104 plus thunderbolt dyndbg=
-,
-and full journals across several sessions. If any of that is worth a closer
-look, or if you want a specific window extracted, just ask and I will dig i=
-t
-out.
-
-
-Bernd
+Regards,
+Krishna,
