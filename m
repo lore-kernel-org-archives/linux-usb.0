@@ -1,89 +1,60 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C933E008F
-	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 06:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC6836195A;
+	Wed,  5 Aug 2026 07:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785913033; cv=none; b=NKXt3u91ldR62rE+IdVGNmUv9v6ih2k1ohY/HazYBY+hln3OCcZcrpJDoxqu9OzkOywKNNrwjBUPW49T+uNP5DeddJCEo6aFoDVpEYvOriEfJ3IbqrFoSgaUTuZRFKJ5ktu1b/MNDXk3S8ciQdx3Tx3UKOJurn490ocqHHWb6Ag=
+	t=1785915365; cv=none; b=BikIEfFuywYjyxPoHFJxEqYtHUK9Ioyv/3pTUpXfl93+vOVabqle2AYfRHbR+RR8/KbAbrfWh9F3A5uK/6KUV3hK9IOSUxNX7uwSgc82NDUb2/m1J4+JrP4RGhhyE3PKUHnR96bGQtZNERq+Hxq/hV6EPqaaztI6AX6lUy8gA2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785913033; c=relaxed/simple;
-	bh=NqSuU1HfvjNEbx15bthEoKPYhtn0uSBsaerZJdnUs1A=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TS12Ser7HS4pFVTb++WXmpKNVlAJ/952Os5jVLEOXkCczEfG6A6PK9odXBvVPa1soeXYKpgDRVyDKTGfvaNizGF70gzRwhTxTl9WEJkud3cjj1S4FACN8Ajzuf93Ac4iDnv4xHCgGjTPWb8uE3URAP3YgkRzKGCQqGFGMDuHNG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i7vkphJD; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785915365; c=relaxed/simple;
+	bh=Aiy/Xw0ddsio/ejOdZdoi3AUlPLAmTj5gtQ49Yavl78=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HwFfmM7VvwInLgicoKGdk+ZTWy4AzsMYbk4UH/mj/Kz+nTuid+1cBF2ycNO7fSY2KRFz/ZcIbFRjSBzvxHMz59CEOongquuoht2olXquGFPeOlfaI4oO6yJYiCS+ZiX8hVjTHTMCm3HDcbNIXMNmEyuCtTwiPurhAPUh1ih3Osk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gz6gaU6A; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i7vkphJD"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8486672f03cso786500b3a.0
-        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 23:57:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785913029; x=1786517829; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NqSuU1HfvjNEbx15bthEoKPYhtn0uSBsaerZJdnUs1A=;
-        b=i7vkphJDVpIiL0fqJPsw4EFXVaL5wwh/toVVGwxfDVIEnCaZBYIO8t1vONIZ9Fn9lk
-         y1klGhh7Qx2nmzjhvnSbENpxletYHySpFTtTt9W6hiWkXEHKZ9jW+1IQCxn9VS/TVdM0
-         h+zC+CXSi3rD5WJnZAx9tE5sskQ8UuQXqGXbMhKpgMfCFVnO+6lSx6YyboF/S7wT4ONs
-         qtn1HVIJaLgz7EQ6LWXE3xwfmbLKbEQx+MSWRurHhQiJAhMUEk/1bbtstFbN0lNj9i4e
-         zxlJ1o8UCrRSNeYisVvyLKhvm3KGdlKOO0jwVbRjYsRVL1BKwTynpTeB6e+9ORxoU+CA
-         oA7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785913029; x=1786517829;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NqSuU1HfvjNEbx15bthEoKPYhtn0uSBsaerZJdnUs1A=;
-        b=Hky9Ch6mRErQ3BQ2KDmfR/4n0khM56Ki9gm66RzXlOSZqjFGanU0fdoyawxDGjV8SM
-         O1TcmYI11S19AffICo65PCDDUCqkV2cucVd5h2DpVyxokRi5yCyFKaKfRlTOHP6YLhSR
-         r6RfBQliWfB02GJOWyDycVGMUHp5BW7oRoQwYEmBp2MkmcRcxeP3tHjRID5iPGBD08LT
-         NtT6Q8pxYb+OJ8GV5zLiEhXp5P2/bIXcZYV2+6WAJUfDI60l21ZPMBRMoRh2EL1CQuyd
-         AaWiHFilurU1F/KxvwXSGsmEyvR8+bc/Mv4hrgD0kUDyz4KcxkV21+nRBWRHvXS+Vh9H
-         /fEw==
-X-Gm-Message-State: AOJu0YzC0xNzHmBbi5KJl5RxC1aoYR+cdThZeuwsK5eqNT9J65/FtJZT
-	R4/2h1jrUETyTtiw/Q4wZJh/xVMQskIKcWcoIOW/X8vEOxBgatNl1eyE8W13fgTR
-X-Gm-Gg: AR+sD13dAorvVU4ZjnLZd9L4IvGjXV/49vwUFG6+hTG1fiWVquBosR/f9M56PbLebaZ
-	IRikMVbhQ6rZ8lyvm6955E2DzRg4SB2W1zl3Es5vnlI6jvhaLADkzKE8ONCVZvSLRpdzLzS48pj
-	KX8PRdXZ/teyq1h0Nktk5kGlEHvS+HS1ti3O5cmFzCgZVs0Q/rdZtrHZpxmOaWLjr1r0DWFOMuZ
-	ovPDpgIpVctlLr3oVXIihhTDg6AJ8aQRFbigXrUb0f+dY/uxR2KyYnBW9ee3Tvcx+oidpBKwIhm
-	ETo0uejlaYZ7JIquB6/AJaORZgUEYWaYqjoYzVfMhZKP1a/qLBjsHPH5NLfHhQIldPeVWuo1zu5
-	L4cmYDaiswtcFDmaAH3HbfMqguzTHE5jkFk08WgvI+9qczuOEcMK+u3q8ynrhxuzz2kABa7EsKG
-	eDQLNjP5e7UfdnEyC/Zn5sQ9laU4KVar/QOU1iwNiXY349Z/qrewDtxt7lXbMMKBVHjYTxbxSLz
-	17oCJ/W5DDdBQ==
-X-Received: by 2002:a05:6a00:c93:b0:84a:29a7:f650 with SMTP id d2e1a72fcca58-84f2de6ab12mr4433240b3a.0.1785913028692;
-        Tue, 04 Aug 2026 23:57:08 -0700 (PDT)
-Received: from ML-GYSUBT565.ECARX.COM.CN ([101.47.164.95])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84f2e2e1837sm548097b3a.13.2026.08.04.23.57.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 23:57:08 -0700 (PDT)
-From: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
-Subject: Re: [PATCH v3] usb: gadget: f_phonet: fix use-after-free in pn_bind
-Date: Wed,  5 Aug 2026 14:57:03 +0800
-Message-Id: <20260805065703.3230584-1-khiemtranzo532001@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <2026080515-emblaze-tweak-bb22@gregkh>
-References: <2026080515-emblaze-tweak-bb22@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gz6gaU6A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DBC41F00A3A;
+	Wed,  5 Aug 2026 07:36:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785915364;
+	bh=Aiy/Xw0ddsio/ejOdZdoi3AUlPLAmTj5gtQ49Yavl78=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gz6gaU6A9NhrUXP36BBtqxDFGmaxmpL+aOu6xIvMz99zIw9lcXaq9VQvrBYNArfjn
+	 3DaHBXSLty/5PpRyvsdxeAqDjEIbrDwPeiv3o4bbaQkOMsDC0aR+jPNV8P9B5tqGmf
+	 Z+vKb5PPRpJubqXkorMlTDPB9MCh3AgErQT3f9+C0sSNxtFC8rGcxHe/m2HBQx0Chh
+	 GcIxhOilV7fQqFEVuQ0fYaaWix7HU6g2bb0ycG417hn1N7JrCUCyHno096W6SkY5BX
+	 rugJVgG4o8qc6BRQ25C1WPV9ffyMdh1ys0KRmcJRTTcnpjXM6AnZTIlvQjU/HgF/Ws
+	 AZWiZzQWRbJ4g==
+Date: Wed, 5 Aug 2026 09:35:59 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: usb: qcom,snps-dwc3: Fix glymur binding for
+ non-MP controllers
+Message-ID: <20260805-independent-dashing-urchin-0b9776@quoll>
+References: <20260803-glymur-usb-binding-fixes-v1-1-9ce334777387@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260803-glymur-usb-binding-fixes-v1-1-9ce334777387@oss.qualcomm.com>
 
-On Wed, Aug 05, 2026 at XX:XX, Greg KH wrote:
-> Then you do not know if this fixes the problem or not :(
+On Mon, Aug 03, 2026 at 09:43:04AM +0530, Krishna Kurapati wrote:
+> Glymur DRD capable controllers have HS Phy interrupt. Fix the binding to
+> indicate the same.
 
-I get that. Quick question - is there a way to actually verify this
-short of waiting for syzbot to get a reproducer? I was thinking
-maybe fault injection or something, but not sure if that's the right
-approach here.
+HS phy irq is listed in the existing if:then: block, so what do you
+exactly fix?
 
-Thanks,
-Nguyen Quang Le Kien
+Best regards,
+Krzysztof
+
