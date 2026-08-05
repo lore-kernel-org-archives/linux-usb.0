@@ -1,122 +1,215 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CF0472798;
-	Wed,  5 Aug 2026 13:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785937527; cv=none; b=oimabLmyoPYJhg2ZNwr8iv8OW9mpw6i52RPQenxALBcCWrsSAvUM2q0fmT/2xyHF8gPDcJ4yjRhGQfPf7mvOXV5d3bjHVw39p/OjvNK2yWG17Zpbu12ly0UdqM0sq765x5pQ+uDJaBVhPIXTbZ9/pNCBHmK6ptVL3+EMgY5vK68=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785937527; c=relaxed/simple;
-	bh=LoohxNysBPr0AgYIL7WP/BAageI879VZyP6fORbJ7v0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s57yAMDZg9iUGejpsxTgA1hMe18uItDkbVnHYoNablUXPbFakgfohe6yadP6AyATOEXr9Uh9zPBJwMAReP4LTuKGbbMfL+10d/f0u4WbHJx2aykKKdWIMyRwM2XwfoR48biHOEwjsNDTb3xK1448y0V28A45iF3vmN6IZMUcqH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
-	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 09E7A20194D;
-	Wed, 05 Aug 2026 15:45:21 +0200 (CEST)
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1wrbvs-0037F4-35;
-	Wed, 05 Aug 2026 15:45:20 +0200
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1wrbvs-0000000D9mS-3Y8P;
-	Wed, 05 Aug 2026 15:45:20 +0200
-Date: Wed, 5 Aug 2026 15:45:20 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: badhri@google.com, gregkh@linuxfoundation.org, xu.yang_2@nxp.com, 
-	18255117159@163.com, krzysztof.kozlowski@oss.qualcomm.com, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH] usb: typec: tcpci: add alert.fault handling
-Message-ID: <ucjnu5ybx7kcxtfagyxxjjkzwcqbhfip7zxdlndu3lnggvscwp@27w6h2kbxs3v>
-References: <20260731083529.2659924-1-m.felsch@pengutronix.de>
- <anMpvRaTmV0qY65v@black.igk.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414D83515D3
+	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 14:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785939186; cv=pass; b=lIrE/jj6hE+dZQ63rDDuL6tDnFqqyTnNB7EqhBVhHdceuZZKsilz8iMffeQwVswxphtGnepPmZ4VOANLJamTqTQedn8W4LAZuZm/YKeNjG99wR5yUCjp48vO1j8kOl46gDtlipP1NQmVTDKb0fgMexuusxeV5kVAv1NbhlPDgBk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785939186; c=relaxed/simple;
+	bh=0FgDUkeBaNSKWepg6S43lsmASYq6OUFxdv+y5bAuXAc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UOpcLbEzOzussQF/WYpf5jNePlvio9EJaOYjt+LkPTcoqElsKnQ7Vzh45AJdOKRJQFUMVt3gZeGZlun7jkoJmnfiNSMceMA7aBZhMIiRKMhGu3BMQEZca3JllzirtTbqWhuzGjAmwMLwcWKrHThj5XRkWO5JWyFyetM7spc9xhw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ByRkCpLB; arc=pass smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ByRkCpLB"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-45133d2974fso617814fac.1
+        for <linux-usb@vger.kernel.org>; Wed, 05 Aug 2026 07:13:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785939183; cv=none;
+        d=google.com; s=arc-20260327;
+        b=cZpUiIr7QH9wwNPgnjG+OaKlc/jQK/+3VjtVwphHKE00GuduGxjez+MvWN4pdyDRFe
+         VcgFoV4Dv4+aSAaxcWQEGYpc0PSaF1iZlesPhseV8UYST7ws9vlK/CpVc4X7RhLQM5A4
+         LYJlf3DNTSt46Vb07Qih7oP4MO8IuZw9vybdwP5Eivk9qrEBWK/1pb1Ss5LDjAsyTgYi
+         dKQNLXrg+mFakQo0VXs0nIavgeyZWISNyMt5/gvAhOZZQfoVL834gNFH7RKJEHpiRQ8p
+         h0jwOeLSiPwMLUVfMkkG9uDlFkKa+wn1AxmEyVTa4kGrnOh4801swGqIQ4A6VlNnnuBk
+         DQ6w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=RDod6rQyfTZzbG+avpqwefoM9i9P9+Ds1SjXYDiqpd0=;
+        fh=zijSyQFwMXaCXEoNJ1Q0j247kOua35yYlj8pWDbpzuU=;
+        b=GrbvlT++lfB5r8ol85jzdpl2JG7OHUbWBYXgtzBY0w6lpaH0hMMZMOBpyv5zIEFcnw
+         pZxRC981NuymHXvOgVYvgyPiY+pETNxCjbMQ3SEa770qvu2ICKWYzbDomnhXzUxJkN4m
+         5QUDzzbSlCJsvPEfqxYeEqowrrFobivkK7WbZR43u2L2PhJ5WIiKI1pvXYHMxHNVms3C
+         mW+Eng2NWNdfZ3WuV9ci2u9ifszDn0QRqhOMy6P6PlwY+xp8n/AKDAWkx76AEV1LSioZ
+         eROUq4eiZE+A82sjNb2EKcXvNiTzXmymINX4KM8lYBQkeP1GzogKCsUirnulk3hKwziC
+         f+OQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1785939183; x=1786543983; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=RDod6rQyfTZzbG+avpqwefoM9i9P9+Ds1SjXYDiqpd0=;
+        b=ByRkCpLBLSf9BHyLluWi9ibt3HiVNtZ4QJDvl0lPJr6AV8N/e4Zr5/1aq6M4jRipmE
+         sGyAN6M9vNQ+HPVzWg+6QHpC71ZM4nCpDKIM1iWWoI8trmHALBDMNRxViDVry+cTWI0m
+         OtCovHZeox1onK5kl0vkWp70dHT5vHHxYs1XYLr4OxthM1681qLMNAbIdxkcZxLDHtw9
+         0yre2PBJjjA18MrXIZ5ATwHpCX50g031QFJX5iBJu6dMvFjeJp7YlsTlYkEN0t/3mhgS
+         HZ2gqhsiK9HiOmOBJlEtguGrpFaUOCHxGunPDGIoqT8G4QMD/XUwQF6fVfrpThj+X6CM
+         ksww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785939183; x=1786543983;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RDod6rQyfTZzbG+avpqwefoM9i9P9+Ds1SjXYDiqpd0=;
+        b=aXsNr982I9ipsGTLB4PzYZ3t3pvfRcl9KJXfHENJ9yX7rCwLIh3p0tf9yc3w8BzbdW
+         9ojfy+LesOQI0o442a4/sdrIXYXYkEkHmvW1D0xmmqV1MCG59SLkV01Ci0Imjje8f6j5
+         6EDMcf4GQ2N5j0OUSY8eZxFf3YrRXqKhHwGRZ4vW3IKTTqDZWeeM4/D6IDd2cp1/oeNk
+         bBzOPQDlYolPj47527f/yzmFlej4Tr9d2zWSXgkfsggZGpk98K07iUnwpO8a/EbB3TXZ
+         GQUxkBoPFAoHcMpaCPASEK//VFb07oqCOzjdoJbspfZHbRy4GsYT4k1/sguj6lg7Gteo
+         2xIg==
+X-Forwarded-Encrypted: i=1; AHgh+Rqx3n1onMO94LqZTcQwKJ70bgkxIscTWj0UtkuvWptplhmfxAk2tWxDExWw+yhymebI/1eEYOUFBQI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywq5Rh1OrvfnUUgVCC16N0q+vTxce8WV0jS6a+Y2tOO+aIjJfzc
+	eAahjMPmkfNRZPltLNUAcEToC/ILNA4StYGm+ciBQ2/kf8ffrZBRg6pSEYqlpyp3UiMR4yKPFM8
+	GCEmoIZPh2/61AjlN29xwgRn1F3e/+EnZy12uNy8r
+X-Gm-Gg: AR+sD10IlzsMpPfPDG2hT20y+6g4nbtVDkxAqo7g2tJAaHVSlqhlXVVeuNycLpttZ1A
+	ku4H04MzbmXQ9h+7gt9cwXoYLt/d8FhFwYvc5uFJuCV9A2dF4AvSUDc+ZItqGjg+pwEai6AjAVJ
+	tUVdPAyDimP5MI1JCP3fyxTwPlR6aMd78nDnYcR4KF86Bjm7sWDdpnpxgRacwet+A+hxAA3/aLQ
+	SKWs6C6ZNhPY9d0nDvk6RtGrAC4/4tmZZ1e09ZybfYc8E2klRFGMsZM5panViAbalXa8R83xTlR
+	JEFN+QQ0d7H436hy4bjBOVwMuBJBUgFpLBBgsm1XLS2ZEs6lIRS2qCoiJToTHhNjrWW2WXnF94H
+	ugInvXAicMk1QW9/WAzaW7nB1h79QCO9LEDpyFBzIU6K2w/nJKM2AlfJK3X5fA5Rm3XYogCy4hi
+	11s7mpwSgPkwoR
+X-Received: by 2002:a05:6870:21ca:b0:459:fe2:ef54 with SMTP id
+ 586e51a60fabf-4599ea801eamr3729977fac.1.1785939182288; Wed, 05 Aug 2026
+ 07:13:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <anMpvRaTmV0qY65v@black.igk.intel.com>
+References: <2650cf0f-26f9-48b5-b198-e4cb67c59cf0@mail.kernel.org>
+ <2026080336-covenant-limpness-55cc@gregkh> <2026080322-obsessed-daringly-e6df@gregkh>
+In-Reply-To: <2026080322-obsessed-daringly-e6df@gregkh>
+From: Aleksandr Nogikh <nogikh@google.com>
+Date: Wed, 5 Aug 2026 16:12:51 +0200
+X-Gm-Features: AUfX_myhx1UT7YuZLv76ps63pUQOVA0rWCMh7UFrFfX-goB0uNf0WfxNsQaXwwM
+Message-ID: <CANp29Y7i54S8jXyd50uBU0TYgm5GmcKNxAsP6_XDuq8zSvG3cg@mail.gmail.com>
+Subject: Re: [PATCH] usb: usbtest: fix NULL pointer dereference in usbtest_probe
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: syzbot <syzbot@kernel.org>, syzkaller-bugs@googlegroups.com, 
+	linux-usb@vger.kernel.org, Greg Kroah-Hartman <gregkh@suse.de>, kees@kernel.org, 
+	linux-kernel@vger.kernel.org, syzbot@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26-08-05, Heikki Krogerus wrote:
-> On Fri, Jul 31, 2026 at 10:34:59AM +0200, Marco Felsch wrote:
-> > Add minimal handling to clear the ALERT.Fault bit which may be set in
-> > case of an over-current or over-voltage detection. At the moment only
-> > the IRQ clear support is added since the TCPC Spec mentions that the
-> > handling of such events is vendor specific.
-> > 
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > ---
-> >  drivers/usb/typec/tcpm/tcpci.c | 16 +++++++++++++++-
-> >  1 file changed, 15 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-> > index a56e31b20c21..d2d5bf7ca618 100644
-> > --- a/drivers/usb/typec/tcpm/tcpci.c
-> > +++ b/drivers/usb/typec/tcpm/tcpci.c
-> > @@ -692,7 +692,8 @@ static int tcpci_init(struct tcpc_dev *tcpc)
-> >  
-> >  	reg = TCPC_ALERT_TX_SUCCESS | TCPC_ALERT_TX_FAILED |
-> >  		TCPC_ALERT_TX_DISCARDED | TCPC_ALERT_RX_STATUS |
-> > -		TCPC_ALERT_RX_HARD_RST | TCPC_ALERT_CC_STATUS;
-> > +		TCPC_ALERT_RX_HARD_RST | TCPC_ALERT_CC_STATUS |
-> > +		TCPC_ALERT_FAULT;
-> >  	if (tcpci->controls_vbus)
-> >  		reg |= TCPC_ALERT_POWER_STATUS;
-> >  	/* Enable VSAFE0V status interrupt when detecting VSAFE0V is supported */
-> > @@ -720,6 +721,19 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
-> >  	irq_ret = status & tcpci->alert_mask;
-> >  
-> >  process_status:
-> > +	/*
-> > +	 * Handle nested fault before clearing the alert status to not
-> > +	 * re-trigger a fault alert immediately again.
-> > +	 */
-> 
-> Shouldn't that explanation in the comment be also in the commit
-> message? That sounds like the "why" part to me.
+Hi Greg,
 
-I don't think so, it's just a comment for $dev that this ordering is
-important. The commit message clearly states that an over-current or
-over-voltage may trigger this.
+Thanks for the review!
 
-Regards,
-  Marco
 
-> > +	if (status & TCPC_ALERT_FAULT) {
-> > +		unsigned int fault;
-> > +
-> > +		/* TODO: Add a proper over-current and over-voltage handling */
-> > +		ret = regmap_read(tcpci->regmap, TCPC_FAULT_STATUS, &fault);
-> > +		if (!ret)
-> > +			regmap_write(tcpci->regmap, TCPC_FAULT_STATUS, fault);
-> > +	}
-> > +
-> >  	/*
-> >  	 * Clear alert status for everything except RX_STATUS, which shouldn't
-> >  	 * be cleared until we have successfully retrieved message.
-> > -- 
-> > 2.47.3
-> 
-> -- 
-> heikki
-> 
+On Mon, Aug 3, 2026 at 5:15=E2=80=AFPM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Mon, Aug 03, 2026 at 05:13:00PM +0200, Greg Kroah-Hartman wrote:
+> > On Wed, Jul 29, 2026 at 09:19:54AM +0000, syzbot wrote:
+> > > From: Aleksandr Nogikh <nogikh@google.com>
+> > >
+> > > The usbtest driver relies on the driver_info field of the usb_device_=
+id
+> > > structure to hold a pointer to a struct usbtest_info, which contains
+> > > necessary configuration for the device. When a new device ID is dynam=
+ically
+> > > added via the sysfs new_id interface without specifying a reference d=
+evice,
+> > > the driver_info field defaults to 0. When the USB core binds the devi=
+ce
+> > > using this dynamic ID, usbtest_probe() unconditionally casts the 0 to=
+ a
+> > > pointer, resulting in a NULL pointer dereference when attempting to a=
+ccess
+> > > the autoconf bitfield (at offset 0xa) of the struct usbtest_info.
+> > >
+> > > This leads to the following crash:
+> > >
+> > > Oops: general protection fault, probably for non-canonical address
+> > > 0xdffffc0000000001: 0000 [#1] SMP KASAN NOPTI
+> > > KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f=
+]
+> > > RIP: 0010:usbtest_probe+0x522/0xcc0 drivers/usb/misc/usbtest.c:2822
+> > > Call Trace:
+> > >  <TASK>
+> > >  usb_probe_interface+0x653/0xc60 drivers/usb/core/driver.c:396
+> > >  call_driver_probe drivers/base/dd.c:-1 [inline]
+> > >  really_probe+0x254/0xae0 drivers/base/dd.c:706
+> > >  __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+> > >  driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+> > >  __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
+> > >  bus_for_each_drv+0x258/0x2f0 drivers/base/bus.c:500
+> > >  __device_attach+0x2c4/0x450 drivers/base/dd.c:1098
+> > >  device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
+> > >  bus_probe_device+0x12a/0x220 drivers/base/bus.c:620
+> > >  device_add+0x7d7/0xb80 drivers/base/core.c:3772
+> > >  usb_set_configuration+0x1ad8/0x2180 drivers/usb/core/message.c:2268
+> > >  usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
+> > >  usb_probe_device+0x1c3/0x3b0 drivers/usb/core/driver.c:291
+> > >
+> > > To fix this, validate that id->driver_info is not NULL before proceed=
+ing
+> > > with the probe. If it is NULL, gracefully return -ENODEV. The check i=
+s
+> > > placed before any memory allocation to avoid unnecessary work and sim=
+plify
+> > > error handling.
+> > >
+> > > Fixes: 733260ff9c45 ("[PATCH] USB: add dynamic id functionality to US=
+B core")
+>
+> Not really, but I can see why the LLM thinks this.  It's "just how this
+> driver works" instead, right?
+>
+> > > Assisted-by: Gemini:gemini-3.5-flash Gemini:gemini-3.1-pro-preview sy=
+zbot
+> > > Reported-by: syzbot+7e1e5911f9eac50bedc7@syzkaller.appspotmail.com
+> > > Closes: https://syzkaller.appspot.com/bug?extid=3D7e1e5911f9eac50bedc=
+7
+> > > Link: https://syzkaller.appspot.com/ai_job?id=3D9e476ca5-99d1-47d2-b9=
+d1-f3b501897179
+> > > Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
+> > >
+> > > ---
+> > > diff --git a/drivers/usb/misc/usbtest.c b/drivers/usb/misc/usbtest.c
+> > > index 98071b25a..6410b3e26 100644
+> > > --- a/drivers/usb/misc/usbtest.c
+> > > +++ b/drivers/usb/misc/usbtest.c
+> > > @@ -2786,10 +2786,13 @@ usbtest_probe(struct usb_interface *intf, con=
+st struct usb_device_id *id)
+> > >     }
+> > >  #endif
+> > >
+> > > +   info =3D (struct usbtest_info *) id->driver_info;
+> >
+> > Extra space there, right?  Didn't checkpatch catch that?
 
--- 
-#gernperDu 
-#CallMeByMyFirstName
+The checkpatch was happy with the diff:
+total: 0 errors, 0 warnings, 14 lines checked
 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
+You mean the whitespace after `*)`?
+I've just looked at the other code in `drivers/usb/misc/usbtest.c`,
+and it's inconsistent: in some cases there's a whiltespace, in some
+isn't.
+
+> >
+> > And this really isn't the proper solution, just don't allow dynamic
+> > binding for this driver.  That should resolve it, right?
+
+I'll double-check that and send a v2, thanks for the suggestion.
+
+>
+> If you don't want to do that, you need a BIG comment here as to what you
+> are trying to prevent, as a NULL check just looks like any other normal
+> check, while you are trying to prevent a specific use case from being
+> possible, and it WILL have user-visable affect.
+>
+> thanks,
+>
+> greg k-h
+
+--=20
+Aleksandr
