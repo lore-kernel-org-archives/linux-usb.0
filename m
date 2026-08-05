@@ -1,194 +1,176 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBDA3C455B
-	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 04:13:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460C23A782B
+	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 04:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785903205; cv=none; b=f8gPib/8U7UAqU3IqsSn5nT61ys7oa2hH2i5pNpLGTixzramzrQSAxl6JT1s4oa56Sb17yuZSmdZiVpD8JaDcCvZzC4493ggra5bdJOJ7pVEzDmZmIIgA3maOLlqpG5tmTSMlrvwyTVZKFvzQsj7pT5Ko5JCb/IVKwc3vmh9e8A=
+	t=1785903266; cv=none; b=OfuWsP6WEvxE/jgUbjE+BvVEHgd4D2ossVRYQd9QVlQQqbEC8vDlHN9RDqMv7t0vPE18YnH33G/W6kGvzYA6mhPvCAiRJVNxOpj/4NpudasfLQbBwRPWgf0wxu6YIdm3MaQzTDzd00kTRcprmD7/eJjYKRTnSTKAy7tiV8X+Ry4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785903205; c=relaxed/simple;
-	bh=G6y86Bnl9pH5Yy5pJthkcZYErCAbB9k9Prmrewimk/c=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PGgQEw/rjcbAn1cPdcE7c+M0k0b4o3IpzEkRRE3yy+ToE7kSL9yw8ckrMLKjtHdEBlVTqEPHT8EPJn7t4Dq4w2WD0rODNMurqQzaWk+E7Svxqxd7bAfNCcvX2Zppi5YgDwd0QDJBvRgeutBN0uuc7zjTavqvG31iIP0uNvq1VWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yb18BwOX; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785903266; c=relaxed/simple;
+	bh=uzW5QjbbO4S7UwlyG8xFuJUvhQUk5X5xou80QvZncxg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iC1Kb2EPva3anJGadZl2DSB7QoHa0SXOO8CnflELM/wP0AENih86ZiBgMMLt7/YwEXzukSbeTAAznxNKosA+in2gJItVphhxs+NmqFwc/t+YIKtlpPWvvAatoi8lMdpwhiMWjDNnfwvwlQoNzMrtitTNDwWvT4F9F5wEaqX/Uj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gTQAfKVr; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yb18BwOX"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8487214ad2bso842883b3a.1
-        for <linux-usb@vger.kernel.org>; Tue, 04 Aug 2026 21:13:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785903203; x=1786508003; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Z14pFBM+gRuEL1nL/itnWoFwr8ux+8wC7KVMIdZnv9w=;
-        b=Yb18BwOXGe2DflIgpzVyEFNXpf6tJVkXD+1Ghepimlj6P9gqXQLUtr8yystahIdQPE
-         8PYivTb3f8L7gDw1I5VlINsvxQrIljFP9ivlJUXRZdqn3gZicyZtJjV0uzCvndoc7Nhs
-         RBk6OjEhp/MjCOXfUFq5enGKPt44Cjz6SbVBfaUKKaOSjANiilFlpMcMqpwvtgmfqEve
-         k4aBpokNdujuEw2M7HzzGMBM1LTEEqH0EpLlbqXenDor4z+fpY+xHcKtlgzTDoD9aXjo
-         xq7hzxmgPXHsH6MTGowhjM+DI1HMRKMkhUM70IAnFJRdxSMccnYLRBbxDU2LL0gDZG56
-         WR7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785903203; x=1786508003;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Z14pFBM+gRuEL1nL/itnWoFwr8ux+8wC7KVMIdZnv9w=;
-        b=NgUk3MkAG/wP2eWoHLSXB1dYNFVRp2igRSf6ZC1wvZfrkcgUvo7QCby2yKnfAloTiw
-         L34z/Ju5B8GTE2w9hTEbDOLvh6Y6Z/CWkU36a1esHiZNM87TuLfIf3kJaKCzDBiQ6SSs
-         oOgziVxcWc6s98V2wZK61b08XVtx2QqGRGkMDKBdiDsBwcBISjJPWFkTFmZUOX5HnFdi
-         Mk31Hc61snEh4+hkv7dLA7QvE0B9btSXichGYEq8bM7gQP8M2mJssz6fX77zQLh8G3rA
-         0KB2RUGZzdJ9ipJFZqZwlgbdRyHJnr0BsQfriOEhzlIkMVdMb0ZIBf9FN2Ki4jg2WpyC
-         yNYQ==
-X-Gm-Message-State: AOJu0Yx7+FphL/AKMQHSmgghvR5YGaQJm0PSrO83Nf6l7gyl+10SthKO
-	c3Gcud3Qim9GWOqO8ns9wP9ifXsPqeuQU0iepgC2wppWLYoTyP0xjDyM
-X-Gm-Gg: AR+sD12c27c/8oF96fvPWG4ty/2YmsM54pUxMGgFUVUTIbTGiXdgrBUWuEut41rLIId
-	h6uHRi6Cr2UYM2CEXI/5APIz/M6Qc8SL5kCpxNIwhjNEjtJNHPo49JwHwKGcidoDsRxkkvZH8Mh
-	arT1P1P/UZBvdUhfJd/H5iFwNytqx9jj+38qR/XLLFpknR+3xETUgsUa7Fq0sX83II7ynHg2Njw
-	YDoYhbwmodZ7iYjruCHWdPIEeq9+YjSmBLE6/LWS0RJDpFppCuHxozSkxS8TyG3jDfAvqbV1ydN
-	7Z4A1tXXFKDw75uO3yIB7UUqhYE2nNppq/dCOVe4c645Gf3DMt7bJdgorWXK4ysKCO7Uvlhyq17
-	gQNCfccHAFMiMAYIdzHHs2U+e0hklwlZozXRzl/a5wYnz8OVxA2w272ylIbjVxy9IFJmJqCmRT9
-	J2Z3kOaMIK+xftpXrsthZ2Y9EAvoY5MaTZxFXLSuF9PTTwiQ1/v0lpc73DoXiOzr2OybunD+CPx
-	2W2JAPdrYLQ5w==
-X-Received: by 2002:a05:6a21:3294:b0:39c:126c:93b5 with SMTP id adf61e73a8af0-3cb85e5402emr3945302637.21.1785903203521;
-        Tue, 04 Aug 2026 21:13:23 -0700 (PDT)
-Received: from ML-GYSUBT565.ECARX.COM.CN ([101.47.164.95])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fca908068sm8238608c88.12.2026.08.04.21.13.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 21:13:23 -0700 (PDT)
-From: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>,
-	syzbot+098999e05b6b877c01b3@syzkaller.appspotmail.com
-Subject: [PATCH v3] usb: gadget: f_phonet: fix use-after-free in pn_bind
-Date: Wed,  5 Aug 2026 12:13:19 +0800
-Message-Id: <20260805041319.3197126-1-khiemtranzo532001@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260804074432.2906951-1-khiemtranzo532001@gmail.com>
-References: <20260804074432.2906951-1-khiemtranzo532001@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gTQAfKVr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785903264; x=1817439264;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uzW5QjbbO4S7UwlyG8xFuJUvhQUk5X5xou80QvZncxg=;
+  b=gTQAfKVrZrLg+f+tkjZgqTnwBO18EQ/FZLZ/+jyqqjbIo37GPmP7rpG9
+   YTvjV3UnXtvFcGxIRDKgi4QalFWMgt05nQ5XinCIN44DHHIip3JStPw/a
+   9ni33pvun8Qrd6ZlQ79/lkmwL3ZdBQKdOajGOtmuUvayXPKw2guTG+EL+
+   1Nvwv0WN0nN6/60wZ0RiBgAvUYxh8en9DdGbSkHM5CWvot1fOrXq/Pbba
+   GXsZ9R9X2BT9QzYi9smOs+9B766nDWaWsaEoAD0A5BeaiI4bVl0TVrgJ0
+   6rGTZHS4wlisVOCGogfLtORTRM6GjzAOEtY8Yr9qmiPvdaGBM9Jn/fHkZ
+   g==;
+X-CSE-ConnectionGUID: 5n+tShtgQSeL2g5yR6RWcQ==
+X-CSE-MsgGUID: OOIco+JwTaSajEikevc/GQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="97831650"
+X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
+   d="scan'208";a="97831650"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2026 21:14:23 -0700
+X-CSE-ConnectionGUID: xJP45RYVQtuepPqCjIv+Ew==
+X-CSE-MsgGUID: KwMG0cDVS5afnmsJGgcapA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,205,1779174000"; 
+   d="scan'208";a="259049530"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa008.fm.intel.com with ESMTP; 04 Aug 2026 21:14:22 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 1546C99; Wed, 05 Aug 2026 06:14:21 +0200 (CEST)
+Date: Wed, 5 Aug 2026 06:14:21 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Bernd Behler <bernd@behler.me>
+Cc: linux-usb@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, Imre Deak <imre.deak@intel.com>
+Subject: Re: Apple Studio Display =?utf-8?Q?=282026?=
+ =?utf-8?Q?=2C_Thunderbolt_5=29_?= =?utf-8?B?4oCU?= DP tunnel torn down every
+ few minutes on Intel TB4 host
+Message-ID: <20260805041421.GE235112@black.igk.intel.com>
+References: <CAM=hwCxiJwODObeut=JcCA8jbu4C-XVEKJpR-y2MnDJibBQyOw@mail.gmail.com>
+ <20260802064729.GL20844@black.igk.intel.com>
+ <CAM=hwCytVxuqfT2d4UNaf2x5FCOpMXaaGyuQ6xEoh_+w8NVJtw@mail.gmail.com>
+ <20260804140449.GA235112@black.igk.intel.com>
+ <CAM=hwCx7hg7ZubxmGOND02Do_Vp7W-qJRXK+NyN48sO0Zmy0_g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAM=hwCx7hg7ZubxmGOND02Do_Vp7W-qJRXK+NyN48sO0Zmy0_g@mail.gmail.com>
 
-pn_bind() and phonet_free_inst() race on opts->bound and opts->net.
-If configfs removes the function instance while pn_bind() is between
-the !bound check and setting bound = true, free_inst() frees opts->net
-and pn_bind() then writes to net->dev.parent via gphonet_set_gadget().
+Hi Bernd,
 
-The old "no race condition" comment was wrong - configfs_rmdir() can
-run in parallel with the composite bind path.
+On Tue, Aug 04, 2026 at 04:57:05PM +0200, Bernd Behler wrote:
+> Hi Mika,
+> 
+> Both things done. Short version: the MST lead does not hold, and I can now
+> show why rather than just assert it.
 
-Add a mutex to f_phonet_opts, use scoped_guard(mutex) in both paths,
-add kernel-doc on the struct, and destroy the mutex before freeing
-opts.
+Okay thanks (and thanks for the very informative reports).
 
-Fixes: 00a2430ff07d ("usb: gadget: Gadget directory cleanup - group usb functions")
-Reported-by: syzbot+098999e05b6b877c01b3@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=098999e05b6b877c01b3
-Signed-off-by: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
----
-v3: drop the redundant #include <linux/mutex.h> in f_phonet.c -
-    u_phonet.h already includes it.
+> Trace with nothing before the unplug
+> ------------------------------------
+> 
+> Attached: trace-unplug-fast.out.xz, 2961 lines, controller 00:0d.2 only.
+> 
+> This one is captured differently. Instead of dumping by hand after noticing
+> the blank screen, I hooked the dump to the kernel message itself, so it runs
+> about one second after the event rather than minutes later. I also raised the
+> ftrace ring buffer to 224M so nothing can be evicted.
+> 
+> Timeline for that capture:
+> 
+>   16:35:43   tbtrace clear + enable, buffer empty
+>   16:41:18   1:11 DP OUT resource unavailable: adapter unplug
+>   16:41:19   dump
+> 
+> Between arming and the event, 5 minutes 35 seconds, the buffer recorded
+> exactly zero packets. The first entry in the trace is the display's own
+> packet:
+> 
+>   [74467.055264] tb_event Hot Plug Event Packet Domain 0 Route 1 Adapter 11
+>                    [00:05]  0xb  Adapter Num
+>                    [31:31]  0x1  UPG
+>   [74467.055287] tb_tx     Notification Packet -> HP_ACK
+> 
+> The whole trace spans 22 ms. The host's first action is the acknowledgement.
+> 
+> The graphics side matches. Between 16:36:00 and the unplug at 16:41:18 there
+> is not a single AUX or DPCD access on either of that display's ports
+> (USBC1/USBC2) in dmesg with drm.debug=0x104. The last one before that was a
+> routine 0x00202 link status read four minutes earlier.
+> 
+> So there is no host-initiated access preceding the teardown at all, on either
+> the AUX channel or the Thunderbolt control channel. If an MST register read
+> were the trigger, it would have to appear here, and it does not.
 
-v2: scoped_guard(mutex) instead of open-coded lock/unlock; kernel-doc
-    on the struct; mutex_destroy(); remove the wrong comment.
----
- drivers/usb/gadget/function/f_phonet.c | 33 +++++++++++++-------------
- drivers/usb/gadget/function/u_phonet.h | 10 ++++++++
- 2 files changed, 26 insertions(+), 17 deletions(-)
+Okay then, like you already suspect, this is not the firmware issue related
+to the MST.
 
-diff --git a/drivers/usb/gadget/function/f_phonet.c b/drivers/usb/gadget/function/f_phonet.c
-index b1ee9a7c2..e14ee91a8 100644
---- a/drivers/usb/gadget/function/f_phonet.c
-+++ b/drivers/usb/gadget/function/f_phonet.c
-@@ -499,19 +499,14 @@ static int pn_bind(struct usb_configuration *c, struct usb_function *f)
- 
- 	phonet_opts = container_of(f->fi, struct f_phonet_opts, func_inst);
- 
--	/*
--	 * in drivers/usb/gadget/configfs.c:configfs_composite_bind()
--	 * configurations are bound in sequence with list_for_each_entry,
--	 * in each configuration its functions are bound in sequence
--	 * with list_for_each_entry, so we assume no race condition
--	 * with regard to phonet_opts->bound access
--	 */
--	if (!phonet_opts->bound) {
--		gphonet_set_gadget(phonet_opts->net, gadget);
--		status = gphonet_register_netdev(phonet_opts->net);
--		if (status)
--			return status;
--		phonet_opts->bound = true;
-+	scoped_guard(mutex, &phonet_opts->lock) {
-+		if (!phonet_opts->bound) {
-+			gphonet_set_gadget(phonet_opts->net, gadget);
-+			status = gphonet_register_netdev(phonet_opts->net);
-+			if (status)
-+				return status;
-+			phonet_opts->bound = true;
-+		}
- 	}
- 
- 	/* Reserve interface IDs */
-@@ -621,10 +616,13 @@ static void phonet_free_inst(struct usb_function_instance *f)
- 	struct f_phonet_opts *opts;
- 
- 	opts = container_of(f, struct f_phonet_opts, func_inst);
--	if (opts->bound)
--		gphonet_cleanup(opts->net);
--	else
--		free_netdev(opts->net);
-+	scoped_guard(mutex, &opts->lock) {
-+		if (opts->bound)
-+			gphonet_cleanup(opts->net);
-+		else
-+			free_netdev(opts->net);
-+	}
-+	mutex_destroy(&opts->lock);
- 	kfree(opts);
- }
- 
-@@ -636,6 +634,7 @@ static struct usb_function_instance *phonet_alloc_inst(void)
- 	if (!opts)
- 		return ERR_PTR(-ENOMEM);
- 
-+	mutex_init(&opts->lock);
- 	opts->func_inst.free_func_inst = phonet_free_inst;
- 	opts->net = gphonet_setup_default();
- 	if (IS_ERR(opts->net)) {
-diff --git a/drivers/usb/gadget/function/u_phonet.h b/drivers/usb/gadget/function/u_phonet.h
-index ff62ca22c..54fadfe64 100644
---- a/drivers/usb/gadget/function/u_phonet.h
-+++ b/drivers/usb/gadget/function/u_phonet.h
-@@ -8,11 +8,21 @@
- #ifndef __U_PHONET_H
- #define __U_PHONET_H
- 
-+#include <linux/mutex.h>
- #include <linux/usb/composite.h>
- #include <linux/usb/cdc.h>
- 
-+/**
-+ * struct f_phonet_opts - Phonet function instance options
-+ * @func_inst: USB function instance
-+ * @lock: protects @bound and @net against concurrent access from
-+ *        pn_bind() vs phonet_free_inst() during configfs teardown
-+ * @bound: true once pn_bind() has successfully registered @net
-+ * @net: net_device owned by this function instance
-+ */
- struct f_phonet_opts {
- 	struct usb_function_instance func_inst;
-+	struct mutex lock;
- 	bool bound;
- 	struct net_device *net;
- };
--- 
-2.34.1
+Since there is nothing the software is doing (well at least directly) to
+cause this, I wonder if it could be related to some sort of power
+management thing in the monitor itself? The second idea that comes to mind
+is power supply but I guess you are using the stuff that came with the
+monitor so it should provide the necessary power.
 
+Based on your dump it also happens to both DP OUT adapters (11, 12) at the
+same time.
+
+Also, you connect the monitor with a real TB cable, right? I would think so
+because the USB4 link comes up just fine.
+
+You don't see any "usage" pattern there when this happens?
+
+> MST disabled
+> ------------
+> 
+> Tried it anyway, since you offered it as the way to confirm:
+> 
+>   /proc/cmdline                              i915.enable_dp_mst=0
+>   /sys/module/i915/parameters/enable_dp_mst  N
+> 
+> No change. Two teardowns in the first six minutes after that boot, same
+> signature. For comparison, the run before it had four in twelve minutes.
+
+Thanks for checking!
+
+> Second attachment, trace-unplug-mstoff.out.xz, is one of those events with
+> MST off. Note it was dumped about five seconds after the event rather than
+> one, so it carries the re-detection traffic as well; the signature at the top
+> is the same.
+> 
+> > I think it was applied up to Panther Lake or so.
+> 
+> Then it should be active on this host, and the failure survives it either
+> way. Combined with the empty trace above I would treat the MST path as ruled
+> out unless Imre sees something I am missing.
+> 
+> 
+> One observation I cannot place
+> ------------------------------
+> 
+> After a teardown, tbtunnels still lists both DP tunnels as established, with
+> bandwidth allocated:
+> 
+>   Route 0 Adapter 5  <-> Route 1 Adapter 11: DisplayPort   0/25920 Mb/s
+>   Route 0 Adapter 6  <-> Route 1 Adapter 12: DisplayPort   0/8640 Mb/s
+> 
+> while the DRM connector is down and the screen is blank. Whether that is
+> expected bookkeeping or a real mismatch I cannot judge.
+
+This is not expected. What typically happens is that there is another
+hotplug and the DP tunnels get re-established. This is what you may see
+here but it's not visible in the log snippet you shared so I cannot
+confirm. You should see in the log or trace that the tunnels get
+re-established.
