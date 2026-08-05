@@ -1,59 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BDC3EC6AE;
-	Wed,  5 Aug 2026 08:37:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF473C062C;
+	Wed,  5 Aug 2026 08:57:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785919062; cv=none; b=XXhJs1U7FXsRo4EsDGFyKbebDvQbeXpAlYBR3PNzKB6Vb2B20sU/P1T4bjTCQjRH6T6tra6amRB4WNptN8TkgEB1EtPk5Q2QjHO+37QLoffmA8KLzXhVIUPyW1eKHCxEWvsKGJV8oh4WMHTKb2Kgmd10/ddAbJltjAAdK0JH9Mw=
+	t=1785920262; cv=none; b=cicjPCPuP4ePFTNk9n+tSqN4XPu/NheKfBrODypnQnds0yvmiU+3HkxaDdhx6KTjCRSZZC0ktntUgiQR05MnsrxQ7oPnMqKIfASxwISCotiH9SoN49Z9IgkLk6OUV5kzw635mtc/EFOp0Q0vnQYHo+LleJa7GxAReQOwo0bvhLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785919062; c=relaxed/simple;
-	bh=6aYu6kCucosc7MK3ygxisXLIKyZl8j2TVDWizlVTMXE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tTUzSOtgY63E9fNDpZsDe71Mr37+skntoa9MjhZuWbnwgZbQCBfdKuN28QUPI/Ocv34oAAi11VtKD9FKLszZ8z4GSw3hlxvNWqNwLKBxZPImeRBciJ5Ii7iddo4vcy3Ar+a4OPK8wKCr+TyrwLi0JsSQucBQLulrz9rwlCPuEA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=p9EirEOY; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="p9EirEOY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 706911F000E9;
-	Wed,  5 Aug 2026 08:37:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785919061;
-	bh=CJt6uz2ke2J7dp0n9U2EMchWlL2SySk93nI01T1NbAI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=p9EirEOYBZcguoU/prvWwb70vbUGV5YBP3LWd+jiBbb9gfEwSS6b6UNOGGaL4gP/7
-	 Rme0nZeIVmcImDXSl0C8DPSPqv2mQuIrXwzdvBoQfQbX3p8TQ967lSbjYT5QRkyttz
-	 ze50u+5z0SiWdnC5wwZdsaKWcl5OP9LLi7JBT2hM=
-Date: Wed, 5 Aug 2026 10:37:24 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nguyen Quang Le Kien <khiemtranzo532001@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] usb: gadget: f_phonet: fix use-after-free in pn_bind
-Message-ID: <2026080532-reverb-freewill-9228@gregkh>
-References: <2026080509-scouts-nimbly-66a6@gregkh>
- <20260805082402.3265730-1-khiemtranzo532001@gmail.com>
+	s=arc-20240116; t=1785920262; c=relaxed/simple;
+	bh=bnMPh1m4dcOLE2/1Njkj44YOx8CqEmaf3C3/hzUEbrU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YjwM3NWxG3UMa/dQuSB8kJ9PoADuOsdVXH4KbCRs2a+/A5EsQBXrImy9tfrAzjivdDTWn2VaaRx6skYNEiJEiJm2vaPNWYDfUhGAM+CVJMPClYDR9wEp6rTQisOF4hezH3kw4YmM8Ap83sR+IyfIuEnOUWiBqzxfaln7sSn6x00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: af75588a90ab11f1aa26b74ffac11d73-20260805
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:ebed00ad-3635-4fa3-ab01-94a2a9b225f3,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:f65d137e80cbdbe83eec97128c29acdb,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
+	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: af75588a90ab11f1aa26b74ffac11d73-20260805
+X-User: huangwei@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <huangwei@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1407271787; Wed, 05 Aug 2026 16:57:28 +0800
+From: Huang Wei <huangwei@kylinos.cn>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Fedor Pchelkin <boddah8794@gmail.com>,
+	Benson Leung <bleung@chromium.org>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Huang Wei <huangwei@kylinos.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: typec: ucsi: use UCSI_TIMEOUT_MS for sync command completion
+Date: Wed,  5 Aug 2026 16:57:25 +0800
+Message-Id: <20260805085725.389761-1-huangwei@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260805082402.3265730-1-khiemtranzo532001@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 05, 2026 at 04:24:02PM +0800, Nguyen Quang Le Kien wrote:
-> On Wed, Aug 05, 2026 at XX:XX, Greg KH wrote:
-> > I do not know, but step back, why are you trying to fix this issue at
-> > all if you can not reproduce it and you do not have the hardware to test
-> > it for?
-> 
-> The race is clear from reading the code - the old comment was just
-> wrong. syzbot hit it 13 times so I figured the fix was worth sending
-> even without a local reproducer.
+The synchronous command completion path in ucsi_sync_control_common()
+hardcodes a 5 second (5 * HZ) timeout when waiting for the PPM to signal
+command completion via ACPI notification. This value matched
+UCSI_TIMEOUT_MS when it was still 5000 ms, but it was not updated when
+that macro was later raised to 10000 ms to fix PPM reset timeouts.
 
-Great, but what drew you to wanting to fix this specific syzbot issue?
-Do you have this hardware that you need to see this issue resolved for?
+As a result, the two PPM communication paths are now inconsistent: the
+polling path in ucsi_reset_ppm() respects the 10 second timeout, while
+the event-driven completion path still uses 5 seconds. On machines where
+the firmware is slow to respond during boot (e.g. some Lenovo ThinkPad
+models such as the E14 Gen 7), commands sent after the PPM reset, such
+as SET_NOTIFICATION_ENABLE and GET_CAPABILITY, can exceed 5 seconds and
+cause UCSI initialization to fail with:
 
-thanks,
+    ucsi_acpi USBC000:00: error -ETIMEDOUT: PPM init failed
 
-greg k-h
+Once UCSI init aborts, USB-C PD negotiation never completes, which in
+turn blocks USB-C dock enumeration since the dock depends on a successful
+PD contract.
+
+Replace the hardcoded 5 * HZ with msecs_to_jiffies(UCSI_TIMEOUT_MS) so
+that both communication paths share a single, consistent timeout value,
+and future adjustments to UCSI_TIMEOUT_MS are picked up automatically.
+
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=221740
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=2183790
+Fixes: bf4f9ae1cb08c ("usb: typec: ucsi: increase timeout for PPM reset operations")
+Cc: stable@vger.kernel.org
+Signed-off-by: Huang Wei <huangwei@kylinos.cn>
+---
+ drivers/usb/typec/ucsi/ucsi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index d221ca9bc88e..37fa20b302ba 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -91,7 +91,8 @@ int ucsi_sync_control_common(struct ucsi *ucsi, u64 command, u32 *cci,
+ 	if (ret)
+ 		goto out_clear_bit;
+ 
+-	if (!wait_for_completion_timeout(&ucsi->complete, 5 * HZ))
++	if (!wait_for_completion_timeout(&ucsi->complete,
++					 msecs_to_jiffies(UCSI_TIMEOUT_MS)))
+ 		ret = -ETIMEDOUT;
+ 
+ out_clear_bit:
+-- 
+2.25.1
+
