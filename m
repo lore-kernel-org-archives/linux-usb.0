@@ -1,126 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50672364942;
-	Wed,  5 Aug 2026 14:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99DC45D5D0
+	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 14:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785939350; cv=none; b=RwxxsEvE6Vw1EDqcdvEjJIi3bwpkFJRfR3w6YAOf/sZk2d2ZVNwQ3KpWQSj0dsgBZHSWchgAWAjJncNH9m3KtSLs6Mcp7ECE7F1hSbqohX80nb8vwY24b7DAtfbKsiDELaqSUB0/YfTWjFHf8Puo0keiQDbwgO2Hu0cerLyock4=
+	t=1785940708; cv=none; b=Uehjvhm5HIeEDFZMX3vT3OK5qYLL9Jb7QUMsajY4C8atGd0LKJMOP8DrCEcSt+ykE2mWctEYE/0VHSEnV9bcO+cEW/fMuYSffkFSjFMLiW+TeEpTuMm9NqN/EmEEtE7uiy3b+aYgZCgbPVsMNOOkxDugg//zJAJQgwJfN1agwaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785939350; c=relaxed/simple;
-	bh=KtK1uDlEfrhDuvTRZxSqM8PK01kq31Rw1Gqq6nNou3w=;
-	h=From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:Date; b=Mmxe9qCAkVkNQV7lleENeT1xRiSvdLHpP3SERH+DNV6Wm/wr/OORoL25VuD9zcPWhyvzZ2YiUZFR4fj1OEEMbUmJzqqdDwTzxiu+X68CeA7FJdjTXD496XiSD3KJZkqNO9xHh806nCscepDE5vPYFCOnoRM/FmcchMebPI8tMek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g5X3nJW6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785940708; c=relaxed/simple;
+	bh=btSnk9M580UYnOIBUdL6XgXSt4VZJsBcyldHAqCQRu8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dR4oG6TSFFyI8RPthXJZXD9uxAUKPcTCxT5m1aBhXWNV1w06x8nK749X4m//tUb7KHQ9LtD3UDXbotQlV2nUIy4mFu/4LV1p/zqYysPz5ubxPt+feGHa7WaRFjS/+ZDun4Rko9wANXm4SkKcvPXSinR5wL2ounhMPcTtNxdgZSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gTnVOfyC; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g5X3nJW6"
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 6B7DA1F000E9;
-	Wed,  5 Aug 2026 14:15:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785939349;
-	bh=mPcyaOrbkQr3zyaOcuxdt4QQfLFjFN+nGNR5FTjcNzM=;
-	h=From:To:Cc:Subject:Date;
-	b=g5X3nJW6N1PQ0iEBZfc8ZqiwHIsIs+7aSNE4UrLoqRXpBLxLUBhlSdgUziUSsLlkI
-	 pkkEyfSvw800s28fSl728Z5ffOdZG9mDujk+0qYXciGga83OawaeuKYkUJ/Dwy1G17
-	 ICJPezO27hSuzaIvDykGqStfF3eFfuYeU4QEKm+wN3w+RkV8nbXUvYGf9HzsTQUB/R
-	 IQxNpWYQ4ko0HCFSqcmnq5e8fmNiazbO6jNTd2/wvaHLJGM8beio3AtjVzMSI4j7yl
-	 SIthZ3XQ42QAKlrqhWylcEfNJOuNQFO3EKGuCS8RE6KeSPQ8aJEAIiANFp8MqUdW2Z
-	 5PbZCVdc5pMFg==
-From: "syzbot" <syzbot@kernel.org>
-To: syzkaller-bugs@googlegroups.com, Aleksandr Nogikh <nogikh@google.com>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>, "Linus Torvalds" <torvalds@ppc970.osdl.org>
-Cc: brauner@kernel.org, jack@suse.cz, kees@kernel.org, linux-kernel@vger.kernel.org, mjguzik@gmail.com, syzbot@lists.linux.dev, viro@zeniv.linux.org.uk
-Subject: [PATCH] usb: gadgetfs: fix unbalanced refcount in gadgetfs_bind() error path
-Message-ID: <deb7f348-3cb9-4e8d-b246-b0d5e5f49d16@mail.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gTnVOfyC"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5aebd52488cso1273117e87.2
+        for <linux-usb@vger.kernel.org>; Wed, 05 Aug 2026 07:38:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785940703; x=1786545503; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=btSnk9M580UYnOIBUdL6XgXSt4VZJsBcyldHAqCQRu8=;
+        b=gTnVOfyCDB6xEdH/pRHi5PoxpusnbNjLc8XJGlMdkYZ+T4LElFeksmHeSC2niCfxdI
+         g/m9u992Mg/wjoEISCi9fuToLVwxwdDssxc9gKif0rEagS6sTd5UE1G/DarfayG50uHa
+         x2S8cRzjArfP7JkwHzC14OefUbrALkQ7YTAqL3+1Nmq3RG2rJO3OWNjlqJ56oZ4DYMz2
+         ma5G0IoR160QogUYXo4Pth4dHCNsTdWVcsX+xesEmbzKGGIk6X5n9H8HL+dfKjfC74Ez
+         ITcD03XWJ5j/dSSGv3rcJrfZcVVejBncGbGPy4QRlz08YZpQhpKu9SbjNPbZ/PRUCCC/
+         yckg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785940703; x=1786545503;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=btSnk9M580UYnOIBUdL6XgXSt4VZJsBcyldHAqCQRu8=;
+        b=oWwaDxIFN6yVimtI3SfmWLpgnr4lHoWDy0CFd31EGuHRYjpS+JMIgAUtXP4gEMXl7l
+         Kc07GMRfzp7YHtZFKVvvJVTvmBJyJXlmeLmBM/Hz/m5xRsSD+I7EOzz11HLuNo6wi/ic
+         Z81MpcH496tFzdWaVXELakb+KeFhtuUzZ0PESBFHpbJ2Y22SmA//XOV0VtTbrdPYgzF1
+         kjtAIqJOhfgn1XBOW3UoxEq3seQHQQcl9aHaUjI7TM8G0dOzre3U3NAwfnhzhwLjzn+A
+         oAosE8jXEHKZmjE7dS5PQBG3XA8HxQITSxKZI6rtH8TCV9B5m3uYHNamPy6VKKQgngYj
+         /Ebg==
+X-Forwarded-Encrypted: i=1; AHgh+RpH0kLvLaCKxIIUZDpv1tAikQTsaKBweY9gOouRXW+O9QAWIGrMBcneN1mRchF6phuV7f1XR2Uyvrs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpF5YhXnwxaCzao/4MOitbNeW/3U2+OKrQJjDMOArtNX8AlscL
+	NqUVkJ+WE1HPWaG9NuEh5oVnCL4h38zj9FzDMHV6P7dySxprjPtyA+6LrQKadw==
+X-Gm-Gg: AR+sD13wjs1lekzpJPRpHUWhqC2/g3DXUeQyPeIuqYs13WEtByASn9iyxmFLxRkvrFC
+	V0Dkc5yvayNBoZPBzDFq1GnSXK1xAx3RYmTyGwrLjHiJ4QCG38GKZLo/rxGuH7KXodVJJdbfZjz
+	lDtT2s3e5AdjntYvFVcCeB2Xe9pbGb/Lpk1Tw1keQPEH5m8M6zPJImjHbwc5PlYP1FLt9x/ByFP
+	4zGjwfaNTe4Y/oYPAZty32dLUvXRor2Cn8x8NJaN/gFKGBhdJ8Pro0j588PoHuFcTFYbwqtKBZ4
+	KjMqX7ojMN5tJTCX0aSzfHaO8tXSWglQWkTY72Z8Rt8iRicAJYEGgb3DWQghhigvCKDeQuOIjMz
+	m44vzWOzum79Z8E/tp8LNJewLGpKiUqDcZgMu2jSyLAMBsAWflvJ0NnOaxRZPt5+MYWiuNdYNQf
+	Y6veGf+O5Oi4PQlis5EHv87XxqM6EXfAl2wWoazGmSDP1ADRkjIBO/Mb8DgHCZy8Jnj41SsT1Ku
+	EJIOQ3HuISaXXb1ta23EO99l2TTrrcHfg==
+X-Received: by 2002:a05:6512:10d6:b0:5b2:a4bf:a6d2 with SMTP id 2adb3069b0e04-5b2f4cbfb38mr1220686e87.39.1785940702654;
+        Wed, 05 Aug 2026 07:38:22 -0700 (PDT)
+Received: from localhost (79-139-241-61.dynamic.spd-mgts.ru. [79.139.241.61])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2f623d952sm178526e87.19.2026.08.05.07.38.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Aug 2026 07:38:22 -0700 (PDT)
+Date: Wed, 5 Aug 2026 17:38:21 +0300
+From: Fedor Pchelkin <boddah8794@gmail.com>
+To: Huang Wei <huangwei@kylinos.cn>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benson Leung <bleung@chromium.org>, 
+	Pooja Katiyar <pooja.katiyar@intel.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: use UCSI_TIMEOUT_MS for sync command
+ completion
+Message-ID: <anNKgfHTMT6osz9O@fedora>
+References: <20260805085725.389761-1-huangwei@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Date: Wed,  5 Aug 2026 14:15:48 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260805085725.389761-1-huangwei@kylinos.cn>
 
-From: Aleksandr Nogikh <nogikh@google.com>
+On Wed, 05. Aug 16:57, Huang Wei wrote:
+> The synchronous command completion path in ucsi_sync_control_common()
+> hardcodes a 5 second (5 * HZ) timeout when waiting for the PPM to signal
+> command completion via ACPI notification. This value matched
+> UCSI_TIMEOUT_MS when it was still 5000 ms, but it was not updated when
+> that macro was later raised to 10000 ms to fix PPM reset timeouts.
 
-In gadgetfs_bind(), if an error occurs (for example, failing to allocate
-the endpoint request), the error path calls gadgetfs_unbind().
-gadgetfs_unbind() unconditionally drops a reference to the device object
-(dev) by calling put_dev(). However, gadgetfs_bind() only acquires a
-reference to dev at the very end of the function upon success. This
-mismatch causes the reference count to drop prematurely.
+Thanks, lgtm.
 
-If multiple UDCs are available, the driver core will attempt to bind the
-driver to each of them. If the first bind fails, the premature put_dev()
-can drop the reference count to zero, freeing the dev object. Subsequent
-bind attempts will then trigger a use-after-free when accessing the freed
-dev object.
-
-BUG: KASAN: slab-use-after-free in gadgetfs_bind+0xd8/0xae0
-drivers/usb/gadget/legacy/inode.c:1682
-Write of size 8 at addr ffff88819002e900 by task syz.0.17/6152
-
-Call Trace:
- <TASK>
- gadgetfs_bind+0xd8/0xae0 drivers/usb/gadget/legacy/inode.c:1682
- gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1662
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __driver_attach+0x339/0x600 drivers/base/dd.c:1292
- bus_for_each_dev+0x23e/0x2c0 drivers/base/bus.c:383
- bus_add_driver+0x348/0x670 drivers/base/bus.c:763
- driver_register+0x23a/0x320 drivers/base/driver.c:174
- usb_gadget_register_driver_owner+0xf9/0x270
- drivers/usb/gadget/udc/core.c:1752
- dev_config+0xe4e/0x12c0 drivers/usb/gadget/legacy/inode.c:1883
- vfs_write+0x29f/0xbb0 fs/read_write.c:685
- ksys_write+0x156/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
- </TASK>
-
-To fix this, move the get_dev(dev) call to the beginning of
-gadgetfs_bind(), right after the gadget data pointers are set up and before
-any potential failure paths that lead to gadgetfs_unbind(). This ensures
-that the reference count is properly balanced when gadgetfs_unbind() is
-invoked on the error path.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Assisted-by: Gemini:gemini-3.5-flash Gemini:gemini-3.1-pro-preview syzbot
-Reported-by: syzbot+f63ad1084fd77fab48e4@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=f63ad1084fd77fab48e4
-Link: https://syzkaller.appspot.com/ai_job?id=6fafa316-17a5-4928-b109-4b866d73749d
-Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
-
----
-diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
-index d87a8ab51..ba901023d 100644
---- a/drivers/usb/gadget/legacy/inode.c
-+++ b/drivers/usb/gadget/legacy/inode.c
-@@ -1682,6 +1682,8 @@ static int gadgetfs_bind(struct usb_gadget *gadget,
- 	dev->gadget = gadget;
- 	gadget->ep0->driver_data = dev;
- 
-+	get_dev(dev);
-+
- 	/* preallocate control response and buffer */
- 	dev->req = usb_ep_alloc_request (gadget->ep0, GFP_KERNEL);
- 	if (!dev->req)
-@@ -1696,7 +1698,6 @@ static int gadgetfs_bind(struct usb_gadget *gadget,
- 	spin_lock_irq(&dev->lock);
- 	dev->state = STATE_DEV_UNCONNECTED;
- 	spin_unlock_irq(&dev->lock);
--	get_dev (dev);
- 	return 0;
- 
- enomem:
-
-
-base-commit: 075b74841bd0065a3bda3440873c747938e69b68
--- 
-See https://goo.gle/syzbot-ai-patches for information about AI-generated patches.
-You can comment on the patch as usual, syzbot will try to address
-the comments and send a new version of the patch if necessary.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Reviewed-by: Fedor Pchelkin <boddah8794@gmail.com>
