@@ -1,260 +1,522 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28FE140F724
-	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 12:28:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5685F2F290B;
+	Wed,  5 Aug 2026 12:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785932916; cv=none; b=g8AHKkO+X2q/i50jXMAG8ZAJoZB5/pEdFO+pXJysH8dYhLaPC/fSuR1K13e5TCNytFNgwWksV/fgSGjo8PSD2Z3zwU9k8XYvX5nvfUItrNgFUz3USWMemj6BU+mdbYGUeAkUz0jyw0OyUxo3LbUxHqk9njX/JFi5geaVdYrHsJY=
+	t=1785933100; cv=none; b=SVYGc/Y07jiyBwg7VGgf1Ndv6iAzjzCk7KVghHhMq3gVw4onNKMPpdDsQUDgSN3DBhiZ5X1LeIFBpdTueGV+VX8X82LpyePuDSz3Fl9kdYVbf9K43A+ljwrwdtaCcF2fBIqwHNg5cI9f03rAMbBRtB1Pem+60OZGWf4HlRUZxCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785932916; c=relaxed/simple;
-	bh=s5vzpwGC+GvLalPFalOtaPsVMimfYCbYNkvl6ljE2AE=;
+	s=arc-20240116; t=1785933100; c=relaxed/simple;
+	bh=oDfKmIkAsCXHnHQU3VfKxb3Nj8gtVwi1Dc3/Q8WhvVY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sfphly6EbCMNfoBJI/lRk4j1rmhIAt63Df7S74hnejK1Yc8899YBktT6rHWsEbud2NKkPbc/vh+/1zd4WAdapMr3RRQjv/8b4TD8FLAvAX79h4Grws/BGxgU9ysSa2JVqJHRzq5gfnggJEWpGmUW7l3nDsDojoECG0rLvv4Y2OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MW5pxw3X; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=bd/MB8FNV8mTQaKXn+Mvde7krpiR0E3RL3YzyRsNblsZ+VU22jF3SgY3UoloDGAv1J0GaZ2jHillHG8Y+ZrHSxKwAy1PUh83zAG5dsPFge3Eb6tytF8hbZ4TyG6hjm3zCwDFd/iUY1e6ou94nmhJ+n6eVzkMKo3DWdybjO3XZfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IYjRF4t9; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MW5pxw3X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IYjRF4t9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1785932915; x=1817468915;
+  t=1785933098; x=1817469098;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=s5vzpwGC+GvLalPFalOtaPsVMimfYCbYNkvl6ljE2AE=;
-  b=MW5pxw3Xq6a4ynomHpXnW5n8P7NY36vQaaNpnRQdtzxI065FdRVNsQZx
-   5+ssPgVRcEOZ/Zw4PL0JywpUN0Tglf8dpCU5IQsHMixMyJv8KOQWe84Jl
-   mrUghIMZVd/Z+6hKypbCU0vdD6LcHtxHbpy2v959leDvd+EH31sueRBqT
-   RJcazgB9ksylfhQM1HNL07HkEZnTaJVoO/CocZ/Uz0PVk3XP7VTgifKUT
-   BNi0+BW7NneSpc7uFKWInhMP9iCQkxWNIkv3RRj7pnWNPF7kf89dZdtgE
-   zGTxpcY79jF9fjbKxG3U7ABZ3I14zLGMFi2AffoBMm8tY/aBjAPw8clrh
-   A==;
-X-CSE-ConnectionGUID: Yl7gzjdkROOVMkGbvfsTjA==
-X-CSE-MsgGUID: vKPFd7FESN6fxAaNe8PIWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="86444270"
+  bh=oDfKmIkAsCXHnHQU3VfKxb3Nj8gtVwi1Dc3/Q8WhvVY=;
+  b=IYjRF4t9AH1nLigAiy6ryuWJ/LgWhjbrWs85q2dXrdSjclX4NRrBBgwv
+   1XvjGnuW4s2sc8ocuC4l9Q9QfnPkLwj7iQBOWfBiy2VqyVQUgg0PP8lCI
+   qRRfKNFRzpUlAo5mkR9Ta+UOIbwnCn+rEw+t7A//TVLTvB3KF+C7HGG2t
+   KLe8lsbktK61cwTgwIveTKZNRXbW4N3/AjWCGyZDxS4SPsqcB4ZOZgFeQ
+   NWcu6nvODbNmm97vbTXZXszPhbArl+UWEgi8jEng9rtp0SI7TwZbxlhHM
+   dKH8VenzNbkhl09ReOfWr0Q8oJWCRE+IatofO1u8mHMn/97e7UdXVRHAA
+   g==;
+X-CSE-ConnectionGUID: CK7TWCc/QoGZbeAQLUZN4g==
+X-CSE-MsgGUID: XG+Q2rSrRNKVtx2S2nNnkg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="97099246"
 X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="86444270"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 05:28:35 -0700
-X-CSE-ConnectionGUID: Fj0o+t6nTpeMO1cRPqyGHw==
-X-CSE-MsgGUID: dNxJK4B6Ti+vThxr//fx9g==
+   d="scan'208";a="97099246"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 05:31:38 -0700
+X-CSE-ConnectionGUID: KxGgxjlXQgOEzFW1wjq1Hw==
+X-CSE-MsgGUID: g3tSiUKJTv6+E3AzM7RiUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
-   d="scan'208";a="266033416"
+   d="scan'208";a="257934055"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa005.jf.intel.com with ESMTP; 05 Aug 2026 05:28:33 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 32E4799; Wed, 05 Aug 2026 14:28:32 +0200 (CEST)
-Date: Wed, 5 Aug 2026 14:28:32 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Cc: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com,
-	linux-usb@vger.kernel.org, Mario.Limonciello@amd.com,
-	Sanath S <Sanath.S@amd.com>
-Subject: Re: [PATCH -next v2] thunderbolt: Add quirk to reset host interface
- on DMA path teardown for AMD USB4 routers
-Message-ID: <20260805122832.GH235112@black.igk.intel.com>
-References: <20260805111811.517996-1-Basavaraj.Natikar@amd.com>
+  by fmviesa010.fm.intel.com with ESMTP; 05 Aug 2026 05:31:35 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id CF32A99; Wed, 05 Aug 2026 14:31:33 +0200 (CEST)
+Date: Wed, 5 Aug 2026 14:31:33 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Amber Kao <amber.kao@ite.com.tw>
+Cc: Jeson Yang <jeson.yang@ite.com.tw>, Yaode Fang <Yaode.Fang@ite.com.tw>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Bling Chiang <Bling.Chiang@ite.com.tw>,
+	Eric Su <Eric.Su@ite.com.tw>, Doreen Lin <doreen.lin@ite.com.tw>
+Subject: Re: [PATCH v6 2/2] usb: typec: ucsi: Add ITE IT8851/IT8853 Type-C PD
+ controller driver
+Message-ID: <anMtJTcWKt1z86Ih@black.igk.intel.com>
+References: <20260731-ucsi-itepd-v6-0-d25ae12b181f@ite.com.tw>
+ <20260731-ucsi-itepd-v6-2-d25ae12b181f@ite.com.tw>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260805111811.517996-1-Basavaraj.Natikar@amd.com>
+In-Reply-To: <20260731-ucsi-itepd-v6-2-d25ae12b181f@ite.com.tw>
 
-Hi,
-
-On Wed, Aug 05, 2026 at 04:48:11PM +0530, Basavaraj Natikar wrote:
-> Some AMD USB4 host routers have a bug in the Host Interface where
-> DMA path setup and teardown cycles may cause the Tx ring to hang.
+On Fri, Jul 31, 2026 at 06:02:04PM +0800, Amber Kao wrote:
+> Add a UCSI driver for the ITE IT8851 and IT8853 I2C-based USB Type-C
+> Power Delivery controllers.
+> The controller signals UCSI through a shared interrupt line; events are
+> read and acknowledged via vendor-specific registers, and
+> UCSI events are forwarded to the UCSI core.
 > 
-> Fix this by issuing a Host Interface Reset on every DMA path teardown
-> for affected routers. The Host Interface Reset brings the registers in
-> the memory BAR to their default state and clears the End-to-End Flow
-> Control state, preventing the hang condition.
+> Add the driver file to the MAINTAINERS entry.
 > 
-> Co-developed-by: Sanath S <Sanath.S@amd.com>
-> Signed-off-by: Sanath S <Sanath.S@amd.com>
-> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+> Cc: Yaode Fang <Yaode.Fang@ite.com.tw>
+> Cc: Jeson Yang <jeson.yang@ite.com.tw>
+> Cc: Bling Chiang <Bling.Chiang@ite.com.tw>
+> Cc: Eric Su <Eric.Su@ite.com.tw>
+> Cc: Doreen Lin <doreen.lin@ite.com.tw>
+> Signed-off-by: Amber Kao <amber.kao@ite.com.tw>
 > ---
-> v2:
-> - Move the quirk to the NHI (nhi->quirks), set in nhi_pci_check_quirks()
->   by PCI ID following the QUIRK_AUTO_CLEAR_INT convention, instead of the
->   tb_quirks[] fabric table.
-> - Declare nhi_host_interface_reset() in nhi.h instead of tb.h.
+>  MAINTAINERS                         |   1 +
+>  drivers/usb/typec/ucsi/Kconfig      |  10 +
+>  drivers/usb/typec/ucsi/Makefile     |   1 +
+>  drivers/usb/typec/ucsi/ucsi_itepd.c | 364 ++++++++++++++++++++++++++++++++++++
+>  4 files changed, 376 insertions(+)
 > 
-> v1: https://lore.kernel.org/all/20260804122638.1623429-1-Basavaraj.Natikar@amd.com/
->  drivers/thunderbolt/nhi.c      | 37 ++++++++++++++++++++++++++++++++++
->  drivers/thunderbolt/nhi.h      |  2 ++
->  drivers/thunderbolt/nhi_regs.h |  4 ++++
->  drivers/thunderbolt/pci.c      | 21 +++++++++++++++++++
->  drivers/thunderbolt/tb.c       |  6 ++++++
->  5 files changed, 70 insertions(+)
-> 
-> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-> index 383a36212f70..72a76db5ea68 100644
-> --- a/drivers/thunderbolt/nhi.c
-> +++ b/drivers/thunderbolt/nhi.c
-> @@ -1160,6 +1160,43 @@ static void nhi_reset(struct tb_nhi *nhi)
->  	dev_warn(nhi->dev, "timeout resetting host router\n");
->  }
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ec0eeea79b9e..1e76e299e6c3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13727,6 +13727,7 @@ R:	Yaode Fang <Yaode.Fang@ite.com.tw>
+>  L:	linux-usb@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/usb/ite,it8851.yaml
+> +F:	drivers/usb/typec/ucsi/ucsi_itepd.c
 >  
-> +/**
-> + * nhi_host_interface_reset() - Issue host interface reset
-
-nhi_reset_interface()
-
-> + * @tb: Domain whose host interface is reset
-
-This should take nhi as paramter.
-
+>  IVTV VIDEO4LINUX DRIVER
+>  M:	Andy Walls <awalls@md.metrocast.net>
+> diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
+> index 87dd992a4b9e..0f10dac9b34b 100644
+> --- a/drivers/usb/typec/ucsi/Kconfig
+> +++ b/drivers/usb/typec/ucsi/Kconfig
+> @@ -104,4 +104,14 @@ config UCSI_HUAWEI_GAOKUN
+>  	  To compile the driver as a module, choose M here: the module will be
+>  	  called ucsi_huawei_gaokun.
+>  
+> +config UCSI_ITEPD
+> +	tristate "UCSI Interface Driver for ITE IT8851/IT8853"
+> +	depends on I2C
+> +	help
+> +	  This driver enables UCSI support on platforms that expose an
+> +	  ITE IT8851/IT8853 Type-C Power Delivery controller over an I2C interface.
+> +
+> +	  To compile the driver as a module, choose M here: the module
+> +	  will be called ucsi_itepd.
+> +
+>  endif
+> diff --git a/drivers/usb/typec/ucsi/Makefile b/drivers/usb/typec/ucsi/Makefile
+> index c7e38bf01350..0903a1fd486b 100644
+> --- a/drivers/usb/typec/ucsi/Makefile
+> +++ b/drivers/usb/typec/ucsi/Makefile
+> @@ -28,3 +28,4 @@ obj-$(CONFIG_UCSI_PMIC_GLINK)		+= ucsi_glink.o
+>  obj-$(CONFIG_CROS_EC_UCSI)		+= cros_ec_ucsi.o
+>  obj-$(CONFIG_UCSI_LENOVO_YOGA_C630)	+= ucsi_yoga_c630.o
+>  obj-$(CONFIG_UCSI_HUAWEI_GAOKUN)	+= ucsi_huawei_gaokun.o
+> +obj-$(CONFIG_UCSI_ITEPD)		+= ucsi_itepd.o
+> diff --git a/drivers/usb/typec/ucsi/ucsi_itepd.c b/drivers/usb/typec/ucsi/ucsi_itepd.c
+> new file mode 100644
+> index 000000000000..a639b3d32535
+> --- /dev/null
+> +++ b/drivers/usb/typec/ucsi/ucsi_itepd.c
+> @@ -0,0 +1,364 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2025-2026, ITE. All Rights Reserved
 > + *
-> + * Resets the host interface by setting the RST bit in the host interface
-> + * reset register. This brings the registers in the memory BAR to their
-> + * default state and clears the End-to-End Flow Control state. Does nothing
-> + * unless the host interface is known to need this (QUIRK_HOST_INTERFACE_RESET).
-> + *
-> + * The control channel is stopped over the reset because the reset clears
-> + * the ring state as well.
 > + */
-
-This can just reset the NHI, e.g not look into the quirks.
-
-> +void nhi_host_interface_reset(struct tb *tb)
+> +#include <linux/bits.h>
+> +#include <linux/err.h>
+> +#include <linux/i2c.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/slab.h>
+> +#include <linux/unaligned.h>
+> +
+> +#include "ucsi.h"
+> +
+> +#define ITEPD_UCSI_VERSION_REG	0x80
+> +#define ITEPD_UCSI_CCI_REG	0x84
+> +#define ITEPD_UCSI_MSG_IN_REG	0x88
+> +#define ITEPD_UCSI_CONTROL_REG	0x98
+> +
+> +#define ITEPD_VENDOR_WC_INT	0xbc
+> +#define ITEPD_VENDOR_INT	0xbd
+> +#define ITEPD_ALERT_VDM_EVENT	BIT(0)
+> +#define ITEPD_ALERT_UCSI_EVENT	BIT(1)
+> +
+> +#define ITEPD_MSG_IN_MAX_LEN	0x28
+> +
+> +#define ITEPD_EVENT_NONE	0
+> +#define ITEPD_EVENT_UCSI	1
+> +#define ITEPD_EVENT_VDM		2
+> +
+> +struct itepd {
+> +	struct i2c_client *client;
+> +	struct ucsi *ucsi;
+> +	struct mutex i2c_lock;		/* Serializes I2C accesses */
+> +	struct mutex event_lock;	/* Serializes event processing (IRQ vs poll) */
+> +	struct mutex received_lock;	/* Protects cci and msg_in */
+> +	u8 msg_in[ITEPD_MSG_IN_MAX_LEN];
+> +	u32 cci;
+> +};
+> +
+> +static u8 ucsi_itepd_get_len(u32 cci)
 > +{
-> +	struct tb_nhi *nhi = tb->nhi;
-> +	u32 val;
-> +
-> +	if (!(nhi->quirks & QUIRK_HOST_INTERFACE_RESET))
-> +		return;
-> +
-> +	val = ioread32(nhi->iobase + REG_CAPS);
-> +	/* Only v1 host interfaces implement the reset */
-> +	if (FIELD_GET(REG_CAPS_VERSION_MASK, val) >= REG_CAPS_VERSION_2)
-> +		return;
-> +
-> +	dev_dbg(nhi->dev, "issuing host interface reset\n");
-> +
-> +	tb_ctl_stop(tb->ctl);
-
-But don't do these here. Just the actual reset. So that we can call it
-whenever we want to do host internface reset.
-
-> +
-> +	iowrite32(REG_HOST_INTERFACE_RESET_RST,
-> +		  nhi->iobase + REG_HOST_INTERFACE_RESET);
-> +	/* Wait for tHIReset (10 ms) to complete */
-> +	usleep_range(10000, 20000);
-> +
-> +	tb_ctl_start(tb->ctl);
+> +	if (cci & UCSI_CCI_COMMAND_COMPLETE)
+> +		return UCSI_CCI_LENGTH(cci);
+> +	return 0;
 > +}
 > +
->  static struct tb *nhi_select_cm(struct tb_nhi *nhi)
->  {
->  	struct tb *tb;
-> diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
-> index d488eadadfce..9be0372b837e 100644
-> --- a/drivers/thunderbolt/nhi.h
-> +++ b/drivers/thunderbolt/nhi.h
-> @@ -36,6 +36,7 @@ irqreturn_t nhi_msi(int irq, void *data);
->  irqreturn_t ring_msix(int irq, void *data);
->  int nhi_probe(struct tb_nhi *nhi);
->  void nhi_shutdown(struct tb_nhi *nhi);
-> +void nhi_host_interface_reset(struct tb *tb);
-
->  extern const struct dev_pm_ops nhi_pm_ops;
->  
->  /**
-> @@ -121,6 +122,7 @@ struct tb_nhi_ops {
->  /* Host interface quirks */
->  #define QUIRK_AUTO_CLEAR_INT	BIT(0)
->  #define QUIRK_E2E		BIT(1)
-> +#define QUIRK_HOST_INTERFACE_RESET	BIT(2)
-
-Let's call it QUIRK_RESET_DMA_ON_TEARDOWN or something like that.
-
->  /*
->   * Minimal number of vectors when we use MSI-X. Two for control channel
-> diff --git a/drivers/thunderbolt/nhi_regs.h b/drivers/thunderbolt/nhi_regs.h
-> index d6a197fabc74..99df60b6db36 100644
-> --- a/drivers/thunderbolt/nhi_regs.h
-> +++ b/drivers/thunderbolt/nhi_regs.h
-> @@ -115,6 +115,10 @@ struct ring_desc {
->  #define REG_CAPS_VERSION_MASK		GENMASK(23, 16)
->  #define REG_CAPS_VERSION_2		0x40
->  
-> +/* Host Interface Reset - resets TX/RX rings and E2E flow control counters */
-> +#define REG_HOST_INTERFACE_RESET	0x39858
-> +#define REG_HOST_INTERFACE_RESET_RST	BIT(0)
-> +
->  #define REG_DMA_MISC			0x39864
->  #define REG_DMA_MISC_INT_AUTO_CLEAR     BIT(2)
->  #define REG_DMA_MISC_DISABLE_AUTO_CLEAR	BIT(17)
-> diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
-> index 8462ccb59b7e..02534287cb43 100644
-> --- a/drivers/thunderbolt/pci.c
-> +++ b/drivers/thunderbolt/pci.c
-> @@ -62,6 +62,27 @@ static void nhi_pci_check_quirks(struct tb_nhi_pci *nhi_pci)
->  			nhi->quirks |= QUIRK_E2E;
->  			break;
->  		}
-> +	} else if (pdev->vendor == PCI_VENDOR_ID_AMD) {
-> +		switch (pdev->device) {
-> +		case 0x1120:
-> +		case 0x1121:
-> +		case 0x113b:
-> +		case 0x113c:
-> +		case 0x1155:
-> +		case 0x1158:
-> +		case 0x1159:
-> +		case 0x151c:
-> +		case 0x151d:
-> +		case 0x158d:
-> +		case 0x158e:
-
-I would prefer if these are defined in nhi.h similarly what we do with the
-Intel stuff so we have symbolic names for them.
-
-> +			/*
-> +			 * These AMD hosts may hang the Tx ring when the
-> +			 * DMA paths are torn down so they need the host
-> +			 * interface reset after each teardown.
-> +			 */
-> +			nhi->quirks |= QUIRK_HOST_INTERFACE_RESET;
-> +			break;
+> +static int itepd_read_reg(struct itepd *itepd, u8 reg, void *data, u32 len)
+> +{
+> +	struct i2c_client *client = itepd->client;
+> +	struct i2c_msg msg[2] = {
+> +		{
+> +			.addr	= client->addr,
+> +			.flags	= 0,
+> +			.len	= 1,
+> +			.buf	= &reg,
+> +		},
+> +		{
+> +			.addr	= client->addr,
+> +			.flags	= I2C_M_RD,
+> +			.len	= len,
+> +			.buf	= data,
 > +		}
->  	}
->  }
->  
-> diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-> index 47753a5c0f2e..f07f2ada2346 100644
-> --- a/drivers/thunderbolt/tb.c
-> +++ b/drivers/thunderbolt/tb.c
-> @@ -2395,6 +2395,12 @@ static void __tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
->  	 * the same host router USB4 downstream port.
->  	 */
->  	tb_enable_clx(sw);
 > +
-> +	/*
-> +	 * Some hosts may hang the Tx ring after the DMA paths are torn
-> +	 * down so reset the host interface to prevent that.
-> +	 */
-> +	nhi_host_interface_reset(tb);
+> +	};
+> +	int ret;
+> +
+> +	mutex_lock(&itepd->i2c_lock);
+> +	ret = i2c_transfer(client->adapter, msg, ARRAY_SIZE(msg));
+> +	mutex_unlock(&itepd->i2c_lock);
+> +	if (ret < 0) {
+> +		dev_err_ratelimited(&client->dev, "reg 0x%02x read failed: %d\n",
+> +				    reg, ret);
+> +		return ret;
+> +	}
+> +
+> +	return ret == ARRAY_SIZE(msg) ? 0 : -EIO;
+> +}
+> +
+> +static int itepd_write_reg(struct itepd *itepd, u8 reg, const void *data, u32 len)
+> +{
+> +	struct i2c_client *client = itepd->client;
+> +	u8 buf[sizeof(u64) + 1];
+> +	struct i2c_msg msg[1] = {
+> +		{
+> +			.addr	= client->addr,
+> +			.flags	= 0,
+> +			.len	= len + 1,
+> +			.buf	= buf,
+> +		}
+> +	};
+> +	int ret;
+> +
+> +	if (len > sizeof(buf) - 1)
+> +		return -EINVAL;
+> +
+> +	buf[0] = reg;
+> +	memcpy(&buf[1], data, len);
+> +
+> +	mutex_lock(&itepd->i2c_lock);
+> +	ret = i2c_transfer(client->adapter, msg, 1);
+> +	mutex_unlock(&itepd->i2c_lock);
+> +	if (ret < 0) {
+> +		dev_err_ratelimited(&client->dev, "reg 0x%02x write failed: %d\n",
+> +				    reg, ret);
+> +		return ret;
+> +	}
+> +
+> +	return ret == 1 ? 0 : -EIO;
+> +}
+> +
+> +static int itepd_process_event(struct itepd *itepd, u32 *cci)
+> +{
+> +	u8 msg_in[ITEPD_MSG_IN_MAX_LEN] = {};
+> +	__le32 le_cci;
+> +	u8 event, ack;
+> +	u8 len = 0;
+> +	int err = 0;
+> +	int ret;
+> +
+> +	mutex_lock(&itepd->event_lock);
 
-Instead of here, do this in domain.c::tb_domain_disconnect_xdomain_paths()
-and there you can also stop/start the control channel around this. You may
-need to take the tb->lock here too so maybe add a helper.
+guard(mutex)(&itepd->event_lock);
 
-I wanted to make tb.c (and domain.c) not call anything from the "upper"
-layer (nhi.c) but I can't think of reasonable way to do it here, and there
-is no way to handle this from nhi.c because it has no knowledge of XDomain
-tunnels. Perhaps through indirection, nhi->ops->reset_interface?
+> +	ret = itepd_read_reg(itepd, ITEPD_VENDOR_INT, &event, sizeof(event));
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	event &= ITEPD_ALERT_VDM_EVENT | ITEPD_ALERT_UCSI_EVENT;
+> +	if (!event) {
+> +		mutex_lock(&itepd->received_lock);
+> +		*cci = itepd->cci;
+> +		mutex_unlock(&itepd->received_lock);
+> +		ret = ITEPD_EVENT_NONE;
+> +		goto out_unlock;
+> +	}
+> +
+> +	if (event & ITEPD_ALERT_UCSI_EVENT) {
+> +		err = itepd_read_reg(itepd, ITEPD_UCSI_CCI_REG, &le_cci,
+> +				     sizeof(le_cci));
+> +		if (!err) {
+> +			*cci = le32_to_cpu(le_cci);
+> +			len = min_t(u8, ucsi_itepd_get_len(*cci),
+> +				    sizeof(msg_in));
+> +			if (len)
+> +				err = itepd_read_reg(itepd,
+> +						     ITEPD_UCSI_MSG_IN_REG,
+> +						     msg_in, len);
+> +		}
+> +	}
+> +
+> +	ack = event;
+> +	ret = itepd_write_reg(itepd, ITEPD_VENDOR_WC_INT, &ack, sizeof(ack));
+> +	if (ret)
+> +		goto out_unlock;
+> +
+> +	if (err) {
+> +		ret = err;
+> +		goto out_unlock;
+> +	}
+> +
+> +	if (event & ITEPD_ALERT_UCSI_EVENT) {
+> +		mutex_lock(&itepd->received_lock);
+> +		itepd->cci = *cci;
+> +		memset(itepd->msg_in, 0, sizeof(itepd->msg_in));
+> +		memcpy(itepd->msg_in, msg_in, len);
+> +		mutex_unlock(&itepd->received_lock);
+> +		ret = ITEPD_EVENT_UCSI;
+> +	} else {
+> +		mutex_lock(&itepd->received_lock);
+> +		*cci = itepd->cci;
+> +		mutex_unlock(&itepd->received_lock);
+> +		ret = ITEPD_EVENT_VDM;
+> +	}
+> +
+> +out_unlock:
+> +	mutex_unlock(&itepd->event_lock);
+> +	return ret;
+> +}
+> +
+> +static int ucsi_itepd_read_version(struct ucsi *ucsi, u16 *version)
+> +{
+> +	struct itepd *itepd = ucsi_get_drvdata(ucsi);
+> +	__le16 le_version;
+> +	int ret;
+> +
+> +	ret = itepd_read_reg(itepd, ITEPD_UCSI_VERSION_REG, &le_version,
+> +			     sizeof(le_version));
+> +	if (ret)
+> +		return ret;
+> +
+> +	*version = le16_to_cpu(le_version);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ucsi_itepd_read_cci(struct ucsi *ucsi, u32 *cci)
+> +{
+> +	struct itepd *itepd = ucsi_get_drvdata(ucsi);
+> +
+> +	mutex_lock(&itepd->received_lock);
 
->  }
->  
->  static int tb_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd,
+guard(mutex)(&itepd->received_lock);
+
+> +	*cci = itepd->cci;
+> +	mutex_unlock(&itepd->received_lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ucsi_itepd_poll_cci(struct ucsi *ucsi, u32 *cci)
+> +{
+> +	struct itepd *itepd = ucsi_get_drvdata(ucsi);
+> +	int ret;
+> +
+> +	ret = itepd_process_event(itepd, cci);
+> +	return ret < 0 ? ret : 0;
+> +}
+> +
+> +static int ucsi_itepd_read_message_in(struct ucsi *ucsi, void *val, size_t val_len)
+> +{
+> +	struct itepd *itepd = ucsi_get_drvdata(ucsi);
+> +
+> +	mutex_lock(&itepd->received_lock);
+
+Ditto.
+
+> +	memcpy(val, itepd->msg_in, min(val_len, sizeof(itepd->msg_in)));
+> +	mutex_unlock(&itepd->received_lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ucsi_itepd_async_control(struct ucsi *ucsi, u64 command)
+> +{
+> +	struct itepd *itepd = ucsi_get_drvdata(ucsi);
+> +	__le64 le_cmd = cpu_to_le64(command);
+> +
+> +	if (UCSI_COMMAND(command) == UCSI_PPM_RESET) {
+> +		mutex_lock(&itepd->received_lock);
+> +		itepd->cci = 0;
+> +		mutex_unlock(&itepd->received_lock);
+> +	}
+> +
+> +	return itepd_write_reg(itepd, ITEPD_UCSI_CONTROL_REG, &le_cmd,
+> +			       sizeof(le_cmd));
+> +}
+> +
+> +static const struct ucsi_operations ucsi_itepd_ops = {
+> +	.read_version		= ucsi_itepd_read_version,
+> +	.read_cci		= ucsi_itepd_read_cci,
+> +	.poll_cci		= ucsi_itepd_poll_cci,
+> +	.read_message_in	= ucsi_itepd_read_message_in,
+> +	.sync_control		= ucsi_sync_control_common,
+> +	.async_control		= ucsi_itepd_async_control,
+> +};
+> +
+> +static irqreturn_t itepd_irq_process(struct itepd *itepd)
+> +{
+> +	u32 cci;
+> +	int ret;
+> +
+> +	ret = itepd_process_event(itepd, &cci);
+> +	if (ret == ITEPD_EVENT_NONE)
+> +		return IRQ_NONE;
+> +
+> +	if (ret < 0)
+> +		return IRQ_HANDLED;
+> +
+> +	if (ret == ITEPD_EVENT_UCSI)
+> +		ucsi_notify_common(itepd->ucsi, cci);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static irqreturn_t itepd_irq_thread_fn(int irq, void *data)
+> +{
+> +	struct itepd *itepd = data;
+> +
+> +	return itepd_irq_process(itepd);
+> +}
+> +
+> +static int itepd_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct itepd *itepd;
+> +	u32 cci;
+> +	int ret;
+> +
+> +	if (client->irq <= 0)
+> +		return dev_err_probe(dev, -ENODEV, "no IRQ provided\n");
+> +
+> +	itepd = devm_kzalloc(dev, sizeof(*itepd), GFP_KERNEL);
+> +	if (!itepd)
+> +		return -ENOMEM;
+> +
+> +	itepd->client = client;
+> +	mutex_init(&itepd->i2c_lock);
+> +	mutex_init(&itepd->event_lock);
+> +	mutex_init(&itepd->received_lock);
+> +	i2c_set_clientdata(client, itepd);
+> +
+> +	itepd->ucsi = ucsi_create(dev, &ucsi_itepd_ops);
+> +	if (IS_ERR(itepd->ucsi))
+> +		return dev_err_probe(dev, PTR_ERR(itepd->ucsi),
+> +				     "ucsi_create failed\n");
+> +
+> +	ucsi_set_drvdata(itepd->ucsi, itepd);
+> +
+> +	ret = request_threaded_irq(client->irq, NULL, itepd_irq_thread_fn,
+
+devm_request_threaded_irq()?
+
+> +				   IRQF_ONESHOT, dev_name(dev), itepd);
+> +	if (ret) {
+> +		dev_err_probe(dev, ret, "request_threaded_irq failed\n");
+> +		goto out_ucsi_destroy;
+> +	}
+> +
+> +	ret = itepd_process_event(itepd, &cci);
+> +	if (ret < 0)
+> +		dev_warn(dev, "initial event processing failed: %d\n", ret);
+> +
+> +	ret = ucsi_register(itepd->ucsi);
+> +	if (ret) {
+> +		dev_err_probe(dev, ret, "failed to register UCSI\n");
+> +		goto out_free_irq;
+> +	}
+> +
+> +	return 0;
+> +
+> +out_free_irq:
+> +	free_irq(client->irq, itepd);
+> +out_ucsi_destroy:
+> +	ucsi_destroy(itepd->ucsi);
+> +	return ret;
+> +}
+> +
+> +static void itepd_remove(struct i2c_client *client)
+> +{
+> +	struct itepd *itepd = i2c_get_clientdata(client);
+> +
+> +	ucsi_unregister(itepd->ucsi);
+> +	free_irq(client->irq, itepd);
+> +	ucsi_destroy(itepd->ucsi);
+> +}
+> +
+> +static const struct of_device_id itepd_of_match_table[] = {
+> +	{ .compatible = "ite,it8851" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, itepd_of_match_table);
+> +
+> +static const struct i2c_device_id itepd_id_table[] = {
+> +	{ "ucsi_itepd", 0 },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(i2c, itepd_id_table);
+> +
+> +static struct i2c_driver itepd_driver = {
+> +	.driver = {
+> +		.name = "ucsi_itepd",
+> +		.of_match_table = itepd_of_match_table,
+> +	},
+> +	.probe = itepd_probe,
+> +	.remove = itepd_remove,
+> +	.id_table = itepd_id_table,
+> +};
+> +module_i2c_driver(itepd_driver);
+> +
+> +MODULE_AUTHOR("Jeson Yang <jeson.yang@ite.com.tw>");
+> +MODULE_DESCRIPTION("UCSI driver for ITE IT8851 and IT8853 Type-C PD controllers");
+> +MODULE_LICENSE("GPL");
+> 
 > -- 
-> 2.34.1
+> 2.53.0
+
+-- 
+heikki
