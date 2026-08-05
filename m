@@ -1,255 +1,531 @@
-Received: from mail-oo1-f79.google.com (mail-oo1-f79.google.com [209.85.161.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F1D3AF656
-	for <linux-usb@vger.kernel.org>; Wed,  5 Aug 2026 11:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCE5435539;
+	Wed,  5 Aug 2026 11:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785929803; cv=none; b=TYyQgtcqOIkqYfvO2s3rWrlaMSaMy8JkbwGX1ir2S4l0G9eGeQosVa38gLaW/eztYZFAP7zk9K2+5ZK//SOBSYFFT4WdtNGBQi8IeqJKlEwCyALY60jdIwiQrBMzHF/boGk68MVGizXf2AtO5th72i6MLXNF/tFP6q30oI5CQaU=
+	t=1785930466; cv=none; b=gmvcHCv41J3kZOk7cSTvAJB2SC4a21BOt5oiGYw+9w2XFqu5q13fWYjiIwbPanrV2da0JDhX9J+SrhjIgBI6L3DyYuqjfi/8hbnMNYIUyJQ5WRNqhlE+pu10D7uQoCOStkcB7Iyb5fvtzpxB87yxqNDQ5LmKzhB+cLhAhG5YL0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785929803; c=relaxed/simple;
-	bh=nF1QCgX5WfoJSjZeQdH1AHWr7LM2AuaR3K8jt4+2mFo=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=R17zxqq37HVrvYfK241DGREOFjyGu4/eBrV+p1puUGuwGWGfWIRpZEopm+JfKtxgqh2LegxsKcjg+EuvmOhxdAvti/Wa35LyFo3Qsf6RY/u1ntkIKfXCd5PCZEA4MlDE/Uu5/MBa0ZXjQjzQdZu6/FTk5l4ACErauWZyKZP2RXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f79.google.com with SMTP id 006d021491bc7-6ae4622d842so833459eaf.3
-        for <linux-usb@vger.kernel.org>; Wed, 05 Aug 2026 04:36:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785929799; x=1786534599;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=VinKqMIuodFDTumz2PvjMdlIeNFC1YF3ggEJK8oUmk8=;
-        b=BOHGI0kfB4sjYOYXCAtNh5tIhIjJKBd1KE/h3b1TwOShaKZhrlDg7AKqOdMK/0o1hH
-         iSGpb73oB57GPjVips/zgvGsKciV2ilaSuK2y8nXbVNZZxxYjC7C+oyN5DohBumpejF5
-         aoQ0QW2TJkVBaq7p9EWuoSMtUBSTgmV1uJiuMtOQ4cegvyN1xhbIwJ26/MC7GabZHIst
-         ffPoBq+kAsbxRFxdCMEUNleiIfm8owvC7NpV+TaIZvMCKpieSaj00AAHjHPcBkA+3ggG
-         ZOCBLgQTALkEnHlWCWthYQiFf349v8wsc8nkuhgNLueeedlHw4kO2WtRFjHAi8Hl3NF5
-         JCLw==
-X-Forwarded-Encrypted: i=1; AHgh+Ro345xVmDY9OcXlyA8ff+wTw2niJakulLcMmDs4Osib9oGuqT57WTU4fBjTq4Hy5OBETMfAwkdt4p4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzShWLVTD77q8RqQOZXSWqfkLMA5Dx/zdd8KRbpDJtRwXfbhHo2
-	RfXzKflrjwR3joIlAgcO1zEellfdERcBW6NpGV1NWDBaSK/YE68urk/H6VhB/bfPnpxcJTq3W2M
-	9GLqeoJKOpVqsLg1pLoCOparr6RKbFOHi+t7GIepSx57VKmyiQNp8S++TKSY=
+	s=arc-20240116; t=1785930466; c=relaxed/simple;
+	bh=GHEQA7zE2Q7m0lCPj2/Gzzf6Dy30RMpWXQ1Kz2fOrjA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cdqua3FE5ntBg4QMhIpbhJw2jSTbG10ix5RefU8x5YqyrHYCIIRmIACI8r6tTEF7YLF1tvAD1v1F1XwoTQaEYV5FPKs55Qu9z1SH1D2hL50SbVizawl4eEfMwj6WJQDUWvGWh/0jBAbuRJr6uKzy9pnlaZ5RYzt+NFUUqI1PhVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=la5iqx/S; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="la5iqx/S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1785930464; x=1817466464;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GHEQA7zE2Q7m0lCPj2/Gzzf6Dy30RMpWXQ1Kz2fOrjA=;
+  b=la5iqx/SV9vj7JVQPTUnYvZ6/k3Bg08i6d8MwM7T/ax5E+lhWqhgKLpn
+   NfSF/pmGBJwPZin4Y2sexOLPJFVCWBHx9FE1e/8BFngM88yo7iFxWQ4ms
+   4gaD5P5zUashThpSat5UORiwQ2XT9g8MhscUiGD/Nw+B7mB8OrO5YRBsG
+   bAIK+BLXakBINJmV0aa2ViBADx2jPS+0sxrtBvKMTioFJc2JKnXGJM5ZG
+   sP160YTvqMtjglMeNkQjJTESWiEiycvopEgGy7n8qQ634MYQIgbI6tBJj
+   4Ha298BUIJPeLa172ZrlBOaRw65YG9PZP+KtkWG0cyuxNbT8XFS5JNW3b
+   w==;
+X-CSE-ConnectionGUID: 9dvkXQ/5STaAE5LentCqgA==
+X-CSE-MsgGUID: BSW+p0n5RVqsGPMBE7Klng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11865"; a="90385036"
+X-IronPort-AV: E=Sophos;i="6.25,206,1779174000"; 
+   d="scan'208";a="90385036"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2026 04:47:43 -0700
+X-CSE-ConnectionGUID: mW0NGWteQ6WLVnKOlmafdQ==
+X-CSE-MsgGUID: BKtAXhwDT+m59ThNsdWdSQ==
+X-ExtLoop1: 1
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa003.fm.intel.com with ESMTP; 05 Aug 2026 04:47:40 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id AB16999; Wed, 05 Aug 2026 13:47:38 +0200 (CEST)
+Date: Wed, 5 Aug 2026 13:47:38 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Sasha Finkelstein <k@chaosmail.tech>
+Cc: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+	Neal Gompa <neal@gompa.dev>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alyssa Milburn <amilburn@zall.org>
+Subject: Re: [PATCH v2 2/3] usb: typec: tipd: Factor out i2c specifics
+Message-ID: <anMi2q5FmsvE4z8W@black.igk.intel.com>
+References: <20260727-tipd-ace3-v2-0-1345957bd635@chaosmail.tech>
+ <20260727-tipd-ace3-v2-2-1345957bd635@chaosmail.tech>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:a0b:b0:6ac:b80e:76b0 with SMTP id
- 006d021491bc7-6ae96bc46b9mr3269332eaf.3.1785929799699; Wed, 05 Aug 2026
- 04:36:39 -0700 (PDT)
-Date: Wed, 05 Aug 2026 04:36:39 -0700
-In-Reply-To: <6a6cd87b.2d659fcc.1d46f5.019d.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a732047.9511d2ce.1fc5b9.0370.GAE@google.com>
-Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Write in gadgetfs_bind
-From: syzbot <syzbot+f63ad1084fd77fab48e4@syzkaller.appspotmail.com>
-To: dmantipov@yandex.ru, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260727-tipd-ace3-v2-2-1345957bd635@chaosmail.tech>
 
-syzbot has found a reproducer for the following issue on:
+Hi,
 
-HEAD commit:    c21bb4193868 Merge tag 'for_linus' of git://git.kernel.org..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=16903bb9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cb17729fb04b1e3a
-dashboard link: https://syzkaller.appspot.com/bug?extid=f63ad1084fd77fab48e4
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=141bf649580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13bcecc6580000
+Sorry to keep you waiting.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/c16af6f477ef/disk-c21bb419.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/8e14d9f5431d/vmlinux-c21bb419.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6fd0c9afffcc/bzImage-c21bb419.xz
+On Mon, Jul 27, 2026 at 06:09:29PM +0200, Sasha Finkelstein wrote:
+> From: Alyssa Milburn <amilburn@zall.org>
+> 
+> Make the core driver more bus-agnostic to prepare for SPMI variants of
+> the tipd chip
+> 
+> Signed-off-by: Alyssa Milburn <amilburn@zall.org>
+> Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
+> ---
+>  drivers/usb/typec/tipd/Kconfig    |   8 ++++--
+>  drivers/usb/typec/tipd/Makefile   |  11 ++++---
+>  drivers/usb/typec/tipd/core.c     | 224 ++++++++++++++++++++++-------------------------------------------------------------------------------------------------------------------------
+>  drivers/usb/typec/tipd/i2c.c      | 104 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  drivers/usb/typec/tipd/tps6598x.h | 114 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 265 insertions(+), 196 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/tipd/Kconfig b/drivers/usb/typec/tipd/Kconfig
+> index b82715293072..c87cbe6109ca 100644
+> --- a/drivers/usb/typec/tipd/Kconfig
+> +++ b/drivers/usb/typec/tipd/Kconfig
+> @@ -1,9 +1,13 @@
+> +config TYPEC_TPS6598X_CORE
+> +	tristate
+> +	select USB_ROLE_SWITCH
+> +	select POWER_SUPPLY
+> +
+>  config TYPEC_TPS6598X
+>  	tristate "TI TPS6598x USB Power Delivery controller driver"
+>  	depends on I2C
+> -	select POWER_SUPPLY
+>  	select REGMAP_I2C
+> -	select USB_ROLE_SWITCH
+> +	select TYPEC_TPS6598X_CORE
+>  	help
+>  	  Say Y or M here if your system has TI TPS65982 or TPS65983 USB Power
+>  	  Delivery controller.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f63ad1084fd77fab48e4@syzkaller.appspotmail.com
+Looks better now.
 
-Memory cgroup out of memory: Killed process 5619 (syz-executor246) total-vm:17440kB, anon-rss:60kB, file-rss:376kB, shmem-rss:0kB, UID:0 pgtables:52kB oom_score_adj:1000
-udc dummy_udc.0: failed to start USB Gadget filesystem: -12
-gadgetfs gadget.0: probe with driver gadgetfs failed with error -12
-udc dummy_udc.1: failed to start USB Gadget filesystem: -12
-gadgetfs gadget.1: probe with driver gadgetfs failed with error -12
-==================================================================
-BUG: KASAN: slab-use-after-free in gadgetfs_bind+0xd8/0xae0 drivers/usb/gadget/legacy/inode.c:1682
-Write of size 8 at addr ffff888038c6a900 by task syz-executor246/5619
+> diff --git a/drivers/usb/typec/tipd/Makefile b/drivers/usb/typec/tipd/Makefile
+> index aa439f80a889..c741bf44f52f 100644
+> --- a/drivers/usb/typec/tipd/Makefile
+> +++ b/drivers/usb/typec/tipd/Makefile
+> @@ -1,6 +1,9 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -CFLAGS_trace.o			:= -I$(src)
+> +CFLAGS_trace.o				:= -I$(src)
+>  
+> -obj-$(CONFIG_TYPEC_TPS6598X)	+= tps6598x.o
+> -tps6598x-y			:= core.o
+> -tps6598x-$(CONFIG_TRACING)	+= trace.o
+> +obj-$(CONFIG_TYPEC_TPS6598X_CORE)	+= tps6598x-core.o
+> +tps6598x-core-y				:= core.o
+> +tps6598x-core-$(CONFIG_TRACING)		+= trace.o
+> +
+> +obj-$(CONFIG_TYPEC_TPS6598X)		+= tps6598x.o
+> +tps6598x-y				:= i2c.o
+> diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+> index d5ee0af9058b..aadadfdc6ed1 100644
+> --- a/drivers/usb/typec/tipd/core.c
+> +++ b/drivers/usb/typec/tipd/core.c
+> @@ -9,7 +9,6 @@
+>  #include <linux/i2c.h>
+>  #include <linux/acpi.h>
+>  #include <linux/gpio/consumer.h>
+> -#include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/power_supply.h>
+>  #include <linux/regmap.h>
+> @@ -92,31 +91,6 @@ struct tps6598x_rx_identity_reg {
+>  	struct usb_pd_identity identity;
+>  } __packed;
+>  
+> -/* TPS_REG_USB4_STATUS */
+> -struct tps6598x_usb4_status_reg {
+> -	u8 mode_status;
+> -	__le32 eudo;
+> -	__le32 unknown;
+> -} __packed;
+> -
+> -/* TPS_REG_DP_SID_STATUS */
+> -struct tps6598x_dp_sid_status_reg {
+> -	u8 mode_status;
+> -	__le32 status_tx;
+> -	__le32 status_rx;
+> -	__le32 configure;
+> -	__le32 mode_data;
+> -} __packed;
+> -
+> -/* TPS_REG_INTEL_VID_STATUS */
+> -struct tps6598x_intel_vid_status_reg {
+> -	u8 mode_status;
+> -	__le32 attention_vdo;
+> -	__le16 enter_vdo;
+> -	__le16 device_mode;
+> -	__le16 cable_mode;
+> -} __packed;
+> -
+>  /* Standard Task return codes */
+>  #define TPS_TASK_TIMEOUT		1
+>  #define TPS_TASK_REJECTED		3
+> @@ -143,81 +117,6 @@ static const char *const modes[] = {
+>  /* Unrecognized commands will be replaced with "!CMD" */
+>  #define INVALID_CMD(_cmd_)		(_cmd_ == 0x444d4321)
+>  
+> -struct tps6598x;
+> -
+> -struct tipd_data {
+> -	irq_handler_t irq_handler;
+> -	u64 irq_mask1;
+> -	size_t tps_struct_size;
+> -	void (*remove)(struct tps6598x *tps);
+> -	int (*register_port)(struct tps6598x *tps, struct fwnode_handle *node);
+> -	void (*unregister_port)(struct tps6598x *tps);
+> -	void (*trace_data_status)(u32 status);
+> -	void (*trace_power_status)(u16 status);
+> -	void (*trace_status)(u32 status);
+> -	int (*apply_patch)(struct tps6598x *tps);
+> -	int (*init)(struct tps6598x *tps);
+> -	int (*switch_power_state)(struct tps6598x *tps, u8 target_state);
+> -	bool (*read_data_status)(struct tps6598x *tps);
+> -	int (*reset)(struct tps6598x *tps);
+> -	int (*connect)(struct tps6598x *tps, u32 status);
+> -};
+> -
+> -struct tps6598x {
+> -	struct device *dev;
+> -	struct regmap *regmap;
+> -	struct mutex lock; /* device lock */
+> -	u8 i2c_protocol:1;
+> -
+> -	struct gpio_desc *reset;
+> -	struct typec_port *port;
+> -	struct typec_partner *partner;
+> -	struct usb_pd_identity partner_identity;
+> -	struct usb_role_switch *role_sw;
+> -	struct typec_capability typec_cap;
+> -
+> -	struct power_supply *psy;
+> -	struct power_supply_desc psy_desc;
+> -	enum power_supply_usb_type usb_type;
+> -
+> -	int wakeup;
+> -	u32 status; /* status reg */
+> -	u32 data_status;
+> -	u16 pwr_status;
+> -	struct delayed_work	wq_poll;
+> -
+> -	const struct tipd_data *data;
+> -};
+> -
+> -struct cd321x_status {
+> -	u32 status;
+> -	u32 pwr_status;
+> -	u32 data_status;
+> -	u32 status_changed;
+> -	struct usb_pd_identity partner_identity;
+> -	struct tps6598x_dp_sid_status_reg dp_sid_status;
+> -	struct tps6598x_intel_vid_status_reg intel_vid_status;
+> -	struct tps6598x_usb4_status_reg usb4_status;
+> -};
+> -
+> -struct cd321x {
+> -	struct tps6598x tps;
+> -
+> -	struct tps6598x_dp_sid_status_reg dp_sid_status;
+> -	struct tps6598x_intel_vid_status_reg intel_vid_status;
+> -	struct tps6598x_usb4_status_reg usb4_status;
+> -
+> -	struct typec_altmode *port_altmode_dp;
+> -	struct typec_altmode *port_altmode_tbt;
+> -
+> -	struct typec_mux *mux;
+> -	struct typec_mux_state state;
+> -
+> -	struct cd321x_status update_status;
+> -	struct delayed_work update_work;
+> -	struct usb_pd_identity cur_partner_identity;
+> -};
+> -
+>  static enum power_supply_property tps6598x_psy_props[] = {
+>  	POWER_SUPPLY_PROP_USB_TYPE,
+>  	POWER_SUPPLY_PROP_ONLINE,
+> @@ -1087,11 +986,12 @@ static int tps6598x_check_mode(struct tps6598x *tps)
+>  	return -ENODEV;
+>  }
+>  
+> -static const struct regmap_config tps6598x_regmap_config = {
+> +const struct regmap_config tps6598x_regmap_config = {
+>  	.reg_bits = 8,
+>  	.val_bits = 8,
+>  	.max_register = 0x7F,
+>  };
+> +EXPORT_SYMBOL_GPL(tps6598x_regmap_config);
 
-CPU: 0 UID: 0 PID: 5619 Comm: syz-executor246 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- gadgetfs_bind+0xd8/0xae0 drivers/usb/gadget/legacy/inode.c:1682
- gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1662
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __driver_attach+0x339/0x600 drivers/base/dd.c:1292
- bus_for_each_dev+0x23e/0x2c0 drivers/base/bus.c:383
- bus_add_driver+0x348/0x670 drivers/base/bus.c:763
- driver_register+0x23a/0x320 drivers/base/driver.c:174
- usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1752
- dev_config+0xe4e/0x12c0 drivers/usb/gadget/legacy/inode.c:1883
- vfs_write+0x29f/0xbb0 fs/read_write.c:685
- ksys_write+0x156/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f20a39768e9
-Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffe1170d338 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f20a39768e9
-RDX: 000000000000001f RSI: 0000200000000400 RDI: 0000000000000003
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f20a39dd042
-R13: 00007ffe1170d370 R14: 00007ffe1170d3b0 R15: 0000000000000000
- </TASK>
+Don't export that. Just move it to i2c.c
 
-Allocated by task 5615:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x3d2/0x6b0 mm/slub.c:5489
- _kmalloc_noprof include/linux/slab.h:988 [inline]
- _kzalloc_noprof include/linux/slab.h:1309 [inline]
- dev_new drivers/usb/gadget/legacy/inode.c:176 [inline]
- gadgetfs_fill_super+0x27b/0x7a0 drivers/usb/gadget/legacy/inode.c:2054
- vfs_get_super fs/super.c:1273 [inline]
- get_tree_single+0xc0/0x150 fs/super.c:1300
- vfs_get_tree+0x92/0x2a0 fs/super.c:1700
- fc_mount fs/namespace.c:1198 [inline]
- do_new_mount_fc fs/namespace.c:3765 [inline]
- do_new_mount+0x319/0xdc0 fs/namespace.c:3841
- do_mount fs/namespace.c:4174 [inline]
- __do_sys_mount fs/namespace.c:4390 [inline]
- __se_sys_mount+0x31d/0x420 fs/namespace.c:4367
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+>  static int tps6598x_psy_get_online(struct tps6598x *tps,
+>  				   union power_supply_propval *val)
+> @@ -1738,27 +1638,13 @@ static void cd321x_remove(struct tps6598x *tps)
+>  	cancel_delayed_work_sync(&cd321x->update_work);
+>  }
+>  
+> -static int tps6598x_probe(struct i2c_client *client)
+> +int tipd_init(struct tps6598x *tps)
+>  {
+> -	const struct tipd_data *data;
+> -	struct tps6598x *tps;
+>  	struct fwnode_handle *fwnode;
+>  	u32 status;
+>  	u32 vid;
+>  	int ret;
+>  
+> -	data = i2c_get_match_data(client);
+> -	if (!data)
+> -		return -EINVAL;
+> -
+> -	tps = devm_kzalloc(&client->dev, data->tps_struct_size, GFP_KERNEL);
+> -	if (!tps)
+> -		return -ENOMEM;
+> -
+> -	mutex_init(&tps->lock);
+> -	tps->dev = &client->dev;
+> -	tps->data = data;
+> -
+>  	tps->reset = devm_gpiod_get_optional(tps->dev, "reset", GPIOD_OUT_LOW);
+>  	if (IS_ERR(tps->reset))
+>  		return dev_err_probe(tps->dev, PTR_ERR(tps->reset),
+> @@ -1766,23 +1652,12 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	if (tps->reset)
+>  		msleep(TPS_SETUP_MS);
+>  
+> -	tps->regmap = devm_regmap_init_i2c(client, &tps6598x_regmap_config);
+> -	if (IS_ERR(tps->regmap))
+> -		return PTR_ERR(tps->regmap);
+> -
+>  	if (!device_is_compatible(tps->dev, "ti,tps25750")) {
+>  		ret = tps6598x_read32(tps, TPS_REG_VID, &vid);
+>  		if (ret < 0 || !vid)
+>  			return -ENODEV;
+>  	}
+>  
+> -	/*
+> -	 * Checking can the adapter handle SMBus protocol. If it can not, the
+> -	 * driver needs to take care of block reads separately.
+> -	 */
+> -	if (i2c_check_functionality(client->adapter, I2C_FUNC_I2C))
+> -		tps->i2c_protocol = true;
+> -
+>  	if (tps->data->switch_power_state) {
+>  		ret = tps->data->switch_power_state(tps, TPS_SYSTEM_POWER_STATE_S0);
+>  		if (ret)
+> @@ -1816,7 +1691,7 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	 * with existing DT files, we work around this by deleting any
+>  	 * fwnode_links to/from this fwnode.
+>  	 */
+> -	fwnode = device_get_named_child_node(&client->dev, "connector");
+> +	fwnode = device_get_named_child_node(tps->dev, "connector");
+>  	if (fwnode)
+>  		fw_devlink_purge_absent_suppliers(fwnode);
+>  
+> @@ -1842,14 +1717,14 @@ static int tps6598x_probe(struct i2c_client *client)
+>  			goto err_unregister_port;
+>  		ret = tps->data->connect(tps, status);
+>  		if (ret)
+> -			dev_err(&client->dev, "failed to register partner\n");
+> +			dev_err(tps->dev, "failed to register partner\n");
+>  	}
+>  
+> -	if (client->irq) {
+> -		ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
+> +	if (tps->irq) {
+> +		ret = devm_request_threaded_irq(tps->dev, tps->irq, NULL,
+>  						tps->data->irq_handler,
+>  						IRQF_SHARED | IRQF_ONESHOT,
+> -						dev_name(&client->dev), tps);
+> +						dev_name(tps->dev), tps);
+>  	} else {
+>  		dev_warn(tps->dev, "Unable to find the interrupt, switching to polling\n");
+>  		INIT_DELAYED_WORK(&tps->wq_poll, tps6598x_poll_work);
+> @@ -1860,13 +1735,12 @@ static int tps6598x_probe(struct i2c_client *client)
+>  	if (ret)
+>  		goto err_disconnect;
+>  
+> -	i2c_set_clientdata(client, tps);
+>  	fwnode_handle_put(fwnode);
+>  
+>  	tps->wakeup = device_property_read_bool(tps->dev, "wakeup-source");
+> -	if (tps->wakeup && client->irq) {
+> -		devm_device_init_wakeup(&client->dev);
+> -		enable_irq_wake(client->irq);
+> +	if (tps->wakeup && tps->irq) {
+> +		devm_device_init_wakeup(tps->dev);
+> +		enable_irq_wake(tps->irq);
+>  	}
+>  
+>  	return 0;
+> @@ -1887,15 +1761,14 @@ static int tps6598x_probe(struct i2c_client *client)
+>  
+>  	return ret;
+>  }
+> +EXPORT_SYMBOL_GPL(tipd_init);
+>  
+> -static void tps6598x_remove(struct i2c_client *client)
+> +void tipd_remove(struct tps6598x *tps)
+>  {
+> -	struct tps6598x *tps = i2c_get_clientdata(client);
+> -
+> -	if (!client->irq)
+> +	if (!tps->irq)
+>  		cancel_delayed_work_sync(&tps->wq_poll);
+>  	else
+> -		devm_free_irq(tps->dev, client->irq, tps);
+> +		devm_free_irq(tps->dev, tps->irq, tps);
+>  
+>  	if (tps->data->remove)
+>  		tps->data->remove(tps);
+> @@ -1910,29 +1783,26 @@ static void tps6598x_remove(struct i2c_client *client)
+>  	if (tps->reset)
+>  		gpiod_set_value_cansleep(tps->reset, 1);
+>  }
+> +EXPORT_SYMBOL_GPL(tipd_remove);
+>  
+> -static int __maybe_unused tps6598x_suspend(struct device *dev)
+> +int tipd_suspend(struct tps6598x *tps)
+>  {
+> -	struct i2c_client *client = to_i2c_client(dev);
+> -	struct tps6598x *tps = i2c_get_clientdata(client);
+> -
+>  	if (tps->wakeup) {
+> -		disable_irq(client->irq);
+> -		enable_irq_wake(client->irq);
+> +		disable_irq(tps->irq);
+> +		enable_irq_wake(tps->irq);
+>  	} else if (tps->reset) {
+>  		gpiod_set_value_cansleep(tps->reset, 1);
+>  	}
+>  
+> -	if (!client->irq)
+> +	if (!tps->irq)
+>  		cancel_delayed_work_sync(&tps->wq_poll);
+>  
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL_GPL(tipd_suspend);
+>  
+> -static int __maybe_unused tps6598x_resume(struct device *dev)
+> +int tipd_resume(struct tps6598x *tps)
+>  {
+> -	struct i2c_client *client = to_i2c_client(dev);
+> -	struct tps6598x *tps = i2c_get_clientdata(client);
+>  	int ret;
+>  
+>  	ret = tps6598x_check_mode(tps);
+> @@ -1946,25 +1816,22 @@ static int __maybe_unused tps6598x_resume(struct device *dev)
+>  	}
+>  
+>  	if (tps->wakeup) {
+> -		disable_irq_wake(client->irq);
+> -		enable_irq(client->irq);
+> +		disable_irq_wake(tps->irq);
+> +		enable_irq(tps->irq);
+>  	} else if (tps->reset) {
+>  		gpiod_set_value_cansleep(tps->reset, 0);
+>  		msleep(TPS_SETUP_MS);
+>  	}
+>  
+> -	if (!client->irq)
+> +	if (!tps->irq)
+>  		queue_delayed_work(system_power_efficient_wq, &tps->wq_poll,
+>  				   msecs_to_jiffies(POLL_INTERVAL));
+>  
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL_GPL(tipd_resume);
+>  
+> -static const struct dev_pm_ops tps6598x_pm_ops = {
+> -	SET_SYSTEM_SLEEP_PM_OPS(tps6598x_suspend, tps6598x_resume)
+> -};
+> -
+> -static const struct tipd_data cd321x_data = {
+> +const struct tipd_data tipd_cd321x_data = {
+>  	.irq_handler = cd321x_interrupt,
+>  	.irq_mask1 = APPLE_CD_REG_INT_POWER_STATUS_UPDATE |
+>  		     APPLE_CD_REG_INT_DATA_STATUS_UPDATE |
+> @@ -1982,8 +1849,9 @@ static const struct tipd_data cd321x_data = {
+>  	.switch_power_state = cd321x_switch_power_state,
+>  	.connect = cd321x_connect,
+>  };
+> +EXPORT_SYMBOL_GPL(tipd_cd321x_data);
 
-Freed by task 5619:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2677 [inline]
- slab_free mm/slub.c:6377 [inline]
- kfree+0x1c5/0x6c0 mm/slub.c:6692
- gadgetfs_bind+0x942/0xae0 drivers/usb/gadget/legacy/inode.c:1703
- gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1662
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __driver_attach+0x339/0x600 drivers/base/dd.c:1292
- bus_for_each_dev+0x23e/0x2c0 drivers/base/bus.c:383
- bus_add_driver+0x348/0x670 drivers/base/bus.c:763
- driver_register+0x23a/0x320 drivers/base/driver.c:174
- usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1752
- dev_config+0xe4e/0x12c0 drivers/usb/gadget/legacy/inode.c:1883
- vfs_write+0x29f/0xbb0 fs/read_write.c:685
- ksys_write+0x156/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+There shouldn't be need to export these either. You can add a
+variant flag member to struct tps6598x for now, and pick the correct
+data for example from a lookup table.
 
-The buggy address belongs to the object at ffff888038c6a800
- which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 256 bytes inside of
- freed 1024-byte region [ffff888038c6a800, ffff888038c6ac00)
+Ideally IMO each variant would be handled in its own file. But that
+would require a bit more refactoring of course.
 
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff888038c6d000 pfn:0x38c68
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0x80000000000240(workingset|head|node=0|zone=1)
-page_type: f5(slab)
-raw: 0080000000000240 ffff88813ffb2dc0 ffff88813ffb1b88 ffff88813ffb1b88
-raw: ffff888038c6d000 000000080010000a 00000000f5000000 0000000000000000
-head: 0080000000000240 ffff88813ffb2dc0 ffff88813ffb1b88 ffff88813ffb1b88
-head: ffff888038c6d000 000000080010000a 00000000f5000000 0000000000000000
-head: 0080000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
-head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000008
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd2040(__GFP_IO|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5615, tgid 5615 (syz-executor246), ts 101449671750, free_ts 101302084021
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1859
- prep_new_page mm/page_alloc.c:1867 [inline]
- get_page_from_freelist+0x262a/0x26a0 mm/page_alloc.c:3946
- __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5304
- alloc_slab_page mm/slub.c:3266 [inline]
- allocate_slab+0x79/0x5e0 mm/slub.c:3380
- new_slab mm/slub.c:3426 [inline]
- refill_objects+0x2d8/0x350 mm/slub.c:7310
- refill_sheaf mm/slub.c:2804 [inline]
- __pcs_replace_empty_main+0x330/0x690 mm/slub.c:4675
- alloc_from_pcs mm/slub.c:4773 [inline]
- slab_alloc_node mm/slub.c:4905 [inline]
- __do_kmalloc_node mm/slub.c:5333 [inline]
- __kmalloc_noprof+0x544/0x780 mm/slub.c:5359
- _kmalloc_noprof include/linux/slab.h:992 [inline]
- _kzalloc_noprof include/linux/slab.h:1309 [inline]
- tomoyo_init_log+0x1aaf/0x1fa0 security/tomoyo/audit.c:273
- tomoyo_supervisor+0x35f/0x1560 security/tomoyo/common.c:2232
- tomoyo_audit_path2_log security/tomoyo/file.c:184 [inline]
- tomoyo_path2_perm+0x567/0x760 security/tomoyo/file.c:948
- security_sb_pivotroot+0xb6/0x270 security/security.c:1117
- path_pivot_root+0x135/0xd90 fs/namespace.c:4680
- __do_sys_pivot_root fs/namespace.c:4784 [inline]
- __se_sys_pivot_root fs/namespace.c:4767 [inline]
- __x64_sys_pivot_root+0x15d/0x1d0 fs/namespace.c:4767
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-page last free pid 2 tgid 2 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- __free_pages_prepare mm/page_alloc.c:1406 [inline]
- __free_frozen_pages+0x10e7/0x11c0 mm/page_alloc.c:2950
- __slab_free+0x252/0x2a0 mm/slub.c:5741
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:350
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4584 [inline]
- slab_alloc_node mm/slub.c:4917 [inline]
- kmem_cache_alloc_node_noprof+0x3eb/0x670 mm/slub.c:4989
- alloc_task_struct_node kernel/fork.c:188 [inline]
- dup_task_struct+0x52/0x8f0 kernel/fork.c:921
- copy_process+0x820/0x4390 kernel/fork.c:2115
- kernel_clone+0x2d2/0x8d0 kernel/fork.c:2748
- kernel_thread+0x13f/0x1b0 kernel/fork.c:2809
- create_kthread kernel/kthread.c:459 [inline]
- kthreadd+0x4ec/0x6e0 kernel/kthread.c:817
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+> -static const struct tipd_data tps6598x_data = {
+> +const struct tipd_data tipd_tps6598x_data = {
+>  	.irq_handler = tps6598x_interrupt,
+>  	.irq_mask1 = TPS_REG_INT_POWER_STATUS_UPDATE |
+>  		     TPS_REG_INT_DATA_STATUS_UPDATE |
+> @@ -2000,8 +1868,9 @@ static const struct tipd_data tps6598x_data = {
+>  	.reset = tps6598x_reset,
+>  	.connect = tps6598x_connect,
+>  };
+> +EXPORT_SYMBOL_GPL(tipd_tps6598x_data);
+>  
+> -static const struct tipd_data tps25750_data = {
+> +const struct tipd_data tipd_tps25750_data = {
+>  	.irq_handler = tps25750_interrupt,
+>  	.irq_mask1 = TPS_REG_INT_POWER_STATUS_UPDATE |
+>  		     TPS_REG_INT_DATA_STATUS_UPDATE |
+> @@ -2018,33 +1887,8 @@ static const struct tipd_data tps25750_data = {
+>  	.reset = tps25750_reset,
+>  	.connect = tps6598x_connect,
+>  };
+> -
+> -static const struct of_device_id tps6598x_of_match[] = {
+> -	{ .compatible = "ti,tps6598x", &tps6598x_data},
+> -	{ .compatible = "apple,cd321x", &cd321x_data},
+> -	{ .compatible = "ti,tps25750", &tps25750_data},
+> -	{}
+> -};
+> -MODULE_DEVICE_TABLE(of, tps6598x_of_match);
+> -
+> -static const struct i2c_device_id tps6598x_id[] = {
+> -	{ .name = "tps6598x", .driver_data = (kernel_ulong_t)&tps6598x_data },
+> -	{ }
+> -};
+> -MODULE_DEVICE_TABLE(i2c, tps6598x_id);
+> -
+> -static struct i2c_driver tps6598x_i2c_driver = {
+> -	.driver = {
+> -		.name = "tps6598x",
+> -		.pm = &tps6598x_pm_ops,
+> -		.of_match_table = tps6598x_of_match,
+> -	},
+> -	.probe = tps6598x_probe,
+> -	.remove = tps6598x_remove,
+> -	.id_table = tps6598x_id,
+> -};
+> -module_i2c_driver(tps6598x_i2c_driver);
+> +EXPORT_SYMBOL_GPL(tipd_tps25750_data);
+>  
+>  MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>");
+> -MODULE_LICENSE("GPL v2");
+> -MODULE_DESCRIPTION("TI TPS6598x USB Power Delivery Controller Driver");
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("TI TPS6598x USB Power Delivery Controller Core Functions");
 
-Memory state around the buggy address:
- ffff888038c6a800: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888038c6a880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff888038c6a900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                   ^
- ffff888038c6a980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888038c6aa00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+Thanks,
 
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+-- 
+heikki
