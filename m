@@ -1,149 +1,104 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9CE38CFE4
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 10:48:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1F23E558C
+	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 11:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786013306; cv=none; b=aTIZ5KRzCPWUS8JqIza0KIep4YH3gm0OJMi5ydBpjqFNRgiLz2W0+Z+eai1YkFRIVGProUp2y1zJg5inDl6JGCd9yPk2dRsqajK2I8aF17fMAcP21/TfhFP6A4Z2BpCGoSk9z/W5l5pH6v9hHVVa5aiD/QG3+N/EEsn0iNOpTSw=
+	t=1786014030; cv=none; b=qWBQ17WYvHJSuRWY/8uNMevC1hdMUAYQwwRR93kKyc+0A+VfKPWvadHZg0RDPfTeifa1BU7EBq+gCp5Q2HdX+HW82pM6/8A1RAC29UzFsE5uqOuDR6YY21utaZRG4qL7+kDm2oaC09GIrXKROLZwtMxhuWgLkhp0ZlwAkxPIGJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786013306; c=relaxed/simple;
-	bh=g+JIjgCGD8pYHgloXfxcgCIBDE+57bytIqMKJ4nsoDo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rh5WYQXRmwrftVaK/JRHUZkZjXkuNVTJwTI31QzQocPvhjMS8ECv/5xlLeTaARN9VksdsuN56Nr+t6GI6WeQwukIFcvV1OQbkuyNLxa6JCOs6Sry2QJExzq52zbStlngWSWoheQ4mDjB2VgzTNrIWTfYuvOsE+9tfnQRzS7AXu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PosoEICd; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1786014030; c=relaxed/simple;
+	bh=RtRGD0hmoKuCpcgom91M7cTePbPST/NQpWJB4dWXO0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jf07cKgGZjmE9gJFusK15WPYvdb6JRku5jfyKnPMDBsy9cxYx1tJqn+eXPG09/UaKVJiRI8CVUm5nj3+OddFts3aY5jLuJjGiXV5s0O2D9QKVL+++pI6XX2MD1rN8sh0N0TeistWdgZcYJksSs+B4GO2VnQME2poT3YYUQuLPzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NxK2WM6u; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PosoEICd"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3810c5d691bso1814151a91.1
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 03:48:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NxK2WM6u"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c1600d040e4so110080466b.1
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 04:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786013305; x=1786618105; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1786014027; x=1786618827; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=flSv7xBdlCbrg4AJcw6jzs2xlfv6qS2mtAaegxjbgz0=;
-        b=PosoEICdy2NY0B7DHi5ZMlgduIptpI4BbYFf/v0nMMB1oOR0z7VOVlU/pEDaTgZ93D
-         UuPrBVZIx5Z49lEfvsYXrhgi/TT7d3MfJekyHlfrU3wGXdezB10cmsiKM7TJRKeTnMby
-         p5nuOoSAEvE4LtH1gPo7CrzCPhgy5RhjpGLo+TPN48I1HthJ9wZq5JfY5ugmdMwCprlt
-         e7O+qIy6bh6jMUV8/KvZDH8FaN2spFLYjiNRg3gyLnYmhl2rnr4SWWdou322hks+lDkQ
-         vD2NBHmVKpKYoH99LQkUuun3m6UIE57cxLTT1bQwYet4+QqtW5rvyEI/dT2J8M+UX2hI
-         BqKg==
+        bh=RtRGD0hmoKuCpcgom91M7cTePbPST/NQpWJB4dWXO0Y=;
+        b=NxK2WM6uwyvB0lGPh8aYz7oIb9HoMdPn9L71elQj2G0lcLFfU71H3hkOInRrw7FEbD
+         arEw8hud/tcQ2RFFOk1IQzI0/CbUEx94m08akk0tOJxe9K9IjdlMjzc6ysgh91ejnaiw
+         DLN5ze8eo4L0284yUBAok/5fbJb7C9FLL3vWkrlbD2SRCIuOYT3OscGllFriqf7jrW/y
+         KNGEptA9NdRFbNgLSAndglJptAtkdwPmAi98VftnfceaiD8aKcMQT0aj7xgu0AMvN3W1
+         Wj35pAOw17XPGIX3HvUm5YkV1PQirHhelYxBBQUQC6IzrVY2yTrY6pI64VP9klvZa/iL
+         +P2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786013305; x=1786618105;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1786014027; x=1786618827;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=flSv7xBdlCbrg4AJcw6jzs2xlfv6qS2mtAaegxjbgz0=;
-        b=JosRexY9GbElodLBlY4li8whh0d5EkRo6bOe1/O+H9fjFt+dVBzUJ/fJmfFtIa6Jnq
-         2HCDoUYliyTgIjy/x06dJ7eCq1A6PhQUHlqnDUMPc/QxCpxPsL7abd/+HVzm/0/X8x+C
-         5nWCW2zsqrme82GLJ8YGtqwkrhSsL9Yf2kvAcf1/ODlxh6uGfhmib/jl6ohRceJ4XpoN
-         e36tiYccLfo+4+Pht6j+VuAnuOJ9ezDAmaXLdW5dWQBn6UHq94yv4FUHZx5HwH3QOGD+
-         zSgQsVoSD1qZHx/Riw7UC8lXJ7Ger0gJgtQMBZBw1F7P7HvtqjkaiqGHHB3poAMgxvf9
-         egMw==
-X-Forwarded-Encrypted: i=1; AHgh+RrDwQrITasq/1Xzwdlpwsu1SFupGSjEja0iKgJchABUTvepUxu+f66NnDObEue0Fla3Yze4+5WXkjQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzaoJR8+ms+iBneuePCu7BSv3i3HXNOIRhDfT/GGKmGd2Bzb64z
-	4qJ9pWQp2PpSCEF56AilOoV5pYOcuktqcNTIhXl2XtYgOVcTWQElMWG7
-X-Gm-Gg: AR+sD10fXZJD6qUNFBCQND94R4OcXeL6GrD7FFjaZgPwvFHSX8uXqIA9Q0x6bbGQcAX
-	fIQSSKWYYDNaymKlEsztLH/9+vTpxVCaGcyM2Xz4NvHJGJTTQR7Y7FD92Hb1Jbq6Km8tk66xLin
-	SLGjwuif7TmEGbDCgU0TMyJyNgpq3ecXXlXs3mdvmNQu3/6E5LvNHbRvADU5Kd8ThgtO14ByoAB
-	tO3yKO3Aw7+gd1NN9EinMFc4aL0G3LpC/Rsn0V/bIIlm1kTUDHP5Pg3fw8ZKgbP5nNz0HeGQnZB
-	dD7NALpVbPcuAcZKhI/GIwlCkaDb5OVPVMfjJzixmMPJ6VwwrG7NkZzVrhMQugSnJsYgLKHUFjl
-	3Eh6aCaTDGZa65ek7chEUx1IIA8xaaTxMPsOh2tS058OVAHe4tXGULxDQHVc+OOICoV9SWsV287
-	466l7rDnLBabw90AobKCXzKS9THN0FxNMX3LgAhteySdxamyHgM3oolkYzwjtCsYegMtvpokFGD
-	gy/bsWA2oaJaG0n1bzjUjpeEFM=
-X-Received: by 2002:a17:90b:3985:b0:37c:18e0:90dc with SMTP id 98e67ed59e1d1-3903c5f41ccmr10892238a91.16.1786013304585;
-        Thu, 06 Aug 2026 03:48:24 -0700 (PDT)
-Received: from localhost ([2409:40c4:9:327d:da04:751e:1623:ed1b])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3158644a195sm24887835eec.13.2026.08.06.03.48.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 03:48:23 -0700 (PDT)
-Date: Thu, 6 Aug 2026 16:18:20 +0530
-From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-To: Snake Pilot <snakepilot10@gmail.com>
-Cc: linux-wireless@vger.kernel.org, pkshih@realtek.com, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] rtw88_8723de: Wi-Fi and Bluetooth fail after warm reboot
-Message-ID: <anRcsdWWWX7zyfj5@eggarch>
-References: <CA+fxq6gPCQOYr6mh+_1ReOGzaiTULzMazXhs5q0PXc8PsjRJEQ@mail.gmail.com>
- <amnGXPlG6nKUdEl7@eggarch>
- <CA+fxq6i05RW5G289EL9V_uUgidQhDOpUhiy_J++pDDwqLwJp0Q@mail.gmail.com>
- <am0AOC9ZmP81kGcT@eggarch>
- <CA+fxq6hD-duO3g1gEEQL5o+_S-y8dfFDerD58=scNsd9WfdU5Q@mail.gmail.com>
- <am4JYI-tXa-rK7Hq@eggarch>
- <CA+fxq6gBYA=qDrOQ+LmPHPdVGagtR0Vdnm_KeAC=nM7c-GSu5g@mail.gmail.com>
+        bh=RtRGD0hmoKuCpcgom91M7cTePbPST/NQpWJB4dWXO0Y=;
+        b=FIN/wwWmmxABXDtP62KbGXL+fgbuHwAU2StNkJECvsZ+d8lloetbe5ur9VKtwJdDrY
+         XLd80N56cThJ5jyzz/oonbYTGiyI0ON0mx5xTJA+wDxXPoomFllke/kY8eV7irp7gXeZ
+         FC0XOodxIHYu42/n5T4qPvmt8kUvybzUip22kAdgiUL+0y7vzQUaHzvoe3Vr/c3+sJUm
+         LknwWBjkMPdgnBb9OTfPrOrtb4h5a2m6e3xxA5id3yjF6tNsN/ghcZAhg1aNaPTXsWyw
+         7CLFYnvuGN+62t3dbLT3qn0FLqQ90YSkxfvdCJ71HUeWMmlU64GMUKLUO3606BV7P+ZL
+         Q2xQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoAMC8OORlfnkB+JfZ/mvuzi4nT4kdnWSA002rsJ90MKu8kKoIz+HCuo0UoK0YehwuwlAl7XCk5Q4E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgeWN4rdSLPXyxO0+uz3fKwBMgbZfAcdn393WCPqBbzXiI2hE0
+	nClQu4EEIvnbN/kb9baGZA9txBV/eNVlPIcTiXgGKFPqtZz+kNZDxe6u
+X-Gm-Gg: AR+sD12dstVTVoi22dA7142I5EAatCJai9VLPDbx9jgSRdxsbZRkgaLsvuVtKjjctcE
+	0xd8T9G3IdfY4MikXO8syFhxn0nuZeEUjpHdwm33Gplu/gQ0nWSX5l+cznIBFbxB3/KDPs2Fkp4
+	brbM7SdV/bzfrA1CUyCM8UDElJYXoqq98T6EI6FREVpIZfCtGFIr+KhujI0FU2lwk1bOlYUQpoh
+	KDsYSIGf0EUqbRqDgGo/sT6HWOa/GinI7LapX/7aTjHXeD4sZjShK7wgFSRkkYz1493U3wNpKgz
+	06EceptpqKEtvnyea3pnlcuzzO7r27V7KSVSHmp5BOOFN8TS4WtkQle4w+N6PvwehMnhXnPWB+q
+	l2JNo1QVFZM4BCXIxCZY5RqGGKnzIWEW0klBeBSmYTAsqhfi4IMHl5OZMQbOqNLGJtocOjgUJmu
+	7Uvfgjnh+QuVi7t3P+hxDqj4VO3K6YuE6QUwyoqxpZCkAdN7G64yOmrJw6rxPKVkhS2Seqw39V
+X-Received: by 2002:a17:906:6a25:b0:c20:53d8:6fac with SMTP id a640c23a62f3a-c20635f3a9fmr175302266b.14.1786014027330;
+        Thu, 06 Aug 2026 04:00:27 -0700 (PDT)
+Received: from foxbook (bgt135.neoplus.adsl.tpnet.pl. [83.28.83.135])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c20364613b2sm227501466b.61.2026.08.06.04.00.26
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Thu, 06 Aug 2026 04:00:27 -0700 (PDT)
+Date: Thu, 6 Aug 2026 13:00:22 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Bart Nagel <bart@tremby.net>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/5] usb: xhci: Rework and improve the TD matching and
+ skipping logic
+Message-ID: <20260806130022.77401337.michal.pecio@gmail.com>
+In-Reply-To: <20260805213028.78a73f18.michal.pecio@gmail.com>
+References: <20260804120110.01bda0e2.michal.pecio@gmail.com>
+	<20260804120537.5c30554e.michal.pecio@gmail.com>
+	<d017215b-3e91-4786-9c41-f5685e5c19e0@linux.intel.com>
+	<20260805213028.78a73f18.michal.pecio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="tp5bmuxrjjlhbjdh"
-Content-Disposition: inline
-In-Reply-To: <CA+fxq6gBYA=qDrOQ+LmPHPdVGagtR0Vdnm_KeAC=nM7c-GSu5g@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+> On Wed, 5 Aug 2026 20:39:12 +0300, Mathias Nyman wrote:
+> If the event points to a valid trb ahead of last trb in td, but
+> before the enqueue pointer, then we know hardware has passed this td
+> and we can give it back.
 
---tp5bmuxrjjlhbjdh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Actually, we don't, because of a race condition (and driver bug).
 
-On Sun, Aug 02, 2026 at 11:40:51PM -0600, Snake Pilot wrote:
-> Bluetooth: hci0: diag: hci_dev_shtudown: HCI_UP=1 HCI_UNREGISTER=0
-> Bluetooth: hci0: diag: calling vendor shutdown callback
-> Bluetooth: hci0: diag: btrtl_shutdown_realtek: sending HCI_OP_RESET
-> Bluetooth: hci0: diag: btrtl_shutdown_realtek: HCI_OP_RESET completed OK
-> Bluetooth: hci0: diag: vendor shutdown returned 0
-I'm thinking if reset itself is the problem, since it does not run on
-unloading manually but it does on shutdown.
+A very long TD completes with Short Packet on the first TRB.
+We give back the TD and advance ep_ring->dequeue past it (bug).
+Some event is generated later in the TD but we don't know yet.
+We queue a lot of TRBs and move enqueue into the completed TD.
 
-> I did not find the btusb shutdown or rtw_pci_shutdown/D3hot diagnostic
-> messages in the persisted previous-boot journal. The journal appears to end
-> before the final device shutdown stage, so their absence from the journal
-> does not necessarily mean that the callbacks were not invoked.
-Yeah it seems it runs after journal is gone.
+We handle the event and it appears to be "before" enqueue. But
+the HW not only hasn't passed, it hasn't even begun executing
+any TD after the initially completed one.
 
-I suppose we should test by skipping HCI_OP_RESET if that improves the
-issue.
+We give them back and later get their events, or IOMMU faults.
 
-Could you apply the attached patch only and start with a cold boot then
-do a warm reboot and send the previous and current journal just like you
-did before?
-
-Thanks,
-Lovekesh
-
---tp5bmuxrjjlhbjdh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="skip-hci-reset.patch"
-
-diff --git a/drivers/bluetooth/btusb.c b/drivers/bluetooth/btusb.c
-index 184e95c1625e..e7dd19b20cc8 100644
---- a/drivers/bluetooth/btusb.c
-+++ b/drivers/bluetooth/btusb.c
-@@ -3889,6 +3889,12 @@ static int btusb_shutdown_qca(struct hci_dev *hdev)
- 	return 0;
- }
-
-+static int btusb_shutdown_rtl8723de(struct hci_dev *hdev)
-+{
-+	bt_dev_info(hdev, "skipping HCI_OP_RESET......");
-+	return 0;
-+}
-+
- static ssize_t force_poll_sync_read(struct file *file, char __user *user_buf,
- 				    size_t count, loff_t *ppos)
- {
-@@ -4338,6 +4344,9 @@ static int btusb_probe(struct usb_interface *intf,
- 		set_bit(BTUSB_USE_ALT3_FOR_WBS, &data->flags);
- 	}
-
-+	if (id->idVendor == 0x0bda && id->idProduct == 0xb009)
-+		hdev->shutdown = btusb_shutdown_rtl8723de;
-+
- 	if (id->driver_info & BTUSB_ACTIONS_SEMI) {
- 		/* Support is advertised, but not implemented */
- 		hci_set_quirk(hdev, HCI_QUIRK_BROKEN_ERR_DATA_REPORTING);
-
---tp5bmuxrjjlhbjdh--
+Regards,
+Michal
