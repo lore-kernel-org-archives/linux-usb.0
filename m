@@ -1,483 +1,191 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CA63E49D3
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 08:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FBA418A5E
+	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 08:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786004237; cv=none; b=aZMs7JVqJSM2xM+0C7r5KsodnNXZKThOPp3BZ9SE7xDBFLCiShSJdyD8oUSe+SwiPpiLachdYMGKcFP4SYrUnmmgQIzZwYPmGgywQfWhy1amzjSTptbzkKU0p/xVHu+wXGi1Th8absO91nE91U9hKAvgdOKJcnNvzBaSsxTZbPE=
+	t=1786005409; cv=none; b=Bez+v4OgCHzsk+dRT/BTkczgBjNpchAy7i2VV1n/OUjfsCxADjmIaWLWVeYV/52v+4aD+wx2kkiMKOGkKCyO+dAdBAB7iu4watN++w63aB0UKh5Cn6Bcawte1jRhsS3WUgq6CEate4zKk3Eyw1pzkPcVpsPIgFioW6AJxFOjP5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786004237; c=relaxed/simple;
-	bh=uCzWC2ztPFsSBvGZN3D5hI49tH2gD1qOVQFL03Fgtos=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S4OtTtHPfrVy+ONGR17goATlCMneF2QILZWodtXm3Cd0na3tliqOewodYDyLHHVkUlyyEIwJABrrowuE0bwAOofLR5Gp2CT3rzONpXrJaEF17ZPS+mIiDE5Yu+93eJgb9UzQM0RLyOXcYa3OTMWu1BDzYlhJY0w2CM/6Ywsm6Oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iHpI0StG; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iHpI0StG"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47f7872abb6so898772f8f.3
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 01:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786004232; x=1786609032; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Y1Z3+ujp5TRLFvYPpEvCWdPArp13V/FOnwrr+GSlYsw=;
-        b=iHpI0StGs/qC83qwbOVSDHNEiTofT7kvnezLhIvsq/gVo9TFKazkEeY6DM2+qOlOhf
-         5twtkGm3FcTCryz3kWIhNiknNLW7t+BDej8y3vJGuDHu5yQDgAWpcRzKqT1HO0tGmLkk
-         R82MP5SUTz7FzDn4h4RmS9TO3KF2PCqik0PN+JdQtsddnv1VmVvIkdTwzi6+e1adQPAB
-         nM5xmkV8Mp8wCU0nLOm3l65jHQsg8Xa6JHIF9XGAtQvfa4Wf/6GCRvGQejHLPOr3je20
-         LjEE5IZhDenar0B5t4lJLCIOcu5/7MfQB6DYGeyLK+9VTndo0it1NGntR9sMSaCMg5LS
-         wU+g==
+	s=arc-20240116; t=1786005409; c=relaxed/simple;
+	bh=WpVtJ339N6C28nQdbjSbjgOl4eiblx8BfZSsRVn8kWQ=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=KI0RTZEXFC+W6bVQxWt8I1zZoGq3ATy384+EW5Dwtw6e06dlAPBByq61Q5uLiSdL7OI5X93d26u/JpjKh9XDvBLPDsogILh+uw5ig9TwVdfUf+fOAt6rzuhBCs3JaSHzldnjR2qCjxMlk+XtPVh6DpXEmLsZodHYt+th60XBN/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-7e9f6f0240eso2032334a34.3
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 01:36:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786004232; x=1786609032;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Y1Z3+ujp5TRLFvYPpEvCWdPArp13V/FOnwrr+GSlYsw=;
-        b=gOpx+EZtH90BDKU+8hp9WV0gMVWhnrQPZR7G1yWUkvG0GMP3t3BI65ZbDxbBAyMF/4
-         tEpars1ecpyqhFaggz9vhuy3XWQil17I54V9qgD23njTgoB8hpfNBXC+uXZ9rs2TP4Se
-         Aa+ZTLh6yx0BzUOyvqmL+ZAyBwuRZXupMU0pPvxLAc9x3Zc/5XEMcTopsG4ZYehpND+X
-         IO1PwXuJmCjG6oZHUfXAzVMLkcyXZ5sqbDKBd2dgkvQxoj1cdWRAWQMR0Mw3DJibe0x3
-         YWWyed6DABQqCe+Pi6/lYtwb30pIF+Gj0VCK89piRriBMoRTlDqGiMPrJD2TZwu6pwkg
-         ymbg==
-X-Forwarded-Encrypted: i=1; AHgh+RosyHp4gt807BkoPFXKIDU64d9oXJyhV0YH7nOjyq/p0YlsbeWVcfZ90rUKwCEocNie0D33lUKQvoY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwP+UTGf43ECRjEGk0RENhfZZm/YnbqHV//HRrOo9JRTpjBCqVB
-	e/Mxck3ealu9iewsG1nQPZXWKWlteJ95hhacTYwIcMz27BTCehEJWn++
-X-Gm-Gg: AR+sD12CzyL/n1KJO5zPwmYRHDwqUxEXJUxmFqYc1dTfz0+dMNCTy9ykopIRKobQWy/
-	1XBFYv9KcVlcJhJ0brYb9hnOZDue3Y2DKv3N+1hBeUFCg8ReIjnrYsU6DW3RLRTfcqM8A7OCPoT
-	EhhGSza+3JoKQe0yrR4+xh8JVrSYqhtMeOMoltPErgNY+6TR1uMseMWRybBJZ5IHGlT2EOG7wBd
-	8Fcx5lC1UihK+d69caAcocthgSUPfNaPJQ2yHJGDu/Du4JGIooqFDmLuoM7RAcqmUPt8kH7JEwh
-	/sr9FGlOOenDzmyoKZTgQTA3tuamhpUvB4wxcw0Enyja42VRMK3x/1gYNzf9gVa5cl7Tqf+kqq4
-	+0+0xbOaSh2hI2jXWWTUqHbIpG5/opu1LiI8MxyG2NMZMhgjtHUFTREODSpWVBma9DUOPXMnksV
-	xGR937qkT850O9XDWxj0jTggH99xtL2aGza3bBeDkjUC5pQJUYjwmDUQjieVi5oM8GoxzGtYLB
-X-Received: by 2002:a05:6000:3103:b0:47f:9557:8d77 with SMTP id ffacd0b85a97d-47fec4f9be5mr19928588f8f.10.1786004231537;
-        Thu, 06 Aug 2026 01:17:11 -0700 (PDT)
-Received: from foxbook (bgt135.neoplus.adsl.tpnet.pl. [83.28.83.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47ff79a7258sm4215587f8f.3.2026.08.06.01.17.10
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Thu, 06 Aug 2026 01:17:11 -0700 (PDT)
-Date: Thu, 6 Aug 2026 10:17:06 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: dylan_robinson@motu.com, linux-usb@vger.kernel.org,
- mathias.nyman@intel.com, stern@rowland.harvard.edu
-Subject: Re: [RFT PATCHv3 1/3] xhci: fix frame id calculation and checks for
- isoc URBs
-Message-ID: <20260806101706.72a8de47.michal.pecio@gmail.com>
-In-Reply-To: <20260521152715.288995-1-mathias.nyman@linux.intel.com>
-References: <a67e11d4-6c80-4043-9f60-ae42a15ed0d3@linux.intel.com>
-	<20260521152715.288995-1-mathias.nyman@linux.intel.com>
+        d=1e100.net; s=20251104; t=1786005399; x=1786610199;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=hww6/OFre4yJNB1Vi3vH1X6KYpeQNDVIXBuv4iLpMaA=;
+        b=dn+gCYFKm86dypeGG/mHMNvq2LHPk8fR3H8CQb5HuVEjUR4GwltXSck3D8UyG8RR1M
+         LxeC1i+OKLsppL2wZDQedNI1ACUqxtMEQiMwnXgYS08DbPSnwYISyrhURVHm6Pp0wir4
+         McbYBB8G2d2MAiUbSCUwuRe+vBYRihN2cTLlaWVErnLk8lLT+vIXbguqXRcunbnxLnvG
+         ny3QndrOjWjeKcWoUcvo6KupGOosnnm/J7XKYGRbKL0meYGVLhO4Z9ZxK+2LsrrvTXBU
+         zOQ9AU1yQ9QPbFv2YweHxVhdXdk3w1bnYDWk6DMZSR62bm6VgjeFRD5CVDF1j6KAVbKv
+         fj3Q==
+X-Forwarded-Encrypted: i=1; AHgh+RrEbksweA09c/WITk8ErrWVLG4GEZo48hsIKlW/M1xNjb1j6XylC3Em8Y5YSV7KwdhXxqCykl5Ijp4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzeEdWGwZW/RHwBQzmfWkHzBkHb3f/L9ZMNJQPxOOfZCjPNNrEF
+	DB+t46klHTHb6HsltBzmAYl7uSCBhfqC+0V5BHrvqi09WY8HbU53z0yMnHtQMIvC20McCiOl6du
+	x8+9Vlvz43VUJdC5ac1A17NPjcnkWtsMOHUC/Z2EijxLAxsg7RB7Kyy3wrqw=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6820:2909:b0:6ae:4be6:64ee with SMTP id
+ 006d021491bc7-6ae970bfd15mr6759717eaf.34.1786005399228; Thu, 06 Aug 2026
+ 01:36:39 -0700 (PDT)
+Date: Thu, 06 Aug 2026 01:36:39 -0700
+In-Reply-To: <000000000000b6701405f23f1243@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a744797.01d0871a.3a0d52.0014.GAE@google.com>
+Subject: Re: [syzbot] [usb?] INFO: task hung in hub_event (3)
+From: syzbot <syzbot+a7edecbf389d11a369d4@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, m.grzeschik@pengutronix.de, 
+	mathias.nyman@linux.intel.com, raychi@google.com, stern@rowland.harvard.edu, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 21 May 2026 18:27:12 +0300, Mathias Nyman wrote:
-> Check if the expected frame IDs for a isochronous URB submitted
-> mid stream is within the valid frame time window that xHC controller
-> is capable of queuing TDs.
-> 
-> The range only needs to be checked once per URB as the isoc TDs of an
-> URB are queued in one go with spinlock held and interrupts disabled.
-> 
-> Calculate the valid frame window start and end frame id in frames
-> instead of microframes to better match how xhci specification
-> section 4.11.2.5 does it.
-> 
-> Don't add frame id gaps or change scheduling to SIA mid stream if
-> the start frame is outside the valid frame winow.
-> Only print a debug message.
-> Some devices can't handle gaps in isochronous transfers.
-> 
-> Calculate a valid start frame for the first URB of a stream, and
-> align it to a full frame, or to interval start if interval is longer
-> than a frame
-> 
-> Set urb->start_frame value for every URB
-> 
-> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+syzbot has found a reproducer for the following issue on:
 
-Hi,
+HEAD commit:    0d8395707651 Merge tag 'soc-fixes-7.2-2' of git://git.kern..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=12b3bcc6580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=66aad665ba86f060
+dashboard link: https://syzkaller.appspot.com/bug?extid=a7edecbf389d11a369d4
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17d477b9580000
 
-I'm back after a few months of having no time whatsoever to
-look at this project.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+a7edecbf389d11a369d4@syzkaller.appspotmail.com
 
-I noticed that some variant of this patch has appeared in the
-xhci/for-usb-next branch. There are problems with it.
+INFO: task kworker/1:2:30 blocked for more than 15 seconds.
+      Not tainted syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:kworker/1:2     state:D stack:25208 pid:30    tgid:30    ppid:2      task_flags:0x4208060 flags:0x00080000
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5510 [inline]
+ __schedule+0x17e7/0x5630 kernel/sched/core.c:7234
+ __schedule_loop kernel/sched/core.c:7311 [inline]
+ schedule+0x164/0x2b0 kernel/sched/core.c:7326
+ schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:7383
+ __mutex_lock_common kernel/locking/mutex.c:726 [inline]
+ __mutex_lock+0x7bf/0x1550 kernel/locking/mutex.c:821
+ hub_port_connect drivers/usb/core/hub.c:5465 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ port_event drivers/usb/core/hub.c:5871 [inline]
+ hub_event+0x20c9/0x4d30 drivers/usb/core/hub.c:5953
+ process_one_work kernel/workqueue.c:3322 [inline]
+ process_scheduled_works+0xa8e/0x14e0 kernel/workqueue.c:3405
+ worker_thread+0x92d/0xe10 kernel/workqueue.c:3486
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
 
-> ---
->  drivers/usb/host/xhci-mem.c  |   1 +
->  drivers/usb/host/xhci-ring.c | 180 +++++++++++++++--------------------
->  drivers/usb/host/xhci.h      |   7 +-
->  3 files changed, 84 insertions(+), 104 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-> index 997fe90f54e5..58714e10773f 100644
-> --- a/drivers/usb/host/xhci-mem.c
-> +++ b/drivers/usb/host/xhci-mem.c
-> @@ -1499,6 +1499,7 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
->  		return -ENOMEM;
->  
->  	virt_dev->eps[ep_index].skip = false;
-> +	virt_dev->eps[ep_index].next_uframe = -1;
->  	ep_ring = virt_dev->eps[ep_index].new_ring;
->  	xhci_ring_init(xhci, ep_ring);
->  
-> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-> index e47e644b296e..b1318515ae58 100644
-> --- a/drivers/usb/host/xhci-ring.c
-> +++ b/drivers/usb/host/xhci-ring.c
-> @@ -3977,80 +3977,79 @@ static int xhci_ist_microframes(struct xhci_hcd *xhci)
->  }
->  
->  /*
-> - * Calculates Frame ID field of the isochronous TRB identifies the
-> - * target frame that the Interval associated with this Isochronous
-> - * Transfer Descriptor will start on. Refer to 4.11.2.5 in 1.1 spec.
-> + * Check if frame is in the valid frame window, including start and end.
-> + * If start > end then assume window wrapped around at a limit the frame
-> + * value won't exceed.
-> + */
-> +static bool xhci_frame_in_range(u32 frame, u32 start, u32 end)
-> +{
-> +	/* frame window end wrapped around */
-> +	if (start > end)
-> +		return frame >= start || frame <= end;
-> +
-> +	return frame >= start && frame <= end;
-> +}
-> +
-> +/*
-> + * Set the urb->start_frame of the URB.
->   *
-> - * Returns actual frame id on success, negative value on error.
-> + * Returns microframe index of first TD
->   */
-> -static int xhci_get_isoc_frame_id(struct xhci_hcd *xhci,
-> -		struct urb *urb, int index)
-> +static int xhci_get_isoc_start_frame(struct xhci_hcd *xhci, struct urb *urb,
-> +				     struct xhci_virt_ep *ep)
->  {
-> -	int start_frame, ist, ret = 0;
-> -	int start_frame_id, end_frame_id, current_frame_id;
-> +	u32 curr_frame, start_uframe;
-> +	u32 urb_start, urb_end;
-> +	u32 win_start, win_end;
-> +	bool frame_unit;
-> +	int uinterval;
-> +	u32 mfindex;
-> +	int ist;
->  
-> -	if (urb->dev->speed == USB_SPEED_LOW ||
-> -			urb->dev->speed == USB_SPEED_FULL)
-> -		start_frame = urb->start_frame + index * urb->interval;
-> -	else
-> -		start_frame = (urb->start_frame + index * urb->interval) >> 3;
-> +	/* check if urb uses frame units instead of microframes */
-> +	frame_unit = (urb->dev->speed == USB_SPEED_FULL ||
-> +		     urb->dev->speed == USB_SPEED_LOW);
-> +
-> +	uinterval = urb->interval;
-> +	if (frame_unit)
-> +		uinterval *= 8;
->  
-> +	/* get current microframe index and isoc scheduling threshold */
-> +	mfindex = readl(&xhci->run_regs->microframe_index);
->  	ist = xhci_ist_microframes(xhci);
->  
-> -	/* Software shall not schedule an Isoch TD with a Frame ID value that
-> -	 * is less than the Start Frame ID or greater than the End Frame ID,
-> -	 * where:
-> -	 *
-> -	 * End Frame ID = (Current MFINDEX register value + 895 ms.) MOD 2048
-> -	 * Start Frame ID = (Current MFINDEX register value + IST + 1) MOD 2048
-> -	 *
-> -	 * Both the End Frame ID and Start Frame ID values are calculated
-> -	 * in microframes. When software determines the valid Frame ID value;
-> -	 * The End Frame ID value should be rounded down to the nearest Frame
-> -	 * boundary, and the Start Frame ID value should be rounded up to the
-> -	 * nearest Frame boundary.
-> -	 */
-> -	current_frame_id = readl(&xhci->run_regs->microframe_index);
-> -	start_frame_id = roundup(current_frame_id + ist + 1, 8);
-> -	end_frame_id = rounddown(current_frame_id + 895 * 8, 8);
-> +	/* calculate valid frame window, in frame units, see xhci 4.11.2.5 */
-> +	curr_frame = MFINDEX_TO_FRAME(mfindex);
-> +	win_start = (curr_frame + DIV_ROUND_UP_POW2(ist, 8) + 1) % MAX_FRAMES;
-> +	win_end = (curr_frame + 895) % MAX_FRAMES;
->  
-> -	start_frame &= 0x7ff;
-> -	start_frame_id = (start_frame_id >> 3) & 0x7ff;
-> -	end_frame_id = (end_frame_id >> 3) & 0x7ff;
-> +	// FIXME, used to check if !list_empty(&ep_ring->td_list)), is that reliable
+Showing all locks held in the system:
+5 locks held by kworker/1:2/30:
+ #0: ffff88801fa98140 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3297 [inline]
+ #0: ffff88801fa98140 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_scheduled_works+0xa20/0x14e0 kernel/workqueue.c:3405
+ #1: ffffc90000a67c40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3297 [inline]
+ #1: ffffc90000a67c40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_scheduled_works+0xa20/0x14e0 kernel/workqueue.c:3405
+ #2: ffff88802ab031d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
+ #2: ffff88802ab031d8 (&dev->mutex){....}-{4:4}, at: hub_event+0x184/0x4d30 drivers/usb/core/hub.c:5899
+ #3: ffff88802ab00568 (&port_dev->status_lock){+.+.}-{4:4}, at: usb_lock_port drivers/usb/core/hub.c:3252 [inline]
+ #3: ffff88802ab00568 (&port_dev->status_lock){+.+.}-{4:4}, at: hub_port_connect drivers/usb/core/hub.c:5464 [inline]
+ #3: ffff88802ab00568 (&port_dev->status_lock){+.+.}-{4:4}, at: hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ #3: ffff88802ab00568 (&port_dev->status_lock){+.+.}-{4:4}, at: port_event drivers/usb/core/hub.c:5871 [inline]
+ #3: ffff88802ab00568 (&port_dev->status_lock){+.+.}-{4:4}, at: hub_event+0x20a1/0x4d30 drivers/usb/core/hub.c:5953
+ #4: ffff88802a929260 (hcd->address0_mutex){+.+.}-{4:4}, at: hub_port_connect drivers/usb/core/hub.c:5465 [inline]
+ #4: ffff88802a929260 (hcd->address0_mutex){+.+.}-{4:4}, at: hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ #4: ffff88802a929260 (hcd->address0_mutex){+.+.}-{4:4}, at: port_event drivers/usb/core/hub.c:5871 [inline]
+ #4: ffff88802a929260 (hcd->address0_mutex){+.+.}-{4:4}, at: hub_event+0x20c9/0x4d30 drivers/usb/core/hub.c:5953
+1 lock held by khungtaskd/32:
+ #0: ffffffff8e959c20 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:300 [inline]
+ #0: ffffffff8e959c20 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:840 [inline]
+ #0: ffffffff8e959c20 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x2e/0x180 kernel/locking/lockdep.c:6775
+1 lock held by klogd/4964:
+2 locks held by getty/5365:
+ #0: ffff888035fc90a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x25/0x70 drivers/tty/tty_ldisc.c:243
+ #1: ffffc900032332e8 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x45a/0x1360 drivers/tty/n_tty.c:2211
+5 locks held by kworker/1:3/5730:
+ #0: ffff88801fa98140 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3297 [inline]
+ #0: ffff88801fa98140 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_scheduled_works+0xa20/0x14e0 kernel/workqueue.c:3405
+ #1: ffffc9000362fc40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3297 [inline]
+ #1: ffffc9000362fc40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_scheduled_works+0xa20/0x14e0 kernel/workqueue.c:3405
+ #2: ffff88802aaa91d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1102 [inline]
+ #2: ffff88802aaa91d8 (&dev->mutex){....}-{4:4}, at: hub_event+0x184/0x4d30 drivers/usb/core/hub.c:5899
+ #3: ffff88802aaaf568 (&port_dev->status_lock){+.+.}-{4:4}, at: usb_lock_port drivers/usb/core/hub.c:3252 [inline]
+ #3: ffff88802aaaf568 (&port_dev->status_lock){+.+.}-{4:4}, at: hub_port_connect drivers/usb/core/hub.c:5464 [inline]
+ #3: ffff88802aaaf568 (&port_dev->status_lock){+.+.}-{4:4}, at: hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ #3: ffff88802aaaf568 (&port_dev->status_lock){+.+.}-{4:4}, at: port_event drivers/usb/core/hub.c:5871 [inline]
+ #3: ffff88802aaaf568 (&port_dev->status_lock){+.+.}-{4:4}, at: hub_event+0x20a1/0x4d30 drivers/usb/core/hub.c:5953
+ #4: ffff88802a929260 (hcd->address0_mutex){+.+.}-{4:4}, at: hub_port_connect drivers/usb/core/hub.c:5465 [inline]
+ #4: ffff88802a929260 (hcd->address0_mutex){+.+.}-{4:4}, at: hub_port_connect_change drivers/usb/core/hub.c:5707 [inline]
+ #4: ffff88802a929260 (hcd->address0_mutex){+.+.}-{4:4}, at: port_event drivers/usb/core/hub.c:5871 [inline]
+ #4: ffff88802a929260 (hcd->address0_mutex){+.+.}-{4:4}, at: hub_event+0x20c9/0x4d30 drivers/usb/core/hub.c:5953
 
-This doesn't look very professional :)
+=============================================
 
-(Surprised to find that checkpatch doesn't warn about C++ comments...)
+NMI backtrace for cpu 1
+CPU: 1 UID: 0 PID: 32 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ nmi_cpu_backtrace+0x274/0x2d0 lib/nmi_backtrace.c:122
+ nmi_trigger_cpumask_backtrace+0x17a/0x380 lib/nmi_backtrace.c:65
+ trigger_all_cpu_backtrace include/linux/nmi.h:162 [inline]
+ __sys_info lib/sys_info.c:157 [inline]
+ sys_info+0x135/0x170 lib/sys_info.c:165
+ check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
+ watchdog+0xfd7/0x1030 kernel/hung_task.c:561
+ kthread+0x388/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/16/2026
+RIP: 0010:pv_native_safe_halt+0xf/0x20 arch/x86/kernel/paravirt.c:64
+Code: fc 7c 02 e9 fe df 5c f5 cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d d3 0e 16 00 fb f4 <e9> d7 df 5c f5 cc cc cc cc cc cc cc cc cc cc cc cc 90 90 90 90 90
+RSP: 0018:ffffffff8e607de0 EFLAGS: 00000242
+RAX: 00000000000b648f RBX: ffffffff819a152c RCX: 0000000080000001
+RDX: 0000000000000001 RSI: ffffffff8e03ecd2 RDI: ffffffff8c2c1c80
+RBP: ffffffff8e607eb8 R08: ffff8880b86338db R09: 1ffff110170c671b
+R10: dffffc0000000000 R11: ffffed10170c671c R12: 0000000000000000
+R13: 1ffffffff1cd1de8 R14: 1ffffffff1cc0fc4 R15: dffffc0000000000
+FS:  0000000000000000(0000) GS:ffff888125182000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055e85c1d0b11 CR3: 000000000e746000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ arch_safe_halt arch/x86/kernel/process.c:767 [inline]
+ default_idle+0x9/0x20 arch/x86/kernel/process.c:768
+ default_idle_call+0x72/0xb0 kernel/sched/idle.c:122
+ cpuidle_idle_call kernel/sched/idle.c:199 [inline]
+ do_idle+0x1cc/0x540 kernel/sched/idle.c:355
+ cpu_startup_entry+0x43/0x60 kernel/sched/idle.c:454
+ rest_init+0x2de/0x300 init/main.c:717
+ start_kernel+0x392/0x3e0 init/main.c:1175
+ x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+ x86_64_start_kernel+0x137/0x1b0 arch/x86/kernel/head64.c:291
+ common_startup_64+0x13e/0x157
+ </TASK>
 
-But most importantly, as Alan explained, list_empty() was indeed the
-specific check which should be performed.
 
-* If there are pending URBs on the endpoint, a new non-ASAP URB is
-  scheduled contiguously after the last one.
-* If there are no pending URBs, new non-ASAP URB is scheduled ASAP.
-
-(The exact meaning of "pending" is a little tricky in presence of BH
-giveback, but that's another issue and it also affects ehci-hcd).
-
->  
-> -	if (start_frame_id < end_frame_id) {
-> -		if (start_frame > end_frame_id ||
-> -				start_frame < start_frame_id)
-> -			ret = -EINVAL;
-> -	} else if (start_frame_id > end_frame_id) {
-> -		if ((start_frame > end_frame_id &&
-> -				start_frame < start_frame_id))
-> -			ret = -EINVAL;
-> +	/* Is this the first URB starting the whole isoc transfer */
-
-Nitpick: xHCI calls this "isoch data flow" and ehci-hcd "stream".
-
-Isn't "isoc transfer", per USB spec, things that happens during one
-interval? But not 100% sure about it and too lazy to check now...
-
-> +	if (ep->next_uframe < 0) {
-
-And where is ep->next_uframe coming from?
-
-Besides initialization, it's made -1 if and only if xHCI endpoint
-state isn't Running at the time of submission. This effectively means
-that to start a new "isoch data flow" aka "stream", class driver must
-unlink the last remaining URB of the previous flow. If the driver
-doesn't unlink (or tries too late), the endpoint goes Running-Idle.
-
-So you have removed the wrong condition here. It should be empty list,
-not xHCI endpoint state, which drivers don't care or even know about.
-
-Moreover, we know that Endpoint Context state is one of the least
-trustworthy piecese of information, and notably it may remain Stopped
-for a while after a doorbell ring. This means that multiple URBs may
-be scheduled as new "streams" and get assigned the same start_frame.
-
-I have actually seen this race sporadically with snd-usb-audio and
-it may be responsible for some (but not all) of the "repeated errors
-and restarts" behavior of this driver.
-
-AFAICT testing EP state has always been bogus and my very first move
-was to delete it. It seems that the author of that CFC support patch
-never understood kernel USB stack rules and invented some weird ones.
-
-> +		/* align first URB to next interval boundary, or at last to full frame */
-> +		start_uframe = mfindex + ist + XHCI_CFC_DELAY;
-> +		start_uframe = roundup(start_uframe, 8);
-> +		start_uframe = roundup(start_uframe, uinterval) % MAX_UFRAMES;
->  	} else {
-> -			ret = -EINVAL;
-> -	}
-> +		/* URB is mid stream and expected to handle the next frame */
-> +		start_uframe = ep->next_uframe;
-> +		urb_start = start_uframe / 8;
-> +		urb_end = (start_uframe + urb->number_of_packets * uinterval) / 8;
-> +		urb_end %= MAX_FRAMES;
->  
-> -	if (index == 0) {
-> -		if (ret == -EINVAL || start_frame == start_frame_id) {
-> -			start_frame = start_frame_id + 1;
-> -			if (urb->dev->speed == USB_SPEED_LOW ||
-> -					urb->dev->speed == USB_SPEED_FULL)
-
-Not sure if low-speed isoc is a serious concern...
-
-> -				urb->start_frame = start_frame;
-> -			else
-> -				urb->start_frame = start_frame << 3;
-> -			ret = 0;
-> -		}
-> -	}
-> +		if (!xhci_frame_in_range(urb_start, win_start, win_end))
-> +			xhci_dbg(xhci, "Ill-timed isoc URB %p for start frame %d, range %d-%d\n",
-> +				 urb, urb_start, win_start, win_end);
-
-It's better to distinguish between failing to meet the IST (which may
-be common when running with too low latency and cause plenty of log
-spam here) and exscessively long submission queue.
-
-The latter should simply result in -EFBIG error and no need to log it.
-
->  
-> -	if (ret) {
-> -		xhci_warn(xhci, "Frame ID %d (reg %d, index %d) beyond range (%d, %d)\n",
-> -				start_frame, current_frame_id, index,
-> -				start_frame_id, end_frame_id);
-> -		xhci_warn(xhci, "Ignore frame ID field, use SIA bit instead\n");
-> -		return ret;
-> +		if (!xhci_frame_in_range(urb_end, win_start, win_end))
-> +			xhci_dbg(xhci, "Ill-timed isoc URB %p for end frame %d, range %d-%d\n",
-> +				 urb, urb_start, win_start, win_end);
->  	}
-> +	/* set urb->start_frame */
-> +	urb->start_frame = frame_unit ? start_uframe / 8 : start_uframe;
->  
-> -	return start_frame;
-> +	return start_uframe;
->  }
->  
->  /* Check if we should generate event interrupt for a TD in an isoc URB */
-> @@ -4091,6 +4090,8 @@ static int xhci_queue_isoc_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
->  	bool more_trbs_coming;
->  	struct xhci_virt_ep *xep;
->  	int frame_id;
-> +	int uinterval = urb->interval;
-> +	int start_uframe;
->  
->  	xep = &xhci->devs[slot_id]->eps[ep_index];
->  	ep_ring = xhci->devs[slot_id]->eps[ep_index].ring;
-> @@ -4106,6 +4107,12 @@ static int xhci_queue_isoc_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
->  	start_cycle = ep_ring->cycle_state;
->  
->  	urb_priv = urb->hcpriv;
-> +
-> +	if (urb->dev->speed == USB_SPEED_FULL || urb->dev->speed == USB_SPEED_LOW)
-> +		uinterval = urb->interval * 8;
-> +
-> +	start_uframe = xhci_get_isoc_start_frame(xhci, urb, xep);
-> +
->  	/* Queue the TRBs for each TD, even if they are zero-length */
->  	for (i = 0; i < num_tds; i++) {
->  		unsigned int total_pkt_count, max_pkt;
-> @@ -4137,14 +4144,15 @@ static int xhci_queue_isoc_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
->  			goto cleanup;
->  		}
->  		td = &urb_priv->td[i];
-> +
->  		/* use SIA as default, if frame id is used overwrite it */
->  		sia_frame_id = TRB_SIA;
-> -		if (!(urb->transfer_flags & URB_ISO_ASAP) &&
-> -		    (xhci->hcc_params & HCC_CFC)) {
-> -			frame_id = xhci_get_isoc_frame_id(xhci, urb, i);
-> -			if (frame_id >= 0)
-> -				sia_frame_id = TRB_FRAME_ID(frame_id);
-> +		if (!(urb->transfer_flags & URB_ISO_ASAP) && (xhci->hcc_params & HCC_CFC)) {
-> +			frame_id = (start_uframe + i * uinterval) / 8;
-> +			frame_id %= MAX_FRAMES;
-> +			sia_frame_id = TRB_FRAME_ID(frame_id);
->  		}
-> +
->  		/*
->  		 * Set isoc specific data for the first TRB in a TD.
->  		 * Prevent HW from getting the TRBs by keeping the cycle state
-> @@ -4223,9 +4231,7 @@ static int xhci_queue_isoc_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
->  		}
->  	}
->  
-> -	/* store the next frame id */
-> -	if (xhci->hcc_params & HCC_CFC)
-> -		xep->next_frame_id = urb->start_frame + num_tds * urb->interval;
-> +	xep->next_uframe = (start_uframe + num_tds * uinterval) % MAX_UFRAMES;
->  
->  	if (xhci_to_hcd(xhci)->self.bandwidth_isoc_reqs == 0) {
->  		if (xhci->quirks & XHCI_AMD_PLL_FIX)
-> @@ -4272,11 +4278,9 @@ int xhci_queue_isoc_tx_prepare(struct xhci_hcd *xhci, gfp_t mem_flags,
->  	struct xhci_virt_device *xdev;
->  	struct xhci_ring *ep_ring;
->  	struct xhci_ep_ctx *ep_ctx;
-> -	int start_frame;
-> +	struct xhci_virt_ep *xep;
->  	int num_tds, num_trbs, i;
->  	int ret;
-> -	struct xhci_virt_ep *xep;
-> -	int ist;
->  
->  	xdev = xhci->devs[slot_id];
->  	xep = &xhci->devs[slot_id]->eps[ep_index];
-> @@ -4302,38 +4306,8 @@ int xhci_queue_isoc_tx_prepare(struct xhci_hcd *xhci, gfp_t mem_flags,
->  	 */
->  	check_interval(urb, ep_ctx);
->  
-> -	/* Calculate the start frame and put it in urb->start_frame. */
-> -	if ((xhci->hcc_params & HCC_CFC) && !list_empty(&ep_ring->td_list)) {
-> -		if (GET_EP_CTX_STATE(ep_ctx) ==	EP_STATE_RUNNING) {
-> -			urb->start_frame = xep->next_frame_id;
-> -			goto skip_start_over;
-> -		}
-> -	}
-> -
-> -	start_frame = readl(&xhci->run_regs->microframe_index);
-> -	start_frame &= 0x3fff;
-> -	/*
-> -	 * Round up to the next frame and consider the time before trb really
-> -	 * gets scheduled by hardare.
-> -	 */
-> -	ist = xhci_ist_microframes(xhci);
-> -	start_frame += ist + XHCI_CFC_DELAY;
-> -	start_frame = roundup(start_frame, 8);
-> -
-> -	/*
-> -	 * Round up to the next ESIT (Endpoint Service Interval Time) if ESIT
-> -	 * is greate than 8 microframes.
-> -	 */
-> -	if (urb->dev->speed == USB_SPEED_LOW ||
-> -			urb->dev->speed == USB_SPEED_FULL) {
-> -		start_frame = roundup(start_frame, urb->interval << 3);
-> -		urb->start_frame = start_frame >> 3;
-> -	} else {
-> -		start_frame = roundup(start_frame, urb->interval);
-> -		urb->start_frame = start_frame;
-> -	}
-> -
-> -skip_start_over:
-
-I think there was nothing wrong with keeping scheduling logic here,
-that's what I did.
-
-I have never sent my own patches because they were incomplete (I tried
-to cover non-CFC as well), but the stuff which is covered by this patch
-I already have fully covered toq.
-
-So I can post those patches as RFC if anyone would like to see them.
-
-Regards,
-Michal
-
-> +	if (GET_EP_CTX_STATE(ep_ctx) != EP_STATE_RUNNING)
-> +		xep->next_uframe = -1;
-
-And there we go, the only way to start a new "isoch data flow".
-
->  	return xhci_queue_isoc_tx(xhci, mem_flags, urb, slot_id, ep_index);
->  }
-> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-> index aeecd301f207..bcb7b8c877db 100644
-> --- a/drivers/usb/host/xhci.h
-> +++ b/drivers/usb/host/xhci.h
-> @@ -287,6 +287,11 @@ struct xhci_run_regs {
->  	struct xhci_intr_reg	ir_set[1024];
->  };
->  
-> +/* Bits [13:3] of the microframe index equals the 1ms frame index */
-> +#define MFINDEX_TO_FRAME(p)	(((p) >> 3) & 0x7ff)
-> +#define MAX_FRAMES		2048
-> +#define MAX_UFRAMES		(MAX_FRAMES * 8)
-> +
->  /**
->   * struct doorbell_array
->   *
-> @@ -696,7 +701,7 @@ struct xhci_virt_ep {
->  	struct list_head	bw_endpoint_list;
->  	unsigned long		stop_time;
->  	/* Isoch Frame ID checking storage */
-> -	int			next_frame_id;
-> +	int			next_uframe;
->  	/* Use new Isoch TRB layout needed for extended TBC support */
->  	bool			use_extended_tbc;
->  	/* set if this endpoint is controlled via sideband access*/
-> -- 
-> 2.43.0
-> 
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
