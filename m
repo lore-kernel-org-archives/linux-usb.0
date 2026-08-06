@@ -1,174 +1,208 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3294C77D1;
-	Thu,  6 Aug 2026 19:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B85529AB05
+	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 19:23:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786043241; cv=none; b=XA7yYFuFFFAEYu+M0Hx8Op5xzSjBE853LviW5VeC6mOdihp8C5/MkwcD4iGoZJDTYzhg1X08+eibzaJrd2b1lxxvYLrKpn8SNzHBsszDAXZE88ougZ8Uiw5GlrjAMDegtnknNtNSlAOQq/+Ht0AyCNKjYseQiijCorVYbUvVkdc=
+	t=1786044198; cv=none; b=AJarRW/LOgHJVASDu5TsvNUl+0iSODTkAT1Oj6ISvW9sj4Qnll4PofKHGJ2dg2xn+oEowZzbATdtIxI+CIwqFf+rATPH0TND8ul3RChzljdQsFLsADPXAfGcRPng5RofgdYdon9oYVXo7c9YoL/xSlwDARH+1m51WCpKOkRdhwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786043241; c=relaxed/simple;
-	bh=WXcm2Yb5I04oLe14dcXdrEPwOR8hGoCD+QeGAqYfYQw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AEHc1hF25SowMbEOHH1pCtzo+9NhhXR8eZdjexjXEJITmo4nkfXlmFAGt1iIzc8D9d8ucOiSMcc8J+ZsgNaH6p36PVOAfJwd1Bn33oFKpmet3FB1qRxL7dTgXvVPFzmpP7Ah/od8cky199kShTwnh3+V41NlwUo//i2daPkIZe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=nA1aUYEN; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1786044198; c=relaxed/simple;
+	bh=lRrZd97klUpBfH8v2jTcopoDA3R59h9IsllEluz5ZcM=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=J/FBIg5QdgPRJTbVO3MhwBjwLngGhE68rmwU4mk9RxPLUbrlepDkud33/8HxevhUGcYCyjcFDV2N3gkw2/AiZmtD58NW9X6U2+fhylS3hBin9csFRlltLExGHp5gJZan55JZVxZeMM1qakmKBAbcmQXqR6+NK2fuwCa2XEr4St0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HEanwv6K; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="nA1aUYEN"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 676Ftr4v4168306;
-	Thu, 6 Aug 2026 19:06:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=85JNUC8SyfLYyGobZYpdZmxyQGF0qjVqbjDUd/Wkets=; b=
-	nA1aUYENomsR9p7hfDkQr6KalTZrWQW8NET0IkudX6kxW006ofYrtz87Qku7QfJU
-	1lbtfpVmJ42Q3AQE1tcbOw0dHj5dJSylYxq+m2+YcyLW9melEp/Zo40HFGHB54iG
-	OcTwtR+niQLcarL+4OWP5kUShgYJOMrLwxEqqSkY7Lj2zjgD/sgtw+C5rg7PDGAH
-	Gv3g1ppfRFvZh8DYeUX2gV+upEZO5qZ40tc03kMw1uUKshv2LOqjagJ3HbvFdCxa
-	5hBpF9vOLZ/60dXew31tSvX4uLcqli6uolj+khGTMmHGGzK/4pK/rJL+YY5xBUHb
-	pPRuZrwRVaPtUZ7W/V2+uA==
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4fs8ugpqtf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 06 Aug 2026 19:06:26 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 676J0b6k024663;
-	Thu, 6 Aug 2026 19:06:25 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4fs78w56e3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 06 Aug 2026 19:06:25 +0000 (GMT)
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 676J6LgY011247;
-	Thu, 6 Aug 2026 19:06:24 GMT
-Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4fs78w56b9-3;
-	Thu, 06 Aug 2026 19:06:24 +0000 (GMT)
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-To: Julia.Lawall@inria.fr, Alex Deucher <alexander.deucher@amd.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Lezcano <daniel.lezcano@kernel.org>,
-        David Airlie <airlied@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Eric Dumazet <edumazet@google.com>, Florian Westphal <fw@strlen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hansg@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Jaroslav Kysela <perex@perex.cz>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Jiri Pirko <jiri@resnulli.us>, "Joerg Roedel (AMD)" <joro@8bytes.org>,
-        Johan Hovold <johan@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Julian Anastasov <ja@ssi.bg>, Leon Romanovsky <leon@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Linus Walleij <linusw@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>, Matthew Sakai <msakai@redhat.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-        Nicolas Palix <nicolas.palix@imag.fr>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Paolo Abeni <pabeni@redhat.com>, Ping-Ke Shih <pkshih@realtek.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Sebastian Reichel <sre@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Simona Vetter <simona@ffwll.ch>, Simon Horman <horms@verge.net.au>,
-        Stephen Boyd <sboyd@kernel.org>, Steve French <sfrench@samba.org>,
-        Takashi Iwai <tiwai@suse.com>, Thomas Renninger <trenn@suse.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tony Luck <tony.luck@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
-        Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-        Vinod Koul <vkoul@kernel.org>, Will Deacon <will@kernel.org>,
-        Yazen Ghannam <Yazen.Ghannam@amd.com>,
-        Sang-Heon Jeon <ekffu200098@gmail.com>
-Cc: "Martin K . Petersen" <martin.petersen@oracle.com>, cocci@inria.fr,
-        amd-gfx@lists.freedesktop.org, dmaengine@vger.kernel.org,
-        dm-devel@lists.linux.dev, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
-        iommu@lists.linux.dev, linux-cifs@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mm@kvack.org, linux-pm@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org, lvs-devel@vger.kernel.org,
-        netdev@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        nouveau@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
-Subject: Re: (subset) [PATCH 00/36] treewide: remove conditional returns with no effect
-Date: Thu,  6 Aug 2026 15:06:08 -0400
-Message-ID: <178589207129.336697.9870225893827541543.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260723184538.3888637-1-ekffu200098@gmail.com>
-References: <20260723184538.3888637-1-ekffu200098@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HEanwv6K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786044191; x=1817580191;
+  h=date:from:to:cc:subject:message-id;
+  bh=lRrZd97klUpBfH8v2jTcopoDA3R59h9IsllEluz5ZcM=;
+  b=HEanwv6KA0KHCbOeJwf+eLoBGS5/+66Lf60au2uyUmdF5etSjy6yTyzA
+   xFIX4RVrOn3V1mqPc2GLqaMKH9bcvXY8y1TEXLjAafzLzfkRez+UUz/6k
+   rayjy8dzy589ZD4nMhK9/lSvjWDLLBAR7j4+2oiUViSlbK64IEBKAvacy
+   ml0Xumays2bVkFysNCyWwncwTB+4Xp+jLs6SqGICKd/LyrciukP5kHYtp
+   nWAcr1lHH/eklco7n+KLlOYWA2FH8TkGTz6/H8AWmusVrLjHRQwnkZXcT
+   8jZm/SK6RX+FGSWZnCJFWjNjDw1VrRxXi7+HW6Q2vbBg3mutLsMqGkwaN
+   w==;
+X-CSE-ConnectionGUID: +RddWlLiSKGWEOAzN/CjgA==
+X-CSE-MsgGUID: HB5Fg5G9QUOL4a0c4LmcbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97299973"
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="97299973"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 12:23:08 -0700
+X-CSE-ConnectionGUID: cRaKZzalSI+RCmjODJxzIw==
+X-CSE-MsgGUID: tGSRbLeeSwaxANsj5qIUHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="264181084"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 06 Aug 2026 12:23:07 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1ws3gH-00000000G1p-02U7;
+	Thu, 06 Aug 2026 19:23:05 +0000
+Date: Fri, 07 Aug 2026 03:22:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: linux-usb@vger.kernel.org
+Subject: [westeri-thunderbolt:next] BUILD SUCCESS
+ e120d14d03b3db5f4ac049f32328c4951a532a90
+Message-ID: <202608070358.iIDLl2CK-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-06_02,2026-08-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- spamscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0
- phishscore=0 mlxlogscore=672 suspectscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2606160000 definitions=main-2608060149
-X-Proofpoint-ORIG-GUID: XGMDaQGIFMb57T6Q2yvPQTQQt2debxfq
-X-Authority-Analysis: v=2.4 cv=XqnK/1F9 c=1 sm=1 tr=0 ts=6a74db32 b=1 cx=c_pps
- a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
- a=IkcTkHD0fZMA:10 a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=BqU2WV_vvsyTyxaotp0D:22 a=VwQbUJbxAAAA:8
- a=Br-j9HdbvUlrMjNZj6IA:9 a=QEXdDO2ut3YA:10 a=5yU3S35YU4bGjq-dph-N:22
- a=Bho9c0fBagfJEIQBS7DQ:22 cc=ntf awl=host:13510
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODA2MDE0OSBTYWx0ZWRfX6uIK9jT+2Jev
- rYS5Xc6Wjv9hMYRtyD0NY9wioUhY1o9ts8S44XrOIykROIC2fMM+q3H5rjkub44bNgkLDQ3tnSe
- fkx9LiuU0Ioed9eVzRB8PP2qYuZIVaHGDH9Vr333gSb2ZgsHD92v
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODA2MDE0OSBTYWx0ZWRfX43FUiflrVixJ
- FNgAKsr+fsfl0ktZltC3fvW6MVFcRQRy/oySHj8nQQDMOHwfS94QLWHrXArK3j62D1c6aNzQrnl
- 2DtOuGbPQocnjuSCI1ny1WWYx/7jkkjlcfyl+lp7TEesEfkx307+KuCZo0OgIxbIwfa72MWD4em
- tn6/hMd/QXx6zH3wP5OlhrMzlp2qKgIxJlelAMfUWIkruyj4hnvKzGUkqPoF4QRZ71As9I8pV2j
- DMm/cMIaHufC6lXcsuKfUk0yiqWTx1Zr8LtQAR498eW34hEj3pAMHucta0+1CKmEnv9EN7lkU/M
- FG7jgW8yHOjl2TgueMJFzovO4heKYSqjW47oC3CHVujyZPMUqifsWdUKFoxdhd+EKhXdCEJL9b0
- LGCES5HP/CdGIqj2UaaWymZGJVFVJ4RBD/aEk7/710HO5x59Z+gVx3LZGgty2YUYCbgJE7oGTWH
- QPXliDM2eYx5QgvaSSBlrfWn/1V9lBD33lbCDCaI=
-X-Proofpoint-GUID: XGMDaQGIFMb57T6Q2yvPQTQQt2debxfq
 
-On Fri, 24 Jul 2026 03:45:02 +0900, Sang-Heon Jeon wrote:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
+branch HEAD: e120d14d03b3db5f4ac049f32328c4951a532a90  thunderbolt: stream: Add support for busy polling
 
-> While reading mm/memblock, I found a conditional return where both
-> branches return the same value:
-> 
-> 	err = do_something();
-> 	if (err)
-> 		return err;
-> 	return err;
-> 
-> [...]
+elapsed time: 1870m
 
-Applied to 7.3/scsi-queue, thanks!
+configs tested: 131
+configs skipped: 0
 
-[30/36] scsi: mpt3sas: remove conditional return with no effect
-        https://git.kernel.org/mkp/scsi/c/c79f9bf2d87f
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
--- 
-Martin K. Petersen
+tested configs:
+alpha                            allnoconfig    gcc-16.1.0
+alpha                           allyesconfig    gcc-16.1.0
+alpha                              defconfig    gcc-16.1.0
+arc                             allmodconfig    gcc-16.1.0
+arc                             allyesconfig    gcc-16.1.0
+arc                  randconfig-001-20260806    gcc-11.5.0
+arc                  randconfig-002-20260806    gcc-11.5.0
+arm                  randconfig-001-20260806    gcc-11.5.0
+arm                  randconfig-002-20260806    gcc-11.5.0
+arm                  randconfig-003-20260806    gcc-11.5.0
+arm                  randconfig-004-20260806    gcc-11.5.0
+arm64                randconfig-001-20260806    gcc-13.4.0
+arm64                randconfig-001-20260807    gcc-16.1.0
+arm64                randconfig-002-20260806    gcc-13.4.0
+arm64                randconfig-002-20260807    gcc-16.1.0
+arm64                randconfig-003-20260806    gcc-13.4.0
+arm64                randconfig-003-20260807    gcc-16.1.0
+arm64                randconfig-004-20260806    gcc-13.4.0
+arm64                randconfig-004-20260807    gcc-16.1.0
+csky                            allmodconfig    gcc-16.1.0
+csky                 randconfig-001-20260806    gcc-13.4.0
+csky                 randconfig-001-20260807    gcc-16.1.0
+csky                 randconfig-002-20260806    gcc-13.4.0
+csky                 randconfig-002-20260807    gcc-16.1.0
+hexagon              randconfig-001-20260806    clang-24
+hexagon              randconfig-001-20260807    clang-18
+hexagon              randconfig-002-20260806    clang-24
+hexagon              randconfig-002-20260807    clang-18
+i386                            allmodconfig    gcc-14
+i386       buildonly-randconfig-001-20260806    gcc-14
+i386       buildonly-randconfig-002-20260806    gcc-14
+i386       buildonly-randconfig-003-20260806    gcc-14
+i386       buildonly-randconfig-004-20260806    gcc-14
+i386       buildonly-randconfig-005-20260806    gcc-14
+i386       buildonly-randconfig-006-20260806    gcc-14
+i386                          randconfig-001    clang-22
+i386                 randconfig-001-20260806    clang-22
+i386                 randconfig-002-20260806    clang-22
+i386                 randconfig-003-20260806    clang-22
+i386                 randconfig-004-20260806    clang-22
+i386                 randconfig-005-20260806    clang-22
+i386                 randconfig-006-20260806    clang-22
+i386                 randconfig-007-20260806    clang-22
+i386                 randconfig-011-20260806    clang-22
+i386                 randconfig-012-20260806    clang-22
+i386                 randconfig-013-20260806    clang-22
+i386                 randconfig-014-20260806    clang-22
+i386                 randconfig-015-20260806    clang-22
+i386                 randconfig-016-20260806    clang-22
+i386                 randconfig-017-20260806    clang-22
+loongarch                          defconfig    clang-24
+loongarch            randconfig-001-20260806    clang-24
+loongarch            randconfig-001-20260807    clang-18
+loongarch            randconfig-002-20260806    clang-24
+loongarch            randconfig-002-20260807    clang-18
+m68k                      m5208evb_defconfig    gcc-16.1.0
+m68k                         sun3x_defconfig    gcc-16.1.0
+mips                          xway_defconfig    clang-19
+nios2                           allmodconfig    gcc-11.5.0
+nios2                            allnoconfig    gcc-11.5.0
+nios2                randconfig-001-20260806    clang-24
+nios2                randconfig-001-20260807    clang-18
+nios2                randconfig-002-20260806    clang-24
+nios2                randconfig-002-20260807    clang-18
+parisc                          allmodconfig    gcc-16.1.0
+parisc                          allyesconfig    gcc-16.1.0
+parisc                             defconfig    gcc-16.1.0
+parisc               randconfig-001-20260806    gcc-8.5.0
+parisc               randconfig-001-20260807    gcc-8.5.0
+parisc               randconfig-002-20260806    gcc-8.5.0
+parisc               randconfig-002-20260807    gcc-8.5.0
+powerpc                    asp8347_defconfig    clang-24
+powerpc              randconfig-001-20260806    gcc-8.5.0
+powerpc              randconfig-001-20260807    gcc-8.5.0
+powerpc              randconfig-002-20260806    gcc-8.5.0
+powerpc              randconfig-002-20260807    gcc-8.5.0
+powerpc64            randconfig-001-20260806    gcc-8.5.0
+powerpc64            randconfig-001-20260807    gcc-8.5.0
+powerpc64            randconfig-002-20260806    gcc-8.5.0
+powerpc64            randconfig-002-20260807    gcc-8.5.0
+riscv                         randconfig-001    gcc-13.4.0
+riscv                randconfig-001-20260806    gcc-13.4.0
+riscv                randconfig-001-20260807    gcc-12.5.0
+riscv                randconfig-002-20260806    gcc-13.4.0
+riscv                randconfig-002-20260807    gcc-12.5.0
+s390                 randconfig-001-20260806    gcc-13.4.0
+s390                 randconfig-001-20260807    gcc-12.5.0
+s390                 randconfig-002-20260806    gcc-13.4.0
+s390                 randconfig-002-20260807    gcc-12.5.0
+sh                                 defconfig    gcc-16.1.0
+sh                   randconfig-001-20260806    gcc-13.4.0
+sh                   randconfig-001-20260807    gcc-12.5.0
+sh                   randconfig-002-20260806    gcc-13.4.0
+sh                   randconfig-002-20260807    gcc-12.5.0
+sparc                         randconfig-001    gcc-8.5.0
+sparc                randconfig-001-20260806    gcc-8.5.0
+sparc                randconfig-002-20260806    gcc-8.5.0
+sparc64              randconfig-001-20260806    gcc-8.5.0
+sparc64              randconfig-002-20260806    gcc-8.5.0
+um                   randconfig-001-20260806    gcc-8.5.0
+um                   randconfig-002-20260806    gcc-8.5.0
+x86_64              buildonly-randconfig-001    clang-22
+x86_64     buildonly-randconfig-001-20260806    clang-22
+x86_64     buildonly-randconfig-002-20260806    clang-22
+x86_64     buildonly-randconfig-003-20260806    clang-22
+x86_64     buildonly-randconfig-004-20260806    clang-22
+x86_64     buildonly-randconfig-005-20260806    clang-22
+x86_64     buildonly-randconfig-006-20260806    clang-22
+x86_64                                 kexec    clang-22
+x86_64               randconfig-001-20260806    clang-22
+x86_64               randconfig-002-20260806    clang-22
+x86_64               randconfig-003-20260806    clang-22
+x86_64               randconfig-004-20260806    clang-22
+x86_64               randconfig-005-20260806    clang-22
+x86_64               randconfig-006-20260806    clang-22
+x86_64                        randconfig-011    clang-22
+x86_64               randconfig-011-20260806    clang-22
+x86_64               randconfig-012-20260806    clang-22
+x86_64               randconfig-013-20260806    clang-22
+x86_64               randconfig-014-20260806    clang-22
+x86_64               randconfig-015-20260806    clang-22
+x86_64               randconfig-016-20260806    clang-22
+x86_64               randconfig-071-20260806    gcc-14
+x86_64               randconfig-072-20260806    gcc-14
+x86_64               randconfig-073-20260806    gcc-14
+x86_64               randconfig-074-20260806    gcc-14
+x86_64               randconfig-075-20260806    gcc-14
+x86_64               randconfig-076-20260806    gcc-14
+x86_64                          rhel-9.4-bpf    gcc-14
+xtensa               randconfig-001-20260806    gcc-8.5.0
+xtensa               randconfig-002-20260806    gcc-8.5.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
