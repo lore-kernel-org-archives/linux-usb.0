@@ -1,208 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B85529AB05
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 19:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F6B2E54D1;
+	Thu,  6 Aug 2026 19:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786044198; cv=none; b=AJarRW/LOgHJVASDu5TsvNUl+0iSODTkAT1Oj6ISvW9sj4Qnll4PofKHGJ2dg2xn+oEowZzbATdtIxI+CIwqFf+rATPH0TND8ul3RChzljdQsFLsADPXAfGcRPng5RofgdYdon9oYVXo7c9YoL/xSlwDARH+1m51WCpKOkRdhwg=
+	t=1786044740; cv=none; b=aL7gIgdMFGdLkDCb9YIUntAXuVWftf+bdWwTZ6ZdRKP5fqPoeMqjzeb9dWrkBl+RJ3nb7TC2m1wEGc+9v5kdbrrhHVZxxE3F8N/k1o3+bGFOy94V17W+dLpzlgDomZNejj1mll2m8kZU4IYsXlv2bfw22FIB3DNPiLPNVKBx8fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786044198; c=relaxed/simple;
-	bh=lRrZd97klUpBfH8v2jTcopoDA3R59h9IsllEluz5ZcM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=J/FBIg5QdgPRJTbVO3MhwBjwLngGhE68rmwU4mk9RxPLUbrlepDkud33/8HxevhUGcYCyjcFDV2N3gkw2/AiZmtD58NW9X6U2+fhylS3hBin9csFRlltLExGHp5gJZan55JZVxZeMM1qakmKBAbcmQXqR6+NK2fuwCa2XEr4St0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HEanwv6K; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786044740; c=relaxed/simple;
+	bh=3KzeiQa+hZqeTYB1Gm3m7fHbxkQO+WwPhVCyaF0zGg4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nOAAtWjTrgSoPTzYpwM6qGUDCtIkzXCtzC42LvBld8Gxx4soeqi6KzVRcP4P0BxyfNIKyliH9xNVysvrjqsLR2yV7ygfXNiAr2VHMHRy1wpXDkYiTeXWwxtoSHjXF0iHtmTLUGmBLMg2ZZ9BaJ7AfXOlB8goKW7zSz8hC3QTQaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=tAxnX+Lx; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=wQhaKFi3; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HEanwv6K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786044191; x=1817580191;
-  h=date:from:to:cc:subject:message-id;
-  bh=lRrZd97klUpBfH8v2jTcopoDA3R59h9IsllEluz5ZcM=;
-  b=HEanwv6KA0KHCbOeJwf+eLoBGS5/+66Lf60au2uyUmdF5etSjy6yTyzA
-   xFIX4RVrOn3V1mqPc2GLqaMKH9bcvXY8y1TEXLjAafzLzfkRez+UUz/6k
-   rayjy8dzy589ZD4nMhK9/lSvjWDLLBAR7j4+2oiUViSlbK64IEBKAvacy
-   ml0Xumays2bVkFysNCyWwncwTB+4Xp+jLs6SqGICKd/LyrciukP5kHYtp
-   nWAcr1lHH/eklco7n+KLlOYWA2FH8TkGTz6/H8AWmusVrLjHRQwnkZXcT
-   8jZm/SK6RX+FGSWZnCJFWjNjDw1VrRxXi7+HW6Q2vbBg3mutLsMqGkwaN
-   w==;
-X-CSE-ConnectionGUID: +RddWlLiSKGWEOAzN/CjgA==
-X-CSE-MsgGUID: HB5Fg5G9QUOL4a0c4LmcbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97299973"
-X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="97299973"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 12:23:08 -0700
-X-CSE-ConnectionGUID: cRaKZzalSI+RCmjODJxzIw==
-X-CSE-MsgGUID: tGSRbLeeSwaxANsj5qIUHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="264181084"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Aug 2026 12:23:07 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1ws3gH-00000000G1p-02U7;
-	Thu, 06 Aug 2026 19:23:05 +0000
-Date: Fri, 07 Aug 2026 03:22:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: linux-usb@vger.kernel.org
-Subject: [westeri-thunderbolt:next] BUILD SUCCESS
- e120d14d03b3db5f4ac049f32328c4951a532a90
-Message-ID: <202608070358.iIDLl2CK-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="tAxnX+Lx";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="wQhaKFi3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1786044730;
+	bh=3KzeiQa+hZqeTYB1Gm3m7fHbxkQO+WwPhVCyaF0zGg4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tAxnX+LxEJLULeSmCzDYjHtyuShf3QRNvOsyDNcQx6lyiUH0MXIaKY7+Eq/Ffs5HL
+	 Okh0NpwUuHwbsSr0NBTNkk9US8dimwKpmZgcB9znEljX35j/V/2XqmovbHrlZ/IpLY
+	 DwWVM7P8mAqWvaxGG/th3OMutFHbxFnKcTeJp+tmwn9fmzvalgWthYodoAeCafwB95
+	 RSuzmuJ5D2srebIwa5BrKuNMGr1BRClTituC/Xk/pbeSmbeuPkCrSwMaLDqDbkdX+Q
+	 3OomvLylHPA0dr012hBuwnhJ2Qb7P2X5C5PLvtl0/pw1kEuEy0RPLhMbpUs55QJcz5
+	 edwTccW1cvN4A==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id 36F29496FB; Thu,  6 Aug 2026 19:32:10 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1786044727;
+	bh=3KzeiQa+hZqeTYB1Gm3m7fHbxkQO+WwPhVCyaF0zGg4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=wQhaKFi3Hn3wZpfQ+zgT+x3CzIrR+sW1TD1v4iXMUin78tcSCF/2FADmFRiJUupn2
+	 xiuCDFe6fePWS3LNjAiS3wKAJZZZJteaXOtqoYzEH8/Eh6VUPb3J1DIcZE5PLKuWdS
+	 VJg5GhGfopxeT5cRCDMXpVvdA1d+VAgGY8HOUCMkrEf/WpEqrqg/K1eTqwTCfP9sIa
+	 bg9FWaSjnXWG1SAdfYkr3HgwZgT0otlGR/bq+in9R5FMekGKEzePRQefJgwxgXytFu
+	 8dL5Bt4QnJwavfP/KQ9uFuGe3R76WIagFyAAvusaDVsVZblt+CqbmTA6PCAGeBOYlT
+	 O/CLZYJXJuV4A==
+Received: from [10.30.1.58] (unknown [213.80.50.14])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 58662496F2;
+	Thu,  6 Aug 2026 19:32:07 +0000 (UTC)
+Message-ID: <3a2f6485-191f-4926-aab8-636bd168fc8f@birger-koblitz.de>
+Date: Thu, 6 Aug 2026 21:32:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v5 04/13] ax88179_178a: Add HW support for
+ AX179A-based chips
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Russell King <linux@armlinux.org.uk>, Heiner Kallweit
+ <hkallweit1@gmail.com>, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jianhui Xu <neuromoments@gmail.com>
+References: <20260802-ax88179a-v5-0-dcb9fea4acd4@birger-koblitz.de>
+ <20260802-ax88179a-v5-4-dcb9fea4acd4@birger-koblitz.de>
+ <b6c5b109-a999-43ac-b4f1-14007e7b3387@lunn.ch>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <b6c5b109-a999-43ac-b4f1-14007e7b3387@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
-branch HEAD: e120d14d03b3db5f4ac049f32328c4951a532a90  thunderbolt: stream: Add support for busy polling
 
-elapsed time: 1870m
+On 02/08/2026 23:28, Andrew Lunn wrote:
+> This is more of a nitpick, given how much work you have already done
+> on this driver. I think designated initializer syntax could make this
+> more readable:
+> 
+> num ax_bulk_in_speeds {
+> 	BULK_IN_SPEED_1G_SS = 0,
+> 	BULK_IN_SPEED_1G_HS   = 1,
+> 	BULK_IN_SPEED_100_FULL_SS = 2,
+> 	BULK_IN_SPEED_100_HALF_SS = 3,
+>   ...
+> };
+> 
+> 
+>> +static const struct ax_bulkin_settings AX88179A_BULKIN_SIZE[] = {
+>   [BULK_IN_SPEED_1G_SS] = {5, 0x7B, 0x00, 0x17, 0x0F},
+>   [BULK_IN_SPEED_1G_HS] = {5, 0xC0, 0x02, 0x06, 0x0F},
+> 
+>> +static void ax88179a_bulkin_config(struct usbnet *dev, u8 link_sts)
+>> +{
+>> +	struct ax88179_data *ax179_data = dev->driver_priv;
+>> +	const struct ax_bulkin_settings *bulkin_data;
+>> +	int index = 0;
+>> +
+>> +	switch (ax179_data->speed) {
+>> +	case ETHER_LINK_2500:	/* AX88279 only */
+>> +		index = BULK_IN_SPEED_2500;
+>> +		break;
+>> +
+>> +	case ETHER_LINK_1000:	/* AX88279 & AX88178A */
+>> +		if (ax179_data->chip_version == AX_VERSION_AX88279) {
+>> +			if (link_sts & AX_USB_SS)
+>> +				index = BULK_IN_SPEED_1G_SS;
+>> +			else if (link_sts & AX_USB_HS)
+>> +				index = BULK_IN_SPEED_HS;
+> 
+> This removes the 1, 2, 3, etc making the relationship more obvious.
+> 
+Will be done in v6. And the change even allows to remove the above
+dependencies on the chip versions in ax88179a_bulkin_config(), since
+the different ax_bulkin_settings structures no longer need to start at 0
+index. Much more than nitpick!
 
-configs tested: 131
-configs skipped: 0
+Birger
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                            allnoconfig    gcc-16.1.0
-alpha                           allyesconfig    gcc-16.1.0
-alpha                              defconfig    gcc-16.1.0
-arc                             allmodconfig    gcc-16.1.0
-arc                             allyesconfig    gcc-16.1.0
-arc                  randconfig-001-20260806    gcc-11.5.0
-arc                  randconfig-002-20260806    gcc-11.5.0
-arm                  randconfig-001-20260806    gcc-11.5.0
-arm                  randconfig-002-20260806    gcc-11.5.0
-arm                  randconfig-003-20260806    gcc-11.5.0
-arm                  randconfig-004-20260806    gcc-11.5.0
-arm64                randconfig-001-20260806    gcc-13.4.0
-arm64                randconfig-001-20260807    gcc-16.1.0
-arm64                randconfig-002-20260806    gcc-13.4.0
-arm64                randconfig-002-20260807    gcc-16.1.0
-arm64                randconfig-003-20260806    gcc-13.4.0
-arm64                randconfig-003-20260807    gcc-16.1.0
-arm64                randconfig-004-20260806    gcc-13.4.0
-arm64                randconfig-004-20260807    gcc-16.1.0
-csky                            allmodconfig    gcc-16.1.0
-csky                 randconfig-001-20260806    gcc-13.4.0
-csky                 randconfig-001-20260807    gcc-16.1.0
-csky                 randconfig-002-20260806    gcc-13.4.0
-csky                 randconfig-002-20260807    gcc-16.1.0
-hexagon              randconfig-001-20260806    clang-24
-hexagon              randconfig-001-20260807    clang-18
-hexagon              randconfig-002-20260806    clang-24
-hexagon              randconfig-002-20260807    clang-18
-i386                            allmodconfig    gcc-14
-i386       buildonly-randconfig-001-20260806    gcc-14
-i386       buildonly-randconfig-002-20260806    gcc-14
-i386       buildonly-randconfig-003-20260806    gcc-14
-i386       buildonly-randconfig-004-20260806    gcc-14
-i386       buildonly-randconfig-005-20260806    gcc-14
-i386       buildonly-randconfig-006-20260806    gcc-14
-i386                          randconfig-001    clang-22
-i386                 randconfig-001-20260806    clang-22
-i386                 randconfig-002-20260806    clang-22
-i386                 randconfig-003-20260806    clang-22
-i386                 randconfig-004-20260806    clang-22
-i386                 randconfig-005-20260806    clang-22
-i386                 randconfig-006-20260806    clang-22
-i386                 randconfig-007-20260806    clang-22
-i386                 randconfig-011-20260806    clang-22
-i386                 randconfig-012-20260806    clang-22
-i386                 randconfig-013-20260806    clang-22
-i386                 randconfig-014-20260806    clang-22
-i386                 randconfig-015-20260806    clang-22
-i386                 randconfig-016-20260806    clang-22
-i386                 randconfig-017-20260806    clang-22
-loongarch                          defconfig    clang-24
-loongarch            randconfig-001-20260806    clang-24
-loongarch            randconfig-001-20260807    clang-18
-loongarch            randconfig-002-20260806    clang-24
-loongarch            randconfig-002-20260807    clang-18
-m68k                      m5208evb_defconfig    gcc-16.1.0
-m68k                         sun3x_defconfig    gcc-16.1.0
-mips                          xway_defconfig    clang-19
-nios2                           allmodconfig    gcc-11.5.0
-nios2                            allnoconfig    gcc-11.5.0
-nios2                randconfig-001-20260806    clang-24
-nios2                randconfig-001-20260807    clang-18
-nios2                randconfig-002-20260806    clang-24
-nios2                randconfig-002-20260807    clang-18
-parisc                          allmodconfig    gcc-16.1.0
-parisc                          allyesconfig    gcc-16.1.0
-parisc                             defconfig    gcc-16.1.0
-parisc               randconfig-001-20260806    gcc-8.5.0
-parisc               randconfig-001-20260807    gcc-8.5.0
-parisc               randconfig-002-20260806    gcc-8.5.0
-parisc               randconfig-002-20260807    gcc-8.5.0
-powerpc                    asp8347_defconfig    clang-24
-powerpc              randconfig-001-20260806    gcc-8.5.0
-powerpc              randconfig-001-20260807    gcc-8.5.0
-powerpc              randconfig-002-20260806    gcc-8.5.0
-powerpc              randconfig-002-20260807    gcc-8.5.0
-powerpc64            randconfig-001-20260806    gcc-8.5.0
-powerpc64            randconfig-001-20260807    gcc-8.5.0
-powerpc64            randconfig-002-20260806    gcc-8.5.0
-powerpc64            randconfig-002-20260807    gcc-8.5.0
-riscv                         randconfig-001    gcc-13.4.0
-riscv                randconfig-001-20260806    gcc-13.4.0
-riscv                randconfig-001-20260807    gcc-12.5.0
-riscv                randconfig-002-20260806    gcc-13.4.0
-riscv                randconfig-002-20260807    gcc-12.5.0
-s390                 randconfig-001-20260806    gcc-13.4.0
-s390                 randconfig-001-20260807    gcc-12.5.0
-s390                 randconfig-002-20260806    gcc-13.4.0
-s390                 randconfig-002-20260807    gcc-12.5.0
-sh                                 defconfig    gcc-16.1.0
-sh                   randconfig-001-20260806    gcc-13.4.0
-sh                   randconfig-001-20260807    gcc-12.5.0
-sh                   randconfig-002-20260806    gcc-13.4.0
-sh                   randconfig-002-20260807    gcc-12.5.0
-sparc                         randconfig-001    gcc-8.5.0
-sparc                randconfig-001-20260806    gcc-8.5.0
-sparc                randconfig-002-20260806    gcc-8.5.0
-sparc64              randconfig-001-20260806    gcc-8.5.0
-sparc64              randconfig-002-20260806    gcc-8.5.0
-um                   randconfig-001-20260806    gcc-8.5.0
-um                   randconfig-002-20260806    gcc-8.5.0
-x86_64              buildonly-randconfig-001    clang-22
-x86_64     buildonly-randconfig-001-20260806    clang-22
-x86_64     buildonly-randconfig-002-20260806    clang-22
-x86_64     buildonly-randconfig-003-20260806    clang-22
-x86_64     buildonly-randconfig-004-20260806    clang-22
-x86_64     buildonly-randconfig-005-20260806    clang-22
-x86_64     buildonly-randconfig-006-20260806    clang-22
-x86_64                                 kexec    clang-22
-x86_64               randconfig-001-20260806    clang-22
-x86_64               randconfig-002-20260806    clang-22
-x86_64               randconfig-003-20260806    clang-22
-x86_64               randconfig-004-20260806    clang-22
-x86_64               randconfig-005-20260806    clang-22
-x86_64               randconfig-006-20260806    clang-22
-x86_64                        randconfig-011    clang-22
-x86_64               randconfig-011-20260806    clang-22
-x86_64               randconfig-012-20260806    clang-22
-x86_64               randconfig-013-20260806    clang-22
-x86_64               randconfig-014-20260806    clang-22
-x86_64               randconfig-015-20260806    clang-22
-x86_64               randconfig-016-20260806    clang-22
-x86_64               randconfig-071-20260806    gcc-14
-x86_64               randconfig-072-20260806    gcc-14
-x86_64               randconfig-073-20260806    gcc-14
-x86_64               randconfig-074-20260806    gcc-14
-x86_64               randconfig-075-20260806    gcc-14
-x86_64               randconfig-076-20260806    gcc-14
-x86_64                          rhel-9.4-bpf    gcc-14
-xtensa               randconfig-001-20260806    gcc-8.5.0
-xtensa               randconfig-002-20260806    gcc-8.5.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
