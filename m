@@ -1,113 +1,383 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F554344D9D
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 04:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785991307; cv=none; b=Sb+U0j+uiQ8sSetwpH+aaaXA1bawi6bcJaFXJi5JeA3b2Gp2CNzblbQ3TcLIE+/UulWsAzt0hurAEhPg/PeLoYAqoxJOXlfq1259QV9mZ7T/6s9V+PW0U+dcqPJ4rkdUqpq6B1qhRbp9YGaMLH4P8mPqrJ6eOmgMsgJ4q1fkfDU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785991307; c=relaxed/simple;
-	bh=5helDFGCOoqgRgtBfiSbfnqziav7vD3cVtIel8bFd70=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FezEOGi0Ja5j94qBpfd3lWlzL+GluSnbq7a1qSSSXXw7dpMN/wCuUliGfAkvZG9jedi+X+08es+eADiSPU/YXkPLFpb241wCdEzoH7Dg0zDs17i8tDL5GQdXS93wBHLURxVeSH87Ne3gmipE7gFIynPgxEnUbfxVB+ZtQKieFuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OCeDya94; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8946E25A2DD
+	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 05:02:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785992562; cv=pass; b=NutPJsZlbIWsuFGQUpo7dZs/ygTui965uO0ALpZUKDFWPaz+HOmaYEDtzEIVUFqQ3zotNx8G4T6OYY+9dNQaPy2NMvMK9zQ70vvFNdavlCj6RwR5KTMzyFxZd1R0OngVUQGObi/ShLhMrbK42gt9vu19ErWOozkU+4P9pkhn8x0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785992562; c=relaxed/simple;
+	bh=56DsRM1tKJWe2WGJuIpuNsVVK0TI/3FNVnlv/qMCeW4=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=mnlmrLMdWfxwjmpgUMt3g+tPKEZ3oWch3fr5zKuscz1bj5d4lR6qH7nfB4HzLWC1tiw/jM/7WWJkyX39l4pa/oO0Mhl+B/LskPKSnSjZFx3fsYokBjcpU965ZRDcgMlayW/f2YKkAwWjNqiEtkAHSLj2wL5FkObd26K+ztGmCMU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SvdmsCI8; arc=pass smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OCeDya94"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADCEC1F000E9;
-	Thu,  6 Aug 2026 04:41:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785991306;
-	bh=si1QMsAOeo+ZU1UwK/S8uGjVnSBT0e2iMRwRSID5FlE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OCeDya94p95mWH3P5lPrcvm52AURTmSnfXfpQfuxZk+IkPE+/5cVO59soGOjBlc2n
-	 A2h2rzeay8LD19kMjmyQP7sWJkTNkgiEcdGoOuEEWC4vo5z2kwYtznJSS0TM8urHgK
-	 ws7z6U2dpLePkqrNUsIqssp0wLSIn79Ouy6ru6HI=
-Date: Thu, 6 Aug 2026 06:41:29 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Vegom Doster <vegomdoster@gmail.com>
-Cc: linux-usb@vger.kernel.org, johan@kernel.org
-Subject: Re: [PATCH] usb: serial: ch341: add debugfs interface and clean up
-Message-ID: <2026080655-ludicrous-pyromania-cced@gregkh>
-References: <CACnaG5x8-y7aOWw=d73pqWyQL36MSjQctJDWuk+r96o-BNhgMw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SvdmsCI8"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c15e03c2763so108982766b.0
+        for <linux-usb@vger.kernel.org>; Wed, 05 Aug 2026 22:02:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785992559; cv=none;
+        d=google.com; s=arc-20260327;
+        b=cQbm8omtuiWPVmaXU58SfOBZIQAXXdX0DOEmFe+de+m3DCMV7npPFsvhoRMbKujtDk
+         iJGvqJWkMQ7+hnex02vjq8SwdYUtjM6bY4DPy/t5GMi+H8WfdrNrtbXhr91Qy57ccBf6
+         +lw/xxS9O6Ojnsm0Qu5mAgS50Wsyv7874YgC6VFEln1ZiHdm9zdwds80tGFvEIJiyUMF
+         34LuCIXt/5CepCQaVzPQS3ORTCdY6erKu4HwYoklYrQPPii0UHZAjDdH493uEI6HZudL
+         eCOUE+2z1Bx8LHRUjXKSeroreMbsq3g2NdbdsuF8X1IlJhAd3WKcWtWclMr3CTWpTNXs
+         ipJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=d8kFcHioAXDD7oqsNRVhEGLhgd3FO5k+yaDEAoIV7u0=;
+        fh=yfEU5r7VkTfRPNrR8vcgZSjxl8JxOpJX/x+qg/y5STw=;
+        b=pJard0zYOnYaWFFeeY6f0QOL8+kRSbFW4v7rq9qbJEL92dwrDL9hb7XkD0xAHCwLw7
+         GB4doiFu6au35dcJy+3pZzQd31e3IvshL6LqSJbkL2Yx5BzfhTCzOcEjoUf/8h+0BCCR
+         hVxK5a/tD5TcwEKrxc3IEVrlmmqhN9I0dUcRHQdmGklN8aU639ISN4ZwgFmK3949NC0N
+         uBeYEXDgHiMpZ2Zz0eiJvnzKX24iqY7L56ZwbZ9uXz7LfSI84TrlVsG14hFhvreYgr+G
+         moqpvM4idpq9HZ29Li3p4QB1su727z/cLoK0Y06M3L8qHoJ9OxiGmnLLEEJmGrmP6jJy
+         lHLw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785992559; x=1786597359; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=d8kFcHioAXDD7oqsNRVhEGLhgd3FO5k+yaDEAoIV7u0=;
+        b=SvdmsCI85t79Z/5mJSOC8zREvFzKOIATDsxqLlmR0oOxYC6zKNJMBUd6v/Gdj92GtI
+         C5qLiJG9gcrV8fDMobPkwW4w7NkWJ/yHjzSFR0m8HXOjm3s3L15GGiME1oA5Yju3N6eq
+         vrHrdHu/WgOLfevSkPtYyWrG7+jth+lQjFBbFaIp7KgZ9WYkvCP28A8stWab0Pp384JZ
+         VMETXIQCcDW2eglQw3FFWSE5tPfQjLDt+nwShmu6tlTw1fvq02qqopxzCwHF+CUb5DIO
+         Tu9FGoXJ3d7cBi2fTGk3teprALK+dyh3r+6Li9UJ6C4iSBO2vGqgKAioCAW3fgg+S2xA
+         A1ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785992559; x=1786597359;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=d8kFcHioAXDD7oqsNRVhEGLhgd3FO5k+yaDEAoIV7u0=;
+        b=A9Di9+0ZQsUbq7LzkJhRiDXN+6aaPZ7OcUneHwUTmiFsrJldzZeVlb2tcum3t9niGu
+         Ohi6HhSvQ8w6cZZIHx1+zkc1oysp9y1AuRZo6WQ73h7y5Os1cyHReRl7ko7URLsOWV+L
+         8jt8Jl2Eh0D2UPuo5teKvTw8IeW0X2Pl92T0oSGQwZZl02o5ROVI2JrEVX8q31058RHa
+         RkcDsZPk3/AYzYhEg0Fc4ExvYrqxx2RB9BS9cqkRsxgo8Q+Jxf/kRC3fv2ut76JoAJSu
+         zGN8WRcJZ981v8KO1pbm2PerBHefteV9qILlVo6uS2elmyWMzKEMhlL9U8ArMhh6bzhm
+         Sdbw==
+X-Gm-Message-State: AOJu0Yzxv0huWmd4ZqMdflZuu5flsXsE9w2se6lOZc4rvg7+3vNBeUps
+	XqkC4zmCfc0qEwqi2nrC+vUO8pVLRRE6xQgQhlWC8I0RRvch3PI2ADhwKwbh4hLS2eRsyMi5663
+	MoCfO4lyKUWBydjPakYXfgLyHXWU9vrbXLGpfp8J6jxo4d70=
+X-Gm-Gg: AR+sD10g4LNEpkNfWcV0wcI37k8t4c2pNIXe84ApfOHhSm1iZ6c+e/plzHY/BHLUmMS
+	qOmJGbC+Rwgpn8I/JpYqhollVey41dyc7t87M1yr5U3h9Lxz/RYzSRmqHyNcm2MCSuFUuEk7KHp
+	Yv8BRtRCYM+1WT4UVU4IyPTHpYvUncJIYuRjHHEfjsOGQQAOpk3T9PcMF03XFZ1wS1OAJJGF6os
+	U6OVEJzksgpYS4vNU0DAAQcCBI0h9SDv5EvQXbeNKn9wXlY4n7QNgBXuGWLEaCWTgKZKFFLobku
+	3PDt9GMUHU586vMloxoNhVNbsAfXsmhPlJB9Z82NdCLGBrljkHRjKAHlhglyWyXt
+X-Received: by 2002:a17:907:fd18:b0:c08:580e:899a with SMTP id
+ a640c23a62f3a-c2063591c37mr83308766b.10.1785992558358; Wed, 05 Aug 2026
+ 22:02:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACnaG5x8-y7aOWw=d73pqWyQL36MSjQctJDWuk+r96o-BNhgMw@mail.gmail.com>
+From: Vegom Doster <vegomdoster@gmail.com>
+Date: Thu, 6 Aug 2026 10:02:25 +0500
+X-Gm-Features: AUfX_mw_BT-Gnl2wPZUNNe4IR-lt-h7lt2frTI7e6X4-UI-3zutpPBWX7APBAog
+Message-ID: <CACnaG5yaudR4O9m31CK4hiZFd1xpCuwCh6p+=r1yVYViBOSm-Q@mail.gmail.com>
+Subject: [PATCH 0/6] usb: serial: ch341: small cleanups and fixes
+To: linux-usb@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, johan@kernel.org
+Content-Type: multipart/mixed; boundary="0000000000000383d0065859cc9c"
 
-On Wed, Aug 05, 2026 at 08:31:00PM +0500, Vegom Doster wrote:
-> This patch adds a debugfs interface for the CH341 driver, allowing runtime
-> inspection of chip version, quirks, and line status. It also adds a 'baud'
-> file to test the divisor calculation without hardware.
-> 
-> The patch also cleans up magic numbers, removes duplicate code, and fixes
-> several issues:
-> - Replace obsolete usb_control_msg() with usb_control_msg_send/recv
-> - Convert version>0x27 hack to proper CH341_QUIRK_INVERTED_BIT7
-> - Fix baud_rate update in ch341_set_termios (only on success)
-> - Use READ_ONCE/WRITE_ONCE for break_end
-> - Fix error handling in ch341_reset_resume
-> - Add debugfs interface for diagnostics
-> 
-> No functional changes are made to the driver's operation.
-> 
-> Tested on Arch Linux with Arduino Uno (CH340C, 1a86:7523):
-> - checkpatch: 0 errors, 0 warnings, 0 checks
-> - DTR/RTS (tiocmget/set): PASS
-> - Echo at 9600 and 115200 baud: PASS (byte-per-byte)
-> - Divisor formula for 15 speeds (300..3000000): PASS (error ≤0.16%)
-> - debugfs: tested with custom test script
-> 
-> Signed-off-by: nerolocker <vegomdoster@gmail.com>
+--0000000000000383d0065859cc9c
+Content-Type: multipart/alternative; boundary="0000000000000383cf065859cc9a"
 
-Better, but my bot says:
+--0000000000000383cf065859cc9a
+Content-Type: text/plain; charset="UTF-8"
 
---------
+This series makes a few small cleanups and fixes to the CH341 serial
+driver:
 
-Hi,
+  - migrate the control-out path to usb_control_msg_send() so both
+    directions use the modern interface
+  - check the return value of ch341_configure() in reset_resume()
+  - encode the inverted bit-7 hardware difference as a quirk flag set
+    at configure time instead of a version comparison in the baud-rate
+    setup path
+  - replace the obsolete speed_t typedef with unsigned int
+  - only update the cached baud rate when the register write succeeds,
+    keeping the software state consistent with the hardware
+  - annotate the break_end accesses with READ/WRITE_ONCE
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+All changes were tested on real hardware (1a86:7523): TX/RX echo at
+9600 and 115200 baud, DTR/RTS toggling, and the divisor calculation was
+verified for a range of line speeds.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Signed-off-by: Mark Ivanov <vegomdoster@gmail.com>
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
+--0000000000000383cf065859cc9a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
+<div dir=3D"ltr">This series makes a few small cleanups and fixes to the CH=
+341 serial<br>driver:<br><br>=C2=A0 - migrate the control-out path to usb_c=
+ontrol_msg_send() so both<br>=C2=A0 =C2=A0 directions use the modern interf=
+ace<br>=C2=A0 - check the return value of ch341_configure() in reset_resume=
+()<br>=C2=A0 - encode the inverted bit-7 hardware difference as a quirk fla=
+g set<br>=C2=A0 =C2=A0 at configure time instead of a version comparison in=
+ the baud-rate<br>=C2=A0 =C2=A0 setup path<br>=C2=A0 - replace the obsolete=
+ speed_t typedef with unsigned int<br>=C2=A0 - only update the cached baud =
+rate when the register write succeeds,<br>=C2=A0 =C2=A0 keeping the softwar=
+e state consistent with the hardware<br>=C2=A0 - annotate the break_end acc=
+esses with READ/WRITE_ONCE<br><br>All changes were tested on real hardware =
+(1a86:7523): TX/RX echo at<br>9600 and 115200 baud, DTR/RTS toggling, and t=
+he divisor calculation was<br>verified for a range of line speeds.<br><br>S=
+igned-off-by: Mark Ivanov &lt;<a href=3D"mailto:vegomdoster@gmail.com">vego=
+mdoster@gmail.com</a>&gt;</div>
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+--0000000000000383cf065859cc9a--
+--0000000000000383d0065859cc9c
+Content-Type: text/x-patch; charset="US-ASCII"; name="0000-cover-letter.patch"
+Content-Disposition: attachment; filename="0000-cover-letter.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_msh1t6180>
+X-Attachment-Id: f_msh1t6180
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+RnJvbSA3YTBkZGI5YTQ5YWQxNTJlZmU4YWU5MTcxYTkyMjQ5MzQzZjY4YzdjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXJrIEl2YW5vdiA8dmVnb21kb3N0ZXJAZ21haWwuY29tPgpE
+YXRlOiBUaHUsIDYgQXVnIDIwMjYgMDk6NTc6NDYgKzA1MDAKU3ViamVjdDogW1BBVENIIDAvNl0g
+dXNiOiBzZXJpYWw6IGNoMzQxOiBzbWFsbCBjbGVhbnVwcyBhbmQgZml4ZXMKClRoaXMgc2VyaWVz
+IG1ha2VzIGEgZmV3IHNtYWxsIGNsZWFudXBzIGFuZCBmaXhlcyB0byB0aGUgQ0gzNDEgc2VyaWFs
+CmRyaXZlcjoKCiAgLSBtaWdyYXRlIHRoZSBjb250cm9sLW91dCBwYXRoIHRvIHVzYl9jb250cm9s
+X21zZ19zZW5kKCkgc28gYm90aAogICAgZGlyZWN0aW9ucyB1c2UgdGhlIG1vZGVybiBpbnRlcmZh
+Y2UKICAtIGNoZWNrIHRoZSByZXR1cm4gdmFsdWUgb2YgY2gzNDFfY29uZmlndXJlKCkgaW4gcmVz
+ZXRfcmVzdW1lKCkKICAtIGVuY29kZSB0aGUgaW52ZXJ0ZWQgYml0LTcgaGFyZHdhcmUgZGlmZmVy
+ZW5jZSBhcyBhIHF1aXJrIGZsYWcgc2V0CiAgICBhdCBjb25maWd1cmUgdGltZSBpbnN0ZWFkIG9m
+IGEgdmVyc2lvbiBjb21wYXJpc29uIGluIHRoZSBiYXVkLXJhdGUKICAgIHNldHVwIHBhdGgKICAt
+IHJlcGxhY2UgdGhlIG9ic29sZXRlIHNwZWVkX3QgdHlwZWRlZiB3aXRoIHVuc2lnbmVkIGludAog
+IC0gb25seSB1cGRhdGUgdGhlIGNhY2hlZCBiYXVkIHJhdGUgd2hlbiB0aGUgcmVnaXN0ZXIgd3Jp
+dGUgc3VjY2VlZHMsCiAgICBrZWVwaW5nIHRoZSBzb2Z0d2FyZSBzdGF0ZSBjb25zaXN0ZW50IHdp
+dGggdGhlIGhhcmR3YXJlCiAgLSBhbm5vdGF0ZSB0aGUgYnJlYWtfZW5kIGFjY2Vzc2VzIHdpdGgg
+UkVBRC9XUklURV9PTkNFCgpBbGwgY2hhbmdlcyB3ZXJlIHRlc3RlZCBvbiByZWFsIGhhcmR3YXJl
+ICgxYTg2Ojc1MjMpOiBUWC9SWCBlY2hvIGF0Cjk2MDAgYW5kIDExNTIwMCBiYXVkLCBEVFIvUlRT
+IHRvZ2dsaW5nLCBhbmQgdGhlIGRpdmlzb3IgY2FsY3VsYXRpb24gd2FzCnZlcmlmaWVkIGZvciBh
+IHJhbmdlIG9mIGxpbmUgc3BlZWRzLgoKTWFyayBJdmFub3YgKDYpOgogIHVzYjogc2VyaWFsOiBj
+aDM0MTogdXNlIHVzYl9jb250cm9sX21zZ19zZW5kKCkKICB1c2I6IHNlcmlhbDogY2gzNDE6IGNo
+ZWNrIGNoMzQxX2NvbmZpZ3VyZSgpIGluIHJlc2V0X3Jlc3VtZQogIHVzYjogc2VyaWFsOiBjaDM0
+MTogZW5jb2RlIGludmVydGVkIGJpdC03IGFzIGEgcXVpcmsgZmxhZwogIHVzYjogc2VyaWFsOiBj
+aDM0MTogdXNlIHVuc2lnbmVkIGludCBpbnN0ZWFkIG9mIHNwZWVkX3QKICB1c2I6IHNlcmlhbDog
+Y2gzNDE6IG9ubHkgdXBkYXRlIGNhY2hlZCBiYXVkIHJhdGUgb24gc3VjY2VzcwogIHVzYjogc2Vy
+aWFsOiBjaDM0MTogbWFyayBicmVha19lbmQgYWNjZXNzZXMgd2l0aCBSRUFEL1dSSVRFX09OQ0UK
+CiBjaDM0MS5jIHwgNTQgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0t
+LS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMzQgaW5zZXJ0aW9ucygrKSwgMjAgZGVsZXRp
+b25zKC0pCgotLSAKMi41NS4wCgo=
+--0000000000000383d0065859cc9c
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0002-usb-serial-ch341-check-ch341_configure-in-reset_resu.patch"
+Content-Disposition: attachment; 
+	filename="0002-usb-serial-ch341-check-ch341_configure-in-reset_resu.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_msh1t6252>
+X-Attachment-Id: f_msh1t6252
 
-thanks,
+RnJvbSA1YzZiOTc4YmRjOGFmZjk3NzkzNWUzMTAwOTNiYzZmNDk1ZWMwMGQ5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXJrIEl2YW5vdiA8dmVnb21kb3N0ZXJAZ21haWwuY29tPgpE
+YXRlOiBUaHUsIDYgQXVnIDIwMjYgMDk6NTU6NDQgKzA1MDAKU3ViamVjdDogW1BBVENIIDIvNl0g
+dXNiOiBzZXJpYWw6IGNoMzQxOiBjaGVjayBjaDM0MV9jb25maWd1cmUoKSBpbgogcmVzZXRfcmVz
+dW1lCgpjaDM0MV9jb25maWd1cmUoKSBjYW4gZmFpbCwgYnV0IGl0cyByZXR1cm4gdmFsdWUgd2Fz
+IGlnbm9yZWQgZHVyaW5nCnJlc2V0X3Jlc3VtZSgpLCBsZWF2aW5nIHRoZSBwb3J0IHBvc3NpYmx5
+IHVuY29uZmlndXJlZCBhZnRlciBhIGJ1cwpyZXNldC4gUHJvcGFnYXRlIGFueSBlcnJvciB0byB0
+aGUgY2FsbGVyLgoKU2lnbmVkLW9mZi1ieTogTWFyayBJdmFub3YgPHZlZ29tZG9zdGVyQGdtYWls
+LmNvbT4KLS0tCiBjaDM0MS5jIHwgNyArKysrKystCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRp
+b25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvY2gzNDEuYyBiL2NoMzQxLmMKaW5k
+ZXggZDNhOTFmNy4uMmQ1ZTM5OCAxMDA2NDQKLS0tIGEvY2gzNDEuYworKysgYi9jaDM0MS5jCkBA
+IC04NDMsNyArODQzLDEyIEBAIHN0YXRpYyBpbnQgY2gzNDFfcmVzZXRfcmVzdW1lKHN0cnVjdCB1
+c2Jfc2VyaWFsICpzZXJpYWwpCiAJCXJldHVybiAwOwogCiAJLyogcmVjb25maWd1cmUgY2gzNDEg
+c2VyaWFsIHBvcnQgYWZ0ZXIgYnVzLXJlc2V0ICovCi0JY2gzNDFfY29uZmlndXJlKHNlcmlhbC0+
+ZGV2LCBwcml2KTsKKwlyZXQgPSBjaDM0MV9jb25maWd1cmUoc2VyaWFsLT5kZXYsIHByaXYpOwor
+CWlmIChyZXQpIHsKKwkJZGV2X2VycigmcG9ydC0+ZGV2LCAiZmFpbGVkIHRvIHJlY29uZmlndXJl
+IGFmdGVyIGJ1cyByZXNldDogJWRcbiIsCisJCQlyZXQpOworCQlyZXR1cm4gcmV0OworCX0KIAog
+CWlmICh0dHlfcG9ydF9pbml0aWFsaXplZCgmcG9ydC0+cG9ydCkpIHsKIAkJcmV0ID0gdXNiX3N1
+Ym1pdF91cmIocG9ydC0+aW50ZXJydXB0X2luX3VyYiwgR0ZQX05PSU8pOwotLSAKMi41NS4wCgo=
+--0000000000000383d0065859cc9c
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0003-usb-serial-ch341-encode-inverted-bit-7-as-a-quirk-fl.patch"
+Content-Disposition: attachment; 
+	filename="0003-usb-serial-ch341-encode-inverted-bit-7-as-a-quirk-fl.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_msh1t62j3>
+X-Attachment-Id: f_msh1t62j3
 
-greg k-h's patch email bot
+RnJvbSA5ODhmZGY4NTU0N2NkMWE0ZjFlYzM2OGNhMzgwZTE5MDNkNmNlZTAwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXJrIEl2YW5vdiA8dmVnb21kb3N0ZXJAZ21haWwuY29tPgpE
+YXRlOiBUaHUsIDYgQXVnIDIwMjYgMDk6NTY6NTAgKzA1MDAKU3ViamVjdDogW1BBVENIIDMvNl0g
+dXNiOiBzZXJpYWw6IGNoMzQxOiBlbmNvZGUgaW52ZXJ0ZWQgYml0LTcgYXMgYSBxdWlyayBmbGFn
+CgpUaGUgZGVjaXNpb24gdG8gc2V0IGJpdCA3IG9mIHRoZSBkaXZpc29yIHJlZ2lzdGVyIHdhcyBt
+YWRlIGF0IGJhdWQtcmF0ZQpzZXR1cCB0aW1lIGJhc2VkIG9uIHRoZSBjaGlwIHZlcnNpb24uIE1v
+dmUgaXQgaW50byBhIHF1aXJrIGZsYWcgdGhhdCBpcwpjb21wdXRlZCBvbmNlIGR1cmluZyBjaDM0
+MV9jb25maWd1cmUoKSwgYWxvbmdzaWRlIHRoZSBvdGhlciBkZXZpY2UKcXVpcmtzLCBzbyB0aGUg
+aGFyZHdhcmUgZGlmZmVyZW5jZSBpcyBjYXB0dXJlZCBpbiBvbmUgcGxhY2UgYW5kIHRoZQp2ZXJz
+aW9uIGZpZWxkIG9ubHkgdHJhY2tzIHdoYXQgd2FzIHJlYWQgZnJvbSB0aGUgZGV2aWNlLgoKU2ln
+bmVkLW9mZi1ieTogTWFyayBJdmFub3YgPHZlZ29tZG9zdGVyQGdtYWlsLmNvbT4KLS0tCiBjaDM0
+MS5jIHwgMTggKysrKysrKysrKysrKy0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMTMgaW5zZXJ0aW9u
+cygrKSwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9jaDM0MS5jIGIvY2gzNDEuYwppbmRl
+eCAyZDVlMzk4Li5jYmQ3NDMzIDEwMDY0NAotLS0gYS9jaDM0MS5jCisrKyBiL2NoMzQxLmMKQEAg
+LTgzLDYgKzgzLDcgQEAKIAogI2RlZmluZSBDSDM0MV9RVUlSS19MSU1JVEVEX1BSRVNDQUxFUglC
+SVQoMCkKICNkZWZpbmUgQ0gzNDFfUVVJUktfU0lNVUxBVEVfQlJFQUsJQklUKDEpCisjZGVmaW5l
+IENIMzQxX1FVSVJLX0lOVkVSVEVEX0JJVDcJQklUKDIpCiAKIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
+dXNiX2RldmljZV9pZCBpZF90YWJsZVtdID0gewogCXsgVVNCX0RFVklDRSgweDFhODYsIDB4NTUy
+MykgfSwKQEAgLTI1NywxMiArMjU4LDEwIEBAIHN0YXRpYyBpbnQgY2gzNDFfc2V0X2JhdWRyYXRl
+X2xjcihzdHJ1Y3QgdXNiX2RldmljZSAqZGV2LAogCiAJLyoKIAkgKiBDSDM0MUEgYnVmZmVycyBk
+YXRhIHVudGlsIGEgZnVsbCBlbmRwb2ludC1zaXplIHBhY2tldCAoMzIgYnl0ZXMpCi0JICogaGFz
+IGJlZW4gcmVjZWl2ZWQgdW5sZXNzIGJpdCA3IGlzIHNldC4KLQkgKgotCSAqIEF0IGxlYXN0IG9u
+ZSBkZXZpY2Ugd2l0aCB2ZXJzaW9uIDB4MjcgYXBwZWFycyB0byBoYXZlIHRoaXMgYml0Ci0JICog
+aW52ZXJ0ZWQuCisJICogaGFzIGJlZW4gcmVjZWl2ZWQgdW5sZXNzIGJpdCA3IGlzIHNldC4gQXQg
+bGVhc3Qgb25lIGRldmljZSB3aXRoCisJICogdmVyc2lvbiAweDI3IGFwcGVhcnMgdG8gaGF2ZSB0
+aGlzIGJpdCBpbnZlcnRlZC4KIAkgKi8KLQlpZiAocHJpdi0+dmVyc2lvbiA+IDB4MjcpCisJaWYg
+KCEocHJpdi0+cXVpcmtzICYgQ0gzNDFfUVVJUktfSU5WRVJURURfQklUNykpCiAJCXZhbCB8PSBC
+SVQoNyk7CiAKIAlyID0gY2gzNDFfY29udHJvbF9vdXQoZGV2LCBDSDM0MV9SRVFfV1JJVEVfUkVH
+LApAQCAtMzI3LDYgKzMyNiwxNSBAQCBzdGF0aWMgaW50IGNoMzQxX2NvbmZpZ3VyZShzdHJ1Y3Qg
+dXNiX2RldmljZSAqZGV2LCBzdHJ1Y3QgY2gzNDFfcHJpdmF0ZSAqcHJpdikKIAlwcml2LT52ZXJz
+aW9uID0gYnVmZmVyWzBdOwogCWRldl9kYmcoJmRldi0+ZGV2LCAiQ2hpcCB2ZXJzaW9uOiAweCUw
+MnhcbiIsIHByaXYtPnZlcnNpb24pOwogCisJLyoKKwkgKiBDSDM0MUEgYnVmZmVycyBkYXRhIHVu
+dGlsIGEgZnVsbCBlbmRwb2ludC1zaXplIHBhY2tldCAoMzIgYnl0ZXMpCisJICogaGFzIGJlZW4g
+cmVjZWl2ZWQgdW5sZXNzIGJpdCA3IGlzIHNldC4gQXQgbGVhc3Qgb25lIGRldmljZSB3aXRoCisJ
+ICogdmVyc2lvbiAweDI3IGFwcGVhcnMgdG8gaGF2ZSB0aGlzIGJpdCBpbnZlcnRlZCwgc28gaXQg
+bXVzdCBub3QgYmUKKwkgKiBzZXQgb24gdGhvc2UgZGV2aWNlcy4KKwkgKi8KKwlpZiAocHJpdi0+
+dmVyc2lvbiA8PSAweDI3KQorCQlwcml2LT5xdWlya3MgfD0gQ0gzNDFfUVVJUktfSU5WRVJURURf
+QklUNzsKKwogCXIgPSBjaDM0MV9jb250cm9sX291dChkZXYsIENIMzQxX1JFUV9TRVJJQUxfSU5J
+VCwgMCwgMCk7CiAJaWYgKHIgPCAwKQogCQlyZXR1cm4gcjsKLS0gCjIuNTUuMAoK
+--0000000000000383d0065859cc9c
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0004-usb-serial-ch341-use-unsigned-int-instead-of-speed_t.patch"
+Content-Disposition: attachment; 
+	filename="0004-usb-serial-ch341-use-unsigned-int-instead-of-speed_t.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_msh1t62r4>
+X-Attachment-Id: f_msh1t62r4
+
+RnJvbSA5OTQ5YjRiN2VhZGEwZWVhOTJiZWUzZThlMmU1ODRkY2EyZDY3OTM0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXJrIEl2YW5vdiA8dmVnb21kb3N0ZXJAZ21haWwuY29tPgpE
+YXRlOiBUaHUsIDYgQXVnIDIwMjYgMDk6NTc6MDcgKzA1MDAKU3ViamVjdDogW1BBVENIIDQvNl0g
+dXNiOiBzZXJpYWw6IGNoMzQxOiB1c2UgdW5zaWduZWQgaW50IGluc3RlYWQgb2Ygc3BlZWRfdAoK
+c3BlZWRfdCBpcyBhbiBvYnNvbGV0ZSB0eXBlZGVmIGZvciB1bnNpZ25lZCBpbnQuIFVzZSB1bnNp
+Z25lZCBpbnQKZGlyZWN0bHkgZm9yIHRoZSBiYXVkLXJhdGUgcGFyYW1ldGVycyBhbmQgdGhlIHRh
+YmxlIG9mIG1pbmltdW0gcmF0ZXMuCgpTaWduZWQtb2ZmLWJ5OiBNYXJrIEl2YW5vdiA8dmVnb21k
+b3N0ZXJAZ21haWwuY29tPgotLS0KIGNoMzQxLmMgfCA2ICsrKy0tLQogMSBmaWxlIGNoYW5nZWQs
+IDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9jaDM0MS5jIGIv
+Y2gzNDEuYwppbmRleCBjYmQ3NDMzLi5hZjVkNDEyIDEwMDY0NAotLS0gYS9jaDM0MS5jCisrKyBi
+L2NoMzQxLmMKQEAgLTE1Nyw3ICsxNTcsNyBAQCBzdGF0aWMgaW50IGNoMzQxX2NvbnRyb2xfaW4o
+c3RydWN0IHVzYl9kZXZpY2UgKmRldiwKICNkZWZpbmUgQ0gzNDFfQ0xLX0RJVihwcywgZmFjdCkJ
+KDEgPDwgKDEyIC0gMyAqIChwcykgLSAoZmFjdCkpKQogI2RlZmluZSBDSDM0MV9NSU5fUkFURShw
+cykJKENIMzQxX0NMS1JBVEUgLyAoQ0gzNDFfQ0xLX0RJVigocHMpLCAxKSAqIDUxMikpCiAKLXN0
+YXRpYyBjb25zdCBzcGVlZF90IGNoMzQxX21pbl9yYXRlc1tdID0geworc3RhdGljIGNvbnN0IHVu
+c2lnbmVkIGludCBjaDM0MV9taW5fcmF0ZXNbXSA9IHsKIAlDSDM0MV9NSU5fUkFURSgwKSwKIAlD
+SDM0MV9NSU5fUkFURSgxKSwKIAlDSDM0MV9NSU5fUkFURSgyKSwKQEAgLTE3OCw3ICsxNzgsNyBA
+QCBzdGF0aWMgY29uc3Qgc3BlZWRfdCBjaDM0MV9taW5fcmF0ZXNbXSA9IHsKICAqCQkyIDw9IGRp
+diA8PSAyNTYgaWYgZmFjdCA9IDAsIG9yCiAgKgkJOSA8PSBkaXYgPD0gMjU2IGlmIGZhY3QgPSAx
+CiAgKi8KLXN0YXRpYyBpbnQgY2gzNDFfZ2V0X2Rpdmlzb3Ioc3RydWN0IGNoMzQxX3ByaXZhdGUg
+KnByaXYsIHNwZWVkX3Qgc3BlZWQpCitzdGF0aWMgaW50IGNoMzQxX2dldF9kaXZpc29yKHN0cnVj
+dCBjaDM0MV9wcml2YXRlICpwcml2LCB1bnNpZ25lZCBpbnQgc3BlZWQpCiB7CiAJdW5zaWduZWQg
+aW50IGZhY3QsIGRpdiwgY2xrX2RpdjsKIAlib29sIGZvcmNlX2ZhY3QwID0gZmFsc2U7CkBAIC0y
+NDQsNyArMjQ0LDcgQEAgc3RhdGljIGludCBjaDM0MV9nZXRfZGl2aXNvcihzdHJ1Y3QgY2gzNDFf
+cHJpdmF0ZSAqcHJpdiwgc3BlZWRfdCBzcGVlZCkKIAogc3RhdGljIGludCBjaDM0MV9zZXRfYmF1
+ZHJhdGVfbGNyKHN0cnVjdCB1c2JfZGV2aWNlICpkZXYsCiAJCQkJICBzdHJ1Y3QgY2gzNDFfcHJp
+dmF0ZSAqcHJpdiwKLQkJCQkgIHNwZWVkX3QgYmF1ZF9yYXRlLCB1OCBsY3IpCisJCQkJICB1bnNp
+Z25lZCBpbnQgYmF1ZF9yYXRlLCB1OCBsY3IpCiB7CiAJaW50IHZhbDsKIAlpbnQgcjsKLS0gCjIu
+NTUuMAoK
+--0000000000000383d0065859cc9c
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-usb-serial-ch341-use-usb_control_msg_send.patch"
+Content-Disposition: attachment; 
+	filename="0001-usb-serial-ch341-use-usb_control_msg_send.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_msh1t61p1>
+X-Attachment-Id: f_msh1t61p1
+
+RnJvbSBjMTRhMTc4NmVkNWM2MDgwNGNjOTBkMTdlZTBiM2IxM2UyZDIxOWFhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXJrIEl2YW5vdiA8dmVnb21kb3N0ZXJAZ21haWwuY29tPgpE
+YXRlOiBUaHUsIDYgQXVnIDIwMjYgMDk6NTU6MzcgKzA1MDAKU3ViamVjdDogW1BBVENIIDEvNl0g
+dXNiOiBzZXJpYWw6IGNoMzQxOiB1c2UgdXNiX2NvbnRyb2xfbXNnX3NlbmQoKQoKVGhlIGNoMzQx
+X2NvbnRyb2xfb3V0KCkgZnVuY3Rpb24gc3RpbGwgdXNlcyB0aGUgb2xkZXIgdXNiX2NvbnRyb2xf
+bXNnKCkKaW50ZXJmYWNlIHdoaWxlIHRoZSByZWFkIHNpZGUgYWxyZWFkeSB1c2VzIHVzYl9jb250
+cm9sX21zZ19yZWN2KCkuCk1pZ3JhdGUgdGhlIHdyaXRlIHBhdGggdG8gdXNiX2NvbnRyb2xfbXNn
+X3NlbmQoKSBmb3IgY29uc2lzdGVuY3kuCgpTaWduZWQtb2ZmLWJ5OiBNYXJrIEl2YW5vdiA8dmVn
+b21kb3N0ZXJAZ21haWwuY29tPgotLS0KIGNoMzQxLmMgfCA5ICsrKysrLS0tLQogMSBmaWxlIGNo
+YW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9jaDM0
+MS5jIGIvY2gzNDEuYwppbmRleCA1NjlmNGFlLi5kM2E5MWY3IDEwMDY0NAotLS0gYS9jaDM0MS5j
+CisrKyBiL2NoMzQxLmMKQEAgLTEyMCwxMCArMTIwLDExIEBAIHN0YXRpYyBpbnQgY2gzNDFfY29u
+dHJvbF9vdXQoc3RydWN0IHVzYl9kZXZpY2UgKmRldiwgdTggcmVxdWVzdCwKIAlkZXZfZGJnKCZk
+ZXYtPmRldiwgIiVzIC0gKCUwMngsJTA0eCwlMDR4KVxuIiwgX19mdW5jX18sCiAJCXJlcXVlc3Qs
+IHZhbHVlLCBpbmRleCk7CiAKLQlyID0gdXNiX2NvbnRyb2xfbXNnKGRldiwgdXNiX3NuZGN0cmxw
+aXBlKGRldiwgMCksIHJlcXVlc3QsCi0JCQkgICAgVVNCX1RZUEVfVkVORE9SIHwgVVNCX1JFQ0lQ
+X0RFVklDRSB8IFVTQl9ESVJfT1VULAotCQkJICAgIHZhbHVlLCBpbmRleCwgTlVMTCwgMCwgREVG
+QVVMVF9USU1FT1VUKTsKLQlpZiAociA8IDApCisJciA9IHVzYl9jb250cm9sX21zZ19zZW5kKGRl
+diwgMCwgcmVxdWVzdCwKKwkJCQkgVVNCX1RZUEVfVkVORE9SIHwgVVNCX1JFQ0lQX0RFVklDRSB8
+IFVTQl9ESVJfT1VULAorCQkJCSB2YWx1ZSwgaW5kZXgsIE5VTEwsIDAsIERFRkFVTFRfVElNRU9V
+VCwKKwkJCQkgR0ZQX0tFUk5FTCk7CisJaWYgKHIpCiAJCWRldl9lcnIoJmRldi0+ZGV2LCAiZmFp
+bGVkIHRvIHNlbmQgY29udHJvbCBtZXNzYWdlOiAlZFxuIiwgcik7CiAKIAlyZXR1cm4gcjsKLS0g
+CjIuNTUuMAoK
+--0000000000000383d0065859cc9c
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0005-usb-serial-ch341-only-update-cached-baud-rate-on-suc.patch"
+Content-Disposition: attachment; 
+	filename="0005-usb-serial-ch341-only-update-cached-baud-rate-on-suc.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_msh1t6305>
+X-Attachment-Id: f_msh1t6305
+
+RnJvbSBmZmM5Mzc0ODQ4MzU3NmM4OWM2YzAxM2E5ZjMyMzEzZDYyYjU1MjMwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXJrIEl2YW5vdiA8dmVnb21kb3N0ZXJAZ21haWwuY29tPgpE
+YXRlOiBUaHUsIDYgQXVnIDIwMjYgMDk6NTc6MTggKzA1MDAKU3ViamVjdDogW1BBVENIIDUvNl0g
+dXNiOiBzZXJpYWw6IGNoMzQxOiBvbmx5IHVwZGF0ZSBjYWNoZWQgYmF1ZCByYXRlIG9uCiBzdWNj
+ZXNzCgpwcml2LT5iYXVkX3JhdGUgd2FzIHVwZGF0ZWQgYmVmb3JlIHRoZSByZWdpc3RlciB3cml0
+ZSwgc28gYSBmYWlsZWQKd3JpdGUgbGVmdCB0aGUgc29mdHdhcmUgc3RhdGUgaW5jb25zaXN0ZW50
+IHdpdGggdGhlIGhhcmR3YXJlICh0aGUKY2FjaGVkIHJhdGUgbm8gbG9uZ2VyIG1hdGNoaW5nIHdo
+YXQgaXMgcHJvZ3JhbW1lZCkuIFVwZGF0ZSB0aGUgY2FjaGVkCnZhbHVlIG9ubHkgd2hlbiB0aGUg
+d3JpdGUgc3VjY2VlZHM7IG9uIGZhaWx1cmUgdGhlIHRlcm1pb3MgaXMgcmVzdG9yZWQKZnJvbSBv
+bGRfdGVybWlvcyB3aGVuIGF2YWlsYWJsZS4KClNpZ25lZC1vZmYtYnk6IE1hcmsgSXZhbm92IDx2
+ZWdvbWRvc3RlckBnbWFpbC5jb20+Ci0tLQogY2gzNDEuYyB8IDYgKystLS0tCiAxIGZpbGUgY2hh
+bmdlZCwgMiBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2NoMzQx
+LmMgYi9jaDM0MS5jCmluZGV4IGFmNWQ0MTIuLmM0MTkwNjEgMTAwNjQ0Ci0tLSBhL2NoMzQxLmMK
+KysrIGIvY2gzNDEuYwpAQCAtNTYxLDE0ICs1NjEsMTIgQEAgc3RhdGljIHZvaWQgY2gzNDFfc2V0
+X3Rlcm1pb3Moc3RydWN0IHR0eV9zdHJ1Y3QgKnR0eSwKIAkJbGNyIHw9IENIMzQxX0xDUl9TVE9Q
+X0JJVFNfMjsKIAogCWlmIChiYXVkX3JhdGUpIHsKLQkJcHJpdi0+YmF1ZF9yYXRlID0gYmF1ZF9y
+YXRlOwotCiAJCXIgPSBjaDM0MV9zZXRfYmF1ZHJhdGVfbGNyKHBvcnQtPnNlcmlhbC0+ZGV2LCBw
+cml2LAotCQkJCQkgICBwcml2LT5iYXVkX3JhdGUsIGxjcik7CisJCQkJCSAgIGJhdWRfcmF0ZSwg
+bGNyKTsKIAkJaWYgKHIgPCAwICYmIG9sZF90ZXJtaW9zKSB7Ci0JCQlwcml2LT5iYXVkX3JhdGUg
+PSB0dHlfdGVybWlvc19iYXVkX3JhdGUob2xkX3Rlcm1pb3MpOwogCQkJdHR5X3Rlcm1pb3NfY29w
+eV9odygmdHR5LT50ZXJtaW9zLCBvbGRfdGVybWlvcyk7CiAJCX0gZWxzZSBpZiAociA9PSAwKSB7
+CisJCQlwcml2LT5iYXVkX3JhdGUgPSBiYXVkX3JhdGU7CiAJCQlwcml2LT5sY3IgPSBsY3I7CiAJ
+CX0KIAl9Ci0tIAoyLjU1LjAKCg==
+--0000000000000383d0065859cc9c
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0006-usb-serial-ch341-mark-break_end-accesses-with-READ-W.patch"
+Content-Disposition: attachment; 
+	filename="0006-usb-serial-ch341-mark-break_end-accesses-with-READ-W.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_msh1t6386>
+X-Attachment-Id: f_msh1t6386
+
+RnJvbSA3YTBkZGI5YTQ5YWQxNTJlZmU4YWU5MTcxYTkyMjQ5MzQzZjY4YzdjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXJrIEl2YW5vdiA8dmVnb21kb3N0ZXJAZ21haWwuY29tPgpE
+YXRlOiBUaHUsIDYgQXVnIDIwMjYgMDk6NTc6MjkgKzA1MDAKU3ViamVjdDogW1BBVENIIDYvNl0g
+dXNiOiBzZXJpYWw6IGNoMzQxOiBtYXJrIGJyZWFrX2VuZCBhY2Nlc3NlcyB3aXRoCiBSRUFEL1dS
+SVRFX09OQ0UKCkFubm90YXRlIHRoZSBicmVha19lbmQgZmllbGQgd2l0aCBXUklURV9PTkNFL1JF
+QURfT05DRSBzbyB0aGUgYWNjZXNzZXMKYXJlIHdlbGwtZGVmaW5lZCBmb3Igc3RhdGljIGFuYWx5
+c2lzIGFuZCBhbnkgZnV0dXJlIHVzZSBmcm9tIGFub3RoZXIKY29udGV4dC4KClNpZ25lZC1vZmYt
+Ynk6IE1hcmsgSXZhbm92IDx2ZWdvbWRvc3RlckBnbWFpbC5jb20+Ci0tLQogY2gzNDEuYyB8IDgg
+KysrKystLS0KIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0p
+CgpkaWZmIC0tZ2l0IGEvY2gzNDEuYyBiL2NoMzQxLmMKaW5kZXggYzQxOTA2MS4uZmI2MGU4ZCAx
+MDA2NDQKLS0tIGEvY2gzNDEuYworKysgYi9jaDM0MS5jCkBAIC02MzIsNyArNjMyLDggQEAgc3Rh
+dGljIGludCBjaDM0MV9zaW11bGF0ZV9icmVhayhzdHJ1Y3QgdHR5X3N0cnVjdCAqdHR5LCBpbnQg
+YnJlYWtfc3RhdGUpCiAJCSAqCiAJCSAqIDExIGJpdHMgPSAxIHN0YXJ0LCA4IGRhdGEsIDEgc3Rv
+cCwgMSBtYXJnaW4KIAkJICovCi0JCXByaXYtPmJyZWFrX2VuZCA9IGppZmZpZXMgKyAoMTEgKiBI
+WiAvIENIMzQxX01JTl9CUFMpOworCQlXUklURV9PTkNFKHByaXYtPmJyZWFrX2VuZCwKKwkJCSAg
+IGppZmZpZXMgKyAoMTEgKiBIWiAvIENIMzQxX01JTl9CUFMpKTsKIAogCQlyZXR1cm4gMDsKIAl9
+CkBAIC02NDEsOSArNjQyLDEwIEBAIHN0YXRpYyBpbnQgY2gzNDFfc2ltdWxhdGVfYnJlYWsoc3Ry
+dWN0IHR0eV9zdHJ1Y3QgKnR0eSwgaW50IGJyZWFrX3N0YXRlKQogCiAJbm93ID0gamlmZmllczsK
+IAotCWlmICh0aW1lX2JlZm9yZShub3csIHByaXYtPmJyZWFrX2VuZCkpIHsKKwlkZWxheSA9IFJF
+QURfT05DRShwcml2LT5icmVha19lbmQpOworCWlmICh0aW1lX2JlZm9yZShub3csIGRlbGF5KSkg
+ewogCQkvKiBXYWl0IHVudGlsIE5VTCBieXRlIGlzIHdyaXR0ZW4gKi8KLQkJZGVsYXkgPSBwcml2
+LT5icmVha19lbmQgLSBub3c7CisJCWRlbGF5IC09IG5vdzsKIAkJZGV2X2RiZygmcG9ydC0+ZGV2
+LAogCQkJIndhaXQgJWQgbXMgd2hpbGUgdHJhbnNtaXR0aW5nIE5VTCBieXRlIGF0ICV1IGJhdWRc
+biIsCiAJCQlqaWZmaWVzX3RvX21zZWNzKGRlbGF5KSwgQ0gzNDFfTUlOX0JQUyk7Ci0tIAoyLjU1
+LjAKCg==
+--0000000000000383d0065859cc9c--
