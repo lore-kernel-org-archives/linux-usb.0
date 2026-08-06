@@ -1,35 +1,36 @@
 Received: from chaosmail.tech (chaosmail.tech [77.81.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7663F1AD3;
-	Thu,  6 Aug 2026 09:38:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0B142901C;
+	Thu,  6 Aug 2026 09:38:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.81.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786009138; cv=none; b=LGJKszt4nr6DN1pCQJreaWnlPC70I5Eh+ygvFHgojFixXB4yg/Ba+6Gdx5YTTM7JuQ0UXQsEt9nxEqzDdrXu5mYeHK6xNUoYAl91/5c7HI1ep4U6asaC0wEkYL1PAH6WkXDZJAtOgkfCB+W/yUB1rWxxqce4o1o1CNXDNUdrGSM=
+	t=1786009138; cv=none; b=D6/ETt4GlIvEuMqFQBzsajxanu3gkMN4EZv/kPAJOM+75b6Km1CxSu2VVz1zKOXPw2vu55iskUAOxXmwz/xCP5r2YX0CikwrpM+guhlVd+e222weUL12g30XOQF+wWFKSrxk4pfgW+c2iEKWbefFY+eBjeRpv9zVx2HIp/INyMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1786009138; c=relaxed/simple;
-	bh=87xiSp5NbIVEzBkYBz33rdO65pry6dY8g5pN4fFkCBo=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FrYFkJeP1JSmMzpeXSFnMikfhxjFg99q6Gqm1sa+I8dgnWDYT4dYy1v/G4OzelU2cdhUknsZUCSnL3nVpcC9aSNTvS51wuugwTE9k872liQp8QKRZirPa5d73m5E66S+oJNqzuM0nKe0NgU1PgAKmlgT94VPKa+LYMvICHgnGvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=vvDNyI4I; arc=none smtp.client-ip=77.81.229.115
+	bh=HY5Fy031JtM2PSsYNYX9D2GuowSKUn49gHA2tIz2RJQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=FRWE350MeoGcuGMQnZ/KPoMDvrnPJSO0xDgtjOD96PA/q1NMpCRVe9KcW9oqt6vmVODLkjmuB0N6hQ/owqm5Ks2pbveclU/3s/fX2xo3MlB8GSIWHR3rclwD/04ML5gExaI7myFgiLEZYCeyd9d70PIc6hz71L5Er/29CWZz6UY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech; spf=pass smtp.mailfrom=chaosmail.tech; dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b=Qao5UvfD; arc=none smtp.client-ip=77.81.229.115
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chaosmail.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="vvDNyI4I"
-Received: by chaosmail.tech (Postfix) id 4844D1C867A;
-	Thu, 06 Aug 2026 09:38:51 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=chaosmail.tech header.i=@chaosmail.tech header.b="Qao5UvfD"
+Received: by chaosmail.tech (Postfix) id AA5EC1C87FD;
+	Thu, 06 Aug 2026 09:38:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chaosmail.tech;
-	s=mail; t=1786009131;
+	s=mail; t=1786009134;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=PmabZA0qSqEuuUpNPi6PV2cpZ3axKCDAeR5lWOl4bmA=;
-	b=vvDNyI4IescBUAqWIYsXb4ptEZH69DUkqpOVucTPPisNzBPnZ7449xDptmTP6vFox6Nsco
-	73SjQfai9mvA+ktJ7nQttf0fD8YAVPbhSxz4mi8s0plzTCEGE7KIqEDgfp9ILXQhL7BHyX
-	bQHViUtapD65bl1242DJJUl+AX+MIN8=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n5SsuLa8LggpWk7yay3m8vfJCzxTRPosuSpiq8d/IBA=;
+	b=Qao5UvfDG9C0phboMZ5/kFfWSwKEWOby01n0sVatlInThTBkr8tEXI4AY52lax+hBhiUPc
+	PC4BqvMr5jn5Ib+NJyroLn5RQ5mkUwhQAcRWIlyB5dcDSUSXce0buRKEV/xgc+ijPwV7OQ
+	2nOONEDRKsNk1hlb6hetvyU5TnOWTPc=
 From: Sasha Finkelstein <k@chaosmail.tech>
-Subject: [PATCH v4 0/3] usb: typec: tipd: Add sn201202x (ACE3) support
-Date: Thu, 06 Aug 2026 11:37:19 +0200
-Message-Id: <20260806-tipd-ace3-v4-0-79855b150914@chaosmail.tech>
+Date: Thu, 06 Aug 2026 11:37:22 +0200
+Subject: [PATCH v4 3/3] usb: typec: tipd: Add sn201202x support
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -38,11 +39,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22PQQ6CMBBFr2K6tqbtUAquvIdxUcpUahQIrY2Gc
- HcLLiSR5c/892ZmJB4Hh54cdyMZMDrvujaFbL8jptHtFamrUyaCiZwpIWlwfU21QaCsZJWViqG
- VJUn9fkDrXovrfPlm/6xuaMIsmBuN86Eb3suyyOfeljdyyqiCNKkh51DoU7qk8w/t7oeApiGzP
- Io1rta4SDiHTJZSVXUOchOHH14wvsbTY7QAEFag0Zk1f/g0TR9oi636NwEAAA==
-X-Change-ID: 20260725-tipd-ace3-090bf570ef59
+Message-Id: <20260806-tipd-ace3-v4-3-79855b150914@chaosmail.tech>
+References: <20260806-tipd-ace3-v4-0-79855b150914@chaosmail.tech>
+In-Reply-To: <20260806-tipd-ace3-v4-0-79855b150914@chaosmail.tech>
 To: Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -52,64 +51,442 @@ Cc: asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Sasha Finkelstein <k@chaosmail.tech>, 
  Alyssa Milburn <amilburn@zall.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786009131; l=2412;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786009131; l=12184;
  i=k@chaosmail.tech; s=20241124; h=from:subject:message-id;
- bh=87xiSp5NbIVEzBkYBz33rdO65pry6dY8g5pN4fFkCBo=;
- b=IRLlQtfIWvRD1dX1xg3VAeUhxCl+m+kK+l6H/RHtVTncY+TqCBYgYLaDFkvAjceGIRKymQ84k
- VDyDvlkJbtSAUfolTHlgpzFSCOjuN/oYo4JPJ/Foyg9Wo0cZPJt4Kly
+ bh=HY5Fy031JtM2PSsYNYX9D2GuowSKUn49gHA2tIz2RJQ=;
+ b=fYnM1qObwQnK0ZG0g2LfD4VrGYyhNO6EHhqRdFZgFKFVdPAVbbyodIdjDcNbfjUK+alKxrjug
+ tgergvXEJ3HC0gaSs44N1mH+DIjhtlqp4sXE/LCgLveUv9XkN33X5B8
 X-Developer-Key: i=k@chaosmail.tech; a=ed25519;
  pk=aSkp1PdZ+eF4jpMO6oLvz/YfT5XkBUneWwyhQrOgmsU=
 
-Add support for sn201202x (a.k.a ACE3), an Apple-specific tps6598x
-variant that wraps the tps6598x core register set with a SPMI based
-regmap-like protocol, first appearing in Apple M3 devices. This series
-first makes the core parts bus-agnostic, and then adds the new SPMI
-interface as a custom regmap implementation.
+Add support for sn201202x (aka ACE3), a tipd variant that uses a very
+similar register map, that is exposed over a "logical register"
+interface on the SPMI bus.
 
-To simplify the merge strategy, the device tree entries will be sent
-in a future patch series.
-
+Co-developed-by: Alyssa Milburn <amilburn@zall.org>
+Signed-off-by: Alyssa Milburn <amilburn@zall.org>
 Signed-off-by: Sasha Finkelstein <k@chaosmail.tech>
 ---
-Changes in v4:
-- Unexport variant data
-- One more debugfs-safety fix
-- Link to v3: https://patch.msgid.link/20260801-tipd-ace3-v3-0-8332f2eca4fc@chaosmail.tech
+ MAINTAINERS                       |   1 +
+ drivers/usb/typec/tipd/Kconfig    |  12 ++++++
+ drivers/usb/typec/tipd/Makefile   |   3 ++
+ drivers/usb/typec/tipd/core.c     |  20 ++++++++++
+ drivers/usb/typec/tipd/spmi.c     | 300 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/usb/typec/tipd/tps6598x.h |   9 +++++
+ 6 files changed, 345 insertions(+)
 
-Changes in v3:
-- Restore accidentally deleted static
-- Fix building with tracepoints
-- Sleep the device on failed probe
-- Link to v2: https://patch.msgid.link/20260727-tipd-ace3-v2-0-1345957bd635@chaosmail.tech
+diff --git a/MAINTAINERS b/MAINTAINERS
+index b2819ca62e0c..821932703b60 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2641,6 +2641,7 @@ F:	drivers/soc/apple/*
+ F:	drivers/spi/spi-apple.c
+ F:	drivers/spmi/spmi-apple-controller.c
+ F:	drivers/usb/dwc3/dwc3-apple.c
++F:	drivers/usb/typec/tipd/spmi.c
+ F:	drivers/video/backlight/apple_dwi_bl.c
+ F:	drivers/watchdog/apple_wdt.c
+ F:	include/dt-bindings/interrupt-controller/apple-aic.h
+diff --git a/drivers/usb/typec/tipd/Kconfig b/drivers/usb/typec/tipd/Kconfig
+index c87cbe6109ca..8177f860f89d 100644
+--- a/drivers/usb/typec/tipd/Kconfig
++++ b/drivers/usb/typec/tipd/Kconfig
+@@ -14,3 +14,15 @@ config TYPEC_TPS6598X
+ 
+ 	  If you choose to build this driver as a dynamically linked module, the
+ 	  module will be called tps6598x.ko.
++
++config TYPEC_SN201202X
++	tristate "TI SN201202x USB Power Delivery controller support"
++	depends on SPMI
++	select TYPEC_TPS6598X_CORE
++	help
++	  Say Y here to enable support for SN201202x, a TPS6598x variant
++	  that uses SPMI as a host bus, and is found on Apple devices starting
++	  from the M3 series.
++
++	  If you choose to build this driver as a dynamically linked module, the
++	  module will be called sn201202x.ko.
+diff --git a/drivers/usb/typec/tipd/Makefile b/drivers/usb/typec/tipd/Makefile
+index c741bf44f52f..6f5ebc1e1a5f 100644
+--- a/drivers/usb/typec/tipd/Makefile
++++ b/drivers/usb/typec/tipd/Makefile
+@@ -7,3 +7,6 @@ tps6598x-core-$(CONFIG_TRACING)		+= trace.o
+ 
+ obj-$(CONFIG_TYPEC_TPS6598X)		+= tps6598x.o
+ tps6598x-y				:= i2c.o
++
++obj-$(CONFIG_TYPEC_SN201202X)		+= sn201202x.o
++sn201202x-y				:= spmi.o
+diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
+index a3b946f5aaf0..d0966cdd7c1e 100644
+--- a/drivers/usb/typec/tipd/core.c
++++ b/drivers/usb/typec/tipd/core.c
+@@ -1885,10 +1885,30 @@ static const struct tipd_data tipd_tps25750_data = {
+ 	.connect = tps6598x_connect,
+ };
+ 
++static const struct tipd_data tipd_sn201202x_data = {
++	.irq_handler = cd321x_interrupt,
++	.irq_mask1 = APPLE_CD_REG_INT_POWER_STATUS_UPDATE |
++		     APPLE_CD_REG_INT_DATA_STATUS_UPDATE |
++		     APPLE_CD_REG_INT_PLUG_EVENT,
++	.tps_struct_size = sizeof(struct sn201202x),
++	.remove = cd321x_remove,
++	.register_port = cd321x_register_port,
++	.unregister_port = cd321x_unregister_port,
++	.trace_data_status = trace_cd321x_data_status,
++	.trace_power_status = trace_tps6598x_power_status,
++	.trace_status = trace_tps6598x_status,
++	.init = cd321x_init,
++	.read_data_status = cd321x_read_data_status,
++	.reset = cd321x_reset,
++	.switch_power_state = cd321x_switch_power_state,
++	.connect = cd321x_connect,
++};
++
+ const struct tipd_data *tipd_hw_variants[] = {
+ 	[TIPD_VARIANT_CD321X] = &tipd_cd321x_data,
+ 	[TIPD_VARIANT_TPS6598X] = &tipd_tps6598x_data,
+ 	[TIPD_VARIANT_TPS25750] = &tipd_tps25750_data,
++	[TIPD_VARIANT_SN201202X] = &tipd_sn201202x_data,
+ };
+ EXPORT_SYMBOL_GPL(tipd_hw_variants);
+ 
+diff --git a/drivers/usb/typec/tipd/spmi.c b/drivers/usb/typec/tipd/spmi.c
+new file mode 100644
+index 000000000000..15976d15d9bc
+--- /dev/null
++++ b/drivers/usb/typec/tipd/spmi.c
+@@ -0,0 +1,300 @@
++// SPDX-License-Identifier: GPL-2.0
++
++#include <linux/interrupt.h>
++#include <linux/of_device.h>
++#include <linux/of_irq.h>
++#include <linux/regmap.h>
++#include <linux/spmi.h>
++
++#include "tps6598x.h"
++
++#define tps_to_sn(tps) container_of_const((tps), struct sn201202x, cd.tps)
++
++static int regmap_sn201202x_select_reg(struct spmi_device *sdev, u8 reg)
++{
++	int err;
++	u8 val;
++	bool warned = false;
++	int attempts = 5;
++	struct tps6598x *tps = spmi_device_get_drvdata(sdev);
++	struct sn201202x *sn = tps_to_sn(tps);
++
++	if (reg >= 0x80) {
++		WARN_ON(1);
++		return -EINVAL;
++	}
++	reinit_completion(&sn->select_completion);
++	err = spmi_register_zero_write(sdev, reg);
++	if (err)
++		return err;
++
++	if (!wait_for_completion_timeout(&sn->select_completion, msecs_to_jiffies(100)))
++		return -ETIMEDOUT;
++
++	while (--attempts) {
++		err = spmi_register_read(sdev, 0, &val);
++		if (err)
++			return err;
++		if (val == (reg | 0x80)) {
++			if (!warned) {
++				dev_warn(tps->dev,
++					 "Got interrupt but selection not complete?\n");
++				warned = true;
++			}
++			msleep(20);
++			continue;
++		}
++		if (val == reg)
++			return 0;
++		return -EIO;
++	}
++
++	return -EIO;
++}
++
++static int regmap_sn201202x_read(void *context,
++				 const void *reg, size_t reg_size,
++				 void *val, size_t val_size)
++{
++	int err;
++	unsigned int offset = 0x20;
++	size_t len;
++	u8 addr;
++
++	if (reg_size != 1) {
++		WARN_ON(1);
++		return -EINVAL;
++	}
++	if (val_size > 0x40) {
++		WARN_ON(1);
++		return -EINVAL;
++	}
++
++	addr = *(u8 *)reg;
++
++	err = regmap_sn201202x_select_reg(context, addr);
++	if (err)
++		return err;
++
++	while (val_size) {
++		len = min_t(size_t, val_size, 16);
++		err = spmi_ext_register_read(context, offset, val, len);
++		if (err)
++			return err;
++		offset += len;
++		val += len;
++		val_size -= len;
++	}
++
++	return 0;
++}
++
++static int regmap_sn201202x_write(void *context, const void *data,
++				  size_t count)
++{
++	int err = 0;
++	unsigned int offset = 0xa0;
++	size_t len;
++	u8 addr;
++
++	if (count < 1) {
++		WARN_ON(1);
++		return -EINVAL;
++	}
++
++	addr = *(u8 *)data;
++	data += 1;
++	count -= 1;
++
++	if (count > 0x40) {
++		WARN_ON(1);
++		return -EINVAL;
++	}
++
++	err = regmap_sn201202x_select_reg(context, addr);
++	if (err)
++		return err;
++
++	while (count) {
++		len = min_t(size_t, count, 16);
++		err = spmi_ext_register_write(context, offset, data, len);
++		if (err)
++			return err;
++		offset += len;
++		data += len;
++		count -= len;
++	}
++
++	return err;
++}
++
++static irqreturn_t sn201202x_irq(int irq, void *data)
++{
++	struct completion *c = data;
++
++	complete(c);
++	return IRQ_HANDLED;
++}
++
++static const struct regmap_bus regmap_sn201202x = {
++	.read				= regmap_sn201202x_read,
++	.write				= regmap_sn201202x_write,
++	.reg_format_endian_default	= REGMAP_ENDIAN_NATIVE,
++	.val_format_endian_default	= REGMAP_ENDIAN_NATIVE,
++};
++
++static struct regmap *__devm_regmap_init_sn201202x(struct spmi_device *sdev,
++						   const struct regmap_config *config,
++						   struct lock_class_key *lock_key,
++						   const char *lock_name)
++{
++	return __devm_regmap_init(&sdev->dev, &regmap_sn201202x, sdev, config,
++				  lock_key, lock_name);
++}
++
++#define devm_regmap_init_sn201202x(dev, config)				\
++	__regmap_lockdep_wrapper(__devm_regmap_init_sn201202x, #config,	\
++				dev, config)
++
++static const struct of_device_id sn201202x_of_match[] = {
++	{ .compatible = "apple,sn201202x", (void *)TIPD_VARIANT_SN201202X},
++	{}
++};
++
++static int sn201202x_probe(struct spmi_device *device)
++{
++	const struct of_device_id *match;
++	const struct tipd_data *data;
++	struct sn201202x *sn;
++	struct tps6598x *tps;
++	int irq_select, irq_sleep, irq_wake;
++	int ret;
++
++	match = of_match_device(sn201202x_of_match, &device->dev);
++	if (!match)
++		return -EINVAL;
++	data = tipd_hw_variants[(enum tipd_hw_variant)match->data];
++
++	sn = devm_kzalloc(&device->dev, data->tps_struct_size, GFP_KERNEL);
++	if (!sn)
++		return -ENOMEM;
++	sn->sdev = device;
++	tps = &sn->cd.tps;
++
++	mutex_init(&tps->lock);
++	tps->dev = &device->dev;
++	tps->data = data;
++
++	tps->irq = of_irq_get_byname(device->dev.of_node, "irq");
++	if (tps->irq < 0)
++		return tps->irq;
++	irq_select = of_irq_get_byname(device->dev.of_node, "select");
++	if (irq_select < 0)
++		return irq_select;
++	irq_sleep = of_irq_get_byname(device->dev.of_node, "sleep");
++	if (irq_sleep < 0)
++		return irq_sleep;
++	irq_wake = of_irq_get_byname(device->dev.of_node, "wake");
++	if (irq_wake < 0)
++		return irq_wake;
++
++	init_completion(&sn->select_completion);
++	init_completion(&sn->sleep_completion);
++	init_completion(&sn->wake_completion);
++
++	ret = devm_request_irq(&device->dev, irq_select, sn201202x_irq,
++			       0, NULL, &sn->select_completion);
++	if (ret)
++		return ret;
++	ret = devm_request_irq(&device->dev, irq_sleep, sn201202x_irq,
++			       0, NULL, &sn->sleep_completion);
++	if (ret)
++		return ret;
++	ret = devm_request_irq(&device->dev, irq_wake, sn201202x_irq,
++			       0, NULL, &sn->wake_completion);
++	if (ret)
++		return ret;
++
++	spmi_device_set_drvdata(device, tps);
++	tps->regmap = devm_regmap_init_sn201202x(device, &tps6598x_regmap_config);
++	if (IS_ERR(tps->regmap))
++		return PTR_ERR(tps->regmap);
++
++	ret = spmi_command_wakeup(device);
++	if (ret)
++		return ret;
++	if (!wait_for_completion_timeout(&sn->wake_completion, msecs_to_jiffies(100)))
++		return -ETIMEDOUT;
++
++	ret = tipd_init(tps);
++	if (ret)
++		spmi_command_sleep(device);
++	return ret;
++}
++
++static void sn201202x_remove(struct spmi_device *device)
++{
++	struct tps6598x *tps = spmi_device_get_drvdata(device);
++	struct sn201202x *sn = tps_to_sn(tps);
++
++	tipd_remove(tps);
++	spmi_command_sleep(sn->sdev);
++}
++
++static int __maybe_unused sn201202x_resume(struct device *dev)
++{
++	struct tps6598x *tps = dev_get_drvdata(dev);
++	struct sn201202x *sn = tps_to_sn(tps);
++	int err;
++
++	reinit_completion(&sn->wake_completion);
++	err = spmi_command_wakeup(sn->sdev);
++	if (err)
++		return err;
++	if (!wait_for_completion_timeout(&sn->wake_completion, msecs_to_jiffies(100)))
++		return -ETIMEDOUT;
++	return tipd_resume(tps);
++}
++
++static int __maybe_unused sn201202x_suspend(struct device *dev)
++{
++	struct tps6598x *tps = dev_get_drvdata(dev);
++	struct sn201202x *sn = tps_to_sn(tps);
++	int err;
++
++	err = tipd_suspend(tps);
++	if (err)
++		return err;
++	reinit_completion(&sn->sleep_completion);
++	err = spmi_command_sleep(sn->sdev);
++	if (err)
++		goto out_resume;
++	if (!wait_for_completion_timeout(&sn->sleep_completion, msecs_to_jiffies(100)))
++		dev_err(dev, "Waiting for sleep complete irq timed out");
++
++	return 0;
++
++out_resume:
++	tipd_resume(tps);
++	return err;
++}
++
++MODULE_DEVICE_TABLE(of, sn201202x_of_match);
++
++static const struct dev_pm_ops sn201202x_pm_ops = {
++	SET_SYSTEM_SLEEP_PM_OPS(sn201202x_suspend, sn201202x_resume)
++};
++
++static struct spmi_driver sn201202x_driver = {
++	.driver = {
++		.name = "sn201202x",
++		.pm = &sn201202x_pm_ops,
++		.of_match_table = sn201202x_of_match,
++	},
++	.probe = sn201202x_probe,
++	.remove = sn201202x_remove,
++};
++module_spmi_driver(sn201202x_driver);
++
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("TI SN201202x USB Power Delivery Controller Driver");
+diff --git a/drivers/usb/typec/tipd/tps6598x.h b/drivers/usb/typec/tipd/tps6598x.h
+index 073a6c597986..2a0910328eb3 100644
+--- a/drivers/usb/typec/tipd/tps6598x.h
++++ b/drivers/usb/typec/tipd/tps6598x.h
+@@ -278,6 +278,7 @@ enum tipd_hw_variant {
+ 	TIPD_VARIANT_CD321X,
+ 	TIPD_VARIANT_TPS6598X,
+ 	TIPD_VARIANT_TPS25750,
++	TIPD_VARIANT_SN201202X,
+ 	TIPD_VARIANT_MAX,
+ };
+ 
+@@ -382,6 +383,14 @@ struct cd321x {
+ 	struct usb_pd_identity cur_partner_identity;
+ };
+ 
++struct sn201202x {
++	struct cd321x cd;
++	struct completion select_completion;
++	struct completion sleep_completion;
++	struct completion wake_completion;
++	struct spmi_device *sdev;
++};
++
+ extern const struct tipd_data *tipd_hw_variants[];
+ extern const struct regmap_config tps6598x_regmap_config;
+ 
 
-Changes in v2:
-- Use a -core module instead of building everything twice
-- Fix completion handling
-- Make regmaps debugfs-safe
-- Link to v1: https://patch.msgid.link/20260725-tipd-ace3-v1-0-73202d36138a@chaosmail.tech
-
----
-Alyssa Milburn (1):
-      usb: typec: tipd: Factor out i2c specifics
-
-Sasha Finkelstein (2):
-      dt-bindings: usb: tps6598x: Add sn201202x/ACE3
-      usb: typec: tipd: Add sn201202x support
-
- Documentation/devicetree/bindings/usb/apple,sn201202x.yaml |  78 +++++++++++++++++++++++++++++++
- MAINTAINERS                                                |   2 +
- drivers/usb/typec/tipd/Kconfig                             |  20 +++++++-
- drivers/usb/typec/tipd/Makefile                            |  14 ++++--
- drivers/usb/typec/tipd/core.c                              | 241 ++++++++++++++++++++++------------------------------------------------------------------------
- drivers/usb/typec/tipd/i2c.c                               | 106 ++++++++++++++++++++++++++++++++++++++++++
- drivers/usb/typec/tipd/spmi.c                              | 300 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/usb/typec/tipd/tps6598x.h                          | 130 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 8 files changed, 698 insertions(+), 193 deletions(-)
----
-base-commit: 0ce37745d4bfbc493f718169c3974898ffec8ee7
-change-id: 20260725-tipd-ace3-090bf570ef59
-
-Best regards,
---  
-Sasha Finkelstein <k@chaosmail.tech>
+-- 
+2.55.0
 
