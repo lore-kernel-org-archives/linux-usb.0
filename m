@@ -1,131 +1,172 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E903E7BCA
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 08:53:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429ED3DA7D0;
+	Thu,  6 Aug 2026 09:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786006414; cv=none; b=WSojYJKhzfayGllfRvNVwgNuG4Na/rYtDpa6p2/LSyPdRj1atYXl16VN327g4d/TI6HZBPeS4pAEpR2bNzUda2/g5Wau5iZI1zhjQt2fhmE8V+Cif1psYHaf3HiTsZswhvCLTBvOprEsXwFEtZdNEZSoEVCl0y50P/I7Im2gNsU=
+	t=1786007041; cv=none; b=obJlN3Zlu96T4lb4AowT5Pi+LyECTREabtzk+XCBHw1lCKIXdRrjHlCgNL9vwrVe9soXMFeUxHAbuBtBjr58vnN/Am23WEsvHMWgbiQ+d63wMI4qa6VG0BcmEzr30KuGwY/2HbynSKPNFecU5F0tSPOAllTmbK81SwRtibyo1OM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786006414; c=relaxed/simple;
-	bh=t3hfI3vt/EVN9rJvF36LzJL52/0eOpYB71LQKs6WXUg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X8p74Dp0qRj8fg0pwDur15kmZS+bHzj0W+kgcnukeTjNLKOhrs5CBqawUsPcnBSfuk2HTHW9fse2s4DNE496HH9Tz9EP8k7k3jv/nAasgXpau5zROlYdeMagQGjJA4KEKKF7jVVhNgQDzFmXOabyVEWOKdidy1R4Ph2bNnrrzY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BtbbP0Ea; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786007041; c=relaxed/simple;
+	bh=hRmHae7K5L1NrBLBQLNmjHXkdJmOg7U/rq8oaZxB6Lk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MyvAfvy4Gelaevks16V8I+TeCWrGUj56NL7jlRBj2dlCj9yHGXyTe4zMYMbJ/5kvBtS8ygc7pRrBaJXRivfAvpBaPkeJTYXynbhbZbVql8/t5Ye5nzygG3uIU21B9EjhYhYWafrUBYOy6TfJdiqw3seE+vLIZ4MCl0KBnSq9mvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayR3aEw/; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BtbbP0Ea"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47c6e9a694bso1227908f8f.1
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 01:53:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786006409; x=1786611209; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=C5L9sRSU4M7dAv92Jk3PRfyBZXvNn6RHGjwcKX82Y5s=;
-        b=BtbbP0Ea1iWg5P3+Me6GZe7g6LGv/NlOGB4wN7/qsCengcZzI/efpDQ+fXGmVDi4/A
-         oXUmKmDtnuxyKPg9cFHbTwbmH7YCs6oHqB4gaG/f07rk2bW+4XgD1xeNvxhlZsvu9yR3
-         dYUyEIhqGqhDaSl1A4KWAYcF2sZVNJ22nnZjzcQ7mkgDn3kensz7RwLGNRh+/SiXu/8J
-         fvhgip1UoFC9SHULaLScZKKaWr/xjlVUDofLo60g/M12NFqCYcuUkrUVPG9tUTyVw5Nx
-         K75sfvYFQtwGgoG4X0Yl2wKTwkuNsQVxHn6tR/Frrcpz1HedZWCrpqPixvSXmoQ4spcI
-         lmTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786006409; x=1786611209;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=C5L9sRSU4M7dAv92Jk3PRfyBZXvNn6RHGjwcKX82Y5s=;
-        b=Idhjp26KMCpEya3gaRrCG0EMy42Dm7N7qMDZHZydcJ7SVrkqQaYmhS7IJrXM33zNRu
-         XfMIv0EsOlodRpXvJqhjYhvC7L/MmqBS7ImbXWdm5rON75kecq5hG12bI0j4WDjbseS5
-         In9Et9sQoxYlm3hRK6Rk9mZgAVFIoI+yKq5aD1BSCC5S1Q7oiskz1Z823TRp6HR6J/cl
-         0EpH5Fbez2Sus7eXjZypnsysFO1mR/KntU8/GArfai1onMaonSwWPzhpLWcn8XAWmmwe
-         pPtq1sVDHwnbM1OCCfKm1ZItJNAwYDQZu5YHh3j8rjMb995nBpq2jzlfvtfepUz1ElTG
-         go5w==
-X-Forwarded-Encrypted: i=1; AHgh+Rq0PgR+K+pRQoNzBrJCAChacoo7TJccSpjeJkkugxQ6P/3aEkX404qUn+PmII4y7VZ2i5mj0y4jOFU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEJrK2CjoKbHBjn4u0Aqxr5Igwe+DRUCRa6NHTL8GE0v9l4SH0
-	BaQ3U7lJIPXCgkrSFxyqqqSvKO5B3fUdJ3rEmzUSLkYONKfr150GRNi0
-X-Gm-Gg: AR+sD12FofyFMMz0XUeweo8juJSSm8wGkc3tuFJ7jBZmXwnYnkikhSS3+PL8yQVEK5x
-	7n5WeGA06nADiKTrXofrVfgcmE3BWW66IOciVP72VQxH5vPxsz7Anc9ncbc9BNfUJe1ERwqrchq
-	tjlA1jwqzV9bhd6nSjprk1B+kpF48Wog6HqJ2uVvd1nWA5Z2t/Om9hBDFhlx5/gIDkpZ6fyNWRN
-	hZMvEiFBIISJ6vDQ2Gyjdf8chkhMuBZvcaR1k0gSppIx0WYUtm21DrX4M2rwURgSqh5Q+U+8HFS
-	2a686ys7DUFz34NPvpRPq17u9/xvlphDCMBn6VaJDAmbT27uLHxNJizoWCtqG3TUNVlpdCXLqDv
-	TGx/J+VDyTRhAOPTNfzoIoylFDvn/LcAKUDMiJU9kpoOUjMB4OY94rbuXKSASCZaoscncNUhGWC
-	zg9OW1WOvcKdD4TpfvZETnVzD2LYG1YtDXOG/tClSz0+YBTD/IXJCCt6DxWA07nhOup9gtVd0Jx
-	oYyA1Fj
-X-Received: by 2002:a05:6000:29ce:b0:47f:7c4c:8144 with SMTP id ffacd0b85a97d-47fec523d1fmr15852949f8f.10.1786006408706;
-        Thu, 06 Aug 2026 01:53:28 -0700 (PDT)
-Received: from LW-1H861937ND ([82.77.119.60])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47ff7b285b1sm5142674f8f.31.2026.08.06.01.53.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 01:53:28 -0700 (PDT)
-From: Marian Rotariu <marian.c.rotariu@gmail.com>
-To: heikki.krogerus@linux.intel.com,
-	linux-usb@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	javier.carrasco@wolfvision.net,
-	linux-kernel@vger.kernel.org,
-	Marian Rotariu <marian.c.rotariu@gmail.com>
-Subject: [PATCH] usb: typec: tipd: don't send GAID when probe fails in APP mode
-Date: Thu,  6 Aug 2026 11:53:02 +0300
-Message-ID: <20260806085302.1307606-1-marian.c.rotariu@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayR3aEw/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786007039; x=1817543039;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hRmHae7K5L1NrBLBQLNmjHXkdJmOg7U/rq8oaZxB6Lk=;
+  b=ayR3aEw/23FNi/9tZ3wcnpGkA3FCTLhBOk+1Prr6pHeH/Vh3BXPVrex8
+   DH0p1T2ujScx2a//kJaI6v/JT1M/K31NEkAIwuKIQsiqHaLq1AuJtw4lj
+   fGGtL3tR/ZhetTuejNckoffCw9X9oricEs3S3Ppr0zXLmirenRjMbxdcj
+   QawCUhjHdmxzJBaKvIwTExVFLmZo02Dg+PYdc6GDlIcTCcSPDTx/khZUM
+   vc58XHqol+JWf7SjP3w4yuqlnpm3UL5LHoMXWMG9G5y1gyTg/yudN6I74
+   RmLMHZMnQid6/ZTofRX1r6A3Y/B/rBnacVUfZ6tMO7hP8yZdjVNpeN8BK
+   w==;
+X-CSE-ConnectionGUID: DEgiDhqES0qYvDy5rCstrg==
+X-CSE-MsgGUID: TZ2Q0LU4Q0eAHpzlRkjcyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="86469041"
+X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
+   d="scan'208";a="86469041"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 02:03:58 -0700
+X-CSE-ConnectionGUID: uMiWEOHhTya1/RcbwGrAlQ==
+X-CSE-MsgGUID: R9sb5GQ+Quagee3hReXYgw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
+   d="scan'208";a="265525326"
+Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 06 Aug 2026 02:03:56 -0700
+Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wru13-00000000EgD-3ack;
+	Thu, 06 Aug 2026 09:03:53 +0000
+Date: Thu, 6 Aug 2026 17:03:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiazi Liu <jiazi.liu1984@gmail.com>, Thinh.Nguyen@synopsys.com
+Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Jiazi Liu <liujiazi@amazon.com>
+Subject: Re: [PATCH 1/1] usb: dwc3: gadget: fix IRQ storm on invalid event
+ buffer count
+Message-ID: <202608061759.sIcC6h4C-lkp@intel.com>
+References: <20260727094015.5101-1-liujiazi@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260727094015.5101-1-liujiazi@amazon.com>
 
-When probe fails after the chip was already in APP mode (booted from
-EEPROM), the err_reset_controller path unconditionally calls
-tps->data->reset(), which for tps25750 sends the GAID 4CC command.
-GAID transitions the chip from APP back to PTCH, causing a second
-probe attempt that sees PTCH mode and tries to load the firmware from
-/lib/firmware, instead of reading the EEPROM as it should.
+Hi Jiazi,
 
-The err_reset_controller path can be triggered by -EPROBE_DEFER from
-the probe sequence. GAID should only be sent when the controller
-actually loaded firmware at probe time.
+kernel test robot noticed the following build warnings:
 
-The abnormal behavior was seen on a tps25751d that has an EEPROM
-connected to it.
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v7.2-rc6 next-20260805]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Fixes: d49f90822015 ("usb: typec: tipd: add init and reset functions to tipd_data")
-Signed-off-by: Marian Rotariu <marian.c.rotariu@gmail.com>
----
- drivers/usb/typec/tipd/core.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jiazi-Liu/usb-dwc3-gadget-fix-IRQ-storm-on-invalid-event-buffer-count/20260806-005046
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20260727094015.5101-1-liujiazi%40amazon.com
+patch subject: [PATCH 1/1] usb: dwc3: gadget: fix IRQ storm on invalid event buffer count
+config: i386-randconfig-r132-20260806 (https://download.01.org/0day-ci/archive/20260806/202608061759.sIcC6h4C-lkp@intel.com/config)
+compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
+sparse: v0.6.5-rc1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061759.sIcC6h4C-lkp@intel.com/reproduce)
 
-diff --git a/drivers/usb/typec/tipd/core.c b/drivers/usb/typec/tipd/core.c
-index 522f56742aa9..c2b235f3c225 100644
---- a/drivers/usb/typec/tipd/core.c
-+++ b/drivers/usb/typec/tipd/core.c
-@@ -1783,6 +1783,7 @@ static int tps6598x_probe(struct i2c_client *client)
- 	const struct tipd_data *data;
- 	struct tps6598x *tps;
- 	struct fwnode_handle *fwnode;
-+	bool patch_loaded = false;
- 	u32 status;
- 	u32 vid = 0;
- 	int ret;
-@@ -1838,6 +1839,7 @@ static int tps6598x_probe(struct i2c_client *client)
- 		return ret;
- 
- 	if (ret == TPS_MODE_PTCH) {
-+		patch_loaded = true;
- 		ret = tps->data->init(tps);
- 		if (ret)
- 			return ret;
-@@ -1928,7 +1930,8 @@ static int tps6598x_probe(struct i2c_client *client)
- 	tps6598x_write64(tps, TPS_REG_INT_MASK1, 0);
- err_reset_controller:
- 	/* Reset PD controller to remove any applied patch */
--	tps->data->reset(tps);
-+	if (patch_loaded)
-+		tps->data->reset(tps);
- 
- 	return ret;
- }
--- 
-2.53.0
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202608061759.sIcC6h4C-lkp@intel.com/
 
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/dwc3/gadget.c:4681:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct dwc3 *dwc @@     got void [noderef] __iomem *regs @@
+   drivers/usb/dwc3/gadget.c:4681:32: sparse:     expected struct dwc3 *dwc
+   drivers/usb/dwc3/gadget.c:4681:32: sparse:     got void [noderef] __iomem *regs
+
+vim +4681 drivers/usb/dwc3/gadget.c
+
+  4636	
+  4637	static irqreturn_t dwc3_check_event_buf(struct dwc3_event_buffer *evt)
+  4638	{
+  4639		struct dwc3 *dwc = evt->dwc;
+  4640		u32 amount;
+  4641		u32 count;
+  4642	
+  4643		if (pm_runtime_suspended(dwc->dev)) {
+  4644			dwc->pending_events = true;
+  4645			/*
+  4646			 * Trigger runtime resume. The get() function will be balanced
+  4647			 * after processing the pending events in dwc3_process_pending
+  4648			 * events().
+  4649			 */
+  4650			pm_runtime_get(dwc->dev);
+  4651			disable_irq_nosync(dwc->irq_gadget);
+  4652			return IRQ_HANDLED;
+  4653		}
+  4654	
+  4655		/*
+  4656		 * With PCIe legacy interrupt, test shows that top-half irq handler can
+  4657		 * be called again after HW interrupt deassertion. Check if bottom-half
+  4658		 * irq event handler completes before caching new event to prevent
+  4659		 * losing events.
+  4660		 */
+  4661		if (evt->flags & DWC3_EVENT_PENDING)
+  4662			return IRQ_HANDLED;
+  4663	
+  4664		count = dwc3_readl(dwc, DWC3_GEVNTCOUNT(0));
+  4665		count &= DWC3_GEVNTCOUNT_MASK;
+  4666		if (!count)
+  4667			return IRQ_NONE;
+  4668	
+  4669		if (count > evt->length) {
+  4670			dev_err_ratelimited(dwc->dev, "invalid count(%u) > evt->length(%u)\n",
+  4671				count, evt->length);
+  4672			/*
+  4673			 * The DWC3 interrupt is level-triggered. Returning IRQ_NONE
+  4674			 * without clearing the IRQ source leaves the line asserted,
+  4675			 * causing a tight IRQ storm that triggers spurious.c:184 BUG.
+  4676			 * Write the bogus count back to GEVNTCOUNT to clear the source,
+  4677			 * consistent with the stale event clearing in
+  4678			 * dwc3_event_buffers_setup(), then schedule a soft disconnect
+  4679			 * to recover the controller state.
+  4680			 */
+> 4681			dwc3_writel(dwc->regs, DWC3_GEVNTCOUNT(0), count);
+  4682			schedule_work(&dwc->softcon_work);
+  4683			return IRQ_HANDLED;
+  4684		}
+  4685	
+  4686		evt->count = count;
+  4687		evt->flags |= DWC3_EVENT_PENDING;
+  4688	
+  4689		/* Mask interrupt */
+  4690		dwc3_writel(dwc, DWC3_GEVNTSIZ(0),
+  4691			    DWC3_GEVNTSIZ_INTMASK | DWC3_GEVNTSIZ_SIZE(evt->length));
+  4692	
+  4693		amount = min(count, evt->length - evt->lpos);
+  4694		memcpy(evt->cache + evt->lpos, evt->buf + evt->lpos, amount);
+  4695	
+  4696		if (amount < count)
+  4697			memcpy(evt->cache, evt->buf, count - amount);
+  4698	
+  4699		dwc3_writel(dwc, DWC3_GEVNTCOUNT(0), count);
+  4700	
+  4701		return IRQ_WAKE_THREAD;
+  4702	}
+  4703	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
