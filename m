@@ -1,121 +1,103 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFDA538F935
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 13:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54DD230E0E4;
+	Thu,  6 Aug 2026 13:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786024264; cv=none; b=QD5mJL8K2iYv45pgQgQVUisM87GPEfiIAs9YHKOKwOtvHa2TkrYUqgpCX17TBNMODW/vn31EB14sYMqkA58oxDOSy2h+TB0wAn6vYF8drEFrxi4BjNUVEkQVkuTMaTvwS/seGN1qXHTkoKaiFLC/E6vht8gHBB+EaAUWPruXLvQ=
+	t=1786024392; cv=none; b=iWcKGoZp+jOjFimSHV2v4QHJcMwbzC+cJ9QJe1hZBFYSNZ/+tUE0LlBhkSwpiGDOgFhdIHb0rTpS+Wel6FQGVNJI209M65g4Uf1e8e+GTBKB+hq3d4IVkQM5W/xDfxs2oMIKjEBVSIqMrxYDA8PpZEXxZxG5um/jjJJJRby+YaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786024264; c=relaxed/simple;
-	bh=YQQj71Tk3KKw3pdo93rzoR5dlbtYCWkSMf5lauPULt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f8hIfOEQ/0lhAkysNcZM5PFGFSrqd7rahO06FUJ3U6Hf9Tg7bAUBYlCgyJJmLcPx1U/qM5yoWBk3VlSHkqUWpFDk/k/CRQxquIdhb2Cmlk6PIxK1TTjxm2Bq9jb4fzUxLGF5R22wMtT8/dEaTxTNh/1I01fL8Y3ZmjVAsaKM5To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=djlXAxVO; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1786024392; c=relaxed/simple;
+	bh=HOJtbj0EPQwztnb2HFMOs3a85Q/a9QLwQhke73uDg8U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Cr/Xuh5LokXllZ920/UmYsFED3fu3tEw3FudCJhVB/7ZF8x1Xlx5n69nmD8BZIq3Oom8Mquf76YvsR3ps5bPSL/PoDZs5josatjjWq6slGM7k9FWSv2+frQPHh0SyzEEIV3RzAx82pjennDmd6Inii5rivKYdX8X8dFTsOD/nLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bm4asvt0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="djlXAxVO"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-92e65e18969so77452085a.1
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 06:51:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1786024262; x=1786629062; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=kXpD8fhMfpcH4/rK/CINTt82CSW0JYY906XwzS8WpVY=;
-        b=djlXAxVOGMfwZQN+Y89xaMqXMB0jlSDZ6/LXYs9ipu9JTHS3wr9wUdaUYon9e+qu2Q
-         6rl8ThG8wE0lnxE0yYyb2b7N9W2WWdiPDfubWD+ZmkFX7SEZt9qLPnuQrIRcc3HQ+dIB
-         Gq1GdiY/kqPWFE1vTObYuIoA9WE48hbbcWZA/UNPSLiY3IRxlL+ChevKzf2N+bGF2dsA
-         t7rU4E4iVYJf9VBY6xb29bYYGK1s9iM/pefbh4kKPYjw191UlgbaMERb4L59MPW3m1B1
-         79p0PCx5uk+wOQHyZCLZXNR9G+tc4zZpEwi3Cv8K6I4wDP3eQZdc+HRBqfBh4kPqTkQE
-         7uiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786024262; x=1786629062;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kXpD8fhMfpcH4/rK/CINTt82CSW0JYY906XwzS8WpVY=;
-        b=TRXfjCcwhSMKSgS1TMw6VLscM1r7BHiLlC+A9T44bWkMA067a4vurRDp35ZCfoZrU5
-         vvsGCyslFNHKCMeC4c3nkAU7dlbTGSLXpgXki6oelgZCM7iaHQp6fAqTVg96F+FgdoPi
-         OOd12P+T4yMWXhTpfnIY+qkWvOdX8EZn8JMwn2rDaXsyp1TKhjDGdbZHSAAvj35vpGae
-         6JqbUo2wRLf4ftu8FLlTcR9MPdEmGd8LOvIi2uyw4J994FOdV/MAI++nttfra4lymYfL
-         QYtK+Eb6wX+pA0JYdkyNj6WjHCfEodIyti9QJ3Pafdp8N/DjgNWGSxlcNUAGvCYlbnoB
-         733A==
-X-Forwarded-Encrypted: i=1; AHgh+Rqgg6vTaNiGQ7wPdYO3RzDLeILuHL14v3F/0R8oObjwd2VENln9JqnaeF0zymFGEXJFPD4+JN8SSEw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyu4j1gEo1hunOfRMiXdJ2IAaMUdLKnk3ShDMNybPLbEwB1EyRR
-	o/B9spc0cdlwDhhLQ2elyRJP2Nu0ISKb90M+hcJf4WXH/jKzFD9ks9V7u0eLWZG24g==
-X-Gm-Gg: AR+sD10XlHSeSHouDxaAKskNXfsbxCbXiBknDAciPd9Uc2V/3CowqE2zo/56i/dAfgu
-	kJsU21clmyUfAmVrNPWCla5bLK8/mXL8LOSFT9zm+dYi9jdRQFibuwyD05riah8FqMIPem6zI1Q
-	iSoy0zJmCF4FVTxY2yxFREcHBe8S+CABaJ/9wSHRlWqlmou/s6Xaov/wImbdO+atNVq71sp343P
-	pZ5+Nq+rRS36XoIfx2q4mj4aK5syPQlQ5G+hye5bbUQZ19eJu5Qki/mKtrFhLaMdxyKIpLDgLYs
-	0MPyGNXvyrIOlzNNQHUs6ajar44LqAymM54JxZPmVIApwkyy1wQ1QNzh2a8WXUyZ6AATlAAhhoC
-	BsHwyCZya7NvxYFI6D7TstPpuwXdb8mxTTB7tz9+7194Uak492MDajr7cBEhVj273y2/KGGyYoL
-	SJ6GKd8DdQbYSqtY2IWI9ZPat+3FLabe+3hZvhNzSlz6TsKn8eByUbMbWYS/2wADGboX0GXQ6jd
-	PC7yOw=
-X-Received: by 2002:a05:620a:371f:b0:92e:7075:941 with SMTP id af79cd13be357-9365959e5femr648645685a.13.1786024261713;
-        Thu, 06 Aug 2026 06:51:01 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-936582da028sm257577185a.26.2026.08.06.06.51.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 06:51:01 -0700 (PDT)
-Date: Thu, 6 Aug 2026 09:50:59 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Hongyan Xu <getshell@seu.edu.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bm4asvt0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CBF01F00AC4;
+	Thu,  6 Aug 2026 13:53:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1786024391;
+	bh=TrmNoq7dbxYoWdCONtFEyW+1bRqsCvc6ZNdJGLCVvx8=;
+	h=From:To:Cc:Subject:Date;
+	b=Bm4asvt0Xti90TjOE5MGjiBvPy56BMZOLVhVAYo35WvaVxTfB5kkFqSj3xjEyXKTE
+	 jldc+qPaDke1lZRN24S7Bk1Q2k3JukPRXSxDvFdz/lOpy1ZZfMqruSdNHg8uxs0wiy
+	 atjBYLf8vC8h4Ptf/JeZL4BBzG2vCyZCayX5YKBDIdz+KgyqBQRyRxKtNPrlb2kM/u
+	 R9C7+gPgEDsb46freEIsYJYAiVNWDw0naicXYjy9V360TxPHl3r1OmPv1+6Tc5hQ6J
+	 +HiuNR+PLMbOliEYf4SBRDyu90QDcT+Tz/h0woW9TN+47EAgV2AEiXqdrbhq/FFVui
+	 oKztkifnGQIrg==
+Received: from johan by theta with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1wryWx-00000000Xh4-46G2;
+	Thu, 06 Aug 2026 15:53:07 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Johan Hovold <johan@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	jianhao.xu@seu.edu.cn
-Subject: Re: [PATCH] usb: host: ehci-atmel: stop clocks before releasing HCD
-Message-ID: <b7f212cf-2577-4c77-ba71-edda2124868e@rowland.harvard.edu>
-References: <20260806060557.1747-1-getshell@seu.edu.cn>
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	syzbot+3b514b87202742f22c44@syzkaller.appspotmail.com
+Subject: [PATCH] USB: serial: spcp8x5: drop broken carrier detect support
+Date: Thu,  6 Aug 2026 15:52:48 +0200
+Message-ID: <20260806135248.129482-1-johan@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806060557.1747-1-getshell@seu.edu.cn>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 06, 2026 at 02:05:57PM +0800, Hongyan Xu wrote:
-> usb_put_hcd() drops the driver's HCD reference and can free the HCD and its
-> private data. The remove callback then calls atmel_stop_ehci(), which
-> obtains that HCD from platform data and dereferences its private data to
-> disable the clocks.
-> 
-> Stop the controller clocks before dropping the HCD reference so that
-> atmel_stop_ehci() cannot access an already freed HCD.
-> 
-> Fixes: 501c9c0802d9 ("USB: at91: Add USB EHCI driver for at91sam9g45 series")
-> Signed-off-by: Hongyan Xu <getshell@seu.edu.cn>
-> ---
+The driver does not support modem status notifications and instead used
+to fetch the modem status once at open() and subsequently operate on and
+report stale state.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+As part of fixing this, a call to fetch the status was added to
+carrier_raised(), which does not work as that callback must not sleep
+(e.g. unlike tiocmget()).
 
->  drivers/usb/host/ehci-atmel.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/host/ehci-atmel.c b/drivers/usb/host/ehci-atmel.c
-> index 65747270fd88..bcd56f888ec9 100644
-> --- a/drivers/usb/host/ehci-atmel.c
-> +++ b/drivers/usb/host/ehci-atmel.c
-> @@ -177,9 +177,8 @@ static void ehci_atmel_drv_remove(struct platform_device *pdev)
->  	struct usb_hcd *hcd = platform_get_drvdata(pdev);
->  
->  	usb_remove_hcd(hcd);
-> -	usb_put_hcd(hcd);
-> -
->  	atmel_stop_ehci(pdev);
-> +	usb_put_hcd(hcd);
->  }
->  
->  static int __maybe_unused ehci_atmel_drv_suspend(struct device *dev)
-> -- 
-> 2.50.1.windows.1
-> 
-> 
+Drop the broken carrier detect support.
+
+Fixes: e1ed212d8593 ("USB: spcp8x5: add proper modem-status support")
+Cc: stable@vger.kernel.org	# 3.10
+Reported-by: syzbot+3b514b87202742f22c44@syzkaller.appspotmail.com
+Link: https://lore.kernel.org/all/6a73cea2.01d0871a.3a0d52.000d.GAE@google.com
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/spcp8x5.c | 13 -------------
+ 1 file changed, 13 deletions(-)
+
+diff --git a/drivers/usb/serial/spcp8x5.c b/drivers/usb/serial/spcp8x5.c
+index c11d64bf08fb..f610aef6bf59 100644
+--- a/drivers/usb/serial/spcp8x5.c
++++ b/drivers/usb/serial/spcp8x5.c
+@@ -235,18 +235,6 @@ static void spcp8x5_set_work_mode(struct usb_serial_port *port, u16 value,
+ 		dev_err(&port->dev, "failed to set work mode: %d\n", ret);
+ }
+ 
+-static int spcp8x5_carrier_raised(struct usb_serial_port *port)
+-{
+-	u8 msr;
+-	int ret;
+-
+-	ret = spcp8x5_get_msr(port, &msr);
+-	if (ret || msr & MSR_STATUS_LINE_DCD)
+-		return 1;
+-
+-	return 0;
+-}
+-
+ static void spcp8x5_dtr_rts(struct usb_serial_port *port, int on)
+ {
+ 	struct spcp8x5_private *priv = usb_get_serial_port_data(port);
+@@ -458,7 +446,6 @@ static struct usb_serial_driver spcp8x5_device = {
+ 	.num_bulk_out		= 1,
+ 	.open			= spcp8x5_open,
+ 	.dtr_rts		= spcp8x5_dtr_rts,
+-	.carrier_raised		= spcp8x5_carrier_raised,
+ 	.set_termios		= spcp8x5_set_termios,
+ 	.init_termios		= spcp8x5_init_termios,
+ 	.tiocmget		= spcp8x5_tiocmget,
+-- 
+2.55.0
+
