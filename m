@@ -1,81 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F9A37F755;
-	Thu,  6 Aug 2026 15:51:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0992E397929;
+	Thu,  6 Aug 2026 16:26:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786031489; cv=none; b=IGZHkukMaHm+qZjZvrEonAPlZqx8RSnl/pX32frDoGXXg7z0er1Q7Q7ot/7RBeqjlprog8Nb+8GZLHbD4yQjGTb/ryV/7hgB4ivtgoMiYhWjxn/C7XgqFnICMMM5ug+WwBBRk9LaDvYU6n/3e3ndhkAAHlIMsImxcPlNq5Y1ccA=
+	t=1786033565; cv=none; b=sEkrcr8hVNxCpHV4pb6+nh+wn+Ekrl7uo+8lqaRg/sMJqvkOPCicJxrfARJ6snX2MrWMJY26K4VoVxhjxDxAKbDQbQIjpaDVd+pkFA25NXXb/ZJWfeYgn8fwVOZVg5ZP/0fvCuU3hE1411px31lky4DMi5TyoRpk7lVVo4No3JY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786031489; c=relaxed/simple;
-	bh=ok+pAFh4kEaZ7fwfpTfq6uPxVrunyWvWZav9P5wZMWQ=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=SVFUsdKa51VosLHveaCvpw1Xdv/aXZfao6oQtW/y8h0Rm57J/9AQtUfubNUQuLB0KvEsekBNGRDSzse8835jQ2VYfXMZsN1vIbJkTjRCK+OwsbKtmiMyCp4HlF/55bgfoPHvYtlXk7SsfaX+7JDfT+lsk5tO2Fx+J8YPF0TIKKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ObWBWLsG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786033565; c=relaxed/simple;
+	bh=a+QA8uMXk/GibnlBeo/mGe3QdZdLWGlNEWWvA5H+x5o=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Mj4rV1pBNBQvuOLPKQOUrnUZCXy/a7m1Pv9ZoQ8k6bxhKulLOYOwXAw2prwVruyvblof9/p/nNpjNCEOuFSYKR4zC608IBYngc8kSKLwqgcJ5ZkWqCn2O2+3w6RZC3NzNN+/k11UDlvd6sBecjeNe0dF3l9ogPwtTPYm2EPJhPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tfgh0c2W; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ObWBWLsG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C1C01F00A3A;
-	Thu,  6 Aug 2026 15:51:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tfgh0c2W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE37C1F000E9;
+	Thu,  6 Aug 2026 16:25:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786031476;
-	bh=b5DNUSt2EZq3bgSalZ4Jzd2kT5p/THgrZ/c9eyp/P7A=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=ObWBWLsGSo+oyTB0EQaZAd1cZp9hfbH5DBhOuIdxnKrPDBT+Og+LVkwhL+zOD4oEh
-	 sNdDPqxq2tM4CcSL/bPv17fnaTJsTmYz6o2dSCWwNNXvpwC28sFa90ir6Dv3GWS/wX
-	 w2rKPs7ad6AZRTBE3WSiZ4A0yhC3A/X6kiuF4ha3HtOApzoqD67+tUHYMxRIf1Fouv
-	 VOpjggBJhkX0ovjwF2QGChujfN/gWRxbURkqG5Mm1bPF4N3g0zzGBWX93BmoitDOki
-	 GsPXLgCK+3ia4hJyHxI2AVHIga2L4SImfVMz6RjXBdooPtYNde7qNZX39GcSZXk/L+
-	 rR6ANYzvoW2iA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 19813380820D;
-	Thu,  6 Aug 2026 15:50:37 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20260515; t=1786033563;
+	bh=gFuUAEckyNvDJ0fEQvHD3+b6qWv1iFIarxVPBhzqSCE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=Tfgh0c2WiszIuv30Akrz8pEvDWJNDBISX6S3g8hW97aWFl/+ICZ47hiMnQXNP6GHK
+	 h+RADBVV3vbYJqZoKzlZv8nP629GBMoO4Vp+n1dn6u5VYO1OYs+PFcx8J3Piv2nyox
+	 gM3wmKOa6M0B2YQL9QU1Nbq1t21oVh8dPCinW2dTNuZtKa4rSsJmCvo/OF2g3tRfMX
+	 28rVmr9Y08aV6Z08XtXC3jD0v7sp5qUIXR8/vwre/OmSsdps9BjnSNu5r892L4qFuL
+	 0AHIlxuzPRhWjJ5m2E0InyFtjfYDvUWK3sl1qjJ7Ydr4SdkUQwYKj/Hok5ePi8F4cn
+	 nP9kx8uUtHIHg==
+From: Vinod Koul <vkoul@kernel.org>
+To: krzk+dt@kernel.org, conor+dt@kernel.org, robh@kernel.org, 
+ neil.armstrong@linaro.org, gregkh@linuxfoundation.org, 
+ dmitry.baryshkov@oss.qualcomm.com, konrad.dybcio@oss.qualcomm.com, 
+ abel.vesa@oss.qualcomm.com, Ronak Raheja <ronak.raheja@oss.qualcomm.com>
+Cc: wesley.cheng@oss.qualcomm.com, krzysztof.kozlowski@oss.qualcomm.com, 
+ linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260508213234.4643-1-ronak.raheja@oss.qualcomm.com>
+References: <20260508213234.4643-1-ronak.raheja@oss.qualcomm.com>
+Subject: Re: [PATCH v3 0/4] phy: qcom: Introduce USB support for Hawi
+Message-Id: <178603355854.674490.5425466040463047845.b4-ty@kernel.org>
+Date: Thu, 06 Aug 2026 21:55:58 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] usb: atm: ueagle-atm: fix array-index-out-of-bounds in
- uea_bind()
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178603143563.1348318.6670988207691284327.git-patchwork-notify@kernel.org>
-Date: Thu, 06 Aug 2026 15:50:35 +0000
-References: <20260802-usb-ueagble-atm-v1-1-340f085b04aa@gmail.com>
-In-Reply-To: <20260802-usb-ueagble-atm-v1-1-340f085b04aa@gmail.com>
-To: Subasri S <subasris1210@gmail.com>
-Cc: castet.matthieu@free.fr, stf_xl@wp.pl, 3chas3@gmail.com,
- gregkh@linuxfoundation.org, akpm@osdl.org, gregkh@suse.de,
- linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- syzbot+92f5bf49bf4ac75223ca@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-Hello:
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Sun, 02 Aug 2026 11:59:24 +0530 you wrote:
-> Add a bounds check on the global variable modem_index before
-> using it as an index in sync_wait[] array whose size is NB_MODEM.
+On Fri, 08 May 2026 14:32:30 -0700, Ronak Raheja wrote:
+> This series adds USB PHY support for the Hawi SoC. It documents the
+> QMP USB3-DP combo PHY and M31 eUSB2 PHY bindings, adds the Hawi
+> compatible to the DWC3 USB binding, and adds the PHY initialization
+> sequences to the qmp-combo driver.
 > 
-> Reported-by: syzbot+92f5bf49bf4ac75223ca@syzkaller.appspotmail.com
-> Tested-by: syzbot+92f5bf49bf4ac75223ca@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=92f5bf49bf4ac75223ca
-> Fixes: b72458a80c75 ("[PATCH] USB: Eagle and ADI 930 usb adsl modem driver")
-> Signed-off-by: Subasri S <subasris1210@gmail.com>
-> 
-> [...]
 
-Here is the summary with links:
-  - usb: atm: ueagle-atm: fix array-index-out-of-bounds in uea_bind()
-    https://git.kernel.org/netdev/net-next/c/37a5e120118a
+Applied, thanks!
 
-You are awesome, thank you!
+[1/4] dt-bindings: phy: qcom,sc8280xp-qmp-usb43dp-phy: Add Hawi QMP PHY
+      commit: 19d8eca1be11bc5782f9d292d88f96ebf0cdbe7f
+[2/4] dt-bindings: phy: qcom,m31-eusb2-phy: Document M31 eUSB2 PHY for Hawi
+      commit: 7abc2c575d5b5d67349caf73509f069e6bf7445a
+[3/4] dt-bindings: usb: qcom,snps-dwc3: Add Hawi compatible
+      (no commit info)
+[4/4] phy: qualcomm: qmp-combo: Add support for Hawi SoC
+      commit: eca0e717aab1cc90eb0b7d8c3e8aa63ca89962a5
+
+Best regards,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+~Vinod
 
 
