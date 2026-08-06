@@ -1,90 +1,86 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5B3494804;
-	Thu,  6 Aug 2026 19:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 977B441F5D5;
+	Thu,  6 Aug 2026 21:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786045121; cv=none; b=KPHH5HjA66ZRbQNVIJ5wSuGXWRu7yjSaEQ0TEkUxJAiSbCohyLZJva2vtDLPVpfwsOEDZHdgpdGhmAbR5KmQhi6qGNdK1NzbJ3JIt3axCIMkGwRInuamTK0bCKvYaUCc5fNzm5kUoWQYfShuOqWVU634o1eipriBnvu4fndXDq8=
+	t=1786051007; cv=none; b=kIH1BHyYrb7ER8bBOQJAN52YTIEw/D5NAVbPYNNtvZJbe6vFOZEN9hcwT9Hys+6/VOeyR9DRLzMX7ffaKymCRtW+hlgNh0YWC1EEPSfLCnVm899ikeZiBKXz56C8wlaUcDfBcR1weZM7EFvQgs+Copvb0W+Twu4RcN/1XF27HhY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786045121; c=relaxed/simple;
-	bh=aGae3eEx8Va1clbVfvjWCfnqrPA4/3+yjFVGcXnVIas=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Psuf1kzAcfAwiw7/RIGqfPMDL8fdRi/Q+6BbAsl3DJd1gmfgVaCl4Ng8h8NCVpiqrzd+scy7tC1VfjDLPoi9E3E1RoF7BUgBYIsAlqvvqNHUiSiWwq3pDRs+CT+XKrVoPl27Ebi2Ey/UsO8kAnoMqoebblSEhThNmfEVKDv4Ca8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=uxJpkLsq; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=oc1J7UNQ; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1786051007; c=relaxed/simple;
+	bh=gtXUdEoMFqSqOZqb+B4HivkDh4LRAFv64eBjObvOwDo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MpQjISAi3Xjc3GZvfqpGu4FFQtE/dvSmIcJL3GyjT59t2hIeqlvKAfR2X3m0Rzu8zfkhey+0DI/iuwJPceAKn+WmYTo1uRdEJWkU2EibERvXJqYZH0ErLGOtFiGSZH/uuBDMcHUeShxUbNqbizOSKzWOmwXaBcPcTsGpLe7XEaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=O6ALznRy; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="uxJpkLsq";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="oc1J7UNQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1786045119;
-	bh=aGae3eEx8Va1clbVfvjWCfnqrPA4/3+yjFVGcXnVIas=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uxJpkLsqzyLI0x/6H8CseTNu7rc5DoOMaWvMiUi4LN9jcCkfrRa05QXh+YqjpDCHj
-	 ZrOTAzeMeQzsldeNTb/09JAMOArlLn4KyKN4KIJl3nfhBZ1LG6kFEZN+/Gf2Jq9sIE
-	 aQBTJsVPcGviegdjFhMpz7AFHhYFTg4Xq36YGRnGM50E4bjb9+mzp4wDRPE7Q08tJh
-	 7A5wpvzt5+yHTjW8PIKXIejjIjS23YToM8x7koRfSBmwnP/mHfQAkkxnrYrD4gbnFu
-	 d8gbEOkwvU2mOanBZZNHNb8HkULLj6H6DoJSH99R8frBMdupBoA9uSew9Xj3RI+hdr
-	 WahA5Vbf5KJZw==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 24F0A496F2; Thu,  6 Aug 2026 19:38:39 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1786045118;
-	bh=aGae3eEx8Va1clbVfvjWCfnqrPA4/3+yjFVGcXnVIas=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oc1J7UNQ5oqNjvATbdY5aDHGVRCvvahLdlVSKtUucvt8q0wV3lbtgSUvtXQ7jbsbQ
-	 6YnS8OcxrCiTK7IqpccagrbMHZfZD0VJtm7AUmRDdKRRhoZ4btC1EcZyrQjDSsDtSk
-	 YXpk5IzDxtRZsO9Og7hC+7t00z7Fi35XRGEdyepnStbSz4C/z/94xWQyLRToljSwml
-	 pMz2oS3JmGQHw4KO6skYnnfxdXmmYGbtCNSegE2dxVQ2+8ZYHZifpSyr2rNrZj6XmM
-	 +chJvmJyWVnnVKl7cURxMKNHPzJo/4VyEUEWa+3aGxTkIUomgyvQiWP+YOerx5psgB
-	 brpkZJ3VuiN9w==
-Received: from [10.30.1.58] (unknown [213.80.50.14])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id D2BAD496F2;
-	Thu,  6 Aug 2026 19:38:37 +0000 (UTC)
-Message-ID: <48bfa275-0a70-4489-9440-e1db80bde38d@birger-koblitz.de>
-Date: Thu, 6 Aug 2026 21:38:37 +0200
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="O6ALznRy"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=CISF6n4T93pXyXll0aJ2tXI8tmqgiXw/hGJRHuNwqKA=; b=O6ALznRyXUe0v5EDhgIGbBjvo8
+	zVOlD1Qh2/8GPXgC6rkGim1PDhl3Yi5wMLK7pBobUO75xIe/g6h1KrIlJjvNW7dkyywjVCVZEfgLO
+	uTVfhcg3Jxq6/KHxvFVgJg/fM9ePxhrhxMxg7U5mSGbdN+akzCH0Un8ovrEVJcHMVOgU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1ws5S3-00GSR6-7r; Thu, 06 Aug 2026 23:16:31 +0200
+Date: Thu, 6 Aug 2026 23:16:31 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Birger Koblitz <mail@birger-koblitz.de>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Heiner Kallweit <hkallweit1@gmail.com>, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jianhui Xu <neuromoments@gmail.com>
+Subject: Re: [PATCH net-next v5 13/13] ax88796b: Add support for AX88772D,
+ AX88179A and AX88279
+Message-ID: <f2a99d04-6d61-4cc2-814d-cfe1ef9b1395@lunn.ch>
+References: <20260802-ax88179a-v5-0-dcb9fea4acd4@birger-koblitz.de>
+ <20260802-ax88179a-v5-13-dcb9fea4acd4@birger-koblitz.de>
+ <5f32ac56-1c2f-474a-ab2a-f51464172d6d@lunn.ch>
+ <4a203340-c2f1-48b3-b16f-93c31cbe2727@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 00/13] ax88179_178a: Add support for
- AX88179A-based chips
-To: Yuan Xu <neuromoments@gmail.com>
-Cc: andrew+netdev@lunn.ch, andrew@lunn.ch, davem@davemloft.net,
- edumazet@google.com, hkallweit1@gmail.com, kuba@kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- linux@armlinux.org.uk, netdev@vger.kernel.org, pabeni@redhat.com
-References: <20260802-ax88179a-v5-0-dcb9fea4acd4@birger-koblitz.de>
- <20260803073348.2190800-1-neuromoments@gmail.com>
- <82acabcc-7b98-468a-a989-cb95f620fe5f@birger-koblitz.de>
- <CAMdPb80_Y8Chkoo4a+VJQz3yPa5YkKWHvAvXYjb=06BveBjP6w@mail.gmail.com>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <CAMdPb80_Y8Chkoo4a+VJQz3yPa5YkKWHvAvXYjb=06BveBjP6w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4a203340-c2f1-48b3-b16f-93c31cbe2727@birger-koblitz.de>
 
-Hi Yuan,
+> > > +static int asix_ax88279_config_aneg(struct phy_device *phydev)
+> > > +{
+> > > +	bool adv_2500;
+> > > +	int ret;
+> > > +
+> > > +	if (phydev->autoneg == AUTONEG_DISABLE) {
+> > > +		phydev_warn(phydev, "Disabling autoneg is not supported\n");
+> > > +		return -EINVAL;
+> > > +	}
+> > 
+> > Why is that? Now that phylink is driving the PHY, and reporting
+> > speeds, duplex etc, you should have everything you need to program the
+> > MAC when the link mode is forced.
+> > 
+> I tried forcing the PHY speed in the past, and it does not work.
+> This is a limitation which is also acknowledged for the suspected underlying PHY
+> hardware Airoha EN8811H, see the head of air_en8811h.c
 
-On 03/08/2026 16:39, Yuan Xu wrote:
-> Hi Birger,
-> 
-> I really appreciate all the work you’ve put into this!
-Thanks so much. And thanks for testing!
+How well does this unwind on error? Is phydev->autoneg put back to the
+old state to indicate autoneg is used?
 
-> 
-> I’ll apply the fix and run additional tests this weekend. I’ll report back
-> with the traces and any reproducible differences if I find them.
-I sent out a v5. This should fix the issues you reported. I tested
-extensively link speeds and resume/suspend using a laptop and a loop-back
-cable between and AX88279 and an AX88179B using netns. I tested around 20
-suspend/resume cycles and found no issues even with different speeds with
-the fixes in v5.
+This is one of the areas where phylib/phylink is missing a bit of
+support infrastructure. We have a bit indicating the PHY support
+autoneg, ETHTOOL_LINK_MODE_Autoneg_BIT, but there is no bit
+ETHTOOL_LINK_MODE_Force_BIT, indicating the PHY supports forced
+mode. So the core cannot enforce this and reject it in
+ksettings_set().
 
-Cheers,
-   Birger
+	Andrew
