@@ -1,157 +1,116 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C3F47F775
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 22:02:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3213B42D776;
+	Thu,  6 Aug 2026 22:16:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786053723; cv=none; b=PTPbF3ilsb0vy/5flPz/eUXdgLpTZYCifI6CO54rg+vt8wlTn8xe3lpf/q2oOb2bRmZpxXtoumu2GIn6xCTVkQyky7HJNMkPgwLPksPjiLlO0mxWGmjBjdUjJwoyj7aYbJ2MzHaDY3p5XXTniz3mia17DM3pDsU9xxBGlb52jtE=
+	t=1786054592; cv=none; b=b3XkcLtyw4eDY6rC/kwPaYk35Ba+kD6FcGf3ylGt1R1laI7gXn+c55AJWmnR5oR5h1Eug9Tr6/XHw+VXjI7OlMIAT5SnvlyKPBTQcbTgnzjYx2GRiIcpLQot9Cp1bKaHBi9j7jiXCU+yF+EQnDe3Urk6saSyUj2zRNnYPUI3Y4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786053723; c=relaxed/simple;
-	bh=6FS2wPk4+CPAiiGjhJgm2TOpzfgGbyEGUm69hAAetaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EfRooUCFKeYbigbyAGHa0MxkKUrQxRay9dQe0bJjBsg0RTrQqFZjUnJ9DKUbuf7ED3yNAg5p2tkjTRoJac5HGNAjk0lX4zC2GckP/TfIPN7B4VhHgAJ+HaeayY89RYYLJeOP8GbrNeYWMSxXulgzP0xm9QvtYeEyQYUHkdXF/WE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I/tx1AIh; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786054592; c=relaxed/simple;
+	bh=HEpEm+/bpSpk7PiDNN2L2/AjCx0Q7kZ3a/UCPP91sMc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vD1OZgZf/rMiiz6T5efHWR5d1LZcwoWP1JfbbdDz68ffXvjTOgS/uGyfiYYedwbFn/ahKUgzjYxYC0qntW1DyP5oVRRvy256ZFPpM1d55uaZqV/VtT2kME03HrTtyDvSsrHzyqGzpQ57iJCtfikurbEvoFfbwxElofjRZt4eJak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eMVsRRlW; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I/tx1AIh"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47fecbb7000so1395284f8f.2
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 15:02:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786053720; x=1786658520; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=BpeB30LKpPq3lxGhfPSaVqfbRwpBu+F1FaXUsX/6PL4=;
-        b=I/tx1AIhG74lonqZYuJtYxZJ089Dy6iRyFDPYq+U4HtWlXrRNHot4WJw2xe8LWHayP
-         eShQh0pfaiCmR2Xi+fwxTQwE6+xsShjrR3J2efZUv8HCDzjteHqNVGZDpznxCb6+pGdD
-         vHSJKq/aCINZS4Ep5XpZztJVOcda+CUwWjJPhgRjDfuCd+trQtC8bX2FVzFztNhYtm/c
-         6HRQdYmDdPet8vj7IViyIacRPr7thTe5IO8Y/zyo2SVzYhjUCiKX/Z3pJr9BGc++HoDo
-         a97ttF1+kYU1da7BZ+7OTXPLwaVzoW3XW4VUh5Cdvnyqh7gNSLxl8bCwcCiKNgmN3Y48
-         VYsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786053720; x=1786658520;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BpeB30LKpPq3lxGhfPSaVqfbRwpBu+F1FaXUsX/6PL4=;
-        b=Vs6UMcpBWlSPU+bZLuB6SwkehTgWPerlKTyS1/RZNUrqhlHxDn8Mkl0nkGN1+oBCu9
-         ls2phpUoUocJJSulp920NsN9c+7Z+/kPX3s6rkeRWfpSbhq5FrjY0QSVk2dz31KYVLV5
-         NZHLEB1bfxIZ7N7gbDEMN5d3ZmoFHs8elvDS7eGj9mwEZyB3AzqnVLMc0D5SlN6oUSkE
-         5RCrubOgtvw9KpNkNU+qhezWmsJapVB+t6B5k3WQXqrlU7qSACQWQ0oxvdMjPxqT1l5Q
-         JJmYFeFk6vSmKzIVSGs212x7RvwCRUGwQuo0npJBANriZL/4/LmW56eHfofDKoOIky33
-         2oGQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqivjg9paSWCdS3JQrRGrOcWeG0JiL7X64PDhBp1aEWzR7xG0u8xE+XWlgHdGIwp+K86rYRLy/u2S0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzj1x0ZFlw+T5z6NgHgiTC3rVeSQg9SZbe+O4/y+C1/nhjrESf2
-	p+ufFVIjOzsVBTM1MhhuX9thnzBX7/8wqif+DcqZ6SPQxiTQRrk9sAUb
-X-Gm-Gg: AR+sD118h794dtkSdiytZ4WzjWReZ4MBxeHQKW1PO/8/SoiCBKHOmBUWT9gBESuDX5A
-	4mveCP1PuFvtwayF9g1n+hCGucN61XAAoUZQP4cQM2y4DQoDUA86O2g2+zxFNObgkKjUq/s7vMf
-	rQryMVPmTME+HB2ib8oycC8WfCbTkZDLROSAuE+HYpy3Vd49+r4mfa6+8/SBGzDFg+CKQ6q3/a5
-	5E0rGNGGmPdzAOHrJeSGNcCcxSILMI3FTyY6YmJLmpNpOXTFUeUyqZLMjcEm1/bwF6B7IDVHoou
-	wEZ1P+zeFoRRuw8GDcwu7meqhX9gvj525eHBJlBJlJUIfEMipYMfOBwOONOfc8dXlGSbiiVg3Ke
-	N6umP6O90tjHLryCG389KpH2eNbH32j/aBvua5qX4F/4csg3wpOy5N1VVp6J1ACAuPNZrnlyXmZ
-	q0rvN7aSiVM7dpTvIw/czz3pvXl/UY+i7N1Vol2lTu7eQYbHUgoe0u4wJvEkTxkEN8RcUVip6W
-X-Received: by 2002:a05:6000:25fa:b0:47f:f3d4:26da with SMTP id ffacd0b85a97d-47ff3d426fdmr19201019f8f.11.1786053719943;
-        Thu, 06 Aug 2026 15:01:59 -0700 (PDT)
-Received: from foxbook (bgt135.neoplus.adsl.tpnet.pl. [83.28.83.135])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47ff7b250e5sm9638968f8f.27.2026.08.06.15.01.59
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Thu, 06 Aug 2026 15:01:59 -0700 (PDT)
-Date: Fri, 7 Aug 2026 00:01:55 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: dylan_robinson@motu.com, linux-usb@vger.kernel.org,
- mathias.nyman@intel.com, stern@rowland.harvard.edu
-Subject: Re: [RFT PATCHv3 1/3] xhci: fix frame id calculation and checks for
- isoc URBs
-Message-ID: <20260807000155.2960c741.michal.pecio@gmail.com>
-In-Reply-To: <0e2f28f5-aa38-4401-8287-b55aab577243@linux.intel.com>
-References: <a67e11d4-6c80-4043-9f60-ae42a15ed0d3@linux.intel.com>
-	<20260521152715.288995-1-mathias.nyman@linux.intel.com>
-	<20260806101706.72a8de47.michal.pecio@gmail.com>
-	<0e2f28f5-aa38-4401-8287-b55aab577243@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eMVsRRlW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786054588; x=1817590588;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=HEpEm+/bpSpk7PiDNN2L2/AjCx0Q7kZ3a/UCPP91sMc=;
+  b=eMVsRRlWWLsOAUIQ8frosPprSYBIdUQRp5uii1bBd+hSVumsSlle4ikA
+   ScIkrgiBd9fWVM5HyOsAN3KpUV+8SgUG7dwoRMDu5FP/bgZy1ApgTv6MV
+   efJSplRIz4uOVJZbfID6UByfVzYrVPupLlNULvZQoBibSwxBt8Njxf+dE
+   dfB8rTnXvnSFgbWrbkwQzG8Sb38GGQQL9nNROWROZPozY+8KoyPJakixv
+   +JS7Zpd/Qn/9KNrLO+Sllx7Q0GNymRSaVNJ6W5moJe8z2iAeenImU959U
+   DIX+m576SmJ3CUE9o7Mu82UYTljz7Hnp8dzuCWoFA15WLnKr0BTc3ds95
+   g==;
+X-CSE-ConnectionGUID: 2WkfgJg7SdqiEbn6Mlw9kQ==
+X-CSE-MsgGUID: comqtbY+SfagYc894wjnpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="98171395"
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="98171395"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 15:16:26 -0700
+X-CSE-ConnectionGUID: hot3QNhATtaaPrOTNzqiRQ==
+X-CSE-MsgGUID: t9aAE3NrT2+OUP+cSOd/nw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
+   d="scan'208";a="266453764"
+Received: from amilburn-desk.amilburn-desk (HELO [10.245.244.235]) ([10.245.244.235])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 15:16:24 -0700
+Message-ID: <1b9df974-69ce-47d7-a17a-bc723dd8c2c1@linux.intel.com>
+Date: Fri, 7 Aug 2026 01:16:21 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] usb: xhci: Rework and improve the TD matching and
+ skipping logic
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bart Nagel
+ <bart@tremby.net>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260804120110.01bda0e2.michal.pecio@gmail.com>
+ <20260804120537.5c30554e.michal.pecio@gmail.com>
+ <d017215b-3e91-4786-9c41-f5685e5c19e0@linux.intel.com>
+ <20260805213028.78a73f18.michal.pecio@gmail.com>
+ <20260806130022.77401337.michal.pecio@gmail.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20260806130022.77401337.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 6 Aug 2026 16:25:15 +0300, Mathias Nyman wrote:
-> On 8/6/26 11:17, Michal Pecio wrote:
-> > Besides initialization, it's made -1 if and only if xHCI endpoint
-> > state isn't Running at the time of submission. This effectively
-> > means that to start a new "isoch data flow" aka "stream", class
-> > driver must unlink the last remaining URB of the previous flow. If
-> > the driver doesn't unlink (or tries too late), the endpoint goes
-> > Running-Idle.  
+On 8/6/26 14:00, Michal Pecio wrote:
+>> On Wed, 5 Aug 2026 20:39:12 +0300, Mathias Nyman wrote:
+>> If the event points to a valid trb ahead of last trb in td, but
+>> before the enqueue pointer, then we know hardware has passed this td
+>> and we can give it back.
 > 
-> If class driver doesn't unlink remaining urbs then list won't be empty
-> and you have the exact same situation.
-
-Obviously not, it can simply stop resubmitting and wait. Or there may
-be no URBs left to unlink at all, when recovering from ring underrun.
-
-Then HW endpoint state will still be Running, not Stopped, and new
-URBs will be scheduled into the past, doomed to complete with -EXDEV.
-
-> > Moreover, we know that Endpoint Context state is one of the least
-> > trustworthy piecese of information, and notably it may remain
-> > Stopped for a while after a doorbell ring. This means that multiple
-> > URBs may be scheduled as new "streams" and get assigned the same
-> > start_frame.
+> Actually, we don't, because of a race condition (and driver bug).
 > 
-> Ok, we basically have different opinion on how to identify when a new
-> isoc data flow starts. You would rely on checking if list is empty,
-> and I'm looking at harware endpoint state.
+> A very long TD completes with Short Packet on the first TRB.
+> We give back the TD and advance ep_ring->dequeue past it (bug).
+> Some event is generated later in the TD but we don't know yet.
+> We queue a lot of TRBs and move enqueue into the completed TD.
+> 
+> We handle the event and it appears to be "before" enqueue. But
+> the HW not only hasn't passed, it hasn't even begun executing
+> any TD after the initially completed one.
+> 
+> We give them back and later get their events, or IOMMU faults.
+> 
 
-I would rely on SW state, sure.
+This isn't a realistic scenario.
 
-1. The check implemented here isn't even right - see above.
-2. Bogosity of xHCI HW is well known - see below.
-3. For consistency with other HCDs, which use similar SW state.
+Ring expansion needs to fail and class driver need to fill entire
+ring buffer in the extremely short time between the short transfer
+event mid TD, and the final completion event for the same TD.
 
-> I don't trust the 'empty list check' as I'm not convinced there can't
-> be cases in software where list is empty even mid isoc data flow.
-> Something like extreme long interval and BH delay in class driver
-> receiving URB.
+xHC isn't really processing the rest of the TD's TRBs (no data
+transfer) after a short transfer event.
+A second event for that TD will likely point to the last TRB as
+it has the IOC flag set, and that event will come almost instantly,
+probably so close that both events are handled during one interrupt
+handler call.
 
-Other HCDs implement a rule that resubmission from completion callback
-on the same endpoint always counts as continuation of the stream, to
-work around BH. This seems to have worked so far and is trivial to do,
-somebody submitted a patch earlier this year.
+We would already now see severe issues if this could happen.
+Queuing TRBs beyond hw dequeue on a full ring would overwrite the
+cycle bit and hardware would likely just stop processing any TRBs
 
-> We can add empty list check as well in some places.
-> For example xhci_isoc_tx_prepare() could benefit from having both
-> empty list and hw endpoint state check when setting next_uframe = -1;
+I do support changing the software dequeue to better match hardware
+dequeue.
 
-The HW state check is bogus. Before removing it I patched to log when
-URBs are pending but HW state is still Stopped. It happens sometimes.
+Thanks
+Mathias
 
-The only robust solution is to completely disregard EP Context state.
-xHCI 4.8.3 doesn't promise much and outright advises SW to track actual
-HW state itself, based on issued commands etc.
 
-The Stopped => Running transition is only guaranteed to become visible
-to SW when the first service interval passes and an event is posted.
 
-> This patch is tested, solves an existing issue, and moves the
-> frame_id code in the right direction.
-
-To be fair, it may be that in practice it fixes more than it breaks,
-but it also strays away from documented USB subsystem rules and looks
-half-baked, so I was surprised to see it queued in such state.
-
-> Any issues we discover later can be fixed when discovered.
-> We can't keep finetuning this forever to cover potential issues by
-> broken hardware
-
-Well, that's Intel (reportedly) and ASMedia, hence AMD. And they don't
-even need to violate xHCI 4.8.3 to break this code.
-
-Regards,
-Michal
