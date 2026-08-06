@@ -1,80 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F4147D476;
-	Thu,  6 Aug 2026 15:35:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9088480350;
+	Thu,  6 Aug 2026 15:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786030557; cv=none; b=tDaMA0xYDAy7ASRhveTKk2ELxBoAqTyptJvYlYhuaooKD9x32nDp36oAxeG247Z7k2e6lrV7+wi4KjpCbaK4NymDoh+HoOTXMm8b0JZwj5qhvNEYkZlGEvESiblX1javLRlXXhTs4saw6Msk62eJRR+80wmLSCzKH6tGNro4o2g=
+	t=1786031475; cv=none; b=XIDo6EpsBo7luXR/JPrekhA8W+48den+aU3rjVAlNMErXuFJF5F4Iw7bSz63Poq9rEKbnyzN4+CwfBdEXi25yDs+LP4jIC9Sa6RYLQJUKXkvo2+b2JxkmXtHK9gFPYw1eAm2zDQrklHOcRaBQXosHlbzD2lu0GyufHXgH+sG/pM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786030557; c=relaxed/simple;
-	bh=fFxgJcWusbH/m4Oy6vnnF1m2DBfp1xfE9fOkfw5DR9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e89PEgNSxU/x+X+2kxbDwrsL800FzaCQ3UjUBoZh/TmMk0VGhbv6DO9XbtQT5RD5+mQcuTrIUrO9xLqt+RwIIZB3TrhEZ6nwELLamVtEC5KlPXN9VtsKAJ+00Bb9nF/ytXKtOzKo8pUVLq00/tStmJm2x9e0TRx27MuHNUB1s6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fTvH/wTS; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786031475; c=relaxed/simple;
+	bh=ZXb0oRlK3EiIu+WxcYj4mgoH9ZxTGx20k4GZc0mGp60=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=N919UpZqV4ZIMnnlM5V2vORf6y3Zes2lD68H/pgluyV1yqT6nbuYkvzXY5JUWAQ0FvlBctQ1BTv8AEwH34jmKmgn90KdY+WLgAb9lcGscekFlQ2X5IykEaiz7vC4RgDfsZrIL2CV7DtftaMCwPKjZt536VteTqjPv1h0m/dqFn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kt6xdSUU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fTvH/wTS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E0BE1F000E9;
-	Thu,  6 Aug 2026 15:35:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kt6xdSUU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5E0F1F00A3D;
+	Thu,  6 Aug 2026 15:51:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786030556;
-	bh=rTALtVCTWiqqvu2b5JHcdJ0kQIZASw+ob8p+ahO3JL8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fTvH/wTS3GJdsfzZSBY8DNgaOPK8tS0wAVq6u4Ri99+UQNrVgSC0win7XrCqGcdBn
-	 LfH+MjLuTxBTL0anHAud5qifSlhxn6C7S//Y9ukufU8AOxMhSO3DwQA8TLx/tndKzn
-	 jsta7oksmM2CoBwh0QwB130sKtxn8ILRg7A7fwqDZk9GXHwipYqxhAUVjJwBUwUeeC
-	 7wYZdRcp/OE8BRgsSS/bG2rCDntdMTtW2RxpPPqNzxlxLcIvdHIgYOQ7kHa+KFstP1
-	 F0Ttg7FtNheDGfudK53BzDbJRkHU3dNbEA3KOiDYbtw8uU8nl6FOhsu29yvNZ9aC+0
-	 JiA7p8DV0tVnw==
-Date: Thu, 6 Aug 2026 21:05:52 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wesley Cheng <quic_wcheng@quicinc.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Ronak Raheja <ronak.raheja@oss.qualcomm.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v4 3/4] dt-bindings: usb: qcom,snps-dwc3: Add Hawi
- compatible
-Message-ID: <anSp2EbXtakSWvmq@vaman>
-References: <20260803091441.3040830-1-mukesh.ojha@oss.qualcomm.com>
- <20260803091441.3040830-4-mukesh.ojha@oss.qualcomm.com>
- <anReh4gzTjkD4u7c@vaman>
- <xd7gii4lmzv5xm2xylt53lnp7l5clerjxrei5cdu24mbdktzaf@do5ozmvodv3w>
+	s=k20260515; t=1786031463;
+	bh=JTlWuW7Ek/KcvkJsxcR9pM8DPrbJjAUnnUuIbCyGf0M=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=Kt6xdSUU9XAkGhthE/ToXuIe/XNmw+fgjdfIFfiv5wW4nwMwhC5oDTfp0rnRoUWzn
+	 UaFlYyl4VLs3Nx8/zrUaiO+UQi1sXQuAAeN7P+QIQ21dkc5SNK2BshjhDhTpx2km7i
+	 RM5ByPJYnMJOAD2iZgWJ5SxE0iTCVbolw1Te2Rj8+BA1DrsLtnG8UqodbTbI3/KypL
+	 OGNu7JO5ns59z2JVd5npHMX3e/TMSWMYN/QfZAqRSxCa/ApgRxrIgqQCBsXJJRweff
+	 VDzGq5PR0Rrj9aPdBO7cn5pHjQ/1rc1zY2TAJiSpicP+auc/biDdiFik5g/WB0fr3b
+	 0rxKIzrk3nkhA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56936380820D;
+	Thu,  6 Aug 2026 15:50:24 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <xd7gii4lmzv5xm2xylt53lnp7l5clerjxrei5cdu24mbdktzaf@do5ozmvodv3w>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v2] net: usb: ipheth: fix carrier_work UAF on
+ disconnect
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178603142291.1348318.12761684225975520681.git-patchwork-notify@kernel.org>
+Date: Thu, 06 Aug 2026 15:50:22 +0000
+References: <20260802120602.42595-1-doruk@0sec.ai>
+In-Reply-To: <20260802120602.42595-1-doruk@0sec.ai>
+To: Doruk Tan Ozturk <doruk@0sec.ai>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, agk@godking.net,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
 
-On 06-08-26, 17:24, Manivannan Sadhasivam wrote:
-> On Thu, Aug 06, 2026 at 03:44:31PM +0530, Vinod Koul wrote:
-> > On 03-08-26, 14:44, Mukesh Ojha wrote:
-> > > From: Ronak Raheja <ronak.raheja@oss.qualcomm.com>
-> > > 
-> > > Document the Synopsys DWC3 USB controller found on the Hawi platform.
-> > 
-> > This one fails on phy/next :-(
-> > 
+Hello:
+
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Sun,  2 Aug 2026 14:06:02 +0200 you wrote:
+> ipheth_sndbulk_callback() re-arms the carrier-check work on any
+> non-zero URB status:
 > 
-> This one is supposed to go through USB tree. Too bad that cover letter didn't
-> talk about it, but it should've been sent separately in the first place...
+> 	else
+> 		schedule_delayed_work(&dev->carrier_work, 0);
+> 
+> Nothing ties that to the interface being up, so the work can be armed
+> again after ipheth_close() has already drained it, and stay armed
+> until the netdev whose private area embeds it is freed.
+> 
+> [...]
 
-Yeah my bad as well. I should have checked.
+Here is the summary with links:
+  - [net,v2] net: usb: ipheth: fix carrier_work UAF on disconnect
+    https://git.kernel.org/netdev/net/c/fde39b8a5217
 
-Good news 1,2,4 applies :-)
-Should be in pipes after my builder finishes... Later tonight
-
+You are awesome, thank you!
 -- 
-~Vinod
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
