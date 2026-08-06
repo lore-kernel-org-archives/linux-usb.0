@@ -1,126 +1,126 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE7532B112
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 14:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9C41A680B;
+	Thu,  6 Aug 2026 14:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786025008; cv=none; b=PDUY+8qNqYRrRZx3TQbZMXlCqROgeJJftwxva8rU6G8T32rDQGoZ8xUVaMYm+H8g7mw5vxvwuvpt+cQPaALA8wcjmSr5ZytAtdNLSDwUBBiYGTjac/foWr6Auen724M31eMRKkG0lxr/UYAh3iyIyZAnX97sgaDyaYzRG8pvxOU=
+	t=1786025277; cv=none; b=Vyo5EbL2w5WB1P34GlY2dfv/uKnbpNTi45kY38I2w8GpobYIMJC7zHq0VwdasAJI8Sc8itujBdXmgDAT3Srwc8ihr10dt0YNShfsvW7Z4/rzHSpZkLLPa5pVjvtNx2lfOGb0Ae+L+DccIOfIwZhkNE3HlCqqRTxIumVo4CmqRhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786025008; c=relaxed/simple;
-	bh=u9JXtChqtSTFhuchRR/PFpP8rF2xeWwYEzQp7qZv3B8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iICk6GwzYWG3sr6YjwIprnWggl6lNOCKOENRH1bfytxogUiph7tmT2sgvXMYYA54s2OROdN4icp85L1hNRCy1WhACtxCw26jVDsc1gY59H6QdBmYHG/I1vjS8KseXaAxAUP8s7FDZydMXyq1PZcJoGfHXMYtXDRueV0bU5dkYTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=gPqD2k9O; arc=none smtp.client-ip=209.85.161.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1786025277; c=relaxed/simple;
+	bh=rFPSR9lT/tRkEsWOCTa2OQaWqHPZV6COdnL7u0/EjhQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JzXWnxAgHiDAsUgNEUKKkeTRWNbfrnkMeZWuxN1boy4msmfua7PazJfnkHwCE/hLRnoJo7mmEasIq7o5XUcFXJD34VfjV4fqmx3CeFBsouEDQpPPVps3maRTVMVZlHIDNbzqq/h6hXqJA7a6N01oHTE4y2Sa1vWykzRECGrB+ZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=UcGyCcuT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gb1wh/7O; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="gPqD2k9O"
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-6acc88b9c5fso1137980eaf.2
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 07:03:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1786025005; x=1786629805; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=maS3uLyNRyEULsURKlLuk7EGSwI/vQHszwdGmzJIEQs=;
-        b=gPqD2k9OUFEYxVykHiAMyrpp/DhR5xgJrkCw5+QxNTOUtGaeuPM3dqT2oI9Zb0r85W
-         KWe1cWBZsFzeDYWgXdVgdgv8e9HnXZMwko+MTq1729ev4uOka1POl3gmsh33WjQc5mSY
-         ScHr9CSPNygf2D9yN21oIaPpdHbNES1VPtJKyQUpGhin5oCO5hQQqhiHlcyfn2zplTjH
-         R/A9gHcem08cRxM4DQvBl+K02Xnn8eeKxdCrTbNhi0J5ZB3s3Z7XjZoD+Jo0haVhTNUY
-         xp3P0hOp4Ys5b9kwRCVCvcg2nICnPSaKL70kg3LAeRoKgV7BMQ7Gs1QAtqVy72WNyedG
-         0LXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786025005; x=1786629805;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=maS3uLyNRyEULsURKlLuk7EGSwI/vQHszwdGmzJIEQs=;
-        b=enaG5NywQG4n5u0Ta+Gsn9Eg4yiVDUMYPY2w2aNNKRS+PBKcFQplpePWwwAWovxje2
-         EqcrCLFmuCWERfbc927+9aL7Yt2CZ37nGYQKxUZEMwiWVDM8LdzldG89Eq9HEWKLhgrq
-         E4RuFfuQuMatw5AHH8jXG8Q4MaHFzlKAlJqJj+I3W+BkocvehyCYEemUIvoAlfJuow2P
-         pqZJL05W6ZikVjI2NWSkDyPpM6XQNRoZ1pbXxXrRlcHBNYpaurOwFkUuXenZ42eD57K/
-         SE/hH8wY+sxh1nDl59+RezDzokaKXMo4fk3O7U0VcY8H9rnNrfZLl0GEfb7FZXTdP4Xo
-         bDrQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rqkv7eV7VzZdAtJ0vaVAIoEs9mONUsQ1TDiNhgWLcf2pajrK6+RtWDzC3fOhNf8uXJs+wurJUUmrwQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxspJJYJk5dn8rsMEAB7wS7hWiZngsZ/4/yOU/roojj34VPKTNC
-	rIwR2rwi5MJSPn2kF3zZzW1nDVRTJawBS9qcOPAfsiNjREkvzDjhHzbFbYm9G1jVOQ==
-X-Gm-Gg: AR+sD11q3xLkLb8Fptmg+vXHGByi+zaPYFYmINsHw6oHBAJLKxMmFAjiWNbhKG16cAU
-	xG6c7gqqM7Z07wTI5lOXclxcmAToVBniP98uUI3rbK2TW9sbWXJHzD9c2tM3oZZXSq2qpBbCbc8
-	aHyUpmOKX8cgqiu0wGo5VGZGG0pASkbsFGV6GsrOGJ9esmmLmb3eDCkDG3Kxza2EXyGAO0U0DAa
-	b8cIKVu2CdC4pArc72M1fV1BFFw3ZEhYTTAumEBK9w2MccndMn8ezF3A5txLrmHO79osiIWVeTF
-	7nUvh4Vy11B5Xlb+iQdf5dI7tbY8qMRuzYnMkAVBytaRfWVV/x0ag8X8YkpqGFOsTxiXyQXF9mi
-	Ls6Es4PNT1zZPv/eh6ZDzkVtzmlrtXTwTnLeBYPhi6zSAPg4dFyhmuiq+mNUr1eAcIdKO2zYWHx
-	2zEHCqtQ6sn0YavdjFrJj88liaVJe6sXrsXnAFpyy8QyUU4kUxBgYjgPLz2CZszpBoLTSzkex4K
-	ZcZxcU=
-X-Received: by 2002:a05:6820:1905:b0:6aa:e524:fd7f with SMTP id 006d021491bc7-6ae970b941bmr7785497eaf.34.1786025005248;
-        Thu, 06 Aug 2026 07:03:25 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9087ffe09f0sm52927166d6.22.2026.08.06.07.03.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 07:03:24 -0700 (PDT)
-Date: Thu, 6 Aug 2026 10:03:22 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Griffin Kroah-Hartman <griffin@kroah.com>
-Cc: Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@kernel.org
-Subject: Re: [PATCH] usb: misc: usbio: fix bulk receive overread
-Message-ID: <5c4f8b7a-4047-4c15-ae13-3844790317ef@rowland.harvard.edu>
-References: <20260806-usb_drivers_usbio-v1-1-04879d13b46e@kroah.com>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="UcGyCcuT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gb1wh/7O"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id 5B7A5EC010B;
+	Thu,  6 Aug 2026 10:07:54 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Thu, 06 Aug 2026 10:07:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1786025274;
+	 x=1786111674; bh=8Fp+ftXmlYOv9Lcg2RGl/ZE1LbR7FAv1qreoyYeaksc=; b=
+	UcGyCcuT0gYC5EqmOHIbhPl+bfKde852z60uuNDdI+MPvjlO2vOqAtG6DkVsXgGi
+	XjEWwa5E8Qg2pEf3zBiICfBS+aN+gzbjIAsfFbsU3XdFCaQnAYgVhVaTeN2+zA9S
+	fj6tP1yQL3uHhd7TlC5LJpq1pV5W8vCZnri6iT7lJI6FFE2ir2oo3l99FRAnG0mP
+	Kc/qKALwjf/Fgo4PqcJ8aMjUGZjKP6IqXcYtOyatHSA8i/2P4GQtJR+RXpWPmcSP
+	0n7+mZG3GsjXEDSzAXgcJYoRTzvwNFP7DprP5HSSuyw0+b3qL+xCwziMWokHzLQl
+	85rTyjbmbxfnzgpbwbvKFg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1786025274; x=
+	1786111674; bh=8Fp+ftXmlYOv9Lcg2RGl/ZE1LbR7FAv1qreoyYeaksc=; b=g
+	b1wh/7OQoUoT9hBR0Pm8541aMh2qNPqDca/cmJ2l4bM91dDCbSgqtqn/Qp4ZzvLP
+	AOZok7ZU2afUNlLK58uQPzq+9Yn+peooHFq6w0OLRDdFXYtG45fEvnYDYdPt6PyW
+	n/6zJTL1IVyDAldosNBKu6zTyiSfyFbg17UR4+O9fWDgVF4OJHi7HFzlgoSsuGPf
+	FC4SYS60Ux2BruDSfOVb50ZR6CmRr/r53OAe3NYOvsKby3TzhNJmsCzZy6/fOoc6
+	uGiksX5Hxadozu8xGMbCFInJb09mV1AubSaOcEFE3a68LL8rcXV3VursXJ6KZ3uv
+	k4yARI5Y+0X3w87Q8ittA==
+X-ME-Sender: <xms:OpV0arMv30C6XqvZe3NgQDx0IGRhDh4KwDGo3HcTZufJThBURwJPgQ>
+    <xme:OpV0aogBmokiVngGl7tUClW2oEAGaW03jfqwqqN65SvOcLVoOsOK0diFSTtbZTLHT
+    0HnpBmUa-oiVGOz3x7dGf5gGhsaMZyZhiMJSRYcjze5GBHqZjo>
+X-ME-Received: <xmr:OpV0at6rcNSDkujaTwC4XRoe6Mgwx3ZwxWUpNycUJANmoWrYjiW7JQIafzFLkIXZDh4--CX6shzT3p5P0KuurqwLkJnAEi79pdW2uebTZrAlBIGf9cQ>
+X-ME-Proxy-Cause: dmFkZTEKdexUtFNdrOImzzNGSMNny+MDyxpcO3YT58dqvseGGd4aH7ksa6rX7+eXMMnA2u
+    g9bIXS2Q8Os3F7b/bz0R5dDu2wjH+RhuV6W/AhpqPPFrTD5QAcSBViyRI1vDNClguuNw1G
+    YrcOgb6nqqXxbBeXENmEgp4m07UtTY9g1GkOHDSrLZyBH1BYvoiHM7aDnG/sfNfb2batdX
+    zJb0sxhcXcxoG3fb9vL05C8jT+ZVg5M1ofGjiKbYSvETzvkBYf0+AREmRwxVnfmdpxGNaS
+    171wBVf+dPn5J8bNRpHhqF3ZFmu4QzxQCVlFzaMmvFRHePjkKWCAb/Moschya08JpJBLtE
+    fxzlL8C8TyoDz2Iqi0mu/xjphtj6/XUdRM8Yhmu24QXR8Yg3frN6Dl1cy7nXXc5ZxWcsD4
+    eHlvHee2XDYIrQfmKHW9kJbO1bpQhC5vlwAKsyIYkLmATjbHNJYLbeX6Xu8+ELWRcBR7Rp
+    TLxFi6jtsygFWI4s/P59ux2r7dg7ZlCwKb2hq6hbaKVcdzH0hJHsNuCOW9paX9TW/c7PRF
+    wrJlIAlDZepl+azdXmCqML0Yn5+bclxWYn13Z5MPLQ5FYxQw7ltvyoTfKm04GqEEwK8pOY
+    ARaAIKwy4lDSazJueBF6M6KtQhl1fopl6Wdry6QW8ENIde29HuW0i7ACoFOQ
+X-ME-Proxy: <xmx:OpV0av1Wl7DsdeykGhhm5aQ9BY-uFBcACrWAq-v2RP8GfTLmCmyHQw>
+    <xmx:OpV0aouHU0HznOI3HwCCp5QJwJQ2IR0xnOFXN2dOt4aAZH_ZjyykiQ>
+    <xmx:OpV0al5OHWwFUWv4Inx6yC0HxYhqLm8epQwkYuFS_-3TpZLkZZBdew>
+    <xmx:OpV0akfOkej4w5eabXQizSLH1a3bNze7ilwQsHEbobwxGsLWtctvGg>
+    <xmx:OpV0asFnIOTrqlmEHS5pMV4fx0FARV8vm7u38_aoMXgfEGTG_vOGeKeM>
+Feedback-ID: i1d2843be:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 6 Aug 2026 10:07:52 -0400 (EDT)
+Message-ID: <f6b42163-9559-41fb-b0df-b085626143db@kroah.com>
+Date: Thu, 6 Aug 2026 16:07:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260806-usb_drivers_usbio-v1-1-04879d13b46e@kroah.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: misc: usbio: fix bulk receive overread
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
+ Hans de Goede <hansg@kernel.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@kernel.org
+References: <20260806-usb_drivers_usbio-v1-1-04879d13b46e@kroah.com>
+ <5c4f8b7a-4047-4c15-ae13-3844790317ef@rowland.harvard.edu>
+Content-Language: en-US
+From: Griffin Kroah-Hartman <griffin@kroah.com>
+In-Reply-To: <5c4f8b7a-4047-4c15-ae13-3844790317ef@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 06, 2026 at 03:43:11PM +0200, Griffin Kroah-Hartman wrote:
-> Add a check for bpkt_len being more than what was actually sent from the
-> device in usbio_bulk_msg().
-> 
-> A malicious device could use this vulnerability to claim that more data
-> was sent, when in reality it was not, leading to an OOB read later on
-> with the memcpy at the end of the function.
-> 
-> Cc: stable@kernel.org
-> Assisted-by: gkh_clanker_t1000
-> Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
-> ---
->  drivers/usb/misc/usbio.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/usb/misc/usbio.c b/drivers/usb/misc/usbio.c
-> index 3c2474dca810..794322ff09fd 100644
-> --- a/drivers/usb/misc/usbio.c
-> +++ b/drivers/usb/misc/usbio.c
-> @@ -341,6 +341,9 @@ int usbio_bulk_msg(struct auxiliary_device *adev, u8 type, u8 cmd, bool last,
->  	if (bpkt->header.flags & USBIO_PKTFLAG_ERR)
->  		return -EREMOTEIO;
->  
-> +	if (bpkt_len > act - sizeof(*bpkt))
-> +		return -EPROTO;
-> +
 
-Isn't this just a repeat of the code sitting 4 lines below?
+On 8/6/26 4:03 PM, Alan Stern wrote:
+> On Thu, Aug 06, 2026 at 03:43:11PM +0200, Griffin Kroah-Hartman wrote:
+>> Add a check for bpkt_len being more than what was actually sent from the
+>> device in usbio_bulk_msg().
+>>
+>> A malicious device could use this vulnerability to claim that more data
+>> was sent, when in reality it was not, leading to an OOB read later on
+>> with the memcpy at the end of the function.
+>>
+>> Cc: stable@kernel.org
+>> Assisted-by: gkh_clanker_t1000
+>> Signed-off-by: Griffin Kroah-Hartman <griffin@kroah.com>
+>> ---
+>>   drivers/usb/misc/usbio.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/usb/misc/usbio.c b/drivers/usb/misc/usbio.c
+>> index 3c2474dca810..794322ff09fd 100644
+>> --- a/drivers/usb/misc/usbio.c
+>> +++ b/drivers/usb/misc/usbio.c
+>> @@ -341,6 +341,9 @@ int usbio_bulk_msg(struct auxiliary_device *adev, u8 type, u8 cmd, bool last,
+>>   	if (bpkt->header.flags & USBIO_PKTFLAG_ERR)
+>>   		return -EREMOTEIO;
+>>   
+>> +	if (bpkt_len > act - sizeof(*bpkt))
+>> +		return -EPROTO;
+>> +
+> Isn't this just a repeat of the code sitting 4 lines below?
+oops, sorry I was working off of Linus's Tree, not linux-next :(
 
-Alan Stern
-
->  	if (ibuf_len < bpkt_len)
->  		return -ENOSPC;
->  
-> 
-> ---
-> base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
-> change-id: 20260806-usb_drivers_usbio-55ac8cc2e572
-> 
-> Best regards,
-> --  
-> Griffin Kroah-Hartman <griffin@kroah.com>
+Griffin
