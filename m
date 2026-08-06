@@ -1,128 +1,129 @@
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com [209.85.221.69])
+Received: from mail-oi1-f206.google.com (mail-oi1-f206.google.com [209.85.167.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F01F47AF66
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 15:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C619947AF5C
+	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 15:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786030020; cv=none; b=Ft+cK4v/G6Bv92ApWVO/vl5dzeOsLwjDnAUt4k69r8LO3bI0N/bnZ6pUCvEol1E234lBpRsPA3Nhjq2EK/iu22DvO5PTLg1VPNJewIq+gLOzjpM4XldpLgssQotA+mmf7mi0By0FUx1Fa36tauSw6CZUw2GmpCo2NIzTig0iHHo=
+	t=1786030061; cv=none; b=KTAi3QM7FGC5ozMjYZY+mMnf7PWUO9pSxbhkrb6jYGl05yYNVotM/0myI393of+Q/ay+QyEG7esHTecROfD8VpmQ/Ss61OarFQcmWuNVvbs8NcOhAqSWppTPrYu7JUkJ+WaSSlXLOWPz31i9qRkVBZSvtz5B3w5QAhSj5qi6WJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786030020; c=relaxed/simple;
-	bh=R1E/w+AxsfP4UPOWvTWTrQQ9pq/bK7zQxikSG96an4o=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=AyF0aAV3h2s3xE08O8WsJGOwAuw/yVvKQfWttlOm7cPX/Kb63Kc66VfGyh3npiZqN91Sujv44Unwha6gqGS2nQzgrZiCr1FNVS/wiItCkc3H9lRZn7BgC1pIBjYrFtDZlD0gxilTXyqzv9bQ+Z8ozhdbeGAoBgVzlEiHEaY2EQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--nogikh.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YXb3cw0p; arc=none smtp.client-ip=209.85.221.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nogikh.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YXb3cw0p"
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-473ac08a6a4so1625589f8f.0
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 08:26:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786030016; x=1786634816; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=K+S1QP0FhvyNfqeqWumDjuFSyxYhfuXzC6OVTs+0PE4=;
-        b=YXb3cw0piNylFShcrGbbnBgmuQTPKplvpK8YodMBiBryZWrwdfY8vEFcCy80SjbWtE
-         /SlJTXpxCWcDtof77lmZl5F5E3B+fGXbg73pSQGcxStMD1BIgqTe9r3hyaLfhW/bs1t/
-         oCfqy3zi+OIgJAOFiGg6RbrimUinkmCFu8YbiAoozqW1MEmrKHANjbwxh4+eMredOSG5
-         Ko92h0RqKqZDBb7YbyxKp6gZZokjZw40Ox8yOQn9tZl/H3plYgE5i0yYKqZu9yL/DKOq
-         /QDwvWj+Jv2DETV5lymbFCXp5FiwfT0+IH8wE+xt+npr/L934ctguH6NpluGOEwTewod
-         ySjA==
+	s=arc-20240116; t=1786030061; c=relaxed/simple;
+	bh=T6EWmND9VBV/DEF3ElV3AvvOJ1/4nb6of/f1kNfnHcs=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=BaxLFwVctfregxWIh7xWkBs0MxVWaTxIbTXcSl/626G2+k95OZEH2lsGJsMAkY+HsldV7aLg364VQb6u6XFhffxahGuX8QFustW91pifG4U4e0KlNVqNPBX1Wp3o1OsF8kxWDBZRcey/R//zcdNlKQRJNvvstulICPvMjDfG84I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f206.google.com with SMTP id 5614622812f47-4ab4f78b9f4so2854994b6e.2
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 08:27:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786030016; x=1786634816;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=K+S1QP0FhvyNfqeqWumDjuFSyxYhfuXzC6OVTs+0PE4=;
-        b=GorcJ/drFWM9Vt3L+mqdNtUK9kGYjuwVZnmVSWefNC4uI0CRxlgDl72+Yv2XpX1nkU
-         DRvLTkkP90nBIzqjv1BhYrCwyDXNVlelwlzg3v8tFMF1nPgIqkEtaWJw4e3xJGHySHGT
-         erKfQ2yiEE5bbqasIW19CHuBG0blVgDCysGzU5shVr1y/1CpdGWQw40Tv7UKytZi7YcP
-         U77sQdK7pQY3BmXyjOaugIX6SsNbFaOpvSNMgvmB3iYl0rJXR0cYby2V1gAGGYpoN8Nb
-         FFhSg92b+eaT/sHF3e64K/p8SwnpmNgymVsGuZvBIanip87CKYVut9hnp8xdqFr2FpTD
-         xPjw==
-X-Forwarded-Encrypted: i=1; AHgh+RrI0i6rZWdEzV13HwW+Jqrqi1LmMarAgFM0zmBFo1QDNYZ8B9sBZlNdmIbzw1DiZzjtVDIB3uxVexI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2l6gY7drlCpAVJgYwQpD4EgApJdS2EVBV0TZaOPfOOjazOUzn
-	VXLxWtISero6RHz0tJOXDHJ/UFO2JgzkHJR+RVJaxvwFwbUcIefnq/SF60nbzsfYKVp1Qr46Ykp
-	kKB3D3g==
-X-Received: from wrmj16.prod.google.com ([2002:adf:e510:0:b0:45e:9abb:86db])
- (user=nogikh job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:4021:b0:47f:f828:9f35
- with SMTP id ffacd0b85a97d-47ff828a369mr8592226f8f.17.1786030016055; Thu, 06
- Aug 2026 08:26:56 -0700 (PDT)
-Date: Thu,  6 Aug 2026 15:26:51 +0000
-In-Reply-To: <2026080322-obsessed-daringly-e6df@gregkh>
+        d=1e100.net; s=20251104; t=1786030057; x=1786634857;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Z1t2wgaOF3OaygCY77SWnGetQVPE83EEegnaU4h4YlY=;
+        b=kLKm6nFGEfEtBBAI7EiIU4P7FsCWMZxfVplJUC7NtTcNL8qFweDaoVJpsFOphcAgvM
+         9oOFi8mcwvkyXkQeGo5wXB57yrqP1BbeCDkrQZqpq8/pcgZomBb88YvsDGszUcHBYSdy
+         S3XRHiyGhYcCnSc1bPh6mIKIst/HiMPsDDoY14B/1TCBF4Y9Wh7vny65Mnnbscfga6sp
+         zigF8Z1hCmnw/XURfeGZF+KG8I44IOhT0WB+0VUN4jRWKh3Gx0Maq88oE0rANjW5+dgL
+         5SQd9mQPUgus6mU2GU+nKyQZk5xmlPAo0VtIP8uxOyGLcpmYbG/09UoH7HwUjuMJpl6s
+         iYjg==
+X-Forwarded-Encrypted: i=1; AHgh+Ro6RWQ9XnWqmHZAeHf2yJ8iTXhBp5bIWJyD6eFXLnJIjJ1LjFK9LPXSTltdiw5j1XbAmekoOE2zm+w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaqObqb1zU0ugtamUSNBbja3tado9HIfLF17zy5NuDMGIRWan9
+	T593DWaY+IyzWV6tBOtbKlI/1ivjvZXaak3Dejx89VL1ov7avC3+EiVV98unmJfTHMPMD2VhWyQ
+	+a3t0dg2oJUAOGfgycrGU6Ngc6R/w1u7c07W9Y3rNQPB6J7+PTZIYmpiEYrg=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <2026080322-obsessed-daringly-e6df@gregkh>
-X-Mailer: git-send-email 2.55.0.654.g21b8a5bc05-goog
-Message-ID: <20260806152651.2370795-1-nogikh@google.com>
-Subject: [PATCH v3] usb: usbtest: disable dynamic ID support
-From: Aleksandr Nogikh <nogikh@google.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>, syzbot@lists.linux.dev, 
-	syzbot+7e1e5911f9eac50bedc7@syzkaller.appspotmail.com, 
-	Aleksandr Nogikh <nogikh@google.com>, stable@vger.kernel.org
+MIME-Version: 1.0
+X-Received: by 2002:a05:6820:3108:b0:6ae:7e3d:b9c8 with SMTP id
+ 006d021491bc7-6b02124f177mr1299583eaf.9.1786030057617; Thu, 06 Aug 2026
+ 08:27:37 -0700 (PDT)
+Date: Thu, 06 Aug 2026 08:27:37 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a74a7e9.01d0871a.3a0d52.0022.GAE@google.com>
+Subject: [syzbot] [usb?] INFO: trying to register non-static key in usbg_make_tpg
+From: syzbot <syzbot+e55293acfa7cc1eb8fd4@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 
-The usbtest driver relies on the driver_info field of struct usb_device_id
-to point to a valid struct usbtest_info descriptor. This structure contains
-essential test configurations, such as endpoint addresses and test modes,
-which are required during probe.
+Hello,
 
-When a user dynamically adds a new device ID via the sysfs new_id
-interface without specifying a reference device, the USB core initializes
-driver_info to 0 (NULL). When a matching device is subsequently probed,
-usbtest_probe() unconditionally casts driver_info to a struct usbtest_info
-pointer and dereferences it, leading to a NULL pointer dereference crash:
+syzbot found the following issue on:
 
-  Oops: general protection fault, probably for non-canonical address
-  0xdffffc0000000001: 0000 [#1] SMP KASAN NOPTI
-  KASAN: null-ptr-deref in range [0x0000000000000008-0x000000000000000f]
-  RIP: 0010:usbtest_probe+0x3b9/0x1280 drivers/usb/misc/usbtest.c:2822
+HEAD commit:    848acc8ffe1b Merge tag 'fsverity-for-linus' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14c3be32580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cb17729fb04b1e3a
+dashboard link: https://syzkaller.appspot.com/bug?extid=e55293acfa7cc1eb8fd4
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
 
-Because usbtest strictly requires pre-defined usbtest_info descriptors
-to function, dynamic ID binding via sysfs is fundamentally unsupported
-for this driver.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Fix this by setting .no_dynamic_id = 1 on usbtest_driver. This instructs
-the USB core to skip creating the new_id and remove_id sysfs interfaces
-for usbtest, preventing invalid dynamic ID entries from being created.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/375d27e96ecb/disk-848acc8f.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/4ba19a656b9d/vmlinux-848acc8f.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/7c2a17aaee7c/bzImage-848acc8f.xz
 
-Cc: stable@vger.kernel.org
-Reported-by: syzbot+7e1e5911f9eac50bedc7@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=7e1e5911f9eac50bedc7
-Signed-off-by: Aleksandr Nogikh <nogikh@google.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e55293acfa7cc1eb8fd4@syzkaller.appspotmail.com
+
+INFO: trying to register non-static key.
+The code is fine but needs lockdep annotation, or maybe
+you didn't initialize this object before use?
+turning off the locking correctness validator.
+CPU: 0 UID: 0 PID: 5961 Comm: syz.3.42 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ assign_lock_key+0x133/0x150 kernel/locking/lockdep.c:984
+ register_lock_class+0xcc/0x2e0 kernel/locking/lockdep.c:1299
+ __lock_acquire+0xab/0x2ce0 kernel/locking/lockdep.c:5112
+ lock_acquire+0x106/0x350 kernel/locking/lockdep.c:5868
+ __mutex_lock_common kernel/locking/rtmutex_api.c:559 [inline]
+ mutex_lock_nested+0x5a/0x1d0 kernel/locking/rtmutex_api.c:578
+ usbg_make_tpg+0x147/0x590 drivers/usb/gadget/function/f_tcm.c:1678
+ target_fabric_make_tpg+0xa8/0x6d0 drivers/target/target_core_fabric_configfs.c:939
+ configfs_mkdir+0x4f6/0x9e0 fs/configfs/dir.c:1360
+ vfs_mkdir+0x402/0x620 fs/namei.c:5276
+ filename_mkdirat+0x289/0x520 fs/namei.c:5309
+ __do_sys_mkdirat fs/namei.c:5330 [inline]
+ __se_sys_mkdirat+0x35/0x150 fs/namei.c:5327
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f0ea03ae019
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f0e9e5c4028 EFLAGS: 00000246 ORIG_RAX: 0000000000000102
+RAX: ffffffffffffffda RBX: 00007f0ea0636180 RCX: 00007f0ea03ae019
+RDX: 00000000000001ff RSI: 00002000000005c0 RDI: ffffffffffffff9c
+RBP: 00007f0ea044500c R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f0ea0636218 R14: 00007f0ea0636180 R15: 00007ffdd6e20e28
+ </TASK>
+
+
 ---
-Changes in v3:
-- Cc stable.
-- Link to v2: https://lore.kernel.org/r/20260806142511.2337081-1-nogikh@google.com
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Changes in v2:
-- Disable dynamic IDs via .no_dynamic_id = 1 instead of adding a runtime NULL
-  check in probe().
-- Link to v1: https://lore.kernel.org/r/2650cf0f-26f9-48b5-b198-e4cb67c59cf0@mail.kernel.org
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
- drivers/usb/misc/usbtest.c | 1 +
- 1 file changed, 1 insertion(+)
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-diff --git a/drivers/usb/misc/usbtest.c b/drivers/usb/misc/usbtest.c
-index 98071b25ac076..8759df49be287 100644
---- a/drivers/usb/misc/usbtest.c
-+++ b/drivers/usb/misc/usbtest.c
-@@ -3054,6 +3054,7 @@ static struct usb_driver usbtest_driver = {
- 	.disconnect =	usbtest_disconnect,
- 	.suspend =	usbtest_suspend,
- 	.resume =	usbtest_resume,
-+	.no_dynamic_id = 1,
- };
- 
- /*-------------------------------------------------------------------------*/
--- 
-base-commit: 48a5a7ab8d6ab7090564339e039c421f315de912
--- 
-2.55.0.654.g21b8a5bc05-goog
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
