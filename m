@@ -1,207 +1,125 @@
-Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE65427FA0
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 09:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786007405; cv=pass; b=qXazQkkXmdVgWv2d5dv37eFlC7qEThOByQQAwMqpvgWhCrBklyRDFfU7xju2pciPMNHybA6geAVro7eEQ5ThxhPtOkEQGRhDKu8i55phf9jrx6OZsRnfz1DnPBRZsPVEkwmjRr5Ug/fGT4N7KszglBgd3h5tIMAFiSMrYH/gqPg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786007405; c=relaxed/simple;
-	bh=PjgzYh4xhi8r/1gtDSs2lcpXDwHgzvW8vY7tDCqm8d4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rJw7KmPEz/TTzILLssuA7PNXs70jJ0ImXM/OjdOG+8Mf+RR5Jcxs8eg5iTDSybVKnB/YPxQU0A6HBqA6rduMn/cLeGOpwxjpZ/kJAwdmVLlveSiSfIklzjumRo8sHBFsA70jJJcREhPIZgZYL6hSG7F4uE7ImjyQkmdYBRuSupc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g6ylxaUT; arc=pass smtp.client-ip=209.85.160.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A5343FD32
+	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 09:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786009019; cv=none; b=R0I1bkloyqYmEFUoN+exSDRAUQmqFB02XiZAhRCQo1wAznELPn5PsszimNtx6YAQpK2Ul5GuBXrZIJv7OI0YKPOuXbl9DKUpBFsNatJBdLH+/H18G+ZEJoZvUPB0q5vvC9E8VN2wwnqYUk7yzdVNOhOhIxixywSzsCaeYw344TE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786009019; c=relaxed/simple;
+	bh=b+l5kijwg7xqkug1cUOat0L12FhdH5xWFmrLKtjJQAw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XJXYEid69R/dJGa7hFZa7NeG0k2zEAWA45sXdp0KEJ3emfYLOfbcQj1/emQqmR5PBAdizPnkjADpPSuFAxz7mCdUt+5+Kri2UV46qVAGEmlOwpmvR2gfBaNjUcEF3SLaGyyrKE+IaWvC0cTE8473va47vu6Xqgy58DzLpLqZuVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fGugs4rM; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g6ylxaUT"
-Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-456f7012050so620816fac.0
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 02:10:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786007401; cv=none;
-        d=google.com; s=arc-20260327;
-        b=K64uEchF7/xJUD9AdXK0VT7Bdwj6xmDXmn+6xXoWU3NVwBjK8eGiz6rI6ZNZW33vjE
-         KW/bTWn+kuWSbcZBCgPFFy9SJD102VWm27D5eNZIKX/7uHBV512RP8aaxW4Gjdz9PMwt
-         Jq1w01qsvmDeyu++/yYZ11s3pcgk5IYxyjLdCd+2V2EJU4t+Q9i00PmztLHzrX5GQImc
-         PEq8m8hH+AtatH2A+6Y4fe1YyzNgrPML87MrK2/lsJ+EQF/1LnmjjyN/Fd3adkuPtYbI
-         pSc7XDFFz8XNjdMuRWNQqBZ7c8yixkUrBNVcnCJ7Akh9LY2NId97bizhcaCKbtfOnA1a
-         UotQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=O63QlgegA4Mm6qi4a1gFdlgc0IoabcGZvqlXlfGAHy0=;
-        fh=MccpAvgBaSDjyoYk6H4f1f/idLu06YpIFUje+y1qkiU=;
-        b=Ltr6SRGoELkJLzckyEbS5T5PE65su8GBGvFYDkGt1JB94Yi83197oJd7VaKTKBrXZf
-         VNhn+rRic7ujlwh+ZHwiZwcgtXFQhcotWhsc81jaNn4eMGR2GUNH5GAiIhruit17RqC6
-         R4R7D7XPr2KLVeX6gI8EWm+sV/hMU+t8rwT1DAYrIJXE2HrtKCm+6OJnRUvMjbkO6ONr
-         qwCVyAr9xo2osGP2w7yoAN4phoJLAGIDe9bgCgXqWEn8fCkZm+qz2NZdOtnjyYVkB3oH
-         9h+f4Sr3S7aIZmU+2u3vYrAY7cuvF/JJ+D6wc39Fn/wHiTN1JaJxkM66ZWsWmcPoZe2g
-         kghw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fGugs4rM"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c9aea40d799so1137874a12.0
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 02:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1786007401; x=1786612201; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=O63QlgegA4Mm6qi4a1gFdlgc0IoabcGZvqlXlfGAHy0=;
-        b=g6ylxaUTwkMaQtZjY4nFnwOdKYzjpfufhS7RcCEcetLkbp9q+dYuBIWUhE9AGWsN0r
-         YhhtbGk4l1bJQ6FkuKlO714f8VuXlmXYrDw7vdVS8ra5UUk9XLVmrYdraA/uqigYKQnR
-         70HSuwbVsykU47qkWs4Jm0juxtOHwC8j0s4Oo7wk9wI/a9ykxxpfmVQpPT8BZXeVQn/N
-         fl1IAxA2o51T+uQF06uP/jkt7HSuDyaNmF1dcGYlGBU5sx7zTR7d+pTPMrWb72XIU4y8
-         V28mVAEdGPvu5kuXPIU1oDSJ1ALf7j6cUjGgNpfuB7Tk6ptsmsrl1ZoNSHLqYzpKydRL
-         Yjyw==
+        d=gmail.com; s=20251104; t=1786009017; x=1786613817; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xuKKBDjdJMpXUXcqM87Kpr9WDhoVOO+MdV9hJTMzecQ=;
+        b=fGugs4rM6o/WolkPDKOV4Rx/K2gmkmOrQeKnkHklabzUZznKrkcFMk2O4yLtKeSR2Y
+         981HhbhPWUgr+ZOb6S1ccKOqnSG6KxcQ3cgJlR2kMke8CkfiPlTth6wPZiOmQQmbvUBu
+         k3tlfLMX14f3nmZEEnZ5de6S7LTlbldD7PW5Gy297KzfKyPzXTDeZS6RHEUkr/dfgPvw
+         G5a9/xGg1C6DOrhOINHTvwZVyNVStfwUQkgqcwJG13rjCZXqnNB+zBSNE48wwfGs+ZxD
+         wzSPzMKFH8Y7uJpmNYCsKx7IVcSueSDPg0A+kxau+JdD7wnIs2QFJNAfp2klRFukwDVk
+         ZzAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786007401; x=1786612201;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=O63QlgegA4Mm6qi4a1gFdlgc0IoabcGZvqlXlfGAHy0=;
-        b=fCQmuNe7R/YdHdgKHGI09dM1GiksRNFftNoASM8e27NOYXTxDf91+JHpSQekytEa/+
-         OvRXdhwIdaluAUaJSZp9QXrx6EOqpMmNaDtBf/2i0yMgiak+sddsFWUXasUy9Y7fwpBz
-         dr8FYOvMb4Ge+eGrGDrMrcwk3LgGknoOC/E4Jm1MOo3tknYImH830NPu/dNB8fzFJM0W
-         VOKfqAalSAgzzJOAErsmYINmuUalvT8ZgBfGZNdWhSwLTRzHWUc4B4VMWps5C2Z7KYk1
-         bBCL8rt1sPieUP1Ys9+GLQKV2PhuXNL4F/ZPsLfS2bYAsHB2Blj7z57r7Cu6IPwUecCN
-         s40Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rp4ZNr+s2mrLQam9Vztr7SaA5VCl0KNc+xM7/pM4M06PG3GXUPdITgF9rqo7kO4DRXBc1sGqSpmMLk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw47h3FeYIvQTnQj0CvLvsPgJ57IsvjypLMwKWuFegwcdl/4QjK
-	Ji5eU+78rqVEE/+Q/KQHIRM0bgY9kS4R6T8OJoVuDLiQGEAo+ngh2/VNNXFkKrlTRKTmCrhpipn
-	FXoFUuONGfz2KfNmVLfn6tR5fNDZiLBfCytv8BnpV
-X-Gm-Gg: AR+sD11wydCfz1rPqoT9vzykuc9SYl5Ttdt+csHaI7IFdWS1U8zcTKwpymTYz7ZTmbI
-	gdEIZdjfOLJRs3/8dLj+K1np6/cKdTGxL3TPJ9WgmaG/APJ+vCU1MNhBi6RYPdAthmvea6eGsl7
-	tqN/+gVmdRFfsh/QO1zHiGT1U7512RLJzlZv+K4Q+pVv56W9N6qa1CJuMl44pmksKMmVswfkKST
-	BrIR8Bz9uru4WcwFBBUm+wSTtNVgzc94tqDRsDL9b/ufAU8kj9a8qGgmwQGJpbNhKjXmK7+f1/8
-	CQKtEgT23i5RLduDZXZtwOxb+sU0xUG/6SMRCsJJSjuTsZ1QqubUK0/ydKwMHtm7tI5+J2JYp2k
-	DDg==
-X-Received: by 2002:a05:6820:4cc1:b0:6ae:33ee:7ae0 with SMTP id
- 006d021491bc7-6b016dd4870mr1350572eaf.15.1786007400738; Thu, 06 Aug 2026
- 02:10:00 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786009017; x=1786613817;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xuKKBDjdJMpXUXcqM87Kpr9WDhoVOO+MdV9hJTMzecQ=;
+        b=QU2KZjuAHA/9B6q+VuVbBlEjzAXwtg8NXQGXYaRxDSg7YISA998XfmBZrrP4vt0sfi
+         YPUaL+RQOHcuqGI8sl1m970tbqp9aq1NyPThD9EhQWkbCvw+9y9B2OgM3OCOJGjfKV0j
+         9cQmvzN4uW2BYgGkGqdl87FRYEcI+qJd85nhCIV+vGeRyadwBuDUwnJu9ON78myDxHJ2
+         XnEZK8LVX+nq61BPHBdmUamsAh4H2ymxwJ7MmsMOk+8qh9g3O+y4zctccPptsuOc/7w7
+         o+GbK5a/CRYf42fPU9UGSuuuru/E1TEDgl/bnwZ7UkDibtJ26abuNR/rVG9ZnK6F8pdU
+         yeeQ==
+X-Forwarded-Encrypted: i=1; AHgh+RovcKcUAEDRpUGt76OBFNnog1Jd+53kmTwBRmOHRMObLLAA3ceTjfewmW/7NF4hc6IMgL6mgUEEZQU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzst+aO6dopHqmLYpTSMRtWSPK28E3e5NBb8TMd1RlWulm0gY4/
+	G0FujvllKIneMJpy/mf77z3iCsuUMeDQdM66jmsJ1XEeYSQgyXgYblkO
+X-Gm-Gg: AR+sD10YIkO3o3ZJbx/73DUwvwx1bC0YhnGMnK1oPj2fqYVqOn9IMOtjpE+HVUH9R6R
+	s/dDWzAVYK5ADnfrTLYafyZk9g8sqwRcVrxVgeXWg9uLXTNhpxDoLC0SklUgzVywZOzvYwxH0Ed
+	h1oaop72mVSor/vNQ+L/nAfmIsqZUSK0C90g2X23fCDmhfeEhdlb1315lLQqUe1hEeZI8sb76el
+	dm2Pf0NGmSl0Ldbs/nnV2RSw4q1O/7iCDMWB4JomlZXZzM3BgvPNeqp46x3nNZfD1EzyhwZUa7l
+	WNVR2HkXEqFXwk1Oage3sWMDlZWolmZbmW3qEuMavBz1yIPjZ/QCHq2reSBITQjPwiHoMGsYTId
+	Cdmn9BfRnr3yX2Nubpinzd4I/rcKXo/HpqjfkuLKy+J+zlLrh6v+FKSXJwMQv2h6xdSUpQ/c/Hr
+	sFFvOJ9BglpJS4kkawe/VTiRR3Q0FrgvJ03MXWMO3TGXld1eBOW1yohRD7m+31KC2ldrRjq+o/c
+	w==
+X-Received: by 2002:a05:6a21:1b85:b0:3c8:d3a4:7b40 with SMTP id adf61e73a8af0-3cb85ded978mr17550129637.2.1786009016964;
+        Thu, 06 Aug 2026 02:36:56 -0700 (PDT)
+Received: from amd.ban-spse ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315867a68fdsm45917973eec.25.2026.08.06.02.36.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 02:36:56 -0700 (PDT)
+From: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Kees Cook <kees@kernel.org>,
+	Julian Scheel <julian@jusst.de>,
+	Pavel Hofman <pavel.hofman@ivitera.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+87c10526d2cfa8d14ff6@syzkaller.appspotmail.com
+Subject: [PATCH] usb: gadget: f_uac2: fix memory leak in sample rate parsing
+Date: Thu,  6 Aug 2026 09:36:39 +0000
+Message-ID: <20260806093639.781501-1-nagachaithanya9911@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260723104614.3717623-1-xu.yang_2@oss.nxp.com> <anMRbinFAZ668Rpm@black.igk.intel.com>
-In-Reply-To: <anMRbinFAZ668Rpm@black.igk.intel.com>
-From: Badhri Jagan Sridharan <badhri@google.com>
-Date: Thu, 6 Aug 2026 02:09:24 -0700
-X-Gm-Features: AUfX_mxlGsjUiMkRPJa9RiotkdNP-jSL7K4c3X_aw86ypmvYQHzpAMuEsImXUsg
-Message-ID: <CAPTae5LkT5EqCi8w4oTRNxX9oWdi4eovZ41u7LMGrG=64ocJUw@mail.gmail.com>
-Subject: Re: [PATCH v2] usb: typec: tcpci: pass correct rx_type to tcpm_pd_receive()
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Xu Yang <xu.yang_2@oss.nxp.com>, gregkh@linuxfoundation.org, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
-	jun.li@nxp.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 5, 2026 at 3:33=E2=80=AFAM Heikki Krogerus
-<heikki.krogerus@linux.intel.com> wrote:
->
-> On Thu, Jul 23, 2026 at 06:46:14PM +0800, Xu Yang wrote:
-> > From: Xu Yang <xu.yang_2@nxp.com>
-> >
-> > Previously, tcpci_irq() always passed TCPC_TX_SOP as the receive type
-> > to tcpm_pd_receive(), ignoring the actual frame type reported by the
-> > TCPC_RX_BUF_FRAME_TYPE register.
-> >
-> > Cache the TCPC_RX_DETECT register value in rx_type_mask variable. When
-> > a PD messageis received, read TCPC_RX_BUF_FRAME_TYPE register and handl=
-e
-> > the message only if its frame type is enabled in mask.
-> >
-> > The TCPC_RX_BUF_FRAME_TYPE register records the received message type,
-> > which has a 1:1 mapping to enum tcpm_transmit_type.
-> >
-> > Fixes: fb7ff25ae433 ("usb: typec: tcpm: add discover identity support f=
-or SOP'")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
->
-> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+The UAC2_ATTRIBUTE store macro duplicates the input string with
+kstrdup() and then tokenises the copy with strsep(). strsep() advances
+the pointer it is given, so once the string has been fully consumed that
+pointer is NULL and no longer refers to the start of the allocation. The
+macro passed the same pointer to both strsep() and the final kfree(), so
+kfree() was called on NULL (or a mid-buffer address) and the buffer
+returned by kstrdup() was leaked on every write to attributes such as
+p_srate and c_srate.
 
-Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
+Keep the pointer returned by kstrdup() in a stable variable used for
+kfree() and iterate with a separate cursor passed to strsep().
 
->
-> > ---
-> > Changes in v2:
-> >  - add fix tag
-> >  - check return value when get RX SOP type
-> >  - pass all possible RX message type to tcpm_pd_receive()
-> >  - cache TCPC_RX_DETECT to filter out unallowed RX messages as suggeste=
-d by Badhri
-> > ---
-> >  drivers/usb/typec/tcpm/tcpci.c | 12 +++++++++++-
-> >  include/linux/usb/tcpci.h      |  1 +
-> >  2 files changed, 12 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tc=
-pci.c
-> > index 7ac7000b2d13..6717ac914c6a 100644
-> > --- a/drivers/usb/typec/tcpm/tcpci.c
-> > +++ b/drivers/usb/typec/tcpm/tcpci.c
-> > @@ -38,6 +38,7 @@ struct tcpci {
-> >
-> >       struct regmap *regmap;
-> >       unsigned int alert_mask;
-> > +     unsigned int rx_type_mask;
-> >
-> >       bool controls_vbus;
-> >
-> > @@ -488,6 +489,8 @@ static int tcpci_set_pd_rx(struct tcpc_dev *tcpc, b=
-ool enable)
-> >               if (tcpci->data->cable_comm_capable)
-> >                       reg |=3D TCPC_RX_DETECT_SOP1;
-> >       }
-> > +
-> > +     tcpci->rx_type_mask =3D reg;
-> >       ret =3D regmap_write(tcpci->regmap, TCPC_RX_DETECT, reg);
-> >       if (ret < 0)
-> >               return ret;
-> > @@ -749,6 +752,7 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
-> >       if (status & TCPC_ALERT_RX_STATUS) {
-> >               struct pd_message msg;
-> >               unsigned int cnt, payload_cnt;
-> > +             enum tcpm_transmit_type rx_type;
-> >               u16 header;
-> >
-> >               regmap_read(tcpci->regmap, TCPC_RX_BYTE_CNT, &cnt);
-> > @@ -773,10 +777,16 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
-> >                       regmap_raw_read(tcpci->regmap, TCPC_RX_DATA,
-> >                                       &msg.payload, payload_cnt);
-> >
-> > +             ret =3D regmap_read(tcpci->regmap, TCPC_RX_BUF_FRAME_TYPE=
-, &rx_type);
-> > +             if (ret)
-> > +                     return ret;
-> > +
-> >               /* Read complete, clear RX status alert bit */
-> >               tcpci_write16(tcpci, TCPC_ALERT, TCPC_ALERT_RX_STATUS);
-> >
-> > -             tcpm_pd_receive(tcpci->port, &msg, TCPC_TX_SOP);
-> > +             rx_type &=3D TCPC_RX_BUF_FRAME_TYPE_MASK;
-> > +             if (tcpci->rx_type_mask & BIT(rx_type))
-> > +                     tcpm_pd_receive(tcpci->port, &msg, rx_type);
-> >       }
-> >
-> >       if (tcpci->data->vbus_vsafe0v && (status & TCPC_ALERT_EXTENDED_ST=
-ATUS)) {
-> > diff --git a/include/linux/usb/tcpci.h b/include/linux/usb/tcpci.h
-> > index f7f5cfbdef12..9b46a6bc762c 100644
-> > --- a/include/linux/usb/tcpci.h
-> > +++ b/include/linux/usb/tcpci.h
-> > @@ -144,6 +144,7 @@
-> >  #define TCPC_RX_BUF_FRAME_TYPE               0x31
-> >  #define TCPC_RX_BUF_FRAME_TYPE_SOP   0
-> >  #define TCPC_RX_BUF_FRAME_TYPE_SOP1  1
-> > +#define TCPC_RX_BUF_FRAME_TYPE_MASK  GENMASK(2, 0)
-> >  #define TCPC_RX_HDR                  0x32
-> >  #define TCPC_RX_DATA                 0x34 /* through 0x4f */
-> >
-> > --
-> > 2.34.1
->
-> --
-> heikki
+Fixes: a7339e4f5788 ("usb: gadget: f_uac2: Support multiple sampling rates")
+Reported-by: syzbot+87c10526d2cfa8d14ff6@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=87c10526d2cfa8d14ff6
+Signed-off-by: Chaithanya Lagisetty <nagachaithanya9911@gmail.com>
+---
+ drivers/usb/gadget/function/f_uac2.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/gadget/function/f_uac2.c b/drivers/usb/gadget/function/f_uac2.c
+index 897787d0803c..2cbdaf6a7db9 100644
+--- a/drivers/usb/gadget/function/f_uac2.c
++++ b/drivers/usb/gadget/function/f_uac2.c
+@@ -2013,6 +2013,7 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
+ {									\
+ 	struct f_uac2_opts *opts = to_f_uac2_opts(item);		\
+ 	char *split_page = NULL;					\
++	char *iter = NULL;						\
+ 	int ret = -EINVAL;						\
+ 	char *token;							\
+ 	u32 num;							\
+@@ -2027,7 +2028,8 @@ static ssize_t f_uac2_opts_##name##_store(struct config_item *item,	\
+ 	i = 0;								\
+ 	memset(opts->name##s, 0x00, sizeof(opts->name##s));		\
+ 	split_page = kstrdup(page, GFP_KERNEL);				\
+-	while ((token = strsep(&split_page, ",")) != NULL) {		\
++	iter = split_page;						\
++	while ((token = strsep(&iter, ",")) != NULL) {			\
+ 		ret = kstrtou32(token, 0, &num);			\
+ 		if (ret)						\
+ 			goto end;					\
+-- 
+2.43.0
+
