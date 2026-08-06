@@ -1,258 +1,157 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECA3415F13
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 21:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786052920; cv=pass; b=V5MfKlMyoBWL4jsOnCrHJe52j2/VTwo+L7wrGkNkWxwHvB5K+4EQ1nrytWz1b40wsZD/n/Vnrnn7wYNO8ZUhDZk2oUUa+ng1hq4hCHwgG+xbxq9FTWXGu3waHi4FTh1g9HvUSdxNdkIew3UZEPSf+3N4AWjlbBCqT5heQsVgMTI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786052920; c=relaxed/simple;
-	bh=/+ZXhUEUi/T24MCA1ODtEYHf4Og3HJbPbIox/nnKYRg=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=W0t80B/fz2wz/WM7HPeyugHMSkreTF0qzA9AnDy8ftjfje4fEo3wPjdWAXk3wsxJA60yI4kGAFHuI0SFcsmw6xyHt3djRCFy8Q+rGAzZ81oYuli4jNQzKwkhiCMul6T+i+A3RkUj3wj30w7cduf/bLQ2sIHOoCSYdPoSORYFA8w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jvpzauLk; arc=pass smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C3F47F775
+	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 22:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786053723; cv=none; b=PTPbF3ilsb0vy/5flPz/eUXdgLpTZYCifI6CO54rg+vt8wlTn8xe3lpf/q2oOb2bRmZpxXtoumu2GIn6xCTVkQyky7HJNMkPgwLPksPjiLlO0mxWGmjBjdUjJwoyj7aYbJ2MzHaDY3p5XXTniz3mia17DM3pDsU9xxBGlb52jtE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786053723; c=relaxed/simple;
+	bh=6FS2wPk4+CPAiiGjhJgm2TOpzfgGbyEGUm69hAAetaE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EfRooUCFKeYbigbyAGHa0MxkKUrQxRay9dQe0bJjBsg0RTrQqFZjUnJ9DKUbuf7ED3yNAg5p2tkjTRoJac5HGNAjk0lX4zC2GckP/TfIPN7B4VhHgAJ+HaeayY89RYYLJeOP8GbrNeYWMSxXulgzP0xm9QvtYeEyQYUHkdXF/WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I/tx1AIh; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jvpzauLk"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5aec6360133so2332482e87.1
-        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 14:48:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786052917; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kwvol0BSX/4/j+Cwt/dp2a01RX31xn5OooTvxG9eFh4WDLKTD30y8jNxqur7KQQrnc
-         o4yhq99oZUjYps50yuWAXaVFgFlNW/bJVVjew8ZYgDNrugTKFa68HxWh1LKpVhhWip1U
-         q2GwZ9tMnHwOwdxBs6f0ylVsBbUQDB1XVQhIjglkXz/+piWT4RZchwI3rTNQ3gb5kKqO
-         EqfbSAmQI8dFqiExy2om0RIJvhrhMtx+SqIcFd/puQockbXNOaexLxdh7vqAt6t8/BmH
-         YYn7/at8iiw6vyPOisGiAgDqZEwIssR5DuzByjONJ0QI5Oq6cqenfd8+QFt4tHpdQOC0
-         LHkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=pZD21qUE8ry6rb8cU5ZTkhkvQlzif+7qFw9V0q3/4bM=;
-        fh=j8euBZQFl2yMzTv3IDFgac+NAJJHHzBYVCJqT+/vl6c=;
-        b=Vty4DJ1IGubQj4/5qvqXNo4s48lfuA182Xd7bvAp4/vKfa0JthzsSqgG5SPZlI619M
-         QEOHk1Jq88QfWgnZPcC2DAyAWNSbfWbq1a4Y9Zuv5NoesmiaTpkdv1w6ia9tk2rVuJ/J
-         0l+B7Vpi0ki424M1v7qG2C2ZHggqTw/e6fWGytBFeQqq/xmFBQ30A+qNSW5D0LankdhU
-         iCWO5QJDHDF/k70L6K4PWwobJklhIPxwM3Gu5hN4rU6/frIrtc3f/H/0WWtLhxi5Jsi/
-         wx3sJF7zdEONv49Nv7rmS8Q4J9puu/ar5siG+kQ71JOvVhgNrSpjiJzFmMjvQgwGBDs2
-         NXrQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I/tx1AIh"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47fecbb7000so1395284f8f.2
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 15:02:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786052917; x=1786657717; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pZD21qUE8ry6rb8cU5ZTkhkvQlzif+7qFw9V0q3/4bM=;
-        b=jvpzauLkFYwLFglq4laZPs/2ZY+N2u0HcuVSZaVW4lT2n0EJnzFGuOSODhPzvBTKoT
-         oJcRp4mGnasznuKtLRqV54E5EyxAxlPozimL1ZBQLnHF7PM8jpg8ZHhJFC8I0a/J+gtf
-         30oa18FF3lMsKyodfl/be8uunGVhO00UWf6q2tjCF9wiYOzds9udvWeTAff1NHIkT2GI
-         iR+52Q06EgpNSe+2E8yIit/qroM6amMuJNuLZ4T81r2ZfBjIiLOgSX9rbajSjYwgk3G1
-         PiI9e4B8DMJijVvf/tnMGZC+2tLIKYF+Bw8wqMF3KM8UYCsJbUC/LH4f4h15O+CCoxj5
-         SAxg==
+        d=gmail.com; s=20251104; t=1786053720; x=1786658520; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=BpeB30LKpPq3lxGhfPSaVqfbRwpBu+F1FaXUsX/6PL4=;
+        b=I/tx1AIhG74lonqZYuJtYxZJ089Dy6iRyFDPYq+U4HtWlXrRNHot4WJw2xe8LWHayP
+         eShQh0pfaiCmR2Xi+fwxTQwE6+xsShjrR3J2efZUv8HCDzjteHqNVGZDpznxCb6+pGdD
+         vHSJKq/aCINZS4Ep5XpZztJVOcda+CUwWjJPhgRjDfuCd+trQtC8bX2FVzFztNhYtm/c
+         6HRQdYmDdPet8vj7IViyIacRPr7thTe5IO8Y/zyo2SVzYhjUCiKX/Z3pJr9BGc++HoDo
+         a97ttF1+kYU1da7BZ+7OTXPLwaVzoW3XW4VUh5Cdvnyqh7gNSLxl8bCwcCiKNgmN3Y48
+         VYsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786052917; x=1786657717;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=pZD21qUE8ry6rb8cU5ZTkhkvQlzif+7qFw9V0q3/4bM=;
-        b=L96NpbFpiFbsm7eK74iH/U+3+LwafY38vdjssU7mEId8FcL0Ks3thncaQC9++p6j06
-         3TGIgjXw1rwOlQDVhmThULmEXuON7VYPVbyv2BeSKbGmhKhxfYVTSdQUWdyiNJoi+08V
-         59TzQ8P473/guQ6nkAfESa8GQUEGF0oLW5cruIz7a5QP4Nfk+kQcT9McysxI8sWOfdfi
-         BI8kzDC12deFe429h4hIiG56oEBE7lrBn4pypgtXbloZPcFEn21HvAdIxYjtATc+xHWk
-         vx6LJQfDVVQUBxIxixbjWvJ5A81+PI7fyFtxHuA6phLwt1phrebg6zuHRUwseWCty+NT
-         +skg==
-X-Gm-Message-State: AOJu0YwE56x07EUGFoD62cbksnE4xTWNLWPvYGILXEZjfJjHYo2e7Yy5
-	W+sptKuxJA+1ULA3j+vQAmF36DZucZTUY0dAmquIKFEud4oiaYieXm9LxMnFgHNkb3QiomkQDNd
-	AIha3LpgcUKj34WgFZW8pMH7pSHdmX4R3OCHvDtQodA==
-X-Gm-Gg: AR+sD10fEoEKmch2NEmjDwYVjyEflwBv9btZwkfMpr5tX+EmUqo43kFE1erWnkO5IqQ
-	dPoV5bKulMfLVCo7KQ42CY/C0Pk/Luxm3pck6LP9XbhBP4KqRETPMw8z4zPXPaZUuZVkC0r/gGI
-	OM8HUtOTankwl44Ua1rhQ9Fi6AVtlr+AjQ23YEZqpv9WF9zGuxz23A7OKqoXL+VMKBwpI50u5/P
-	lty3TnuEr0uL4QUv/qNnBOUIa0FPQpviwApswOCmfrZL/n3kY7zgeiu7826GSgXRabhV5xalCg7
-	//xSNiGuapvClyFQs2yYW9v+VMoqKGtyNKlmKPJBaSM=
-X-Received: by 2002:a05:6512:1381:b0:5b1:5ccf:5268 with SMTP id
- 2adb3069b0e04-5b2f4b7aff1mr2301263e87.1.1786052916292; Thu, 06 Aug 2026
- 14:48:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786053720; x=1786658520;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BpeB30LKpPq3lxGhfPSaVqfbRwpBu+F1FaXUsX/6PL4=;
+        b=Vs6UMcpBWlSPU+bZLuB6SwkehTgWPerlKTyS1/RZNUrqhlHxDn8Mkl0nkGN1+oBCu9
+         ls2phpUoUocJJSulp920NsN9c+7Z+/kPX3s6rkeRWfpSbhq5FrjY0QSVk2dz31KYVLV5
+         NZHLEB1bfxIZ7N7gbDEMN5d3ZmoFHs8elvDS7eGj9mwEZyB3AzqnVLMc0D5SlN6oUSkE
+         5RCrubOgtvw9KpNkNU+qhezWmsJapVB+t6B5k3WQXqrlU7qSACQWQ0oxvdMjPxqT1l5Q
+         JJmYFeFk6vSmKzIVSGs212x7RvwCRUGwQuo0npJBANriZL/4/LmW56eHfofDKoOIky33
+         2oGQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rqivjg9paSWCdS3JQrRGrOcWeG0JiL7X64PDhBp1aEWzR7xG0u8xE+XWlgHdGIwp+K86rYRLy/u2S0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzj1x0ZFlw+T5z6NgHgiTC3rVeSQg9SZbe+O4/y+C1/nhjrESf2
+	p+ufFVIjOzsVBTM1MhhuX9thnzBX7/8wqif+DcqZ6SPQxiTQRrk9sAUb
+X-Gm-Gg: AR+sD118h794dtkSdiytZ4WzjWReZ4MBxeHQKW1PO/8/SoiCBKHOmBUWT9gBESuDX5A
+	4mveCP1PuFvtwayF9g1n+hCGucN61XAAoUZQP4cQM2y4DQoDUA86O2g2+zxFNObgkKjUq/s7vMf
+	rQryMVPmTME+HB2ib8oycC8WfCbTkZDLROSAuE+HYpy3Vd49+r4mfa6+8/SBGzDFg+CKQ6q3/a5
+	5E0rGNGGmPdzAOHrJeSGNcCcxSILMI3FTyY6YmJLmpNpOXTFUeUyqZLMjcEm1/bwF6B7IDVHoou
+	wEZ1P+zeFoRRuw8GDcwu7meqhX9gvj525eHBJlBJlJUIfEMipYMfOBwOONOfc8dXlGSbiiVg3Ke
+	N6umP6O90tjHLryCG389KpH2eNbH32j/aBvua5qX4F/4csg3wpOy5N1VVp6J1ACAuPNZrnlyXmZ
+	q0rvN7aSiVM7dpTvIw/czz3pvXl/UY+i7N1Vol2lTu7eQYbHUgoe0u4wJvEkTxkEN8RcUVip6W
+X-Received: by 2002:a05:6000:25fa:b0:47f:f3d4:26da with SMTP id ffacd0b85a97d-47ff3d426fdmr19201019f8f.11.1786053719943;
+        Thu, 06 Aug 2026 15:01:59 -0700 (PDT)
+Received: from foxbook (bgt135.neoplus.adsl.tpnet.pl. [83.28.83.135])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47ff7b250e5sm9638968f8f.27.2026.08.06.15.01.59
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Thu, 06 Aug 2026 15:01:59 -0700 (PDT)
+Date: Fri, 7 Aug 2026 00:01:55 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: dylan_robinson@motu.com, linux-usb@vger.kernel.org,
+ mathias.nyman@intel.com, stern@rowland.harvard.edu
+Subject: Re: [RFT PATCHv3 1/3] xhci: fix frame id calculation and checks for
+ isoc URBs
+Message-ID: <20260807000155.2960c741.michal.pecio@gmail.com>
+In-Reply-To: <0e2f28f5-aa38-4401-8287-b55aab577243@linux.intel.com>
+References: <a67e11d4-6c80-4043-9f60-ae42a15ed0d3@linux.intel.com>
+	<20260521152715.288995-1-mathias.nyman@linux.intel.com>
+	<20260806101706.72a8de47.michal.pecio@gmail.com>
+	<0e2f28f5-aa38-4401-8287-b55aab577243@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: David GUENAULT <david.guenault@gmail.com>
-Date: Thu, 6 Aug 2026 23:48:24 +0200
-X-Gm-Features: AUfX_my7rKkJbmIAdK1pBhnYLEIQXBmzTQDBpe4nuw3mJT70Np9xMFouXE1wpio
-Message-ID: <CAOFj14_tBEh5eXt_o5ZZme6bMt+Gt1pLS1ARwR2n=29WcjP2Qw@mail.gmail.com>
-Subject: thunderbolt: PCIe tunnel creation fails for USB4 eGPU dock on Titan
- Ridge host
-To: Andreas Noever <andreas.noever@gmail.com>, Mika Westerberg <westeri@kernel.org>, 
-	Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Thu, 6 Aug 2026 16:25:15 +0300, Mathias Nyman wrote:
+> On 8/6/26 11:17, Michal Pecio wrote:
+> > Besides initialization, it's made -1 if and only if xHCI endpoint
+> > state isn't Running at the time of submission. This effectively
+> > means that to start a new "isoch data flow" aka "stream", class
+> > driver must unlink the last remaining URB of the previous flow. If
+> > the driver doesn't unlink (or tries too late), the endpoint goes
+> > Running-Idle.  
+> 
+> If class driver doesn't unlink remaining urbs then list won't be empty
+> and you have the exact same situation.
 
-PCIe tunneling never succeeds between an Intel Titan Ridge 2C host router
-and a USB4 (Thunderbolt 5) eGPU dock, although the Thunderbolt link itself
-comes up fully bonded at 40 Gb/s and both routers enumerate cleanly.
-tb_tunnel_pci() fails silently -- the only message is "PCIe tunnel creation
-failed", with no path/credit/activation diagnostics even with full dyndbg.
+Obviously not, it can simply stop resubmitting and wait. Or there may
+be no URBs left to unlink at all, when recovering from ring underrun.
 
-=======================================================================
-HARDWARE
-=======================================================================
-Host    : Intel NUC10i7FNH (Comet Lake, i7-10710U)
-          BIOS FNCML357.0067.2026.0429.1614 (04/29/2026)
-Host TBT: JHL7540 Titan Ridge 2C 2018
-          Root port      00:1c.0  [8086:02bc]
-          Bridges        01:00.0, 02:00.0, 02:01.0, 02:02.0  [8086:15e7]
-          NHI            03:00.0  [8086:15e8]
-          USB ctrl       39:00.0  [8086:15e9]
-          Host router config space vendor/device = 0x15e78086
-          => tb_switch_is_titan_ridge() == true
-          NVM 42.0, generation 3
+Then HW endpoint state will still be Running, not Stopped, and new
+URBs will be scheduled into the past, doomed to complete with -EXDEV.
 
-Device  : Minisforum DEG2 eGPU dock (OCuLink/TBT5, switch set to TBT)
-          Thunderbolt router: "Micro Computer (HK) Tech. Ltd. TBGAA"
-          vendor=0x41f device=0xd002
-          Router config space: USB4 Switch 8087:5786 (Revision 133, TB
-Version 64)
-          NVM 62.42, generation 4 (USB4)
-          GPU inside the dock: NVIDIA GTX 1060 (dock reports GPU
-present via LED)
+> > Moreover, we know that Endpoint Context state is one of the least
+> > trustworthy piecese of information, and notably it may remain
+> > Stopped for a while after a doorbell ring. This means that multiple
+> > URBs may be scheduled as new "streams" and get assigned the same
+> > start_frame.
+> 
+> Ok, we basically have different opinion on how to identify when a new
+> isoc data flow starts. You would rely on checking if list is empty,
+> and I'm looking at harware endpoint state.
 
-=======================================================================
-SOFTWARE
-=======================================================================
-Ubuntu 24.04.4 LTS
+I would rely on SW state, sure.
 
-Reproduced identically, byte-for-byte same failure, on BOTH:
-  - 7.0.0-28-generic #28~24.04.1-Ubuntu   (distro kernel, based on 7.0.12)
-  - 7.1.5-070105-generic                  (vanilla mainline v7.1.5 build from
-                                           kernel.ubuntu.com/mainline, no
-                                           distro patches)
+1. The check implemented here isn't even right - see above.
+2. Bogosity of xHCI HW is well known - see below.
+3. For consistency with other HCDs, which use similar SW state.
 
-Cmdline: pcie_ports=native pcie_aspm.policy=performance
-         thunderbolt.start_icm=1 thunderbolt.host_reset=0
+> I don't trust the 'empty list check' as I'm not convinced there can't
+> be cases in software where list is empty even mid isoc data flow.
+> Something like extreme long interval and BH delay in class driver
+> receiving URB.
 
-Connection manager: software CM. The driver enumerates all 23 adapters of
-the remote router itself, so ICM is not running. thunderbolt.start_icm=1
-does NOT start it (BIOS "Ignore Thunderbolt Option ROM" is unchecked, so
-the option ROM is loaded).
+Other HCDs implement a rule that resubmission from completion callback
+on the same endpoint always counts as continuation of the stream, to
+work around BH. This seems to have worked so far and is trivial to do,
+somebody submitted a patch earlier this year.
 
-=======================================================================
-WHAT WORKS
-=======================================================================
-- ACPI _OSC: OS now controls [PCIeHotplug SHPCHotplug PME
-PCIeCapability LTR DPC]
-- pciehp armed on the tunnel bridge:
-      pcieport 0000:02:01.0: pciehp: Slot #1 ... HotPlug+ Surprise+ LLActRep+
-      /sys/bus/pci/slots/1 -> 0000:04:00
-- Thunderbolt link fully up and bonded:
-      rx/tx 20.0 Gb/s per lane, 2 lanes = 40 Gb/s each direction
-      lane adapter error counters: all zero
-- Remote router enumerates completely, no errors:
-      DROM read, uid 0xf87e040080877eba, all 23 adapters read,
-      quirk_usb3_maximum_bandwidth applied, NVM 62.42 read
-- Adapters present on both sides:
-      host 0-0: port8, port9 = TB_TYPE_PCIE_DOWN (0x100101)
-                port5, port6 = DP_HDMI_IN
-      dock 0-1: port9  = TB_TYPE_PCIE_UP   (0x100102)
-                port10 = TB_TYPE_PCIE_DOWN (to the internal GPU)
-                port11/12/19 = DP_HDMI_OUT, port20-23 = USB3
-- Host PCIe down adapters are NOT pre-enabled by firmware:
-      0-0/port8 cap_id 0x04 (TB_PORT_CAP_ADAP) = 0x2126043a  -> PE (bit31) = 0
-      0-0/port9 cap_id 0x04 (TB_PORT_CAP_ADAP) = 0x2126043a  -> PE (bit31) = 0
-  so tb_find_pcie_down() should not reject them.
-- Expected mapping is satisfied: dock arrives on lane adapter 1,
-  tb_phy_port_from_link(1) = 0, Titan Ridge => index 8 => port8 (free
-PCIe down).
-- BIOS resources reserved behind 02:01.0 are ample for a GTX 1060:
-      bus 04-38, I/O 4K, mem 351M, prefetchable 64-bit 544M
-      (GTX 1060 needs ~304M: BAR0 16M + BAR1 256M + BAR3 32M)
+> We can add empty list check as well in some places.
+> For example xhci_isoc_tx_prepare() could benefit from having both
+> empty list and hw endpoint state check when setting next_uframe = -1;
 
-=======================================================================
-WHAT FAILS
-=======================================================================
-With BIOS Thunderbolt Security Level = "Unique ID" (SL1, sysfs security=user),
-boltd authorizes the device, which triggers tb_approve_switch(), and:
+The HW state check is bogus. Before removing it I patched to log when
+URBs are pending but HW state is still Stopped. It happens sometimes.
 
-    thunderbolt 0-1: new device found, vendor=0x41f device=0xd002
-    thunderbolt 0-1: Micro Computer (HK) Tech. Ltd. TBGAA
-    thunderbolt 0000:03:00.0: 1: NVM version 62.42
-    thunderbolt 0000:03:00.0: PCIe tunnel creation failed
+The only robust solution is to completely disregard EP Context state.
+xHCI 4.8.3 doesn't promise much and outright advises SW to track actual
+HW state itself, based on issued commands etc.
 
-boltctl then reports "authorization error"; /sys/.../0-1/authorized = 0.
-02:01.0 stays at PresDet-, no device ever appears on bus 04, no GPU in lspci.
+The Stopped => Running transition is only guaranteed to become visible
+to SW when the first service interval passes and an event is posted.
 
-Notably there is NO "PCIe tunnel activation failed, aborting" message, which
-suggests the failure happens in tb_tunnel_alloc_pci() rather than in
-tb_tunnel_activate().
+> This patch is tested, solves an existing issue, and moves the
+> frame_id code in the right direction.
 
-Full dyndbg was enabled ("module thunderbolt +p", 314 active sites) for all
-captures. Nothing is logged between "NVM version 62.42" and the failure.
+To be fair, it may be that in practice it fixes more than it breaks,
+but it also strays away from documented USB subsystem rules and looks
+half-baked, so I was surprised to see it queued in such state.
 
-=======================================================================
-ANALYSIS / SUSPICION
-=======================================================================
-Since the down port is found, free and correctly mapped, the most plausible
-remaining failure point is credit allocation in tb_pci_init_credits():
+> Any issues we discover later can be fixed when discovered.
+> We can't keep finetuning this forever to cover potential issues by
+> broken hardware
 
-    if (tb_port_use_credit_allocation(port)) {
-            credits = sw->max_pcie_credits;
-            available = tb_available_credits(port, NULL);
-            if (available < credits)
-                    return -ENOSPC;      /* silent */
-    }
+Well, that's Intel (reportedly) and ASMedia, hence AMD. And they don't
+even need to violate xHCI 4.8.3 to break this code.
 
-tb_port_use_credit_allocation() is true for USB4 routers, and the dock IS a
-USB4 router -- but the path terminates on a Thunderbolt 3 Titan Ridge host.
-Adapter credits reported by the dock:
-    lane adapters (port1-4): Credits (total/control) 160/2
-    PCIe adapters (port9/10): Credits (total/control) 8/0, NFC 0x40800000
-    USB3/DP adapters:         Credits (total/control) 8/0
-
-I suspect the USB4 credit-allocation path is applied to a tunnel that
-traverses a non-USB4 host router, yielding -ENOSPC. I could not confirm this
-without instrumenting the driver; happy to test any patch or add tracing.
-
-=======================================================================
-NOTES ON SETTINGS THAT MATTER
-=======================================================================
-1. With BIOS Security Level = "No Security" (sysfs security=none), the device
-   is auto-authorized and tb_approve_switch() is never called, so NO tunnel is
-   ever attempted and nothing at all is logged. Switching to SL1 ("Unique ID")
-   is what makes the driver actually try. This asymmetry is confusing: with
-   security=none plus software CM and no ICM running, nobody creates the
-   PCIe tunnel and the device silently looks "authorized" but is unusable.
-
-2. thunderbolt.host_reset=0 measurably improves link behaviour on this TBT3
-   host: with the default (host_reset=1) the link never came up at boot and
-   required a manual unplug/replug; with host_reset=0 the router is connected
-   and bonded at 40 Gb/s directly at boot. The parameter is documented as
-   targeting USB4 host routers, yet it clearly affects this Titan Ridge host.
-
-3. Unrelated but worth noting: passing pcie_aspm=off makes
-   negotiate_os_control() bail out entirely --
-   "_OSC: not requesting OS control; OS requires [ExtendedConfig ASPM
-ClockPM MSI]"
-   -- which silently drops native PCIe hotplug, so pciehp never binds to the
-   Thunderbolt downstream port and no tunnelled device can ever be enumerated.
-   pcie_aspm.policy=performance avoids this.
-
-=======================================================================
-WORKAROUNDS TRIED WITHOUT SUCCESS
-=======================================================================
-- thunderbolt.clx=0            (no change; link still dropped at the time)
-- thunderbolt.start_icm=1      (ICM does not start; still software CM)
-- pci=realloc / assign-busses / nocrs / hpbussize / hpmemsize
-  (assign-busses is actively harmful: it shrinks the BIOS reservation
-   [bus 04-38] down to [bus 04])
-- Cold power cycle (AC unplugged), several cable replug sequences,
-  certified TBT3/4 cable, dock's OCuLink/TBT switch verified on TBT.
-- Runtime PM: the remote router suspends and then fails to resume
-  ("thunderbolt 0-1: runtime resuming timed out"), which prevents tunnel
-  creation as well. Worked around with a udev rule setting
-  ATTR{power/control}="on" on SUBSYSTEM=="thunderbolt" and on the
-  8086:15e7/15e8/15e9 PCI devices.
-
-I can provide full dyndbg captures, debugfs register dumps for any adapter,
-and test patches. Thanks!
+Regards,
+Michal
