@@ -1,172 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429ED3DA7D0;
-	Thu,  6 Aug 2026 09:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786007041; cv=none; b=obJlN3Zlu96T4lb4AowT5Pi+LyECTREabtzk+XCBHw1lCKIXdRrjHlCgNL9vwrVe9soXMFeUxHAbuBtBjr58vnN/Am23WEsvHMWgbiQ+d63wMI4qa6VG0BcmEzr30KuGwY/2HbynSKPNFecU5F0tSPOAllTmbK81SwRtibyo1OM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786007041; c=relaxed/simple;
-	bh=hRmHae7K5L1NrBLBQLNmjHXkdJmOg7U/rq8oaZxB6Lk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MyvAfvy4Gelaevks16V8I+TeCWrGUj56NL7jlRBj2dlCj9yHGXyTe4zMYMbJ/5kvBtS8ygc7pRrBaJXRivfAvpBaPkeJTYXynbhbZbVql8/t5Ye5nzygG3uIU21B9EjhYhYWafrUBYOy6TfJdiqw3seE+vLIZ4MCl0KBnSq9mvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayR3aEw/; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE65427FA0
+	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 09:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786007405; cv=pass; b=qXazQkkXmdVgWv2d5dv37eFlC7qEThOByQQAwMqpvgWhCrBklyRDFfU7xju2pciPMNHybA6geAVro7eEQ5ThxhPtOkEQGRhDKu8i55phf9jrx6OZsRnfz1DnPBRZsPVEkwmjRr5Ug/fGT4N7KszglBgd3h5tIMAFiSMrYH/gqPg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786007405; c=relaxed/simple;
+	bh=PjgzYh4xhi8r/1gtDSs2lcpXDwHgzvW8vY7tDCqm8d4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rJw7KmPEz/TTzILLssuA7PNXs70jJ0ImXM/OjdOG+8Mf+RR5Jcxs8eg5iTDSybVKnB/YPxQU0A6HBqA6rduMn/cLeGOpwxjpZ/kJAwdmVLlveSiSfIklzjumRo8sHBFsA70jJJcREhPIZgZYL6hSG7F4uE7ImjyQkmdYBRuSupc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g6ylxaUT; arc=pass smtp.client-ip=209.85.160.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayR3aEw/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786007039; x=1817543039;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hRmHae7K5L1NrBLBQLNmjHXkdJmOg7U/rq8oaZxB6Lk=;
-  b=ayR3aEw/23FNi/9tZ3wcnpGkA3FCTLhBOk+1Prr6pHeH/Vh3BXPVrex8
-   DH0p1T2ujScx2a//kJaI6v/JT1M/K31NEkAIwuKIQsiqHaLq1AuJtw4lj
-   fGGtL3tR/ZhetTuejNckoffCw9X9oricEs3S3Ppr0zXLmirenRjMbxdcj
-   QawCUhjHdmxzJBaKvIwTExVFLmZo02Dg+PYdc6GDlIcTCcSPDTx/khZUM
-   vc58XHqol+JWf7SjP3w4yuqlnpm3UL5LHoMXWMG9G5y1gyTg/yudN6I74
-   RmLMHZMnQid6/ZTofRX1r6A3Y/B/rBnacVUfZ6tMO7hP8yZdjVNpeN8BK
-   w==;
-X-CSE-ConnectionGUID: DEgiDhqES0qYvDy5rCstrg==
-X-CSE-MsgGUID: TZ2Q0LU4Q0eAHpzlRkjcyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11866"; a="86469041"
-X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="86469041"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 02:03:58 -0700
-X-CSE-ConnectionGUID: uMiWEOHhTya1/RcbwGrAlQ==
-X-CSE-MsgGUID: R9sb5GQ+Quagee3hReXYgw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="265525326"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Aug 2026 02:03:56 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wru13-00000000EgD-3ack;
-	Thu, 06 Aug 2026 09:03:53 +0000
-Date: Thu, 6 Aug 2026 17:03:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiazi Liu <jiazi.liu1984@gmail.com>, Thinh.Nguyen@synopsys.com
-Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Jiazi Liu <liujiazi@amazon.com>
-Subject: Re: [PATCH 1/1] usb: dwc3: gadget: fix IRQ storm on invalid event
- buffer count
-Message-ID: <202608061759.sIcC6h4C-lkp@intel.com>
-References: <20260727094015.5101-1-liujiazi@amazon.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g6ylxaUT"
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-456f7012050so620816fac.0
+        for <linux-usb@vger.kernel.org>; Thu, 06 Aug 2026 02:10:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786007401; cv=none;
+        d=google.com; s=arc-20260327;
+        b=K64uEchF7/xJUD9AdXK0VT7Bdwj6xmDXmn+6xXoWU3NVwBjK8eGiz6rI6ZNZW33vjE
+         KW/bTWn+kuWSbcZBCgPFFy9SJD102VWm27D5eNZIKX/7uHBV512RP8aaxW4Gjdz9PMwt
+         Jq1w01qsvmDeyu++/yYZ11s3pcgk5IYxyjLdCd+2V2EJU4t+Q9i00PmztLHzrX5GQImc
+         PEq8m8hH+AtatH2A+6Y4fe1YyzNgrPML87MrK2/lsJ+EQF/1LnmjjyN/Fd3adkuPtYbI
+         pSc7XDFFz8XNjdMuRWNQqBZ7c8yixkUrBNVcnCJ7Akh9LY2NId97bizhcaCKbtfOnA1a
+         UotQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=O63QlgegA4Mm6qi4a1gFdlgc0IoabcGZvqlXlfGAHy0=;
+        fh=MccpAvgBaSDjyoYk6H4f1f/idLu06YpIFUje+y1qkiU=;
+        b=Ltr6SRGoELkJLzckyEbS5T5PE65su8GBGvFYDkGt1JB94Yi83197oJd7VaKTKBrXZf
+         VNhn+rRic7ujlwh+ZHwiZwcgtXFQhcotWhsc81jaNn4eMGR2GUNH5GAiIhruit17RqC6
+         R4R7D7XPr2KLVeX6gI8EWm+sV/hMU+t8rwT1DAYrIJXE2HrtKCm+6OJnRUvMjbkO6ONr
+         qwCVyAr9xo2osGP2w7yoAN4phoJLAGIDe9bgCgXqWEn8fCkZm+qz2NZdOtnjyYVkB3oH
+         9h+f4Sr3S7aIZmU+2u3vYrAY7cuvF/JJ+D6wc39Fn/wHiTN1JaJxkM66ZWsWmcPoZe2g
+         kghw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1786007401; x=1786612201; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=O63QlgegA4Mm6qi4a1gFdlgc0IoabcGZvqlXlfGAHy0=;
+        b=g6ylxaUTwkMaQtZjY4nFnwOdKYzjpfufhS7RcCEcetLkbp9q+dYuBIWUhE9AGWsN0r
+         YhhtbGk4l1bJQ6FkuKlO714f8VuXlmXYrDw7vdVS8ra5UUk9XLVmrYdraA/uqigYKQnR
+         70HSuwbVsykU47qkWs4Jm0juxtOHwC8j0s4Oo7wk9wI/a9ykxxpfmVQpPT8BZXeVQn/N
+         fl1IAxA2o51T+uQF06uP/jkt7HSuDyaNmF1dcGYlGBU5sx7zTR7d+pTPMrWb72XIU4y8
+         V28mVAEdGPvu5kuXPIU1oDSJ1ALf7j6cUjGgNpfuB7Tk6ptsmsrl1ZoNSHLqYzpKydRL
+         Yjyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786007401; x=1786612201;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=O63QlgegA4Mm6qi4a1gFdlgc0IoabcGZvqlXlfGAHy0=;
+        b=fCQmuNe7R/YdHdgKHGI09dM1GiksRNFftNoASM8e27NOYXTxDf91+JHpSQekytEa/+
+         OvRXdhwIdaluAUaJSZp9QXrx6EOqpMmNaDtBf/2i0yMgiak+sddsFWUXasUy9Y7fwpBz
+         dr8FYOvMb4Ge+eGrGDrMrcwk3LgGknoOC/E4Jm1MOo3tknYImH830NPu/dNB8fzFJM0W
+         VOKfqAalSAgzzJOAErsmYINmuUalvT8ZgBfGZNdWhSwLTRzHWUc4B4VMWps5C2Z7KYk1
+         bBCL8rt1sPieUP1Ys9+GLQKV2PhuXNL4F/ZPsLfS2bYAsHB2Blj7z57r7Cu6IPwUecCN
+         s40Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rp4ZNr+s2mrLQam9Vztr7SaA5VCl0KNc+xM7/pM4M06PG3GXUPdITgF9rqo7kO4DRXBc1sGqSpmMLk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw47h3FeYIvQTnQj0CvLvsPgJ57IsvjypLMwKWuFegwcdl/4QjK
+	Ji5eU+78rqVEE/+Q/KQHIRM0bgY9kS4R6T8OJoVuDLiQGEAo+ngh2/VNNXFkKrlTRKTmCrhpipn
+	FXoFUuONGfz2KfNmVLfn6tR5fNDZiLBfCytv8BnpV
+X-Gm-Gg: AR+sD11wydCfz1rPqoT9vzykuc9SYl5Ttdt+csHaI7IFdWS1U8zcTKwpymTYz7ZTmbI
+	gdEIZdjfOLJRs3/8dLj+K1np6/cKdTGxL3TPJ9WgmaG/APJ+vCU1MNhBi6RYPdAthmvea6eGsl7
+	tqN/+gVmdRFfsh/QO1zHiGT1U7512RLJzlZv+K4Q+pVv56W9N6qa1CJuMl44pmksKMmVswfkKST
+	BrIR8Bz9uru4WcwFBBUm+wSTtNVgzc94tqDRsDL9b/ufAU8kj9a8qGgmwQGJpbNhKjXmK7+f1/8
+	CQKtEgT23i5RLduDZXZtwOxb+sU0xUG/6SMRCsJJSjuTsZ1QqubUK0/ydKwMHtm7tI5+J2JYp2k
+	DDg==
+X-Received: by 2002:a05:6820:4cc1:b0:6ae:33ee:7ae0 with SMTP id
+ 006d021491bc7-6b016dd4870mr1350572eaf.15.1786007400738; Thu, 06 Aug 2026
+ 02:10:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260727094015.5101-1-liujiazi@amazon.com>
+References: <20260723104614.3717623-1-xu.yang_2@oss.nxp.com> <anMRbinFAZ668Rpm@black.igk.intel.com>
+In-Reply-To: <anMRbinFAZ668Rpm@black.igk.intel.com>
+From: Badhri Jagan Sridharan <badhri@google.com>
+Date: Thu, 6 Aug 2026 02:09:24 -0700
+X-Gm-Features: AUfX_mxlGsjUiMkRPJa9RiotkdNP-jSL7K4c3X_aw86ypmvYQHzpAMuEsImXUsg
+Message-ID: <CAPTae5LkT5EqCi8w4oTRNxX9oWdi4eovZ41u7LMGrG=64ocJUw@mail.gmail.com>
+Subject: Re: [PATCH v2] usb: typec: tcpci: pass correct rx_type to tcpm_pd_receive()
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Xu Yang <xu.yang_2@oss.nxp.com>, gregkh@linuxfoundation.org, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+	jun.li@nxp.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jiazi,
+On Wed, Aug 5, 2026 at 3:33=E2=80=AFAM Heikki Krogerus
+<heikki.krogerus@linux.intel.com> wrote:
+>
+> On Thu, Jul 23, 2026 at 06:46:14PM +0800, Xu Yang wrote:
+> > From: Xu Yang <xu.yang_2@nxp.com>
+> >
+> > Previously, tcpci_irq() always passed TCPC_TX_SOP as the receive type
+> > to tcpm_pd_receive(), ignoring the actual frame type reported by the
+> > TCPC_RX_BUF_FRAME_TYPE register.
+> >
+> > Cache the TCPC_RX_DETECT register value in rx_type_mask variable. When
+> > a PD messageis received, read TCPC_RX_BUF_FRAME_TYPE register and handl=
+e
+> > the message only if its frame type is enabled in mask.
+> >
+> > The TCPC_RX_BUF_FRAME_TYPE register records the received message type,
+> > which has a 1:1 mapping to enum tcpm_transmit_type.
+> >
+> > Fixes: fb7ff25ae433 ("usb: typec: tcpm: add discover identity support f=
+or SOP'")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+>
+> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-kernel test robot noticed the following build warnings:
+Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v7.2-rc6 next-20260805]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiazi-Liu/usb-dwc3-gadget-fix-IRQ-storm-on-invalid-event-buffer-count/20260806-005046
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20260727094015.5101-1-liujiazi%40amazon.com
-patch subject: [PATCH 1/1] usb: dwc3: gadget: fix IRQ storm on invalid event buffer count
-config: i386-randconfig-r132-20260806 (https://download.01.org/0day-ci/archive/20260806/202608061759.sIcC6h4C-lkp@intel.com/config)
-compiler: gcc-13 (Debian 13.3.0-16) 13.3.0
-sparse: v0.6.5-rc1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260806/202608061759.sIcC6h4C-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608061759.sIcC6h4C-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/usb/dwc3/gadget.c:4681:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct dwc3 *dwc @@     got void [noderef] __iomem *regs @@
-   drivers/usb/dwc3/gadget.c:4681:32: sparse:     expected struct dwc3 *dwc
-   drivers/usb/dwc3/gadget.c:4681:32: sparse:     got void [noderef] __iomem *regs
-
-vim +4681 drivers/usb/dwc3/gadget.c
-
-  4636	
-  4637	static irqreturn_t dwc3_check_event_buf(struct dwc3_event_buffer *evt)
-  4638	{
-  4639		struct dwc3 *dwc = evt->dwc;
-  4640		u32 amount;
-  4641		u32 count;
-  4642	
-  4643		if (pm_runtime_suspended(dwc->dev)) {
-  4644			dwc->pending_events = true;
-  4645			/*
-  4646			 * Trigger runtime resume. The get() function will be balanced
-  4647			 * after processing the pending events in dwc3_process_pending
-  4648			 * events().
-  4649			 */
-  4650			pm_runtime_get(dwc->dev);
-  4651			disable_irq_nosync(dwc->irq_gadget);
-  4652			return IRQ_HANDLED;
-  4653		}
-  4654	
-  4655		/*
-  4656		 * With PCIe legacy interrupt, test shows that top-half irq handler can
-  4657		 * be called again after HW interrupt deassertion. Check if bottom-half
-  4658		 * irq event handler completes before caching new event to prevent
-  4659		 * losing events.
-  4660		 */
-  4661		if (evt->flags & DWC3_EVENT_PENDING)
-  4662			return IRQ_HANDLED;
-  4663	
-  4664		count = dwc3_readl(dwc, DWC3_GEVNTCOUNT(0));
-  4665		count &= DWC3_GEVNTCOUNT_MASK;
-  4666		if (!count)
-  4667			return IRQ_NONE;
-  4668	
-  4669		if (count > evt->length) {
-  4670			dev_err_ratelimited(dwc->dev, "invalid count(%u) > evt->length(%u)\n",
-  4671				count, evt->length);
-  4672			/*
-  4673			 * The DWC3 interrupt is level-triggered. Returning IRQ_NONE
-  4674			 * without clearing the IRQ source leaves the line asserted,
-  4675			 * causing a tight IRQ storm that triggers spurious.c:184 BUG.
-  4676			 * Write the bogus count back to GEVNTCOUNT to clear the source,
-  4677			 * consistent with the stale event clearing in
-  4678			 * dwc3_event_buffers_setup(), then schedule a soft disconnect
-  4679			 * to recover the controller state.
-  4680			 */
-> 4681			dwc3_writel(dwc->regs, DWC3_GEVNTCOUNT(0), count);
-  4682			schedule_work(&dwc->softcon_work);
-  4683			return IRQ_HANDLED;
-  4684		}
-  4685	
-  4686		evt->count = count;
-  4687		evt->flags |= DWC3_EVENT_PENDING;
-  4688	
-  4689		/* Mask interrupt */
-  4690		dwc3_writel(dwc, DWC3_GEVNTSIZ(0),
-  4691			    DWC3_GEVNTSIZ_INTMASK | DWC3_GEVNTSIZ_SIZE(evt->length));
-  4692	
-  4693		amount = min(count, evt->length - evt->lpos);
-  4694		memcpy(evt->cache + evt->lpos, evt->buf + evt->lpos, amount);
-  4695	
-  4696		if (amount < count)
-  4697			memcpy(evt->cache, evt->buf, count - amount);
-  4698	
-  4699		dwc3_writel(dwc, DWC3_GEVNTCOUNT(0), count);
-  4700	
-  4701		return IRQ_WAKE_THREAD;
-  4702	}
-  4703	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> > ---
+> > Changes in v2:
+> >  - add fix tag
+> >  - check return value when get RX SOP type
+> >  - pass all possible RX message type to tcpm_pd_receive()
+> >  - cache TCPC_RX_DETECT to filter out unallowed RX messages as suggeste=
+d by Badhri
+> > ---
+> >  drivers/usb/typec/tcpm/tcpci.c | 12 +++++++++++-
+> >  include/linux/usb/tcpci.h      |  1 +
+> >  2 files changed, 12 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tc=
+pci.c
+> > index 7ac7000b2d13..6717ac914c6a 100644
+> > --- a/drivers/usb/typec/tcpm/tcpci.c
+> > +++ b/drivers/usb/typec/tcpm/tcpci.c
+> > @@ -38,6 +38,7 @@ struct tcpci {
+> >
+> >       struct regmap *regmap;
+> >       unsigned int alert_mask;
+> > +     unsigned int rx_type_mask;
+> >
+> >       bool controls_vbus;
+> >
+> > @@ -488,6 +489,8 @@ static int tcpci_set_pd_rx(struct tcpc_dev *tcpc, b=
+ool enable)
+> >               if (tcpci->data->cable_comm_capable)
+> >                       reg |=3D TCPC_RX_DETECT_SOP1;
+> >       }
+> > +
+> > +     tcpci->rx_type_mask =3D reg;
+> >       ret =3D regmap_write(tcpci->regmap, TCPC_RX_DETECT, reg);
+> >       if (ret < 0)
+> >               return ret;
+> > @@ -749,6 +752,7 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+> >       if (status & TCPC_ALERT_RX_STATUS) {
+> >               struct pd_message msg;
+> >               unsigned int cnt, payload_cnt;
+> > +             enum tcpm_transmit_type rx_type;
+> >               u16 header;
+> >
+> >               regmap_read(tcpci->regmap, TCPC_RX_BYTE_CNT, &cnt);
+> > @@ -773,10 +777,16 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
+> >                       regmap_raw_read(tcpci->regmap, TCPC_RX_DATA,
+> >                                       &msg.payload, payload_cnt);
+> >
+> > +             ret =3D regmap_read(tcpci->regmap, TCPC_RX_BUF_FRAME_TYPE=
+, &rx_type);
+> > +             if (ret)
+> > +                     return ret;
+> > +
+> >               /* Read complete, clear RX status alert bit */
+> >               tcpci_write16(tcpci, TCPC_ALERT, TCPC_ALERT_RX_STATUS);
+> >
+> > -             tcpm_pd_receive(tcpci->port, &msg, TCPC_TX_SOP);
+> > +             rx_type &=3D TCPC_RX_BUF_FRAME_TYPE_MASK;
+> > +             if (tcpci->rx_type_mask & BIT(rx_type))
+> > +                     tcpm_pd_receive(tcpci->port, &msg, rx_type);
+> >       }
+> >
+> >       if (tcpci->data->vbus_vsafe0v && (status & TCPC_ALERT_EXTENDED_ST=
+ATUS)) {
+> > diff --git a/include/linux/usb/tcpci.h b/include/linux/usb/tcpci.h
+> > index f7f5cfbdef12..9b46a6bc762c 100644
+> > --- a/include/linux/usb/tcpci.h
+> > +++ b/include/linux/usb/tcpci.h
+> > @@ -144,6 +144,7 @@
+> >  #define TCPC_RX_BUF_FRAME_TYPE               0x31
+> >  #define TCPC_RX_BUF_FRAME_TYPE_SOP   0
+> >  #define TCPC_RX_BUF_FRAME_TYPE_SOP1  1
+> > +#define TCPC_RX_BUF_FRAME_TYPE_MASK  GENMASK(2, 0)
+> >  #define TCPC_RX_HDR                  0x32
+> >  #define TCPC_RX_DATA                 0x34 /* through 0x4f */
+> >
+> > --
+> > 2.34.1
+>
+> --
+> heikki
