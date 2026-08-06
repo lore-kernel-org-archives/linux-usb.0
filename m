@@ -1,56 +1,56 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A773047254D
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 14:21:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E45641A933
+	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 14:21:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786026107; cv=none; b=P2ysg+pE7+YRACj9GivRCo/3x3R+V9sC7vkI192VhqoW2Hng6VJ7YoP69qr8ipYLzo3WZmsi4PW1uFo1vilVh6rSV6wt5Dpxt+8S+QUL6/Q/wDZtbHGmROyHzX8gaVeyUH9fo76beXe8FIKTs634U59ADgTMHE/ahezh5WMmfVo=
+	t=1786026109; cv=none; b=ellZvvweBy7QaWLyi6SjjBeizBCz+02gCt/Gk+Rsu3blskkSAD26ucY5iywM2MnIzoBCI/WVAkeT2BZbNr4bnJmHVJG05516NA/0R2oBRRZ5/nnsGBL4DshKH0Q7pgj9HegVzf/zWHxwh/bjgmv2YuWdhtgihWiNYfjyb0mq3Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786026107; c=relaxed/simple;
-	bh=wh7RUN3gqBsDfGb/PLk67LAhkg8OiRg4mRG4N7j0DUk=;
+	s=arc-20240116; t=1786026109; c=relaxed/simple;
+	bh=vLASXcSaE68zhDGPcrmvgzq8WUIsMjndiPYBahhw5pQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IzoOz2kVRUsIgAqIT3XlPHl6GrbTrTtzxMbal6tl8nfdzDm3v/wPX/UP2iAyA4Gan37KbkbDt6N+GjjeEBGevCDGU+K1Em6xhpYK36H+jxBrWZS4SzVLH41oq0jR6W58VHPl2XGEsA9EyqMXWMDOumqS1p2L1pKc4Jc7Nx/+45Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PVSJuKOd; arc=none smtp.client-ip=192.198.163.9
+	 MIME-Version; b=nIwDRyAIXkf746jgLT6wYhMlJCtng4iNS3GAiZ/55tDTt73JHnUUFG163tGKczm73Z4xithcRB2a43Tfd8rfZDg0NmXuVUHzZT205dl4IXluXMmFnUFps17VMs5NTuBhVAznsTpfyTtdwKBKcqod9MdZ5drkXZpIkzIgFSj6gcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ibkTUB8Y; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PVSJuKOd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ibkTUB8Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786026105; x=1817562105;
+  t=1786026108; x=1817562108;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=wh7RUN3gqBsDfGb/PLk67LAhkg8OiRg4mRG4N7j0DUk=;
-  b=PVSJuKOdA31pnkyLzuH/H+MY0FPi9ip723AUIrTJQFAOHTwkpyCfx40X
-   TQ6Vkp2yFFxy6ngWsSHKEZlqZxpQqQfMeNVXX6qRG/SbCZbPtqk0PEByx
-   d8BP8/nBHeNlE+GtzjaSDaYMX3fS28QHytzA63zsxT7uhtnEWR++svYod
-   ud0Ng7fZIzLWVucbdZexh2FEbN26wFh6AKFtzMPrsS2+S6JpYOebNgL8P
-   wUS8pBLw/hh6cBmsYJjW5KQ7PxEltgaA6XUaY6IRXVDZ64H+hpodNkblX
-   o5vQocVh0EgsQbLpJHPonkw8cH9rbMJxZpiHEJbcpAOjsozzDFwV0Zjml
-   w==;
-X-CSE-ConnectionGUID: fwZy3mdcSfqjmjIj01Pv8w==
-X-CSE-MsgGUID: ckGF1uZYQByVLLk9hCHwNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97268184"
+  bh=vLASXcSaE68zhDGPcrmvgzq8WUIsMjndiPYBahhw5pQ=;
+  b=ibkTUB8YaLECSaY63YCkcZ9YaIwKmdbmUDmcHeeHzJOOfoNPrFv219Xt
+   jXsvdxawMABnOEIeQENPrTQ2ZYD8zbidOJG8E9yW8aEShwXMXFPuPStUV
+   l2bCt7z56GLD1Kbawtl4XgZcALAHXf40b2uinD0b1CN0VBbuC0TtjPli6
+   A8sNVhNIvPq6RP93+j5mOi7/zZ/DipI5rGSnewEDyZWJFqYfz+YiNHOjN
+   baXRn1S/aOtZMIHzZDFeCBps2LrJn96cvUvOqCpnOY2A78Us/iXxcwzYa
+   JxUqK461MfYm6NecY55vEw/R8NkqUoCa8uGdbNul/1+3rk4jy0hPkLLnz
+   Q==;
+X-CSE-ConnectionGUID: i5h8oeaIRyOaZ0XR7d/7BQ==
+X-CSE-MsgGUID: UlFValOwQO2nYXZ1q1ifcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97268192"
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="97268184"
+   d="scan'208";a="97268192"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 07:21:44 -0700
-X-CSE-ConnectionGUID: lpWQoDiwQduGggBFl3hVlg==
-X-CSE-MsgGUID: Ll+ycZeqRPGR15B0Q0oF1A==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 07:21:47 -0700
+X-CSE-ConnectionGUID: ixj8hs6HQrGH1LnJZARV9g==
+X-CSE-MsgGUID: 0rkRC2DNQqyqrBezPxR29w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="285500466"
+   d="scan'208";a="285500500"
 Received: from amilburn-desk.amilburn-desk (HELO mnyman-desk.home) ([10.245.244.235])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 07:21:43 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 07:21:46 -0700
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 To: <gregkh@linuxfoundation.org>
 Cc: <linux-usb@vger.kernel.org>,
 	Niklas Neronin <niklas.neronin@linux.intel.com>,
 	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 11/17] usb: xhci: standardize multi bit-field macros
-Date: Thu,  6 Aug 2026 17:21:07 +0300
-Message-ID: <20260806142113.2436238-12-mathias.nyman@linux.intel.com>
+Subject: [PATCH 13/17] usb: xhci: remove redundant function wrapper
+Date: Thu,  6 Aug 2026 17:21:09 +0300
+Message-ID: <20260806142113.2436238-14-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260806142113.2436238-1-mathias.nyman@linux.intel.com>
 References: <20260806142113.2436238-1-mathias.nyman@linux.intel.com>
@@ -64,446 +64,84 @@ Content-Transfer-Encoding: 8bit
 
 From: Niklas Neronin <niklas.neronin@linux.intel.com>
 
-This patch aims to unify the format of register macros and masks within
-the xHCI driver. Currently, register macros have inconsistent bit-field
-masks, get macros, and set macros, with varying naming conventions and
-functionalities.
+The function ring_doorbell_for_active_rings() rings the doorbell
+for any rings with pending URBs. It has a trivial wrapper,
+xhci_ring_doorbell_for_active_rings(), which takes the same
+arguments and simply calls the former.
 
-==================== Proposal ====================
-* Introduce a standardized approach by using only mask macros for each bit
-  field, leveraging GENMASK() for enhanced clarity.
-
-  #define HCC_MAX_PSA		GENMASK(15, 12)
-
-* Utilize FIELD_GET() and FIELD_PREP() macros directly in the C code for
-  getting and setting values, ensuring consistency and readability.
-
-  u32 psa = FIELD_GET(HCC_MAX_PSA, reg);
-
-* Maintain exceptions for macros that perform custom operations.
-
-  #define CTX_SIZE(_hcc)	(_hcc & HCC_64BYTE_CONTEXT ? 64 : 32)
-
-* Note, while FIELD_*() macros are beneficial, I am not suggesting that
-  they should always be used. Instead, use them where they simplify the
-  code and eliminate the necessity for custom get/set macros.
-  In the example below, additional FIELD_PREP() or FIELD_MODIFY() is not
-  beneficial.
-
-  #define HCS_MAX_SCRATCHPAD(p)   (FIELD_GET(HCS_MAX_SP_HI, (p)) << 5 | \
-				   FIELD_GET(HCS_MAX_SP_LO, (p)))
-
-==================== Improvements ====================
-Simplified Macros:
-  By reducing custom macros, the code becomes more straightforward.
-  Macros FIELD_GET() and FIELD_PREP() are commonly used, which contributes
-  to the code readability and consistency.
-
-  $ git grep -n 'FIELD_GET' | wc -l
-  9027
-  $ git grep -n 'FIELD_PREP' | wc -l
-  15407
-
-Consistent Return Type:
-  All bit macros will return unsigned 64-bit values, mitigating potential
-  cross-architecture issues.
-
-Unified Bit Range Definition:
-  The mask macro will define bit ranges, eliminating separate definitions
-  for get/set macros. Because, FIELD_GET() & FIELD_PREP() use mask macro.
-
-Cleaner header file with less macros:
-  Fewer macros result in a cleaner and more manageable header file.
+Since the wrapper adds no functionality, remove it and rename
+ring_doorbell_for_active_rings() to xhci_ring_doorbell_for_active_rings().
 
 Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/dwc3/host.c         |  5 ++--
- drivers/usb/host/xhci-caps.h    | 41 ++++++++++++++++++---------------
- drivers/usb/host/xhci-debugfs.c |  3 ++-
- drivers/usb/host/xhci-histb.c   |  2 +-
- drivers/usb/host/xhci-hub.c     |  4 ++--
- drivers/usb/host/xhci-mem.c     |  3 ++-
- drivers/usb/host/xhci-mtk.c     |  4 ++--
- drivers/usb/host/xhci-pci.c     |  4 +++-
- drivers/usb/host/xhci-plat.c    |  2 +-
- drivers/usb/host/xhci-ring.c    |  4 +++-
- drivers/usb/host/xhci-tegra.c   |  5 ++--
- drivers/usb/host/xhci.c         | 23 ++++++++++--------
- 12 files changed, 57 insertions(+), 43 deletions(-)
+ drivers/usb/host/xhci-ring.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index 96b588bd08cd..c5674161b2b0 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -12,6 +12,7 @@
- #include <linux/platform_device.h>
- #include <linux/usb.h>
- #include <linux/usb/hcd.h>
-+#include <linux/bitfield.h>
- 
- #include "../host/xhci-port.h"
- #include "../host/xhci-ext-caps.h"
-@@ -46,9 +47,9 @@ static void dwc3_power_off_all_roothub_ports(struct dwc3 *dwc)
- 			return;
- 		}
- 
--		op_regs_base = HC_LENGTH(readl(xhci_regs));
-+		op_regs_base = FIELD_GET(HC_LENGTH, readl(xhci_regs));
- 		reg = readl(xhci_regs + XHCI_HCSPARAMS1);
--		port_num = HCS_MAX_PORTS(reg);
-+		port_num = FIELD_GET(HCS_MAX_PORTS, reg);
- 
- 		for (i = 1; i <= port_num; i++) {
- 			offset = op_regs_base + XHCI_PORTSC_BASE + 0x10 * (i - 1);
-diff --git a/drivers/usb/host/xhci-caps.h b/drivers/usb/host/xhci-caps.h
-index 2f59b6ab1e45..68c27831e07e 100644
---- a/drivers/usb/host/xhci-caps.h
-+++ b/drivers/usb/host/xhci-caps.h
-@@ -5,22 +5,23 @@
-  */
- 
- #include <linux/bits.h>
-+#include <linux/bitfield.h>
- 
- /* hc_capbase - bitmasks */
- /* bits 7:0 - Capability Registers Length */
--#define HC_LENGTH(p)		((p) & 0xff)
-+#define HC_LENGTH		GENMASK(7, 0)
- /* bits 15:8 - Rsvd */
- /* bits 31:16 - Host Controller Interface Version Number */
--#define HC_VERSION(p)		(((p) >> 16) & 0xffff)
-+#define HC_VERSION		GENMASK(31, 16)
- 
- /* HCSPARAMS1 - hcs_params1 - bitmasks */
- /* bits 7:0 - Number of Device Slots */
--#define HCS_MAX_SLOTS(p)	(((p) >> 0) & 0xff)
--#define HCS_SLOTS_MASK		0xff
--/* bits 18:8 - Number of Interrupters, max values is 1024 */
--#define HCS_MAX_INTRS(p)	(((p) >> 8) & 0x7ff)
--/* bits 31:24, Max Ports - max value is 255 */
--#define HCS_MAX_PORTS(p)	(((p) >> 24) & 0xff)
-+#define HCS_SLOTS_MASK		GENMASK(7, 0)
-+/* bits 18:8 - Number of Interrupters, max values is 1024  */
-+#define HCS_MAX_INTRS		GENMASK(18, 8)
-+/* bits 23:19 - Rsvd */
-+/* bits 31:24 - Max Ports, max values is 255 */
-+#define HCS_MAX_PORTS		GENMASK(31, 24)
- 
- /* HCSPARAMS2 - hcs_params2 - bitmasks */
- /*
-@@ -33,24 +34,25 @@
-  * Note: 1 Frame = 8 Microframes
-  * xHCI specification section 5.3.4.
-  */
--#define HCS_IST_VALUE(p)	((p) & 0x7)
-+#define HCS_IST_VALUE		GENMASK(2, 0)
- #define HCS_IST_UNIT		BIT(3)
- /* bits 7:4 - Event Ring Segment Table Max, 2^(n) */
--#define HCS_ERST_MAX(p)		(((p) >> 4) & 0xf)
-+#define HCS_ERST_MAX		GENMASK(7, 4)
- /* bits 20:8 - Rsvd */
- /* bits 25:21 - Max Scratchpad Buffers (Hi), 5 Most significant bits */
--#define HCS_MAX_SP_HI(p)	(((p) >> 21) & 0x1f)
-+#define HCS_MAX_SP_HI		GENMASK(25, 21)
- /* bit 26 - Scratchpad restore, for save/restore HW state */
- /* bits 31:27 - Max Scratchpad Buffers (Lo), 5 Least significant bits */
--#define HCS_MAX_SP_LO(p)	(((p) >> 27) & 0x1f)
--#define HCS_MAX_SCRATCHPAD(p)	(HCS_MAX_SP_HI(p) << 5 | HCS_MAX_SP_LO(p))
-+#define HCS_MAX_SP_LO		GENMASK(31, 27)
-+#define HCS_MAX_SCRATCHPAD(p)	(FIELD_GET(HCS_MAX_SP_HI, (p)) << 5 | \
-+				 FIELD_GET(HCS_MAX_SP_LO, (p)))
- 
- /* HCSPARAMS3 - hcs_params3 - bitmasks */
- /* bits 7:0 - U1 Device Exit Latency, Max U1 to U0 latency for the roothub ports */
--#define HCS_U1_LATENCY(p)	(((p) >> 0) & 0xff)
-+#define HCS_U1_LATENCY		GENMASK(7, 0)
- /* bits 15:8 - Rsvd */
- /* bits 31:16 - U2 Device Exit Latency, Max U2 to U0 latency for the roothub ports */
--#define HCS_U2_LATENCY(p)	(((p) >> 16) & 0xffff)
-+#define HCS_U2_LATENCY		GENMASK(31, 16)
- 
- /* HCCPARAMS1 - hcc_params - bitmasks */
- /* bit 0 - 64-bit Addressing Capability */
-@@ -77,19 +79,20 @@
- /* bit 11 - Contiguous Frame ID Capability */
- #define HCC_CFC			BIT(11)
- /* bits 15:12 - Max size for Primary Stream Arrays, 2^(n+1) */
--#define HCC_MAX_PSA(p)		(1 << ((((p) >> 12) & 0xf) + 1))
-+#define HCC_MAX_PSA		GENMASK(15, 12)
-+#define GET_MAX_PSA_SIZE(p)	(1 << (FIELD_GET(HCC_MAX_PSA, (p)) + 1))
- /* bits 31:16 - xHCI Extended Capabilities Pointer, from PCI base: 2^(n) */
--#define HCC_EXT_CAPS(p)		(((p) >> 16) & 0xffff)
-+#define HCC_EXT_CAPS		GENMASK(31, 16)
- 
- /* DBOFF - db_off - bitmasks */
- /* bits 1:0 - Rsvd */
- /* bits 31:2 - Doorbell Array Offset */
--#define	DBOFF_MASK	(0xfffffffc)
-+#define	DBOFF_MASK		GENMASK(31, 2)
- 
- /* RTSOFF - run_regs_off - bitmasks */
- /* bits 4:0 - Rsvd */
- /* bits 31:5 - Runtime Register Space Offse */
--#define	RTSOFF_MASK	(~0x1f)
-+#define	RTSOFF_MASK		GENMASK(31, 5)
- 
- /* HCCPARAMS2 - hcc_params2 - bitmasks */
- /* bit 0 - U3 Entry Capability */
-diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
-index d07276192256..2aa01d99f23d 100644
---- a/drivers/usb/host/xhci-debugfs.c
-+++ b/drivers/usb/host/xhci-debugfs.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/slab.h>
- #include <linux/uaccess.h>
-+#include <linux/bitfield.h>
- 
- #include "xhci.h"
- #include "xhci-debugfs.h"
-@@ -791,7 +792,7 @@ void xhci_debugfs_init(struct xhci_hcd *xhci)
- 			    xhci->debugfs_root, "reg-cap");
- 
- 	xhci_debugfs_regset(xhci,
--			    HC_LENGTH(readl(&xhci->cap_regs->hc_capbase)),
-+			    FIELD_GET(HC_LENGTH, readl(&xhci->cap_regs->hc_capbase)),
- 			    xhci_op_regs, ARRAY_SIZE(xhci_op_regs),
- 			    xhci->debugfs_root, "reg-op");
- 
-diff --git a/drivers/usb/host/xhci-histb.c b/drivers/usb/host/xhci-histb.c
-index 02396c8721dc..fddb43bf6323 100644
---- a/drivers/usb/host/xhci-histb.c
-+++ b/drivers/usb/host/xhci-histb.c
-@@ -276,7 +276,7 @@ static int xhci_histb_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto put_usb3_hcd;
- 
--	if (HCC_MAX_PSA(xhci->hcc_params) >= 4)
-+	if (GET_MAX_PSA_SIZE(xhci->hcc_params) >= 4)
- 		xhci->shared_hcd->can_do_streams = 1;
- 
- 	ret = usb_add_hcd(xhci->shared_hcd, irq, IRQF_SHARED);
-diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index b0264bd8577a..17ac05516642 100644
---- a/drivers/usb/host/xhci-hub.c
-+++ b/drivers/usb/host/xhci-hub.c
-@@ -115,8 +115,8 @@ static int xhci_create_usb3x_bos_desc(struct xhci_hcd *xhci, char *buf,
- 
- 	if ((xhci->quirks & XHCI_LPM_SUPPORT)) {
- 		reg = readl(&xhci->cap_regs->hcs_params3);
--		ss_cap->bU1devExitLat = HCS_U1_LATENCY(reg);
--		ss_cap->bU2DevExitLat = cpu_to_le16(HCS_U2_LATENCY(reg));
-+		ss_cap->bU1devExitLat = FIELD_GET(HCS_U1_LATENCY, reg);
-+		ss_cap->bU2DevExitLat = cpu_to_le16(FIELD_GET(HCS_U2_LATENCY, reg));
- 	}
- 
- 	if (wLength < le16_to_cpu(bos->wTotalLength))
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 2d7a61b3aaf2..5717bd830189 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -14,6 +14,7 @@
- #include <linux/slab.h>
- #include <linux/dmapool.h>
- #include <linux/dma-mapping.h>
-+#include <linux/bitfield.h>
- 
- #include "xhci.h"
- #include "xhci-trace.h"
-@@ -2301,7 +2302,7 @@ xhci_alloc_interrupter(struct xhci_hcd *xhci, unsigned int segs, gfp_t flags)
- 	if (!segs)
- 		segs = ERST_DEFAULT_SEGS;
- 
--	max_segs = BIT(HCS_ERST_MAX(xhci->hcs_params2));
-+	max_segs = FIELD_GET(HCS_ERST_MAX, xhci->hcs_params2) << 2;
- 	segs = min(segs, max_segs);
- 
- 	ir = kzalloc_node(sizeof(*ir), flags, dev_to_node(dev));
-diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
-index d9b865546a67..60af5fe29bd4 100644
---- a/drivers/usb/host/xhci-mtk.c
-+++ b/drivers/usb/host/xhci-mtk.c
-@@ -468,7 +468,7 @@ static void xhci_mtk_quirks(struct device *dev, struct xhci_hcd *xhci)
- 	 * MTK xHCI 0.96: PSA is 1 by default even if doesn't support stream,
- 	 * and it's 3 when support it.
- 	 */
--	if (xhci->hci_version < 0x100 && HCC_MAX_PSA(xhci->hcc_params) == 4)
-+	if (xhci->hci_version < 0x100 && GET_MAX_PSA_SIZE(xhci->hcc_params) == 4)
- 		xhci->quirks |= XHCI_BROKEN_STREAMS;
- }
- 
-@@ -650,7 +650,7 @@ static int xhci_mtk_probe(struct platform_device *pdev)
- 	}
- 
- 	usb3_hcd = xhci_get_usb3_hcd(xhci);
--	if (usb3_hcd && HCC_MAX_PSA(xhci->hcc_params) >= 4 &&
-+	if (usb3_hcd && GET_MAX_PSA_SIZE(xhci->hcc_params) >= 4 &&
- 	    !(xhci->quirks & XHCI_BROKEN_STREAMS))
- 		usb3_hcd->can_do_streams = 1;
- 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 6b3fcba44b08..a8889081ae82 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -14,6 +14,7 @@
- #include <linux/acpi.h>
- #include <linux/reset.h>
- #include <linux/suspend.h>
-+#include <linux/bitfield.h>
- 
- #include "xhci.h"
- #include "xhci-trace.h"
-@@ -662,7 +663,8 @@ int xhci_pci_common_probe(struct pci_dev *dev, const struct pci_device_id *id)
- 	}
- 
- 	usb3_hcd = xhci_get_usb3_hcd(xhci);
--	if (usb3_hcd && !(xhci->quirks & XHCI_BROKEN_STREAMS) && HCC_MAX_PSA(xhci->hcc_params) >= 4)
-+	if (usb3_hcd && !(xhci->quirks & XHCI_BROKEN_STREAMS) &&
-+	    GET_MAX_PSA_SIZE(xhci->hcc_params) >= 4)
- 		usb3_hcd->can_do_streams = 1;
- 
- 	/* USB-2 and USB-3 roothubs initialized, allow runtime pm suspend */
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index 074d9c731639..6fd595f81a30 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -340,7 +340,7 @@ int xhci_plat_probe(struct platform_device *pdev, struct device *sysdev, const s
- 	}
- 
- 	usb3_hcd = xhci_get_usb3_hcd(xhci);
--	if (usb3_hcd && HCC_MAX_PSA(xhci->hcc_params) >= 4 &&
-+	if (usb3_hcd && GET_MAX_PSA_SIZE(xhci->hcc_params) >= 4 &&
- 	    !(xhci->quirks & XHCI_BROKEN_STREAMS))
- 		usb3_hcd->can_do_streams = 1;
- 
 diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index c868bf4deaef..80d53acc37fd 100644
+index 80d53acc37fd..21ef7284e957 100644
 --- a/drivers/usb/host/xhci-ring.c
 +++ b/drivers/usb/host/xhci-ring.c
-@@ -57,6 +57,8 @@
- #include <linux/slab.h>
- #include <linux/string_choices.h>
- #include <linux/dma-mapping.h>
-+#include <linux/bitfield.h>
-+
- #include "xhci.h"
- #include "xhci-trace.h"
+@@ -575,9 +575,8 @@ void xhci_ring_ep_doorbell(struct xhci_hcd *xhci,
+ }
  
-@@ -3954,7 +3956,7 @@ static unsigned int xhci_get_last_burst_packet_count(struct xhci_hcd *xhci,
- /* Returns the Isochronous Scheduling Threshold in Microframes. 1 Frame is 8 Microframes. */
- static int xhci_ist_microframes(struct xhci_hcd *xhci)
+ /* Ring the doorbell for any rings with pending URBs */
+-static void ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
+-		unsigned int slot_id,
+-		unsigned int ep_index)
++void xhci_ring_doorbell_for_active_rings(struct xhci_hcd *xhci, unsigned int slot_id,
++					 unsigned int ep_index)
  {
--	int ist = HCS_IST_VALUE(xhci->hcs_params2);
-+	int ist = FIELD_GET(HCS_IST_VALUE, xhci->hcs_params2);
- 
- 	if (xhci->hcs_params2 & HCS_IST_UNIT)
- 		ist *= 8;
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index e7e6d569f1db..6f235d1e117e 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -6,6 +6,7 @@
-  * Copyright (C) 2014 Google, Inc.
-  */
- 
-+#include <linux/bitfield.h>
- #include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/dma-mapping.h>
-@@ -993,7 +994,7 @@ static int tegra_xusb_wait_for_falcon(struct tegra_xusb *tegra)
- 	u32 value;
- 
- 	cap_regs = tegra->regs;
--	op_regs = tegra->regs + HC_LENGTH(readl(&cap_regs->hc_capbase));
-+	op_regs = tegra->regs + FIELD_GET(HC_LENGTH, readl(&cap_regs->hc_capbase)),
- 
- 	ret = readl_poll_timeout(&op_regs->status, value, !(value & STS_CNR), 1000, 200000);
- 
-@@ -1895,7 +1896,7 @@ static int tegra_xusb_probe(struct platform_device *pdev)
- 		goto remove_usb2;
+ 	unsigned int stream_id;
+ 	struct xhci_virt_ep *ep;
+@@ -600,13 +599,6 @@ static void ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
  	}
+ }
  
--	if (HCC_MAX_PSA(xhci->hcc_params) >= 4)
-+	if (GET_MAX_PSA_SIZE(xhci->hcc_params) >= 4)
- 		xhci->shared_hcd->can_do_streams = 1;
+-void xhci_ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
+-		unsigned int slot_id,
+-		unsigned int ep_index)
+-{
+-	ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
+-}
+-
+ static struct xhci_virt_ep *xhci_get_virt_ep(struct xhci_hcd *xhci,
+ 					     unsigned int slot_id,
+ 					     unsigned int ep_index)
+@@ -1303,7 +1295,7 @@ static void xhci_handle_cmd_stop_ep(struct xhci_hcd *xhci, int slot_id,
  
- 	err = usb_add_hcd(xhci->shared_hcd, tegra->xhci_irq, IRQF_SHARED);
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 4473b3cd1d36..2faf91966890 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -21,6 +21,7 @@
- #include <linux/dmi.h>
- #include <linux/dma-mapping.h>
- #include <linux/usb/xhci-sideband.h>
-+#include <linux/bitfield.h>
+ 	/* Otherwise ring the doorbell(s) to restart queued transfers */
+ 	xhci_giveback_invalidated_tds(ep);
+-	ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
++	xhci_ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
+ }
  
- #include "xhci.h"
- #include "xhci-trace.h"
-@@ -3507,7 +3508,7 @@ static void xhci_calculate_streams_entries(struct xhci_hcd *xhci,
- 	 * level page entries), but that's an optional feature for xHCI host
- 	 * controllers. xHCs must support at least 4 stream IDs.
- 	 */
--	max_streams = HCC_MAX_PSA(xhci->hcc_params);
-+	max_streams = GET_MAX_PSA_SIZE(xhci->hcc_params);
- 	if (*num_stream_ctxs > max_streams) {
- 		xhci_dbg(xhci, "xHCI HW only supports %u stream ctx entries.\n",
- 				max_streams);
-@@ -3637,7 +3638,7 @@ static int xhci_alloc_streams(struct usb_hcd *hcd, struct usb_device *udev,
- 
- 	/* MaxPSASize value 0 (2 streams) means streams are not supported */
- 	if ((xhci->quirks & XHCI_BROKEN_STREAMS) ||
--			HCC_MAX_PSA(xhci->hcc_params) < 4) {
-+			GET_MAX_PSA_SIZE(xhci->hcc_params) < 4) {
- 		xhci_dbg(xhci, "xHCI controller does not support streams.\n");
- 		return -ENOSYS;
+ static void xhci_kill_ring_urbs(struct xhci_hcd *xhci, struct xhci_ring *ring)
+@@ -1546,13 +1538,13 @@ static void xhci_handle_cmd_set_deq(struct xhci_hcd *xhci, int slot_id,
+ 			 __func__);
+ 		xhci_invalidate_cancelled_tds(ep);
+ 		/* Try to restart the endpoint if all is done */
+-		ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
++		xhci_ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
+ 		/* Start giving back any TDs invalidated above */
+ 		xhci_giveback_invalidated_tds(ep);
+ 	} else {
+ 		/* Restart any rings with pending URBs */
+ 		xhci_dbg(ep->xhci, "%s: All TDs cleared, ring doorbell\n", __func__);
+-		ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
++		xhci_ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
  	}
-@@ -4608,7 +4609,7 @@ static int xhci_calculate_hird_besl(struct xhci_hcd *xhci,
- 	int besl_device = 0;
- 	u32 field;
+ }
  
--	u2del = HCS_U2_LATENCY(xhci->hcs_params3);
-+	u2del = FIELD_GET(HCS_U2_LATENCY, xhci->hcs_params3);
- 	field = le32_to_cpu(udev->bos->ext_cap->bmAttributes);
+@@ -1587,7 +1579,7 @@ static void xhci_handle_cmd_reset_ep(struct xhci_hcd *xhci, int slot_id,
  
- 	if (field & USB_BESL_SUPPORT) {
-@@ -5460,26 +5461,28 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
- 		xhci_warn(xhci, "Host controller not accessible, removed?\n");
- 		return -ENODEV;
- 	}
--	xhci->op_regs = hcd->regs + HC_LENGTH(hc_capbase);
-+	xhci->op_regs = hcd->regs + FIELD_GET(HC_LENGTH, hc_capbase);
-+
- 	xhci->run_regs = hcd->regs +
- 		(readl(&xhci->cap_regs->run_regs_off) & RTSOFF_MASK);
- 	/* Cache read-only capability registers */
- 	hcs_params1 = readl(&xhci->cap_regs->hcs_params1);
- 	xhci->hcs_params2 = readl(&xhci->cap_regs->hcs_params2);
- 	xhci->hcs_params3 = readl(&xhci->cap_regs->hcs_params3);
--	xhci->hci_version = HC_VERSION(hc_capbase);
-+	xhci->hci_version = FIELD_GET(HC_VERSION, hc_capbase);
- 	xhci->hcc_params = readl(&xhci->cap_regs->hcc_params);
- 	if (xhci->hci_version > 0x100)
- 		xhci->hcc_params2 = readl(&xhci->cap_regs->hcc_params2);
+ 	/* if this was a soft reset, then restart */
+ 	if ((le32_to_cpu(trb->generic.field[3])) & TRB_TSP)
+-		ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
++		xhci_ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
+ }
  
- 	xhci->dma_mask_bits = 64;
--	xhci->max_slots = min(HCS_MAX_SLOTS(hcs_params1), MAX_HC_SLOTS);
--	xhci->max_ports = min(HCS_MAX_PORTS(hcs_params1), MAX_HC_PORTS);
-+	xhci->max_slots = min(FIELD_GET(HCS_SLOTS_MASK, hcs_params1), MAX_HC_SLOTS);
-+	xhci->max_ports = min(FIELD_GET(HCS_MAX_PORTS, hcs_params1), MAX_HC_PORTS);
-+
- 	/* xhci-plat or xhci-pci might have set max_interrupters already */
- 	if (!xhci->max_interrupters)
--		xhci->max_interrupters = min(HCS_MAX_INTRS(hcs_params1), MAX_HC_INTRS);
--	else if (xhci->max_interrupters > HCS_MAX_INTRS(hcs_params1))
--		xhci->max_interrupters = HCS_MAX_INTRS(hcs_params1);
-+		xhci->max_interrupters = min(FIELD_GET(HCS_MAX_INTRS, hcs_params1), MAX_HC_INTRS);
-+	else if (xhci->max_interrupters > FIELD_GET(HCS_MAX_INTRS, hcs_params1))
-+		xhci->max_interrupters = FIELD_GET(HCS_MAX_INTRS, hcs_params1);
- 
- 	xhci->quirks |= quirks;
- 
+ static void xhci_handle_cmd_enable_slot(int slot_id, struct xhci_command *command,
 -- 
 2.43.0
 
