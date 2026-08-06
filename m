@@ -1,55 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0653A356773
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 14:21:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170FF382F2F
+	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 14:21:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786026092; cv=none; b=AjEG9i4LGjj6r7OTkiC2j6Fnbrip5DzqW2L7LFhofxwfcrTEtA43yYvDXCx8LM3zB0cU9h2SNpe9F23KMEUvrUIL4AHMMwrN9aR7Kzhzpz1Z00k9T9OxmAekOW/qzNoatsmpyNnAjt8Yjqg7CR71QWBMI01jLR/cTt0oavb5wuU=
+	t=1786026097; cv=none; b=N7BNVma1KwXxUJr/tPAgRqu6eiGA7TBE6CkIkg/vzAdhX1ewcjQSrdGnJ3zrYsZgkocaaAKWgv7wTX3keKMj+11v+atp6ugLYAxFnzakJpjP2QQ3P9WZxtp0/JpMBh6J+WMfHflPW37h5EyWZ97BKmlHBNJgX8Z6y7Wez8ZFb/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786026092; c=relaxed/simple;
-	bh=8WvDzx5Fp/WxSNy0+O+tuSU079TDhgdsLoH4hQusEZ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ThULkmxaUE9jqASqdxUKyA31s7MoUNCvsyHjsR4hGhkW500pHWQqKrYytoSjSvEXruy/Z77J4LC6IFD3awQ4/dDR99iuY7S4v3jiovhOPF8m06nDxLxk6LSWLgQcDRFRgBl5eWT22XTL0lTB+MjbM+MF68ciuwx93hVrgR3aVuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lnwz2+7Q; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1786026097; c=relaxed/simple;
+	bh=Pa4MzUcGQIdgjtB0g8OLih5jOypq3OBs4xGeM+4gvHk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=e00jCYg8jBmyWKUX++35ceVWWmjGzO5ZsjweTBBt2f0SZH6mmMgm3ZmBe8j21BiO8tsx8Tj4JnNdgDcFOXVrMQXsUOutlivigFSWT12LzDILdHdqTM25FEoBAp7DFpFTOym0MExHmndVdkJKdUgt84TMBGHDfzPrVzWz6iCMbIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Go6Q1VOA; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lnwz2+7Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Go6Q1VOA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786026090; x=1817562090;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=8WvDzx5Fp/WxSNy0+O+tuSU079TDhgdsLoH4hQusEZ0=;
-  b=lnwz2+7Q8MfB9IZRlgpmB6jZT12b0AnpMagGC5KJmFupzZBf2OtkdjT7
-   m5yJkanaSuzuBHcreqM4k858YgI4HZqcUrRozBCpriFyaiPa0TCdWlZME
-   Im/1Ew2AOEQgXQOqw2eF4SSkcYveRlsLiITTVcL0ch4fR95fsmHnoJvfE
-   S4I2ytt7McQhpGUVD88tvX9JgxpUJnI0QpO5coAi564vd7fmCPYj1PP2s
-   VCXTKXWcBckwN7BteJ0gIlPaSvC4jgOrxobv24L8QIGYU+4mTuV29Tlnf
-   gC26H2weITBOHLLQmOC+oxINmtjScF6pjRT7+V1R97jR3r2jhg0ULUBcp
-   w==;
-X-CSE-ConnectionGUID: Uf3GW+KVS2aiMskgjmAHSw==
-X-CSE-MsgGUID: R9jJcvabSfmHp9WDBj6naw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97268101"
+  t=1786026093; x=1817562093;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Pa4MzUcGQIdgjtB0g8OLih5jOypq3OBs4xGeM+4gvHk=;
+  b=Go6Q1VOA1C5ZLVFIQlvHquwOJEOBqHxBW7dpV9LbM+IYe8hz3NVUgUWb
+   lQlqnOlH/3aIT3B440M128se7oAY/YjOm5rUAHENhWX/U1gA6XcK2gyNr
+   fFiHmFnhNdiRbZhtP/VDH1RarakQPQ7OeV8XPdaEeq+gj5b6ewi8T9DnX
+   Wxys1r2RwqUoRKMF7fpcS1IQ5vB//gfYy+rHuKl/Loytez5QsL/58nHH2
+   6GF5CjteRmHddstFG/d4mVeAVjyiL6Gq87ySh8wsycWzDA41+L2j5ZEYM
+   Rdb307C9msfLoBxQvbZz66crLbcLpDEP/1ksa7gRxjw6x5k3JkcLwNylS
+   A==;
+X-CSE-ConnectionGUID: WGJ2XJ6jTziCamfZIe5TUA==
+X-CSE-MsgGUID: q9B7ciIZQ/yAwJurKemIcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="97268109"
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="97268101"
+   d="scan'208";a="97268109"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 07:21:27 -0700
-X-CSE-ConnectionGUID: 6DqyOCbWQJaM8Iq8sCN/xQ==
-X-CSE-MsgGUID: lPYQfUSYQJSJW7M9pWbWLA==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 07:21:28 -0700
+X-CSE-ConnectionGUID: lwzGggLrTlS6E5Ka5R9Xfg==
+X-CSE-MsgGUID: i5DEVExiTMCWqhv4cBgT7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="285500329"
+   d="scan'208";a="285500332"
 Received: from amilburn-desk.amilburn-desk (HELO mnyman-desk.home) ([10.245.244.235])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 07:21:26 -0700
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 07:21:27 -0700
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 To: <gregkh@linuxfoundation.org>
 Cc: <linux-usb@vger.kernel.org>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH 00/17] xhci features and fixes for usb-next
-Date: Thu,  6 Aug 2026 17:20:56 +0300
-Message-ID: <20260806142113.2436238-1-mathias.nyman@linux.intel.com>
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
+	Dylan Robinson <dylan_robinson@motu.com>
+Subject: [PATCH 01/17] xhci: fix frame id calculation and checks for isoc URBs
+Date: Thu,  6 Aug 2026 17:20:57 +0300
+Message-ID: <20260806142113.2436238-2-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260806142113.2436238-1-mathias.nyman@linux.intel.com>
+References: <20260806142113.2436238-1-mathias.nyman@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -58,59 +62,327 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Greg
+Check if the expected frame IDs for a isochronous URB submitted
+mid stream is within the valid frame time window that xHC controller
+is capable of queuing TDs.
 
-Several xhci improvements, clenups and fixes for usb-next
+The range only needs to be checked once per URB as the isoc TDs of an
+URB are queued in one go with spinlock held and interrupts disabled.
 
-Thanks
-Mathias
+Calculate the valid frame window start and end frame id in frames
+instead of microframes to better match how xhci specification
+section 4.11.2.5 does it.
 
-Breno Leitao (1):
-  usb: xhci: bail out of setup if the controller is inaccessible
+Don't add frame id gaps or change scheduling to SIA mid stream if
+the start frame is outside the valid frame winow.
+Only print a debug message.
+Some devices can't handle gaps in isochronous transfers.
 
-Lucas De Marchi (3):
-  xhci: dbgtty: Fix unregister on tty_register_driver() failure
-  xhci: dbgtty: Fix unregister on tty_alloc_driver() failure
-  xhci: dbgtty: Drop extra call to idr_destroy()
+Calculate a valid start frame for the first URB of a stream, and
+align it to a full frame, or to interval start if interval is longer
+than a frame
 
-Mathias Nyman (6):
-  xhci: fix frame id calculation and checks for isoc URBs
-  xhci: Set frame ID field of isoc TRB when starting an isoch stream
-  xhci: include all root port children in recovery prevention on link
-    error
-  xhci: prevent endpoint recovery after roothub disconnect
-  xhci: avoid xHC endpoint changes after disconnect or link error.
-  xhci: move dequeue to next valid td instead of past cancelled one
+Set urb->start_frame value for every URB
 
-Michal Pecio (1):
-  usb: xhci: Handle bogus TRB pointers in Missed Service Error events
+cc: Dylan Robinson <dylan_robinson@motu.com>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+---
+ drivers/usb/host/xhci-mem.c  |   1 +
+ drivers/usb/host/xhci-ring.c | 182 +++++++++++++++--------------------
+ drivers/usb/host/xhci.h      |   7 +-
+ 3 files changed, 86 insertions(+), 104 deletions(-)
 
-Niklas Neronin (5):
-  usb: xhci: standardize multi bit-field macros
-  usb: xhci: use 64-bit Addressing Capability macro
-  usb: xhci: remove redundant function wrapper
-  usb: xhci: remove redundant 'xhci' pointer from endpoint struct
-  usb: xhci: replace Unicode quotes with ASCII apostrophes
-
-Semih Baskan (1):
-  usb: xhci: Handle USB3 port events when there is one roothub
-
- drivers/usb/dwc3/host.c         |   5 +-
- drivers/usb/host/xhci-caps.h    |  41 +--
- drivers/usb/host/xhci-dbgtty.c  |  25 +-
- drivers/usb/host/xhci-debugfs.c |   3 +-
- drivers/usb/host/xhci-histb.c   |   2 +-
- drivers/usb/host/xhci-hub.c     |   6 +-
- drivers/usb/host/xhci-mem.c     |   7 +-
- drivers/usb/host/xhci-mtk.c     |   4 +-
- drivers/usb/host/xhci-pci.c     |   4 +-
- drivers/usb/host/xhci-plat.c    |   2 +-
- drivers/usb/host/xhci-ring.c    | 492 ++++++++++++++++----------------
- drivers/usb/host/xhci-tegra.c   |   5 +-
- drivers/usb/host/xhci.c         |  43 +--
- drivers/usb/host/xhci.h         |  21 +-
- 14 files changed, 344 insertions(+), 316 deletions(-)
-
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index a5e7f363922f..2d7a61b3aaf2 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -1493,6 +1493,7 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
+ 		return -ENOMEM;
+ 
+ 	virt_dev->eps[ep_index].skip = false;
++	virt_dev->eps[ep_index].next_uframe = -1;
+ 	ep_ring = virt_dev->eps[ep_index].new_ring;
+ 	xhci_ring_init(xhci, ep_ring);
+ 
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 4f98d8269625..bc998692589d 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -3956,80 +3956,77 @@ static int xhci_ist_microframes(struct xhci_hcd *xhci)
+ }
+ 
+ /*
+- * Calculates Frame ID field of the isochronous TRB identifies the
+- * target frame that the Interval associated with this Isochronous
+- * Transfer Descriptor will start on. Refer to 4.11.2.5 in 1.1 spec.
+- *
+- * Returns actual frame id on success, negative value on error.
++ * Check if frame is in the valid frame window, including start and end.
++ * If start > end then assume window wrapped around at a limit the frame
++ * value won't exceed.
+  */
+-static int xhci_get_isoc_frame_id(struct xhci_hcd *xhci,
+-		struct urb *urb, int index)
++static bool xhci_frame_in_range(u32 frame, u32 start, u32 end)
+ {
+-	int start_frame, ist, ret = 0;
+-	int start_frame_id, end_frame_id, current_frame_id;
++	/* frame window end wrapped around */
++	if (start > end)
++		return frame >= start || frame <= end;
+ 
+-	if (urb->dev->speed == USB_SPEED_LOW ||
+-			urb->dev->speed == USB_SPEED_FULL)
+-		start_frame = urb->start_frame + index * urb->interval;
+-	else
+-		start_frame = (urb->start_frame + index * urb->interval) >> 3;
++	return frame >= start && frame <= end;
++}
+ 
+-	ist = xhci_ist_microframes(xhci);
++/*
++ * Set the urb->start_frame of the URB.
++ *
++ * Returns microframe index of first TD
++ */
++static int xhci_get_isoc_start_frame(struct xhci_hcd *xhci, struct urb *urb,
++				     struct xhci_virt_ep *ep)
++{
++	u32 curr_frame, start_uframe;
++	u32 urb_start, urb_end;
++	u32 win_start, win_end;
++	bool frame_unit;
++	int uinterval;
++	u32 mfindex;
++	int ist;
+ 
+-	/* Software shall not schedule an Isoch TD with a Frame ID value that
+-	 * is less than the Start Frame ID or greater than the End Frame ID,
+-	 * where:
+-	 *
+-	 * End Frame ID = (Current MFINDEX register value + 895 ms.) MOD 2048
+-	 * Start Frame ID = (Current MFINDEX register value + IST + 1) MOD 2048
+-	 *
+-	 * Both the End Frame ID and Start Frame ID values are calculated
+-	 * in microframes. When software determines the valid Frame ID value;
+-	 * The End Frame ID value should be rounded down to the nearest Frame
+-	 * boundary, and the Start Frame ID value should be rounded up to the
+-	 * nearest Frame boundary.
+-	 */
+-	current_frame_id = readl(&xhci->run_regs->microframe_index);
+-	start_frame_id = roundup(current_frame_id + ist + 1, 8);
+-	end_frame_id = rounddown(current_frame_id + 895 * 8, 8);
++	/* check if urb uses frame units instead of microframes */
++	frame_unit = (urb->dev->speed == USB_SPEED_FULL ||
++		     urb->dev->speed == USB_SPEED_LOW);
+ 
+-	start_frame &= 0x7ff;
+-	start_frame_id = (start_frame_id >> 3) & 0x7ff;
+-	end_frame_id = (end_frame_id >> 3) & 0x7ff;
++	uinterval = urb->interval;
++	if (frame_unit)
++		uinterval *= 8;
+ 
+-	if (start_frame_id < end_frame_id) {
+-		if (start_frame > end_frame_id ||
+-				start_frame < start_frame_id)
+-			ret = -EINVAL;
+-	} else if (start_frame_id > end_frame_id) {
+-		if ((start_frame > end_frame_id &&
+-				start_frame < start_frame_id))
+-			ret = -EINVAL;
++	/* get current microframe index and isoc scheduling threshold */
++	mfindex = readl(&xhci->run_regs->microframe_index);
++	ist = xhci_ist_microframes(xhci);
++
++	/* calculate valid frame window, in frame units, see xhci 4.11.2.5 */
++	curr_frame = MFINDEX_TO_FRAME(mfindex);
++	win_start = (curr_frame + DIV_ROUND_UP_POW2(ist, 8) + 1) % MAX_FRAMES;
++	win_end = (curr_frame + 895) % MAX_FRAMES;
++
++	/* Is this the first URB starting the whole isoc data flow? */
++	if (ep->next_uframe < 0) {
++		/* align first URB to next interval boundary, or at last to full frame */
++		start_uframe = mfindex + ist + XHCI_CFC_DELAY;
++		start_uframe = roundup(start_uframe, 8);
++		start_uframe = roundup(start_uframe, uinterval) % MAX_UFRAMES;
+ 	} else {
+-			ret = -EINVAL;
+-	}
++		/* URB is mid stream and expected to handle the next frame */
++		start_uframe = ep->next_uframe;
++		urb_start = start_uframe / 8;
++		urb_end = (start_uframe + urb->number_of_packets * uinterval) / 8;
++		urb_end %= MAX_FRAMES;
+ 
+-	if (index == 0) {
+-		if (ret == -EINVAL || start_frame == start_frame_id) {
+-			start_frame = start_frame_id + 1;
+-			if (urb->dev->speed == USB_SPEED_LOW ||
+-					urb->dev->speed == USB_SPEED_FULL)
+-				urb->start_frame = start_frame;
+-			else
+-				urb->start_frame = start_frame << 3;
+-			ret = 0;
+-		}
+-	}
++		if (!xhci_frame_in_range(urb_start, win_start, win_end))
++			xhci_dbg(xhci, "Ill-timed isoc URB %p for start frame %d, range %d-%d\n",
++				 urb, urb_start, win_start, win_end);
+ 
+-	if (ret) {
+-		xhci_warn(xhci, "Frame ID %d (reg %d, index %d) beyond range (%d, %d)\n",
+-				start_frame, current_frame_id, index,
+-				start_frame_id, end_frame_id);
+-		xhci_warn(xhci, "Ignore frame ID field, use SIA bit instead\n");
+-		return ret;
++		if (!xhci_frame_in_range(urb_end, win_start, win_end))
++			xhci_dbg(xhci, "Ill-timed isoc URB %p for end frame %d, range %d-%d\n",
++				 urb, urb_start, win_start, win_end);
+ 	}
++	/* set urb->start_frame */
++	urb->start_frame = frame_unit ? start_uframe / 8 : start_uframe;
+ 
+-	return start_frame;
++	return start_uframe;
+ }
+ 
+ /* Check if we should generate event interrupt for a TD in an isoc URB */
+@@ -4070,6 +4067,8 @@ static int xhci_queue_isoc_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
+ 	bool more_trbs_coming;
+ 	struct xhci_virt_ep *xep;
+ 	int frame_id;
++	int uinterval = urb->interval;
++	int start_uframe;
+ 
+ 	xep = &xhci->devs[slot_id]->eps[ep_index];
+ 	ep_ring = xhci->devs[slot_id]->eps[ep_index].ring;
+@@ -4085,6 +4084,12 @@ static int xhci_queue_isoc_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
+ 	start_cycle = ep_ring->cycle_state;
+ 
+ 	urb_priv = urb->hcpriv;
++
++	if (urb->dev->speed == USB_SPEED_FULL || urb->dev->speed == USB_SPEED_LOW)
++		uinterval = urb->interval * 8;
++
++	start_uframe = xhci_get_isoc_start_frame(xhci, urb, xep);
++
+ 	/* Queue the TRBs for each TD, even if they are zero-length */
+ 	for (i = 0; i < num_tds; i++) {
+ 		unsigned int total_pkt_count, max_pkt;
+@@ -4116,14 +4121,15 @@ static int xhci_queue_isoc_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
+ 			goto cleanup;
+ 		}
+ 		td = &urb_priv->td[i];
++
+ 		/* use SIA as default, if frame id is used overwrite it */
+ 		sia_frame_id = TRB_SIA;
+-		if (!(urb->transfer_flags & URB_ISO_ASAP) &&
+-		    (xhci->hcc_params & HCC_CFC)) {
+-			frame_id = xhci_get_isoc_frame_id(xhci, urb, i);
+-			if (frame_id >= 0)
+-				sia_frame_id = TRB_FRAME_ID(frame_id);
++		if (!(urb->transfer_flags & URB_ISO_ASAP) && (xhci->hcc_params & HCC_CFC)) {
++			frame_id = (start_uframe + i * uinterval) / 8;
++			frame_id %= MAX_FRAMES;
++			sia_frame_id = TRB_FRAME_ID(frame_id);
+ 		}
++
+ 		/*
+ 		 * Set isoc specific data for the first TRB in a TD.
+ 		 * Prevent HW from getting the TRBs by keeping the cycle state
+@@ -4202,9 +4208,7 @@ static int xhci_queue_isoc_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
+ 		}
+ 	}
+ 
+-	/* store the next frame id */
+-	if (xhci->hcc_params & HCC_CFC)
+-		xep->next_frame_id = urb->start_frame + num_tds * urb->interval;
++	xep->next_uframe = (start_uframe + num_tds * uinterval) % MAX_UFRAMES;
+ 
+ 	if (xhci_to_hcd(xhci)->self.bandwidth_isoc_reqs == 0) {
+ 		if (xhci->quirks & XHCI_AMD_PLL_FIX)
+@@ -4251,11 +4255,9 @@ int xhci_queue_isoc_tx_prepare(struct xhci_hcd *xhci, gfp_t mem_flags,
+ 	struct xhci_virt_device *xdev;
+ 	struct xhci_ring *ep_ring;
+ 	struct xhci_ep_ctx *ep_ctx;
+-	int start_frame;
++	struct xhci_virt_ep *xep;
+ 	int num_tds, num_trbs, i;
+ 	int ret;
+-	struct xhci_virt_ep *xep;
+-	int ist;
+ 
+ 	xdev = xhci->devs[slot_id];
+ 	xep = &xhci->devs[slot_id]->eps[ep_index];
+@@ -4281,38 +4283,12 @@ int xhci_queue_isoc_tx_prepare(struct xhci_hcd *xhci, gfp_t mem_flags,
+ 	 */
+ 	check_interval(urb, ep_ctx);
+ 
+-	/* Calculate the start frame and put it in urb->start_frame. */
+-	if ((xhci->hcc_params & HCC_CFC) && !list_empty(&ep_ring->td_list)) {
+-		if (GET_EP_CTX_STATE(ep_ctx) ==	EP_STATE_RUNNING) {
+-			urb->start_frame = xep->next_frame_id;
+-			goto skip_start_over;
+-		}
+-	}
+-
+-	start_frame = readl(&xhci->run_regs->microframe_index);
+-	start_frame &= 0x3fff;
+-	/*
+-	 * Round up to the next frame and consider the time before trb really
+-	 * gets scheduled by hardare.
+-	 */
+-	ist = xhci_ist_microframes(xhci);
+-	start_frame += ist + XHCI_CFC_DELAY;
+-	start_frame = roundup(start_frame, 8);
+-
+ 	/*
+-	 * Round up to the next ESIT (Endpoint Service Interval Time) if ESIT
+-	 * is greate than 8 microframes.
++	 * Check if this starts the isoc data flow. Relies on hw setting ep ctx
++	 * state after doorbell ring. Consider adding list_empty(td_list) check
+ 	 */
+-	if (urb->dev->speed == USB_SPEED_LOW ||
+-			urb->dev->speed == USB_SPEED_FULL) {
+-		start_frame = roundup(start_frame, urb->interval << 3);
+-		urb->start_frame = start_frame >> 3;
+-	} else {
+-		start_frame = roundup(start_frame, urb->interval);
+-		urb->start_frame = start_frame;
+-	}
+-
+-skip_start_over:
++	if (GET_EP_CTX_STATE(ep_ctx) != EP_STATE_RUNNING)
++		xep->next_uframe = -1;
+ 
+ 	return xhci_queue_isoc_tx(xhci, mem_flags, urb, slot_id, ep_index);
+ }
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 2d3941b5e1e3..8b07f7808ad7 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -290,6 +290,11 @@ struct xhci_run_regs {
+ 	struct xhci_intr_reg	ir_set[1024];
+ };
+ 
++/* Bits [13:3] of the microframe index equals the 1ms frame index */
++#define MFINDEX_TO_FRAME(p)	(((p) >> 3) & 0x7ff)
++#define MAX_FRAMES		2048
++#define MAX_UFRAMES		(MAX_FRAMES * 8)
++
+ /**
+  * struct doorbell_array
+  *
+@@ -699,7 +704,7 @@ struct xhci_virt_ep {
+ 	struct list_head	bw_endpoint_list;
+ 	unsigned long		stop_time;
+ 	/* Isoch Frame ID checking storage */
+-	int			next_frame_id;
++	int			next_uframe;
+ 	/* Use new Isoch TRB layout needed for extended TBC support */
+ 	bool			use_extended_tbc;
+ 	/* set if this endpoint is controlled via sideband access*/
 -- 
 2.43.0
 
