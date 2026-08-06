@@ -1,29 +1,29 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9E13D75AB
-	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 06:17:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4313D8131
+	for <linux-usb@vger.kernel.org>; Thu,  6 Aug 2026 06:17:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785997056; cv=none; b=INkZ4xIAXqxae28TidkXZkycTVD9wC/lOUtbiiCXMwl2V9rxNNY7p1Azy+cpw7jHIoMdxDrY/gHNBrsnK+V+Yf8AXB4L/3zlnA0D/gTM9oFVKDyWEO2Zo1pkPWpjwr9OK42oAR2ucdADB79qgXTpa4lYjZIauWU7DqPCWt9Gees=
+	t=1785997067; cv=none; b=qNnSFLbe0WEYzacxrX1HcS/YIglU/5ZgF1YDRwbePXYhbrGQK5CfB7UGXFRyZOIzBJ2t0hpQLR2CCo/67lBJOTR61Zfru1+mQCD4g5ZGRT58dc67JPtCr308ZtIiBw6DcI4u8TdRedKjqddbN5cGelpR1RDk8seXxJ3Cbyx+x6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785997056; c=relaxed/simple;
-	bh=Q4UZ0BrS/xFvHBhpOjVrZnv2S3mIozAfUWMMBRUGTe8=;
+	s=arc-20240116; t=1785997067; c=relaxed/simple;
+	bh=37iivapQ00/YyEL1AvbR3E8BhoYGIxOUBMwOeo1+2cw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rNE7N5MNzo07NB+Jza3k4mywD1sj5Ph28+swi4AON3z08g9eRmqJHlTYER7rCBtuFzXLcfKoTU5kb+l8cGiPu2uD2kLbyG32UvPZGMPtmsCOCFORF+ixJGktg0XFIee7nH5vZz6/FhkdzOHHJlV0rIt4CnfMC3pX65XdWJRr0gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MlabXB9G; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=l27LeMlkCQIzkJRlO7YPLOr2Ay7GukCKUHe23kyUBqs+a7ftMcL2mXjf3UYLIG+8lIAoOnq5zwvDfX0lrCQXTMNUBnYI7kBCp06/LpGXC0uhellcLKd/Qz8VfMviDtod+leNhaLhpWVJPwvbxVNmqP5bJGAcbGAr9Lc/saGt4A0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=W7qTC75X; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MlabXB9G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76A041F000E9;
-	Thu,  6 Aug 2026 06:17:34 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="W7qTC75X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB8A31F000E9;
+	Thu,  6 Aug 2026 06:17:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785997055;
-	bh=yS21yTI0rcv51Q8aavyyNBBsDmumFL7yWEF67ieXDWs=;
+	s=korg; t=1785997066;
+	bh=Wj1ZfPdeCtpc/N6JP64tm6/t1y5lewgjdiheVyn6YoU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=MlabXB9GKBJudzWrLBOKy7SdTB1UCvv7NV3CG46IrpYrWpZnQyaJY8SdScJZ/Qznj
-	 bU+0tnDmp6WKcrhPz9eVCmpbzOH4eDruOsJatfYd2tRy+jnix9U+AIDbUM/u8JVO1m
-	 LAsvxlt0aiK2mtZZepbhus13Qqm4wfIO5nxOkIuU=
-Date: Thu, 6 Aug 2026 08:16:04 +0200
+	b=W7qTC75XX5CcxVUt3USgZxJ57nIcMYCJb9G+D/XPJWClJ1PxrkFalD7TbcnHeTIPh
+	 55DwBJzZqn5vD3V/a7ATaR0DG6/GL9Y1n6f/IhUdKRk/pxndOyHQv1//7iBjrewVQf
+	 OhZX2vZ2b1EMnaK32BgLt6YasSIixkFK00OBQJi4=
+Date: Thu, 6 Aug 2026 08:16:16 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Hongyan Xu <getshell@seu.edu.cn>
 Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
@@ -32,7 +32,7 @@ Cc: Nicolas Ferre <nicolas.ferre@microchip.com>,
 	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	jianhao.xu@seu.edu.cn
 Subject: Re: [PATCH] usb: host: ehci-atmel: stop clocks before releasing HCD
-Message-ID: <2026080623-flatworm-stagnate-82f2@gregkh>
+Message-ID: <2026080610-easter-unwieldy-57ea@gregkh>
 References: <20260806060557.1747-1-getshell@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -58,12 +58,25 @@ On Thu, Aug 06, 2026 at 02:05:57PM +0800, Hongyan Xu wrote:
 > ---
 >  drivers/usb/host/ehci-atmel.c | 3 +--
 >  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/host/ehci-atmel.c b/drivers/usb/host/ehci-atmel.c
+> index 65747270fd88..bcd56f888ec9 100644
+> --- a/drivers/usb/host/ehci-atmel.c
+> +++ b/drivers/usb/host/ehci-atmel.c
+> @@ -177,9 +177,8 @@ static void ehci_atmel_drv_remove(struct platform_device *pdev)
+>  	struct usb_hcd *hcd = platform_get_drvdata(pdev);
+>  
+>  	usb_remove_hcd(hcd);
+> -	usb_put_hcd(hcd);
+> -
+>  	atmel_stop_ehci(pdev);
+> +	usb_put_hcd(hcd);
+>  }
+>  
+>  static int __maybe_unused ehci_atmel_drv_suspend(struct device *dev)
+> -- 
+> 2.50.1.windows.1
+> 
+> 
 
-You just sent a bunch of obviously-llm-helped patches without properly
-attributing that.  Please resend new versions with the correct
-information, AND correctly cc: the stable tree for when you have Fixes:
-tags like this.
-
-thanks,
-
-greg k-h
+How was this tested?
