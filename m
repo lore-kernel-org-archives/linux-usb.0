@@ -1,132 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70053F4854
-	for <linux-usb@vger.kernel.org>; Fri,  7 Aug 2026 09:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0312240759D;
+	Fri,  7 Aug 2026 10:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786096753; cv=none; b=Cxmpd/HPpjRY9+V2NjaDaHvIocYwXxdadwS7lrBjaSVvzL/zlYzVVwFu+TsAQAwMIDYL7trWf0bDfy5kSPuh4hKS/IqAC12uV/IgEztiCNlDCsW6UCpROX+buyC6mz3mKb7VO/hzQKxOrZwbs4MaxTqfWfFm4JMzTPdCiioUmUM=
+	t=1786097052; cv=none; b=GUeyULw/UI7YHAIhL1IVnoh4cs24Q8aAKNC+U2M5DABkW55YBiKX7wvolxOQ4MmuoJRQcNckislyupHU2YRaTmSjWQsz4DNaWXWlmryK3Uhhzqqx8dJMG8WfHfaE4PtNSDoX+SJQK9C45Y25LaxaF5YF3oKlkPkhbshGzcwkJWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786096753; c=relaxed/simple;
-	bh=dETVLT6IqalYFKa1vTHk4jQ/v29uTgsTtWbz2stxQEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W0Y92UAdJ80pOv+hF+Le8e0js+MAgqiVQcucGfjOk0lUlxiODKkKMG8vX1NBlAwPC/nhpHW0hv696se0kYKXdzjuM6nUThigDoNvMdXA+2Q/euWCwLCTtMKxxt6mCUzW9FlReh95FUmv1ZCgXsHk5MbiJUsYKLaHjfwOrK62pIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iQIym5QF; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iQIym5QF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786096751; x=1817632751;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dETVLT6IqalYFKa1vTHk4jQ/v29uTgsTtWbz2stxQEc=;
-  b=iQIym5QF8rEAwy1g2k5971WgJUqLw3wgmKzZ7KxaL/QKosNNOn7dGiXg
-   0SJPBDqGeXI/im7kgRqtYbjbEHp+Tz3Ve5TSh/6hn33yG+N3gCwexmADO
-   h1KbgFMGSUmVJJg74S9fcBM6W3IhKh2dYYcHnmdWOggaaZNIQKk+fY1va
-   j37esNHT6UXcWgiAdEK6t0CZtTLgTox3Kb3WezI3cSF64iOKK23Bh/Pd2
-   trj9h9JyFcPlHtACU2zUSZ0Uu0yxxthEGHoKYVBF9HsT2CPsfQd/JbwFS
-   bTGbo/NVNFogUaa5ZHlM4WXMON+YbhWrNFoBq31cBffSt7862XFRMxTgR
-   g==;
-X-CSE-ConnectionGUID: ZxdNyOvyRdKS1NCJNxSYQw==
-X-CSE-MsgGUID: ruf6yZqJTzeeyqAi2DgY8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="90519388"
-X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="90519388"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2026 02:59:04 -0700
-X-CSE-ConnectionGUID: AAwbZ1rAQemrj3l6KF0b2Q==
-X-CSE-MsgGUID: VfZ7CiuRS6+uNad8XPGwUQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,210,1779174000"; 
-   d="scan'208";a="258053383"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Aug 2026 02:58:34 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 0043E99; Fri, 07 Aug 2026 11:58:31 +0200 (CEST)
-Date: Fri, 7 Aug 2026 11:58:31 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Dmitry Antipov <dmantipov@yandex.ru>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, lvc-project@linuxtesting.org,
-	syzbot+901ca72278dfd89daf58@syzkaller.appspotmail.com
-Subject: Re: [PATCH] thunderbolt: verify PCI resource type and size in
- nhi_probe()
-Message-ID: <20260807095831.GL235112@black.igk.intel.com>
-References: <20260807083757.318371-1-dmantipov@yandex.ru>
+	s=arc-20240116; t=1786097052; c=relaxed/simple;
+	bh=gYvAL6Bap47badhJJkSro/dQIKoKROnkObrvc385Ux0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P7Nr/QbLdkaUNkD+0mNMXjcXAVB9zMtO4fzafbGNSs/7g2qqmhlZbHheqdRMTl0rBIQ3ZxFlwNKouG8+JoDgXLb7M1MLyb8iWxp/JuaHiWRmv32Wae6B5SwXJNt1tDMVIa8EeTZE7AcF2W38Xcs9gWEnzZaM61FQmB4ocJ9EDrA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 51b57584924711f1aa26b74ffac11d73-20260807
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:13760116-e5f9-4259-b5bf-dd6bef51b244,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:0236c0ae3bcbb0fc6514f2d8c3f5cee2,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:5,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
+	SA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 51b57584924711f1aa26b74ffac11d73-20260807
+X-User: huangwei@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <huangwei@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 531783159; Fri, 07 Aug 2026 18:04:03 +0800
+From: Huang Wei <huangwei@kylinos.cn>
+To: Minas Harutyunyan <hminas@synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Huang Wei <huangwei@kylinos.cn>,
+	kakapapa2 <kakapapa2@gmail.com>
+Subject: [PATCH] usb: dwc2: debugfs: fix memory leak of hsotg->regset
+Date: Fri,  7 Aug 2026 18:04:00 +0800
+Message-Id: <20260807100400.3179625-1-huangwei@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260807083757.318371-1-dmantipov@yandex.ru>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+hsotg->regset is allocated in dwc2_debugfs_init() using devm_kzalloc()
+but is never explicitly freed. While devres would eventually reclaim
+the memory, the regset is logically owned by the debugfs lifetime:
+dwc2_debugfs_exit() only removes the debugfs directory and leaves
+hsotg->regset dangling.
 
-On Fri, Aug 07, 2026 at 11:37:57AM +0300, Dmitry Antipov wrote:
-> Syzbot reproducer at [1] enforces the kernel to probe PCI device 00:02.0
-> as Thunderbolt NHI. On QEMU/aarch64 'virt' machine, the device (at least
-> with qemu >= 11.0.0) is:
-> 
-> 00:02.0 Class 0100: Device 1af4:1001
-> 	Subsystem: Device 1af4:0002
-> 	Flags: bus master, fast devsel, latency 0, IRQ 47
-> 	I/O ports at 1000 [size=128]                           <-- Hmmm...
-> 	Memory at 10041000 (32-bit, non-prefetchable) [size=4K]
-> 	Memory at 8000004000 (64-bit, prefetchable) [size=16K]
+Switch to kzalloc() and free it explicitly in dwc2_debugfs_exit(),
+mirroring the equivalent fix already applied to dwc3 in commit
+e6bdf8195b4a ("usb: dwc3: fix memory leak of dwc->regset"). Also set
+the pointer to NULL after freeing to avoid a stale dangling pointer.
 
-Yeah, I'm not entirely sure we want to start "fixing" issues like these
-where it's clearly not a USB4/TB NHI. IMHO If user forces the driver
-somehow to bind to this unrelated device then she/he got what asked for.
+Reported-by: kakapapa2 <kakapapa2@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219977
+Signed-off-by: Huang Wei <huangwei@kylinos.cn>
+---
+ drivers/usb/dwc2/debugfs.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-> So call to 'pcim_iomap_region(pdev, 0, ...)' in 'nhi_pci_probe()' maps this
-> 128-bytes I/O ports area, and call to 'ioread32(nhi->iobase + REG_CAPS)' in
-> 'nhi_probe()' issues an invalid access at REG_CAPS (0x39640) offset. Since
-> NHI's typical register window size is 256K, simple sanity check whether 1)
-> the region is a memory rather than I/O ports and 2) the region is 256K at
-> least should be enough to prevent from such a scenario.
-> 
-> [1] https://syzkaller.appspot.com/text?tag=ReproC&x=1564acc6580000
-> 
-> Reported-by: syzbot+901ca72278dfd89daf58@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=901ca72278dfd89daf58
-> Fixes: 16603153666d ("thunderbolt: Add initial cactus ridge NHI support")
-> Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
-> ---
->  drivers/thunderbolt/nhi.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-> index 0f795ea58756..724263c17b3e 100644
-> --- a/drivers/thunderbolt/nhi.c
-> +++ b/drivers/thunderbolt/nhi.c
-> @@ -1186,6 +1186,7 @@ static struct tb *nhi_select_cm(struct tb_nhi *nhi)
->  int nhi_probe(struct tb_nhi *nhi)
->  {
->  	struct device *dev = nhi->dev;
-> +	struct pci_dev *pdev;
->  	struct tb *tb;
->  	int res;
->  
-> @@ -1195,6 +1196,12 @@ int nhi_probe(struct tb_nhi *nhi)
->  	if (!nhi->ops->init_interrupts)
->  		return dev_err_probe(dev, -EINVAL, "missing required NHI ops\n");
->  
-> +	pdev = to_pci_dev(dev);
-> +	if (!pci_resource_is_mem(pdev, 0))
-> +		return dev_err_probe(dev, -ENODEV, "invalid resource type\n");
-> +	if (pci_resource_len(pdev, 0) < 0x40000)
-> +		return dev_err_probe(dev, -ENODEV, "invalid resource size\n");
-> +
->  	nhi->hop_count = ioread32(nhi->iobase + REG_CAPS) & 0x3ff;
->  	dev_dbg(dev, "total paths: %d\n", nhi->hop_count);
->  
-> -- 
-> 2.55.0
+diff --git a/drivers/usb/dwc2/debugfs.c b/drivers/usb/dwc2/debugfs.c
+index 3116ac72747f..2ecbf6523aaa 100644
+--- a/drivers/usb/dwc2/debugfs.c
++++ b/drivers/usb/dwc2/debugfs.c
+@@ -9,6 +9,7 @@
+ #include <linux/spinlock.h>
+ #include <linux/debugfs.h>
+ #include <linux/seq_file.h>
++#include <linux/slab.h>
+ #include <linux/uaccess.h>
+ 
+ #include "core.h"
+@@ -787,8 +788,7 @@ int dwc2_debugfs_init(struct dwc2_hsotg *hsotg)
+ 	/* Add gadget debugfs nodes */
+ 	dwc2_hsotg_create_debug(hsotg);
+ 
+-	hsotg->regset = devm_kzalloc(hsotg->dev, sizeof(*hsotg->regset),
+-								GFP_KERNEL);
++	hsotg->regset = kzalloc_obj(*hsotg->regset, GFP_KERNEL);
+ 	if (!hsotg->regset) {
+ 		ret = -ENOMEM;
+ 		goto err;
+@@ -810,4 +810,6 @@ void dwc2_debugfs_exit(struct dwc2_hsotg *hsotg)
+ {
+ 	debugfs_remove_recursive(hsotg->debug_root);
+ 	hsotg->debug_root = NULL;
++	kfree(hsotg->regset);
++	hsotg->regset = NULL;
+ }
+-- 
+2.25.1
+
